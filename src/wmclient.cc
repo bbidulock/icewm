@@ -361,6 +361,7 @@ void YFrameClient::setFrameState(FrameState state) {
             MSG(("deleting window properties id=%lX", handle()));
             XDeleteProperty(xapp->display(), handle(), _XA_NET_WM_DESKTOP);
             XDeleteProperty(xapp->display(), handle(), _XA_NET_WM_STATE);
+            XDeleteProperty(xapp->display(), handle(), _XA_NET_WM_ALLOWED_ACTIONS);
             XDeleteProperty(xapp->display(), handle(), _XA_WIN_WORKSPACE);
             XDeleteProperty(xapp->display(), handle(), _XA_WIN_LAYER);
 #ifdef CONFIG_TRAY
@@ -694,6 +695,8 @@ long getMask(Atom a) {
     if (a == _XA_NET_WM_STATE_HIDDEN)
         mask |= WinStateHidden;
 #endif
+    if (a == _XA_NET_WM_STATE_DEMANDS_ATTENTION)
+        mask |= WinStateUrgent;
     return mask;
 }
 
@@ -708,6 +711,13 @@ void YFrameClient::setNetWMFullscreenMonitors(int top, int bottom, int left, int
                         _XA_NET_WM_FULLSCREEN_MONITORS, XA_CARDINAL,
                         32, PropModeReplace,
                         (unsigned char *) data, 4);
+}
+
+void YFrameClient::setNetWMAllowedActions(Atom *actions, int count) {
+    XChangeProperty (xapp->display(), handle(),
+                        _XA_NET_WM_ALLOWED_ACTIONS, XA_ATOM,
+                        32, PropModeReplace,
+                        (unsigned char *) actions, count);
 }
 #endif
 
@@ -1392,11 +1402,13 @@ void YFrameClient::setWinStateHint(long mask, long state) {
         a[i++] = _XA_NET_WM_STATE_MAXIMIZED_VERT;
     if (state & WinStateMaximizedHoriz)
         a[i++] = _XA_NET_WM_STATE_MAXIMIZED_HORZ;
+    if (state & WinStateUrgent)
+        a[i++] = _XA_NET_WM_STATE_DEMANDS_ATTENTION;
 
     XChangeProperty(xapp->display(), handle(),
                     _XA_NET_WM_STATE, XA_ATOM,
                     32, PropModeReplace,
-                    (unsigned char *)&a, i);
+                    (unsigned char *)a, i);
 #endif
 
 }
@@ -1422,13 +1434,11 @@ bool YFrameClient::getNetWMStateHint(long *mask, long *state) {
             Atom *s = ((Atom *)prop);
 
             for (unsigned long i = 0; i < count; i++) {
-#if 0
-                /* controlled by WM only */
+                // can start hidden
                 if (s[i] == _XA_NET_WM_STATE_HIDDEN) {
                     (*state) |= WinStateHidden;
                     (*mask) |= WinStateHidden;
                 }
-#endif
                 if (s[i] == _XA_NET_WM_STATE_FULLSCREEN) {
                     (*state) |= WinStateFullscreen;
                     (*mask) |= WinStateFullscreen;
@@ -1466,6 +1476,10 @@ bool YFrameClient::getNetWMStateHint(long *mask, long *state) {
                 if (s[i] == _XA_NET_WM_STATE_SKIP_PAGER) {
                     (*state) |= WinStateSkipPager;
                     (*mask) |= WinStateSkipPager;
+                }
+                if (s[i] == _XA_NET_WM_STATE_DEMANDS_ATTENTION) {
+                    (*state) |= WinStateUrgent;
+                    (*mask) |= WinStateUrgent;
                 }
             }
             XFree(prop);
@@ -1709,7 +1723,7 @@ bool YFrameClient::getNetWMWindowType(Atom *window_type) { // !!! for now, map t
             Atom *x = (Atom *)prop;
 
             for (unsigned int i = 0; i < nitems; i++) {
-                if (x[i] == _XA_NET_WM_WINDOW_TYPE_DOCK) {
+                if (x[i] == _XA_NET_WM_WINDOW_TYPE_COMBO) {
                     *window_type = x[i];
                     break;
                 }
@@ -1717,7 +1731,51 @@ bool YFrameClient::getNetWMWindowType(Atom *window_type) { // !!! for now, map t
                     *window_type = x[i];
                     break;
                 }
+                if (x[i] == _XA_NET_WM_WINDOW_TYPE_DIALOG) {
+                    *window_type = x[i];
+                    break;
+                }
+                if (x[i] == _XA_NET_WM_WINDOW_TYPE_DND) {
+                    *window_type = x[i];
+                    break;
+                }
+                if (x[i] == _XA_NET_WM_WINDOW_TYPE_DOCK) {
+                    *window_type = x[i];
+                    break;
+                }
+                if (x[i] == _XA_NET_WM_WINDOW_TYPE_DROPDOWN_MENU) {
+                    *window_type = x[i];
+                    break;
+                }
+                if (x[i] == _XA_NET_WM_WINDOW_TYPE_MENU) {
+                    *window_type = x[i];
+                    break;
+                }
+                if (x[i] == _XA_NET_WM_WINDOW_TYPE_NORMAL) {
+                    *window_type = x[i];
+                    break;
+                }
+                if (x[i] == _XA_NET_WM_WINDOW_TYPE_NOTIFICATION) {
+                    *window_type = x[i];
+                    break;
+                }
+                if (x[i] == _XA_NET_WM_WINDOW_TYPE_POPUP_MENU) {
+                    *window_type = x[i];
+                    break;
+                }
                 if (x[i] == _XA_NET_WM_WINDOW_TYPE_SPLASH) {
+                    *window_type = x[i];
+                    break;
+                }
+                if (x[i] == _XA_NET_WM_WINDOW_TYPE_TOOLBAR) {
+                    *window_type = x[i];
+                    break;
+                }
+                if (x[i] == _XA_NET_WM_WINDOW_TYPE_TOOLTIP) {
+                    *window_type = x[i];
+                    break;
+                }
+                if (x[i] == _XA_NET_WM_WINDOW_TYPE_UTILITY) {
                     *window_type = x[i];
                     break;
                 }

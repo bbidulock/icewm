@@ -258,6 +258,8 @@ public:
     unsigned long frameFunctions() const { return fFrameFunctions; }
     unsigned long frameDecors() const { return fFrameDecors; }
     unsigned long frameOptions() const { return fFrameOptions; }
+    void updateAllowed();
+    void updateNetWMState();
     void getFrameHints();
 #ifndef NO_WINDOW_OPTIONS
     void getWindowOptions(WindowOption &opt, bool remove); /// !!! fix kludges
@@ -340,10 +342,25 @@ public:
     void updateTaskBar();
 #endif
 
-    void setTypeDesktop(bool typeDesktop) { fTypeDesktop = typeDesktop; }
-    void setTypeDock(bool typeDock) { fTypeDock = typeDock; }
-    void setTypeSplash(bool typeSplash) { fTypeSplash = typeSplash; }
-    bool isTypeDock() { return fTypeDock; }
+    enum WindowType {
+        wtCombo,
+        wtDesktop,
+        wtDialog,
+        wtDND,
+        wtDock,
+        wtDropdownMenu,
+        wtMenu,
+        wtNormal,
+        wtNotification,
+        wtPopupMenu,
+        wtSplash,
+        wtToolbar,
+        wtTooltip,
+        wtUtility
+    };
+
+    void setWindowType(enum WindowType winType) { fWindowType = winType; }
+    bool isTypeDock(void) { return (fWindowType == wtDock); }
 
     long getWorkspace() const { return fWinWorkspace; }
     void setWorkspace(long workspace);
@@ -550,9 +567,8 @@ private:
 
     bool fWmUrgency;
     bool fClientUrgency;
-    bool fTypeDesktop;
-    bool fTypeDock;
-    bool fTypeSplash;
+
+    enum WindowType fWindowType;
 
     enum WindowArranges {
         waTop,

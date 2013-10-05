@@ -149,6 +149,7 @@ public:
     bool getNetWMStrut(int *left, int *right, int *top, int *bottom);
     bool getNetWMWindowType(Atom *window_type);
     void setNetWMFullscreenMonitors(int top, int bottom, int left, int right);
+    void setNetWMAllowedActions(Atom *actions, int count);
 #endif
 
 #ifndef NO_MWM_HINTS

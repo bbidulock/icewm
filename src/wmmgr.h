@@ -313,11 +313,11 @@ extern Atom _XA_NET_CLOSE_WINDOW;                   // OK
 extern Atom _XA_NET_CURRENT_DESKTOP;                // OK
 extern Atom _XA_NET_DESKTOP_GEOMETRY;               // OK
 extern Atom _XA_NET_DESKTOP_LAYOUT;                 // TODO
-extern Atom _XA_NET_DESKTOP_NAMES;                  // TODO
+extern Atom _XA_NET_DESKTOP_NAMES;                  //*OK - *implement change request
 extern Atom _XA_NET_DESKTOP_VIEWPORT;               // N/A
 extern Atom _XA_NET_FRAME_EXTENTS;		    // TODO
 extern Atom _XA_NET_MOVERESIZE_WINDOW;              //*OK
-extern Atom _XA_NET_NUMBER_OF_DESKTOPS;             // implement change request
+extern Atom _XA_NET_NUMBER_OF_DESKTOPS;             //*OK - *implement change request
 extern Atom _XA_NET_PROPERTIES;                     // TODO
 extern Atom _XA_NET_REQUEST_FRAME_EXTENTS;          // TODO
 extern Atom _XA_NET_RESTACK_WINDOW;                 // TODO
@@ -332,45 +332,45 @@ extern Atom _XA_NET_SYSTEM_TRAY_OPCODE;             // TODO
 extern Atom _XA_NET_SYSTEM_TRAY_ORIENTATION;        // TODO
 extern Atom _XA_NET_SYSTEM_TRAY_VISUAL;             // TODO
 extern Atom _XA_NET_VIRTUAL_ROOTS;                  // N/A
-extern Atom _XA_NET_WM_ACTION_ABOVE;                // TODO
-extern Atom _XA_NET_WM_ACTION_BELOW;                // TODO
-extern Atom _XA_NET_WM_ACTION_CHANGE_DESKTOP;       // TODO
-extern Atom _XA_NET_WM_ACTION_CLOSE;                // TODO
-extern Atom _XA_NET_WM_ACTION_FULLSCREEN;           // TODO
-extern Atom _XA_NET_WM_ACTION_MAXIMIZE_HORZ;        // TODO
-extern Atom _XA_NET_WM_ACTION_MAXIMIZE_VERT;        // TODO
-extern Atom _XA_NET_WM_ACTION_MINIMIZE;             // TODO
-extern Atom _XA_NET_WM_ACTION_MOVE;                 // TODO
-extern Atom _XA_NET_WM_ACTION_RESIZE;               // TODO
-extern Atom _XA_NET_WM_ACTION_SHADE;                // TODO
-extern Atom _XA_NET_WM_ACTION_STICK;                // TODO
-extern Atom _XA_NET_WM_ALLOWED_ACTIONS;             // TODO
-extern Atom _XA_NET_WM_BYPASS_COMPOSITOR;           // TODO
+extern Atom _XA_NET_WM_ACTION_ABOVE;                // OK
+extern Atom _XA_NET_WM_ACTION_BELOW;                // OK
+extern Atom _XA_NET_WM_ACTION_CHANGE_DESKTOP;       // OK
+extern Atom _XA_NET_WM_ACTION_CLOSE;                // OK
+extern Atom _XA_NET_WM_ACTION_FULLSCREEN;           // OK
+extern Atom _XA_NET_WM_ACTION_MAXIMIZE_HORZ;        // OK
+extern Atom _XA_NET_WM_ACTION_MAXIMIZE_VERT;        // OK
+extern Atom _XA_NET_WM_ACTION_MINIMIZE;             // OK
+extern Atom _XA_NET_WM_ACTION_MOVE;                 // OK
+extern Atom _XA_NET_WM_ACTION_RESIZE;               // OK
+extern Atom _XA_NET_WM_ACTION_SHADE;                // OK
+extern Atom _XA_NET_WM_ACTION_STICK;                // OK
+extern Atom _XA_NET_WM_ALLOWED_ACTIONS;             // OK
+extern Atom _XA_NET_WM_BYPASS_COMPOSITOR;           // N/A
 extern Atom _XA_NET_WM_DESKTOP;                     // OK
 extern Atom _XA_NET_WM_FULL_PLACEMENT;              // OK
 extern Atom _XA_NET_WM_FULLSCREEN_MONITORS;         // OK
 extern Atom _XA_NET_WM_HANDLED_ICONS;               // TODO -> toggle minimizeToDesktop
 extern Atom _XA_NET_WM_ICON_GEOMETRY;               // N/A
-extern Atom _XA_NET_WM_ICON_NAME;                   // TODO
+extern Atom _XA_NET_WM_ICON_NAME;                   // OK
 extern Atom _XA_NET_WM_ICON;                        // TODO
 extern Atom _XA_NET_WM_MOVERESIZE;                  //*OK
-extern Atom _XA_NET_WM_NAME;                        // TODO
+extern Atom _XA_NET_WM_NAME;                        // OK
 extern Atom _XA_NET_WM_OPAQUE_REGION;               // TODO
-extern Atom _XA_NET_WM_PID;                         // TODO
+extern Atom _XA_NET_WM_PID;                         // OK (trivial)
 extern Atom _XA_NET_WM_PING;                        // TODO
 extern Atom _XA_NET_WM_STATE;                       // OK
-extern Atom _XA_NET_WM_STATE_ABOVE;                 //*OK
-extern Atom _XA_NET_WM_STATE_BELOW;                 //*OK
-extern Atom _XA_NET_WM_STATE_DEMANDS_ATTENTION;     // TODO
-extern Atom _XA_NET_WM_STATE_FULLSCREEN;            //*OK
-extern Atom _XA_NET_WM_STATE_HIDDEN;                // TODO
+extern Atom _XA_NET_WM_STATE_ABOVE;                 // OK
+extern Atom _XA_NET_WM_STATE_BELOW;                 // OK
+extern Atom _XA_NET_WM_STATE_DEMANDS_ATTENTION;     // OK
+extern Atom _XA_NET_WM_STATE_FULLSCREEN;            // OK
+extern Atom _XA_NET_WM_STATE_HIDDEN;                // OK
 extern Atom _XA_NET_WM_STATE_MAXIMIZED_HORZ;        // OK
 extern Atom _XA_NET_WM_STATE_MAXIMIZED_VERT;        // OK
 extern Atom _XA_NET_WM_STATE_MODAL;                 // TODO (broken)
 extern Atom _XA_NET_WM_STATE_SHADED;                // OK
-extern Atom _XA_NET_WM_STATE_SKIP_PAGER;            // TODO
+extern Atom _XA_NET_WM_STATE_SKIP_PAGER;            // OK (trivial)
 extern Atom _XA_NET_WM_STATE_SKIP_TASKBAR;          // OK
-extern Atom _XA_NET_WM_STATE_STICKY;                // TODO
+extern Atom _XA_NET_WM_STATE_STICKY;                // OK (trivial)
 extern Atom _XA_NET_WM_STRUT;                       // OK
 extern Atom _XA_NET_WM_STRUT_PARTIAL;               // TODO
 extern Atom _XA_NET_WM_SYNC_REQUEST;                // TODO
@@ -383,18 +383,18 @@ extern Atom _XA_NET_WM_OPACITY;                     // TODO
 extern Atom _XA_NET_WM_WINDOW_TYPE;                 // OK
 extern Atom _XA_NET_WM_WINDOW_TYPE_COMBO;           // OK
 extern Atom _XA_NET_WM_WINDOW_TYPE_DESKTOP;         // OK
-extern Atom _XA_NET_WM_WINDOW_TYPE_DIALOG;          // TODO
+extern Atom _XA_NET_WM_WINDOW_TYPE_DIALOG;          // OK
 extern Atom _XA_NET_WM_WINDOW_TYPE_DND;             // OK
 extern Atom _XA_NET_WM_WINDOW_TYPE_DOCK;            // OK
-extern Atom _XA_NET_WM_WINDOW_TYPE_DROPDOWN_MENU;   // TODO
-extern Atom _XA_NET_WM_WINDOW_TYPE_MENU;            // TODO
-extern Atom _XA_NET_WM_WINDOW_TYPE_NORMAL;          // TODO
-extern Atom _XA_NET_WM_WINDOW_TYPE_NOTIFICATION;    // TODO
-extern Atom _XA_NET_WM_WINDOW_TYPE_POPUP_MENU;      // TODO
-extern Atom _XA_NET_WM_WINDOW_TYPE_SPLASH;          // TODO
-extern Atom _XA_NET_WM_WINDOW_TYPE_TOOLBAR;         // TODO
-extern Atom _XA_NET_WM_WINDOW_TYPE_TOOLTIP;         // TODO
-extern Atom _XA_NET_WM_WINDOW_TYPE_UTILITY;         // TODO
+extern Atom _XA_NET_WM_WINDOW_TYPE_DROPDOWN_MENU;   // OK
+extern Atom _XA_NET_WM_WINDOW_TYPE_MENU;            // OK
+extern Atom _XA_NET_WM_WINDOW_TYPE_NORMAL;          // OK
+extern Atom _XA_NET_WM_WINDOW_TYPE_NOTIFICATION;    // OK
+extern Atom _XA_NET_WM_WINDOW_TYPE_POPUP_MENU;      // OK
+extern Atom _XA_NET_WM_WINDOW_TYPE_SPLASH;          // OK
+extern Atom _XA_NET_WM_WINDOW_TYPE_TOOLBAR;         // OK
+extern Atom _XA_NET_WM_WINDOW_TYPE_TOOLTIP;         // OK
+extern Atom _XA_NET_WM_WINDOW_TYPE_UTILITY;         // OK
 extern Atom _XA_NET_WORKAREA;                       // OK
 
 // TODO extra:

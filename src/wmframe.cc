@@ -79,9 +79,7 @@ YFrameWindow::YFrameWindow(
     fPopupActive = 0;
     fWmUrgency = false;
     fClientUrgency = false;
-    fTypeDesktop = false;
-    fTypeDock = false;
-    fTypeSplash = false;
+    fWindowType = wtNormal;
 
     normalX = 0;
     normalY = 0;
@@ -398,25 +396,69 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
         long layer = 0;
         Atom net_wm_window_type;
         if (fClient->getNetWMWindowType(&net_wm_window_type)) {
-            if (net_wm_window_type ==
-                _XA_NET_WM_WINDOW_TYPE_DOCK)
+            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_COMBO)
             {
-                setSticky(true);
-                setTypeDock(true);
-                updateMwmHints();
-            } else if (net_wm_window_type ==
-                       _XA_NET_WM_WINDOW_TYPE_DESKTOP)
+                setWindowType(wtCombo);
+            } else
+            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_DESKTOP)
             {
 /// TODO #warning "this needs some cleanup"
+                setWindowType(wtDesktop);
                 setSticky(true);
-                setTypeDesktop(true);
-                updateMwmHints();
-            } else if (net_wm_window_type ==
-                       _XA_NET_WM_WINDOW_TYPE_SPLASH)
+            } else
+            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_DIALOG)
             {
-                setTypeSplash(true);
-                updateMwmHints();
+                setWindowType(wtDialog);
+            } else
+            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_DND)
+            {
+                setWindowType(wtDND);
+            } else
+            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_DOCK)
+            {
+                setWindowType(wtDock);
+                setSticky(true);
+            } else
+            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_DROPDOWN_MENU)
+            {
+                setWindowType(wtDropdownMenu);
+            } else
+            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_MENU)
+            {
+                setWindowType(wtMenu);
+            } else
+            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_NORMAL)
+            {
+                setWindowType(wtNormal);
+            } else
+            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_NOTIFICATION)
+            {
+                setWindowType(wtNotification);
+            } else
+            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_POPUP_MENU)
+            {
+                setWindowType(wtPopupMenu);
+            } else
+            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_SPLASH)
+            {
+                setWindowType(wtSplash);
+            } else
+            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_TOOLBAR)
+            {
+                setWindowType(wtToolbar);
+            } else
+            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_TOOLTIP)
+            {
+                setWindowType(wtTooltip);
+            } else
+            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_UTILITY)
+            {
+                setWindowType(wtUtility);
+            } else
+            {
+                setWindowType(wtNormal);
             }
+            updateMwmHints();
             updateLayer(true);
         } else if (fClient->getWinLayerHint(&layer))
             setRequestedLayer(layer);
@@ -2149,6 +2191,34 @@ void YFrameWindow::wmMoveToWorkspace(long workspace) {
     wmOccupyOnlyWorkspace(workspace);
 }
 
+void YFrameWindow::updateAllowed() {
+    Atom atoms[12];
+    int i = 0;
+    if ((fFrameFunctions & ffMove) || (fFrameDecors & fdTitleBar))
+        atoms[i++] = _XA_NET_WM_ACTION_MOVE;
+    if ((fFrameFunctions & ffResize) || (fFrameDecors & fdResize))
+        atoms[i++] = _XA_NET_WM_ACTION_RESIZE;
+    if ((fFrameFunctions & ffClose) || (fFrameDecors & fdClose))
+        atoms[i++] = _XA_NET_WM_ACTION_CLOSE;
+    if ((fFrameFunctions & ffMinimize) || (fFrameDecors & fdMinimize))
+        atoms[i++] = _XA_NET_WM_ACTION_MINIMIZE;
+    if ((fFrameFunctions & ffMaximize) || (fFrameDecors & fdMaximize)) {
+        atoms[i++] = _XA_NET_WM_ACTION_MAXIMIZE_HORZ;
+        atoms[i++] = _XA_NET_WM_ACTION_MAXIMIZE_VERT;
+    }
+//  if ((fFrameFunctions & ffHide) || (fFrameDecors & fdHide))
+//      atoms[i++] = _XA_NET_WM_ACTION_HIDE;
+    if ((fFrameFunctions & ffRollup) || (fFrameDecors & fdRollup))
+        atoms[i++] = _XA_NET_WM_ACTION_SHADE;
+    if ((1) || (fFrameDecors & fdDepth)) {
+        atoms[i++] = _XA_NET_WM_ACTION_ABOVE;
+        atoms[i++] = _XA_NET_WM_ACTION_BELOW;
+    }
+    atoms[i++] = _XA_NET_WM_ACTION_STICK;
+    atoms[i++] = _XA_NET_WM_ACTION_CHANGE_DESKTOP;
+    client()->setNetWMAllowedActions(atoms,i);
+}
+
 void YFrameWindow::getFrameHints() {
 #ifndef NO_MWM_HINTS
     long decors = client()->mwmDecors();
@@ -2159,6 +2229,12 @@ void YFrameWindow::getFrameHints() {
                       (mwm_hints->flags & (MWM_HINTS_FUNCTIONS |
                                            MWM_HINTS_DECORATIONS))
                       == MWM_HINTS_FUNCTIONS);
+
+#ifdef WMSPEC_HINTS
+    unsigned long old_functions = fFrameFunctions;
+    unsigned long old_decors = fFrameDecors;
+    unsigned long old_options = fFrameOptions;
+#endif
 
     fFrameFunctions = 0;
     fFrameDecors = 0;
@@ -2216,16 +2292,71 @@ void YFrameWindow::getFrameHints() {
         fFrameOptions |= foDoNotCover;
 
 /// TODO #warning "need initial window mapping cleanup"
-    if (fTypeDesktop) {
+    switch (fWindowType) {
+    case wtCombo:
+        fFrameFunctions = 0;
         fFrameDecors = 0;
-        fFrameOptions |= foIgnoreTaskBar;
-    }
-    if (fTypeDock) {
+        fFrameOptions |= foIgnoreTaskBar | foIgnoreWinList | foIgnoreQSwitch;
+        break;
+    case wtDesktop:
+        fFrameFunctions = 0;
         fFrameDecors = 0;
-        fFrameOptions |= foIgnoreTaskBar;
-    }
-    if (fTypeSplash) {
+        fFrameOptions |= foIgnoreTaskBar | foIgnoreWinList | foIgnoreQSwitch |
+                         foNoFocusOnMap;
+        break;
+    case wtDialog:
+        break;
+    case wtDND:
+        fFrameFunctions = ffMove;
         fFrameDecors = 0;
+        fFrameOptions |= foIgnoreTaskBar | foIgnoreWinList | foIgnoreQSwitch |
+                         foNoFocusOnMap | foDoNotFocus;
+        break;
+    case wtDock:
+        fFrameFunctions = 0;
+        fFrameDecors = 0;
+        fFrameOptions |= foIgnoreTaskBar | foIgnoreWinList | foIgnoreQSwitch |
+                         foNoFocusOnMap;
+        break;
+    case wtDropdownMenu:
+        fFrameFunctions = 0;
+        fFrameDecors = 0;
+        fFrameOptions |= foIgnoreTaskBar | foIgnoreWinList | foIgnoreQSwitch;
+        break;
+    case wtMenu:
+        fFrameFunctions &= ~(ffResize | ffMinimize | ffMaximize);
+        fFrameDecors = fdTitleBar | fdSysMenu | fdClose | fdRollup;
+        fFrameOptions |= foIgnoreTaskBar | foIgnoreWinList | foIgnoreQSwitch;
+        break;
+    case wtNormal:
+        break;
+    case wtNotification:
+        fFrameFunctions = 0;
+        fFrameDecors = 0;
+        fFrameOptions |= foIgnoreTaskBar | foIgnoreWinList | foIgnoreQSwitch |
+                         foNoFocusOnMap;
+        break;
+    case wtPopupMenu:
+        fFrameFunctions = 0;
+        fFrameDecors = 0;
+        fFrameOptions |= foIgnoreTaskBar | foIgnoreWinList | foIgnoreQSwitch;
+        break;
+    case wtSplash:
+        fFrameFunctions = 0;
+        fFrameDecors = 0;
+        fFrameOptions |= foIgnoreTaskBar | foIgnoreWinList | foIgnoreQSwitch |
+                         foNoFocusOnMap;
+        break;
+    case wtToolbar:
+        break;
+    case wtTooltip:
+        fFrameFunctions = 0;
+        fFrameDecors = 0;
+        fFrameOptions |= foIgnoreTaskBar | foIgnoreWinList | foIgnoreQSwitch |
+                         foNoFocusOnMap | foDoNotFocus;
+        break;
+    case wtUtility:
+        break;
     }
 
 #ifndef NO_WINDOW_OPTIONS
@@ -2243,6 +2374,15 @@ void YFrameWindow::getFrameHints() {
     fFrameDecors |= wo.decors;
     fFrameOptions &= ~(wo.option_mask & fWinOptionMask);
     fFrameOptions |= (wo.options & fWinOptionMask);
+#endif
+
+#ifdef WMSPEC_HINTS
+    if (fFrameFunctions != old_functions ||
+        fFrameDecors != old_decors ||
+        fFrameOptions != old_options)
+    {
+        updateAllowed();
+    }
 #endif
 }
 
@@ -2728,10 +2868,45 @@ void YFrameWindow::updateLayer(bool restack) {
 
     newLayer = fWinRequestedLayer;
 
-    if (fTypeDesktop)
+    switch (fWindowType) {
+    case wtCombo:
+        newLayer = WinLayerMenu;
+        break;
+    case wtDesktop:
         newLayer = WinLayerDesktop;
-    if (fTypeDock)
+        break;
+    case wtDialog:
+        break;
+    case wtDND:
+        newLayer = WinLayerAboveAll;
+        break;
+    case wtDock:
         newLayer = WinLayerDock;
+        break;
+    case wtDropdownMenu:
+        newLayer = WinLayerMenu;
+        break;
+    case wtMenu:
+        newLayer = WinLayerMenu;
+        break;
+    case wtNormal:
+        break;
+    case wtNotification:
+        newLayer = WinLayerAboveDock;
+        break;
+    case wtPopupMenu:
+        newLayer = WinLayerMenu;
+        break;
+    case wtSplash:
+        break;
+    case wtToolbar:
+        break;
+    case wtTooltip:
+        newLayer = WinLayerAboveAll;
+        break;
+    case wtUtility:
+        break;
+    }
     if (getState() & WinStateBelow)
         newLayer = WinLayerBelow;
     if (getState() & WinStateAbove)
@@ -3255,6 +3430,12 @@ void YFrameWindow::setState(long mask, long state) {
         updateTaskBar();
 #endif
     }
+    if ((fOldState ^ fNewState) & WinStateUrgent) {
+        if (fNewState & WinStateUrgent)
+            setWmUrgency(true);
+        else
+            setWmUrgency(false);
+    }
     updateState();
     updateLayer();
     manager->updateFullscreenLayer();
@@ -3473,6 +3654,11 @@ void YFrameWindow::updateUrgency() {
     XWMHints *h = client()->hints();
     if (h && (h->flags & XUrgencyHint))
         fClientUrgency = true;
+
+    if (isUrgent())
+        setState(WinStateUrgent,WinStateUrgent);
+    else
+        setState(WinStateUrgent,0);
 
 #ifdef CONFIG_TASKBAR
     updateTaskBar();
