@@ -1669,6 +1669,10 @@ ustring YFrameClient::getClientId(Window leader) { /// !!! fix
 
 #ifdef WMSPEC_HINTS
 bool YFrameClient::getNetWMStrut(int *left, int *right, int *top, int *bottom) {
+
+    if (prop.net_wm_strut_partial)
+        return false;
+
     *left = 0;
     *right = 0;
     *top = 0;
@@ -1710,10 +1714,6 @@ bool YFrameClient::getNetWMStrut(int *left, int *right, int *top, int *bottom) {
 bool YFrameClient::getNetWMStrutPartial(int *left, int *right, int *top, int *bottom, 
         int *left_start_y, int *left_end_y, int *right_start_y, int* right_end_y,
         int *top_start_x, int *top_end_x, int *bottom_start_x, int *bottom_end_x) {
-    *left   = 0;
-    *right  = 0;
-    *top    = 0;
-    *bottom = 0;
     if (left_start_y   != 0) *left_start_y   = 0;
     if (left_end_y     != 0) *left_end_y     = 0;
     if (right_start_y  != 0) *right_start_y  = 0;
@@ -1722,6 +1722,14 @@ bool YFrameClient::getNetWMStrutPartial(int *left, int *right, int *top, int *bo
     if (top_end_x      != 0) *top_end_x      = 0;
     if (bottom_start_x != 0) *bottom_start_x = 0;
     if (bottom_end_x   != 0) *bottom_end_x   = 0;
+
+    if (prop.net_wm_strut)
+        return false;
+
+    *left   = 0;
+    *right  = 0;
+    *top    = 0;
+    *bottom = 0;
 
     if (!prop.net_wm_strut_partial)
         return false;
