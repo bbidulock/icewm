@@ -1972,6 +1972,7 @@ void YWindowManager::updateArea(long workspace, int screen_number, int l, int t,
 
 void YWindowManager::updateWorkArea() {
     int fOldWorkAreaWorkspaceCount = fWorkAreaWorkspaceCount;
+    int fOldWorkAreaScreenCount = fWorkAreaScreenCount;
     struct WorkAreaRect **fOldWorkArea = fWorkArea;
 
     fWorkAreaWorkspaceCount = 0;
@@ -2098,7 +2099,29 @@ void YWindowManager::updateWorkArea() {
         }
     }
 
-    announceWorkArea();
+    bool changed = false;
+    if (fOldWorkArea == 0 ||
+        fOldWorkAreaWorkspaceCount != fWorkAreaWorkspaceCount ||
+        fOldWorkAreaScreenCount != fWorkAreaScreenCount) {
+        changed = true;
+    } else {
+        for (long ws = 0; ws < fWorkAreaWorkspaceCount; ws++) {
+            for (int s = 0; s < fWorkAreaScreenCount; s++) {
+                if (fWorkArea[ws][s].fMinX != fOldWorkArea[ws][s].fMinX ||
+                    fWorkArea[ws][s].fMinY != fOldWorkArea[ws][s].fMinY ||
+                    fWorkArea[ws][s].fMaxX != fOldWorkArea[ws][s].fMaxX ||
+                    fWorkArea[ws][s].fMaxY != fOldWorkArea[ws][s].fMaxY) {
+                    changed = true;
+                    break;
+                }
+            }
+            if (changed)
+                break;
+        }
+    }
+
+    if (changed)
+        announceWorkArea();
     if (fWorkAreaMoveWindows) {
         for (long ws = 0; ws < fWorkAreaWorkspaceCount; ws++) {
             if (ws >= fOldWorkAreaWorkspaceCount)
