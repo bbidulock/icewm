@@ -43,6 +43,10 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win): YW
     getProtocols(false);
     getNameHint();
     getIconNameHint();
+#ifdef WMSPEC_HINTS
+    getNetWmName();
+    getNetWmIconName();
+#endif
     getSizeHints();
     getClassHint();
     getTransient();
@@ -891,8 +895,10 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
 void YFrameClient::getNameHint() {
     if (!prop.wm_name)
         return;
+#ifdef WMSPEC_HINTS
     if (prop.net_wm_name)
         return;
+#endif
 
 #ifdef CONFIG_I18N
     XTextProperty name;
@@ -931,8 +937,10 @@ void YFrameClient::getNetWmName() {
 void YFrameClient::getIconNameHint() {
     if (!prop.wm_icon_name)
         return;
+#ifdef WMSPEC_HINTS
     if (prop.net_wm_icon_name)
         return;
+#endif
 
 #ifdef CONFIG_I18N
     XTextProperty name;
