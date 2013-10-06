@@ -140,7 +140,7 @@ _NET_WM_ALLOWED_ACTIONS:		supported
 _NET_WM_STRUT:				supported
 _NET_WM_STRUT_PARTIAL:			supported (trivial)
 _NET_WM_ICON_GEOMETRY:			NOT supported
-_NET_WM_ICON:				NOT supported
+_NET_WM_ICON:				supported
 _NET_WM_PID:				supported (trivial)
 _NET_WM_HANDLED_ICONS:			NOT supported
 _NET_WM_USER_TIME:			NOT supported

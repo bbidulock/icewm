@@ -253,7 +253,7 @@ static void registerProtocols2(Window xid) {
         _XA_NET_WM_HANDLED_ICONS,           // trivial support
 //      _XA_NET_WM_ICON_GEOMETRY,
         _XA_NET_WM_ICON_NAME,
-//      _XA_NET_WM_ICON,
+        _XA_NET_WM_ICON,
         _XA_NET_WM_MOVERESIZE,
         _XA_NET_WM_NAME,
 //      _XA_NET_WM_OPAQUE_REGION,

@@ -353,7 +353,7 @@ extern Atom _XA_NET_WM_FULLSCREEN_MONITORS;         // OK
 extern Atom _XA_NET_WM_HANDLED_ICONS;               // TODO -> toggle minimizeToDesktop
 extern Atom _XA_NET_WM_ICON_GEOMETRY;               // N/A
 extern Atom _XA_NET_WM_ICON_NAME;                   // OK
-extern Atom _XA_NET_WM_ICON;                        // TODO
+extern Atom _XA_NET_WM_ICON;                        // OK
 extern Atom _XA_NET_WM_MOVERESIZE;                  //*OK
 extern Atom _XA_NET_WM_NAME;                        // OK
 extern Atom _XA_NET_WM_OPAQUE_REGION;               // TODO
