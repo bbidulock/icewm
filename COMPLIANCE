@@ -91,9 +91,9 @@ _NET_REQUEST_FRAME_EXTENTS:		NOT supported
 Section 5: Application Window Properties
 
 _NET_WM_NAME:				supported
-_NET_WM_VISIBLE_NAME:			NOT supported
+_NET_WM_VISIBLE_NAME:			supported
 _NET_WM_ICON_NAME:			supported
-_NET_WM_VISIBLE_ICON_NAME:		NOT supported
+_NET_WM_VISIBLE_ICON_NAME:		supported
 _NET_WM_DESKTOP:			supported
 _NET_WM_WINDOW_TYPE:			supported
 	_NET_WM_WINDOW_TYPE_DESKTOP:	supported

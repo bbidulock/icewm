@@ -359,6 +359,8 @@ void YFrameClient::setFrameState(FrameState state) {
     if (state == WithdrawnState) {
         if (manager->wmState() != YWindowManager::wmSHUTDOWN) {
             MSG(("deleting window properties id=%lX", handle()));
+            XDeleteProperty(xapp->display(), handle(), _XA_NET_WM_VISIBLE_NAME);
+            XDeleteProperty(xapp->display(), handle(), _XA_NET_WM_VISIBLE_ICON_NAME);
             XDeleteProperty(xapp->display(), handle(), _XA_NET_WM_DESKTOP);
             XDeleteProperty(xapp->display(), handle(), _XA_NET_WM_STATE);
             XDeleteProperty(xapp->display(), handle(), _XA_NET_WM_ALLOWED_ACTIONS);
@@ -600,6 +602,17 @@ void YFrameClient::handleShapeNotify(const XShapeEvent &shape) {
 void YFrameClient::setWindowTitle(const char *title) {
     if (title == 0 || fWindowTitle == null || !fWindowTitle.equals(title)) {
         fWindowTitle = ustring::newstr(title);
+        if (title != 0) {
+            cstring cs(fWindowTitle);
+            XChangeProperty(xapp->display(), handle(),
+                    _XA_NET_WM_VISIBLE_NAME, _XA_UTF8_STRING,
+                    8, PropModeReplace,
+                    (const unsigned char *)cs.c_str(),
+                    cs.c_str_len());
+        } else {
+            XDeleteProperty(xapp->display(), handle(),
+                    _XA_NET_WM_VISIBLE_NAME);
+        }
         if (getFrame()) getFrame()->updateTitle();
     }
 }
@@ -607,6 +620,17 @@ void YFrameClient::setWindowTitle(const char *title) {
 void YFrameClient::setIconTitle(const char *title) {
     if (title == 0 || fIconTitle == null || !fIconTitle.equals(title)) {
         fIconTitle = ustring::newstr(title);
+        if (title != 0) {
+            cstring cs(fIconTitle);
+            XChangeProperty(xapp->display(), handle(),
+                    _XA_NET_WM_VISIBLE_ICON_NAME, _XA_UTF8_STRING,
+                    8, PropModeReplace,
+                    (const unsigned char *)cs.c_str(),
+                    cs.c_str_len());
+        } else {
+            XDeleteProperty(xapp->display(), handle(),
+                    _XA_NET_WM_VISIBLE_ICON_NAME);
+        }
         if (getFrame()) getFrame()->updateIconTitle();
     }
 }

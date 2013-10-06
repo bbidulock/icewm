@@ -2,10 +2,6 @@
 
 New to do items:
 
-* add support for _NET_WM_VISIBLE_NAME
-
-* add support for _NET_WM_VISIBLE_ICON_NAME
-
 * add support for _NET_WM_USER_TIME
 
 * add support for _NET_WM_USER_TIME_WINDOW

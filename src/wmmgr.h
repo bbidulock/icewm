@@ -378,8 +378,8 @@ extern Atom _XA_NET_WM_SYNC_REQUEST;                // TODO
 extern Atom _XA_NET_WM_SYNC_REQUEST_COUNTER;        // TODO
 extern Atom _XA_NET_WM_USER_TIME;                   // TODO
 extern Atom _XA_NET_WM_USER_TIME_WINDOW;            // TODO
-extern Atom _XA_NET_WM_VISIBLE_ICON_NAME;           // TODO
-extern Atom _XA_NET_WM_VISIBLE_NAME;                // TODO
+extern Atom _XA_NET_WM_VISIBLE_ICON_NAME;           // OK
+extern Atom _XA_NET_WM_VISIBLE_NAME;                // OK
 extern Atom _XA_NET_WM_OPACITY;                     // TODO
 extern Atom _XA_NET_WM_WINDOW_TYPE;                 // OK
 extern Atom _XA_NET_WM_WINDOW_TYPE_COMBO;           // OK
