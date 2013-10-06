@@ -3329,6 +3329,21 @@ void YFrameWindow::updateLayout() {
     }
     if (affectsWorkArea())
         manager->updateWorkArea();
+    client()->setNetFrameExtents(borderX(), borderX(), borderY() + titleY(), borderY());
+}
+
+void YFrameWindow::updateExtents() {
+    int left, right, top, bottom;
+    left = right = borderX();
+    top = bottom = borderY();
+    top += titleY();
+    if (left != extentLeft || right != extentRight || top != extentTop || bottom != extentBottom) {
+        extentLeft = left;
+        extentRight = right;
+        extentTop = top;
+        extentBottom = bottom;
+        client()->setNetFrameExtents(left, right, top, bottom);
+    }
 }
 
 void YFrameWindow::setState(long mask, long state) {

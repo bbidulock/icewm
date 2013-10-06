@@ -359,6 +359,7 @@ void YFrameClient::setFrameState(FrameState state) {
     if (state == WithdrawnState) {
         if (manager->wmState() != YWindowManager::wmSHUTDOWN) {
             MSG(("deleting window properties id=%lX", handle()));
+            XDeleteProperty(xapp->display(), handle(), _XA_NET_FRAME_EXTENTS);
             XDeleteProperty(xapp->display(), handle(), _XA_NET_WM_VISIBLE_NAME);
             XDeleteProperty(xapp->display(), handle(), _XA_NET_WM_VISIBLE_ICON_NAME);
             XDeleteProperty(xapp->display(), handle(), _XA_NET_WM_DESKTOP);
@@ -741,6 +742,18 @@ void YFrameClient::setNetWMFullscreenMonitors(int top, int bottom, int left, int
                         _XA_NET_WM_FULLSCREEN_MONITORS, XA_CARDINAL,
                         32, PropModeReplace,
                         (unsigned char *) data, 4);
+}
+
+void YFrameClient::setNetFrameExtents(int left, int right, int top, int bottom) {
+    unsigned long data[4] = { 0, 0, 0, 0 };
+    data[0] = (unsigned long) left;
+    data[1] = (unsigned long) right;
+    data[2] = (unsigned long) top;
+    data[3] = (unsigned long) bottom;
+    XChangeProperty(xapp->display(), handle(),
+                        _XA_NET_FRAME_EXTENTS, XA_CARDINAL,
+                        32, PropModeReplace,
+                        (unsigned  char *) data, 4);
 }
 
 void YFrameClient::setNetWMAllowedActions(Atom *actions, int count) {

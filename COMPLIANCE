@@ -145,7 +145,7 @@ _NET_WM_PID:				supported (trivial)
 _NET_WM_HANDLED_ICONS:			NOT supported
 _NET_WM_USER_TIME:			NOT supported
 _NET_WM_USER_TIME_WINDOW:		NOT supported
-_NET_FRAME_EXTENTS:			NOT supported
+_NET_FRAME_EXTENTS:			supported
 _NET_WM_OPAQUE_REGION:			NOT supported (n/a)
 _NET_WM_BYPASS_COMPOSITOR:		NOT supported (n/a)
 

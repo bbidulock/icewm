@@ -316,7 +316,7 @@ extern Atom _XA_NET_DESKTOP_GEOMETRY;               // OK
 extern Atom _XA_NET_DESKTOP_LAYOUT;                 // TODO
 extern Atom _XA_NET_DESKTOP_NAMES;                  //*OK - *implement change request
 extern Atom _XA_NET_DESKTOP_VIEWPORT;               // OK (trivial)
-extern Atom _XA_NET_FRAME_EXTENTS;                  // TODO
+extern Atom _XA_NET_FRAME_EXTENTS;                  // OK
 extern Atom _XA_NET_MOVERESIZE_WINDOW;              //*OK
 extern Atom _XA_NET_NUMBER_OF_DESKTOPS;             //*OK - *implement change request
 extern Atom _XA_NET_PROPERTIES;                     // TODO

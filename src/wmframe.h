@@ -334,6 +334,7 @@ public:
     void updateLayer(bool restack = true);
     //void updateWorkspace();
     void updateLayout();
+    void updateExtents();
     void performLayout();
 
     void updateMwmHints();
@@ -478,6 +479,7 @@ private:
 
     int normalX, normalY, normalW, normalH;
     int posX, posY, posW, posH;
+    int extentLeft, extentRight, extentTop, extentBottom;
 
     int iconX, iconY;
 

@@ -22,8 +22,6 @@ New to do items:
 
 * add support for _NET_HANDLED_ICONS
 
-* add support for _NET_FRAME_EXTENTS
-
 Old to do items:
 
 	only set background in icewmbg (with it's own config/theme file)

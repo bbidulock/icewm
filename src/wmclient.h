@@ -152,6 +152,7 @@ public:
             int *top_start_x=0, int *top_end_x=0, int *bottom_start_x=0, int *bottom_end_x=0);
     bool getNetWMWindowType(Atom *window_type);
     void setNetWMFullscreenMonitors(int top, int bottom, int left, int right);
+    void setNetFrameExtents(int left, int right, int top, int bottom);
     void setNetWMAllowedActions(Atom *actions, int count);
 #endif
 

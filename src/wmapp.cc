@@ -216,7 +216,7 @@ static void registerProtocols2(Window xid) {
 //      _XA_NET_DESKTOP_LAYOUT,
         _XA_NET_DESKTOP_NAMES,
         _XA_NET_DESKTOP_VIEWPORT,
-//      _XA_NET_FRAME_EXTENTS,
+        _XA_NET_FRAME_EXTENTS,
         _XA_NET_MOVERESIZE_WINDOW,
         _XA_NET_NUMBER_OF_DESKTOPS,
 //      _XA_NET_PROPERTIES,
