@@ -325,7 +325,7 @@ extern Atom _XA_NET_DESKTOP_VIEWPORT;               // OK (trivial)
 extern Atom _XA_NET_FRAME_EXTENTS;                  // OK
 extern Atom _XA_NET_MOVERESIZE_WINDOW;              //*OK
 extern Atom _XA_NET_NUMBER_OF_DESKTOPS;             //*OK - *implement change request
-extern Atom _XA_NET_PROPERTIES;                     // TODO
+extern Atom _XA_NET_PROPERTIES;                     // N/A (obsolete)
 extern Atom _XA_NET_REQUEST_FRAME_EXTENTS;          // TODO
 extern Atom _XA_NET_RESTACK_WINDOW;                 // OK
 extern Atom _XA_NET_SHOWING_DESKTOP;                // OK
@@ -373,13 +373,13 @@ extern Atom _XA_NET_WM_STATE_FULLSCREEN;            // OK
 extern Atom _XA_NET_WM_STATE_HIDDEN;                // OK
 extern Atom _XA_NET_WM_STATE_MAXIMIZED_HORZ;        // OK
 extern Atom _XA_NET_WM_STATE_MAXIMIZED_VERT;        // OK
-extern Atom _XA_NET_WM_STATE_MODAL;                 // TODO (broken)
+extern Atom _XA_NET_WM_STATE_MODAL;                 // OK (state only)
 extern Atom _XA_NET_WM_STATE_SHADED;                // OK
 extern Atom _XA_NET_WM_STATE_SKIP_PAGER;            // OK (trivial)
 extern Atom _XA_NET_WM_STATE_SKIP_TASKBAR;          // OK
 extern Atom _XA_NET_WM_STATE_STICKY;                // OK (trivial)
 extern Atom _XA_NET_WM_STRUT;                       // OK
-extern Atom _XA_NET_WM_STRUT_PARTIAL;               // TODO
+extern Atom _XA_NET_WM_STRUT_PARTIAL;               // OK (minimal)
 extern Atom _XA_NET_WM_SYNC_REQUEST;                // TODO
 extern Atom _XA_NET_WM_SYNC_REQUEST_COUNTER;        // TODO
 extern Atom _XA_NET_WM_USER_TIME;                   // OK
