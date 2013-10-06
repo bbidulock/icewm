@@ -2,10 +2,6 @@
 
 New to do items:
 
-* add support for _NET_WM_USER_TIME
-
-* add support for _NET_WM_USER_TIME_WINDOW
-
 * add support for changes to _NET_WM_DESKTOP_NAMES property
 
 * add support for _NET_WM_NUMBER_OF_DESKTOPS client message

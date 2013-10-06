@@ -277,8 +277,8 @@ static void registerProtocols2(Window xid) {
         _XA_NET_WM_STRUT_PARTIAL,	    // trivial support
 //      _XA_NET_WM_SYNC_REQUEST,
 //      _XA_NET_WM_SYNC_REQUEST_COUNTER,
-//      _XA_NET_WM_USER_TIME,
-//      _XA_NET_WM_USER_TIME_WINDOW,
+        _XA_NET_WM_USER_TIME,
+        _XA_NET_WM_USER_TIME_WINDOW,
         _XA_NET_WM_VISIBLE_ICON_NAME,       // trivial support
         _XA_NET_WM_VISIBLE_NAME,            // trivial support
 //      _XA_NET_WM_WINDOW_OPACITY,

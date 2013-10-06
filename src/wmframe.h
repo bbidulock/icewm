@@ -433,6 +433,8 @@ public:
 #ifdef WMSPEC_HINTS
     void updateNetWMStrut();
     void updateNetWMStrutPartial();
+    void updateNetWMUserTime();
+    void updateNetWMUserTimeWindow();
     void updateNetWMFullscreenMonitors(int, int, int, int);
 #endif
     int strutLeft() { return fStrutLeft; }
@@ -561,6 +563,10 @@ private:
     int fStrutRight;
     int fStrutTop;
     int fStrutBottom;
+
+    // _NET_WM_USER_TIME support
+    unsigned long fUserTime;
+    Window fUserTimeWindow;
 
     int fShapeWidth;
     int fShapeHeight;

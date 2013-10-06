@@ -39,6 +39,7 @@ static YColor *inactiveBorderBg = 0;
 YTimer *YFrameWindow::fAutoRaiseTimer = 0;
 YTimer *YFrameWindow::fDelayFocusTimer = 0;
 
+extern XContext windowContext;
 extern XContext frameContext;
 extern XContext clientContext;
 
@@ -119,6 +120,9 @@ YFrameWindow::YFrameWindow(
     fStrutRight = 0;
     fStrutTop = 0;
     fStrutBottom = 0;
+
+    fUserTime = -1UL;
+    fUserTimeWindow = None;
 
     fFullscreenMonitorsTop = -1;
     fFullscreenMonitorsBottom = -1;
@@ -300,6 +304,10 @@ YFrameWindow::~YFrameWindow() {
             XRemoveFromSaveSet(xapp->display(), client()->handle());
         XDeleteContext(xapp->display(), client()->handle(), frameContext);
     }
+    if (fUserTimeWindow != None) {
+        XDeleteContext(xapp->display(), fUserTimeWindow, windowContext);
+    }
+
     if (affectsWorkArea())
         manager->updateWorkArea();
     // FIX !!! should actually check if < than current values
@@ -469,6 +477,8 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
 #ifdef WMSPEC_HINTS
     updateNetWMStrut(); /// ? here
     updateNetWMStrutPartial();
+    updateNetWMUserTime();
+    updateNetWMUserTimeWindow();
 #endif
 
     long workspace = getWorkspace(), state_mask(0), state(0);
@@ -1824,14 +1834,9 @@ void YFrameWindow::updateFocusOnMap(bool& doActivate) {
             doActivate = false;
     }
 
-    {
-        long userTime = -1;
-
-        if (client()->getWmUserTime(&userTime)) {
-        }
-        //            if (userTime - currentTime < 0)
-        //                doFocus = false;
-    }
+    if (fUserTime != -1UL)
+        if (fUserTime == 0 || fUserTime != manager->lastUserTime())
+            doActivate = false;
 }
 
 void YFrameWindow::wmShow() {
@@ -3663,6 +3668,37 @@ void YFrameWindow::updateNetWMStrutPartial() {
         fStrutBottom = b;
         MSG(("strut: %d %d %d %d", l, r, t, b));
         manager->updateWorkArea();
+    }
+}
+
+void YFrameWindow::updateNetWMUserTime() {
+    unsigned long time = -1UL;
+    Window window = fUserTimeWindow ? : client()->handle();
+    client()->getNetWMUserTime(window, time);
+    if (time != fUserTime) {
+        fUserTime = time;
+        if (time != 0 && time != -1UL)
+            manager->updateUserTime(time);
+    }
+}
+
+void YFrameWindow::updateNetWMUserTimeWindow() {
+    Window window = fUserTimeWindow;
+    client()->getNetWMUserTimeWindow(window);
+    if (window != fUserTimeWindow) {
+        if (fUserTimeWindow != None) {
+            XDeleteContext(xapp->display(), fUserTimeWindow,
+                    windowContext);
+        }
+        fUserTimeWindow = window;
+        if (window != None) {
+            XSaveContext(xapp->display(), window,
+                    windowContext, (XPointer)client());
+            XWindowAttributes wa;
+            XGetWindowAttributes(xapp->display(), window, &wa);
+            XSelectInput(xapp->display(), wa.your_event_mask | PropertyChangeMask, window);
+        }
+        updateNetWMUserTime();
     }
 }
 

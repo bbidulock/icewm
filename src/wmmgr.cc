@@ -2524,6 +2524,23 @@ void YWindowManager::updateClientList() {
     checkLogout();
 }
 
+void YWindowManager::updateUserTime(Time time) {
+    if (time == 0 || time == -1UL)
+        return;
+    if (fLastUserTime == 0) {
+        fLastUserTime = time;
+        return;
+    }
+    if (fLastUserTime > time) {
+        if (fLastUserTime - time > 0x7fffffff)
+            fLastUserTime = time;
+    } else
+    if (fLastUserTime < time) {
+        if (time - fLastUserTime <= 0x7fffffff)
+            fLastUserTime = time;
+    }
+}
+
 void YWindowManager::checkLogout() {
     if (fShuttingDown && !haveClients()) {
         if (rebootOrShutdown == 1 && rebootCommand && rebootCommand[0]) {

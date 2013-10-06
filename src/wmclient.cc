@@ -506,6 +506,18 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
             if (getFrame())
                 getFrame()->updateNetWMStrutPartial();
             prop.net_wm_strut_partial = new_prop;
+        } else if (property.atom == _XA_NET_WM_USER_TIME) {
+            MSG(("change: net wm user time"));
+            if (new_prop) prop.net_wm_user_time = true;
+            if (getFrame())
+                getFrame()->updateNetWMUserTime();
+            prop.net_wm_user_time = new_prop;
+        } else if (property.atom == _XA_NET_WM_USER_TIME_WINDOW) {
+            MSG(("change: net wm user time window"));
+            if (new_prop) prop.net_wm_user_time_window = true;
+            if (getFrame())
+                getFrame()->updateNetWMUserTimeWindow();
+            prop.net_wm_user_time_window = new_prop;
         } else if (property.atom == _XA_NET_WM_FULLSCREEN_MONITORS) {
             // ignore - we triggered this event
             // (do i need to set a property here?)
@@ -1809,6 +1821,71 @@ bool YFrameClient::getNetWMStrutPartial(int *left, int *right, int *top, int *bo
     return false;
 }
 
+bool YFrameClient::getNetWMUserTime(Window window, unsigned long &time) {
+
+    time = -1UL;
+
+    if (!prop.net_wm_user_time && !prop.net_wm_user_time_window)
+        return false;
+
+    Atom r_type;
+    int r_format;
+    unsigned long count;
+    unsigned long bytes_remain;
+    unsigned char *prop;
+
+    if (XGetWindowProperty(xapp->display(), window,
+                _XA_NET_WM_USER_TIME, 0, 1, False, XA_CARDINAL,
+                &r_type, &r_format, &count, &bytes_remain, &prop) == Success && prop)
+    {
+        if (r_type == XA_CARDINAL && r_format == 32 && count == 1U) {
+            long *utime = (long *) prop;
+
+            MSG(("got user time"));
+            time = utime[0];
+	    if (time == -1UL)
+		    time = -2UL;
+
+            XFree(prop);
+            return true;
+        }
+        XFree(prop);
+    }
+    return false;
+}
+
+
+bool YFrameClient::getNetWMUserTimeWindow(Window &window) {
+
+    window = None;
+
+    if (!prop.net_wm_user_time_window)
+        return false;
+
+    Atom r_type;
+    int r_format;
+    unsigned long count;
+    unsigned long bytes_remain;
+    unsigned char *prop;
+
+    if (XGetWindowProperty(xapp->display(), handle(),
+                _XA_NET_WM_USER_TIME_WINDOW, 0, 1, False, XA_WINDOW,
+                &r_type, &r_format, &count, &bytes_remain, &prop) == Success && prop)
+    {
+        if (r_type == XA_WINDOW && r_format == 32 && count == 1U) {
+            long *uwin = (long *) prop;
+
+            MSG(("got user time window"));
+            window = uwin[0];
+
+            XFree(prop);
+            return true;
+        }
+        XFree(prop);
+    }
+    return false;
+}
+
 
 bool YFrameClient::getNetWMWindowType(Atom *window_type) { // !!! for now, map to layers
     *window_type = None;
@@ -1966,6 +2043,7 @@ void YFrameClient::getPropertiesList() {
             else if (a == _XA_NET_WM_STATE) HAS(prop.net_wm_state);
             else if (a == _XA_NET_WM_WINDOW_TYPE) HAS(prop.net_wm_window_type);
             else if (a == _XA_NET_WM_USER_TIME) HAS(prop.net_wm_user_time);
+            else if (a == _XA_NET_WM_USER_TIME_WINDOW) HAS(prop.net_wm_user_time_window);
 #endif
 #ifdef GNOME1_HINTS
             else if (a == _XA_WIN_HINTS) HAS(prop.win_hints);
@@ -1992,37 +2070,5 @@ void YFrameClient::configure(const YRect &r) {
          r.y(),
          r.width(),
          r.height()));
-}
-
-bool YFrameClient::getWmUserTime(long *userTime) {
-    *userTime = -1;
-
-    if (!prop.net_wm_user_time)
-        return false;
-
-    Atom r_type;
-    int r_format;
-    unsigned long count;
-    unsigned long bytes_remain;
-    unsigned char *prop;
-
-    if (XGetWindowProperty(xapp->display(),
-                           handle(),
-                           _XA_NET_WM_USER_TIME,
-                           0, 4, False, XA_CARDINAL,
-                           &r_type, &r_format,
-                           &count, &bytes_remain, &prop) == Success && prop)
-    {
-        if (r_type == XA_CARDINAL && r_format == 32 && count == 4U) {
-            long *value = (long *)prop;
-
-            *userTime = *value;
-
-            XFree(prop);
-            return true;
-        }
-        XFree(prop);
-    }
-    return false;
 }
 

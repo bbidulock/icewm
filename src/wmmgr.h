@@ -137,6 +137,7 @@ public:
     bool focusTop(YFrameWindow *f);
     void relocateWindows(long workspace, int screen, int dx, int dy);
     void updateClientList();
+    void updateUserTime(Time time);
 
     YMenu *createWindowMenu(YMenu *menu, long workspace);
     int windowCount(long workspace);
@@ -213,6 +214,7 @@ public:
 
     WMState wmState() const { return fWmState; }
     bool fullscreenEnabled() { return fFullscreenEnabled; }
+    Time lastUserTime() const { return fLastUserTime; }
 private:
     struct WindowPosState {
         int x, y, w, h;
@@ -254,6 +256,7 @@ private:
     bool fFullscreenEnabled;
 
     WMState fWmState;
+    Time fLastUserTime;
 };
 
 extern YWindowManager *manager;
@@ -376,8 +379,8 @@ extern Atom _XA_NET_WM_STRUT;                       // OK
 extern Atom _XA_NET_WM_STRUT_PARTIAL;               // TODO
 extern Atom _XA_NET_WM_SYNC_REQUEST;                // TODO
 extern Atom _XA_NET_WM_SYNC_REQUEST_COUNTER;        // TODO
-extern Atom _XA_NET_WM_USER_TIME;                   // TODO
-extern Atom _XA_NET_WM_USER_TIME_WINDOW;            // TODO
+extern Atom _XA_NET_WM_USER_TIME;                   // OK
+extern Atom _XA_NET_WM_USER_TIME_WINDOW;            // OK
 extern Atom _XA_NET_WM_VISIBLE_ICON_NAME;           // OK
 extern Atom _XA_NET_WM_VISIBLE_NAME;                // OK
 extern Atom _XA_NET_WM_OPACITY;                     // TODO
