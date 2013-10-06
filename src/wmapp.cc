@@ -221,7 +221,7 @@ static void registerProtocols2(Window xid) {
         _XA_NET_NUMBER_OF_DESKTOPS,
 //      _XA_NET_PROPERTIES,
 //      _XA_NET_REQUEST_FRAME_EXTENTS,
-//      _XA_NET_RESTACK_WINDOW,
+        _XA_NET_RESTACK_WINDOW,
         _XA_NET_SHOWING_DESKTOP,
 //      _XA_NET_STARTUP_ID,
 //      _XA_NET_STARTUP_INFO,

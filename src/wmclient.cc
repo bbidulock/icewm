@@ -791,6 +791,17 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
         } // !!! handle WithdrawnState if needed
 
 #ifdef WMSPEC_HINTS
+    } else if (message.message_type == _XA_NET_RESTACK_WINDOW) {
+        if (getFrame()) {
+            XConfigureRequestEvent cre;
+            cre.type = ConfigureRequest;
+            cre.value_mask = CWStackMode;
+            cre.above = message.data.l[1];
+            if (cre.above != None)
+                cre.value_mask |= CWSibling;
+            cre.detail = message.data.l[2];
+            getFrame()->configureClient(cre);
+        }
     } else if (message.message_type == _XA_NET_ACTIVE_WINDOW) {
         //printf("active window w=0x%lX\n", message.window);
         if (getFrame()) {

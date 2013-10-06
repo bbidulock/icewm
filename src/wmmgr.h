@@ -327,7 +327,7 @@ extern Atom _XA_NET_MOVERESIZE_WINDOW;              //*OK
 extern Atom _XA_NET_NUMBER_OF_DESKTOPS;             //*OK - *implement change request
 extern Atom _XA_NET_PROPERTIES;                     // TODO
 extern Atom _XA_NET_REQUEST_FRAME_EXTENTS;          // TODO
-extern Atom _XA_NET_RESTACK_WINDOW;                 // TODO
+extern Atom _XA_NET_RESTACK_WINDOW;                 // OK
 extern Atom _XA_NET_SHOWING_DESKTOP;                // OK
 extern Atom _XA_NET_STARTUP_ID;                     // TODO
 extern Atom _XA_NET_STARTUP_INFO;                   // TODO
