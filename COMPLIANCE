@@ -76,7 +76,7 @@ _NET_WORKAREA:				supported
 _NET_SUPPORTING_WM_CHECK:		supported
 _NET_VIRTUAL_ROOTS:			NOT supported (n/a)
 _NET_DESKTOP_LAYOUT:			NOT supported
-_NET_SHOWING_DESKTOP:			NOT supported
+_NET_SHOWING_DESKTOP:			supported
 
 
 Section 4: Other Root Window Messages
@@ -139,7 +139,7 @@ _NET_WM_ALLOWED_ACTIONS:		supported
 	_NET_WM_ACTION_BELOW:		supported
 _NET_WM_STRUT:				supported
 _NET_WM_STRUT_PARTIAL:			supported (trivial)
-_NET_WM_ICON_GEOMETRY:			NOT supported
+_NET_WM_ICON_GEOMETRY:			NOT supported (n/a)
 _NET_WM_ICON:				supported
 _NET_WM_PID:				supported (trivial)
 _NET_WM_HANDLED_ICONS:			NOT supported

@@ -222,7 +222,7 @@ static void registerProtocols2(Window xid) {
 //      _XA_NET_PROPERTIES,
 //      _XA_NET_REQUEST_FRAME_EXTENTS,
 //      _XA_NET_RESTACK_WINDOW,
-//      _XA_NET_SHOWING_DESKTOP,
+        _XA_NET_SHOWING_DESKTOP,
 //      _XA_NET_STARTUP_ID,
 //      _XA_NET_STARTUP_INFO,
 //      _XA_NET_STARTUP_INFO_BEGIN,
@@ -976,6 +976,11 @@ void initWorkspaces() {
                     _XA_NET_DESKTOP_VIEWPORT, XA_CARDINAL,
                     32, PropModeReplace, (unsigned char *)&data, 2);
 
+    data[0] = 0;
+    XChangeProperty(xapp->display(), manager->handle(),
+                    _XA_NET_SHOWING_DESKTOP, XA_CARDINAL,
+                    32, PropModeReplace, (unsigned char *)&data, 1);
+
     Atom r_type;
     int r_format;
     unsigned long count;
@@ -1201,9 +1206,11 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
         manager->getWindowsToArrange(&w, &count, true, true);
         if (w && count > 0) {
             manager->setWindows(w, count, actionMinimizeAll);
+            manager->setShowingDesktop(true);
             delete [] w;
         } else {
             manager->undoArrange();
+            manager->setShowingDesktop(false);
         }
 
     } else if (action == actionCascade) {

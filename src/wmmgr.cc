@@ -681,6 +681,21 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
         setWinWorkspace(message.data.l[0]);
         return;
     }
+    if (message.message_type == _XA_NET_SHOWING_DESKTOP) {
+        if (message.data.l[0] == 0 && fShowingDesktop) {
+            undoArrange();
+            setShowingDesktop(false);
+        } else
+        if (message.data.l[0] != 0 && !fShowingDesktop) {
+            YFrameWindow **w = 0;
+            int count = 0;
+            getWindowsToArrange(&w, &count, true, true);
+            if (w && count > 0)
+                setWindows(w, count, actionMinimizeAll);
+            setShowingDesktop(true);
+        }
+        return;
+    }
 #endif
 #ifdef GNOME1_HINTS
     if (message.message_type == _XA_WIN_WORKSPACE) {
@@ -2324,6 +2339,17 @@ void YWindowManager::activateWorkspace(long workspace) {
     }
 }
 
+void YWindowManager::setShowingDesktop(bool setting) {
+
+    if (fShowingDesktop != setting) {
+        fShowingDesktop = setting;
+        long value = setting ? 1 : 0;
+        XChangeProperty(xapp->display(), handle(),
+                _XA_NET_SHOWING_DESKTOP, XA_CARDINAL, 32,
+                PropModeReplace, (unsigned char *)&value, 1);
+    }
+}
+
 void YWindowManager::setWinWorkspace(long workspace) {
     if (workspace >= workspaceCount() || workspace < 0) {
         MSG(("invalid workspace switch %ld", (long)workspace));
@@ -2818,6 +2844,7 @@ void YWindowManager::saveArrange(YFrameWindow **w, int count) {
             fArrangeInfo[i].frame = w[i];
         }
     }
+    setShowingDesktop(false);
 }
 void YWindowManager::undoArrange() {
     if (fArrangeInfo) {
@@ -2837,6 +2864,7 @@ void YWindowManager::undoArrange() {
         unlockFocus();
         focusTopWindow();
     }
+    setShowingDesktop(false);
 }
 
 bool YWindowManager::haveClients() {

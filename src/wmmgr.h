@@ -151,6 +151,8 @@ public:
     long workspaceCount() const { return ::workspaceCount; }
     const char *workspaceName(long workspace) const { return ::workspaceNames[workspace]; }
 
+    void setShowingDesktop(bool setting);
+
     void announceWorkArea();
     void setWinWorkspace(long workspace);
     void updateWorkArea();
@@ -257,6 +259,7 @@ private:
 
     WMState fWmState;
     Time fLastUserTime;
+    bool fShowingDesktop;
 };
 
 extern YWindowManager *manager;
@@ -325,7 +328,7 @@ extern Atom _XA_NET_NUMBER_OF_DESKTOPS;             //*OK - *implement change re
 extern Atom _XA_NET_PROPERTIES;                     // TODO
 extern Atom _XA_NET_REQUEST_FRAME_EXTENTS;          // TODO
 extern Atom _XA_NET_RESTACK_WINDOW;                 // TODO
-extern Atom _XA_NET_SHOWING_DESKTOP;                // TODO
+extern Atom _XA_NET_SHOWING_DESKTOP;                // OK
 extern Atom _XA_NET_STARTUP_ID;                     // TODO
 extern Atom _XA_NET_STARTUP_INFO;                   // TODO
 extern Atom _XA_NET_STARTUP_INFO_BEGIN;             // TODO

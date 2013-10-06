@@ -6,6 +6,8 @@ New to do items:
 
 * add support for _NET_WM_NUMBER_OF_DESKTOPS client message
 
+* add full support for _NET_WM_HANDLED_ICONS
+
 * set WM_CLIENT_MACHINE on check window
 
 * set WM_NAME and WM_CLASS on check window
@@ -13,8 +15,6 @@ New to do items:
 * fix WithdrawnState behavior (no releasing windows)
 
 * add support for _NET_WM_DESKTOP_LAYOUT (trivial)
-
-* add support for _NET_SHOWING_DESKTOP
 
 * add support for _NET_HANDLED_ICONS
 
