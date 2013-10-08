@@ -783,6 +783,8 @@ void TaskBar::relayoutNow() {
     if (taskBar && taskBar->windowTrayPane())
         taskBar->windowTrayPane()->relayoutNow();
 #endif
+    if (taskBar->workspacesPane())
+        taskBar->workspacesPane()->relayoutNow();
     if (fNeedRelayout) {
 
         updateLocation();

@@ -872,7 +872,7 @@ static void initMenus(
     moveMenu->setShared(true);
     for (int w = 0; w < workspaceCount; w++) {
         char s[128];
-        sprintf(s, "%lu. %s", (unsigned long)(w + 1), workspaceNames[w]);
+        sprintf(s, "%lu. %s", (unsigned long)(w + 1), manager->workspaceName(w));
         moveMenu->addItem(s, 0, null, workspaceActionMoveTo[w]);
     }
 
@@ -944,24 +944,11 @@ static void initMenus(
 }
 
 void initWorkspaces() {
-    XTextProperty names;
 
-    if (XStringListToTextProperty(workspaceNames, workspaceCount, &names)) {
-        XSetTextProperty(xapp->display(),
-                         manager->handle(),
-                         &names, _XA_WIN_WORKSPACE_NAMES);
-        XSetTextProperty(xapp->display(),
-                         manager->handle(),
-                         &names, _XA_NET_DESKTOP_NAMES);
-        XFree(names.value);
-    }
+    if (!manager->readDesktopNames())
+        manager->setDesktopNames();
 
-    XChangeProperty(xapp->display(), manager->handle(),
-                    _XA_WIN_WORKSPACE_COUNT, XA_CARDINAL,
-                    32, PropModeReplace, (unsigned char *)&workspaceCount, 1);
-    XChangeProperty(xapp->display(), manager->handle(),
-                    _XA_NET_NUMBER_OF_DESKTOPS, XA_CARDINAL,
-                    32, PropModeReplace, (unsigned char *)&workspaceCount, 1);
+    manager->setDesktopCount();
 
     unsigned long data[2];
     data[0] = desktop->width();
@@ -970,16 +957,8 @@ void initWorkspaces() {
                     _XA_NET_DESKTOP_GEOMETRY, XA_CARDINAL,
                     32, PropModeReplace, (unsigned char *)&data, 2);
 
-    data[0] = 0;
-    data[1] = 0;
-    XChangeProperty(xapp->display(), manager->handle(),
-                    _XA_NET_DESKTOP_VIEWPORT, XA_CARDINAL,
-                    32, PropModeReplace, (unsigned char *)&data, 2);
-
-    data[0] = 0;
-    XChangeProperty(xapp->display(), manager->handle(),
-                    _XA_NET_SHOWING_DESKTOP, XA_CARDINAL,
-                    32, PropModeReplace, (unsigned char *)&data, 1);
+    manager->setDesktopViewport();
+    manager->setShowingDesktop();
 
     Atom r_type;
     int r_format;
@@ -988,11 +967,22 @@ void initWorkspaces() {
     unsigned char *prop;
     long ws = 0;
 
-    if (XGetWindowProperty(xapp->display(),
-                           manager->handle(),
-                           _XA_WIN_WORKSPACE,
-                           0, 1, False, XA_CARDINAL,
-                           &r_type, &r_format,
+    if (XGetWindowProperty(xapp->display(), manager->handle(),
+                           _XA_NET_CURRENT_DESKTOP, 0, 1, False,
+                           XA_CARDINAL, &r_type, &r_format,
+                           &count, &bytes_remain, &prop) == Success && prop)
+    {
+        if (r_type == XA_CARDINAL && r_format == 32 && count == 1) {
+            long n = *(long *)prop;
+
+            if (n < workspaceCount)
+                ws = n;
+        }
+        XFree(prop);
+    } else
+    if (XGetWindowProperty(xapp->display(), manager->handle(),
+                           _XA_WIN_WORKSPACE, 0, 1, False,
+                           XA_CARDINAL, &r_type, &r_format,
                            &count, &bytes_remain, &prop) == Success && prop)
     {
         if (r_type == XA_CARDINAL && r_format == 32 && count == 1) {

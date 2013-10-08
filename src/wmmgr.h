@@ -139,6 +139,13 @@ public:
     void updateClientList();
     void updateUserTime(Time time);
 
+    bool readDesktopNames();
+    void setWinDesktopNames();
+    void setNetDesktopNames();
+    void setDesktopNames();
+    void setDesktopCount();
+    void setDesktopViewport();
+
     YMenu *createWindowMenu(YMenu *menu, long workspace);
     int windowCount(long workspace);
 #ifdef CONFIG_WINMENU
@@ -149,8 +156,14 @@ public:
     long lastWorkspace() const { return fLastWorkspace; }
     void activateWorkspace(long workspace);
     long workspaceCount() const { return ::workspaceCount; }
-    const char *workspaceName(long workspace) const { return ::workspaceNames[workspace]; }
+    const char *workspaceName(long workspace);
 
+    void appendNewWorkspace();
+    void removeLastWorkspace();
+    void updateMoveMenu();
+    void updateWorkspaces(bool increase);
+
+    void setShowingDesktop();
     void setShowingDesktop(bool setting);
 
     void announceWorkArea();
@@ -320,11 +333,11 @@ extern Atom _XA_NET_CLOSE_WINDOW;                   // OK
 extern Atom _XA_NET_CURRENT_DESKTOP;                // OK
 extern Atom _XA_NET_DESKTOP_GEOMETRY;               // OK
 extern Atom _XA_NET_DESKTOP_LAYOUT;                 // TODO
-extern Atom _XA_NET_DESKTOP_NAMES;                  //*OK - *implement change request
+extern Atom _XA_NET_DESKTOP_NAMES;                  //*OK
 extern Atom _XA_NET_DESKTOP_VIEWPORT;               // OK (trivial)
 extern Atom _XA_NET_FRAME_EXTENTS;                  // OK
 extern Atom _XA_NET_MOVERESIZE_WINDOW;              //*OK
-extern Atom _XA_NET_NUMBER_OF_DESKTOPS;             //*OK - *implement change request
+extern Atom _XA_NET_NUMBER_OF_DESKTOPS;             //*OK
 extern Atom _XA_NET_PROPERTIES;                     // N/A (obsolete)
 extern Atom _XA_NET_REQUEST_FRAME_EXTENTS;          // TODO
 extern Atom _XA_NET_RESTACK_WINDOW;                 // OK
