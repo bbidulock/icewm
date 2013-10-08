@@ -696,7 +696,6 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
         }
         return;
     }
-#if 0
     if (message.message_type == _XA_NET_NUMBER_OF_DESKTOPS) {
         long ws = message.data.l[0];
         if (ws >= 1 && ws <= MAXWORKSPACES) {
@@ -715,7 +714,6 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
         }
         return;
     }
-#endif
 #endif
 #ifdef GNOME1_HINTS
     if (message.message_type == _XA_WIN_WORKSPACE) {
