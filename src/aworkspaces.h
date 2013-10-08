@@ -43,19 +43,12 @@ public:
     ~WorkspacesPane();
 
     void repaint();
-    void relayoutNow();
 
     void configure(const YRect &r);
 
     WorkspaceButton *workspaceButton(long n);
 private:
-    long fWorkspaceCount;
     WorkspaceButton **fWorkspaceButton;
-    char **fWorkspaceName;
-    void createButtons();
-    void repositionButtons();
-    void relabelButtons();
-    void destroyButtons();
 };
 
 extern ref<YPixmap> workspacebuttonPixmap;

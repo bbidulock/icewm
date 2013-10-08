@@ -59,14 +59,11 @@ public:
     WindowListItem *addWindowListApp(YFrameWindow *frame);
     void removeWindowListApp(WindowListItem *item);
     void updateWindowListApp(WindowListItem *item);
-    void updateWorkspaces();
 
     void repaintItem(WindowListItem *item) { list->repaintItem(item); }
     void showFocused(int x, int y);
 
     WindowListBox *getList() const { return list; }
-
-    void updateItems();
 
 private:
     WindowListBox *list;
@@ -75,7 +72,6 @@ private:
     YActionListener *wmActionListener;
 
     void insertApp(WindowListItem *item);
-    long fWorkspaceCount;
 };
 
 extern WindowList *windowList;

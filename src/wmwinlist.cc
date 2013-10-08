@@ -57,10 +57,10 @@ ustring WindowListItem::getText() {
     if (fFrame)
         return getFrame()->getTitle();
     else
-        if (fWorkspace == -1)
+        if (fWorkspace < 0 || fWorkspace >= workspaceCount)
             return _("All Workspaces");
         else
-            return manager->workspaceName(fWorkspace);
+            return workspaceNames[fWorkspace];
 }
 
 ref<YIcon> WindowListItem::getIcon() {
@@ -279,15 +279,13 @@ YFrameClient(aParent, 0) {
     list->show();
     scroll->show();
 
-    fWorkspaceCount = manager->workspaceCount();
-
-    workspaceItem = new WindowListItem *[fWorkspaceCount + 1];
-    for (int ws = 0; ws < fWorkspaceCount; ws++) {
+    workspaceItem = new WindowListItem *[workspaceCount + 1];
+    for (int ws = 0; ws < workspaceCount; ws++) {
         workspaceItem[ws] = new WindowListItem(0, ws);
         list->addItem(workspaceItem[ws]);
     }
-    workspaceItem[fWorkspaceCount] = new WindowListItem(0, -1);
-    list->addItem(workspaceItem[fWorkspaceCount]);
+    workspaceItem[workspaceCount] = new WindowListItem(0, -1);
+    list->addItem(workspaceItem[workspaceCount]);
 
     YMenu *closeSubmenu = new YMenu();
     assert(closeSubmenu != 0);
@@ -401,41 +399,6 @@ void WindowList::updateWindowListApp(WindowListItem *item) {
         list->removeItem(item);
         insertApp(item);
     }
-}
-
-void WindowList::updateWorkspaces() {
-    long fOldWorkspaceCount = fWorkspaceCount;
-    fWorkspaceCount = manager->workspaceCount();
-    if (fWorkspaceCount != fOldWorkspaceCount) {
-        WindowListItem **oldWorkspaceItem = workspaceItem;
-        workspaceItem = new WindowListItem *[fWorkspaceCount + 1];
-        workspaceItem[fWorkspaceCount] = oldWorkspaceItem[fOldWorkspaceCount];
-        list->removeItem(workspaceItem[fWorkspaceCount]);
-        if (fWorkspaceCount > fOldWorkspaceCount) {
-            for (long w = 0; w < fOldWorkspaceCount; w++)
-                workspaceItem[w] = oldWorkspaceItem[w];
-            for (long w = fOldWorkspaceCount; w < fWorkspaceCount; w++) {
-                workspaceItem[w] = new WindowListItem(0, w);
-                list->addItem(workspaceItem[w]);
-            }
-
-        } else
-        if (fWorkspaceCount < fOldWorkspaceCount) {
-            for (long w = 0; w < fWorkspaceCount; w++)
-                workspaceItem[w] = oldWorkspaceItem[w];
-            for (long w = fWorkspaceCount; w < fOldWorkspaceCount; w++) {
-                list->removeItem(oldWorkspaceItem[w]);
-                delete oldWorkspaceItem[w];
-            }
-        }
-        list->addItem(workspaceItem[fWorkspaceCount]);
-        delete[] oldWorkspaceItem;
-        updateItems();
-    }
-}
-
-void WindowList::updateItems() {
-    list->maxWidth(); // just to get updateItems();
 }
 
 void WindowList::configure(const YRect &r) {

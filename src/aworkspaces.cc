@@ -108,12 +108,74 @@ void WorkspaceButton::actionPerformed(YAction */*action*/, unsigned int modifier
 }
 
 WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
-    fWorkspaceCount = 0;
-    createButtons();
+    long w;
+
+    if (workspaceCount > 0)
+        fWorkspaceButton = new WorkspaceButton *[workspaceCount];
+    else
+        fWorkspaceButton = 0;
+
+    if (fWorkspaceButton) {
+        ref<YResourcePaths> paths = YResourcePaths::subdirs(null, false);
+
+        int ht = smallIconSize + 8;
+        int leftX = 0;
+
+        for (w = 0; w < workspaceCount; w++) {
+            WorkspaceButton *wk = new WorkspaceButton(w, this);
+            if (wk) {
+                if (pagerShowPreview) {
+                    wk->setSize((int) round((double)
+                                (ht * desktop->width() / desktop->height())), ht);
+                } else {
+                    ref<YImage> image
+                        (paths->loadImage("workspace/", workspaceNames[w]));
+                    if (image != null)
+                        wk->setImage(image);
+                    else
+                        wk->setText(workspaceNames[w]);
+                }
+#if 0
+                ref<YImage> image
+                    (paths->loadImage("workspace/", workspaceNames[w]));
+
+                if (image != null)
+                    wk->setImage(image);
+                else
+                    wk->setText(workspaceNames[w]);
+#endif
+
+/// TODO "why my_basename here?"
+                char * wn(newstr(my_basename(workspaceNames[w])));
+                char * ext(strrchr(wn, '.'));
+                if (ext) *ext = '\0';
+
+                wk->setToolTip(ustring(_("Workspace: ")).append(wn));
+
+                //if ((int)wk->height() + 1 > ht) ht = wk->height() + 1;
+            }
+            fWorkspaceButton[w] = wk;
+        }
+
+        for (w = 0; w < workspaceCount; w++) {
+            YButton *wk = fWorkspaceButton[w];
+            //leftX += 2;
+            if (wk) {
+                wk->setGeometry(YRect(leftX, 0, wk->width(), ht));
+                wk->show();
+                leftX += wk->width();
+            }
+        }
+        setSize(leftX, ht);
+    }
 }
 
 WorkspacesPane::~WorkspacesPane() {
-    destroyButtons();
+    if (fWorkspaceButton) {
+        for (long w = 0; w < workspaceCount; w++)
+            delete fWorkspaceButton[w];
+        delete [] fWorkspaceButton;
+    }
 }
 
 void WorkspacesPane::configure(const YRect &r) {
@@ -121,7 +183,7 @@ void WorkspacesPane::configure(const YRect &r) {
 
     int ht = height();
     int leftX = 0;
-    for (int w = 0; w < fWorkspaceCount; w++) {
+    for (int w = 0; w < workspaceCount; w++) {
         YButton *wk = fWorkspaceButton[w];
         //leftX += 2;
         if (wk) {
@@ -189,142 +251,9 @@ YSurface WorkspaceButton::getSurface() {
 void WorkspacesPane::repaint() {
     if (!pagerShowPreview) return;
 
-    for (int w = 0; w < fWorkspaceCount; w++) {
+    for (int w = 0; w < workspaceCount; w++) {
         fWorkspaceButton[w]->repaint();
     }
-}
-
-void WorkspacesPane::createButtons() {
-    if (fWorkspaceCount != workspaceCount) {
-        long fOldWorkspaceCount = fWorkspaceCount;
-
-        int ht = smallIconSize + 8;
-
-        fWorkspaceCount = workspaceCount;
-        if (fWorkspaceCount > 0) {
-            WorkspaceButton **fOldWorkspaceButton = fWorkspaceButton;
-            char **fOldWorkspaceName = fWorkspaceName;
-            fWorkspaceButton = new WorkspaceButton *[fWorkspaceCount];
-            fWorkspaceName = new char *[fWorkspaceCount];
-
-            if (fOldWorkspaceCount < fWorkspaceCount) {
-
-                ref<YResourcePaths> paths = YResourcePaths::subdirs(null, false);
-
-                for (long w = fOldWorkspaceCount; w < fWorkspaceCount; w++) {
-                    WorkspaceButton *wk = new WorkspaceButton(w, this);
-                    char *name = newstr(manager->workspaceName(w));
-                    if (wk) {
-                        if (pagerShowPreview) {
-                            wk->setSize((int) round((double)
-                                        (ht * desktop->width() / desktop->height())), ht);
-                        } else {
-                            ref<YImage> image
-                                (paths->loadImage("workspace/", name));
-                            if (image != null)
-                                wk->setImage(image);
-                            else
-                                wk->setText(name);
-                        }
-
-                        char * wn(newstr(my_basename(name)));
-                        char * ext(strrchr(wn, '.'));
-                        if (ext) *ext = '\0';
-
-                        wk->setToolTip(ustring(_("Workspace: ")).append(wn));
-                    }
-                    fWorkspaceButton[w] = wk;
-                    fWorkspaceName[w] = name;
-                }
-
-            } else if (fOldWorkspaceCount > fWorkspaceCount) {
-
-                for (long w = 0; w < fWorkspaceCount; w++) {
-                    fWorkspaceButton[w] = fOldWorkspaceButton[w];
-                    fWorkspaceName[w] = fOldWorkspaceName[w];
-                }
-                for (long w = fWorkspaceCount - 1; w < fOldWorkspaceCount; w++) {
-                    delete fOldWorkspaceButton[w];
-                    delete[] fOldWorkspaceName[w];
-                }
-            }
-            if (fOldWorkspaceButton)
-                delete[] fOldWorkspaceButton;
-            if (fOldWorkspaceName)
-                delete[] fOldWorkspaceName;
-        } else {
-            destroyButtons();
-        }
-        repositionButtons();
-    }
-}
-
-void WorkspacesPane::relabelButtons() {
-    if (pagerShowPreview)
-        return;
-
-    bool nochange = true;
-    for (long w = 0; w < fWorkspaceCount; w++) {
-        const char *old_name = fWorkspaceName[w];
-        const char *new_name = manager->workspaceName(w);
-        if (strcmp(old_name, new_name)) {
-            nochange = false;
-            break;
-        }
-    }
-    if (nochange)
-        return;
-
-    ref<YResourcePaths> paths = YResourcePaths::subdirs(null, false);
-
-    for (long w = 0; w < fWorkspaceCount; w++) {
-        WorkspaceButton *wk = fWorkspaceButton[w];
-        delete[] fWorkspaceName[w];
-        char *name = fWorkspaceName[w] = newstr(manager->workspaceName(w));
-        if (wk) {
-            ref<YImage> image
-                (paths->loadImage("workspace/", name));
-            if (image != null)
-                wk->setImage(image);
-            else
-                wk->setText(name);
-        }
-    }
-    repositionButtons();
-}
-
-void WorkspacesPane::repositionButtons() {
-    int ht = smallIconSize + 8;
-    int leftX = 0;
-
-    for(long w = 0; w < fWorkspaceCount; w++) {
-        YButton *wk = fWorkspaceButton[w];
-
-        if (wk) {
-            wk->setGeometry(YRect(leftX, 0, wk->width(), ht));
-            wk->show();
-            leftX += wk->width();
-        }
-    }
-    setSize(leftX, ht);
-
-}
-
-void WorkspacesPane::destroyButtons() {
-    if (fWorkspaceButton) {
-        for (long w = 0; w < fWorkspaceCount; w++)
-            delete fWorkspaceButton[w];
-        delete[] fWorkspaceButton;
-        fWorkspaceButton = 0;
-        fWorkspaceCount = 0;
-    }
-}
-
-void WorkspacesPane::relayoutNow() {
-    if (fWorkspaceCount != workspaceCount)
-        createButtons();
-    else
-        relabelButtons();
 }
 
 void WorkspaceButton::paint(Graphics &g, const YRect &/*r*/) {

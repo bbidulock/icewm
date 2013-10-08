@@ -66,11 +66,11 @@ Section 3: Root Window Properties (and Related Messages)
 _NET_SUPPORTED:				supported
 _NET_CLIENT_LIST:			supported
 _NET_CLIENT_LIST_STACKING:		supported
-_NET_NUMBER_OF_DESKTOPS:		supported
+_NET_NUMBER_OF_DESKTOPS:		partial (write not read)
 _NET_DESKTOP_GEOMETRY:			supported
-_NET_DESKTOP_VIEWPORT:			supported
+_NET_DESKTOP_VIEWPORT:			supported (trivial)
 _NET_CURRENT_DESKTOP:			supported
-_NET_DESKTOP_NAMES:			supported
+_NET_DESKTOP_NAMES:			partial (write not read)
 _NET_ACTIVE_WINDOW:			supported
 _NET_WORKAREA:				supported
 _NET_SUPPORTING_WM_CHECK:		supported
