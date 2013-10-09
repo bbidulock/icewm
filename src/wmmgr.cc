@@ -2435,6 +2435,27 @@ void YWindowManager::setShowingDesktop(bool setting) {
     }
 }
 
+void YWindowManager::updateTaskBar() {
+#ifdef CONFIG_TASKBAR
+    if (taskBar) {
+        taskBar->relayout();
+        taskBar->relayoutNow();
+        taskBar->updateLocation();
+    }
+#endif
+}
+
+void YWindowManager::updateMoveMenu() {
+    if (moveMenu) {
+        moveMenu->removeAll();
+        for (long w = 0; w < ::workspaceCount; w++) {
+            char s[128];
+            snprintf(s, 128, "%lu. %s", (unsigned long)(w + 1), workspaceNames[w]);
+            moveMenu->addItem(s, 0, null, workspaceActionMoveTo[w]);
+        }
+    }
+}
+
 bool YWindowManager::readDesktopNames() {
     XTextProperty names;
 #ifdef WMSPEC_HINTS
@@ -2464,13 +2485,8 @@ bool YWindowManager::readDesktopNames() {
                 MSG(("Workspace %d: %s", i, strings[i]));
             }
             if (changed) {
-#ifdef CONFIG_TASKBAR
-                if (taskBar) {
-                    taskBar->relayout();
-                    taskBar->relayoutNow();
-                    taskBar->updateLocation();
-                }
-#endif
+                updateTaskBar();
+                updateMoveMenu();
             }
             XFreeStringList(strings);
         } else {
@@ -2509,13 +2525,8 @@ bool YWindowManager::readDesktopNames() {
                 MSG(("Workspace %d: %s", i, strings[i]));
             }
             if (changed) {
-#ifdef CONFIG_TASKBAR
-                if (taskBar) {
-                    taskBar->relayout();
-                    taskBar->relayoutNow();
-                    taskBar->updateLocation();
-                }
-#endif
+                updateTaskBar();
+                updateMoveMenu();
             }
             XFreeStringList(strings);
         } else {

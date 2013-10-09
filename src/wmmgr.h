@@ -156,6 +156,9 @@ public:
     void setShowingDesktop();
     void setShowingDesktop(bool setting);
 
+    void updateTaskBar();
+    void updateMoveMenu();
+
     bool readCurrentDesktop(long &workspace);
     void setDesktopGeometry();
     bool readDesktopNames();
