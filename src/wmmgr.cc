@@ -2476,20 +2476,22 @@ bool YWindowManager::readDesktopNames() {
                 count = MAXWORKSPACES;
             for (int i = 0; i < count; i++) {
                 if (workspaceNames[i] != 0) {
+                    MSG(("Workspace %d: '%s' -> '%s'", i, workspaceNames[i], strings[i]));
                     if (strcmp(workspaceNames[i],strings[i])) {
                         delete[] workspaceNames[i];
                         workspaceNames[i] = newstr(strings[i]);
                         changed = true;
                     }
                 } else {
+                    MSG(("Workspace %d: (null) -> '%s'", i, strings[i]));
                     workspaceNames[i] = newstr(strings[i]);
                     changed = true;
                 }
-                MSG(("Workspace %d: %s", i, strings[i]));
             }
             if (changed) {
                 updateTaskBar();
                 updateMoveMenu();
+                setWinDesktopNames();
             }
             XFreeStringList(strings);
         } else {
@@ -2516,20 +2518,22 @@ bool YWindowManager::readDesktopNames() {
                 count = MAXWORKSPACES;
             for (int i = 0; i < count; i++) {
                 if (workspaceNames[i] != 0) {
+                    MSG(("Workspace %d: '%s' -> '%s'", i, workspaceNames[i], strings[i]));
                     if (strcmp(workspaceNames[i],strings[i])) {
                         delete[] workspaceNames[i];
                         workspaceNames[i] = newstr(strings[i]);
                         changed = true;
                     }
                 } else {
+                    MSG(("Workspace %d: (null) -> '%s'", i, strings[i]));
                     workspaceNames[i] = newstr(strings[i]);
                     changed = true;
                 }
-                MSG(("Workspace %d: %s", i, strings[i]));
             }
             if (changed) {
                 updateTaskBar();
                 updateMoveMenu();
+                setNetDesktopNames();
             }
             XFreeStringList(strings);
         } else {
