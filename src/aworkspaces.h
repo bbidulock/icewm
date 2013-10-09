@@ -42,6 +42,7 @@ public:
     WorkspacesPane(YWindow *parent);
     ~WorkspacesPane();
 
+    void relabelButtons();
     void repaint();
 
     void configure(const YRect &r);

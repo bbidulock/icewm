@@ -178,6 +178,37 @@ WorkspacesPane::~WorkspacesPane() {
     }
 }
 
+void WorkspacesPane::relabelButtons() {
+    if (pagerShowPreview)
+        return;
+
+    ref<YResourcePaths> paths = YResourcePaths::subdirs(null, false);
+
+    for (long w = 0; w < workspaceCount; w++) {
+        YButton *wk = fWorkspaceButton[w];
+        if (wk) {
+            ref<YImage> image
+                (paths->loadImage("workspace/",workspaceNames[w]));
+            if (image != null)
+                wk->setImage(image);
+            else
+                wk->setText(workspaceNames[w]);
+        }
+    }
+
+    int ht = height();
+    int leftX = 0;
+    for (long w = 0; w < workspaceCount; w++) {
+        YButton *wk = fWorkspaceButton[w];
+        //leftX += 2;
+        if (wk) {
+            wk->setGeometry(YRect(leftX, 0, wk->width(), ht));
+            leftX += wk->width();
+        }
+    }
+    setSize(leftX, ht);
+}
+
 void WorkspacesPane::configure(const YRect &r) {
     YWindow::configure(r);
 

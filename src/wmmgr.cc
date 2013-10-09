@@ -2438,9 +2438,12 @@ void YWindowManager::setShowingDesktop(bool setting) {
 void YWindowManager::updateTaskBar() {
 #ifdef CONFIG_TASKBAR
     if (taskBar) {
-        taskBar->relayout();
-        taskBar->relayoutNow();
-        taskBar->updateLocation();
+        if (taskBar->workspacesPane()) {
+            taskBar->workspacesPane()->relabelButtons();
+            taskBar->relayout();
+            taskBar->relayoutNow();
+            taskBar->updateLocation();
+        }
     }
 #endif
 }
