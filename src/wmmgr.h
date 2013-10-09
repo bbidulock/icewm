@@ -145,13 +145,25 @@ public:
     void popupWindowListMenu(YWindow *owner, int x, int y);
 #endif
 
+    void initWorkspaces();
+
     long activeWorkspace() const { return fActiveWorkspace; }
     long lastWorkspace() const { return fLastWorkspace; }
     void activateWorkspace(long workspace);
     long workspaceCount() const { return ::workspaceCount; }
     const char *workspaceName(long workspace) const { return ::workspaceNames[workspace]; }
 
+    void setShowingDesktop();
     void setShowingDesktop(bool setting);
+
+    bool readCurrentDesktop(long &workspace);
+    void setDesktopGeometry();
+    bool readDesktopNames();
+    void setWinDesktopNames();
+    void setNetDesktopNames();
+    void setDesktopNames();
+    void setDesktopCount();
+    void setDesktopViewport();
 
     void announceWorkArea();
     void setWinWorkspace(long workspace);

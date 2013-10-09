@@ -943,69 +943,6 @@ static void initMenus(
 #endif
 }
 
-void initWorkspaces() {
-    XTextProperty names;
-
-    if (XStringListToTextProperty(workspaceNames, workspaceCount, &names)) {
-        XSetTextProperty(xapp->display(),
-                         manager->handle(),
-                         &names, _XA_WIN_WORKSPACE_NAMES);
-        XSetTextProperty(xapp->display(),
-                         manager->handle(),
-                         &names, _XA_NET_DESKTOP_NAMES);
-        XFree(names.value);
-    }
-
-    XChangeProperty(xapp->display(), manager->handle(),
-                    _XA_WIN_WORKSPACE_COUNT, XA_CARDINAL,
-                    32, PropModeReplace, (unsigned char *)&workspaceCount, 1);
-    XChangeProperty(xapp->display(), manager->handle(),
-                    _XA_NET_NUMBER_OF_DESKTOPS, XA_CARDINAL,
-                    32, PropModeReplace, (unsigned char *)&workspaceCount, 1);
-
-    unsigned long data[2];
-    data[0] = desktop->width();
-    data[1] = desktop->height();
-    XChangeProperty(xapp->display(), manager->handle(),
-                    _XA_NET_DESKTOP_GEOMETRY, XA_CARDINAL,
-                    32, PropModeReplace, (unsigned char *)&data, 2);
-
-    data[0] = 0;
-    data[1] = 0;
-    XChangeProperty(xapp->display(), manager->handle(),
-                    _XA_NET_DESKTOP_VIEWPORT, XA_CARDINAL,
-                    32, PropModeReplace, (unsigned char *)&data, 2);
-
-    data[0] = 0;
-    XChangeProperty(xapp->display(), manager->handle(),
-                    _XA_NET_SHOWING_DESKTOP, XA_CARDINAL,
-                    32, PropModeReplace, (unsigned char *)&data, 1);
-
-    Atom r_type;
-    int r_format;
-    unsigned long count;
-    unsigned long bytes_remain;
-    unsigned char *prop;
-    long ws = 0;
-
-    if (XGetWindowProperty(xapp->display(),
-                           manager->handle(),
-                           _XA_WIN_WORKSPACE,
-                           0, 1, False, XA_CARDINAL,
-                           &r_type, &r_format,
-                           &count, &bytes_remain, &prop) == Success && prop)
-    {
-        if (r_type == XA_CARDINAL && r_format == 32 && count == 1) {
-            long n = *(long *)prop;
-
-            if (n < workspaceCount)
-                ws = n;
-        }
-        XFree(prop);
-    }
-    manager->activateWorkspace(ws);
-}
-
 int handler(Display *display, XErrorEvent *xev) {
 
     if (initializing &&
@@ -1463,7 +1400,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     aboutDlg = new AboutDlg();
 #endif
 
-    initWorkspaces();
+    manager->initWorkspaces();
 
     manager->grabKeys();
 
