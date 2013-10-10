@@ -1,16 +1,12 @@
 -- TODO for IceWM.  2013-10-05
 
-* add full support for _NET_WM_HANDLED_ICONS
-
 * set WM_CLIENT_MACHINE on check window
 
 * set WM_NAME and WM_CLASS on check window
 
-* fix WithdrawnState behavior (no releasing windows)
-
 * add support for _NET_WM_DESKTOP_LAYOUT (trivial)
 
-* add support for _NET_HANDLED_ICONS
+* add support for _NET_WM_HANDLED_ICONS
 
 Old to do items:
 
