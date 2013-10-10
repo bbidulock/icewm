@@ -42,14 +42,17 @@ public:
     WorkspacesPane(YWindow *parent);
     ~WorkspacesPane();
 
-    void relabelButtons();
     void repaint();
 
+    void relabelButtons();
     void configure(const YRect &r);
+    void updateButtons();
 
     WorkspaceButton *workspaceButton(long n);
 private:
     WorkspaceButton **fWorkspaceButton;
+    long fWorkspaceButtonCount;
+    void repositionButtons();
 };
 
 extern ref<YPixmap> workspacebuttonPixmap;

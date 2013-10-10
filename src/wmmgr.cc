@@ -65,8 +65,8 @@ YWindowManager::YWindowManager(
     fWorkAreaWorkspaceCount = 0;
     fWorkAreaScreenCount = 0;
     fFullscreenEnabled = true;
-    fFocusedWindow = new YFrameWindow *[workspaceCount()];
-    for (int w = 0; w < workspaceCount(); w++)
+    fFocusedWindow = new YFrameWindow *[MAXWORKSPACES];
+    for (int w = 0; w < MAXWORKSPACES; w++)
         fFocusedWindow[w] = 0;
 
     frameContext = XUniqueContext();
@@ -678,10 +678,31 @@ void YWindowManager::handleDestroyWindow(const XDestroyWindowEvent &destroyWindo
 void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
 #ifdef WMSPEC_HINTS
     if (message.message_type == _XA_NET_CURRENT_DESKTOP) {
+        MSG(("ClientMessage: _NET_CURRENT_DESKTOP => %ld", message.data.l[0]));
         setWinWorkspace(message.data.l[0]);
         return;
     }
+#if 1
+    if (message.message_type == _XA_NET_NUMBER_OF_DESKTOPS) {
+        MSG(("ClientMessage: _NET_NUMBER_OF_DESKTOPS => %ld", message.data.l[0]));
+        long ws = message.data.l[0];
+        if (ws >= 1 && ws <= MAXWORKSPACES) {
+            if (ws > workspaceCount()) {
+                int more = ws - workspaceCount();
+                for (int i=0; i<more; i++)
+                    appendNewWorkspace();
+            } else
+            if (ws < workspaceCount()) {
+                int less = workspaceCount() - ws;
+                for (int i=0; i<less; i++)
+                    removeLastWorkspace();
+            }
+        }
+        return;
+    }
+#endif
     if (message.message_type == _XA_NET_SHOWING_DESKTOP) {
+        MSG(("ClientMessage: _NET_SHOWING_DESKTOP => %ld", message.data.l[0]));
         if (message.data.l[0] == 0 && fShowingDesktop) {
             undoArrange();
             setShowingDesktop(false);
@@ -699,11 +720,13 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
 #endif
 #ifdef GNOME1_HINTS
     if (message.message_type == _XA_WIN_WORKSPACE) {
+        MSG(("ClientMessage: _WIN_WORKSPACE => %ld", message.data.l[0]));
         setWinWorkspace(message.data.l[0]);
         return;
     }
 #endif
     if (message.message_type == _XA_ICEWM_ACTION) {
+        MSG(("ClientMessage: _ICEWM_ACTION => %ld", message.data.l[1]));
         switch (message.data.l[1]) {
         case ICEWM_ACTION_LOGOUT:
         case ICEWM_ACTION_CANCEL_LOGOUT:
@@ -2352,6 +2375,94 @@ void YWindowManager::activateWorkspace(long workspace) {
     }
 }
 
+void YWindowManager::appendNewWorkspace() {
+    if (::workspaceCount >= MAXWORKSPACES)
+        return;
+
+    long ws = ::workspaceCount;
+
+    if (workspaceNames[ws] == 0) {
+        char s[32];
+        snprintf(s, 32, " %ld ", ws);
+        workspaceNames[ws] = newstr(s);
+    }
+
+    if (workspaceActionActivate[ws] != 0)
+        delete workspaceActionActivate[ws];
+    if (workspaceActionMoveTo[ws] != 0)
+        delete workspaceActionMoveTo[ws];
+    workspaceActionActivate[ws] = new YAction();
+    workspaceActionMoveTo[ws] = new YAction();
+
+    ::workspaceCount++;
+
+    updateWorkspaces(true);
+}
+
+void YWindowManager::removeLastWorkspace() {
+    if (::workspaceCount <= 1)
+        return;
+
+    long ws = ::workspaceCount - 1;
+
+    // switch away from the workspace being removed
+    if (fActiveWorkspace == ws)
+        activateWorkspace(ws-1);
+
+    // move windows away from the workspace being removed
+    bool changed;
+    do {
+        changed = false;
+        for (YFrameWindow *frame = topLayer(); frame; frame = frame->nextLayer())
+            if (frame->getWorkspace() == ws) {
+                frame->setWorkspace(ws-1);
+                changed = true;
+                break;
+            }
+    } while (changed);
+
+    ::workspaceCount--;
+
+    updateWorkspaces(false);
+
+    if (workspaceActionActivate[ws] != 0) {
+        delete workspaceActionActivate[ws];
+        workspaceActionActivate[ws] = 0;
+    }
+    if (workspaceActionMoveTo[ws] != 0) {
+        delete workspaceActionMoveTo[ws];
+        workspaceActionMoveTo[ws] = 0;
+    }
+}
+
+void YWindowManager::updateWorkspaces(bool increase) {
+    if (increase) {
+        setDesktopViewport();
+        updateWorkArea();
+        setDesktopCount();
+    } else {
+        setDesktopCount();
+        updateWorkArea();
+        setDesktopViewport();
+    }
+#ifdef CONFIG_TASKBAR
+    if (taskBar) {
+        if (taskBar->workspacesPane()) {
+            taskBar->workspacesPane()->updateButtons();
+            taskBar->relayout();
+            taskBar->relayoutNow();
+            taskBar->updateLocation();
+        }
+    }
+#endif
+#ifdef CONFIG_WINLIST
+    if (windowList) {
+        windowList->updateWorkspaces();
+    }
+#endif
+    updateMoveMenu();
+}
+
 bool YWindowManager::readCurrentDesktop(long &workspace) {
     Atom r_type;
     int r_format;
@@ -2435,7 +2546,7 @@ void YWindowManager::setShowingDesktop(bool setting) {
     }
 }
 
-void YWindowManager::updateTaskBar() {
+void YWindowManager::updateTaskBarNames() {
 #ifdef CONFIG_TASKBAR
     if (taskBar) {
         if (taskBar->workspacesPane()) {
@@ -2474,11 +2585,14 @@ bool YWindowManager::readDesktopNames() {
                 count--;
             if (count > MAXWORKSPACES)
                 count = MAXWORKSPACES;
+            char **oldWorkspaceNames = new char *[MAXWORKSPACES];
+            for (int i = 0; i < MAXWORKSPACES; i++)
+                oldWorkspaceNames[i] = 0;
             for (int i = 0; i < count; i++) {
                 if (workspaceNames[i] != 0) {
                     MSG(("Workspace %d: '%s' -> '%s'", i, workspaceNames[i], strings[i]));
                     if (strcmp(workspaceNames[i],strings[i])) {
-                        delete[] workspaceNames[i];
+                        oldWorkspaceNames[i] = workspaceNames[i];
                         workspaceNames[i] = newstr(strings[i]);
                         changed = true;
                     }
@@ -2489,11 +2603,16 @@ bool YWindowManager::readDesktopNames() {
                 }
             }
             if (changed) {
-                updateTaskBar();
+                updateTaskBarNames();
                 updateMoveMenu();
-                setWinDesktopNames();
+                setWinDesktopNames(count);
             }
             XFreeStringList(strings);
+            // old strings must persist until after the update
+            for (int i = 0; i < MAXWORKSPACES; i++)
+                if (oldWorkspaceNames[i] != 0)
+                    delete[] oldWorkspaceNames[i];
+            delete[] oldWorkspaceNames;
         } else {
             MSG(("warning: could not convert strings for _NET_DESKTOP_NAMES"));
         }
@@ -2516,11 +2635,14 @@ bool YWindowManager::readDesktopNames() {
                 count--;
             if (count > MAXWORKSPACES)
                 count = MAXWORKSPACES;
+            char **oldWorkspaceNames = new char *[MAXWORKSPACES];
+            for (int i = 0; i < MAXWORKSPACES; i++)
+                oldWorkspaceNames[i] = 0;
             for (int i = 0; i < count; i++) {
                 if (workspaceNames[i] != 0) {
                     MSG(("Workspace %d: '%s' -> '%s'", i, workspaceNames[i], strings[i]));
                     if (strcmp(workspaceNames[i],strings[i])) {
-                        delete[] workspaceNames[i];
+                        oldWorkspaceNames[i] = workspaceNames[i];
                         workspaceNames[i] = newstr(strings[i]);
                         changed = true;
                     }
@@ -2531,11 +2653,16 @@ bool YWindowManager::readDesktopNames() {
                 }
             }
             if (changed) {
-                updateTaskBar();
+                updateTaskBarNames();
                 updateMoveMenu();
-                setNetDesktopNames();
+                setNetDesktopNames(count);
             }
             XFreeStringList(strings);
+            // old strings must persist until after the update
+            for (int i = 0; i < MAXWORKSPACES; i++)
+                if (oldWorkspaceNames[i] != 0)
+                    delete[] oldWorkspaceNames[i];
+            delete[] oldWorkspaceNames;
         } else {
             MSG(("warning: could not convert strings for _WIN_WORKSPACE_NAMES"));
         }
@@ -2548,13 +2675,16 @@ bool YWindowManager::readDesktopNames() {
     return false;
 }
 
-void YWindowManager::setWinDesktopNames() {
+void YWindowManager::setWinDesktopNames(long count) {
     MSG(("setting: _WIN_WORKSPACE_NAMES"));
-    long count = workspaceCount();
     static char terminator[] = { '\0' };
     char **strings = new char *[count + 1];
-    for (long i = 0; i < count; i++)
-        strings[i] = workspaceNames[i];
+    for (long i = 0; i < count; i++) {
+        if (workspaceNames[i] != 0)
+            strings[i] = workspaceNames[i];
+        else
+            strings[i] = terminator;
+    }
     strings[count] = terminator;
     XTextProperty names;
     if (XStringListToTextProperty(strings, count + 1, &names)) {
@@ -2565,13 +2695,16 @@ void YWindowManager::setWinDesktopNames() {
     delete[] strings;
 }
 
-void YWindowManager::setNetDesktopNames() {
+void YWindowManager::setNetDesktopNames(long count) {
     MSG(("setting: _NET_DESKTOP_NAMES"));
-    long count = workspaceCount();
     static char terminator[] = { '\0' };
     char **strings = new char *[count + 1];
-    for (long i = 0; i < count; i++)
-        strings[i] = workspaceNames[i];
+    for (long i = 0; i < count; i++) {
+        if (workspaceNames[i] != 0)
+            strings[i] = workspaceNames[i];
+        else
+            strings[i] = terminator;
+    }
     strings[count] = terminator;
     XTextProperty names;
     if (XmbTextListToTextProperty(xapp->display(), strings,
@@ -2584,14 +2717,18 @@ void YWindowManager::setNetDesktopNames() {
     delete[] strings;
 }
 
-void YWindowManager::setDesktopNames() {
-    MSG(("setting: desktop names"));
+void YWindowManager::setDesktopNames(long count) {
+    MSG(("setting: %ld desktop names", count));
 #ifdef GNOME1_HINTS
-    setWinDesktopNames();
+    setWinDesktopNames(count);
 #endif
 #ifdef WMSPEC_HINTS
-    setNetDesktopNames();
+    setNetDesktopNames(count);
 #endif
+}
+
+void YWindowManager::setDesktopNames() {
+    setDesktopNames(workspaceCount());
 }
 
 void YWindowManager::setDesktopCount() {

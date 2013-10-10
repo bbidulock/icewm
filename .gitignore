@@ -6,6 +6,7 @@ config.status
 configure
 cscope.files
 cscope.out
+doc/icewm*.html
 lib/keys
 lib/menu
 lib/preferences

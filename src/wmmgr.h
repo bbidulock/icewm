@@ -153,17 +153,22 @@ public:
     long workspaceCount() const { return ::workspaceCount; }
     const char *workspaceName(long workspace) const { return ::workspaceNames[workspace]; }
 
+    void appendNewWorkspace();
+    void removeLastWorkspace();
+    void updateWorkspaces(bool increase);
+
     void setShowingDesktop();
     void setShowingDesktop(bool setting);
 
-    void updateTaskBar();
+    void updateTaskBarNames();
     void updateMoveMenu();
 
     bool readCurrentDesktop(long &workspace);
     void setDesktopGeometry();
     bool readDesktopNames();
-    void setWinDesktopNames();
-    void setNetDesktopNames();
+    void setWinDesktopNames(long count);
+    void setNetDesktopNames(long count);
+    void setDesktopNames(long count);
     void setDesktopNames();
     void setDesktopCount();
     void setDesktopViewport();
@@ -339,7 +344,7 @@ extern Atom _XA_NET_DESKTOP_NAMES;                  //*OK
 extern Atom _XA_NET_DESKTOP_VIEWPORT;               // OK (trivial)
 extern Atom _XA_NET_FRAME_EXTENTS;                  // OK
 extern Atom _XA_NET_MOVERESIZE_WINDOW;              //*OK
-extern Atom _XA_NET_NUMBER_OF_DESKTOPS;             //*OK - *implement change request
+extern Atom _XA_NET_NUMBER_OF_DESKTOPS;             //*OK
 extern Atom _XA_NET_PROPERTIES;                     // N/A (obsolete)
 extern Atom _XA_NET_REQUEST_FRAME_EXTENTS;          // TODO
 extern Atom _XA_NET_RESTACK_WINDOW;                 // OK

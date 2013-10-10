@@ -1125,7 +1125,7 @@ void YWindow::setGrabPointer(const YCursor& pointer) {
 
 void YWindow::grabKeyM(int keycode, unsigned int modifiers) {
     MSG(("grabKey %d %d %s", keycode, modifiers,
-         XKeysymToString(XKeycodeToKeysym(xapp->display(), (KeyCode)keycode, 0))));
+         XKeysymToString(XkbKeycodeToKeysym(xapp->display(), (KeyCode)keycode, 0, 0))));
 
     XGrabKey(xapp->display(), keycode, modifiers, handle(), False,
              GrabModeAsync, GrabModeAsync);

@@ -302,6 +302,7 @@ void die(int exitcode, char const *msg, ...) {
     vfprintf(stderr, msg, ap);
     va_end(ap);
     fputs("\n", stderr);
+    fflush(stderr);
 
     exit(exitcode);
 }
@@ -314,6 +315,7 @@ void precondition(char const *msg, ...) {
     vfprintf(stderr, msg, ap);
     va_end(ap);
     fputs("\n", stderr);
+    fflush(stderr);
 
     show_backtrace();
     *(char *)0 = 0x42;
@@ -329,6 +331,7 @@ void warn(char const *msg, ...) {
     va_end(ap);
 
     fputs("\n", stderr);
+    fflush(stderr);
 }
 
 void msg(char const *msg, ...) {
@@ -339,6 +342,7 @@ void msg(char const *msg, ...) {
     vfprintf(stderr, msg, ap);
     va_end(ap);
     fputs("\n", stderr);
+    fflush(stderr);
 }
 
 char *cstrJoin(char const *str, ...) {

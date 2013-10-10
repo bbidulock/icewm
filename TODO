@@ -1,9 +1,5 @@
 -- TODO for IceWM.  2013-10-05
 
-New to do items:
-
-* add support for _NET_WM_NUMBER_OF_DESKTOPS client message
-
 * add full support for _NET_WM_HANDLED_ICONS
 
 * set WM_CLIENT_MACHINE on check window
@@ -22,7 +18,6 @@ Old to do items:
 	lock focus to active window if possible
 	accept url/file DND on taskbar menu/icons (to launch program)
 	show disabled titlebar buttons
-	remember focused window when switching workspaces if needed
         make generic border code for all widgets
 	multi-column menus
         fix xsession annoyance somehow (has workaround in winoptions)
@@ -42,7 +37,6 @@ taskbar rewrite:
 	double/dynamic/vertical taskbar
 	modularize taskbar objects (toolbar,workspaces,appicons,applets)
 	taskbar keyboard navigation
-	dynamic configuration of workspaces
 done?
 	echo I$[$(/bin/echo 'internationalization\c' | wc -c)-2]N
 	windows dockable to edge of screen and other windows
