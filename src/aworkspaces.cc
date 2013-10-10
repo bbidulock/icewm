@@ -211,6 +211,12 @@ void WorkspacesPane::relabelButtons() {
                 wk->setImage(image);
             else
                 wk->setText(workspaceNames[w]);
+
+            char * wn(newstr(my_basename(workspaceNames[w])));
+            char * ext(strrchr(wn, '.'));
+            if (ext) *ext = '\0';
+
+            wk->setToolTip(ustring(_("Workspace: ")).append(wn));
         }
     }
 
