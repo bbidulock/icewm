@@ -735,8 +735,6 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
         case ICEWM_ACTION_RESTARTWM:
         case ICEWM_ACTION_WINDOWLIST:
         case ICEWM_ACTION_ABOUT:
-            break;
-        default:
             smActionListener->handleSMAction(message.data.l[1]);
             break;
         }
