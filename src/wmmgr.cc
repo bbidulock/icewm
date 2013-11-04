@@ -1,7 +1,7 @@
 /*
  * IceWM
  *
- * Copyright (C) 1997-2003 Marko Macek
+ * Copyright (C) 1997-2013 Marko Macek
  */
 #include "config.h"
 #include "yfull.h"
@@ -1416,8 +1416,9 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 #endif
         }
 
-        // temp workaround for flashblock problems
-        if (client->isEmbed()) {
+        // temp workaro/und for flashblock problems
+        // reverted, causes problems with Qt5
+        if (client->isEmbed() && 0) {
             warn("app trying to map XEmbed window 0x%X, ignoring", client->handle());
             delete client;
             goto end;
