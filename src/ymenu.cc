@@ -311,7 +311,7 @@ int YMenu::findHotItem(char k) {
 }
 
 bool YMenu::handleKey(const XKeyEvent &key) {
-    KeySym k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0);
+    KeySym k = keyCodeToKeySym(key.keycode);
     int m = KEY_MODMASK(key.state);
 
     if (key.type == KeyPress) {

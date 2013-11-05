@@ -302,7 +302,7 @@ void YListBox::configure(const YRect &r) {
 
 bool YListBox::handleKey(const XKeyEvent &key) {
     if (key.type == KeyPress) {
-        KeySym k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0);
+        KeySym k = keyCodeToKeySym(key.keycode);
         int m = KEY_MODMASK(key.state);
 
         bool clear = (m & ControlMask) ? false : true;
