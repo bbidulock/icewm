@@ -16,7 +16,7 @@ public:
         fPixbuf = pixbuf;
     }
     virtual ~YImageGDK() {
-        gdk_pixbuf_unref(fPixbuf);
+        g_object_unref(fPixbuf);
     }
     virtual ref<YPixmap> renderToPixmap();
     virtual ref<YImage> scale(int width, int height);
@@ -255,12 +255,11 @@ void YImageGDK::composite(Graphics &g, int x, int y, int w, int h, int dx, int d
                                              0, 0, dx - g.xorigin(), dy - g.yorigin(), w, h,
 //                                             GDK_PIXBUF_ALPHA_BILEVEL, 128,
                                              XLIB_RGB_DITHER_NONE, 0, 0);
-    gdk_pixbuf_unref(pixbuf);
+    g_object_unref(pixbuf);
 }
 
 
 void image_init() {
-    g_type_init();
     xlib_rgb_init(xapp->display(), ScreenOfDisplay(xapp->display(), xapp->screen()));
     gdk_pixbuf_xlib_init(xapp->display(), xapp->screen());
 }
