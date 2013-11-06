@@ -3412,7 +3412,11 @@ void YFrameWindow::handleMsgBox(YMsgBox *msgbox, int operation) {
 #ifdef WMSPEC_HINTS
 void YFrameWindow::updateNetWMStrut() {
     int l, r, t, b;
-    client()->getNetWMStrut(&l, &r, &t, &b);
+    
+    if (!client()->getNetWMStrutPartial(&l, &r, &t, &b))   
+      if (!client()->getNetWMStrut(&l, &r, &t, &b))
+        return;
+	
     if (l != fStrutLeft ||
         r != fStrutRight ||
         t != fStrutTop ||

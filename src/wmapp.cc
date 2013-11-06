@@ -187,6 +187,7 @@ static void registerProtocols2(Window xid) {
         _XA_NET_ACTIVE_WINDOW,
         _XA_NET_CLOSE_WINDOW,
         _XA_NET_WM_STRUT,
+        _XA_NET_WM_STRUT_PARTIAL,
         _XA_NET_WORKAREA,
         _XA_NET_WM_STATE,
         _XA_NET_WM_STATE_MAXIMIZED_VERT,

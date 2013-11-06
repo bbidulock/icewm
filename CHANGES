@@ -5,6 +5,7 @@ stable:
 	- fix focus issues with JDK7
 	- compile fix with deprecated
 	- Qt5 compatibility
+	- partial support for _NET_WM_STRUT_PARTIAL
 
 1.3.7: 2010-10-31
 	- fix crash with "Cascade"

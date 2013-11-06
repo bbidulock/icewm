@@ -145,6 +145,7 @@ public:
     bool getNetWMStateHint(long *mask, long *state);
     bool getNetWMDesktopHint(long *workspace);
     bool getNetWMStrut(int *left, int *right, int *top, int *bottom);
+    bool getNetWMStrutPartial(int *left, int *right, int *top, int *bottom);
     bool getNetWMWindowType(Atom *window_type);
 #endif
 
@@ -224,6 +225,7 @@ private:
 #ifdef WMSPEC_HINTS
         bool net_wm_icon : 1;
         bool net_wm_strut : 1;
+        bool net_wm_strut_partial : 1;
         bool net_wm_desktop : 1; // no property notify
         bool net_wm_state : 1; // no property notify
         bool net_wm_window_type : 1;
