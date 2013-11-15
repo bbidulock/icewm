@@ -101,7 +101,7 @@ char *configArg(NULL);
 ref<YIcon> defaultAppIcon;
 bool replace_wm = false;
 
-static Window registerProtocols1() {
+static Window registerProtocols1(char **argv, int argc) {
     long timestamp = CurrentTime;
     char buf[32];
     sprintf(buf, "WM_S%d", DefaultScreen(xapp->display()));
@@ -141,6 +141,30 @@ static Window registerProtocols1() {
         } while (event.type != DestroyNotify);
         msg("done.");
     }
+
+    char hostname[64] = { 0, };
+    gethostname(hostname, 64);
+
+    XTextProperty hname = {
+        .value = (unsigned char *) hostname,
+        .encoding = XA_STRING,
+        .format = 8,
+        .nitems = strnlen(hostname, 64)
+    };
+
+    static char wm_class[] = "IceWM";
+    static char wm_instance[] = "icewm";
+
+    XClassHint class_hint = {
+        .res_name = (argv == NULL) ? wm_instance : NULL,
+        .res_class = wm_class
+    };
+
+    static char wm_name[] = "IceWM "VERSION" ("HOSTOS"/"HOSTCPU")";
+
+    Xutf8SetWMProperties(xapp->display(), xid, wm_name, NULL,
+            argv, argc, NULL, NULL, &class_hint);
+    XSetWMClientMachine(xapp->display(), xid, &hname);
 
     XClientMessageEvent ev;
 
@@ -1029,7 +1053,7 @@ void YWMApp::restartClient(const char *path, char *const *args) {
     runRestart(path, args);
 
     /* somehow exec failed, try to recover */
-    managerWindow = registerProtocols1();
+    managerWindow = registerProtocols1(NULL, 0);
     registerProtocols2(managerWindow);
     manager->manageClients();
 }
@@ -1300,7 +1324,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 
     delete desktop;
 
-    managerWindow = registerProtocols1();
+    managerWindow = registerProtocols1(*argv, *argc);
     
     desktop = manager = fWindowManager = new YWindowManager(
         this, this, this, 0, RootWindow(display(), DefaultScreen(display())));
