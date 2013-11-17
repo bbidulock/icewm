@@ -1052,19 +1052,10 @@ static void *GetFullWindowProperty(Display *display, Window handle, Atom propAto
         while (XGetWindowProperty(display, handle,
                                propAtom, (itemCount * itemSize) / 32, 1024*32, False, AnyPropertyType,
                                &r_type, &r_format, &nitems, &bytes_remain,
-                               &prop) == Success && prop && bytes_remain == 0)
+                               &prop) == Success && prop)
         {
             if (r_format == itemSize1 && nitems > 0) {
                 data = realloc(data, (itemCount + nitems) * itemSize / 8);
-
-                // access to memory beyound 256MiB causes crashes! But anyhow, size
-                // >>2MiB looks suspicious. Detect this case ASAP. However, if
-                // the usable icon is somewhere in the beginning, it's okay to
-                // return truncated data.
-                if (itemCount * itemSize / 8 >= 2097152) {
-                     XFree(prop);
-                     break;
-                }
 
                 memcpy((char *)data + itemCount * itemSize / 8, prop, nitems * itemSize / 8);
                 itemCount += nitems;
