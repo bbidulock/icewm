@@ -59,6 +59,7 @@ YClock::YClock(YSMListener *smActionListener, YWindow *aParent): YWindow(aParent
     transparent = -1;
 
     clockTimer = new YTimer(1000);
+    clockTimer->setFixed();
     clockTimer->setTimerListener(this);
     clockTimer->startTimer();
     autoSize();

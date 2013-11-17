@@ -420,6 +420,7 @@ The following settings can be set to value 1 (enabled) or value 0 (disabled).
 
 <sect1>Timings<p>
 <descrip>
+<tag/DelayFuzziness = 10/ Percentage of delay/timeout fuzziness to allow for merging of timer timeouts
 <tag/ClickMotionDistance = 5/ Movement before click is interpreted as drag.
 <tag/MultiClickTime = 400/ Time (ms) to recognize for double click.
 <tag/AutoRaiseDelay = 400/ Time to auto raise (must enable first with AutoRaise)

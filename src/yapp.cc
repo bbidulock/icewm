@@ -121,10 +121,78 @@ void YApplication::unregisterTimer(YTimer *t) {
     t->fPrev = t->fNext = 0;
 }
 
-void YApplication::getTimeout(struct timeval *timeout) {
-    YTimer *t;
-    struct timeval curtime;
+void YApplication::nextTimeout(struct timeval *timeout) {
     bool fFirst = true;
+    const YTimer *t;
+
+    t = fFirstTimer;
+
+    while (t) {
+        if (t->isRunning() && (fFirst || timercmp(timeout, &t->timeout, >))) {
+            *timeout = t->timeout;
+            fFirst = false;
+        }
+        t = t->fNext;
+    }
+}
+
+void YApplication::nextTimeoutWithFuzziness(struct timeval *timeout) {
+    const YTimer *t;
+    struct timeval timeout_min, timeout_fuzzy, timeout_fixed, timeout_max;
+    bool fFixedExists = false, fFuzzyExists = false; // are there any timers with strict/fuzzy timeout?
+
+    timeout_min = timeout_fuzzy = timeout_fixed = timeout_max = *timeout;
+
+    t = fFirstTimer;
+
+    while (t) {
+        if (t->isRunning()) {
+	    if (!t->isFixed()) {
+	        if (fFuzzyExists) {
+		    if (timercmp(&t->timeout, &timeout_fuzzy, <)) {
+			// this fuzzy timer is earlier than previous one, update
+			if (timercmp(&t->timeout, &timeout_min, <))
+			    timeout_min = t->timeout; // don't use new min value, to avoid moving out of area of later timers and thus not catching them with the calculated result timeout
+			timeout_fuzzy = t->timeout; // update desired timeout spot
+			if (timercmp(&t->timeout_max, &timeout_max, <))
+			    timeout_max = t->timeout_max;
+		    }
+		} else {
+		    // encountered first fuzzy timer, register everything
+		    timeout_min = t->timeout_min;
+		    timeout_fuzzy = t->timeout;
+		    timeout_max = t->timeout_max;
+		    fFuzzyExists = true;
+		}
+	    } else {
+		// update if no fixed timer yet or current is earlier than previously registered one
+		if ((!fFixedExists) || timercmp(&t->timeout, &timeout_fixed, <)) {
+		    timeout_fixed = t->timeout;
+		    fFixedExists = true;
+		}
+	    }
+        }
+        t = t->fNext;
+    }
+    // ok, now that we walked over all timers and calculated border values,
+    // let's figure out which timeout actually to choose
+    if (fFixedExists) {
+        *timeout = timeout_fixed;
+	if (fFuzzyExists) {
+	    if (timercmp(&timeout_max, &timeout_fixed, <))
+	        // ok, the maximum timeout of our fuzzy timer(s) is less
+		// than the first fixed timer's accurate timeout
+		// --> we need to give up the fixed timer in this round
+	        *timeout = timeout_max;
+	}
+    } else {
+        // we choose the max timeout to try to catch as many fuzzy timers as possible
+        *timeout = timeout_max;
+    }
+}
+
+void YApplication::getTimeout(struct timeval *timeout) {
+    struct timeval curtime;
 
     if (fFirstTimer == 0)
         return;
@@ -137,14 +205,11 @@ void YApplication::getTimeout(struct timeval *timeout) {
         timeout->tv_sec++;
     }
 
-    t = fFirstTimer;
-    while (t) {
-        if (t->isRunning() && (fFirst || timercmp(timeout, &t->timeout, >))) {
-            *timeout = t->timeout;
-            fFirst = false;
-        }
-        t = t->fNext;
-    }
+    if (DelayFuzziness > 0)
+        nextTimeoutWithFuzziness(timeout);
+    else
+        nextTimeout(timeout);
+
     if ((curtime.tv_sec == timeout->tv_sec &&
          curtime.tv_usec == timeout->tv_usec)
         || timercmp(&curtime, timeout, >))
@@ -171,7 +236,7 @@ void YApplication::handleTimeouts() {
     t = fFirstTimer;
     while (t) {
         n = t->fNext;
-        if (t->isRunning() && timercmp(&curtime, &t->timeout, >)) {
+        if (t->isRunning() && timercmp(&curtime, &t->timeout_min, >)) {
             YTimerListener *l = t->getTimerListener();
             t->stopTimer();
             if (l && l->handleTimer(t))

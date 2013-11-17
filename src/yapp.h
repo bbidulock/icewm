@@ -99,6 +99,8 @@ protected:
 
     virtual void registerTimer(YTimer *t);
     virtual void unregisterTimer(YTimer *t);
+    void nextTimeout(struct timeval *timeout);
+    void nextTimeoutWithFuzziness(struct timeval *timeout);
     virtual void registerPoll(YPollBase *t);
     virtual void unregisterPoll(YPollBase *t);
 
