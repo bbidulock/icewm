@@ -355,11 +355,10 @@ int main(int argc, char **argv) {
             char *path = 0;
             if (IS_SWITCH("h", "help"))
                 break;
-            if ((path = GET_LONG_ARGUMENT("open")) != NULL) {
+            if (GetLongArgument(path, "open", arg, argv+argc))
                 return runFile(path);
-            } else if ((path = GET_LONG_ARGUMENT("list")) != NULL) {
+            else if (GetLongArgument(path, "list", arg, argv+argc))
                 return makeMenu(path);
-            }
         }
     }
     msg("Usage: %s [ --open PATH | --list PATH ]", argv[0]);

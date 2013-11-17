@@ -1611,13 +1611,18 @@ int main(int argc, char **argv) {
 #endif
 #ifndef NO_CONFIGURE
             char *value;
-
-            if ((value = GET_LONG_ARGUMENT("config")) != NULL ||
-                (value = GET_SHORT_ARGUMENT("c")) != NULL)
+            if(GetLongArgument(value, "config", arg, argv+argc)
+            		|| GetShortArgument(value, "c", arg, argv+argc))
+            {
                 configArg = newstr(configFile = newstr(value));
-            else if ((value = GET_LONG_ARGUMENT("theme")) != NULL ||
-                     (value = GET_SHORT_ARGUMENT("t")) != NULL)
+                continue;
+            }
+            else if ( GetLongArgument(value, "theme", arg, argv+argc) ||
+            		GetLongArgument(value, "t", arg, argv+argc))
+            {
                 overrideTheme = value;
+                continue;
+            }
             else if (IS_LONG_SWITCH("restart"))
                 restart = true;
             else if (IS_LONG_SWITCH("replace"))
