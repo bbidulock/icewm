@@ -4,6 +4,8 @@
 # Please run 'configure' first (generate it with autogen.sh)
 ################################################################################
 
+SHELL=/bin/bash
+
 srcdir     = @srcdir@
 top_srcdir = @top_srcdir@
 
@@ -46,21 +48,22 @@ all:		@TARGETS@
 install:	@TARGETS_INSTALL@
 
 base icesound icehelp:
-	@cd src; $(MAKE) $@
+	@cd src && $(MAKE) $@
 
 docs:
-	@cd doc; $(MAKE) all
+	@cd doc && $(MAKE) all
 
 nls:
-	@cd po; $(MAKE) all
+	@cd po && $(MAKE) all
 
 srcclean:
-	@cd src; $(MAKE) clean
+	@cd src && $(MAKE) clean
 
 clean:  srcclean
-	@cd doc; $(MAKE) clean
+	@cd doc && $(MAKE) clean
 
-distclean: clean
+distclean:
+	@-$(MAKE) clean
 	rm -f *~ config.cache config.log config.status install.inc \
 	sysdep.inc src/config.h \
 	lib/preferences \
@@ -68,10 +71,10 @@ distclean: clean
 
 maintainer-clean: distclean
 	rm -f icewm.spec icewm.lsm Makefile configure src/config.h.in
-	@cd doc; $(MAKE) maintainer-clean
+	@cd doc && $(MAKE) maintainer-clean
 
 check:
-	@cd src ; $(MAKE) check >/dev/null
+	@cd src && $(MAKE) check >/dev/null
 
 dist:	distclean docs configure
 
@@ -126,7 +129,7 @@ install-docs: docs
 
 install-nls: nls
 	@echo ------------------------------------------
-	@cd po; $(MAKE) install
+	@cd po && $(MAKE) install
 	@echo ------------------------------------------
 
 install-man:
