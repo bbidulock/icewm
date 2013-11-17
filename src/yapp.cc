@@ -273,7 +273,7 @@ int YApplication::mainLoop() {
         }
 #endif
 
-        {
+        if (measure_latency) {
             struct timeval difftime;
             struct timeval curtime;
             gettimeofday(&curtime, 0);
