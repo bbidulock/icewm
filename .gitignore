@@ -31,3 +31,5 @@ src/icewmtray
 src/Makefile
 *.swo
 *.swp
+icewm.lsm
+icewm.spec
