@@ -179,7 +179,7 @@ Other specifications:
 
 Startup Notification:
 
-_NET_STARTUP_ID:			NOT supported
+_NET_STARTUP_ID:			supported
 _NET_STARTUP_INFO:			NOT supported
 _NET_STARTUP_INFO_BEGIN:		NOT supported
 
