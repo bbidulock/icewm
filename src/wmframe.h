@@ -433,6 +433,7 @@ public:
 #ifdef WMSPEC_HINTS
     void updateNetWMStrut();
     void updateNetWMStrutPartial();
+    void updateNetStartupId();
     void updateNetWMUserTime();
     void updateNetWMUserTimeWindow();
     void updateNetWMFullscreenMonitors(int, int, int, int);

@@ -477,6 +477,7 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
 #ifdef WMSPEC_HINTS
     updateNetWMStrut(); /// ? here
     updateNetWMStrutPartial();
+    updateNetStartupId();
     updateNetWMUserTime();
     updateNetWMUserTimeWindow();
 #endif
@@ -3668,6 +3669,16 @@ void YFrameWindow::updateNetWMStrutPartial() {
         fStrutBottom = b;
         MSG(("strut: %d %d %d %d", l, r, t, b));
         manager->updateWorkArea();
+    }
+}
+
+void YFrameWindow::updateNetStartupId() {
+    unsigned long time = -1UL;
+    client()->getNetStartupId(time);
+    if (time != fUserTime) {
+        fUserTime = time;
+        if (time != 0 && time != -1UL)
+            manager->updateUserTime(time);
     }
 }
 

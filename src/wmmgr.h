@@ -349,7 +349,7 @@ extern Atom _XA_NET_PROPERTIES;                     // N/A (obsolete)
 extern Atom _XA_NET_REQUEST_FRAME_EXTENTS;          // TODO
 extern Atom _XA_NET_RESTACK_WINDOW;                 // OK
 extern Atom _XA_NET_SHOWING_DESKTOP;                // OK
-extern Atom _XA_NET_STARTUP_ID;                     // TODO
+extern Atom _XA_NET_STARTUP_ID;                     // OK
 extern Atom _XA_NET_STARTUP_INFO;                   // TODO
 extern Atom _XA_NET_STARTUP_INFO_BEGIN;             // TODO
 extern Atom _XA_NET_SUPPORTED;                      // OK

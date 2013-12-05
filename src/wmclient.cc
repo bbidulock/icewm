@@ -1834,6 +1834,26 @@ bool YFrameClient::getNetWMStrutPartial(int *left, int *right, int *top, int *bo
     return false;
 }
 
+bool YFrameClient::getNetStartupId(unsigned long &time) {
+    if (!prop.net_startup_id)
+        return false;
+
+    XTextProperty id;
+    if (XGetTextProperty(xapp->display(), handle(), &id,
+                _XA_NET_STARTUP_ID))
+    {
+        if (strstr((char *)id.value, "_TIME") != NULL) {
+            time = atol(strstr((char *)id.value, "_TIME") + 5);
+            if (time == -1UL)
+                time = -2UL;
+            XFree(id.value);
+            return true;
+        }
+        XFree(id.value);
+    }
+    return false;
+}
+
 bool YFrameClient::getNetWMUserTime(Window window, unsigned long &time) {
 
     time = -1UL;
@@ -2055,6 +2075,7 @@ void YFrameClient::getPropertiesList() {
             else if (a == _XA_NET_WM_DESKTOP) HAS(prop.net_wm_desktop);
             else if (a == _XA_NET_WM_STATE) HAS(prop.net_wm_state);
             else if (a == _XA_NET_WM_WINDOW_TYPE) HAS(prop.net_wm_window_type);
+            else if (a == _XA_NET_STARTUP_ID) HAS(prop.net_startup_id);
             else if (a == _XA_NET_WM_USER_TIME) HAS(prop.net_wm_user_time);
             else if (a == _XA_NET_WM_USER_TIME_WINDOW) HAS(prop.net_wm_user_time_window);
 #endif

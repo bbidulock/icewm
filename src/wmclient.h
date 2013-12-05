@@ -150,6 +150,7 @@ public:
     bool getNetWMStrutPartial(int *left, int *right, int *top, int *bottom,
             int *left_start_y=0, int *left_end_y=0, int *right_start_y=0, int *right_end_y=0,
             int *top_start_x=0, int *top_end_x=0, int *bottom_start_x=0, int *bottom_end_x=0);
+    bool getNetStartupId(unsigned long &time);
     bool getNetWMUserTime(Window window, unsigned long &time);
     bool getNetWMUserTimeWindow(Window &window);
     bool getNetWMWindowType(Atom *window_type);
@@ -239,6 +240,7 @@ private:
         bool net_wm_desktop : 1; // no property notify
         bool net_wm_state : 1; // no property notify
         bool net_wm_window_type : 1;
+        bool net_startup_id : 1; // no property notify
         bool net_wm_user_time : 1;
         bool net_wm_user_time_window : 1;
 #endif
