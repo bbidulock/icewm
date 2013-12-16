@@ -27,6 +27,8 @@
  *              GNUified usage message, prepared for NLS, minor cleanups,
  *              made arguments case sensitive, converted into a C++
  *              application
+ * 2005-11-30:  Christian W. Zuckschwerdt  <zany@triq.net>
+ *              Added ALSA interface support
  *
  * TODO: a virtual YAudioInterface class the OSS, ESD and YIFF implement
  *
@@ -35,6 +37,7 @@
  *
  * Sound output interface types and notes:
  *
+ *      ALSA    Advanced Linux Sound Architecture (needs libsndfile)
  *      OSS     Open Sound Source (generic)
  *      Y       Y sound systems
  *      ESounD  Enlightenment Sound Daemon (uses caching and *throttling)
@@ -85,6 +88,7 @@
 
 char const * ApplicationName = "icesound";
 
+#define ALSA_DEFAULT_DEVICE "default"
 #define OSS_DEFAULT_DEVICE "/dev/dsp"
 #define YIFF_DEFAULT_SERVER "127.0.0.1:9433"
 
@@ -178,6 +182,179 @@ char * YAudioInterface::findSample(char const * basefname) {
 
     return NULL;
 }
+
+/******************************************************************************
+ * ALSA audio interface
+ ******************************************************************************/
+
+#ifdef ENABLE_ALSA
+
+#include <alsa/asoundlib.h>
+#include <sndfile.h>
+
+class YALSAAudio : public YAudioInterface {
+public:
+    YALSAAudio(): device(ALSA_DEFAULT_DEVICE) {}
+
+    virtual void play(int sound);
+    virtual int init(int & argc, char **& argv);
+
+private:
+    friend class CommandLine;
+    class CommandLine : public YCommandLine {
+    public:
+        CommandLine(int & argc, char **& argv, YALSAAudio & alsa):
+            YCommandLine(argc, argv), alsa(alsa) {}
+
+            virtual char getArgument(char const * const & arg, char const *& val) {
+                char const * larg(arg[1] == '-' ? arg + 2 : arg + 1);
+
+                if (!strpcmp(larg, "device")) {
+                    val = getValue(arg, strchr(arg, '='));
+                    return 'D';
+                }
+
+                if (strchr("D", arg[1])) {
+                    val = getValue(arg, arg[2] ? arg + 2 : NULL);
+                    return arg[1];
+                }
+
+                return '\0';
+            }
+
+            virtual int setOption(char const * arg, char opt, char const * val) {
+                switch(opt) {
+                case 'D': // ======================================== device ===
+                    alsa.device = val;
+                    return 0;
+
+                default:
+                    return YCommandLine::setOption(arg, opt, val);
+                }
+            }
+
+    protected:
+        YALSAAudio & alsa;
+    };
+
+    friend class CommandLine;
+    char const * device;
+};
+
+/**
+ * Play a sound sample directly to the digital signal processor.
+ */
+void YALSAAudio::play(int sound) {
+    if (device == NULL) return;
+
+    for(unsigned i(0); i < ACOUNT(gui_events); i++)
+        if(gui_events[i].type == sound) {
+            char * samplefile(findSample(i));
+
+#ifndef DEBUG
+            if (IceSound::verbose)
+#endif
+                msg(_("Playing sample #%d (%s)"), sound, samplefile);
+
+            if (!samplefile) {
+                return;
+	    }
+
+	    int err;
+            snd_pcm_t *playback_handle;
+            snd_pcm_hw_params_t *hw_params;
+            
+            SF_INFO sfinfo;
+            SNDFILE* sf = sf_open(samplefile, SFM_READ, &sfinfo);
+            if(sf == NULL) {
+                warn("%s: %s", samplefile, sf_strerror(sf));
+                return;
+            }
+         
+            if ((err = snd_pcm_open (&playback_handle, device, SND_PCM_STREAM_PLAYBACK, 0)) < 0) {
+                    warn ("cannot open audio device %s (%s)\n",
+                             device,
+                             snd_strerror (err));
+                    return;
+            }
+         
+            if ((err = snd_pcm_hw_params_malloc (&hw_params)) < 0) {
+                    warn ("cannot allocate hardware parameter structure (%s)\n",
+                             snd_strerror (err));
+                    return;
+            }
+         
+            if ((err = snd_pcm_hw_params_any (playback_handle, hw_params)) < 0) {
+                    warn ("cannot initialize hardware parameter structure (%s)\n",
+                             snd_strerror (err));
+                    return;
+            }
+         
+            if ((err = snd_pcm_hw_params_set_access (playback_handle, hw_params, SND_PCM_ACCESS_RW_INTERLEAVED)) < 0) {
+                    warn ("cannot set access type (%s)\n",
+                             snd_strerror (err));
+                    return;
+            }
+         
+            if ((err = snd_pcm_hw_params_set_format (playback_handle, hw_params, SND_PCM_FORMAT_S16_LE)) < 0) {
+                    warn ("cannot set sample format (%s)\n",
+                             snd_strerror (err));
+                    return;
+            }
+         
+            if ((err = snd_pcm_hw_params_set_rate_near (playback_handle, hw_params, (unsigned int *)&sfinfo.samplerate, 0)) < 0) {
+                    warn ("cannot set sample rate (%s)\n",
+                             snd_strerror (err));
+                    return;
+            }
+         
+            if ((err = snd_pcm_hw_params_set_channels (playback_handle, hw_params, sfinfo.channels)) < 0) {
+                    warn ("cannot set channel count (%s)\n",
+                             snd_strerror (err));
+                    return;
+            }
+         
+            if ((err = snd_pcm_hw_params (playback_handle, hw_params)) < 0) {
+                    warn ("cannot set parameters (%s)\n",
+                             snd_strerror (err));
+                    return;
+            }
+         
+            snd_pcm_hw_params_free (hw_params);
+         
+            if ((err = snd_pcm_prepare (playback_handle)) < 0) {
+                    warn ("cannot prepare audio interface for use (%s)\n",
+                             snd_strerror (err));
+                    return;
+            }
+         
+            short sbuf[512]; // period_size * channels * snd_pcm_format_width(format)) / 8
+            for (int n; (n = sf_readf_short (sf, sbuf, 256)) > 0; ) {
+                if ((err = snd_pcm_writei (playback_handle, sbuf, n) != n)) {
+                    warn ("write to audio interface failed (%s) %d\n",
+                             snd_strerror (err), sizeof(short));
+                    return;
+                }
+            }
+            sf_close(sf);
+         
+            snd_pcm_close (playback_handle);
+		
+            delete[] samplefile;
+        }
+}
+
+int YALSAAudio::init(int & argc, char **& argv) {
+    int rc(0);
+
+    TRY(CommandLine(argc, argv, *this).parse())
+
+    // check the device parameter perhaps?
+
+    CATCH(/**/)
+}
+
+#endif /* ENABLE_ALSA */
 
 /******************************************************************************
  * General (OSS) audio interface
@@ -798,40 +975,40 @@ YAudioInterface * IceSound::audio(NULL);
  */
 void IceSound::printUsage() {
     printf(_("\
-             Usage: %s [OPTION]...\n\
-             \n\
-             Plays audio files on GUI events raised by IceWM.\n\
-             \n\
-             Options:\n\
-             \n\
-             -d, --display=DISPLAY         Display used by IceWM (default: $DISPLAY).\n\
-             -s, --sample-dir=DIR          Specifies the directory which contains\n\
-             the sound files (ie ~/.icewm/sounds).\n\
-             -i, --interface=TARGET        Specifies the sound output target\n\
-             interface, one of OSS, YIFF, ESD\n\
-             -D, --device=DEVICE           (OSS only) specifies the digital signal\n\
-             processor (default /dev/dsp).\n\
-             -S, --server=ADDR:PORT     (ESD and YIFF) specifies server address and\n\
-             port number (default localhost:16001 for ESD\n\
-             and localhost:9433 for YIFF).\n\
-             -m, --audio-mode[=MODE]       (YIFF only) specifies the Audio mode (leave\n\
-             blank to get a list).\n\
-             --audio-mode-auto          (YIFF only) change Audio mode on the fly to\n\
-             best match sample's Audio (can cause\n\
-             problems with other Y clients, overrides\n\
-             --audio-mode).\n\
-             \n\
-             -v, --verbose                 Be verbose (prints out each sound event to\n\
-             stdout).\n\
-             -V, --version                 Prints version information and exits.\n\
-             -h, --help                    Prints (this) help screen and exits.\n\
-             \n\
-             Return values:\n\
-             \n\
-             0     Success.\n\
-             1     General error.\n\
-             2     Command line error.\n\
-             3     Subsystems error (ie cannot connect to server).\n\n"),
+Usage: %s [OPTION]...\n\
+\n\
+Plays audio files on GUI events raised by IceWM.\n\
+\n\
+Options:\n\
+\n\
+-d, --display=DISPLAY         Display used by IceWM (default: $DISPLAY).\n\
+-s, --sample-dir=DIR          Specifies the directory which contains\n\
+                              the sound files (ie ~/.icewm/sounds).\n\
+-i, --interface=TARGET        Specifies the sound output target\n\
+                              interface, one of ALSA, OSS, YIFF, ESD\n\
+-D, --device=DEVICE           (ALSA & OSS only) specifies the device to use\n\
+                              (OSS default: /dev/dsp; ALSA: default).\n\
+-S, --server=ADDR:PORT        (ESD and YIFF) specifies server address and\n\
+                              port number (default localhost:16001 for ESD\n\
+                              and localhost:9433 for YIFF).\n\
+-m, --audio-mode[=MODE]       (YIFF only) specifies the Audio mode (leave\n\
+                              blank to get a list).\n\
+--audio-mode-auto             (YIFF only) change Audio mode on the fly to\n\
+                              best match sample's Audio (can cause\n\
+                              problems with other Y clients, overrides\n\
+--audio-mode).\n\
+\n\
+-v, --verbose                 Be verbose (prints out each sound event to\n\
+                              stdout).\n\
+-V, --version                 Prints version information and exits.\n\
+-h, --help                    Prints (this) help screen and exits.\n\
+\n\
+Return values:\n\
+\n\
+0     Success.\n\
+1     General error.\n\
+2     Command line error.\n\
+3     Subsystems error (ie cannot connect to server).\n\n"),
            ApplicationName);
 
     return;
@@ -1000,6 +1177,15 @@ int IceSound::setOption(char const * /*arg*/, char opt, char const * val) {
                  strcmp(val, "oss"))) {
                 delete audio;
                 audio = new YOSSAudio();
+	    } else if(!(strcmp(val, "ALSA") &&
+                 strcmp(val, "alsa"))) {
+#ifdef ENABLE_ALSA
+                delete audio;
+                audio = new YALSAAudio();
+#else
+               warn(_("Support for the %s interface not compiled."), val);
+               return 2;
+#endif
             } else if(!(strcmp(val, "ESD") &&
                         strcmp(val, "esd") &&
                         strcmp(val, "ESOUND") &&
