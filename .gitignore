@@ -61,6 +61,7 @@ src/config.h.in
 src/genpref
 src/icehelp
 src/icesh
+src/icesound
 src/icewm
 src/icewmbg
 src/icewmhint
