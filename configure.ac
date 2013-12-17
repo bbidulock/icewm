@@ -1,32 +1,29 @@
-dnl ================================================= IceWM configure script ===
-dnl
-dnl Process this file with autoconf to produce a configure script.
-dnl
+#
+dnl Process this file with autoconf to produce a configure script
+#
+#================================================= IceWM configure script =====
 
-dnl ========================================================= Initialization ===
-dnl --------------------------------------------------------- Setup autoconf ---
-dnl
+
+#========================================================= Initialization =====
+# Setup autoconf
 AC_INIT(configure.ac)
 AC_PREREQ([2.50])
 AC_CONFIG_HEADER(src/config.h)
 AC_CANONICAL_TARGET
 
-dnl --------------------------------------------------- Some basic variables ---
-dnl
+# Some basic variables
 TARGETS=base
 APPLICATIONS='icewm icewm-session icesh icewmhint icewmbg icewmtray'
 TESTCASES=`echo src/test*.cc | sed 's%src/\([[^ ]]*\)\.cc%\1%g'`
-TESTCASES="$TESTCASES iceview icesame iceicon icerun icelist icebar" # iceclock 
+TESTCASES="$TESTCASES iceview icesame iceicon icerun icelist icebar" # iceclock
 features=''
 
-dnl ---------- Checking for a C compiler in hope that it understands C++ too ---
-dnl
+# Checks for a C compiler in hope that it understands C++ too
 AC_LANG_CPLUSPLUS
 AC_PROG_CXX
 
-dnl ----------- If both CC and CXX are GNU compilers, it is better to use CC ---
-dnl ---- for linking. 
-dnl Unfortunately this has problems with newer g++/gcc/... :(
+dnl If both CC and CXX are GNU compilers, it is better to use CC for linking.
+dnl Unfortunately this has problems with newer g++/gcc/...
 dnl if test x"$ac_cv_prog_gxx" != x; then
 dnl    AC_PROG_CC
 dnl    if test x"$ac_cv_prog_gcc" != x; then
@@ -36,16 +33,17 @@ dnl          [ Define if you need an implementation of the allocation operators.
 dnl    fi
 dnl fi
 
-dnl ---------- Also check how to turn off RTTI and exception handling ---
 
-dnl --- SunONE C++ supports no-rtti flag only in compat=4 mode
+# Check how to turn off RTTI and exception handling
+
+# SunONE C++ supports no-rtti flag only in compat=4 mode
 if test -z "`${CXX} -V 2>&1 | grep Sun`"; then
   ICE_CXX_FLAG_ACCEPT(no_rtti, -fno-rtti)
 fi
-dnl --- Intel C++ supports -fno-rtti, but doens't support -fno-*-exceptions
+# Intel C++ supports -fno-rtti, but doens't support -fno-*-exceptions
 if test $(basename $CXX) != "icc"; then
   if test -n "`${CXX} -V 2>&1 | grep Sun`"; then
-    dnl --- Sun ONE C++ syntax for "no exceptions"
+    # Sun ONE C++ syntax for "no exceptions"
     ICE_CXX_FLAG_ACCEPT(no_exceptions, -features=no%except)
   else
     if test $(basename $CXX) = "g++" ||
@@ -61,12 +59,11 @@ fi
 if test $(basename $CXX) = "g++" ||
    test $(basename $CXX) = "gcc" ; then
   ICE_CXX_FLAG_ACCEPT(warn_xxx, -Wall -Wpointer-arith -Wwrite-strings -Woverloaded-virtual -W)
-  ICE_CXX_FLAG_ACCEPT(permissive, -fpermissive)  
+  ICE_CXX_FLAG_ACCEPT(permissive, -fpermissive)
 else
-  dnl --- Sun ONE doesn't support GCC -W* and -fpermissive
-  dnl --- Intel C++ doesn't supports lots of GCC -W* and -fpermissive
+  # Sun ONE and Intel C++ don't support GCC -W* and -fpermissive
   if test $(basename $CXX) = "icc"; then
-    dnl --- Using -w0 to avoid noisy "remark" messages 
+    # Using -w0 to avoid noisy "remark" messages
     ICE_CXX_FLAG_ACCEPT(warn_xxx, -w0)
   fi
 fi
@@ -101,9 +98,8 @@ AC_SUBST(HOSTCXX_LINK)
 
 AC_PROG_INSTALL
 
-dnl ================================ Checks for things which don't require X ===
-dnl ------------------------------------------------ Checks for header files ---
-dnl
+#================================ Checks for things which don't require X =====
+#Check for header files
 AC_HEADER_DIRENT
 AC_HEADER_SYS_WAIT
 AC_CHECK_HEADERS(fcntl.h limits.h strings.h sys/ioctl.h sys/time.h unistd.h)
@@ -124,7 +120,7 @@ AC_CHECK_HEADERS(kstat.h,
         AC_DEFINE(HAVE_OLD_KSTAT, 1,
 	  [define if have old kstat (Solaris only?)])])])
 
-dnl ---------- Checks for typedefs, structures, and compiler characteristics ---
+# Check for typedefs, structures, and compiler characteristics
 AC_TYPE_SIZE_T
 AC_HEADER_TIME
 AC_STRUCT_TM
@@ -134,7 +130,7 @@ AC_CHECK_SIZEOF(short, 2)
 AC_CHECK_SIZEOF(int, 4)
 AC_CHECK_SIZEOF(long, 4)
 
-dnl ------------------------------------------- Checks for library functions ---
+# Check for library functions
 AC_TYPE_SIGNAL
 AC_FUNC_STRFTIME
 AC_FUNC_VPRINTF
@@ -142,7 +138,7 @@ AC_CHECK_FUNCS(gettimeofday putenv select socket strtol strtoul basename)
 AC_CHECK_FUNCS(sysctlbyname)
 AC_FUNC_SELECT_ARGTYPES
 
-dnl ------ Checking for getloadavg(). Compatible with gcc 3.3 on FreeBSD 5.2 ---
+# Checking for getloadavg(). Compatible with gcc 3.3 on FreeBSD 5.2
 AC_MSG_CHECKING([for getloadavg])
 AC_TRY_LINK([#include <stdlib.h>],
  [double loadavg[3]; getloadavg(loadavg, 3) == 0;],
@@ -150,7 +146,7 @@ AC_TRY_LINK([#include <stdlib.h>],
    AC_DEFINE(HAVE_GETLOADAVG2, 1, [getloadavg() is available])],
  [ AC_MSG_RESULT(no)  ])
 
-dnl ---------------------------------------- Check for kern.cp_time MIB item ---
+# Check for kern.cp_time MIB item
 AC_MSG_CHECKING([for kern.cp_time])
 if /sbin/sysctl kern.cp_time 2>&1 | grep 'kern.cp_time *[[:=]]' >/dev/null; then
   AC_MSG_RESULT(yes)
@@ -159,15 +155,15 @@ else
   AC_MSG_RESULT(no)
 fi
 
-dnl ------------------------------------------------------- Checking for X11 ---
+# Checking for X11
 AC_PATH_XTRA
 
 if test x"$no_x" != x; then
-  AC_MSG_ERROR([X Window System or development libraries not found. Make sure you have headers and libraries installed!])
+  AC_MSG_ERROR([X Window System or development libraries not found. Make sure
+*** you have headers and libraries installed!])
 fi
 
-dnl ===================================================== Maintaince Support ===
-dnl
+#===================================================== Maintaince Support =====
 AC_ARG_ENABLE(depend,
   [  --enable-depend         Automatic .h dependencies. Requires GNU make and gcc.],
   [ if test "${enable_depend}" != "no"; then
@@ -185,16 +181,15 @@ AC_ARG_ENABLE(debug,
       DEBUG=
     fi ])
 
-dnl =========================================================== I18N Support ===
-dnl
+#=========================================================== I18N Support =====
 AC_ARG_ENABLE(i18n,
   [  --disable-i18n          Disable internationalization])
 if test "$enable_i18n" != "no"; then
       AC_CHECK_HEADERS(langinfo.h,,
-      [ AC_MSG_ERROR([I18N support has been requested but langinfo.h wasn´t found.
+      [ AC_MSG_ERROR([I18N support has been requested but langinfo.h wasn't found.
 *** Check your system configuration.])])
       AC_CHECK_FUNC(nl_langinfo,,
-      [ AC_MSG_ERROR([I18N support has been requested but nl_langinfo wasn´t found.
+      [ AC_MSG_ERROR([I18N support has been requested but nl_langinfo wasn't found.
 *** Check your system configuration.])])
 
       ice_nl_codesets=""
@@ -207,7 +202,7 @@ if test "$enable_i18n" != "no"; then
       if test "${ice_nl_codesets}" = ""; then
         AC_MSG_ERROR([I18N support has been requested but nl_langinfo doesn't
 *** return any information about the locale's codeset. Check your manuals.
-*** Ask your vendor. Contact icewm-devel@lists.sourceforge.net when you know 
+*** Ask your vendor. Contact icewm-devel@lists.sourceforge.net when you know
 *** the name of the locale-dependent parameter for your platform.])
       fi
 
@@ -218,10 +213,10 @@ if test "$enable_i18n" != "no"; then
       ice_iconv_cxxflags="${CXXFLAGS}"
 
       AC_CHECK_HEADERS(iconv.h,,
-      [ AC_MSG_ERROR([I18N support has been requested but iconv.h wasn´t found.
+      [ AC_MSG_ERROR([I18N support has been requested but iconv.h wasn't found.
 *** Check your system configuration.
 ***
-*** You might have to upgrade your C runtime library. If your system is 
+*** You might have to upgrade your C runtime library. If your system is
 *** based on the GNU C library (glibc) you'll need version 2.2 or newer.
 *** You also have the chance to install GNU libiconv available
 *** from ftp://ftp.gnu.org/pub/gnu/libiconv/.
@@ -240,7 +235,7 @@ if test "$enable_i18n" != "no"; then
         AC_MSG_ERROR([iconv.h appears to be part of libiconv but linking failed.
 *** Check your system configuration.
 ***
-*** You might have to upgrade your C runtime library. If your system is 
+*** You might have to upgrade your C runtime library. If your system is
 *** based on the GNU C library (glibc) you'll need version 2.2 or newer.
 *** You also have the chance to install GNU libiconv available
 *** from ftp://ftp.gnu.org/pub/gnu/libiconv/.
@@ -252,7 +247,7 @@ if test "$enable_i18n" != "no"; then
         AC_MSG_ERROR([iconv.h appears to be part of libc but linking failed.
 *** Check your system configuration.
 ***
-*** You might have to upgrade your C runtime library. If your system is 
+*** You might have to upgrade your C runtime library. If your system is
 *** based on the GNU C library (glibc) you'll need version 2.2 or newer.
 *** You also have the chance to install GNU libiconv available
 *** from ftp://ftp.gnu.org/pub/gnu/libiconv/.
@@ -270,19 +265,19 @@ if test "$enable_i18n" != "no"; then
       if test "$with_unicode_set" = "UCS-4//TRANSLIT" ; then
 
           ice_sufficent_iconv=no
-    
+
           ICE_CHECK_CONVERSION(UTF-8,$with_unicode_set,no,$ice_libiconv,
               ice_sufficent_iconv=yes)
-              
+
           if test "$ice_sufficent_iconv" != "yes"
           then
             AC_MSG_WARN([Your implementation of iconv doesn't grok TRANSLIT])
             with_unicode_set=UCS-4
           fi
       fi
-      
+
       ice_sufficent_iconv=no
-      
+
       ICE_CHECK_CONVERSION(ISO-8859-1,$with_unicode_set,no,$ice_libiconv,
       ICE_CHECK_CONVERSION(ISO-8859-2,$with_unicode_set,no,$ice_libiconv,
       ICE_CHECK_CONVERSION(UTF-8,$with_unicode_set,no,$ice_libiconv,
@@ -295,7 +290,7 @@ if test "$enable_i18n" != "no"; then
         AC_MSG_ERROR([Your implementation of iconv isn't able to perform
 *** the codeset conversions required. Check your system configuration.
 ***
-*** You might have to upgrade your C runtime library. If your system is 
+*** You might have to upgrade your C runtime library. If your system is
 *** based on the GNU C library (glibc) you'll need version 2.2 or newer.
 *** You also have the chance to install GNU libiconv available
 *** from ftp://ftp.gnu.org/pub/gnu/libiconv/.
@@ -307,8 +302,7 @@ if test "$enable_i18n" != "no"; then
       features="${features} i18n"
 fi
 
-dnl ============================================================ NLS Support ===
-dnl
+#============================================================ NLS Support =====
 AC_ARG_ENABLE(nls,
   [  --disable-nls           Disable internationalized message])
 
@@ -317,11 +311,11 @@ if test "$enable_nls" != "no"; then
   [ AC_CHECK_LIB(intl, bindtextdomain,
     [ CORE_LIBS="${CORE_LIBS} -lintl"
     ],
-    [ AC_MSG_ERROR([NLS (national language support) has been requested but 
+    [ AC_MSG_ERROR([NLS (national language support) has been requested but
 *** the 'bindtextdomain' function neither has been found in your C runtime library 
 *** nor in an external library called 'libintl'.
 ***
-*** Install your vendor's version of libintl or get GNU gettext available 
+*** Install your vendor's version of libintl or get GNU gettext available
 *** from ftp://ftp.gnu.org/pub/gnu/gettext/.
 ***
 *** Alternatively you could call configure with the --disable-nls switch.])])])
@@ -360,8 +354,7 @@ if test "$enable_nls" != "no"; then
   localedir='${datadir}/locale'
 fi
 
-dnl ================================================ Features of the XServer ===
-dnl
+#================================================ Features of the XServer =====
 CORE_CFLAGS="${X_CFLAGS}"
 CORE_LIBS="${X_PRE_LIBS} ${CORE_LIBS} -lX11 ${X_LIBS} ${X_EXTRA_LIBS}"
 
@@ -415,7 +408,7 @@ dnl                           implies --enable-xfreetype) ])
 dnl   if test "$enable_antialiasing" = "yes"; then
 dnl     AC_DEFINE(CONFIG_ANTIALIASING, 1, [Define to enable antialiasing.])
 dnl     features="${features} antialiasing"
-dnl     
+dnl
 dnl     if test "$enable_xfreetype" = "" ; then
 dnl       enable_xfreetype=implied
 dnl     fi
@@ -434,7 +427,7 @@ AC_ARG_ENABLE(corefonts,
 AC_ARG_ENABLE(xfreetype,
 [  --disable-xfreetype     Don't use XFreeType for text rendering.
                           Requires --enable-i18n. ])
-  
+
   if test "$enable_corefonts" != "yes" -a "$enable_xfreetype" = no; then
      AC_MSG_ERROR("xfreetype or core fonts must be enabled")
   fi
@@ -481,14 +474,13 @@ AC_ARG_ENABLE(xfreetype,
     features="${features} corefonts"
   fi
 
-dnl ============================================================= GUI Events ===
-dnl
+#============================================================= GUI Events =====
 AC_ARG_ENABLE(guievents,
   [  --enable-guievents      Enable GUI events (experimental)],
   [ if test "$enable_guievents" != "no"; then
       AC_DEFINE(CONFIG_GUIEVENTS, 1, [Define to enable GUI events support.])
       features="${features} gui-events"
-      
+
       AC_ARG_WITH(icesound,
 	[  --with-icesound=interfaces]
         [                  List of audio interfaces for icesound. Requires]
@@ -534,10 +526,10 @@ AC_ARG_ENABLE(guievents,
             if test "${ESD_CONFIG}" != ""; then
               ESD_CFLAGS="`${ESD_CONFIG} --cflags`"
               ESD_LIBS="`${ESD_CONFIG} --libs`"
-	      
+
               ac_flags="$CXXFLAGS ${ESD_CFLAGS}"
 	      ac_libs="$LIBS ${ESD_LIBS}"
-	      
+
 #	      CXXFLAGS="${CXXFLAGS} ${ESD_CFLAGS}"
 #	      LIBS="${LIBS} ${ESD_LIBS}"
 
@@ -630,8 +622,7 @@ AC_ARG_ENABLE(winoptions,
     AC_DEFINE(NO_WINDOW_OPTIONS, 1, [Define to disable configurable window options support.])
   fi
 
-dnl ======================================== Stripped down versions of IceWM ===
-dnl
+#======================================== Stripped down versions of IceWM =====
 AC_ARG_ENABLE(taskbar,
   [  --disable-taskbar       Disable builtin taskbar])
   if test "$enable_taskbar" = "no"; then
@@ -667,7 +658,7 @@ AC_ARG_ENABLE(lite,
     if test "${enable_winmenu}" != "no"; then
       AC_DEFINE(CONFIG_WINMENU,		1,	[Window menu])
     fi
-    
+
     APPLICATIONS="${APPLICATIONS} icehelp"
   else
     AC_DEFINE(LITE, 			1,	[Lite version])
@@ -677,10 +668,10 @@ IMAGE_CFLAGS=`pkg-config gdk-pixbuf-xlib-2.0 --cflags`
 IMAGE_LIBS=`pkg-config gdk-pixbuf-xlib-2.0  --libs`
 
 AC_DEFINE(CONFIG_GDK_PIXBUF_XLIB, 1, [Define to use gdk_pixbuf_xlib for image rendering])
-    
+
 image_library=gdk_pixbuf_xlib
 
-dnl --------------------- We need mkfontdir to create fonts.dir for Infadel2 ---
+# Needs mkfontdir to create fonts.dir for Infadel2
 AC_ARG_WITH(mkfontdir,
   [  --with-mkfontdir=path   Path to mkfontdir],
   [ MKFONTDIR=$with_mkfontdir ],
@@ -688,8 +679,7 @@ AC_ARG_WITH(mkfontdir,
 
 LIBS=$no_x_libs
 
-dnl Path adjustment
-
+# Path adjustment
 AC_ARG_WITH(kdedatadir,
   [  --with-kdedatadir=path  KDE's data directory (\$KDEDIR/share)],
   [ if test x"$with_kdedatadir" = x -o "$with_kdedatadir" = "yes"; then
@@ -704,8 +694,7 @@ AC_ARG_WITH(kdedatadir,
     fi ]
 )
 
-dnl ======================================================== Some path stuff ===
-dnl
+#======================================================== Some path stuff =====
 AC_ARG_WITH(libdir,
   [  --with-libdir=path      Default data directory (\$datadir/icewm)],
   [ if test x"$with_libdir" = x -o "$with_libdir" = "yes"; then
@@ -733,14 +722,12 @@ AC_ARG_WITH(docdir,
     fi ],
   [ docdir='${datadir}/doc' ])
 
-dnl ============================================================ GNOME stuff ===
-dnl
-
+#============================================================ GNOME stuff =====
 AC_ARG_ENABLE(menus-gnome2,
   [  --enable-menus-gnome2   Display GNOME 2 menus],
   [ if test "${enable_menus_gnome2}" = "yes"; then
       AC_PATH_PROG(PKG_CONFIG, pkg-config)
-    
+
       if test "${PKG_CONFIG}" != ""; then
 	GNOME_VER=2
 	GNOME2_CFLAGS=`pkg-config --cflags gnome-desktop-2.0 libgnomeui-2.0`
@@ -772,15 +759,15 @@ AC_SUBST(CONFIG_KDE_MENU_DIR)
 
 AC_DEFINE(WMSPEC_HINTS, 1, [wmspec hints])
 AC_DEFINE(GNOME1_HINTS, 1, [GNOME1 hints])
-dnl ====================================================== Write out results ===
-dnl ---------------------------------------- First adjust some substitutions ---
 
+#====================================================== Write out results =====
+# Adjust some substitutions
 AC_SUBST(PACKAGE,`sed -ne 's/PACKAGE=//p' "$srcdir/VERSION"`)
 AC_SUBST(VERSION,`sed -ne 's/VERSION=//p' "$srcdir/VERSION"`)
 AC_SUBST(HOSTOS,`uname -sr || echo unknown`)
 AC_SUBST(HOSTCPU,`uname -m || echo unknown`)
 
-dnl -------------------------------------------- Compiler flags, definitions ---
+# Compiler flags, definitions
 AC_SUBST(DEBUG)
 AC_SUBST(GCCDEP)
 AC_SUBST(CORE_CFLAGS)
@@ -813,7 +800,7 @@ AC_SUBST(DOCDIR)
 AC_SUBST(MANDIR)
 AC_SUBST(GWMDIR)
 
-dnl ---------------------------------------------------------- Build targets ---
+# Build targets
 DEPENDENCIES=""
 
 BASEOBJS=""
@@ -838,7 +825,7 @@ done
 AC_SUBST(TESTOBJS)
 AC_SUBST(TESTBINS)
 
-dnl -------------------------------------------------------- Install targets ---
+# Install targets
 TARGETS_INSTALL=`for target in ${TARGETS}; do echo $ECHO_N "install-${target} $ECHO_C"; done`
 BINFILES=`for binary in ${APPLICATIONS}; do echo $ECHO_N "\\\$(top_srcdir)/src/${binary}\\\$(EXEEXT) $ECHO_C"; done`
 
@@ -855,12 +842,12 @@ AC_SUBST(INSTALLLIB,"${INSTALL_DATA}")
 AC_SUBST(INSTALLETC,"${INSTALL_DATA}")
 AC_SUBST(INSTALLMAN,"${INSTALL_DATA}")
 
-dnl --------------------------------------------------------- Generate files ---
+# Generate files
 AC_CONFIG_COMMANDS(config.status, [
     for binary in ${ac_targets_binaries}; do
       echo "${binary}\$(EXEEXT): \$(${binary}_OBJS)" >> "${srcdir}/src/Makefile"
     done
-    
+
     if test "${ac_depend}" = "yes"; then
       echo >> "${srcdir}/src/Makefile"
       echo '-include $(OBJECTS:.o=.d)' >> "${srcdir}/src/Makefile"
@@ -875,14 +862,14 @@ AC_OUTPUT(
 	Makefile
 	src/Makefile
 	po/Makefile
-	lib/keys 
+	lib/keys
         lib/menu
         lib/programs
-        lib/toolbar 
+        lib/toolbar
         lib/winoptions
 )
 
-dnl -------------------------------------------------------- Display results ---
+# Display results
 AC_MSG_RESULT()
 ICE_MSG_VALUE([Build targets],	TARGETS)
 ICE_MSG_VALUE([Applications],	APPLICATIONS)

@@ -29,7 +29,6 @@
  *              application
  * 2005-11-30:  Christian W. Zuckschwerdt  <zany@triq.net>
  *              Added ALSA interface support
- *
  * TODO: a virtual YAudioInterface class the OSS, ESD and YIFF implement
  *
  * for now get latest patches as well as sound and cursor themes at
@@ -183,7 +182,7 @@ char * YAudioInterface::findSample(char const * basefname) {
     return NULL;
 }
 
-/******************************************************************************
+ /******************************************************************************
  * ALSA audio interface
  ******************************************************************************/
 
@@ -258,76 +257,76 @@ void YALSAAudio::play(int sound) {
 
             if (!samplefile) {
                 return;
-	    }
+          }
 
-	    int err;
+          int err;
             snd_pcm_t *playback_handle;
             snd_pcm_hw_params_t *hw_params;
-            
+
             SF_INFO sfinfo;
             SNDFILE* sf = sf_open(samplefile, SFM_READ, &sfinfo);
             if(sf == NULL) {
                 warn("%s: %s", samplefile, sf_strerror(sf));
                 return;
             }
-         
+
             if ((err = snd_pcm_open (&playback_handle, device, SND_PCM_STREAM_PLAYBACK, 0)) < 0) {
                     warn ("cannot open audio device %s (%s)\n",
                              device,
                              snd_strerror (err));
                     return;
             }
-         
+
             if ((err = snd_pcm_hw_params_malloc (&hw_params)) < 0) {
                     warn ("cannot allocate hardware parameter structure (%s)\n",
                              snd_strerror (err));
                     return;
             }
-         
+
             if ((err = snd_pcm_hw_params_any (playback_handle, hw_params)) < 0) {
                     warn ("cannot initialize hardware parameter structure (%s)\n",
                              snd_strerror (err));
                     return;
             }
-         
+
             if ((err = snd_pcm_hw_params_set_access (playback_handle, hw_params, SND_PCM_ACCESS_RW_INTERLEAVED)) < 0) {
                     warn ("cannot set access type (%s)\n",
                              snd_strerror (err));
                     return;
             }
-         
+
             if ((err = snd_pcm_hw_params_set_format (playback_handle, hw_params, SND_PCM_FORMAT_S16_LE)) < 0) {
                     warn ("cannot set sample format (%s)\n",
                              snd_strerror (err));
                     return;
             }
-         
+
             if ((err = snd_pcm_hw_params_set_rate_near (playback_handle, hw_params, (unsigned int *)&sfinfo.samplerate, 0)) < 0) {
                     warn ("cannot set sample rate (%s)\n",
                              snd_strerror (err));
                     return;
             }
-         
+
             if ((err = snd_pcm_hw_params_set_channels (playback_handle, hw_params, sfinfo.channels)) < 0) {
                     warn ("cannot set channel count (%s)\n",
                              snd_strerror (err));
                     return;
             }
-         
+
             if ((err = snd_pcm_hw_params (playback_handle, hw_params)) < 0) {
                     warn ("cannot set parameters (%s)\n",
                              snd_strerror (err));
                     return;
             }
-         
+
             snd_pcm_hw_params_free (hw_params);
-         
+
             if ((err = snd_pcm_prepare (playback_handle)) < 0) {
                     warn ("cannot prepare audio interface for use (%s)\n",
                              snd_strerror (err));
                     return;
             }
-         
+
             short sbuf[512]; // period_size * channels * snd_pcm_format_width(format)) / 8
             for (int n; (n = sf_readf_short (sf, sbuf, 256)) > 0; ) {
                 if ((err = snd_pcm_writei (playback_handle, sbuf, n) != n)) {
@@ -337,9 +336,9 @@ void YALSAAudio::play(int sound) {
                 }
             }
             sf_close(sf);
-         
+
             snd_pcm_close (playback_handle);
-		
+
             delete[] samplefile;
         }
 }
@@ -985,7 +984,7 @@ Options:\n\
 -s, --sample-dir=DIR          Specifies the directory which contains\n\
                               the sound files (ie ~/.icewm/sounds).\n\
 -i, --interface=TARGET        Specifies the sound output target\n\
-                              interface, one of ALSA, OSS, YIFF, ESD\n\
+                              interface, one of OSS, YIFF, ESD, ALSA\n\
 -D, --device=DEVICE           (ALSA & OSS only) specifies the device to use\n\
                               (OSS default: /dev/dsp; ALSA: default).\n\
 -S, --server=ADDR:PORT        (ESD and YIFF) specifies server address and\n\
@@ -1177,7 +1176,7 @@ int IceSound::setOption(char const * /*arg*/, char opt, char const * val) {
                  strcmp(val, "oss"))) {
                 delete audio;
                 audio = new YOSSAudio();
-	    } else if(!(strcmp(val, "ALSA") &&
+          } else if(!(strcmp(val, "ALSA") &&
                  strcmp(val, "alsa"))) {
 #ifdef ENABLE_ALSA
                 delete audio;

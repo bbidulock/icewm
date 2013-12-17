@@ -31,7 +31,7 @@ is compatible.
 Generally, it tries to make all functions available both by keyboard
 and by mouse (this is not currently possible when using mouse focus).
 Extreme configurability similar to fvwm and many other window
-managers is NOT the goal. However IceWM configurability is very good throught
+managers is NOT the goal. However IceWM configurability is very good through
 its various
 .I preferences
 files.
@@ -59,7 +59,7 @@ applications like PSI.
 - could be used to manage IceWM internals from command line.
 
 .B icewmhint
-- used internaly.
+- used internally.
 
 .B icesound
 - plays audio files on GUI events raised by IceWM.
@@ -191,7 +191,7 @@ directory to store themes
 .RE
 
 .SH EXAMPLES
-Examples of above configuration files you can find in default instalation 
+Examples of above configuration files you can find in default installation 
 path or in system-wide customizable defaults.
 .SH SEE ALSO
 .IR xinit (1),

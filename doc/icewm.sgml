@@ -80,11 +80,11 @@ applications like PSI
 <item>icewm-session - runs all of the above when needed
 </item>
 <item>
-icewm-menu-gnome2 - used internaly, generates IceWM program menus from
+icewm-menu-gnome2 - used internally, generates IceWM program menus from
 FreeDesktop .desktop files (KDE/GNOME(2) menus).
 </item>
 <item>
-icewmhint - used internaly
+icewmhint - used internally
 </item>
 </itemize>
 
@@ -92,7 +92,7 @@ icewmhint - used internaly
 
 The <tt/icewm/ executable must be in your path for the restart
 function to work correctly.  Please set your $PATH environment
-variable accordingly. The <tt/icewm/ program alone is suitable for usabe
+variable accordingly. The <tt/icewm/ program alone is suitable for usable
 with Desktop environments like GNOME.
 <p>
 If you wish to run the whole IceWM suite (WM, background changer,
@@ -105,7 +105,7 @@ home directory. For most distributions the file $HOME/.xsession is
 honored by startx and X Display Managers like kdm. On RedHat, the
 $HOME/.Xclients may be used instead. In all cases, choose the one
 recommended by your distribution and make sure that there
-is no concurency between the X startup scripts.
+is no concurrency between the X startup scripts.
 
 The recommended way to start is from $HOME/.xsession shell script (may
 be executable, must be on RedHat). Mine looks something like this:
@@ -126,7 +126,7 @@ session doesn't crash if icewm does (should never happen). You can
 restart icewm from there or start some other window manager. The
 session will close if you close the xterm.
 
-The above should work for most Linux systems. On commercial unices you
+The above should work for most Linux systems. On commercial Unices you
 should use $HOME/.dtprofile if you have CDE or $HOME/.vueprofile for
 HP-UX with HP VUE. If you are running xdm or some other login program
 check it's manpage for the correct place to start the window manager
@@ -135,9 +135,9 @@ check it's manpage for the correct place to start the window manager
 <sect1>Startup and shutdown scripts<p>
 
 After initialization IceWM-Session will search the resource path (<ref id="lib">)
-for a startup script. If this file is found to exist and to be executeable
-IceWM-Session will run the script. On startup IceWM-Session will search for a script
-called "startup". And during the termination of icewm, the
+for a startup script. If this file is found to exist and to be executable
+IceWM-Session will run the script. On startup IceWM-Session will search for
+a script called "startup". And during the termination of icewm, the
 "shutdown" script is executed.
 
 Additionally the flag "--with-gnome" is passed if a GNOME session 
