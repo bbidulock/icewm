@@ -492,12 +492,28 @@ AC_ARG_ENABLE(guievents,
       AC_ARG_WITH(icesound,
 	[  --with-icesound=interfaces]
         [                  List of audio interfaces for icesound. Requires]
-        [                  support for GUI events. Default: OSS,Y,ESound],,
-	[ with_icesound='OSS,Y,ESound' ])
+        [                  support for GUI events. Default: ALSA,OSS,Y,ESound],,
+	[ with_icesound='ALSA,OSS,Y,ESound' ])
 
       for iface in `[ echo ${with_icesound} | 
       		      sed -e 's/\([^,][^,]*\)\(,\|$\)/\1 /g' ]`; do
 	case ${iface} in
+	  ALSA|alsa)
+	    AC_PATH_PROG(PKG_CONFIG, pkg-config)
+	    if test "${PKG_CONFIG}" != ""; then
+	      ${PKG_CONFIG} alsa sndfile --exists 2>/dev/null
+	      if test $? -eq 0 ; then
+		ALSA_CFLAGS=`${PKG_CONFIG} alsa sndfile --cflags`
+		ALSA_LIBS=`${PKG_CONFIG} alsa sndfile --libs`
+
+		AUDIO_CFLAGS="${AUDIO_CFLAGS} ${ALSA_CFLAGS}"
+		AUDIO_LIBS="${AUDIO_LIBS} ${ALSA_LIBS}"
+
+		AC_DEFINE(ENABLE_ALSA, 1, [Define to enable ALSA support.])
+		CONFIG_ALSA=yes
+	      fi
+	    fi;;
+
 	  OSS|oss)
 	    AC_DEFINE(ENABLE_OSS, 1, [Define to enable OSS support.])
 	    CONFIG_OSS=yes;;
@@ -547,7 +563,7 @@ AC_ARG_ENABLE(guievents,
 	esac
       done
 
-      for iface in OSS YIFF ESD; do
+      for iface in ALSA OSS YIFF ESD; do
 	eval test \"\${CONFIG_${iface}}\" = "yes" &&
 	audio_support="${audio_support} ${iface}"
       done
