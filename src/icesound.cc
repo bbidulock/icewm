@@ -995,7 +995,7 @@ Options:\n\
 --audio-mode-auto             (YIFF only) change Audio mode on the fly to\n\
                               best match sample's Audio (can cause\n\
                               problems with other Y clients, overrides\n\
---audio-mode).\n\
+                              --audio-mode).\n\
 \n\
 -v, --verbose                 Be verbose (prints out each sound event to\n\
                               stdout).\n\
