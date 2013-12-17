@@ -488,16 +488,20 @@ AC_ARG_ENABLE(guievents,
   [ if test "$enable_guievents" != "no"; then
       AC_DEFINE(CONFIG_GUIEVENTS, 1, [Define to enable GUI events support.])
       features="${features} gui-events"
-      
+
       AC_ARG_WITH(icesound,
 	[  --with-icesound=interfaces]
         [                  List of audio interfaces for icesound. Requires]
-        [                  support for GUI events. Default: OSS,Y,ESound],,
-	[ with_icesound='OSS,Y,ESound' ])
+        [                  support for GUI events. Default: OSS,Y,ESound,ALSA],,
+    [ with_icesound='OSS,Y,ESound,ALSA' ])
 
       for iface in `[ echo ${with_icesound} | 
       		      sed -e 's/\([^,][^,]*\)\(,\|$\)/\1 /g' ]`; do
 	case ${iface} in
+      ALSA|alsa)
+        AC_DEFINE(ENABLE_ALSA, 1, [Define to enable ALSA support.])
+        AUDIO_LIBS="${AUDIO_LIBS} -lsndfile -lasound"
+        CONFIG_ALSA=yes;;
 	  OSS|oss)
 	    AC_DEFINE(ENABLE_OSS, 1, [Define to enable OSS support.])
 	    CONFIG_OSS=yes;;
@@ -547,7 +551,7 @@ AC_ARG_ENABLE(guievents,
 	esac
       done
 
-      for iface in OSS YIFF ESD; do
+      for iface in OSS YIFF ESD ALSA; do
 	eval test \"\${CONFIG_${iface}}\" = "yes" &&
 	audio_support="${audio_support} ${iface}"
       done
