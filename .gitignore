@@ -20,6 +20,7 @@ _*
 *.o
 *.o.*
 *.patch
+*.pox
 *.swo
 *.swp
 *.xz
