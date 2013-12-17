@@ -1,22 +1,59 @@
+#
+# NOTE! Please use 'git ls-files -i --exclude-standard'
+# command after changing this file, to see if there are
+# any tracked files which get ignored after the change.
+#
+# Normal rules
+#
 _*
 *~
+*.bin
+*.bz2
+*.d
+*.elf
+*.gz
+*.inc
+*.log
+*.lzma
+*.lzo
+*.mo
+*.o
+*.o.*
+*.patch
+*.swo
+*.swp
+*.xz
+
+#
+# Debian directory (make deb-pkg)
+#
+/debian/
+
+#
+# git files that we don't want to ignore even it they are dot-files
+#
+!.gitignore
+
+#
+# Generic/generated files
+#
 aclocal.m4
 autom4te.cache/
+config.h
+config.h.in
+config.log
 config.status
 configure
-cscope.files
-cscope.out
 doc/icewm*.html
+icewm.lsm
+icewm.spec
 lib/keys
 lib/menu
 lib/preferences
 lib/programs
 lib/toolbar
 lib/winoptions
-*.log
 Makefile
-*.mo
-*.o
 po/Makefile
 src/config.h
 src/config.h.in
@@ -27,9 +64,34 @@ src/icewm
 src/icewmbg
 src/icewmhint
 src/icewm-session
+src/icewmsound
 src/icewmtray
 src/Makefile
-*.swo
-*.swp
-icewm.lsm
-icewm.spec
+src/testarray
+src/testdesktop
+src/testgnomevfs
+src/testlocale
+src/testwinhints
+src/icewm-menu-gnome1
+src/icewm-menu-gnome2
+
+# stgit generated dirs
+patches-*
+
+# quilt's files
+patches
+series
+
+# cscope files
+cscope.*
+ncscope.*
+
+# gnu global files
+GPATH
+GRTAGS
+GSYMS
+GTAGS
+
+*.orig
+*~
+\#*#
