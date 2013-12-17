@@ -5,4 +5,4 @@ Type=Application
 Name=icewm
 Comment=Simple and fast window manger
 Exec=icewm
-
+TryExec=icewm

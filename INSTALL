@@ -58,7 +58,7 @@ icewm 1.2.9 (2003-06-22)
     depend on it. If you don't have such a font sufficent for XFreeType 
     you could add an alias definition pointing on 'Nimbus Sans L' to your 
     XFreeType configuration file:
-    
+
 	match any family == "helvetica" edit family += "Nimbus Sans L";
 
     Another nice feature of XFreeType you could enable - especially
@@ -69,14 +69,14 @@ icewm 1.2.9 (2003-06-22)
         Xft.rgba: rgb
 
 4. Starting icewm
-    
+
     Make sure the icewm executables are located on $PATH, otherwise
     it will not be possible to restart the window manager.
 
     Normally, icewm should be started from ~/.Xclients file. This will
     work the same for 'startx' and 'xdm' logins. The file must have execute
     permissions (chmod a+x ~/.Xclients).
-    
+
     An example of ~/.Xclients file would be:
 
     >>> cut here >>> ----- > ----- > ----- > ----- > ----- > ----- > ----- >
