@@ -320,6 +320,7 @@ void YFrameWindow::configure(const YRect &r) {
     YWindow::configure(r);
 
     performLayout();
+	sendConfigure();
 }
 
 void YFrameWindow::performLayout()
@@ -331,8 +332,6 @@ void YFrameWindow::performLayout()
     layoutShape();
     if (affectsWorkArea())
         manager->updateWorkArea();
-
-    sendConfigure();
 }
 
 void YFrameWindow::layoutTitleBar() {
