@@ -1,8 +1,8 @@
 # Ice Window Manager (IceWM)
 
-This is a fork of the original IceWM CVS that is on sourceforge:
+This is a fork of the original IceWM CVS that is on Sourceforge:
 [http://icewm.sourceforge.net](http://icewm.sourceforge.net) <br>
-What this includes is all changes made on the official IceWM CVS repository on the 'icewm-1-3-BRANCH' branch, greatly enhanced EWMH/ICCCM compliance, as well as patches collected from Arch Linux, Debian, pld-linux, the icewm bug list, and other various Github forks.
+What this includes is all changes made on the official IceWM CVS repository on the 'icewm-1-3-BRANCH' branch, greatly enhanced EWMH/ICCCM compliance, as well as patches collected from Arch Linux, Debian, pld-linux, the IceWM bug list, and other various GitHub forks.
 <br>
 
 The name was decided on a very hot day... (and Marko started writing 
@@ -15,7 +15,7 @@ it in winter ;-)  The aim of IceWM is to have good 'Feel' and decent
 **_Quick Start_**
 ---
 
-This is the icewm-1.3.8 package, released under LGPL license 2013-10-10.  This release as well as future versions here, can all be obtained from the Github repository using a command such as:
+This is the icewm-1.3.8 package, released under LGPL license 2013-10-10.  This release as well as future versions here, can all be obtained from the GitHub repository using a command such as:
 
     git clone http://github.com/bbidulock/icewm.git
 
@@ -27,7 +27,7 @@ following commands:
     autoreconf -fiv
     ./configure --prefix=/usr --sysconfdir=/etc --enable-shaped-decorations --enable-gradients
     make all docs nls
-    make DESTDIR="$pkgdir" install install-man install-docs install-nls  install-desktop
+    sudo make DESTDIR="$pkgdir" install install-man install-docs install-nls  install-desktop
 
 This will configure, compile and install IceWM the quickest.  For those
 who would like to customize the installation, use the command:
@@ -116,7 +116,7 @@ The contrib file module of IceWM is located at:
 **_Bug Reports_**
 ---
 
-Issues can be reported using the Issues' utility here on Github.  Please try to submit short patches if you can.  If you would like to perform regular maintenance activities (e.g. if you are a maintainer of an IceWM package for a distribution), contact me for push access.
+Issues can be reported using the Issues' utility here on GitHub.  Please try to submit short patches if you can.  If you would like to perform regular maintenance activities (e.g. if you are a maintainer of an IceWM package for a distribution), contact me for push access.
 
 Bug reports, feedback, and suggestions pertaining to the original CVS version can be sent to:
 
