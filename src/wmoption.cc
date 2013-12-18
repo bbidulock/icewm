@@ -220,6 +220,7 @@ void WindowOptions::setWinOption(ustring n_class_instance,
             { 2, "nonICCCMconfigureRequest", YFrameWindow::foNonICCCMConfigureRequest },
             { 2, "forcedClose", YFrameWindow::foForcedClose },
             { 2, "noFocusOnMap", YFrameWindow::foNoFocusOnMap },
+            { 2, "ignoreUrgentHint", YFrameWindow::foIgnoreUrgent },
             { 2, "appTakesFocus", YFrameWindow::foAppTakesFocus }
         };
 

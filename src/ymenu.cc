@@ -154,8 +154,8 @@ int YMenu::onCascadeButton(int selItem, int x, int /*y*/, bool /*checkPopup*/) {
 
 #ifndef LITE
         if (getItem(selItem)->getIcon() != null &&
-            YIcon::smallSize() > h)
-            h = YIcon::smallSize();
+            YIcon::menuSize() > h)
+            h = YIcon::menuSize();
 #endif
 
         if (x <= int(width() - h - 4))
@@ -1021,8 +1021,8 @@ void YMenu::paintItem(Graphics &g, const int i, const int l, const int t, const 
                     mitem->getIcon()->draw(g,
                                l + 1 + delta, t + delta + top + pad +
                                (eh - top - pad * 2 - bottom -
-                                YIcon::smallSize()) / 2,
-                                YIcon::smallSize());
+                                YIcon::menuSize()) / 2,
+                                YIcon::menuSize());
 #endif
                 }
 

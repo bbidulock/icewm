@@ -252,7 +252,8 @@ public:
         foForcedClose           = (1 << 15),
         foNoFocusOnMap          = (1 << 16),
         foNoIgnoreTaskBar       = (1 << 17),
-        foAppTakesFocus         = (1 << 18)
+        foAppTakesFocus         = (1 << 18),
+        foIgnoreUrgent          = (1 << 19)
     };
 
     unsigned long frameFunctions() const { return fFrameFunctions; }

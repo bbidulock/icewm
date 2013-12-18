@@ -256,7 +256,7 @@ void YXTray::handleConfigureRequest(const XConfigureRequestEvent &configureReque
             }
             if (w != ec->width() || h != ec->height())
                 changed = true;
-            ec->setSize(w/*configureRequest.width*/, h);
+            ec->setSize(configureRequest.width, configureRequest.height);
         }
     }
     if (changed)

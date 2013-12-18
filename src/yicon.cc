@@ -274,6 +274,10 @@ void YIcon::freeIcons() {
         iconCache.getItem(0)->removeFromCache();
 }
 
+int YIcon::menuSize() {
+    return menuIconSize;
+}
+
 int YIcon::smallSize() {
     return smallIconSize;
 }

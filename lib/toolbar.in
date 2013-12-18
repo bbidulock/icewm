@@ -4,6 +4,6 @@
 # since modifications to this file will be discarded when you
 # (re)install icewm.
 #
-prog XTerm xterm xterm
-prog FTE fte fte
-prog Netscape netscape netscape
+prog xterm /usr/share/icons/gnome/16x16/apps/terminal.png xterm
+prog "Web browser" /usr/share/icons/gnome/16x16/apps/web-browser.png xdg-open about:blank
+

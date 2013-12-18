@@ -427,7 +427,7 @@ static void initFontPath(IApp *app) {
             char ** fontPath(XGetFontPath(xapp->display(), &ndirs));
 
             char ** newFontPath = new char *[ndirs + 1];
-            newFontPath[ndirs] = fontsdir;
+            newFontPath[ndirs] = (char *)fontsdir;
 
             if (fontPath)
                 memcpy(newFontPath, fontPath, ndirs * sizeof (char *));

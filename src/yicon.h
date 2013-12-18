@@ -25,6 +25,7 @@ public:
     bool isCached() { return fCached; }
     void setCached(bool cached) { fCached = cached; }
 
+    static int menuSize();
     static int smallSize();
     static int largeSize();
     static int hugeSize();
