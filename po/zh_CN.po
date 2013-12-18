@@ -7,1161 +7,1426 @@
 # you can get the newest version at:
 # http://i18n-zh.googlecode.com/svn/trunk/l10n/icewm/
 #
-msgid   ""
-msgstr  "Project-Id-Version: icewm 1.2.30\n"
-        "Report-Msgid-Bugs-To: \n"
-        "POT-Creation-Date: 2009-07-05 19:58+0200\n"
-        "PO-Revision-Date: 2007-05-01 15:46+0800\n"
-        "Last-Translator: LI Daobing <lidaobing@gmail.com>\n"
-        "Language-Team: Siplified Chinese\n"
-        "MIME-Version: 1.0\n"
-        "Content-Type: text/plain; charset=UTF-8\n"
-        "Content-Transfer-Encoding: 8bit\n"
+msgid ""
+msgstr ""
+"Project-Id-Version: icewm 1.2.30\n"
+"Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
+"POT-Creation-Date: 2013-12-18 04:27-0700\n"
+"PO-Revision-Date: 2007-05-01 15:46+0800\n"
+"Last-Translator: LI Daobing <lidaobing@gmail.com>\n"
+"Language-Team: Siplified Chinese\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
 
-msgid   " - Power"
-msgstr  " - 供电中"
+#: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:749 src/aapm.cc:868
+msgid " - Power"
+msgstr " - 供电中"
 
-#. /            if (!prettyClock) strcat(s, " ");
-msgid   "P"
-msgstr  "P"
+#: src/aapm.cc:193 src/aapm.cc:527 src/aapm.cc:752
+msgid "P"
+msgstr "P"
 
+#: src/aapm.cc:197 src/aapm.cc:498 src/aapm.cc:729 src/aapm.cc:839
 #, c-format
-msgid   " - Charging"
-msgstr  " - 充电中"
+msgid " - Charging"
+msgstr " - 充电中"
 
-msgid   "C"
-msgstr  "C"
+#: src/aapm.cc:199 src/aapm.cc:500 src/aapm.cc:731
+msgid "C"
+msgstr "C"
 
+#: src/aapm.cc:502
+msgid " - Full"
+msgstr ""
+
+#: src/acpustatus.cc:229
 #, c-format
-msgid   "CPU Load: %3.2f %3.2f %3.2f, %d"
-msgstr  ""
+msgid "CPU Load: %3.2f %3.2f %3.2f, %d"
+msgstr ""
 
+#: src/acpustatus.cc:233
 #, c-format
-msgid   "\n"
-        "Ram: %5.2f/%.2fM"
-msgstr  ""
+msgid ""
+"\n"
+"Ram: %5.2f/%.2fM"
+msgstr ""
 
+#: src/acpustatus.cc:238
 #, c-format
-msgid   "\n"
-        "Swap: %.2f/%.2fM"
-msgstr  ""
+msgid ""
+"\n"
+"Swap: %.2f/%.2fM"
+msgstr ""
 
+#: src/acpustatus.cc:242
 #, c-format
-msgid   "\n"
-        "ACPI Temp:"
-msgstr  ""
+msgid ""
+"\n"
+"ACPI Temp:"
+msgstr ""
 
+#: src/acpustatus.cc:247
 #, c-format
-msgid   "\n"
-        "CPU Freq: %.3fGHz"
-msgstr  ""
+msgid ""
+"\n"
+"CPU Freq: %.3fGHz"
+msgstr ""
 
-msgid   "CPU Load: "
-msgstr  "CPU 负载: "
+#: src/acpustatus.cc:259
+msgid "CPU Load: "
+msgstr "CPU 负载: "
 
+#: src/amailbox.cc:77
 #, c-format
-msgid   "Invalid mailbox protocol: \"%s\""
-msgstr  "信箱协议无效：\"%s\""
+msgid "Invalid mailbox protocol: \"%s\""
+msgstr "信箱协议无效：\"%s\""
 
+#: src/amailbox.cc:79
 #, c-format
-msgid   "Invalid mailbox path: \"%s\""
-msgstr  "信箱路径无效： \"%s\""
+msgid "Invalid mailbox path: \"%s\""
+msgstr "信箱路径无效： \"%s\""
 
+#: src/amailbox.cc:342
 #, c-format
-msgid   "Using MailBox \"%s\"\n"
-msgstr  "使用信箱 \"%s\"\n"
+msgid "Using MailBox \"%s\"\n"
+msgstr "使用信箱 \"%s\"\n"
 
-msgid   "Error checking mailbox."
-msgstr  "检查信箱时发生错误。"
+#: src/amailbox.cc:450
+msgid "Error checking mailbox."
+msgstr "检查信箱时发生错误。"
 
+#: src/amailbox.cc:456
 #, c-format
-msgid   "%ld mail message."
-msgstr  "%ld 封邮件。"
+msgid "%ld mail message."
+msgstr "%ld 封邮件。"
 
+#: src/amailbox.cc:457
 #, c-format
-msgid   "%ld mail messages."
-msgstr  "%ld 封邮件。"
+msgid "%ld mail messages."
+msgstr "%ld 封邮件。"
 
+#: src/apppstatus.cc:204
+#, fuzzy, c-format
+msgid ""
+"Interface %s:\n"
+"  Current rate (in/out):\t%li %s/%li %s\n"
+"  Current average (in/out):\t%lli %s/%lli %s\n"
+"  Transferred (in/out):\t%lli %s/%lli %s\n"
+"  Online time:\t%ld:%02ld:%02ld%s%s"
+msgstr ""
+"接口 %s:\n"
+"  当前速率 (进/出):\t%li %s/%li %s\n"
+"  平均速率 (进/出):\t%lli %s/%lli %s\n"
+"  总计平均 (进/出):\t%li %s/%li %s\n"
+"  已传输 (进/出):       %lli %s/%lli %s\n"
+"  在线时间:\t%ld:%02ld:%02ld%s%s"
+
+#: src/apppstatus.cc:216
+msgid ""
+"\n"
+"  Caller id:\t"
+msgstr ""
+"\n"
+"  呼叫者 ID:\t"
+
+#: src/aworkspaces.cc:155 src/aworkspaces.cc:219 src/aworkspaces.cc:274
+#: src/wmstatus.cc:168
+msgid "Workspace: "
+msgstr "工作区："
+
+#: src/icehelp.cc:714
+msgid "Back"
+msgstr "后退"
+
+#: src/icehelp.cc:714
+msgid "Alt+Left"
+msgstr "Alt+Left"
+
+#: src/icehelp.cc:715
+msgid "Forward"
+msgstr "前进"
+
+#: src/icehelp.cc:715
+msgid "Alt+Right"
+msgstr "Alt+Right"
+
+#: src/icehelp.cc:717
+msgid "Previous"
+msgstr "上一页"
+
+#: src/icehelp.cc:718
+msgid "Next"
+msgstr "下一页"
+
+#: src/icehelp.cc:720
+msgid "Contents"
+msgstr "内容"
+
+#: src/icehelp.cc:721
+msgid "Index"
+msgstr "索引"
+
+#: src/icehelp.cc:723 src/icesame.cc:63 src/iceview.cc:76 src/wmframe.cc:181
+msgid "Close"
+msgstr "关闭"
+
+#: src/icehelp.cc:723 src/icesame.cc:63 src/iceview.cc:76
+msgid "Ctrl+Q"
+msgstr "Ctrl+Q"
+
+#: src/icehelp.cc:1326
 #, c-format
-msgid   "Interface %s:\n"
-        "  Current rate (in/out):\t%li %s/%li %s\n"
-        "  Current average (in/out):\t%lli %s/%lli %s\n"
-        "  Total average (in/out):\t%li %s/%li %s\n"
-        "  Transferred (in/out):\t%lli %s/%lli %s\n"
-        "  Online time:\t%ld:%02ld:%02ld%s%s"
-msgstr  "接口 %s:\n"
-        "  当前速率 (进/出):\t%li %s/%li %s\n"
-        "  平均速率 (进/出):\t%lli %s/%lli %s\n"
-        "  总计平均 (进/出):\t%li %s/%li %s\n"
-        "  已传输 (进/出):       %lli %s/%lli %s\n"
-        "  在线时间:\t%ld:%02ld:%02ld%s%s"
+msgid ""
+"Usage: %s FILENAME\n"
+"\n"
+"A very simple HTML browser displaying the document specified by FILENAME.\n"
+"\n"
+msgstr ""
+"用法：%s 文件名\n"
+"\n"
+"一个非常简单的 HTML 浏览器，用于显示在 文件名 中列出的文件。\n"
+"\n"
 
-msgid   "\n"
-        "  Caller id:\t"
-msgstr  "\n"
-        "  呼叫者 ID:\t"
-
-msgid   "Workspace: "
-msgstr  "工作区："
-
-msgid   "Back"
-msgstr  "后退"
-
-msgid   "Alt+Left"
-msgstr  "Alt+Left"
-
-msgid   "Forward"
-msgstr  "前进"
-
-msgid   "Alt+Right"
-msgstr  "Alt+Right"
-
-msgid   "Previous"
-msgstr  "上一页"
-
-msgid   "Next"
-msgstr  "下一页"
-
-msgid   "Contents"
-msgstr  "内容"
-
-msgid   "Index"
-msgstr  "索引"
-
-#. fCloseButton->setWinGravity(NorthEastGravity);
-msgid   "Close"
-msgstr  "关闭"
-
-msgid   "Ctrl+Q"
-msgstr  "Ctrl+Q"
-
+#: src/icehelp.cc:1336
 #, c-format
-msgid   "Usage: %s FILENAME\n"
-        "\n"
-        "A very simple HTML browser displaying the document specified by "
-        "FILENAME.\n"
-        "\n"
-msgstr  "用法：%s 文件名\n"
-        "\n"
-        "一个非常简单的 HTML 浏览器，用于显示在 文件名 中列出的文件。\n"
-        "\n"
+msgid "Invalid path: %s\n"
+msgstr "路径无效：%s\n"
 
+#: src/icehelp.cc:1341
+msgid "Invalid path: "
+msgstr "路径无效："
+
+#: src/icelist.cc:84
+msgid "List View"
+msgstr "列表显示"
+
+#: src/icelist.cc:85
+msgid "Icon View"
+msgstr "图标显示"
+
+#: src/icelist.cc:89
+msgid "Open"
+msgstr "打开"
+
+#: src/icesame.cc:58
+msgid "Undo"
+msgstr "撤销"
+
+#: src/icesame.cc:58
+msgid "Ctrl+Z"
+msgstr "Ctrl+Z"
+
+#: src/icesame.cc:60
+msgid "New"
+msgstr "新建"
+
+#: src/icesame.cc:60
+msgid "Ctrl+N"
+msgstr "Ctrl+N"
+
+#: src/icesame.cc:61
+msgid "Restart"
+msgstr "重新启动"
+
+#: src/icesame.cc:61
+msgid "Ctrl+R"
+msgstr "Ctrl+R"
+
+#: src/icesame.cc:66
+msgid "Same Game"
+msgstr "Same 游戏"
+
+#: src/icesh.cc:187
 #, c-format
-msgid   "Invalid path: %s\n"
-msgstr  "路径无效：%s\n"
+msgid "Action `%s' requires at least %d arguments."
+msgstr "命令 `%s' 需要至少 %d 个参数。"
 
-msgid   "Invalid path: "
-msgstr  "路径无效："
-
-msgid   "List View"
-msgstr  "列表显示"
-
-msgid   "Icon View"
-msgstr  "图标显示"
-
-msgid   "Open"
-msgstr  "打开"
-
-msgid   "Undo"
-msgstr  "撤销"
-
-msgid   "Ctrl+Z"
-msgstr  "Ctrl+Z"
-
-msgid   "New"
-msgstr  "新建"
-
-msgid   "Ctrl+N"
-msgstr  "Ctrl+N"
-
-msgid   "Restart"
-msgstr  "重新启动"
-
-msgid   "Ctrl+R"
-msgstr  "Ctrl+R"
-
-#. !!! fix
-msgid   "Same Game"
-msgstr  "Same 游戏"
-
-#. ****************************************************************************
-#. ****************************************************************************
+#: src/icesh.cc:194
 #, c-format
-msgid   "Action `%s' requires at least %d arguments."
-msgstr  "命令 `%s' 需要至少 %d 个参数。"
+msgid "Invalid expression: `%s'"
+msgstr "无效表达式: `%s'"
 
+#: src/icesh.cc:316
 #, c-format
-msgid   "Invalid expression: `%s'"
-msgstr  "无效表达式: `%s'"
+msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
+msgstr "域 `%s' 中已命名的标志（数字范围： %ld-%ld）：\n"
 
+#: src/icesh.cc:429
 #, c-format
-msgid   "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
-msgstr  "域 `%s' 中已命名的标志（数字范围： %ld-%ld）：\n"
+msgid "Invalid workspace name: `%s'"
+msgstr "无效的工作区名: `%s'"
 
+#: src/icesh.cc:435
 #, c-format
-msgid   "Invalid workspace name: `%s'"
-msgstr  "无效的工作区名: `%s'"
+msgid "Workspace out of range: %d"
+msgstr "工作区超出了范围：%d"
 
+#: src/icesh.cc:569
 #, c-format
-msgid   "Workspace out of range: %d"
-msgstr  "工作区超出了范围：%d"
+msgid ""
+"Usage: %s [OPTIONS] ACTIONS\n"
+"\n"
+"Options:\n"
+"  -display DISPLAY            Connects to the X server specified by "
+"DISPLAY.\n"
+"                              Default: $DISPLAY or :0.0 when not set.\n"
+"  -window WINDOW_ID           Specifies the window to manipulate. Special\n"
+"                              identifiers are `root' for the root window "
+"and\n"
+"                              `focus' for the currently focused window.\n"
+"  -class WM_CLASS             Window management class of the window(s) to\n"
+"                              manipulate. If WM_CLASS contains a period, "
+"only\n"
+"                              windows with exactly the same WM_CLASS "
+"property\n"
+"                              are matched. If there is no period, windows "
+"of\n"
+"                              the same class and windows of the same "
+"instance\n"
+"                              (aka. `-name') are selected.\n"
+"\n"
+"Actions:\n"
+"  setIconTitle   TITLE        Set the icon title.\n"
+"  setWindowTitle TITLE        Set the window title.\n"
+"  setGeometry    geometry     Set the window geometry\n"
+"  setState       MASK STATE   Set the GNOME window state to STATE.\n"
+"                              Only the bits selected by MASK are affected.\n"
+"                              STATE and MASK are expressions of the domain\n"
+"                              `GNOME window state'.\n"
+"  toggleState    STATE        Toggle the GNOME window state bits specified "
+"by\n"
+"                              the STATE expression.\n"
+"  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
+"  setLayer       LAYER        Moves the window to another GNOME window "
+"layer.\n"
+"  setWorkspace   WORKSPACE    Moves the window to another workspace. Select\n"
+"                              the root window to change the current "
+"workspace.\n"
+"  listWorkspaces              Lists the names of all workspaces.\n"
+"  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
+"\n"
+"Expressions:\n"
+"  Expressions are list of symbols of one domain concatenated by `+' or `|':\n"
+"\n"
+"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
+"\n"
+msgstr ""
+"用法： %s [选项] 行为\n"
+"\n"
+"选项：\n"
+"  -display DISPLAY            连接到以DISPLAY指定的 X server 。\n"
+"                              当没有设置时的 缺省值： $DISPLAY 或者 :0.0 。\n"
+"  -window WINDOW_ID           指定要使用的窗口。 特别的\n"
+"                              root 的标识符为 ‘root’ 窗口和\n"
+"                              当前聚焦窗口为‘focus' 。\n"
+"  -class WM_CLASS             指定要使用的窗口类。如果 WM_CLASS 包含\n"
+"                              \".\"，那么只管理那些 WM_CLASS 属性完全一致\n"
+"                              的窗口。如果不包含\".\"，则属于相同类和属于\n"
+"                              相同进程(又称为 `-name')的窗口都会被被选取。\n"
+"行为:\n"
+"  setIconTitle TITLE          设置图标标题。\n"
+"  setWindowTitle TITLE        设置窗口标题。\n"
+"  setGeometry geometry        设置窗口位置和大小。\n"
+"  setState MASK STATE         设置GNOME窗口状态到 STATE。\n"
+"                              只有由 MASK 选择的位才受影响。\n"
+"                              STATE 和 MASK 是范围的表达式 。\n"
+"                              `GNOME 窗口状态'。\n"
+"  toggleState STATE           切换 GNOME 窗口状态位 由 STATE 表达式\n"
+"                              指定。\n"
+"  setHints HINTS              设置 GNOME 窗口提示到 HINTS。\n"
+"  setLayer LAYER              移动窗口到另一个 GNOME 窗口层。\n"
+"  setWorkspace WORKSPACE      移动窗口到另一个工作区。 选择\n"
+"                              根窗口来改变当前工作区。\n"
+"  listWorkspaces              列出所有工作区的名字。\n"
+"  setTrayOption TRAYOPTION    设置 IceWM 托盘选项提示。\n"
+"\n"
+"表达式：\n"
+"  表达式是一连串由`+'或`|'连接起来的符号:\n"
+"\n"
+"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
+"\n"
 
+#: src/icesh.cc:608
+msgid "GNOME window state"
+msgstr "GNOME 窗口状态"
+
+#: src/icesh.cc:609
+msgid "GNOME window hint"
+msgstr "GNOME 窗口提示"
+
+#: src/icesh.cc:610
+msgid "GNOME window layer"
+msgstr "GNOME 窗口层次"
+
+#: src/icesh.cc:611
+msgid "IceWM tray option"
+msgstr "IceWM 托盘选项"
+
+#: src/icesh.cc:616
+msgid "Usage error: "
+msgstr "用法错误："
+
+#: src/icesh.cc:687
 #, c-format
-msgid   "Usage: %s [OPTIONS] ACTIONS\n"
-        "\n"
-        "Options:\n"
-        "  -display DISPLAY            Connects to the X server specified by "
-        "DISPLAY.\n"
-        "                              Default: $DISPLAY or :0.0 when not "
-        "set.\n"
-        "  -window WINDOW_ID           Specifies the window to manipulate. "
-        "Special\n"
-        "                              identifiers are `root' for the root "
-        "window and\n"
-        "                              `focus' for the currently focused "
-        "window.\n"
-        "  -class WM_CLASS             Window management class of the window"
-        "(s) to\n"
-        "                              manipulate. If WM_CLASS contains a "
-        "period, only\n"
-        "                              windows with exactly the same WM_CLASS "
-        "property\n"
-        "                              are matched. If there is no period, "
-        "windows of\n"
-        "                              the same class and windows of the same "
-        "instance\n"
-        "                              (aka. `-name') are selected.\n"
-        "\n"
-        "Actions:\n"
-        "  setIconTitle   TITLE        Set the icon title.\n"
-        "  setWindowTitle TITLE        Set the window title.\n"
-        "  setGeometry    geometry     Set the window geometry\n"
-        "  setState       MASK STATE   Set the GNOME window state to STATE.\n"
-        "                              Only the bits selected by MASK are "
-        "affected.\n"
-        "                              STATE and MASK are expressions of the "
-        "domain\n"
-        "                              `GNOME window state'.\n"
-        "  toggleState    STATE        Toggle the GNOME window state bits "
-        "specified by\n"
-        "                              the STATE expression.\n"
-        "  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
-        "  setLayer       LAYER        Moves the window to another GNOME "
-        "window layer.\n"
-        "  setWorkspace   WORKSPACE    Moves the window to another workspace. "
-        "Select\n"
-        "                              the root window to change the current "
-        "workspace.\n"
-        "  listWorkspaces              Lists the names of all workspaces.\n"
-        "  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
-        "\n"
-        "Expressions:\n"
-        "  Expressions are list of symbols of one domain concatenated by `+' "
-        "or `|':\n"
-        "\n"
-        "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
-        "\n"
-msgstr  "用法： %s [选项] 行为\n"
-        "\n"
-        "选项：\n"
-        "  -display DISPLAY            连接到以DISPLAY指定的 X server 。\n"
-        "                              当没有设置时的 缺省值： $DISPLAY 或"
-        "者 :0.0 。\n"
-        "  -window WINDOW_ID           指定要使用的窗口。 特别的\n"
-        "                              root 的标识符为 ‘root’ 窗口和\n"
-        "                              当前聚焦窗口为‘focus' 。\n"
-        "  -class WM_CLASS             指定要使用的窗口类。如果 WM_CLASS 包"
-        "含\n"
-        "                              \".\"，那么只管理那些 WM_CLASS 属性完全"
-        "一致\n"
-        "                              的窗口。如果不包含\".\"，则属于相同类和"
-        "属于\n"
-        "                              相同进程(又称为 `-name')的窗口都会被被"
-        "选取。\n"
-        "行为:\n"
-        "  setIconTitle TITLE          设置图标标题。\n"
-        "  setWindowTitle TITLE        设置窗口标题。\n"
-        "  setGeometry geometry        设置窗口位置和大小。\n"
-        "  setState MASK STATE         设置GNOME窗口状态到 STATE。\n"
-        "                              只有由 MASK 选择的位才受影响。\n"
-        "                              STATE 和 MASK 是范围的表达式 。\n"
-        "                              `GNOME 窗口状态'。\n"
-        "  toggleState STATE           切换 GNOME 窗口状态位 由 STATE 表达式\n"
-        "                              指定。\n"
-        "  setHints HINTS              设置 GNOME 窗口提示到 HINTS。\n"
-        "  setLayer LAYER              移动窗口到另一个 GNOME 窗口层。\n"
-        "  setWorkspace WORKSPACE      移动窗口到另一个工作区。 选择\n"
-        "                              根窗口来改变当前工作区。\n"
-        "  listWorkspaces              列出所有工作区的名字。\n"
-        "  setTrayOption TRAYOPTION    设置 IceWM 托盘选项提示。\n"
-        "\n"
-        "表达式：\n"
-        "  表达式是一连串由`+'或`|'连接起来的符号:\n"
-        "\n"
-        "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
-        "\n"
+msgid "Invalid argument: `%s'."
+msgstr "无效参数：`%s'"
 
-msgid   "GNOME window state"
-msgstr  "GNOME 窗口状态"
+#: src/icesh.cc:696
+msgid "No actions specified."
+msgstr "未指定行为"
 
-msgid   "GNOME window hint"
-msgstr  "GNOME 窗口提示"
-
-msgid   "GNOME window layer"
-msgstr  "GNOME 窗口层次"
-
-msgid   "IceWM tray option"
-msgstr  "IceWM 托盘选项"
-
-msgid   "Usage error: "
-msgstr  "用法错误："
-
+#: src/icesh.cc:703 src/icesound.cc:1048 src/icewmhint.cc:74 src/yxapp.cc:971
 #, c-format
-msgid   "Invalid argument: `%s'."
-msgstr  "无效参数：`%s'"
+msgid "Can't open display: %s. X must be running and $DISPLAY set."
+msgstr "无法打开显示：%s。 X必须正在执行且设定 $DISPLAY。"
 
-msgid   "No actions specified."
-msgstr  "未指定行为"
-
-#. ====== connect to X11 ===
+#: src/icesh.cc:743
 #, c-format
-msgid   "Can't open display: %s. X must be running and $DISPLAY set."
-msgstr  "无法打开显示：%s。 X必须正在执行且设定 $DISPLAY。"
+msgid "Invalid window identifier: `%s'"
+msgstr "无效的窗口标识符：%s "
 
+#: src/icesh.cc:896
 #, c-format
-msgid   "Invalid window identifier: `%s'"
-msgstr  "无效的窗口标识符：%s "
+msgid "workspace #%d: `%s'\n"
+msgstr "工作区 #%d: `%s'\n"
 
+#: src/icesh.cc:914
 #, c-format
-msgid   "workspace #%d: `%s'\n"
-msgstr  "工作区 #%d: `%s'\n"
+msgid "Unknown action: `%s'"
+msgstr "未知的行为：`%s'"
 
+#: src/iceskt.cc:36
 #, c-format
-msgid   "Unknown action: `%s'"
-msgstr  "未知的行为：`%s'"
+msgid "Socket error: %d"
+msgstr "socket 错误：%d"
 
+#: src/icesound.cc:256 src/icesound.cc:424 src/icesound.cc:790
 #, c-format
-msgid   "Socket error: %d"
-msgstr  "socket 错误：%d"
+msgid "Playing sample #%d (%s)"
+msgstr "播放例子 #%d (%s)"
 
+#: src/icesound.cc:466
 #, c-format
-msgid   "Playing sample #%d (%s)"
-msgstr  "播放例子 #%d (%s)"
+msgid "No such device: %s"
+msgstr "没有这样的设备：%s"
 
+#: src/icesound.cc:559
 #, c-format
-msgid   "No such device: %s"
-msgstr  "没有这样的设备：%s"
+msgid "Can't connect to ESound daemon: %s"
+msgstr "不能连接ESound后台程序: %s"
 
+#: src/icesound.cc:560 src/icesound.cc:737 src/icesound.cc:778
+#: src/icewmhint.cc:76 src/yxapp.cc:972
+msgid "<none>"
+msgstr "<无>"
+
+#: src/icesound.cc:580
 #, c-format
-msgid   "Can't connect to ESound daemon: %s"
-msgstr  "不能连接ESound后台程序: %s"
+msgid "Error <%d> while uploading `%s:%s'"
+msgstr "当上载 <%d> %s：%s 时发生错误"
 
-msgid   "<none>"
-msgstr  "<无>"
-
+#: src/icesound.cc:586
 #, c-format
-msgid   "Error <%d> while uploading `%s:%s'"
-msgstr  "当上载 <%d> %s：%s 时发生错误"
+msgid "Sample <%d> uploaded as `%s:%s'"
+msgstr "以 <%d> %s：%s 上载例子"
 
+#: src/icesound.cc:645
 #, c-format
-msgid   "Sample <%d> uploaded as `%s:%s'"
-msgstr  "以 <%d> %s：%s 上载例子"
+msgid "Playing sample #%d"
+msgstr "播放例子 #%d"
 
+#: src/icesound.cc:736 src/icesound.cc:777
 #, c-format
-msgid   "Playing sample #%d"
-msgstr  "播放例子 #%d"
+msgid "Can't connect to YIFF server: %s"
+msgstr "不能连接 YIFF 服务器：%s"
 
+#: src/icesound.cc:742
 #, c-format
-msgid   "Can't connect to YIFF server: %s"
-msgstr  "不能连接 YIFF 服务器：%s"
+msgid "Can't change to audio mode `%s'."
+msgstr "不能音频模式改到模式 %s。"
 
+#: src/icesound.cc:884
 #, c-format
-msgid   "Can't change to audio mode `%s'."
-msgstr  "不能音频模式改到模式 %s。"
+msgid ""
+"Audio mode switch detected, initial audio mode `%s' no longer in effect."
+msgstr "探测到音频模式改变了，原来的音频模式 `%s' 不再起作用。"
 
+#: src/icesound.cc:891
+msgid "Audio mode switch detected, automatic audio mode changing disabled."
+msgstr "探测到音频模式改变了，音频模式自动改变被屏蔽。"
+
+#: src/icesound.cc:937 src/icesound.cc:950
 #, c-format
-msgid   "Audio mode switch detected, initial audio mode `%s' no longer in "
-        "effect."
-msgstr  "探测到音频模式改变了，原来的音频模式 `%s' 不再起作用。"
+msgid "Overriding previous audio mode `%s'."
+msgstr "覆盖先前的音频模式 `%s'。"
 
-msgid   "Audio mode switch detected, automatic audio mode changing disabled."
-msgstr  "探测到音频模式改变了，音频模式自动改变被屏蔽。"
-
+#: src/icesound.cc:976
 #, c-format
-msgid   "Overriding previous audio mode `%s'."
-msgstr  "覆盖先前的音频模式 `%s'。"
+msgid ""
+"Usage: %s [OPTION]...\n"
+"\n"
+"Plays audio files on GUI events raised by IceWM.\n"
+"\n"
+"Options:\n"
+"\n"
+"-d, --display=DISPLAY         Display used by IceWM (default: $DISPLAY).\n"
+"-s, --sample-dir=DIR          Specifies the directory which contains\n"
+"                              the sound files (ie ~/.icewm/sounds).\n"
+"-i, --interface=TARGET        Specifies the sound output target\n"
+"                              interface, one of OSS, YIFF, ESD, ALSA\n"
+"-D, --device=DEVICE           (ALSA & OSS only) specifies the device to use\n"
+"                              (OSS default: /dev/dsp; ALSA: default).\n"
+"-S, --server=ADDR:PORT        (ESD and YIFF) specifies server address and\n"
+"                              port number (default localhost:16001 for ESD\n"
+"                              and localhost:9433 for YIFF).\n"
+"-m, --audio-mode[=MODE]       (YIFF only) specifies the Audio mode (leave\n"
+"                              blank to get a list).\n"
+"--audio-mode-auto             (YIFF only) change Audio mode on the fly to\n"
+"                              best match sample's Audio (can cause\n"
+"                              problems with other Y clients, overrides\n"
+"                              --audio-mode).\n"
+"\n"
+"-v, --verbose                 Be verbose (prints out each sound event to\n"
+"                              stdout).\n"
+"-V, --version                 Prints version information and exits.\n"
+"-h, --help                    Prints (this) help screen and exits.\n"
+"\n"
+"Return values:\n"
+"\n"
+"0     Success.\n"
+"1     General error.\n"
+"2     Command line error.\n"
+"3     Subsystems error (ie cannot connect to server).\n"
+"\n"
+msgstr ""
+"用法： %s [选项]...\n"
+"\n"
+"发生GUI事件时 IceWM 播放声音文件。\n"
+"\n"
+"选项：\n"
+"\n"
+"-d, --display=DISPLAY         IceWM 使用的 Display (缺省： $DISPLAY).\n"
+"-s, --sample-dir=DIR          指定包含声音文件的目录 (如\n"
+"                              ~/.icewm/sounds). \n"
+"-i, --interface=TARGET        指定声音输出的目标接口, ALSA, OSS,\n"
+"                              YIFF, ESD中的一个 \n"
+"-D, --device=DEVICE           (ALSA OSS) 指定数字信号处理器\n"
+"                              (缺省为 (ALSA) default (OSS) /dev/dsp)。 \n"
+"-S, --server=ADDR:PORT        (ESD 和 YIFF) 指定服务器地址和\n"
+"                              端口 (缺省： ESD：localhost:16001\n"
+"                              ，YIFF：localhost:9433).\n"
+"-m, --audio-mode[=MODE]       (YIFF only) 指定音频模式\n"
+"                              (去获取一个列表)。\n"
+"--audio-mode-auto             (YIFF only) 改变音频模式使即时与例\n"
+"                              子的音频匹配到最好（可能与其它\n"
+"                               Y 客户引起问题， overrides\n"
+"                              --audio-mode).\n"
+"\n"
+"-v, --verbose                 详细情况 (打印每一个声音事件到\n"
+"                              标准输出)。\n"
+"-V, --version                 打印版本信息并退出。\n"
+"-h, --help                    打印（这个）帮助屏幕并退出。\n"
+"\n"
+"返回值：\n"
+"\n"
+"0     成功。\n"
+"1     一般错误。\n"
+"2     命令行错误。\n"
+"3     子系统错误 (如 不能连接到服务器）。\n"
+"\n"
 
+#: src/icesound.cc:1173
+msgid "Multiple sound interfaces given."
+msgstr "给出的多重音频接口。"
+
+#: src/icesound.cc:1185 src/icesound.cc:1197 src/icesound.cc:1210
 #, c-format
-msgid   "Usage: %s [OPTION]...\n"
-	"\n"
-	"Plays audio files on GUI events raised by IceWM.\n"
-	"\n"
-	"Options:\n"
-	"\n"
-	"-d, --display=DISPLAY         Display used by IceWM (default: $DISPLAY).\n"
-	"-s, --sample-dir=DIR          Specifies the directory which contains\n"
-	"                              the sound files (ie ~/.icewm/sounds).\n"
-	"-i, --interface=TARGET        Specifies the sound output target\n"
-	"                              interface, one of OSS, YIFF, ESD, ALSA\n"
-	"-D, --device=DEVICE           (ALSA & OSS only) specifies the device to use\n"
-	"                              (OSS default: /dev/dsp; ALSA: default).\n"
-	"-S, --server=ADDR:PORT        (ESD and YIFF) specifies server address and\n"
-	"                              port number (default localhost:16001 for ESD\n"
-	"                              and localhost:9433 for YIFF).\n"
-	"-m, --audio-mode[=MODE]       (YIFF only) specifies the Audio mode (leave\n"
-	"                              blank to get a list).\n"
-	"--audio-mode-auto             (YIFF only) change Audio mode on the fly to\n"
-	"                              best match sample's Audio (can cause\n"
-	"                              problems with other Y clients, overrides\n"
-	"                              --audio-mode).\n"
-	"\n"
-	"-v, --verbose                 Be verbose (prints out each sound event to\n"
-	"                              stdout).\n"
-	"-V, --version                 Prints version information and exits.\n"
-	"-h, --help                    Prints (this) help screen and exits.\n"
-	"\n"
-	"Return values:\n"
-	"\n"
-	"0     Success.\n"
-	"1     General error.\n"
-	"2     Command line error.\n"
-	"3     Subsystems error (ie cannot connect to server).\n"
-	"\n"
-msgstr  "用法： %s [选项]...\n"
-        "\n"
-        "发生GUI事件时 IceWM 播放声音文件。\n"
-        "\n"
-        "选项：\n"
-        "\n"
-        "-d, --display=DISPLAY         IceWM 使用的 Display (缺省： $DISPLAY).\n"
-        "-s, --sample-dir=DIR          指定包含声音文件的目录 (如\n"
-        "                              ~/.icewm/sounds). \n"
-        "-i, --interface=TARGET        指定声音输出的目标接口, ALSA, OSS,\n"
-        "                              YIFF, ESD中的一个 \n"
-        "-D, --device=DEVICE           (ALSA OSS) 指定数字信号处理器\n"
-        "                              (缺省为 (ALSA) default (OSS) /dev/dsp)。 \n"
-        "-S, --server=ADDR:PORT        (ESD 和 YIFF) 指定服务器地址和\n"
-        "                              端口 (缺省： ESD：localhost:16001\n"
-        "                              ，YIFF：localhost:9433).\n"
-        "-m, --audio-mode[=MODE]       (YIFF only) 指定音频模式\n"
-        "                              (去获取一个列表)。\n"
-        "--audio-mode-auto             (YIFF only) 改变音频模式使即时与例\n"
-        "                              子的音频匹配到最好（可能与其它\n"
-        "                               Y 客户引起问题， overrides\n"
-        "                              --audio-mode).\n"
-        "\n"
-        "-v, --verbose                 详细情况 (打印每一个声音事件到\n"
-        "                              标准输出)。\n"
-        "-V, --version                 打印版本信息并退出。\n"
-        "-h, --help                    打印（这个）帮助屏幕并退出。\n"
-        "\n"
-        "返回值：\n"
-        "\n"
-        "0     成功。\n"
-        "1     一般错误。\n"
-        "2     命令行错误。\n"
-        "3     子系统错误 (如 不能连接到服务器）。\n"
-        "\n"
+msgid "Support for the %s interface not compiled."
+msgstr "接口 %s 未编译支持。"
 
-msgid   "Multiple sound interfaces given."
-msgstr  "给出的多重音频接口。"
-
+#: src/icesound.cc:1214
 #, c-format
-msgid   "Support for the %s interface not compiled."
-msgstr  "接口 %s 未编译支持。"
+msgid "Unsupported interface: %s."
+msgstr "不支持的接口：%s"
 
+#: src/icesound.cc:1231
 #, c-format
-msgid   "Unsupported interface: %s."
-msgstr  "不支持的接口：%s"
+msgid "Received signal %d: Terminating..."
+msgstr "收到信号 %d：终止..."
 
+#: src/icesound.cc:1240
 #, c-format
-msgid   "Received signal %d: Terminating..."
-msgstr  "收到信号 %d：终止..."
+msgid "Received signal %d: Reloading samples..."
+msgstr "收到信号 %d：重新装载例子..."
 
-#, c-format
-msgid   "Received signal %d: Reloading samples..."
-msgstr  "收到信号 %d：重新装载例子..."
+#: src/iceview.cc:72
+msgid "Hex View"
+msgstr "16进制显示"
 
-msgid   "Hex View"
-msgstr  "16进制显示"
+#: src/iceview.cc:72
+msgid "Ctrl+H"
+msgstr "Ctrl+H"
 
-msgid   "Ctrl+H"
-msgstr  "Ctrl+H"
+#: src/iceview.cc:73
+msgid "Expand Tabs"
+msgstr "展开 Tab"
 
-msgid   "Expand Tabs"
-msgstr  "展开 Tab"
+#: src/iceview.cc:73
+msgid "Ctrl+T"
+msgstr "Ctrl+T"
 
-msgid   "Ctrl+T"
-msgstr  "Ctrl+T"
+#: src/iceview.cc:74
+msgid "Wrap Lines"
+msgstr "换行"
 
-msgid   "Wrap Lines"
-msgstr  "换行"
+#: src/iceview.cc:74
+msgid "Ctrl+W"
+msgstr "Ctrl+W"
 
-msgid   "Ctrl+W"
-msgstr  "Ctrl+W"
-
-msgid   "Usage: icewmbg [ -r | -q ]\n"
-        " -r  Restart icewmbg\n"
-        " -q  Quit icewmbg\n"
-        "Loads desktop background according to preferences file\n"
-        " DesktopBackgroundCenter  - Display desktop background centered, not "
-        "tiled\n"
-        " SupportSemitransparency  - Support for semitransparent terminals\n"
-        " DesktopBackgroundColor   - Desktop background color\n"
-        " DesktopBackgroundImage   - Desktop background image\n"
-        " DesktopTransparencyColor - Color to announce for semi-transparent "
-        "windows\n"
-        " DesktopTransparencyImage - Image to announce for semi-transparent "
-        "windows\n"
-msgstr  "用法: icewmbg [ -r | -q ]\n"
-        " -r 重启 icewmbg\n"
-        " -q 退出 icewmbg\n"
-        "依照配置文件加载桌面背景\n"
-        " DesktopBackgroundCenter  - 居中显示桌面背景，不平铺\n"
-        " SupportSemitransparency  - 支持半透明终端\n"
-        " DesktopBackgroundColor   - 桌面背景颜色\n"
-        " DesktopBackgroundImage   - 桌面背景图片\n"
-        " DesktopTransparencyColor - 半透明窗口使用的颜色\n"
-        " DesktopTransparencyImage - 半透明窗口使用的图片\n"
-
-#, c-format
-msgid   "%s: unrecognized option `%s'\n"
-        "Try `%s --help' for more information.\n"
-msgstr  "%s: 无法识别的选项：%s\n"
-        "尝试“%s --help”获得更多的信息。\n"
-
-#, c-format
-msgid   "Loading image %s failed"
-msgstr  "载入图象 %s 失败"
-
-#, c-format
-msgid   "Loading of pixmap \"%s\" failed: %s"
-msgstr  "载入图象 \"%s\" 失败: %s"
-
-msgid   "Usage: icewmhint [class.instance] option arg\n"
-msgstr  "用法：icewmhint [class.instance] option arg\n"
-
-#, c-format
-msgid   "Out of memory (len=%d)."
-msgstr  "内存不足（len=%d）。"
-
-msgid   "Warning: "
-msgstr  "警告："
-
-#, c-format
-msgid   "Unknown direction in move/resize request: %d"
-msgstr  "move/resize 请求中包含未知的方向: %d"
-
-msgid   "Default"
-msgstr  "缺省"
-
-msgid   "(C)"
-msgstr  "(C)"
-
-msgid   "Theme:"
-msgstr  "主题："
-
-msgid   "Theme Description:"
-msgstr  "主题描述："
-
-msgid   "Theme Author:"
-msgstr  "主题作者："
-
-msgid   "CodeSet:"
-msgstr  ""
-
-msgid   "Language:"
-msgstr  ""
-
-msgid   "icewm - About"
-msgstr  "icewm - 关于"
-
-msgid   "Unable to get current font path."
-msgstr  "不能取得当前字体路径。"
-
-msgid   "Unexpected format of ICEWM_FONT_PATH property"
-msgstr  "ICEWM_FONT_PATH 属性的格式不能识别"
-
-#, c-format
-msgid   "Multiple references for gradient \"%s\""
-msgstr  "梯度 \"%s\" 有多个引用"
-
-#, c-format
-msgid   "Unknown gradient name: %s"
-msgstr  "未知的梯度名: %s"
-
-msgid   "_Logout"
-msgstr  "退出(_L)"
-
-msgid   "_Cancel logout"
-msgstr  "取消退出(_C)"
-
-msgid   "Lock _Workstation"
-msgstr  "锁住工作站(_W)"
-
-msgid   "Re_boot"
-msgstr  "重启计算机(_B)"
-
-msgid   "Shut_down"
-msgstr  "关机(_D)"
-
-msgid   "Restart _Icewm"
-msgstr  "重新启动 Icewm(_I)"
-
-msgid   "Restart _Xterm"
-msgstr  "重新启动 Xterm(_X)"
-
-msgid   "_Menu"
-msgstr  "菜单(_M)"
-
-msgid   "_Above Dock"
-msgstr  "停放在上面(_A)"
-
-msgid   "_Dock"
-msgstr  "停放(_D)"
-
-msgid   "_OnTop"
-msgstr  "顶层(_O)"
-
-msgid   "_Normal"
-msgstr  "正常(_N)"
-
-msgid   "_Below"
-msgstr  "底层(_B)"
-
-msgid   "D_esktop"
-msgstr  "桌面(_E)"
-
-msgid   "_Restore"
-msgstr  "恢复(_R)"
-
-msgid   "_Move"
-msgstr  "移动(_M)"
-
-msgid   "_Size"
-msgstr  "改变大小(_S)"
-
-msgid   "Mi_nimize"
-msgstr  "最小化(_N)"
-
-msgid   "Ma_ximize"
-msgstr  "最大化(_X)"
-
-msgid   "_Fullscreen"
-msgstr  "全屏(_F)"
-
-msgid   "_Hide"
-msgstr  "隐藏(_H)"
-
-msgid   "Roll_up"
-msgstr  "卷起(_U)"
-
-msgid   "R_aise"
-msgstr  "提升(_A)"
-
-msgid   "_Lower"
-msgstr  "降低(_L)"
-
-msgid   "La_yer"
-msgstr  "层次(_Y)"
-
-msgid   "Move _To"
-msgstr  "移动到(_T)"
-
-msgid   "Occupy _All"
-msgstr  "占据所有(_A)"
-
-msgid   "Limit _Workarea"
-msgstr  "限制工作区(_W)"
-
-msgid   "Tray _icon"
-msgstr  "托盘图标(_I)"
-
-msgid   "_Close"
-msgstr  "关闭(_C)"
-
-msgid   "_Kill Client"
-msgstr  "杀死客户程序(_K)"
-
-msgid   "_Window list"
-msgstr  "窗口列表(_W)"
-
-msgid   "Another window manager already running, exiting..."
-msgstr  "另外的 窗口管理器 已经在运行，退出..."
-
-#, c-format
-msgid   "Could not restart: %s\n"
-        "Does $PATH lead to %s?"
-msgstr  "无法重新启动：%s\n"
-        "%s 在路径 $PATH 中吗？"
-
-#, c-format
-msgid   "Usage: %s [OPTIONS]\n"
-        "Starts the IceWM window manager.\n"
-        "\n"
-        "Options:\n"
-        "  --display=NAME      NAME of the X server to use.\n"
-        "%s  --sync              Synchronize X11 commands.\n"
-        "\n"
-        "  -c, --config=FILE   Load preferences from FILE.\n"
-        "  -t, --theme=FILE    Load theme from FILE.\n"
-        "  -n, --no-configure  Ignore preferences file.\n"
-        "\n"
-        "  -v, --version       Prints version information and exits.\n"
-        "  -h, --help          Prints this usage screen and exits.\n"
-        "%s  --replace           Replace an existing window manager.\n"
-        "  --restart           Don't use this: It's an internal flag.\n"
-        "\n"
-        "Environment variables:\n"
-        "  ICEWM_PRIVCFG=PATH  Directory to use for user private "
-        "configuration files,\n"
-        "                      \"$HOME/.icewm/\" by default.\n"
-        "  DISPLAY=NAME        Name of the X server to use, depends on Xlib "
-        "by default.\n"
-        "  MAIL=URL            Location of your mailbox. If the schema is "
-        "omitted\n"
-        "                      the local \"file\" schema is assumed.\n"
-        "\n"
-        "Visit http://www.icewm.org/ for report bugs, support requests, "
-        "comments...\n"
-msgstr  "用法: %s [选项]\n"
-        "启动 IceWM 窗口管理器。\n"
-        "\n"
-        "选项:\n"
-        "  --display=NAME      使用的 X 服务器名。\n"
-        "%s  --sync              同步 X11 命令。\n"
-        "\n"
-        "  -c, --config=FILE   从 FILE 加载配置。\n"
-        "  -t, --theme=FILE    从 FILE 加载主题。\n"
-        "  -n, --no-configure  忽略配置文件。\n"
-        "\n"
-        "  -v, --version       显示版本信息并退出。\n"
-        "  -h, --help          显示帮助信息并退出。\n"
-        "%s  --replace           取代当前的窗口管理器。\n"
-        "  --restart           不要使用: 这是一个内部标志。\n"
-        "\n"
-        "环境变量:\n"
-        "  ICEWM_PRIVCFG=PATH  用户配置文件目录，缺省为\"$HOME/.icewm/\"\n"
-        "  DISPLAY=NAME        使用的 X 服务器名，缺省依赖于 Xlib。\n"
-        "  MAIL=URL            邮箱位置，如果忽略协议，则使用缺省的\"file\"协"
-        "议。\n"
-        "\n"
-        "访问 http://www.icewm.org/ 来报告错误，支持请求，评论...  \n"
-
-msgid   "Confirm Logout"
-msgstr  "确认退出"
-
-msgid   "Logout will close all active applications.\n"
-        "Proceed?"
-msgstr  "退出将关闭所有活动的应用程序。\n"
-        "继续吗？"
-
-msgid   "Bad Look name"
-msgstr  "错误的外观名"
-
+#: src/icewmbg.cc:408
 #, fuzzy
-msgid   "Loc_k Workstation"
-msgstr  "锁住工作站(_W)"
+msgid ""
+"Usage: icewmbg [ -r | -q ]\n"
+" -r  Restart icewmbg\n"
+" -q  Quit icewmbg\n"
+"Loads desktop background according to preferences file\n"
+" DesktopBackgroundCenter  - Display desktop background centered\n"
+" DesktopBackgroundScaled  - Display desktop background scaled\n"
+" SupportSemitransparency  - Support for semitransparent terminals\n"
+" DesktopBackgroundColor   - Desktop background color\n"
+" DesktopBackgroundImage   - Desktop background image\n"
+" DesktopTransparencyColor - Color to announce for semi-transparent windows\n"
+" DesktopTransparencyImage - Image to announce for semi-transparent windows\n"
+"\n"
+" center:0 scaled:0 = tiled\n"
+" center:1 scaled:1 = keep aspect ratio\n"
+msgstr ""
+"用法: icewmbg [ -r | -q ]\n"
+" -r 重启 icewmbg\n"
+" -q 退出 icewmbg\n"
+"依照配置文件加载桌面背景\n"
+" DesktopBackgroundCenter  - 居中显示桌面背景，不平铺\n"
+" SupportSemitransparency  - 支持半透明终端\n"
+" DesktopBackgroundColor   - 桌面背景颜色\n"
+" DesktopBackgroundImage   - 桌面背景图片\n"
+" DesktopTransparencyColor - 半透明窗口使用的颜色\n"
+" DesktopTransparencyImage - 半透明窗口使用的图片\n"
 
-msgid   "_Logout..."
-msgstr  "退出(_L)..."
-
-msgid   "_Cancel"
-msgstr  "取消(_C)"
-
-msgid   "_Restart icewm"
-msgstr  "重启 icewm(_R)"
-
-msgid   "_About"
-msgstr  "关于(_A)"
-
-msgid   "Maximize"
-msgstr  "最大化"
-
-#. fMinimizeButton->setWinGravity(NorthEastGravity);
-msgid   "Minimize"
-msgstr  "最小化"
-
-#. fHideButton->setWinGravity(NorthEastGravity);
-msgid   "Hide"
-msgstr  "隐藏"
-
-#. fRollupButton->setWinGravity(NorthEastGravity);
-msgid   "Rollup"
-msgstr  "卷起"
-
-#. fDepthButton->setWinGravity(NorthEastGravity);
-msgid   "Raise/Lower"
-msgstr  "提升/降低"
-
-msgid   "Kill Client: "
-msgstr  "杀死客户程序"
-
-msgid   "WARNING! All unsaved changes will be lost when\n"
-        "this client is killed. Do you wish to proceed?"
-msgstr  "警告！当这个客户程序被杀死时，所有\n"
-        "没有保存的修改将丢失。你想继续吗？"
-
-msgid   "Restore"
-msgstr  "恢复"
-
-msgid   "Rolldown"
-msgstr  "放下"
-
+#: src/icewmbg.cc:426
 #, c-format
-msgid   "Error in window option: %s"
-msgstr  "窗口选项错误：%s"
+msgid ""
+"%s: unrecognized option `%s'\n"
+"Try `%s --help' for more information.\n"
+msgstr ""
+"%s: 无法识别的选项：%s\n"
+"尝试“%s --help”获得更多的信息。\n"
 
+#: src/icewmbg.cc:554
 #, c-format
-msgid   "Unknown window option: %s"
-msgstr  "未知窗口选项：%s"
+msgid "Loading image %s failed"
+msgstr "载入图象 %s 失败"
 
-msgid   "Syntax error in window options"
-msgstr  "窗口选项句法错误"
-
-msgid   "Out of memory for window options"
-msgstr  "窗口选项内存不足"
-
-msgid   "Missing command argument"
-msgstr  "丢失命令参数"
-
+#: src/icewmbg.cc:568 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
 #, c-format
-msgid   "Bad argument %d"
-msgstr  "错误的参数 %d"
+msgid "Loading of pixmap \"%s\" failed: %s"
+msgstr "载入图象 \"%s\" 失败: %s"
 
+#: src/icewmhint.cc:47
+msgid "Usage: icewmhint [class.instance] option arg\n"
+msgstr "用法：icewmhint [class.instance] option arg\n"
+
+#: src/icewmhint.cc:63
 #, c-format
-msgid   "Error at prog %s"
-msgstr  "程序 %s 错误"
+msgid "Out of memory (len=%d)."
+msgstr "内存不足（len=%d）。"
 
+#: src/misc.cc:326
+msgid "Warning: "
+msgstr "警告："
+
+#: src/movesize.cc:903
 #, c-format
-msgid   "Unexepected keyword: %s"
-msgstr  "未期望的关键词: %s"
+msgid "Unknown direction in move/resize request: %d"
+msgstr "move/resize 请求中包含未知的方向: %d"
 
+#: src/themes.cc:99
+msgid "Default"
+msgstr "缺省"
+
+#: src/wmabout.cc:29 src/wmabout.cc:31
+msgid "(C)"
+msgstr "(C)"
+
+#: src/wmabout.cc:37
+msgid "Theme:"
+msgstr "主题："
+
+#: src/wmabout.cc:38
+msgid "Theme Description:"
+msgstr "主题描述："
+
+#: src/wmabout.cc:39
+msgid "Theme Author:"
+msgstr "主题作者："
+
+#: src/wmabout.cc:43
+msgid "CodeSet:"
+msgstr ""
+
+#: src/wmabout.cc:44
+msgid "Language:"
+msgstr ""
+
+#: src/wmabout.cc:69
+msgid "icewm - About"
+msgstr "icewm - 关于"
+
+#: src/wmapp.cc:435
+msgid "Unable to get current font path."
+msgstr "不能取得当前字体路径。"
+
+#: src/wmapp.cc:462
+msgid "Unexpected format of ICEWM_FONT_PATH property"
+msgstr "ICEWM_FONT_PATH 属性的格式不能识别"
+
+#: src/wmapp.cc:516
 #, c-format
-msgid   "Error at key %s"
-msgstr  "键 %s 错误"
+msgid "Multiple references for gradient \"%s\""
+msgstr "梯度 \"%s\" 有多个引用"
 
-#. /    if (programs->itemCount() > 0)
-msgid   "Programs"
-msgstr  "程序"
-
-msgid   "_Run..."
-msgstr  "运行(_R)"
-
-msgid   "_Windows"
-msgstr  "窗口(_W)"
-
-msgid   "_Help"
-msgstr  "帮助(_H)"
-
-msgid   "_Click to focus"
-msgstr  ""
-
-msgid   "_Sloppy mouse focus"
-msgstr  ""
-
-msgid   "Custo_m"
-msgstr  ""
-
-msgid   "_Focus"
-msgstr  ""
-
-msgid   "_Themes"
-msgstr  "主题(_T)"
-
-msgid   "Se_ttings"
-msgstr  ""
-
+#: src/wmapp.cc:591
 #, c-format
-msgid   "Session Manager: Unknown line %s"
-msgstr  "会话管理者：未知行 %s"
+msgid "Unknown gradient name: %s"
+msgstr "未知的梯度名: %s"
 
-msgid   "Task Bar"
-msgstr  "任务栏"
+#: src/wmapp.cc:847
+msgid "_Logout"
+msgstr "退出(_L)"
 
-msgid   "Tile _Vertically"
-msgstr  "垂直平铺(_V)"
+#: src/wmapp.cc:848
+msgid "_Cancel logout"
+msgstr "取消退出(_C)"
 
-msgid   "T_ile Horizontally"
-msgstr  "水平平铺(_I)"
+#: src/wmapp.cc:860
+msgid "Lock _Workstation"
+msgstr "锁住工作站(_W)"
 
-msgid   "Ca_scade"
-msgstr  "层叠(_S)"
+#: src/wmapp.cc:862 src/wmdialog.cc:111
+msgid "Re_boot"
+msgstr "重启计算机(_B)"
 
-msgid   "_Arrange"
-msgstr  "排列(_A)"
+#: src/wmapp.cc:864 src/wmdialog.cc:118
+msgid "Shut_down"
+msgstr "关机(_D)"
 
-msgid   "_Minimize All"
-msgstr  "全部最小化(_M)"
+#: src/wmapp.cc:868
+msgid "Restart _Icewm"
+msgstr "重新启动 Icewm(_I)"
 
-msgid   "_Hide All"
-msgstr  "全部隐藏(_H)"
+#: src/wmapp.cc:871
+msgid "Restart _Xterm"
+msgstr "重新启动 Xterm(_X)"
 
-msgid   "_Undo"
-msgstr  "撤消(_U)"
+#: src/wmapp.cc:886
+msgid "_Menu"
+msgstr "菜单(_M)"
 
-msgid   "Arrange _Icons"
-msgstr  "排列图标(_I)"
+#: src/wmapp.cc:887
+msgid "_Above Dock"
+msgstr "停放在上面(_A)"
 
-msgid   "_Refresh"
-msgstr  "刷新(_R)"
+#: src/wmapp.cc:888
+msgid "_Dock"
+msgstr "停放(_D)"
 
-msgid   "_License"
-msgstr  "许可(_L)"
+#: src/wmapp.cc:889
+msgid "_OnTop"
+msgstr "顶层(_O)"
 
-msgid   "Favorite applications"
-msgstr  "喜欢的应用程序"
+#: src/wmapp.cc:890
+msgid "_Normal"
+msgstr "正常(_N)"
 
-msgid   "Window list menu"
-msgstr  "窗口列表菜单"
+#: src/wmapp.cc:891
+msgid "_Below"
+msgstr "底层(_B)"
 
-msgid   "Show Desktop"
-msgstr  "显示桌面"
+#: src/wmapp.cc:892
+msgid "D_esktop"
+msgstr "桌面(_E)"
 
-msgid   "All Workspaces"
-msgstr  "所有工作区"
+#: src/wmapp.cc:904
+msgid "_Restore"
+msgstr "恢复(_R)"
 
-msgid   "Del"
-msgstr  "删除"
+#: src/wmapp.cc:906
+msgid "_Move"
+msgstr "移动(_M)"
 
-msgid   "_Terminate Process"
-msgstr  "结束进程(_T)"
+#: src/wmapp.cc:908
+msgid "_Size"
+msgstr "改变大小(_S)"
 
-msgid   "Kill _Process"
-msgstr  "杀死进程(_P)"
+#: src/wmapp.cc:910
+msgid "Mi_nimize"
+msgstr "最小化(_N)"
 
-msgid   "_Show"
-msgstr  "显示(_S)"
+#: src/wmapp.cc:912
+msgid "Ma_ximize"
+msgstr "最大化(_X)"
 
-msgid   "_Minimize"
-msgstr  "最小化(_M)"
+#: src/wmapp.cc:914
+msgid "_Fullscreen"
+msgstr "全屏(_F)"
 
-msgid   "Window list"
-msgstr  "窗口列表"
+#: src/wmapp.cc:918 src/wmwinlist.cc:307
+msgid "_Hide"
+msgstr "隐藏(_H)"
 
+#: src/wmapp.cc:921
+msgid "Roll_up"
+msgstr "卷起(_U)"
+
+#: src/wmapp.cc:928
+msgid "R_aise"
+msgstr "提升(_A)"
+
+#: src/wmapp.cc:930
+msgid "_Lower"
+msgstr "降低(_L)"
+
+#: src/wmapp.cc:932
+msgid "La_yer"
+msgstr "层次(_Y)"
+
+#: src/wmapp.cc:936 src/wmwinlist.cc:310
+msgid "Move _To"
+msgstr "移动到(_T)"
+
+#: src/wmapp.cc:937
+msgid "Occupy _All"
+msgstr "占据所有(_A)"
+
+#: src/wmapp.cc:943
+msgid "Limit _Workarea"
+msgstr "限制工作区(_W)"
+
+#: src/wmapp.cc:948
+msgid "Tray _icon"
+msgstr "托盘图标(_I)"
+
+#: src/wmapp.cc:954 src/wmwinlist.cc:295 src/wmwinlist.cc:321
+msgid "_Close"
+msgstr "关闭(_C)"
+
+#: src/wmapp.cc:956 src/wmwinlist.cc:297
+msgid "_Kill Client"
+msgstr "杀死客户程序(_K)"
+
+#: src/wmapp.cc:960 src/wmdialog.cc:132 src/wmwinmenu.cc:137
+msgid "_Window list"
+msgstr "窗口列表(_W)"
+
+#: src/wmapp.cc:976
+msgid "Another window manager already running, exiting..."
+msgstr "另外的 窗口管理器 已经在运行，退出..."
+
+#: src/wmapp.cc:1042
 #, c-format
-msgid   "%lu. Workspace %-.32s"
-msgstr  "%lu. 工作区 %-.32s"
+msgid ""
+"Could not restart: %s\n"
+"Does $PATH lead to %s?"
+msgstr ""
+"无法重新启动：%s\n"
+"%s 在路径 $PATH 中吗？"
 
+#: src/wmapp.cc:1615
 #, c-format
-msgid   "Message Loop: select failed (errno=%d)"
-msgstr  ""
+msgid ""
+"Usage: %s [OPTIONS]\n"
+"Starts the IceWM window manager.\n"
+"\n"
+"Options:\n"
+"  --display=NAME      NAME of the X server to use.\n"
+"%s  --sync              Synchronize X11 commands.\n"
+"\n"
+"  -c, --config=FILE   Load preferences from FILE.\n"
+"  -t, --theme=FILE    Load theme from FILE.\n"
+"  -n, --no-configure  Ignore preferences file.\n"
+"\n"
+"  -v, --version       Prints version information and exits.\n"
+"  -h, --help          Prints this usage screen and exits.\n"
+"%s  --replace           Replace an existing window manager.\n"
+"  --restart           Don't use this: It's an internal flag.\n"
+"\n"
+"Environment variables:\n"
+"  ICEWM_PRIVCFG=PATH  Directory to use for user private configuration "
+"files,\n"
+"                      \"$HOME/.icewm/\" by default.\n"
+"  DISPLAY=NAME        Name of the X server to use, depends on Xlib by "
+"default.\n"
+"  MAIL=URL            Location of your mailbox. If the schema is omitted\n"
+"                      the local \"file\" schema is assumed.\n"
+"\n"
+"Visit http://www.icewm.org/ for report bugs, support requests, comments...\n"
+msgstr ""
+"用法: %s [选项]\n"
+"启动 IceWM 窗口管理器。\n"
+"\n"
+"选项:\n"
+"  --display=NAME      使用的 X 服务器名。\n"
+"%s  --sync              同步 X11 命令。\n"
+"\n"
+"  -c, --config=FILE   从 FILE 加载配置。\n"
+"  -t, --theme=FILE    从 FILE 加载主题。\n"
+"  -n, --no-configure  忽略配置文件。\n"
+"\n"
+"  -v, --version       显示版本信息并退出。\n"
+"  -h, --help          显示帮助信息并退出。\n"
+"%s  --replace           取代当前的窗口管理器。\n"
+"  --restart           不要使用: 这是一个内部标志。\n"
+"\n"
+"环境变量:\n"
+"  ICEWM_PRIVCFG=PATH  用户配置文件目录，缺省为\"$HOME/.icewm/\"\n"
+"  DISPLAY=NAME        使用的 X 服务器名，缺省依赖于 Xlib。\n"
+"  MAIL=URL            邮箱位置，如果忽略协议，则使用缺省的\"file\"协议。\n"
+"\n"
+"访问 http://www.icewm.org/ 来报告错误，支持请求，评论...  \n"
 
+#: src/wmapp.cc:1715
+msgid "Confirm Logout"
+msgstr "确认退出"
+
+#: src/wmapp.cc:1716
+msgid ""
+"Logout will close all active applications.\n"
+"Proceed?"
+msgstr ""
+"退出将关闭所有活动的应用程序。\n"
+"继续吗？"
+
+#: src/wmconfig.cc:116
+msgid "Bad Look name"
+msgstr "错误的外观名"
+
+#: src/wmdialog.cc:83
+#, fuzzy
+msgid "Loc_k Workstation"
+msgstr "锁住工作站(_W)"
+
+#: src/wmdialog.cc:90 src/wmprog.cc:940 src/wmprog.cc:942 src/wmtaskbar.cc:434
+#: src/wmtaskbar.cc:436
+msgid "_Logout..."
+msgstr "退出(_L)..."
+
+#: src/wmdialog.cc:97
+msgid "_Cancel"
+msgstr "取消(_C)"
+
+#: src/wmdialog.cc:104
+msgid "_Restart icewm"
+msgstr "重启 icewm(_R)"
+
+#: src/wmdialog.cc:125 src/wmprog.cc:878 src/wmtaskbar.cc:426
+#: src/wmtaskbar.cc:429
+msgid "_About"
+msgstr "关于(_A)"
+
+#: src/wmframe.cc:159 src/wmframe.cc:3398
+msgid "Maximize"
+msgstr "最大化"
+
+#: src/wmframe.cc:172
+msgid "Minimize"
+msgstr "最小化"
+
+#: src/wmframe.cc:193
+msgid "Hide"
+msgstr "隐藏"
+
+#: src/wmframe.cc:203 src/wmframe.cc:3431
+msgid "Rollup"
+msgstr "卷起"
+
+#: src/wmframe.cc:212
+msgid "Raise/Lower"
+msgstr "提升/降低"
+
+#: src/wmframe.cc:1711
+msgid "Kill Client: "
+msgstr "杀死客户程序"
+
+#: src/wmframe.cc:1715
+msgid ""
+"WARNING! All unsaved changes will be lost when\n"
+"this client is killed. Do you wish to proceed?"
+msgstr ""
+"警告！当这个客户程序被杀死时，所有\n"
+"没有保存的修改将丢失。你想继续吗？"
+
+#: src/wmframe.cc:3395
+msgid "Restore"
+msgstr "恢复"
+
+#: src/wmframe.cc:3429
+msgid "Rolldown"
+msgstr "放下"
+
+#: src/wmoption.cc:239
 #, c-format
-msgid   "Unrecognized option: %s\n"
-msgstr  "不明选项：%s\n"
+msgid "Error in window option: %s"
+msgstr "窗口选项错误：%s"
 
-#. pos
+#: src/wmoption.cc:256
 #, c-format
-msgid   "Unrecognized argument: %s\n"
-msgstr  "不明参数：%s\n"
+msgid "Unknown window option: %s"
+msgstr "未知窗口选项：%s"
 
+#: src/wmoption.cc:339
+msgid "Syntax error in window options"
+msgstr "窗口选项句法错误"
+
+#: src/wmoption.cc:386
+msgid "Out of memory for window options"
+msgstr "窗口选项内存不足"
+
+#: src/wmprog.cc:191
+msgid "Missing command argument"
+msgstr "丢失命令参数"
+
+#: src/wmprog.cc:209
 #, c-format
-msgid   "Argument required for %s switch"
-msgstr  "%s 所需的参数改变了"
+msgid "Bad argument %d"
+msgstr "错误的参数 %d"
 
+#: src/wmprog.cc:295 src/wmprog.cc:399 src/wmprog.cc:441
 #, c-format
-msgid   "Unknown key name %s in %s"
-msgstr  "%s中未知的键名%s"
+msgid "Error at prog %s"
+msgstr "程序 %s 错误"
 
+#: src/wmprog.cc:350
 #, c-format
-msgid   "Bad argument: %s for %s"
-msgstr  "传给 %s 的错误参数：%s"
+msgid "Unexepected keyword: %s"
+msgstr "未期望的关键词: %s"
 
+#: src/wmprog.cc:489
 #, c-format
-msgid   "Bad option: %s"
-msgstr  "错误的选项: %s"
+msgid "Error at key %s"
+msgstr "键 %s 错误"
 
+#: src/wmprog.cc:842
+msgid "Programs"
+msgstr "程序"
+
+#: src/wmprog.cc:847
+msgid "_Run..."
+msgstr "运行(_R)"
+
+#: src/wmprog.cc:854 src/wmtaskbar.cc:414
+msgid "_Windows"
+msgstr "窗口(_W)"
+
+#: src/wmprog.cc:891
+msgid "_Help"
+msgstr "帮助(_H)"
+
+#: src/wmprog.cc:909
+msgid "_Click to focus"
+msgstr ""
+
+#: src/wmprog.cc:914
+msgid "_Sloppy mouse focus"
+msgstr ""
+
+#: src/wmprog.cc:919
+msgid "Custo_m"
+msgstr ""
+
+#: src/wmprog.cc:925
+msgid "_Focus"
+msgstr ""
+
+#: src/wmprog.cc:932
+msgid "_Themes"
+msgstr "主题(_T)"
+
+#: src/wmprog.cc:934
+msgid "Se_ttings"
+msgstr ""
+
+#: src/wmsession.cc:239 src/wmsession.cc:255 src/wmsession.cc:265
 #, c-format
-msgid   "Loading of pixmap \"%s\" failed"
-msgstr  "装载图象“%s”失败"
+msgid "Session Manager: Unknown line %s"
+msgstr "会话管理者：未知行 %s"
 
+#: src/wmtaskbar.cc:256 src/wmtaskbar.cc:257
+msgid "Task Bar"
+msgstr "任务栏"
+
+#: src/wmtaskbar.cc:403 src/wmwinlist.cc:312 src/wmwinlist.cc:325
+msgid "Tile _Vertically"
+msgstr "垂直平铺(_V)"
+
+#: src/wmtaskbar.cc:404 src/wmwinlist.cc:313 src/wmwinlist.cc:326
+msgid "T_ile Horizontally"
+msgstr "水平平铺(_I)"
+
+#: src/wmtaskbar.cc:405 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+msgid "Ca_scade"
+msgstr "层叠(_S)"
+
+#: src/wmtaskbar.cc:406 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+msgid "_Arrange"
+msgstr "排列(_A)"
+
+#: src/wmtaskbar.cc:407 src/wmwinlist.cc:317 src/wmwinlist.cc:329
+msgid "_Minimize All"
+msgstr "全部最小化(_M)"
+
+#: src/wmtaskbar.cc:408 src/wmwinlist.cc:318 src/wmwinlist.cc:330
+msgid "_Hide All"
+msgstr "全部隐藏(_H)"
+
+#: src/wmtaskbar.cc:409 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+msgid "_Undo"
+msgstr "撤消(_U)"
+
+#: src/wmtaskbar.cc:411
+msgid "Arrange _Icons"
+msgstr "排列图标(_I)"
+
+#: src/wmtaskbar.cc:417
+msgid "_Refresh"
+msgstr "刷新(_R)"
+
+#: src/wmtaskbar.cc:424
+msgid "_License"
+msgstr "许可(_L)"
+
+#: src/wmtaskbar.cc:545
+msgid "Favorite applications"
+msgstr "喜欢的应用程序"
+
+#: src/wmtaskbar.cc:562
+msgid "Window list menu"
+msgstr "窗口列表菜单"
+
+#: src/wmtaskbar.cc:571
+msgid "Show Desktop"
+msgstr "显示桌面"
+
+#: src/wmwinlist.cc:61
+msgid "All Workspaces"
+msgstr "所有工作区"
+
+#: src/wmwinlist.cc:295
+msgid "Del"
+msgstr "删除"
+
+#: src/wmwinlist.cc:299
+msgid "_Terminate Process"
+msgstr "结束进程(_T)"
+
+#: src/wmwinlist.cc:300
+msgid "Kill _Process"
+msgstr "杀死进程(_P)"
+
+#: src/wmwinlist.cc:305
+msgid "_Show"
+msgstr "显示(_S)"
+
+#: src/wmwinlist.cc:309
+msgid "_Minimize"
+msgstr "最小化(_M)"
+
+#: src/wmwinlist.cc:342 src/wmwinlist.cc:343
+msgid "Window list"
+msgstr "窗口列表"
+
+#: src/wmwinmenu.cc:127
 #, c-format
-msgid   "Invalid cursor pixmap: \"%s\" contains too much unique colors"
-msgstr  "错误的pixmap指针：“%s” 包含太多颜色"
+msgid "%lu. Workspace %-.32s"
+msgstr "%lu. 工作区 %-.32s"
 
+#: src/yapp.cc:397
 #, c-format
-msgid   "BUG? Imlib was able to read \"%s\""
-msgstr  "BUG？Imlib 可以读“%s”"
+msgid "Message Loop: select failed (errno=%d)"
+msgstr ""
 
+#: src/ycmdline.cc:43
 #, c-format
-msgid   "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
-msgstr  "BUG？异常的XPM头，但是Imlib却可以分析“%s”"
+msgid "Unrecognized option: %s\n"
+msgstr "不明选项：%s\n"
 
+#: src/ycmdline.cc:48
 #, c-format
-msgid   "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
-msgstr  "BUG？XPM文件有非预期的结束，但是Imlib却可以分析“%s”"
+msgid "Unrecognized argument: %s\n"
+msgstr "不明参数：%s\n"
 
+#: src/ycmdline.cc:64
 #, c-format
-msgid   "BUG? Unexpected characted but Imlib was able to parse \"%s\""
-msgstr  "BUG？非预期的特征，但Imlib却可以分析“%s”"
+msgid "Argument required for %s switch"
+msgstr "%s 所需的参数改变了"
 
+#: src/yconfig.cc:186
 #, c-format
-msgid   "Could not load font \"%s\"."
-msgstr  "不能装载字体 “%s”。"
+msgid "Unknown key name %s in %s"
+msgstr "%s中未知的键名%s"
 
+#: src/yconfig.cc:211 src/yconfig.cc:224
 #, c-format
-msgid   "Loading of fallback font \"%s\" failed."
-msgstr  "装载备用字体“%s”失败。"
+msgid "Bad argument: %s for %s"
+msgstr "传给 %s 的错误参数：%s"
 
+#: src/yconfig.cc:259
 #, c-format
-msgid   "Could not load fontset \"%s\"."
-msgstr  "不能装载字体“%s”。"
+msgid "Bad option: %s"
+msgstr "错误的选项: %s"
 
+#: src/ycursor.cc:127
 #, c-format
-msgid   "Missing codesets for fontset \"%s\":"
-msgstr  "字体“%s”没有代码集:"
+msgid "Loading of pixmap \"%s\" failed"
+msgstr "装载图象“%s”失败"
 
+#: src/ycursor.cc:160
 #, c-format
-msgid   "Out of memory for pixmap \"%s\""
-msgstr  "内存不足以加载位图 \"%s\""
+msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
+msgstr "错误的pixmap指针：“%s” 包含太多颜色"
 
+#: src/ycursor.cc:182
 #, c-format
-msgid   "Loading of image \"%s\" failed"
-msgstr  "装载图像“%s”失败"
+msgid "BUG? Imlib was able to read \"%s\""
+msgstr "BUG？Imlib 可以读“%s”"
 
-msgid   "Imlib: Acquisition of X pixmap failed"
-msgstr  "Imlib: 获取 X pixmap 失败"
-
-msgid   "Imlib: Imlib image to X pixmap mapping failed"
-msgstr  "Imlib: Imlib 图象到 X pixmap 的影射失败"
-
-msgid   "Cu_t"
-msgstr  "剪切(_T)"
-
-msgid   "Ctrl+X"
-msgstr  "Ctrl+X"
-
-msgid   "_Copy"
-msgstr  "复制(_C)"
-
-msgid   "Ctrl+C"
-msgstr  "Ctrl+C"
-
-msgid   "_Paste"
-msgstr  "粘贴(_P)"
-
-msgid   "Ctrl+V"
-msgstr  "Ctrl+V"
-
-msgid   "Paste _Selection"
-msgstr  "选择粘贴(_S)"
-
-msgid   "Select _All"
-msgstr  "全选(_A)"
-
-msgid   "Ctrl+A"
-msgstr  "Ctrl+A"
-
-#. || False == XSupportsLocale()
-msgid   "Locale not supported by C library. Falling back to 'C' locale'."
-msgstr  "C运行库不支持该区域。使用缺省的 'C' 区域。"
-
-msgid   "Failed to determinate the current locale's codeset. Assuming ISO-"
-        "8859-1.\n"
-msgstr  "检测当前区域的编码失败，假定为 ISO-8859-1。\n"
-
+#: src/ycursor.cc:208
 #, c-format
-msgid   "iconv doesn't supply (sufficient) %s to %s converters."
-msgstr  "iconv没有提供（足够）的%s到%s转换器。"
+msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
+msgstr "BUG？异常的XPM头，但是Imlib却可以分析“%s”"
 
+#: src/ycursor.cc:216
 #, c-format
-msgid   "Invalid multibyte string \"%s\": %s"
-msgstr  "错误的多字节字符串“%s”：%s"
+msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
+msgstr "BUG？XPM文件有非预期的结束，但是Imlib却可以分析“%s”"
 
-msgid   "OK"
-msgstr  "确定"
-
-msgid   "Cancel"
-msgstr  "取消"
-
+#: src/ycursor.cc:219
 #, c-format
-msgid   "Out of memory for pixel map %s"
-msgstr  "位图 %s 内存不足"
+msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
+msgstr "BUG？非预期的特征，但Imlib却可以分析“%s”"
 
+#: src/yfontcore.cc:71 src/yfontxft.cc:125
 #, c-format
-msgid   "Could not find pixel map %s"
-msgstr  "找不到位图 %s"
+msgid "Could not load font \"%s\"."
+msgstr "不能装载字体 “%s”。"
 
+#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:148
 #, c-format
-msgid   "Out of memory for RGB pixel buffer %s"
-msgstr  "RGB 像素缓存 %s 内存不足"
+msgid "Loading of fallback font \"%s\" failed."
+msgstr "装载备用字体“%s”失败。"
 
+#: src/yfontcore.cc:114
 #, c-format
-msgid   "Could not find RGB pixel buffer %s"
-msgstr  "找不到RGB像素缓存%s"
+msgid "Could not load fontset \"%s\"."
+msgstr "不能装载字体“%s”。"
 
+#: src/yfontcore.cc:126
 #, c-format
-msgid   "Using fallback mechanism to convert pixels (depth: %d; masks (red/"
-        "green/blue): %0*x/%0*x/%0*x)"
-msgstr  "正在使用fellback机制来转换像素（深度：%d；掩码 （红/绿/蓝）：%0*x/%"
-        "0*x/%0*x)"
+msgid "Missing codesets for fontset \"%s\":"
+msgstr "字体“%s”没有代码集:"
 
+#: src/yicon.cc:147
 #, c-format
-msgid   "%s:%d: %d bit visuals are not supported (yet)"
-msgstr  "%s:%d: %d 位视图还不支持"
+msgid "Out of memory for pixmap \"%s\""
+msgstr "内存不足以加载位图 \"%s\""
 
-msgid   "$USER or $LOGNAME not set?"
-msgstr  "还没设置 $USER 或 $LOGNAME？"
-
+#: src/yimage.cc:61 src/yimage.cc:109 src/ypixbuf.cc:1063
 #, c-format
-msgid   "\"%s\" doesn't describe a common internet scheme"
-msgstr  "“%s”描述一个公共的internet方案"
+msgid "Loading of image \"%s\" failed"
+msgstr "装载图像“%s”失败"
 
+#: src/yimage.cc:141 src/yimage.cc:159
+msgid "Imlib: Acquisition of X pixmap failed"
+msgstr "Imlib: 获取 X pixmap 失败"
+
+#: src/yimage.cc:150
+msgid "Imlib: Imlib image to X pixmap mapping failed"
+msgstr "Imlib: Imlib 图象到 X pixmap 的影射失败"
+
+#: src/yinput.cc:53
+msgid "Cu_t"
+msgstr "剪切(_T)"
+
+#: src/yinput.cc:53
+msgid "Ctrl+X"
+msgstr "Ctrl+X"
+
+#: src/yinput.cc:54
+msgid "_Copy"
+msgstr "复制(_C)"
+
+#: src/yinput.cc:54
+msgid "Ctrl+C"
+msgstr "Ctrl+C"
+
+#: src/yinput.cc:55
+msgid "_Paste"
+msgstr "粘贴(_P)"
+
+#: src/yinput.cc:55
+msgid "Ctrl+V"
+msgstr "Ctrl+V"
+
+#: src/yinput.cc:56
+msgid "Paste _Selection"
+msgstr "选择粘贴(_S)"
+
+#: src/yinput.cc:58
+msgid "Select _All"
+msgstr "全选(_A)"
+
+#: src/yinput.cc:58
+msgid "Ctrl+A"
+msgstr "Ctrl+A"
+
+#: src/ylocale.cc:46
+msgid "Locale not supported by C library. Falling back to 'C' locale'."
+msgstr "C运行库不支持该区域。使用缺省的 'C' 区域。"
+
+#: src/ylocale.cc:63
+msgid ""
+"Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
+msgstr "检测当前区域的编码失败，假定为 ISO-8859-1。\n"
+
+#: src/ylocale.cc:95 src/ylocale.cc:102
 #, c-format
-msgid   "\"%s\" contains no scheme description"
-msgstr  "“%s”包含没有方案的描述"
+msgid "iconv doesn't supply (sufficient) %s to %s converters."
+msgstr "iconv没有提供（足够）的%s到%s转换器。"
 
-#~ msgid        " processes."
-#~ msgstr       " 进程。"
+#: src/ylocale.cc:156
+#, c-format
+msgid "Invalid multibyte string \"%s\": %s"
+msgstr "错误的多字节字符串“%s”：%s"
 
-#~ msgid        "program label expected"
-#~ msgstr       "期望程序标志符"
+#: src/ymsgbox.cc:37
+msgid "OK"
+msgstr "确定"
 
-#~ msgid        "icon name expected"
-#~ msgstr       "期望图标名"
+#: src/ymsgbox.cc:45
+msgid "Cancel"
+msgstr "取消"
 
-#~ msgid        "window management class expected"
-#~ msgstr       "期望窗口管理类"
+#: src/ypaths.cc:134 src/ypaths.cc:161
+#, c-format
+msgid "Image not readable: %s"
+msgstr ""
 
-#~ msgid        "menu caption expected"
-#~ msgstr       "期望目录标题"
+#: src/ypaths.cc:139
+#, fuzzy, c-format
+msgid "Out of memory for image %s"
+msgstr "内存不足以加载位图 \"%s\""
 
-#~ msgid        "opening curly expected"
-#~ msgstr       "期望左括号"
+#: src/ypaths.cc:146
+#, fuzzy, c-format
+msgid "Could not find image %s"
+msgstr "找不到位图 %s"
 
-#~ msgid        "action name expected"
-#~ msgstr       "期望动作名"
+#: src/ypaths.cc:165
+#, fuzzy, c-format
+msgid "Out of memory for image: %s"
+msgstr "内存不足以加载位图 \"%s\""
 
-#~ msgid        "unknown action"
-#~ msgstr       "未知动作"
+#: src/ypaths.cc:172
+#, fuzzy, c-format
+msgid "Could not find image: %s"
+msgstr "找不到位图 %s"
 
-#~ msgid        "Failed to open %s: %s"
-#~ msgstr       "打开 %s 失败: %s"
+#: src/ypixbuf.cc:482 src/ypixbuf.cc:668
+#, c-format
+msgid ""
+"Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
+"blue): %0*x/%0*x/%0*x)"
+msgstr ""
+"正在使用fellback机制来转换像素（深度：%d；掩码 （红/绿/蓝）：%0*x/%0*x/%0*x)"
 
-#~ msgid        "Failed to execute %s: %s"
-#~ msgstr       "运行 %s 失败: %s"
+#: src/ypixbuf.cc:576 src/ypixbuf.cc:725
+#, c-format
+msgid "%s:%d: %d bit visuals are not supported (yet)"
+msgstr "%s:%d: %d 位视图还不支持"
 
-#~ msgid        "Failed to create child process: %s"
-#~ msgstr       "创建子进程失败: %s"
+#: src/ysmapp.cc:106
+msgid "$USER or $LOGNAME not set?"
+msgstr "还没设置 $USER 或 $LOGNAME？"
 
-#~ msgid        "Not a regular file: %s"
-#~ msgstr       "不是一个普通文件: %s"
+#: src/yurl.cc:82
+#, c-format
+msgid "\"%s\" doesn't describe a common internet scheme"
+msgstr "“%s”描述一个公共的internet方案"
 
-#~ msgid        "Pair of hexadecimal digits expected"
-#~ msgstr       "预期的一对十六进制数"
+#: src/yurl.cc:85
+#, c-format
+msgid "\"%s\" contains no scheme description"
+msgstr "“%s”包含没有方案的描述"
 
-#~ msgid        "Unexpected identifier"
-#~ msgstr       "非预期的标识符"
+#~ msgid "Out of memory for pixel map %s"
+#~ msgstr "位图 %s 内存不足"
 
-#~ msgid        "Identifier expected"
-#~ msgstr       "预期的标识符"
+#~ msgid "Out of memory for RGB pixel buffer %s"
+#~ msgstr "RGB 像素缓存 %s 内存不足"
 
-#~ msgid        "Separator expected"
-#~ msgstr       "预期的分隔符"
+#~ msgid "Could not find RGB pixel buffer %s"
+#~ msgstr "找不到RGB像素缓存%s"
 
-#~ msgid        "Invalid token"
-#~ msgstr       "无效片段"
+#~ msgid " processes."
+#~ msgstr " 进程。"
 
-#~ msgid        "Not a hexadecimal number: %c%c (in \"%s\")"
-#~ msgstr       "不是一个十六进制的数字：%c%c（在“%s”）"
+#~ msgid "program label expected"
+#~ msgstr "期望程序标志符"
+
+#~ msgid "icon name expected"
+#~ msgstr "期望图标名"
+
+#~ msgid "window management class expected"
+#~ msgstr "期望窗口管理类"
+
+#~ msgid "menu caption expected"
+#~ msgstr "期望目录标题"
+
+#~ msgid "opening curly expected"
+#~ msgstr "期望左括号"
+
+#~ msgid "action name expected"
+#~ msgstr "期望动作名"
+
+#~ msgid "unknown action"
+#~ msgstr "未知动作"
+
+#~ msgid "Failed to open %s: %s"
+#~ msgstr "打开 %s 失败: %s"
+
+#~ msgid "Failed to execute %s: %s"
+#~ msgstr "运行 %s 失败: %s"
+
+#~ msgid "Failed to create child process: %s"
+#~ msgstr "创建子进程失败: %s"
+
+#~ msgid "Not a regular file: %s"
+#~ msgstr "不是一个普通文件: %s"
+
+#~ msgid "Pair of hexadecimal digits expected"
+#~ msgstr "预期的一对十六进制数"
+
+#~ msgid "Unexpected identifier"
+#~ msgstr "非预期的标识符"
+
+#~ msgid "Identifier expected"
+#~ msgstr "预期的标识符"
+
+#~ msgid "Separator expected"
+#~ msgstr "预期的分隔符"
+
+#~ msgid "Invalid token"
+#~ msgstr "无效片段"
+
+#~ msgid "Not a hexadecimal number: %c%c (in \"%s\")"
+#~ msgstr "不是一个十六进制的数字：%c%c（在“%s”）"

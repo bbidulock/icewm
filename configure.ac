@@ -1,126 +1,66 @@
-#
-dnl Process this file with autoconf to produce a configure script
-#
-#================================================= IceWM configure script =====
-
-
-#========================================================= Initialization =====
-# Setup autoconf
-AC_INIT(configure.ac)
-AC_PREREQ([2.50])
-AC_CONFIG_HEADER(src/config.h)
+AC_PREREQ([2.69])
+AC_INIT([icewm], [1.3.8.15], [http://github.com/bbidulock/icewm])
+AC_CONFIG_SRCDIR([src/ysmapp.cc])
+AC_CONFIG_AUX_DIR([scripts])
+AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_HEADERS([config.h])
 AC_CANONICAL_TARGET
 
-# Some basic variables
-TARGETS=base
 APPLICATIONS='icewm icewm-session icesh icewmhint icewmbg icewmtray'
 TESTCASES=`echo src/test*.cc | sed 's%src/\([[^ ]]*\)\.cc%\1%g'`
 TESTCASES="$TESTCASES iceview icesame iceicon icerun icelist icebar" # iceclock
 features=''
 
-# Checks for a C compiler in hope that it understands C++ too
+AM_INIT_AUTOMAKE
+
+AM_MAINTAINER_MODE
+AC_USE_SYSTEM_EXTENSIONS
+
+# Checks for programs.
 AC_LANG_CPLUSPLUS
 AC_PROG_CXX
-
-dnl If both CC and CXX are GNU compilers, it is better to use CC for linking.
-dnl Unfortunately this has problems with newer g++/gcc/...
-dnl if test x"$ac_cv_prog_gxx" != x; then
-dnl    AC_PROG_CC
-dnl    if test x"$ac_cv_prog_gcc" != x; then
-dnl        CXX_LINK=${CC}
-dnl        AC_DEFINE(NEED_ALLOC_OPERATORS, 1, 
-dnl          [ Define if you need an implementation of the allocation operators. (gcc 3.0) ])   
-dnl    fi
-dnl fi
-
-
-# Check how to turn off RTTI and exception handling
-
-# SunONE C++ supports no-rtti flag only in compat=4 mode
-if test -z "`${CXX} -V 2>&1 | grep Sun`"; then
-  ICE_CXX_FLAG_ACCEPT(no_rtti, -fno-rtti)
-fi
-# Intel C++ supports -fno-rtti, but doens't support -fno-*-exceptions
-if test $(basename $CXX) != "icc"; then
-  if test -n "`${CXX} -V 2>&1 | grep Sun`"; then
-    # Sun ONE C++ syntax for "no exceptions"
-    ICE_CXX_FLAG_ACCEPT(no_exceptions, -features=no%except)
-  else
-    if test $(basename $CXX) = "g++" ||
-       test $(basename $CXX) = "gcc"; then
-      ICE_CXX_FLAG_ACCEPT(no_exceptions, -fno-exceptions)
-      if test x"$no_exceptions_ok" = xno; then
-        ICE_CXX_FLAG_ACCEPT(no_exceptions, -fno-handle-exceptions)
-      fi
-    fi
-  fi
-fi
-
-if test $(basename $CXX) = "g++" ||
-   test $(basename $CXX) = "gcc" ; then
-  ICE_CXX_FLAG_ACCEPT(warn_xxx, -Wall -Wpointer-arith -Wwrite-strings -Woverloaded-virtual -W)
-  ICE_CXX_FLAG_ACCEPT(permissive, -fpermissive)
-else
-  # Sun ONE and Intel C++ don't support GCC -W* and -fpermissive
-  if test $(basename $CXX) = "icc"; then
-    # Using -w0 to avoid noisy "remark" messages
-    ICE_CXX_FLAG_ACCEPT(warn_xxx, -w0)
-  fi
-fi
-
-if test x"$CXX_LINK" = x; then
-  CXX_LINK=$CXX
-fi
-
-AC_SUBST(CXX_LINK)
-
-if test x"$HOSTCXX" = x; then
-  HOSTCXX=$CXX
-fi
-
-AC_SUBST(HOSTCXX)
-
-if test x"$HOSTCXX_LINK" = x; then
-  HOSTCXX_LINK=$CXX
-fi
-
-AC_SUBST(HOSTCXX_LINK)
-
-#this test is broken, because AC_TRY_LINK calls g++
-#AC_MSG_CHECKING([if we need our own C++ allocation operators])
-#AC_TRY_LINK([ void icewm_alloc() {
-#  char * cp = new char; delete cp;
-#  char *ca = new char[23]; delete[] ca; } ],,
-#  [ AC_MSG_RESULT(no) ],
-#  [ AC_MSG_RESULT(yes)
-#    AC_DEFINE(NEED_ALLOC_OPERATORS, 1, 
-#      [ Define if you need an implementation of the allocation operators. (gcc 3.0) ]) ])
-
+AC_PROG_CC
+AC_PROG_LN_S
+AC_PROG_MAKE_SET
+AC_PROG_MKDIR_P
 AC_PROG_INSTALL
+AC_ARG_VAR([LD], [Linker loader command])
 
-#================================ Checks for things which don't require X =====
-#Check for header files
+AC_ARG_VAR([MKFONTDIR],[mkfontdir command. @<:@default=mkfontdir@:>@])
+AC_PATH_PROG([MKFONTDIR],[mkfontdir],[],[$PATH$PATH_SEPARATOR/usr/X11R6/bin])
+
+LT_PATH_LD
+LT_PREREQ([2.4.2])
+LT_INIT([dlopen])
+LT_LANG([C++])
+AC_SUBST([LIBTOOL_DEPS])
+
+AM_GNU_GETTEXT_VERSION([0.18.2])
+AM_GNU_GETTEXT([external])
+
+PKG_PROG_PKG_CONFIG
+PKG_INSTALLDIR
+
+
+# Checks for libraries.
+
+# Checks for header files.
+AC_HEADER_STDC
 AC_HEADER_DIRENT
 AC_HEADER_SYS_WAIT
-AC_CHECK_HEADERS(fcntl.h limits.h strings.h sys/ioctl.h sys/time.h unistd.h)
-AC_CHECK_HEADERS(linux/threads.h linux/tasks.h)
-AC_CHECK_HEADERS(sched.h sys/dkstat.h sys/param.h sys/sysctl.h uvm/uvm_param.h)
+AC_PATH_X
+AC_PATH_XTRA
+AC_CHECK_HEADERS([fcntl.h langinfo.h libintl.h limits.h locale.h netdb.h netinet/in.h stddef.h stdlib.h string.h sys/file.h sys/ioctl.h sys/param.h sys/socket.h sys/time.h unistd.h wchar.h])
+AC_CHECK_HEADERS([linux/threads.h linux/tasks.h])
+AC_CHECK_HEADERS([sched.h sys/dkstat.h sys/param.h sys/sysctl.h uvm/uvm_param.h])
+AC_CHECK_HEADERS([libgen.h])
+AC_CHECK_HEADERS([machine/apmvar.h])
+AC_CHECK_HEADERS([machine/apm_bios.h])
 
-AC_CHECK_HEADERS(libgen.h)	dnl --  basename() for FreeBSD
-AC_CHECK_HEADERS(machine/apmvar.h)
-AC_CHECK_HEADERS(machine/apm_bios.h)
-
-AC_CHECK_HEADERS(kstat.h,
-  [ CORE_LIBS="${CORE_LIBS} -lkstat"
-
-    AC_MSG_CHECKING([if have old kstat])
-    AC_TRY_COMPILE([#include <kstat.h>], [kstat_named_t k; k.value.ui32],
-      [ AC_MSG_RESULT(no) ],
-      [ AC_MSG_RESULT(yes) 
-        AC_DEFINE(HAVE_OLD_KSTAT, 1,
-	  [define if have old kstat (Solaris only?)])])])
-
-# Check for typedefs, structures, and compiler characteristics
+# Checks for typedefs, structures, and compiler characteristics.
+AC_CHECK_HEADER_STDBOOL
+AC_C_INLINE
+AC_TYPE_PID_T
 AC_TYPE_SIZE_T
 AC_HEADER_TIME
 AC_STRUCT_TM
@@ -130,748 +70,364 @@ AC_CHECK_SIZEOF(short, 2)
 AC_CHECK_SIZEOF(int, 4)
 AC_CHECK_SIZEOF(long, 4)
 
-# Check for library functions
 AC_TYPE_SIGNAL
+
+# Checks for library functions.
 AC_FUNC_STRFTIME
 AC_FUNC_VPRINTF
-AC_CHECK_FUNCS(gettimeofday putenv select socket strtol strtoul basename)
-AC_CHECK_FUNCS(sysctlbyname)
+AC_FUNC_ERROR_AT_LINE
+if test x$cross_compling != xyes ; then :; AC_FUNC_FORK fi
+AC_FUNC_LSTAT_FOLLOWS_SLASHED_SYMLINK
+if test x$cross_compling != xyes ; then :; AC_FUNC_MALLOC fi
+AC_FUNC_MMAP
+if test x$cross_compling != xyes ; then :; AC_FUNC_REALLOC fi
+AC_FUNC_STRNLEN
+AC_CHECK_FUNCS([dup2 getcwd gethostbyname gethostname gettimeofday mblen memchr memmove memset mkdir nl_langinfo putenv select setlocale socket strcasecmp strchr strcspn strdup strerror strncasecmp strrchr strspn strstr strtol sysinfo uname])
+AC_CHECK_FUNCS([gettimeofday putenv select socket strtol strtoul basename])
+AC_CHECK_FUNCS([sysctlbyname])
+AC_CHECK_FUNC([getloadavg],[AC_DEFINE([HAVE_GETLOADAVG2], 1, [getloadavg() is available])])
 AC_FUNC_SELECT_ARGTYPES
 
-# Checking for getloadavg(). Compatible with gcc 3.3 on FreeBSD 5.2
-AC_MSG_CHECKING([for getloadavg])
-AC_TRY_LINK([#include <stdlib.h>],
- [double loadavg[3]; getloadavg(loadavg, 3) == 0;],
- [ AC_MSG_RESULT(yes)
-   AC_DEFINE(HAVE_GETLOADAVG2, 1, [getloadavg() is available])],
- [ AC_MSG_RESULT(no)  ])
+PKG_CHECK_MODULES([CORE],[x11 xext fontconfig])
+AC_SUBST([CORE_CFLAGS])
+AC_SUBST([CORE_LIBS])
 
-# Check for kern.cp_time MIB item
-AC_MSG_CHECKING([for kern.cp_time])
-if /sbin/sysctl kern.cp_time 2>&1 | grep 'kern.cp_time *[[:=]]' >/dev/null; then
-  AC_MSG_RESULT(yes)
-  AC_DEFINE(HAVE_SYSCTL_CP_TIME, 1, [kern.cp_time MIB item is available])
+AC_CHECK_LIB([X11],[XInternAtoms],
+    [AC_DEFINE([HAVE_XINTERNATOMS],[1],[Define to enable XInternAtoms])])
+
+AC_ARG_ENABLE([sm],
+    AC_HELP_STRING([--disable-sm],[Disable X session management.]))
+if test x$enable_sm != xno ; then
+    PKG_CHECK_MODULES([XSM],[ice sm],[
+	AC_DEFINE([CONFIG_SESSION],[1],[Define to enable X session management])],
+	[AC_MSG_WARN([XSM not supported.])])
+fi
+
+AC_ARG_ENABLE([shape],
+    AC_HELP_STRING([--disable-shape],[Disable use of SHAPE extension.]))
+AC_ARG_ENABLE([shaped-decorations],
+    AC_HELP_STRING([--disable-shaped-decorations], [Disable transparent frame
+	decoration (titlebar borders), requests X shape extension (experimental).]))
+
+if test x$enable_shaped_decorations = xyes ; then
+    enable_shape=yes
+fi
+if test x$enable_shape != xno ; then
+    AC_CHECK_LIB([Xext],[XShapeCombineRectangles],
+	[AC_DEFINE([CONFIG_SHAPE],[1],[Define to enable X shape extension])
+	if test x$enable_shaped_decorations != xno ; then
+	    AC_DEFINE([CONFIG_SHAPED_DECORATION],[1],[Define to allow transparent frame borders.])
+	    features="$features shaped-decorations"
+	fi],[
+	AC_MSG_WARN([SHAPE not supported.])
+	if test x$enable_shaped_decorations = xyes ; then
+	    AC_MSG_WARN([Shaped decorations not supported.])
+	fi])
+fi
+
+AC_ARG_ENABLE([gradients],
+    AC_HELP_STRING([--disable-gradients],[Disable gradients.]))
+if test x$enable_gradients != xno; then
+    AC_DEFINE([CONFIG_GRADIENTS],[1],[Define to enable gradient support.])
+    features="$features gradients"
+    enable_antialiasing=implied
+fi
+
+AC_ARG_ENABLE([xrandr],
+    AC_HELP_STRING([--disable-xrandr],[Disable use of XRANDR extension.]))
+if test x$enable_xrandr != xno; then
+    PKG_CHECK_MODULES([XRANDR],[xrandr],[
+	CORE_CFLAGS="$CORE_CFLAGS $XRANDR_CFLAGS"
+	CORE_LIBS="$CORE_LIBS $XRANDR_LIBS"
+	AC_DEFINE([CONFIG_XRANDR],[1],[Define to enable XRANDR extension.])],
+	[AC_MSG_WARN([XRANDR not supported.])])
+fi
+
+AC_ARG_ENABLE([xfreetype],
+    AC_HELP_STRING([--disable-xfreetype],[Disable use of XFT for text rendering.]))
+if test x$enable_xfreetype != xno; then
+    PKG_CHECK_MODULES([XFT2],[xft >= 2.0.0],[
+	CORE_CFLAGS="$CORE_CFLAGS $XFT2_CFLAGS"
+	CORE_LIBS="$CORE_LIBS $XFT2_LIBS"
+	AC_DEFINE([CONFIG_XFREETYPE],[2],[Define to enable XFT support.])
+	features="$features xfreetype"],[
+	    enable_corefonts=yes
+	    PKG_CHECK_MODULES([XFT],[xft],[
+		CORE_CFLAGS="$CORE_CFLAGS $XFT_CFLAGS"
+		CORE_LIBS="$CORE_LIBS $XFT_LIBS"
+		AC_DEFINE([CONFIG_XFREETYPE],[1])
+		features="$features xfreetype"],[
+		    AC_MSG_WARN([XFT not supported.])
+		    enable_xfreetype=no])])
 else
-  AC_MSG_RESULT(no)
+    enable_corefonts=yes
 fi
 
-# Checking for X11
-AC_PATH_XTRA
-
-if test x"$no_x" != x; then
-  AC_MSG_ERROR([X Window System or development libraries not found. Make sure
-*** you have headers and libraries installed!])
+AC_ARG_ENABLE([corefonts],
+    AC_HELP_STRING([--enable-corefonts],[Support X11 core fonts.]))
+if test x$enable_corefonts = xyes; then
+    AC_DEFINE([CONFIG_COREFONTS],[1],[Define to enable X11 core fonts.])
+    features="$features corefonts"
 fi
 
-#===================================================== Maintaince Support =====
-AC_ARG_ENABLE(depend,
-  [  --enable-depend         Automatic .h dependencies. Requires GNU make and gcc.],
-  [ if test "${enable_depend}" != "no"; then
-      features="${features} depend"
-      GCCDEP=-MMD
-    fi ])
-
-AC_ARG_ENABLE(debug,
-  [  --enable-debug          Use this option if you want to debug IceWM],
-  [ if test "${enable_debug}" = "yes"; then
-      AC_DEFINE(DEBUG, 1, [Define if you want to debug IceWM])
-      DEBUG="-g -DDEBUG -O0"
-      features="${features} debugging-symbols"
-    else
-      DEBUG=
-    fi ])
-
-#=========================================================== I18N Support =====
-AC_ARG_ENABLE(i18n,
-  [  --disable-i18n          Disable internationalization])
-if test "$enable_i18n" != "no"; then
-      AC_CHECK_HEADERS(langinfo.h,,
-      [ AC_MSG_ERROR([I18N support has been requested but langinfo.h wasn't found.
-*** Check your system configuration.])])
-      AC_CHECK_FUNC(nl_langinfo,,
-      [ AC_MSG_ERROR([I18N support has been requested but nl_langinfo wasn't found.
-*** Check your system configuration.])])
-
-      ice_nl_codesets=""
-
-      ICE_CHECK_NL_ITEM(CODESET,
-        [ ice_nl_codesets="${ice_nl_codesets} CODESET," ])
-      ICE_CHECK_NL_ITEM(_NL_CTYPE_CODESET_NAME,
-        [ ice_nl_codesets="${ice_nl_codesets} _NL_CTYPE_CODESET_NAME," ])
-
-      if test "${ice_nl_codesets}" = ""; then
-        AC_MSG_ERROR([I18N support has been requested but nl_langinfo doesn't
-*** return any information about the locale's codeset. Check your manuals.
-*** Ask your vendor. Contact icewm-devel@lists.sourceforge.net when you know
-*** the name of the locale-dependent parameter for your platform.])
-      fi
-
-      ice_nl_codesets="${ice_nl_codesets} 0"
-      AC_DEFINE_UNQUOTED(CONFIG_NL_CODESETS, ${ice_nl_codesets},
-        [define how to query the current locale's codeset])
-
-      ice_iconv_cxxflags="${CXXFLAGS}"
-
-      AC_CHECK_HEADERS(iconv.h,,
-      [ AC_MSG_ERROR([I18N support has been requested but iconv.h wasn't found.
-*** Check your system configuration.
-***
-*** You might have to upgrade your C runtime library. If your system is
-*** based on the GNU C library (glibc) you'll need version 2.2 or newer.
-*** You also have the chance to install GNU libiconv available
-*** from ftp://ftp.gnu.org/pub/gnu/libiconv/.
-***
-*** Alternatively you could call configure with the --disable-i18n switch.])])
-
-      AC_CHECK_DECL(_libiconv_version,
-      [ AC_MSG_RESULT(assuming iconv.h belongs to GNU libiconv)
-        LIBS="-liconv $LIBS"
-        AC_TRY_LINK([#include <iconv.h>], [iconv(0,0,0,0,0);],
-        AC_TRY_LINK([#include <iconv.h>], [iconv_open(0,0);],
-        AC_TRY_LINK([#include <iconv.h>], [iconv_close(0);],
-	CXXFLAGS="${CXXFLAGS}"
-	CORE_LIBS="${CORE_LIBS} -liconv"
-	AC_DEFINE(CONFIG_LIBICONV, 1, [Define when using libiconv]),
-        AC_MSG_ERROR([iconv.h appears to be part of libiconv but linking failed.
-*** Check your system configuration.
-***
-*** You might have to upgrade your C runtime library. If your system is
-*** based on the GNU C library (glibc) you'll need version 2.2 or newer.
-*** You also have the chance to install GNU libiconv available
-*** from ftp://ftp.gnu.org/pub/gnu/libiconv/.
-***
-*** Alternatively you could call configure with the --disable-i18n switch.]))))],
-
-      [ AC_MSG_RESULT(assuming iconv.h belongs to the C library)
-        AC_CHECK_FUNCS(iconv iconv_open iconv_close,,
-        AC_MSG_ERROR([iconv.h appears to be part of libc but linking failed.
-*** Check your system configuration.
-***
-*** You might have to upgrade your C runtime library. If your system is
-*** based on the GNU C library (glibc) you'll need version 2.2 or newer.
-*** You also have the chance to install GNU libiconv available
-*** from ftp://ftp.gnu.org/pub/gnu/libiconv/.
-***
-*** Alternatively you could call configure with the --disable-i18n switch.]))],
-      [#include <iconv.h>])
-
-      AC_ARG_WITH(unicode-set,
-        [  --with-unicode-set=CODESET   your iconv's unicode set in machine endian encoding
-                          (e.g. WCHAR_T, UCS-4-INTERNAL, UCS-4LE, UCS-4BE)],
-	   AC_DEFINE_UNQUOTED(CONFIG_UNICODE_SET, "$with_unicode_set",
-	     [preferred Unicode set]),
-	   with_unicode_set=UCS-4//TRANSLIT)
-
-      if test "$with_unicode_set" = "UCS-4//TRANSLIT" ; then
-
-          ice_sufficent_iconv=no
-
-          ICE_CHECK_CONVERSION(UTF-8,$with_unicode_set,no,$ice_libiconv,
-              ice_sufficent_iconv=yes)
-
-          if test "$ice_sufficent_iconv" != "yes"
-          then
-            AC_MSG_WARN([Your implementation of iconv doesn't grok TRANSLIT])
-            with_unicode_set=UCS-4
-          fi
-      fi
-
-      ice_sufficent_iconv=no
-
-      ICE_CHECK_CONVERSION(ISO-8859-1,$with_unicode_set,no,$ice_libiconv,
-      ICE_CHECK_CONVERSION(ISO-8859-2,$with_unicode_set,no,$ice_libiconv,
-      ICE_CHECK_CONVERSION(UTF-8,$with_unicode_set,no,$ice_libiconv,
-          ice_sufficent_iconv=yes)))
-
-      CXXFLAGS="${ice_iconv_cxxflags}"
-
-      if test "$ice_sufficent_iconv" != "yes"
-      then
-        AC_MSG_ERROR([Your implementation of iconv isn't able to perform
-*** the codeset conversions required. Check your system configuration.
-***
-*** You might have to upgrade your C runtime library. If your system is
-*** based on the GNU C library (glibc) you'll need version 2.2 or newer.
-*** You also have the chance to install GNU libiconv available
-*** from ftp://ftp.gnu.org/pub/gnu/libiconv/.
-***
-*** Alternatively you could call configure with the --disable-i18n switch.])
-      fi
-
-      AC_DEFINE(CONFIG_I18N, 1, [Define to enable internationalization])
-      features="${features} i18n"
-fi
-
-#============================================================ NLS Support =====
-AC_ARG_ENABLE(nls,
-  [  --disable-nls           Disable internationalized message])
-
-if test "$enable_nls" != "no"; then
-  AC_CHECK_FUNC(bindtextdomain,,
-  [ AC_CHECK_LIB(intl, bindtextdomain,
-    [ CORE_LIBS="${CORE_LIBS} -lintl"
-    ],
-    [ AC_MSG_ERROR([NLS (national language support) has been requested but
-*** the 'bindtextdomain' function neither has been found in your C runtime library 
-*** nor in an external library called 'libintl'.
-***
-*** Install your vendor's version of libintl or get GNU gettext available
-*** from ftp://ftp.gnu.org/pub/gnu/gettext/.
-***
-*** Alternatively you could call configure with the --disable-nls switch.])])])
-
-  AC_DEFINE(ENABLE_NLS, 1, [Define to enable internationalized message])
-  features="${features} nls"
-  TARGETS=$TARGETS' nls'
-
-  AC_PATH_PROG(XGETTEXT, xgettext)
-  AC_PATH_PROG(MSGMERGE, msgmerge)
-  AC_PATH_PROG(MSGFMT, msgfmt)
-  
-  MSGMERGE="${MSGMERGE}" # --indent --verbose"
-  MSGFMT="${MSGFMT}" # --check --statistics --verbose"
-  
-  if test ! -x "$MSGFMT" ; then
-     AC_MSG_ERROR(['msgfmt' not found. Perhaps you need to install 'gettext'?.])
-  fi
-
-
-  AC_SUBST(XGETTEXT)
-  AC_SUBST(MSGMERGE)
-  AC_SUBST(MSGFMT)
-
-  NLS_SOURCES=`grep -l '\<_\>' "$srcdir/src/"*.cc | sed "s,^$srcdir/,\\\$(top_srcdir)/,"`
-  NLS_SOURCES=`echo ${NLS_SOURCES}`
-  NLS_POFILES=`cd "${srcdir}/po"; echo *.po`
-  NLS_POXFILES=`echo ${NLS_POFILES} | sed 's%\.po%.pox%g'`
-  NLS_MOFILES=`echo ${NLS_POFILES} | sed 's%\.po%.mo%g'`
-
-  AC_SUBST(NLS_SOURCES)
-  AC_SUBST(NLS_POFILES)
-  AC_SUBST(NLS_POXFILES)
-  AC_SUBST(NLS_MOFILES)
-
-  localedir='${datadir}/locale'
-fi
-
-#================================================ Features of the XServer =====
-CORE_CFLAGS="${X_CFLAGS}"
-CORE_LIBS="${X_PRE_LIBS} ${CORE_LIBS} -lX11 ${X_LIBS} ${X_EXTRA_LIBS}"
-
-no_x_libs=$LIBS
-LIBS=$CORE_LIBS
-
-AC_CHECK_LIB(X11, XInternAtoms,
-  [ AC_DEFINE(HAVE_XINTERNATOMS, 1, [Define to enable XInternAtoms]) ])
-
-AC_ARG_ENABLE(sm,
-  [  --disable-sm            Don't support the X session managment protocol])
-  if test "$enable_sm" != "no"; then
-    AC_CHECK_LIB(ICE, IceConnectionNumber,
-      [ AC_DEFINE(CONFIG_SESSION, 1, [Define to support the X session managment protocol]) ],
-      [ AC_MSG_WARN([Unable to use X shared memory extension]) ])
-  fi
-
-ac_have_shape=no
-AC_ARG_ENABLE(shape,
-  [  --disable-shape         Don't use X shape extension])
-  if test "$enable_shape" != "no"; then
-    AC_CHECK_LIB(Xext, XShapeCombineRectangles,
-      [ CORE_LIBS="${CORE_LIBS} -lXext"
-        AC_DEFINE(CONFIG_SHAPE, 1, [Define to enable X shape extension])
-	ac_have_shape=yes ],
-      [ AC_MSG_WARN([Unable to use X shape extension]) ])
-  fi
-
-if test "$ac_have_shape" = "yes"; then
-AC_ARG_ENABLE(shaped-decorations,
-[  --disable-shaped-decorations
-                          Disable transparent frame decoration (titlebar,
-                          borders), requires X shape extension (experimental) ])
-  if test "$enable_shaped_decorations" != "no"; then
-    AC_DEFINE(CONFIG_SHAPED_DECORATION, 1, [Define to allow transparent frame borders.])
-    features="${features} shaped-decorations"
-  fi
-fi
-
-AC_ARG_ENABLE(gradients,
-[  --disable-gradients     Support gradients])
-  if test "$enable_gradients" != "no"; then
-    AC_DEFINE(CONFIG_GRADIENTS, 1, [Define to enable gradient support.])
-    enable_antialiasing=yes
-    features="${features} gradients"
-  fi
-
-dnl AC_ARG_ENABLE(antialiasing,
-dnl [  --enable-antialiasing   Support antialiasing (experimental,
-dnl                           implies --enable-xfreetype) ])
-dnl   if test "$enable_antialiasing" = "yes"; then
-dnl     AC_DEFINE(CONFIG_ANTIALIASING, 1, [Define to enable antialiasing.])
-dnl     features="${features} antialiasing"
-dnl
-dnl     if test "$enable_xfreetype" = "" ; then
-dnl       enable_xfreetype=implied
-dnl     fi
-dnl   fi
-
-AC_ARG_ENABLE(xrandr,
-[  --disable-xrandr        Disable XRANDR extension support])
-  if test "$enable_xrandr" != "no"; then
-    AC_DEFINE(CONFIG_XRANDR, 1, [Define to enable XRANDR extension])
-    CORE_LIBS="$LIBS -lXrandr -lXrender -lXext"
-  fi
-
-AC_ARG_ENABLE(corefonts,
-[  --enable-corefonts      Support X11 core fonts])
-
-AC_ARG_ENABLE(xfreetype,
-[  --disable-xfreetype     Don't use XFreeType for text rendering.
-                          Requires --enable-i18n. ])
-
-  if test "$enable_corefonts" != "yes" -a "$enable_xfreetype" = no; then
-     AC_MSG_ERROR("xfreetype or core fonts must be enabled")
-  fi
-  if test "$enable_xfreetype" != "no" -o "$enable_xfreetype" = "implied"; then
-    AC_PATH_PROG(XFT_CONFIG, xft-config,, ${with_xft_arg-${PATH}})
-    if test "${XFT_CONFIG}" = ""; then
-      AC_PATH_PROG(PKG_CONFIG, pkg-config)
-      if test "${PKG_CONFIG}" != ""; then
-        ${PKG_CONFIG} xft 2>/dev/null
-        if test $? -eq 0 ; then
-          XFT_CONFIG='pkg-config freetype2 xft'
-        fi
-      fi
+AC_ARG_ENABLE([antialiasing],
+    AC_HELP_STRING([--disable-antialiasing],[Disable antialiasing support.]))
+if test x$enable_xfreetype != xno -a x$enable_antialiasing != xno; then
+    AC_DEFINE([CONFIG_ANTIALIASING],[1],[Define to enable antialiasing.])
+    features="$features antialiasing"
+else
+    if test x$enable_antialiasing = xyes; then
+	AC_MSG_WARN([Antialiasing not supported.])
+	enable_antialiasing=no
     fi
-    if test "${XFT_CONFIG}" != ""; then
-      XFT_CFLAGS=`${XFT_CONFIG} --cflags`
-      XFT_LIBS=`${XFT_CONFIG} --libs`
-      AC_DEFINE(CONFIG_XFREETYPE, 2, [Define to enable XFreeType support.])
-      CORE_CFLAGS="${CORE_CFLAGS} $XFT_CFLAGS"
-      CORE_LIBS="${CORE_LIBS} $XFT_LIBS"
-      features="${features} xfreetype"
-    else
-      AC_CHECK_HEADERS(X11/Xft/Xft.h,
-      [ AC_CHECK_LIB(Xft, XftDrawCreate,
-        [ AC_DEFINE(CONFIG_XFREETYPE, 1, [Define to enable XFreeType support.])
-          CORE_LIBS="${CORE_LIBS} -lXft"
-          enable_corefonts=yes
-          features="${features} xfreetype" ],
-        [ if test "$enable_xfreetype" != "implied"; then
-            AC_MSG_ERROR([Xft support has been requested but libraries were not found.
-  *** Configure your X server to support XFreeType.
-  *** Information about how to do this can be found in RELNOTES for XFree86.])
-          fi ])],
-      [ if test "$enable_xfreetype" != "implied"; then
-          AC_MSG_ERROR([Xft support has been requested but headers were not found.
-  *** Configure your X server to support XFreeType.
-  *** Information about how to do this can be found in RELNOTES for XFree86.])
-          fi ])
-    fi
-  fi
+fi
 
-  if test "$enable_corefonts" = "yes"; then
-    AC_DEFINE(CONFIG_COREFONTS, 1, [Define to enable X11 core conts.])
-    features="${features} corefonts"
-  fi
+AC_ARG_ENABLE([guievents],
+    AC_HELP_STRING([--enable-guievents],[Enable GUI events (experimental).]))
+AC_ARG_WITH([icesound],
+    AC_HELP_STRING([--with-icesound=INTERFACES],[List of audio interfaces for icesound.
+	Requires support for GUI events.  @<:@default: ALSA,OSS,Y,ESound@:>@]),[],
+    [with_icesound='ALSA,OSS,Y,ESound'])
+if test x$enable_guievents = xyes ; then
+    AC_DEFINE([CONFIG_GUIEVENTS],[1],[Define to enable GUI events support.])
+    features="${features} gui-events"
 
-#============================================================= GUI Events =====
-AC_ARG_ENABLE(guievents,
-  [  --enable-guievents      Enable GUI events (experimental)],
-  [ if test "$enable_guievents" != "no"; then
-      AC_DEFINE(CONFIG_GUIEVENTS, 1, [Define to enable GUI events support.])
-      features="${features} gui-events"
-
-      AC_ARG_WITH(icesound,
-	[  --with-icesound=interfaces]
-        [                  List of audio interfaces for icesound. Requires]
-        [                  support for GUI events. Default: ALSA,OSS,Y,ESound],,
-	[ with_icesound='ALSA,OSS,Y,ESound' ])
-
-      for iface in `[ echo ${with_icesound} | 
-      		      sed -e 's/\([^,][^,]*\)\(,\|$\)/\1 /g' ]`; do
-	case ${iface} in
-	  ALSA|alsa)
-	    AC_PATH_PROG(PKG_CONFIG, pkg-config)
-	    if test "${PKG_CONFIG}" != ""; then
-	      ${PKG_CONFIG} alsa sndfile --exists 2>/dev/null
-	      if test $? -eq 0 ; then
-		ALSA_CFLAGS=`${PKG_CONFIG} alsa sndfile --cflags`
-		ALSA_LIBS=`${PKG_CONFIG} alsa sndfile --libs`
-
-		AUDIO_CFLAGS="${AUDIO_CFLAGS} ${ALSA_CFLAGS}"
-		AUDIO_LIBS="${AUDIO_LIBS} ${ALSA_LIBS}"
-
-		AC_DEFINE(ENABLE_ALSA, 1, [Define to enable ALSA support.])
-		CONFIG_ALSA=yes
-	      fi
-	    fi;;
-
-	  OSS|oss)
-	    AC_DEFINE(ENABLE_OSS, 1, [Define to enable OSS support.])
-	    CONFIG_OSS=yes;;
-
-	  Y|Y2|YIFF|y|y2|yiff)
-	    AC_CHECK_HEADERS(Y2/Y.h,
-	    AC_CHECK_LIB(Y2, YOpenConnection,
-	      [ AC_DEFINE(ENABLE_YIFF, 1, [Define to enable YIFF support.])
-		AUDIO_LIBS="${AUDIO_LIBS} -lY2"
-		CONFIG_YIFF=yes ]));;
-
-	  ESound|ESD|esound|esd)
-	    AC_ARG_WITH(esd-config,
-	      [  --with-esd-config=path  Path to esd-config],
-	      [  ESD_CONFIG=$with_esd_config ],
-	      [  AC_PATH_PROG(ESD_CONFIG, esd-config) ])
-
-            if test "${ESD_CONFIG}" != ""; then
-              ESD_CFLAGS="`${ESD_CONFIG} --cflags`"
-              ESD_LIBS="`${ESD_CONFIG} --libs`"
-
-              ac_flags="$CXXFLAGS ${ESD_CFLAGS}"
-	      ac_libs="$LIBS ${ESD_LIBS}"
-
-#	      CXXFLAGS="${CXXFLAGS} ${ESD_CFLAGS}"
-#	      LIBS="${LIBS} ${ESD_LIBS}"
-
-	      AC_CHECK_HEADERS(esd.h,,
-		[ AC_MSG_ERROR([Invalid compiler flags returned by ${ESD_CONFIG}.
-*** Check your installation.])])
-	      AC_CHECK_LIB(esd, esd_open_sound,,
-		[ AC_MSG_ERROR([Invalid linker flags returned by ${ESD_CONFIG}.
-*** Check your installation.])])
-
-	      CXXFLAGS="$ac_flags"
-	      LIBS="$ac_libs"
-
-	      AC_DEFINE(ENABLE_ESD, 1, [Define to enable ESD support.])
-
-              AUDIO_CFLAGS="${AUDIO_CFLAGS} ${ESD_CFLAGS}"
-              AUDIO_LIBS="${AUDIO_LIBS} ${ESD_LIBS}"
-
-	      CONFIG_ESD=yes
-	    fi;;
-	  *)
-	    AC_MSG_WARN([Invalid audio interface: ${iface}])
+    for iface in `echo "$with_icesound"|sed 's|,| |g'` ; do
+	case $iface in
+	(ALSA|alsa)
+	    PKG_CHECK_MODULES([ALSA],[alsa sndfile],[
+		AUDIO_CFLAGS="$AUDIO_CFLAGS $ALSA_CFLAGS"
+		AUDIO_LIBS="$AUDIO_LIBS $ALSA_LIBS"
+		AC_DEFINE([ENABLE_ALSA],[1],[Define to enable ALSA support.])
+		CONFIG_ALSA=yes],[AC_MSG_WARN([ALSA is not supported])])
+	    ;;
+	(OSS|oss)
+	    AC_DEFINE([ENABLE_OSS],[1],[Define to enable OSS support.])
+	    CONFIG_OSS=yes
+	    ;;
+	(Y|Y2|YIFF|y|y2|yiff)
+	    PKG_CHECK_MODULES([YIFF],[Y2],[
+		AUDIO_CFLAGS="$AUDIO_CFLAGS $YIFF_CFLAGS"
+		AUDIO_LIBS="$AUDIO_LIBS $YIFF_LIBS"
+		AC_DEFINE([ENABLE_YIFF],[1],[Define to enable YIFF support.])
+		CONFIG_YIFF=yes],[AC_MSG_WARN([YIFF is not supported])])
+	    ;;
+	(ESound|ESD|esound|esd)
+	    PKG_CHECK_MODULES([ESD],[esound],[
+		AUDIO_CFLAGS="$AUDIO_CFLAGS $ESD_CFLAGS"
+		AUDIO_LIBS="$AUDIO_LIBS $ESD_LIBS"
+		AC_DEFINE([ENABLE_ESD],[1],[Define to enable ESD support.])
+		CONFIG_ESD=yes],[AC_MSG_WARN([ESD is not supported])])
+	    ;;
+	(*)
+	    AC_MSG_WARN([Invalid audio interface: $iface])
+	    ;;
 	esac
-      done
-
-      for iface in ALSA OSS YIFF ESD; do
-	eval test \"\${CONFIG_${iface}}\" = "yes" &&
-	audio_support="${audio_support} ${iface}"
-      done
-
-      if test "${audio_support}" = ""; then
-	AC_MSG_ERROR([You have to specify at least one valid audio interface.])
-      else
+    done
+    for iface in ALSA OSS YIFF ESD; do
+	eval "test \"\$CONFIG_$iface\" = yes" && audio_support="$audio_support $iface"
+    done
+    if test "x$audio_support" != x ; then
+	BUILD_SOUND=yes
 	APPLICATIONS="${APPLICATIONS} icesound"
-      fi
-    fi ])
-
-AC_ARG_ENABLE(xinerama,
-  [  --disable-xinerama      Disable xinerama support])
-  if test "$enable_xinerama" = "no"; then 
-    echo ; 
-  else
-    LIBS="$LIBS -lXinerama -lXext "
-    AC_CHECK_LIB(Xinerama, XineramaQueryScreens,
-      [
-        CORE_LIBS="-lXinerama $CORE_LIBS"
-        AC_DEFINE(XINERAMA, 1, [Define to enable Xinerama support])],
-      [ AC_MSG_ERROR([Xinerama can not be found])])
-  fi
-
-AC_ARG_ENABLE(x86-asm,
-  [  --disable-x86-asm       Don't use optimized x86 assembly code ])
-
-  case $target_cpu in
-    i[[3-6]]86) ice_x86_target=yes;;
-    *) ice_x86_target=no;;
-  esac
-
-  if test "$ice_x86_target" = "yes"; then
-    test "$enable_x86_asm" != "no" && enable_x86_asm=yes \
-                                   || enable_x86_asm=no
-  fi
-
-  if test "$enable_x86_asm" = "yes"; then
-    AC_DEFINE(CONFIG_X86_ASM, 1, [Define to enable x86 assembly code.])
-    features="${features} x86-asm"
-  fi
-
-AC_ARG_ENABLE(prefs,
-  [  --disable-prefs         Disable configurable preferences])
-  if test "$enable_prefs" = "no"; then
-    AC_DEFINE(NO_CONFIGURE, 1, [Define to disable preferences support.])
-  fi
-
-AC_ARG_ENABLE(keyconf,
-  [  --disable-keyconf       Disable configurable keybindings])
-  if test "$enable_keyconf" = "no"; then
-    AC_DEFINE(NO_KEYBIND, 1, [Define to disable keybinding support.])
-  fi
-
-AC_ARG_ENABLE(menuconf,
-  [  --disable-menuconf      Disable configurable menus])
-  if test "$enable_menuconf" = "no"; then
-    AC_DEFINE(NO_CONFIGURE_MENUS, 1, [Define to disable configurable menu support.])
-  fi
-
-AC_ARG_ENABLE(winoptions,
-  [  --disable-winoptions    Disable configurable window options])
-  if test "$enable_winoptions" = "no"; then
-    AC_DEFINE(NO_WINDOW_OPTIONS, 1, [Define to disable configurable window options support.])
-  fi
-
-#======================================== Stripped down versions of IceWM =====
-AC_ARG_ENABLE(taskbar,
-  [  --disable-taskbar       Disable builtin taskbar])
-  if test "$enable_taskbar" = "no"; then
-    echo;
-  else 
-    AC_DEFINE(CONFIG_TASKBAR, 1, [Define to to enable the builtin taskbar.])
-  fi
-
-AC_ARG_ENABLE(winmenu,
-  [  --disable-winmenu       Disable the window list menu])
-  if test "$enable_winmenu" = "no"; then
-    echo;
-  else 
-    AC_DEFINE(CONFIG_WINMENU, 1, [Define to to enable the window list menu.])
-  fi
-
-AC_ARG_ENABLE(lite,
-  [  --enable-lite           Build lightweight version of IceWM],,
-  [ enable_lite=no ])
-  if test "${enable_lite}" != "yes"; then
-    AC_DEFINE(CONFIG_TOOLTIP, 		1,	[Tooltips])
-    if test "${enable_taskbar}" != "no"; then
-      AC_DEFINE(CONFIG_TASKBAR, 		1,	[Taskbar])
-      AC_DEFINE(CONFIG_ADDRESSBAR,	1,	[Address bar])
-      AC_DEFINE(CONFIG_TRAY, 		1,	[Window tray])
-      AC_DEFINE(CONFIG_APPLET_MAILBOX,	1,	[Mailbox applet])
-      AC_DEFINE(CONFIG_APPLET_CPU_STATUS,	1,	[CPU status applet])
-      AC_DEFINE(CONFIG_APPLET_NET_STATUS,	1,	[Network status applet])
-      AC_DEFINE(CONFIG_APPLET_CLOCK,	1,	[LCD clock applet])
-      AC_DEFINE(CONFIG_APPLET_APM,	1,	[APM status applet])
+    else
+	AC_MSG_WARN([No valid sound interface, not building icesound.])
     fi
-    AC_DEFINE(CONFIG_WINLIST,		1,	[OS/2 like window list])
-    if test "${enable_winmenu}" != "no"; then
-      AC_DEFINE(CONFIG_WINMENU,		1,	[Window menu])
-    fi
-
-    APPLICATIONS="${APPLICATIONS} icehelp"
-  else
-    AC_DEFINE(LITE, 			1,	[Lite version])
-  fi
-
-IMAGE_CFLAGS=`pkg-config gdk-pixbuf-xlib-2.0 --cflags`
-IMAGE_LIBS=`pkg-config gdk-pixbuf-xlib-2.0  --libs`
-
-AC_DEFINE(CONFIG_GDK_PIXBUF_XLIB, 1, [Define to use gdk_pixbuf_xlib for image rendering])
-
-image_library=gdk_pixbuf_xlib
-
-# Needs mkfontdir to create fonts.dir for Infadel2
-AC_ARG_WITH(mkfontdir,
-  [  --with-mkfontdir=path   Path to mkfontdir],
-  [ MKFONTDIR=$with_mkfontdir ],
-  [ AC_PATH_PROG(MKFONTDIR, mkfontdir,, $PATH:/usr/X11R6/bin) ])
-
-LIBS=$no_x_libs
-
-# Path adjustment
-AC_ARG_WITH(kdedatadir,
-  [  --with-kdedatadir=path  KDE's data directory (\$KDEDIR/share)],
-  [ if test x"$with_kdedatadir" = x -o "$with_kdedatadir" = "yes"; then
-      AC_MSG_ERROR([Invalid usage of --with-kdedatadir argument])
-    else
-      kdedatadir=$with_kdedatadir
-    fi ],
-  [ if test x"$KDEDIR" != x; then
-      kdedatadir="${KDEDIR}/share"
-    else
-      kdedatadir="${datadir}"
-    fi ]
-)
-
-#======================================================== Some path stuff =====
-AC_ARG_WITH(libdir,
-  [  --with-libdir=path      Default data directory (\$datadir/icewm)],
-  [ if test x"$with_libdir" = x -o "$with_libdir" = "yes"; then
-      AC_MSG_ERROR([Invalid usage of --with-libdir argument])
-    else
-      libdatadir=$with_libdir
-    fi ],
-  [ libdatadir='${datadir}/icewm' ])
-
-AC_ARG_WITH(cfgdir,
-  [  --with-cfgdir=path      System configuration directory (/etc/icewm)],
-  [ if test x"$with_cfgdir" = x -o "$with_cfgdir" = "yes"; then
-      AC_MSG_ERROR([Invalid usage of --with-cfgdir argument])
-    else
-      cfgdatadir=$with_cfgdir
-    fi ],
-  [ cfgdatadir='/etc/icewm' ])
-
-AC_ARG_WITH(docdir,
-  [  --with-docdir=path      Documentation directory (\$prefix/doc)],
-  [ if test x"$with_docdir" = x -o "$with_docdir" = "yes"; then
-      AC_MSG_ERROR([Invalid usage of --with-docdir argument])
-    else
-      docdir=$with_docdir
-    fi ],
-  [ docdir='${datadir}/doc' ])
-
-#============================================================ GNOME stuff =====
-AC_ARG_ENABLE(menus-gnome2,
-  [  --enable-menus-gnome2   Display GNOME 2 menus],
-  [ if test "${enable_menus_gnome2}" = "yes"; then
-      AC_PATH_PROG(PKG_CONFIG, pkg-config)
-
-      if test "${PKG_CONFIG}" != ""; then
-	GNOME_VER=2
-	GNOME2_CFLAGS=`pkg-config --cflags gnome-desktop-2.0 libgnomeui-2.0`
-	GNOME2_LIBS=`pkg-config --libs gnome-desktop-2.0 libgnomeui-2.0`
-
-	AC_DEFINE(CONFIG_GNOME_MENUS, 1, [Define to make IceWM more GNOME-friendly])
-
-	APPLICATIONS="${APPLICATIONS} icewm-menu-gnome2"
-	GNOME2_PREFIX=`pkg-config --variable=prefix gnome-desktop-2.0`
-	GWMDIR="${GNOME2_PREFIX}/share/gnome/wm-properties/"
-	CONFIG_GNOME2_MENU_DIR="${GNOME2_PREFIX}/share/desktop-directories/"
-      fi
-
-      if test "${GNOME2_CFLAGS}" = ""; then
-	AC_MSG_ERROR([gnome 2 can not be found via pkg-config.
-*** Install the GNOME´s development packages.])
-      fi
-    fi ])
-
-if test -x /usr/bin/kde-config ; then
-	CONFIG_KDE_MENU_DIR="`kde-config --path apps | sed -e 's/.*://'`" 
-else
-	CONFIG_KDE_MENU_DIR=
 fi
 
-AC_SUBST(GNOME_VER)
-AC_SUBST(CONFIG_GNOME2_MENU_DIR)
-AC_SUBST(CONFIG_KDE_MENU_DIR)
+AC_SUBST([AUDIO_CFLAGS])
+AC_SUBST([AUDIO_LIBS])
 
-AC_DEFINE(WMSPEC_HINTS, 1, [wmspec hints])
-AC_DEFINE(GNOME1_HINTS, 1, [GNOME1 hints])
+AC_ARG_ENABLE([xinerama],
+    AC_HELP_STRING([--disable-xinerama],[Disable XINERAMA support.]))
+if test x$enable_xinerama != xno ; then
+    PKG_CHECK_MODULES([XINERAMA],[xinerama],[
+	CORE_CFLAGS="$CORE_CFLAGS $XINERAMA_CFLAGS"
+	CORE_LIBS="$CORE_LIBS $XINERAMA_LIBS"
+	AC_DEFINE([XINERAMA],[1],[Define to enable Xinerama support.])],
+	[AC_MSG_WARN([XINERAMA is not supported.])])
+fi
 
-#====================================================== Write out results =====
-# Adjust some substitutions
-AC_SUBST(PACKAGE,`sed -ne 's/PACKAGE=//p' "$srcdir/VERSION"`)
-AC_SUBST(VERSION,`sed -ne 's/VERSION=//p' "$srcdir/VERSION"`)
-AC_SUBST(HOSTOS,`uname -sr || echo unknown`)
-AC_SUBST(HOSTCPU,`uname -m || echo unknown`)
+AC_ARG_ENABLE([prefs],
+    AC_HELP_STRING([--disable-prefs],[Disable configurable preferences.]))
+if test x$enable_prefs = xno ; then
+    AC_DEFINE([NO_CONFIGURE],[1],[Define to disable preferences support.])
+fi
 
-# Compiler flags, definitions
-AC_SUBST(DEBUG)
-AC_SUBST(GCCDEP)
-AC_SUBST(CORE_CFLAGS)
-AC_SUBST(IMAGE_CFLAGS)
-AC_SUBST(AUDIO_CFLAGS)
-AC_SUBST(GNOME2_CFLAGS)
+AC_ARG_ENABLE([keyconf],
+    AC_HELP_STRING([--disable-keyconf],[Disable configurable key bindings.]))
+if test x$enable_keyconf = xno ; then
+    AC_DEFINE([NO_KEYBIND],[1],[Define to disable keybinding support.])
+fi
 
-AC_SUBST(CORE_LIBS)
-AC_SUBST(IMAGE_LIBS)
-AC_SUBST(AUDIO_LIBS)
-AC_SUBST(GNOME2_LIBS)
+AC_ARG_ENABLE([menuconf],
+    AC_HELP_STRING([--disable-menuconf],[Disable configurable menus.]))
+if test x$enable_menuconf = xno ; then
+    AC_DEFINE([NO_CONFIGURE_MENUS],[1],[Define to disable configurable menu support.])
+fi
 
+AC_ARG_ENABLE([winoptions],
+    AC_HELP_STRING([--disable-winoptions],[Disable configurable window options.]))
+if test x$enable_winoptions = xno ; then
+    AC_DEFINE([NO_WINDOW_OPTIONS],[1],[Define to disable configurable window options support.])
+fi
 
-ICE_EXPAND(PREFIX,${prefix})
-ICE_EXPAND(BINDIR,${bindir})
-ICE_EXPAND(LIBDIR,${libdatadir})
-ICE_EXPAND(CFGDIR,${cfgdatadir})
-ICE_EXPAND(LOCDIR,${localedir})
-ICE_EXPAND(KDEDIR,${kdedatadir})
-ICE_EXPAND(DOCDIR,${docdir})
-ICE_EXPAND(MANDIR,${mandir})
-
-AC_SUBST(PREFIX)
-AC_SUBST(BINDIR)
-AC_SUBST(LIBDIR)
-AC_SUBST(CFGDIR)
-AC_SUBST(LOCDIR)
-AC_SUBST(KDEDIR)
-AC_SUBST(DOCDIR)
-AC_SUBST(MANDIR)
-AC_SUBST(GWMDIR)
-
-# Build targets
-DEPENDENCIES=""
-
-BASEOBJS=""
-BASEBINS=""
-
-for binary in ${APPLICATIONS}; do
-  BASEOBJS="${BASEOBJS} \$(${binary}_OBJS)"
-  BASEBINS="${BASEBINS} ${binary}\$(EXEEXT)"
-done
-
-AC_SUBST(BASEOBJS)
-AC_SUBST(BASEBINS)
-
-TESTOBJS=""
-TESTBINS=""
-
-for binary in ${TESTCASES}; do
-  TESTOBJS="${TESTOBJS} \$(${binary}_OBJS)"
-  TESTBINS="${TESTBINS} ${binary}\$(EXEEXT)"
-done
-
-AC_SUBST(TESTOBJS)
-AC_SUBST(TESTBINS)
-
-# Install targets
-TARGETS_INSTALL=`for target in ${TARGETS}; do echo $ECHO_N "install-${target} $ECHO_C"; done`
-BINFILES=`for binary in ${APPLICATIONS}; do echo $ECHO_N "\\\$(top_srcdir)/src/${binary}\\\$(EXEEXT) $ECHO_C"; done`
-
-AC_SUBST(TARGETS)
-AC_SUBST(TARGETS_INSTALL)
-AC_SUBST(APPLICATIONS)
-AC_SUBST(TESTCASES)
-AC_SUBST(BINFILES)
-
-AC_SUBST(INSTALL)
-AC_SUBST(INSTALLDIR,"${INSTALL} -m 755 -d")
-AC_SUBST(INSTALLBIN,"${INSTALL_PROGRAM}")
-AC_SUBST(INSTALLLIB,"${INSTALL_DATA}")
-AC_SUBST(INSTALLETC,"${INSTALL_DATA}")
-AC_SUBST(INSTALLMAN,"${INSTALL_DATA}")
-
-# Generate files
-AC_CONFIG_COMMANDS(config.status, [
-    for binary in ${ac_targets_binaries}; do
-      echo "${binary}\$(EXEEXT): \$(${binary}_OBJS)" >> "${srcdir}/src/Makefile"
-    done
-
-    if test "${ac_depend}" = "yes"; then
-      echo >> "${srcdir}/src/Makefile"
-      echo '-include $(OBJECTS:.o=.d)' >> "${srcdir}/src/Makefile"
-      echo '-include $(genpref_OBJS:.o=.d)' >> "${srcdir}/src/Makefile"
+AC_ARG_ENABLE([taskbar],
+    AC_HELP_STRING([--disable-taskbar],[Disable builtin taskbar.]))
+AC_ARG_ENABLE([winmenu],
+    AC_HELP_STRING([--disable-winmenu],[Disable window list menu.]))
+AC_ARG_ENABLE([lite],
+    AC_HELP_STRING([--enable-lite],[Build lightweight version of IceWM.]))
+if test x$enable_lite != xyes ; then
+    AC_DEFINE([CONFIG_TOOLTIP],[1],[Define to support tooltips.])
+    if test x$enable_taskbar != xno ; then
+	AC_DEFINE([CONFIG_TASKBAR],[1],[Define to enable builtin taskbar.])
+	AC_DEFINE([CONFIG_ADDRESSBAR],[1],[Define for address bar.])
+	AC_DEFINE([CONFIG_TRAY],[1],[Define for system tray.])
+	AC_DEFINE([CONFIG_APPLET_MAILBOX],[1],[Define for mailbox applet.])
+	AC_DEFINE([CONFIG_APPLET_CPU_STATUS],[1],[Define for CPU status applet.])
+	AC_DEFINE([CONFIG_APPLET_NET_STATUS],[1],[Define for network status applet.])
+	AC_DEFINE([CONFIG_APPLET_CLOCK],[1],[Define for LCD clock applet.])
+	AC_DEFINE([CONFIG_APPLET_APM],[1],[Define for APM status applet.])
     fi
-],[
-    ac_targets_binaries="${APPLICATIONS} ${TESTCASES}"
-    ac_depend="${enable_depend}"
-])
+    AC_DEFINE([CONFIG_WINLIST],[1],[Define for OS/2 like window list.])
+    if test x$enable_winmenu != xno ; then
+	AC_DEFINE([CONFIG_WINMENU],[1],[Define to enable window list menu.])
+    fi
+    BUILD_HELP=yes
+    APPLICATIONS="${APPLICATIONS} icehelp"
+else
+    AC_DEFINE([LITE],[1],[Lite version])
+fi
 
-AC_OUTPUT(
-	Makefile
-	src/Makefile
-	po/Makefile
-	lib/keys
-        lib/menu
-        lib/programs
-        lib/toolbar
-        lib/winoptions
-)
+AC_SUBST([GNOME1_CFLAGS])
+AC_SUBST([GNOME1_LIBS])
+
+AC_ARG_ENABLE([menus-gnome2],
+    AC_HELP_STRING([--disable-menus-gnome2],[Disable display of GNOME 2 menus.]))
+if test x$enable_menus_gnome2 != xno; then
+    PKG_CHECK_MODULES([GNOME2],[gnome-desktop-2.0 libgnomeui-2.0],[
+	GNOME_VER=2
+	AC_DEFINE([CONFIG_GNOME_MENUS],[1],[Define to make IceWM more GNOME-friendly])
+	BUILD_MENU_GNOME2=yes
+	APPLICATIONS="${APPLICATIONS} icewm-menu-gnome2"],
+	[AC_MSG_WARN([GNOME2 menus not supported.])])
+fi
+
+AC_SUBST([GNOME_VER])
+AC_SUBST([GNOME2_CFLAGS])
+AC_SUBST([GNOME2_LIBS])
+
+
+PKG_CHECK_MODULES([IMAGE],[gdk-pixbuf-xlib-2.0],[
+    AC_DEFINE([CONFIG_GDK_PIXBUF_XLIB],[1],
+	[Define to use gdk_pixbuf_xlib for image rendering.])
+    image_library=gdk_pixbuf_xlib])
+AC_SUBST([IMAGE_CFLAGS])
+AC_SUBST([IMAGE_LIBS])
+
+AM_CONDITIONAL([BUILD_TESTS],[test x$BUILD_TESTS = xyes])
+AM_CONDITIONAL([BUILD_HELP],[test x$BUILD_HELP = xyes])
+AM_CONDITIONAL([BUILD_SOUND],[test x$BUILD_SOUND = xyes])
+AM_CONDITIONAL([BUILD_MENU_GNOME1],[test x$BUILD_MENU_GNOME1 = xyes])
+AM_CONDITIONAL([BUILD_MENU_GNOME2],[test x$BUILD_MENU_GNOME2 = xyes])
+
+test "x$prefix" = xNONE && prefix="$ac_default_prefix"
+
+AC_ARG_WITH([libdir],
+    AC_HELP_STRING([--with-libdir=PATH],[Package data directory.
+	@<:@default=DATADIR/icewm@:>@]))
+if test -z "$with_libdir" -o "x$with_libdir" = xyes ; then
+    with_libdir='${datadir}/icewm'
+fi
+ICE_EXPAND([LIBDIR],[${with_libdir}])
+AC_DEFINE_UNQUOTED([LIBDIR],["${LIBDIR}"],
+	[Define to package data directory.])
+
+AC_ARG_WITH([cfgdir],
+    AC_HELP_STRING([--with-cfgdir=PATH],[Package configuration directory.
+	@<:@default=SYSCONFDIR/icewm@:>@]))
+if test -z "$with_cfgdir" -o "x$with_cfgdir" = xyes ; then
+    with_cfgdir='${sysconfdir}/icewm'
+fi
+ICE_EXPAND([CFGDIR],[${with_cfgdir}])
+AC_DEFINE_UNQUOTED([CFGDIR],["${CFGDIR}"],
+	[Define to package configuration directory.])
+
+AC_ARG_WITH([docdir],
+    AC_HELP_STRING([--with-docdir=PATH],[Package documentation directory.
+	@<:@default=DOCDIR@:>@]))
+if test -z "$with_docdir" -o "x$with_docdir" = xyes ; then
+    with_docdir='${docdir}'
+fi
+ICE_EXPAND([DOCDIR],[${with_docdir}])
+AC_DEFINE_UNQUOTED([DOCDIR],["${DOCDIR}"],
+	[Define to package documentation directory.])
+
+ICE_EXPAND([LOCDIR],[${localedir}])
+AC_DEFINE_UNQUOTED([LOCDIR],["${LOCDIR}"],
+	[Define to locale directory.])
+
+AC_DEFINE_UNQUOTED([HOSTOS],["${host_os}"],
+	[Define to the host operating system.])
+AC_DEFINE_UNQUOTED([HOSTCPU],["${host_cpu}"],
+	[Define to the host CPU.])
+AC_DEFINE_UNQUOTED([EXEEXT],["${EXEEXT}"],
+	[Define to the execution extension.])
+AC_DEFINE_UNQUOTED([ICEWMEXE],["icewm${EXEEXT}"],
+	[Define to the IceWM program.])
+AC_DEFINE_UNQUOTED([ICEWMTRAYEXE],["icewmtray${EXEEXT}"],
+	[Define to the IceWM tray program.])
+AC_DEFINE_UNQUOTED([ICEWMBGEXE],["icewmbg${EXEEXT}"],
+	[Define to the IceWM background program.])
+AC_DEFINE_UNQUOTED([ICESMEXE],["icewm-session${EXEEXT}"],
+	[Define to the IceWM session program.])
+AC_DEFINE_UNQUOTED([ICEHELPEXE],["icehelp${EXEEXT}"],
+	[Define to the IceWM help program.])
+AC_DEFINE_UNQUOTED([ICEHELPIDX],["${with_docdir}/icewm.html"],
+	[Define to the IceWM help index file.])
+
+AC_ARG_ENABLE([wmspec],
+    AC_HELP_STRING([--disable-wmspec],[Disable NetWM/EWMH support.]))
+if test x$enable_wmspec != xno ; then
+    AC_DEFINE([WMSPEC_HINTS],[1],[Define to enable NetWM/EWMH support.])
+fi
+
+AC_ARG_ENABLE([gnome1],
+    AC_HELP_STRING([--disable-gnome1],[Disable WinWM/WMH (GNOME1) support.]))
+if test x$enable_gnome1 != xno ; then
+    AC_DEFINE([GNOME1_HINTS],[1],[Define to enable WinWM/WMH (GNOME1) support.])
+fi
+
+AC_ARG_ENABLE([debug],
+    AC_HELP_STRING([--enable-debug],[Enable debugging of IceWM.]))
+if test x$enable_debug = xyes ; then
+    AC_DEFINE([DEBUG],[1],[Define if you want to debug IceWM.])
+    CXXFLAGS="$CXXFLAGS -g -DDEBUG -O0"
+    features="$features debugging-symbols"
+fi
+
+CORE_LIBS="$CORE_LIBS -lm"
+
+# needed by lib/menu.in
+AC_SUBST([CONFIG_GNOME2_MENU_DIR])
+dnl AC_SUBST([GNOME_VER])
+AC_SUBST([CONFIG_KDE_MENU_DIR])
+
+AC_CONFIG_FILES([Makefile
+                 src/Makefile
+                 po/Makefile.in
+                 doc/Makefile
+                 lib/Makefile
+		 lib/keys
+		 lib/menu
+		 lib/programs
+		 lib/toolbar
+		 lib/winoptions])
+AC_OUTPUT
 
 # Display results
-AC_MSG_RESULT()
-ICE_MSG_VALUE([Build targets],	TARGETS)
+AC_MSG_RESULT([])
 ICE_MSG_VALUE([Applications],	APPLICATIONS)
 ICE_MSG_VALUE([Image library],	image_library)
 ICE_MSG_VALUE([Audio support],	audio_support)
@@ -879,8 +435,9 @@ ICE_MSG_VALUE([Features],	features)
 ICE_MSG_VALUE([Paths: PREFIX], prefix)
 ICE_MSG_VALUE([       BINDIR], bindir)
 ICE_MSG_VALUE([       LOCDIR], localedir)
-ICE_MSG_VALUE([       LIBDIR], libdatadir)
-ICE_MSG_VALUE([       CFGDIR], cfgdatadir)
+ICE_MSG_VALUE([       LIBDIR], LIBDIR)
+ICE_MSG_VALUE([       CFGDIR], CFGDIR)
 ICE_MSG_VALUE([       KDEDIR], kdedatadir)
-ICE_MSG_VALUE([       DOCDIR], docdir)
+ICE_MSG_VALUE([       DOCDIR], DOCDIR)
 ICE_MSG_VALUE([       MANDIR], mandir)
+AC_MSG_RESULT([])

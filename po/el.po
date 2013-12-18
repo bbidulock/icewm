@@ -3,1036 +3,1297 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # Nick Apostolakis <nickapos@agriroot.aua.gr>, 2003
 #
-msgid   ""
-msgstr  "Project-Id-Version: el\n"
-        "Report-Msgid-Bugs-To: \n"
-        "POT-Creation-Date: 2009-07-05 19:58+0200\n"
-        "PO-Revision-Date: 2003-10-14 09:41+0300\n"
-        "Last-Translator: Nick Apostolakis <nickapos@agriroot.aua.gr>\n"
-        "Language-Team: hellenic <en@li.org>\n"
-        "MIME-Version: 1.0\n"
-        "Content-Type: text/plain; charset=UTF-8\n"
-        "Content-Transfer-Encoding: 8bit\n"
-        "X-Generator: KBabel 1.0\n"
+msgid ""
+msgstr ""
+"Project-Id-Version: el\n"
+"Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
+"POT-Creation-Date: 2013-12-18 04:27-0700\n"
+"PO-Revision-Date: 2003-10-14 09:41+0300\n"
+"Last-Translator: Nick Apostolakis <nickapos@agriroot.aua.gr>\n"
+"Language-Team: hellenic <en@li.org>\n"
+"Language: el\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.0\n"
 
-msgid   " - Power"
-msgstr  " - Τροφοδοσία"
+#: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:749 src/aapm.cc:868
+msgid " - Power"
+msgstr " - Τροφοδοσία"
 
-#. /            if (!prettyClock) strcat(s, " ");
-msgid   "P"
-msgstr  ""
+#: src/aapm.cc:193 src/aapm.cc:527 src/aapm.cc:752
+msgid "P"
+msgstr ""
 
+#: src/aapm.cc:197 src/aapm.cc:498 src/aapm.cc:729 src/aapm.cc:839
 #, c-format
-msgid   " - Charging"
-msgstr  " - Φόρτιση"
+msgid " - Charging"
+msgstr " - Φόρτιση"
 
-msgid   "C"
-msgstr  ""
+#: src/aapm.cc:199 src/aapm.cc:500 src/aapm.cc:731
+msgid "C"
+msgstr ""
 
+#: src/aapm.cc:502
+msgid " - Full"
+msgstr ""
+
+#: src/acpustatus.cc:229
 #, fuzzy, c-format
-msgid   "CPU Load: %3.2f %3.2f %3.2f, %d"
-msgstr  "Φόρτος Επεξεργαστή: %3.2f %3.2f %3.2f, %d διεργασίες."
+msgid "CPU Load: %3.2f %3.2f %3.2f, %d"
+msgstr "Φόρτος Επεξεργαστή: %3.2f %3.2f %3.2f, %d διεργασίες."
 
+#: src/acpustatus.cc:233
 #, c-format
-msgid   "\n"
-        "Ram: %5.2f/%.2fM"
-msgstr  ""
+msgid ""
+"\n"
+"Ram: %5.2f/%.2fM"
+msgstr ""
 
+#: src/acpustatus.cc:238
 #, c-format
-msgid   "\n"
-        "Swap: %.2f/%.2fM"
-msgstr  ""
+msgid ""
+"\n"
+"Swap: %.2f/%.2fM"
+msgstr ""
 
+#: src/acpustatus.cc:242
 #, c-format
-msgid   "\n"
-        "ACPI Temp:"
-msgstr  ""
+msgid ""
+"\n"
+"ACPI Temp:"
+msgstr ""
 
+#: src/acpustatus.cc:247
 #, c-format
-msgid   "\n"
-        "CPU Freq: %.3fGHz"
-msgstr  ""
+msgid ""
+"\n"
+"CPU Freq: %.3fGHz"
+msgstr ""
 
-msgid   "CPU Load: "
-msgstr  ""
+#: src/acpustatus.cc:259
+msgid "CPU Load: "
+msgstr ""
 
+#: src/amailbox.cc:77
 #, c-format
-msgid   "Invalid mailbox protocol: \"%s\""
-msgstr  "Μη έγκυρο προτόκολο γραμματοκιβωτίου: \"%s\""
+msgid "Invalid mailbox protocol: \"%s\""
+msgstr "Μη έγκυρο προτόκολο γραμματοκιβωτίου: \"%s\""
 
+#: src/amailbox.cc:79
 #, c-format
-msgid   "Invalid mailbox path: \"%s\""
-msgstr  "Μη έγκυρο κατάλογος γραμματοκιβωτίου: \"%s\""
+msgid "Invalid mailbox path: \"%s\""
+msgstr "Μη έγκυρο κατάλογος γραμματοκιβωτίου: \"%s\""
 
+#: src/amailbox.cc:342
 #, c-format
-msgid   "Using MailBox \"%s\"\n"
-msgstr  "Χρησιμοποιούμενο γραμματοκιβώτιο \"%s\"\n"
+msgid "Using MailBox \"%s\"\n"
+msgstr "Χρησιμοποιούμενο γραμματοκιβώτιο \"%s\"\n"
 
-msgid   "Error checking mailbox."
-msgstr  "Σφάλμα κατά τον έλεγχο του γραμματοκιβωτίου."
+#: src/amailbox.cc:450
+msgid "Error checking mailbox."
+msgstr "Σφάλμα κατά τον έλεγχο του γραμματοκιβωτίου."
 
+#: src/amailbox.cc:456
 #, c-format
-msgid   "%ld mail message."
-msgstr  "%ld μύνημα αλληλογραφίας."
+msgid "%ld mail message."
+msgstr "%ld μύνημα αλληλογραφίας."
 
+#: src/amailbox.cc:457
 #, c-format
-msgid   "%ld mail messages."
-msgstr  "%ld μυνήματα αλληλογραφίας."
+msgid "%ld mail messages."
+msgstr "%ld μυνήματα αλληλογραφίας."
 
+#: src/apppstatus.cc:204
 #, fuzzy, c-format
-msgid   "Interface %s:\n"
-        "  Current rate (in/out):\t%li %s/%li %s\n"
-        "  Current average (in/out):\t%lli %s/%lli %s\n"
-        "  Total average (in/out):\t%li %s/%li %s\n"
-        "  Transferred (in/out):\t%lli %s/%lli %s\n"
-        "  Online time:\t%ld:%02ld:%02ld%s%s"
-msgstr  "Interface %s:\n"
-        "  Τρέχων ρυθμός (μέσα/έξω):\t%lli %s/%lli %s\n"
-        "  Τρέχων μέσος όρος (μέσα/έξω):\t%lli %s/%lli %s\n"
-        "  Ολικός μέσος όρος (μέσα/έξω):\t%lli %s/%lli %s\n"
-        "   Μεταφέρθηκαν (μέσα/έξω):\t%lli %s/%lli %s\n"
-        "  Χρόνος σύνδεσης:\t%ld:%02ld:%02ld%s%s"
+msgid ""
+"Interface %s:\n"
+"  Current rate (in/out):\t%li %s/%li %s\n"
+"  Current average (in/out):\t%lli %s/%lli %s\n"
+"  Transferred (in/out):\t%lli %s/%lli %s\n"
+"  Online time:\t%ld:%02ld:%02ld%s%s"
+msgstr ""
+"Interface %s:\n"
+"  Τρέχων ρυθμός (μέσα/έξω):\t%lli %s/%lli %s\n"
+"  Τρέχων μέσος όρος (μέσα/έξω):\t%lli %s/%lli %s\n"
+"  Ολικός μέσος όρος (μέσα/έξω):\t%lli %s/%lli %s\n"
+"   Μεταφέρθηκαν (μέσα/έξω):\t%lli %s/%lli %s\n"
+"  Χρόνος σύνδεσης:\t%ld:%02ld:%02ld%s%s"
 
-msgid   "\n"
-        "  Caller id:\t"
-msgstr  "\n"
-        "  Αριθμός τηλεφώνου καλούντος:\t"
+#: src/apppstatus.cc:216
+msgid ""
+"\n"
+"  Caller id:\t"
+msgstr ""
+"\n"
+"  Αριθμός τηλεφώνου καλούντος:\t"
 
-msgid   "Workspace: "
-msgstr  "Επιφάνεια εργασίας: "
+#: src/aworkspaces.cc:155 src/aworkspaces.cc:219 src/aworkspaces.cc:274
+#: src/wmstatus.cc:168
+msgid "Workspace: "
+msgstr "Επιφάνεια εργασίας: "
 
-msgid   "Back"
-msgstr  "Πίσω"
+#: src/icehelp.cc:714
+msgid "Back"
+msgstr "Πίσω"
 
-msgid   "Alt+Left"
-msgstr  "Alt+Left"
+#: src/icehelp.cc:714
+msgid "Alt+Left"
+msgstr "Alt+Left"
 
-msgid   "Forward"
-msgstr  "Προχώρησε"
+#: src/icehelp.cc:715
+msgid "Forward"
+msgstr "Προχώρησε"
 
-msgid   "Alt+Right"
-msgstr  "Alt+Right"
+#: src/icehelp.cc:715
+msgid "Alt+Right"
+msgstr "Alt+Right"
 
-msgid   "Previous"
-msgstr  "Προηγούμενο"
+#: src/icehelp.cc:717
+msgid "Previous"
+msgstr "Προηγούμενο"
 
-msgid   "Next"
-msgstr  "Επόμενο"
+#: src/icehelp.cc:718
+msgid "Next"
+msgstr "Επόμενο"
 
-msgid   "Contents"
-msgstr  "Περιεχόμενα"
+#: src/icehelp.cc:720
+msgid "Contents"
+msgstr "Περιεχόμενα"
 
-msgid   "Index"
-msgstr  "Ευρετήριο"
+#: src/icehelp.cc:721
+msgid "Index"
+msgstr "Ευρετήριο"
 
-#. fCloseButton->setWinGravity(NorthEastGravity);
-msgid   "Close"
-msgstr  "Κλείσε"
+#: src/icehelp.cc:723 src/icesame.cc:63 src/iceview.cc:76 src/wmframe.cc:181
+msgid "Close"
+msgstr "Κλείσε"
 
-msgid   "Ctrl+Q"
-msgstr  ""
+#: src/icehelp.cc:723 src/icesame.cc:63 src/iceview.cc:76
+msgid "Ctrl+Q"
+msgstr ""
 
+#: src/icehelp.cc:1326
 #, c-format
-msgid   "Usage: %s FILENAME\n"
-        "\n"
-        "A very simple HTML browser displaying the document specified by "
-        "FILENAME.\n"
-        "\n"
-msgstr  "Τρόπος χρήσης: %s Όνομα αρχείου\n"
-        "\n"
-        "Ένας πολύ απλός HTML browser ο οποίος δείχνει το αρχείο που έχει "
-        "προσδιοριστεί απο το Όνομα αρχείου.\n"
-        "\n"
+msgid ""
+"Usage: %s FILENAME\n"
+"\n"
+"A very simple HTML browser displaying the document specified by FILENAME.\n"
+"\n"
+msgstr ""
+"Τρόπος χρήσης: %s Όνομα αρχείου\n"
+"\n"
+"Ένας πολύ απλός HTML browser ο οποίος δείχνει το αρχείο που έχει "
+"προσδιοριστεί απο το Όνομα αρχείου.\n"
+"\n"
 
+#: src/icehelp.cc:1336
 #, c-format
-msgid   "Invalid path: %s\n"
-msgstr  "Εσφαλμένη τοποθεσία: %s\n"
+msgid "Invalid path: %s\n"
+msgstr "Εσφαλμένη τοποθεσία: %s\n"
 
-msgid   "Invalid path: "
-msgstr  "Εσφαλμένη τοποθεσία: "
+#: src/icehelp.cc:1341
+msgid "Invalid path: "
+msgstr "Εσφαλμένη τοποθεσία: "
 
-msgid   "List View"
-msgstr  "Εμφάνιση ως λίστα"
+#: src/icelist.cc:84
+msgid "List View"
+msgstr "Εμφάνιση ως λίστα"
 
-msgid   "Icon View"
-msgstr  "Εμφάνιση ως εικονίδια"
+#: src/icelist.cc:85
+msgid "Icon View"
+msgstr "Εμφάνιση ως εικονίδια"
 
-msgid   "Open"
-msgstr  "Άνοιξε"
+#: src/icelist.cc:89
+msgid "Open"
+msgstr "Άνοιξε"
 
-msgid   "Undo"
-msgstr  "Αναίρεση"
+#: src/icesame.cc:58
+msgid "Undo"
+msgstr "Αναίρεση"
 
-msgid   "Ctrl+Z"
-msgstr  ""
+#: src/icesame.cc:58
+msgid "Ctrl+Z"
+msgstr ""
 
-msgid   "New"
-msgstr  "Νέο"
+#: src/icesame.cc:60
+msgid "New"
+msgstr "Νέο"
 
-msgid   "Ctrl+N"
-msgstr  ""
+#: src/icesame.cc:60
+msgid "Ctrl+N"
+msgstr ""
 
-msgid   "Restart"
-msgstr  "Επανεκκίνηση"
+#: src/icesame.cc:61
+msgid "Restart"
+msgstr "Επανεκκίνηση"
 
-msgid   "Ctrl+R"
-msgstr  ""
+#: src/icesame.cc:61
+msgid "Ctrl+R"
+msgstr ""
 
-#. !!! fix
-msgid   "Same Game"
-msgstr  "Ίδιο παιχνίδι"
+#: src/icesame.cc:66
+msgid "Same Game"
+msgstr "Ίδιο παιχνίδι"
 
-#. ****************************************************************************
-#. ****************************************************************************
+#: src/icesh.cc:187
 #, c-format
-msgid   "Action `%s' requires at least %d arguments."
-msgstr  "Η πράξη `%s' απαιτεί τουλάχιστον %d ορίσματα."
+msgid "Action `%s' requires at least %d arguments."
+msgstr "Η πράξη `%s' απαιτεί τουλάχιστον %d ορίσματα."
 
+#: src/icesh.cc:194
 #, c-format
-msgid   "Invalid expression: `%s'"
-msgstr  "Μη έγκυρη έκφραση: `%s'"
+msgid "Invalid expression: `%s'"
+msgstr "Μη έγκυρη έκφραση: `%s'"
 
+#: src/icesh.cc:316
 #, c-format
-msgid   "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
-msgstr  ""
+msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
+msgstr ""
 
+#: src/icesh.cc:429
 #, c-format
-msgid   "Invalid workspace name: `%s'"
-msgstr  "Μη έγκυρο όνομα επιφάνειας εργασίας: `%s'"
+msgid "Invalid workspace name: `%s'"
+msgstr "Μη έγκυρο όνομα επιφάνειας εργασίας: `%s'"
 
+#: src/icesh.cc:435
 #, c-format
-msgid   "Workspace out of range: %d"
-msgstr  "Επιφάνεια εργασίας εκτός περιοχής: %d"
+msgid "Workspace out of range: %d"
+msgstr "Επιφάνεια εργασίας εκτός περιοχής: %d"
 
+#: src/icesh.cc:569
 #, c-format
-msgid   "Usage: %s [OPTIONS] ACTIONS\n"
-        "\n"
-        "Options:\n"
-        "  -display DISPLAY            Connects to the X server specified by "
-        "DISPLAY.\n"
-        "                              Default: $DISPLAY or :0.0 when not "
-        "set.\n"
-        "  -window WINDOW_ID           Specifies the window to manipulate. "
-        "Special\n"
-        "                              identifiers are `root' for the root "
-        "window and\n"
-        "                              `focus' for the currently focused "
-        "window.\n"
-        "  -class WM_CLASS             Window management class of the window"
-        "(s) to\n"
-        "                              manipulate. If WM_CLASS contains a "
-        "period, only\n"
-        "                              windows with exactly the same WM_CLASS "
-        "property\n"
-        "                              are matched. If there is no period, "
-        "windows of\n"
-        "                              the same class and windows of the same "
-        "instance\n"
-        "                              (aka. `-name') are selected.\n"
-        "\n"
-        "Actions:\n"
-        "  setIconTitle   TITLE        Set the icon title.\n"
-        "  setWindowTitle TITLE        Set the window title.\n"
-        "  setGeometry    geometry     Set the window geometry\n"
-        "  setState       MASK STATE   Set the GNOME window state to STATE.\n"
-        "                              Only the bits selected by MASK are "
-        "affected.\n"
-        "                              STATE and MASK are expressions of the "
-        "domain\n"
-        "                              `GNOME window state'.\n"
-        "  toggleState    STATE        Toggle the GNOME window state bits "
-        "specified by\n"
-        "                              the STATE expression.\n"
-        "  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
-        "  setLayer       LAYER        Moves the window to another GNOME "
-        "window layer.\n"
-        "  setWorkspace   WORKSPACE    Moves the window to another workspace. "
-        "Select\n"
-        "                              the root window to change the current "
-        "workspace.\n"
-        "  listWorkspaces              Lists the names of all workspaces.\n"
-        "  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
-        "\n"
-        "Expressions:\n"
-        "  Expressions are list of symbols of one domain concatenated by `+' "
-        "or `|':\n"
-        "\n"
-        "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
-        "\n"
-msgstr  ""
+msgid ""
+"Usage: %s [OPTIONS] ACTIONS\n"
+"\n"
+"Options:\n"
+"  -display DISPLAY            Connects to the X server specified by "
+"DISPLAY.\n"
+"                              Default: $DISPLAY or :0.0 when not set.\n"
+"  -window WINDOW_ID           Specifies the window to manipulate. Special\n"
+"                              identifiers are `root' for the root window "
+"and\n"
+"                              `focus' for the currently focused window.\n"
+"  -class WM_CLASS             Window management class of the window(s) to\n"
+"                              manipulate. If WM_CLASS contains a period, "
+"only\n"
+"                              windows with exactly the same WM_CLASS "
+"property\n"
+"                              are matched. If there is no period, windows "
+"of\n"
+"                              the same class and windows of the same "
+"instance\n"
+"                              (aka. `-name') are selected.\n"
+"\n"
+"Actions:\n"
+"  setIconTitle   TITLE        Set the icon title.\n"
+"  setWindowTitle TITLE        Set the window title.\n"
+"  setGeometry    geometry     Set the window geometry\n"
+"  setState       MASK STATE   Set the GNOME window state to STATE.\n"
+"                              Only the bits selected by MASK are affected.\n"
+"                              STATE and MASK are expressions of the domain\n"
+"                              `GNOME window state'.\n"
+"  toggleState    STATE        Toggle the GNOME window state bits specified "
+"by\n"
+"                              the STATE expression.\n"
+"  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
+"  setLayer       LAYER        Moves the window to another GNOME window "
+"layer.\n"
+"  setWorkspace   WORKSPACE    Moves the window to another workspace. Select\n"
+"                              the root window to change the current "
+"workspace.\n"
+"  listWorkspaces              Lists the names of all workspaces.\n"
+"  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
+"\n"
+"Expressions:\n"
+"  Expressions are list of symbols of one domain concatenated by `+' or `|':\n"
+"\n"
+"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
+"\n"
+msgstr ""
 
-msgid   "GNOME window state"
-msgstr  "GNOME κατάσταση παράθυρου"
+#: src/icesh.cc:608
+msgid "GNOME window state"
+msgstr "GNOME κατάσταση παράθυρου"
 
-msgid   "GNOME window hint"
-msgstr  ""
+#: src/icesh.cc:609
+msgid "GNOME window hint"
+msgstr ""
 
-msgid   "GNOME window layer"
-msgstr  ""
+#: src/icesh.cc:610
+msgid "GNOME window layer"
+msgstr ""
 
-msgid   "IceWM tray option"
-msgstr  ""
+#: src/icesh.cc:611
+msgid "IceWM tray option"
+msgstr ""
 
-msgid   "Usage error: "
-msgstr  "Σφάλμα χρήσης:"
+#: src/icesh.cc:616
+msgid "Usage error: "
+msgstr "Σφάλμα χρήσης:"
 
+#: src/icesh.cc:687
 #, c-format
-msgid   "Invalid argument: `%s'."
-msgstr  "Μη έγκυρο όρισμα: `%s'."
+msgid "Invalid argument: `%s'."
+msgstr "Μη έγκυρο όρισμα: `%s'."
 
-msgid   "No actions specified."
-msgstr  "Δεν υπάρχουν καθορισμένες ενέργειες"
+#: src/icesh.cc:696
+msgid "No actions specified."
+msgstr "Δεν υπάρχουν καθορισμένες ενέργειες"
 
-#. ====== connect to X11 ===
+#: src/icesh.cc:703 src/icesound.cc:1048 src/icewmhint.cc:74 src/yxapp.cc:971
 #, c-format
-msgid   "Can't open display: %s. X must be running and $DISPLAY set."
-msgstr  "Δεν μπορώ να ανοίξω το display: %s. τα X θα πρέπει να τρέχουν και η "
-        "μεταβλητή $DISPLAY να έχει οριστεί."
+msgid "Can't open display: %s. X must be running and $DISPLAY set."
+msgstr ""
+"Δεν μπορώ να ανοίξω το display: %s. τα X θα πρέπει να τρέχουν και η "
+"μεταβλητή $DISPLAY να έχει οριστεί."
 
+#: src/icesh.cc:743
 #, c-format
-msgid   "Invalid window identifier: `%s'"
-msgstr  ""
+msgid "Invalid window identifier: `%s'"
+msgstr ""
 
+#: src/icesh.cc:896
 #, c-format
-msgid   "workspace #%d: `%s'\n"
-msgstr  "επιφάνεια εργασίας #%d: `%s'\n"
+msgid "workspace #%d: `%s'\n"
+msgstr "επιφάνεια εργασίας #%d: `%s'\n"
 
+#: src/icesh.cc:914
 #, c-format
-msgid   "Unknown action: `%s'"
-msgstr  "Άγνωστη ενέργεια: `%s'"
+msgid "Unknown action: `%s'"
+msgstr "Άγνωστη ενέργεια: `%s'"
 
+#: src/iceskt.cc:36
 #, c-format
-msgid   "Socket error: %d"
-msgstr  ""
+msgid "Socket error: %d"
+msgstr ""
 
+#: src/icesound.cc:256 src/icesound.cc:424 src/icesound.cc:790
 #, c-format
-msgid   "Playing sample #%d (%s)"
-msgstr  "Παίζεται το δείγμα #%d (%s)"
+msgid "Playing sample #%d (%s)"
+msgstr "Παίζεται το δείγμα #%d (%s)"
 
+#: src/icesound.cc:466
 #, c-format
-msgid   "No such device: %s"
-msgstr  "Δεν υπάρχει η συσκευή %s"
+msgid "No such device: %s"
+msgstr "Δεν υπάρχει η συσκευή %s"
 
+#: src/icesound.cc:559
 #, c-format
-msgid   "Can't connect to ESound daemon: %s"
-msgstr  "Δεν μπορώ να συνδεθώ στον ESound daemon: %s"
+msgid "Can't connect to ESound daemon: %s"
+msgstr "Δεν μπορώ να συνδεθώ στον ESound daemon: %s"
 
-msgid   "<none>"
-msgstr  ""
+#: src/icesound.cc:560 src/icesound.cc:737 src/icesound.cc:778
+#: src/icewmhint.cc:76 src/yxapp.cc:972
+msgid "<none>"
+msgstr ""
 
+#: src/icesound.cc:580
 #, c-format
-msgid   "Error <%d> while uploading `%s:%s'"
-msgstr  "Σφάλμα <%d> κατά το ανέβασμα `%s:%s'"
+msgid "Error <%d> while uploading `%s:%s'"
+msgstr "Σφάλμα <%d> κατά το ανέβασμα `%s:%s'"
 
+#: src/icesound.cc:586
 #, c-format
-msgid   "Sample <%d> uploaded as `%s:%s'"
-msgstr  "Το δείγμα <%d> ανέβηκε ως `%s:%s'"
+msgid "Sample <%d> uploaded as `%s:%s'"
+msgstr "Το δείγμα <%d> ανέβηκε ως `%s:%s'"
 
+#: src/icesound.cc:645
 #, c-format
-msgid   "Playing sample #%d"
-msgstr  "Παίζοντας το δείγμα #%d"
+msgid "Playing sample #%d"
+msgstr "Παίζοντας το δείγμα #%d"
 
+#: src/icesound.cc:736 src/icesound.cc:777
 #, c-format
-msgid   "Can't connect to YIFF server: %s"
-msgstr  "Δεν μπορώ να συνδεθώ στον YIFF server: %s"
+msgid "Can't connect to YIFF server: %s"
+msgstr "Δεν μπορώ να συνδεθώ στον YIFF server: %s"
 
+#: src/icesound.cc:742
 #, c-format
-msgid   "Can't change to audio mode `%s'."
-msgstr  "Δεν μπορώ να αλλάξω σε audio mode `%s'."
+msgid "Can't change to audio mode `%s'."
+msgstr "Δεν μπορώ να αλλάξω σε audio mode `%s'."
 
+#: src/icesound.cc:884
 #, c-format
-msgid   "Audio mode switch detected, initial audio mode `%s' no longer in "
-        "effect."
-msgstr  ""
+msgid ""
+"Audio mode switch detected, initial audio mode `%s' no longer in effect."
+msgstr ""
 
-msgid   "Audio mode switch detected, automatic audio mode changing disabled."
-msgstr  ""
+#: src/icesound.cc:891
+msgid "Audio mode switch detected, automatic audio mode changing disabled."
+msgstr ""
 
+#: src/icesound.cc:937 src/icesound.cc:950
 #, c-format
-msgid   "Overriding previous audio mode `%s'."
-msgstr  ""
+msgid "Overriding previous audio mode `%s'."
+msgstr ""
 
+#: src/icesound.cc:976
 #, c-format
-msgid   "Usage: %s [OPTION]...\n"
-	"\n"
-	"Plays audio files on GUI events raised by IceWM.\n"
-	"\n"
-	"Options:\n"
-	"\n"
-	"-d, --display=DISPLAY         Display used by IceWM (default: $DISPLAY).\n"
-	"-s, --sample-dir=DIR          Specifies the directory which contains\n"
-	"                              the sound files (ie ~/.icewm/sounds).\n"
-	"-i, --interface=TARGET        Specifies the sound output target\n"
-	"                              interface, one of OSS, YIFF, ESD, ALSA\n"
-	"-D, --device=DEVICE           (ALSA & OSS only) specifies the device to use\n"
-	"                              (OSS default: /dev/dsp; ALSA: default).\n"
-	"-S, --server=ADDR:PORT        (ESD and YIFF) specifies server address and\n"
-	"                              port number (default localhost:16001 for ESD\n"
-	"                              and localhost:9433 for YIFF).\n"
-	"-m, --audio-mode[=MODE]       (YIFF only) specifies the Audio mode (leave\n"
-	"                              blank to get a list).\n"
-	"--audio-mode-auto             (YIFF only) change Audio mode on the fly to\n"
-	"                              best match sample's Audio (can cause\n"
-	"                              problems with other Y clients, overrides\n"
-	"                              --audio-mode).\n"
-	"\n"
-	"-v, --verbose                 Be verbose (prints out each sound event to\n"
-	"                              stdout).\n"
-	"-V, --version                 Prints version information and exits.\n"
-	"-h, --help                    Prints (this) help screen and exits.\n"
-	"\n"
-	"Return values:\n"
-	"\n"
-	"0     Success.\n"
-	"1     General error.\n"
-	"2     Command line error.\n"
-	"3     Subsystems error (ie cannot connect to server).\n"
-	"\n"
-msgstr  ""
+msgid ""
+"Usage: %s [OPTION]...\n"
+"\n"
+"Plays audio files on GUI events raised by IceWM.\n"
+"\n"
+"Options:\n"
+"\n"
+"-d, --display=DISPLAY         Display used by IceWM (default: $DISPLAY).\n"
+"-s, --sample-dir=DIR          Specifies the directory which contains\n"
+"                              the sound files (ie ~/.icewm/sounds).\n"
+"-i, --interface=TARGET        Specifies the sound output target\n"
+"                              interface, one of OSS, YIFF, ESD, ALSA\n"
+"-D, --device=DEVICE           (ALSA & OSS only) specifies the device to use\n"
+"                              (OSS default: /dev/dsp; ALSA: default).\n"
+"-S, --server=ADDR:PORT        (ESD and YIFF) specifies server address and\n"
+"                              port number (default localhost:16001 for ESD\n"
+"                              and localhost:9433 for YIFF).\n"
+"-m, --audio-mode[=MODE]       (YIFF only) specifies the Audio mode (leave\n"
+"                              blank to get a list).\n"
+"--audio-mode-auto             (YIFF only) change Audio mode on the fly to\n"
+"                              best match sample's Audio (can cause\n"
+"                              problems with other Y clients, overrides\n"
+"                              --audio-mode).\n"
+"\n"
+"-v, --verbose                 Be verbose (prints out each sound event to\n"
+"                              stdout).\n"
+"-V, --version                 Prints version information and exits.\n"
+"-h, --help                    Prints (this) help screen and exits.\n"
+"\n"
+"Return values:\n"
+"\n"
+"0     Success.\n"
+"1     General error.\n"
+"2     Command line error.\n"
+"3     Subsystems error (ie cannot connect to server).\n"
+"\n"
+msgstr ""
 
-msgid   "Multiple sound interfaces given."
-msgstr  "Έχουν δωθεί πολλαπλές διεπαφές ήχου."
+#: src/icesound.cc:1173
+msgid "Multiple sound interfaces given."
+msgstr "Έχουν δωθεί πολλαπλές διεπαφές ήχου."
 
+#: src/icesound.cc:1185 src/icesound.cc:1197 src/icesound.cc:1210
 #, c-format
-msgid   "Support for the %s interface not compiled."
-msgstr  "Η υποστήριξη για την διεπαφή %s δεν έχει γίνει compile."
+msgid "Support for the %s interface not compiled."
+msgstr "Η υποστήριξη για την διεπαφή %s δεν έχει γίνει compile."
 
+#: src/icesound.cc:1214
 #, c-format
-msgid   "Unsupported interface: %s."
-msgstr  "Μη υποστηριζόμενη διεπαφή"
+msgid "Unsupported interface: %s."
+msgstr "Μη υποστηριζόμενη διεπαφή %s"
 
+#: src/icesound.cc:1231
 #, c-format
-msgid   "Received signal %d: Terminating..."
-msgstr  ""
+msgid "Received signal %d: Terminating..."
+msgstr ""
 
+#: src/icesound.cc:1240
 #, c-format
-msgid   "Received signal %d: Reloading samples..."
-msgstr  ""
+msgid "Received signal %d: Reloading samples..."
+msgstr ""
 
-msgid   "Hex View"
-msgstr  "Δεκαεξαδική εμφάνιση"
+#: src/iceview.cc:72
+msgid "Hex View"
+msgstr "Δεκαεξαδική εμφάνιση"
 
-msgid   "Ctrl+H"
-msgstr  ""
+#: src/iceview.cc:72
+msgid "Ctrl+H"
+msgstr ""
 
-msgid   "Expand Tabs"
-msgstr  "Επέκτεινε τους Στηλοθέτες"
+#: src/iceview.cc:73
+msgid "Expand Tabs"
+msgstr "Επέκτεινε τους Στηλοθέτες"
 
-msgid   "Ctrl+T"
-msgstr  ""
+#: src/iceview.cc:73
+msgid "Ctrl+T"
+msgstr ""
 
-msgid   "Wrap Lines"
-msgstr  ""
+#: src/iceview.cc:74
+msgid "Wrap Lines"
+msgstr ""
 
-msgid   "Ctrl+W"
-msgstr  ""
+#: src/iceview.cc:74
+msgid "Ctrl+W"
+msgstr ""
 
-msgid   "Usage: icewmbg [ -r | -q ]\n"
-        " -r  Restart icewmbg\n"
-        " -q  Quit icewmbg\n"
-        "Loads desktop background according to preferences file\n"
-        " DesktopBackgroundCenter  - Display desktop background centered, not "
-        "tiled\n"
-        " SupportSemitransparency  - Support for semitransparent terminals\n"
-        " DesktopBackgroundColor   - Desktop background color\n"
-        " DesktopBackgroundImage   - Desktop background image\n"
-        " DesktopTransparencyColor - Color to announce for semi-transparent "
-        "windows\n"
-        " DesktopTransparencyImage - Image to announce for semi-transparent "
-        "windows\n"
-msgstr  ""
+#: src/icewmbg.cc:408
+msgid ""
+"Usage: icewmbg [ -r | -q ]\n"
+" -r  Restart icewmbg\n"
+" -q  Quit icewmbg\n"
+"Loads desktop background according to preferences file\n"
+" DesktopBackgroundCenter  - Display desktop background centered\n"
+" DesktopBackgroundScaled  - Display desktop background scaled\n"
+" SupportSemitransparency  - Support for semitransparent terminals\n"
+" DesktopBackgroundColor   - Desktop background color\n"
+" DesktopBackgroundImage   - Desktop background image\n"
+" DesktopTransparencyColor - Color to announce for semi-transparent windows\n"
+" DesktopTransparencyImage - Image to announce for semi-transparent windows\n"
+"\n"
+" center:0 scaled:0 = tiled\n"
+" center:1 scaled:1 = keep aspect ratio\n"
+msgstr ""
 
+#: src/icewmbg.cc:426
 #, c-format
-msgid   "%s: unrecognized option `%s'\n"
-        "Try `%s --help' for more information.\n"
-msgstr  "%s: μη αναγνωρισμένη επιλογή `%s'\n"
-        "Δοκιμάστε `%s --help' για περισσότερες πληροφορίες.\n"
+msgid ""
+"%s: unrecognized option `%s'\n"
+"Try `%s --help' for more information.\n"
+msgstr ""
+"%s: μη αναγνωρισμένη επιλογή `%s'\n"
+"Δοκιμάστε `%s --help' για περισσότερες πληροφορίες.\n"
 
+#: src/icewmbg.cc:554
 #, c-format
-msgid   "Loading image %s failed"
-msgstr  "Η φόρτωση της φωτογραφίας %s απέτυχε"
+msgid "Loading image %s failed"
+msgstr "Η φόρτωση της φωτογραφίας %s απέτυχε"
 
+#: src/icewmbg.cc:568 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
 #, c-format
-msgid   "Loading of pixmap \"%s\" failed: %s"
-msgstr  "Η φόρτωση του pixmap \"%s\" απέτυχε: %s"
+msgid "Loading of pixmap \"%s\" failed: %s"
+msgstr "Η φόρτωση του pixmap \"%s\" απέτυχε: %s"
 
-msgid   "Usage: icewmhint [class.instance] option arg\n"
-msgstr  ""
+#: src/icewmhint.cc:47
+msgid "Usage: icewmhint [class.instance] option arg\n"
+msgstr ""
 
+#: src/icewmhint.cc:63
 #, c-format
-msgid   "Out of memory (len=%d)."
-msgstr  "Εκτός μνήμης (μέγεθος=%d)."
+msgid "Out of memory (len=%d)."
+msgstr "Εκτός μνήμης (μέγεθος=%d)."
 
-msgid   "Warning: "
-msgstr  "Προειδοποίηση: "
+#: src/misc.cc:326
+msgid "Warning: "
+msgstr "Προειδοποίηση: "
 
+#: src/movesize.cc:903
 #, c-format
-msgid   "Unknown direction in move/resize request: %d"
-msgstr  "Άγνωστη κατεύθυνση σε αίτηση μετακίνησης/αλλαγής σχήματος: %d"
+msgid "Unknown direction in move/resize request: %d"
+msgstr "Άγνωστη κατεύθυνση σε αίτηση μετακίνησης/αλλαγής σχήματος: %d"
 
-msgid   "Default"
-msgstr  "Εξ ορισμού"
+#: src/themes.cc:99
+msgid "Default"
+msgstr "Εξ ορισμού"
 
-msgid   "(C)"
-msgstr  ""
+#: src/wmabout.cc:29 src/wmabout.cc:31
+msgid "(C)"
+msgstr ""
 
-msgid   "Theme:"
-msgstr  "Θέμα: "
+#: src/wmabout.cc:37
+msgid "Theme:"
+msgstr "Θέμα: "
 
-msgid   "Theme Description:"
-msgstr  "Περιγραφή θέματος:"
+#: src/wmabout.cc:38
+msgid "Theme Description:"
+msgstr "Περιγραφή θέματος:"
 
-msgid   "Theme Author:"
-msgstr  "Συγγραφέας θέματος:"
+#: src/wmabout.cc:39
+msgid "Theme Author:"
+msgstr "Συγγραφέας θέματος:"
 
-msgid   "CodeSet:"
-msgstr  ""
+#: src/wmabout.cc:43
+msgid "CodeSet:"
+msgstr ""
 
-msgid   "Language:"
-msgstr  ""
+#: src/wmabout.cc:44
+msgid "Language:"
+msgstr ""
 
-msgid   "icewm - About"
-msgstr  ""
+#: src/wmabout.cc:69
+msgid "icewm - About"
+msgstr ""
 
-msgid   "Unable to get current font path."
-msgstr  "Δεν βρέθηκε η τρέχουσα τοποθεσία των font."
+#: src/wmapp.cc:435
+msgid "Unable to get current font path."
+msgstr "Δεν βρέθηκε η τρέχουσα τοποθεσία των font."
 
-msgid   "Unexpected format of ICEWM_FONT_PATH property"
-msgstr  ""
+#: src/wmapp.cc:462
+msgid "Unexpected format of ICEWM_FONT_PATH property"
+msgstr ""
 
+#: src/wmapp.cc:516
 #, c-format
-msgid   "Multiple references for gradient \"%s\""
-msgstr  ""
+msgid "Multiple references for gradient \"%s\""
+msgstr ""
 
+#: src/wmapp.cc:591
 #, c-format
-msgid   "Unknown gradient name: %s"
-msgstr  ""
+msgid "Unknown gradient name: %s"
+msgstr ""
 
-msgid   "_Logout"
-msgstr  "_Έξοδος"
+#: src/wmapp.cc:847
+msgid "_Logout"
+msgstr "_Έξοδος"
 
-msgid   "_Cancel logout"
-msgstr  "_Ακύρωση εξόδου"
+#: src/wmapp.cc:848
+msgid "_Cancel logout"
+msgstr "_Ακύρωση εξόδου"
 
-msgid   "Lock _Workstation"
-msgstr  "Κλείδωμα _Σταθμού εργασίας"
+#: src/wmapp.cc:860
+msgid "Lock _Workstation"
+msgstr "Κλείδωμα _Σταθμού εργασίας"
 
-msgid   "Re_boot"
-msgstr  "Επαν_εκκίνηση"
+#: src/wmapp.cc:862 src/wmdialog.cc:111
+msgid "Re_boot"
+msgstr "Επαν_εκκίνηση"
 
-msgid   "Shut_down"
-msgstr  ""
+#: src/wmapp.cc:864 src/wmdialog.cc:118
+msgid "Shut_down"
+msgstr ""
 
-msgid   "Restart _Icewm"
-msgstr  "Επανεκκίνηση _Icewm"
+#: src/wmapp.cc:868
+msgid "Restart _Icewm"
+msgstr "Επανεκκίνηση _Icewm"
 
-msgid   "Restart _Xterm"
-msgstr  "Επανεκκίνηση _Xterm"
+#: src/wmapp.cc:871
+msgid "Restart _Xterm"
+msgstr "Επανεκκίνηση _Xterm"
 
-msgid   "_Menu"
-msgstr  "_Κατάλογος"
+#: src/wmapp.cc:886
+msgid "_Menu"
+msgstr "_Κατάλογος"
 
-msgid   "_Above Dock"
-msgstr  ""
+#: src/wmapp.cc:887
+msgid "_Above Dock"
+msgstr ""
 
-msgid   "_Dock"
-msgstr  ""
+#: src/wmapp.cc:888
+msgid "_Dock"
+msgstr ""
 
-msgid   "_OnTop"
-msgstr  "_Στην κορυφή"
+#: src/wmapp.cc:889
+msgid "_OnTop"
+msgstr "_Στην κορυφή"
 
-msgid   "_Normal"
-msgstr  "_Κανονικό"
+#: src/wmapp.cc:890
+msgid "_Normal"
+msgstr "_Κανονικό"
 
-msgid   "_Below"
-msgstr  "_Απο κάτω"
+#: src/wmapp.cc:891
+msgid "_Below"
+msgstr "_Απο κάτω"
 
-msgid   "D_esktop"
-msgstr  "Ε_πιφάνεια εργασίας"
+#: src/wmapp.cc:892
+msgid "D_esktop"
+msgstr "Ε_πιφάνεια εργασίας"
 
-msgid   "_Restore"
-msgstr  "_Επαναφορά"
+#: src/wmapp.cc:904
+msgid "_Restore"
+msgstr "_Επαναφορά"
 
-msgid   "_Move"
-msgstr  "_Μετακκίνηση"
+#: src/wmapp.cc:906
+msgid "_Move"
+msgstr "_Μετακκίνηση"
 
-msgid   "_Size"
-msgstr  "_Μέγεθος"
+#: src/wmapp.cc:908
+msgid "_Size"
+msgstr "_Μέγεθος"
 
-msgid   "Mi_nimize"
-msgstr  "Ελ_αχιστοποίηση"
+#: src/wmapp.cc:910
+msgid "Mi_nimize"
+msgstr "Ελ_αχιστοποίηση"
 
-msgid   "Ma_ximize"
-msgstr  "Με_γιστοποίηση"
+#: src/wmapp.cc:912
+msgid "Ma_ximize"
+msgstr "Με_γιστοποίηση"
 
-msgid   "_Fullscreen"
-msgstr  "_Πλήρης οθόνη"
+#: src/wmapp.cc:914
+msgid "_Fullscreen"
+msgstr "_Πλήρης οθόνη"
 
-msgid   "_Hide"
-msgstr  "_Απόκρυψη"
+#: src/wmapp.cc:918 src/wmwinlist.cc:307
+msgid "_Hide"
+msgstr "_Απόκρυψη"
 
-msgid   "Roll_up"
-msgstr  ""
+#: src/wmapp.cc:921
+msgid "Roll_up"
+msgstr ""
 
-msgid   "R_aise"
-msgstr  ""
+#: src/wmapp.cc:928
+msgid "R_aise"
+msgstr ""
 
-msgid   "_Lower"
-msgstr  ""
+#: src/wmapp.cc:930
+msgid "_Lower"
+msgstr ""
 
-msgid   "La_yer"
-msgstr  "Στ_ρώμα"
+#: src/wmapp.cc:932
+msgid "La_yer"
+msgstr "Στ_ρώμα"
 
-msgid   "Move _To"
-msgstr  "Μετακκίνηση _Σε"
+#: src/wmapp.cc:936 src/wmwinlist.cc:310
+msgid "Move _To"
+msgstr "Μετακκίνηση _Σε"
 
-msgid   "Occupy _All"
-msgstr  "Κατάληψη _Όλων"
+#: src/wmapp.cc:937
+msgid "Occupy _All"
+msgstr "Κατάληψη _Όλων"
 
-msgid   "Limit _Workarea"
-msgstr  "Όριο _Περιοχής εργασίας"
+#: src/wmapp.cc:943
+msgid "Limit _Workarea"
+msgstr "Όριο _Περιοχής εργασίας"
 
-msgid   "Tray _icon"
-msgstr  ""
+#: src/wmapp.cc:948
+msgid "Tray _icon"
+msgstr ""
 
-msgid   "_Close"
-msgstr  "_Κλείσε"
+#: src/wmapp.cc:954 src/wmwinlist.cc:295 src/wmwinlist.cc:321
+msgid "_Close"
+msgstr "_Κλείσε"
 
-msgid   "_Kill Client"
-msgstr  ""
+#: src/wmapp.cc:956 src/wmwinlist.cc:297
+msgid "_Kill Client"
+msgstr ""
 
-msgid   "_Window list"
-msgstr  "_Λίστα παραθύρων"
+#: src/wmapp.cc:960 src/wmdialog.cc:132 src/wmwinmenu.cc:137
+msgid "_Window list"
+msgstr "_Λίστα παραθύρων"
 
-msgid   "Another window manager already running, exiting..."
-msgstr  "Ένας άλλος διαχειριστής παραθύρων ήδη τρέχει, έξοδος..."
+#: src/wmapp.cc:976
+msgid "Another window manager already running, exiting..."
+msgstr "Ένας άλλος διαχειριστής παραθύρων ήδη τρέχει, έξοδος..."
 
+#: src/wmapp.cc:1042
 #, c-format
-msgid   "Could not restart: %s\n"
-        "Does $PATH lead to %s?"
-msgstr  ""
+msgid ""
+"Could not restart: %s\n"
+"Does $PATH lead to %s?"
+msgstr ""
 
+#: src/wmapp.cc:1615
 #, c-format
-msgid   "Usage: %s [OPTIONS]\n"
-        "Starts the IceWM window manager.\n"
-        "\n"
-        "Options:\n"
-        "  --display=NAME      NAME of the X server to use.\n"
-        "%s  --sync              Synchronize X11 commands.\n"
-        "\n"
-        "  -c, --config=FILE   Load preferences from FILE.\n"
-        "  -t, --theme=FILE    Load theme from FILE.\n"
-        "  -n, --no-configure  Ignore preferences file.\n"
-        "\n"
-        "  -v, --version       Prints version information and exits.\n"
-        "  -h, --help          Prints this usage screen and exits.\n"
-        "%s  --replace           Replace an existing window manager.\n"
-        "  --restart           Don't use this: It's an internal flag.\n"
-        "\n"
-        "Environment variables:\n"
-        "  ICEWM_PRIVCFG=PATH  Directory to use for user private "
-        "configuration files,\n"
-        "                      \"$HOME/.icewm/\" by default.\n"
-        "  DISPLAY=NAME        Name of the X server to use, depends on Xlib "
-        "by default.\n"
-        "  MAIL=URL            Location of your mailbox. If the schema is "
-        "omitted\n"
-        "                      the local \"file\" schema is assumed.\n"
-        "\n"
-        "Visit http://www.icewm.org/ for report bugs, support requests, "
-        "comments...\n"
-msgstr  ""
+msgid ""
+"Usage: %s [OPTIONS]\n"
+"Starts the IceWM window manager.\n"
+"\n"
+"Options:\n"
+"  --display=NAME      NAME of the X server to use.\n"
+"%s  --sync              Synchronize X11 commands.\n"
+"\n"
+"  -c, --config=FILE   Load preferences from FILE.\n"
+"  -t, --theme=FILE    Load theme from FILE.\n"
+"  -n, --no-configure  Ignore preferences file.\n"
+"\n"
+"  -v, --version       Prints version information and exits.\n"
+"  -h, --help          Prints this usage screen and exits.\n"
+"%s  --replace           Replace an existing window manager.\n"
+"  --restart           Don't use this: It's an internal flag.\n"
+"\n"
+"Environment variables:\n"
+"  ICEWM_PRIVCFG=PATH  Directory to use for user private configuration "
+"files,\n"
+"                      \"$HOME/.icewm/\" by default.\n"
+"  DISPLAY=NAME        Name of the X server to use, depends on Xlib by "
+"default.\n"
+"  MAIL=URL            Location of your mailbox. If the schema is omitted\n"
+"                      the local \"file\" schema is assumed.\n"
+"\n"
+"Visit http://www.icewm.org/ for report bugs, support requests, comments...\n"
+msgstr ""
 
-msgid   "Confirm Logout"
-msgstr  "Επιβεβαίωση Εξόδου"
+#: src/wmapp.cc:1715
+msgid "Confirm Logout"
+msgstr "Επιβεβαίωση Εξόδου"
 
-msgid   "Logout will close all active applications.\n"
-        "Proceed?"
-msgstr  "Η έξοδος θα κλείσει όλες τις ενεργές εφαρμογές.\n"
-        "Να προχωρήσω?"
+#: src/wmapp.cc:1716
+msgid ""
+"Logout will close all active applications.\n"
+"Proceed?"
+msgstr ""
+"Η έξοδος θα κλείσει όλες τις ενεργές εφαρμογές.\n"
+"Να προχωρήσω?"
 
-msgid   "Bad Look name"
-msgstr  ""
+#: src/wmconfig.cc:116
+msgid "Bad Look name"
+msgstr ""
 
+#: src/wmdialog.cc:83
 #, fuzzy
-msgid   "Loc_k Workstation"
-msgstr  "Κλείδωμα _Σταθμού εργασίας"
+msgid "Loc_k Workstation"
+msgstr "Κλείδωμα _Σταθμού εργασίας"
 
-msgid   "_Logout..."
-msgstr  "_Αποσύνδεση..."
+#: src/wmdialog.cc:90 src/wmprog.cc:940 src/wmprog.cc:942 src/wmtaskbar.cc:434
+#: src/wmtaskbar.cc:436
+msgid "_Logout..."
+msgstr "_Αποσύνδεση..."
 
-msgid   "_Cancel"
-msgstr  "_Ακύρωση"
+#: src/wmdialog.cc:97
+msgid "_Cancel"
+msgstr "_Ακύρωση"
 
-msgid   "_Restart icewm"
-msgstr  "_Επανεκκίνηση icewm"
+#: src/wmdialog.cc:104
+msgid "_Restart icewm"
+msgstr "_Επανεκκίνηση icewm"
 
-msgid   "_About"
-msgstr  "_Περί"
+#: src/wmdialog.cc:125 src/wmprog.cc:878 src/wmtaskbar.cc:426
+#: src/wmtaskbar.cc:429
+msgid "_About"
+msgstr "_Περί"
 
-msgid   "Maximize"
-msgstr  "Μεγιστοποίηση"
+#: src/wmframe.cc:159 src/wmframe.cc:3398
+msgid "Maximize"
+msgstr "Μεγιστοποίηση"
 
-#. fMinimizeButton->setWinGravity(NorthEastGravity);
-msgid   "Minimize"
-msgstr  "Ελαχιστοποίηση"
+#: src/wmframe.cc:172
+msgid "Minimize"
+msgstr "Ελαχιστοποίηση"
 
-#. fHideButton->setWinGravity(NorthEastGravity);
-msgid   "Hide"
-msgstr  "Απόκρυψη"
+#: src/wmframe.cc:193
+msgid "Hide"
+msgstr "Απόκρυψη"
 
-#. fRollupButton->setWinGravity(NorthEastGravity);
-msgid   "Rollup"
-msgstr  ""
+#: src/wmframe.cc:203 src/wmframe.cc:3431
+msgid "Rollup"
+msgstr ""
 
-#. fDepthButton->setWinGravity(NorthEastGravity);
-msgid   "Raise/Lower"
-msgstr  ""
+#: src/wmframe.cc:212
+msgid "Raise/Lower"
+msgstr ""
 
-msgid   "Kill Client: "
-msgstr  ""
+#: src/wmframe.cc:1711
+msgid "Kill Client: "
+msgstr ""
 
-msgid   "WARNING! All unsaved changes will be lost when\n"
-        "this client is killed. Do you wish to proceed?"
-msgstr  ""
+#: src/wmframe.cc:1715
+msgid ""
+"WARNING! All unsaved changes will be lost when\n"
+"this client is killed. Do you wish to proceed?"
+msgstr ""
 
-msgid   "Restore"
-msgstr  "Επαναφορά"
+#: src/wmframe.cc:3395
+msgid "Restore"
+msgstr "Επαναφορά"
 
-msgid   "Rolldown"
-msgstr  ""
+#: src/wmframe.cc:3429
+msgid "Rolldown"
+msgstr ""
 
+#: src/wmoption.cc:239
 #, c-format
-msgid   "Error in window option: %s"
-msgstr  "Σφάλμα στην παράμετρο παραθύρου: %s"
+msgid "Error in window option: %s"
+msgstr "Σφάλμα στην παράμετρο παραθύρου: %s"
 
+#: src/wmoption.cc:256
 #, c-format
-msgid   "Unknown window option: %s"
-msgstr  "Άγνωστη παράμετρος παραθύρου: %s"
+msgid "Unknown window option: %s"
+msgstr "Άγνωστη παράμετρος παραθύρου: %s"
 
-msgid   "Syntax error in window options"
-msgstr  "Σφάλμα σύνταξης στις παραμέτρους των παραθύρων"
+#: src/wmoption.cc:339
+msgid "Syntax error in window options"
+msgstr "Σφάλμα σύνταξης στις παραμέτρους των παραθύρων"
 
-msgid   "Out of memory for window options"
-msgstr  "Εκτός μνήμης για τις παραμέτρους παραθύρου"
+#: src/wmoption.cc:386
+msgid "Out of memory for window options"
+msgstr "Εκτός μνήμης για τις παραμέτρους παραθύρου"
 
-msgid   "Missing command argument"
-msgstr  "Λείπει όρισμα εντολής"
+#: src/wmprog.cc:191
+msgid "Missing command argument"
+msgstr "Λείπει όρισμα εντολής"
 
+#: src/wmprog.cc:209
 #, c-format
-msgid   "Bad argument %d"
-msgstr  "Λάθος όρισμα %d"
+msgid "Bad argument %d"
+msgstr "Λάθος όρισμα %d"
 
+#: src/wmprog.cc:295 src/wmprog.cc:399 src/wmprog.cc:441
 #, c-format
-msgid   "Error at prog %s"
-msgstr  "Σφάλμα στο πρόγραμμα %s"
+msgid "Error at prog %s"
+msgstr "Σφάλμα στο πρόγραμμα %s"
 
+#: src/wmprog.cc:350
 #, c-format
-msgid   "Unexepected keyword: %s"
-msgstr  "Μη αναμενόμενη λέξη κλειδί %s"
+msgid "Unexepected keyword: %s"
+msgstr "Μη αναμενόμενη λέξη κλειδί %s"
 
+#: src/wmprog.cc:489
 #, c-format
-msgid   "Error at key %s"
-msgstr  ""
+msgid "Error at key %s"
+msgstr ""
 
-#. /    if (programs->itemCount() > 0)
-msgid   "Programs"
-msgstr  "Προγράμματα"
+#: src/wmprog.cc:842
+msgid "Programs"
+msgstr "Προγράμματα"
 
-msgid   "_Run..."
-msgstr  "_Εκτέλεση..."
+#: src/wmprog.cc:847
+msgid "_Run..."
+msgstr "_Εκτέλεση..."
 
-msgid   "_Windows"
-msgstr  "_Παράθυρα"
+#: src/wmprog.cc:854 src/wmtaskbar.cc:414
+msgid "_Windows"
+msgstr "_Παράθυρα"
 
-msgid   "_Help"
-msgstr  "_Βοήθεια"
+#: src/wmprog.cc:891
+msgid "_Help"
+msgstr "_Βοήθεια"
 
-msgid   "_Click to focus"
-msgstr  ""
+#: src/wmprog.cc:909
+msgid "_Click to focus"
+msgstr ""
 
-msgid   "_Sloppy mouse focus"
-msgstr  ""
+#: src/wmprog.cc:914
+msgid "_Sloppy mouse focus"
+msgstr ""
 
-msgid   "Custo_m"
-msgstr  ""
+#: src/wmprog.cc:919
+msgid "Custo_m"
+msgstr ""
 
-msgid   "_Focus"
-msgstr  ""
+#: src/wmprog.cc:925
+msgid "_Focus"
+msgstr ""
 
-msgid   "_Themes"
-msgstr  "_Θέματα"
+#: src/wmprog.cc:932
+msgid "_Themes"
+msgstr "_Θέματα"
 
-msgid   "Se_ttings"
-msgstr  ""
+#: src/wmprog.cc:934
+msgid "Se_ttings"
+msgstr ""
 
+#: src/wmsession.cc:239 src/wmsession.cc:255 src/wmsession.cc:265
 #, c-format
-msgid   "Session Manager: Unknown line %s"
-msgstr  ""
+msgid "Session Manager: Unknown line %s"
+msgstr ""
 
-msgid   "Task Bar"
-msgstr  ""
+#: src/wmtaskbar.cc:256 src/wmtaskbar.cc:257
+msgid "Task Bar"
+msgstr ""
 
-msgid   "Tile _Vertically"
-msgstr  ""
+#: src/wmtaskbar.cc:403 src/wmwinlist.cc:312 src/wmwinlist.cc:325
+msgid "Tile _Vertically"
+msgstr ""
 
-msgid   "T_ile Horizontally"
-msgstr  ""
+#: src/wmtaskbar.cc:404 src/wmwinlist.cc:313 src/wmwinlist.cc:326
+msgid "T_ile Horizontally"
+msgstr ""
 
-msgid   "Ca_scade"
-msgstr  ""
+#: src/wmtaskbar.cc:405 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+msgid "Ca_scade"
+msgstr ""
 
-msgid   "_Arrange"
-msgstr  "_Διευθέτηση"
+#: src/wmtaskbar.cc:406 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+msgid "_Arrange"
+msgstr "_Διευθέτηση"
 
-msgid   "_Minimize All"
-msgstr  "_Ελαχιστοποίηση όλων"
+#: src/wmtaskbar.cc:407 src/wmwinlist.cc:317 src/wmwinlist.cc:329
+msgid "_Minimize All"
+msgstr "_Ελαχιστοποίηση όλων"
 
-msgid   "_Hide All"
-msgstr  "_Απόκρυψη όλων"
+#: src/wmtaskbar.cc:408 src/wmwinlist.cc:318 src/wmwinlist.cc:330
+msgid "_Hide All"
+msgstr "_Απόκρυψη όλων"
 
-msgid   "_Undo"
-msgstr  "_Αναίρεση"
+#: src/wmtaskbar.cc:409 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+msgid "_Undo"
+msgstr "_Αναίρεση"
 
-msgid   "Arrange _Icons"
-msgstr  "Διευθέτηση _Εικονιδίων"
+#: src/wmtaskbar.cc:411
+msgid "Arrange _Icons"
+msgstr "Διευθέτηση _Εικονιδίων"
 
-msgid   "_Refresh"
-msgstr  "_Ανανέωση"
+#: src/wmtaskbar.cc:417
+msgid "_Refresh"
+msgstr "_Ανανέωση"
 
-msgid   "_License"
-msgstr  "_Άδεια χρήσης"
+#: src/wmtaskbar.cc:424
+msgid "_License"
+msgstr "_Άδεια χρήσης"
 
-msgid   "Favorite applications"
-msgstr  "Αγαπημένες εφαρμογές"
+#: src/wmtaskbar.cc:545
+msgid "Favorite applications"
+msgstr "Αγαπημένες εφαρμογές"
 
-msgid   "Window list menu"
-msgstr  "Λίστα παραθύρων"
+#: src/wmtaskbar.cc:562
+msgid "Window list menu"
+msgstr "Λίστα παραθύρων"
 
+#: src/wmtaskbar.cc:571
 #, fuzzy
-msgid   "Show Desktop"
-msgstr  "Ε_πιφάνεια εργασίας"
+msgid "Show Desktop"
+msgstr "Ε_πιφάνεια εργασίας"
 
-msgid   "All Workspaces"
-msgstr  "Όλες οι επιφάνειες εργασίας"
+#: src/wmwinlist.cc:61
+msgid "All Workspaces"
+msgstr "Όλες οι επιφάνειες εργασίας"
 
-msgid   "Del"
-msgstr  ""
+#: src/wmwinlist.cc:295
+msgid "Del"
+msgstr ""
 
-msgid   "_Terminate Process"
-msgstr  "_Τερματισμός διεργασίας"
+#: src/wmwinlist.cc:299
+msgid "_Terminate Process"
+msgstr "_Τερματισμός διεργασίας"
 
-msgid   "Kill _Process"
-msgstr  ""
+#: src/wmwinlist.cc:300
+msgid "Kill _Process"
+msgstr ""
 
-msgid   "_Show"
-msgstr  "_Εμφάνιση"
+#: src/wmwinlist.cc:305
+msgid "_Show"
+msgstr "_Εμφάνιση"
 
-msgid   "_Minimize"
-msgstr  "_Ελαχιστοποίηση"
+#: src/wmwinlist.cc:309
+msgid "_Minimize"
+msgstr "_Ελαχιστοποίηση"
 
-msgid   "Window list"
-msgstr  "Λίστα παραθύρων"
+#: src/wmwinlist.cc:342 src/wmwinlist.cc:343
+msgid "Window list"
+msgstr "Λίστα παραθύρων"
 
+#: src/wmwinmenu.cc:127
 #, c-format
-msgid   "%lu. Workspace %-.32s"
-msgstr  "%lu. Επιφάνεια εργασίας %-.32s"
+msgid "%lu. Workspace %-.32s"
+msgstr "%lu. Επιφάνεια εργασίας %-.32s"
 
+#: src/yapp.cc:397
 #, c-format
-msgid   "Message Loop: select failed (errno=%d)"
-msgstr  ""
+msgid "Message Loop: select failed (errno=%d)"
+msgstr ""
 
+#: src/ycmdline.cc:43
 #, c-format
-msgid   "Unrecognized option: %s\n"
-msgstr  ""
+msgid "Unrecognized option: %s\n"
+msgstr ""
 
-#. pos
+#: src/ycmdline.cc:48
 #, c-format
-msgid   "Unrecognized argument: %s\n"
-msgstr  "Μη αναγνωρισμένο όρισμα: %s\n"
+msgid "Unrecognized argument: %s\n"
+msgstr "Μη αναγνωρισμένο όρισμα: %s\n"
 
+#: src/ycmdline.cc:64
 #, c-format
-msgid   "Argument required for %s switch"
-msgstr  ""
+msgid "Argument required for %s switch"
+msgstr ""
 
+#: src/yconfig.cc:186
 #, c-format
-msgid   "Unknown key name %s in %s"
-msgstr  ""
+msgid "Unknown key name %s in %s"
+msgstr ""
 
+#: src/yconfig.cc:211 src/yconfig.cc:224
 #, c-format
-msgid   "Bad argument: %s for %s"
-msgstr  "Λάθος όρισμα: %s για %s"
+msgid "Bad argument: %s for %s"
+msgstr "Λάθος όρισμα: %s για %s"
 
+#: src/yconfig.cc:259
 #, c-format
-msgid   "Bad option: %s"
-msgstr  "Λάθος επιλογή: %s"
+msgid "Bad option: %s"
+msgstr "Λάθος επιλογή: %s"
 
+#: src/ycursor.cc:127
 #, c-format
-msgid   "Loading of pixmap \"%s\" failed"
-msgstr  ""
+msgid "Loading of pixmap \"%s\" failed"
+msgstr ""
 
+#: src/ycursor.cc:160
 #, c-format
-msgid   "Invalid cursor pixmap: \"%s\" contains too much unique colors"
-msgstr  ""
+msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
+msgstr ""
 
+#: src/ycursor.cc:182
 #, c-format
-msgid   "BUG? Imlib was able to read \"%s\""
-msgstr  ""
+msgid "BUG? Imlib was able to read \"%s\""
+msgstr ""
 
+#: src/ycursor.cc:208
 #, c-format
-msgid   "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
-msgstr  ""
+msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
+msgstr ""
 
+#: src/ycursor.cc:216
 #, c-format
-msgid   "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
-msgstr  ""
+msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
+msgstr ""
 
+#: src/ycursor.cc:219
 #, c-format
-msgid   "BUG? Unexpected characted but Imlib was able to parse \"%s\""
-msgstr  ""
+msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
+msgstr ""
 
+#: src/yfontcore.cc:71 src/yfontxft.cc:125
 #, c-format
-msgid   "Could not load font \"%s\"."
-msgstr  "Δεν μπόρεσα να φορτώσω το font \"%s\"."
+msgid "Could not load font \"%s\"."
+msgstr "Δεν μπόρεσα να φορτώσω το font \"%s\"."
 
+#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:148
 #, c-format
-msgid   "Loading of fallback font \"%s\" failed."
-msgstr  "Το φόρτωμα του font ασφαλείας \"%s\" απέτυχε."
+msgid "Loading of fallback font \"%s\" failed."
+msgstr "Το φόρτωμα του font ασφαλείας \"%s\" απέτυχε."
 
+#: src/yfontcore.cc:114
 #, c-format
-msgid   "Could not load fontset \"%s\"."
-msgstr  "Δεν μπόρεσα να φορτώσω την οικογένεια font \"%s\"."
+msgid "Could not load fontset \"%s\"."
+msgstr "Δεν μπόρεσα να φορτώσω την οικογένεια font \"%s\"."
 
+#: src/yfontcore.cc:126
 #, c-format
-msgid   "Missing codesets for fontset \"%s\":"
-msgstr  ""
+msgid "Missing codesets for fontset \"%s\":"
+msgstr ""
 
+#: src/yicon.cc:147
 #, c-format
-msgid   "Out of memory for pixmap \"%s\""
-msgstr  "Εκτός μνήμης για το pixmap \"%s\""
+msgid "Out of memory for pixmap \"%s\""
+msgstr "Εκτός μνήμης για το pixmap \"%s\""
 
+#: src/yimage.cc:61 src/yimage.cc:109 src/ypixbuf.cc:1063
 #, c-format
-msgid   "Loading of image \"%s\" failed"
-msgstr  "Η φόρτωση της φωτογραφίας \"%s\" απέτυχε"
+msgid "Loading of image \"%s\" failed"
+msgstr "Η φόρτωση της φωτογραφίας \"%s\" απέτυχε"
 
-msgid   "Imlib: Acquisition of X pixmap failed"
-msgstr  ""
+#: src/yimage.cc:141 src/yimage.cc:159
+msgid "Imlib: Acquisition of X pixmap failed"
+msgstr ""
 
-msgid   "Imlib: Imlib image to X pixmap mapping failed"
-msgstr  ""
+#: src/yimage.cc:150
+msgid "Imlib: Imlib image to X pixmap mapping failed"
+msgstr ""
 
-msgid   "Cu_t"
-msgstr  "Αποκοπ_ή"
+#: src/yinput.cc:53
+msgid "Cu_t"
+msgstr "Αποκοπ_ή"
 
-msgid   "Ctrl+X"
-msgstr  ""
+#: src/yinput.cc:53
+msgid "Ctrl+X"
+msgstr ""
 
-msgid   "_Copy"
-msgstr  "_Αντιγραφή"
+#: src/yinput.cc:54
+msgid "_Copy"
+msgstr "_Αντιγραφή"
 
-msgid   "Ctrl+C"
-msgstr  ""
+#: src/yinput.cc:54
+msgid "Ctrl+C"
+msgstr ""
 
-msgid   "_Paste"
-msgstr  "_Επικόλληση"
+#: src/yinput.cc:55
+msgid "_Paste"
+msgstr "_Επικόλληση"
 
-msgid   "Ctrl+V"
-msgstr  ""
+#: src/yinput.cc:55
+msgid "Ctrl+V"
+msgstr ""
 
-msgid   "Paste _Selection"
-msgstr  "Επικόλληση _Επιλογής"
+#: src/yinput.cc:56
+msgid "Paste _Selection"
+msgstr "Επικόλληση _Επιλογής"
 
-msgid   "Select _All"
-msgstr  "Επιλογή _Όλων"
+#: src/yinput.cc:58
+msgid "Select _All"
+msgstr "Επιλογή _Όλων"
 
-msgid   "Ctrl+A"
-msgstr  ""
+#: src/yinput.cc:58
+msgid "Ctrl+A"
+msgstr ""
 
-#. || False == XSupportsLocale()
-msgid   "Locale not supported by C library. Falling back to 'C' locale'."
-msgstr  ""
+#: src/ylocale.cc:46
+msgid "Locale not supported by C library. Falling back to 'C' locale'."
+msgstr ""
 
-msgid   "Failed to determinate the current locale's codeset. Assuming ISO-"
-        "8859-1.\n"
-msgstr  ""
+#: src/ylocale.cc:63
+msgid ""
+"Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
+msgstr ""
 
+#: src/ylocale.cc:95 src/ylocale.cc:102
 #, c-format
-msgid   "iconv doesn't supply (sufficient) %s to %s converters."
-msgstr  ""
+msgid "iconv doesn't supply (sufficient) %s to %s converters."
+msgstr ""
 
+#: src/ylocale.cc:156
 #, c-format
-msgid   "Invalid multibyte string \"%s\": %s"
-msgstr  ""
+msgid "Invalid multibyte string \"%s\": %s"
+msgstr ""
 
-msgid   "OK"
-msgstr  ""
+#: src/ymsgbox.cc:37
+msgid "OK"
+msgstr ""
 
-msgid   "Cancel"
-msgstr  "Ακύρωση"
+#: src/ymsgbox.cc:45
+msgid "Cancel"
+msgstr "Ακύρωση"
 
+#: src/ypaths.cc:134 src/ypaths.cc:161
 #, c-format
-msgid   "Out of memory for pixel map %s"
-msgstr  "Εκτός μνήμης για το pixel map %s"
+msgid "Image not readable: %s"
+msgstr ""
 
+#: src/ypaths.cc:139
+#, fuzzy, c-format
+msgid "Out of memory for image %s"
+msgstr "Εκτός μνήμης για το pixmap \"%s\""
+
+#: src/ypaths.cc:146
+#, fuzzy, c-format
+msgid "Could not find image %s"
+msgstr "Δεν μπόρεσα να βρώ το pixel map %s"
+
+#: src/ypaths.cc:165
+#, fuzzy, c-format
+msgid "Out of memory for image: %s"
+msgstr "Εκτός μνήμης για το pixmap \"%s\""
+
+#: src/ypaths.cc:172
+#, fuzzy, c-format
+msgid "Could not find image: %s"
+msgstr "Δεν μπόρεσα να βρώ το pixel map %s"
+
+#: src/ypixbuf.cc:482 src/ypixbuf.cc:668
 #, c-format
-msgid   "Could not find pixel map %s"
-msgstr  "Δεν μπόρεσα να βρώ το pixel map %s"
+msgid ""
+"Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
+"blue): %0*x/%0*x/%0*x)"
+msgstr ""
 
+#: src/ypixbuf.cc:576 src/ypixbuf.cc:725
 #, c-format
-msgid   "Out of memory for RGB pixel buffer %s"
-msgstr  "Εκτός μνήμης για το RGB pixel buffer %s"
+msgid "%s:%d: %d bit visuals are not supported (yet)"
+msgstr ""
 
+#: src/ysmapp.cc:106
+msgid "$USER or $LOGNAME not set?"
+msgstr ""
+
+#: src/yurl.cc:82
 #, c-format
-msgid   "Could not find RGB pixel buffer %s"
-msgstr  ""
+msgid "\"%s\" doesn't describe a common internet scheme"
+msgstr ""
 
+#: src/yurl.cc:85
 #, c-format
-msgid   "Using fallback mechanism to convert pixels (depth: %d; masks (red/"
-        "green/blue): %0*x/%0*x/%0*x)"
-msgstr  ""
+msgid "\"%s\" contains no scheme description"
+msgstr ""
 
-#, c-format
-msgid   "%s:%d: %d bit visuals are not supported (yet)"
-msgstr  ""
+#~ msgid "Out of memory for pixel map %s"
+#~ msgstr "Εκτός μνήμης για το pixel map %s"
 
-msgid   "$USER or $LOGNAME not set?"
-msgstr  ""
+#~ msgid "Out of memory for RGB pixel buffer %s"
+#~ msgstr "Εκτός μνήμης για το RGB pixel buffer %s"
 
-#, c-format
-msgid   "\"%s\" doesn't describe a common internet scheme"
-msgstr  ""
+#~ msgid "unknown action"
+#~ msgstr "άγνωστη πράξη"
 
-#, c-format
-msgid   "\"%s\" contains no scheme description"
-msgstr  ""
+#~ msgid "Failed to open %s: %s"
+#~ msgstr "Αποτυχία ανοίγματος %s: %s"
 
-#~ msgid        "unknown action"
-#~ msgstr       "άγνωστη πράξη"
+#~ msgid "Failed to execute %s: %s"
+#~ msgstr "Αποτυχία εκτέλεσης %s: %s"
 
-#~ msgid        "Failed to open %s: %s"
-#~ msgstr       "Αποτυχία ανοίγματος %s: %s"
+#~ msgid "Not a regular file: %s"
+#~ msgstr "Όχι ένα κανονικό αρχείο: %s"
 
-#~ msgid        "Failed to execute %s: %s"
-#~ msgstr       "Αποτυχία εκτέλεσης %s: %s"
+#~ msgid "cpu: %d %d %d %d"
+#~ msgstr "Κεντρικός επεξεργαστής: %d %d %d %d"
 
-#~ msgid        "Not a regular file: %s"
-#~ msgstr       "Όχι ένα κανονικό αρχείο: %s"
+#~ msgid "kstat finds too many cpus: should be %d"
+#~ msgstr "Το kstat βρήκε πάρα πολλούς επεξεργαστές: θα έπρεπε να είναι %d"
 
-#~ msgid        "cpu: %d %d %d %d"
-#~ msgstr       "Κεντρικός επεξεργαστής: %d %d %d %d"
+#~ msgid "%s@%d: %s\n"
+#~ msgstr "%s@%d: %s\n"
 
-#~ msgid        "kstat finds too many cpus: should be %d"
-#~ msgstr       "Το kstat βρήκε πάρα πολλούς επεξεργαστές: θα έπρεπε να είναι "
-#~      "%d"
+#~ msgid "_Minimized"
+#~ msgstr "_Ελαχιστοποιημένο"
 
-#~ msgid        "%s@%d: %s\n"
-#~ msgstr       "%s@%d: %s\n"
+#~ msgid "_Exclusive"
+#~ msgstr "_Αποκλειστικά"
 
-#~ msgid        "_Minimized"
-#~ msgstr       "_Ελαχιστοποιημένο"
-
-#~ msgid        "_Exclusive"
-#~ msgstr       "_Αποκλειστικά"
-
-#~ msgid        "Obsolete option: %s"
-#~ msgstr       "Παρωχημένη επιλογή %s"
+#~ msgid "Obsolete option: %s"
+#~ msgstr "Παρωχημένη επιλογή %s"
