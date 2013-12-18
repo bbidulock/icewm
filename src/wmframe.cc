@@ -3738,7 +3738,11 @@ void YFrameWindow::updateNetWMFullscreenMonitors(int t, int b, int l, int r) {
 void YFrameWindow::updateUrgency() {
     fClientUrgency = false;
     XWMHints *h = client()->hints();
-    if (h && (h->flags & XUrgencyHint))
+    if (
+#ifndef NO_WINDOW_OPTIONS
+            !(frameOptions() & foIgnoreUrgent) &&
+#endif
+            h && (h->flags & XUrgencyHint))
         fClientUrgency = true;
 
     if (isUrgent())
@@ -3753,8 +3757,15 @@ void YFrameWindow::updateUrgency() {
 }
 
 void YFrameWindow::setWmUrgency(bool wmUrgency) {
-    fWmUrgency = wmUrgency;
-    updateUrgency();
+#ifndef NO_WINDOW_OPTIONS
+    if (!(frameOptions() & foIgnoreUrgent))
+    {
+#endif
+        fWmUrgency = wmUrgency;
+        updateUrgency();
+#ifndef NO_WINDOW_OPTIONS
+    }
+#endif
 }
 
 int YFrameWindow::getScreen() {
