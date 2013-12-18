@@ -83,7 +83,9 @@ public:
     virtual void handlePopDown(YPopupWindow *popup);
     virtual void handleEndPopup(YPopupWindow *popup);
 
+#ifdef WMSPEC_HINTS
     void updateWMHints();
+#endif
     void updateLocation();
     void configure(const YRect &r);
 

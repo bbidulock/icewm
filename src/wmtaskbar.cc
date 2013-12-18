@@ -886,10 +886,13 @@ void TaskBar::updateLocation() {
         if (getFrame())
             getFrame()->updateMwmHints();
     }
+#ifdef WMSPEC_HINTS
     ///!!! fix
     updateWMHints();
+#endif
 }
 
+#ifdef WMSPEC_HINTS
 void TaskBar::updateWMHints() {
     int dx, dy, dw, dh;
     manager->getScreenGeometry(&dx, &dy, &dw, &dh);
@@ -915,6 +918,7 @@ void TaskBar::updateWMHints() {
         getFrame()->updateNetWMStrut();
     }
 }
+#endif
 
 
 void TaskBar::handleCrossing(const XCrossingEvent &crossing) {
