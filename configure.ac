@@ -88,7 +88,7 @@ AC_CHECK_FUNCS([sysctlbyname])
 AC_CHECK_FUNC([getloadavg],[AC_DEFINE([HAVE_GETLOADAVG2], 1, [getloadavg() is available])])
 AC_FUNC_SELECT_ARGTYPES
 
-PKG_CHECK_MODULES([CORE],[x11 xext fontconfig])
+PKG_CHECK_MODULES([CORE],[fontconfig xext x11])
 AC_SUBST([CORE_CFLAGS])
 AC_SUBST([CORE_LIBS])
 
@@ -98,7 +98,7 @@ AC_CHECK_LIB([X11],[XInternAtoms],
 AC_ARG_ENABLE([sm],
     AC_HELP_STRING([--disable-sm],[Disable X session management.]))
 if test x$enable_sm != xno ; then
-    PKG_CHECK_MODULES([XSM],[ice sm],[
+    PKG_CHECK_MODULES([XSM],[sm ice],[
 	AC_DEFINE([CONFIG_SESSION],[1],[Define to enable X session management])],
 	[AC_MSG_WARN([XSM not supported.])])
 fi
@@ -137,8 +137,8 @@ AC_ARG_ENABLE([xrandr],
     AC_HELP_STRING([--disable-xrandr],[Disable use of XRANDR extension.]))
 if test x$enable_xrandr != xno; then
     PKG_CHECK_MODULES([XRANDR],[xrandr],[
-	CORE_CFLAGS="$CORE_CFLAGS $XRANDR_CFLAGS"
-	CORE_LIBS="$CORE_LIBS $XRANDR_LIBS"
+	CORE_CFLAGS="$XRANDR_CFLAGS $CORE_CFLAGS"
+	CORE_LIBS="$XRANDR_LIBS $CORE_LIBS"
 	AC_DEFINE([CONFIG_XRANDR],[1],[Define to enable XRANDR extension.])],
 	[AC_MSG_WARN([XRANDR not supported.])])
 fi
@@ -147,14 +147,14 @@ AC_ARG_ENABLE([xfreetype],
     AC_HELP_STRING([--disable-xfreetype],[Disable use of XFT for text rendering.]))
 if test x$enable_xfreetype != xno; then
     PKG_CHECK_MODULES([XFT2],[xft >= 2.0.0],[
-	CORE_CFLAGS="$CORE_CFLAGS $XFT2_CFLAGS"
-	CORE_LIBS="$CORE_LIBS $XFT2_LIBS"
+	CORE_CFLAGS="$XFT2_CFLAGS $CORE_CFLAGS"
+	CORE_LIBS="$XFT2_LIBS $CORE_LIBS"
 	AC_DEFINE([CONFIG_XFREETYPE],[2],[Define to enable XFT support.])
 	features="$features xfreetype"],[
 	    enable_corefonts=yes
 	    PKG_CHECK_MODULES([XFT],[xft],[
-		CORE_CFLAGS="$CORE_CFLAGS $XFT_CFLAGS"
-		CORE_LIBS="$CORE_LIBS $XFT_LIBS"
+		CORE_CFLAGS="$XFT_CFLAGS $CORE_CFLAGS"
+		CORE_LIBS="$XFT_LIBS $CORE_LIBS"
 		AC_DEFINE([CONFIG_XFREETYPE],[1])
 		features="$features xfreetype"],[
 		    AC_MSG_WARN([XFT not supported.])
@@ -195,7 +195,7 @@ if test x$enable_guievents = xyes ; then
     for iface in `echo "$with_icesound"|sed 's|,| |g'` ; do
 	case $iface in
 	(ALSA|alsa)
-	    PKG_CHECK_MODULES([ALSA],[alsa sndfile],[
+	    PKG_CHECK_MODULES([ALSA],[sndfile alsa],[
 		AUDIO_CFLAGS="$AUDIO_CFLAGS $ALSA_CFLAGS"
 		AUDIO_LIBS="$AUDIO_LIBS $ALSA_LIBS"
 		AC_DEFINE([ENABLE_ALSA],[1],[Define to enable ALSA support.])
@@ -242,8 +242,8 @@ AC_ARG_ENABLE([xinerama],
     AC_HELP_STRING([--disable-xinerama],[Disable XINERAMA support.]))
 if test x$enable_xinerama != xno ; then
     PKG_CHECK_MODULES([XINERAMA],[xinerama],[
-	CORE_CFLAGS="$CORE_CFLAGS $XINERAMA_CFLAGS"
-	CORE_LIBS="$CORE_LIBS $XINERAMA_LIBS"
+	CORE_CFLAGS="$XINERAMA_CFLAGS $CORE_CFLAGS"
+	CORE_LIBS="$XINERAMA_LIBS $CORE_LIBS"
 	AC_DEFINE([XINERAMA],[1],[Define to enable Xinerama support.])],
 	[AC_MSG_WARN([XINERAMA is not supported.])])
 fi

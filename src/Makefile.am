@@ -294,8 +294,7 @@ icewm_SOURCES = \
 	ysmapp.h \
 	yxtray.cc \
 	yxtray.h
-icewm_LDFLAGS = $(CORE_LIBS) $(XSM_LIBS) $(IMAGE_LIBS)
-icewm_LDADD = libice.la libitk.la
+icewm_LDADD = libitk.la libice.la $(IMAGE_LIBS) $(XSM_LIBS) $(CORE_LIBS)
 
 icesh_SOURCES = \
 	intl.h \
@@ -305,8 +304,7 @@ icesh_SOURCES = \
 	WinMgr.h \
 	ylib.h \
 	icesh.cc
-icesh_LDFLAGS = $(CORE_LIBS)
-icesh_LDADD = libice.la
+icesh_LDADD = libice.la $(CORE_LIBS)
 
 icewm_session_SOURCES = \
 	intl.h \
@@ -314,8 +312,7 @@ icewm_session_SOURCES = \
 	sysdep.h \
 	base.h \
 	icesm.cc
-icewm_session_LDFLAGS = $(CORE_LIBS) $(IMAGE_LIBS)
-icewm_session_LDADD = libice.la
+icewm_session_LDADD = libice.la $(IMAGE_LIBS) $(CORE_LIBS)
 
 icewmhint_SOURCES = \
 	intl.h \
@@ -338,8 +335,7 @@ icewmbg_SOURCES = \
 	yfull.h \
 	icewmbg.cc \
 	icewmbg_prefs.h
-icewmbg_LDFLAGS = $(CORE_LIBS) $(IMAGE_LIBS)
-icewmbg_LDADD = libice.la
+icewmbg_LDADD = libice.la $(IMAGE_LIBS) $(CORE_LIBS)
 
 icesound_SOURCES = \
 	intl.h \
@@ -352,8 +348,7 @@ icesound_SOURCES = \
 	ascii.h \
 	ycmdline.cc \
 	ycmdline.h
-icesound_LDFLAGS = $(CORE_LIBS) $(AUDIO_LIBS)
-icesound_LDADD = libice.la
+icesound_LDADD = libice.la $(AUDIO_LIBS) $(CORE_LIBS)
 
 icewm_menu_gnome1_SOURCES = \
 	intl.h \
@@ -367,8 +362,7 @@ icewm_menu_gnome1_SOURCES = \
 	ascii.h \
 	ycmdline.cc \
 	ycmdline.h
-icewm_menu_gnome1_LDFLAGS = $(CORE_LIBS) $(GNOME1_LIBS)
-icewm_menu_gnome1_LDADD = libice.la
+icewm_menu_gnome1_LDADD = libice.la $(GNOME1_LIBS) $(CORE_LIBS)
 
 icewm_menu_gnome2_SOURCES = \
 	intl.h \
@@ -382,8 +376,7 @@ icewm_menu_gnome2_SOURCES = \
 	ascii.h \
 	ycmdline.cc \
 	ycmdline.h
-icewm_menu_gnome2_LDFLAGS = $(CORE_LIBS) $(GNOME2_LIBS)
-icewm_menu_gnome2_LDADD = libice.la
+icewm_menu_gnome2_LDADD = libice.la $(GNOME2_LIBS) $(CORE_LIBS)
 
 icehelp_SOURCES = \
 	intl.h \
@@ -400,8 +393,7 @@ icehelp_SOURCES = \
 	ypoint.h \
 	yrect.h \
 	icehelp.cc
-icehelp_LDFLAGS = $(CORE_LIBS) $(IMAGE_LIBS)
-icehelp_LDADD = libice.la libitk.la
+icehelp_LDADD = libitk.la libice.la $(IMAGE_LIBS) $(CORE_LIBS)
 
 iceclock_SOURCES = \
 	intl.h \
@@ -415,8 +407,7 @@ iceclock_SOURCES = \
 	prefs.h \
 	aclock.cc \
 	aclock.h
-iceclock_LDFLAGS = $(CORE_LIBS) $(IMAGE_LIBS)
-iceclock_LDADD = libice.la libitk.la
+iceclock_LDADD = libitk.la libice.la $(IMAGE_LIBS) $(CORE_LIBS)
 
 icebar_SOURCES = \
 	intl.h \
@@ -456,8 +447,7 @@ icebar_SOURCES = \
 	objbar.cc \
 	objbar.h
 #	icebar.cc
-icebar_LDFLAGS = $(CORE_LIBS) $(IMAGE_LIBS)
-icebar_LDADD = libice.la libitk.la
+icebar_LDADD = libitk.la libice.la $(IMAGE_LIBS) $(CORE_LIBS)
 
 strtest_SOURCES = \
 	intl.h \
@@ -481,8 +471,7 @@ icewmtray_SOURCES = \
 	yxtray.h \
 	ylib.h \
 	icetray.cc
-icewmtray_LDFLAGS = $(CORE_LIBS) $(IMAGE_LIBS)
-icewmtray_LDADD = libice.la libitk.la
+icewmtray_LDADD = libitk.la libice.la $(IMAGE_LIBS) $(CORE_LIBS)
 
 icesame_SOURCES = \
 	intl.h \
@@ -496,8 +485,7 @@ icesame_SOURCES = \
 	ykey.h \
 	yfull.h \
 	icesame.cc
-icesame_LDFLAGS = $(CORE_LIBS) $(IMAGE_LIBS)
-icesame_LDADD = libice.la libitk.la
+icesame_LDADD = libitk.la libice.la $(IMAGE_LIBS) $(CORE_LIBS)
 
 icelist_SOURCES = \
 	intl.h \
@@ -511,8 +499,7 @@ icelist_SOURCES = \
 	ykey.h \
 	yfull.h \
 	icelist.cc
-icelist_LDFLAGS = $(CORE_LIBS) $(IMAGE_LIBS)
-icelist_LDADD = libice.la libitk.la
+icelist_LDADD = libitk.la libice.la $(IMAGE_LIBS) $(CORE_LIBS)
 
 iceview_SOURCES = \
 	intl.h \
@@ -528,8 +515,7 @@ iceview_SOURCES = \
 	ypoint.h \
 	yrect.h \
 	iceview.cc
-iceview_LDFLAGS = $(CORE_LIBS) $(IMAGE_LIBS)
-iceview_LDADD = libice.la libitk.la
+iceview_LDADD = libitk.la libice.la $(IMAGE_LIBS) $(CORE_LIBS)
 
 iceicon_SOURCES = \
 	intl.h \
@@ -541,8 +527,7 @@ iceicon_SOURCES = \
 	ypoint.h \
 	yrect.h \
 	iceicon.cc
-iceicon_LDFLAGS = $(CORE_LIBS) $(IMAGE_LIBS)
-iceicon_LDADD = libice.la libitk.la
+iceicon_LDADD = libitk.la libice.la $(IMAGE_LIBS) $(CORE_LIBS)
 
 icerun_SOURCES = \
 	intl.h \
@@ -556,8 +541,7 @@ icerun_SOURCES = \
 	yaction.h \
 	yinputline.h \
 	icerun.cc
-icerun_LDFLAGS = $(CORE_LIBS) $(IMAGE_LIBS)
-icerun_LDADD = libice.la libitk.la
+icerun_LDADD = libitk.la libice.la $(IMAGE_LIBS) $(CORE_LIBS)
 
 iceskt_SOURCES = \
 	intl.h \
@@ -565,8 +549,7 @@ iceskt_SOURCES = \
 	sysdep.h \
 	base.h \
 	iceskt.cc
-iceskt_LDFLAGS = $(CORE_LIBS) $(IMAGE_LIBS)
-iceskt_LDADD = libice.la libitk.la
+iceskt_LDADD = libitk.la libice.la $(IMAGE_LIBS) $(CORE_LIBS)
 
 testmenus_SOURCES = \
 	intl.h \
@@ -589,8 +572,7 @@ testmenus_SOURCES = \
 	themes.h \
 	browse.cc \
 	browse.h
-testmenus_LDFLAGS = $(CORE_LIBS) $(IMAGE_LIBS)
-testmenus_LDADD = libice.la libitk.la
+testmenus_LDADD = libitk.la libice.la $(IMAGE_LIBS) $(CORE_LIBS)
 
 testwinhints_SOURCES = \
 	intl.h \
@@ -599,7 +581,7 @@ testwinhints_SOURCES = \
 	base.h \
 	WinMgr.h \
 	testwinhints.cc
-testwinhints_LDFLAGS = $(CORE_LIBS) $(IMAGE_LIBS)
+testwinhints_LDFLAGS = $(IMAGE_LIBS) $(CORE_LIBS)
 
 testnetwmhints_SOURCES = \
 	intl.h \
@@ -608,7 +590,7 @@ testnetwmhints_SOURCES = \
 	base.h \
 	WinMgr.h \
 	testnetwmhints.cc
-testnetwmhints_LDFLAGS = $(CORE_LIBS) $(IMAGE_LIBS)
+testnetwmhints_LDFLAGS = $(IMAGE_LIBS) $(CORE_LIBS)
 
 testmap_SOURCES = \
 	intl.h \
@@ -617,7 +599,7 @@ testmap_SOURCES = \
 	base.h \
 	WinMgr.h \
 	testmap.cc
-testmap_LDFLAGS = $(CORE_LIBS) $(IMAGE_LIBS)
+testmap_LDFLAGS = $(IMAGE_LIBS) $(CORE_LIBS)
 
 testlocale_SOURCES = \
 	intl.h \
