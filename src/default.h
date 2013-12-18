@@ -167,8 +167,8 @@ XSV(const char *, acpiIgnoreBatteries,          0)
 #endif
 
 XSV(const char *, mailBoxPath,                  0)
-XSV(const char *, mailCommand,                  "xterm -name pine -title PINE -e pine")
-XSV(const char *, mailClassHint,                "pine.XTerm")
+XSV(const char *, mailCommand,                  "xterm -name alpine -title ALPINE -e alpine")
+XSV(const char *, mailClassHint,                "alpine.XTerm")
 XSV(const char *, newMailCommand,               0)
 XSV(const char *, lockCommand,                  0)
 XSV(const char *, clockCommand,                 "xclock -name icewm -title Clock")
