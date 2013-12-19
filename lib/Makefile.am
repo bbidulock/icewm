@@ -1,7 +1,7 @@
 
-xdgappdir = $(datadir)/applications
+xsessiondir = $(datadir)/xsessions
 
-dist_xdgapp_DATA = \
+dist_xsession_DATA = \
 	icewm.desktop \
 	icewm-session.desktop
 
