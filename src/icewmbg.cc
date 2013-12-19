@@ -438,7 +438,8 @@ void addBgImage(const char */*name*/, const char *value, bool) {
 int main(int argc, char **argv) {
     ApplicationName = my_basename(*argv);
 
-    nice(5);
+    if (nice(5) == -1)
+	exit(1);
 
 #if 0
     {

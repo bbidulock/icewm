@@ -449,7 +449,9 @@ void YOSSAudio::play(int sound) {
 
                 char sbuf[4096];
                 for (int n; (n = read(ifd, sbuf, sizeof(sbuf))) > 0; )
-                    write(ofd, sbuf, n);
+                    if (write(ofd, sbuf, n) != n)
+			if (errno != EINTR)
+			    break;
 
                 close(ofd);
                 close(ifd);

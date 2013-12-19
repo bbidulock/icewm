@@ -2992,10 +2992,12 @@ void YWindowManager::checkLogout() {
     if (fShuttingDown && !haveClients()) {
         if (rebootOrShutdown == 1 && rebootCommand && rebootCommand[0]) {
             msg("reboot... (%s)", rebootCommand);
-            system(rebootCommand);
+            if (system(rebootCommand) == -1)
+		return;
         } else if (rebootOrShutdown == 2 && shutdownCommand && shutdownCommand[0]) {
             msg("shutdown ... (%s)", shutdownCommand);
-            system(shutdownCommand);
+            if (system(shutdownCommand) == -1)
+		return;
         } else
             app->exit(0);
     }
