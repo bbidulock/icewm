@@ -2446,7 +2446,7 @@ void YFrameWindow::getDefaultOptions(bool &requestFocus) {
         fFrameIcon = YIcon::getIcon(wo.icon);
 #endif
     }
-    if (wo.workspace != (long)WinWorkspaceInvalid && wo.workspace < workspaceCount) {
+    if (wo.workspace != WinWorkspaceInvalid && wo.workspace < workspaceCount) {
         setWorkspace(wo.workspace);
         if (wo.workspace != manager->activeWorkspace())
             requestFocus = false;

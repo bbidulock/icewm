@@ -2298,7 +2298,7 @@ void YWindowManager::activateWorkspace(long workspace) {
 ///        XSetInputFocus(app->display(), desktop->handle(), RevertToNone, CurrentTime);
 
 #ifdef CONFIG_TASKBAR
-        if (taskBar && fActiveWorkspace != (long)WinWorkspaceInvalid) {
+        if (taskBar && fActiveWorkspace != WinWorkspaceInvalid) {
             taskBar->setWorkspaceActive(fActiveWorkspace, 0);
         }
 #endif

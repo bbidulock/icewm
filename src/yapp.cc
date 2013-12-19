@@ -15,7 +15,7 @@
 
 #include "intl.h"
 
-#warning "get rid of this global"
+// FIXME: get rid of this global
 extern char const *ApplicationName;
 char const *&YApplication::Name = ApplicationName;
 
@@ -439,9 +439,8 @@ bool YApplication::handleIdle() {
 
 void sig_handler(int sig) {
     unsigned char uc = (unsigned char)sig;
-    static const char *s = "icewm: signal error\n";
     if (write(signalPipe[1], &uc, 1) != 1)
-        write(2, s, strlen(s));
+	fprintf(stderr, "icewm: signal error\n");
 }
 
 void YApplication::catchSignal(int sig) {
@@ -480,7 +479,8 @@ void YApplication::closeFiles() {
 
                 memset(buf, 0, sizeof(buf));
                 sprintf(path, "/proc/%d/fd/%d", getpid(), i);
-                readlink(path, buf, sizeof(buf) - 1);
+                if (readlink(path, buf, sizeof(buf) - 1) == -1)
+		    buf[0] = '\0';
 
                 warn("File still open: fd=%d, target='%s' (missing FD_CLOEXEC?)", i, buf);
                 warn("Closing file descriptor: %d", i);
