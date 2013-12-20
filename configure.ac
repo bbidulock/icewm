@@ -39,7 +39,6 @@ AM_GNU_GETTEXT_VERSION([0.18.2])
 AM_GNU_GETTEXT([external])
 
 PKG_PROG_PKG_CONFIG
-PKG_INSTALLDIR
 
 
 # Checks for libraries.
