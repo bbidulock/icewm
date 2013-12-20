@@ -310,7 +310,7 @@ EXTRA_DIST = $(datafiles)
 install-data-local:
 	@$(NORMAL_INSTALL)
 	@themes="$(datafiles)" ; for f in $$themes; do \
-		if test -f "$$f" ; then s= ; else s="$(srcdir)" ; fi ; d=`dirname "$$f"` ; \
+		if test -f "$$f" ; then s= ; else s="$(srcdir)/" ; fi ; d=`dirname "$$f"` ; \
 		test -d "$(DESTDIR)$(pkgdatadir)/$$d" || { \
 			echo "$(mkdir_p) \"$(DESTDIR)$(pkgdatadir)/$$d\"" ; \
 			$(mkdir_p) "$(DESTDIR)$(pkgdatadir)/$$d" ; } ; \
