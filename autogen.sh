@@ -9,10 +9,13 @@ then
 	VERSION=`git describe --tags --always | sed 's|^[^0-9]*||;s|[-_]|.|g;s|[.]g[a-f0-9]*$||'`
 fi
 
+GTVERSION=`gettext --version | head -1 | awk '{print$NF}'`
+
 cp -f configure.ac configure.in
 
 sed <configure.in >configure.ac \
-	-e "s|^AC_INIT(.*$|AC_INIT([icewm], [$VERSION], [http://github.com/bbidulock/icewm])|"
+	-e "s|^AC_INIT(.*$|AC_INIT([icewm], [$VERSION], [http://github.com/bbidulock/icewm])|" \
+	-e "s|^AM_GNU_GETTEXT_VERSION.*|AM_GNU_GETTEXT_VERSION([$GTVERSION])|"
 
 rm -f configure.in
 
