@@ -1483,11 +1483,12 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         }
 
         // temp workaround for flashblock problems
-        if (client->isEmbed()) {
+        // Reverted because it breaks Qt5 applications
+        /*if (client->isEmbed()) {
             warn("app trying to map XEmbed window 0x%X, ignoring", client->handle());
             delete client;
             goto end;
-        }
+        }*/
 
         client->setBorder(attributes.border_width);
         client->setColormap(attributes.colormap);
@@ -2057,7 +2058,7 @@ void YWindowManager::updateWorkArea() {
     for (int i = 0; i < fWorkAreaWorkspaceCount; i++) {
         for (int j = 0; j < fWorkAreaScreenCount; j++) {
             MSG(("before: workarea w:%d s:%d %d %d %d %d",
-                i, j, 
+                i, j,
                 fWorkArea[i][j].fMinX,
                 fWorkArea[i][j].fMinY,
                 fWorkArea[i][j].fMaxX,
@@ -2069,7 +2070,7 @@ void YWindowManager::updateWorkArea() {
          w;
          w = w->nextLayer())
     {
-        if (w->client() == 0 || 
+        if (w->client() == 0 ||
             w->isHidden() ||
             w->isRollup() ||
             w->isIconic() ||
@@ -2132,7 +2133,7 @@ void YWindowManager::updateWorkArea() {
         for (int j = 0; j < fWorkAreaScreenCount; j++) {
            if (0) {
            MSG(("updated: workarea w:%d s:%d %d %d %d %d",
-                i, j, 
+                i, j,
                 fWorkArea[i][j].fMinX,
                 fWorkArea[i][j].fMinY,
                 fWorkArea[i][j].fMaxX,
@@ -2144,7 +2145,7 @@ void YWindowManager::updateWorkArea() {
     for (int i = 0; i < fWorkAreaWorkspaceCount; i++) {
         for (int j = 0; j < fWorkAreaScreenCount; j++) {
             MSG(("after: workarea w:%d s:%d %d %d %d %d",
-                i, j, 
+                i, j,
                 fWorkArea[i][j].fMinX,
                 fWorkArea[i][j].fMinY,
                 fWorkArea[i][j].fMaxX,
@@ -2183,7 +2184,7 @@ void YWindowManager::updateWorkArea() {
                 for (int s = 0; s < fWorkAreaScreenCount; s++) {
                     int const deltaX = fWorkArea[ws][s].fMinX - fOldWorkArea[ws][s].fMinX;
                     int const deltaY = fWorkArea[ws][s].fMinY - fOldWorkArea[ws][s].fMinY;
-        
+
                     if (deltaX != 0 || deltaY != 0)
                         relocateWindows(ws, s, deltaX, deltaY);
                 }
@@ -2550,7 +2551,7 @@ void YWindowManager::setDesktopGeometry() {
 
 void YWindowManager::setShowingDesktop() {
     long value = fShowingDesktop ? 1 : 0;
-    MSG(("setting: _NET_SHOWING_DESKTOP = %ld", value)); 
+    MSG(("setting: _NET_SHOWING_DESKTOP = %ld", value));
     XChangeProperty(xapp->display(), handle(),
                     _XA_NET_SHOWING_DESKTOP, XA_CARDINAL, 32,
                     PropModeReplace, (unsigned char *)&value, 1);
@@ -2591,7 +2592,7 @@ void YWindowManager::updateMoveMenu() {
 bool YWindowManager::readDesktopNames() {
     XTextProperty names;
 #ifdef WMSPEC_HINTS
-    MSG(("reading: _NET_DESKTOP_NAMES(%d)",(int)_XA_NET_DESKTOP_NAMES)); 
+    MSG(("reading: _NET_DESKTOP_NAMES(%d)",(int)_XA_NET_DESKTOP_NAMES));
     if (XGetTextProperty(xapp->display(), handle(), &names,
                          _XA_NET_DESKTOP_NAMES) && names.nitems > 0) {
         int count = 0;
@@ -2641,7 +2642,7 @@ bool YWindowManager::readDesktopNames() {
     }
 #endif
 #ifdef GNOME1_HINTS
-    MSG(("reading: _WIN_WORKSPACE_NAMES(%d)",(int)_XA_WIN_WORKSPACE_NAMES)); 
+    MSG(("reading: _WIN_WORKSPACE_NAMES(%d)",(int)_XA_WIN_WORKSPACE_NAMES));
     if (XGetTextProperty(xapp->display(), handle(), &names,
                          _XA_WIN_WORKSPACE_NAMES) && names.nitems > 0) {
         int count = 0;
@@ -2842,9 +2843,9 @@ void YWindowManager::getIconPosition(YFrameWindow *frame, int *iconX, int *iconY
     if (col >= Mcol - w2 || col < mcol - w2) {
         row += height * drow;
         col = scol;
-	int h2 = height / 2;
+        int h2 = height / 2;
         if (row >= Mrow - h2 || row < mrow - h2)
-	    init = false;
+            init = false;
     }
 }
 
@@ -3367,7 +3368,7 @@ void EdgeSwitch::handleCrossing(const XCrossingEvent &crossing) {
 bool EdgeSwitch::handleTimer(YTimer *t) {
     if (t != fEdgeSwitchTimer)
         return false;
-    
+
     int w = desktop->width() - 5;
 
     if (fDelta == -1) {
