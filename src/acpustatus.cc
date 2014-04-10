@@ -313,7 +313,6 @@ int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
                 if (retbuflen + seglen >= buflen) {
                     retbuflen = -retbuflen;
                     close(fd);
-                    closedir(dir);
                     break;
                 }
                 retbuflen += seglen;
@@ -342,7 +341,6 @@ int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
                 if (retbuflen + seglen >= buflen) {
                     retbuflen = -retbuflen;
                     close(fd);
-                    closedir(dir);
                     break;
                 }
                 retbuflen += seglen;
