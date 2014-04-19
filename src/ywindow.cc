@@ -158,7 +158,10 @@ YWindow::~YWindow() {
         fAutoScroll->isScrolling() &&
         fAutoScroll->getWindow() == this)
         fAutoScroll->autoScroll(0, false, 0);
+    fFocusedWindow = 0;
     removeWindow();
+    while (fNextWindow != 0)
+	    fNextWindow->removeWindow();
     while (accel) {
         YAccelerator *next = accel->next;
         delete accel;

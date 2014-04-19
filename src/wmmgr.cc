@@ -45,6 +45,7 @@ YWindowManager::YWindowManager(
     this->wmActionListener = wmActionListener;
     this->smActionListener = smListener;
     fWmState = wmSTARTUP;
+    fShowingDesktop = false;
     fShuttingDown = false;
     fOtherScreenFocused = false;
     fFocusWin = 0;

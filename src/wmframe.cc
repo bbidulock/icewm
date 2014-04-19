@@ -68,6 +68,12 @@ YFrameWindow::YFrameWindow(
     if (inactiveBorderBg == 0)
         inactiveBorderBg = new YColor(clrInactiveBorder);
 
+    fShapeWidth = -1;
+    fShapeHeight = -1;
+    fShapeTitleY = -1;
+    fShapeBorderX = -1;
+    fShapeBorderY = -1;
+
     setDoubleBuffer(false);
     fClient = 0;
     fFocused = false;
@@ -323,8 +329,8 @@ YFrameWindow::~YFrameWindow() {
     delete fMinimizeButton; fMinimizeButton = 0;
     delete fHideButton; fHideButton = 0;
     delete fRollupButton; fRollupButton = 0;
-    delete fTitleBar; fTitleBar = 0;
     delete fDepthButton; fDepthButton = 0;
+    delete fTitleBar; fTitleBar = 0;
 
     XDestroyWindow(xapp->display(), topSide);
     XDestroyWindow(xapp->display(), leftSide);
