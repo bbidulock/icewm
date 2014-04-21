@@ -1696,6 +1696,8 @@ void YFrameClient::getWMWindowRole() {
     }
 
     fWMWindowRole = role.ptr;
+    if (role.xptr)
+        XFree(role.xptr);
 }
 
 ustring YFrameClient::getClientId(Window leader) { /// !!! fix
