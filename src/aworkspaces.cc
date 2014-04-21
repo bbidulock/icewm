@@ -153,6 +153,7 @@ WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
                 if (ext) *ext = '\0';
 
                 wk->setToolTip(ustring(_("Workspace: ")).append(wn));
+                delete[] wn;
 
                 //if ((int)wk->height() + 1 > ht) ht = wk->height() + 1;
             }
@@ -217,6 +218,7 @@ void WorkspacesPane::relabelButtons() {
             if (ext) *ext = '\0';
 
             wk->setToolTip(ustring(_("Workspace: ")).append(wn));
+            delete[] wn;
         }
     }
 
