@@ -1900,6 +1900,7 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
                 si.height = ci->height;
                 xiInfo.append(si);
             }
+	    XRRFreeCrtcInfo(ci);
         }
 
         MSG(("xinerama primary screen name: %s", xineramaPrimaryScreenName));
@@ -1920,7 +1921,9 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
                     }
                 }
             }
+	    XRRFreeOutputInfo(oinfo);
         }
+	XRRFreeScreenResources(xrrsr);
     }
 #endif
     if (xiInfo.getCount() < 2) { // use xinerama if no XRANDR screens (nvidia hack)
@@ -1948,6 +1951,8 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
                 xiInfo.append(si);
             }
             gotLayout = true;
+	    if (xsi)
+		    XFree(xsi);
         }
 #endif
     }

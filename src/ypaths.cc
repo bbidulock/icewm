@@ -113,12 +113,22 @@ ref<YResourcePaths> YResourcePaths::subdirs(upath subdir, bool themeOnly) {
 
 void YResourcePaths::verifyPaths(upath base) {
     for (int i = 0; i < getCount(); i++) {
-        upath path = getPath(i)->joinPath(base);
+        YPathElement *elem = getPath(i);
+        upath path = elem->joinPath(base);
 
         if (!path.isReadable()) {
             fPaths.remove(i);
+            delete elem;
             i--;
         }
+    }
+}
+
+YResourcePaths::~YResourcePaths() {
+    while (getCount() > 0) {
+        YPathElement *elem = getPath(0);
+        fPaths.remove(0);
+        delete elem;
     }
 }
 
