@@ -2245,6 +2245,7 @@ void YWindowManager::announceWorkArea() {
         area[ws * 4 + 1] = r->y();
         area[ws * 4 + 2] = r->width();
         area[ws * 4 + 3] = r->height();
+	delete r;
     }
 
     XChangeProperty(xapp->display(), handle(),
