@@ -487,6 +487,9 @@ static void initFontPath(IApp *app) {
 static void initIcons() {
     defaultAppIcon = YIcon::getIcon("app");
 }
+static void termIcons() {
+    defaultAppIcon = null;
+}
 #endif
 
 static void initPointers() {
@@ -1445,6 +1448,7 @@ YWMApp::~YWMApp() {
         fLogoutMsgBox = 0;
     }
 #ifndef LITE
+    termIcons();
     delete ctrlAltDelete; ctrlAltDelete = 0;
 #endif
 #ifdef CONFIG_TASKBAR

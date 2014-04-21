@@ -151,6 +151,7 @@ YXftFont::YXftFont(ustring name, bool use_xlfd, bool /*antialias*/):
 
 YXftFont::~YXftFont() {
     for (unsigned n = 0; n < fFontCount; ++n) {
+        // this leaks memory when xapp is destroyed before fonts
         if (xapp != 0)
             XftFontClose(xapp->display(), fFonts[n]);
     }
