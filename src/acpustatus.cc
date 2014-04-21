@@ -246,9 +246,11 @@ void CPUStatus::updateToolTip() {
     if (ShowCpuFreq) {
         sprintf(cpufreq, _("\nCPU Freq: %.3fGHz"), getCpuFreq(0) / 1e6);
     }
-    char *loadmsg = cstrJoin(load, ram, swap, acpitemp, cpufreq, NULL);
-
-    setToolTip(ustring(loadmsg));
+    {
+        char *loadmsg = cstrJoin(load, ram, swap, acpitemp, cpufreq, NULL);
+        setToolTip(ustring(loadmsg));
+        delete [] loadmsg;
+    }
 #elif defined HAVE_GETLOADAVG2
     char load[31]; // enough for "CPU Load: 999.99 999.99 999.99\0"
     double loadavg[3];
@@ -256,9 +258,11 @@ void CPUStatus::updateToolTip() {
         return;
     snprintf(load, sizeof(load), "CPU Load: %3.2f %3.2f %3.2f",
             loadavg[0], loadavg[1], loadavg[2]);
-    char *loadmsg = cstrJoin(_("CPU Load: "), load, NULL);
-    setToolTip(loadmsg);
-    delete [] loadmsg;
+    {
+        char *loadmsg = cstrJoin(_("CPU Load: "), load, NULL);
+        setToolTip(loadmsg);
+        delete [] loadmsg;
+    }
 #endif
 }
 
