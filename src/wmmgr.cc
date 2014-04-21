@@ -131,6 +131,11 @@ YWindowManager::YWindowManager(
 }
 
 YWindowManager::~YWindowManager() {
+    if (fWorkArea) {
+        for (int i = 0; i < fWorkAreaWorkspaceCount; i++)
+            delete [] fWorkArea[i];
+        delete [] fWorkArea;
+    }
 }
 
 void YWindowManager::grabKeys() {
@@ -2017,8 +2022,14 @@ void YWindowManager::updateWorkArea() {
     fWorkArea = 0;
 
     fWorkArea = new struct WorkAreaRect *[::workspaceCount];
-    if (fWorkArea == 0)
+    if (fWorkArea == 0) {
+        if (fOldWorkArea) {
+            for (int i = 0; i < fOldWorkAreaWorkspaceCount; i++)
+                delete [] fOldWorkArea[i];
+            delete [] fOldWorkArea;
+        }
         return;
+    }
     fWorkAreaWorkspaceCount = ::workspaceCount;
 
     for (int i = 0; i < fWorkAreaWorkspaceCount; i++) {
@@ -2028,6 +2039,11 @@ void YWindowManager::updateWorkArea() {
             fWorkArea = 0;
             fWorkAreaWorkspaceCount = 0;
             fWorkAreaScreenCount = 0;
+            if (fOldWorkArea) {
+                for (int i = 0; i < fOldWorkAreaWorkspaceCount; i++)
+                    delete [] fOldWorkArea[i];
+                delete [] fOldWorkArea;
+            }
             return;
         }
 
@@ -2175,6 +2191,8 @@ void YWindowManager::updateWorkArea() {
         }
     }
     if (fOldWorkArea) {
+        for (int i = 0; i < fOldWorkAreaWorkspaceCount; i++)
+            delete [] fOldWorkArea[i];
         delete [] fOldWorkArea;
     }
     resizeWindows();
