@@ -229,7 +229,7 @@ char *setOption(cfoption *options, char *name, char *arg, bool append, char *res
             break;
         case cfoption::CF_STR:
             if (options[a].v.s.string_value) {
-                if (!options[a].v.s.initial)
+                if (*options[a].v.s.string_value)
                     delete[] (char *)*options[a].v.s.string_value;
                 *options[a].v.s.string_value = newstr(arg);
                 options[a].v.s.initial = false;
@@ -242,8 +242,8 @@ char *setOption(cfoption *options, char *name, char *arg, bool append, char *res
                 WMKey *wk = options[a].v.k.key_value;
 
                 if (parseKey(arg, &wk->key, &wk->mod)) {
-                    if (!wk->initial)
-                        delete (char *)wk->name;
+                    if (wk->name)
+                        delete[] (char *)wk->name;
                     wk->name = newstr(arg);
                     wk->initial = false;
                 }
