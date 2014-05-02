@@ -1,5 +1,5 @@
 AC_PREREQ([2.69])
-AC_INIT([icewm], [1.3.8.15], [http://github.com/bbidulock/icewm])
+AC_INIT([icewm], [1.3.8.39], [http://github.com/bbidulock/icewm])
 AC_CONFIG_SRCDIR([src/ysmapp.cc])
 AC_CONFIG_AUX_DIR([scripts])
 AC_CONFIG_MACRO_DIR([m4])
@@ -35,7 +35,7 @@ LT_INIT([dlopen])
 LT_LANG([C++])
 AC_SUBST([LIBTOOL_DEPS])
 
-AM_GNU_GETTEXT_VERSION([0.18])
+AM_GNU_GETTEXT_VERSION([0.18.3])
 AM_GNU_GETTEXT([external])
 
 PKG_PROG_PKG_CONFIG

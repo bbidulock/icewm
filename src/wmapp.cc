@@ -343,7 +343,7 @@ static void registerProtocols2(Window xid) {
 
     XChangeProperty(xapp->display(), xid,
                     _XA_NET_WM_NAME, _XA_UTF8_STRING, 8,
-                    PropModeReplace, (unsigned char *)wmname, sizeof(wmname));
+                    PropModeReplace, (unsigned char *)wmname, strnlen(wmname, sizeof(wmname)));
 
     XChangeProperty(xapp->display(), manager->handle(),
                     _XA_NET_SUPPORTING_WM_CHECK, XA_WINDOW, 32,
