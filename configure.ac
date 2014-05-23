@@ -1,5 +1,5 @@
 AC_PREREQ([2.69])
-AC_INIT([icewm], [1.3.8.39], [http://github.com/bbidulock/icewm])
+AC_INIT([icewm], [1.3.8.51], [http://github.com/bbidulock/icewm])
 AC_CONFIG_SRCDIR([src/ysmapp.cc])
 AC_CONFIG_AUX_DIR([scripts])
 AC_CONFIG_MACRO_DIR([m4])
@@ -383,7 +383,7 @@ AC_DEFINE_UNQUOTED([ICESMEXE],["icewm-session${EXEEXT}"],
 	[Define to the IceWM session program.])
 AC_DEFINE_UNQUOTED([ICEHELPEXE],["icehelp${EXEEXT}"],
 	[Define to the IceWM help program.])
-AC_DEFINE_UNQUOTED([ICEHELPIDX],["${with_docdir}/icewm.html"],
+AC_DEFINE_UNQUOTED([ICEHELPIDX],["${DOCDIR}/icewm.html"],
 	[Define to the IceWM help index file.])
 
 AC_ARG_ENABLE([wmspec],
