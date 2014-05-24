@@ -171,6 +171,7 @@ YXTray::YXTray(YXTrayNotifier *notifier,
     show();
 #ifndef LITE
     XSetWindowBackground(xapp->display(), handle(), taskBarBg->pixel());
+    XClearArea(xapp->display(), handle(), 0, 0, 0, 0, True);
 #endif
 }
 
@@ -315,6 +316,8 @@ void YXTray::backgroundChanged() {
 #ifdef CONFIG_TASKBAR
         XSetWindowBackground(xapp->display(), ec->handle(), taskBarBg->pixel());
         XSetWindowBackground(xapp->display(), ec->client_handle(), taskBarBg->pixel());
+	/* something is not clearing which background changes */
+	XClearArea(xapp->display(), ec->client_handle(), 0, 0, 0, 0, True);
 #endif
 	ec->repaint();
     }
