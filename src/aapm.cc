@@ -597,6 +597,11 @@ void YApm::SysStr(char *s, bool Tool) {
 
         strcat3(buf, "/sys/class/power_supply/", BATname, "/status", sizeof(buf));
         fd = fopen(buf, "r");
+        if (fd == NULL) {
+        	strcat3(buf, "/sys/class/power_supply/", BATname, "/power_now", sizeof(buf));
+        	fd = fopen(buf, "r");
+	}
+
         if (fd != NULL && fgets(buf, sizeof(buf), fd)) {
                 if (strncasecmp(buf, "charging", 8) == 0) {
                         BATstatus = BAT_CHARGING;
@@ -625,6 +630,7 @@ void YApm::SysStr(char *s, bool Tool) {
                 }
                 fclose(fd);
         }
+
         strcat3(buf, "/sys/class/power_supply/", BATname, "/energy_now", sizeof(buf));
         fd = fopen(buf, "r");
         if (fd == NULL) {
@@ -701,8 +707,7 @@ void YApm::SysStr(char *s, bool Tool) {
            chargeStatus += 100 * (double)BATcapacity_remain / BATcapacity_full;
            batCount++;
         }
-
-        if (!Tool &&
+        if (Tool &&
             taskBarShowApmTime &&
             BATpresent == BAT_PRESENT &&
             //bios calculates remaining time, only while discharging
@@ -710,7 +715,7 @@ void YApm::SysStr(char *s, bool Tool) {
             //did we parse the needed values successfully?
             BATcapacity_full >= 0 && BATcapacity_remain >= 0 && BATrate > 0) {
             BATtime_remain = (int) (60 * (double)(BATcapacity_remain) / BATrate);
-            sprintf(bat_info, "%d:%02d %.1fW", BATtime_remain / 60, BATtime_remain % 60, (double) BATrate / 1000000);
+            sprintf(bat_info, "%d:%02d (%3.0f%%)", BATtime_remain / 60, BATtime_remain % 60,100 * (double)BATcapacity_remain / BATcapacity_full);
         }
         else if (BATpresent == BAT_PRESENT &&
                  //did we parse the needed values successfully?
