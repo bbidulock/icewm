@@ -320,7 +320,7 @@ void YFrameWindow::configure(const YRect &r) {
     YWindow::configure(r);
 
     performLayout();
-	sendConfigure();
+    sendConfigure();
 }
 
 void YFrameWindow::performLayout()

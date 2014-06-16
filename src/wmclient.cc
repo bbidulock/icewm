@@ -1921,7 +1921,6 @@ bool YFrameClient::getNetWMUserTimeWindow(Window &window) {
     return false;
 }
 
-
 bool YFrameClient::getNetWMWindowType(Atom *window_type) { // !!! for now, map to layers
     *window_type = None;
 
