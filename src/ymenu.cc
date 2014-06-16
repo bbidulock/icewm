@@ -198,7 +198,6 @@ void YMenu::activateSubMenu(int item, bool byMouse) {
         sub = getItem(item)->getSubmenu();
 
     if (sub != fPopup) {
-
         hideSubmenu();
 
         if (sub) {
@@ -308,7 +307,7 @@ int YMenu::findHotItem(char k) {
 }
 
 bool YMenu::handleKey(const XKeyEvent &key) {
-    KeySym k = XkbKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0, 0);
+    KeySym k = keyCodeToKeySym(key.keycode);
     int m = KEY_MODMASK(key.state);
 
     if (key.type == KeyPress) {

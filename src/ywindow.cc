@@ -7,6 +7,7 @@
 #include "yfull.h"
 #include "yutil.h"
 #include "ywindow.h"
+#include "ykey.h"
 
 #include "ytooltip.h"
 #include "yxapp.h"
@@ -765,7 +766,7 @@ void YWindow::handleConfigure(const XConfigureEvent &configure) {
 
 bool YWindow::handleKey(const XKeyEvent &key) {
     if (key.type == KeyPress) {
-        KeySym k = XkbKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0, 0);
+        KeySym k = keyCodeToKeySym(key.keycode);
         unsigned int m = KEY_MODMASK(key.state);
 
         if (accel) {
@@ -1128,7 +1129,7 @@ void YWindow::setGrabPointer(const YCursor& pointer) {
 
 void YWindow::grabKeyM(int keycode, unsigned int modifiers) {
     MSG(("grabKey %d %d %s", keycode, modifiers,
-         XKeysymToString(XkbKeycodeToKeysym(xapp->display(), (KeyCode)keycode, 0, 0))));
+         XKeysymToString(keyCodeToKeySym(keycode))));
 
     XGrabKey(xapp->display(), keycode, modifiers, handle(), False,
              GrabModeAsync, GrabModeAsync);
@@ -2033,6 +2034,12 @@ int YDesktop::getScreenForRect(int x, int y, int width, int height) {
         }
     }
     return screen;
+}
+
+
+KeySym YWindow::keyCodeToKeySym(unsigned int keycode, int index) {
+    KeySym k = XkbKeycodeToKeysym(xapp->display(), (KeyCode)keycode, 0, index);
+    return k;
 }
 
 int YDesktop::getScreenCount() {

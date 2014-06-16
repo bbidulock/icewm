@@ -64,7 +64,7 @@ void YDialog::paint(Graphics &g, const YRect &/*r*/) {
 
 bool YDialog::handleKey(const XKeyEvent &key) {
     if (key.type == KeyPress) {
-        KeySym k = XkbKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0, 0);
+        KeySym k = keyCodeToKeySym(key.keycode);
         int m = KEY_MODMASK(key.state);
 
         if (k == XK_Escape && m == 0) {
@@ -75,3 +75,4 @@ bool YDialog::handleKey(const XKeyEvent &key) {
     return YFrameClient::handleKey(key);
 }
 #endif
+

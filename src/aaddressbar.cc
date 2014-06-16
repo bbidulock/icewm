@@ -25,7 +25,7 @@ AddressBar::~AddressBar() {
 
 bool AddressBar::handleKey(const XKeyEvent &key) {
     if (key.type == KeyPress) {
-        KeySym k = XkbKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0, 0);
+        KeySym k = keyCodeToKeySym(key.keycode);
         int m = KEY_MODMASK(key.state);
 
         if (k == XK_KP_Enter || k == XK_Return) {

@@ -1,7 +1,7 @@
 /*
  * IceWM
  *
- * Copyright (C) 1997-2003 Marko Macek
+ * Copyright (C) 1997-2013 Marko Macek
  */
 #include "config.h"
 #include "yfull.h"
@@ -518,7 +518,7 @@ bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int /*
 
 bool YWindowManager::handleKey(const XKeyEvent &key) {
     if (key.type == KeyPress) {
-        KeySym k = XkbKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0, 0);
+        KeySym k = keyCodeToKeySym(key.keycode);
         unsigned int m = KEY_MODMASK(key.state);
         unsigned int vm = VMod(m);
 
@@ -536,7 +536,7 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
         }
         return handled;
     } else if (key.type == KeyRelease) {
-        KeySym k = XkbKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0, 0);
+        KeySym k = keyCodeToKeySym(key.keycode);
         unsigned int m = KEY_MODMASK(key.state);
 
         (void)m;

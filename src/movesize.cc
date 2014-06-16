@@ -206,7 +206,7 @@ void YFrameWindow::drawMoveSizeFX(int x, int y, int w, int h, bool) {
 }
 
 int YFrameWindow::handleMoveKeys(const XKeyEvent &key, int &newX, int &newY) {
-    KeySym k = XkbKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0, 0);
+    KeySym k = keyCodeToKeySym(key.keycode);
     int m = KEY_MODMASK(key.state);
     int factor = 1;
 
@@ -254,7 +254,7 @@ int YFrameWindow::handleResizeKeys(const XKeyEvent &key,
                                    int &newX, int &newY, int &newWidth, int &newHeight,
                                    int incX, int incY)
 {
-    KeySym k = XkbKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0, 0);
+    KeySym k = keyCodeToKeySym(key.keycode);
     int m = KEY_MODMASK(key.state);
     int factor = 1;
 
@@ -746,7 +746,7 @@ bool YFrameWindow::handleKey(const XKeyEvent &key) {
                 break;
             }
         } else if (xapp->AltMask != 0) {
-            KeySym k = XkbKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0, 0);
+            KeySym k = keyCodeToKeySym(key.keycode);
             unsigned int m = KEY_MODMASK(key.state);
             unsigned int vm = VMod(m);
 
