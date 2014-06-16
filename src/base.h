@@ -216,14 +216,8 @@ inline unsigned highbit(T mask) {
 
 #if 1
 
-/// this should be abstracted somehow (maybe in yapp)
-#define GET_SHORT_ARGUMENT(Name) \
-    (!strncmp(*arg, "-" Name, 3) ? *++arg : NULL)
-#define GET_LONG_ARGUMENT(Name) \
-    (!strpcmp(*arg, "--" Name, "=") ? \
-      ('=' == (*arg)[sizeof(Name) + 1] ? (*arg) + sizeof(Name) + 2 : *++arg) \
-      : \
-      NULL)
+bool GetShortArgument(char* &ret, const char *name, char** &argpp, char ** endpp);
+bool GetLongArgument(char* &ret, const char *name, char** &argpp, char ** endpp);
 
 #define IS_SHORT_SWITCH(Name)  (0 == strcmp(*arg, "-" Name))
 #define IS_LONG_SWITCH(Name)   (0 == strcmp(*arg, "--" Name))

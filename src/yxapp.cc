@@ -951,9 +951,11 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
     for (char ** arg = *argv + 1; arg < *argv + *argc; ++arg) {
         if (**arg == '-') {
             char *value;
-
-            if ((value = GET_LONG_ARGUMENT("display")) != NULL)
+            if (GetLongArgument(value, "display", arg, *argv+*argc))
+            {
                 displayName = value;
+                continue;
+            }
             else if (IS_LONG_SWITCH("sync"))
                 runSynchronized = true;
         }
