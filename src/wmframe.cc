@@ -2535,13 +2535,14 @@ ref<YIcon> newClientIcon(int count, int reclen, long * elem) {
         }
 
         if (depth == xapp->depth()) {
+            MSG(("client icon color: %ld %d %d %d %d", pixmap, w, h, depth, xapp->depth()));
             if (w <= YIcon::smallSize()) {
                 small = YImage::createFromPixmapAndMaskScaled(
                     pixmap, mask, w, h, YIcon::smallSize(), YIcon::smallSize());
             } else if (w <= YIcon::largeSize()) {
                 large = YImage::createFromPixmapAndMaskScaled(
                     pixmap, mask, w, h, YIcon::largeSize(), YIcon::largeSize());
-            } else if (w <= YIcon::hugeSize()) {
+            } else if (w <= YIcon::hugeSize() || huge == null || huge->width() < w || huge->height() < h) {
                 huge = YImage::createFromPixmapAndMaskScaled(
                     pixmap, mask, w, h, YIcon::hugeSize(), YIcon::hugeSize());
             }
