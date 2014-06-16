@@ -8,12 +8,14 @@
 #include "yapp.h"
 #include "yprefs.h"
 
-YTimer::YTimer(long ms) {
-    fRunning = false;
-    fFixed = false;
-    fPrev = fNext = 0;
-    fInterval = ms;
-    fListener = 0;
+YTimer::YTimer() :
+    fListener(0), fInterval(0), fRunning(false), fFixed(false), fPrev(0), fNext(0)
+{
+}
+
+YTimer::YTimer(long ms) :
+    fListener(0), fInterval(ms), fRunning(false), fFixed(false), fPrev(0), fNext(0)
+{
 }
 
 YTimer::~YTimer() {

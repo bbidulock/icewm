@@ -1,5 +1,5 @@
 AC_PREREQ([2.69])
-AC_INIT([icewm], [1.3.8.51], [http://github.com/bbidulock/icewm])
+AC_INIT([icewm], [1.3.8.1679], [http://github.com/bbidulock/icewm])
 AC_CONFIG_SRCDIR([src/ysmapp.cc])
 AC_CONFIG_AUX_DIR([scripts])
 AC_CONFIG_MACRO_DIR([m4])
