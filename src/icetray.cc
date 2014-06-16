@@ -59,6 +59,7 @@ public:
     void handleSignal(int sig);
 
 private:
+    Atom _ICEWM_ACTION;
     SysTray *tray;
 };
 
@@ -95,13 +96,13 @@ SysTrayApp::SysTrayApp(int *argc, char ***argv, const char *displayName):
 
     XSetErrorHandler(handler);
     tray = new SysTray();
+
+    _ICEWM_ACTION = XInternAtom(xapp->display(), "_ICEWM_ACTION", False);
 }
 void SysTrayApp::loadConfig() {
 #ifdef CONFIG_TASKBAR
 #ifndef NO_CONFIGURE
     {
-        clrDefaultTaskBar="rgb:C0/C0/C0";
-        trayDrawBevel=false;
         cfoption theme_prefs[] = {
             OSV("Theme", &themeName, "Theme name"),
             OK0()
@@ -136,7 +137,12 @@ bool SysTrayApp::filterEvent(const XEvent &xev) {
     logEvent(xev);
 #endif
     if (xev.type == ClientMessage) {
-        tray->checkMessageEvent(xev.xclient);
+        if (xev.xclient.message_type == _ICEWM_ACTION) {
+            MSG(("loadConfig"));
+            loadConfig();
+            tray->trayChanged();
+        } else
+            tray->checkMessageEvent(xev.xclient);
         return false;
     } else if (xev.type == MappingNotify) {
             MSG(("tray mapping1"));
@@ -193,7 +199,7 @@ void SysTray::trayChanged() {
             fTray2->height());
     if (fTray2->visible())
         show();
-    else 
+    else
         hide();
 }
 

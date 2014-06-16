@@ -157,11 +157,15 @@ void YButton::paintFocus(Graphics &g, const YRect &/*r*/) {
         g.setFunction(GXcopy);
         g.setPenStyle(false);
     } else {
+        short x1(dp), x2(dp), x3(dp+width()-ds-1), x4(dp);
+        short y1(dp), y2(dp+1), y3(dp+1), y4(dp+height()-ds-1);
+        unsigned short w1(width()-ds), w2(1), w3(1), w4(width()-ds);
+        unsigned short h1(1), h2(height()-ds-2), h3(height()-ds-2), h4(1);
         XRectangle focus[] = {
-            { dp, dp, width() - ds, 1 },
-            { dp, dp + 1, 1, height() - ds - 2 },
-            { dp + width() - ds - 1, dp + 1, 1, height() - ds - 2 },
-            { dp, dp + height() - ds - 1, width() - ds, 1 }
+            { x1, y1, w1, h1 },
+            { x2, y2, w2, h2 },
+            { x3, y3, w3, h3 },
+            { x4, y4, w4, h4 }
         };
 
         g.setClipRectangles(focus, 4);

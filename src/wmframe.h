@@ -252,12 +252,15 @@ public:
         foForcedClose           = (1 << 15),
         foNoFocusOnMap          = (1 << 16),
         foNoIgnoreTaskBar       = (1 << 17),
-        foAppTakesFocus         = (1 << 18)
+        foAppTakesFocus         = (1 << 18),
+        foIgnoreUrgent          = (1 << 19)
     };
 
     unsigned long frameFunctions() const { return fFrameFunctions; }
     unsigned long frameDecors() const { return fFrameDecors; }
     unsigned long frameOptions() const { return fFrameOptions; }
+    void updateAllowed();
+    void updateNetWMState();
     void getFrameHints();
 #ifndef NO_WINDOW_OPTIONS
     void getWindowOptions(WindowOption &opt, bool remove); /// !!! fix kludges
@@ -332,6 +335,7 @@ public:
     void updateLayer(bool restack = true);
     //void updateWorkspace();
     void updateLayout();
+    void updateExtents();
     void performLayout();
 
     void updateMwmHints();
@@ -340,10 +344,25 @@ public:
     void updateTaskBar();
 #endif
 
-    void setTypeDesktop(bool typeDesktop) { fTypeDesktop = typeDesktop; }
-    void setTypeDock(bool typeDock) { fTypeDock = typeDock; }
-    void setTypeSplash(bool typeSplash) { fTypeSplash = typeSplash; }
-    bool isTypeDock() { return fTypeDock; }
+    enum WindowType {
+        wtCombo,
+        wtDesktop,
+        wtDialog,
+        wtDND,
+        wtDock,
+        wtDropdownMenu,
+        wtMenu,
+        wtNormal,
+        wtNotification,
+        wtPopupMenu,
+        wtSplash,
+        wtToolbar,
+        wtTooltip,
+        wtUtility
+    };
+
+    void setWindowType(enum WindowType winType) { fWindowType = winType; }
+    bool isTypeDock(void) { return (fWindowType == wtDock); }
 
     long getWorkspace() const { return fWinWorkspace; }
     void setWorkspace(long workspace);
@@ -363,6 +382,7 @@ public:
     bool isMaximizedFully() const { return isMaximizedVert() && isMaximizedHoriz(); }
     bool isMinimized() const { return (getState() & WinStateMinimized) ? true : false; }
     bool isHidden() const { return (getState() & WinStateHidden) ? true : false; }
+    bool isSkipPager() const { return (getState() & WinStateSkipPager) ? true : false; }
     bool isSkipTaskBar() const { return (getState() & WinStateSkipTaskBar) ? true : false; }
     bool isRollup() const { return (getState() & WinStateRollup) ? true : false; }
     bool isSticky() const { return (getState() & WinStateAllWorkspaces) ? true : false; }
@@ -413,6 +433,11 @@ public:
 
 #ifdef WMSPEC_HINTS
     void updateNetWMStrut();
+    void updateNetWMStrutPartial();
+    void updateNetStartupId();
+    void updateNetWMUserTime();
+    void updateNetWMUserTimeWindow();
+    void updateNetWMFullscreenMonitors(int, int, int, int);
 #endif
     int strutLeft() { return fStrutLeft; }
     int strutRight() { return fStrutRight; }
@@ -458,6 +483,7 @@ private:
 
     int normalX, normalY, normalW, normalH;
     int posX, posY, posW, posH;
+    int extentLeft, extentRight, extentTop, extentBottom;
 
     int iconX, iconY;
 
@@ -527,6 +553,11 @@ private:
     long fWinOptionMask;
     long fOldLayer;
 
+    int fFullscreenMonitorsTop;
+    int fFullscreenMonitorsBottom;
+    int fFullscreenMonitorsLeft;
+    int fFullscreenMonitorsRight;
+
     YMsgBox *fKillMsgBox;
 
     // _NET_WM_STRUT support
@@ -534,6 +565,10 @@ private:
     int fStrutRight;
     int fStrutTop;
     int fStrutBottom;
+
+    // _NET_WM_USER_TIME support
+    unsigned long fUserTime;
+    Window fUserTimeWindow;
 
     int fShapeWidth;
     int fShapeHeight;
@@ -543,9 +578,8 @@ private:
 
     bool fWmUrgency;
     bool fClientUrgency;
-    bool fTypeDesktop;
-    bool fTypeDock;
-    bool fTypeSplash;
+
+    enum WindowType fWindowType;
 
     enum WindowArranges {
         waTop,

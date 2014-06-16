@@ -705,7 +705,7 @@ int YFrameWindow::borderX() const {
 
 int YFrameWindow::borderXN() const {
     return
-        (frameDecors() & fdBorder)
+        ((frameDecors() & fdBorder) && (hideBordersMaximized ? !isMaximized() : true))
         ? ((frameDecors() & fdResize) ? wsBorderX : wsDlgBorderX)
         : 0;
 }
@@ -717,7 +717,7 @@ int YFrameWindow::borderY() const {
 
 int YFrameWindow::borderYN() const {
     return
-        (frameDecors() & fdBorder)
+        ((frameDecors() & fdBorder) && (hideBordersMaximized ? !isMaximized() : true))
         ? ((frameDecors() & fdResize) ? wsBorderY : wsDlgBorderY)
         : 0;
 }

@@ -52,7 +52,7 @@ private:
 };
 
 
-YMenu *YWindowManager::createWindowMenu(IApp *app, YMenu *menu, long workspace) {
+YMenu *YWindowManager::createWindowMenu(YMenu *menu, long workspace) {
     if (!menu)
         menu = new YMenu();
 
@@ -112,7 +112,7 @@ WindowListMenu::WindowListMenu(IApp *app, YWindow *parent): YMenu(parent) {
 void WindowListMenu::updatePopup() {
     removeAll();
 
-    manager->createWindowMenu(app, this, manager->activeWorkspace()); // !!! fix
+    manager->createWindowMenu(this, manager->activeWorkspace()); // !!! fix
 
     bool first = true;
 
@@ -129,7 +129,7 @@ void WindowListMenu::updatePopup() {
 
         YMenu *sub = 0;
         if (manager->windowCount(d) > 0) // !!! do lazy create menu instead
-            sub = manager->createWindowMenu(app, 0, d);
+            sub = manager->createWindowMenu(0, d);
         addItem(s, (d < 10) ? 0 : -1, workspaceActionActivate[d], sub);
     }
 #ifdef CONFIG_WINLIST

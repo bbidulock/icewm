@@ -35,7 +35,7 @@ private:
     YResourcePaths() {}
     void addDir(upath root, upath rdir, upath sub);
 public:
-    virtual ~YResourcePaths() { }
+    virtual ~YResourcePaths();
 
     ref<YPixmap> loadPixmap(upath base, upath name) const;
 ///    ref<YPixbuf> loadPixbuf(upath base, upath name, bool const fullAlpha) const;

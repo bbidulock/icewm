@@ -111,6 +111,7 @@ ustring YURL::unescape(ustring str) {
             *d++ = (char)c;
         }
         str = ustring(nstr, d - nstr);
+	delete [] nstr;
     }
     return str;
 }

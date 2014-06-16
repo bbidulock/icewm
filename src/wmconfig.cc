@@ -46,7 +46,7 @@ void freeConfiguration() {
 #endif
 }
 
-void addWorkspace(const char */*name*/, const char *value, bool append) {
+void addWorkspace(const char * /*name*/, const char *value, bool append) {
     if (!append) {
         for (int i = 0; i < workspaceCount; i++) {
             delete[] workspaceNames[i];
@@ -66,7 +66,7 @@ void addWorkspace(const char */*name*/, const char *value, bool append) {
 }
 
 #ifndef NO_CONFIGURE
-void setLook(const char */*name*/, const char *arg, bool) {
+void setLook(const char * /*name*/, const char *arg, bool) {
 #ifdef CONFIG_LOOK_WARP4
     if (strcmp(arg, "warp4") == 0)
         wmLook = lookWarp4;
@@ -141,9 +141,19 @@ int setDefault(const char *basename, const char *config) {
        if (tmpbuf) {
           *tmpbuf = '#';
           for (int i = 0; i < 10; i++)
-             if (fgets(tmpbuf + 1, 298, fdold))
-                write(fd, tmpbuf, strlen(tmpbuf));
-             else 
+             if (fgets(tmpbuf + 1, 298, fdold)) {
+		int tlen = strlen(tmpbuf);
+		int n, ret;
+		for (n = 0;n < tlen;) {
+		    ret = write(fd, tmpbuf + n, tlen - n);
+		    if (ret == 0 || (ret < 0  && errno != EINTR)) {
+			nlen = -1;
+			break;
+		    }
+		    if (ret > 0)
+			n += ret;
+		}
+	     } else 
                 break;
           delete[] tmpbuf;
        }

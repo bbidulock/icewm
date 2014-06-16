@@ -3,1289 +3,1525 @@
 # Current translator:
 # Coşku Erdem.
 #
-msgid   ""
-msgstr  "Project-Id-Version: IceWM 1.2.12\n"
-        "Report-Msgid-Bugs-To: \n"
-        "POT-Creation-Date: 2009-07-05 19:58+0200\n"
-        "PO-Revision-Date: 2004-01-21 9:30+0200\n"
-        "Last-Translator: Coşku Erdem\n"
-        "Language-Team: Turkish\n"
-        "MIME-Version: 1.0\n"
-        "Content-Type: text/plain; charset=UTF-8\n"
-        "Content-Transfer-Encoding: 8bit\n"
+msgid ""
+msgstr ""
+"Project-Id-Version: IceWM 1.2.12\n"
+"Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
+"POT-Creation-Date: 2013-12-18 04:27-0700\n"
+"PO-Revision-Date: 2004-01-21 9:30+0200\n"
+"Last-Translator: Coşku Erdem\n"
+"Language-Team: Turkish\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
 
-msgid   " - Power"
-msgstr  " - Güç"
+#: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:749 src/aapm.cc:868
+msgid " - Power"
+msgstr " - Güç"
 
-#. /            if (!prettyClock) strcat(s, " ");
-msgid   "P"
-msgstr  "P"
+#: src/aapm.cc:193 src/aapm.cc:527 src/aapm.cc:752
+msgid "P"
+msgstr "P"
 
+#: src/aapm.cc:197 src/aapm.cc:498 src/aapm.cc:729 src/aapm.cc:839
 #, c-format
-msgid   " - Charging"
-msgstr  " - Şarj oluyor"
+msgid " - Charging"
+msgstr " - Şarj oluyor"
 
-msgid   "C"
-msgstr  "C"
+#: src/aapm.cc:199 src/aapm.cc:500 src/aapm.cc:731
+msgid "C"
+msgstr "C"
 
+#: src/aapm.cc:502
+msgid " - Full"
+msgstr ""
+
+#: src/acpustatus.cc:229
 #, fuzzy, c-format
-msgid   "CPU Load: %3.2f %3.2f %3.2f, %d"
-msgstr  "CPU Yükü: %3.2f %3.2f %3.2f, %d süreç."
+msgid "CPU Load: %3.2f %3.2f %3.2f, %d"
+msgstr "CPU Yükü: %3.2f %3.2f %3.2f, %d süreç."
 
+#: src/acpustatus.cc:233
 #, c-format
-msgid   "\n"
-        "Ram: %5.2f/%.2fM"
-msgstr  ""
+msgid ""
+"\n"
+"Ram: %5.2f/%.2fM"
+msgstr ""
 
+#: src/acpustatus.cc:238
 #, c-format
-msgid   "\n"
-        "Swap: %.2f/%.2fM"
-msgstr  ""
+msgid ""
+"\n"
+"Swap: %.2f/%.2fM"
+msgstr ""
 
+#: src/acpustatus.cc:242
 #, c-format
-msgid   "\n"
-        "ACPI Temp:"
-msgstr  ""
+msgid ""
+"\n"
+"ACPI Temp:"
+msgstr ""
 
+#: src/acpustatus.cc:247
 #, c-format
-msgid   "\n"
-        "CPU Freq: %.3fGHz"
-msgstr  ""
+msgid ""
+"\n"
+"CPU Freq: %.3fGHz"
+msgstr ""
 
-msgid   "CPU Load: "
-msgstr  ""
+#: src/acpustatus.cc:259
+msgid "CPU Load: "
+msgstr ""
 
+#: src/amailbox.cc:77
 #, c-format
-msgid   "Invalid mailbox protocol: \"%s\""
-msgstr  "Hatalı posta kutusu protokolü: «%s»"
+msgid "Invalid mailbox protocol: \"%s\""
+msgstr "Hatalı posta kutusu protokolü: «%s»"
 
+#: src/amailbox.cc:79
 #, c-format
-msgid   "Invalid mailbox path: \"%s\""
-msgstr  "Hatalı posta kutusu yolu: «%s»"
+msgid "Invalid mailbox path: \"%s\""
+msgstr "Hatalı posta kutusu yolu: «%s»"
 
+#: src/amailbox.cc:342
 #, c-format
-msgid   "Using MailBox \"%s\"\n"
-msgstr  "Kullanılan Posta Kutusu, «%s»\n"
+msgid "Using MailBox \"%s\"\n"
+msgstr "Kullanılan Posta Kutusu, «%s»\n"
 
-msgid   "Error checking mailbox."
-msgstr  "Posta kutusu okunurken hata oluştu."
+#: src/amailbox.cc:450
+msgid "Error checking mailbox."
+msgstr "Posta kutusu okunurken hata oluştu."
 
+#: src/amailbox.cc:456
 #, c-format
-msgid   "%ld mail message."
-msgstr  "%ld posta mesajı."
+msgid "%ld mail message."
+msgstr "%ld posta mesajı."
 
+#: src/amailbox.cc:457
 #, c-format
-msgid   "%ld mail messages."
-msgstr  "%ld posta mesajı."
+msgid "%ld mail messages."
+msgstr "%ld posta mesajı."
 
+#: src/apppstatus.cc:204
 #, fuzzy, c-format
-msgid   "Interface %s:\n"
-        "  Current rate (in/out):\t%li %s/%li %s\n"
-        "  Current average (in/out):\t%lli %s/%lli %s\n"
-        "  Total average (in/out):\t%li %s/%li %s\n"
-        "  Transferred (in/out):\t%lli %s/%lli %s\n"
-        "  Online time:\t%ld:%02ld:%02ld%s%s"
-msgstr  " Arabirim %s:\n"
-        "  Etkin hız (gelen/giden):\t%lli %s/%lli %s\n"
-        "  Etkin ortalama (gelen/giden):\t%lli %s/%lli %s\n"
-        "  Toplam ortalama (gelen/giden):\t%lli %s/%lli %s\n"
-        "  Aktarılan (gelen/giden):\t%lli %s/%lli %s\n"
-        "  Bağlı kalınan süre:\t%d:%02d:%02d%s%s"
+msgid ""
+"Interface %s:\n"
+"  Current rate (in/out):\t%li %s/%li %s\n"
+"  Current average (in/out):\t%lli %s/%lli %s\n"
+"  Transferred (in/out):\t%lli %s/%lli %s\n"
+"  Online time:\t%ld:%02ld:%02ld%s%s"
+msgstr ""
+" Arabirim %s:\n"
+"  Etkin hız (gelen/giden):\t%lli %s/%lli %s\n"
+"  Etkin ortalama (gelen/giden):\t%lli %s/%lli %s\n"
+"  Toplam ortalama (gelen/giden):\t%lli %s/%lli %s\n"
+"  Aktarılan (gelen/giden):\t%lli %s/%lli %s\n"
+"  Bağlı kalınan süre:\t%d:%02d:%02d%s%s"
 
-msgid   "\n"
-        "  Caller id:\t"
-msgstr  "\n"
-        "  Arayan:\t"
+#: src/apppstatus.cc:216
+msgid ""
+"\n"
+"  Caller id:\t"
+msgstr ""
+"\n"
+"  Arayan:\t"
 
-msgid   "Workspace: "
-msgstr  "Çalışma Alanı: "
+#: src/aworkspaces.cc:155 src/aworkspaces.cc:219 src/aworkspaces.cc:274
+#: src/wmstatus.cc:168
+msgid "Workspace: "
+msgstr "Çalışma Alanı: "
 
-msgid   "Back"
-msgstr  "Geri"
+#: src/icehelp.cc:714
+msgid "Back"
+msgstr "Geri"
 
-msgid   "Alt+Left"
-msgstr  "Alt+Sol"
+#: src/icehelp.cc:714
+msgid "Alt+Left"
+msgstr "Alt+Sol"
 
-msgid   "Forward"
-msgstr  "İleri"
+#: src/icehelp.cc:715
+msgid "Forward"
+msgstr "İleri"
 
-msgid   "Alt+Right"
-msgstr  "Alt+Sağ"
+#: src/icehelp.cc:715
+msgid "Alt+Right"
+msgstr "Alt+Sağ"
 
-msgid   "Previous"
-msgstr  "Önceki"
+#: src/icehelp.cc:717
+msgid "Previous"
+msgstr "Önceki"
 
-msgid   "Next"
-msgstr  "Sonraki"
+#: src/icehelp.cc:718
+msgid "Next"
+msgstr "Sonraki"
 
-msgid   "Contents"
-msgstr  "İçindekiler"
+#: src/icehelp.cc:720
+msgid "Contents"
+msgstr "İçindekiler"
 
-msgid   "Index"
-msgstr  "Indeks"
+#: src/icehelp.cc:721
+msgid "Index"
+msgstr "Indeks"
 
-#. fCloseButton->setWinGravity(NorthEastGravity);
-msgid   "Close"
-msgstr  "Kapat"
+#: src/icehelp.cc:723 src/icesame.cc:63 src/iceview.cc:76 src/wmframe.cc:181
+msgid "Close"
+msgstr "Kapat"
 
-msgid   "Ctrl+Q"
-msgstr  "Ctrl+Q"
+#: src/icehelp.cc:723 src/icesame.cc:63 src/iceview.cc:76
+msgid "Ctrl+Q"
+msgstr "Ctrl+Q"
 
+#: src/icehelp.cc:1326
 #, c-format
-msgid   "Usage: %s FILENAME\n"
-        "\n"
-        "A very simple HTML browser displaying the document specified by "
-        "FILENAME.\n"
-        "\n"
-msgstr  "Kullanım: %s DOSYADI\n"
-        "\n"
-        "DOSYAADI olarak belirtilen dokümanı görüntüleyen için basit bir HTML "
-        "göstericisi.\n"
-        "\n"
+msgid ""
+"Usage: %s FILENAME\n"
+"\n"
+"A very simple HTML browser displaying the document specified by FILENAME.\n"
+"\n"
+msgstr ""
+"Kullanım: %s DOSYADI\n"
+"\n"
+"DOSYAADI olarak belirtilen dokümanı görüntüleyen için basit bir HTML "
+"göstericisi.\n"
+"\n"
 
+#: src/icehelp.cc:1336
 #, c-format
-msgid   "Invalid path: %s\n"
-msgstr  "Hatalı yol: %s\n"
+msgid "Invalid path: %s\n"
+msgstr "Hatalı yol: %s\n"
 
-msgid   "Invalid path: "
-msgstr  "Hatalı yol: "
+#: src/icehelp.cc:1341
+msgid "Invalid path: "
+msgstr "Hatalı yol: "
 
-msgid   "List View"
-msgstr  "Liste Görünümü"
+#: src/icelist.cc:84
+msgid "List View"
+msgstr "Liste Görünümü"
 
-msgid   "Icon View"
-msgstr  "Simge Görünümü"
+#: src/icelist.cc:85
+msgid "Icon View"
+msgstr "Simge Görünümü"
 
-msgid   "Open"
-msgstr  "Aç"
+#: src/icelist.cc:89
+msgid "Open"
+msgstr "Aç"
 
-msgid   "Undo"
-msgstr  "Gerial"
+#: src/icesame.cc:58
+msgid "Undo"
+msgstr "Gerial"
 
-msgid   "Ctrl+Z"
-msgstr  "Ctrl+Z"
+#: src/icesame.cc:58
+msgid "Ctrl+Z"
+msgstr "Ctrl+Z"
 
-msgid   "New"
-msgstr  "Yeni"
+#: src/icesame.cc:60
+msgid "New"
+msgstr "Yeni"
 
-msgid   "Ctrl+N"
-msgstr  "Ctrl+N"
+#: src/icesame.cc:60
+msgid "Ctrl+N"
+msgstr "Ctrl+N"
 
-msgid   "Restart"
-msgstr  "Yeniden Başlat"
+#: src/icesame.cc:61
+msgid "Restart"
+msgstr "Yeniden Başlat"
 
-msgid   "Ctrl+R"
-msgstr  "Ctrl+R"
+#: src/icesame.cc:61
+msgid "Ctrl+R"
+msgstr "Ctrl+R"
 
-#. !!! fix
-msgid   "Same Game"
-msgstr  "Same Game"
+#: src/icesame.cc:66
+msgid "Same Game"
+msgstr "Same Game"
 
-#. ****************************************************************************
-#. ****************************************************************************
+#: src/icesh.cc:187
 #, c-format
-msgid   "Action `%s' requires at least %d arguments."
-msgstr  "«%s» işlemi en az %d argüman gerektirir."
+msgid "Action `%s' requires at least %d arguments."
+msgstr "«%s» işlemi en az %d argüman gerektirir."
 
+#: src/icesh.cc:194
 #, c-format
-msgid   "Invalid expression: `%s'"
-msgstr  "Hatalı ifade: «%s»"
+msgid "Invalid expression: `%s'"
+msgstr "Hatalı ifade: «%s»"
 
+#: src/icesh.cc:316
 #, c-format
-msgid   "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
-msgstr  "Domain'in adlandırılmış sembolleri  «%s» (numerik aralık %ld-%ld):\n"
+msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
+msgstr "Domain'in adlandırılmış sembolleri  «%s» (numerik aralık %ld-%ld):\n"
 
+#: src/icesh.cc:429
 #, c-format
-msgid   "Invalid workspace name: `%s'"
-msgstr  "Hatalı çalışma alanı adı: «%s»"
+msgid "Invalid workspace name: `%s'"
+msgstr "Hatalı çalışma alanı adı: «%s»"
 
+#: src/icesh.cc:435
 #, c-format
-msgid   "Workspace out of range: %d"
-msgstr  "Çalışma alanı limit dışında: %d"
+msgid "Workspace out of range: %d"
+msgstr "Çalışma alanı limit dışında: %d"
 
+#: src/icesh.cc:569
 #, fuzzy, c-format
-msgid   "Usage: %s [OPTIONS] ACTIONS\n"
-        "\n"
-        "Options:\n"
-        "  -display DISPLAY            Connects to the X server specified by "
-        "DISPLAY.\n"
-        "                              Default: $DISPLAY or :0.0 when not "
-        "set.\n"
-        "  -window WINDOW_ID           Specifies the window to manipulate. "
-        "Special\n"
-        "                              identifiers are `root' for the root "
-        "window and\n"
-        "                              `focus' for the currently focused "
-        "window.\n"
-        "  -class WM_CLASS             Window management class of the window"
-        "(s) to\n"
-        "                              manipulate. If WM_CLASS contains a "
-        "period, only\n"
-        "                              windows with exactly the same WM_CLASS "
-        "property\n"
-        "                              are matched. If there is no period, "
-        "windows of\n"
-        "                              the same class and windows of the same "
-        "instance\n"
-        "                              (aka. `-name') are selected.\n"
-        "\n"
-        "Actions:\n"
-        "  setIconTitle   TITLE        Set the icon title.\n"
-        "  setWindowTitle TITLE        Set the window title.\n"
-        "  setGeometry    geometry     Set the window geometry\n"
-        "  setState       MASK STATE   Set the GNOME window state to STATE.\n"
-        "                              Only the bits selected by MASK are "
-        "affected.\n"
-        "                              STATE and MASK are expressions of the "
-        "domain\n"
-        "                              `GNOME window state'.\n"
-        "  toggleState    STATE        Toggle the GNOME window state bits "
-        "specified by\n"
-        "                              the STATE expression.\n"
-        "  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
-        "  setLayer       LAYER        Moves the window to another GNOME "
-        "window layer.\n"
-        "  setWorkspace   WORKSPACE    Moves the window to another workspace. "
-        "Select\n"
-        "                              the root window to change the current "
-        "workspace.\n"
-        "  listWorkspaces              Lists the names of all workspaces.\n"
-        "  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
-        "\n"
-        "Expressions:\n"
-        "  Expressions are list of symbols of one domain concatenated by `+' "
-        "or `|':\n"
-        "\n"
-        "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
-        "\n"
-msgstr  "Kullanım: %s [SEÇENEKLER] İŞLEMLER\n"
-        "\n"
-        "Seçenekler:\n"
-        "  -display DISPLAY      DISPLAY'in belirttiği X Sunucusuna "
-        "bağlanır.\n"
-        "                        Varsayılan: $DISPLAY ya da "
-        "belirtilmemişse :0.0.\n"
-        "  -window WINDOW_ID     Değiştirilecek pencereyi belirtir. Özel "
-        "Belirteçler\n"
-        "                        kök pencere için «root» ve\n"
-        "\t\t\t      etkin pencere için «focus».\n"
-        "  -class WM_CLASS             Değiştirilecek pencereler için "
-        "Pencere\n"
-        "    \t    \t    \t      yönetim sınıfı. WM_CLASS nokta iceriyorsa, "
-        "sadece\n"
-        "    \t    \t              WM_CLASS özelliği tam olarak uyuşan "
-        "pencereler\n"
-        "\t\t\t      seçilir. Nokta yoksa, aynı sınıfın pencereleri ve aynı "
-        "örneğin\n"
-        "\t\t\t      pencereleri (aka. -name) seçilir.\n"
-        "\n"
-        "İşlemler:\n"
-        "  setIconTitle   TITLE        Simge başlığını belirler.\n"
-        "  setWindowTitle TITLE        Pencere başlığını belirler.\n"
-        "  setGeometry    geometry     Pencere geometrisini belirler.\n"
-        "  setState       MASK STATE   GNOME window durumunu STATE olarak "
-        "ayarlar.\n"
-        "  \t\t\t      Sadece MASK'ın belirlediği bitler etkilenir.\n"
-        "                        STATE ve MASK, «GNOME pencere durumu»\n"
-        "                        Domain'inin ifadeleridir.\n"
-        "  toggleState    STATE        GNOME pencere durumu bitlerini STATE "
-        "ifadesine\n"
-        "                              göre değiştirir.\n"
-        "  setHints       HINTS        GNOME pencere ipuçlarını HINTS olarak "
-        "ayarlar.\n"
-        "  setLayer       LAYER        Pencereyi başka bir GNOME pencere "
-        "katmanına taşır.\n"
-        "  setWorkspace   WORKSPACE    Pencereyi başka bir çalışma alanına "
-        "taşır. Etkin\n"
-        "\t\t\t        Çalışma alanını değiştirmek için kök pencereyi seçin.\n"
-        "  listWorkspaces  \t       Çalışma alanlarının isimlerini listeler\n"
-        "  setTrayOption  TRAYOPTION   IceWM tray seçeneği ipucunu belirler.\n"
-        "\n"
-        "İfadeler:\n"
-        "  İfadeler, bir domaindeki «+» ya da «|» kullanılarak birleştirilmiş "
-        "sembollerin listesidir.\n"
-        "\n"
-        "  ESPRESSION ::= SYMBOL | ESPRESSION ( «+» | «|» ) SYMBOL\n"
-        "\n"
+msgid ""
+"Usage: %s [OPTIONS] ACTIONS\n"
+"\n"
+"Options:\n"
+"  -display DISPLAY            Connects to the X server specified by "
+"DISPLAY.\n"
+"                              Default: $DISPLAY or :0.0 when not set.\n"
+"  -window WINDOW_ID           Specifies the window to manipulate. Special\n"
+"                              identifiers are `root' for the root window "
+"and\n"
+"                              `focus' for the currently focused window.\n"
+"  -class WM_CLASS             Window management class of the window(s) to\n"
+"                              manipulate. If WM_CLASS contains a period, "
+"only\n"
+"                              windows with exactly the same WM_CLASS "
+"property\n"
+"                              are matched. If there is no period, windows "
+"of\n"
+"                              the same class and windows of the same "
+"instance\n"
+"                              (aka. `-name') are selected.\n"
+"\n"
+"Actions:\n"
+"  setIconTitle   TITLE        Set the icon title.\n"
+"  setWindowTitle TITLE        Set the window title.\n"
+"  setGeometry    geometry     Set the window geometry\n"
+"  setState       MASK STATE   Set the GNOME window state to STATE.\n"
+"                              Only the bits selected by MASK are affected.\n"
+"                              STATE and MASK are expressions of the domain\n"
+"                              `GNOME window state'.\n"
+"  toggleState    STATE        Toggle the GNOME window state bits specified "
+"by\n"
+"                              the STATE expression.\n"
+"  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
+"  setLayer       LAYER        Moves the window to another GNOME window "
+"layer.\n"
+"  setWorkspace   WORKSPACE    Moves the window to another workspace. Select\n"
+"                              the root window to change the current "
+"workspace.\n"
+"  listWorkspaces              Lists the names of all workspaces.\n"
+"  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
+"\n"
+"Expressions:\n"
+"  Expressions are list of symbols of one domain concatenated by `+' or `|':\n"
+"\n"
+"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
+"\n"
+msgstr ""
+"Kullanım: %s [SEÇENEKLER] İŞLEMLER\n"
+"\n"
+"Seçenekler:\n"
+"  -display DISPLAY      DISPLAY'in belirttiği X Sunucusuna bağlanır.\n"
+"                        Varsayılan: $DISPLAY ya da belirtilmemişse :0.0.\n"
+"  -window WINDOW_ID     Değiştirilecek pencereyi belirtir. Özel Belirteçler\n"
+"                        kök pencere için «root» ve\n"
+"\t\t\t      etkin pencere için «focus».\n"
+"  -class WM_CLASS             Değiştirilecek pencereler için Pencere\n"
+"    \t    \t    \t      yönetim sınıfı. WM_CLASS nokta iceriyorsa, sadece\n"
+"    \t    \t              WM_CLASS özelliği tam olarak uyuşan pencereler\n"
+"\t\t\t      seçilir. Nokta yoksa, aynı sınıfın pencereleri ve aynı örneğin\n"
+"\t\t\t      pencereleri (aka. -name) seçilir.\n"
+"\n"
+"İşlemler:\n"
+"  setIconTitle   TITLE        Simge başlığını belirler.\n"
+"  setWindowTitle TITLE        Pencere başlığını belirler.\n"
+"  setGeometry    geometry     Pencere geometrisini belirler.\n"
+"  setState       MASK STATE   GNOME window durumunu STATE olarak ayarlar.\n"
+"  \t\t\t      Sadece MASK'ın belirlediği bitler etkilenir.\n"
+"                        STATE ve MASK, «GNOME pencere durumu»\n"
+"                        Domain'inin ifadeleridir.\n"
+"  toggleState    STATE        GNOME pencere durumu bitlerini STATE "
+"ifadesine\n"
+"                              göre değiştirir.\n"
+"  setHints       HINTS        GNOME pencere ipuçlarını HINTS olarak "
+"ayarlar.\n"
+"  setLayer       LAYER        Pencereyi başka bir GNOME pencere katmanına "
+"taşır.\n"
+"  setWorkspace   WORKSPACE    Pencereyi başka bir çalışma alanına taşır. "
+"Etkin\n"
+"\t\t\t        Çalışma alanını değiştirmek için kök pencereyi seçin.\n"
+"  listWorkspaces  \t       Çalışma alanlarının isimlerini listeler\n"
+"  setTrayOption  TRAYOPTION   IceWM tray seçeneği ipucunu belirler.\n"
+"\n"
+"İfadeler:\n"
+"  İfadeler, bir domaindeki «+» ya da «|» kullanılarak birleştirilmiş "
+"sembollerin listesidir.\n"
+"\n"
+"  ESPRESSION ::= SYMBOL | ESPRESSION ( «+» | «|» ) SYMBOL\n"
+"\n"
 
-msgid   "GNOME window state"
-msgstr  "GNOME pencere durumu"
+#: src/icesh.cc:608
+msgid "GNOME window state"
+msgstr "GNOME pencere durumu"
 
-msgid   "GNOME window hint"
-msgstr  "GNOME pencere ipucu"
+#: src/icesh.cc:609
+msgid "GNOME window hint"
+msgstr "GNOME pencere ipucu"
 
-msgid   "GNOME window layer"
-msgstr  "GNOME pencere katmanı"
+#: src/icesh.cc:610
+msgid "GNOME window layer"
+msgstr "GNOME pencere katmanı"
 
-msgid   "IceWM tray option"
-msgstr  "IceWM tray seçeneği"
+#: src/icesh.cc:611
+msgid "IceWM tray option"
+msgstr "IceWM tray seçeneği"
 
-msgid   "Usage error: "
-msgstr  "Kullanım Hatası: "
+#: src/icesh.cc:616
+msgid "Usage error: "
+msgstr "Kullanım Hatası: "
 
+#: src/icesh.cc:687
 #, c-format
-msgid   "Invalid argument: `%s'."
-msgstr  "Hatalı argüman: «%s»."
+msgid "Invalid argument: `%s'."
+msgstr "Hatalı argüman: «%s»."
 
-msgid   "No actions specified."
-msgstr  "İşlem belirtilmedi."
+#: src/icesh.cc:696
+msgid "No actions specified."
+msgstr "İşlem belirtilmedi."
 
-#. ====== connect to X11 ===
+#: src/icesh.cc:703 src/icesound.cc:1048 src/icewmhint.cc:74 src/yxapp.cc:971
 #, c-format
-msgid   "Can't open display: %s. X must be running and $DISPLAY set."
-msgstr  "Display açılamıyor: %s. X çalışıyor ve $DISPLAY ayarlanmış olmalı"
+msgid "Can't open display: %s. X must be running and $DISPLAY set."
+msgstr "Display açılamıyor: %s. X çalışıyor ve $DISPLAY ayarlanmış olmalı"
 
+#: src/icesh.cc:743
 #, c-format
-msgid   "Invalid window identifier: `%s'"
-msgstr  "Hatalı pencere belirteci: «%s»"
+msgid "Invalid window identifier: `%s'"
+msgstr "Hatalı pencere belirteci: «%s»"
 
+#: src/icesh.cc:896
 #, c-format
-msgid   "workspace #%d: `%s'\n"
-msgstr  "çalışma alanı #%d: «%s»\n"
+msgid "workspace #%d: `%s'\n"
+msgstr "çalışma alanı #%d: «%s»\n"
 
+#: src/icesh.cc:914
 #, c-format
-msgid   "Unknown action: `%s'"
-msgstr  "Bilinmeyen işlem: «%s»"
+msgid "Unknown action: `%s'"
+msgstr "Bilinmeyen işlem: «%s»"
 
+#: src/iceskt.cc:36
 #, c-format
-msgid   "Socket error: %d"
-msgstr  "Soket Hatası: %d"
+msgid "Socket error: %d"
+msgstr "Soket Hatası: %d"
 
+#: src/icesound.cc:256 src/icesound.cc:424 src/icesound.cc:790
 #, c-format
-msgid   "Playing sample #%d (%s)"
-msgstr  "Örnek çalınıyor,  #%d (%s)"
+msgid "Playing sample #%d (%s)"
+msgstr "Örnek çalınıyor,  #%d (%s)"
 
+#: src/icesound.cc:466
 #, c-format
-msgid   "No such device: %s"
-msgstr  "Cihaz bulunamadı: %s"
+msgid "No such device: %s"
+msgstr "Cihaz bulunamadı: %s"
 
+#: src/icesound.cc:559
 #, c-format
-msgid   "Can't connect to ESound daemon: %s"
-msgstr  "ESound daemon'una bağlanılamadı: %s"
+msgid "Can't connect to ESound daemon: %s"
+msgstr "ESound daemon'una bağlanılamadı: %s"
 
-msgid   "<none>"
-msgstr  "<yok>"
+#: src/icesound.cc:560 src/icesound.cc:737 src/icesound.cc:778
+#: src/icewmhint.cc:76 src/yxapp.cc:972
+msgid "<none>"
+msgstr "<yok>"
 
+#: src/icesound.cc:580
 #, c-format
-msgid   "Error <%d> while uploading `%s:%s'"
-msgstr  "«%s:%s» indirilirken hata oluştu: <%d>"
+msgid "Error <%d> while uploading `%s:%s'"
+msgstr "<%d>: «%s:%s» indirilirken hata oluştu"
 
+#: src/icesound.cc:586
 #, c-format
-msgid   "Sample <%d> uploaded as `%s:%s'"
-msgstr  "Örnek <%d> «%s:%s» olarak upload edildi"
+msgid "Sample <%d> uploaded as `%s:%s'"
+msgstr "Örnek <%d> «%s:%s» olarak upload edildi"
 
+#: src/icesound.cc:645
 #, c-format
-msgid   "Playing sample #%d"
-msgstr  "Örnek çalınıyor #%d"
+msgid "Playing sample #%d"
+msgstr "Örnek çalınıyor #%d"
 
+#: src/icesound.cc:736 src/icesound.cc:777
 #, c-format
-msgid   "Can't connect to YIFF server: %s"
-msgstr  "YIFF sunucusuna bağlanılamıyor: %s"
+msgid "Can't connect to YIFF server: %s"
+msgstr "YIFF sunucusuna bağlanılamıyor: %s"
 
+#: src/icesound.cc:742
 #, c-format
-msgid   "Can't change to audio mode `%s'."
-msgstr  "Ses moduna geçilemiyor «%s»."
+msgid "Can't change to audio mode `%s'."
+msgstr "Ses moduna geçilemiyor «%s»."
 
+#: src/icesound.cc:884
 #, c-format
-msgid   "Audio mode switch detected, initial audio mode `%s' no longer in "
-        "effect."
-msgstr  "Ses modu değişimi algılandı, önceki ses modu «%s» artık etkin değil."
+msgid ""
+"Audio mode switch detected, initial audio mode `%s' no longer in effect."
+msgstr "Ses modu değişimi algılandı, önceki ses modu «%s» artık etkin değil."
 
-msgid   "Audio mode switch detected, automatic audio mode changing disabled."
-msgstr  "Ses modu değişimi algılandı, otomatik ses modu değişimi devre dışı "
-        "bırakıldı."
+#: src/icesound.cc:891
+msgid "Audio mode switch detected, automatic audio mode changing disabled."
+msgstr ""
+"Ses modu değişimi algılandı, otomatik ses modu değişimi devre dışı bırakıldı."
 
+#: src/icesound.cc:937 src/icesound.cc:950
 #, c-format
-msgid   "Overriding previous audio mode `%s'."
-msgstr  "Önceki ses modu eziliyor «%s»."
+msgid "Overriding previous audio mode `%s'."
+msgstr "Önceki ses modu eziliyor «%s»."
 
+#: src/icesound.cc:976
 #, fuzzy, c-format
-msgid   "             Usage: %s [OPTION]...\n"
-        "             \n"
-        "             Plays audio files on GUI events raised by IceWM.\n"
-        "             \n"
-        "             Options:\n"
-        "             \n"
-        "             -d, --display=DISPLAY         Display used by IceWM "
-        "(default: $DISPLAY).\n"
-        "             -s, --sample-dir=DIR          Specifies the directory "
-        "which contains\n"
-        "             the sound files (ie ~/.icewm/sounds).\n"
-        "             -i, --interface=TARGET        Specifies the sound "
-        "output target\n"
-        "             interface, one of OSS, YIFF, ESD\n"
-        "             -D, --device=DEVICE           (OSS only) specifies the "
-        "digital signal\n"
-        "             processor (default /dev/dsp).\n"
-        "             -S, --server=ADDR:PORT     (ESD and YIFF) specifies "
-        "server address and\n"
-        "             port number (default localhost:16001 for ESD\n"
-        "             and localhost:9433 for YIFF).\n"
-        "             -m, --audio-mode[=MODE]       (YIFF only) specifies the "
-        "Audio mode (leave\n"
-        "             blank to get a list).\n"
-        "             --audio-mode-auto          (YIFF only) change Audio "
-        "mode on the fly to\n"
-        "             best match sample's Audio (can cause\n"
-        "             problems with other Y clients, overrides\n"
-        "             --audio-mode).\n"
-        "             \n"
-        "             -v, --verbose                 Be verbose (prints out "
-        "each sound event to\n"
-        "             stdout).\n"
-        "             -V, --version                 Prints version "
-        "information and exits.\n"
-        "             -h, --help                    Prints (this) help screen "
-        "and exits.\n"
-        "             \n"
-        "             Return values:\n"
-        "             \n"
-        "             0     Success.\n"
-        "             1     General error.\n"
-        "             2     Command line error.\n"
-        "             3     Subsystems error (ie cannot connect to server).\n"
-        "\n"
-msgstr  "Kullanım: %s [SEÇENEKLER]...\n"
-        "\n"
-        "IceWM'in kaldırdığı GUI olaylarında ses dosyaları çalar.\n"
-        "\n"
-        "Seçenekler:\n"
-        "  -d, --display=DISPLAY         Display used by IceWM (default: "
-        "$DISPLAY).\n"
-        "  -s, --sample-dir=DIR          Specifies the directory which "
-        "contains\n"
-        "                                the sound files (ie ~/.icewm/"
-        "sounds).\n"
-        "  -i, --interface=TARGET        Specifies the sound output target\n"
-        "                                interface, one of OSS, YIFF, ESD\n"
-        "  -D, --device=DEVICE           (OSS only) specifies the digital "
-        "signal\n"
-        "                                processor (default /dev/dsp).\n"
-        "  -S, --server=ADDR:PORT\t(ESD and YIFF) specifies server address "
-        "and\n"
-        "                                port number (default localhost:16001 "
-        "for ESD\n"
-        "\t\t\t\tand localhost:9433 for YIFF).\n"
-        "  -m, --audio-mode[=MODE]       (YIFF only) specifies the Audio mode "
-        "(leave\n"
-        "                                blank to get a list).\n"
-        "  --audio-mode-auto       \t(YIFF only) change Audio mode on the fly "
-        "to\n"
-        "                                best match sample's Audio (can "
-        "cause\n"
-        "                                problems with other Y clients, "
-        "overrides\n"
-        "                                --audio-mode).\n"
-        "\n"
-        "  -v, --verbose                 Be verbose (prints out each sound "
-        "event to\n"
-        "                                stdout).\n"
-        "  -V, --version                 Prints version information and "
-        "exits.\n"
-        "  -h, --help                    Prints (this) help screen and "
-        "exits.\n"
-        "\n"
-        "Return values:\n"
-        "\n"
-        "  0     Success.\n"
-        "  1     General error.\n"
-        "  2     Command line error.\n"
-        "  3     Subsystems error (ie cannot connect to server).\n"
-        "\n"
+msgid ""
+"Usage: %s [OPTION]...\n"
+"\n"
+"Plays audio files on GUI events raised by IceWM.\n"
+"\n"
+"Options:\n"
+"\n"
+"-d, --display=DISPLAY         Display used by IceWM (default: $DISPLAY).\n"
+"-s, --sample-dir=DIR          Specifies the directory which contains\n"
+"                              the sound files (ie ~/.icewm/sounds).\n"
+"-i, --interface=TARGET        Specifies the sound output target\n"
+"                              interface, one of OSS, YIFF, ESD, ALSA\n"
+"-D, --device=DEVICE           (ALSA & OSS only) specifies the device to use\n"
+"                              (OSS default: /dev/dsp; ALSA: default).\n"
+"-S, --server=ADDR:PORT        (ESD and YIFF) specifies server address and\n"
+"                              port number (default localhost:16001 for ESD\n"
+"                              and localhost:9433 for YIFF).\n"
+"-m, --audio-mode[=MODE]       (YIFF only) specifies the Audio mode (leave\n"
+"                              blank to get a list).\n"
+"--audio-mode-auto             (YIFF only) change Audio mode on the fly to\n"
+"                              best match sample's Audio (can cause\n"
+"                              problems with other Y clients, overrides\n"
+"                              --audio-mode).\n"
+"\n"
+"-v, --verbose                 Be verbose (prints out each sound event to\n"
+"                              stdout).\n"
+"-V, --version                 Prints version information and exits.\n"
+"-h, --help                    Prints (this) help screen and exits.\n"
+"\n"
+"Return values:\n"
+"\n"
+"0     Success.\n"
+"1     General error.\n"
+"2     Command line error.\n"
+"3     Subsystems error (ie cannot connect to server).\n"
+"\n"
+msgstr ""
+"Kullanım: %s [SEÇENEKLER]...\n"
+"\n"
+"IceWM'in kaldırdığı GUI olaylarında ses dosyaları çalar.\n"
+"\n"
+"Seçenekler:\n"
+"-d, --display=DISPLAY         Display used by IceWM (default: $DISPLAY).\n"
+"-s, --sample-dir=DIR          Specifies the directory which contains\n"
+"                              the sound files (ie ~/.icewm/sounds).\n"
+"-i, --interface=TARGET        Specifies the sound output target\n"
+"                              interface, one of OSS, YIFF, ESD, ALSA\n"
+"-D, --device=DEVICE           (ALSA & OSS only) specifies the device to use\n"
+"                              (OSS default: /dev/dsp; ALSA: default).\n"
+"-S, --server=ADDR:PORT        (ESD and YIFF) specifies server address and\n"
+"                              port number (default localhost:16001 for ESD\n"
+"                              and localhost:9433 for YIFF).\n"
+"-m, --audio-mode[=MODE]       (YIFF only) specifies the Audio mode (leave\n"
+"                              blank to get a list).\n"
+"--audio-mode-auto             (YIFF only) change Audio mode on the fly to\n"
+"                              best match sample's Audio (can cause\n"
+"                              problems with other Y clients, overrides\n"
+"                              --audio-mode).\n"
+"\n"
+"-v, --verbose                 Be verbose (prints out each sound event to\n"
+"                              stdout).\n"
+"-V, --version                 Prints version information and exits.\n"
+"-h, --help                    Prints (this) help screen and exits.\n"
+"\n"
+"Return values:\n"
+"\n"
+"0     Success.\n"
+"1     General error.\n"
+"2     Command line error.\n"
+"3     Subsystems error (ie cannot connect to server).\n"
+"\n"
 
-msgid   "Multiple sound interfaces given."
-msgstr  "Birden çok ses arabirimi verildi."
+#: src/icesound.cc:1173
+msgid "Multiple sound interfaces given."
+msgstr "Birden çok ses arabirimi verildi."
 
+#: src/icesound.cc:1185 src/icesound.cc:1197 src/icesound.cc:1210
 #, c-format
-msgid   "Support for the %s interface not compiled."
-msgstr  "%s arabirimi desteği derlenmedi."
+msgid "Support for the %s interface not compiled."
+msgstr "%s arabirimi desteği derlenmedi."
 
+#: src/icesound.cc:1214
 #, c-format
-msgid   "Unsupported interface: %s."
-msgstr  "Desteklenmeyen arabirim: %s."
+msgid "Unsupported interface: %s."
+msgstr "Desteklenmeyen arabirim: %s."
 
+#: src/icesound.cc:1231
 #, c-format
-msgid   "Received signal %d: Terminating..."
-msgstr  "Alınan sinyal %d: öldürülüyor..."
+msgid "Received signal %d: Terminating..."
+msgstr "Alınan sinyal %d: öldürülüyor..."
 
+#: src/icesound.cc:1240
 #, c-format
-msgid   "Received signal %d: Reloading samples..."
-msgstr  "Alınan sinyal %d: Örnekler tekrar yükleniyor..."
+msgid "Received signal %d: Reloading samples..."
+msgstr "Alınan sinyal %d: Örnekler tekrar yükleniyor..."
 
-msgid   "Hex View"
-msgstr  "Hex Görünümü"
+#: src/iceview.cc:72
+msgid "Hex View"
+msgstr "Hex Görünümü"
 
-msgid   "Ctrl+H"
-msgstr  "Ctrl+H"
+#: src/iceview.cc:72
+msgid "Ctrl+H"
+msgstr "Ctrl+H"
 
-msgid   "Expand Tabs"
-msgstr  "Tabları Genişlet"
+#: src/iceview.cc:73
+msgid "Expand Tabs"
+msgstr "Tabları Genişlet"
 
-msgid   "Ctrl+T"
-msgstr  "Ctrl+T"
+#: src/iceview.cc:73
+msgid "Ctrl+T"
+msgstr "Ctrl+T"
 
-msgid   "Wrap Lines"
-msgstr  "Satırları Kaydır"
+#: src/iceview.cc:74
+msgid "Wrap Lines"
+msgstr "Satırları Kaydır"
 
-msgid   "Ctrl+W"
-msgstr  "Ctrl+W"
+#: src/iceview.cc:74
+msgid "Ctrl+W"
+msgstr "Ctrl+W"
 
+#: src/icewmbg.cc:408
 #, fuzzy
-msgid   "Usage: icewmbg [ -r | -q ]\n"
-        " -r  Restart icewmbg\n"
-        " -q  Quit icewmbg\n"
-        "Loads desktop background according to preferences file\n"
-        " DesktopBackgroundCenter  - Display desktop background centered, not "
-        "tiled\n"
-        " SupportSemitransparency  - Support for semitransparent terminals\n"
-        " DesktopBackgroundColor   - Desktop background color\n"
-        " DesktopBackgroundImage   - Desktop background image\n"
-        " DesktopTransparencyColor - Color to announce for semi-transparent "
-        "windows\n"
-        " DesktopTransparencyImage - Image to announce for semi-transparent "
-        "windows\n"
-msgstr  "Kullanım: icewmbg\n"
-        "Tercihler dosyasına göre masaüstü arkaplanını yükler\n"
-        " DesktopBackgroundCenter  - Masaüstü arkaplanını yayılmış değil "
-        "ortalanmış olarak görüntüler\n"
-        " SupportSemitransparency  - Yarı saydam terminal desteği\n"
-        " DesktopBackgroundColor   - Masaüstü arkaplan rengi\n"
-        " DesktopBackgroundImage   - Masaüstü arkaplan resmi\n"
-        " DesktopTransparencyColor - Yarı saydam pencereler için duyurulacak "
-        "renk\n"
-        " DesktopTransparencyImage - Yarı saydam pencereler için duyurulacak "
-        "resim\n"
+msgid ""
+"Usage: icewmbg [ -r | -q ]\n"
+" -r  Restart icewmbg\n"
+" -q  Quit icewmbg\n"
+"Loads desktop background according to preferences file\n"
+" DesktopBackgroundCenter  - Display desktop background centered\n"
+" DesktopBackgroundScaled  - Display desktop background scaled\n"
+" SupportSemitransparency  - Support for semitransparent terminals\n"
+" DesktopBackgroundColor   - Desktop background color\n"
+" DesktopBackgroundImage   - Desktop background image\n"
+" DesktopTransparencyColor - Color to announce for semi-transparent windows\n"
+" DesktopTransparencyImage - Image to announce for semi-transparent windows\n"
+"\n"
+" center:0 scaled:0 = tiled\n"
+" center:1 scaled:1 = keep aspect ratio\n"
+msgstr ""
+"Kullanım: icewmbg\n"
+"Tercihler dosyasına göre masaüstü arkaplanını yükler\n"
+" DesktopBackgroundCenter  - Masaüstü arkaplanını yayılmış değil ortalanmış "
+"olarak görüntüler\n"
+" SupportSemitransparency  - Yarı saydam terminal desteği\n"
+" DesktopBackgroundColor   - Masaüstü arkaplan rengi\n"
+" DesktopBackgroundImage   - Masaüstü arkaplan resmi\n"
+" DesktopTransparencyColor - Yarı saydam pencereler için duyurulacak renk\n"
+" DesktopTransparencyImage - Yarı saydam pencereler için duyurulacak resim\n"
 
+#: src/icewmbg.cc:426
 #, c-format
-msgid   "%s: unrecognized option `%s'\n"
-        "Try `%s --help' for more information.\n"
-msgstr  "%s: tanınmayan seçenek «%s»\n"
-        "Daha fazla bilgi için «%s --help» deneyin.\n"
+msgid ""
+"%s: unrecognized option `%s'\n"
+"Try `%s --help' for more information.\n"
+msgstr ""
+"%s: tanınmayan seçenek «%s»\n"
+"Daha fazla bilgi için «%s --help» deneyin.\n"
 
+#: src/icewmbg.cc:554
 #, c-format
-msgid   "Loading image %s failed"
-msgstr  "%s remi yüklenirken hata oluştu"
+msgid "Loading image %s failed"
+msgstr "%s remi yüklenirken hata oluştu"
 
+#: src/icewmbg.cc:568 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
 #, c-format
-msgid   "Loading of pixmap \"%s\" failed: %s"
-msgstr  "«%s» pixmap'i yüklenirken hata oluştu: %s"
+msgid "Loading of pixmap \"%s\" failed: %s"
+msgstr "«%s» pixmap'i yüklenirken hata oluştu: %s"
 
-msgid   "Usage: icewmhint [class.instance] option arg\n"
-msgstr  "Kullanım: icewmhint [class.instance] seçenek arg\n"
+#: src/icewmhint.cc:47
+msgid "Usage: icewmhint [class.instance] option arg\n"
+msgstr "Kullanım: icewmhint [class.instance] seçenek arg\n"
 
+#: src/icewmhint.cc:63
 #, c-format
-msgid   "Out of memory (len=%d)."
-msgstr  "Yetersiz hafıza (len=%d)."
+msgid "Out of memory (len=%d)."
+msgstr "Yetersiz hafıza (len=%d)."
 
-msgid   "Warning: "
-msgstr  "Uyarı: "
+#: src/misc.cc:326
+msgid "Warning: "
+msgstr "Uyarı: "
 
+#: src/movesize.cc:903
 #, c-format
-msgid   "Unknown direction in move/resize request: %d"
-msgstr  "Taşıma/boyutlandırma isteğinde bilimeyen yön: %d"
+msgid "Unknown direction in move/resize request: %d"
+msgstr "Taşıma/boyutlandırma isteğinde bilimeyen yön: %d"
 
-msgid   "Default"
-msgstr  "Varsayılan"
+#: src/themes.cc:99
+msgid "Default"
+msgstr "Varsayılan"
 
-msgid   "(C)"
-msgstr  "@"
+#: src/wmabout.cc:29 src/wmabout.cc:31
+msgid "(C)"
+msgstr "@"
 
-msgid   "Theme:"
-msgstr  "Tema:"
+#: src/wmabout.cc:37
+msgid "Theme:"
+msgstr "Tema:"
 
-msgid   "Theme Description:"
-msgstr  "Tema Açıklaması:"
+#: src/wmabout.cc:38
+msgid "Theme Description:"
+msgstr "Tema Açıklaması:"
 
-msgid   "Theme Author:"
-msgstr  "Tema Yazarı:"
+#: src/wmabout.cc:39
+msgid "Theme Author:"
+msgstr "Tema Yazarı:"
 
-msgid   "CodeSet:"
-msgstr  ""
+#: src/wmabout.cc:43
+msgid "CodeSet:"
+msgstr ""
 
-msgid   "Language:"
-msgstr  ""
+#: src/wmabout.cc:44
+msgid "Language:"
+msgstr ""
 
-msgid   "icewm - About"
-msgstr  "icewm - Hakkında"
+#: src/wmabout.cc:69
+msgid "icewm - About"
+msgstr "icewm - Hakkında"
 
-msgid   "Unable to get current font path."
-msgstr  "Etkin font yolu bulunamıyor."
+#: src/wmapp.cc:435
+msgid "Unable to get current font path."
+msgstr "Etkin font yolu bulunamıyor."
 
-msgid   "Unexpected format of ICEWM_FONT_PATH property"
-msgstr  "ICEWM_FONT_PATH özellği için beklenmeyen biçim"
+#: src/wmapp.cc:462
+msgid "Unexpected format of ICEWM_FONT_PATH property"
+msgstr "ICEWM_FONT_PATH özellği için beklenmeyen biçim"
 
+#: src/wmapp.cc:516
 #, c-format
-msgid   "Multiple references for gradient \"%s\""
-msgstr  "Gradient için birden çok referans «%s»"
+msgid "Multiple references for gradient \"%s\""
+msgstr "Gradient için birden çok referans «%s»"
 
+#: src/wmapp.cc:591
 #, c-format
-msgid   "Unknown gradient name: %s"
-msgstr  "Bilinmeyen gradient adı: %s"
+msgid "Unknown gradient name: %s"
+msgstr "Bilinmeyen gradient adı: %s"
 
-msgid   "_Logout"
-msgstr  "_Oturumu Kapat"
+#: src/wmapp.cc:847
+msgid "_Logout"
+msgstr "_Oturumu Kapat"
 
-msgid   "_Cancel logout"
-msgstr  "O_turum kapatmayı iptal et"
+#: src/wmapp.cc:848
+msgid "_Cancel logout"
+msgstr "O_turum kapatmayı iptal et"
 
-msgid   "Lock _Workstation"
-msgstr  "_Bilgisayarı Kitle"
+#: src/wmapp.cc:860
+msgid "Lock _Workstation"
+msgstr "_Bilgisayarı Kitle"
 
-msgid   "Re_boot"
-msgstr  "Bilgi_sayarı Yeniden Başlat"
+#: src/wmapp.cc:862 src/wmdialog.cc:111
+msgid "Re_boot"
+msgstr "Bilgi_sayarı Yeniden Başlat"
 
-msgid   "Shut_down"
-msgstr  "Bilgisa_yarı Kapat"
+#: src/wmapp.cc:864 src/wmdialog.cc:118
+msgid "Shut_down"
+msgstr "Bilgisa_yarı Kapat"
 
-msgid   "Restart _Icewm"
-msgstr  "Icewm'i Yeniden Başlat"
+#: src/wmapp.cc:868
+msgid "Restart _Icewm"
+msgstr "Icewm'i Yeniden Başlat"
 
-msgid   "Restart _Xterm"
-msgstr  "Xterm'i Yeniden Başlat"
+#: src/wmapp.cc:871
+msgid "Restart _Xterm"
+msgstr "Xterm'i Yeniden Başlat"
 
-msgid   "_Menu"
-msgstr  "_Menü"
+#: src/wmapp.cc:886
+msgid "_Menu"
+msgstr "_Menü"
 
-msgid   "_Above Dock"
-msgstr  "_En üstte"
+#: src/wmapp.cc:887
+msgid "_Above Dock"
+msgstr "_En üstte"
 
-msgid   "_Dock"
-msgstr  "_Daha üstte"
+#: src/wmapp.cc:888
+msgid "_Dock"
+msgstr "_Daha üstte"
 
-msgid   "_OnTop"
-msgstr  "Üs_tte"
+#: src/wmapp.cc:889
+msgid "_OnTop"
+msgstr "Üs_tte"
 
-msgid   "_Normal"
-msgstr  "_Normal"
+#: src/wmapp.cc:890
+msgid "_Normal"
+msgstr "_Normal"
 
-msgid   "_Below"
-msgstr  "_Altta"
+#: src/wmapp.cc:891
+msgid "_Below"
+msgstr "_Altta"
 
-msgid   "D_esktop"
-msgstr  "Ma_saüstü"
+#: src/wmapp.cc:892
+msgid "D_esktop"
+msgstr "Ma_saüstü"
 
-msgid   "_Restore"
-msgstr  "_Eski haline"
+#: src/wmapp.cc:904
+msgid "_Restore"
+msgstr "_Eski haline"
 
-msgid   "_Move"
-msgstr  "_Taşı"
+#: src/wmapp.cc:906
+msgid "_Move"
+msgstr "_Taşı"
 
-msgid   "_Size"
-msgstr  "B_oyutlandır"
+#: src/wmapp.cc:908
+msgid "_Size"
+msgstr "B_oyutlandır"
 
-msgid   "Mi_nimize"
-msgstr  "_Küçült"
+#: src/wmapp.cc:910
+msgid "Mi_nimize"
+msgstr "_Küçült"
 
-msgid   "Ma_ximize"
-msgstr  "_Büyüt"
+#: src/wmapp.cc:912
+msgid "Ma_ximize"
+msgstr "_Büyüt"
 
-msgid   "_Fullscreen"
-msgstr  "Tam ek_ran"
+#: src/wmapp.cc:914
+msgid "_Fullscreen"
+msgstr "Tam ek_ran"
 
-msgid   "_Hide"
-msgstr  "G_izle"
+#: src/wmapp.cc:918 src/wmwinlist.cc:307
+msgid "_Hide"
+msgstr "G_izle"
 
-msgid   "Roll_up"
-msgstr  "_Sar"
+#: src/wmapp.cc:921
+msgid "Roll_up"
+msgstr "_Sar"
 
-msgid   "R_aise"
-msgstr  "Y_ukarı Kaldır"
+#: src/wmapp.cc:928
+msgid "R_aise"
+msgstr "Y_ukarı Kaldır"
 
-msgid   "_Lower"
-msgstr  "_Aşağı İndir"
+#: src/wmapp.cc:930
+msgid "_Lower"
+msgstr "_Aşağı İndir"
 
-msgid   "La_yer"
-msgstr  "Kat_man"
+#: src/wmapp.cc:932
+msgid "La_yer"
+msgstr "Kat_man"
 
-msgid   "Move _To"
-msgstr  "_Taşı"
+#: src/wmapp.cc:936 src/wmwinlist.cc:310
+msgid "Move _To"
+msgstr "_Taşı"
 
-msgid   "Occupy _All"
-msgstr  "_Hepsini Kapla"
+#: src/wmapp.cc:937
+msgid "Occupy _All"
+msgstr "_Hepsini Kapla"
 
-msgid   "Limit _Workarea"
-msgstr  "Çalışma alanını kısıtla"
+#: src/wmapp.cc:943
+msgid "Limit _Workarea"
+msgstr "Çalışma alanını kısıtla"
 
-msgid   "Tray _icon"
-msgstr  "_Tray'e küçült"
+#: src/wmapp.cc:948
+msgid "Tray _icon"
+msgstr "_Tray'e küçült"
 
-msgid   "_Close"
-msgstr  "Ka_pat"
+#: src/wmapp.cc:954 src/wmwinlist.cc:295 src/wmwinlist.cc:321
+msgid "_Close"
+msgstr "Ka_pat"
 
-msgid   "_Kill Client"
-msgstr  "_Istemciyi Öldür"
+#: src/wmapp.cc:956 src/wmwinlist.cc:297
+msgid "_Kill Client"
+msgstr "_Istemciyi Öldür"
 
-msgid   "_Window list"
-msgstr  "Pen_cere listesi"
+#: src/wmapp.cc:960 src/wmdialog.cc:132 src/wmwinmenu.cc:137
+msgid "_Window list"
+msgstr "Pen_cere listesi"
 
-msgid   "Another window manager already running, exiting..."
-msgstr  "Başka bir pencere yöneticisi zaten çalışıyor..."
+#: src/wmapp.cc:976
+msgid "Another window manager already running, exiting..."
+msgstr "Başka bir pencere yöneticisi zaten çalışıyor..."
 
+#: src/wmapp.cc:1042
 #, c-format
-msgid   "Could not restart: %s\n"
-        "Does $PATH lead to %s?"
-msgstr  "Yeniden başlatılamıyor: %s\n"
-        "$PATH, %s'i gösteriyor mu?"
+msgid ""
+"Could not restart: %s\n"
+"Does $PATH lead to %s?"
+msgstr ""
+"Yeniden başlatılamıyor: %s\n"
+"$PATH, %s'i gösteriyor mu?"
 
+#: src/wmapp.cc:1615
 #, fuzzy, c-format
-msgid   "Usage: %s [OPTIONS]\n"
-        "Starts the IceWM window manager.\n"
-        "\n"
-        "Options:\n"
-        "  --display=NAME      NAME of the X server to use.\n"
-        "%s  --sync              Synchronize X11 commands.\n"
-        "\n"
-        "  -c, --config=FILE   Load preferences from FILE.\n"
-        "  -t, --theme=FILE    Load theme from FILE.\n"
-        "  -n, --no-configure  Ignore preferences file.\n"
-        "\n"
-        "  -v, --version       Prints version information and exits.\n"
-        "  -h, --help          Prints this usage screen and exits.\n"
-        "%s  --replace           Replace an existing window manager.\n"
-        "  --restart           Don't use this: It's an internal flag.\n"
-        "\n"
-        "Environment variables:\n"
-        "  ICEWM_PRIVCFG=PATH  Directory to use for user private "
-        "configuration files,\n"
-        "                      \"$HOME/.icewm/\" by default.\n"
-        "  DISPLAY=NAME        Name of the X server to use, depends on Xlib "
-        "by default.\n"
-        "  MAIL=URL            Location of your mailbox. If the schema is "
-        "omitted\n"
-        "                      the local \"file\" schema is assumed.\n"
-        "\n"
-        "Visit http://www.icewm.org/ for report bugs, support requests, "
-        "comments...\n"
-msgstr  "Kullanım: %s [SEÇENEKLER]\n"
-        "IceWM pencere yöneticisini başlatır.\n"
-        "\n"
-        "Seçenekler:\n"
-        "  --display=NAME      bağlanılacak X sunucusunun adı.\n"
-        "%s  --sync              eşzamanlanacak X11 komutları.\n"
-        "\n"
-        "  -c, --config=FILE   FILE tercihler dosyasını kullan.\n"
-        "  -t, --theme=FILE    temayı FILE dosyasından yükle.\n"
-        "  -n, --no-configure  Tercihler dosyasını dikkate alma.\n"
-        "\n"
-        "  -v, --version       Versiyon bilgisini yazıp çıkar.\n"
-        "  -h, --help          Bu kullanım ekranını yazıp çıkar.\n"
-        "%s  --restart           Bunu kullanmayın: Bu bir iç seçenektir.\n"
-        "\n"
-        "Çevre Değişkenleri:\n"
-        "  ICEWM_PRIVCFG=PATH  Kullanıcıya özel ayarlar için kullanılacak "
-        "dizin,\n"
-        "                      Varsayılan olarak «$HOME/.icewm/».\n"
-        "  DISPLAY=NAME        Bağlanılacak X sunucusunun adı, Varsayılan "
-        "olarak Xlib'e bağlıdır.\n"
-        "  MAIL=URL            Posta kutusunun yeri. Şema belirtilmemişse "
-        "yerel\n"
-        "                      «file» şeması kullanılır.\n"
-        "\n"
-        "Hata raporları, destek talebi ve yorumlar için  http://www.icewm."
-        "org/ adresini ziyaret ediniz...\n"
+msgid ""
+"Usage: %s [OPTIONS]\n"
+"Starts the IceWM window manager.\n"
+"\n"
+"Options:\n"
+"  --display=NAME      NAME of the X server to use.\n"
+"%s  --sync              Synchronize X11 commands.\n"
+"\n"
+"  -c, --config=FILE   Load preferences from FILE.\n"
+"  -t, --theme=FILE    Load theme from FILE.\n"
+"  -n, --no-configure  Ignore preferences file.\n"
+"\n"
+"  -v, --version       Prints version information and exits.\n"
+"  -h, --help          Prints this usage screen and exits.\n"
+"%s  --replace           Replace an existing window manager.\n"
+"  --restart           Don't use this: It's an internal flag.\n"
+"\n"
+"Environment variables:\n"
+"  ICEWM_PRIVCFG=PATH  Directory to use for user private configuration "
+"files,\n"
+"                      \"$HOME/.icewm/\" by default.\n"
+"  DISPLAY=NAME        Name of the X server to use, depends on Xlib by "
+"default.\n"
+"  MAIL=URL            Location of your mailbox. If the schema is omitted\n"
+"                      the local \"file\" schema is assumed.\n"
+"\n"
+"Visit http://www.icewm.org/ for report bugs, support requests, comments...\n"
+msgstr ""
+"Kullanım: %s [SEÇENEKLER]\n"
+"IceWM pencere yöneticisini başlatır.\n"
+"\n"
+"Seçenekler:\n"
+"  --display=NAME      bağlanılacak X sunucusunun adı.\n"
+"%s  --sync              eşzamanlanacak X11 komutları.\n"
+"\n"
+"  -c, --config=FILE   FILE tercihler dosyasını kullan.\n"
+"  -t, --theme=FILE    temayı FILE dosyasından yükle.\n"
+"  -n, --no-configure  Tercihler dosyasını dikkate alma.\n"
+"\n"
+"  -v, --version       Versiyon bilgisini yazıp çıkar.\n"
+"  -h, --help          Bu kullanım ekranını yazıp çıkar.\n"
+"%s  --restart           Bunu kullanmayın: Bu bir iç seçenektir.\n"
+"\n"
+"Çevre Değişkenleri:\n"
+"  ICEWM_PRIVCFG=PATH  Kullanıcıya özel ayarlar için kullanılacak dizin,\n"
+"                      Varsayılan olarak «$HOME/.icewm/».\n"
+"  DISPLAY=NAME        Bağlanılacak X sunucusunun adı, Varsayılan olarak "
+"Xlib'e bağlıdır.\n"
+"  MAIL=URL            Posta kutusunun yeri. Şema belirtilmemişse yerel\n"
+"                      «file» şeması kullanılır.\n"
+"\n"
+"Hata raporları, destek talebi ve yorumlar için  http://www.icewm.org/ "
+"adresini ziyaret ediniz...\n"
 
-msgid   "Confirm Logout"
-msgstr  "Oturum Kapatma Onayı"
+#: src/wmapp.cc:1715
+msgid "Confirm Logout"
+msgstr "Oturum Kapatma Onayı"
 
-msgid   "Logout will close all active applications.\n"
-        "Proceed?"
-msgstr  "Oturumu kapatmak tüm aktif uygulamaların kapanmasına neden "
-        "olacaktır.\n"
-        "Emin misiniz?"
+#: src/wmapp.cc:1716
+msgid ""
+"Logout will close all active applications.\n"
+"Proceed?"
+msgstr ""
+"Oturumu kapatmak tüm aktif uygulamaların kapanmasına neden olacaktır.\n"
+"Emin misiniz?"
 
-msgid   "Bad Look name"
-msgstr  "Kötü Look adı"
+#: src/wmconfig.cc:116
+msgid "Bad Look name"
+msgstr "Kötü Look adı"
 
+#: src/wmdialog.cc:83
 #, fuzzy
-msgid   "Loc_k Workstation"
-msgstr  "_Bilgisayarı Kitle"
+msgid "Loc_k Workstation"
+msgstr "_Bilgisayarı Kitle"
 
-msgid   "_Logout..."
-msgstr  "_Oturumu Kapat..."
+#: src/wmdialog.cc:90 src/wmprog.cc:940 src/wmprog.cc:942 src/wmtaskbar.cc:434
+#: src/wmtaskbar.cc:436
+msgid "_Logout..."
+msgstr "_Oturumu Kapat..."
 
-msgid   "_Cancel"
-msgstr  "_Vazgeç"
+#: src/wmdialog.cc:97
+msgid "_Cancel"
+msgstr "_Vazgeç"
 
-msgid   "_Restart icewm"
-msgstr  "I_ceVM'i Yeniden Başlat"
+#: src/wmdialog.cc:104
+msgid "_Restart icewm"
+msgstr "I_ceVM'i Yeniden Başlat"
 
-msgid   "_About"
-msgstr  "_Hakkında"
+#: src/wmdialog.cc:125 src/wmprog.cc:878 src/wmtaskbar.cc:426
+#: src/wmtaskbar.cc:429
+msgid "_About"
+msgstr "_Hakkında"
 
-msgid   "Maximize"
-msgstr  "Büyüt"
+#: src/wmframe.cc:159 src/wmframe.cc:3398
+msgid "Maximize"
+msgstr "Büyüt"
 
-#. fMinimizeButton->setWinGravity(NorthEastGravity);
-msgid   "Minimize"
-msgstr  "Küçült"
+#: src/wmframe.cc:172
+msgid "Minimize"
+msgstr "Küçült"
 
-#. fHideButton->setWinGravity(NorthEastGravity);
-msgid   "Hide"
-msgstr  "Gizle"
+#: src/wmframe.cc:193
+msgid "Hide"
+msgstr "Gizle"
 
-#. fRollupButton->setWinGravity(NorthEastGravity);
-msgid   "Rollup"
-msgstr  "Sar"
+#: src/wmframe.cc:203 src/wmframe.cc:3431
+msgid "Rollup"
+msgstr "Sar"
 
-#. fDepthButton->setWinGravity(NorthEastGravity);
-msgid   "Raise/Lower"
-msgstr  "Kaldır/İndir"
+#: src/wmframe.cc:212
+msgid "Raise/Lower"
+msgstr "Kaldır/İndir"
 
-msgid   "Kill Client: "
-msgstr  "İstemciyi öldür: "
+#: src/wmframe.cc:1711
+msgid "Kill Client: "
+msgstr "İstemciyi öldür: "
 
-msgid   "WARNING! All unsaved changes will be lost when\n"
-        "this client is killed. Do you wish to proceed?"
-msgstr  "DİKKAT!! Bu istemci öldürüldüğünde tüm kaydedilmemiş\n"
-        "değişiklikler kaybedilecektir. Emin misiniz?"
+#: src/wmframe.cc:1715
+msgid ""
+"WARNING! All unsaved changes will be lost when\n"
+"this client is killed. Do you wish to proceed?"
+msgstr ""
+"DİKKAT!! Bu istemci öldürüldüğünde tüm kaydedilmemiş\n"
+"değişiklikler kaybedilecektir. Emin misiniz?"
 
-msgid   "Restore"
-msgstr  "Eski haline"
+#: src/wmframe.cc:3395
+msgid "Restore"
+msgstr "Eski haline"
 
-msgid   "Rolldown"
-msgstr  "Aşağı sar"
+#: src/wmframe.cc:3429
+msgid "Rolldown"
+msgstr "Aşağı sar"
 
+#: src/wmoption.cc:239
 #, c-format
-msgid   "Error in window option: %s"
-msgstr  "Pencere seçeneğinde hata: %s"
+msgid "Error in window option: %s"
+msgstr "Pencere seçeneğinde hata: %s"
 
+#: src/wmoption.cc:256
 #, c-format
-msgid   "Unknown window option: %s"
-msgstr  "Bilinmeyen pencere seşeneği: %s"
+msgid "Unknown window option: %s"
+msgstr "Bilinmeyen pencere seşeneği: %s"
 
-msgid   "Syntax error in window options"
-msgstr  "Pencere seçeneklerinde söz dizimi hatası"
+#: src/wmoption.cc:339
+msgid "Syntax error in window options"
+msgstr "Pencere seçeneklerinde söz dizimi hatası"
 
-msgid   "Out of memory for window options"
-msgstr  "Pencere seçenekleri için yetersiz hafıza"
+#: src/wmoption.cc:386
+msgid "Out of memory for window options"
+msgstr "Pencere seçenekleri için yetersiz hafıza"
 
-msgid   "Missing command argument"
-msgstr  "Eksik komut argümanı"
+#: src/wmprog.cc:191
+msgid "Missing command argument"
+msgstr "Eksik komut argümanı"
 
+#: src/wmprog.cc:209
 #, c-format
-msgid   "Bad argument %d"
-msgstr  "Kötü argüman %d"
+msgid "Bad argument %d"
+msgstr "Kötü argüman %d"
 
+#: src/wmprog.cc:295 src/wmprog.cc:399 src/wmprog.cc:441
 #, c-format
-msgid   "Error at prog %s"
-msgstr  "%s programında hata"
+msgid "Error at prog %s"
+msgstr "%s programında hata"
 
+#: src/wmprog.cc:350
 #, c-format
-msgid   "Unexepected keyword: %s"
-msgstr  "Beklenmeyen anahtar kelime: %s"
+msgid "Unexepected keyword: %s"
+msgstr "Beklenmeyen anahtar kelime: %s"
 
+#: src/wmprog.cc:489
 #, c-format
-msgid   "Error at key %s"
-msgstr  "%s anahtarında hata"
+msgid "Error at key %s"
+msgstr "%s anahtarında hata"
 
-#. /    if (programs->itemCount() > 0)
-msgid   "Programs"
-msgstr  "Programlar"
+#: src/wmprog.cc:842
+msgid "Programs"
+msgstr "Programlar"
 
-msgid   "_Run..."
-msgstr  "Çalıştır"
+#: src/wmprog.cc:847
+msgid "_Run..."
+msgstr "Çalıştır"
 
-msgid   "_Windows"
-msgstr  "P_encereler"
+#: src/wmprog.cc:854 src/wmtaskbar.cc:414
+msgid "_Windows"
+msgstr "P_encereler"
 
-msgid   "_Help"
-msgstr  "_Yardım"
+#: src/wmprog.cc:891
+msgid "_Help"
+msgstr "_Yardım"
 
-msgid   "_Click to focus"
-msgstr  ""
+#: src/wmprog.cc:909
+msgid "_Click to focus"
+msgstr ""
 
-msgid   "_Sloppy mouse focus"
-msgstr  ""
+#: src/wmprog.cc:914
+msgid "_Sloppy mouse focus"
+msgstr ""
 
-msgid   "Custo_m"
-msgstr  ""
+#: src/wmprog.cc:919
+msgid "Custo_m"
+msgstr ""
 
-msgid   "_Focus"
-msgstr  ""
+#: src/wmprog.cc:925
+msgid "_Focus"
+msgstr ""
 
-msgid   "_Themes"
-msgstr  "_Temalar"
+#: src/wmprog.cc:932
+msgid "_Themes"
+msgstr "_Temalar"
 
-msgid   "Se_ttings"
-msgstr  ""
+#: src/wmprog.cc:934
+msgid "Se_ttings"
+msgstr ""
 
+#: src/wmsession.cc:239 src/wmsession.cc:255 src/wmsession.cc:265
 #, c-format
-msgid   "Session Manager: Unknown line %s"
-msgstr  "Session Manager: Bilinmeyen satır %s"
+msgid "Session Manager: Unknown line %s"
+msgstr "Session Manager: Bilinmeyen satır %s"
 
-msgid   "Task Bar"
-msgstr  "Görev Çubuğu"
+#: src/wmtaskbar.cc:256 src/wmtaskbar.cc:257
+msgid "Task Bar"
+msgstr "Görev Çubuğu"
 
-msgid   "Tile _Vertically"
-msgstr  "D_ikey Döşe"
+#: src/wmtaskbar.cc:403 src/wmwinlist.cc:312 src/wmwinlist.cc:325
+msgid "Tile _Vertically"
+msgstr "D_ikey Döşe"
 
-msgid   "T_ile Horizontally"
-msgstr  "_Yatay Döşe"
+#: src/wmtaskbar.cc:404 src/wmwinlist.cc:313 src/wmwinlist.cc:326
+msgid "T_ile Horizontally"
+msgstr "_Yatay Döşe"
 
-msgid   "Ca_scade"
-msgstr  "_Basamakla"
+#: src/wmtaskbar.cc:405 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+msgid "Ca_scade"
+msgstr "_Basamakla"
 
-msgid   "_Arrange"
-msgstr  "_Düzenle"
+#: src/wmtaskbar.cc:406 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+msgid "_Arrange"
+msgstr "_Düzenle"
 
-msgid   "_Minimize All"
-msgstr  "_Hepsini Küçült"
+#: src/wmtaskbar.cc:407 src/wmwinlist.cc:317 src/wmwinlist.cc:329
+msgid "_Minimize All"
+msgstr "_Hepsini Küçült"
 
-msgid   "_Hide All"
-msgstr  "H_epsini gizle"
+#: src/wmtaskbar.cc:408 src/wmwinlist.cc:318 src/wmwinlist.cc:330
+msgid "_Hide All"
+msgstr "H_epsini gizle"
 
-msgid   "_Undo"
-msgstr  "Ge_rial"
+#: src/wmtaskbar.cc:409 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+msgid "_Undo"
+msgstr "Ge_rial"
 
-msgid   "Arrange _Icons"
-msgstr  "_Simgeleri Düzenle"
+#: src/wmtaskbar.cc:411
+msgid "Arrange _Icons"
+msgstr "_Simgeleri Düzenle"
 
-msgid   "_Refresh"
-msgstr  "Ye_nile"
+#: src/wmtaskbar.cc:417
+msgid "_Refresh"
+msgstr "Ye_nile"
 
-msgid   "_License"
-msgstr  "_Lisans"
+#: src/wmtaskbar.cc:424
+msgid "_License"
+msgstr "_Lisans"
 
-msgid   "Favorite applications"
-msgstr  "Favori uygulamalar"
+#: src/wmtaskbar.cc:545
+msgid "Favorite applications"
+msgstr "Favori uygulamalar"
 
-msgid   "Window list menu"
-msgstr  "Pencere listesi menüsü"
+#: src/wmtaskbar.cc:562
+msgid "Window list menu"
+msgstr "Pencere listesi menüsü"
 
+#: src/wmtaskbar.cc:571
 #, fuzzy
-msgid   "Show Desktop"
-msgstr  "Ma_saüstü"
+msgid "Show Desktop"
+msgstr "Ma_saüstü"
 
-msgid   "All Workspaces"
-msgstr  "Tüm Çalışma Alanları"
+#: src/wmwinlist.cc:61
+msgid "All Workspaces"
+msgstr "Tüm Çalışma Alanları"
 
-msgid   "Del"
-msgstr  "Del"
+#: src/wmwinlist.cc:295
+msgid "Del"
+msgstr "Del"
 
-msgid   "_Terminate Process"
-msgstr  "_Süreci Yoket"
+#: src/wmwinlist.cc:299
+msgid "_Terminate Process"
+msgstr "_Süreci Yoket"
 
-msgid   "Kill _Process"
-msgstr  "_Süreci Öldür"
+#: src/wmwinlist.cc:300
+msgid "Kill _Process"
+msgstr "_Süreci Öldür"
 
-msgid   "_Show"
-msgstr  "_Göster"
+#: src/wmwinlist.cc:305
+msgid "_Show"
+msgstr "_Göster"
 
-msgid   "_Minimize"
-msgstr  "_Küçült"
+#: src/wmwinlist.cc:309
+msgid "_Minimize"
+msgstr "_Küçült"
 
-msgid   "Window list"
-msgstr  "Pencere Listesi"
+#: src/wmwinlist.cc:342 src/wmwinlist.cc:343
+msgid "Window list"
+msgstr "Pencere Listesi"
 
+#: src/wmwinmenu.cc:127
 #, c-format
-msgid   "%lu. Workspace %-.32s"
-msgstr  "%lu. Çalışma Alanı %-.32s"
+msgid "%lu. Workspace %-.32s"
+msgstr "%lu. Çalışma Alanı %-.32s"
 
+#: src/yapp.cc:397
 #, c-format
-msgid   "Message Loop: select failed (errno=%d)"
-msgstr  "Mesaj Döngüsü: seçim hatası (errno=%d)"
+msgid "Message Loop: select failed (errno=%d)"
+msgstr "Mesaj Döngüsü: seçim hatası (errno=%d)"
 
+#: src/ycmdline.cc:43
 #, c-format
-msgid   "Unrecognized option: %s\n"
-msgstr  "Tanınmayan seçenek: %s\n"
+msgid "Unrecognized option: %s\n"
+msgstr "Tanınmayan seçenek: %s\n"
 
-#. pos
+#: src/ycmdline.cc:48
 #, c-format
-msgid   "Unrecognized argument: %s\n"
-msgstr  "Tanınamayan argüman: %s\n"
+msgid "Unrecognized argument: %s\n"
+msgstr "Tanınamayan argüman: %s\n"
 
+#: src/ycmdline.cc:64
 #, c-format
-msgid   "Argument required for %s switch"
-msgstr  "%s değişimi için argüman gerekli"
+msgid "Argument required for %s switch"
+msgstr "%s değişimi için argüman gerekli"
 
+#: src/yconfig.cc:186
 #, c-format
-msgid   "Unknown key name %s in %s"
-msgstr  "%s'te bilimeyen anahtar adı %s"
+msgid "Unknown key name %s in %s"
+msgstr "%s'te bilimeyen anahtar adı %s"
 
+#: src/yconfig.cc:211 src/yconfig.cc:224
 #, c-format
-msgid   "Bad argument: %s for %s"
-msgstr  "Kötü Argüman: %s için %s"
+msgid "Bad argument: %s for %s"
+msgstr "Kötü Argüman: %s için %s"
 
+#: src/yconfig.cc:259
 #, c-format
-msgid   "Bad option: %s"
-msgstr  "Kötü seçenek: %s"
+msgid "Bad option: %s"
+msgstr "Kötü seçenek: %s"
 
+#: src/ycursor.cc:127
 #, c-format
-msgid   "Loading of pixmap \"%s\" failed"
-msgstr  "«%s» pixmap'i yüklenemedi"
+msgid "Loading of pixmap \"%s\" failed"
+msgstr "«%s» pixmap'i yüklenemedi"
 
+#: src/ycursor.cc:160
 #, c-format
-msgid   "Invalid cursor pixmap: \"%s\" contains too much unique colors"
-msgstr  "Hatalı takipçi pixmap'i: «%s» çok fazla tekli renk içeriyor"
+msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
+msgstr "Hatalı takipçi pixmap'i: «%s» çok fazla tekli renk içeriyor"
 
+#: src/ycursor.cc:182
 #, c-format
-msgid   "BUG? Imlib was able to read \"%s\""
-msgstr  "BUG? Imlib okuyamıyor «%s»"
+msgid "BUG? Imlib was able to read \"%s\""
+msgstr "BUG? Imlib okuyamıyor «%s»"
 
+#: src/ycursor.cc:208
 #, c-format
-msgid   "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
-msgstr  "BUG? Hatalı XPM başlığı ancak Imlib parse edemedi «%s»"
+msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
+msgstr "BUG? Hatalı XPM başlığı ancak Imlib parse edemedi «%s»"
 
+#: src/ycursor.cc:216
 #, c-format
-msgid   "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
-msgstr  "BUG? Beklenmeyen XPM dosyası sonu ancak Imlib parse edemedi «%s»"
+msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
+msgstr "BUG? Beklenmeyen XPM dosyası sonu ancak Imlib parse edemedi «%s»"
 
+#: src/ycursor.cc:219
 #, c-format
-msgid   "BUG? Unexpected characted but Imlib was able to parse \"%s\""
-msgstr  "BUG? Beklenmeyen karakter ancak Imlib parse edemedi «%s»"
+msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
+msgstr "BUG? Beklenmeyen karakter ancak Imlib parse edemedi «%s»"
 
+#: src/yfontcore.cc:71 src/yfontxft.cc:125
 #, c-format
-msgid   "Could not load font \"%s\"."
-msgstr  "«%s» fontu yüklenemedi."
+msgid "Could not load font \"%s\"."
+msgstr "«%s» fontu yüklenemedi."
 
+#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:148
 #, c-format
-msgid   "Loading of fallback font \"%s\" failed."
-msgstr  "«%s» fallback fontu yüklenemedi."
+msgid "Loading of fallback font \"%s\" failed."
+msgstr "«%s» fallback fontu yüklenemedi."
 
+#: src/yfontcore.cc:114
 #, c-format
-msgid   "Could not load fontset \"%s\"."
-msgstr  "«%s» font kümesi yüklenemedi."
+msgid "Could not load fontset \"%s\"."
+msgstr "«%s» font kümesi yüklenemedi."
 
+#: src/yfontcore.cc:126
 #, c-format
-msgid   "Missing codesets for fontset \"%s\":"
-msgstr  "«%s» font kümesi için code'setler eksik"
+msgid "Missing codesets for fontset \"%s\":"
+msgstr "«%s» font kümesi için code'setler eksik"
 
+#: src/yicon.cc:147
 #, c-format
-msgid   "Out of memory for pixmap \"%s\""
-msgstr  "Pixmap için yetersiz hafıza«%s»"
+msgid "Out of memory for pixmap \"%s\""
+msgstr "Pixmap için yetersiz hafıza«%s»"
 
+#: src/yimage.cc:61 src/yimage.cc:109 src/ypixbuf.cc:1063
 #, c-format
-msgid   "Loading of image \"%s\" failed"
-msgstr  "«%s» resmi yüklenirken hata oluştu"
+msgid "Loading of image \"%s\" failed"
+msgstr "«%s» resmi yüklenirken hata oluştu"
 
-msgid   "Imlib: Acquisition of X pixmap failed"
-msgstr  "Imlib: X pixmap elde edilirken hata oluştu"
+#: src/yimage.cc:141 src/yimage.cc:159
+msgid "Imlib: Acquisition of X pixmap failed"
+msgstr "Imlib: X pixmap elde edilirken hata oluştu"
 
-msgid   "Imlib: Imlib image to X pixmap mapping failed"
-msgstr  "Imlib: Imlib resmi X pixmap'e dönüştürülemedi"
+#: src/yimage.cc:150
+msgid "Imlib: Imlib image to X pixmap mapping failed"
+msgstr "Imlib: Imlib resmi X pixmap'e dönüştürülemedi"
 
-msgid   "Cu_t"
-msgstr  "_Kes"
+#: src/yinput.cc:53
+msgid "Cu_t"
+msgstr "_Kes"
 
-msgid   "Ctrl+X"
-msgstr  "Ctrl+X"
+#: src/yinput.cc:53
+msgid "Ctrl+X"
+msgstr "Ctrl+X"
 
-msgid   "_Copy"
-msgstr  "K_opyala"
+#: src/yinput.cc:54
+msgid "_Copy"
+msgstr "K_opyala"
 
-msgid   "Ctrl+C"
-msgstr  "Ctrl+C"
+#: src/yinput.cc:54
+msgid "Ctrl+C"
+msgstr "Ctrl+C"
 
-msgid   "_Paste"
-msgstr  "_Yapıştır"
+#: src/yinput.cc:55
+msgid "_Paste"
+msgstr "_Yapıştır"
 
-msgid   "Ctrl+V"
-msgstr  "Ctrl+V"
+#: src/yinput.cc:55
+msgid "Ctrl+V"
+msgstr "Ctrl+V"
 
-msgid   "Paste _Selection"
-msgstr  "_Seçimi Yapıştır"
+#: src/yinput.cc:56
+msgid "Paste _Selection"
+msgstr "_Seçimi Yapıştır"
 
-msgid   "Select _All"
-msgstr  "_Hepsini Seç"
+#: src/yinput.cc:58
+msgid "Select _All"
+msgstr "_Hepsini Seç"
 
-msgid   "Ctrl+A"
-msgstr  "Ctrl+A"
+#: src/yinput.cc:58
+msgid "Ctrl+A"
+msgstr "Ctrl+A"
 
-#. || False == XSupportsLocale()
-msgid   "Locale not supported by C library. Falling back to 'C' locale'."
-msgstr  "C kütüphanesi Locale'i desteklemiyor. 'C' locale'i kullanılacak"
+#: src/ylocale.cc:46
+msgid "Locale not supported by C library. Falling back to 'C' locale'."
+msgstr "C kütüphanesi Locale'i desteklemiyor. 'C' locale'i kullanılacak"
 
-msgid   "Failed to determinate the current locale's codeset. Assuming ISO-"
-        "8859-1.\n"
-msgstr  "Geçerli locale'in codeseti belirlenmedi. ISO-8859-1 varsayılıyor..\n"
+#: src/ylocale.cc:63
+msgid ""
+"Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
+msgstr "Geçerli locale'in codeseti belirlenmedi. ISO-8859-1 varsayılıyor..\n"
 
+#: src/ylocale.cc:95 src/ylocale.cc:102
 #, c-format
-msgid   "iconv doesn't supply (sufficient) %s to %s converters."
-msgstr  "iconv (yeterli) %s sağlayamıyor: %s."
+msgid "iconv doesn't supply (sufficient) %s to %s converters."
+msgstr "iconv (yeterli) %s sağlayamıyor: %s."
 
+#: src/ylocale.cc:156
 #, c-format
-msgid   "Invalid multibyte string \"%s\": %s"
-msgstr  "Hatalı multibyte string «%s»: %s"
+msgid "Invalid multibyte string \"%s\": %s"
+msgstr "Hatalı multibyte string «%s»: %s"
 
-msgid   "OK"
-msgstr  "Tamam"
+#: src/ymsgbox.cc:37
+msgid "OK"
+msgstr "Tamam"
 
-msgid   "Cancel"
-msgstr  "İptal"
+#: src/ymsgbox.cc:45
+msgid "Cancel"
+msgstr "İptal"
 
+#: src/ypaths.cc:134 src/ypaths.cc:161
 #, c-format
-msgid   "Out of memory for pixel map %s"
-msgstr  "%s pixel haritası için yetersiz hafıza"
+msgid "Image not readable: %s"
+msgstr ""
 
+#: src/ypaths.cc:139
+#, fuzzy, c-format
+msgid "Out of memory for image %s"
+msgstr "Pixmap için yetersiz hafıza«%s»"
+
+#: src/ypaths.cc:146
+#, fuzzy, c-format
+msgid "Could not find image %s"
+msgstr "%s pixel haritası bulunamadı"
+
+#: src/ypaths.cc:165
+#, fuzzy, c-format
+msgid "Out of memory for image: %s"
+msgstr "Pixmap için yetersiz hafıza«%s»"
+
+#: src/ypaths.cc:172
+#, fuzzy, c-format
+msgid "Could not find image: %s"
+msgstr "%s pixel haritası bulunamadı"
+
+#: src/ypixbuf.cc:482 src/ypixbuf.cc:668
 #, c-format
-msgid   "Could not find pixel map %s"
-msgstr  "%s pixel haritası bulunamadı"
+msgid ""
+"Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
+"blue): %0*x/%0*x/%0*x)"
+msgstr ""
+"Pixelleri çevirmek için fallback mekanizması kullanılıyor (derinlik: %d; "
+"maske (R/G/B): %0*x/%0*x/%0*x)"
 
+#: src/ypixbuf.cc:576 src/ypixbuf.cc:725
 #, c-format
-msgid   "Out of memory for RGB pixel buffer %s"
-msgstr  "%s RGB pixel buffer'ı için yetersiz hafıza"
+msgid "%s:%d: %d bit visuals are not supported (yet)"
+msgstr "%s:%d: %d bit görünümler desteklenmiyor (henüz)"
 
+#: src/ysmapp.cc:106
+msgid "$USER or $LOGNAME not set?"
+msgstr "$USER ya da $LOGNAME ayarlanmamış?"
+
+#: src/yurl.cc:82
 #, c-format
-msgid   "Could not find RGB pixel buffer %s"
-msgstr  "%s RGB pixel buffre'ı bulunamadı"
+msgid "\"%s\" doesn't describe a common internet scheme"
+msgstr "«%s» yaygın bir internet şemasını tarif etmiyor"
 
+#: src/yurl.cc:85
 #, c-format
-msgid   "Using fallback mechanism to convert pixels (depth: %d; masks (red/"
-        "green/blue): %0*x/%0*x/%0*x)"
-msgstr  "Pixelleri çevirmek için fallback mekanizması kullanılıyor (derinlik: "
-        "%d; maske (R/G/B): %0*x/%0*x/%0*x)"
+msgid "\"%s\" contains no scheme description"
+msgstr "«%s» şema tarifi içermiyor"
 
-#, c-format
-msgid   "%s:%d: %d bit visuals are not supported (yet)"
-msgstr  "%s:%d: %d bit görünümler desteklenmiyor (henüz)"
+#~ msgid "Out of memory for pixel map %s"
+#~ msgstr "%s pixel haritası için yetersiz hafıza"
 
-msgid   "$USER or $LOGNAME not set?"
-msgstr  "$USER ya da $LOGNAME ayarlanmamış?"
+#~ msgid "Out of memory for RGB pixel buffer %s"
+#~ msgstr "%s RGB pixel buffer'ı için yetersiz hafıza"
 
-#, c-format
-msgid   "\"%s\" doesn't describe a common internet scheme"
-msgstr  "«%s» yaygın bir internet şemasını tarif etmiyor"
+#~ msgid "Could not find RGB pixel buffer %s"
+#~ msgstr "%s RGB pixel buffre'ı bulunamadı"
 
-#, c-format
-msgid   "\"%s\" contains no scheme description"
-msgstr  "«%s» şema tarifi içermiyor"
+#~ msgid "program label expected"
+#~ msgstr "program etiketi bekleniyor"
 
-#~ msgid        "program label expected"
-#~ msgstr       "program etiketi bekleniyor"
+#~ msgid "icon name expected"
+#~ msgstr "simge adı bekleniyor"
 
-#~ msgid        "icon name expected"
-#~ msgstr       "simge adı bekleniyor"
+#~ msgid "window management class expected"
+#~ msgstr "pencere yönetim sınıfı bekleniyor"
 
-#~ msgid        "window management class expected"
-#~ msgstr       "pencere yönetim sınıfı bekleniyor"
+#~ msgid "menu caption expected"
+#~ msgstr "menü başlığı bekleniyor"
 
-#~ msgid        "menu caption expected"
-#~ msgstr       "menü başlığı bekleniyor"
+#~ msgid "opening curly expected"
+#~ msgstr "açık kıvrım bekleniyor"
 
-#~ msgid        "opening curly expected"
-#~ msgstr       "açık kıvrım bekleniyor"
+#~ msgid "action name expected"
+#~ msgstr "işlem adı bekleniyor"
 
-#~ msgid        "action name expected"
-#~ msgstr       "işlem adı bekleniyor"
+#~ msgid "unknown action"
+#~ msgstr "bilinmeyen işlem"
 
-#~ msgid        "unknown action"
-#~ msgstr       "bilinmeyen işlem"
+#~ msgid "Failed to open %s: %s"
+#~ msgstr "%s açılamadı: %s"
 
-#~ msgid        "Failed to open %s: %s"
-#~ msgstr       "%s açılamadı: %s"
+#~ msgid "Failed to execute %s: %s"
+#~ msgstr "%s çalıştırılamadı: %s"
 
-#~ msgid        "Failed to execute %s: %s"
-#~ msgstr       "%s çalıştırılamadı: %s"
+#~ msgid "Failed to create child process: %s"
+#~ msgstr "Alt süreç yaratılamadı: %s"
 
-#~ msgid        "Failed to create child process: %s"
-#~ msgstr       "Alt süreç yaratılamadı: %s"
+#~ msgid "Not a regular file: %s"
+#~ msgstr "Düzgün bir dosya değil: %s"
 
-#~ msgid        "Not a regular file: %s"
-#~ msgstr       "Düzgün bir dosya değil: %s"
+#~ msgid "Pair of hexadecimal digits expected"
+#~ msgstr "Çift Hexadecimal basamak bekleniyor"
 
-#~ msgid        "Pair of hexadecimal digits expected"
-#~ msgstr       "Çift Hexadecimal basamak bekleniyor"
+#~ msgid "Unexpected identifier"
+#~ msgstr "Beklenmeyen belirleyici"
 
-#~ msgid        "Unexpected identifier"
-#~ msgstr       "Beklenmeyen belirleyici"
+#~ msgid "Identifier expected"
+#~ msgstr "Belirleyici bekleniyor"
 
-#~ msgid        "Identifier expected"
-#~ msgstr       "Belirleyici bekleniyor"
+#~ msgid "Separator expected"
+#~ msgstr "Ayraç bekleniyor"
 
-#~ msgid        "Separator expected"
-#~ msgstr       "Ayraç bekleniyor"
+#~ msgid "Invalid token"
+#~ msgstr "Hatalı token"
 
-#~ msgid        "Invalid token"
-#~ msgstr       "Hatalı token"
+#~ msgid "Not a hexadecimal number: %c%c (in \"%s\")"
+#~ msgstr "Hexadecimal numara değil: %c%c (in «%s»)"
 
-#~ msgid        "Not a hexadecimal number: %c%c (in \"%s\")"
-#~ msgstr       "Hexadecimal numara değil: %c%c (in «%s»)"
+#~ msgid "/proc/apm - unknown format (%d)"
+#~ msgstr "/proc/apm - Tanınmayan Biçim (%d)"
 
-#~ msgid        "/proc/apm - unknown format (%d)"
-#~ msgstr       "/proc/apm - Tanınmayan Biçim (%d)"
+#~ msgid "/"
+#~ msgstr "/"
 
-#~ msgid        "/"
-#~ msgstr       "/"
+#~ msgid "cpu: %d %d %d %d"
+#~ msgstr "cpu: %d %d %d %d"
 
-#~ msgid        "cpu: %d %d %d %d"
-#~ msgstr       "cpu: %d %d %d %d"
+#~ msgid "kstat finds too many cpus: should be %d"
+#~ msgstr "kstat çok fazla cpu buldu: %d olmalı"
 
-#~ msgid        "kstat finds too many cpus: should be %d"
-#~ msgstr       "kstat çok fazla cpu buldu: %d olmalı"
+#~ msgid "%s@%d: %s\n"
+#~ msgstr "%s@%d: %s\n"
 
-#~ msgid        "%s@%d: %s\n"
-#~ msgstr       "%s@%d: %s\n"
+#~ msgid "XQueryTree failed for window 0x%x"
+#~ msgstr "XQueryTree, 0x%x penceresi için hata üretti"
 
-#~ msgid        "XQueryTree failed for window 0x%x"
-#~ msgstr       "XQueryTree, 0x%x penceresi için hata üretti"
+#~ msgid "Compiled with DEBUG flag. Debugging messages will be printed."
+#~ msgstr "DEBUG bayrağı ile derlenmiş. Debug mesajları yazılacak."
 
-#~ msgid        "Compiled with DEBUG flag. Debugging messages will be printed."
-#~ msgstr       "DEBUG bayrağı ile derlenmiş. Debug mesajları yazılacak."
+#~ msgid ""
+#~ "Usage: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
+#~ "Changes desktop background on workspace switches.\n"
+#~ "The first pixmap is used as a default one.\n"
+#~ "\n"
+#~ "-s, --semitransparency    Enable support for semi-transparent terminals\n"
+#~ msgstr ""
+#~ "Kullanım: icewmbg [SEÇENEKLER]... pixmap1 [pixmap2]...\n"
+#~ "Çalışma alanı değişimlerinde maaüstü araplanını değiştirir.\n"
+#~ "İlk pixmap varsayılan olarak kullanılır.\n"
+#~ "\n"
+#~ "-s, --semitransparency    Yarı saydamlık desteğini açar\n"
 
-#~ msgid        "Usage: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
-#~      "Changes desktop background on workspace switches.\n"
-#~      "The first pixmap is used as a default one.\n"
-#~      "\n"
-#~      "-s, --semitransparency    Enable support for semi-transparent "
-#~      "terminals\n"
-#~ msgstr       "Kullanım: icewmbg [SEÇENEKLER]... pixmap1 [pixmap2]...\n"
-#~      "Çalışma alanı değişimlerinde maaüstü araplanını değiştirir.\n"
-#~      "İlk pixmap varsayılan olarak kullanılır.\n"
-#~      "\n"
-#~      "-s, --semitransparency    Yarı saydamlık desteğini açar\n"
+#~ msgid "_No icon"
+#~ msgstr "_Simge yok"
 
-#~ msgid        "_No icon"
-#~ msgstr       "_Simge yok"
+#~ msgid "_Minimized"
+#~ msgstr "_Küçültülmüş"
 
-#~ msgid        "_Minimized"
-#~ msgstr       "_Küçültülmüş"
+#~ msgid "_Exclusive"
+#~ msgstr "Öze_llikli"
 
-#~ msgid        "_Exclusive"
-#~ msgstr       "Öze_llikli"
+#~ msgid "X error %s(0x%lX): %s"
+#~ msgstr "X hatası %s(0x%lX): %s"
 
-#~ msgid        "X error %s(0x%lX): %s"
-#~ msgstr       "X hatası %s(0x%lX): %s"
+#~ msgid ""
+#~ "Window %p has no XA_ICEWM_PID property. Export the LD_PRELOAD variable to "
+#~ "preload the preice library."
+#~ msgstr ""
+#~ "%p penceresinin XA_ICEWM_PID özelliği yok. Preice kütüphanesiniönyüklemek "
+#~ "için LD_PRELOAD değişkenini export edin."
 
-#~ msgid        "Window %p has no XA_ICEWM_PID property. Export the "
-#~      "LD_PRELOAD variable to preload the preice library."
-#~ msgstr       "%p penceresinin XA_ICEWM_PID özelliği yok. Preice "
-#~      "kütüphanesiniönyüklemek için LD_PRELOAD değişkenini export edin."
+#~ msgid "Forking failed (errno=%d)"
+#~ msgstr "Hatalı çatallama (errno=%d)"
 
-#~ msgid        "Forking failed (errno=%d)"
-#~ msgstr       "Hatalı çatallama (errno=%d)"
+#~ msgid "Failed to create anonymous pipe (errno=%d)."
+#~ msgstr "Anonim boru yaratılamadı (errno=%d)."
 
-#~ msgid        "Failed to create anonymous pipe (errno=%d)."
-#~ msgstr       "Anonim boru yaratılamadı (errno=%d)."
+#~ msgid "Obsolete option: %s"
+#~ msgstr "Eskimiş seçenek: %s"
 
-#~ msgid        "Obsolete option: %s"
-#~ msgstr       "Eskimiş seçenek: %s"
+#~ msgid "Invalid cursor pixmap: \"%s\" contains too many unique colors"
+#~ msgstr "Hatalı takipçi pixmap'i: «%s» çok fazla tekli renk içeriyor"
 
-#~ msgid        "Invalid cursor pixmap: \"%s\" contains too many unique colors"
-#~ msgstr       "Hatalı takipçi pixmap'i: «%s» çok fazla tekli renk içeriyor"
+#~ msgid "Resource allocation for rotated string \"%s\" (%dx%d px) failed"
+#~ msgstr "«%s» rotated string'i için kaynak ayrılamadı (%dx%d px)"
 
-#~ msgid        "Resource allocation for rotated string \"%s\" (%dx%d px) "
-#~      "failed"
-#~ msgstr       "«%s» rotated string'i için kaynak ayrılamadı (%dx%d px)"
+#~ msgid "Failed to create anonymous pipe: %s"
+#~ msgstr "Anonim boru yaratılmadı: %s"
 
-#~ msgid        "Failed to create anonymous pipe: %s"
-#~ msgstr       "Anonim boru yaratılmadı: %s"
+#~ msgid "Failed to duplicate file descriptor: %s"
+#~ msgstr "Dosya tanımlayıcısı kopyalanamadı: %s"
 
-#~ msgid        "Failed to duplicate file descriptor: %s"
-#~ msgstr       "Dosya tanımlayıcısı kopyalanamadı: %s"
+#~ msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
+#~ msgstr "%s:%d: 0x%x çizilebiliri pixel buffer'a kopyalanamadı"
 
-#~ msgid        "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
-#~ msgstr       "%s:%d: 0x%x çizilebiliri pixel buffer'a kopyalanamadı"
+#~ msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%dx%d"
+#~ msgstr ""
+#~ "%s:%d: 0x%x çizilebiliri (%d:%d-%dx%d pixel buffer'ına kopyalanamadı"
 
-#~ msgid        "%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%"
-#~      "dx%d"
-#~ msgstr       "%s:%d: 0x%x çizilebiliri (%d:%d-%dx%d pixel buffer'ına "
-#~      "kopyalanamadı"
+#~ msgid "TOO MANY ICE CONNECTIONS -- not supported"
+#~ msgstr "ÇOK FAZLA ICE BAĞLANTISI -- desteklenmiyor"
 
-#~ msgid        "TOO MANY ICE CONNECTIONS -- not supported"
-#~ msgstr       "ÇOK FAZLA ICE BAĞLANTISI -- desteklenmiyor"
+#~ msgid "Session Manager: IceAddConnectionWatch failed."
+#~ msgstr "Session Manager: IceAddConnectionWatch hata üretti."
 
-#~ msgid        "Session Manager: IceAddConnectionWatch failed."
-#~ msgstr       "Session Manager: IceAddConnectionWatch hata üretti."
-
-#~ msgid        "Session Manager: Init error: %s"
-#~ msgstr       "Session Manager: Init error: %s"
+#~ msgid "Session Manager: Init error: %s"
+#~ msgstr "Session Manager: Init error: %s"

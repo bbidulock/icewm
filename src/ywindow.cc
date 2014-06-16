@@ -159,7 +159,10 @@ YWindow::~YWindow() {
         fAutoScroll->isScrolling() &&
         fAutoScroll->getWindow() == this)
         fAutoScroll->autoScroll(0, false, 0);
+    fFocusedWindow = 0;
     removeWindow();
+    while (fNextWindow != 0)
+	    fNextWindow->removeWindow();
     while (accel) {
         YAccelerator *next = accel->next;
         delete accel;
@@ -1898,6 +1901,7 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
                 si.height = ci->height;
                 xiInfo.append(si);
             }
+	    XRRFreeCrtcInfo(ci);
         }
 
         MSG(("xinerama primary screen name: %s", xineramaPrimaryScreenName));
@@ -1918,7 +1922,9 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
                     }
                 }
             }
+	    XRRFreeOutputInfo(oinfo);
         }
+	XRRFreeScreenResources(xrrsr);
     }
 #endif
     if (xiInfo.getCount() < 2) { // use xinerama if no XRANDR screens (nvidia hack)
@@ -1946,6 +1952,8 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
                 xiInfo.append(si);
             }
             gotLayout = true;
+	    if (xsi)
+		    XFree(xsi);
         }
 #endif
     }
@@ -2028,7 +2036,12 @@ int YDesktop::getScreenForRect(int x, int y, int width, int height) {
     return screen;
 }
 
+
 KeySym YWindow::keyCodeToKeySym(unsigned int keycode, int index) {
     KeySym k = XkbKeycodeToKeysym(xapp->display(), (KeyCode)keycode, 0, index);
     return k;
+}
+
+int YDesktop::getScreenCount() {
+    return xiInfo.getCount();
 }

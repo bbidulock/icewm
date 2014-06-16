@@ -642,6 +642,14 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
 /// TODO #warning "a hack"
         { fNetStatus && fNetStatus[0] ? fNetStatus[1] : 0, false, 1, false, 1, 1, false },
         { fNetStatus && fNetStatus[0] && fNetStatus[1] ? fNetStatus[2] : 0, false, 1, false, 1, 1, false },
+        { fNetStatus && fNetStatus[0] && fNetStatus[1] && fNetStatus[2] ? fNetStatus[3] : 0, false, 1, false, 1, 1, false },
+        { fNetStatus && fNetStatus[0] && fNetStatus[1] && fNetStatus[2] && fNetStatus[3] ? fNetStatus[4] : 0, false, 1, false, 1, 1, false },
+        { fNetStatus && fNetStatus[0] && fNetStatus[1] && fNetStatus[2] && fNetStatus[3] && fNetStatus[4] ? fNetStatus[5] : 0, false, 1, false, 1, 1, false },
+        { fNetStatus && fNetStatus[0] && fNetStatus[1] && fNetStatus[2] && fNetStatus[3] && fNetStatus[4] && fNetStatus[5] ? fNetStatus[6] : 0, false, 1, false, 1, 1, false },
+        { fNetStatus && fNetStatus[0] && fNetStatus[1] && fNetStatus[2] && fNetStatus[3] && fNetStatus[4] && fNetStatus[5] && fNetStatus[6] ? fNetStatus[7] : 0, false, 1, false, 1, 1, false },
+        { fNetStatus && fNetStatus[0] && fNetStatus[1] && fNetStatus[2] && fNetStatus[3] && fNetStatus[4] && fNetStatus[5] && fNetStatus[6] && fNetStatus[7] ? fNetStatus[8] : 0, false, 1, false, 1, 1, false },
+        { fNetStatus && fNetStatus[0] && fNetStatus[1] && fNetStatus[2] && fNetStatus[3] && fNetStatus[4] && fNetStatus[5] && fNetStatus[6] && fNetStatus[7] && fNetStatus[8] ? fNetStatus[9] : 0, false, 1, false, 1, 1, false },
+        { fNetStatus && fNetStatus[0] && fNetStatus[1] && fNetStatus[2] && fNetStatus[3] && fNetStatus[4] && fNetStatus[5] && fNetStatus[6] && fNetStatus[7] && fNetStatus[8] && fNetStatus[9] ? fNetStatus[10] : 0, false, 1, false, 1, 1, false },
 #endif
 #endif
 #ifdef CONFIG_APPLET_APM
@@ -878,10 +886,13 @@ void TaskBar::updateLocation() {
         if (getFrame())
             getFrame()->updateMwmHints();
     }
+#ifdef WMSPEC_HINTS
     ///!!! fix
     updateWMHints();
+#endif
 }
 
+#ifdef WMSPEC_HINTS
 void TaskBar::updateWMHints() {
     int dx, dy, dw, dh;
     manager->getScreenGeometry(&dx, &dy, &dw, &dh);
@@ -907,15 +918,16 @@ void TaskBar::updateWMHints() {
         getFrame()->updateNetWMStrut();
     }
 }
+#endif
 
 
 void TaskBar::handleCrossing(const XCrossingEvent &crossing) {
-    if (crossing.serial != ignore_enternotify_hack && crossing.serial != ignore_enternotify_hack + 1)
+    if (crossing.serial != ignore_enternotify_hack && (crossing.serial != ignore_enternotify_hack + 1 || crossing.detail != NotifyVirtual))
     {
         if (crossing.type == EnterNotify /* && crossing.mode != NotifyNormal */) {
             fEdgeTrigger->stopHide();
         } else if (crossing.type == LeaveNotify /* && crossing.mode != NotifyNormal */) {
-            if (crossing.detail != NotifyInferior && crossing.detail != NotifyVirtual && crossing.detail != NotifyAncestor) {
+            if (crossing.detail != NotifyInferior && !(crossing.detail == NotifyVirtual && crossing.mode == NotifyGrab) && !(crossing.detail == NotifyAncestor && crossing.mode != NotifyNormal)) {
                 MSG(("taskbar hide: %d", crossing.detail));
                 fEdgeTrigger->startHide();
             } else {

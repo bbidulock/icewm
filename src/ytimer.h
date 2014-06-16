@@ -15,7 +15,8 @@ protected:
 
 class YTimer {
 public:
-    YTimer(long ms = 0);
+    YTimer();
+    YTimer(long ms);
     ~YTimer();
 
     void setTimerListener(YTimerListener *listener) { fListener = listener; }

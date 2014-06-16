@@ -110,8 +110,10 @@ void WorkspaceButton::actionPerformed(YAction */*action*/, unsigned int modifier
 WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
     long w;
 
-    if (workspaceCount > 0)
-        fWorkspaceButton = new WorkspaceButton *[workspaceCount];
+    fWorkspaceButtonCount = workspaceCount;
+
+    if (fWorkspaceButtonCount > 0)
+        fWorkspaceButton = new WorkspaceButton *[fWorkspaceButtonCount];
     else
         fWorkspaceButton = 0;
 
@@ -121,7 +123,7 @@ WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
         int ht = smallIconSize + 8;
         int leftX = 0;
 
-        for (w = 0; w < workspaceCount; w++) {
+        for (w = 0; w < fWorkspaceButtonCount; w++) {
             WorkspaceButton *wk = new WorkspaceButton(w, this);
             if (wk) {
                 if (pagerShowPreview) {
@@ -151,13 +153,14 @@ WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
                 if (ext) *ext = '\0';
 
                 wk->setToolTip(ustring(_("Workspace: ")).append(wn));
+                delete[] wn;
 
                 //if ((int)wk->height() + 1 > ht) ht = wk->height() + 1;
             }
             fWorkspaceButton[w] = wk;
         }
 
-        for (w = 0; w < workspaceCount; w++) {
+        for (w = 0; w < fWorkspaceButtonCount; w++) {
             YButton *wk = fWorkspaceButton[w];
             //leftX += 2;
             if (wk) {
@@ -172,10 +175,54 @@ WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
 
 WorkspacesPane::~WorkspacesPane() {
     if (fWorkspaceButton) {
-        for (long w = 0; w < workspaceCount; w++)
+        for (long w = 0; w < fWorkspaceButtonCount; w++)
             delete fWorkspaceButton[w];
         delete [] fWorkspaceButton;
     }
+}
+
+void WorkspacesPane::repositionButtons() {
+    MSG(("WorkspacesPane::repositionButtons()"));
+    int ht = height();
+    int leftX = 0;
+    for (long w = 0; w < fWorkspaceButtonCount; w++) {
+        YButton *wk = fWorkspaceButton[w];
+        //leftX += 2;
+        if (wk) {
+            wk->setGeometry(YRect(leftX, 0, wk->width(), ht));
+            wk->show(); // no effect if already shown
+            leftX += wk->width();
+        }
+    }
+    setSize(leftX, ht);
+}
+
+void WorkspacesPane::relabelButtons() {
+    if (pagerShowPreview)
+        return;
+
+    ref<YResourcePaths> paths = YResourcePaths::subdirs(null, false);
+
+    for (long w = 0; w < fWorkspaceButtonCount; w++) {
+        YButton *wk = fWorkspaceButton[w];
+        if (wk) {
+            ref<YImage> image
+                (paths->loadImage("workspace/",workspaceNames[w]));
+            if (image != null)
+                wk->setImage(image);
+            else
+                wk->setText(workspaceNames[w]);
+
+            char * wn(newstr(my_basename(workspaceNames[w])));
+            char * ext(strrchr(wn, '.'));
+            if (ext) *ext = '\0';
+
+            wk->setToolTip(ustring(_("Workspace: ")).append(wn));
+            delete[] wn;
+        }
+    }
+
+    repositionButtons();
 }
 
 void WorkspacesPane::configure(const YRect &r) {
@@ -183,13 +230,67 @@ void WorkspacesPane::configure(const YRect &r) {
 
     int ht = height();
     int leftX = 0;
-    for (int w = 0; w < workspaceCount; w++) {
+    for (int w = 0; w < fWorkspaceButtonCount; w++) {
         YButton *wk = fWorkspaceButton[w];
         //leftX += 2;
         if (wk) {
             wk->setGeometry(YRect(leftX, 0, wk->width(), ht));
             leftX += wk->width();
         }
+    }
+}
+
+void WorkspacesPane::updateButtons() {
+    MSG(("WorkspacesPane::udpateButtons(): updating %ld -> %ld",
+         fWorkspaceButtonCount,workspaceCount));
+    long fOldWorkspaceButtonCount = fWorkspaceButtonCount;
+    fWorkspaceButtonCount = workspaceCount;
+    if (fWorkspaceButtonCount != fOldWorkspaceButtonCount) {
+        WorkspaceButton **fOldWorkspaceButton = fWorkspaceButton;
+        fWorkspaceButton = new WorkspaceButton *[fWorkspaceButtonCount];
+        if (fWorkspaceButtonCount > fOldWorkspaceButtonCount) {
+            for (long w = 0; w < fOldWorkspaceButtonCount; w++)
+                fWorkspaceButton[w] = fOldWorkspaceButton[w];
+            int ht = smallIconSize + 8;
+            MSG(("WorkspacesPane::updateButtons(): adding new buttons"));
+            ref<YResourcePaths> paths = YResourcePaths::subdirs(null, false);
+            for (long w = fOldWorkspaceButtonCount; w < fWorkspaceButtonCount; w++) {
+                WorkspaceButton *wk = new WorkspaceButton(w, this);
+                if (wk) {
+                    if (pagerShowPreview) {
+                        wk->setSize((int) round((double)
+                                    (ht * desktop->width() / desktop->height())), ht);
+                    } else {
+                        ref<YImage> image
+                            (paths->loadImage("workspace/", workspaceNames[w]));
+                        if (image != null)
+                            wk->setImage(image);
+                        else
+                            wk->setText(workspaceNames[w]);
+                    }
+
+                    char * wn(newstr(my_basename(workspaceNames[w])));
+                    char * ext(strrchr(wn, '.'));
+                    if (ext) *ext = '\0';
+
+                    wk->setToolTip(ustring(_("Workspace: ")).append(wn));
+                }
+                fWorkspaceButton[w] = wk;
+            }
+        } else
+        if (fWorkspaceButtonCount < fOldWorkspaceButtonCount) {
+            for (long w = 0; w < fWorkspaceButtonCount; w++)
+                fWorkspaceButton[w] = fOldWorkspaceButton[w];
+            MSG(("WorkspacesPane::updateButtons(): removing buttons"));
+            for (long w = fWorkspaceButtonCount; w < fOldWorkspaceButtonCount; w++) {
+                MSG(("WorkspacePane::updateButtons(): removing button for workspace %ld",w));
+                delete fOldWorkspaceButton[w];
+                MSG(("WorkspacePane::updateButtons(): removed  button for workspace %ld",w));
+            }
+        }
+        if (fOldWorkspaceButton != 0)
+            delete[] fOldWorkspaceButton;
+        repositionButtons();
     }
 }
 
@@ -251,7 +352,7 @@ YSurface WorkspaceButton::getSurface() {
 void WorkspacesPane::repaint() {
     if (!pagerShowPreview) return;
 
-    for (int w = 0; w < workspaceCount; w++) {
+    for (int w = 0; w < fWorkspaceButtonCount; w++) {
         fWorkspaceButton[w]->repaint();
     }
 }

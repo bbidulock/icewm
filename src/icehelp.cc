@@ -318,6 +318,7 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
                     if (parent) {
                         close = type;
                         //puts("</PARSE>");
+                        free( buf);
                         return f;
                     }
                 }

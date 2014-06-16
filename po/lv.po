@@ -4,1267 +4,1509 @@
 # Translators:
 #  - Kristaps Kaupe <kristaps.kaupe@inbox.lv>, 2005.
 #
-msgid   ""
-msgstr  "Project-Id-Version: IceWM\n"
-        "Report-Msgid-Bugs-To: \n"
-        "POT-Creation-Date: 2009-07-05 19:58+0200\n"
-        "PO-Revision-Date: 2005-06-12 12:59+0300\n"
-        "Last-Translator: Kristaps Kaupe <kristaps.kaupe@inbox.lv>\n"
-        "Language-Team: \n"
-        "MIME-Version: 1.0\n"
-        "Content-Type: text/plain; charset=UTF-8\n"
-        "Content-Transfer-Encoding: 8bit\n"
-        "X-Poedit-Language: Latvian\n"
-        "X-Poedit-Country: LATVIA\n"
+msgid ""
+msgstr ""
+"Project-Id-Version: IceWM\n"
+"Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
+"POT-Creation-Date: 2013-12-18 04:27-0700\n"
+"PO-Revision-Date: 2005-06-12 12:59+0300\n"
+"Last-Translator: Kristaps Kaupe <kristaps.kaupe@inbox.lv>\n"
+"Language-Team: \n"
+"Language: lv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Latvian\n"
+"X-Poedit-Country: LATVIA\n"
 
-msgid   " - Power"
-msgstr  " - Barošana"
+#: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:749 src/aapm.cc:868
+msgid " - Power"
+msgstr " - Barošana"
 
-#. /            if (!prettyClock) strcat(s, " ");
-msgid   "P"
-msgstr  "B"
+#: src/aapm.cc:193 src/aapm.cc:527 src/aapm.cc:752
+msgid "P"
+msgstr "B"
 
+#: src/aapm.cc:197 src/aapm.cc:498 src/aapm.cc:729 src/aapm.cc:839
 #, c-format
-msgid   " - Charging"
-msgstr  " - Lādējas"
+msgid " - Charging"
+msgstr " - Lādējas"
 
-msgid   "C"
-msgstr  "L"
+#: src/aapm.cc:199 src/aapm.cc:500 src/aapm.cc:731
+msgid "C"
+msgstr "L"
 
+#: src/aapm.cc:502
+msgid " - Full"
+msgstr ""
+
+#: src/acpustatus.cc:229
 #, c-format
-msgid   "CPU Load: %3.2f %3.2f %3.2f, %d"
-msgstr  ""
+msgid "CPU Load: %3.2f %3.2f %3.2f, %d"
+msgstr ""
 
+#: src/acpustatus.cc:233
 #, c-format
-msgid   "\n"
-        "Ram: %5.2f/%.2fM"
-msgstr  ""
+msgid ""
+"\n"
+"Ram: %5.2f/%.2fM"
+msgstr ""
 
+#: src/acpustatus.cc:238
 #, c-format
-msgid   "\n"
-        "Swap: %.2f/%.2fM"
-msgstr  ""
+msgid ""
+"\n"
+"Swap: %.2f/%.2fM"
+msgstr ""
 
+#: src/acpustatus.cc:242
 #, c-format
-msgid   "\n"
-        "ACPI Temp:"
-msgstr  ""
+msgid ""
+"\n"
+"ACPI Temp:"
+msgstr ""
 
+#: src/acpustatus.cc:247
 #, c-format
-msgid   "\n"
-        "CPU Freq: %.3fGHz"
-msgstr  ""
+msgid ""
+"\n"
+"CPU Freq: %.3fGHz"
+msgstr ""
 
-msgid   "CPU Load: "
-msgstr  "CP noslodze:"
+#: src/acpustatus.cc:259
+msgid "CPU Load: "
+msgstr "CP noslodze:"
 
+#: src/amailbox.cc:77
 #, c-format
-msgid   "Invalid mailbox protocol: \"%s\""
-msgstr  "Nezināms pasta kastītes protokols: \"%s\""
+msgid "Invalid mailbox protocol: \"%s\""
+msgstr "Nezināms pasta kastītes protokols: \"%s\""
 
+#: src/amailbox.cc:79
 #, c-format
-msgid   "Invalid mailbox path: \"%s\""
-msgstr  "Nezināms pasta kastītes ceļš: \"%s\""
+msgid "Invalid mailbox path: \"%s\""
+msgstr "Nezināms pasta kastītes ceļš: \"%s\""
 
+#: src/amailbox.cc:342
 #, c-format
-msgid   "Using MailBox \"%s\"\n"
-msgstr  "Lietojam pasta kastīti \"%s\"\n"
+msgid "Using MailBox \"%s\"\n"
+msgstr "Lietojam pasta kastīti \"%s\"\n"
 
-msgid   "Error checking mailbox."
-msgstr  "Kļūda pārbaudot pasta kastīti."
+#: src/amailbox.cc:450
+msgid "Error checking mailbox."
+msgstr "Kļūda pārbaudot pasta kastīti."
 
+#: src/amailbox.cc:456
 #, c-format
-msgid   "%ld mail message."
-msgstr  "%ld pasta ziņojums."
+msgid "%ld mail message."
+msgstr "%ld pasta ziņojums."
 
+#: src/amailbox.cc:457
 #, c-format
-msgid   "%ld mail messages."
-msgstr  "%ld pasta ziņojumi."
+msgid "%ld mail messages."
+msgstr "%ld pasta ziņojumi."
 
-#, c-format
-msgid   "Interface %s:\n"
-        "  Current rate (in/out):\t%li %s/%li %s\n"
-        "  Current average (in/out):\t%lli %s/%lli %s\n"
-        "  Total average (in/out):\t%li %s/%li %s\n"
-        "  Transferred (in/out):\t%lli %s/%lli %s\n"
-        "  Online time:\t%ld:%02ld:%02ld%s%s"
-msgstr  "Interfeiss %s:\n"
-        "  Tekošais ātrums (ienākošie/izejošie):\t%li %s/%li %s\n"
-        "  Tekošais vidējais (ienākošie/izejošie):\t%lli %s/%lli %s\n"
-        "  Kopējais vidējais (ienākošie/izejošie):\t%li %s/%li %s\n"
-        "  Pārsūtīts (ienākošie/izejošie):\t%lli %s/%lli %s\n"
-        "  Tiešsaites ilgums:\t%ld:%02ld:%02ld%s%s"
-
-msgid   "\n"
-        "  Caller id:\t"
-msgstr  "\n"
-        " Zvanītāja id:\t"
-
-msgid   "Workspace: "
-msgstr  "Darba vide:"
-
-msgid   "Back"
-msgstr  "Atpakaļ"
-
-msgid   "Alt+Left"
-msgstr  "Alt+Pa kreisi"
-
-msgid   "Forward"
-msgstr  "Uz priekšu"
-
-msgid   "Alt+Right"
-msgstr  "Alt+Pa labi"
-
-msgid   "Previous"
-msgstr  "Iepriekšējā"
-
-msgid   "Next"
-msgstr  "Nākamā"
-
-msgid   "Contents"
-msgstr  "Saturs"
-
-msgid   "Index"
-msgstr  "Alfabētiskais rādītājs"
-
-#. fCloseButton->setWinGravity(NorthEastGravity);
-msgid   "Close"
-msgstr  "Aizvērt"
-
-msgid   "Ctrl+Q"
-msgstr  "Ctrl+Q"
-
-#, c-format
-msgid   "Usage: %s FILENAME\n"
-        "\n"
-        "A very simple HTML browser displaying the document specified by "
-        "FILENAME.\n"
-        "\n"
-msgstr  "Lietošana: %s FAILS\n"
-        "\n"
-        "Ļoti vienkāršs HTML pārlūks, kas parāda norādīto dokumentu.\n"
-        "\n"
-
-#, c-format
-msgid   "Invalid path: %s\n"
-msgstr  "Kļūdains ceļš: %s\n"
-
-msgid   "Invalid path: "
-msgstr  "Kļūdains ceļš:"
-
-msgid   "List View"
-msgstr  "Saraksta skats"
-
-msgid   "Icon View"
-msgstr  "Ikonu skats"
-
-msgid   "Open"
-msgstr  "Atvērt"
-
-msgid   "Undo"
-msgstr  "Atsaukt"
-
-msgid   "Ctrl+Z"
-msgstr  "Ctrl+Z"
-
-msgid   "New"
-msgstr  "Jauns"
-
-msgid   "Ctrl+N"
-msgstr  "Ctrl+N"
-
-msgid   "Restart"
-msgstr  "Pārstartēt"
-
-msgid   "Ctrl+R"
-msgstr  "Ctrl+R"
-
-#. !!! fix
-msgid   "Same Game"
-msgstr  "Tā pati spēle"
-
-#. ****************************************************************************
-#. ****************************************************************************
-#, c-format
-msgid   "Action `%s' requires at least %d arguments."
-msgstr  "Darbībai `%s' vajag vismaz %d argumentus."
-
-#, c-format
-msgid   "Invalid expression: `%s'"
-msgstr  "Kļūdaina izteiksme: `%s'"
-
-#, c-format
-msgid   "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
-msgstr  "Nosauktie simboli domēnam `%s' (numuru apgabals: %ld-%ld):\n"
-
-#, c-format
-msgid   "Invalid workspace name: `%s'"
-msgstr  "Kļūdains darba vides nosaukums: `%s'"
-
-#, c-format
-msgid   "Workspace out of range: %d"
-msgstr  "Darba vide ārpus ranga: %d"
-
+#: src/apppstatus.cc:204
 #, fuzzy, c-format
-msgid   "Usage: %s [OPTIONS] ACTIONS\n"
-        "\n"
-        "Options:\n"
-        "  -display DISPLAY            Connects to the X server specified by "
-        "DISPLAY.\n"
-        "                              Default: $DISPLAY or :0.0 when not "
-        "set.\n"
-        "  -window WINDOW_ID           Specifies the window to manipulate. "
-        "Special\n"
-        "                              identifiers are `root' for the root "
-        "window and\n"
-        "                              `focus' for the currently focused "
-        "window.\n"
-        "  -class WM_CLASS             Window management class of the window"
-        "(s) to\n"
-        "                              manipulate. If WM_CLASS contains a "
-        "period, only\n"
-        "                              windows with exactly the same WM_CLASS "
-        "property\n"
-        "                              are matched. If there is no period, "
-        "windows of\n"
-        "                              the same class and windows of the same "
-        "instance\n"
-        "                              (aka. `-name') are selected.\n"
-        "\n"
-        "Actions:\n"
-        "  setIconTitle   TITLE        Set the icon title.\n"
-        "  setWindowTitle TITLE        Set the window title.\n"
-        "  setGeometry    geometry     Set the window geometry\n"
-        "  setState       MASK STATE   Set the GNOME window state to STATE.\n"
-        "                              Only the bits selected by MASK are "
-        "affected.\n"
-        "                              STATE and MASK are expressions of the "
-        "domain\n"
-        "                              `GNOME window state'.\n"
-        "  toggleState    STATE        Toggle the GNOME window state bits "
-        "specified by\n"
-        "                              the STATE expression.\n"
-        "  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
-        "  setLayer       LAYER        Moves the window to another GNOME "
-        "window layer.\n"
-        "  setWorkspace   WORKSPACE    Moves the window to another workspace. "
-        "Select\n"
-        "                              the root window to change the current "
-        "workspace.\n"
-        "  listWorkspaces              Lists the names of all workspaces.\n"
-        "  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
-        "\n"
-        "Expressions:\n"
-        "  Expressions are list of symbols of one domain concatenated by `+' "
-        "or `|':\n"
-        "\n"
-        "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
-        "\n"
-msgstr  "Lietošana: %s [OPCIJAS] DARBĪBAS\n"
-        "\n"
-        "Opcijas:\n"
-        "  -display DISPLEJS           Pieslēdzas norādītajam X serverim.\n"
-        "                              Noklusētais: $DISPLAY vai :0.0, ja nav "
-        "uzstādīts.\n"
-        "  -window LOGA_ID             Norāda logu, ar kuru manipulēt. "
-        "Speciālie\n"
-        "                              identifikatori ir `root' saknes logam "
-        "un\n"
-        "\t\t\t      `focus' šobrīd aktīvajam logam.\n"
-        "  -class LV_KLASE             Logu vadības klase menipulējamajiem\n"
-        "    \t    \t    \t      logiem. Ja LV_KLASE satur punktu, saskanēs "
-        "tikai\n"
-        "    \t    \t              logi ar tieši tādu pašu nosaukumu kā "
-        "LV_KLASE īpašībai.\n"
-        "\t\t\t      Ja punkta nav, atlasīti tiks visi logi ar tādu pašu\n"
-        "\t\t\t      klasi, vai arī tās pašas instances logi\n"
-        "\t\t\t      (`-name').\n"
-        "\n"
-        "Darbības:\n"
-        "  setIconTitle   NOSAUKUMS    Uzstāda ikonas nosaukumu.\n"
-        "  setWindowTitle NOSAUKUMS    Uzstāda loga nosaukumu.\n"
-        "  setGeometry    ģeometrija   Uzstāda loga ģeometriju\n"
-        "  setState       MASK STATE   Set the GNOME window state to STATE.\n"
-        "  \t\t\t      Only the bits selected by MASK are affected.\n"
-        "                              STATE and MASK are expressions of the "
-        "domain\n"
-        "                              `GNOME window state'.\n"
-        "  toggleState    STATE        Toggle the GNOME window state bits "
-        "specified by\n"
-        "                              the STATE expression.\n"
-        "  setHints       HINTS        Set th GNOME window hints to HINTS.\n"
-        "  setLayer       SLĀNIS       Pārvieto logu uz citu GNOMEs logu "
-        "slāni.\n"
-        "  setWorkspace   DARBAVIDE    Pārvieto logu uz citu darba vidi. "
-        "Izvēlieties\n"
-        "  \t\t\t      saknes logu, lai nomainītu aktīvo darba vidi.\n"
-        "  listWorkspaces   \t      Izvada darba vižu nosaukumus.\n"
-        "  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
-        "\n"
-        "Izteiksmes:\n"
-        "  Expressions are list of symbols of one domain concatenated by `+' "
-        "or `|':\n"
-        "\n"
-        "  IZTEIKSME ::= SIMBOLS | IZTEIKSME ( `+' | `|' ) SIMBOLS\n"
-        "\n"
+msgid ""
+"Interface %s:\n"
+"  Current rate (in/out):\t%li %s/%li %s\n"
+"  Current average (in/out):\t%lli %s/%lli %s\n"
+"  Transferred (in/out):\t%lli %s/%lli %s\n"
+"  Online time:\t%ld:%02ld:%02ld%s%s"
+msgstr ""
+"Interfeiss %s:\n"
+"  Tekošais ātrums (ienākošie/izejošie):\t%li %s/%li %s\n"
+"  Tekošais vidējais (ienākošie/izejošie):\t%lli %s/%lli %s\n"
+"  Kopējais vidējais (ienākošie/izejošie):\t%li %s/%li %s\n"
+"  Pārsūtīts (ienākošie/izejošie):\t%lli %s/%lli %s\n"
+"  Tiešsaites ilgums:\t%ld:%02ld:%02ld%s%s"
 
-msgid   "GNOME window state"
-msgstr  "GNOMEs loga stāvoklis"
+#: src/apppstatus.cc:216
+msgid ""
+"\n"
+"  Caller id:\t"
+msgstr ""
+"\n"
+" Zvanītāja id:\t"
 
-msgid   "GNOME window hint"
-msgstr  "GNOMEs loga padoms"
+#: src/aworkspaces.cc:155 src/aworkspaces.cc:219 src/aworkspaces.cc:274
+#: src/wmstatus.cc:168
+msgid "Workspace: "
+msgstr "Darba vide:"
 
-msgid   "GNOME window layer"
-msgstr  "GNOMEs loga slānis"
+#: src/icehelp.cc:714
+msgid "Back"
+msgstr "Atpakaļ"
 
-msgid   "IceWM tray option"
-msgstr  "IceWM paplātes opcija"
+#: src/icehelp.cc:714
+msgid "Alt+Left"
+msgstr "Alt+Pa kreisi"
 
-msgid   "Usage error: "
-msgstr  "Lietošanas kļūda:"
+#: src/icehelp.cc:715
+msgid "Forward"
+msgstr "Uz priekšu"
 
+#: src/icehelp.cc:715
+msgid "Alt+Right"
+msgstr "Alt+Pa labi"
+
+#: src/icehelp.cc:717
+msgid "Previous"
+msgstr "Iepriekšējā"
+
+#: src/icehelp.cc:718
+msgid "Next"
+msgstr "Nākamā"
+
+#: src/icehelp.cc:720
+msgid "Contents"
+msgstr "Saturs"
+
+#: src/icehelp.cc:721
+msgid "Index"
+msgstr "Alfabētiskais rādītājs"
+
+#: src/icehelp.cc:723 src/icesame.cc:63 src/iceview.cc:76 src/wmframe.cc:181
+msgid "Close"
+msgstr "Aizvērt"
+
+#: src/icehelp.cc:723 src/icesame.cc:63 src/iceview.cc:76
+msgid "Ctrl+Q"
+msgstr "Ctrl+Q"
+
+#: src/icehelp.cc:1326
 #, c-format
-msgid   "Invalid argument: `%s'."
-msgstr  "Kļūdains arguments: `%s'."
+msgid ""
+"Usage: %s FILENAME\n"
+"\n"
+"A very simple HTML browser displaying the document specified by FILENAME.\n"
+"\n"
+msgstr ""
+"Lietošana: %s FAILS\n"
+"\n"
+"Ļoti vienkāršs HTML pārlūks, kas parāda norādīto dokumentu.\n"
+"\n"
 
-msgid   "No actions specified."
-msgstr  "Nav norādītu darbību."
-
-#. ====== connect to X11 ===
+#: src/icehelp.cc:1336
 #, c-format
-msgid   "Can't open display: %s. X must be running and $DISPLAY set."
-msgstr  "Nevaru atvērt displeju: %s. X ir jābūt palaistam un $DISPLEY "
-        "uzstādītam."
+msgid "Invalid path: %s\n"
+msgstr "Kļūdains ceļš: %s\n"
 
+#: src/icehelp.cc:1341
+msgid "Invalid path: "
+msgstr "Kļūdains ceļš:"
+
+#: src/icelist.cc:84
+msgid "List View"
+msgstr "Saraksta skats"
+
+#: src/icelist.cc:85
+msgid "Icon View"
+msgstr "Ikonu skats"
+
+#: src/icelist.cc:89
+msgid "Open"
+msgstr "Atvērt"
+
+#: src/icesame.cc:58
+msgid "Undo"
+msgstr "Atsaukt"
+
+#: src/icesame.cc:58
+msgid "Ctrl+Z"
+msgstr "Ctrl+Z"
+
+#: src/icesame.cc:60
+msgid "New"
+msgstr "Jauns"
+
+#: src/icesame.cc:60
+msgid "Ctrl+N"
+msgstr "Ctrl+N"
+
+#: src/icesame.cc:61
+msgid "Restart"
+msgstr "Pārstartēt"
+
+#: src/icesame.cc:61
+msgid "Ctrl+R"
+msgstr "Ctrl+R"
+
+#: src/icesame.cc:66
+msgid "Same Game"
+msgstr "Tā pati spēle"
+
+#: src/icesh.cc:187
 #, c-format
-msgid   "Invalid window identifier: `%s'"
-msgstr  "Kļūdains loga identifikators: `%s'"
+msgid "Action `%s' requires at least %d arguments."
+msgstr "Darbībai `%s' vajag vismaz %d argumentus."
 
+#: src/icesh.cc:194
 #, c-format
-msgid   "workspace #%d: `%s'\n"
-msgstr  "darba vide #%d: `%s'\n"
+msgid "Invalid expression: `%s'"
+msgstr "Kļūdaina izteiksme: `%s'"
 
+#: src/icesh.cc:316
 #, c-format
-msgid   "Unknown action: `%s'"
-msgstr  "Nezināma darbība: `%s'"
+msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
+msgstr "Nosauktie simboli domēnam `%s' (numuru apgabals: %ld-%ld):\n"
 
+#: src/icesh.cc:429
 #, c-format
-msgid   "Socket error: %d"
-msgstr  "Ligzdas kļūda: %d"
+msgid "Invalid workspace name: `%s'"
+msgstr "Kļūdains darba vides nosaukums: `%s'"
 
+#: src/icesh.cc:435
 #, c-format
-msgid   "Playing sample #%d (%s)"
-msgstr  "Atskaņoju #%d (%s)"
+msgid "Workspace out of range: %d"
+msgstr "Darba vide ārpus ranga: %d"
 
-#, c-format
-msgid   "No such device: %s"
-msgstr  "Nav tādas iekārtas: %s"
-
-#, c-format
-msgid   "Can't connect to ESound daemon: %s"
-msgstr  "Nevaru pieslēgties ESound dēmonam: %s"
-
-msgid   "<none>"
-msgstr  "<nekas>"
-
-#, c-format
-msgid   "Error <%d> while uploading `%s:%s'"
-msgstr  "Kļūda <%d> augšupielādējot `%s:%s'"
-
-#, c-format
-msgid   "Sample <%d> uploaded as `%s:%s'"
-msgstr  "Skaņa <%d> augšupielādēta kā `%s:%s'"
-
-#, c-format
-msgid   "Playing sample #%d"
-msgstr  "Atskaņoju #%d"
-
-#, c-format
-msgid   "Can't connect to YIFF server: %s"
-msgstr  "Nevaru pieslēgties YIFF serverim: %s"
-
-#, c-format
-msgid   "Can't change to audio mode `%s'."
-msgstr  "Nevaru pārslēgties uz audio režīmu `%s'."
-
-#, c-format
-msgid   "Audio mode switch detected, initial audio mode `%s' no longer in "
-        "effect."
-msgstr  "Atklāta audio režīma pārslēgšana, sākotnējais audio režīms `%s' "
-        "vairs nav spēkā."
-
-msgid   "Audio mode switch detected, automatic audio mode changing disabled."
-msgstr  "Atklāta audio režīma pārslēgšana, automātiska audio režīma maiņa "
-        "atspējota."
-
-#, c-format
-msgid   "Overriding previous audio mode `%s'."
-msgstr  "Neievērojam iepriekšējo audio režīmu `%s'."
-
+#: src/icesh.cc:569
 #, fuzzy, c-format
-msgid   "             Usage: %s [OPTION]...\n"
-        "             \n"
-        "             Plays audio files on GUI events raised by IceWM.\n"
-        "             \n"
-        "             Options:\n"
-        "             \n"
-        "             -d, --display=DISPLAY         Display used by IceWM "
-        "(default: $DISPLAY).\n"
-        "             -s, --sample-dir=DIR          Specifies the directory "
-        "which contains\n"
-        "             the sound files (ie ~/.icewm/sounds).\n"
-        "             -i, --interface=TARGET        Specifies the sound "
-        "output target\n"
-        "             interface, one of OSS, YIFF, ESD\n"
-        "             -D, --device=DEVICE           (OSS only) specifies the "
-        "digital signal\n"
-        "             processor (default /dev/dsp).\n"
-        "             -S, --server=ADDR:PORT     (ESD and YIFF) specifies "
-        "server address and\n"
-        "             port number (default localhost:16001 for ESD\n"
-        "             and localhost:9433 for YIFF).\n"
-        "             -m, --audio-mode[=MODE]       (YIFF only) specifies the "
-        "Audio mode (leave\n"
-        "             blank to get a list).\n"
-        "             --audio-mode-auto          (YIFF only) change Audio "
-        "mode on the fly to\n"
-        "             best match sample's Audio (can cause\n"
-        "             problems with other Y clients, overrides\n"
-        "             --audio-mode).\n"
-        "             \n"
-        "             -v, --verbose                 Be verbose (prints out "
-        "each sound event to\n"
-        "             stdout).\n"
-        "             -V, --version                 Prints version "
-        "information and exits.\n"
-        "             -h, --help                    Prints (this) help screen "
-        "and exits.\n"
-        "             \n"
-        "             Return values:\n"
-        "             \n"
-        "             0     Success.\n"
-        "             1     General error.\n"
-        "             2     Command line error.\n"
-        "             3     Subsystems error (ie cannot connect to server).\n"
-        "\n"
-msgstr  "Lietošana: %s [OPCIJA]...\n"
-        "\n"
-        "Atskaņo audio failus pie IceWM ierosinātām GLI darbībām.\n"
-        "\n"
-        "Opcijas:\n"
-        "\n"
-        "  -d, --display=DISPLEJS        IceWM izmantotais displejs "
-        "(noklusētais: $DISPLAY).\n"
-        "  -s, --sample-dir=DIR          Specifies the directory which "
-        "contains\n"
-        "                                the sound files (ie ~/.icewm/"
-        "sounds).\n"
-        "  -i, --interface=TARGET        Specifies the sound output target\n"
-        "                                interface, one of OSS, YIFF, ESD\n"
-        "  -D, --device=DEVICE           (OSS only) specifies the digital "
-        "signal\n"
-        "                                processor (default /dev/dsp).\n"
-        "  -S, --server=ADDR:PORT\t(ESD and YIFF) specifies server address "
-        "and\n"
-        "                                port number (default localhost:16001 "
-        "for ESD\n"
-        "\t\t\t\tand localhost:9433 for YIFF).\n"
-        "  -m, --audio-mode[=MODE]       (YIFF only) specifies the Audio mode "
-        "(leave\n"
-        "                                blank to get a list).\n"
-        "  --audio-mode-auto       \t(YIFF only) change Audio mode on the fly "
-        "to\n"
-        "                                best match sample's Audio (can "
-        "cause\n"
-        "                                problems with other Y clients, "
-        "overrides\n"
-        "                                --audio-mode).\n"
-        "\n"
-        "  -v, --verbose                 Be verbose (prints out each sound "
-        "event to\n"
-        "                                stdout).\n"
-        "  -V, --version                 Izvada informāciju par versiju un "
-        "iziet.\n"
-        "  -h, --help                    Izvada [šo] palīdzības ekrānu un "
-        "iziet.\n"
-        "\n"
-        "Atgrieztās vērtības:\n"
-        "\n"
-        "  0     Veiksme.\n"
-        "  1     Vispārīga kļūda.\n"
-        "  2     Komandrindas kļūda.\n"
-        "  3     Apakšsistēmas kļūda (piemēram, nevar pieslēgties serverim).\n"
-        "\n"
+msgid ""
+"Usage: %s [OPTIONS] ACTIONS\n"
+"\n"
+"Options:\n"
+"  -display DISPLAY            Connects to the X server specified by "
+"DISPLAY.\n"
+"                              Default: $DISPLAY or :0.0 when not set.\n"
+"  -window WINDOW_ID           Specifies the window to manipulate. Special\n"
+"                              identifiers are `root' for the root window "
+"and\n"
+"                              `focus' for the currently focused window.\n"
+"  -class WM_CLASS             Window management class of the window(s) to\n"
+"                              manipulate. If WM_CLASS contains a period, "
+"only\n"
+"                              windows with exactly the same WM_CLASS "
+"property\n"
+"                              are matched. If there is no period, windows "
+"of\n"
+"                              the same class and windows of the same "
+"instance\n"
+"                              (aka. `-name') are selected.\n"
+"\n"
+"Actions:\n"
+"  setIconTitle   TITLE        Set the icon title.\n"
+"  setWindowTitle TITLE        Set the window title.\n"
+"  setGeometry    geometry     Set the window geometry\n"
+"  setState       MASK STATE   Set the GNOME window state to STATE.\n"
+"                              Only the bits selected by MASK are affected.\n"
+"                              STATE and MASK are expressions of the domain\n"
+"                              `GNOME window state'.\n"
+"  toggleState    STATE        Toggle the GNOME window state bits specified "
+"by\n"
+"                              the STATE expression.\n"
+"  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
+"  setLayer       LAYER        Moves the window to another GNOME window "
+"layer.\n"
+"  setWorkspace   WORKSPACE    Moves the window to another workspace. Select\n"
+"                              the root window to change the current "
+"workspace.\n"
+"  listWorkspaces              Lists the names of all workspaces.\n"
+"  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
+"\n"
+"Expressions:\n"
+"  Expressions are list of symbols of one domain concatenated by `+' or `|':\n"
+"\n"
+"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
+"\n"
+msgstr ""
+"Lietošana: %s [OPCIJAS] DARBĪBAS\n"
+"\n"
+"Opcijas:\n"
+"  -display DISPLEJS           Pieslēdzas norādītajam X serverim.\n"
+"                              Noklusētais: $DISPLAY vai :0.0, ja nav "
+"uzstādīts.\n"
+"  -window LOGA_ID             Norāda logu, ar kuru manipulēt. Speciālie\n"
+"                              identifikatori ir `root' saknes logam un\n"
+"\t\t\t      `focus' šobrīd aktīvajam logam.\n"
+"  -class LV_KLASE             Logu vadības klase menipulējamajiem\n"
+"    \t    \t    \t      logiem. Ja LV_KLASE satur punktu, saskanēs tikai\n"
+"    \t    \t              logi ar tieši tādu pašu nosaukumu kā LV_KLASE "
+"īpašībai.\n"
+"\t\t\t      Ja punkta nav, atlasīti tiks visi logi ar tādu pašu\n"
+"\t\t\t      klasi, vai arī tās pašas instances logi\n"
+"\t\t\t      (`-name').\n"
+"\n"
+"Darbības:\n"
+"  setIconTitle   NOSAUKUMS    Uzstāda ikonas nosaukumu.\n"
+"  setWindowTitle NOSAUKUMS    Uzstāda loga nosaukumu.\n"
+"  setGeometry    ģeometrija   Uzstāda loga ģeometriju\n"
+"  setState       MASK STATE   Set the GNOME window state to STATE.\n"
+"  \t\t\t      Only the bits selected by MASK are affected.\n"
+"                              STATE and MASK are expressions of the domain\n"
+"                              `GNOME window state'.\n"
+"  toggleState    STATE        Toggle the GNOME window state bits specified "
+"by\n"
+"                              the STATE expression.\n"
+"  setHints       HINTS        Set th GNOME window hints to HINTS.\n"
+"  setLayer       SLĀNIS       Pārvieto logu uz citu GNOMEs logu slāni.\n"
+"  setWorkspace   DARBAVIDE    Pārvieto logu uz citu darba vidi. Izvēlieties\n"
+"  \t\t\t      saknes logu, lai nomainītu aktīvo darba vidi.\n"
+"  listWorkspaces   \t      Izvada darba vižu nosaukumus.\n"
+"  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
+"\n"
+"Izteiksmes:\n"
+"  Expressions are list of symbols of one domain concatenated by `+' or `|':\n"
+"\n"
+"  IZTEIKSME ::= SIMBOLS | IZTEIKSME ( `+' | `|' ) SIMBOLS\n"
+"\n"
 
-msgid   "Multiple sound interfaces given."
-msgstr  "Doti vairāki skaņas interfeisi."
+#: src/icesh.cc:608
+msgid "GNOME window state"
+msgstr "GNOMEs loga stāvoklis"
 
+#: src/icesh.cc:609
+msgid "GNOME window hint"
+msgstr "GNOMEs loga padoms"
+
+#: src/icesh.cc:610
+msgid "GNOME window layer"
+msgstr "GNOMEs loga slānis"
+
+#: src/icesh.cc:611
+msgid "IceWM tray option"
+msgstr "IceWM paplātes opcija"
+
+#: src/icesh.cc:616
+msgid "Usage error: "
+msgstr "Lietošanas kļūda:"
+
+#: src/icesh.cc:687
 #, c-format
-msgid   "Support for the %s interface not compiled."
-msgstr  "%s interfeisa atbalsts nav iekompilēts."
+msgid "Invalid argument: `%s'."
+msgstr "Kļūdains arguments: `%s'."
 
+#: src/icesh.cc:696
+msgid "No actions specified."
+msgstr "Nav norādītu darbību."
+
+#: src/icesh.cc:703 src/icesound.cc:1048 src/icewmhint.cc:74 src/yxapp.cc:971
 #, c-format
-msgid   "Unsupported interface: %s."
-msgstr  "Neatbalstīts interfeiss: %s."
+msgid "Can't open display: %s. X must be running and $DISPLAY set."
+msgstr ""
+"Nevaru atvērt displeju: %s. X ir jābūt palaistam un $DISPLEY uzstādītam."
 
+#: src/icesh.cc:743
 #, c-format
-msgid   "Received signal %d: Terminating..."
-msgstr  "Saņēmts signāls %d: beidzu..."
+msgid "Invalid window identifier: `%s'"
+msgstr "Kļūdains loga identifikators: `%s'"
 
+#: src/icesh.cc:896
 #, c-format
-msgid   "Received signal %d: Reloading samples..."
-msgstr  "Saņemts signāls %d: Pārlādēju skaņas..."
+msgid "workspace #%d: `%s'\n"
+msgstr "darba vide #%d: `%s'\n"
 
-msgid   "Hex View"
-msgstr  "Heksadecimālais skats"
+#: src/icesh.cc:914
+#, c-format
+msgid "Unknown action: `%s'"
+msgstr "Nezināma darbība: `%s'"
 
-msgid   "Ctrl+H"
-msgstr  "Ctrl+H"
+#: src/iceskt.cc:36
+#, c-format
+msgid "Socket error: %d"
+msgstr "Ligzdas kļūda: %d"
 
-msgid   "Expand Tabs"
-msgstr  "Izvērst tabus"
+#: src/icesound.cc:256 src/icesound.cc:424 src/icesound.cc:790
+#, c-format
+msgid "Playing sample #%d (%s)"
+msgstr "Atskaņoju #%d (%s)"
 
-msgid   "Ctrl+T"
-msgstr  "Ctrl+T"
+#: src/icesound.cc:466
+#, c-format
+msgid "No such device: %s"
+msgstr "Nav tādas iekārtas: %s"
 
-msgid   "Wrap Lines"
-msgstr  "Pārnest rindas"
+#: src/icesound.cc:559
+#, c-format
+msgid "Can't connect to ESound daemon: %s"
+msgstr "Nevaru pieslēgties ESound dēmonam: %s"
 
-msgid   "Ctrl+W"
-msgstr  "Ctrl+W"
+#: src/icesound.cc:560 src/icesound.cc:737 src/icesound.cc:778
+#: src/icewmhint.cc:76 src/yxapp.cc:972
+msgid "<none>"
+msgstr "<nekas>"
 
+#: src/icesound.cc:580
+#, c-format
+msgid "Error <%d> while uploading `%s:%s'"
+msgstr "Kļūda <%d> augšupielādējot `%s:%s'"
+
+#: src/icesound.cc:586
+#, c-format
+msgid "Sample <%d> uploaded as `%s:%s'"
+msgstr "Skaņa <%d> augšupielādēta kā `%s:%s'"
+
+#: src/icesound.cc:645
+#, c-format
+msgid "Playing sample #%d"
+msgstr "Atskaņoju #%d"
+
+#: src/icesound.cc:736 src/icesound.cc:777
+#, c-format
+msgid "Can't connect to YIFF server: %s"
+msgstr "Nevaru pieslēgties YIFF serverim: %s"
+
+#: src/icesound.cc:742
+#, c-format
+msgid "Can't change to audio mode `%s'."
+msgstr "Nevaru pārslēgties uz audio režīmu `%s'."
+
+#: src/icesound.cc:884
+#, c-format
+msgid ""
+"Audio mode switch detected, initial audio mode `%s' no longer in effect."
+msgstr ""
+"Atklāta audio režīma pārslēgšana, sākotnējais audio režīms `%s' vairs nav "
+"spēkā."
+
+#: src/icesound.cc:891
+msgid "Audio mode switch detected, automatic audio mode changing disabled."
+msgstr ""
+"Atklāta audio režīma pārslēgšana, automātiska audio režīma maiņa atspējota."
+
+#: src/icesound.cc:937 src/icesound.cc:950
+#, c-format
+msgid "Overriding previous audio mode `%s'."
+msgstr "Neievērojam iepriekšējo audio režīmu `%s'."
+
+#: src/icesound.cc:976
+#, fuzzy, c-format
+msgid ""
+"Usage: %s [OPTION]...\n"
+"\n"
+"Plays audio files on GUI events raised by IceWM.\n"
+"\n"
+"Options:\n"
+"\n"
+"-d, --display=DISPLAY         Display used by IceWM (default: $DISPLAY).\n"
+"-s, --sample-dir=DIR          Specifies the directory which contains\n"
+"                              the sound files (ie ~/.icewm/sounds).\n"
+"-i, --interface=TARGET        Specifies the sound output target\n"
+"                              interface, one of OSS, YIFF, ESD, ALSA\n"
+"-D, --device=DEVICE           (ALSA & OSS only) specifies the device to use\n"
+"                              (OSS default: /dev/dsp; ALSA: default).\n"
+"-S, --server=ADDR:PORT        (ESD and YIFF) specifies server address and\n"
+"                              port number (default localhost:16001 for ESD\n"
+"                              and localhost:9433 for YIFF).\n"
+"-m, --audio-mode[=MODE]       (YIFF only) specifies the Audio mode (leave\n"
+"                              blank to get a list).\n"
+"--audio-mode-auto             (YIFF only) change Audio mode on the fly to\n"
+"                              best match sample's Audio (can cause\n"
+"                              problems with other Y clients, overrides\n"
+"                              --audio-mode).\n"
+"\n"
+"-v, --verbose                 Be verbose (prints out each sound event to\n"
+"                              stdout).\n"
+"-V, --version                 Prints version information and exits.\n"
+"-h, --help                    Prints (this) help screen and exits.\n"
+"\n"
+"Return values:\n"
+"\n"
+"0     Success.\n"
+"1     General error.\n"
+"2     Command line error.\n"
+"3     Subsystems error (ie cannot connect to server).\n"
+"\n"
+msgstr ""
+"Lietošana: %s [OPCIJA]...\n"
+"\n"
+"Atskaņo audio failus pie IceWM ierosinātām GLI darbībām.\n"
+"\n"
+"Opcijas:\n"
+"\n"
+"-d, --display=DISPLEJS        IceWM izmantotais displejs (noklusētais: "
+"$DISPLAY).\n"
+"-s, --sample-dir=DIR          Specifies the directory which contains\n"
+"                              the sound files (ie ~/.icewm/sounds).\n"
+"-i, --interface=TARGET        Specifies the sound output target\n"
+"                              interface, one of ALSA, OSS, YIFF, ESD\n"
+"-D, --device=DEVICE           (ALSA OSS) specifies the digital signal\n"
+"                              processor (default (ALSA) default (OSS) /dev/"
+"dsp).\n"
+"-S, --server=ADDR:PORT        (ESD and YIFF) specifies server address and\n"
+"                              port number (default localhost:16001 for ESD\n"
+"                              and localhost:9433 for YIFF).\n"
+"-m, --audio-mode[=MODE]       (YIFF only) specifies the Audio mode (leave\n"
+"                              blank to get a list).\n"
+"--audio-mode-auto             (YIFF only) change Audio mode on the fly to\n"
+"                              best match sample's Audio (can cause\n"
+"                              problems with other Y clients, overrides\n"
+"                              --audio-mode).\n"
+"\n"
+"-v, --verbose                 Be verbose (prints out each sound event to\n"
+"                              stdout).\n"
+"-V, --version                 Izvada informāciju par versiju un iziet.\n"
+"-h, --help                    Izvada [šo] palīdzības ekrānu un iziet.\n"
+"\n"
+"Atgrieztās vērtības:\n"
+"\n"
+"0     Veiksme.\n"
+"1     Vispārīga kļūda.\n"
+"2     Komandrindas kļūda.\n"
+"3     Apakšsistēmas kļūda (piemēram, nevar pieslēgties serverim).\n"
+"\n"
+
+#: src/icesound.cc:1173
+msgid "Multiple sound interfaces given."
+msgstr "Doti vairāki skaņas interfeisi."
+
+#: src/icesound.cc:1185 src/icesound.cc:1197 src/icesound.cc:1210
+#, c-format
+msgid "Support for the %s interface not compiled."
+msgstr "%s interfeisa atbalsts nav iekompilēts."
+
+#: src/icesound.cc:1214
+#, c-format
+msgid "Unsupported interface: %s."
+msgstr "Neatbalstīts interfeiss: %s."
+
+#: src/icesound.cc:1231
+#, c-format
+msgid "Received signal %d: Terminating..."
+msgstr "Saņēmts signāls %d: beidzu..."
+
+#: src/icesound.cc:1240
+#, c-format
+msgid "Received signal %d: Reloading samples..."
+msgstr "Saņemts signāls %d: Pārlādēju skaņas..."
+
+#: src/iceview.cc:72
+msgid "Hex View"
+msgstr "Heksadecimālais skats"
+
+#: src/iceview.cc:72
+msgid "Ctrl+H"
+msgstr "Ctrl+H"
+
+#: src/iceview.cc:73
+msgid "Expand Tabs"
+msgstr "Izvērst tabus"
+
+#: src/iceview.cc:73
+msgid "Ctrl+T"
+msgstr "Ctrl+T"
+
+#: src/iceview.cc:74
+msgid "Wrap Lines"
+msgstr "Pārnest rindas"
+
+#: src/iceview.cc:74
+msgid "Ctrl+W"
+msgstr "Ctrl+W"
+
+#: src/icewmbg.cc:408
 #, fuzzy
-msgid   "Usage: icewmbg [ -r | -q ]\n"
-        " -r  Restart icewmbg\n"
-        " -q  Quit icewmbg\n"
-        "Loads desktop background according to preferences file\n"
-        " DesktopBackgroundCenter  - Display desktop background centered, not "
-        "tiled\n"
-        " SupportSemitransparency  - Support for semitransparent terminals\n"
-        " DesktopBackgroundColor   - Desktop background color\n"
-        " DesktopBackgroundImage   - Desktop background image\n"
-        " DesktopTransparencyColor - Color to announce for semi-transparent "
-        "windows\n"
-        " DesktopTransparencyImage - Image to announce for semi-transparent "
-        "windows\n"
-msgstr  "Lietošana: icewmbg [ -r | -q ]\n"
-        " -r  Pārstartēt icewmbg\n"
-        " -q  Iziet no icewmbg\n"
-        "Ielādē uzstādījumu failā norādīto darbavirsmas fonu\n"
-        " DesktopBackgroundCenter  - Display desktop background centered, not "
-        "tiled\n"
-        " SupportSemitransparency  - puscaurspīdīgo termināļu atbalsts\n"
-        " DesktopBackgroundColor   - Darbavirsmas fona krāsa\n"
-        " DesktopBackgroundImage   - Darbavirsmas fona bilde\n"
-        " DesktopTransparencyColor - Logu caurspīdīguma krāsa\n"
-        " DesktopTransparencyImage - Logu caurspīdīguma attēls\n"
+msgid ""
+"Usage: icewmbg [ -r | -q ]\n"
+" -r  Restart icewmbg\n"
+" -q  Quit icewmbg\n"
+"Loads desktop background according to preferences file\n"
+" DesktopBackgroundCenter  - Display desktop background centered\n"
+" DesktopBackgroundScaled  - Display desktop background scaled\n"
+" SupportSemitransparency  - Support for semitransparent terminals\n"
+" DesktopBackgroundColor   - Desktop background color\n"
+" DesktopBackgroundImage   - Desktop background image\n"
+" DesktopTransparencyColor - Color to announce for semi-transparent windows\n"
+" DesktopTransparencyImage - Image to announce for semi-transparent windows\n"
+"\n"
+" center:0 scaled:0 = tiled\n"
+" center:1 scaled:1 = keep aspect ratio\n"
+msgstr ""
+"Lietošana: icewmbg [ -r | -q ]\n"
+" -r  Pārstartēt icewmbg\n"
+" -q  Iziet no icewmbg\n"
+"Ielādē uzstādījumu failā norādīto darbavirsmas fonu\n"
+" DesktopBackgroundCenter  - Display desktop background centered, not tiled\n"
+" SupportSemitransparency  - puscaurspīdīgo termināļu atbalsts\n"
+" DesktopBackgroundColor   - Darbavirsmas fona krāsa\n"
+" DesktopBackgroundImage   - Darbavirsmas fona bilde\n"
+" DesktopTransparencyColor - Logu caurspīdīguma krāsa\n"
+" DesktopTransparencyImage - Logu caurspīdīguma attēls\n"
 
+#: src/icewmbg.cc:426
 #, c-format
-msgid   "%s: unrecognized option `%s'\n"
-        "Try `%s --help' for more information.\n"
-msgstr  "%s: neatpazīta opcija `%s'\n"
-        "Lai iegūtu vairāk informācijas, mēģiniet `%s --help'.\n"
+msgid ""
+"%s: unrecognized option `%s'\n"
+"Try `%s --help' for more information.\n"
+msgstr ""
+"%s: neatpazīta opcija `%s'\n"
+"Lai iegūtu vairāk informācijas, mēģiniet `%s --help'.\n"
 
+#: src/icewmbg.cc:554
 #, c-format
-msgid   "Loading image %s failed"
-msgstr  "Kļūda ielādējot attēlu %s"
+msgid "Loading image %s failed"
+msgstr "Kļūda ielādējot attēlu %s"
 
+#: src/icewmbg.cc:568 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
 #, c-format
-msgid   "Loading of pixmap \"%s\" failed: %s"
-msgstr  "Pikseļu kartes \"%s\" ielāde neizdevās: %s"
+msgid "Loading of pixmap \"%s\" failed: %s"
+msgstr "Pikseļu kartes \"%s\" ielāde neizdevās: %s"
 
-msgid   "Usage: icewmhint [class.instance] option arg\n"
-msgstr  "Lietošana: icewmhint [klase.instance] opcija arg\n"
+#: src/icewmhint.cc:47
+msgid "Usage: icewmhint [class.instance] option arg\n"
+msgstr "Lietošana: icewmhint [klase.instance] opcija arg\n"
 
+#: src/icewmhint.cc:63
 #, c-format
-msgid   "Out of memory (len=%d)."
-msgstr  "Nepietiek atmiņas (garums=%d)."
+msgid "Out of memory (len=%d)."
+msgstr "Nepietiek atmiņas (garums=%d)."
 
-msgid   "Warning: "
-msgstr  "Uzmanību:"
+#: src/misc.cc:326
+msgid "Warning: "
+msgstr "Uzmanību:"
 
+#: src/movesize.cc:903
 #, c-format
-msgid   "Unknown direction in move/resize request: %d"
-msgstr  "Nezināms virziens kustināšanas/izmēra maiņas pieprasījumam: %d"
+msgid "Unknown direction in move/resize request: %d"
+msgstr "Nezināms virziens kustināšanas/izmēra maiņas pieprasījumam: %d"
 
-msgid   "Default"
-msgstr  "Noklusētā"
+#: src/themes.cc:99
+msgid "Default"
+msgstr "Noklusētā"
 
-msgid   "(C)"
-msgstr  "©"
+#: src/wmabout.cc:29 src/wmabout.cc:31
+msgid "(C)"
+msgstr "©"
 
-msgid   "Theme:"
-msgstr  "Tēma:"
+#: src/wmabout.cc:37
+msgid "Theme:"
+msgstr "Tēma:"
 
-msgid   "Theme Description:"
-msgstr  "Tēmas apraksts:"
+#: src/wmabout.cc:38
+msgid "Theme Description:"
+msgstr "Tēmas apraksts:"
 
-msgid   "Theme Author:"
-msgstr  "Tēmas autors:"
+#: src/wmabout.cc:39
+msgid "Theme Author:"
+msgstr "Tēmas autors:"
 
-msgid   "CodeSet:"
-msgstr  ""
+#: src/wmabout.cc:43
+msgid "CodeSet:"
+msgstr ""
 
-msgid   "Language:"
-msgstr  ""
+#: src/wmabout.cc:44
+msgid "Language:"
+msgstr ""
 
-msgid   "icewm - About"
-msgstr  "icewm - Par"
+#: src/wmabout.cc:69
+msgid "icewm - About"
+msgstr "icewm - Par"
 
-msgid   "Unable to get current font path."
-msgstr  "Nevaru atrast tekošo fontu ceļu."
+#: src/wmapp.cc:435
+msgid "Unable to get current font path."
+msgstr "Nevaru atrast tekošo fontu ceļu."
 
-msgid   "Unexpected format of ICEWM_FONT_PATH property"
-msgstr  "Nezināms ICEWM_FONT_PATH īpašības formāts"
+#: src/wmapp.cc:462
+msgid "Unexpected format of ICEWM_FONT_PATH property"
+msgstr "Nezināms ICEWM_FONT_PATH īpašības formāts"
 
+#: src/wmapp.cc:516
 #, c-format
-msgid   "Multiple references for gradient \"%s\""
-msgstr  "Vairākas norādes gradientam \"%s\""
+msgid "Multiple references for gradient \"%s\""
+msgstr "Vairākas norādes gradientam \"%s\""
 
+#: src/wmapp.cc:591
 #, c-format
-msgid   "Unknown gradient name: %s"
-msgstr  "Nezināms gradienta nosaukums: %s"
+msgid "Unknown gradient name: %s"
+msgstr "Nezināms gradienta nosaukums: %s"
 
-msgid   "_Logout"
-msgstr  "Iz_logoties"
+#: src/wmapp.cc:847
+msgid "_Logout"
+msgstr "Iz_logoties"
 
-msgid   "_Cancel logout"
-msgstr  "At_celt izlogošanos"
+#: src/wmapp.cc:848
+msgid "_Cancel logout"
+msgstr "At_celt izlogošanos"
 
-msgid   "Lock _Workstation"
-msgstr  "_Noslēgt darbstaciju"
+#: src/wmapp.cc:860
+msgid "Lock _Workstation"
+msgstr "_Noslēgt darbstaciju"
 
-msgid   "Re_boot"
-msgstr  "_Pārstartēt datoru"
+#: src/wmapp.cc:862 src/wmdialog.cc:111
+msgid "Re_boot"
+msgstr "_Pārstartēt datoru"
 
-msgid   "Shut_down"
-msgstr  "Izslēgt _datoru"
+#: src/wmapp.cc:864 src/wmdialog.cc:118
+msgid "Shut_down"
+msgstr "Izslēgt _datoru"
 
-msgid   "Restart _Icewm"
-msgstr  "Pārstartēt _Icewm"
+#: src/wmapp.cc:868
+msgid "Restart _Icewm"
+msgstr "Pārstartēt _Icewm"
 
-msgid   "Restart _Xterm"
-msgstr  "Pārstartēt _Xterm"
+#: src/wmapp.cc:871
+msgid "Restart _Xterm"
+msgstr "Pārstartēt _Xterm"
 
-msgid   "_Menu"
-msgstr  "_Izvēlne"
+#: src/wmapp.cc:886
+msgid "_Menu"
+msgstr "_Izvēlne"
 
-msgid   "_Above Dock"
-msgstr  "Virs dok_a"
+#: src/wmapp.cc:887
+msgid "_Above Dock"
+msgstr "Virs dok_a"
 
-msgid   "_Dock"
-msgstr  "_Doks"
+#: src/wmapp.cc:888
+msgid "_Dock"
+msgstr "_Doks"
 
-msgid   "_OnTop"
-msgstr  "_Virs"
+#: src/wmapp.cc:889
+msgid "_OnTop"
+msgstr "_Virs"
 
-msgid   "_Normal"
-msgstr  "_Normālais"
+#: src/wmapp.cc:890
+msgid "_Normal"
+msgstr "_Normālais"
 
-msgid   "_Below"
-msgstr  "_Zem"
+#: src/wmapp.cc:891
+msgid "_Below"
+msgstr "_Zem"
 
-msgid   "D_esktop"
-msgstr  "_Darbavirsma"
+#: src/wmapp.cc:892
+msgid "D_esktop"
+msgstr "_Darbavirsma"
 
-msgid   "_Restore"
-msgstr  "At_jaunot"
+#: src/wmapp.cc:904
+msgid "_Restore"
+msgstr "At_jaunot"
 
-msgid   "_Move"
-msgstr  "Pā_rvietot"
+#: src/wmapp.cc:906
+msgid "_Move"
+msgstr "Pā_rvietot"
 
-msgid   "_Size"
-msgstr  "Izmēr_s"
+#: src/wmapp.cc:908
+msgid "_Size"
+msgstr "Izmēr_s"
 
-msgid   "Mi_nimize"
-msgstr  "Mi_nimizēt"
+#: src/wmapp.cc:910
+msgid "Mi_nimize"
+msgstr "Mi_nimizēt"
 
-msgid   "Ma_ximize"
-msgstr  "Ma_ksimizēt"
+#: src/wmapp.cc:912
+msgid "Ma_ximize"
+msgstr "Ma_ksimizēt"
 
-msgid   "_Fullscreen"
-msgstr  "_Pilnekrānā"
+#: src/wmapp.cc:914
+msgid "_Fullscreen"
+msgstr "_Pilnekrānā"
 
-msgid   "_Hide"
-msgstr  "N_oslēpt"
+#: src/wmapp.cc:918 src/wmwinlist.cc:307
+msgid "_Hide"
+msgstr "N_oslēpt"
 
-msgid   "Roll_up"
-msgstr  "Sar_itināt"
+#: src/wmapp.cc:921
+msgid "Roll_up"
+msgstr "Sar_itināt"
 
-msgid   "R_aise"
-msgstr  "P_aaugstināt"
+#: src/wmapp.cc:928
+msgid "R_aise"
+msgstr "P_aaugstināt"
 
-msgid   "_Lower"
-msgstr  "Pa_zemināt"
+#: src/wmapp.cc:930
+msgid "_Lower"
+msgstr "Pa_zemināt"
 
-msgid   "La_yer"
-msgstr  "S_lānis"
+#: src/wmapp.cc:932
+msgid "La_yer"
+msgstr "S_lānis"
 
-msgid   "Move _To"
-msgstr  "Pārvie_tot uz"
+#: src/wmapp.cc:936 src/wmwinlist.cc:310
+msgid "Move _To"
+msgstr "Pārvie_tot uz"
 
-msgid   "Occupy _All"
-msgstr  "_Aizņemt visas"
+#: src/wmapp.cc:937
+msgid "Occupy _All"
+msgstr "_Aizņemt visas"
 
-msgid   "Limit _Workarea"
-msgstr  "Ierobežot _darba apgabalu"
+#: src/wmapp.cc:943
+msgid "Limit _Workarea"
+msgstr "Ierobežot _darba apgabalu"
 
-msgid   "Tray _icon"
-msgstr  "Paplātes _ikona"
+#: src/wmapp.cc:948
+msgid "Tray _icon"
+msgstr "Paplātes _ikona"
 
-msgid   "_Close"
-msgstr  "Aiz_vērt"
+#: src/wmapp.cc:954 src/wmwinlist.cc:295 src/wmwinlist.cc:321
+msgid "_Close"
+msgstr "Aiz_vērt"
 
-msgid   "_Kill Client"
-msgstr  "Nogalināt _klientu"
+#: src/wmapp.cc:956 src/wmwinlist.cc:297
+msgid "_Kill Client"
+msgstr "Nogalināt _klientu"
 
-msgid   "_Window list"
-msgstr  "_Logu saraksts"
+#: src/wmapp.cc:960 src/wmdialog.cc:132 src/wmwinmenu.cc:137
+msgid "_Window list"
+msgstr "_Logu saraksts"
 
-msgid   "Another window manager already running, exiting..."
-msgstr  "Cits logu pārvaldnieks jau ir palaists, beidzu..."
+#: src/wmapp.cc:976
+msgid "Another window manager already running, exiting..."
+msgstr "Cits logu pārvaldnieks jau ir palaists, beidzu..."
 
+#: src/wmapp.cc:1042
 #, c-format
-msgid   "Could not restart: %s\n"
-        "Does $PATH lead to %s?"
-msgstr  "Nevaru pārstartēt: %s\n"
-        "Vai $PATH ved pie %s?"
+msgid ""
+"Could not restart: %s\n"
+"Does $PATH lead to %s?"
+msgstr ""
+"Nevaru pārstartēt: %s\n"
+"Vai $PATH ved pie %s?"
 
+#: src/wmapp.cc:1615
 #, fuzzy, c-format
-msgid   "Usage: %s [OPTIONS]\n"
-        "Starts the IceWM window manager.\n"
-        "\n"
-        "Options:\n"
-        "  --display=NAME      NAME of the X server to use.\n"
-        "%s  --sync              Synchronize X11 commands.\n"
-        "\n"
-        "  -c, --config=FILE   Load preferences from FILE.\n"
-        "  -t, --theme=FILE    Load theme from FILE.\n"
-        "  -n, --no-configure  Ignore preferences file.\n"
-        "\n"
-        "  -v, --version       Prints version information and exits.\n"
-        "  -h, --help          Prints this usage screen and exits.\n"
-        "%s  --replace           Replace an existing window manager.\n"
-        "  --restart           Don't use this: It's an internal flag.\n"
-        "\n"
-        "Environment variables:\n"
-        "  ICEWM_PRIVCFG=PATH  Directory to use for user private "
-        "configuration files,\n"
-        "                      \"$HOME/.icewm/\" by default.\n"
-        "  DISPLAY=NAME        Name of the X server to use, depends on Xlib "
-        "by default.\n"
-        "  MAIL=URL            Location of your mailbox. If the schema is "
-        "omitted\n"
-        "                      the local \"file\" schema is assumed.\n"
-        "\n"
-        "Visit http://www.icewm.org/ for report bugs, support requests, "
-        "comments...\n"
-msgstr  "Lietošana: %s [OPCIJAS]\n"
-        "Palaiž IceWM logu pārvaldnieku.\n"
-        "\n"
-        "Opcijas:\n"
-        "  --display=NOSAUKUMS Lietojamā X servera NOSAUKUMS.\n"
-        "%s  --sync              Sinhronizēt X11 komandas.\n"
-        "\n"
-        "  -c, --config=FAILS  Ielādēt uzstādījumus no FAILA.\n"
-        "  -t, --theme=FAILS   Ielādēt tēmu no FAILA.\n"
-        "  -n, --no-configure  Ignorēt uzstādījumu failu.\n"
-        "\n"
-        "  -v, --version       Izvada informāciju par versiju un iziet.\n"
-        "  -h, --help          Izvada šo palīdzības ekrānu un iziet.\n"
-        "%s  --restart           Nelietojiet šo: tas ir iekšējais karodziņš\n"
-        "\n"
-        "Vides mainīgie:\n"
-        "  ICEWM_PRIVCFG=CEĻŠ  Privāto konfigurācijas failu katalogs,\n"
-        "                      noklusētais ir \"$HOME/.icewm/\".\n"
-        "  DISPLAY=NOSAUKUMS   Lietojamā X servera nosaukums, noklusētais "
-        "atkarīgs no XLib.\n"
-        "  MAIL=URL            Pasta kastītes atrašānās vieta. Ja shēma nav "
-        "norādīta,\n"
-        "                      tiek pieņemta lokālā \"file\" shēma.\n"
-        "\n"
-        "Apmeklējiet http://www.icewm.org/, lai ziņotu par kļūdām, prasītu "
-        "atbalstu vai atstātu komentārus...\n"
+msgid ""
+"Usage: %s [OPTIONS]\n"
+"Starts the IceWM window manager.\n"
+"\n"
+"Options:\n"
+"  --display=NAME      NAME of the X server to use.\n"
+"%s  --sync              Synchronize X11 commands.\n"
+"\n"
+"  -c, --config=FILE   Load preferences from FILE.\n"
+"  -t, --theme=FILE    Load theme from FILE.\n"
+"  -n, --no-configure  Ignore preferences file.\n"
+"\n"
+"  -v, --version       Prints version information and exits.\n"
+"  -h, --help          Prints this usage screen and exits.\n"
+"%s  --replace           Replace an existing window manager.\n"
+"  --restart           Don't use this: It's an internal flag.\n"
+"\n"
+"Environment variables:\n"
+"  ICEWM_PRIVCFG=PATH  Directory to use for user private configuration "
+"files,\n"
+"                      \"$HOME/.icewm/\" by default.\n"
+"  DISPLAY=NAME        Name of the X server to use, depends on Xlib by "
+"default.\n"
+"  MAIL=URL            Location of your mailbox. If the schema is omitted\n"
+"                      the local \"file\" schema is assumed.\n"
+"\n"
+"Visit http://www.icewm.org/ for report bugs, support requests, comments...\n"
+msgstr ""
+"Lietošana: %s [OPCIJAS]\n"
+"Palaiž IceWM logu pārvaldnieku.\n"
+"\n"
+"Opcijas:\n"
+"  --display=NOSAUKUMS Lietojamā X servera NOSAUKUMS.\n"
+"%s  --sync              Sinhronizēt X11 komandas.\n"
+"\n"
+"  -c, --config=FAILS  Ielādēt uzstādījumus no FAILA.\n"
+"  -t, --theme=FAILS   Ielādēt tēmu no FAILA.\n"
+"  -n, --no-configure  Ignorēt uzstādījumu failu.\n"
+"\n"
+"  -v, --version       Izvada informāciju par versiju un iziet.\n"
+"  -h, --help          Izvada šo palīdzības ekrānu un iziet.\n"
+"%s  --restart           Nelietojiet šo: tas ir iekšējais karodziņš\n"
+"\n"
+"Vides mainīgie:\n"
+"  ICEWM_PRIVCFG=CEĻŠ  Privāto konfigurācijas failu katalogs,\n"
+"                      noklusētais ir \"$HOME/.icewm/\".\n"
+"  DISPLAY=NOSAUKUMS   Lietojamā X servera nosaukums, noklusētais atkarīgs no "
+"XLib.\n"
+"  MAIL=URL            Pasta kastītes atrašānās vieta. Ja shēma nav "
+"norādīta,\n"
+"                      tiek pieņemta lokālā \"file\" shēma.\n"
+"\n"
+"Apmeklējiet http://www.icewm.org/, lai ziņotu par kļūdām, prasītu atbalstu "
+"vai atstātu komentārus...\n"
 
-msgid   "Confirm Logout"
-msgstr  "Apstiprināt izlogošanos"
+#: src/wmapp.cc:1715
+msgid "Confirm Logout"
+msgstr "Apstiprināt izlogošanos"
 
-msgid   "Logout will close all active applications.\n"
-        "Proceed?"
-msgstr  "Izlogošanās aizvērs visas aktivās lietojumprogrammas.\n"
-        "Turpināt?"
+#: src/wmapp.cc:1716
+msgid ""
+"Logout will close all active applications.\n"
+"Proceed?"
+msgstr ""
+"Izlogošanās aizvērs visas aktivās lietojumprogrammas.\n"
+"Turpināt?"
 
-msgid   "Bad Look name"
-msgstr  ""
+#: src/wmconfig.cc:116
+msgid "Bad Look name"
+msgstr ""
 
+#: src/wmdialog.cc:83
 #, fuzzy
-msgid   "Loc_k Workstation"
-msgstr  "_Noslēgt darbstaciju"
+msgid "Loc_k Workstation"
+msgstr "_Noslēgt darbstaciju"
 
-msgid   "_Logout..."
-msgstr  "Iz_logoties..."
+#: src/wmdialog.cc:90 src/wmprog.cc:940 src/wmprog.cc:942 src/wmtaskbar.cc:434
+#: src/wmtaskbar.cc:436
+msgid "_Logout..."
+msgstr "Iz_logoties..."
 
-msgid   "_Cancel"
-msgstr  "At_celt"
+#: src/wmdialog.cc:97
+msgid "_Cancel"
+msgstr "At_celt"
 
-msgid   "_Restart icewm"
-msgstr  "Pā_rstartēt icewm"
+#: src/wmdialog.cc:104
+msgid "_Restart icewm"
+msgstr "Pā_rstartēt icewm"
 
-msgid   "_About"
-msgstr  "P_ar"
+#: src/wmdialog.cc:125 src/wmprog.cc:878 src/wmtaskbar.cc:426
+#: src/wmtaskbar.cc:429
+msgid "_About"
+msgstr "P_ar"
 
-msgid   "Maximize"
-msgstr  "Maksimizēt"
+#: src/wmframe.cc:159 src/wmframe.cc:3398
+msgid "Maximize"
+msgstr "Maksimizēt"
 
-#. fMinimizeButton->setWinGravity(NorthEastGravity);
-msgid   "Minimize"
-msgstr  "Minimizēt"
+#: src/wmframe.cc:172
+msgid "Minimize"
+msgstr "Minimizēt"
 
-#. fHideButton->setWinGravity(NorthEastGravity);
-msgid   "Hide"
-msgstr  "Noslēpt"
+#: src/wmframe.cc:193
+msgid "Hide"
+msgstr "Noslēpt"
 
-#. fRollupButton->setWinGravity(NorthEastGravity);
-msgid   "Rollup"
-msgstr  "Saritināt"
+#: src/wmframe.cc:203 src/wmframe.cc:3431
+msgid "Rollup"
+msgstr "Saritināt"
 
-#. fDepthButton->setWinGravity(NorthEastGravity);
-msgid   "Raise/Lower"
-msgstr  "Paaugstināt/pazemināt"
+#: src/wmframe.cc:212
+msgid "Raise/Lower"
+msgstr "Paaugstināt/pazemināt"
 
-msgid   "Kill Client: "
-msgstr  "Nogalināt klientu:"
+#: src/wmframe.cc:1711
+msgid "Kill Client: "
+msgstr "Nogalināt klientu:"
 
-msgid   "WARNING! All unsaved changes will be lost when\n"
-        "this client is killed. Do you wish to proceed?"
-msgstr  "UZMANĪBU! Visas nesaglabātās izmaiņas tiks zaudētas, kad\n"
-        "šis klients tiks nogalināts. Vai jūs vēlaties turpināt?"
+#: src/wmframe.cc:1715
+msgid ""
+"WARNING! All unsaved changes will be lost when\n"
+"this client is killed. Do you wish to proceed?"
+msgstr ""
+"UZMANĪBU! Visas nesaglabātās izmaiņas tiks zaudētas, kad\n"
+"šis klients tiks nogalināts. Vai jūs vēlaties turpināt?"
 
-msgid   "Restore"
-msgstr  "Atjaunot"
+#: src/wmframe.cc:3395
+msgid "Restore"
+msgstr "Atjaunot"
 
-msgid   "Rolldown"
-msgstr  "Atritināt"
+#: src/wmframe.cc:3429
+msgid "Rolldown"
+msgstr "Atritināt"
 
+#: src/wmoption.cc:239
 #, c-format
-msgid   "Error in window option: %s"
-msgstr  "Kļūda loga opcijā: %s"
+msgid "Error in window option: %s"
+msgstr "Kļūda loga opcijā: %s"
 
+#: src/wmoption.cc:256
 #, c-format
-msgid   "Unknown window option: %s"
-msgstr  "Nezināma loga opcija: %s"
+msgid "Unknown window option: %s"
+msgstr "Nezināma loga opcija: %s"
 
-msgid   "Syntax error in window options"
-msgstr  "Sintakses kļūda logu opcijās"
+#: src/wmoption.cc:339
+msgid "Syntax error in window options"
+msgstr "Sintakses kļūda logu opcijās"
 
-msgid   "Out of memory for window options"
-msgstr  "Trūkst atmiņas logu opcijām"
+#: src/wmoption.cc:386
+msgid "Out of memory for window options"
+msgstr "Trūkst atmiņas logu opcijām"
 
-msgid   "Missing command argument"
-msgstr  "Trūkstošs komandas arguments"
+#: src/wmprog.cc:191
+msgid "Missing command argument"
+msgstr "Trūkstošs komandas arguments"
 
+#: src/wmprog.cc:209
 #, c-format
-msgid   "Bad argument %d"
-msgstr  "Kļūdains arguments %d"
+msgid "Bad argument %d"
+msgstr "Kļūdains arguments %d"
 
+#: src/wmprog.cc:295 src/wmprog.cc:399 src/wmprog.cc:441
 #, c-format
-msgid   "Error at prog %s"
-msgstr  "Kļūda programmā %s"
+msgid "Error at prog %s"
+msgstr "Kļūda programmā %s"
 
+#: src/wmprog.cc:350
 #, c-format
-msgid   "Unexepected keyword: %s"
-msgstr  "Negaidīts atslēgvārds: %s"
+msgid "Unexepected keyword: %s"
+msgstr "Negaidīts atslēgvārds: %s"
 
+#: src/wmprog.cc:489
 #, c-format
-msgid   "Error at key %s"
-msgstr  "Kļūda atslēgā %s"
+msgid "Error at key %s"
+msgstr "Kļūda atslēgā %s"
 
-#. /    if (programs->itemCount() > 0)
-msgid   "Programs"
-msgstr  "Programmas"
+#: src/wmprog.cc:842
+msgid "Programs"
+msgstr "Programmas"
 
-msgid   "_Run..."
-msgstr  "_Palaist..."
+#: src/wmprog.cc:847
+msgid "_Run..."
+msgstr "_Palaist..."
 
-msgid   "_Windows"
-msgstr  "_Logi"
+#: src/wmprog.cc:854 src/wmtaskbar.cc:414
+msgid "_Windows"
+msgstr "_Logi"
 
-msgid   "_Help"
-msgstr  "Palī_gs"
+#: src/wmprog.cc:891
+msgid "_Help"
+msgstr "Palī_gs"
 
-msgid   "_Click to focus"
-msgstr  ""
+#: src/wmprog.cc:909
+msgid "_Click to focus"
+msgstr ""
 
-msgid   "_Sloppy mouse focus"
-msgstr  ""
+#: src/wmprog.cc:914
+msgid "_Sloppy mouse focus"
+msgstr ""
 
-msgid   "Custo_m"
-msgstr  ""
+#: src/wmprog.cc:919
+msgid "Custo_m"
+msgstr ""
 
-msgid   "_Focus"
-msgstr  ""
+#: src/wmprog.cc:925
+msgid "_Focus"
+msgstr ""
 
-msgid   "_Themes"
-msgstr  "_Tēmas"
+#: src/wmprog.cc:932
+msgid "_Themes"
+msgstr "_Tēmas"
 
-msgid   "Se_ttings"
-msgstr  ""
+#: src/wmprog.cc:934
+msgid "Se_ttings"
+msgstr ""
 
+#: src/wmsession.cc:239 src/wmsession.cc:255 src/wmsession.cc:265
 #, c-format
-msgid   "Session Manager: Unknown line %s"
-msgstr  "Sesiju pārvaldnieks: Nezināma rinda %s"
+msgid "Session Manager: Unknown line %s"
+msgstr "Sesiju pārvaldnieks: Nezināma rinda %s"
 
-msgid   "Task Bar"
-msgstr  "Uzdevumu josla"
+#: src/wmtaskbar.cc:256 src/wmtaskbar.cc:257
+msgid "Task Bar"
+msgstr "Uzdevumu josla"
 
-msgid   "Tile _Vertically"
-msgstr  "Kārtot blakus _vertikāli"
+#: src/wmtaskbar.cc:403 src/wmwinlist.cc:312 src/wmwinlist.cc:325
+msgid "Tile _Vertically"
+msgstr "Kārtot blakus _vertikāli"
 
-msgid   "T_ile Horizontally"
-msgstr  "Kārtot blakus hor_izontāli"
+#: src/wmtaskbar.cc:404 src/wmwinlist.cc:313 src/wmwinlist.cc:326
+msgid "T_ile Horizontally"
+msgstr "Kārtot blakus hor_izontāli"
 
-msgid   "Ca_scade"
-msgstr  "Ka_skadēt"
+#: src/wmtaskbar.cc:405 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+msgid "Ca_scade"
+msgstr "Ka_skadēt"
 
-msgid   "_Arrange"
-msgstr  "S_akārtot"
+#: src/wmtaskbar.cc:406 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+msgid "_Arrange"
+msgstr "S_akārtot"
 
-msgid   "_Minimize All"
-msgstr  "_Minimizēt visus"
+#: src/wmtaskbar.cc:407 src/wmwinlist.cc:317 src/wmwinlist.cc:329
+msgid "_Minimize All"
+msgstr "_Minimizēt visus"
 
-msgid   "_Hide All"
-msgstr  "_Noslēpt visus"
+#: src/wmtaskbar.cc:408 src/wmwinlist.cc:318 src/wmwinlist.cc:330
+msgid "_Hide All"
+msgstr "_Noslēpt visus"
 
-msgid   "_Undo"
-msgstr  "Atsa_ukt"
+#: src/wmtaskbar.cc:409 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+msgid "_Undo"
+msgstr "Atsa_ukt"
 
-msgid   "Arrange _Icons"
-msgstr  "Sakārtot _ikonas"
+#: src/wmtaskbar.cc:411
+msgid "Arrange _Icons"
+msgstr "Sakārtot _ikonas"
 
-msgid   "_Refresh"
-msgstr  "A_tsvaidzināt"
+#: src/wmtaskbar.cc:417
+msgid "_Refresh"
+msgstr "A_tsvaidzināt"
 
-msgid   "_License"
-msgstr  "_Licenze"
+#: src/wmtaskbar.cc:424
+msgid "_License"
+msgstr "_Licenze"
 
-msgid   "Favorite applications"
-msgstr  "Iemīļotākās lietojumprogrammas"
+#: src/wmtaskbar.cc:545
+msgid "Favorite applications"
+msgstr "Iemīļotākās lietojumprogrammas"
 
-msgid   "Window list menu"
-msgstr  "Logu saraksta izvēlne"
+#: src/wmtaskbar.cc:562
+msgid "Window list menu"
+msgstr "Logu saraksta izvēlne"
 
-msgid   "Show Desktop"
-msgstr  "Parādīt darbavirsmu"
+#: src/wmtaskbar.cc:571
+msgid "Show Desktop"
+msgstr "Parādīt darbavirsmu"
 
-msgid   "All Workspaces"
-msgstr  "Visas darba vides"
+#: src/wmwinlist.cc:61
+msgid "All Workspaces"
+msgstr "Visas darba vides"
 
-msgid   "Del"
-msgstr  "Del"
+#: src/wmwinlist.cc:295
+msgid "Del"
+msgstr "Del"
 
-msgid   "_Terminate Process"
-msgstr  "Aizvēr_t procesu"
+#: src/wmwinlist.cc:299
+msgid "_Terminate Process"
+msgstr "Aizvēr_t procesu"
 
-msgid   "Kill _Process"
-msgstr  "Nogalināt _procesu"
+#: src/wmwinlist.cc:300
+msgid "Kill _Process"
+msgstr "Nogalināt _procesu"
 
-msgid   "_Show"
-msgstr  "_Parādīt"
+#: src/wmwinlist.cc:305
+msgid "_Show"
+msgstr "_Parādīt"
 
-msgid   "_Minimize"
-msgstr  "_Minimizēt"
+#: src/wmwinlist.cc:309
+msgid "_Minimize"
+msgstr "_Minimizēt"
 
-msgid   "Window list"
-msgstr  "Logu saraksts"
+#: src/wmwinlist.cc:342 src/wmwinlist.cc:343
+msgid "Window list"
+msgstr "Logu saraksts"
 
+#: src/wmwinmenu.cc:127
 #, c-format
-msgid   "%lu. Workspace %-.32s"
-msgstr  "%lu. Darba vide %-.32s"
+msgid "%lu. Workspace %-.32s"
+msgstr "%lu. Darba vide %-.32s"
 
+#: src/yapp.cc:397
 #, c-format
-msgid   "Message Loop: select failed (errno=%d)"
-msgstr  "Ziņojumu cikls: atlase neizdevās (kļūdas nr.=%d)"
+msgid "Message Loop: select failed (errno=%d)"
+msgstr "Ziņojumu cikls: atlase neizdevās (kļūdas nr.=%d)"
 
+#: src/ycmdline.cc:43
 #, c-format
-msgid   "Unrecognized option: %s\n"
-msgstr  "Nezināma opcija: %s\n"
+msgid "Unrecognized option: %s\n"
+msgstr "Nezināma opcija: %s\n"
 
-#. pos
+#: src/ycmdline.cc:48
 #, c-format
-msgid   "Unrecognized argument: %s\n"
-msgstr  "Nezināms arguments: %s\n"
+msgid "Unrecognized argument: %s\n"
+msgstr "Nezināms arguments: %s\n"
 
+#: src/ycmdline.cc:64
 #, c-format
-msgid   "Argument required for %s switch"
-msgstr  "%s atslēgai ir nepieciešams arguments"
+msgid "Argument required for %s switch"
+msgstr "%s atslēgai ir nepieciešams arguments"
 
+#: src/yconfig.cc:186
 #, c-format
-msgid   "Unknown key name %s in %s"
-msgstr  "Nezināms atslēgas nosaukums %s iekš %s"
+msgid "Unknown key name %s in %s"
+msgstr "Nezināms atslēgas nosaukums %s iekš %s"
 
+#: src/yconfig.cc:211 src/yconfig.cc:224
 #, c-format
-msgid   "Bad argument: %s for %s"
-msgstr  "Kļūdains arguments: %s priekš %s"
+msgid "Bad argument: %s for %s"
+msgstr "Kļūdains arguments: %s priekš %s"
 
+#: src/yconfig.cc:259
 #, c-format
-msgid   "Bad option: %s"
-msgstr  "Kļūdaina opcija: %s"
+msgid "Bad option: %s"
+msgstr "Kļūdaina opcija: %s"
 
+#: src/ycursor.cc:127
 #, c-format
-msgid   "Loading of pixmap \"%s\" failed"
-msgstr  "Pikseļkartes \"%s\" ielāde neizdevās"
+msgid "Loading of pixmap \"%s\" failed"
+msgstr "Pikseļkartes \"%s\" ielāde neizdevās"
 
+#: src/ycursor.cc:160
 #, c-format
-msgid   "Invalid cursor pixmap: \"%s\" contains too much unique colors"
-msgstr  "Kļūdaina kursora pikseļkarte: \"%s\" satur pārāk daudz unikālu krāsu"
+msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
+msgstr "Kļūdaina kursora pikseļkarte: \"%s\" satur pārāk daudz unikālu krāsu"
 
+#: src/ycursor.cc:182
 #, c-format
-msgid   "BUG? Imlib was able to read \"%s\""
-msgstr  "BLUSA? Imlib varēja nolasīt \"%s\""
+msgid "BUG? Imlib was able to read \"%s\""
+msgstr "BLUSA? Imlib varēja nolasīt \"%s\""
 
+#: src/ycursor.cc:208
 #, c-format
-msgid   "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
-msgstr  "BLUSA? Nekorekti noformēta XPM galvene, bet Imlib varēja noparsēt \"%"
-        "s\""
+msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
+msgstr ""
+"BLUSA? Nekorekti noformēta XPM galvene, bet Imlib varēja noparsēt \"%s\""
 
+#: src/ycursor.cc:216
 #, c-format
-msgid   "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
-msgstr  "BLUSA? Negaidītas XPM faila beigas, bet Imlib varēja noparsēt \"%s\""
+msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
+msgstr "BLUSA? Negaidītas XPM faila beigas, bet Imlib varēja noparsēt \"%s\""
 
+#: src/ycursor.cc:219
 #, c-format
-msgid   "BUG? Unexpected characted but Imlib was able to parse \"%s\""
-msgstr  "BLUSA? Negaidīts simbols, bet Imlib varēja noparsēt \"%s\""
+msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
+msgstr "BLUSA? Negaidīts simbols, bet Imlib varēja noparsēt \"%s\""
 
+#: src/yfontcore.cc:71 src/yfontxft.cc:125
 #, c-format
-msgid   "Could not load font \"%s\"."
-msgstr  "Nevaru ielādēt fontu \"%s\"."
+msgid "Could not load font \"%s\"."
+msgstr "Nevaru ielādēt fontu \"%s\"."
 
+#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:148
 #, c-format
-msgid   "Loading of fallback font \"%s\" failed."
-msgstr  "Atkrišanas fonta \"%s\" ielāde neizdevās."
+msgid "Loading of fallback font \"%s\" failed."
+msgstr "Atkrišanas fonta \"%s\" ielāde neizdevās."
 
+#: src/yfontcore.cc:114
 #, c-format
-msgid   "Could not load fontset \"%s\"."
-msgstr  "Nevaru ielādēt fontu kopu \"%s\"."
+msgid "Could not load fontset \"%s\"."
+msgstr "Nevaru ielādēt fontu kopu \"%s\"."
 
+#: src/yfontcore.cc:126
 #, c-format
-msgid   "Missing codesets for fontset \"%s\":"
-msgstr  "Trūkstošas kodu kopas fontu kopai \"%s\":"
+msgid "Missing codesets for fontset \"%s\":"
+msgstr "Trūkstošas kodu kopas fontu kopai \"%s\":"
 
+#: src/yicon.cc:147
 #, c-format
-msgid   "Out of memory for pixmap \"%s\""
-msgstr  "Nepietiek atmiņas pikseļkartei \"%s\""
+msgid "Out of memory for pixmap \"%s\""
+msgstr "Nepietiek atmiņas pikseļkartei \"%s\""
 
+#: src/yimage.cc:61 src/yimage.cc:109 src/ypixbuf.cc:1063
 #, c-format
-msgid   "Loading of image \"%s\" failed"
-msgstr  "Attēla \"%s\" ielāde neizdevās"
+msgid "Loading of image \"%s\" failed"
+msgstr "Attēla \"%s\" ielāde neizdevās"
 
-msgid   "Imlib: Acquisition of X pixmap failed"
-msgstr  "Imlib: X pikseļkartes iegūšana neizdevās"
+#: src/yimage.cc:141 src/yimage.cc:159
+msgid "Imlib: Acquisition of X pixmap failed"
+msgstr "Imlib: X pikseļkartes iegūšana neizdevās"
 
-msgid   "Imlib: Imlib image to X pixmap mapping failed"
-msgstr  "Imlib: "
+#: src/yimage.cc:150
+msgid "Imlib: Imlib image to X pixmap mapping failed"
+msgstr "Imlib: "
 
-msgid   "Cu_t"
-msgstr  "Izgriez_t"
+#: src/yinput.cc:53
+msgid "Cu_t"
+msgstr "Izgriez_t"
 
-msgid   "Ctrl+X"
-msgstr  "Ctrl+X"
+#: src/yinput.cc:53
+msgid "Ctrl+X"
+msgstr "Ctrl+X"
 
-msgid   "_Copy"
-msgstr  "_Kopēt"
+#: src/yinput.cc:54
+msgid "_Copy"
+msgstr "_Kopēt"
 
-msgid   "Ctrl+C"
-msgstr  "Ctrl+C"
+#: src/yinput.cc:54
+msgid "Ctrl+C"
+msgstr "Ctrl+C"
 
-msgid   "_Paste"
-msgstr  "Ies_praust"
+#: src/yinput.cc:55
+msgid "_Paste"
+msgstr "Ies_praust"
 
-msgid   "Ctrl+V"
-msgstr  "Ctrl+V"
+#: src/yinput.cc:55
+msgid "Ctrl+V"
+msgstr "Ctrl+V"
 
-msgid   "Paste _Selection"
-msgstr  "Iespraust _iezīmēto"
+#: src/yinput.cc:56
+msgid "Paste _Selection"
+msgstr "Iespraust _iezīmēto"
 
-msgid   "Select _All"
-msgstr  "Iezīmēt _visu"
+#: src/yinput.cc:58
+msgid "Select _All"
+msgstr "Iezīmēt _visu"
 
-msgid   "Ctrl+A"
-msgstr  "Ctrl+A"
+#: src/yinput.cc:58
+msgid "Ctrl+A"
+msgstr "Ctrl+A"
 
-#. || False == XSupportsLocale()
-msgid   "Locale not supported by C library. Falling back to 'C' locale'."
-msgstr  "C bibliotēka neatbalsta šo lokāli. Atkrītu uz 'C' lokāli."
+#: src/ylocale.cc:46
+msgid "Locale not supported by C library. Falling back to 'C' locale'."
+msgstr "C bibliotēka neatbalsta šo lokāli. Atkrītu uz 'C' lokāli."
 
-msgid   "Failed to determinate the current locale's codeset. Assuming ISO-"
-        "8859-1.\n"
-msgstr  "Neizdevās noteikt tekošās lokāles kodu kopu. Pieņemam ISO-8859-1.\n"
+#: src/ylocale.cc:63
+msgid ""
+"Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
+msgstr "Neizdevās noteikt tekošās lokāles kodu kopu. Pieņemam ISO-8859-1.\n"
 
+#: src/ylocale.cc:95 src/ylocale.cc:102
 #, c-format
-msgid   "iconv doesn't supply (sufficient) %s to %s converters."
-msgstr  "iconv nepiedāvā pietiekami derīgus pārveidotājus no %s uz %s."
+msgid "iconv doesn't supply (sufficient) %s to %s converters."
+msgstr "iconv nepiedāvā pietiekami derīgus pārveidotājus no %s uz %s."
 
+#: src/ylocale.cc:156
 #, c-format
-msgid   "Invalid multibyte string \"%s\": %s"
-msgstr  "Kļūdaina vairākbaitu virkne \"%s\": %s"
+msgid "Invalid multibyte string \"%s\": %s"
+msgstr "Kļūdaina vairākbaitu virkne \"%s\": %s"
 
-msgid   "OK"
-msgstr  "Labi"
+#: src/ymsgbox.cc:37
+msgid "OK"
+msgstr "Labi"
 
-msgid   "Cancel"
-msgstr  "Atcelt"
+#: src/ymsgbox.cc:45
+msgid "Cancel"
+msgstr "Atcelt"
 
+#: src/ypaths.cc:134 src/ypaths.cc:161
 #, c-format
-msgid   "Out of memory for pixel map %s"
-msgstr  "Nepietiek atmiņas pikseļkartei %s"
+msgid "Image not readable: %s"
+msgstr ""
 
+#: src/ypaths.cc:139
+#, fuzzy, c-format
+msgid "Out of memory for image %s"
+msgstr "Nepietiek atmiņas pikseļkartei \"%s\""
+
+#: src/ypaths.cc:146
+#, fuzzy, c-format
+msgid "Could not find image %s"
+msgstr "Nevaru atrast pikseļu karti %s"
+
+#: src/ypaths.cc:165
+#, fuzzy, c-format
+msgid "Out of memory for image: %s"
+msgstr "Nepietiek atmiņas pikseļkartei \"%s\""
+
+#: src/ypaths.cc:172
+#, fuzzy, c-format
+msgid "Could not find image: %s"
+msgstr "Nevaru atrast pikseļu karti %s"
+
+#: src/ypixbuf.cc:482 src/ypixbuf.cc:668
 #, c-format
-msgid   "Could not find pixel map %s"
-msgstr  "Nevaru atrast pikseļu karti %s"
+msgid ""
+"Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
+"blue): %0*x/%0*x/%0*x)"
+msgstr ""
+"Izmantoju atkrišanas mehānismu, lai nokonvertētu pikseļus (dziļums: %d; "
+"maskas (sarkans/zaļš/zils): %0*x/%0*x/%0*x)"
 
+#: src/ypixbuf.cc:576 src/ypixbuf.cc:725
 #, c-format
-msgid   "Out of memory for RGB pixel buffer %s"
-msgstr  "Nepietiek atmiņas RGB pikseļu buferim %s"
+msgid "%s:%d: %d bit visuals are not supported (yet)"
+msgstr "%s:%d: %d bitu vizuāļi netiek atbalstīti (pagaidām)"
 
+#: src/ysmapp.cc:106
+msgid "$USER or $LOGNAME not set?"
+msgstr "$USER vai $LOGNAME nav uzstādīts?"
+
+#: src/yurl.cc:82
 #, c-format
-msgid   "Could not find RGB pixel buffer %s"
-msgstr  "Nevaru atrast RGB pikseļu buferi %s"
+msgid "\"%s\" doesn't describe a common internet scheme"
+msgstr "\"%s\" neapraksta kopēju interneta shēmu"
 
+#: src/yurl.cc:85
 #, c-format
-msgid   "Using fallback mechanism to convert pixels (depth: %d; masks (red/"
-        "green/blue): %0*x/%0*x/%0*x)"
-msgstr  "Izmantoju atkrišanas mehānismu, lai nokonvertētu pikseļus (dziļums: %"
-        "d; maskas (sarkans/zaļš/zils): %0*x/%0*x/%0*x)"
+msgid "\"%s\" contains no scheme description"
+msgstr "\"%s\" nesatur shēmas aprakstu"
 
-#, c-format
-msgid   "%s:%d: %d bit visuals are not supported (yet)"
-msgstr  "%s:%d: %d bitu vizuāļi netiek atbalstīti (pagaidām)"
+#~ msgid "Out of memory for pixel map %s"
+#~ msgstr "Nepietiek atmiņas pikseļkartei %s"
 
-msgid   "$USER or $LOGNAME not set?"
-msgstr  "$USER vai $LOGNAME nav uzstādīts?"
+#~ msgid "Out of memory for RGB pixel buffer %s"
+#~ msgstr "Nepietiek atmiņas RGB pikseļu buferim %s"
 
-#, c-format
-msgid   "\"%s\" doesn't describe a common internet scheme"
-msgstr  "\"%s\" neapraksta kopēju interneta shēmu"
+#~ msgid "Could not find RGB pixel buffer %s"
+#~ msgstr "Nevaru atrast RGB pikseļu buferi %s"
 
-#, c-format
-msgid   "\"%s\" contains no scheme description"
-msgstr  "\"%s\" nesatur shēmas aprakstu"
+#~ msgid " processes."
+#~ msgstr " procesi."
 
-#~ msgid        " processes."
-#~ msgstr       " procesi."
+#~ msgid "program label expected"
+#~ msgstr "tika gaidīta programmas iezīme"
 
-#~ msgid        "program label expected"
-#~ msgstr       "tika gaidīta programmas iezīme"
+#~ msgid "icon name expected"
+#~ msgstr "tika gaidīts ikonas nosaukums"
 
-#~ msgid        "icon name expected"
-#~ msgstr       "tika gaidīts ikonas nosaukums"
+#~ msgid "window management class expected"
+#~ msgstr "tika gaidīta loga vadības klase"
 
-#~ msgid        "window management class expected"
-#~ msgstr       "tika gaidīta loga vadības klase"
+#~ msgid "menu caption expected"
+#~ msgstr "tika gaidīts izvēlnes nosaukums"
 
-#~ msgid        "menu caption expected"
-#~ msgstr       "tika gaidīts izvēlnes nosaukums"
+#~ msgid "opening curly expected"
+#~ msgstr "tika gaidīta atverošā figūriekava"
 
-#~ msgid        "opening curly expected"
-#~ msgstr       "tika gaidīta atverošā figūriekava"
+#~ msgid "action name expected"
+#~ msgstr "tika gaidīts darbības nosaukums"
 
-#~ msgid        "action name expected"
-#~ msgstr       "tika gaidīts darbības nosaukums"
+#~ msgid "unknown action"
+#~ msgstr "nezināma darbība"
 
-#~ msgid        "unknown action"
-#~ msgstr       "nezināma darbība"
+#~ msgid "Failed to open %s: %s"
+#~ msgstr "Nevarēju atvērt %s: %s"
 
-#~ msgid        "Failed to open %s: %s"
-#~ msgstr       "Nevarēju atvērt %s: %s"
+#~ msgid "Failed to execute %s: %s"
+#~ msgstr "Neizdevās palaist %s: %s"
 
-#~ msgid        "Failed to execute %s: %s"
-#~ msgstr       "Neizdevās palaist %s: %s"
+#~ msgid "Failed to create child process: %s"
+#~ msgstr "Neizdevās izveidot bērnprocesu: %s"
 
-#~ msgid        "Failed to create child process: %s"
-#~ msgstr       "Neizdevās izveidot bērnprocesu: %s"
+#~ msgid "Not a regular file: %s"
+#~ msgstr "Nav regulārs fails: %s"
 
-#~ msgid        "Not a regular file: %s"
-#~ msgstr       "Nav regulārs fails: %s"
+#~ msgid "Pair of hexadecimal digits expected"
+#~ msgstr "Tika gaidīts heksadecimālo ciparu pāris"
 
-#~ msgid        "Pair of hexadecimal digits expected"
-#~ msgstr       "Tika gaidīts heksadecimālo ciparu pāris"
+#~ msgid "Unexpected identifier"
+#~ msgstr "Negaidīts identifikators"
 
-#~ msgid        "Unexpected identifier"
-#~ msgstr       "Negaidīts identifikators"
+#~ msgid "Identifier expected"
+#~ msgstr "Tika gaidīts identifikators"
 
-#~ msgid        "Identifier expected"
-#~ msgstr       "Tika gaidīts identifikators"
+#~ msgid "Separator expected"
+#~ msgstr "Tika gaidīts atdalītājs"
 
-#~ msgid        "Separator expected"
-#~ msgstr       "Tika gaidīts atdalītājs"
+#~ msgid "Invalid token"
+#~ msgstr "Nepareizs marķieris"
 
-#~ msgid        "Invalid token"
-#~ msgstr       "Nepareizs marķieris"
+#~ msgid "Not a hexadecimal number: %c%c (in \"%s\")"
+#~ msgstr "Nav heksadecimāls numurs: %c%c (iekš \"%s\")"
 
-#~ msgid        "Not a hexadecimal number: %c%c (in \"%s\")"
-#~ msgstr       "Nav heksadecimāls numurs: %c%c (iekš \"%s\")"
+#~ msgid "/proc/apm - unknown format (%d)"
+#~ msgstr "/proc/apm - nezināms formāts (%d)"
 
-#~ msgid        "/proc/apm - unknown format (%d)"
-#~ msgstr       "/proc/apm - nezināms formāts (%d)"
+#~ msgid "cpu: %d %d %d %d %d %d %d"
+#~ msgstr "cp: %d %d %d %d %d %d %d"
 
-#~ msgid        "cpu: %d %d %d %d %d %d %d"
-#~ msgstr       "cp: %d %d %d %d %d %d %d"
+#~ msgid "kstat finds too many cpus: should be %d"
+#~ msgstr "kstat atrod pārāk daudz procesorus: vajadzētu būt %d"
 
-#~ msgid        "kstat finds too many cpus: should be %d"
-#~ msgstr       "kstat atrod pārāk daudz procesorus: vajadzētu būt %d"
+#~ msgid "%s@%d: %s\n"
+#~ msgstr "%s@%d: %s\n"
 
-#~ msgid        "%s@%d: %s\n"
-#~ msgstr       "%s@%d: %s\n"
+#~ msgid "XQueryTree failed for window 0x%x"
+#~ msgstr "XQueryTree neizdevās logam 0x%x"
 
-#~ msgid        "XQueryTree failed for window 0x%x"
-#~ msgstr       "XQueryTree neizdevās logam 0x%x"
+#~ msgid "Compiled with DEBUG flag. Debugging messages will be printed."
+#~ msgstr ""
+#~ "Nokompilēts ar DEBUG karodziņu. Atkļūdošanas paziņojumi tiks izvadīti."
 
-#~ msgid        "Compiled with DEBUG flag. Debugging messages will be printed."
-#~ msgstr       "Nokompilēts ar DEBUG karodziņu. Atkļūdošanas paziņojumi tiks "
-#~      "izvadīti."
+#~ msgid "_No icon"
+#~ msgstr "_Nav ikonas"
 
-#~ msgid        "_No icon"
-#~ msgstr       "_Nav ikonas"
+#~ msgid "_Minimized"
+#~ msgstr "_Minimizēts"
 
-#~ msgid        "_Minimized"
-#~ msgstr       "_Minimizēts"
+#~ msgid "_Exclusive"
+#~ msgstr "_Ekskluzīvs"
 
-#~ msgid        "_Exclusive"
-#~ msgstr       "_Ekskluzīvs"
+#~ msgid "X error %s(0x%lX): %s"
+#~ msgstr "X kļūda %s(0x%lX): %s"
 
-#~ msgid        "X error %s(0x%lX): %s"
-#~ msgstr       "X kļūda %s(0x%lX): %s"
+#~ msgid "Forking failed (errno=%d)"
+#~ msgstr "Sazarošanās neizdevās (kļūdas nr.=%d)"
 
-#~ msgid        "Forking failed (errno=%d)"
-#~ msgstr       "Sazarošanās neizdevās (kļūdas nr.=%d)"
+#~ msgid "Failed to create anonymous pipe (errno=%d)."
+#~ msgstr "Neizdevās izveidot anonīmo programmkanālu (kļūdas nr.=%d)."
 
-#~ msgid        "Failed to create anonymous pipe (errno=%d)."
-#~ msgstr       "Neizdevās izveidot anonīmo programmkanālu (kļūdas nr.=%d)."
+#~ msgid "Invalid cursor pixmap: \"%s\" contains too many unique colors"
+#~ msgstr ""
+#~ "Kļūdaina kursora pikseļkarte: \"%s\" satur pārāk daudz unikālu krāsu"
 
-#~ msgid        "Invalid cursor pixmap: \"%s\" contains too many unique colors"
-#~ msgstr       "Kļūdaina kursora pikseļkarte: \"%s\" satur pārāk daudz "
-#~      "unikālu krāsu"
+#~ msgid "Failed to create anonymous pipe: %s"
+#~ msgstr "Neizdevās izveidot anonīmo programmkanālu: %s"
 
-#~ msgid        "Failed to create anonymous pipe: %s"
-#~ msgstr       "Neizdevās izveidot anonīmo programmkanālu: %s"
+#~ msgid "Failed to duplicate file descriptor: %s"
+#~ msgstr "Neizdevās duplicēt faila deskriptoru: %s"
 
-#~ msgid        "Failed to duplicate file descriptor: %s"
-#~ msgstr       "Neizdevās duplicēt faila deskriptoru: %s"
+#~ msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
+#~ msgstr "%s:%d: Neizdevās nokopēt zīmējamo 0x%x uz pikseļu buferi"
 
-#~ msgid        "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
-#~ msgstr       "%s:%d: Neizdevās nokopēt zīmējamo 0x%x uz pikseļu buferi"
+#~ msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%dx%d"
+#~ msgstr ""
+#~ "%s:%d: Neizdevās nokopēt zīmējamo 0x%x uz pikseļu buferi (%d:%d-%dx%d"
 
-#~ msgid        "%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%"
-#~      "dx%d"
-#~ msgstr       "%s:%d: Neizdevās nokopēt zīmējamo 0x%x uz pikseļu buferi (%d:"
-#~      "%d-%dx%d"
+#~ msgid "TOO MANY ICE CONNECTIONS -- not supported"
+#~ msgstr "PĀRĀK DAUDZ ICE PIESLĒGUMI -- netiek atbalstīts"
 
-#~ msgid        "TOO MANY ICE CONNECTIONS -- not supported"
-#~ msgstr       "PĀRĀK DAUDZ ICE PIESLĒGUMI -- netiek atbalstīts"
+#~ msgid "Session Manager: IceAddConnectionWatch failed."
+#~ msgstr "Sesiju pārvaldnieks: IceAddConnectionWatch neizdevās."
 
-#~ msgid        "Session Manager: IceAddConnectionWatch failed."
-#~ msgstr       "Sesiju pārvaldnieks: IceAddConnectionWatch neizdevās."
-
-#~ msgid        "Session Manager: Init error: %s"
-#~ msgstr       "Sesiju pārvaldnieks: Inicializācijas kļūda: %s"
+#~ msgid "Session Manager: Init error: %s"
+#~ msgstr "Sesiju pārvaldnieks: Inicializācijas kļūda: %s"

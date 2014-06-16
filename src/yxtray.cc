@@ -71,20 +71,23 @@ YXTrayProxy::~YXTrayProxy() {
 void YXTrayProxy::handleClientMessage(const XClientMessageEvent &message) {
 /// TODO #warning "implement systray notifications"
     if (message.message_type == _NET_SYSTEM_TRAY_OPCODE) {
-        if (message.data.l[1] == SYSTEM_TRAY_REQUEST_DOCK)
+        //printf("message data %ld %ld %ld %ld %ld\n", message.data.l[0], message.data.l[1], message.data.l[2], message.data.l[3], message.data.l[4]);
+        if (message.data.l[1] == SYSTEM_TRAY_REQUEST_DOCK) {
+            msg("systemTrayRequestDock");
             fTray->trayRequestDock(message.data.l[2]);
-        else if (message.data.l[1] == SYSTEM_TRAY_BEGIN_MESSAGE)
+        } else if (message.data.l[1] == SYSTEM_TRAY_BEGIN_MESSAGE) {
             msg("systemTrayBeginMessage");
             //fTray->trayBeginMessage();
-        else if (message.data.l[1] == SYSTEM_TRAY_CANCEL_MESSAGE)
+        } else if (message.data.l[1] == SYSTEM_TRAY_CANCEL_MESSAGE) {
             msg("systemTrayCancelMessage");
             //fTray->trayCancelMessage();
-        else {
+        } else {
             msg("systemTray???Message");
         }
     } else if (message.message_type == _NET_SYSTEM_TRAY_MESSAGE_DATA) {
         msg("systemTrayMessageData");
-
+    } else {
+        msg("handleClientMessage: do nothing");
     }
 }
 
@@ -168,6 +171,7 @@ YXTray::YXTray(YXTrayNotifier *notifier,
     show();
 #ifndef LITE
     XSetWindowBackground(xapp->display(), handle(), taskBarBg->pixel());
+    XClearArea(xapp->display(), handle(), 0, 0, 0, 0, True);
 #endif
 }
 
@@ -179,7 +183,7 @@ YXTray::~YXTray() {
 }
 
 void YXTray::trayRequestDock(Window win) {
-    MSG(("trayRequestDock"));
+    MSG(("trayRequestDock win %lX", win));
 
     destroyedClient(win);
     YXTrayEmbedder *embed = new YXTrayEmbedder(this, win);
@@ -189,19 +193,29 @@ void YXTray::trayRequestDock(Window win) {
     int ww = embed->client()->width();
     int hh = embed->client()->height();
 
-    if (!fInternal) {
-        // !!! hack, hack
-        if (ww < 16 || ww > 8 * TICON_W_MAX)
-            ww = TICON_W_MAX;
-        if (hh < 16 || hh > TICON_H_MAX)
-            hh = TICON_H_MAX;
-        if (ww < hh)
-            ww = hh;
+    /* Workaround for GTK-Apps */
+    if (!(ww == 0 || hh == 0)){
+
+        if (!fInternal) {
+            // scale too big icons
+            int check;
+            for (check = 0; check < 2; check++) {
+                if (ww > TICON_W_MAX) {
+                    hh = TICON_W_MAX / ww * hh;
+                    ww = TICON_W_MAX;
+                }
+                else if (hh > TICON_H_MAX) {
+                    ww = TICON_H_MAX / hh * ww;
+                    hh = TICON_H_MAX;
+                }
+            }
+        }
+
+        embed->setSize(ww, hh);
+        embed->fVisible = true;
+        fDocked.append(embed);
+        relayout();
     }
-    embed->setSize(ww, hh);
-    embed->fVisible = true;
-    fDocked.append(embed);
-    relayout();
 }
 
 void YXTray::destroyedClient(Window win) {
@@ -220,22 +234,30 @@ void YXTray::destroyedClient(Window win) {
 
 void YXTray::handleConfigureRequest(const XConfigureRequestEvent &configureRequest)
 {
-    MSG(("tray configureRequest w=%d h=%d", configureRequest.width, configureRequest.height));
+    MSG(("tray configureRequest w=%d h=%d internal=%s\n", configureRequest.width, configureRequest.height, fInternal ? "true" : "false"));
     bool changed = false;
     for (int i = 0; i < fDocked.getCount(); i++) {
         YXTrayEmbedder *ec = fDocked[i];
         if (ec->client_handle() == configureRequest.window) {
             int w = configureRequest.width;
             int h = configureRequest.height;
-            if (h != TICON_H_MAX) {
-                w = w * h / TICON_H_MAX; //MCM FIX
-                h = TICON_H_MAX;
+            if (!fInternal) {
+                /* scale down too big icons */
+                int check;
+                for (check = 0; check < 2; check++) {
+                    if (w > TICON_W_MAX) {
+                        h = TICON_W_MAX / w * h;
+                        w = TICON_W_MAX;
+                    }
+                    else if (h > TICON_H_MAX) {
+                        w = TICON_H_MAX / h * w;
+                        h = TICON_H_MAX;
+                    }
+                }
             }
-            if (w < h)
-                w = h;
             if (w != ec->width() || h != ec->height())
                 changed = true;
-            ec->setSize(w/*configureRequest.width*/, h);
+            ec->setSize(configureRequest.width, configureRequest.height);
         }
     }
     if (changed)
@@ -294,6 +316,8 @@ void YXTray::backgroundChanged() {
 #ifdef CONFIG_TASKBAR
         XSetWindowBackground(xapp->display(), ec->handle(), taskBarBg->pixel());
         XSetWindowBackground(xapp->display(), ec->client_handle(), taskBarBg->pixel());
+	/* something is not clearing which background changes */
+	XClearArea(xapp->display(), ec->client_handle(), 0, 0, 0, 0, True);
 #endif
 	ec->repaint();
     }
@@ -307,6 +331,24 @@ void YXTray::relayout() {
     if (!fInternal && trayDrawBevel)
         aw+=1;
     int cnt = 0;
+
+    /*
+       sanity check - remove already destroyed xwindows
+       TODO: implement it with only one loop
+    */
+    int status = 0;
+    while (status == 0 && fDocked.getCount() > 0) {
+        for (int i = 0; i < fDocked.getCount(); i++) {
+            YXTrayEmbedder *ec = fDocked[i];
+            XWindowAttributes attributes;
+            status = XGetWindowAttributes(xapp->display(), ec->client()->handle(), &attributes);
+            if (status == 0) {
+                MSG(("relayout sanity check: removing %lX", ec->client()->handle()));
+                fDocked.remove(i);
+                break;
+            }
+        }
+    }
 
     for (int i = 0; i < fDocked.getCount(); i++) {
         YXTrayEmbedder *ec = fDocked[i];

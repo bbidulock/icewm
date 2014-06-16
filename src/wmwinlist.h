@@ -50,6 +50,8 @@ public:
     WindowList(YWindow *aParent, YActionListener *wmActionListener);
     virtual ~WindowList();
 
+    void updateWorkspaces();
+
     void handleFocus(const XFocusChangeEvent &focus);
     virtual void handleClose();
 
@@ -72,6 +74,7 @@ private:
     YActionListener *wmActionListener;
 
     void insertApp(WindowListItem *item);
+    long fWorkspaceCount;
 };
 
 extern WindowList *windowList;

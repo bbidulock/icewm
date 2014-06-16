@@ -109,7 +109,9 @@ XIV(bool, limitPosition,                        true)
 XIV(bool, limitByDockLayer,                     false)
 XIV(bool, considerHorizBorder,                  false)
 XIV(bool, considerVertBorder,                   false)
+XIV(bool, considerSizeHintsMaximized,           true)
 XIV(bool, centerMaximizedWindows,               false)
+XIV(bool, hideBordersMaximized,                 false)
 XIV(bool, win95keys,                            true)
 XIV(bool, autoReloadMenus,                      true)
 XIV(bool, clientMouseActions,                   true)
@@ -124,12 +126,14 @@ XIV(bool, showRun,                              true)
 XIV(bool, showWindowList,                       true)
 XIV(bool, showHelp,                             true)
 XIV(bool, allowFullscreen,                      true)
+XIV(bool, fullscreenUseAllMonitors,             false)
 XIV(bool, enableAddressBar,                     true);
 XIV(bool, showAddressBar,                       true)
 XIV(bool, confirmLogout,                        true)
 #ifdef CONFIG_SHAPED_DECORATION
 XIV(bool, protectClientWindow,                  true)
 #endif
+XIV(bool, activateJava7FocusHack,               true)
 XIV(int, MenuMaximalWidth,                      0)
 XIV(int, EdgeResistance,                        32)
 XIV(int, snapDistance,                          8)
@@ -156,14 +160,15 @@ XIV(int, focusRequestFlashTime,                 0)
 XIV(int, focusRequestFlashInterval,             250)
 XIV(int, nestedThemeMenuMinNumber,              15)
 XIV(int, batteryPollingPeriod,                  10)
+XIV(int, netWorkAreaBehaviour,                  0)
 
 #ifdef CONFIG_APPLET_APM
 XSV(const char *, acpiIgnoreBatteries,          0)
 #endif
 
 XSV(const char *, mailBoxPath,                  0)
-XSV(const char *, mailCommand,                  "xterm -name pine -title PINE -e pine")
-XSV(const char *, mailClassHint,                "pine.XTerm")
+XSV(const char *, mailCommand,                  "xterm -name alpine -title ALPINE -e alpine")
+XSV(const char *, mailClassHint,                "alpine.XTerm")
 XSV(const char *, newMailCommand,               0)
 XSV(const char *, lockCommand,                  0)
 XSV(const char *, clockCommand,                 "xclock -name icewm -title Clock")
@@ -220,7 +225,9 @@ cfoption icewm_preferences[] = {
     OBV("LimitByDockLayer",                     &limitByDockLayer,              "Let the Dock layer limit the workspace (incompatible with GNOME Panel)"),
     OBV("ConsiderHBorder",                      &considerHorizBorder,           "Consider border frames when maximizing horizontally"),
     OBV("ConsiderVBorder",                      &considerVertBorder,            "Consider border frames when maximizing vertically"),
+    OBV("ConsiderSizeHintsMaximized",           &considerSizeHintsMaximized,    "Consider XSizeHints if frame is maximized"),
     OBV("CenterMaximizedWindows",               &centerMaximizedWindows,        "Center maximized windows which can't fit the screen (like terminals)"),
+    OBV("HideBordersMaximized",                 &hideBordersMaximized,          "Hide window borders if window is maximized"),
     OBV("SizeMaximized",                        &sizeMaximized,                 "Maximized windows can be resized"),
     OBV("ShowMoveSizeStatus",                   &showMoveSizeStatus,            "Show position status window during move/resize"),
     OBV("ShowWorkspaceStatus",                  &workspaceSwitchStatus,         "Show name of current workspace while switching"),
@@ -322,6 +329,7 @@ cfoption icewm_preferences[] = {
     OBV("ShowRun",                              &showRun,                       "Show the run menu item"),
     OBV("ShowWindowList",                       &showWindowList,                "Show the window menu item"),
     OBV("AllowFullscreen",                      &allowFullscreen,               "Allow to switch a window to fullscreen"),
+    OBV("FullscreenUseAllMonitors",             &fullscreenUseAllMonitors,      "Span over all available screens if window goes into fullscreen"),
     OBV("EnableAddressBar",                     &enableAddressBar,              "Enable address bar functionality in taskbar"),
     OBV("ShowAddressBar",                       &showAddressBar,                "Show address bar in task bar"),
 #ifdef CONFIG_I18N
@@ -334,6 +342,7 @@ cfoption icewm_preferences[] = {
     OBV("DoubleBuffer",                         &doubleBuffer,                  "Use double buffering when redrawing the display"),
     OBV("XRRDisable",                           &xrrDisable,                    "Disable use of new XRANDR API for dual head (nvidia workaround)"),
     OIV("DelayFuzziness",                       &DelayFuzziness, 0, 100,        "Delay fuzziness, to allow merging of multiple timer timeouts into one (notebook power saving)"),
+    OBV("ActivateJava7FocusHack",               &activateJava7FocusHack,        "Activate workaround for Java7 Swing/AWT focus issue"),
     OIV("ClickMotionDistance",                  &ClickMotionDistance, 0, 32,    "Pointer motion distance before click gets interpreted as drag"),
     OIV("ClickMotionDelay",                     &ClickMotionDelay, 0, 2000,     "Delay before click gets interpreted as drag"),
     OIV("MultiClickTime",                       &MultiClickTime, 0, 5000,       "Multiple click time"),
@@ -379,6 +388,7 @@ cfoption icewm_preferences[] = {
     OIV("FocusRequestFlashInterval",            &focusRequestFlashInterval, 0, 30000, "Taskbar blink interval (ms) when requesting focus (0 = blinking disabled)"),
     OIV("NestedThemeMenuMinNumber",             &nestedThemeMenuMinNumber,  0, 1234,  "Minimal number of themes after which the Themes menu becomes nested (0=disabled)"),
     OIV("BatteryPollingPeriod",                 &batteryPollingPeriod, 2, 3600, "Delay between power status updates (seconds)"),
+    OIV("NetWorkAreaBehaviour",                 &netWorkAreaBehaviour, 0, 2,    "NET_WORKAREA behaviour: 0 (single/multimonitor with STRUT information, like metacity), 1 (always full desktop), 2 (singlemonitor with STRUT, multimonitor without STRUT)"),
 ///    OSV("Theme",                                &themeName,                     "Theme name"),
     OSV("IconPath",                             &iconPath,                      "Icon search path (colon separated)"),
     OSV("MailBoxPath",                          &mailBoxPath,                   "Mailbox path (use $MAIL instead)"),

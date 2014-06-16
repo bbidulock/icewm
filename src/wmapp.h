@@ -78,7 +78,7 @@ private:
     Window managerWindow;
 };
 
-#if 0
+#ifdef CONFIG_GUIEVENTS
 extern YWMApp * wmapp;
 #endif
 

@@ -128,7 +128,7 @@
  * this where WIN_WORKSPACE_COUNT comes into play.
  */
 
-#define WinWorkspaceInvalid    (-1L)
+#define WinWorkspaceInvalid    -1L
 
 /* workspaces */
 #define XA_WIN_WORKSPACES "_WIN_WORKSPACES"
@@ -255,6 +255,19 @@
  *   xev.data.l[2] = timeStamp;
  *   XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
  */
+#if 0
+// From wm-comp.ps:
+#define WIN_STATE_STICKY            (1<<0) /* everyone knows sticky */
+#define WIN_STATE_MINIMIZED         (1<<1) /* Reserved - definition is unclear */
+#define WIN_STATE_MAXIMIZED_VERT    (1<<2) /* window in maximized V state */
+#define WIN_STATE_MAXIMIZED_HORIZ   (1<<3) /* window in maximized H state */
+#define WIN_STATE_HIDDEN            (1<<4) /* not on taskbar but window visible */
+#define WIN_STATE_SHADED            (1<<5) /* shaded (MacOS / Afterstep style) */
+#define WIN_STATE_HID_WORKSPACE     (1<<6) /* not on current desktop */
+#define WIN_STATE_HID_TRANSIENT     (1<<7) /* owner of transient is hidden */
+#define WIN_STATE_FIXED_POSITION    (1<<8) /* window is fixed in position even */
+#define WIN_STATE_ARRANGE_IGNORE    (1<<9) /* ignore for auto arranging */
+#endif
 
 #define WinStateAllWorkspaces  (1 << 0)   /* appears on all workspaces */
 #define WinStateMinimized      (1 << 1)   /* to iconbox,taskbar,... */
@@ -262,9 +275,13 @@
 #define WinStateMaximizedHoriz (1 << 3)   /* maximized horizontally */
 #define WinStateHidden         (1 << 4)   /* not on taskbar if any, but still accessible */
 #define WinStateRollup         (1 << 5)   /* only titlebar visible */
-#define WinStateFixedPosition  (1 << 10)  /* fixed position on virtual desktop*/
-#define WinStateArrangeIgnore  (1 << 11)  /* ignore for auto arranging */
+#define WinStateHidWorkspace   (1 << 6)   /* not on current desktop */
+#define WinStateHidTransient   (1 << 7)   /* owner of transient is hidden */
+#define WinStateFixedPosition  (1 << 8)   /* fixed position on virtual desktop*/
+#define WinStateArrangeIgnore  (1 << 9)   /* ignore for auto arranging */
 //#define WinStateDocked         (1 << 9) /* docked, ignore my area for maximizing */
+#define WinStateUrgent         (1 << 22)  /* demands attention */
+#define WinStateSkipPager      (1 << 23)  /* skip pager */
 #define WinStateSkipTaskBar    (1 << 24)  /* skip taskbar */
 #define WinStateModal          (1 << 25)  /* modal */
 #define WinStateBelow          (1 << 26)  /* below layer */
@@ -280,6 +297,13 @@
 
 
 /* hints */
+// From wm-comp.ps:
+// #define WIN_HINTS_SKIP_FOCUS        (1<<0) /* "alt-tab" skips this win */
+// #define WIN_HINTS_SKIP_WINLIST      (1<<1) /* do not show in window list */
+// #define WIN_HINTS_SKIP_TASKBAR      (1<<2) /* do not show on taskbar */
+// #define WIN_HINTS_GROUP_TRANSIENT   (1<<3) /* Reserved - definition is unclear */
+// #define WIN_HINTS_FOCUS_ON_CLICK    (1<<4) /* app only accepts focus if clicked */
+
 #define XA_WIN_HINTS            "_WIN_HINTS"
 #define WinHintsSkipFocus       (1 << 0)
 #define WinHintsSkipWindowMenu  (1 << 1)
@@ -348,5 +372,8 @@
 /* not really used: */
 #define XA_WIN_AREA "_WIN_AREA"
 #define XA_WIN_AREA_COUNT "_WIN_AREA_COUNT"
+
+#define XA_WIN_APP_STATE "_WIN_APP_STATE"
+#define XA_WIN_EXPANDED_SIZE "_WIN_EXPANDED_SIZE"
 
 #endif

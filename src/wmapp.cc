@@ -101,7 +101,7 @@ char *configArg(NULL);
 ref<YIcon> defaultAppIcon;
 bool replace_wm = false;
 
-static Window registerProtocols1() {
+static Window registerProtocols1(char **argv, int argc) {
     long timestamp = CurrentTime;
     char buf[32];
     sprintf(buf, "WM_S%d", DefaultScreen(xapp->display()));
@@ -112,35 +112,59 @@ static Window registerProtocols1() {
 
     if (current_wm != None) {
         if (!replace_wm)
-	    die(1, "A window manager is already running, use --replace to replace it");	
+            die(1, "A window manager is already running, use --replace to replace it"); 
       XSetWindowAttributes attrs;
       attrs.event_mask = StructureNotifyMask;
       XChangeWindowAttributes (
           xapp->display(), current_wm,
-	  CWEventMask, &attrs);
+          CWEventMask, &attrs);
     }
    
     Window xroot = RootWindow(xapp->display(), DefaultScreen(xapp->display()));
     Window xid = 
         XCreateSimpleWindow(xapp->display(), xroot,
             0, 0, 1, 1, 0,
-	    BlackPixel(xapp->display(), DefaultScreen(xapp->display())),
-	    BlackPixel(xapp->display(), DefaultScreen(xapp->display())));
+            BlackPixel(xapp->display(), DefaultScreen(xapp->display())),
+            BlackPixel(xapp->display(), DefaultScreen(xapp->display())));
 
     XSetSelectionOwner(xapp->display(), wmSx, xid, timestamp);
 
     if (XGetSelectionOwner(xapp->display(), wmSx) != xid) 
-	die(1, "failed to set %s owner", buf);
+        die(1, "failed to set %s owner", buf);
 
     if (current_wm != None) {
-	XEvent event;
-	msg("Waiting to replace the old window manager");
-	do {
+        XEvent event;
+        msg("Waiting to replace the old window manager");
+        do {
             XWindowEvent(xapp->display(), current_wm,
-			 StructureNotifyMask, &event);
-	} while (event.type != DestroyNotify);
-	msg("done.");
+                         StructureNotifyMask, &event);
+        } while (event.type != DestroyNotify);
+        msg("done.");
     }
+
+    char hostname[64] = { 0, };
+    gethostname(hostname, 64);
+
+    XTextProperty hname = {
+        .value = (unsigned char *) hostname,
+        .encoding = XA_STRING,
+        .format = 8,
+        .nitems = strnlen(hostname, 64)
+    };
+
+    static char wm_class[] = "IceWM";
+    static char wm_instance[] = "icewm";
+
+    XClassHint class_hint = {
+        .res_name = (argv == NULL) ? wm_instance : NULL,
+        .res_class = wm_class
+    };
+
+    static char wm_name[] = "IceWM "VERSION" ("HOSTOS"/"HOSTCPU")";
+
+    Xutf8SetWMProperties(xapp->display(), xid, wm_name, NULL,
+            argv, argc, NULL, NULL, &class_hint);
+    XSetWMClientMachine(xapp->display(), xid, &hname);
 
     XClientMessageEvent ev;
 
@@ -158,72 +182,34 @@ static Window registerProtocols1() {
 }
 
 static void registerProtocols2(Window xid) {
+#ifdef GNOME1_HINTS
     Atom win_proto[] = {
-        _XA_WIN_WORKSPACE,
-        _XA_WIN_WORKSPACE_COUNT,
-        _XA_WIN_WORKSPACE_NAMES,
-        _XA_WIN_ICONS,
-        _XA_WIN_WORKAREA,
-
-        _XA_WIN_STATE,
+//      _XA_WIN_APP_STATE,
+        _XA_WIN_AREA,
+        _XA_WIN_AREA_COUNT,
+        _XA_WIN_CLIENT_LIST,
+        _XA_WIN_DESKTOP_BUTTON_PROXY,
+//      _XA_WIN_EXPANDED_SIZE,
         _XA_WIN_HINTS,
+        _XA_WIN_ICONS,
         _XA_WIN_LAYER,
+        _XA_WIN_PROTOCOLS,
+        _XA_WIN_STATE,
+        _XA_WIN_SUPPORTING_WM_CHECK,
 #ifdef CONFIG_TRAY
         _XA_WIN_TRAY,
 #endif
-        _XA_WIN_SUPPORTING_WM_CHECK,
-        _XA_WIN_CLIENT_LIST
-#if defined(GNOME1_HINTS) && defined(WMSPEC_HINTS)
-        /**/,
-#endif
-#ifdef WMSPEC_HINTS
-        _XA_NET_SUPPORTING_WM_CHECK,
-        _XA_NET_SUPPORTED,
-        _XA_NET_CLIENT_LIST,
-        _XA_NET_CLIENT_LIST_STACKING,
-        _XA_NET_NUMBER_OF_DESKTOPS,
-        _XA_NET_CURRENT_DESKTOP,
-        _XA_NET_WM_DESKTOP,
-        _XA_NET_ACTIVE_WINDOW,
-        _XA_NET_CLOSE_WINDOW,
-        _XA_NET_WM_STRUT,
-        _XA_NET_WM_STRUT_PARTIAL,
-        _XA_NET_WORKAREA,
-        _XA_NET_WM_STATE,
-        _XA_NET_WM_STATE_MAXIMIZED_VERT,
-        _XA_NET_WM_STATE_MAXIMIZED_HORZ,
-        _XA_NET_WM_STATE_SHADED,
-        _XA_NET_WM_STATE_FULLSCREEN,
-        _XA_NET_WM_STATE_ABOVE,
-        _XA_NET_WM_STATE_BELOW,
-        _XA_NET_WM_STATE_SKIP_TASKBAR,
-#if 0
-        _XA_NET_WM_STATE_MODAL,
-#endif
-        _XA_NET_WM_WINDOW_TYPE_DESKTOP,
-        _XA_NET_WM_WINDOW_TYPE_DOCK,
-        _XA_NET_WM_WINDOW_TYPE_SPLASH,
-#endif
+        _XA_WIN_WORKAREA,
+        _XA_WIN_WORKSPACE,
+        _XA_WIN_WORKSPACE_COUNT,
+        _XA_WIN_WORKSPACE_NAMES
     };
     unsigned int i = sizeof(win_proto) / sizeof(win_proto[0]);
 
-#ifdef GNOME1_HINTS
     XChangeProperty(xapp->display(), manager->handle(),
                     _XA_WIN_PROTOCOLS, XA_ATOM, 32,
                     PropModeReplace, (unsigned char *)win_proto, i);
-#endif
 
-
-#ifdef WMSPEC_HINTS
-    XChangeProperty(xapp->display(), manager->handle(),
-                    _XA_NET_SUPPORTED, XA_ATOM, 32,
-                    PropModeReplace, (unsigned char *)win_proto, i);
-#endif
-
-    long pid = getpid();
-    const char wmname[] = "IceWM "VERSION" ("HOSTOS"/"HOSTCPU")";
-
-#ifdef GNOME1_HINTS
     XChangeProperty(xapp->display(), xid, 
                     _XA_WIN_SUPPORTING_WM_CHECK, XA_CARDINAL, 32,
                     PropModeReplace, (unsigned char *)&xid, 1);
@@ -231,25 +217,6 @@ static void registerProtocols2(Window xid) {
     XChangeProperty(xapp->display(), manager->handle(),
                     _XA_WIN_SUPPORTING_WM_CHECK, XA_CARDINAL, 32,
                     PropModeReplace, (unsigned char *)&xid, 1);
-#endif
-
-#ifdef WMSPEC_HINTS
-    XChangeProperty(xapp->display(), xid,
-                    _XA_NET_SUPPORTING_WM_CHECK, XA_WINDOW, 32,
-                    PropModeReplace, (unsigned char *)&xid, 1);
-
-    XChangeProperty(xapp->display(), xid,
-                    _XA_NET_WM_PID, XA_CARDINAL, 32,
-                    PropModeReplace, (unsigned char *)&pid, 1);
-
-    XChangeProperty(xapp->display(), xid,
-                    _XA_NET_WM_NAME, XA_STRING, 8,
-                    PropModeReplace, (unsigned char *)wmname, sizeof(wmname));
-
-    XChangeProperty(xapp->display(), manager->handle(),
-                    _XA_NET_SUPPORTING_WM_CHECK, XA_WINDOW, 32,
-                    PropModeReplace, (unsigned char *)&xid, 1);
-#endif
 
     unsigned long ac[2] = { 1, 1 };
     unsigned long ca[2] = { 0, 0 };
@@ -260,6 +227,128 @@ static void registerProtocols2(Window xid) {
     XChangeProperty(xapp->display(), manager->handle(),
                     _XA_WIN_AREA, XA_CARDINAL, 32,
                     PropModeReplace, (unsigned char *)&ca, 2);
+#endif
+
+#ifdef WMSPEC_HINTS
+    Atom net_proto[] = {
+        _XA_NET_ACTIVE_WINDOW,
+        _XA_NET_CLIENT_LIST,
+        _XA_NET_CLIENT_LIST_STACKING,
+        _XA_NET_CLOSE_WINDOW,
+        _XA_NET_CURRENT_DESKTOP,
+        _XA_NET_DESKTOP_GEOMETRY,
+//      _XA_NET_DESKTOP_LAYOUT,
+        _XA_NET_DESKTOP_NAMES,
+        _XA_NET_DESKTOP_VIEWPORT,
+        _XA_NET_FRAME_EXTENTS,
+        _XA_NET_MOVERESIZE_WINDOW,
+        _XA_NET_NUMBER_OF_DESKTOPS,
+//      _XA_NET_PROPERTIES,
+//      _XA_NET_REQUEST_FRAME_EXTENTS,
+        _XA_NET_RESTACK_WINDOW,
+        _XA_NET_SHOWING_DESKTOP,
+        _XA_NET_STARTUP_ID,
+//      _XA_NET_STARTUP_INFO,
+//      _XA_NET_STARTUP_INFO_BEGIN,
+        _XA_NET_SUPPORTED,
+        _XA_NET_SUPPORTING_WM_CHECK,
+        _XA_NET_SYSTEM_TRAY_MESSAGE_DATA,
+        _XA_NET_SYSTEM_TRAY_OPCODE,
+//      _XA_NET_SYSTEM_TRAY_ORIENTATION,
+//      _XA_NET_SYSTEM_TRAY_VISUAL,
+//      _XA_NET_VIRTUAL_ROOTS,
+        _XA_NET_WM_ACTION_ABOVE,
+        _XA_NET_WM_ACTION_BELOW,
+        _XA_NET_WM_ACTION_CHANGE_DESKTOP,
+        _XA_NET_WM_ACTION_CLOSE,
+        _XA_NET_WM_ACTION_FULLSCREEN,
+        _XA_NET_WM_ACTION_MAXIMIZE_HORZ,
+        _XA_NET_WM_ACTION_MAXIMIZE_VERT,
+        _XA_NET_WM_ACTION_MINIMIZE,
+        _XA_NET_WM_ACTION_MOVE,
+        _XA_NET_WM_ACTION_RESIZE,
+        _XA_NET_WM_ACTION_SHADE,
+        _XA_NET_WM_ACTION_STICK,
+        _XA_NET_WM_ALLOWED_ACTIONS,
+//      _XA_NET_WM_BYPASS_COMPOSITOR,
+        _XA_NET_WM_DESKTOP,
+//      _XA_NET_WM_FULL_PLACEMENT,
+        _XA_NET_WM_FULLSCREEN_MONITORS,
+        _XA_NET_WM_HANDLED_ICONS,           // trivial support
+//      _XA_NET_WM_ICON_GEOMETRY,
+        _XA_NET_WM_ICON_NAME,
+        _XA_NET_WM_ICON,
+        _XA_NET_WM_MOVERESIZE,
+        _XA_NET_WM_NAME,
+//      _XA_NET_WM_OPAQUE_REGION,
+        _XA_NET_WM_PID,                     // trivial support
+//      _XA_NET_WM_PING,
+        _XA_NET_WM_STATE,
+        _XA_NET_WM_STATE_ABOVE,
+        _XA_NET_WM_STATE_BELOW,
+        _XA_NET_WM_STATE_DEMANDS_ATTENTION,
+//      _XA_NET_WM_STATE_FOCUSED,
+        _XA_NET_WM_STATE_FULLSCREEN,
+        _XA_NET_WM_STATE_HIDDEN,
+        _XA_NET_WM_STATE_MAXIMIZED_HORZ,
+        _XA_NET_WM_STATE_MAXIMIZED_VERT,
+        _XA_NET_WM_STATE_MODAL,
+        _XA_NET_WM_STATE_SHADED,
+        _XA_NET_WM_STATE_SKIP_PAGER,        // trivial support
+        _XA_NET_WM_STATE_SKIP_TASKBAR,
+        _XA_NET_WM_STATE_STICKY,            // trivial support
+        _XA_NET_WM_STRUT,
+        _XA_NET_WM_STRUT_PARTIAL,	    // trivial support
+//      _XA_NET_WM_SYNC_REQUEST,
+//      _XA_NET_WM_SYNC_REQUEST_COUNTER,
+        _XA_NET_WM_USER_TIME,
+        _XA_NET_WM_USER_TIME_WINDOW,
+        _XA_NET_WM_VISIBLE_ICON_NAME,       // trivial support
+        _XA_NET_WM_VISIBLE_NAME,            // trivial support
+//      _XA_NET_WM_WINDOW_OPACITY,
+        _XA_NET_WM_WINDOW_TYPE,
+        _XA_NET_WM_WINDOW_TYPE_COMBO,
+        _XA_NET_WM_WINDOW_TYPE_DESKTOP,
+        _XA_NET_WM_WINDOW_TYPE_DIALOG,
+        _XA_NET_WM_WINDOW_TYPE_DND,
+        _XA_NET_WM_WINDOW_TYPE_DOCK,
+        _XA_NET_WM_WINDOW_TYPE_DROPDOWN_MENU,
+        _XA_NET_WM_WINDOW_TYPE_MENU,
+        _XA_NET_WM_WINDOW_TYPE_NORMAL,
+        _XA_NET_WM_WINDOW_TYPE_NOTIFICATION,
+        _XA_NET_WM_WINDOW_TYPE_POPUP_MENU,
+        _XA_NET_WM_WINDOW_TYPE_SPLASH,
+        _XA_NET_WM_WINDOW_TYPE_TOOLBAR,
+        _XA_NET_WM_WINDOW_TYPE_TOOLTIP,
+        _XA_NET_WM_WINDOW_TYPE_UTILITY,
+        _XA_NET_WORKAREA
+    };
+    unsigned int j = sizeof(net_proto) / sizeof(net_proto[0]);
+
+    XChangeProperty(xapp->display(), manager->handle(),
+                    _XA_NET_SUPPORTED, XA_ATOM, 32,
+                    PropModeReplace, (unsigned char *)net_proto, j);
+
+    XChangeProperty(xapp->display(), xid,
+                    _XA_NET_SUPPORTING_WM_CHECK, XA_WINDOW, 32,
+                    PropModeReplace, (unsigned char *)&xid, 1);
+
+    long pid = getpid();
+
+    XChangeProperty(xapp->display(), xid,
+                    _XA_NET_WM_PID, XA_CARDINAL, 32,
+                    PropModeReplace, (unsigned char *)&pid, 1);
+
+    const char wmname[] = "IceWM "VERSION" ("HOSTOS"/"HOSTCPU")";
+
+    XChangeProperty(xapp->display(), xid,
+                    _XA_NET_WM_NAME, _XA_UTF8_STRING, 8,
+                    PropModeReplace, (unsigned char *)wmname, strnlen(wmname, sizeof(wmname)));
+
+    XChangeProperty(xapp->display(), manager->handle(),
+                    _XA_NET_SUPPORTING_WM_CHECK, XA_WINDOW, 32,
+                    PropModeReplace, (unsigned char *)&xid, 1);
+#endif
 }
 
 static void unregisterProtocols() {
@@ -338,7 +427,7 @@ static void initFontPath(IApp *app) {
             char ** fontPath(XGetFontPath(xapp->display(), &ndirs));
 
             char ** newFontPath = new char *[ndirs + 1];
-            newFontPath[ndirs] = fontsdir;
+            newFontPath[ndirs] = (char *)fontsdir;
 
             if (fontPath)
                 memcpy(newFontPath, fontPath, ndirs * sizeof (char *));
@@ -397,6 +486,9 @@ static void initFontPath(IApp *app) {
 #ifndef LITE
 static void initIcons() {
     defaultAppIcon = YIcon::getIcon("app");
+}
+static void termIcons() {
+    defaultAppIcon = null;
 }
 #endif
 
@@ -878,48 +970,6 @@ static void initMenus(
 #endif
 }
 
-void initWorkspaces() {
-    XTextProperty names;
-
-    if (XStringListToTextProperty(workspaceNames, workspaceCount, &names)) {
-        XSetTextProperty(xapp->display(),
-                         manager->handle(),
-                         &names, _XA_WIN_WORKSPACE_NAMES);
-        XFree(names.value);
-    }
-
-    XChangeProperty(xapp->display(), manager->handle(),
-                    _XA_WIN_WORKSPACE_COUNT, XA_CARDINAL,
-                    32, PropModeReplace, (unsigned char *)&workspaceCount, 1);
-    XChangeProperty(xapp->display(), manager->handle(),
-                    _XA_NET_NUMBER_OF_DESKTOPS, XA_CARDINAL,
-                    32, PropModeReplace, (unsigned char *)&workspaceCount, 1);
-
-    Atom r_type;
-    int r_format;
-    unsigned long count;
-    unsigned long bytes_remain;
-    unsigned char *prop;
-    long ws = 0;
-
-    if (XGetWindowProperty(xapp->display(),
-                           manager->handle(),
-                           _XA_WIN_WORKSPACE,
-                           0, 1, False, XA_CARDINAL,
-                           &r_type, &r_format,
-                           &count, &bytes_remain, &prop) == Success && prop)
-    {
-        if (r_type == XA_CARDINAL && r_format == 32 && count == 1) {
-            long n = *(long *)prop;
-
-            if (n < workspaceCount)
-                ws = n;
-        }
-        XFree(prop);
-    }
-    manager->activateWorkspace(ws);
-}
-
 int handler(Display *display, XErrorEvent *xev) {
 
     if (initializing &&
@@ -1006,7 +1056,7 @@ void YWMApp::restartClient(const char *path, char *const *args) {
     runRestart(path, args);
 
     /* somehow exec failed, try to recover */
-    managerWindow = registerProtocols1();
+    managerWindow = registerProtocols1(NULL, 0);
     registerProtocols2(managerWindow);
     manager->manageClients();
 }
@@ -1120,9 +1170,11 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
         manager->getWindowsToArrange(&w, &count, true, true);
         if (w && count > 0) {
             manager->setWindows(w, count, actionMinimizeAll);
+            manager->setShowingDesktop(true);
             delete [] w;
         } else {
             manager->undoArrange();
+            manager->setShowingDesktop(false);
         }
 
     } else if (action == actionCascade) {
@@ -1275,7 +1327,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 
     delete desktop;
 
-    managerWindow = registerProtocols1();
+    managerWindow = registerProtocols1(*argv, *argc);
     
     desktop = manager = fWindowManager = new YWindowManager(
         this, this, this, 0, RootWindow(display(), DefaultScreen(display())));
@@ -1375,7 +1427,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     aboutDlg = new AboutDlg();
 #endif
 
-    initWorkspaces();
+    manager->initWorkspaces();
 
     manager->grabKeys();
 
@@ -1396,6 +1448,7 @@ YWMApp::~YWMApp() {
         fLogoutMsgBox = 0;
     }
 #ifndef LITE
+    termIcons();
     delete ctrlAltDelete; ctrlAltDelete = 0;
 #endif
 #ifdef CONFIG_TASKBAR
@@ -1502,11 +1555,11 @@ void YWMApp::signalGuiEvent(GUIEvent ge) {
 
 bool YWMApp::filterEvent(const XEvent &xev) {
     if (xev.type == SelectionClear) {
-	if (xev.xselectionclear.window == managerWindow) {
+        if (xev.xselectionclear.window == managerWindow) {
             manager->unmanageClients();
             unregisterProtocols();
-	    exit(0);
-	}
+            exit(0);
+        }
     }
     return YSMApplication::filterEvent(xev);
 }
@@ -1626,7 +1679,7 @@ int main(int argc, char **argv) {
             else if (IS_LONG_SWITCH("restart"))
                 restart = true;
             else if (IS_LONG_SWITCH("replace"))
-		replace_wm = true;
+                replace_wm = true;
             else if (IS_SWITCH("v", "version"))
                 print_version();
             else if (IS_SWITCH("h", "help"))

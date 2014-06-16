@@ -300,6 +300,8 @@ public:
                            int screen_no = -1);
     int getScreenForRect(int x, int y, int width, int height);
 
+    int getScreenCount();
+
     virtual void grabKeys() {}
 
 protected:
@@ -320,13 +322,27 @@ extern int xrandrEventBase, xrandrErrorBase;
 #endif
 
 
-extern Atom _XA_WM_PROTOCOLS;
-extern Atom _XA_WM_DELETE_WINDOW;
-extern Atom _XA_WM_TAKE_FOCUS;
-extern Atom _XA_WM_STATE;
 extern Atom _XA_WM_CHANGE_STATE;
-extern Atom _XATOM_MWM_HINTS;
+extern Atom _XA_WM_CLASS;
+extern Atom _XA_WM_COLORMAP_NOTIFY;
 extern Atom _XA_WM_COLORMAP_WINDOWS;
+extern Atom _XA_WM_COMMAND;
+extern Atom _XA_WM_DELETE_WINDOW;
+extern Atom _XA_WM_DESKTOP;
+extern Atom _XA_WM_HINTS;
+extern Atom _XA_WM_ICON_NAME;
+extern Atom _XA_WM_ICON_SIZE;
+extern Atom _XA_WM_LOCALE_NAME;
+extern Atom _XA_WM_NAME;
+extern Atom _XA_WM_NORMAL_HINTS;
+extern Atom _XA_WM_PROTOCOLS;
+extern Atom _XA_WM_SIZE_HINTS;
+extern Atom _XA_WM_STATE;
+extern Atom _XA_WM_TAKE_FOCUS;
+extern Atom _XA_WM_TRANSIENT_FOR;
+extern Atom _XA_WM_ZOOM_HINTS;
+
+extern Atom _XATOM_MWM_HINTS;
 extern Atom _XA_CLIPBOARD;
 extern Atom _XA_XEMBED_INFO;
 
@@ -335,6 +351,7 @@ extern Atom XA_XdndAware;
 extern Atom XA_XdndEnter;
 extern Atom XA_XdndLeave;
 extern Atom XA_XdndPosition;
+extern Atom XA_XdndProxy;
 extern Atom XA_XdndStatus;
 extern Atom XA_XdndDrop;
 extern Atom XA_XdndFinished;

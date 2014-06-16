@@ -110,7 +110,9 @@ public:
     XClassHint *classHint() const { return fClassHint; }
 
     void getNameHint();
+    void getNetWmName();
     void getIconNameHint();
+    void getNetWmIconName();
     void setWindowTitle(const char *title);
     void setIconTitle(const char *title);
 #ifdef CONFIG_I18N
@@ -145,11 +147,16 @@ public:
     bool getNetWMStateHint(long *mask, long *state);
     bool getNetWMDesktopHint(long *workspace);
     bool getNetWMStrut(int *left, int *right, int *top, int *bottom);
-<<<<<<< HEAD
-=======
-    bool getNetWMStrutPartial(int *left, int *right, int *top, int *bottom);
->>>>>>> a2d63443c9ab57fa6a436e3d505b6bd708dfc8a4
+    bool getNetWMStrutPartial(int *left, int *right, int *top, int *bottom,
+            int *left_start_y=0, int *left_end_y=0, int *right_start_y=0, int *right_end_y=0,
+            int *top_start_x=0, int *top_end_x=0, int *bottom_start_x=0, int *bottom_end_x=0);
+    bool getNetStartupId(unsigned long &time);
+    bool getNetWMUserTime(Window window, unsigned long &time);
+    bool getNetWMUserTimeWindow(Window &window);
     bool getNetWMWindowType(Atom *window_type);
+    void setNetWMFullscreenMonitors(int top, int bottom, int left, int right);
+    void setNetFrameExtents(int left, int right, int top, int bottom);
+    void setNetWMAllowedActions(Atom *actions, int count);
 #endif
 
 #ifndef NO_MWM_HINTS
@@ -183,7 +190,6 @@ public:
 
     bool isKdeTrayWindow() { return prop.kde_net_wm_system_tray_window_for; }
 
-    bool getWmUserTime(long *userTime);
     bool isEmbed() { return prop.xembed_info; }
     
 private:
@@ -226,16 +232,17 @@ private:
         bool kwm_win_icon : 1;
         bool kde_net_wm_system_tray_window_for : 1;
 #ifdef WMSPEC_HINTS
+        bool net_wm_name : 1;
+        bool net_wm_icon_name : 1;
         bool net_wm_icon : 1;
         bool net_wm_strut : 1;
-<<<<<<< HEAD
-=======
         bool net_wm_strut_partial : 1;
->>>>>>> a2d63443c9ab57fa6a436e3d505b6bd708dfc8a4
         bool net_wm_desktop : 1; // no property notify
         bool net_wm_state : 1; // no property notify
         bool net_wm_window_type : 1;
+        bool net_startup_id : 1; // no property notify
         bool net_wm_user_time : 1;
+        bool net_wm_user_time_window : 1;
 #endif
 #ifndef NO_MWM_HINTS
         bool mwm_hints : 1;

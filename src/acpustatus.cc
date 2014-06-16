@@ -246,9 +246,11 @@ void CPUStatus::updateToolTip() {
     if (ShowCpuFreq) {
         sprintf(cpufreq, _("\nCPU Freq: %.3fGHz"), getCpuFreq(0) / 1e6);
     }
-    char *loadmsg = cstrJoin(load, ram, swap, acpitemp, cpufreq, NULL);
-
-    setToolTip(ustring(loadmsg));
+    {
+        char *loadmsg = cstrJoin(load, ram, swap, acpitemp, cpufreq, NULL);
+        setToolTip(ustring(loadmsg));
+        delete [] loadmsg;
+    }
 #elif defined HAVE_GETLOADAVG2
     char load[31]; // enough for "CPU Load: 999.99 999.99 999.99\0"
     double loadavg[3];
@@ -256,9 +258,11 @@ void CPUStatus::updateToolTip() {
         return;
     snprintf(load, sizeof(load), "CPU Load: %3.2f %3.2f %3.2f",
             loadavg[0], loadavg[1], loadavg[2]);
-    char *loadmsg = cstrJoin(_("CPU Load: "), load, NULL);
-    setToolTip(loadmsg);
-    delete [] loadmsg;
+    {
+        char *loadmsg = cstrJoin(_("CPU Load: "), load, NULL);
+        setToolTip(loadmsg);
+        delete [] loadmsg;
+    }
 #endif
 }
 
@@ -319,6 +323,37 @@ int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
         }
         closedir(dir);
     } 
+    else if ((dir = opendir("/sys/class/thermal")) != NULL) {
+        struct dirent *de;
+
+        while ((de = readdir(dir)) != NULL) {
+
+            int fd, seglen;
+
+            if (strcmp(de->d_name, ".") == 0 || strcmp(de->d_name, "..") == 0)
+                continue;
+
+            sprintf(namebuf, "/sys/class/thermal/%s/temp", de->d_name);
+            fd = open(namebuf, O_RDONLY);
+            if (fd != -1) {
+                int len = read(fd, buf, sizeof(buf) - 1);
+                buf[len - 4] = '\0';
+                seglen = strlen(buf) + 4;
+                if (retbuflen + seglen >= buflen) {
+                    retbuflen = -retbuflen;
+                    close(fd);
+                    closedir(dir);
+                    break;
+                }
+                retbuflen += seglen;
+                strcat(tempbuf, "  ");
+                strncat(tempbuf, buf, seglen);
+                strcat(tempbuf, " C");
+                close(fd);
+            }
+        }
+        closedir(dir);
+    }
     return retbuflen;
 }
 
@@ -327,7 +362,7 @@ float CPUStatus::getCpuFreq(unsigned int cpu) {
     int fd;
     float cpufreq = 0;
 
-    sprintf(namebuf, "/sys/devices/system/cpu/cpu%d/cpufreq/scaling_cur_freq", cpu);
+    sprintf(namebuf, "/sys/devices/system/cpu/cpu%d/cpufreq/cpuinfo_cur_freq", cpu);
     fd = open(namebuf, O_RDONLY);
     if (fd != -1) {
         int len = read(fd, buf, sizeof(buf) - 1);

@@ -420,7 +420,6 @@ void YFrameWindow::handleResizeMouse(const XMotionEvent &motion,
 
 void YFrameWindow::outlineMove() {
     int xx(x()), yy(y());
-    unsigned modifiers(0);
 
     XGrabServer(xapp->display());
     XSync(xapp->display(), False);
@@ -435,7 +434,6 @@ void YFrameWindow::outlineMove() {
 
         switch (xev.type) {
             case KeyPress: {
-                modifiers = xev.xkey.state;
 
                 int const ox(xx), oy(yy);
                 int r;
@@ -468,7 +466,6 @@ void YFrameWindow::outlineMove() {
 
             case ButtonPress:
             case ButtonRelease:
-                modifiers = xev.xbutton.state;
                 goto end;
 
             case MotionNotify: {

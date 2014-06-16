@@ -1,0 +1,118 @@
+-- NEWS file for IceWM.  2013-10-10
+
+
+Release icewm-1.3.8
+===================
+
+The following changes have been made since the icewm-1.3.7 release:
+
+Alexander Galanin (1):
+      support for unseen messages on IMAP
+
+Alvaro G. M (1):
+      Reorder urgent windows switching and fix comments.
+
+Andrey Danin (1):
+      Check for sysfs acpi file, procfs may not contain acpi data with recent
+	kernels
+
+Brian Bidulock (52):
+      applied icewm.svg.patch from archlinux
+      applied wmclient.patch from archlinux
+      applied icewm-cpustatus.patch from archlinux
+      applied aapm_power.patch from archlinux
+      applied hack_more_netdevs.patch from archlinux
+      applied acpustatus_read_cpuinfo_cur_freq.patch from archlinux
+      applied net-rage-in-bits-per-second.patch from archlinux
+      icewm-build-fixes.patch from pld-linux
+      icewm-fix_input_focus_loss_for_deiconified_frame_1.patch from pld-linux
+      icewm-autohide.patch from archlinux
+      fix missing prototype for startTimer
+      rename configure.in
+      restore missing manual page
+      remove renamed file
+      what a funny ac_init
+      build fixes, remove all compiler warnings
+      split _WIN_PROTOCOLS and _NET_SUPPORTED
+      identify all ICCCM, WMH and EWMH atoms
+      several more EWMH window type atoms
+      add missing EWMH atoms
+      start adding more EWMH support
+      property support skip pager hint
+      support all Net/WM actions, states, window types
+      add and update ICCCM/EWMH compliance
+      only announce work area when it changes
+      added todo items
+      no need to move windows unless work area changed
+      more todo items
+      correct _NET_WM_NAME add _NET_DESKTOP_VIEWPORT
+      trivial support for _NET_WM_STRUT_PARTIAL
+      handle strut partial a bit better
+      add support for visible (icon) name
+      _NET_WM_ICON is supported
+      added support for _NET_FRAME_EXTENTS
+      added support for _NET_WM_USER_TIME
+      add support for _NET_SHOWING_DESKTOP
+      add support for _NET_RESTACK_WINDOW
+      support state only _NET_WM_STATE_MODAL
+      avoid loss of names on restart
+      support dynamic desktops
+      shut off temporarily _NET_NUMBER_OF_DESKTOPS
+      Revert "shut off temporarily _NET_NUMBER_OF_DESKTOPS"
+      Revert "support dynamic desktops"
+      update desktop names when then change
+      update moveMenu when workspace names change
+      relabel workspace pane buttons when names change
+      _NET_DESKTOP_NAMES now fully supported
+      update _NET_DESKTOP_NAMES and _WIN_WORKSPACE_NAMES
+      full support for _NET_NUMBER_OF_DESKTOPS
+      also relabel tooltips when renaming workspaces
+      update compliance
+      housekeeping for release
+
+Eduard Bloch (1):
+      Check the state of the interface with SIOCGIFFLAGS instead of traversing
+	the SIOCGIFCONF output, also checking the link state more exactly
+	(Debian bug #563371)
+
+Stefan Giermair (25):
+      added _NET_WM_FULLSCREEN_MONITORS
+      added possibility to span a window over all screens in fullscreen mode
+      added NET_WORKAREA behaviour
+      icewmbg: implemented scaled background; draw for each screen a background
+      hide borders if window is maximized
+      added accidentally removed comment again
+      icewmbg: fix case, where image is centered/scaled and height greater width
+      icewmbg: update background if desktop size has changed
+      fix compilation against X1.4.99 (thanks amoog)
+      renamed #define for deprecated
+      removed the whole icewm deprecate define
+      added _NET_DESKTOP_GEOMETRY
+      added patch for _NET_MOVERESIZE_WINDOW (agamez)
+      Hack for java7 focus issue; deactivatable with parameter
+        ActivateJava7FocusHack=0
+      java7 focus hack: xfree str even if the title is not focusproxy
+      initialize str properly
+      update geometry for workspace edge switching
+      added -lm to CORE_LIBS #3610102
+      applied icewm-tray_hotfixes.patch from debian
+      icewmtray: support gtk3 applications
+      icewmtray: fixed crash on 2nd reloadConfig
+      added option HideBordersMaximized (default: false)
+      added option ConsiderSizeHintsMaximized (default: true)
+      icewmbg: only draw biggest image on coordinate (0/0)
+      icewmtray: added sanity check for clients
+
+captnmark (10):
+      clang compile fixes
+      test build fixes
+      ID: 3125471     fix crash with pid_t / XA_NET_WM_PID     by Salvador
+	Fandiño García ( sfandino )
+      option quickSwitchToUrgent (Alvaro Gamez)
+      build fix: fontconfig libs
+      obsolete gnome1 stuff
+      JDK7 focus fix
+      taskbar input focus mode change/fix
+      removing globals
+      removing globals
+

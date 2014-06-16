@@ -543,8 +543,15 @@ static void loadMenus(IApp *app, YSMListener *smActionListener, YActionListener 
         buf = new char[sb.st_size + 1];
         if (buf == 0) { close(fd); return; }
 
-        read(fd, buf, sb.st_size);
-        buf[sb.st_size] = '\0';
+	int n, ret;
+	for (n = 0; n < sb.st_size;) {
+	    ret = read(fd, buf + n, sb.st_size - n);
+	    if (ret == 0 || (ret < 0 && errno != EINTR))
+		break;
+	    if (ret > 0)
+		n += ret;
+	}
+        buf[n] = '\0';
     }
     close(fd);
 

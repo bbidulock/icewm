@@ -88,14 +88,12 @@ void TrayApp::setShown(bool ashow) {
 }
 
 void TrayApp::paint(Graphics &g, const YRect &/*r*/) {
-    YColor *bg, *fg;
+    YColor *bg;
     ref<YPixmap> bgPix;
 #ifdef CONFIG_GRADIENTS
     ref<YImage> bgGrad;
 #endif
 
-    int p(0);
-    
 #ifdef CONFIG_GRADIENTS
     int sx(parent() ? x() + parent()->x() : x());
     int sy(parent() ? y() + parent()->y() : y());
@@ -108,14 +106,12 @@ void TrayApp::paint(Graphics &g, const YRect &/*r*/) {
 
     if (!getFrame()->visibleNow()) {
         bg = invisibleTrayAppBg;
-        fg = invisibleTrayAppFg;
         bgPix = taskbackPixmap;
 #ifdef CONFIG_GRADIENTS
         bgGrad = getGradient();
 #endif
     } else if (getFrame()->isMinimized()) {
         bg = minimizedTrayAppBg;
-        fg = minimizedTrayAppFg;
         bgPix = taskbuttonminimizedPixmap;
 #ifdef CONFIG_GRADIENTS
         if (taskMinimizedGradient == null && taskbuttonminimizedPixbuf != null)
@@ -124,7 +120,6 @@ void TrayApp::paint(Graphics &g, const YRect &/*r*/) {
 #endif
     } else if (getFrame()->focused()) {
         bg = activeTrayAppBg;
-        fg = activeTrayAppFg;
         bgPix = taskbuttonactivePixmap;
 #ifdef CONFIG_GRADIENTS
         if (taskActiveGradient == null && taskbuttonactivePixbuf != null)
@@ -133,7 +128,6 @@ void TrayApp::paint(Graphics &g, const YRect &/*r*/) {
 #endif
     } else {
         bg = normalTrayAppBg;
-        fg = normalTrayAppFg;
         bgPix = taskbuttonPixmap;
 #ifdef CONFIG_GRADIENTS
         if (taskNormalGradient == null && taskbuttonPixbuf != null)
@@ -143,7 +137,6 @@ void TrayApp::paint(Graphics &g, const YRect &/*r*/) {
     }
 
     if (selected == 3) {
-        p = 2;
         g.setColor(YColor::black);
         g.drawRect(0, 0, width() - 1, height() - 1);
         g.setColor(bg);

@@ -39,6 +39,7 @@ static YColor *inactiveBorderBg = 0;
 YTimer *YFrameWindow::fAutoRaiseTimer = 0;
 YTimer *YFrameWindow::fDelayFocusTimer = 0;
 
+extern XContext windowContext;
 extern XContext frameContext;
 extern XContext clientContext;
 
@@ -67,6 +68,12 @@ YFrameWindow::YFrameWindow(
     if (inactiveBorderBg == 0)
         inactiveBorderBg = new YColor(clrInactiveBorder);
 
+    fShapeWidth = -1;
+    fShapeHeight = -1;
+    fShapeTitleY = -1;
+    fShapeBorderX = -1;
+    fShapeBorderY = -1;
+
     setDoubleBuffer(false);
     fClient = 0;
     fFocused = false;
@@ -79,9 +86,7 @@ YFrameWindow::YFrameWindow(
     fPopupActive = 0;
     fWmUrgency = false;
     fClientUrgency = false;
-    fTypeDesktop = false;
-    fTypeDock = false;
-    fTypeSplash = false;
+    fWindowType = wtNormal;
 
     normalX = 0;
     normalY = 0;
@@ -121,6 +126,14 @@ YFrameWindow::YFrameWindow(
     fStrutRight = 0;
     fStrutTop = 0;
     fStrutBottom = 0;
+
+    fUserTime = -1UL;
+    fUserTimeWindow = None;
+
+    fFullscreenMonitorsTop = -1;
+    fFullscreenMonitorsBottom = -1;
+    fFullscreenMonitorsLeft = -1;
+    fFullscreenMonitorsRight = -1;
 
     setStyle(wsOverrideRedirect);
     setPointer(YXApplication::leftPointer);
@@ -297,6 +310,10 @@ YFrameWindow::~YFrameWindow() {
             XRemoveFromSaveSet(xapp->display(), client()->handle());
         XDeleteContext(xapp->display(), client()->handle(), frameContext);
     }
+    if (fUserTimeWindow != None) {
+        XDeleteContext(xapp->display(), fUserTimeWindow, windowContext);
+    }
+
     if (affectsWorkArea())
         manager->updateWorkArea();
     // FIX !!! should actually check if < than current values
@@ -312,8 +329,8 @@ YFrameWindow::~YFrameWindow() {
     delete fMinimizeButton; fMinimizeButton = 0;
     delete fHideButton; fHideButton = 0;
     delete fRollupButton; fRollupButton = 0;
-    delete fTitleBar; fTitleBar = 0;
     delete fDepthButton; fDepthButton = 0;
+    delete fTitleBar; fTitleBar = 0;
 
     XDestroyWindow(xapp->display(), topSide);
     XDestroyWindow(xapp->display(), leftSide);
@@ -393,25 +410,69 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
         long layer = 0;
         Atom net_wm_window_type;
         if (fClient->getNetWMWindowType(&net_wm_window_type)) {
-            if (net_wm_window_type ==
-                _XA_NET_WM_WINDOW_TYPE_DOCK)
+            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_COMBO)
             {
-                setSticky(true);
-                setTypeDock(true);
-                updateMwmHints();
-            } else if (net_wm_window_type ==
-                       _XA_NET_WM_WINDOW_TYPE_DESKTOP)
+                setWindowType(wtCombo);
+            } else
+            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_DESKTOP)
             {
 /// TODO #warning "this needs some cleanup"
+                setWindowType(wtDesktop);
                 setSticky(true);
-                setTypeDesktop(true);
-                updateMwmHints();
-            } else if (net_wm_window_type ==
-                       _XA_NET_WM_WINDOW_TYPE_SPLASH)
+            } else
+            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_DIALOG)
             {
-                setTypeSplash(true);
-                updateMwmHints();
+                setWindowType(wtDialog);
+            } else
+            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_DND)
+            {
+                setWindowType(wtDND);
+            } else
+            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_DOCK)
+            {
+                setWindowType(wtDock);
+                setSticky(true);
+            } else
+            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_DROPDOWN_MENU)
+            {
+                setWindowType(wtDropdownMenu);
+            } else
+            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_MENU)
+            {
+                setWindowType(wtMenu);
+            } else
+            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_NORMAL)
+            {
+                setWindowType(wtNormal);
+            } else
+            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_NOTIFICATION)
+            {
+                setWindowType(wtNotification);
+            } else
+            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_POPUP_MENU)
+            {
+                setWindowType(wtPopupMenu);
+            } else
+            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_SPLASH)
+            {
+                setWindowType(wtSplash);
+            } else
+            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_TOOLBAR)
+            {
+                setWindowType(wtToolbar);
+            } else
+            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_TOOLTIP)
+            {
+                setWindowType(wtTooltip);
+            } else
+            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_UTILITY)
+            {
+                setWindowType(wtUtility);
+            } else
+            {
+                setWindowType(wtNormal);
             }
+            updateMwmHints();
             updateLayer(true);
         } else if (fClient->getWinLayerHint(&layer))
             setRequestedLayer(layer);
@@ -421,6 +482,10 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
     getDefaultOptions(requestFocus);
 #ifdef WMSPEC_HINTS
     updateNetWMStrut(); /// ? here
+    updateNetWMStrutPartial();
+    updateNetStartupId();
+    updateNetWMUserTime();
+    updateNetWMUserTimeWindow();
 #endif
 
     long workspace = getWorkspace(), state_mask(0), state(0);
@@ -616,10 +681,11 @@ void YFrameWindow::manage(YFrameClient *client) {
 
     {
         XSetWindowAttributes xswa;
+	xswa.backing_store = NotUseful;
         xswa.win_gravity = NorthWestGravity;
 
         XChangeWindowAttributes(xapp->display(), client->handle(),
-                                CWWinGravity, &xswa);
+                                CWBackingStore | CWWinGravity, &xswa);
     }
 
     XAddToSaveSet(xapp->display(), client->handle());
@@ -1776,14 +1842,9 @@ void YFrameWindow::updateFocusOnMap(bool& doActivate) {
             doActivate = false;
     }
 
-    {
-        long userTime = -1;
-
-        if (client()->getWmUserTime(&userTime)) {
-        }
-        //            if (userTime - currentTime < 0)
-        //                doFocus = false;
-    }
+    if (fUserTime != -1UL)
+        if (fUserTime == 0 || fUserTime != manager->lastUserTime())
+            doActivate = false;
 }
 
 void YFrameWindow::wmShow() {
@@ -2144,6 +2205,34 @@ void YFrameWindow::wmMoveToWorkspace(long workspace) {
     wmOccupyOnlyWorkspace(workspace);
 }
 
+void YFrameWindow::updateAllowed() {
+    Atom atoms[12];
+    int i = 0;
+    if ((fFrameFunctions & ffMove) || (fFrameDecors & fdTitleBar))
+        atoms[i++] = _XA_NET_WM_ACTION_MOVE;
+    if ((fFrameFunctions & ffResize) || (fFrameDecors & fdResize))
+        atoms[i++] = _XA_NET_WM_ACTION_RESIZE;
+    if ((fFrameFunctions & ffClose) || (fFrameDecors & fdClose))
+        atoms[i++] = _XA_NET_WM_ACTION_CLOSE;
+    if ((fFrameFunctions & ffMinimize) || (fFrameDecors & fdMinimize))
+        atoms[i++] = _XA_NET_WM_ACTION_MINIMIZE;
+    if ((fFrameFunctions & ffMaximize) || (fFrameDecors & fdMaximize)) {
+        atoms[i++] = _XA_NET_WM_ACTION_MAXIMIZE_HORZ;
+        atoms[i++] = _XA_NET_WM_ACTION_MAXIMIZE_VERT;
+    }
+//  if ((fFrameFunctions & ffHide) || (fFrameDecors & fdHide))
+//      atoms[i++] = _XA_NET_WM_ACTION_HIDE;
+    if ((fFrameFunctions & ffRollup) || (fFrameDecors & fdRollup))
+        atoms[i++] = _XA_NET_WM_ACTION_SHADE;
+    if ((1) || (fFrameDecors & fdDepth)) {
+        atoms[i++] = _XA_NET_WM_ACTION_ABOVE;
+        atoms[i++] = _XA_NET_WM_ACTION_BELOW;
+    }
+    atoms[i++] = _XA_NET_WM_ACTION_STICK;
+    atoms[i++] = _XA_NET_WM_ACTION_CHANGE_DESKTOP;
+    client()->setNetWMAllowedActions(atoms,i);
+}
+
 void YFrameWindow::getFrameHints() {
 #ifndef NO_MWM_HINTS
     long decors = client()->mwmDecors();
@@ -2154,6 +2243,12 @@ void YFrameWindow::getFrameHints() {
                       (mwm_hints->flags & (MWM_HINTS_FUNCTIONS |
                                            MWM_HINTS_DECORATIONS))
                       == MWM_HINTS_FUNCTIONS);
+
+#ifdef WMSPEC_HINTS
+    unsigned long old_functions = fFrameFunctions;
+    unsigned long old_decors = fFrameDecors;
+    unsigned long old_options = fFrameOptions;
+#endif
 
     fFrameFunctions = 0;
     fFrameDecors = 0;
@@ -2211,16 +2306,71 @@ void YFrameWindow::getFrameHints() {
         fFrameOptions |= foDoNotCover;
 
 /// TODO #warning "need initial window mapping cleanup"
-    if (fTypeDesktop) {
+    switch (fWindowType) {
+    case wtCombo:
+        fFrameFunctions = 0;
         fFrameDecors = 0;
-        fFrameOptions |= foIgnoreTaskBar;
-    }
-    if (fTypeDock) {
+        fFrameOptions |= foIgnoreTaskBar | foIgnoreWinList | foIgnoreQSwitch;
+        break;
+    case wtDesktop:
+        fFrameFunctions = 0;
         fFrameDecors = 0;
-        fFrameOptions |= foIgnoreTaskBar;
-    }
-    if (fTypeSplash) {
+        fFrameOptions |= foIgnoreTaskBar | foIgnoreWinList | foIgnoreQSwitch |
+                         foNoFocusOnMap;
+        break;
+    case wtDialog:
+        break;
+    case wtDND:
+        fFrameFunctions = ffMove;
         fFrameDecors = 0;
+        fFrameOptions |= foIgnoreTaskBar | foIgnoreWinList | foIgnoreQSwitch |
+                         foNoFocusOnMap | foDoNotFocus;
+        break;
+    case wtDock:
+        fFrameFunctions = 0;
+        fFrameDecors = 0;
+        fFrameOptions |= foIgnoreTaskBar | foIgnoreWinList | foIgnoreQSwitch |
+                         foNoFocusOnMap;
+        break;
+    case wtDropdownMenu:
+        fFrameFunctions = 0;
+        fFrameDecors = 0;
+        fFrameOptions |= foIgnoreTaskBar | foIgnoreWinList | foIgnoreQSwitch;
+        break;
+    case wtMenu:
+        fFrameFunctions &= ~(ffResize | ffMinimize | ffMaximize);
+        fFrameDecors = fdTitleBar | fdSysMenu | fdClose | fdRollup;
+        fFrameOptions |= foIgnoreTaskBar | foIgnoreWinList | foIgnoreQSwitch;
+        break;
+    case wtNormal:
+        break;
+    case wtNotification:
+        fFrameFunctions = 0;
+        fFrameDecors = 0;
+        fFrameOptions |= foIgnoreTaskBar | foIgnoreWinList | foIgnoreQSwitch |
+                         foNoFocusOnMap;
+        break;
+    case wtPopupMenu:
+        fFrameFunctions = 0;
+        fFrameDecors = 0;
+        fFrameOptions |= foIgnoreTaskBar | foIgnoreWinList | foIgnoreQSwitch;
+        break;
+    case wtSplash:
+        fFrameFunctions = 0;
+        fFrameDecors = 0;
+        fFrameOptions |= foIgnoreTaskBar | foIgnoreWinList | foIgnoreQSwitch |
+                         foNoFocusOnMap;
+        break;
+    case wtToolbar:
+        break;
+    case wtTooltip:
+        fFrameFunctions = 0;
+        fFrameDecors = 0;
+        fFrameOptions |= foIgnoreTaskBar | foIgnoreWinList | foIgnoreQSwitch |
+                         foNoFocusOnMap | foDoNotFocus;
+        break;
+    case wtUtility:
+        break;
     }
 
 #ifndef NO_WINDOW_OPTIONS
@@ -2238,6 +2388,15 @@ void YFrameWindow::getFrameHints() {
     fFrameDecors |= wo.decors;
     fFrameOptions &= ~(wo.option_mask & fWinOptionMask);
     fFrameOptions |= (wo.options & fWinOptionMask);
+#endif
+
+#ifdef WMSPEC_HINTS
+    if (fFrameFunctions != old_functions ||
+        fFrameDecors != old_decors ||
+        fFrameOptions != old_options)
+    {
+        updateAllowed();
+    }
 #endif
 }
 
@@ -2294,7 +2453,7 @@ void YFrameWindow::getDefaultOptions(bool &requestFocus) {
         fFrameIcon = YIcon::getIcon(wo.icon);
 #endif
     }
-    if (wo.workspace != (long)WinWorkspaceInvalid && wo.workspace < workspaceCount) {
+    if (wo.workspace != WinWorkspaceInvalid && wo.workspace < workspaceCount) {
         setWorkspace(wo.workspace);
         if (wo.workspace != manager->activeWorkspace())
             requestFocus = false;
@@ -2724,10 +2883,45 @@ void YFrameWindow::updateLayer(bool restack) {
 
     newLayer = fWinRequestedLayer;
 
-    if (fTypeDesktop)
+    switch (fWindowType) {
+    case wtCombo:
+        newLayer = WinLayerMenu;
+        break;
+    case wtDesktop:
         newLayer = WinLayerDesktop;
-    if (fTypeDock)
+        break;
+    case wtDialog:
+        break;
+    case wtDND:
+        newLayer = WinLayerAboveAll;
+        break;
+    case wtDock:
         newLayer = WinLayerDock;
+        break;
+    case wtDropdownMenu:
+        newLayer = WinLayerMenu;
+        break;
+    case wtMenu:
+        newLayer = WinLayerMenu;
+        break;
+    case wtNormal:
+        break;
+    case wtNotification:
+        newLayer = WinLayerAboveDock;
+        break;
+    case wtPopupMenu:
+        newLayer = WinLayerMenu;
+        break;
+    case wtSplash:
+        break;
+    case wtToolbar:
+        break;
+    case wtTooltip:
+        newLayer = WinLayerAboveAll;
+        break;
+    case wtUtility:
+        break;
+    }
     if (getState() & WinStateBelow)
         newLayer = WinLayerBelow;
     if (getState() & WinStateAbove)
@@ -3111,16 +3305,31 @@ void YFrameWindow::updateLayout() {
 
         setWindowGeometry(YRect(iconX, iconY, fMiniIcon->width(), fMiniIcon->height()));
     } else {
-        int xiscreen = manager->getScreenForRect(posX,
-                                                 posY,
-                                                 posW,
-                                                 posH);
-
-        int dx, dy, dw, dh;
-        manager->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
-
         if (isFullscreen()) {
-            setWindowGeometry(YRect(dx, dy, dw, dh));
+            // for _NET_WM_FULLSCREEN_MONITORS
+            if (fFullscreenMonitorsTop >= 0 && fFullscreenMonitorsBottom >= 0 &&
+                fFullscreenMonitorsLeft >= 0 && fFullscreenMonitorsRight >= 0) {
+                int x, y, w, h;
+                int monitor[4] = { fFullscreenMonitorsTop, fFullscreenMonitorsBottom,
+                                   fFullscreenMonitorsLeft, fFullscreenMonitorsRight };
+                manager->getScreenGeometry(&x, &y, &w, &h, monitor[0]);
+                YRect* r = new YRect(x, y, w, h);
+                for (int i = 1; i < 4; i++) {
+                    manager->getScreenGeometry(&x, &y, &w, &h, monitor[i]);
+                    r->unionRect(x, y, w, h);
+                }
+                setWindowGeometry(*r);
+            } else if (fullscreenUseAllMonitors) {
+                setWindowGeometry(YRect(0, 0, manager->width(), manager->height()));
+            } else {
+                int xiscreen = manager->getScreenForRect(posX,
+                                                         posY,
+                                                         posW,
+                                                         posH);
+                int dx, dy, dw, dh;
+                manager->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
+                setWindowGeometry(YRect(dx, dy, dw, dh));
+            }
         } else {
 
             if (isRollup()) {
@@ -3134,6 +3343,21 @@ void YFrameWindow::updateLayout() {
     }
     if (affectsWorkArea())
         manager->updateWorkArea();
+    client()->setNetFrameExtents(borderX(), borderX(), borderY() + titleY(), borderY());
+}
+
+void YFrameWindow::updateExtents() {
+    int left, right, top, bottom;
+    left = right = borderX();
+    top = bottom = borderY();
+    top += titleY();
+    if (left != extentLeft || right != extentRight || top != extentTop || bottom != extentBottom) {
+        extentLeft = left;
+        extentRight = right;
+        extentTop = top;
+        extentBottom = bottom;
+        client()->setNetFrameExtents(left, right, top, bottom);
+    }
 }
 
 void YFrameWindow::setState(long mask, long state) {
@@ -3235,6 +3459,12 @@ void YFrameWindow::setState(long mask, long state) {
 #ifdef CONFIG_TASKBAR
         updateTaskBar();
 #endif
+    }
+    if ((fOldState ^ fNewState) & WinStateUrgent) {
+        if (fNewState & WinStateUrgent)
+            setWmUrgency(true);
+        else
+            setWmUrgency(false);
     }
     updateState();
     updateLayer();
@@ -3411,12 +3641,11 @@ void YFrameWindow::handleMsgBox(YMsgBox *msgbox, int operation) {
 
 #ifdef WMSPEC_HINTS
 void YFrameWindow::updateNetWMStrut() {
-    int l, r, t, b;
-    
-    if (!client()->getNetWMStrutPartial(&l, &r, &t, &b))   
-      if (!client()->getNetWMStrut(&l, &r, &t, &b))
-        return;
-	
+    int l = fStrutLeft;
+    int r = fStrutRight;
+    int t = fStrutTop;
+    int b = fStrutBottom;
+    client()->getNetWMStrut(&l, &r, &t, &b);
     if (l != fStrutLeft ||
         r != fStrutRight ||
         t != fStrutTop ||
@@ -3430,6 +3659,83 @@ void YFrameWindow::updateNetWMStrut() {
         manager->updateWorkArea();
     }
 }
+
+void YFrameWindow::updateNetWMStrutPartial() {
+    int l = fStrutLeft;
+    int r = fStrutRight;
+    int t = fStrutTop;
+    int b = fStrutBottom;
+    client()->getNetWMStrutPartial(&l, &r, &t, &b);
+    if (l != fStrutLeft ||
+        r != fStrutRight ||
+        t != fStrutTop ||
+        b != fStrutBottom)
+    {
+        fStrutLeft = l;
+        fStrutRight = r;
+        fStrutTop = t;
+        fStrutBottom = b;
+        MSG(("strut: %d %d %d %d", l, r, t, b));
+        manager->updateWorkArea();
+    }
+}
+
+void YFrameWindow::updateNetStartupId() {
+    unsigned long time = -1UL;
+    client()->getNetStartupId(time);
+    if (time != fUserTime) {
+        fUserTime = time;
+        if (time != 0 && time != -1UL)
+            manager->updateUserTime(time);
+    }
+}
+
+void YFrameWindow::updateNetWMUserTime() {
+    unsigned long time = -1UL;
+    Window window = fUserTimeWindow ? : client()->handle();
+    client()->getNetWMUserTime(window, time);
+    if (time != fUserTime) {
+        fUserTime = time;
+        if (time != 0 && time != -1UL)
+            manager->updateUserTime(time);
+    }
+}
+
+void YFrameWindow::updateNetWMUserTimeWindow() {
+    Window window = fUserTimeWindow;
+    client()->getNetWMUserTimeWindow(window);
+    if (window != fUserTimeWindow) {
+        if (fUserTimeWindow != None) {
+            XDeleteContext(xapp->display(), fUserTimeWindow,
+                    windowContext);
+        }
+        fUserTimeWindow = window;
+        if (window != None) {
+            XSaveContext(xapp->display(), window,
+                    windowContext, (XPointer)client());
+            XWindowAttributes wa;
+            XGetWindowAttributes(xapp->display(), window, &wa);
+            XSelectInput(xapp->display(), wa.your_event_mask | PropertyChangeMask, window);
+        }
+        updateNetWMUserTime();
+    }
+}
+
+void YFrameWindow::updateNetWMFullscreenMonitors(int t, int b, int l, int r) {
+    if (t != fFullscreenMonitorsTop ||
+        b != fFullscreenMonitorsBottom ||
+        l != fFullscreenMonitorsLeft ||
+        r != fFullscreenMonitorsRight)
+    {
+        fFullscreenMonitorsTop = t;
+        fFullscreenMonitorsBottom = b;
+        fFullscreenMonitorsLeft = l;
+        fFullscreenMonitorsRight = r;
+        MSG(("fullscreen monitors: %d %d %d %d", t, b, l, r));
+        client()->setNetWMFullscreenMonitors(t, b, l, r);
+        updateLayout();
+    }
+}
 #endif
 
 /* Work around for X11R5 and earlier */
@@ -3440,8 +3746,17 @@ void YFrameWindow::updateNetWMStrut() {
 void YFrameWindow::updateUrgency() {
     fClientUrgency = false;
     XWMHints *h = client()->hints();
-    if (h && (h->flags & XUrgencyHint))
+    if (
+#ifndef NO_WINDOW_OPTIONS
+            !(frameOptions() & foIgnoreUrgent) &&
+#endif
+            h && (h->flags & XUrgencyHint))
         fClientUrgency = true;
+
+    if (isUrgent())
+        setState(WinStateUrgent,WinStateUrgent);
+    else
+        setState(WinStateUrgent,0);
 
 #ifdef CONFIG_TASKBAR
     updateTaskBar();
@@ -3450,8 +3765,15 @@ void YFrameWindow::updateUrgency() {
 }
 
 void YFrameWindow::setWmUrgency(bool wmUrgency) {
-    fWmUrgency = wmUrgency;
-    updateUrgency();
+#ifndef NO_WINDOW_OPTIONS
+    if (!(frameOptions() & foIgnoreUrgent))
+    {
+#endif
+        fWmUrgency = wmUrgency;
+        updateUrgency();
+#ifndef NO_WINDOW_OPTIONS
+    }
+#endif
 }
 
 int YFrameWindow::getScreen() {

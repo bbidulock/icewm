@@ -80,6 +80,10 @@ upath YIcon::findIcon(upath dir, upath base, unsigned size) {
     if (fullpath.fileExists())
         return fullpath;
 
+    fullpath = joinPath(dir, base.addExtension(".svg"));
+    if (fullpath.fileExists())
+        return fullpath;
+
     return 0;
 }
 
@@ -268,6 +272,10 @@ ref<YIcon> YIcon::getIcon(const char *name) {
 void YIcon::freeIcons() {
     while (iconCache.getCount() > 0)
         iconCache.getItem(0)->removeFromCache();
+}
+
+int YIcon::menuSize() {
+    return menuIconSize;
 }
 
 int YIcon::smallSize() {

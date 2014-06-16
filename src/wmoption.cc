@@ -220,6 +220,7 @@ void WindowOptions::setWinOption(ustring n_class_instance,
             { 2, "nonICCCMconfigureRequest", YFrameWindow::foNonICCCMConfigureRequest },
             { 2, "forcedClose", YFrameWindow::foForcedClose },
             { 2, "noFocusOnMap", YFrameWindow::foNoFocusOnMap },
+            { 2, "ignoreUrgentHint", YFrameWindow::foIgnoreUrgent },
             { 2, "appTakesFocus", YFrameWindow::foAppTakesFocus }
         };
 
@@ -274,7 +275,7 @@ void WindowOptions::combineOptions(WindowOption &cm, WindowOption &n) {
     cm.decor_mask |= n.decor_mask;
     cm.options |= n.options & ~cm.option_mask;
     cm.option_mask |= n.option_mask;
-    if (n.workspace != (long)WinWorkspaceInvalid)
+    if (n.workspace != WinWorkspaceInvalid)
         cm.workspace = n.workspace;
     if (n.layer != (long)WinLayerInvalid)
         cm.layer = n.layer;

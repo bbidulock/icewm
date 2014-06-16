@@ -16,7 +16,7 @@ public:
         fPixbuf = pixbuf;
     }
     virtual ~YImageGDK() {
-        g_object_unref(fPixbuf);
+        g_object_unref(G_OBJECT(fPixbuf));
     }
     virtual ref<YPixmap> renderToPixmap();
     virtual ref<YImage> scale(int width, int height);
@@ -255,7 +255,7 @@ void YImageGDK::composite(Graphics &g, int x, int y, int w, int h, int dx, int d
                                              0, 0, dx - g.xorigin(), dy - g.yorigin(), w, h,
 //                                             GDK_PIXBUF_ALPHA_BILEVEL, 128,
                                              XLIB_RGB_DITHER_NONE, 0, 0);
-    g_object_unref(pixbuf);
+    g_object_unref(G_OBJECT(pixbuf));
 }
 
 

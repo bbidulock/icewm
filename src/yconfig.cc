@@ -125,7 +125,7 @@ char *YConfig::getArgument(char **dest, char *p, bool comma) {
 
 #ifndef NO_CONFIGURE
 
-#warning "P1 - parse keys later, not when loading"
+// FIXME: P1 - parse keys later, not when loading
 bool parseKey(const char *arg, KeySym *key, unsigned int *mod) {
     const char *orig_arg = arg;
 
@@ -243,7 +243,7 @@ char *setOption(cfoption *options, char *name, char *arg, bool append, char *res
 
                 if (parseKey(arg, &wk->key, &wk->mod)) {
                     if (!wk->initial)
-                        delete (char *)wk->name;
+                        delete[] (char *)wk->name;
                     wk->name = newstr(arg);
                     wk->initial = false;
                 }
