@@ -83,8 +83,10 @@ datafiles = \
 	mailbox/newmail.xpm \
 	mailbox/nomail.xpm \
 	mailbox/unreadmail.xpm \
+	taskbar/collapse.xpm \
 	taskbar/debian.xpm \
 	taskbar/desktop.xpm \
+	taskbar/expand.xpm \
 	taskbar/icewm.xpm \
 	taskbar/linux1.xpm \
 	taskbar/linux20.xpm \
@@ -167,6 +169,7 @@ datafiles = \
 	themes/Infadel2/rollupI.xpm \
 	themes/Infadel2/snap.pcf \
 	themes/Infadel2/taskbar/linux.xpm \
+	themes/Infadel2/taskbar/start.xpm \
 	themes/Infadel2/taskbar/windows.xpm \
 	themes/Infadel2/titleAB.xpm \
 	themes/Infadel2/titleAJ.xpm \
