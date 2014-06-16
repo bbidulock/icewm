@@ -211,6 +211,8 @@ public:
 
     bool hasPopup();
     void setDoubleBuffer(bool doubleBuffer);
+    
+    KeySym keyCodeToKeySym(unsigned int keycode, int index = 0);
 
 private:
     typedef enum {

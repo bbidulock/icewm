@@ -784,7 +784,7 @@ StartMenu::StartMenu(
 bool StartMenu::handleKey(const XKeyEvent &key) {
     // If meta key, close the popup
     if (key.type == KeyPress) {
-        KeySym k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0);
+        KeySym k = keyCodeToKeySym(key.keycode);
         int m = KEY_MODMASK(key.state);
 
         if (((k == xapp->Win_L) || (k == xapp->Win_R)) && m == 0) {

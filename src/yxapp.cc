@@ -71,6 +71,7 @@ Atom _XA_NET_WORKAREA;
 Atom _XA_NET_WM_MOVERESIZE;
 
 Atom _XA_NET_WM_STRUT;
+Atom _XA_NET_WM_STRUT_PARTIAL;
 Atom _XA_NET_WM_DESKTOP;
 Atom _XA_NET_CLOSE_WINDOW;
 Atom _XA_NET_ACTIVE_WINDOW;
@@ -290,6 +291,7 @@ static void initAtoms() {
         { &_XA_NET_WM_MOVERESIZE, "_NET_WM_MOVERESIZE" },
 
         { &_XA_NET_WM_STRUT, "_NET_WM_STRUT" },
+        { &_XA_NET_WM_STRUT_PARTIAL, "_NET_WM_STRUT_PARTIAL" },
         { &_XA_NET_WM_DESKTOP, "_NET_WM_DESKTOP" },
         { &_XA_NET_CLOSE_WINDOW, "_NET_CLOSE_WINDOW" },
         { &_XA_NET_ACTIVE_WINDOW, "_NET_ACTIVE_WINDOW" },
@@ -369,9 +371,9 @@ void YXApplication::initModifiers() {
             for (int k = 0; k < xmk->max_keypermod; k++, c++) {
                 if (*c == NoSymbol)
                     continue;
-                KeySym kc = XKeycodeToKeysym(xapp->display(), *c, 0);
+                KeySym kc = XkbKeycodeToKeysym(xapp->display(), *c, 0, 0);
                 if (kc == NoSymbol)
-                    kc = XKeycodeToKeysym(xapp->display(), *c, 1);
+                    kc = XkbKeycodeToKeysym(xapp->display(), *c, 0, 1);
                 if (kc == XK_Num_Lock && NumLockMask == 0)
                     NumLockMask = (1 << m);
                 if (kc == XK_Scroll_Lock && ScrollLockMask == 0)
@@ -785,9 +787,11 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
     for (char ** arg = *argv + 1; arg < *argv + *argc; ++arg) {
         if (**arg == '-') {
             char *value;
-
-            if ((value = GET_LONG_ARGUMENT("display")) != NULL)
+            if (GetLongArgument(value, "display", arg, *argv+*argc))
+            {
                 displayName = value;
+                continue;
+            }
             else if (IS_LONG_SWITCH("sync"))
                 runSynchronized = true;
         }

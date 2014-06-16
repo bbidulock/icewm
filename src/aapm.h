@@ -1,10 +1,18 @@
 
+<<<<<<< HEAD
 #if defined(linux) || (defined (__FreeBSD__)) || (defined(__NetBSD__) && defined(i386))
+=======
+#if defined(linux) || (defined (__FreeBSD__)) || (defined (__FreeBSD_kernel__))  || (defined(__NetBSD__) && defined(i386))
+>>>>>>> a2d63443c9ab57fa6a436e3d505b6bd708dfc8a4
 
 #include "ywindow.h"
 #include "ytimer.h"
 
+<<<<<<< HEAD
 #if defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
+=======
+#if defined(__FreeBSD__) || defined(__FreeBSD_kernel__) || defined(__NetBSD__) || defined(__OpenBSD__)
+>>>>>>> a2d63443c9ab57fa6a436e3d505b6bd708dfc8a4
 #define APMDEV "/dev/apm"
 #else
 #define APMDEV "/proc/apm"

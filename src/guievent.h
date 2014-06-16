@@ -27,7 +27,7 @@ enum GUIEvent {
 };
 
 #ifdef GUI_EVENT_NAMES
-struct {
+static struct {
     GUIEvent type;
     const char *name;
 } gui_events[] =

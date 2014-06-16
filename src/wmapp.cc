@@ -187,6 +187,7 @@ static void registerProtocols2(Window xid) {
         _XA_NET_ACTIVE_WINDOW,
         _XA_NET_CLOSE_WINDOW,
         _XA_NET_WM_STRUT,
+        _XA_NET_WM_STRUT_PARTIAL,
         _XA_NET_WORKAREA,
         _XA_NET_WM_STATE,
         _XA_NET_WM_STATE_MAXIMIZED_VERT,
@@ -1514,9 +1515,9 @@ void YWMApp::afterWindowEvent(XEvent &xev) {
     static XEvent lastKeyEvent = { 0 };
 
     if (xev.type == KeyRelease && lastKeyEvent.type == KeyPress) {
-        KeySym k1 = XKeycodeToKeysym(xapp->display(), (KeyCode)xev.xkey.keycode, 0);
+        KeySym k1 = XkbKeycodeToKeysym(xapp->display(), xev.xkey.keycode, 0, 0);
         unsigned int m1 = KEY_MODMASK(lastKeyEvent.xkey.state);
-        KeySym k2 = XKeycodeToKeysym(xapp->display(), (KeyCode)lastKeyEvent.xkey.keycode, 0);
+        KeySym k2 = XkbKeycodeToKeysym(xapp->display(), lastKeyEvent.xkey.keycode, 0, 0);
 
         if (m1 == 0 && xapp->WinMask && win95keys) {
             if (k1 == xapp->Win_L && k2 == xapp->Win_L) {
@@ -1610,13 +1611,18 @@ int main(int argc, char **argv) {
 #endif
 #ifndef NO_CONFIGURE
             char *value;
-
-            if ((value = GET_LONG_ARGUMENT("config")) != NULL ||
-                (value = GET_SHORT_ARGUMENT("c")) != NULL)
+            if(GetLongArgument(value, "config", arg, argv+argc)
+            		|| GetShortArgument(value, "c", arg, argv+argc))
+            {
                 configArg = newstr(configFile = newstr(value));
-            else if ((value = GET_LONG_ARGUMENT("theme")) != NULL ||
-                     (value = GET_SHORT_ARGUMENT("t")) != NULL)
+                continue;
+            }
+            else if ( GetLongArgument(value, "theme", arg, argv+argc) ||
+            		GetLongArgument(value, "t", arg, argv+argc))
+            {
                 overrideTheme = value;
+                continue;
+            }
             else if (IS_LONG_SWITCH("restart"))
                 restart = true;
             else if (IS_LONG_SWITCH("replace"))

@@ -8,6 +8,7 @@
 char const *ApplicationName("testlocale");
 bool multiByte(true);
 
+#ifdef CONFIG_I18N
 static char *
 foreign_str(char const *charset, char const *foreign)
 {
@@ -35,7 +36,10 @@ print_string(const YLChar *lstr, YUChar *ustr)
     printf("Rating for '" LocaleFragment "': %d\n", \
            YLocale::getRating(LocaleFragment));
 
+#endif
+
 int main() {
+#ifdef CONFIG_I18N
     size_t ulen;
 
     const YLChar *lstr("Möhrenkäuter");
@@ -82,6 +86,8 @@ int main() {
         TEST_RATING("ru_RU.cp1251");
         TEST_RATING("ru_RU.koi8r");
     }
-    
+#else
+    puts("I18N disabled.");
+#endif
     return 0;
 }

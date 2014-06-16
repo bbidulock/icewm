@@ -198,10 +198,7 @@ void YMenu::activateSubMenu(int item, bool byMouse) {
         sub = getItem(item)->getSubmenu();
 
     if (sub != fPopup) {
-        int repaint = 0;
-
         hideSubmenu();
-        repaint = 1;
 
         if (sub) {
             int xp, yp, ih;
@@ -219,7 +216,6 @@ void YMenu::activateSubMenu(int item, bool byMouse) {
                        (popupFlags() & YPopupWindow::pfFlipHorizontal) |
                        (byMouse ? (unsigned int)YPopupWindow::pfButtonDown : 0U));
             fPopup = sub;
-            repaint = 1;
             submenuItem = item;
         }
         paintItems();
@@ -311,7 +307,7 @@ int YMenu::findHotItem(char k) {
 }
 
 bool YMenu::handleKey(const XKeyEvent &key) {
-    KeySym k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0);
+    KeySym k = keyCodeToKeySym(key.keycode);
     int m = KEY_MODMASK(key.state);
 
     if (key.type == KeyPress) {

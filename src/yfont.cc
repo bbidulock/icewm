@@ -12,7 +12,7 @@ static int haveXft = -1;
 
 extern ref<YFont> getXftFont(ustring name, bool antialias);
 extern ref<YFont> getXftFontXlfd(ustring name, bool antialias);
-extern ref<YFont> getCoreFont(ustring name);
+extern ref<YFont> getCoreFont(const char*);
 
 #ifdef CONFIG_XFREETYPE
 ref<YFont> YFont::getFont(ustring name, ustring xftFont, bool antialias) {
@@ -46,7 +46,9 @@ ref<YFont> YFont::getFont(ustring name, ustring xftFont, bool) {
 #endif
 
 #ifdef CONFIG_COREFONTS
-    return getCoreFont(name);
+    char tmp[4096]; // XXX: such things should go into getCoreFont directly
+    name.copy(tmp, sizeof(tmp));
+    return getCoreFont(tmp);
 #else
     return null;
 #endif

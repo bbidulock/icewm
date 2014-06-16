@@ -1,7 +1,11 @@
 /*
  * IceWM
  *
+<<<<<<< HEAD
  * Copyright (C) 1997-2003 Marko Macek
+=======
+ * Copyright (C) 1997-2013 Marko Macek
+>>>>>>> a2d63443c9ab57fa6a436e3d505b6bd708dfc8a4
  */
 #include "config.h"
 #include "yfull.h"
@@ -512,7 +516,11 @@ bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int /*
 
 bool YWindowManager::handleKey(const XKeyEvent &key) {
     if (key.type == KeyPress) {
+<<<<<<< HEAD
         KeySym k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0);
+=======
+        KeySym k = keyCodeToKeySym(key.keycode);
+>>>>>>> a2d63443c9ab57fa6a436e3d505b6bd708dfc8a4
         unsigned int m = KEY_MODMASK(key.state);
         unsigned int vm = VMod(m);
 
@@ -530,7 +538,11 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
         }
         return handled;
     } else if (key.type == KeyRelease) {
+<<<<<<< HEAD
         KeySym k = XKeycodeToKeysym(xapp->display(), (KeyCode)key.keycode, 0);
+=======
+        KeySym k = keyCodeToKeySym(key.keycode);
+>>>>>>> a2d63443c9ab57fa6a436e3d505b6bd708dfc8a4
         unsigned int m = KEY_MODMASK(key.state);
 
         (void)m;
@@ -1416,8 +1428,14 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 #endif
         }
 
+<<<<<<< HEAD
         // temp workaround for flashblock problems
         if (client->isEmbed()) {
+=======
+        // temp workaro/und for flashblock problems
+        // reverted, causes problems with Qt5
+        if (client->isEmbed() && 0) {
+>>>>>>> a2d63443c9ab57fa6a436e3d505b6bd708dfc8a4
             warn("app trying to map XEmbed window 0x%X, ignoring", client->handle());
             delete client;
             goto end;

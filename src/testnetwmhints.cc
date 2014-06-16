@@ -46,6 +46,7 @@ static Atom _XA_NET_WM_STATE_FULLSCREEN;
 static Atom _XA_NET_WM_STATE_ABOVE;
 static Atom _XA_NET_WM_STATE_BELOW;
 static Atom _XA_NET_WM_STATE_MODAL;
+static Atom _XA_NET_WM_STATE_SKIP_TASKBAR;
 static Atom _XA_NET_WM_MOVERESIZE;
 
 void changeWorkspace(Window w, long workspace) {
@@ -124,6 +125,7 @@ void setTrayHint(Window w, long tray_opt) {
 int main(/*int argc, char **argv*/) {
     XSetWindowAttributes attr;
     Atom state[1];
+    XClassHint *classHint = NULL;
 
     assert((display = XOpenDisplay(displayName)) != 0);
     root = RootWindow(display, DefaultScreen(display));
@@ -140,6 +142,7 @@ int main(/*int argc, char **argv*/) {
     _XA_NET_WM_STATE_ABOVE = XInternAtom(display, "_NET_WM_STATE_ABOVE", False);
     _XA_NET_WM_STATE_BELOW = XInternAtom(display, "_NET_WM_STATE_BELOW", False);
     _XA_NET_WM_STATE_MODAL = XInternAtom(display, "_NET_WM_STATE_MODAL", False);
+    _XA_NET_WM_STATE_SKIP_TASKBAR = XInternAtom(display, "_NET_WM_STATE_SKIP_TASKBAR", False);
     _XA_NET_WM_MOVERESIZE = XInternAtom(display, "_NET_WM_MOVERESIZE", False);
 
     state[0] = _XA_NET_WM_STATE_FULLSCREEN;
@@ -153,6 +156,11 @@ int main(/*int argc, char **argv*/) {
                            0, &attr);
 
     XSetWindowBackground(display, window, BlackPixel(display, DefaultScreen(display)));
+
+    classHint = XAllocClassHint();
+    classHint->res_name = (char *)"name:1";
+    classHint->res_class = (char *)"class 1";
+    XSetClassHint(display, window, classHint);
 
     XSelectInput(display, window,
                  ExposureMask | StructureNotifyMask |
@@ -200,6 +208,8 @@ int main(/*int argc, char **argv*/) {
                     toggleState(window, _XA_NET_WM_STATE_BELOW);
                 else if (k == 'm')
                     toggleState(window, _XA_NET_WM_STATE_MODAL);
+                else if (k == 't')
+                    toggleState(window, _XA_NET_WM_STATE_SKIP_TASKBAR);
 #if 0
                     //toggleState(window, WinStateAllWorkspaces);
                 /*

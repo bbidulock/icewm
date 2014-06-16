@@ -351,6 +351,7 @@ extern Atom _XA_NET_WM_ACTION_CHANGE_DESKTOP;    // TODO
 extern Atom _XA_NET_WM_ACTION_CLOSE;             // TODO
 
 extern Atom _XA_NET_WM_STRUT;                    // OK
+extern Atom _XA_NET_WM_STRUT_PARTIAL;            // OK (partial support)
 ///extern Atom _XA_NET_WM_ICON_GEOMETRY;         // N/A
 extern Atom _XA_NET_WM_ICON;                     // TODO
 extern Atom _XA_NET_WM_PID;                      // TODO
