@@ -27,7 +27,7 @@
 #include <stdio.h>
 #include <dirent.h>
 
-#ifdef __FreeBSD__
+#if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
 #include <sys/file.h>
 #include <sys/ioctl.h>
 #include <sys/types.h>
@@ -71,7 +71,7 @@ static YColor *taskBarBg = 0;
 
 
 void YApm::ApmStr(char *s, bool Tool) {
-#if defined(__FreeBSD__) && defined(i386)
+#if (defined(__FreeBSD__) || defined(__FreeBSD_kernel__)) && defined(i386)
     struct apm_info ai;
 #elif defined __NetBSD__
     struct apm_power_info ai;
@@ -96,7 +96,7 @@ void YApm::ApmStr(char *s, bool Tool) {
         error = 1;
         return ;
     }
-#if defined(__FreeBSD__) && defined(i386)
+#if (defined(__FreeBSD__) || defined(__FreeBSD_kernel__)) && defined(i386)
     if (ioctl(fd,APMIO_GETINFO, &ai) == -1)
     {
         static int error = 0;
@@ -270,7 +270,7 @@ void YApm::AcpiStr(char *s, bool Tool) {
     //assign some default values, in case
     //the file in /proc/acpi will contain unexpected values
     ACstatus = -1;
-#ifndef __FreeBSD__
+#if !defined(__FreeBSD__) && !defined(__FreeBSD_kernel__)
     if (acpiACName && acpiACName[0] != 0) {
         strcat3(buf, "/proc/acpi/ac_adapter/", acpiACName, "/state", sizeof(buf));
         fd = fopen(buf, "r");
@@ -301,7 +301,7 @@ void YApm::AcpiStr(char *s, bool Tool) {
         }
     }
 #else
-    len = sizeof(i);
+    size_t len = sizeof(i);
     if (sysctlbyname("hw.acpi.acline", &i, &len, NULL, 0) >= 0) {
 	if (i == 1)
 	    ACstatus = AC_ONLINE;
@@ -330,7 +330,7 @@ void YApm::AcpiStr(char *s, bool Tool) {
         BATrate = -1;
         BATtime_remain = -1;
 
-#ifndef __FreeBSD__
+#if !defined(__FreeBSD__) && !defined(__FreeBSD_kernel__)
         strcat3(buf, "/proc/acpi/battery/", BATname, "/state", sizeof(buf));
         fd = fopen(buf, "r");
         if (fd == NULL) {
@@ -415,7 +415,7 @@ void YApm::AcpiStr(char *s, bool Tool) {
         if (BATpresent == BAT_PRESENT) { //battery is present now
             if (acpiBatteries[i]->present == BAT_ABSENT) { //and previously was absent
                 //read full-capacity value
-#ifndef __FreeBSD__
+#if !defined(__FreeBSD__) && !defined(__FreeBSD_kernel__)
                 strcat3(buf, "/proc/acpi/battery/", BATname, "/info", sizeof(buf));
                 fd = fopen(buf, "r");
                 if (fd != NULL) {
@@ -460,7 +460,7 @@ void YApm::AcpiStr(char *s, bool Tool) {
         }
         acpiBatteries[i]->present = BATpresent;
 
-#ifdef __FreeBSD__
+#if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
 	close(acpifd);
 #endif
 
@@ -891,7 +891,7 @@ YApm::YApm(YWindow *aParent): YWindow(aParent) {
     chargeStatus = 0.0;
 
     //search for acpi info first
-#ifndef __FreeBSD__
+#if !defined(__FreeBSD__) && !defined(__FreeBSD_kernel__)
     n = scandir("/sys/class/power_supply", &de, 0, alphasort);
     if (n < 0) {
         n = scandir("/proc/acpi/battery", &de, 0, alphasort);
