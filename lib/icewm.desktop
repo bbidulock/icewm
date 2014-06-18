@@ -2,7 +2,7 @@
 Version=1.0
 Encoding=UTF-8
 Type=Application
-Name=icewm
+Name=IceWM
 Comment=Simple and fast window manger
 Exec=icewm
 TryExec=icewm
