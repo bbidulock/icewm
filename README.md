@@ -24,10 +24,14 @@ The quickest and easiest way to get IceWM up and running is to run the
 following commands:
 
     git clone http://github.com/bbidulock/icewm.git
-    autoreconf -fiv
-    ./configure --prefix=/usr --sysconfdir=/etc --enable-shaped-decorations --enable-gradients
-    make all docs nls
-    sudo make DESTDIR="$pkgdir" install install-man install-docs install-nls  install-desktop
+    cd icewm
+    ./autogen.sh
+    ./configure --prefix=/usr --sysconfdir=/etc \
+      --enable-shaped-decorations --enable-gradients \
+      --enable-guievents --with-icesound=ALSA,OSS \
+      --disable-menus-gnome2
+    make V=0
+    sudo make DESTDIR="$pkgdir" install
 
 This will configure, compile and install IceWM the quickest.  For those
 who would like to customize the installation, use the command:
