@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2013-12-18 04:27-0700\n"
+"POT-Creation-Date: 2014-07-12 17:01-0600\n"
 "PO-Revision-Date: 2006-01-26 23:29+0100\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team:  <mk@li.org>\n"
@@ -18,20 +18,20 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11\n"
 
-#: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:749 src/aapm.cc:868
+#: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:873
 msgid " - Power"
 msgstr " - напојување"
 
-#: src/aapm.cc:193 src/aapm.cc:527 src/aapm.cc:752
+#: src/aapm.cc:193 src/aapm.cc:527 src/aapm.cc:757
 msgid "P"
 msgstr "Н"
 
-#: src/aapm.cc:197 src/aapm.cc:498 src/aapm.cc:729 src/aapm.cc:839
+#: src/aapm.cc:197 src/aapm.cc:498 src/aapm.cc:734 src/aapm.cc:844
 #, c-format
 msgid " - Charging"
 msgstr " - се полни"
 
-#: src/aapm.cc:199 src/aapm.cc:500 src/aapm.cc:731
+#: src/aapm.cc:199 src/aapm.cc:500 src/aapm.cc:736
 msgid "C"
 msgstr "П"
 
@@ -72,7 +72,7 @@ msgid ""
 "CPU Freq: %.3fGHz"
 msgstr ""
 
-#: src/acpustatus.cc:259
+#: src/acpustatus.cc:262
 msgid "CPU Load: "
 msgstr "Оптоварување на процесор: "
 
@@ -86,21 +86,21 @@ msgstr "Невалиден протокол за пошт. сандаче: „%s
 msgid "Invalid mailbox path: \"%s\""
 msgstr "Невалидна патека за пошт. сандаче: \"%s\""
 
-#: src/amailbox.cc:342
+#: src/amailbox.cc:343
 #, c-format
 msgid "Using MailBox \"%s\"\n"
 msgstr "Користам пошт. сандаче „%s“\n"
 
-#: src/amailbox.cc:450
+#: src/amailbox.cc:451
 msgid "Error checking mailbox."
 msgstr "Грешка при проверката на пошт. сандаче."
 
-#: src/amailbox.cc:456
+#: src/amailbox.cc:457
 #, c-format
 msgid "%ld mail message."
 msgstr "%ld е-пошт. порака."
 
-#: src/amailbox.cc:457
+#: src/amailbox.cc:458
 #, c-format
 msgid "%ld mail messages."
 msgstr "%ld е-пошт. пораки."
@@ -129,52 +129,52 @@ msgstr ""
 "\n"
 "  Ид. на повикувач:\t"
 
-#: src/aworkspaces.cc:155 src/aworkspaces.cc:219 src/aworkspaces.cc:274
+#: src/aworkspaces.cc:155 src/aworkspaces.cc:220 src/aworkspaces.cc:276
 #: src/wmstatus.cc:168
 msgid "Workspace: "
 msgstr "Работен простор: "
 
-#: src/icehelp.cc:714
+#: src/icehelp.cc:715
 msgid "Back"
 msgstr "Назад"
 
-#: src/icehelp.cc:714
+#: src/icehelp.cc:715
 msgid "Alt+Left"
 msgstr "Alt+Лево"
 
-#: src/icehelp.cc:715
+#: src/icehelp.cc:716
 msgid "Forward"
 msgstr "Напред"
 
-#: src/icehelp.cc:715
+#: src/icehelp.cc:716
 msgid "Alt+Right"
 msgstr "Alt+Десно"
 
-#: src/icehelp.cc:717
+#: src/icehelp.cc:718
 msgid "Previous"
 msgstr "Претходно"
 
-#: src/icehelp.cc:718
+#: src/icehelp.cc:719
 msgid "Next"
 msgstr "Следно"
 
-#: src/icehelp.cc:720
+#: src/icehelp.cc:721
 msgid "Contents"
 msgstr "Содржина"
 
-#: src/icehelp.cc:721
+#: src/icehelp.cc:722
 msgid "Index"
 msgstr "Индекс"
 
-#: src/icehelp.cc:723 src/icesame.cc:63 src/iceview.cc:76 src/wmframe.cc:181
+#: src/icehelp.cc:724 src/icesame.cc:63 src/iceview.cc:76 src/wmframe.cc:187
 msgid "Close"
 msgstr "Затвори"
 
-#: src/icehelp.cc:723 src/icesame.cc:63 src/iceview.cc:76
+#: src/icehelp.cc:724 src/icesame.cc:63 src/iceview.cc:76
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1326
+#: src/icehelp.cc:1327
 #, c-format
 msgid ""
 "Usage: %s FILENAME\n"
@@ -188,12 +188,12 @@ msgstr ""
 "ИМЕДАТОТЕКА.\n"
 "\n"
 
-#: src/icehelp.cc:1336
+#: src/icehelp.cc:1337
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "Невалидна патека: %s\n"
 
-#: src/icehelp.cc:1341
+#: src/icehelp.cc:1342
 msgid "Invalid path: "
 msgstr "Невалидна патека: "
 
@@ -391,7 +391,7 @@ msgstr "Невалиден аргумент: „%s“."
 msgid "No actions specified."
 msgstr "Нема зададени дејства."
 
-#: src/icesh.cc:703 src/icesound.cc:1048 src/icewmhint.cc:74 src/yxapp.cc:971
+#: src/icesh.cc:703 src/icesound.cc:1050 src/icewmhint.cc:76 src/yxapp.cc:974
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
@@ -418,70 +418,70 @@ msgstr "Непознато дејство: „%s“"
 msgid "Socket error: %d"
 msgstr "Грешка во приклучник: %d"
 
-#: src/icesound.cc:256 src/icesound.cc:424 src/icesound.cc:790
+#: src/icesound.cc:256 src/icesound.cc:424 src/icesound.cc:792
 #, c-format
 msgid "Playing sample #%d (%s)"
 msgstr "Го пуштам примерокот бр. %d (%s)"
 
-#: src/icesound.cc:466
+#: src/icesound.cc:468
 #, c-format
 msgid "No such device: %s"
 msgstr "Нема таков уред: %s"
 
-#: src/icesound.cc:559
+#: src/icesound.cc:561
 #, c-format
 msgid "Can't connect to ESound daemon: %s"
 msgstr "Не можам да се поврзам со даемонот ESound: %s"
 
-#: src/icesound.cc:560 src/icesound.cc:737 src/icesound.cc:778
-#: src/icewmhint.cc:76 src/yxapp.cc:972
+#: src/icesound.cc:562 src/icesound.cc:739 src/icesound.cc:780
+#: src/icewmhint.cc:78 src/yxapp.cc:975
 msgid "<none>"
 msgstr "<нема>"
 
-#: src/icesound.cc:580
+#: src/icesound.cc:582
 #, c-format
 msgid "Error <%d> while uploading `%s:%s'"
 msgstr "Грешка <%d> при качувањето на „%s:%s“"
 
-#: src/icesound.cc:586
+#: src/icesound.cc:588
 #, c-format
 msgid "Sample <%d> uploaded as `%s:%s'"
 msgstr "Примерокот <%d> е качен како „%s:%s“"
 
-#: src/icesound.cc:645
+#: src/icesound.cc:647
 #, c-format
 msgid "Playing sample #%d"
 msgstr "Го пуштам примерокот бр. %d"
 
-#: src/icesound.cc:736 src/icesound.cc:777
+#: src/icesound.cc:738 src/icesound.cc:779
 #, c-format
 msgid "Can't connect to YIFF server: %s"
 msgstr "Не можам да се поврзам со YIFF-серверот: %s"
 
-#: src/icesound.cc:742
+#: src/icesound.cc:744
 #, c-format
 msgid "Can't change to audio mode `%s'."
 msgstr "Не можам да сменам во аудиорежимот „%s“."
 
-#: src/icesound.cc:884
+#: src/icesound.cc:886
 #, c-format
 msgid ""
 "Audio mode switch detected, initial audio mode `%s' no longer in effect."
 msgstr ""
 "Детектирана е смена на аудиорежим, почетниот аудиорежим „%s“ повеќе не важи."
 
-#: src/icesound.cc:891
+#: src/icesound.cc:893
 msgid "Audio mode switch detected, automatic audio mode changing disabled."
 msgstr ""
 "Детектирана е смена на аудиорежим, автоматското менување на аудиорежим е "
 "оневозможено."
 
-#: src/icesound.cc:937 src/icesound.cc:950
+#: src/icesound.cc:939 src/icesound.cc:952
 #, c-format
 msgid "Overriding previous audio mode `%s'."
 msgstr "Го поништувам претходниот аудиорежим „%s“."
 
-#: src/icesound.cc:976
+#: src/icesound.cc:978
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
@@ -565,26 +565,26 @@ msgstr ""
 "  3     Грешка во подсистемите (т.е. не може да се поврзе со серверот).\n"
 "\n"
 
-#: src/icesound.cc:1173
+#: src/icesound.cc:1175
 msgid "Multiple sound interfaces given."
 msgstr "Зададени се повеќе звучни интерфејси."
 
-#: src/icesound.cc:1185 src/icesound.cc:1197 src/icesound.cc:1210
+#: src/icesound.cc:1187 src/icesound.cc:1199 src/icesound.cc:1212
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr "Поддршката за интерфејсот %s не е компилирана."
 
-#: src/icesound.cc:1214
+#: src/icesound.cc:1216
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr "Неподдржан интерфејс: %s."
 
-#: src/icesound.cc:1231
+#: src/icesound.cc:1233
 #, c-format
 msgid "Received signal %d: Terminating..."
 msgstr "Примив сигнал %d: Прекинувам..."
 
-#: src/icesound.cc:1240
+#: src/icesound.cc:1242
 #, c-format
 msgid "Received signal %d: Reloading samples..."
 msgstr "Примен е сигналот %d: Превчитувам примероци..."
@@ -651,21 +651,21 @@ msgstr ""
 "%s: непрепознаена опција „%s“\n"
 "Обидете се со „%s --help“ за повеќе информација.\n"
 
-#: src/icewmbg.cc:554
+#: src/icewmbg.cc:555
 #, c-format
 msgid "Loading image %s failed"
 msgstr "Вчитувањето на сликата %s не успеа"
 
-#: src/icewmbg.cc:568 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
+#: src/icewmbg.cc:569 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
 msgstr "Вчитувањето на мапата пиксели „%s“ не успеа: %s"
 
-#: src/icewmhint.cc:47
+#: src/icewmhint.cc:49
 msgid "Usage: icewmhint [class.instance] option arg\n"
 msgstr "Користење: icewmhint [class.instance] option arg\n"
 
-#: src/icewmhint.cc:63
+#: src/icewmhint.cc:65
 #, c-format
 msgid "Out of memory (len=%d)."
 msgstr "Нема меморија (len=%d)."
@@ -719,149 +719,149 @@ msgstr "Не можам да ја земам тековната патека з�
 msgid "Unexpected format of ICEWM_FONT_PATH property"
 msgstr "Неочекуван формат на својството ICEWM_FONT_PATH"
 
-#: src/wmapp.cc:516
+#: src/wmapp.cc:519
 #, c-format
 msgid "Multiple references for gradient \"%s\""
 msgstr "Повеќе референци за градиентот „%s“"
 
-#: src/wmapp.cc:591
+#: src/wmapp.cc:594
 #, c-format
 msgid "Unknown gradient name: %s"
 msgstr "Непознато име на градиент: %s"
 
-#: src/wmapp.cc:847
+#: src/wmapp.cc:850
 msgid "_Logout"
 msgstr "_Одјави се"
 
-#: src/wmapp.cc:848
+#: src/wmapp.cc:851
 msgid "_Cancel logout"
 msgstr "_Откажи одјава"
 
-#: src/wmapp.cc:860
+#: src/wmapp.cc:863
 msgid "Lock _Workstation"
 msgstr "Заклучи _работна станица"
 
-#: src/wmapp.cc:862 src/wmdialog.cc:111
+#: src/wmapp.cc:865 src/wmdialog.cc:111
 msgid "Re_boot"
 msgstr "Ре_стартувај"
 
-#: src/wmapp.cc:864 src/wmdialog.cc:118
+#: src/wmapp.cc:867 src/wmdialog.cc:118
 msgid "Shut_down"
 msgstr "Спуш_ти"
 
-#: src/wmapp.cc:868
+#: src/wmapp.cc:871
 msgid "Restart _Icewm"
 msgstr "Рестарт_ирај Icewm"
 
-#: src/wmapp.cc:871
+#: src/wmapp.cc:874
 msgid "Restart _Xterm"
 msgstr "Р_естартирај Xterm"
 
-#: src/wmapp.cc:886
+#: src/wmapp.cc:889
 msgid "_Menu"
 msgstr "_Мени"
 
-#: src/wmapp.cc:887
+#: src/wmapp.cc:890
 msgid "_Above Dock"
 msgstr "Н_ад вкотвеното"
 
-#: src/wmapp.cc:888
+#: src/wmapp.cc:891
 msgid "_Dock"
 msgstr "_Вкотви"
 
-#: src/wmapp.cc:889
+#: src/wmapp.cc:892
 msgid "_OnTop"
 msgstr "_На врв"
 
-#: src/wmapp.cc:890
+#: src/wmapp.cc:893
 msgid "_Normal"
 msgstr "_Нормално"
 
-#: src/wmapp.cc:891
+#: src/wmapp.cc:894
 msgid "_Below"
 msgstr "_Под"
 
-#: src/wmapp.cc:892
+#: src/wmapp.cc:895
 msgid "D_esktop"
 msgstr "Раб. површ_ина"
 
-#: src/wmapp.cc:904
+#: src/wmapp.cc:907
 msgid "_Restore"
 msgstr "_Обнови"
 
-#: src/wmapp.cc:906
+#: src/wmapp.cc:909
 msgid "_Move"
 msgstr "Пре_мести"
 
-#: src/wmapp.cc:908
+#: src/wmapp.cc:911
 msgid "_Size"
 msgstr "Го_лемина"
 
-#: src/wmapp.cc:910
+#: src/wmapp.cc:913
 msgid "Mi_nimize"
 msgstr "С_мали"
 
-#: src/wmapp.cc:912
+#: src/wmapp.cc:915
 msgid "Ma_ximize"
 msgstr "_Рашири"
 
-#: src/wmapp.cc:914
+#: src/wmapp.cc:917
 msgid "_Fullscreen"
 msgstr "Преку _цел екран"
 
-#: src/wmapp.cc:918 src/wmwinlist.cc:307
+#: src/wmapp.cc:921 src/wmwinlist.cc:307
 msgid "_Hide"
 msgstr "С_криј"
 
-#: src/wmapp.cc:921
+#: src/wmapp.cc:924
 msgid "Roll_up"
 msgstr "Свиткај на_горе"
 
-#: src/wmapp.cc:928
+#: src/wmapp.cc:931
 msgid "R_aise"
 msgstr "П_одигни"
 
-#: src/wmapp.cc:930
+#: src/wmapp.cc:933
 msgid "_Lower"
 msgstr "_Спушти"
 
-#: src/wmapp.cc:932
+#: src/wmapp.cc:935
 msgid "La_yer"
 msgstr "Сл_ој"
 
-#: src/wmapp.cc:936 src/wmwinlist.cc:310
+#: src/wmapp.cc:939 src/wmwinlist.cc:310
 msgid "Move _To"
 msgstr "Премес_ти на"
 
-#: src/wmapp.cc:937
+#: src/wmapp.cc:940
 msgid "Occupy _All"
 msgstr "Окупир_ај ги сите"
 
-#: src/wmapp.cc:943
+#: src/wmapp.cc:946
 msgid "Limit _Workarea"
 msgstr "Ограничи работна о_бласт"
 
-#: src/wmapp.cc:948
+#: src/wmapp.cc:951
 msgid "Tray _icon"
 msgstr "_Икона во сис. лента"
 
-#: src/wmapp.cc:954 src/wmwinlist.cc:295 src/wmwinlist.cc:321
+#: src/wmapp.cc:957 src/wmwinlist.cc:295 src/wmwinlist.cc:321
 msgid "_Close"
 msgstr "_Затвори"
 
-#: src/wmapp.cc:956 src/wmwinlist.cc:297
+#: src/wmapp.cc:959 src/wmwinlist.cc:297
 msgid "_Kill Client"
 msgstr "_Прекини клиент"
 
-#: src/wmapp.cc:960 src/wmdialog.cc:132 src/wmwinmenu.cc:137
+#: src/wmapp.cc:963 src/wmdialog.cc:132 src/wmwinmenu.cc:137
 msgid "_Window list"
 msgstr "Листа на п_розорци"
 
-#: src/wmapp.cc:976
+#: src/wmapp.cc:979
 msgid "Another window manager already running, exiting..."
 msgstr "Веќе работи друг менаџер на прозорци, напуштам..."
 
-#: src/wmapp.cc:1042
+#: src/wmapp.cc:1045
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -870,7 +870,7 @@ msgstr ""
 "Не можев да го рестартувам: %s\n"
 "Дали $PATH покажува на %s?"
 
-#: src/wmapp.cc:1615
+#: src/wmapp.cc:1619
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -928,11 +928,11 @@ msgstr ""
 "Посете ја страницата http://www.icewm.org/ за да известите за бубачки,\n"
 "за барања за поддршка, коментари итн...\n"
 
-#: src/wmapp.cc:1715
+#: src/wmapp.cc:1724
 msgid "Confirm Logout"
 msgstr "Потврда на одјавувањето"
 
-#: src/wmapp.cc:1716
+#: src/wmapp.cc:1725
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -949,7 +949,7 @@ msgstr "Bad Look name"
 msgid "Loc_k Workstation"
 msgstr "Заклучи _работна станица"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:940 src/wmprog.cc:942 src/wmtaskbar.cc:434
+#: src/wmdialog.cc:90 src/wmprog.cc:947 src/wmprog.cc:949 src/wmtaskbar.cc:434
 #: src/wmtaskbar.cc:436
 msgid "_Logout..."
 msgstr "Одја_ви се..."
@@ -962,36 +962,36 @@ msgstr "_Откажи"
 msgid "_Restart icewm"
 msgstr "_Рестартирај го icewm"
 
-#: src/wmdialog.cc:125 src/wmprog.cc:878 src/wmtaskbar.cc:426
+#: src/wmdialog.cc:125 src/wmprog.cc:885 src/wmtaskbar.cc:426
 #: src/wmtaskbar.cc:429
 msgid "_About"
 msgstr "З_а"
 
-#: src/wmframe.cc:159 src/wmframe.cc:3398
+#: src/wmframe.cc:165 src/wmframe.cc:3408
 msgid "Maximize"
 msgstr "Рашири"
 
-#: src/wmframe.cc:172
+#: src/wmframe.cc:178
 msgid "Minimize"
 msgstr "Смали"
 
-#: src/wmframe.cc:193
+#: src/wmframe.cc:199
 msgid "Hide"
 msgstr "Скриј"
 
-#: src/wmframe.cc:203 src/wmframe.cc:3431
+#: src/wmframe.cc:209 src/wmframe.cc:3441
 msgid "Rollup"
 msgstr "Свиткај нагоре"
 
-#: src/wmframe.cc:212
+#: src/wmframe.cc:218
 msgid "Raise/Lower"
 msgstr "Подигни/спушти"
 
-#: src/wmframe.cc:1711
+#: src/wmframe.cc:1718
 msgid "Kill Client: "
 msgstr "Прекини клиент: "
 
-#: src/wmframe.cc:1715
+#: src/wmframe.cc:1722
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -999,29 +999,29 @@ msgstr ""
 "ВНИМАНИЕ! Сите неснимени промени ќе бидат изгубени кога\n"
 "овој клиент ќе биде прекинат. Дали сакате да продолжите?"
 
-#: src/wmframe.cc:3395
+#: src/wmframe.cc:3405
 msgid "Restore"
 msgstr "Обнови"
 
-#: src/wmframe.cc:3429
+#: src/wmframe.cc:3439
 msgid "Rolldown"
 msgstr "Свиткај надолу"
 
-#: src/wmoption.cc:239
+#: src/wmoption.cc:240
 #, c-format
 msgid "Error in window option: %s"
 msgstr "Грешка во опцијата за прозорец: %s"
 
-#: src/wmoption.cc:256
+#: src/wmoption.cc:257
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Непозната опција за прозорец: %s"
 
-#: src/wmoption.cc:339
+#: src/wmoption.cc:340
 msgid "Syntax error in window options"
 msgstr "Синтаксичка грешка во опциите за прозорец"
 
-#: src/wmoption.cc:386
+#: src/wmoption.cc:387
 msgid "Out of memory for window options"
 msgstr "Нема меморија за опциите на прозорец"
 
@@ -1049,43 +1049,43 @@ msgstr "Неочекуван клучен збор: %s"
 msgid "Error at key %s"
 msgstr "Грешка кај тастерот %s"
 
-#: src/wmprog.cc:842
+#: src/wmprog.cc:849
 msgid "Programs"
 msgstr "Програми"
 
-#: src/wmprog.cc:847
+#: src/wmprog.cc:854
 msgid "_Run..."
 msgstr "_Изврши..."
 
-#: src/wmprog.cc:854 src/wmtaskbar.cc:414
+#: src/wmprog.cc:861 src/wmtaskbar.cc:414
 msgid "_Windows"
 msgstr "_Прозорци"
 
-#: src/wmprog.cc:891
+#: src/wmprog.cc:898
 msgid "_Help"
 msgstr "_Помош"
 
-#: src/wmprog.cc:909
+#: src/wmprog.cc:916
 msgid "_Click to focus"
 msgstr ""
 
-#: src/wmprog.cc:914
+#: src/wmprog.cc:921
 msgid "_Sloppy mouse focus"
 msgstr ""
 
-#: src/wmprog.cc:919
+#: src/wmprog.cc:926
 msgid "Custo_m"
 msgstr ""
 
-#: src/wmprog.cc:925
+#: src/wmprog.cc:932
 msgid "_Focus"
 msgstr ""
 
-#: src/wmprog.cc:932
+#: src/wmprog.cc:939
 msgid "_Themes"
 msgstr "_Теми"
 
-#: src/wmprog.cc:934
+#: src/wmprog.cc:941
 msgid "Se_ttings"
 msgstr ""
 
@@ -1183,7 +1183,7 @@ msgstr "Листа со прозорци"
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Работен простор %-.32s"
 
-#: src/yapp.cc:397
+#: src/yapp.cc:462
 #, c-format
 msgid "Message Loop: select failed (errno=%d)"
 msgstr "Јамка за пораки: select не успеа (грешка бр=%d)"
@@ -1354,27 +1354,27 @@ msgstr "Во ред"
 msgid "Cancel"
 msgstr "Откажи"
 
-#: src/ypaths.cc:134 src/ypaths.cc:161
+#: src/ypaths.cc:144 src/ypaths.cc:171
 #, c-format
 msgid "Image not readable: %s"
 msgstr ""
 
-#: src/ypaths.cc:139
+#: src/ypaths.cc:149
 #, fuzzy, c-format
 msgid "Out of memory for image %s"
 msgstr "Нема меморија за пиксел-мапата „%s“"
 
-#: src/ypaths.cc:146
+#: src/ypaths.cc:156
 #, fuzzy, c-format
 msgid "Could not find image %s"
 msgstr "Не можев да ја најдам пиксел-мапата %s"
 
-#: src/ypaths.cc:165
+#: src/ypaths.cc:175
 #, fuzzy, c-format
 msgid "Out of memory for image: %s"
 msgstr "Нема меморија за пиксел-мапата „%s“"
 
-#: src/ypaths.cc:172
+#: src/ypaths.cc:182
 #, fuzzy, c-format
 msgid "Could not find image: %s"
 msgstr "Не можев да ја најдам пиксел-мапата %s"
