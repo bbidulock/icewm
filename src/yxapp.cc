@@ -444,6 +444,7 @@ static void initAtoms() {
         { &_XA_NET_WM_STATE_ABOVE               , "_NET_WM_STATE_ABOVE"                 },
         { &_XA_NET_WM_STATE_BELOW               , "_NET_WM_STATE_BELOW"                 },
         { &_XA_NET_WM_STATE_DEMANDS_ATTENTION   , "_NET_WM_STATE_DEMANDS_ATTENTION"     },
+        { &_XA_NET_WM_STATE_FOCUSED             , "_NET_WM_STATE_FOCUSED"               },
         { &_XA_NET_WM_STATE_FULLSCREEN          , "_NET_WM_STATE_FULLSCREEN"            },
         { &_XA_NET_WM_STATE_HIDDEN              , "_NET_WM_STATE_HIDDEN"                },
         { &_XA_NET_WM_STATE_MAXIMIZED_HORZ      , "_NET_WM_STATE_MAXIMIZED_HORZ"        },
