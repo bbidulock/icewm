@@ -1769,6 +1769,7 @@ void YFrameWindow::loseWinFocus() {
     if (fFocused && fManaged) {
         fFocused = false;
 
+        setState(WinStateFocused, 0);
         if (true || !clientMouseActions)
             if (focusOnClickClient || raiseOnClickClient)
                 if (fClientContainer)
@@ -1789,6 +1790,7 @@ void YFrameWindow::setWinFocus() {
     if (!fFocused) {
         fFocused = true;
 
+        setState(WinStateFocused, WinStateFocused);
         if (isIconic())
             fMiniIcon->repaint();
         else {

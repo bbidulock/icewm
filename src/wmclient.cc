@@ -737,6 +737,8 @@ long getMask(Atom a) {
         mask |= WinStateSkipTaskBar;
 #if 0
     /* controlled by WM only */
+    if (a == _XA_NET_WM_STATE_FOCUSED)
+        mask |= WinStateFocused;
     if (a == _XA_NET_WM_STATE_HIDDEN)
         mask |= WinStateHidden;
 #endif
@@ -1453,6 +1455,8 @@ void YFrameClient::setWinStateHint(long mask, long state) {
     /* the next one is kinda messy */
     if ((state & WinStateMinimized) || (state & WinStateHidden))
         a[i++] = _XA_NET_WM_STATE_HIDDEN;
+    if (state & WinStateFocused)
+        a[i++] = _XA_NET_WM_STATE_FOCUSED;
     if (state & WinStateSkipPager)
         a[i++] = _XA_NET_WM_STATE_SKIP_PAGER;
     if (state & WinStateSkipTaskBar)

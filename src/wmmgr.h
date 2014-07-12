@@ -395,6 +395,7 @@ extern Atom _XA_NET_WM_STATE;                       // OK
 extern Atom _XA_NET_WM_STATE_ABOVE;                 // OK
 extern Atom _XA_NET_WM_STATE_BELOW;                 // OK
 extern Atom _XA_NET_WM_STATE_DEMANDS_ATTENTION;     // OK
+extern Atom _XA_NET_WM_STATE_FOCUSED;               // OK
 extern Atom _XA_NET_WM_STATE_FULLSCREEN;            // OK
 extern Atom _XA_NET_WM_STATE_HIDDEN;                // OK
 extern Atom _XA_NET_WM_STATE_MAXIMIZED_HORZ;        // OK

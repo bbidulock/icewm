@@ -139,7 +139,7 @@ _NET_WM_STATE:				supported
 	_NET_WM_STATE_ABOVE:		supported
 	_NET_WM_STATE_BELOW:		supported
 	_NET_WM_STATE_DEMANDS_ATTENTION: supported
-	_NET_WM_STATE_FOCUSED:		NOT supported (n/a)
+	_NET_WM_STATE_FOCUSED:		supported
 _NET_WM_ALLOWED_ACTIONS:		supported
 	_NET_WM_ACTION_MOVE:		supported
 	_NET_WM_ACTION_RESIZE:          supported

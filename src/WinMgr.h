@@ -280,6 +280,7 @@
 #define WinStateFixedPosition  (1 << 8)   /* fixed position on virtual desktop*/
 #define WinStateArrangeIgnore  (1 << 9)   /* ignore for auto arranging */
 //#define WinStateDocked         (1 << 9) /* docked, ignore my area for maximizing */
+#define WinStateFocused        (1 << 21)  /* has the focus */
 #define WinStateUrgent         (1 << 22)  /* demands attention */
 #define WinStateSkipPager      (1 << 23)  /* skip pager */
 #define WinStateSkipTaskBar    (1 << 24)  /* skip taskbar */
@@ -293,7 +294,9 @@
 
 #define WIN_STATE_ALL (WinStateAllWorkspaces | WinStateMinimized |\
                        WinStateMaximizedVert | WinStateMaximizedHoriz |\
-                       WinStateHidden | WinStateRollup)
+                       WinStateHidden | WinStateRollup | WinStateHidWorkspace |\
+                       WinStateHidTransient | WinStateFixedPosition |\
+                       WinStateArrangeIgnore)
 
 
 /* hints */
