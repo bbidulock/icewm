@@ -560,14 +560,13 @@ void YWindowManager::handleButton(const XButtonEvent &button) {
         !(useRootButtons & (1 << (button.button - 1))) &&
        !((button.state & (ControlMask + xapp->AltMask)) == ControlMask + xapp->AltMask))
     {
-        if (button.send_event == False) {
+        if (button.send_event == False)
             XUngrabPointer(xapp->display(), CurrentTime);
-            XSendEvent(xapp->display(),
-                       rootProxy->handle(),
-                       False,
-                       SubstructureNotifyMask,
-                       (XEvent *) &button);
-        }
+        XSendEvent(xapp->display(),
+                   rootProxy->handle(),
+                   False,
+                   SubstructureNotifyMask,
+                   (XEvent *) &button);
         return ;
     }
     YFrameWindow *frame = 0;
