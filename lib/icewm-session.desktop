@@ -1,6 +1,7 @@
 [Desktop Entry]
 Version=1.0
 Encoding=UTF-8
+Type=XSession
 Name=IceWM Session
 Comment=Simple and fast window manger
 Terminal=false
