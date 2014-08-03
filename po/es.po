@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.26\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2014-07-12 17:01-0600\n"
+"POT-Creation-Date: 2014-08-03 11:59-0600\n"
 "PO-Revision-Date: 2006-07-03 16:42+0200\n"
 "Last-Translator: Eulogio Serradilla <eulogio.sr@terra.es>\n"
 "Language-Team:  <es@li.org>\n"
@@ -389,7 +389,7 @@ msgstr "Argumento no válido: `%s'."
 msgid "No actions specified."
 msgstr "Ninguna acción especificada."
 
-#: src/icesh.cc:703 src/icesound.cc:1050 src/icewmhint.cc:76 src/yxapp.cc:974
+#: src/icesh.cc:703 src/icesound.cc:1050 src/icewmhint.cc:76 src/yxapp.cc:975
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
@@ -432,7 +432,7 @@ msgid "Can't connect to ESound daemon: %s"
 msgstr "No se puede conectar con el demonio ESound: %s"
 
 #: src/icesound.cc:562 src/icesound.cc:739 src/icesound.cc:780
-#: src/icewmhint.cc:78 src/yxapp.cc:975
+#: src/icewmhint.cc:78 src/yxapp.cc:976
 msgid "<none>"
 msgstr "<ninguno>"
 

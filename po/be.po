@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.2.2\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2014-07-12 17:01-0600\n"
+"POT-Creation-Date: 2014-08-03 11:59-0600\n"
 "PO-Revision-Date: 2003-01-27 22:26+0300\n"
 "Last-Translator: Hleb Valoska <el_globus@tut.by>\n"
 "Language-Team: Belarusian <i18n@mova.org>\n"
@@ -375,7 +375,7 @@ msgstr "Дрэнны парамэтар: `%s'."
 msgid "No actions specified."
 msgstr "Ня вызначана дзеяньняў."
 
-#: src/icesh.cc:703 src/icesound.cc:1050 src/icewmhint.cc:76 src/yxapp.cc:974
+#: src/icesh.cc:703 src/icesound.cc:1050 src/icewmhint.cc:76 src/yxapp.cc:975
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
@@ -417,7 +417,7 @@ msgid "Can't connect to ESound daemon: %s"
 msgstr "Немагчыма злучыцца з дэманам ESound: %s"
 
 #: src/icesound.cc:562 src/icesound.cc:739 src/icesound.cc:780
-#: src/icewmhint.cc:78 src/yxapp.cc:975
+#: src/icewmhint.cc:78 src/yxapp.cc:976
 msgid "<none>"
 msgstr "<няма>"
 

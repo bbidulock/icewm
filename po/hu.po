@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.7\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2014-07-12 17:01-0600\n"
+"POT-Creation-Date: 2014-08-03 11:59-0600\n"
 "PO-Revision-Date: 2003-04-14 21:23+0200\n"
 "Last-Translator: Gabor Suveg <gabor@suveg.hu>\n"
 "Language-Team:  <hu@li.org>\n"
@@ -429,7 +429,7 @@ msgstr "Nincs megadott művelet."
 
 # ../src/icetail.cc:124 ../src/icewmbg.cc:199 ../src/icewmhint.cc:74
 # ../src/yapp.cc:582
-#: src/icesh.cc:703 src/icesound.cc:1050 src/icewmhint.cc:76 src/yxapp.cc:974
+#: src/icesh.cc:703 src/icesound.cc:1050 src/icewmhint.cc:76 src/yxapp.cc:975
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
@@ -477,7 +477,7 @@ msgstr "Sikertelen kapcsolódás a %s ESound kiszolgálóhoz."
 # ../src/icetail.cc:126 ../src/icewmbg.cc:201 ../src/icewmhint.cc:76
 # ../src/yapp.cc:584
 #: src/icesound.cc:562 src/icesound.cc:739 src/icesound.cc:780
-#: src/icewmhint.cc:78 src/yxapp.cc:975
+#: src/icewmhint.cc:78 src/yxapp.cc:976
 msgid "<none>"
 msgstr "<nincs>"
 

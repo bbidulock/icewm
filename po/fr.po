@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.15pre3\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2014-07-12 17:01-0600\n"
+"POT-Creation-Date: 2014-08-03 11:59-0600\n"
 "PO-Revision-Date: 2000-12-15 12:13+2000\n"
 "Last-Translator: LiNuCe <linuce@linuxmail.org>\n"
 "Language-Team: French\n"
@@ -339,7 +339,7 @@ msgstr "Paramètre incorrect : \"%s\"."
 msgid "No actions specified."
 msgstr "Aucune action spécifiée."
 
-#: src/icesh.cc:703 src/icesound.cc:1050 src/icewmhint.cc:76 src/yxapp.cc:974
+#: src/icesh.cc:703 src/icesound.cc:1050 src/icewmhint.cc:76 src/yxapp.cc:975
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
@@ -382,7 +382,7 @@ msgid "Can't connect to ESound daemon: %s"
 msgstr "Échec de connexion au démon ESound : %s"
 
 #: src/icesound.cc:562 src/icesound.cc:739 src/icesound.cc:780
-#: src/icewmhint.cc:78 src/yxapp.cc:975
+#: src/icewmhint.cc:78 src/yxapp.cc:976
 msgid "<none>"
 msgstr "<aucun>"
 

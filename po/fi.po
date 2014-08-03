@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.14\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2014-07-12 17:01-0600\n"
+"POT-Creation-Date: 2014-08-03 11:59-0600\n"
 "PO-Revision-Date: 2004-06-16 02:44+0200\n"
 "Last-Translator: Taisto Kuikka <69319@batman.jypoly.fi>\n"
 "Language-Team: Finnish <fi@li.org>\n"
@@ -379,7 +379,7 @@ msgstr "Virheellinen argumentti: `%s'."
 msgid "No actions specified."
 msgstr "Toimintoa ei ole määritetty"
 
-#: src/icesh.cc:703 src/icesound.cc:1050 src/icewmhint.cc:76 src/yxapp.cc:974
+#: src/icesh.cc:703 src/icesound.cc:1050 src/icewmhint.cc:76 src/yxapp.cc:975
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
@@ -422,7 +422,7 @@ msgid "Can't connect to ESound daemon: %s"
 msgstr "ESounD demoniin ei voitu yhdistää: %s"
 
 #: src/icesound.cc:562 src/icesound.cc:739 src/icesound.cc:780
-#: src/icewmhint.cc:78 src/yxapp.cc:975
+#: src/icewmhint.cc:78 src/yxapp.cc:976
 msgid "<none>"
 msgstr "<tyhjä>"
 

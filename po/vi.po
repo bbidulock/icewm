@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.21pre1 \n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2014-07-12 17:01-0600\n"
+"POT-Creation-Date: 2014-08-03 11:59-0600\n"
 "PO-Revision-Date: 2005-06-18 11:46+0400\n"
 "Last-Translator: Phạm Thành Long <ptlong@gmail.com>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
@@ -381,7 +381,7 @@ msgstr "Tham số không hợp lệ: `%s'."
 msgid "No actions specified."
 msgstr "Không có hành động nào được chỉ ra."
 
-#: src/icesh.cc:703 src/icesound.cc:1050 src/icewmhint.cc:76 src/yxapp.cc:974
+#: src/icesh.cc:703 src/icesound.cc:1050 src/icewmhint.cc:76 src/yxapp.cc:975
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "Không mở được màn hình: %s. Cần chạy X và đặt biến $DISPLAY."
@@ -422,7 +422,7 @@ msgid "Can't connect to ESound daemon: %s"
 msgstr "Không kết nối được tới daemon ESound: %s"
 
 #: src/icesound.cc:562 src/icesound.cc:739 src/icesound.cc:780
-#: src/icewmhint.cc:78 src/yxapp.cc:975
+#: src/icewmhint.cc:78 src/yxapp.cc:976
 msgid "<none>"
 msgstr "<không>"
 
