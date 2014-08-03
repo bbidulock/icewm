@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.35\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2014-08-03 11:59-0600\n"
+"POT-Creation-Date: 2014-08-03 15:35-0600\n"
 "PO-Revision-Date: 2008-04-07 10:19-1000\n"
 "Last-Translator: Ken Joseph Yeo <suyyeo@yahoo.com>\n"
 "Language-Team: Korean\n"
@@ -919,8 +919,8 @@ msgstr "보기 안 좋은 이름"
 msgid "Loc_k Workstation"
 msgstr "화면 잠그기(_W)"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:947 src/wmprog.cc:949 src/wmtaskbar.cc:434
-#: src/wmtaskbar.cc:436
+#: src/wmdialog.cc:90 src/wmprog.cc:947 src/wmprog.cc:949 src/wmtaskbar.cc:433
+#: src/wmtaskbar.cc:435
 msgid "_Logout..."
 msgstr "종료...(_L)"
 
@@ -932,8 +932,8 @@ msgstr "취소(_C)"
 msgid "_Restart icewm"
 msgstr "icewm 다시 시작(_R)"
 
-#: src/wmdialog.cc:125 src/wmprog.cc:885 src/wmtaskbar.cc:426
-#: src/wmtaskbar.cc:429
+#: src/wmdialog.cc:125 src/wmprog.cc:885 src/wmtaskbar.cc:425
+#: src/wmtaskbar.cc:428
 msgid "_About"
 msgstr "정보(_A)"
 
@@ -1027,7 +1027,7 @@ msgstr "프로그램"
 msgid "_Run..."
 msgstr "실행...(_R)"
 
-#: src/wmprog.cc:861 src/wmtaskbar.cc:414
+#: src/wmprog.cc:861 src/wmtaskbar.cc:413
 msgid "_Windows"
 msgstr "창(_W)"
 
@@ -1068,55 +1068,55 @@ msgstr "세션 관리자: 알 수 없는 줄 %s"
 msgid "Task Bar"
 msgstr "태스크바"
 
-#: src/wmtaskbar.cc:403 src/wmwinlist.cc:312 src/wmwinlist.cc:325
+#: src/wmtaskbar.cc:402 src/wmwinlist.cc:312 src/wmwinlist.cc:325
 msgid "Tile _Vertically"
 msgstr "수직 정렬(_V)"
 
-#: src/wmtaskbar.cc:404 src/wmwinlist.cc:313 src/wmwinlist.cc:326
+#: src/wmtaskbar.cc:403 src/wmwinlist.cc:313 src/wmwinlist.cc:326
 msgid "T_ile Horizontally"
 msgstr "수평 정렬(_I)"
 
-#: src/wmtaskbar.cc:405 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+#: src/wmtaskbar.cc:404 src/wmwinlist.cc:314 src/wmwinlist.cc:327
 msgid "Ca_scade"
 msgstr "계단식 정렬(_S)"
 
-#: src/wmtaskbar.cc:406 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+#: src/wmtaskbar.cc:405 src/wmwinlist.cc:315 src/wmwinlist.cc:328
 msgid "_Arrange"
 msgstr "정렬(_A)"
 
-#: src/wmtaskbar.cc:407 src/wmwinlist.cc:317 src/wmwinlist.cc:329
+#: src/wmtaskbar.cc:406 src/wmwinlist.cc:317 src/wmwinlist.cc:329
 msgid "_Minimize All"
 msgstr "모두 최소화(_M)"
 
-#: src/wmtaskbar.cc:408 src/wmwinlist.cc:318 src/wmwinlist.cc:330
+#: src/wmtaskbar.cc:407 src/wmwinlist.cc:318 src/wmwinlist.cc:330
 msgid "_Hide All"
 msgstr "모두 숨기기(_H)"
 
-#: src/wmtaskbar.cc:409 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+#: src/wmtaskbar.cc:408 src/wmwinlist.cc:319 src/wmwinlist.cc:331
 msgid "_Undo"
 msgstr "실행 취소(_U)"
 
-#: src/wmtaskbar.cc:411
+#: src/wmtaskbar.cc:410
 msgid "Arrange _Icons"
 msgstr "아이콘 정렬(_I)"
 
-#: src/wmtaskbar.cc:417
+#: src/wmtaskbar.cc:416
 msgid "_Refresh"
 msgstr "새롭게(_R)"
 
-#: src/wmtaskbar.cc:424
+#: src/wmtaskbar.cc:423
 msgid "_License"
 msgstr "라이센스(_L)"
 
-#: src/wmtaskbar.cc:545
+#: src/wmtaskbar.cc:544
 msgid "Favorite applications"
 msgstr "즐겨쓰는 프로그램들"
 
-#: src/wmtaskbar.cc:562
+#: src/wmtaskbar.cc:561
 msgid "Window list menu"
 msgstr "창 목록 메뉴"
 
-#: src/wmtaskbar.cc:571
+#: src/wmtaskbar.cc:570
 msgid "Show Desktop"
 msgstr "바탕화면 보기"
 
@@ -1297,17 +1297,17 @@ msgstr "Ctrl+A"
 msgid "Locale not supported by C library. Falling back to 'C' locale'."
 msgstr "C 라이브러리가 지원하지 않는 로케일. 'C' 로케일로 바꿈."
 
-#: src/ylocale.cc:63
+#: src/ylocale.cc:69
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr "현재 로케일의 코드셋을 결정할 수 없음. ISO-8859-1 가정.\n"
 
-#: src/ylocale.cc:95 src/ylocale.cc:102
+#: src/ylocale.cc:101 src/ylocale.cc:108
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv는 (충분한) %s를 %s 변환기에 공급하지 않는다."
 
-#: src/ylocale.cc:156
+#: src/ylocale.cc:162
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "잘못된 멀티바이트 문자열 \"%s\": %s"

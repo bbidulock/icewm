@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.6\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2014-08-03 11:59-0600\n"
+"POT-Creation-Date: 2014-08-03 15:35-0600\n"
 "PO-Revision-Date: 2001-01-10 23:14+0900\n"
 "Last-Translator: Yoichi ASAI <yatt@msc.biglobe.ne.jp>\n"
 "Language-Team: Japanese\n"
@@ -798,8 +798,8 @@ msgstr "不適切な Look 名"
 msgid "Loc_k Workstation"
 msgstr "ワークステーションをロック(_W)"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:947 src/wmprog.cc:949 src/wmtaskbar.cc:434
-#: src/wmtaskbar.cc:436
+#: src/wmdialog.cc:90 src/wmprog.cc:947 src/wmprog.cc:949 src/wmtaskbar.cc:433
+#: src/wmtaskbar.cc:435
 msgid "_Logout..."
 msgstr "ログアウト(_L)..."
 
@@ -811,8 +811,8 @@ msgstr "キャンセル(_C)"
 msgid "_Restart icewm"
 msgstr "icewm を再起動(_R)"
 
-#: src/wmdialog.cc:125 src/wmprog.cc:885 src/wmtaskbar.cc:426
-#: src/wmtaskbar.cc:429
+#: src/wmdialog.cc:125 src/wmprog.cc:885 src/wmtaskbar.cc:425
+#: src/wmtaskbar.cc:428
 msgid "_About"
 msgstr "情報(_A)"
 
@@ -904,7 +904,7 @@ msgstr "プログラム"
 msgid "_Run..."
 msgstr "実行(_R)..."
 
-#: src/wmprog.cc:861 src/wmtaskbar.cc:414
+#: src/wmprog.cc:861 src/wmtaskbar.cc:413
 msgid "_Windows"
 msgstr "ウインドウ一覧(_W)"
 
@@ -946,56 +946,56 @@ msgstr "セッションマネージャ: 未知の行 %s"
 msgid "Task Bar"
 msgstr "タスクバー"
 
-#: src/wmtaskbar.cc:403 src/wmwinlist.cc:312 src/wmwinlist.cc:325
+#: src/wmtaskbar.cc:402 src/wmwinlist.cc:312 src/wmwinlist.cc:325
 msgid "Tile _Vertically"
 msgstr "垂直に並べる(_V)"
 
-#: src/wmtaskbar.cc:404 src/wmwinlist.cc:313 src/wmwinlist.cc:326
+#: src/wmtaskbar.cc:403 src/wmwinlist.cc:313 src/wmwinlist.cc:326
 msgid "T_ile Horizontally"
 msgstr "水平に並べる(_I)"
 
-#: src/wmtaskbar.cc:405 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+#: src/wmtaskbar.cc:404 src/wmwinlist.cc:314 src/wmwinlist.cc:327
 msgid "Ca_scade"
 msgstr "カスケード(_S)"
 
-#: src/wmtaskbar.cc:406 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+#: src/wmtaskbar.cc:405 src/wmwinlist.cc:315 src/wmwinlist.cc:328
 msgid "_Arrange"
 msgstr "整列(_A)"
 
-#: src/wmtaskbar.cc:407 src/wmwinlist.cc:317 src/wmwinlist.cc:329
+#: src/wmtaskbar.cc:406 src/wmwinlist.cc:317 src/wmwinlist.cc:329
 msgid "_Minimize All"
 msgstr "全て最小化(_M)"
 
-#: src/wmtaskbar.cc:408 src/wmwinlist.cc:318 src/wmwinlist.cc:330
+#: src/wmtaskbar.cc:407 src/wmwinlist.cc:318 src/wmwinlist.cc:330
 msgid "_Hide All"
 msgstr "全て隠す(_H)"
 
-#: src/wmtaskbar.cc:409 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+#: src/wmtaskbar.cc:408 src/wmwinlist.cc:319 src/wmwinlist.cc:331
 msgid "_Undo"
 msgstr "元に戻す(_U)"
 
-#: src/wmtaskbar.cc:411
+#: src/wmtaskbar.cc:410
 msgid "Arrange _Icons"
 msgstr "アイコン整列(_I)"
 
-#: src/wmtaskbar.cc:417
+#: src/wmtaskbar.cc:416
 msgid "_Refresh"
 msgstr "再描画(_R)"
 
-#: src/wmtaskbar.cc:424
+#: src/wmtaskbar.cc:423
 msgid "_License"
 msgstr "ライセンス(_L)"
 
-#: src/wmtaskbar.cc:545
+#: src/wmtaskbar.cc:544
 msgid "Favorite applications"
 msgstr ""
 
-#: src/wmtaskbar.cc:562
+#: src/wmtaskbar.cc:561
 #, fuzzy
 msgid "Window list menu"
 msgstr "ウインドウ一覧"
 
-#: src/wmtaskbar.cc:571
+#: src/wmtaskbar.cc:570
 #, fuzzy
 msgid "Show Desktop"
 msgstr "デスクトップ(_E)"
@@ -1178,17 +1178,17 @@ msgstr "Ctrl+A"
 msgid "Locale not supported by C library. Falling back to 'C' locale'."
 msgstr ""
 
-#: src/ylocale.cc:63
+#: src/ylocale.cc:69
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
 
-#: src/ylocale.cc:95 src/ylocale.cc:102
+#: src/ylocale.cc:101 src/ylocale.cc:108
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr ""
 
-#: src/ylocale.cc:156
+#: src/ylocale.cc:162
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr ""

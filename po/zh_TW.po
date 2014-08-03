@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2014-08-03 11:59-0600\n"
+"POT-Creation-Date: 2014-08-03 15:35-0600\n"
 "PO-Revision-Date: 2007-02-22 14:45+0800\n"
 "Last-Translator: Wei-Lun Chao <chaoweilun@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -911,8 +911,8 @@ msgstr "不當的 Look 名稱"
 msgid "Loc_k Workstation"
 msgstr "鎖定工作站(_W)"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:947 src/wmprog.cc:949 src/wmtaskbar.cc:434
-#: src/wmtaskbar.cc:436
+#: src/wmdialog.cc:90 src/wmprog.cc:947 src/wmprog.cc:949 src/wmtaskbar.cc:433
+#: src/wmtaskbar.cc:435
 msgid "_Logout..."
 msgstr "登出(_L)..."
 
@@ -924,8 +924,8 @@ msgstr "取消(_C)"
 msgid "_Restart icewm"
 msgstr "重新啟動 icewm(_R)"
 
-#: src/wmdialog.cc:125 src/wmprog.cc:885 src/wmtaskbar.cc:426
-#: src/wmtaskbar.cc:429
+#: src/wmdialog.cc:125 src/wmprog.cc:885 src/wmtaskbar.cc:425
+#: src/wmtaskbar.cc:428
 msgid "_About"
 msgstr "關於(_A)"
 
@@ -1019,7 +1019,7 @@ msgstr "程式"
 msgid "_Run..."
 msgstr "執行(_R)..."
 
-#: src/wmprog.cc:861 src/wmtaskbar.cc:414
+#: src/wmprog.cc:861 src/wmtaskbar.cc:413
 msgid "_Windows"
 msgstr "視窗(_W)"
 
@@ -1060,55 +1060,55 @@ msgstr "作業階段管理程式：不明的列 %s"
 msgid "Task Bar"
 msgstr "工作列"
 
-#: src/wmtaskbar.cc:403 src/wmwinlist.cc:312 src/wmwinlist.cc:325
+#: src/wmtaskbar.cc:402 src/wmwinlist.cc:312 src/wmwinlist.cc:325
 msgid "Tile _Vertically"
 msgstr "垂直並排(_V)"
 
-#: src/wmtaskbar.cc:404 src/wmwinlist.cc:313 src/wmwinlist.cc:326
+#: src/wmtaskbar.cc:403 src/wmwinlist.cc:313 src/wmwinlist.cc:326
 msgid "T_ile Horizontally"
 msgstr "水平並排(_I)"
 
-#: src/wmtaskbar.cc:405 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+#: src/wmtaskbar.cc:404 src/wmwinlist.cc:314 src/wmwinlist.cc:327
 msgid "Ca_scade"
 msgstr "階狀(_S)"
 
-#: src/wmtaskbar.cc:406 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+#: src/wmtaskbar.cc:405 src/wmwinlist.cc:315 src/wmwinlist.cc:328
 msgid "_Arrange"
 msgstr "排列(_A)"
 
-#: src/wmtaskbar.cc:407 src/wmwinlist.cc:317 src/wmwinlist.cc:329
+#: src/wmtaskbar.cc:406 src/wmwinlist.cc:317 src/wmwinlist.cc:329
 msgid "_Minimize All"
 msgstr "全部縮到最小(_M)"
 
-#: src/wmtaskbar.cc:408 src/wmwinlist.cc:318 src/wmwinlist.cc:330
+#: src/wmtaskbar.cc:407 src/wmwinlist.cc:318 src/wmwinlist.cc:330
 msgid "_Hide All"
 msgstr "全部隱藏(_H)"
 
-#: src/wmtaskbar.cc:409 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+#: src/wmtaskbar.cc:408 src/wmwinlist.cc:319 src/wmwinlist.cc:331
 msgid "_Undo"
 msgstr "復原(_U)"
 
-#: src/wmtaskbar.cc:411
+#: src/wmtaskbar.cc:410
 msgid "Arrange _Icons"
 msgstr "排列圖示(_I)"
 
-#: src/wmtaskbar.cc:417
+#: src/wmtaskbar.cc:416
 msgid "_Refresh"
 msgstr "重新整理(_R)"
 
-#: src/wmtaskbar.cc:424
+#: src/wmtaskbar.cc:423
 msgid "_License"
 msgstr "授權(_L)"
 
-#: src/wmtaskbar.cc:545
+#: src/wmtaskbar.cc:544
 msgid "Favorite applications"
 msgstr "喜愛的應用程式"
 
-#: src/wmtaskbar.cc:562
+#: src/wmtaskbar.cc:561
 msgid "Window list menu"
 msgstr "視窗列表選單"
 
-#: src/wmtaskbar.cc:571
+#: src/wmtaskbar.cc:570
 msgid "Show Desktop"
 msgstr "顯示桌面"
 
@@ -1288,17 +1288,17 @@ msgstr "Ctrl+A"
 msgid "Locale not supported by C library. Falling back to 'C' locale'."
 msgstr "C 函式庫不支援語區。回復到 'C' 語區。"
 
-#: src/ylocale.cc:63
+#: src/ylocale.cc:69
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr "判別目前語區的編碼時失敗。假定為 ISO-8859-1。\n"
 
-#: src/ylocale.cc:95 src/ylocale.cc:102
+#: src/ylocale.cc:101 src/ylocale.cc:108
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv 不(充分)支援 %s 到 %s 的轉換器。"
 
-#: src/ylocale.cc:156
+#: src/ylocale.cc:162
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "無效的多位元字串「%s」：%s"

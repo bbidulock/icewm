@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2014-08-03 11:59-0600\n"
+"POT-Creation-Date: 2014-08-03 15:35-0600\n"
 "PO-Revision-Date: 2003-10-14 09:41+0300\n"
 "Last-Translator: Nick Apostolakis <nickapos@agriroot.aua.gr>\n"
 "Language-Team: hellenic <en@li.org>\n"
@@ -812,8 +812,8 @@ msgstr ""
 msgid "Loc_k Workstation"
 msgstr "Κλείδωμα _Σταθμού εργασίας"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:947 src/wmprog.cc:949 src/wmtaskbar.cc:434
-#: src/wmtaskbar.cc:436
+#: src/wmdialog.cc:90 src/wmprog.cc:947 src/wmprog.cc:949 src/wmtaskbar.cc:433
+#: src/wmtaskbar.cc:435
 msgid "_Logout..."
 msgstr "_Αποσύνδεση..."
 
@@ -825,8 +825,8 @@ msgstr "_Ακύρωση"
 msgid "_Restart icewm"
 msgstr "_Επανεκκίνηση icewm"
 
-#: src/wmdialog.cc:125 src/wmprog.cc:885 src/wmtaskbar.cc:426
-#: src/wmtaskbar.cc:429
+#: src/wmdialog.cc:125 src/wmprog.cc:885 src/wmtaskbar.cc:425
+#: src/wmtaskbar.cc:428
 msgid "_About"
 msgstr "_Περί"
 
@@ -918,7 +918,7 @@ msgstr "Προγράμματα"
 msgid "_Run..."
 msgstr "_Εκτέλεση..."
 
-#: src/wmprog.cc:861 src/wmtaskbar.cc:414
+#: src/wmprog.cc:861 src/wmtaskbar.cc:413
 msgid "_Windows"
 msgstr "_Παράθυρα"
 
@@ -959,55 +959,55 @@ msgstr ""
 msgid "Task Bar"
 msgstr ""
 
-#: src/wmtaskbar.cc:403 src/wmwinlist.cc:312 src/wmwinlist.cc:325
+#: src/wmtaskbar.cc:402 src/wmwinlist.cc:312 src/wmwinlist.cc:325
 msgid "Tile _Vertically"
 msgstr ""
 
-#: src/wmtaskbar.cc:404 src/wmwinlist.cc:313 src/wmwinlist.cc:326
+#: src/wmtaskbar.cc:403 src/wmwinlist.cc:313 src/wmwinlist.cc:326
 msgid "T_ile Horizontally"
 msgstr ""
 
-#: src/wmtaskbar.cc:405 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+#: src/wmtaskbar.cc:404 src/wmwinlist.cc:314 src/wmwinlist.cc:327
 msgid "Ca_scade"
 msgstr ""
 
-#: src/wmtaskbar.cc:406 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+#: src/wmtaskbar.cc:405 src/wmwinlist.cc:315 src/wmwinlist.cc:328
 msgid "_Arrange"
 msgstr "_Διευθέτηση"
 
-#: src/wmtaskbar.cc:407 src/wmwinlist.cc:317 src/wmwinlist.cc:329
+#: src/wmtaskbar.cc:406 src/wmwinlist.cc:317 src/wmwinlist.cc:329
 msgid "_Minimize All"
 msgstr "_Ελαχιστοποίηση όλων"
 
-#: src/wmtaskbar.cc:408 src/wmwinlist.cc:318 src/wmwinlist.cc:330
+#: src/wmtaskbar.cc:407 src/wmwinlist.cc:318 src/wmwinlist.cc:330
 msgid "_Hide All"
 msgstr "_Απόκρυψη όλων"
 
-#: src/wmtaskbar.cc:409 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+#: src/wmtaskbar.cc:408 src/wmwinlist.cc:319 src/wmwinlist.cc:331
 msgid "_Undo"
 msgstr "_Αναίρεση"
 
-#: src/wmtaskbar.cc:411
+#: src/wmtaskbar.cc:410
 msgid "Arrange _Icons"
 msgstr "Διευθέτηση _Εικονιδίων"
 
-#: src/wmtaskbar.cc:417
+#: src/wmtaskbar.cc:416
 msgid "_Refresh"
 msgstr "_Ανανέωση"
 
-#: src/wmtaskbar.cc:424
+#: src/wmtaskbar.cc:423
 msgid "_License"
 msgstr "_Άδεια χρήσης"
 
-#: src/wmtaskbar.cc:545
+#: src/wmtaskbar.cc:544
 msgid "Favorite applications"
 msgstr "Αγαπημένες εφαρμογές"
 
-#: src/wmtaskbar.cc:562
+#: src/wmtaskbar.cc:561
 msgid "Window list menu"
 msgstr "Λίστα παραθύρων"
 
-#: src/wmtaskbar.cc:571
+#: src/wmtaskbar.cc:570
 #, fuzzy
 msgid "Show Desktop"
 msgstr "Ε_πιφάνεια εργασίας"
@@ -1188,17 +1188,17 @@ msgstr ""
 msgid "Locale not supported by C library. Falling back to 'C' locale'."
 msgstr ""
 
-#: src/ylocale.cc:63
+#: src/ylocale.cc:69
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
 
-#: src/ylocale.cc:95 src/ylocale.cc:102
+#: src/ylocale.cc:101 src/ylocale.cc:108
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr ""
 
-#: src/ylocale.cc:156
+#: src/ylocale.cc:162
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr ""
