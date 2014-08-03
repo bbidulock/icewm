@@ -358,12 +358,11 @@ TaskBar::~TaskBar() {
     taskbuttonPixmap = null;
     taskbuttonactivePixmap = null;
     taskbuttonminimizedPixmap = null;
-#ifdef CONFIG_GRADIENT
+#ifdef CONFIG_GRADIENTS
     taskbackPixbuf = null;
     taskbuttonPixbuf = null;
     taskbuttonactivePixbuf = null;
     taskbuttonminimizedPixbuf = null;
-    delete fGradient;
 #endif
     startImage = null;
     windowsImage = null;

@@ -1,5 +1,8 @@
+#                                               -*- Autoconf -*-
+# Process this file with autoconf to produce a configure script.
+
 AC_PREREQ([2.69])
-AC_INIT([icewm], [1.3.8.76], [http://github.com/bbidulock/icewm])
+AC_INIT([icewm], [1.3.8.81], [http://github.com/bbidulock/icewm])
 AC_CONFIG_SRCDIR([src/ysmapp.cc])
 AC_CONFIG_AUX_DIR([scripts])
 AC_CONFIG_MACRO_DIR([m4])
@@ -19,11 +22,13 @@ AC_USE_SYSTEM_EXTENSIONS
 # Checks for programs.
 AC_LANG_CPLUSPLUS
 AC_PROG_CXX
+AC_PROG_AWK
 AC_PROG_CC
+AC_PROG_CPP
+AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
 AC_PROG_MKDIR_P
-AC_PROG_INSTALL
 AC_ARG_VAR([LD], [Linker loader command])
 
 AC_ARG_VAR([MKFONTDIR],[mkfontdir command. @<:@default=mkfontdir@:>@])
@@ -35,11 +40,23 @@ LT_INIT([dlopen])
 LT_LANG([C++])
 AC_SUBST([LIBTOOL_DEPS])
 
-AM_GNU_GETTEXT_VERSION([0.19.1])
+AM_GNU_GETTEXT_VERSION([0.19.2])
 AM_GNU_GETTEXT([external])
 
-PKG_PROG_PKG_CONFIG
+AC_ARG_ENABLE([i18n],
+    AC_HELP_STRING([--disable-i18n],[Disable internationalization.]))
+if test x$enable_i18n != xno; then
+    AC_DEFINE([CONFIG_I18N], [1], [Define to enable internationalization.])
+    features="$features i18n"
+fi
 
+AC_ARG_WITH([unicode-set],
+    AC_HELP_STRING([--with-unicode-set=CODESET],[Your iconv unicode set in
+	machine endian encoding (e.g. WCHAR_T, UCS-4-INTERNAL, UCS-4LE,
+	UCS-4BE)]),
+    [AC_DEFINE_UNQUOTED([CONFIG_UNICODE_SET],"$with_unicode_set",[Preferred unicode set.])])
+
+PKG_PROG_PKG_CONFIG
 
 # Checks for libraries.
 
@@ -179,6 +196,13 @@ else
 	AC_MSG_WARN([Antialiasing not supported.])
 	enable_antialiasing=no
     fi
+fi
+
+AC_ARG_ENABLE([pda],
+    AC_HELP_STRING([--enable-pda],[Enable PDA operation (disables window hiding).]))
+if test x$enable_pda = xyes; then
+    AC_DEFINE([CONFIG_PDA],[1],[Define to enable PDA operation (no window hiding).])
+    features="${features} pda"
 fi
 
 AC_ARG_ENABLE([guievents],
