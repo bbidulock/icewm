@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.26\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
 "POT-Creation-Date: 2014-08-03 15:35-0600\n"
-"PO-Revision-Date: 2006-07-03 16:42+0200\n"
-"Last-Translator: Eulogio Serradilla <eulogio.sr@terra.es>\n"
+"PO-Revision-Date: 2014-08-05 02:46-0400\n"
+"Last-Translator: PAblo Roberto Francisco Lezaeta Reyes <prflr88@gmail.com>\n"
 "Language-Team:  <es@li.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.2\n"
+"X-Generator: Poedit 1.6.5\n"
 
 #: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:873
 msgid " - Power"
@@ -36,12 +36,12 @@ msgstr "C"
 
 #: src/aapm.cc:502
 msgid " - Full"
-msgstr ""
+msgstr " - Completa"
 
 #: src/acpustatus.cc:229
 #, c-format
 msgid "CPU Load: %3.2f %3.2f %3.2f, %d"
-msgstr ""
+msgstr "Carga del CPU: %3.2f %3.2f %3.2f, %d"
 
 #: src/acpustatus.cc:233
 #, c-format
@@ -49,6 +49,8 @@ msgid ""
 "\n"
 "Ram: %5.2f/%.2fM"
 msgstr ""
+"\n"
+"Ram: %5.2f / %.2f M"
 
 #: src/acpustatus.cc:238
 #, c-format
@@ -56,6 +58,8 @@ msgid ""
 "\n"
 "Swap: %.2f/%.2fM"
 msgstr ""
+"\n"
+"Área de intercambio: %.2f / %.2f M"
 
 #: src/acpustatus.cc:242
 #, c-format
@@ -63,6 +67,8 @@ msgid ""
 "\n"
 "ACPI Temp:"
 msgstr ""
+"\n"
+"T° ACPI:"
 
 #: src/acpustatus.cc:247
 #, c-format
@@ -70,6 +76,8 @@ msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
+"\n"
+"Freq. CPU: %.3f GHz"
 
 #: src/acpustatus.cc:262
 msgid "CPU Load: "
@@ -78,21 +86,21 @@ msgstr "Carga de CPU: "
 #: src/amailbox.cc:77
 #, c-format
 msgid "Invalid mailbox protocol: \"%s\""
-msgstr "Protocolo mailbox no válido: \"%s\""
+msgstr "Protocolo de buzón de correo no válido: «%s»"
 
 #: src/amailbox.cc:79
 #, c-format
 msgid "Invalid mailbox path: \"%s\""
-msgstr "Ruta mailbox no válida: \"%s\""
+msgstr "Ruta mailbox no válida: «%s»"
 
 #: src/amailbox.cc:343
 #, c-format
 msgid "Using MailBox \"%s\"\n"
-msgstr "Usando mailbox \"%s\"\n"
+msgstr "Usando buzón de correo «%s»\n"
 
 #: src/amailbox.cc:451
 msgid "Error checking mailbox."
-msgstr "Error al comprobar mailbox."
+msgstr "Error al comprobar buzón de correo."
 
 #: src/amailbox.cc:457
 #, c-format
@@ -105,7 +113,7 @@ msgid "%ld mail messages."
 msgstr "mensajes de correo %ld."
 
 #: src/apppstatus.cc:204
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Interface %s:\n"
 "  Current rate (in/out):\t%li %s/%li %s\n"
@@ -114,11 +122,10 @@ msgid ""
 "  Online time:\t%ld:%02ld:%02ld%s%s"
 msgstr ""
 "Interfaz %s:\n"
-"  Velocidad actual (E/S):\t%li %s/%li %s\n"
-"  Media actual (E/S):\t%lli %s/%lli %s\n"
-"  Media total (E/S):\t%li %s/%li %s\n"
-"  Transmitido (E/S):\t%lli %s/%lli %s\n"
-"  Tiempo activa:\t%ld:%02ld:%02ld%s%s"
+"\tVelocidad actual (E/S):\t%li %s/%li %s\n"
+"\tMedia actual (E/S):\t%lli %s/%lli %s\n"
+"\tTrasmitido (E/S):\t%lli %s/%lli %s\n"
+"\tTiempo activa:\t%ld:%02ld:%02ld%s%s"
 
 #: src/apppstatus.cc:216
 msgid ""
@@ -131,7 +138,7 @@ msgstr ""
 #: src/aworkspaces.cc:155 src/aworkspaces.cc:220 src/aworkspaces.cc:276
 #: src/wmstatus.cc:168
 msgid "Workspace: "
-msgstr "Espacio de trabajo: "
+msgstr "Área de trabajo: "
 
 #: src/icehelp.cc:715
 msgid "Back"
@@ -262,7 +269,7 @@ msgid "Workspace out of range: %d"
 msgstr "Espacio de trabajo fuera de límite: %d"
 
 #: src/icesh.cc:569
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTIONS] ACTIONS\n"
 "\n"
@@ -404,7 +411,7 @@ msgstr "Identificador de ventana no válido: `%s'"
 #: src/icesh.cc:896
 #, c-format
 msgid "workspace #%d: `%s'\n"
-msgstr "espacio de trabajo #%d: `%s'\n"
+msgstr "área de trabajo #%d: `%s'\n"
 
 #: src/icesh.cc:914
 #, c-format
@@ -429,7 +436,7 @@ msgstr "No tal dispositivo: %s"
 #: src/icesound.cc:561
 #, c-format
 msgid "Can't connect to ESound daemon: %s"
-msgstr "No se puede conectar con el demonio ESound: %s"
+msgstr "No se puede conectar con el servicio ESound: %s"
 
 #: src/icesound.cc:562 src/icesound.cc:739 src/icesound.cc:780
 #: src/icewmhint.cc:78 src/yxapp.cc:976
@@ -478,10 +485,10 @@ msgstr ""
 #: src/icesound.cc:939 src/icesound.cc:952
 #, c-format
 msgid "Overriding previous audio mode `%s'."
-msgstr "Sobreescribiendo el modo de audio anterior `%s'."
+msgstr "Sobrescribiendo el modo de audio anterior `%s'."
 
 #: src/icesound.cc:978
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
 "\n"
@@ -539,17 +546,18 @@ msgstr ""
 "                              el número del puerto (por defecto "
 "localhost:16001 para ESD\n"
 "                              y localhost:9433 para YIFF).\n"
-"-m, --audio-mode[=MODE]       (YIFF sólo) especifica el modo de Audio "
+"-m, --audio-mode[=MODE]       (solamente YIFF) especifica el modo de Audio "
 "(déjelo\n"
 "                              en blanco para obtener una lista).\n"
-"--audio-mode-auto             (YIFF sólo) cambia el modo de Audio al vuelo a "
-"la\n"
+"--audio-mode-auto             (solamente YIFF) cambia el modo de Audio al "
+"vuelo a la\n"
 "                              mejor coincidencia de muestra de audio (puede "
 "causar\n"
 "                              problemas con otros clientes Y, sobreescribe\n"
 "                              --audio-mode).\n"
 "\n"
-"-v, --verbose                 Ser prolijo (imprime cada evento de sonido a\n"
+"-v, --verbose                 Modo detallado (imprime cada evento de sonido "
+"a\n"
 "                              stdout).\n"
 "-V, --version                 Imprime información de la versión y sale.\n"
 "-h, --help                    Imprime (esta) pantalla de ayuda y sale.\n"
@@ -611,7 +619,6 @@ msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
 #: src/icewmbg.cc:408
-#, fuzzy
 msgid ""
 "Usage: icewmbg [ -r | -q ]\n"
 " -r  Restart icewmbg\n"
@@ -632,14 +639,16 @@ msgstr ""
 " -r  Reiniciar icewmbg\n"
 " -q  Salir icewmbg\n"
 "Carga el fondo del escritorio según el archivo de preferencias\n"
-" DesktopBackgroundCenter  - Muestra el fondo del escritorio centrado, no "
-"embaldosado\n"
-" SupportSemitransparency  - Soporte para terminales semi-transparentes\n"
-" DesktopBackgroundColor   - Color del fondo del escritorio\n"
-" DesktopBackgroundImage   - Imagen del fondo del escritorio\n"
-" DesktopTransparencyColor - Color para anunciar ventanas semi-transparentes\n"
-" DesktopTransparencyImage - Imagen para anunciar ventanas semi-"
-"transparentes\n"
+" DesktopBackgroundCenter\t- Muestra el fondo del escritorio centrado\n"
+" DesktopBackgroundScaled\t- Muestra el fondo del escritorio escalado\n"
+" SupportSemitransparency\t- Soporte para terminales semitrasparentes\n"
+" DesktopBackgroundColor\t- Color del fondo del escritorio\n"
+" DesktopBackgroundImage\t- Imagen del fondo del escritorio\n"
+" DesktopTransparencyColor\t- Color para anunciar ventanas semitrasparentes\n"
+" DesktopTransparencyImage\t- Imagen para anunciar ventanas semitrasparentes\n"
+"\n"
+" centrado:0 escalado:0 = mosaico\n"
+" centrado:1 escalado:1 = mantener aspecto\n"
 
 #: src/icewmbg.cc:426
 #, c-format
@@ -700,11 +709,11 @@ msgstr "Autor del tema:"
 
 #: src/wmabout.cc:43
 msgid "CodeSet:"
-msgstr ""
+msgstr "Conjunto de códigos:"
 
 #: src/wmabout.cc:44
 msgid "Language:"
-msgstr ""
+msgstr "Idioma:"
 
 #: src/wmabout.cc:69
 msgid "icewm - About"
@@ -726,7 +735,7 @@ msgstr "Referencias múltiples para el gradiente \"%s\""
 #: src/wmapp.cc:594
 #, c-format
 msgid "Unknown gradient name: %s"
-msgstr "Nombre de gradiente desconocido: %s"
+msgstr "Nombre de degradado desconocido: %s"
 
 #: src/wmapp.cc:850
 msgid "_Logout"
@@ -870,7 +879,7 @@ msgstr ""
 "¿Conduce $PATH a %s?"
 
 #: src/wmapp.cc:1619
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
 "Starts the IceWM window manager.\n"
@@ -943,7 +952,6 @@ msgid "Bad Look name"
 msgstr "Nombre de búsqueda erróneo"
 
 #: src/wmdialog.cc:83
-#, fuzzy
 msgid "Loc_k Workstation"
 msgstr "_Bloquear sesión"
 
@@ -994,8 +1002,8 @@ msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
 msgstr ""
-"¡ATENCIÓN! Todos los cambios no guardados se perderáncuando este cliente sea "
-"terminado. ¿Desea continuar?"
+"¡ATENCIÓN! Todos los cambios no guardados se perderán cuando este cliente "
+"sea terminado. ¿Desea continuar?"
 
 #: src/wmframe.cc:3405
 msgid "Restore"
@@ -1025,7 +1033,7 @@ msgstr "No queda memoria para las opciones de ventana"
 
 #: src/wmprog.cc:191
 msgid "Missing command argument"
-msgstr "Falta argumento del comando"
+msgstr "Falta argumento de la orden"
 
 #: src/wmprog.cc:209
 #, c-format
@@ -1065,19 +1073,19 @@ msgstr "A_yuda"
 
 #: src/wmprog.cc:916
 msgid "_Click to focus"
-msgstr ""
+msgstr "Ha_cer clic para ganar foco"
 
 #: src/wmprog.cc:921
 msgid "_Sloppy mouse focus"
-msgstr ""
+msgstr "De_slizar lel ratón para ganr foco"
 
 #: src/wmprog.cc:926
 msgid "Custo_m"
-msgstr ""
+msgstr "Perzonali_zar"
 
 #: src/wmprog.cc:932
 msgid "_Focus"
-msgstr ""
+msgstr "_Foco"
 
 #: src/wmprog.cc:939
 msgid "_Themes"
@@ -1085,7 +1093,7 @@ msgstr "_Temas"
 
 #: src/wmprog.cc:941
 msgid "Se_ttings"
-msgstr ""
+msgstr "Con_figuraciones"
 
 #: src/wmsession.cc:239 src/wmsession.cc:255 src/wmsession.cc:265
 #, c-format
@@ -1150,7 +1158,7 @@ msgstr "Mostrar escritorio"
 
 #: src/wmwinlist.cc:61
 msgid "All Workspaces"
-msgstr "Todos los espacios de trabajo"
+msgstr "Todas las áreas de trabajo"
 
 #: src/wmwinlist.cc:295
 msgid "Del"
@@ -1179,7 +1187,7 @@ msgstr "Lista de ventanas"
 #: src/wmwinmenu.cc:127
 #, c-format
 msgid "%lu. Workspace %-.32s"
-msgstr "%lu. Espacio de trabajo %-.32s"
+msgstr "%lu. Área de trabajo %-.32s"
 
 #: src/yapp.cc:462
 #, c-format
@@ -1219,63 +1227,62 @@ msgstr "Opción errónea: %s"
 #: src/ycursor.cc:127
 #, c-format
 msgid "Loading of pixmap \"%s\" failed"
-msgstr "Error al cargar pixmap \"%s\""
+msgstr "No se pudo cargar pixmap «%s»"
 
 #: src/ycursor.cc:160
 #, c-format
 msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
-msgstr "Pixmap de cursor no válido: \"%s\" contiene demasiados colores únicos"
+msgstr "Pixmap de cursor no válido: «%s» contiene demasiados colores únicos"
 
 #: src/ycursor.cc:182
 #, c-format
 msgid "BUG? Imlib was able to read \"%s\""
-msgstr "¿FALLO? Imlib fue capaz de leer \"%s\""
+msgstr "¿FALLO? Imlib fue capaz de leer «%s»"
 
 #: src/ycursor.cc:208
 #, c-format
 msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
-msgstr "¿FALLO? Cabecera XPM mal formada pero Imlib pudo analizar \"%s\""
+msgstr "¿FALLO? Cabecera XPM mal formada pero Imlib pudo analizar «%s»"
 
 #: src/ycursor.cc:216
 #, c-format
 msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
-msgstr ""
-"¿FALLO? Final inesperado del archivo XPM pero Imlib pudo analizar \"%s\""
+msgstr "¿FALLO? Final inesperado del archivo XPM pero Imlib pudo analizar «%s»"
 
 #: src/ycursor.cc:219
 #, c-format
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
-msgstr "¿FALLO? Carácter inesperado pero Imlib pudo analizar \"%s\""
+msgstr "¿FALLO? Carácter inesperado pero Imlib pudo analizar «%s»"
 
 #: src/yfontcore.cc:71 src/yfontxft.cc:125
 #, c-format
 msgid "Could not load font \"%s\"."
-msgstr "No se pudo cargar fuente \"%s\"."
+msgstr "No se pudo cargar fuente «%s»."
 
 #: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:148
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
-msgstr "La carga de la fuente de retroceso \"%s\" falló"
+msgstr "No se pudo cargar el tipo de letra de respalod «%s»."
 
 #: src/yfontcore.cc:114
 #, c-format
 msgid "Could not load fontset \"%s\"."
-msgstr "No se pudo cagar fontset \"%s\"."
+msgstr "No se pudo cagar fontset «%s»."
 
 #: src/yfontcore.cc:126
 #, c-format
 msgid "Missing codesets for fontset \"%s\":"
-msgstr "Faltan conjuntos de códigos para el 'fontset' \"%s\":"
+msgstr "Faltan conjuntos de códigos para el 'fontset' «%s»:"
 
 #: src/yicon.cc:147
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
-msgstr "No queda memoria para el pixmap \"%s\""
+msgstr "No queda memoria para el pixmap «%s»"
 
 #: src/yimage.cc:61 src/yimage.cc:109 src/ypixbuf.cc:1063
 #, c-format
 msgid "Loading of image \"%s\" failed"
-msgstr "Error al cargar imagen \"%s\""
+msgstr "Error al cargar imagen «%s»"
 
 #: src/yimage.cc:141 src/yimage.cc:159
 msgid "Imlib: Acquisition of X pixmap failed"
@@ -1323,13 +1330,14 @@ msgstr "Ctrl+A"
 
 #: src/ylocale.cc:46
 msgid "Locale not supported by C library. Falling back to 'C' locale'."
-msgstr "Locale no soportado por la biblioteca C. Retrocediendo al locale 'C'."
+msgstr ""
+"Local no soportada por la biblioteca C. Intentando local 'C' de respaldo."
 
 #: src/ylocale.cc:69
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
-"Falló determinar el conjunto de códigos del locale actual. Suponiendo "
+"No se pudo determinar el conjunto de códigos del local actual. Suponiendo "
 "ISO-8859-1.\n"
 
 #: src/ylocale.cc:101 src/ylocale.cc:108
@@ -1340,7 +1348,7 @@ msgstr "iconv no suministra (suficiente) %s a %s convertidores."
 #: src/ylocale.cc:162
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
-msgstr "Cadena multibyte no válida \"%s\": %s"
+msgstr "Cadena multibyte no válida «%s»: %s"
 
 #: src/ymsgbox.cc:37
 msgid "OK"
@@ -1353,27 +1361,27 @@ msgstr "Cancelar"
 #: src/ypaths.cc:144 src/ypaths.cc:171
 #, c-format
 msgid "Image not readable: %s"
-msgstr ""
+msgstr "Imagen no leíble: %s"
 
 #: src/ypaths.cc:149
-#, fuzzy, c-format
+#, c-format
 msgid "Out of memory for image %s"
-msgstr "No queda memoria para el pixmap \"%s\""
+msgstr "No queda memoria para la imagen %s"
 
 #: src/ypaths.cc:156
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find image %s"
-msgstr "No se pudo encontrar mapa de píxeles %s"
+msgstr "No se pudo encontrar la imagen %s"
 
 #: src/ypaths.cc:175
-#, fuzzy, c-format
+#, c-format
 msgid "Out of memory for image: %s"
-msgstr "No queda memoria para el pixmap \"%s\""
+msgstr "No queda memoria para el pixmap: %s"
 
 #: src/ypaths.cc:182
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find image: %s"
-msgstr "No se pudo encontrar mapa de píxeles %s"
+msgstr "No se pudo encontrar la imagen: %s"
 
 #: src/ypixbuf.cc:482 src/ypixbuf.cc:668
 #, c-format
@@ -1381,7 +1389,7 @@ msgid ""
 "Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
 "blue): %0*x/%0*x/%0*x)"
 msgstr ""
-"Usando mecanismo de retroceso para convertir píxeles (profundidad: %d; "
+"Usando mecanismo de respaldo para convertir píxeles (profundidad: %d; "
 "máscaras (roja/verde/azul): %0*x/%0*x/%0*x)"
 
 #: src/ypixbuf.cc:576 src/ypixbuf.cc:725
@@ -1396,12 +1404,12 @@ msgstr "¿$USER o $LOGNAME no configurado?"
 #: src/yurl.cc:82
 #, c-format
 msgid "\"%s\" doesn't describe a common internet scheme"
-msgstr "\"%s\" no describe un esquema común de internet"
+msgstr "«%s» no describe un esquema común de internet"
 
 #: src/yurl.cc:85
 #, c-format
 msgid "\"%s\" contains no scheme description"
-msgstr "\"%s\" no contiene ninguna descripción de esquema"
+msgstr "«%s» no contiene ninguna descripción de esquema"
 
 #~ msgid "Out of memory for pixel map %s"
 #~ msgstr "No queda memoria para el mapa de píxeles %s"
