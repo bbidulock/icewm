@@ -4,7 +4,7 @@ ACLOCAL_AMFLAGS = -I m4
 
 SUBDIRS = src po doc lib
 
-doc_DATA = \
+dist_doc_DATA = \
 	README.md \
 	BUGS \
 	CHANGES \
@@ -14,7 +14,7 @@ doc_DATA = \
 	VERSION \
 	icewm.lsm
 
-bin_SCRIPTS = \
+dist_bin_SCRIPTS = \
 	icewm-set-gnomewm
 
 

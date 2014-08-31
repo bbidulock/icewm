@@ -625,4 +625,5 @@ nodist_pkgdata_DATA = \
 preferences: genpref$(EXEEXT)
 	./genpref$(EXEEXT) >$@
 
+CLEANFILES = preferences
 

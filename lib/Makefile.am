@@ -12,7 +12,7 @@ nodist_pkgdata_DATA = \
 	programs \
 	winoptions
 
-datafiles = \
+nobase_dist_pkgdata_DATA = \
 	icons/app_16x16.xpm \
 	icons/app_32x32.xpm \
 	icons/bomb_16x16.xpm \
@@ -307,17 +307,4 @@ datafiles = \
 	themes/yellowmotif/menu.xpm \
 	themes/yellowmotif/minimize.xpm \
 	themes/yellowmotif/restore.xpm
-
-EXTRA_DIST = $(datafiles)
-
-install-data-local:
-	@$(NORMAL_INSTALL)
-	@themes="$(datafiles)" ; for f in $$themes; do \
-		if test -f "$$f" ; then s= ; else s="$(srcdir)/" ; fi ; d=`dirname "$$f"` ; \
-		test -d "$(DESTDIR)$(pkgdatadir)/$$d" || { \
-			echo "$(mkdir_p) \"$(DESTDIR)$(pkgdatadir)/$$d\"" ; \
-			$(mkdir_p) "$(DESTDIR)$(pkgdatadir)/$$d" ; } ; \
-		echo "$(INSTALL_DATA) \"$$s$$f\" \"$(DESTDIR)$(pkgdatadir)/$$d\"" ; \
-		$(INSTALL_DATA) "$$s$$f" "$(DESTDIR)$(pkgdatadir)/$$d" ; \
-	done
 
