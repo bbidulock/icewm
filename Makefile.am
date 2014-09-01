@@ -20,7 +20,7 @@ EXTRA_DIST = \
 	icewm.lsm.in \
 	icewm.lsm
 
-CLEANFILES = THANKS README README.md ChangeLog icewm.lsm icewm.spec
+CLEANFILES = THANKS README ChangeLog icewm.lsm icewm.spec
 
 dist_noinst_SCRIPTS = \
 	autogen.sh
