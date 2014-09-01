@@ -15,16 +15,16 @@ it in winter ;-)  The aim of IceWM is to have good 'Feel' and decent
 **_Quick Start_**
 ---
 
-This is the icewm-1.3.9 package, released under LGPL license 2014-08-31.  This release as well as future versions here, can all be obtained from the GitHub repository using a command such as:
+This is the @PACKAGE@-@VERSION@ package, released under LGPL license @DATE@.  This release as well as future versions here, can all be obtained from the GitHub repository using a command such as:
 
-    git clone http://github.com/bbidulock/icewm.git
+    git clone http://github.com/bbidulock/@PACKAGE@.git
 
 <br> <br>
 The quickest and easiest way to get IceWM up and running is to run the
 following commands:
 
-    git clone http://github.com/bbidulock/icewm.git
-    cd icewm
+    git clone http://github.com/bbidulock/@PACKAGE@.git
+    cd @PACKAGE@
     ./autogen.sh
     ./configure --prefix=/usr --sysconfdir=/etc \
       --enable-shaped-decorations --enable-gradients \
@@ -58,7 +58,7 @@ file `COPYING'.
 
 Documentation for configuring the window manager can be obtained from
 http://www.icewm.org/ or from the online manual: point your browser at
-file:///usr/share/doc/icewm-1.3.9/icewm.html.
+file:///usr/share/doc/@PACKAGE@-@VERSION@/icewm.html.
 
 Unfortunately the documentation is for version 1.2.27 and is incomplete
 at that; however, it is for the most part usable.  Also, a rather sparse
@@ -142,5 +142,5 @@ See also BUGS, TODO and the sites at:
 
 If you would like to develop against this fork, the easiest way is to
 obtain a GitHub account from (http://github.com), fork the repository
-at (http://github.com/bbidulock/icewm) and perform your development.
+at (http://github.com/bbidulock/@PACKAGE@) and perform your development.
 Send me a pull request when you have something stable.

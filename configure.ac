@@ -2,20 +2,22 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([icewm], [1.3.8.84], [http://github.com/bbidulock/icewm])
+AC_INIT([icewm],[1.3.9],[http://github.com/bbidulock/icewm])
 AC_CONFIG_SRCDIR([src/ysmapp.cc])
 AC_CONFIG_AUX_DIR([scripts])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADERS([config.h])
 AC_CANONICAL_TARGET
 
+DATE='2014-08-31'
+AC_SUBST([DATE])
+
 APPLICATIONS='icewm icewm-session icesh icewmhint icewmbg icewmtray'
 TESTCASES=`echo src/test*.cc | sed 's%src/\([[^ ]]*\)\.cc%\1%g'`
 TESTCASES="$TESTCASES iceview icesame iceicon icerun icelist icebar" # iceclock
 features=''
 
-AM_INIT_AUTOMAKE
-
+AM_INIT_AUTOMAKE([subdir-objects dist-bzip2 no-dist-gzip color-tests silent-rules tar-pax])
 AM_MAINTAINER_MODE
 AC_USE_SYSTEM_EXTENSIONS
 
@@ -38,6 +40,7 @@ LT_PATH_LD
 LT_PREREQ([2.4.2])
 LT_INIT([dlopen])
 LT_LANG([C++])
+AC_PROG_LIBTOOL
 AC_SUBST([LIBTOOL_DEPS])
 
 AM_GNU_GETTEXT_VERSION([0.19.2])

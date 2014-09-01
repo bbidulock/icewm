@@ -1,4 +1,113 @@
--- NEWS file for IceWM.  2013-10-10
+-- NEWS file for IceWM.  2014-09-01
+
+Release icewm-1.3.9
+===================
+
+The following changes have been made since the icewm-1.3.8 release:
+
+git shortlog -e -n -w80,6,8 1.3.8...1.3.9
+
+Brian Bidulock <bidulock@openss7.org> (69):
+      fix long standing _ICEWM_ACTION regression
+      add ICCCM information to WM selection/check windows
+      more ignore files
+      process _NET_STARTUP_ID timestamps
+      mark support for _NET_STARTUP_ID
+      get --enable-guievents working again Issue #1
+      applied icewm-1.2.23-alsa.patch
+      add ALSA to configure
+      Merge branch 'icewm-1-3-BRANCH' of https://github.com/DeltaResero/icewm
+        into icewm-1-3-BRANCH
+      added src/icesound to .gitignore
+      corrected po files for ALSA sound
+      converted to use automake
+      missing ifdef WMSPEC_HINTS
+      readd po/POTFILES.in
+      more ignores
+      reverse linkage order for asneeded linking
+      get rid of some complier warnings
+      remove remaining warnings -D_FORTIFY_SOURCE=2
+      put .desktop files in xsessions for window managers
+      correct separate directory build
+      fix issue #5 drop gettext to 0.18
+      Merge branch 'icewm-1-3-BRANCH' of https://github.com/bbidulock/icewm into
+        icewm-1-3-BRANCH
+      tell autopoint to use latest gettext version
+      correct memory bugs revealed using valgrind
+      started fixing memory leaks using valgrind
+      fixing more memory leaks from valgrind
+      another memory leak
+      more valgrind memory leaks
+      two more memory leaks
+      another memory leak
+      more memory leaks
+      another memory leak
+      one last memory leak
+      _NET_WM_NAME was including a terminating null
+      also set backing store to NotUseful before reparenting client
+      correct documentation link
+      make icetray reload style when _ICEWM_ACTION received
+      Applied archlinux icewm-1.3.8-remain_power.patch
+      add maintainer configure script
+      fix gcc-4.9.0 compiler warning
+      add xpms missed by cvs to git conversion
+      correct taskbar start.xpm
+      spelling correction
+      FreeBSD build corrections
+      added time fuziness
+      minor build corrections and cosmetics
+      use marko's approach to keysyms
+      correct build when gnome2 libraries are present
+      test skipping of taskbar
+      handle arguments better
+      handle oversized icons from GTK3
+      qt5 fix
+      add upstream comments
+      Merge branch 'icewm-1-3-BRANCH' of https://github.com/mrbrainsample/icewm
+        into icewm-1-3-BRANCH
+      correct instructions in README (fixes issue 6)
+      add full support for _NET_WM_STATE_FOCUSED
+      update po file line numbers
+      forgot to intern _XA_NET_WM_STATE_FOCUSED atom
+      do not let sent events stop proxying button events
+      added missing Type= key
+      satisfy gcc 4.9.1
+      updated po files
+      turn i18n back on: should fix issue #8
+      update po file line numbers again
+      Updated es translation
+      update po files
+      updated po files
+      added maintainer script
+      tweaks to build to pass distcheck
+
+DeltaResero <deltaresero@zoho.com> (14):
+      Merge branches - Add missing for alsa icewm sound
+      Merge .cvsignore files into .gitignore
+      Merge README files into README.md and tweak code comments
+      Remove compiled .pox files
+      Fix disappearing system tray icons
+      Add ignoreUrgentHint to winoptions
+      Fix memory leak in icehelp.cc
+      Minor README.md tweaking
+      Fix define type for WinWorkspaceInvalid
+      configurenotify
+      Fix GCC compiler warning in wmapp.cc
+      Fix menu icon size bug
+      Change mailCommand and mailClassHint defaults
+      Remove PKG_INSTALLDIR
+
+Jeff Woods <klaatu@fnordco.com> (3):
+      Fixed (I think) a double free or corruption bug in acpustatus.cc
+      Reverted old flashblock fix because it stops Qt5 apps from creating    
+        windows, because Qt5 embeds every window.
+      Give nice names to the .desktop files, because display managers that    
+        use the name property show both icewm-session and icewm as just    
+        "icewm."
+
+Pacho Ramos <pacho@gentoo.org> (2):
+      icewm-keys
+      icewm-toolbar
 
 
 Release icewm-1.3.8
@@ -6,17 +115,9 @@ Release icewm-1.3.8
 
 The following changes have been made since the icewm-1.3.7 release:
 
-Alexander Galanin (1):
-      support for unseen messages on IMAP
+git shortlog -e -n -w80,6,8 icewm_1_3_7..1.3.8
 
-Alvaro G. M (1):
-      Reorder urgent windows switching and fix comments.
-
-Andrey Danin (1):
-      Check for sysfs acpi file, procfs may not contain acpi data with recent
-	kernels
-
-Brian Bidulock (52):
+Brian Bidulock <bidulock@openss7.org> (54):
       applied icewm.svg.patch from archlinux
       applied wmclient.patch from archlinux
       applied icewm-cpustatus.patch from archlinux
@@ -69,13 +170,10 @@ Brian Bidulock (52):
       also relabel tooltips when renaming workspaces
       update compliance
       housekeeping for release
+      added NEWS file
+      typo
 
-Eduard Bloch (1):
-      Check the state of the interface with SIOCGIFFLAGS instead of traversing
-	the SIOCGIFCONF output, also checking the link state more exactly
-	(Debian bug #563371)
-
-Stefan Giermair (25):
+Stefan Giermair <zstegi@gmail.com> (25):
       added _NET_WM_FULLSCREEN_MONITORS
       added possibility to span a window over all screens in fullscreen mode
       added NET_WORKAREA behaviour
@@ -103,11 +201,11 @@ Stefan Giermair (25):
       icewmbg: only draw biggest image on coordinate (0/0)
       icewmtray: added sanity check for clients
 
-captnmark (10):
+captnmark <captnmark> (10):
       clang compile fixes
       test build fixes
       ID: 3125471     fix crash with pid_t / XA_NET_WM_PID     by Salvador
-	Fandiño García ( sfandino )
+        Fandiño García ( sfandino )
       option quickSwitchToUrgent (Alvaro Gamez)
       build fix: fontconfig libs
       obsolete gnome1 stuff
@@ -115,4 +213,19 @@ captnmark (10):
       taskbar input focus mode change/fix
       removing globals
       removing globals
+
+Alexander Galanin <al@galanin.nnov.ru> (1):
+      support for unseen messages on IMAP
+
+Alvaro G. M <alvaro.gamez@hazent.com> (1):
+      Reorder urgent windows switching and fix comments.
+
+Andrey Danin <danindrey@mail.ru> (1):
+      Check for sysfs acpi file, procfs may not contain acpi data with recent
+        kernels
+
+Eduard Bloch <blade@debian.org> (1):
+      Check the state of the interface with SIOCGIFFLAGS instead of traversing
+        the SIOCGIFCONF output, also checking the link state more exactly
+        (Debian bug #563371)
 
