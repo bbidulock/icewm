@@ -10,6 +10,8 @@ EXTRA_DIST = \
 	AUTHORS \
 	NEWS \
 	README \
+	README.md \
+	README.md.in \
 	THANKS \
 	TODO \
 	ChangeLog \
