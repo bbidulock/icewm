@@ -78,7 +78,7 @@ Currently, the only included utilities are **icewmbg** (_a background setting pr
 ---
 
 Unspecified keyboard shortcuts can be handled with the **bbkeys(1)**
-utility available from: http://bbkeys.sorceforge.net  <br>
+utility available from: http://sourceforge.net/projects/bbkeys/  <br>
 For additional utilities see: [http://www.icewm.org/FAQ/IceWM-FAQ-11.html](http://www.icewm.org/FAQ/IceWM-FAQ-11.html)  
 <br>
 
