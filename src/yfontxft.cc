@@ -6,6 +6,18 @@
 #include "ypaint.h"
 #include "yxapp.h"
 #include "intl.h"
+#include <stdio.h>
+
+#ifdef CONFIG_FRIBIDI
+	// remove deprecated warnings for now...
+	#include <fribidi/fribidi-config.h>
+	#if FRIBIDI_USE_GLIB+0
+		#include <glib.h>
+		#undef G_GNUC_DEPRECATED
+		#define G_GNUC_DEPRECATED
+	#endif
+	#include <fribidi/fribidi.h>
+#endif
 
 /******************************************************************************/
 
@@ -69,10 +81,45 @@ public:
                            char_t * str, size_t len)
     {
         XftColor *c = *g.color();
+
+#ifdef CONFIG_FRIBIDI
+
+#define STATIS_STRING_SIZE	256
+
+		// Based around upstream (1.3.2) patch with some optimization
+		//   on my end. (reduce unnecessary memory allocation)
+		// - Gilboa
+
+		char_t static_str[STATIS_STRING_SIZE];
+		char_t *vis_str = static_str;
+
+		if (len >= STATIS_STRING_SIZE)
+		{
+			vis_str = new char_t[len+1];
+			if (!vis_str)
+				return;
+		}
+
+		FriBidiCharType pbase_dir = FRIBIDI_TYPE_N;
+		if (fribidi_log2vis(str, len, &pbase_dir, //input
+						vis_str, // output
+						NULL, NULL, NULL // "statistics" that we don't need
+						)) ;
+		str = vis_str;
+#endif
+
         XftDrawString(g.handleXft(), c, font,
                       x - g.xorigin(),
                       y - g.yorigin(),
                       str, len);
+
+#ifdef CONFIG_FRIBIDI
+
+		if (vis_str != static_str)
+			delete[] str;
+
+#endif
+
     }
 
     static void textExtents(XftFont * font, char_t * str, size_t len,

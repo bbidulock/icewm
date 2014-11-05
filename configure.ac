@@ -158,7 +158,8 @@ if test x$enable_xrandr != xno; then
     PKG_CHECK_MODULES([XRANDR],[xrandr],[
 	CORE_CFLAGS="$XRANDR_CFLAGS $CORE_CFLAGS"
 	CORE_LIBS="$XRANDR_LIBS $CORE_LIBS"
-	AC_DEFINE([CONFIG_XRANDR],[1],[Define to enable XRANDR extension.])],
+	AC_DEFINE([CONFIG_XRANDR],[1],[Define to enable XRANDR extension.])
+	features="$features xrandr"],
 	[AC_MSG_WARN([XRANDR not supported.])])
 fi
 
@@ -270,8 +271,20 @@ if test x$enable_xinerama != xno ; then
     PKG_CHECK_MODULES([XINERAMA],[xinerama],[
 	CORE_CFLAGS="$XINERAMA_CFLAGS $CORE_CFLAGS"
 	CORE_LIBS="$XINERAMA_LIBS $CORE_LIBS"
-	AC_DEFINE([XINERAMA],[1],[Define to enable Xinerama support.])],
+	AC_DEFINE([XINERAMA],[1],[Define to enable Xinerama support.])
+	features="$features xinerama"],
 	[AC_MSG_WARN([XINERAMA is not supported.])])
+fi
+
+AC_ARG_ENABLE([fribidi],
+    AC_HELP_STRING([--disable-fribidi],[Disable right to left support.]))
+if test "$enable_fribidi" != "no" && test "$enable_i18n" != "no"; then
+    PKG_CHECK_MODULES([FRIBIDI], [fribidi],[
+	CORE_CFLAGS="$FRIBIDI_CFLAGS $CORE_CFLAGS"
+	CORE_LIBS="$FRIBIDI_LIBS $CORE_LIBS"
+	AC_DEFINE([CONFIG_FRIBIDI],[1],[Define to enable fribidi support.])
+	features="$features fribidi"],
+	[AC_MSG_WARN([FRIBIDI is not supported.])])
 fi
 
 AC_ARG_ENABLE([prefs],
