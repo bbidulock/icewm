@@ -1,12 +1,6 @@
 #ifndef __BASE_H
 #define __BASE_H
 
-#if ( __GNUC__ == 3 && __GNUC_MINOR__ > 0 ) || __GNUC__ > 3
-#define _icewm_deprecated __attribute__((deprecated))
-#else
-#define _icewm_deprecated
-#endif
-
 /*** Atomar Data Types ********************************************************/
 
 #ifdef NEED_BOOL
