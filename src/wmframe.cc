@@ -2121,6 +2121,8 @@ void YFrameWindow::popupSystemMenu(YWindow *owner, int x, int y,
 {
     if (fPopupActive == 0) {
         updateMenu();
+        if (windowMenu()->itemCount() == 0)
+            return;
         if (windowMenu()->popup(owner, forWindow, this,
                                 x, y, flags))
             fPopupActive = windowMenu();
@@ -2429,15 +2431,15 @@ void YFrameWindow::getWindowOptions(WindowOptions *list, WindowOption &opt,
         if (name != null) {
             ustring klass_instance = name.append(".").append(klass);
             list->mergeWindowOption(opt, klass_instance, remove);
-        } else
-            list->mergeWindowOption(opt, klass, remove);
+        }
+        list->mergeWindowOption(opt, klass, remove);
     }
     if (name != null) {
         if (role != null) {
             ustring name_role = name.append(".").append(role);
             list->mergeWindowOption(opt, name_role, remove);
-        } else
-            list->mergeWindowOption(opt, name, remove);
+        }
+        list->mergeWindowOption(opt, name, remove);
     }
     if (role != null)
         list->mergeWindowOption(opt, role, remove);

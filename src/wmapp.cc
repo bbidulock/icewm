@@ -333,7 +333,7 @@ static void registerProtocols2(Window xid) {
                     _XA_NET_SUPPORTING_WM_CHECK, XA_WINDOW, 32,
                     PropModeReplace, (unsigned char *)&xid, 1);
 
-    long pid = getpid();
+    XID pid = getpid();
 
     XChangeProperty(xapp->display(), xid,
                     _XA_NET_WM_PID, XA_CARDINAL, 32,
@@ -1230,7 +1230,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     managerWindow = None;
 
 #ifndef NO_CONFIGURE
-    loadConfiguration(this, "preferences");
+    loadConfiguration(this, configFile ? configFile : "preferences");
     if (themeName != 0) {
         MSG(("themeName=%s", themeName));
 

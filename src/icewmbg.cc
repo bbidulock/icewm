@@ -288,7 +288,8 @@ void DesktopBackgroundManager::changeBackground(long /*workspace*/) {
             currentBackground = back;
             handleBackground = true;
         }
-    } else if (DesktopBackgroundColor && DesktopBackgroundColor[0]) {
+    }
+    if (!handleBackground && (DesktopBackgroundColor && DesktopBackgroundColor[0]) {
         XSetWindowBackgroundPixmap(xapp->display(), desktop->handle(), 0);
         XSetWindowBackground(xapp->display(), desktop->handle(), bPixel);
         handleBackground = true;
