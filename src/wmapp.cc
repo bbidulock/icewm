@@ -1230,7 +1230,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     managerWindow = None;
 
 #ifndef NO_CONFIGURE
-    loadConfiguration(this, "preferences");
+    loadConfiguration(this, configFile ? configFile : "preferences");
     if (themeName != 0) {
         MSG(("themeName=%s", themeName));
 
