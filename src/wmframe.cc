@@ -2121,6 +2121,8 @@ void YFrameWindow::popupSystemMenu(YWindow *owner, int x, int y,
 {
     if (fPopupActive == 0) {
         updateMenu();
+        if (windowMenu()->itemCount() == 0)
+            return;
         if (windowMenu()->popup(owner, forWindow, this,
                                 x, y, flags))
             fPopupActive = windowMenu();
