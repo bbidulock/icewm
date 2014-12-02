@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sl\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2014-09-01 01:16-0600\n"
+"POT-Creation-Date: 2014-12-02 02:22-0700\n"
 "PO-Revision-Date: 2004-10-03 21:56+0200\n"
 "Last-Translator: Jernej Kovacic <jkovacic AT email DOT si>\n"
 "Language-Team: Slovenian <translator-team-sl@lists.sourceforge.net>\n"
@@ -613,7 +613,7 @@ msgstr "Prelom vrstic"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icewmbg.cc:408
+#: src/icewmbg.cc:409
 #, fuzzy
 msgid ""
 "Usage: icewmbg [ -r | -q ]\n"
@@ -642,7 +642,7 @@ msgstr ""
 " DesktopTransparencyColor - Barva oznanitve polprosojnih oken\n"
 " DesktopTransparencyImage - Slika oznanitve polprosojnih oken\n"
 
-#: src/icewmbg.cc:426
+#: src/icewmbg.cc:427
 #, c-format
 msgid ""
 "%s: unrecognized option `%s'\n"
@@ -651,12 +651,12 @@ msgstr ""
 "%s: neprepoznana izbira `%s'\n"
 "Za več informacij poskusite z `%s --help'.\n"
 
-#: src/icewmbg.cc:555
+#: src/icewmbg.cc:556
 #, c-format
 msgid "Loading image %s failed"
 msgstr "Nalaganje slike %s ni uspelo"
 
-#: src/icewmbg.cc:569 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
+#: src/icewmbg.cc:570 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
 msgstr "Nalaganje bitne slike \"%s\" ni uspelo: %s"
@@ -966,7 +966,7 @@ msgstr "Po_noven zagon IceWM"
 msgid "_About"
 msgstr "O pro_gramu"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3408
+#: src/wmframe.cc:165 src/wmframe.cc:3410
 msgid "Maximize"
 msgstr "Razpni"
 
@@ -978,7 +978,7 @@ msgstr "Pomanjšaj"
 msgid "Hide"
 msgstr "Skrij"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3441
+#: src/wmframe.cc:209 src/wmframe.cc:3443
 msgid "Rollup"
 msgstr "Spravi navzgor"
 
@@ -998,11 +998,11 @@ msgstr ""
 "OPOZORILO! Vse neshranjene spremebe se bodo ob prekinitvi\n"
 "tega odjemalca izgubile. Ali želite nadaljevati?"
 
-#: src/wmframe.cc:3405
+#: src/wmframe.cc:3407
 msgid "Restore"
 msgstr "Obnovi"
 
-#: src/wmframe.cc:3439
+#: src/wmframe.cc:3441
 msgid "Rolldown"
 msgstr "Spravi navzdol"
 
@@ -1249,12 +1249,12 @@ msgstr ""
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
 msgstr "Hrošč? Nepričakovan znak, vendar je Imlib lahko razčlenil \"%s\""
 
-#: src/yfontcore.cc:71 src/yfontxft.cc:125
+#: src/yfontcore.cc:71 src/yfontxft.cc:172
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "Nisem mogel naložiti pisave \"%s\"."
 
-#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:148
+#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:195
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr "Nalaganje nadomestne pisave \"%s\" ni uspelo."
@@ -1327,19 +1327,19 @@ msgstr "Ctrl+A"
 msgid "Locale not supported by C library. Falling back to 'C' locale'."
 msgstr "Knjižnica C ne podpira tega jezikovnega okolja. Vključujem okolje 'C'."
 
-#: src/ylocale.cc:69
+#: src/ylocale.cc:68
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
 "Določitev nabora znakov za trenutni locale ni uspela. Predpostavljam, da je "
 "ISO-8859-1.\n"
 
-#: src/ylocale.cc:101 src/ylocale.cc:108
+#: src/ylocale.cc:100 src/ylocale.cc:107
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv pretvornikom %2$s ne ponuja (zadostnega) %1$s."
 
-#: src/ylocale.cc:162
+#: src/ylocale.cc:161
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Neveljaven večzložni niz \"%s\": %s"

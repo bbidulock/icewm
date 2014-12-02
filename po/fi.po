@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.14\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2014-09-01 01:16-0600\n"
+"POT-Creation-Date: 2014-12-02 02:22-0700\n"
 "PO-Revision-Date: 2004-06-16 02:44+0200\n"
 "Last-Translator: Taisto Kuikka <69319@batman.jypoly.fi>\n"
 "Language-Team: Finnish <fi@li.org>\n"
@@ -593,7 +593,7 @@ msgstr "Katkaise rivit"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icewmbg.cc:408
+#: src/icewmbg.cc:409
 #, fuzzy
 msgid ""
 "Usage: icewmbg [ -r | -q ]\n"
@@ -622,7 +622,7 @@ msgstr ""
 " DesktopTransparencyColor - väri jota läpikuultavat päätteet näyttävät\n"
 " DesktopTransparencyImage - kuva jota läpikuultavat päätteet näyttävät\n"
 
-#: src/icewmbg.cc:426
+#: src/icewmbg.cc:427
 #, c-format
 msgid ""
 "%s: unrecognized option `%s'\n"
@@ -631,12 +631,12 @@ msgstr ""
 "%s: tuntematon optio `%s'\n"
 "Kokeile `%s --help' lisätietojen saamiseksi.\n"
 
-#: src/icewmbg.cc:555
+#: src/icewmbg.cc:556
 #, c-format
 msgid "Loading image %s failed"
 msgstr "Kuvan %s lataaminen epäonnistui"
 
-#: src/icewmbg.cc:569 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
+#: src/icewmbg.cc:570 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
 msgstr "Bittikartan \"%s\" lataaminen epäonnistui: %s"
@@ -948,7 +948,7 @@ msgstr "Uudelleenkäynnistä _IceWM"
 msgid "_About"
 msgstr "_Tietoja"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3408
+#: src/wmframe.cc:165 src/wmframe.cc:3410
 msgid "Maximize"
 msgstr "Suurenna"
 
@@ -960,7 +960,7 @@ msgstr "Pienennä"
 msgid "Hide"
 msgstr "Piilota"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3441
+#: src/wmframe.cc:209 src/wmframe.cc:3443
 msgid "Rollup"
 msgstr "Rullaa ylös"
 
@@ -980,11 +980,11 @@ msgstr ""
 "VAROITUS! Kaikki tallentamattomat muutokset tässä\n"
 "asiakkaassa menetetään kun se tapetaan. Haluatko jatkaa?"
 
-#: src/wmframe.cc:3405
+#: src/wmframe.cc:3407
 msgid "Restore"
 msgstr "Palauta"
 
-#: src/wmframe.cc:3439
+#: src/wmframe.cc:3441
 msgid "Rolldown"
 msgstr "Rullaa alas"
 
@@ -1232,12 +1232,12 @@ msgstr ""
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
 msgstr "BUGI? Odottamaton merkki mutta Imlib onnistui tulkitsemaan \"%s\""
 
-#: src/yfontcore.cc:71 src/yfontxft.cc:125
+#: src/yfontcore.cc:71 src/yfontxft.cc:172
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "Kirjasimen \"%s\" lataaminen epäonnistui."
 
-#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:148
+#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:195
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr "Varakirjasimen \"%s\" lataaminen epäonnistui"
@@ -1312,19 +1312,19 @@ msgstr ""
 "C-kirjasto ei tue kieliasetusta. Palataan takaisin 'C'-kieliasetuksen "
 "käyttöön."
 
-#: src/ylocale.cc:69
+#: src/ylocale.cc:68
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
 "Nykyisen kieliasetuksen merkistöä ei pystytty tunnistamaan. Oletetaan "
 "ISO-8859-1.\n"
 
-#: src/ylocale.cc:101 src/ylocale.cc:108
+#: src/ylocale.cc:100 src/ylocale.cc:107
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv ei tarjoa (riittävää) muunnosta %s:sta %s:iin."
 
-#: src/ylocale.cc:162
+#: src/ylocale.cc:161
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Virheellinen monitavuinen merkkijono \"%s\": %s"

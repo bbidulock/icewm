@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.1\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2014-09-01 01:16-0600\n"
+"POT-Creation-Date: 2014-12-02 02:22-0700\n"
 "PO-Revision-Date: 2002-06-18 23:20+0200\n"
 "Last-Translator: Martynas Jocius <mjoc@delfi.lt>\n"
 "Language-Team:  <komp_lt@konferencijos.lt>\n"
@@ -590,7 +590,7 @@ msgstr "Laužyti eilutes"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icewmbg.cc:408
+#: src/icewmbg.cc:409
 msgid ""
 "Usage: icewmbg [ -r | -q ]\n"
 " -r  Restart icewmbg\n"
@@ -608,7 +608,7 @@ msgid ""
 " center:1 scaled:1 = keep aspect ratio\n"
 msgstr ""
 
-#: src/icewmbg.cc:426
+#: src/icewmbg.cc:427
 #, c-format
 msgid ""
 "%s: unrecognized option `%s'\n"
@@ -617,12 +617,12 @@ msgstr ""
 "%s: neatpažinta parinktis `%s'\n"
 "Bandyk `%s --help'.\n"
 
-#: src/icewmbg.cc:555
+#: src/icewmbg.cc:556
 #, c-format
 msgid "Loading image %s failed"
 msgstr "Nepavyko įkelti paveikslėlio %s"
 
-#: src/icewmbg.cc:569 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
+#: src/icewmbg.cc:570 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
 msgstr "Nepavyko įkelti paveikslėlio %s: %s"
@@ -905,7 +905,7 @@ msgstr "Pe_rkrauti IceWM"
 msgid "_About"
 msgstr "_Apie"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3408
+#: src/wmframe.cc:165 src/wmframe.cc:3410
 msgid "Maximize"
 msgstr "Padidinti"
 
@@ -917,7 +917,7 @@ msgstr "Sumažinti"
 msgid "Hide"
 msgstr "Paslėpti"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3441
+#: src/wmframe.cc:209 src/wmframe.cc:3443
 msgid "Rollup"
 msgstr "Suvynioti"
 
@@ -937,11 +937,11 @@ msgstr ""
 "DĖMESIO! Visi neišsaugoti pakeitimai bus prarasti nužudžius šį klientą. Ar "
 "nori tęsti?"
 
-#: src/wmframe.cc:3405
+#: src/wmframe.cc:3407
 msgid "Restore"
 msgstr "Atkurti"
 
-#: src/wmframe.cc:3439
+#: src/wmframe.cc:3441
 msgid "Rolldown"
 msgstr "Atvynioti"
 
@@ -1189,12 +1189,12 @@ msgstr "KLAIDA? Nerasta XPM bylos pabaiga, tačiau Imlib galėjo nuskaityti %s"
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
 msgstr "KLAIDA? Simbolis nerastas, tačiau Imlib galėjo nuskaityti %s"
 
-#: src/yfontcore.cc:71 src/yfontxft.cc:125
+#: src/yfontcore.cc:71 src/yfontxft.cc:172
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "Negaliu įkelti šrifto \"%s\"."
 
-#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:148
+#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:195
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr "Nepavyko įkelti paskutinįkart naudoto šrifto \"%s\""
@@ -1268,17 +1268,17 @@ msgstr "Ctrl+A"
 msgid "Locale not supported by C library. Falling back to 'C' locale'."
 msgstr ""
 
-#: src/ylocale.cc:69
+#: src/ylocale.cc:68
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
 
-#: src/ylocale.cc:101 src/ylocale.cc:108
+#: src/ylocale.cc:100 src/ylocale.cc:107
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv nepalaiko (pakankamai) %s į %s pavertėjų."
 
-#: src/ylocale.cc:162
+#: src/ylocale.cc:161
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Neteisinga daugiabaitinė eilutė \"%s\": %s"

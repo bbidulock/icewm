@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2014-09-01 01:16-0600\n"
+"POT-Creation-Date: 2014-12-02 02:22-0700\n"
 "PO-Revision-Date: 2005-08-02 09:10Střední Evropa (letní čas)\n"
 "Last-Translator: Zdenko Podobný <zdpo@mailbox.sk>\n"
 "Language-Team: slovak <sk-i18n@lists.linux.sk>\n"
@@ -518,7 +518,7 @@ msgstr "Zalamovať riadky"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icewmbg.cc:408
+#: src/icewmbg.cc:409
 msgid ""
 "Usage: icewmbg [ -r | -q ]\n"
 " -r  Restart icewmbg\n"
@@ -536,7 +536,7 @@ msgid ""
 " center:1 scaled:1 = keep aspect ratio\n"
 msgstr ""
 
-#: src/icewmbg.cc:426
+#: src/icewmbg.cc:427
 #, c-format
 msgid ""
 "%s: unrecognized option `%s'\n"
@@ -545,12 +545,12 @@ msgstr ""
 "%s: nerozpoznaný prepínač `%s'\n"
 "Pre viac informácií použite `%s --help'.\n"
 
-#: src/icewmbg.cc:555
+#: src/icewmbg.cc:556
 #, c-format
 msgid "Loading image %s failed"
 msgstr "Nahranie obrázku %s zlyhalo"
 
-#: src/icewmbg.cc:569 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
+#: src/icewmbg.cc:570 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
 msgstr "Nahranie obrázku \"%s\" zlyhalo: %s"
@@ -835,7 +835,7 @@ msgstr "_Reštartovať Icewm"
 msgid "_About"
 msgstr "O _aplikacii"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3408
+#: src/wmframe.cc:165 src/wmframe.cc:3410
 msgid "Maximize"
 msgstr "Maximalizovať"
 
@@ -847,7 +847,7 @@ msgstr "Minimalizovať"
 msgid "Hide"
 msgstr "Skryť"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3441
+#: src/wmframe.cc:209 src/wmframe.cc:3443
 msgid "Rollup"
 msgstr "Z_rolovať"
 
@@ -867,11 +867,11 @@ msgstr ""
 "VAROVANIE! Ak bude tento klient zabitý, budú\n"
 "všetky neuložené dáta stratené. Chcete pokračovať?"
 
-#: src/wmframe.cc:3405
+#: src/wmframe.cc:3407
 msgid "Restore"
 msgstr "Obnoviť"
 
-#: src/wmframe.cc:3439
+#: src/wmframe.cc:3441
 msgid "Rolldown"
 msgstr "Rozbaliť"
 
@@ -1120,12 +1120,12 @@ msgstr ""
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
 msgstr "CHYBA? Neočakávaný znak, ale Imlib ho bola schopná analyzovať \"%s\""
 
-#: src/yfontcore.cc:71 src/yfontxft.cc:125
+#: src/yfontcore.cc:71 src/yfontxft.cc:172
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "Nemôžem nahrať písmo \"%s\"."
 
-#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:148
+#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:195
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr "Nahranie núdzového písma \"%s\" zlyhalo."
@@ -1198,18 +1198,18 @@ msgstr "Ctrl+A"
 msgid "Locale not supported by C library. Falling back to 'C' locale'."
 msgstr "Locale nie je podporované knižnicou C. Použijem 'C' locale'."
 
-#: src/ylocale.cc:69
+#: src/ylocale.cc:68
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
 "Nepodarilo sa zistiť aktuálnu kódovú stránku. Prepokladám ISO-8859-1.\n"
 
-#: src/ylocale.cc:101 src/ylocale.cc:108
+#: src/ylocale.cc:100 src/ylocale.cc:107
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv (dostatočne) nepodporuje konverziu z %s do %s."
 
-#: src/ylocale.cc:162
+#: src/ylocale.cc:161
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Neplatný viacbajtový reťazec \"%s\": %s"

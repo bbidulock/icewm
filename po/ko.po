@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.35\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2014-09-01 01:16-0600\n"
+"POT-Creation-Date: 2014-12-02 02:22-0700\n"
 "PO-Revision-Date: 2008-04-07 10:19-1000\n"
 "Last-Translator: Ken Joseph Yeo <suyyeo@yahoo.com>\n"
 "Language-Team: Korean\n"
@@ -586,7 +586,7 @@ msgstr "줄 넘기기"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icewmbg.cc:408
+#: src/icewmbg.cc:409
 #, fuzzy
 msgid ""
 "Usage: icewmbg [ -r | -q ]\n"
@@ -615,7 +615,7 @@ msgstr ""
 " DesktopTransparencyColor - 반투명 창들에게 알릴 색\n"
 " DesktopTransparencyImage - 반투명 창들에게 알릴 이미지\n"
 
-#: src/icewmbg.cc:426
+#: src/icewmbg.cc:427
 #, c-format
 msgid ""
 "%s: unrecognized option `%s'\n"
@@ -624,12 +624,12 @@ msgstr ""
 "%s: 알아볼 수 없는 옵션 `%s'\n"
 "`%s --help' 하여 자세한 정보를 보라.\n"
 
-#: src/icewmbg.cc:555
+#: src/icewmbg.cc:556
 #, c-format
 msgid "Loading image %s failed"
 msgstr "%s 이미지 그리기 실패"
 
-#: src/icewmbg.cc:569 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
+#: src/icewmbg.cc:570 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
 msgstr "\"%s\" pixmap 로드 실패: %s"
@@ -937,7 +937,7 @@ msgstr "icewm 다시 시작(_R)"
 msgid "_About"
 msgstr "정보(_A)"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3408
+#: src/wmframe.cc:165 src/wmframe.cc:3410
 msgid "Maximize"
 msgstr "최대화"
 
@@ -949,7 +949,7 @@ msgstr "최소화"
 msgid "Hide"
 msgstr "숨기기"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3441
+#: src/wmframe.cc:209 src/wmframe.cc:3443
 msgid "Rollup"
 msgstr "말아올리기"
 
@@ -969,11 +969,11 @@ msgstr ""
 "경고! 이 클라이언트를 죽이면 저장되지 않은\n"
 "변경 사항을 모두 잃어버립니다. 계속할까요?"
 
-#: src/wmframe.cc:3405
+#: src/wmframe.cc:3407
 msgid "Restore"
 msgstr "원래 크기로"
 
-#: src/wmframe.cc:3439
+#: src/wmframe.cc:3441
 msgid "Rolldown"
 msgstr "말아내리기"
 
@@ -1219,12 +1219,12 @@ msgstr "버그? XPM 파일 갑자기 끝났으나 Imlib는 \"%s\"를 해석할 �
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
 msgstr "버그? 예상하지 못한 글자 그러나 Imlib는 \"%s\"를 해석할 수 있었음"
 
-#: src/yfontcore.cc:71 src/yfontxft.cc:125
+#: src/yfontcore.cc:71 src/yfontxft.cc:172
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "\"%s\" 폰트를 읽지 못함."
 
-#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:148
+#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:195
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr "기본 폰트 \"%s\" 읽기 실패."
@@ -1297,17 +1297,17 @@ msgstr "Ctrl+A"
 msgid "Locale not supported by C library. Falling back to 'C' locale'."
 msgstr "C 라이브러리가 지원하지 않는 로케일. 'C' 로케일로 바꿈."
 
-#: src/ylocale.cc:69
+#: src/ylocale.cc:68
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr "현재 로케일의 코드셋을 결정할 수 없음. ISO-8859-1 가정.\n"
 
-#: src/ylocale.cc:101 src/ylocale.cc:108
+#: src/ylocale.cc:100 src/ylocale.cc:107
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv는 (충분한) %s를 %s 변환기에 공급하지 않는다."
 
-#: src/ylocale.cc:162
+#: src/ylocale.cc:161
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "잘못된 멀티바이트 문자열 \"%s\": %s"

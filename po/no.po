@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.2\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2014-09-01 01:16-0600\n"
+"POT-Creation-Date: 2014-12-02 02:22-0700\n"
 "PO-Revision-Date: 2002-09-22 22:00+0200\n"
 "Last-Translator: Petter Johan Olsen <petter.olsen@cc.uit.no>\n"
 "Language-Team: Norwegian\n"
@@ -593,7 +593,7 @@ msgstr "Del lange linjer"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icewmbg.cc:408
+#: src/icewmbg.cc:409
 msgid ""
 "Usage: icewmbg [ -r | -q ]\n"
 " -r  Restart icewmbg\n"
@@ -611,7 +611,7 @@ msgid ""
 " center:1 scaled:1 = keep aspect ratio\n"
 msgstr ""
 
-#: src/icewmbg.cc:426
+#: src/icewmbg.cc:427
 #, c-format
 msgid ""
 "%s: unrecognized option `%s'\n"
@@ -620,12 +620,12 @@ msgstr ""
 "%s: ukjent opsjon `%s'\n"
 "Prøv `%s --help' for mer informasjon.\n"
 
-#: src/icewmbg.cc:555
+#: src/icewmbg.cc:556
 #, c-format
 msgid "Loading image %s failed"
 msgstr "Lasting av bildet `%s' mislyktes"
 
-#: src/icewmbg.cc:569 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
+#: src/icewmbg.cc:570 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
 msgstr "Lasting av bildet `%s' mislyktes: %s"
@@ -937,7 +937,7 @@ msgstr "_Start Icewm på nytt"
 msgid "_About"
 msgstr "_Om"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3408
+#: src/wmframe.cc:165 src/wmframe.cc:3410
 msgid "Maximize"
 msgstr "Maksimer"
 
@@ -949,7 +949,7 @@ msgstr "Minimer"
 msgid "Hide"
 msgstr "Gjem"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3441
+#: src/wmframe.cc:209 src/wmframe.cc:3443
 msgid "Rollup"
 msgstr "Rull opp"
 
@@ -969,11 +969,11 @@ msgstr ""
 "ADVARSEL! Alle ulagrede data vil gå tapt hvis\n"
 "denne klienten blir drept. Vil du fortsette?"
 
-#: src/wmframe.cc:3405
+#: src/wmframe.cc:3407
 msgid "Restore"
 msgstr "Gjenopprett"
 
-#: src/wmframe.cc:3439
+#: src/wmframe.cc:3441
 msgid "Rolldown"
 msgstr "Rull ned"
 
@@ -1221,12 +1221,12 @@ msgstr "BUG? Uventet slutt på XPM-fil men Imlib klarte å fortolke `%s'"
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
 msgstr "BUG? Uventet tegn men Imlib klarte å fortolke `%s'"
 
-#: src/yfontcore.cc:71 src/yfontxft.cc:125
+#: src/yfontcore.cc:71 src/yfontxft.cc:172
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "Kunne ikke laste tegnsett `%s'."
 
-#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:148
+#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:195
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr "Kunne ikke laste reservetegnsett `%s'."
@@ -1301,18 +1301,18 @@ msgstr ""
 "Dine regionale innstillinger støttes ikke av C-biblioteket.\n"
 "Bruker innstilligene for 'C' i stedet."
 
-#: src/ylocale.cc:69
+#: src/ylocale.cc:68
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
 "Klarte ikke å identifisere tegnkodingen som brukes. Antar ISO-8859-1.\n"
 
-#: src/ylocale.cc:101 src/ylocale.cc:108
+#: src/ylocale.cc:100 src/ylocale.cc:107
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv tilbyr ikke tilstrekkelig konvertering fra `%s' til `%s'."
 
-#: src/ylocale.cc:162
+#: src/ylocale.cc:161
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Ugyldig flerbytestreng `%s': %s"

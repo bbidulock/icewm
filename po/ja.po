@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.6\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2014-09-01 01:16-0600\n"
+"POT-Creation-Date: 2014-12-02 02:22-0700\n"
 "PO-Revision-Date: 2001-01-10 23:14+0900\n"
 "Last-Translator: Yoichi ASAI <yatt@msc.biglobe.ne.jp>\n"
 "Language-Team: Japanese\n"
@@ -503,7 +503,7 @@ msgstr "行折り返し"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icewmbg.cc:408
+#: src/icewmbg.cc:409
 msgid ""
 "Usage: icewmbg [ -r | -q ]\n"
 " -r  Restart icewmbg\n"
@@ -521,19 +521,19 @@ msgid ""
 " center:1 scaled:1 = keep aspect ratio\n"
 msgstr ""
 
-#: src/icewmbg.cc:426
+#: src/icewmbg.cc:427
 #, c-format
 msgid ""
 "%s: unrecognized option `%s'\n"
 "Try `%s --help' for more information.\n"
 msgstr ""
 
-#: src/icewmbg.cc:555
+#: src/icewmbg.cc:556
 #, c-format
 msgid "Loading image %s failed"
 msgstr "画像 %s の読み込みに失敗"
 
-#: src/icewmbg.cc:569 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
+#: src/icewmbg.cc:570 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
 #, fuzzy, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
 msgstr "画像 %s の読み込みに失敗"
@@ -816,7 +816,7 @@ msgstr "icewm を再起動(_R)"
 msgid "_About"
 msgstr "情報(_A)"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3408
+#: src/wmframe.cc:165 src/wmframe.cc:3410
 msgid "Maximize"
 msgstr "最大化"
 
@@ -828,7 +828,7 @@ msgstr "最小化"
 msgid "Hide"
 msgstr "隠す"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3441
+#: src/wmframe.cc:209 src/wmframe.cc:3443
 msgid "Rollup"
 msgstr "シェード"
 
@@ -846,11 +846,11 @@ msgid ""
 "this client is killed. Do you wish to proceed?"
 msgstr ""
 
-#: src/wmframe.cc:3405
+#: src/wmframe.cc:3407
 msgid "Restore"
 msgstr "元に戻す"
 
-#: src/wmframe.cc:3439
+#: src/wmframe.cc:3441
 msgid "Rolldown"
 msgstr "シェード解除"
 
@@ -1100,12 +1100,12 @@ msgstr ""
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
 msgstr ""
 
-#: src/yfontcore.cc:71 src/yfontxft.cc:125
+#: src/yfontcore.cc:71 src/yfontxft.cc:172
 #, fuzzy, c-format
 msgid "Could not load font \"%s\"."
 msgstr "フォント '%s' をロードできませんでした"
 
-#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:148
+#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:195
 #, fuzzy, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr "画像 %s の読み込みに失敗"
@@ -1178,17 +1178,17 @@ msgstr "Ctrl+A"
 msgid "Locale not supported by C library. Falling back to 'C' locale'."
 msgstr ""
 
-#: src/ylocale.cc:69
+#: src/ylocale.cc:68
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
 
-#: src/ylocale.cc:101 src/ylocale.cc:108
+#: src/ylocale.cc:100 src/ylocale.cc:107
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr ""
 
-#: src/ylocale.cc:162
+#: src/ylocale.cc:161
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr ""

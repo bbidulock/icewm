@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2014-09-01 01:16-0600\n"
+"POT-Creation-Date: 2014-12-02 02:22-0700\n"
 "PO-Revision-Date: 2007-02-22 14:45+0800\n"
 "Last-Translator: Wei-Lun Chao <chaoweilun@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -578,7 +578,7 @@ msgstr "換列"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icewmbg.cc:408
+#: src/icewmbg.cc:409
 #, fuzzy
 msgid ""
 "Usage: icewmbg [ -r | -q ]\n"
@@ -607,7 +607,7 @@ msgstr ""
 " DesktopTransparencyColor - 做為半透明視窗的顏色\n"
 " DesktopTransparencyImage - 做為半透明視窗的圖案\n"
 
-#: src/icewmbg.cc:426
+#: src/icewmbg.cc:427
 #, c-format
 msgid ""
 "%s: unrecognized option `%s'\n"
@@ -616,12 +616,12 @@ msgstr ""
 "%s：無法識別的選項「%s」\n"
 "試試「%s --help」以得到更多資訊。\n"
 
-#: src/icewmbg.cc:555
+#: src/icewmbg.cc:556
 #, c-format
 msgid "Loading image %s failed"
 msgstr "載入影像 %s 失敗"
 
-#: src/icewmbg.cc:569 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
+#: src/icewmbg.cc:570 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
 msgstr "載入像素圖「%s」失敗：%s"
@@ -929,7 +929,7 @@ msgstr "重新啟動 icewm(_R)"
 msgid "_About"
 msgstr "關於(_A)"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3408
+#: src/wmframe.cc:165 src/wmframe.cc:3410
 msgid "Maximize"
 msgstr "放到最大"
 
@@ -941,7 +941,7 @@ msgstr "縮到最小"
 msgid "Hide"
 msgstr "隱藏"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3441
+#: src/wmframe.cc:209 src/wmframe.cc:3443
 msgid "Rollup"
 msgstr "向上循環"
 
@@ -961,11 +961,11 @@ msgstr ""
 "警告！當這個客戶端程式被砍掉時，所有未儲存的變更都將會失去。\n"
 "您希望繼續進行嗎？"
 
-#: src/wmframe.cc:3405
+#: src/wmframe.cc:3407
 msgid "Restore"
 msgstr "還原"
 
-#: src/wmframe.cc:3439
+#: src/wmframe.cc:3441
 msgid "Rolldown"
 msgstr "向下循環"
 
@@ -1210,12 +1210,12 @@ msgstr "程式錯誤？XPM 檔案非預期結束，但是 Imlib 之前可以解�
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
 msgstr "程式錯誤？非預期字元，但是 Imlib 之前可以解析 \"%s\""
 
-#: src/yfontcore.cc:71 src/yfontxft.cc:125
+#: src/yfontcore.cc:71 src/yfontxft.cc:172
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "無法載入字型「%s」。"
 
-#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:148
+#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:195
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr "載入後備字型 \"%s\" 失敗"
@@ -1288,17 +1288,17 @@ msgstr "Ctrl+A"
 msgid "Locale not supported by C library. Falling back to 'C' locale'."
 msgstr "C 函式庫不支援語區。回復到 'C' 語區。"
 
-#: src/ylocale.cc:69
+#: src/ylocale.cc:68
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr "判別目前語區的編碼時失敗。假定為 ISO-8859-1。\n"
 
-#: src/ylocale.cc:101 src/ylocale.cc:108
+#: src/ylocale.cc:100 src/ylocale.cc:107
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv 不(充分)支援 %s 到 %s 的轉換器。"
 
-#: src/ylocale.cc:162
+#: src/ylocale.cc:161
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "無效的多位元字串「%s」：%s"

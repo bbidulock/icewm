@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2014-09-01 01:16-0600\n"
+"POT-Creation-Date: 2014-12-02 02:22-0700\n"
 "PO-Revision-Date: 2005-01-23 23:32+0700\n"
 "Last-Translator: Arif E. Nugroho <arif_endro@yahoo.com>\n"
 "Language-Team: Indonesia\n"
@@ -554,7 +554,7 @@ msgstr ""
 msgid "Ctrl+W"
 msgstr ""
 
-#: src/icewmbg.cc:408
+#: src/icewmbg.cc:409
 #, fuzzy
 msgid ""
 "Usage: icewmbg [ -r | -q ]\n"
@@ -584,7 +584,7 @@ msgstr ""
 " DesktopTransparencyColor - Color to announce for semi-transparent windows\n"
 " DesktopTransparencyImage - Image to announce for semi-transparent windows\n"
 
-#: src/icewmbg.cc:426
+#: src/icewmbg.cc:427
 #, c-format
 msgid ""
 "%s: unrecognized option `%s'\n"
@@ -593,12 +593,12 @@ msgstr ""
 "%s: opsi tidak dikenali `%s'\n"
 "Coba `%s --help' untuk informasi lebih lanjut.\n"
 
-#: src/icewmbg.cc:555
+#: src/icewmbg.cc:556
 #, c-format
 msgid "Loading image %s failed"
 msgstr "Gagal menampilkan gambar %s"
 
-#: src/icewmbg.cc:569 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
+#: src/icewmbg.cc:570 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
 msgstr "Gagal meload pixmap \"%s\" : %s"
@@ -882,7 +882,7 @@ msgstr ""
 msgid "_About"
 msgstr "_Tentang"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3408
+#: src/wmframe.cc:165 src/wmframe.cc:3410
 msgid "Maximize"
 msgstr "Maksimalkan"
 
@@ -894,7 +894,7 @@ msgstr "Minimalkan"
 msgid "Hide"
 msgstr "Sembunyi"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3441
+#: src/wmframe.cc:209 src/wmframe.cc:3443
 msgid "Rollup"
 msgstr "Gulung Atas"
 
@@ -915,11 +915,11 @@ msgstr ""
 "akan hilang ketika client dimatikan. Apakah anda\n"
 "ingin melanjutkan?"
 
-#: src/wmframe.cc:3405
+#: src/wmframe.cc:3407
 msgid "Restore"
 msgstr "Kembali"
 
-#: src/wmframe.cc:3439
+#: src/wmframe.cc:3441
 msgid "Rolldown"
 msgstr "Gulung Bawah"
 
@@ -1164,12 +1164,12 @@ msgstr ""
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
 msgstr ""
 
-#: src/yfontcore.cc:71 src/yfontxft.cc:125
+#: src/yfontcore.cc:71 src/yfontxft.cc:172
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr ""
 
-#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:148
+#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:195
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr ""
@@ -1242,17 +1242,17 @@ msgstr ""
 msgid "Locale not supported by C library. Falling back to 'C' locale'."
 msgstr "Locale tidak disupport oleh C library. Kembali ke 'C' locale'."
 
-#: src/ylocale.cc:69
+#: src/ylocale.cc:68
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
 
-#: src/ylocale.cc:101 src/ylocale.cc:108
+#: src/ylocale.cc:100 src/ylocale.cc:107
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr ""
 
-#: src/ylocale.cc:162
+#: src/ylocale.cc:161
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr ""

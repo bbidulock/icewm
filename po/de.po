@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.26\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2014-09-01 01:16-0600\n"
+"POT-Creation-Date: 2014-12-02 02:22-0700\n"
 "PO-Revision-Date: 2001-10-02 00:28+0200\n"
 "Last-Translator: Eduard Bloch <edi@gmx.de>\n"
 "Language-Team: German\n"
@@ -594,7 +594,7 @@ msgstr "Lange Zeilen umbrechen"
 msgid "Ctrl+W"
 msgstr "Strg+W"
 
-#: src/icewmbg.cc:408
+#: src/icewmbg.cc:409
 msgid ""
 "Usage: icewmbg [ -r | -q ]\n"
 " -r  Restart icewmbg\n"
@@ -612,7 +612,7 @@ msgid ""
 " center:1 scaled:1 = keep aspect ratio\n"
 msgstr ""
 
-#: src/icewmbg.cc:426
+#: src/icewmbg.cc:427
 #, c-format
 msgid ""
 "%s: unrecognized option `%s'\n"
@@ -621,12 +621,12 @@ msgstr ""
 "%s: Unbekannte Option: »%s«\n"
 "Versuchen Sie »%s --help« für weitere Informationen.\n"
 
-#: src/icewmbg.cc:555
+#: src/icewmbg.cc:556
 #, c-format
 msgid "Loading image %s failed"
 msgstr "Laden der Bilddatei %s fehlgeschlagen"
 
-#: src/icewmbg.cc:569 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
+#: src/icewmbg.cc:570 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
 msgstr "Laden der Bilddatei »%s« fehlgeschlagen: %s"
@@ -914,7 +914,7 @@ msgstr "IceWM _neu starten"
 msgid "_About"
 msgstr "Produkt_information"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3408
+#: src/wmframe.cc:165 src/wmframe.cc:3410
 msgid "Maximize"
 msgstr "Maximieren"
 
@@ -926,7 +926,7 @@ msgstr "Minimieren"
 msgid "Hide"
 msgstr "Verstecken"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3441
+#: src/wmframe.cc:209 src/wmframe.cc:3443
 msgid "Rollup"
 msgstr "Einrollen"
 
@@ -949,11 +949,11 @@ msgstr ""
 "beim Abwürgen der Anwendung verloren gehen!\n"
 "Wünschen Sie trotzdem fortzufahren?"
 
-#: src/wmframe.cc:3405
+#: src/wmframe.cc:3407
 msgid "Restore"
 msgstr "Wiederherstellen"
 
-#: src/wmframe.cc:3439
+#: src/wmframe.cc:3441
 msgid "Rolldown"
 msgstr "Ausrollen"
 
@@ -1205,12 +1205,12 @@ msgstr ""
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
 msgstr "Unerwartetes Zeichen (Imlib konnte die Datei »%s« aber interpretieren)"
 
-#: src/yfontcore.cc:71 src/yfontxft.cc:125
+#: src/yfontcore.cc:71 src/yfontxft.cc:172
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "Die Schriftart »%s« konnte nicht geladen werden."
 
-#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:148
+#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:195
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr "Rückgriff auf die Schriftart »%s« ist fehlgeschlagen."
@@ -1283,18 +1283,18 @@ msgstr "Strg+A"
 msgid "Locale not supported by C library. Falling back to 'C' locale'."
 msgstr ""
 
-#: src/ylocale.cc:69
+#: src/ylocale.cc:68
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
 
-#: src/ylocale.cc:101 src/ylocale.cc:108
+#: src/ylocale.cc:100 src/ylocale.cc:107
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr ""
 "iconv verfügt nicht über einen (zufriedenstellenden) %s zu %s-Konvertierer."
 
-#: src/ylocale.cc:162
+#: src/ylocale.cc:161
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Ungültige Multibyte-Zeichenkette »%s«: %s"

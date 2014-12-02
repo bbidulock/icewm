@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.26\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2014-09-01 01:16-0600\n"
+"POT-Creation-Date: 2014-12-02 02:22-0700\n"
 "PO-Revision-Date: 2006-05-28 15:27+0100\n"
 "Last-Translator: Ole Carlsen <carlo@sol.dk>\n"
 "Language-Team: Danish\n"
@@ -590,7 +590,7 @@ msgstr "Ombryde Linjer"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icewmbg.cc:408
+#: src/icewmbg.cc:409
 #, fuzzy
 msgid ""
 "Usage: icewmbg [ -r | -q ]\n"
@@ -619,7 +619,7 @@ msgstr ""
 " DesktopTransparencyColor - Color to announce for semi-transparent windows\n"
 " DesktopTransparencyImage - Image to announce for semi-transparent windows\n"
 
-#: src/icewmbg.cc:426
+#: src/icewmbg.cc:427
 #, c-format
 msgid ""
 "%s: unrecognized option `%s'\n"
@@ -628,12 +628,12 @@ msgstr ""
 "%s: uigenkendelig indstilling `%s'\n"
 "Prøv `%s --help' for mere information.\n"
 
-#: src/icewmbg.cc:555
+#: src/icewmbg.cc:556
 #, c-format
 msgid "Loading image %s failed"
 msgstr "Indlæsning af billede %s mislykkedes"
 
-#: src/icewmbg.cc:569 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
+#: src/icewmbg.cc:570 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
 msgstr "Indlæsning af billedpunkt kort \"%s\" mislykkedes: %s"
@@ -943,7 +943,7 @@ msgstr "Gensta_rt icewm"
 msgid "_About"
 msgstr "Om"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3408
+#: src/wmframe.cc:165 src/wmframe.cc:3410
 msgid "Maximize"
 msgstr "Maksimere"
 
@@ -955,7 +955,7 @@ msgstr "Minimere"
 msgid "Hide"
 msgstr "Skjule"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3441
+#: src/wmframe.cc:209 src/wmframe.cc:3443
 msgid "Rollup"
 msgstr "Rul op"
 
@@ -975,11 +975,11 @@ msgstr ""
 "ADVARSEL! Alle ikke gemte ændringer vil være tabte når\n"
 "denne klient bliver afsluttet. Ønsker du at fortsætte?"
 
-#: src/wmframe.cc:3405
+#: src/wmframe.cc:3407
 msgid "Restore"
 msgstr "Gendanne"
 
-#: src/wmframe.cc:3439
+#: src/wmframe.cc:3441
 msgid "Rolldown"
 msgstr "Rul ned"
 
@@ -1225,12 +1225,12 @@ msgstr "BUG? Uventet afslutning på XPM fil men Imlib kunne fortolke \"%s\""
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
 msgstr "BUG? Uventet karakter men Imlib kunne fortolke \"%s\""
 
-#: src/yfontcore.cc:71 src/yfontxft.cc:125
+#: src/yfontcore.cc:71 src/yfontxft.cc:172
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "Kunne ikke indlæse skrifttype \"%s\"."
 
-#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:148
+#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:195
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr "Indlæsning af standard skrifttype \"%s\" mislykkedes."
@@ -1304,19 +1304,19 @@ msgid "Locale not supported by C library. Falling back to 'C' locale'."
 msgstr ""
 "Sprog ikke understøttet af C bibliotek. Indlæser standard 'C lokalitet'."
 
-#: src/ylocale.cc:69
+#: src/ylocale.cc:68
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
 "Fastsættelse af nuværende lokalitetsskrifttype mislykkedes. Antager "
 "ISO-8859-1.\n"
 
-#: src/ylocale.cc:101 src/ylocale.cc:108
+#: src/ylocale.cc:100 src/ylocale.cc:107
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv levere ikke (tilstrækkelig) %s til %s konverter."
 
-#: src/ylocale.cc:162
+#: src/ylocale.cc:161
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Ugyldig multibyte streng \"%s\": %s"

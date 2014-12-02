@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.21pre1 \n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2014-09-01 01:16-0600\n"
+"POT-Creation-Date: 2014-12-02 02:22-0700\n"
 "PO-Revision-Date: 2005-06-18 11:46+0400\n"
 "Last-Translator: Phạm Thành Long <ptlong@gmail.com>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
@@ -595,7 +595,7 @@ msgstr "Khuôn dòng"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icewmbg.cc:408
+#: src/icewmbg.cc:409
 #, fuzzy
 msgid ""
 "Usage: icewmbg [ -r | -q ]\n"
@@ -624,7 +624,7 @@ msgstr ""
 " DesktopTransparencyColor - Màu cho các cửa sổ nửa trong suốt\n"
 " DesktopTransparencyImage - Ảnh cho các cửa sổ nửa trong suốt\n"
 
-#: src/icewmbg.cc:426
+#: src/icewmbg.cc:427
 #, c-format
 msgid ""
 "%s: unrecognized option `%s'\n"
@@ -633,12 +633,12 @@ msgstr ""
 "%s: tuỳ chọn không xác định`%s'\n"
 "Thử `%s --help' để biết thêm thông tin.\n"
 
-#: src/icewmbg.cc:555
+#: src/icewmbg.cc:556
 #, c-format
 msgid "Loading image %s failed"
 msgstr "Lỗi khi nạp ảnh %s"
 
-#: src/icewmbg.cc:569 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
+#: src/icewmbg.cc:570 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
 msgstr "Lỗi khi nạp pixmap \"%s\": %s"
@@ -946,7 +946,7 @@ msgstr "_Chạy lại icewm"
 msgid "_About"
 msgstr "_Giới thiệu về icewm"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3408
+#: src/wmframe.cc:165 src/wmframe.cc:3410
 msgid "Maximize"
 msgstr "Phóng đại"
 
@@ -958,7 +958,7 @@ msgstr "Thu nhỏ"
 msgid "Hide"
 msgstr "Ẩn"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3441
+#: src/wmframe.cc:209 src/wmframe.cc:3443
 msgid "Rollup"
 msgstr "Kéo lên"
 
@@ -978,11 +978,11 @@ msgstr ""
 "CẢNH BÁO! Tất cả những thay đổi chưa ghi nhớ sẽ bị mất khi\n"
 "chương trình con này bị diệt. Bạn có muốn tiếp tục diệt?"
 
-#: src/wmframe.cc:3405
+#: src/wmframe.cc:3407
 msgid "Restore"
 msgstr "Phục hồi"
 
-#: src/wmframe.cc:3439
+#: src/wmframe.cc:3441
 msgid "Rolldown"
 msgstr "Thả xuống"
 
@@ -1227,12 +1227,12 @@ msgstr "LỖI? Kết thúc của XPM lạ nhưng Imlib vẫn phân tích đượ
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
 msgstr "LỖI? Kí tự không mong đợi nhưng Imlib vẫn phân tích được \"%s\""
 
-#: src/yfontcore.cc:71 src/yfontxft.cc:125
+#: src/yfontcore.cc:71 src/yfontxft.cc:172
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "Không thể nạp phông chữ \"%s\"."
 
-#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:148
+#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:195
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr "Lỗi khi nạp phông chữ dự phòng \"%s\""
@@ -1306,19 +1306,19 @@ msgid "Locale not supported by C library. Falling back to 'C' locale'."
 msgstr ""
 "Thư viện C không hỗ trợ bản địa (locale) này. Quay lại dùng bản địa 'C'."
 
-#: src/ylocale.cc:69
+#: src/ylocale.cc:68
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
 "Không xác định thành công bảng mã của bản địa hiện thời. Coi như "
 "ISO-8859-1.\n"
 
-#: src/ylocale.cc:101 src/ylocale.cc:108
+#: src/ylocale.cc:100 src/ylocale.cc:107
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv không cung cấp (đủ) %s cho %s bộ chuyển đổi."
 
-#: src/ylocale.cc:162
+#: src/ylocale.cc:161
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Lỗi chuỗi nhiều byte \"%s\": %s"

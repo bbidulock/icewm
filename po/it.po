@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.31\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2014-09-01 01:16-0600\n"
+"POT-Creation-Date: 2014-12-02 02:22-0700\n"
 "PO-Revision-Date: 2007-06-11 11:37+0200\n"
 "Last-Translator: Yuri Bongiorno http://yuri.webhop.org/\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -610,7 +610,7 @@ msgstr "A capo automatico"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icewmbg.cc:408
+#: src/icewmbg.cc:409
 #, fuzzy
 msgid ""
 "Usage: icewmbg [ -r | -q ]\n"
@@ -639,7 +639,7 @@ msgstr ""
 " DesktopTransparencyColor - Colore per le finestre semitrasparenti\n"
 " DesktopTransparencyImage - Immagine per le finestre semitrasparenti\n"
 
-#: src/icewmbg.cc:426
+#: src/icewmbg.cc:427
 #, c-format
 msgid ""
 "%s: unrecognized option `%s'\n"
@@ -648,12 +648,12 @@ msgstr ""
 "%s: opzione «%s» non riconosciuta\n"
 "Provare «%s --help» per maggiori informazioni.\n"
 
-#: src/icewmbg.cc:555
+#: src/icewmbg.cc:556
 #, c-format
 msgid "Loading image %s failed"
 msgstr "Fallito il caricamento dell'immagine %s"
 
-#: src/icewmbg.cc:569 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
+#: src/icewmbg.cc:570 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
 msgstr "Fallito il caricamento della pixmap «%s»: %s"
@@ -962,7 +962,7 @@ msgstr "_Riavvia icewm"
 msgid "_About"
 msgstr "_Informazioni"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3408
+#: src/wmframe.cc:165 src/wmframe.cc:3410
 msgid "Maximize"
 msgstr "Massimizza"
 
@@ -974,7 +974,7 @@ msgstr "Minimizza"
 msgid "Hide"
 msgstr "Nascondi"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3441
+#: src/wmframe.cc:209 src/wmframe.cc:3443
 msgid "Rollup"
 msgstr "Arrotola"
 
@@ -994,11 +994,11 @@ msgstr ""
 "Attenzione: uccidendo questo client si perdono\n"
 "le modifiche non ancora salvate. Procedere?"
 
-#: src/wmframe.cc:3405
+#: src/wmframe.cc:3407
 msgid "Restore"
 msgstr "Ripristina"
 
-#: src/wmframe.cc:3439
+#: src/wmframe.cc:3441
 msgid "Rolldown"
 msgstr "Srotola"
 
@@ -1244,12 +1244,12 @@ msgstr ""
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
 msgstr "BUG? Carattere inatteso, ma Imlib era capace di analizzare «%s»"
 
-#: src/yfontcore.cc:71 src/yfontxft.cc:125
+#: src/yfontcore.cc:71 src/yfontxft.cc:172
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "Impossibile caricare il font «%s»."
 
-#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:148
+#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:195
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr "Fallito il caricamento del font di riserva «%s»."
@@ -1324,18 +1324,18 @@ msgstr ""
 "Localizzazione non supportata dalla libreria C. Si ripiega sulla "
 "localizzazione C."
 
-#: src/ylocale.cc:69
+#: src/ylocale.cc:68
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
 "Impossibile determinare l'attuale codeset di locale. Si assume ISO-8859-1.\n"
 
-#: src/ylocale.cc:101 src/ylocale.cc:108
+#: src/ylocale.cc:100 src/ylocale.cc:107
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv non fornisce (abbastanza) convertitori da %s a %s."
 
-#: src/ylocale.cc:162
+#: src/ylocale.cc:161
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Stringa multibyte «%s» non valida: %s"

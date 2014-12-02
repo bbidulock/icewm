@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2014-09-01 01:16-0600\n"
+"POT-Creation-Date: 2014-12-02 02:22-0700\n"
 "PO-Revision-Date: 2007-05-01 15:46+0800\n"
 "Last-Translator: LI Daobing <lidaobing@gmail.com>\n"
 "Language-Team: Siplified Chinese\n"
@@ -585,7 +585,7 @@ msgstr "换行"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icewmbg.cc:408
+#: src/icewmbg.cc:409
 #, fuzzy
 msgid ""
 "Usage: icewmbg [ -r | -q ]\n"
@@ -614,7 +614,7 @@ msgstr ""
 " DesktopTransparencyColor - 半透明窗口使用的颜色\n"
 " DesktopTransparencyImage - 半透明窗口使用的图片\n"
 
-#: src/icewmbg.cc:426
+#: src/icewmbg.cc:427
 #, c-format
 msgid ""
 "%s: unrecognized option `%s'\n"
@@ -623,12 +623,12 @@ msgstr ""
 "%s: 无法识别的选项：%s\n"
 "尝试“%s --help”获得更多的信息。\n"
 
-#: src/icewmbg.cc:555
+#: src/icewmbg.cc:556
 #, c-format
 msgid "Loading image %s failed"
 msgstr "载入图象 %s 失败"
 
-#: src/icewmbg.cc:569 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
+#: src/icewmbg.cc:570 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
 msgstr "载入图象 \"%s\" 失败: %s"
@@ -934,7 +934,7 @@ msgstr "重启 icewm(_R)"
 msgid "_About"
 msgstr "关于(_A)"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3408
+#: src/wmframe.cc:165 src/wmframe.cc:3410
 msgid "Maximize"
 msgstr "最大化"
 
@@ -946,7 +946,7 @@ msgstr "最小化"
 msgid "Hide"
 msgstr "隐藏"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3441
+#: src/wmframe.cc:209 src/wmframe.cc:3443
 msgid "Rollup"
 msgstr "卷起"
 
@@ -966,11 +966,11 @@ msgstr ""
 "警告！当这个客户程序被杀死时，所有\n"
 "没有保存的修改将丢失。你想继续吗？"
 
-#: src/wmframe.cc:3405
+#: src/wmframe.cc:3407
 msgid "Restore"
 msgstr "恢复"
 
-#: src/wmframe.cc:3439
+#: src/wmframe.cc:3441
 msgid "Rolldown"
 msgstr "放下"
 
@@ -1215,12 +1215,12 @@ msgstr "BUG？XPM文件有非预期的结束，但是Imlib却可以分析“%s�
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
 msgstr "BUG？非预期的特征，但Imlib却可以分析“%s”"
 
-#: src/yfontcore.cc:71 src/yfontxft.cc:125
+#: src/yfontcore.cc:71 src/yfontxft.cc:172
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "不能装载字体 “%s”。"
 
-#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:148
+#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:195
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr "装载备用字体“%s”失败。"
@@ -1293,17 +1293,17 @@ msgstr "Ctrl+A"
 msgid "Locale not supported by C library. Falling back to 'C' locale'."
 msgstr "C运行库不支持该区域。使用缺省的 'C' 区域。"
 
-#: src/ylocale.cc:69
+#: src/ylocale.cc:68
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr "检测当前区域的编码失败，假定为 ISO-8859-1。\n"
 
-#: src/ylocale.cc:101 src/ylocale.cc:108
+#: src/ylocale.cc:100 src/ylocale.cc:107
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv没有提供（足够）的%s到%s转换器。"
 
-#: src/ylocale.cc:162
+#: src/ylocale.cc:161
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "错误的多字节字符串“%s”：%s"
