@@ -4,6 +4,7 @@
  * Copyright (C) 1997-2001 Marko Macek
  */
 #include "config.h"
+#include "globit.h"
 
 #ifndef LITE
 #include "ykey.h"
@@ -15,6 +16,7 @@
 #include "prefs.h"
 
 #include <string.h>
+#include <stdlib.h>
 
 #include "intl.h"
 
@@ -206,6 +208,10 @@ bool YInputLine::handleKey(const XKeyEvent &key) {
             case XK_KP_Insert:
                 copySelection();
                 return true;
+	    case 'i':
+	    case 'I':
+		complete();
+		return true;
             }
         }
         if (m & ShiftMask) {
@@ -300,6 +306,7 @@ bool YInputLine::handleKey(const XKeyEvent &key) {
             }
             break;
 	case XK_Tab:
+	    complete();
 	    break;
         default:
             {
@@ -714,4 +721,22 @@ void YInputLine::autoScroll(int delta, const XMotionEvent *motion) {
     fAutoScrollDelta = delta;
     beginAutoScroll(delta ? true : false, motion);
 }
+
+void YInputLine::complete() {
+    char *res;
+    int  res_count;
+    cstring t(fText);
+
+    res_count = globit_best(t.c_str(), &res);
+    if (res_count == -1) { //error-case
+	    free(res);
+	    return;
+    }
+    if (res_count == 0) { //no match found
+	    return;
+    }
+    setText(ustring(res, strlen(res)));
+    free(res);
+}
+
 #endif

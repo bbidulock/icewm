@@ -42,6 +42,7 @@ public:
     void unselectAll();
     void cutSelection();
     void copySelection();
+    void complete();
 
 private:
     ustring fText;

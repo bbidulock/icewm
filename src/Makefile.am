@@ -179,6 +179,8 @@ libitk_la_SOURCES = \
 	ylistbox.cc \
 	ylistbox.h \
 	yinput.cc \
+	globit.c \
+	globit.h \
 	yicon.cc \
 	yicon.h \
 	wmconfig.cc \
