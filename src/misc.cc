@@ -15,7 +15,7 @@
 #include <libgen.h>
 #endif
 
-#ifdef linux
+#if defined(linux) && defined(HAVE_EXECINFO_H)
 #include <execinfo.h>
 #endif
 
@@ -543,7 +543,7 @@ bool isreg(char const *path) {
 }
 
 void show_backtrace() {
-#ifdef linux
+#if defined(linux) && defined(HAVE_EXECINFO_H)
     void *array[20];
 
     fprintf(stderr, "\nbacktrace:\n");

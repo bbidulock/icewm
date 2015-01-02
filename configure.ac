@@ -75,6 +75,7 @@ AC_CHECK_HEADERS([sched.h sys/dkstat.h sys/param.h sys/sysctl.h uvm/uvm_param.h]
 AC_CHECK_HEADERS([libgen.h])
 AC_CHECK_HEADERS([machine/apmvar.h])
 AC_CHECK_HEADERS([machine/apm_bios.h])
+AC_CHECK_HEADERS([execinfo.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_CHECK_HEADER_STDBOOL
