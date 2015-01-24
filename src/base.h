@@ -116,6 +116,10 @@ void show_backtrace();
 #define DIR_DELIMINATOR '/'
 #endif
 
+#ifndef _countof
+#define _countof(x) (sizeof(x)/sizeof(x[0]))
+#endif
+
 extern "C" {
 #ifdef __EMX__
 char* __XOS2RedirRoot(char const*);

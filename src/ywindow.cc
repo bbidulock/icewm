@@ -1877,10 +1877,10 @@ void YWindow::scrollWindow(int dx, int dy) {
 }
 
 void YDesktop::updateXineramaInfo(int &w, int &h) {
-    bool gotLayout = false;
     xiInfo.clear();
 
 #if CONFIG_XRANDR
+    bool gotLayout = false;
     MSG(("xrr: %d", xrandr12 ? 1 : 0));
     if (xrandr12 && !xrrDisable) {
         XRRScreenResources *xrrsr =
@@ -1951,7 +1951,6 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
                 si.height = xsi[i].height;
                 xiInfo.append(si);
             }
-            gotLayout = true;
 	    if (xsi)
 		    XFree(xsi);
         }
