@@ -217,50 +217,53 @@ bool CPUStatus::handleTimer(YTimer *t) {
 
 void CPUStatus::updateToolTip() {
 #ifdef linux
-    char load[31], ram[31] = "", swap[31] = "", acpitemp[61] = "", cpufreq[31] = "";
+    char fmt[255] = "";
+#define ___checkspace if(more<0 || rest-more<=0) return; pos+=more; rest-=more;
     struct sysinfo sys;
-    double l1, l5, l15;
 
-    sysinfo(&sys);
-    l1 = (float)sys.loads[0] / 65536.0;
-    l5 = (float)sys.loads[1] / 65536.0;
-    l15 = (float)sys.loads[2] / 65536.0;
-
-    sprintf(load, _("CPU Load: %3.2f %3.2f %3.2f, %d"), l1, l5, l15, sys.procs);
-    if (ShowRamUsage) {
-        float tr =(float)sys.totalram * (float)sys.mem_unit / 1048576.0f;
-        float fr =(float)sys.freeram * (float)sys.mem_unit / 1048576.0f;
-        sprintf(ram, _("\nRam: %5.2f/%.2fM"), tr, fr);
-    }
-    if (ShowSwapUsage) {
-        float ts =(float)sys.totalswap * (float)sys.mem_unit / 1048576.0f;
-        float fs =(float)sys.freeswap * (float)sys.mem_unit / 1048576.0f;
-        sprintf(swap, _("\nSwap: %.2f/%.2fM"), ts, fs);
-    }
-    if (ShowAcpiTemp) {
-        int headlen;
-        sprintf(acpitemp, _("\nACPI Temp:"));
-        headlen = strlen(acpitemp);
-        getAcpiTemp(acpitemp + headlen, (sizeof(acpitemp) - headlen) / sizeof(char));
-    }
-    if (ShowCpuFreq) {
-        sprintf(cpufreq, _("\nCPU Freq: %.3fGHz"), getCpuFreq(0) / 1e6);
-    }
+    if(0==sysinfo(&sys))
     {
-        char *loadmsg = cstrJoin(load, ram, swap, acpitemp, cpufreq, NULL);
-        setToolTip(ustring(loadmsg));
-        delete [] loadmsg;
+        char *pos=fmt;
+        int rest=sizeof(fmt);
+        float l1 = float(sys.loads[0]) / 65536.0,
+              l5 = float(sys.loads[1]) / 65536.0,
+              l15 = float(sys.loads[2]) / 65536.0;
+        int more=snprintf(pos, rest, _("CPU Load: %3.2f %3.2f %3.2f, %u"),
+                l1, l5, l15, (unsigned) sys.procs);
+        ___checkspace;
+        if (ShowRamUsage) {
+#define MBnorm(x) ((float)x * (float)sys.mem_unit / 1048576.0f)
+            more=snprintf(pos, rest, _("\nRam: %5.2f/%.2fM"),
+                    MBnorm(sys.totalram), MBnorm(sys.freeram));
+            ___checkspace;
+        }
+        if (ShowSwapUsage) {
+            more=snprintf(pos, rest, _("\nSwap: %.2f/%.2fM"),
+                    MBnorm(sys.totalswap), MBnorm(sys.freeswap));
+            ___checkspace;
+        }
+        if (ShowAcpiTemp) {
+            more=snprintf(pos, rest, _("\nACPI Temp:"));
+            ___checkspace;
+            more=getAcpiTemp(pos, rest);
+            ___checkspace;
+        }
+        if (ShowCpuFreq) {
+            more=snprintf(pos, rest, _("\nCPU Freq: %.3fGHz"),
+                    getCpuFreq(0) / 1e6);
+        }
+        setToolTip(ustring(fmt));
     }
 #elif defined HAVE_GETLOADAVG2
-    char load[31]; // enough for "CPU Load: 999.99 999.99 999.99\0"
+    char load[sizeof("999.99 999.99 999.99")];
     double loadavg[3];
     if (getloadavg(loadavg, 3) < 0)
         return;
-    snprintf(load, sizeof(load), "CPU Load: %3.2f %3.2f %3.2f",
+    snprintf(load, sizeof(load), "%3.2g %3.2g %3.2g",
             loadavg[0], loadavg[1], loadavg[2]);
     {
         char *loadmsg = cstrJoin(_("CPU Load: "), load, NULL);
-        setToolTip(loadmsg);
+        setToolTip(ustring(loadmsg));
         delete [] loadmsg;
     }
 #endif
@@ -357,18 +360,23 @@ int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
 
 float CPUStatus::getCpuFreq(unsigned int cpu) {
     char buf[16], namebuf[64];
-    int fd;
-    float cpufreq = 0;
-
-    sprintf(namebuf, "/sys/devices/system/cpu/cpu%d/cpufreq/cpuinfo_cur_freq", cpu);
-    fd = open(namebuf, O_RDONLY);
-    if (fd != -1) {
-        int len = read(fd, buf, sizeof(buf) - 1);
-        buf[len-1] = '\0';
-        sscanf(buf, "%f", &cpufreq);
-        close(fd);
+    const char * categories[] = { "cpuinfo", "scaling" };
+    for(unsigned i = 0; i < _countof(categories); ++i)
+    {
+        int fd;
+        float cpufreq = 0;
+        sprintf(namebuf, "/sys/devices/system/cpu/cpu%d/cpufreq/%s_cur_freq",
+                cpu, categories[i]);
+        fd = open(namebuf, O_RDONLY);
+        if (fd != -1) {
+            int len = read(fd, buf, sizeof(buf) - 1);
+            buf[len-1] = '\0';
+            sscanf(buf, "%f", &cpufreq);
+            close(fd);
+            return cpufreq;
+        }
     }
-    return(cpufreq);
+    return 0;
 }
 
 
