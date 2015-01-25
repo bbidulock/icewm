@@ -2,14 +2,14 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([icewm],[1.3.9],[http://github.com/bbidulock/icewm])
+AC_INIT([icewm],[1.3.9.23],[http://github.com/bbidulock/icewm])
 AC_CONFIG_SRCDIR([src/ysmapp.cc])
 AC_CONFIG_AUX_DIR([scripts])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADERS([config.h])
 AC_CANONICAL_TARGET
 
-DATE='2014-09-01'
+DATE='2015-01-24'
 AC_SUBST([DATE])
 
 APPLICATIONS='icewm icewm-session icesh icewmhint icewmbg icewmtray'
@@ -43,7 +43,7 @@ LT_LANG([C++])
 AC_PROG_LIBTOOL
 AC_SUBST([LIBTOOL_DEPS])
 
-AM_GNU_GETTEXT_VERSION([0.19.2])
+AM_GNU_GETTEXT_VERSION([0.19.3])
 AM_GNU_GETTEXT([external])
 
 AC_ARG_ENABLE([i18n],
@@ -452,6 +452,8 @@ CORE_LIBS="$CORE_LIBS -lm"
 AC_ARG_VAR([EXTRA_LIBS], [Extra core libraries.])
 
 CORE_LIBS="$CORE_LIBS "'$(EXTRA_LIBS)'
+
+AC_ARG_VAR([CXXLD], [Alternative libtool linker command.])
 
 # needed by lib/menu.in
 AC_SUBST([CONFIG_GNOME2_MENU_DIR])
