@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.6\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2014-12-02 02:22-0700\n"
+"POT-Creation-Date: 2015-01-24 17:58-0700\n"
 "PO-Revision-Date: 2001-01-10 23:14+0900\n"
 "Last-Translator: Yoichi ASAI <yatt@msc.biglobe.ne.jp>\n"
 "Language-Team: Japanese\n"
@@ -36,40 +36,40 @@ msgstr ""
 msgid " - Full"
 msgstr ""
 
-#: src/acpustatus.cc:229
+#: src/acpustatus.cc:231
 #, fuzzy, c-format
-msgid "CPU Load: %3.2f %3.2f %3.2f, %d"
-msgstr "CPU 負荷: %3.2f %3.2f %3.2f, %d 個のプロセス."
+msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
+msgstr "CPU 負荷: %3.2f %3.2f %3.2f, %u 個のプロセス."
 
-#: src/acpustatus.cc:233
+#: src/acpustatus.cc:236
 #, c-format
 msgid ""
 "\n"
 "Ram: %5.2f/%.2fM"
 msgstr ""
 
-#: src/acpustatus.cc:238
+#: src/acpustatus.cc:241
 #, c-format
 msgid ""
 "\n"
 "Swap: %.2f/%.2fM"
 msgstr ""
 
-#: src/acpustatus.cc:242
+#: src/acpustatus.cc:246
 #, c-format
 msgid ""
 "\n"
 "ACPI Temp:"
 msgstr ""
 
-#: src/acpustatus.cc:247
+#: src/acpustatus.cc:252
 #, c-format
 msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
 
-#: src/acpustatus.cc:262
+#: src/acpustatus.cc:265
 msgid "CPU Load: "
 msgstr ""
 
@@ -1138,39 +1138,39 @@ msgstr "Imlib: X pixmap の貼りつけに失敗"
 msgid "Imlib: Imlib image to X pixmap mapping failed"
 msgstr "Imlib: Imlib 画像から X pixmap へのマッピングに失敗"
 
-#: src/yinput.cc:53
+#: src/yinput.cc:55
 msgid "Cu_t"
 msgstr "カット(_T)"
 
-#: src/yinput.cc:53
+#: src/yinput.cc:55
 msgid "Ctrl+X"
 msgstr "Ctrl+X"
 
-#: src/yinput.cc:54
+#: src/yinput.cc:56
 msgid "_Copy"
 msgstr "コピー(_C)"
 
-#: src/yinput.cc:54
+#: src/yinput.cc:56
 msgid "Ctrl+C"
 msgstr "Ctrl+C"
 
-#: src/yinput.cc:55
+#: src/yinput.cc:57
 msgid "_Paste"
 msgstr "ペースト(_P)"
 
-#: src/yinput.cc:55
+#: src/yinput.cc:57
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#: src/yinput.cc:56
+#: src/yinput.cc:58
 msgid "Paste _Selection"
 msgstr "ペースト選択(_S)"
 
-#: src/yinput.cc:58
+#: src/yinput.cc:60
 msgid "Select _All"
 msgstr "全て選択(_A)"
 
-#: src/yinput.cc:58
+#: src/yinput.cc:60
 msgid "Ctrl+A"
 msgstr "Ctrl+A"
 

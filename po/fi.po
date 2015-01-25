@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.14\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2014-12-02 02:22-0700\n"
+"POT-Creation-Date: 2015-01-24 17:58-0700\n"
 "PO-Revision-Date: 2004-06-16 02:44+0200\n"
 "Last-Translator: Taisto Kuikka <69319@batman.jypoly.fi>\n"
 "Language-Team: Finnish <fi@li.org>\n"
@@ -38,40 +38,40 @@ msgstr "C"
 msgid " - Full"
 msgstr ""
 
-#: src/acpustatus.cc:229
+#: src/acpustatus.cc:231
 #, c-format
-msgid "CPU Load: %3.2f %3.2f %3.2f, %d"
+msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
 msgstr ""
 
-#: src/acpustatus.cc:233
+#: src/acpustatus.cc:236
 #, c-format
 msgid ""
 "\n"
 "Ram: %5.2f/%.2fM"
 msgstr ""
 
-#: src/acpustatus.cc:238
+#: src/acpustatus.cc:241
 #, c-format
 msgid ""
 "\n"
 "Swap: %.2f/%.2fM"
 msgstr ""
 
-#: src/acpustatus.cc:242
+#: src/acpustatus.cc:246
 #, c-format
 msgid ""
 "\n"
 "ACPI Temp:"
 msgstr ""
 
-#: src/acpustatus.cc:247
+#: src/acpustatus.cc:252
 #, c-format
 msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
 
-#: src/acpustatus.cc:262
+#: src/acpustatus.cc:265
 msgid "CPU Load: "
 msgstr "Prosessorikuorma: "
 
@@ -1270,39 +1270,39 @@ msgstr "Imlib: X-bittikartan hankkiminen epäonnistui"
 msgid "Imlib: Imlib image to X pixmap mapping failed"
 msgstr "Imlib: Imlib-kuvasta X-bittikartaksi muunnos epäonnistui"
 
-#: src/yinput.cc:53
+#: src/yinput.cc:55
 msgid "Cu_t"
 msgstr "Lei_kkaa"
 
-#: src/yinput.cc:53
+#: src/yinput.cc:55
 msgid "Ctrl+X"
 msgstr "Ctrl+X"
 
-#: src/yinput.cc:54
+#: src/yinput.cc:56
 msgid "_Copy"
 msgstr "_Kopioi"
 
-#: src/yinput.cc:54
+#: src/yinput.cc:56
 msgid "Ctrl+C"
 msgstr "Ctrl+C"
 
-#: src/yinput.cc:55
+#: src/yinput.cc:57
 msgid "_Paste"
 msgstr "_Liitä"
 
-#: src/yinput.cc:55
+#: src/yinput.cc:57
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#: src/yinput.cc:56
+#: src/yinput.cc:58
 msgid "Paste _Selection"
 msgstr "Liitä _valinta"
 
-#: src/yinput.cc:58
+#: src/yinput.cc:60
 msgid "Select _All"
 msgstr "Valitse k_aikki"
 
-#: src/yinput.cc:58
+#: src/yinput.cc:60
 msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
