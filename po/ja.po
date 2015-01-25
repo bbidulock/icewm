@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.6\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-01-24 17:58-0700\n"
+"POT-Creation-Date: 2015-01-25 20:43+0100\n"
 "PO-Revision-Date: 2001-01-10 23:14+0900\n"
 "Last-Translator: Yoichi ASAI <yatt@msc.biglobe.ne.jp>\n"
 "Language-Team: Japanese\n"
@@ -1253,6 +1253,10 @@ msgid "\"%s\" contains no scheme description"
 msgstr ""
 
 #, fuzzy
+#~ msgid "Could not find pixel map %s"
+#~ msgstr "pixmap %s を見つけられません"
+
+#, fuzzy
 #~ msgid "Out of memory for pixel map %s"
 #~ msgstr "pixmap %s のためのメモリ不足"
 
@@ -1369,3 +1373,6 @@ msgstr ""
 
 #~ msgid "Fallback to 'fixed' failed."
 #~ msgstr "'fixed' へのフォールバックに失敗しました"
+
+#~ msgid "CPU Load: %3.2f %3.2f %3.2f, %d processes."
+#~ msgstr "CPU 負荷: %3.2f %3.2f %3.2f, %d 個のプロセス."

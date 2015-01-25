@@ -15,7 +15,7 @@ it in winter ;-)  The aim of IceWM is to have good 'Feel' and decent
 **_Quick Start_**
 ---
 
-This is the icewm-1.3.9 package, released under LGPL license 2014-09-01.  This release as well as future versions here, can all be obtained from the GitHub repository using a command such as:
+This is the icewm-1.3.9.23 package, released under LGPL license 2015-01-24.  This release as well as future versions here, can all be obtained from the GitHub repository using a command such as:
 
     git clone http://github.com/bbidulock/icewm.git
 
@@ -58,7 +58,7 @@ file `COPYING'.
 
 Documentation for configuring the window manager can be obtained from
 http://www.icewm.org/ or from the online manual: point your browser at
-file:///usr/share/doc/icewm-1.3.9/icewm.html.
+file:///usr/share/doc/icewm-1.3.9.23/icewm.html.
 
 Unfortunately the documentation is for version 1.2.27 and is incomplete
 at that; however, it is for the most part usable.  Also, a rather sparse
@@ -78,7 +78,7 @@ Currently, the only included utilities are **icewmbg** (_a background setting pr
 ---
 
 Unspecified keyboard shortcuts can be handled with the **bbkeys(1)**
-utility available from: http://sourceforge.net/projects/bbkeys/  <br>
+utility available from: http://bbkeys.sourceforge.net  <br>
 For additional utilities see: [http://www.icewm.org/FAQ/IceWM-FAQ-11.html](http://www.icewm.org/FAQ/IceWM-FAQ-11.html)  
 <br>
 

@@ -37,7 +37,7 @@ msgstr "L"
 
 #: src/aapm.cc:502
 msgid " - Full"
-msgstr "Voll"
+msgstr " - Voll"
 
 #: src/acpustatus.cc:231
 #, c-format
@@ -1330,8 +1330,8 @@ msgstr "Strg+A"
 #: src/ylocale.cc:46
 msgid "Locale not supported by C library. Falling back to 'C' locale'."
 msgstr ""
-"Lokale wird von der C-Bibliothek nicht unterstützt. Es wird auf die "
-"»C«-Lokale zurückgegriffen."
+"Lokale wird von der C-Bibliothek nicht unterstützt. Es wird auf die »C«-"
+"Lokale zurückgegriffen."
 
 #: src/ylocale.cc:68
 msgid ""
@@ -1387,8 +1387,8 @@ msgstr "Bild nicht gefunden: %s"
 #: src/ypixbuf.cc:482 src/ypixbuf.cc:668
 #, c-format
 msgid ""
-"Using fallback mechanism to convert pixels (depth: %d; masks "
-"(red/green/blue): %0*x/%0*x/%0*x)"
+"Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
+"blue): %0*x/%0*x/%0*x)"
 msgstr ""
 "Benutze den (langsamen) Ausweichalgorithmus zum Konvertieren von Pixeln "
 "(Farbtiefe: %d, Masken (Rot/Grün/Blau): %0*x/%0*x/%0*x)"
@@ -1412,11 +1412,9 @@ msgstr "»%s« entspricht nicht der Common Internet Scheme Syntax"
 msgid "\"%s\" contains no scheme description"
 msgstr "»%s« enthält keine Schemabeschreibung"
 
-#, qt-format
 #~ msgid "CPU Load: %3.2f %3.2f %3.2f, %d"
 #~ msgstr "CPU-Last:\t%3.2f %3.2f %3.2f  %d"
 
-#, qt-format
 #~ msgid ""
 #~ "Interface %s:\n"
 #~ "  Current rate (in/out):\t%li %s/%li %s\n"
@@ -1488,14 +1486,14 @@ msgstr "»%s« enthält keine Schemabeschreibung"
 #~ "  -d, --display=DISPLAY         Das von IceWM benutzte Display\n"
 #~ "                                (Standard: $DISPLAY).\n"
 #~ "  -s, --sample-dir=VERZEICHNIS  Das Verzeichnis, das die zu spielenden\n"
-#~ "                                Klangdateien enthält (z. B. "
-#~ "~/.icewm/sounds).\n"
+#~ "                                Klangdateien enthält (z. B. ~/.icewm/"
+#~ "sounds).\n"
 #~ "  -i, --interface=ZIEL          Die zu benutzende Audio-Schnittstelle,\n"
 #~ "                                entweder OSS, YIFF oder ESD.\n"
 #~ "  -D, --device=GERÄT           Nur OSS: Der digitale Signalprozessor\n"
 #~ "                                (Standard: /dev/dsp).\n"
-#~ "  -S, --server=ADRESSE:PORT     ESD und YIFF: Serveradresse und "
-#~ "-portnummer\n"
+#~ "  -S, --server=ADRESSE:PORT     ESD und YIFF: Serveradresse und -"
+#~ "portnummer\n"
 #~ "                                (Standard: localhost:16001 für ESD\n"
 #~ "                                und localhost:9433 für YIFF).\n"
 #~ "  -m, --audio-mode[=MODUS]      Nur YIFF: Audiomodus (leer lassen, um "
