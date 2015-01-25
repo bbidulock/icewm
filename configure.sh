@@ -40,4 +40,5 @@ esac
 	LDFLAGS="$LDFLAGS" \
 	DEBUG_CFLAGS="$DEBUG_CFLAGS" \
 	DEBUG_CXXFLAGS="$DEBUG_CXXFLAGS" \
-	EXTRA_LIBS="/usr/lib/libsupc++.a"
+	EXTRA_LIBS="-lsupc++" \
+	CXXLD=gcc

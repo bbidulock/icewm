@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.9\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-01-24 17:58-0700\n"
+"POT-Creation-Date: 2015-01-25 20:43+0100\n"
 "PO-Revision-Date: 2003-07-11 20:20+0300\n"
 "Last-Translator: Anton Farygin <rider@linux.ru.net>\n"
 "Language-Team: Russian\n"
@@ -22,6 +22,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Language: ru_RU\n"
+"X-Source-Language: C\n"
 
 #: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:873
 msgid " - Power"
@@ -38,16 +42,16 @@ msgstr " - Заряд"
 
 #: src/aapm.cc:199 src/aapm.cc:500 src/aapm.cc:736
 msgid "C"
-msgstr ""
+msgstr "З"
 
 #: src/aapm.cc:502
 msgid " - Full"
-msgstr ""
+msgstr " - Полный"
 
 #: src/acpustatus.cc:231
-#, fuzzy, c-format
+#, c-format
 msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
-msgstr "Загрузка процессора: %3.2f %3.2f %3.2f, %u процессов."
+msgstr "Загрузка процессора: %3.2f %3.2f %3.2f, %u процессов"
 
 #: src/acpustatus.cc:236
 #, c-format
@@ -55,6 +59,8 @@ msgid ""
 "\n"
 "Ram: %5.2f/%.2fM"
 msgstr ""
+"\n"
+"Оперативная память: %5.2f/%.2fM"
 
 #: src/acpustatus.cc:241
 #, c-format
@@ -62,6 +68,8 @@ msgid ""
 "\n"
 "Swap: %.2f/%.2fM"
 msgstr ""
+"\n"
+"Файл подкачки: %.2f/%.2fM"
 
 #: src/acpustatus.cc:246
 #, c-format
@@ -69,6 +77,8 @@ msgid ""
 "\n"
 "ACPI Temp:"
 msgstr ""
+"\n"
+"\"ACPI\"-Температура:"
 
 #: src/acpustatus.cc:252
 #, c-format
@@ -76,10 +86,12 @@ msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
+"\n"
+"Такт процессора: %.3fGHz"
 
 #: src/acpustatus.cc:265
 msgid "CPU Load: "
-msgstr ""
+msgstr "Загрузка CPU: "
 
 #: src/amailbox.cc:77
 #, c-format
@@ -111,7 +123,7 @@ msgid "%ld mail messages."
 msgstr "%ld почтовых сообщений."
 
 #: src/apppstatus.cc:204
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Interface %s:\n"
 "  Current rate (in/out):\t%li %s/%li %s\n"
@@ -120,10 +132,10 @@ msgid ""
 "  Online time:\t%ld:%02ld:%02ld%s%s"
 msgstr ""
 "Интерфейс %s:\n"
-"  Текущая скорость (ввод/вывод):\t%lli %s/%lli %s\n"
+"  Текущая скорость (ввод/вывод):\t%li %s/%li %s\n"
 "  Средняя скорость (ввод/вывод):\t%lli %s/%lli %s\n"
 "  Переслано данных (ввод/вывод):\t%lli %s/%lli %s\n"
-"  Время на линии:\t%d:%02d:%02d%s%s"
+"  Время на линии:\t%ld:%02ld:%02ld%s%s"
 
 #: src/apppstatus.cc:216
 msgid ""
@@ -265,6 +277,7 @@ msgstr "Неверное имя рабочего места: `%s'"
 msgid "Workspace out of range: %d"
 msgstr "Рабочее место за пределами диапазона: %d"
 
+# Кому нужно,переводите...
 #: src/icesh.cc:569
 #, c-format
 msgid ""
@@ -577,9 +590,8 @@ msgid "Unknown direction in move/resize request: %d"
 msgstr ""
 
 #: src/themes.cc:99
-#, fuzzy
 msgid "Default"
-msgstr "Удалить"
+msgstr "По умолчанию"
 
 #: src/wmabout.cc:29 src/wmabout.cc:31
 msgid "(C)"
@@ -599,11 +611,11 @@ msgstr "Автор темы:"
 
 #: src/wmabout.cc:43
 msgid "CodeSet:"
-msgstr ""
+msgstr "Кодировка:"
 
 #: src/wmabout.cc:44
 msgid "Language:"
-msgstr ""
+msgstr "Язык:"
 
 #: src/wmabout.cc:69
 msgid "icewm - About"
@@ -767,7 +779,7 @@ msgid ""
 "Could not restart: %s\n"
 "Does $PATH lead to %s?"
 msgstr ""
-"Не могу перезапустить %s\n"
+"Не могу перезапустить: %s\n"
 "Проверьте, что %s есть в $PATH"
 
 #: src/wmapp.cc:1619
@@ -819,7 +831,6 @@ msgid "Bad Look name"
 msgstr "Плохое имя"
 
 #: src/wmdialog.cc:83
-#, fuzzy
 msgid "Loc_k Workstation"
 msgstr "Заблокировать _станцию"
 
@@ -1023,17 +1034,14 @@ msgid "Window list menu"
 msgstr "Список окон в меню"
 
 #: src/wmtaskbar.cc:570
-#, fuzzy
 msgid "Show Desktop"
-msgstr "Д_есктоп"
+msgstr "Показать Десктоп"
 
 #: src/wmwinlist.cc:61
-#, fuzzy
 msgid "All Workspaces"
-msgstr "Рабочее место: "
+msgstr "Все рабочие места"
 
 #: src/wmwinlist.cc:295
-#, fuzzy
 msgid "Del"
 msgstr "Удалить"
 
@@ -1137,7 +1145,7 @@ msgstr "Не могу зугрузить шрифт \"%s\"."
 #: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:195
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
-msgstr "Ошибка загрузки резервного шрифта\"%s\"ю"
+msgstr "Ошибка загрузки резервного шрифта \"%s\"."
 
 #: src/yfontcore.cc:114
 #, c-format
@@ -1233,27 +1241,27 @@ msgstr "Отмена"
 #: src/ypaths.cc:144 src/ypaths.cc:171
 #, c-format
 msgid "Image not readable: %s"
-msgstr ""
+msgstr "Картинка не читается: %s"
 
 #: src/ypaths.cc:149
-#, fuzzy, c-format
+#, c-format
 msgid "Out of memory for image %s"
 msgstr "Кончилась память на картинке \"%s\""
 
 #: src/ypaths.cc:156
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find image %s"
 msgstr "Не могу найти картинку %s"
 
 #: src/ypaths.cc:175
-#, fuzzy, c-format
+#, c-format
 msgid "Out of memory for image: %s"
-msgstr "Кончилась память на картинке \"%s\""
+msgstr "Кончилась память на картинке: %s"
 
 #: src/ypaths.cc:182
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find image: %s"
-msgstr "Не могу найти картинку %s"
+msgstr "Не могу найти картинку: %s"
 
 #: src/ypixbuf.cc:482 src/ypixbuf.cc:668
 #, c-format
@@ -1283,6 +1291,40 @@ msgstr "\"%s\" не является стандартным адресом Ин�
 msgid "\"%s\" contains no scheme description"
 msgstr "\"%s\" не имеет описания схемы"
 
+#~ msgid "%s - unknown format (%d)"
+#~ msgstr "/proc/apm - неизвестный формат (%d)"
+
+#~ msgid " processes."
+#~ msgstr "процессов."
+
+#~ msgid "cpu: %d %d %d %d %d %d %d"
+#~ msgstr "CPU: %d %d %d %d %d %d %d"
+
+#~ msgid ""
+#~ "Interface %s:\n"
+#~ "  Current rate (in/out):\t%li %s/%li %s\n"
+#~ "  Current average (in/out):\t%lli %s/%lli %s\n"
+#~ "  Total average (in/out):\t%li %s/%li %s\n"
+#~ "  Transferred (in/out):\t%lli %s/%lli %s\n"
+#~ "  Online time:\t%ld:%02ld:%02ld%s%s"
+#~ msgstr ""
+#~ "Интерфейс %s:\n"
+#~ "  Текущая скорость (ввод/вывод):\t%li %s/%li %s\n"
+#~ "  Текущая средняя скорость (ввод/вывод):\t%lli %s/%lli %s\n"
+#~ "  Средняя скорость (ввод/вывод):\t%li %s/%li %s\n"
+#~ "  Переслано данных (ввод/вывод):\t%lli %s/%lli %s\n"
+#~ "  Время на линии:\t%ld:%02ld:%02ld%s%s"
+
+#~ msgid "Not a regular file: %s"
+#~ msgstr "Не обычный файл: %s"
+
+#~ msgid "Could not find pixel map %s"
+#~ msgstr "Не могу найти картинку %s"
+
+#~ msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%dx%d"
+#~ msgstr ""
+#~ "%s:%d: Ошибка копирования графического элемента 0x%x в буфер пикселов"
+
 #~ msgid "Out of memory for pixel map %s"
 #~ msgstr "Нехватка памяти для картинки %s"
 
@@ -1304,11 +1346,9 @@ msgstr "\"%s\" не имеет описания схемы"
 #~ msgid "menu caption expected"
 #~ msgstr "Ожидается разделитель меню"
 
-#, fuzzy
 #~ msgid "opening curly expected"
 #~ msgstr "Ожидается идентификатор"
 
-#, fuzzy
 #~ msgid "action name expected"
 #~ msgstr "Ожидается разделитель"
 
@@ -1413,7 +1453,6 @@ msgstr "\"%s\" не имеет описания схемы"
 #~ msgid "Failed to create anonymous pipe: %s"
 #~ msgstr "Ошибка создания анонимного потока: %s"
 
-#, fuzzy
 #~ msgid "Failed to duplicate file descriptor: %s"
 #~ msgstr "Ошибка записи файла истории %s: %s"
 
@@ -1429,3 +1468,6 @@ msgstr "\"%s\" не имеет описания схемы"
 
 #~ msgid "Session Manager: Init error: %s"
 #~ msgstr "Session Manager: Ошибка инициализации: %s"
+
+#~ msgid "CPU Load: %3.2f %3.2f %3.2f, %d processes."
+#~ msgstr "Загрузка процессора: %3.2f %3.2f %3.2f, %d процессов."

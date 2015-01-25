@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-01-24 17:58-0700\n"
+"POT-Creation-Date: 2015-01-25 20:43+0100\n"
 "PO-Revision-Date: 2003-10-14 09:41+0300\n"
 "Last-Translator: Nick Apostolakis <nickapos@agriroot.aua.gr>\n"
 "Language-Team: hellenic <en@li.org>\n"
@@ -105,7 +105,7 @@ msgid "%ld mail messages."
 msgstr "%ld μυνήματα αλληλογραφίας."
 
 #: src/apppstatus.cc:204
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Interface %s:\n"
 "  Current rate (in/out):\t%li %s/%li %s\n"
@@ -114,9 +114,8 @@ msgid ""
 "  Online time:\t%ld:%02ld:%02ld%s%s"
 msgstr ""
 "Interface %s:\n"
-"  Τρέχων ρυθμός (μέσα/έξω):\t%lli %s/%lli %s\n"
+"  Τρέχων ρυθμός (μέσα/έξω):\t%li %s/%li %s\n"
 "  Τρέχων μέσος όρος (μέσα/έξω):\t%lli %s/%lli %s\n"
-"  Ολικός μέσος όρος (μέσα/έξω):\t%lli %s/%lli %s\n"
 "   Μεταφέρθηκαν (μέσα/έξω):\t%lli %s/%lli %s\n"
 "  Χρόνος σύνδεσης:\t%ld:%02ld:%02ld%s%s"
 
@@ -1262,6 +1261,25 @@ msgstr ""
 msgid "\"%s\" contains no scheme description"
 msgstr ""
 
+#, fuzzy
+#~ msgid ""
+#~ "Interface %s:\n"
+#~ "  Current rate (in/out):\t%li %s/%li %s\n"
+#~ "  Current average (in/out):\t%lli %s/%lli %s\n"
+#~ "  Total average (in/out):\t%li %s/%li %s\n"
+#~ "  Transferred (in/out):\t%lli %s/%lli %s\n"
+#~ "  Online time:\t%ld:%02ld:%02ld%s%s"
+#~ msgstr ""
+#~ "Interface %s:\n"
+#~ "  Τρέχων ρυθμός (μέσα/έξω):\t%lli %s/%lli %s\n"
+#~ "  Τρέχων μέσος όρος (μέσα/έξω):\t%lli %s/%lli %s\n"
+#~ "  Ολικός μέσος όρος (μέσα/έξω):\t%lli %s/%lli %s\n"
+#~ "   Μεταφέρθηκαν (μέσα/έξω):\t%lli %s/%lli %s\n"
+#~ "  Χρόνος σύνδεσης:\t%ld:%02ld:%02ld%s%s"
+
+#~ msgid "Could not find pixel map %s"
+#~ msgstr "Δεν μπόρεσα να βρώ το pixel map %s"
+
 #~ msgid "Out of memory for pixel map %s"
 #~ msgstr "Εκτός μνήμης για το pixel map %s"
 
@@ -1297,3 +1315,6 @@ msgstr ""
 
 #~ msgid "Obsolete option: %s"
 #~ msgstr "Παρωχημένη επιλογή %s"
+
+#~ msgid "CPU Load: %3.2f %3.2f %3.2f, %d processes."
+#~ msgstr "Φόρτος Επεξεργαστή: %3.2f %3.2f %3.2f, %d διεργασίες."

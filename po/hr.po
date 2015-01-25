@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.7\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-01-24 17:58-0700\n"
+"POT-Creation-Date: 2015-01-25 20:43+0100\n"
 "PO-Revision-Date: 2001-03-25 17:00+GMT1\n"
 "Last-Translator: Vlatko Kosturjak <kost@iname.com>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
@@ -1253,6 +1253,10 @@ msgid "\"%s\" contains no scheme description"
 msgstr "\"%s\" ne sadrži opis sheme"
 
 #, fuzzy
+#~ msgid "Could not find pixel map %s"
+#~ msgstr "Ne mogu pronaći pixmap-u %s"
+
+#, fuzzy
 #~ msgid "Out of memory for pixel map %s"
 #~ msgstr "Nema memorije za pixmapu %s"
 
@@ -1400,3 +1404,6 @@ msgstr "\"%s\" ne sadrži opis sheme"
 
 #~ msgid "Fallback to 'fixed' failed."
 #~ msgstr "Vraćanje na 'fixed' neuspješno."
+
+#~ msgid "CPU Load: %3.2f %3.2f %3.2f, %d processes."
+#~ msgstr "CPU opterećenje: %3.2f %3.2f %3.2f, %d procesa."
