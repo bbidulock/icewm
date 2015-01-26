@@ -453,8 +453,6 @@ AC_ARG_VAR([EXTRA_LIBS], [Extra core libraries.])
 
 CORE_LIBS="$CORE_LIBS "'$(EXTRA_LIBS)'
 
-AC_ARG_VAR([CXXLD], [Alternative libtool linker command.])
-
 # needed by lib/menu.in
 AC_SUBST([CONFIG_GNOME2_MENU_DIR])
 dnl AC_SUBST([GNOME_VER])
