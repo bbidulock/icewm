@@ -412,18 +412,6 @@ AC_DEFINE_UNQUOTED([HOSTOS],["${host_os}"],
 	[Define to the host operating system.])
 AC_DEFINE_UNQUOTED([HOSTCPU],["${host_cpu}"],
 	[Define to the host CPU.])
-AC_DEFINE_UNQUOTED([EXEEXT],["${EXEEXT}"],
-	[Define to the execution extension.])
-AC_DEFINE_UNQUOTED([ICEWMEXE],["icewm${EXEEXT}"],
-	[Define to the IceWM program.])
-AC_DEFINE_UNQUOTED([ICEWMTRAYEXE],["icewmtray${EXEEXT}"],
-	[Define to the IceWM tray program.])
-AC_DEFINE_UNQUOTED([ICEWMBGEXE],["icewmbg${EXEEXT}"],
-	[Define to the IceWM background program.])
-AC_DEFINE_UNQUOTED([ICESMEXE],["icewm-session${EXEEXT}"],
-	[Define to the IceWM session program.])
-AC_DEFINE_UNQUOTED([ICEHELPEXE],["icehelp${EXEEXT}"],
-	[Define to the IceWM help program.])
 AC_DEFINE_UNQUOTED([ICEHELPIDX],["${DOCDIR}/icewm.html"],
 	[Define to the IceWM help index file.])
 

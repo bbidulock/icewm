@@ -22,6 +22,7 @@
 #include "ascii.h"
 #include "wmconfig.h"
 #include "wmaction.h"
+#include "appnames.h"
 
 #include "intl.h"
 

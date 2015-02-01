@@ -18,6 +18,7 @@
 #define CFGDEF
 
 #include "icewmbg_prefs.h"
+#include "appnames.h"
 
 char const *ApplicationName = NULL;
 

@@ -40,6 +40,7 @@
 #include "yicon.h"
 #include "prefs.h"
 #include "upath.h"
+#include "appnames.h"
 
 #include "intl.h"
 
