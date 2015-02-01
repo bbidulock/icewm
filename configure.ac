@@ -9,7 +9,7 @@ AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADERS([config.h])
 AC_CANONICAL_TARGET
 
-DATE='2014-09-01'
+DATE='2015-02-01'
 AC_SUBST([DATE])
 
 APPLICATIONS='icewm icewm-session icesh icewmhint icewmbg icewmtray'
@@ -102,7 +102,7 @@ if test x$cross_compling != xyes ; then :; AC_FUNC_MALLOC fi
 AC_FUNC_MMAP
 if test x$cross_compling != xyes ; then :; AC_FUNC_REALLOC fi
 AC_FUNC_STRNLEN
-AC_CHECK_FUNCS([dup2 getcwd gethostbyname gethostname gettimeofday mblen memchr memmove memset mkdir nl_langinfo putenv select setlocale socket strcasecmp strchr strcspn strdup strerror strncasecmp strrchr strspn strstr strtol sysinfo uname])
+AC_CHECK_FUNCS([dup2 getcwd gethostbyname gethostname gettimeofday mblen memchr memmove memset mkdir nl_langinfo putenv select setlocale socket strcasecmp strchr strcspn strdup strerror strncasecmp strrchr strspn strstr strtol sysinfo uname abort])
 AC_CHECK_FUNCS([gettimeofday putenv select socket strtol strtoul basename])
 AC_CHECK_FUNCS([sysctlbyname])
 AC_CHECK_FUNC([getloadavg],[AC_DEFINE([HAVE_GETLOADAVG2], 1, [getloadavg() is available])])

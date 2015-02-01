@@ -1,5 +1,5 @@
 #ifndef __ASCII_H
-#define __ASCIIH_
+#define __ASCII_H
 
 class ASCII {
 public:

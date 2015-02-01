@@ -1,3 +1,6 @@
+#ifndef _APPNAMES_H_
+#define _APPNAMES_H_
+
 #define DO_QUOTE(X)        #X
 #define QUOTE(X)           DO_QUOTE(X)
 
@@ -25,4 +28,4 @@
 #define ICEHELPEXE "icehelp" QUOTE(EXEEXT)
 #endif
 
-
+#endif

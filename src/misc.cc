@@ -318,7 +318,11 @@ void precondition(char const *msg, ...) {
     fflush(stderr);
 
     show_backtrace();
+#ifdef HAVE_ABORT
+    abort();
+#else
     *(char *)0 = 0x42;
+#endif
 }
 
 void warn(char const *msg, ...) {
