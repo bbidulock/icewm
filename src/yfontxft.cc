@@ -101,11 +101,13 @@ public:
 		}
 
 		FriBidiCharType pbase_dir = FRIBIDI_TYPE_N;
-		if (fribidi_log2vis(str, len, &pbase_dir, //input
-						vis_str, // output
-						NULL, NULL, NULL // "statistics" that we don't need
-						)) ;
-		str = vis_str;
+    if (fribidi_log2vis(str, len, &pbase_dir, //input
+                vis_str, // output
+                NULL, NULL, NULL // "statistics" that we don't need
+                ))
+    {
+        str = vis_str;
+    }
 #endif
 
         XftDrawString(g.handleXft(), c, font,
