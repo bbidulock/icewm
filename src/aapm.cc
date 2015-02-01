@@ -770,12 +770,14 @@ void YApm::PmuStr(char *s, const bool tool_tip)
    }
 
    char line[80];
-   int power_present;
+   int power_present(0);
    while ( fgets(line, 80, fd) != NULL )
-     if (strncmp("AC Power", line, strlen("AC Power")) == 0) {
-	sscanf(strchr(line, ':')+2, "%d", &power_present);
-	break;
-     }
+   {
+      if (strncmp("AC Power", line, strlen("AC Power")) == 0) {
+         sscanf(strchr(line, ':')+2, "%d", &power_present);
+         break;
+      }
+   }
    fclose(fd);
 
    // hatred: for ApmGraph
