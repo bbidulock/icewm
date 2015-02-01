@@ -3,6 +3,7 @@
 #include "yxapp.h"
 #include "sysdep.h"
 #include "yconfig.h"
+#include "appnames.h"
 
 char const *ApplicationName = ICESMEXE;
 

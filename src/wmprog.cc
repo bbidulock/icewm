@@ -29,6 +29,7 @@
 #include "wmtaskbar.h"
 #include "yicon.h"
 #include "intl.h"
+#include "appnames.h"
 
 extern bool parseKey(const char *arg, KeySym *key, unsigned int *mod);
 
