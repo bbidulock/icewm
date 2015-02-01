@@ -5,7 +5,10 @@
  */
 #include "config.h"
 
+// XXX: find a good reason for keeping this pragma. Until that happens, make it play nicely with LLVM
+#if defined(__GNUC__) && ! defined(__clang_major__)
 #pragma implementation
+#endif
 
 #include "mstring.h"
 #include <string.h>

@@ -25,6 +25,14 @@ case "`uname -m`" in
 	;;
 esac
 
+# assuming that CXX is preset to clang++-3.6 or similar: disable this check
+# since some functions are implemented externally and it's ok that way
+case "$CXX" in
+   *clang*)
+      CXXFLAGS="$CXXFLAGS -Wno-unused-private-field"
+      ;;
+esac
+
 ./configure \
 	--enable-maintainer-mode \
 	--enable-dependency-tracking \

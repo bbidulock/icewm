@@ -5,7 +5,10 @@
 #include "ref.h"
 #include <string.h>
 
+// XXX: find a good reason for keeping this pragma. Until that happens, make it play nicely with LLVM
+#if defined(__GNUC__) && ! defined(__clang_major__)
 #pragma interface
+#endif
 
 struct MStringData {
     int fRefCount;
