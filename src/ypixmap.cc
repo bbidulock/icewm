@@ -18,7 +18,7 @@ static Pixmap createMask(int w, int h) {
 }
 
 void YPixmap::replicate(bool horiz, bool copyMask) {
-    if (this == NULL || pixmap() == None || (fMask == None && copyMask))
+    if (pixmap() == None || (fMask == None && copyMask))
 	return;
 
     int dim(horiz ? width() : height());
