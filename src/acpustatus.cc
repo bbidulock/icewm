@@ -361,7 +361,7 @@ int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
 float CPUStatus::getCpuFreq(unsigned int cpu) {
     char buf[16], namebuf[64];
     const char * categories[] = { "cpuinfo", "scaling" };
-    for(unsigned i = 0; i < _countof(categories); ++i)
+    for(unsigned i = 0; i < ACOUNT(categories); ++i)
     {
         int fd;
         float cpufreq = 0;
