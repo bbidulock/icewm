@@ -20,7 +20,7 @@ key "Super+KP_Add"			amixer sset PCM 5%+
 # advanced function keys by watching the output of the xev command whilest
 # pressing those keys and map those symbols by using xmodmap.
 
-key "XF86Standby"			killall -QUIT icewm
+key "XF86Standby"			/bin/sh -c "{ test -e /run/systemd/system && systemctl suspend; } ||:"
 key "XF86AudioLowerVolume"	amixer sset PCM 5%-
 key "XF86AudioRaiseVolume"	amixer sset PCM 5%+
 key "XF86AudioMute"			amixer sset PCM 0%
