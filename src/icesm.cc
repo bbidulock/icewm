@@ -7,6 +7,9 @@
 
 char const *ApplicationName = ICESMEXE;
 
+// the notification of startup step
+bool startup_phase(0); // 0: run tray, 1: run startup script
+
 class SessionManager: public YApplication {
 public:
     SessionManager(int *argc, char ***argv): YApplication(argc, argv) {
@@ -17,6 +20,8 @@ public:
         catchSignal(SIGCHLD);
         catchSignal(SIGTERM);
         catchSignal(SIGINT);
+// startup steps notifications
+        catchSignal(SIGUSR1);
     }
 
     void runScript(const char *scriptName) {
@@ -38,7 +43,7 @@ public:
     }
 
     void runIcewmtray(bool quit = false) {
-        const char *args[] = { ICEWMTRAYEXE, 0 };
+        const char *args[] = { ICEWMTRAYEXE, "--notify", 0 };
         if (quit) {
             if (tray_pid != -1) {
                 kill(tray_pid, SIGTERM);
@@ -51,7 +56,7 @@ public:
     }
 
     void runWM(bool quit = false) {
-        const char *args[] = { ICEWMEXE, 0 };
+        const char *args[] = { ICEWMEXE, "--notify", 0 };
         if (quit) {
             if (wm_pid != -1) {
                 kill(wm_pid, SIGTERM);
@@ -93,6 +98,14 @@ public:
                     bg_pid = -1;
             }
         }
+
+        if (sig == SIGUSR1)
+        {
+           if(startup_phase++)
+              runScript("startup");
+           else
+              runIcewmtray();
+        }
     }
 
 private:
@@ -107,8 +120,6 @@ int main(int argc, char **argv) {
 
     xapp.runIcewmbg();
     xapp.runWM();
-    xapp.runIcewmtray();
-    xapp.runScript("startup");
 
     xapp.mainLoop();
 

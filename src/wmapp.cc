@@ -1661,6 +1661,7 @@ static void print_usage(const char *argv0) {
 
 int main(int argc, char **argv) {
     YLocale locale;
+    bool notify_parent(false);
 
     for (char ** arg = argv + 1; arg < argv + argc; ++arg) {
         if (**arg == '-') {
@@ -1690,6 +1691,8 @@ int main(int argc, char **argv) {
                 replace_wm = true;
             else if (IS_SWITCH("v", "version"))
                 print_version();
+            else if (IS_LONG_SWITCH("notify"))
+                notify_parent = true;
             else if (IS_SWITCH("h", "help"))
                 print_usage(my_basename(argv[0]));
 #endif
@@ -1701,6 +1704,9 @@ int main(int argc, char **argv) {
     app.signalGuiEvent(geStartup);
 #endif
     manager->manageClients();
+
+    if(notify_parent)
+       kill(getppid(), SIGUSR1);
 
     int rc = app.mainLoop();
 #ifdef CONFIG_GUIEVENTS

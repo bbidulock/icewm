@@ -5,10 +5,7 @@
 #include "yxtray.h"
 #include "base.h"
 #include "debug.h"
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "sysdep.h"
 #include "yprefs.h"
 
 extern void logEvent(const XEvent &xev);
@@ -233,6 +230,14 @@ bool SysTray::checkMessageEvent(const XClientMessageEvent &message) {
 int main(int argc, char **argv) {
     YLocale locale;
     SysTrayApp stapp(&argc, &argv);
+    for(int i=1; i<argc; ++i)
+    {
+       if(argv[i] && 0 == strcmp("--notify", argv[i]))
+       {
+          kill(getppid(), SIGUSR1);
+          break;
+       }
+    }
 
     return stapp.mainLoop();
 }
