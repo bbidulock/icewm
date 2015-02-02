@@ -178,8 +178,13 @@ XSV(const char *, openCommand,                  0)
 XSV(const char *, terminalCommand,              "xterm")
 XSV(const char *, logoutCommand,                0)
 XSV(const char *, logoutCancelCommand,          0)
+#if defined(__linux__)
+XSV(const char *, shutdownCommand,              "/bin/sh -c \"{ test -e /run/systemd/system && systemctl poweroff; } ||:\"")
+XSV(const char *, rebootCommand,                "/bin/sh -c \"{ test -e /run/systemd/system && systemctl reboot; } ||:\"")
+#else
 XSV(const char *, shutdownCommand,              0)
 XSV(const char *, rebootCommand,                0)
+#endif // LINUX
 XIV(int, taskBarCPUDelay,                       500)
 XIV(int, taskBarNetSamples,                     20)
 XIV(int, taskBarNetDelay,                       500)
@@ -187,7 +192,7 @@ XSV(const char *, cpuCommand,                   "xterm -name top -title Process\
 XSV(const char *, cpuClassHint,                 "top.XTerm")
 XSV(const char *, netCommand,                   "xterm -name netstat -title 'Network Status' -e netstat -c")
 XSV(const char *, netClassHint,                 "netstat.XTerm")
-XSV(const char *, netDevice,                    "ppp0 eth0")
+XSV(const char *, netDevice,                    "eth0 wlan0")
 XSV(const char *, addressBarCommand,            0)
 #ifdef CONFIG_I18N
 XSV(const char *, fmtTime,                      "%X")
