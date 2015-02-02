@@ -714,14 +714,21 @@ static void initPixmaps() {
 
         for (int a = 0; a <= 1; a++) {
             for (int b = 0; b <= 1; b++) {
-                frameT[a][b]->replicate(true, copyMask);
-                frameB[a][b]->replicate(true, copyMask);
-                frameL[a][b]->replicate(false, copyMask);
-                frameR[a][b]->replicate(false, copyMask);
+               if(frameT[a][b]._ptr())
+                  frameT[a][b]->replicate(true, copyMask);
+               if(frameB[a][b]._ptr())
+                  frameB[a][b]->replicate(true, copyMask);
+               if(frameL[a][b]._ptr())
+                  frameL[a][b]->replicate(false, copyMask);
+               if(frameR[a][b]._ptr())
+                  frameR[a][b]->replicate(false, copyMask);
             }
-            titleS[a]->replicate(true, copyMask);
-            titleT[a]->replicate(true, copyMask);
-            titleB[a]->replicate(true, copyMask);
+            if(titleS[a]._ptr())
+               titleS[a]->replicate(true, copyMask);
+            if(titleT[a]._ptr())
+               titleT[a]->replicate(true, copyMask);
+            if(titleB[a]._ptr())
+               titleB[a]->replicate(true, copyMask);
         }
 
         menuButton[0] = paths->loadPixmap(0, "menuButtonI.xpm");
