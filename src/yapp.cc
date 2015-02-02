@@ -587,6 +587,7 @@ int YApplication::runProgram(const char *path, const char *const *args) {
     return cpid;
 }
 
+#if for_old_worker_code_see_attic
 int YApplication::startWorker(int socket, const char *path, const char *const *args) {
     flushXEvents();
 
@@ -616,6 +617,7 @@ int YApplication::startWorker(int socket, const char *path, const char *const *a
     }
     return cpid;
 }
+#endif
 
 int YApplication::waitProgram(int p) {
     int status;

@@ -33,7 +33,7 @@ public:
     virtual void unregisterTimer(YTimer *t) = 0;
     virtual void registerPoll(YPollBase *t) = 0;
     virtual void unregisterPoll(YPollBase *t) = 0;
-    virtual int startWorker(int socket, const char *path, const char *const *args) = 0; 
+    //virtual int startWorker(int socket, const char *path, const char *const *args) = 0; 
 };
 
 class YApplication: public IApp, public IMainLoop {
@@ -57,7 +57,7 @@ public:
     //void unblockSignal(int sig);
 
     virtual int runProgram(const char *path, const char *const *args);
-    virtual int startWorker(int socket, const char *path, const char *const *args);
+    //virtual int startWorker(int socket, const char *path, const char *const *args);
     virtual void runCommand(const char *prog);
     virtual int waitProgram(int p);
 

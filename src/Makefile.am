@@ -108,8 +108,6 @@ libice_la_SOURCES = \
 	ypaint.h \
 	ypopup.cc \
 	ypopup.h \
-	yworker.cc \
-	yworker.h \
 	misc.cc \
 	ycursor.cc \
 	ycursor.h \
