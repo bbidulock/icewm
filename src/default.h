@@ -114,6 +114,7 @@ XIV(bool, centerMaximizedWindows,               false)
 XIV(bool, hideBordersMaximized,                 false)
 XIV(bool, win95keys,                            true)
 XIV(bool, autoReloadMenus,                      true)
+XIV(bool, arrangeWindowsOnScreenSizeChange,     true)
 XIV(bool, clientMouseActions,                   true)
 XIV(bool, showPrograms,                         false)
 XIV(bool, showSettingsMenu,                     true)
@@ -279,6 +280,7 @@ cfoption icewm_preferences[] = {
     OBV("VerticalEdgeSwitch",                   &edgeVertWorkspaceSwitching,    "Workspace switches by moving mouse to top/bottom screen edge"),
     OBV("ContinuousEdgeSwitch",                 &edgeContWorkspaceSwitching,    "Workspace switches continuously when moving mouse to screen edge"),
     OBV("AutoReloadMenus",                      &autoReloadMenus,               "Reload menu files automatically"),
+    OBV("ArrangeWindowsOnScreenSizeChange",     &arrangeWindowsOnScreenSizeChange, "Automatically arrange windows when screen size changes"),
 #ifdef CONFIG_TASKBAR
     OBV("ShowTaskBar",                          &showTaskBar,                   "Show task bar"),
     OBV("TaskBarAtTop",                         &taskBarAtTop,                  "Task bar at top of the screen"),

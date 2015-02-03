@@ -3468,7 +3468,9 @@ void YWindowManager::UpdateScreenSize(XEvent *event) {
         }
 
 /// TODO #warning "make something better"
-        wmActionListener->actionPerformed(actionArrange, 0);
+        if (arrangeWindowsOnScreenSizeChange) {
+            wmActionListener->actionPerformed(actionArrange, 0);
+        }
     }
 }
 #endif
