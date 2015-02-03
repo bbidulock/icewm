@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.2.2\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-01-25 20:43+0100\n"
+"POT-Creation-Date: 2015-02-02 23:22-0700\n"
 "PO-Revision-Date: 2003-01-27 22:26+0300\n"
 "Last-Translator: Hleb Valoska <el_globus@tut.by>\n"
 "Language-Team: Belarusian <i18n@mova.org>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:873
+#: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:875
 msgid " - Power"
 msgstr " - Сілкаваньне"
 
@@ -22,7 +22,7 @@ msgstr " - Сілкаваньне"
 msgid "P"
 msgstr "P"
 
-#: src/aapm.cc:197 src/aapm.cc:498 src/aapm.cc:734 src/aapm.cc:844
+#: src/aapm.cc:197 src/aapm.cc:498 src/aapm.cc:734 src/aapm.cc:846
 #, c-format
 msgid " - Charging"
 msgstr " - Зарад"
@@ -593,7 +593,7 @@ msgstr "Пераносіць радкі"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icewmbg.cc:409
+#: src/icewmbg.cc:410
 msgid ""
 "Usage: icewmbg [ -r | -q ]\n"
 " -r  Restart icewmbg\n"
@@ -611,7 +611,7 @@ msgid ""
 " center:1 scaled:1 = keep aspect ratio\n"
 msgstr ""
 
-#: src/icewmbg.cc:427
+#: src/icewmbg.cc:428
 #, c-format
 msgid ""
 "%s: unrecognized option `%s'\n"
@@ -620,12 +620,12 @@ msgstr ""
 "%s: нераспазнаная опцыя `%s'\n"
 "Паспрабуй `%s --help', каб атрымаць болей зьвестак.\n"
 
-#: src/icewmbg.cc:556
+#: src/icewmbg.cc:557
 #, c-format
 msgid "Loading image %s failed"
 msgstr "Няўдалая загрузка выявы %s"
 
-#: src/icewmbg.cc:570 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
+#: src/icewmbg.cc:571 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
 msgstr "Няўдалая загрузка выявы \"%s\": %s"
@@ -639,7 +639,7 @@ msgstr "Ужывай: icewmhint [кляса.асобнік] опцыя пара�
 msgid "Out of memory (len=%d)."
 msgstr "Не стае памяці (даўжыня=%d)."
 
-#: src/misc.cc:326
+#: src/misc.cc:330
 msgid "Warning: "
 msgstr "Увага: "
 
@@ -648,7 +648,7 @@ msgstr "Увага: "
 msgid "Unknown direction in move/resize request: %d"
 msgstr ""
 
-#: src/themes.cc:99
+#: src/themes.cc:100
 #, fuzzy
 msgid "Default"
 msgstr "Выдаліць"
@@ -681,159 +681,159 @@ msgstr ""
 msgid "icewm - About"
 msgstr "icewm - Пра"
 
-#: src/wmapp.cc:435
+#: src/wmapp.cc:436
 msgid "Unable to get current font path."
 msgstr "Немагчыма атрымаць багучы шлях шрыфтоў."
 
-#: src/wmapp.cc:462
+#: src/wmapp.cc:463
 msgid "Unexpected format of ICEWM_FONT_PATH property"
 msgstr "Невядомы фармат уласьцівасьці ICEWM_FONT_PATH"
 
-#: src/wmapp.cc:519
+#: src/wmapp.cc:520
 #, c-format
 msgid "Multiple references for gradient \"%s\""
 msgstr "Шматразовыя згадкі градыента \"%s\""
 
-#: src/wmapp.cc:594
+#: src/wmapp.cc:595
 #, c-format
 msgid "Unknown gradient name: %s"
 msgstr "Невядомае імя градыента: %s"
 
-#: src/wmapp.cc:850
+#: src/wmapp.cc:858
 msgid "_Logout"
 msgstr "_Выйсьці"
 
-#: src/wmapp.cc:851
+#: src/wmapp.cc:859
 msgid "_Cancel logout"
 msgstr "_Адмена выхаду"
 
-#: src/wmapp.cc:863
+#: src/wmapp.cc:871
 msgid "Lock _Workstation"
 msgstr "_Заблякаваць Станцыю"
 
-#: src/wmapp.cc:865 src/wmdialog.cc:111
+#: src/wmapp.cc:873 src/wmdialog.cc:111
 msgid "Re_boot"
 msgstr "Перазагрузіць _кампутар"
 
-#: src/wmapp.cc:867 src/wmdialog.cc:118
+#: src/wmapp.cc:875 src/wmdialog.cc:118
 msgid "Shut_down"
 msgstr "_Выключыць кампутар"
 
-#: src/wmapp.cc:871
+#: src/wmapp.cc:879
 msgid "Restart _Icewm"
 msgstr "Перазапуск _Icewm"
 
-#: src/wmapp.cc:874
+#: src/wmapp.cc:882
 msgid "Restart _Xterm"
 msgstr "Перазапуск _Xterm"
 
-#: src/wmapp.cc:889
+#: src/wmapp.cc:897
 msgid "_Menu"
 msgstr "На ўзроўні _мэню"
 
-#: src/wmapp.cc:890
+#: src/wmapp.cc:898
 msgid "_Above Dock"
 msgstr "Па-над _докам"
 
 # fixme
-#: src/wmapp.cc:891
+#: src/wmapp.cc:899
 msgid "_Dock"
 msgstr "На _ўзроўні доку"
 
 # fixme
-#: src/wmapp.cc:892
+#: src/wmapp.cc:900
 msgid "_OnTop"
 msgstr "Над усімі _вокнамі"
 
-#: src/wmapp.cc:893
+#: src/wmapp.cc:901
 msgid "_Normal"
 msgstr "_Нармальнае разьмяшчэньне"
 
-#: src/wmapp.cc:894
+#: src/wmapp.cc:902
 msgid "_Below"
 msgstr "_Пад усімі вокнамі"
 
-#: src/wmapp.cc:895
+#: src/wmapp.cc:903
 msgid "D_esktop"
 msgstr "На ўзроўні _стальца"
 
-#: src/wmapp.cc:907
+#: src/wmapp.cc:915
 msgid "_Restore"
 msgstr "Вернуць ранейшы _стан"
 
-#: src/wmapp.cc:909
+#: src/wmapp.cc:917
 msgid "_Move"
 msgstr "_Перасунуць вакно"
 
-#: src/wmapp.cc:911
+#: src/wmapp.cc:919
 msgid "_Size"
 msgstr "Зьмяніць па_мер"
 
-#: src/wmapp.cc:913
+#: src/wmapp.cc:921
 msgid "Mi_nimize"
 msgstr "З_гарнуць"
 
-#: src/wmapp.cc:915
+#: src/wmapp.cc:923
 msgid "Ma_ximize"
 msgstr "_Разгарнуць"
 
-#: src/wmapp.cc:917
+#: src/wmapp.cc:925
 msgid "_Fullscreen"
 msgstr "На поўны _экран"
 
-#: src/wmapp.cc:921 src/wmwinlist.cc:307
+#: src/wmapp.cc:929 src/wmwinlist.cc:307
 msgid "_Hide"
 msgstr "С_хаваць"
 
-#: src/wmapp.cc:924
+#: src/wmapp.cc:932
 msgid "Roll_up"
 msgstr "С_круціць угору"
 
-#: src/wmapp.cc:931
+#: src/wmapp.cc:939
 msgid "R_aise"
 msgstr "Уз_ьняць над усімі вокнамі"
 
-#: src/wmapp.cc:933
+#: src/wmapp.cc:941
 msgid "_Lower"
 msgstr "Ап_усьціць пад усе вокны"
 
-#: src/wmapp.cc:935
+#: src/wmapp.cc:943
 msgid "La_yer"
 msgstr "Узровень разьмя_шчэньня"
 
-#: src/wmapp.cc:939 src/wmwinlist.cc:310
+#: src/wmapp.cc:947 src/wmwinlist.cc:310
 msgid "Move _To"
 msgstr "Перамесьціць на _варштат"
 
-#: src/wmapp.cc:940
+#: src/wmapp.cc:948
 msgid "Occupy _All"
 msgstr "Хай займае _ўсе варштаты"
 
-#: src/wmapp.cc:946
+#: src/wmapp.cc:954
 msgid "Limit _Workarea"
 msgstr "_Абмежаваць вобласьць"
 
-#: src/wmapp.cc:951
+#: src/wmapp.cc:959
 msgid "Tray _icon"
 msgstr "Значка _панэлі"
 
-#: src/wmapp.cc:957 src/wmwinlist.cc:295 src/wmwinlist.cc:321
+#: src/wmapp.cc:965 src/wmwinlist.cc:295 src/wmwinlist.cc:321
 msgid "_Close"
 msgstr "За_крыць"
 
-#: src/wmapp.cc:959 src/wmwinlist.cc:297
+#: src/wmapp.cc:967 src/wmwinlist.cc:297
 msgid "_Kill Client"
 msgstr "Заб_іць кліент"
 
-#: src/wmapp.cc:963 src/wmdialog.cc:132 src/wmwinmenu.cc:137
+#: src/wmapp.cc:971 src/wmdialog.cc:132 src/wmwinmenu.cc:137
 msgid "_Window list"
 msgstr "_Сьпіс вакон"
 
-#: src/wmapp.cc:979
+#: src/wmapp.cc:987
 msgid "Another window manager already running, exiting..."
 msgstr "Іншы кіраўнік вакон запушчаны, выходжу..."
 
-#: src/wmapp.cc:1045
+#: src/wmapp.cc:1053
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -842,7 +842,7 @@ msgstr ""
 "Немагчыма перазапусьціца: %s\n"
 "Ці спасылаецца $PATH на %s?"
 
-#: src/wmapp.cc:1619
+#: src/wmapp.cc:1627
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -898,11 +898,11 @@ msgstr ""
 "Наведай http://www.icewm.org/ каб паведаміць пра памылкі, запатрабаваць\n"
 "падтрымкі, ці проста выказацца пра IceWM...\n"
 
-#: src/wmapp.cc:1724
+#: src/wmapp.cc:1738
 msgid "Confirm Logout"
 msgstr "Пацьвердзі выйсьце"
 
-#: src/wmapp.cc:1725
+#: src/wmapp.cc:1739
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -919,7 +919,7 @@ msgstr "Кепскае імя `Выгляду'"
 msgid "Loc_k Workstation"
 msgstr "_Заблякаваць Станцыю"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:947 src/wmprog.cc:949 src/wmtaskbar.cc:433
+#: src/wmdialog.cc:90 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:433
 #: src/wmtaskbar.cc:435
 msgid "_Logout..."
 msgstr "_Скончыць сэанс"
@@ -932,7 +932,7 @@ msgstr "_Адмена"
 msgid "_Restart icewm"
 msgstr "_Перазапусьціць icewm"
 
-#: src/wmdialog.cc:125 src/wmprog.cc:885 src/wmtaskbar.cc:425
+#: src/wmdialog.cc:125 src/wmprog.cc:886 src/wmtaskbar.cc:425
 #: src/wmtaskbar.cc:428
 msgid "_About"
 msgstr "Пр_а"
@@ -997,68 +997,68 @@ msgstr "Сынтаксычная памылка ў опцыях вакна"
 msgid "Out of memory for window options"
 msgstr "Не стае памяці для опцый вакон."
 
-#: src/wmprog.cc:191
+#: src/wmprog.cc:192
 msgid "Missing command argument"
 msgstr "Прапушчаны парамэтар каманды"
 
-#: src/wmprog.cc:209
+#: src/wmprog.cc:210
 #, c-format
 msgid "Bad argument %d"
 msgstr "Кепскі парамэтар %d"
 
-#: src/wmprog.cc:295 src/wmprog.cc:399 src/wmprog.cc:441
+#: src/wmprog.cc:296 src/wmprog.cc:400 src/wmprog.cc:442
 #, c-format
 msgid "Error at prog %s"
 msgstr "Памылка праграмы %s"
 
-#: src/wmprog.cc:350
+#: src/wmprog.cc:351
 #, c-format
 msgid "Unexepected keyword: %s"
 msgstr "Нечаканае ключавое слова: %s"
 
 # fixme
-#: src/wmprog.cc:489
+#: src/wmprog.cc:490
 #, c-format
 msgid "Error at key %s"
 msgstr "Памылка ключа %s"
 
-#: src/wmprog.cc:849
+#: src/wmprog.cc:850
 msgid "Programs"
 msgstr "Праграмы"
 
-#: src/wmprog.cc:854
+#: src/wmprog.cc:855
 msgid "_Run..."
 msgstr "_Выканаць..."
 
-#: src/wmprog.cc:861 src/wmtaskbar.cc:413
+#: src/wmprog.cc:862 src/wmtaskbar.cc:413
 msgid "_Windows"
 msgstr "В_окны"
 
-#: src/wmprog.cc:898
+#: src/wmprog.cc:899
 msgid "_Help"
 msgstr "Да_ведка"
 
-#: src/wmprog.cc:916
+#: src/wmprog.cc:917
 msgid "_Click to focus"
 msgstr ""
 
-#: src/wmprog.cc:921
+#: src/wmprog.cc:922
 msgid "_Sloppy mouse focus"
 msgstr ""
 
-#: src/wmprog.cc:926
+#: src/wmprog.cc:927
 msgid "Custo_m"
 msgstr ""
 
-#: src/wmprog.cc:932
+#: src/wmprog.cc:933
 msgid "_Focus"
 msgstr ""
 
-#: src/wmprog.cc:939
+#: src/wmprog.cc:940
 msgid "_Themes"
 msgstr "_Тэмы"
 
-#: src/wmprog.cc:941
+#: src/wmprog.cc:942
 msgid "Se_ttings"
 msgstr ""
 
@@ -1227,12 +1227,12 @@ msgstr "ХІБА? Нечаканы канец файла XPM, але Imlib бы�
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
 msgstr "ХІБА? Нечаканы знак, але Imlib быў здольны разабраць \"%s\""
 
-#: src/yfontcore.cc:71 src/yfontxft.cc:172
+#: src/yfontcore.cc:71 src/yfontxft.cc:174
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "Немагчыма загрузіць шрыфт \"%s\"."
 
-#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:195
+#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:197
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr "няўдалая загрузка даўнятага шрыфту \"%s\"."

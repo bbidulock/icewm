@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-01-25 20:43+0100\n"
+"POT-Creation-Date: 2015-02-02 23:22-0700\n"
 "PO-Revision-Date: 2007-02-22 14:45+0800\n"
 "Last-Translator: Wei-Lun Chao <chaoweilun@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:873
+#: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:875
 msgid " - Power"
 msgstr " - 供電中"
 
@@ -25,7 +25,7 @@ msgstr " - 供電中"
 msgid "P"
 msgstr "P"
 
-#: src/aapm.cc:197 src/aapm.cc:498 src/aapm.cc:734 src/aapm.cc:844
+#: src/aapm.cc:197 src/aapm.cc:498 src/aapm.cc:734 src/aapm.cc:846
 #, c-format
 msgid " - Charging"
 msgstr " - 充電中"
@@ -577,7 +577,7 @@ msgstr "換列"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icewmbg.cc:409
+#: src/icewmbg.cc:410
 #, fuzzy
 msgid ""
 "Usage: icewmbg [ -r | -q ]\n"
@@ -606,7 +606,7 @@ msgstr ""
 " DesktopTransparencyColor - 做為半透明視窗的顏色\n"
 " DesktopTransparencyImage - 做為半透明視窗的圖案\n"
 
-#: src/icewmbg.cc:427
+#: src/icewmbg.cc:428
 #, c-format
 msgid ""
 "%s: unrecognized option `%s'\n"
@@ -615,12 +615,12 @@ msgstr ""
 "%s：無法識別的選項「%s」\n"
 "試試「%s --help」以得到更多資訊。\n"
 
-#: src/icewmbg.cc:556
+#: src/icewmbg.cc:557
 #, c-format
 msgid "Loading image %s failed"
 msgstr "載入影像 %s 失敗"
 
-#: src/icewmbg.cc:570 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
+#: src/icewmbg.cc:571 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
 msgstr "載入像素圖「%s」失敗：%s"
@@ -634,7 +634,7 @@ msgstr "用法：icewmhint [類別.實體] 選項 引數\n"
 msgid "Out of memory (len=%d)."
 msgstr "記憶體不足 (長度=%d)。"
 
-#: src/misc.cc:326
+#: src/misc.cc:330
 msgid "Warning: "
 msgstr "警告："
 
@@ -643,7 +643,7 @@ msgstr "警告："
 msgid "Unknown direction in move/resize request: %d"
 msgstr "要求移動/改變大小時有不明的方向: %d"
 
-#: src/themes.cc:99
+#: src/themes.cc:100
 msgid "Default"
 msgstr "預設"
 
@@ -675,157 +675,157 @@ msgstr ""
 msgid "icewm - About"
 msgstr "icewm - 關於"
 
-#: src/wmapp.cc:435
+#: src/wmapp.cc:436
 msgid "Unable to get current font path."
 msgstr "無法取得目前字型路徑。"
 
-#: src/wmapp.cc:462
+#: src/wmapp.cc:463
 msgid "Unexpected format of ICEWM_FONT_PATH property"
 msgstr "非預期格式的 ICEWM_FONT_PATH 特性"
 
-#: src/wmapp.cc:519
+#: src/wmapp.cc:520
 #, c-format
 msgid "Multiple references for gradient \"%s\""
 msgstr "漸層 \"%s\" 使用多重參考值"
 
-#: src/wmapp.cc:594
+#: src/wmapp.cc:595
 #, c-format
 msgid "Unknown gradient name: %s"
 msgstr "不明的漸層名稱：%s"
 
-#: src/wmapp.cc:850
+#: src/wmapp.cc:858
 msgid "_Logout"
 msgstr "登出(_L)"
 
-#: src/wmapp.cc:851
+#: src/wmapp.cc:859
 msgid "_Cancel logout"
 msgstr "取消登出(_C)"
 
-#: src/wmapp.cc:863
+#: src/wmapp.cc:871
 msgid "Lock _Workstation"
 msgstr "鎖定工作站(_W)"
 
-#: src/wmapp.cc:865 src/wmdialog.cc:111
+#: src/wmapp.cc:873 src/wmdialog.cc:111
 msgid "Re_boot"
 msgstr "重新開機(_B)"
 
-#: src/wmapp.cc:867 src/wmdialog.cc:118
+#: src/wmapp.cc:875 src/wmdialog.cc:118
 msgid "Shut_down"
 msgstr "關機(_D)"
 
-#: src/wmapp.cc:871
+#: src/wmapp.cc:879
 msgid "Restart _Icewm"
 msgstr "重新啟動 _Icewm"
 
-#: src/wmapp.cc:874
+#: src/wmapp.cc:882
 msgid "Restart _Xterm"
 msgstr "重新啟動 _Xterm"
 
-#: src/wmapp.cc:889
+#: src/wmapp.cc:897
 msgid "_Menu"
 msgstr "選單(_M)"
 
-#: src/wmapp.cc:890
+#: src/wmapp.cc:898
 msgid "_Above Dock"
 msgstr "停靠區之上(_A)"
 
-#: src/wmapp.cc:891
+#: src/wmapp.cc:899
 msgid "_Dock"
 msgstr "停靠區(_D)"
 
-#: src/wmapp.cc:892
+#: src/wmapp.cc:900
 msgid "_OnTop"
 msgstr "上層(_O)"
 
-#: src/wmapp.cc:893
+#: src/wmapp.cc:901
 msgid "_Normal"
 msgstr "正常(_N)"
 
-#: src/wmapp.cc:894
+#: src/wmapp.cc:902
 msgid "_Below"
 msgstr "下層(_B)"
 
-#: src/wmapp.cc:895
+#: src/wmapp.cc:903
 msgid "D_esktop"
 msgstr "桌面(_E)"
 
-#: src/wmapp.cc:907
+#: src/wmapp.cc:915
 msgid "_Restore"
 msgstr "還原(_R)"
 
-#: src/wmapp.cc:909
+#: src/wmapp.cc:917
 msgid "_Move"
 msgstr "移動(_M)"
 
-#: src/wmapp.cc:911
+#: src/wmapp.cc:919
 msgid "_Size"
 msgstr "大小(_S)"
 
-#: src/wmapp.cc:913
+#: src/wmapp.cc:921
 msgid "Mi_nimize"
 msgstr "縮小(_N)"
 
-#: src/wmapp.cc:915
+#: src/wmapp.cc:923
 msgid "Ma_ximize"
 msgstr "放大(_X)"
 
-#: src/wmapp.cc:917
+#: src/wmapp.cc:925
 msgid "_Fullscreen"
 msgstr "全螢幕(_F)"
 
-#: src/wmapp.cc:921 src/wmwinlist.cc:307
+#: src/wmapp.cc:929 src/wmwinlist.cc:307
 msgid "_Hide"
 msgstr "隱藏(_H)"
 
-#: src/wmapp.cc:924
+#: src/wmapp.cc:932
 msgid "Roll_up"
 msgstr "向上循環(_U)"
 
-#: src/wmapp.cc:931
+#: src/wmapp.cc:939
 msgid "R_aise"
 msgstr "提升(_A)"
 
-#: src/wmapp.cc:933
+#: src/wmapp.cc:941
 msgid "_Lower"
 msgstr "降低(_L)"
 
-#: src/wmapp.cc:935
+#: src/wmapp.cc:943
 msgid "La_yer"
 msgstr "層次(_Y)"
 
-#: src/wmapp.cc:939 src/wmwinlist.cc:310
+#: src/wmapp.cc:947 src/wmwinlist.cc:310
 msgid "Move _To"
 msgstr "移至(_T)"
 
-#: src/wmapp.cc:940
+#: src/wmapp.cc:948
 msgid "Occupy _All"
 msgstr "全部佔據(_A)"
 
-#: src/wmapp.cc:946
+#: src/wmapp.cc:954
 msgid "Limit _Workarea"
 msgstr "限制工作區域(_W)"
 
-#: src/wmapp.cc:951
+#: src/wmapp.cc:959
 msgid "Tray _icon"
 msgstr "工具列圖示(_I)"
 
-#: src/wmapp.cc:957 src/wmwinlist.cc:295 src/wmwinlist.cc:321
+#: src/wmapp.cc:965 src/wmwinlist.cc:295 src/wmwinlist.cc:321
 msgid "_Close"
 msgstr "關閉(_C)"
 
-#: src/wmapp.cc:959 src/wmwinlist.cc:297
+#: src/wmapp.cc:967 src/wmwinlist.cc:297
 msgid "_Kill Client"
 msgstr "砍掉客戶端程式(_K)"
 
-#: src/wmapp.cc:963 src/wmdialog.cc:132 src/wmwinmenu.cc:137
+#: src/wmapp.cc:971 src/wmdialog.cc:132 src/wmwinmenu.cc:137
 msgid "_Window list"
 msgstr "視窗清單(_W)"
 
-#: src/wmapp.cc:979
+#: src/wmapp.cc:987
 msgid "Another window manager already running, exiting..."
 msgstr "另一個視窗管理程式已經在執行，離開中..."
 
-#: src/wmapp.cc:1045
+#: src/wmapp.cc:1053
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -834,7 +834,7 @@ msgstr ""
 "無法重新啟動：%s\n"
 "$PATH 有指向 %s 嗎？"
 
-#: src/wmapp.cc:1619
+#: src/wmapp.cc:1627
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -889,11 +889,11 @@ msgstr ""
 "\n"
 "參看 http://www.icewm.org/ 以回報錯誤、要求支援、提供意見...\n"
 
-#: src/wmapp.cc:1724
+#: src/wmapp.cc:1738
 msgid "Confirm Logout"
 msgstr "確定登出"
 
-#: src/wmapp.cc:1725
+#: src/wmapp.cc:1739
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -910,7 +910,7 @@ msgstr "不當的 Look 名稱"
 msgid "Loc_k Workstation"
 msgstr "鎖定工作站(_W)"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:947 src/wmprog.cc:949 src/wmtaskbar.cc:433
+#: src/wmdialog.cc:90 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:433
 #: src/wmtaskbar.cc:435
 msgid "_Logout..."
 msgstr "登出(_L)..."
@@ -923,7 +923,7 @@ msgstr "取消(_C)"
 msgid "_Restart icewm"
 msgstr "重新啟動 icewm(_R)"
 
-#: src/wmdialog.cc:125 src/wmprog.cc:885 src/wmtaskbar.cc:425
+#: src/wmdialog.cc:125 src/wmprog.cc:886 src/wmtaskbar.cc:425
 #: src/wmtaskbar.cc:428
 msgid "_About"
 msgstr "關於(_A)"
@@ -986,67 +986,67 @@ msgstr "視窗選項語法錯誤"
 msgid "Out of memory for window options"
 msgstr "視窗選項記憶體不足"
 
-#: src/wmprog.cc:191
+#: src/wmprog.cc:192
 msgid "Missing command argument"
 msgstr "命令引數不足"
 
-#: src/wmprog.cc:209
+#: src/wmprog.cc:210
 #, c-format
 msgid "Bad argument %d"
 msgstr "不當引數 %d"
 
-#: src/wmprog.cc:295 src/wmprog.cc:399 src/wmprog.cc:441
+#: src/wmprog.cc:296 src/wmprog.cc:400 src/wmprog.cc:442
 #, c-format
 msgid "Error at prog %s"
 msgstr "程式 %s 錯誤"
 
-#: src/wmprog.cc:350
+#: src/wmprog.cc:351
 #, c-format
 msgid "Unexepected keyword: %s"
 msgstr "非預期的關鍵字：%s"
 
-#: src/wmprog.cc:489
+#: src/wmprog.cc:490
 #, c-format
 msgid "Error at key %s"
 msgstr "按鍵 %s 錯誤"
 
-#: src/wmprog.cc:849
+#: src/wmprog.cc:850
 msgid "Programs"
 msgstr "程式"
 
-#: src/wmprog.cc:854
+#: src/wmprog.cc:855
 msgid "_Run..."
 msgstr "執行(_R)..."
 
-#: src/wmprog.cc:861 src/wmtaskbar.cc:413
+#: src/wmprog.cc:862 src/wmtaskbar.cc:413
 msgid "_Windows"
 msgstr "視窗(_W)"
 
-#: src/wmprog.cc:898
+#: src/wmprog.cc:899
 msgid "_Help"
 msgstr "求助(_H)"
 
-#: src/wmprog.cc:916
+#: src/wmprog.cc:917
 msgid "_Click to focus"
 msgstr ""
 
-#: src/wmprog.cc:921
+#: src/wmprog.cc:922
 msgid "_Sloppy mouse focus"
 msgstr ""
 
-#: src/wmprog.cc:926
+#: src/wmprog.cc:927
 msgid "Custo_m"
 msgstr ""
 
-#: src/wmprog.cc:932
+#: src/wmprog.cc:933
 msgid "_Focus"
 msgstr ""
 
-#: src/wmprog.cc:939
+#: src/wmprog.cc:940
 msgid "_Themes"
 msgstr "主題(_T)"
 
-#: src/wmprog.cc:941
+#: src/wmprog.cc:942
 msgid "Se_ttings"
 msgstr ""
 
@@ -1209,12 +1209,12 @@ msgstr "程式錯誤？XPM 檔案非預期結束，但是 Imlib 之前可以解�
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
 msgstr "程式錯誤？非預期字元，但是 Imlib 之前可以解析 \"%s\""
 
-#: src/yfontcore.cc:71 src/yfontxft.cc:172
+#: src/yfontcore.cc:71 src/yfontxft.cc:174
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "無法載入字型「%s」。"
 
-#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:195
+#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:197
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr "載入後備字型 \"%s\" 失敗"

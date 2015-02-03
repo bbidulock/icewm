@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-01-25 20:43+0100\n"
+"POT-Creation-Date: 2015-02-02 23:22-0700\n"
 "PO-Revision-Date: 2005-01-23 23:32+0700\n"
 "Last-Translator: Arif E. Nugroho <arif_endro@yahoo.com>\n"
 "Language-Team: Indonesia\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:873
+#: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:875
 msgid " - Power"
 msgstr " - Baterai"
 
@@ -23,7 +23,7 @@ msgstr " - Baterai"
 msgid "P"
 msgstr "P"
 
-#: src/aapm.cc:197 src/aapm.cc:498 src/aapm.cc:734 src/aapm.cc:844
+#: src/aapm.cc:197 src/aapm.cc:498 src/aapm.cc:734 src/aapm.cc:846
 #, c-format
 msgid " - Charging"
 msgstr " - Mengisi Baterai"
@@ -553,7 +553,7 @@ msgstr ""
 msgid "Ctrl+W"
 msgstr ""
 
-#: src/icewmbg.cc:409
+#: src/icewmbg.cc:410
 #, fuzzy
 msgid ""
 "Usage: icewmbg [ -r | -q ]\n"
@@ -583,7 +583,7 @@ msgstr ""
 " DesktopTransparencyColor - Color to announce for semi-transparent windows\n"
 " DesktopTransparencyImage - Image to announce for semi-transparent windows\n"
 
-#: src/icewmbg.cc:427
+#: src/icewmbg.cc:428
 #, c-format
 msgid ""
 "%s: unrecognized option `%s'\n"
@@ -592,12 +592,12 @@ msgstr ""
 "%s: opsi tidak dikenali `%s'\n"
 "Coba `%s --help' untuk informasi lebih lanjut.\n"
 
-#: src/icewmbg.cc:556
+#: src/icewmbg.cc:557
 #, c-format
 msgid "Loading image %s failed"
 msgstr "Gagal menampilkan gambar %s"
 
-#: src/icewmbg.cc:570 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
+#: src/icewmbg.cc:571 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
 msgstr "Gagal meload pixmap \"%s\" : %s"
@@ -611,7 +611,7 @@ msgstr "Penggunaan: icewmhint [class.instance] opsi argumen\n"
 msgid "Out of memory (len=%d)."
 msgstr "Kehabisan memory (len=%d)."
 
-#: src/misc.cc:326
+#: src/misc.cc:330
 msgid "Warning: "
 msgstr "Peringatan: "
 
@@ -620,7 +620,7 @@ msgstr "Peringatan: "
 msgid "Unknown direction in move/resize request: %d"
 msgstr ""
 
-#: src/themes.cc:99
+#: src/themes.cc:100
 msgid "Default"
 msgstr "Default"
 
@@ -652,157 +652,157 @@ msgstr ""
 msgid "icewm - About"
 msgstr "Tentang IceWM"
 
-#: src/wmapp.cc:435
+#: src/wmapp.cc:436
 msgid "Unable to get current font path."
 msgstr ""
 
-#: src/wmapp.cc:462
+#: src/wmapp.cc:463
 msgid "Unexpected format of ICEWM_FONT_PATH property"
 msgstr ""
 
-#: src/wmapp.cc:519
+#: src/wmapp.cc:520
 #, c-format
 msgid "Multiple references for gradient \"%s\""
 msgstr ""
 
-#: src/wmapp.cc:594
+#: src/wmapp.cc:595
 #, c-format
 msgid "Unknown gradient name: %s"
 msgstr ""
 
-#: src/wmapp.cc:850
+#: src/wmapp.cc:858
 msgid "_Logout"
 msgstr "_Keluar"
 
-#: src/wmapp.cc:851
+#: src/wmapp.cc:859
 msgid "_Cancel logout"
 msgstr "_Batal Keluar"
 
-#: src/wmapp.cc:863
+#: src/wmapp.cc:871
 msgid "Lock _Workstation"
 msgstr "Kunci _Workstation"
 
-#: src/wmapp.cc:865 src/wmdialog.cc:111
+#: src/wmapp.cc:873 src/wmdialog.cc:111
 msgid "Re_boot"
 msgstr ""
 
-#: src/wmapp.cc:867 src/wmdialog.cc:118
+#: src/wmapp.cc:875 src/wmdialog.cc:118
 msgid "Shut_down"
 msgstr "_Matikan"
 
-#: src/wmapp.cc:871
+#: src/wmapp.cc:879
 msgid "Restart _Icewm"
 msgstr ""
 
-#: src/wmapp.cc:874
+#: src/wmapp.cc:882
 msgid "Restart _Xterm"
 msgstr ""
 
-#: src/wmapp.cc:889
+#: src/wmapp.cc:897
 msgid "_Menu"
 msgstr ""
 
-#: src/wmapp.cc:890
+#: src/wmapp.cc:898
 msgid "_Above Dock"
 msgstr "_Diatas Dock"
 
-#: src/wmapp.cc:891
+#: src/wmapp.cc:899
 msgid "_Dock"
 msgstr ""
 
-#: src/wmapp.cc:892
+#: src/wmapp.cc:900
 msgid "_OnTop"
 msgstr "_Diatas"
 
-#: src/wmapp.cc:893
+#: src/wmapp.cc:901
 msgid "_Normal"
 msgstr ""
 
-#: src/wmapp.cc:894
+#: src/wmapp.cc:902
 msgid "_Below"
 msgstr "_Dibawah"
 
-#: src/wmapp.cc:895
+#: src/wmapp.cc:903
 msgid "D_esktop"
 msgstr ""
 
-#: src/wmapp.cc:907
+#: src/wmapp.cc:915
 msgid "_Restore"
 msgstr "_Kembali"
 
-#: src/wmapp.cc:909
+#: src/wmapp.cc:917
 msgid "_Move"
 msgstr "_Pindahkan"
 
-#: src/wmapp.cc:911
+#: src/wmapp.cc:919
 msgid "_Size"
 msgstr "_Ukuran"
 
-#: src/wmapp.cc:913
+#: src/wmapp.cc:921
 msgid "Mi_nimize"
 msgstr "Mini_malkan"
 
-#: src/wmapp.cc:915
+#: src/wmapp.cc:923
 msgid "Ma_ximize"
 msgstr "Mak_simalkan"
 
-#: src/wmapp.cc:917
+#: src/wmapp.cc:925
 msgid "_Fullscreen"
 msgstr "_Satulayar"
 
-#: src/wmapp.cc:921 src/wmwinlist.cc:307
+#: src/wmapp.cc:929 src/wmwinlist.cc:307
 msgid "_Hide"
 msgstr "_Sembunyi"
 
-#: src/wmapp.cc:924
+#: src/wmapp.cc:932
 msgid "Roll_up"
 msgstr "Gulung _Atas"
 
-#: src/wmapp.cc:931
+#: src/wmapp.cc:939
 msgid "R_aise"
 msgstr "Ke_atas"
 
-#: src/wmapp.cc:933
+#: src/wmapp.cc:941
 msgid "_Lower"
 msgstr "_Kebawah"
 
-#: src/wmapp.cc:935
+#: src/wmapp.cc:943
 msgid "La_yer"
 msgstr "Po_sisi"
 
-#: src/wmapp.cc:939 src/wmwinlist.cc:310
+#: src/wmapp.cc:947 src/wmwinlist.cc:310
 msgid "Move _To"
 msgstr "Pindahkan _Ke"
 
-#: src/wmapp.cc:940
+#: src/wmapp.cc:948
 msgid "Occupy _All"
 msgstr ""
 
-#: src/wmapp.cc:946
+#: src/wmapp.cc:954
 msgid "Limit _Workarea"
 msgstr ""
 
-#: src/wmapp.cc:951
+#: src/wmapp.cc:959
 msgid "Tray _icon"
 msgstr ""
 
-#: src/wmapp.cc:957 src/wmwinlist.cc:295 src/wmwinlist.cc:321
+#: src/wmapp.cc:965 src/wmwinlist.cc:295 src/wmwinlist.cc:321
 msgid "_Close"
 msgstr "_Tutup"
 
-#: src/wmapp.cc:959 src/wmwinlist.cc:297
+#: src/wmapp.cc:967 src/wmwinlist.cc:297
 msgid "_Kill Client"
 msgstr "_Matikan Client"
 
-#: src/wmapp.cc:963 src/wmdialog.cc:132 src/wmwinmenu.cc:137
+#: src/wmapp.cc:971 src/wmdialog.cc:132 src/wmwinmenu.cc:137
 msgid "_Window list"
 msgstr "Daftar _Window"
 
-#: src/wmapp.cc:979
+#: src/wmapp.cc:987
 msgid "Another window manager already running, exiting..."
 msgstr "Window manager yang lain sudah berjalan, keluar..."
 
-#: src/wmapp.cc:1045
+#: src/wmapp.cc:1053
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -811,7 +811,7 @@ msgstr ""
 "Tidak dapat restart: %s\n"
 "Apakah $PATH menuju ke %s?"
 
-#: src/wmapp.cc:1619
+#: src/wmapp.cc:1627
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -842,11 +842,11 @@ msgid ""
 "Visit http://www.icewm.org/ for report bugs, support requests, comments...\n"
 msgstr ""
 
-#: src/wmapp.cc:1724
+#: src/wmapp.cc:1738
 msgid "Confirm Logout"
 msgstr "Yakin Keluar"
 
-#: src/wmapp.cc:1725
+#: src/wmapp.cc:1739
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -863,7 +863,7 @@ msgstr ""
 msgid "Loc_k Workstation"
 msgstr "Kunci _Workstation"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:947 src/wmprog.cc:949 src/wmtaskbar.cc:433
+#: src/wmdialog.cc:90 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:433
 #: src/wmtaskbar.cc:435
 msgid "_Logout..."
 msgstr "_Keluar..."
@@ -876,7 +876,7 @@ msgstr "_Batal"
 msgid "_Restart icewm"
 msgstr ""
 
-#: src/wmdialog.cc:125 src/wmprog.cc:885 src/wmtaskbar.cc:425
+#: src/wmdialog.cc:125 src/wmprog.cc:886 src/wmtaskbar.cc:425
 #: src/wmtaskbar.cc:428
 msgid "_About"
 msgstr "_Tentang"
@@ -940,67 +940,67 @@ msgstr ""
 msgid "Out of memory for window options"
 msgstr ""
 
-#: src/wmprog.cc:191
+#: src/wmprog.cc:192
 msgid "Missing command argument"
 msgstr ""
 
-#: src/wmprog.cc:209
+#: src/wmprog.cc:210
 #, c-format
 msgid "Bad argument %d"
 msgstr ""
 
-#: src/wmprog.cc:295 src/wmprog.cc:399 src/wmprog.cc:441
+#: src/wmprog.cc:296 src/wmprog.cc:400 src/wmprog.cc:442
 #, c-format
 msgid "Error at prog %s"
 msgstr "Kesalahan pada prog %s"
 
-#: src/wmprog.cc:350
+#: src/wmprog.cc:351
 #, c-format
 msgid "Unexepected keyword: %s"
 msgstr ""
 
-#: src/wmprog.cc:489
+#: src/wmprog.cc:490
 #, c-format
 msgid "Error at key %s"
 msgstr ""
 
-#: src/wmprog.cc:849
+#: src/wmprog.cc:850
 msgid "Programs"
 msgstr "Aplikasi"
 
-#: src/wmprog.cc:854
+#: src/wmprog.cc:855
 msgid "_Run..."
 msgstr ""
 
-#: src/wmprog.cc:861 src/wmtaskbar.cc:413
+#: src/wmprog.cc:862 src/wmtaskbar.cc:413
 msgid "_Windows"
 msgstr ""
 
-#: src/wmprog.cc:898
+#: src/wmprog.cc:899
 msgid "_Help"
 msgstr "_Bantuan"
 
-#: src/wmprog.cc:916
+#: src/wmprog.cc:917
 msgid "_Click to focus"
 msgstr ""
 
-#: src/wmprog.cc:921
+#: src/wmprog.cc:922
 msgid "_Sloppy mouse focus"
 msgstr ""
 
-#: src/wmprog.cc:926
+#: src/wmprog.cc:927
 msgid "Custo_m"
 msgstr ""
 
-#: src/wmprog.cc:932
+#: src/wmprog.cc:933
 msgid "_Focus"
 msgstr ""
 
-#: src/wmprog.cc:939
+#: src/wmprog.cc:940
 msgid "_Themes"
 msgstr ""
 
-#: src/wmprog.cc:941
+#: src/wmprog.cc:942
 msgid "Se_ttings"
 msgstr ""
 
@@ -1163,12 +1163,12 @@ msgstr ""
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
 msgstr ""
 
-#: src/yfontcore.cc:71 src/yfontxft.cc:172
+#: src/yfontcore.cc:71 src/yfontxft.cc:174
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr ""
 
-#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:195
+#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:197
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr ""

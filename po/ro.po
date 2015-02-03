@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-01-25 20:43+0100\n"
+"POT-Creation-Date: 2015-02-02 23:22-0700\n"
 "PO-Revision-Date: 2002-10-04 12:30+0200\n"
 "Last-Translator: Tiberiu Micu <tibimicu@gmx.net>\n"
 "Language-Team: Romanian <ro@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:873
+#: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:875
 msgid " - Power"
 msgstr " - Pornire"
 
@@ -23,7 +23,7 @@ msgstr " - Pornire"
 msgid "P"
 msgstr "P"
 
-#: src/aapm.cc:197 src/aapm.cc:498 src/aapm.cc:734 src/aapm.cc:844
+#: src/aapm.cc:197 src/aapm.cc:498 src/aapm.cc:734 src/aapm.cc:846
 #, c-format
 msgid " - Charging"
 msgstr " - Încărcare"
@@ -592,7 +592,7 @@ msgstr "Împachetează liniile"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icewmbg.cc:409
+#: src/icewmbg.cc:410
 msgid ""
 "Usage: icewmbg [ -r | -q ]\n"
 " -r  Restart icewmbg\n"
@@ -610,7 +610,7 @@ msgid ""
 " center:1 scaled:1 = keep aspect ratio\n"
 msgstr ""
 
-#: src/icewmbg.cc:427
+#: src/icewmbg.cc:428
 #, c-format
 msgid ""
 "%s: unrecognized option `%s'\n"
@@ -619,12 +619,12 @@ msgstr ""
 "%s: opţiune nerecunoscută `%s'\n"
 "Încercaţi `%s --help' pentru mai multe informaţii.\n"
 
-#: src/icewmbg.cc:556
+#: src/icewmbg.cc:557
 #, c-format
 msgid "Loading image %s failed"
 msgstr "Încărcarea imaginii %s a eşuat"
 
-#: src/icewmbg.cc:570 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
+#: src/icewmbg.cc:571 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
 msgstr "Încărcarea hărţii de pixeli \"%s\" a eşuat: %s"
@@ -638,7 +638,7 @@ msgstr "Folosire: icewmhint [class.instance] option arg\n"
 msgid "Out of memory (len=%d)."
 msgstr "Depăşire memorie (len=%d)."
 
-#: src/misc.cc:326
+#: src/misc.cc:330
 msgid "Warning: "
 msgstr "Avertisment: "
 
@@ -647,7 +647,7 @@ msgstr "Avertisment: "
 msgid "Unknown direction in move/resize request: %d"
 msgstr ""
 
-#: src/themes.cc:99
+#: src/themes.cc:100
 #, fuzzy
 msgid "Default"
 msgstr "Şterge"
@@ -680,157 +680,157 @@ msgstr ""
 msgid "icewm - About"
 msgstr "icewm - Despre"
 
-#: src/wmapp.cc:435
+#: src/wmapp.cc:436
 msgid "Unable to get current font path."
 msgstr "Nu găsesc calea către fontul curent."
 
-#: src/wmapp.cc:462
+#: src/wmapp.cc:463
 msgid "Unexpected format of ICEWM_FONT_PATH property"
 msgstr "Format neaşteptat pentru proprietatea ICEWM_FONT_PATH"
 
-#: src/wmapp.cc:519
+#: src/wmapp.cc:520
 #, c-format
 msgid "Multiple references for gradient \"%s\""
 msgstr "Referinţe multiple pentru gradientul \"%s\""
 
-#: src/wmapp.cc:594
+#: src/wmapp.cc:595
 #, c-format
 msgid "Unknown gradient name: %s"
 msgstr "Nume de gradient necunoscut: %s"
 
-#: src/wmapp.cc:850
+#: src/wmapp.cc:858
 msgid "_Logout"
 msgstr "Ieşire"
 
-#: src/wmapp.cc:851
+#: src/wmapp.cc:859
 msgid "_Cancel logout"
 msgstr "Renunţare ieşire"
 
-#: src/wmapp.cc:863
+#: src/wmapp.cc:871
 msgid "Lock _Workstation"
 msgstr "Blochează staţia de lucru"
 
-#: src/wmapp.cc:865 src/wmdialog.cc:111
+#: src/wmapp.cc:873 src/wmdialog.cc:111
 msgid "Re_boot"
 msgstr "Reporneşte"
 
-#: src/wmapp.cc:867 src/wmdialog.cc:118
+#: src/wmapp.cc:875 src/wmdialog.cc:118
 msgid "Shut_down"
 msgstr "Opreşte"
 
-#: src/wmapp.cc:871
+#: src/wmapp.cc:879
 msgid "Restart _Icewm"
 msgstr "Repornire _Icewm"
 
-#: src/wmapp.cc:874
+#: src/wmapp.cc:882
 msgid "Restart _Xterm"
 msgstr "Repornire _Xterm"
 
-#: src/wmapp.cc:889
+#: src/wmapp.cc:897
 msgid "_Menu"
 msgstr "_Meniu"
 
-#: src/wmapp.cc:890
+#: src/wmapp.cc:898
 msgid "_Above Dock"
 msgstr "Dochează de_asupra"
 
-#: src/wmapp.cc:891
+#: src/wmapp.cc:899
 msgid "_Dock"
 msgstr "_Dochează"
 
-#: src/wmapp.cc:892
+#: src/wmapp.cc:900
 msgid "_OnTop"
 msgstr "Deasupra"
 
-#: src/wmapp.cc:893
+#: src/wmapp.cc:901
 msgid "_Normal"
 msgstr "_Normal"
 
-#: src/wmapp.cc:894
+#: src/wmapp.cc:902
 msgid "_Below"
 msgstr "Dedesu_bt"
 
-#: src/wmapp.cc:895
+#: src/wmapp.cc:903
 msgid "D_esktop"
 msgstr "D_esktop"
 
-#: src/wmapp.cc:907
+#: src/wmapp.cc:915
 msgid "_Restore"
 msgstr "_Restaurează"
 
-#: src/wmapp.cc:909
+#: src/wmapp.cc:917
 msgid "_Move"
 msgstr "_Mută"
 
-#: src/wmapp.cc:911
+#: src/wmapp.cc:919
 msgid "_Size"
 msgstr "Mărime"
 
-#: src/wmapp.cc:913
+#: src/wmapp.cc:921
 msgid "Mi_nimize"
 msgstr "Mi_nimizează"
 
-#: src/wmapp.cc:915
+#: src/wmapp.cc:923
 msgid "Ma_ximize"
 msgstr "Ma_ximizează"
 
-#: src/wmapp.cc:917
+#: src/wmapp.cc:925
 msgid "_Fullscreen"
 msgstr ""
 
-#: src/wmapp.cc:921 src/wmwinlist.cc:307
+#: src/wmapp.cc:929 src/wmwinlist.cc:307
 msgid "_Hide"
 msgstr "Ascunde"
 
-#: src/wmapp.cc:924
+#: src/wmapp.cc:932
 msgid "Roll_up"
 msgstr "Rulează"
 
-#: src/wmapp.cc:931
+#: src/wmapp.cc:939
 msgid "R_aise"
 msgstr "Ridică"
 
-#: src/wmapp.cc:933
+#: src/wmapp.cc:941
 msgid "_Lower"
 msgstr "_Coboară"
 
-#: src/wmapp.cc:935
+#: src/wmapp.cc:943
 msgid "La_yer"
 msgstr "Strat"
 
-#: src/wmapp.cc:939 src/wmwinlist.cc:310
+#: src/wmapp.cc:947 src/wmwinlist.cc:310
 msgid "Move _To"
 msgstr "Mută în"
 
-#: src/wmapp.cc:940
+#: src/wmapp.cc:948
 msgid "Occupy _All"
 msgstr "Ocupă tot"
 
-#: src/wmapp.cc:946
+#: src/wmapp.cc:954
 msgid "Limit _Workarea"
 msgstr "Limitează spaţiul de lucru"
 
-#: src/wmapp.cc:951
+#: src/wmapp.cc:959
 msgid "Tray _icon"
 msgstr ""
 
-#: src/wmapp.cc:957 src/wmwinlist.cc:295 src/wmwinlist.cc:321
+#: src/wmapp.cc:965 src/wmwinlist.cc:295 src/wmwinlist.cc:321
 msgid "_Close"
 msgstr "Închide"
 
-#: src/wmapp.cc:959 src/wmwinlist.cc:297
+#: src/wmapp.cc:967 src/wmwinlist.cc:297
 msgid "_Kill Client"
 msgstr "Închide clientul"
 
-#: src/wmapp.cc:963 src/wmdialog.cc:132 src/wmwinmenu.cc:137
+#: src/wmapp.cc:971 src/wmdialog.cc:132 src/wmwinmenu.cc:137
 msgid "_Window list"
 msgstr "Lista ferestre"
 
-#: src/wmapp.cc:979
+#: src/wmapp.cc:987
 msgid "Another window manager already running, exiting..."
 msgstr "Un alt manager de ferestre rulează, ies..."
 
-#: src/wmapp.cc:1045
+#: src/wmapp.cc:1053
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -839,7 +839,7 @@ msgstr ""
 "Nu pot reporni: %s\n"
 "Conduce calea $PATH către %s?"
 
-#: src/wmapp.cc:1619
+#: src/wmapp.cc:1627
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -870,11 +870,11 @@ msgid ""
 "Visit http://www.icewm.org/ for report bugs, support requests, comments...\n"
 msgstr ""
 
-#: src/wmapp.cc:1724
+#: src/wmapp.cc:1738
 msgid "Confirm Logout"
 msgstr "Confirmă ieşirea"
 
-#: src/wmapp.cc:1725
+#: src/wmapp.cc:1739
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -891,7 +891,7 @@ msgstr "Nume Look greşit"
 msgid "Loc_k Workstation"
 msgstr "Blochează staţia de lucru"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:947 src/wmprog.cc:949 src/wmtaskbar.cc:433
+#: src/wmdialog.cc:90 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:433
 #: src/wmtaskbar.cc:435
 msgid "_Logout..."
 msgstr "Ieşire..."
@@ -904,7 +904,7 @@ msgstr "Renunţă"
 msgid "_Restart icewm"
 msgstr "_Reporneşte icewm"
 
-#: src/wmdialog.cc:125 src/wmprog.cc:885 src/wmtaskbar.cc:425
+#: src/wmdialog.cc:125 src/wmprog.cc:886 src/wmtaskbar.cc:425
 #: src/wmtaskbar.cc:428
 msgid "_About"
 msgstr "Despre"
@@ -967,67 +967,67 @@ msgstr "Eroare de sintaxă la opţiunea ferestrei"
 msgid "Out of memory for window options"
 msgstr "Depăşirea memoriei pentru opţiunile ferestrei"
 
-#: src/wmprog.cc:191
+#: src/wmprog.cc:192
 msgid "Missing command argument"
 msgstr "Lipseşte argumentul comenzii"
 
-#: src/wmprog.cc:209
+#: src/wmprog.cc:210
 #, c-format
 msgid "Bad argument %d"
 msgstr "Argument greşit %d"
 
-#: src/wmprog.cc:295 src/wmprog.cc:399 src/wmprog.cc:441
+#: src/wmprog.cc:296 src/wmprog.cc:400 src/wmprog.cc:442
 #, c-format
 msgid "Error at prog %s"
 msgstr "Eroare prog %s"
 
-#: src/wmprog.cc:350
+#: src/wmprog.cc:351
 #, c-format
 msgid "Unexepected keyword: %s"
 msgstr ""
 
-#: src/wmprog.cc:489
+#: src/wmprog.cc:490
 #, c-format
 msgid "Error at key %s"
 msgstr "Eroare la tasta %s"
 
-#: src/wmprog.cc:849
+#: src/wmprog.cc:850
 msgid "Programs"
 msgstr "Programe"
 
-#: src/wmprog.cc:854
+#: src/wmprog.cc:855
 msgid "_Run..."
 msgstr "_Rulează..."
 
-#: src/wmprog.cc:861 src/wmtaskbar.cc:413
+#: src/wmprog.cc:862 src/wmtaskbar.cc:413
 msgid "_Windows"
 msgstr "Ferestre"
 
-#: src/wmprog.cc:898
+#: src/wmprog.cc:899
 msgid "_Help"
 msgstr "Ajutor"
 
-#: src/wmprog.cc:916
+#: src/wmprog.cc:917
 msgid "_Click to focus"
 msgstr ""
 
-#: src/wmprog.cc:921
+#: src/wmprog.cc:922
 msgid "_Sloppy mouse focus"
 msgstr ""
 
-#: src/wmprog.cc:926
+#: src/wmprog.cc:927
 msgid "Custo_m"
 msgstr ""
 
-#: src/wmprog.cc:932
+#: src/wmprog.cc:933
 msgid "_Focus"
 msgstr ""
 
-#: src/wmprog.cc:939
+#: src/wmprog.cc:940
 msgid "_Themes"
 msgstr "_Teme"
 
-#: src/wmprog.cc:941
+#: src/wmprog.cc:942
 msgid "Se_ttings"
 msgstr ""
 
@@ -1195,12 +1195,12 @@ msgstr ""
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
 msgstr "BUG? Caracter neaşteptat dar Imlib a reuşît procesarea \"%s\""
 
-#: src/yfontcore.cc:71 src/yfontxft.cc:172
+#: src/yfontcore.cc:71 src/yfontxft.cc:174
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "Nu pot încărca fontul \"%s\"."
 
-#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:195
+#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:197
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr "Încărcarea fontului de rezervă \"%s\" a eşuat."
