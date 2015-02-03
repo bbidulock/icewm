@@ -98,7 +98,6 @@ src/ytimer.cc
 src/ytooltip.cc
 src/yurl.cc
 src/ywindow.cc
-src/yworker.cc
 src/yxapp.cc
 src/yxembed.cc
 src/yxtray.cc
