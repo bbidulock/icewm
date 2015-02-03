@@ -161,7 +161,7 @@ static Window registerProtocols1(char **argv, int argc) {
         .res_class = wm_class
     };
 
-    static char wm_name[] = "IceWM "VERSION" ("HOSTOS"/"HOSTCPU")";
+    static char wm_name[] = "IceWM " VERSION " (" HOSTOS "/" HOSTCPU ")";
 
     Xutf8SetWMProperties(xapp->display(), xid, wm_name, NULL,
             argv, argc, NULL, NULL, &class_hint);
@@ -340,7 +340,7 @@ static void registerProtocols2(Window xid) {
                     _XA_NET_WM_PID, XA_CARDINAL, 32,
                     PropModeReplace, (unsigned char *)&pid, 1);
 
-    const char wmname[] = "IceWM "VERSION" ("HOSTOS"/"HOSTCPU")";
+    const char wmname[] = "IceWM " VERSION " (" HOSTOS "/" HOSTCPU ")";
 
     XChangeProperty(xapp->display(), xid,
                     _XA_NET_WM_NAME, _XA_UTF8_STRING, 8,

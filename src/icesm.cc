@@ -8,7 +8,7 @@
 char const *ApplicationName = ICESMEXE;
 
 // the notification of startup step
-bool startup_phase(0); // 0: run tray, 1: run startup script
+unsigned short startup_phase(0); // 0: run tray, 1: run startup script
 
 class SessionManager: public YApplication {
 public:
