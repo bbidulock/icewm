@@ -250,6 +250,7 @@ icewm_SOURCES = \
 	wmclient.h \
 	wmmgr.cc \
 	wmmgr.h \
+	appnames.h \
 	wmapp.cc \
 	guievent.h \
 	wmapp.h \
