@@ -142,3 +142,7 @@ ChangeLog
 THANKS
 README
 
+# Eclipse project metadata
+.cproject
+.project
+.settings
