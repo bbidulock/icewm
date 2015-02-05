@@ -15,6 +15,12 @@
 
 #include "intl.h"
 
+//#define USE_SIGNALFD
+
+#ifdef USE_SIGNALFD
+#include <sys/signalfd.h>
+#endif
+
 // FIXME: get rid of this global
 extern char const *ApplicationName;
 char const *&YApplication::Name = ApplicationName;
@@ -33,6 +39,16 @@ void YApplication::initSignals() {
     sigemptyset(&signalMask);
     sigaddset(&signalMask, SIGHUP);
     sigprocmask(SIG_BLOCK, &signalMask, &oldSignalMask);
+
+#ifdef USE_SIGNALFD
+    signalPipe[0] = signalfd(-1, &signalMask, NULL);
+    if(signalPipe[0]<0)
+    	perror("signalfd");
+    // XXX: with kernel 2.6.27 the flags above should become effective
+    // but let's not require that yet
+    fcntl(signalPipe[0], F_SETFL, O_NONBLOCK);
+    fcntl(signalPipe[0], F_SETFD, FD_CLOEXEC);
+#else
     sigemptyset(&signalMask);
     sigprocmask(SIG_BLOCK, &signalMask, &oldSignalMask);
 
@@ -41,6 +57,7 @@ void YApplication::initSignals() {
     fcntl(signalPipe[1], F_SETFL, O_NONBLOCK);
     fcntl(signalPipe[0], F_SETFD, FD_CLOEXEC);
     fcntl(signalPipe[1], F_SETFD, FD_CLOEXEC);
+#endif
     sfd.registerPoll(this, signalPipe[0]);
 }
 
@@ -393,7 +410,9 @@ int YApplication::mainLoop() {
         }
 #endif
 
+#ifndef USE_SIGNALFD
         sigprocmask(SIG_UNBLOCK, &signalMask, NULL);
+#endif
 
         if (measure_latency) {
             itimerval it;
@@ -418,8 +437,10 @@ int YApplication::mainLoop() {
             it.it_value.tv_usec = 10000;
             setitimer(ITIMER_REAL, &it, 0);
         }
-
+#ifndef USE_SIGNALFD
         sigprocmask(SIG_BLOCK, &signalMask, NULL);
+#endif
+
 #if 0
         sigset_t mask;
         sigpending(&mask);
@@ -502,21 +523,27 @@ bool YApplication::handleIdle() {
     return false;
 }
 
+#ifndef USE_SIGNALFD
 void sig_handler(int sig) {
     unsigned char uc = (unsigned char)sig;
     if (write(signalPipe[1], &uc, 1) != 1)
 	fprintf(stderr, "icewm: signal error\n");
 }
+#endif
 
 void YApplication::catchSignal(int sig) {
     sigaddset(&signalMask, sig);
     sigprocmask(SIG_BLOCK, &signalMask, NULL);
 
+#ifdef USE_SIGNALFD
+    signalPipe[0]=signalfd(signalPipe[0], &signalMask, 0);
+#else
     struct sigaction sa;
     sa.sa_handler = sig_handler;
     sigemptyset(&sa.sa_mask);
     sa.sa_flags = 0;
     sigaction(sig, &sa, NULL);
+#endif
 }
 
 void YApplication::resetSignals() {
@@ -636,6 +663,7 @@ void YApplication::runCommand(const char *cmdline) {
     runProgram(argv[0], argv);
 }
 
+#ifndef USE_SIGNALFD
 void YApplication::handleSignalPipe() {
     unsigned char sig;
     if (read(signalPipe[0], &sig, 1) == 1) {
@@ -643,9 +671,19 @@ void YApplication::handleSignalPipe() {
     }
 }
 
+
 void YSignalPoll::notifyRead() {
     owner()->handleSignalPipe();
 }
+#else
+void YSignalPoll::notifyRead()
+{
+	struct signalfd_siginfo fdsi;
+	int s = read(signalPipe[0], &fdsi, sizeof(struct signalfd_siginfo));
+	if (s == sizeof(struct signalfd_siginfo))
+		owner()->handleSignal(fdsi.ssi_signo);
+}
+#endif
 
 void YSignalPoll::notifyWrite() {
 }
