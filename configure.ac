@@ -367,6 +367,8 @@ PKG_CHECK_MODULES([GIO],[gio-2.0 gio-unix-2.0],[
 	APPLICATIONS="${APPLICATIONS} icewm-menu-fdo"],
 	[AC_MSG_WARN([Freedesktop style menus not supported.])])
 fi
+AC_SUBST([GIO_CFLAGS])
+AC_SUBST([GIO_LIBS])
 
 PKG_CHECK_MODULES([IMAGE],[gdk-pixbuf-xlib-2.0],[
     AC_DEFINE([CONFIG_GDK_PIXBUF_XLIB],[1],
@@ -380,7 +382,7 @@ AM_CONDITIONAL([BUILD_HELP],[test x$BUILD_HELP = xyes])
 AM_CONDITIONAL([BUILD_SOUND],[test x$BUILD_SOUND = xyes])
 AM_CONDITIONAL([BUILD_MENU_GNOME1],[test x$BUILD_MENU_GNOME1 = xyes])
 AM_CONDITIONAL([BUILD_MENU_GNOME2],[test x$BUILD_MENU_GNOME2 = xyes])
-AM_CONDITIONAL([BUILD_MENU_FDO],[test x$BUILD_MENU_GNOME2 = xyes])
+AM_CONDITIONAL([BUILD_MENU_FDO],[test x$BUILD_MENU_FDO = xyes])
 
 test "x$prefix" = xNONE && prefix="$ac_default_prefix"
 
