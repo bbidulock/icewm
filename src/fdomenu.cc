@@ -25,7 +25,7 @@ const char *g_argv0;
 #include <glib/gstdio.h>
 #include <gio/gdesktopappinfo.h>
 
-typedef GList* pglist;
+typedef GTree* tMenuContainer;
 
 template<class T>
 struct auto_gfree
@@ -59,9 +59,31 @@ bool find_in_zArray(const char * const *arrToScan, const char *keyword)
 #define opt_g_free(x)
 #endif
 
-pglist msettings=0, mscreensavers=0, maccessories=0, mdevelopment=0, meducation=0,
+tMenuContainer msettings=0, mscreensavers=0, maccessories=0, mdevelopment=0, meducation=0,
 		mgames=0, mgraphics=0, mmultimedia=0, mnetwork=0, moffice=0, msystem=0,
 		mother=0, mwine=0, meditors=0;
+
+struct tListMeta
+{
+	const char *title;
+	tMenuContainer* store;
+};
+tListMeta menuinfo[] =
+{
+{ "Settings", &msettings },
+{ "Screensavers", &mscreensavers },
+{ "Accessories", &maccessories },
+{ "Development", &mdevelopment },
+{ "Education", &meducation },
+{ "Games", &mgames },
+{ "Graphics", &mgraphics },
+{ "Multimedia", &mmultimedia },
+{ "Network", &mnetwork },
+{ "Office", &moffice },
+{ "System", &msystem },
+{ "WINE", &mwine },
+{ "Editors", &meditors },
+{ "Other", &mother } };
 
 //#warning needing a dupe filter for filename, maybe use GHashTable for that
 
@@ -157,16 +179,14 @@ void proc_dir(const char *path, unsigned depth=0)
                 "Terminal") || strchr(cmdraw, '%'))
 		{
 			menuLine = g_strdup_printf(
-					"prog \"%s\" %s %s \"%s\"\n",
-					pName, sicon, g_argv0, szFullName);
+					"%s %s \"%s\"",
+					sicon, g_argv0, szFullName);
 		}
 		else
-			menuLine = g_strdup_printf(
-				"prog \"%s\" %s %s\n",
-				pName, sicon, cmd);
+			menuLine = g_strjoin(" ", sicon, cmd, NULL);
 
 		// Pigeonholing roughly by guessed menu structure
-#define add2menu(x) { x=g_list_append(x, menuLine); }
+#define add2menu(x) { g_tree_replace(x, g_strdup(pName), menuLine); }
 		gchar **ppCats = g_strsplit(pCats, ";", -1);
 		if (find_in_zArray(ppCats, "Screensaver"))
 			add2menu(mscreensavers)
@@ -194,7 +214,7 @@ void proc_dir(const char *path, unsigned depth=0)
 		else if (find_in_zArray(ppCats, "System") || find_in_zArray(ppCats, "Emulator"))
 			add2menu(msystem)
 		else if (strstr(pCats, "Editor"))
-					add2menu(meditors)
+			add2menu(meditors)
 		else
 		{
 			const char *pwmclass = g_desktop_app_info_get_startup_wm_class(pInfo);
@@ -207,80 +227,86 @@ void proc_dir(const char *path, unsigned depth=0)
 	}
 }
 
-struct tMenuHead {
-		char *title;
-		pglist pEntries;
-		tMenuHead(char *xt, pglist p) : title(xt), pEntries(p) {};
-	};
-gint menu_name_compare(gconstpointer a, gconstpointer b)
+static gboolean printKey(const char *key, const char *value, void*)
 {
-	tMenuHead *pa=(tMenuHead*)a;
-	tMenuHead *pb=(tMenuHead*)b;
-	return g_utf8_collate(pa->title, pb->title);
+	printf("prog \"%s\" %s\n", key, value);
+	return FALSE;
 }
 
-void print_submenu(gpointer vlp)
+void print_submenu(const char *title, tMenuContainer data)
 {
-	tMenuHead *l=static_cast<tMenuHead*>(vlp);
-	if(!l->pEntries)
+	if(!data || !g_tree_nnodes(data))
 		return;
-	l->pEntries=g_list_sort(l->pEntries, (GCompareFunc)g_utf8_collate);
-	printf("menu \"%s\" folder {\n", l->title);
-	for (pglist m = l->pEntries; m != NULL; m = m->next)
-	{
-		printf("%s", (const char*) m->data);
-		g_free(m->data);
-	}
-	printf("}\n");
+	printf("menu \"%s\" folder {\n"
+			//"# %u entries\n"
+			, title
+			//, g_tree_nnodes(data)
+			);
+	g_tree_foreach(data, (GTraverseFunc) printKey, NULL);
+	puts("}");
 }
 
 void dump_menu()
 {
-	pglist xmenu = 0;
-#define	addmenu(name, store) \
-		xmenu = g_list_insert_sorted(xmenu, new tMenuHead(name, store),\
-				(GCompareFunc)menu_name_compare);
-	addmenu(_("Settings"), msettings);
-	addmenu(_("Screensavers"), mscreensavers);
-	addmenu(_("Accessories"), maccessories);
-	addmenu(_("Development"), mdevelopment);
-	addmenu(_("Education"), meducation);
-	addmenu(_("Games"), mgames);
-	addmenu(_("Graphics"), mgraphics);
-	addmenu(_("Multimedia"), mmultimedia);
-	addmenu(_("Network"), mnetwork);
-	addmenu(_("Office"), moffice);
-	addmenu(_("System"), msystem);
-	addmenu(_("WINE"), mwine);
-	addmenu(_("Editors"), meditors);
-
-	for (pglist l = xmenu; l != NULL; l = l->next)
-		print_submenu(l->data);
+    for(tListMeta *p=menuinfo; p < menuinfo+ACOUNT(menuinfo)-1; ++p)
+    	print_submenu(p->title, * p->store);
 	puts("separator");
-	tMenuHead hmo(_("Other"), mother);
-	print_submenu(&hmo);
-
+	print_submenu(menuinfo[ACOUNT(menuinfo)-1].title, * menuinfo[ACOUNT(menuinfo)-1].store);
 }
 
-bool launch(const char *dfile)
+bool launch(const char *dfile, const char **argv, int argc)
 {
 	GDesktopAppInfo *pInfo = g_desktop_app_info_new_from_filename (dfile);
 	if(!pInfo)
 		return false;
+#if 0 // g_file_get_uri crashes, no idea why, even enforcing file prefix doesn't help
+	if(argc>0)
+	{
+		GList* parms=NULL;
+		for(int i=0; i<argc; ++i)
+			parms=g_list_append(parms,
+					g_strdup_printf("%s%s", strstr(argv[i], "://") ? "" : "file://",
+							argv[i]));
+		return g_app_info_launch ((GAppInfo *)pInfo,
+		                   parms, NULL, NULL);
+	}
+	else
+#else
+	(void) argv;
+	(void) argc;
+#endif
 	return g_app_info_launch ((GAppInfo *)pInfo,
                    NULL, NULL, NULL);
 }
-
-int main(int argc, char **argv)
+static int
+cmpstringp(const void *p1, const void *p2)
 {
-	g_argv0=argv[0];
+    return g_utf8_collate(* (char * const *) p1, * (char * const *) p2);
+}
 
+static void init()
+{
 	setlocale (LC_ALL, "");
 
 #ifdef ENABLE_NLS
     bindtextdomain(PACKAGE, LOCDIR);
     textdomain(PACKAGE);
 #endif
+
+    for(tListMeta *p=menuinfo; p < menuinfo+ACOUNT(menuinfo); ++p)
+    {
+    	p->title = gettext(p->title);
+    	*(p->store) = g_tree_new((GCompareFunc) g_utf8_collate);
+    }
+
+    qsort(menuinfo, ACOUNT(menuinfo)-1, sizeof(menuinfo[0]), cmpstringp);
+}
+
+int main(int argc, const char **argv)
+{
+	g_argv0=argv[0];
+
+	init();
 
 	const char * usershare=getenv("XDG_DATA_HOME"),
 			*sysshare=getenv("XDG_DATA_DIRS");
@@ -293,7 +319,7 @@ int main(int argc, char **argv)
 
 	if(argc>1)
 	{
-		if(strstr(argv[1], ".desktop") && launch(argv[1]))
+		if(strstr(argv[1], ".desktop") && launch(argv[1], argv+2, argc-2))
 			return EXIT_SUCCESS;
 
 		g_fprintf(stderr, "This program doesn't use command line options. It only listens to\n"
@@ -303,18 +329,18 @@ int main(int argc, char **argv)
 			,usershare, sysshare);
 		return EXIT_FAILURE;
 	}
-
-	proc_dir(usershare);
 	gchar **ppDirs = g_strsplit (sysshare, ":", -1);
-	for(const gchar * const * p=ppDirs;*p;++p)
-	{
-		gchar *pmdir=g_strjoin(0, *p, "/applications", NULL);
-		proc_dir(pmdir);
-		opt_g_free(pmdir);
-	}
 #ifdef FREEASAP
 	g_strfreev(ppDirs);
 #endif
+	for (const gchar * const * p = ppDirs; *p; ++p)
+	{
+		gchar *pmdir = g_strjoin(0, *p, "/applications", NULL);
+		proc_dir(pmdir);
+		opt_g_free(pmdir);
+	}
+	// user's stuff might replace the system links
+	proc_dir(usershare);
 
 	dump_menu();
 
