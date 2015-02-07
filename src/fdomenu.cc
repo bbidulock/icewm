@@ -18,6 +18,8 @@
 #include "sysdep.h"
 #include "intl.h"
 
+const char *g_argv0;
+
 #include <glib.h>
 #include <glib/gprintf.h>
 #include <glib/gstdio.h>
@@ -149,47 +151,57 @@ void proc_dir(const char *path, unsigned depth=0)
 			sicon=s;
 		}
 
-		char *menuLine = g_strdup_printf(
+		gchar *menuLine;
+
+		if(g_desktop_app_info_get_boolean (pInfo,
+                "Terminal") || strchr(cmdraw, '%'))
+		{
+			menuLine = g_strdup_printf(
+					"prog \"%s\" %s %s \"%s\"\n",
+					pName, sicon, g_argv0, szFullName);
+		}
+		else
+			menuLine = g_strdup_printf(
 				"prog \"%s\" %s %s\n",
 				pName, sicon, cmd);
 
 		// Pigeonholing roughly by guessed menu structure
-#define add2menu(x) x=g_list_append(x, menuLine)
+#define add2menu(x) { x=g_list_append(x, menuLine); }
 		gchar **ppCats = g_strsplit(pCats, ";", -1);
 		if (find_in_zArray(ppCats, "Screensaver"))
-			add2menu(mscreensavers);
+			add2menu(mscreensavers)
 		else if (find_in_zArray(ppCats, "Settings"))
-			add2menu(msettings);
+			add2menu(msettings)
 		else if (find_in_zArray(ppCats, "Accessories"))
-			add2menu(maccessories);
+			add2menu(maccessories)
 		else if (find_in_zArray(ppCats, "Development"))
-			add2menu(mdevelopment);
+			add2menu(mdevelopment)
 		else if (find_in_zArray(ppCats, "Education"))
-			add2menu(meducation);
+			add2menu(meducation)
 		else if (find_in_zArray(ppCats, "Game"))
-			add2menu(mgames);
+			add2menu(mgames)
 		else if (find_in_zArray(ppCats, "Graphics"))
-			add2menu(mgraphics);
+			add2menu(mgraphics)
 		else if (find_in_zArray(ppCats, "AudioVideo") || find_in_zArray(ppCats, "Audio")
 				|| find_in_zArray(ppCats, "Video"))
 		{
-			add2menu(mmultimedia);
+			add2menu(mmultimedia)
 		}
 		else if (find_in_zArray(ppCats, "Network"))
-			add2menu(mnetwork);
+			add2menu(mnetwork)
 		else if (find_in_zArray(ppCats, "Office"))
-			add2menu(moffice);
+			add2menu(moffice)
 		else if (find_in_zArray(ppCats, "System") || find_in_zArray(ppCats, "Emulator"))
-			add2menu(msystem);
+			add2menu(msystem)
 		else if (strstr(pCats, "Editor"))
-					add2menu(meditors);
+					add2menu(meditors)
 		else
 		{
 			const char *pwmclass = g_desktop_app_info_get_startup_wm_class(pInfo);
 			if ((pwmclass && strstr(pwmclass, "Wine")) || strstr(cmd, " wine "))
-				add2menu(mwine);
+				add2menu(mwine)
 			else
-				add2menu(mother);
+				add2menu(mother)
 		}
 		g_strfreev(ppCats);
 	}
@@ -210,6 +222,9 @@ gint menu_name_compare(gconstpointer a, gconstpointer b)
 void print_submenu(gpointer vlp)
 {
 	tMenuHead *l=static_cast<tMenuHead*>(vlp);
+	if(!l->pEntries)
+		return;
+	l->pEntries=g_list_sort(l->pEntries, (GCompareFunc)g_utf8_collate);
 	printf("menu \"%s\" folder {\n", l->title);
 	for (pglist m = l->pEntries; m != NULL; m = m->next)
 	{
@@ -247,7 +262,18 @@ void dump_menu()
 
 }
 
-int main(int argc, char **) {
+bool launch(const char *dfile)
+{
+	GDesktopAppInfo *pInfo = g_desktop_app_info_new_from_filename (dfile);
+	if(!pInfo)
+		return false;
+	return g_app_info_launch ((GAppInfo *)pInfo,
+                   NULL, NULL, NULL);
+}
+
+int main(int argc, char **argv)
+{
+	g_argv0=argv[0];
 
 	setlocale (LC_ALL, "");
 
@@ -263,10 +289,13 @@ int main(int argc, char **) {
 		usershare=g_strjoin(NULL, getenv("HOME"), "/.local/share", NULL);
 
 	if(!sysshare || !*sysshare)
-		sysshare="/usr/local/share/:/usr/share/";
+		sysshare="/usr/local/share:/usr/share";
 
 	if(argc>1)
 	{
+		if(strstr(argv[1], ".desktop") && launch(argv[1]))
+			return EXIT_SUCCESS;
+
 		g_fprintf(stderr, "This program doesn't use command line options. It only listens to\n"
 			"environment variables defined by XDG Base Directory Specification.\n"
 			"XDG_DATA_HOME=%s\n"
