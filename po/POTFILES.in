@@ -9,6 +9,7 @@ src/atray.cc
 src/aworkspaces.cc
 src/browse.cc
 src/decorate.cc
+src/fdomenu.cc
 src/genpref.cc
 src/gnome2.cc
 src/gnome.cc

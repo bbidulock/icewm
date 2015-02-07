@@ -16,6 +16,7 @@
 #include "config.h"
 #include "base.h"
 #include "sysdep.h"
+#include "intl.h"
 
 #include <glib.h>
 #include <glib/gprintf.h>
@@ -29,6 +30,19 @@ struct auto_gfree
 	auto_gfree(T *xp) : p(xp) {};
 	~auto_gfree() { g_free(p); }
 };
+
+bool find_in_zArray(const char * const *arrToScan, const char *keyword)
+{
+	for(const gchar * const * p=arrToScan;*p;++p)
+		if(!strcmp(keyword, *p))
+			return true;
+	return false;
+}
+
+typedef GList* pglist;
+
+pglist msettings=0, mscreensavers=0, maccessories=0, mdevelopment=0, meducation=0,
+		mgames=0, mgraphics=0, mmultimedia=0, mnetwork=0, moffice=0, msystem=0, mother=0;
 
 //#warning needing a dupe filter for filename, maybe use GHashTable for that
 
@@ -95,21 +109,111 @@ void proc_dir(const char *path, int depth=7)
 
 		//printf("icon: %s -> %s\n", pName, pCats);
 
-		GIcon *pIcon=g_app_info_get_icon( (GAppInfo*) pInfo);
 		const char *sicon = "-";
+		GIcon *pIcon=g_app_info_get_icon( (GAppInfo*) pInfo);
 		if (pIcon)
-		{
 			sicon = g_icon_to_string(pIcon);
-			//printf("got: %s -> %s\n", pName, sicon);
+		char *menuLine = g_strdup_printf("# %s -> %s\n"
+				"prog \"%s\" %s %s\n",
+				szFullName, pCats,
+				pName, sicon, cmd);
+		//printf("%s", menuLine);
+
+		// pidgeonholing roughly by guessed menu structure
+		gchar **ppCats = g_strsplit(pCats, ";", -1);
+		if (find_in_zArray(ppCats, "Screensaver"))
+			mscreensavers = g_list_append(mscreensavers, menuLine);
+		else if (find_in_zArray(ppCats, "Settings"))
+			msettings = g_list_append(msettings, menuLine);
+		else if (find_in_zArray(ppCats, "Accessories"))
+			maccessories = g_list_append(maccessories, menuLine);
+		else if (find_in_zArray(ppCats, "Development"))
+			mdevelopment = g_list_append(mdevelopment, menuLine);
+		else if (find_in_zArray(ppCats, "Education"))
+			meducation = g_list_append(meducation, menuLine);
+		else if (find_in_zArray(ppCats, "Game"))
+			mgames = g_list_append(mgames, menuLine);
+		else if (find_in_zArray(ppCats, "Graphics"))
+			mgraphics = g_list_append(mgraphics, menuLine);
+		else if (find_in_zArray(ppCats, "Audio") || find_in_zArray(ppCats, "Video")
+				|| find_in_zArray(ppCats, "AudioVideo"))
+		{
+			mmultimedia = g_list_append(mmultimedia, menuLine);
 		}
-		g_print("# %s\nprog \"%s\" %s %s\n", szFullName, pName, sicon, cmd);
+		else if (find_in_zArray(ppCats, "Network"))
+			mnetwork = g_list_append(mnetwork, menuLine);
+		else if (find_in_zArray(ppCats, "Office"))
+			moffice = g_list_append(moffice, menuLine);
+		else if (find_in_zArray(ppCats, "System") || find_in_zArray(ppCats, "Emulator"))
+		{
+			msystem = g_list_append(msystem, menuLine);
+		}
+		else
+			mother = g_list_append(mother, menuLine);
+
+		//fprintf(stderr, "jo, %s", menuLine);
+
 	}
 	g_dir_close(pdir);
+}
+
+void dump_menu()
+{
+
+	/*
+	for (pglist l =  msettings; l != NULL; l = l->next)
+	  {
+	    puts((char*) l->data);
+	  }
+*/
+
+/*
+	pglist msettings=0, mscreensavers=0, maccessories=0, mdevelopment=0, meducation=0,
+			mgames=0, mgraphics=0, mmultimedia=0, mnetwork=0, moffice=0, msystem=0, mother=0;
+			*/
+	struct tMenuHead {
+		char *title;
+		pglist pEntries;
+		tMenuHead(char *xt, pglist p) : title(xt), pEntries(p){};
+	};
+	pglist xmenu = 0;
+
+// XXX: convert to g_list_insert_sorted using a locale based gcomp function
+
+	xmenu = g_list_append(xmenu, new tMenuHead(_("Settings"), msettings));
+	xmenu = g_list_append(xmenu, new tMenuHead(_("Screensavers"), mscreensavers));
+	xmenu = g_list_append(xmenu, new tMenuHead(_("Accessories"), maccessories));
+	xmenu = g_list_append(xmenu, new tMenuHead(_("Development"), mdevelopment));
+	xmenu = g_list_append(xmenu, new tMenuHead(_("Education"), meducation));
+	xmenu = g_list_append(xmenu, new tMenuHead(_("Games"), mgames));
+	xmenu = g_list_append(xmenu, new tMenuHead(_("Graphics"), mgraphics));
+	xmenu = g_list_append(xmenu, new tMenuHead(_("Multimedia"), mmultimedia));
+	xmenu = g_list_append(xmenu, new tMenuHead(_("Network"), mnetwork));
+	xmenu = g_list_append(xmenu, new tMenuHead(_("Office"), moffice));
+	xmenu = g_list_append(xmenu, new tMenuHead(_("System"), msystem));
+	xmenu = g_list_append(xmenu, new tMenuHead(_("Other"), mother));
+
+	for (pglist l = xmenu; l != NULL; l = l->next)
+	{
+		printf("menu \"%s\" folder {\n", ((tMenuHead*) l->data)->title);
+		for (pglist m = ((tMenuHead*) l->data)->pEntries; m != NULL; m = m->next)
+		{
+			puts((char*) m->data);
+		}
+		puts("}\n");
+	}
+
+
 }
 
 int main(int argc, char **) {
 
 	setlocale (LC_ALL, "");
+
+#ifdef ENABLE_NLS
+    bindtextdomain(PACKAGE, LOCDIR);
+    textdomain(PACKAGE);
+#endif
 
 	const char * usershare=getenv("XDG_DATA_HOME"),
 			*sysshare=getenv("XDG_DATA_DIRS");
@@ -133,6 +237,8 @@ int main(int argc, char **) {
 	gchar **ppDirs = g_strsplit (sysshare, ":", -1);
 	for(const gchar * const * p=ppDirs;*p;++p)
 		proc_dir(g_strjoin(0, *p, "/applications", 0));
+
+	dump_menu();
 
 	return EXIT_SUCCESS;
 }
