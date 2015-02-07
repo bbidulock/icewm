@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.26\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-02-02 23:22-0700\n"
+"POT-Creation-Date: 2015-02-07 10:31+0100\n"
 "PO-Revision-Date: 2001-10-02 00:28+0200\n"
 "Last-Translator: Eduard Bloch <edi@gmx.de>\n"
 "Language-Team: German\n"
@@ -140,6 +140,54 @@ msgstr ""
 #: src/wmstatus.cc:168
 msgid "Workspace: "
 msgstr "Arbeitsbereich: "
+
+#: src/fdomenu.cc:179
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: src/fdomenu.cc:180
+msgid "Screensavers"
+msgstr "Bildschirmschoner"
+
+#: src/fdomenu.cc:181
+msgid "Accessories"
+msgstr "Zubehör"
+
+#: src/fdomenu.cc:182
+msgid "Development"
+msgstr "Entwicklung"
+
+#: src/fdomenu.cc:183
+msgid "Education"
+msgstr "Bildung"
+
+#: src/fdomenu.cc:184
+msgid "Games"
+msgstr "Spiele"
+
+#: src/fdomenu.cc:185
+msgid "Graphics"
+msgstr "Grafik"
+
+#: src/fdomenu.cc:186
+msgid "Multimedia"
+msgstr "Multimedia"
+
+#: src/fdomenu.cc:187
+msgid "Network"
+msgstr "Netzwerk"
+
+#: src/fdomenu.cc:188
+msgid "Office"
+msgstr "Büro"
+
+#: src/fdomenu.cc:189
+msgid "System"
+msgstr "System"
+
+#: src/fdomenu.cc:191
+msgid "Other"
+msgstr "Sonstiges"
 
 #: src/icehelp.cc:715
 msgid "Back"
@@ -1184,7 +1232,7 @@ msgstr "Fensterliste"
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Arbeitsbereich %-.32s"
 
-#: src/yapp.cc:462
+#: src/yapp.cc:483
 #, c-format
 msgid "Message Loop: select failed (errno=%d)"
 msgstr "Nachrichtenschleife: select fehlgeschlagen (errno=%d)"

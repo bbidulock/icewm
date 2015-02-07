@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.26\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-02-02 23:22-0700\n"
+"POT-Creation-Date: 2015-02-07 10:31+0100\n"
 "PO-Revision-Date: 2014-08-05 02:46-0400\n"
 "Last-Translator: PAblo Roberto Francisco Lezaeta Reyes <prflr88@gmail.com>\n"
 "Language-Team:  <es@li.org>\n"
@@ -139,6 +139,55 @@ msgstr ""
 #: src/wmstatus.cc:168
 msgid "Workspace: "
 msgstr "Área de trabajo: "
+
+#: src/fdomenu.cc:179
+#, fuzzy
+msgid "Settings"
+msgstr "Con_figuraciones"
+
+#: src/fdomenu.cc:180
+msgid "Screensavers"
+msgstr ""
+
+#: src/fdomenu.cc:181
+msgid "Accessories"
+msgstr ""
+
+#: src/fdomenu.cc:182
+msgid "Development"
+msgstr ""
+
+#: src/fdomenu.cc:183
+msgid "Education"
+msgstr ""
+
+#: src/fdomenu.cc:184
+msgid "Games"
+msgstr ""
+
+#: src/fdomenu.cc:185
+msgid "Graphics"
+msgstr ""
+
+#: src/fdomenu.cc:186
+msgid "Multimedia"
+msgstr ""
+
+#: src/fdomenu.cc:187
+msgid "Network"
+msgstr ""
+
+#: src/fdomenu.cc:188
+msgid "Office"
+msgstr ""
+
+#: src/fdomenu.cc:189
+msgid "System"
+msgstr ""
+
+#: src/fdomenu.cc:191
+msgid "Other"
+msgstr ""
 
 #: src/icehelp.cc:715
 msgid "Back"
@@ -1189,7 +1238,7 @@ msgstr "Lista de ventanas"
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Área de trabajo %-.32s"
 
-#: src/yapp.cc:462
+#: src/yapp.cc:483
 #, c-format
 msgid "Message Loop: select failed (errno=%d)"
 msgstr "Bucle de mensaje: falló select (errno=%d)"

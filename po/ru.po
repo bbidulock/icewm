@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.9\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-02-02 23:22-0700\n"
+"POT-Creation-Date: 2015-02-07 10:31+0100\n"
 "PO-Revision-Date: 2003-07-11 20:20+0300\n"
 "Last-Translator: Anton Farygin <rider@linux.ru.net>\n"
 "Language-Team: Russian\n"
@@ -149,6 +149,55 @@ msgstr ""
 #: src/wmstatus.cc:168
 msgid "Workspace: "
 msgstr "Рабочее место: "
+
+#: src/fdomenu.cc:179
+#, fuzzy
+msgid "Settings"
+msgstr "Нас_тройки"
+
+#: src/fdomenu.cc:180
+msgid "Screensavers"
+msgstr ""
+
+#: src/fdomenu.cc:181
+msgid "Accessories"
+msgstr ""
+
+#: src/fdomenu.cc:182
+msgid "Development"
+msgstr ""
+
+#: src/fdomenu.cc:183
+msgid "Education"
+msgstr ""
+
+#: src/fdomenu.cc:184
+msgid "Games"
+msgstr ""
+
+#: src/fdomenu.cc:185
+msgid "Graphics"
+msgstr ""
+
+#: src/fdomenu.cc:186
+msgid "Multimedia"
+msgstr ""
+
+#: src/fdomenu.cc:187
+msgid "Network"
+msgstr ""
+
+#: src/fdomenu.cc:188
+msgid "Office"
+msgstr ""
+
+#: src/fdomenu.cc:189
+msgid "System"
+msgstr ""
+
+#: src/fdomenu.cc:191
+msgid "Other"
+msgstr ""
 
 #: src/icehelp.cc:715
 msgid "Back"
@@ -1070,7 +1119,7 @@ msgstr "Список окон"
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Рабочее место %-.32s"
 
-#: src/yapp.cc:462
+#: src/yapp.cc:483
 #, c-format
 msgid "Message Loop: select failed (errno=%d)"
 msgstr "Сообщение цикла: select не получился (errno=%d)"
