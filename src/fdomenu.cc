@@ -46,11 +46,8 @@ pglist msettings=0, mscreensavers=0, maccessories=0, mdevelopment=0, meducation=
 
 //#warning needing a dupe filter for filename, maybe use GHashTable for that
 
-void proc_dir(const char *path, int depth=7)
+void proc_dir(const char *path, unsigned depth=0)
 {
-	if(!--depth)
-		return;
-
 	//printf("dir: %s\n", path);
 
 	GDir *pdir = g_dir_open (path, 0, NULL);
@@ -68,7 +65,21 @@ void proc_dir(const char *path, int depth=7)
 		if(g_stat(szFullName, &buf))
 			return;
 		if(S_ISDIR(buf.st_mode))
-			proc_dir(szFullName, depth);
+		{
+			static ino_t reclog[6];
+			for(unsigned i=0; i<depth; ++i)
+			{
+				if(reclog[i] == buf.st_ino)
+					goto dir_visited_before;
+			}
+			if(depth<ACOUNT(reclog))
+			{
+				reclog[++depth] = buf.st_ino;
+				proc_dir(szFullName, depth);
+				--depth;
+			}
+			dir_visited_before:;
+		}
 
 		if(!S_ISREG(buf.st_mode))
 			return;
@@ -228,7 +239,8 @@ int main(int argc, char **) {
 	{
 		g_fprintf(stderr, "This program doesn't use command line options. It only listens to\n"
 			"environment variables defined by XDG Base Directory Specification.\n"
-			"XDG_DATA_HOME=%s\nXDG_DATA_DIRS=%s\n"
+			"XDG_DATA_HOME=%s\n"
+				"XDG_DATA_DIRS=%s\n"
 			,usershare, sysshare);
 		return EXIT_FAILURE;
 	}
