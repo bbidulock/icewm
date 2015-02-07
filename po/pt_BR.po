@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.3.4pre2\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-02-07 10:31+0100\n"
+"POT-Creation-Date: 2015-02-07 13:13+0100\n"
 "PO-Revision-Date: 2014-11-10 15:24-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Brazilian Portuguese <opensuse-pt@opensuse.org>\n"
@@ -143,52 +143,60 @@ msgstr ""
 msgid "Workspace: "
 msgstr "Área de trabalho: "
 
-#: src/fdomenu.cc:179
+#: src/fdomenu.cc:228
 #, fuzzy
 msgid "Settings"
 msgstr "Con_figuração"
 
-#: src/fdomenu.cc:180
+#: src/fdomenu.cc:229
 msgid "Screensavers"
 msgstr ""
 
-#: src/fdomenu.cc:181
+#: src/fdomenu.cc:230
 msgid "Accessories"
 msgstr ""
 
-#: src/fdomenu.cc:182
+#: src/fdomenu.cc:231
 msgid "Development"
 msgstr ""
 
-#: src/fdomenu.cc:183
+#: src/fdomenu.cc:232
 msgid "Education"
 msgstr ""
 
-#: src/fdomenu.cc:184
+#: src/fdomenu.cc:233
 msgid "Games"
 msgstr ""
 
-#: src/fdomenu.cc:185
+#: src/fdomenu.cc:234
 msgid "Graphics"
 msgstr ""
 
-#: src/fdomenu.cc:186
+#: src/fdomenu.cc:235
 msgid "Multimedia"
 msgstr ""
 
-#: src/fdomenu.cc:187
+#: src/fdomenu.cc:236
 msgid "Network"
 msgstr ""
 
-#: src/fdomenu.cc:188
+#: src/fdomenu.cc:237
 msgid "Office"
 msgstr ""
 
-#: src/fdomenu.cc:189
+#: src/fdomenu.cc:238
 msgid "System"
 msgstr ""
 
-#: src/fdomenu.cc:191
+#: src/fdomenu.cc:239
+msgid "WINE"
+msgstr ""
+
+#: src/fdomenu.cc:240
+msgid "Editors"
+msgstr ""
+
+#: src/fdomenu.cc:245
 msgid "Other"
 msgstr ""
 

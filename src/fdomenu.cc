@@ -23,12 +23,21 @@
 #include <glib/gstdio.h>
 #include <gio/gdesktopappinfo.h>
 
+typedef GList* pglist;
+
 template<class T>
 struct auto_gfree
 {
-	T *p;
-	auto_gfree(T *xp) : p(xp) {};
-	~auto_gfree() { g_free(p); }
+	T *m_p;
+	auto_gfree() : m_p(NULL) {};
+	auto_gfree(T *xp) : m_p(xp) {};
+	~auto_gfree() { g_free(m_p); }
+};
+struct auto_gunref
+{
+	GObject *m_p;
+	auto_gunref(GObject *xp): m_p(xp) {};
+	~auto_gunref() { g_object_unref(m_p); }
 };
 
 bool find_in_zArray(const char * const *arrToScan, const char *keyword)
@@ -39,10 +48,18 @@ bool find_in_zArray(const char * const *arrToScan, const char *keyword)
 	return false;
 }
 
-typedef GList* pglist;
+// for optional bits that are not consuming much and
+// it's OK to leak them, OS will clean up soon enough
+//#define FREEASAP
+#ifdef FREEASAP
+#define opt_g_free(x) g_free(x);
+#else
+#define opt_g_free(x)
+#endif
 
 pglist msettings=0, mscreensavers=0, maccessories=0, mdevelopment=0, meducation=0,
-		mgames=0, mgraphics=0, mmultimedia=0, mnetwork=0, moffice=0, msystem=0, mother=0;
+		mgames=0, mgraphics=0, mmultimedia=0, mnetwork=0, moffice=0, msystem=0,
+		mother=0, mwine=0, meditors=0;
 
 //#warning needing a dupe filter for filename, maybe use GHashTable for that
 
@@ -51,6 +68,11 @@ void proc_dir(const char *path, unsigned depth=0)
 	GDir *pdir = g_dir_open (path, 0, NULL);
 	if(!pdir)
 		return;
+	struct tdircloser {
+		GDir *m_p;
+		tdircloser(GDir *p) : m_p(p) {};
+		~tdircloser() { g_dir_close(m_p);}
+	} dircloser(pdir);
 
 	const gchar *szFilename(NULL);
 	while(NULL != (szFilename = g_dir_read_name (pdir)))
@@ -80,11 +102,12 @@ void proc_dir(const char *path, unsigned depth=0)
 		}
 
 		if(!S_ISREG(buf.st_mode))
-			return;
+			continue;
 
 		GDesktopAppInfo *pInfo = g_desktop_app_info_new_from_filename (szFullName);
 		if(!pInfo)
 			continue;
+		auto_gunref ___pinfo_releaser((GObject*)pInfo);
 
 		if(!g_app_info_should_show((GAppInfo*) pInfo))
 			continue;
@@ -113,49 +136,63 @@ void proc_dir(const char *path, unsigned depth=0)
 		const char *pCats=g_desktop_app_info_get_categories(pInfo);
 		if(!pCats)
 			pCats="Other";
+		if(0 == strncmp(pCats, "X-", 2))
+			continue;
 
 		const char *sicon = "-";
 		GIcon *pIcon=g_app_info_get_icon( (GAppInfo*) pInfo);
+		auto_gfree<char> iconstringrelease;
 		if (pIcon)
-			sicon = g_icon_to_string(pIcon);
+		{
+			char *s = g_icon_to_string(pIcon);
+			iconstringrelease.m_p=s;
+			sicon=s;
+		}
+
 		char *menuLine = g_strdup_printf(
-				//"# %s -> %s\n"
 				"prog \"%s\" %s %s\n",
-				//szFullName, pCats,
 				pName, sicon, cmd);
 
 		// Pigeonholing roughly by guessed menu structure
+#define add2menu(x) x=g_list_append(x, menuLine)
 		gchar **ppCats = g_strsplit(pCats, ";", -1);
 		if (find_in_zArray(ppCats, "Screensaver"))
-			mscreensavers = g_list_append(mscreensavers, menuLine);
+			add2menu(mscreensavers);
 		else if (find_in_zArray(ppCats, "Settings"))
-			msettings = g_list_append(msettings, menuLine);
+			add2menu(msettings);
 		else if (find_in_zArray(ppCats, "Accessories"))
-			maccessories = g_list_append(maccessories, menuLine);
+			add2menu(maccessories);
 		else if (find_in_zArray(ppCats, "Development"))
-			mdevelopment = g_list_append(mdevelopment, menuLine);
+			add2menu(mdevelopment);
 		else if (find_in_zArray(ppCats, "Education"))
-			meducation = g_list_append(meducation, menuLine);
+			add2menu(meducation);
 		else if (find_in_zArray(ppCats, "Game"))
-			mgames = g_list_append(mgames, menuLine);
+			add2menu(mgames);
 		else if (find_in_zArray(ppCats, "Graphics"))
-			mgraphics = g_list_append(mgraphics, menuLine);
+			add2menu(mgraphics);
 		else if (find_in_zArray(ppCats, "AudioVideo") || find_in_zArray(ppCats, "Audio")
 				|| find_in_zArray(ppCats, "Video"))
 		{
-			mmultimedia = g_list_append(mmultimedia, menuLine);
+			add2menu(mmultimedia);
 		}
 		else if (find_in_zArray(ppCats, "Network"))
-			mnetwork = g_list_append(mnetwork, menuLine);
+			add2menu(mnetwork);
 		else if (find_in_zArray(ppCats, "Office"))
-			moffice = g_list_append(moffice, menuLine);
+			add2menu(moffice);
 		else if (find_in_zArray(ppCats, "System") || find_in_zArray(ppCats, "Emulator"))
-			msystem = g_list_append(msystem, menuLine);
+			add2menu(msystem);
+		else if (strstr(pCats, "Editor"))
+					add2menu(meditors);
 		else
-			mother = g_list_append(mother, menuLine);
-
+		{
+			const char *pwmclass = g_desktop_app_info_get_startup_wm_class(pInfo);
+			if ((pwmclass && strstr(pwmclass, "Wine")) || strstr(cmd, " wine "))
+				add2menu(mwine);
+			else
+				add2menu(mother);
+		}
+		g_strfreev(ppCats);
 	}
-	g_dir_close(pdir);
 }
 
 struct tMenuHead {
@@ -170,16 +207,16 @@ gint menu_name_compare(gconstpointer a, gconstpointer b)
 	return g_utf8_collate(pa->title, pb->title);
 }
 
-void print_submenu(gpointer l)
+void print_submenu(gpointer vlp)
 {
-	printf("menu \"%s\" folder {\n",
-					((tMenuHead*) l)->title);
-			for (pglist m = ((tMenuHead*) l)->pEntries; m != NULL; m = m->next)
-			{
-				printf("%s", (const char*) m->data);
-	// let the OS cleanup...		g_free(m->data);
-			}
-			printf("}\n");
+	tMenuHead *l=static_cast<tMenuHead*>(vlp);
+	printf("menu \"%s\" folder {\n", l->title);
+	for (pglist m = l->pEntries; m != NULL; m = m->next)
+	{
+		printf("%s", (const char*) m->data);
+		g_free(m->data);
+	}
+	printf("}\n");
 }
 
 void dump_menu()
@@ -199,11 +236,14 @@ void dump_menu()
 	addmenu(_("Network"), mnetwork);
 	addmenu(_("Office"), moffice);
 	addmenu(_("System"), msystem);
+	addmenu(_("WINE"), mwine);
+	addmenu(_("Editors"), meditors);
 
 	for (pglist l = xmenu; l != NULL; l = l->next)
 		print_submenu(l->data);
 	puts("separator");
-	print_submenu(new tMenuHead(_("Other"), mother));
+	tMenuHead hmo(_("Other"), mother);
+	print_submenu(&hmo);
 
 }
 
@@ -238,7 +278,14 @@ int main(int argc, char **) {
 	proc_dir(usershare);
 	gchar **ppDirs = g_strsplit (sysshare, ":", -1);
 	for(const gchar * const * p=ppDirs;*p;++p)
-		proc_dir(g_strjoin(0, *p, "/applications", NULL));
+	{
+		gchar *pmdir=g_strjoin(0, *p, "/applications", NULL);
+		proc_dir(pmdir);
+		opt_g_free(pmdir);
+	}
+#ifdef FREEASAP
+	g_strfreev(ppDirs);
+#endif
 
 	dump_menu();
 

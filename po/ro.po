@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-02-07 10:31+0100\n"
+"POT-Creation-Date: 2015-02-07 13:13+0100\n"
 "PO-Revision-Date: 2002-10-04 12:30+0200\n"
 "Last-Translator: Tiberiu Micu <tibimicu@gmx.net>\n"
 "Language-Team: Romanian <ro@li.org>\n"
@@ -130,51 +130,59 @@ msgstr ""
 msgid "Workspace: "
 msgstr "Spaţiu de lucru: "
 
-#: src/fdomenu.cc:179
+#: src/fdomenu.cc:228
 msgid "Settings"
 msgstr ""
 
-#: src/fdomenu.cc:180
+#: src/fdomenu.cc:229
 msgid "Screensavers"
 msgstr ""
 
-#: src/fdomenu.cc:181
+#: src/fdomenu.cc:230
 msgid "Accessories"
 msgstr ""
 
-#: src/fdomenu.cc:182
+#: src/fdomenu.cc:231
 msgid "Development"
 msgstr ""
 
-#: src/fdomenu.cc:183
+#: src/fdomenu.cc:232
 msgid "Education"
 msgstr ""
 
-#: src/fdomenu.cc:184
+#: src/fdomenu.cc:233
 msgid "Games"
 msgstr ""
 
-#: src/fdomenu.cc:185
+#: src/fdomenu.cc:234
 msgid "Graphics"
 msgstr ""
 
-#: src/fdomenu.cc:186
+#: src/fdomenu.cc:235
 msgid "Multimedia"
 msgstr ""
 
-#: src/fdomenu.cc:187
+#: src/fdomenu.cc:236
 msgid "Network"
 msgstr ""
 
-#: src/fdomenu.cc:188
+#: src/fdomenu.cc:237
 msgid "Office"
 msgstr ""
 
-#: src/fdomenu.cc:189
+#: src/fdomenu.cc:238
 msgid "System"
 msgstr ""
 
-#: src/fdomenu.cc:191
+#: src/fdomenu.cc:239
+msgid "WINE"
+msgstr ""
+
+#: src/fdomenu.cc:240
+msgid "Editors"
+msgstr ""
+
+#: src/fdomenu.cc:245
 msgid "Other"
 msgstr ""
 
