@@ -17,6 +17,7 @@
 #include "base.h"
 #include "sysdep.h"
 #include "intl.h"
+#include "appnames.h"
 
 const char *g_argv0;
 
@@ -85,8 +86,6 @@ tListMeta menuinfo[] =
 { "Editors", &meditors },
 { "Other", &mother } };
 
-//#warning needing a dupe filter for filename, maybe use GHashTable for that
-
 void proc_dir(const char *path, unsigned depth=0)
 {
 	GDir *pdir = g_dir_open (path, 0, NULL);
@@ -140,18 +139,46 @@ void proc_dir(const char *path, unsigned depth=0)
 		if(!cmdraw || !*cmdraw)
 			continue;
 
-		// let's whitespace all special fields that we don't support
-		gchar * cmd = g_strdup(cmdraw);
-		auto_gfree<gchar> cmdfree(cmd);
-		bool bDelChars=false;
-		for(gchar *p=cmd; *p; ++p)
+		// if the strings contains the exe and then only file/url tags that we wouldn't
+		// set anyway, THEN create a simplified version and use it later (if bSimpleCmd is true)
+		// OR use the original command through a wrapper (if bSimpleCmd is false)
+		bool bUseSimplifiedCmd = true;
+		gchar * cmdMod = g_strdup(cmdraw);
+		auto_gfree<gchar> cmdfree(cmdMod);
+		gchar *pcut = strpbrk(cmdMod, " \f\n\r\t\v");
+
+		if(pcut)
 		{
-			if('%' == *p)
-				bDelChars=true;
-			if(bDelChars)
-				*p = ' ';
-			if(bDelChars && !isprint((unsigned)*p))
-				bDelChars=false;
+			bool bExpectXchar=false;
+			for(gchar *p=pcut; *p && bUseSimplifiedCmd; ++p)
+			{
+				int c = (unsigned) *p;
+				if (bExpectXchar)
+				{
+					if (strchr("FfuU", c))
+						bExpectXchar = false;
+					else
+						bUseSimplifiedCmd = false;
+					continue;
+				}
+				else if (c == '%')
+				{
+					bExpectXchar = true;
+					continue;
+				}
+				else if (isspace(unsigned(c)))
+					continue;
+				else if(! strchr(p, '%'))
+					goto cmdMod_is_good_as_is;
+				else
+					bUseSimplifiedCmd = false;
+			}
+
+			if(bExpectXchar)
+				bUseSimplifiedCmd = false;
+			if(bUseSimplifiedCmd)
+				*pcut = '\0';
+			cmdMod_is_good_as_is:;
 		}
 
 		const char *pName=g_app_info_get_name( (GAppInfo*) pInfo);
@@ -174,16 +201,16 @@ void proc_dir(const char *path, unsigned depth=0)
 		}
 
 		gchar *menuLine;
+		bool bForTerminal = g_desktop_app_info_get_boolean(pInfo, "Terminal");
 
-		if(g_desktop_app_info_get_boolean (pInfo,
-                "Terminal") || strchr(cmdraw, '%'))
-		{
-			menuLine = g_strdup_printf(
-					"%s %s \"%s\"",
-					sicon, g_argv0, szFullName);
-		}
-		else
-			menuLine = g_strjoin(" ", sicon, cmd, NULL);
+		if(bUseSimplifiedCmd && !bForTerminal) // best case
+			menuLine = g_strjoin(" ", sicon, cmdMod, NULL);
+#ifdef XTERMCMD
+		else if(bForTerminal && bUseSimplifiedCmd)
+			menuLine = g_strjoin(" ", sicon, QUOTE(XTERMCMD), "-e", cmdMod, NULL);
+#endif
+		else // not simple command or needs a terminal started via launcher callback, or both
+			menuLine = g_strdup_printf("%s %s \"%s\"", sicon, g_argv0, szFullName);
 
 		// Pigeonholing roughly by guessed menu structure
 #define add2menu(x) { g_tree_replace(x, g_strdup(pName), menuLine); }
@@ -218,7 +245,7 @@ void proc_dir(const char *path, unsigned depth=0)
 		else
 		{
 			const char *pwmclass = g_desktop_app_info_get_startup_wm_class(pInfo);
-			if ((pwmclass && strstr(pwmclass, "Wine")) || strstr(cmd, " wine "))
+			if ((pwmclass && strstr(pwmclass, "Wine")) || strstr(cmdraw, " wine "))
 				add2menu(mwine)
 			else
 				add2menu(mother)
@@ -237,11 +264,7 @@ void print_submenu(const char *title, tMenuContainer data)
 {
 	if(!data || !g_tree_nnodes(data))
 		return;
-	printf("menu \"%s\" folder {\n"
-			//"# %u entries\n"
-			, title
-			//, g_tree_nnodes(data)
-			);
+	printf("menu \"%s\" folder {\n", title);
 	g_tree_foreach(data, (GTraverseFunc) printKey, NULL);
 	puts("}");
 }
