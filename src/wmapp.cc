@@ -97,6 +97,10 @@ static char *configFile(NULL);
 static char *overrideTheme(NULL);
 #endif
 
+#ifndef XTERMCMD
+#define XTERMCMD xterm
+#endif
+
 char *configArg(NULL);
 
 ref<YIcon> defaultAppIcon;
@@ -879,7 +883,8 @@ static void initMenus(
             logoutMenu->addItem(_("Restart _Icewm"), -2, null, actionRestart);
 
             DProgram *restartXTerm =
-                DProgram::newProgram(app, smActionListener, _("Restart _Xterm"), null, true, 0, "xterm", noargs);
+                DProgram::newProgram(app, smActionListener, _("Restart _Xterm"), null, true, 0,
+                		QUOTE(XTERMCMD), noargs);
             if (restartXTerm)
                 logoutMenu->add(new DObjectMenuItem(restartXTerm));
 #endif
