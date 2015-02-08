@@ -12,7 +12,6 @@ prog Mozilla mozilla mozilla
 prog XChat xchat xchat
 prog Gimp gimp gimp
 separator
-menuprog Gnome folder icewm-menu-gnome2 --list @CONFIG_GNOME2_MENU_DIR@
-menuprog KDE folder icewm-menu-gnome@GNOME_VER@ --list @CONFIG_KDE_MENU_DIR@
+menuprog "Desktop Apps" folder icewm-menu-fdo
 menufile Programs folder programs
 menufile Tool_bar folder toolbar
