@@ -318,7 +318,9 @@ static void init()
 
     for(tListMeta *p=menuinfo; p < menuinfo+ACOUNT(menuinfo); ++p)
     {
+#ifdef ENABLE_NLS
     	p->title = gettext(p->title);
+#endif
     	*(p->store) = g_tree_new((GCompareFunc) g_utf8_collate);
     }
 
