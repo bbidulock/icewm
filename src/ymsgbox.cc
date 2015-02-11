@@ -34,7 +34,8 @@ YMsgBox::YMsgBox(int buttons, YWindow *owner): YDialog(owner) {
     if (buttons & mbOK) {
         fButtonOK = new YActionButton(this);
         if (fButtonOK) {
-            fButtonOK->setText(_("OK"));
+
+            fButtonOK->setText(_("_OK"), -2);
             fButtonOK->setActionListener(this);
             fButtonOK->show();
         }
@@ -42,7 +43,7 @@ YMsgBox::YMsgBox(int buttons, YWindow *owner): YDialog(owner) {
     if (buttons & mbCancel) {
         fButtonCancel = new YActionButton(this);
         if (fButtonCancel) {
-            fButtonCancel->setText(_("Cancel"));
+            fButtonCancel->setText(_("_Cancel"), -2);
             fButtonCancel->setActionListener(this);
             fButtonCancel->show();
         }

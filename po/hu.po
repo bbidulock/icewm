@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.7\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-02-07 13:13+0100\n"
+"POT-Creation-Date: 2015-02-11 22:16+0100\n"
 "PO-Revision-Date: 2003-04-14 21:23+0200\n"
 "Last-Translator: Gabor Suveg <gabor@suveg.hu>\n"
 "Language-Team:  <hu@li.org>\n"
@@ -144,62 +144,6 @@ msgstr ""
 #: src/wmstatus.cc:168
 msgid "Workspace: "
 msgstr "Munkaterület: "
-
-#: src/fdomenu.cc:228
-msgid "Settings"
-msgstr ""
-
-#: src/fdomenu.cc:229
-msgid "Screensavers"
-msgstr ""
-
-#: src/fdomenu.cc:230
-msgid "Accessories"
-msgstr ""
-
-#: src/fdomenu.cc:231
-msgid "Development"
-msgstr ""
-
-#: src/fdomenu.cc:232
-msgid "Education"
-msgstr ""
-
-#: src/fdomenu.cc:233
-msgid "Games"
-msgstr ""
-
-#: src/fdomenu.cc:234
-msgid "Graphics"
-msgstr ""
-
-#: src/fdomenu.cc:235
-msgid "Multimedia"
-msgstr ""
-
-#: src/fdomenu.cc:236
-msgid "Network"
-msgstr ""
-
-#: src/fdomenu.cc:237
-msgid "Office"
-msgstr ""
-
-#: src/fdomenu.cc:238
-msgid "System"
-msgstr ""
-
-#: src/fdomenu.cc:239
-msgid "WINE"
-msgstr ""
-
-#: src/fdomenu.cc:240
-msgid "Editors"
-msgstr ""
-
-#: src/fdomenu.cc:245
-msgid "Other"
-msgstr ""
 
 # ../src/icehelp.cc:539
 #: src/icehelp.cc:715
@@ -1031,7 +975,7 @@ msgid "_Logout..."
 msgstr "_Kilépés..."
 
 # ../src/wmdialog.cc:73
-#: src/wmdialog.cc:97
+#: src/wmdialog.cc:97 src/ymsgbox.cc:46
 msgid "_Cancel"
 msgstr "_Mégsem"
 
@@ -1507,14 +1451,10 @@ msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Érvénytelen több byte-os karakterlánc (multibyte string): \"%s\": %s"
 
 # ../src/ymsgbox.cc:34
-#: src/ymsgbox.cc:37
-msgid "OK"
-msgstr "OK"
-
-# ../src/ymsgbox.cc:42
-#: src/ymsgbox.cc:45
-msgid "Cancel"
-msgstr "Mégsem"
+#: src/ymsgbox.cc:38
+#, fuzzy
+msgid "_OK"
+msgstr "_OK"
 
 #: src/ypaths.cc:144 src/ypaths.cc:171
 #, c-format
@@ -1575,6 +1515,10 @@ msgstr "\"%s\" nem tűnik egy internet-címnek"
 #, c-format
 msgid "\"%s\" contains no scheme description"
 msgstr "\"%s\" nem tartalmaz internetcímet"
+
+# ../src/ymsgbox.cc:42
+#~ msgid "Cancel"
+#~ msgstr "Mégsem"
 
 #, fuzzy
 #~ msgid ""

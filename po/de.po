@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.26\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-02-07 13:13+0100\n"
+"POT-Creation-Date: 2015-02-11 22:16+0100\n"
 "PO-Revision-Date: 2001-10-02 00:28+0200\n"
 "Last-Translator: Eduard Bloch <edi@gmx.de>\n"
 "Language-Team: German\n"
@@ -140,62 +140,6 @@ msgstr ""
 #: src/wmstatus.cc:168
 msgid "Workspace: "
 msgstr "Arbeitsbereich: "
-
-#: src/fdomenu.cc:228
-msgid "Settings"
-msgstr "Einstellungen"
-
-#: src/fdomenu.cc:229
-msgid "Screensavers"
-msgstr "Bildschirmschoner"
-
-#: src/fdomenu.cc:230
-msgid "Accessories"
-msgstr "Zubehör"
-
-#: src/fdomenu.cc:231
-msgid "Development"
-msgstr "Entwicklung"
-
-#: src/fdomenu.cc:232
-msgid "Education"
-msgstr "Bildung"
-
-#: src/fdomenu.cc:233
-msgid "Games"
-msgstr "Spiele"
-
-#: src/fdomenu.cc:234
-msgid "Graphics"
-msgstr "Grafik"
-
-#: src/fdomenu.cc:235
-msgid "Multimedia"
-msgstr "Multimedia"
-
-#: src/fdomenu.cc:236
-msgid "Network"
-msgstr "Netzwerk"
-
-#: src/fdomenu.cc:237
-msgid "Office"
-msgstr "Büro"
-
-#: src/fdomenu.cc:238
-msgid "System"
-msgstr "System"
-
-#: src/fdomenu.cc:239
-msgid "WINE"
-msgstr "WINE"
-
-#: src/fdomenu.cc:240
-msgid "Editors"
-msgstr "Editoren"
-
-#: src/fdomenu.cc:245
-msgid "Other"
-msgstr "Sonstiges"
 
 #: src/icehelp.cc:715
 msgid "Back"
@@ -1008,7 +952,7 @@ msgstr "Arbeitsplatz _sperren"
 msgid "_Logout..."
 msgstr "_Abmelden..."
 
-#: src/wmdialog.cc:97
+#: src/wmdialog.cc:97 src/ymsgbox.cc:46
 msgid "_Cancel"
 msgstr "Ab_brechen"
 
@@ -1407,13 +1351,9 @@ msgstr ""
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Ungültige Multibyte-Zeichenkette »%s«: %s"
 
-#: src/ymsgbox.cc:37
-msgid "OK"
-msgstr "OK"
-
-#: src/ymsgbox.cc:45
-msgid "Cancel"
-msgstr "Abbrechen"
+#: src/ymsgbox.cc:38
+msgid "_OK"
+msgstr "_OK"
 
 #: src/ypaths.cc:144 src/ypaths.cc:171
 #, c-format
@@ -1467,6 +1407,51 @@ msgstr "»%s« entspricht nicht der Common Internet Scheme Syntax"
 #, c-format
 msgid "\"%s\" contains no scheme description"
 msgstr "»%s« enthält keine Schemabeschreibung"
+
+#~ msgid "Settings"
+#~ msgstr "Einstellungen"
+
+#~ msgid "Screensavers"
+#~ msgstr "Bildschirmschoner"
+
+#~ msgid "Accessories"
+#~ msgstr "Zubehör"
+
+#~ msgid "Development"
+#~ msgstr "Entwicklung"
+
+#~ msgid "Education"
+#~ msgstr "Bildung"
+
+#~ msgid "Games"
+#~ msgstr "Spiele"
+
+#~ msgid "Graphics"
+#~ msgstr "Grafik"
+
+#~ msgid "Multimedia"
+#~ msgstr "Multimedia"
+
+#~ msgid "Network"
+#~ msgstr "Netzwerk"
+
+#~ msgid "Office"
+#~ msgstr "Büro"
+
+#~ msgid "System"
+#~ msgstr "System"
+
+#~ msgid "WINE"
+#~ msgstr "WINE"
+
+#~ msgid "Editors"
+#~ msgstr "Editoren"
+
+#~ msgid "Other"
+#~ msgstr "Sonstiges"
+
+#~ msgid "Cancel"
+#~ msgstr "Abbrechen"
 
 #~ msgid "CPU Load: %3.2f %3.2f %3.2f, %d"
 #~ msgstr "CPU-Last:\t%3.2f %3.2f %3.2f  %d"

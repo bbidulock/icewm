@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-02-07 13:13+0100\n"
+"POT-Creation-Date: 2015-02-11 22:16+0100\n"
 "PO-Revision-Date: 2003-10-14 09:41+0300\n"
 "Last-Translator: Nick Apostolakis <nickapos@agriroot.aua.gr>\n"
 "Language-Team: hellenic <en@li.org>\n"
@@ -131,62 +131,6 @@ msgstr ""
 #: src/wmstatus.cc:168
 msgid "Workspace: "
 msgstr "Επιφάνεια εργασίας: "
-
-#: src/fdomenu.cc:228
-msgid "Settings"
-msgstr ""
-
-#: src/fdomenu.cc:229
-msgid "Screensavers"
-msgstr ""
-
-#: src/fdomenu.cc:230
-msgid "Accessories"
-msgstr ""
-
-#: src/fdomenu.cc:231
-msgid "Development"
-msgstr ""
-
-#: src/fdomenu.cc:232
-msgid "Education"
-msgstr ""
-
-#: src/fdomenu.cc:233
-msgid "Games"
-msgstr ""
-
-#: src/fdomenu.cc:234
-msgid "Graphics"
-msgstr ""
-
-#: src/fdomenu.cc:235
-msgid "Multimedia"
-msgstr ""
-
-#: src/fdomenu.cc:236
-msgid "Network"
-msgstr ""
-
-#: src/fdomenu.cc:237
-msgid "Office"
-msgstr ""
-
-#: src/fdomenu.cc:238
-msgid "System"
-msgstr ""
-
-#: src/fdomenu.cc:239
-msgid "WINE"
-msgstr ""
-
-#: src/fdomenu.cc:240
-msgid "Editors"
-msgstr ""
-
-#: src/fdomenu.cc:245
-msgid "Other"
-msgstr ""
 
 #: src/icehelp.cc:715
 msgid "Back"
@@ -872,7 +816,7 @@ msgstr "Κλείδωμα _Σταθμού εργασίας"
 msgid "_Logout..."
 msgstr "_Αποσύνδεση..."
 
-#: src/wmdialog.cc:97
+#: src/wmdialog.cc:97 src/ymsgbox.cc:46
 msgid "_Cancel"
 msgstr "_Ακύρωση"
 
@@ -1258,13 +1202,9 @@ msgstr ""
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr ""
 
-#: src/ymsgbox.cc:37
-msgid "OK"
+#: src/ymsgbox.cc:38
+msgid "_OK"
 msgstr ""
-
-#: src/ymsgbox.cc:45
-msgid "Cancel"
-msgstr "Ακύρωση"
 
 #: src/ypaths.cc:144 src/ypaths.cc:171
 #, c-format
@@ -1316,6 +1256,9 @@ msgstr ""
 #, c-format
 msgid "\"%s\" contains no scheme description"
 msgstr ""
+
+#~ msgid "Cancel"
+#~ msgstr "Ακύρωση"
 
 #, fuzzy
 #~ msgid ""

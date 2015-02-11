@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.2\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-02-07 13:13+0100\n"
+"POT-Creation-Date: 2015-02-11 22:16+0100\n"
 "PO-Revision-Date: 2002-09-22 22:00+0200\n"
 "Last-Translator: Petter Johan Olsen <petter.olsen@cc.uit.no>\n"
 "Language-Team: Norwegian\n"
@@ -131,62 +131,6 @@ msgstr ""
 #: src/wmstatus.cc:168
 msgid "Workspace: "
 msgstr "Skrivebordsområde: "
-
-#: src/fdomenu.cc:228
-msgid "Settings"
-msgstr ""
-
-#: src/fdomenu.cc:229
-msgid "Screensavers"
-msgstr ""
-
-#: src/fdomenu.cc:230
-msgid "Accessories"
-msgstr ""
-
-#: src/fdomenu.cc:231
-msgid "Development"
-msgstr ""
-
-#: src/fdomenu.cc:232
-msgid "Education"
-msgstr ""
-
-#: src/fdomenu.cc:233
-msgid "Games"
-msgstr ""
-
-#: src/fdomenu.cc:234
-msgid "Graphics"
-msgstr ""
-
-#: src/fdomenu.cc:235
-msgid "Multimedia"
-msgstr ""
-
-#: src/fdomenu.cc:236
-msgid "Network"
-msgstr ""
-
-#: src/fdomenu.cc:237
-msgid "Office"
-msgstr ""
-
-#: src/fdomenu.cc:238
-msgid "System"
-msgstr ""
-
-#: src/fdomenu.cc:239
-msgid "WINE"
-msgstr ""
-
-#: src/fdomenu.cc:240
-msgid "Editors"
-msgstr ""
-
-#: src/fdomenu.cc:245
-msgid "Other"
-msgstr ""
 
 #: src/icehelp.cc:715
 msgid "Back"
@@ -981,7 +925,7 @@ msgstr "Lås _arbeidsstasjon"
 msgid "_Logout..."
 msgstr "_Logg av"
 
-#: src/wmdialog.cc:97
+#: src/wmdialog.cc:97 src/ymsgbox.cc:46
 msgid "_Cancel"
 msgstr "A_vbryt"
 
@@ -1374,13 +1318,9 @@ msgstr "iconv tilbyr ikke tilstrekkelig konvertering fra `%s' til `%s'."
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Ugyldig flerbytestreng `%s': %s"
 
-#: src/ymsgbox.cc:37
-msgid "OK"
-msgstr "OK"
-
-#: src/ymsgbox.cc:45
-msgid "Cancel"
-msgstr "Avbryt"
+#: src/ymsgbox.cc:38
+msgid "_OK"
+msgstr "_OK"
 
 #: src/ypaths.cc:144 src/ypaths.cc:171
 #, c-format
@@ -1434,6 +1374,9 @@ msgstr "`%s' er ikke et gyldig internett-skjema"
 #, c-format
 msgid "\"%s\" contains no scheme description"
 msgstr "`%s' inneholder ingen skjemabeskrivelser"
+
+#~ msgid "Cancel"
+#~ msgstr "Avbryt"
 
 #, fuzzy
 #~ msgid ""

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.3.4pre2\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-02-07 13:13+0100\n"
+"POT-Creation-Date: 2015-02-11 22:16+0100\n"
 "PO-Revision-Date: 2014-11-10 15:24-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Brazilian Portuguese <opensuse-pt@opensuse.org>\n"
@@ -142,63 +142,6 @@ msgstr ""
 #: src/wmstatus.cc:168
 msgid "Workspace: "
 msgstr "Área de trabalho: "
-
-#: src/fdomenu.cc:228
-#, fuzzy
-msgid "Settings"
-msgstr "Con_figuração"
-
-#: src/fdomenu.cc:229
-msgid "Screensavers"
-msgstr ""
-
-#: src/fdomenu.cc:230
-msgid "Accessories"
-msgstr ""
-
-#: src/fdomenu.cc:231
-msgid "Development"
-msgstr ""
-
-#: src/fdomenu.cc:232
-msgid "Education"
-msgstr ""
-
-#: src/fdomenu.cc:233
-msgid "Games"
-msgstr ""
-
-#: src/fdomenu.cc:234
-msgid "Graphics"
-msgstr ""
-
-#: src/fdomenu.cc:235
-msgid "Multimedia"
-msgstr ""
-
-#: src/fdomenu.cc:236
-msgid "Network"
-msgstr ""
-
-#: src/fdomenu.cc:237
-msgid "Office"
-msgstr ""
-
-#: src/fdomenu.cc:238
-msgid "System"
-msgstr ""
-
-#: src/fdomenu.cc:239
-msgid "WINE"
-msgstr ""
-
-#: src/fdomenu.cc:240
-msgid "Editors"
-msgstr ""
-
-#: src/fdomenu.cc:245
-msgid "Other"
-msgstr ""
 
 #: src/icehelp.cc:715
 msgid "Back"
@@ -1023,7 +966,7 @@ msgstr "Blo_quear estação de trabalho"
 msgid "_Logout..."
 msgstr "_Sair..."
 
-#: src/wmdialog.cc:97
+#: src/wmdialog.cc:97 src/ymsgbox.cc:46
 msgid "_Cancel"
 msgstr "_Cancelar"
 
@@ -1413,13 +1356,9 @@ msgstr "iconv não supre (suficientes) %s para conversores %s."
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Cadeia multibyte \"%s\" inválida: %s"
 
-#: src/ymsgbox.cc:37
-msgid "OK"
-msgstr "OK"
-
-#: src/ymsgbox.cc:45
-msgid "Cancel"
-msgstr "Cancelar"
+#: src/ymsgbox.cc:38
+msgid "_OK"
+msgstr "_OK"
 
 #: src/ypaths.cc:144 src/ypaths.cc:171
 #, c-format
@@ -1473,6 +1412,13 @@ msgstr "\"%s\" não descreve um esquema de Internet comum"
 #, c-format
 msgid "\"%s\" contains no scheme description"
 msgstr "\"%s\" não contém descrição do esquema"
+
+#, fuzzy
+#~ msgid "Settings"
+#~ msgstr "Con_figuração"
+
+#~ msgid "Cancel"
+#~ msgstr "Cancelar"
 
 #~ msgid "CPU Load: %3.2f %3.2f %3.2f, %d"
 #~ msgstr "Carga da CPU: %3.2f %3.2f %3.2f, %d"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.21pre1 \n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-02-07 13:13+0100\n"
+"POT-Creation-Date: 2015-02-11 22:16+0100\n"
 "PO-Revision-Date: 2005-06-18 11:46+0400\n"
 "Last-Translator: Phạm Thành Long <ptlong@gmail.com>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
@@ -130,62 +130,6 @@ msgstr ""
 #: src/wmstatus.cc:168
 msgid "Workspace: "
 msgstr "Không gian: "
-
-#: src/fdomenu.cc:228
-msgid "Settings"
-msgstr ""
-
-#: src/fdomenu.cc:229
-msgid "Screensavers"
-msgstr ""
-
-#: src/fdomenu.cc:230
-msgid "Accessories"
-msgstr ""
-
-#: src/fdomenu.cc:231
-msgid "Development"
-msgstr ""
-
-#: src/fdomenu.cc:232
-msgid "Education"
-msgstr ""
-
-#: src/fdomenu.cc:233
-msgid "Games"
-msgstr ""
-
-#: src/fdomenu.cc:234
-msgid "Graphics"
-msgstr ""
-
-#: src/fdomenu.cc:235
-msgid "Multimedia"
-msgstr ""
-
-#: src/fdomenu.cc:236
-msgid "Network"
-msgstr ""
-
-#: src/fdomenu.cc:237
-msgid "Office"
-msgstr ""
-
-#: src/fdomenu.cc:238
-msgid "System"
-msgstr ""
-
-#: src/fdomenu.cc:239
-msgid "WINE"
-msgstr ""
-
-#: src/fdomenu.cc:240
-msgid "Editors"
-msgstr ""
-
-#: src/fdomenu.cc:245
-msgid "Other"
-msgstr ""
 
 #: src/icehelp.cc:715
 msgid "Back"
@@ -988,7 +932,7 @@ msgstr "_Khóa Màn hình"
 msgid "_Logout..."
 msgstr "_Thoát..."
 
-#: src/wmdialog.cc:97
+#: src/wmdialog.cc:97 src/ymsgbox.cc:46
 msgid "_Cancel"
 msgstr "Đón_g hộp thoại"
 
@@ -1378,13 +1322,9 @@ msgstr "iconv không cung cấp (đủ) %s cho %s bộ chuyển đổi."
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Lỗi chuỗi nhiều byte \"%s\": %s"
 
-#: src/ymsgbox.cc:37
-msgid "OK"
-msgstr "Có"
-
-#: src/ymsgbox.cc:45
-msgid "Cancel"
-msgstr "Không!"
+#: src/ymsgbox.cc:38
+msgid "_OK"
+msgstr "_Có"
 
 #: src/ypaths.cc:144 src/ypaths.cc:171
 #, c-format
@@ -1438,6 +1378,9 @@ msgstr "\"%s\" không mô tả một sơ đồ internet chung"
 #, c-format
 msgid "\"%s\" contains no scheme description"
 msgstr "\"%s\" không chứa mô tả sơ đồ"
+
+#~ msgid "Cancel"
+#~ msgstr "Không!"
 
 #~ msgid ""
 #~ "Interface %s:\n"

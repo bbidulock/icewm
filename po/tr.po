@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.12\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-02-07 13:13+0100\n"
+"POT-Creation-Date: 2015-02-11 22:16+0100\n"
 "PO-Revision-Date: 2004-01-21 9:30+0200\n"
 "Last-Translator: Coşku Erdem\n"
 "Language-Team: Turkish\n"
@@ -130,62 +130,6 @@ msgstr ""
 #: src/wmstatus.cc:168
 msgid "Workspace: "
 msgstr "Çalışma Alanı: "
-
-#: src/fdomenu.cc:228
-msgid "Settings"
-msgstr ""
-
-#: src/fdomenu.cc:229
-msgid "Screensavers"
-msgstr ""
-
-#: src/fdomenu.cc:230
-msgid "Accessories"
-msgstr ""
-
-#: src/fdomenu.cc:231
-msgid "Development"
-msgstr ""
-
-#: src/fdomenu.cc:232
-msgid "Education"
-msgstr ""
-
-#: src/fdomenu.cc:233
-msgid "Games"
-msgstr ""
-
-#: src/fdomenu.cc:234
-msgid "Graphics"
-msgstr ""
-
-#: src/fdomenu.cc:235
-msgid "Multimedia"
-msgstr ""
-
-#: src/fdomenu.cc:236
-msgid "Network"
-msgstr ""
-
-#: src/fdomenu.cc:237
-msgid "Office"
-msgstr ""
-
-#: src/fdomenu.cc:238
-msgid "System"
-msgstr ""
-
-#: src/fdomenu.cc:239
-msgid "WINE"
-msgstr ""
-
-#: src/fdomenu.cc:240
-msgid "Editors"
-msgstr ""
-
-#: src/fdomenu.cc:245
-msgid "Other"
-msgstr ""
 
 #: src/icehelp.cc:715
 msgid "Back"
@@ -982,7 +926,7 @@ msgstr "_Bilgisayarı Kitle"
 msgid "_Logout..."
 msgstr "_Oturumu Kapat..."
 
-#: src/wmdialog.cc:97
+#: src/wmdialog.cc:97 src/ymsgbox.cc:46
 msgid "_Cancel"
 msgstr "_Vazgeç"
 
@@ -1370,13 +1314,9 @@ msgstr "iconv (yeterli) %s sağlayamıyor: %s."
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Hatalı multibyte string «%s»: %s"
 
-#: src/ymsgbox.cc:37
-msgid "OK"
-msgstr "Tamam"
-
-#: src/ymsgbox.cc:45
-msgid "Cancel"
-msgstr "İptal"
+#: src/ymsgbox.cc:38
+msgid "_OK"
+msgstr "_Tamam"
 
 #: src/ypaths.cc:144 src/ypaths.cc:171
 #, c-format
@@ -1430,6 +1370,9 @@ msgstr "«%s» yaygın bir internet şemasını tarif etmiyor"
 #, c-format
 msgid "\"%s\" contains no scheme description"
 msgstr "«%s» şema tarifi içermiyor"
+
+#~ msgid "Cancel"
+#~ msgstr "İptal"
 
 #, fuzzy
 #~ msgid ""
