@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.9\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-02-12 23:02+0100\n"
+"POT-Creation-Date: 2015-02-13 12:34+0100\n"
 "PO-Revision-Date: 2003-07-11 20:20+0300\n"
 "Last-Translator: Anton Farygin <rider@linux.ru.net>\n"
 "Language-Team: Russian\n"
@@ -51,36 +51,33 @@ msgstr " - Полный"
 #: src/acpustatus.cc:231
 #, c-format
 msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
-msgstr "Загрузка процессора: %3.2f %3.2f %3.2f, %u процессов"
+msgstr "Загрузка процессора: %3.2f %3.2f %3.2f, %u проц."
 
 #: src/acpustatus.cc:236
-#, c-format
 msgid ""
 "\n"
-"Ram: %5.2f/%.2fM"
+"Ram (free): %5.2f (%.2f) M"
 msgstr ""
 "\n"
-"Оперативная память: %5.2f/%.2fM"
+"Опер. память (свободнaя): %5.2f (%.2f) МБ"
 
 #: src/acpustatus.cc:241
-#, c-format
 msgid ""
 "\n"
-"Swap: %.2f/%.2fM"
+"Swap (free): %.2f (%.2f) МБ"
 msgstr ""
 "\n"
-"Файл подкачки: %.2f/%.2fM"
+"Файл подкачки (свободно): %.2f (%.2f) МБ"
 
-#: src/acpustatus.cc:246
-#, c-format
+#: src/acpustatus.cc:247
 msgid ""
 "\n"
-"ACPI Temp:"
+"ACPI Temp: "
 msgstr ""
 "\n"
-"\"ACPI\"-Температура:"
+"\"ACPI\"-Температура: "
 
-#: src/acpustatus.cc:252
+#: src/acpustatus.cc:258
 #, c-format
 msgid ""
 "\n"
@@ -89,7 +86,7 @@ msgstr ""
 "\n"
 "Такт процессора: %.3fGHz"
 
-#: src/acpustatus.cc:265
+#: src/acpustatus.cc:271
 msgid "CPU Load: "
 msgstr "Загрузка CPU: "
 

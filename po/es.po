@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.26\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-02-12 23:02+0100\n"
+"POT-Creation-Date: 2015-02-13 12:34+0100\n"
 "PO-Revision-Date: 2014-08-05 02:46-0400\n"
 "Last-Translator: PAblo Roberto Francisco Lezaeta Reyes <prflr88@gmail.com>\n"
 "Language-Team:  <es@li.org>\n"
@@ -44,33 +44,32 @@ msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
 msgstr "Carga del CPU: %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:236
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "\n"
-"Ram: %5.2f/%.2fM"
+"Ram (free): %5.2f (%.2f) M"
 msgstr ""
 "\n"
 "Ram: %5.2f / %.2f M"
 
 #: src/acpustatus.cc:241
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "\n"
-"Swap: %.2f/%.2fM"
+"Swap (free): %.2f (%.2f) M"
 msgstr ""
 "\n"
 "Área de intercambio: %.2f / %.2f M"
 
-#: src/acpustatus.cc:246
-#, c-format
+#: src/acpustatus.cc:247
 msgid ""
 "\n"
-"ACPI Temp:"
+"ACPI Temp: "
 msgstr ""
 "\n"
-"T° ACPI:"
+"T° ACPI: "
 
-#: src/acpustatus.cc:252
+#: src/acpustatus.cc:258
 #, c-format
 msgid ""
 "\n"
@@ -79,7 +78,7 @@ msgstr ""
 "\n"
 "Freq. CPU: %.3f GHz"
 
-#: src/acpustatus.cc:265
+#: src/acpustatus.cc:271
 msgid "CPU Load: "
 msgstr "Carga de CPU: "
 

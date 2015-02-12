@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.2.2\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-02-12 23:02+0100\n"
+"POT-Creation-Date: 2015-02-13 12:34+0100\n"
 "PO-Revision-Date: 2003-01-27 22:26+0300\n"
 "Last-Translator: Hleb Valoska <el_globus@tut.by>\n"
 "Language-Team: Belarusian <i18n@mova.org>\n"
@@ -44,31 +44,31 @@ msgstr "Загрузка CPU: %3.2f %3.2f %3.2f, %u працэсаў"
 #, c-format
 msgid ""
 "\n"
-"Ram: %5.2f/%.2fM"
+"Ram (free): %5.2f (%.2f) M"
 msgstr ""
 
 #: src/acpustatus.cc:241
 #, c-format
 msgid ""
 "\n"
-"Swap: %.2f/%.2fM"
+"Swap (free): %.2f (%.2f) M"
 msgstr ""
 
-#: src/acpustatus.cc:246
+#: src/acpustatus.cc:247
 #, c-format
 msgid ""
 "\n"
-"ACPI Temp:"
+"ACPI Temp: "
 msgstr ""
 
-#: src/acpustatus.cc:252
+#: src/acpustatus.cc:258
 #, c-format
 msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
 
-#: src/acpustatus.cc:265
+#: src/acpustatus.cc:271
 msgid "CPU Load: "
 msgstr ""
 

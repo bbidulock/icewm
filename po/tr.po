@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.12\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-02-12 23:02+0100\n"
+"POT-Creation-Date: 2015-02-13 12:34+0100\n"
 "PO-Revision-Date: 2004-01-21 9:30+0200\n"
 "Last-Translator: Coşku Erdem\n"
 "Language-Team: Turkish\n"
@@ -38,7 +38,6 @@ msgid " - Full"
 msgstr ""
 
 #: src/acpustatus.cc:231
-#, fuzzy, c-format
 msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
 msgstr "CPU Yükü: %3.2f %3.2f %3.2f, %u süreç."
 
@@ -46,31 +45,31 @@ msgstr "CPU Yükü: %3.2f %3.2f %3.2f, %u süreç."
 #, c-format
 msgid ""
 "\n"
-"Ram: %5.2f/%.2fM"
+"Ram (free): %5.2f (%.2f) M"
 msgstr ""
 
 #: src/acpustatus.cc:241
 #, c-format
 msgid ""
 "\n"
-"Swap: %.2f/%.2fM"
+"Swap (free): %.2f (%.2f) M"
 msgstr ""
 
-#: src/acpustatus.cc:246
+#: src/acpustatus.cc:247
 #, c-format
 msgid ""
 "\n"
-"ACPI Temp:"
+"ACPI Temp: "
 msgstr ""
 
-#: src/acpustatus.cc:252
+#: src/acpustatus.cc:258
 #, c-format
 msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
 
-#: src/acpustatus.cc:265
+#: src/acpustatus.cc:271
 msgid "CPU Load: "
 msgstr ""
 

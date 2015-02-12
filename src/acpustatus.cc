@@ -233,20 +233,26 @@ void CPUStatus::updateToolTip() {
         ___checkspace;
         if (ShowRamUsage) {
 #define MBnorm(x) ((float)x * (float)sys.mem_unit / 1048576.0f)
-            more=snprintf(pos, rest, _("\nRam: %5.2f/%.2fM"),
+            more=snprintf(pos, rest, _("\nRam (free): %5.2f (%.2f) M"),
                     MBnorm(sys.totalram), MBnorm(sys.freeram));
             ___checkspace;
         }
         if (ShowSwapUsage) {
-            more=snprintf(pos, rest, _("\nSwap: %.2f/%.2fM"),
+            more=snprintf(pos, rest, _("\nSwap (free): %.2f (%.2f) M"),
                     MBnorm(sys.totalswap), MBnorm(sys.freeswap));
             ___checkspace;
         }
         if (ShowAcpiTemp) {
-            more=snprintf(pos, rest, _("\nACPI Temp:"));
+            char *posEx=pos;
+            more=snprintf(pos, rest, _("\nACPI Temp: "));
             ___checkspace;
             more=getAcpiTemp(pos, rest);
-            ___checkspace;
+            if(more)
+            {
+              ___checkspace;
+            }
+            else
+               pos=posEx;
         }
         if (ShowCpuFreq) {
             more=snprintf(pos, rest, _("\nCPU Freq: %.3fGHz"),

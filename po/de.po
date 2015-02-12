@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.26\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-02-12 23:02+0100\n"
+"POT-Creation-Date: 2015-02-13 12:34+0100\n"
 "PO-Revision-Date: 2001-10-02 00:28+0200\n"
 "Last-Translator: Eduard Bloch <edi@gmx.de>\n"
 "Language-Team: German\n"
@@ -42,36 +42,33 @@ msgstr " - Voll"
 #: src/acpustatus.cc:231
 #, c-format
 msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
-msgstr "Auslastung: %3.2f %3.2f %3.2f, %u Prozesse"
+msgstr "Auslastung: %3.2f %3.2f %3.2f, %u Proz."
 
 #: src/acpustatus.cc:236
-#, c-format
 msgid ""
 "\n"
-"Ram: %5.2f/%.2fM"
+"Ram (free): %5.2f (%.2f) M"
 msgstr ""
 "\n"
-"RAM:\t%5.2f (%.2f) MiB"
+"RAM (frei):\t%5.2f (%.2f) MiB"
 
 #: src/acpustatus.cc:241
-#, c-format
 msgid ""
 "\n"
-"Swap: %.2f/%.2fM"
+"Swap (free): %.2f (%.2f) M"
 msgstr ""
 "\n"
-"Swap:\t%.2f (%.2f) MiB"
+"Swap (frei):\t%.2f (%.2f) MiB"
 
-#: src/acpustatus.cc:246
-#, c-format
+#: src/acpustatus.cc:247
 msgid ""
 "\n"
-"ACPI Temp:"
+"ACPI Temp: "
 msgstr ""
 "\n"
 "ACPI-Temp.:\t"
 
-#: src/acpustatus.cc:252
+#: src/acpustatus.cc:258
 #, c-format
 msgid ""
 "\n"
@@ -80,7 +77,7 @@ msgstr ""
 "\n"
 "CPU-Takt:\t%.3f GHz"
 
-#: src/acpustatus.cc:265
+#: src/acpustatus.cc:271
 msgid "CPU Load: "
 msgstr "CPU-Last: "
 
