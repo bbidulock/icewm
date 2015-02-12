@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-02-11 22:16+0100\n"
+"POT-Creation-Date: 2015-02-12 23:02+0100\n"
 "PO-Revision-Date: 2007-05-01 15:46+0800\n"
 "Last-Translator: LI Daobing <lidaobing@gmail.com>\n"
 "Language-Team: Siplified Chinese\n"
@@ -134,6 +134,62 @@ msgstr ""
 #: src/wmstatus.cc:168
 msgid "Workspace: "
 msgstr "工作区："
+
+#: src/fdomenu.cc:74
+msgid "Settings"
+msgstr ""
+
+#: src/fdomenu.cc:75
+msgid "Screensavers"
+msgstr ""
+
+#: src/fdomenu.cc:76
+msgid "Accessories"
+msgstr ""
+
+#: src/fdomenu.cc:77
+msgid "Development"
+msgstr ""
+
+#: src/fdomenu.cc:78
+msgid "Education"
+msgstr ""
+
+#: src/fdomenu.cc:79
+msgid "Games"
+msgstr ""
+
+#: src/fdomenu.cc:80
+msgid "Graphics"
+msgstr ""
+
+#: src/fdomenu.cc:81
+msgid "Multimedia"
+msgstr ""
+
+#: src/fdomenu.cc:82
+msgid "Network"
+msgstr ""
+
+#: src/fdomenu.cc:83
+msgid "Office"
+msgstr ""
+
+#: src/fdomenu.cc:84
+msgid "System"
+msgstr ""
+
+#: src/fdomenu.cc:85
+msgid "WINE"
+msgstr ""
+
+#: src/fdomenu.cc:86
+msgid "Editors"
+msgstr ""
+
+#: src/fdomenu.cc:87
+msgid "Other"
+msgstr ""
 
 #: src/icehelp.cc:715
 msgid "Back"
@@ -682,157 +738,157 @@ msgstr ""
 msgid "icewm - About"
 msgstr "icewm - 关于"
 
-#: src/wmapp.cc:436
+#: src/wmapp.cc:440
 msgid "Unable to get current font path."
 msgstr "不能取得当前字体路径。"
 
-#: src/wmapp.cc:463
+#: src/wmapp.cc:467
 msgid "Unexpected format of ICEWM_FONT_PATH property"
 msgstr "ICEWM_FONT_PATH 属性的格式不能识别"
 
-#: src/wmapp.cc:520
+#: src/wmapp.cc:524
 #, c-format
 msgid "Multiple references for gradient \"%s\""
 msgstr "梯度 \"%s\" 有多个引用"
 
-#: src/wmapp.cc:595
+#: src/wmapp.cc:599
 #, c-format
 msgid "Unknown gradient name: %s"
 msgstr "未知的梯度名: %s"
 
-#: src/wmapp.cc:858
+#: src/wmapp.cc:862
 msgid "_Logout"
 msgstr "退出(_L)"
 
-#: src/wmapp.cc:859
+#: src/wmapp.cc:863
 msgid "_Cancel logout"
 msgstr "取消退出(_C)"
 
-#: src/wmapp.cc:871
+#: src/wmapp.cc:875
 msgid "Lock _Workstation"
 msgstr "锁住工作站(_W)"
 
-#: src/wmapp.cc:873 src/wmdialog.cc:111
+#: src/wmapp.cc:877 src/wmdialog.cc:111
 msgid "Re_boot"
 msgstr "重启计算机(_B)"
 
-#: src/wmapp.cc:875 src/wmdialog.cc:118
+#: src/wmapp.cc:879 src/wmdialog.cc:118
 msgid "Shut_down"
 msgstr "关机(_D)"
 
-#: src/wmapp.cc:879
+#: src/wmapp.cc:883
 msgid "Restart _Icewm"
 msgstr "重新启动 Icewm(_I)"
 
-#: src/wmapp.cc:882
+#: src/wmapp.cc:886
 msgid "Restart _Xterm"
 msgstr "重新启动 Xterm(_X)"
 
-#: src/wmapp.cc:897
+#: src/wmapp.cc:902
 msgid "_Menu"
 msgstr "菜单(_M)"
 
-#: src/wmapp.cc:898
+#: src/wmapp.cc:903
 msgid "_Above Dock"
 msgstr "停放在上面(_A)"
 
-#: src/wmapp.cc:899
+#: src/wmapp.cc:904
 msgid "_Dock"
 msgstr "停放(_D)"
 
-#: src/wmapp.cc:900
+#: src/wmapp.cc:905
 msgid "_OnTop"
 msgstr "顶层(_O)"
 
-#: src/wmapp.cc:901
+#: src/wmapp.cc:906
 msgid "_Normal"
 msgstr "正常(_N)"
 
-#: src/wmapp.cc:902
+#: src/wmapp.cc:907
 msgid "_Below"
 msgstr "底层(_B)"
 
-#: src/wmapp.cc:903
+#: src/wmapp.cc:908
 msgid "D_esktop"
 msgstr "桌面(_E)"
 
-#: src/wmapp.cc:915
+#: src/wmapp.cc:920
 msgid "_Restore"
 msgstr "恢复(_R)"
 
-#: src/wmapp.cc:917
+#: src/wmapp.cc:922
 msgid "_Move"
 msgstr "移动(_M)"
 
-#: src/wmapp.cc:919
+#: src/wmapp.cc:924
 msgid "_Size"
 msgstr "改变大小(_S)"
 
-#: src/wmapp.cc:921
+#: src/wmapp.cc:926
 msgid "Mi_nimize"
 msgstr "最小化(_N)"
 
-#: src/wmapp.cc:923
+#: src/wmapp.cc:928
 msgid "Ma_ximize"
 msgstr "最大化(_X)"
 
-#: src/wmapp.cc:925
+#: src/wmapp.cc:930
 msgid "_Fullscreen"
 msgstr "全屏(_F)"
 
-#: src/wmapp.cc:929 src/wmwinlist.cc:307
+#: src/wmapp.cc:934 src/wmwinlist.cc:307
 msgid "_Hide"
 msgstr "隐藏(_H)"
 
-#: src/wmapp.cc:932
+#: src/wmapp.cc:937
 msgid "Roll_up"
 msgstr "卷起(_U)"
 
-#: src/wmapp.cc:939
+#: src/wmapp.cc:944
 msgid "R_aise"
 msgstr "提升(_A)"
 
-#: src/wmapp.cc:941
+#: src/wmapp.cc:946
 msgid "_Lower"
 msgstr "降低(_L)"
 
-#: src/wmapp.cc:943
+#: src/wmapp.cc:948
 msgid "La_yer"
 msgstr "层次(_Y)"
 
-#: src/wmapp.cc:947 src/wmwinlist.cc:310
+#: src/wmapp.cc:952 src/wmwinlist.cc:310
 msgid "Move _To"
 msgstr "移动到(_T)"
 
-#: src/wmapp.cc:948
+#: src/wmapp.cc:953
 msgid "Occupy _All"
 msgstr "占据所有(_A)"
 
-#: src/wmapp.cc:954
+#: src/wmapp.cc:959
 msgid "Limit _Workarea"
 msgstr "限制工作区(_W)"
 
-#: src/wmapp.cc:959
+#: src/wmapp.cc:964
 msgid "Tray _icon"
 msgstr "托盘图标(_I)"
 
-#: src/wmapp.cc:965 src/wmwinlist.cc:295 src/wmwinlist.cc:321
+#: src/wmapp.cc:970 src/wmwinlist.cc:295 src/wmwinlist.cc:321
 msgid "_Close"
 msgstr "关闭(_C)"
 
-#: src/wmapp.cc:967 src/wmwinlist.cc:297
+#: src/wmapp.cc:972 src/wmwinlist.cc:297
 msgid "_Kill Client"
 msgstr "杀死客户程序(_K)"
 
-#: src/wmapp.cc:971 src/wmdialog.cc:132 src/wmwinmenu.cc:137
+#: src/wmapp.cc:976 src/wmdialog.cc:132 src/wmwinmenu.cc:137
 msgid "_Window list"
 msgstr "窗口列表(_W)"
 
-#: src/wmapp.cc:987
+#: src/wmapp.cc:992
 msgid "Another window manager already running, exiting..."
 msgstr "另外的 窗口管理器 已经在运行，退出..."
 
-#: src/wmapp.cc:1053
+#: src/wmapp.cc:1058
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -841,7 +897,7 @@ msgstr ""
 "无法重新启动：%s\n"
 "%s 在路径 $PATH 中吗？"
 
-#: src/wmapp.cc:1627
+#: src/wmapp.cc:1632
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -894,11 +950,11 @@ msgstr ""
 "\n"
 "访问 http://www.icewm.org/ 来报告错误，支持请求，评论...  \n"
 
-#: src/wmapp.cc:1738
+#: src/wmapp.cc:1743
 msgid "Confirm Logout"
 msgstr "确认退出"
 
-#: src/wmapp.cc:1739
+#: src/wmapp.cc:1744
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"

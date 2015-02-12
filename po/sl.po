@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sl\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-02-11 22:16+0100\n"
+"POT-Creation-Date: 2015-02-12 23:02+0100\n"
 "PO-Revision-Date: 2004-10-03 21:56+0200\n"
 "Last-Translator: Jernej Kovacic <jkovacic AT email DOT si>\n"
 "Language-Team: Slovenian <translator-team-sl@lists.sourceforge.net>\n"
@@ -143,6 +143,62 @@ msgstr ""
 #: src/wmstatus.cc:168
 msgid "Workspace: "
 msgstr "Delovna površina: "
+
+#: src/fdomenu.cc:74
+msgid "Settings"
+msgstr ""
+
+#: src/fdomenu.cc:75
+msgid "Screensavers"
+msgstr ""
+
+#: src/fdomenu.cc:76
+msgid "Accessories"
+msgstr ""
+
+#: src/fdomenu.cc:77
+msgid "Development"
+msgstr ""
+
+#: src/fdomenu.cc:78
+msgid "Education"
+msgstr ""
+
+#: src/fdomenu.cc:79
+msgid "Games"
+msgstr ""
+
+#: src/fdomenu.cc:80
+msgid "Graphics"
+msgstr ""
+
+#: src/fdomenu.cc:81
+msgid "Multimedia"
+msgstr ""
+
+#: src/fdomenu.cc:82
+msgid "Network"
+msgstr ""
+
+#: src/fdomenu.cc:83
+msgid "Office"
+msgstr ""
+
+#: src/fdomenu.cc:84
+msgid "System"
+msgstr ""
+
+#: src/fdomenu.cc:85
+msgid "WINE"
+msgstr ""
+
+#: src/fdomenu.cc:86
+msgid "Editors"
+msgstr ""
+
+#: src/fdomenu.cc:87
+msgid "Other"
+msgstr ""
 
 #: src/icehelp.cc:715
 msgid "Back"
@@ -710,157 +766,157 @@ msgstr ""
 msgid "icewm - About"
 msgstr "O IceWM"
 
-#: src/wmapp.cc:436
+#: src/wmapp.cc:440
 msgid "Unable to get current font path."
 msgstr "Ne morem dobiti trenutne poti do pisav."
 
-#: src/wmapp.cc:463
+#: src/wmapp.cc:467
 msgid "Unexpected format of ICEWM_FONT_PATH property"
 msgstr "Nepričakovana oblika lastnosti ICEWM_FONT_PATH"
 
-#: src/wmapp.cc:520
+#: src/wmapp.cc:524
 #, c-format
 msgid "Multiple references for gradient \"%s\""
 msgstr "Večkraten napotek za gradient \"%s\""
 
-#: src/wmapp.cc:595
+#: src/wmapp.cc:599
 #, c-format
 msgid "Unknown gradient name: %s"
 msgstr "Neznano ime gradienta: %s"
 
-#: src/wmapp.cc:858
+#: src/wmapp.cc:862
 msgid "_Logout"
 msgstr "_Odjava"
 
-#: src/wmapp.cc:859
+#: src/wmapp.cc:863
 msgid "_Cancel logout"
 msgstr "Prekli_c odjave"
 
-#: src/wmapp.cc:871
+#: src/wmapp.cc:875
 msgid "Lock _Workstation"
 msgstr "_Zakleni delovno postajo"
 
-#: src/wmapp.cc:873 src/wmdialog.cc:111
+#: src/wmapp.cc:877 src/wmdialog.cc:111
 msgid "Re_boot"
 msgstr "Ponoven _zagon sistema"
 
-#: src/wmapp.cc:875 src/wmdialog.cc:118
+#: src/wmapp.cc:879 src/wmdialog.cc:118
 msgid "Shut_down"
 msgstr "Zaustavitev _sistema"
 
-#: src/wmapp.cc:879
+#: src/wmapp.cc:883
 msgid "Restart _Icewm"
 msgstr "Ponoven zagon _IceWM"
 
-#: src/wmapp.cc:882
+#: src/wmapp.cc:886
 msgid "Restart _Xterm"
 msgstr "Ponoven zagon _Xterma"
 
-#: src/wmapp.cc:897
+#: src/wmapp.cc:902
 msgid "_Menu"
 msgstr "_Menu"
 
-#: src/wmapp.cc:898
+#: src/wmapp.cc:903
 msgid "_Above Dock"
 msgstr "Nad sid_rom"
 
-#: src/wmapp.cc:899
+#: src/wmapp.cc:904
 msgid "_Dock"
 msgstr "_Zasidraj"
 
-#: src/wmapp.cc:900
+#: src/wmapp.cc:905
 msgid "_OnTop"
 msgstr "Na _vrh"
 
-#: src/wmapp.cc:901
+#: src/wmapp.cc:906
 msgid "_Normal"
 msgstr "_Običajno"
 
-#: src/wmapp.cc:902
+#: src/wmapp.cc:907
 msgid "_Below"
 msgstr "_Spodaj"
 
-#: src/wmapp.cc:903
+#: src/wmapp.cc:908
 msgid "D_esktop"
 msgstr "_Namizje"
 
-#: src/wmapp.cc:915
+#: src/wmapp.cc:920
 msgid "_Restore"
 msgstr "O_bnovi"
 
-#: src/wmapp.cc:917
+#: src/wmapp.cc:922
 msgid "_Move"
 msgstr "P_restavi"
 
-#: src/wmapp.cc:919
+#: src/wmapp.cc:924
 msgid "_Size"
 msgstr "Velikos_t"
 
-#: src/wmapp.cc:921
+#: src/wmapp.cc:926
 msgid "Mi_nimize"
 msgstr "Poma_njšaj"
 
-#: src/wmapp.cc:923
+#: src/wmapp.cc:928
 msgid "Ma_ximize"
 msgstr "R_azpni"
 
-#: src/wmapp.cc:925
+#: src/wmapp.cc:930
 msgid "_Fullscreen"
 msgstr "_Celoten zaslon"
 
-#: src/wmapp.cc:929 src/wmwinlist.cc:307
+#: src/wmapp.cc:934 src/wmwinlist.cc:307
 msgid "_Hide"
 msgstr "S_krij"
 
-#: src/wmapp.cc:932
+#: src/wmapp.cc:937
 msgid "Roll_up"
 msgstr "Navz_gor"
 
-#: src/wmapp.cc:939
+#: src/wmapp.cc:944
 msgid "R_aise"
 msgstr "_Dvigni"
 
-#: src/wmapp.cc:941
+#: src/wmapp.cc:946
 msgid "_Lower"
 msgstr "_Spusti"
 
-#: src/wmapp.cc:943
+#: src/wmapp.cc:948
 msgid "La_yer"
 msgstr "S_loj"
 
-#: src/wmapp.cc:947 src/wmwinlist.cc:310
+#: src/wmapp.cc:952 src/wmwinlist.cc:310
 msgid "Move _To"
 msgstr "Prestavi _v"
 
-#: src/wmapp.cc:948
+#: src/wmapp.cc:953
 msgid "Occupy _All"
 msgstr "Za_sedi vse"
 
-#: src/wmapp.cc:954
+#: src/wmapp.cc:959
 msgid "Limit _Workarea"
 msgstr "_Omeji delovno površino"
 
-#: src/wmapp.cc:959
+#: src/wmapp.cc:964
 msgid "Tray _icon"
 msgstr "Pladenj z _ikonami"
 
-#: src/wmapp.cc:965 src/wmwinlist.cc:295 src/wmwinlist.cc:321
+#: src/wmapp.cc:970 src/wmwinlist.cc:295 src/wmwinlist.cc:321
 msgid "_Close"
 msgstr "_Zapri"
 
-#: src/wmapp.cc:967 src/wmwinlist.cc:297
+#: src/wmapp.cc:972 src/wmwinlist.cc:297
 msgid "_Kill Client"
 msgstr "_Ubij odjemalca"
 
-#: src/wmapp.cc:971 src/wmdialog.cc:132 src/wmwinmenu.cc:137
+#: src/wmapp.cc:976 src/wmdialog.cc:132 src/wmwinmenu.cc:137
 msgid "_Window list"
 msgstr "_Seznam oken"
 
-#: src/wmapp.cc:987
+#: src/wmapp.cc:992
 msgid "Another window manager already running, exiting..."
 msgstr "Drug upravljalnik oken že teče, končujem..."
 
-#: src/wmapp.cc:1053
+#: src/wmapp.cc:1058
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -869,7 +925,7 @@ msgstr ""
 "Ne morem ponovno zagnati: %s\n"
 "Ali je %s v spremenljivki $PATH?"
 
-#: src/wmapp.cc:1627
+#: src/wmapp.cc:1632
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -926,11 +982,11 @@ msgstr ""
 "Sporočanje hroščev, zahteve za podporo, komentarji, ... na http://www.icewm."
 "org/\n"
 
-#: src/wmapp.cc:1738
+#: src/wmapp.cc:1743
 msgid "Confirm Logout"
 msgstr "Potrdi odjavo"
 
-#: src/wmapp.cc:1739
+#: src/wmapp.cc:1744
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"

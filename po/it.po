@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.31\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-02-11 22:16+0100\n"
+"POT-Creation-Date: 2015-02-12 23:02+0100\n"
 "PO-Revision-Date: 2007-06-11 11:37+0200\n"
 "Last-Translator: Yuri Bongiorno http://yuri.webhop.org/\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -133,6 +133,63 @@ msgstr ""
 #: src/wmstatus.cc:168
 msgid "Workspace: "
 msgstr "Area di lavoro: "
+
+#: src/fdomenu.cc:74
+#, fuzzy
+msgid "Settings"
+msgstr "Impos_tazioni"
+
+#: src/fdomenu.cc:75
+msgid "Screensavers"
+msgstr ""
+
+#: src/fdomenu.cc:76
+msgid "Accessories"
+msgstr ""
+
+#: src/fdomenu.cc:77
+msgid "Development"
+msgstr ""
+
+#: src/fdomenu.cc:78
+msgid "Education"
+msgstr ""
+
+#: src/fdomenu.cc:79
+msgid "Games"
+msgstr ""
+
+#: src/fdomenu.cc:80
+msgid "Graphics"
+msgstr ""
+
+#: src/fdomenu.cc:81
+msgid "Multimedia"
+msgstr ""
+
+#: src/fdomenu.cc:82
+msgid "Network"
+msgstr ""
+
+#: src/fdomenu.cc:83
+msgid "Office"
+msgstr ""
+
+#: src/fdomenu.cc:84
+msgid "System"
+msgstr ""
+
+#: src/fdomenu.cc:85
+msgid "WINE"
+msgstr ""
+
+#: src/fdomenu.cc:86
+msgid "Editors"
+msgstr ""
+
+#: src/fdomenu.cc:87
+msgid "Other"
+msgstr ""
 
 #: src/icehelp.cc:715
 msgid "Back"
@@ -707,157 +764,157 @@ msgstr ""
 msgid "icewm - About"
 msgstr "icewm - Informazioni"
 
-#: src/wmapp.cc:436
+#: src/wmapp.cc:440
 msgid "Unable to get current font path."
 msgstr "Impossibile ottenere il percorso attuale dei font."
 
-#: src/wmapp.cc:463
+#: src/wmapp.cc:467
 msgid "Unexpected format of ICEWM_FONT_PATH property"
 msgstr "Formato sconosciuto della proprietà ICEWM_FONT_PATH"
 
-#: src/wmapp.cc:520
+#: src/wmapp.cc:524
 #, c-format
 msgid "Multiple references for gradient \"%s\""
 msgstr "Riferimenti multipli per il gradiente «%s»"
 
-#: src/wmapp.cc:595
+#: src/wmapp.cc:599
 #, c-format
 msgid "Unknown gradient name: %s"
 msgstr "Nome gradiente sconosciuto: %s"
 
-#: src/wmapp.cc:858
+#: src/wmapp.cc:862
 msgid "_Logout"
 msgstr "_Esci"
 
-#: src/wmapp.cc:859
+#: src/wmapp.cc:863
 msgid "_Cancel logout"
 msgstr "Annulla us_cita"
 
-#: src/wmapp.cc:871
+#: src/wmapp.cc:875
 msgid "Lock _Workstation"
 msgstr "_Blocca lo schermo"
 
-#: src/wmapp.cc:873 src/wmdialog.cc:111
+#: src/wmapp.cc:877 src/wmdialog.cc:111
 msgid "Re_boot"
 msgstr "Riav_via il computer"
 
-#: src/wmapp.cc:875 src/wmdialog.cc:118
+#: src/wmapp.cc:879 src/wmdialog.cc:118
 msgid "Shut_down"
 msgstr "Arresta il _sistema"
 
-#: src/wmapp.cc:879
+#: src/wmapp.cc:883
 msgid "Restart _Icewm"
 msgstr "Riavvia _Icewm"
 
-#: src/wmapp.cc:882
+#: src/wmapp.cc:886
 msgid "Restart _Xterm"
 msgstr "Riavvia _Xterm"
 
-#: src/wmapp.cc:897
+#: src/wmapp.cc:902
 msgid "_Menu"
 msgstr "_Menù"
 
-#: src/wmapp.cc:898
+#: src/wmapp.cc:903
 msgid "_Above Dock"
 msgstr "Sopr_a il dock"
 
-#: src/wmapp.cc:899
+#: src/wmapp.cc:904
 msgid "_Dock"
 msgstr "_Dock"
 
-#: src/wmapp.cc:900
+#: src/wmapp.cc:905
 msgid "_OnTop"
 msgstr "In alt_o"
 
-#: src/wmapp.cc:901
+#: src/wmapp.cc:906
 msgid "_Normal"
 msgstr "_Normale"
 
-#: src/wmapp.cc:902
+#: src/wmapp.cc:907
 msgid "_Below"
 msgstr "In _basso"
 
-#: src/wmapp.cc:903
+#: src/wmapp.cc:908
 msgid "D_esktop"
 msgstr "D_esktop"
 
-#: src/wmapp.cc:915
+#: src/wmapp.cc:920
 msgid "_Restore"
 msgstr "Ri_pristina"
 
-#: src/wmapp.cc:917
+#: src/wmapp.cc:922
 msgid "_Move"
 msgstr "_Sposta"
 
-#: src/wmapp.cc:919
+#: src/wmapp.cc:924
 msgid "_Size"
 msgstr "Ri_dimensiona"
 
-#: src/wmapp.cc:921
+#: src/wmapp.cc:926
 msgid "Mi_nimize"
 msgstr "Mi_nimizza"
 
-#: src/wmapp.cc:923
+#: src/wmapp.cc:928
 msgid "Ma_ximize"
 msgstr "Massimi_zza"
 
-#: src/wmapp.cc:925
+#: src/wmapp.cc:930
 msgid "_Fullscreen"
 msgstr "Sc_hermo intero"
 
-#: src/wmapp.cc:929 src/wmwinlist.cc:307
+#: src/wmapp.cc:934 src/wmwinlist.cc:307
 msgid "_Hide"
 msgstr "Nasc_ondi"
 
-#: src/wmapp.cc:932
+#: src/wmapp.cc:937
 msgid "Roll_up"
 msgstr "A_rrotola"
 
-#: src/wmapp.cc:939
+#: src/wmapp.cc:944
 msgid "R_aise"
 msgstr "_Alza"
 
-#: src/wmapp.cc:941
+#: src/wmapp.cc:946
 msgid "_Lower"
 msgstr "Ab_bassa"
 
-#: src/wmapp.cc:943
+#: src/wmapp.cc:948
 msgid "La_yer"
 msgstr "_Livello"
 
-#: src/wmapp.cc:947 src/wmwinlist.cc:310
+#: src/wmapp.cc:952 src/wmwinlist.cc:310
 msgid "Move _To"
 msgstr "Spos_ta in"
 
-#: src/wmapp.cc:948
+#: src/wmapp.cc:953
 msgid "Occupy _All"
 msgstr "In t_utti"
 
-#: src/wmapp.cc:954
+#: src/wmapp.cc:959
 msgid "Limit _Workarea"
 msgstr "Limita l'a_rea di lavoro"
 
-#: src/wmapp.cc:959
+#: src/wmapp.cc:964
 msgid "Tray _icon"
 msgstr "_Icona in vassoio"
 
-#: src/wmapp.cc:965 src/wmwinlist.cc:295 src/wmwinlist.cc:321
+#: src/wmapp.cc:970 src/wmwinlist.cc:295 src/wmwinlist.cc:321
 msgid "_Close"
 msgstr "_Chiudi"
 
-#: src/wmapp.cc:967 src/wmwinlist.cc:297
+#: src/wmapp.cc:972 src/wmwinlist.cc:297
 msgid "_Kill Client"
 msgstr "_Uccidi il client"
 
-#: src/wmapp.cc:971 src/wmdialog.cc:132 src/wmwinmenu.cc:137
+#: src/wmapp.cc:976 src/wmdialog.cc:132 src/wmwinmenu.cc:137
 msgid "_Window list"
 msgstr "Elenco delle _finestre"
 
-#: src/wmapp.cc:987
+#: src/wmapp.cc:992
 msgid "Another window manager already running, exiting..."
 msgstr "Un altro window manager è già attivo, esco..."
 
-#: src/wmapp.cc:1053
+#: src/wmapp.cc:1058
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -866,7 +923,7 @@ msgstr ""
 "Impossibile riavviare: %s\n"
 "%s si trova in $PATH?"
 
-#: src/wmapp.cc:1627
+#: src/wmapp.cc:1632
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -922,11 +979,11 @@ msgstr ""
 "\n"
 "Visitare http://www.icewm.org/ per segnalare bug, richieste, commenti...\n"
 
-#: src/wmapp.cc:1738
+#: src/wmapp.cc:1743
 msgid "Confirm Logout"
 msgstr "Conferma uscita"
 
-#: src/wmapp.cc:1739
+#: src/wmapp.cc:1744
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1395,10 +1452,6 @@ msgstr "«%s» non descrive uno schema comune di indirizzo internet"
 #, c-format
 msgid "\"%s\" contains no scheme description"
 msgstr "«%s» non contiene uno schema di descrizione"
-
-#, fuzzy
-#~ msgid "Settings"
-#~ msgstr "Impos_tazioni"
 
 #~ msgid "Cancel"
 #~ msgstr "Annulla"

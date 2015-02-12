@@ -71,20 +71,20 @@ struct tListMeta
 };
 tListMeta menuinfo[] =
 {
-{ "Settings", &msettings },
-{ "Screensavers", &mscreensavers },
-{ "Accessories", &maccessories },
-{ "Development", &mdevelopment },
-{ "Education", &meducation },
-{ "Games", &mgames },
-{ "Graphics", &mgraphics },
-{ "Multimedia", &mmultimedia },
-{ "Network", &mnetwork },
-{ "Office", &moffice },
-{ "System", &msystem },
-{ "WINE", &mwine },
-{ "Editors", &meditors },
-{ "Other", &mother } };
+{ N_("Settings"), &msettings },
+{ N_("Screensavers"), &mscreensavers },
+{ N_("Accessories"), &maccessories },
+{ N_("Development"), &mdevelopment },
+{ N_("Education"), &meducation },
+{ N_("Games"), &mgames },
+{ N_("Graphics"), &mgraphics },
+{ N_("Multimedia"), &mmultimedia },
+{ N_("Network"), &mnetwork },
+{ N_("Office"), &moffice },
+{ N_("System"), &msystem },
+{ N_("WINE"), &mwine },
+{ N_("Editors"), &meditors },
+{ N_("Other"), &mother } };
 
 void proc_dir(const char *path, unsigned depth=0)
 {
@@ -309,7 +309,9 @@ cmpstringp(const void *p1, const void *p2)
 
 static void init()
 {
+#ifdef CONFIG_I18N
 	setlocale (LC_ALL, "");
+#endif
 
 #ifdef ENABLE_NLS
     bindtextdomain(PACKAGE, LOCDIR);

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.2\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-02-11 22:16+0100\n"
+"POT-Creation-Date: 2015-02-12 23:02+0100\n"
 "PO-Revision-Date: 2002-09-22 22:00+0200\n"
 "Last-Translator: Petter Johan Olsen <petter.olsen@cc.uit.no>\n"
 "Language-Team: Norwegian\n"
@@ -131,6 +131,62 @@ msgstr ""
 #: src/wmstatus.cc:168
 msgid "Workspace: "
 msgstr "Skrivebordsområde: "
+
+#: src/fdomenu.cc:74
+msgid "Settings"
+msgstr ""
+
+#: src/fdomenu.cc:75
+msgid "Screensavers"
+msgstr ""
+
+#: src/fdomenu.cc:76
+msgid "Accessories"
+msgstr ""
+
+#: src/fdomenu.cc:77
+msgid "Development"
+msgstr ""
+
+#: src/fdomenu.cc:78
+msgid "Education"
+msgstr ""
+
+#: src/fdomenu.cc:79
+msgid "Games"
+msgstr ""
+
+#: src/fdomenu.cc:80
+msgid "Graphics"
+msgstr ""
+
+#: src/fdomenu.cc:81
+msgid "Multimedia"
+msgstr ""
+
+#: src/fdomenu.cc:82
+msgid "Network"
+msgstr ""
+
+#: src/fdomenu.cc:83
+msgid "Office"
+msgstr ""
+
+#: src/fdomenu.cc:84
+msgid "System"
+msgstr ""
+
+#: src/fdomenu.cc:85
+msgid "WINE"
+msgstr ""
+
+#: src/fdomenu.cc:86
+msgid "Editors"
+msgstr ""
+
+#: src/fdomenu.cc:87
+msgid "Other"
+msgstr ""
 
 #: src/icehelp.cc:715
 msgid "Back"
@@ -680,157 +736,157 @@ msgstr ""
 msgid "icewm - About"
 msgstr "icewm - Om"
 
-#: src/wmapp.cc:436
+#: src/wmapp.cc:440
 msgid "Unable to get current font path."
 msgstr "Nåværende tegnsett-sti kunne ikke hentes."
 
-#: src/wmapp.cc:463
+#: src/wmapp.cc:467
 msgid "Unexpected format of ICEWM_FONT_PATH property"
 msgstr "Uventet format for egenskapen ICEWM_FONT_PATH"
 
-#: src/wmapp.cc:520
+#: src/wmapp.cc:524
 #, c-format
 msgid "Multiple references for gradient \"%s\""
 msgstr "Flere referanser for fargeovergang `%s'"
 
-#: src/wmapp.cc:595
+#: src/wmapp.cc:599
 #, c-format
 msgid "Unknown gradient name: %s"
 msgstr "Ukjent navn på fargeovergang: %s"
 
-#: src/wmapp.cc:858
+#: src/wmapp.cc:862
 msgid "_Logout"
 msgstr "_Logg av"
 
-#: src/wmapp.cc:859
+#: src/wmapp.cc:863
 msgid "_Cancel logout"
 msgstr "_Avbryt avlogging"
 
-#: src/wmapp.cc:871
+#: src/wmapp.cc:875
 msgid "Lock _Workstation"
 msgstr "Lås _arbeidsstasjon"
 
-#: src/wmapp.cc:873 src/wmdialog.cc:111
+#: src/wmapp.cc:877 src/wmdialog.cc:111
 msgid "Re_boot"
 msgstr "Start _maskinen på nytt"
 
-#: src/wmapp.cc:875 src/wmdialog.cc:118
+#: src/wmapp.cc:879 src/wmdialog.cc:118
 msgid "Shut_down"
 msgstr "S_lå av maskinen"
 
-#: src/wmapp.cc:879
+#: src/wmapp.cc:883
 msgid "Restart _Icewm"
 msgstr "Start _Icewm på nytt"
 
-#: src/wmapp.cc:882
+#: src/wmapp.cc:886
 msgid "Restart _Xterm"
 msgstr "Start _Xterm på nytt"
 
-#: src/wmapp.cc:897
+#: src/wmapp.cc:902
 msgid "_Menu"
 msgstr "_Meny"
 
-#: src/wmapp.cc:898
+#: src/wmapp.cc:903
 msgid "_Above Dock"
 msgstr "_Over dock"
 
-#: src/wmapp.cc:899
+#: src/wmapp.cc:904
 msgid "_Dock"
 msgstr "_Dock"
 
-#: src/wmapp.cc:900
+#: src/wmapp.cc:905
 msgid "_OnTop"
 msgstr "_Øverst"
 
-#: src/wmapp.cc:901
+#: src/wmapp.cc:906
 msgid "_Normal"
 msgstr "_Normal"
 
-#: src/wmapp.cc:902
+#: src/wmapp.cc:907
 msgid "_Below"
 msgstr "_Under"
 
-#: src/wmapp.cc:903
+#: src/wmapp.cc:908
 msgid "D_esktop"
 msgstr "_Skrivebord"
 
-#: src/wmapp.cc:915
+#: src/wmapp.cc:920
 msgid "_Restore"
 msgstr "_Gjenopprett"
 
-#: src/wmapp.cc:917
+#: src/wmapp.cc:922
 msgid "_Move"
 msgstr "_Flytt"
 
-#: src/wmapp.cc:919
+#: src/wmapp.cc:924
 msgid "_Size"
 msgstr "_Endre størrelse"
 
-#: src/wmapp.cc:921
+#: src/wmapp.cc:926
 msgid "Mi_nimize"
 msgstr "Mi_nimer"
 
-#: src/wmapp.cc:923
+#: src/wmapp.cc:928
 msgid "Ma_ximize"
 msgstr "Ma_ksimer"
 
-#: src/wmapp.cc:925
+#: src/wmapp.cc:930
 msgid "_Fullscreen"
 msgstr "_Fullskjerm"
 
-#: src/wmapp.cc:929 src/wmwinlist.cc:307
+#: src/wmapp.cc:934 src/wmwinlist.cc:307
 msgid "_Hide"
 msgstr "G_jem"
 
-#: src/wmapp.cc:932
+#: src/wmapp.cc:937
 msgid "Roll_up"
 msgstr "_Rull opp"
 
-#: src/wmapp.cc:939
+#: src/wmapp.cc:944
 msgid "R_aise"
 msgstr "_Hev"
 
-#: src/wmapp.cc:941
+#: src/wmapp.cc:946
 msgid "_Lower"
 msgstr "_Senk"
 
-#: src/wmapp.cc:943
+#: src/wmapp.cc:948
 msgid "La_yer"
 msgstr "_Lag"
 
-#: src/wmapp.cc:947 src/wmwinlist.cc:310
+#: src/wmapp.cc:952 src/wmwinlist.cc:310
 msgid "Move _To"
 msgstr "Fl_ytt til"
 
-#: src/wmapp.cc:948
+#: src/wmapp.cc:953
 msgid "Occupy _All"
 msgstr "Finnes på _alle"
 
-#: src/wmapp.cc:954
+#: src/wmapp.cc:959
 msgid "Limit _Workarea"
 msgstr "_Begrens område"
 
-#: src/wmapp.cc:959
+#: src/wmapp.cc:964
 msgid "Tray _icon"
 msgstr "_Trayikon"
 
-#: src/wmapp.cc:965 src/wmwinlist.cc:295 src/wmwinlist.cc:321
+#: src/wmapp.cc:970 src/wmwinlist.cc:295 src/wmwinlist.cc:321
 msgid "_Close"
 msgstr "L_ukk"
 
-#: src/wmapp.cc:967 src/wmwinlist.cc:297
+#: src/wmapp.cc:972 src/wmwinlist.cc:297
 msgid "_Kill Client"
 msgstr "_Drep klient"
 
-#: src/wmapp.cc:971 src/wmdialog.cc:132 src/wmwinmenu.cc:137
+#: src/wmapp.cc:976 src/wmdialog.cc:132 src/wmwinmenu.cc:137
 msgid "_Window list"
 msgstr "_Vindusliste"
 
-#: src/wmapp.cc:987
+#: src/wmapp.cc:992
 msgid "Another window manager already running, exiting..."
 msgstr "En annen vindusbehandler kjører allerede, avslutter..."
 
-#: src/wmapp.cc:1053
+#: src/wmapp.cc:1058
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -839,7 +895,7 @@ msgstr ""
 "Kunne ikke starte `%s' på nytt\n"
 "Finnes `%s' i $PATH?"
 
-#: src/wmapp.cc:1627
+#: src/wmapp.cc:1632
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -898,11 +954,11 @@ msgstr ""
 "kommentarer.\n"
 "\n"
 
-#: src/wmapp.cc:1738
+#: src/wmapp.cc:1743
 msgid "Confirm Logout"
 msgstr "Bekreft avlogging"
 
-#: src/wmapp.cc:1739
+#: src/wmapp.cc:1744
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
