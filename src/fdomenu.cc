@@ -201,7 +201,13 @@ void proc_dir(const char *path, unsigned depth=0)
 		}
 
 		gchar *menuLine;
-		bool bForTerminal = g_desktop_app_info_get_boolean(pInfo, "Terminal");
+		bool bForTerminal = false;
+#if GLIB_VERSION_CUR_STABLE >= G_ENCODE_VERSION(2, 36)
+		bForTerminal = g_desktop_app_info_get_boolean(pInfo, "Terminal");
+#else
+		// cannot check terminal property, callback is as safe bet
+		bUseSimplifiedCmd = false;
+#endif
 
 		if(bUseSimplifiedCmd && !bForTerminal) // best case
 			menuLine = g_strjoin(" ", sicon, cmdMod, NULL);
@@ -244,8 +250,13 @@ void proc_dir(const char *path, unsigned depth=0)
 			add2menu(meditors)
 		else
 		{
+#if GLIB_VERSION_CUR_STABLE >= G_ENCODE_VERSION(2, 34)
 			const char *pwmclass = g_desktop_app_info_get_startup_wm_class(pInfo);
-			if ((pwmclass && strstr(pwmclass, "Wine")) || strstr(cmdraw, " wine "))
+			if (pwmclass && strstr(pwmclass, "Wine"))
+				add2menu(mwine)
+			else
+#endif
+			if (strstr(cmdraw, " wine "))
 				add2menu(mwine)
 			else
 				add2menu(mother)
