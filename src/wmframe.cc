@@ -496,9 +496,11 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
     MSG(("Map - Frame: %d", visible()));
     MSG(("Map - Client: %d", client()->visible()));
 
+#ifdef WMSPEC_HINTS
     if (client()->getNetWMStateHint(&state_mask, &state)) {
         setState(state_mask, state);
     }
+#endif
     if (client()->getWinStateHint(&state_mask, &state)) {
         setState(state_mask, state);
     }
@@ -525,13 +527,18 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
         }
     }
 
+#ifdef WMSPEC_HINTS
     if (client()->getNetWMDesktopHint(&workspace)) {
         if (workspace == (long)0xFFFFFFFF)
             setSticky(true);
         else
             setWorkspace(workspace);
-    } else if (client()->getWinWorkspaceHint(&workspace))
+    } else
+#endif      
+#ifdef GNOME1_HINTS
+       if (client()->getWinWorkspaceHint(&workspace))
         setWorkspace(workspace);
+#endif
 
 #ifdef CONFIG_TRAY
     if (client()->getWinTrayHint(&tray))
@@ -2234,7 +2241,9 @@ void YFrameWindow::updateAllowed() {
     }
     atoms[i++] = _XA_NET_WM_ACTION_STICK;
     atoms[i++] = _XA_NET_WM_ACTION_CHANGE_DESKTOP;
+#ifdef WMSPEC_HINTS
     client()->setNetWMAllowedActions(atoms,i);
+#endif
 }
 
 void YFrameWindow::getFrameHints() {
@@ -2569,6 +2578,7 @@ void YFrameWindow::updateIcon() {
 
     ref<YIcon> oldFrameIcon = fFrameIcon;
 
+#ifdef WMSPEC_HINTS
     if (client()->getNetWMIcon(&count, &elem)) {
         ref<YImage> icons[3], largestIcon;
         int sizes[] = { YIcon::smallSize(), YIcon::largeSize(), YIcon::hugeSize()};
@@ -2616,13 +2626,18 @@ void YFrameWindow::updateIcon() {
         }
         fFrameIcon.init(new YIcon(icons[0], icons[1], icons[2]));
         XFree(elem);
-    } else if (client()->getWinIcons(&type, &count, &elem)) {
+    } else
+#endif
+#ifdef GNOME1_HINTS
+       if (client()->getWinIcons(&type, &count, &elem)) {
         if (type == _XA_WIN_ICONS)
             fFrameIcon = newClientIcon(elem[0], elem[1], elem + 2);
         else // compatibility
             fFrameIcon = newClientIcon(count/2, 2, elem);
         XFree(elem);
-    } else if (client()->getKwmIcon(&count, &pixmap) && count == 2) {
+    } else 
+#endif
+       if (client()->getKwmIcon(&count, &pixmap) && count == 2) {
         XWMHints *h = client()->hints();
         if (h && (h->flags & IconPixmapHint)) {
             long pix[4];
@@ -2665,8 +2680,10 @@ void YFrameWindow::updateIcon() {
 #ifdef CONFIG_TASKBAR
     if (fTaskBarApp) fTaskBarApp->repaint();
 #endif
+#ifdef CONFIG_WINLIST
     if (windowList && fWinListItem)
         windowList->getList()->repaintItem(fWinListItem);
+#endif
 }
 #endif
 
@@ -2845,7 +2862,9 @@ void YFrameWindow::setWorkspace(long workspace) {
         return ;
     if (workspace != fWinWorkspace) {
         fWinWorkspace = workspace;
+#if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)        
         client()->setWinWorkspaceHint(fWinWorkspace);
+#endif
         updateState();
         manager->focusLastWindow();
 #ifdef CONFIG_TASKBAR
@@ -2950,8 +2969,10 @@ void YFrameWindow::updateLayer(bool restack) {
         fWinActiveLayer = newLayer;
         insertFrame(true);
 
+#if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)        
         if (client())
             client()->setWinLayerHint(fWinActiveLayer);
+#endif
 
         if (limitByDockLayer &&
            (getActiveLayer() == WinLayerDock || oldLayer == WinLayerDock))
@@ -3347,7 +3368,9 @@ void YFrameWindow::updateLayout() {
     }
     if (affectsWorkArea())
         manager->updateWorkArea();
+#ifdef WMSPEC_HINTS
     client()->setNetFrameExtents(borderX(), borderX(), borderY() + titleY(), borderY());
+#endif
 }
 
 void YFrameWindow::updateExtents() {
@@ -3360,7 +3383,9 @@ void YFrameWindow::updateExtents() {
         extentRight = right;
         extentTop = top;
         extentBottom = bottom;
+#ifdef WMSPEC_HINTS
         client()->setNetFrameExtents(left, right, top, bottom);
+#endif
     }
 }
 
@@ -3549,8 +3574,10 @@ ref<YIcon> YFrameWindow::clientIcon() const {
 #endif
 
 void YFrameWindow::updateProperties() {
+#if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)
     client()->setWinWorkspaceHint(fWinWorkspace);
     client()->setWinLayerHint(fWinActiveLayer);
+#endif
 #ifdef CONFIG_TRAY
     client()->setWinTrayHint(fWinTrayOption);
 #endif

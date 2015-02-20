@@ -1879,7 +1879,7 @@ void YWindow::scrollWindow(int dx, int dy) {
 void YDesktop::updateXineramaInfo(int &w, int &h) {
     xiInfo.clear();
 
-#if CONFIG_XRANDR
+#ifdef CONFIG_XRANDR
     bool gotLayout = false;
     MSG(("xrr: %d", xrandr12 ? 1 : 0));
     if (xrandr12 && !xrrDisable) {

@@ -759,7 +759,7 @@ void YFrameClient::setNetWMFullscreenMonitors(int top, int bottom, int left, int
                         32, PropModeReplace,
                         (unsigned char *) data, 4);
 }
-
+#ifdef WMSPEC_HINTS
 void YFrameClient::setNetFrameExtents(int left, int right, int top, int bottom) {
     unsigned long data[4] = { 0, 0, 0, 0 };
     data[0] = (unsigned long) left;
@@ -778,6 +778,7 @@ void YFrameClient::setNetWMAllowedActions(Atom *actions, int count) {
                         32, PropModeReplace,
                         (unsigned char *) actions, count);
 }
+#endif
 #endif
 
 void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
@@ -922,8 +923,10 @@ void YFrameClient::getNameHint() {
 }
 
 void YFrameClient::getNetWmName() {
+#ifdef WMSPEC_HINTS
     if (!prop.net_wm_name)
         return;
+#endif
 
     XTextProperty name;
     if (XGetTextProperty(xapp->display(), handle(), &name,
@@ -964,8 +967,10 @@ void YFrameClient::getIconNameHint() {
 }
 
 void YFrameClient::getNetWmIconName() {
+#ifdef WMSPEC_HINTS
     if (!prop.net_wm_icon_name)
         return;
+#endif
 
     XTextProperty name;
     if (XGetTextProperty(xapp->display(), handle(), &name,
@@ -1224,6 +1229,7 @@ static void *GetFullWindowProperty(Display *display, Window handle, Atom propAto
     return data;
 }
 
+#ifdef WMSPEC_HINTS
 bool YFrameClient::getNetWMIcon(int *count, long **elem) {
     *count = 0;
     *elem = 0;
@@ -1265,6 +1271,7 @@ bool YFrameClient::getNetWMIcon(int *count, long **elem) {
 #endif
     return false;
 }
+#endif
 
 #if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)
 void YFrameClient::setWinWorkspaceHint(long wk) {
@@ -1487,6 +1494,7 @@ void YFrameClient::setWinStateHint(long mask, long state) {
 
 }
 
+#ifdef WMSPEC_HINTS
 bool YFrameClient::getNetWMStateHint(long *mask, long *state) {
     Atom r_type;
     int r_format;
@@ -1563,6 +1571,7 @@ bool YFrameClient::getNetWMStateHint(long *mask, long *state) {
     }
     return false;
 }
+#endif
 
 #ifdef GNOME1_HINTS
 bool YFrameClient::getWinHintsHint(long *state) {
@@ -2062,9 +2071,13 @@ void YFrameClient::getPropertiesList() {
             else if (a == XA_WM_NORMAL_HINTS) HAS(prop.wm_normal_hints);
             else if (a == XA_WM_TRANSIENT_FOR) HAS(prop.wm_transient_for);
             else if (a == XA_WM_NAME) HAS(prop.wm_name);
+#ifdef WMSPEC_HINTS
             else if (a == _XA_NET_WM_NAME) HAS(prop.net_wm_name);
+#endif
             else if (a == XA_WM_ICON_NAME) HAS(prop.wm_icon_name);
+#ifdef WMSPEC_HINTS
             else if (a == _XA_NET_WM_ICON_NAME) HAS(prop.net_wm_icon_name);
+#endif
             else if (a == XA_WM_CLASS) HAS(prop.wm_class);
             else if (a == _XA_WM_PROTOCOLS) HAS(prop.wm_protocols);
             else if (a == _XA_WM_CLIENT_LEADER) HAS(prop.wm_client_leader);

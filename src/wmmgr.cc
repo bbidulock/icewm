@@ -1859,8 +1859,10 @@ void YWindowManager::restackWindows(YFrameWindow *) {
     if (ctrlAltDelete && ctrlAltDelete->visible())
         count++;
 
+#ifdef CONFIG_TASKBAR
     if (taskBar)
         count++;
+#endif
 #endif
 
     if (fLeftSwitch && fLeftSwitch->visible())
@@ -1894,7 +1896,7 @@ void YWindowManager::restackWindows(YFrameWindow *) {
         p = p->prevPopup();
     }
 
-#ifndef LITE
+#ifdef CONFIG_TASKBAR
     if (taskBar)
         w[i++] = taskBar->edgeTriggerWindow();;
 #endif
@@ -2199,8 +2201,8 @@ void YWindowManager::updateWorkArea() {
 }
 
 void YWindowManager::announceWorkArea() {
-    int nw = workspaceCount();
 #ifdef WMSPEC_HINTS
+    int nw = workspaceCount();
     long *area = new long[nw * 4];
     bool isCloned = true;
 
@@ -2347,6 +2349,7 @@ void YWindowManager::activateWorkspace(long workspace) {
                         32, PropModeReplace,
                         (unsigned char *)&ws, 1);
 #endif
+        ws = 0;
 
 #if 1 // not needed when we drop support for GNOME hints
         updateWorkArea();

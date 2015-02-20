@@ -106,6 +106,10 @@ char *configArg(NULL);
 ref<YIcon> defaultAppIcon;
 bool replace_wm = false;
 
+// XXX: get rid of this
+extern ref<YPixmap> listbackPixmap;
+extern ref<YImage> listbackPixbuf;
+
 static Window registerProtocols1(char **argv, int argc) {
     long timestamp = CurrentTime;
     char buf[32];

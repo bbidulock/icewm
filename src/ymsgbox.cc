@@ -49,9 +49,11 @@ YMsgBox::YMsgBox(int buttons, YWindow *owner): YDialog(owner) {
         }
     }
     autoSize();
+#if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)    
     setWinLayerHint(WinLayerAboveDock);
-    setWinStateHint(WinStateAllWorkspaces, WinStateAllWorkspaces);
     setWinHintsHint(WinHintsSkipWindowMenu);
+#endif
+    setWinStateHint(WinStateAllWorkspaces, WinStateAllWorkspaces);
     {
 
         Atom protocols[2];

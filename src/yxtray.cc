@@ -159,7 +159,7 @@ YXTray::YXTray(YXTrayNotifier *notifier,
                YWindow *aParent):
     YWindow(aParent)
 {
-#ifndef LITE
+#ifdef CONFIG_TASKBAR
     if (taskBarBg == 0) {
         taskBarBg = new YColor(clrDefaultTaskBar);
     }
@@ -170,7 +170,9 @@ YXTray::YXTray(YXTrayNotifier *notifier,
     fTrayProxy = new YXTrayProxy(atom, this);
     show();
 #ifndef LITE
+#ifdef CONFIG_TASKBAR
     XSetWindowBackground(xapp->display(), handle(), taskBarBg->pixel());
+#endif
     XClearArea(xapp->display(), handle(), 0, 0, 0, 0, True);
 #endif
 }

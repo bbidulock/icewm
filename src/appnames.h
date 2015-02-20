@@ -1,8 +1,12 @@
 #ifndef _APPNAMES_H_
 #define _APPNAMES_H_
 
+#ifndef DO_QUOTE
 #define DO_QUOTE(X)        #X
+#endif
+#ifndef QUOTE
 #define QUOTE(X)           DO_QUOTE(X)
+#endif
 
 #ifndef EXEEXT
 #define EXEEXT
