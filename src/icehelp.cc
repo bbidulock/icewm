@@ -79,7 +79,7 @@ public:
     node_type type;
     node *next;
     node *container;
-    char *txt;
+    const char *txt;
     text_node *wrap;
     int xr, yr;
 
@@ -849,7 +849,7 @@ void HTextView::layout(node *parent, node *n1, int left, int right, int &x, int 
             break;
         case node::text:
             {
-                char *c;
+                const char *c;
 
                 while (n->wrap) {
                     text_node *t = n->wrap;
@@ -858,7 +858,7 @@ void HTextView::layout(node *parent, node *n1, int left, int right, int &x, int 
                 }
 
                 text_node **pwrap = &n->wrap;
-                for (char *b = n->txt; *b; b = c) {
+                for (const char *b = n->txt; *b; b = c) {
                     int wc = 0;
 
                     if (flags & PRE) {
@@ -876,7 +876,7 @@ void HTextView::layout(node *parent, node *n1, int left, int right, int &x, int 
                         c = b;
 
                         do {
-                            char *d = c;
+                            const char *d = c;
 
                             if (SPACE(*d))
                                 while (SPACE(*d))
