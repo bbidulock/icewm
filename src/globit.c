@@ -56,7 +56,7 @@ globit_escape(const char *istr)
 	char c, *cp, *ostr;
 	size_t i;
 
-	if (!(cp = ostr = calloc((i = strlen(istr)) + 1, 2)))
+	if (!(cp = ostr = (char*) calloc((i = strlen(istr)) + 1, 2)))
 		return (NULL);
 
 	/* strictly spoken, newline should be single-quoted instead */
@@ -94,7 +94,7 @@ globit_best(const char *pattern_, char **result)
 {
 	char c, *cp, **results = NULL;
 	size_t z, nresults = 0;
-	int i;
+	int i, j=0;
 	int glob_flags = GLOB_MARK |
 #ifdef GLOB_NO_DOTDIRS
 	    GLOB_NO_DOTDIRS |
@@ -107,7 +107,7 @@ globit_best(const char *pattern_, char **result)
 	const char *errstr = NULL;
 
 	/* initialise pattern, with ‘*’ appended unless it already has magic */
-	if (!(pattern = malloc((z = strlen(pattern_)) + 2))) {
+	if (!(pattern = (char*) malloc((z = strlen(pattern_)) + 2))) {
 		*result = strdup("not enough memory");
 		return (-1);
 	}
@@ -232,7 +232,7 @@ globit_best(const char *pattern_, char **result)
 
 	/* otherwise, post-process the results */
 	if (i) {
-		int j = 0;
+		j = 0;
 		char **r2;
 
 		if (((size_t)i > ((size_t)INT_MAX - nresults)) ||
@@ -240,7 +240,7 @@ globit_best(const char *pattern_, char **result)
 			errstr = "too many results";
 			goto errout;
 		}
-		if ((r2 = realloc(results, z * sizeof(char *))) == NULL) {
+		if ((r2 = (char**) realloc(results, z * sizeof(char *))) == NULL) {
  oom:
 			errstr = "not enough memory";
 			goto errout;
