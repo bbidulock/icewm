@@ -721,10 +721,10 @@ void YInputLine::autoScroll(int delta, const XMotionEvent *motion) {
     fAutoScrollDelta = delta;
     beginAutoScroll(delta ? true : false, motion);
 }
-
 void YInputLine::complete() {
-    char *res;
-    int  res_count;
+#ifdef HAVE_ASPRINTF
+    char *res=NULL;
+    int  res_count=0;
     cstring t(fText);
 
     res_count = globit_best(t.c_str(), &res);
@@ -737,6 +737,7 @@ void YInputLine::complete() {
     }
     setText(ustring(res, strlen(res)));
     free(res);
+#endif
 }
 
 #endif
