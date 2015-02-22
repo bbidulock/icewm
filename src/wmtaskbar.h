@@ -9,7 +9,7 @@
 #include "yxtray.h"
 
 class ObjectBar;
-#if CONFIG_APPLET_CPU_STATUS
+#ifdef CONFIG_APPLET_CPU_STATUS
 class CPUStatus;
 #endif
 #ifdef CONFIG_APPLET_NET_STATUS
