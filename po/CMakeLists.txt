@@ -35,7 +35,7 @@ ADD_CUSTOM_COMMAND(OUTPUT ${_potFile}
 	COMMENT "Extract translatable messages to ${_potFile}")
 ADD_CUSTOM_TARGET(update_pot DEPENDS ${_potFile})
 
-ADD_CUSTOM_TARGET(translations)
+ADD_CUSTOM_TARGET(translations ALL)
 
 foreach(_lang ${LANGUAGES})
 	SET(_tempPO "${CMAKE_CURRENT_BINARY_DIR}/${_lang}.po")
@@ -57,7 +57,5 @@ ADD_CUSTOM_TARGET(${_lang}.mo DEPENDS ${_tempMO} update_pot)
 install(FILES ${_tempMO} DESTINATION "${LOCDIR}/${_lang}/LC_MESSAGES/")
 add_dependencies(translations  ${_lang}.mo)
 endforeach()
-
-add_dependencies(icewm translations)
 
 endif()
