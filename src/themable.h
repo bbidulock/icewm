@@ -143,6 +143,10 @@ XSV(const char *, clrCpuIoWait,                 "rgb:60/00/60")
 XSV(const char *, clrCpuSoftIrq,                "rgb:00/FF/FF")
 XSV(const char *, clrCpuNice,                   "rgb:00/00/FF")
 XSV(const char *, clrCpuIdle,                   "rgb:00/00/00")
+XSV(const char *, clrMemUser,                   "rgb:40/40/80")
+XSV(const char *, clrMemBuffers,                "rgb:60/60/C0")
+XSV(const char *, clrMemCached,                 "rgb:80/80/FF")
+XSV(const char *, clrMemFree,                   "rgb:00/00/00")
 XSV(const char *, clrNetSend,                   "rgb:FF/FF/00")
 XSV(const char *, clrNetReceive,                "rgb:FF/00/FF")
 XSV(const char *, clrNetIdle,                   "rgb:00/00/00")
@@ -315,6 +319,12 @@ cfoption icewm_themable_preferences[] = {
     OSV("ColorCPUStatusSoftIrq",                &clrCpuSoftIrq,                 "Soft Interrupts on the CPU monitor"),
     OSV("ColorCPUStatusNice",                   &clrCpuNice,                    "Nice load on the CPU monitor"),
     OSV("ColorCPUStatusIdle",                   &clrCpuIdle,                    "Idle (non) load on the CPU monitor, leave empty to force transparency"),
+#endif
+#ifdef CONFIG_APPLET_MEM_STATUS
+    OSV("ColorMEMStatusUser",                   &clrMemUser,                    "User program usage in the memory monitor"),
+    OSV("ColorMEMStatusBuffers",                &clrMemBuffers,                 "OS buffers usage in the memory monitor"),
+    OSV("ColorMEMStatusCached",                 &clrMemCached,                  "OS cached usage in the memory monitor"),
+    OSV("ColorMEMStatusFree",                   &clrMemFree,                    "Free memory in the memory monitor"),
 #endif
 #ifdef CONFIG_APPLET_NET_STATUS
     OSV("ColorNetSend",                         &clrNetSend,                    "Outgoing load on the network monitor"),
