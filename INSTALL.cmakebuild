@@ -1,0 +1,18 @@
+There is an experimental build system that you can use to compile and install
+icewm. It's constructed around cmake and needs a sufficiently modern cmake
+version (2.6) for the processing.
+
+Installation instructions:
+
+ * for system requirements, see INSTALL file
+ * run: mkdir build ; cd build ; cmake ..
+ *  check the output. To change variables, rerun the command above and add
+   -DVARIABLE=replacement_value. If some values are sticky or some checks are
+   not rerun (although you might have installed the reported missing packages),
+   delete the file CMakeCache.txt and try again.
+ * run: make -j4
+ * Adjust the last argument as needed, -j$(nproc) is a possible way on GNU
+ * run: make install
+ * You can add DESTDIR=/tmp/elsewhere to install to elsewhere
+
+
