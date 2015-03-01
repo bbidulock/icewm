@@ -325,19 +325,22 @@ IF(CONFIG_GUIEVENTS AND (CONFIG_ALSA OR CONFIG_ESD OR CONFIG_OSS OR CONFIG_YIFF)
 ADD_EXECUTABLE(icesound${EXEEXT} icesound.cc ycmdline.cc misc.cc mstring.cc)
 SET_TARGET_PROPERTIES(icesound${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
 TARGET_LINK_LIBRARIES(icesound${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${EXTRA_LIBS})
+INSTALL(TARGETS icesound${EXEEXT} DESTINATION ${BINDIR})
 ENDIF()
 
+IF(NOT LITE)
 ADD_EXECUTABLE(icehelp${EXEEXT} icehelp.cc ${ICE_COMMON_SRCS} yscrollbar.cc ref.cc yicon.cc wmconfig.cc ymenu.cc ymenuitem.cc yprefs.cc yscrollview.cc)
 SET_TARGET_PROPERTIES(icehelp${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
 TARGET_LINK_LIBRARIES(icehelp${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${pixbuf_LDFLAGS} ${EXTRA_LIBS})
+INSTALL(TARGETS icehelp${EXEEXT} DESTINATION ${BINDIR})
+ENDIF()
 
 ADD_EXECUTABLE(icewmtray${EXEEXT} icetray.cc ywindow.cc yxapp.cc yapp.cc ref.cc mstring.cc yprefs.cc wmconfig.cc yxtray.cc ${ICE_COMMON_SRCS})
 SET_TARGET_PROPERTIES(icewmtray${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
 TARGET_LINK_LIBRARIES(icewmtray${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${pixbuf_LDFLAGS} ${EXTRA_LIBS})
 
 
-INSTALL(TARGETS icewm-menu-fdo${EXEEXT} icewm-session${EXEEXT} icewmhint${EXEEXT} icewmbg${EXEEXT} icehelp${EXEEXT} icewmtray${EXEEXT} 
-   DESTINATION ${BINDIR})
+INSTALL(TARGETS icewm-menu-fdo${EXEEXT} icewm-session${EXEEXT} icewmhint${EXEEXT} icewmbg${EXEEXT} icewmtray${EXEEXT} DESTINATION ${BINDIR})
 
 #######################################
 # print information and some warnings #
@@ -349,6 +352,14 @@ foreach (_variableName
 		CONFIG_XPM
 		CONFIG_IMLIB 
 		CONFIG_GDK_PIXBUF_XLIB
+		CONFIG_TOOLTIP CONFIG_WINLIST CONFIG_TASKBAR CONFIG_TASKBAR 
+		CONFIG_ADDRESSBAR CONFIG_TRAY 
+		CONFIG_APPLET_MAILBOX 
+		CONFIG_APPLET_CPU_STATUS CONFIG_APPLET_NET_STATUS 
+		CONFIG_APPLET_CLOCK 
+		CONFIG_APPLET_APM 
+		CONFIG_WINMENU
+		CONFIG_XFREETYPE
 		)
     message(STATUS "${_variableName} => ${${_variableName}}")
 endforeach()

@@ -108,10 +108,10 @@ void SwitchWindow::resize(int xiscreen) {
     if (tWidth > aWidth)
         aWidth = tWidth;
 
-    int const mWidth(dw * 6/7);
     int w = aWidth;
     int h = switchFont->height();
 #ifndef LITE
+    int const mWidth(dw * 6/7);
 
     if (quickSwitchVertical) {
         w = aWidth;
@@ -193,9 +193,8 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
     if (fActiveWindow) {
         int tOfs(0);
 
-        int ih = 0;
 #ifndef LITE
-        ih = quickSwitchHugeIcon ? YIcon::hugeSize() : YIcon::largeSize();
+        int ih = quickSwitchHugeIcon ? YIcon::hugeSize() : YIcon::largeSize();
 
         if (!quickSwitchAllIcons && fActiveWindow->clientIcon() != null) {
             int iconSize = quickSwitchHugeIcon ? YIcon::hugeSize() : YIcon::largeSize();
