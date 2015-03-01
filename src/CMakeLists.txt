@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 2.6)
-set(CMAKE_LEGACY_CYGWIN_WIN32 0)
 
 PROJECT(ICEWM CXX)
 
@@ -278,8 +277,15 @@ endforeach()
 SET(ICE_COMMON_SRCS mstring.cc upath.cc yapp.cc yxapp.cc ytimer.cc
  ywindow.cc ypaint.cc ypopup.cc misc.cc ycursor.cc ysocket.cc ypaths.cc
  ypixbuf.cc ylocale.cc yarray.cc ypipereader.cc yxembed.cc yconfig.cc
- yprefs.cc yfont.cc yfontcore.cc yfontxft.cc ypixmap.cc yimage.cc
+ yprefs.cc yfont.cc ypixmap.cc yimage.cc
  yimage_gdk.cc yimage_imlib.cc yimage_xpm.cc ytooltip.cc)
+
+if(CONFIG_XFREETYPE)
+	list(APPEND ICE_COMMON_SRCS yfontxft.cc)
+endif()
+if(CONFIG_COREFONTS)
+	list(APPEND ICE_COMMON_SRCS yfontcore.cc)
+endif()
 
 SET(ITK_SRCS ymenu.cc ylabel.cc yscrollview.cc ymenuitem.cc yscrollbar.cc ybutton.cc ylistbox.cc yinput.cc yicon.cc wmconfig.cc ref.cc
    ydialog.cc ymsgbox.cc)
@@ -319,7 +325,7 @@ TARGET_LINK_LIBRARIES(icewmhint${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${EXTRA_
 
 ADD_EXECUTABLE(icewmbg${EXEEXT} icewmbg.cc misc.cc mstring.cc ref.cc ${ICE_COMMON_SRCS})
 SET_TARGET_PROPERTIES(icewmbg${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
-TARGET_LINK_LIBRARIES(icewmbg${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS}  ${pixbuf_LDFLAGS} ${EXTRA_LIBS})
+TARGET_LINK_LIBRARIES(icewmbg${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS}  ${pixbuf_LDFLAGS} ${xinerama_LDFLAGS} ${EXTRA_LIBS})
 
 IF(CONFIG_GUIEVENTS AND (CONFIG_ALSA OR CONFIG_ESD OR CONFIG_OSS OR CONFIG_YIFF))
 ADD_EXECUTABLE(icesound${EXEEXT} icesound.cc ycmdline.cc misc.cc mstring.cc)
@@ -337,7 +343,7 @@ ENDIF()
 
 ADD_EXECUTABLE(icewmtray${EXEEXT} icetray.cc ywindow.cc yxapp.cc yapp.cc ref.cc mstring.cc yprefs.cc wmconfig.cc yxtray.cc ${ICE_COMMON_SRCS})
 SET_TARGET_PROPERTIES(icewmtray${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
-TARGET_LINK_LIBRARIES(icewmtray${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${pixbuf_LDFLAGS} ${EXTRA_LIBS})
+TARGET_LINK_LIBRARIES(icewmtray${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${pixbuf_LDFLAGS} ${xinerama_LDFLAGS} ${EXTRA_LIBS})
 
 
 INSTALL(TARGETS icewm-menu-fdo${EXEEXT} icewm-session${EXEEXT} icewmhint${EXEEXT} icewmbg${EXEEXT} icewmtray${EXEEXT} DESTINATION ${BINDIR})
@@ -360,6 +366,7 @@ foreach (_variableName
 		CONFIG_APPLET_APM 
 		CONFIG_WINMENU
 		CONFIG_XFREETYPE
+		XINERAMA
 		)
     message(STATUS "${_variableName} => ${${_variableName}}")
 endforeach()
@@ -367,10 +374,14 @@ endforeach()
 IF(CONFIG_SESSION)
    find_library(HAVE_LIBSM "SM")
    IF(NOT HAVE_LIBSM)
-      message(WARNING "libSM.so not found, session management probably won't work")
+	   message(AUTHOR_WARNING "libSM.so not found, session management probably won't work")
    ENDIF()
    find_library(HAVE_LIBICE "ICE")
    IF(NOT HAVE_LIBICE)
-      message(WARNING "libICE.so not found, session management probably won't work")
+	   message(AUTHOR_WARNING "libICE.so not found, session management probably won't work")
    ENDIF()
 ENDIF()
+
+if(NOT CONFIG_XFREETYPE AND NOT CONFIG_COREFONTS)
+	message(FATAL_ERROR "Either CONFIG_COREFONTS or CONFIG_COREFONTS must be enabled")
+endif()
