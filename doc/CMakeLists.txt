@@ -8,8 +8,7 @@ if(sgml2html)
       DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/icewm.sgml"
       WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
       )
-   ADD_CUSTOM_TARGET(build_html_docs DEPENDS "icewm.html")
-   add_dependencies(icewm build_html_docs)
+   ADD_CUSTOM_TARGET(build_html_docs ALL DEPENDS "icewm.html")
 
    if(NOT DEFINED(HTMLDIR))
       if(ICEHELPIDX)
