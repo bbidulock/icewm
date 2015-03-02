@@ -174,14 +174,8 @@ XFontSet YFontSet::getFontSetWithGuess(char const * pattern, char *** missing,
     if (*nMissing) XFreeStringList(*missing);
 
     if (None == fontset) { // --- get a fallback fontset for pattern analyis ---
-/// TODO #warning "remove this broken locale switching"
-        char const * locale(setlocale(LC_CTYPE, NULL));
-        setlocale(LC_CTYPE, "C");
-
         fontset = XCreateFontSet(xapp->display(), pattern,
                                  missing, nMissing, defString);
-
-        setlocale(LC_CTYPE, locale);
     }
 
     if (None != fontset) { // ----------------------------- get default XLFD ---
