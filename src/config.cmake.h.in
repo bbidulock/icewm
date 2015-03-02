@@ -101,6 +101,7 @@
 #cmakedefine CONFIG_IMLIB 
 #cmakedefine CONFIG_GDK_PIXBUF_XLIB
 #cmakedefine CONFIG_I18N
+#cmakedefine ENABLE_NLS
 #cmakedefine CONFIG_SESSION
 #cmakedefine CONFIG_SHAPE
 
