@@ -120,10 +120,10 @@
 #cmakedefine CONFIG_PDA
 
 #cmakedefine CONFIG_GUIEVENTS
-#cmakedefine CONFIG_ALSA
 #cmakedefine CONFIG_OSS
-#cmakedefine CONFIG_YIFF
-#cmakedefine CONFIG_ESD
+#cmakedefine ENABLE_ALSA
+#cmakedefine ENABLE_YIFF
+#cmakedefine ENABLE_ESD
 #cmakedefine XINERAMA
 #cmakedefine CONFIG_FRIBIDI
 
