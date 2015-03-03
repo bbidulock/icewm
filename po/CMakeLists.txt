@@ -58,7 +58,7 @@ ADD_CUSTOM_COMMAND(OUTPUT ${_tempMO}
 	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 #COMMENT "Compiled: ${_tempMO}")
 ADD_CUSTOM_TARGET(${_lang}.mo DEPENDS ${_tempMO} update_pot)
-install(FILES ${_tempMO} DESTINATION "${LOCDIR}/${_lang}/LC_MESSAGES/" RENAME "${PACKAGE}.mo")
+install(FILES ${_tempMO} DESTINATION "${LOCDIR}/${_lang}/LC_MESSAGES/" RENAME "${PACKAGE}.mo" OPTIONAL)
 add_dependencies(translations  ${_lang}.mo)
 endforeach()
 
