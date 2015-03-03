@@ -13,16 +13,16 @@ if(sgml2html)
    if(NOT DEFINED(HTMLDIR))
       if(ICEHELPIDX)
          get_filename_component(HTMLDIR "${ICEHELPIDX}" PATH)
-         # message("got path from idx, ${HTMLDIR} from ${ICEHELPIDX}")
       else()
          set(HTMLDIR ${DOCDIR})
       endif()
    endif()
-   install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} DESTINATION ${DOCDIR}
-      FILES_MATCHING PATTERN "*.html" PATTERN "CMake*" EXCLUDE)
-
+   install(
+	   CODE "file( GLOB _GeneratedHTMLs \"${CMAKE_CURRENT_BINARY_DIR}/*.html\" )"
+	   CODE "file( INSTALL \${_GeneratedHTMLs} DESTINATION \"${HTMLDIR}\" )"
+	   )
 else()
    message(WARNING "sgml2html not found, please install linuxdoc tools")
 endif()
-
-install(FILES icewm.man DESTINATION ${LIBDIR}/man/man1 RENAME icewm.1)
+message(STATUS "HTMLDIR => ${HTMLDIR}")
+install(FILES icewm.man DESTINATION ${DATADIR}/man/man1 RENAME icewm.1)

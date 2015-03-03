@@ -35,7 +35,11 @@ ADD_CUSTOM_COMMAND(OUTPUT ${_potFile}
 	COMMENT "Extract translatable messages to ${_potFile}")
 ADD_CUSTOM_TARGET(update_pot DEPENDS ${_potFile})
 
+if(SKIP_TRANSLATIONS)
+ADD_CUSTOM_TARGET(translations)
+else()
 ADD_CUSTOM_TARGET(translations ALL)
+endif()
 
 foreach(_lang ${LANGUAGES})
 	SET(_tempPO "${CMAKE_CURRENT_BINARY_DIR}/${_lang}.po")
@@ -47,14 +51,14 @@ foreach(_lang ${LANGUAGES})
 ADD_CUSTOM_TARGET(${_lang}.po DEPENDS ${_tempPO})
 
 	SET(_tempPO "${CMAKE_CURRENT_BINARY_DIR}/${_lang}.po")
-SET(_tempMO "${CMAKE_CURRENT_BINARY_DIR}/${_lang}.mo")
+SET(_tempMO "${CMAKE_CURRENT_BINARY_DIR}/${_lang}.gmo")
 ADD_CUSTOM_COMMAND(OUTPUT ${_tempMO}
    COMMAND msgfmt -o ${_tempMO} ${EXTRA_MSGFMT} ${_tempPO}
 	DEPENDS ${_tempPO}
 	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 #COMMENT "Compiled: ${_tempMO}")
 ADD_CUSTOM_TARGET(${_lang}.mo DEPENDS ${_tempMO} update_pot)
-install(FILES ${_tempMO} DESTINATION "${LOCDIR}/${_lang}/LC_MESSAGES/")
+install(FILES ${_tempMO} DESTINATION "${LOCDIR}/${_lang}/LC_MESSAGES/" RENAME "${PACKAGE}.mo")
 add_dependencies(translations  ${_lang}.mo)
 endforeach()
 

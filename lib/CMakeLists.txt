@@ -6,5 +6,8 @@ foreach(_src keys menu programs toolbar winoptions)
    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${_src} DESTINATION ${LIBDIR})
 endforeach()
 
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION ${LIBDIR}
-   FILES_MATCHING PATTERN "*" PATTERN "*.in" EXCLUDE)
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/icewm.desktop DESTINATION "${DATADIR}/xsessions/")
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/icewm-session.desktop DESTINATION "${DATADIR}/xsessions/")
+
+install(DIRECTORY mailbox taskbar icons ledclock themes DESTINATION ${LIBDIR} FILES_MATCHING PATTERN "*" PATTERN "*.in" EXCLUDE)
+
