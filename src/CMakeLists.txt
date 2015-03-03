@@ -144,6 +144,7 @@ IF(CONFIG_SESSION)
 ENDIF()
 
 option(CONFIG_SHAPE "Define to enable transparent frame	decoration (titlebar borders), requests X shape extension." on)
+# TODO: check the symbol: AC_CHECK_LIB([Xext],[XShapeCombineRectangles],
 if(CONFIG_SHAPE AND NOT xext_FOUND)
    message(WARNING "Xext library not found, disabling CONFIG_SHAPE")
    set(CONFIG_SHAPE off)
@@ -304,10 +305,10 @@ SET(ITK_SRCS ymenu.cc ylabel.cc yscrollview.cc ymenuitem.cc yscrollbar.cc ybutto
    ydialog.cc ymsgbox.cc)
 
 SET(ICEWM_SRCS ${ICE_COMMON_SRCS} ${ITK_SRCS}
-   wmsession.cc wmwinlist.cc wmtaskbar.cc
+ wmbutton.cc wmsession.cc wmwinlist.cc wmtaskbar.cc
  wmwinmenu.cc wmdialog.cc wmabout.cc wmswitch.cc wmstatus.cc
  wmoption.cc wmaction.cc wmcontainer.cc wmclient.cc wmmgr.cc
- wmapp.cc wmframe.cc wmbutton.cc wmminiicon.cc wmtitle.cc
+ wmapp.cc wmframe.cc wmminiicon.cc wmtitle.cc
  movesize.cc themes.cc decorate.cc browse.cc wmprog.cc atasks.cc
  aworkspaces.cc amailbox.cc aclock.cc acpustatus.cc apppstatus.cc
  aaddressbar.cc objbar.cc aapm.cc atray.cc ysmapp.cc yxtray.cc yurl.cc
@@ -355,7 +356,7 @@ ENDIF()
 IF(NOT LITE)
 ADD_EXECUTABLE(icehelp${EXEEXT} icehelp.cc ${ICE_COMMON_SRCS} yscrollbar.cc ref.cc yicon.cc wmconfig.cc ymenu.cc ymenuitem.cc yprefs.cc yscrollview.cc)
 SET_TARGET_PROPERTIES(icehelp${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
-TARGET_LINK_LIBRARIES(icehelp${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${pixbuf_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
+TARGET_LINK_LIBRARIES(icehelp${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${pixbuf_LDFLAGS} ${xinerama_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 INSTALL(TARGETS icehelp${EXEEXT} DESTINATION ${BINDIR})
 ENDIF()
 
@@ -375,7 +376,7 @@ foreach (_variableName
 		CONFIG_XPM
 		CONFIG_IMLIB 
 		CONFIG_GDK_PIXBUF_XLIB
-		CONFIG_TOOLTIP CONFIG_WINLIST CONFIG_TASKBAR CONFIG_TASKBAR 
+		CONFIG_TOOLTIP CONFIG_WINLIST CONFIG_TASKBAR
 		CONFIG_ADDRESSBAR CONFIG_TRAY 
 		CONFIG_APPLET_MAILBOX 
 		CONFIG_APPLET_CPU_STATUS CONFIG_APPLET_NET_STATUS 
