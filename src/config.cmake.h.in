@@ -135,6 +135,7 @@
 #cmakedefine CONFIG_TOOLTIP
 #cmakedefine CONFIG_WINLIST
 #cmakedefine CONFIG_TASKBAR
+#cmakedefine CONFIG_APPLET_MEM_STATUS
 #cmakedefine CONFIG_ADDRESSBAR
 #cmakedefine CONFIG_TRAY
 #cmakedefine CONFIG_APPLET_MAILBOX

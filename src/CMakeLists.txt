@@ -231,6 +231,7 @@ if(NOT LITE)
 	option(CONFIG_TOOLTIP "Define to support tooltips" on)
 	option(CONFIG_WINLIST "Define for OS/2 like window list" on)
 	option(CONFIG_TASKBAR "Define to enable builtin taskbar" on)
+	option(CONFIG_APPLET_MEM_STATUS "Define for memory status applet" on)
 	if(CONFIG_TASKBAR)
 		option(CONFIG_ADDRESSBAR "Define for address bar" on)
 		option(CONFIG_TRAY "Define for system tray" on)
@@ -312,7 +313,7 @@ SET(ICEWM_SRCS ${ICE_COMMON_SRCS} ${ITK_SRCS}
  movesize.cc themes.cc decorate.cc browse.cc wmprog.cc atasks.cc
  aworkspaces.cc amailbox.cc aclock.cc acpustatus.cc apppstatus.cc
  aaddressbar.cc objbar.cc aapm.cc atray.cc ysmapp.cc yxtray.cc yurl.cc
- globit.cc)
+ globit.cc amemstatus.cc)
 
 ADD_EXECUTABLE(icewm${EXEEXT} ${ICEWM_SRCS})
 set(icewm_pc_flags "${fontconfig_CFLAGS} ${x11_CFLAGS} ${xext_CFLAGS} ${pixbuf_CFLAGS} ${xft_CFLAGS} ${xrandr_CFLAGS} ${xinerama_CFLAGS} ${fribidi_CFLAGS}")
