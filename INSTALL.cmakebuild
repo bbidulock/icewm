@@ -13,6 +13,13 @@ Installation instructions:
  * run: make -j4
  * Adjust the last argument as needed, -j$(nproc) is a possible way on GNU
  * run: make install
- * You can add DESTDIR=/tmp/elsewhere to install to elsewhere
 
+Developer/Integrator notes:
 
+ * you can see more internals and documented variables with "cmake -LAH"
+ * CMAKE_CXX_FLAGS are appended to default compiler options. To override
+   completely, see CXXFLAGS_COMMON in src/CMakeLists.txt
+ * make install DESTDIR=/tmp/elsewhere copies to another target location
+ * Potential tuning options:
+   -DEXTRA_LIBS="-flto -lsupc++" -DCMAKE_CXX_FLAGS="-flto"
+   -DEXTRA_MSGMERGE=--verbose -DEXTRA_MSGFMT=--verbose
