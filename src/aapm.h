@@ -24,13 +24,15 @@ typedef struct {
 
 class YApm: public YWindow, public YTimerListener {
 public:
-    YApm(YWindow *aParent = 0);
+	// autodetect==true means becoming dormant if no battery was detected correctly
+    YApm(YWindow *aParent = 0, bool autodetect=false);
     virtual ~YApm();
 
     virtual void paint(Graphics &g, const YRect &r);
 
     void updateToolTip();
     virtual bool handleTimer(YTimer *t);
+    inline bool hasBatteries() { return batteryNum; }
 
 private:
     YTimer *apmTimer;

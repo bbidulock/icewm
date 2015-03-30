@@ -484,6 +484,7 @@ void TaskBar::initApplets() {
         fClock = 0;
 #endif
 #ifdef CONFIG_APPLET_APM
+
     if (taskBarShowApm && (access(APMDEV, 0) == 0 ||
                            access("/sys/class/power_supply", 0) == 0 ||
                            access("/proc/acpi", 0) == 0 ||
@@ -491,7 +492,17 @@ void TaskBar::initApplets() {
 	                   access("/proc/pmu", R_OK|X_OK) == 0))
     {
         fApm = new YApm(this);
-    } else
+    }
+    else if(!taskBarShowApm && taskBarShowApmAuto)
+    {
+    	fApm = new YApm(this, true);
+    	if( ! fApm->hasBatteries()) {
+    		delete fApm;
+    		fApm = 0;
+    	}
+    }
+
+    else
         fApm = 0;
 #endif
 

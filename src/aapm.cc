@@ -878,7 +878,7 @@ void YApm::PmuStr(char *s, const bool tool_tip)
    }
 }
 
-YApm::YApm(YWindow *aParent): YWindow(aParent) {
+YApm::YApm(YWindow *aParent, bool autodetect): YWindow(aParent) {
     struct dirent **de;
     int n, i;
     FILE *pmu_info;
@@ -888,6 +888,7 @@ YApm::YApm(YWindow *aParent): YWindow(aParent) {
     batteryNum = 0;
     acpiACName = 0;
     fCurrentState = 0;
+    apmTimer = 0;
 
     acIsOnLine     = false; // hatred
     chargeStatus = 0.0;
@@ -1009,11 +1010,14 @@ YApm::YApm(YWindow *aParent): YWindow(aParent) {
            sscanf(strchr(line, ':')+2, "%d", &batteryNum);
 
        fclose(pmu_info);
-    } else {
+    } else if (!autodetect) {
        //use apm info
        mode = APM;
        batteryNum = 1;
     }
+
+    if(autodetect && 0 == batteryNum)
+    	return;
 
     if (apmBg == 0 && *clrApm) apmBg = new YColor(clrApm);
     if (apmFg == 0) apmFg = new YColor(clrApmText);

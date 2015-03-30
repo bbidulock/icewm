@@ -39,6 +39,7 @@ XIV(bool, taskBarAtTop,                         false)
 XIV(bool, taskBarKeepBelow,                     false)
 XIV(bool, taskBarShowClock,                     true)
 XIV(bool, taskBarShowApm,                       false)
+XIV(bool, taskBarShowApmAuto,                   true)
 XIV(bool, taskBarShowApmTime,                   true) // mschy
 XIV(bool, taskBarShowApmGraph,                  true) // hatred
 XIV(bool, taskBarShowMailboxStatus,             true)
@@ -292,6 +293,7 @@ cfoption icewm_preferences[] = {
     OBV("TaskBarFullscreenAutoShow",            &taskBarFullscreenAutoShow,     "Auto show task bar when fullscreen window active"),
     OBV("TaskBarShowClock",                     &taskBarShowClock,              "Show clock on task bar"),
     OBV("TaskBarShowAPMStatus",                 &taskBarShowApm,                "Show APM/ACPI/Battery/Power status monitor on task bar"),
+    OBV("TaskBarShowAPMAuto",                   &taskBarShowApmAuto,            "Enable TaskBarShowAPMStatus if a battery is present"),
     OBV("TaskBarShowAPMTime",                   &taskBarShowApmTime,            "Show APM status on task bar in time-format"),  // mschy
     OBV("TaskBarShowAPMGraph",                  &taskBarShowApmGraph,           "Show APM status in graph mode"), // hatred
     OBV("TaskBarShowMailboxStatus",             &taskBarShowMailboxStatus,      "Show mailbox status on task bar"),
