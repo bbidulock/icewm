@@ -47,6 +47,7 @@ private:
     YTimer *fUpdateTimer;
     YSMListener *smActionListener;
     bool ShowRamUsage, ShowSwapUsage, ShowAcpiTemp, ShowCpuFreq;
+    int m_nCachedFd;
 };
 #else
 #undef CONFIG_APPLET_CPU_STATUS

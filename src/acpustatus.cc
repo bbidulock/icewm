@@ -66,7 +66,8 @@ CPUStatus::CPUStatus(
     bool cpustatusShowRamUsage,
     bool cpustatusShowSwapUsage,
     bool cpustatusShowAcpiTemp,
-    bool cpustatusShowCpuFreq): YWindow(aParent)
+    bool cpustatusShowCpuFreq): YWindow(aParent),
+    		m_nCachedFd(-1)
 {
     this->smActionListener = smActionListener;
     cpu = new int *[taskBarCPUSamples];
@@ -119,6 +120,8 @@ CPUStatus::~CPUStatus() {
     delete color[IWM_INTR]; color[IWM_INTR] = 0;
     delete color[IWM_IOWAIT]; color[IWM_IOWAIT] = 0;
     delete color[IWM_SOFTIRQ]; color[IWM_SOFTIRQ] = 0;
+    if(m_nCachedFd>=0)
+    	close(m_nCachedFd);
 }
 
 void CPUStatus::paint(Graphics &g, const YRect &/*r*/) {
@@ -390,7 +393,12 @@ void CPUStatus::getStatus() {
 #ifdef linux
     char *p, buf[4096];
     unsigned long long cur[IWM_STATES];
-    int len, s, fd = open("/proc/stat", O_RDONLY);
+    int len, s;
+    int &fd = m_nCachedFd;
+    if(fd<0)
+    	fd = open("/proc/stat", O_RDONLY);
+    else
+    	lseek(fd, 0L, SEEK_SET);
 
     cpu[taskBarCPUSamples - 1][IWM_USER] = 0;
     cpu[taskBarCPUSamples - 1][IWM_NICE] = 0;
@@ -400,14 +408,14 @@ void CPUStatus::getStatus() {
     cpu[taskBarCPUSamples - 1][IWM_SYS] = 0;
     cpu[taskBarCPUSamples - 1][IWM_IDLE] = 0;
 
-    if (fd == -1)
+    if (fd < 0)
         return;
     len = read(fd, buf, sizeof(buf) - 1);
     if (len < 0) {
         close(fd);
+        fd = -1;
         return;
     }
-    close(fd);
     buf[len] = 0;
 
     p = buf;
