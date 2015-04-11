@@ -104,6 +104,7 @@
 #cmakedefine ENABLE_NLS
 #cmakedefine CONFIG_SESSION
 #cmakedefine CONFIG_SHAPE
+#cmakedefine CONFIG_SHAPED_DECORATION
 
 #cmakedefine CONFIG_UNICODE_SET "@CONFIG_UNICODE_SET@"
 
