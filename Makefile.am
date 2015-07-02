@@ -20,7 +20,13 @@ EXTRA_DIST = \
 	icewm.spec.in \
 	icewm.spec \
 	icewm.lsm.in \
-	icewm.lsm
+	icewm.lsm \
+	CMakeLists.txt \
+	doc/CMakeLists.txt \
+	lib/CMakeLists.txt \
+	po/CMakeLists.txt \
+	src/CMakeLists.txt
+
 
 CLEANFILES = THANKS README ChangeLog icewm.lsm icewm.spec
 
