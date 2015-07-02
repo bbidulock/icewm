@@ -482,7 +482,7 @@ bool NetStatus::isUp() {
 
 #else
     struct ifreq ifr;
-    fNetDev.copy(ifr.ifr_name, IFNAMSIZ-1);
+    fNetDev.copy(ifr.ifr_name, IFNAMSIZ);
     bool bUp = (ioctl(s, SIOCGIFFLAGS, &ifr) >= 0 && (ifr.ifr_flags & IFF_UP));
     close(s);
     return bUp;
