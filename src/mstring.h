@@ -128,4 +128,22 @@ private:
     cstring &operator=(const cstring &);
 };
 
+
+/*
+ * Helper to maintain little scratch buffers, RAII style.
+ * Can also serve as unique_ptr replacement for char arrays.
+ */
+struct tTempBuf
+{
+    char *p;
+    tTempBuf(size_t len) { p = new char[len]; }
+    tTempBuf(char *ownedString) { p = ownedString; }
+    ~tTempBuf() { delete p; }
+    // convenience operators
+    inline operator bool() const { return p; }
+    inline operator char*() const { return p; }
+};
+
+
+
 #endif

@@ -159,6 +159,22 @@ part of IceWM due popular demand. For more sophisticated session management
 you should learn how to use a real session manager - IceWM does support 
 the XSESSION protocol.
 
+<sect1>Extra session environment<p>
+
+Please note that if icewm-session is used as the only startup mechanism
+(without having .xsession involved), one can write additional environment
+settings into the file $HOME/.icewm/env but this only supports simple assignments.
+This means: no multiline is supported, no redundant whitespaces, no POSIX shell code; however,
+expansion of simple shell style variables should be supported on most
+platforms). This extra environment is only effective in applications started by
+icewm-session and their subprocesses.
+
+Example (env):
+<verb>
+PATH=~/bin:$PATH
+LANG=de_DE.UTF-8
+</verb>
+
 <sect>Focus models<p>
 
 <bf/IceWM/ implements four general focus models:
