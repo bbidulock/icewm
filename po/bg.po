@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.10\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-02-13 12:34+0100\n"
+"POT-Creation-Date: 2015-07-02 18:19-0600\n"
 "PO-Revision-Date: 2003-08-13 16:16+0200\n"
 "Last-Translator: Pavel Pyuter <pavel@unix-bg.org>\n"
 "Language-Team: Bulgarian\n"
@@ -38,40 +38,40 @@ msgstr ""
 msgid " - Full"
 msgstr ""
 
-#: src/acpustatus.cc:231
+#: src/acpustatus.cc:234
 #, fuzzy, c-format
 msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
 msgstr "CPU Натоварване: %3.2f %3.2f %3.2f, %u процеса"
 
-#: src/acpustatus.cc:236
+#: src/acpustatus.cc:239
 #, c-format
 msgid ""
 "\n"
 "Ram (free): %5.2f (%.2f) M"
 msgstr ""
 
-#: src/acpustatus.cc:241
+#: src/acpustatus.cc:244
 #, c-format
 msgid ""
 "\n"
 "Swap (free): %.2f (%.2f) M"
 msgstr ""
 
-#: src/acpustatus.cc:247
+#: src/acpustatus.cc:250
 #, c-format
 msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
 
-#: src/acpustatus.cc:258
+#: src/acpustatus.cc:261
 #, c-format
 msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
 
-#: src/acpustatus.cc:271
+#: src/acpustatus.cc:274
 msgid "CPU Load: "
 msgstr ""
 
@@ -751,157 +751,157 @@ msgstr ""
 msgid "icewm - About"
 msgstr "За IceWM"
 
-#: src/wmapp.cc:440
+#: src/wmapp.cc:444
 msgid "Unable to get current font path."
 msgstr "Не мога да получа текущия път към шрифтовете."
 
-#: src/wmapp.cc:467
+#: src/wmapp.cc:471
 msgid "Unexpected format of ICEWM_FONT_PATH property"
 msgstr "Неочакван формат на ICEWM_FONT_PATH"
 
-#: src/wmapp.cc:524
+#: src/wmapp.cc:528
 #, c-format
 msgid "Multiple references for gradient \"%s\""
 msgstr "Множество връзки за градиент \"%s\""
 
-#: src/wmapp.cc:599
+#: src/wmapp.cc:603
 #, c-format
 msgid "Unknown gradient name: %s"
 msgstr "Неизвестно име на градиент: %s"
 
-#: src/wmapp.cc:862
+#: src/wmapp.cc:866
 msgid "_Logout"
 msgstr "_Изход"
 
-#: src/wmapp.cc:863
+#: src/wmapp.cc:867
 msgid "_Cancel logout"
 msgstr "_Отмени изход"
 
-#: src/wmapp.cc:875
+#: src/wmapp.cc:879
 msgid "Lock _Workstation"
 msgstr "Заключи _Работната станция"
 
-#: src/wmapp.cc:877 src/wmdialog.cc:111
+#: src/wmapp.cc:881 src/wmdialog.cc:111
 msgid "Re_boot"
 msgstr "Ре_стартира системата"
 
-#: src/wmapp.cc:879 src/wmdialog.cc:118
+#: src/wmapp.cc:883 src/wmdialog.cc:118
 msgid "Shut_down"
 msgstr "И_зключва системата"
 
-#: src/wmapp.cc:883
+#: src/wmapp.cc:887
 msgid "Restart _Icewm"
 msgstr "Рестартира _IceWM"
 
-#: src/wmapp.cc:886
+#: src/wmapp.cc:890
 msgid "Restart _Xterm"
 msgstr "Рестартира _Xterm"
 
-#: src/wmapp.cc:902
+#: src/wmapp.cc:906
 msgid "_Menu"
 msgstr "_Меню"
 
-#: src/wmapp.cc:903
+#: src/wmapp.cc:907
 msgid "_Above Dock"
 msgstr "_Above Dock "
 
-#: src/wmapp.cc:904
+#: src/wmapp.cc:908
 msgid "_Dock"
 msgstr "_Dock"
 
-#: src/wmapp.cc:905
+#: src/wmapp.cc:909
 msgid "_OnTop"
 msgstr "_Върху"
 
-#: src/wmapp.cc:906
+#: src/wmapp.cc:910
 msgid "_Normal"
 msgstr "_Нормално"
 
-#: src/wmapp.cc:907
+#: src/wmapp.cc:911
 msgid "_Below"
 msgstr "_Под"
 
-#: src/wmapp.cc:908
+#: src/wmapp.cc:912
 msgid "D_esktop"
 msgstr "Д_есктоп"
 
-#: src/wmapp.cc:920
+#: src/wmapp.cc:924
 msgid "_Restore"
 msgstr "_Възстановява"
 
-#: src/wmapp.cc:922
+#: src/wmapp.cc:926
 msgid "_Move"
 msgstr "_Премества"
 
-#: src/wmapp.cc:924
+#: src/wmapp.cc:928
 msgid "_Size"
 msgstr "_Размер"
 
-#: src/wmapp.cc:926
+#: src/wmapp.cc:930
 msgid "Mi_nimize"
 msgstr "Ми_нимизира"
 
-#: src/wmapp.cc:928
+#: src/wmapp.cc:932
 msgid "Ma_ximize"
 msgstr "Ма_ксимизира"
 
-#: src/wmapp.cc:930
+#: src/wmapp.cc:934
 msgid "_Fullscreen"
 msgstr "_Цял екран"
 
-#: src/wmapp.cc:934 src/wmwinlist.cc:307
+#: src/wmapp.cc:938 src/wmwinlist.cc:307
 msgid "_Hide"
 msgstr "_Скрива"
 
-#: src/wmapp.cc:937
+#: src/wmapp.cc:941
 msgid "Roll_up"
 msgstr "Св_ива"
 
-#: src/wmapp.cc:944
+#: src/wmapp.cc:948
 msgid "R_aise"
 msgstr "Пов_дига"
 
-#: src/wmapp.cc:946
+#: src/wmapp.cc:950
 msgid "_Lower"
 msgstr "Сни_жава"
 
-#: src/wmapp.cc:948
+#: src/wmapp.cc:952
 msgid "La_yer"
 msgstr "С_лой"
 
-#: src/wmapp.cc:952 src/wmwinlist.cc:310
+#: src/wmapp.cc:956 src/wmwinlist.cc:310
 msgid "Move _To"
 msgstr "Мести _До"
 
-#: src/wmapp.cc:953
+#: src/wmapp.cc:957
 msgid "Occupy _All"
 msgstr "Заема _Всички"
 
-#: src/wmapp.cc:959
+#: src/wmapp.cc:963
 msgid "Limit _Workarea"
 msgstr "Ограничава _Работно поле"
 
-#: src/wmapp.cc:964
+#: src/wmapp.cc:968
 msgid "Tray _icon"
 msgstr "Tray _Икона"
 
-#: src/wmapp.cc:970 src/wmwinlist.cc:295 src/wmwinlist.cc:321
+#: src/wmapp.cc:974 src/wmwinlist.cc:295 src/wmwinlist.cc:321
 msgid "_Close"
 msgstr "_Затваря"
 
-#: src/wmapp.cc:972 src/wmwinlist.cc:297
+#: src/wmapp.cc:976 src/wmwinlist.cc:297
 msgid "_Kill Client"
 msgstr "_Убии клиент"
 
-#: src/wmapp.cc:976 src/wmdialog.cc:132 src/wmwinmenu.cc:137
+#: src/wmapp.cc:980 src/wmdialog.cc:132 src/wmwinmenu.cc:137
 msgid "_Window list"
 msgstr "_Списък прозорци"
 
-#: src/wmapp.cc:992
+#: src/wmapp.cc:996
 msgid "Another window manager already running, exiting..."
 msgstr "Друг window manager вече в действие, излизам..."
 
-#: src/wmapp.cc:1058
+#: src/wmapp.cc:1062
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -910,7 +910,7 @@ msgstr ""
 "Немога да рестартирам: %s\n"
 "$PATH води ли до %s?"
 
-#: src/wmapp.cc:1632
+#: src/wmapp.cc:1636
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -967,11 +967,11 @@ msgstr ""
 "Посетете http://www.icewm.org/ за съобщения за грешки,предложения и "
 "коментари...\n"
 
-#: src/wmapp.cc:1743
+#: src/wmapp.cc:1747
 msgid "Confirm Logout"
 msgstr "Потвърди Изход"
 
-#: src/wmapp.cc:1744
+#: src/wmapp.cc:1748
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -988,8 +988,8 @@ msgstr "Bad Look name"
 msgid "Loc_k Workstation"
 msgstr "Заключи _Работната станция"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:433
-#: src/wmtaskbar.cc:435
+#: src/wmdialog.cc:90 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:434
+#: src/wmtaskbar.cc:436
 msgid "_Logout..."
 msgstr "_Изход..."
 
@@ -1001,12 +1001,12 @@ msgstr "_Отмени"
 msgid "_Restart icewm"
 msgstr "_Рестартира IceWM"
 
-#: src/wmdialog.cc:125 src/wmprog.cc:886 src/wmtaskbar.cc:425
-#: src/wmtaskbar.cc:428
+#: src/wmdialog.cc:125 src/wmprog.cc:886 src/wmtaskbar.cc:426
+#: src/wmtaskbar.cc:429
 msgid "_About"
 msgstr "_За"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3410
+#: src/wmframe.cc:165 src/wmframe.cc:3435
 msgid "Maximize"
 msgstr "Максимизира"
 
@@ -1018,7 +1018,7 @@ msgstr "Минимизира"
 msgid "Hide"
 msgstr "Скрива"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3443
+#: src/wmframe.cc:209 src/wmframe.cc:3468
 msgid "Rollup"
 msgstr "Свива"
 
@@ -1026,11 +1026,11 @@ msgstr "Свива"
 msgid "Raise/Lower"
 msgstr "Повдига/Снижава"
 
-#: src/wmframe.cc:1718
+#: src/wmframe.cc:1725
 msgid "Kill Client: "
 msgstr "Убий Клиент: "
 
-#: src/wmframe.cc:1722
+#: src/wmframe.cc:1729
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1038,11 +1038,11 @@ msgstr ""
 "ВНИМАНИЕ! Всички незапазени промени ще бъдат изгубеникогато този клиент бъде "
 "убит. Искате ли да продължите?"
 
-#: src/wmframe.cc:3407
+#: src/wmframe.cc:3432
 msgid "Restore"
 msgstr "Възстановява"
 
-#: src/wmframe.cc:3441
+#: src/wmframe.cc:3466
 msgid "Rolldown"
 msgstr "Развива"
 
@@ -1096,7 +1096,7 @@ msgstr "Програми"
 msgid "_Run..."
 msgstr "_Стартира..."
 
-#: src/wmprog.cc:862 src/wmtaskbar.cc:413
+#: src/wmprog.cc:862 src/wmtaskbar.cc:414
 msgid "_Windows"
 msgstr "_Прозорци"
 
@@ -1133,59 +1133,59 @@ msgstr ""
 msgid "Session Manager: Unknown line %s"
 msgstr "Сесиен мениджър: Непознат ред %s"
 
-#: src/wmtaskbar.cc:256 src/wmtaskbar.cc:257
+#: src/wmtaskbar.cc:257 src/wmtaskbar.cc:258
 msgid "Task Bar"
 msgstr "Лента за задачи"
 
-#: src/wmtaskbar.cc:402 src/wmwinlist.cc:312 src/wmwinlist.cc:325
+#: src/wmtaskbar.cc:403 src/wmwinlist.cc:312 src/wmwinlist.cc:325
 msgid "Tile _Vertically"
 msgstr "_Вертикална мозайка"
 
-#: src/wmtaskbar.cc:403 src/wmwinlist.cc:313 src/wmwinlist.cc:326
+#: src/wmtaskbar.cc:404 src/wmwinlist.cc:313 src/wmwinlist.cc:326
 msgid "T_ile Horizontally"
 msgstr "_Хоризонтална мозайка"
 
-#: src/wmtaskbar.cc:404 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+#: src/wmtaskbar.cc:405 src/wmwinlist.cc:314 src/wmwinlist.cc:327
 msgid "Ca_scade"
 msgstr "_Колода"
 
-#: src/wmtaskbar.cc:405 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+#: src/wmtaskbar.cc:406 src/wmwinlist.cc:315 src/wmwinlist.cc:328
 msgid "_Arrange"
 msgstr "_Подрежда"
 
-#: src/wmtaskbar.cc:406 src/wmwinlist.cc:317 src/wmwinlist.cc:329
+#: src/wmtaskbar.cc:407 src/wmwinlist.cc:317 src/wmwinlist.cc:329
 msgid "_Minimize All"
 msgstr "_Минимизира Всички"
 
-#: src/wmtaskbar.cc:407 src/wmwinlist.cc:318 src/wmwinlist.cc:330
+#: src/wmtaskbar.cc:408 src/wmwinlist.cc:318 src/wmwinlist.cc:330
 msgid "_Hide All"
 msgstr "_Скрива Всички"
 
-#: src/wmtaskbar.cc:408 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+#: src/wmtaskbar.cc:409 src/wmwinlist.cc:319 src/wmwinlist.cc:331
 msgid "_Undo"
 msgstr "_Отменя"
 
-#: src/wmtaskbar.cc:410
+#: src/wmtaskbar.cc:411
 msgid "Arrange _Icons"
 msgstr "Подрежда _Икони"
 
-#: src/wmtaskbar.cc:416
+#: src/wmtaskbar.cc:417
 msgid "_Refresh"
 msgstr "Опре_снява"
 
-#: src/wmtaskbar.cc:423
+#: src/wmtaskbar.cc:424
 msgid "_License"
 msgstr "_Лиценз"
 
-#: src/wmtaskbar.cc:544
+#: src/wmtaskbar.cc:562
 msgid "Favorite applications"
 msgstr "Любими приложения"
 
-#: src/wmtaskbar.cc:561
+#: src/wmtaskbar.cc:579
 msgid "Window list menu"
 msgstr "Меню Списък на прозорци"
 
-#: src/wmtaskbar.cc:570
+#: src/wmtaskbar.cc:588
 #, fuzzy
 msgid "Show Desktop"
 msgstr "Д_есктоп"

@@ -6,6 +6,7 @@ SUBDIRS = src po doc lib
 
 EXTRA_DIST = \
 	INSTALL \
+	INSTALL.cmakebuild \
 	COPYING \
 	AUTHORS \
 	NEWS \
@@ -25,7 +26,8 @@ EXTRA_DIST = \
 	doc/CMakeLists.txt \
 	lib/CMakeLists.txt \
 	po/CMakeLists.txt \
-	src/CMakeLists.txt
+	src/CMakeLists.txt \
+	src/config.cmake.h.in
 
 
 CLEANFILES = THANKS README ChangeLog icewm.lsm icewm.spec

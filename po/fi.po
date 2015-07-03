@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.14\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-02-13 12:34+0100\n"
+"POT-Creation-Date: 2015-07-02 18:19-0600\n"
 "PO-Revision-Date: 2004-06-16 02:44+0200\n"
 "Last-Translator: Taisto Kuikka <69319@batman.jypoly.fi>\n"
 "Language-Team: Finnish <fi@li.org>\n"
@@ -38,40 +38,40 @@ msgstr "C"
 msgid " - Full"
 msgstr ""
 
-#: src/acpustatus.cc:231
+#: src/acpustatus.cc:234
 #, c-format
 msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
 msgstr ""
 
-#: src/acpustatus.cc:236
+#: src/acpustatus.cc:239
 #, c-format
 msgid ""
 "\n"
 "Ram (free): %5.2f (%.2f) M"
 msgstr ""
 
-#: src/acpustatus.cc:241
+#: src/acpustatus.cc:244
 #, c-format
 msgid ""
 "\n"
 "Swap (free): %.2f (%.2f) M"
 msgstr ""
 
-#: src/acpustatus.cc:247
+#: src/acpustatus.cc:250
 #, c-format
 msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
 
-#: src/acpustatus.cc:258
+#: src/acpustatus.cc:261
 #, c-format
 msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
 
-#: src/acpustatus.cc:271
+#: src/acpustatus.cc:274
 msgid "CPU Load: "
 msgstr "Prosessorikuorma: "
 
@@ -746,157 +746,157 @@ msgstr ""
 msgid "icewm - About"
 msgstr "IceWM - Tietoja"
 
-#: src/wmapp.cc:440
+#: src/wmapp.cc:444
 msgid "Unable to get current font path."
 msgstr "Nykyistä kirjasinpolkua ei saatu."
 
-#: src/wmapp.cc:467
+#: src/wmapp.cc:471
 msgid "Unexpected format of ICEWM_FONT_PATH property"
 msgstr "Odottamaton formaatti ominaisuudella ICEWM_FONT_PATH"
 
-#: src/wmapp.cc:524
+#: src/wmapp.cc:528
 #, c-format
 msgid "Multiple references for gradient \"%s\""
 msgstr "Useita viitteitä gradientille \"%s\""
 
-#: src/wmapp.cc:599
+#: src/wmapp.cc:603
 #, c-format
 msgid "Unknown gradient name: %s"
 msgstr "Tuntematon gradientinnimi: %s"
 
-#: src/wmapp.cc:862
+#: src/wmapp.cc:866
 msgid "_Logout"
 msgstr "_Kirjaudu ulos"
 
-#: src/wmapp.cc:863
+#: src/wmapp.cc:867
 msgid "_Cancel logout"
 msgstr "_Peruuta uloskirjautuminen"
 
-#: src/wmapp.cc:875
+#: src/wmapp.cc:879
 msgid "Lock _Workstation"
 msgstr "_Lukitse työasema"
 
-#: src/wmapp.cc:877 src/wmdialog.cc:111
+#: src/wmapp.cc:881 src/wmdialog.cc:111
 msgid "Re_boot"
 msgstr "_Uudelleenkäynnistä"
 
-#: src/wmapp.cc:879 src/wmdialog.cc:118
+#: src/wmapp.cc:883 src/wmdialog.cc:118
 msgid "Shut_down"
 msgstr "_Sammuta"
 
-#: src/wmapp.cc:883
+#: src/wmapp.cc:887
 msgid "Restart _Icewm"
 msgstr "Uudelleenkäynnistä _IceWM"
 
-#: src/wmapp.cc:886
+#: src/wmapp.cc:890
 msgid "Restart _Xterm"
 msgstr "Uudelleenkäynnistä _Xterm"
 
-#: src/wmapp.cc:902
+#: src/wmapp.cc:906
 msgid "_Menu"
 msgstr "_Valikko"
 
-#: src/wmapp.cc:903
+#: src/wmapp.cc:907
 msgid "_Above Dock"
 msgstr "Telakan _yläpuolella"
 
-#: src/wmapp.cc:904
+#: src/wmapp.cc:908
 msgid "_Dock"
 msgstr "T_elakka"
 
-#: src/wmapp.cc:905
+#: src/wmapp.cc:909
 msgid "_OnTop"
 msgstr "P_äällä"
 
-#: src/wmapp.cc:906
+#: src/wmapp.cc:910
 msgid "_Normal"
 msgstr "_Tavallinen"
 
-#: src/wmapp.cc:907
+#: src/wmapp.cc:911
 msgid "_Below"
 msgstr "A_lla"
 
-#: src/wmapp.cc:908
+#: src/wmapp.cc:912
 msgid "D_esktop"
 msgstr "Työ_pöytä"
 
-#: src/wmapp.cc:920
+#: src/wmapp.cc:924
 msgid "_Restore"
 msgstr "Pala_uta"
 
-#: src/wmapp.cc:922
+#: src/wmapp.cc:926
 msgid "_Move"
 msgstr "_Siirrä"
 
-#: src/wmapp.cc:924
+#: src/wmapp.cc:928
 msgid "_Size"
 msgstr "_Muuta kokoa"
 
-#: src/wmapp.cc:926
+#: src/wmapp.cc:930
 msgid "Mi_nimize"
 msgstr "_Pienennä"
 
-#: src/wmapp.cc:928
+#: src/wmapp.cc:932
 msgid "Ma_ximize"
 msgstr "Suu_renna"
 
-#: src/wmapp.cc:930
+#: src/wmapp.cc:934
 msgid "_Fullscreen"
 msgstr "Koko _näyttö"
 
-#: src/wmapp.cc:934 src/wmwinlist.cc:307
+#: src/wmapp.cc:938 src/wmwinlist.cc:307
 msgid "_Hide"
 msgstr "Pii_lota"
 
-#: src/wmapp.cc:937
+#: src/wmapp.cc:941
 msgid "Roll_up"
 msgstr "Rullaa _ylös"
 
-#: src/wmapp.cc:944
+#: src/wmapp.cc:948
 msgid "R_aise"
 msgstr "Nos_ta"
 
-#: src/wmapp.cc:946
+#: src/wmapp.cc:950
 msgid "_Lower"
 msgstr "Las_ke"
 
-#: src/wmapp.cc:948
+#: src/wmapp.cc:952
 msgid "La_yer"
 msgstr "Tas_o"
 
-#: src/wmapp.cc:952 src/wmwinlist.cc:310
+#: src/wmapp.cc:956 src/wmwinlist.cc:310
 msgid "Move _To"
 msgstr "Siirrä _työpöydälle"
 
-#: src/wmapp.cc:953
+#: src/wmapp.cc:957
 msgid "Occupy _All"
 msgstr "Näytä k_aikilla työpöydillä"
 
-#: src/wmapp.cc:959
+#: src/wmapp.cc:963
 msgid "Limit _Workarea"
 msgstr "_Rajoita työtilaa"
 
-#: src/wmapp.cc:964
+#: src/wmapp.cc:968
 msgid "Tray _icon"
 msgstr "Tarjotinkuvak_e"
 
-#: src/wmapp.cc:970 src/wmwinlist.cc:295 src/wmwinlist.cc:321
+#: src/wmapp.cc:974 src/wmwinlist.cc:295 src/wmwinlist.cc:321
 msgid "_Close"
 msgstr "_Sulje"
 
-#: src/wmapp.cc:972 src/wmwinlist.cc:297
+#: src/wmapp.cc:976 src/wmwinlist.cc:297
 msgid "_Kill Client"
 msgstr "_Tapa asiakasohjelma"
 
-#: src/wmapp.cc:976 src/wmdialog.cc:132 src/wmwinmenu.cc:137
+#: src/wmapp.cc:980 src/wmdialog.cc:132 src/wmwinmenu.cc:137
 msgid "_Window list"
 msgstr "_Ikkunaluettelo"
 
-#: src/wmapp.cc:992
+#: src/wmapp.cc:996
 msgid "Another window manager already running, exiting..."
 msgstr "Toinen ikkunamangeri on jo käynnissä, poistutaan..."
 
-#: src/wmapp.cc:1058
+#: src/wmapp.cc:1062
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -905,7 +905,7 @@ msgstr ""
 "Ei voitu uudelleenkäynnistää: %s\n"
 "Johtaako $PATH-määritys kohteeseen %s?"
 
-#: src/wmapp.cc:1632
+#: src/wmapp.cc:1636
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -964,11 +964,11 @@ msgstr ""
 "kaipaat\n"
 "apua tai jos haluat vain antaa kommenttisi.\n"
 
-#: src/wmapp.cc:1743
+#: src/wmapp.cc:1747
 msgid "Confirm Logout"
 msgstr "Varmista uloskirjautuminen"
 
-#: src/wmapp.cc:1744
+#: src/wmapp.cc:1748
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -985,8 +985,8 @@ msgstr "Virheellinen tyylin nimi"
 msgid "Loc_k Workstation"
 msgstr "_Lukitse työasema"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:433
-#: src/wmtaskbar.cc:435
+#: src/wmdialog.cc:90 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:434
+#: src/wmtaskbar.cc:436
 msgid "_Logout..."
 msgstr "_Kirjaudu ulos..."
 
@@ -998,12 +998,12 @@ msgstr "_Peruuta"
 msgid "_Restart icewm"
 msgstr "Uudelleenkäynnistä _IceWM"
 
-#: src/wmdialog.cc:125 src/wmprog.cc:886 src/wmtaskbar.cc:425
-#: src/wmtaskbar.cc:428
+#: src/wmdialog.cc:125 src/wmprog.cc:886 src/wmtaskbar.cc:426
+#: src/wmtaskbar.cc:429
 msgid "_About"
 msgstr "_Tietoja"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3410
+#: src/wmframe.cc:165 src/wmframe.cc:3435
 msgid "Maximize"
 msgstr "Suurenna"
 
@@ -1015,7 +1015,7 @@ msgstr "Pienennä"
 msgid "Hide"
 msgstr "Piilota"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3443
+#: src/wmframe.cc:209 src/wmframe.cc:3468
 msgid "Rollup"
 msgstr "Rullaa ylös"
 
@@ -1023,11 +1023,11 @@ msgstr "Rullaa ylös"
 msgid "Raise/Lower"
 msgstr "Nosta/Laske"
 
-#: src/wmframe.cc:1718
+#: src/wmframe.cc:1725
 msgid "Kill Client: "
 msgstr "Tapa asiakasohjelma: "
 
-#: src/wmframe.cc:1722
+#: src/wmframe.cc:1729
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1035,11 +1035,11 @@ msgstr ""
 "VAROITUS! Kaikki tallentamattomat muutokset tässä\n"
 "asiakkaassa menetetään kun se tapetaan. Haluatko jatkaa?"
 
-#: src/wmframe.cc:3407
+#: src/wmframe.cc:3432
 msgid "Restore"
 msgstr "Palauta"
 
-#: src/wmframe.cc:3441
+#: src/wmframe.cc:3466
 msgid "Rolldown"
 msgstr "Rullaa alas"
 
@@ -1093,7 +1093,7 @@ msgstr "Ohjelmat"
 msgid "_Run..."
 msgstr "_Suorita"
 
-#: src/wmprog.cc:862 src/wmtaskbar.cc:413
+#: src/wmprog.cc:862 src/wmtaskbar.cc:414
 msgid "_Windows"
 msgstr "_Ikkunat"
 
@@ -1130,59 +1130,59 @@ msgstr ""
 msgid "Session Manager: Unknown line %s"
 msgstr "Istuntomanageri: Tuntematon rivi %s"
 
-#: src/wmtaskbar.cc:256 src/wmtaskbar.cc:257
+#: src/wmtaskbar.cc:257 src/wmtaskbar.cc:258
 msgid "Task Bar"
 msgstr "Tehtäväpalkki"
 
-#: src/wmtaskbar.cc:402 src/wmwinlist.cc:312 src/wmwinlist.cc:325
+#: src/wmtaskbar.cc:403 src/wmwinlist.cc:312 src/wmwinlist.cc:325
 msgid "Tile _Vertically"
 msgstr "Lomita _vertikaalisesti"
 
-#: src/wmtaskbar.cc:403 src/wmwinlist.cc:313 src/wmwinlist.cc:326
+#: src/wmtaskbar.cc:404 src/wmwinlist.cc:313 src/wmwinlist.cc:326
 msgid "T_ile Horizontally"
 msgstr "Lomita _horisontaalisesti"
 
-#: src/wmtaskbar.cc:404 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+#: src/wmtaskbar.cc:405 src/wmwinlist.cc:314 src/wmwinlist.cc:327
 msgid "Ca_scade"
 msgstr "Pu_dota"
 
-#: src/wmtaskbar.cc:405 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+#: src/wmtaskbar.cc:406 src/wmwinlist.cc:315 src/wmwinlist.cc:328
 msgid "_Arrange"
 msgstr "_Järjestä"
 
-#: src/wmtaskbar.cc:406 src/wmwinlist.cc:317 src/wmwinlist.cc:329
+#: src/wmtaskbar.cc:407 src/wmwinlist.cc:317 src/wmwinlist.cc:329
 msgid "_Minimize All"
 msgstr "_Pienennä kaikki"
 
-#: src/wmtaskbar.cc:407 src/wmwinlist.cc:318 src/wmwinlist.cc:330
+#: src/wmtaskbar.cc:408 src/wmwinlist.cc:318 src/wmwinlist.cc:330
 msgid "_Hide All"
 msgstr "P_iilota kaikki"
 
-#: src/wmtaskbar.cc:408 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+#: src/wmtaskbar.cc:409 src/wmwinlist.cc:319 src/wmwinlist.cc:331
 msgid "_Undo"
 msgstr "Per_u"
 
-#: src/wmtaskbar.cc:410
+#: src/wmtaskbar.cc:411
 msgid "Arrange _Icons"
 msgstr "Järjestä _kuvakkeet"
 
-#: src/wmtaskbar.cc:416
+#: src/wmtaskbar.cc:417
 msgid "_Refresh"
 msgstr "_Päivitä"
 
-#: src/wmtaskbar.cc:423
+#: src/wmtaskbar.cc:424
 msgid "_License"
 msgstr "_Lisenssi"
 
-#: src/wmtaskbar.cc:544
+#: src/wmtaskbar.cc:562
 msgid "Favorite applications"
 msgstr "Sovellukset"
 
-#: src/wmtaskbar.cc:561
+#: src/wmtaskbar.cc:579
 msgid "Window list menu"
 msgstr "Ikkunalista"
 
-#: src/wmtaskbar.cc:570
+#: src/wmtaskbar.cc:588
 msgid "Show Desktop"
 msgstr "Näytä työpöytä"
 

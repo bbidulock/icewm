@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.6\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-02-13 12:34+0100\n"
+"POT-Creation-Date: 2015-07-02 18:19-0600\n"
 "PO-Revision-Date: 2001-01-10 23:14+0900\n"
 "Last-Translator: Yoichi ASAI <yatt@msc.biglobe.ne.jp>\n"
 "Language-Team: Japanese\n"
@@ -36,40 +36,40 @@ msgstr ""
 msgid " - Full"
 msgstr ""
 
-#: src/acpustatus.cc:231
+#: src/acpustatus.cc:234
 #, fuzzy, c-format
 msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
 msgstr "CPU 負荷: %3.2f %3.2f %3.2f, %u 個のプロセス."
 
-#: src/acpustatus.cc:236
+#: src/acpustatus.cc:239
 #, c-format
 msgid ""
 "\n"
 "Ram (free): %5.2f (%.2f) M"
 msgstr ""
 
-#: src/acpustatus.cc:241
+#: src/acpustatus.cc:244
 #, c-format
 msgid ""
 "\n"
 "Swap (free): %.2f (%.2f) M"
 msgstr ""
 
-#: src/acpustatus.cc:247
+#: src/acpustatus.cc:250
 #, c-format
 msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
 
-#: src/acpustatus.cc:258
+#: src/acpustatus.cc:261
 #, c-format
 msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
 
-#: src/acpustatus.cc:271
+#: src/acpustatus.cc:274
 msgid "CPU Load: "
 msgstr ""
 
@@ -645,164 +645,164 @@ msgstr ""
 msgid "icewm - About"
 msgstr "icewm について"
 
-#: src/wmapp.cc:440
+#: src/wmapp.cc:444
 msgid "Unable to get current font path."
 msgstr ""
 
-#: src/wmapp.cc:467
+#: src/wmapp.cc:471
 msgid "Unexpected format of ICEWM_FONT_PATH property"
 msgstr ""
 
-#: src/wmapp.cc:524
+#: src/wmapp.cc:528
 #, c-format
 msgid "Multiple references for gradient \"%s\""
 msgstr ""
 
-#: src/wmapp.cc:599
+#: src/wmapp.cc:603
 #, fuzzy, c-format
 msgid "Unknown gradient name: %s"
 msgstr "未知のキー名 %s / %s"
 
-#: src/wmapp.cc:862
+#: src/wmapp.cc:866
 msgid "_Logout"
 msgstr "ログアウト(_L)"
 
-#: src/wmapp.cc:863
+#: src/wmapp.cc:867
 msgid "_Cancel logout"
 msgstr "ログアウトを破棄(_C)"
 
-#: src/wmapp.cc:875
+#: src/wmapp.cc:879
 msgid "Lock _Workstation"
 msgstr "ワークステーションをロック(_W)"
 
-#: src/wmapp.cc:877 src/wmdialog.cc:111
+#: src/wmapp.cc:881 src/wmdialog.cc:111
 msgid "Re_boot"
 msgstr "リブート(_B)"
 
-#: src/wmapp.cc:879 src/wmdialog.cc:118
+#: src/wmapp.cc:883 src/wmdialog.cc:118
 msgid "Shut_down"
 msgstr "シャットダウン(_D)"
 
-#: src/wmapp.cc:883
+#: src/wmapp.cc:887
 msgid "Restart _Icewm"
 msgstr "icewm を再起動(_I)"
 
-#: src/wmapp.cc:886
+#: src/wmapp.cc:890
 msgid "Restart _Xterm"
 msgstr "xterm を再起動(_X)"
 
-#: src/wmapp.cc:902
+#: src/wmapp.cc:906
 msgid "_Menu"
 msgstr "メニュー(_M)"
 
-#: src/wmapp.cc:903
+#: src/wmapp.cc:907
 msgid "_Above Dock"
 msgstr "ドックの上(_A)"
 
-#: src/wmapp.cc:904
+#: src/wmapp.cc:908
 msgid "_Dock"
 msgstr "ドック(_D)"
 
-#: src/wmapp.cc:905
+#: src/wmapp.cc:909
 msgid "_OnTop"
 msgstr "上に(_O)"
 
-#: src/wmapp.cc:906
+#: src/wmapp.cc:910
 msgid "_Normal"
 msgstr "通常(_N)"
 
-#: src/wmapp.cc:907
+#: src/wmapp.cc:911
 msgid "_Below"
 msgstr "下に(_B)"
 
-#: src/wmapp.cc:908
+#: src/wmapp.cc:912
 msgid "D_esktop"
 msgstr "デスクトップ(_E)"
 
-#: src/wmapp.cc:920
+#: src/wmapp.cc:924
 msgid "_Restore"
 msgstr "元に戻す(_R)"
 
-#: src/wmapp.cc:922
+#: src/wmapp.cc:926
 msgid "_Move"
 msgstr "移動(_M)"
 
-#: src/wmapp.cc:924
+#: src/wmapp.cc:928
 msgid "_Size"
 msgstr "サイズ(_S)"
 
-#: src/wmapp.cc:926
+#: src/wmapp.cc:930
 msgid "Mi_nimize"
 msgstr "最小化(_N)"
 
-#: src/wmapp.cc:928
+#: src/wmapp.cc:932
 msgid "Ma_ximize"
 msgstr "最大化(_X)"
 
-#: src/wmapp.cc:930
+#: src/wmapp.cc:934
 msgid "_Fullscreen"
 msgstr ""
 
-#: src/wmapp.cc:934 src/wmwinlist.cc:307
+#: src/wmapp.cc:938 src/wmwinlist.cc:307
 msgid "_Hide"
 msgstr "隠す(_H)"
 
-#: src/wmapp.cc:937
+#: src/wmapp.cc:941
 msgid "Roll_up"
 msgstr "シェード(_U)"
 
-#: src/wmapp.cc:944
+#: src/wmapp.cc:948
 msgid "R_aise"
 msgstr "上に表示(_A)"
 
-#: src/wmapp.cc:946
+#: src/wmapp.cc:950
 msgid "_Lower"
 msgstr "下に表示(_L)"
 
-#: src/wmapp.cc:948
+#: src/wmapp.cc:952
 msgid "La_yer"
 msgstr "レイヤー(_Y)"
 
-#: src/wmapp.cc:952 src/wmwinlist.cc:310
+#: src/wmapp.cc:956 src/wmwinlist.cc:310
 msgid "Move _To"
 msgstr "移送(_T)"
 
-#: src/wmapp.cc:953
+#: src/wmapp.cc:957
 msgid "Occupy _All"
 msgstr "居座る(_A)"
 
-#: src/wmapp.cc:959
+#: src/wmapp.cc:963
 msgid "Limit _Workarea"
 msgstr ""
 
-#: src/wmapp.cc:964
+#: src/wmapp.cc:968
 msgid "Tray _icon"
 msgstr ""
 
-#: src/wmapp.cc:970 src/wmwinlist.cc:295 src/wmwinlist.cc:321
+#: src/wmapp.cc:974 src/wmwinlist.cc:295 src/wmwinlist.cc:321
 msgid "_Close"
 msgstr "閉じる(_C)"
 
-#: src/wmapp.cc:972 src/wmwinlist.cc:297
+#: src/wmapp.cc:976 src/wmwinlist.cc:297
 msgid "_Kill Client"
 msgstr "クライアント強制終了(_K)"
 
-#: src/wmapp.cc:976 src/wmdialog.cc:132 src/wmwinmenu.cc:137
+#: src/wmapp.cc:980 src/wmdialog.cc:132 src/wmwinmenu.cc:137
 msgid "_Window list"
 msgstr "ウインドウ一覧(_W)"
 
-#: src/wmapp.cc:992
+#: src/wmapp.cc:996
 msgid "Another window manager already running, exiting..."
 msgstr "他のウインドウマネージャが既に起動しています. 終了します..."
 
-#: src/wmapp.cc:1058
+#: src/wmapp.cc:1062
 #, fuzzy, c-format
 msgid ""
 "Could not restart: %s\n"
 "Does $PATH lead to %s?"
 msgstr "%s を再起動できません. パス上にありますか?"
 
-#: src/wmapp.cc:1632
+#: src/wmapp.cc:1636
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -833,11 +833,11 @@ msgid ""
 "Visit http://www.icewm.org/ for report bugs, support requests, comments...\n"
 msgstr ""
 
-#: src/wmapp.cc:1743
+#: src/wmapp.cc:1747
 msgid "Confirm Logout"
 msgstr "ログアウトの確認"
 
-#: src/wmapp.cc:1744
+#: src/wmapp.cc:1748
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -854,8 +854,8 @@ msgstr "不適切な Look 名"
 msgid "Loc_k Workstation"
 msgstr "ワークステーションをロック(_W)"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:433
-#: src/wmtaskbar.cc:435
+#: src/wmdialog.cc:90 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:434
+#: src/wmtaskbar.cc:436
 msgid "_Logout..."
 msgstr "ログアウト(_L)..."
 
@@ -867,12 +867,12 @@ msgstr "キャンセル(_C)"
 msgid "_Restart icewm"
 msgstr "icewm を再起動(_R)"
 
-#: src/wmdialog.cc:125 src/wmprog.cc:886 src/wmtaskbar.cc:425
-#: src/wmtaskbar.cc:428
+#: src/wmdialog.cc:125 src/wmprog.cc:886 src/wmtaskbar.cc:426
+#: src/wmtaskbar.cc:429
 msgid "_About"
 msgstr "情報(_A)"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3410
+#: src/wmframe.cc:165 src/wmframe.cc:3435
 msgid "Maximize"
 msgstr "最大化"
 
@@ -884,7 +884,7 @@ msgstr "最小化"
 msgid "Hide"
 msgstr "隠す"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3443
+#: src/wmframe.cc:209 src/wmframe.cc:3468
 msgid "Rollup"
 msgstr "シェード"
 
@@ -892,21 +892,21 @@ msgstr "シェード"
 msgid "Raise/Lower"
 msgstr "上/下に表示"
 
-#: src/wmframe.cc:1718
+#: src/wmframe.cc:1725
 msgid "Kill Client: "
 msgstr "クライアント強制終了: "
 
-#: src/wmframe.cc:1722
+#: src/wmframe.cc:1729
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
 msgstr ""
 
-#: src/wmframe.cc:3407
+#: src/wmframe.cc:3432
 msgid "Restore"
 msgstr "元に戻す"
 
-#: src/wmframe.cc:3441
+#: src/wmframe.cc:3466
 msgid "Rolldown"
 msgstr "シェード解除"
 
@@ -960,7 +960,7 @@ msgstr "プログラム"
 msgid "_Run..."
 msgstr "実行(_R)..."
 
-#: src/wmprog.cc:862 src/wmtaskbar.cc:413
+#: src/wmprog.cc:862 src/wmtaskbar.cc:414
 msgid "_Windows"
 msgstr "ウインドウ一覧(_W)"
 
@@ -998,60 +998,60 @@ msgstr ""
 msgid "Session Manager: Unknown line %s"
 msgstr "セッションマネージャ: 未知の行 %s"
 
-#: src/wmtaskbar.cc:256 src/wmtaskbar.cc:257
+#: src/wmtaskbar.cc:257 src/wmtaskbar.cc:258
 msgid "Task Bar"
 msgstr "タスクバー"
 
-#: src/wmtaskbar.cc:402 src/wmwinlist.cc:312 src/wmwinlist.cc:325
+#: src/wmtaskbar.cc:403 src/wmwinlist.cc:312 src/wmwinlist.cc:325
 msgid "Tile _Vertically"
 msgstr "垂直に並べる(_V)"
 
-#: src/wmtaskbar.cc:403 src/wmwinlist.cc:313 src/wmwinlist.cc:326
+#: src/wmtaskbar.cc:404 src/wmwinlist.cc:313 src/wmwinlist.cc:326
 msgid "T_ile Horizontally"
 msgstr "水平に並べる(_I)"
 
-#: src/wmtaskbar.cc:404 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+#: src/wmtaskbar.cc:405 src/wmwinlist.cc:314 src/wmwinlist.cc:327
 msgid "Ca_scade"
 msgstr "カスケード(_S)"
 
-#: src/wmtaskbar.cc:405 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+#: src/wmtaskbar.cc:406 src/wmwinlist.cc:315 src/wmwinlist.cc:328
 msgid "_Arrange"
 msgstr "整列(_A)"
 
-#: src/wmtaskbar.cc:406 src/wmwinlist.cc:317 src/wmwinlist.cc:329
+#: src/wmtaskbar.cc:407 src/wmwinlist.cc:317 src/wmwinlist.cc:329
 msgid "_Minimize All"
 msgstr "全て最小化(_M)"
 
-#: src/wmtaskbar.cc:407 src/wmwinlist.cc:318 src/wmwinlist.cc:330
+#: src/wmtaskbar.cc:408 src/wmwinlist.cc:318 src/wmwinlist.cc:330
 msgid "_Hide All"
 msgstr "全て隠す(_H)"
 
-#: src/wmtaskbar.cc:408 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+#: src/wmtaskbar.cc:409 src/wmwinlist.cc:319 src/wmwinlist.cc:331
 msgid "_Undo"
 msgstr "元に戻す(_U)"
 
-#: src/wmtaskbar.cc:410
+#: src/wmtaskbar.cc:411
 msgid "Arrange _Icons"
 msgstr "アイコン整列(_I)"
 
-#: src/wmtaskbar.cc:416
+#: src/wmtaskbar.cc:417
 msgid "_Refresh"
 msgstr "再描画(_R)"
 
-#: src/wmtaskbar.cc:423
+#: src/wmtaskbar.cc:424
 msgid "_License"
 msgstr "ライセンス(_L)"
 
-#: src/wmtaskbar.cc:544
+#: src/wmtaskbar.cc:562
 msgid "Favorite applications"
 msgstr ""
 
-#: src/wmtaskbar.cc:561
+#: src/wmtaskbar.cc:579
 #, fuzzy
 msgid "Window list menu"
 msgstr "ウインドウ一覧"
 
-#: src/wmtaskbar.cc:570
+#: src/wmtaskbar.cc:588
 #, fuzzy
 msgid "Show Desktop"
 msgstr "デスクトップ(_E)"

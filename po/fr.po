@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.15pre3\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-02-13 12:34+0100\n"
+"POT-Creation-Date: 2015-07-02 18:19-0600\n"
 "PO-Revision-Date: 2000-12-15 12:13+2000\n"
 "Last-Translator: LiNuCe <linuce@linuxmail.org>\n"
 "Language-Team: French\n"
@@ -37,40 +37,40 @@ msgstr ""
 msgid " - Full"
 msgstr ""
 
-#: src/acpustatus.cc:231
+#: src/acpustatus.cc:234
 #, fuzzy, c-format
 msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
 msgstr "Charge CPU: %3.2f %3.2f %3.2f, %u processus"
 
-#: src/acpustatus.cc:236
+#: src/acpustatus.cc:239
 #, c-format
 msgid ""
 "\n"
 "Ram (free): %5.2f (%.2f) M"
 msgstr ""
 
-#: src/acpustatus.cc:241
+#: src/acpustatus.cc:244
 #, c-format
 msgid ""
 "\n"
 "Swap (free): %.2f (%.2f) M"
 msgstr ""
 
-#: src/acpustatus.cc:247
+#: src/acpustatus.cc:250
 #, c-format
 msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
 
-#: src/acpustatus.cc:258
+#: src/acpustatus.cc:261
 #, c-format
 msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
 
-#: src/acpustatus.cc:271
+#: src/acpustatus.cc:274
 msgid "CPU Load: "
 msgstr "Charge processeur : "
 
@@ -697,159 +697,159 @@ msgstr ""
 msgid "icewm - About"
 msgstr "IceWM - À propos"
 
-#: src/wmapp.cc:440
+#: src/wmapp.cc:444
 msgid "Unable to get current font path."
 msgstr "Impossible d'obtenir le chemin de recherche des polices."
 
-#: src/wmapp.cc:467
+#: src/wmapp.cc:471
 msgid "Unexpected format of ICEWM_FONT_PATH property"
 msgstr "Format de la propriété ICEWM_FONT_PATH incorrect"
 
-#: src/wmapp.cc:524
+#: src/wmapp.cc:528
 #, c-format
 msgid "Multiple references for gradient \"%s\""
 msgstr "Références multiples pour le dégradé \"%s\""
 
-#: src/wmapp.cc:599
+#: src/wmapp.cc:603
 #, c-format
 msgid "Unknown gradient name: %s"
 msgstr "Nom de dégradé inconnu : %s"
 
 # OS/2 is dead, but... ;-)
-#: src/wmapp.cc:862
+#: src/wmapp.cc:866
 msgid "_Logout"
 msgstr "_Déconnexion"
 
-#: src/wmapp.cc:863
+#: src/wmapp.cc:867
 msgid "_Cancel logout"
 msgstr "_Annuler la déconnexion"
 
-#: src/wmapp.cc:875
+#: src/wmapp.cc:879
 msgid "Lock _Workstation"
 msgstr "_Verrouiller l'écran"
 
-#: src/wmapp.cc:877 src/wmdialog.cc:111
+#: src/wmapp.cc:881 src/wmdialog.cc:111
 msgid "Re_boot"
 msgstr "Re_démarrer l'ordinateur"
 
-#: src/wmapp.cc:879 src/wmdialog.cc:118
+#: src/wmapp.cc:883 src/wmdialog.cc:118
 msgid "Shut_down"
 msgstr "_Arrêter l'ordinateur"
 
-#: src/wmapp.cc:883
+#: src/wmapp.cc:887
 msgid "Restart _Icewm"
 msgstr "Redémarrer _IceWM"
 
-#: src/wmapp.cc:886
+#: src/wmapp.cc:890
 msgid "Restart _Xterm"
 msgstr "Remplacer IceWM par _XTerm"
 
-#: src/wmapp.cc:902
+#: src/wmapp.cc:906
 msgid "_Menu"
 msgstr "_Menu"
 
-#: src/wmapp.cc:903
+#: src/wmapp.cc:907
 msgid "_Above Dock"
 msgstr "_Au dessus du Dock"
 
-#: src/wmapp.cc:904
+#: src/wmapp.cc:908
 msgid "_Dock"
 msgstr "_Dock"
 
-#: src/wmapp.cc:905
+#: src/wmapp.cc:909
 msgid "_OnTop"
 msgstr "Au de_ssus"
 
-#: src/wmapp.cc:906
+#: src/wmapp.cc:910
 msgid "_Normal"
 msgstr "_Normal"
 
-#: src/wmapp.cc:907
+#: src/wmapp.cc:911
 msgid "_Below"
 msgstr "En dess_ous"
 
-#: src/wmapp.cc:908
+#: src/wmapp.cc:912
 msgid "D_esktop"
 msgstr "Bur_eau"
 
-#: src/wmapp.cc:920
+#: src/wmapp.cc:924
 msgid "_Restore"
 msgstr "_Restaurer"
 
-#: src/wmapp.cc:922
+#: src/wmapp.cc:926
 msgid "_Move"
 msgstr "Dé_placer"
 
-#: src/wmapp.cc:924
+#: src/wmapp.cc:928
 msgid "_Size"
 msgstr "Dimen_sionner"
 
-#: src/wmapp.cc:926
+#: src/wmapp.cc:930
 msgid "Mi_nimize"
 msgstr "Icô_nifier"
 
-#: src/wmapp.cc:928
+#: src/wmapp.cc:932
 msgid "Ma_ximize"
 msgstr "Ma_ximiser"
 
-#: src/wmapp.cc:930
+#: src/wmapp.cc:934
 msgid "_Fullscreen"
 msgstr "Plein écran"
 
-#: src/wmapp.cc:934 src/wmwinlist.cc:307
+#: src/wmapp.cc:938 src/wmwinlist.cc:307
 msgid "_Hide"
 msgstr "Cac_her"
 
-#: src/wmapp.cc:937
+#: src/wmapp.cc:941
 msgid "Roll_up"
 msgstr "Enro_uler"
 
-#: src/wmapp.cc:944
+#: src/wmapp.cc:948
 msgid "R_aise"
 msgstr "A_vant plan"
 
-#: src/wmapp.cc:946
+#: src/wmapp.cc:950
 msgid "_Lower"
 msgstr "Arr_ière plan"
 
-#: src/wmapp.cc:948
+#: src/wmapp.cc:952
 msgid "La_yer"
 msgstr "C_ouche"
 
-#: src/wmapp.cc:952 src/wmwinlist.cc:310
+#: src/wmapp.cc:956 src/wmwinlist.cc:310
 msgid "Move _To"
 msgstr "Envo_yer vers"
 
-#: src/wmapp.cc:953
+#: src/wmapp.cc:957
 msgid "Occupy _All"
 msgstr "Occuper tous les bure_aux"
 
-#: src/wmapp.cc:959
+#: src/wmapp.cc:963
 msgid "Limit _Workarea"
 msgstr "_Limiter l'aire de travail"
 
-#: src/wmapp.cc:964
+#: src/wmapp.cc:968
 msgid "Tray _icon"
 msgstr "Icône de barre de tâche"
 
-#: src/wmapp.cc:970 src/wmwinlist.cc:295 src/wmwinlist.cc:321
+#: src/wmapp.cc:974 src/wmwinlist.cc:295 src/wmwinlist.cc:321
 msgid "_Close"
 msgstr "_Fermer"
 
-#: src/wmapp.cc:972 src/wmwinlist.cc:297
+#: src/wmapp.cc:976 src/wmwinlist.cc:297
 msgid "_Kill Client"
 msgstr "Tuer le client X"
 
-#: src/wmapp.cc:976 src/wmdialog.cc:132 src/wmwinmenu.cc:137
+#: src/wmapp.cc:980 src/wmdialog.cc:132 src/wmwinmenu.cc:137
 msgid "_Window list"
 msgstr "_Liste des fenêtres"
 
 #
-#: src/wmapp.cc:992
+#: src/wmapp.cc:996
 msgid "Another window manager already running, exiting..."
 msgstr "Un gestionnaire de fenêtre tourne déjà. Terminaison ..."
 
-#: src/wmapp.cc:1058
+#: src/wmapp.cc:1062
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -858,7 +858,7 @@ msgstr ""
 "Impossible de relancer \"%s\"\n"
 "$PATH mène-t-il à \"%s\" ?"
 
-#: src/wmapp.cc:1632
+#: src/wmapp.cc:1636
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -889,11 +889,11 @@ msgid ""
 "Visit http://www.icewm.org/ for report bugs, support requests, comments...\n"
 msgstr ""
 
-#: src/wmapp.cc:1743
+#: src/wmapp.cc:1747
 msgid "Confirm Logout"
 msgstr "Confirmer la déconnexion"
 
-#: src/wmapp.cc:1744
+#: src/wmapp.cc:1748
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -911,8 +911,8 @@ msgstr "Nom de l'option Look incorrect"
 msgid "Loc_k Workstation"
 msgstr "_Verrouiller l'écran"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:433
-#: src/wmtaskbar.cc:435
+#: src/wmdialog.cc:90 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:434
+#: src/wmtaskbar.cc:436
 msgid "_Logout..."
 msgstr "_Déconnexion ..."
 
@@ -924,12 +924,12 @@ msgstr "A_nnuler"
 msgid "_Restart icewm"
 msgstr "_Redémarrer IceWM"
 
-#: src/wmdialog.cc:125 src/wmprog.cc:886 src/wmtaskbar.cc:425
-#: src/wmtaskbar.cc:428
+#: src/wmdialog.cc:125 src/wmprog.cc:886 src/wmtaskbar.cc:426
+#: src/wmtaskbar.cc:429
 msgid "_About"
 msgstr "À _propos"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3410
+#: src/wmframe.cc:165 src/wmframe.cc:3435
 msgid "Maximize"
 msgstr "Maximiser"
 
@@ -941,7 +941,7 @@ msgstr "Icônifier"
 msgid "Hide"
 msgstr "Cacher"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3443
+#: src/wmframe.cc:209 src/wmframe.cc:3468
 msgid "Rollup"
 msgstr "Enrouler"
 
@@ -951,11 +951,11 @@ msgid "Raise/Lower"
 msgstr "Premier/Dernier plan"
 
 #
-#: src/wmframe.cc:1718
+#: src/wmframe.cc:1725
 msgid "Kill Client: "
 msgstr "Tuer le client : "
 
-#: src/wmframe.cc:1722
+#: src/wmframe.cc:1729
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -963,11 +963,11 @@ msgstr ""
 "ATTENTION ! Tous les changements non sauvegardés seront\n"
 "perdus quand ce client sera tué. Souhaitez-vous continuer ?"
 
-#: src/wmframe.cc:3407
+#: src/wmframe.cc:3432
 msgid "Restore"
 msgstr "Restaurer"
 
-#: src/wmframe.cc:3441
+#: src/wmframe.cc:3466
 msgid "Rolldown"
 msgstr "Dérouler"
 
@@ -1021,7 +1021,7 @@ msgstr "Programmes"
 msgid "_Run..."
 msgstr "_Exécuter ..."
 
-#: src/wmprog.cc:862 src/wmtaskbar.cc:413
+#: src/wmprog.cc:862 src/wmtaskbar.cc:414
 msgid "_Windows"
 msgstr "_Fenêtres"
 
@@ -1058,59 +1058,59 @@ msgstr ""
 msgid "Session Manager: Unknown line %s"
 msgstr "Gestionnaire de session : ligne \"%s\" inconnue"
 
-#: src/wmtaskbar.cc:256 src/wmtaskbar.cc:257
+#: src/wmtaskbar.cc:257 src/wmtaskbar.cc:258
 msgid "Task Bar"
 msgstr "Barre de tâche"
 
-#: src/wmtaskbar.cc:402 src/wmwinlist.cc:312 src/wmwinlist.cc:325
+#: src/wmtaskbar.cc:403 src/wmwinlist.cc:312 src/wmwinlist.cc:325
 msgid "Tile _Vertically"
 msgstr "Mosaïque _verticale"
 
-#: src/wmtaskbar.cc:403 src/wmwinlist.cc:313 src/wmwinlist.cc:326
+#: src/wmtaskbar.cc:404 src/wmwinlist.cc:313 src/wmwinlist.cc:326
 msgid "T_ile Horizontally"
 msgstr "Mosaïque hori_zontale"
 
-#: src/wmtaskbar.cc:404 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+#: src/wmtaskbar.cc:405 src/wmwinlist.cc:314 src/wmwinlist.cc:327
 msgid "Ca_scade"
 msgstr "Ca_scade"
 
-#: src/wmtaskbar.cc:405 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+#: src/wmtaskbar.cc:406 src/wmwinlist.cc:315 src/wmwinlist.cc:328
 msgid "_Arrange"
 msgstr "_Arranger"
 
-#: src/wmtaskbar.cc:406 src/wmwinlist.cc:317 src/wmwinlist.cc:329
+#: src/wmtaskbar.cc:407 src/wmwinlist.cc:317 src/wmwinlist.cc:329
 msgid "_Minimize All"
 msgstr "_Tout icônifier"
 
-#: src/wmtaskbar.cc:407 src/wmwinlist.cc:318 src/wmwinlist.cc:330
+#: src/wmtaskbar.cc:408 src/wmwinlist.cc:318 src/wmwinlist.cc:330
 msgid "_Hide All"
 msgstr "Tout _cacher"
 
-#: src/wmtaskbar.cc:408 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+#: src/wmtaskbar.cc:409 src/wmwinlist.cc:319 src/wmwinlist.cc:331
 msgid "_Undo"
 msgstr "Ann_uler"
 
-#: src/wmtaskbar.cc:410
+#: src/wmtaskbar.cc:411
 msgid "Arrange _Icons"
 msgstr "Arranger les _icônes"
 
-#: src/wmtaskbar.cc:416
+#: src/wmtaskbar.cc:417
 msgid "_Refresh"
 msgstr "_Rafraîchir"
 
-#: src/wmtaskbar.cc:423
+#: src/wmtaskbar.cc:424
 msgid "_License"
 msgstr "_Licence"
 
-#: src/wmtaskbar.cc:544
+#: src/wmtaskbar.cc:562
 msgid "Favorite applications"
 msgstr "Applications favorites"
 
-#: src/wmtaskbar.cc:561
+#: src/wmtaskbar.cc:579
 msgid "Window list menu"
 msgstr "Menu des fenêtres"
 
-#: src/wmtaskbar.cc:570
+#: src/wmtaskbar.cc:588
 msgid "Show Desktop"
 msgstr "Montrer le bureau"
 

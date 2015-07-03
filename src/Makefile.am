@@ -6,7 +6,8 @@ EXTRA_DIST = \
 	ylibrary.cc \
 	ylibrary.h \
 	ybase.h \
-	ypointer.h
+	ypointer.h \
+	globit.c
 
 EXTRA_PROGRAMS = \
 	icehelp \
