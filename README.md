@@ -15,7 +15,7 @@ it in winter ;-)  The aim of IceWM is to have good 'Feel' and decent
 **_Quick Start_**
 ---
 
-This is the icewm-1.3.9.109 package, released under LGPL license 2015-07-02.  This release as well as future versions here, can all be obtained from the GitHub repository using a command such as:
+This is the icewm-1.3.10 package, released under LGPL license 2015-07-02.  This release as well as future versions here, can all be obtained from the GitHub repository using a command such as:
 
     git clone http://github.com/bbidulock/icewm.git
 
@@ -58,7 +58,7 @@ file `COPYING'.
 
 Documentation for configuring the window manager can be obtained from
 http://www.icewm.org/ or from the online manual: point your browser at
-file:///usr/share/doc/icewm-1.3.9.109/icewm.html.
+file:///usr/share/doc/icewm-1.3.10/icewm.html.
 
 Unfortunately the documentation is for version 1.2.27 and is incomplete
 at that; however, it is for the most part usable.  Also, a rather sparse
