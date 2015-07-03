@@ -1,4 +1,163 @@
--- NEWS file for IceWM.  2014-09-01
+-- NEWS file for IceWM.  2015-06-02
+
+Release icewm-1.3.10
+====================
+
+git shortlog -e -n -w80,6,8 1.3.9...1.3.10
+
+Eduard Bloch <blade@debian.org> (68):
+      Fix format buffer overflow (Debian bug 765965) and other issues
+      Build fix with -Werror and without xrandr support
+      Make linking with -lsupc++ effective (w/o stdlibc++)
+      German translation update and review
+      Basic review of Russian translation (incomplete)
+      Language update, merge with some translations from Debian, manual review
+        of some typical format string mismatches
+      Replaced previous reimplementation of ACOUNT macro
+      Unified setting of EXEEXT through Makefile variable only
+      Fix the check of fribidi_log2vis' result (the code looks like it was
+        intended that way, and clang barfs otherwise)
+      this cannot be NULL unless more ugly (and better traceable) mess appears
+      Avoid potential use of unitialized value
+      Optional use of clang for development, work around unknown pragmas (might
+        need a review later)
+      Minor improvements after code check with clang++
+      Moved yworker.{cc,h} out of the build, apparently not used anymore
+      Found the "better traceable mess" expected in a previous commit. Added
+        proper checks in callers of YPixmap::replicate(...).
+      Stronger control of startup sequence in icewm-session, avoids weird
+        effects (like zombie windows) caused by races around icewm vs. icewmtray
+        vs. "startup" script execution
+      Assign suspend-to-ram action through systemd (if active) which is more
+        likely to be available on modern Linux desktops and makes more sense
+        than killing running WM with the "Sleep" button
+      If Linux and SystemD found, try to use that for default shutdown/reboot
+        actions. WLAN interfaces are also more likely to exist nowadays than PPP
+        links.
+      Little C++14 related fixes
+      clang was right, those members are not used and bring some risk of
+        programming mistakes
+      Experimental mod using signalfd (disabled by default)
+      Ignore some IDE metadata
+      Fix stupid crash of gnome menu when an invalid folder was specified
+      Added alternative XDG menu generator
+      Added submenu separation to fdomenu, no sorting yet
+      Better recursion control
+      Sorting submenues by translateable names
+      l10n update for fdomenu
+      Memory leak fighting, more menu categories (wine, editors)
+      Fixed automatic inclusion into build sequence
+      Use a callback to us and glib launch functionality for complicated
+        commands and terminal requirement
+      Bring in more structure, use GTree to sort and remove dupes
+      Make icewm-menu-fdo the default FDO menu generator
+      Make the name of the terminal program customizable via compiler options
+      Try to use internal launching of commands unless they are too complex
+      Added (restored?) hot keys on OK/Cancel confirmation dialog, adapted
+        translation as far as I could understand them
+      Fixed the gettext extraction of new submenu titles, fixed build without
+        i18n
+      Make CPU info tooltip better understandable
+      Add workarounds for older glib versions
+      Pass 0 not NULL as signalfd flags
+      Little modifications to make the code compilable with weird option
+        settings like no taskbar and not lite
+      icehelpcc: Fix const correctness on char pointers
+      ifdef instead of if on CONFIG_APPLET_CPU_STATUS
+      globit.c: fix some implicite old style C casting
+      globit.c makes use of GNUisms (asprintf, glob_pattern_p), make that code
+        conditional and fix unsafe code
+      Experimental cmake build system
+      Added some user instructions for cmake build system
+      Make build/install of icesound/icehelp conditional (not for LITE), minor
+        compiler warning fixes
+      Restore XINERAMA support with Cmake build system
+      [cmake] Build translations for the default target, not icewm
+      Remove the broken locale switching when retrieving fallback font
+      Move the HTML generation to the global target dependency
+      [cmake] Fix ENABLE_NLS setting
+      [cmake] fix of some installation target locations
+      [cmake] Added forgoten icesh, made po files optional
+      [cmake] Fixed sound subsystem selection
+      [cmake] Cosmetic fixes
+      [cmake] Incorporated new memory monitor enabling
+      [cmake] consistent naming of gmo targets
+      Updated de.po for strings of the new memory display
+      More cmake usage information for integrators
+      Also react to the sleep key found on Compaq keyboards
+      Fix build failure with GCC <= 4.7
+      Smarter detection of systems with battery (auto-enable APM applet on
+        laptops)
+      Save some CPU cycles while reading procfs (jump to begin instead of
+        reopening)
+      Added forgotten CONFIG_SHAPED_DECORATIONS option to cmake BS
+      Experimental feature: add custom environment variables from an extra file
+      Increase interface name lenght limit on Linux
+
+Brian Bidulock <bidulock@openss7.org> (31):
+      Merge pull request #10 from bedna-KU/patch-1
+      fribidi support (gentoo icewm-1.3.9-fribidi.patch)
+      Merge branch 'icewm-1-3-BRANCH' of https://github.com/bbidulock/icewm into
+        icewm-1-3-BRANCH
+      fix bbkeys link in .in file
+      remove unused _icewm_deprecated declaration
+      Merge pull request #11 from scarabeusiv/icewm-1-3-BRANCH
+      error in merge, missing ')'
+      correct pt_BR.po per bug 918 on sourceforge
+      Merge pull request #12 from blueness/HAVE_EXECINFO_H
+      Merge pull request #13 from Code7R/icewm-1-3-BRANCH
+      add support for compiling with libsupc++
+      update po files (corrects new CPU Load format)
+      Merge pull request #14 from Code7R/icewm-1-3-BRANCH
+      do not update dates and version until tarball release
+      removed CXXLD precious variable
+      Merge pull request #16 from Code7R/ftr_centralized_usage_of_exeext
+      Merge pull request #15 from Code7R/icewm-1-3-BRANCH
+      remove yworker.cc also from POTFILES.in
+      add appnames.h to Makefile.am to pass distcheck again
+      update po files for recent changes
+      Merge pull request #17 from celeron55/pref_arrange_on_resolution_change
+      Merge pull request #18 from Code7R/ftr_make_icewm-menu-fdo_default
+      Merge pull request #19 from mrbrainsample/icewm-1-3-BRANCH
+      Merge pull request #22 from mmogilvi/icewm-1-3-BRANCH
+      Merge pull request #21 from Code7R/ftr_cmake_rebased
+      Merge pull request #27 from Code7R/ftr_icewm_env_hack
+      added missing ignore file
+      add cmake files to distribution
+      update release files and tag for release
+      always use backing store
+      update release files and retag
+
+Tomáš Chvátal <tomas.chvatal@gmail.com> (6):
+      We always want the translation to be multibyte
+      Allow config override to fix icewm --config=file
+      Fix counter crash on popmenu.
+      Fix unaligned access.
+      Fix winoptions behaviour
+      default to the solid color background when the given default background
+        pixmap can't be loaded
+
+Matthew Ogilvie <mmogilvi_ice@miniinfo.net> (2):
+      Add memory status monitor applet.
+      enable new memory applet by default
+
+Anthony G. Basile <blueness@gentoo.org> (1):
+      configure.ac: check for <execinfo.h>
+
+Axel Dirla <axel.dirla@arcor.de> (1):
+      Tab-Completion for "internal taskbar command line"
+
+Jeff Woods <klaatu@fnordco.com> (1):
+      Fix icewm-menu-fdo to build without NLS
+
+Mario <kdesi@kdesi.sk> (1):
+      Incorrect link on bbkeys
+
+Perttu Ahola <celeron55@gmail.com> (1):
+      Add preference to allow disabling pre-existing sometimes unwanted
+        behavior: ArrangeWindowsOnScreenSizeChange: Automatically arrange
+        windows when screen size changes
+
 
 Release icewm-1.3.9
 ===================
