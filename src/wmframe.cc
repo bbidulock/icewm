@@ -688,7 +688,7 @@ void YFrameWindow::manage(YFrameClient *client) {
 
     {
         XSetWindowAttributes xswa;
-	xswa.backing_store = NotUseful;
+	xswa.backing_store = Always;
         xswa.win_gravity = NorthWestGravity;
 
         XChangeWindowAttributes(xapp->display(), client->handle(),
