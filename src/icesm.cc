@@ -31,6 +31,7 @@ public:
         upath scriptFile = YApplication::findConfigFile(scriptName);
         cstring cs(scriptFile.path());
         const char *args[] = { cs.c_str(), 0, 0 };
+        if (strlen(cs.c_str()) != 0) {
 
         if(asenv) {
             FILE *ef = fopen(cs.c_str(), "r");
@@ -69,6 +70,7 @@ public:
 
         MSG(("Running session script: %s", cs.c_str()));
         runProgram(cs.c_str(), args);
+        }
     }
 
     void runIcewmbg(bool quit = false) {
