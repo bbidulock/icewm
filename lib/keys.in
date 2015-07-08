@@ -28,3 +28,4 @@ key "XF86AudioMute"			amixer sset PCM 0%
 key "XF86HomePage"			xdg-open about:blank
 key "XF86Search"			xdg-open http://www.google.com
 key "XF86Eject"				eject
+key "XF86Calculator"  /bin/sh -c "gnome-calculator || xcalc || ( type bc >/dev/null 2>&1 && xterm -e bc -l)"
