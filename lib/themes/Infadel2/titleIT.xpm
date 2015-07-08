@@ -1,7 +1,6 @@
 /* XPM */
 static char * titleIT_xpm[] = {
-"1 17 18 1",
-" 	c None",
+"1 17 17 1",
 ".	c #868686",
 "+	c #484848",
 "@	c #4D4D4D",
