@@ -372,10 +372,11 @@ YFrameButton *YFrameWindow::getButton(char c) {
 void YFrameWindow::positionButton(YFrameButton *b, int &xPos, bool onRight) {
     /// !!! clean this up
     if (b == fMenuButton) {
-        const unsigned bw(((wmLook == lookPixmap || wmLook == lookMetal ||
-                           wmLook == lookGtk || wmLook == lookFlat ) &&
-                          showFrameIcon) || b->getPixmap(0) == null ?
-                          titleY() : b->getPixmap(0)->width());
+        const unsigned bw((((wmLook == lookPixmap || wmLook == lookMetal ||
+                             wmLook == lookGtk || wmLook == lookFlat ||
+			     wmLook == lookMotif ) && showFrameIcon) ||
+			    b->getPixmap(0) == null) ?
+			   titleY() : b->getPixmap(0)->width());
 
         if (onRight) xPos -= bw;
         b->setGeometry(YRect(xPos, 0, bw, titleY()));

@@ -125,7 +125,7 @@ ref<YPixmap> YFrameButton::getPixmap(int pn) const {
         return depthPixmap[pn];
 #ifdef CONFIG_LOOK_PIXMAP
     else if (fAction == 0 &&
-             (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk || wmLook == lookFlat))
+             (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk || wmLook == lookFlat || wmLook == lookMotif))
         return menuButton[pn];
 #endif
     else
@@ -231,6 +231,8 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
                            xPos + (w - iconSize) / 2,
                            yPos + (h - iconSize) / 2,
                            iconSize);
+            else if (pixmap != null)
+                g.drawCenteredPixmap(xPos, yPos, w, h, pixmap);
         } else {
             if (pixmap != null)
                 g.drawCenteredPixmap(xPos, yPos, w, h, pixmap);
