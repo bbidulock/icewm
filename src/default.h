@@ -136,7 +136,7 @@ XIV(bool, confirmLogout,                        true)
 #ifdef CONFIG_SHAPED_DECORATION
 XIV(bool, protectClientWindow,                  true)
 #endif
-XIV(bool, activateJava7FocusHack,               true)
+XIV(bool, activateJava7FocusHack,               false)
 XIV(int, MenuMaximalWidth,                      0)
 XIV(int, EdgeResistance,                        32)
 XIV(int, snapDistance,                          8)
