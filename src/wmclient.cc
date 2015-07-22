@@ -1206,7 +1206,7 @@ static void *GetFullWindowProperty(Display *display, Window handle, Atom propAto
         unsigned char *prop;
 
         while (XGetWindowProperty(display, handle,
-                               propAtom, (itemCount * itemSize) / 32, 1024*32, False, AnyPropertyType,
+                               propAtom, (itemCount * itemSize1) / 32, 1024*32, False, AnyPropertyType,
                                &r_type, &r_format, &nitems, &bytes_remain,
                                &prop) == Success && prop)
         {
