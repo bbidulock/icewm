@@ -373,12 +373,10 @@ INSTALL(TARGETS icewm${EXEEXT} icesh${EXEEXT} icewm-session${EXEEXT} icewmhint${
 
 # that bit might be disabled by the user
 if(NOT CROSSCOMPILE)
-ADD_CUSTOM_COMMAND(OUTPUT preferences
-			COMMAND ./genpref${EXEEXT} > preferences
-			DEPENDS genpref${EXEEXT}
-			WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-		ADD_CUSTOM_TARGET(genprefconfig DEPENDS preferences ALL)
-INSTALL(FILES ${CMAKE_BINARY_DIR}/preferences DESTINATION ${DOCDIR})
+	ADD_CUSTOM_COMMAND(TARGET genpref${EXEEXT} POST_BUILD
+		COMMAND ${CMAKE_BINARY_DIR}/genpref${EXEEXT} > preferences
+		WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+	INSTALL(FILES ${CMAKE_BINARY_DIR}/preferences DESTINATION ${DOCDIR})
 endif()
 
 #######################################
