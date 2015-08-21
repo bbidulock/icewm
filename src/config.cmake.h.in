@@ -151,6 +151,7 @@
 #cmakedefine DEBUG
 
 
+#cmakedefine HAVE_WORDEXP
 
 
 #endif // __CONFIG_H__
