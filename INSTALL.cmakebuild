@@ -19,6 +19,8 @@ Developer/Integrator notes:
  * you can see more internals and documented variables with "cmake -LAH"
  * CMAKE_CXX_FLAGS are appended to default compiler options. To override
    completely, see CXXFLAGS_COMMON in src/CMakeLists.txt
+ * use cmake -DCMAKE_INSTALL_PREFIX=... (or related variables, see
+   CMakeLists.xt) to specify the target file space (default is /usr/local)
  * make install DESTDIR=/tmp/elsewhere copies to another target location
  * Potential tuning options:
    -DEXTRA_LIBS="-flto -lsupc++" -DCMAKE_CXX_FLAGS="-flto"
