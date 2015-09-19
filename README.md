@@ -15,7 +15,7 @@ it in winter ;-)  The aim of IceWM is to have good 'Feel' and decent
 **_Quick Start_**
 ---
 
-This is the icewm-1.3.11 package, released under LGPL license 2015-09-14.  This release as well as future versions here, can all be obtained from the GitHub repository using a command such as:
+This is the icewm-1.3.11 package, released under LGPL license 2015-09-18.  This release as well as future versions here, can all be obtained from the GitHub repository using a command such as:
 
     git clone http://github.com/bbidulock/icewm.git
 
