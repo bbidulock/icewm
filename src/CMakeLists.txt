@@ -371,13 +371,21 @@ TARGET_LINK_LIBRARIES(icewmtray${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LD
 
 INSTALL(TARGETS icewm${EXEEXT} icesh${EXEEXT} icewm-session${EXEEXT} icewmhint${EXEEXT} icewmbg${EXEEXT} icewmtray${EXEEXT} DESTINATION ${BINDIR})
 
+# that bit might be disabled by the user
+if(NOT CROSSCOMPILE)
+	ADD_CUSTOM_COMMAND(TARGET genpref${EXEEXT} POST_BUILD
+		COMMAND ${CMAKE_BINARY_DIR}/genpref${EXEEXT} > preferences
+		WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+	INSTALL(FILES ${CMAKE_BINARY_DIR}/preferences DESTINATION ${DOCDIR})
+endif()
+
 #######################################
 # print information and some warnings #
 #######################################
 foreach (_variableName 
 		PACKAGE
 		VERSION
-		PREFIX DATADIR LIBDIR LOCDIR DOCDIR CFGDIR ICEHELPIDX
+		DATADIR LIBDIR LOCDIR DOCDIR CFGDIR ICEHELPIDX
 		CONFIG_XPM
 		CONFIG_IMLIB 
 		CONFIG_GDK_PIXBUF_XLIB

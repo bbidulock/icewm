@@ -1,9 +1,5 @@
 
-dist_doc_DATA = \
-	icewm.sgml \
-	techinfo.sgml
-
-nodist_doc_DATA = \
+html_documentation = \
 	icewm.html \
 	icewm-1.html \
 	icewm-2.html \
@@ -26,12 +22,17 @@ nodist_doc_DATA = \
 	icewm-19.html \
 	icewm-20.html
 
+dist_doc_DATA = \
+	icewm.sgml \
+	techinfo.sgml \
+	$(html_documentation)
+
 dist_man1_MANS = \
 	icewm.man
 
 
-$(nodist_doc_DATA): icewm.sgml
+$(html_documentation): icewm.sgml
 	-sgml2html $<
 
-CLEANFILES = $(nodist_doc_DATA)
+CLEANFILES = $(html_documentation)
 

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.7\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-07-02 19:33-0600\n"
+"POT-Creation-Date: 2015-09-18 19:30-0600\n"
 "PO-Revision-Date: 2003-04-14 21:23+0200\n"
 "Last-Translator: Gabor Suveg <gabor@suveg.hu>\n"
 "Language-Team:  <hu@li.org>\n"
@@ -147,59 +147,59 @@ msgstr "Munkaterület: "
 
 #: src/fdomenu.cc:74
 msgid "Settings"
-msgstr ""
+msgstr "Beállítások"
 
 #: src/fdomenu.cc:75
 msgid "Screensavers"
-msgstr ""
+msgstr "Képernyővédők"
 
 #: src/fdomenu.cc:76
 msgid "Accessories"
-msgstr ""
+msgstr "Kellékek"
 
 #: src/fdomenu.cc:77
 msgid "Development"
-msgstr ""
+msgstr "Fejlesztés"
 
 #: src/fdomenu.cc:78
 msgid "Education"
-msgstr ""
+msgstr "Oktatás"
 
 #: src/fdomenu.cc:79
 msgid "Games"
-msgstr ""
+msgstr "Játék"
 
 #: src/fdomenu.cc:80
 msgid "Graphics"
-msgstr ""
+msgstr "Grafika"
 
 #: src/fdomenu.cc:81
 msgid "Multimedia"
-msgstr ""
+msgstr "Multimédia"
 
 #: src/fdomenu.cc:82
 msgid "Network"
-msgstr ""
+msgstr "Hálózat"
 
 #: src/fdomenu.cc:83
 msgid "Office"
-msgstr ""
+msgstr "Iroda"
 
 #: src/fdomenu.cc:84
 msgid "System"
-msgstr ""
+msgstr "Rendszer"
 
 #: src/fdomenu.cc:85
 msgid "WINE"
-msgstr ""
+msgstr "WINE"
 
 #: src/fdomenu.cc:86
 msgid "Editors"
-msgstr ""
+msgstr "Szövegszerkesztők"
 
 #: src/fdomenu.cc:87
 msgid "Other"
-msgstr ""
+msgstr "Egyéb"
 
 # ../src/icehelp.cc:539
 #: src/icehelp.cc:715
@@ -760,11 +760,11 @@ msgstr "Téma szerzője: "
 
 #: src/wmabout.cc:43
 msgid "CodeSet:"
-msgstr ""
+msgstr "Kódkészlet"
 
 #: src/wmabout.cc:44
 msgid "Language:"
-msgstr ""
+msgstr "Nyelv"
 
 # ../src/wmabout.cc:47
 #: src/wmabout.cc:69
@@ -1181,7 +1181,7 @@ msgstr ""
 
 #: src/wmprog.cc:933
 msgid "_Focus"
-msgstr ""
+msgstr "_Fókusz"
 
 # ../src/wmprog.cc:627
 #: src/wmprog.cc:940
@@ -1190,7 +1190,7 @@ msgstr "_Témák"
 
 #: src/wmprog.cc:942
 msgid "Se_ttings"
-msgstr ""
+msgstr "Beá_llítás"
 
 # ../src/wmsession.cc:261 ../src/wmsession.cc:277 ../src/wmsession.cc:287
 #: src/wmsession.cc:239 src/wmsession.cc:255 src/wmsession.cc:265
