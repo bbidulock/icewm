@@ -378,7 +378,9 @@ int main(int argc, const char **argv)
 		opt_g_free(pmdir);
 	}
 	// user's stuff might replace the system links
-	proc_dir(usershare);
+	gchar *usershare_full = g_strjoin(NULL, usershare, "/applications", NULL);
+	proc_dir(usershare_full);
+	opt_g_free(usershare_full);
 
 	dump_menu();
 
