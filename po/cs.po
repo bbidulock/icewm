@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm-1.2.30\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
 "POT-Creation-Date: 2015-09-18 19:30-0600\n"
-"PO-Revision-Date: 2015-10-28 20:45+0200\n"
+"PO-Revision-Date: 2015-10-28 20:47+0200\n"
 "Last-Translator: Ondřej Súkup <mimi.vx@gmail.com>\n"
 "Language-Team: Czech "
 "<http://10n.opensuse.org/projects/icewm/icewm-1-3-branch/cs/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:875
 msgid " - Power"
-msgstr " – Napájení"
+msgstr " – Napájení"
 
 #: src/aapm.cc:193 src/aapm.cc:527 src/aapm.cc:757
 msgid "P"
@@ -30,7 +30,7 @@ msgstr "N"
 #: src/aapm.cc:197 src/aapm.cc:498 src/aapm.cc:734 src/aapm.cc:846
 #, c-format
 msgid " - Charging"
-msgstr " – Dobíjení"
+msgstr " – Dobíjení"
 
 #: src/aapm.cc:199 src/aapm.cc:500 src/aapm.cc:736
 msgid "C"
@@ -313,7 +313,7 @@ msgstr "Akce „%s“ vyžaduje nejméně %d argumentů."
 #: src/icesh.cc:194
 #, c-format
 msgid "Invalid expression: `%s'"
-msgstr "Neplatný výraz: „%s“."
+msgstr "Neplatný výraz: `%s'"
 
 #: src/icesh.cc:316
 #, c-format
@@ -501,7 +501,7 @@ msgstr "<nic>"
 #: src/icesound.cc:582
 #, c-format
 msgid "Error <%d> while uploading `%s:%s'"
-msgstr "Při nahrávání „%2$s:%3$s“ nastala chyba <%1$d>"
+msgstr "Chyba  <%d> při odesílání `%s:%s'"
 
 #: src/icesound.cc:588
 #, c-format
