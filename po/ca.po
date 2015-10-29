@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
 "POT-Creation-Date: 2015-09-18 19:30-0600\n"
-"PO-Revision-Date: 2015-10-28 18:07+0200\n"
+"PO-Revision-Date: 2015-10-29 15:53+0200\n"
 "Last-Translator: David Medina <medipas@gmail.com>\n"
 "Language-Team: Catalan "
 "<http://10n.opensuse.org/projects/icewm/icewm-1-3-branch/ca/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:875
 msgid " - Power"
-msgstr "- Energia"
+msgstr " - Energia"
 
 #: src/aapm.cc:193 src/aapm.cc:527 src/aapm.cc:757
 msgid "P"
@@ -101,7 +101,7 @@ msgstr "Emprant la Bústia: '%s'\n"
 
 #: src/amailbox.cc:451
 msgid "Error checking mailbox."
-msgstr "Error comprovant la bústia"
+msgstr "Error en comprovar la bústia."
 
 #: src/amailbox.cc:457
 #, c-format
@@ -139,7 +139,7 @@ msgstr ""
 #: src/aworkspaces.cc:155 src/aworkspaces.cc:220 src/aworkspaces.cc:276
 #: src/wmstatus.cc:168
 msgid "Workspace: "
-msgstr "Espai de treball:"
+msgstr "Espai de treball: "
 
 #: src/fdomenu.cc:74
 msgid "Settings"
@@ -203,7 +203,7 @@ msgstr "Endarrere"
 
 #: src/icehelp.cc:715
 msgid "Alt+Left"
-msgstr "Alt+Left"
+msgstr "Alt+Esquerra"
 
 #: src/icehelp.cc:716
 msgid "Forward"
@@ -211,7 +211,7 @@ msgstr "Endavant"
 
 #: src/icehelp.cc:716
 msgid "Alt+Right"
-msgstr "Alt+Right"
+msgstr "Alt+Dreta"
 
 #: src/icehelp.cc:718
 msgid "Previous"
@@ -428,12 +428,12 @@ msgstr "Opció de la safata de IceWM"
 
 #: src/icesh.cc:616
 msgid "Usage error: "
-msgstr "Error d'us:"
+msgstr "Error d'ús: "
 
 #: src/icesh.cc:687
 #, c-format
 msgid "Invalid argument: `%s'."
-msgstr "Argument no vàlid: %s"
+msgstr "Argument no vàlid: \"%s\"."
 
 #: src/icesh.cc:696
 msgid "No actions specified."
@@ -747,11 +747,11 @@ msgstr "icewm - A propòsit de"
 
 #: src/wmapp.cc:444
 msgid "Unable to get current font path."
-msgstr "No s'ha pogut accedir al camí de les fonts"
+msgstr "No s'ha pogut accedir al camí de les lletres."
 
 #: src/wmapp.cc:471
 msgid "Unexpected format of ICEWM_FONT_PATH property"
-msgstr "Format no esperat en les propietats de ICEWM_FONT_PATH "
+msgstr "Format no esperat a les propietats de ICEWM_FONT_PATH"
 
 #: src/wmapp.cc:528
 #, c-format
@@ -761,7 +761,7 @@ msgstr "Referencies multiples per al gradient \"%s\""
 #: src/wmapp.cc:603
 #, c-format
 msgid "Unknown gradient name: %s"
-msgstr "Nom del gradient %s desconegut "
+msgstr "Nom del gradient desconegut: %s"
 
 #: src/wmapp.cc:866
 msgid "_Logout"
@@ -943,7 +943,9 @@ msgstr "Confirmar Sortir"
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
-msgstr "Sortir tancarà totes les aplicacions actives."
+msgstr ""
+"Sortir tancarà totes les aplicacions actives.\n"
+"Voleu continuar?"
 
 #: src/wmconfig.cc:116
 msgid "Bad Look name"
@@ -993,7 +995,7 @@ msgstr "Elevar/Baixar"
 
 #: src/wmframe.cc:1725
 msgid "Kill Client: "
-msgstr "Matar Client:"
+msgstr "Matar el client: "
 
 #: src/wmframe.cc:1729
 msgid ""
