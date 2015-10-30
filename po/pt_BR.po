@@ -759,7 +759,7 @@ msgstr "(C)"
 
 #: src/wmabout.cc:37
 msgid "Theme:"
-msgstr "Tema: "
+msgstr "Tema:"
 
 #: src/wmabout.cc:38
 msgid "Theme Description:"
