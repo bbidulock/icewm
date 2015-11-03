@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: icewm 1.3.4pre2\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
 "POT-Creation-Date: 2015-09-18 19:30-0600\n"
-"PO-Revision-Date: 2015-10-30 14:39+0200\n"
-"Last-Translator: Ronan Chagas <ronisbr@gmail.com>\n"
+"PO-Revision-Date: 2015-11-03 22:25+0200\n"
+"Last-Translator: Luiz Fernando Ranghetti <elchevive68@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) "
 "<http://10n.opensuse.org/projects/icewm/icewm-1-3-branch/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -174,7 +174,7 @@ msgstr "Gráficos"
 
 #: src/fdomenu.cc:81
 msgid "Multimedia"
-msgstr "Multimedia"
+msgstr "Multimídia"
 
 #: src/fdomenu.cc:82
 msgid "Network"
