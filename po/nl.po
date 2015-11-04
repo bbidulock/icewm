@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.23\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
 "POT-Creation-Date: 2015-09-18 19:30-0600\n"
-"PO-Revision-Date: 2015-11-04 12:39+0200\n"
+"PO-Revision-Date: 2015-11-04 23:10+0200\n"
 "Last-Translator: Freek de Kruijf <freek@opensuse.org>\n"
 "Language-Team: Dutch "
 "<http://10n.opensuse.org/projects/icewm/icewm-1-3-branch/nl/>\n"
@@ -82,7 +82,7 @@ msgstr ""
 
 #: src/acpustatus.cc:274
 msgid "CPU Load: "
-msgstr "CPU Belasting:"
+msgstr "CPU Belasting: "
 
 #: src/amailbox.cc:77
 #, c-format
@@ -101,7 +101,7 @@ msgstr "Gebruikt postbus: »%s«\n"
 
 #: src/amailbox.cc:451
 msgid "Error checking mailbox."
-msgstr "Probleem bij het controleren van het postbus"
+msgstr "Probleem bij het controleren van de postbus."
 
 #: src/amailbox.cc:457
 #, c-format
@@ -441,7 +441,7 @@ msgstr "IceWM tray optie"
 
 #: src/icesh.cc:616
 msgid "Usage error: "
-msgstr "Syntaxfout: %d"
+msgstr "Syntaxisfout: "
 
 #: src/icesh.cc:687
 #, c-format
@@ -780,12 +780,12 @@ msgstr "Kan het lettertype pad niet bepalen."
 
 #: src/wmapp.cc:471
 msgid "Unexpected format of ICEWM_FONT_PATH property"
-msgstr "Onverwacht formaat van de ICEWM_FONT_PATH eigenschap."
+msgstr "Onverwacht formaat van de eigenschap ICEWM_FONT_PATH"
 
 #: src/wmapp.cc:528
 #, c-format
 msgid "Multiple references for gradient \"%s\""
-msgstr "Meerdere verwijzingen naar de gradient »%s«."
+msgstr "Meerdere verwijzingen naar de gradiënt \"%s\""
 
 #: src/wmapp.cc:603
 #, c-format
@@ -1270,7 +1270,7 @@ msgstr "Onbekend argument: %s\n"
 #: src/ycmdline.cc:64
 #, c-format
 msgid "Argument required for %s switch"
-msgstr "De %s-optie heeft een argument nodig."
+msgstr "De %s-optie heeft een argument nodig"
 
 #: src/yconfig.cc:186
 #, c-format
