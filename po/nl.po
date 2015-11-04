@@ -7,13 +7,16 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.23\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
 "POT-Creation-Date: 2015-09-18 19:30-0600\n"
-"PO-Revision-Date:  2005-10-07 10:20+0200\n"
-"Last-Translator: Ton Kersten <TonK@Wanadoo.nl>\n"
-"Language-Team: Dutch\n"
+"PO-Revision-Date: 2015-11-04 12:39+0200\n"
+"Last-Translator: Freek de Kruijf <freek@opensuse.org>\n"
+"Language-Team: Dutch "
+"<http://10n.opensuse.org/projects/icewm/icewm-1-3-branch/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.3\n"
 
 #: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:875
 msgid " - Power"
@@ -34,7 +37,7 @@ msgstr "C"
 
 #: src/aapm.cc:502
 msgid " - Full"
-msgstr ""
+msgstr " - Volledig"
 
 #: src/acpustatus.cc:234
 #, c-format
@@ -47,6 +50,8 @@ msgid ""
 "\n"
 "Ram (free): %5.2f (%.2f) M"
 msgstr ""
+"\n"
+"RAM (vrij): %5.2f (%.2f) M"
 
 #: src/acpustatus.cc:244
 #, c-format
@@ -54,6 +59,8 @@ msgid ""
 "\n"
 "Swap (free): %.2f (%.2f) M"
 msgstr ""
+"\n"
+"Swap (vrij): %.2f (%.2f) M"
 
 #: src/acpustatus.cc:250
 #, c-format
@@ -61,6 +68,8 @@ msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
+"\n"
+"ACPI-temp: "
 
 #: src/acpustatus.cc:261
 #, c-format
@@ -68,6 +77,8 @@ msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
+"\n"
+"CPU-freq: %.3fGHz"
 
 #: src/acpustatus.cc:274
 msgid "CPU Load: "
@@ -132,59 +143,59 @@ msgstr "Werkplaats: "
 
 #: src/fdomenu.cc:74
 msgid "Settings"
-msgstr ""
+msgstr "Instellingen"
 
 #: src/fdomenu.cc:75
 msgid "Screensavers"
-msgstr ""
+msgstr "Schermbeveiligers"
 
 #: src/fdomenu.cc:76
 msgid "Accessories"
-msgstr ""
+msgstr "Accessoires"
 
 #: src/fdomenu.cc:77
 msgid "Development"
-msgstr ""
+msgstr "Ontwikkeling"
 
 #: src/fdomenu.cc:78
 msgid "Education"
-msgstr ""
+msgstr "Onderwijs"
 
 #: src/fdomenu.cc:79
 msgid "Games"
-msgstr ""
+msgstr "Spellen"
 
 #: src/fdomenu.cc:80
 msgid "Graphics"
-msgstr ""
+msgstr "Grafische elementen"
 
 #: src/fdomenu.cc:81
 msgid "Multimedia"
-msgstr ""
+msgstr "Multimedia"
 
 #: src/fdomenu.cc:82
 msgid "Network"
-msgstr ""
+msgstr "Netwerk"
 
 #: src/fdomenu.cc:83
 msgid "Office"
-msgstr ""
+msgstr "Kantoor"
 
 #: src/fdomenu.cc:84
 msgid "System"
-msgstr ""
+msgstr "Systeem"
 
 #: src/fdomenu.cc:85
 msgid "WINE"
-msgstr ""
+msgstr "WINE"
 
 #: src/fdomenu.cc:86
 msgid "Editors"
-msgstr ""
+msgstr "Editors"
 
 #: src/fdomenu.cc:87
 msgid "Other"
-msgstr ""
+msgstr "Overige"
 
 #: src/icehelp.cc:715
 msgid "Back"
@@ -294,9 +305,9 @@ msgid "Action `%s' requires at least %d arguments."
 msgstr "Actie `%s' heeft minimaal %d argumenten nodig."
 
 #: src/icesh.cc:194
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid expression: `%s'"
-msgstr "Ongeldig argument: »%s«."
+msgstr "Ongeldige expressie: »%s«"
 
 #: src/icesh.cc:316
 #, c-format
@@ -314,7 +325,7 @@ msgid "Workspace out of range: %d"
 msgstr "Werkplaats buiten het bereik: %d"
 
 #: src/icesh.cc:569
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTIONS] ACTIONS\n"
 "\n"
@@ -363,22 +374,34 @@ msgid ""
 "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
 "\n"
 msgstr ""
-"Syntax: %s [OPTIES] ACTIES\n"
+"Syntaxis: %s [OPTIES] ACTIES\n"
 "\n"
 "Opties:\n"
 "  -display DISPLAY            Met de door DISPLAY gedefinieerde X-Server\n"
 "                              verbinden.\n"
-"                              Voorbeeld: $DISPLAY of :0.0 als DISPLAY niet "
+"                              Standaard: $DISPLAY of :0.0 als DISPLAY niet "
 "gezet is.\n"
 "  -window VENSTER_ID          Het te manipuleren venster. Bijzondere\n"
-"                              ID's zijn »root« voor de hele werkplaats en "
+"                              ID's zijn »root« voor het hoofdvenster en "
 "»focus«\n"
 "                              voor het venster dat nu de focus heeft.\n"
+"  -class WM_CLASS             Klasse van vensterbeheer van het/de venster(s) "
+"om↵\n"
+"                              te manipuleren. Als WM_CLASS een punt bevat, "
+"dan alleen↵\n"
+"                              vensters met exact dezelfde eigenschap "
+"WM_CLASS↵\n"
+"                              worden meegenomen. Als er geen punt is worden "
+"vensters↵\n"
+"                              met dezelfde klasse en vensters van hetzelfde "
+"exemplaar↵\n"
+"                              (met `-name') geselecteerd.↵\n"
 "\n"
 "Acties:\n"
-"  setIconTitle TITEL          Zet de icoon titel.\n"
-"  setWindowTitle TITEL        Zet de venster titel.\n"
-"  setState MASKER TOESTAND    Zet de Gnome venster instelling naar TOESTAND\n"
+"  setIconTitle TITEL          Zet de titel van het pictogram.\n"
+"  setWindowTitle TITEL        Zet de titel van het venster.\n"
+"  setGeometry    geometrie     Zet de geometrie van het venster\n"
+"  setState MASKER TOESTAND    Zet de Gnome vensterinstelling naar TOESTAND\n"
 "                              Alleen de door MASKER gekozen bits worden\n"
 "                              veranderd. TOESTAND en MASKER zijn "
 "uitdrukkingen\n"
@@ -391,11 +414,11 @@ msgstr ""
 "de\n"
 "                              huidige werkplaats gewisseld.\n"
 "  listWorkspaces              Toont een lijst van alle werkplaatsen.\n"
-"  setTrayOption TRAYOPTIE     Stelt de IceWM-Trayoptie in.\n"
+"  setTrayOption TRAYOPTIE     Stelt de IceWM-trayoptie in.\n"
 "\n"
 "Expressies:\n"
 "  Expressies zijn reeksen symbolen uit hetzelfde domein, die door het  "
-"plusteken »+« of een vertikale streep »|« verbonden zijn:\n"
+"plusteken »+« of een verticale streep »|« verbonden zijn:\n"
 "\n"
 "  EXPRESSIE ::= SYMBOOL | EXPRESSIE ( `+' | `|' ) SYMBOOL\n"
 "\n"
@@ -502,12 +525,12 @@ msgid "Can't change to audio mode `%s'."
 msgstr "Kan niet naar audiomode »%s« wisselen."
 
 #: src/icesound.cc:886
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Audio mode switch detected, initial audio mode `%s' no longer in effect."
 msgstr ""
-"Audiomode wissel gedetecteerd. De oorspronkelijke audiomode »%s« wordt niet "
-"verder gebruikt."
+"Wisseling van audiomodus gedetecteerd, de oorspronkelijke audiomodus »%s« "
+"wordt niet verder gebruikt."
 
 #: src/icesound.cc:893
 msgid "Audio mode switch detected, automatic audio mode changing disabled."
