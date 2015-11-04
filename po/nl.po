@@ -542,7 +542,7 @@ msgid "Overriding previous audio mode `%s'."
 msgstr "Vorige audiomode overruled »%s«."
 
 #: src/icesound.cc:978
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
 "\n"
@@ -580,41 +580,49 @@ msgid ""
 "3     Subsystems error (ie cannot connect to server).\n"
 "\n"
 msgstr ""
-"Syntax: %s [OPTION]...\n"
+"Gebruik: %s [OPTIE]...\n"
 "\n"
-"Speelt de bij IceWM voorkomende GUI-acties passende geluidsbestanden.\n"
+"Speelt bij IceWM voorkomende GUI-acties passende geluidsbestanden af.\n"
 "\n"
 "Opties:\n"
 "\n"
-"  -d, --display=DISPLAY         Het door IceWM gebruikte display\n"
-"                                (Standaard: $DISPLAY).\n"
-"  -s, --sample-dir=BESTAND      Een audio bestand (~/.icewm/sounds)\n"
-"  -i, --interface=DOEL          Het gebruikte audiointerface,\n"
-"                                zoals ALSA, OSS, YIFF of ESD\n"
-"  -D, --device=GERÄT            ALSA OSS: De digitale signalprocessor\n"
-"                                (Standaard: (ALSA) default (OSS) /dev/dsp).\n"
-"  -S, --server=ADRESE:POORT     ESD en YIFF: Serveradres en -poortnummer\n"
-"                                (Standard: localhost:16001 für ESD\n"
-"                                und localhost:9433 für YIFF).\n"
-"  -m, --audio-mode[=MODE]       Alleen YIFF: Audiomode (leeg laten, om een\n"
-"                                overzicht te krijgen).\n"
-"  --audio-mode-auto             Alleen YIFF: Wisselen van de audiomode naar "
-"behoefte\n"
-"                                (Kan problemen met andere Y-clients\n"
-"                                veroorzaken, overschrijft --audio-mode).\n"
-"  -v, --verbose                 Wees praatgraag. (Toont alle GUI-interacties "
+"-d, --display=DISPLAY         Het door IceWM gebruikte display\n"
+"                              (Standaard: $DISPLAY).\n"
+"-s, --sample-dir=MAP          Specificeert de map die de geluidsbestanden\n"
+"                              bevat (bijv. ~/.icewm/sounds).\n"
+"-i, --interface=DOEL          Het gebruikte audiointerface,\n"
+"                              één van OSS, YIFF, ESD of ALSA\n"
+"-D, --device=APPARAAT         (alleen ALSA & OSS) specificeert het te "
+"gebruiken\n"
+"                              apparaat (OSS standaard: /dev/dsp; ALSA: "
+"standaard).\n"
+"-S, --server=ADRES:POORT      (ESD en YIFF) Specificeert serveradres en -"
+"poortnummer\n"
+"                              (Standaard: localhost:16001 voor ESD\n"
+"                              en localhost:9433 voor YIFF).\n"
+"-m, --audio-mode[=MODUS]      (alleen YIFF) speciceert audiomodus (leeg "
+"laten,\n"
+"                              om een overzicht te krijgen).\n"
+"--audio-mode-auto             (alleen YIFF) wisselen van de audiomodus naar\n"
+"                              behoefte om een beste overeenkomst te krijgen "
+"met\n"
+"                              de audio in het sample. (kan problemen met "
+"andere\n"
+"                              Y-clients veroorzaken, overschrijft --audio-"
+"mode).\n"
+"\n"
+"-v, --verbose                 Wees praatgraag (toont elke geluidsgebeurtenis "
 "op\n"
-"                                stdout).\n"
-"  -V, --version                 Toont de programma versie.\n"
-"  -h, --help                    Toont deze hulp.\n"
+"                              stdout).\n"
+"-V, --version                 Toont de programmaversie.\n"
+"-h, --help                    Toont deze hulp.\n"
 "\n"
 "Resultaat:\n"
 "\n"
 "  0     Succes.\n"
 "  1     Algemene fout.\n"
-"  2     Commando regel fout.\n"
-"  3     Fout in een subsysteem (In het algemeen geen verbinding met de "
-"server)\n"
+"  2     Commandoregelfout.\n"
+"  3     Fout in een subsysteem (dwz. geen verbinding met de server)\n"
 " \n"
 
 #: src/icesound.cc:1175
@@ -666,7 +674,6 @@ msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
 #: src/icewmbg.cc:410
-#, fuzzy
 msgid ""
 "Usage: icewmbg [ -r | -q ]\n"
 " -r  Restart icewmbg\n"
@@ -686,13 +693,17 @@ msgstr ""
 "Gebruik: icewmbg [ -r | -q ]\n"
 " -r  Herstart icewmbg\n"
 " -q  Stop icewmbg\n"
-"Laad bureaublad achtergrond zoals gedefinieerd in voorkeur bestand\n"
+"Laad bureaublad achtergrond zoals gedefinieerd in voorkeurbestand\n"
 " DesktopBackgroundCenter  - Toon achtergrond gecentreerd\n"
+" DesktopBackgroundScaled  - Toon achtergrond geschaald\n"
 " SupportSemitransparency  - Ondersteun semi-transparante achtergrond\n"
 " DesktopBackgroundColor   - Bureaublad achtergrond kleur\n"
 " DesktopBackgroundImage   - Bureaublad achtergrond afbeelding\n"
 " DesktopTransparencyColor - Kleur voor semi-transparente achtergrond\n"
 " DesktopTransparencyImage - Afbeelding voor semi-transparente achtergrond\n"
+"\n"
+" center:0 scaled:0 = als tegels\n"
+" center:1 scaled:1 = beeldverhouding behouden\n"
 
 #: src/icewmbg.cc:428
 #, c-format
@@ -732,9 +743,8 @@ msgid "Unknown direction in move/resize request: %d"
 msgstr "Onbekende richting in verplaats/schaal verzoek: %d"
 
 #: src/themes.cc:100
-#, fuzzy
 msgid "Default"
-msgstr "Verwijderen"
+msgstr "Standaard"
 
 #: src/wmabout.cc:29 src/wmabout.cc:31
 msgid "(C)"
@@ -754,11 +764,11 @@ msgstr "Thema auteur:"
 
 #: src/wmabout.cc:43
 msgid "CodeSet:"
-msgstr ""
+msgstr "CodeSet:"
 
 #: src/wmabout.cc:44
 msgid "Language:"
-msgstr ""
+msgstr "Taal:"
 
 #: src/wmabout.cc:69
 msgid "icewm - About"
@@ -926,7 +936,7 @@ msgstr ""
 "Verwijst de »PATH« variable naar de programma directory »%s«?"
 
 #: src/wmapp.cc:1636
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
 "Starts the IceWM window manager.\n"
@@ -956,31 +966,32 @@ msgid ""
 "Visit http://www.icewm.org/ for report bugs, support requests, comments...\n"
 msgstr ""
 "Gebruik: %s [OPTIES]\n"
-"Start de IceWM window manager.\n"
+"Start de IceWM windowmanager.\n"
 "\n"
 "Opties:\n"
-"  --display=NAAM      NAAM van de te gebruiken X server.\n"
-"%s  --sync              Synchroniseer X11 commando's.\n"
+"  --display=NAAM         NAAM van de te gebruiken X server.\n"
+"%s  --sync                Synchroniseer X11 commando's.\n"
 "\n"
 "  -c, --config=BESTAND   Laad voorkeuren uit BESTAND.\n"
 "  -t, --theme=BESTAND    Laad thema uit BESTAND.\n"
-"  -n, --no-configure  Negeer voorkeuren bestand.\n"
+"  -n, --no-configure     Negeer voorkeurenbestand.\n"
 "\n"
-"  -v, --version       Toon versie informatie en stop.\n"
-"  -h, --help          Toon deze hulp en stop.\n"
-"%s  --restart           Niet gebruiken. Uitsluitend voor intern gebruik.\n"
+"  -v, --version          Toon versie informatie en stop.\n"
+"  -h, --help             Toon deze hulp en stop.\n"
+"%s  --replace              vervang een bestaande windowmanager.\n"
+"  --restart            Niet gebruiken. Uitsluitend voor intern gebruik.\n"
 "\n"
-"Omgevings variabelen:\n"
-"  ICEWM_PRIVCFG=PAD   Directory voor persoonlijke voorkeurbestanden,\n"
-"                      standaars \"$HOME/.icewm/\".\n"
-"  DISPLAY=NAME        NAAM van de te gebruiker X server, hangt af van Xlib "
-"by default.\n"
-"  MAIL=URL            Lokatie van uw postbus. Als het schema niet is "
+"Omgevingsvariabelen:\n"
+"  ICEWM_PRIVCFG=PAD   Map voor persoonlijke configuratiebestanden,\n"
+"                      standaard \"$HOME/.icewm/\".\n"
+"  DISPLAY=NAME        NAAM van de te gebruiker X server, hangt standaard af "
+"van Xlib.\n"
+"  MAIL=URL            Locatie van uw postbus. Als het schema niet is "
 "opgegeven\n"
 "                      wordt aangenomen dat het lokale schema gebruikt moet "
 "worden.\n"
 "\n"
-"Bezoek http://www.icewm.org/ voor fout meldingen, ondersteunings verzoeken, "
+"Bezoek http://www.icewm.org/ voor foutmeldingen, ondersteuningsverzoeken, "
 "commentaar...\n"
 
 #: src/wmapp.cc:1747
@@ -1001,9 +1012,8 @@ msgid "Bad Look name"
 msgstr "Ongeldige 'Kijk-naam' (look-Option)"
 
 #: src/wmdialog.cc:83
-#, fuzzy
 msgid "Loc_k Workstation"
-msgstr "Werkstation _blokkeren"
+msgstr "Werkstation blo_kkeren"
 
 #: src/wmdialog.cc:90 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:434
 #: src/wmtaskbar.cc:436
@@ -1126,19 +1136,19 @@ msgstr "_Help"
 
 #: src/wmprog.cc:917
 msgid "_Click to focus"
-msgstr ""
+msgstr "_Klik voor focus"
 
 #: src/wmprog.cc:922
 msgid "_Sloppy mouse focus"
-msgstr ""
+msgstr "_Slordige muisfocus"
 
 #: src/wmprog.cc:927
 msgid "Custo_m"
-msgstr ""
+msgstr "Aa_ngepast"
 
 #: src/wmprog.cc:933
 msgid "_Focus"
-msgstr ""
+msgstr "_Focus"
 
 #: src/wmprog.cc:940
 msgid "_Themes"
@@ -1146,7 +1156,7 @@ msgstr "_Thema's"
 
 #: src/wmprog.cc:942
 msgid "Se_ttings"
-msgstr ""
+msgstr "Ins_tellingen"
 
 #: src/wmsession.cc:239 src/wmsession.cc:255 src/wmsession.cc:265
 #, c-format
@@ -1206,17 +1216,14 @@ msgid "Window list menu"
 msgstr "Window lijst menu"
 
 #: src/wmtaskbar.cc:588
-#, fuzzy
 msgid "Show Desktop"
-msgstr "D_esktop"
+msgstr "Bureaublad tonen"
 
 #: src/wmwinlist.cc:61
-#, fuzzy
 msgid "All Workspaces"
-msgstr "Werkplaats: "
+msgstr "Alle werkplaatsen"
 
 #: src/wmwinlist.cc:295
-#, fuzzy
 msgid "Del"
 msgstr "Verwijderen"
 
@@ -1412,27 +1419,27 @@ msgstr "_OK"
 #: src/ypaths.cc:144 src/ypaths.cc:171
 #, c-format
 msgid "Image not readable: %s"
-msgstr ""
+msgstr "Afbeelding niet leesbaar: %s"
 
 #: src/ypaths.cc:149
-#, fuzzy, c-format
+#, c-format
 msgid "Out of memory for image %s"
-msgstr "Onvoldoende geheugen voor afbeelding »%s«"
+msgstr "Onvoldoende geheugen voor afbeelding %s"
 
 #: src/ypaths.cc:156
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find image %s"
-msgstr "Pixmap %s niet gevonden"
+msgstr "Afbeelding %s niet gevonden"
 
 #: src/ypaths.cc:175
-#, fuzzy, c-format
+#, c-format
 msgid "Out of memory for image: %s"
-msgstr "Onvoldoende geheugen voor afbeelding »%s«"
+msgstr "Onvoldoende geheugen voor afbeelding: %s"
 
 #: src/ypaths.cc:182
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find image: %s"
-msgstr "Pixmap %s niet gevonden"
+msgstr "Afbeelding niet gevonden: %s"
 
 #: src/ypixbuf.cc:482 src/ypixbuf.cc:668
 #, c-format
