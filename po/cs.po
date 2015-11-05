@@ -52,7 +52,6 @@ msgid ""
 "Ram (free): %5.2f (%.2f) M"
 msgstr ""
 "\n"
-"↵\n"
 "Ram (volná): %5.2f (%.2f) M"
 
 #: src/acpustatus.cc:244
@@ -62,7 +61,6 @@ msgid ""
 "Swap (free): %.2f (%.2f) M"
 msgstr ""
 "\n"
-"↵\n"
 "Swap (volný): %.2f (%.2f) M"
 
 #: src/acpustatus.cc:250
@@ -72,7 +70,6 @@ msgid ""
 "ACPI Temp: "
 msgstr ""
 "\n"
-"↵\n"
 "ACPI Teplota: "
 
 #: src/acpustatus.cc:261
@@ -82,7 +79,6 @@ msgid ""
 "CPU Freq: %.3fGHz"
 msgstr ""
 "\n"
-"↵\n"
 "CPU Freq: %.3fGHz"
 
 #: src/acpustatus.cc:274
@@ -102,7 +98,7 @@ msgstr "Neplatná cesta k mailboxu: „%s“"
 #: src/amailbox.cc:343
 #, c-format
 msgid "Using MailBox \"%s\"\n"
-msgstr "Používám MailBox: „%s“↵\n"
+msgstr "Používám MailBox: „%s“\n"
 
 #: src/amailbox.cc:451
 msgid "Error checking mailbox."
@@ -192,7 +188,7 @@ msgstr "Systém"
 
 #: src/fdomenu.cc:85
 msgid "WINE"
-msgstr "Wine"
+msgstr "WINE"
 
 #: src/fdomenu.cc:86
 msgid "Editors"
@@ -318,7 +314,7 @@ msgstr "Neplatný výraz: `%s'"
 #: src/icesh.cc:316
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
-msgstr "Pojmenované znaky domény „%s“ (číselný rozsah: %ld-%ld):↵\n"
+msgstr "Pojmenované znaky domény „%s“ (číselný rozsah: %ld-%ld):\n"
 
 #: src/icesh.cc:429
 #, c-format
@@ -455,7 +451,7 @@ msgstr "Nebyla zadána žádná akce."
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
-"Nelze otevřít displej: %s. Server X musí být spuštěn a proměnná $DISPLAY\n"
+"Nelze otevřít displej: %s. Server X musí být spuštěn a proměnná $DISPLAY "
 "nastavena."
 
 #: src/icesh.cc:743
@@ -699,8 +695,8 @@ msgstr ""
 " DesktopTransparencyColor - Barva podporující poloprůhledná okna\n"
 " DesktopTransparencyImage - Obrázek podporující poloprůhledná okna\n"
 "\n"
-"center:0 scaled:0 = dlaždice↵\n"
-"center:1 scaled:1 = zachovej aspect ratio↵\n"
+"center:0 scaled:0 = dlaždice\n"
+"center:1 scaled:1 = zachovej aspect ratio\n"
 
 #: src/icewmbg.cc:428
 #, c-format
@@ -1394,7 +1390,7 @@ msgstr ""
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
-"Nepodařilo se zjistit znakovou sadu stávajícího jazykového nastavení.\n"
+"Nepodařilo se zjistit znakovou sadu stávajícího jazykového nastavení. "
 "Předpokládám ISO-8859-1.\n"
 
 #: src/ylocale.cc:100 src/ylocale.cc:107
@@ -1442,8 +1438,8 @@ msgid ""
 "Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
 "blue): %0*x/%0*x/%0*x)"
 msgstr ""
-"Ke konverzi pixelů používám nouzový mechanismus (hloubka: %d; maska (červená/"
-"zelená/modrá): %0*x/%0*x/%0*x)"
+"Ke konverzi pixelů používám nouzový mechanismus (hloubka: %d; maska "
+"(červená/zelená/modrá): %0*x/%0*x/%0*x)"
 
 #: src/ypixbuf.cc:576 src/ypixbuf.cc:725
 #, c-format
