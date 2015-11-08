@@ -41,7 +41,7 @@ msgstr " - Plné"
 #: src/acpustatus.cc:234
 #, c-format
 msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
-msgstr ""
+msgstr "Záťaž CPU: %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:239
 #, c-format
@@ -49,6 +49,8 @@ msgid ""
 "\n"
 "Ram (free): %5.2f (%.2f) M"
 msgstr ""
+"\n"
+"Ram (voľné): %5.2f (%.2f) M"
 
 #: src/acpustatus.cc:244
 #, c-format
@@ -56,6 +58,8 @@ msgid ""
 "\n"
 "Swap (free): %.2f (%.2f) M"
 msgstr ""
+"\n"
+"Swap (voľné): %.2f (%.2f) M"
 
 #: src/acpustatus.cc:250
 #, c-format
@@ -63,6 +67,8 @@ msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
+"\n"
+"ACPI Teplot: "
 
 #: src/acpustatus.cc:261
 #, c-format
@@ -70,6 +76,8 @@ msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
+"\n"
+"CPU Frek: %.3fGHz"
 
 #: src/acpustatus.cc:274
 msgid "CPU Load: "
@@ -134,59 +142,59 @@ msgstr "Pracovná plocha: "
 
 #: src/fdomenu.cc:74
 msgid "Settings"
-msgstr ""
+msgstr "Nastavenia"
 
 #: src/fdomenu.cc:75
 msgid "Screensavers"
-msgstr ""
+msgstr "Šetriče obrazovky"
 
 #: src/fdomenu.cc:76
 msgid "Accessories"
-msgstr ""
+msgstr "Príslušenstvo"
 
 #: src/fdomenu.cc:77
 msgid "Development"
-msgstr ""
+msgstr "Vývoj"
 
 #: src/fdomenu.cc:78
 msgid "Education"
-msgstr ""
+msgstr "Vzdelávanie"
 
 #: src/fdomenu.cc:79
 msgid "Games"
-msgstr ""
+msgstr "Hry"
 
 #: src/fdomenu.cc:80
 msgid "Graphics"
-msgstr ""
+msgstr "Grafika"
 
 #: src/fdomenu.cc:81
 msgid "Multimedia"
-msgstr ""
+msgstr "Multimédiá"
 
 #: src/fdomenu.cc:82
 msgid "Network"
-msgstr ""
+msgstr "Sieť"
 
 #: src/fdomenu.cc:83
 msgid "Office"
-msgstr ""
+msgstr "Kancelária"
 
 #: src/fdomenu.cc:84
 msgid "System"
-msgstr ""
+msgstr "Systém"
 
 #: src/fdomenu.cc:85
 msgid "WINE"
-msgstr ""
+msgstr "WINE"
 
 #: src/fdomenu.cc:86
 msgid "Editors"
-msgstr ""
+msgstr "Editory"
 
 #: src/fdomenu.cc:87
 msgid "Other"
-msgstr ""
+msgstr "Iné"
 
 #: src/icehelp.cc:715
 msgid "Back"
@@ -655,7 +663,7 @@ msgstr ""
 
 #: src/wmabout.cc:44
 msgid "Language:"
-msgstr ""
+msgstr "Jazyk:"
 
 #: src/wmabout.cc:69
 msgid "icewm - About"
