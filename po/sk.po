@@ -214,7 +214,7 @@ msgstr "Alt+Vpravo"
 
 #: src/icehelp.cc:718
 msgid "Previous"
-msgstr "Predchadzajúce"
+msgstr "Predchádzajúce"
 
 #: src/icehelp.cc:719
 msgid "Next"
@@ -388,7 +388,7 @@ msgstr "GNOME vrstva okna"
 
 #: src/icesh.cc:611
 msgid "IceWM tray option"
-msgstr "IceWM nastavenia dokovača"
+msgstr "IceWM nastavenia lišty"
 
 #: src/icesh.cc:616
 msgid "Usage error: "
@@ -443,7 +443,7 @@ msgstr "Zariadenie neexistuje: %s"
 #: src/icesound.cc:561
 #, c-format
 msgid "Can't connect to ESound daemon: %s"
-msgstr "Nedá sa spojiť s ESound demónom: %s"
+msgstr "Nedá sa spojiť s ESound démonom: %s"
 
 #: src/icesound.cc:562 src/icesound.cc:739 src/icesound.cc:780
 #: src/icewmhint.cc:78 src/yxapp.cc:976
@@ -480,13 +480,13 @@ msgstr "Nie je možné prejsť do zvukového módu `%s'."
 msgid ""
 "Audio mode switch detected, initial audio mode `%s' no longer in effect."
 msgstr ""
-"Bolo zaznemenané prepnutie zvukového režimu, pôvodný zvukový režim `%s' už "
+"Bolo zaznamenané prepnutie zvukového režimu, pôvodný zvukový režim `%s' už "
 "nie je aktívny."
 
 #: src/icesound.cc:893
 msgid "Audio mode switch detected, automatic audio mode changing disabled."
 msgstr ""
-"Bolo zaznemenané prepnutie zvukového režimu, automatické prepínanie "
+"Bolo zaznamenané prepnutie zvukového režimu, automatické prepínanie "
 "zvukového režimu bolo zakázané."
 
 #: src/icesound.cc:939 src/icesound.cc:952
@@ -599,6 +599,17 @@ msgid ""
 " center:0 scaled:0 = tiled\n"
 " center:1 scaled:1 = keep aspect ratio\n"
 msgstr ""
+"Použitie: icewmbg [-r|-q] -r  Reštartuje icewmbg -q  Ukončí icewmbgNačíta "
+"pozadie plochy podľa súboru predvolieb\n"
+" DesktopBackgroundCenter  - Zobrazí pozadie plochy vycentrované\n"
+" DesktopBackgroundScaled  - Zobrazí pozadie plochy zväčšené\n"
+" SupportSemitransparency  - Podpora polopriehľadných terminálov\n"
+" DesktopBackgroundColor   - Farba pozadia plochy\n"
+" DesktopBackgroundImage   - Obrázok pozadia plochy\n"
+" DesktopTransparencyColor - Farba podporujúca polopriehľadné okná\n"
+" DesktopTransparencyImage - Obrázok podporujúci polopriehľadné okná\n"
+"center:0 scaled:0 = dlaždice\n"
+"center:1 scaled:1 = ponechať pomer strán\n"
 
 #: src/icewmbg.cc:428
 #, c-format
@@ -659,7 +670,7 @@ msgstr "Autor témy:"
 
 #: src/wmabout.cc:43
 msgid "CodeSet:"
-msgstr ""
+msgstr "Kódová sada:"
 
 #: src/wmabout.cc:44
 msgid "Language:"
@@ -667,7 +678,7 @@ msgstr "Jazyk:"
 
 #: src/wmabout.cc:69
 msgid "icewm - About"
-msgstr "Icewm - O Aplikácii"
+msgstr "icewm - O Aplikácii"
 
 #: src/wmapp.cc:444
 msgid "Unable to get current font path."
@@ -859,6 +870,29 @@ msgid ""
 "\n"
 "Visit http://www.icewm.org/ for report bugs, support requests, comments...\n"
 msgstr ""
+"Použitie: %s [PREPÍNAČE]Spustí správcu okien IceWM.\n"
+"Voľby:  --display=MENO      MENO X servera, ktorý sa použije.\n"
+"%s  --sync               Synchronizuje príkazy X11.\n"
+"  -c, --config=SÚBOR  Načíta predvoľby zo SÚBORU.\n"
+"  -t, --theme=SÚBOR   Načíta tému zo SÚBORU.\n"
+"  -n, --no-configure   Ignoruje súbor predvolieb.\n"
+"\n"
+"  -v, --version        Vypíše informácie o verzii a skončí.\n"
+"  -h, --help           Vypíše túto obrazovku o použití a skončí.\n"
+"%s  -replace             Nahradí existujúceho správcu okien.\n"
+"  --restart            Toto nepoužívať: Je to interný príznak.\n"
+"\n"
+"Premenné prostredia:  ICEWM_PRIVCFG=CESTA  Adresár, ktorý sa používa pre "
+"súkromné konfiguračné súbory používateľa,\n"
+"                      predvolená hodnota je \"$HOME/.icewm/“.\n"
+"  DISPLAY=MENO        Meno X servera, ktorý sa použije, závisí na Xlib podľa "
+"predvoleného nastavenia.\n"
+"  MAIL=URL             Umiestnenie vašej poštovej schránky. Ak sa vynechá "
+"schéma,\n"
+"                       predpokladá sa lokálna schéma \"file“.\n"
+"\n"
+"Ak chcete nahlásiť chybu, požiadavku na podporu, komentár atď., navštívte "
+"http://www.icewm.org/.\n"
 
 #: src/wmapp.cc:1747
 msgid "Confirm Logout"
@@ -891,7 +925,7 @@ msgstr "_Zrušiť"
 
 #: src/wmdialog.cc:104
 msgid "_Restart icewm"
-msgstr "_Reštartovať Icewm"
+msgstr "_Reštartovať icewm"
 
 #: src/wmdialog.cc:125 src/wmprog.cc:886 src/wmtaskbar.cc:426
 #: src/wmtaskbar.cc:429
@@ -998,19 +1032,19 @@ msgstr "_Pomocník"
 
 #: src/wmprog.cc:917
 msgid "_Click to focus"
-msgstr ""
+msgstr "Aktivovať _kliknutím"
 
 #: src/wmprog.cc:922
 msgid "_Sloppy mouse focus"
-msgstr ""
+msgstr "Aktivovať _presunom myši"
 
 #: src/wmprog.cc:927
 msgid "Custo_m"
-msgstr ""
+msgstr "Vlast_né"
 
 #: src/wmprog.cc:933
 msgid "_Focus"
-msgstr ""
+msgstr "_Aktivovať"
 
 #: src/wmprog.cc:940
 msgid "_Themes"
@@ -1018,7 +1052,7 @@ msgstr "_Témy"
 
 #: src/wmprog.cc:942
 msgid "Se_ttings"
-msgstr ""
+msgstr "Nas_tavenia"
 
 #: src/wmsession.cc:239 src/wmsession.cc:255 src/wmsession.cc:265
 #, c-format
@@ -1175,8 +1209,8 @@ msgstr ""
 #, c-format
 msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
 msgstr ""
-"CHYBA? Neočakávaný koniec súboru XPM, ale Imlib bola schopná analyzovať \"%s"
-"\""
+"CHYBA? Neočakávaný koniec súboru XPM, ale Imlib bola schopná analyzovať \"%"
+"s\""
 
 #: src/ycursor.cc:219
 #, c-format
@@ -1265,7 +1299,7 @@ msgstr "Locale nie je podporované knižnicou C. Použijem 'C' locale'."
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
-"Nepodarilo sa zistiť aktuálnu kódovú stránku. Prepokladám ISO-8859-1.\n"
+"Nepodarilo sa zistiť aktuálnu kódovú stránku. Predpokladá sa ISO-8859-1.\n"
 
 #: src/ylocale.cc:100 src/ylocale.cc:107
 #, c-format
@@ -1312,8 +1346,8 @@ msgid ""
 "Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
 "blue): %0*x/%0*x/%0*x)"
 msgstr ""
-"Ku konverzii pixelu používam núdzový mechanizmus(hĺbka: %d; maska (červená/"
-"zelená/modrá): %0*x/%0*x/%0*x)"
+"Ku konverzii pixelov používam núdzový mechanizmus(hĺbka: %d; maska "
+"(červená/zelená/modrá): %0*x/%0*x/%0*x)"
 
 #: src/ypixbuf.cc:576 src/ypixbuf.cc:725
 #, c-format
@@ -1327,12 +1361,12 @@ msgstr "$USER ,alebo $LOGNAME nie je nastavený?"
 #: src/yurl.cc:82
 #, c-format
 msgid "\"%s\" doesn't describe a common internet scheme"
-msgstr "\"%s\" neodpovedá bežnému internetovému schématu"
+msgstr "\"%s\" neodpovedá bežnému internetovému schému"
 
 #: src/yurl.cc:85
 #, c-format
 msgid "\"%s\" contains no scheme description"
-msgstr "\"%s\" neobsahuje popis schématu"
+msgstr "\"%s\" neobsahuje popis schémy"
 
 #~ msgid "Cancel"
 #~ msgstr "Zrušiť"
