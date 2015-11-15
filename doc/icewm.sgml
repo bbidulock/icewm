@@ -401,14 +401,26 @@ The following settings can be set to value 1 (enabled) or value 0 (disabled).
 <tag/TaskBarAtTop = 0/ Task bar is located at top of screen.
 <tag/TaskBarKeepBelow = 1/ Keep the task bar below regular windows
 <tag/TaskBarAutoHide = 0/ Task bar will auto hide when mouse leaves it.
-<tag/TaskBarShowStartMenu = 1/ Show button for the start menu on the task bar.
-<tag/TaskBarShowWindowListMenu/ Show button for window list menu on taskbar.
-<tag/TaskBarShowWorkspaces = 1/ Show workspace switching buttons on task bar.
-<tag/TaskBarShowAllWindows = 0/ Show windows from all workspaces on task bar.
+<tag/TaskBarFullscreenAutoShow = 1/ Auto show task bar when fullscreen window active.
 <tag/TaskBarShowClock = 1/ Task bar clock is visible.
+<tag/TaskBarShowAPMStatus = 0/ Show APM/ACPI/Battery/Power status monitor on task bar.
+<tag/TaskBarShowAPMAuto = 1/ Enable TaskBarShowAPMStatus if a battery is present.
+<tag/TaskBarShowAPMTime = 1/ Show APM status on task bar in time-format.
+<tag/TaskBarShowAPMGraph = 1/ Show APM status in graph mode.
 <tag/TaskBarShowMailboxStatus = 1/ Display status of mailbox (determined by $MAIL environment variable).
 <tag/TaskBarMailboxStatusBeepOnNewMail = 0/ Beep when new mail arrives.
 <tag/TaskBarMailboxStatusCountMessages = 0/ Display mail message count as tooltip.
+<tag/TaskBarShowStartMenu = 1/ Show button for the start menu on the task bar.
+<tag/TaskBarShowWindowListMenu/ Show button for window list menu on taskbar.
+<tag/TaskBarShowWindows = 1/ Show windows on the taskbar.
+<tag/TaskBarShowShowDesktopButton = 1/ Show 'show desktop' button on taskbar.
+<tag/ShowEllipsis = 0/ Show Ellipsis in taskbar items.
+<tag/TaskBarShowTray = 1/ Show windows in the tray.
+<tag/TrayShowAllWindows = 1/ Show windows from all workspaces on tray.
+<tag/TaskBarShowTransientWindows = 1/ Show transient (dialogs, ...) windows on task bar.
+<tag/TaskBarShowWindowIcons = 1/ Show icons of windows on the task bar.
+<tag/TaskBarShowWorkspaces = 1/ Show workspace switching buttons on task bar.
+<tag/TaskBarShowAllWindows = 0/ Show windows from all workspaces on task bar.
 <tag/MailBoxPath/ Path to a mbox file. Remote mail boxes are accessed by
   specifying an URL using the Common Internet Scheme Syntax (RFC 1738):
   <verb>
@@ -426,8 +438,22 @@ The following settings can be set to value 1 (enabled) or value 0 (disabled).
     pop3://markus:%2f%40%3a@maol.ch/
     imap://mathias@localhost/INBOX.Maillisten.icewm-user
   </verb>
+<tag/TaskBarShowMEMStatus = 1/ Show memory usage status on task bar (Linux only).
+<tag/TaskBarShowNetStatus = 1/ Show network status on task bar (Linux only).
+<tag/TaskBarShowCollapseButton = 0/ Show a button to collapse the taskbar.
+<tag/TaskBarWorkspacesLeft = 1/ Place workspace pager on left, not right.
+<tag/PagerShowPreview = 0/ Show a mini desktop preview on each workspace button.
+<tag/PagerShowWindowIcons = 1/ Draw window icons inside large enough preview windows on pager (if PagerShowPreview=1).
+<tag/PagerShowMinimized = 1/ Draw even minimized windows as unfilled rectangles (if PagerShowPreview=1).
+<tag/PagerShowBorders = 1/ Draw border around workspace buttons (if PagerShowPreview=1).
+<tag/PagerShowNumbers = 1/ Show number of workspace on workspace button (if PagerShowPreview=1).
+<tag/TaskBarLaunchOnSingleClick = 1/ Execute taskbar applet commands (like MailCommand,     ClockCommand,   ...) on single click.
 <tag/TaskBarDoubleHeight = 0/ Double height task bar
 <tag/TaskBarShowCPUStatus = 1/ Show CPU status on task bar.
+<tag/CPUStatusShowRamUsage = 1/ Show RAM usage in CPU status tool tip.
+<tag/CPUStatusShowSwapUsage = 1/ Show swap usage in CPU status tool tip.
+<tag/CPUStatusShowAcpiTemp = 1/ Show ACPI temperature in CPU status tool tip.
+<tag/CPUStatusShowCpuFreq = 1/ Show CPU frequency in CPU status tool tip.
 <tag/TimeFormat/ format for the taskbar clock (time) (see strftime(3) manpage)
 <tag/DateFormat/ format for the taskbar clock tooltip (date+time) (see strftime(3) manpage).
 <tag/UseMouseWheel/ mouse wheel support
@@ -440,8 +466,7 @@ The following settings can be set to value 1 (enabled) or value 0 (disabled).
 <tag/ClickMotionDistance = 5/ Movement before click is interpreted as drag.
 <tag/MultiClickTime = 400/ Time (ms) to recognize for double click.
 <tag/AutoRaiseDelay = 400/ Time to auto raise (must enable first with AutoRaise)
-<tag/AutoHideDelay = 300/ Time to auto hide taskbar (must enable first with
-TaskBarAutoHide).
+<tag/AutoHideDelay = 300/ Time to auto hide taskbar (must enable first with TaskBarAutoHide).
 <tag/ToolTipDelay = 5000/ Time before showing the tooltip.
 <tag/ToolTipTime = 60000/ Time before tooltip window is hidden (0 means never)
 <tag/ScrollBarStartDelay/ Initial scroll bar autoscroll delay
