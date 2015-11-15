@@ -3074,6 +3074,7 @@ void YWindowManager::switchFocusTo(YFrameWindow *frame, bool reorderFocus) {
         frame->insertFocusFrame(true);
     }
     notifyFocus(frame);
+    updateClientList();
 }
 
 void YWindowManager::switchFocusFrom(YFrameWindow *frame) {
