@@ -635,7 +635,7 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
 #ifndef NO_CONFIGURE_MENUS
         { fObjectBar, true, 1, true, 4, 0, true },
 #endif
-        { fWorkspaces, taskBarWorkspacesLeft, 0, true, 4, 4, true },
+        { fWorkspaces, taskBarWorkspacesLeft, taskBarDoubleHeight && taskBarWorkspacesTop, true, 4, 4, true },
 
         { fCollapseButton, false, 0, true, 0, 2, true },
 #ifdef CONFIG_APPLET_CLOCK
