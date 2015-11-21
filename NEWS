@@ -1,4 +1,119 @@
--- NEWS file for IceWM.  2015-06-02
+-- NEWS file for IceWM.  2015-11-21
+
+Release icewm-1.3.12 (upcoming)
+===============================
+
+git shortlog -e -n -w80,6,8 1.3.11...HEAD
+
+David Medina <medipas@gmail.com> (6):
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+
+Brian Bidulock <bidulock@openss7.org> (4):
+      fix issue #40 missed update of VERSION
+      update sgml a little bit
+      add tags files to ignore
+      updated po files
+
+Ferdinand Galko <galko.ferdinand@gmail.com> (4):
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+
+Freek de Kruijf <freek@opensuse.org> (3):
+      Translated using Weblate (Dutch)
+      Translated using Weblate (Dutch)
+      Translated using Weblate (Dutch)
+
+Andriy Bandura <andriykopanytsia@gmail.com> (2):
+      Translated using Weblate (Ukrainian)
+      Translated using Weblate (Ukrainian)
+
+Brian Bidulock <bidulock@openss7.com> (2):
+      Merge pull request #43 from scarabeusiv/icewm-1-3-BRANCH
+      Merge pull request #46 from PetteriAimonen/feature_taskBarWorkspacesTop
+
+Ondřej Súkup <mimi.vx@gmail.com> (2):
+      Translated using Weblate (Czech)
+      Translated using Weblate (Czech)
+
+Petteri Aimonen <jpa@git.mail.kapsi.fi> (2):
+      Add taskBarWorkspacesTop option.
+      Update _NET_CLIENT_LIST_STACKING when changing windows.
+
+Ronan Chagas <ronisbr@gmail.com> (2):
+      Translated using Weblate (Portuguese (Brazil))
+      Translated using Weblate (Portuguese (Brazil))
+
+Sorokin Alexei <sor.alexei@meowr.ru> (2):
+      Use generic icons in toolbar to avoid gnome-icon-theme requirement
+      Fix fdo search to not hang on large usr
+
+Vojtech Zeisek <Vojtech.Zeisek@opensuse.org> (2):
+      Translated using Weblate (Czech)
+      Translated using Weblate (Czech)
+
+Alex Minton <alex239@gmail.com> (1):
+      Translated using Weblate (Russian)
+
+Code7R <Code7R@users.noreply.github.com> (1):
+      Merge pull request #48 from mrbrainsample/icewm-1-3-BRANCH
+
+Jeff Woods <klaatu@fnordco.com> (1):
+      Change preferences install dir to LIBDIR for cmake
+
+Luiz Fernando Ranghetti <elchevive68@gmail.com> (1):
+      Translated using Weblate (Portuguese (Brazil))
+
+Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com> (1):
+      Translated using Weblate (Lithuanian)
+
+Yasuhiko Kamata <belphegor@belbel.or.jp> (1):
+      Translated using Weblate (Japanese)
+
+openSUSE Weblate <weblate-noreply@opensuse.org> (1):
+      Merge remote-tracking branch 'origin/icewm-1-3-BRANCH' into
+        icewm-1-3-BRANCH
+
+
+Release icewm-1.3.11
+====================
+
+git shortlog -e -n -w80,6,8 1.3.10...1.3.11
+
+Brian Bidulock <bidulock@openss7.org> (10):
+      Merge pull request #29 from rezso/icewm-1-3-BRANCH
+      Merge pull request #32 from rezso/icewm-1-3-BRANCH
+      attempted fix for issue #31
+      set ActivateJava7FocusHack to 0: close issue #20
+      Merge pull request #34 from rezso/patch-1
+      distribute html docs per issue #33
+      Merge pull request #36 from wshallum/icewm-1-3-BRANCH
+      updates to handle gettext 0.19.5.1
+      updates for release 1.3.11
+      final release updates for 1.3.11 release
+
+Eduard Bloch <blade@debian.org> (6):
+      Enabled automated generation of the preferences file
+      Install pregenerated html files to HTMLDIR via cmake (issue #33)
+      Fix preferences file generation, now as explicite post-build command
+      Default key binding for calculator call
+      Fixed support of wordexp in the env hack with cmake build
+      Using CMAKE_INSTALL_PREFIX variable instead of PREFIX
+
+rezso <rezso@rezso.net> (3):
+      fix themes
+      update hu.po
+      suppress cmake dev warnings
+
+William <william@shallum.net> (1):
+      Fix GetFullWindowProperty for huge icons on 64bit (e.g. Firefox)
+
 
 Release icewm-1.3.10
 ====================
