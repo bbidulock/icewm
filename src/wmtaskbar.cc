@@ -704,7 +704,7 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
     {
         int dx, dy, dw, dh;
         manager->getScreenGeometry(&dx, &dy, &dw, &dh);
-        w = dw;
+        w = (dw/100.0) * taskBarWidthPercentage;
     }
 
     if (taskBarAtTop) { // !!! for now
@@ -829,6 +829,10 @@ void TaskBar::updateLocation() {
     int w = 0;
     int h = 0;
 
+    w = (dw/100.0) * taskBarWidthPercentage;
+    if (strcmp(taskBarJustify, "right") == 0) x = dw - w;
+    if (strcmp(taskBarJustify, "center") == 0) x = (dw - w)/2;
+    
     updateLayout(w, h);
 
     if (fIsCollapsed) {
