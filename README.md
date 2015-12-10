@@ -1,7 +1,8 @@
-# Ice Window Manager (IceWM)
+# Ice Window Manager (IceWM) Research for fix bug : uncorrectly size screen when we using multimonitor and xrandr
 
 This is a fork of the original IceWM CVS that is on Sourceforge:
 [http://icewm.sourceforge.net](http://icewm.sourceforge.net) <br>
+
 What this includes is all changes made on the official IceWM CVS repository on the 'icewm-1-3-BRANCH' branch, greatly enhanced EWMH/ICCCM compliance, as well as patches collected from Arch Linux, Debian, pld-linux, the IceWM bug list, and other various GitHub forks.
 <br>
 
