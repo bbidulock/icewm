@@ -84,6 +84,26 @@ upath YIcon::findIcon(upath dir, upath base, unsigned size) {
     if (fullpath.fileExists())
         return fullpath;
 
+    sprintf(icons_size, "%dx%d/apps/%s", size, size, cstring(base.path()).c_str());
+    fullpath = joinPath(dir, icons_size);
+    if (fullpath.fileExists())
+        return fullpath;
+
+    sprintf(icons_size, "%dx%d/apps/%s.png", size, size, cstring(base.path()).c_str());
+    fullpath = joinPath(dir, icons_size);
+    if (fullpath.fileExists())
+        return fullpath;
+
+    sprintf(icons_size, "%dx%d/apps/%s.xpm", size, size, cstring(base.path()).c_str());
+    fullpath = joinPath(dir, icons_size);
+    if (fullpath.fileExists())
+        return fullpath;
+
+    sprintf(icons_size, "%s_%dx%d.png", cstring(base.path()).c_str(), size, size);
+    fullpath = joinPath(dir, icons_size);
+    if (fullpath.fileExists())
+        return fullpath;
+
     return 0;
 }
 
