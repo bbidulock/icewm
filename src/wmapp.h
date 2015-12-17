@@ -46,6 +46,12 @@ public:
     void logout();
     void cancelLogout();
 
+    void runScript(const char *scriptName);
+    void doReboot();
+    void doShutdown();
+    void logout_reboot(); 
+    void logout_shutdown();
+
 #ifdef CONFIG_SESSION
     virtual void smSaveYourselfPhase2();
     virtual void smDie();
