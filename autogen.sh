@@ -46,5 +46,7 @@ subst="s:%%PACKAGE%%:$PACKAGE:g
 sed -r -e "$subst" icewm.spec.in >icewm.spec
 sed -r -e "$subst" icewm.lsm.in >icewm.lsm
 
+echo -e "PACKAGE=$PACKAGE\nVERSION=$VERSION" >VERSION
+
 autoreconf -iv
 
