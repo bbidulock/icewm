@@ -1,9 +1,18 @@
 -- NEWS file for IceWM.  2015-11-21
 
-Release icewm-1.3.12 (upcoming)
-===============================
+Release icewm-1.3.12
+====================
 
-git shortlog -e -n -w80,6,8 1.3.11...HEAD
+git shortlog -e -n -w80,6,8 1.3.11...1.3.12
+
+Brian Bidulock <bidulock@openss7.org> (7):
+      fix issue #40 missed update of VERSION
+      update sgml a little bit
+      add tags files to ignore
+      updated po files
+      updated NEWS file
+      be sure to update VERSION file
+      update po files for release
 
 David Medina <medipas@gmail.com> (6):
       Translated using Weblate (Catalan)
@@ -13,30 +22,34 @@ David Medina <medipas@gmail.com> (6):
       Translated using Weblate (Catalan)
       Translated using Weblate (Catalan)
 
-Brian Bidulock <bidulock@openss7.org> (4):
-      fix issue #40 missed update of VERSION
-      update sgml a little bit
-      add tags files to ignore
-      updated po files
-
 Ferdinand Galko <galko.ferdinand@gmail.com> (4):
       Translated using Weblate (Slovak)
       Translated using Weblate (Slovak)
       Translated using Weblate (Slovak)
       Translated using Weblate (Slovak)
 
+Andriy Bandura <andriykopanytsia@gmail.com> (3):
+      Translated using Weblate (Ukrainian)
+      Translated using Weblate (Ukrainian)
+      Translated using Weblate (Ukrainian)
+
+Brian Bidulock <bidulock@openss7.com> (3):
+      Merge pull request #43 from scarabeusiv/icewm-1-3-BRANCH
+      Merge pull request #46 from PetteriAimonen/feature_taskBarWorkspacesTop
+      Merge pull request #45 from williex/icewm-1-3-BRANCH
+
 Freek de Kruijf <freek@opensuse.org> (3):
       Translated using Weblate (Dutch)
       Translated using Weblate (Dutch)
       Translated using Weblate (Dutch)
 
-Andriy Bandura <andriykopanytsia@gmail.com> (2):
-      Translated using Weblate (Ukrainian)
-      Translated using Weblate (Ukrainian)
-
-Brian Bidulock <bidulock@openss7.com> (2):
-      Merge pull request #43 from scarabeusiv/icewm-1-3-BRANCH
-      Merge pull request #46 from PetteriAimonen/feature_taskBarWorkspacesTop
+openSUSE Weblate <weblate-noreply@opensuse.org> (3):
+      Merge remote-tracking branch 'origin/icewm-1-3-BRANCH' into
+        icewm-1-3-BRANCH
+      Merge remote-tracking branch 'origin/icewm-1-3-BRANCH' into
+        icewm-1-3-BRANCH
+      Merge remote-tracking branch 'origin/icewm-1-3-BRANCH' into
+        icewm-1-3-BRANCH
 
 Ondřej Súkup <mimi.vx@gmail.com> (2):
       Translated using Weblate (Czech)
@@ -67,6 +80,9 @@ Code7R <Code7R@users.noreply.github.com> (1):
 Jeff Woods <klaatu@fnordco.com> (1):
       Change preferences install dir to LIBDIR for cmake
 
+Jonas Svensson <jonas@ekhorva.se> (1):
+      Translated using Weblate (Swedish)
+
 Luiz Fernando Ranghetti <elchevive68@gmail.com> (1):
       Translated using Weblate (Portuguese (Brazil))
 
@@ -76,9 +92,11 @@ Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com> (1):
 Yasuhiko Kamata <belphegor@belbel.or.jp> (1):
       Translated using Weblate (Japanese)
 
-openSUSE Weblate <weblate-noreply@opensuse.org> (1):
-      Merge remote-tracking branch 'origin/icewm-1-3-BRANCH' into
-        icewm-1-3-BRANCH
+jc sl <trcs@gmx.com> (1):
+      Translated using Weblate (Spanish)
+
+w <w@vm> (1):
+      Enable variable taskbar width
 
 
 Release icewm-1.3.11
