@@ -20,8 +20,6 @@ SET(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
 # apply to test calls
 SET(CMAKE_REQUIRED_FLAGS ${CXXFLAGS_COMMON})
 
-include_directories(${PROJECT_SOURCE_DIR})
-
 option(CONFIG_XPM "Legacy XPM image loader" off)
 option(CONFIG_IMLIB "(Deprecated) IMLIB image loader" off)
 option(CONFIG_GDK_PIXBUF_XLIB "LIBGDKPIXBUF based image loader" on)
@@ -280,7 +278,6 @@ ENDIF()
 #######################################
 
 CONFIGURE_FILE("${CMAKE_SOURCE_DIR}/src/config.cmake.h.in" "${CMAKE_BINARY_DIR}/config.h")
-include_directories("${CMAKE_BINARY_DIR}")
 
 #######################################
 # declaring targets and build flags   #
