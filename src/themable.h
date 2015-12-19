@@ -159,7 +159,7 @@ XSV(const char *, gradients,                    0)
 
 cfoption icewm_themable_preferences[] = {
 #ifndef LITE
-    OBV("RolloverButtonsSupported",             &rolloverTitleButtons,          "Does it support the 'O' title bar button images (for mouse rollover)"),
+    OBV("RolloverButtonsSupported",                             &rolloverTitleButtons,                      "Does it support the 'O' title bar button images (for mouse rollover)"),
 #endif
     OBV("TaskBarClockLeds",                     &prettyClock,                   "Task bar clock/APM uses nice pixmapped LCD display (but then it doesn't display correctly in many languages anymore, e.g. for Japanese and Korean it works only when a real font is used and not the LEDs"),
     OBV("TrayDrawBevel",                        &trayDrawBevel,                 "Surround the tray with plastic border"),
@@ -185,7 +185,7 @@ cfoption icewm_themable_preferences[] = {
     OIV("MenuIconSize",                         &menuIconSize, 8, 128,          "Menu icon size"),
     OIV("SmallIconSize",                        &smallIconSize, 8, 128,         "Dimension of the small icons"),
     OIV("LargeIconSize",                        &largeIconSize, 8, 128,         "Dimension of the large icons"),
-    OIV("HugeIconSize",                         &hugeIconSize, 8, 128,          "Dimension of the large icons"),
+    OIV("HugeIconSize",                         &hugeIconSize, 8, 128,         "Dimension of the large icons"),
 
     OIV("QuickSwitchHorzMargin",                &quickSwitchHMargin, 0, 64,     "Horizontal margin of the quickswitch window"),
     OIV("QuickSwitchVertMargin",                &quickSwitchVMargin, 0, 64,     "Vertical margin of the quickswitch window"),
@@ -240,7 +240,7 @@ cfoption icewm_themable_preferences[] = {
     OSV("ColorNormalWorkspaceButton",           &clrWorkspaceNormalButton,      "Background of workspace buttons, ColorNormalButton is used if empty"),
     OSV("ColorNormalWorkspaceButtonText",       &clrWorkspaceNormalButtonText,  "Textcolor of workspace buttons, ColorNormalButtonText is used if empty"),
     OSV("ColorActiveWorkspaceButton",           &clrWorkspaceActiveButton,      "Background of the active workspace button, ColorActiveButton is used if empty"),
-    OSV("ColorActiveWorkspaceButtonText",       &clrWorkspaceActiveButtonText,  "Textcolor of the active workspace button, ColorActiveButtonText is used if empty"),
+    OSV("ColorActiveWorkspaceButtonText",       &clrWorkspaceActiveButtonText, "Textcolor of the active workspace button, ColorActiveButtonText is used if empty"),
 
     OSV("ColorNormalTitleBar",                  &clrInactiveTitleBar,           "Background of the titlebar of regular windows"),
     OSV("ColorNormalTitleBarText",              &clrInactiveTitleBarText,       "Textcolor of the titlebar of regular windows"),

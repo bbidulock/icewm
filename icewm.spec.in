@@ -94,7 +94,7 @@ GNOME 1.0 menu support for icewm (using gnome 2.x).
 %{pkgdata}/ledclock/*
 %{pkgdata}/mailbox/*
 %{pkgdata}/taskbar/*
-%{pkgdata}/themes/*
+%{pkgdata}/themes/icedesert/*
 
 /usr/share/xsessions/icewm-session.desktop
 /usr/share/applications/icewm.desktop
@@ -134,8 +134,6 @@ GNOME 1.0 menu support for icewm (using gnome 2.x).
 %{pkgdata}/themes/Infadel2/*
 %dir %{pkgdata}/themes/yellowmotif
 %{pkgdata}/themes/yellowmotif/*
-%dir %{pkgdata}/themes/icedesert
-%{pkgdata}/themes/icedesert/*
 
 %changelog
 * Sun Mar 06 2005 Jiri Slaby <jirislaby@gmail.com>

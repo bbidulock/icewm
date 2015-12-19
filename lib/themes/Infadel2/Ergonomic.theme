@@ -86,15 +86,6 @@ ColorNetIdle="rgb:22/2d/4c"
 ColorApm="rgb:32/3d/4c"
 ColorApmText="rgb:c0/c0/c0"
 
-##### add 20151202
-
-ColorMEMStatusUser="rgb:52/5d/6c"
-ColorMEMStatusBuffers="rgb:60/60/C0"
-ColorMEMStatusCached="rgb:80/80/FF"
-ColorMEMStatusFree="rgb:22/2d/4c"
-
-##### end 20151202
-
 ColorToolTip="rgb:c0/c0/c0"
 ColorToolTipText="rgb:00/00/00"
 ColorMoveSizeStatus="rgb:32/3d/4c"

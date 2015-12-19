@@ -47,15 +47,15 @@
 #define BOLDTTFONT(pt) "-*-monospace-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
 #else
 #ifdef FONTS_ADOBE
-#define FONT(pt) "-*-*-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
-#define BOLDFONT(pt) "-*-*-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
-#define TTFONT(pt) "-*-*-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
-#define BOLDTTFONT(pt) "-*-*-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
+#define FONT(pt) "-b&h-lucida-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
+#define BOLDFONT(pt) "-b&h-lucida-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
+#define TTFONT(pt) "-b&h-lucidatypewriter-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
+#define BOLDTTFONT(pt) "-b&h-lucidatypewriter-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
 #else
-#define FONT(pt) "-*-helvetica-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
-#define BOLDFONT(pt) "-*-helvetica-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
-#define TTFONT(pt) "-*-courier-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
-#define BOLDTTFONT(pt) "-*-courier-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
+#define FONT(pt) "-adobe-helvetica-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
+#define BOLDFONT(pt) "-adobe-helvetica-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
+#define TTFONT(pt) "-adobe-courier-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
+#define BOLDTTFONT(pt) "-adobe-courier-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
 #endif
 #endif
 

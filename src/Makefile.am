@@ -37,6 +37,7 @@ noinst_LTLIBRARIES = \
 
 bin_PROGRAMS = \
 	icewm \
+	icewm-session \
 	icesh \
 	icewmhint \
 	icewmbg \
@@ -313,6 +314,14 @@ icesh_SOURCES = \
 	ylib.h \
 	icesh.cc
 icesh_LDADD = libice.la $(CORE_LIBS)
+
+icewm_session_SOURCES = \
+	intl.h \
+	debug.h \
+	sysdep.h \
+	base.h \
+	icesm.cc
+icewm_session_LDADD = libice.la $(IMAGE_LIBS) $(CORE_LIBS)
 
 icewmhint_SOURCES = \
 	intl.h \

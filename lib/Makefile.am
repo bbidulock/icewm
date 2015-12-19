@@ -43,9 +43,6 @@ nobase_dist_pkgdata_DATA = \
 	icons/kde_16x16.xpm \
 	icons/koules_16x16.xpm \
 	icons/koules_32x32.xpm \
-	icons/lock_16x16.xpm \
-	icons/lock_32x32.xpm \
-	icons/lock_48x48.xpm \
 	icons/navigator_16x16.xpm \
 	icons/navigator_32x32.xpm \
 	icons/netscape_16x16.xpm \

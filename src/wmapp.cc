@@ -1099,14 +1099,6 @@ void YWMApp::runCommandOnce(const char *resource, const char *cmdline) {
         runProgram(argv[0], (char *const *) argv);
 }
 
-void YWMApp::runScript(const char *scriptName) {
-    upath scriptFile = YApplication::findConfigFile(scriptName);
-    cstring cs(scriptFile.path());
-    const char *args[] = { cs.c_str(), 0, 0 };
-    MSG(("Running session script: %s", cs.c_str()));
-    runProgram(cs.c_str(), args);
-}
-
 void YWMApp::setFocusMode(int mode) {
     char s[32];
 
@@ -1122,20 +1114,18 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
 
 
     if (action == actionLogout) {
-	manager->doWMAction(ICEWM_ACTION_LOGOUT);
-//        rebootOrShutdown = 0;
-//        doLogout();
+        rebootOrShutdown = 0;
+        doLogout();
     } else if (action == actionCancelLogout) {
         cancelLogout();
     } else if (action == actionLock) {
         this->runCommand(lockCommand);
     } else if (action == actionShutdown) {
-	manager->doWMAction(ICEWM_ACTION_SHUTDOWN);
+        manager->doWMAction(ICEWM_ACTION_SHUTDOWN);
     } else if (action == actionReboot) {
-	manager->doWMAction(ICEWM_ACTION_REBOOT);
+        manager->doWMAction(ICEWM_ACTION_REBOOT);
     } else if (action == actionRestart) {
-	manager->doWMAction(ICEWM_ACTION_RESTARTWM);
-//        restartClient(0, 0);
+        restartClient(0, 0);
     } else if (action == actionRun) {
         runCommand(runDlgCommand);
     } else if (action == actionExit) {
@@ -1680,7 +1670,7 @@ static void print_usage(const char *argv0) {
 
 int main(int argc, char **argv) {
     YLocale locale;
-//    bool notify_parent(false);
+    bool notify_parent(false);
 
     for (char ** arg = argv + 1; arg < argv + argc; ++arg) {
         if (**arg == '-') {
@@ -1710,8 +1700,8 @@ int main(int argc, char **argv) {
                 replace_wm = true;
             else if (IS_SWITCH("v", "version"))
                 print_version();
-//            else if (IS_LONG_SWITCH("notify"))
-//                notify_parent = true;
+            else if (IS_LONG_SWITCH("notify"))
+                notify_parent = true;
             else if (IS_SWITCH("h", "help"))
                 print_usage(my_basename(argv[0]));
 #endif
@@ -1724,14 +1714,8 @@ int main(int argc, char **argv) {
 #endif
     manager->manageClients();
 
-//    if(notify_parent)
-//       kill(getppid(), SIGUSR1);
-
-    if (restart != true) {
-       app.runOnce(ICEWMTRAYEXE, ICEWMTRAYEXE, 0);
-       app.runOnce(ICEWMBGEXE, ICEWMBGEXE, 0);
-       app.runScript("icewm_startup");
-    }
+    if(notify_parent)
+       kill(getppid(), SIGUSR1);
 
     int rc = app.mainLoop();
 #ifdef CONFIG_GUIEVENTS
@@ -1773,24 +1757,22 @@ void YWMApp::doLogout() {
 }
 
 void YWMApp::logout() {
-	runScript("icewm_logout");
-
-//    if (logoutCommand && logoutCommand[0]) {
-//        runCommand(logoutCommand);
-//#ifdef CONFIG_SESSION
-//    } else if (haveSessionManager()) {
-//        smRequestShutdown();
-//#endif
-//    } else {
+    if (logoutCommand && logoutCommand[0]) {
+        runCommand(logoutCommand);
+#ifdef CONFIG_SESSION
+    } else if (haveSessionManager()) {
+        smRequestShutdown();
+#endif
+    } else {
         manager->wmCloseSession();
         // should we always do this??
         manager->exitAfterLastClient(true);
-//    }
+    }
 
-//    if (logoutMenu) {
-//        logoutMenu->disableCommand(actionLogout);
-//        logoutMenu->enableCommand(actionCancelLogout);
-//    }
+    if (logoutMenu) {
+        logoutMenu->disableCommand(actionLogout);
+        logoutMenu->enableCommand(actionCancelLogout);
+    }
 }
 
 void YWMApp::cancelLogout() {
@@ -1812,58 +1794,6 @@ void YWMApp::cancelLogout() {
     }
 }
 
-void YWMApp::doReboot() {
-    if (!confirmLogout) {
-        logout_reboot();
-    }
-    else {
-#ifndef LITE
-       if (fLogoutMsgBox == 0) {
-            YMsgBox *msgbox = new YMsgBox(YMsgBox::mbOK|YMsgBox::mbCancel);
-            fLogoutMsgBox = msgbox;
-            msgbox->setTitle(_("Confirm Logout"));
-            msgbox->setText(_("Logout will close all active applications.\nProceed?"));
-            msgbox->autoSize();
-            msgbox->setMsgBoxListener(this);
-            msgbox->showFocused();
-         }
-#else
-        logout_reboot();
-#endif
-    }
-}
-
-void YWMApp::logout_reboot() {
-    runScript("icewm_reboot");
-//    runCommand(rebootCommand);
-}
-
-void YWMApp::doShutdown() {
-    if (!confirmLogout) {
-        logout_shutdown();
-    }
-    else {
-#ifndef LITE
-       if (fLogoutMsgBox == 0) {
-            YMsgBox *msgbox = new YMsgBox(YMsgBox::mbOK|YMsgBox::mbCancel);
-            fLogoutMsgBox = msgbox;
-            msgbox->setTitle(_("Confirm Logout"));
-            msgbox->setText(_("Logout will close all active applications.\nProceed?"));
-            msgbox->autoSize();
-            msgbox->setMsgBoxListener(this);
-            msgbox->showFocused();
-         }
-#else
-        logout_shutdown();
-#endif
-    }
-}
-
-void YWMApp::logout_shutdown() {
-    runScript("icewm_shutdown");
-//    runCommand(shutdownCommand);
-}
-
 void YWMApp::handleMsgBox(YMsgBox *msgbox, int operation) {
     if (msgbox == fLogoutMsgBox && fLogoutMsgBox) {
         if (fLogoutMsgBox) {
@@ -1871,13 +1801,7 @@ void YWMApp::handleMsgBox(YMsgBox *msgbox, int operation) {
             fLogoutMsgBox = 0;
         }
         if (operation == YMsgBox::mbOK) {
-            if (rebootOrShutdown == 0) {
-                logout();
-            } else if (rebootOrShutdown == 1) {
-                logout_reboot();
-            } else if (rebootOrShutdown == 2) {
-                logout_shutdown();
-            }
+            logout();
         }
     }
 }
@@ -1893,14 +1817,13 @@ void YWMApp::handleSMAction(int message) {
         break;
     case ICEWM_ACTION_SHUTDOWN:
         rebootOrShutdown = 2;
-        wmapp->doShutdown();
+        wmapp->doLogout();
         break;
     case ICEWM_ACTION_REBOOT:
         rebootOrShutdown = 1;
-        wmapp->doReboot();
+        wmapp->doLogout();
         break;
     case ICEWM_ACTION_RESTARTWM:
-        runScript("icewm_restart");
         wmapp->restartClient(0, 0);
         break;
     case ICEWM_ACTION_WINDOWLIST:
