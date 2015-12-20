@@ -7,14 +7,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.1\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-09-18 19:30-0600\n"
-"PO-Revision-Date: 2002-06-18 23:20+0200\n"
-"Last-Translator: Martynas Jocius <mjoc@delfi.lt>\n"
-"Language-Team:  <komp_lt@konferencijos.lt>\n"
+"POT-Creation-Date: 2015-12-16 18:15-0700\n"
+"PO-Revision-Date: 2015-10-27 21:13+0200\n"
+"Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
+"Language-Team: Lithuanian <http://10n.opensuse.org/projects/icewm/icewm-1-3-"
+"branch/lt/>\n"
 "Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
+"%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 2.3\n"
 
 #: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:875
 msgid " - Power"
@@ -31,16 +35,16 @@ msgstr " - Kraunu"
 
 #: src/aapm.cc:199 src/aapm.cc:500 src/aapm.cc:736
 msgid "C"
-msgstr ""
+msgstr "K"
 
 #: src/aapm.cc:502
 msgid " - Full"
-msgstr ""
+msgstr " - Pakrauta"
 
 #: src/acpustatus.cc:234
-#, fuzzy, c-format
+#, c-format
 msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
-msgstr "CPU apkrovimas: %3.2f %3.2f %3.2f, %u procesai."
+msgstr "CPU apkrovimas: %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:239
 #, c-format
@@ -48,6 +52,8 @@ msgid ""
 "\n"
 "Ram (free): %5.2f (%.2f) M"
 msgstr ""
+"\n"
+"Ram (laisva): %5.2f (%.2f) M"
 
 #: src/acpustatus.cc:244
 #, c-format
@@ -55,6 +61,8 @@ msgid ""
 "\n"
 "Swap (free): %.2f (%.2f) M"
 msgstr ""
+"\n"
+"Swap (laisva): %.2f (%.2f) M"
 
 #: src/acpustatus.cc:250
 #, c-format
@@ -62,6 +70,8 @@ msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
+"\n"
+"ACPI temp: "
 
 #: src/acpustatus.cc:261
 #, c-format
@@ -69,25 +79,27 @@ msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
+"\n"
+"CPU dažnis: %.3fGHz"
 
 #: src/acpustatus.cc:274
 msgid "CPU Load: "
-msgstr ""
+msgstr "CPU apkrova: "
 
 #: src/amailbox.cc:77
 #, c-format
 msgid "Invalid mailbox protocol: \"%s\""
-msgstr "Neteisingas pašto protokolas: \"%s\""
+msgstr "Netinkamas pašto protokolas: „%s“"
 
 #: src/amailbox.cc:79
 #, c-format
 msgid "Invalid mailbox path: \"%s\""
-msgstr "Neteisingas kelias iki pašto dėžutės: \"%s\""
+msgstr "Neteisingas kelias iki pašto dėžutės: „%s“"
 
 #: src/amailbox.cc:343
 #, c-format
 msgid "Using MailBox \"%s\"\n"
-msgstr "Naudojama pašto dėžutė: \"%s\"\n"
+msgstr "Naudojama pašto dėžutė: „%s“\n"
 
 #: src/amailbox.cc:451
 msgid "Error checking mailbox."
@@ -104,7 +116,7 @@ msgid "%ld mail messages."
 msgstr "%ld laiškai."
 
 #: src/apppstatus.cc:204
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Interface %s:\n"
 "  Current rate (in/out):\t%li %s/%li %s\n"
@@ -116,7 +128,7 @@ msgstr ""
 "  Esamas greitis (į/iš):\t%li %s/%li %s\n"
 "  Vidutinis greitis (į/iš):\t%lli %s/%lli %s\n"
 "  Persiųsta (į/iš):\t%lli %s/%lli %s\n"
-"  Prisijungęs:\t%ld:%02ld:%02ld%s%s"
+"  Praėjęs laikas:\t%ld:%02ld:%02ld%s%s"
 
 #: src/apppstatus.cc:216
 msgid ""
@@ -133,59 +145,59 @@ msgstr "Darbalaukis: "
 
 #: src/fdomenu.cc:74
 msgid "Settings"
-msgstr ""
+msgstr "Nuostatos"
 
 #: src/fdomenu.cc:75
 msgid "Screensavers"
-msgstr ""
+msgstr "Ekrano užsklandos"
 
 #: src/fdomenu.cc:76
 msgid "Accessories"
-msgstr ""
+msgstr "Reikmenys"
 
 #: src/fdomenu.cc:77
 msgid "Development"
-msgstr ""
+msgstr "Programavimas"
 
 #: src/fdomenu.cc:78
 msgid "Education"
-msgstr ""
+msgstr "Švietimas"
 
 #: src/fdomenu.cc:79
 msgid "Games"
-msgstr ""
+msgstr "Žaidimai"
 
 #: src/fdomenu.cc:80
 msgid "Graphics"
-msgstr ""
+msgstr "Grafika"
 
 #: src/fdomenu.cc:81
 msgid "Multimedia"
-msgstr ""
+msgstr "Įvairialypė terpė"
 
 #: src/fdomenu.cc:82
 msgid "Network"
-msgstr ""
+msgstr "Tinklas"
 
 #: src/fdomenu.cc:83
 msgid "Office"
-msgstr ""
+msgstr "Raštinė"
 
 #: src/fdomenu.cc:84
 msgid "System"
-msgstr ""
+msgstr "Sistema"
 
 #: src/fdomenu.cc:85
 msgid "WINE"
-msgstr ""
+msgstr "Wine"
 
 #: src/fdomenu.cc:86
 msgid "Editors"
-msgstr ""
+msgstr "Rengyklės"
 
 #: src/fdomenu.cc:87
 msgid "Other"
-msgstr ""
+msgstr "Kita"
 
 #: src/icehelp.cc:715
 msgid "Back"
@@ -193,7 +205,7 @@ msgstr "Atgal"
 
 #: src/icehelp.cc:715
 msgid "Alt+Left"
-msgstr "Alt+Left"
+msgstr "Alt + Kairėn"
 
 #: src/icehelp.cc:716
 msgid "Forward"
@@ -201,15 +213,15 @@ msgstr "Pirmyn"
 
 #: src/icehelp.cc:716
 msgid "Alt+Right"
-msgstr "Alt+Right"
+msgstr "Alt + Dešinėn"
 
 #: src/icehelp.cc:718
 msgid "Previous"
-msgstr "Praeitas"
+msgstr "Ankstesnis"
 
 #: src/icehelp.cc:719
 msgid "Next"
-msgstr "Sekantis"
+msgstr "Tolesnis"
 
 #: src/icehelp.cc:721
 msgid "Contents"
@@ -221,11 +233,11 @@ msgstr "Rodyklė"
 
 #: src/icehelp.cc:724 src/icesame.cc:63 src/iceview.cc:76 src/wmframe.cc:187
 msgid "Close"
-msgstr "Uždaryti"
+msgstr "Užverti"
 
 #: src/icehelp.cc:724 src/icesame.cc:63 src/iceview.cc:76
 msgid "Ctrl+Q"
-msgstr "Ctrl+Q"
+msgstr "Vald+Q"
 
 #: src/icehelp.cc:1327
 #, c-format
@@ -235,9 +247,9 @@ msgid ""
 "A very simple HTML browser displaying the document specified by FILENAME.\n"
 "\n"
 msgstr ""
-"Naudojimas: %s BYLA\n"
+"Naudojimas: %s RINKMENA\n"
 "\n"
-"Paprasta HTML naršyklė, vaizduojanti nurodytą BYLA bylą.\n"
+"Paprasta HTML naršyklė, vaizduojanti nurodytą RINKMENĄ.\n"
 "\n"
 
 #: src/icehelp.cc:1337
@@ -259,15 +271,15 @@ msgstr "Žiūrėti ženkliukus"
 
 #: src/icelist.cc:89
 msgid "Open"
-msgstr "Atidaryti"
+msgstr "Atverti"
 
 #: src/icesame.cc:58
 msgid "Undo"
-msgstr "Atšaukti"
+msgstr "Atsisakyti"
 
 #: src/icesame.cc:58
 msgid "Ctrl+Z"
-msgstr "Ctrl+Z"
+msgstr "Vald+Z"
 
 #: src/icesame.cc:60
 msgid "New"
@@ -275,15 +287,15 @@ msgstr "Naujas"
 
 #: src/icesame.cc:60
 msgid "Ctrl+N"
-msgstr "Ctrl+N"
+msgstr "Vald+N"
 
 #: src/icesame.cc:61
 msgid "Restart"
-msgstr "Perkrauti"
+msgstr "Paleisti iš naujo"
 
 #: src/icesame.cc:61
 msgid "Ctrl+R"
-msgstr "Ctrl+R"
+msgstr "Vald+R"
 
 #: src/icesame.cc:66
 msgid "Same Game"
@@ -292,27 +304,27 @@ msgstr "Tas pats žaidimas"
 #: src/icesh.cc:187
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
-msgstr ""
+msgstr "„%s“ vykdymui reikia bent %d argumentų."
 
 #: src/icesh.cc:194
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid expression: `%s'"
-msgstr "Neteisingas argumentas: `%s'"
+msgstr "Netinkama išraiška: „%s'“"
 
 #: src/icesh.cc:316
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
-msgstr "Srities `%s' įvardinti simboliai (skaitinė riba: %ld-%ld):\n"
+msgstr "Srities „%s“ įvardinti simboliai (skaitinė riba: %ld-%ld):\n"
 
 #: src/icesh.cc:429
 #, c-format
 msgid "Invalid workspace name: `%s'"
-msgstr "Neteisingas darbalaukio pavadinimas: `%s'"
+msgstr "Neteisingas darbalaukio pavadinimas: „%s“"
 
 #: src/icesh.cc:435
 #, c-format
 msgid "Workspace out of range: %d"
-msgstr "Peržengta darbalaukių skaičiau riba: %d"
+msgstr "Peržengta darbalaukių skaičiaus riba: %d"
 
 #: src/icesh.cc:569
 #, fuzzy, c-format
@@ -423,46 +435,43 @@ msgstr "Naudojimo klaida: "
 #: src/icesh.cc:687
 #, c-format
 msgid "Invalid argument: `%s'."
-msgstr "Neteisingas argumentas: `%s'"
+msgstr "Netinkamas argumentas: „%s“."
 
 #: src/icesh.cc:696
 msgid "No actions specified."
-msgstr "Nenurodytas joks veiksmas"
+msgstr "Nenurodytas joks veiksmas."
 
 #: src/icesh.cc:703 src/icesound.cc:1050 src/icewmhint.cc:76 src/yxapp.cc:975
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
-"Negaliu atidaryti ekrano: %s.\n"
-"X'ai turi veikti ir $DISPLAY turi būti nustatytas."
+"Negaliu atverti ekrano: %s. X turi veikti, o $DISPLAY turi būti nustatytas."
 
 #: src/icesh.cc:743
 #, c-format
 msgid "Invalid window identifier: `%s'"
-msgstr "Neteisingas lango identifikatorius: `%s'"
+msgstr "Netinkamas lango identifikatorius: „%s“"
 
 #: src/icesh.cc:896
 #, c-format
 msgid "workspace #%d: `%s'\n"
-msgstr ""
-"Darbalaukis #%d: `%s'\n"
-" \n"
+msgstr "#%d darbalaukis: „%s“\n"
 
 #: src/icesh.cc:914
 #, c-format
 msgid "Unknown action: `%s'"
-msgstr "Nežinomas veiksmas: %s"
+msgstr "Nežinomas veiksmas: „%s“"
 
 # čia man neaišku apie ką kalba eina
 #: src/iceskt.cc:36
 #, c-format
 msgid "Socket error: %d"
-msgstr "Socket klaida: %d"
+msgstr "Jungties klaida: %d"
 
 #: src/icesound.cc:256 src/icesound.cc:424 src/icesound.cc:792
 #, c-format
 msgid "Playing sample #%d (%s)"
-msgstr "Grojamas pavyzdys #%d (%s)"
+msgstr "Grojamas #%d pavyzdys (%s)"
 
 #: src/icesound.cc:468
 #, c-format
@@ -472,7 +481,7 @@ msgstr "Įrenginys nerastas: %s"
 #: src/icesound.cc:561
 #, c-format
 msgid "Can't connect to ESound daemon: %s"
-msgstr "Negaliu prisijungti prie ESound demono: %s"
+msgstr "Nepavyksta prisijungti prie ESound tarnybos: %s"
 
 #: src/icesound.cc:562 src/icesound.cc:739 src/icesound.cc:780
 #: src/icewmhint.cc:78 src/yxapp.cc:976
@@ -482,17 +491,17 @@ msgstr "<joks>"
 #: src/icesound.cc:582
 #, c-format
 msgid "Error <%d> while uploading `%s:%s'"
-msgstr "Klaida <%d> išsiunčiant `%s:%s'"
+msgstr "Klaida <%d> išsiunčiant „%s:%s“"
 
 #: src/icesound.cc:588
 #, c-format
 msgid "Sample <%d> uploaded as `%s:%s'"
-msgstr "Pavyzdys <%d> išsiųstas kaip `%s:%s'"
+msgstr "Pavyzdys <%d> išsiųstas kaip „%s:%s“"
 
 #: src/icesound.cc:647
 #, c-format
 msgid "Playing sample #%d"
-msgstr "Grojamas pavyzdys #%d"
+msgstr "Grojamas #%d pavyzdys"
 
 #: src/icesound.cc:738 src/icesound.cc:779
 #, c-format
@@ -502,25 +511,25 @@ msgstr "Negaliu prisijungti prie YIFF serverio: %s"
 #: src/icesound.cc:744
 #, c-format
 msgid "Can't change to audio mode `%s'."
-msgstr "Negaliu pakeisti audio režimo `%s'"
+msgstr "Negaliu pakeisti garso veiksenos „%s“."
 
 #: src/icesound.cc:886
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Audio mode switch detected, initial audio mode `%s' no longer in effect."
 msgstr ""
-"Aptikta, jog audio režimas pasikeitė, pradinis režimas `%s' nebenaudojamas."
+"Aptikta, jog garso veiksena pasikeitė, ankstesnė veiksena „%s“ nebenaudojama."
 
 #: src/icesound.cc:893
 msgid "Audio mode switch detected, automatic audio mode changing disabled."
 msgstr ""
-"Aptikta, jog audio režimas pasikeitė, audio režimas automatiškai "
-"nebekeičiamas."
+"Aptikta, jog garso veiksena pasikeitė, garso veiksena automatiškai "
+"nebekeičiama."
 
 #: src/icesound.cc:939 src/icesound.cc:952
 #, c-format
 msgid "Overriding previous audio mode `%s'."
-msgstr "Grąžinu praėjusį audio režimą `%s'."
+msgstr "Grąžinu ankstesnę garso veikseną „%s“."
 
 #: src/icesound.cc:978
 #, fuzzy, c-format
@@ -610,33 +619,33 @@ msgstr "%s sąsajos palaikymas neįkompiliuotas."
 #: src/icesound.cc:1216
 #, c-format
 msgid "Unsupported interface: %s."
-msgstr "Nepalaikoma sąsaja: %s"
+msgstr "Nepalaikoma sąsaja: %s."
 
 #: src/icesound.cc:1233
 #, c-format
 msgid "Received signal %d: Terminating..."
-msgstr "Gautas signalas %d: Baigiu darbą..."
+msgstr "Gautas %d signalas: Baigiu darbą..."
 
 #: src/icesound.cc:1242
 #, c-format
 msgid "Received signal %d: Reloading samples..."
-msgstr "Gautas signalas %d: Perkraunu pavyzdžius..."
+msgstr "Gautas %d signalas: Iš naujo įkeliu pavyzdžius..."
 
 #: src/iceview.cc:72
 msgid "Hex View"
-msgstr "Žiūrėti Hex režimu"
+msgstr "Žiūrėti kaip šešioliktainį"
 
 #: src/iceview.cc:72
 msgid "Ctrl+H"
-msgstr "Ctrl+H"
+msgstr "Vald+H"
 
 #: src/iceview.cc:73
 msgid "Expand Tabs"
-msgstr "Išplėsti tabus"
+msgstr "Išplėsti tabuliaciją"
 
 #: src/iceview.cc:73
 msgid "Ctrl+T"
-msgstr "Ctrl+T"
+msgstr "Vald+T"
 
 #: src/iceview.cc:74
 msgid "Wrap Lines"
@@ -644,7 +653,7 @@ msgstr "Laužyti eilutes"
 
 #: src/iceview.cc:74
 msgid "Ctrl+W"
-msgstr "Ctrl+W"
+msgstr "Vald+W"
 
 #: src/icewmbg.cc:410
 msgid ""
@@ -670,8 +679,8 @@ msgid ""
 "%s: unrecognized option `%s'\n"
 "Try `%s --help' for more information.\n"
 msgstr ""
-"%s: neatpažinta parinktis `%s'\n"
-"Bandyk `%s --help'.\n"
+"%s: neatpažinta parinktis „%s“\n"
+"Bandykite „%s --help“.\n"
 
 #: src/icewmbg.cc:557
 #, c-format
@@ -685,7 +694,7 @@ msgstr "Nepavyko įkelti paveikslėlio %s: %s"
 
 #: src/icewmhint.cc:49
 msgid "Usage: icewmhint [class.instance] option arg\n"
-msgstr "Naudojimas: icewmhint [klasė.instance] parinktis argumentas\n"
+msgstr "Naudojimas: icewmhint [klasė.atvejis] parinktis argumentas\n"
 
 #: src/icewmhint.cc:65
 #, c-format
@@ -699,12 +708,11 @@ msgstr "Dėmesio: "
 #: src/movesize.cc:903
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
-msgstr ""
+msgstr "Perkėlimo ar dydžio keitimo užklausoje nežinoma kryptis: %d"
 
 #: src/themes.cc:100
-#, fuzzy
 msgid "Default"
-msgstr "Ištrinti"
+msgstr "Numatyta"
 
 #: src/wmabout.cc:29 src/wmabout.cc:31
 msgid "(C)"
@@ -712,23 +720,23 @@ msgstr "©"
 
 #: src/wmabout.cc:37
 msgid "Theme:"
-msgstr "Tema: "
+msgstr "Apipavidalinimas:"
 
 #: src/wmabout.cc:38
 msgid "Theme Description:"
-msgstr "Temos aprašymas:"
+msgstr "Apipavidalinimo aprašymas:"
 
 #: src/wmabout.cc:39
 msgid "Theme Author:"
-msgstr "Temos autorius:"
+msgstr "Apipavidalinimo kūrėjas:"
 
 #: src/wmabout.cc:43
 msgid "CodeSet:"
-msgstr ""
+msgstr "Koduotė:"
 
 #: src/wmabout.cc:44
 msgid "Language:"
-msgstr ""
+msgstr "Kalba:"
 
 #: src/wmabout.cc:69
 msgid "icewm - About"
@@ -736,7 +744,7 @@ msgstr "IceWM - Apie"
 
 #: src/wmapp.cc:444
 msgid "Unable to get current font path."
-msgstr "Negaliu nustatyti kelio iki esamo šrifto."
+msgstr "Negaliu nustatyti dabartinio šriftų kelio."
 
 #: src/wmapp.cc:471
 msgid "Unexpected format of ICEWM_FONT_PATH property"
@@ -745,16 +753,16 @@ msgstr "Netinkamas ICEWM_FONT_PATH laikomos reikšmės formatas"
 #: src/wmapp.cc:528
 #, c-format
 msgid "Multiple references for gradient \"%s\""
-msgstr "Sudėtinis adresas perėjimui \"%s\""
+msgstr "Sudėtinis adresas perėjimui „%s“"
 
 #: src/wmapp.cc:603
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown gradient name: %s"
-msgstr "Nežinomas perėjimo pavadinimas %s"
+msgstr "Nežinomas perėjimo pavadinimas: %s"
 
 #: src/wmapp.cc:866
 msgid "_Logout"
-msgstr "Atsi_jungti"
+msgstr "_Atsijungti"
 
 #: src/wmapp.cc:867
 msgid "_Cancel logout"
@@ -762,23 +770,23 @@ msgstr "A_tšaukti atsijungimą"
 
 #: src/wmapp.cc:879
 msgid "Lock _Workstation"
-msgstr "Užrakinti _kompiuterį"
+msgstr "Už_rakinti ekraną"
 
 #: src/wmapp.cc:881 src/wmdialog.cc:111
 msgid "Re_boot"
-msgstr "P_erkrauti kompiuterį"
+msgstr "Iš _naujo paleisti kompiuterį"
 
 #: src/wmapp.cc:883 src/wmdialog.cc:118
 msgid "Shut_down"
-msgstr "Iš_jungti kompiuterį"
+msgstr "Išj_ungti kompiuterį"
 
 #: src/wmapp.cc:887
 msgid "Restart _Icewm"
-msgstr "Perkrauti _IceWM"
+msgstr "Iš naujo paleisti _IceWM"
 
 #: src/wmapp.cc:890
 msgid "Restart _Xterm"
-msgstr "Perkrauti _Xterm"
+msgstr "Iš naujo paleisti _Xterm"
 
 #: src/wmapp.cc:906
 msgid "_Menu"
@@ -786,11 +794,11 @@ msgstr "_Meniu"
 
 #: src/wmapp.cc:907
 msgid "_Above Dock"
-msgstr "_Virš doko"
+msgstr "_Virš dėklo"
 
 #: src/wmapp.cc:908
 msgid "_Dock"
-msgstr "_Dokas"
+msgstr "_Dėklas"
 
 #: src/wmapp.cc:909
 msgid "_OnTop"
@@ -830,7 +838,7 @@ msgstr "Pa_didinti"
 
 #: src/wmapp.cc:934
 msgid "_Fullscreen"
-msgstr ""
+msgstr "Per _visą ekraną"
 
 #: src/wmapp.cc:938 src/wmwinlist.cc:307
 msgid "_Hide"
@@ -866,11 +874,11 @@ msgstr "Apriboti _darbalaukį"
 
 #: src/wmapp.cc:968
 msgid "Tray _icon"
-msgstr "Užduočių juostos _ikonos"
+msgstr "Sistemos _dėklo ženkliukai"
 
 #: src/wmapp.cc:974 src/wmwinlist.cc:295 src/wmwinlist.cc:321
 msgid "_Close"
-msgstr "_Uždaryti"
+msgstr "_Užverti"
 
 #: src/wmapp.cc:976 src/wmwinlist.cc:297
 msgid "_Kill Client"
@@ -878,7 +886,7 @@ msgstr "_Nužudyti klientą"
 
 #: src/wmapp.cc:980 src/wmdialog.cc:132 src/wmwinmenu.cc:137
 msgid "_Window list"
-msgstr "Lan_gų sąrašas"
+msgstr "_Langų sąrašas"
 
 #: src/wmapp.cc:996
 msgid "Another window manager already running, exiting..."
@@ -889,7 +897,9 @@ msgstr "Kita langų tvarkyklė jau veikia, išsijungiu..."
 msgid ""
 "Could not restart: %s\n"
 "Does $PATH lead to %s?"
-msgstr "Negaliu perkrauti %sAr $PATH turi %s?"
+msgstr ""
+"Negaliu perkrauti %s\n"
+"Ar $PATH turi %s?"
 
 #: src/wmapp.cc:1636
 #, c-format
@@ -931,7 +941,7 @@ msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
 msgstr ""
-"Atsijungimas uždarys visas veikiančias programas.\n"
+"Atsijungiant uždarysimos visos veikiančios programos.\n"
 "Tęsti?"
 
 #: src/wmconfig.cc:116
@@ -939,9 +949,8 @@ msgid "Bad Look name"
 msgstr "Blogai atrodantis pavadinimas"
 
 #: src/wmdialog.cc:83
-#, fuzzy
 msgid "Loc_k Workstation"
-msgstr "Užrakinti _kompiuterį"
+msgstr "Už_rakinti darbalaukį"
 
 #: src/wmdialog.cc:90 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:434
 #: src/wmtaskbar.cc:436
@@ -950,16 +959,16 @@ msgstr "_Atsijungti..."
 
 #: src/wmdialog.cc:97 src/ymsgbox.cc:46
 msgid "_Cancel"
-msgstr "A_tšaukti"
+msgstr "A_tsisakyti"
 
 #: src/wmdialog.cc:104
 msgid "_Restart icewm"
-msgstr "Pe_rkrauti IceWM"
+msgstr "_Iš naujo paleisti IceWM"
 
 #: src/wmdialog.cc:125 src/wmprog.cc:886 src/wmtaskbar.cc:426
 #: src/wmtaskbar.cc:429
 msgid "_About"
-msgstr "_Apie"
+msgstr "Api_e"
 
 #: src/wmframe.cc:165 src/wmframe.cc:3435
 msgid "Maximize"
@@ -990,8 +999,8 @@ msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
 msgstr ""
-"DĖMESIO! Visi neišsaugoti pakeitimai bus prarasti nužudžius šį klientą. Ar "
-"nori tęsti?"
+"DĖMESIO! Nužudę šį klientą prarasite visus \n"
+"neišsaugotus pakeitimus. Ar nori tęsti?"
 
 #: src/wmframe.cc:3432
 msgid "Restore"
@@ -1017,11 +1026,11 @@ msgstr "Sintaksės klaida lango parinktyse"
 
 #: src/wmoption.cc:387
 msgid "Out of memory for window options"
-msgstr "Nepakanka atminties lango parinktims"
+msgstr "Lango parinktims nepakanka atminties"
 
 #: src/wmprog.cc:192
 msgid "Missing command argument"
-msgstr "Praleistas komandos argumentas"
+msgstr "Trūksta komandos argumento"
 
 #: src/wmprog.cc:210
 #, c-format
@@ -1036,7 +1045,7 @@ msgstr "Klaida programoje %s"
 #: src/wmprog.cc:351
 #, c-format
 msgid "Unexepected keyword: %s"
-msgstr ""
+msgstr "Netikėtas raktažodis: %s"
 
 #: src/wmprog.cc:490
 #, c-format
@@ -1057,36 +1066,36 @@ msgstr "_Langai"
 
 #: src/wmprog.cc:899
 msgid "_Help"
-msgstr "Pa_galba"
+msgstr "Pagal_ba"
 
 #: src/wmprog.cc:917
 msgid "_Click to focus"
-msgstr ""
+msgstr "_Fokusuoti spustelėjus"
 
 #: src/wmprog.cc:922
 msgid "_Sloppy mouse focus"
-msgstr ""
+msgstr "_Persekiojantis fokusas"
 
 #: src/wmprog.cc:927
 msgid "Custo_m"
-msgstr ""
+msgstr "_Savitas"
 
 #: src/wmprog.cc:933
 msgid "_Focus"
-msgstr ""
+msgstr "_Fokusavimas"
 
 #: src/wmprog.cc:940
 msgid "_Themes"
-msgstr "_Temos"
+msgstr "_Apipavadalinimai"
 
 #: src/wmprog.cc:942
 msgid "Se_ttings"
-msgstr ""
+msgstr "_Nuostatos"
 
 #: src/wmsession.cc:239 src/wmsession.cc:255 src/wmsession.cc:265
 #, c-format
 msgid "Session Manager: Unknown line %s"
-msgstr "Sesijos menedžeris: Nežinoma eilutė %s"
+msgstr "Sesijos tvarkytuvė: nežinoma eilutė %s"
 
 #: src/wmtaskbar.cc:257 src/wmtaskbar.cc:258
 msgid "Task Bar"
@@ -1122,7 +1131,7 @@ msgstr "Atša_ukti"
 
 #: src/wmtaskbar.cc:411
 msgid "Arrange _Icons"
-msgstr "Sutvarkyt_i ženklelius"
+msgstr "Sutvarkyt_i ženkliukus"
 
 #: src/wmtaskbar.cc:417
 msgid "_Refresh"
@@ -1130,7 +1139,7 @@ msgstr "At_naujinti"
 
 #: src/wmtaskbar.cc:424
 msgid "_License"
-msgstr "_Licenzija"
+msgstr "_Licencija"
 
 #: src/wmtaskbar.cc:562
 msgid "Favorite applications"
@@ -1141,19 +1150,16 @@ msgid "Window list menu"
 msgstr "Langų sąrašo meniu"
 
 #: src/wmtaskbar.cc:588
-#, fuzzy
 msgid "Show Desktop"
-msgstr "Dar_balaukio"
+msgstr "Rodyti darbalaukį"
 
 #: src/wmwinlist.cc:61
-#, fuzzy
 msgid "All Workspaces"
-msgstr "Darbalaukis: "
+msgstr "Visi darbalaukiai"
 
 #: src/wmwinlist.cc:295
-#, fuzzy
 msgid "Del"
-msgstr "Ištrinti"
+msgstr "Šalinti"
 
 #: src/wmwinlist.cc:299
 msgid "_Terminate Process"
@@ -1161,7 +1167,7 @@ msgstr "_Užbaigti procesą"
 
 #: src/wmwinlist.cc:300
 msgid "Kill _Process"
-msgstr "Nužudyti _procesą"
+msgstr "_Nužudyti procesą"
 
 #: src/wmwinlist.cc:305
 msgid "_Show"
@@ -1183,7 +1189,7 @@ msgstr "%lu. Darbalaukis %-.32s"
 #: src/yapp.cc:483
 #, c-format
 msgid "Message Loop: select failed (errno=%d)"
-msgstr "Žinučių ciklas: žymėjimas nepavyko (klaidos numeris = %d)."
+msgstr "Žinučių ciklas: pažymėti nepavyko (klaidos numeris = %d)"
 
 #: src/ycmdline.cc:43
 #, c-format
@@ -1208,7 +1214,7 @@ msgstr "Nežinomas klavišo pavadinimas %s (%s)"
 #: src/yconfig.cc:211 src/yconfig.cc:224
 #, c-format
 msgid "Bad argument: %s for %s"
-msgstr "Blogas argumentas: %s skirtas %s"
+msgstr "Blogas argumentas: %s, skirtas %s"
 
 #: src/yconfig.cc:259
 #, c-format
@@ -1218,57 +1224,57 @@ msgstr "Bloga parinktis: %s"
 #: src/ycursor.cc:127
 #, c-format
 msgid "Loading of pixmap \"%s\" failed"
-msgstr "Nepavyko įkelti paveikslėlio %s"
+msgstr "Nepavyko įkelti paveikslėlio „%s“"
 
 #: src/ycursor.cc:160
 #, c-format
 msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
-msgstr "Ne žymeklio paveikslėlis: %s yra per daug skirtingų spalvų"
+msgstr "Ne žymeklio paveikslėlis: „%s“ turi per daug skirtingų spalvų"
 
 #: src/ycursor.cc:182
 #, c-format
 msgid "BUG? Imlib was able to read \"%s\""
-msgstr "KLAIDA? Imlib galėjo perskaityti %s"
+msgstr "KLAIDA? Imlib galėjo perskaityti „%s“"
 
 #: src/ycursor.cc:208
 #, c-format
 msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
-msgstr "KLAIDA? Sugadinta XPM antraštė, tačiau Imlib galėjo nuskaityti %s"
+msgstr "KLAIDA? Sugadinta XPM antraštė, tačiau Imlib galėjo nuskaityti „%s“"
 
 #: src/ycursor.cc:216
 #, c-format
 msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
-msgstr "KLAIDA? Nerasta XPM bylos pabaiga, tačiau Imlib galėjo nuskaityti %s"
+msgstr "KLAIDA? Nerasta XPM bylos pabaiga, tačiau Imlib galėjo nuskaityti „%s“"
 
 #: src/ycursor.cc:219
 #, c-format
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
-msgstr "KLAIDA? Simbolis nerastas, tačiau Imlib galėjo nuskaityti %s"
+msgstr "KLAIDA? Simbolis nerastas, tačiau Imlib galėjo nuskaityti „%s“"
 
 #: src/yfontcore.cc:71 src/yfontxft.cc:174
 #, c-format
 msgid "Could not load font \"%s\"."
-msgstr "Negaliu įkelti šrifto \"%s\"."
+msgstr "Negaliu įkelti šrifto „%s“."
 
 #: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:197
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
-msgstr "Nepavyko įkelti paskutinįkart naudoto šrifto \"%s\""
+msgstr "Nepavyko įkelti atsarginio šrifto „%s“."
 
 #: src/yfontcore.cc:114
 #, c-format
 msgid "Could not load fontset \"%s\"."
-msgstr "Negaliu įkelti šrifto aibės \"%s\"."
+msgstr "Negaliu įkelti šrifto aibės „%s“."
 
 #: src/yfontcore.cc:126
 #, c-format
 msgid "Missing codesets for fontset \"%s\":"
-msgstr "Trūksta koduočių aibės šriftų aibei \"%s\":"
+msgstr "Trūksta koduočių aibės šriftų aibei „%s“:"
 
 #: src/yicon.cc:147
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
-msgstr "Paveikslėliui \"%s\" neužtenka atminties"
+msgstr "Paveikslėliui „%s“ neužtenka atminties"
 
 #: src/yimage.cc:61 src/yimage.cc:109 src/ypixbuf.cc:1063
 #, c-format
@@ -1277,12 +1283,12 @@ msgstr "Nepavyko įkelti paveikslėlio %s"
 
 #: src/yimage.cc:141 src/yimage.cc:159
 msgid "Imlib: Acquisition of X pixmap failed"
-msgstr "Imlib: X'ų paveikslėlio pasisavinimas nepavyko"
+msgstr "Imlib: X paveikslėlio pasisavinti nepavyko"
 
 # Pasisavinimas? Hmm....
 #: src/yimage.cc:150
 msgid "Imlib: Imlib image to X pixmap mapping failed"
-msgstr "Imlib: Imlib piešinėlio perdirbimas į X'ų piešinėlį nepavyko"
+msgstr "Imlib: nepavyko Imlib piešinėlio perdirbti į X piešinėlį"
 
 #: src/yinput.cc:55
 msgid "Cu_t"
@@ -1290,7 +1296,7 @@ msgstr "_Iškirpti"
 
 #: src/yinput.cc:55
 msgid "Ctrl+X"
-msgstr "Ctrl+X"
+msgstr "Vald+X"
 
 #: src/yinput.cc:56
 msgid "_Copy"
@@ -1298,19 +1304,19 @@ msgstr "_Kopijuoti"
 
 #: src/yinput.cc:56
 msgid "Ctrl+C"
-msgstr "Ctrl+C"
+msgstr "Vald+C"
 
 #: src/yinput.cc:57
 msgid "_Paste"
-msgstr "Į_dėti"
+msgstr "_Padėti"
 
 #: src/yinput.cc:57
 msgid "Ctrl+V"
-msgstr "Ctrl+V"
+msgstr "Vald+V"
 
 #: src/yinput.cc:58
 msgid "Paste _Selection"
-msgstr "Įdėti _pažymėtą"
+msgstr "Į_dėti pažymėtą"
 
 #: src/yinput.cc:60
 msgid "Select _All"
@@ -1318,16 +1324,17 @@ msgstr "Pažymėti _viską"
 
 #: src/yinput.cc:60
 msgid "Ctrl+A"
-msgstr "Ctrl+A"
+msgstr "Vald+A"
 
 #: src/ylocale.cc:46
 msgid "Locale not supported by C library. Falling back to 'C' locale'."
-msgstr ""
+msgstr "C biblioteka nepalaiko šios lokalės. Grįžtama prie „C“ lokalės."
 
 #: src/ylocale.cc:68
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
+"Nepavyko nustatyti dabartinės lokalės koduotės. Naudosima ISO-8859-1.\n"
 
 #: src/ylocale.cc:100 src/ylocale.cc:107
 #, c-format
@@ -1346,27 +1353,27 @@ msgstr "_Gerai"
 #: src/ypaths.cc:144 src/ypaths.cc:171
 #, c-format
 msgid "Image not readable: %s"
-msgstr ""
+msgstr "Nenuskaitomas paveikslas: %s"
 
 #: src/ypaths.cc:149
-#, fuzzy, c-format
+#, c-format
 msgid "Out of memory for image %s"
-msgstr "Paveikslėliui \"%s\" neužtenka atminties"
+msgstr "Paveikslėliui %s neužtenka atminties"
 
 #: src/ypaths.cc:156
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find image %s"
-msgstr "Negaliu rasti paveikslėlio %s"
+msgstr "Nepavyksta rasti paveikslėlio %s"
 
 #: src/ypaths.cc:175
-#, fuzzy, c-format
+#, c-format
 msgid "Out of memory for image: %s"
-msgstr "Paveikslėliui \"%s\" neužtenka atminties"
+msgstr "Paveikslėliui neužtenka atminties: %s"
 
 #: src/ypaths.cc:182
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find image: %s"
-msgstr "Negaliu rasti paveikslėlio %s"
+msgstr "Nepavyksta rasti paveikslėlio: %s"
 
 #: src/ypixbuf.cc:482 src/ypixbuf.cc:668
 #, c-format
@@ -1384,17 +1391,17 @@ msgstr "%s:%d: %d bitų vaizdai nepalaikomi (kol kas)"
 
 #: src/ysmapp.cc:106
 msgid "$USER or $LOGNAME not set?"
-msgstr "$USER ar $LOGNAME nenustatyti?"
+msgstr "Nenustatytas $USER arba $LOGNAME kintamasis?"
 
 #: src/yurl.cc:82
 #, c-format
 msgid "\"%s\" doesn't describe a common internet scheme"
-msgstr "\"%s\" neaprašo bendros interneto schemos"
+msgstr "„%s“ neaprašo bendros interneto schemos"
 
 #: src/yurl.cc:85
 #, c-format
 msgid "\"%s\" contains no scheme description"
-msgstr "\"%s\" neturi schemos aprašymo"
+msgstr "„%s“ neturi schemos aprašymo"
 
 #~ msgid "Cancel"
 #~ msgstr "Atšaukti"

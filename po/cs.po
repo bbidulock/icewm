@@ -7,18 +7,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm-1.2.30\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-09-18 19:30-0600\n"
-"PO-Revision-Date: 2007-02-03 15:21+0100\n"
-"Last-Translator: Petr Písař <petr.pisar@atlas.cz>\n"
-"Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
+"POT-Creation-Date: 2015-12-16 18:15-0700\n"
+"PO-Revision-Date: 2015-11-05 09:52+0200\n"
+"Last-Translator: Vojtech Zeisek <Vojtech.Zeisek@opensuse.org>\n"
+"Language-Team: Czech <http://10n.opensuse.org/projects/icewm/icewm-1-3-"
+"branch/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Weblate 2.3\n"
 
 #: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:875
 msgid " - Power"
-msgstr " – Napájení"
+msgstr " – Napájení"
 
 #: src/aapm.cc:193 src/aapm.cc:527 src/aapm.cc:757
 msgid "P"
@@ -27,7 +30,7 @@ msgstr "N"
 #: src/aapm.cc:197 src/aapm.cc:498 src/aapm.cc:734 src/aapm.cc:846
 #, c-format
 msgid " - Charging"
-msgstr " – Dobíjení"
+msgstr " – Dobíjení"
 
 #: src/aapm.cc:199 src/aapm.cc:500 src/aapm.cc:736
 msgid "C"
@@ -35,12 +38,12 @@ msgstr "D"
 
 #: src/aapm.cc:502
 msgid " - Full"
-msgstr ""
+msgstr " - Plný"
 
 #: src/acpustatus.cc:234
 #, c-format
 msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
-msgstr ""
+msgstr "Zátěž CPU: %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:239
 #, c-format
@@ -48,6 +51,8 @@ msgid ""
 "\n"
 "Ram (free): %5.2f (%.2f) M"
 msgstr ""
+"\n"
+"Ram (volná): %5.2f (%.2f) M"
 
 #: src/acpustatus.cc:244
 #, c-format
@@ -55,6 +60,8 @@ msgid ""
 "\n"
 "Swap (free): %.2f (%.2f) M"
 msgstr ""
+"\n"
+"Swap (volný): %.2f (%.2f) M"
 
 #: src/acpustatus.cc:250
 #, c-format
@@ -62,6 +69,8 @@ msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
+"\n"
+"ACPI Teplota: "
 
 #: src/acpustatus.cc:261
 #, c-format
@@ -69,6 +78,9 @@ msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
+"\n"
+"↵\n"
+"CPU Freq: %.3fGHz"
 
 #: src/acpustatus.cc:274
 msgid "CPU Load: "
@@ -132,61 +144,60 @@ msgid "Workspace: "
 msgstr "Pracovní plocha: "
 
 #: src/fdomenu.cc:74
-#, fuzzy
 msgid "Settings"
-msgstr "Nas_tavení"
+msgstr "Nastavení"
 
 #: src/fdomenu.cc:75
 msgid "Screensavers"
-msgstr ""
+msgstr "Šetřiče obrazovky"
 
 #: src/fdomenu.cc:76
 msgid "Accessories"
-msgstr ""
+msgstr "Příslušenství"
 
 #: src/fdomenu.cc:77
 msgid "Development"
-msgstr ""
+msgstr "Vývoj"
 
 #: src/fdomenu.cc:78
 msgid "Education"
-msgstr ""
+msgstr "Vzdělávání"
 
 #: src/fdomenu.cc:79
 msgid "Games"
-msgstr ""
+msgstr "Hry"
 
 #: src/fdomenu.cc:80
 msgid "Graphics"
-msgstr ""
+msgstr "Grafika"
 
 #: src/fdomenu.cc:81
 msgid "Multimedia"
-msgstr ""
+msgstr "Multimédia"
 
 #: src/fdomenu.cc:82
 msgid "Network"
-msgstr ""
+msgstr "Síť"
 
 #: src/fdomenu.cc:83
 msgid "Office"
-msgstr ""
+msgstr "Kancelář"
 
 #: src/fdomenu.cc:84
 msgid "System"
-msgstr ""
+msgstr "Systém"
 
 #: src/fdomenu.cc:85
 msgid "WINE"
-msgstr ""
+msgstr "WINE"
 
 #: src/fdomenu.cc:86
 msgid "Editors"
-msgstr ""
+msgstr "Editory"
 
 #: src/fdomenu.cc:87
 msgid "Other"
-msgstr ""
+msgstr "Ostatní"
 
 #: src/icehelp.cc:715
 msgid "Back"
@@ -245,7 +256,7 @@ msgstr ""
 #: src/icehelp.cc:1337
 #, c-format
 msgid "Invalid path: %s\n"
-msgstr "Neplatná cesta: %s\n"
+msgstr "Neplatná cesta: %s↵\n"
 
 #: src/icehelp.cc:1342
 msgid "Invalid path: "
@@ -289,7 +300,7 @@ msgstr "Ctrl+R"
 
 #: src/icesame.cc:66
 msgid "Same Game"
-msgstr "Same Game"
+msgstr "Stejná Hra"
 
 #: src/icesh.cc:187
 #, c-format
@@ -299,7 +310,7 @@ msgstr "Akce „%s“ vyžaduje nejméně %d argumentů."
 #: src/icesh.cc:194
 #, c-format
 msgid "Invalid expression: `%s'"
-msgstr "Neplatný výraz: „%s“."
+msgstr "Neplatný výraz: `%s'"
 
 #: src/icesh.cc:316
 #, c-format
@@ -441,7 +452,7 @@ msgstr "Nebyla zadána žádná akce."
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
-"Nelze otevřít displej: %s. Server X musí být spuštěn a proměnná $DISPLAY\n"
+"Nelze otevřít displej: %s. Server X musí být spuštěn a proměnná $DISPLAY "
 "nastavena."
 
 #: src/icesh.cc:743
@@ -487,7 +498,7 @@ msgstr "<nic>"
 #: src/icesound.cc:582
 #, c-format
 msgid "Error <%d> while uploading `%s:%s'"
-msgstr "Při nahrávání „%2$s:%3$s“ nastala chyba <%1$d>"
+msgstr "Chyba  <%d> při odesílání `%s:%s'"
 
 #: src/icesound.cc:588
 #, c-format
@@ -529,7 +540,7 @@ msgid "Overriding previous audio mode `%s'."
 msgstr "Zaměňuji předchozí zvukový režim „%s“."
 
 #: src/icesound.cc:978
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
 "\n"
@@ -597,8 +608,8 @@ msgstr ""
 "\n"
 "-v, --verbose                 Hlásí podrobnosti (každou zvukovou\n"
 "                              událost vypíše na stdout).\n"
-"-V, --version                 Vypíše verzi a skonči.\n"
-"-h, --help                    Vypiš (tuto) nápovědu a skonči.\n"
+"-V, --version                 Vypíše verzi a skončí.\n"
+"-h, --help                    Vypiš (tuto) nápovědu a skončí.\n"
 "\n"
 "Návratové hodnoty:\n"
 "\n"
@@ -657,7 +668,6 @@ msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
 #: src/icewmbg.cc:410
-#, fuzzy
 msgid ""
 "Usage: icewmbg [ -r | -q ]\n"
 " -r  Restart icewmbg\n"
@@ -678,13 +688,16 @@ msgstr ""
 " -r  Restartuje icewmbg\n"
 " -q  Ukončí icewmbg\n"
 "Podle souboru předvoleb nahraje pozadí plochy\n"
-" DesktopBackgroundCenter  – Zobrazí pozadí plochy vycentrované,\n"
-"                            ne vyskládané do dlaždic\n"
-" SupportSemitransparency  – Podpora poloprůhledných terminálů\n"
-" DesktopBackgroundColor   – Barva pozadí plochy\n"
-" DesktopBackgroundImage   – Obrázek pozadí plochy\n"
-" DesktopTransparencyColor – Barva podporující poloprůhledná okna\n"
-" DesktopTransparencyImage – Obrázek podporující poloprůhledná okna\n"
+" DesktopBackgroundCenter  - Zobrazí pozadí plochy vycentrované\n"
+" DesktopBackgroundScaled  - Zobrazí pozadí plochy zvětšeně\n"
+" SupportSemitransparency  - Podpora poloprůhledných terminálů\n"
+" DesktopBackgroundColor   - Barva pozadí plochy\n"
+" DesktopBackgroundImage   - Obrázek pozadí plochy\n"
+" DesktopTransparencyColor - Barva podporující poloprůhledná okna\n"
+" DesktopTransparencyImage - Obrázek podporující poloprůhledná okna\n"
+"\n"
+"center:0 scaled:0 = dlaždice\n"
+"center:1 scaled:1 = zachovej aspect ratio\n"
 
 #: src/icewmbg.cc:428
 #, c-format
@@ -745,11 +758,11 @@ msgstr "Autor tématu:"
 
 #: src/wmabout.cc:43
 msgid "CodeSet:"
-msgstr ""
+msgstr "Kódová sada:"
 
 #: src/wmabout.cc:44
 msgid "Language:"
-msgstr ""
+msgstr "Jazyk:"
 
 #: src/wmabout.cc:69
 msgid "icewm - About"
@@ -775,7 +788,7 @@ msgstr "Neznámé jméno přechodu: %s"
 
 #: src/wmapp.cc:866
 msgid "_Logout"
-msgstr "Odh_lásit"
+msgstr "_Odhlásit"
 
 #: src/wmapp.cc:867
 msgid "_Cancel logout"
@@ -990,7 +1003,6 @@ msgid "Bad Look name"
 msgstr "Špatné jméno vzhledu (look)"
 
 #: src/wmdialog.cc:83
-#, fuzzy
 msgid "Loc_k Workstation"
 msgstr "Zamknout pracovní _stanici"
 
@@ -1379,7 +1391,7 @@ msgstr ""
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
-"Nepodařilo se zjistit znakovou sadu stávajícího jazykového nastavení.\n"
+"Nepodařilo se zjistit znakovou sadu stávajícího jazykového nastavení. "
 "Předpokládám ISO-8859-1.\n"
 
 #: src/ylocale.cc:100 src/ylocale.cc:107
@@ -1393,34 +1405,33 @@ msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Neplatný vícebajtový řetězec „%s“: %s"
 
 #: src/ymsgbox.cc:38
-#, fuzzy
 msgid "_OK"
 msgstr "_Potvrdit"
 
 #: src/ypaths.cc:144 src/ypaths.cc:171
 #, c-format
 msgid "Image not readable: %s"
-msgstr ""
+msgstr "Obrázek není čitelný: %s"
 
 #: src/ypaths.cc:149
-#, fuzzy, c-format
+#, c-format
 msgid "Out of memory for image %s"
 msgstr "Nedostatek paměti pro pixmapu „%s“"
 
 #: src/ypaths.cc:156
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find image %s"
-msgstr "Nemohu nalézt pixmapu %s"
+msgstr "Nemohu nalézt obrázek %s"
 
 #: src/ypaths.cc:175
-#, fuzzy, c-format
+#, c-format
 msgid "Out of memory for image: %s"
-msgstr "Nedostatek paměti pro pixmapu „%s“"
+msgstr "Nedostatek paměti pro obrázek „%s“"
 
 #: src/ypaths.cc:182
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find image: %s"
-msgstr "Nemohu nalézt pixmapu %s"
+msgstr "Nemohu nalézt obrázek %s"
 
 #: src/ypixbuf.cc:482 src/ypixbuf.cc:668
 #, c-format

@@ -8,17 +8,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.3.4pre2\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-09-18 19:30-0600\n"
-"PO-Revision-Date: 2014-11-10 15:24-0300\n"
-"Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
-"Language-Team: Brazilian Portuguese <opensuse-pt@opensuse.org>\n"
+"POT-Creation-Date: 2015-12-16 18:15-0700\n"
+"PO-Revision-Date: 2015-11-03 22:25+0200\n"
+"Last-Translator: Luiz Fernando Ranghetti <elchevive68@gmail.com>\n"
+"Language-Team: Portuguese (Brazil) <http://10n.opensuse.org/projects/icewm/"
+"icewm-1-3-branch/pt_BR/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 2.3\n"
 "X-Language: pt_BR\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.6.10\n"
 
 #: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:875
 msgid " - Power"
@@ -39,30 +40,30 @@ msgstr "R"
 
 #: src/aapm.cc:502
 msgid " - Full"
-msgstr ""
+msgstr " - Cheia"
 
 #: src/acpustatus.cc:234
 #, c-format
 msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
-msgstr ""
+msgstr "Carga da CPU: %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:239
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Ram (free): %5.2f (%.2f) M"
 msgstr ""
 "\n"
-"RAM: %5.2f/%.2fM"
+"Ram (livre): %5.2f (%.2f) M"
 
 #: src/acpustatus.cc:244
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Swap (free): %.2f (%.2f) M"
 msgstr ""
 "\n"
-"Swap: %.2f/%.2fM"
+"Swap (livre): %.2f (%.2f) M"
 
 #: src/acpustatus.cc:250
 #, c-format
@@ -144,61 +145,60 @@ msgid "Workspace: "
 msgstr "Área de trabalho: "
 
 #: src/fdomenu.cc:74
-#, fuzzy
 msgid "Settings"
-msgstr "Con_figuração"
+msgstr "Configuração"
 
 #: src/fdomenu.cc:75
 msgid "Screensavers"
-msgstr ""
+msgstr "Protetores de tela"
 
 #: src/fdomenu.cc:76
 msgid "Accessories"
-msgstr ""
+msgstr "Acessórios"
 
 #: src/fdomenu.cc:77
 msgid "Development"
-msgstr ""
+msgstr "Desenvolvimento"
 
 #: src/fdomenu.cc:78
 msgid "Education"
-msgstr ""
+msgstr "Educativo"
 
 #: src/fdomenu.cc:79
 msgid "Games"
-msgstr ""
+msgstr "Jogos"
 
 #: src/fdomenu.cc:80
 msgid "Graphics"
-msgstr ""
+msgstr "Gráficos"
 
 #: src/fdomenu.cc:81
 msgid "Multimedia"
-msgstr ""
+msgstr "Multimídia"
 
 #: src/fdomenu.cc:82
 msgid "Network"
-msgstr ""
+msgstr "Rede"
 
 #: src/fdomenu.cc:83
 msgid "Office"
-msgstr ""
+msgstr "Escritório"
 
 #: src/fdomenu.cc:84
 msgid "System"
-msgstr ""
+msgstr "Sistema"
 
 #: src/fdomenu.cc:85
 msgid "WINE"
-msgstr ""
+msgstr "WINE"
 
 #: src/fdomenu.cc:86
 msgid "Editors"
-msgstr ""
+msgstr "Editores"
 
 #: src/fdomenu.cc:87
 msgid "Other"
-msgstr ""
+msgstr "Outros"
 
 #: src/icehelp.cc:715
 msgid "Back"
@@ -680,7 +680,6 @@ msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
 #: src/icewmbg.cc:410
-#, fuzzy
 msgid ""
 "Usage: icewmbg [ -r | -q ]\n"
 " -r  Restart icewmbg\n"
@@ -709,6 +708,9 @@ msgstr ""
 " DesktopTransparencyColor - Cor a anunciar para janelas semitransparentes\n"
 " DesktopTransparencyImage - Imagem a anunciar para janelas "
 "semitransparentes\n"
+"\n"
+" center:0 scaled:0 = tiled\n"
+" center:1 scaled:1 = manter aspecto\n"
 
 #: src/icewmbg.cc:428
 #, c-format
@@ -757,7 +759,7 @@ msgstr "(C)"
 
 #: src/wmabout.cc:37
 msgid "Theme:"
-msgstr "Tema: "
+msgstr "Tema:"
 
 #: src/wmabout.cc:38
 msgid "Theme Description:"
@@ -1420,27 +1422,27 @@ msgstr "_OK"
 #: src/ypaths.cc:144 src/ypaths.cc:171
 #, c-format
 msgid "Image not readable: %s"
-msgstr ""
+msgstr "Imagem não legível: %s"
 
 #: src/ypaths.cc:149
-#, fuzzy, c-format
+#, c-format
 msgid "Out of memory for image %s"
-msgstr "Memória insuficiente para o pixmap \"%s\""
+msgstr "Memória insuficiente para a imagem \"%s\""
 
 #: src/ypaths.cc:156
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find image %s"
-msgstr "Não foi possível encontrar o mapa de pixel %s"
+msgstr "Não foi possível encontrar a imagem %s"
 
 #: src/ypaths.cc:175
-#, fuzzy, c-format
+#, c-format
 msgid "Out of memory for image: %s"
-msgstr "Memória insuficiente para o pixmap \"%s\""
+msgstr "Memória insuficiente para a imagem: \"%s\""
 
 #: src/ypaths.cc:182
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find image: %s"
-msgstr "Não foi possível encontrar o mapa de pixel %s"
+msgstr "Não foi possível encontrar a imagem: %s"
 
 #: src/ypixbuf.cc:482 src/ypixbuf.cc:668
 #, c-format

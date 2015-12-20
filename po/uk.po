@@ -2,14 +2,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.0.6\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-09-18 19:30-0600\n"
-"PO-Revision-Date: 2002-04-20 01:07+0200\n"
-"Last-Translator: Volodymyr M. Lisivka <lvm@mystery.lviv.net>\n"
-"Language-Team: Ukrainian <linux@linux.org.ua>\n"
+"POT-Creation-Date: 2015-12-16 18:15-0700\n"
+"PO-Revision-Date: 2015-11-20 07:43+0200\n"
+"Last-Translator: Andriy Bandura <andriykopanytsia@gmail.com>\n"
+"Language-Team: Ukrainian <http://l10n.opensuse.org/projects/icewm/icewm-1-3-"
+"branch/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 2.3\n"
 
 #: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:875
 msgid " - Power"
@@ -26,16 +30,16 @@ msgstr " - Заряд"
 
 #: src/aapm.cc:199 src/aapm.cc:500 src/aapm.cc:736
 msgid "C"
-msgstr ""
+msgstr "З"
 
 #: src/aapm.cc:502
 msgid " - Full"
-msgstr ""
+msgstr " - Повний"
 
 #: src/acpustatus.cc:234
 #, c-format
 msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
-msgstr "Завантаження процесора: %3.2f %3.2f %3.2f, %u процесів."
+msgstr "Завантаження процесора: %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:239
 #, c-format
@@ -43,6 +47,8 @@ msgid ""
 "\n"
 "Ram (free): %5.2f (%.2f) M"
 msgstr ""
+"\n"
+"ОП (вільна): %5.2f (%.2f) МБ"
 
 #: src/acpustatus.cc:244
 #, c-format
@@ -50,6 +56,8 @@ msgid ""
 "\n"
 "Swap (free): %.2f (%.2f) M"
 msgstr ""
+"\n"
+"Підкачка (вільна): %.2f (%.2f) МБ"
 
 #: src/acpustatus.cc:250
 #, c-format
@@ -57,6 +65,8 @@ msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
+"\n"
+"ACPI Температура: "
 
 #: src/acpustatus.cc:261
 #, c-format
@@ -64,10 +74,12 @@ msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
+"\n"
+"Частота процесора: %.3fГГц"
 
 #: src/acpustatus.cc:274
 msgid "CPU Load: "
-msgstr ""
+msgstr "Навантаження ЦП: "
 
 #: src/amailbox.cc:77
 #, c-format
@@ -99,7 +111,7 @@ msgid "%ld mail messages."
 msgstr "%ld поштових повідомлень."
 
 #: src/apppstatus.cc:204
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Interface %s:\n"
 "  Current rate (in/out):\t%li %s/%li %s\n"
@@ -108,10 +120,10 @@ msgid ""
 "  Online time:\t%ld:%02ld:%02ld%s%s"
 msgstr ""
 "Інтерфейс %s:\n"
-"  Поточна швидкість (ввід/вивід):\t%d %s/%d %s\n"
-"  Середня швидкість (ввід/вивід):\t%d %s/%d %s\n"
-"  Переслано даних   (ввід/вивід):\t%d %s/%d %s\n"
-"  Час на лінії:\t%d:%02d:%02d%s%s"
+"  Поточна швидкість (ввід/вивід):\t%li %s/%li %s\n"
+"  Середня швидкість (ввід/вивід):\t%lli %s/%lli %s\n"
+"  Переслано даних (ввід/вивід):\t%lli %s/%lli %s\n"
+"  Час на лінії:\t%ld:%02ld:%02ld%s%s"
 
 #: src/apppstatus.cc:216
 msgid ""
@@ -128,59 +140,59 @@ msgstr "Робоче місце: "
 
 #: src/fdomenu.cc:74
 msgid "Settings"
-msgstr ""
+msgstr "Параметри"
 
 #: src/fdomenu.cc:75
 msgid "Screensavers"
-msgstr ""
+msgstr "Зберігачі екрану"
 
 #: src/fdomenu.cc:76
 msgid "Accessories"
-msgstr ""
+msgstr "Аксесуари"
 
 #: src/fdomenu.cc:77
 msgid "Development"
-msgstr ""
+msgstr "Розробка"
 
 #: src/fdomenu.cc:78
 msgid "Education"
-msgstr ""
+msgstr "Освіта"
 
 #: src/fdomenu.cc:79
 msgid "Games"
-msgstr ""
+msgstr "Ігри"
 
 #: src/fdomenu.cc:80
 msgid "Graphics"
-msgstr ""
+msgstr "Графіка"
 
 #: src/fdomenu.cc:81
 msgid "Multimedia"
-msgstr ""
+msgstr "Мультимедія"
 
 #: src/fdomenu.cc:82
 msgid "Network"
-msgstr ""
+msgstr "Мережа"
 
 #: src/fdomenu.cc:83
 msgid "Office"
-msgstr ""
+msgstr "Офіс"
 
 #: src/fdomenu.cc:84
 msgid "System"
-msgstr ""
+msgstr "Система"
 
 #: src/fdomenu.cc:85
 msgid "WINE"
-msgstr ""
+msgstr "WINE"
 
 #: src/fdomenu.cc:86
 msgid "Editors"
-msgstr ""
+msgstr "Редактори"
 
 #: src/fdomenu.cc:87
 msgid "Other"
-msgstr ""
+msgstr "Інші"
 
 #: src/icehelp.cc:715
 msgid "Back"
@@ -359,6 +371,50 @@ msgid ""
 "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
 "\n"
 msgstr ""
+"Використання: %s [ПАРАМЕТРИ] ДІЇ\n"
+"\n"
+"Параметри:\n"
+"  -display DISPLAY            З'єднується із X сервером, вказаним через "
+"DISPLAY.\n"
+"                              Усталено: $DISPLAY або :0.0, коли не задано.\n"
+"  -window WINDOW_ID           Вказує вікно для маніпуляцій. Особливими\n"
+"                              ідентифікаторами є `root' для вікна "
+"адміністратора і \n"
+"                              `focus' для поточного активного вікна.\n"
+"  -class WM_CLASS             Клас управління вікнами з вікном(ами) для\n"
+"                              маніпуляцій. Якщо WM_CLASS містить крапку, то "
+"вибираються\n"
+"                              лише вікна з повною відповідністю WM_CLASS.\n"
+"                              Якщо там не має крапки, то вибираються вікна "
+"з\n"
+"                              однакового класу і вікна з тим самим "
+"примірником\n"
+"                              (aka. `-name').\n"
+"\n"
+"Дії:\n"
+"  setIconTitle   TITLE        Задає заголовок піктограми.\n"
+"  setWindowTitle TITLE        Задає заголовок вікна .\n"
+"  setGeometry    geometry     Задає геометрію вікна.\n"
+"  setState       MASK STATE   Задає стан вікна GNOME як STATE.\n"
+"                              Задіяними є лише біти, обрані за MASK.\n"
+"                              STATE та MASK є виразами області\n"
+"                              `GNOME window state'.\n"
+"  toggleState    STATE        Перемикає біти стану вікна GNOME до вказаного\n"
+"                              виразом STATE.\n"
+"  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
+"  setLayer       LAYER        Пересуває вікно до іншого шару вікон GNOME.\n"
+"  setWorkspace   WORKSPACE    Пересуває вікно до іншого робочого простору. "
+"Виберіть\n"
+"                              вікно root для зміни поточного робочого "
+"простору.\n"
+"  listWorkspaces              Перелік назв усіх робочих просторів.\n"
+"  setTrayOption  TRAYOPTION   Задає підказку параметра лотка IceWM.\n"
+"\n"
+"Вирази:\n"
+"  Вирази є списком символів із однієї області, які з'єднані `+' або `|':\n"
+"\n"
+"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
+"\n"
 
 #: src/icesh.cc:608
 msgid "GNOME window state"
@@ -378,7 +434,7 @@ msgstr "Опція панелі завдань IceWM"
 
 #: src/icesh.cc:616
 msgid "Usage error: "
-msgstr "Помилка використання:"
+msgstr "Помилка використання: "
 
 #: src/icesh.cc:687
 #, c-format
@@ -462,11 +518,11 @@ msgid "Can't change to audio mode `%s'."
 msgstr "Не вдалося змінити аудіорежим на \"%s\"."
 
 #: src/icesound.cc:886
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Audio mode switch detected, initial audio mode `%s' no longer in effect."
 msgstr ""
-"Виявлена зміна аудіорежиму, початковий режим \"%s\" більше не "
+"Виявлена зміна режиму аудіо, початковий режим \"%s\" більше не "
 "використовується."
 
 #: src/icesound.cc:893
@@ -517,6 +573,49 @@ msgid ""
 "3     Subsystems error (ie cannot connect to server).\n"
 "\n"
 msgstr ""
+"Використання: %s [ПАРАМЕТР]...\n"
+"\n"
+"Відтворює аудіо файли на події графічного інтерфейсу користувача, спричинені "
+"IceWM.\n"
+"\n"
+"Параметри:\n"
+"\n"
+"-d, --display=DISPLAY         Дисплей, який використовується у IceWM "
+"(усталено: $DISPLAY).\n"
+"-s, --sample-dir=DIR          Вказує теку, яка містить\n"
+"                              звукові файли (наприклад ~/.icewm/sounds).\n"
+"-i, --interface=TARGET        Вказує цільову оболонку виведення\n"
+"                              звуку, одна із OSS, YIFF, ESD, ALSA\n"
+"-D, --device=DEVICE           (лише ALSA та OSS) вказує пристрій для "
+"використання\n"
+"                               (усталений OSS: /dev/dsp; ALSA: усталений).\n"
+"-S, --server=ADDR:PORT        (ESD та YIFF) вказує адреси серверів та\n"
+"                              номер порту (усталений localhost:16001 для "
+"ESD\n"
+"                              та localhost:9433 для YIFF).\n"
+"-m, --audio-mode[=MODE]       (лише YIFF) вказує режим аудіо (залиште\n"
+"                              порожнім, щоб отримати список).\n"
+"--audio-mode-auto             (лише YIFF) зміює режим аудіо на льоту на\n"
+"                              найкращу відповідність взірцю аудіо (може "
+"спричинити\n"
+"                              проблеми із іншими клієнтами Y, переписує\n"
+"                              --audio-mode).\n"
+"\n"
+"-v, --verbose                 Докладний вивід (записує кожну звукову подію "
+"у\n"
+"                              stdout).\n"
+"-V, --version                 Друкує інформацію про версію та здійснює "
+"вихід.\n"
+"-h, --help                    Друкує (цю) сторінку довідки та здійснює "
+"вихід.\n"
+"\n"
+"Повертає значення:\n"
+"\n"
+"0     Успіх.\n"
+"1     Загальна помилка.\n"
+"2     Помилка командного рядка.\n"
+"3     Помилка підсистеми (тобто не можна з'єднатися із сервером).\n"
+"\n"
 
 #: src/icesound.cc:1175
 msgid "Multiple sound interfaces given."
@@ -552,7 +651,7 @@ msgstr "Ctrl+H"
 
 #: src/iceview.cc:73
 msgid "Expand Tabs"
-msgstr ""
+msgstr "Розкрити вкладки"
 
 #: src/iceview.cc:73
 msgid "Ctrl+T"
@@ -583,6 +682,21 @@ msgid ""
 " center:0 scaled:0 = tiled\n"
 " center:1 scaled:1 = keep aspect ratio\n"
 msgstr ""
+"Використання: icewmbg [ -r | -q ]\n"
+" -r  Перезапуск icewmbg\n"
+" -q  Вихід ізt icewmbg\n"
+"Завантажує тло стільниці відповідно файлу налаштувань\n"
+" DesktopBackgroundCenter  - Відображає тло стільниці по центру\n"
+" DesktopBackgroundScaled  - Відображає тло стільниці масштабованим\n"
+" SupportSemitransparency  - Підтримка напівпрозорих терміналів\n"
+" DesktopBackgroundColor   - Колір тла стільниці\n"
+" DesktopBackgroundImage   - Зображення тла стільниці\n"
+" DesktopTransparencyColor - Колір для оголошення у напівпрозорих вікнах\n"
+" DesktopTransparencyImage - Зображення для оголошення у напівпрозорих "
+"вікнах\n"
+"\n"
+" center:0 scaled:0 = плиткою\n"
+" center:1 scaled:1 = зберігати співвідношення\n"
 
 #: src/icewmbg.cc:428
 #, c-format
@@ -619,12 +733,11 @@ msgstr "Попередження: "
 #: src/movesize.cc:903
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
-msgstr ""
+msgstr "Невідомий напрямок у запиті на пересування/зміну розміру: %d"
 
 #: src/themes.cc:100
-#, fuzzy
 msgid "Default"
-msgstr "Видалити"
+msgstr "Усталено"
 
 #: src/wmabout.cc:29 src/wmabout.cc:31
 msgid "(C)"
@@ -644,11 +757,11 @@ msgstr "Автор теми:"
 
 #: src/wmabout.cc:43
 msgid "CodeSet:"
-msgstr ""
+msgstr "Кодування:"
 
 #: src/wmabout.cc:44
 msgid "Language:"
-msgstr ""
+msgstr "Мова:"
 
 #: src/wmabout.cc:69
 msgid "icewm - About"
@@ -750,7 +863,7 @@ msgstr "Розгорнути"
 
 #: src/wmapp.cc:934
 msgid "_Fullscreen"
-msgstr ""
+msgstr "_На увесь екран"
 
 #: src/wmapp.cc:938 src/wmwinlist.cc:307
 msgid "_Hide"
@@ -811,7 +924,7 @@ msgid ""
 "Does $PATH lead to %s?"
 msgstr ""
 "Не можу перезапустити: %s\n"
-"Перевірте, чи $PATH веде до %s."
+"Перевірте, чи $PATH веде до %s?"
 
 #: src/wmapp.cc:1636
 #, c-format
@@ -843,6 +956,34 @@ msgid ""
 "\n"
 "Visit http://www.icewm.org/ for report bugs, support requests, comments...\n"
 msgstr ""
+"Використання: %s [OPTIONS]\n"
+"Запускає менеджер вікон IceWM.\n"
+"\n"
+"Параметри:\n"
+"  --display=НАЗВА      НАЗВА X сервера для використання.\n"
+"%s  --sync              Синхронізує команди X11.\n"
+"\n"
+"  -c, --config=ФАЙЛ   Завантажує налаштування із ФАЙЛУ.\n"
+"  -t, --theme=ФАЙЛ    Завантажує тему із ФАЙЛУ.\n"
+"  -n, --no-configure  Нехтує файлом налаштувань.\n"
+"\n"
+"  -v, --version       Друкує інформацію про версію та здійснює вихід.\n"
+"  -h, --help          Друкує екран використання та здійснює вихід.\n"
+"%s  --replace           Замінює наявний віконний менедже.\n"
+"  --restart           Не використавуй його: це внутрішній прапорець.\n"
+"\n"
+"Змінні оточення:\n"
+"  ICEWM_PRIVCFG=PATH  Тека для використання приватних файлів конфігурації "
+"користувача,\n"
+"                      Усталеною є \"$HOME/.icewm/\".\n"
+"  DISPLAY=NAME        Назва X сервера для використання, яка усталено "
+"залежить від Xlib.\n"
+"  MAIL=URL            Розташування вашої поштової скриньки. Якщо схема "
+"пропущена,\n"
+"                      то припускається схема у локальному файлі.\n"
+"\n"
+"Відвідайте http://www.icewm.org/, щоб прозвітувати про хиби, запитатися, "
+"прокоментувати...\n"
 
 #: src/wmapp.cc:1747
 msgid "Confirm Logout"
@@ -861,9 +1002,8 @@ msgid "Bad Look name"
 msgstr "Погане ім'я"
 
 #: src/wmdialog.cc:83
-#, fuzzy
 msgid "Loc_k Workstation"
-msgstr "Замкнути станцію"
+msgstr "За_мкнути станцію"
 
 #: src/wmdialog.cc:90 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:434
 #: src/wmtaskbar.cc:436
@@ -958,7 +1098,7 @@ msgstr "Помилка у програмі %s"
 #: src/wmprog.cc:351
 #, c-format
 msgid "Unexepected keyword: %s"
-msgstr ""
+msgstr "Невідоме ключове слово: %s"
 
 #: src/wmprog.cc:490
 #, c-format
@@ -983,19 +1123,19 @@ msgstr "_Довідка"
 
 #: src/wmprog.cc:917
 msgid "_Click to focus"
-msgstr ""
+msgstr "_Клацання по фокусу"
 
 #: src/wmprog.cc:922
 msgid "_Sloppy mouse focus"
-msgstr ""
+msgstr "_Фокус недбалої мишки"
 
 #: src/wmprog.cc:927
 msgid "Custo_m"
-msgstr ""
+msgstr "_Особливе"
 
 #: src/wmprog.cc:933
 msgid "_Focus"
-msgstr ""
+msgstr "_Фокус"
 
 #: src/wmprog.cc:940
 msgid "_Themes"
@@ -1003,7 +1143,7 @@ msgstr "_Теми"
 
 #: src/wmprog.cc:942
 msgid "Se_ttings"
-msgstr ""
+msgstr "Пара_метри"
 
 #: src/wmsession.cc:239 src/wmsession.cc:255 src/wmsession.cc:265
 #, c-format
@@ -1063,17 +1203,14 @@ msgid "Window list menu"
 msgstr "Меню списоку вікон"
 
 #: src/wmtaskbar.cc:588
-#, fuzzy
 msgid "Show Desktop"
-msgstr "Стільниця"
+msgstr "Показати стільницю"
 
 #: src/wmwinlist.cc:61
-#, fuzzy
 msgid "All Workspaces"
-msgstr "Робоче місце: "
+msgstr "Усі робочі місця"
 
 #: src/wmwinlist.cc:295
-#, fuzzy
 msgid "Del"
 msgstr "Видалити"
 
@@ -1151,22 +1288,22 @@ msgstr ""
 #: src/ycursor.cc:182
 #, c-format
 msgid "BUG? Imlib was able to read \"%s\""
-msgstr ""
+msgstr "ХИБА? Imlib прочитав \"%s\""
 
 #: src/ycursor.cc:208
 #, c-format
 msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
-msgstr ""
+msgstr "ХИБА? Поганий заголовок XPM, але Imlib проаналізував \"%s\""
 
 #: src/ycursor.cc:216
 #, c-format
 msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
-msgstr ""
+msgstr "ХИБА? Неочікуваний кінець файла XPM, але Imlib проаналізував \"%s\""
 
 #: src/ycursor.cc:219
 #, c-format
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
-msgstr ""
+msgstr "ХИБА? Неочікуваний символ, але Imlib проаналізував \"%s\""
 
 #: src/yfontcore.cc:71 src/yfontxft.cc:174
 #, c-format
@@ -1244,12 +1381,13 @@ msgstr "Ctrl+A"
 
 #: src/ylocale.cc:46
 msgid "Locale not supported by C library. Falling back to 'C' locale'."
-msgstr ""
+msgstr "Локаль не підтримується бібліотекою C. Переходимо на локаль 'C'."
 
 #: src/ylocale.cc:68
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
+"Не вдалося визначити кодування поточної локалі. Припускаємо ISO-8859-1.\n"
 
 #: src/ylocale.cc:100 src/ylocale.cc:107
 #, c-format
@@ -1262,34 +1400,33 @@ msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Невірна багатобайтова стрічка \"%s\": %s"
 
 #: src/ymsgbox.cc:38
-#, fuzzy
 msgid "_OK"
-msgstr "Гаразд"
+msgstr "_Гаразд"
 
 #: src/ypaths.cc:144 src/ypaths.cc:171
 #, c-format
 msgid "Image not readable: %s"
-msgstr ""
+msgstr "Зображення не читається: %s"
 
 #: src/ypaths.cc:149
-#, fuzzy, c-format
+#, c-format
 msgid "Out of memory for image %s"
-msgstr "Невистачає пам'яті для мапи пікселів \"%s\""
+msgstr "Не вистачає пам'яті для малюнку %s"
 
 #: src/ypaths.cc:156
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find image %s"
 msgstr "Не можу знайти малюнок %s"
 
 #: src/ypaths.cc:175
-#, fuzzy, c-format
+#, c-format
 msgid "Out of memory for image: %s"
-msgstr "Невистачає пам'яті для мапи пікселів \"%s\""
+msgstr "Не вистачає пам'яті для малюнку: %s"
 
 #: src/ypaths.cc:182
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find image: %s"
-msgstr "Не можу знайти малюнок %s"
+msgstr "Не можливо знайти малюнок: %s"
 
 #: src/ypixbuf.cc:482 src/ypixbuf.cc:668
 #, c-format
