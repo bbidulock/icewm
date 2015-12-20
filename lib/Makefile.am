@@ -310,7 +310,6 @@ nobase_dist_pkgdata_DATA = \
 	themes/yellowmotif/menu.xpm \
 	themes/yellowmotif/minimize.xpm \
 	themes/yellowmotif/restore.xpm \
-	themes/yellowmotif/default.jpg \
 	themes/default/closeA.xpm \
 	themes/default/closeI.xpm \
 	themes/default/default.theme \
