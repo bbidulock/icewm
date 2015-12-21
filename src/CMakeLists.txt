@@ -11,7 +11,11 @@ INCLUDE(CheckIncludeFileCXX)
 INCLUDE(FindPkgConfig)
 INCLUDE(CheckCXXSourceCompiles)
 
-SET(CXXFLAGS_COMMON " -pthread -g -O2 -Wall -Wextra -Wno-unused-parameter -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE -I. ${CMAKE_CXX_FLAGS}")
+SET(CXXFLAGS_COMMON " -pthread -Wall -Wextra -Wno-unused-parameter -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE -I.")
+
+if("${CMAKE_BUILD_TYPE}" STREQUAL "" AND ("" STREQUAL "${CMAKE_CXX_FLAGS}"))
+	SET(CMAKE_BUILD_TYPE Release)
+endif()
 
 # I don't need -rdynamic, thanks!
 SET(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "")
@@ -368,17 +372,13 @@ TARGET_LINK_LIBRARIES(icewmtray${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LD
 
 INSTALL(TARGETS icewm${EXEEXT} icesh${EXEEXT} icewm-session${EXEEXT} icewmhint${EXEEXT} icewmbg${EXEEXT} icewmtray${EXEEXT} DESTINATION ${BINDIR})
 
-# that bit might be disabled by the user
-if(NOT CROSSCOMPILE)
-	if(DEFINED EXECUTABLE_OUTPUT_PATH)
-		set(genprefpath ${EXECUTABLE_OUTPUT_PATH}/genpref${EXEEXT})
-	else()
-		set(genprefpath ${CMAKE_CURRENT_BINARY_DIR}/genpref${EXEEXT})
-	endif()
-	ADD_CUSTOM_COMMAND(TARGET genpref${EXEEXT} POST_BUILD
-		COMMAND ${genprefpath} > preferences
-		WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-	INSTALL(FILES ${CMAKE_BINARY_DIR}/preferences DESTINATION ${LIBDIR})
+if(NOT CMAKE_CROSSCOMPILING)
+   ADD_CUSTOM_COMMAND(TARGET genpref${EXEEXT}
+      POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/lib
+      COMMAND genpref${EXEEXT} > lib/preferences
+      WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+   INSTALL(FILES lib/preferences DESTINATION ${LIBDIR})
 endif()
 
 #######################################
