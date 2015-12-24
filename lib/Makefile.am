@@ -109,6 +109,7 @@ nobase_dist_pkgdata_DATA = \
 	themes/gtk2/minimizeI.xpm \
 	themes/gtk2/restoreA.xpm \
 	themes/gtk2/restoreI.xpm \
+	themes/gtk2/default.jpg \
 	themes/icedesert/closeA.xpm \
 	themes/icedesert/closeI.xpm \
 	themes/icedesert/closeO.xpm \
@@ -129,6 +130,7 @@ nobase_dist_pkgdata_DATA = \
 	themes/icedesert/titleAT.xpm \
 	themes/icedesert/titleIB.xpm \
 	themes/icedesert/titleIT.xpm \
+	themes/icedesert/default.jpeg \
 	themes/Infadel2/closeA.xpm \
 	themes/Infadel2/closeI.xpm \
 	themes/Infadel2/cursors/left.xpm \
@@ -190,6 +192,9 @@ nobase_dist_pkgdata_DATA = \
 	themes/Infadel2/titleIR.xpm \
 	themes/Infadel2/titleIS.xpm \
 	themes/Infadel2/titleIT.xpm \
+	themes/Infadel2/default.jpg \
+	themes/Infadel2/default2.jpg \
+	themes/Infadel2/default.jpg \
 	themes/metal2/closeA.xpm \
 	themes/metal2/closeI.xpm \
 	themes/metal2/default.theme \
@@ -255,12 +260,14 @@ nobase_dist_pkgdata_DATA = \
 	themes/metal2/titleIR.xpm \
 	themes/metal2/titleIS.xpm \
 	themes/metal2/titleIT.xpm \
+	themes/metal2/default.jpeg \
 	themes/motif/close.xpm \
 	themes/motif/default.theme \
 	themes/motif/maximize.xpm \
 	themes/motif/menu.xpm \
 	themes/motif/minimize.xpm \
 	themes/motif/restore.xpm \
+	themes/motif/default.jpeg \
 	themes/nice2/closeA.xpm \
 	themes/nice2/closeI.xpm \
 	themes/nice2/default.theme \
@@ -276,6 +283,7 @@ nobase_dist_pkgdata_DATA = \
 	themes/nice2/titleAT.xpm \
 	themes/nice2/titleIB.xpm \
 	themes/nice2/titleIT.xpm \
+	themes/nice2/default.jpg \
 	themes/nice/blue.theme \
 	themes/nice/close.xpm \
 	themes/nice/default.theme \
@@ -285,6 +293,8 @@ nobase_dist_pkgdata_DATA = \
 	themes/nice/restore.xpm \
 	themes/nice/rolldown.xpm \
 	themes/nice/rollup.xpm \
+	themes/nice/default.jpg \
+	themes/nice/default1.jpg \
 	themes/warp3/close.xpm \
 	themes/warp3/default.theme \
 	themes/warp3/hide.xpm \
@@ -293,23 +303,27 @@ nobase_dist_pkgdata_DATA = \
 	themes/warp3/restore.xpm \
 	themes/warp3/rolldown.xpm \
 	themes/warp3/rollup.xpm \
+	themes/warp3/default.jpeg \
 	themes/warp4/close.xpm \
 	themes/warp4/default.theme \
 	themes/warp4/hide.xpm \
 	themes/warp4/maximize.xpm \
 	themes/warp4/minimize.xpm \
 	themes/warp4/restore.xpm \
+	themes/warp4/default.jpeg \
 	themes/win95/close.xpm \
 	themes/win95/default.theme \
 	themes/win95/maximize.xpm \
 	themes/win95/minimize.xpm \
 	themes/win95/restore.xpm \
+	themes/win95/default.jpg \
 	themes/yellowmotif/close.xpm \
 	themes/yellowmotif/default.theme \
 	themes/yellowmotif/maximize.xpm \
 	themes/yellowmotif/menu.xpm \
 	themes/yellowmotif/minimize.xpm \
 	themes/yellowmotif/restore.xpm \
+	themes/yellowmotif/default.jpg \
 	themes/default/closeA.xpm \
 	themes/default/closeI.xpm \
 	themes/default/default.theme \

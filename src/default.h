@@ -200,7 +200,7 @@ XSV(const char *, cpuCommand,                   "xterm -name top -title Process\
 XSV(const char *, cpuClassHint,                 "top.XTerm")
 XSV(const char *, netCommand,                   "xterm -name netstat -title 'Network Status' -e netstat -c")
 XSV(const char *, netClassHint,                 "netstat.XTerm")
-XSV(const char *, netDevice,                    "eth0 wlan0")
+XSV(const char *, netDevice,                    "eth0 eth1 eth2 wlan0 ppp0")
 XSV(const char *, addressBarCommand,            0)
 #ifdef CONFIG_I18N
 XSV(const char *, fmtTime,                      "%X")
@@ -436,7 +436,6 @@ cfoption icewm_preferences[] = {
 #ifdef CONFIG_APPLET_APM
     OSV("AcpiIgnoreBatteries",                  &acpiIgnoreBatteries,           "List of battery names (directories) in /proc/acpi/battery to ignore. Useful when more slots are built-in, but only one battery is used"),
 #endif
-
 
 #ifndef NO_KEYBIND
     OKV("MouseWinMove",                         gMouseWinMove,                  "Mouse binding for window move"),

@@ -128,3 +128,8 @@ ApmFontName		=	"-b&h-lucida-bold-r-normal-sans-14-*-*-*-*-*-*-*"
 
 ShowMenuButtonIcon=0
 TaskBarClockLeds=0
+
+#DesktopBackgroundColor="#B29C84"
+DesktopBackgroundCenter=1
+DesktopBackgroundScaled=1
+DesktopBackgroundImage="default2.jpg"

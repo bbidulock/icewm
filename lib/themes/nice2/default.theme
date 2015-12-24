@@ -30,3 +30,8 @@ ColorActiveTaskBarAppText="rgb:00/00/00"
 ColorMinimizedTaskBarApp="rgb:00/80/C0"
 ColorMinimizedTaskBarAppText="rgb:00/00/00"
 ColorListBox="rgb:FF/FF/FF"
+
+#DesktopBackgroundColor="#B29C84"
+DesktopBackgroundCenter=1
+DesktopBackgroundScaled=1
+DesktopBackgroundImage="default.jpg"

@@ -28,3 +28,8 @@ ColorScrollBar="rgb:E0/E0/E0"
 ColorScrollBarSlider="rgb:C0/C0/C0"
 ColorScrollBarButton="rgb:C0/C0/C0"
 ColorScrollBarButtonArrow="rgb:00/00/00"
+
+#DesktopBackgroundColor="#B29C84"
+DesktopBackgroundCenter=1
+DesktopBackgroundScaled=1
+DesktopBackgroundImage="default.jpg"

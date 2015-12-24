@@ -50,3 +50,8 @@ ColorApmText="rgb:ef/d0/97"
 ColorCPUStatusIdle="rgb:18/18/38"
 ColorNetIdle="rgb:18/18/38"
 ColorMEMStatusFree="rgb:18/18/38"
+
+#DesktopBackgroundColor="#B29C84"
+DesktopBackgroundCenter=1
+DesktopBackgroundScaled=1
+DesktopBackgroundImage="default.jpeg"
