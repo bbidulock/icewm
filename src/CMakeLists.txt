@@ -17,6 +17,10 @@ if("${CMAKE_BUILD_TYPE}" STREQUAL "" AND ("" STREQUAL "${CMAKE_CXX_FLAGS}"))
 	SET(CMAKE_BUILD_TYPE Release)
 endif()
 
+if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
+   add_definitions(-DDEBUG)
+endif()
+
 # I don't need -rdynamic, thanks!
 SET(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "")
 SET(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
