@@ -25,3 +25,5 @@ Developer/Integrator notes:
  * Potential tuning options:
    -DEXTRA_LIBS="-flto -lsupc++" -DCMAKE_CXX_FLAGS="-flto"
    -DEXTRA_MSGMERGE=--verbose -DEXTRA_MSGFMT=--verbose
+ * There is also a configuration example for debug builds in rebuild.sh,
+   see there fore details
