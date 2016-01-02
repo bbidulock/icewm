@@ -140,6 +140,8 @@ GNOME 1.0 menu support for icewm (using gnome 2.x).
 %{pkgdata}/themes/WinClassic2/*
 %dir %{pkgdata}/themes/Elegance_ice
 %{pkgdata}/themes/Elegance_ice/*
+%dir %{pkgdata}/themes/SilverXP
+%{pkgdata}/themes/SilverXP/*
 
 %changelog
 * Sun Dec 18 2015 Jiri Slaby <jirislaby@gmail.com>

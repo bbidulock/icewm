@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv="content-type"
+ content="text/html; charset=windows-1250">
+  <title>SilverXP Theme Installation Notes</title>
+  <meta name="author" content="Alexander Portnoy">
+</head>
+<body style="background-image: url(bg.gif);">
+<pre><big>--------------------------------------------------------------<br><big><br
+ style="font-weight: bold;"><span style="font-weight: bold;">                 SilverXP Theme <br
+ style="font-weight: bold;"></span><span style="font-weight: bold;"> </span><br
+ style="font-weight: bold;"><span style="font-weight: bold;">                for IceWM-1.2.17<br><br>            with single height taskbar<br
+ style="font-weight: bold;"></span><br style="font-weight: bold;"><span
+ style="font-weight: bold;">               INSTALLATION NOTES</span></big><br><br>--------------------------------------------------------------<br><br><br>In order to install the theme perform the following actions:<br><br><br><br> - first of all - backup your <span
+ style="font-weight: bold; font-style: italic;">~/.icewm</span> folder:<br> <br>   <span
+ style="font-weight: bold; color: rgb(255, 0, 0);">cd &amp;&amp; cp -rp .icewm .icewm-backup</span><br>   <br><br><br> - install Microsoft's TrueType fonts (x11-fonts/webfonts in FreeBSD).<br>   We need the font<span
+ style="font-weight: bold;">'verdana'</span>. You can download the fonts from<br>   <a
+ href="http://corefonts.sf.net"
+ style="font-style: italic; font-weight: bold;">http://corefonts.sf.net</a><br>   <br><br></big><big><br> - extract the archive <span
+ style="font-weight: bold; font-style: italic;">SilverXP-1.2.17-single-1.tar.bz2 - it</span><br>   will create the<span
+ style="font-style: italic;"> icewm/</span> directory <br>   <br>   <span
+ style="font-weight: bold; color: rgb(255, 0, 0);">cd &amp;&amp; tar jxvf </span></big><span
+ style="font-weight: bold; color: rgb(255, 0, 0);"><big><span
+ style="font-weight: bold; font-style: italic;">SilverXP-1.2.17-single-1.tar.bz2</span></big></span><big><span
+ style="font-weight: bold; color: rgb(255, 0, 0);"></span><br
+ style="font-weight: bold; color: rgb(255, 0, 0);"><span
+ style="font-weight: bold; color: rgb(255, 0, 0);"></span>  <br>   <br></big><big> - hide the directory (do not forget to back up Your <span
+ style="font-style: italic;">~/.icewm</span><br>   before doing it):<br><br><span
+ style="color: rgb(255, 0, 0);">   cd &amp;&amp; mv icewm/ .icewm/</span><br><br><br><br> - move Your customized files <span
+ style="font-style: italic;">"keys, winoptions, toolbar, menu"</span><br>   to the <span
+ style="font-style: italic;">~/.icewm</span> directory:<br><br>   <span
+ style="color: rgb(255, 0, 0);">cd</span> <span
+ style="color: rgb(255, 0, 0);">~/</span></big><big
+ style="color: rgb(255, 0, 0);"><span style="font-weight: bold;">.icewm-backup/ &amp;&amp; cp keys winoptions toolbar menu ~/.icewm<br></span></big><big><br><br><br> - Patch IceWM-1.2.17 to  enable borderless buttons and<br>   recompile IceWM (this also will enable the support<br>   of shaped windows and gradients):<br>   <br><br>   FreeBSD:<br><br><span
+ style="color: rgb(255, 0, 0);">   su</span><br><span
+ style="color: rgb(255, 0, 0);"></span></big><big
+ style="color: rgb(255, 0, 0);">   </big><big><span
+ style="color: rgb(255, 0, 0);">cd </span></big><span
+ style="color: rgb(255, 0, 0);"><big><span
+ style="font-weight: bold; color: rgb(255, 0, 0);">/usr/ports/x11-wm/icewm/<br></span></big></span><span
+ style="color: rgb(255, 0, 0);"><big><span
+ style="color: rgb(255, 0, 0);">   cp </span></big><big
+ style="color: rgb(255, 0, 0);">~/.icewm/themes/SilverXP-1.2.17-single-1/FreeBSD/</big><span
+ style="color: rgb(255, 0, 0);"><big>patch-src_ybutton.cc</big><big> files/<br></big></span></span><big><span
+ style="color: rgb(255, 0, 0);">   patch &lt; </span></big><span
+ style="color: rgb(255, 0, 0);"><span style="color: rgb(255, 0, 0);"><big><span
+ style="color: rgb(255, 0, 0);"></span></big><big
+ style="color: rgb(255, 0, 0);">~/.icewm/themes/SilverXP-1.2.17-single-1/FreeBSD/</big></span></span><span
+ style="color: rgb(255, 0, 0);"><span style="color: rgb(255, 0, 0);"><big>Makefile.patch</big></span><big
+ style="color: rgb(255, 0, 0);"> <br></big></span><big><span
+ style="color: rgb(255, 0, 0);">   make clean reinstall<br><br><br><span
+ style="color: rgb(0, 0, 0);">   Linux:<br><br></span></span>   <span
+ style="font-weight: bold; color: rgb(255, 0, 0);">tar zxvf icewm-1.2.17.tar.zg</span><br
+ style="font-weight: bold; color: rgb(255, 0, 0);"><span
+ style="font-weight: bold; color: rgb(255, 0, 0);">   cd icewm-1.2.17/src</span><br
+ style="font-weight: bold; color: rgb(255, 0, 0);"><span
+ style="font-weight: bold; color: rgb(255, 0, 0);"></span></big><big><span
+ style="font-weight: bold; color: rgb(255, 0, 0);">   patch &lt; ~/.icewm/themes/SilverXP-1.2.17-single-1/Linux/ybutton.cc.patch</span></big><br
+ style="font-weight: bold; color: rgb(255, 0, 0);"><big><span
+ style="font-weight: bold; color: rgb(255, 0, 0);">   cd ..</span><br
+ style="font-weight: bold; color: rgb(255, 0, 0);"><span
+ style="font-weight: bold; color: rgb(255, 0, 0);">   ./configure --prefix=/usr/X11R6 --exec-prefix=/usr/X11R6 \</span><br
+ style="font-weight: bold; color: rgb(255, 0, 0);"><span
+ style="font-weight: bold; color: rgb(255, 0, 0);">               --with-imlib --without-xpm \</span><br
+ style="font-weight: bold; color: rgb(255, 0, 0);"><span
+ style="font-weight: bold; color: rgb(255, 0, 0);">               --enable-gradients --enable-shaped-decorations \</span><br
+ style="font-weight: bold; color: rgb(255, 0, 0);"><span
+ style="font-weight: bold; color: rgb(255, 0, 0);">               --enable-xfreetype --disable-corefonts</span><br>    <span
+ style="color: rgb(255, 0, 0); font-weight: bold;">make</span><br
+ style="color: rgb(255, 0, 0); font-weight: bold;"><span
+ style="color: rgb(255, 0, 0); font-weight: bold;">    su</span><br
+ style="color: rgb(255, 0, 0); font-weight: bold;"><span
+ style="color: rgb(255, 0, 0); font-weight: bold;">    make install</span><br></big><big><br><br></big><big>   <br></big><big>  - enjoy the best theme for the best window manager ;-)<br><br><br></big><big>-----------------------------------------------------------------------<br>Theme Home Page - <a
+ href="http://icewmsilverxp.sourceforge.net"
+ style="font-style: italic; font-weight: bold;">http://icewmsilverxp.sourceforge.net</a><br>Theme Author - Alexander Portnoy   <a
+ href="http://sourceforge.net/users/alexpor/"
+ style="font-style: italic; font-weight: bold;">http://sourceforge.net/users/alexpor/</a><br>-----------------------------------------------------------------------<br></big><br></pre>
+</body>
+</html>
