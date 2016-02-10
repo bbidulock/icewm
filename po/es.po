@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.26\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
 "POT-Creation-Date: 2015-12-16 18:15-0700\n"
-"PO-Revision-Date: 2016-02-10 19:57+0200\n"
+"PO-Revision-Date: 2016-02-10 20:03+0200\n"
 "Last-Translator: jc sl <trcs@gmx.com>\n"
 "Language-Team: Spanish "
 "<http://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/es/>\n"
@@ -61,7 +61,7 @@ msgid ""
 "Swap (free): %.2f (%.2f) M"
 msgstr ""
 "\n"
-"Área de intercambio (libre): %.2f (%.2f) M"
+"Swap (libre): %.2f (%.2f) M"
 
 #: src/acpustatus.cc:250
 #, c-format
@@ -79,7 +79,7 @@ msgid ""
 "CPU Freq: %.3fGHz"
 msgstr ""
 "\n"
-"Freq. CPU: %.3f GHz"
+"Frecuencia de la CPU: %.3fGHz"
 
 #: src/acpustatus.cc:274
 msgid "CPU Load: "
@@ -204,7 +204,7 @@ msgstr "Volver"
 
 #: src/icehelp.cc:715
 msgid "Alt+Left"
-msgstr "Alt+Left"
+msgstr "Alt+Izquierda"
 
 #: src/icehelp.cc:716
 msgid "Forward"
@@ -212,7 +212,7 @@ msgstr "Avanzar"
 
 #: src/icehelp.cc:716
 msgid "Alt+Right"
-msgstr "Alt+Right"
+msgstr "Alt+Derecha"
 
 #: src/icehelp.cc:718
 msgid "Previous"
