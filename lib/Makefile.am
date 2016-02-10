@@ -2,7 +2,6 @@
 xsessiondir = $(datadir)/xsessions
 
 dist_xsession_DATA = \
-	icewm.desktop \
 	icewm-session.desktop
 
 nodist_pkgdata_DATA = \
