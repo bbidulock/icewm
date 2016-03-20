@@ -11,7 +11,15 @@ INCLUDE(CheckIncludeFileCXX)
 INCLUDE(FindPkgConfig)
 INCLUDE(CheckCXXSourceCompiles)
 
-SET(CXXFLAGS_COMMON " -pthread -g -O2 -Wall -Wextra -Wno-unused-parameter -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE -I. ${CMAKE_CXX_FLAGS}")
+SET(CXXFLAGS_COMMON " -pthread -Wall -Wextra -Wno-unused-parameter -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE -I.")
+
+if("${CMAKE_BUILD_TYPE}" STREQUAL "" AND ("" STREQUAL "${CMAKE_CXX_FLAGS}"))
+	SET(CMAKE_BUILD_TYPE Release)
+endif()
+
+if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
+   add_definitions(-DDEBUG)
+endif()
 
 # I don't need -rdynamic, thanks!
 SET(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "")
@@ -19,8 +27,6 @@ SET(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
 
 # apply to test calls
 SET(CMAKE_REQUIRED_FLAGS ${CXXFLAGS_COMMON})
-
-include_directories(${PROJECT_SOURCE_DIR})
 
 option(CONFIG_XPM "Legacy XPM image loader" off)
 option(CONFIG_IMLIB "(Deprecated) IMLIB image loader" off)
@@ -235,12 +241,12 @@ if(NOT LITE)
 	option(CONFIG_TOOLTIP "Define to support tooltips" on)
 	option(CONFIG_WINLIST "Define for OS/2 like window list" on)
 	option(CONFIG_TASKBAR "Define to enable builtin taskbar" on)
-	option(CONFIG_APPLET_MEM_STATUS "Define for memory status applet" on)
 	if(CONFIG_TASKBAR)
 		option(CONFIG_ADDRESSBAR "Define for address bar" on)
 		option(CONFIG_TRAY "Define for system tray" on)
 		option(CONFIG_APPLET_MAILBOX "Define for mailbox applet" on)
 		option(CONFIG_APPLET_CPU_STATUS "Define for CPU status applet" on)
+		option(CONFIG_APPLET_MEM_STATUS "Define for memory status applet" on)
 		option(CONFIG_APPLET_NET_STATUS "Define for network status applet" on)
 		option(CONFIG_APPLET_CLOCK "Define for LCD clock applet" on)
 		option(CONFIG_APPLET_APM "Define for APM status applet" on)
@@ -280,7 +286,6 @@ ENDIF()
 #######################################
 
 CONFIGURE_FILE("${CMAKE_SOURCE_DIR}/src/config.cmake.h.in" "${CMAKE_BINARY_DIR}/config.h")
-include_directories("${CMAKE_BINARY_DIR}")
 
 #######################################
 # declaring targets and build flags   #
@@ -371,12 +376,13 @@ TARGET_LINK_LIBRARIES(icewmtray${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LD
 
 INSTALL(TARGETS icewm${EXEEXT} icesh${EXEEXT} icewm-session${EXEEXT} icewmhint${EXEEXT} icewmbg${EXEEXT} icewmtray${EXEEXT} DESTINATION ${BINDIR})
 
-# that bit might be disabled by the user
-if(NOT CROSSCOMPILE)
-	ADD_CUSTOM_COMMAND(TARGET genpref${EXEEXT} POST_BUILD
-		COMMAND ${CMAKE_BINARY_DIR}/genpref${EXEEXT} > preferences
-		WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-	INSTALL(FILES ${CMAKE_BINARY_DIR}/preferences DESTINATION ${LIBDIR})
+if(NOT CMAKE_CROSSCOMPILING)
+   ADD_CUSTOM_COMMAND(TARGET genpref${EXEEXT}
+      POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/lib
+      COMMAND genpref${EXEEXT} > lib/preferences
+      WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+   INSTALL(FILES ${CMAKE_BINARY_DIR}/lib/preferences DESTINATION ${LIBDIR})
 endif()
 
 #######################################

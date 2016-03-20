@@ -30,6 +30,7 @@ private:
 YXTrayProxy::YXTrayProxy(const char *atom, YXTray *tray, YWindow *aParent):
     YWindow(aParent)
 {
+    Atom manager = XInternAtom(xapp->display(), "MANAGER", False);
     fTray = tray;
 
     _NET_SYSTEM_TRAY_OPCODE = XInternAtom(xapp->display(),
@@ -53,10 +54,11 @@ YXTrayProxy::YXTrayProxy(const char *atom, YXTray *tray, YWindow *aParent):
 
     xev.type = ClientMessage;
     xev.window = desktop->handle();
-    xev.message_type = _NET_SYSTEM_TRAY_S0;
+    xev.message_type = manager;
     xev.format = 32;
     xev.data.l[0] = CurrentTime;
-    xev.data.l[1] = handle();
+    xev.data.l[1] = _NET_SYSTEM_TRAY_S0;
+    xev.data.l[2] = handle();
 
     XSendEvent(xapp->display(), desktop->handle(), False, StructureNotifyMask, (XEvent *) &xev);
 }

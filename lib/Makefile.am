@@ -43,6 +43,9 @@ nobase_dist_pkgdata_DATA = \
 	icons/kde_16x16.xpm \
 	icons/koules_16x16.xpm \
 	icons/koules_32x32.xpm \
+	icons/lock_16x16.xpm \
+	icons/lock_32x32.xpm \
+	icons/lock_48x48.xpm \
 	icons/navigator_16x16.xpm \
 	icons/navigator_32x32.xpm \
 	icons/netscape_16x16.xpm \
@@ -306,5 +309,24 @@ nobase_dist_pkgdata_DATA = \
 	themes/yellowmotif/maximize.xpm \
 	themes/yellowmotif/menu.xpm \
 	themes/yellowmotif/minimize.xpm \
-	themes/yellowmotif/restore.xpm
-
+	themes/yellowmotif/restore.xpm \
+	themes/default/closeA.xpm \
+	themes/default/closeI.xpm \
+	themes/default/default.theme \
+	themes/default/depthA.xpm \
+	themes/default/depthI.xpm \
+	themes/default/hideA.xpm \
+	themes/default/hideI.xpm \
+	themes/default/maximizeA.xpm \
+	themes/default/maximizeI.xpm \
+	themes/default/menuButtonA.xpm \
+	themes/default/menuButtonI.xpm \
+	themes/default/minimizeA.xpm \
+	themes/default/minimizeI.xpm \
+	themes/default/restoreA.xpm \
+	themes/default/restoreI.xpm \
+	themes/default/rolldownA.xpm \
+	themes/default/rolldownI.xpm \
+	themes/default/rollupA.xpm \
+	themes/default/rollupI.xpm \
+	themes/default/default.png

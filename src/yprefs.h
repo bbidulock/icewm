@@ -34,8 +34,12 @@ XIV(bool, grabRootWindow,                       true)
 #ifdef CONFIG_XFREETYPE
 XIV(bool, haveXft,                              true)
 #endif
+#if defined(__linux__) || defined(__FreeBSD__)
+XSV(const char *, iconPath,                     "/usr/share/icons:/usr/share/pixmaps")
+#else
 XSV(const char *, iconPath,                     0)
-#define CONFIG_DEFAULT_THEME "icedesert/default.theme"
+#endif
+#define CONFIG_DEFAULT_THEME "default/default.theme"
 XSV(const char *, themeName,                    CONFIG_DEFAULT_THEME)
 XSV(const char *, xineramaPrimaryScreenName,    0)
 

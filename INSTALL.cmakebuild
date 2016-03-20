@@ -25,7 +25,5 @@ Developer/Integrator notes:
  * Potential tuning options:
    -DEXTRA_LIBS="-flto -lsupc++" -DCMAKE_CXX_FLAGS="-flto"
    -DEXTRA_MSGMERGE=--verbose -DEXTRA_MSGFMT=--verbose
- * There is a call of the locally compiled binary genpref that builds a sample
-   preferences file with default values. This might cause problems on
-   crosscompilation builds. Therefore, this setp is optional and can be skipped 
-   with -DCROSSCOMPILE=on .
+ * There is also a configuration example for debug builds in rebuild.sh,
+   see there fore details
