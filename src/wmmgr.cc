@@ -928,7 +928,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
                 XFree(cr);
             }
         }
-        if (!focusproxyfound) {
+        if (!focusproxyfound && input) {
             XSetInputFocus(xapp->display(), w, None, xapp->getEventTime("setFocus"));
         }
     } else {
