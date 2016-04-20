@@ -8,13 +8,16 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.15pre3\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
 "POT-Creation-Date: 2015-12-16 18:15-0700\n"
-"PO-Revision-Date: 2000-12-15 12:13+2000\n"
-"Last-Translator: LiNuCe <linuce@linuxmail.org>\n"
-"Language-Team: French\n"
+"PO-Revision-Date: 2016-04-20 18:24+0000\n"
+"Last-Translator: Benoît Monin <benoit.monin@gmx.fr>\n"
+"Language-Team: French "
+"<http://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 2.5\n"
 
 #: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:875
 msgid " - Power"
@@ -34,8 +37,9 @@ msgid "C"
 msgstr ""
 
 #: src/aapm.cc:502
+#, fuzzy
 msgid " - Full"
-msgstr ""
+msgstr " - Chargée"
 
 #: src/acpustatus.cc:234
 #, fuzzy, c-format
@@ -43,32 +47,40 @@ msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
 msgstr "Charge CPU: %3.2f %3.2f %3.2f, %u processus"
 
 #: src/acpustatus.cc:239
-#, c-format
+#, c-format, fuzzy
 msgid ""
 "\n"
 "Ram (free): %5.2f (%.2f) M"
 msgstr ""
+"\n"
+"Mémoire (libre) : %5.2f (%.2f) M"
 
 #: src/acpustatus.cc:244
-#, c-format
+#, c-format, fuzzy
 msgid ""
 "\n"
 "Swap (free): %.2f (%.2f) M"
 msgstr ""
+"\n"
+"Swap (libre) : %.2f (%.2f) M"
 
 #: src/acpustatus.cc:250
-#, c-format
+#, c-format, fuzzy
 msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
+"\n"
+"ACPI Temp : "
 
 #: src/acpustatus.cc:261
-#, c-format
+#, c-format, fuzzy
 msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
+"\n"
+"CPU Freq : %.3fGHz"
 
 #: src/acpustatus.cc:274
 msgid "CPU Load: "
@@ -132,60 +144,74 @@ msgid "Workspace: "
 msgstr "Bureau : "
 
 #: src/fdomenu.cc:74
+#, fuzzy
 msgid "Settings"
-msgstr ""
+msgstr "Réglages"
 
 #: src/fdomenu.cc:75
+#, fuzzy
 msgid "Screensavers"
-msgstr ""
+msgstr "Économiseurs d'écran"
 
 #: src/fdomenu.cc:76
+#, fuzzy
 msgid "Accessories"
-msgstr ""
+msgstr "Accessoires"
 
 #: src/fdomenu.cc:77
+#, fuzzy
 msgid "Development"
-msgstr ""
+msgstr "Développement"
 
 #: src/fdomenu.cc:78
+#, fuzzy
 msgid "Education"
-msgstr ""
+msgstr "Éducation"
 
 #: src/fdomenu.cc:79
+#, fuzzy
 msgid "Games"
-msgstr ""
+msgstr "Jeux"
 
 #: src/fdomenu.cc:80
+#, fuzzy
 msgid "Graphics"
-msgstr ""
+msgstr "Graphiques"
 
 #: src/fdomenu.cc:81
+#, fuzzy
 msgid "Multimedia"
-msgstr ""
+msgstr "Multimédia"
 
 #: src/fdomenu.cc:82
+#, fuzzy
 msgid "Network"
-msgstr ""
+msgstr "Réseau"
 
 #: src/fdomenu.cc:83
+#, fuzzy
 msgid "Office"
-msgstr ""
+msgstr "Bureautique"
 
 #: src/fdomenu.cc:84
+#, fuzzy
 msgid "System"
-msgstr ""
+msgstr "Système"
 
 #: src/fdomenu.cc:85
+#, fuzzy
 msgid "WINE"
-msgstr ""
+msgstr "WINE"
 
 #: src/fdomenu.cc:86
+#, fuzzy
 msgid "Editors"
-msgstr ""
+msgstr "Éditeurs"
 
 #: src/fdomenu.cc:87
+#, fuzzy
 msgid "Other"
-msgstr ""
+msgstr "Autre"
 
 #: src/icehelp.cc:715
 msgid "Back"
@@ -690,8 +716,9 @@ msgid "CodeSet:"
 msgstr ""
 
 #: src/wmabout.cc:44
+#, fuzzy
 msgid "Language:"
-msgstr ""
+msgstr "Langue :"
 
 #: src/wmabout.cc:69
 msgid "icewm - About"
@@ -1050,8 +1077,9 @@ msgid "_Themes"
 msgstr "_Thèmes"
 
 #: src/wmprog.cc:942
+#, fuzzy
 msgid "Se_ttings"
-msgstr ""
+msgstr "_Réglages"
 
 #: src/wmsession.cc:239 src/wmsession.cc:255 src/wmsession.cc:265
 #, c-format
@@ -1314,29 +1342,29 @@ msgid "_OK"
 msgstr "_Valider"
 
 #: src/ypaths.cc:144 src/ypaths.cc:171
-#, c-format
+#, c-format, fuzzy
 msgid "Image not readable: %s"
-msgstr ""
+msgstr "Image non lisible : %s"
 
 #: src/ypaths.cc:149
 #, fuzzy, c-format
 msgid "Out of memory for image %s"
-msgstr "Plus de mémoire pour le pixmap \"%s\""
+msgstr "Plus de mémoire pour l'image %s"
 
 #: src/ypaths.cc:156
 #, fuzzy, c-format
 msgid "Could not find image %s"
-msgstr "Impossible de trouver le pixmap %s"
+msgstr "Impossible de trouver l'image %s"
 
 #: src/ypaths.cc:175
 #, fuzzy, c-format
 msgid "Out of memory for image: %s"
-msgstr "Plus de mémoire pour le pixmap \"%s\""
+msgstr "Plus de mémoire pour l'image : %s"
 
 #: src/ypaths.cc:182
 #, fuzzy, c-format
 msgid "Could not find image: %s"
-msgstr "Impossible de trouver le pixmap %s"
+msgstr "Impossible de trouver l'image : %s"
 
 #: src/ypixbuf.cc:482 src/ypixbuf.cc:668
 #, c-format
