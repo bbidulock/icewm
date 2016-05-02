@@ -2290,9 +2290,11 @@ void YWindowManager::relocateWindows(long workspace, int screen, int dx, int dy)
 }
 
 void YWindowManager::resizeWindows() {
+	// luyentm : fail for switch screen when we extend screen
+	// Edit : alway need to update in this check
     for (YFrameWindow * f = topLayer(); f; f = f->nextLayer()) {
-        if (f->inWorkArea()) {
-            if (f->isMaximized())
+        if (f->inWorkArea() || 1) {	// <==================== always pass here
+            if (f->isMaximized() || 1)	// <==================== always pass here
                 f->updateDerivedSize(WinStateMaximizedVert | WinStateMaximizedHoriz);
                 f->updateLayout();
         }
@@ -3429,9 +3431,12 @@ void YWindowManager::UpdateScreenSize(XEvent *event) {
     int nw = DisplayWidth(xapp->display(), DefaultScreen(xapp->display()));
     int nh = DisplayHeight(xapp->display(), DefaultScreen(xapp->display()));
     updateXineramaInfo(nw, nh);
-
+    // luyentm : bad logic
+    // Fail : when extend screen (multi monitor) and switch screen, 
+    // total size not change, but 2 screen swap and not correctly resolution
+    // Edit :  for testing, alway update in this check
     if (width() != nw ||
-        height() != nh)
+        height() != nh || 1)  // <================ Alway pass here :D hack!
     {
 
         MSG(("xrandr: %d %d",
