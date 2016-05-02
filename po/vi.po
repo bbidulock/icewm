@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.21pre1 \n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-12-16 18:15-0700\n"
+"POT-Creation-Date: 2016-05-01 22:24-0600\n"
 "PO-Revision-Date: 2005-06-18 11:46+0400\n"
 "Last-Translator: Phạm Thành Long <ptlong@gmail.com>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
@@ -1302,7 +1302,7 @@ msgstr "Không thể nạp bộ phông chữ \"%s\"."
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "Thiếu bộ mã cho bộ phông chữ \"%s\":"
 
-#: src/yicon.cc:147
+#: src/yicon.cc:167
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
 msgstr "Tràn bộ nhớ cho pixmap \"%s\""

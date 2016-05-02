@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-12-16 18:15-0700\n"
+"POT-Creation-Date: 2016-05-01 22:24-0600\n"
 "PO-Revision-Date: 2015-11-03 18:04+0200\n"
 "Last-Translator: David Medina <medipas@gmail.com>\n"
 "Language-Team: Catalan <http://10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -1336,7 +1336,7 @@ msgstr "No s'ha pogut carregar la lletra \"%s\"."
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "No s'ha trobat codificació per a la lletra \"%s\":"
 
-#: src/yicon.cc:147
+#: src/yicon.cc:167
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
 msgstr "Sense memòria per al pixmap \"%s\""

@@ -686,6 +686,7 @@ void YFrameWindow::manage(YFrameClient *client) {
                           client->handle(),
                           0);
 
+#if 0
     {
         XSetWindowAttributes xswa;
 	xswa.backing_store = Always;
@@ -694,6 +695,7 @@ void YFrameWindow::manage(YFrameClient *client) {
         XChangeWindowAttributes(xapp->display(), client->handle(),
                                 CWBackingStore | CWWinGravity, &xswa);
     }
+#endif
 
     XAddToSaveSet(xapp->display(), client->handle());
 

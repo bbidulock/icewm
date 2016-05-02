@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.35\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-12-16 18:15-0700\n"
+"POT-Creation-Date: 2016-05-01 22:24-0600\n"
 "PO-Revision-Date: 2016-04-25 08:06+0000\n"
 "Last-Translator: YunSeok Choi <xein@naver.com>\n"
 "Language-Team: Korean "
@@ -1298,7 +1298,7 @@ msgstr "\"%s\" 폰트셋 읽지 못함."
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "\"%s\" 폰트셋에 대한 코드셋 빠짐:"
 
-#: src/yicon.cc:147
+#: src/yicon.cc:167
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
 msgstr "\"%s\" 그림에 대해 메모리 부족"

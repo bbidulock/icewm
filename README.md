@@ -120,7 +120,12 @@ The contrib file module of IceWM is located at:
 **_Bug Reports_**
 ---
 
-Issues can be reported using the Issues' utility here on GitHub.  Please try to submit short patches if you can.  If you would like to perform regular maintenance activities (e.g. if you are a maintainer of an IceWM package for a distribution), contact me for push access.
+Issues can be reported using the
+[issues utility here on GitHub](https://github.com/bbidulock/icewm/issues).
+Please try to submit short patches or pull requests if you can.  If you
+would like to perform regular maintenance activities (e.g. if you are a
+maintainer of an IceWM package for a distribution), contact me for push
+access.
 
 Bug reports, feedback, and suggestions pertaining to the original CVS version can be sent to:
 
@@ -144,3 +149,11 @@ If you would like to develop against this fork, the easiest way is to
 obtain a GitHub account from (http://github.com), fork the repository
 at (http://github.com/bbidulock/icewm) and perform your development.
 Send me a pull request when you have something stable.
+
+---
+**_Translations_**
+---
+
+You can provide translations by patching .po files and issuing pull
+requests, or you can use the [openSUSE weblate tool](https://l10n.opensuse.org/).
+

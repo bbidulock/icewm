@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm-1.2.30\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-12-16 18:15-0700\n"
+"POT-Creation-Date: 2016-05-01 22:24-0600\n"
 "PO-Revision-Date: 2016-04-18 10:53+0100\n"
 "Last-Translator: Vojtěch Zeisek <vojta@trapa.cz>\n"
 "Language-Team: Czech <opensuse-cz@opensuse.org>\n"
@@ -1327,7 +1327,7 @@ msgstr "Nemohu nahrát sadu fontů „%s“."
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "Schází znaková sada pro sadu fontů „%s“:"
 
-#: src/yicon.cc:147
+#: src/yicon.cc:167
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
 msgstr "Nedostatek paměti pro pixmapu „%s“"
@@ -1439,8 +1439,8 @@ msgid ""
 "Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
 "blue): %0*x/%0*x/%0*x)"
 msgstr ""
-"Ke konverzi pixelů používám nouzový mechanismus (hloubka: %d; maska "
-"(červená/zelená/modrá): %0*x/%0*x/%0*x)"
+"Ke konverzi pixelů používám nouzový mechanismus (hloubka: %d; maska (červená/"
+"zelená/modrá): %0*x/%0*x/%0*x)"
 
 #: src/ypixbuf.cc:576 src/ypixbuf.cc:725
 #, c-format
