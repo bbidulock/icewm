@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-12-16 18:15-0700\n"
+"POT-Creation-Date: 2016-05-01 22:24-0600\n"
 "PO-Revision-Date: 2002-10-04 12:30+0200\n"
 "Last-Translator: Tiberiu Micu <tibimicu@gmx.net>\n"
 "Language-Team: Romanian <ro@li.org>\n"
@@ -1271,7 +1271,7 @@ msgstr "Nu pot încărca setul de fonturi \"%s\"."
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "Lipseşte setul de coduri pentru setul de fonturi \"%s\":"
 
-#: src/yicon.cc:147
+#: src/yicon.cc:167
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
 msgstr "Depăşirea memoriei pentru harta de pixeli \"%s\""

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.2\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-12-16 18:15-0700\n"
+"POT-Creation-Date: 2016-05-01 22:24-0600\n"
 "PO-Revision-Date: 2002-09-22 22:00+0200\n"
 "Last-Translator: Petter Johan Olsen <petter.olsen@cc.uit.no>\n"
 "Language-Team: Norwegian\n"
@@ -1298,7 +1298,7 @@ msgstr "Kunne ikke laste tegnsett (fontset) `%s'."
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "Mangler tegnkoding for fontsettet `%s'."
 
-#: src/yicon.cc:147
+#: src/yicon.cc:167
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
 msgstr "Ikke mer minne tilgjengelig for pixmap `%s'"

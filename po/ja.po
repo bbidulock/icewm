@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.6\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-12-16 18:15-0700\n"
+"POT-Creation-Date: 2016-05-01 22:24-0600\n"
 "PO-Revision-Date: 2001-01-10 23:14+0900\n"
 "Last-Translator: Yoichi ASAI <yatt@msc.biglobe.ne.jp>\n"
 "Language-Team: Japanese\n"
@@ -1344,7 +1344,7 @@ msgstr "フォントセット \"%s\" を読み込めませんでした。"
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "フォントセット \"%s\" に対するコードセットがありません:"
 
-#: src/yicon.cc:147
+#: src/yicon.cc:167
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
 msgstr "ピクセルマップ \"%s\" に対してメモリが不足しています"

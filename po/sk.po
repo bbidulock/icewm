@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-12-16 18:15-0700\n"
+"POT-Creation-Date: 2016-05-01 22:24-0600\n"
 "PO-Revision-Date: 2015-11-04 16:38+0200\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
 "Language-Team: Slovak <http://10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -1315,7 +1315,7 @@ msgstr "Nemôžem nahrať sadu písma \"%s\"."
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "Chýba znaková sada písma \"%s\":"
 
-#: src/yicon.cc:147
+#: src/yicon.cc:167
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
 msgstr "Nedostatok pamäte pre pixmapu \"%s\""

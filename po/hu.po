@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.7\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-12-16 18:15-0700\n"
+"POT-Creation-Date: 2016-05-01 22:24-0600\n"
 "PO-Revision-Date: 2003-04-14 21:23+0200\n"
 "Last-Translator: Gabor Suveg <gabor@suveg.hu>\n"
 "Language-Team:  <hu@li.org>\n"
@@ -1417,7 +1417,7 @@ msgid "Missing codesets for fontset \"%s\":"
 msgstr "A(z) \"%s\" betűkészlethez hiányoznak a kódlapok."
 
 # ../src/icons.cc:211 ../src/icons.cc:316 ../src/icons.cc:329
-#: src/yicon.cc:147
+#: src/yicon.cc:167
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
 msgstr "Elfogyott a memória a következő képhez: \"%s\""
