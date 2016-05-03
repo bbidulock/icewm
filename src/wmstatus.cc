@@ -116,8 +116,13 @@ void MoveSizeStatus::setStatus(YFrameWindow *frame, const YRect &r) {
     
     fX = r.x();
     fY = r.y();
-    fW = (width - (sh ? sh->base_width : 0)) / (sh ? sh->width_inc : 1);
-    fH = (height - (sh ? sh->base_height : 0)) / (sh ? sh->height_inc : 1);
+    if (sh && (sh->flags & PResizeInc)) {
+        fW = (width - sh->base_width) / (sh->width_inc ?: 1);
+        fH = (height - sh->base_height) / (sh->height_inc ?: 1);
+    } else {
+        fW = width;
+        fH = height;
+    }
     repaintSync();
 }
 
@@ -126,8 +131,13 @@ void MoveSizeStatus::setStatus(YFrameWindow *frame) {
     
     fX = frame->x ();//// + frame->borderX ();
     fY = frame->y ();//// + frame->borderY () + frame->titleY ();
-    fW = (frame->client()->width() - (sh ? sh->base_width : 0)) / (sh ? sh->width_inc : 1);
-    fH = (frame->client()->height() - (sh ? sh->base_height : 0)) / (sh ? sh->height_inc : 1);
+    if (sh && (sh->flags & PResizeInc)) {
+        fW = (frame->client()->width() - sh->base_width) / (sh->width_inc ?: 1);
+        fH = (frame->client()->height() - sh->base_height) / (sh->height_inc ?: 1);
+    } else {
+        fW = frame->client()->width();
+        fH = frame->client()->height();
+    }
     repaintSync();
 }
 
