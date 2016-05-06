@@ -8,14 +8,16 @@ msgstr ""
 "Project-Id-Version: icewm VERSION\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
 "POT-Creation-Date: 2016-05-01 22:24-0600\n"
-"PO-Revision-Date: 2013-01-11 14:56+0200\n"
-"Last-Translator: Isratine Citizen <genghiskhan@gmx.ca>\n"
-"Language-Team: Rahut\n"
+"PO-Revision-Date: 2016-05-06 07:52+0000\n"
+"Last-Translator: Brian Bidulock <bidulock@openss7.org>\n"
+"Language-Team: Hebrew "
+"<http://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/he/>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.4\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.5\n"
 
 #: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:875
 msgid " - Power"
@@ -39,12 +41,12 @@ msgid " - Full"
 msgstr ""
 
 #: src/acpustatus.cc:234
-#, fuzzy, c-format
+#, c-format
 msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
-msgstr "מטען CPU‏: %3.2f %3.2f %3.2f, %d"
+msgstr "מטען CPU‏: %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:239
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Ram (free): %5.2f (%.2f) M"
@@ -53,7 +55,7 @@ msgstr ""
 "זיכרון: ‏%5.2f/%.2fM"
 
 #: src/acpustatus.cc:244
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Swap (free): %.2f (%.2f) M"
@@ -62,13 +64,13 @@ msgstr ""
 "תחלופה: ‏%.2f/%.2fM"
 
 #: src/acpustatus.cc:250
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
 "\n"
-"טמפרטורת ACPI:"
+"טמפרטורת ACPI: "
 
 #: src/acpustatus.cc:261
 #, c-format
@@ -113,7 +115,7 @@ msgid "%ld mail messages."
 msgstr "%ld הודעות דואר."
 
 #: src/apppstatus.cc:204
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Interface %s:\n"
 "  Current rate (in/out):\t%li %s/%li %s\n"
@@ -121,12 +123,12 @@ msgid ""
 "  Transferred (in/out):\t%lli %s/%lli %s\n"
 "  Online time:\t%ld:%02ld:%02ld%s%s"
 msgstr ""
-"ממשק %s:\n"
-"  שיעור נוכחי (פנים/ חוץ):\t%li %s/%li %s\n"
-"  ממוצע נוכחי (פנים/ חוץ):\t%lli %s/%lli %s\n"
-"  ממוצע כולל (פנים/ חוץ):\t%li %s/%li %s\n"
-"  הועברו (פנים/ חוץ):\t%lli %s/%lli %s\n"
-"  זמן מקוון:\t%ld:%02ld:%02ld%s%s"
+"ממשק: s%\n"
+"  שיעור נוכחי (פנים/ חוץ): li %s/%li %s%\n"
+"  ממוצע נוכחי (פנים/ חוץ):\tlli %s/%lli %s%\n"
+"  ממוצע כולל (פנים/ חוץ): li %s/%li %s%\n"
+"  הועברו (פנים/ חוץ):\tlli %s/%lli %s%\n"
+"  זמן מקוון:\tld:%02ld:%02ld%s%s%"
 
 #: src/apppstatus.cc:216
 msgid ""
@@ -140,7 +142,6 @@ msgid "Workspace: "
 msgstr "חלל עבודה: "
 
 #: src/fdomenu.cc:74
-#, fuzzy
 msgid "Settings"
 msgstr "_הגדרות"
 
