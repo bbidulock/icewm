@@ -2294,7 +2294,7 @@ void YWindowManager::resizeWindows() {
         if (f->inWorkArea()) {
             if (f->isMaximized())
                 f->updateDerivedSize(WinStateMaximizedVert | WinStateMaximizedHoriz);
-                f->updateLayout();
+            f->updateLayout();
         }
     }
 }
