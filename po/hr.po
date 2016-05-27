@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.7\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-12-16 18:15-0700\n"
+"POT-Creation-Date: 2016-05-01 22:24-0600\n"
 "PO-Revision-Date: 2001-03-25 17:00+GMT1\n"
 "Last-Translator: Vlatko Kosturjak <kost@iname.com>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
@@ -1176,7 +1176,7 @@ msgstr "Ne mogu učitati fontset '%s'."
 msgid "Missing codesets for fontset \"%s\":"
 msgstr ""
 
-#: src/yicon.cc:147
+#: src/yicon.cc:167
 #, fuzzy, c-format
 msgid "Out of memory for pixmap \"%s\""
 msgstr "Nema memorije za pixmapu %s"

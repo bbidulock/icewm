@@ -282,8 +282,8 @@ void print_submenu(const char *title, tMenuContainer data)
 
 void dump_menu()
 {
-    for(tListMeta *p=menuinfo; p < menuinfo+ACOUNT(menuinfo)-1; ++p)
-    	print_submenu(p->title, * p->store);
+	for (tListMeta *p=menuinfo; p < menuinfo+ACOUNT(menuinfo)-1; ++p)
+		print_submenu(p->title, * p->store);
 	puts("separator");
 	print_submenu(menuinfo[ACOUNT(menuinfo)-1].title, * menuinfo[ACOUNT(menuinfo)-1].store);
 }

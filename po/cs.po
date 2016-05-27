@@ -1,23 +1,23 @@
 # Czech messages for IceWM.
 # Copyright (C) 2000 Free Software Foundation, Inc.
 # Unofficial translation by Icebraker <icebraker@email.cz>
-# on 6th of May 2003. 
-# Petr Pisar <petr.pisar@atlas.cz>, 2007
+# on 6th of May 2003.
+# Petr Pisar <petr.pisar@atlas.cz>, 2007.
+# Vojtěch Zeisek <vojta@trapa.cz>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: icewm-1.2.30\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-12-16 18:15-0700\n"
-"PO-Revision-Date: 2015-11-05 09:52+0200\n"
-"Last-Translator: Vojtech Zeisek <Vojtech.Zeisek@opensuse.org>\n"
-"Language-Team: Czech <http://10n.opensuse.org/projects/icewm/icewm-1-3-"
-"branch/cs/>\n"
+"POT-Creation-Date: 2016-05-01 22:24-0600\n"
+"PO-Revision-Date: 2016-04-18 10:53+0100\n"
+"Last-Translator: Vojtěch Zeisek <vojta@trapa.cz>\n"
+"Language-Team: Czech <opensuse-cz@opensuse.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 2.3\n"
+"X-Generator: Lokalize 2.0\n"
 
 #: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:875
 msgid " - Power"
@@ -1305,7 +1305,7 @@ msgstr ""
 #: src/ycursor.cc:219
 #, c-format
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
-msgstr "CHYBA? Neočekávaný znak, ale Imlib byla chopna analyzovat „%s“"
+msgstr "CHYBA? Neočekávaný znak, ale Imlib byla schopna analyzovat „%s“"
 
 #: src/yfontcore.cc:71 src/yfontxft.cc:174
 #, c-format
@@ -1327,7 +1327,7 @@ msgstr "Nemohu nahrát sadu fontů „%s“."
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "Schází znaková sada pro sadu fontů „%s“:"
 
-#: src/yicon.cc:147
+#: src/yicon.cc:167
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
 msgstr "Nedostatek paměti pro pixmapu „%s“"

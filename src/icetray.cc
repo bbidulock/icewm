@@ -42,6 +42,7 @@ public:
     void trayChanged();
 private:
     Atom icewm_internal_tray;
+    Atom manager;
     Atom _NET_SYSTEM_TRAY_OPCODE;
     YXTray *fTray2;
 };
@@ -177,6 +178,8 @@ SysTray::SysTray(): YWindow(0) {
     sprintf(trayatom2, "_ICEWM_INTTRAY_S%d", xapp->screen());
     icewm_internal_tray =
         XInternAtom(xapp->display(), trayatom2, False);
+    manager =
+        XInternAtom(xapp->display(), "MANAGER", False);
 
     _NET_SYSTEM_TRAY_OPCODE =
         XInternAtom(xapp->display(),
@@ -220,7 +223,7 @@ void SysTray::requestDock() {
 }
 
 bool SysTray::checkMessageEvent(const XClientMessageEvent &message) {
-    if (message.message_type == icewm_internal_tray) {
+    if (message.message_type == manager && (Atom) message.data.l[1] == icewm_internal_tray) {
         MSG(("requestDock"));
         requestDock();
     }

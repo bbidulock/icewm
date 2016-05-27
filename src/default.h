@@ -336,7 +336,7 @@ cfoption icewm_preferences[] = {
     OBV("ShowSettingsMenu",                     &showSettingsMenu,                  "Show settings submenu"),
     OBV("ShowFocusModeMenu",                     &showFocusModeMenu,                  "Show focus mode submenu"),
     OBV("ShowThemesMenu",                       &showThemesMenu,                "Show themes submenu"),
-    OBV("ShowLogoutMenu",                       &showLogoutMenu,                "Show logout submenu"),
+    OBV("ShowLogoutMenu",                       &showLogoutMenu,                "Show logout menu"),
     OBV("ShowHelp",                             &showHelp,                      "Show the help menu item"),
     OBV("ShowLogoutSubMenu",                    &showLogoutSubMenu,             "Show logout submenu"),
     OBV("ShowAbout",                            &showAbout,                     "Show the about menu item"),
