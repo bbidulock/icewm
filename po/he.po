@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: icewm VERSION\n"
 "Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
 "POT-Creation-Date: 2016-05-24 21:25-0600\n"
-"PO-Revision-Date: 2016-05-06 07:52+0000\n"
-"Last-Translator: Brian Bidulock <bidulock@openss7.org>\n"
-"Language-Team: Hebrew <http://l10n.opensuse.org/projects/icewm/icewm-1-3-"
-"branch/he/>\n"
+"PO-Revision-Date: 2016-06-06 12:13+0000\n"
+"Last-Translator: Stanislav Brabec <sbrabec@suse.com>\n"
+"Language-Team: Hebrew "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/he/>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.5\n"
+"X-Generator: Weblate 2.6\n"
 
 #: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:875
 msgid " - Power"
@@ -43,7 +43,7 @@ msgstr ""
 #: src/acpustatus.cc:234
 #, c-format
 msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
-msgstr "מטען CPU‏: %3.2f %3.2f %3.2f, %u"
+msgstr "עומס CPU‏: %3.2f %3.2f %3.2f, %d"
 
 #: src/acpustatus.cc:239
 #, c-format
@@ -61,7 +61,7 @@ msgid ""
 "Swap (free): %.2f (%.2f) M"
 msgstr ""
 "\n"
-"תחלופה: ‏%.2f/%.2fM"
+"החלף: ‏%.2f/%.2fמ"
 
 #: src/acpustatus.cc:250
 #, c-format
@@ -83,7 +83,7 @@ msgstr ""
 
 #: src/acpustatus.cc:274
 msgid "CPU Load: "
-msgstr "מטען CPU‏: "
+msgstr "עומס CPU‏: "
 
 #: src/amailbox.cc:77
 #, c-format
@@ -98,7 +98,7 @@ msgstr "נתיב תיבת דואר שגוי: \"%s\""
 #: src/amailbox.cc:343
 #, c-format
 msgid "Using MailBox \"%s\"\n"
-msgstr ""
+msgstr "משתמש בתיבת דואר \"%s\"\n"
 
 #: src/amailbox.cc:451
 msgid "Error checking mailbox."
@@ -134,6 +134,8 @@ msgid ""
 "\n"
 "  Caller id:\t"
 msgstr ""
+"\n"
+"  מזהה מתקשר:\t"
 
 #: src/aworkspaces.cc:155 src/aworkspaces.cc:220 src/aworkspaces.cc:276
 #: src/wmstatus.cc:178
@@ -142,47 +144,47 @@ msgstr "חלל עבודה: "
 
 #: src/fdomenu.cc:74
 msgid "Settings"
-msgstr "_הגדרות"
+msgstr "הגדרות"
 
 #: src/fdomenu.cc:75
 msgid "Screensavers"
-msgstr ""
+msgstr "שומרי מסך"
 
 #: src/fdomenu.cc:76
 msgid "Accessories"
-msgstr ""
+msgstr "עזרים"
 
 #: src/fdomenu.cc:77
 msgid "Development"
-msgstr ""
+msgstr "פיתוח"
 
 #: src/fdomenu.cc:78
 msgid "Education"
-msgstr ""
+msgstr "לומדות"
 
 #: src/fdomenu.cc:79
 msgid "Games"
-msgstr ""
+msgstr "משחקים"
 
 #: src/fdomenu.cc:80
 msgid "Graphics"
-msgstr ""
+msgstr "גרפיקה"
 
 #: src/fdomenu.cc:81
 msgid "Multimedia"
-msgstr ""
+msgstr "מולטימדיה"
 
 #: src/fdomenu.cc:82
 msgid "Network"
-msgstr ""
+msgstr "אינטרנט"
 
 #: src/fdomenu.cc:83
 msgid "Office"
-msgstr ""
+msgstr "משרד"
 
 #: src/fdomenu.cc:84
 msgid "System"
-msgstr ""
+msgstr "מערכת"
 
 #: src/fdomenu.cc:85
 msgid "WINE"
@@ -190,15 +192,15 @@ msgstr ""
 
 #: src/fdomenu.cc:86
 msgid "Editors"
-msgstr ""
+msgstr "עורכים"
 
 #: src/fdomenu.cc:87
 msgid "Other"
-msgstr ""
+msgstr "שונות"
 
 #: src/icehelp.cc:715
 msgid "Back"
-msgstr ""
+msgstr "אחורה"
 
 #: src/icehelp.cc:715
 msgid "Alt+Left"
@@ -206,7 +208,7 @@ msgstr ""
 
 #: src/icehelp.cc:716
 msgid "Forward"
-msgstr ""
+msgstr "קדימה"
 
 #: src/icehelp.cc:716
 msgid "Alt+Right"
@@ -214,11 +216,11 @@ msgstr ""
 
 #: src/icehelp.cc:718
 msgid "Previous"
-msgstr ""
+msgstr "אחורה"
 
 #: src/icehelp.cc:719
 msgid "Next"
-msgstr ""
+msgstr "קדימה"
 
 #: src/icehelp.cc:721
 msgid "Contents"
@@ -294,7 +296,7 @@ msgstr ""
 
 #: src/icesame.cc:66
 msgid "Same Game"
-msgstr ""
+msgstr "אותו משחק"
 
 #: src/icesh.cc:187
 #, c-format
@@ -314,12 +316,12 @@ msgstr ""
 #: src/icesh.cc:429
 #, c-format
 msgid "Invalid workspace name: `%s'"
-msgstr "שם חלל עבודה שגוי: `%s'"
+msgstr "שם מרחב עבודה שגוי: `%s'"
 
 #: src/icesh.cc:435
 #, c-format
 msgid "Workspace out of range: %d"
-msgstr "חלל עבודה מחוץ לתווך: %d"
+msgstr "מרחב עבודה מחוץ לתווך: %d"
 
 #: src/icesh.cc:569
 #, fuzzy, c-format
@@ -400,7 +402,7 @@ msgstr "ארגומנט שגוי: `%s'."
 # מצוינת
 #: src/icesh.cc:696
 msgid "No actions specified."
-msgstr "לא צוינה פעולה."
+msgstr "לא צוינו פעולות."
 
 #: src/icesh.cc:703 src/icesound.cc:1050 src/icewmhint.cc:76 src/yxapp.cc:975
 #, fuzzy, c-format
@@ -415,7 +417,7 @@ msgstr "מזהה חלון לא תקין: `%s'"
 #: src/icesh.cc:896
 #, c-format
 msgid "workspace #%d: `%s'\n"
-msgstr "חלל עבודה מספר %d: ‏`%s'\n"
+msgstr "מרחב עבודה מספר %d: ‏`%s'\n"
 
 #: src/icesh.cc:914
 #, c-format
@@ -435,12 +437,12 @@ msgstr ""
 #: src/icesound.cc:468
 #, c-format
 msgid "No such device: %s"
-msgstr "אין התקן שכזה: %s"
+msgstr "אין התקן כזה: %s"
 
 #: src/icesound.cc:561
 #, c-format
 msgid "Can't connect to ESound daemon: %s"
-msgstr "לא ניתן להתחבר אל שדון ESound‏: %s"
+msgstr "לא ניתן להתחבר לשדון ESound‏: %s"
 
 #: src/icesound.cc:562 src/icesound.cc:739 src/icesound.cc:780
 #: src/icewmhint.cc:78 src/yxapp.cc:976
@@ -465,7 +467,7 @@ msgstr ""
 #: src/icesound.cc:738 src/icesound.cc:779
 #, c-format
 msgid "Can't connect to YIFF server: %s"
-msgstr "לא ניתן להתחבר אל שרת YIFF‏: %s"
+msgstr "לא ניתן להתחבר לשרת YIFF‏: %s"
 
 #: src/icesound.cc:744
 #, c-format
@@ -529,7 +531,7 @@ msgstr "CLI"
 
 #: src/icesound.cc:1175
 msgid "Multiple sound interfaces given."
-msgstr ""
+msgstr "ניתנו ממשקי צליל מרובים."
 
 #: src/icesound.cc:1187 src/icesound.cc:1199 src/icesound.cc:1212
 #, c-format
@@ -632,7 +634,7 @@ msgstr ""
 
 #: src/themes.cc:100
 msgid "Default"
-msgstr "משתמט"
+msgstr "שגרתי"
 
 #: src/wmabout.cc:29 src/wmabout.cc:31
 msgid "(C)"
@@ -640,15 +642,15 @@ msgstr ""
 
 #: src/wmabout.cc:37
 msgid "Theme:"
-msgstr "מוטיב:"
+msgstr "ערכת נושא:"
 
 #: src/wmabout.cc:38
 msgid "Theme Description:"
-msgstr "תיאור מוטיב:"
+msgstr "תיאור ערכת נושא:"
 
 #: src/wmabout.cc:39
 msgid "Theme Author:"
-msgstr "מחבר מוטיב:"
+msgstr "מחבר ערכת נושא:"
 
 #: src/wmabout.cc:43
 msgid "CodeSet:"
@@ -682,11 +684,11 @@ msgstr "שם שיפוע לא מוכר: %s"
 
 #: src/wmapp.cc:866
 msgid "_Logout"
-msgstr "_התנתקות"
+msgstr "_התנתק"
 
 #: src/wmapp.cc:867
 msgid "_Cancel logout"
-msgstr "_ביטול התנתקות"
+msgstr "_בטל התנתקות"
 
 #: src/wmapp.cc:879
 msgid "Lock _Workstation"
@@ -694,11 +696,11 @@ msgstr "נעל _תחנת עבודה"
 
 #: src/wmapp.cc:881 src/wmdialog.cc:111
 msgid "Re_boot"
-msgstr "_אתחול"
+msgstr "_אתחל"
 
 #: src/wmapp.cc:883 src/wmdialog.cc:118
 msgid "Shut_down"
-msgstr "_כיבוי"
+msgstr "_כבה"
 
 #: src/wmapp.cc:887
 msgid "Restart _Icewm"
@@ -821,7 +823,7 @@ msgid ""
 "Does $PATH lead to %s?"
 msgstr ""
 "לא היה ניתן לאתחל: %s\n"
-"האם $PATH מוביל אל %s?"
+"האם PATH$ מוביל אל %s?"
 
 #: src/wmapp.cc:1636
 #, fuzzy, c-format
@@ -856,13 +858,15 @@ msgstr "CLI"
 
 #: src/wmapp.cc:1747
 msgid "Confirm Logout"
-msgstr "אימות ניתוק"
+msgstr "אימות התנתקות"
 
 #: src/wmapp.cc:1748
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
 msgstr ""
+"התנתקות תסגור את כל היישומים הפעילים.\n"
+"להמשיך?"
 
 #: src/wmconfig.cc:116
 msgid "Bad Look name"
@@ -921,7 +925,7 @@ msgid ""
 "this client is killed. Do you wish to proceed?"
 msgstr ""
 "אזהרה! כל השינויים שלא נשמרו יאבדו כאשר\n"
-"לקוח זה הרוג. האם ברצונך להמשיך את התהליך?"
+"לקוח זה הרוג. האם ברצונך להמשיך?"
 
 #: src/wmframe.cc:3434
 msgid "Restore"
@@ -996,7 +1000,7 @@ msgstr "_הקלק כדי למקד"
 # slippery
 #: src/wmprog.cc:922
 msgid "_Sloppy mouse focus"
-msgstr "_מיקוד עכבר משתפך"
+msgstr "_מיקוד עכבר מרושל"
 
 #: src/wmprog.cc:927
 msgid "Custo_m"
@@ -1008,7 +1012,7 @@ msgstr "_מיקוד"
 
 #: src/wmprog.cc:940
 msgid "_Themes"
-msgstr "_מוטיבים"
+msgstr "_ערכות נושא"
 
 #: src/wmprog.cc:942
 msgid "Se_ttings"
@@ -1027,12 +1031,12 @@ msgstr "סרגל משימות"
 # מו _ערמים
 #: src/wmtaskbar.cc:403 src/wmwinlist.cc:312 src/wmwinlist.cc:325
 msgid "Tile _Vertically"
-msgstr "הצג חלונות מו_ערמים"
+msgstr "חלונות מו_ערמים"
 
 # רצף אנכית (במאוזן)
 #: src/wmtaskbar.cc:404 src/wmwinlist.cc:313 src/wmwinlist.cc:326
 msgid "T_ile Horizontally"
-msgstr "הצג חלונות זה _לצד זה"
+msgstr "חלונות  מרו_צפים"
 
 # מ_דורגים
 #: src/wmtaskbar.cc:405 src/wmwinlist.cc:314 src/wmwinlist.cc:327
@@ -1046,12 +1050,12 @@ msgstr "סד_ר חלונות"
 # מזער הכל
 #: src/wmtaskbar.cc:407 src/wmwinlist.cc:317 src/wmwinlist.cc:329
 msgid "_Minimize All"
-msgstr "_מזער את כל החלונות"
+msgstr "_מזער הכל"
 
 # הסתר הכל
 #: src/wmtaskbar.cc:408 src/wmwinlist.cc:318 src/wmwinlist.cc:330
 msgid "_Hide All"
-msgstr "_הסתר את כל החלונות"
+msgstr "_הסתר הכל"
 
 #: src/wmtaskbar.cc:409 src/wmwinlist.cc:319 src/wmwinlist.cc:331
 msgid "_Undo"
@@ -1083,7 +1087,7 @@ msgstr "הצג שולחן עבודה"
 
 #: src/wmwinlist.cc:61
 msgid "All Workspaces"
-msgstr "כל חללי העבודה"
+msgstr "כל מרחבי העבודה"
 
 #: src/wmwinlist.cc:295
 msgid "Del"
@@ -1112,7 +1116,7 @@ msgstr "רשימת חלון"
 #: src/wmwinmenu.cc:127
 #, c-format
 msgid "%lu. Workspace %-.32s"
-msgstr "%lu. חלל עבודה %-.32s"
+msgstr "%lu. מרחב עבודה %-.32s"
 
 #: src/yapp.cc:483
 #, c-format
@@ -1163,22 +1167,22 @@ msgstr "מפת סיביות סמן שגויה: \"%s\" מכילה יותר מדי
 #: src/ycursor.cc:182
 #, c-format
 msgid "BUG? Imlib was able to read \"%s\""
-msgstr "תקלה? Imlib מסוגל היה לקרוא את \"%s\""
+msgstr "תקלה? Imlib היה מסוגל לקרוא את \"%s\""
 
 #: src/ycursor.cc:208
 #, c-format
 msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
-msgstr "תקלה? תקורת XPM פגומה אולם Imlib מסוגל היה לנתח את \"%s\""
+msgstr "תקלה? תקורת XPM פגומה אולם Imlib היה מסוגל לנתח את \"%s\""
 
 #: src/ycursor.cc:216
 #, c-format
 msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
-msgstr "תקלה? סוף לא צפוי של קובץ XPM אולם Imlib מסוגל היה לנתח את \"%s\""
+msgstr "תקלה? סוף לא צפוי של קובץ XPM אולם Imlib היה מסוגל לנתח את \"%s\""
 
 #: src/ycursor.cc:219
 #, c-format
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
-msgstr "תקלה? תו לא צפוי אולם Imlib מסוגל היה לנתח את \"%s\""
+msgstr "תקלה? תו לא צפוי אולם Imlib היה מסוגל לנתח את \"%s\""
 
 #: src/yfontcore.cc:71 src/yfontxft.cc:174
 #, c-format
@@ -1208,7 +1212,7 @@ msgstr "אזל הזיכרון עבור מפת סיביות \"%s\""
 #: src/yimage.cc:61 src/yimage.cc:109 src/ypixbuf.cc:1063
 #, c-format
 msgid "Loading of image \"%s\" failed"
-msgstr "טעינה של \"%s\" נכשלה"
+msgstr "טעינה של תמונה \"%s\" נכשלה"
 
 #: src/yimage.cc:141 src/yimage.cc:159
 #, fuzzy
@@ -1216,9 +1220,8 @@ msgid "Imlib: Acquisition of X pixmap failed"
 msgstr "‏Imlib: Acquisition של מפת סיביות X נכשלה"
 
 #: src/yimage.cc:150
-#, fuzzy
 msgid "Imlib: Imlib image to X pixmap mapping failed"
-msgstr "‏Imlib: תמונת Imlib image אל מיפוי מפת סיביות X נכשלה"
+msgstr "‏Imlib: תמונת Imlib למיפוי מפת סיביות X נכשלה"
 
 #: src/yinput.cc:55
 msgid "Cu_t"
@@ -1276,9 +1279,8 @@ msgid "Invalid multibyte string \"%s\": %s"
 msgstr ""
 
 #: src/ymsgbox.cc:38
-#, fuzzy
 msgid "_OK"
-msgstr "אישור"
+msgstr "_אישור"
 
 #: src/ypaths.cc:144 src/ypaths.cc:171
 #, c-format
@@ -1291,19 +1293,19 @@ msgid "Out of memory for image %s"
 msgstr "אזל הזיכרון עבור מפת סיביות \"%s\""
 
 #: src/ypaths.cc:156
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find image %s"
-msgstr "לא היה ניתן למצוא מפת פיקסל %s"
+msgstr "לא היה ניתן למצוא תמונה %s"
 
 #: src/ypaths.cc:175
-#, fuzzy, c-format
+#, c-format
 msgid "Out of memory for image: %s"
-msgstr "אזל הזיכרון עבור מפת סיביות \"%s\""
+msgstr "אזל הזיכרון עבור תמונה \"%s\""
 
 #: src/ypaths.cc:182
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find image: %s"
-msgstr "לא היה ניתן למצוא מפת פיקסל %s"
+msgstr "לא היה ניתן למצוא תמונה %s"
 
 #: src/ypixbuf.cc:482 src/ypixbuf.cc:668
 #, c-format
