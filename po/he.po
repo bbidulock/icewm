@@ -43,7 +43,7 @@ msgstr ""
 #: src/acpustatus.cc:234
 #, c-format
 msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
-msgstr "עומס CPU‏: %3.2f %3.2f %3.2f, %d"
+msgstr "עומס CPU‏: %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:239
 #, c-format
