@@ -77,7 +77,8 @@ Makefile.in
 po/boldquot.sed
 po/en@boldquot.header
 po/en@quot.header
-po/icewm.pot
+# pot file is used by Weblate
+#po/icewm.pot
 po/insert-header.sin
 po/Makefile
 po/Makefile.in
