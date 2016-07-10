@@ -1,4 +1,4 @@
-[icewm -- read me first file.  2016-07-08]: <>
+[icewm -- read me first file.  2016-07-08]: #
 
 Ice Window Manager (IceWM)
 ==========================
@@ -184,4 +184,4 @@ you can use the [openSUSE weblate tool][13].
 [14]: http://sf.net/project/showfiles.php?group_id=31&release_id=31119
 [15]: https://github.com/bbidulock/issues/
 
-[ vim: set ft=markdown sw=4 tw=80 nocin nosi fo+=tcqlorn: ]: <>
+[ vim: set ft=markdown sw=4 tw=80 nocin nosi fo+=tcqlorn: ]: #
