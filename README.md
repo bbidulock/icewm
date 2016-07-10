@@ -4,7 +4,7 @@ Ice Window Manager (IceWM)
 ==========================
 
 This is a fork of the IceWM CVS on [sourceforge][0].  It includes all changes
-from the 'icewm-1-3-BRANCH' branch, greatly enhanced EWMH/ICCCM compliance, as
+from the `icewm-1-3-BRANCH` branch, greatly enhanced EWMH/ICCCM compliance, as
 well as patches collected from Arch Linux, Debian, pld-linux, the IceWM bug
 list, and various other GitHub forks.
 
@@ -22,7 +22,7 @@ This release as well as future versions here, can all be obtained from
 
     git clone https://github.com/bbidulock/icewm.git
 
-When working from __`git(1)`__, please use this file.  An abbreviated
+When working from `git(1)`, please use this file.  An abbreviated
 installation procedure that works for most applications appears below.  
 
 
@@ -74,16 +74,16 @@ Included Utilities
 
 Currently, the only included utilities are:
 
- - __`icewmbg`__ (_a background setting program_),
- - __`icewmtray`__ (_a system tray for the IceWM taskbar_), and,
- - __`icewm-session`__ (_a program to launch the window manager, icewmbg and
+ - `icewmbg` (_a background setting program_),
+ - `icewmtray` (_a system tray for the IceWM taskbar_), and,
+ - `icewm-session` (_a program to launch the window manager, icewmbg and
    icewmtray in an orderly fashion_).
 
 
 Third-party Utilities
 ---------------------
 
-Unspecified keyboard shortcuts can be handled with the __`bbkeys(1)`__ utility
+Unspecified keyboard shortcuts can be handled with the `bbkeys(1)` utility
 available from [sourceforge][9].  For additional utilities see the [IceWM
 FAQ][10].
 
@@ -94,11 +94,11 @@ wm-session
 `/proc/wm-session` is used to register the process id of an application able to
 free resources smoothly when the kernel decides that memory resource have
 reached a critical limit. The registered application is notified of this
-situation by the signal __`SIGUSR1`__.
+situation by the signal `SIGUSR1`.
 
 On full featured desktop machines it would make sense to use the session manager
 for this purpose. On X window PDAs which have limited memory resources it makes
-sense to let the window manager send __`WM_DELETE_WINDOW`__ message to the last
+sense to let the window manager send `WM_DELETE_WINDOW` message to the last
 recently used application.
 
 
@@ -111,7 +111,7 @@ __Requirements to uses this feature in IceWM:__
     mapped window. Alternatively you can preload the preice library
     available in the contrib file module.
     
-  - __`$ export LD_PRELOAD=$PATH_TO/libpreice.so`__
+  - `$ export LD_PRELOAD=$PATH_TO/libpreice.so`
 
   - IceWM configured to have wm-session support
     (./configure --enable-wm-session ...)
@@ -119,7 +119,7 @@ __Requirements to uses this feature in IceWM:__
 The contrib file module of IceWM is located on [sourceforge][14].
 
 
-> __`/proc/wm-session`__ was developed by:
+> `/proc/wm-session` was developed by:
 >
 > Chester Kuo <chester@linux.org.tw> and Mathias Hasselman <mathias.hasselman@gmx.de>.
 
