@@ -2,8 +2,8 @@
 
 # A little script to automagically generate a GNU NEWS file from git.
 
-if [ -z "$PACKAGE" -a -f configure.template ]; then
-	PACKAGE=$(grep AC_INIT configure.template|sed -r 's,AC_INIT[(][[],,;s,[]].*,,')
+if [ -z "$PACKAGE" -a -f configure.ac ]; then
+	PACKAGE=$(grep AC_INIT configure.ac|head -1|sed -r 's,AC_INIT[(][[],,;s,[]].*,,')
 fi
 
 t=
@@ -25,10 +25,10 @@ for o in $(git tag --sort=-creatordate) ""; do
 	fi
 	version=$(echo "$version"|sed 's,^[^0-9]*,,;s,[-_],.,g;s,\.g.*$,,')
 	date=$(git show -s --format=%ci "$t^{commit}"|awk '{print$1}')
-	title="Release ${PACKAGE}-$version released $date"
+	title="Release ${PACKAGE}${PACKAGE:+-}$version released $date"
 	under=$(echo "$title"|sed 's,.,-,g')
 	cmd="git shortlog -e -n -w80,6,8 ${o}${o:+...}${t}"
 	echo -e "\n$title\n$under\n\n$cmd\n\n$(eval $cmd)\n"
 	t="$o"
-done
+done|sed -r 's,[[:space:]][[:space:]]*$,,'
 
