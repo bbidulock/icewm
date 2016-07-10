@@ -7,12 +7,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.35\n"
-"Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2016-05-01 22:24-0600\n"
+"Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
+"POT-Creation-Date: 2016-07-09 21:33-0600\n"
 "PO-Revision-Date: 2016-04-25 08:06+0000\n"
 "Last-Translator: YunSeok Choi <xein@naver.com>\n"
-"Language-Team: Korean "
-"<http://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/ko/>\n"
+"Language-Team: Korean <http://l10n.opensuse.org/projects/icewm/icewm-1-3-"
+"branch/ko/>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -139,7 +139,7 @@ msgstr ""
 "  발신자 id:\t"
 
 #: src/aworkspaces.cc:155 src/aworkspaces.cc:220 src/aworkspaces.cc:276
-#: src/wmstatus.cc:168
+#: src/wmstatus.cc:178
 msgid "Workspace: "
 msgstr "작업공간: "
 
@@ -572,16 +572,21 @@ msgstr ""
 "\n"
 "옵션:\n"
 "\n"
-"-d, --display=DISPLAY         IceWM 이 사용하는 디스플레이 (기본값: $DISPLAY).\n"
-"-s, --sample-dir=DIR          음향 파일이 있는 디렉토리를 지정 (ie ~/.icewm/sounds).\n"
-"-i, --interface=TARGET        OSS, YIFF, ESD, ALSA 중 소리를 보낼 인터페이스(1개)를 지정\n"
-"-D, --device=DEVICE           (ALSA & OSS 전용) 사용할 장치를 지정 (OSS 기본: /dev/dsp; "
-"ALSA:기본).\n"
-"-S, --server=ADDR:PORT        (ESD와 YIFF) 서버 주소와 포트 번호를 지정 (ESD용 기본값은 "
-"localhost:16001 그리고 YIFF는 localhost:9433).\n"
-"-m, --audio-mode[=MODE]       (YIFF 전용) 오디오 모드를 지정 (목록을 얻기 위해 비워 둘것).\n"
-"--audio-mode-auto             (YIFF 전용) 샘플 오디오를 최적으로 맞추기 위해 오디오 모드를 실시간으로 바꿈 "
-"(다른 Y 클라이언트와 문제를 일으킬 수 있으므로, --audio-mode 로 강제 변경).\n"
+"-d, --display=DISPLAY         IceWM 이 사용하는 디스플레이 (기본값: "
+"$DISPLAY).\n"
+"-s, --sample-dir=DIR          음향 파일이 있는 디렉토리를 지정 (ie ~/.icewm/"
+"sounds).\n"
+"-i, --interface=TARGET        OSS, YIFF, ESD, ALSA 중 소리를 보낼 인터페이스"
+"(1개)를 지정\n"
+"-D, --device=DEVICE           (ALSA & OSS 전용) 사용할 장치를 지정 (OSS 기"
+"본: /dev/dsp; ALSA:기본).\n"
+"-S, --server=ADDR:PORT        (ESD와 YIFF) 서버 주소와 포트 번호를 지정 (ESD"
+"용 기본값은 localhost:16001 그리고 YIFF는 localhost:9433).\n"
+"-m, --audio-mode[=MODE]       (YIFF 전용) 오디오 모드를 지정 (목록을 얻기 위"
+"해 비워 둘것).\n"
+"--audio-mode-auto             (YIFF 전용) 샘플 오디오를 최적으로 맞추기 위해 "
+"오디오 모드를 실시간으로 바꿈 (다른 Y 클라이언트와 문제를 일으킬 수 있으므"
+"로, --audio-mode 로 강제 변경).\n"
 "\n"
 "-v, --verbose                 말이 많도록 (기본으로 각 소리 이벤트를 출력).\n"
 "-V, --version                 출시 정보를 출력.\n"
@@ -996,7 +1001,7 @@ msgstr "icewm 다시 시작(_R)"
 msgid "_About"
 msgstr "정보(_A)"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3435
+#: src/wmframe.cc:165 src/wmframe.cc:3437
 msgid "Maximize"
 msgstr "최대화"
 
@@ -1008,7 +1013,7 @@ msgstr "최소화"
 msgid "Hide"
 msgstr "숨기기"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3468
+#: src/wmframe.cc:209 src/wmframe.cc:3470
 msgid "Rollup"
 msgstr "말아올리기"
 
@@ -1016,11 +1021,11 @@ msgstr "말아올리기"
 msgid "Raise/Lower"
 msgstr "앞으로/뒤로"
 
-#: src/wmframe.cc:1725
+#: src/wmframe.cc:1727
 msgid "Kill Client: "
 msgstr "클라이언트 죽이기: "
 
-#: src/wmframe.cc:1729
+#: src/wmframe.cc:1731
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1028,11 +1033,11 @@ msgstr ""
 "경고! 이 클라이언트를 죽이면 저장되지 않은\n"
 "변경 사항을 모두 잃어버립니다. 계속할까요?"
 
-#: src/wmframe.cc:3432
+#: src/wmframe.cc:3434
 msgid "Restore"
 msgstr "원래 크기로"
 
-#: src/wmframe.cc:3466
+#: src/wmframe.cc:3468
 msgid "Rolldown"
 msgstr "말아내리기"
 

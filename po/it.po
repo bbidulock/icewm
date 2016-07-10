@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.31\n"
-"Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2016-05-01 22:24-0600\n"
+"Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
+"POT-Creation-Date: 2016-07-09 21:33-0600\n"
 "PO-Revision-Date: 2007-06-11 11:37+0200\n"
 "Last-Translator: Yuri Bongiorno http://yuri.webhop.org/\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -130,7 +130,7 @@ msgstr ""
 "  Chiamante:\t"
 
 #: src/aworkspaces.cc:155 src/aworkspaces.cc:220 src/aworkspaces.cc:276
-#: src/wmstatus.cc:168
+#: src/wmstatus.cc:178
 msgid "Workspace: "
 msgstr "Area di lavoro: "
 
@@ -1018,7 +1018,7 @@ msgstr "_Riavvia icewm"
 msgid "_About"
 msgstr "_Informazioni"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3435
+#: src/wmframe.cc:165 src/wmframe.cc:3437
 msgid "Maximize"
 msgstr "Massimizza"
 
@@ -1030,7 +1030,7 @@ msgstr "Minimizza"
 msgid "Hide"
 msgstr "Nascondi"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3468
+#: src/wmframe.cc:209 src/wmframe.cc:3470
 msgid "Rollup"
 msgstr "Arrotola"
 
@@ -1038,11 +1038,11 @@ msgstr "Arrotola"
 msgid "Raise/Lower"
 msgstr "Alza/Abbassa"
 
-#: src/wmframe.cc:1725
+#: src/wmframe.cc:1727
 msgid "Kill Client: "
 msgstr "Uccidi il client: "
 
-#: src/wmframe.cc:1729
+#: src/wmframe.cc:1731
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1050,11 +1050,11 @@ msgstr ""
 "Attenzione: uccidendo questo client si perdono\n"
 "le modifiche non ancora salvate. Procedere?"
 
-#: src/wmframe.cc:3432
+#: src/wmframe.cc:3434
 msgid "Restore"
 msgstr "Ripristina"
 
-#: src/wmframe.cc:3466
+#: src/wmframe.cc:3468
 msgid "Rolldown"
 msgstr "Srotola"
 
