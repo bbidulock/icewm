@@ -13,7 +13,6 @@ list, and various other GitHub forks.
 > is much more important than 'Look' ...  
 
 
--------
 Release
 -------
 
@@ -27,7 +26,6 @@ When working from __`git(1)`__, please use this file.  An abbreviated
 installation procedure that works for most applications appears below.  
 
 
------------
 Quick Start
 -----------
 
@@ -60,7 +58,6 @@ This release is published under LGPL license that can be found in the file
 [COPYING][6].  
 
 
------------------
 Configuring IceWM
 -----------------
 
@@ -72,7 +69,6 @@ at that; however, it is for the most part usable.  Also, a rather sparse
 `icewm(1)` manual page is available.  
 
 
-------------------
 Included Utilities
 ------------------
 
@@ -84,7 +80,6 @@ Currently, the only included utilities are:
    icewmtray in an orderly fashion_).
 
 
----------------------
 Third-party Utilities
 ---------------------
 
@@ -93,7 +88,6 @@ available from [sourceforge][9].  For additional utilities see the [IceWM
 FAQ][10].
 
 
-----------
 wm-session
 ----------
 
@@ -130,7 +124,6 @@ The contrib file module of IceWM is located on [sourceforge][14].
 > Chester Kuo <chester@linux.org.tw> and Mathias Hasselman <mathias.hasselman@gmx.de>.
 
 
------------
 Bug Reports
 -----------
 
@@ -149,7 +142,6 @@ See also BUGS, TODO and the sites at:
   - http://icewm.sourceforge.net/
 
 
------------
 Development
 -----------
 
@@ -158,7 +150,6 @@ If you would like to develop against this fork, the easiest way is to obtain a
 Send me a pull request when you have something stable.
 
 
-------------
 Translations
 ------------
 
