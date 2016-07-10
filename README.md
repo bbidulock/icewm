@@ -171,7 +171,7 @@ or you can use the [openSUSE weblate tool][13].
 [10]: http://www.icewm.org/FAQ/IceWM-FAQ-11.html
 [11]: https://github.com/
 [12]: https://github.com/bbidulock/icewm/
-[13]: htts://i10n.opensuse.org/
+[13]: http://i10n.opensuse.org/
 [14]: http://sf.net/project/showfiles.php?group_id=31&release_id=31119
 [15]: https://github.com/bbidulock/issues/
 
