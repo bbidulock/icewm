@@ -153,8 +153,8 @@ Send me a pull request when you have something stable.
 Translations
 ------------
 
-You can provide translations by patching .po files and issuing pull requests, or
-you can use the [openSUSE weblate tool][13].
+You can provide translations by patching `.po` files and issuing pull requests,
+or you can use the [openSUSE weblate tool][13].
 
 
 
