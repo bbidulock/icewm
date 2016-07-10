@@ -50,6 +50,7 @@ config.h.in
 config.log
 config.status
 configure
+configure.ac.bak
 configure.scan
 doc/icewm*.html
 doc/Makefile
@@ -143,10 +144,11 @@ GTAGS
 *.orig
 *~
 \#*#
+.nfs*
 
-ChangeLog
-THANKS
 README
+README.html
+README.txt
 
 # Eclipse project metadata
 .cproject

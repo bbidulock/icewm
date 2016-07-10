@@ -1,14 +1,56 @@
-	Marko Macek <marko.macek@gmx.net>
-	Mathias Hasselmann <mathias.hasselmann@gmx.de>
+icewm -- authors file.  2016-07-08
 
-icesound:
-	Christian W. Zuckschwerdt <zany@triq.net>
-	Capt Tara Malina <learfox2@hotmail.com>
-
-network monitor:
-	Mark Lawrence <nomad@null.net>
-	Denis Boehme <denis.boehme@gmx.net>
-	Ronald Klop <ronald@cs.vu.nl>
-
-icon tray:
-	Jan Krupa <j.krupa@netweb.cz>
+Author: openSUSE Weblate <weblate-noreply@opensuse.org>
+Author: Weblate Admin <weblate-admin@opensuse.org>
+Author: Stanislav Brabec <sbrabec@suse.com>
+Author: Dingzhong Chen <wsxy162@gmail.com>
+Author: Jonas Svensson <jonas@ekhorva.se>
+Author: Brian Bidulock <bidulock@openss7.org>
+Author: Brian Bidulock <bidulock@openss7.com>
+Author: Yunseok Choi <xein@naver.com>
+Author: Benoît Monin <benoit.monin@gmx.fr>
+Author: Vojtech Zeisek <Vojtech.Zeisek@opensuse.org>
+Author: Nathan Follens <nthn@unseen.is>
+Author: Efstathios Iosifidis <eiosifidis@gmail.com>
+Author: Dmitriy Khanzhin <dmitriy.khanzhin@gmail.com>
+Author: Ettore Atalan <atalanttore@googlemail.com>
+Author: jc sl <trcs@gmx.com>
+Author: Tomáš Chvátal <tomas.chvatal@gmail.com>
+Author: Frederic Crozat <fcrozat@suse.com>
+Author: Eduard Bloch <blade@debian.org>
+Author: Mario <kdesi@kdesi.sk>
+Author: Jeff Woods <klaatu@fnordco.com>
+Author: Oleg Ivanov <Leo-sp150@yandex.ru>
+Author: 150balbes <olepp@yandex.ru>
+Author: Andriy Bandura <andriykopanytsia@gmail.com>
+Author: Code7R <Code7R@users.noreply.github.com>
+Author: Petteri Aimonen <jpa@git.mail.kapsi.fi>
+Author: Ferdinand Galko <galko.ferdinand@gmail.com>
+Author: Freek de Kruijf <freek@opensuse.org>
+Author: Luiz Fernando Ranghetti <elchevive68@gmail.com>
+Author: David Medina <medipas@gmail.com>
+Author: Alex Minton <alex239@gmail.com>
+Author: w <w@vm>
+Author: Yasuhiko Kamata <belphegor@belbel.or.jp>
+Author: Ronan Chagas <ronisbr@gmail.com>
+Author: Ondřej Súkup <mimi.vx@gmail.com>
+Author: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>
+Author: Sorokin Alexei <sor.alexei@meowr.ru>
+Author: William <william@shallum.net>
+Author: rezso <rezso@rezso.net>
+Author: Matthew Ogilvie <mmogilvi_ice@miniinfo.net>
+Author: Perttu Ahola <celeron55@gmail.com>
+Author: Axel Dirla <axel.dirla@arcor.de>
+Author: Anthony G. Basile <blueness@gentoo.org>
+Author: DeltaResero <deltaresero@zoho.com>
+Author: Pacho Ramos <pacho@gentoo.org>
+Author: Alexander Galanin <al@galanin.nnov.ru>
+Author: Andrey Danin <danindrey@mail.ru>
+Author: Alvaro G. M <alvaro.gamez@hazent.com>
+Author: Stefan Giermair <zstegi@gmail.com>
+Author: captnmark <captnmark>
+Author: nehalmistry <nehalmistry>
+Author: massel <massel>
+Author: jeromem <jeromem>
+Author: speedblue <speedblue>
+Author: gallium <gallium>

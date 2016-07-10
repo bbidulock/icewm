@@ -5,7 +5,10 @@ if test -z "$DBGCM"; then
 rm -f cscope.*
 ./autogen.sh
 ./configure.sh
-make V=0 clean cscope all
+make clean
+make V=0 cscope
+cscope -b
+make V=0 clean all README
 
 else
 # cmake cheat sheet... with Debian-style configuration
