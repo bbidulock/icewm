@@ -60,6 +60,8 @@
 
 extern ref<YPixmap> taskbackPixmap;
 
+ref<YFont> CPUStatus::tempFont;
+
 CPUStatus::CPUStatus(
     YSMListener *smActionListener,
     YWindow *aParent,
@@ -80,6 +82,11 @@ CPUStatus::CPUStatus(
         fUpdateTimer->setTimerListener(this);
         fUpdateTimer->startTimer();
     }
+
+    if (tempFont == null)
+        tempFont = YFont::getFont(XFA(tempFontName));
+
+    tempColor = new YColor(clrCpuTemp);
 
     color[IWM_USER] = new YColor(clrCpuUser);
     color[IWM_NICE] = new YColor(clrCpuNice);
@@ -120,6 +127,7 @@ CPUStatus::~CPUStatus() {
     delete color[IWM_INTR]; color[IWM_INTR] = 0;
     delete color[IWM_IOWAIT]; color[IWM_IOWAIT] = 0;
     delete color[IWM_SOFTIRQ]; color[IWM_SOFTIRQ] = 0;
+    delete tempColor;
     if(m_nCachedFd>=0)
     	close(m_nCachedFd);
 }
@@ -207,6 +215,16 @@ void CPUStatus::paint(Graphics &g, const YRect &/*r*/) {
             }
         }
     }
+
+    char test[10];
+    getAcpiTemp(test, sizeof(test));
+    g.setColor(tempColor);
+    g.setFont(tempFont);
+    int y =  (h - 1 - tempFont->height()) / 2 + tempFont->ascent();
+    // If we draw three characters we can get temperatures above 100
+    // without including the "C".
+    g.drawChars(test, 0, 3, 2, y);
+
 }
 
 bool CPUStatus::handleTimer(YTimer *t) {
@@ -349,14 +367,13 @@ int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
             if (fd != -1) {
                 int len = read(fd, buf, sizeof(buf) - 1);
                 buf[len - 4] = '\0';
-                seglen = strlen(buf) + 4;
+                seglen = strlen(buf) + 2;
                 if (retbuflen + seglen >= buflen) {
                     retbuflen = -retbuflen;
                     close(fd);
                     break;
                 }
                 retbuflen += seglen;
-                strcat(tempbuf, "  ");
                 strncat(tempbuf, buf, seglen);
                 strcat(tempbuf, " C");
                 close(fd);

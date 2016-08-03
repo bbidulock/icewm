@@ -48,6 +48,9 @@ private:
     YSMListener *smActionListener;
     bool ShowRamUsage, ShowSwapUsage, ShowAcpiTemp, ShowCpuFreq;
     int m_nCachedFd;
+
+    YColor *tempColor;
+    static ref<YFont> tempFont;
 };
 #else
 #undef CONFIG_APPLET_CPU_STATUS

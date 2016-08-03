@@ -62,6 +62,7 @@ XFV(const char *, minimizedWindowFontName,      FONT(120), "sans-serif:size=12")
 XFV(const char *, listBoxFontName,              FONT(120), "sans-serif:size=12")
 XFV(const char *, labelFontName,                FONT(140), "sans-serif:size=12")
 XFV(const char *, clockFontName,                TTFONT(140), "monospace:size=12")
+XFV(const char *, tempFontName,                 TTFONT(140), "monospace:size=12")
 XFV(const char *, apmFontName,                  TTFONT(140), "monospace:size=12")
 XFV(const char *, inputFontName,                TTFONT(140), "monospace:size=12")
 
@@ -143,6 +144,7 @@ XSV(const char *, clrCpuIoWait,                 "rgb:60/00/60")
 XSV(const char *, clrCpuSoftIrq,                "rgb:00/FF/FF")
 XSV(const char *, clrCpuNice,                   "rgb:00/00/FF")
 XSV(const char *, clrCpuIdle,                   "rgb:00/00/00")
+XSV(const char *, clrCpuTemp,                   "rgb:60/60/C0")
 XSV(const char *, clrMemUser,                   "rgb:40/40/80")
 XSV(const char *, clrMemBuffers,                "rgb:60/60/C0")
 XSV(const char *, clrMemCached,                 "rgb:80/80/FF")
@@ -219,6 +221,7 @@ cfoption icewm_themable_preferences[] = {
     OFV("ListBoxFontName",                      &listBoxFontName,               ""),
     OFV("ToolTipFontName",                      &toolTipFontName,               ""),
     OFV("ClockFontName",                        &clockFontName,                 ""),
+    OFV("TempFontName",                         &tempFontName,                  ""),
     OFV("ApmFontName",                          &apmFontName,                   ""),
     OFV("InputFontName",                        &inputFontName,                 ""),
     OFV("LabelFontName",                        &labelFontName,                 ""),
@@ -319,6 +322,7 @@ cfoption icewm_themable_preferences[] = {
     OSV("ColorCPUStatusSoftIrq",                &clrCpuSoftIrq,                 "Soft Interrupts on the CPU monitor"),
     OSV("ColorCPUStatusNice",                   &clrCpuNice,                    "Nice load on the CPU monitor"),
     OSV("ColorCPUStatusIdle",                   &clrCpuIdle,                    "Idle (non) load on the CPU monitor, leave empty to force transparency"),
+    OSV("ColorCPUStatusTemp",                   &clrCpuTemp,                    "Temperature of the CPU"),
 #endif
 #ifdef CONFIG_APPLET_MEM_STATUS
     OSV("ColorMEMStatusUser",                   &clrMemUser,                    "User program usage in the memory monitor"),
