@@ -25,7 +25,8 @@ public:
         bool cpustatusShowRamUsage = 0,
 	bool cpustatusShowSwapUsage = 0,
 	bool cpustatusShowAcpiTemp = 0,
-	bool cpustatusShowCpuFreq = 0);
+	bool cpustatusShowCpuFreq = 0,
+	bool cpustatusShowAcpiTempInGraph = 0);
     virtual ~CPUStatus();
     
     virtual void paint(Graphics &g, const YRect &r);
@@ -46,7 +47,8 @@ private:
     YColor *color[IWM_STATES];
     YTimer *fUpdateTimer;
     YSMListener *smActionListener;
-    bool ShowRamUsage, ShowSwapUsage, ShowAcpiTemp, ShowCpuFreq;
+    bool ShowRamUsage, ShowSwapUsage, ShowAcpiTemp, ShowCpuFreq,
+         ShowAcpiTempInGraph;
     int m_nCachedFd;
 
     YColor *tempColor;

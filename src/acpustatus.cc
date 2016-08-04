@@ -68,7 +68,8 @@ CPUStatus::CPUStatus(
     bool cpustatusShowRamUsage,
     bool cpustatusShowSwapUsage,
     bool cpustatusShowAcpiTemp,
-    bool cpustatusShowCpuFreq): YWindow(aParent),
+    bool cpustatusShowCpuFreq,
+    bool cpustatusShowAcpiTempInGraph): YWindow(aParent),
     		m_nCachedFd(-1)
 {
     this->smActionListener = smActionListener;
@@ -110,6 +111,7 @@ CPUStatus::CPUStatus(
     ShowSwapUsage = cpustatusShowSwapUsage;
     ShowAcpiTemp = cpustatusShowAcpiTemp;
     ShowCpuFreq = cpustatusShowCpuFreq;
+    ShowAcpiTempInGraph = cpustatusShowAcpiTempInGraph;
     getStatus();
     updateStatus();
     updateToolTip();
@@ -216,15 +218,16 @@ void CPUStatus::paint(Graphics &g, const YRect &/*r*/) {
         }
     }
 
-    char test[10];
-    getAcpiTemp(test, sizeof(test));
-    g.setColor(tempColor);
-    g.setFont(tempFont);
-    int y =  (h - 1 - tempFont->height()) / 2 + tempFont->ascent();
-    // If we draw three characters we can get temperatures above 100
-    // without including the "C".
-    g.drawChars(test, 0, 3, 2, y);
-
+    if (ShowAcpiTempInGraph) {
+        char test[10];
+        getAcpiTemp(test, sizeof(test));
+        g.setColor(tempColor);
+        g.setFont(tempFont);
+        int y =  (h - 1 - tempFont->height()) / 2 + tempFont->ascent();
+        // If we draw three characters we can get temperatures above 100
+        // without including the "C".
+        g.drawChars(test, 0, 3, 2, y);
+    }
 }
 
 bool CPUStatus::handleTimer(YTimer *t) {
