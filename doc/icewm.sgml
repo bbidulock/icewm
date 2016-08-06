@@ -453,6 +453,7 @@ The following settings can be set to value 1 (enabled) or value 0 (disabled).
 <tag/CPUStatusShowRamUsage = 1/ Show RAM usage in CPU status tool tip.
 <tag/CPUStatusShowSwapUsage = 1/ Show swap usage in CPU status tool tip.
 <tag/CPUStatusShowAcpiTemp = 1/ Show ACPI temperature in CPU status tool tip.
+<tag/CPUStatusShowAcpiTempInGraph = 0/ Show ACPI temperature in CPU graph.
 <tag/CPUStatusShowCpuFreq = 1/ Show CPU frequency in CPU status tool tip.
 <tag/TimeFormat/ format for the taskbar clock (time) (see strftime(3) manpage)
 <tag/DateFormat/ format for the taskbar clock tooltip (date+time) (see strftime(3) manpage).
