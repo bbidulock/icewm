@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2016-07-09 21:33-0600\n"
-"PO-Revision-Date: 2016-03-20 19:37+0200\n"
+"PO-Revision-Date: 2016-08-21 20:16+0000\n"
 "Last-Translator: Efstathios Iosifidis <eiosifidis@gmail.com>\n"
-"Language-Team: Greek <http://l10n.opensuse.org/projects/icewm/icewm-1-3-"
-"branch/el/>\n"
+"Language-Team: Greek "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/el/>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.3\n"
+"X-Generator: Weblate 2.6\n"
 
 #: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:875
 msgid " - Power"
@@ -38,7 +38,7 @@ msgstr ""
 
 #: src/aapm.cc:502
 msgid " - Full"
-msgstr ""
+msgstr " - Πλήρης"
 
 #: src/acpustatus.cc:234
 #, fuzzy, c-format
@@ -77,12 +77,12 @@ msgstr ""
 
 #: src/acpustatus.cc:274
 msgid "CPU Load: "
-msgstr ""
+msgstr "Φόρτος επεξεργαστή: "
 
 #: src/amailbox.cc:77
 #, c-format
 msgid "Invalid mailbox protocol: \"%s\""
-msgstr "Μη έγκυρο προτόκολο γραμματοκιβωτίου: \"%s\""
+msgstr "Μη έγκυρο πρωτόκολλο γραμματοκιβωτίου: \"%s\""
 
 #: src/amailbox.cc:79
 #, c-format
