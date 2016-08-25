@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.7\n"
-"Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-12-16 18:15-0700\n"
+"Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
+"POT-Creation-Date: 2016-07-09 21:33-0600\n"
 "PO-Revision-Date: 2003-04-14 21:23+0200\n"
 "Last-Translator: Gabor Suveg <gabor@suveg.hu>\n"
 "Language-Team:  <hu@li.org>\n"
@@ -141,7 +141,7 @@ msgstr ""
 
 # ../src/wmstatus.cc:170
 #: src/aworkspaces.cc:155 src/aworkspaces.cc:220 src/aworkspaces.cc:276
-#: src/wmstatus.cc:168
+#: src/wmstatus.cc:178
 msgid "Workspace: "
 msgstr "Munkaterület: "
 
@@ -1047,7 +1047,7 @@ msgid "_About"
 msgstr "N_évjegy"
 
 # ../src/wmframe.cc:105 ../src/wmframe.cc:515 ../src/wmframe.cc:2182
-#: src/wmframe.cc:165 src/wmframe.cc:3435
+#: src/wmframe.cc:165 src/wmframe.cc:3437
 msgid "Maximize"
 msgstr "Maximalizálás"
 
@@ -1062,7 +1062,7 @@ msgid "Hide"
 msgstr "Elrejtés"
 
 # ../src/wmframe.cc:149 ../src/wmframe.cc:2214
-#: src/wmframe.cc:209 src/wmframe.cc:3468
+#: src/wmframe.cc:209 src/wmframe.cc:3470
 msgid "Rollup"
 msgstr "Felgörgetés"
 
@@ -1074,11 +1074,11 @@ msgstr "Előhoz/Hátra küld"
 
 #
 # ../src/wmframe.cc:1183
-#: src/wmframe.cc:1725
+#: src/wmframe.cc:1727
 msgid "Kill Client: "
 msgstr "Kliens leölése: "
 
-#: src/wmframe.cc:1729
+#: src/wmframe.cc:1731
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1088,12 +1088,12 @@ msgstr ""
 "Biztosan ezt akarod?"
 
 # ../src/wmframe.cc:2179
-#: src/wmframe.cc:3432
+#: src/wmframe.cc:3434
 msgid "Restore"
 msgstr "Visszaállítás"
 
 # ../src/wmframe.cc:2212
-#: src/wmframe.cc:3466
+#: src/wmframe.cc:3468
 msgid "Rolldown"
 msgstr "Legörget"
 
@@ -1417,7 +1417,7 @@ msgid "Missing codesets for fontset \"%s\":"
 msgstr "A(z) \"%s\" betűkészlethez hiányoznak a kódlapok."
 
 # ../src/icons.cc:211 ../src/icons.cc:316 ../src/icons.cc:329
-#: src/yicon.cc:147
+#: src/yicon.cc:167
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
 msgstr "Elfogyott a memória a következő képhez: \"%s\""

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.0.6\n"
-"Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-12-16 18:15-0700\n"
+"Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
+"POT-Creation-Date: 2016-07-09 21:33-0600\n"
 "PO-Revision-Date: 2015-11-20 07:43+0200\n"
 "Last-Translator: Andriy Bandura <andriykopanytsia@gmail.com>\n"
 "Language-Team: Ukrainian <http://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -134,7 +134,7 @@ msgstr ""
 "  Телефонний номер:\t"
 
 #: src/aworkspaces.cc:155 src/aworkspaces.cc:220 src/aworkspaces.cc:276
-#: src/wmstatus.cc:168
+#: src/wmstatus.cc:178
 msgid "Workspace: "
 msgstr "Робоче місце: "
 
@@ -1023,7 +1023,7 @@ msgstr "_Перезапустити IceWM"
 msgid "_About"
 msgstr "_Про"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3435
+#: src/wmframe.cc:165 src/wmframe.cc:3437
 msgid "Maximize"
 msgstr "Розгорнути"
 
@@ -1035,7 +1035,7 @@ msgstr "Згорнути"
 msgid "Hide"
 msgstr "Прибрати"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3468
+#: src/wmframe.cc:209 src/wmframe.cc:3470
 msgid "Rollup"
 msgstr "Згорнути в смужку"
 
@@ -1043,11 +1043,11 @@ msgstr "Згорнути в смужку"
 msgid "Raise/Lower"
 msgstr "Підняти/Опустити"
 
-#: src/wmframe.cc:1725
+#: src/wmframe.cc:1727
 msgid "Kill Client: "
 msgstr "Вбити клієнта: "
 
-#: src/wmframe.cc:1729
+#: src/wmframe.cc:1731
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1055,11 +1055,11 @@ msgstr ""
 "УВАГА! Всі незбережені дані будуть втрачені\n"
 "при закритті цього вікна. Ви бажаєте закрити його?"
 
-#: src/wmframe.cc:3432
+#: src/wmframe.cc:3434
 msgid "Restore"
 msgstr "Відновити"
 
-#: src/wmframe.cc:3466
+#: src/wmframe.cc:3468
 msgid "Rolldown"
 msgstr "Розгорнути смужку"
 
@@ -1325,7 +1325,7 @@ msgstr "Не можу завантажити набір шрифтів \"%s\"."
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "Відсутні кодові сторінки для набору шрифтів \"%s\":"
 
-#: src/yicon.cc:147
+#: src/yicon.cc:167
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
 msgstr "Невистачає пам'яті для мапи пікселів \"%s\""

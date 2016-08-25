@@ -41,3 +41,7 @@ esac
 	DEBUG_CFLAGS="$DEBUG_CFLAGS" \
 	DEBUG_CXXFLAGS="$DEBUG_CXXFLAGS" \
 	EXTRA_LIBS="-lsupc++"
+
+# cscope target won't work without this
+#
+[ -f po/Makefile ] && echo -e '\n%:\n\t@:\n\n' >> po/Makefile

@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.14\n"
-"Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-12-16 18:15-0700\n"
+"Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
+"POT-Creation-Date: 2016-07-09 21:33-0600\n"
 "PO-Revision-Date: 2004-06-16 02:44+0200\n"
 "Last-Translator: Taisto Kuikka <69319@batman.jypoly.fi>\n"
 "Language-Team: Finnish <fi@li.org>\n"
@@ -128,7 +128,7 @@ msgstr ""
 "  Soittajan ID:\t"
 
 #: src/aworkspaces.cc:155 src/aworkspaces.cc:220 src/aworkspaces.cc:276
-#: src/wmstatus.cc:168
+#: src/wmstatus.cc:178
 msgid "Workspace: "
 msgstr "Työpöytä: "
 
@@ -1003,7 +1003,7 @@ msgstr "Uudelleenkäynnistä _IceWM"
 msgid "_About"
 msgstr "_Tietoja"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3435
+#: src/wmframe.cc:165 src/wmframe.cc:3437
 msgid "Maximize"
 msgstr "Suurenna"
 
@@ -1015,7 +1015,7 @@ msgstr "Pienennä"
 msgid "Hide"
 msgstr "Piilota"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3468
+#: src/wmframe.cc:209 src/wmframe.cc:3470
 msgid "Rollup"
 msgstr "Rullaa ylös"
 
@@ -1023,11 +1023,11 @@ msgstr "Rullaa ylös"
 msgid "Raise/Lower"
 msgstr "Nosta/Laske"
 
-#: src/wmframe.cc:1725
+#: src/wmframe.cc:1727
 msgid "Kill Client: "
 msgstr "Tapa asiakasohjelma: "
 
-#: src/wmframe.cc:1729
+#: src/wmframe.cc:1731
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1035,11 +1035,11 @@ msgstr ""
 "VAROITUS! Kaikki tallentamattomat muutokset tässä\n"
 "asiakkaassa menetetään kun se tapetaan. Haluatko jatkaa?"
 
-#: src/wmframe.cc:3432
+#: src/wmframe.cc:3434
 msgid "Restore"
 msgstr "Palauta"
 
-#: src/wmframe.cc:3466
+#: src/wmframe.cc:3468
 msgid "Rolldown"
 msgstr "Rullaa alas"
 
@@ -1307,7 +1307,7 @@ msgstr "Kirjasinsarjan \"%s\" lataaminen epäonnistui."
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "Puuttuva koodisarja kirjasinsarjasta \"%s\":"
 
-#: src/yicon.cc:147
+#: src/yicon.cc:167
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
 msgstr "Muisti ei riitä bittikarttaa \"%s\" varten"

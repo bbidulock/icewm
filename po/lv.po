@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: IceWM\n"
-"Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-12-16 18:15-0700\n"
+"Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
+"POT-Creation-Date: 2016-07-09 21:33-0600\n"
 "PO-Revision-Date: 2005-06-12 12:59+0300\n"
 "Last-Translator: Kristaps Kaupe <kristaps.kaupe@inbox.lv>\n"
 "Language-Team: \n"
@@ -130,7 +130,7 @@ msgstr ""
 " Zvanītāja id:\t"
 
 #: src/aworkspaces.cc:155 src/aworkspaces.cc:220 src/aworkspaces.cc:276
-#: src/wmstatus.cc:168
+#: src/wmstatus.cc:178
 msgid "Workspace: "
 msgstr "Darba vide:"
 
@@ -1004,7 +1004,7 @@ msgstr "Pā_rstartēt icewm"
 msgid "_About"
 msgstr "P_ar"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3435
+#: src/wmframe.cc:165 src/wmframe.cc:3437
 msgid "Maximize"
 msgstr "Maksimizēt"
 
@@ -1016,7 +1016,7 @@ msgstr "Minimizēt"
 msgid "Hide"
 msgstr "Noslēpt"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3468
+#: src/wmframe.cc:209 src/wmframe.cc:3470
 msgid "Rollup"
 msgstr "Saritināt"
 
@@ -1024,11 +1024,11 @@ msgstr "Saritināt"
 msgid "Raise/Lower"
 msgstr "Paaugstināt/pazemināt"
 
-#: src/wmframe.cc:1725
+#: src/wmframe.cc:1727
 msgid "Kill Client: "
 msgstr "Nogalināt klientu:"
 
-#: src/wmframe.cc:1729
+#: src/wmframe.cc:1731
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1036,11 +1036,11 @@ msgstr ""
 "UZMANĪBU! Visas nesaglabātās izmaiņas tiks zaudētas, kad\n"
 "šis klients tiks nogalināts. Vai jūs vēlaties turpināt?"
 
-#: src/wmframe.cc:3432
+#: src/wmframe.cc:3434
 msgid "Restore"
 msgstr "Atjaunot"
 
-#: src/wmframe.cc:3466
+#: src/wmframe.cc:3468
 msgid "Rolldown"
 msgstr "Atritināt"
 
@@ -1306,7 +1306,7 @@ msgstr "Nevaru ielādēt fontu kopu \"%s\"."
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "Trūkstošas kodu kopas fontu kopai \"%s\":"
 
-#: src/yicon.cc:147
+#: src/yicon.cc:167
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
 msgstr "Nepietiek atmiņas pikseļkartei \"%s\""

@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.3.4pre2\n"
-"Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-12-16 18:15-0700\n"
+"Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
+"POT-Creation-Date: 2016-07-09 21:33-0600\n"
 "PO-Revision-Date: 2015-11-03 22:25+0200\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive68@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <http://10n.opensuse.org/projects/icewm/"
@@ -140,7 +140,7 @@ msgstr ""
 "  Id chamante:\t"
 
 #: src/aworkspaces.cc:155 src/aworkspaces.cc:220 src/aworkspaces.cc:276
-#: src/wmstatus.cc:168
+#: src/wmstatus.cc:178
 msgid "Workspace: "
 msgstr "Área de trabalho: "
 
@@ -1038,7 +1038,7 @@ msgstr "_Reiniciar icewm"
 msgid "_About"
 msgstr "So_bre"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3435
+#: src/wmframe.cc:165 src/wmframe.cc:3437
 msgid "Maximize"
 msgstr "Maximizar"
 
@@ -1050,7 +1050,7 @@ msgstr "Minimizar"
 msgid "Hide"
 msgstr "Ocultar"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3468
+#: src/wmframe.cc:209 src/wmframe.cc:3470
 msgid "Rollup"
 msgstr "Enrolar"
 
@@ -1058,11 +1058,11 @@ msgstr "Enrolar"
 msgid "Raise/Lower"
 msgstr "Frente/Trás"
 
-#: src/wmframe.cc:1725
+#: src/wmframe.cc:1727
 msgid "Kill Client: "
 msgstr "Interromper cliente: "
 
-#: src/wmframe.cc:1729
+#: src/wmframe.cc:1731
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1070,11 +1070,11 @@ msgstr ""
 "ATENÇÃO! Qualquer mudança não salva será perdida\n"
 "ao interromper este cliente. Deseja continuar?"
 
-#: src/wmframe.cc:3432
+#: src/wmframe.cc:3434
 msgid "Restore"
 msgstr "Restaurar"
 
-#: src/wmframe.cc:3466
+#: src/wmframe.cc:3468
 msgid "Rolldown"
 msgstr "Desenrolar"
 
@@ -1339,7 +1339,7 @@ msgstr "Não foi possível carregar o jogo de fontes \"%s\"."
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "Codificação para fontes \"%s\" faltando:"
 
-#: src/yicon.cc:147
+#: src/yicon.cc:167
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
 msgstr "Memória insuficiente para o pixmap \"%s\""

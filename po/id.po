@@ -1,14 +1,13 @@
 # Pesan Bahasa Indonesia untuk IceWM
 # Copyright (C) 2005 Arif E. Nugroho
 # "Arif E. Nugroho" <arif_endro@yahoo.com>
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
-"Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-12-16 18:15-0700\n"
-"PO-Revision-Date: 2005-01-23 23:32+0700\n"
-"Last-Translator: Arif E. Nugroho <arif_endro@yahoo.com>\n"
+"Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
+"POT-Creation-Date: 2016-07-09 21:33-0600\n"
+"PO-Revision-Date: 2016-08-24 16:17+0700\n"
+"Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
 "Language-Team: Indonesia\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +16,7 @@ msgstr ""
 
 #: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:875
 msgid " - Power"
-msgstr " - Baterai"
+msgstr " - Daya"
 
 #: src/aapm.cc:193 src/aapm.cc:527 src/aapm.cc:757
 msgid "P"
@@ -26,20 +25,20 @@ msgstr "P"
 #: src/aapm.cc:197 src/aapm.cc:498 src/aapm.cc:734 src/aapm.cc:846
 #, c-format
 msgid " - Charging"
-msgstr " - Mengisi Baterai"
+msgstr " - Mengisi"
 
 #: src/aapm.cc:199 src/aapm.cc:500 src/aapm.cc:736
 msgid "C"
-msgstr ""
+msgstr "C"
 
 #: src/aapm.cc:502
 msgid " - Full"
-msgstr ""
+msgstr " - Penuh"
 
 #: src/acpustatus.cc:234
 #, c-format
 msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
-msgstr ""
+msgstr "Beban CPU: %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:239
 #, c-format
@@ -47,6 +46,8 @@ msgid ""
 "\n"
 "Ram (free): %5.2f (%.2f) M"
 msgstr ""
+"\n"
+"Ram (bebas): %5.2f (%.2f) M"
 
 #: src/acpustatus.cc:244
 #, c-format
@@ -54,6 +55,8 @@ msgid ""
 "\n"
 "Swap (free): %.2f (%.2f) M"
 msgstr ""
+"\n"
+"Swap (bebas): %.2f (%.2f) M"
 
 #: src/acpustatus.cc:250
 #, c-format
@@ -61,6 +64,8 @@ msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
+"\n"
+"Suhu ACPI: "
 
 #: src/acpustatus.cc:261
 #, c-format
@@ -68,6 +73,8 @@ msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
+"\n"
+"Frekuensi CPU: %.3fGHz"
 
 #: src/acpustatus.cc:274
 msgid "CPU Load: "
@@ -76,12 +83,12 @@ msgstr "Beban CPU: "
 #: src/amailbox.cc:77
 #, c-format
 msgid "Invalid mailbox protocol: \"%s\""
-msgstr "Protokol mailbox tidak valid: \"%s\""
+msgstr "Protokol kotak surat tidak benar: \"%s\""
 
 #: src/amailbox.cc:79
 #, c-format
 msgid "Invalid mailbox path: \"%s\""
-msgstr "Path mailbox tidak sesuai: \"%s\""
+msgstr "Jalur kotak surat tidak sesuai: \"%s\""
 
 #: src/amailbox.cc:343
 #, c-format
@@ -90,20 +97,20 @@ msgstr "Menggunakan mailbox \"%s\"\n"
 
 #: src/amailbox.cc:451
 msgid "Error checking mailbox."
-msgstr "Error dalam mengecek mailbox"
+msgstr "Kesalahan dalam memeriksa kotak surat"
 
 #: src/amailbox.cc:457
 #, c-format
 msgid "%ld mail message."
-msgstr "%ld pesan."
+msgstr "%ld pesan surat."
 
 #: src/amailbox.cc:458
 #, c-format
 msgid "%ld mail messages."
-msgstr "%ld pesan."
+msgstr "%ld pesan surat."
 
 #: src/apppstatus.cc:204
-#, fuzzy, c-format
+#, c-format, c-format
 msgid ""
 "Interface %s:\n"
 "  Current rate (in/out):\t%li %s/%li %s\n"
@@ -111,11 +118,11 @@ msgid ""
 "  Transferred (in/out):\t%lli %s/%lli %s\n"
 "  Online time:\t%ld:%02ld:%02ld%s%s"
 msgstr ""
-"Perangkat %s:\n"
-"  Kecepatan saat ini (in/out):\t%li %s/%li %s\n"
+"Antarmuka %s:\n"
+"  Nilai saat ini (in/out):\t%li %s/%li %s\n"
 "  Rata-rata saat ini (in/out):\t%lli %s/%lli %s\n"
-"  Pengiriman (in/out):\t%lli %s/%lli %s\n"
-"  Waktu Sambung:\t%ld:%02ld:%02ld%s%s"
+"  Tertransfer (in/out):\t%lli %s/%lli %s\n"
+"  Waktu online:\t%ld:%02ld:%02ld%s%s"
 
 #: src/apppstatus.cc:216
 msgid ""
@@ -126,65 +133,65 @@ msgstr ""
 " Id pemanggil:\t"
 
 #: src/aworkspaces.cc:155 src/aworkspaces.cc:220 src/aworkspaces.cc:276
-#: src/wmstatus.cc:168
+#: src/wmstatus.cc:178
 msgid "Workspace: "
 msgstr "Ruang Kerja: "
 
 #: src/fdomenu.cc:74
 msgid "Settings"
-msgstr ""
+msgstr "Pengaturan"
 
 #: src/fdomenu.cc:75
 msgid "Screensavers"
-msgstr ""
+msgstr "Penghemat layar"
 
 #: src/fdomenu.cc:76
 msgid "Accessories"
-msgstr ""
+msgstr "Aksesoris"
 
 #: src/fdomenu.cc:77
 msgid "Development"
-msgstr ""
+msgstr "Pengembangan"
 
 #: src/fdomenu.cc:78
 msgid "Education"
-msgstr ""
+msgstr "Pendidikan"
 
 #: src/fdomenu.cc:79
 msgid "Games"
-msgstr ""
+msgstr "Permainan"
 
 #: src/fdomenu.cc:80
 msgid "Graphics"
-msgstr ""
+msgstr "Grafis"
 
 #: src/fdomenu.cc:81
 msgid "Multimedia"
-msgstr ""
+msgstr "Multimedia"
 
 #: src/fdomenu.cc:82
 msgid "Network"
-msgstr ""
+msgstr "Jaringan"
 
 #: src/fdomenu.cc:83
 msgid "Office"
-msgstr ""
+msgstr "Kantor"
 
 #: src/fdomenu.cc:84
 msgid "System"
-msgstr ""
+msgstr "Sistem"
 
 #: src/fdomenu.cc:85
 msgid "WINE"
-msgstr ""
+msgstr "WINE"
 
 #: src/fdomenu.cc:86
 msgid "Editors"
-msgstr ""
+msgstr "Penyunting"
 
 #: src/fdomenu.cc:87
 msgid "Other"
-msgstr ""
+msgstr "Lainnya"
 
 #: src/icehelp.cc:715
 msgid "Back"
@@ -192,7 +199,7 @@ msgstr "Mundur"
 
 #: src/icehelp.cc:715
 msgid "Alt+Left"
-msgstr ""
+msgstr "Alt+Left"
 
 #: src/icehelp.cc:716
 msgid "Forward"
@@ -200,7 +207,7 @@ msgstr "Maju"
 
 #: src/icehelp.cc:716
 msgid "Alt+Right"
-msgstr ""
+msgstr "Alt+Right"
 
 #: src/icehelp.cc:718
 msgid "Previous"
@@ -216,7 +223,7 @@ msgstr "Isi"
 
 #: src/icehelp.cc:722
 msgid "Index"
-msgstr ""
+msgstr "Indeks"
 
 #: src/icehelp.cc:724 src/icesame.cc:63 src/iceview.cc:76 src/wmframe.cc:187
 msgid "Close"
@@ -224,7 +231,7 @@ msgstr "Tutup"
 
 #: src/icehelp.cc:724 src/icesame.cc:63 src/iceview.cc:76
 msgid "Ctrl+Q"
-msgstr ""
+msgstr "Ctrl+Q"
 
 #: src/icehelp.cc:1327
 #, c-format
@@ -234,23 +241,24 @@ msgid ""
 "A very simple HTML browser displaying the document specified by FILENAME.\n"
 "\n"
 msgstr ""
-"Penggunaan: %s NAMA FILE\n"
+"Penggunaan: %s NAMABERKAS\n"
 "\n"
-"Sebuah HTML browser sederhana untuk menampilkan dokumen.\n"
+"Sebuah peramban HTML sederhana untuk menampilkan dokumen yang ditentukan "
+"oleh NAMABERKAS.\n"
 "\n"
 
 #: src/icehelp.cc:1337
 #, c-format
 msgid "Invalid path: %s\n"
-msgstr ""
+msgstr "Jalur tidak benar: %s\n"
 
 #: src/icehelp.cc:1342
 msgid "Invalid path: "
-msgstr ""
+msgstr "Jalur tidak benar: "
 
 #: src/icelist.cc:84
 msgid "List View"
-msgstr "Tampilan List"
+msgstr "Tampilan Daftar"
 
 #: src/icelist.cc:85
 msgid "Icon View"
@@ -262,11 +270,11 @@ msgstr "Buka"
 
 #: src/icesame.cc:58
 msgid "Undo"
-msgstr ""
+msgstr "Urungkan"
 
 #: src/icesame.cc:58
 msgid "Ctrl+Z"
-msgstr ""
+msgstr "Ctrl+Z"
 
 #: src/icesame.cc:60
 msgid "New"
@@ -274,19 +282,19 @@ msgstr "Baru"
 
 #: src/icesame.cc:60
 msgid "Ctrl+N"
-msgstr ""
+msgstr "Ctrl+N"
 
 #: src/icesame.cc:61
 msgid "Restart"
-msgstr ""
+msgstr "Jalankan Ulang"
 
 #: src/icesame.cc:61
 msgid "Ctrl+R"
-msgstr ""
+msgstr "Ctrl+R"
 
 #: src/icesame.cc:66
 msgid "Same Game"
-msgstr ""
+msgstr "Permainan Sama"
 
 #: src/icesh.cc:187
 #, c-format
@@ -301,7 +309,7 @@ msgstr "Ekpresi tidak benar: '%s'"
 #: src/icesh.cc:316
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
-msgstr ""
+msgstr "Domain berisi simbol `%s' (rentang angka: %ld-%ld):\n"
 
 #: src/icesh.cc:429
 #, c-format
@@ -311,7 +319,7 @@ msgstr "Nama Ruang Kerja salah: `%s'"
 #: src/icesh.cc:435
 #, c-format
 msgid "Workspace out of range: %d"
-msgstr "Ruan kerja diluar jangkauan: %d"
+msgstr "Ruang kerja diluar jangkauan: %d"
 
 #: src/icesh.cc:569
 #, fuzzy, c-format
@@ -407,15 +415,15 @@ msgstr ""
 
 #: src/icesh.cc:608
 msgid "GNOME window state"
-msgstr "GNOME status window"
+msgstr "GNOME jendela status"
 
 #: src/icesh.cc:609
 msgid "GNOME window hint"
-msgstr "GNOME tips window"
+msgstr "GNOME tips jendela"
 
 #: src/icesh.cc:610
 msgid "GNOME window layer"
-msgstr "GNOME lapisan window"
+msgstr "GNOME lapisan jendela"
 
 #: src/icesh.cc:611
 msgid "IceWM tray option"
@@ -423,12 +431,12 @@ msgstr "IceWM opsi tray"
 
 #: src/icesh.cc:616
 msgid "Usage error: "
-msgstr "Salah penggunaan: "
+msgstr "Kesalahan penggunaan: "
 
 #: src/icesh.cc:687
 #, c-format
 msgid "Invalid argument: `%s'."
-msgstr "Argumen tidak valid: `%s'."
+msgstr "Argumen tidak benar: `%s'."
 
 #: src/icesh.cc:696
 msgid "No actions specified."
@@ -444,7 +452,7 @@ msgstr ""
 #: src/icesh.cc:743
 #, c-format
 msgid "Invalid window identifier: `%s'"
-msgstr "Indentitas window tidak valid: `%s'"
+msgstr "Indentitas window tidak benar: `%s'"
 
 #: src/icesh.cc:896
 #, c-format
@@ -459,17 +467,17 @@ msgstr "Aksi tidak diketahui: `%s'"
 #: src/iceskt.cc:36
 #, c-format
 msgid "Socket error: %d"
-msgstr "Socket tidak jalan: %d"
+msgstr "Kesalahan socket: %d"
 
 #: src/icesound.cc:256 src/icesound.cc:424 src/icesound.cc:792
 #, c-format
 msgid "Playing sample #%d (%s)"
-msgstr "Memainkan sample $%d (%s)"
+msgstr "Memutar sampel #%d (%s)"
 
 #: src/icesound.cc:468
 #, c-format
 msgid "No such device: %s"
-msgstr "Tidak ada alat yang bernama: %s"
+msgstr "Perangkat tidak ada: %s"
 
 #: src/icesound.cc:561
 #, c-format
@@ -484,27 +492,27 @@ msgstr "<kosong>"
 #: src/icesound.cc:582
 #, c-format
 msgid "Error <%d> while uploading `%s:%s'"
-msgstr ""
+msgstr "Kesalahan <%d> saat mengunggah `%s:%s'"
 
 #: src/icesound.cc:588
 #, c-format
 msgid "Sample <%d> uploaded as `%s:%s'"
-msgstr ""
+msgstr "Sampel <%d> diunggah sebagai `%s:%s'"
 
 #: src/icesound.cc:647
 #, c-format
 msgid "Playing sample #%d"
-msgstr ""
+msgstr "Memutar sampel #%d"
 
 #: src/icesound.cc:738 src/icesound.cc:779
 #, c-format
 msgid "Can't connect to YIFF server: %s"
-msgstr ""
+msgstr "Tidak dapat menghubungkan ke YIFF server: %s"
 
 #: src/icesound.cc:744
 #, c-format
 msgid "Can't change to audio mode `%s'."
-msgstr "Tidak dapat berubah ke audio mode `%s'."
+msgstr "Tidak dapat berganti ke mode audio `%s'."
 
 #: src/icesound.cc:886
 #, c-format
@@ -591,23 +599,23 @@ msgstr "Tampilan heksa"
 
 #: src/iceview.cc:72
 msgid "Ctrl+H"
-msgstr ""
+msgstr "Ctrl+H"
 
 #: src/iceview.cc:73
 msgid "Expand Tabs"
-msgstr ""
+msgstr "Perluas Tab"
 
 #: src/iceview.cc:73
 msgid "Ctrl+T"
-msgstr ""
+msgstr "Ctrl+T"
 
 #: src/iceview.cc:74
 msgid "Wrap Lines"
-msgstr ""
+msgstr "Garis Wrap"
 
 #: src/iceview.cc:74
 msgid "Ctrl+W"
-msgstr ""
+msgstr "Ctrl+W"
 
 #: src/icewmbg.cc:410
 #, fuzzy
@@ -651,12 +659,12 @@ msgstr ""
 #: src/icewmbg.cc:557
 #, c-format
 msgid "Loading image %s failed"
-msgstr "Gagal menampilkan gambar %s"
+msgstr "Gagal memuat gambar %s"
 
 #: src/icewmbg.cc:571 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
-msgstr "Gagal meload pixmap \"%s\" : %s"
+msgstr "Gagal memuat pixmap \"%s\" : %s"
 
 #: src/icewmhint.cc:49
 msgid "Usage: icewmhint [class.instance] option arg\n"
@@ -674,7 +682,7 @@ msgstr "Peringatan: "
 #: src/movesize.cc:903
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
-msgstr ""
+msgstr "Arah dalam memindahkan/mengubah ukuran tidak diketahui: %d"
 
 #: src/themes.cc:100
 msgid "Default"
@@ -682,35 +690,35 @@ msgstr "Default"
 
 #: src/wmabout.cc:29 src/wmabout.cc:31
 msgid "(C)"
-msgstr "Â©"
+msgstr "(C)"
 
 #: src/wmabout.cc:37
 msgid "Theme:"
-msgstr "Theme:"
+msgstr "Tema:"
 
 #: src/wmabout.cc:38
 msgid "Theme Description:"
-msgstr "Deskripsi Theme:"
+msgstr "Deskripsi Tema:"
 
 #: src/wmabout.cc:39
 msgid "Theme Author:"
-msgstr "Pencipta Theme:"
+msgstr "Pencipta Tema:"
 
 #: src/wmabout.cc:43
 msgid "CodeSet:"
-msgstr ""
+msgstr "SetKode"
 
 #: src/wmabout.cc:44
 msgid "Language:"
-msgstr ""
+msgstr "Bahasa:"
 
 #: src/wmabout.cc:69
 msgid "icewm - About"
-msgstr "Tentang IceWM"
+msgstr "icewm - Tentang"
 
 #: src/wmapp.cc:444
 msgid "Unable to get current font path."
-msgstr ""
+msgstr "Tidak dapat mengambil jalur huruf saat ini."
 
 #: src/wmapp.cc:471
 msgid "Unexpected format of ICEWM_FONT_PATH property"
@@ -772,7 +780,7 @@ msgstr "_Diatas"
 
 #: src/wmapp.cc:910
 msgid "_Normal"
-msgstr ""
+msgstr "_Normal"
 
 #: src/wmapp.cc:911
 msgid "_Below"
@@ -780,11 +788,11 @@ msgstr "_Dibawah"
 
 #: src/wmapp.cc:912
 msgid "D_esktop"
-msgstr ""
+msgstr "D_esktop"
 
 #: src/wmapp.cc:924
 msgid "_Restore"
-msgstr "_Kembali"
+msgstr "_Pulihkan"
 
 #: src/wmapp.cc:926
 msgid "_Move"
@@ -804,7 +812,7 @@ msgstr "Mak_simalkan"
 
 #: src/wmapp.cc:934
 msgid "_Fullscreen"
-msgstr "_Satulayar"
+msgstr "_Layarpenuh"
 
 #: src/wmapp.cc:938 src/wmwinlist.cc:307
 msgid "_Hide"
@@ -824,23 +832,23 @@ msgstr "_Kebawah"
 
 #: src/wmapp.cc:952
 msgid "La_yer"
-msgstr "Po_sisi"
+msgstr "La_pisan"
 
 #: src/wmapp.cc:956 src/wmwinlist.cc:310
 msgid "Move _To"
-msgstr "Pindahkan _Ke"
+msgstr "Pindah _Ke"
 
 #: src/wmapp.cc:957
 msgid "Occupy _All"
-msgstr ""
+msgstr "Tempati _Semua"
 
 #: src/wmapp.cc:963
 msgid "Limit _Workarea"
-msgstr ""
+msgstr "Batas _Area kerja"
 
 #: src/wmapp.cc:968
 msgid "Tray _icon"
-msgstr ""
+msgstr "Ikon tray"
 
 #: src/wmapp.cc:974 src/wmwinlist.cc:295 src/wmwinlist.cc:321
 msgid "_Close"
@@ -848,11 +856,11 @@ msgstr "_Tutup"
 
 #: src/wmapp.cc:976 src/wmwinlist.cc:297
 msgid "_Kill Client"
-msgstr "_Matikan Client"
+msgstr "_Matikan Klien"
 
 #: src/wmapp.cc:980 src/wmdialog.cc:132 src/wmwinmenu.cc:137
 msgid "_Window list"
-msgstr "Daftar _Window"
+msgstr "Daftar _jendela"
 
 #: src/wmapp.cc:996
 msgid "Another window manager already running, exiting..."
@@ -912,12 +920,11 @@ msgstr ""
 
 #: src/wmconfig.cc:116
 msgid "Bad Look name"
-msgstr ""
+msgstr "Nama terlihat buruk"
 
 #: src/wmdialog.cc:83
-#, fuzzy
 msgid "Loc_k Workstation"
-msgstr "Kunci _Workstation"
+msgstr "Kunci Workstation"
 
 #: src/wmdialog.cc:90 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:434
 #: src/wmtaskbar.cc:436
@@ -930,14 +937,14 @@ msgstr "_Batal"
 
 #: src/wmdialog.cc:104
 msgid "_Restart icewm"
-msgstr ""
+msgstr "_Jalankan ulang icewm"
 
 #: src/wmdialog.cc:125 src/wmprog.cc:886 src/wmtaskbar.cc:426
 #: src/wmtaskbar.cc:429
 msgid "_About"
 msgstr "_Tentang"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3435
+#: src/wmframe.cc:165 src/wmframe.cc:3437
 msgid "Maximize"
 msgstr "Maksimalkan"
 
@@ -949,7 +956,7 @@ msgstr "Minimalkan"
 msgid "Hide"
 msgstr "Sembunyi"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3468
+#: src/wmframe.cc:209 src/wmframe.cc:3470
 msgid "Rollup"
 msgstr "Gulung Atas"
 
@@ -957,24 +964,24 @@ msgstr "Gulung Atas"
 msgid "Raise/Lower"
 msgstr "Naikkan/Turunkan"
 
-#: src/wmframe.cc:1725
+#: src/wmframe.cc:1727
 msgid "Kill Client: "
-msgstr "Matikan Client: "
+msgstr "Matikan Klien: "
 
-#: src/wmframe.cc:1729
+#: src/wmframe.cc:1731
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
 msgstr ""
 "Peringatan! Semua perubahan yang tidak disimpan\n"
-"akan hilang ketika client dimatikan. Apakah anda\n"
+"akan hilang ketika klien dimatikan. Apakah Anda\n"
 "ingin melanjutkan?"
 
-#: src/wmframe.cc:3432
+#: src/wmframe.cc:3434
 msgid "Restore"
-msgstr "Kembali"
+msgstr "Pulihkan"
 
-#: src/wmframe.cc:3466
+#: src/wmframe.cc:3468
 msgid "Rolldown"
 msgstr "Gulung Bawah"
 
@@ -1026,11 +1033,11 @@ msgstr "Aplikasi"
 
 #: src/wmprog.cc:855
 msgid "_Run..."
-msgstr ""
+msgstr "_Jalan..."
 
 #: src/wmprog.cc:862 src/wmtaskbar.cc:414
 msgid "_Windows"
-msgstr ""
+msgstr "_Jendela"
 
 #: src/wmprog.cc:899
 msgid "_Help"
@@ -1038,7 +1045,7 @@ msgstr "_Bantuan"
 
 #: src/wmprog.cc:917
 msgid "_Click to focus"
-msgstr ""
+msgstr "_Klik untuk fokus"
 
 #: src/wmprog.cc:922
 msgid "_Sloppy mouse focus"
@@ -1046,28 +1053,28 @@ msgstr ""
 
 #: src/wmprog.cc:927
 msgid "Custo_m"
-msgstr ""
+msgstr "Kostu_m"
 
 #: src/wmprog.cc:933
 msgid "_Focus"
-msgstr ""
+msgstr "_Fokus"
 
 #: src/wmprog.cc:940
 msgid "_Themes"
-msgstr ""
+msgstr "_Tema"
 
 #: src/wmprog.cc:942
 msgid "Se_ttings"
-msgstr ""
+msgstr "Se_telan"
 
 #: src/wmsession.cc:239 src/wmsession.cc:255 src/wmsession.cc:265
 #, c-format
 msgid "Session Manager: Unknown line %s"
-msgstr ""
+msgstr "Manajer Sesi: Baris %s tidak diketahui"
 
 #: src/wmtaskbar.cc:257 src/wmtaskbar.cc:258
 msgid "Task Bar"
-msgstr ""
+msgstr "Bilah tugas"
 
 #: src/wmtaskbar.cc:403 src/wmwinlist.cc:312 src/wmwinlist.cc:325
 msgid "Tile _Vertically"
@@ -1087,7 +1094,7 @@ msgstr "_Atur"
 
 #: src/wmtaskbar.cc:407 src/wmwinlist.cc:317 src/wmwinlist.cc:329
 msgid "_Minimize All"
-msgstr ""
+msgstr "_Minimalkan Semua"
 
 #: src/wmtaskbar.cc:408 src/wmwinlist.cc:318 src/wmwinlist.cc:330
 msgid "_Hide All"
@@ -1095,15 +1102,15 @@ msgstr "_Sembunyikan Semua"
 
 #: src/wmtaskbar.cc:409 src/wmwinlist.cc:319 src/wmwinlist.cc:331
 msgid "_Undo"
-msgstr ""
+msgstr "_Urungkan"
 
 #: src/wmtaskbar.cc:411
 msgid "Arrange _Icons"
-msgstr "Atur _Icons"
+msgstr "Atur _Ikon"
 
 #: src/wmtaskbar.cc:417
 msgid "_Refresh"
-msgstr ""
+msgstr "_Segarkan"
 
 #: src/wmtaskbar.cc:424
 msgid "_License"
@@ -1115,7 +1122,7 @@ msgstr "Aplikasi favorit"
 
 #: src/wmtaskbar.cc:579
 msgid "Window list menu"
-msgstr ""
+msgstr "Menu daftar jendela"
 
 #: src/wmtaskbar.cc:588
 msgid "Show Desktop"
@@ -1152,7 +1159,7 @@ msgstr "Daftar window"
 #: src/wmwinmenu.cc:127
 #, c-format
 msgid "%lu. Workspace %-.32s"
-msgstr ""
+msgstr "%lu. Ruang kerja %-.32s"
 
 #: src/yapp.cc:483
 #, c-format
@@ -1239,7 +1246,7 @@ msgstr ""
 msgid "Missing codesets for fontset \"%s\":"
 msgstr ""
 
-#: src/yicon.cc:147
+#: src/yicon.cc:167
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
 msgstr ""
@@ -1263,7 +1270,7 @@ msgstr "Pot_ong"
 
 #: src/yinput.cc:55
 msgid "Ctrl+X"
-msgstr ""
+msgstr "Ctrl+X"
 
 #: src/yinput.cc:56
 msgid "_Copy"
@@ -1271,19 +1278,19 @@ msgstr "_Salin"
 
 #: src/yinput.cc:56
 msgid "Ctrl+C"
-msgstr ""
+msgstr "Ctrl+C"
 
 #: src/yinput.cc:57
 msgid "_Paste"
-msgstr "_Timpa"
+msgstr "_Tempel"
 
 #: src/yinput.cc:57
 msgid "Ctrl+V"
-msgstr ""
+msgstr "Ctrl+V"
 
 #: src/yinput.cc:58
 msgid "Paste _Selection"
-msgstr "Timpa _Pilihan"
+msgstr "Tempel _Pilihan"
 
 #: src/yinput.cc:60
 msgid "Select _All"
@@ -1291,11 +1298,11 @@ msgstr "Pilih _Semua"
 
 #: src/yinput.cc:60
 msgid "Ctrl+A"
-msgstr ""
+msgstr "Ctrl+A"
 
 #: src/ylocale.cc:46
 msgid "Locale not supported by C library. Falling back to 'C' locale'."
-msgstr "Locale tidak disupport oleh C library. Kembali ke 'C' locale'."
+msgstr "Locale tidak didukung oleh C library. Kembali ke 'C' locale'."
 
 #: src/ylocale.cc:68
 msgid ""

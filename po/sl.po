@@ -18,8 +18,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sl\n"
-"Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-12-16 18:15-0700\n"
+"Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
+"POT-Creation-Date: 2016-07-09 21:33-0600\n"
 "PO-Revision-Date: 2004-10-03 21:56+0200\n"
 "Last-Translator: Jernej Kovacic <jkovacic AT email DOT si>\n"
 "Language-Team: Slovenian <translator-team-sl@lists.sourceforge.net>\n"
@@ -140,7 +140,7 @@ msgstr ""
 "  Identifikator klicalca:\t"
 
 #: src/aworkspaces.cc:155 src/aworkspaces.cc:220 src/aworkspaces.cc:276
-#: src/wmstatus.cc:168
+#: src/wmstatus.cc:178
 msgid "Workspace: "
 msgstr "Delovna površina: "
 
@@ -1021,7 +1021,7 @@ msgstr "Po_noven zagon IceWM"
 msgid "_About"
 msgstr "O pro_gramu"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3435
+#: src/wmframe.cc:165 src/wmframe.cc:3437
 msgid "Maximize"
 msgstr "Razpni"
 
@@ -1033,7 +1033,7 @@ msgstr "Pomanjšaj"
 msgid "Hide"
 msgstr "Skrij"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3468
+#: src/wmframe.cc:209 src/wmframe.cc:3470
 msgid "Rollup"
 msgstr "Spravi navzgor"
 
@@ -1041,11 +1041,11 @@ msgstr "Spravi navzgor"
 msgid "Raise/Lower"
 msgstr "Spusti/Znižaj"
 
-#: src/wmframe.cc:1725
+#: src/wmframe.cc:1727
 msgid "Kill Client: "
 msgstr "Prekini odjemalca: "
 
-#: src/wmframe.cc:1729
+#: src/wmframe.cc:1731
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1053,11 +1053,11 @@ msgstr ""
 "OPOZORILO! Vse neshranjene spremebe se bodo ob prekinitvi\n"
 "tega odjemalca izgubile. Ali želite nadaljevati?"
 
-#: src/wmframe.cc:3432
+#: src/wmframe.cc:3434
 msgid "Restore"
 msgstr "Obnovi"
 
-#: src/wmframe.cc:3466
+#: src/wmframe.cc:3468
 msgid "Rolldown"
 msgstr "Spravi navzdol"
 
@@ -1324,7 +1324,7 @@ msgstr "Ne morem naložiti nabora pisav \"%s\"."
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "Manjkajoči nabori znakov za nabor pisav \"%s\":"
 
-#: src/yicon.cc:147
+#: src/yicon.cc:167
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
 msgstr "Ni dovolj pomnilnika za bitno sliko \"%s\""

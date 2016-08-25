@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.12\n"
-"Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-12-16 18:15-0700\n"
+"Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
+"POT-Creation-Date: 2016-07-09 21:33-0600\n"
 "PO-Revision-Date: 2004-01-21 9:30+0200\n"
 "Last-Translator: Coşku Erdem\n"
 "Language-Team: Turkish\n"
@@ -127,7 +127,7 @@ msgstr ""
 "  Arayan:\t"
 
 #: src/aworkspaces.cc:155 src/aworkspaces.cc:220 src/aworkspaces.cc:276
-#: src/wmstatus.cc:168
+#: src/wmstatus.cc:178
 msgid "Workspace: "
 msgstr "Çalışma Alanı: "
 
@@ -995,7 +995,7 @@ msgstr "I_ceVM'i Yeniden Başlat"
 msgid "_About"
 msgstr "_Hakkında"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3435
+#: src/wmframe.cc:165 src/wmframe.cc:3437
 msgid "Maximize"
 msgstr "Büyüt"
 
@@ -1007,7 +1007,7 @@ msgstr "Küçült"
 msgid "Hide"
 msgstr "Gizle"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3468
+#: src/wmframe.cc:209 src/wmframe.cc:3470
 msgid "Rollup"
 msgstr "Sar"
 
@@ -1015,11 +1015,11 @@ msgstr "Sar"
 msgid "Raise/Lower"
 msgstr "Kaldır/İndir"
 
-#: src/wmframe.cc:1725
+#: src/wmframe.cc:1727
 msgid "Kill Client: "
 msgstr "İstemciyi öldür: "
 
-#: src/wmframe.cc:1729
+#: src/wmframe.cc:1731
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1027,11 +1027,11 @@ msgstr ""
 "DİKKAT!! Bu istemci öldürüldüğünde tüm kaydedilmemiş\n"
 "değişiklikler kaybedilecektir. Emin misiniz?"
 
-#: src/wmframe.cc:3432
+#: src/wmframe.cc:3434
 msgid "Restore"
 msgstr "Eski haline"
 
-#: src/wmframe.cc:3466
+#: src/wmframe.cc:3468
 msgid "Rolldown"
 msgstr "Aşağı sar"
 
@@ -1297,7 +1297,7 @@ msgstr "«%s» font kümesi yüklenemedi."
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "«%s» font kümesi için code'setler eksik"
 
-#: src/yicon.cc:147
+#: src/yicon.cc:167
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
 msgstr "Pixmap için yetersiz hafıza«%s»"

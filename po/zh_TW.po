@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
-"Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-12-16 18:15-0700\n"
+"Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
+"POT-Creation-Date: 2016-07-09 21:33-0600\n"
 "PO-Revision-Date: 2007-02-22 14:45+0800\n"
 "Last-Translator: Wei-Lun Chao <chaoweilun@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -128,7 +128,7 @@ msgstr ""
 "  執行者 id:\t"
 
 #: src/aworkspaces.cc:155 src/aworkspaces.cc:220 src/aworkspaces.cc:276
-#: src/wmstatus.cc:168
+#: src/wmstatus.cc:178
 msgid "Workspace: "
 msgstr "工作區："
 
@@ -984,7 +984,7 @@ msgstr "重新啟動 icewm(_R)"
 msgid "_About"
 msgstr "關於(_A)"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3435
+#: src/wmframe.cc:165 src/wmframe.cc:3437
 msgid "Maximize"
 msgstr "放到最大"
 
@@ -996,7 +996,7 @@ msgstr "縮到最小"
 msgid "Hide"
 msgstr "隱藏"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3468
+#: src/wmframe.cc:209 src/wmframe.cc:3470
 msgid "Rollup"
 msgstr "向上循環"
 
@@ -1004,11 +1004,11 @@ msgstr "向上循環"
 msgid "Raise/Lower"
 msgstr "提升/降低"
 
-#: src/wmframe.cc:1725
+#: src/wmframe.cc:1727
 msgid "Kill Client: "
 msgstr "砍掉客戶端程式："
 
-#: src/wmframe.cc:1729
+#: src/wmframe.cc:1731
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1016,11 +1016,11 @@ msgstr ""
 "警告！當這個客戶端程式被砍掉時，所有未儲存的變更都將會失去。\n"
 "您希望繼續進行嗎？"
 
-#: src/wmframe.cc:3432
+#: src/wmframe.cc:3434
 msgid "Restore"
 msgstr "還原"
 
-#: src/wmframe.cc:3466
+#: src/wmframe.cc:3468
 msgid "Rolldown"
 msgstr "向下循環"
 
@@ -1285,7 +1285,7 @@ msgstr "無法載入字型集「%s」。"
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "字型集 \"%s\" 缺少編碼:"
 
-#: src/yicon.cc:147
+#: src/yicon.cc:167
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
 msgstr "像素圖 \"%s\" 的記憶體不足"

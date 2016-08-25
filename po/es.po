@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.26\n"
-"Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-12-16 18:15-0700\n"
-"PO-Revision-Date: 2015-11-19 00:02+0200\n"
+"Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
+"POT-Creation-Date: 2016-07-09 21:33-0600\n"
+"PO-Revision-Date: 2016-02-10 20:03+0200\n"
 "Last-Translator: jc sl <trcs@gmx.com>\n"
 "Language-Team: Spanish <http://l10n.opensuse.org/projects/icewm/icewm-1-3-"
 "branch/es/>\n"
@@ -61,7 +61,7 @@ msgid ""
 "Swap (free): %.2f (%.2f) M"
 msgstr ""
 "\n"
-"Área de intercambio (libre): %.2f (%.2f) M"
+"Swap (libre): %.2f (%.2f) M"
 
 #: src/acpustatus.cc:250
 #, c-format
@@ -79,7 +79,7 @@ msgid ""
 "CPU Freq: %.3fGHz"
 msgstr ""
 "\n"
-"Freq. CPU: %.3f GHz"
+"Frecuencia de la CPU: %.3fGHz"
 
 #: src/acpustatus.cc:274
 msgid "CPU Load: "
@@ -138,7 +138,7 @@ msgstr ""
 "  Id del comunicante:\t"
 
 #: src/aworkspaces.cc:155 src/aworkspaces.cc:220 src/aworkspaces.cc:276
-#: src/wmstatus.cc:168
+#: src/wmstatus.cc:178
 msgid "Workspace: "
 msgstr "Área de trabajo: "
 
@@ -192,7 +192,7 @@ msgstr "WINE"
 
 #: src/fdomenu.cc:86
 msgid "Editors"
-msgstr ""
+msgstr "Editores"
 
 #: src/fdomenu.cc:87
 msgid "Other"
@@ -204,7 +204,7 @@ msgstr "Volver"
 
 #: src/icehelp.cc:715
 msgid "Alt+Left"
-msgstr "Alt+Left"
+msgstr "Alt+Izquierda"
 
 #: src/icehelp.cc:716
 msgid "Forward"
@@ -212,7 +212,7 @@ msgstr "Avanzar"
 
 #: src/icehelp.cc:716
 msgid "Alt+Right"
-msgstr "Alt+Right"
+msgstr "Alt+Derecha"
 
 #: src/icehelp.cc:718
 msgid "Previous"
@@ -1031,7 +1031,7 @@ msgstr "Reiniciar _icewm"
 msgid "_About"
 msgstr "_Acerca de"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3435
+#: src/wmframe.cc:165 src/wmframe.cc:3437
 msgid "Maximize"
 msgstr "Maximizar"
 
@@ -1043,7 +1043,7 @@ msgstr "Minimizar"
 msgid "Hide"
 msgstr "Ocultar"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3468
+#: src/wmframe.cc:209 src/wmframe.cc:3470
 msgid "Rollup"
 msgstr "Enrollar"
 
@@ -1051,11 +1051,11 @@ msgstr "Enrollar"
 msgid "Raise/Lower"
 msgstr "Elevar/Bajar"
 
-#: src/wmframe.cc:1725
+#: src/wmframe.cc:1727
 msgid "Kill Client: "
 msgstr "Terminar cliente: "
 
-#: src/wmframe.cc:1729
+#: src/wmframe.cc:1731
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1063,11 +1063,11 @@ msgstr ""
 "¡ATENCIÓN! Todos los cambios no guardados se perderán cuando este cliente "
 "sea terminado. ¿Desea continuar?"
 
-#: src/wmframe.cc:3432
+#: src/wmframe.cc:3434
 msgid "Restore"
 msgstr "Restaurar"
 
-#: src/wmframe.cc:3466
+#: src/wmframe.cc:3468
 msgid "Rolldown"
 msgstr "Desenrollar"
 
@@ -1332,7 +1332,7 @@ msgstr "No se pudo cagar fontset «%s»."
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "Faltan conjuntos de códigos para el 'fontset' «%s»:"
 
-#: src/yicon.cc:147
+#: src/yicon.cc:167
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
 msgstr "No queda memoria para el pixmap «%s»"

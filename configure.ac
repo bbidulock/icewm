@@ -2,14 +2,16 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([icewm],[1.3.12],[http://github.com/bbidulock/icewm])
+AC_INIT([icewm],[1.3.12.56],[https://github.com/bbidulock/icewm/issues])
+AC_REVISION([1.3.12.56])
 AC_CONFIG_SRCDIR([src/ysmapp.cc])
-AC_CONFIG_AUX_DIR([scripts])
-AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_AUX_DIR([scripts])
+AC_USE_SYSTEM_EXTENSIONS
 AC_CANONICAL_TARGET
 
-DATE='2015-12-16'
+DATE='2016-07-08'
 AC_SUBST([DATE])
 
 APPLICATIONS='icewm icewm-session icesh icewmhint icewmbg icewmtray'
@@ -17,9 +19,9 @@ TESTCASES=`echo src/test*.cc | sed 's%src/\([[^ ]]*\)\.cc%\1%g'`
 TESTCASES="$TESTCASES iceview icesame iceicon icerun icelist icebar" # iceclock
 features=''
 
-AM_INIT_AUTOMAKE([subdir-objects dist-bzip2 no-dist-gzip color-tests silent-rules tar-pax])
+# Initialize Automake
+AM_INIT_AUTOMAKE([1.14 dist-xz no-dist-gzip std-options -Wall color-tests silent-rules tar-pax])
 AM_MAINTAINER_MODE
-AC_USE_SYSTEM_EXTENSIONS
 
 # Checks for programs.
 AC_LANG_CPLUSPLUS
@@ -30,6 +32,7 @@ AC_PROG_CPP
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
+AM_PROG_AR
 AC_PROG_MKDIR_P
 AC_ARG_VAR([LD], [Linker loader command])
 
@@ -43,7 +46,7 @@ LT_LANG([C++])
 AC_PROG_LIBTOOL
 AC_SUBST([LIBTOOL_DEPS])
 
-AM_GNU_GETTEXT_VERSION([0.19.6])
+AM_GNU_GETTEXT_VERSION([0.19.7])
 AM_GNU_GETTEXT([external])
 
 AC_ARG_ENABLE([i18n],

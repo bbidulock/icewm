@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.26\n"
-"Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-12-16 18:15-0700\n"
+"Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
+"POT-Creation-Date: 2016-07-09 21:33-0600\n"
 "PO-Revision-Date: 2006-05-28 15:27+0100\n"
 "Last-Translator: Ole Carlsen <carlo@sol.dk>\n"
 "Language-Team: Danish\n"
@@ -128,7 +128,7 @@ msgstr ""
 "  Opkalds id:\t"
 
 #: src/aworkspaces.cc:155 src/aworkspaces.cc:220 src/aworkspaces.cc:276
-#: src/wmstatus.cc:168
+#: src/wmstatus.cc:178
 msgid "Workspace: "
 msgstr "Arbejdsområde:"
 
@@ -999,7 +999,7 @@ msgstr "Gensta_rt icewm"
 msgid "_About"
 msgstr "Om"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3435
+#: src/wmframe.cc:165 src/wmframe.cc:3437
 msgid "Maximize"
 msgstr "Maksimere"
 
@@ -1011,7 +1011,7 @@ msgstr "Minimere"
 msgid "Hide"
 msgstr "Skjule"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3468
+#: src/wmframe.cc:209 src/wmframe.cc:3470
 msgid "Rollup"
 msgstr "Rul op"
 
@@ -1019,11 +1019,11 @@ msgstr "Rul op"
 msgid "Raise/Lower"
 msgstr "Hæve/Sænke"
 
-#: src/wmframe.cc:1725
+#: src/wmframe.cc:1727
 msgid "Kill Client: "
 msgstr "Afslutte Klient:"
 
-#: src/wmframe.cc:1729
+#: src/wmframe.cc:1731
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1031,11 +1031,11 @@ msgstr ""
 "ADVARSEL! Alle ikke gemte ændringer vil være tabte når\n"
 "denne klient bliver afsluttet. Ønsker du at fortsætte?"
 
-#: src/wmframe.cc:3432
+#: src/wmframe.cc:3434
 msgid "Restore"
 msgstr "Gendanne"
 
-#: src/wmframe.cc:3466
+#: src/wmframe.cc:3468
 msgid "Rolldown"
 msgstr "Rul ned"
 
@@ -1301,7 +1301,7 @@ msgstr "Kunne ikke indlæse skrifttype \"%s\"."
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "Mangler tegnkoder for skrifttype \"%s\":"
 
-#: src/yicon.cc:147
+#: src/yicon.cc:167
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
 msgstr "Ingen hukommelse for billedpunkt kort \"%s\""

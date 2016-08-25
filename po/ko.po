@@ -7,15 +7,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.35\n"
-"Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-12-16 18:15-0700\n"
-"PO-Revision-Date: 2008-04-07 10:19-1000\n"
-"Last-Translator: Ken Joseph Yeo <suyyeo@yahoo.com>\n"
-"Language-Team: Korean\n"
+"Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
+"POT-Creation-Date: 2016-07-09 21:33-0600\n"
+"PO-Revision-Date: 2016-04-25 08:06+0000\n"
+"Last-Translator: YunSeok Choi <xein@naver.com>\n"
+"Language-Team: Korean <http://l10n.opensuse.org/projects/icewm/icewm-1-3-"
+"branch/ko/>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 2.5\n"
 
 #: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:875
 msgid " - Power"
@@ -41,7 +44,7 @@ msgstr ""
 #: src/acpustatus.cc:234
 #, c-format
 msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
-msgstr ""
+msgstr "CPU 사용: %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:239
 #, c-format
@@ -49,6 +52,8 @@ msgid ""
 "\n"
 "Ram (free): %5.2f (%.2f) M"
 msgstr ""
+"\n"
+"램 (여유): %5.2f (%.2f) M"
 
 #: src/acpustatus.cc:244
 #, c-format
@@ -56,6 +61,8 @@ msgid ""
 "\n"
 "Swap (free): %.2f (%.2f) M"
 msgstr ""
+"\n"
+"스왑 (여유): %.2f (%.2f) M"
 
 #: src/acpustatus.cc:250
 #, c-format
@@ -63,6 +70,8 @@ msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
+"\n"
+"ACPI 온도: "
 
 #: src/acpustatus.cc:261
 #, c-format
@@ -70,6 +79,8 @@ msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
+"\n"
+"CPU 속도: %.3fGHz"
 
 #: src/acpustatus.cc:274
 msgid "CPU Load: "
@@ -105,7 +116,7 @@ msgid "%ld mail messages."
 msgstr "%ld 메일 메시지."
 
 #: src/apppstatus.cc:204
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Interface %s:\n"
 "  Current rate (in/out):\t%li %s/%li %s\n"
@@ -114,9 +125,9 @@ msgid ""
 "  Online time:\t%ld:%02ld:%02ld%s%s"
 msgstr ""
 "인터페이스 %s:\n"
-"  현재 전송률 (입출):\t%li %s/%li %s\n"
-"  현재 평균 (입출):\t%lli %s/%lli %s\n"
-"  전송량 (입출):\t%lli %s/%lli %s\n"
+"  현재 전송률 (입력/출력):\t%li %s/%li %s\n"
+"  현재 평균 (입력/출력):\t%lli %s/%lli %s\n"
+"  전송량 (입력/출력):\t%lli %s/%lli %s\n"
 "  온라인 시간:\t%ld:%02ld:%02ld%s%s"
 
 #: src/apppstatus.cc:216
@@ -128,54 +139,53 @@ msgstr ""
 "  발신자 id:\t"
 
 #: src/aworkspaces.cc:155 src/aworkspaces.cc:220 src/aworkspaces.cc:276
-#: src/wmstatus.cc:168
+#: src/wmstatus.cc:178
 msgid "Workspace: "
 msgstr "작업공간: "
 
 #: src/fdomenu.cc:74
-#, fuzzy
 msgid "Settings"
-msgstr "설정(_T)"
+msgstr "설정"
 
 #: src/fdomenu.cc:75
 msgid "Screensavers"
-msgstr ""
+msgstr "화면보호기"
 
 #: src/fdomenu.cc:76
 msgid "Accessories"
-msgstr ""
+msgstr "악세사리"
 
 #: src/fdomenu.cc:77
 msgid "Development"
-msgstr ""
+msgstr "개발"
 
 #: src/fdomenu.cc:78
 msgid "Education"
-msgstr ""
+msgstr "교육"
 
 #: src/fdomenu.cc:79
 msgid "Games"
-msgstr ""
+msgstr "게임"
 
 #: src/fdomenu.cc:80
 msgid "Graphics"
-msgstr ""
+msgstr "그래픽"
 
 #: src/fdomenu.cc:81
 msgid "Multimedia"
-msgstr ""
+msgstr "멀티미디어"
 
 #: src/fdomenu.cc:82
 msgid "Network"
-msgstr ""
+msgstr "네트워크"
 
 #: src/fdomenu.cc:83
 msgid "Office"
-msgstr ""
+msgstr "오피스"
 
 #: src/fdomenu.cc:84
 msgid "System"
-msgstr ""
+msgstr "시스템"
 
 #: src/fdomenu.cc:85
 msgid "WINE"
@@ -183,11 +193,11 @@ msgstr ""
 
 #: src/fdomenu.cc:86
 msgid "Editors"
-msgstr ""
+msgstr "편집기"
 
 #: src/fdomenu.cc:87
 msgid "Other"
-msgstr ""
+msgstr "기타"
 
 #: src/icehelp.cc:715
 msgid "Back"
@@ -195,7 +205,7 @@ msgstr "뒤로"
 
 #: src/icehelp.cc:715
 msgid "Alt+Left"
-msgstr "Alt+Left"
+msgstr ""
 
 #: src/icehelp.cc:716
 msgid "Forward"
@@ -203,7 +213,7 @@ msgstr "앞으로"
 
 #: src/icehelp.cc:716
 msgid "Alt+Right"
-msgstr "Alt+Right"
+msgstr ""
 
 #: src/icehelp.cc:718
 msgid "Previous"
@@ -518,7 +528,7 @@ msgid "Overriding previous audio mode `%s'."
 msgstr "이전 음향 모드 `%s' 강제 변경."
 
 #: src/icesound.cc:978
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
 "\n"
@@ -558,40 +568,36 @@ msgid ""
 msgstr ""
 "사용법: %s [옵션]...\n"
 "\n"
-"IceWM가 GUI 이벤트를 만들 때 음향 파일을 연주한다.\n"
+"IceWM 으로 GUI 이벤트가 생겼을대 음향 파일을 재생합니다.\n"
 "\n"
 "옵션:\n"
 "\n"
-"-d, --display=DISPLAY         IceWM가 사용하는 디스플레이 (기본값: "
+"-d, --display=DISPLAY         IceWM 이 사용하는 디스플레이 (기본값: "
 "$DISPLAY).\n"
-"-s, --sample-dir=DIR          음향 파일이 있는 디렉토리를\n"
-"                              지정한다 (ie ~/.icewm/sounds).\n"
-"-i, --interface=TARGET        ALSA, OSS, YIFF, ESD 가운데 음향 출력 대상\n"
-"                              인터페이스 하나를 지정한다\n"
-"-D, --device=DEVICE           (OSS ALSA) 디지털 신호 처리기를\n"
-"                              지정한다 (기본값 (ALSA) default (OSS) /dev/"
-"dsp).\n"
-"-S, --server=ADDR:PORT        (ESD와 YIFF) 서버 주소와 포트 번호를\n"
-"                              지정한다 (기본값 ESD는 localhost:16001\n"
-"                              그리고 YIFF는 localhost:9433).\n"
-"-m, --audio-mode[=MODE]       (오로지 YIFF) 음향 모드를 지정한다\n"
-"                              (목록을 얻기 위해 비워 두라).\n"
-"--audio-mode-auto             (오로지 YIFF) 샘플 오디오를 최적으로 맞추기\n"
-"                              위해 음향 모드를 실시간으로 바꾼다 (다른\n"
-"                              Y 클라이언트와 문제를 일으킬 수 있고,\n"
-"                              --audio-mode를 강제 변경).\n"
+"-s, --sample-dir=DIR          음향 파일이 있는 디렉토리를 지정 (ie ~/.icewm/"
+"sounds).\n"
+"-i, --interface=TARGET        OSS, YIFF, ESD, ALSA 중 소리를 보낼 인터페이스"
+"(1개)를 지정\n"
+"-D, --device=DEVICE           (ALSA & OSS 전용) 사용할 장치를 지정 (OSS 기"
+"본: /dev/dsp; ALSA:기본).\n"
+"-S, --server=ADDR:PORT        (ESD와 YIFF) 서버 주소와 포트 번호를 지정 (ESD"
+"용 기본값은 localhost:16001 그리고 YIFF는 localhost:9433).\n"
+"-m, --audio-mode[=MODE]       (YIFF 전용) 오디오 모드를 지정 (목록을 얻기 위"
+"해 비워 둘것).\n"
+"--audio-mode-auto             (YIFF 전용) 샘플 오디오를 최적으로 맞추기 위해 "
+"오디오 모드를 실시간으로 바꿈 (다른 Y 클라이언트와 문제를 일으킬 수 있으므"
+"로, --audio-mode 로 강제 변경).\n"
 "\n"
-"-v, --verbose                 말이 많도록 (표준출력으로 각 소리 이벤트를\n"
-"                              프린트).\n"
-"-V, --version                 버전 정보를 프린트하고 나간다.\n"
-"-h, --help                    (이) 도움말 스크린을 프린트하고 나간다.\n"
+"-v, --verbose                 말이 많도록 (기본으로 각 소리 이벤트를 출력).\n"
+"-V, --version                 출시 정보를 출력.\n"
+"-h, --help                    도움말을 출력.\n"
 "\n"
 "Return 값:\n"
 "\n"
 "0     성공.\n"
 "1     일반적 오류.\n"
 "2     명령행 오류.\n"
-"3     Subsystems 오류 (즉 서버 연결 못함).\n"
+"3     Subsystems 오류 (서버 연결 못함).\n"
 "\n"
 
 #: src/icesound.cc:1175
@@ -643,7 +649,6 @@ msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
 #: src/icewmbg.cc:410
-#, fuzzy
 msgid ""
 "Usage: icewmbg [ -r | -q ]\n"
 " -r  Restart icewmbg\n"
@@ -663,13 +668,17 @@ msgstr ""
 "사용법: icewmbg [ -r | -q ]\n"
 " -r  icewmbg 다시 시작\n"
 " -q  icewmbg 끝내기\n"
-"preferences 파일에 따라 바탕화면 배경을 그린다\n"
-" DesktopBackgroundCenter  - 바탕화면 배경을 반복하지 않고 가운데로 표시\n"
-" SupportSemitransparency  - 반투명 터미날 지원\n"
+"설정 파일에 따라 바탕화면 배경을 불러옴\n"
+" DesktopBackgroundCenter  - 바탕화면 중앙에 출력\n"
+" DesktopBackgroundScaled  - 바탕화면 크기에 맞춰 출력\n"
+" SupportSemitransparency  - 반투명 터미널 지원\n"
 " DesktopBackgroundColor   - 바탕화면 배경 색\n"
 " DesktopBackgroundImage   - 바탕화면 배경 이미지\n"
-" DesktopTransparencyColor - 반투명 창들에게 알릴 색\n"
-" DesktopTransparencyImage - 반투명 창들에게 알릴 이미지\n"
+" DesktopTransparencyColor - 반투명 창에 입힐 색\n"
+" DesktopTransparencyImage - 반투명 창에 입힐 이미지\n"
+"\n"
+" center:0 scaled:0 = 바둑판형\n"
+" center:1 scaled:1 = 가로세로비 유지형\n"
 
 #: src/icewmbg.cc:428
 #, c-format
@@ -734,7 +743,7 @@ msgstr ""
 
 #: src/wmabout.cc:44
 msgid "Language:"
-msgstr ""
+msgstr "언어:"
 
 #: src/wmabout.cc:69
 msgid "icewm - About"
@@ -971,14 +980,13 @@ msgid "Bad Look name"
 msgstr "보기 안 좋은 이름"
 
 #: src/wmdialog.cc:83
-#, fuzzy
 msgid "Loc_k Workstation"
-msgstr "화면 잠그기(_W)"
+msgstr "작업공간 잠금(_k)"
 
 #: src/wmdialog.cc:90 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:434
 #: src/wmtaskbar.cc:436
 msgid "_Logout..."
-msgstr "종료...(_L)"
+msgstr "로그아웃(_L)..."
 
 #: src/wmdialog.cc:97 src/ymsgbox.cc:46
 msgid "_Cancel"
@@ -993,7 +1001,7 @@ msgstr "icewm 다시 시작(_R)"
 msgid "_About"
 msgstr "정보(_A)"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3435
+#: src/wmframe.cc:165 src/wmframe.cc:3437
 msgid "Maximize"
 msgstr "최대화"
 
@@ -1005,7 +1013,7 @@ msgstr "최소화"
 msgid "Hide"
 msgstr "숨기기"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3468
+#: src/wmframe.cc:209 src/wmframe.cc:3470
 msgid "Rollup"
 msgstr "말아올리기"
 
@@ -1013,11 +1021,11 @@ msgstr "말아올리기"
 msgid "Raise/Lower"
 msgstr "앞으로/뒤로"
 
-#: src/wmframe.cc:1725
+#: src/wmframe.cc:1727
 msgid "Kill Client: "
 msgstr "클라이언트 죽이기: "
 
-#: src/wmframe.cc:1729
+#: src/wmframe.cc:1731
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1025,11 +1033,11 @@ msgstr ""
 "경고! 이 클라이언트를 죽이면 저장되지 않은\n"
 "변경 사항을 모두 잃어버립니다. 계속할까요?"
 
-#: src/wmframe.cc:3432
+#: src/wmframe.cc:3434
 msgid "Restore"
 msgstr "원래 크기로"
 
-#: src/wmframe.cc:3466
+#: src/wmframe.cc:3468
 msgid "Rolldown"
 msgstr "말아내리기"
 
@@ -1081,7 +1089,7 @@ msgstr "프로그램"
 
 #: src/wmprog.cc:855
 msgid "_Run..."
-msgstr "실행...(_R)"
+msgstr "실행(_R)..."
 
 #: src/wmprog.cc:862 src/wmtaskbar.cc:414
 msgid "_Windows"
@@ -1295,7 +1303,7 @@ msgstr "\"%s\" 폰트셋 읽지 못함."
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "\"%s\" 폰트셋에 대한 코드셋 빠짐:"
 
-#: src/yicon.cc:147
+#: src/yicon.cc:167
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
 msgstr "\"%s\" 그림에 대해 메모리 부족"
@@ -1369,34 +1377,33 @@ msgid "Invalid multibyte string \"%s\": %s"
 msgstr "잘못된 멀티바이트 문자열 \"%s\": %s"
 
 #: src/ymsgbox.cc:38
-#, fuzzy
 msgid "_OK"
-msgstr "예"
+msgstr "예(_O)"
 
 #: src/ypaths.cc:144 src/ypaths.cc:171
 #, c-format
 msgid "Image not readable: %s"
-msgstr ""
+msgstr "이미지를 읽을 수 없음: %s"
 
 #: src/ypaths.cc:149
-#, fuzzy, c-format
+#, c-format
 msgid "Out of memory for image %s"
-msgstr "\"%s\" 그림에 대해 메모리 부족"
+msgstr "%s 이미지용 메모리 부족"
 
 #: src/ypaths.cc:156
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find image %s"
-msgstr "픽셀 맵 %s를 찾을 수 없음"
+msgstr "%s 이미지를 찾을 수 없음"
 
 #: src/ypaths.cc:175
-#, fuzzy, c-format
+#, c-format
 msgid "Out of memory for image: %s"
-msgstr "\"%s\" 그림에 대해 메모리 부족"
+msgstr "이미지용 메모리 부족: %s"
 
 #: src/ypaths.cc:182
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find image: %s"
-msgstr "픽셀 맵 %s를 찾을 수 없음"
+msgstr "이미지를 찾을 수 없음: %s"
 
 #: src/ypixbuf.cc:482 src/ypixbuf.cc:668
 #, c-format
@@ -1424,7 +1431,7 @@ msgstr "\"%s\"는 보통의 인터넷 체계를 기술하지 않는다"
 #: src/yurl.cc:85
 #, c-format
 msgid "\"%s\" contains no scheme description"
-msgstr "\"%s\"는 체계 설명을 포함하지 않는다"
+msgstr "\"%s\"는 체계 기술서를 포함하지 않음"
 
 #~ msgid "Cancel"
 #~ msgstr "아니오"

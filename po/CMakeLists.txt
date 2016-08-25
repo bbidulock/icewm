@@ -26,14 +26,16 @@ if(gettext AND xgettext AND msgmerge AND msgfmt)
 
 	#message("langs: ${LANGUAGES}")
 	SET(XGETTEXT_CMD xgettext -language=CXX --keyword=_ --keyword=N_  -s --package-name=${PACKAGE} --package-version=${VERSION})
-	SET(_potFile "${CMAKE_CURRENT_BINARY_DIR}/${PACKAGE}.pot")
+  SET(_potFile "${CMAKE_CURRENT_SOURCE_DIR}/${PACKAGE}.pot")
 
 	ADD_CUSTOM_COMMAND(OUTPUT ${_potFile}
 		COMMAND ${XGETTEXT_CMD} -o "${_potFile}" ${SRCSRELATIVE}
 		DEPENDS ${SRCS}
 		WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-		COMMENT "Extract translatable messages to ${_potFile}")
+		COMMENT "Extracting translatable messages to ${_potFile} -- may require config restart!")
 	ADD_CUSTOM_TARGET(update_pot DEPENDS ${_potFile})
+
+  if(EXISTS ${_potFile})
 
 	if(SKIP_TRANSLATIONS)
 		ADD_CUSTOM_TARGET(translations)
@@ -45,7 +47,6 @@ if(gettext AND xgettext AND msgmerge AND msgfmt)
 		SET(_tempPO "${CMAKE_CURRENT_BINARY_DIR}/${_lang}.po")
 		ADD_CUSTOM_COMMAND(OUTPUT ${_tempPO}
 			COMMAND msgmerge -o ${_tempPO} ${EXTRA_MSGMERGE} -s ${CMAKE_CURRENT_SOURCE_DIR}/${_lang}.po ${_potFile}
-			DEPENDS "${_potFile}"
 			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 			COMMENT "Updated: ${_tempPO}")
 		ADD_CUSTOM_TARGET(${_lang}.po DEPENDS ${_tempPO})
@@ -56,9 +57,11 @@ if(gettext AND xgettext AND msgmerge AND msgfmt)
 			DEPENDS ${_tempPO}
 			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 		#COMMENT "Compiled: ${_tempMO}")
-		ADD_CUSTOM_TARGET(${_lang}.gmo DEPENDS ${_tempMO} update_pot)
+		ADD_CUSTOM_TARGET(${_lang}.gmo DEPENDS ${_tempMO})
 		install(FILES ${_tempMO} DESTINATION "${LOCDIR}/${_lang}/LC_MESSAGES/" RENAME "${PACKAGE}.mo" OPTIONAL)
 		add_dependencies(translations ${_lang}.gmo)
 	endforeach()
+
+  endif()
 
 endif()

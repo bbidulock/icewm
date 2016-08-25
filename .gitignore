@@ -50,6 +50,7 @@ config.h.in
 config.log
 config.status
 configure
+configure.ac.bak
 configure.scan
 doc/icewm*.html
 doc/Makefile
@@ -77,7 +78,8 @@ Makefile.in
 po/boldquot.sed
 po/en@boldquot.header
 po/en@quot.header
-po/icewm.pot
+# pot file is used by Weblate
+#po/icewm.pot
 po/insert-header.sin
 po/Makefile
 po/Makefile.in
@@ -142,10 +144,11 @@ GTAGS
 *.orig
 *~
 \#*#
+.nfs*
 
-ChangeLog
-THANKS
 README
+README.html
+README.txt
 
 # Eclipse project metadata
 .cproject

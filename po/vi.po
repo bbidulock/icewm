@@ -5,16 +5,19 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: icewm 1.2.21pre1 \n"
-"Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-12-16 18:15-0700\n"
-"PO-Revision-Date: 2005-06-18 11:46+0400\n"
-"Last-Translator: Phạm Thành Long <ptlong@gmail.com>\n"
-"Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
+"Project-Id-Version: icewm 1.2.21pre1\n"
+"Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
+"POT-Creation-Date: 2016-07-09 21:33-0600\n"
+"PO-Revision-Date: 2016-08-25 08:19+0000\n"
+"Last-Translator: Hoàng Phạm <pnhoang96@gmail.com>\n"
+"Language-Team: Vietnamese "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/vi/>\n"
 "Language: vi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 2.6\n"
 
 #: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:875
 msgid " - Power"
@@ -48,6 +51,8 @@ msgid ""
 "\n"
 "Ram (free): %5.2f (%.2f) M"
 msgstr ""
+"\n"
+"Ram (trống): %5.2f (%.2f) M"
 
 #: src/acpustatus.cc:244
 #, c-format
@@ -55,6 +60,8 @@ msgid ""
 "\n"
 "Swap (free): %.2f (%.2f) M"
 msgstr ""
+"\n"
+"Swap (trống): %.2f (%.2f) M"
 
 #: src/acpustatus.cc:250
 #, c-format
@@ -62,6 +69,8 @@ msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
+"\n"
+"Nhiệt độ ACPI: "
 
 #: src/acpustatus.cc:261
 #, c-format
@@ -69,6 +78,8 @@ msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
+"\n"
+"T.số CPU: %.3fGHz"
 
 #: src/acpustatus.cc:274
 msgid "CPU Load: "
@@ -104,7 +115,7 @@ msgid "%ld mail messages."
 msgstr "%ld thư."
 
 #: src/apppstatus.cc:204
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Interface %s:\n"
 "  Current rate (in/out):\t%li %s/%li %s\n"
@@ -113,8 +124,8 @@ msgid ""
 "  Online time:\t%ld:%02ld:%02ld%s%s"
 msgstr ""
 "Giao diện %s:\n"
-"  Tốc độ hiện thời (vào/ra):\t%li %s/%li %s\n"
-"  Tđ trung bình hiện thời (vào/ra):\t%lli %s/%lli %s\n"
+"  T.độ hiện thời (vào/ra):\t%li %s/%li %s\n"
+"  T.độ TB hiện thời (vào/ra):\t%lli %s/%lli %s\n"
 "  Đã truyền tải (vào/ra):\t%lli %s/%lli %s\n"
 "  Thời gian kết nối:\t%ld:%02ld:%02ld%s%s"
 
@@ -127,65 +138,65 @@ msgstr ""
 "  Id người gọi:\t"
 
 #: src/aworkspaces.cc:155 src/aworkspaces.cc:220 src/aworkspaces.cc:276
-#: src/wmstatus.cc:168
+#: src/wmstatus.cc:178
 msgid "Workspace: "
 msgstr "Không gian: "
 
 #: src/fdomenu.cc:74
 msgid "Settings"
-msgstr ""
+msgstr "Cài đặt"
 
 #: src/fdomenu.cc:75
 msgid "Screensavers"
-msgstr ""
+msgstr "Bảo vệ màn hình"
 
 #: src/fdomenu.cc:76
 msgid "Accessories"
-msgstr ""
+msgstr "Tiện ích"
 
 #: src/fdomenu.cc:77
 msgid "Development"
-msgstr ""
+msgstr "Lập trình"
 
 #: src/fdomenu.cc:78
 msgid "Education"
-msgstr ""
+msgstr "Giáo dục"
 
 #: src/fdomenu.cc:79
 msgid "Games"
-msgstr ""
+msgstr "Trò chơi"
 
 #: src/fdomenu.cc:80
 msgid "Graphics"
-msgstr ""
+msgstr "Đồ hoạ"
 
 #: src/fdomenu.cc:81
 msgid "Multimedia"
-msgstr ""
+msgstr "Đa phương tiện"
 
 #: src/fdomenu.cc:82
 msgid "Network"
-msgstr ""
+msgstr "Mạng"
 
 #: src/fdomenu.cc:83
 msgid "Office"
-msgstr ""
+msgstr "Văn phòng"
 
 #: src/fdomenu.cc:84
 msgid "System"
-msgstr ""
+msgstr "Hệ thống"
 
 #: src/fdomenu.cc:85
 msgid "WINE"
-msgstr ""
+msgstr "WINE"
 
 #: src/fdomenu.cc:86
 msgid "Editors"
-msgstr ""
+msgstr "Trình soạn thảo"
 
 #: src/fdomenu.cc:87
 msgid "Other"
-msgstr ""
+msgstr "Khác"
 
 #: src/icehelp.cc:715
 msgid "Back"
@@ -288,7 +299,7 @@ msgstr "Ctrl+R"
 
 #: src/icesame.cc:66
 msgid "Same Game"
-msgstr ""
+msgstr "Same Game"
 
 #: src/icesh.cc:187
 #, c-format
@@ -651,7 +662,6 @@ msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
 #: src/icewmbg.cc:410
-#, fuzzy
 msgid ""
 "Usage: icewmbg [ -r | -q ]\n"
 " -r  Restart icewmbg\n"
@@ -672,12 +682,16 @@ msgstr ""
 " -r  Khởi động lại icewmbg\n"
 " -q  Thoát icewmbg\n"
 "Nạp nền màn hình mặc định dựa theo tập tin cấu hình\n"
-" DesktopBackgroundCenter  - Hiển thị nền ở giữa màn hình, không nhân lên\n"
+" DesktopBackgroundCenter  - Hiển thị nền ở giữa màn hình\n"
+" DesktopBackgroundScaled  - Hiển thị nền giãn ra toàn màn hình\n"
 " SupportSemitransparency  - Hỗ trợ các terminal nửa trong suốt\n"
 " DesktopBackgroundColor   - Màu nền màn hình\n"
 " DesktopBackgroundImage   - Ảnh nền màn hình\n"
 " DesktopTransparencyColor - Màu cho các cửa sổ nửa trong suốt\n"
 " DesktopTransparencyImage - Ảnh cho các cửa sổ nửa trong suốt\n"
+"\n"
+" center:0 scaled:0 = kiểu lát gạch\n"
+" center:1 scaled:1 = giữ tỉ lệ nền\n"
 
 #: src/icewmbg.cc:428
 #, c-format
@@ -742,7 +756,7 @@ msgstr ""
 
 #: src/wmabout.cc:44
 msgid "Language:"
-msgstr ""
+msgstr "Ngôn ngữ:"
 
 #: src/wmabout.cc:69
 msgid "icewm - About"
@@ -908,7 +922,7 @@ msgstr ""
 "$PATH có chỉ tới %s?"
 
 #: src/wmapp.cc:1636
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
 "Starts the IceWM window manager.\n"
@@ -945,12 +959,13 @@ msgstr ""
 "%s  --sync                   Đồng bộ hoá các câu lệnh X11.\n"
 "\n"
 "  -c, --config=TẬPTIN      Nạp cấu hình từ TẬPTIN.\n"
-"  -t, --theme=TẬPTIN       Nạp sắc thái từ TẬPTIN.\n"
+"  -t, --theme=TẬPTIN       Nạp chủ đề từ TẬPTIN.\n"
 "  -n, --no-configure       Không dùng tập tin cấu hình.\n"
 "\n"
 "  -v, --version            In ra thông tin phiên bản rồi thoát.\n"
 "  -h, --help               In ra hướng dẫn sử dụng này rồi thoát.\n"
-"%s  --restart                Đừng sử dụng. Đây là một tuỳ chọn nội bộ.\n"
+"%s  --replace           Thay thế trình quản lí cửa sổ hiện tại.\n"
+"  --restart                Đừng sử dụng. Đây là một tuỳ chọn nội bộ.\n"
 "\n"
 "Biến môi trường:\n"
 "  ICEWM_PRIVCFG=ĐDẪN  Thư mục sử dụng cho các tập tin cấu hình cá nhân,\n"
@@ -979,7 +994,6 @@ msgid "Bad Look name"
 msgstr "Tên tìm kiếm tồi"
 
 #: src/wmdialog.cc:83
-#, fuzzy
 msgid "Loc_k Workstation"
 msgstr "_Khóa Màn hình"
 
@@ -1001,7 +1015,7 @@ msgstr "_Chạy lại icewm"
 msgid "_About"
 msgstr "_Giới thiệu về icewm"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3435
+#: src/wmframe.cc:165 src/wmframe.cc:3437
 msgid "Maximize"
 msgstr "Phóng đại"
 
@@ -1013,7 +1027,7 @@ msgstr "Thu nhỏ"
 msgid "Hide"
 msgstr "Ẩn"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3468
+#: src/wmframe.cc:209 src/wmframe.cc:3470
 msgid "Rollup"
 msgstr "Kéo lên"
 
@@ -1021,11 +1035,11 @@ msgstr "Kéo lên"
 msgid "Raise/Lower"
 msgstr "Lên trên/Xuống dưới cửa sổ khác"
 
-#: src/wmframe.cc:1725
+#: src/wmframe.cc:1727
 msgid "Kill Client: "
 msgstr "Diệt chương trình con: "
 
-#: src/wmframe.cc:1729
+#: src/wmframe.cc:1731
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1033,11 +1047,11 @@ msgstr ""
 "CẢNH BÁO! Tất cả những thay đổi chưa ghi nhớ sẽ bị mất khi\n"
 "chương trình con này bị diệt. Bạn có muốn tiếp tục diệt?"
 
-#: src/wmframe.cc:3432
+#: src/wmframe.cc:3434
 msgid "Restore"
 msgstr "Phục hồi"
 
-#: src/wmframe.cc:3466
+#: src/wmframe.cc:3468
 msgid "Rolldown"
 msgstr "Thả xuống"
 
@@ -1101,7 +1115,7 @@ msgstr "_Trợ giúp"
 
 #: src/wmprog.cc:917
 msgid "_Click to focus"
-msgstr ""
+msgstr "Nhấn _chuột để tập trung"
 
 #: src/wmprog.cc:922
 msgid "_Sloppy mouse focus"
@@ -1121,7 +1135,7 @@ msgstr "_Sắc thái"
 
 #: src/wmprog.cc:942
 msgid "Se_ttings"
-msgstr ""
+msgstr "Cài đặ_t"
 
 #: src/wmsession.cc:239 src/wmsession.cc:255 src/wmsession.cc:265
 #, c-format
@@ -1302,7 +1316,7 @@ msgstr "Không thể nạp bộ phông chữ \"%s\"."
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "Thiếu bộ mã cho bộ phông chữ \"%s\":"
 
-#: src/yicon.cc:147
+#: src/yicon.cc:167
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
 msgstr "Tràn bộ nhớ cho pixmap \"%s\""
@@ -1385,27 +1399,27 @@ msgstr "_Có"
 #: src/ypaths.cc:144 src/ypaths.cc:171
 #, c-format
 msgid "Image not readable: %s"
-msgstr ""
+msgstr "Không đọc được ảnh: %s"
 
 #: src/ypaths.cc:149
-#, fuzzy, c-format
+#, c-format
 msgid "Out of memory for image %s"
-msgstr "Tràn bộ nhớ cho pixmap \"%s\""
+msgstr "Tràn bộ nhớ cho ảnh %s"
 
 #: src/ypaths.cc:156
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find image %s"
-msgstr "Không tìm thấy bản đồ pixel %s"
+msgstr "Không tìm thấy ảnh %s"
 
 #: src/ypaths.cc:175
-#, fuzzy, c-format
+#, c-format
 msgid "Out of memory for image: %s"
-msgstr "Tràn bộ nhớ cho pixmap \"%s\""
+msgstr "Tràn bộ nhớ cho ảnh: %s"
 
 #: src/ypaths.cc:182
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find image: %s"
-msgstr "Không tìm thấy bản đồ pixel %s"
+msgstr "Không tìm thấy ảnh: %s"
 
 #: src/ypixbuf.cc:482 src/ypixbuf.cc:668
 #, c-format

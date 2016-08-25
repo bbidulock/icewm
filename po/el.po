@@ -6,16 +6,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
-"Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-12-16 18:15-0700\n"
-"PO-Revision-Date: 2003-10-14 09:41+0300\n"
-"Last-Translator: Nick Apostolakis <nickapos@agriroot.aua.gr>\n"
-"Language-Team: hellenic <en@li.org>\n"
+"Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
+"POT-Creation-Date: 2016-07-09 21:33-0600\n"
+"PO-Revision-Date: 2016-08-21 20:16+0000\n"
+"Last-Translator: Efstathios Iosifidis <eiosifidis@gmail.com>\n"
+"Language-Team: Greek "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/el/>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.6\n"
 
 #: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:875
 msgid " - Power"
@@ -36,7 +38,7 @@ msgstr ""
 
 #: src/aapm.cc:502
 msgid " - Full"
-msgstr ""
+msgstr " - Πλήρης"
 
 #: src/acpustatus.cc:234
 #, fuzzy, c-format
@@ -49,6 +51,8 @@ msgid ""
 "\n"
 "Ram (free): %5.2f (%.2f) M"
 msgstr ""
+"\n"
+"Ram (ελεύθερα): %5.2f (%.2f) M"
 
 #: src/acpustatus.cc:244
 #, c-format
@@ -73,12 +77,12 @@ msgstr ""
 
 #: src/acpustatus.cc:274
 msgid "CPU Load: "
-msgstr ""
+msgstr "Φόρτος επεξεργαστή: "
 
 #: src/amailbox.cc:77
 #, c-format
 msgid "Invalid mailbox protocol: \"%s\""
-msgstr "Μη έγκυρο προτόκολο γραμματοκιβωτίου: \"%s\""
+msgstr "Μη έγκυρο πρωτόκολλο γραμματοκιβωτίου: \"%s\""
 
 #: src/amailbox.cc:79
 #, c-format
@@ -128,7 +132,7 @@ msgstr ""
 "  Αριθμός τηλεφώνου καλούντος:\t"
 
 #: src/aworkspaces.cc:155 src/aworkspaces.cc:220 src/aworkspaces.cc:276
-#: src/wmstatus.cc:168
+#: src/wmstatus.cc:178
 msgid "Workspace: "
 msgstr "Επιφάνεια εργασίας: "
 
@@ -885,7 +889,7 @@ msgstr "_Επανεκκίνηση icewm"
 msgid "_About"
 msgstr "_Περί"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3435
+#: src/wmframe.cc:165 src/wmframe.cc:3437
 msgid "Maximize"
 msgstr "Μεγιστοποίηση"
 
@@ -897,7 +901,7 @@ msgstr "Ελαχιστοποίηση"
 msgid "Hide"
 msgstr "Απόκρυψη"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3468
+#: src/wmframe.cc:209 src/wmframe.cc:3470
 msgid "Rollup"
 msgstr ""
 
@@ -905,21 +909,21 @@ msgstr ""
 msgid "Raise/Lower"
 msgstr ""
 
-#: src/wmframe.cc:1725
+#: src/wmframe.cc:1727
 msgid "Kill Client: "
 msgstr ""
 
-#: src/wmframe.cc:1729
+#: src/wmframe.cc:1731
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
 msgstr ""
 
-#: src/wmframe.cc:3432
+#: src/wmframe.cc:3434
 msgid "Restore"
 msgstr "Επαναφορά"
 
-#: src/wmframe.cc:3466
+#: src/wmframe.cc:3468
 msgid "Rolldown"
 msgstr ""
 
@@ -1185,7 +1189,7 @@ msgstr "Δεν μπόρεσα να φορτώσω την οικογένεια fo
 msgid "Missing codesets for fontset \"%s\":"
 msgstr ""
 
-#: src/yicon.cc:147
+#: src/yicon.cc:167
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
 msgstr "Εκτός μνήμης για το pixmap \"%s\""

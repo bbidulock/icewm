@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
-"Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-12-16 18:15-0700\n"
+"Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
+"POT-Creation-Date: 2016-07-09 21:33-0600\n"
 "PO-Revision-Date: 2015-11-04 16:38+0200\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
 "Language-Team: Slovak <http://10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -136,7 +136,7 @@ msgstr ""
 "  Id volajúceho:\t"
 
 #: src/aworkspaces.cc:155 src/aworkspaces.cc:220 src/aworkspaces.cc:276
-#: src/wmstatus.cc:168
+#: src/wmstatus.cc:178
 msgid "Workspace: "
 msgstr "Pracovná plocha: "
 
@@ -1010,7 +1010,7 @@ msgstr "_Reštartovať icewm"
 msgid "_About"
 msgstr "O _aplikacii"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3435
+#: src/wmframe.cc:165 src/wmframe.cc:3437
 msgid "Maximize"
 msgstr "Maximalizovať"
 
@@ -1022,7 +1022,7 @@ msgstr "Minimalizovať"
 msgid "Hide"
 msgstr "Skryť"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3468
+#: src/wmframe.cc:209 src/wmframe.cc:3470
 msgid "Rollup"
 msgstr "Z_rolovať"
 
@@ -1030,11 +1030,11 @@ msgstr "Z_rolovať"
 msgid "Raise/Lower"
 msgstr "Zdvihnúť/Znížiť"
 
-#: src/wmframe.cc:1725
+#: src/wmframe.cc:1727
 msgid "Kill Client: "
 msgstr "Zabiť klienta: "
 
-#: src/wmframe.cc:1729
+#: src/wmframe.cc:1731
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1042,11 +1042,11 @@ msgstr ""
 "VAROVANIE! Ak bude tento klient zabitý, budú\n"
 "všetky neuložené dáta stratené. Chcete pokračovať?"
 
-#: src/wmframe.cc:3432
+#: src/wmframe.cc:3434
 msgid "Restore"
 msgstr "Obnoviť"
 
-#: src/wmframe.cc:3466
+#: src/wmframe.cc:3468
 msgid "Rolldown"
 msgstr "Rozbaliť"
 
@@ -1315,7 +1315,7 @@ msgstr "Nemôžem nahrať sadu písma \"%s\"."
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "Chýba znaková sada písma \"%s\":"
 
-#: src/yicon.cc:147
+#: src/yicon.cc:167
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
 msgstr "Nedostatok pamäte pre pixmapu \"%s\""

@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.2.2\n"
-"Report-Msgid-Bugs-To: http://github.com/bbidulock/icewm\n"
-"POT-Creation-Date: 2015-12-16 18:15-0700\n"
+"Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
+"POT-Creation-Date: 2016-07-09 21:33-0600\n"
 "PO-Revision-Date: 2003-01-27 22:26+0300\n"
 "Last-Translator: Hleb Valoska <el_globus@tut.by>\n"
 "Language-Team: Belarusian <i18n@mova.org>\n"
@@ -125,7 +125,7 @@ msgstr ""
 "  Id выклікальніка:\t"
 
 #: src/aworkspaces.cc:155 src/aworkspaces.cc:220 src/aworkspaces.cc:276
-#: src/wmstatus.cc:168
+#: src/wmstatus.cc:178
 msgid "Workspace: "
 msgstr "Працоўнае поле: "
 
@@ -993,7 +993,7 @@ msgstr "_Перазапусьціць icewm"
 msgid "_About"
 msgstr "Пр_а"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3435
+#: src/wmframe.cc:165 src/wmframe.cc:3437
 msgid "Maximize"
 msgstr "Разгарнуць"
 
@@ -1005,7 +1005,7 @@ msgstr "Згарнуць"
 msgid "Hide"
 msgstr "Схаваць"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3468
+#: src/wmframe.cc:209 src/wmframe.cc:3470
 msgid "Rollup"
 msgstr "Пракруціць"
 
@@ -1014,11 +1014,11 @@ msgstr "Пракруціць"
 msgid "Raise/Lower"
 msgstr "Узьняць/апусьціць"
 
-#: src/wmframe.cc:1725
+#: src/wmframe.cc:1727
 msgid "Kill Client: "
 msgstr "Забіць кліент: "
 
-#: src/wmframe.cc:1729
+#: src/wmframe.cc:1731
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1026,11 +1026,11 @@ msgstr ""
 "УВАГА! Усе незахаваныя зьмены будуць згубленыя,\n"
 "калі забіць гэты кліент. Працягваць?"
 
-#: src/wmframe.cc:3432
+#: src/wmframe.cc:3434
 msgid "Restore"
 msgstr "Аднавіць"
 
-#: src/wmframe.cc:3466
+#: src/wmframe.cc:3468
 msgid "Rolldown"
 msgstr "Раскруціць"
 
@@ -1304,7 +1304,7 @@ msgid "Missing codesets for fontset \"%s\":"
 msgstr "Адсутнічае кодавы набор для мноства шрыфтоў \"%s\"."
 
 # fixme
-#: src/yicon.cc:147
+#: src/yicon.cc:167
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
 msgstr "Не стае памяці для выявы \"%s\""

@@ -928,7 +928,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
                 XFree(cr);
             }
         }
-        if (!focusproxyfound) {
+        if (!focusproxyfound && input) {
             XSetInputFocus(xapp->display(), w, None, xapp->getEventTime("setFocus"));
         }
     } else {
@@ -2294,7 +2294,7 @@ void YWindowManager::resizeWindows() {
         if (f->inWorkArea()) {
             if (f->isMaximized())
                 f->updateDerivedSize(WinStateMaximizedVert | WinStateMaximizedHoriz);
-                f->updateLayout();
+            f->updateLayout();
         }
     }
 }
@@ -3011,16 +3011,30 @@ void YWindowManager::updateUserTime(Time time) {
     }
 }
 
+void YWindowManager::execAfterFork(const char *command) {
+    pid_t pid = fork();
+    switch(pid) {
+    case -1: /* Failed */
+        warn("fork failed (%d)", errno);
+        return;
+    case 0: /* Child */
+        execl("/bin/sh", "sh", "-c", command, (char *) 0);
+        return; /* Never reached */
+    default: /* Parent */
+        return;
+    }
+}
+
 void YWindowManager::checkLogout() {
     if (fShuttingDown && !haveClients()) {
+        fShuttingDown = false; /* Only run the command once */
+
         if (rebootOrShutdown == 1 && rebootCommand && rebootCommand[0]) {
             msg("reboot... (%s)", rebootCommand);
-            if (system(rebootCommand) == -1)
-		return;
+            execAfterFork(rebootCommand);
         } else if (rebootOrShutdown == 2 && shutdownCommand && shutdownCommand[0]) {
             msg("shutdown ... (%s)", shutdownCommand);
-            if (system(shutdownCommand) == -1)
-		return;
+            execAfterFork(shutdownCommand);
         } else
             app->exit(0);
     }
