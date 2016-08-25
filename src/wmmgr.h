@@ -188,6 +188,7 @@ public:
 
     void wmCloseSession();
     void exitAfterLastClient(bool shuttingDown);
+    void execAfterFork(const char *command);
     void checkLogout();
 
     virtual void resetColormap(bool active);
