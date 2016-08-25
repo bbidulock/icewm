@@ -35,7 +35,7 @@ XIV(bool, grabRootWindow,                       true)
 XIV(bool, haveXft,                              true)
 #endif
 #if defined(__linux__) || defined(__FreeBSD__)
-XSV(const char *, iconPath,                     "/usr/share/icons:/usr/share/pixmaps")
+XSV(const char *, iconPath,                     "/usr/share/icons/hicolor:/usr/share/icons:/usr/share/pixmaps")
 #else
 XSV(const char *, iconPath,                     0)
 #endif
