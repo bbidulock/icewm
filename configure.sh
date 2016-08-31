@@ -12,16 +12,16 @@ case "`uname -m`" in
 		CFLAGS="-march=i686 -mtune=generic -O2 -pipe -fstack-protector-strong --param=ssp-buffer-size=4"
 		CXXFLAGS="-march=i686 -mtune=generic -O2 -pipe -fstack-protector-strong --param=ssp-buffer-size=4"
 		LDFLAGS="-Wl,-O1,--sort-common,--as-needed,-z,relro"
-		DEBUG_CFLAGS="-g -fvar-tracking-assignments"
-		DEBUG_CXXFLAGS="-g -fvar-tracking-assignments"
+		DEBUG_CFLAGS="-g -ggdb -fvar-tracking-assignments"
+		DEBUG_CXXFLAGS="-g -ggdb -fvar-tracking-assignments"
 	;;
 	x86_64)
 		CPPFLAGS="-D_FORTIFY_SOURCE=2"
 		CFLAGS="-march=x86-64 -mtune=generic -O2 -pipe -fstack-protector-strong --param=ssp-buffer-size=4"
 		CXXFLAGS="-march=x86-64 -mtune=generic -O2 -pipe -fstack-protector-strong --param=ssp-buffer-size=4"
 		LDFLAGS="-Wl,-O1,--sort-common,--as-needed,-z,relro"
-		DEBUG_CFLAGS="-g -fvar-tracking-assignments"
-		DEBUG_CXXFLAGS="-g -fvar-tracking-assignments"
+		DEBUG_CFLAGS="-g -ggdb -fvar-tracking-assignments"
+		DEBUG_CXXFLAGS="-g -ggdb -fvar-tracking-assignments"
 	;;
 esac
 
@@ -35,8 +35,8 @@ esac
 	--enable-guievents \
 	--with-icesound=ALSA,OSS \
 	CPPFLAGS="$CPPFLAGS" \
-	CFLAGS="-Wall -Werror $CFLAGS" \
-	CXXFLAGS="-Wall -Werror $CXXFLAGS" \
+	CFLAGS="$DEBUG_CFLAGS -Wall -Werror $CFLAGS" \
+	CXXFLAGS="$DEBUG_CXXFLAGS -Wall -Werror $CXXFLAGS" \
 	LDFLAGS="$LDFLAGS" \
 	DEBUG_CFLAGS="$DEBUG_CFLAGS" \
 	DEBUG_CXXFLAGS="$DEBUG_CXXFLAGS" \
