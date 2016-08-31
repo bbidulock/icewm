@@ -62,7 +62,7 @@ bool find_in_zArray(const char * const *arrToScan, const char *keyword)
 
 tMenuContainer msettings=0, mscreensavers=0, maccessories=0, mdevelopment=0, meducation=0,
 		mgames=0, mgraphics=0, mmultimedia=0, mnetwork=0, moffice=0, msystem=0,
-		mother=0, mwine=0, meditors=0;
+		mother=0, mwine=0, meditors=0, maccessibility=0;
 
 struct tListMeta
 {
@@ -71,6 +71,7 @@ struct tListMeta
 };
 tListMeta menuinfo[] =
 {
+{ N_("Accessibility"), &maccessibility },
 { N_("Settings"), &msettings },
 { N_("Screensavers"), &mscreensavers },
 { N_("Accessories"), &maccessories },
@@ -84,7 +85,8 @@ tListMeta menuinfo[] =
 { N_("System"), &msystem },
 { N_("WINE"), &mwine },
 { N_("Editors"), &meditors },
-{ N_("Other"), &mother } };
+{ N_("Other"), &mother }
+};
 
 void proc_dir(const char *path, unsigned depth=0)
 {
@@ -248,6 +250,8 @@ void proc_dir(const char *path, unsigned depth=0)
 			add2menu(msystem)
 		else if (strstr(pCats, "Editor"))
 			add2menu(meditors)
+		else if (strstr(pCats, "Accessibility"))
+			add2menu(maccessibility)
 		else
 		{
 #if GLIB_VERSION_CUR_STABLE >= G_ENCODE_VERSION(2, 34)

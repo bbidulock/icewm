@@ -233,13 +233,18 @@ bool SysTray::checkMessageEvent(const XClientMessageEvent &message) {
 int main(int argc, char **argv) {
     YLocale locale;
     SysTrayApp stapp(&argc, &argv);
+    int notified = 0;
     for(int i=1; i<argc; ++i)
     {
-       if(argv[i] && 0 == strcmp("--notify", argv[i]))
+       if(argv[i] && 0 == strcmp("--notify", argv[i]) && !notified)
        {
           kill(getppid(), SIGUSR1);
-          break;
+          notified = 1;
        }
+#ifdef DEBUG
+       if(argv[i] && 0 == strcmp("--debug", argv[i]))
+          debug = 1;
+#endif
     }
 
     return stapp.mainLoop();
