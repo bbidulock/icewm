@@ -602,7 +602,8 @@ void YApm::SysStr(char *s, bool Tool) {
         	fd = fopen(buf, "r");
 	}
 
-        if (fd != NULL && fgets(buf, sizeof(buf), fd)) {
+        if (fd != NULL) {
+	    if (fgets(buf, sizeof(buf), fd)) {
                 if (strncasecmp(buf, "charging", 8) == 0) {
                         BATstatus = BAT_CHARGING;
                     }
@@ -615,20 +616,24 @@ void YApm::SysStr(char *s, bool Tool) {
                     else {
                         BATstatus = BAT_UNKNOWN;
                     }
-                fclose(fd);
+	    }
+	    fclose(fd);
         }
+
         strcat3(buf, "/sys/class/power_supply/", BATname, "/current_now", sizeof(buf));
         fd = fopen(buf, "r");
         if (fd == NULL) {
             strcat3(buf, "/sys/class/power_supply/", BATname, "/power_now", sizeof(buf));
             fd = fopen(buf, "r");
 	}
-        if (fd != NULL && fgets(buf, sizeof(buf), fd)) {
+        if (fd != NULL) {
+	    if (fgets(buf, sizeof(buf), fd)) {
                 //In case it contains non-numeric value
                 if (sscanf(buf,"%d", &BATrate) <= 0) {
                     BATrate = -1;
                 }
-                fclose(fd);
+	    }
+	    fclose(fd);
         }
 
         strcat3(buf, "/sys/class/power_supply/", BATname, "/energy_now", sizeof(buf));
@@ -637,23 +642,28 @@ void YApm::SysStr(char *s, bool Tool) {
             strcat3(buf, "/sys/class/power_supply/", BATname, "/charge_now", sizeof(buf));
             fd = fopen(buf, "r");
         }
-        if (fd != NULL && fgets(buf, sizeof(buf), fd)) {
+        if (fd != NULL) {
+	    if (fgets(buf, sizeof(buf), fd)) {
                 //In case it contains non-numeric value
                 if (sscanf(buf,"%d", &BATcapacity_remain) <= 0) {
                     BATcapacity_remain = -1;
                 }
-                fclose(fd);
+	    }
+	    fclose(fd);
         }
+
         strcat3(buf, "/sys/class/power_supply/", BATname, "/present", sizeof(buf));
         fd = fopen(buf, "r");
-        if (fd != NULL && fgets(buf, sizeof(buf), fd)) {
+        if (fd != NULL) {
+	    if (fgets(buf, sizeof(buf), fd)) {
                 if (strncmp(buf, "1", 1) == 0) {
                     BATpresent = BAT_PRESENT;
                 }
                 else {
                     BATpresent = BAT_ABSENT;
                 }
-                fclose(fd);
+	    }
+	    fclose(fd);
         }
 
         if (BATpresent == BAT_PRESENT) { //battery is present now
