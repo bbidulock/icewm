@@ -97,7 +97,7 @@ msgstr "Menggunakan mailbox \"%s\"\n"
 
 #: src/amailbox.cc:451
 msgid "Error checking mailbox."
-msgstr "Kesalahan dalam memeriksa kotak surat"
+msgstr "Kesalahan dalam memeriksa kotak surat."
 
 #: src/amailbox.cc:457
 #, c-format
@@ -299,7 +299,7 @@ msgstr "Permainan Sama"
 #: src/icesh.cc:187
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
-msgstr "Perintah `%s' membutuhkan setidaknya %d opsi"
+msgstr "Perintah `%s' membutuhkan setidaknya %d opsi."
 
 #: src/icesh.cc:194
 #, c-format
@@ -576,7 +576,7 @@ msgstr ""
 #: src/icesound.cc:1187 src/icesound.cc:1199 src/icesound.cc:1212
 #, c-format
 msgid "Support for the %s interface not compiled."
-msgstr "Layanan untuk %s interface tidak dikompile"
+msgstr "Layanan untuk %s interface tidak dikompile."
 
 #: src/icesound.cc:1216
 #, c-format
@@ -1485,7 +1485,7 @@ msgstr "\"%s\" tidak terdapat deskripsi scheme"
 #~ msgstr "XQueryTree gagal untuk window 0x%x"
 
 #~ msgid "Compiled with DEBUG flag. Debugging messages will be printed."
-#~ msgstr "Di kompile dengan DEBUG flag. Pesan debug akan ditampilkan"
+#~ msgstr "Di kompile dengan DEBUG flag. Pesan debug akan ditampilkan."
 
 #~ msgid "_No icon"
 #~ msgstr "_Tidak ada ikon"
