@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2016-07-09 21:33-0600\n"
-"PO-Revision-Date: 2016-08-24 16:17+0700\n"
-"Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
+"PO-Revision-Date: 2016-10-22 16:10+0700\n"
+"Last-Translator: Bervianto Leo Pratama <bervianto.leo@gmail.com>\n"
 "Language-Team: Indonesia\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
@@ -130,7 +130,7 @@ msgid ""
 "  Caller id:\t"
 msgstr ""
 "\n"
-" Id pemanggil:\t"
+"  Id pemanggil:\t"
 
 #: src/aworkspaces.cc:155 src/aworkspaces.cc:220 src/aworkspaces.cc:276
 #: src/wmstatus.cc:178
@@ -1502,7 +1502,7 @@ msgstr "\"%s\" tidak terdapat deskripsi scheme"
 #~ msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
 #~ msgstr "%s:%d: Gagal menyalin drawable 0x%x ke piksel buffer"
 
-#~ msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%dx%d"
+#~ msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%dx%d)"
 #~ msgstr "%s:%d: Gagal menyalin drawable 0x%x ke piksel buffer (%d:%d-%dx%d)"
 
 #~ msgid "TOO MANY ICE CONNECTIONS -- not supported"
