@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2016-07-09 21:33-0600\n"
-"PO-Revision-Date: 2016-08-21 20:16+0000\n"
-"Last-Translator: Efstathios Iosifidis <eiosifidis@gmail.com>\n"
+"PO-Revision-Date: 2016-10-24 17:26+0000\n"
+"Last-Translator: alexandros Vennos <alexandros.venn@gmail.com>\n"
 "Language-Team: Greek "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/el/>\n"
 "Language: el\n"
@@ -24,8 +24,9 @@ msgid " - Power"
 msgstr " - Τροφοδοσία"
 
 #: src/aapm.cc:193 src/aapm.cc:527 src/aapm.cc:757
+#, fuzzy
 msgid "P"
-msgstr ""
+msgstr "P"
 
 #: src/aapm.cc:197 src/aapm.cc:498 src/aapm.cc:734 src/aapm.cc:846
 #, c-format
@@ -33,8 +34,9 @@ msgid " - Charging"
 msgstr " - Φόρτιση"
 
 #: src/aapm.cc:199 src/aapm.cc:500 src/aapm.cc:736
+#, fuzzy
 msgid "C"
-msgstr ""
+msgstr "C"
 
 #: src/aapm.cc:502
 msgid " - Full"
@@ -55,25 +57,31 @@ msgstr ""
 "Ram (ελεύθερα): %5.2f (%.2f) M"
 
 #: src/acpustatus.cc:244
-#, c-format
+#, c-format, fuzzy
 msgid ""
 "\n"
 "Swap (free): %.2f (%.2f) M"
 msgstr ""
+"\n"
+"Swap (free): %.2f (%.2f) M"
 
 #: src/acpustatus.cc:250
-#, c-format
+#, c-format, fuzzy
 msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
+"\n"
+"ACPI Temp: "
 
 #: src/acpustatus.cc:261
-#, c-format
+#, c-format, fuzzy
 msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
+"\n"
+"CPU Freq: %.3fGHz"
 
 #: src/acpustatus.cc:274
 msgid "CPU Load: "
@@ -138,7 +146,7 @@ msgstr "Επιφάνεια εργασίας: "
 
 #: src/fdomenu.cc:74
 msgid "Settings"
-msgstr ""
+msgstr "Ρυθμίσεις"
 
 #: src/fdomenu.cc:75
 msgid "Screensavers"
@@ -157,20 +165,24 @@ msgid "Education"
 msgstr ""
 
 #: src/fdomenu.cc:79
+#, fuzzy
 msgid "Games"
-msgstr ""
+msgstr "Παιχνίδια"
 
 #: src/fdomenu.cc:80
+#, fuzzy
 msgid "Graphics"
-msgstr ""
+msgstr "Γραφικά"
 
 #: src/fdomenu.cc:81
+#, fuzzy
 msgid "Multimedia"
-msgstr ""
+msgstr "Πολυμέσα"
 
 #: src/fdomenu.cc:82
+#, fuzzy
 msgid "Network"
-msgstr ""
+msgstr "Δίκτυο"
 
 #: src/fdomenu.cc:83
 msgid "Office"
@@ -230,7 +242,7 @@ msgstr "Κλείσε"
 
 #: src/icehelp.cc:724 src/icesame.cc:63 src/iceview.cc:76
 msgid "Ctrl+Q"
-msgstr ""
+msgstr "Ctrl+Q"
 
 #: src/icehelp.cc:1327
 #, c-format
@@ -273,7 +285,7 @@ msgstr "Αναίρεση"
 
 #: src/icesame.cc:58
 msgid "Ctrl+Z"
-msgstr ""
+msgstr "Ctrl+Z"
 
 #: src/icesame.cc:60
 msgid "New"
@@ -281,7 +293,7 @@ msgstr "Νέο"
 
 #: src/icesame.cc:60
 msgid "Ctrl+N"
-msgstr ""
+msgstr "Ctrl+N"
 
 #: src/icesame.cc:61
 msgid "Restart"
@@ -289,7 +301,7 @@ msgstr "Επανεκκίνηση"
 
 #: src/icesame.cc:61
 msgid "Ctrl+R"
-msgstr ""
+msgstr "Ctrl+R"
 
 #: src/icesame.cc:66
 msgid "Same Game"
@@ -557,7 +569,7 @@ msgstr "Δεκαεξαδική εμφάνιση"
 
 #: src/iceview.cc:72
 msgid "Ctrl+H"
-msgstr ""
+msgstr "Ctrl+H"
 
 #: src/iceview.cc:73
 msgid "Expand Tabs"
@@ -565,7 +577,7 @@ msgstr "Επέκτεινε τους Στηλοθέτες"
 
 #: src/iceview.cc:73
 msgid "Ctrl+T"
-msgstr ""
+msgstr "Ctrl+T"
 
 #: src/iceview.cc:74
 msgid "Wrap Lines"
@@ -573,7 +585,7 @@ msgstr ""
 
 #: src/iceview.cc:74
 msgid "Ctrl+W"
-msgstr ""
+msgstr "Ctrl+W"
 
 #: src/icewmbg.cc:410
 msgid ""
@@ -636,7 +648,7 @@ msgstr "Εξ ορισμού"
 
 #: src/wmabout.cc:29 src/wmabout.cc:31
 msgid "(C)"
-msgstr ""
+msgstr "(C)"
 
 #: src/wmabout.cc:37
 msgid "Theme:"
@@ -655,8 +667,9 @@ msgid "CodeSet:"
 msgstr ""
 
 #: src/wmabout.cc:44
+#, fuzzy
 msgid "Language:"
-msgstr ""
+msgstr "Γλώσσα:"
 
 #: src/wmabout.cc:69
 msgid "icewm - About"
