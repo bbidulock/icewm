@@ -1,12 +1,13 @@
-# Pesan Bahasa Indonesia untuk IceWM
-# Copyright (C) 2005 Arif E. Nugroho
-# "Arif E. Nugroho" <arif_endro@yahoo.com>
+# Indonesian messages for IceWM
+# Copyright (C) 2000-2001 Marko Macek
+# Arif E. Nugroho <arif_endro@yahoo.com>
+# Arif Budiman <arifpedia@gmail.com>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2016-07-09 21:33-0600\n"
-"PO-Revision-Date: 2016-08-24 16:17+0700\n"
+"PO-Revision-Date: 2016-11-01 11:38+0700\n"
 "Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
 "Language-Team: Indonesia\n"
 "Language: id\n"
@@ -20,7 +21,7 @@ msgstr " - Daya"
 
 #: src/aapm.cc:193 src/aapm.cc:527 src/aapm.cc:757
 msgid "P"
-msgstr "P"
+msgstr "D"
 
 #: src/aapm.cc:197 src/aapm.cc:498 src/aapm.cc:734 src/aapm.cc:846
 #, c-format
@@ -29,7 +30,7 @@ msgstr " - Mengisi"
 
 #: src/aapm.cc:199 src/aapm.cc:500 src/aapm.cc:736
 msgid "C"
-msgstr "C"
+msgstr "M"
 
 #: src/aapm.cc:502
 msgid " - Full"
@@ -83,21 +84,21 @@ msgstr "Beban CPU: "
 #: src/amailbox.cc:77
 #, c-format
 msgid "Invalid mailbox protocol: \"%s\""
-msgstr "Protokol kotak surat tidak benar: \"%s\""
+msgstr "Protokol kotak surat tidak valid: \"%s\""
 
 #: src/amailbox.cc:79
 #, c-format
 msgid "Invalid mailbox path: \"%s\""
-msgstr "Jalur kotak surat tidak sesuai: \"%s\""
+msgstr "Jalur kotak surat tidak valid: \"%s\""
 
 #: src/amailbox.cc:343
 #, c-format
 msgid "Using MailBox \"%s\"\n"
-msgstr "Menggunakan mailbox \"%s\"\n"
+msgstr "Menggunakan kotak surat \"%s\"\n"
 
 #: src/amailbox.cc:451
 msgid "Error checking mailbox."
-msgstr "Kesalahan dalam memeriksa kotak surat"
+msgstr "Kesalahan dalam memeriksa kotak surat."
 
 #: src/amailbox.cc:457
 #, c-format
@@ -111,6 +112,7 @@ msgstr "%ld pesan surat."
 
 #: src/apppstatus.cc:204
 #, c-format, c-format
+#, c-format
 msgid ""
 "Interface %s:\n"
 "  Current rate (in/out):\t%li %s/%li %s\n"
@@ -122,7 +124,7 @@ msgstr ""
 "  Nilai saat ini (in/out):\t%li %s/%li %s\n"
 "  Rata-rata saat ini (in/out):\t%lli %s/%lli %s\n"
 "  Tertransfer (in/out):\t%lli %s/%lli %s\n"
-"  Waktu online:\t%ld:%02ld:%02ld%s%s"
+"  Waktu daring:\t%ld:%02ld:%02ld%s%s"
 
 #: src/apppstatus.cc:216
 msgid ""
@@ -215,7 +217,7 @@ msgstr "Sebelumnya"
 
 #: src/icehelp.cc:719
 msgid "Next"
-msgstr "Selanjutnya"
+msgstr "Berikutnya"
 
 #: src/icehelp.cc:721
 msgid "Contents"
@@ -250,11 +252,11 @@ msgstr ""
 #: src/icehelp.cc:1337
 #, c-format
 msgid "Invalid path: %s\n"
-msgstr "Jalur tidak benar: %s\n"
+msgstr "Jalur tidak valid: %s\n"
 
 #: src/icehelp.cc:1342
 msgid "Invalid path: "
-msgstr "Jalur tidak benar: "
+msgstr "Jalur tidak valid: "
 
 #: src/icelist.cc:84
 msgid "List View"
@@ -304,7 +306,7 @@ msgstr "Perintah `%s' membutuhkan setidaknya %d opsi"
 #: src/icesh.cc:194
 #, c-format
 msgid "Invalid expression: `%s'"
-msgstr "Ekpresi tidak benar: '%s'"
+msgstr "Ekpresi tidak valid: '%s'"
 
 #: src/icesh.cc:316
 #, c-format
@@ -314,7 +316,7 @@ msgstr "Domain berisi simbol `%s' (rentang angka: %ld-%ld):\n"
 #: src/icesh.cc:429
 #, c-format
 msgid "Invalid workspace name: `%s'"
-msgstr "Nama Ruang Kerja salah: `%s'"
+msgstr "Nama Ruang Kerja tidak valid: `%s'"
 
 #: src/icesh.cc:435
 #, c-format
@@ -322,7 +324,7 @@ msgid "Workspace out of range: %d"
 msgstr "Ruang kerja diluar jangkauan: %d"
 
 #: src/icesh.cc:569
-#, fuzzy, c-format
+#, c-format, c-format
 msgid ""
 "Usage: %s [OPTIONS] ACTIONS\n"
 "\n"
@@ -371,63 +373,71 @@ msgid ""
 "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
 "\n"
 msgstr ""
-"Pengguanaan: %s [OPSI] AKSI\n"
+"Penggunaan: %s [OPSI] AKSI\n"
 "\n"
 "Opsi:\n"
-"  -display DISPLAY            Connects to the X server specified by "
+"  -display DISPLAY            Meyambung ke server X yang ditetapkan oleh "
 "DISPLAY.\n"
-"                              Default: $DISPLAY or :0.0 when not set.\n"
-"  -window WINDOW_ID           Specifies the window to manipulate. Special\n"
-"                              identifiers are `root' for the root window "
-"and\n"
-"\t\t\t      `focus' for the currently focused window.\n"
-"  -class WM_CLASS             Window management class of the window(s) to\n"
-"    \t    \t    \t      manipulate. If WM_CLASS contains a period, only\n"
-"    \t    \t              windows with exactly the same WM_CLASS property\n"
-"\t\t\t      are matched. If there is no period, windows of\n"
-"\t\t\t      the same class and windows of the same instance\n"
-"\t\t\t      (aka. `-name') are selected.\n"
+"                              Baku: $DISPLAY atau :0.0 saat tidak diatur.\n"
+"  -window WINDOW_ID           Menentukan jendela yang akan dimanipulasi. "
+"Pengenal\n"
+"                              khusus adalah `root' untuk jendela root dan\n"
+"                              `focus' untuk jendela yang saat ini berfokus.\n"
+"  -class WM_CLASS             Kelas manajemen jendela dari jendela yang "
+"akan\n"
+"                              dimanipulasi. Jika WM_CLASS berisi sebuah "
+"periode,\n"
+"                              hanya jendela dengan properti WM_CLASS yang "
+"sama persis\n"
+"                              yang akan cocok. Jika tanpa periode, jendela "
+"dari kelas\n"
+"                              yang sama dan jendela dari intansi yang sama\n"
+"                              (contoh `-name') yang akan dipilih.\n"
 "\n"
-"Actions:\n"
-"  setIconTitle   TITLE        Set the icon title.\n"
-"  setWindowTitle TITLE        Set the window title.\n"
-"  setGeometry    geometry     Set the window geometry\n"
-"  setState       MASK STATE   Set the GNOME window state to STATE.\n"
-"  \t\t\t      Only the bits selected by MASK are affected.\n"
-"                              STATE and MASK are expressions of the domain\n"
-"                              `GNOME window state'.\n"
-"  toggleState    STATE        Toggle the GNOME window state bits specified "
-"by\n"
-"                              the STATE expression.\n"
-"  setHints       HINTS        Set th GNOME window hints to HINTS.\n"
-"  setLayer       LAYER        Moves the window to another GNOME window "
-"layer.\n"
-"  setWorkspace   WORKSPACE    Moves the window to another workspace. Select\n"
-"  \t\t\t      the root window to change the current workspace.\n"
-"  listWorkspaces   \t      Lists the names of all workspaces.\n"
-"  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
+"Aksi:\n"
+"  setIconTitle   TITLE        Menetapkan nama ikon.\n"
+"  setWindowTitle TITLE        Menetapkan nama jendela.\n"
+"  setGeometry    geometry     Menetapkan geometri jendela\n"
+"  setState       MASK STATE   Menetapkan status jendela GNOME pada STATE.\n"
+"                              Hanya bit yang dipilih MASK yang akan "
+"berdampak.\n"
+"                              STATE dan MASK adalah ekspresi dari domain\n"
+"                              `status jendela GNOME'.\n"
+"  toggleState    STATE        Mengganti bit status jendela GNOME yang "
+"ditentukan oleh\n"
+"                              ekspresi STATE.\n"
+"  setHints       HINTS        Menetapkan tips jendela GNOME pada HINTS.\n"
+"  setLayer       LAYER        Memindahkan jendela ke lapisan jendela GNOME "
+"lainnya.\n"
+"  setWorkspace   WORKSPACE    Memindahkan jendela ke ruang kerja lainnya. "
+"Pilih\n"
+"                              jendela akar untuk mengganti ruang kerja saat "
+"ini.\n"
+"  listWorkspaces              Daftar nama dari semua ruang kerja.\n"
+"  setTrayOption  TRAYOPTION   Menetapkan tips opsi tray IceWM.\n"
 "\n"
-"Expressions:\n"
-"  Expressions are list of symbols of one domain concatenated by `+' or `|':\n"
+"Ekspresi:\n"
+"  Ekspresi adalah daftar simbol dari satu domain diakhiri dengan `+' or `|':"
+"\n"
 "\n"
 "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
 "\n"
 
 #: src/icesh.cc:608
 msgid "GNOME window state"
-msgstr "GNOME jendela status"
+msgstr "status jendela GNOME"
 
 #: src/icesh.cc:609
 msgid "GNOME window hint"
-msgstr "GNOME tips jendela"
+msgstr "tips jendela GNOME"
 
 #: src/icesh.cc:610
 msgid "GNOME window layer"
-msgstr "GNOME lapisan jendela"
+msgstr "lapisan jendela GNOME"
 
 #: src/icesh.cc:611
 msgid "IceWM tray option"
-msgstr "IceWM opsi tray"
+msgstr "opsi tray IceWM"
 
 #: src/icesh.cc:616
 msgid "Usage error: "
@@ -436,7 +446,7 @@ msgstr "Kesalahan penggunaan: "
 #: src/icesh.cc:687
 #, c-format
 msgid "Invalid argument: `%s'."
-msgstr "Argumen tidak benar: `%s'."
+msgstr "Argumen tidak valid: `%s'."
 
 #: src/icesh.cc:696
 msgid "No actions specified."
@@ -452,7 +462,7 @@ msgstr ""
 #: src/icesh.cc:743
 #, c-format
 msgid "Invalid window identifier: `%s'"
-msgstr "Indentitas window tidak benar: `%s'"
+msgstr "Indentitas jendela tidak valid: `%s'"
 
 #: src/icesh.cc:896
 #, c-format
@@ -507,7 +517,7 @@ msgstr "Memutar sampel #%d"
 #: src/icesound.cc:738 src/icesound.cc:779
 #, c-format
 msgid "Can't connect to YIFF server: %s"
-msgstr "Tidak dapat menghubungkan ke YIFF server: %s"
+msgstr "Tidak dapat menghubungkan ke server YIFF: %s"
 
 #: src/icesound.cc:744
 #, c-format
@@ -519,15 +529,19 @@ msgstr "Tidak dapat berganti ke mode audio `%s'."
 msgid ""
 "Audio mode switch detected, initial audio mode `%s' no longer in effect."
 msgstr ""
+"Penggantian mode audio terdeteksi, mode audio inisial `%s' tidak lagi "
+"berlaku."
 
 #: src/icesound.cc:893
 msgid "Audio mode switch detected, automatic audio mode changing disabled."
 msgstr ""
+"Penggantian mode audio terdeteksi, mengganti mode audio secara otomatis "
+"dinonaktifkan."
 
 #: src/icesound.cc:939 src/icesound.cc:952
 #, c-format
 msgid "Overriding previous audio mode `%s'."
-msgstr ""
+msgstr "Mengesampingkan mode audio sebelumnya `%s'."
 
 #: src/icesound.cc:978
 #, c-format
@@ -568,15 +582,58 @@ msgid ""
 "3     Subsystems error (ie cannot connect to server).\n"
 "\n"
 msgstr ""
+"Penggunaan: %s [OPSI]...\n"
+"\n"
+"Memutar berkas audio pada GUI event yang dihasilkan oleh IceWM.\n"
+"\n"
+"Opsi:\n"
+"\n"
+"-d, --display=DISPLAY         Layar yang digunakan oleh IceWM (baku: "
+"$DISPLAY).\n"
+"-s, --sample-dir=DIR          Menentukan direktori yang berisi\n"
+"                              berkas suara (misal ~/.icewm/sounds).\n"
+"-i, --interface=TARGET        Menentukan target keluaran antarmuka suara,\n"
+"                              tentukan salah satunya: OSS, YIFF, ESD, ALSA\n"
+"-D, --device=DEVICE           (hanya ALSA & OSS) menentukan perangkat yang "
+"digunakan\n"
+"                              (OSS baku: /dev/dsp; ALSA: baku).\n"
+"-S, --server=ADDR:PORT        (ESD dan YIFF) menentukan alamat server dan "
+"nomor port\n"
+"                              (localhost baku:16001 untuk ESD\n"
+"                              dan localhost:9433 untuk YIFF).\n"
+"-m, --audio-mode[=MODE]       (hanya YIFF) menentukan mode Audio (biarkan "
+"kosong\n"
+"                              untuk mendapatkan daftar).\n"
+"--audio-mode-auto             (hanya YIFF) mengubah mode Audio dengan cepat "
+"dengan\n"
+"                              sampel Audio yang paling cocok (dapat "
+"menyebabkan\n"
+"                              masalah dengan klien Y lainnya, "
+"mengesampingkan\n"
+"                              --audio-mode).\n"
+"\n"
+"-v, --verbose                 Menjadi verbose (mencetak setiap event suara "
+"ke\n"
+"                              stdout).\n"
+"-V, --version                 Cetak informasi versi dan keluar.\n"
+"-h, --help                    Cetak layar bantuan (ini) dan keluar.\n"
+"\n"
+"Nilai return:\n"
+"\n"
+"0     Sukses.\n"
+"1     Kesalahan umum.\n"
+"2     Kesalahan baris perintah.\n"
+"3     Kesalahan Subsistem (misal tidak dapat tersambung ke server).\n"
+"\n"
 
 #: src/icesound.cc:1175
 msgid "Multiple sound interfaces given."
-msgstr ""
+msgstr "Beberapa antarmuka suara diberikan."
 
 #: src/icesound.cc:1187 src/icesound.cc:1199 src/icesound.cc:1212
 #, c-format
 msgid "Support for the %s interface not compiled."
-msgstr "Layanan untuk %s interface tidak dikompile"
+msgstr "Layanan untuk %s interface tidak dikompilasi."
 
 #: src/icesound.cc:1216
 #, c-format
@@ -586,16 +643,16 @@ msgstr "Interface tidak didukung: %s."
 #: src/icesound.cc:1233
 #, c-format
 msgid "Received signal %d: Terminating..."
-msgstr "Mendapat sinyal %d: Terminating..."
+msgstr "Menerima sinyal %d: Menghentikan..."
 
 #: src/icesound.cc:1242
 #, c-format
 msgid "Received signal %d: Reloading samples..."
-msgstr "Mendapat sinyal %d: Reloading samples..."
+msgstr "Menerima sinyal %d: Memuat ulang sampel..."
 
 #: src/iceview.cc:72
 msgid "Hex View"
-msgstr "Tampilan heksa"
+msgstr "Tampilan Heksa"
 
 #: src/iceview.cc:72
 msgid "Ctrl+H"
@@ -618,7 +675,6 @@ msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
 #: src/icewmbg.cc:410
-#, fuzzy
 msgid ""
 "Usage: icewmbg [ -r | -q ]\n"
 " -r  Restart icewmbg\n"
@@ -636,16 +692,19 @@ msgid ""
 " center:1 scaled:1 = keep aspect ratio\n"
 msgstr ""
 "Penggunaan: icewmbg [ -r | -q ]\n"
-" -r  Restart icewmbg\n"
-" -q  Tutup icewmbg\n"
-"Loads desktop background according to preferences file\n"
-" DesktopBackgroundCenter  - Tampilkan desktop background centered, not "
-"tiled\n"
-" SupportSemitransparency  - Support for semitransparent terminals\n"
-" DesktopBackgroundColor   - Warna Desktop background\n"
-" DesktopBackgroundImage   - Gambar Desktop background\n"
-" DesktopTransparencyColor - Color to announce for semi-transparent windows\n"
-" DesktopTransparencyImage - Image to announce for semi-transparent windows\n"
+" -r  Menjalankan ulang icewmbg\n"
+" -q  Menutup icewmbg\n"
+"Memuat latar belakang desktop yang sesuai dengan berkas preferensi\n"
+" DesktopBackgroundCenter  - Menampilkan latar belakang desktop ditengah\n"
+" DesktopBackgroundScaled  - Menampilkan latar belakang desktop diskalakan\n"
+" SupportSemitransparency  - Dukungan untuk terminal semitransparan\n"
+" DesktopBackgroundColor   - Warna latar belakang desktop\n"
+" DesktopBackgroundImage   - Gambar latar belakang desktop\n"
+" DesktopTransparencyColor - Warna untuk jendela semitransparan\n"
+" DesktopTransparencyImage - Gambar untuk jendela semitransparan\n"
+"\n"
+" center:0 scaled:0 = tiled\n"
+" center:1 scaled:1 = mempertahankan rasio aspek\n"
 
 #: src/icewmbg.cc:428
 #, c-format
@@ -673,7 +732,7 @@ msgstr "Penggunaan: icewmhint [class.instance] opsi argumen\n"
 #: src/icewmhint.cc:65
 #, c-format
 msgid "Out of memory (len=%d)."
-msgstr "Kehabisan memory (len=%d)."
+msgstr "Kehabisan memori (len=%d)."
 
 #: src/misc.cc:330
 msgid "Warning: "
@@ -686,7 +745,7 @@ msgstr "Arah dalam memindahkan/mengubah ukuran tidak diketahui: %d"
 
 #: src/themes.cc:100
 msgid "Default"
-msgstr "Default"
+msgstr "Baku"
 
 #: src/wmabout.cc:29 src/wmabout.cc:31
 msgid "(C)"
@@ -722,17 +781,17 @@ msgstr "Tidak dapat mengambil jalur huruf saat ini."
 
 #: src/wmapp.cc:471
 msgid "Unexpected format of ICEWM_FONT_PATH property"
-msgstr ""
+msgstr "Format properti ICEWM_FONT_PATH tidak valid"
 
 #: src/wmapp.cc:528
 #, c-format
 msgid "Multiple references for gradient \"%s\""
-msgstr ""
+msgstr "Beberapa referensi untuk gradien \"%s\""
 
 #: src/wmapp.cc:603
 #, c-format
 msgid "Unknown gradient name: %s"
-msgstr ""
+msgstr "Nama gradien tidak diketahui: %s"
 
 #: src/wmapp.cc:866
 msgid "_Logout"
@@ -744,27 +803,27 @@ msgstr "_Batal Keluar"
 
 #: src/wmapp.cc:879
 msgid "Lock _Workstation"
-msgstr "Kunci _Workstation"
+msgstr "Kunci Stasiun Kerja"
 
 #: src/wmapp.cc:881 src/wmdialog.cc:111
 msgid "Re_boot"
-msgstr ""
+msgstr "Boot Ulang"
 
 #: src/wmapp.cc:883 src/wmdialog.cc:118
 msgid "Shut_down"
-msgstr "_Matikan"
+msgstr "Matikan"
 
 #: src/wmapp.cc:887
 msgid "Restart _Icewm"
-msgstr ""
+msgstr "Jalankan Ulang _Icewm"
 
 #: src/wmapp.cc:890
 msgid "Restart _Xterm"
-msgstr ""
+msgstr "Jalankan Ulang _Xterm"
 
 #: src/wmapp.cc:906
 msgid "_Menu"
-msgstr ""
+msgstr "_Menu"
 
 #: src/wmapp.cc:907
 msgid "_Above Dock"
@@ -772,11 +831,11 @@ msgstr "_Diatas Dock"
 
 #: src/wmapp.cc:908
 msgid "_Dock"
-msgstr ""
+msgstr "_Dock"
 
 #: src/wmapp.cc:909
 msgid "_OnTop"
-msgstr "_Diatas"
+msgstr "_Paling Atas"
 
 #: src/wmapp.cc:910
 msgid "_Normal"
@@ -804,11 +863,11 @@ msgstr "_Ukuran"
 
 #: src/wmapp.cc:930
 msgid "Mi_nimize"
-msgstr "Mini_malkan"
+msgstr "Minimalkan"
 
 #: src/wmapp.cc:932
 msgid "Ma_ximize"
-msgstr "Mak_simalkan"
+msgstr "Maksimalkan"
 
 #: src/wmapp.cc:934
 msgid "_Fullscreen"
@@ -832,7 +891,7 @@ msgstr "_Kebawah"
 
 #: src/wmapp.cc:952
 msgid "La_yer"
-msgstr "La_pisan"
+msgstr "Lapisan"
 
 #: src/wmapp.cc:956 src/wmwinlist.cc:310
 msgid "Move _To"
@@ -864,7 +923,7 @@ msgstr "Daftar _jendela"
 
 #: src/wmapp.cc:996
 msgid "Another window manager already running, exiting..."
-msgstr "Window manager yang lain sudah berjalan, keluar..."
+msgstr "Manajer jendela yang lain sudah berjalan, keluar..."
 
 #: src/wmapp.cc:1062
 #, c-format
@@ -905,10 +964,38 @@ msgid ""
 "\n"
 "Visit http://www.icewm.org/ for report bugs, support requests, comments...\n"
 msgstr ""
+"Penggunaan: %s [OPSI]\n"
+"Menjalankan menajer jendela IceWM.\n"
+"\n"
+"Opsi:\n"
+"  --display=NAME      NAME server X yang akan digunakan.\n"
+"%s  --sync              Menyinkronkan perintah X11.\n"
+"\n"
+"  -c, --config=FILE   Memuat preferensi dari FILE.\n"
+"  -t, --theme=FILE    Memuat tema dari FILE.\n"
+"  -n, --no-configure  Mengabaikan berkas preferensi.\n"
+"\n"
+"  -v, --version       Catak informasi versi dan keluar.\n"
+"  -h, --help          Cetak layar penggunaan ini dan keluar.\n"
+"%s  --replace           Mengganti manajer jendela yang ada.\n"
+"  --restart           Jangan gunakan ini: Opsi ini merupakan flag internal.\n"
+"\n"
+"Variabel lingkungan:\n"
+"  ICEWM_PRIVCFG=PATH  Direktori yang digunakan untuk berkas konfigurasi "
+"pribadi milik pengguna,\n"
+"                      \"secara standar $HOME/.icewm/\".\n"
+"  DISPLAY=NAME        Nama server X yang digunakan, bergantung pada Glib "
+"secara standar.\n"
+"  MAIL=URL            Lokasi kotak surat Anda. Jika skema tidak digunakan, "
+"maka akan menggunakan\n"
+"                      skema \"berkas\" lokal.\n"
+"\n"
+"Kunjungi http://www.icewm.org/ untuk melaporkan kekutu, permintaan dukungan, "
+"dan komentar...\n"
 
 #: src/wmapp.cc:1747
 msgid "Confirm Logout"
-msgstr "Yakin Keluar"
+msgstr "Konfirmasi Keluar"
 
 #: src/wmapp.cc:1748
 msgid ""
@@ -924,7 +1011,7 @@ msgstr "Nama terlihat buruk"
 
 #: src/wmdialog.cc:83
 msgid "Loc_k Workstation"
-msgstr "Kunci Workstation"
+msgstr "Kunci Stasiun Kerja"
 
 #: src/wmdialog.cc:90 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:434
 #: src/wmtaskbar.cc:436
@@ -954,7 +1041,7 @@ msgstr "Minimalkan"
 
 #: src/wmframe.cc:199
 msgid "Hide"
-msgstr "Sembunyi"
+msgstr "Sembunyikan"
 
 #: src/wmframe.cc:209 src/wmframe.cc:3470
 msgid "Rollup"
@@ -988,7 +1075,7 @@ msgstr "Gulung Bawah"
 #: src/wmoption.cc:240
 #, c-format
 msgid "Error in window option: %s"
-msgstr "Salah dalam opsi window: %s"
+msgstr "Kesalahan dalam opsi jendela: %s"
 
 #: src/wmoption.cc:257
 #, c-format
@@ -997,20 +1084,20 @@ msgstr "Video option: %s tidak diketahui"
 
 #: src/wmoption.cc:340
 msgid "Syntax error in window options"
-msgstr ""
+msgstr "Kesalahan sintaks dalam opsi jendela"
 
 #: src/wmoption.cc:387
 msgid "Out of memory for window options"
-msgstr ""
+msgstr "Kehabisan memori untuk opsi jendela"
 
 #: src/wmprog.cc:192
 msgid "Missing command argument"
-msgstr ""
+msgstr "Argumen perintah tidak ada"
 
 #: src/wmprog.cc:210
 #, c-format
 msgid "Bad argument %d"
-msgstr ""
+msgstr "Argumen %d buruk"
 
 #: src/wmprog.cc:296 src/wmprog.cc:400 src/wmprog.cc:442
 #, c-format
@@ -1020,16 +1107,16 @@ msgstr "Kesalahan pada prog %s"
 #: src/wmprog.cc:351
 #, c-format
 msgid "Unexepected keyword: %s"
-msgstr ""
+msgstr "Kata kunci tidak valid: %s"
 
 #: src/wmprog.cc:490
 #, c-format
 msgid "Error at key %s"
-msgstr ""
+msgstr "Kesalahan pada kunci %s"
 
 #: src/wmprog.cc:850
 msgid "Programs"
-msgstr "Aplikasi"
+msgstr "Program"
 
 #: src/wmprog.cc:855
 msgid "_Run..."
@@ -1049,7 +1136,7 @@ msgstr "_Klik untuk fokus"
 
 #: src/wmprog.cc:922
 msgid "_Sloppy mouse focus"
-msgstr ""
+msgstr "Mengikuti tetikus"
 
 #: src/wmprog.cc:927
 msgid "Custo_m"
@@ -1078,15 +1165,15 @@ msgstr "Bilah tugas"
 
 #: src/wmtaskbar.cc:403 src/wmwinlist.cc:312 src/wmwinlist.cc:325
 msgid "Tile _Vertically"
-msgstr ""
+msgstr "Menata Vertikal"
 
 #: src/wmtaskbar.cc:404 src/wmwinlist.cc:313 src/wmwinlist.cc:326
 msgid "T_ile Horizontally"
-msgstr ""
+msgstr "Menata Horizontal"
 
 #: src/wmtaskbar.cc:405 src/wmwinlist.cc:314 src/wmwinlist.cc:327
 msgid "Ca_scade"
-msgstr "Kas_kade"
+msgstr "Bertingkat"
 
 #: src/wmtaskbar.cc:406 src/wmwinlist.cc:315 src/wmwinlist.cc:328
 msgid "_Arrange"
@@ -1130,7 +1217,7 @@ msgstr "Lihat Desktop"
 
 #: src/wmwinlist.cc:61
 msgid "All Workspaces"
-msgstr "Semua Workspaces"
+msgstr "Semua Ruang Kerja"
 
 #: src/wmwinlist.cc:295
 msgid "Del"
@@ -1154,7 +1241,7 @@ msgstr "_Kecilkan"
 
 #: src/wmwinlist.cc:342 src/wmwinlist.cc:343
 msgid "Window list"
-msgstr "Daftar window"
+msgstr "Daftar jendela"
 
 #: src/wmwinmenu.cc:127
 #, c-format
@@ -1164,105 +1251,106 @@ msgstr "%lu. Ruang kerja %-.32s"
 #: src/yapp.cc:483
 #, c-format
 msgid "Message Loop: select failed (errno=%d)"
-msgstr ""
+msgstr "Pesan Loop: gagal memilih (errno=%d)"
 
 #: src/ycmdline.cc:43
 #, c-format
 msgid "Unrecognized option: %s\n"
-msgstr ""
+msgstr "Opsi tidak dikenali: %s\n"
 
 #: src/ycmdline.cc:48
 #, c-format
 msgid "Unrecognized argument: %s\n"
-msgstr ""
+msgstr "Argumen tidak dikenali: %s\n"
 
 #: src/ycmdline.cc:64
 #, c-format
 msgid "Argument required for %s switch"
-msgstr ""
+msgstr "Argumen diperlukan untuk %s penggantian"
 
 #: src/yconfig.cc:186
 #, c-format
 msgid "Unknown key name %s in %s"
-msgstr ""
+msgstr "Nama kunci tidak dikenal %s dalam %s"
 
 #: src/yconfig.cc:211 src/yconfig.cc:224
 #, c-format
 msgid "Bad argument: %s for %s"
-msgstr ""
+msgstr "Argumen buruk: %s untuk %s"
 
 #: src/yconfig.cc:259
 #, c-format
 msgid "Bad option: %s"
-msgstr ""
+msgstr "Opsi buruk: %s"
 
 #: src/ycursor.cc:127
 #, c-format
 msgid "Loading of pixmap \"%s\" failed"
-msgstr ""
+msgstr "Memuat pixmap \"%s\" gagal"
 
 #: src/ycursor.cc:160
 #, c-format
 msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
-msgstr ""
+msgstr "Pixmap kursor tidak valid: \"%s\" berisi terlalu banyak warna unik"
 
 #: src/ycursor.cc:182
 #, c-format
 msgid "BUG? Imlib was able to read \"%s\""
-msgstr ""
+msgstr "KEKUTU? Imlib dapat membaca \"%s\""
 
 #: src/ycursor.cc:208
 #, c-format
 msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
-msgstr ""
+msgstr "KEKUTU? header XPM cacat tapi Imlib dapat menguraikan \"%s\""
 
 #: src/ycursor.cc:216
 #, c-format
 msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
 msgstr ""
+"KEKUTU? akhir berkas XPM tidak valid tapi Imlib dapat menguraikan \"%s\""
 
 #: src/ycursor.cc:219
 #, c-format
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
-msgstr ""
+msgstr "KEKUTU? karakter tidak valid tapi Imlib dapat menguraikan \"%s\""
 
 #: src/yfontcore.cc:71 src/yfontxft.cc:174
 #, c-format
 msgid "Could not load font \"%s\"."
-msgstr ""
+msgstr "Tidak dapat memuat \"%s\" depan."
 
 #: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:197
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
-msgstr ""
+msgstr "Gagal memuat fallback \"%s\" depan."
 
 #: src/yfontcore.cc:114
 #, c-format
 msgid "Could not load fontset \"%s\"."
-msgstr ""
+msgstr "Tidak dapat memuat set fon \"%s\"."
 
 #: src/yfontcore.cc:126
 #, c-format
 msgid "Missing codesets for fontset \"%s\":"
-msgstr ""
+msgstr "SetKode tidak ada pada set fon \"%s\":"
 
 #: src/yicon.cc:167
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
-msgstr ""
+msgstr "Kehabisan memori untuk pixmap \"%s\""
 
 #: src/yimage.cc:61 src/yimage.cc:109 src/ypixbuf.cc:1063
 #, c-format
 msgid "Loading of image \"%s\" failed"
-msgstr ""
+msgstr "Gagal memuat gambar \"%s\""
 
 #: src/yimage.cc:141 src/yimage.cc:159
 msgid "Imlib: Acquisition of X pixmap failed"
-msgstr ""
+msgstr "Imlib: Gagal mengakuisisi X pixmap"
 
 #: src/yimage.cc:150
 msgid "Imlib: Imlib image to X pixmap mapping failed"
-msgstr ""
+msgstr "Imlib: Gagal memetakan gambar Imlib pada X pixmap"
 
 #: src/yinput.cc:55
 msgid "Cu_t"
@@ -1307,17 +1395,17 @@ msgstr "Locale tidak didukung oleh C library. Kembali ke 'C' locale'."
 #: src/ylocale.cc:68
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
-msgstr ""
+msgstr "Gagal menentukan setkode locale saat ini. Dengan asumsi ISO-8859-1.\n"
 
 #: src/ylocale.cc:100 src/ylocale.cc:107
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
-msgstr ""
+msgstr "iconv tidak disediakan (cukup) %s ke konverter %s."
 
 #: src/ylocale.cc:161
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
-msgstr ""
+msgstr "String multibyte tidak valid \"%s\": %s"
 
 #: src/ymsgbox.cc:38
 msgid "_OK"
@@ -1326,27 +1414,27 @@ msgstr "_Ya"
 #: src/ypaths.cc:144 src/ypaths.cc:171
 #, c-format
 msgid "Image not readable: %s"
-msgstr ""
+msgstr "Gambar tidak dapat dibaca: %s"
 
 #: src/ypaths.cc:149
-#, fuzzy, c-format
+#, c-format, c-format
 msgid "Out of memory for image %s"
-msgstr "Kehabisan memory untuk piksel map %s"
+msgstr "Kehabisan memori untuk gambar %s"
 
 #: src/ypaths.cc:156
-#, fuzzy, c-format
+#, c-format, c-format
 msgid "Could not find image %s"
-msgstr "Tidak dapat mencari piksel map %s"
+msgstr "Tidak dapat menemukan gambar %s"
 
 #: src/ypaths.cc:175
-#, fuzzy, c-format
+#, c-format, c-format
 msgid "Out of memory for image: %s"
-msgstr "Kehabisan memory untuk piksel map %s"
+msgstr "Kehabisan memori untuk gambar: %s"
 
 #: src/ypaths.cc:182
-#, fuzzy, c-format
+#, c-format, c-format
 msgid "Could not find image: %s"
-msgstr "Tidak dapat mencari piksel map %s"
+msgstr "Tidak dapat menemukan gambar: %s"
 
 #: src/ypixbuf.cc:482 src/ypixbuf.cc:668
 #, c-format
@@ -1354,25 +1442,27 @@ msgid ""
 "Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
 "blue): %0*x/%0*x/%0*x)"
 msgstr ""
+"Menggunakan mekanisme fallback untuk mengkonversi piksel (kedalaman: %d; "
+"masks (red/green/blue): %0*x/%0*x/%0*x)"
 
 #: src/ypixbuf.cc:576 src/ypixbuf.cc:725
 #, c-format
 msgid "%s:%d: %d bit visuals are not supported (yet)"
-msgstr "%s:%d: %d bit visuals tidak didukung lagi"
+msgstr "%s:%d: %d bit visual tidak didukung lagi"
 
 #: src/ysmapp.cc:106
 msgid "$USER or $LOGNAME not set?"
-msgstr "$USER atau $LOGNAME tidak diset?"
+msgstr "$USER atau $LOGNAME tidak ditetapkan?"
 
 #: src/yurl.cc:82
 #, c-format
 msgid "\"%s\" doesn't describe a common internet scheme"
-msgstr "\"%s\" tidak menjelaskan scheme internet secara umum"
+msgstr "\"%s\" tidak menjelaskan skema internet secara umum"
 
 #: src/yurl.cc:85
 #, c-format
 msgid "\"%s\" contains no scheme description"
-msgstr "\"%s\" tidak terdapat deskripsi scheme"
+msgstr "\"%s\" tidak terdapat deskripsi skema"
 
 #~ msgid "Cancel"
 #~ msgstr "Batal"
