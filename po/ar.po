@@ -8,39 +8,43 @@ msgstr ""
 "Project-Id-Version: icewm 1.3.12.52\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2016-07-09 21:33-0600\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2016-11-01 08:23+0000\n"
+"Last-Translator: mohammad alhargan <malham1@gmail.com>\n"
+"Language-Team: Arabic "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/ar/>\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+"X-Generator: Weblate 2.6\n"
 
 #: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:875
 msgid " - Power"
-msgstr ""
+msgstr " - طاقة"
 
 #: src/aapm.cc:193 src/aapm.cc:527 src/aapm.cc:757
 msgid "P"
-msgstr ""
+msgstr "ط"
 
 #: src/aapm.cc:197 src/aapm.cc:498 src/aapm.cc:734 src/aapm.cc:846
 #, c-format
 msgid " - Charging"
-msgstr ""
+msgstr " - يشحن"
 
 #: src/aapm.cc:199 src/aapm.cc:500 src/aapm.cc:736
 msgid "C"
-msgstr ""
+msgstr "ش"
 
 #: src/aapm.cc:502
 msgid " - Full"
-msgstr ""
+msgstr " - مشحون"
 
 #: src/acpustatus.cc:234
 #, c-format
 msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
-msgstr ""
+msgstr "حمل المعالج: %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:239
 #, c-format
@@ -48,6 +52,8 @@ msgid ""
 "\n"
 "Ram (free): %5.2f (%.2f) M"
 msgstr ""
+"\n"
+"رام (خالي): %5.2f (%.2f) M"
 
 #: src/acpustatus.cc:244
 #, c-format
@@ -55,6 +61,8 @@ msgid ""
 "\n"
 "Swap (free): %.2f (%.2f) M"
 msgstr ""
+"\n"
+"مبادلة (خالي): %.2f (%.2f) M"
 
 #: src/acpustatus.cc:250
 #, c-format
@@ -62,6 +70,8 @@ msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
+"\n"
+"ACPI المؤقت: "
 
 #: src/acpustatus.cc:261
 #, c-format
@@ -69,39 +79,41 @@ msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
+"\n"
+"تردد المعالج: %.3fGHz"
 
 #: src/acpustatus.cc:274
 msgid "CPU Load: "
-msgstr ""
+msgstr "حمل المعالج: "
 
 #: src/amailbox.cc:77
 #, c-format
 msgid "Invalid mailbox protocol: \"%s\""
-msgstr ""
+msgstr "بروتوكول بريد غير صالح: \"%s\""
 
 #: src/amailbox.cc:79
 #, c-format
 msgid "Invalid mailbox path: \"%s\""
-msgstr ""
+msgstr "مسار بريد غير صالح: \"%s\""
 
 #: src/amailbox.cc:343
 #, c-format
 msgid "Using MailBox \"%s\"\n"
-msgstr ""
+msgstr "استخدام البريد \"%s\"\n"
 
 #: src/amailbox.cc:451
 msgid "Error checking mailbox."
-msgstr ""
+msgstr "خطأ فحص البريد."
 
 #: src/amailbox.cc:457
 #, c-format
 msgid "%ld mail message."
-msgstr ""
+msgstr "%رسالة معرف البريد."
 
 #: src/amailbox.cc:458
 #, c-format
 msgid "%ld mail messages."
-msgstr ""
+msgstr "%lرسالة معرف البريد."
 
 #: src/apppstatus.cc:204
 #, c-format
@@ -112,113 +124,120 @@ msgid ""
 "  Transferred (in/out):\t%lli %s/%lli %s\n"
 "  Online time:\t%ld:%02ld:%02ld%s%s"
 msgstr ""
+"الواجهة%s:\n"
+"  المعدل الحالي (in/out):\t%li %s/%li %s\n"
+"  المتوسط الحالي (in/out):\t%lli %s/%lli %s\n"
+"  منقول (in/out):\t%lli %s/%lli %s\n"
+"  وقت الاتصال:\t%ld:%02ld:%02ld%s%s"
 
 #: src/apppstatus.cc:216
 msgid ""
 "\n"
 "  Caller id:\t"
 msgstr ""
+"\n"
+"  هوية المتصل:\t"
 
 #: src/aworkspaces.cc:155 src/aworkspaces.cc:220 src/aworkspaces.cc:276
 #: src/wmstatus.cc:178
 msgid "Workspace: "
-msgstr ""
+msgstr "مساحة العمل: "
 
 #: src/fdomenu.cc:74
 msgid "Settings"
-msgstr ""
+msgstr "إعدادات"
 
 #: src/fdomenu.cc:75
 msgid "Screensavers"
-msgstr ""
+msgstr "حافظات الشاشة"
 
 #: src/fdomenu.cc:76
 msgid "Accessories"
-msgstr ""
+msgstr "ملحقات"
 
 #: src/fdomenu.cc:77
 msgid "Development"
-msgstr ""
+msgstr "تطوير"
 
 #: src/fdomenu.cc:78
 msgid "Education"
-msgstr ""
+msgstr "تعليم"
 
 #: src/fdomenu.cc:79
 msgid "Games"
-msgstr ""
+msgstr "العاب"
 
 #: src/fdomenu.cc:80
 msgid "Graphics"
-msgstr ""
+msgstr "رسومات"
 
 #: src/fdomenu.cc:81
 msgid "Multimedia"
-msgstr ""
+msgstr "وسائط"
 
 #: src/fdomenu.cc:82
 msgid "Network"
-msgstr ""
+msgstr "شبكة"
 
 #: src/fdomenu.cc:83
 msgid "Office"
-msgstr ""
+msgstr "مكتب"
 
 #: src/fdomenu.cc:84
 msgid "System"
-msgstr ""
+msgstr "نظام"
 
 #: src/fdomenu.cc:85
 msgid "WINE"
-msgstr ""
+msgstr "محاكي الويندوز"
 
 #: src/fdomenu.cc:86
 msgid "Editors"
-msgstr ""
+msgstr "محررات"
 
 #: src/fdomenu.cc:87
 msgid "Other"
-msgstr ""
+msgstr "أخرى"
 
 #: src/icehelp.cc:715
 msgid "Back"
-msgstr ""
+msgstr "للخلف"
 
 #: src/icehelp.cc:715
 msgid "Alt+Left"
-msgstr ""
+msgstr "Alt+يسار"
 
 #: src/icehelp.cc:716
 msgid "Forward"
-msgstr ""
+msgstr "تحويل"
 
 #: src/icehelp.cc:716
 msgid "Alt+Right"
-msgstr ""
+msgstr "Alt+يمين"
 
 #: src/icehelp.cc:718
 msgid "Previous"
-msgstr ""
+msgstr "سابق"
 
 #: src/icehelp.cc:719
 msgid "Next"
-msgstr ""
+msgstr "التالي"
 
 #: src/icehelp.cc:721
 msgid "Contents"
-msgstr ""
+msgstr "محتويات"
 
 #: src/icehelp.cc:722
 msgid "Index"
-msgstr ""
+msgstr "فهرست"
 
 #: src/icehelp.cc:724 src/icesame.cc:63 src/iceview.cc:76 src/wmframe.cc:187
 msgid "Close"
-msgstr ""
+msgstr "إغلاق"
 
 #: src/icehelp.cc:724 src/icesame.cc:63 src/iceview.cc:76
 msgid "Ctrl+Q"
-msgstr ""
+msgstr "Ctrl+Q"
 
 #: src/icehelp.cc:1327
 #, c-format
@@ -228,65 +247,69 @@ msgid ""
 "A very simple HTML browser displaying the document specified by FILENAME.\n"
 "\n"
 msgstr ""
+"الاستخدام: %s اسم الملف\n"
+"\n"
+"متصفح HTML بسيطة جدا لعرض المستند المحدد عن طريق اسم الملف.\n"
+"\n"
 
 #: src/icehelp.cc:1337
 #, c-format
 msgid "Invalid path: %s\n"
-msgstr ""
+msgstr "مسار غير صالح: %s\n"
 
 #: src/icehelp.cc:1342
 msgid "Invalid path: "
-msgstr ""
+msgstr "مسار غير صالح: "
 
 #: src/icelist.cc:84
 msgid "List View"
-msgstr ""
+msgstr "عرض القائمة"
 
 #: src/icelist.cc:85
 msgid "Icon View"
-msgstr ""
+msgstr "عرض الأيقونات"
 
 #: src/icelist.cc:89
 msgid "Open"
-msgstr ""
+msgstr "فتح"
 
 #: src/icesame.cc:58
 msgid "Undo"
-msgstr ""
+msgstr "تراجع"
 
 #: src/icesame.cc:58
 msgid "Ctrl+Z"
-msgstr ""
+msgstr "Ctrl+Z"
 
 #: src/icesame.cc:60
 msgid "New"
-msgstr ""
+msgstr "جديد"
 
 #: src/icesame.cc:60
 msgid "Ctrl+N"
-msgstr ""
+msgstr "Ctrl+N"
 
 #: src/icesame.cc:61
 msgid "Restart"
-msgstr ""
+msgstr "إعادة التشغيل"
 
 #: src/icesame.cc:61
 msgid "Ctrl+R"
-msgstr ""
+msgstr "Ctrl+R"
 
 #: src/icesame.cc:66
 msgid "Same Game"
-msgstr ""
+msgstr "نفس اللعبة"
 
 #: src/icesh.cc:187
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
-msgstr ""
+msgstr "الحدث`%sيتطلب على الأقل %d حجه."
 
 #: src/icesh.cc:194
 #, c-format
 msgid "Invalid expression: `%s'"
-msgstr ""
+msgstr "تعبير غير صالح: `%s'"
 
 #: src/icesh.cc:316
 #, c-format
@@ -296,12 +319,12 @@ msgstr ""
 #: src/icesh.cc:429
 #, c-format
 msgid "Invalid workspace name: `%s'"
-msgstr ""
+msgstr "اسم مساحة العمل غير صالح: `%s'"
 
 #: src/icesh.cc:435
 #, c-format
 msgid "Workspace out of range: %d"
-msgstr ""
+msgstr "مساحة العمل خارج النطاق: %d"
 
 #: src/icesh.cc:569
 #, c-format
@@ -356,117 +379,117 @@ msgstr ""
 
 #: src/icesh.cc:608
 msgid "GNOME window state"
-msgstr ""
+msgstr "حالة نوافذ جنوم"
 
 #: src/icesh.cc:609
 msgid "GNOME window hint"
-msgstr ""
+msgstr "تلميح نوافذ جنوم"
 
 #: src/icesh.cc:610
 msgid "GNOME window layer"
-msgstr ""
+msgstr "طبقة نوافذ جنوم"
 
 #: src/icesh.cc:611
 msgid "IceWM tray option"
-msgstr ""
+msgstr "صينية خيارات IceWM"
 
 #: src/icesh.cc:616
 msgid "Usage error: "
-msgstr ""
+msgstr "خطأ إستخدام "
 
 #: src/icesh.cc:687
 #, c-format
 msgid "Invalid argument: `%s'."
-msgstr ""
+msgstr "حجج غير صالحة: `%s'."
 
 #: src/icesh.cc:696
 msgid "No actions specified."
-msgstr ""
+msgstr "لم تحدد أي إجراءات."
 
 #: src/icesh.cc:703 src/icesound.cc:1050 src/icewmhint.cc:76 src/yxapp.cc:975
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
-msgstr ""
+msgstr "لا يمكن فتح العرض: %s. يجب تشغيل X وتعيين $العرض set."
 
 #: src/icesh.cc:743
 #, c-format
 msgid "Invalid window identifier: `%s'"
-msgstr ""
+msgstr "مُعرف النوافذ خاطئ: `%s'"
 
 #: src/icesh.cc:896
 #, c-format
 msgid "workspace #%d: `%s'\n"
-msgstr ""
+msgstr "مساحة العمل#%d: `%s'\n"
 
 #: src/icesh.cc:914
 #, c-format
 msgid "Unknown action: `%s'"
-msgstr ""
+msgstr "إجراء غير معروف: `%s'"
 
 #: src/iceskt.cc:36
 #, c-format
 msgid "Socket error: %d"
-msgstr ""
+msgstr "خطأ في المنفذ: %d"
 
 #: src/icesound.cc:256 src/icesound.cc:424 src/icesound.cc:792
 #, c-format
 msgid "Playing sample #%d (%s)"
-msgstr ""
+msgstr "عرض نموذج #%d (%s)"
 
 #: src/icesound.cc:468
 #, c-format
 msgid "No such device: %s"
-msgstr ""
+msgstr "لا يوجد مثل هذا الجهاز: %s"
 
 #: src/icesound.cc:561
 #, c-format
 msgid "Can't connect to ESound daemon: %s"
-msgstr ""
+msgstr "لا يمكن الاتصال بخادم الصوت الاكتروني: %s"
 
 #: src/icesound.cc:562 src/icesound.cc:739 src/icesound.cc:780
 #: src/icewmhint.cc:78 src/yxapp.cc:976
 msgid "<none>"
-msgstr ""
+msgstr "<لا شيئ>"
 
 #: src/icesound.cc:582
 #, c-format
 msgid "Error <%d> while uploading `%s:%s'"
-msgstr ""
+msgstr "خطأ <%d> أثناء رفع `%s:%s'"
 
 #: src/icesound.cc:588
 #, c-format
 msgid "Sample <%d> uploaded as `%s:%s'"
-msgstr ""
+msgstr "نموذج <%d> رفع ك `%s:%s'"
 
 #: src/icesound.cc:647
 #, c-format
 msgid "Playing sample #%d"
-msgstr ""
+msgstr "عرض نموذج #%d"
 
 #: src/icesound.cc:738 src/icesound.cc:779
 #, c-format
 msgid "Can't connect to YIFF server: %s"
-msgstr ""
+msgstr "لا يمكن الإتصال بخادم YIFF: %s"
 
 #: src/icesound.cc:744
 #, c-format
 msgid "Can't change to audio mode `%s'."
-msgstr ""
+msgstr "لا يمكن تغيير خادم الصوت `%s'."
 
 #: src/icesound.cc:886
 #, c-format
 msgid ""
 "Audio mode switch detected, initial audio mode `%s' no longer in effect."
-msgstr ""
+msgstr "تم التعرف على نمط تشغيل الصوت، نمظ الصوت الأولي`%s' لم تعد سارية."
 
 #: src/icesound.cc:893
 msgid "Audio mode switch detected, automatic audio mode changing disabled."
-msgstr ""
+msgstr "تم التعرف على نمط تشغيل الصوت، تم تعطيل نمط الصوت التلقائي."
 
 #: src/icesound.cc:939 src/icesound.cc:952
 #, c-format
 msgid "Overriding previous audio mode `%s'."
-msgstr ""
+msgstr "وضع الصوت الرئيسي السابق `%s'."
 
 #: src/icesound.cc:978
 #, c-format
@@ -510,27 +533,27 @@ msgstr ""
 
 #: src/icesound.cc:1175
 msgid "Multiple sound interfaces given."
-msgstr ""
+msgstr "واجهات الصوت المتعددة المتاحة."
 
 #: src/icesound.cc:1187 src/icesound.cc:1199 src/icesound.cc:1212
 #, c-format
 msgid "Support for the %s interface not compiled."
-msgstr ""
+msgstr "دعم الواجهة %sلم يكتمل بعد."
 
 #: src/icesound.cc:1216
 #, c-format
 msgid "Unsupported interface: %s."
-msgstr ""
+msgstr "واجهة غير مدعومة: %s."
 
 #: src/icesound.cc:1233
 #, c-format
 msgid "Received signal %d: Terminating..."
-msgstr ""
+msgstr "تلقي إشارة %d: إنهاء..."
 
 #: src/icesound.cc:1242
 #, c-format
 msgid "Received signal %d: Reloading samples..."
-msgstr ""
+msgstr "تلقى إشارة %d: إعادة تشغيل النموذج..."
 
 #: src/iceview.cc:72
 msgid "Hex View"
@@ -538,23 +561,23 @@ msgstr ""
 
 #: src/iceview.cc:72
 msgid "Ctrl+H"
-msgstr ""
+msgstr "Ctrl+H"
 
 #: src/iceview.cc:73
 msgid "Expand Tabs"
-msgstr ""
+msgstr "توسيع علامة التبويب"
 
 #: src/iceview.cc:73
 msgid "Ctrl+T"
-msgstr ""
+msgstr "Ctrl+T"
 
 #: src/iceview.cc:74
 msgid "Wrap Lines"
-msgstr ""
+msgstr "التفاف اخطوط"
 
 #: src/iceview.cc:74
 msgid "Ctrl+W"
-msgstr ""
+msgstr "Ctrl+W"
 
 #: src/icewmbg.cc:410
 msgid ""
@@ -584,12 +607,12 @@ msgstr ""
 #: src/icewmbg.cc:557
 #, c-format
 msgid "Loading image %s failed"
-msgstr ""
+msgstr "تحميل الصورة %s فشل"
 
 #: src/icewmbg.cc:571 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
-msgstr ""
+msgstr "تحميل pixmap  \"%s\" فشل: %s"
 
 #: src/icewmhint.cc:49
 msgid "Usage: icewmhint [class.instance] option arg\n"
