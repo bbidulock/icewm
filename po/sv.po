@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: Icewm 1.2.0-beta1\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2016-07-09 21:33-0600\n"
-"PO-Revision-Date: 2016-06-16 19:36+0000\n"
-"Last-Translator: Jonas Svensson <jonas@ekhorva.se>\n"
-"Language-Team: Swedish <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
-"branch/sv/>\n"
+"PO-Revision-Date: 2016-11-03 11:45+0000\n"
+"Last-Translator: Joakim Ganse <joakim.ganse@b-iq.se>\n"
+"Language-Team: Swedish "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,7 +43,7 @@ msgstr " - Full"
 #: src/acpustatus.cc:234
 #, c-format
 msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
-msgstr "Processorbelastning: %3.2f %3.2f %3.2f, %u processer."
+msgstr "Processorbelastning: %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:239
 #, c-format
@@ -139,12 +139,12 @@ msgid ""
 "  Caller id:\t"
 msgstr ""
 "\n"
-"  Inkommande samtal:"
+"  Inkommande samtal:\t"
 
 #: src/aworkspaces.cc:155 src/aworkspaces.cc:220 src/aworkspaces.cc:276
 #: src/wmstatus.cc:178
 msgid "Workspace: "
-msgstr "Arbetsyta:"
+msgstr "Arbetsyta: "
 
 #: src/fdomenu.cc:74
 msgid "Settings"
@@ -261,7 +261,7 @@ msgstr "Felaktig sökväg: %s\n"
 
 #: src/icehelp.cc:1342
 msgid "Invalid path: "
-msgstr "Felaktig sökväg:"
+msgstr "Felaktig sökväg: "
 
 #: src/icelist.cc:84
 msgid "List View"
@@ -311,7 +311,7 @@ msgstr "Åtgärden \"%s\" kräver minst %d argument."
 #: src/icesh.cc:194
 #, c-format
 msgid "Invalid expression: `%s'"
-msgstr "Felaktigt uttryck: \"%s\"."
+msgstr "Felaktigt uttryck: \"%s\""
 
 #: src/icesh.cc:316
 #, c-format
@@ -434,12 +434,12 @@ msgstr "Inställningar för IceWM-programpanelen"
 
 #: src/icesh.cc:616
 msgid "Usage error: "
-msgstr "Användningsfel:"
+msgstr "Användningsfel: "
 
 #: src/icesh.cc:687
 #, c-format
 msgid "Invalid argument: `%s'."
-msgstr "Felaktigt värde: \"%s\"."
+msgstr "Felaktigt värde: `%s'."
 
 #: src/icesh.cc:696
 msgid "No actions specified."
@@ -458,7 +458,7 @@ msgstr "Felaktig fönsteridentifierare: \"%s\""
 #: src/icesh.cc:896
 #, c-format
 msgid "workspace #%d: `%s'\n"
-msgstr "arbetsyta #%d: \"%s\"\n"
+msgstr "arbetsyta #%d: `%s'\n"
 
 #: src/icesh.cc:914
 #, c-format
@@ -532,7 +532,7 @@ msgid "Overriding previous audio mode `%s'."
 msgstr "Ersätter föregående ljudläge \"%s\"."
 
 #: src/icesound.cc:978
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
 "\n"
@@ -570,19 +570,19 @@ msgid ""
 "3     Subsystems error (ie cannot connect to server).\n"
 "\n"
 msgstr ""
-"Användning: %s [FLAGGOR] ...\n"
+"Användning: %s [FLAGGOR] …\n"
 "\n"
 "Spelar ljudfiler vid grafiska IceWM-händelser.\n"
 "\n"
 "Flaggor:\n"
 "\n"
-"-d, --display=BILDSKÄRM    Bildskärm som används av IceWM (förval: "
-"$DISPLAY)\n"
+"-d, --display=BILDSKÄRM    Bildskärm som används av IceWM (förval: $DISPLAY)"
+"\n"
 "-s, --sample-dir=KAT       Anger den katalog som innehåller ljudfilerna\n"
 "                           (dvs ~/.icewm/sounds).\n"
 "-i, --interface=MÅL        Anger målgränssnittet för ljudutdata, en av\n"
 "                           ALSA, OSS, YIFF eller ESD\n"
-"-D --device=ENHET          (ALSA OSS) anger den digitala singalprocessorn\n"
+"-D --device=ENHET          (ALSA OSS) anger den digitala signalprocessorn\n"
 "                           (förval (ALSA) default (OSS) /dev/dsp)\n"
 "-S, --server=ADRESS:PORT   (ESD och YIFF) anger server och portnummer\n"
 "                           (förval localhost:16001 för ESD och \n"
@@ -707,7 +707,7 @@ msgstr "Varning: "
 #: src/movesize.cc:903
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
-msgstr ""
+msgstr "Okänd riktning i flytt/förändring: %d"
 
 #: src/themes.cc:100
 msgid "Default"
@@ -731,7 +731,7 @@ msgstr "Temaförfattare:"
 
 #: src/wmabout.cc:43
 msgid "CodeSet:"
-msgstr ""
+msgstr "Kodning:"
 
 #: src/wmabout.cc:44
 msgid "Language:"
@@ -1074,7 +1074,7 @@ msgstr "_Klicka för fokus"
 
 #: src/wmprog.cc:922
 msgid "_Sloppy mouse focus"
-msgstr ""
+msgstr "_Slarvig musfokus"
 
 #: src/wmprog.cc:927
 msgid "Custo_m"
@@ -1269,7 +1269,7 @@ msgstr "Kunde inte läsa in typsnittsuppsättning \"%s\"."
 #: src/yfontcore.cc:126
 #, c-format
 msgid "Missing codesets for fontset \"%s\":"
-msgstr "Kodning saknas för typsnittsuppsättning \"%s\"."
+msgstr "Kodning saknas för typsnitt: \"%s\"."
 
 #: src/yicon.cc:167
 #, c-format
@@ -1352,7 +1352,7 @@ msgstr "_OK"
 #: src/ypaths.cc:144 src/ypaths.cc:171
 #, c-format
 msgid "Image not readable: %s"
-msgstr ""
+msgstr "Bilden är inte läsbar: %s"
 
 #: src/ypaths.cc:149
 #, fuzzy, c-format
@@ -1360,9 +1360,9 @@ msgid "Out of memory for image %s"
 msgstr "Slut på minne för bild \"%s\""
 
 #: src/ypaths.cc:156
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find image %s"
-msgstr "Kunde inte hitta bildpunktskarta %s"
+msgstr "Kunde inte hitta bild %s"
 
 #: src/ypaths.cc:175
 #, fuzzy, c-format
@@ -1370,9 +1370,9 @@ msgid "Out of memory for image: %s"
 msgstr "Slut på minne för bild \"%s\""
 
 #: src/ypaths.cc:182
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find image: %s"
-msgstr "Kunde inte hitta bildpunktskarta %s"
+msgstr "Kunde inte hitta bild %s"
 
 #: src/ypixbuf.cc:482 src/ypixbuf.cc:668
 #, c-format
