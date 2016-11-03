@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.3.12.52\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2016-07-09 21:33-0600\n"
-"PO-Revision-Date: 2016-11-02 05:26+0000\n"
+"PO-Revision-Date: 2016-11-03 08:19+0000\n"
 "Last-Translator: mohammad alhargan <malham1@gmail.com>\n"
 "Language-Team: Arabic "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/ar/>\n"
@@ -1156,105 +1156,105 @@ msgstr "مؤشر pixmap غير صالح: \"%s\" يحتوي كثير من الأ�
 #: src/ycursor.cc:182
 #, c-format
 msgid "BUG? Imlib was able to read \"%s\""
-msgstr ""
+msgstr "Imlib قادر على قرأة %s"
 
 #: src/ycursor.cc:208
 #, c-format
 msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
-msgstr ""
+msgstr "تالف رأس XPM لكن Imlib قادرة على تحليله %s"
 
 #: src/ycursor.cc:216
 #, c-format
 msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
-msgstr ""
+msgstr "نهاية غير متوقعة لملف XPM لكن Imlib قادر على تحليله %s"
 
 #: src/ycursor.cc:219
 #, c-format
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
-msgstr ""
+msgstr "نهاية غير متوقعة لصيغة XPM لكن Imlib قادر على تحليله %s"
 
 #: src/yfontcore.cc:71 src/yfontxft.cc:174
 #, c-format
 msgid "Could not load font \"%s\"."
-msgstr ""
+msgstr "غير قادر على تحميل الخط %s."
 
 #: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:197
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
-msgstr ""
+msgstr "فشل تحميل الخط الاحتياطي %s."
 
 #: src/yfontcore.cc:114
 #, c-format
 msgid "Could not load fontset \"%s\"."
-msgstr ""
+msgstr "غير قادر على تحميل مجموعة الخط %s."
 
 #: src/yfontcore.cc:126
 #, c-format
 msgid "Missing codesets for fontset \"%s\":"
-msgstr ""
+msgstr "شفرة مجموعة الخط مفقودة \"%s\"."
 
 #: src/yicon.cc:167
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
-msgstr ""
+msgstr "نفذت ذاكرة pixmap \"%s\""
 
 #: src/yimage.cc:61 src/yimage.cc:109 src/ypixbuf.cc:1063
 #, c-format
 msgid "Loading of image \"%s\" failed"
-msgstr ""
+msgstr "تحميل الصورة \"%s\" فشل"
 
 #: src/yimage.cc:141 src/yimage.cc:159
 msgid "Imlib: Acquisition of X pixmap failed"
-msgstr ""
+msgstr "Imlib: فشل في اختيار X pixmap"
 
 #: src/yimage.cc:150
 msgid "Imlib: Imlib image to X pixmap mapping failed"
-msgstr ""
+msgstr "Imlib: Imlib خريطة صورة  X pixmap غير صالحة"
 
 #: src/yinput.cc:55
 msgid "Cu_t"
-msgstr ""
+msgstr "Cu_t"
 
 #: src/yinput.cc:55
 msgid "Ctrl+X"
-msgstr ""
+msgstr "Ctrl+X"
 
 #: src/yinput.cc:56
 msgid "_Copy"
-msgstr ""
+msgstr "نسخ"
 
 #: src/yinput.cc:56
 msgid "Ctrl+C"
-msgstr ""
+msgstr "Ctrl+C"
 
 #: src/yinput.cc:57
 msgid "_Paste"
-msgstr ""
+msgstr "لصق"
 
 #: src/yinput.cc:57
 msgid "Ctrl+V"
-msgstr ""
+msgstr "Ctrl+V"
 
 #: src/yinput.cc:58
 msgid "Paste _Selection"
-msgstr ""
+msgstr "لصق التحديد"
 
 #: src/yinput.cc:60
 msgid "Select _All"
-msgstr ""
+msgstr "تحديد الكل"
 
 #: src/yinput.cc:60
 msgid "Ctrl+A"
-msgstr ""
+msgstr "Ctrl+A"
 
 #: src/ylocale.cc:46
 msgid "Locale not supported by C library. Falling back to 'C' locale'."
-msgstr ""
+msgstr "اللغة غير معتمدة من قبل مكتبة C. يتم التراجع إلى 'C' اللغة'."
 
 #: src/ylocale.cc:68
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
-msgstr ""
+msgstr "فشل في تحديد ترميز اللغة الحالية. الافتراض ISO-8859-1.\n"
 
 #: src/ylocale.cc:100 src/ylocale.cc:107
 #, c-format
@@ -1264,36 +1264,36 @@ msgstr ""
 #: src/ylocale.cc:161
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
-msgstr ""
+msgstr "البيانات المتعددة غير صحيحة \"%s\": %s"
 
 #: src/ymsgbox.cc:38
 msgid "_OK"
-msgstr ""
+msgstr "موافق"
 
 #: src/ypaths.cc:144 src/ypaths.cc:171
 #, c-format
 msgid "Image not readable: %s"
-msgstr ""
+msgstr "الصورة غير مقرؤة: %s"
 
 #: src/ypaths.cc:149
 #, c-format
 msgid "Out of memory for image %s"
-msgstr ""
+msgstr "نفذت الذاكرة للصورة %s"
 
 #: src/ypaths.cc:156
 #, c-format
 msgid "Could not find image %s"
-msgstr ""
+msgstr "لا يمكن العثور على الصورة %s"
 
 #: src/ypaths.cc:175
 #, c-format
 msgid "Out of memory for image: %s"
-msgstr ""
+msgstr "نفذت الذاكرة للصورة %s"
 
 #: src/ypaths.cc:182
 #, c-format
 msgid "Could not find image: %s"
-msgstr ""
+msgstr "لا يمكن العثور على الصورة %s"
 
 #: src/ypixbuf.cc:482 src/ypixbuf.cc:668
 #, c-format
@@ -1301,22 +1301,24 @@ msgid ""
 "Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
 "blue): %0*x/%0*x/%0*x)"
 msgstr ""
+"استخدام آلية تراجعية لتحويل البكسل (depth: %d; masks (red/green/blue): "
+"%0*x/%0*x/%0*x)"
 
 #: src/ypixbuf.cc:576 src/ypixbuf.cc:725
 #, c-format
 msgid "%s:%d: %d bit visuals are not supported (yet)"
-msgstr ""
+msgstr "%s:%d: %d bit غير معتمدة (حتى الان)"
 
 #: src/ysmapp.cc:106
 msgid "$USER or $LOGNAME not set?"
-msgstr ""
+msgstr "المستخدم أو اسم الدخول لم يتم تعيينه؟"
 
 #: src/yurl.cc:82
 #, c-format
 msgid "\"%s\" doesn't describe a common internet scheme"
-msgstr ""
+msgstr "\"%s\" لا يصف اشتراك الانترنت"
 
 #: src/yurl.cc:85
 #, c-format
 msgid "\"%s\" contains no scheme description"
-msgstr ""
+msgstr "\"%s\" لا تحتوي على وصف مخطط"
