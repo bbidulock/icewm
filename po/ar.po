@@ -108,12 +108,12 @@ msgstr "خطأ فحص البريد."
 #: src/amailbox.cc:457
 #, c-format
 msgid "%ld mail message."
-msgstr "%رسالة معرف البريد."
+msgstr "%ld رسالة معرف البريد."
 
 #: src/amailbox.cc:458
 #, c-format
 msgid "%ld mail messages."
-msgstr "%lرسالة معرف البريد."
+msgstr "%ld رسالة معرف البريد."
 
 #: src/apppstatus.cc:204
 #, c-format
