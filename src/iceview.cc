@@ -577,18 +577,25 @@ public:
 
         int fd = open(fPath, O_RDONLY);
         if (fd == -1)
-            return ;
-        if (fstat(fd, &sb) != 0)
-            return ;
+            return;
+        if (fstat(fd, &sb) != 0) {
+            close(fd);
+            return;
+        }
         int len = sb.st_size;
         char *buf;
 
         if ((buf = (char *)mmap(0, len, PROT_READ, MAP_SHARED, fd, 0)) == 0) {
             buf = (char *)malloc(len);
-            if (buf == 0)
-                return ;
-            if ((len = read(fd, buf, len)) < 0)
-                return ;
+            if (buf == 0) {
+                close(fd);
+                return;
+            }
+            if ((len = read(fd, buf, len)) < 0) {
+                free(buf);
+                close(fd);
+                return;
+            }
         }
 
 
