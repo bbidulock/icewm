@@ -839,7 +839,7 @@ void YXApplication::afterWindowEvent(XEvent & /*xev*/) {
 
 bool YXApplication::filterEvent(const XEvent &xev) {
     if (xev.type == MappingNotify) {
-        msg("MappingNotify");
+        MSG(("MappingNotify"));
         XMappingEvent xmapping = xev.xmapping;
         XRefreshKeyboardMapping(&xmapping);
 
