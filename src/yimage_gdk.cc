@@ -260,6 +260,9 @@ void YImageGDK::composite(Graphics &g, int x, int y, int w, int h, int dx, int d
 
 
 void image_init() {
+#if (GLIB_MAJOR_VERSION <= 2 && GLIB_MINOR_VERSION < 36 && GLIB_MICRO_VERSION <= 0)
+    g_type_init();
+#endif
     xlib_rgb_init(xapp->display(), ScreenOfDisplay(xapp->display(), xapp->screen()));
     gdk_pixbuf_xlib_init(xapp->display(), xapp->screen());
 }
