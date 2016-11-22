@@ -337,17 +337,22 @@ void YConfig::loadConfigFile(cfoption *options, upath fileName) {
 
     struct stat sb;
 
-    if (fstat(fd, &sb) == -1)
-        return ;
+    if (fstat(fd, &sb) == -1) {
+        close(fd);
+        return;
+    }
 
     int len = sb.st_size;
 
     char *buf = new char[len + 1];
-    if (buf == 0)
-        return ;
+    if (buf == 0) {
+        close(fd);
+        return;
+    }
 
     if ((len = read(fd, buf, len)) < 0) {
         delete[] buf;
+        close(fd);
         return;
     }
 
