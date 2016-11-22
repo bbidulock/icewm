@@ -135,12 +135,12 @@ msgid ""
 "  Caller id:\t"
 msgstr ""
 "\n"
-" Id pemanggil:\t"
+"  Id pemanggil:\t"
 
 #: src/aworkspaces.cc:155 src/aworkspaces.cc:220 src/aworkspaces.cc:276
 #: src/wmstatus.cc:178
 msgid "Workspace: "
-msgstr "Ruang Kerja: "
+msgstr "Ruang kerja: "
 
 #: src/fdomenu.cc:74
 msgid "Settings"
@@ -291,7 +291,7 @@ msgstr "Ctrl+N"
 
 #: src/icesame.cc:61
 msgid "Restart"
-msgstr "Jalankan Ulang"
+msgstr "Jalankan ulang"
 
 #: src/icesame.cc:61
 msgid "Ctrl+R"
@@ -304,12 +304,12 @@ msgstr "Permainan Sama"
 #: src/icesh.cc:187
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
-msgstr "Perintah `%s' membutuhkan setidaknya %d argumen."
+msgstr "Perintah `%s' membutuhkan setidaknya %d opsi."
 
 #: src/icesh.cc:194
 #, c-format
 msgid "Invalid expression: `%s'"
-msgstr "Ekpresi tidak valid: '%s'"
+msgstr "Ekpresi tidak benar: `%s'"
 
 #: src/icesh.cc:316
 #, c-format
@@ -636,7 +636,7 @@ msgstr "Beberapa antarmuka suara diberikan."
 #: src/icesound.cc:1187 src/icesound.cc:1199 src/icesound.cc:1212
 #, c-format
 msgid "Support for the %s interface not compiled."
-msgstr "Layanan untuk %s interface tidak dikompilasi."
+msgstr "Layanan untuk %s interface tidak dikompile."
 
 #: src/icesound.cc:1216
 #, c-format
@@ -802,7 +802,7 @@ msgstr "_Keluar"
 
 #: src/wmapp.cc:867
 msgid "_Cancel logout"
-msgstr "_Batal Keluar"
+msgstr "_Batal keluar"
 
 #: src/wmapp.cc:879
 msgid "Lock _Workstation"
@@ -882,7 +882,7 @@ msgstr "_Sembunyi"
 
 #: src/wmapp.cc:941
 msgid "Roll_up"
-msgstr "Gulung _Atas"
+msgstr "Gulung_atas"
 
 #: src/wmapp.cc:948
 msgid "R_aise"
@@ -1048,7 +1048,7 @@ msgstr "Sembunyikan"
 
 #: src/wmframe.cc:209 src/wmframe.cc:3470
 msgid "Rollup"
-msgstr "Gulung Atas"
+msgstr "Gulung atas"
 
 #: src/wmframe.cc:218
 msgid "Raise/Lower"
@@ -1073,7 +1073,7 @@ msgstr "Pulihkan"
 
 #: src/wmframe.cc:3468
 msgid "Rolldown"
-msgstr "Gulung Bawah"
+msgstr "Gulung bawah"
 
 #: src/wmoption.cc:240
 #, c-format
@@ -1432,12 +1432,12 @@ msgstr "Tidak dapat menemukan gambar %s"
 #: src/ypaths.cc:175
 #, c-format, c-format
 msgid "Out of memory for image: %s"
-msgstr "Kehabisan memori untuk gambar: %s"
+msgstr "Kehabisan memory untuk piksel map: %s"
 
 #: src/ypaths.cc:182
 #, c-format, c-format
 msgid "Could not find image: %s"
-msgstr "Tidak dapat menemukan gambar: %s"
+msgstr "Tidak dapat mencari piksel map: %s"
 
 #: src/ypixbuf.cc:482 src/ypixbuf.cc:668
 #, c-format
@@ -1451,7 +1451,7 @@ msgstr ""
 #: src/ypixbuf.cc:576 src/ypixbuf.cc:725
 #, c-format
 msgid "%s:%d: %d bit visuals are not supported (yet)"
-msgstr "%s:%d: %d bit visual tidak didukung lagi"
+msgstr "%s:%d: %d bit visuals tidak didukung (lagi)"
 
 #: src/ysmapp.cc:106
 msgid "$USER or $LOGNAME not set?"
@@ -1578,7 +1578,7 @@ msgstr "\"%s\" tidak terdapat deskripsi skema"
 #~ msgstr "XQueryTree gagal untuk window 0x%x"
 
 #~ msgid "Compiled with DEBUG flag. Debugging messages will be printed."
-#~ msgstr "Di kompile dengan DEBUG flag. Pesan debug akan ditampilkan"
+#~ msgstr "Di kompile dengan DEBUG flag. Pesan debug akan ditampilkan."
 
 #~ msgid "_No icon"
 #~ msgstr "_Tidak ada ikon"
@@ -1595,7 +1595,7 @@ msgstr "\"%s\" tidak terdapat deskripsi skema"
 #~ msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
 #~ msgstr "%s:%d: Gagal menyalin drawable 0x%x ke piksel buffer"
 
-#~ msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%dx%d"
+#~ msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%dx%d)"
 #~ msgstr "%s:%d: Gagal menyalin drawable 0x%x ke piksel buffer (%d:%d-%dx%d)"
 
 #~ msgid "TOO MANY ICE CONNECTIONS -- not supported"
