@@ -75,21 +75,21 @@ void YXTrayProxy::handleClientMessage(const XClientMessageEvent &message) {
     if (message.message_type == _NET_SYSTEM_TRAY_OPCODE) {
         //printf("message data %ld %ld %ld %ld %ld\n", message.data.l[0], message.data.l[1], message.data.l[2], message.data.l[3], message.data.l[4]);
         if (message.data.l[1] == SYSTEM_TRAY_REQUEST_DOCK) {
-            msg("systemTrayRequestDock");
+            MSG(("systemTrayRequestDock"));
             fTray->trayRequestDock(message.data.l[2]);
         } else if (message.data.l[1] == SYSTEM_TRAY_BEGIN_MESSAGE) {
-            msg("systemTrayBeginMessage");
+            MSG(("systemTrayBeginMessage"));
             //fTray->trayBeginMessage();
         } else if (message.data.l[1] == SYSTEM_TRAY_CANCEL_MESSAGE) {
-            msg("systemTrayCancelMessage");
+            MSG(("systemTrayCancelMessage"));
             //fTray->trayCancelMessage();
         } else {
-            msg("systemTray???Message");
+            MSG(("systemTray???Message"));
         }
     } else if (message.message_type == _NET_SYSTEM_TRAY_MESSAGE_DATA) {
-        msg("systemTrayMessageData");
+        MSG(("systemTrayMessageData"));
     } else {
-        msg("handleClientMessage: do nothing");
+        MSG(("handleClientMessage: do nothing"));
     }
 }
 

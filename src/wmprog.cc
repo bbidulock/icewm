@@ -651,10 +651,11 @@ void loadMenusProg(
         switch ((child_pid = fork())) {
         case 0:
             close(0);
-            close(1);
+            open("/dev/null", O_RDONLY);
 
             close(fds[0]);
             dup2(fds[1], 1);
+            close(fds[1]);
 
             execvp(command, argv);
             _exit(99);

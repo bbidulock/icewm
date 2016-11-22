@@ -37,7 +37,7 @@ int YPipeReader::spawnvp(const char *prog, char **args) {
         close(fds[0]);
         dup2(fds[1], 1);
         int devnull = open("/dev/null", O_RDONLY);
-        if (devnull != -1) {
+        if (devnull > 0) {
             dup2(devnull, 0);
             close(devnull);
         }
