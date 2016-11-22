@@ -625,13 +625,12 @@ int YApplication::startWorker(int socket, const char *path, const char *const *a
         sigaddset(&signalMask, SIGHUP);
         sigprocmask(SIG_UNBLOCK, &signalMask, NULL);
 
-        close(0);
         if (dup2(socket, 0) != 0)
             _exit(1);
-        close(1);
         if (dup2(socket, 1) != 1)
             _exit(1);
-        close(socket);
+        if (socket > 1)
+            close(socket);
 
         closeFiles();
 
