@@ -304,7 +304,7 @@ msgstr ""
 #: src/icesh.cc:435
 #, c-format
 msgid "Workspace out of range: %d"
-msgstr "Estaya de trabayu fuera de rangu: %s"
+msgstr "Estaya de trabayu fuera de rangu: %d"
 
 #: src/icesh.cc:569
 #, c-format
