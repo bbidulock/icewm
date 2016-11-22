@@ -526,7 +526,7 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
             // ignore - we triggered this event
             // (do i need to set a property here?)
         } else if (property.atom == _XA_NET_WM_ICON) {
-            msg("change: net wm icon");
+            MSG(("change: net wm icon"));
             if (new_prop) prop.net_wm_icon = true;
 #ifndef LITE
             if (getFrame())
