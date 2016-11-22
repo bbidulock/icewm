@@ -415,8 +415,12 @@ void CPUStatus::getStatus() {
     unsigned long long cur[IWM_STATES];
     int len, s;
     int &fd = m_nCachedFd;
-    if(fd<0)
+    if (fd < 0) {
     	fd = open("/proc/stat", O_RDONLY);
+        if (fd < 0)
+            return;
+        fcntl(fd, F_SETFD, FD_CLOEXEC);
+    }
     else
     	lseek(fd, 0L, SEEK_SET);
 
@@ -428,8 +432,6 @@ void CPUStatus::getStatus() {
     cpu[taskBarCPUSamples - 1][IWM_SYS] = 0;
     cpu[taskBarCPUSamples - 1][IWM_IDLE] = 0;
 
-    if (fd < 0)
-        return;
     len = read(fd, buf, sizeof(buf) - 1);
     if (len < 0) {
         close(fd);
