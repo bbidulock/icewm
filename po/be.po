@@ -300,7 +300,7 @@ msgstr "Няправільны выраз: `%s'"
 #: src/icesh.cc:316
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
-msgstr "Прайменаваныя сымбалі вобласьці `%s' (лікавы дыяпазон: %ld%-ld):\n"
+msgstr "Прайменаваныя сымбалі вобласьці `%s' (лікавы дыяпазон: %ld-%ld):\n"
 
 #: src/icesh.cc:429
 #, c-format
