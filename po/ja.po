@@ -503,7 +503,7 @@ msgstr "<なし>"
 #: src/icesound.cc:582
 #, c-format
 msgid "Error <%d> while uploading `%s:%s'"
-msgstr "`%s:%s' をアップロードする際にエラーが発生しました <%d>"
+msgstr "`%2$s:%3$s' をアップロードする際にエラーが発生しました <%1$d>"
 
 #: src/icesound.cc:588
 #, c-format
