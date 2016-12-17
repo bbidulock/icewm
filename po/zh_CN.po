@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2016-07-09 21:33-0600\n"
-"PO-Revision-Date: 2016-11-14 08:26+0000\n"
-"Last-Translator: Wnereiz Z <wnereiz@eienteiland.org>\n"
+"PO-Revision-Date: 2016-12-17 16:24+0000\n"
+"Last-Translator: Marguerite Su <i@marguerite.su>\n"
 "Language-Team: Chinese (China) "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/zh_CN/>\n"
 "Language: zh_CN\n"
@@ -740,7 +740,7 @@ msgstr "主题作者："
 
 #: src/wmabout.cc:43
 msgid "CodeSet:"
-msgstr ""
+msgstr "代码集："
 
 #: src/wmabout.cc:44
 msgid "Language:"
@@ -1399,9 +1399,9 @@ msgid "Out of memory for image: %s"
 msgstr "内存不足以加载位图 \"%s\""
 
 #: src/ypaths.cc:182
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find image: %s"
-msgstr "找不到位图 %s"
+msgstr "找不到位图: %s"
 
 #: src/ypixbuf.cc:482 src/ypixbuf.cc:668
 #, c-format
