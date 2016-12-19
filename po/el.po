@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2016-07-09 21:33-0600\n"
-"PO-Revision-Date: 2016-10-24 17:26+0000\n"
-"Last-Translator: alexandros Vennos <alexandros.venn@gmail.com>\n"
+"PO-Revision-Date: 2016-12-19 16:04+0000\n"
+"Last-Translator: Panagiotis Mantzios <pmantzios@hotmail.com>\n"
 "Language-Team: Greek "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/el/>\n"
 "Language: el\n"
@@ -57,13 +57,13 @@ msgstr ""
 "Ram (ελεύθερα): %5.2f (%.2f) M"
 
 #: src/acpustatus.cc:244
-#, c-format, fuzzy
+#, c-format
 msgid ""
 "\n"
 "Swap (free): %.2f (%.2f) M"
 msgstr ""
 "\n"
-"Swap (free): %.2f (%.2f) M"
+"Swap (Ελεύθερα): %.2f (%.2f) M"
 
 #: src/acpustatus.cc:250
 #, c-format, fuzzy
