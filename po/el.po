@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2016-07-09 21:33-0600\n"
-"PO-Revision-Date: 2016-12-21 10:45+0000\n"
+"PO-Revision-Date: 2016-12-22 07:08+0000\n"
 "Last-Translator: Panagiotis Mantzios <pmantzios@hotmail.com>\n"
 "Language-Team: Greek "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/el/>\n"
@@ -24,7 +24,6 @@ msgid " - Power"
 msgstr " - Τροφοδοσία"
 
 #: src/aapm.cc:193 src/aapm.cc:527 src/aapm.cc:757
-#, fuzzy
 msgid "P"
 msgstr "P"
 
@@ -34,7 +33,6 @@ msgid " - Charging"
 msgstr " - Φόρτιση"
 
 #: src/aapm.cc:199 src/aapm.cc:500 src/aapm.cc:736
-#, fuzzy
 msgid "C"
 msgstr "C"
 
@@ -43,9 +41,9 @@ msgid " - Full"
 msgstr " - Πλήρης"
 
 #: src/acpustatus.cc:234
-#, fuzzy, c-format
+#, c-format
 msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
-msgstr "Φόρτος Επεξεργαστή: %3.2f %3.2f %3.2f, %u διεργασίες."
+msgstr "Φόρτος Επεξεργαστή: %3.2f %3.2f %3.2f, %u διεργασίες"
 
 #: src/acpustatus.cc:239
 #, c-format
@@ -165,17 +163,14 @@ msgid "Education"
 msgstr "Εκπαίδευση"
 
 #: src/fdomenu.cc:79
-#, fuzzy
 msgid "Games"
 msgstr "Παιχνίδια"
 
 #: src/fdomenu.cc:80
-#, fuzzy
 msgid "Graphics"
 msgstr "Γραφικά"
 
 #: src/fdomenu.cc:81
-#, fuzzy
 msgid "Multimedia"
 msgstr "Πολυμέσα"
 
@@ -209,7 +204,7 @@ msgstr "Πίσω"
 
 #: src/icehelp.cc:715
 msgid "Alt+Left"
-msgstr "Alt+Left"
+msgstr "Alt+Αριστερά"
 
 #: src/icehelp.cc:716
 msgid "Forward"
@@ -217,7 +212,7 @@ msgstr "Προχώρησε"
 
 #: src/icehelp.cc:716
 msgid "Alt+Right"
-msgstr "Alt+Right"
+msgstr "Alt+Δεξιά"
 
 #: src/icehelp.cc:718
 msgid "Previous"
@@ -393,7 +388,6 @@ msgid "GNOME window hint"
 msgstr "Στοιχείο παραθύρου GNOME"
 
 #: src/icesh.cc:610
-#, fuzzy
 msgid "GNOME window layer"
 msgstr "Επίπεδο παραθύρου GNOME"
 
@@ -404,7 +398,7 @@ msgstr "Επιλογή δίσκου IceWM"
 
 #: src/icesh.cc:616
 msgid "Usage error: "
-msgstr "Σφάλμα χρήσης:"
+msgstr "Σφάλμα χρήσης: "
 
 #: src/icesh.cc:687
 #, c-format
@@ -413,7 +407,7 @@ msgstr "Μη έγκυρο όρισμα: `%s'."
 
 #: src/icesh.cc:696
 msgid "No actions specified."
-msgstr "Δεν υπάρχουν καθορισμένες ενέργειες"
+msgstr "Δεν υπάρχουν καθορισμένες ενέργειες."
 
 #: src/icesh.cc:703 src/icesound.cc:1050 src/icewmhint.cc:76 src/yxapp.cc:975
 #, c-format
@@ -502,9 +496,9 @@ msgstr ""
 "απενεργοποιήθηκε."
 
 #: src/icesound.cc:939 src/icesound.cc:952
-#, c-format, fuzzy
+#, c-format
 msgid "Overriding previous audio mode `%s'."
-msgstr "Επαναπροσδιορισμός προηγούμενης κατάστασης ήχου `%s 1'."
+msgstr "Επανακαθορισμός προηγούμενης κατάστασης ήχου `%s 1'."
 
 #: src/icesound.cc:978
 #, c-format
@@ -558,7 +552,7 @@ msgstr "Η υποστήριξη για την διεπαφή %s δεν έχει 
 #: src/icesound.cc:1216
 #, c-format
 msgid "Unsupported interface: %s."
-msgstr "Μη υποστηριζόμενη διεπαφή %s"
+msgstr "Μη υποστηριζόμενη διεπαφή %s."
 
 #: src/icesound.cc:1233
 #, c-format
@@ -587,7 +581,6 @@ msgid "Ctrl+T"
 msgstr "Ctrl+T"
 
 #: src/iceview.cc:74
-#, fuzzy
 msgid "Wrap Lines"
 msgstr "Αναδίπλωση γραμμών"
 
@@ -661,7 +654,7 @@ msgstr "(C)"
 
 #: src/wmabout.cc:37
 msgid "Theme:"
-msgstr "Θέμα: "
+msgstr "Θέμα:"
 
 #: src/wmabout.cc:38
 msgid "Theme Description:"
@@ -677,12 +670,10 @@ msgid "CodeSet:"
 msgstr "CodeSet:"
 
 #: src/wmabout.cc:44
-#, fuzzy
 msgid "Language:"
 msgstr "Γλώσσα:"
 
 #: src/wmabout.cc:69
-#, fuzzy
 msgid "icewm - About"
 msgstr "Σχετικά με icewm"
 
@@ -738,12 +729,14 @@ msgid "_Menu"
 msgstr "_Κατάλογος"
 
 #: src/wmapp.cc:907
+#, fuzzy
 msgid "_Above Dock"
-msgstr ""
+msgstr "_πάνω από το Dock"
 
 #: src/wmapp.cc:908
+#, fuzzy
 msgid "_Dock"
-msgstr ""
+msgstr "_Dock"
 
 #: src/wmapp.cc:909
 msgid "_OnTop"
@@ -796,11 +789,11 @@ msgstr "Κύλιση επάνω"
 
 #: src/wmapp.cc:948
 msgid "R_aise"
-msgstr ""
+msgstr "Αύ_ξηση"
 
 #: src/wmapp.cc:950
 msgid "_Lower"
-msgstr ""
+msgstr "_μείωση"
 
 #: src/wmapp.cc:952
 msgid "La_yer"
@@ -828,8 +821,9 @@ msgid "_Close"
 msgstr "_Κλείσε"
 
 #: src/wmapp.cc:976 src/wmwinlist.cc:297
+#, fuzzy
 msgid "_Kill Client"
-msgstr ""
+msgstr "_Τερματισμός Client"
 
 #: src/wmapp.cc:980 src/wmdialog.cc:132 src/wmwinmenu.cc:137
 msgid "_Window list"
@@ -940,8 +934,9 @@ msgid "Raise/Lower"
 msgstr "Αυξήστε/Χαμηλώστε"
 
 #: src/wmframe.cc:1727
+#, fuzzy
 msgid "Kill Client: "
-msgstr ""
+msgstr "Τερματισμός Client: "
 
 #: src/wmframe.cc:1731
 msgid ""
@@ -957,7 +952,7 @@ msgstr "Επαναφορά"
 
 #: src/wmframe.cc:3468
 msgid "Rolldown"
-msgstr ""
+msgstr "Κύλιση προς τα κάτω"
 
 #: src/wmoption.cc:240
 #, c-format
@@ -1027,8 +1022,9 @@ msgid "_Sloppy mouse focus"
 msgstr "_πρόχειρη εστίαση ποντικιού"
 
 #: src/wmprog.cc:927
+#, fuzzy
 msgid "Custo_m"
-msgstr ""
+msgstr "Προεπιλογ_ή"
 
 #: src/wmprog.cc:933
 #, fuzzy
@@ -1225,9 +1221,9 @@ msgid "Could not load fontset \"%s\"."
 msgstr "Δεν ήταν δυνατή η φόρτωση της συλλογής γραμματοσειρών \"%s\"."
 
 #: src/yfontcore.cc:126
-#, c-format
+#, c-format, fuzzy
 msgid "Missing codesets for fontset \"%s\":"
-msgstr ""
+msgstr "Ελλιπές codesets για τις συλλογές γραμματοσειρών \"%s 1\":"
 
 #: src/yicon.cc:167
 #, c-format
@@ -1240,12 +1236,14 @@ msgid "Loading of image \"%s\" failed"
 msgstr "Η φόρτωση της φωτογραφίας \"%s\" απέτυχε"
 
 #: src/yimage.cc:141 src/yimage.cc:159
+#, fuzzy
 msgid "Imlib: Acquisition of X pixmap failed"
-msgstr ""
+msgstr "Imlib: Η απόκτηση του X pixmap απέτυχε"
 
 #: src/yimage.cc:150
+#, fuzzy
 msgid "Imlib: Imlib image to X pixmap mapping failed"
-msgstr ""
+msgstr "Imlib: Η Imlib εικόνα για την αντιστοίχιση με το Χ pixmap απέτυχε"
 
 #: src/yinput.cc:55
 msgid "Cu_t"
@@ -1253,7 +1251,7 @@ msgstr "Αποκοπ_ή"
 
 #: src/yinput.cc:55
 msgid "Ctrl+X"
-msgstr ""
+msgstr "Ctrl+X"
 
 #: src/yinput.cc:56
 msgid "_Copy"
@@ -1261,7 +1259,7 @@ msgstr "_Αντιγραφή"
 
 #: src/yinput.cc:56
 msgid "Ctrl+C"
-msgstr ""
+msgstr "Ctrl+C"
 
 #: src/yinput.cc:57
 msgid "_Paste"
@@ -1269,7 +1267,7 @@ msgstr "_Επικόλληση"
 
 #: src/yinput.cc:57
 msgid "Ctrl+V"
-msgstr ""
+msgstr "Ctrl+V"
 
 #: src/yinput.cc:58
 msgid "Paste _Selection"
@@ -1281,35 +1279,42 @@ msgstr "Επιλογή _Όλων"
 
 #: src/yinput.cc:60
 msgid "Ctrl+A"
-msgstr ""
+msgstr "Ctrl+A"
 
 #: src/ylocale.cc:46
+#, fuzzy
 msgid "Locale not supported by C library. Falling back to 'C' locale'."
 msgstr ""
+"Η ρύθμιση αυτή δεν υποστηρίζεται από τη βιβλιοθήκη C. Επαναφορά στη 'C' "
+"locale'."
 
 #: src/ylocale.cc:68
+#, fuzzy
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
+"Απέτυχε ο καθορισμός του τρέχοντος codeset. Το σύστημα θα υποθέσει το "
+"ISO-8859-1.\n"
 
 #: src/ylocale.cc:100 src/ylocale.cc:107
-#, c-format
+#, c-format, fuzzy
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
-msgstr ""
+msgstr "Το iconv δεν παρέχει (επαρκείς) %s μέχρι %s μετατροπές."
 
 #: src/ylocale.cc:161
-#, c-format
+#, c-format, fuzzy
 msgid "Invalid multibyte string \"%s\": %s"
-msgstr ""
+msgstr "Μη έγκυρη συμβολοσειρά πολλαπλών byte \"%s\": %s"
 
 #: src/ymsgbox.cc:38
+#, fuzzy
 msgid "_OK"
-msgstr ""
+msgstr "_OK"
 
 #: src/ypaths.cc:144 src/ypaths.cc:171
 #, c-format
 msgid "Image not readable: %s"
-msgstr ""
+msgstr "Η εικόνα δεν είναι αναγνώσιμη: %s"
 
 #: src/ypaths.cc:149
 #, fuzzy, c-format
@@ -1337,25 +1342,28 @@ msgid ""
 "Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
 "blue): %0*x/%0*x/%0*x)"
 msgstr ""
+"Χρησιμοποίηση του μηχανισμού επαναφοράς για την μετατροπή των pixels (βάθος: "
+"%d; μάσκες (κόκκινο/πράσινο/μπλέ): %0*x/%0*x/%0*x)"
 
 #: src/ypixbuf.cc:576 src/ypixbuf.cc:725
-#, c-format
+#, c-format, fuzzy
 msgid "%s:%d: %d bit visuals are not supported (yet)"
-msgstr ""
+msgstr "%s:%d: %d Τα δυαδικά οπτικά ψηφία δεν υποστηρίζονται (ακόμη)"
 
 #: src/ysmapp.cc:106
+#, fuzzy
 msgid "$USER or $LOGNAME not set?"
-msgstr ""
+msgstr "$USER ή $LOGNAME δεν έχουν ρυθμιστή;"
 
 #: src/yurl.cc:82
 #, c-format
 msgid "\"%s\" doesn't describe a common internet scheme"
-msgstr ""
+msgstr "Το \"%s\" δεν περιγράφει ένα κοινό σύστημα στο διαδίκτυο"
 
 #: src/yurl.cc:85
-#, c-format
+#, c-format, fuzzy
 msgid "\"%s\" contains no scheme description"
-msgstr ""
+msgstr "\"%s\" δεν περιέχει περιγραφή της μορφής"
 
 #~ msgid "Cancel"
 #~ msgstr "Ακύρωση"
