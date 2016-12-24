@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: 1.2.15\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2016-07-09 21:33-0600\n"
-"PO-Revision-Date: 2016-12-23 16:58+0000\n"
+"PO-Revision-Date: 2016-12-24 12:56+0000\n"
 "Last-Translator: Kamil Stańczyk <suszaraa@gmail.com>\n"
 "Language-Team: Polish "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/pl/>\n"
@@ -68,6 +68,8 @@ msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
+"\n"
+"Temperatura ACPI: "
 
 #: src/acpustatus.cc:261
 #, c-format
@@ -323,7 +325,7 @@ msgid "Workspace out of range: %d"
 msgstr "Obszar roboczy poza zakresem: %d"
 
 #: src/icesh.cc:569
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTIONS] ACTIONS\n"
 "\n"
@@ -679,6 +681,9 @@ msgstr ""
 " DesktopBackgroundImage   - Obrazek tła\n"
 " DesktopTransparencyColor - Kolor dla półprzeźroczystych okien\n"
 " DesktopTransparencyImage - Obraz dla półprzeźroczystych okien\n"
+"\n"
+" center:0 scaled:0 = kafelkowy\n"
+" center:1 scaled:1 = zachowaj format obrazu\n"
 
 #: src/icewmbg.cc:428
 #, c-format
@@ -743,7 +748,7 @@ msgstr ""
 
 #: src/wmabout.cc:44
 msgid "Language:"
-msgstr ""
+msgstr "Język:"
 
 #: src/wmabout.cc:69
 msgid "icewm - About"
@@ -951,8 +956,8 @@ msgstr ""
 "\n"
 "  -v, --version       Wypisuje informacje o wersji i kończy.\n"
 "  -h, --help          Wypisuje ten tekst o użyciu i kończy.\n"
-"%s --restart            Nie używaj tego: to jest flaga wewnętrzna.\n"
-"\n"
+"%s  --replace        Zamień istniejącego menedżera okien\n"
+"  --restart           Nie używaj tego: To wewnętrzna flaga\n"
 "Zmienne środowiskowe:\n"
 "  ICEWM_PRIVCFG=PATH  Katalog zawierający prywatne pliki konfiguracyjne\n"
 "                      użytkownika, domyślnie \"$HOME/.icewm/\"\n"
@@ -986,7 +991,7 @@ msgstr "Zablokuj stano_wisko"
 #: src/wmdialog.cc:90 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:434
 #: src/wmtaskbar.cc:436
 msgid "_Logout..."
-msgstr "Wy_loguj"
+msgstr "Wy_loguj..."
 
 #: src/wmdialog.cc:97 src/ymsgbox.cc:46
 msgid "_Cancel"
@@ -1100,8 +1105,9 @@ msgid "_Help"
 msgstr "Pomoc"
 
 #: src/wmprog.cc:917
+#, fuzzy
 msgid "_Click to focus"
-msgstr ""
+msgstr "W_ciśnij by zaznaczyć"
 
 #: src/wmprog.cc:922
 msgid "_Sloppy mouse focus"
@@ -1109,7 +1115,7 @@ msgstr ""
 
 #: src/wmprog.cc:927
 msgid "Custo_m"
-msgstr ""
+msgstr "Niestandardowy"
 
 #: src/wmprog.cc:933
 msgid "_Focus"
@@ -1121,7 +1127,7 @@ msgstr "Mo_tywy"
 
 #: src/wmprog.cc:942
 msgid "Se_ttings"
-msgstr ""
+msgstr "Us_tawienia"
 
 #: src/wmsession.cc:239 src/wmsession.cc:255 src/wmsession.cc:265
 #, c-format
@@ -1386,7 +1392,7 @@ msgstr "_OK"
 #: src/ypaths.cc:144 src/ypaths.cc:171
 #, c-format
 msgid "Image not readable: %s"
-msgstr ""
+msgstr "Nie można odczytać obrazu: %s"
 
 #: src/ypaths.cc:149
 #, fuzzy, c-format
@@ -1399,12 +1405,12 @@ msgid "Could not find image %s"
 msgstr "Nie można znaleźć obrazka %s"
 
 #: src/ypaths.cc:175
-#, fuzzy, c-format
+#, c-format
 msgid "Out of memory for image: %s"
-msgstr "Brak pamięci dla obrazka \"%s\""
+msgstr "Brak pamięci dla obrazka %s"
 
 #: src/ypaths.cc:182
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find image: %s"
 msgstr "Nie można znaleźć obrazka %s"
 
