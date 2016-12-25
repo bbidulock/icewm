@@ -56,6 +56,20 @@
 #include <dirent.h>
 #include "intl.h"
 
+static int read_file(const char *filename, char *buf, size_t buflen)
+{
+    int fd, len = -1;
+    fd = open(filename, O_RDONLY);
+    if (fd >= 0) {
+        len = read(fd, buf, buflen - 1);
+        if (len >= 0) {
+            buf[len] = '\0';
+        }
+        close(fd);
+    }
+    return len;
+}
+
 #if (defined(linux) || defined(HAVE_KSTAT_H)) || defined(HAVE_SYSCTL_CP_TIME)
 
 extern ref<YPixmap> taskbackPixmap;
@@ -279,8 +293,22 @@ void CPUStatus::updateToolTip() {
                pos=posEx;
         }
         if (ShowCpuFreq) {
-            more=snprintf(pos, rest, _("\nCPU Freq: %.3fGHz"),
-                    getCpuFreq(0) / 1e6);
+            float maxf = getCpuFreq(0), minf = maxf;
+            int cpus;
+            for (cpus = 1; cpus < 8; ++cpus) {
+                float freq = getCpuFreq(cpus);
+                if (freq < 1000) break;
+                if (freq < minf) minf = freq;
+                if (freq > maxf) maxf = freq;
+            }
+            const char *const form = _("\nCPU Freq: %.3fGHz");
+            const char *const perc = strstr(form, "%.3f");
+            if (cpus < 2 || perc == NULL) {
+                more=snprintf(pos, rest, form, maxf / 1e6);
+            } else {
+                more=snprintf(pos, rest, "%.*s%.3f %.3f %s", perc - form,
+                        form, maxf / 1e6, minf / 1e6, perc + 4);
+            }
         }
         setToolTip(ustring(fmt));
     }
@@ -332,25 +360,19 @@ int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
         struct dirent *de;
 
         while ((de = readdir(dir)) != NULL) {
-            int fd, seglen;
+            int len, seglen = 7;
 
             if (strcmp(de->d_name, ".") == 0 || strcmp(de->d_name, "..") == 0)
                 continue;
  
             sprintf(namebuf, "/proc/acpi/thermal_zone/%s/temperature", de->d_name);
-            fd = open(namebuf, O_RDONLY);
-            if (fd != -1) {
-                int len = read(fd, buf, sizeof(buf) - 1);
-                buf[len - 1] = '\0';
-                seglen = strlen(buf + len - 7);
+            len = read_file(namebuf, buf, sizeof(buf));
+            if (len > seglen) {
                 if (retbuflen + seglen >= buflen) {
-                    retbuflen = -retbuflen;
-                    close(fd);
                     break;
                 }
                 retbuflen += seglen;
-                strncat(tempbuf, buf + len - 7, seglen);
-                close(fd);
+                strncat(tempbuf, buf + len - seglen, seglen);
             }
         }
         closedir(dir);
@@ -359,30 +381,32 @@ int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
         struct dirent *de;
 
         while ((de = readdir(dir)) != NULL) {
-
-            int fd, seglen;
+            int len;
 
             if (strcmp(de->d_name, ".") == 0 || strcmp(de->d_name, "..") == 0)
                 continue;
 
             sprintf(namebuf, "/sys/class/thermal/%s/temp", de->d_name);
-            fd = open(namebuf, O_RDONLY);
-            if (fd != -1) {
-                int len = read(fd, buf, sizeof(buf) - 1);
-                buf[len - 4] = '\0';
-                seglen = strlen(buf) + 2;
-                if (retbuflen + seglen >= buflen) {
-                    retbuflen = -retbuflen;
-                    close(fd);
+            len = read_file(namebuf, buf, sizeof(buf));
+            if (len > 4) {
+                int seglen = len - 4;
+                if (retbuflen + seglen + 4 >= buflen) {
                     break;
                 }
+                strncat(tempbuf + retbuflen, buf, seglen);
                 retbuflen += seglen;
-                strncat(tempbuf, buf, seglen);
-                strcat(tempbuf, " C");
-                close(fd);
+                tempbuf[retbuflen++] = '.';
+                tempbuf[retbuflen++] = buf[seglen];
+                tempbuf[retbuflen++] = ' ';
+                tempbuf[retbuflen] = '\0';
             }
         }
         closedir(dir);
+        if (1 < retbuflen && retbuflen + 1 < buflen) {
+            tempbuf[retbuflen++] = '\xB0';
+            tempbuf[retbuflen++] = 'C';
+            tempbuf[retbuflen] = '\0';
+        }
     }
     return retbuflen;
 }
@@ -392,16 +416,11 @@ float CPUStatus::getCpuFreq(unsigned int cpu) {
     const char * categories[] = { "cpuinfo", "scaling" };
     for(unsigned i = 0; i < ACOUNT(categories); ++i)
     {
-        int fd;
         float cpufreq = 0;
         sprintf(namebuf, "/sys/devices/system/cpu/cpu%d/cpufreq/%s_cur_freq",
                 cpu, categories[i]);
-        fd = open(namebuf, O_RDONLY);
-        if (fd != -1) {
-            int len = read(fd, buf, sizeof(buf) - 1);
-            buf[len-1] = '\0';
+        if (read_file(namebuf, buf, sizeof(buf)) > 0) {
             sscanf(buf, "%f", &cpufreq);
-            close(fd);
             return cpufreq;
         }
     }
