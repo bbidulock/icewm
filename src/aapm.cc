@@ -212,24 +212,13 @@ void strcat3(char* dest,
              const char* src3,
              size_t n)
 {
-    if (!dest) return;
-    int len = n;
-    *dest = '\0';
-    len -= 1;
-    if (len < 0) return;
-    strncat(dest, src1, len);
-    len -= strlen(src1);
-    if (len < 0) return;
-    strncat(dest, src2, len);
-    len -= strlen(src2);
-    if (len < 0) return;
-    strncat(dest, src3, len);
+    if (dest) snprintf(dest, n, "%s%s%s", src1, src2, src3);
 }
 
 int YApm::ignore_directory_bat_entry(struct dirent *de) {
     return
         ignore_directory_entry(de) || \
-        strstr("AC", de->d_name) || \
+        strstr(de->d_name, "AC") || \
         (acpiIgnoreBatteries &&
          strstr(acpiIgnoreBatteries, de->d_name));
 }
@@ -237,7 +226,7 @@ int YApm::ignore_directory_bat_entry(struct dirent *de) {
 int YApm::ignore_directory_ac_entry(struct dirent *de) {
     return
         ignore_directory_entry(de) || \
-        strstr("BAT", de->d_name) || \
+        strstr(de->d_name, "BAT") || \
         (acpiIgnoreBatteries &&
          strstr(acpiIgnoreBatteries, de->d_name));
 }
