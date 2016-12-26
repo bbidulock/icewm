@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2016-07-09 21:33-0600\n"
-"PO-Revision-Date: 2016-10-24 17:26+0000\n"
-"Last-Translator: alexandros Vennos <alexandros.venn@gmail.com>\n"
+"PO-Revision-Date: 2016-12-22 07:08+0000\n"
+"Last-Translator: Panagiotis Mantzios <pmantzios@hotmail.com>\n"
 "Language-Team: Greek "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/el/>\n"
 "Language: el\n"
@@ -24,7 +24,6 @@ msgid " - Power"
 msgstr " - Τροφοδοσία"
 
 #: src/aapm.cc:193 src/aapm.cc:527 src/aapm.cc:757
-#, fuzzy
 msgid "P"
 msgstr "P"
 
@@ -34,7 +33,6 @@ msgid " - Charging"
 msgstr " - Φόρτιση"
 
 #: src/aapm.cc:199 src/aapm.cc:500 src/aapm.cc:736
-#, fuzzy
 msgid "C"
 msgstr "C"
 
@@ -43,9 +41,9 @@ msgid " - Full"
 msgstr " - Πλήρης"
 
 #: src/acpustatus.cc:234
-#, fuzzy, c-format
+#, c-format
 msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
-msgstr "Φόρτος Επεξεργαστή: %3.2f %3.2f %3.2f, %u διεργασίες."
+msgstr "Φόρτος Επεξεργαστή: %3.2f %3.2f %3.2f, %u διεργασίες"
 
 #: src/acpustatus.cc:239
 #, c-format
@@ -57,13 +55,13 @@ msgstr ""
 "Ram (ελεύθερα): %5.2f (%.2f) M"
 
 #: src/acpustatus.cc:244
-#, c-format, fuzzy
+#, c-format
 msgid ""
 "\n"
 "Swap (free): %.2f (%.2f) M"
 msgstr ""
 "\n"
-"Swap (free): %.2f (%.2f) M"
+"Swap (Ελεύθερα): %.2f (%.2f) M"
 
 #: src/acpustatus.cc:250
 #, c-format, fuzzy
@@ -75,13 +73,13 @@ msgstr ""
 "ACPI Temp: "
 
 #: src/acpustatus.cc:261
-#, c-format, fuzzy
+#, c-format
 msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
 "\n"
-"CPU Freq: %.3fGHz"
+"Συχνότητα CPU: %.3fGHz"
 
 #: src/acpustatus.cc:274
 msgid "CPU Load: "
@@ -150,59 +148,55 @@ msgstr "Ρυθμίσεις"
 
 #: src/fdomenu.cc:75
 msgid "Screensavers"
-msgstr ""
+msgstr "Προφύλαξη οθόνης"
 
 #: src/fdomenu.cc:76
 msgid "Accessories"
-msgstr ""
+msgstr "Εργαλεία"
 
 #: src/fdomenu.cc:77
 msgid "Development"
-msgstr ""
+msgstr "Ανάπτυξη"
 
 #: src/fdomenu.cc:78
 msgid "Education"
-msgstr ""
+msgstr "Εκπαίδευση"
 
 #: src/fdomenu.cc:79
-#, fuzzy
 msgid "Games"
 msgstr "Παιχνίδια"
 
 #: src/fdomenu.cc:80
-#, fuzzy
 msgid "Graphics"
 msgstr "Γραφικά"
 
 #: src/fdomenu.cc:81
-#, fuzzy
 msgid "Multimedia"
 msgstr "Πολυμέσα"
 
 #: src/fdomenu.cc:82
-#, fuzzy
 msgid "Network"
 msgstr "Δίκτυο"
 
 #: src/fdomenu.cc:83
 msgid "Office"
-msgstr ""
+msgstr "Εφαρμογές γραφείου"
 
 #: src/fdomenu.cc:84
 msgid "System"
-msgstr ""
+msgstr "Σύστημα"
 
 #: src/fdomenu.cc:85
 msgid "WINE"
-msgstr ""
+msgstr "Πρόγραμμα συμβατότητας με Windows - WINE"
 
 #: src/fdomenu.cc:86
 msgid "Editors"
-msgstr ""
+msgstr "Συντάκτες"
 
 #: src/fdomenu.cc:87
 msgid "Other"
-msgstr ""
+msgstr "Άλλο"
 
 #: src/icehelp.cc:715
 msgid "Back"
@@ -210,7 +204,7 @@ msgstr "Πίσω"
 
 #: src/icehelp.cc:715
 msgid "Alt+Left"
-msgstr "Alt+Left"
+msgstr "Alt+Αριστερά"
 
 #: src/icehelp.cc:716
 msgid "Forward"
@@ -218,7 +212,7 @@ msgstr "Προχώρησε"
 
 #: src/icehelp.cc:716
 msgid "Alt+Right"
-msgstr "Alt+Right"
+msgstr "Alt+Δεξιά"
 
 #: src/icehelp.cc:718
 msgid "Previous"
@@ -321,6 +315,7 @@ msgstr "Μη έγκυρη έκφραση: `%s'"
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr ""
+"Ονομασθέντα σύμβολα του domain `%s 1' (αριθμητικό εύρος: %l 2d-%l 3d):\n"
 
 #: src/icesh.cc:429
 #, c-format
@@ -388,20 +383,22 @@ msgid "GNOME window state"
 msgstr "GNOME κατάσταση παράθυρου"
 
 #: src/icesh.cc:609
+#, fuzzy
 msgid "GNOME window hint"
-msgstr ""
+msgstr "Στοιχείο παραθύρου GNOME"
 
 #: src/icesh.cc:610
 msgid "GNOME window layer"
-msgstr ""
+msgstr "Επίπεδο παραθύρου GNOME"
 
 #: src/icesh.cc:611
+#, fuzzy
 msgid "IceWM tray option"
-msgstr ""
+msgstr "Επιλογή δίσκου IceWM"
 
 #: src/icesh.cc:616
 msgid "Usage error: "
-msgstr "Σφάλμα χρήσης:"
+msgstr "Σφάλμα χρήσης: "
 
 #: src/icesh.cc:687
 #, c-format
@@ -410,7 +407,7 @@ msgstr "Μη έγκυρο όρισμα: `%s'."
 
 #: src/icesh.cc:696
 msgid "No actions specified."
-msgstr "Δεν υπάρχουν καθορισμένες ενέργειες"
+msgstr "Δεν υπάρχουν καθορισμένες ενέργειες."
 
 #: src/icesh.cc:703 src/icesound.cc:1050 src/icewmhint.cc:76 src/yxapp.cc:975
 #, c-format
@@ -420,9 +417,9 @@ msgstr ""
 "μεταβλητή $DISPLAY να έχει οριστεί."
 
 #: src/icesh.cc:743
-#, c-format
+#, c-format, fuzzy
 msgid "Invalid window identifier: `%s'"
-msgstr ""
+msgstr "Μη έγκυρο αναγνωριστικό παράθυρο: `%s 1'"
 
 #: src/icesh.cc:896
 #, c-format
@@ -435,9 +432,9 @@ msgid "Unknown action: `%s'"
 msgstr "Άγνωστη ενέργεια: `%s'"
 
 #: src/iceskt.cc:36
-#, c-format
+#, c-format, fuzzy
 msgid "Socket error: %d"
-msgstr ""
+msgstr "Σφάλμα Socket: %d 1"
 
 #: src/icesound.cc:256 src/icesound.cc:424 src/icesound.cc:792
 #, c-format
@@ -457,7 +454,7 @@ msgstr "Δεν μπορώ να συνδεθώ στον ESound daemon: %s"
 #: src/icesound.cc:562 src/icesound.cc:739 src/icesound.cc:780
 #: src/icewmhint.cc:78 src/yxapp.cc:976
 msgid "<none>"
-msgstr ""
+msgstr "<κανένα>"
 
 #: src/icesound.cc:582
 #, c-format
@@ -489,15 +486,19 @@ msgstr "Δεν μπορώ να αλλάξω σε audio mode `%s'."
 msgid ""
 "Audio mode switch detected, initial audio mode `%s' no longer in effect."
 msgstr ""
+"Ανιχνεύθηκε αλλαγή κατάστασης ήχου, η αρχική λειτουργία ήχου`%s 1' δεν είναι "
+"πλέον ενεργή."
 
 #: src/icesound.cc:893
 msgid "Audio mode switch detected, automatic audio mode changing disabled."
 msgstr ""
+"Ανιχνεύθηκε αλλαγή κατάστασης ήχου, η αυτόματη λειτουργία ήχου "
+"απενεργοποιήθηκε."
 
 #: src/icesound.cc:939 src/icesound.cc:952
 #, c-format
 msgid "Overriding previous audio mode `%s'."
-msgstr ""
+msgstr "Επανακαθορισμός προηγούμενης κατάστασης ήχου `%s 1'."
 
 #: src/icesound.cc:978
 #, c-format
@@ -551,17 +552,17 @@ msgstr "Η υποστήριξη για την διεπαφή %s δεν έχει 
 #: src/icesound.cc:1216
 #, c-format
 msgid "Unsupported interface: %s."
-msgstr "Μη υποστηριζόμενη διεπαφή %s"
+msgstr "Μη υποστηριζόμενη διεπαφή %s."
 
 #: src/icesound.cc:1233
 #, c-format
 msgid "Received signal %d: Terminating..."
-msgstr ""
+msgstr "Λήψη σήματος %d 1: Τερματισμός..."
 
 #: src/icesound.cc:1242
 #, c-format
 msgid "Received signal %d: Reloading samples..."
-msgstr ""
+msgstr "Λήψη σήματος %d 1: Επαναφόρτωση δειγμάτων..."
 
 #: src/iceview.cc:72
 msgid "Hex View"
@@ -581,7 +582,7 @@ msgstr "Ctrl+T"
 
 #: src/iceview.cc:74
 msgid "Wrap Lines"
-msgstr ""
+msgstr "Αναδίπλωση γραμμών"
 
 #: src/iceview.cc:74
 msgid "Ctrl+W"
@@ -625,8 +626,9 @@ msgid "Loading of pixmap \"%s\" failed: %s"
 msgstr "Η φόρτωση του pixmap \"%s\" απέτυχε: %s"
 
 #: src/icewmhint.cc:49
+#, fuzzy
 msgid "Usage: icewmhint [class.instance] option arg\n"
-msgstr ""
+msgstr "Χρήση:  icewmhint [class.instance] option arg\n"
 
 #: src/icewmhint.cc:65
 #, c-format
@@ -652,7 +654,7 @@ msgstr "(C)"
 
 #: src/wmabout.cc:37
 msgid "Theme:"
-msgstr "Θέμα: "
+msgstr "Θέμα:"
 
 #: src/wmabout.cc:38
 msgid "Theme Description:"
@@ -663,35 +665,36 @@ msgid "Theme Author:"
 msgstr "Συγγραφέας θέματος:"
 
 #: src/wmabout.cc:43
+#, fuzzy
 msgid "CodeSet:"
-msgstr ""
+msgstr "CodeSet:"
 
 #: src/wmabout.cc:44
-#, fuzzy
 msgid "Language:"
 msgstr "Γλώσσα:"
 
 #: src/wmabout.cc:69
 msgid "icewm - About"
-msgstr ""
+msgstr "Σχετικά με icewm"
 
 #: src/wmapp.cc:444
 msgid "Unable to get current font path."
 msgstr "Δεν βρέθηκε η τρέχουσα τοποθεσία των font."
 
 #: src/wmapp.cc:471
+#, fuzzy
 msgid "Unexpected format of ICEWM_FONT_PATH property"
-msgstr ""
+msgstr "Αναπάντεχη μορφή δικαιωμάτων του ICEWM_FONT_PATH"
 
 #: src/wmapp.cc:528
-#, c-format
+#, c-format, fuzzy
 msgid "Multiple references for gradient \"%s\""
-msgstr ""
+msgstr "Πολλαπλές αναφορές διαβάθμισης \"% s 1\""
 
 #: src/wmapp.cc:603
-#, c-format
+#, c-format, fuzzy
 msgid "Unknown gradient name: %s"
-msgstr ""
+msgstr "Άγνωστο όνομα βαθμίδας: %s"
 
 #: src/wmapp.cc:866
 msgid "_Logout"
@@ -711,7 +714,7 @@ msgstr "Επαν_εκκίνηση"
 
 #: src/wmapp.cc:883 src/wmdialog.cc:118
 msgid "Shut_down"
-msgstr ""
+msgstr "Τερματισμός"
 
 #: src/wmapp.cc:887
 msgid "Restart _Icewm"
@@ -726,12 +729,14 @@ msgid "_Menu"
 msgstr "_Κατάλογος"
 
 #: src/wmapp.cc:907
+#, fuzzy
 msgid "_Above Dock"
-msgstr ""
+msgstr "_πάνω από το Dock"
 
 #: src/wmapp.cc:908
+#, fuzzy
 msgid "_Dock"
-msgstr ""
+msgstr "_Dock"
 
 #: src/wmapp.cc:909
 msgid "_OnTop"
@@ -778,16 +783,17 @@ msgid "_Hide"
 msgstr "_Απόκρυψη"
 
 #: src/wmapp.cc:941
+#, fuzzy
 msgid "Roll_up"
-msgstr ""
+msgstr "Κύλιση επάνω"
 
 #: src/wmapp.cc:948
 msgid "R_aise"
-msgstr ""
+msgstr "Αύ_ξηση"
 
 #: src/wmapp.cc:950
 msgid "_Lower"
-msgstr ""
+msgstr "_μείωση"
 
 #: src/wmapp.cc:952
 msgid "La_yer"
@@ -806,16 +812,18 @@ msgid "Limit _Workarea"
 msgstr "Όριο _Περιοχής εργασίας"
 
 #: src/wmapp.cc:968
+#, fuzzy
 msgid "Tray _icon"
-msgstr ""
+msgstr "Εικονίδιο _δίσκου"
 
 #: src/wmapp.cc:974 src/wmwinlist.cc:295 src/wmwinlist.cc:321
 msgid "_Close"
 msgstr "_Κλείσε"
 
 #: src/wmapp.cc:976 src/wmwinlist.cc:297
+#, fuzzy
 msgid "_Kill Client"
-msgstr ""
+msgstr "_Τερματισμός Client"
 
 #: src/wmapp.cc:980 src/wmdialog.cc:132 src/wmwinmenu.cc:137
 msgid "_Window list"
@@ -831,6 +839,8 @@ msgid ""
 "Could not restart: %s\n"
 "Does $PATH lead to %s?"
 msgstr ""
+"Αδύνατη η επανεκκίνηση του: %s\n"
+"Οδηγεί το $PATH στο %s?"
 
 #: src/wmapp.cc:1636
 #, c-format
@@ -880,7 +890,6 @@ msgid "Bad Look name"
 msgstr ""
 
 #: src/wmdialog.cc:83
-#, fuzzy
 msgid "Loc_k Workstation"
 msgstr "Κλείδωμα _Σταθμού εργασίας"
 
@@ -915,22 +924,27 @@ msgid "Hide"
 msgstr "Απόκρυψη"
 
 #: src/wmframe.cc:209 src/wmframe.cc:3470
+#, fuzzy
 msgid "Rollup"
-msgstr ""
+msgstr "συλλογή ενημερωμένων εκδόσεων"
 
 #: src/wmframe.cc:218
+#, fuzzy
 msgid "Raise/Lower"
-msgstr ""
+msgstr "Αυξήστε/Χαμηλώστε"
 
 #: src/wmframe.cc:1727
+#, fuzzy
 msgid "Kill Client: "
-msgstr ""
+msgstr "Τερματισμός Client: "
 
 #: src/wmframe.cc:1731
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
 msgstr ""
+"ΠΡΟΕΙΔΟΠΟΊΗΣΗ! Όλες οι αλλαγές που δεν αποθηκεύτηκαν θα χαθούν όταν αυτός ο "
+"υπολογιστής (client) τερματιστεί. Επιθυμείτε να συνεχίσετε;"
 
 #: src/wmframe.cc:3434
 msgid "Restore"
@@ -938,7 +952,7 @@ msgstr "Επαναφορά"
 
 #: src/wmframe.cc:3468
 msgid "Rolldown"
-msgstr ""
+msgstr "Κύλιση προς τα κάτω"
 
 #: src/wmoption.cc:240
 #, c-format
@@ -978,9 +992,9 @@ msgid "Unexepected keyword: %s"
 msgstr "Μη αναμενόμενη λέξη κλειδί %s"
 
 #: src/wmprog.cc:490
-#, c-format
+#, c-format, fuzzy
 msgid "Error at key %s"
-msgstr ""
+msgstr "Σφάλμα στο κλειδί %s"
 
 #: src/wmprog.cc:850
 msgid "Programs"
@@ -1000,48 +1014,55 @@ msgstr "_Βοήθεια"
 
 #: src/wmprog.cc:917
 msgid "_Click to focus"
-msgstr ""
+msgstr "_Κάντε κλικ για εστίαση"
 
 #: src/wmprog.cc:922
+#, fuzzy
 msgid "_Sloppy mouse focus"
-msgstr ""
+msgstr "_πρόχειρη εστίαση ποντικιού"
 
 #: src/wmprog.cc:927
+#, fuzzy
 msgid "Custo_m"
-msgstr ""
+msgstr "Προεπιλογ_ή"
 
 #: src/wmprog.cc:933
+#, fuzzy
 msgid "_Focus"
-msgstr ""
+msgstr "_Εστίαση"
 
 #: src/wmprog.cc:940
 msgid "_Themes"
 msgstr "_Θέματα"
 
 #: src/wmprog.cc:942
+#, fuzzy
 msgid "Se_ttings"
-msgstr ""
+msgstr "Ρυ_θμίσεις"
 
 #: src/wmsession.cc:239 src/wmsession.cc:255 src/wmsession.cc:265
-#, c-format
+#, c-format, fuzzy
 msgid "Session Manager: Unknown line %s"
-msgstr ""
+msgstr "Διαχείριση περιόδου λειτουργίας: Άγνωστη γραμμή %s1"
 
 #: src/wmtaskbar.cc:257 src/wmtaskbar.cc:258
+#, fuzzy
 msgid "Task Bar"
-msgstr ""
+msgstr "Μπάρα εργασίας"
 
 #: src/wmtaskbar.cc:403 src/wmwinlist.cc:312 src/wmwinlist.cc:325
 msgid "Tile _Vertically"
-msgstr ""
+msgstr "Τίτλος _Κάθετος"
 
 #: src/wmtaskbar.cc:404 src/wmwinlist.cc:313 src/wmwinlist.cc:326
+#, fuzzy
 msgid "T_ile Horizontally"
-msgstr ""
+msgstr "Τ_ίτλος οριζόντια"
 
 #: src/wmtaskbar.cc:405 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+#, fuzzy
 msgid "Ca_scade"
-msgstr ""
+msgstr "Κα_ταράκτης"
 
 #: src/wmtaskbar.cc:406 src/wmwinlist.cc:315 src/wmwinlist.cc:328
 msgid "_Arrange"
@@ -1080,9 +1101,8 @@ msgid "Window list menu"
 msgstr "Λίστα παραθύρων"
 
 #: src/wmtaskbar.cc:588
-#, fuzzy
 msgid "Show Desktop"
-msgstr "Ε_πιφάνεια εργασίας"
+msgstr "Εμφάνιση επιφάνεια εργασίας"
 
 #: src/wmwinlist.cc:61
 msgid "All Workspaces"
@@ -1090,7 +1110,7 @@ msgstr "Όλες οι επιφάνειες εργασίας"
 
 #: src/wmwinlist.cc:295
 msgid "Del"
-msgstr ""
+msgstr "Del"
 
 #: src/wmwinlist.cc:299
 msgid "_Terminate Process"
@@ -1098,7 +1118,7 @@ msgstr "_Τερματισμός διεργασίας"
 
 #: src/wmwinlist.cc:300
 msgid "Kill _Process"
-msgstr ""
+msgstr "Τερματισμός _διεργασίας"
 
 #: src/wmwinlist.cc:305
 msgid "_Show"
@@ -1120,12 +1140,12 @@ msgstr "%lu. Επιφάνεια εργασίας %-.32s"
 #: src/yapp.cc:483
 #, c-format
 msgid "Message Loop: select failed (errno=%d)"
-msgstr ""
+msgstr "Ατέρμων βρόχος μηνύματος: η επιλογή απέτυχε (errno=%d 1)"
 
 #: src/ycmdline.cc:43
 #, c-format
 msgid "Unrecognized option: %s\n"
-msgstr ""
+msgstr "Μη αναγνωρίσιμη επιλογή: %s\n"
 
 #: src/ycmdline.cc:48
 #, c-format
@@ -1135,12 +1155,12 @@ msgstr "Μη αναγνωρισμένο όρισμα: %s\n"
 #: src/ycmdline.cc:64
 #, c-format
 msgid "Argument required for %s switch"
-msgstr ""
+msgstr "Απαιτούνται κάποιες παράμετροι για την μετάβαση %s"
 
 #: src/yconfig.cc:186
 #, c-format
 msgid "Unknown key name %s in %s"
-msgstr ""
+msgstr "Άγνωστο όνομα κλειδιού %s σε %s"
 
 #: src/yconfig.cc:211 src/yconfig.cc:224
 #, c-format
@@ -1155,7 +1175,7 @@ msgstr "Λάθος επιλογή: %s"
 #: src/ycursor.cc:127
 #, c-format
 msgid "Loading of pixmap \"%s\" failed"
-msgstr ""
+msgstr "Η φόρτωση του pixmap \"%s\" απέτυχε"
 
 #: src/ycursor.cc:160
 #, c-format
@@ -1163,44 +1183,47 @@ msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
 msgstr ""
 
 #: src/ycursor.cc:182
-#, c-format
+#, c-format, fuzzy
 msgid "BUG? Imlib was able to read \"%s\""
-msgstr ""
+msgstr "BUG; To Imlib ήταν σε θέση να διαβάσει από \"%s 1\""
 
 #: src/ycursor.cc:208
-#, c-format
+#, c-format, fuzzy
 msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
-msgstr ""
+msgstr "BUG; Δύσμορφη κεφαλίδα XPM αλλά το Imlib ήταν σε θέση να αναλύση \"%s\""
 
 #: src/ycursor.cc:216
-#, c-format
+#, c-format, fuzzy
 msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
 msgstr ""
+"BUG; Αναπάντεχος τερματισμός του XPM αρχείου αλλά το Imlib ήταν σε θέση να "
+"αναλύση \"%s\""
 
 #: src/ycursor.cc:219
-#, c-format
+#, c-format, fuzzy
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
 msgstr ""
+"BUG; Μη αναμενόμενοι χαρακτήρες αλλά το Imlib ήταν σε θέση να αναλύση \"%s\""
 
 #: src/yfontcore.cc:71 src/yfontxft.cc:174
 #, c-format
 msgid "Could not load font \"%s\"."
-msgstr "Δεν μπόρεσα να φορτώσω το font \"%s\"."
+msgstr "Δεν ήταν δυνατή η φόρτωση της γραμματοσειράς \"%s\"."
 
 #: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:197
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
-msgstr "Το φόρτωμα του font ασφαλείας \"%s\" απέτυχε."
+msgstr "Η φόρτωση της εφεδρικής γραμματοσειράς \"%s\" απέτυχε."
 
 #: src/yfontcore.cc:114
 #, c-format
 msgid "Could not load fontset \"%s\"."
-msgstr "Δεν μπόρεσα να φορτώσω την οικογένεια font \"%s\"."
+msgstr "Δεν ήταν δυνατή η φόρτωση της συλλογής γραμματοσειρών \"%s\"."
 
 #: src/yfontcore.cc:126
-#, c-format
+#, c-format, fuzzy
 msgid "Missing codesets for fontset \"%s\":"
-msgstr ""
+msgstr "Ελλιπές codesets για τις συλλογές γραμματοσειρών \"%s 1\":"
 
 #: src/yicon.cc:167
 #, c-format
@@ -1213,12 +1236,14 @@ msgid "Loading of image \"%s\" failed"
 msgstr "Η φόρτωση της φωτογραφίας \"%s\" απέτυχε"
 
 #: src/yimage.cc:141 src/yimage.cc:159
+#, fuzzy
 msgid "Imlib: Acquisition of X pixmap failed"
-msgstr ""
+msgstr "Imlib: Η απόκτηση του X pixmap απέτυχε"
 
 #: src/yimage.cc:150
+#, fuzzy
 msgid "Imlib: Imlib image to X pixmap mapping failed"
-msgstr ""
+msgstr "Imlib: Η Imlib εικόνα για την αντιστοίχιση με το Χ pixmap απέτυχε"
 
 #: src/yinput.cc:55
 msgid "Cu_t"
@@ -1226,7 +1251,7 @@ msgstr "Αποκοπ_ή"
 
 #: src/yinput.cc:55
 msgid "Ctrl+X"
-msgstr ""
+msgstr "Ctrl+X"
 
 #: src/yinput.cc:56
 msgid "_Copy"
@@ -1234,7 +1259,7 @@ msgstr "_Αντιγραφή"
 
 #: src/yinput.cc:56
 msgid "Ctrl+C"
-msgstr ""
+msgstr "Ctrl+C"
 
 #: src/yinput.cc:57
 msgid "_Paste"
@@ -1242,7 +1267,7 @@ msgstr "_Επικόλληση"
 
 #: src/yinput.cc:57
 msgid "Ctrl+V"
-msgstr ""
+msgstr "Ctrl+V"
 
 #: src/yinput.cc:58
 msgid "Paste _Selection"
@@ -1254,35 +1279,42 @@ msgstr "Επιλογή _Όλων"
 
 #: src/yinput.cc:60
 msgid "Ctrl+A"
-msgstr ""
+msgstr "Ctrl+A"
 
 #: src/ylocale.cc:46
+#, fuzzy
 msgid "Locale not supported by C library. Falling back to 'C' locale'."
 msgstr ""
+"Η ρύθμιση αυτή δεν υποστηρίζεται από τη βιβλιοθήκη C. Επαναφορά στη 'C' "
+"locale'."
 
 #: src/ylocale.cc:68
+#, fuzzy
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
+"Απέτυχε ο καθορισμός του τρέχοντος codeset. Το σύστημα θα υποθέσει το "
+"ISO-8859-1.\n"
 
 #: src/ylocale.cc:100 src/ylocale.cc:107
-#, c-format
+#, c-format, fuzzy
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
-msgstr ""
+msgstr "Το iconv δεν παρέχει (επαρκείς) %s μέχρι %s μετατροπές."
 
 #: src/ylocale.cc:161
-#, c-format
+#, c-format, fuzzy
 msgid "Invalid multibyte string \"%s\": %s"
-msgstr ""
+msgstr "Μη έγκυρη συμβολοσειρά πολλαπλών byte \"%s\": %s"
 
 #: src/ymsgbox.cc:38
+#, fuzzy
 msgid "_OK"
-msgstr ""
+msgstr "_OK"
 
 #: src/ypaths.cc:144 src/ypaths.cc:171
 #, c-format
 msgid "Image not readable: %s"
-msgstr ""
+msgstr "Η εικόνα δεν είναι αναγνώσιμη: %s"
 
 #: src/ypaths.cc:149
 #, fuzzy, c-format
@@ -1310,25 +1342,28 @@ msgid ""
 "Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
 "blue): %0*x/%0*x/%0*x)"
 msgstr ""
+"Χρησιμοποίηση του μηχανισμού επαναφοράς για την μετατροπή των pixels (βάθος: "
+"%d; μάσκες (κόκκινο/πράσινο/μπλέ): %0*x/%0*x/%0*x)"
 
 #: src/ypixbuf.cc:576 src/ypixbuf.cc:725
-#, c-format
+#, c-format, fuzzy
 msgid "%s:%d: %d bit visuals are not supported (yet)"
-msgstr ""
+msgstr "%s:%d: %d Τα δυαδικά οπτικά ψηφία δεν υποστηρίζονται (ακόμη)"
 
 #: src/ysmapp.cc:106
+#, fuzzy
 msgid "$USER or $LOGNAME not set?"
-msgstr ""
+msgstr "$USER ή $LOGNAME δεν έχουν ρυθμιστή;"
 
 #: src/yurl.cc:82
 #, c-format
 msgid "\"%s\" doesn't describe a common internet scheme"
-msgstr ""
+msgstr "Το \"%s\" δεν περιγράφει ένα κοινό σύστημα στο διαδίκτυο"
 
 #: src/yurl.cc:85
-#, c-format
+#, c-format, fuzzy
 msgid "\"%s\" contains no scheme description"
-msgstr ""
+msgstr "\"%s\" δεν περιέχει περιγραφή της μορφής"
 
 #~ msgid "Cancel"
 #~ msgstr "Ακύρωση"
