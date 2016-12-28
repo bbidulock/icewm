@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.3.12.52\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2016-07-09 21:33-0600\n"
-"PO-Revision-Date: 2016-12-08 06:05+0000\n"
+"PO-Revision-Date: 2016-12-28 05:20+0000\n"
 "Last-Translator: mohammad alhargan <malham1@gmail.com>\n"
 "Language-Team: Arabic "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/ar/>\n"
@@ -314,7 +314,7 @@ msgstr "تعبير غير صالح: `%s'"
 #: src/icesh.cc:316
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
-msgstr ""
+msgstr "رمز اسم المجال `%s' (نظاق رقمي: %ld-%ld):\n"
 
 #: src/icesh.cc:429
 #, c-format
