@@ -306,7 +306,7 @@ void CPUStatus::updateToolTip() {
             if (cpus < 2 || perc == NULL) {
                 more=snprintf(pos, rest, form, maxf / 1e6);
             } else {
-                more=snprintf(pos, rest, "%.*s%.3f %.3f %s", perc - form,
+                more=snprintf(pos, rest, "%.*s%.3f %.3f %s", (int)(perc - form),
                         form, maxf / 1e6, minf / 1e6, perc + 4);
             }
         }
