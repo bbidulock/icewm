@@ -314,8 +314,7 @@ msgstr "Μη έγκυρη έκφραση: `%s'"
 #: src/icesh.cc:316
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
-msgstr ""
-"Ονομασθέντα σύμβολα του domain `%s 1' (αριθμητικό εύρος: %l 2d-%l 3d):\n"
+msgstr "Ονομασθέντα σύμβολα του domain `%s 1' (αριθμητικό εύρος: %l 2d-%l 3d):\n"
 
 #: src/icesh.cc:429
 #, c-format
