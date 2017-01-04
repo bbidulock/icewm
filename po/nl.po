@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.23\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2016-07-09 21:33-0600\n"
+"POT-Creation-Date: 2017-01-03 23:39-0700\n"
 "PO-Revision-Date: 2016-03-30 12:15+0000\n"
 "Last-Translator: Nathan Follens <nthn@unseen.is>\n"
 "Language-Team: Dutch <http://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -18,33 +18,33 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2.5\n"
 
-#: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:875
+#: src/aapm.cc:191 src/aapm.cc:513 src/aapm.cc:753 src/aapm.cc:874
 msgid " - Power"
 msgstr " - Voeding"
 
-#: src/aapm.cc:193 src/aapm.cc:527 src/aapm.cc:757
+#: src/aapm.cc:193 src/aapm.cc:516 src/aapm.cc:756
 msgid "P"
 msgstr "E"
 
-#: src/aapm.cc:197 src/aapm.cc:498 src/aapm.cc:734 src/aapm.cc:846
+#: src/aapm.cc:197 src/aapm.cc:487 src/aapm.cc:733 src/aapm.cc:845
 #, c-format
 msgid " - Charging"
 msgstr " - Opladen"
 
-#: src/aapm.cc:199 src/aapm.cc:500 src/aapm.cc:736
+#: src/aapm.cc:199 src/aapm.cc:489 src/aapm.cc:735
 msgid "C"
 msgstr "C"
 
-#: src/aapm.cc:502
+#: src/aapm.cc:491
 msgid " - Full"
 msgstr " - Volledig"
 
-#: src/acpustatus.cc:234
+#: src/acpustatus.cc:269
 #, c-format
 msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
 msgstr "CPU Belasting: %3.2f %3.2f %3.2f, %u processen"
 
-#: src/acpustatus.cc:239
+#: src/acpustatus.cc:274
 #, c-format
 msgid ""
 "\n"
@@ -53,7 +53,7 @@ msgstr ""
 "\n"
 "RAM (vrij): %5.2f (%.2f) M"
 
-#: src/acpustatus.cc:244
+#: src/acpustatus.cc:279
 #, c-format
 msgid ""
 "\n"
@@ -62,7 +62,7 @@ msgstr ""
 "\n"
 "Swap (vrij): %.2f (%.2f) M"
 
-#: src/acpustatus.cc:250
+#: src/acpustatus.cc:285
 #, c-format
 msgid ""
 "\n"
@@ -71,7 +71,7 @@ msgstr ""
 "\n"
 "ACPI-temp: "
 
-#: src/acpustatus.cc:261
+#: src/acpustatus.cc:304
 #, c-format
 msgid ""
 "\n"
@@ -80,7 +80,7 @@ msgstr ""
 "\n"
 "CPU-freq: %.3fGHz"
 
-#: src/acpustatus.cc:274
+#: src/acpustatus.cc:323
 msgid "CPU Load: "
 msgstr "CPU Belasting: "
 
@@ -142,58 +142,62 @@ msgid "Workspace: "
 msgstr "Werkplaats: "
 
 #: src/fdomenu.cc:74
+msgid "Accessibility"
+msgstr ""
+
+#: src/fdomenu.cc:75
 msgid "Settings"
 msgstr "Instellingen"
 
-#: src/fdomenu.cc:75
+#: src/fdomenu.cc:76
 msgid "Screensavers"
 msgstr "Schermbeveiligers"
 
-#: src/fdomenu.cc:76
+#: src/fdomenu.cc:77
 msgid "Accessories"
 msgstr "Accessoires"
 
-#: src/fdomenu.cc:77
+#: src/fdomenu.cc:78
 msgid "Development"
 msgstr "Ontwikkeling"
 
-#: src/fdomenu.cc:78
+#: src/fdomenu.cc:79
 msgid "Education"
 msgstr "Onderwijs"
 
-#: src/fdomenu.cc:79
+#: src/fdomenu.cc:80
 msgid "Games"
 msgstr "Spellen"
 
-#: src/fdomenu.cc:80
+#: src/fdomenu.cc:81
 msgid "Graphics"
 msgstr "Grafische elementen"
 
-#: src/fdomenu.cc:81
+#: src/fdomenu.cc:82
 msgid "Multimedia"
 msgstr "Multimedia"
 
-#: src/fdomenu.cc:82
+#: src/fdomenu.cc:83
 msgid "Network"
 msgstr "Netwerk"
 
-#: src/fdomenu.cc:83
+#: src/fdomenu.cc:84
 msgid "Office"
 msgstr "Kantoor"
 
-#: src/fdomenu.cc:84
+#: src/fdomenu.cc:85
 msgid "System"
 msgstr "Systeem"
 
-#: src/fdomenu.cc:85
+#: src/fdomenu.cc:86
 msgid "WINE"
 msgstr "WINE"
 
-#: src/fdomenu.cc:86
+#: src/fdomenu.cc:87
 msgid "Editors"
 msgstr "Verwerkers"
 
-#: src/fdomenu.cc:87
+#: src/fdomenu.cc:88
 msgid "Other"
 msgstr "Overige"
 
@@ -1015,7 +1019,7 @@ msgstr "Ongeldige 'Kijk-naam' (look-Option)"
 msgid "Loc_k Workstation"
 msgstr "Werkstation blo_kkeren"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:434
+#: src/wmdialog.cc:90 src/wmprog.cc:949 src/wmprog.cc:951 src/wmtaskbar.cc:434
 #: src/wmtaskbar.cc:436
 msgid "_Logout..."
 msgstr "_Afmelden..."
@@ -1028,7 +1032,7 @@ msgstr "Af_breken"
 msgid "_Restart icewm"
 msgstr "IceWM _herstarten"
 
-#: src/wmdialog.cc:125 src/wmprog.cc:886 src/wmtaskbar.cc:426
+#: src/wmdialog.cc:125 src/wmprog.cc:887 src/wmtaskbar.cc:426
 #: src/wmtaskbar.cc:429
 msgid "_About"
 msgstr "_Over"
@@ -1118,43 +1122,43 @@ msgstr "Onverwacht woord: %s"
 msgid "Error at key %s"
 msgstr "Fout bij toets %s"
 
-#: src/wmprog.cc:850
+#: src/wmprog.cc:851
 msgid "Programs"
 msgstr "Programma's"
 
-#: src/wmprog.cc:855
+#: src/wmprog.cc:856
 msgid "_Run..."
 msgstr "Uit_voeren..."
 
-#: src/wmprog.cc:862 src/wmtaskbar.cc:414
+#: src/wmprog.cc:863 src/wmtaskbar.cc:414
 msgid "_Windows"
 msgstr "_Windows"
 
-#: src/wmprog.cc:899
+#: src/wmprog.cc:900
 msgid "_Help"
 msgstr "_Help"
 
-#: src/wmprog.cc:917
+#: src/wmprog.cc:918
 msgid "_Click to focus"
 msgstr "_Klik voor focus"
 
-#: src/wmprog.cc:922
+#: src/wmprog.cc:923
 msgid "_Sloppy mouse focus"
 msgstr "_Slordige muisfocus"
 
-#: src/wmprog.cc:927
+#: src/wmprog.cc:928
 msgid "Custo_m"
 msgstr "Aa_ngepast"
 
-#: src/wmprog.cc:933
+#: src/wmprog.cc:934
 msgid "_Focus"
 msgstr "_Focus"
 
-#: src/wmprog.cc:940
+#: src/wmprog.cc:941
 msgid "_Themes"
 msgstr "_Thema's"
 
-#: src/wmprog.cc:942
+#: src/wmprog.cc:943
 msgid "Se_ttings"
 msgstr "Ins_tellingen"
 
@@ -1207,15 +1211,15 @@ msgstr "_Verversen"
 msgid "_License"
 msgstr "_Licentie"
 
-#: src/wmtaskbar.cc:562
+#: src/wmtaskbar.cc:563
 msgid "Favorite applications"
 msgstr "Favoriete programma's"
 
-#: src/wmtaskbar.cc:579
+#: src/wmtaskbar.cc:580
 msgid "Window list menu"
 msgstr "Window lijst menu"
 
-#: src/wmtaskbar.cc:588
+#: src/wmtaskbar.cc:589
 msgid "Show Desktop"
 msgstr "Bureaublad tonen"
 

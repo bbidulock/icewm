@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.7\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2016-07-09 21:33-0600\n"
+"POT-Creation-Date: 2017-01-03 23:39-0700\n"
 "PO-Revision-Date: 2003-04-14 21:23+0200\n"
 "Last-Translator: Gabor Suveg <gabor@suveg.hu>\n"
 "Language-Team:  <hu@li.org>\n"
@@ -20,64 +20,64 @@ msgstr ""
 "X-Generator: KBabel 0.9.6\n"
 
 # ../src/aapm.cc:93
-#: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:875
+#: src/aapm.cc:191 src/aapm.cc:513 src/aapm.cc:753 src/aapm.cc:874
 msgid " - Power"
 msgstr " - Hálózati feszültség"
 
 # ../src/aapm.cc:95
-#: src/aapm.cc:193 src/aapm.cc:527 src/aapm.cc:757
+#: src/aapm.cc:193 src/aapm.cc:516 src/aapm.cc:756
 msgid "P"
 msgstr "H"
 
 # ../src/aapm.cc:98
-#: src/aapm.cc:197 src/aapm.cc:498 src/aapm.cc:734 src/aapm.cc:846
+#: src/aapm.cc:197 src/aapm.cc:487 src/aapm.cc:733 src/aapm.cc:845
 #, c-format
 msgid " - Charging"
 msgstr " - Töltés alatt"
 
-#: src/aapm.cc:199 src/aapm.cc:500 src/aapm.cc:736
+#: src/aapm.cc:199 src/aapm.cc:489 src/aapm.cc:735
 msgid "C"
 msgstr "T"
 
-#: src/aapm.cc:502
+#: src/aapm.cc:491
 msgid " - Full"
 msgstr ""
 
 # ../src/acpustatus.cc:133
-#: src/acpustatus.cc:234
+#: src/acpustatus.cc:269
 #, fuzzy, c-format
 msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
 msgstr "CPU terhelés: %3.2f %3.2f %3.2f, %u folyamattal"
 
-#: src/acpustatus.cc:239
+#: src/acpustatus.cc:274
 #, c-format
 msgid ""
 "\n"
 "Ram (free): %5.2f (%.2f) M"
 msgstr ""
 
-#: src/acpustatus.cc:244
+#: src/acpustatus.cc:279
 #, c-format
 msgid ""
 "\n"
 "Swap (free): %.2f (%.2f) M"
 msgstr ""
 
-#: src/acpustatus.cc:250
+#: src/acpustatus.cc:285
 #, c-format
 msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
 
-#: src/acpustatus.cc:261
+#: src/acpustatus.cc:304
 #, c-format
 msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
 
-#: src/acpustatus.cc:274
+#: src/acpustatus.cc:323
 msgid "CPU Load: "
 msgstr ""
 
@@ -146,58 +146,62 @@ msgid "Workspace: "
 msgstr "Munkaterület: "
 
 #: src/fdomenu.cc:74
+msgid "Accessibility"
+msgstr ""
+
+#: src/fdomenu.cc:75
 msgid "Settings"
 msgstr "Beállítások"
 
-#: src/fdomenu.cc:75
+#: src/fdomenu.cc:76
 msgid "Screensavers"
 msgstr "Képernyővédők"
 
-#: src/fdomenu.cc:76
+#: src/fdomenu.cc:77
 msgid "Accessories"
 msgstr "Kellékek"
 
-#: src/fdomenu.cc:77
+#: src/fdomenu.cc:78
 msgid "Development"
 msgstr "Fejlesztés"
 
-#: src/fdomenu.cc:78
+#: src/fdomenu.cc:79
 msgid "Education"
 msgstr "Oktatás"
 
-#: src/fdomenu.cc:79
+#: src/fdomenu.cc:80
 msgid "Games"
 msgstr "Játék"
 
-#: src/fdomenu.cc:80
+#: src/fdomenu.cc:81
 msgid "Graphics"
 msgstr "Grafika"
 
-#: src/fdomenu.cc:81
+#: src/fdomenu.cc:82
 msgid "Multimedia"
 msgstr "Multimédia"
 
-#: src/fdomenu.cc:82
+#: src/fdomenu.cc:83
 msgid "Network"
 msgstr "Hálózat"
 
-#: src/fdomenu.cc:83
+#: src/fdomenu.cc:84
 msgid "Office"
 msgstr "Iroda"
 
-#: src/fdomenu.cc:84
+#: src/fdomenu.cc:85
 msgid "System"
 msgstr "Rendszer"
 
-#: src/fdomenu.cc:85
+#: src/fdomenu.cc:86
 msgid "WINE"
 msgstr "WINE"
 
-#: src/fdomenu.cc:86
+#: src/fdomenu.cc:87
 msgid "Editors"
 msgstr "Szövegszerkesztők"
 
-#: src/fdomenu.cc:87
+#: src/fdomenu.cc:88
 msgid "Other"
 msgstr "Egyéb"
 
@@ -1025,7 +1029,7 @@ msgid "Loc_k Workstation"
 msgstr "Munkaállomás le_zárása"
 
 # ../src/wmdialog.cc:66 ../src/wmprog.cc:629 ../src/wmtaskbar.cc:236
-#: src/wmdialog.cc:90 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:434
+#: src/wmdialog.cc:90 src/wmprog.cc:949 src/wmprog.cc:951 src/wmtaskbar.cc:434
 #: src/wmtaskbar.cc:436
 msgid "_Logout..."
 msgstr "_Kilépés..."
@@ -1041,7 +1045,7 @@ msgid "_Restart icewm"
 msgstr "Az _IceWM újraindítása"
 
 # ../src/wmprog.cc:633 ../src/wmtaskbar.cc:230 ../src/wmtaskbar.cc:233
-#: src/wmdialog.cc:125 src/wmprog.cc:886 src/wmtaskbar.cc:426
+#: src/wmdialog.cc:125 src/wmprog.cc:887 src/wmtaskbar.cc:426
 #: src/wmtaskbar.cc:429
 msgid "_About"
 msgstr "N_évjegy"
@@ -1148,47 +1152,47 @@ msgid "Error at key %s"
 msgstr "Hiba a kulcsban: %s"
 
 # ../src/wmprog.cc:587
-#: src/wmprog.cc:850
+#: src/wmprog.cc:851
 msgid "Programs"
 msgstr "Programok"
 
 # ../src/wmprog.cc:621
-#: src/wmprog.cc:855
+#: src/wmprog.cc:856
 msgid "_Run..."
 msgstr "_Futtatás..."
 
 # ../src/wmprog.cc:617 ../src/wmtaskbar.cc:218
-#: src/wmprog.cc:862 src/wmtaskbar.cc:414
+#: src/wmprog.cc:863 src/wmtaskbar.cc:414
 msgid "_Windows"
 msgstr "_Ablakok"
 
 # ../src/wmprog.cc:642
-#: src/wmprog.cc:899
+#: src/wmprog.cc:900
 msgid "_Help"
 msgstr "_Súgó"
 
-#: src/wmprog.cc:917
+#: src/wmprog.cc:918
 msgid "_Click to focus"
 msgstr ""
 
-#: src/wmprog.cc:922
+#: src/wmprog.cc:923
 msgid "_Sloppy mouse focus"
 msgstr ""
 
-#: src/wmprog.cc:927
+#: src/wmprog.cc:928
 msgid "Custo_m"
 msgstr ""
 
-#: src/wmprog.cc:933
+#: src/wmprog.cc:934
 msgid "_Focus"
 msgstr "_Fókusz"
 
 # ../src/wmprog.cc:627
-#: src/wmprog.cc:940
+#: src/wmprog.cc:941
 msgid "_Themes"
 msgstr "_Témák"
 
-#: src/wmprog.cc:942
+#: src/wmprog.cc:943
 msgid "Se_ttings"
 msgstr "Beá_llítás"
 
@@ -1253,17 +1257,17 @@ msgstr "_Frissítés"
 msgid "_License"
 msgstr "_Licencszerződés"
 
-#: src/wmtaskbar.cc:562
+#: src/wmtaskbar.cc:563
 msgid "Favorite applications"
 msgstr "Kedvenc alkalmazások"
 
 # ../src/wmwinlist.cc:276 ../src/wmwinlist.cc:277
-#: src/wmtaskbar.cc:579
+#: src/wmtaskbar.cc:580
 msgid "Window list menu"
 msgstr "Ablaklista menü"
 
 # ../src/wmapp.cc:494
-#: src/wmtaskbar.cc:588
+#: src/wmtaskbar.cc:589
 #, fuzzy
 msgid "Show Desktop"
 msgstr "_Asztal"

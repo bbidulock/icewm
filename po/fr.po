@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.15pre3\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2016-07-09 21:33-0600\n"
+"POT-Creation-Date: 2017-01-03 23:39-0700\n"
 "PO-Revision-Date: 2016-09-25 13:30+0000\n"
 "Last-Translator: Benoît Monin <benoit.monin@gmx.fr>\n"
-"Language-Team: French "
-"<https://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/fr/>\n"
+"Language-Team: French <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
+"branch/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,34 +19,34 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 2.6\n"
 
-#: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:875
+#: src/aapm.cc:191 src/aapm.cc:513 src/aapm.cc:753 src/aapm.cc:874
 msgid " - Power"
 msgstr " - Courant"
 
-#: src/aapm.cc:193 src/aapm.cc:527 src/aapm.cc:757
+#: src/aapm.cc:193 src/aapm.cc:516 src/aapm.cc:756
 msgid "P"
 msgstr "C"
 
-#: src/aapm.cc:197 src/aapm.cc:498 src/aapm.cc:734 src/aapm.cc:846
+#: src/aapm.cc:197 src/aapm.cc:487 src/aapm.cc:733 src/aapm.cc:845
 #, c-format
 msgid " - Charging"
 msgstr " - En charge"
 
-#: src/aapm.cc:199 src/aapm.cc:500 src/aapm.cc:736
+#: src/aapm.cc:199 src/aapm.cc:489 src/aapm.cc:735
 msgid "C"
 msgstr ""
 
-#: src/aapm.cc:502
+#: src/aapm.cc:491
 #, fuzzy
 msgid " - Full"
 msgstr " - Chargée"
 
-#: src/acpustatus.cc:234
+#: src/acpustatus.cc:269
 #, fuzzy, c-format
 msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
 msgstr "Charge CPU: %3.2f %3.2f %3.2f, %u processus"
 
-#: src/acpustatus.cc:239
+#: src/acpustatus.cc:274
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -55,7 +55,7 @@ msgstr ""
 "\n"
 "Mémoire (libre) : %5.2f (%.2f) M"
 
-#: src/acpustatus.cc:244
+#: src/acpustatus.cc:279
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -64,7 +64,7 @@ msgstr ""
 "\n"
 "Swap (libre) : %.2f (%.2f) M"
 
-#: src/acpustatus.cc:250
+#: src/acpustatus.cc:285
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -73,7 +73,7 @@ msgstr ""
 "\n"
 "ACPI Temp : "
 
-#: src/acpustatus.cc:261
+#: src/acpustatus.cc:304
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -82,7 +82,7 @@ msgstr ""
 "\n"
 "CPU Freq : %.3fGHz"
 
-#: src/acpustatus.cc:274
+#: src/acpustatus.cc:323
 msgid "CPU Load: "
 msgstr "Charge processeur : "
 
@@ -144,71 +144,75 @@ msgid "Workspace: "
 msgstr "Bureau : "
 
 #: src/fdomenu.cc:74
+msgid "Accessibility"
+msgstr ""
+
+#: src/fdomenu.cc:75
 #, fuzzy
 msgid "Settings"
 msgstr "Réglages"
 
-#: src/fdomenu.cc:75
+#: src/fdomenu.cc:76
 #, fuzzy
 msgid "Screensavers"
 msgstr "Économiseurs d'écran"
 
-#: src/fdomenu.cc:76
+#: src/fdomenu.cc:77
 #, fuzzy
 msgid "Accessories"
 msgstr "Accessoires"
 
-#: src/fdomenu.cc:77
+#: src/fdomenu.cc:78
 #, fuzzy
 msgid "Development"
 msgstr "Développement"
 
-#: src/fdomenu.cc:78
+#: src/fdomenu.cc:79
 #, fuzzy
 msgid "Education"
 msgstr "Éducation"
 
-#: src/fdomenu.cc:79
+#: src/fdomenu.cc:80
 #, fuzzy
 msgid "Games"
 msgstr "Jeux"
 
-#: src/fdomenu.cc:80
+#: src/fdomenu.cc:81
 #, fuzzy
 msgid "Graphics"
 msgstr "Graphiques"
 
-#: src/fdomenu.cc:81
+#: src/fdomenu.cc:82
 #, fuzzy
 msgid "Multimedia"
 msgstr "Multimédia"
 
-#: src/fdomenu.cc:82
+#: src/fdomenu.cc:83
 #, fuzzy
 msgid "Network"
 msgstr "Réseau"
 
-#: src/fdomenu.cc:83
+#: src/fdomenu.cc:84
 #, fuzzy
 msgid "Office"
 msgstr "Bureautique"
 
-#: src/fdomenu.cc:84
+#: src/fdomenu.cc:85
 #, fuzzy
 msgid "System"
 msgstr "Système"
 
-#: src/fdomenu.cc:85
+#: src/fdomenu.cc:86
 #, fuzzy
 msgid "WINE"
 msgstr "WINE"
 
-#: src/fdomenu.cc:86
+#: src/fdomenu.cc:87
 #, fuzzy
 msgid "Editors"
 msgstr "Éditeurs"
 
-#: src/fdomenu.cc:87
+#: src/fdomenu.cc:88
 #, fuzzy
 msgid "Other"
 msgstr "Autre"
@@ -938,7 +942,7 @@ msgstr "Nom de l'option Look incorrect"
 msgid "Loc_k Workstation"
 msgstr "_Verrouiller l'écran"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:434
+#: src/wmdialog.cc:90 src/wmprog.cc:949 src/wmprog.cc:951 src/wmtaskbar.cc:434
 #: src/wmtaskbar.cc:436
 msgid "_Logout..."
 msgstr "_Déconnexion ..."
@@ -951,7 +955,7 @@ msgstr "A_nnuler"
 msgid "_Restart icewm"
 msgstr "_Redémarrer IceWM"
 
-#: src/wmdialog.cc:125 src/wmprog.cc:886 src/wmtaskbar.cc:426
+#: src/wmdialog.cc:125 src/wmprog.cc:887 src/wmtaskbar.cc:426
 #: src/wmtaskbar.cc:429
 msgid "_About"
 msgstr "À _propos"
@@ -1040,43 +1044,43 @@ msgstr "Mot-clé inattendu : %s"
 msgid "Error at key %s"
 msgstr "Erreur à la directive key %s"
 
-#: src/wmprog.cc:850
+#: src/wmprog.cc:851
 msgid "Programs"
 msgstr "Programmes"
 
-#: src/wmprog.cc:855
+#: src/wmprog.cc:856
 msgid "_Run..."
 msgstr "_Exécuter ..."
 
-#: src/wmprog.cc:862 src/wmtaskbar.cc:414
+#: src/wmprog.cc:863 src/wmtaskbar.cc:414
 msgid "_Windows"
 msgstr "_Fenêtres"
 
-#: src/wmprog.cc:899
+#: src/wmprog.cc:900
 msgid "_Help"
 msgstr "_Aide"
 
-#: src/wmprog.cc:917
+#: src/wmprog.cc:918
 msgid "_Click to focus"
 msgstr ""
 
-#: src/wmprog.cc:922
+#: src/wmprog.cc:923
 msgid "_Sloppy mouse focus"
 msgstr ""
 
-#: src/wmprog.cc:927
+#: src/wmprog.cc:928
 msgid "Custo_m"
 msgstr ""
 
-#: src/wmprog.cc:933
+#: src/wmprog.cc:934
 msgid "_Focus"
 msgstr ""
 
-#: src/wmprog.cc:940
+#: src/wmprog.cc:941
 msgid "_Themes"
 msgstr "_Thèmes"
 
-#: src/wmprog.cc:942
+#: src/wmprog.cc:943
 #, fuzzy
 msgid "Se_ttings"
 msgstr "_Réglages"
@@ -1130,15 +1134,15 @@ msgstr "_Rafraîchir"
 msgid "_License"
 msgstr "_Licence"
 
-#: src/wmtaskbar.cc:562
+#: src/wmtaskbar.cc:563
 msgid "Favorite applications"
 msgstr "Applications favorites"
 
-#: src/wmtaskbar.cc:579
+#: src/wmtaskbar.cc:580
 msgid "Window list menu"
 msgstr "Menu des fenêtres"
 
-#: src/wmtaskbar.cc:588
+#: src/wmtaskbar.cc:589
 msgid "Show Desktop"
 msgstr "Montrer le bureau"
 

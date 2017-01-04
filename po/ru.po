@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2016-07-09 21:33-0600\n"
+"POT-Creation-Date: 2017-01-03 23:39-0700\n"
 "PO-Revision-Date: 2016-02-25 18:03+0200\n"
 "Last-Translator: Dmitriy Khanzhin <dmitriy.khanzhin@gmail.com>\n"
 "Language-Team: Russian <http://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -29,33 +29,33 @@ msgstr ""
 "X-Language: ru_RU\n"
 "X-Source-Language: C\n"
 
-#: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:875
+#: src/aapm.cc:191 src/aapm.cc:513 src/aapm.cc:753 src/aapm.cc:874
 msgid " - Power"
 msgstr " - Питание"
 
-#: src/aapm.cc:193 src/aapm.cc:527 src/aapm.cc:757
+#: src/aapm.cc:193 src/aapm.cc:516 src/aapm.cc:756
 msgid "P"
 msgstr "П"
 
-#: src/aapm.cc:197 src/aapm.cc:498 src/aapm.cc:734 src/aapm.cc:846
+#: src/aapm.cc:197 src/aapm.cc:487 src/aapm.cc:733 src/aapm.cc:845
 #, c-format
 msgid " - Charging"
 msgstr " - Заряд"
 
-#: src/aapm.cc:199 src/aapm.cc:500 src/aapm.cc:736
+#: src/aapm.cc:199 src/aapm.cc:489 src/aapm.cc:735
 msgid "C"
 msgstr "З"
 
-#: src/aapm.cc:502
+#: src/aapm.cc:491
 msgid " - Full"
 msgstr " - Полный"
 
-#: src/acpustatus.cc:234
+#: src/acpustatus.cc:269
 #, c-format
 msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
 msgstr "Загрузка процессора: %3.2f %3.2f %3.2f, %u"
 
-#: src/acpustatus.cc:239
+#: src/acpustatus.cc:274
 #, c-format
 msgid ""
 "\n"
@@ -64,7 +64,7 @@ msgstr ""
 "\n"
 "ОЗУ (свободно): %5.2f (%.2f) МБ"
 
-#: src/acpustatus.cc:244
+#: src/acpustatus.cc:279
 #, c-format
 msgid ""
 "\n"
@@ -73,7 +73,7 @@ msgstr ""
 "\n"
 "Подкачка (свободно): %.2f (%.2f) МБ"
 
-#: src/acpustatus.cc:250
+#: src/acpustatus.cc:285
 #, c-format
 msgid ""
 "\n"
@@ -82,7 +82,7 @@ msgstr ""
 "\n"
 "\"ACPI\"-Температура: "
 
-#: src/acpustatus.cc:261
+#: src/acpustatus.cc:304
 #, c-format
 msgid ""
 "\n"
@@ -91,7 +91,7 @@ msgstr ""
 "\n"
 "Такт процессора: %.3fГГц"
 
-#: src/acpustatus.cc:274
+#: src/acpustatus.cc:323
 msgid "CPU Load: "
 msgstr "Загрузка CPU: "
 
@@ -153,58 +153,62 @@ msgid "Workspace: "
 msgstr "Рабочее место: "
 
 #: src/fdomenu.cc:74
+msgid "Accessibility"
+msgstr ""
+
+#: src/fdomenu.cc:75
 msgid "Settings"
 msgstr "Настройки"
 
-#: src/fdomenu.cc:75
+#: src/fdomenu.cc:76
 msgid "Screensavers"
 msgstr "Хранители экрана"
 
-#: src/fdomenu.cc:76
+#: src/fdomenu.cc:77
 msgid "Accessories"
 msgstr "Служебные"
 
-#: src/fdomenu.cc:77
+#: src/fdomenu.cc:78
 msgid "Development"
 msgstr "Разработка"
 
-#: src/fdomenu.cc:78
+#: src/fdomenu.cc:79
 msgid "Education"
 msgstr "Образование"
 
-#: src/fdomenu.cc:79
+#: src/fdomenu.cc:80
 msgid "Games"
 msgstr "Игры"
 
-#: src/fdomenu.cc:80
+#: src/fdomenu.cc:81
 msgid "Graphics"
 msgstr "Графика"
 
-#: src/fdomenu.cc:81
+#: src/fdomenu.cc:82
 msgid "Multimedia"
 msgstr "Мультимедиа"
 
-#: src/fdomenu.cc:82
+#: src/fdomenu.cc:83
 msgid "Network"
 msgstr "Сеть"
 
-#: src/fdomenu.cc:83
+#: src/fdomenu.cc:84
 msgid "Office"
 msgstr "Офис"
 
-#: src/fdomenu.cc:84
+#: src/fdomenu.cc:85
 msgid "System"
 msgstr "Система"
 
-#: src/fdomenu.cc:85
+#: src/fdomenu.cc:86
 msgid "WINE"
 msgstr "Программы WINE"
 
-#: src/fdomenu.cc:86
+#: src/fdomenu.cc:87
 msgid "Editors"
 msgstr "Редакторы"
 
-#: src/fdomenu.cc:87
+#: src/fdomenu.cc:88
 msgid "Other"
 msgstr "Другое"
 
@@ -919,7 +923,7 @@ msgstr "Плохое имя"
 msgid "Loc_k Workstation"
 msgstr "Заблокировать _станцию"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:434
+#: src/wmdialog.cc:90 src/wmprog.cc:949 src/wmprog.cc:951 src/wmtaskbar.cc:434
 #: src/wmtaskbar.cc:436
 msgid "_Logout..."
 msgstr "_Выход..."
@@ -932,7 +936,7 @@ msgstr "От_мена"
 msgid "_Restart icewm"
 msgstr "_Перезапуск IceWM"
 
-#: src/wmdialog.cc:125 src/wmprog.cc:886 src/wmtaskbar.cc:426
+#: src/wmdialog.cc:125 src/wmprog.cc:887 src/wmtaskbar.cc:426
 #: src/wmtaskbar.cc:429
 msgid "_About"
 msgstr "О пр_ограмме"
@@ -1021,43 +1025,43 @@ msgstr "Неизвестное ключевое слово: %s"
 msgid "Error at key %s"
 msgstr "Ошибка в ключе %s"
 
-#: src/wmprog.cc:850
+#: src/wmprog.cc:851
 msgid "Programs"
 msgstr "Программы"
 
-#: src/wmprog.cc:855
+#: src/wmprog.cc:856
 msgid "_Run..."
 msgstr "Вы_полнить..."
 
-#: src/wmprog.cc:862 src/wmtaskbar.cc:414
+#: src/wmprog.cc:863 src/wmtaskbar.cc:414
 msgid "_Windows"
 msgstr "_Окна"
 
-#: src/wmprog.cc:899
+#: src/wmprog.cc:900
 msgid "_Help"
 msgstr "_Помощь"
 
-#: src/wmprog.cc:917
+#: src/wmprog.cc:918
 msgid "_Click to focus"
 msgstr "_Фокус по щелчку"
 
-#: src/wmprog.cc:922
+#: src/wmprog.cc:923
 msgid "_Sloppy mouse focus"
 msgstr "_Липкий фокус"
 
-#: src/wmprog.cc:927
+#: src/wmprog.cc:928
 msgid "Custo_m"
 msgstr "Сво_ё"
 
-#: src/wmprog.cc:933
+#: src/wmprog.cc:934
 msgid "_Focus"
 msgstr "_Фокус"
 
-#: src/wmprog.cc:940
+#: src/wmprog.cc:941
 msgid "_Themes"
 msgstr "_Темы"
 
-#: src/wmprog.cc:942
+#: src/wmprog.cc:943
 msgid "Se_ttings"
 msgstr "Нас_тройки"
 
@@ -1110,15 +1114,15 @@ msgstr "_Обновить"
 msgid "_License"
 msgstr "_Лицензия"
 
-#: src/wmtaskbar.cc:562
+#: src/wmtaskbar.cc:563
 msgid "Favorite applications"
 msgstr "Любимые приложения"
 
-#: src/wmtaskbar.cc:579
+#: src/wmtaskbar.cc:580
 msgid "Window list menu"
 msgstr "Список окон в меню"
 
-#: src/wmtaskbar.cc:588
+#: src/wmtaskbar.cc:589
 msgid "Show Desktop"
 msgstr "Показать Десктоп"
 

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2016-07-09 21:33-0600\n"
+"POT-Creation-Date: 2017-01-03 23:39-0700\n"
 "PO-Revision-Date: 2001-01-10 23:14+0900\n"
 "Last-Translator: Yoichi ASAI <yatt@msc.biglobe.ne.jp>\n"
 "Language-Team: Japanese\n"
@@ -15,33 +15,33 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:875
+#: src/aapm.cc:191 src/aapm.cc:513 src/aapm.cc:753 src/aapm.cc:874
 msgid " - Power"
 msgstr " - 給電中"
 
-#: src/aapm.cc:193 src/aapm.cc:527 src/aapm.cc:757
+#: src/aapm.cc:193 src/aapm.cc:516 src/aapm.cc:756
 msgid "P"
 msgstr "P"
 
-#: src/aapm.cc:197 src/aapm.cc:498 src/aapm.cc:734 src/aapm.cc:846
+#: src/aapm.cc:197 src/aapm.cc:487 src/aapm.cc:733 src/aapm.cc:845
 #, c-format
 msgid " - Charging"
 msgstr " - 充電中"
 
-#: src/aapm.cc:199 src/aapm.cc:500 src/aapm.cc:736
+#: src/aapm.cc:199 src/aapm.cc:489 src/aapm.cc:735
 msgid "C"
 msgstr "C"
 
-#: src/aapm.cc:502
+#: src/aapm.cc:491
 msgid " - Full"
 msgstr " - 充電完了"
 
-#: src/acpustatus.cc:234
+#: src/acpustatus.cc:269
 #, c-format
 msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
 msgstr "CPU 負荷: %3.2f %3.2f %3.2f, %u 個のプロセス"
 
-#: src/acpustatus.cc:239
+#: src/acpustatus.cc:274
 #, c-format
 msgid ""
 "\n"
@@ -50,7 +50,7 @@ msgstr ""
 "\n"
 "メモリ (空き): %5.2f (%.2f) M"
 
-#: src/acpustatus.cc:244
+#: src/acpustatus.cc:279
 #, c-format
 msgid ""
 "\n"
@@ -59,7 +59,7 @@ msgstr ""
 "\n"
 "スワップ (空き): %.2f (%.2f) M"
 
-#: src/acpustatus.cc:250
+#: src/acpustatus.cc:285
 #, c-format
 msgid ""
 "\n"
@@ -68,7 +68,7 @@ msgstr ""
 "\n"
 "ACPI 温度: "
 
-#: src/acpustatus.cc:261
+#: src/acpustatus.cc:304
 #, c-format
 msgid ""
 "\n"
@@ -77,7 +77,7 @@ msgstr ""
 "\n"
 "CPU 周波数: %.3fGHz"
 
-#: src/acpustatus.cc:274
+#: src/acpustatus.cc:323
 msgid "CPU Load: "
 msgstr "CPU 負荷: "
 
@@ -139,58 +139,62 @@ msgid "Workspace: "
 msgstr "ワークスペース: "
 
 #: src/fdomenu.cc:74
+msgid "Accessibility"
+msgstr ""
+
+#: src/fdomenu.cc:75
 msgid "Settings"
 msgstr "設定"
 
-#: src/fdomenu.cc:75
+#: src/fdomenu.cc:76
 msgid "Screensavers"
 msgstr "スクリーンセーバ"
 
-#: src/fdomenu.cc:76
+#: src/fdomenu.cc:77
 msgid "Accessories"
 msgstr "アクセサリ"
 
-#: src/fdomenu.cc:77
+#: src/fdomenu.cc:78
 msgid "Development"
 msgstr "開発"
 
-#: src/fdomenu.cc:78
+#: src/fdomenu.cc:79
 msgid "Education"
 msgstr "教育"
 
-#: src/fdomenu.cc:79
+#: src/fdomenu.cc:80
 msgid "Games"
 msgstr "ゲーム"
 
-#: src/fdomenu.cc:80
+#: src/fdomenu.cc:81
 msgid "Graphics"
 msgstr "グラフィック"
 
-#: src/fdomenu.cc:81
+#: src/fdomenu.cc:82
 msgid "Multimedia"
 msgstr "マルチメディア"
 
-#: src/fdomenu.cc:82
+#: src/fdomenu.cc:83
 msgid "Network"
 msgstr "ネットワーク"
 
-#: src/fdomenu.cc:83
+#: src/fdomenu.cc:84
 msgid "Office"
 msgstr "オフィス"
 
-#: src/fdomenu.cc:84
+#: src/fdomenu.cc:85
 msgid "System"
 msgstr "システム"
 
-#: src/fdomenu.cc:85
+#: src/fdomenu.cc:86
 msgid "WINE"
 msgstr "WINE"
 
-#: src/fdomenu.cc:86
+#: src/fdomenu.cc:87
 msgid "Editors"
 msgstr "エディタ"
 
-#: src/fdomenu.cc:87
+#: src/fdomenu.cc:88
 msgid "Other"
 msgstr "その他"
 
@@ -1017,7 +1021,7 @@ msgstr "不適切な Look 名"
 msgid "Loc_k Workstation"
 msgstr "ワークステーションをロック (_K)"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:434
+#: src/wmdialog.cc:90 src/wmprog.cc:949 src/wmprog.cc:951 src/wmtaskbar.cc:434
 #: src/wmtaskbar.cc:436
 msgid "_Logout..."
 msgstr "ログアウト (_L)..."
@@ -1030,7 +1034,7 @@ msgstr "キャンセル (_C)"
 msgid "_Restart icewm"
 msgstr "icewm を再起動 (_R)"
 
-#: src/wmdialog.cc:125 src/wmprog.cc:886 src/wmtaskbar.cc:426
+#: src/wmdialog.cc:125 src/wmprog.cc:887 src/wmtaskbar.cc:426
 #: src/wmtaskbar.cc:429
 msgid "_About"
 msgstr "情報 (_A)"
@@ -1117,43 +1121,43 @@ msgstr "予期しないキーワードです: %s"
 msgid "Error at key %s"
 msgstr "キー %s でエラー"
 
-#: src/wmprog.cc:850
+#: src/wmprog.cc:851
 msgid "Programs"
 msgstr "プログラム"
 
-#: src/wmprog.cc:855
+#: src/wmprog.cc:856
 msgid "_Run..."
 msgstr "実行 (_R)..."
 
-#: src/wmprog.cc:862 src/wmtaskbar.cc:414
+#: src/wmprog.cc:863 src/wmtaskbar.cc:414
 msgid "_Windows"
 msgstr "ウインドウ一覧 (_W)"
 
-#: src/wmprog.cc:899
+#: src/wmprog.cc:900
 msgid "_Help"
 msgstr "ヘルプ (_H)"
 
-#: src/wmprog.cc:917
+#: src/wmprog.cc:918
 msgid "_Click to focus"
 msgstr "クリックしてフォーカス (_C)"
 
-#: src/wmprog.cc:922
+#: src/wmprog.cc:923
 msgid "_Sloppy mouse focus"
 msgstr "マウスに追随 (_S)"
 
-#: src/wmprog.cc:927
+#: src/wmprog.cc:928
 msgid "Custo_m"
 msgstr "独自 (_M)"
 
-#: src/wmprog.cc:933
+#: src/wmprog.cc:934
 msgid "_Focus"
 msgstr "フォーカス (_F)"
 
-#: src/wmprog.cc:940
+#: src/wmprog.cc:941
 msgid "_Themes"
 msgstr "テーマ (_T)"
 
-#: src/wmprog.cc:942
+#: src/wmprog.cc:943
 msgid "Se_ttings"
 msgstr "設定 (_T)"
 
@@ -1206,15 +1210,15 @@ msgstr "再描画 (_R)"
 msgid "_License"
 msgstr "ライセンス (_L)"
 
-#: src/wmtaskbar.cc:562
+#: src/wmtaskbar.cc:563
 msgid "Favorite applications"
 msgstr "お気に入りのアプリケーション"
 
-#: src/wmtaskbar.cc:579
+#: src/wmtaskbar.cc:580
 msgid "Window list menu"
 msgstr "ウインドウ一覧メニュー"
 
-#: src/wmtaskbar.cc:588
+#: src/wmtaskbar.cc:589
 msgid "Show Desktop"
 msgstr "デスクトップの表示"
 

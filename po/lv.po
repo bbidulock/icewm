@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2016-07-09 21:33-0600\n"
+"POT-Creation-Date: 2017-01-03 23:39-0700\n"
 "PO-Revision-Date: 2005-06-12 12:59+0300\n"
 "Last-Translator: Kristaps Kaupe <kristaps.kaupe@inbox.lv>\n"
 "Language-Team: \n"
@@ -19,61 +19,61 @@ msgstr ""
 "X-Poedit-Language: Latvian\n"
 "X-Poedit-Country: LATVIA\n"
 
-#: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:875
+#: src/aapm.cc:191 src/aapm.cc:513 src/aapm.cc:753 src/aapm.cc:874
 msgid " - Power"
 msgstr " - Barošana"
 
-#: src/aapm.cc:193 src/aapm.cc:527 src/aapm.cc:757
+#: src/aapm.cc:193 src/aapm.cc:516 src/aapm.cc:756
 msgid "P"
 msgstr "B"
 
-#: src/aapm.cc:197 src/aapm.cc:498 src/aapm.cc:734 src/aapm.cc:846
+#: src/aapm.cc:197 src/aapm.cc:487 src/aapm.cc:733 src/aapm.cc:845
 #, c-format
 msgid " - Charging"
 msgstr " - Lādējas"
 
-#: src/aapm.cc:199 src/aapm.cc:500 src/aapm.cc:736
+#: src/aapm.cc:199 src/aapm.cc:489 src/aapm.cc:735
 msgid "C"
 msgstr "L"
 
-#: src/aapm.cc:502
+#: src/aapm.cc:491
 msgid " - Full"
 msgstr ""
 
-#: src/acpustatus.cc:234
+#: src/acpustatus.cc:269
 #, c-format
 msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
 msgstr ""
 
-#: src/acpustatus.cc:239
+#: src/acpustatus.cc:274
 #, c-format
 msgid ""
 "\n"
 "Ram (free): %5.2f (%.2f) M"
 msgstr ""
 
-#: src/acpustatus.cc:244
+#: src/acpustatus.cc:279
 #, c-format
 msgid ""
 "\n"
 "Swap (free): %.2f (%.2f) M"
 msgstr ""
 
-#: src/acpustatus.cc:250
+#: src/acpustatus.cc:285
 #, c-format
 msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
 
-#: src/acpustatus.cc:261
+#: src/acpustatus.cc:304
 #, c-format
 msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
 
-#: src/acpustatus.cc:274
+#: src/acpustatus.cc:323
 msgid "CPU Load: "
 msgstr "CP noslodze:"
 
@@ -135,58 +135,62 @@ msgid "Workspace: "
 msgstr "Darba vide:"
 
 #: src/fdomenu.cc:74
-msgid "Settings"
+msgid "Accessibility"
 msgstr ""
 
 #: src/fdomenu.cc:75
-msgid "Screensavers"
+msgid "Settings"
 msgstr ""
 
 #: src/fdomenu.cc:76
-msgid "Accessories"
+msgid "Screensavers"
 msgstr ""
 
 #: src/fdomenu.cc:77
-msgid "Development"
+msgid "Accessories"
 msgstr ""
 
 #: src/fdomenu.cc:78
-msgid "Education"
+msgid "Development"
 msgstr ""
 
 #: src/fdomenu.cc:79
-msgid "Games"
+msgid "Education"
 msgstr ""
 
 #: src/fdomenu.cc:80
-msgid "Graphics"
+msgid "Games"
 msgstr ""
 
 #: src/fdomenu.cc:81
-msgid "Multimedia"
+msgid "Graphics"
 msgstr ""
 
 #: src/fdomenu.cc:82
-msgid "Network"
+msgid "Multimedia"
 msgstr ""
 
 #: src/fdomenu.cc:83
-msgid "Office"
+msgid "Network"
 msgstr ""
 
 #: src/fdomenu.cc:84
-msgid "System"
+msgid "Office"
 msgstr ""
 
 #: src/fdomenu.cc:85
-msgid "WINE"
+msgid "System"
 msgstr ""
 
 #: src/fdomenu.cc:86
-msgid "Editors"
+msgid "WINE"
 msgstr ""
 
 #: src/fdomenu.cc:87
+msgid "Editors"
+msgstr ""
+
+#: src/fdomenu.cc:88
 msgid "Other"
 msgstr ""
 
@@ -986,7 +990,7 @@ msgstr ""
 msgid "Loc_k Workstation"
 msgstr "_Noslēgt darbstaciju"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:434
+#: src/wmdialog.cc:90 src/wmprog.cc:949 src/wmprog.cc:951 src/wmtaskbar.cc:434
 #: src/wmtaskbar.cc:436
 msgid "_Logout..."
 msgstr "Iz_logoties..."
@@ -999,7 +1003,7 @@ msgstr "At_celt"
 msgid "_Restart icewm"
 msgstr "Pā_rstartēt icewm"
 
-#: src/wmdialog.cc:125 src/wmprog.cc:886 src/wmtaskbar.cc:426
+#: src/wmdialog.cc:125 src/wmprog.cc:887 src/wmtaskbar.cc:426
 #: src/wmtaskbar.cc:429
 msgid "_About"
 msgstr "P_ar"
@@ -1086,43 +1090,43 @@ msgstr "Negaidīts atslēgvārds: %s"
 msgid "Error at key %s"
 msgstr "Kļūda atslēgā %s"
 
-#: src/wmprog.cc:850
+#: src/wmprog.cc:851
 msgid "Programs"
 msgstr "Programmas"
 
-#: src/wmprog.cc:855
+#: src/wmprog.cc:856
 msgid "_Run..."
 msgstr "_Palaist..."
 
-#: src/wmprog.cc:862 src/wmtaskbar.cc:414
+#: src/wmprog.cc:863 src/wmtaskbar.cc:414
 msgid "_Windows"
 msgstr "_Logi"
 
-#: src/wmprog.cc:899
+#: src/wmprog.cc:900
 msgid "_Help"
 msgstr "Palī_gs"
 
-#: src/wmprog.cc:917
+#: src/wmprog.cc:918
 msgid "_Click to focus"
 msgstr ""
 
-#: src/wmprog.cc:922
+#: src/wmprog.cc:923
 msgid "_Sloppy mouse focus"
 msgstr ""
 
-#: src/wmprog.cc:927
+#: src/wmprog.cc:928
 msgid "Custo_m"
 msgstr ""
 
-#: src/wmprog.cc:933
+#: src/wmprog.cc:934
 msgid "_Focus"
 msgstr ""
 
-#: src/wmprog.cc:940
+#: src/wmprog.cc:941
 msgid "_Themes"
 msgstr "_Tēmas"
 
-#: src/wmprog.cc:942
+#: src/wmprog.cc:943
 msgid "Se_ttings"
 msgstr ""
 
@@ -1175,15 +1179,15 @@ msgstr "A_tsvaidzināt"
 msgid "_License"
 msgstr "_Licenze"
 
-#: src/wmtaskbar.cc:562
+#: src/wmtaskbar.cc:563
 msgid "Favorite applications"
 msgstr "Iemīļotākās lietojumprogrammas"
 
-#: src/wmtaskbar.cc:579
+#: src/wmtaskbar.cc:580
 msgid "Window list menu"
 msgstr "Logu saraksta izvēlne"
 
-#: src/wmtaskbar.cc:588
+#: src/wmtaskbar.cc:589
 msgid "Show Desktop"
 msgstr "Parādīt darbavirsmu"
 

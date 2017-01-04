@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2016-07-09 21:33-0600\n"
+"POT-Creation-Date: 2017-01-03 23:39-0700\n"
 "PO-Revision-Date: 2002-10-04 12:30+0200\n"
 "Last-Translator: Tiberiu Micu <tibimicu@gmx.net>\n"
 "Language-Team: Romanian <ro@li.org>\n"
@@ -15,61 +15,61 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:875
+#: src/aapm.cc:191 src/aapm.cc:513 src/aapm.cc:753 src/aapm.cc:874
 msgid " - Power"
 msgstr " - Pornire"
 
-#: src/aapm.cc:193 src/aapm.cc:527 src/aapm.cc:757
+#: src/aapm.cc:193 src/aapm.cc:516 src/aapm.cc:756
 msgid "P"
 msgstr "P"
 
-#: src/aapm.cc:197 src/aapm.cc:498 src/aapm.cc:734 src/aapm.cc:846
+#: src/aapm.cc:197 src/aapm.cc:487 src/aapm.cc:733 src/aapm.cc:845
 #, c-format
 msgid " - Charging"
 msgstr " - Încărcare"
 
-#: src/aapm.cc:199 src/aapm.cc:500 src/aapm.cc:736
+#: src/aapm.cc:199 src/aapm.cc:489 src/aapm.cc:735
 msgid "C"
 msgstr ""
 
-#: src/aapm.cc:502
+#: src/aapm.cc:491
 msgid " - Full"
 msgstr ""
 
-#: src/acpustatus.cc:234
+#: src/acpustatus.cc:269
 #, c-format
 msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
 msgstr "Încărcarea CPU: %3.2f %3.2f %3.2f, %u procese."
 
-#: src/acpustatus.cc:239
+#: src/acpustatus.cc:274
 #, c-format
 msgid ""
 "\n"
 "Ram (free): %5.2f (%.2f) M"
 msgstr ""
 
-#: src/acpustatus.cc:244
+#: src/acpustatus.cc:279
 #, c-format
 msgid ""
 "\n"
 "Swap (free): %.2f (%.2f) M"
 msgstr ""
 
-#: src/acpustatus.cc:250
+#: src/acpustatus.cc:285
 #, c-format
 msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
 
-#: src/acpustatus.cc:261
+#: src/acpustatus.cc:304
 #, c-format
 msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
 
-#: src/acpustatus.cc:274
+#: src/acpustatus.cc:323
 msgid "CPU Load: "
 msgstr ""
 
@@ -131,58 +131,62 @@ msgid "Workspace: "
 msgstr "Spaţiu de lucru: "
 
 #: src/fdomenu.cc:74
-msgid "Settings"
+msgid "Accessibility"
 msgstr ""
 
 #: src/fdomenu.cc:75
-msgid "Screensavers"
+msgid "Settings"
 msgstr ""
 
 #: src/fdomenu.cc:76
-msgid "Accessories"
+msgid "Screensavers"
 msgstr ""
 
 #: src/fdomenu.cc:77
-msgid "Development"
+msgid "Accessories"
 msgstr ""
 
 #: src/fdomenu.cc:78
-msgid "Education"
+msgid "Development"
 msgstr ""
 
 #: src/fdomenu.cc:79
-msgid "Games"
+msgid "Education"
 msgstr ""
 
 #: src/fdomenu.cc:80
-msgid "Graphics"
+msgid "Games"
 msgstr ""
 
 #: src/fdomenu.cc:81
-msgid "Multimedia"
+msgid "Graphics"
 msgstr ""
 
 #: src/fdomenu.cc:82
-msgid "Network"
+msgid "Multimedia"
 msgstr ""
 
 #: src/fdomenu.cc:83
-msgid "Office"
+msgid "Network"
 msgstr ""
 
 #: src/fdomenu.cc:84
-msgid "System"
+msgid "Office"
 msgstr ""
 
 #: src/fdomenu.cc:85
-msgid "WINE"
+msgid "System"
 msgstr ""
 
 #: src/fdomenu.cc:86
-msgid "Editors"
+msgid "WINE"
 msgstr ""
 
 #: src/fdomenu.cc:87
+msgid "Editors"
+msgstr ""
+
+#: src/fdomenu.cc:88
 msgid "Other"
 msgstr ""
 
@@ -947,7 +951,7 @@ msgstr "Nume Look greşit"
 msgid "Loc_k Workstation"
 msgstr "Blochează staţia de lucru"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:434
+#: src/wmdialog.cc:90 src/wmprog.cc:949 src/wmprog.cc:951 src/wmtaskbar.cc:434
 #: src/wmtaskbar.cc:436
 msgid "_Logout..."
 msgstr "Ieşire..."
@@ -960,7 +964,7 @@ msgstr "Renunţă"
 msgid "_Restart icewm"
 msgstr "_Reporneşte icewm"
 
-#: src/wmdialog.cc:125 src/wmprog.cc:886 src/wmtaskbar.cc:426
+#: src/wmdialog.cc:125 src/wmprog.cc:887 src/wmtaskbar.cc:426
 #: src/wmtaskbar.cc:429
 msgid "_About"
 msgstr "Despre"
@@ -1047,43 +1051,43 @@ msgstr ""
 msgid "Error at key %s"
 msgstr "Eroare la tasta %s"
 
-#: src/wmprog.cc:850
+#: src/wmprog.cc:851
 msgid "Programs"
 msgstr "Programe"
 
-#: src/wmprog.cc:855
+#: src/wmprog.cc:856
 msgid "_Run..."
 msgstr "_Rulează..."
 
-#: src/wmprog.cc:862 src/wmtaskbar.cc:414
+#: src/wmprog.cc:863 src/wmtaskbar.cc:414
 msgid "_Windows"
 msgstr "Ferestre"
 
-#: src/wmprog.cc:899
+#: src/wmprog.cc:900
 msgid "_Help"
 msgstr "Ajutor"
 
-#: src/wmprog.cc:917
+#: src/wmprog.cc:918
 msgid "_Click to focus"
 msgstr ""
 
-#: src/wmprog.cc:922
+#: src/wmprog.cc:923
 msgid "_Sloppy mouse focus"
 msgstr ""
 
-#: src/wmprog.cc:927
+#: src/wmprog.cc:928
 msgid "Custo_m"
 msgstr ""
 
-#: src/wmprog.cc:933
+#: src/wmprog.cc:934
 msgid "_Focus"
 msgstr ""
 
-#: src/wmprog.cc:940
+#: src/wmprog.cc:941
 msgid "_Themes"
 msgstr "_Teme"
 
-#: src/wmprog.cc:942
+#: src/wmprog.cc:943
 msgid "Se_ttings"
 msgstr ""
 
@@ -1136,15 +1140,15 @@ msgstr "Actualizea_ză"
 msgid "_License"
 msgstr "_Licenţă"
 
-#: src/wmtaskbar.cc:562
+#: src/wmtaskbar.cc:563
 msgid "Favorite applications"
 msgstr "Aplicaţii favorite"
 
-#: src/wmtaskbar.cc:579
+#: src/wmtaskbar.cc:580
 msgid "Window list menu"
 msgstr "Meniu lista ferestre"
 
-#: src/wmtaskbar.cc:588
+#: src/wmtaskbar.cc:589
 #, fuzzy
 msgid "Show Desktop"
 msgstr "D_esktop"
