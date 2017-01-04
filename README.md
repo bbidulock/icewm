@@ -1,4 +1,4 @@
-[icewm -- read me first file.  2016-12-28]: #
+[icewm -- read me first file.  2017-01-03]: #
 
 Ice Window Manager (IceWM)
 ==========================
@@ -16,7 +16,7 @@ list, and various other GitHub forks.
 Release
 -------
 
-This is the icewm-1.3.12.140 package, released under LGPL license 2016-12-28.
+This is the icewm-1.3.12.144 package, released under LGPL license 2017-01-03.
 This release as well as future versions here, can all be obtained from
 [GitHub][1] using a command such as:
 
@@ -25,28 +25,6 @@ This release as well as future versions here, can all be obtained from
 When working from `git(1)`, please use this file.  An abbreviated
 installation procedure that works for most applications appears below.
 
-
-Dependencies
-------------
-
-Building from tarball requires:
-
- - gcc or clang (_for compiling_)
- - libxft (_for font rendering_)
- - libxinerama (_for XINERAMA support_)
- - gdk-pixbuf2 (_for pixmap rendering_)
- - libxrandr (_for XRANDR support_)
- - libsndfile (_for sound support_)
- - libsm (_for X11R6 session management_)
- - fribidi (_for i18n text rendering_)
-
-Building from git also requires:
-
- - git (_for cloning the git repository and updating changelogs_)
- - autoconf/automake or cmake toolchain (_for build scripts_)
- - xorg-mkfontdir (_for installing themes_)
- - linuxdoc-tools (_for creating help html files_)
- - markdown (_for building release package_)
 
 Quick Start
 -----------
@@ -78,6 +56,28 @@ other outstanding items.
 
 This release is published under LGPL license that can be found in the file
 [COPYING][8].
+
+Prerequisites
+-------------
+
+Building from tarball requires:
+
+ - gcc or clang (_for compiling_)
+ - libxft (_for font rendering_)
+ - libxinerama (_for XINERAMA support_)
+ - gdk-pixbuf2 (_for pixmap rendering_)
+ - libxrandr (_for XRANDR support_)
+ - libsndfile (_for sound support_)
+ - libsm (_for X11R6 session management_)
+ - fribidi (_for i18n text rendering_)
+
+Building from git also requires:
+
+ - git (_for cloning the git repository and updating changelogs_)
+ - autoconf/automake or cmake toolchain (_for build scripts_)
+ - xorg-mkfontdir (_for installing themes_)
+ - linuxdoc-tools (_for creating help html files_)
+ - markdown (_for building release package_)
 
 
 Configuring IceWM
@@ -195,7 +195,7 @@ or you can use the [openSUSE weblate tool][11].
 [13]: http://icewm.sourceforge.net/
 [14]: http://www.icewm.org/
 [15]: http://www.icewm.org/FAQ/IceWM-FAQ-11.html
-[16]: file:///usr/share/doc/icewm-1.3.12.140/icewm.html
+[16]: file:///usr/share/doc/icewm-1.3.12.144/icewm.html
 [17]: http://bbkeys.sourceforge.net/
 
 [ vim: set ft=markdown sw=4 tw=80 nocin nosi fo+=tcqlorn: ]: #

@@ -26,28 +26,6 @@ When working from `git(1)`, please use this file.  An abbreviated
 installation procedure that works for most applications appears below.
 
 
-Dependencies
-------------
-
-Building from tarball requires:
-
- - gcc or clang (_for compiling_)
- - libxft (_for font rendering_)
- - libxinerama (_for XINERAMA support_)
- - gdk-pixbuf2 (_for pixmap rendering_)
- - libxrandr (_for XRANDR support_)
- - libsndfile (_for sound support_)
- - libsm (_for X11R6 session management_)
- - fribidi (_for i18n text rendering_)
-
-Building from git also requires:
-
- - git (_for cloning the git repository and updating changelogs_)
- - autoconf/automake or cmake toolchain (_for build scripts_)
- - xorg-mkfontdir (_for installing themes_)
- - linuxdoc-tools (_for creating help html files_)
- - markdown (_for building release package_)
-
 Quick Start
 -----------
 
@@ -78,6 +56,28 @@ other outstanding items.
 
 This release is published under LGPL license that can be found in the file
 [COPYING][8].
+
+Prerequisites
+-------------
+
+Building from tarball requires:
+
+ - gcc or clang (_for compiling_)
+ - libxft (_for font rendering_)
+ - libxinerama (_for XINERAMA support_)
+ - gdk-pixbuf2 (_for pixmap rendering_)
+ - libxrandr (_for XRANDR support_)
+ - libsndfile (_for sound support_)
+ - libsm (_for X11R6 session management_)
+ - fribidi (_for i18n text rendering_)
+
+Building from git also requires:
+
+ - git (_for cloning the git repository and updating changelogs_)
+ - autoconf/automake or cmake toolchain (_for build scripts_)
+ - xorg-mkfontdir (_for installing themes_)
+ - linuxdoc-tools (_for creating help html files_)
+ - markdown (_for building release package_)
 
 
 Configuring IceWM
