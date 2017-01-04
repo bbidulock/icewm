@@ -32,7 +32,7 @@ dist_man1_MANS = \
 
 
 $(html_documentation): icewm.sgml
-	-sgml2html $<
+	$(SGML2HTML) $<
 
 CLEANFILES = $(html_documentation)
 

@@ -62,7 +62,7 @@ README: README.md
 	cat $< | fmt -sct -w80 -g72 >$@
 
 README.html: README.md
-	markdown $< >$@
+	$(MARKDOWN) $< >$@
 
 README.txt: README.html
 	links -dump -width 80 -codepage utf-8 $< >$@
