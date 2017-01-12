@@ -78,6 +78,10 @@ void ObjectMenu::addObject(DObject *fObject) {
     add(new DObjectMenuItem(fObject));
 }
 
+void ObjectMenu::addObject(DObject *fObject, const char *icons) {
+    add(new DObjectMenuItem(fObject), icons);
+}
+
 void ObjectMenu::addSeparator() {
     YMenu::addSeparator();
 }
@@ -848,19 +852,19 @@ void StartMenu::refresh() {
     if (showPrograms) {
         ObjectMenu *programs = new MenuFileMenu(app, smActionListener, wmActionListener, "programs", 0);
         ///    if (programs->itemCount() > 0)
-        addSubmenu(_("Programs"), 0, programs);
+        addSubmenu(_("Programs"), 0, programs, "programs");
     }
 
     if (showRun) {
         if (runDlgCommand && runDlgCommand[0])
-            addItem(_("_Run..."), -2, "", actionRun);
+            addItem(_("_Run..."), -2, "", actionRun, "run");
     }
 
 #ifdef CONFIG_WINLIST
 #ifdef CONFIG_WINMENU
     if (itemCount() != oldItemCount) addSeparator();
     if (showWindowList)
-        addItem(_("_Windows"), -2, actionWindowList, windowListMenu);
+        addItem(_("_Windows"), -2, actionWindowList, windowListMenu, "windows");
 #endif
 #endif
 
@@ -884,7 +888,7 @@ void StartMenu::refresh() {
 #ifdef CONFIG_TASKBAR
     if (!showTaskBar) {
         if (showAbout)
-            addItem(_("_About"), -2, actionAbout, 0);
+            addItem(_("_About"), -2, actionAbout, 0, "about");
     }
 #endif
 
@@ -904,7 +908,7 @@ void StartMenu::refresh() {
             ICEHELPEXE,
             args);
 
-        if (help) addObject(help);
+        if (help) addObject(help, "help");
     }
 #endif
 
@@ -931,24 +935,24 @@ void StartMenu::refresh() {
                 i->setChecked(true);
             }
 
-            settings->addSubmenu(_("_Focus"), -2, focus);
+            settings->addSubmenu(_("_Focus"), -2, focus, "focus");
         }
 
 
         if (showThemesMenu) {
             YMenu *themes = new ThemesMenu(app, smActionListener, wmActionListener);
             if (themes)
-                settings->addSubmenu(_("_Themes"), -2, themes);
+                settings->addSubmenu(_("_Themes"), -2, themes, "themes");
         }
-        addSubmenu(_("Se_ttings"), -2, settings);
+        addSubmenu(_("Se_ttings"), -2, settings, "settings");
     }
 
     if (logoutMenu) {
         addSeparator();
         if (showLogoutSubMenu)
-            addItem(_("_Logout..."), -2, actionLogout, logoutMenu);
+            addItem(_("_Logout..."), -2, actionLogout, logoutMenu, "logout");
         else
-            addItem(_("_Logout..."), -2, null, actionLogout);
+            addItem(_("_Logout..."), -2, null, actionLogout, "logout");
     }
 }
 #endif

@@ -876,15 +876,15 @@ static void initMenus(
 #endif
             int const oldItemCount = logoutMenu->itemCount();
             if (canLock())
-                logoutMenu->addItem(_("Lock _Workstation"), -2, null, actionLock);
+                logoutMenu->addItem(_("Lock _Workstation"), -2, null, actionLock, "lock");
             if (canShutdown(true))
-                logoutMenu->addItem(_("Re_boot"), -2, null, actionReboot);
+                logoutMenu->addItem(_("Re_boot"), -2, null, actionReboot, "reboot");
             if (canShutdown(false))
-                logoutMenu->addItem(_("Shut_down"), -2, null, actionShutdown);
+                logoutMenu->addItem(_("Shut_down"), -2, null, actionShutdown, "shutdown");
             if (logoutMenu->itemCount() != oldItemCount)
                 logoutMenu->addSeparator();
 
-            logoutMenu->addItem(_("Restart _Icewm"), -2, null, actionRestart);
+            logoutMenu->addItem(_("Restart _Icewm"), -2, null, actionRestart, "restart");
 
             DProgram *restartXTerm =
                 DProgram::newProgram(app, smActionListener, _("Restart _Xterm"), null, true, 0,
