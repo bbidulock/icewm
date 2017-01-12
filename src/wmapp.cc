@@ -887,7 +887,7 @@ static void initMenus(
             logoutMenu->addItem(_("Restart _Icewm"), -2, null, actionRestart, "restart");
 
             DProgram *restartXTerm =
-                DProgram::newProgram(app, smActionListener, _("Restart _Xterm"), null, true, 0,
+                DProgram::newProgram(app, smActionListener, _("Restart _Xterm"), (YIcon::getIcon("xterm")), true, 0,
                 		QUOTE(XTERMCMD), noargs);
             if (restartXTerm)
                 logoutMenu->add(new DObjectMenuItem(restartXTerm));
