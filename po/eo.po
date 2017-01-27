@@ -8,46 +8,53 @@ msgstr ""
 "Project-Id-Version: icewm 1.3.12.144\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-01-03 23:39-0700\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2017-01-27 05:44+0000\n"
+"Last-Translator: Reedych <linux.user2003@gmail.com>\n"
+"Language-Team: Esperanto "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/eo/>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.6\n"
 
 #: src/aapm.cc:191 src/aapm.cc:513 src/aapm.cc:753 src/aapm.cc:874
 msgid " - Power"
 msgstr ""
 
 #: src/aapm.cc:193 src/aapm.cc:516 src/aapm.cc:756
+#, fuzzy
 msgid "P"
-msgstr ""
+msgstr "P"
 
 #: src/aapm.cc:197 src/aapm.cc:487 src/aapm.cc:733 src/aapm.cc:845
 #, c-format
 msgid " - Charging"
-msgstr ""
+msgstr " - Ŝargado"
 
 #: src/aapm.cc:199 src/aapm.cc:489 src/aapm.cc:735
 msgid "C"
-msgstr ""
+msgstr "С"
 
 #: src/aapm.cc:491
+#, fuzzy
 msgid " - Full"
-msgstr ""
+msgstr " - Kompleta"
 
 #: src/acpustatus.cc:269
-#, c-format
+#, c-format, fuzzy
 msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
-msgstr ""
+msgstr "Procesoroŝarĝo: %3.2f %3.2f %3.2f %u"
 
 #: src/acpustatus.cc:274
-#, c-format
+#, c-format, fuzzy
 msgid ""
 "\n"
 "Ram (free): %5.2f (%.2f) M"
 msgstr ""
+"\n"
+"Tujmemoro (libera): %5.2f (%.2f) M"
 
 #: src/acpustatus.cc:279
 #, c-format
