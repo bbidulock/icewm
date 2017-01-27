@@ -190,7 +190,7 @@ or you can use the [openSUSE weblate tool][11].
 [7]: TODO
 [8]: COPYING
 [10]: https://github.com/
-[11]: http://i10n.opensuse.org/
+[11]: http://l10n.opensuse.org/
 [12]: http://sf.net/project/showfiles.php?group_id=31&release_id=31119
 [13]: http://icewm.sourceforge.net/
 [14]: http://www.icewm.org/
