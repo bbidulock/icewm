@@ -1,4 +1,4 @@
-[icewm -- read me first file.  2017-01-03]: #
+[icewm -- read me first file.  2017-02-12]: #
 
 Ice Window Manager (IceWM)
 ==========================
@@ -16,7 +16,7 @@ list, and various other GitHub forks.
 Release
 -------
 
-This is the icewm-1.3.12.144 package, released under LGPL license 2017-01-03.
+This is the icewm-1.3.12.169 package, released under LGPL license 2017-02-12.
 This release as well as future versions here, can all be obtained from
 [GitHub][1] using a command such as:
 
@@ -195,7 +195,7 @@ or you can use the [openSUSE weblate tool][11].
 [13]: http://icewm.sourceforge.net/
 [14]: http://www.icewm.org/
 [15]: http://www.icewm.org/FAQ/IceWM-FAQ-11.html
-[16]: file:///usr/share/doc/icewm-1.3.12.144/icewm.html
+[16]: file:///usr/share/doc/icewm-1.3.12.169/icewm.html
 [17]: http://bbkeys.sourceforge.net/
 
 [ vim: set ft=markdown sw=4 tw=80 nocin nosi fo+=tcqlorn: ]: #
