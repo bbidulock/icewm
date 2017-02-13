@@ -1,5 +1,16 @@
 -- TODO for IceWM.  2013-10-05
 
+* add --help and --version support for the following:
+
+ - icewm-session
+ - icesh (only needs --version support)
+ - icewmbint
+ - icewmbg
+ - icewmtray
+ - icehelp
+ - icewm-menu-gnome2
+ - icewm-menu-fdo
+
 * set WM_CLIENT_MACHINE on check window
 
 * set WM_NAME and WM_CLASS on check window

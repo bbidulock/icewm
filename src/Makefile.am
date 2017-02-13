@@ -43,6 +43,14 @@ bin_PROGRAMS = \
 	icewmbg \
 	icewmtray
 
+AM_INSTALLCHECK_STD_OPTIONS_EXEMPT = \
+	icewm-session \
+	icesh \
+	icewmhint \
+	icewmbg \
+	icewmtray
+
+
 noinst_PROGRAMS = \
 	genpref
 
@@ -65,6 +73,7 @@ endif
 
 if BUILD_HELP
 bin_PROGRAMS += icehelp
+AM_INSTALLCHECK_STD_OPTIONS_EXEMPT += icehelp
 endif
 
 if BUILD_SOUND
@@ -73,10 +82,12 @@ endif
 
 if BUILD_MENU_GNOME2
 bin_PROGRAMS += icewm-menu-gnome2
+AM_INSTALLCHECK_STD_OPTIONS_EXEMPT += icewm-menu-gnome2
 endif
 
 if BUILD_MENU_FDO
 bin_PROGRAMS += icewm-menu-fdo
+AM_INSTALLCHECK_STD_OPTIONS_EXEMPT += icewm-menu-fdo
 endif
 
 libice_la_SOURCES = \
