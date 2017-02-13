@@ -604,7 +604,6 @@ private:
     void setSize(int, int);
     void setWindowGeometry(const YRect &r) {
         YWindow::setGeometry(r);
-        performLayout();
     }
     friend class MiniIcon;
 };
