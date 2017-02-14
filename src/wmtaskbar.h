@@ -157,7 +157,7 @@ private:
     MEMStatus *fMEMStatus;
 #endif
 #ifdef CONFIG_APPLET_CPU_STATUS
-    CPUStatus *fCPUStatus;
+    CPUStatus **fCPUStatus;
 #endif
 #ifdef CONFIG_APPLET_APM
     YApm *fApm;

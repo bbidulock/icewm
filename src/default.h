@@ -199,6 +199,7 @@ XIV(int, taskBarNetSamples,                     20)
 XIV(int, taskBarNetDelay,                       500)
 XSV(const char *, cpuCommand,                   "xterm -name top -title Process\\ Status -e top")
 XSV(const char *, cpuClassHint,                 "top.XTerm")
+XIV(bool, cpuCombine,                           true)
 XSV(const char *, netCommand,                   "xterm -name netstat -title 'Network Status' -e netstat -c")
 XSV(const char *, netClassHint,                 "netstat.XTerm")
 XSV(const char *, netDevice,                    "eth0 wlan0")
@@ -427,6 +428,7 @@ cfoption icewm_preferences[] = {
     OSV("RebootCommand",                        &rebootCommand,                 "Command to reboot the system"),
     OSV("CPUStatusCommand",                     &cpuCommand,                    "Command to run on CPU status"),
     OSV("CPUStatusClassHint",                   &cpuClassHint,                  "WM_CLASS to allow runonce for CPUStatusCommand"),
+    OBV("CPUStatusCombine",                     &cpuCombine,                    "Combine all CPUs to one"),
     OSV("NetStatusCommand",                     &netCommand,                    "Command to run on Net status"),
     OSV("NetStatusClassHint",                   &netClassHint,                  "WM_CLASS to allow runonce for NetStatusCommand"),
     OSV("AddressBarCommand",                    &addressBarCommand,             "Command to run for address bar entries"),
