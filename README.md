@@ -1,4 +1,4 @@
-[icewm -- read me first file.  2017-02-12]: #
+[icewm -- read me first file.  2017-02-21]: #
 
 Ice Window Manager (IceWM)
 ==========================
@@ -16,7 +16,7 @@ list, and various other GitHub forks.
 Release
 -------
 
-This is the icewm-1.3.12.169 package, released under LGPL license 2017-02-12.
+This is the icewm-1.3.12.177 package, released under LGPL license 2017-02-21.
 This release as well as future versions here, can all be obtained from
 [GitHub][1] using a command such as:
 
@@ -99,7 +99,10 @@ Currently, the only included utilities are:
  - `icewmbg` (_a background setting program_),
  - `icewmtray` (_a system tray for the IceWM taskbar_), and,
  - `icewm-session` (_a program to launch the window manager, icewmbg and
-   icewmtray in an orderly fashion_).
+   icewmtray in an orderly fashion_),
+ - `icewm-menu-fdo` (_a utility to genenerate XDG menus_),
+ - `icewm-menu-gnome2` (_a utility to generate GNOME menus_),
+ - `icewmhint` (_a utility to set IceWM-specific window options hint).
 
 
 Third-party Utilities
@@ -177,8 +180,9 @@ Translations
 ------------
 
 You can provide translations by patching `.po` files and issuing pull requests,
-or you can use the [openSUSE weblate tool][11].
-
+or you can use the [openSUSE weblate tool][11].  There are two XDG files,
+[icewm.desktop][18] and [icewm-session.desktop][19] than may need manual
+translations.
 
 
 [1]: https://github.com/bbidulock/icewm/
@@ -195,7 +199,9 @@ or you can use the [openSUSE weblate tool][11].
 [13]: http://icewm.sourceforge.net/
 [14]: http://www.icewm.org/
 [15]: http://www.icewm.org/FAQ/IceWM-FAQ-11.html
-[16]: file:///usr/share/doc/icewm-1.3.12.169/icewm.html
+[16]: file:///usr/share/doc/icewm-1.3.12.177/icewm.html
 [17]: http://bbkeys.sourceforge.net/
+[18]: lib/icewm.desktop
+[19]: lib/icewm-session.desktop
 
 [ vim: set ft=markdown sw=4 tw=80 nocin nosi fo+=tcqlorn: ]: #
