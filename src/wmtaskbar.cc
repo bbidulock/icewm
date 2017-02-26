@@ -14,6 +14,7 @@
 #include "ypaint.h"
 #include "wmtaskbar.h"
 #include "yprefs.h"
+#include "acpustatus.h"
 
 #include "ymenuitem.h"
 #include "wmmgr.h"
@@ -389,6 +390,9 @@ TaskBar::~TaskBar() {
 #ifdef CONFIG_APPLET_APM
     delete fApm; fApm = 0;
 #endif
+#ifdef CONFIG_APPLET_CPU_STATUS
+    delete [] fCPUStatus;
+#endif
 #ifdef HAVE_NET_STATUS
     delete [] fNetStatus;
 #endif
@@ -447,12 +451,9 @@ void TaskBar::initApplets() {
         fMEMStatus = 0;
 #endif
 #ifdef CONFIG_APPLET_CPU_STATUS
+    fCPUStatus = 0;
     if (taskBarShowCPUStatus)
-        fCPUStatus = new CPUStatus(smActionListener, this, cpustatusShowRamUsage, cpustatusShowSwapUsage,
-																	 cpustatusShowAcpiTemp, cpustatusShowCpuFreq,
-																	 cpustatusShowAcpiTempInGraph);
-    else
-        fCPUStatus = 0;
+        CPUStatus::GetCPUStatus(this, fCPUStatus, cpuCombine);
 #endif
 #ifdef CONFIG_APPLET_NET_STATUS
     fNetStatus = 0;
@@ -617,89 +618,99 @@ void TaskBar::trayChanged() {
     //    updateLayout();
 }
 
-void TaskBar::updateLayout(int &size_w, int &size_h) {
-    struct {
-        YWindow *w;
-        bool left;
-        int row; // 0 = bottom, 1 = top
-        bool show;
-        int pre, post;
-        bool expand;
-    } *wl, wlist[] = {
-#ifndef NO_CONFIGURE_MENUS
-        { fApplications, true, 1, true, 0, 0, true },
-#endif
-        { fShowDesktop, true, 0, true, 0, 0, true },
-#ifdef CONFIG_WINMENU
-        { fWinList, true, 0, true, 0, 0, true},
-#endif
-#ifndef NO_CONFIGURE_MENUS
-        { fObjectBar, true, 1, true, 4, 0, true },
-#endif
-        { fWorkspaces, taskBarWorkspacesLeft, taskBarDoubleHeight && taskBarWorkspacesTop, true, 4, 4, true },
+typedef struct {
+    YWindow *w;
+    bool left;
+    int row; // 0 = bottom, 1 = top
+    bool show;
+    int pre, post;
+    bool expand;
+} LayoutInfo;
 
-        { fCollapseButton, false, 0, true, 0, 2, true },
+bool operator==(const LayoutInfo &l1, const LayoutInfo &l2)
+{
+    return memcmp(&l1, &l2, sizeof(LayoutInfo)) == 0;
+}
+
+void TaskBar::updateLayout(int &size_w, int &size_h) {
+    LayoutInfo nw;
+    YArray<LayoutInfo> wlist;
+    wlist.setCapacity(13);
+
+#ifndef NO_CONFIGURE_MENUS
+    nw = (LayoutInfo){ fApplications, true, 1, true, 0, 0, true };
+    wlist.append(nw);
+#endif
+    nw = (LayoutInfo){ fShowDesktop, true, 0, true, 0, 0, true };
+    wlist.append(nw);
+#ifdef CONFIG_WINMENU
+    nw = (LayoutInfo){ fWinList, true, 0, true, 0, 0, true};
+    wlist.append(nw);
+#endif
+#ifndef NO_CONFIGURE_MENUS
+    nw = (LayoutInfo){ fObjectBar, true, 1, true, 4, 0, true };
+    wlist.append(nw);
+#endif
+    nw = (LayoutInfo){ fWorkspaces, taskBarWorkspacesLeft, taskBarDoubleHeight && taskBarWorkspacesTop, true, 4, 4, true };
+    wlist.append(nw);
+
+    nw = (LayoutInfo){ fCollapseButton, false, 0, true, 0, 2, true };
+    wlist.append(nw);
 #ifdef CONFIG_APPLET_CLOCK
-        { fClock, false, 1, true, 2, 2, false },
+    nw = (LayoutInfo){ fClock, false, 1, true, 2, 2, false };
+    wlist.append(nw);
 #endif
 #ifdef CONFIG_APPLET_MAILBOX
-        { fMailBoxStatus ? fMailBoxStatus[0] : 0, false, 1, true, 1, 1, false },
-/// TODO #warning "a hack"
-        { fMailBoxStatus && fMailBoxStatus[0] ? fMailBoxStatus[1] : 0, false, 1, true, 1, 1, false },
-        { fMailBoxStatus && fMailBoxStatus[0] && fMailBoxStatus[1] ? fMailBoxStatus[2] : 0, false, 1, true, 1, 1, false },
-        { fMailBoxStatus && fMailBoxStatus[0] && fMailBoxStatus[1] && fMailBoxStatus[2] ? fMailBoxStatus[3] : 0, false, 1, true, 1, 1, false },
-        { fMailBoxStatus && fMailBoxStatus[0] && fMailBoxStatus[1] && fMailBoxStatus[2] && fMailBoxStatus[3] ? fMailBoxStatus[4] : 0, false, 1, true, 1, 1, false },
-        { fMailBoxStatus && fMailBoxStatus[0] && fMailBoxStatus[1] && fMailBoxStatus[2] && fMailBoxStatus[3] && fMailBoxStatus[4] ? fMailBoxStatus[5] : 0, false, 1, true, 1, 1, false },
+    for (MailBoxStatus ** m(fMailBoxStatus); m && *m; ++m) {
+        nw = (LayoutInfo){ *m, false, 1, true, 1, 1, false };
+        wlist.append(nw);
+    }
 #endif
 #ifdef CONFIG_APPLET_CPU_STATUS
-        { fCPUStatus, false, 1, true, 2, 2, false },
+    for (CPUStatus ** c(fCPUStatus); c && *c; ++c) {
+        nw = (LayoutInfo){ *c, false, 1, true, 2, 2, false };
+        wlist.append(nw);
+    }
 #endif
 #ifdef CONFIG_APPLET_MEM_STATUS
-        { fMEMStatus, false, 1, true, 2, 2, false },
+    nw = (LayoutInfo){ fMEMStatus, false, 1, true, 2, 2, false };
+    wlist.append(nw);
 #endif
 #ifdef CONFIG_APPLET_NET_STATUS
 #ifdef CONFIG_APPLET_MAILBOX
-        { fNetStatus ? fNetStatus[0] : 0, false, 1, false, 1, 1, false },
-/// TODO #warning "a hack"
-        { fNetStatus && fNetStatus[0] ? fNetStatus[1] : 0, false, 1, false, 1, 1, false },
-        { fNetStatus && fNetStatus[0] && fNetStatus[1] ? fNetStatus[2] : 0, false, 1, false, 1, 1, false },
-        { fNetStatus && fNetStatus[0] && fNetStatus[1] && fNetStatus[2] ? fNetStatus[3] : 0, false, 1, false, 1, 1, false },
-        { fNetStatus && fNetStatus[0] && fNetStatus[1] && fNetStatus[2] && fNetStatus[3] ? fNetStatus[4] : 0, false, 1, false, 1, 1, false },
-        { fNetStatus && fNetStatus[0] && fNetStatus[1] && fNetStatus[2] && fNetStatus[3] && fNetStatus[4] ? fNetStatus[5] : 0, false, 1, false, 1, 1, false },
-        { fNetStatus && fNetStatus[0] && fNetStatus[1] && fNetStatus[2] && fNetStatus[3] && fNetStatus[4] && fNetStatus[5] ? fNetStatus[6] : 0, false, 1, false, 1, 1, false },
-        { fNetStatus && fNetStatus[0] && fNetStatus[1] && fNetStatus[2] && fNetStatus[3] && fNetStatus[4] && fNetStatus[5] && fNetStatus[6] ? fNetStatus[7] : 0, false, 1, false, 1, 1, false },
-        { fNetStatus && fNetStatus[0] && fNetStatus[1] && fNetStatus[2] && fNetStatus[3] && fNetStatus[4] && fNetStatus[5] && fNetStatus[6] && fNetStatus[7] ? fNetStatus[8] : 0, false, 1, false, 1, 1, false },
-        { fNetStatus && fNetStatus[0] && fNetStatus[1] && fNetStatus[2] && fNetStatus[3] && fNetStatus[4] && fNetStatus[5] && fNetStatus[6] && fNetStatus[7] && fNetStatus[8] ? fNetStatus[9] : 0, false, 1, false, 1, 1, false },
-        { fNetStatus && fNetStatus[0] && fNetStatus[1] && fNetStatus[2] && fNetStatus[3] && fNetStatus[4] && fNetStatus[5] && fNetStatus[6] && fNetStatus[7] && fNetStatus[8] && fNetStatus[9] ? fNetStatus[10] : 0, false, 1, false, 1, 1, false },
+    for (NetStatus ** n(fNetStatus); n && *n; ++n) {
+        nw = (LayoutInfo){ *n, false, 1, false, 2, 2, false };
+        wlist.append(nw);
+    }
 #endif
 #endif
 #ifdef CONFIG_APPLET_APM
-        { fApm, false, 1, true, 0, 2, false },
+    nw = (LayoutInfo){ fApm, false, 1, true, 0, 2, false };
+    wlist.append(nw);
 #endif
-        { fDesktopTray, false, 1, true, 1, 1, false },
+    nw = (LayoutInfo){ fDesktopTray, false, 1, true, 1, 1, false };
+    wlist.append(nw);
 #ifdef CONFIG_TRAY
-        { fWindowTray, false, 0, true, 1, 1, true },
+    nw = (LayoutInfo){ fWindowTray, false, 0, true, 1, 1, true };
+    wlist.append(nw);
 #endif
-    };
-    const int wcount = sizeof(wlist)/sizeof(wlist[0]);
+    const unsigned long wcount = wlist.getCount();
 
     int w = 0;
     int y[2] = { 0, 0 };
     int h[2] = { 0, 0 };
     int left[2] = { 0, 0 };
     int right[2] = { 0, 0 };
-    int i;
+    unsigned long i;
 
-    for (i = 0; wl = wlist + i, i < wcount; i++) {
-        if (!taskBarDoubleHeight)
-            wl->row = 0;
-    }
-
-    for (i = 0; wl = wlist + i, i < wcount; i++) {
-        if (wl->w == 0)
-            continue;
-        if (wl->w->height() > h[wl->row])
-            h[wl->row] = wl->w->height();
+    if (!taskBarDoubleHeight)
+        for (i = 0; i < wcount; i++)
+            wlist[i].row = 0;
+    for (i = 0; i < wcount; i++) {
+        if (!wlist[i].w)
+             continue;
+        if (wlist[i].w->height() > h[wlist[i].row])
+            h[wlist[i].row] = wlist[i].w->height();
     }
 
     {
@@ -734,39 +745,39 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
 #endif
     }
 
-    for (i = 0; wl = wlist + i, i < wcount; i++) {
-        if (wl->w == 0)
+    for (i = 0; i < wcount; i++) {
+        if (!wlist[i].w)
             continue;
-        if (!wl->show && !wl->w->visible())
+        if (!wlist[i].show && !wlist[i].w->visible())
             continue;
 
         int xx = 0;
         int yy = 0;
-        int ww = wl->w->width();
-        int hh = h[wl->row];
+        int ww = wlist[i].w->width();
+        int hh = h[wlist[i].row];
 
-        if (wl->expand) {
-            yy = y[wl->row];
+        if (wlist[i].expand) {
+            yy = y[wlist[i].row];
         } else {
-            hh = wl->w->height();
-            yy = y[wl->row] + (h[wl->row] - wl->w->height()) / 2;
+            hh = wlist[i].w->height();
+            yy = y[wlist[i].row] + (h[wlist[i].row] - wlist[i].w->height()) / 2;
         }
 
-        if (wl->left) {
-            xx = left[wl->row] + wl->pre;
+        if (wlist[i].left) {
+            xx = left[wlist[i].row] + wlist[i].pre;
 
-            left[wl->row] += ww + wl->pre + wl->post;
+            left[wlist[i].row] += ww + wlist[i].pre + wlist[i].post;
         } else {
-            xx = right[wl->row] - ww - wl->pre;
+            xx = right[wlist[i].row] - ww - wlist[i].pre;
 
-            right[wl->row] -= ww + wl->pre + wl->post;
+            right[wlist[i].row] -= ww + wlist[i].pre + wlist[i].post;
         }
-
-        wl->w->setGeometry(YRect(xx, yy, ww, hh));
-        if (wl->show)
-            wl->w->show();
+        wlist[i].w->setGeometry(YRect(xx, yy, ww, hh));
+        if (wlist[i].show)
+            wlist[i].w->show();
     }
 
+    wlist.clear();
     /* ----------------------------------------------------------------- */
 
     if (taskBarShowWindows) {
