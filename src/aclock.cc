@@ -37,12 +37,9 @@ ref<YFont> YClock::clockFont;
 
 extern ref<YPixmap> taskbackPixmap;
 static YColor *taskBarBg = 0;
-static char const *AppletClockTimeFmt = "%T";
 
 inline char const * strTimeFmt(struct tm const & t) {
-    if (PixColon == null)
-        return (fmtTimeAlt && (t.tm_sec & 1) ? fmtTimeAlt : fmtTime);
-    return AppletClockTimeFmt;
+    return (fmtTimeAlt && (t.tm_sec & 1) ? fmtTimeAlt : fmtTime);
 }
 
 YClock::YClock(YSMListener *smActionListener, YWindow *aParent): YWindow(aParent) {
