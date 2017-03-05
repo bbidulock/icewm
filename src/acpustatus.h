@@ -21,6 +21,7 @@ class YSMListener;
 class CPUStatus: public YWindow, public YTimerListener {
 public:
     CPUStatus(
+        YSMListener *smActionListener = 0,
         YWindow *aParent = 0,
 	int cpuid = -1);
     virtual ~CPUStatus();
@@ -37,7 +38,7 @@ public:
     float getCpuFreq(unsigned int cpu);
     void updateToolTip();
 
-    static void GetCPUStatus(YWindow *aParent, CPUStatus **&fCPUStatus, bool combine);
+    static void GetCPUStatus(YSMListener *smActionListener, YWindow *aParent, CPUStatus **&fCPUStatus, bool combine);
 
 private:
     int fCpuID;
@@ -52,8 +53,8 @@ private:
 
     YColor *tempColor;
     static ref<YFont> tempFont;
-    static void getCPUStatusCombined(YWindow *aParent, CPUStatus **&fCPUStatus);
-    static void getCPUStatus(YWindow *aParent, CPUStatus **&fCPUStatus, unsigned ncpus);
+    static void getCPUStatusCombined(YSMListener *smActionListener, YWindow *aParent, CPUStatus **&fCPUStatus);
+    static void getCPUStatus(YSMListener *smActionListener, YWindow *aParent, CPUStatus **&fCPUStatus, unsigned ncpus);
 };
 #else
 #undef CONFIG_APPLET_CPU_STATUS
