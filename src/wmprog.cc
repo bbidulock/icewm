@@ -78,9 +78,11 @@ void ObjectMenu::addObject(DObject *fObject) {
     add(new DObjectMenuItem(fObject));
 }
 
+#ifndef LITE
 void ObjectMenu::addObject(DObject *fObject, const char *icons) {
     add(new DObjectMenuItem(fObject), icons);
 }
+#endif
 
 void ObjectMenu::addSeparator() {
     YMenu::addSeparator();
@@ -852,19 +854,31 @@ void StartMenu::refresh() {
     if (showPrograms) {
         ObjectMenu *programs = new MenuFileMenu(app, smActionListener, wmActionListener, "programs", 0);
         ///    if (programs->itemCount() > 0)
+#ifdef LITE
+        addSubmenu(_("Programs"), 0, programs);
+#else
         addSubmenu(_("Programs"), 0, programs, "programs");
+#endif
     }
 
     if (showRun) {
         if (runDlgCommand && runDlgCommand[0])
+#ifdef LITE
+            addItem(_("_Run..."), -2, "", actionRun);
+#else
             addItem(_("_Run..."), -2, "", actionRun, "run");
+#endif
     }
 
 #ifdef CONFIG_WINLIST
 #ifdef CONFIG_WINMENU
     if (itemCount() != oldItemCount) addSeparator();
     if (showWindowList)
+#ifdef LITE
+        addItem(_("_Windows"), -2, actionWindowList, windowListMenu);
+#else
         addItem(_("_Windows"), -2, actionWindowList, windowListMenu, "windows");
+#endif
 #endif
 #endif
 
@@ -888,7 +902,11 @@ void StartMenu::refresh() {
 #ifdef CONFIG_TASKBAR
     if (!showTaskBar) {
         if (showAbout)
+#ifdef LITE
+            addItem(_("_About"), -2, actionAbout, 0);
+#else
             addItem(_("_About"), -2, actionAbout, 0, "about");
+#endif
     }
 #endif
 
@@ -908,7 +926,12 @@ void StartMenu::refresh() {
             ICEHELPEXE,
             args);
 
-        if (help) addObject(help, "help");
+        if (help)
+#ifdef LITE
+		addObject(help);
+#else
+		addObject(help, "help");
+#endif
     }
 #endif
 
@@ -935,24 +958,44 @@ void StartMenu::refresh() {
                 i->setChecked(true);
             }
 
+#ifdef LITE
+            settings->addSubmenu(_("_Focus"), -2, focus);
+#else
             settings->addSubmenu(_("_Focus"), -2, focus, "focus");
+#endif
         }
 
 
         if (showThemesMenu) {
             YMenu *themes = new ThemesMenu(app, smActionListener, wmActionListener);
             if (themes)
+#ifdef LITE
+                settings->addSubmenu(_("_Themes"), -2, themes);
+#else
                 settings->addSubmenu(_("_Themes"), -2, themes, "themes");
+#endif
         }
+#ifdef LITE
+        addSubmenu(_("Se_ttings"), -2, settings);
+#else
         addSubmenu(_("Se_ttings"), -2, settings, "settings");
+#endif
     }
 
     if (logoutMenu) {
         addSeparator();
         if (showLogoutSubMenu)
+#ifdef LITE
+            addItem(_("_Logout..."), -2, actionLogout, logoutMenu);
+#else
             addItem(_("_Logout..."), -2, actionLogout, logoutMenu, "logout");
+#endif
         else
+#ifdef LITE
+            addItem(_("_Logout..."), -2, null, actionLogout);
+#else
             addItem(_("_Logout..."), -2, null, actionLogout, "logout");
+#endif
     }
 }
 #endif

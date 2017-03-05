@@ -26,7 +26,9 @@ public:
     virtual ~ObjectMenu();
 
     virtual void addObject(DObject *object);
+#ifndef LITE
     virtual void addObject(DObject *object, const char *icons);
+#endif
     virtual void addSeparator();
     virtual void addContainer(const ustring &name, ref<YIcon> icon, ObjectContainer *container);
 protected: 

@@ -29,10 +29,12 @@ public:
 
     void trackMotion(const int x_root, const int y_root, const unsigned state, bool submenu);
 
+#ifndef LITE
     YMenuItem *add(YMenuItem *item, const char *icons);
     YMenuItem *addItem(const ustring &name, int hotCharPos, const ustring &param, YAction *action, const char *icons);
     YMenuItem *addItem(const ustring &name, int hotCharPos, YAction *action, YMenu *submenu, const char *icons);
     YMenuItem *addSubmenu(const ustring &name, int hotCharPos, YMenu *submenu, const char *icons);
+#endif
 
     YMenuItem *add(YMenuItem *item);
     YMenuItem *addSorted(YMenuItem *item, bool duplicates);
