@@ -5,11 +5,8 @@
 #include "yarray.h"
 
 #if 1
-#include <stdio.h>
 #include "intl.h"
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
+#include "sysdep.h"
 #endif
 
 #include "yconfig.h"
@@ -407,7 +404,8 @@ void DesktopBackgroundManager::sendRestart() {
 }
 
 void printUsage(int rc = 1) {
-    fputs (_("Usage: icewmbg [ -r | -q ]\n"
+    fputs (_("Usage: icewmbg [ -n | -r | -q ]\n"
+             " -n  Notification in startup step\n"
              " -r  Restart icewmbg\n"
              " -q  Quit icewmbg\n"
              "Loads desktop background according to preferences file\n"
@@ -438,6 +436,7 @@ void addBgImage(const char */*name*/, const char *value, bool) {
 }
 
 int main(int argc, char **argv) {
+    bool notify_parent(false);
     ApplicationName = my_basename(*argv);
 
     if (nice(5) == -1)
@@ -475,6 +474,8 @@ int main(int argc, char **argv) {
         } else if (strcmp(argv[1], "-q") == 0) {
             bg->sendQuit();
             return 0;
+        } else if (strcmp(argv[1], "-n") == 0) {
+            notify_parent = true;
         } else
             printUsage();
     }
@@ -527,6 +528,9 @@ int main(int argc, char **argv) {
 
     ///XSelectInput(app->display(), desktop->handle(), PropertyChangeMask);
     bg->update();
+
+    if (notify_parent)
+    kill(getppid(),SIGUSR1);
 
     return bg->mainLoop();
 }

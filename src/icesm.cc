@@ -11,7 +11,7 @@
 char const *ApplicationName = ICESMEXE;
 
 // the notification of startup step
-unsigned short startup_phase(0); // 0: run tray, 1: run startup script
+unsigned int startup_phase = 1; // 1: run icewm, 2: run icewmtray, 3: run icewmbg, 4: run startup script
 
 class SessionManager: public YApplication {
 public:
@@ -31,6 +31,7 @@ public:
         upath scriptFile = YApplication::findConfigFile(scriptName);
         cstring cs(scriptFile.path());
         const char *args[] = { cs.c_str(), 0, 0 };
+        if (strlen(cs.c_str()) != 0) {
 
         if(asenv) {
             FILE *ef = fopen(cs.c_str(), "r");
@@ -69,10 +70,11 @@ public:
 
         MSG(("Running session script: %s", cs.c_str()));
         runProgram(cs.c_str(), args);
+        }
     }
 
     void runIcewmbg(bool quit = false) {
-        const char *args[] = { ICEWMBGEXE, 0, 0 };
+        const char *args[] = { ICEWMBGEXE, "-n", 0 };
 
         if (quit) {
             args[1] = "-q";
@@ -139,10 +141,23 @@ public:
 
         if (sig == SIGUSR1)
         {
-           if(startup_phase++)
-              runScript("startup");
-           else
-              runIcewmtray();
+           switch ( startup_phase++ )
+              {
+              case 1:
+                  runWM();
+                  break;
+              case 2:
+                  runIcewmtray();
+                  break;
+              case 3:
+                  runIcewmbg();
+                  break;
+              case 4:
+                  runScript("startup");
+                  break;
+              default:
+                  break;
+              }
         }
     }
 
@@ -158,14 +173,13 @@ int main(int argc, char **argv) {
 
     xapp.runScript("env", true);
 
-    xapp.runIcewmbg();
-    xapp.runWM();
-
+    xapp.handleSignal(SIGUSR1);
+    
     xapp.mainLoop();
 
     xapp.runScript("shutdown");
+    xapp.runIcewmbg(true);
     xapp.runIcewmtray(true);
     xapp.runWM(true);
-    xapp.runIcewmbg(true);
     return 0;
 }
