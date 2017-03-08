@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.12\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-02-12 22:30-0700\n"
+"POT-Creation-Date: 2017-03-08 09:08-0700\n"
 "PO-Revision-Date: 2004-01-21 9:30+0200\n"
 "Last-Translator: Coşku Erdem\n"
 "Language-Team: Turkish\n"
@@ -37,41 +37,64 @@ msgstr "C"
 msgid " - Full"
 msgstr ""
 
-#: src/acpustatus.cc:269
+#: src/acpustatus.cc:212
 #, c-format
-msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
+msgid ""
+"stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
+"intr = %llu, softirq = %llu, steal = %llu\n"
+msgstr ""
+
+#: src/acpustatus.cc:217
+#, c-format
+msgid ""
+"bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
+"softirq = %llu, steal = %llu (h = %i)\n"
+msgstr ""
+
+#: src/acpustatus.cc:279
+#, fuzzy, c-format
+msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "CPU Yükü: %3.2f %3.2f %3.2f, %u süreç."
 
-#: src/acpustatus.cc:274
+#: src/acpustatus.cc:284
 #, c-format
 msgid ""
 "\n"
 "Ram (free): %5.2f (%.2f) M"
 msgstr ""
 
-#: src/acpustatus.cc:279
+#: src/acpustatus.cc:289
 #, c-format
 msgid ""
 "\n"
 "Swap (free): %.2f (%.2f) M"
 msgstr ""
 
-#: src/acpustatus.cc:285
+#: src/acpustatus.cc:295
 #, c-format
 msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
 
-#: src/acpustatus.cc:304
+#: src/acpustatus.cc:314
 #, c-format
 msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
 
-#: src/acpustatus.cc:323
-msgid "CPU Load: "
+#: src/acpustatus.cc:335
+msgid "CPU"
+msgstr ""
+
+#: src/acpustatus.cc:335
+msgid "Load: "
+msgstr ""
+
+#: src/acpustatus.cc:694
+#, c-format
+msgid "%s: %llu %llu %llu %llu %llu %llu %llu"
 msgstr ""
 
 #: src/amailbox.cc:77
@@ -981,8 +1004,8 @@ msgstr "Kötü Look adı"
 msgid "Loc_k Workstation"
 msgstr "_Bilgisayarı Kitle"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:949 src/wmprog.cc:951 src/wmtaskbar.cc:434
-#: src/wmtaskbar.cc:436
+#: src/wmdialog.cc:90 src/wmprog.cc:949 src/wmprog.cc:951 src/wmtaskbar.cc:438
+#: src/wmtaskbar.cc:440
 msgid "_Logout..."
 msgstr "_Oturumu Kapat..."
 
@@ -994,8 +1017,8 @@ msgstr "_Vazgeç"
 msgid "_Restart icewm"
 msgstr "I_ceVM'i Yeniden Başlat"
 
-#: src/wmdialog.cc:125 src/wmprog.cc:887 src/wmtaskbar.cc:426
-#: src/wmtaskbar.cc:429
+#: src/wmdialog.cc:125 src/wmprog.cc:887 src/wmtaskbar.cc:430
+#: src/wmtaskbar.cc:433
 msgid "_About"
 msgstr "_Hakkında"
 
@@ -1089,7 +1112,7 @@ msgstr "Programlar"
 msgid "_Run..."
 msgstr "Çalıştır"
 
-#: src/wmprog.cc:863 src/wmtaskbar.cc:414
+#: src/wmprog.cc:863 src/wmtaskbar.cc:418
 msgid "_Windows"
 msgstr "P_encereler"
 
@@ -1126,59 +1149,59 @@ msgstr ""
 msgid "Session Manager: Unknown line %s"
 msgstr "Session Manager: Bilinmeyen satır %s"
 
-#: src/wmtaskbar.cc:257 src/wmtaskbar.cc:258
+#: src/wmtaskbar.cc:258 src/wmtaskbar.cc:259
 msgid "Task Bar"
 msgstr "Görev Çubuğu"
 
-#: src/wmtaskbar.cc:403 src/wmwinlist.cc:312 src/wmwinlist.cc:325
+#: src/wmtaskbar.cc:407 src/wmwinlist.cc:312 src/wmwinlist.cc:325
 msgid "Tile _Vertically"
 msgstr "D_ikey Döşe"
 
-#: src/wmtaskbar.cc:404 src/wmwinlist.cc:313 src/wmwinlist.cc:326
+#: src/wmtaskbar.cc:408 src/wmwinlist.cc:313 src/wmwinlist.cc:326
 msgid "T_ile Horizontally"
 msgstr "_Yatay Döşe"
 
-#: src/wmtaskbar.cc:405 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+#: src/wmtaskbar.cc:409 src/wmwinlist.cc:314 src/wmwinlist.cc:327
 msgid "Ca_scade"
 msgstr "_Basamakla"
 
-#: src/wmtaskbar.cc:406 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+#: src/wmtaskbar.cc:410 src/wmwinlist.cc:315 src/wmwinlist.cc:328
 msgid "_Arrange"
 msgstr "_Düzenle"
 
-#: src/wmtaskbar.cc:407 src/wmwinlist.cc:317 src/wmwinlist.cc:329
+#: src/wmtaskbar.cc:411 src/wmwinlist.cc:317 src/wmwinlist.cc:329
 msgid "_Minimize All"
 msgstr "_Hepsini Küçült"
 
-#: src/wmtaskbar.cc:408 src/wmwinlist.cc:318 src/wmwinlist.cc:330
+#: src/wmtaskbar.cc:412 src/wmwinlist.cc:318 src/wmwinlist.cc:330
 msgid "_Hide All"
 msgstr "H_epsini gizle"
 
-#: src/wmtaskbar.cc:409 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+#: src/wmtaskbar.cc:413 src/wmwinlist.cc:319 src/wmwinlist.cc:331
 msgid "_Undo"
 msgstr "Ge_rial"
 
-#: src/wmtaskbar.cc:411
+#: src/wmtaskbar.cc:415
 msgid "Arrange _Icons"
 msgstr "_Simgeleri Düzenle"
 
-#: src/wmtaskbar.cc:417
+#: src/wmtaskbar.cc:421
 msgid "_Refresh"
 msgstr "Ye_nile"
 
-#: src/wmtaskbar.cc:424
+#: src/wmtaskbar.cc:428
 msgid "_License"
 msgstr "_Lisans"
 
-#: src/wmtaskbar.cc:563
+#: src/wmtaskbar.cc:564
 msgid "Favorite applications"
 msgstr "Favori uygulamalar"
 
-#: src/wmtaskbar.cc:580
+#: src/wmtaskbar.cc:581
 msgid "Window list menu"
 msgstr "Pencere listesi menüsü"
 
-#: src/wmtaskbar.cc:589
+#: src/wmtaskbar.cc:590
 #, fuzzy
 msgid "Show Desktop"
 msgstr "Ma_saüstü"
@@ -1277,8 +1300,8 @@ msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
 msgstr "BUG? Beklenmeyen XPM dosyası sonu ancak Imlib parse edemedi «%s»"
 
 #: src/ycursor.cc:219
-#, c-format
-msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
+#, fuzzy, c-format
+msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
 msgstr "BUG? Beklenmeyen karakter ancak Imlib parse edemedi «%s»"
 
 #: src/yfontcore.cc:71 src/yfontxft.cc:174

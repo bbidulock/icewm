@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm-1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-02-12 22:30-0700\n"
+"POT-Creation-Date: 2017-03-08 09:08-0700\n"
 "PO-Revision-Date: 2016-04-18 10:53+0100\n"
 "Last-Translator: Vojtěch Zeisek <vojta@trapa.cz>\n"
 "Language-Team: Czech <opensuse-cz@opensuse.org>\n"
@@ -40,12 +40,26 @@ msgstr "D"
 msgid " - Full"
 msgstr " - Plný"
 
-#: src/acpustatus.cc:269
+#: src/acpustatus.cc:212
 #, c-format
-msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
+msgid ""
+"stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
+"intr = %llu, softirq = %llu, steal = %llu\n"
+msgstr ""
+
+#: src/acpustatus.cc:217
+#, c-format
+msgid ""
+"bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
+"softirq = %llu, steal = %llu (h = %i)\n"
+msgstr ""
+
+#: src/acpustatus.cc:279
+#, fuzzy, c-format
+msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "Zátěž CPU: %3.2f %3.2f %3.2f, %u"
 
-#: src/acpustatus.cc:274
+#: src/acpustatus.cc:284
 #, c-format
 msgid ""
 "\n"
@@ -54,7 +68,7 @@ msgstr ""
 "\n"
 "Ram (volná): %5.2f (%.2f) M"
 
-#: src/acpustatus.cc:279
+#: src/acpustatus.cc:289
 #, c-format
 msgid ""
 "\n"
@@ -63,7 +77,7 @@ msgstr ""
 "\n"
 "Swap (volný): %.2f (%.2f) M"
 
-#: src/acpustatus.cc:285
+#: src/acpustatus.cc:295
 #, c-format
 msgid ""
 "\n"
@@ -72,7 +86,7 @@ msgstr ""
 "\n"
 "ACPI Teplota: "
 
-#: src/acpustatus.cc:304
+#: src/acpustatus.cc:314
 #, c-format
 msgid ""
 "\n"
@@ -82,9 +96,19 @@ msgstr ""
 "↵\n"
 "CPU Freq: %.3fGHz"
 
-#: src/acpustatus.cc:323
-msgid "CPU Load: "
+#: src/acpustatus.cc:335
+msgid "CPU"
+msgstr ""
+
+#: src/acpustatus.cc:335
+#, fuzzy
+msgid "Load: "
 msgstr "Vytížení CPU: "
+
+#: src/acpustatus.cc:694
+#, c-format
+msgid "%s: %llu %llu %llu %llu %llu %llu %llu"
+msgstr ""
 
 #: src/amailbox.cc:77
 #, c-format
@@ -1010,8 +1034,8 @@ msgstr "Špatné jméno vzhledu (look)"
 msgid "Loc_k Workstation"
 msgstr "Zamknout pracovní _stanici"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:949 src/wmprog.cc:951 src/wmtaskbar.cc:434
-#: src/wmtaskbar.cc:436
+#: src/wmdialog.cc:90 src/wmprog.cc:949 src/wmprog.cc:951 src/wmtaskbar.cc:438
+#: src/wmtaskbar.cc:440
 msgid "_Logout..."
 msgstr "_Odhlášení…"
 
@@ -1023,8 +1047,8 @@ msgstr "_Zrušit"
 msgid "_Restart icewm"
 msgstr "Restartovat _icewm"
 
-#: src/wmdialog.cc:125 src/wmprog.cc:887 src/wmtaskbar.cc:426
-#: src/wmtaskbar.cc:429
+#: src/wmdialog.cc:125 src/wmprog.cc:887 src/wmtaskbar.cc:430
+#: src/wmtaskbar.cc:433
 msgid "_About"
 msgstr "O _Aplikaci"
 
@@ -1118,7 +1142,7 @@ msgstr "Programy"
 msgid "_Run..."
 msgstr "_Spustit…"
 
-#: src/wmprog.cc:863 src/wmtaskbar.cc:414
+#: src/wmprog.cc:863 src/wmtaskbar.cc:418
 msgid "_Windows"
 msgstr "_Okna"
 
@@ -1155,59 +1179,59 @@ msgstr "Nas_tavení"
 msgid "Session Manager: Unknown line %s"
 msgstr "Správce relace: Neznámý řádek %s"
 
-#: src/wmtaskbar.cc:257 src/wmtaskbar.cc:258
+#: src/wmtaskbar.cc:258 src/wmtaskbar.cc:259
 msgid "Task Bar"
 msgstr "Panel úloh"
 
-#: src/wmtaskbar.cc:403 src/wmwinlist.cc:312 src/wmwinlist.cc:325
+#: src/wmtaskbar.cc:407 src/wmwinlist.cc:312 src/wmwinlist.cc:325
 msgid "Tile _Vertically"
 msgstr "Uspořádat _svisle"
 
-#: src/wmtaskbar.cc:404 src/wmwinlist.cc:313 src/wmwinlist.cc:326
+#: src/wmtaskbar.cc:408 src/wmwinlist.cc:313 src/wmwinlist.cc:326
 msgid "T_ile Horizontally"
 msgstr "Uspořádat _vodorovně"
 
-#: src/wmtaskbar.cc:405 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+#: src/wmtaskbar.cc:409 src/wmwinlist.cc:314 src/wmwinlist.cc:327
 msgid "Ca_scade"
 msgstr "Uspořádat do _kaskády"
 
-#: src/wmtaskbar.cc:406 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+#: src/wmtaskbar.cc:410 src/wmwinlist.cc:315 src/wmwinlist.cc:328
 msgid "_Arrange"
 msgstr "_Uspořádat"
 
-#: src/wmtaskbar.cc:407 src/wmwinlist.cc:317 src/wmwinlist.cc:329
+#: src/wmtaskbar.cc:411 src/wmwinlist.cc:317 src/wmwinlist.cc:329
 msgid "_Minimize All"
 msgstr "_Minimalizovat vše"
 
-#: src/wmtaskbar.cc:408 src/wmwinlist.cc:318 src/wmwinlist.cc:330
+#: src/wmtaskbar.cc:412 src/wmwinlist.cc:318 src/wmwinlist.cc:330
 msgid "_Hide All"
 msgstr "_Schovat vše"
 
-#: src/wmtaskbar.cc:409 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+#: src/wmtaskbar.cc:413 src/wmwinlist.cc:319 src/wmwinlist.cc:331
 msgid "_Undo"
 msgstr "Vrá_tit"
 
-#: src/wmtaskbar.cc:411
+#: src/wmtaskbar.cc:415
 msgid "Arrange _Icons"
 msgstr "Uspořádat _ikony"
 
-#: src/wmtaskbar.cc:417
+#: src/wmtaskbar.cc:421
 msgid "_Refresh"
 msgstr "_Obnovit"
 
-#: src/wmtaskbar.cc:424
+#: src/wmtaskbar.cc:428
 msgid "_License"
 msgstr "_Licence"
 
-#: src/wmtaskbar.cc:563
+#: src/wmtaskbar.cc:564
 msgid "Favorite applications"
 msgstr "Oblíbené aplikace"
 
-#: src/wmtaskbar.cc:580
+#: src/wmtaskbar.cc:581
 msgid "Window list menu"
 msgstr "Nabídka se seznamem oken"
 
-#: src/wmtaskbar.cc:589
+#: src/wmtaskbar.cc:590
 msgid "Show Desktop"
 msgstr "Zobrazit Plochu"
 
@@ -1307,8 +1331,8 @@ msgstr ""
 "CHYBA? Neočekávaný konec souboru XPM, ale Imlib byla schopna analyzovat „%s“"
 
 #: src/ycursor.cc:219
-#, c-format
-msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
+#, fuzzy, c-format
+msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
 msgstr "CHYBA? Neočekávaný znak, ale Imlib byla schopna analyzovat „%s“"
 
 #: src/yfontcore.cc:71 src/yfontxft.cc:174

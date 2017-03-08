@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.2.15\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-02-12 22:30-0700\n"
+"POT-Creation-Date: 2017-03-08 09:08-0700\n"
 "PO-Revision-Date: 2016-12-24 12:56+0000\n"
 "Last-Translator: Kamil Stańczyk <suszaraa@gmail.com>\n"
 "Language-Team: Polish <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -39,12 +39,26 @@ msgstr "C"
 msgid " - Full"
 msgstr " - Pełny"
 
-#: src/acpustatus.cc:269
+#: src/acpustatus.cc:212
 #, c-format
-msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
+msgid ""
+"stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
+"intr = %llu, softirq = %llu, steal = %llu\n"
+msgstr ""
+
+#: src/acpustatus.cc:217
+#, c-format
+msgid ""
+"bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
+"softirq = %llu, steal = %llu (h = %i)\n"
+msgstr ""
+
+#: src/acpustatus.cc:279
+#, fuzzy, c-format
+msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "Obciążenie procesora: %3.2f %3.2f %3.2f, %u"
 
-#: src/acpustatus.cc:274
+#: src/acpustatus.cc:284
 #, c-format
 msgid ""
 "\n"
@@ -53,7 +67,7 @@ msgstr ""
 "\n"
 "Ram (wolny): %5.2f (%.2f) M"
 
-#: src/acpustatus.cc:279
+#: src/acpustatus.cc:289
 #, c-format
 msgid ""
 "\n"
@@ -62,7 +76,7 @@ msgstr ""
 "\n"
 "Pamięć wymiany (wolna): %.2f (%.2f) M"
 
-#: src/acpustatus.cc:285
+#: src/acpustatus.cc:295
 #, c-format
 msgid ""
 "\n"
@@ -71,7 +85,7 @@ msgstr ""
 "\n"
 "Temperatura ACPI: "
 
-#: src/acpustatus.cc:304
+#: src/acpustatus.cc:314
 #, c-format
 msgid ""
 "\n"
@@ -80,9 +94,19 @@ msgstr ""
 "\n"
 "Częstotliwość procesora: %.3f GHz"
 
-#: src/acpustatus.cc:323
-msgid "CPU Load: "
+#: src/acpustatus.cc:335
+msgid "CPU"
+msgstr ""
+
+#: src/acpustatus.cc:335
+#, fuzzy
+msgid "Load: "
 msgstr "Obciążenie procesora: "
+
+#: src/acpustatus.cc:694
+#, c-format
+msgid "%s: %llu %llu %llu %llu %llu %llu %llu"
+msgstr ""
 
 #: src/amailbox.cc:77
 #, c-format
@@ -992,8 +1016,8 @@ msgstr "Zła nazwa wyglądu"
 msgid "Loc_k Workstation"
 msgstr "Zablokuj stano_wisko"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:949 src/wmprog.cc:951 src/wmtaskbar.cc:434
-#: src/wmtaskbar.cc:436
+#: src/wmdialog.cc:90 src/wmprog.cc:949 src/wmprog.cc:951 src/wmtaskbar.cc:438
+#: src/wmtaskbar.cc:440
 msgid "_Logout..."
 msgstr "Wy_loguj..."
 
@@ -1005,8 +1029,8 @@ msgstr "Anuluj"
 msgid "_Restart icewm"
 msgstr "U_ruchom ponownie IceWM"
 
-#: src/wmdialog.cc:125 src/wmprog.cc:887 src/wmtaskbar.cc:426
-#: src/wmtaskbar.cc:429
+#: src/wmdialog.cc:125 src/wmprog.cc:887 src/wmtaskbar.cc:430
+#: src/wmtaskbar.cc:433
 msgid "_About"
 msgstr "Inform_acje"
 
@@ -1100,7 +1124,7 @@ msgstr "Programy"
 msgid "_Run..."
 msgstr "U_ruchom..."
 
-#: src/wmprog.cc:863 src/wmtaskbar.cc:414
+#: src/wmprog.cc:863 src/wmtaskbar.cc:418
 msgid "_Windows"
 msgstr "Okna"
 
@@ -1138,59 +1162,59 @@ msgstr "Us_tawienia"
 msgid "Session Manager: Unknown line %s"
 msgstr "Menedżer sesji: nieznany wiersz %s"
 
-#: src/wmtaskbar.cc:257 src/wmtaskbar.cc:258
+#: src/wmtaskbar.cc:258 src/wmtaskbar.cc:259
 msgid "Task Bar"
 msgstr "Pasek zadań"
 
-#: src/wmtaskbar.cc:403 src/wmwinlist.cc:312 src/wmwinlist.cc:325
+#: src/wmtaskbar.cc:407 src/wmwinlist.cc:312 src/wmwinlist.cc:325
 msgid "Tile _Vertically"
 msgstr "Wyłóż Poziomo"
 
-#: src/wmtaskbar.cc:404 src/wmwinlist.cc:313 src/wmwinlist.cc:326
+#: src/wmtaskbar.cc:408 src/wmwinlist.cc:313 src/wmwinlist.cc:326
 msgid "T_ile Horizontally"
 msgstr "Wyłóż P_ionowo"
 
-#: src/wmtaskbar.cc:405 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+#: src/wmtaskbar.cc:409 src/wmwinlist.cc:314 src/wmwinlist.cc:327
 msgid "Ca_scade"
 msgstr "Ka_skada"
 
-#: src/wmtaskbar.cc:406 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+#: src/wmtaskbar.cc:410 src/wmwinlist.cc:315 src/wmwinlist.cc:328
 msgid "_Arrange"
 msgstr "Rozmieść"
 
-#: src/wmtaskbar.cc:407 src/wmwinlist.cc:317 src/wmwinlist.cc:329
+#: src/wmtaskbar.cc:411 src/wmwinlist.cc:317 src/wmwinlist.cc:329
 msgid "_Minimize All"
 msgstr "_Minimalizuj wszystkie"
 
-#: src/wmtaskbar.cc:408 src/wmwinlist.cc:318 src/wmwinlist.cc:330
+#: src/wmtaskbar.cc:412 src/wmwinlist.cc:318 src/wmwinlist.cc:330
 msgid "_Hide All"
 msgstr "Sc_howaj wszystkie"
 
-#: src/wmtaskbar.cc:409 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+#: src/wmtaskbar.cc:413 src/wmwinlist.cc:319 src/wmwinlist.cc:331
 msgid "_Undo"
 msgstr "Cofnij"
 
-#: src/wmtaskbar.cc:411
+#: src/wmtaskbar.cc:415
 msgid "Arrange _Icons"
 msgstr "Rozmieść ikony"
 
-#: src/wmtaskbar.cc:417
+#: src/wmtaskbar.cc:421
 msgid "_Refresh"
 msgstr "Odśwież"
 
-#: src/wmtaskbar.cc:424
+#: src/wmtaskbar.cc:428
 msgid "_License"
 msgstr "_Licencja"
 
-#: src/wmtaskbar.cc:563
+#: src/wmtaskbar.cc:564
 msgid "Favorite applications"
 msgstr "Ulubione programy"
 
-#: src/wmtaskbar.cc:580
+#: src/wmtaskbar.cc:581
 msgid "Window list menu"
 msgstr "Menu listy okien"
 
-#: src/wmtaskbar.cc:589
+#: src/wmtaskbar.cc:590
 msgid "Show Desktop"
 msgstr "Pokaż biurko"
 
@@ -1288,8 +1312,8 @@ msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
 msgstr "BUG? Nieoczekiwany koniec pliku XPM ale Imlib mógł przetworzyć \"%s\""
 
 #: src/ycursor.cc:219
-#, c-format
-msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
+#, fuzzy, c-format
+msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
 msgstr "BUG? Nieoczekiwany znak ale Imlib mógł przetworzyć \"%s\""
 
 #: src/yfontcore.cc:71 src/yfontxft.cc:174
