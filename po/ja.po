@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-03-08 09:08-0700\n"
-"PO-Revision-Date: 2017-01-04 10:55+0000\n"
+"PO-Revision-Date: 2017-03-08 22:32+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
-"Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
-"branch/ja/>\n"
+"Language-Team: Japanese "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,6 +45,8 @@ msgid ""
 "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 "intr = %llu, softirq = %llu, steal = %llu\n"
 msgstr ""
+"stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
+"intr = %llu, softirq = %llu, steal = %llu\n"
 
 #: src/acpustatus.cc:217
 #, c-format
@@ -52,11 +54,13 @@ msgid ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 "softirq = %llu, steal = %llu (h = %i)\n"
 msgstr ""
+"bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
+"softirq = %llu, steal = %llu (h = %i)\n"
 
 #: src/acpustatus.cc:279
-#, fuzzy, c-format
+#, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
-msgstr "CPU 負荷: %3.2f %3.2f %3.2f, %u 個のプロセス"
+msgstr "CPU %s の負荷: %3.2f %3.2f %3.2f, %u 個のプロセス"
 
 #: src/acpustatus.cc:284
 #, c-format
@@ -96,17 +100,16 @@ msgstr ""
 
 #: src/acpustatus.cc:335
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
 #: src/acpustatus.cc:335
-#, fuzzy
 msgid "Load: "
-msgstr "CPU 負荷: "
+msgstr "負荷: "
 
 #: src/acpustatus.cc:694
 #, c-format
 msgid "%s: %llu %llu %llu %llu %llu %llu %llu"
-msgstr ""
+msgstr "%s: %llu %llu %llu %llu %llu %llu %llu"
 
 #: src/amailbox.cc:77
 #, c-format
@@ -1349,11 +1352,9 @@ msgstr ""
 "めてしまいました"
 
 #: src/ycursor.cc:219
-#, fuzzy, c-format
+#, c-format
 msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
-msgstr ""
-"バグ？ \"%s\" で予期しない文字が現われましたが、 imlib 側で読み込めてしまいま"
-"した"
+msgstr "バグ？ \"%s\" で予期しない文字が現われましたが、 imlib 側で読み込めてしまいました"
 
 #: src/yfontcore.cc:71 src/yfontxft.cc:174
 #, c-format
