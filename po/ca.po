@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-03-08 09:08-0700\n"
-"PO-Revision-Date: 2017-01-04 10:31+0000\n"
+"PO-Revision-Date: 2017-03-08 18:54+0000\n"
 "Last-Translator: David Medina <medipas@gmail.com>\n"
-"Language-Team: Catalan <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
-"branch/ca/>\n"
+"Language-Team: Catalan "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,6 +45,8 @@ msgid ""
 "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 "intr = %llu, softirq = %llu, steal = %llu\n"
 msgstr ""
+"estadística:\tusuari = %llu, bé = %llu, sys = %llu, inactiu = %llu, e/"
+"s.espera = %llu, intr = %llu, softirq = %llu, steal = %llu\n"
 
 #: src/acpustatus.cc:217
 #, c-format
@@ -52,11 +54,13 @@ msgid ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 "softirq = %llu, steal = %llu (h = %i)\n"
 msgstr ""
+"barress:\tusuari = %llu, bé = %llu, sys = %llu, e/s.espera = %llu, intr = %"
+"llu, softirq = %llu, steal = %llu (h = %i)\n"
 
 #: src/acpustatus.cc:279
-#, fuzzy, c-format
+#, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
-msgstr "Càrrega de la CPU: %3.2f %3.2f %3.2f, %u"
+msgstr "Càrrega de la CPU %s: %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:284
 #, c-format
@@ -96,17 +100,16 @@ msgstr ""
 
 #: src/acpustatus.cc:335
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
 #: src/acpustatus.cc:335
-#, fuzzy
 msgid "Load: "
-msgstr "Càrrega de CPU: "
+msgstr "Càrrega: "
 
 #: src/acpustatus.cc:694
 #, c-format
 msgid "%s: %llu %llu %llu %llu %llu %llu %llu"
-msgstr ""
+msgstr "%s: %llu %llu %llu %llu %llu %llu %llu"
 
 #: src/amailbox.cc:77
 #, c-format
@@ -1340,7 +1343,7 @@ msgstr ""
 "ERROR? Final del fitxer XPM imprevist, però Imlib ha pogut analitzar \"%s\""
 
 #: src/ycursor.cc:219
-#, fuzzy, c-format
+#, c-format
 msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
 msgstr "ERROR? Caràcter imprevist, però Imlib ha pogut analitzar \"%s\""
 
