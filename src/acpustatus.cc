@@ -76,7 +76,7 @@ extern ref<YPixmap> taskbackPixmap;
 
 ref<YFont> CPUStatus::tempFont;
 
-CPUStatus::CPUStatus(YWindow *aParent, int cpuid) : YWindow(aParent), m_nCachedFd(NULL)
+CPUStatus::CPUStatus(YSMListener *smActionListener, YWindow *aParent, int cpuid) : YWindow(aParent), m_nCachedFd(NULL)
 {
     fCpuID = cpuid;
     this->smActionListener = smActionListener;
@@ -702,9 +702,9 @@ void CPUStatus::getStatus() {
         cpu[taskBarCPUSamples - 1][IWM_SOFTIRQ],
         cpu[taskBarCPUSamples - 1][IWM_STEAL]));
 }
-void CPUStatus::GetCPUStatus(YWindow *aParent, CPUStatus **&fCPUStatus, bool combine) {
+void CPUStatus::GetCPUStatus(YSMListener *smActionListener, YWindow *aParent, CPUStatus **&fCPUStatus, bool combine) {
     if (combine) {
-        CPUStatus::getCPUStatusCombined(aParent, fCPUStatus);
+        CPUStatus::getCPUStatusCombined(smActionListener, aParent, fCPUStatus);
         return;
     }
 #if defined(linux)
@@ -712,7 +712,7 @@ void CPUStatus::GetCPUStatus(YWindow *aParent, CPUStatus **&fCPUStatus, bool com
     unsigned cnt = 0;
     FILE *fd = fopen("/proc/stat", "r");
     if (!fd) {
-        CPUStatus::getCPUStatusCombined(aParent, fCPUStatus);
+        CPUStatus::getCPUStatusCombined(smActionListener, aParent, fCPUStatus);
         return;
     }
     /* skip first line for combined cpu */
@@ -726,7 +726,7 @@ void CPUStatus::GetCPUStatus(YWindow *aParent, CPUStatus **&fCPUStatus, bool com
         cnt++;
     };
     fclose(fd);
-    CPUStatus::getCPUStatus(aParent, fCPUStatus, cnt);
+    CPUStatus::getCPUStatus(smActionListener, aParent, fCPUStatus, cnt);
 #elif defined(HAVE_KSTAT_H)
     kstat_named_t       *kn = NULL;
     kn = (kstat_named_t *)kstat_data_lookup(ks, "ncpus");
@@ -739,16 +739,16 @@ void CPUStatus::GetCPUStatus(YWindow *aParent, CPUStatus **&fCPUStatus, bool com
     CPUStatus::getCPUStatusCombined(aParent, fCPUStatus);
 #endif
 }
-void CPUStatus::getCPUStatusCombined(YWindow *aParent, CPUStatus **&fCPUStatus) {
+void CPUStatus::getCPUStatusCombined(YSMListener *smActionListener, YWindow *aParent, CPUStatus **&fCPUStatus) {
     fCPUStatus = new CPUStatus*[2];
-    fCPUStatus[0] = new CPUStatus(aParent);
+    fCPUStatus[0] = new CPUStatus(smActionListener, aParent);
     fCPUStatus[1] = NULL;
 }
-void CPUStatus::getCPUStatus(YWindow *aParent, CPUStatus **&fCPUStatus, unsigned ncpus) {
+void CPUStatus::getCPUStatus(YSMListener *smActionListener, YWindow *aParent, CPUStatus **&fCPUStatus, unsigned ncpus) {
     fCPUStatus = new CPUStatus*[ncpus + 1];
     /* we must reverse the order, so that left is cpu(0) and right is cpu(ncpus-1) */
     for (unsigned i(0); i < ncpus; i++)
-        fCPUStatus[i] = new CPUStatus(aParent, ncpus - 1 - i);
+        fCPUStatus[i] = new CPUStatus(smActionListener, aParent, ncpus - 1 - i);
     fCPUStatus[ncpus] = NULL;
 }
 #endif

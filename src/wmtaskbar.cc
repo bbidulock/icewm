@@ -453,7 +453,7 @@ void TaskBar::initApplets() {
 #ifdef CONFIG_APPLET_CPU_STATUS
     fCPUStatus = 0;
     if (taskBarShowCPUStatus)
-        CPUStatus::GetCPUStatus(this, fCPUStatus, cpuCombine);
+        CPUStatus::GetCPUStatus(smActionListener, this, fCPUStatus, cpuCombine);
 #endif
 #ifdef CONFIG_APPLET_NET_STATUS
     fNetStatus = 0;

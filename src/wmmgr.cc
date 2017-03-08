@@ -66,6 +66,7 @@ YWindowManager::YWindowManager(
     fWorkAreaWorkspaceCount = 0;
     fWorkAreaScreenCount = 0;
     fFullscreenEnabled = true;
+    fLastUserTime = 0;
     fFocusedWindow = new YFrameWindow *[MAXWORKSPACES];
     for (int w = 0; w < MAXWORKSPACES; w++)
         fFocusedWindow[w] = 0;
