@@ -323,6 +323,7 @@ cfoption icewm_themable_preferences[] = {
     OSV("ColorCPUStatusSoftIrq",                &clrCpuSoftIrq,                 "Soft Interrupts on the CPU monitor"),
     OSV("ColorCPUStatusNice",                   &clrCpuNice,                    "Nice load on the CPU monitor"),
     OSV("ColorCPUStatusIdle",                   &clrCpuIdle,                    "Idle (non) load on the CPU monitor, leave empty to force transparency"),
+    OSV("ColorCPUStatusSteal",                  &clrCpuSteal,                   "Involuntary Wait on the CPU monitor"),
     OSV("ColorCPUStatusTemp",                   &clrCpuTemp,                    "Temperature of the CPU"),
 #endif
 #ifdef CONFIG_APPLET_MEM_STATUS
