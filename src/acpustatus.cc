@@ -76,7 +76,7 @@ extern ref<YPixmap> taskbackPixmap;
 
 ref<YFont> CPUStatus::tempFont;
 
-CPUStatus::CPUStatus(YSMListener *smActionListener, YWindow *aParent, int cpuid) : YWindow(aParent), m_nCachedFd(NULL)
+CPUStatus::CPUStatus(YSMListener *smActionListener, YWindow *aParent, int cpuid) : YWindow(aParent)
 {
     fCpuID = cpuid;
     this->smActionListener = smActionListener;
@@ -133,9 +133,6 @@ CPUStatus::~CPUStatus() {
     delete color[IWM_SOFTIRQ]; color[IWM_SOFTIRQ] = 0;
     delete color[IWM_STEAL]; color[IWM_STEAL] = 0;
     delete tempColor;
-
-    if(m_nCachedFd)
-        fclose(m_nCachedFd);
 }
 
 void CPUStatus::paint(Graphics &g, const YRect &/*r*/) {
@@ -444,25 +441,26 @@ void CPUStatus::getStatus() {
     if (fCpuID >= 0)
         snprintf(cpuname, sizeof(cpuname), "cpu%d", fCpuID);
 
-    FILE *fd = m_nCachedFd;
-
+    FILE *fd = fopen("/proc/stat", "r");
     if (fd == NULL)
     {
-        fd = fopen("/proc/stat", "r");
-        if (fd == NULL)
-            return;
+        fclose(fd);
+        return;
     }
 
     /* find the line that starts with `cpuname` */
     do {
         if (!fgets(buf, sizeof(buf) - 1, fd)) {
+            fclose(fd);
             return;
         }
         tok = strtok_r(buf, " \t", &p);
         if (!tok) {
+            fclose(fd);
             return;
         }
     } while (strcmp(tok, cpuname));
+    fclose(fd);
     s = sscanf(p, "%llu %llu %llu %llu %llu %llu %llu %llu",
                &cur[IWM_USER],    &cur[IWM_NICE],
                &cur[IWM_SYS],     &cur[IWM_IDLE],
