@@ -717,7 +717,7 @@ void CPUStatus::GetCPUStatus(YSMListener *smActionListener, YWindow *aParent, CP
         return;
     }
     /* skip first line for combined cpu */
-    fgets(buf, sizeof(buf), fd);
+    if (fgets(buf, sizeof(buf), fd)) ;
     /* count lines that begins with "cpu" */
     while (1) {
         if (!fgets(buf, sizeof(buf), fd))
