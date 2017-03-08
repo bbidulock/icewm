@@ -76,7 +76,7 @@ extern ref<YPixmap> taskbackPixmap;
 
 ref<YFont> CPUStatus::tempFont;
 
-CPUStatus::CPUStatus(YSMListener *smActionListener, YWindow *aParent, int cpuid) : YWindow(aParent), m_nCachedFd(NULL)
+CPUStatus::CPUStatus(YSMListener *smActionListener, YWindow *aParent, int cpuid) : YWindow(aParent)
 {
     fCpuID = cpuid;
     this->smActionListener = smActionListener;
@@ -133,9 +133,6 @@ CPUStatus::~CPUStatus() {
     delete color[IWM_SOFTIRQ]; color[IWM_SOFTIRQ] = 0;
     delete color[IWM_STEAL]; color[IWM_STEAL] = 0;
     delete tempColor;
-
-    if(m_nCachedFd)
-        fclose(m_nCachedFd);
 }
 
 void CPUStatus::paint(Graphics &g, const YRect &/*r*/) {
@@ -408,8 +405,11 @@ int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
         }
         closedir(dir);
         if (1 < retbuflen && retbuflen + 1 < buflen) {
-            tempbuf[retbuflen++] = '\xB0';
-            tempbuf[retbuflen++] = 'C';
+            // TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language, like "°C"
+            // TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
+            static const char *T = _("C");
+            int i = -1;
+            while (T[++i]) tempbuf[retbuflen++] = T[i];
             tempbuf[retbuflen] = '\0';
         }
     }
@@ -444,25 +444,26 @@ void CPUStatus::getStatus() {
     if (fCpuID >= 0)
         snprintf(cpuname, sizeof(cpuname), "cpu%d", fCpuID);
 
-    FILE *fd = m_nCachedFd;
-
+    FILE *fd = fopen("/proc/stat", "r");
     if (fd == NULL)
     {
-        fd = fopen("/proc/stat", "r");
-        if (fd == NULL)
-            return;
+        fclose(fd);
+        return;
     }
 
     /* find the line that starts with `cpuname` */
     do {
         if (!fgets(buf, sizeof(buf) - 1, fd)) {
+            fclose(fd);
             return;
         }
         tok = strtok_r(buf, " \t", &p);
         if (!tok) {
+            fclose(fd);
             return;
         }
     } while (strcmp(tok, cpuname));
+    fclose(fd);
     s = sscanf(p, "%llu %llu %llu %llu %llu %llu %llu %llu",
                &cur[IWM_USER],    &cur[IWM_NICE],
                &cur[IWM_SYS],     &cur[IWM_IDLE],
