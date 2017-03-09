@@ -25,7 +25,7 @@ if(gettext AND xgettext AND msgmerge AND msgfmt)
 	endforeach()
 
 	#message("langs: ${LANGUAGES}")
-	SET(XGETTEXT_CMD xgettext -language=CXX --keyword=_ --keyword=N_  -s --package-name=${PACKAGE} --package-version=${VERSION})
+	SET(XGETTEXT_CMD xgettext --from-code=UTF-8 -language=CXX --add-comments=TRANSLATORS: --keyword=_ --keyword=N_ -s --package-name=${PACKAGE} --package-version=${VERSION})
   SET(_potFile "${CMAKE_CURRENT_SOURCE_DIR}/${PACKAGE}.pot")
 
 	ADD_CUSTOM_COMMAND(OUTPUT ${_potFile}
