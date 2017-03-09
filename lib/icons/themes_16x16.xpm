@@ -1,0 +1,27 @@
+/* XPM */
+static char *themes_16x16[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 5 1 ",
+"  c #DB0000",
+". c #924949",
+"X c #009200",
+"o c #DB9200",
+"O c None",
+/* pixels */
+"OOOOOOOOOOOOOOOO",
+"     OOoOOOOOOOO",
+"     OoooOOOOOOO",
+"     oooooOOOOOO",
+"    ooooooOXOOOO",
+"   ooooooXXXXOOO",
+"   oooooXXXXXXOO",
+"   ooooXXXXXXXXO",
+"  ooooXXXXXXXOOO",
+"  ooXXXXXXXXOOOO",
+" oo.............",
+" oX.............",
+" oX.............",
+"OOO.............",
+"OOOOOOOOOOOOOOOO",
+"OOOOOOOOOOOOOOOO"
+};
