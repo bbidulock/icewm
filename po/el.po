@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-02-12 22:30-0700\n"
-"PO-Revision-Date: 2017-03-05 18:35+0200\n"
+"PO-Revision-Date: 2017-03-10 13:52+0200\n"
 "Last-Translator: nikos <nikos769@yahoo.gr>\n"
 "Language-Team: Greek <>\n"
 "Language: el\n"
@@ -79,7 +79,7 @@ msgid ""
 "CPU Freq: %.3fGHz"
 msgstr ""
 "\n"
-"Συχνότητα CPU: %.3fGHz"
+"Συχνότητα Επεξεργαστή: %.3fGHz"
 
 #: src/acpustatus.cc:323
 msgid "CPU Load: "
@@ -380,6 +380,62 @@ msgid ""
 "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
 "\n"
 msgstr ""
+"Χρήση: %s [ΕΠΙΛΟΓΕΣ] ΕΝΕΡΓΕΙΕΣ\n"
+"\n"
+"Επιλογές:\n"
+"  -display ΠΡΟΒΟΛΗ             Συνδέεται στον εξυπηρετητή X, που"
+" προσδιοριζεται από την ΠΡΟΒΟΛΗ.\n"
+"                               Προεπιλογή: $DISPLAY ή :0.0 όταν δεν"
+" ορίζεται.\n"
+"  -window ΤΑΥΤΟΤΗΤΑ_ΠΑΡΑΘΥΡΟΥ  Προσδιορίζει την ταυτότητα (WINDOW_ID) του"
+" παράθυρου προς διαχείριση.\n"
+"                               Ειδικά αναγνωριστικά είναι το `root' για το"
+" root παράθυρο, \n"
+"                               και `focus', για το παράθυρο το οποίο είναι,"
+" τώρα, εστιασμένο.\n"
+"  -class ΤΑΞΗ_ΔΙΑΧ_ΠΑΡ         Τάξη διαχείρισης των παράθυρων (WM_CLASS), από"
+" το παράθυρο, ή τα παράθυρα,\n"
+"                               προς διαχείριση. Αν ή ΤΑΞΗ_ΔΙΑΧ_ΠΑΡ περιέχει"
+" μια τελεία, μόνο παράθυρα\n"
+"                               με ακριβώς την ίδια ιδιότητα ΤΑΞΗ_ΔΙΑΧ_ΠΑΡ θα"
+" ταιριάξουν.\n"
+"                               Αν δεν περιέχει τελεία, θα επιλεγούν παράθυρα"
+" καί με την ίδια τάξη\n"
+"                               καί παράθυρα με την ίδια υπόσταση (αλλιώς:"
+" `-name').\n"
+"\n"
+"Ενέργειες:\n"
+"  setIconTitle   ΤΙΤΛΟΣ        Όρισε τον τίτλο της εικόνας.\n"
+"  setWindowTitle ΤΙΤΛΟΣ        Όρισε τον τίτλο του παράθυρου.\n"
+"  setGeometry    γεωμετρία     Όρισε την γεωμετρία του παράθυρου.\n"
+"  setState       ΠΡΟΣΩΠ ΚΑΤΑΣ  Όρισε την κατάσταση (STATE) του παράθυρου του"
+" GNOME σε ΚΑΤΑΣΤΑΣΗ.\n"
+"                               Επιρεάζονται μόνο τα μπίτια που επιλέγονται \n"
+"                               από το ΠΡΟΣΩΠΕΙΟ (MASK). Η ΚΑΤΑΣΤΑΣΗ και το"
+" ΠΡΟΣΩΠΕΙΟ \n"
+"                               είναι εκφράσεις του τομέα `GNOME window"
+" state'.\n"
+"  toggleState    ΚΑΤΑΣΤΑΣΗ     Εναλλαγή των μπιτιών της κατάστασης του"
+" παράθυρου του GNOME,\n"
+"                               που προσδιορίζονται από την έκφραση"
+" ΚΑΤΑΣΤΑΣΗ.\n"
+"  setHints       ΥΠΟΔΕΙΞΕΙΣ    Όρισε τις υποδείξεις (hints) του παράθυρου του"
+" GNOME σε ΥΠΟΔΕΙΞΕΙΣ.\n"
+"  setLayer       ΣΤΡΩΜΑ        Μετακίνηση του παράθυρου σε άλλο στρώμα"
+" παράθυρων του GNOME.\n"
+"  setWorkspace   ΧΩΡΟΣ_ΕΡΓΑΣ   Μετακινεί το παράθυρο σε διαφορετικό χώρο"
+" εργασίας.\n"
+"                               Επέλεξε το παράθυρο root για να αλλάξεις τον"
+" τωρινό χώρο εργασίας.\n"
+"  listWorkspaces               Δίνει κατάστιχο με τα ονόματα όλων των χώρων"
+" εργασίας.\n"
+"  setTrayOption  ΕΠΙΛΟ_ΡΑΦΙΟΥ  Όρισε την υπόδειξη του ραφιού του IceWM.\n"
+"\n"
+"Εκφράσεις:\n"
+"  Οι εκφράσεις είναι παραθέσεις από σύμβολα ενός τομέα ενωμένα με `+' ή `|':\n"
+"\n"
+"  ΕΚΦΡΑΣΗ ::= ΣΥΜΒΟΛΟ | ΕΚΦΡΑΣΗ ( `+' | `|' ) ΣΥΜΒΟΛΟ\n"
+"\n"
 
 #: src/icesh.cc:608
 msgid "GNOME window state"
@@ -540,6 +596,57 @@ msgid ""
 "3     Subsystems error (ie cannot connect to server).\n"
 "\n"
 msgstr ""
+"Χρήση: %s [ΕΠΙΛΟΓΗ]...\n"
+"\n"
+"Αναπαράγει αρχεία ήχου σε γεγονότα της Γραφικής Διεπαφής Χρήστη που"
+" εξυπσώνονται από το IceWM.\n"
+"\n"
+"Επιλογές:\n"
+"\n"
+"-d, --display=ΠΡΟΒΟΛΗ           Οθόνη που χρησιμοποιείται από το IceWM"
+" (προεπιλογή: $DISPLAY).\n"
+"-s, --sample-dir=ΚΑΤΑΛΟΓΟΣ      Προσδιορίζει το φάκελο ο οποίος περιέχει\n"
+"                                τα αρχεία ήχου (παράδειγμα ~/.icewm/sounds).\n"
+"-i, --interface=ΠΡΟΟΡΙΣΜΟΣ      Προσδιορίζει την διεπαφή προορισμού της"
+" εξόδου του ήχου·\n"
+"                                ένα από τα OSS, YIFF, ESD, ALSA\n"
+"-D, --device=ΣΥΣΚΕΥΗ            (ALSA κ΄ OSS μόνο) προσδιορίζει τη συσκευή"
+" που θα χρησιμοποιηθεί\n"
+"                                (προεπιλογή του OSS: /dev/dsp · προεπιλογή"
+" της ALSA: default).\n"
+"-S, --server=ΔΙΕΥΘΥΝΣΗ:ΘΥΡΑ     (ESD και YIFF) προσδιορίζει την διεύθυνση του"
+" εξυπηρετητή\n"
+"                                και τον αριθμό της θύρας (προεπιλογή"
+" localhost:16001 για ESD,\n"
+"                                και προεπιλογή localhost:9433 για YIFF).\n"
+"-m, --audio-mode[=ΛΕΙΤΟΥΡΓΙΑ]   (μόνο για YIFF) προσδιορίζει την κατάσταση"
+" λειτουργίας του Ήχου\n"
+"                                (άφησέ το κενό για να εμφανιστεί ένα"
+" κατάστιχο).\n"
+"--audio-mode-auto               (μόνο για YIFF) αλλαγή της κατάστασης"
+" λειτουργίας του Ήχου,\n"
+"                                «εν κινήσει»,\n"
+"                                ώστε να ταιριάξει καλύτερα με τον Ήχου του"
+" δείγματος\n"
+"                                (μπορεί να προκαλέσει προβλήματα με άλλους"
+" πελάτες Y,\n"
+"                                παραμερίζει την επιλογή --audio-mode).\n"
+"\n"
+"-v, --verbose                   Να είναι φλύαρο (εκτυπώνει κάθε γεγονός ήχου"
+" στο stdout).\n"
+"-V, --version                   Εκτυπώνει τις πληροφορίες έκδοσης και"
+" κλείνει.\n"
+"-h, --help                      Εκτυπώνει την (παρούσα) οθόνη βοήθειας και"
+" κλείνει.\n"
+"\n"
+"Επιστρεφόμενες τιμές:\n"
+"\n"
+"0     Επιτυχία.\n"
+"1     Γενικό σφάλμα.\n"
+"2     Σφάλμα της γραμμής εντολών.\n"
+"3     Σφάλμα των υποσυστημάτων (δηλαδή, δεν μπορεί να συνδεθεί στον"
+" εξυπηρετητή).\n"
+"\n"
 
 #: src/icesound.cc:1175
 msgid "Multiple sound interfaces given."
@@ -606,6 +713,23 @@ msgid ""
 " center:0 scaled:0 = tiled\n"
 " center:1 scaled:1 = keep aspect ratio\n"
 msgstr ""
+"Χρήση: icewmbg [ -r | -q ]\n"
+" -r  Επανεκκίνηση του icewmbg\n"
+" -q  Τερματισμός του icewmbg\n"
+"Φορτώνει το παρασκήνιο της επιφάνειας εργασίας, σύμφωνα με το αρχείο των"
+" προτιμήσεων\n"
+" DesktopBackgroundCenter  - Κεντραρισμένη προβολή του παρασκηνίου της"
+" επιφάνειας εργασίας\n"
+" DesktopBackgroundScaled  - Κλιμακωμένη προβολή του παρασκηνίου της"
+" επιφάνειας εργασίας\n"
+" SupportSemitransparency  - Υποστήριξη για ημιδιαφανή τερματικά\n"
+" DesktopBackgroundColor   - Χρώμα παρασκηνίου επιφάνειας εργασίας\n"
+" DesktopBackgroundImage   - Εικόνα παρασκηνίου επιφάνειας εργασίας\n"
+" DesktopTransparencyColor - Χρώμα αναγγελίας για ημιδιαφανή παράθυρα\n"
+" DesktopTransparencyImage - Εικόνα αναγγελίας για ημιδιαφανή παράθυρα\n"
+"\n"
+" center:0 scaled:0 = παράλληλη τοποθέτηση\n"
+" center:1 scaled:1 = διατήρηση αναλογίας διαστάσεων\n"
 
 #: src/icewmbg.cc:428
 #, c-format
@@ -665,9 +789,8 @@ msgid "Theme Author:"
 msgstr "Συγγραφέας Θέματος:"
 
 #: src/wmabout.cc:43
-#, fuzzy
 msgid "CodeSet:"
-msgstr "CodeSet:"
+msgstr "ΟμάδαΚώδικα:"
 
 #: src/wmabout.cc:44
 msgid "Language:"
@@ -868,6 +991,36 @@ msgid ""
 "\n"
 "Visit http://www.icewm.org/ for report bugs, support requests, comments...\n"
 msgstr ""
+"Χρήση: %s [ΕΠΙΛΟΓΕΣ]\n"
+"Εκκινεί τον διαχειριστή παράθυρων IceWM.\n"
+"\n"
+"Επιλογές:\n"
+"  --display=ΟΝΟΜΑ         ΟΝΟΜΑ το εξυπηρετητή X που θα χρησιμοποιηθεί.\n"
+"%s  --sync                 Συγχρονισμός των εντολών X11.\n"
+"\n"
+"  -c, --config=ΑΡΧΕΙΟ    Φόρτωμα των προτιμήσεψν από το ΑΡΧΕΙΟ.\n"
+"  -t, --theme=ΑΡΧΕΙΟ     Φόρτωμα του θέματος από το ΑΡΧΕΙΟ.\n"
+"  -n, --no-configure     Αγνόηση των προτιμήσεων.\n"
+"\n"
+"  -v, --version          Εκτυπώνει της πληροφορίες έκδοσης και κλείνει.\n"
+"  -h, --help             Εκτυπώνει την παρούσα οθόνη χρήσης και κλείνει.\n"
+"%s  --replace              Αντικατάσταση ενός υπάρχοντος διαχειριστή"
+" παράθυρων.\n"
+"  --restart              Μην το χρησιμοποιήσεις αυτό.Είναι μια αεσωτερική"
+" σημαία.\n"
+"\n"
+"Μεταβλητές περιβάλλοντοςs:\n"
+"  ICEWM_PRIVCFG=ΔΙΑΔΡΟΜΗ Ο κατάλογος που θα χρησιμοποιηθεί για τα ιδιωτικά"
+" αρχεία ρυθμίσεων\n"
+"                         του χρήστη· κατά προεπιλογή το \"$HOME/.icewm/\".\n"
+"  DISPLAY=ΟΝΟΜΑ          Το όνομα του εξυπηρετητή X προς χρήση· κατά"
+" προεπιλογή εξαρτάται από το Xlib.\n"
+"  MAIL=URL               Τοποθεσία του γραμματοκιβώτιου σου. Αν το σχήμα"
+" παραληφθή,\n"
+"                         θα υιοθετηθεί το τοπικό σχήμα \"file\".\n"
+"\n"
+"Επισκέψου το http://www.icewm.org/ για αναφορά δισλειτουργιών, για αιτήματα"
+" υποστήριξης, σχόλια...\n"
 
 #: src/wmapp.cc:1747
 msgid "Confirm Logout"
@@ -1043,7 +1196,7 @@ msgstr "Γραμμή Εργασίας"
 
 #: src/wmtaskbar.cc:403 src/wmwinlist.cc:312 src/wmwinlist.cc:325
 msgid "Tile _Vertically"
-msgstr "Παραληλη Τοποθέτηση _Κάθετα"
+msgstr "Παράλληλη Τοποθέτηση _Κάθετα"
 
 #: src/wmtaskbar.cc:404 src/wmwinlist.cc:313 src/wmwinlist.cc:326
 msgid "T_ile Horizontally"
@@ -1103,15 +1256,15 @@ msgstr "Διαγραφή"
 
 #: src/wmwinlist.cc:299
 msgid "_Terminate Process"
-msgstr "_Τερματισμός διεργασίας"
+msgstr "_Τερματισμός Διεργασίας"
 
 #: src/wmwinlist.cc:300
 msgid "Kill _Process"
-msgstr "Τερματισμός _διεργασίας"
+msgstr "Σκότωμα _Διεργασίας"
 
 #: src/wmwinlist.cc:305
 msgid "_Show"
-msgstr "_Εμφάνιση"
+msgstr "_Προβολη"
 
 #: src/wmwinlist.cc:309
 msgid "_Minimize"
@@ -1119,7 +1272,7 @@ msgstr "_Ελαχιστοποίηση"
 
 #: src/wmwinlist.cc:342 src/wmwinlist.cc:343
 msgid "Window list"
-msgstr "Λίστα παραθύρων"
+msgstr "Κατάστιχο παραθύρων"
 
 #: src/wmwinmenu.cc:127
 #, c-format
@@ -1127,14 +1280,14 @@ msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Επιφάνεια εργασίας %-.32s"
 
 #: src/yapp.cc:483
-#, c-format
+#, fuzzy, c-format
 msgid "Message Loop: select failed (errno=%d)"
 msgstr "Ατέρμων βρόχος μηνύματος: η επιλογή απέτυχε (errno=%d 1)"
 
 #: src/ycmdline.cc:43
 #, c-format
 msgid "Unrecognized option: %s\n"
-msgstr "Μη αναγνωρίσιμη επιλογή: %s\n"
+msgstr "Μη αναγνωρισμένη επιλογή: %s\n"
 
 #: src/ycmdline.cc:48
 #, c-format
@@ -1149,7 +1302,7 @@ msgstr "Απαιτείται όρισμα για την εναλλαγή του 
 #: src/yconfig.cc:186
 #, c-format
 msgid "Unknown key name %s in %s"
-msgstr "Άγνωστο όνομα κλειδιού %s σε %s"
+msgstr "Άγνωστο όνομα κλειδιού %s στο %s"
 
 #: src/yconfig.cc:211 src/yconfig.cc:224
 #, c-format
@@ -1179,23 +1332,25 @@ msgid "BUG? Imlib was able to read \"%s\""
 msgstr "ΔΙΣΛΕΙΤΟΥΡΓΙΑ, ίσως; To Imlib ήταν σε θέση να διαβάσει από \"%s\""
 
 #: src/ycursor.cc:208
-#, fuzzy, c-format
+#, c-format
 msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
 msgstr ""
-"BUG; Δύσμορφη κεφαλίδα XPM αλλά το Imlib ήταν σε θέση να αναλύση \"%s\""
+"ΔΙΣΛΕΙΤΟΥΡΓΙΑ, ίσως; Παραμορφωμένη κεφαλίδα XPM, αλλά το Imlib ήταν σε θέση"
+" να αναλύσει το \"%s\""
 
 #: src/ycursor.cc:216
-#, fuzzy, c-format
+#, c-format
 msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
 msgstr ""
-"BUG; Αναπάντεχος τερματισμός του XPM αρχείου αλλά το Imlib ήταν σε θέση να "
-"αναλύση \"%s\""
+"ΔΙΣΛΕΙΤΟΥΡΓΙΑ, ίσως; Αναπάντεχο τέλος του αρχείου XPM, αλλά το Imlib ήταν σε"
+" θέση να αναλύσει το \"%s\""
 
 #: src/ycursor.cc:219
-#, fuzzy, c-format
+#, c-format
 msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
 msgstr ""
-"BUG; Μη αναμενόμενοι χαρακτήρες αλλά το Imlib ήταν σε θέση να αναλύση \"%s\""
+"ΔΙΣΛΕΙΤΟΥΡΓΙΑ, ίσως; Μη αναμενόμενοι χαρακτήρες, αλλά το Imlib ήταν σε θέση"
+" να αναλύσει το \"%s\""
 
 #: src/yfontcore.cc:71 src/yfontxft.cc:174
 #, c-format
@@ -1210,12 +1365,12 @@ msgstr "Η φόρτωση της εφεδρικής γραμματοσειράς
 #: src/yfontcore.cc:114
 #, c-format
 msgid "Could not load fontset \"%s\"."
-msgstr "Δεν ήταν δυνατή η φόρτωση της συλλογής γραμματοσειρών \"%s\"."
+msgstr "Δεν ήταν δυνατή η φόρτωση της ομάδας γραμματοσειρών \"%s\"."
 
 #: src/yfontcore.cc:126
-#, fuzzy, c-format
+#, c-format
 msgid "Missing codesets for fontset \"%s\":"
-msgstr "Ελλιπές codesets για τις συλλογές γραμματοσειρών \"%s 1\":"
+msgstr "Λείπουν ομάδες κώδικα για την ομάδα γραμματοσειρών \"%s\":"
 
 #: src/yicon.cc:167
 #, c-format
@@ -1225,17 +1380,15 @@ msgstr "Εκτός μνήμης για το pixmap \"%s\""
 #: src/yimage.cc:61 src/yimage.cc:109 src/ypixbuf.cc:1063
 #, c-format
 msgid "Loading of image \"%s\" failed"
-msgstr "Η φόρτωση της φωτογραφίας \"%s\" απέτυχε"
+msgstr "Η φόρτωση της εικόνας \"%s\" απέτυχε"
 
 #: src/yimage.cc:141 src/yimage.cc:159
-#, fuzzy
 msgid "Imlib: Acquisition of X pixmap failed"
 msgstr "Imlib: Η απόκτηση του X pixmap απέτυχε"
 
 #: src/yimage.cc:150
-#, fuzzy
 msgid "Imlib: Imlib image to X pixmap mapping failed"
-msgstr "Imlib: Η Imlib εικόνα για την αντιστοίχιση με το Χ pixmap απέτυχε"
+msgstr "Imlib: Απέτυχε η αντιστοίχιση της εικόνας Imlib με το Χ pixmap"
 
 #: src/yinput.cc:55
 msgid "Cu_t"
@@ -1263,7 +1416,7 @@ msgstr "Ctrl+V"
 
 #: src/yinput.cc:58
 msgid "Paste _Selection"
-msgstr "Επικόλληση _Επιλογής"
+msgstr "Επικόλληση της _Επιλογής"
 
 #: src/yinput.cc:60
 msgid "Select _All"
@@ -1274,34 +1427,31 @@ msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
 #: src/ylocale.cc:46
-#, fuzzy
 msgid "Locale not supported by C library. Falling back to 'C' locale'."
 msgstr ""
-"Η ρύθμιση αυτή δεν υποστηρίζεται από τη βιβλιοθήκη C. Επαναφορά στη 'C' "
-"locale'."
+"Η τοπικοποίηση αυτή δεν υποστηρίζεται από τη βιβλιοθήκη C. Υποχώρηση στη 'C'"
+" locale'."
 
 #: src/ylocale.cc:68
-#, fuzzy
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
-"Απέτυχε ο καθορισμός του τρέχοντος codeset. Το σύστημα θα υποθέσει το "
-"ISO-8859-1.\n"
+"Απέτυχε ο καθορισμός της τρέχουσας ομάδας κώδικα για την τοπικοποίηση. Το"
+" σύστημα θα υποθέσει την ISO-8859-1.\n"
 
 #: src/ylocale.cc:100 src/ylocale.cc:107
-#, fuzzy, c-format
+#, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
-msgstr "Το iconv δεν παρέχει (επαρκείς) %s μέχρι %s μετατροπές."
+msgstr "Το iconv δεν παρέχει (επαρκείς) μετατροπείς από %s σε %s ."
 
 #: src/ylocale.cc:161
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid multibyte string \"%s\": %s"
-msgstr "Μη έγκυρη συμβολοσειρά πολλαπλών byte \"%s\": %s"
+msgstr "Μη έγκυρος στίχος πολλαπλών μπάιτιων \"%s\": %s"
 
 #: src/ymsgbox.cc:38
-#, fuzzy
 msgid "_OK"
-msgstr "_OK"
+msgstr "_Εντάξει"
 
 #: src/ypaths.cc:144 src/ypaths.cc:171
 #, c-format
@@ -1309,24 +1459,24 @@ msgid "Image not readable: %s"
 msgstr "Η εικόνα δεν είναι αναγνώσιμη: %s"
 
 #: src/ypaths.cc:149
-#, fuzzy, c-format
+#, c-format
 msgid "Out of memory for image %s"
-msgstr "Εκτός μνήμης για το pixmap \"%s\""
+msgstr "Εκτός μνήμης για την εικόνα \"%s\""
 
 #: src/ypaths.cc:156
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find image %s"
-msgstr "Δεν μπόρεσα να βρώ το pixel map %s"
+msgstr "Αδυναμία εύρεσης της εικόνας %s"
 
 #: src/ypaths.cc:175
-#, fuzzy, c-format
+#, c-format
 msgid "Out of memory for image: %s"
-msgstr "Εκτός μνήμης για το pixmap \"%s\""
+msgstr "Εκτός μνήμης για την εικόνα: \"%s\""
 
 #: src/ypaths.cc:182
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find image: %s"
-msgstr "Δεν μπόρεσα να βρώ το pixel map %s"
+msgstr "Αδυναμία εύρεσης της εικόνας: %s"
 
 #: src/ypixbuf.cc:482 src/ypixbuf.cc:668
 #, c-format
@@ -1334,28 +1484,27 @@ msgid ""
 "Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
 "blue): %0*x/%0*x/%0*x)"
 msgstr ""
-"Χρησιμοποίηση του μηχανισμού επαναφοράς για την μετατροπή των pixels (βάθος: "
-"%d; μάσκες (κόκκινο/πράσινο/μπλέ): %0*x/%0*x/%0*x)"
+"Χρησιμοποίηση του μηχανισμού υποχώρησης για την μετατροπή των πίξελων (βάθος:"
+" %d; μάσκες (κόκκινο/πράσινο/μπλέ): %0*x/%0*x/%0*x)"
 
 #: src/ypixbuf.cc:576 src/ypixbuf.cc:725
-#, fuzzy, c-format
+#, c-format
 msgid "%s:%d: %d bit visuals are not supported (yet)"
-msgstr "%s:%d: %d Τα δυαδικά οπτικά ψηφία δεν υποστηρίζονται (ακόμη)"
+msgstr "%s:%d: %d τα μπίτια οπτικά ψηφία δεν υποστηρίζονται (ακόμη)"
 
 #: src/ysmapp.cc:106
-#, fuzzy
 msgid "$USER or $LOGNAME not set?"
-msgstr "$USER ή $LOGNAME δεν έχουν ρυθμιστή;"
+msgstr "Μήπως το $USER ή το $LOGNAME δεν έχουν ρυθμιστεί;"
 
 #: src/yurl.cc:82
 #, c-format
 msgid "\"%s\" doesn't describe a common internet scheme"
-msgstr "Το \"%s\" δεν περιγράφει ένα κοινό σύστημα στο διαδίκτυο"
+msgstr "Το \"%s\" δεν περιγράφει ένα κοινό σύστημα του διαδικτύου"
 
 #: src/yurl.cc:85
-#, fuzzy, c-format
+#, c-format
 msgid "\"%s\" contains no scheme description"
-msgstr "\"%s\" δεν περιέχει περιγραφή της μορφής"
+msgstr "Το \"%s\" δεν περιέχει περιγραφή κάποιου συστήματος"
 
 #~ msgid "Cancel"
 #~ msgstr "Ακύρωση"
