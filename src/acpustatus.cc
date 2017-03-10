@@ -692,8 +692,8 @@ void CPUStatus::getStatus() {
         last_cpu[i] = cur[i];
     }
 #endif
-    MSG((_("%s: %llu %llu %llu %llu %llu %llu %llu"),
-        fCpuName,
+    MSG((_("%s: %llu %llu %llu %llu %llu %llu %llu %llu"),
+        cpuname,
         cpu[taskBarCPUSamples - 1][IWM_USER],
         cpu[taskBarCPUSamples - 1][IWM_NICE],
         cpu[taskBarCPUSamples - 1][IWM_SYS],
