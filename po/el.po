@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-03-08 09:08-0700\n"
+"POT-Creation-Date: 2017-03-12 12:57-0600\n"
 "PO-Revision-Date: 2016-12-22 07:08+0000\n"
 "Last-Translator: Panagiotis Mantzios <pmantzios@hotmail.com>\n"
 "Language-Team: Greek <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -32,7 +32,9 @@ msgstr "P"
 msgid " - Charging"
 msgstr " - Φόρτιση"
 
-#: src/aapm.cc:199 src/aapm.cc:489 src/aapm.cc:735
+#. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
+#. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
+#: src/aapm.cc:199 src/aapm.cc:489 src/aapm.cc:735 src/acpustatus.cc:410
 msgid "C"
 msgstr "C"
 
@@ -40,26 +42,26 @@ msgstr "C"
 msgid " - Full"
 msgstr " - Πλήρης"
 
-#: src/acpustatus.cc:212
+#: src/acpustatus.cc:209
 #, c-format
 msgid ""
 "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 "intr = %llu, softirq = %llu, steal = %llu\n"
 msgstr ""
 
-#: src/acpustatus.cc:217
+#: src/acpustatus.cc:214
 #, c-format
 msgid ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 "softirq = %llu, steal = %llu (h = %i)\n"
 msgstr ""
 
-#: src/acpustatus.cc:279
+#: src/acpustatus.cc:276
 #, fuzzy, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "Φόρτος Επεξεργαστή: %3.2f %3.2f %3.2f, %u διεργασίες"
 
-#: src/acpustatus.cc:284
+#: src/acpustatus.cc:281
 #, c-format
 msgid ""
 "\n"
@@ -68,7 +70,7 @@ msgstr ""
 "\n"
 "Ram (ελεύθερα): %5.2f (%.2f) M"
 
-#: src/acpustatus.cc:289
+#: src/acpustatus.cc:286
 #, c-format
 msgid ""
 "\n"
@@ -77,7 +79,7 @@ msgstr ""
 "\n"
 "Swap (Ελεύθερα): %.2f (%.2f) M"
 
-#: src/acpustatus.cc:295
+#: src/acpustatus.cc:292
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -86,7 +88,7 @@ msgstr ""
 "\n"
 "ACPI Temp: "
 
-#: src/acpustatus.cc:314
+#: src/acpustatus.cc:311
 #, c-format
 msgid ""
 "\n"
@@ -95,18 +97,18 @@ msgstr ""
 "\n"
 "Συχνότητα CPU: %.3fGHz"
 
-#: src/acpustatus.cc:335
+#: src/acpustatus.cc:332
 msgid "CPU"
 msgstr ""
 
-#: src/acpustatus.cc:335
+#: src/acpustatus.cc:332
 #, fuzzy
 msgid "Load: "
 msgstr "Φόρτος επεξεργαστή: "
 
-#: src/acpustatus.cc:694
+#: src/acpustatus.cc:695
 #, c-format
-msgid "%s: %llu %llu %llu %llu %llu %llu %llu"
+msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 msgstr ""
 
 #: src/amailbox.cc:77
@@ -731,136 +733,136 @@ msgstr "_Έξοδος"
 msgid "_Cancel logout"
 msgstr "_Ακύρωση εξόδου"
 
-#: src/wmapp.cc:879
+#: src/wmapp.cc:880 src/wmapp.cc:882
 msgid "Lock _Workstation"
 msgstr "Κλείδωμα _Σταθμού εργασίας"
 
-#: src/wmapp.cc:881 src/wmdialog.cc:111
+#: src/wmapp.cc:886 src/wmapp.cc:888 src/wmdialog.cc:111
 msgid "Re_boot"
 msgstr "Επαν_εκκίνηση"
 
-#: src/wmapp.cc:883 src/wmdialog.cc:118
+#: src/wmapp.cc:892 src/wmapp.cc:894 src/wmdialog.cc:118
 msgid "Shut_down"
 msgstr "Τερματισμός"
 
-#: src/wmapp.cc:887
+#: src/wmapp.cc:900 src/wmapp.cc:902
 msgid "Restart _Icewm"
 msgstr "Επανεκκίνηση _Icewm"
 
-#: src/wmapp.cc:890
+#: src/wmapp.cc:906
 msgid "Restart _Xterm"
 msgstr "Επανεκκίνηση _Xterm"
 
-#: src/wmapp.cc:906
+#: src/wmapp.cc:928
 msgid "_Menu"
 msgstr "_Κατάλογος"
 
-#: src/wmapp.cc:907
+#: src/wmapp.cc:929
 #, fuzzy
 msgid "_Above Dock"
 msgstr "_πάνω από το Dock"
 
-#: src/wmapp.cc:908
+#: src/wmapp.cc:930
 #, fuzzy
 msgid "_Dock"
 msgstr "_Dock"
 
-#: src/wmapp.cc:909
+#: src/wmapp.cc:931
 msgid "_OnTop"
 msgstr "_Στην κορυφή"
 
-#: src/wmapp.cc:910
+#: src/wmapp.cc:932
 msgid "_Normal"
 msgstr "_Κανονικό"
 
-#: src/wmapp.cc:911
+#: src/wmapp.cc:933
 msgid "_Below"
 msgstr "_Απο κάτω"
 
-#: src/wmapp.cc:912
+#: src/wmapp.cc:934
 msgid "D_esktop"
 msgstr "Ε_πιφάνεια εργασίας"
 
-#: src/wmapp.cc:924
+#: src/wmapp.cc:946
 msgid "_Restore"
 msgstr "_Επαναφορά"
 
-#: src/wmapp.cc:926
+#: src/wmapp.cc:948
 msgid "_Move"
 msgstr "_Μετακκίνηση"
 
-#: src/wmapp.cc:928
+#: src/wmapp.cc:950
 msgid "_Size"
 msgstr "_Μέγεθος"
 
-#: src/wmapp.cc:930
+#: src/wmapp.cc:952
 msgid "Mi_nimize"
 msgstr "Ελ_αχιστοποίηση"
 
-#: src/wmapp.cc:932
+#: src/wmapp.cc:954
 msgid "Ma_ximize"
 msgstr "Με_γιστοποίηση"
 
-#: src/wmapp.cc:934
+#: src/wmapp.cc:956
 msgid "_Fullscreen"
 msgstr "_Πλήρης οθόνη"
 
-#: src/wmapp.cc:938 src/wmwinlist.cc:307
+#: src/wmapp.cc:960 src/wmwinlist.cc:307
 msgid "_Hide"
 msgstr "_Απόκρυψη"
 
-#: src/wmapp.cc:941
+#: src/wmapp.cc:963
 #, fuzzy
 msgid "Roll_up"
 msgstr "Κύλιση επάνω"
 
-#: src/wmapp.cc:948
+#: src/wmapp.cc:970
 msgid "R_aise"
 msgstr "Αύ_ξηση"
 
-#: src/wmapp.cc:950
+#: src/wmapp.cc:972
 msgid "_Lower"
 msgstr "_μείωση"
 
-#: src/wmapp.cc:952
+#: src/wmapp.cc:974
 msgid "La_yer"
 msgstr "Στ_ρώμα"
 
-#: src/wmapp.cc:956 src/wmwinlist.cc:310
+#: src/wmapp.cc:978 src/wmwinlist.cc:310
 msgid "Move _To"
 msgstr "Μετακκίνηση _Σε"
 
-#: src/wmapp.cc:957
+#: src/wmapp.cc:979
 msgid "Occupy _All"
 msgstr "Κατάληψη _Όλων"
 
-#: src/wmapp.cc:963
+#: src/wmapp.cc:985
 msgid "Limit _Workarea"
 msgstr "Όριο _Περιοχής εργασίας"
 
-#: src/wmapp.cc:968
+#: src/wmapp.cc:990
 #, fuzzy
 msgid "Tray _icon"
 msgstr "Εικονίδιο _δίσκου"
 
-#: src/wmapp.cc:974 src/wmwinlist.cc:295 src/wmwinlist.cc:321
+#: src/wmapp.cc:996 src/wmwinlist.cc:295 src/wmwinlist.cc:321
 msgid "_Close"
 msgstr "_Κλείσε"
 
-#: src/wmapp.cc:976 src/wmwinlist.cc:297
+#: src/wmapp.cc:998 src/wmwinlist.cc:297
 #, fuzzy
 msgid "_Kill Client"
 msgstr "_Τερματισμός Client"
 
-#: src/wmapp.cc:980 src/wmdialog.cc:132 src/wmwinmenu.cc:137
+#: src/wmapp.cc:1002 src/wmdialog.cc:132 src/wmwinmenu.cc:137
 msgid "_Window list"
 msgstr "_Λίστα παραθύρων"
 
-#: src/wmapp.cc:996
+#: src/wmapp.cc:1018
 msgid "Another window manager already running, exiting..."
 msgstr "Ένας άλλος διαχειριστής παραθύρων ήδη τρέχει, έξοδος..."
 
-#: src/wmapp.cc:1062
+#: src/wmapp.cc:1084
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -869,7 +871,19 @@ msgstr ""
 "Αδύνατη η επανεκκίνηση του: %s\n"
 "Οδηγεί το $PATH στο %s?"
 
-#: src/wmapp.cc:1636
+#: src/wmapp.cc:1646
+msgid ""
+"  --client-id=ID      Client id to use when contacting session manager.\n"
+msgstr ""
+
+#: src/wmapp.cc:1652
+msgid ""
+"\n"
+"  --debug             Print generic debug messages.\n"
+"  --debug-z           Print debug messages regarding window stacking.\n"
+msgstr ""
+
+#: src/wmapp.cc:1658
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -900,11 +914,11 @@ msgid ""
 "Visit http://www.icewm.org/ for report bugs, support requests, comments...\n"
 msgstr ""
 
-#: src/wmapp.cc:1747
+#: src/wmapp.cc:1769
 msgid "Confirm Logout"
 msgstr "Επιβεβαίωση Εξόδου"
 
-#: src/wmapp.cc:1748
+#: src/wmapp.cc:1770
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -920,8 +934,8 @@ msgstr ""
 msgid "Loc_k Workstation"
 msgstr "Κλείδωμα _Σταθμού εργασίας"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:949 src/wmprog.cc:951 src/wmtaskbar.cc:438
-#: src/wmtaskbar.cc:440
+#: src/wmdialog.cc:90 src/wmprog.cc:989 src/wmprog.cc:991 src/wmprog.cc:995
+#: src/wmprog.cc:997 src/wmtaskbar.cc:438 src/wmtaskbar.cc:440
 msgid "_Logout..."
 msgstr "_Αποσύνδεση..."
 
@@ -933,7 +947,7 @@ msgstr "_Ακύρωση"
 msgid "_Restart icewm"
 msgstr "_Επανεκκίνηση icewm"
 
-#: src/wmdialog.cc:125 src/wmprog.cc:887 src/wmtaskbar.cc:430
+#: src/wmdialog.cc:125 src/wmprog.cc:906 src/wmprog.cc:908 src/wmtaskbar.cc:430
 #: src/wmtaskbar.cc:433
 msgid "_About"
 msgstr "_Περί"
@@ -999,70 +1013,70 @@ msgstr "Σφάλμα σύνταξης στις παραμέτρους των π�
 msgid "Out of memory for window options"
 msgstr "Εκτός μνήμης για τις παραμέτρους παραθύρου"
 
-#: src/wmprog.cc:192
+#: src/wmprog.cc:198
 msgid "Missing command argument"
 msgstr "Λείπει όρισμα εντολής"
 
-#: src/wmprog.cc:210
+#: src/wmprog.cc:216
 #, c-format
 msgid "Bad argument %d"
 msgstr "Λάθος όρισμα %d"
 
-#: src/wmprog.cc:296 src/wmprog.cc:400 src/wmprog.cc:442
+#: src/wmprog.cc:302 src/wmprog.cc:406 src/wmprog.cc:448
 #, c-format
 msgid "Error at prog %s"
 msgstr "Σφάλμα στο πρόγραμμα %s"
 
-#: src/wmprog.cc:351
+#: src/wmprog.cc:357
 #, c-format
 msgid "Unexepected keyword: %s"
 msgstr "Μη αναμενόμενη λέξη κλειδί %s"
 
-#: src/wmprog.cc:490
+#: src/wmprog.cc:496
 #, fuzzy, c-format
 msgid "Error at key %s"
 msgstr "Σφάλμα στο κλειδί %s"
 
-#: src/wmprog.cc:851
+#: src/wmprog.cc:858 src/wmprog.cc:860
 msgid "Programs"
 msgstr "Προγράμματα"
 
-#: src/wmprog.cc:856
+#: src/wmprog.cc:867 src/wmprog.cc:869
 msgid "_Run..."
 msgstr "_Εκτέλεση..."
 
-#: src/wmprog.cc:863 src/wmtaskbar.cc:418
+#: src/wmprog.cc:878 src/wmprog.cc:880 src/wmtaskbar.cc:418
 msgid "_Windows"
 msgstr "_Παράθυρα"
 
-#: src/wmprog.cc:900
+#: src/wmprog.cc:922
 msgid "_Help"
 msgstr "_Βοήθεια"
 
-#: src/wmprog.cc:918
+#: src/wmprog.cc:945
 msgid "_Click to focus"
 msgstr "_Κάντε κλικ για εστίαση"
 
-#: src/wmprog.cc:923
+#: src/wmprog.cc:950
 #, fuzzy
 msgid "_Sloppy mouse focus"
 msgstr "_πρόχειρη εστίαση ποντικιού"
 
-#: src/wmprog.cc:928
+#: src/wmprog.cc:955
 #, fuzzy
 msgid "Custo_m"
 msgstr "Προεπιλογ_ή"
 
-#: src/wmprog.cc:934
+#: src/wmprog.cc:962 src/wmprog.cc:964
 #, fuzzy
 msgid "_Focus"
 msgstr "_Εστίαση"
 
-#: src/wmprog.cc:941
+#: src/wmprog.cc:973 src/wmprog.cc:975
 msgid "_Themes"
 msgstr "_Θέματα"
 
-#: src/wmprog.cc:943
+#: src/wmprog.cc:979 src/wmprog.cc:981
 #, fuzzy
 msgid "Se_ttings"
 msgstr "Ρυ_θμίσεις"

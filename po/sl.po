@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sl\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-03-08 09:08-0700\n"
+"POT-Creation-Date: 2017-03-12 12:57-0600\n"
 "PO-Revision-Date: 2004-10-03 21:56+0200\n"
 "Last-Translator: Jernej Kovacic <jkovacic AT email DOT si>\n"
 "Language-Team: Slovenian <translator-team-sl@lists.sourceforge.net>\n"
@@ -42,7 +42,9 @@ msgstr "P"
 msgid " - Charging"
 msgstr " - Polnim"
 
-#: src/aapm.cc:199 src/aapm.cc:489 src/aapm.cc:735
+#. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
+#. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
+#: src/aapm.cc:199 src/aapm.cc:489 src/aapm.cc:735 src/acpustatus.cc:410
 msgid "C"
 msgstr "C"
 
@@ -50,65 +52,65 @@ msgstr "C"
 msgid " - Full"
 msgstr ""
 
-#: src/acpustatus.cc:212
+#: src/acpustatus.cc:209
 #, c-format
 msgid ""
 "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 "intr = %llu, softirq = %llu, steal = %llu\n"
 msgstr ""
 
-#: src/acpustatus.cc:217
+#: src/acpustatus.cc:214
 #, c-format
 msgid ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 "softirq = %llu, steal = %llu (h = %i)\n"
 msgstr ""
 
-#: src/acpustatus.cc:279
+#: src/acpustatus.cc:276
 #, fuzzy, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "Obremenitev CPE: %3.2f %3.2f %3.2f, %u procesov."
 
-#: src/acpustatus.cc:284
+#: src/acpustatus.cc:281
 #, c-format
 msgid ""
 "\n"
 "Ram (free): %5.2f (%.2f) M"
 msgstr ""
 
-#: src/acpustatus.cc:289
+#: src/acpustatus.cc:286
 #, c-format
 msgid ""
 "\n"
 "Swap (free): %.2f (%.2f) M"
 msgstr ""
 
-#: src/acpustatus.cc:295
+#: src/acpustatus.cc:292
 #, c-format
 msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
 
-#: src/acpustatus.cc:314
+#: src/acpustatus.cc:311
 #, c-format
 msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
 
-#: src/acpustatus.cc:335
+#: src/acpustatus.cc:332
 msgid "CPU"
 msgstr ""
 
-#: src/acpustatus.cc:335
+#: src/acpustatus.cc:332
 #, fuzzy
 msgid "Load: "
 msgstr "Obremenitev CPE"
 
-#: src/acpustatus.cc:694
+#: src/acpustatus.cc:695
 #, c-format
-msgid "%s: %llu %llu %llu %llu %llu %llu %llu"
+msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 msgstr ""
 
 #: src/amailbox.cc:77
@@ -820,131 +822,131 @@ msgstr "_Odjava"
 msgid "_Cancel logout"
 msgstr "Prekli_c odjave"
 
-#: src/wmapp.cc:879
+#: src/wmapp.cc:880 src/wmapp.cc:882
 msgid "Lock _Workstation"
 msgstr "_Zakleni delovno postajo"
 
-#: src/wmapp.cc:881 src/wmdialog.cc:111
+#: src/wmapp.cc:886 src/wmapp.cc:888 src/wmdialog.cc:111
 msgid "Re_boot"
 msgstr "Ponoven _zagon sistema"
 
-#: src/wmapp.cc:883 src/wmdialog.cc:118
+#: src/wmapp.cc:892 src/wmapp.cc:894 src/wmdialog.cc:118
 msgid "Shut_down"
 msgstr "Zaustavitev _sistema"
 
-#: src/wmapp.cc:887
+#: src/wmapp.cc:900 src/wmapp.cc:902
 msgid "Restart _Icewm"
 msgstr "Ponoven zagon _IceWM"
 
-#: src/wmapp.cc:890
+#: src/wmapp.cc:906
 msgid "Restart _Xterm"
 msgstr "Ponoven zagon _Xterma"
 
-#: src/wmapp.cc:906
+#: src/wmapp.cc:928
 msgid "_Menu"
 msgstr "_Menu"
 
-#: src/wmapp.cc:907
+#: src/wmapp.cc:929
 msgid "_Above Dock"
 msgstr "Nad sid_rom"
 
-#: src/wmapp.cc:908
+#: src/wmapp.cc:930
 msgid "_Dock"
 msgstr "_Zasidraj"
 
-#: src/wmapp.cc:909
+#: src/wmapp.cc:931
 msgid "_OnTop"
 msgstr "Na _vrh"
 
-#: src/wmapp.cc:910
+#: src/wmapp.cc:932
 msgid "_Normal"
 msgstr "_Običajno"
 
-#: src/wmapp.cc:911
+#: src/wmapp.cc:933
 msgid "_Below"
 msgstr "_Spodaj"
 
-#: src/wmapp.cc:912
+#: src/wmapp.cc:934
 msgid "D_esktop"
 msgstr "_Namizje"
 
-#: src/wmapp.cc:924
+#: src/wmapp.cc:946
 msgid "_Restore"
 msgstr "O_bnovi"
 
-#: src/wmapp.cc:926
+#: src/wmapp.cc:948
 msgid "_Move"
 msgstr "P_restavi"
 
-#: src/wmapp.cc:928
+#: src/wmapp.cc:950
 msgid "_Size"
 msgstr "Velikos_t"
 
-#: src/wmapp.cc:930
+#: src/wmapp.cc:952
 msgid "Mi_nimize"
 msgstr "Poma_njšaj"
 
-#: src/wmapp.cc:932
+#: src/wmapp.cc:954
 msgid "Ma_ximize"
 msgstr "R_azpni"
 
-#: src/wmapp.cc:934
+#: src/wmapp.cc:956
 msgid "_Fullscreen"
 msgstr "_Celoten zaslon"
 
-#: src/wmapp.cc:938 src/wmwinlist.cc:307
+#: src/wmapp.cc:960 src/wmwinlist.cc:307
 msgid "_Hide"
 msgstr "S_krij"
 
-#: src/wmapp.cc:941
+#: src/wmapp.cc:963
 msgid "Roll_up"
 msgstr "Navz_gor"
 
-#: src/wmapp.cc:948
+#: src/wmapp.cc:970
 msgid "R_aise"
 msgstr "_Dvigni"
 
-#: src/wmapp.cc:950
+#: src/wmapp.cc:972
 msgid "_Lower"
 msgstr "_Spusti"
 
-#: src/wmapp.cc:952
+#: src/wmapp.cc:974
 msgid "La_yer"
 msgstr "S_loj"
 
-#: src/wmapp.cc:956 src/wmwinlist.cc:310
+#: src/wmapp.cc:978 src/wmwinlist.cc:310
 msgid "Move _To"
 msgstr "Prestavi _v"
 
-#: src/wmapp.cc:957
+#: src/wmapp.cc:979
 msgid "Occupy _All"
 msgstr "Za_sedi vse"
 
-#: src/wmapp.cc:963
+#: src/wmapp.cc:985
 msgid "Limit _Workarea"
 msgstr "_Omeji delovno površino"
 
-#: src/wmapp.cc:968
+#: src/wmapp.cc:990
 msgid "Tray _icon"
 msgstr "Pladenj z _ikonami"
 
-#: src/wmapp.cc:974 src/wmwinlist.cc:295 src/wmwinlist.cc:321
+#: src/wmapp.cc:996 src/wmwinlist.cc:295 src/wmwinlist.cc:321
 msgid "_Close"
 msgstr "_Zapri"
 
-#: src/wmapp.cc:976 src/wmwinlist.cc:297
+#: src/wmapp.cc:998 src/wmwinlist.cc:297
 msgid "_Kill Client"
 msgstr "_Ubij odjemalca"
 
-#: src/wmapp.cc:980 src/wmdialog.cc:132 src/wmwinmenu.cc:137
+#: src/wmapp.cc:1002 src/wmdialog.cc:132 src/wmwinmenu.cc:137
 msgid "_Window list"
 msgstr "_Seznam oken"
 
-#: src/wmapp.cc:996
+#: src/wmapp.cc:1018
 msgid "Another window manager already running, exiting..."
 msgstr "Drug upravljalnik oken že teče, končujem..."
 
-#: src/wmapp.cc:1062
+#: src/wmapp.cc:1084
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -953,7 +955,19 @@ msgstr ""
 "Ne morem ponovno zagnati: %s\n"
 "Ali je %s v spremenljivki $PATH?"
 
-#: src/wmapp.cc:1636
+#: src/wmapp.cc:1646
+msgid ""
+"  --client-id=ID      Client id to use when contacting session manager.\n"
+msgstr ""
+
+#: src/wmapp.cc:1652
+msgid ""
+"\n"
+"  --debug             Print generic debug messages.\n"
+"  --debug-z           Print debug messages regarding window stacking.\n"
+msgstr ""
+
+#: src/wmapp.cc:1658
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1010,11 +1024,11 @@ msgstr ""
 "Sporočanje hroščev, zahteve za podporo, komentarji, ... na http://www.icewm."
 "org/\n"
 
-#: src/wmapp.cc:1747
+#: src/wmapp.cc:1769
 msgid "Confirm Logout"
 msgstr "Potrdi odjavo"
 
-#: src/wmapp.cc:1748
+#: src/wmapp.cc:1770
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1031,8 +1045,8 @@ msgstr "Slabo ime izgleda"
 msgid "Loc_k Workstation"
 msgstr "_Zakleni delovno postajo"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:949 src/wmprog.cc:951 src/wmtaskbar.cc:438
-#: src/wmtaskbar.cc:440
+#: src/wmdialog.cc:90 src/wmprog.cc:989 src/wmprog.cc:991 src/wmprog.cc:995
+#: src/wmprog.cc:997 src/wmtaskbar.cc:438 src/wmtaskbar.cc:440
 msgid "_Logout..."
 msgstr "_Odjava..."
 
@@ -1044,7 +1058,7 @@ msgstr "_Prekliči"
 msgid "_Restart icewm"
 msgstr "Po_noven zagon IceWM"
 
-#: src/wmdialog.cc:125 src/wmprog.cc:887 src/wmtaskbar.cc:430
+#: src/wmdialog.cc:125 src/wmprog.cc:906 src/wmprog.cc:908 src/wmtaskbar.cc:430
 #: src/wmtaskbar.cc:433
 msgid "_About"
 msgstr "O pro_gramu"
@@ -1107,67 +1121,67 @@ msgstr "Skladenjska napaka v okenskih izbirah"
 msgid "Out of memory for window options"
 msgstr "Ni dovolj pomnilnika za okenske izbire"
 
-#: src/wmprog.cc:192
+#: src/wmprog.cc:198
 msgid "Missing command argument"
 msgstr "Manjkajo ukazni argumenti"
 
-#: src/wmprog.cc:210
+#: src/wmprog.cc:216
 #, c-format
 msgid "Bad argument %d"
 msgstr "Slab argument %d"
 
-#: src/wmprog.cc:296 src/wmprog.cc:400 src/wmprog.cc:442
+#: src/wmprog.cc:302 src/wmprog.cc:406 src/wmprog.cc:448
 #, c-format
 msgid "Error at prog %s"
 msgstr "Napaka v programu %s"
 
-#: src/wmprog.cc:351
+#: src/wmprog.cc:357
 #, c-format
 msgid "Unexepected keyword: %s"
 msgstr "Nepričakovana ključna beseda: %s"
 
-#: src/wmprog.cc:490
+#: src/wmprog.cc:496
 #, c-format
 msgid "Error at key %s"
 msgstr "Napaka v ključu %s"
 
-#: src/wmprog.cc:851
+#: src/wmprog.cc:858 src/wmprog.cc:860
 msgid "Programs"
 msgstr "Programi"
 
-#: src/wmprog.cc:856
+#: src/wmprog.cc:867 src/wmprog.cc:869
 msgid "_Run..."
 msgstr "P_oženi..."
 
-#: src/wmprog.cc:863 src/wmtaskbar.cc:418
+#: src/wmprog.cc:878 src/wmprog.cc:880 src/wmtaskbar.cc:418
 msgid "_Windows"
 msgstr "_Okna"
 
-#: src/wmprog.cc:900
+#: src/wmprog.cc:922
 msgid "_Help"
 msgstr "Po_moč"
 
-#: src/wmprog.cc:918
+#: src/wmprog.cc:945
 msgid "_Click to focus"
 msgstr ""
 
-#: src/wmprog.cc:923
+#: src/wmprog.cc:950
 msgid "_Sloppy mouse focus"
 msgstr ""
 
-#: src/wmprog.cc:928
+#: src/wmprog.cc:955
 msgid "Custo_m"
 msgstr ""
 
-#: src/wmprog.cc:934
+#: src/wmprog.cc:962 src/wmprog.cc:964
 msgid "_Focus"
 msgstr ""
 
-#: src/wmprog.cc:941
+#: src/wmprog.cc:973 src/wmprog.cc:975
 msgid "_Themes"
 msgstr "_Teme"
 
-#: src/wmprog.cc:943
+#: src/wmprog.cc:979 src/wmprog.cc:981
 msgid "Se_ttings"
 msgstr ""
 

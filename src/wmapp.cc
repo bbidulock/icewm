@@ -1643,15 +1643,15 @@ static void print_version() {
 static void print_usage(const char *argv0) {
     const char *usage_client_id =
 #ifdef CONFIG_SESSION
-             "  --client-id=ID      Client id to use when contacting session manager.\n";
+             _("  --client-id=ID      Client id to use when contacting session manager.\n");
 #else
              "";
 #endif
     const char *usage_debug =
 #ifdef DEBUG
-             "\n"
+             _("\n"
              "  --debug             Print generic debug messages.\n"
-             "  --debug-z           Print debug messages regarding window stacking.\n";
+             "  --debug-z           Print debug messages regarding window stacking.\n");
 #else
              "";
 #endif

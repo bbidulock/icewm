@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-03-08 09:08-0700\n"
+"POT-Creation-Date: 2017-03-12 12:57-0600\n"
 "PO-Revision-Date: 2017-02-07 05:21+0000\n"
 "Last-Translator: Andriy Bandura <andriykopanytsia@gmail.com>\n"
 "Language-Team: Ukrainian <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -28,7 +28,9 @@ msgstr "П"
 msgid " - Charging"
 msgstr " - Заряд"
 
-#: src/aapm.cc:199 src/aapm.cc:489 src/aapm.cc:735
+#. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
+#. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
+#: src/aapm.cc:199 src/aapm.cc:489 src/aapm.cc:735 src/acpustatus.cc:410
 msgid "C"
 msgstr "З"
 
@@ -36,26 +38,26 @@ msgstr "З"
 msgid " - Full"
 msgstr " - Повний"
 
-#: src/acpustatus.cc:212
+#: src/acpustatus.cc:209
 #, c-format
 msgid ""
 "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 "intr = %llu, softirq = %llu, steal = %llu\n"
 msgstr ""
 
-#: src/acpustatus.cc:217
+#: src/acpustatus.cc:214
 #, c-format
 msgid ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 "softirq = %llu, steal = %llu (h = %i)\n"
 msgstr ""
 
-#: src/acpustatus.cc:279
+#: src/acpustatus.cc:276
 #, fuzzy, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "Завантаження процесора: %3.2f %3.2f %3.2f, %u"
 
-#: src/acpustatus.cc:284
+#: src/acpustatus.cc:281
 #, c-format
 msgid ""
 "\n"
@@ -64,7 +66,7 @@ msgstr ""
 "\n"
 "ОП (вільна): %5.2f (%.2f) МБ"
 
-#: src/acpustatus.cc:289
+#: src/acpustatus.cc:286
 #, c-format
 msgid ""
 "\n"
@@ -73,7 +75,7 @@ msgstr ""
 "\n"
 "Підкачка (вільна): %.2f (%.2f) МБ"
 
-#: src/acpustatus.cc:295
+#: src/acpustatus.cc:292
 #, c-format
 msgid ""
 "\n"
@@ -82,7 +84,7 @@ msgstr ""
 "\n"
 "ACPI Температура: "
 
-#: src/acpustatus.cc:314
+#: src/acpustatus.cc:311
 #, c-format
 msgid ""
 "\n"
@@ -91,18 +93,18 @@ msgstr ""
 "\n"
 "Частота процесора: %.3fГГц"
 
-#: src/acpustatus.cc:335
+#: src/acpustatus.cc:332
 msgid "CPU"
 msgstr ""
 
-#: src/acpustatus.cc:335
+#: src/acpustatus.cc:332
 #, fuzzy
 msgid "Load: "
 msgstr "Навантаження ЦП: "
 
-#: src/acpustatus.cc:694
+#: src/acpustatus.cc:695
 #, c-format
-msgid "%s: %llu %llu %llu %llu %llu %llu %llu"
+msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 msgstr ""
 
 #: src/amailbox.cc:77
@@ -821,131 +823,131 @@ msgstr "_Вихід"
 msgid "_Cancel logout"
 msgstr "_Відмінити вихід"
 
-#: src/wmapp.cc:879
+#: src/wmapp.cc:880 src/wmapp.cc:882
 msgid "Lock _Workstation"
 msgstr "Замкнути станцію"
 
-#: src/wmapp.cc:881 src/wmdialog.cc:111
+#: src/wmapp.cc:886 src/wmapp.cc:888 src/wmdialog.cc:111
 msgid "Re_boot"
 msgstr "Перезавантажити"
 
-#: src/wmapp.cc:883 src/wmdialog.cc:118
+#: src/wmapp.cc:892 src/wmapp.cc:894 src/wmdialog.cc:118
 msgid "Shut_down"
 msgstr "Ви_мкнути комп'ютер"
 
-#: src/wmapp.cc:887
+#: src/wmapp.cc:900 src/wmapp.cc:902
 msgid "Restart _Icewm"
 msgstr "Перезапустити _IceWM"
 
-#: src/wmapp.cc:890
+#: src/wmapp.cc:906
 msgid "Restart _Xterm"
 msgstr "Вийти у _Xterm"
 
-#: src/wmapp.cc:906
+#: src/wmapp.cc:928
 msgid "_Menu"
 msgstr "_Меню"
 
-#: src/wmapp.cc:907
+#: src/wmapp.cc:929
 msgid "_Above Dock"
 msgstr "_Поверх доку"
 
-#: src/wmapp.cc:908
+#: src/wmapp.cc:930
 msgid "_Dock"
 msgstr "_Док"
 
-#: src/wmapp.cc:909
+#: src/wmapp.cc:931
 msgid "_OnTop"
 msgstr "Н_а верху"
 
-#: src/wmapp.cc:910
+#: src/wmapp.cc:932
 msgid "_Normal"
 msgstr "_Нормальний"
 
-#: src/wmapp.cc:911
+#: src/wmapp.cc:933
 msgid "_Below"
 msgstr "_Нижче"
 
-#: src/wmapp.cc:912
+#: src/wmapp.cc:934
 msgid "D_esktop"
 msgstr "Стільниця"
 
-#: src/wmapp.cc:924
+#: src/wmapp.cc:946
 msgid "_Restore"
 msgstr "_Відновити"
 
-#: src/wmapp.cc:926
+#: src/wmapp.cc:948
 msgid "_Move"
 msgstr "Пере_містити"
 
-#: src/wmapp.cc:928
+#: src/wmapp.cc:950
 msgid "_Size"
 msgstr "_Розмір"
 
-#: src/wmapp.cc:930
+#: src/wmapp.cc:952
 msgid "Mi_nimize"
 msgstr "Згорнути"
 
-#: src/wmapp.cc:932
+#: src/wmapp.cc:954
 msgid "Ma_ximize"
 msgstr "Розгорнути"
 
-#: src/wmapp.cc:934
+#: src/wmapp.cc:956
 msgid "_Fullscreen"
 msgstr "_На увесь екран"
 
-#: src/wmapp.cc:938 src/wmwinlist.cc:307
+#: src/wmapp.cc:960 src/wmwinlist.cc:307
 msgid "_Hide"
 msgstr "_Сховати"
 
-#: src/wmapp.cc:941
+#: src/wmapp.cc:963
 msgid "Roll_up"
 msgstr "Згорнути в смужку"
 
-#: src/wmapp.cc:948
+#: src/wmapp.cc:970
 msgid "R_aise"
 msgstr "Підняти"
 
-#: src/wmapp.cc:950
+#: src/wmapp.cc:972
 msgid "_Lower"
 msgstr "_Опустити"
 
-#: src/wmapp.cc:952
+#: src/wmapp.cc:974
 msgid "La_yer"
 msgstr "Шар"
 
-#: src/wmapp.cc:956 src/wmwinlist.cc:310
+#: src/wmapp.cc:978 src/wmwinlist.cc:310
 msgid "Move _To"
 msgstr "Перенести _на"
 
-#: src/wmapp.cc:957
+#: src/wmapp.cc:979
 msgid "Occupy _All"
 msgstr "Видно _на всіх"
 
-#: src/wmapp.cc:963
+#: src/wmapp.cc:985
 msgid "Limit _Workarea"
 msgstr "_Обмежити робочий простір"
 
-#: src/wmapp.cc:968
+#: src/wmapp.cc:990
 msgid "Tray _icon"
 msgstr "_Піктограма на панелі"
 
-#: src/wmapp.cc:974 src/wmwinlist.cc:295 src/wmwinlist.cc:321
+#: src/wmapp.cc:996 src/wmwinlist.cc:295 src/wmwinlist.cc:321
 msgid "_Close"
 msgstr "Закрити"
 
-#: src/wmapp.cc:976 src/wmwinlist.cc:297
+#: src/wmapp.cc:998 src/wmwinlist.cc:297
 msgid "_Kill Client"
 msgstr "Вбити _клієнта"
 
-#: src/wmapp.cc:980 src/wmdialog.cc:132 src/wmwinmenu.cc:137
+#: src/wmapp.cc:1002 src/wmdialog.cc:132 src/wmwinmenu.cc:137
 msgid "_Window list"
 msgstr "_Список вікон"
 
-#: src/wmapp.cc:996
+#: src/wmapp.cc:1018
 msgid "Another window manager already running, exiting..."
 msgstr "Віконний менеджер вже запущений, виходжу..."
 
-#: src/wmapp.cc:1062
+#: src/wmapp.cc:1084
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -954,7 +956,19 @@ msgstr ""
 "Не можу перезапустити: %s\n"
 "Перевірте, чи $PATH веде до %s?"
 
-#: src/wmapp.cc:1636
+#: src/wmapp.cc:1646
+msgid ""
+"  --client-id=ID      Client id to use when contacting session manager.\n"
+msgstr ""
+
+#: src/wmapp.cc:1652
+msgid ""
+"\n"
+"  --debug             Print generic debug messages.\n"
+"  --debug-z           Print debug messages regarding window stacking.\n"
+msgstr ""
+
+#: src/wmapp.cc:1658
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1013,11 +1027,11 @@ msgstr ""
 "Відвідайте http://www.icewm.org/, щоб прозвітувати про хиби, запитатися, "
 "прокоментувати...\n"
 
-#: src/wmapp.cc:1747
+#: src/wmapp.cc:1769
 msgid "Confirm Logout"
 msgstr "Підтвердження виходу"
 
-#: src/wmapp.cc:1748
+#: src/wmapp.cc:1770
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1033,8 +1047,8 @@ msgstr "Погане ім'я"
 msgid "Loc_k Workstation"
 msgstr "За_мкнути станцію"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:949 src/wmprog.cc:951 src/wmtaskbar.cc:438
-#: src/wmtaskbar.cc:440
+#: src/wmdialog.cc:90 src/wmprog.cc:989 src/wmprog.cc:991 src/wmprog.cc:995
+#: src/wmprog.cc:997 src/wmtaskbar.cc:438 src/wmtaskbar.cc:440
 msgid "_Logout..."
 msgstr "_Вихід..."
 
@@ -1046,7 +1060,7 @@ msgstr "_Скасувати"
 msgid "_Restart icewm"
 msgstr "_Перезапустити IceWM"
 
-#: src/wmdialog.cc:125 src/wmprog.cc:887 src/wmtaskbar.cc:430
+#: src/wmdialog.cc:125 src/wmprog.cc:906 src/wmprog.cc:908 src/wmtaskbar.cc:430
 #: src/wmtaskbar.cc:433
 msgid "_About"
 msgstr "_Про"
@@ -1109,67 +1123,67 @@ msgstr "Синтаксична помилка у опціях вікна"
 msgid "Out of memory for window options"
 msgstr "Невистачає пам'яті для опцій вікна"
 
-#: src/wmprog.cc:192
+#: src/wmprog.cc:198
 msgid "Missing command argument"
 msgstr "Пропущений аргумент команди"
 
-#: src/wmprog.cc:210
+#: src/wmprog.cc:216
 #, c-format
 msgid "Bad argument %d"
 msgstr "Невірний аргумент %d"
 
-#: src/wmprog.cc:296 src/wmprog.cc:400 src/wmprog.cc:442
+#: src/wmprog.cc:302 src/wmprog.cc:406 src/wmprog.cc:448
 #, c-format
 msgid "Error at prog %s"
 msgstr "Помилка у програмі %s"
 
-#: src/wmprog.cc:351
+#: src/wmprog.cc:357
 #, c-format
 msgid "Unexepected keyword: %s"
 msgstr "Невідоме ключове слово: %s"
 
-#: src/wmprog.cc:490
+#: src/wmprog.cc:496
 #, c-format
 msgid "Error at key %s"
 msgstr "Помилка у ключі %s"
 
-#: src/wmprog.cc:851
+#: src/wmprog.cc:858 src/wmprog.cc:860
 msgid "Programs"
 msgstr "Програми"
 
-#: src/wmprog.cc:856
+#: src/wmprog.cc:867 src/wmprog.cc:869
 msgid "_Run..."
 msgstr "_Запустити..."
 
-#: src/wmprog.cc:863 src/wmtaskbar.cc:418
+#: src/wmprog.cc:878 src/wmprog.cc:880 src/wmtaskbar.cc:418
 msgid "_Windows"
 msgstr "_Вікна"
 
-#: src/wmprog.cc:900
+#: src/wmprog.cc:922
 msgid "_Help"
 msgstr "_Довідка"
 
-#: src/wmprog.cc:918
+#: src/wmprog.cc:945
 msgid "_Click to focus"
 msgstr "_Клацання по фокусу"
 
-#: src/wmprog.cc:923
+#: src/wmprog.cc:950
 msgid "_Sloppy mouse focus"
 msgstr "_Фокус недбалої мишки"
 
-#: src/wmprog.cc:928
+#: src/wmprog.cc:955
 msgid "Custo_m"
 msgstr "_Особливе"
 
-#: src/wmprog.cc:934
+#: src/wmprog.cc:962 src/wmprog.cc:964
 msgid "_Focus"
 msgstr "_Фокус"
 
-#: src/wmprog.cc:941
+#: src/wmprog.cc:973 src/wmprog.cc:975
 msgid "_Themes"
 msgstr "_Теми"
 
-#: src/wmprog.cc:943
+#: src/wmprog.cc:979 src/wmprog.cc:981
 msgid "Se_ttings"
 msgstr "Пара_метри"
 
