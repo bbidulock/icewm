@@ -19,6 +19,10 @@
 #include "ascii.h"
 #include "ypixbuf.h"
 
+#ifndef LITE
+#include "yicon.h"
+#endif
+
 #include <string.h>
 
 YColor *menuBg = 0;
@@ -609,6 +613,21 @@ void YMenu::autoScroll(int deltaX, int deltaY, int mx, int my, const XMotionEven
     beginAutoScroll(deltaX || deltaY, motion);
 }
 
+#ifndef LITE
+YMenuItem *YMenu::addItem(const ustring &name, int hotCharPos, const ustring &param, YAction *action, const char *icons) {
+    return add(new YMenuItem(name, hotCharPos, param, action, 0), icons);
+}
+
+YMenuItem *YMenu::addItem(const ustring &name, int hotCharPos, YAction *action, YMenu *submenu, const char *icons) {
+    return add(new YMenuItem(name, hotCharPos, null, action, submenu), icons);
+}
+
+YMenuItem *YMenu::addSubmenu(const ustring &name, int hotCharPos, YMenu *submenu, const char *icons) {
+    return add(new YMenuItem(name, hotCharPos, null, 0, submenu), icons);
+}
+#endif
+
+
 YMenuItem *YMenu::addItem(const ustring &name, int hotCharPos, const ustring &param, YAction *action) {
     return add(new YMenuItem(name, hotCharPos, param, action, 0));
 }
@@ -639,6 +658,17 @@ YMenuItem * YMenu::add(YMenuItem *item) {
     if (item) fItems.append(item);
     return item;
 }
+
+#ifndef LITE
+YMenuItem * YMenu::add(YMenuItem *item, const char *icons) {
+    //YIcon *icon = 0;
+    ref<YIcon> icon = YIcon::getIcon(icons);
+    if (icon->isCached() && item) item->setIcon(icon);
+    if (item) fItems.append(item);
+    return item;
+}
+#endif
+
 
 YMenuItem * YMenu::addSorted(YMenuItem *item, bool duplicates) {
     for (int i = 0; i < itemCount(); i++) {

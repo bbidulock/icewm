@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.35\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-02-12 22:30-0700\n"
+"POT-Creation-Date: 2017-03-12 12:57-0600\n"
 "PO-Revision-Date: 2016-04-25 08:06+0000\n"
 "Last-Translator: YunSeok Choi <xein@naver.com>\n"
 "Language-Team: Korean <http://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -33,7 +33,9 @@ msgstr "P"
 msgid " - Charging"
 msgstr " - 충전 중"
 
-#: src/aapm.cc:199 src/aapm.cc:489 src/aapm.cc:735
+#. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
+#. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
+#: src/aapm.cc:199 src/aapm.cc:489 src/aapm.cc:735 src/acpustatus.cc:410
 msgid "C"
 msgstr "C"
 
@@ -41,12 +43,26 @@ msgstr "C"
 msgid " - Full"
 msgstr ""
 
-#: src/acpustatus.cc:269
+#: src/acpustatus.cc:209
 #, c-format
-msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
+msgid ""
+"stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
+"intr = %llu, softirq = %llu, steal = %llu\n"
+msgstr ""
+
+#: src/acpustatus.cc:214
+#, c-format
+msgid ""
+"bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
+"softirq = %llu, steal = %llu (h = %i)\n"
+msgstr ""
+
+#: src/acpustatus.cc:276
+#, fuzzy, c-format
+msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "CPU 사용: %3.2f %3.2f %3.2f, %u"
 
-#: src/acpustatus.cc:274
+#: src/acpustatus.cc:281
 #, c-format
 msgid ""
 "\n"
@@ -55,7 +71,7 @@ msgstr ""
 "\n"
 "램 (여유): %5.2f (%.2f) M"
 
-#: src/acpustatus.cc:279
+#: src/acpustatus.cc:286
 #, c-format
 msgid ""
 "\n"
@@ -64,7 +80,7 @@ msgstr ""
 "\n"
 "스왑 (여유): %.2f (%.2f) M"
 
-#: src/acpustatus.cc:285
+#: src/acpustatus.cc:292
 #, c-format
 msgid ""
 "\n"
@@ -73,7 +89,7 @@ msgstr ""
 "\n"
 "ACPI 온도: "
 
-#: src/acpustatus.cc:304
+#: src/acpustatus.cc:311
 #, c-format
 msgid ""
 "\n"
@@ -82,9 +98,19 @@ msgstr ""
 "\n"
 "CPU 속도: %.3fGHz"
 
-#: src/acpustatus.cc:323
-msgid "CPU Load: "
+#: src/acpustatus.cc:332
+msgid "CPU"
+msgstr ""
+
+#: src/acpustatus.cc:332
+#, fuzzy
+msgid "Load: "
 msgstr "CPU 사용량: "
+
+#: src/acpustatus.cc:695
+#, c-format
+msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
+msgstr ""
 
 #: src/amailbox.cc:77
 #, c-format
@@ -779,131 +805,131 @@ msgstr "종료(_L)"
 msgid "_Cancel logout"
 msgstr "종료 취소(_C)"
 
-#: src/wmapp.cc:879
+#: src/wmapp.cc:880 src/wmapp.cc:882
 msgid "Lock _Workstation"
 msgstr "화면 잠그기(_W)"
 
-#: src/wmapp.cc:881 src/wmdialog.cc:111
+#: src/wmapp.cc:886 src/wmapp.cc:888 src/wmdialog.cc:111
 msgid "Re_boot"
 msgstr "다시 부팅(_B)"
 
-#: src/wmapp.cc:883 src/wmdialog.cc:118
+#: src/wmapp.cc:892 src/wmapp.cc:894 src/wmdialog.cc:118
 msgid "Shut_down"
 msgstr "끄기(_D)"
 
-#: src/wmapp.cc:887
+#: src/wmapp.cc:900 src/wmapp.cc:902
 msgid "Restart _Icewm"
 msgstr "Icewm 다시 시작(_I)"
 
-#: src/wmapp.cc:890
+#: src/wmapp.cc:906
 msgid "Restart _Xterm"
 msgstr "Xterm 다시 시작(_X)"
 
-#: src/wmapp.cc:906
+#: src/wmapp.cc:928
 msgid "_Menu"
 msgstr "메뉴(_M)"
 
-#: src/wmapp.cc:907
+#: src/wmapp.cc:929
 msgid "_Above Dock"
 msgstr "도크 위(_A)"
 
-#: src/wmapp.cc:908
+#: src/wmapp.cc:930
 msgid "_Dock"
 msgstr "도크(_D)"
 
-#: src/wmapp.cc:909
+#: src/wmapp.cc:931
 msgid "_OnTop"
 msgstr "위(_O)"
 
-#: src/wmapp.cc:910
+#: src/wmapp.cc:932
 msgid "_Normal"
 msgstr "보통(_N)"
 
-#: src/wmapp.cc:911
+#: src/wmapp.cc:933
 msgid "_Below"
 msgstr "아래(_B)"
 
-#: src/wmapp.cc:912
+#: src/wmapp.cc:934
 msgid "D_esktop"
 msgstr "바탕화면(_E)"
 
-#: src/wmapp.cc:924
+#: src/wmapp.cc:946
 msgid "_Restore"
 msgstr "원래 크기로(_R)"
 
-#: src/wmapp.cc:926
+#: src/wmapp.cc:948
 msgid "_Move"
 msgstr "옮기기(_M)"
 
-#: src/wmapp.cc:928
+#: src/wmapp.cc:950
 msgid "_Size"
 msgstr "크기 조절(_S)"
 
-#: src/wmapp.cc:930
+#: src/wmapp.cc:952
 msgid "Mi_nimize"
 msgstr "최소화(_N)"
 
-#: src/wmapp.cc:932
+#: src/wmapp.cc:954
 msgid "Ma_ximize"
 msgstr "최대화(_X)"
 
-#: src/wmapp.cc:934
+#: src/wmapp.cc:956
 msgid "_Fullscreen"
 msgstr "화면 채우기(_F)"
 
-#: src/wmapp.cc:938 src/wmwinlist.cc:307
+#: src/wmapp.cc:960 src/wmwinlist.cc:307
 msgid "_Hide"
 msgstr "숨기기(_H)"
 
-#: src/wmapp.cc:941
+#: src/wmapp.cc:963
 msgid "Roll_up"
 msgstr "말아올리기(_U)"
 
-#: src/wmapp.cc:948
+#: src/wmapp.cc:970
 msgid "R_aise"
 msgstr "앞으로(_A)"
 
-#: src/wmapp.cc:950
+#: src/wmapp.cc:972
 msgid "_Lower"
 msgstr "뒤로(_L)"
 
-#: src/wmapp.cc:952
+#: src/wmapp.cc:974
 msgid "La_yer"
 msgstr "레이어(_Y)"
 
-#: src/wmapp.cc:956 src/wmwinlist.cc:310
+#: src/wmapp.cc:978 src/wmwinlist.cc:310
 msgid "Move _To"
 msgstr "보내기(_T)"
 
-#: src/wmapp.cc:957
+#: src/wmapp.cc:979
 msgid "Occupy _All"
 msgstr "모든 작업공간(_A)"
 
-#: src/wmapp.cc:963
+#: src/wmapp.cc:985
 msgid "Limit _Workarea"
 msgstr "작업영역 제한(_W)"
 
-#: src/wmapp.cc:968
+#: src/wmapp.cc:990
 msgid "Tray _icon"
 msgstr "트레이 아이콘(_I)"
 
-#: src/wmapp.cc:974 src/wmwinlist.cc:295 src/wmwinlist.cc:321
+#: src/wmapp.cc:996 src/wmwinlist.cc:295 src/wmwinlist.cc:321
 msgid "_Close"
 msgstr "닫기(_C)"
 
-#: src/wmapp.cc:976 src/wmwinlist.cc:297
+#: src/wmapp.cc:998 src/wmwinlist.cc:297
 msgid "_Kill Client"
 msgstr "죽이기(_K)"
 
-#: src/wmapp.cc:980 src/wmdialog.cc:132 src/wmwinmenu.cc:137
+#: src/wmapp.cc:1002 src/wmdialog.cc:132 src/wmwinmenu.cc:137
 msgid "_Window list"
 msgstr "창 목록(_W)"
 
-#: src/wmapp.cc:996
+#: src/wmapp.cc:1018
 msgid "Another window manager already running, exiting..."
 msgstr "다른 창 관리자 이미 실행 중, 나감..."
 
-#: src/wmapp.cc:1062
+#: src/wmapp.cc:1084
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -912,7 +938,19 @@ msgstr ""
 "다시 시작 못함: %s\n"
 "$PATH가 %s를 가리키는가?"
 
-#: src/wmapp.cc:1636
+#: src/wmapp.cc:1646
+msgid ""
+"  --client-id=ID      Client id to use when contacting session manager.\n"
+msgstr ""
+
+#: src/wmapp.cc:1652
+msgid ""
+"\n"
+"  --debug             Print generic debug messages.\n"
+"  --debug-z           Print debug messages regarding window stacking.\n"
+msgstr ""
+
+#: src/wmapp.cc:1658
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -967,11 +1005,11 @@ msgstr ""
 "\n"
 "버그 보고, 지원 요청, 의견 따위는 http://www.icewm.org/ 방문\n"
 
-#: src/wmapp.cc:1747
+#: src/wmapp.cc:1769
 msgid "Confirm Logout"
 msgstr "종료 확인"
 
-#: src/wmapp.cc:1748
+#: src/wmapp.cc:1770
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -987,8 +1025,8 @@ msgstr "보기 안 좋은 이름"
 msgid "Loc_k Workstation"
 msgstr "작업공간 잠금(_k)"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:949 src/wmprog.cc:951 src/wmtaskbar.cc:434
-#: src/wmtaskbar.cc:436
+#: src/wmdialog.cc:90 src/wmprog.cc:989 src/wmprog.cc:991 src/wmprog.cc:995
+#: src/wmprog.cc:997 src/wmtaskbar.cc:438 src/wmtaskbar.cc:440
 msgid "_Logout..."
 msgstr "로그아웃(_L)..."
 
@@ -1000,8 +1038,8 @@ msgstr "취소(_C)"
 msgid "_Restart icewm"
 msgstr "icewm 다시 시작(_R)"
 
-#: src/wmdialog.cc:125 src/wmprog.cc:887 src/wmtaskbar.cc:426
-#: src/wmtaskbar.cc:429
+#: src/wmdialog.cc:125 src/wmprog.cc:906 src/wmprog.cc:908 src/wmtaskbar.cc:430
+#: src/wmtaskbar.cc:433
 msgid "_About"
 msgstr "정보(_A)"
 
@@ -1063,67 +1101,67 @@ msgstr "창 옵션에서 문법 오류"
 msgid "Out of memory for window options"
 msgstr "윈도우 옵션에 대해 메모리 부족"
 
-#: src/wmprog.cc:192
+#: src/wmprog.cc:198
 msgid "Missing command argument"
 msgstr "명령어 인수 빠짐"
 
-#: src/wmprog.cc:210
+#: src/wmprog.cc:216
 #, c-format
 msgid "Bad argument %d"
 msgstr "인수 틀림 %d"
 
-#: src/wmprog.cc:296 src/wmprog.cc:400 src/wmprog.cc:442
+#: src/wmprog.cc:302 src/wmprog.cc:406 src/wmprog.cc:448
 #, c-format
 msgid "Error at prog %s"
 msgstr "%s 프로그램에서 오류"
 
-#: src/wmprog.cc:351
+#: src/wmprog.cc:357
 #, c-format
 msgid "Unexepected keyword: %s"
 msgstr "예상하지 못한 키워드: %s"
 
-#: src/wmprog.cc:490
+#: src/wmprog.cc:496
 #, c-format
 msgid "Error at key %s"
 msgstr "%s 키에서 오류"
 
-#: src/wmprog.cc:851
+#: src/wmprog.cc:858 src/wmprog.cc:860
 msgid "Programs"
 msgstr "프로그램"
 
-#: src/wmprog.cc:856
+#: src/wmprog.cc:867 src/wmprog.cc:869
 msgid "_Run..."
 msgstr "실행(_R)..."
 
-#: src/wmprog.cc:863 src/wmtaskbar.cc:414
+#: src/wmprog.cc:878 src/wmprog.cc:880 src/wmtaskbar.cc:418
 msgid "_Windows"
 msgstr "창(_W)"
 
-#: src/wmprog.cc:900
+#: src/wmprog.cc:922
 msgid "_Help"
 msgstr "도움말(_H)"
 
-#: src/wmprog.cc:918
+#: src/wmprog.cc:945
 msgid "_Click to focus"
 msgstr "클릭에 의한 초점(_C)"
 
-#: src/wmprog.cc:923
+#: src/wmprog.cc:950
 msgid "_Sloppy mouse focus"
 msgstr "마우스에 따른 초점(_S)"
 
-#: src/wmprog.cc:928
+#: src/wmprog.cc:955
 msgid "Custo_m"
 msgstr "사용자 설정대로(_M)"
 
-#: src/wmprog.cc:934
+#: src/wmprog.cc:962 src/wmprog.cc:964
 msgid "_Focus"
 msgstr "초점(_F)"
 
-#: src/wmprog.cc:941
+#: src/wmprog.cc:973 src/wmprog.cc:975
 msgid "_Themes"
 msgstr "모양새(_T)"
 
-#: src/wmprog.cc:943
+#: src/wmprog.cc:979 src/wmprog.cc:981
 msgid "Se_ttings"
 msgstr "설정(_T)"
 
@@ -1132,59 +1170,59 @@ msgstr "설정(_T)"
 msgid "Session Manager: Unknown line %s"
 msgstr "세션 관리자: 알 수 없는 줄 %s"
 
-#: src/wmtaskbar.cc:257 src/wmtaskbar.cc:258
+#: src/wmtaskbar.cc:258 src/wmtaskbar.cc:259
 msgid "Task Bar"
 msgstr "태스크바"
 
-#: src/wmtaskbar.cc:403 src/wmwinlist.cc:312 src/wmwinlist.cc:325
+#: src/wmtaskbar.cc:407 src/wmwinlist.cc:312 src/wmwinlist.cc:325
 msgid "Tile _Vertically"
 msgstr "수직 정렬(_V)"
 
-#: src/wmtaskbar.cc:404 src/wmwinlist.cc:313 src/wmwinlist.cc:326
+#: src/wmtaskbar.cc:408 src/wmwinlist.cc:313 src/wmwinlist.cc:326
 msgid "T_ile Horizontally"
 msgstr "수평 정렬(_I)"
 
-#: src/wmtaskbar.cc:405 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+#: src/wmtaskbar.cc:409 src/wmwinlist.cc:314 src/wmwinlist.cc:327
 msgid "Ca_scade"
 msgstr "계단식 정렬(_S)"
 
-#: src/wmtaskbar.cc:406 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+#: src/wmtaskbar.cc:410 src/wmwinlist.cc:315 src/wmwinlist.cc:328
 msgid "_Arrange"
 msgstr "정렬(_A)"
 
-#: src/wmtaskbar.cc:407 src/wmwinlist.cc:317 src/wmwinlist.cc:329
+#: src/wmtaskbar.cc:411 src/wmwinlist.cc:317 src/wmwinlist.cc:329
 msgid "_Minimize All"
 msgstr "모두 최소화(_M)"
 
-#: src/wmtaskbar.cc:408 src/wmwinlist.cc:318 src/wmwinlist.cc:330
+#: src/wmtaskbar.cc:412 src/wmwinlist.cc:318 src/wmwinlist.cc:330
 msgid "_Hide All"
 msgstr "모두 숨기기(_H)"
 
-#: src/wmtaskbar.cc:409 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+#: src/wmtaskbar.cc:413 src/wmwinlist.cc:319 src/wmwinlist.cc:331
 msgid "_Undo"
 msgstr "실행 취소(_U)"
 
-#: src/wmtaskbar.cc:411
+#: src/wmtaskbar.cc:415
 msgid "Arrange _Icons"
 msgstr "아이콘 정렬(_I)"
 
-#: src/wmtaskbar.cc:417
+#: src/wmtaskbar.cc:421
 msgid "_Refresh"
 msgstr "새롭게(_R)"
 
-#: src/wmtaskbar.cc:424
+#: src/wmtaskbar.cc:428
 msgid "_License"
 msgstr "라이센스(_L)"
 
-#: src/wmtaskbar.cc:563
+#: src/wmtaskbar.cc:564
 msgid "Favorite applications"
 msgstr "즐겨쓰는 프로그램들"
 
-#: src/wmtaskbar.cc:580
+#: src/wmtaskbar.cc:581
 msgid "Window list menu"
 msgstr "창 목록 메뉴"
 
-#: src/wmtaskbar.cc:589
+#: src/wmtaskbar.cc:590
 msgid "Show Desktop"
 msgstr "바탕화면 보기"
 
@@ -1283,8 +1321,8 @@ msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
 msgstr "버그? XPM 파일 갑자기 끝났으나 Imlib는 \"%s\"를 해석할 수 있었음"
 
 #: src/ycursor.cc:219
-#, c-format
-msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
+#, fuzzy, c-format
+msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
 msgstr "버그? 예상하지 못한 글자 그러나 Imlib는 \"%s\"를 해석할 수 있었음"
 
 #: src/yfontcore.cc:71 src/yfontxft.cc:174

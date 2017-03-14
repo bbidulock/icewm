@@ -13,6 +13,8 @@ nodist_pkgdata_DATA = \
 	winoptions
 
 nobase_dist_pkgdata_DATA = \
+	icons/about_16x16.xpm \
+	icons/about_32x32.xpm \
 	icons/app_16x16.xpm \
 	icons/app_32x32.xpm \
 	icons/bomb_16x16.xpm \
@@ -31,6 +33,8 @@ nobase_dist_pkgdata_DATA = \
 	icons/emacs_32x32.xpm \
 	icons/file_16x16.xpm \
 	icons/file_32x32.xpm \
+	icons/focus_16x16.xpm \
+	icons/focus_32x32.xpm \
 	icons/folder_16x16.xpm \
 	icons/folder_32x32.xpm \
 	icons/fte_16x16.xpm \
@@ -38,6 +42,8 @@ nobase_dist_pkgdata_DATA = \
 	icons/gimp_16x16.xpm \
 	icons/gimp_32x32.xpm \
 	icons/gnome_16x16.xpm \
+	icons/help_16x16.xpm \
+	icons/help_32x32.xpm \
 	icons/java_16x16.xpm \
 	icons/java_32x32.xpm \
 	icons/kde_16x16.xpm \
@@ -46,15 +52,33 @@ nobase_dist_pkgdata_DATA = \
 	icons/lock_16x16.xpm \
 	icons/lock_32x32.xpm \
 	icons/lock_48x48.xpm \
+	icons/logout_16x16.xpm \
+	icons/logout_32x32.xpm \
 	icons/navigator_16x16.xpm \
 	icons/navigator_32x32.xpm \
 	icons/netscape_16x16.xpm \
 	icons/netscape_32x32.xpm \
 	icons/pdf_16x16.xpm \
 	icons/pdf_32x32.xpm \
+	icons/programs_16x16.xpm \
+	icons/programs_32x32.xpm \
+	icons/reboot_16x16.xpm \
+	icons/reboot_32x32.xpm \
+	icons/restart_16x16.xpm \
+	icons/restart_32x32.xpm \
+	icons/run_16x16.xpm \
+	icons/run_32x32.xpm \
+	icons/settings_16x16.xpm \
+	icons/settings_32x32.xpm \
+	icons/shutdown_16x16.xpm \
+	icons/shutdown_32x32.xpm \
+	icons/themes_16x16.xpm \
+	icons/themes_32x32.xpm \
 	icons/vim_16x16.xpm \
 	icons/vim_32x32.xpm \
 	icons/vim_48x48.xpm \
+	icons/windows_16x16.xpm \
+	icons/windows_32x32.xpm \
 	icons/xisp_16x16.xpm \
 	icons/xisp_32x32.xpm \
 	icons/xload_16x16.xpm \

@@ -1,0 +1,25 @@
+/* XPM */
+static char *focus_16x16[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 3 1 ",
+"  c black",
+". c white",
+"X c None",
+/* pixels */
+"XXXXXX.  .XXXXXX",
+"XXXX...  ...XXXX",
+"XXX.        .XXX",
+"XX.  ..  ..  .XX",
+"X.  .X.  .X.  .X",
+"X. .XXX..XXX. .X",
+".. ..XXXXXX.. ..",
+"     .XXXX.     ",
+"     .XXXX.     ",
+".. ..XXXXXX.. ..",
+"X. .XXX..XXX. .X",
+"X.  .X.  .X.  .X",
+"XX.  ..  ..  .XX",
+"XXX.        .XXX",
+"XXXX...  ...XXXX",
+"XXXXXX.  .XXXXXX"
+};

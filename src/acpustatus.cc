@@ -76,7 +76,7 @@ extern ref<YPixmap> taskbackPixmap;
 
 ref<YFont> CPUStatus::tempFont;
 
-CPUStatus::CPUStatus(YWindow *aParent, int cpuid) : YWindow(aParent), m_nCachedFd(NULL)
+CPUStatus::CPUStatus(YSMListener *smActionListener, YWindow *aParent, int cpuid) : YWindow(aParent)
 {
     fCpuID = cpuid;
     this->smActionListener = smActionListener;
@@ -133,9 +133,6 @@ CPUStatus::~CPUStatus() {
     delete color[IWM_SOFTIRQ]; color[IWM_SOFTIRQ] = 0;
     delete color[IWM_STEAL]; color[IWM_STEAL] = 0;
     delete tempColor;
-
-    if(m_nCachedFd)
-        fclose(m_nCachedFd);
 }
 
 void CPUStatus::paint(Graphics &g, const YRect &/*r*/) {
@@ -408,8 +405,11 @@ int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
         }
         closedir(dir);
         if (1 < retbuflen && retbuflen + 1 < buflen) {
-            tempbuf[retbuflen++] = '\xB0';
-            tempbuf[retbuflen++] = 'C';
+            // TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
+            // TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
+            static const char *T = _("C");
+            int i = -1;
+            while (T[++i]) tempbuf[retbuflen++] = T[i];
             tempbuf[retbuflen] = '\0';
         }
     }
@@ -444,25 +444,26 @@ void CPUStatus::getStatus() {
     if (fCpuID >= 0)
         snprintf(cpuname, sizeof(cpuname), "cpu%d", fCpuID);
 
-    FILE *fd = m_nCachedFd;
-
+    FILE *fd = fopen("/proc/stat", "r");
     if (fd == NULL)
     {
-        fd = fopen("/proc/stat", "r");
-        if (fd == NULL)
-            return;
+        fclose(fd);
+        return;
     }
 
     /* find the line that starts with `cpuname` */
     do {
         if (!fgets(buf, sizeof(buf) - 1, fd)) {
+            fclose(fd);
             return;
         }
         tok = strtok_r(buf, " \t", &p);
         if (!tok) {
+            fclose(fd);
             return;
         }
     } while (strcmp(tok, cpuname));
+    fclose(fd);
     s = sscanf(p, "%llu %llu %llu %llu %llu %llu %llu %llu",
                &cur[IWM_USER],    &cur[IWM_NICE],
                &cur[IWM_SYS],     &cur[IWM_IDLE],
@@ -691,8 +692,8 @@ void CPUStatus::getStatus() {
         last_cpu[i] = cur[i];
     }
 #endif
-    MSG((_("%s: %llu %llu %llu %llu %llu %llu %llu"),
-        fCpuName,
+    MSG((_("%s: %llu %llu %llu %llu %llu %llu %llu %llu"),
+        cpuname,
         cpu[taskBarCPUSamples - 1][IWM_USER],
         cpu[taskBarCPUSamples - 1][IWM_NICE],
         cpu[taskBarCPUSamples - 1][IWM_SYS],
@@ -702,9 +703,9 @@ void CPUStatus::getStatus() {
         cpu[taskBarCPUSamples - 1][IWM_SOFTIRQ],
         cpu[taskBarCPUSamples - 1][IWM_STEAL]));
 }
-void CPUStatus::GetCPUStatus(YWindow *aParent, CPUStatus **&fCPUStatus, bool combine) {
+void CPUStatus::GetCPUStatus(YSMListener *smActionListener, YWindow *aParent, CPUStatus **&fCPUStatus, bool combine) {
     if (combine) {
-        CPUStatus::getCPUStatusCombined(aParent, fCPUStatus);
+        CPUStatus::getCPUStatusCombined(smActionListener, aParent, fCPUStatus);
         return;
     }
 #if defined(linux)
@@ -712,11 +713,11 @@ void CPUStatus::GetCPUStatus(YWindow *aParent, CPUStatus **&fCPUStatus, bool com
     unsigned cnt = 0;
     FILE *fd = fopen("/proc/stat", "r");
     if (!fd) {
-        CPUStatus::getCPUStatusCombined(aParent, fCPUStatus);
+        CPUStatus::getCPUStatusCombined(smActionListener, aParent, fCPUStatus);
         return;
     }
     /* skip first line for combined cpu */
-    fgets(buf, sizeof(buf), fd);
+    if (fgets(buf, sizeof(buf), fd)) ;
     /* count lines that begins with "cpu" */
     while (1) {
         if (!fgets(buf, sizeof(buf), fd))
@@ -726,7 +727,7 @@ void CPUStatus::GetCPUStatus(YWindow *aParent, CPUStatus **&fCPUStatus, bool com
         cnt++;
     };
     fclose(fd);
-    CPUStatus::getCPUStatus(aParent, fCPUStatus, cnt);
+    CPUStatus::getCPUStatus(smActionListener, aParent, fCPUStatus, cnt);
 #elif defined(HAVE_KSTAT_H)
     kstat_named_t       *kn = NULL;
     kn = (kstat_named_t *)kstat_data_lookup(ks, "ncpus");
@@ -739,16 +740,16 @@ void CPUStatus::GetCPUStatus(YWindow *aParent, CPUStatus **&fCPUStatus, bool com
     CPUStatus::getCPUStatusCombined(aParent, fCPUStatus);
 #endif
 }
-void CPUStatus::getCPUStatusCombined(YWindow *aParent, CPUStatus **&fCPUStatus) {
+void CPUStatus::getCPUStatusCombined(YSMListener *smActionListener, YWindow *aParent, CPUStatus **&fCPUStatus) {
     fCPUStatus = new CPUStatus*[2];
-    fCPUStatus[0] = new CPUStatus(aParent);
+    fCPUStatus[0] = new CPUStatus(smActionListener, aParent);
     fCPUStatus[1] = NULL;
 }
-void CPUStatus::getCPUStatus(YWindow *aParent, CPUStatus **&fCPUStatus, unsigned ncpus) {
+void CPUStatus::getCPUStatus(YSMListener *smActionListener, YWindow *aParent, CPUStatus **&fCPUStatus, unsigned ncpus) {
     fCPUStatus = new CPUStatus*[ncpus + 1];
     /* we must reverse the order, so that left is cpu(0) and right is cpu(ncpus-1) */
     for (unsigned i(0); i < ncpus; i++)
-        fCPUStatus[i] = new CPUStatus(aParent, ncpus - 1 - i);
+        fCPUStatus[i] = new CPUStatus(smActionListener, aParent, ncpus - 1 - i);
     fCPUStatus[ncpus] = NULL;
 }
 #endif

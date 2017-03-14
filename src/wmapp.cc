@@ -876,18 +876,40 @@ static void initMenus(
 #endif
             int const oldItemCount = logoutMenu->itemCount();
             if (canLock())
+#ifdef LITE
                 logoutMenu->addItem(_("Lock _Workstation"), -2, null, actionLock);
+#else
+                logoutMenu->addItem(_("Lock _Workstation"), -2, null, actionLock, "lock");
+#endif
             if (canShutdown(true))
+#ifdef LITE
                 logoutMenu->addItem(_("Re_boot"), -2, null, actionReboot);
+#else
+                logoutMenu->addItem(_("Re_boot"), -2, null, actionReboot, "reboot");
+#endif
             if (canShutdown(false))
+#ifdef LITE
                 logoutMenu->addItem(_("Shut_down"), -2, null, actionShutdown);
+#else
+                logoutMenu->addItem(_("Shut_down"), -2, null, actionShutdown, "shutdown");
+#endif
             if (logoutMenu->itemCount() != oldItemCount)
                 logoutMenu->addSeparator();
 
+#ifdef LITE
             logoutMenu->addItem(_("Restart _Icewm"), -2, null, actionRestart);
+#else
+            logoutMenu->addItem(_("Restart _Icewm"), -2, null, actionRestart, "restart");
+#endif
 
             DProgram *restartXTerm =
-                DProgram::newProgram(app, smActionListener, _("Restart _Xterm"), null, true, 0,
+                DProgram::newProgram(app, smActionListener, _("Restart _Xterm"),
+#ifdef LITE
+				null,
+#else
+				(YIcon::getIcon("xterm")),
+#endif
+				true, 0,
                 		QUOTE(XTERMCMD), noargs);
             if (restartXTerm)
                 logoutMenu->add(new DObjectMenuItem(restartXTerm));
@@ -1621,15 +1643,15 @@ static void print_version() {
 static void print_usage(const char *argv0) {
     const char *usage_client_id =
 #ifdef CONFIG_SESSION
-             "  --client-id=ID      Client id to use when contacting session manager.\n";
+             _("  --client-id=ID      Client id to use when contacting session manager.\n");
 #else
              "";
 #endif
     const char *usage_debug =
 #ifdef DEBUG
-             "\n"
+             _("\n"
              "  --debug             Print generic debug messages.\n"
-             "  --debug-z           Print debug messages regarding window stacking.\n";
+             "  --debug-z           Print debug messages regarding window stacking.\n");
 #else
              "";
 #endif
