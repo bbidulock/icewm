@@ -929,7 +929,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
                 XFree(cr);
             }
         }
-        if (!focusproxyfound && input) {
+        if (!focusproxyfound || activateJava7FocusHack) {
             XSetInputFocus(xapp->display(), w, None, xapp->getEventTime("setFocus"));
         }
     } else {

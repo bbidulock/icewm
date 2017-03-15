@@ -45,6 +45,7 @@ public:
 
     virtual void paint(Graphics &g, const YRect &r);
     virtual void configure(const YRect &r);
+    virtual void getScaleSize(int *ww, int *hh);
     virtual void handleConfigureRequest(const XConfigureRequestEvent &configureRequest);
 
     void backgroundChanged();

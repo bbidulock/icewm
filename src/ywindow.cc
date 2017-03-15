@@ -19,8 +19,6 @@
 #include "ytimer.h"
 #include "ypopup.h"
 
-extern const char *ApplicationName;
-
 /******************************************************************************/
 /******************************************************************************/
 
@@ -332,15 +330,6 @@ void YWindow::create() {
         XGetWindowAttributes(xapp->display(),
                              fHandle,
                              &attributes);
-
-        if(attributes.width <= 1 && strstr(ApplicationName, "icewmtray"))
-        {
-            sleep(1);
-            XGetWindowAttributes(xapp->display(),
-                                 fHandle,
-                                 &attributes);
-        }
-
         fX = attributes.x;
         fY = attributes.y;
         fWidth = attributes.width;
