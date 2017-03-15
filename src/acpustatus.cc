@@ -407,7 +407,7 @@ int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
         if (1 < retbuflen && retbuflen + 1 < buflen) {
             // TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
             // TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-            static const char *T = _("C");
+            static const char *T = _("°C");
             int i = -1;
             while (T[++i]) tempbuf[retbuflen++] = T[i];
             tempbuf[retbuflen] = '\0';
