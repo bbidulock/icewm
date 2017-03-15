@@ -186,6 +186,17 @@ YXTray::~YXTray() {
     delete fTrayProxy; fTrayProxy = 0;
 }
 
+void YXTray::getScaleSize(int *ww, int *hh)
+{
+    *ww = *hh * (TICON_H_MAX) / *ww;
+    *hh = TICON_H_MAX;
+
+    if (*ww > TICON_W_MAX) {
+        *hh = (*hh * (TICON_W_MAX) / *ww);
+        *ww = TICON_W_MAX;
+    }
+}
+
 void YXTray::trayRequestDock(Window win) {
     MSG(("trayRequestDock win %lX", win));
 
@@ -199,22 +210,10 @@ void YXTray::trayRequestDock(Window win) {
 
     /* Workaround for GTK-Apps */
     if (!(ww == 0 || hh == 0)){
-
         if (!fInternal) {
             // scale too big icons
-            int check;
-            for (check = 0; check < 2; check++) {
-                if (ww > TICON_W_MAX) {
-                    hh = TICON_W_MAX / ww * hh;
-                    ww = TICON_W_MAX;
-                }
-                else if (hh > TICON_H_MAX) {
-                    ww = TICON_H_MAX / hh * ww;
-                    hh = TICON_H_MAX;
-                }
-            }
+            getScaleSize(&ww, &hh);
         }
-
         embed->setSize(ww, hh);
         embed->fVisible = true;
         fDocked.append(embed);
@@ -243,23 +242,13 @@ void YXTray::handleConfigureRequest(const XConfigureRequestEvent &configureReque
     for (int i = 0; i < fDocked.getCount(); i++) {
         YXTrayEmbedder *ec = fDocked[i];
         if (ec->client_handle() == configureRequest.window) {
-            int w = configureRequest.width;
-            int h = configureRequest.height;
+            int ww = configureRequest.width;
+            int hh = configureRequest.height;
             if (!fInternal) {
                 /* scale down too big icons */
-                int check;
-                for (check = 0; check < 2; check++) {
-                    if (w > TICON_W_MAX) {
-                        h = TICON_W_MAX / w * h;
-                        w = TICON_W_MAX;
-                    }
-                    else if (h > TICON_H_MAX) {
-                        w = TICON_H_MAX / h * w;
-                        h = TICON_H_MAX;
-                    }
-                }
+                getScaleSize(&ww, &hh);
             }
-            if (w != ec->width() || h != ec->height())
+            if (ww != ec->width() || hh != ec->height())
                 changed = true;
             ec->setSize(configureRequest.width, configureRequest.height);
         }
