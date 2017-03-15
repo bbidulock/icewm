@@ -216,7 +216,7 @@ YCursorPixmap::YCursorPixmap(upath path):
                     warn(_("BUG? Unexpected end of XPM file but Imlib "
                            "was able to parse \"%s\""), cs.c_str());
                 else
-                    warn(_("BUG? Unexpected characted but Imlib "
+                    warn(_("BUG? Unexpected character but Imlib "
                            "was able to parse \"%s\""), cs.c_str());
 
                 fclose(xpm);

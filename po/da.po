@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.3.12.170\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-02-12 22:30-0700\n"
+"POT-Creation-Date: 2017-03-12 12:57-0600\n"
 "PO-Revision-Date: 2017-02-17 00:00+0100\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -31,7 +31,9 @@ msgstr "S"
 msgid " - Charging"
 msgstr " - Lader"
 
-#: src/aapm.cc:199 src/aapm.cc:489 src/aapm.cc:735
+#. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
+#. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
+#: src/aapm.cc:199 src/aapm.cc:489 src/aapm.cc:735 src/acpustatus.cc:410
 msgid "C"
 msgstr "L"
 
@@ -39,12 +41,26 @@ msgstr "L"
 msgid " - Full"
 msgstr " - Fuld"
 
-#: src/acpustatus.cc:269
+#: src/acpustatus.cc:209
 #, c-format
-msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
+msgid ""
+"stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
+"intr = %llu, softirq = %llu, steal = %llu\n"
+msgstr ""
+
+#: src/acpustatus.cc:214
+#, c-format
+msgid ""
+"bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
+"softirq = %llu, steal = %llu (h = %i)\n"
+msgstr ""
+
+#: src/acpustatus.cc:276
+#, fuzzy, c-format
+msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "CPU belastning: %3.2f %3.2f %3.2f, %u"
 
-#: src/acpustatus.cc:274
+#: src/acpustatus.cc:281
 #, c-format
 msgid ""
 "\n"
@@ -53,7 +69,7 @@ msgstr ""
 "\n"
 "Ram (ledig): %5.2f (%.2f) M"
 
-#: src/acpustatus.cc:279
+#: src/acpustatus.cc:286
 #, c-format
 msgid ""
 "\n"
@@ -62,7 +78,7 @@ msgstr ""
 "\n"
 "Swap (ledig): %.2f (%.2f) M"
 
-#: src/acpustatus.cc:285
+#: src/acpustatus.cc:292
 #, c-format
 msgid ""
 "\n"
@@ -71,7 +87,7 @@ msgstr ""
 "\n"
 "ACPI temperatur: "
 
-#: src/acpustatus.cc:304
+#: src/acpustatus.cc:311
 #, c-format
 msgid ""
 "\n"
@@ -80,9 +96,19 @@ msgstr ""
 "\n"
 "CPU frekvens: %.3fGHz"
 
-#: src/acpustatus.cc:323
-msgid "CPU Load: "
+#: src/acpustatus.cc:332
+msgid "CPU"
+msgstr ""
+
+#: src/acpustatus.cc:332
+#, fuzzy
+msgid "Load: "
 msgstr "CPU belastning: "
+
+#: src/acpustatus.cc:695
+#, c-format
+msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
+msgstr ""
 
 #: src/amailbox.cc:77
 #, c-format
@@ -398,8 +424,8 @@ msgstr ""
 "                              samme WM_KLASSE-egenskab. Hvis der ikke er "
 "noget\n"
 "                              punktum, vælges vinduer af samme klasse og\n"
-"                              vinduer af samme instans (også kendt som "
-"\"-name\").\n"
+"                              vinduer af samme instans (også kendt som \"-"
+"name\").\n"
 "\n"
 "Handlinger:\n"
 "  setIconTitle   TITEL        Sæt ikonets titel.\n"
@@ -412,8 +438,8 @@ msgstr ""
 "  toggleState    TILSTAND     Skifter GNOME-vinduestilstandsbits\n"
 "                              angivet med TILSTAND-udtrykket.\n"
 "  setHints       FIFS         Sæt GNOME-vinduesfifs til FIFS.\n"
-"  setLayer       LAG          Flytter vinduet til et andet "
-"GNOME-vindueslag.\n"
+"  setLayer       LAG          Flytter vinduet til et andet GNOME-"
+"vindueslag.\n"
 "  setWorkspace   ARBEJDSOMRÅDE   Flytter vinduet til et andet "
 "arbejdsområde.\n"
 "                              Vælg rodvinduet for at skifte arbejdsområde.\n"
@@ -421,8 +447,8 @@ msgstr ""
 "  setTrayOption  BAKKETILVALG Sæt IceWM-bakketilvalgstippet.\n"
 "\n"
 "Udtryk:\n"
-"  Udtryk er liste af symboler af et domæne lagt sammen med \"+\" eller "
-"\"|\":\n"
+"  Udtryk er liste af symboler af et domæne lagt sammen med \"+\" eller \"|"
+"\":\n"
 "\n"
 "  UDTRYK ::= SYMBOL | UDTRYK ( \"+\" | \"|\" ) SYMBOL\n"
 "\n"
@@ -796,132 +822,132 @@ msgstr "Log _ud"
 msgid "_Cancel logout"
 msgstr "_Annuller log ud"
 
-#: src/wmapp.cc:879
+#: src/wmapp.cc:880 src/wmapp.cc:882
 msgid "Lock _Workstation"
 msgstr "Lås _arbejdsstation"
 
-#: src/wmapp.cc:881 src/wmdialog.cc:111
+#: src/wmapp.cc:886 src/wmapp.cc:888 src/wmdialog.cc:111
 msgid "Re_boot"
 msgstr "_Genstart"
 
-#: src/wmapp.cc:883 src/wmdialog.cc:118
+#: src/wmapp.cc:892 src/wmapp.cc:894 src/wmdialog.cc:118
 msgid "Shut_down"
 msgstr "_Luk ned"
 
-#: src/wmapp.cc:887
+#: src/wmapp.cc:900 src/wmapp.cc:902
 msgid "Restart _Icewm"
 msgstr "Genstart _Icewm"
 
 # scootergrisen: tjek om det er korrekt med "Xterm". Synes ikke Xterm virker som forventet.
-#: src/wmapp.cc:890
+#: src/wmapp.cc:906
 msgid "Restart _Xterm"
 msgstr "Genstart _Xterm"
 
-#: src/wmapp.cc:906
+#: src/wmapp.cc:928
 msgid "_Menu"
 msgstr "_Menu"
 
-#: src/wmapp.cc:907
+#: src/wmapp.cc:929
 msgid "_Above Dock"
 msgstr "_Over dok"
 
-#: src/wmapp.cc:908
+#: src/wmapp.cc:930
 msgid "_Dock"
 msgstr "_Dok"
 
-#: src/wmapp.cc:909
+#: src/wmapp.cc:931
 msgid "_OnTop"
 msgstr "Ø_verst"
 
-#: src/wmapp.cc:910
+#: src/wmapp.cc:932
 msgid "_Normal"
 msgstr "_Normal"
 
-#: src/wmapp.cc:911
+#: src/wmapp.cc:933
 msgid "_Below"
 msgstr "_Under"
 
-#: src/wmapp.cc:912
+#: src/wmapp.cc:934
 msgid "D_esktop"
 msgstr "_Skrivebord"
 
-#: src/wmapp.cc:924
+#: src/wmapp.cc:946
 msgid "_Restore"
 msgstr "_Gendan"
 
-#: src/wmapp.cc:926
+#: src/wmapp.cc:948
 msgid "_Move"
 msgstr "_Flyt"
 
-#: src/wmapp.cc:928
+#: src/wmapp.cc:950
 msgid "_Size"
 msgstr "Stø_rrelse"
 
-#: src/wmapp.cc:930
+#: src/wmapp.cc:952
 msgid "Mi_nimize"
 msgstr "Mi_nimer"
 
-#: src/wmapp.cc:932
+#: src/wmapp.cc:954
 msgid "Ma_ximize"
 msgstr "Ma_ksimer"
 
-#: src/wmapp.cc:934
+#: src/wmapp.cc:956
 msgid "_Fullscreen"
 msgstr "F_uldskærm"
 
-#: src/wmapp.cc:938 src/wmwinlist.cc:307
+#: src/wmapp.cc:960 src/wmwinlist.cc:307
 msgid "_Hide"
 msgstr "Sk_jul"
 
-#: src/wmapp.cc:941
+#: src/wmapp.cc:963
 msgid "Roll_up"
 msgstr "Rul _op"
 
-#: src/wmapp.cc:948
+#: src/wmapp.cc:970
 msgid "R_aise"
 msgstr "_Hæv"
 
-#: src/wmapp.cc:950
+#: src/wmapp.cc:972
 msgid "_Lower"
 msgstr "_Sænk"
 
-#: src/wmapp.cc:952
+#: src/wmapp.cc:974
 msgid "La_yer"
 msgstr "L_ag"
 
-#: src/wmapp.cc:956 src/wmwinlist.cc:310
+#: src/wmapp.cc:978 src/wmwinlist.cc:310
 msgid "Move _To"
 msgstr "Flyt _til"
 
-#: src/wmapp.cc:957
+#: src/wmapp.cc:979
 msgid "Occupy _All"
 msgstr "_På alle"
 
-#: src/wmapp.cc:963
+#: src/wmapp.cc:985
 msgid "Limit _Workarea"
 msgstr "Afgræns _arbejdsområde"
 
-#: src/wmapp.cc:968
+#: src/wmapp.cc:990
 msgid "Tray _icon"
 msgstr "_Bakkeikon"
 
-#: src/wmapp.cc:974 src/wmwinlist.cc:295 src/wmwinlist.cc:321
+#: src/wmapp.cc:996 src/wmwinlist.cc:295 src/wmwinlist.cc:321
 msgid "_Close"
 msgstr "_Luk"
 
-#: src/wmapp.cc:976 src/wmwinlist.cc:297
+#: src/wmapp.cc:998 src/wmwinlist.cc:297
 msgid "_Kill Client"
 msgstr "_Dræb klient"
 
-#: src/wmapp.cc:980 src/wmdialog.cc:132 src/wmwinmenu.cc:137
+#: src/wmapp.cc:1002 src/wmdialog.cc:132 src/wmwinmenu.cc:137
 msgid "_Window list"
 msgstr "_Vinduesliste"
 
-#: src/wmapp.cc:996
+#: src/wmapp.cc:1018
 msgid "Another window manager already running, exiting..."
 msgstr "En anden vindueshåndtering kører allerede, afslutter..."
 
-#: src/wmapp.cc:1062
+#: src/wmapp.cc:1084
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -930,7 +956,19 @@ msgstr ""
 "Kunne ikke genstarte: %s\n"
 "Leder $PATH til %s?"
 
-#: src/wmapp.cc:1636
+#: src/wmapp.cc:1646
+msgid ""
+"  --client-id=ID      Client id to use when contacting session manager.\n"
+msgstr ""
+
+#: src/wmapp.cc:1652
+msgid ""
+"\n"
+"  --debug             Print generic debug messages.\n"
+"  --debug-z           Print debug messages regarding window stacking.\n"
+msgstr ""
+
+#: src/wmapp.cc:1658
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -988,11 +1026,11 @@ msgstr ""
 "Besøg http://www.icewm.org/ for at rapportere fejl, supportforespørgsel, "
 "kommentarer...\n"
 
-#: src/wmapp.cc:1747
+#: src/wmapp.cc:1769
 msgid "Confirm Logout"
 msgstr "Bekræft log ud"
 
-#: src/wmapp.cc:1748
+#: src/wmapp.cc:1770
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1008,8 +1046,8 @@ msgstr "Dårligt Look-navn"
 msgid "Loc_k Workstation"
 msgstr "Lås _arbejdsstation"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:949 src/wmprog.cc:951 src/wmtaskbar.cc:434
-#: src/wmtaskbar.cc:436
+#: src/wmdialog.cc:90 src/wmprog.cc:989 src/wmprog.cc:991 src/wmprog.cc:995
+#: src/wmprog.cc:997 src/wmtaskbar.cc:438 src/wmtaskbar.cc:440
 msgid "_Logout..."
 msgstr "Log _ud..."
 
@@ -1021,8 +1059,8 @@ msgstr "_Annuller"
 msgid "_Restart icewm"
 msgstr "Gensta_rt icewm"
 
-#: src/wmdialog.cc:125 src/wmprog.cc:887 src/wmtaskbar.cc:426
-#: src/wmtaskbar.cc:429
+#: src/wmdialog.cc:125 src/wmprog.cc:906 src/wmprog.cc:908 src/wmtaskbar.cc:430
+#: src/wmtaskbar.cc:433
 msgid "_About"
 msgstr "O_m"
 
@@ -1084,67 +1122,67 @@ msgstr "Syntaksfejl i vinduestilvalg"
 msgid "Out of memory for window options"
 msgstr "Ikke mere ledig hukommelse til vinduestilvalg"
 
-#: src/wmprog.cc:192
+#: src/wmprog.cc:198
 msgid "Missing command argument"
 msgstr "Mangler kommando argument"
 
-#: src/wmprog.cc:210
+#: src/wmprog.cc:216
 #, c-format
 msgid "Bad argument %d"
 msgstr "Dårligt argument %d"
 
-#: src/wmprog.cc:296 src/wmprog.cc:400 src/wmprog.cc:442
+#: src/wmprog.cc:302 src/wmprog.cc:406 src/wmprog.cc:448
 #, c-format
 msgid "Error at prog %s"
 msgstr "Fejl i program %s"
 
-#: src/wmprog.cc:351
+#: src/wmprog.cc:357
 #, c-format
 msgid "Unexepected keyword: %s"
 msgstr "Ikke forventet nøgleord: %s"
 
-#: src/wmprog.cc:490
+#: src/wmprog.cc:496
 #, c-format
 msgid "Error at key %s"
 msgstr "Fejl i nøgle %s"
 
-#: src/wmprog.cc:851
+#: src/wmprog.cc:858 src/wmprog.cc:860
 msgid "Programs"
 msgstr "Programmer"
 
-#: src/wmprog.cc:856
+#: src/wmprog.cc:867 src/wmprog.cc:869
 msgid "_Run..."
 msgstr "_Kør..."
 
-#: src/wmprog.cc:863 src/wmtaskbar.cc:414
+#: src/wmprog.cc:878 src/wmprog.cc:880 src/wmtaskbar.cc:418
 msgid "_Windows"
 msgstr "Vin_duer"
 
-#: src/wmprog.cc:900
+#: src/wmprog.cc:922
 msgid "_Help"
 msgstr "_Hjælp"
 
-#: src/wmprog.cc:918
+#: src/wmprog.cc:945
 msgid "_Click to focus"
 msgstr "_Klik for at fokusere"
 
-#: src/wmprog.cc:923
+#: src/wmprog.cc:950
 msgid "_Sloppy mouse focus"
 msgstr "_Sløset musefokus"
 
-#: src/wmprog.cc:928
+#: src/wmprog.cc:955
 msgid "Custo_m"
 msgstr "_Tilpasset"
 
-#: src/wmprog.cc:934
+#: src/wmprog.cc:962 src/wmprog.cc:964
 msgid "_Focus"
 msgstr "_Fokus"
 
-#: src/wmprog.cc:941
+#: src/wmprog.cc:973 src/wmprog.cc:975
 msgid "_Themes"
 msgstr "_Temaer"
 
-#: src/wmprog.cc:943
+#: src/wmprog.cc:979 src/wmprog.cc:981
 msgid "Se_ttings"
 msgstr "_Indstillinger"
 
@@ -1153,59 +1191,59 @@ msgstr "_Indstillinger"
 msgid "Session Manager: Unknown line %s"
 msgstr "Sessionshåndtering: Ukendt linje %s"
 
-#: src/wmtaskbar.cc:257 src/wmtaskbar.cc:258
+#: src/wmtaskbar.cc:258 src/wmtaskbar.cc:259
 msgid "Task Bar"
 msgstr "Værktøjslinje"
 
-#: src/wmtaskbar.cc:403 src/wmwinlist.cc:312 src/wmwinlist.cc:325
+#: src/wmtaskbar.cc:407 src/wmwinlist.cc:312 src/wmwinlist.cc:325
 msgid "Tile _Vertically"
 msgstr "Fliselæg _lodret"
 
-#: src/wmtaskbar.cc:404 src/wmwinlist.cc:313 src/wmwinlist.cc:326
+#: src/wmtaskbar.cc:408 src/wmwinlist.cc:313 src/wmwinlist.cc:326
 msgid "T_ile Horizontally"
 msgstr "Fliselæg _vandret"
 
-#: src/wmtaskbar.cc:405 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+#: src/wmtaskbar.cc:409 src/wmwinlist.cc:314 src/wmwinlist.cc:327
 msgid "Ca_scade"
 msgstr "_Overlappet"
 
-#: src/wmtaskbar.cc:406 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+#: src/wmtaskbar.cc:410 src/wmwinlist.cc:315 src/wmwinlist.cc:328
 msgid "_Arrange"
 msgstr "_Arranger"
 
-#: src/wmtaskbar.cc:407 src/wmwinlist.cc:317 src/wmwinlist.cc:329
+#: src/wmtaskbar.cc:411 src/wmwinlist.cc:317 src/wmwinlist.cc:329
 msgid "_Minimize All"
 msgstr "Mi_nimer alle"
 
-#: src/wmtaskbar.cc:408 src/wmwinlist.cc:318 src/wmwinlist.cc:330
+#: src/wmtaskbar.cc:412 src/wmwinlist.cc:318 src/wmwinlist.cc:330
 msgid "_Hide All"
 msgstr "_Skjul alle"
 
-#: src/wmtaskbar.cc:409 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+#: src/wmtaskbar.cc:413 src/wmwinlist.cc:319 src/wmwinlist.cc:331
 msgid "_Undo"
 msgstr "_Fortryd"
 
-#: src/wmtaskbar.cc:411
+#: src/wmtaskbar.cc:415
 msgid "Arrange _Icons"
 msgstr "Arranger _ikoner"
 
-#: src/wmtaskbar.cc:417
+#: src/wmtaskbar.cc:421
 msgid "_Refresh"
 msgstr "_Opdater"
 
-#: src/wmtaskbar.cc:424
+#: src/wmtaskbar.cc:428
 msgid "_License"
 msgstr "_Licens"
 
-#: src/wmtaskbar.cc:563
+#: src/wmtaskbar.cc:564
 msgid "Favorite applications"
 msgstr "Favoritprogrammer"
 
-#: src/wmtaskbar.cc:580
+#: src/wmtaskbar.cc:581
 msgid "Window list menu"
 msgstr "Vindueslistemenu"
 
-#: src/wmtaskbar.cc:589
+#: src/wmtaskbar.cc:590
 msgid "Show Desktop"
 msgstr "Vis skrivebord"
 
@@ -1301,11 +1339,12 @@ msgstr "FEJL? Fejlformatteret XPM-hoved men Imlib kunne godt fortolke \"%s\""
 #: src/ycursor.cc:216
 #, c-format
 msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
-msgstr "FEJL? Uventet afslutning på XPM-fil men Imlib kunne godt fortolke \"%s\""
+msgstr ""
+"FEJL? Uventet afslutning på XPM-fil men Imlib kunne godt fortolke \"%s\""
 
 #: src/ycursor.cc:219
-#, c-format
-msgid "BUG? Unexpected characted but Imlib was able to parse \"%s\""
+#, fuzzy, c-format
+msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
 msgstr "FEJL? Uventet tegngivet men Imlib kunne godt fortolke \"%s\""
 
 #: src/yfontcore.cc:71 src/yfontxft.cc:174
@@ -1385,8 +1424,8 @@ msgstr "Ctrl+A"
 #: src/ylocale.cc:46
 msgid "Locale not supported by C library. Falling back to 'C' locale'."
 msgstr ""
-"Lokalitet understøttes ikke af C-biblioteket. Indlæser "
-"standard-\"C-lokalitet\"."
+"Lokalitet understøttes ikke af C-biblioteket. Indlæser standard-\"C-lokalitet"
+"\"."
 
 #: src/ylocale.cc:68
 msgid ""
@@ -1437,11 +1476,11 @@ msgstr "Kunne ikke finde billede %s"
 #: src/ypixbuf.cc:482 src/ypixbuf.cc:668
 #, c-format
 msgid ""
-"Using fallback mechanism to convert pixels (depth: %d; masks "
-"(red/green/blue): %0*x/%0*x/%0*x)"
+"Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
+"blue): %0*x/%0*x/%0*x)"
 msgstr ""
-"Bruger standardmekanisme for at omdanne pixels (dybde: %d; masker "
-"(rød/grøn/blå): %0*x/%0*x/%0*x)"
+"Bruger standardmekanisme for at omdanne pixels (dybde: %d; masker (rød/grøn/"
+"blå): %0*x/%0*x/%0*x)"
 
 #: src/ypixbuf.cc:576 src/ypixbuf.cc:725
 #, c-format
