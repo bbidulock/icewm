@@ -3,16 +3,16 @@ msgstr ""
 "Project-Id-Version: IceWM 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-03-12 12:57-0600\n"
-"PO-Revision-Date: 2017-02-07 05:21+0000\n"
+"PO-Revision-Date: 2017-03-16 10:43+0000\n"
 "Last-Translator: Andriy Bandura <andriykopanytsia@gmail.com>\n"
-"Language-Team: Ukrainian <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
-"branch/uk/>\n"
+"Language-Team: Ukrainian "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.6\n"
 
 #: src/aapm.cc:191 src/aapm.cc:513 src/aapm.cc:753 src/aapm.cc:874
@@ -44,6 +44,8 @@ msgid ""
 "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 "intr = %llu, softirq = %llu, steal = %llu\n"
 msgstr ""
+"статистика:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %"
+"llu, intr = %llu, softirq = %llu, steal = %llu\n"
 
 #: src/acpustatus.cc:214
 #, c-format
@@ -51,11 +53,13 @@ msgid ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 "softirq = %llu, steal = %llu (h = %i)\n"
 msgstr ""
+"панелі:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
+"softirq = %llu, steal = %llu (h = %i)\n"
 
 #: src/acpustatus.cc:276
-#, fuzzy, c-format
+#, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
-msgstr "Завантаження процесора: %3.2f %3.2f %3.2f, %u"
+msgstr "Завантаження процесора %s: %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:281
 #, c-format
@@ -95,17 +99,16 @@ msgstr ""
 
 #: src/acpustatus.cc:332
 msgid "CPU"
-msgstr ""
+msgstr "ЦП"
 
 #: src/acpustatus.cc:332
-#, fuzzy
 msgid "Load: "
 msgstr "Навантаження ЦП: "
 
 #: src/acpustatus.cc:695
 #, c-format
 msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
-msgstr ""
+msgstr "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 
 #: src/amailbox.cc:77
 #, c-format
@@ -960,6 +963,8 @@ msgstr ""
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
+"  --client-id=ID      Ідентифікатор клієнта для зв'язку із менеджером "
+"сеансів.\n"
 
 #: src/wmapp.cc:1652
 msgid ""
@@ -967,6 +972,10 @@ msgid ""
 "  --debug             Print generic debug messages.\n"
 "  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
+"\n"
+"  --debug             Друкує загальні зневаджувальні повідомлення.\n"
+"  --debug-z           Друкує зневаджувальні повідомлення, які стосуються "
+"стеку вікон.\n"
 
 #: src/wmapp.cc:1658
 #, c-format
@@ -1343,7 +1352,7 @@ msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
 msgstr "ХИБА? Неочікуваний кінець файла XPM, але Imlib проаналізував \"%s\""
 
 #: src/ycursor.cc:219
-#, fuzzy, c-format
+#, c-format
 msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
 msgstr "ХИБА? Неочікуваний символ, але Imlib проаналізував \"%s\""
 
