@@ -390,6 +390,7 @@ bool YListBox::handleKey(const XKeyEvent &key) {
                     selectItem(i, (k == '\\') ? false : true);
                 break;
             }
+            break;
         default:
             if (k < 256) {
                 unsigned char c = ASCII::toUpper((char)k);
