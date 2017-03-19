@@ -685,7 +685,7 @@ bool YFrameWindow::handleKey(const XKeyEvent &key) {
             switch (handleMoveKeys(key, newX, newY)) {
             case -2:
                 moveWindow(newX, newY);
-                /* nobreak */
+                /* fall-through */
             case -1:
                 endMoveSize();
                 break;
@@ -739,7 +739,7 @@ bool YFrameWindow::handleKey(const XKeyEvent &key) {
                 drawMoveSizeFX(x(), y(), width(), height());
                 setCurrentGeometryOuter(YRect(newX, newY, newWidth, newHeight));
                 drawMoveSizeFX(x(), y(), width(), height());
-                /* nobreak */
+                /* falls-through */
 
             case -1:
                 endMoveSize();

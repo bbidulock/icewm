@@ -549,6 +549,9 @@ void YInputLine::limit() {
 void YInputLine::replaceSelection(const ustring &str) {
     int min, max;
 
+    // FIXME: GCC7 tells us for optimized builds: src/yinput.cc:552:5: warning: assuming signed overflow does not occur when assuming that (X + c) < X is always false [-Wstrict-overflow]
+    // that might imply that all code paths leading to here are already such that the condition always holds true
+    // Unfortunatelly GCC does not help much here.
     if (curPos > markPos) {
         min = markPos;
         max = curPos;
@@ -579,7 +582,7 @@ bool YInputLine::deleteNextChar() {
     int textLen = fText.length();
 
     if (curPos < textLen) {
-        markPos = curPos + 1;
+        markPos = curPos + (curPos < INT_MAX);
         deleteSelection();
         return true;
     }

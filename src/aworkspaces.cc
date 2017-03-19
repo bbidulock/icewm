@@ -441,8 +441,8 @@ void WorkspaceButton::paint(Graphics &g, const YRect &/*r*/) {
         if (pagerShowNumbers) {
             ref<YFont> font = getFont();
 
-            char label[3];
-            sprintf(label, "%ld", (fWorkspace+1) % 100);
+            char label[9];
+            sprintf(label, "%ld", (long) (fWorkspace+1) % 100);
 
             wx = (w - font->textWidth(label)) / 2 + x;
             wy = (h - font->height()) / 2 + font->ascent() + y;

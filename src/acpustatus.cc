@@ -353,7 +353,7 @@ void CPUStatus::updateStatus() {
 
 int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
     int retbuflen = 0;
-    char namebuf[64];
+    char namebuf[300];
     char buf[64];
 
     memset(tempbuf, 0, buflen);
@@ -367,7 +367,7 @@ int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
             if (strcmp(de->d_name, ".") == 0 || strcmp(de->d_name, "..") == 0)
                 continue;
  
-            sprintf(namebuf, "/proc/acpi/thermal_zone/%s/temperature", de->d_name);
+            snprintf(namebuf, ACOUNT(namebuf), "/proc/acpi/thermal_zone/%s/temperature", de->d_name);
             len = read_file(namebuf, buf, sizeof(buf));
             if (len > seglen) {
                 if (retbuflen + seglen >= buflen) {
@@ -388,7 +388,7 @@ int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
             if (strcmp(de->d_name, ".") == 0 || strcmp(de->d_name, "..") == 0)
                 continue;
 
-            sprintf(namebuf, "/sys/class/thermal/%s/temp", de->d_name);
+            snprintf(namebuf, ACOUNT(namebuf), "/sys/class/thermal/%s/temp", de->d_name);
             len = read_file(namebuf, buf, sizeof(buf));
             if (len > 4) {
                 int seglen = len - 4;
@@ -717,7 +717,7 @@ void CPUStatus::GetCPUStatus(YSMListener *smActionListener, YWindow *aParent, CP
         return;
     }
     /* skip first line for combined cpu */
-    if (fgets(buf, sizeof(buf), fd)) ;
+    if (fgets(buf, sizeof(buf), fd)) {};
     /* count lines that begins with "cpu" */
     while (1) {
         if (!fgets(buf, sizeof(buf), fd))
