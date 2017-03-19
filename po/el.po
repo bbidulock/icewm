@@ -118,11 +118,6 @@ msgstr "Φορτίο: "
 msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 msgstr "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 
-#: src/acpustatus.cc:695
-#, c-format
-msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
-msgstr ""
-
 #: src/amailbox.cc:77
 #, c-format
 msgid "Invalid mailbox protocol: \"%s\""
