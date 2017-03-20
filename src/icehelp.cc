@@ -19,8 +19,10 @@
 #include "yicon.h"
 #include "ascii.h"
 
+#ifdef DEBUG
 #define DUMP
 //#define TEXT
+#endif
 
 #include <unistd.h>
 
@@ -1165,6 +1167,7 @@ void HTextView::draw(Graphics &g, node *n1, bool href) {
 
         case node::li:
             g.fillArc(n->xr - tx, n->yr + (font->height() - 7) / 2 - ty, 7, 7, 0, 360 * 64);
+            break;
 
         default:
             if (n->container)

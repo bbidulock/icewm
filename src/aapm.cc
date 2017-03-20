@@ -232,7 +232,7 @@ int YApm::ignore_directory_ac_entry(struct dirent *de) {
 }
 
 void YApm::AcpiStr(char *s, bool Tool) {
-    char buf[80], buf2[80], bat_info[250];
+    char buf[255], buf2[80], bat_info[250];
     FILE *fd;
     //name of the battery
     char *BATname;
@@ -520,7 +520,7 @@ void YApm::AcpiStr(char *s, bool Tool) {
 }
 
 void YApm::SysStr(char *s, bool Tool) {
-    char buf[80], bat_info[250];
+    char buf[255], bat_info[250];
     FILE *fd;
     //name of the battery
     char *BATname;
@@ -770,7 +770,7 @@ void YApm::PmuStr(char *s, const bool tool_tip)
 
    char line[80];
    int power_present(0);
-   while ( fgets(line, 80, fd) != NULL )
+   while ( fgets(line, ACOUNT(line), fd) != NULL )
    {
       if (strncmp("AC Power", line, strlen("AC Power")) == 0) {
          sscanf(strchr(line, ':')+2, "%d", &power_present);
@@ -786,8 +786,8 @@ void YApm::PmuStr(char *s, const bool tool_tip)
 
    char* s_end = s;
    for (int i=0; i < batteryNum; ++i) {
-      char file_name[20];
-      snprintf(file_name, 20, "/proc/pmu/battery_%d", i);
+      char file_name[30];
+      snprintf(file_name, ACOUNT(file_name), "/proc/pmu/battery_%d", i);
       fd = fopen(file_name, "r");
       if (fd == NULL) {
 	 strcpy(s_end, "Err");
@@ -796,7 +796,7 @@ void YApm::PmuStr(char *s, const bool tool_tip)
       }
 
       int flags=0, rem_time=-1, charge=0, max_charge=0, voltage=0;
-      while ( fgets(line, 80, fd) != NULL )
+      while ( fgets(line, ACOUNT(line), fd) != NULL )
 	if (strncmp("flags", line, strlen("flags")) == 0)
 	  sscanf(strchr(line, ':')+2, "%x", &flags);
         else if (strncmp("time rem.", line, strlen("time rem.")) == 0)
@@ -881,7 +881,7 @@ YApm::YApm(YWindow *aParent, bool autodetect): YWindow(aParent) {
     struct dirent **de;
     int n, i;
     FILE *pmu_info;
-                    char buf[80];
+                    char buf[300];
                     FILE *fd;
 
     batteryNum = 0;

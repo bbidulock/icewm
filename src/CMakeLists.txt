@@ -11,7 +11,7 @@ INCLUDE(CheckIncludeFileCXX)
 INCLUDE(FindPkgConfig)
 INCLUDE(CheckCXXSourceCompiles)
 
-SET(CXXFLAGS_COMMON " -pthread -Wall -Wextra -Wno-unused-parameter -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE -I.")
+SET(CXXFLAGS_COMMON "-pthread -Wall -Wextra -Wno-unused-parameter -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE -I.")
 
 if("${CMAKE_BUILD_TYPE}" STREQUAL "" AND ("" STREQUAL "${CMAKE_CXX_FLAGS}"))
 	SET(CMAKE_BUILD_TYPE Release)
@@ -280,6 +280,12 @@ IF(NOT USE_WLASNEEDED)
    SET(CMAKE_EXE_LINKER_FLAGS ${LDFLAGS_ORIG})
 ENDIF()
 
+# teach GCC7 to interpret our comments
+SET(CMAKE_REQUIRED_FLAGS ${CXXFLAGS_COMMON} "-Wimplicit-fallthrough=2")
+CHECK_CXX_SOURCE_COMPILES("int main() {return 0;}" USE_FALLTHROUGH_WARNING)
+IF(USE_FALLTHROUGH_WARNING)
+        SET(CXXFLAGS_COMMON "${CXXFLAGS_COMMON} -Wimplicit-fallthrough=2")
+ENDIF()
 
 #######################################
 # all checks done, save configuration #
@@ -323,6 +329,7 @@ SET(ICEWM_SRCS ${ICE_COMMON_SRCS} ${ITK_SRCS}
  aworkspaces.cc amailbox.cc aclock.cc acpustatus.cc apppstatus.cc
  aaddressbar.cc objbar.cc aapm.cc atray.cc ysmapp.cc yxtray.cc yurl.cc
  globit.cc amemstatus.cc)
+
 
 ADD_EXECUTABLE(icewm${EXEEXT} ${ICEWM_SRCS})
 set(icewm_pc_flags "${fontconfig_CFLAGS} ${x11_CFLAGS} ${xext_CFLAGS} ${pixbuf_CFLAGS} ${xft_CFLAGS} ${xrandr_CFLAGS} ${xinerama_CFLAGS} ${fribidi_CFLAGS}")

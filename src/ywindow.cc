@@ -319,7 +319,7 @@ void YWindow::create() {
                                 &attributes);
 
         if (parent() == desktop &&
-            !(flags & (wsManager || wsOverrideRedirect)))
+            !(flags & (wsManager | wsOverrideRedirect)))
             XSetWMProtocols(xapp->display(), fHandle, &_XA_WM_DELETE_WINDOW, 1);
 
         if ((flags & wfVisible) && !(flags & wfNullSize))
