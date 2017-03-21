@@ -723,11 +723,37 @@ const char *YApplication::getPrivConfDir() {
     return cfgdir;
 }
 
+const char *YApplication::getXdgConfDir() {
+    static char cfgdir[PATH_MAX] = "";
+
+    if (*cfgdir == '\0') {
+        const char *env = getenv("XDG_CONFIG_HOME");
+
+        if (NULL == env) {
+            env = getenv("HOME");
+            strcpy(cfgdir, env ? env : "");
+            strcat(cfgdir, "/.config");
+        } else {
+            strcpy(cfgdir, env);
+        }
+
+        strcat(cfgdir, "/icewm");
+
+        msg("using %s for private configuration files", cfgdir);
+    }
+
+    return cfgdir;
+}
+
 upath YApplication::findConfigFile(upath name) {
     upath p;
 
     if (name.isAbsolute())
         return name;
+
+    p = upath(getXdgConfDir()).relative(name);
+    if (p.fileExists())
+        return p;
 
     p = upath(getPrivConfDir()).relative(name);
     if (p.fileExists())
