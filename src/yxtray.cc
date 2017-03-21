@@ -188,11 +188,11 @@ YXTray::~YXTray() {
 
 void YXTray::getScaleSize(int *ww, int *hh)
 {
-    *ww = *hh * (TICON_H_MAX) / *ww;
+    *ww = *ww * (TICON_H_MAX) / *hh;
     *hh = TICON_H_MAX;
 
     if (*ww > TICON_W_MAX) {
-        *hh = (*hh * (TICON_W_MAX) / *ww);
+        *hh = *hh * (TICON_W_MAX) / *ww;
         *ww = TICON_W_MAX;
     }
 }
