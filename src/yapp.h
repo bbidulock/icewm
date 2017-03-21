@@ -65,6 +65,7 @@ public:
     static const char *getLibDir();
     static const char *getConfigDir();
     static const char *getPrivConfDir();
+    static const char *getXdgConfDir();
 
     static char const *& Name;
 private:
