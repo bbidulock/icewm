@@ -281,7 +281,7 @@ IF(NOT USE_WLASNEEDED)
 ENDIF()
 
 # teach GCC7 to interpret our comments
-SET(CMAKE_REQUIRED_FLAGS ${CXXFLAGS_COMMON} "-Wimplicit-fallthrough=2")
+SET(CMAKE_REQUIRED_FLAGS "${CXXFLAGS_COMMON} -Wimplicit-fallthrough=2")
 CHECK_CXX_SOURCE_COMPILES("int main() {return 0;}" USE_FALLTHROUGH_WARNING)
 IF(USE_FALLTHROUGH_WARNING)
         SET(CXXFLAGS_COMMON "${CXXFLAGS_COMMON} -Wimplicit-fallthrough=2")
