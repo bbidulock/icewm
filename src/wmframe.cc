@@ -1853,9 +1853,9 @@ void YFrameWindow::updateFocusOnMap(bool& doActivate) {
             doActivate = false;
     }
 
-    if (fUserTime != -1UL)
-        if ((fUserTime == 0) || (fUserTime > manager->lastUserTime()))
-            doActivate = false;
+    manager->updateUserTime(fUserTime);
+    if (fUserTime == 0 || fUserTime != manager->lastUserTime())
+	    doActivate = false;
 }
 
 void YFrameWindow::wmShow() {

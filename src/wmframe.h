@@ -567,7 +567,7 @@ private:
     int fStrutBottom;
 
     // _NET_WM_USER_TIME support
-    unsigned long fUserTime;
+    Time fUserTime;
     Window fUserTimeWindow;
 
     int fShapeWidth;

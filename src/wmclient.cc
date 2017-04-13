@@ -1858,7 +1858,7 @@ bool YFrameClient::getNetStartupId(unsigned long &time) {
                 _XA_NET_STARTUP_ID))
     {
         if (strstr((char *)id.value, "_TIME") != NULL) {
-            time = atol(strstr((char *)id.value, "_TIME") + 5);
+            time = atol(strstr((char *)id.value, "_TIME") + 5) & 0xffffffff;
             if (time == -1UL)
                 time = -2UL;
             XFree(id.value);
@@ -1890,7 +1890,7 @@ bool YFrameClient::getNetWMUserTime(Window window, unsigned long &time) {
             long *utime = (long *) prop;
 
             MSG(("got user time"));
-            time = utime[0];
+            time = utime[0] & 0xffffffff;
 	    if (time == -1UL)
 		    time = -2UL;
 
