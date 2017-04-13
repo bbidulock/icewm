@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.7\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-03-12 12:57-0600\n"
+"POT-Creation-Date: 2017-04-12 18:42-0600\n"
 "PO-Revision-Date: 2001-03-25 17:00+GMT1\n"
 "Last-Translator: Vlatko Kosturjak <kost@iname.com>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
@@ -28,9 +28,7 @@ msgstr "P"
 msgid " - Charging"
 msgstr " - Punjenje"
 
-#. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
-#. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/aapm.cc:199 src/aapm.cc:489 src/aapm.cc:735 src/acpustatus.cc:410
+#: src/aapm.cc:199 src/aapm.cc:489 src/aapm.cc:735
 msgid "C"
 msgstr ""
 
@@ -91,6 +89,12 @@ msgstr ""
 
 #: src/acpustatus.cc:332
 msgid "Load: "
+msgstr ""
+
+#. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
+#. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
+#: src/acpustatus.cc:410
+msgid "°C"
 msgstr ""
 
 #: src/acpustatus.cc:695
@@ -208,47 +212,47 @@ msgstr ""
 msgid "Other"
 msgstr ""
 
-#: src/icehelp.cc:715
+#: src/icehelp.cc:717
 msgid "Back"
 msgstr "Nazad"
 
-#: src/icehelp.cc:715
+#: src/icehelp.cc:717
 msgid "Alt+Left"
 msgstr "Alt+Lijevo"
 
-#: src/icehelp.cc:716
+#: src/icehelp.cc:718
 msgid "Forward"
 msgstr "Naprijed"
 
-#: src/icehelp.cc:716
+#: src/icehelp.cc:718
 msgid "Alt+Right"
 msgstr "Alt+Desno"
 
-#: src/icehelp.cc:718
+#: src/icehelp.cc:720
 msgid "Previous"
 msgstr "Prijašnje"
 
-#: src/icehelp.cc:719
+#: src/icehelp.cc:721
 msgid "Next"
 msgstr "Slijedeće"
 
-#: src/icehelp.cc:721
+#: src/icehelp.cc:723
 msgid "Contents"
 msgstr "Sadržaj"
 
-#: src/icehelp.cc:722
+#: src/icehelp.cc:724
 msgid "Index"
 msgstr "Indeks"
 
-#: src/icehelp.cc:724 src/icesame.cc:63 src/iceview.cc:76 src/wmframe.cc:187
+#: src/icehelp.cc:726 src/icesame.cc:63 src/iceview.cc:76 src/wmframe.cc:187
 msgid "Close"
 msgstr "Zatvori"
 
-#: src/icehelp.cc:724 src/icesame.cc:63 src/iceview.cc:76
+#: src/icehelp.cc:726 src/icesame.cc:63 src/iceview.cc:76
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1327
+#: src/icehelp.cc:1330
 #, c-format
 msgid ""
 "Usage: %s FILENAME\n"
@@ -257,12 +261,12 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/icehelp.cc:1337
+#: src/icehelp.cc:1340
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "Nepravilna putanja: %s\n"
 
-#: src/icehelp.cc:1342
+#: src/icehelp.cc:1345
 msgid "Invalid path: "
 msgstr "Nepravilna putanja: "
 
@@ -641,7 +645,7 @@ msgstr "Upozorenje: "
 msgid "Unknown direction in move/resize request: %d"
 msgstr ""
 
-#: src/themes.cc:100
+#: src/themes.cc:104
 #, fuzzy
 msgid "Default"
 msgstr "Obriši"

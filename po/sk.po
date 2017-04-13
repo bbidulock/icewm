@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-03-12 12:57-0600\n"
+"POT-Creation-Date: 2017-04-12 18:42-0600\n"
 "PO-Revision-Date: 2017-03-15 18:22+0100\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
 "Language-Team: Slovak <opensuse-translation-sk@opensuse.org>\n"
@@ -30,9 +30,7 @@ msgstr "N"
 msgid " - Charging"
 msgstr " - Dobíjanie"
 
-#. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
-#. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/aapm.cc:199 src/aapm.cc:489 src/aapm.cc:735 src/acpustatus.cc:410
+#: src/aapm.cc:199 src/aapm.cc:489 src/aapm.cc:735
 msgid "C"
 msgstr "D"
 
@@ -107,8 +105,14 @@ msgstr "CPU"
 msgid "Load: "
 msgstr "Zaťaženie: "
 
+#. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
+#. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
+#: src/acpustatus.cc:410
+msgid "°C"
+msgstr ""
+
 #: src/acpustatus.cc:695
-#, c-format, c-format
+#, c-format
 msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 msgstr "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 
@@ -229,47 +233,47 @@ msgstr "Editory"
 msgid "Other"
 msgstr "Iné"
 
-#: src/icehelp.cc:715
+#: src/icehelp.cc:717
 msgid "Back"
 msgstr "Späť"
 
-#: src/icehelp.cc:715
+#: src/icehelp.cc:717
 msgid "Alt+Left"
 msgstr "Alt+Vľavo"
 
-#: src/icehelp.cc:716
+#: src/icehelp.cc:718
 msgid "Forward"
 msgstr "Dopredu"
 
-#: src/icehelp.cc:716
+#: src/icehelp.cc:718
 msgid "Alt+Right"
 msgstr "Alt+Vpravo"
 
-#: src/icehelp.cc:718
+#: src/icehelp.cc:720
 msgid "Previous"
 msgstr "Predchádzajúce"
 
-#: src/icehelp.cc:719
+#: src/icehelp.cc:721
 msgid "Next"
 msgstr "Nasledujúce"
 
-#: src/icehelp.cc:721
+#: src/icehelp.cc:723
 msgid "Contents"
 msgstr "Obsah"
 
-#: src/icehelp.cc:722
+#: src/icehelp.cc:724
 msgid "Index"
 msgstr "Index"
 
-#: src/icehelp.cc:724 src/icesame.cc:63 src/iceview.cc:76 src/wmframe.cc:187
+#: src/icehelp.cc:726 src/icesame.cc:63 src/iceview.cc:76 src/wmframe.cc:187
 msgid "Close"
 msgstr "Zavrieť"
 
-#: src/icehelp.cc:724 src/icesame.cc:63 src/iceview.cc:76
+#: src/icehelp.cc:726 src/icesame.cc:63 src/iceview.cc:76
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1327
+#: src/icehelp.cc:1330
 #, c-format
 msgid ""
 "Usage: %s FILENAME\n"
@@ -282,12 +286,12 @@ msgstr ""
 "Veľmi jednoduchý HTML prehliadač zobrazujúci dokument určený NÁZVOM_SÚBORA.\n"
 "\n"
 
-#: src/icehelp.cc:1337
+#: src/icehelp.cc:1340
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "Neplatná cesta: %s\n"
 
-#: src/icehelp.cc:1342
+#: src/icehelp.cc:1345
 msgid "Invalid path: "
 msgstr "Neplatná cesta: "
 
@@ -613,8 +617,8 @@ msgstr ""
 "\n"
 "Voľby:\n"
 "\n"
-"-d, --display=DISPLEJ         Displej používaný IceWM (predvolené: $DISPLAY)."
-"\n"
+"-d, --display=DISPLEJ         Displej používaný IceWM (predvolené: "
+"$DISPLAY).\n"
 "-s, --sample-dir=ADR      Určuje adresár, ktorý obsahuje zvukové\n"
 "                              súbory (t.j. ~/.icewm/sounds).\n"
 "-i, --interface=CIEĽ         Určuje výstupné zvukové výstupné\n"
@@ -761,7 +765,7 @@ msgstr "Upozornenie: "
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Neznámy smer pri požiadavke posun/zmena veľkosti: %d"
 
-#: src/themes.cc:100
+#: src/themes.cc:104
 msgid "Default"
 msgstr "Predvolené"
 
@@ -1338,8 +1342,8 @@ msgstr "CHYBA? Poškodená XPM hlavička ale Imlib bola schopná analyzovať \"%
 #, c-format
 msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
 msgstr ""
-"CHYBA? Neočakávaný koniec súboru XPM, ale Imlib bola schopná analyzovať \"%"
-"s\""
+"CHYBA? Neočakávaný koniec súboru XPM, ale Imlib bola schopná analyzovať \"%s"
+"\""
 
 #: src/ycursor.cc:219
 #, c-format
@@ -1475,8 +1479,8 @@ msgid ""
 "Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
 "blue): %0*x/%0*x/%0*x)"
 msgstr ""
-"Ku konverzii pixelov používam núdzový mechanizmus(hĺbka: %d; maska "
-"(červená/zelená/modrá): %0*x/%0*x/%0*x)"
+"Ku konverzii pixelov používam núdzový mechanizmus(hĺbka: %d; maska (červená/"
+"zelená/modrá): %0*x/%0*x/%0*x)"
 
 #: src/ypixbuf.cc:576 src/ypixbuf.cc:725
 #, c-format

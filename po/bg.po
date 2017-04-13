@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.10\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-03-12 12:57-0600\n"
+"POT-Creation-Date: 2017-04-12 18:42-0600\n"
 "PO-Revision-Date: 2017-02-26 21:51+0000\n"
 "Last-Translator: Shyukri Shyukriev <shshyukriev@suse.com>\n"
 "Language-Team: Bulgarian <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -33,9 +33,7 @@ msgstr "З"
 msgid " - Charging"
 msgstr " - Зареждане"
 
-#. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
-#. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/aapm.cc:199 src/aapm.cc:489 src/aapm.cc:735 src/acpustatus.cc:410
+#: src/aapm.cc:199 src/aapm.cc:489 src/aapm.cc:735
 msgid "C"
 msgstr "C"
 
@@ -103,6 +101,12 @@ msgstr ""
 #, fuzzy
 msgid "Load: "
 msgstr "CPU Натоварване: "
+
+#. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
+#. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
+#: src/acpustatus.cc:410
+msgid "°C"
+msgstr ""
 
 #: src/acpustatus.cc:695
 #, c-format
@@ -227,47 +231,47 @@ msgstr "Редактори"
 msgid "Other"
 msgstr "Други"
 
-#: src/icehelp.cc:715
+#: src/icehelp.cc:717
 msgid "Back"
 msgstr "Назад"
 
-#: src/icehelp.cc:715
+#: src/icehelp.cc:717
 msgid "Alt+Left"
 msgstr "Alt+Наляво"
 
-#: src/icehelp.cc:716
+#: src/icehelp.cc:718
 msgid "Forward"
 msgstr "Напред"
 
-#: src/icehelp.cc:716
+#: src/icehelp.cc:718
 msgid "Alt+Right"
 msgstr "Alt+Надясно"
 
-#: src/icehelp.cc:718
+#: src/icehelp.cc:720
 msgid "Previous"
 msgstr "Предишен"
 
-#: src/icehelp.cc:719
+#: src/icehelp.cc:721
 msgid "Next"
 msgstr "Следващ"
 
-#: src/icehelp.cc:721
+#: src/icehelp.cc:723
 msgid "Contents"
 msgstr "Съдържание"
 
-#: src/icehelp.cc:722
+#: src/icehelp.cc:724
 msgid "Index"
 msgstr "Индекс"
 
-#: src/icehelp.cc:724 src/icesame.cc:63 src/iceview.cc:76 src/wmframe.cc:187
+#: src/icehelp.cc:726 src/icesame.cc:63 src/iceview.cc:76 src/wmframe.cc:187
 msgid "Close"
 msgstr "Затвори"
 
-#: src/icehelp.cc:724 src/icesame.cc:63 src/iceview.cc:76
+#: src/icehelp.cc:726 src/icesame.cc:63 src/iceview.cc:76
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1327
+#: src/icehelp.cc:1330
 #, c-format
 msgid ""
 "Usage: %s FILENAME\n"
@@ -280,12 +284,12 @@ msgstr ""
 "Опростен HTML браузър показващ документ с име FILENAME.\n"
 "\n"
 
-#: src/icehelp.cc:1337
+#: src/icehelp.cc:1340
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "Неправилен път: %s\n"
 
-#: src/icehelp.cc:1342
+#: src/icehelp.cc:1345
 msgid "Invalid path: "
 msgstr "Неправилен път: "
 
@@ -757,7 +761,7 @@ msgstr "Предупреждение: "
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Неизвестна посока при move/resize заявка: %d"
 
-#: src/themes.cc:100
+#: src/themes.cc:104
 msgid "Default"
 msgstr "По подразбиране"
 

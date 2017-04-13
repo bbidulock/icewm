@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-03-12 12:57-0600\n"
+"POT-Creation-Date: 2017-04-12 18:42-0600\n"
 "PO-Revision-Date: 2017-03-13 04:24+0200\n"
 "Last-Translator: nikos <nikos769@yahoo.gr>\n"
 "Language-Team: Greek <>\n"
@@ -32,9 +32,7 @@ msgstr "P"
 msgid " - Charging"
 msgstr " - Φόρτιση"
 
-#. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
-#. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/aapm.cc:199 src/aapm.cc:489 src/aapm.cc:735 src/acpustatus.cc:410
+#: src/aapm.cc:199 src/aapm.cc:489 src/aapm.cc:735
 msgid "C"
 msgstr "C"
 
@@ -48,9 +46,8 @@ msgid ""
 "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 "intr = %llu, softirq = %llu, steal = %llu\n"
 msgstr ""
-"στατ.:\tχρήστης = %llu, προτεραιότητα = %llu, σύστ. = %llu, απραξία = %llu,"
-" io-αναμονή = %llu, "
-"intr = %llu, irq-προγράμ. = %llu, κλοπή = %llu\n"
+"στατ.:\tχρήστης = %llu, προτεραιότητα = %llu, σύστ. = %llu, απραξία = %llu, "
+"io-αναμονή = %llu, intr = %llu, irq-προγράμ. = %llu, κλοπή = %llu\n"
 
 #: src/acpustatus.cc:214
 #, c-format
@@ -59,12 +56,10 @@ msgid ""
 "softirq = %llu, steal = %llu (h = %i)\n"
 msgstr ""
 "στήλες:\tχρήστης = %llu, προτεραιότητα = %llu, σύστ. = %llu, io-αναμονή = "
-"%llu, intr = %llu, "
-"irq-προγράμ. = %llu, κλοπή = %llu (h = %i)\n"
+"%llu, intr = %llu, irq-προγράμ. = %llu, κλοπή = %llu (h = %i)\n"
 
 #: src/acpustatus.cc:276
 #, c-format
-#| msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "Φορτίο %s Επεξεργαστή: %3.2f %3.2f %3.2f, %u διεργασίες"
 
@@ -109,9 +104,14 @@ msgid "CPU"
 msgstr "Κεν.Μον.Επεξεργαστή"
 
 #: src/acpustatus.cc:332
-#| msgid "CPU Load: "
 msgid "Load: "
 msgstr "Φορτίο: "
+
+#. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
+#. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
+#: src/acpustatus.cc:410
+msgid "°C"
+msgstr ""
 
 #: src/acpustatus.cc:695
 #, c-format
@@ -235,47 +235,47 @@ msgstr "Επεξεργαστές"
 msgid "Other"
 msgstr "Άλλα"
 
-#: src/icehelp.cc:715
+#: src/icehelp.cc:717
 msgid "Back"
 msgstr "Πίσω"
 
-#: src/icehelp.cc:715
+#: src/icehelp.cc:717
 msgid "Alt+Left"
 msgstr "Alt+Αριστερά"
 
-#: src/icehelp.cc:716
+#: src/icehelp.cc:718
 msgid "Forward"
 msgstr "Εμπρός"
 
-#: src/icehelp.cc:716
+#: src/icehelp.cc:718
 msgid "Alt+Right"
 msgstr "Alt+Δεξιά"
 
-#: src/icehelp.cc:718
+#: src/icehelp.cc:720
 msgid "Previous"
 msgstr "Προηγούμενο"
 
-#: src/icehelp.cc:719
+#: src/icehelp.cc:721
 msgid "Next"
 msgstr "Επόμενο"
 
-#: src/icehelp.cc:721
+#: src/icehelp.cc:723
 msgid "Contents"
 msgstr "Περιεχόμενα"
 
-#: src/icehelp.cc:722
+#: src/icehelp.cc:724
 msgid "Index"
 msgstr "Ευρετήριο"
 
-#: src/icehelp.cc:724 src/icesame.cc:63 src/iceview.cc:76 src/wmframe.cc:187
+#: src/icehelp.cc:726 src/icesame.cc:63 src/iceview.cc:76 src/wmframe.cc:187
 msgid "Close"
 msgstr "Κλείσε"
 
-#: src/icehelp.cc:724 src/icesame.cc:63 src/iceview.cc:76
+#: src/icehelp.cc:726 src/icesame.cc:63 src/iceview.cc:76
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1327
+#: src/icehelp.cc:1330
 #, c-format
 msgid ""
 "Usage: %s FILENAME\n"
@@ -289,12 +289,12 @@ msgstr ""
 "προσδιοριστεί από το ΟΝΟΜΑ_ΑΡΧΕΙΟΥ.\n"
 "\n"
 
-#: src/icehelp.cc:1337
+#: src/icehelp.cc:1340
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "Εσφαλμένη διαδρομή: %s\n"
 
-#: src/icehelp.cc:1342
+#: src/icehelp.cc:1345
 msgid "Invalid path: "
 msgstr "Εσφαλμένη διαδρομή: "
 
@@ -763,8 +763,7 @@ msgstr ""
 " DesktopTransparencyColor - Χρώμα αναγγελίας για ημιδιαφανή παράθυρα\n"
 " DesktopTransparencyImage - Εικόνα αναγγελίας για ημιδιαφανή παράθυρα\n"
 "\n"
-" center:0 scaled:0 "
-"= παράλληλη τοποθέτηση\n"
+" center:0 scaled:0 = παράλληλη τοποθέτηση\n"
 " center:1 scaled:1 = διατήρηση αναλογίας διαστάσεων\n"
 
 #: src/icewmbg.cc:428
@@ -804,7 +803,7 @@ msgstr "Προειδοποίηση: "
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Άγνωστη κατεύθυνση στην αίτηση μετακίνησης/αλλαγής-σχήματος: %d"
 
-#: src/themes.cc:100
+#: src/themes.cc:104
 msgid "Default"
 msgstr "Εξ ορισμού"
 
@@ -999,8 +998,8 @@ msgstr ""
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
-"  --client-id=ΤΑΥΤΟΤΗΤΑ      Ταυτότητα του πελάτη που θα χρησιμοποιηθεί όταν"
-" γίνεται επαφή με το διαχειριστή συνεδρίας.\n"
+"  --client-id=ΤΑΥΤΟΤΗΤΑ      Ταυτότητα του πελάτη που θα χρησιμοποιηθεί όταν "
+"γίνεται επαφή με το διαχειριστή συνεδρίας.\n"
 
 #: src/wmapp.cc:1652
 msgid ""
@@ -1010,8 +1009,8 @@ msgid ""
 msgstr ""
 "\n"
 "  --debug                Εκτύπωση γενικών μηνυμάτων αποσφαλμάτωσης.\n"
-"  --debug-z              Εκτύπωση μηνυμάτων αποσφαλμάτωσης σχετικά με το"
-" στοίβαγμα των παράθυρων.\n"
+"  --debug-z              Εκτύπωση μηνυμάτων αποσφαλμάτωσης σχετικά με το "
+"στοίβαγμα των παράθυρων.\n"
 
 #: src/wmapp.cc:1658
 #, c-format

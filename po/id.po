@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-03-12 12:57-0600\n"
+"POT-Creation-Date: 2017-04-12 18:42-0600\n"
 "PO-Revision-Date: 2017-03-09 06:00+0000\n"
 "Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian <https://l10n.opensuse.org/projects/icewm/"
@@ -31,9 +31,7 @@ msgstr "D"
 msgid " - Charging"
 msgstr " - Mengisi"
 
-#. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
-#. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/aapm.cc:199 src/aapm.cc:489 src/aapm.cc:735 src/acpustatus.cc:410
+#: src/aapm.cc:199 src/aapm.cc:489 src/aapm.cc:735
 msgid "C"
 msgstr "M"
 
@@ -106,6 +104,12 @@ msgstr ""
 #, fuzzy
 msgid "Load: "
 msgstr "Beban CPU: "
+
+#. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
+#. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
+#: src/acpustatus.cc:410
+msgid "°C"
+msgstr ""
 
 #: src/acpustatus.cc:695
 #, c-format
@@ -229,47 +233,47 @@ msgstr "Penyunting"
 msgid "Other"
 msgstr "Lainnya"
 
-#: src/icehelp.cc:715
+#: src/icehelp.cc:717
 msgid "Back"
 msgstr "Mundur"
 
-#: src/icehelp.cc:715
+#: src/icehelp.cc:717
 msgid "Alt+Left"
 msgstr "Alt+Left"
 
-#: src/icehelp.cc:716
+#: src/icehelp.cc:718
 msgid "Forward"
 msgstr "Maju"
 
-#: src/icehelp.cc:716
+#: src/icehelp.cc:718
 msgid "Alt+Right"
 msgstr "Alt+Right"
 
-#: src/icehelp.cc:718
+#: src/icehelp.cc:720
 msgid "Previous"
 msgstr "Sebelumnya"
 
-#: src/icehelp.cc:719
+#: src/icehelp.cc:721
 msgid "Next"
 msgstr "Berikutnya"
 
-#: src/icehelp.cc:721
+#: src/icehelp.cc:723
 msgid "Contents"
 msgstr "Isi"
 
-#: src/icehelp.cc:722
+#: src/icehelp.cc:724
 msgid "Index"
 msgstr "Indeks"
 
-#: src/icehelp.cc:724 src/icesame.cc:63 src/iceview.cc:76 src/wmframe.cc:187
+#: src/icehelp.cc:726 src/icesame.cc:63 src/iceview.cc:76 src/wmframe.cc:187
 msgid "Close"
 msgstr "Tutup"
 
-#: src/icehelp.cc:724 src/icesame.cc:63 src/iceview.cc:76
+#: src/icehelp.cc:726 src/icesame.cc:63 src/iceview.cc:76
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1327
+#: src/icehelp.cc:1330
 #, c-format
 msgid ""
 "Usage: %s FILENAME\n"
@@ -283,12 +287,12 @@ msgstr ""
 "oleh NAMABERKAS.\n"
 "\n"
 
-#: src/icehelp.cc:1337
+#: src/icehelp.cc:1340
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "Jalur tidak valid: %s\n"
 
-#: src/icehelp.cc:1342
+#: src/icehelp.cc:1345
 msgid "Invalid path: "
 msgstr "Jalur tidak valid: "
 
@@ -777,7 +781,7 @@ msgstr "Peringatan: "
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Arah dalam memindahkan/mengubah ukuran tidak diketahui: %d"
 
-#: src/themes.cc:100
+#: src/themes.cc:104
 msgid "Default"
 msgstr "Baku"
 
