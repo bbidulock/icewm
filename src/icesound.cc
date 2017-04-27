@@ -99,7 +99,6 @@ class IceSound : public YCommandLine {
 public:
     IceSound(int & argc, char **& argv):
         YCommandLine(argc, argv), dpyname(NULL) {
-            ApplicationName = my_basename(argv[0]);
         }
 
         static void printUsage();
@@ -1262,6 +1261,18 @@ void IceSound::chld(int sig) {
 }
 
 int main(int argc, char *argv[]) {
+    ApplicationName = my_basename(argv[0]);
+    for (char **arg = argv + 1; arg < argv + argc; ++arg) {
+        if (**arg == '-') {
+            if (is_help_switch(*arg)) {
+                IceSound::printUsage();
+                exit(1);
+            }
+            if (is_version_switch(*arg)) {
+                print_version_exit(VERSION);
+            }
+        }
+    }
     return IceSound(argc, argv).run();
 }
 

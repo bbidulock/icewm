@@ -19,7 +19,7 @@
 #include "intl.h"
 #include "appnames.h"
 
-const char *g_argv0;
+char const *ApplicationName;
 
 #include <glib.h>
 #include <glib/gprintf.h>
@@ -218,7 +218,7 @@ void proc_dir(const char *path, unsigned depth=0)
 			menuLine = g_strjoin(" ", sicon, QUOTE(XTERMCMD), "-e", cmdMod, NULL);
 #endif
 		else // not simple command or needs a terminal started via launcher callback, or both
-			menuLine = g_strdup_printf("%s %s \"%s\"", sicon, g_argv0, szFullName);
+			menuLine = g_strdup_printf("%s %s \"%s\"", sicon, ApplicationName, szFullName);
 
 		// Pigeonholing roughly by guessed menu structure
 #define add2menu(x) { g_tree_replace(x, g_strdup(pName), menuLine); }
@@ -346,7 +346,7 @@ static void init()
 
 int main(int argc, const char **argv)
 {
-	g_argv0=argv[0];
+	ApplicationName = my_basename(argv[0]);
 
 	init();
 
@@ -361,6 +361,9 @@ int main(int argc, const char **argv)
 
 	if(argc>1)
 	{
+		if (is_version_switch(argv[1]))
+			print_version_exit(VERSION);
+
 		if(strstr(argv[1], ".desktop") && launch(argv[1], argv+2, argc-2))
 			return EXIT_SUCCESS;
 

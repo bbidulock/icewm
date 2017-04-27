@@ -16,6 +16,9 @@
  */
 
 #include "config.h"
+
+char const * ApplicationName = "icewm-menu-gnome1";
+
 #ifdef CONFIG_GNOME_MENUS
 
 #include "ylib.h"
@@ -30,8 +33,6 @@
 
 #include <gnome.h>
 #include "yarray.h"
-
-char const * ApplicationName = "icewm-menu-gnome1";
 
 class GnomeMenu;
 
@@ -204,13 +205,14 @@ int main(int argc, char **argv) {
     for (char ** arg = argv + 1; arg < argv + argc; ++arg) {
         if (**arg == '-') {
             char *path = 0;
-            if (IS_SWITCH("h", "help"))
+            if (is_help_switch(*arg))
                 break;
-            if ((path = GET_LONG_ARGUMENT("open")) != NULL) {
+            if (is_version_switch(*arg))
+                print_version_exit(VERSION);
+            if (GetLongArgument(path, "open", arg, argv+argc))
                 return runFile(path);
-            } else if ((path = GET_LONG_ARGUMENT("list")) != NULL) {
+            if (GetLongArgument(path, "list", arg, argv+argc))
                 return makeMenu(path);
-            }
         }
     }
     msg("Usage: %s [ --open PATH | --list PATH ]", argv[0]);

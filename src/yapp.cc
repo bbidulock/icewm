@@ -67,7 +67,7 @@ void alrm_handler(int /*sig*/) {
 }
 #endif
 
-YApplication::YApplication(int * /*argc*/, char ***/*argv*/) {
+YApplication::YApplication(int * /*argc*/, char *** /*argv*/) {
     app = this;
     ::mainLoop = this;
     

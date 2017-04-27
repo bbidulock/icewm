@@ -649,7 +649,16 @@ int main(int argc, char **argv) {
 
     char **argp(argv + 1);
     for (char *arg; argp < argv + argc && '-' == *(arg = *argp); ++argp) {
-        if (arg[1] == '-') ++arg;
+        if (is_version_switch(arg)) {
+            print_version_exit(VERSION);
+        }
+        else if (is_help_switch(arg)) {
+            printUsage();
+            THROW(0);
+        }
+        else if (arg[1] == '-') {
+            ++arg;
+        }
 
         size_t sep(strcspn(arg, "=:"));
         char *val(arg[sep] ? arg + sep + 1 : *++argp);
@@ -683,12 +692,9 @@ int main(int argc, char **argv) {
             debug = 1;
             --argp;
 #endif
-        } else if (strcmp(arg, "-?") && strcmp(arg, "-help")) {
+        } else {
             usageError (_("Invalid argument: `%s'."), arg);
             THROW(1);
-        } else {
-            printUsage();
-            THROW(0);
         }
     }
 

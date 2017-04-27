@@ -211,6 +211,7 @@ genpref_SOURCES = \
 	themable.h \
 	default.h \
 	genpref.cc
+genpref_LDADD = misc.$(OBJEXT)
 
 icewm_SOURCES = \
 	intl.h \
@@ -332,7 +333,7 @@ icewm_session_SOURCES = \
 	sysdep.h \
 	base.h \
 	icesm.cc
-icewm_session_LDADD = libice.la $(IMAGE_LIBS) $(CORE_LIBS)
+icewm_session_LDADD = misc.$(OBJEXT) libice.la $(IMAGE_LIBS) $(CORE_LIBS)
 
 icewmhint_SOURCES = \
 	intl.h \
@@ -341,7 +342,7 @@ icewmhint_SOURCES = \
 	base.h \
 	guievent.h \
 	icewmhint.cc
-icewmhint_LDFLAGS = $(CORE_LIBS)
+icewmhint_LDADD = misc.$(OBJEXT) $(CORE_LIBS)
 
 icewmbg_SOURCES = \
 	intl.h \
@@ -368,7 +369,7 @@ icesound_SOURCES = \
 	ascii.h \
 	ycmdline.cc \
 	ycmdline.h
-icesound_LDADD = libice.la $(AUDIO_LIBS) $(CORE_LIBS)
+icesound_LDADD = misc.$(OBJEXT) libice.la $(AUDIO_LIBS) $(CORE_LIBS)
 
 icewm_menu_gnome1_SOURCES = \
 	intl.h \
@@ -402,7 +403,7 @@ icewm_menu_fdo_SOURCES = \
 	sysdep.h \
 	base.h \
 	fdomenu.cc
-icewm_menu_fdo_LDADD = $(GIO_LIBS)
+icewm_menu_fdo_LDADD = misc.$(OBJEXT) $(GIO_LIBS)
 
 icehelp_SOURCES = \
 	intl.h \

@@ -31,12 +31,20 @@
 #endif
 
 #include "intl.h"
+#include "base.h"
 
 char *displayName = 0;
 Display *display = 0;
 Window root = 0;
 
 Atom XA_IcewmWinOptHint;
+char const *ApplicationName = "icewmhint";
+
+static void print_usage()
+{
+    puts(_("Usage: icewmhint [class.instance] option arg\n"));
+    exit(1);
+}
 
 int main(int argc, char **argv) {
 
@@ -45,9 +53,17 @@ int main(int argc, char **argv) {
     textdomain(PACKAGE);
 #endif
 
+    if (argc > 1 && argv[1][0] == '-') {
+        if (is_help_switch(argv[1])) {
+            print_usage();
+        }
+        if (is_version_switch(argv[1])) {
+            print_version_exit(VERSION);
+        }
+    }
+
     if (argc < 4) {
-        fputs(_("Usage: icewmhint [class.instance] option arg\n"), stderr);
-        exit(1);
+        print_usage();
     }
 
     char *clsin = argv[1];

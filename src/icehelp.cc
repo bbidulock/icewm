@@ -1316,8 +1316,25 @@ void HTextView::handleClick(const XButtonEvent &up, int /*count*/) {
     }
 }
 
+static void print_help()
+{
+    printf(_("Usage: %s FILENAME\n\n"
+             "A very simple HTML browser displaying the document specified "
+             "by FILENAME.\n\n"),
+           ApplicationName);
+    exit(1);
+}
+
 int main(int argc, char **argv) {
     YLocale locale;
+
+    for (char **arg = argv; arg < argv + argc; ++arg) {
+        if (is_help_switch(*arg))
+            print_help();
+        if (is_version_switch(*arg))
+            print_version_exit(VERSION);
+    }
+
     YXApplication app(&argc, &argv);
 
     if (argc == 2) {
@@ -1327,11 +1344,7 @@ int main(int argc, char **argv) {
         return app.mainLoop();
     }
 
-    printf(_("Usage: %s FILENAME\n\n"
-             "A very simple HTML browser displaying the document specified "
-             "by FILENAME.\n\n"),
-           YApplication::Name);
-    return 1;
+    print_help();
 }
 
 void FileView::loadFile() {

@@ -1633,13 +1633,6 @@ void YWMApp::afterWindowEvent(XEvent &xev) {
 
 #ifndef NO_CONFIGURE
 
-static void print_version() {
-    puts("IceWM " VERSION ", "
-         "Copyright 1997-2003 Marko Macek,  2001 Mathias Hasselmann");
-
-    exit(0);
-}
-
 static void print_usage(const char *argv0) {
     const char *usage_client_id =
 #ifdef CONFIG_SESSION
@@ -1667,7 +1660,7 @@ static void print_usage(const char *argv0) {
              "  -t, --theme=FILE    Load theme from FILE.\n"
              "  -n, --no-configure  Ignore preferences file.\n"
              "\n"
-             "  -v, --version       Prints version information and exits.\n"
+             "  -V, --version       Prints version information and exits.\n"
              "  -h, --help          Prints this usage screen and exits.\n"
              "%s"
              "  --replace           Replace an existing window manager.\n"
@@ -1697,9 +1690,9 @@ int main(int argc, char **argv) {
     for (char ** arg = argv + 1; arg < argv + argc; ++arg) {
         if (**arg == '-') {
 #ifdef DEBUG
-            if (IS_LONG_SWITCH("debug"))
+            if (is_long_switch(*arg, "debug"))
                 debug = true;
-            else if (IS_LONG_SWITCH("debug-z"))
+            else if (is_long_switch(*arg, "debug-z"))
                 debug_z = true;
 #endif
 #ifndef NO_CONFIGURE
@@ -1716,16 +1709,18 @@ int main(int argc, char **argv) {
                 overrideTheme = value;
                 continue;
             }
-            else if (IS_LONG_SWITCH("restart"))
+            else if (is_long_switch(*arg, "restart"))
                 restart = true;
-            else if (IS_LONG_SWITCH("replace"))
+            else if (is_long_switch(*arg, "replace"))
                 replace_wm = true;
-            else if (IS_SWITCH("v", "version"))
-                print_version();
-            else if (IS_LONG_SWITCH("notify"))
+            else if (is_long_switch(*arg, "notify"))
                 notify_parent = true;
-            else if (IS_SWITCH("h", "help"))
+            else if (is_help_switch(*arg))
                 print_usage(my_basename(argv[0]));
+            else if (is_version_switch(*arg))
+                print_version_exit(VERSION);
+#else
+            check_help_version(*arg, "", VERSION);
 #endif
         }
     }

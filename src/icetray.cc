@@ -232,17 +232,22 @@ bool SysTray::checkMessageEvent(const XClientMessageEvent &message) {
 
 int main(int argc, char **argv) {
     YLocale locale;
+
+    check_argv(argc, argv,
+            "      --notify        Notify parent process by signal USR1.\n",
+            VERSION);
+
     SysTrayApp stapp(&argc, &argv);
     int notified = 0;
     for(int i=1; i<argc; ++i)
     {
-       if(argv[i] && 0 == strcmp("--notify", argv[i]) && !notified)
+       if(is_long_switch(argv[i], "notify") && !notified)
        {
           kill(getppid(), SIGUSR1);
           notified = 1;
        }
 #ifdef DEBUG
-       if(argv[i] && 0 == strcmp("--debug", argv[i]))
+       if(is_long_switch(argv[i], "debug"))
           debug = 1;
 #endif
     }

@@ -1,5 +1,23 @@
 #!/bin/sh
 
+for arg
+do
+    case $arg in
+        -h|-?|--help|--?)
+            echo "Usage: $0"
+            echo "Set the Gnome windowmanager to IceWM"
+            exit 1
+            ;;
+        -V|--version)
+            echo "$0 VERSION, Copyrighted."
+            exit 1
+            ;;
+        *)
+            : echo "$0: Ignoring argument '$arg'." >&2
+            ;;
+    esac
+done
+
 echo Previous window manager:
 gconftool-2 -g /desktop/gnome/session/required_components/windowmanager
 
