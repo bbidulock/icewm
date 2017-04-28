@@ -19,8 +19,6 @@
 #include <execinfo.h>
 #endif
 
-extern char const *ApplicationName;
-
 #ifdef DEBUG
 bool debug = false;
 bool debug_z = false;
@@ -498,6 +496,70 @@ bool GetLongArgument(char* &ret, const char *name, char** &argpp, char **endpp)
 	return true;
 }
 
+bool is_short_switch(const char *arg, const char *name)
+{
+    return arg && *arg == '-' && 0 == strcmp(arg + 1, name);
+}
+
+bool is_long_switch(const char *arg, const char *name)
+{
+    return arg && *arg == '-' && arg[1] == '-' && 0 == strcmp(arg + 2, name);
+}
+
+bool is_switch(const char *arg, const char *short_name, const char *long_name)
+{
+    return is_short_switch(arg, short_name) || is_long_switch(arg, long_name);
+}
+
+bool is_help_switch(const char *arg)
+{
+    return is_switch(arg, "h", "help") || is_switch(arg, "?", "?");
+}
+
+bool is_version_switch(const char *arg)
+{
+    return is_switch(arg, "V", "version");
+}
+
+void print_help_exit(const char *help)
+{
+    printf(_("Usage: %s [OPTIONS]\n"
+             "Options:\n"
+             "%s"
+             "\n"
+             "  -V, --version       Prints version information and exits.\n"
+             "  -h, --help          Prints this usage screen and exits.\n"
+             "\n"),
+            ApplicationName, help);
+    exit(1);
+}
+
+void print_version_exit(const char *version)
+{
+    printf("%s %s, %s.\n", ApplicationName, version,
+        "Copyright 1997-2003 Marko Macek, 2001 Mathias Hasselmann");
+    exit(1);
+}
+
+void check_help_version(const char *arg, const char *help, const char *version)
+{
+    if (is_help_switch(arg)) {
+        print_help_exit(help);
+    }
+    if (is_version_switch(arg)) {
+        print_version_exit(version);
+    }
+}
+
+void check_argv(int argc, char **argv, const char *help, const char *version)
+{
+    if (ApplicationName == NULL) {
+        ApplicationName = my_basename(argv[0]);
+    }
+    for (char **arg = argv + 1; arg < argv + argc; ++arg) {
+        check_help_version(*arg, help, version);
+    }
+}
 
 #if 0
 
@@ -540,11 +602,6 @@ int strnullcmp(const char *a, const char *b) {
     return a ? (b ? strcmp(a, b) : 1) : (b ? -1 : 0);
 }
 #endif
-
-bool isreg(char const *path) {
-    struct stat sb;
-    return (stat(path, &sb) == 0 && S_ISREG(sb.st_mode));
-}
 
 void show_backtrace() {
 #if defined(linux) && defined(HAVE_EXECINFO_H)

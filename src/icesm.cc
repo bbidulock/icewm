@@ -154,6 +154,8 @@ private:
 };
 
 int main(int argc, char **argv) {
+    check_argv(argc, argv, "", VERSION);
+
     SessionManager xapp(&argc, &argv);
 
     xapp.runScript("env", true);

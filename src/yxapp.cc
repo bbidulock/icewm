@@ -953,12 +953,19 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
     for (char ** arg = *argv + 1; arg < *argv + *argc; ++arg) {
         if (**arg == '-') {
             char *value;
-            if (GetLongArgument(value, "display", arg, *argv+*argc))
-            {
-                displayName = value;
-                continue;
+            if (is_help_switch(*arg)) {
+                print_help_exit(
+                    "  --display=NAME      NAME of the X server to use.\n"
+                    "  --sync              Synchronize X11 commands.\n"
+                );
             }
-            else if (IS_LONG_SWITCH("sync"))
+            else if (is_version_switch(*arg)) {
+                print_version_exit(VERSION);
+            }
+            else if (GetLongArgument(value, "display", arg, *argv+*argc)) {
+                displayName = value;
+            }
+            else if (is_long_switch(*arg, "sync"))
                 runSynchronized = true;
         }
     }
@@ -966,8 +973,8 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
     if (displayName == 0)
         displayName = getenv("DISPLAY");
     else {
-        static char disp[256] = "DISPLAY=";
-        strcat(disp, displayName);
+        static char disp[256];
+        snprintf(disp, sizeof disp, "DISPLAY=%s", displayName);
         putenv(disp);
     }
 

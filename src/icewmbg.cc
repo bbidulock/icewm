@@ -433,12 +433,20 @@ void invalidArgument(const char *appName, const char *arg) {
 
 DesktopBackgroundManager *bg;
 
-void addBgImage(const char */*name*/, const char *value, bool) {
+void addBgImage(const char * /*name*/, const char *value, bool) {
     bg->addImage(value);
 }
 
 int main(int argc, char **argv) {
     ApplicationName = my_basename(*argv);
+    for (char **arg = argv + 1; arg < argv + argc; ++arg) {
+        if (is_help_switch(*arg)) {
+            printUsage();
+        }
+        if (is_version_switch(*arg)) {
+            print_version_exit(VERSION);
+        }
+    }
 
     if (nice(5) == -1)
 	exit(1);
@@ -469,10 +477,10 @@ int main(int argc, char **argv) {
     bg = new DesktopBackgroundManager(&argc, &argv);
 
     if (argc > 1) {
-        if ( strcmp(argv[1], "-r") == 0) {
+        if (is_short_switch(argv[1], "r")) {
             bg->sendRestart();
             return 0;
-        } else if (strcmp(argv[1], "-q") == 0) {
+        } else if (is_short_switch(argv[1], "q")) {
             bg->sendQuit();
             return 0;
         } else

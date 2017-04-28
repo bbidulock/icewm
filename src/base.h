@@ -45,11 +45,6 @@ char *cstrJoin(char const *str, ...);
 #endif
 
 #if 0
-bool isempty(char const *str);
-bool isreg(char const *path);
-#endif
-
-#if 0
 /*
  * Convert unsigned to string
  */
@@ -134,13 +129,6 @@ char* __XOS2RedirRoot(char const*);
 #define ISMASK(w,e,n) (((w) & ~(n)) == (e))
 #define HASMASK(w,e,n) ((((w) & ~(n)) & (e)) == (e))
 
-#if 0
-inline bool strIsEmpty(char const *str) {
-    if (str) while (*str) if (*str++ > ' ') return false;
-    return true;
-}
-#endif
-
 int strpcmp(char const *str, char const *pfx, char const *delim = "=:");
 #if 0
 unsigned strtoken(const char *str, const char *delim = " \t");
@@ -206,18 +194,23 @@ inline unsigned highbit(T mask) {
     return bit;
 }
 
-/******************************************************************************/
+/*** argc/argv processing *****************************************************/
 
-#if 1
+extern char const *ApplicationName;
 
 bool GetShortArgument(char* &ret, const char *name, char** &argpp, char ** endpp);
 bool GetLongArgument(char* &ret, const char *name, char** &argpp, char ** endpp);
+bool is_short_switch(const char *arg, const char *name);
+bool is_long_switch(const char *arg, const char *name);
+bool is_switch(const char *arg, const char *short_name, const char *long_name);
+bool is_help_switch(const char *arg);
+bool is_version_switch(const char *arg);
+void print_help_exit(const char *help);
+void print_version_exit(const char *version);
+void check_help_version(const char *arg, const char *help, const char *version);
+void check_argv(int argc, char **argv, const char *help, const char *version);
 
-#define IS_SHORT_SWITCH(Name)  (0 == strcmp(*arg, "-" Name))
-#define IS_LONG_SWITCH(Name)   (0 == strcmp(*arg, "--" Name))
-#define IS_SWITCH(Short, Long) (IS_SHORT_SWITCH(Short) || \
-                                IS_LONG_SWITCH(Long))
-#endif
+/******************************************************************************/
 
 #include "debug.h"
 
