@@ -477,7 +477,7 @@ public:
         icons[1] = folder->small()->mask();
         icons[2] = folder->large()->pixmap();
         icons[3] = folder->large()->mask();
-        XChangeProperty(app->display(), handle(),
+        XChangeProperty(xapp->display(), handle(),
                         _XA_WIN_ICONS, XA_PIXMAP,
                         32, PropModeReplace,
                         (unsigned char *)icons, 4);
@@ -489,7 +489,7 @@ public:
 
     virtual void handleClose() {
         if (winCount == 1)
-            app->exit(0);
+            xapp->exit(0);
         delete this;
     }
 

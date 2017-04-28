@@ -1,11 +1,11 @@
 #include "config.h"
 #include "mstring.h"
 
-char *ApplicationName = "strtest";
+char const *ApplicationName = "strtest";
 
 int main() {
     ustring x("foo");
-    ustring n(0);
+    ustring n(0, 0);
 
     ustring y = x;
 
