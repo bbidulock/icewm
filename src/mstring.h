@@ -37,7 +37,6 @@ private:
 public:
     mstring(const char *str);
     mstring(const char *str, int len);
-    mstring(int);
 
     mstring(const class null_ref &):
         fStr(0),
