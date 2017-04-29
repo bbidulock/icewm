@@ -482,7 +482,7 @@ bool NetStatus::isUp() {
 
 #else
     struct ifreq ifr;
-    fNetDev.copy(ifr.ifr_name, IFNAMSIZ);
+    fNetDev.copyTo(ifr.ifr_name, IFNAMSIZ);
     bool bUp = (ioctl(s, SIOCGIFFLAGS, &ifr) >= 0 && (ifr.ifr_flags & IFF_UP));
     close(s);
     return bUp;
@@ -620,7 +620,7 @@ void NetStatus::getCurrent(long *in, long *out) {
 
     s = socket(AF_INET, SOCK_DGRAM, 0);
     if (s != -1) {
-	fNetDev.copy(ifdr.ifdr_name, sizeof(ifdr.ifdr_name));
+	fNetDev.copyTo(ifdr.ifdr_name, sizeof(ifdr.ifdr_name));
         if (ioctl(s, SIOCGIFDATA, &ifdr) != -1) {
             cur_ibytes = ifi->ifi_ibytes;
             cur_obytes = ifi->ifi_obytes;
@@ -635,7 +635,7 @@ void NetStatus::getCurrent(long *in, long *out) {
 
     s = socket(AF_INET, SOCK_DGRAM, 0);
     if (s != -1) {
-	fNetDev.copy(ifdr.ifr_name, sizeof(ifdr.ifr_name));
+	fNetDev.copyTo(ifdr.ifr_name, sizeof(ifdr.ifr_name));
         ifdr.ifr_data = (caddr_t) &ifi;
         if (ioctl(s, SIOCGIFDATA, &ifdr) != -1) {
             cur_ibytes = ifi.ifi_ibytes;
