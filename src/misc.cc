@@ -305,14 +305,9 @@ void die(int exitcode, char const *msg, ...) {
     exit(exitcode);
 }
 
-void precondition(char const *msg, ...) {
-    fprintf(stderr, "%s: ", ApplicationName);
-
-    va_list ap;
-    va_start(ap, msg);
-    vfprintf(stderr, msg, ap);
-    va_end(ap);
-    fputs("\n", stderr);
+void precondition(const char *expr, const char *file, int line) {
+    fprintf(stderr, "%s: PRECONDITION FAILED at %s:%d: ( %s )\n",
+            ApplicationName, file, line, expr);
     fflush(stderr);
 
     show_backtrace();
