@@ -61,8 +61,8 @@ public:
 
     int length() const { return fCount; }
 
-    mstring operator=(const mstring& rv);
-    mstring operator+=(const mstring& rv);
+    mstring& operator=(const mstring& rv);
+    mstring& operator+=(const mstring& rv);
     mstring operator+(const mstring& rv) const;
 
     bool operator==(const mstring &rv) const { return equals(rv); }
@@ -70,7 +70,7 @@ public:
     bool operator==(const class null_ref &) const { return fStr == 0; }
     bool operator!=(const class null_ref &) const { return fStr != 0; }
 
-    mstring operator=(const class null_ref &);
+    mstring& operator=(const class null_ref &);
     mstring substring(int pos) const;
     mstring substring(int pos, int len) const;
 

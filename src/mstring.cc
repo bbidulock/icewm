@@ -88,12 +88,12 @@ mstring mstring::operator+(const mstring& rv) const {
     return mstring(ud, 0, newCount);
 }
 
-mstring mstring::operator+=(const mstring& rv) {
+mstring& mstring::operator+=(const mstring& rv) {
     *this = *this + rv;
     return *this;
 }
 
-mstring mstring::operator=(const mstring& rv) {
+mstring& mstring::operator=(const mstring& rv) {
     if (fStr != rv.fStr) {
         if (fStr) release();
         fStr = rv.fStr;
@@ -104,7 +104,7 @@ mstring mstring::operator=(const mstring& rv) {
     return *this;
 }
 
-mstring mstring::operator=(const class null_ref &) {
+mstring& mstring::operator=(const class null_ref &) {
     if (fStr)
         release();
     fStr = 0;
@@ -183,6 +183,8 @@ int mstring::charAt(int pos) const {
 bool mstring::startsWith(const mstring &s) const {
     if (length() < s.length())
         return false;
+    if (s.length() == 0)
+        return true;
     if (memcmp(data(), s.data(), s.length()) == 0)
         return true;
     return false;
@@ -191,12 +193,16 @@ bool mstring::startsWith(const mstring &s) const {
 bool mstring::endsWith(const mstring &s) const {
     if (length() < s.length())
         return false;
+    if (s.length() == 0)
+        return true;
     if (memcmp(data() + length() - s.length(), s.data(), s.length()) == 0)
         return true;
     return false;
 }
 
 int mstring::indexOf(char ch) const {
+    if (length() == 0)
+        return -1;
     char *s = (char *)memchr(data(), ch, fCount);
     if (s == NULL)
         return -1;
@@ -212,20 +218,25 @@ int mstring::compareTo(const mstring &s) const {
     if (s.length() > length()) {
         return -1;
     } else if (s.length() == length()) {
+        if (length() == 0)
+            return 0;
         return memcmp(s.data(), data(), fCount);
     } else {
         return 1;
     }
 #else
-    int res = memcmp(data(), s.data(), min(s.length(), length()));
-    if (res)
-       return res;
+    int minlen = min(s.length(), length());
+    if (minlen > 0) {
+        int res = memcmp(data(), s.data(), minlen);
+        if (res)
+           return res;
+    }
     return length() - s.length();
 #endif
 }
 
 bool mstring::copyTo(char *dst, size_t len) const {
-    if (len > 0) {
+    if (len > 0 && fCount > 0) {
         size_t minlen = min(len - 1, (size_t) fCount);
         memcpy(dst, data(), minlen);
         dst[minlen] = 0;

@@ -34,6 +34,8 @@ int main(int argc, char **argv)
     mstring e(null);
     expect(e, "");
     assert(e, e.length() == 0);
+    assert(e, e == null);
+    assert(e, e.indexOf(' ') == -1);
 
     mstring m("abc", 0);
     expect(m, "");
