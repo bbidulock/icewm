@@ -98,6 +98,8 @@ int main(int argc, char **argv)
     assert(z, z.endsWith(""));
 
     mstring l(null), r(null);
+    e = null;
+    assert(e, e.split(0, &l, &r) == false);
     assert(z, z.split('o', &l, &r));
     expect(z, "foofoo");
     expect(l, "f");

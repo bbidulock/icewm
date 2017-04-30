@@ -149,14 +149,13 @@ mstring mstring::substring(int pos, int len) const {
 
 bool mstring::split(unsigned char token, mstring *left, mstring *remain) const {
     PRECONDITION(token < 128);
-    for (int i = 0; i < length(); ++i) {
-        if ((unsigned char) fStr->fStr[fOffset + i] == token) {
-            mstring l = substring(0, i);
-            mstring r = substring(i + 1, length() - i - 1);
-            *left = l;
-            *remain = r;
-            return true;
-        }
+    int i = indexOf((char) token);
+    if (i >= 0) {
+        mstring l = substring(0, i);
+        mstring r = substring(i + 1, length() - i - 1);
+        *left = l;
+        *remain = r;
+        return true;
     }
     return false;
 }
