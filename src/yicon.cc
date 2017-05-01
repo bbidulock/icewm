@@ -118,9 +118,9 @@ upath YIcon::findIcon(int size) {
             unsigned len(p - q);
             if (*p) ++p;
 
-            upath path = upath(newstr(q, len));
+            upath path(pstring(q, len));
 
-            upath fullpath = findIcon(path.path(), fPath, size);
+            upath fullpath = findIcon(path, fPath, size);
             if (fullpath != null) {
                 return fullpath;
             }
@@ -129,7 +129,7 @@ upath YIcon::findIcon(int size) {
 
     for (int i = 0; i < iconPaths->getCount(); i++) {
         upath path = iconPaths->getPath(i)->joinPath(upath("/icons/"));
-        upath fullpath = findIcon(path.path(), fPath, size);
+        upath fullpath = findIcon(path, fPath, size);
         if (fullpath != null)
             return fullpath;
     }
