@@ -551,7 +551,7 @@ public:
         contentsItem->setEnabled(false);
 
         if (nextURL != 0) {
-            delete[] prevURL;
+            delete[] nextURL;
             nextURL = 0;
         }
         if (nextURL != 0) {
@@ -759,14 +759,17 @@ void HTextView::find_link(node *n) {
             attribute *href = find_attribute(n, "HREF");
             if (rel && href && rel->value && href->value) {
                 if (strcasecmp(rel->value, "previous") == 0) {
+                    delete[] prevURL;
                     prevURL = newstr(href->value);
                     prevItem->setEnabled(true);
                 }
                 if (strcasecmp(rel->value, "next") == 0) {
+                    delete[] nextURL;
                     nextURL = newstr(href->value);
                     nextItem->setEnabled(true);
                 }
                 if (strcasecmp(rel->value, "contents") == 0) {
+                    delete[] contentsURL;
                     contentsURL = newstr(href->value);
                     contentsItem->setEnabled(true);
                 }
@@ -1167,6 +1170,8 @@ void HTextView::draw(Graphics &g, node *n1, bool href) {
 
         case node::li:
             g.fillArc(n->xr - tx, n->yr + (font->height() - 7) / 2 - ty, 7, 7, 0, 360 * 64);
+            if (n->container)
+                draw(g, n->container, href);
             break;
 
         default:
@@ -1233,8 +1238,8 @@ public:
 
         view->show();
 #else
-        free(fPath);
-        fPath = strdup(link);
+        delete[] fPath;
+        fPath = newstr(link);
         loadFile();
         view->repaint();
 #endif
@@ -1246,8 +1251,9 @@ public:
     }
 
     virtual void handleClose() {
+        IApp *tmp = app;
         delete this;
-        app->exit(0);
+        tmp->exit(0);
     }
 
 private:
