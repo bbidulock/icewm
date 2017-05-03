@@ -25,7 +25,7 @@ public:
     void addButton(const ustring &name, ref<YIcon> icon, YButton *button);
     
 private:
-    YArray<YButton *> objects;
+    YObjectArray<YButton> objects;
     static YColor *bgColor;
 };
 

@@ -105,6 +105,7 @@ void WindowOptions::setWinOption(ustring n_class_instance,
     //msg("%s-%s-%s", class_instance, opt, arg);
 
     if (strcmp(opt, "icon") == 0) {
+        delete [] op->icon;
         op->icon = newstr(arg);
     } else if (strcmp(opt, "workspace") == 0) {
         op->workspace = atoi(arg);

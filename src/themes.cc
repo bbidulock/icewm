@@ -26,8 +26,6 @@
 
 #include "intl.h"
 
-extern char *configArg;
-
 void setDefaultTheme(const char *theme) {
     const char *buf = cstrJoin("Theme=\"", theme, "\"\n", NULL);
 
@@ -146,10 +144,10 @@ void ThemesMenu::findThemes(const char *path, YMenu *container) {
     char const *const tname("/default.theme");
 
     int dplen(strlen(path));
-    char *npath = NULL, *dpath = NULL;
+    char *dpath = NULL;
 
     if (dplen == 0 || path[dplen - 1] != '/') {
-        npath = cstrJoin(path, "/", NULL);
+        dpath = cstrJoin(path, "/", NULL);
         dplen++;
     } else {
         dpath = newstr(path);
@@ -163,11 +161,11 @@ void ThemesMenu::findThemes(const char *path, YMenu *container) {
         struct dirent *de;
         while ((de = readdir(dir)) != NULL) {
 
-           if (de->d_name[0] == '.')
-              continue;
+            if (de->d_name[0] == '.')
+                continue;
 
             YMenuItem *im(NULL);
-            npath = cstrJoin(dpath, de->d_name, tname, NULL);
+            char *npath = cstrJoin(dpath, de->d_name, tname, NULL);
 
             if (npath && access(npath, R_OK) == 0) {
                 char *relThemeName = cstrJoin(de->d_name, tname, NULL);
@@ -175,7 +173,7 @@ void ThemesMenu::findThemes(const char *path, YMenu *container) {
                 if (im) {
                     if (bNesting) 
                     {
-                       char fLetter = ASCII::toUpper(de->d_name[0]);
+                        char fLetter = ASCII::toUpper(de->d_name[0]);
 
                         int targetItem = container->findFirstLetRef(fLetter, 0, 1);
                         
@@ -232,7 +230,7 @@ void ThemesMenu::findThemeAlternatives(
         while ((de = readdir(dir)) != NULL) {
             char const *ext(strstr(de->d_name, ".theme"));
 
-            if (ext != NULL && ext[sizeof("theme")] == '\0' &&
+            if (ext != NULL && 0 == strcmp(ext, ".theme") &&
                 strcmp(de->d_name, "default.theme"))
             {
                 char *npath(cstrJoin(path, "/", de->d_name, NULL));
