@@ -7,10 +7,27 @@
 
 #include "mstring.h"
 #include <string.h>
-#include <stdarg.h>
-#include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include "base.h"
+
+MStringData *MStringData::alloc(int length) {
+    size_t size = sizeof(MStringData) + (size_t) length + 1;
+    MStringData *ud = (MStringData *) malloc(size);
+    ud->fRefCount = 0;
+    return ud;
+}
+
+MStringData *MStringData::create(const char *str, int length) {
+    MStringData *ud = MStringData::alloc(length);
+    strncpy(ud->fStr, str, length);
+    ud->fStr[length] = 0;
+    return ud;
+}
+
+MStringData *MStringData::create(const char *str) {
+    return create(str, (int) strlen(str));
+}
 
 cstring::cstring(const mstring &s): str(s) {
     if (str.fStr) {
@@ -30,19 +47,6 @@ mstring::mstring(MStringData *fStr, int fOffset, int fCount):
     if (fStr) acquire(); 
 }
 
-#if 0
-mstring::mstring(const mstring &r):
-    fStr(r.fStr),
-    fOffset(r.fOffset),
-    fCount(r.fCount)
-
-{
-    PRECONDITION(fOffset >= 0);
-    PRECONDITION(fCount >= 0);
-    if (fStr) acquire();
-}
-#endif
-
 mstring::mstring(const char *str) {
     init(str, str ? strlen(str) : 0);
 }
@@ -53,17 +57,9 @@ mstring::mstring(const char *str, int len) {
 
 void mstring::init(const char *str, int len) {
     if (str) {
-        int count = len;
-        MStringData *ud = 
-            (MStringData *)malloc(sizeof(MStringData) + count + 1);
-       
-        ud->fRefCount = 0;
-        memcpy(ud->fStr, str, count);
-        ud->fStr[count] = 0;
-        
-        fStr = ud;
+        fStr = MStringData::create(str, len);
         fOffset = 0;
-        fCount = count;
+        fCount = len;
         acquire();
     } else {
         fStr = 0;
@@ -81,7 +77,23 @@ mstring::~mstring() {
         release();
 }
 
-mstring mstring::operator=(const mstring& rv) {
+mstring mstring::operator+(const mstring& rv) const {
+    if (!length()) return rv;
+    if (!rv.length()) return *this;
+    int newCount = length() + rv.length();
+    MStringData *ud = MStringData::alloc(newCount);
+    memcpy(ud->fStr, data(), length());
+    memcpy(ud->fStr + length(), rv.data(), rv.length());
+    ud->fStr[newCount] = 0;
+    return mstring(ud, 0, newCount);
+}
+
+mstring& mstring::operator+=(const mstring& rv) {
+    *this = *this + rv;
+    return *this;
+}
+
+mstring& mstring::operator=(const mstring& rv) {
     if (fStr != rv.fStr) {
         if (fStr) release();
         fStr = rv.fStr;
@@ -92,7 +104,7 @@ mstring mstring::operator=(const mstring& rv) {
     return *this;
 }
 
-mstring mstring::operator=(const class null_ref &) {
+mstring& mstring::operator=(const class null_ref &) {
     if (fStr)
         release();
     fStr = 0;
@@ -108,6 +120,7 @@ mstring mstring::fromMultiByte(const char *str, int len) {
 mstring mstring::fromMultiByte(const char *str) {
     return newstr(str);
 }
+
 mstring mstring::newstr(const char *str) {
     return newstr(str, str ? strlen(str) : 0);
 }
@@ -115,51 +128,34 @@ mstring mstring::newstr(const char *str) {
 mstring mstring::newstr(const char *str, int count) {
     PRECONDITION(count >= 0);
     PRECONDITION(str != 0 || count == 0);
-    MStringData *ud = (MStringData *)malloc(sizeof(MStringData) + count + 1);
 
-    ud->fRefCount = 0;
-    memcpy(ud->fStr, str, count);
-    ud->fStr[count] = 0;
-
+    MStringData *ud = MStringData::create(str, count);
     return mstring(ud, 0, count);
 }
 
-mstring mstring::substring(int pos) {
+mstring mstring::substring(int pos) const {
     PRECONDITION(pos >= 0);
     PRECONDITION(pos <= length());
     return mstring(fStr, fOffset + pos, fCount - pos);
 }
 
-mstring mstring::substring(int pos, int len) {
+mstring mstring::substring(int pos, int len) const {
     PRECONDITION(pos >= 0);
     PRECONDITION(len >= 0);
-    PRECONDITION(pos <= length());
     PRECONDITION(pos + len <= length());
 
     return mstring(fStr, fOffset + pos, len);
 }
 
 bool mstring::split(unsigned char token, mstring *left, mstring *remain) const {
-    int i = fOffset;
-    int e = fOffset + fCount;
-    int c = 0;
-    unsigned char ch;
-
     PRECONDITION(token < 128);
-    while (i < e) {
-        ch = fStr->fStr[i];
-        if (ch == token) {
-            mstring l(fStr, fOffset, i - fOffset);
-            mstring r(fStr, i + 1, e - i - 1);
-
-            *left = l;
-            *remain = r;
-            return true;
-        }
-        if (ch <= 0x7F || (ch >= 0xC0 && ch <= 0xFD)) {
-            c++;
-        }
-        i++;
+    int i = indexOf((char) token);
+    if (i >= 0) {
+        mstring l = substring(0, i);
+        mstring r = substring(i + 1, length() - i - 1);
+        *left = l;
+        *remain = r;
+        return true;
     }
     return false;
 }
@@ -186,6 +182,8 @@ int mstring::charAt(int pos) const {
 bool mstring::startsWith(const mstring &s) const {
     if (length() < s.length())
         return false;
+    if (s.length() == 0)
+        return true;
     if (memcmp(data(), s.data(), s.length()) == 0)
         return true;
     return false;
@@ -194,12 +192,16 @@ bool mstring::startsWith(const mstring &s) const {
 bool mstring::endsWith(const mstring &s) const {
     if (length() < s.length())
         return false;
+    if (s.length() == 0)
+        return true;
     if (memcmp(data() + length() - s.length(), s.data(), s.length()) == 0)
         return true;
     return false;
 }
 
 int mstring::indexOf(char ch) const {
+    if (length() == 0)
+        return -1;
     char *s = (char *)memchr(data(), ch, fCount);
     if (s == NULL)
         return -1;
@@ -215,87 +217,59 @@ int mstring::compareTo(const mstring &s) const {
     if (s.length() > length()) {
         return -1;
     } else if (s.length() == length()) {
-        if (fCount == 0)
+        if (length() == 0)
             return 0;
-        else
-            return memcmp(s.data(), data(), fCount);
+        return memcmp(s.data(), data(), fCount);
     } else {
         return 1;
     }
 #else
-    int res=memcmp(data(), s.data(), min(s.length(), length()));
-    if (s.length() == length())
-       return res;
-    if(res) // different length, left part already not equal
-       return res;
-    return length()-s.length();
+    int minlen = min(s.length(), length());
+    if (minlen > 0) {
+        int res = memcmp(data(), s.data(), minlen);
+        if (res)
+           return res;
+    }
+    return length() - s.length();
 #endif
 }
 
-bool mstring::copy(char *dst, size_t len) const {
-    strncpy(dst, data(), len);
-    if ((size_t) fCount < len)
-	dst[fCount] = '\0';
-    dst[len - 1] = '\0';
+bool mstring::copyTo(char *dst, size_t len) const {
+    if (len > 0 && fCount > 0) {
+        size_t minlen = min(len - 1, (size_t) fCount);
+        memcpy(dst, data(), minlen);
+        dst[minlen] = 0;
+    }
     return (size_t) fCount < len;
 }
 
-mstring mstring::replace(int position, int len, const mstring &insert) {
+mstring mstring::replace(int position, int len, const mstring &insert) const {
     PRECONDITION(position >= 0);
     PRECONDITION(len >= 0);
     PRECONDITION(position + len <= length());
-    int count = length() - len + insert.length();
-
-    MStringData *ud = (MStringData *)malloc(sizeof(MStringData) + count + 1);
-
-    ud->fRefCount = 0;
-    memcpy(ud->fStr, data(), position);
-    memcpy(ud->fStr + position, insert.data(), insert.fCount);
-    memcpy(ud->fStr + position + insert.fCount, data() + position + len, fCount - len - position);
-    ud->fStr[count] = 0;
-    return mstring(ud, 0, count);
+    return substring(0, position) + insert
+        + substring(position + len, length() - position - len);
 }
 
-mstring mstring::remove(int position, int len) {
-    PRECONDITION(position >= 0);
-    PRECONDITION(len >= 0);
-    PRECONDITION(position + len <= length());
-    int count = length() - len;
-
-    MStringData *ud = (MStringData *)malloc(sizeof(MStringData) + count + 1);
-
-    ud->fRefCount = 0;
-    memcpy(ud->fStr, data(), position);
-    memcpy(ud->fStr + position, data() + position + len, fCount - len - position);
-    ud->fStr[count] = 0;
-    return mstring(ud, 0, count);
+mstring mstring::remove(int position, int len) const {
+    return replace(position, len, mstring(null));
 }
 
-mstring mstring::insert(int position, const mstring &s) {
+mstring mstring::insert(int position, const mstring &s) const {
     return replace(position, 0, s);
 }
 
-mstring mstring::append(const mstring &s) {
-    return replace(length(), 0, s);
+mstring mstring::append(const mstring &s) const {
+    return *this + s;
 }
 
 mstring mstring::trim() const {
-    int pos = 0;
-    int len = fCount;
-    while (pos < len) {
-        char ch = fStr->fStr[fOffset + pos];
-        if (ch == ' ' || ch == '\t' || ch == '\n' || ch == '\r') {
-            pos++;
-            len--;
-        } else
-            break;
+    int k = 0, n = length();
+    while (k < n && isspace((unsigned char) charAt(k))) {
+        ++k;
     }
-    while (len > 0) {
-        char ch = fStr->fStr[fOffset + pos + len - 1];
-        if (ch == ' ' || ch == '\t' || ch == '\n' || ch == '\r') {
-            len--;
-        } else
-            break;
+    while (k < n && isspace((unsigned char) charAt(n - 1))) {
+        --n;
     }
-    return mstring(fStr, fOffset + pos, len);
+    return substring(k, n - k);
 }

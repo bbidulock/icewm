@@ -95,7 +95,7 @@ static char const * itoa(T i, bool sign = false) {
 void die(int exitcode, char const *msg, ...);
 void warn(char const *msg, ...);
 void msg(char const *msg, ...);
-void precondition(char const *msg, ...);
+void precondition(const char *expr, const char *file, int line);
 void show_backtrace();
 
 #define DEPRECATE(x) \

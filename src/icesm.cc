@@ -14,6 +14,14 @@ char const *ApplicationName = ICESMEXE;
 unsigned short startup_phase(0); // 0: run tray, 1: run startup script
 
 class SessionManager: public YApplication {
+private:
+    void remove_trailing_spaces(char *line) {
+        size_t len = strlen(line);
+        while (len > 0 && isspace((unsigned char) line[len - 1])) {
+            line[--len] = 0;
+        }
+    }
+
 public:
     SessionManager(int *argc, char ***argv): YApplication(argc, argv) {
         logout = false;
@@ -36,17 +44,11 @@ public:
             FILE *ef = fopen(cs.c_str(), "r");
             if(!ef)
                 return;
-            tTempBuf scratch(500);
-            if(!scratch)
-                return;
-            scratch.p[499] = 0;
-            while(!feof(ef) && !ferror(ef))
+            char scratch[500];
+            while (fgets(scratch, 500, ef))
             {
-                char *line(scratch);
-                if (!fgets(line, 497, ef))
-                    break;
-                for(int tlen = strlen(line)-1; isspace((unsigned)line[tlen]) && tlen; --tlen)
-                    line[tlen] = 0;
+                char *line = scratch;
+                remove_trailing_spaces(line);
 #ifdef HAVE_WORDEXP
                 wordexp_t w;
                 wordexp(line, &w, 0);

@@ -45,7 +45,7 @@ public:
 
         if (size > fSize) {
             data_t * data(new data_t[size]);
-            ::memcpy(data, fData, fSize);
+            ::memcpy(data, fData, fSize * sizeof(data_t));
             ::memset(data + fSize, 0, (size - fSize - 1) * sizeof(data_t));
 
             delete[] fData;
