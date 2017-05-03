@@ -31,8 +31,8 @@ and by mouse (this is not currently possible when using mouse focus).
 Extreme configurability similar to <tt/fvwm/ and many other window
 managers is <bf/NOT/ the goal.
 
-Further information can be found at <url url="http://www.icewm.org/"/> and <url
-url="http://icewm.sourceforge.net/"/>.
+Further information can be found at <url url="http://www.icewm.org/"> and <url
+url="http://icewm.sourceforge.net/">.
 
 <sect>Copying<p>
 
@@ -821,7 +821,7 @@ and theme file name must be specified.
 If the theme directory contains a file named <em/fonts.dir/ created by       
 mkfontdir the theme directory is inserted into the X servers font search path.
 
-<url url="http://themes.freshmeat.net/"/> contains various nice themes created by
+<url url="http://themes.freshmeat.net/"> contains various nice themes created by
 users of IceWM.
 
 <sect>Command Line Options<p>
