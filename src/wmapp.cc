@@ -101,7 +101,7 @@ static char *overrideTheme(NULL);
 #define XTERMCMD xterm
 #endif
 
-char *configArg(NULL);
+static char *configArg(NULL);
 
 ref<YIcon> defaultAppIcon;
 bool replace_wm = false;
@@ -1210,12 +1210,11 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
         if (w && count > 0) {
             manager->setWindows(w, count, actionMinimizeAll);
             manager->setShowingDesktop(true);
-            delete [] w;
         } else {
             manager->undoArrange();
             manager->setShowingDesktop(false);
         }
-
+        delete [] w;
     } else if (action == actionCascade) {
         YFrameWindow **w = 0;
         int count = 0;
@@ -1700,7 +1699,7 @@ int main(int argc, char **argv) {
             if(GetLongArgument(value, "config", arg, argv+argc)
             		|| GetShortArgument(value, "c", arg, argv+argc))
             {
-                configArg = newstr(configFile = newstr(value));
+                configArg = configFile = value;
                 continue;
             }
             else if ( GetLongArgument(value, "theme", arg, argv+argc) ||
