@@ -29,14 +29,6 @@ MStringData *MStringData::create(const char *str) {
     return create(str, (int) strlen(str));
 }
 
-cstring::cstring(const mstring &s): str(s) {
-    if (str.fStr) {
-        if (str.data()[str.fCount] != 0) {
-            str = mstring::newstr(str.data(), str.fCount);
-        }
-    }
-}
-
 mstring::mstring(MStringData *fStr, int fOffset, int fCount):
     fStr(fStr),
     fOffset(fOffset),
@@ -273,3 +265,24 @@ mstring mstring::trim() const {
     }
     return substring(k, n - k);
 }
+
+void mstring::normalize()
+{
+    if (fStr) {
+        if (data()[fCount]) {
+            int len = strnlen(data(), fCount);
+            mstring copy(data(), len);
+            *this = copy;
+        }
+    }
+}
+
+cstring::cstring(const mstring &s): str(s) {
+    str.normalize();
+}
+
+cstring& cstring::operator=(const cstring& cs) {
+    str = cs.str;
+    return *this;
+}
+

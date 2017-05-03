@@ -8,40 +8,60 @@ typedef mstring pstring;
 class upath {
 public:
     upath(const class null_ref &): fPath(null) {}
-    upath(pstring path): fPath(path) {}
+    upath(const pstring& path): fPath(path) {}
     upath(const char *path): fPath(path) {}
+    upath(const char *path, int len): fPath(path, len) {}
+    upath(const upath& path): fPath(path.fPath) {};
     upath(): fPath(null) {};
+
+    int length() const { return fPath.length(); }
+    bool isEmpty() const { return fPath.isEmpty(); }
 
     upath parent() const;
     pstring name() const;
     upath relative(const upath &path) const;
     upath child(const char *path) const;
-
-    bool isAbsolute();
-    bool fileExists();
-    bool dirExists();
-    bool isReadable();
-    int access(int mode);
     upath addExtension(const char *ext) const;
 
-    upath operator=(const upath& p) {
+    bool fileExists() const;
+    bool dirExists() const;
+    bool isAbsolute() const;
+    bool isRelative() const;
+    bool isReadable() const;
+    bool isWritable() const;
+    bool isExecutable() const;
+    int access(int mode) const;
+
+    upath& operator=(const upath& p) {
         fPath = p.fPath;
         return *this;
     }
 
-    upath operator=(const class null_ref &) {
+    upath& operator=(const class null_ref &) {
         fPath = null;
         return *this;
     }
 
+    upath& operator+=(const upath& rv) { return *this = *this + rv; }
+    upath operator+(const upath& rv) const { return relative(rv); }
+    bool operator==(const upath& rv) const { return equals(rv); }
+    bool operator!=(const upath& rv) const { return !equals(rv); }
     bool operator==(const class null_ref &) const { return fPath == null; }
     bool operator!=(const class null_ref &) const { return fPath != null; }
 
     bool equals(const upath &s) const;
 
-    pstring path() const { return fPath; }
+    const pstring& path() const { return fPath; }
+
+    static const pstring& sep() { return slash; }
+    static const upath& root() { return rootPath; }
 private:
     pstring fPath;
+
+    bool isSeparator(int) const;
+
+    static const pstring slash;
+    static const upath rootPath;
 };
 
 #endif

@@ -1,27 +1,56 @@
 #include "config.h"
 #include "mstring.h"
+#include "upath.h"
 #include <stdio.h>
 #include <libgen.h>
+#include <unistd.h>
+#include <sys/types.h>
 
 char const *ApplicationName = "strtest";
+static const char source[] = __FILE__;
 
-#define expect(u, s)    if (++testsrun, (u) == mstring(s) && 0 == strcmp(cstring(u).c_str(), s)) ++passed; else test_failed(u, s, __FILE__, __LINE__)
+#define equal(p, s)     (0 == strcmp(cstring(p), cstring(s)))
 
-#define assert(u, b)    if (++testsrun, (b)) ++passed; else test_failed(u, #b, __FILE__, __LINE__)
+#define expect(u, s)    if (++testsrun, (u) == mstring(s) && equal(u, s)) \
+        ++passed; else test_failed(cstring(u), cstring(s), __LINE__)
+
+#define assert(u, b)    if (++testsrun, (b)) ++passed; else \
+        test_failed(cstring(u), #b, __LINE__)
+
+#define ispath(u, s)    if (++testsrun, (u) == upath(s) && equal(u, s)) \
+        ++passed; else test_failed(cstring(u), cstring(s), __LINE__)
 
 static int testsrun, passed, failed;
 static const char *prog;
 
-static void test_failed(const mstring& u, const char *s, const char *f, int l)
+class strtest {
+    const char *name;
+public:
+    strtest(const char *s) : name(s) {
+        failed = passed = testsrun = 0;
+    }
+    ~strtest() {
+        if (failed || passed != testsrun) {
+            printf("%s: %7s: %d tests failed, %d tests passed of %d total\n",
+                    prog, name, failed, passed, testsrun);
+        }
+        else {
+            printf("%s: %7s: %2d/%d tests passed\n",
+                    prog, name, passed, testsrun);
+        }
+    }
+};
+
+static void test_failed(const char *u, const char *s, int l)
 {
-    printf("%s: Test failed: %s.%d: u = \"%s\", s = \"%s\"\n",
-            prog, f, l, cstring(u).c_str(), s);
+    printf("%s: Test failed in %s:%d: u = \"%s\", s = \"%s\"\n",
+            prog, source, l, u, s);
     ++failed;
 }
 
-int main(int argc, char **argv)
+static void test_mstring()
 {
-    prog = basename(argv[0]);
+    strtest tester("mstring");
 
     mstring x("foo");
     expect(x, "foo");
@@ -111,7 +140,7 @@ int main(int argc, char **argv)
     mstring w = mstring(" \t\r\nabc\n\r\t ");
     mstring t = w.trim();
     expect(t, "abc");
-    assert(w, w == " \t\r\nabc\n\r\t ");
+    expect(w, " \t\r\nabc\n\r\t ");
     w = w.replace(0, 4, "_");
     w = w.replace(4, 4, ".");
     expect(w, "_abc.");
@@ -121,14 +150,74 @@ int main(int argc, char **argv)
     expect(k, "_xyz.");
     mstring q = t.append("!?");
     expect(q, "_.!?");
+}
 
-    if (failed || passed != testsrun) {
-        printf("%s: %d tests failed, %d tests passed of %d total\n",
-                prog, failed, passed, testsrun);
-    }
-    else {
-        printf("%s: %d/%d tests passed\n",
-                prog, passed, testsrun);
-    }
+static void test_upath()
+{
+    strtest tester("upath");
+
+    upath r = upath::root();
+    upath s = upath::sep();
+    ispath(r, "/");
+    ispath(s, "/");
+    ispath(r + s, "/");
+    assert(r, r != null);
+    upath t = null;
+    assert(t, t == null);
+    upath u = null;
+    assert(u, t == u);
+    assert(r, r == s);
+    assert(r, r != u);
+    assert(r, u != r);
+
+    upath e = "etc";
+    ispath(e, "etc");
+    upath re = r;
+    re += e;
+    ispath(re, "/etc");
+    upath res = re;
+    res += s;
+    ispath(res, "/etc/");
+
+    upath p = "passwd";
+    ispath(p, "passwd");
+    upath ep = r + e + p;
+    ispath(ep, "/etc/passwd");
+    ispath(ep.parent(), "/etc");
+    expect(ep.name(), "passwd");
+    ispath(ep, r + ep.parent().name() + ep.name());
+    ispath(ep, r + ep.parent().name() + s + ep.name());
+
+    assert(re, re.isAbsolute());
+    assert(re, !re.isRelative());
+    assert(re, re.dirExists());
+    assert(re, re.isReadable());
+    assert(re, !re.isWritable() || getuid() == 0);
+    assert(re, re.isExecutable());
+    assert(re, !re.fileExists());
+
+    assert(ep, ep.isAbsolute());
+    assert(ep, !ep.isRelative());
+    assert(ep, ep.fileExists());
+    assert(ep, ep.isReadable());
+    assert(ep, !ep.isWritable() || getuid() == 0);
+    assert(ep, !ep.isExecutable());
+    assert(ep, !ep.dirExists());
+
+    upath eps = ep + s;
+    expect(eps, "/etc/passwd/");
+    upath neps = eps.name();
+    expect(neps, "");
+    upath peps = eps.parent();
+    expect(peps, "/etc");
+}
+
+int main(int argc, char **argv)
+{
+    prog = basename(argv[0]);
+
+    test_mstring();
+    test_upath();
+
     return 0;
 }

@@ -60,6 +60,7 @@ public:
     ~mstring();
 
     int length() const { return fCount; }
+    bool isEmpty() const { return 0 == fCount; }
 
     mstring& operator=(const mstring& rv);
     mstring& operator+=(const mstring& rv);
@@ -74,6 +75,7 @@ public:
     mstring substring(int pos) const;
     mstring substring(int pos, int len) const;
 
+    int operator[](int pos) const { return charAt(pos); }
     int charAt(int pos) const;
     int indexOf(char ch) const;
 
@@ -100,6 +102,7 @@ public:
     static mstring fromMultiByte(const char *str);
     static mstring newstr(const char *str);
     static mstring newstr(const char *str, int len);
+    void normalize();
 };
 
 typedef class mstring ustring;
@@ -112,13 +115,17 @@ private:
     mstring str;
 
 public:
-    cstring(const mstring &str);
-    cstring(const char *cstr) : str(cstr) {}
+    explicit cstring(const mstring &str);
+    explicit cstring(const char *cstr) : str(cstr) {}
+    explicit cstring(const class upath& up);
 
+    cstring& operator=(const cstring& cs);
+    operator const char *() const { return c_str(); }
     const char *c_str() const {
-        return str.fStr ? str.data() : "";
+        return str.length() > 0 ? str.data() : "";
     }
-    int c_str_len() const { return str.fCount; }
+    int c_str_len() const { return str.length(); }
+    int length()    const { return str.length(); }
 };
 
 #endif

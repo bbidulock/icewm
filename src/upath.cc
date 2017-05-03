@@ -6,69 +6,117 @@
 #include "config.h"
 
 #include "upath.h"
-#include "unistd.h"
+#include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <stdio.h>
+
+const pstring upath::slash("/");
+const upath upath::rootPath(slash);
+
+bool upath::isSeparator(int ch) const {
+    return ch == '/';
+}
 
 upath upath::parent() const {
-    return null;
+    int len = length();
+    while (len > 1 && isSeparator(fPath[len - 1])) {
+        --len;
+    }
+    for (; len > 0; --len) {
+        if (isSeparator(fPath[len - 1])) {
+            break;
+        }
+    }
+    while (len > 1 && isSeparator(fPath[len - 1])) {
+        --len;
+    }
+    return upath( fPath.substring(0, len) );
 }
 
 pstring upath::name() const {
-    return null;
-
+    int start = length();
+    for (; start > 0; --start) {
+        if (isSeparator(fPath[start - 1])) {
+            break;
+        }
+    }
+    return fPath.substring(start, length() - start);
 }
 
 upath upath::relative(const upath &npath) const {
-    if (path().endsWith("/") || npath.path().startsWith("/"))
-        return upath(path().append(npath.path()));
+    if (npath.isEmpty())
+        return *this;
+    else if (isEmpty()) {
+        if (npath.isAbsolute())
+            return upath(pstring(".") + npath.path());
+        else
+            return npath;
+    }
+    else if (path().endsWith(slash)) {
+        if (npath.isAbsolute())
+            return upath(path() + npath.path().substring(1));
+        else
+            return upath(path() + npath.path());
+    }
+    else if (npath.isAbsolute())
+        return upath(path() + npath.path());
     else
-        return upath(path().append("/").append(npath.path()));
+        return upath(path() + slash + npath.path());
 }
 
 upath upath::child(const char *npath) const {
-    if (path().endsWith("/"))
-        return upath(path().append(npath));
-    else
-        return upath(path().append("/").append(npath));
+    return relative(upath(npath));
 }
 
 upath upath::addExtension(const char *ext) const {
     return upath(path().append(ext));
 }
 
-bool upath::isAbsolute() {
-    return path().startsWith("/");
+bool upath::isAbsolute() const {
+    return path().startsWith(slash);
 }
 
-bool upath::fileExists() {
+bool upath::isRelative() const {
+    return false == isAbsolute();
+}
+
+bool upath::fileExists() const {
     struct stat sb;
-    cstring cs(path());
-    return (stat(cs.c_str(), &sb) == 0 && S_ISREG(sb.st_mode));
+    return stat(cstring(*this), &sb) == 0 && S_ISREG(sb.st_mode);
 }
 
-bool upath::dirExists() {
+bool upath::dirExists() const {
     struct stat sb;
-    cstring cs(path());
-    return (stat(cs.c_str(), &sb) == 0 && S_ISDIR(sb.st_mode));
+    return stat(cstring(*this), &sb) == 0 && S_ISDIR(sb.st_mode);
 }
 
-bool upath::isReadable() {
+bool upath::isReadable() const {
     return access(R_OK) == 0;
 }
 
-int upath::access(int mode) {
-    cstring cs(fPath);
+int upath::access(int mode) const {
+    return ::access(cstring(*this), mode);
+}
 
-    return ::access(cs.c_str(), mode);
+bool upath::isWritable() const {
+    return access(W_OK) == 0;
+}
+
+bool upath::isExecutable() const {
+    return access(X_OK) == 0;
 }
 
 bool upath::equals(const upath &s) const {
-    if (path() == null) {
-        if (s.path() == null)
-            return true;
-        else
-            return false;
-    } else
-        return fPath.equals(s.path());
+    if (path() != null && s.path() != null)
+        return path().equals(s.path());
+    else
+        return path() == null && s.path() == null;
 }
+
+cstring::cstring(const upath &u)
+        : str(u.path())
+{
+    str.normalize();
+}
+
