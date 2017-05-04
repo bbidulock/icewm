@@ -1,13 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <X11/Xlocale.h>
-#include "config.h"
-#include "ylib.h"
-#include "ypixbuf.h"
 #include <X11/Xatom.h>
 #include "ylistbox.h"
-#include "yscrollview.h"
 #include "ymenu.h"
 #include "yxapp.h"
 #include "sysdep.h"
@@ -15,18 +7,13 @@
 #include "ymenuitem.h"
 #include "ylocale.h"
 #include "yrect.h"
-#include "prefs.h"
-#include "yicon.h"
 #include "ascii.h"
+#include "intl.h"
 
 #ifdef DEBUG
 #define DUMP
 //#define TEXT
 #endif
-
-#include <unistd.h>
-
-#include "intl.h"
 
 #define LINE(c) ((c) == '\r' || (c) == '\n')
 #define SPACE(c) ((c) == ' ' || (c) == '\t' || LINE(c))
@@ -38,6 +25,65 @@ public:
     virtual void activateURL(const char *url) = 0;
 protected:
     virtual ~HTListener() {};
+};
+
+class cbuffer {
+    size_t cap, ins;
+    char *ptr;
+public:
+    cbuffer() : cap(7), ins(0), ptr( (char *) malloc(cap + 1)) {
+        ptr[0] = 0;
+    }
+    int len() const {
+        return ins;
+    }
+    void push(int c) {
+        if (ins == cap) {
+            cap *= 2;
+            ptr = (char *) realloc(ptr, cap + 1);
+        }
+        ptr[++ins] = 0;
+        ptr[ins-1] = (char) c;
+    }
+    int pop() {
+        int result = 0;
+        if (ins > 0) {
+            result = ptr[--ins];
+            ptr[ins] = 0;
+        }
+        return result;
+    }
+    const char *peek() const {
+        return ptr;
+    }
+    char *release() {
+        char *result = ptr;
+        cap = ins = 0;
+        ptr = 0;
+        return result;
+    }
+    ~cbuffer() {
+        if (ptr) { *ptr = 0; free(ptr); ptr = 0; }
+    }
+    operator const char *() const {
+        return peek();
+    }
+    int last() const {
+        return ins > 0 ? ptr[ins-1] : 0;
+    }
+    bool isEmpty() const {
+        return ins == 0;
+    }
+    bool isNonEmpty() const {
+        return ins > 0;
+    }
+};
+
+class lowbuffer : public cbuffer {
+public:
+    void push(int c) {
+        cbuffer::push(ASCII::toLower(c));
+    }
 };
 
 class text_node {
@@ -71,12 +117,24 @@ public:
         bold, font, italic,
         center,
         script,
+        style,
         anchor,
         tt, dl, dd, dt,
         link, code, meta
     };
 
-    node(node_type t) { next = 0; container = 0; type = t; wrap = 0; txt = 0; nattr = 0; attr = 0; }
+    node(node_type t) :
+        type(t),
+        next(0),
+        container(0),
+        txt(0),
+        wrap(0),
+        xr(0),
+        yr(0),
+        nattr(0),
+        attr(0)
+    {
+    }
 
     node_type type;
     node *next;
@@ -92,7 +150,7 @@ public:
     static const char *to_string(node_type type);
 };
 
-node *root = NULL;
+static node *root = NULL;
 
 #define PRE    0x01
 #define PRE1   0x02
@@ -102,7 +160,7 @@ node *root = NULL;
 #define sfPar  0x01
 #define sfText  0x02
 
-node *add(node **first, node *last, node *n) {
+static node *add(node **first, node *last, node *n) {
     if (last)
         last->next = n;
     else
@@ -110,7 +168,7 @@ node *add(node **first, node *last, node *n) {
     return n;
 }
 
-void add_attribute(node *n, char *abuf, char *vbuf) {
+static void add_attribute(node *n, char *abuf, char *vbuf) {
     //msg("[%s]=[%s]", abuf, vbuf ? vbuf : "");
 
     n->attr = (attribute *)realloc(n->attr, sizeof(attribute) * (n->nattr + 1));
@@ -121,7 +179,7 @@ void add_attribute(node *n, char *abuf, char *vbuf) {
     n->nattr++;
 }
 
-attribute *find_attribute(node *n, const char *name) {
+static attribute *find_attribute(node *n, const char *name) {
     for (int i = 0; i < n->nattr; i++) {
         if (strcmp(name, n->attr[i].name) == 0)
             return n->attr + i;
@@ -129,7 +187,7 @@ attribute *find_attribute(node *n, const char *name) {
     return 0;
 }
 
-void dump_tree(int level, node *n);
+static void dump_tree(int level, node *n);
 
 #define TS(x) case x : return #x
 
@@ -164,6 +222,7 @@ const char *node::to_string(node_type type) {
         TS(italic);
         TS(center);
         TS(script);
+        TS(style);
         TS(tt);
         TS(dl);
         TS(dd);
@@ -175,85 +234,96 @@ const char *node::to_string(node_type type) {
     return "??";
 }
 
-node::node_type get_type(const char *buf) {
-    node::node_type type ;
+#undef TS
+#define TS(x,y) if (0 == strcmp(buf, #x)) return node::y
 
-    if (strcmp(buf, "HR") == 0)
-        type = node::hrule;
-    else if (strcmp(buf, "P") == 0)
-        type = node::paragraph;
-    else if (strcmp(buf, "BR") == 0)
-        type = node::line;
-    else if (strcmp(buf, "HTML") == 0)
-        type = node::html;
-    else if (strcmp(buf, "HEAD") == 0)
-        type = node::head;
-    else if (strcmp(buf, "TITLE") == 0)
-        type = node::title;
-    else if (strcmp(buf, "BODY") == 0)
-        type = node::body;
-    else if (strcmp(buf, "H1") == 0)
-        type = node::h1;
-    else if (strcmp(buf, "H2") == 0)
-        type = node::h2;
-    else if (strcmp(buf, "H3") == 0)
-        type = node::h3;
-    else if (strcmp(buf, "H4") == 0)
-        type = node::h4;
-    else if (strcmp(buf, "H5") == 0)
-        type = node::h5;
-    else if (strcmp(buf, "H6") == 0)
-        type = node::h6;
-    else if (strcmp(buf, "PRE") == 0)
-        type = node::pre;
-    else if (strcmp(buf, "FONT") == 0)
-        type = node::font;
-    else if (strcmp(buf, "TABLE") == 0)
-        type = node::table;
-    else if (strcmp(buf, "TR") == 0)
-        type = node::tr;
-    else if (strcmp(buf, "TD") == 0)
-        type = node::td;
-    else if (strcmp(buf, "DIV") == 0)
-        type = node::div;
-    else if (strcmp(buf, "UL") == 0)
-        type = node::ul;
-    else if (strcmp(buf, "OL") == 0)
-        type = node::ol;
-    else if (strcmp(buf, "A") == 0)
-        type = node::anchor;
-    else if (strcmp(buf, "B") == 0)
-        type = node::bold;
-    else if (strcmp(buf, "I") == 0)
-        type = node::italic;
-    else if (strcmp(buf, "CENTER") == 0)
-        type = node::center;
-    else if (strcmp(buf, "SCRIPT") == 0)
-        type = node::script;
-    else if (strcmp(buf, "A") == 0)
-        type = node::anchor;
-    else if (strcmp(buf, "TT") == 0)
-        type = node::tt;
-    else if (strcmp(buf, "DL") == 0)
-        type = node::dl;
-    else if (strcmp(buf, "DT") == 0)
-        type = node::dt;
-    else if (strcmp(buf, "LI") == 0)
-        type = node::li;
-    else if (strcmp(buf, "DD") == 0)
-        type = node::dd;
-    else if (strcmp(buf, "LINK") == 0)
-        type = node::link;
-    else if (strcmp(buf, "CODE") == 0)
-        type = node::code;
-    else if (strcmp(buf, "META") == 0)
-        type = node::meta;
-    else
-        type = node::unknown;
-    return type;
+static node::node_type get_type(const char *buf)
+{
+    TS(html, html);
+    TS(head, head);
+    TS(title, title);
+    TS(body, body);
+    TS(text, text);
+    TS(pre, pre);
+    TS(br, line);
+    TS(p, paragraph);
+    TS(hr, hrule);
+    TS(a, anchor);
+    TS(h1, h1);
+    TS(h2, h2);
+    TS(h3, h3);
+    TS(h4, h4);
+    TS(h5, h5);
+    TS(h6, h6);
+    TS(table, table);
+    TS(tr, tr);
+    TS(td, td);
+    TS(div, div);
+    TS(span, div);
+    TS(ul, ul);
+    TS(ol, ol);
+    TS(li, li);
+    TS(b, bold);
+    TS(strong, bold);
+    TS(font, font);
+    TS(i, italic);
+    TS(em, italic);
+    TS(center, center);
+    TS(script, script);
+    TS(style, style);
+    TS(tt, tt);
+    TS(dl, dl);
+    TS(dd, dd);
+    TS(dt, dt);
+    TS(link, link);
+    TS(code, code);
+    TS(meta, meta);
+    return node::unknown;
 }
 
-node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &close) {
+static int ignore_comments(FILE *fp) {
+    int c = getc(fp);
+    if (c == '-') {
+        c = getc(fp);
+        if (c == '-') {
+            // comment
+            int n = 0;
+            while ((c = getc(fp)) != EOF) {
+                if (c == '>' && n >= 2) {
+                    break;
+                }
+                n = (c == '-') ? (n + 1) : 0;
+            }
+        }
+    }
+    else if (c == '[' && (c = getc(fp)) == 'C') {
+        /* skip over <![CDATA[...]]> */
+        int n = 0;
+        while ((c = getc(fp)) != EOF) {
+            if (c == '>' && n >= 2) {
+                break;
+            }
+            n = (c == ']') ? (n + 1) : 0;
+        }
+    }
+    while (c != EOF && c != '>') {
+        c = getc(fp);
+    }
+    return c;
+}
+
+static int non_space(int c, FILE *fp) {
+    while (c != EOF && ASCII::isWhiteSpace(c)) {
+        c = getc(fp);
+    }
+    return c;
+}
+
+static int getc_non_space(FILE *fp) {
+    return non_space(getc(fp), fp);
+}
+
+static node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &close) {
     int c;
     node *f = NULL;
     node *l = NULL;
@@ -265,51 +335,18 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
         case '<':
             c = getc(fp);
             if (c == '!') {
-                c = getc(fp);
-                if (c == '-') {
-                    c = getc(fp);
-                    if (c == '-') {
-                        // comment
-                        c = getc(fp);
-                        if (c != EOF) do {
-                            if (c == '-') {
-                                c = getc(fp);
-                                if (c == '-') {
-                                    do { c = getc(fp); } while (c == '-');
-                                    if (c == '>' || c == EOF)
-                                        break;
-                                }
-                            }
-                            if (c == EOF)
-                                break;
-                            c = getc(fp);
-                        } while (c != EOF);
-                    }
-                }
-                while (c != EOF && c != '>') { c = getc(fp); }
+                c = ignore_comments(fp);
             } else if (c == '/') {
                 // ignore </BR> </P> </LI> ...
-                int len = 0;
-                char *buf = 0;
+                lowbuffer buf;
 
-                c = getc(fp);
-                while (SPACE(c)) c = getc(fp);
-                do {
-                    buf = (char *)realloc(buf, ++len);
-                    buf[len-1] = ASCII::toUpper((char)c);
+                c = getc_non_space(fp);
+                while (c != EOF && !SPACE(c) && c != '>') {
+                    buf.push(c);
                     c = getc(fp);
-                } while (c != EOF && !SPACE(c) && c != '>');
-
-                buf = (char *)realloc(buf, ++len);
-                buf[len-1] = 0;
-
-                node::node_type type = get_type(buf);
-                if (buf != 0) {
-                    free(buf);
-                    buf = 0;
                 }
 
-#if 1
+                node::node_type type = get_type(buf.peek());
                 if (type == node::paragraph ||
                     type == node::line ||
                     type == node::hrule ||
@@ -320,84 +357,57 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
                     if (parent) {
                         close = type;
                         //puts("</PARSE>");
-                        free( buf);
                         return f;
                     }
                 }
-#endif
             } else {
-                int len = 0;
-                char *buf = 0;
+                lowbuffer buf;
 
-                while (SPACE(c)) c = getc(fp);
-                do {
-                    buf = (char *)realloc(buf, ++len);
-                    buf[len-1] = ASCII::toUpper((char)c);
+                c = non_space(c, fp);
+                while (c != EOF && !SPACE(c) && c != '>') {
+                    buf.push(c);
                     c = getc(fp);
-                } while (c != EOF && !SPACE(c) && c != '>');
-
-                buf = (char *)realloc(buf, ++len);
-                buf[len-1] = 0;
-
-                node::node_type type = get_type(buf);
-                node *n = new node(type);
-
-                if (buf != 0) {
-                    free(buf);
-                    buf = 0;
                 }
+
+                node::node_type type = get_type(buf.peek());
+                node *n = new node(type);
 
                 if (n == 0)
                     break;
-
-#if 1
-                while (SPACE(c)) c = getc(fp);
-
+                c = non_space(c, fp);
                 while (c != '>') {
-                    int alen = 0;
-                    char *abuf = 0;
+                    lowbuffer abuf;
 
-                    int vlen = 0;
-                    char *vbuf = 0;
-
-                    do {
-                        abuf = (char *)realloc(abuf, ++alen + 1);
-                        abuf[alen-1] = ASCII::toUpper((char)c);
-                        abuf[alen] = 0;
+                    while (c != EOF && !SPACE(c) && c != '=' && c != '>') {
+                        abuf.push(c);
                         c = getc(fp);
-                    } while (c != EOF && !SPACE(c) && c != '=' && c != '>');
-
-                    while (SPACE(c)) c = getc(fp);
-
+                    }
+                    c = non_space(c, fp);
                     if (c == '=') {
-                        c = getc(fp);
-                        while (SPACE(c)) c = getc(fp);
+                        cbuffer vbuf;
+                        c = getc_non_space(fp);
                         if (c == '"') {
                             c = getc(fp);
-                            if (c != EOF && c != '"') do {
-                                vbuf = (char *)realloc(vbuf, ++vlen + 1);
-                                vbuf[vlen-1] = (char)c;
-                                vbuf[vlen] = 0;
+                            while (c != EOF && c != '"') {
+                                vbuf.push(c);
                                 c = getc(fp);
-                            } while (c != EOF && c != '"');
+                            }
                         } else {
-                            if (c != EOF && c != '>') do {
-                                vbuf = (char *)realloc(vbuf, ++vlen + 1);
-                                vbuf[vlen-1] = (char)c;
-                                vbuf[vlen] = 0;
+                            while (c != EOF && !SPACE(c) && c != '>') {
+                                vbuf.push(c);
                                 c = getc(fp);
-                            } while (c != EOF && !SPACE(c) && c != '>');
+                            }
                         }
+                        add_attribute(n, abuf.release(), vbuf.release());
+                    } else {
+                        add_attribute(n, abuf.release(), 0);
                     }
-                    add_attribute(n, abuf, vbuf);
 
-                    while (SPACE(c)) c = getc(fp);
-
+                    c = non_space(c, fp);
                 }
-#endif
 
-                if (c != '>' && c != EOF)
-                    do { c = getc(fp); } while (c != EOF && c != '>');
+                while (c != '>' && c != EOF)
+                    c = getc(fp);
 
                 if (type == node::line ||
                     type == node::hrule ||
@@ -432,13 +442,14 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
                     do {
                         nextsub = 0;
                         close_type = node::unknown;
-                        container = parse(fp, flags | ((type == node::pre) ? PRE | PRE1 : 0), n, nextsub, close_type);
+                        int fl = flags;
+                        if (type == node::pre) fl |= PRE | PRE1;
+                        container = parse(fp, fl, n, nextsub, close_type);
                         if (container)
                             n->container = container;
                         l = add(&f, l, n);
 
                         if (nextsub) {
-                            //puts("CONTINUATION");
                             n = nextsub;
                         }
                         if (close_type != node::unknown) {
@@ -451,31 +462,49 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
             break;
         default:
             {
-                int len = 0;
-                char *buf = 0;
+                cbuffer buf;
 
                 do {
                     if (c == '&') {
-                        char *entity = 0;
-                        int elen = 0;
+                        lowbuffer entity;
 
                         do {
-                            entity = (char *)realloc(entity, ++elen + 1);
-                            entity[elen - 1] = ASCII::toUpper((char)c);
+                            entity.push(c);
                             c = getc(fp);
-                        } while ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
-                        entity[elen] = 0;
+                        } while (ASCII::isAlnum(c) || c == '#');
                         if (c != ';')
                             ungetc(c, fp);
-                        if (strcmp(entity, "&AMP") == 0)
+                        if (strcmp(entity, "&amp") == 0)
                             c = '&';
-                        else if (strcmp(entity, "&LT") == 0)
+                        else if (strcmp(entity, "&lt") == 0)
                             c = '<';
-                        else if (strcmp(entity, "&GT") == 0)
+                        else if (strcmp(entity, "&gt") == 0)
                             c = '>';
-                        else if (strcmp(entity, "&NBSP") == 0)
+                        else if (strcmp(entity, "&nbsp") == 0)
                             c = 32+128;
-                        free(entity);
+                        else if (strcmp(entity, "&#8203") == 0)
+                            c = 32+128; // zero width space
+                        else if (strcmp(entity, "&#8212") == 0)
+                            c = '-';    // em dash
+                        else if (strcmp(entity, "&#8217") == 0)
+                            c = '\'';   // right single quote
+                        else if (strcmp(entity, "&#8230") == 0) {
+                            c = '.';    // horizontal ellipsis
+                            buf.push(c);
+                            buf.push(c);
+                            buf.push(c);
+                            continue;
+                        }
+                        else if (strcmp(entity, "&#8594") == 0) {
+                            c = '>';    // rightwards arrow
+                            buf.push('-');
+                            buf.push(c);
+                            continue;
+                        }
+                        else {
+                            printf("unknown special '%s'\n", entity.peek());
+                            c = ' ';
+                        }
                     }
                     if (c == '\r') {
                         c = getc(fp);
@@ -483,15 +512,17 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
                             ungetc(c, fp);
                         c = '\n';
                     }
-                    if (!(flags & PRE))
+                    if (!(flags & PRE)) {
                         if (SPACE(c))
                             c = ' ';
+                    }
                     if ((flags & PRE1) && c == '\n')
                         ;
                     else {
-                        if ((flags & PRE) || c != ' ' || len == 0 || buf[len - 1] != ' ') {
-                            buf = (char *)realloc(buf, ++len);
-                            buf[len-1] = (char)c;
+                        if ((flags & PRE) || c != ' ' ||
+                            buf.len() == 0 || buf.last() != ' ')
+                        {
+                            buf.push(c);
                         }
                     }
                     flags &= ~PRE1;
@@ -501,26 +532,17 @@ node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &
                 if (c == '<') {
                     c = getc(fp);
                     if (c == '/') {
-
-                        if (len && SPACE(buf[len - 1]))
-                            len--;
+                        if (SPACE(buf.last()))
+                            buf.pop();
                     }
                     ungetc(c, fp);
                     c = '<';
                 }
 
-                if (len) {
-                    buf = (char *)realloc(buf, ++len);
-                    buf[len-1] = 0;
-
+                if (buf.len() > 0) {
                     node *n = new node(node::text);
-                    n->txt = buf;
+                    n->txt = buf.release();
                     l = add(&f, l, n);
-                    buf = 0;
-                }
-                if (buf != 0) {
-                   free(buf); 
-                   buf = 0;
                 }
                 continue;
             }
@@ -755,8 +777,8 @@ node *HTextView::find_node(node *n, int x, int y, node *&anchor, node::node_type
 void HTextView::find_link(node *n) {
     while (n) {
         if (n->type == node::link) {
-            attribute *rel = find_attribute(n, "REL");
-            attribute *href = find_attribute(n, "HREF");
+            attribute *rel = find_attribute(n, "rel");
+            attribute *href = find_attribute(n, "href");
             if (rel && href && rel->value && href->value) {
                 if (strcasecmp(rel->value, "previous") == 0) {
                     delete[] prevURL;
@@ -783,9 +805,10 @@ void HTextView::find_link(node *n) {
 
 void HTextView::layout() {
     int state = sfPar;
-    int x = 0, y = 0;
+    int x = 10, y = 5;
+    int left = x, right = width() - x;
     conWidth = conHeight = 0;
-    layout(0, fRoot, 0, width(), x, y, conWidth, conHeight, 0, state);
+    layout(0, fRoot, left, right, x, y, conWidth, conHeight, 0, state);
     resetScroll();
 }
 
@@ -818,7 +841,11 @@ void HTextView::epar(int &state, int &x, int &y, int &h, const int left) {
     removeState(state, sfPar);
 }
 
-void HTextView::layout(node *parent, node *n1, int left, int right, int &x, int &y, int &w, int &h, int flags, int &state) {
+void HTextView::layout(
+        node *parent, node *n1, int left, int right,
+        int &x, int &y, int &w, int &h,
+        int flags, int &state)
+{
     node *n = n1;
 
     ///puts("{");
@@ -911,7 +938,9 @@ void HTextView::layout(node *parent, node *n1, int left, int right, int &x, int 
                         } while (*c);
                     }
 
-                    if (!(flags & PRE) && x == left) while (SPACE(*b)) b++;
+                    if (!(flags & PRE) && x == left) {
+                        while (SPACE(*b)) b++;
+                    }
                     if ((flags & PRE) || c - b > 0) {
 #ifdef TEXT
                         {
@@ -959,7 +988,11 @@ void HTextView::layout(node *parent, node *n1, int left, int right, int &x, int 
             x = left;
             break;
         case node::paragraph:
-            removeState(state, sfPar);
+            if (parent) {
+                if (parent->type != node::dd && parent->type != node::li) {
+                    removeState(state, sfPar);
+                }
+            }
             //puts("<P>");
             //par(state, x, y, h, left);
             x = left;
@@ -1111,6 +1144,10 @@ void HTextView::layout(node *parent, node *n1, int left, int right, int &x, int 
             addState(state, sfText);
             //msg("set=%d", state);
             break;
+        case node::head:
+            break;
+        case node::style:
+            break;
         default:
             if (n->container)
                 layout(n, n->container, left, right, x, y, w, h, flags, state);
@@ -1158,7 +1195,7 @@ void HTextView::draw(Graphics &g, node *n1, bool href) {
 
         case node::anchor:
             {
-                attribute *href = find_attribute(n, "HREF");
+                attribute *href = find_attribute(n, "href");
                 if (href && href->value)
                     g.setColor(linkFg);
                 if (n->container)
@@ -1312,7 +1349,7 @@ void HTextView::handleClick(const XButtonEvent &up, int /*count*/) {
         node *n = find_node(fRoot, up.x + tx, up.y + ty, anchor, node::anchor);
 
         if (n && anchor) {
-            attribute *href = find_attribute(anchor, "HREF");
+            attribute *href = find_attribute(anchor, "href");
 
 
             if (href && href->value) {
@@ -1384,7 +1421,7 @@ void FileView::loadFile() {
     fclose(fp);
 }
 
-void dump_tree(int level, node *n) {
+static void dump_tree(int level, node *n) {
     while (n) {
         printf("%*s<%s>\n", level, "", node::to_string(n->type));
         if (n->container) {
