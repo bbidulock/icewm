@@ -2,8 +2,8 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([icewm],[1.3.12.195],[https://github.com/bbidulock/icewm/issues])
-AC_REVISION([1.3.12.195])
+AC_INIT([icewm],[1.3.12.288],[https://github.com/bbidulock/icewm/issues])
+AC_REVISION([1.3.12.288])
 AC_CONFIG_SRCDIR([src/ysmapp.cc])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
@@ -11,7 +11,7 @@ AC_CONFIG_AUX_DIR([scripts])
 AC_USE_SYSTEM_EXTENSIONS
 AC_CANONICAL_TARGET
 
-DATE='2017-03-08'
+DATE='2017-05-04'
 AC_SUBST([DATE])
 
 APPLICATIONS='icewm icewm-session icesh icewmhint icewmbg icewmtray'
@@ -20,7 +20,7 @@ TESTCASES="$TESTCASES iceview icesame iceicon icerun icelist icebar" # iceclock
 features=''
 
 # Initialize Automake
-AM_INIT_AUTOMAKE([1.14 dist-xz no-dist-gzip std-options -Wall color-tests silent-rules tar-pax])
+AM_INIT_AUTOMAKE([1.13.4 dist-xz no-dist-gzip std-options -Wall color-tests silent-rules tar-pax])
 AM_MAINTAINER_MODE
 
 # Checks for programs.
@@ -39,8 +39,8 @@ AC_ARG_VAR([LD], [Linker loader command])
 AC_ARG_VAR([MKFONTDIR],[mkfontdir command. @<:@default=mkfontdir@:>@])
 AC_PATH_PROG([MKFONTDIR],[mkfontdir],[${am_missing_run}mkfontdir],[$PATH$PATH_SEPARATOR/usr/X11R6/bin])
 
-AC_ARG_VAR([SGML2HTML],[sgml2html command. @<:@default=sgml2html@:>@])
-AC_PATH_PROG([SGML2HTML],[sgml2html],[${am_missing_run}sgml2html],[$PATH])
+AC_ARG_VAR([ASCIIDOC],[asciidoc command. @<:@default=asciidoctor@:>@])
+AC_PATH_PROG([ASCIIDOC],[asciidoctor],[${am_missing_run}asciidoc],[$PATH])
 
 AC_ARG_VAR([MARKDOWN],[markdown command. @<:@default=markdown@:>@])
 AC_PATH_PROG([MARKDOWN],[markdown],[${am_missing_run}markdown],[$PATH])
@@ -52,7 +52,7 @@ LT_LANG([C++])
 AC_PROG_LIBTOOL
 AC_SUBST([LIBTOOL_DEPS])
 
-AM_GNU_GETTEXT_VERSION([0.19.8])
+AM_GNU_GETTEXT_VERSION([0.19.2])
 AM_GNU_GETTEXT([external])
 
 AC_ARG_ENABLE([i18n],

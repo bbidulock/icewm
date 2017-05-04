@@ -1,0 +1,766 @@
+= IceWM
+Marko Macek, <Marko.Macek@gmx.net>
+v1.3.12, 2017 May 04
+:homepage: http://www.icewm.org
+
+This document is the documentation for the *IceWM* X11 window manager.
+It is still incomplete. IceWM and its documentation is
+covered by a GNU LGPL license, which is included in the distribution.
+
+== Introduction
+
+The goal of IceWM is to provide a small, fast and familiar window
+manager for the X11 window system. Compatibility with the
+EWMH and ICCCM window manager protocols is desired and will
+be implemented where appropriate.
+
+IceWM originally was designed to emulate the look of Motif,
+OS/2 Warp 4, OS/2 Warp 3 and Windows 95.
+Since it has a theming engine others styles are possible.
+
+Generally, it tries to make all functions available both by keyboard
+and by mouse (this is not currently possible when using mouse focus).
+Extreme configurability was not the goal.
+
+Further information can be found at
+http://www.icewm.org/[the icewm website]
+and at
+http://icewm.sourceforge.net/[SourceForge].
+
+== First steps
+
+=== IceWM components
+
+The IceWM suite consists of the following core applications provided by
+the main package:
+
+* *icewm* - The actual window manager binary.
+It handles window placement and draws the window decorations.
+* *icewmbg* - The background setting application. It can assign plain
+background color or images in different formats to the X background.
+Either shared or separate for different workspaces.
+This program should be started before `icewm`.
+* *icewmtray* - Catches the Docklet objects installed by various
+applications like PSI.
+* *icewm-session* - The IceWM session manager. It runs all of the above. 
+This is the preferred program to start IceWM.
+* *icewm-menu-gnome2* - This is used internally.
+It generates IceWM program menus from
+FreeDesktop .desktop files (KDE/GNOME(2) menus).
+* *icewmhint* - Used internally.
+
+=== Starting icewm
+
+The `icewm-session`, `icewm`, `icewmbg` and `icewmtray` executables
+must be in your path for the restart function to work correctly.
+The `icewm` program alone is suitable for use
+with desktop environments like GNOME.
+
+If you wish to run the whole IceWM suite (WM, background changer,
+Docklet support, and startup/shutdown script handling), use the
+`icewm-session` binary instead of pure `icewm`. Note that this is
+not a complete Session Manager but it helps to automate the startup.
+
+First make sure that you choose the correct X startup script in your
+home directory. For most distributions the file `$HOME/.xsession` is
+honored by startx and X display managers like KDM. On RedHat, the
+`$HOME/.Xclients` may be used instead. In all cases, choose the one
+recommended by your distribution and make sure that there
+is no concurrency between the X startup scripts.
+
+The recommended way to start is from `$HOME/.xsession` shell script (may
+be executable, must be on RedHat). Mine looks something like this:
+
+....
+# run profile to set $PATH and other env vars correctly
+. $HOME/.bash_profile
+# setup touchpad and the external mouse
+xset m 7 2
+xinput set-ptr-feedback 0 7 1.9 1
+
+# start icewm-session
+exec icewm-session
+xterm
+....
+
+The xterm on the last line is there simply to make sure that your X
+session doesn't crash if icewm does (should never happen). You can
+restart icewm from there or start some other window manager. The
+session will close if you close the xterm.
+
+The above should work for most Linux systems.
+If you are running xdm or some other login program
+check it's manpage for the correct place to start the window manager
+(usually `~/.xsession`, `~/.Xsession` or `~/.xinitrc`).
+
+=== Startup and shutdown scripts
+
+After initialization `icewm-session` will search
+the resource path for a `startup` script.
+If this file is found and if it is executable
+`icewm-session` will run this script.
+During termination of `icewm-session`, the `shutdown` script is executed.
+Additionally the flag `--with-gnome` is passed
+if a GNOME session manager is detected.
+
+Example `startup` script:
+....
+#!/bin/bash
+
+[ -x ~/.icewm/restart ] && source ~/.icewm/restart
+
+gnome-terminal --geometry 80x25+217+235 &
+xscreensaver &
+....
+
+Hint: this feature is meant for easy desktop initialization
+and it is part of IceWM due to popular demand.
+For more sophisticated session management 
+one could use a real session manager.
+IceWM supports the XSESSION protocol.
+
+=== Extra session environment
+
+Please note that if icewm-session is used as the only startup mechanism
+(without having .xsession involved), one can write additional environment
+settings into the file `$HOME/.icewm/env` but this only supports simple assignments.
+This means: no multiline is supported, no redundant whitespaces, no POSIX shell code; however,
+expansion of simple shell style variables should be supported on most
+platforms). This extra environment is only effective in applications started by
+icewm-session and their subprocesses.
+
+Example (env):
+....
+PATH=~/bin:$PATH
+LANG=de_DE.UTF-8
+....
+
+== Focus models
+
+IceWM implements four general focus models:
+
+clickToRaise:: Exactly like Win95, OS/2 Warp. When window
+is clicked with a mouse, it is raised and activated.
+
+clickToFocus:: Window is raised and focused when titlebar or frame
+border is clicked. Window is focused but not raised when window interior
+is clicked.
+
+pointerFocus::
+When the mouse is moved, focus is set to window
+under a mouse. It should be possible to change focus with the
+keyboard when mouse is not moved.
+
+explicitFocus::
+When a window is clicked, it is activated, but not raised.
+New windows do not automatically get the focus unless they
+are transient windows for the active window.
+
+Detailed configuration is possible using the configuration file options.
+
+== Mouse Commands
+
+=== Frame Commands
+
+Left Button:: Select and raise the window. On the window frame, resize
+the window.
+
+Right Button:: When dragged, moves the window. When clicked, displays
+the context menu.
+
+=== Title Bar Commands
+
+Any Button Drag:: Move the window.
+
+Alt + Left Button:: Lower the window.
+
+Left Button Double Click:: Maximize/Restore the window.
+
+Middle Button Double Click:: Rollup/Unroll the window.
+
+The Ctrl key can be used together with a mouse button to prevent
+a window from being raised to the top of the stack.
+
+=== Taskbar commands
+
+Left Button Click:: Activate the workspace with the window and raise the window.
+Toggles the minimized/active state of the window.
+Shift + Left Button Click:: Move window to current workspace. This only works when windows from all workspaces are shown on the taskbar all the time.
+Control + Left Button Click:: Minimize/restore the window.
+Middle Button Click:: Toggle raised/lowered state of the window.
+Shift + Middle Button Click:: Add the window to the current workspace.
+Control + Middle Button Click:: Lower the window.
+Right Button Click:: Display a context menu.
+
+== Keyboard Commands
+
+The Alt key is assumed to be the key defined as the Mod1 modifier.
+
+Alt+F1:: Raise the window.
+Alt+F2:: Make a window occupy all desktops.
+Alt+F3:: Lower the window to the bottom of the stack.
+Alt+F4:: Close the window.
+Alt+F5:: Restore the window state if maximized or minimized/hidden.
+Alt+F6:: Focus to next window.
+Alt+Shift+F6:: Focus to previous window.
+Alt+F7:: Move the window.
+Alt+F8:: Resize the window.
+Alt+F9:: Minimize the window to taskbar.
+Alt+F10:: Maximize the window.
+Alt+Shift+F10:: Maximize the window vertically (toggle).
+Alt+F11:: Hide the window (appears in window list, but not on taskbar).
+Alt+F12:: Rollup the window.
+Ctrl+Escape:: Show the start menu.
+Ctrl+Alt+Escape:: Show the window list.
+Shift+Escape:: Show the system-menu of the window.
+Alt+Escape:: Focus to next window (down in zorder)
+Alt+Shift+Escape:: Focus to previous window (up in zorder)
+Alt+Tab:: Switch between windows (top->bottom).
+Alt+Shift+Tab:: Switch between windows (bottom->top).
+Ctrl+Alt+LeftArrow:: Switch to the previous workspace (cycle).
+Ctrl+Alt+RightArrow:: Switch to the next workspace (cycle).
+Ctrl+Alt+DownArrow:: Switch to the previously active workspace.
+Ctrl+Alt+Shift+LeftArrow:: Move the focused window to the previous workspace and activate it.
+Ctrl+Alt+Shift+RightArrow:: Move the focused window to the next workspace and activate it.
+Ctrl+Alt+Shift+DownArrow:: Move the focused window to the previously active workspace and activate it.
+Ctrl+Alt+Delete:: displays the session dialog.
+Ctrl+Alt+Space:: Activate the internal taskbar command line for starting applications. (Ctrl+Enter to run in a terminal window)
+
+== The Resource Path
+
+IceWM looks in several locations for configuration
+information, themes and customization;
+together these locations are called the resource path.
+The resource path contains the following directories:
+
+$HOME/.icewm::
+this is the user's personal customization. This location can
+be customized by setting the ICEWM_PRIVCFG environment variable.
+/etc/icewm::
+the system-wide defaults directory
+/usr/share/icewm OR /usr/local/share/icewm::
+the compiled-in default directory with default files
+
+The directories are searched in the above order, so any file located
+in the system/install directory can be overridden by the user by creating
+the same directory hierarchy under `$HOME/.icewm`.
+
+To customize icewm yourself, you should create the `$HOME/.icewm`
+directory and copy the files that you wish to modify
+(like `preferences`, `winoptions`), from `/etc/icewm`,
+`/usr/share/icewm` or `/usr/local/share/icewm` and then modify as you like.
+
+To customize the default themes, create the `$HOME/.icewm/themes` directory
+and copy all the theme files there and then modify as necessary.
+
+== Configuration Files
+
+IceWM uses the following configuration files:
+
+theme:: Currently selected theme
+preferences:: General settings - paths, colors, fonts...
+prefoverride:: Settings that should override the themes.
+menu:: Menu of startable applications.  Usually customized by the user.
+programs:: Automatically generated menu of startable applications (this should be used for *wmconfig*, *menu* or similar packages, perhaps as a part of the login or X startup sequence).
+winoptions:: Application window options
+keys:: Global keybindings to launch applications (not window manager related)
+toolbar:: Quick launch application icons on the taskbar.
+
+== Theme
+
+File `~/.icewm/theme` contains the currently selected theme.
+It will be overwritten automatically when a theme is
+selected from the Themes menu.
+
+== Preferences
+
+This section shows preferences that can be set in `~/.icewm/preferences`.
+Themes will not be able to override these settings.
+Default values are shown following the equal sign.
+
+=== Focus and Behavior
+
+The following settings can be set to value 1 (enabled) or value 0 (disabled).
+
+ClickToFocus = 1:: Enables click to focus mode.
+RaiseOnFocus = 1:: Window is raised when focused.
+FocusOnClickClient = 1:: Window is focused when client area is clicked.
+RaiseOnClickClient = 1:: Window is raised when client area is clicked.
+RaiseOnClickTitleBar = 1:: Window is raised when titlebar is clicked.
+RaiseOnClickButton = 1:: Window is raised when title bar button is clicked.
+RaiseOnClickFrame = 1:: Window is raised when frame is clicked.
+PassFirstClickToClient = 1:: The click which raises the window is also passed to the client.
+AutoRaise = 0:: Windows will raise automatically after AutoRaiseDelay when focused.
+StrongPointerFocus = 0:: When focus follows mouse always give the focus to
+the window under mouse pointer - Even when no mouse motion has occured. Using this
+is not recommended. Please prefer to use just ClickToFocus=0.
+FocusOnMap = 1:: Window is focused after being mapped.
+FocusOnMapTransient = 1:: Transient window is focused after being mapped.
+FocusOnAppRaise = 1:: The window is focused when application raises it.
+PointerColormap = 0:: Colormap focus follows pointer.
+SizeMaximized = 0:: Window can be resized when maximized.
+MinimizeToDesktop = 0:: Window is minimized to desktop area (in addition to the taskbar).
+QuickSwitch = 1:: enable Alt+Tab window switcher.
+QuickSwitchToMinimized = 1:: Alt+Tab switches to minimized windows too.
+QuickSwitchToAllWorkspaces = 1:: Alt+Tab switches to windows on any workspace.
+ShowMoveSizeStatus = 1:: Move/resize status window is visible when
+moving/resizing the window.
+ShowWorkspaceStatusAfterSwitch = 1:: Show name of current workspace while
+switching workspaces.
+ShowWorkspaceStatusAfterActivation = 1:: Show name of current workspace after explicit activation.
+WarpPointer = 0:: Pointer is moved in pointer focus move when focus is moved using the keyboard.
+OpaqueMove = 1:: Window is immediately moved when dragged, no outline is shown.
+OpaqueResize = 0:: Window is immediately resized when dragged, no outline is shown.
+Win95Keys = 0:: Makes 3 additional keys perform sensible functions. The keys
+must be mapped to MetaL,MetaR and Menu. The left one will activate the start menu
+and the right one will display the window list.
+ManualPlacement = 0:: Windows must be placed manually by the user.
+IgnoreNoFocusHint = 0:: Ignore no-accept-focus hint set by some windows.
+MenuMouseTracking = 0:: If enabled, menus will track the mouse even when no mouse button is pressed.
+SnapMove = 1:: Snap to nearest screen edge/window when moving windows.
+SnapDistance:: Distance in pixels before windows snap together
+EdgeSwitch = 0:: Workspace switches by moving mouse to left/right screen edge.
+AutoReloadMenus = 1:: Reload menu files automatically if set to 1.
+ShowThemesMenu = 1:: Show themes submenu.
+ShowHelp = 1:: Show the help menu item.
+MsgBoxDefaultAction = 0:: Preselect to Cancel (0) or the OK (1) button in message
+boxes
+UseRootButtons:: Bitmask of root window button click to use in window manager
+ButtonRaiseMask:: Bitmask of buttons that raise the window when pressed
+EdgeResistance = 32:: Resistance to move window with mouse outside screen
+limits. Setting it to 10000 makes the resistance infinite.
+
+=== Task Bar
+
+The following settings can be set to value 1 (enabled) or value 0 (disabled).
+
+ShowTaskBar = 1:: Task bar is visible.
+TaskBarAtTop = 0:: Task bar is located at top of screen.
+TaskBarKeepBelow = 1:: Keep the task bar below regular windows
+TaskBarAutoHide = 0:: Task bar will auto hide when mouse leaves it.
+TaskBarFullscreenAutoShow = 1:: Auto show task bar when fullscreen window active.
+TaskBarShowClock = 1:: Task bar clock is visible.
+TaskBarShowAPMStatus = 0:: Show APM/ACPI/Battery/Power status monitor on task bar.
+TaskBarShowAPMAuto = 1:: Enable TaskBarShowAPMStatus if a battery is present.
+TaskBarShowAPMTime = 1:: Show APM status on task bar in time-format.
+TaskBarShowAPMGraph = 1:: Show APM status in graph mode.
+TaskBarShowMailboxStatus = 1:: Display status of mailbox (determined by `$MAIL` environment variable).
+TaskBarMailboxStatusBeepOnNewMail = 0:: Beep when new mail arrives.
+TaskBarMailboxStatusCountMessages = 0:: Display mail message count as tooltip.
+TaskBarShowStartMenu = 1:: Show button for the start menu on the task bar.
+TaskBarShowWindowListMenu:: Show button for window list menu on taskbar.
+TaskBarShowWindows = 1:: Show windows on the taskbar.
+TaskBarShowShowDesktopButton = 1:: Show 'show desktop' button on taskbar.
+ShowEllipsis = 0:: Show Ellipsis in taskbar items.
+TaskBarShowTray = 1:: Show windows in the tray.
+TrayShowAllWindows = 1:: Show windows from all workspaces on tray.
+TaskBarShowTransientWindows = 1:: Show transient (dialogs, ...) windows on task bar.
+TaskBarShowWindowIcons = 1:: Show icons of windows on the task bar.
+TaskBarShowWorkspaces = 1:: Show workspace switching buttons on task bar.
+TaskBarShowAllWindows = 0:: Show windows from all workspaces on task bar.
+MailBoxPath::
+  Path to a mbox file. Remote mail boxes are accessed by
+  specifying an URL using the Common Internet Scheme Syntax (RFC 1738):
+    `scheme://[user[:password]@]server[:port][/path]`.
+  Supported schemes are `pop3`, `imap` and `file`. When the scheme is 
+  omitted `file://` is prepended silently. IMAP subfolders can be access by 
+  using the  path component.  
+  Reserved characters like _slash_, _at_ and _colon_
+  can be specified using escape sequences with a
+  hexadecimal encoding like %2f for the slash
+  or %40 for the at sign.  For example:
+
+    file:///var/spool/mail/captnmark
+    pop3://markus:%2f%40%3a@maol.ch/
+    imap://mathias@localhost/INBOX.Maillisten.icewm-user
+
+
+TaskBarShowMEMStatus = 1:: Show memory usage status on task bar (Linux only).
+TaskBarShowNetStatus = 1:: Show network status on task bar (Linux only).
+TaskBarShowCollapseButton = 0:: Show a button to collapse the taskbar.
+TaskBarWorkspacesLeft = 1:: Place workspace pager on left, not right.
+PagerShowPreview = 0:: Show a mini desktop preview on each workspace button.
+PagerShowWindowIcons = 1:: Draw window icons inside large enough preview windows on pager (if PagerShowPreview=1).
+PagerShowMinimized = 1:: Draw even minimized windows as unfilled rectangles (if PagerShowPreview=1).
+PagerShowBorders = 1:: Draw border around workspace buttons (if PagerShowPreview=1).
+PagerShowNumbers = 1:: Show number of workspace on workspace button (if PagerShowPreview=1).
+TaskBarLaunchOnSingleClick = 1:: Execute taskbar applet commands (like MailCommand,     ClockCommand,   ...) on single click.
+TaskBarDoubleHeight = 0:: Double height task bar
+TaskBarShowCPUStatus = 1:: Show CPU status on task bar.
+CPUStatusShowRamUsage = 1:: Show RAM usage in CPU status tool tip.
+CPUStatusShowSwapUsage = 1:: Show swap usage in CPU status tool tip.
+CPUStatusShowAcpiTemp = 1:: Show ACPI temperature in CPU status tool tip.
+CPUStatusShowAcpiTempInGraph = 0:: Show ACPI temperature in CPU graph.
+CPUStatusShowCpuFreq = 1:: Show CPU frequency in CPU status tool tip.
+TimeFormat:: format for the taskbar clock (time) (see strftime(3) manpage)
+DateFormat:: format for the taskbar clock tooltip (date+time) (see strftime(3) manpage).
+UseMouseWheel:: mouse wheel support
+DelayPointerFocus:: similar to delayed auto raise.
+
+=== Timings
+
+DelayFuzziness = 10:: Percentage of delay/timeout fuzziness to allow for merging of timer timeouts
+ClickMotionDistance = 5:: Movement before click is interpreted as drag.
+MultiClickTime = 400:: Time (ms) to recognize for double click.
+AutoRaiseDelay = 400:: Time to auto raise (must enable first with AutoRaise)
+AutoHideDelay = 300:: Time to auto hide taskbar (must enable first with TaskBarAutoHide).
+ToolTipDelay = 5000:: Time before showing the tooltip.
+ToolTipTime = 60000:: Time before tooltip window is hidden (0 means never)
+ScrollBarStartDelay:: Initial scroll bar autoscroll delay
+ScrollBarDelay:: Scroll bar autoscroll delay
+AutoScrollStartDelay:: Auto scroll start delay
+AutoScrollDelay:: Auto scroll delay
+
+=== Workspaces
+
+WorkspaceNames:: List of workspace names, for example
+....
+WorkspaceNames=" 1 ", " 2 ", " 3 ", " 4 "
+....
+
+=== Paths
+
+LibPath:: Path to the icewm/lib directory.
+IconPath:: Path to the icon directory. Multiple paths can be entered
+using the colon (UNIX) or semicolon (OS/2) as the separator.
+LibPath:: Path to the icewm/lib directory.
+
+=== Programs
+
+ClockCommand:: program to run when the clock is double clicked.
+MailCommand:: program to run when mailbox icon is double clicked.
+LockCommand:: program to run to lock the screen.
+RunCommand:: program to run when *Run* is selected from the start menu.
+
+=== Window Menus
+
+WinMenuItems::
+Items to show in the window menus, posible values are:
+* a=rAise
+* c=Close
+* f=Fullscreen
+* h=Hide
+* i=trayIcon
+* k=Kill
+* l=Lower
+* m=Move
+* n=miNimize
+* r=Restore
+* s=Size
+* t=moveTo
+* u=rollUp
+* w=WindowsList
+* x=maXimize
+* y=laYer
+
+Examples:
+
+....
+WinMenuItems=rmsnxfhualyticw   #Default menu
+WinMenuItems=rmsnxfhualytickw  #Menu with all possible options
+WinMenuItems=rmsnxc            #MS-Windows menu
+....
+
+== Theme Settings
+
+This section shows settings that can be set in theme files. They can also be set in
+'preferences' file but themes will override the values set there. To override the
+theme values the settings should be set in 'prefoverride' file.
+Default values are shown following the equal sign.
+
+=== Borders
+
+The following settings can be set to a numeric value.
+
+BorderSizeX = 6:: Left/right border width.
+BorderSizeY = 6:: Top/bottom border height.
+DlgBorderSizeX = 2:: Left/right border width of non-resizable windows.
+DlgBorderSizeY = 2:: Top/bottom border height of non-resizable windows.
+CornerSizeX = 24:: Width of the window corner.
+CornerSizeY = 24:: Height of the window corner.
+TitleBarHeight = 20:: Height of the title bar.
+
+=== Fonts
+
+The following settings can be set to a string value.
+
+TitleFontName = "":: Name of the title bar font.
+MenuFontName = "":: Name of the menu font.
+StatusFontName = "":: Name of the status display font.
+QuickSwitchFontName = "":: Name of the font for Alt+Tab switcher window.
+NormalTaskBarFontName = "":: Name of the normal task bar item font.
+ActiveTaskBarFontName = "":: Name of the active task bar item font.
+ListBoxFontName = "":: Name of the window list font.
+ToolTipFontName = "":: Name of the tool tip font.
+ClockFontName = "":: Name of the task bar clock font.
+
+New in 1.2.14: when IceWM is configured with--enable-xfreetype, only the settings with "Xft" suffix will be used. They specifiy the font name in fontconfig format:
+
+....
+MenuFontNameXft="sans-serif:size=12:bold"
+....
+
+=== Colors
+
+ColorActiveBorder:: Color of the active window border.
+...:: TODO (see default preferences for complete list)
+
+=== Desktop Background
+
+DesktopBackgroundColor:: Color of the desktop background.
+DesktopBackgroundImage:: Image (.xpm) for desktop background. If you want icewm
+to ignore the desktop background image / color set both DesktopBackgroundColor ad
+DesktopBackgroundImage to an empty value ("").
+DesktopBackgroundCenter = 0:: Display desktop background centered and
+not tiled. (set to 0 or 1).
+
+=== Task Bar
+
+TaskBarClockLeds = 1:: Display clock using LCD style pixmaps.
+
+== Menus and Toolbar
+
+=== menu
+
+Within the menu configuration file you can configure
+which programs are to appear in the root/start menu.
+
+=== toolbar
+
+The Toolbar configuration file is used to put programs as buttons
+on the taskbar.
+
+=== programs
+
+Usually automatically generated menu configuration file of installed programs. The
+`programs` file should be automatically generated by `wmconfig` (Redhat),
+`menu` (Debian) or an equivalent program (kde2ice and gno2ice to convert
+GNOME/KDE Menu hierarchy are available).
+
+Programs can be added using the following syntax:
+....
+prog "title" icon_name program_executable options
+....
+
+Restarting another window manager can be done using the restart program:
+....
+restart "title" icon_name program_executable options
+....
+
+icon_name can be `-` if icon is not wanted.
+
+The "runonce" keyword allows to launch an application only when no window
+has the WM_CLASS hint specified. Otherwise the first window having this
+class hint is mapped and raised. Syntax:
+....
+runonce "title" icon_name "res_name.res_class" program_executable options
+runonce "title" icon_name "res_name" program_executable options
+runonce "title" icon_name ".res_class" program_executable options
+....
+The class hint can be figured out by running
+....
+$ xprop | grep WM_CLASS
+....
+
+Submenus can be added using the following syntax:
+....
+menu "title" icon_name {
+# contained items
+}
+....
+
+Only double quotes are interpreted by icewm. IceWM doesn't run the shell
+automatically, so you may have to do that.
+
+== Hot Keys 
+
+IceWM allows launching of arbitrary programs with any key combination. This is
+configured in the `keys` file.  The syntax of this file is like:
+
+*key* "key combination" program options...
+
+For example:
+....
+key  "Alt+Ctrl+t"  xterm -rv
+....
+
+== Window Options
+
+*winoptions* file is used to configure settings for individual application windows.
+
+Each line in the file must be in one of the possible formats:
+
+* window_class.window_name.window_role.option: argument
+* window_class.window_name.option: argument
+* window_class.window_role.option: argument
+* window_name.window_role.option: argument
+* window_class.option: argument
+* window_name.option: argument
+* window_role.option: argument
+
+Each window on the desktop has (should) *class* and *name* resources associated with it. Some more recent applications will also have a *window role* resource, though not all do.
+They can be determined using the `xprop` utility.
+
+`xprop` should display a line like this when used on a toplevel window:
+....
+WM_CLASS = "name", "class"
+....
+and may also display a line like this:
+....
+WM_WINDOW_ROLE = "window role"
+....
+
+It's possible that an application's *class* and/or *name* contains the dot character (".") used by IceWM to separate *class*, *name* and *role* values. To lock it, precede it with the backslash character. In the following example, we suppose an application's window has *the.class* as its *class* value and *the.name* as its *name* value :
+
+....
+class.name.option: argument
+....
+
+Options that can be set per window are as follows:
+
+icon:: The name of the icon.
+workspace:: Default workspace for window (number, counting from 0)
+layer:: Default layer for the window. Layer can be one of the following strings:
+
+Desktop:: Desktop window. There should be only one window in this layer.
+Below:: Below default layer.
+Normal:: Default layer for the windows.
+OnTop:: Above the default.
+Dock:: Layer for windows docked to the edge of the screen.
+AboveDock:: Layer for the windows above the dock.
+Menu:: Layer for the windows above the dock.
+
+You can also use the numbers from `WinMgr.h`.
+
+geometry::
+The default geometry for the window. This geometry should be
+specified in the usual X11-geometry-syntax, formal notation:
+....
+    [=][<width>{xX}<height>][{+-}<xoffset>{+-}<yoffset>]
+....
+
+tray::
+The default tray option for the window.
+This affects both the tray and the task pane.
+Tray can be one of the following strings:
+Ignore::: Don't add an icon to the tray pane.
+Minimized::: Add an icon the the tray. Remove the task pane button when minimized.
+Exclusive::: Add an icon the the tray. Never create a task pane button .
+
+allWorkspaces=0:: If set to 1, window will be visible on all workspaces.
+ignoreWinList=0:: If set to 1, window will not appear in the window list.
+ignoreTaskBar=0:: If set to 1, window will not appear on the task bar.
+ignoreQuickSwitch=0:: If set to 1, window will not be accessible using QuickSwitch feature (Alt+Tab).
+fullKeys=0:: If set to 1, the window manager leave more keys (Alt+F?) to the application.
+fMove=1:: If set to 0, window will not be movable.
+fResize=1:: If set to 0, window will not be resizable.
+fClose=1:: If set to 0, window will not be closable.
+fMinimize=1:: If set to 0, window will not be minimizable.
+fMaximize=1:: If set to 0, window will not be maximizable.
+fHide=1:: If set to 0, window will not be hidable.
+fRollup=1:: If set to 0, window will not be shadable.
+dTitleBar=1:: If set to 0, window will not have a title bar.
+dSysMenu=1:: If set to 0, window will not have a system menu.
+dBorder=1:: If set to 0, window will not have a border.
+dResize=1:: If set to 0, window will not have a resize border.
+dClose=1:: If set to 0, window will not have a close button.
+dMinimize=1:: If set to 0, window will not have a minimize button.
+dMaximize=1:: If set to 0, window will not have a maximize button.
+noFocusOnAppRaise:: if set to 1, window will not automatically get focus as
+application raises it.
+ignoreNoFocusHint:: if set to 1, icewm will focus even if the window does not
+handle input.
+doNotCover=0:: if set to 1, this window will limit the workspace available for
+regular applications. window has to be sticky at the moment to make it work
+forcedClose=0:: if set to 1 and the application had not registered
+WM_DELETE_WINDOW, a close confirmation dialog won't be offered upon closing
+the window.
+
+== Icon handling
+
+=== Generic
+
+The window manager expects to find two XPM files for each icon
+specified in the configuration files as _ICON_. They should be named like
+this:
+
+ICON_16x16.xpm:: A small 16x16 pixmap.
+ICON_32x32.xpm:: A normal 32x32 pixmap.
+ICON_48x48.xpm:: A large 48x48 pixmap.
+
+Other pixmap sizes like 20x20, 24x24, 40x40, 48x48, 64x64 might be used
+in the future. Perhaps we need a file format that can contain
+more than one image (with different sizes and color depths) like
+Windows'95 and OS/2 .ICO files.
+
+It would be nice to have a feature from OS/2 that varies the icon size
+with screen resolution (16x16 and 32x32 icons are quite small on 4000x4000
+screens ;-)
+
+=== Imlib
+When compiled with the Imlib image library all of Imlib's image formats 
+(bmp, jpeg, ppm, tiff, gif, png, ps, xpm on my machine) are supported. 
+Use them by specifying the full filename or an absolute path:
+
+ICON.bmp:: A PPM icon in your IconPath.
+/usr/share/pixmap/ICON.png:: An PNG image with absolute location.
+
+== Mouse cursors
+
+IceWM scans the theme and configuration directories for a subdirectory called
+_cursors_ containing monochrome but transparent XPM files. To change the
+mouse cursor you have to use this filenames:
+
+left.xbm:: Default cursor (usually pointer to the left).
+right.xbm:: Menu cursor (usually pointer to the right).
+move.xbm:: Window movement cursor.
+sizeTL.xbm:: Cursor when you resize the window by top left.
+sizeT.xbm:: Cursor when you resize the window by top.
+sizeTR.xbm:: Cursor when you resize the window by top right.
+sizeL.xbm:: Cursor when you resize the window by left.
+sizeR.xbm:: Cursor when you resize the window by right.
+sizeBL.xbm:: Cursor when you resize the window by bottom left.
+sizeB.xbm:: Cursor when you resize the window by bottom.
+sizeBR.xbm:: Cursor when you resize the window by bottom right.
+
+== Themes
+
+Themes are used to configure the way the window manager looks. Things
+like fonts, colors, border sizes, button pixmaps can be
+configured. Put together they form a theme.
+
+Theme files are searched in the `themes`
+subdirectories.
+
+These directories contain other directories that contain related theme files and
+their .xpm files. Each theme file specifies fonts, colors, border sizes, ...
+
+The theme to use is specified in `~/.icewm/theme` file:
+
+Theme = "nice/default.theme"::
+Name of the theme to use. Both the directory
+and theme file name must be specified.
+
+If the theme directory contains a file named _fonts.dir_ created by       
+mkfontdir the theme directory is inserted into the X servers font search path.
+
+(http://themes.freshmeat.net/[freshmeat] used to contain various nice themes created by users of IceWM.)
+
+== Command Line Options
+
+`icewm` supports the following options:
+
+--display DISPLAY:: Set X display to *DISPLAY*.
+--config CONFIG:: Use configuration file *CONFIG*.
+--version:: Display version.
+--no-configure:: Don't use a configuration file. Uses builtin defaults only.
+--debug:: Dump various debug information to stderr.
+
+== Glossary
+
+Resource Path::
+A set of directories used by IceWM to locate resources like configuration files, themes, icons. 
+See section about .
+
+== Themes
+
