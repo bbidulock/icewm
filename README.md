@@ -48,6 +48,7 @@ would like to customize the installation, use the command:
     ./configure --help
 
 Please see the [INSTALL][3] file for more detailed installation instructions.
+An alternative way to build IceWM using CMake is [documented here][20].
 The [ChangeLog][4] file contains a detailed history of implementation changes.
 The [COMPLIANCE][5] file lists the current state of EWMH/ICCCM compliance.  The
 [NEWS][6] file has release notes and history of user visible changes of the
@@ -76,7 +77,7 @@ Building from git also requires:
  - git (_for cloning the git repository and updating changelogs_)
  - autoconf/automake or cmake toolchain (_for build scripts_)
  - xorg-mkfontdir (_for installing themes_)
- - linuxdoc-tools (_for creating help html files_)
+ - asciidoctor or asciidoc (_for creating html documentation_)
  - markdown (_for building release package_)
 
 
@@ -199,9 +200,10 @@ translations.
 [13]: http://icewm.sourceforge.net/
 [14]: http://www.icewm.org/
 [15]: http://www.icewm.org/FAQ/IceWM-FAQ-11.html
-[16]: file:///usr/share/doc/icewm-1.3.12.177/icewm.html
+[16]: https://github.com/bbidulock/icewm/blob/icewm-1-3-BRANCH/doc/icewm.adoc
 [17]: http://bbkeys.sourceforge.net/
 [18]: lib/icewm.desktop
 [19]: lib/icewm-session.desktop
+[20]: INSTALL-cmakebuild.md
 
 [ vim: set ft=markdown sw=4 tw=80 nocin nosi fo+=tcqlorn: ]: #
