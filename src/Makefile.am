@@ -333,7 +333,7 @@ icewm_session_SOURCES = \
 	sysdep.h \
 	base.h \
 	icesm.cc
-icewm_session_LDADD = misc.$(OBJEXT) libice.la $(IMAGE_LIBS) $(CORE_LIBS)
+icewm_session_LDADD = libice.la $(IMAGE_LIBS) $(CORE_LIBS)
 
 icewmhint_SOURCES = \
 	intl.h \
@@ -369,7 +369,7 @@ icesound_SOURCES = \
 	ascii.h \
 	ycmdline.cc \
 	ycmdline.h
-icesound_LDADD = misc.$(OBJEXT) libice.la $(AUDIO_LIBS) $(CORE_LIBS)
+icesound_LDADD = libice.la $(AUDIO_LIBS) $(CORE_LIBS)
 
 icewm_menu_gnome1_SOURCES = \
 	intl.h \
