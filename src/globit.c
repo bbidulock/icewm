@@ -176,10 +176,12 @@ globit_best(const char *pattern_, char **result)
 			goto oom;
 		free(pathpfx);
 		pathpfx = cp;
-		if (asprintf(&cp, "%s/%s", pathpfx, pattern) == -1) {
+		cp = (char *) malloc(strlen(pathpfx) + strlen(pattern) + 2);
+		if (!cp) {
 			errstr = "could not compose path";
 			goto errout;
 		}
+		sprintf(cp, "%s/%s", pathpfx, pattern);
 		free(pf);
 		pf = cp;
 	}
