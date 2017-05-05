@@ -87,6 +87,24 @@ globit_pfxlen(char **words, int nwords)
 	return (prefix_len);
 }
 
+static bool my_glob_pattern_p(const char *pat, int quote)
+{
+    for (const char *s = pat; *s; ++s) {
+        switch (*s) {
+            case '?':
+            case '*':
+            case '[':
+            case ']':
+                return true;
+            case '\\':
+                if (quote && s[1]) ++s;
+                break;
+            default: break;
+        }
+    }
+    return false;
+}
+
 /* main function */
 
 int
@@ -112,7 +130,8 @@ globit_best(const char *pattern_, char **result)
 		return (-1);
 	}
 	memcpy(pattern, pattern_, z);
-	if (glob_pattern_p(pattern_, 1) == 0)
+
+	if (my_glob_pattern_p(pattern_, 1) == false)
 		pattern[z++] = '*';
 	pattern[z] = '\0';
 	cp = pattern;
