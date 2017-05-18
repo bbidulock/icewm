@@ -685,19 +685,59 @@ bool YScrollBar::handleScrollKeys(const XKeyEvent &key) {
         KeySym k = keyCodeToKeySym(key.keycode);
         int m = KEY_MODMASK(key.state);
 
-        switch (k) {
-        case XK_Prior:
-            if (m & ControlMask)
+        if (m == 0 && fOrientation == Vertical) {
+            switch (k) {
+            case XK_Up:
+            case XK_KP_Up:
+                scroll(-fUnitIncrement);
+                return true;
+            case XK_Home:
+            case XK_KP_Home:
                 move(0);
-            else
-                scroll(-fBlockIncrement);
-            return true;
-        case XK_Next:
-            if (m & ControlMask)
+                return true;
+            case XK_Prior:
+            case XK_KP_Prior:
+                if (m & ControlMask)
+                    move(0);
+                else
+                    scroll(-fBlockIncrement);
+                return true;
+            case XK_Down:
+            case XK_KP_Down:
+                scroll(+fUnitIncrement);
+                return true;
+            case XK_End:
+            case XK_KP_End:
                 move(fMaximum - fVisibleAmount);
-            else
-                scroll(+fBlockIncrement);
-            return true;
+                return true;
+            case XK_Next:
+            case XK_KP_Next:
+                if (m & ControlMask)
+                    move(fMaximum - fVisibleAmount);
+                else
+                    scroll(+fBlockIncrement);
+                return true;
+            }
+        }
+        if (m == 0 && fOrientation == Horizontal) {
+            switch (k) {
+            case XK_Left:
+            case XK_KP_Left:
+                scroll(-fUnitIncrement);
+                return true;
+            case XK_Right:
+            case XK_KP_Right:
+                scroll(+fUnitIncrement);
+                return true;
+            case XK_Home:
+            case XK_KP_Home:
+                move(0);
+                return true;
+            case XK_End:
+            case XK_KP_End:
+                move(fMaximum - fVisibleAmount);
+                return true;
+            }
         }
     }
     return false;
