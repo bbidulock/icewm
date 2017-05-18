@@ -15,35 +15,78 @@
 //#define TEXT
 #endif
 
-#define LINE(c) ((c) == '\r' || (c) == '\n')
-#define SPACE(c) ((c) == ' ' || (c) == '\t' || LINE(c))
+#define SPACE(c)  ASCII::isWhiteSpace(c)
 
 char const * ApplicationName = "icehelp";
-
-class HTListener {
-public:
-    virtual void activateURL(const char *url) = 0;
-protected:
-    virtual ~HTListener() {};
-};
 
 class cbuffer {
     size_t cap, ins;
     char *ptr;
 public:
-    cbuffer() : cap(7), ins(0), ptr( (char *) malloc(cap + 1)) {
-        ptr[0] = 0;
+    cbuffer() : cap(0), ins(0), ptr(0) {
+    }
+    cbuffer(const char *s) : cap(1 + strlen(s)), ins(cap - 1),
+        ptr((char *)malloc(cap))
+    {
+        memcpy(ptr, s, cap);
+    }
+    cbuffer(const cbuffer& c) :
+        cap(c.cap), ins(c.ins), ptr(0) {
+        if (c.ptr) {
+            ptr = (char *)malloc(cap);
+            memcpy(ptr, c.ptr, cap);
+        }
+    }
+    cbuffer& operator=(const char *c) {
+        if (c != ptr) {
+            if (c) {
+                ins = strlen(c);
+                cap = 1 + ins;
+                ptr = (char *)realloc(ptr, cap);
+                memcpy(ptr, c, cap);
+            } else if (ptr) {
+                cap = ins = 0;
+                free(ptr); ptr = 0;
+            }
+        }
+        return *this;
+    }
+    cbuffer& operator=(const cbuffer& c) {
+        if (&c != this) {
+            if (c.ptr) {
+                ins = c.ins;
+                cap = 1 + ins;
+                ptr = (char *)realloc(ptr, cap);
+                memcpy(ptr, c.ptr, cap);
+            } else if (ptr) {
+                cap = ins = 0;
+                free(ptr); ptr = 0;
+            }
+        }
+        return *this;
+    }
+    cbuffer& operator+=(const char *c) {
+        if (c) {
+            size_t siz = 1 + strlen(c);
+            if (cap < ins + siz) {
+                cap = ins + siz;
+                ptr = (char *)realloc(ptr, cap);
+            }
+            memcpy(ptr + ins, c, siz);
+            ins += siz - 1;
+        }
+        return *this;
     }
     int len() const {
-        return ins;
+        return (int) ins;
     }
     void push(int c) {
-        if (ins == cap) {
-            cap *= 2;
-            ptr = (char *) realloc(ptr, cap + 1);
+        if (cap < 2 + ins) {
+            cap = 8 + 3 * cap / 2;
+            ptr = (char *)realloc(ptr, cap);
         }
-        ptr[++ins] = 0;
-        ptr[ins-1] = (char) c;
+        ptr[ins+1] = 0;
+        ptr[ins++] = (char) c;
     }
     int pop() {
         int result = 0;
@@ -53,7 +96,7 @@ public:
         }
         return result;
     }
-    const char *peek() const {
+    char *peek() {
         return ptr;
     }
     char *release() {
@@ -63,10 +106,10 @@ public:
         return result;
     }
     ~cbuffer() {
-        if (ptr) { *ptr = 0; free(ptr); ptr = 0; }
+        if (ptr) free(ptr);
     }
     operator const char *() const {
-        return peek();
+        return ptr;
     }
     int last() const {
         return ins > 0 ? ptr[ins-1] : 0;
@@ -74,7 +117,7 @@ public:
     bool isEmpty() const {
         return ins == 0;
     }
-    bool isNonEmpty() const {
+    bool nonempty() const {
         return ins > 0;
     }
 };
@@ -84,23 +127,130 @@ public:
     void push(int c) {
         cbuffer::push(ASCII::toLower(c));
     }
+    lowbuffer& operator+=(const char *c) {
+        if (c) {
+            while (*c) push(*c++);
+        }
+        return *this;
+    }
+};
+
+// singly linked list of nodes which have a 'next' pointer.
+template <class T>
+class flist {
+    flist(const flist&);
+    flist& operator=(const flist&);
+    T *head, *tail;
+public:
+    flist() : head(0), tail(0) {}
+    flist(T *t) : head(t), tail(t) { t->next = 0; }
+    void add(T *t) {
+        t->next = 0;
+        if (head) {
+            tail = tail->next = t;
+        } else {
+            tail = head = t;
+        }
+    }
+    T *first() const { return head; }
+    T *last() const { return tail; }
+    void destroy() {
+        for (; head; head = tail) {
+            tail = head->next;
+            delete head;
+        }
+    }
+    bool nonempty() const { return head != 0; }
+    operator T *() const { return head; }
+};
+// like flist, but delete all nodes when done.
+template <class T>
+class nlist : public flist<T> {
+    typedef flist<T> super;
+public:
+    nlist() : super() {}
+    nlist(T *t) : super(t) {}
+    ~nlist() { super::destroy(); }
 };
 
 class text_node {
 public:
-    text_node(const char *t, int l, int _x, int _y, int _w, int _h) {
-        text = t; len = l; next = 0; x = _x; y = _y; w = _w; h = _h;
+    text_node(const char *t, int l, int f, int _x, int _y, int _w, int _h) :
+        text(t), len(l), fl(f), x(_x), y(_y), w(_w), h(_h), next(0)
+    {
     }
 
-    int x, y;
-    int w, h, len;
     const char *text;
+    int len, fl;
+    int x, y;
+    int w, h;
     text_node *next;
 };
 
-struct attribute {
-    char *name;
-    char *value;
+class attr {
+public:
+    enum attr_type {
+        noattr = 0,
+        href = 1,
+        id = 2,
+        name = 4,
+        rel = 8,
+        maxattr = rel
+    } atype;
+    cstring value;
+    attr *next;
+    attr() : atype(noattr), value(null), next(0) {}
+    attr(attr_type t, const mstring& s) : atype(t), value(s), next(0) {}
+    attr(const attr& a) : atype(a.atype), value(a.value), next(0) {}
+    attr& operator=(const attr& a) {
+        if (&a != this) {
+            atype = a.atype;
+            value = a.value;
+        }
+        return *this;
+    }
+    operator bool() const { return atype > noattr; }
+    static attr_type get_type(const char *s) {
+        if (0 == strcmp(s, "href")) return href;
+        if (0 == strcmp(s, "id")) return id;
+        if (0 == strcmp(s, "name")) return name;
+        if (0 == strcmp(s, "rel")) return rel;
+        return noattr;
+    }
+};
+
+class attr_list {
+private:
+    attr_list(const attr_list&);
+    attr_list& operator=(const attr_list&);
+    nlist<attr> list;
+public:
+    attr_list() : list() {}
+    void add(attr::attr_type typ, const mstring& s) {
+        if (typ > 0) {
+            list.add(new attr(typ, s));
+        }
+    }
+    bool get(int mask, attr *found) const {
+        for (attr *a = list.first(); a; a = a->next) {
+            if ((mask & a->atype) != 0) {
+                *found = *a;
+                return true;
+            }
+        }
+        return false;
+    }
+    bool get(int mask, const char *value, attr *found) const {
+        for (attr *a = list.first(); a; a = a->next) {
+            if ((mask & a->atype) != 0 &&
+                0 == strcmp(value, a->value))
+            {
+                *found = *a;
+                return true;
+            }
+        }
+        return false;
+    }
 };
 
 class node {
@@ -118,9 +268,10 @@ public:
         center,
         script,
         style,
-        anchor,
+        anchor, img,
         tt, dl, dd, dt,
-        link, code, meta
+        thead, tbody, tfoot,
+        link, code, meta, form, input
     };
 
     node(node_type t) :
@@ -128,64 +279,74 @@ public:
         next(0),
         container(0),
         txt(0),
-        wrap(0),
+        wrap(),
         xr(0),
         yr(0),
-        nattr(0),
-        attr(0)
+        attrs()
     {
     }
+    ~node();
 
     node_type type;
     node *next;
     node *container;
     const char *txt;
-    text_node *wrap;
+    typedef nlist<text_node> text_list;
+    text_list wrap;
     int xr, yr;
+    attr_list attrs;
 
-    int nattr;
-    attribute *attr;
-    //int width, height;
+    void add_attribute(attr::attr_type name, const char *value) {
+        if (name > attr::noattr) {
+            attrs.add(name, value);
+        }
+    }
+    void add_attribute(const char *name, const char *value) {
+        add_attribute(attr::get_type(name), value);
+    }
+    bool get_attribute(int mask, attr *found) const {
+        return attrs.get(mask, found);
+    }
+    bool get_attribute(const char *name, attr *found) const {
+        return attrs.get(attr::get_type(name), found);
+    }
+    node* find_attr(int mask, const char *value);
 
     static const char *to_string(node_type type);
+    static node_type get_type(const char *buf);
 };
 
-static node *root = NULL;
+node::~node() {
+    delete next;
+    delete container;
+    free((void *)txt);
+}
+
+node* node::find_attr(int mask, const char *value) {
+    for (node *n = this; n; n = n->next) {
+        attr got;
+        if (n->attrs.get(mask, value, &got)) {
+            return n;
+        }
+        if (n->container) {
+            node *found = n->container->find_attr(mask, value);
+            if (found) return found;
+        }
+    }
+    return 0;
+}
+
 
 #define PRE    0x01
 #define PRE1   0x02
 #define BOLD   0x04
 #define LINK   0x08
+#define BIG    0x10
+#define ITAL   0x20
+#define MONO   0x40
 
 #define sfPar  0x01
 #define sfText  0x02
-
-static node *add(node **first, node *last, node *n) {
-    if (last)
-        last->next = n;
-    else
-        *first = n;
-    return n;
-}
-
-static void add_attribute(node *n, char *abuf, char *vbuf) {
-    //msg("[%s]=[%s]", abuf, vbuf ? vbuf : "");
-
-    n->attr = (attribute *)realloc(n->attr, sizeof(attribute) * (n->nattr + 1));
-    assert(n->attr != 0);
-
-    n->attr[n->nattr].name = abuf;
-    n->attr[n->nattr].value = vbuf;
-    n->nattr++;
-}
-
-static attribute *find_attribute(node *n, const char *name) {
-    for (int i = 0; i < n->nattr; i++) {
-        if (strcmp(name, n->attr[i].name) == 0)
-            return n->attr + i;
-    }
-    return 0;
-}
 
 static void dump_tree(int level, node *n);
 
@@ -230,14 +391,24 @@ const char *node::to_string(node_type type) {
         TS(link);
         TS(code);
         TS(meta);
+        TS(thead);
+        TS(tbody);
+        TS(tfoot);
+        TS(img);
+        TS(form);
+        TS(input);
     }
+    tlog("Unknown node_type %d, after %s, before %s", type,
+            type > unknown ? to_string((node_type)(type - 1)) : "",
+            type < input ? to_string((node_type)(type + 1)) : "");
+
     return "??";
 }
 
 #undef TS
 #define TS(x,y) if (0 == strcmp(buf, #x)) return node::y
 
-static node::node_type get_type(const char *buf)
+node::node_type node::get_type(const char *buf)
 {
     TS(html, html);
     TS(head, head);
@@ -245,8 +416,12 @@ static node::node_type get_type(const char *buf)
     TS(body, body);
     TS(text, text);
     TS(pre, pre);
+    TS(address, pre);
     TS(br, line);
     TS(p, paragraph);
+    TS(header, paragraph);
+    TS(article, paragraph);
+    TS(nav, paragraph);
     TS(hr, hrule);
     TS(a, anchor);
     TS(h1, h1);
@@ -268,8 +443,12 @@ static node::node_type get_type(const char *buf)
     TS(font, font);
     TS(i, italic);
     TS(em, italic);
+    TS(small, italic);
     TS(center, center);
     TS(script, script);
+    TS(svg, script);
+    TS(button, script);
+    TS(path, script);
     TS(style, style);
     TS(tt, tt);
     TS(dl, dl);
@@ -277,7 +456,25 @@ static node::node_type get_type(const char *buf)
     TS(dt, dt);
     TS(link, link);
     TS(code, code);
+    TS(samp, code);
+    TS(kbd, code);
+    TS(var, code);
+    TS(option, code);
+    TS(label, code);
+    TS(blockquote, code);
     TS(meta, meta);
+    TS(thead, thead);
+    TS(tbody, tbody);
+    TS(tfoot, tfoot);
+    TS(img, img);
+    TS(form, form);
+    TS(input, input);
+    if (*buf && buf[strlen(buf)-1] == '/') {
+        cbuffer cbuf(buf);
+        cbuf.pop();
+        return get_type(cbuf);
+    }
+    tlog("unknown tag %s", buf);
     return node::unknown;
 }
 
@@ -324,15 +521,10 @@ static int getc_non_space(FILE *fp) {
 }
 
 static node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node_type &close) {
-    int c;
-    node *f = NULL;
-    node *l = NULL;
+    flist<node> nodes;
 
-    //puts("<PARSE>");
-    c = getc(fp);
-    while (c != EOF) {
-        switch (c) {
-        case '<':
+    for (int c = getc(fp); c != EOF; c = (c == '<') ? c : getc(fp)) {
+        if (c == '<') {
             c = getc(fp);
             if (c == '!') {
                 c = ignore_comments(fp);
@@ -346,19 +538,18 @@ static node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node
                     c = getc(fp);
                 }
 
-                node::node_type type = get_type(buf.peek());
+                node::node_type type = node::get_type(buf);
                 if (type == node::paragraph ||
                     type == node::line ||
                     type == node::hrule ||
                     type == node::link ||
+                    type == node::unknown ||
                     type == node::meta)
                 {
-                } else {
-                    if (parent) {
-                        close = type;
-                        //puts("</PARSE>");
-                        return f;
-                    }
+                }
+                else if (parent) {
+                    close = type;
+                    break;
                 }
             } else {
                 lowbuffer buf;
@@ -369,13 +560,11 @@ static node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node
                     c = getc(fp);
                 }
 
-                node::node_type type = get_type(buf.peek());
+                node::node_type type = node::get_type(buf);
                 node *n = new node(type);
-
                 if (n == 0)
                     break;
-                c = non_space(c, fp);
-                while (c != '>') {
+                while ((c = non_space(c, fp)) != '>' && c != EOF) {
                     lowbuffer abuf;
 
                     while (c != EOF && !SPACE(c) && c != '=' && c != '>') {
@@ -387,10 +576,8 @@ static node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node
                         cbuffer vbuf;
                         c = getc_non_space(fp);
                         if (c == '"') {
-                            c = getc(fp);
-                            while (c != EOF && c != '"') {
+                            while ((c = getc(fp)) != EOF && c != '"') {
                                 vbuf.push(c);
-                                c = getc(fp);
                             }
                         } else {
                             while (c != EOF && !SPACE(c) && c != '>') {
@@ -398,16 +585,9 @@ static node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node
                                 c = getc(fp);
                             }
                         }
-                        add_attribute(n, abuf.release(), vbuf.release());
-                    } else {
-                        add_attribute(n, abuf.release(), 0);
+                        n->add_attribute(abuf, vbuf);
                     }
-
-                    c = non_space(c, fp);
                 }
-
-                while (c != '>' && c != EOF)
-                    c = getc(fp);
 
                 if (type == node::line ||
                     type == node::hrule ||
@@ -415,7 +595,7 @@ static node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node
                     type == node::link ||
                     type == node::meta)
                 {
-                    l = add(&f, l, n);
+                    nodes.add(n);
                 } else {
                     node *container = 0;
 
@@ -433,7 +613,7 @@ static node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node
                            )
                         {
                             nextsub = n;
-                            return f;
+                            break;
                         }
                     }
 
@@ -447,146 +627,292 @@ static node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node
                         container = parse(fp, fl, n, nextsub, close_type);
                         if (container)
                             n->container = container;
-                        l = add(&f, l, n);
+                        nodes.add(n);
 
                         if (nextsub) {
                             n = nextsub;
                         }
                         if (close_type != node::unknown) {
                             if (n->type != close_type)
-                                return f;
+                                return nodes;
                         }
                     } while (nextsub != 0);
                 }
             }
-            break;
-        default:
-            {
-                cbuffer buf;
+        }
+        else if (c != '<') {
+            cbuffer buf;
 
-                do {
-                    if (c == '&') {
-                        lowbuffer entity;
+            do {
+                if (c == '&') {
+                    lowbuffer entity;
 
-                        do {
-                            entity.push(c);
-                            c = getc(fp);
-                        } while (ASCII::isAlnum(c) || c == '#');
-                        if (c != ';')
-                            ungetc(c, fp);
-                        if (strcmp(entity, "&amp") == 0)
-                            c = '&';
-                        else if (strcmp(entity, "&lt") == 0)
-                            c = '<';
-                        else if (strcmp(entity, "&gt") == 0)
-                            c = '>';
-                        else if (strcmp(entity, "&nbsp") == 0)
-                            c = 32+128;
-                        else if (strcmp(entity, "&#8203") == 0)
-                            c = 32+128; // zero width space
-                        else if (strcmp(entity, "&#8212") == 0)
-                            c = '-';    // em dash
-                        else if (strcmp(entity, "&#8217") == 0)
-                            c = '\'';   // right single quote
-                        else if (strcmp(entity, "&#8230") == 0) {
-                            c = '.';    // horizontal ellipsis
-                            buf.push(c);
-                            buf.push(c);
-                            buf.push(c);
-                            continue;
-                        }
-                        else if (strcmp(entity, "&#8594") == 0) {
-                            c = '>';    // rightwards arrow
-                            buf.push('-');
-                            buf.push(c);
-                            continue;
-                        }
-                        else {
-                            printf("unknown special '%s'\n", entity.peek());
-                            c = ' ';
-                        }
-                    }
-                    if (c == '\r') {
+                    do {
+                        entity.push(c);
                         c = getc(fp);
-                        if (c != '\n')
-                            ungetc(c, fp);
-                        c = '\n';
+                    } while (ASCII::isAlnum(c) || c == '#');
+                    if (c != ';')
+                        ungetc(c, fp);
+                    if (strcmp(entity, "&amp") == 0)
+                        c = '&';
+                    else if (strcmp(entity, "&lt") == 0)
+                        c = '<';
+                    else if (strcmp(entity, "&gt") == 0)
+                        c = '>';
+                    else if (strcmp(entity, "&quot") == 0)
+                        c = '"';
+                    else if (strcmp(entity, "&nbsp") == 0)
+                        c = 32+128;
+                    else if (strcmp(entity, "&#8203") == 0)
+                        c = 32+128; // zero width space
+                    else if (strcmp(entity, "&#8212") == 0)
+                        c = '-';    // em dash
+                    else if (strcmp(entity, "&#8217") == 0)
+                        c = '\'';   // right single quote
+                    else if (strcmp(entity, "&#8230") == 0) {
+                        buf += "..."; // horizontal ellipsis
+                        continue;
                     }
-                    if (!(flags & PRE)) {
-                        if (SPACE(c))
-                            c = ' ';
+                    else if (strcmp(entity, "&#8594") == 0) {
+                        buf += "->"; // rightwards arrow
+                        continue;
                     }
-                    if ((flags & PRE1) && c == '\n')
-                        ;
+                    else if (strcmp(entity, "&copy") == 0) {
+                        buf += "(c)"; // copyright symbol
+                        continue;
+                    }
+                    else if (strcmp(entity, "&reg") == 0) {
+                        buf += "(R)"; // registered sign
+                        continue;
+                    }
+                    else if (strcmp(entity + 2, "tilde") == 0) {
+                        c = entity[1];
+                    }
+                    else if (strcmp(entity + 2, "acute") == 0) {
+                        c = entity[1];
+                    }
+                    else if (strcmp(entity + 2, "uml") == 0) {
+                        c = entity[1];
+                    }
                     else {
-                        if ((flags & PRE) || c != ' ' ||
-                            buf.len() == 0 || buf.last() != ' ')
-                        {
-                            buf.push(c);
-                        }
+                        tlog("unknown special '%s'", entity.peek());
+                        c = ' ';
                     }
-                    flags &= ~PRE1;
-                    c = getc(fp);
-                } while (c != EOF && c != '<');
-
-                if (c == '<') {
-                    c = getc(fp);
-                    if (c == '/') {
-                        if (SPACE(buf.last()))
-                            buf.pop();
-                    }
-                    ungetc(c, fp);
-                    c = '<';
                 }
-
-                if (buf.len() > 0) {
-                    node *n = new node(node::text);
-                    n->txt = buf.release();
-                    l = add(&f, l, n);
+                if (c == '\r') {
+                    c = getc(fp);
+                    if (c != '\n')
+                        ungetc(c, fp);
+                    c = '\n';
                 }
-                continue;
+                if (!(flags & PRE)) {
+                    if (SPACE(c))
+                        c = ' ';
+                }
+                if ((flags & PRE1) && c == '\n')
+                    ;
+                else if (c != ' ' || (flags & PRE) ||
+                        buf.isEmpty() || buf.last() != ' ')
+                {
+                    buf.push(c);
+                }
+                flags &= ~PRE1;
+            } while ((c = getc(fp)) != EOF && c != '<');
+
+            if (c == '<') {
+                int k = getc(fp);
+                if (k == '/') {
+                    if (SPACE(buf.last()))
+                        buf.pop();
+                }
+                ungetc(k, fp);
+            }
+
+            if (buf.nonempty()) {
+                node *n = new node(node::text);
+                n->txt = buf.release();
+                nodes.add(n);
             }
         }
-        c = getc(fp);
     }
-    return f;
+    return nodes;
 }
 
-extern Atom _XA_WIN_ICONS;
+class History {
+private:
+    YObjectArray<cstring> array;
+    int where;
+public:
+    History() : where(-1) { }
+    bool empty() const { return array.isEmpty(); }
+    int size() const { return array.getCount(); }
+    const cstring& get(int i) const { return *array[i]; }
+    void push(const mstring& s) {
+        if (where == -1 || (s.nonempty() && s != get(where))) {
+            for (int k = size() - 1; k > where; --k) {
+                array.remove(k);
+            }
+            array.insert(++where, new cstring(s));
+        }
+    }
+    const cstring& current() {
+        if (empty()) array.insert(++where, new cstring());
+        return *array[where];
+    }
+    bool hasLeft() const { return where > 0; }
+    bool left() {
+        return hasLeft() ? (--where, true) : false;
+    }
+    bool hasRight() const { return where + 1 < size(); }
+    bool right() {
+        return hasRight() ? (++where, true) : false;
+    }
+    bool hasFirst() const { return 0 < size(); }
+    bool first() {
+        return hasFirst() ? (where = 0, true) : false;
+    }
+};
+
+typedef ref<YFont> FontRef;
+class FontEntry {
+public:
+    int size;
+    int flag;
+    const char *core;
+    const char *xeft;
+    FontRef font;
+};
+class FontTable {
+public:
+    static FontEntry table[];
+    static const FontRef noFont;
+    static FontRef get(int size, int flags);
+};
+const FontRef FontTable::noFont;
+FontEntry FontTable::table[] = {
+    { 12, 0,
+        "-adobe-helvetica-medium-r-normal--12-120-75-75-p-67-iso8859-1",
+        "sans-serif-12", noFont },
+    { 14, 0,
+        "-adobe-helvetica-medium-r-normal--14-140-75-75-p-77-iso8859-1",
+        "sans-serif-14", noFont },
+    { 18, 0,
+        "-adobe-helvetica-medium-r-normal--18-180-75-75-p-98-iso8859-1",
+        "sans-serif-18", noFont },
+    { 12, BOLD,
+        "-adobe-helvetica-bold-r-normal--12-120-75-75-p-70-iso8859-1",
+        "sans-serif-12:bold", noFont },
+    { 14, BOLD,
+        "-adobe-helvetica-bold-r-normal--14-140-75-75-p-82-iso8859-1",
+        "sans-serif-14:bold", noFont },
+    { 18, BOLD,
+        "-adobe-helvetica-bold-r-normal--18-180-75-75-p-103-iso8859-1",
+        "sans-serif-18:bold", noFont },
+    { 12, MONO,
+        "-adobe-courier-medium-r-normal--12-120-75-75-m-70-iso8859-1",
+        "sans-serif-12:spacing=mono", noFont },
+    { 17, MONO | BOLD,
+        "-adobe-courier-bold-r-normal--17-120-100-100-m-100-iso8859-1",
+        "sans-serif-17:bold:spacing=mono", noFont },
+    { 12, ITAL,
+        "-adobe-helvetica-medium-o-normal--12-120-75-75-p-67-iso8859-1",
+        "sans-serif-12:slant=oblique,italic", noFont },
+    { 14, ITAL,
+        "-adobe-helvetica-medium-o-normal--14-140-75-75-p-78-iso8859-1",
+        "sans-serif-14:slant=oblique,italic", noFont },
+    { 0, 0, 0, 0, noFont },
+};
+FontRef FontTable::get(int size, int flags) {
+    int best = 0;
+    int diff = abs(size - table[best].size);
+    for (int i = 1; table[i].size > 0; ++i) {
+        int delt = abs(size - table[i].size);
+        if (delt < diff) {
+            best = i;
+            diff = delt;
+        }
+        else if (diff == delt) {
+            int bflag = table[best].flag;
+            int iflag = table[i].flag;
+            if ((bflag & BOLD) != (iflag & BOLD)) {
+                if ((iflag & BOLD) == (flags & BOLD)) {
+                    best = i;
+                }
+            }
+            else if ((bflag & MONO) != (iflag & MONO)) {
+                if ((iflag & MONO) == (flags & MONO)) {
+                    best = i;
+                }
+            }
+            else if ((bflag & ITAL) != (iflag & ITAL)) {
+                if ((iflag & ITAL) == (flags & ITAL)) {
+                    best = i;
+                }
+            }
+        }
+    }
+    if (table[best].font == noFont) {
+        table[best].font = YFont::getFont(table[best].core, null, true);
+    }
+    return table[best].font;
+}
+
+class HTListener {
+public:
+    virtual void activateURL(const cstring& url, bool relative = false) = 0;
+    virtual void handleClose() = 0;
+protected:
+    virtual ~HTListener() {};
+};
+
+class ActionItem : public YAction {
+private:
+    YMenuItem   *item;
+    ActionItem(const ActionItem&);
+    ActionItem& operator=(const ActionItem&);
+public:
+    ActionItem() : item(0) {}
+    ~ActionItem() { delete item; }
+    void operator=(YMenuItem* menuItem) { item = menuItem; }
+    operator YAction*() { return this; }
+    YMenuItem* operator->() { return item; }
+};
 
 class HTextView: public YWindow,
     public YScrollBarListener, public YScrollable, public YActionListener
 {
 public:
     HTextView(HTListener *fL, YScrollView *v, YWindow *parent);
-    ~HTextView() {}
+    ~HTextView();
 
     void find_link(node *n);
 
     void setData(node *root) {
+        delete fRoot;
         fRoot = root;
         tx = ty = 0;
         layout();
 
-        prevItem->setEnabled(false);
-        nextItem->setEnabled(false);
-        contentsItem->setEnabled(false);
+        actionPrev->setEnabled(false);
+        actionNext->setEnabled(false);
+        actionContents->setEnabled(false);
 
-        if (nextURL != 0) {
-            delete[] nextURL;
-            nextURL = 0;
-        }
-        if (nextURL != 0) {
-            delete[] prevURL;
-            nextURL = 0;
-        }
-        if (contentsURL != 0) {
-            delete[] contentsURL;
-            contentsURL = 0;
-        }
-
+        nextURL = null;
+        prevURL = null;
+        contentsURL = null;
 
         find_link(fRoot);
+        if (contentsURL == null) {
+            node *n = fRoot->find_attr(attr::id | attr::name, "toc");
+            if (n) {
+                contentsURL = "#toc";
+                actionContents->setEnabled(true);
+            }
+        }
+
+        actionIndex->setEnabled(history.hasFirst());
+        actionLeft->setEnabled(history.hasLeft());
+        actionRight->setEnabled(history.hasRight());
     }
 
 
@@ -594,8 +920,9 @@ public:
     void epar(int &state, int &x, int &y, int &h, const int left);
     void layout();
     void layout(node *parent, node *n1, int left, int right, int &x, int &y, int &w, int &h, int flags, int &state);
-    void draw(Graphics &g, node *n1, bool href = false);
+    void draw(Graphics &g, node *n1, bool isHref = false);
     node *find_node(node *n, int x, int y, node *&anchor, node::node_type type);
+    void find_fragment(const char *frag);
 
     virtual void paint(Graphics &g, const YRect &r) {
         g.setColor(bg);
@@ -613,8 +940,8 @@ public:
         fHorizontalScroll->setValues(tx, width(), 0, contentWidth());
         fHorizontalScroll->setBlockIncrement(width());
         fHorizontalScroll->setUnitIncrement(20);
-        if (view)
-            view->layout();
+        if (fScrollView)
+            fScrollView->layout();
     }
 
     void setPos(int x, int y) {
@@ -653,14 +980,33 @@ public:
     virtual void handleClick(const XButtonEvent &up, int /*count*/);
 
     virtual void actionPerformed(YAction *action, unsigned int /*modifiers*/) {
-        if (action == actionClose)
-            exit(0);
-        if (action == actionNext)
-            listener->activateURL(nextURL);
-        if (action == actionPrev)
-            listener->activateURL(prevURL);
-        if (action == actionContents)
-            listener->activateURL(contentsURL);
+        if (action == actionClose) {
+            listener->handleClose();
+        }
+        else if (action == actionNext) {
+            if (actionNext->isEnabled())
+                listener->activateURL(nextURL, true);
+        }
+        else if (action == actionPrev) {
+            if (actionPrev->isEnabled())
+                listener->activateURL(prevURL, true);
+        }
+        else if (action == actionContents) {
+            if (actionContents->isEnabled())
+                listener->activateURL(contentsURL, true);
+        }
+        else if (action == actionIndex) {
+            if (actionIndex->isEnabled() && history.first())
+                listener->activateURL(history.current());
+        }
+        else if (action == actionLeft) {
+            if (actionLeft->isEnabled() && history.left())
+                listener->activateURL(history.current());
+        }
+        else if (action == actionRight) {
+            if (actionRight->isEnabled() && history.right())
+                listener->activateURL(history.current());
+        }
     }
 
     virtual void configure(const YRect &r) {
@@ -670,6 +1016,7 @@ public:
 
     bool handleKey(const XKeyEvent &key);
     void handleButton(const XButtonEvent &button);
+    void addHistory(const mstring& path);
 private:
     node *fRoot;
 
@@ -677,129 +1024,151 @@ private:
     int conWidth;
     int conHeight;
 
-    ref<YFont> font;
+    FontRef font;
+    int fontFlag, fontSize;
     YColor *bg, *normalFg, *linkFg, *hrFg, *testBg;
 
-    YScrollView *view;
+    YScrollView *fScrollView;
     YScrollBar *fVerticalScroll;
     YScrollBar *fHorizontalScroll;
 
     YMenu *menu;
-    YAction *actionClose;
-    YAction *actionNone;
+    ActionItem actionClose;
+    ActionItem actionLeft;
+    ActionItem actionRight;
+    ActionItem actionIndex;
+    ActionItem actionPrev;
+    ActionItem actionNext;
+    ActionItem actionContents;
     HTListener *listener;
 
-    char *prevURL;
-    char *nextURL;
-    char *contentsURL;
+    cstring prevURL;
+    cstring nextURL;
+    cstring contentsURL;
+    History history;
 
-    YAction *actionPrev;
-    YAction *actionNext;
-    YAction *actionContents;
-
-    YMenuItem *prevItem, *nextItem, *contentsItem;
+    void flagFont(int n) {
+        int mask = (n & (MONO | BOLD | ITAL)) | ((n & PRE) ? MONO : 0);
+        int size = (n & BIG) ? 18 : 14;
+        if (mask != fontFlag || size != fontSize) {
+            font = FontTable::get(size, mask);
+            fontSize = size;
+            fontFlag = mask;
+        }
+    }
+    class Flags {
+    public:
+        HTextView *view;
+        const int oldf, newf;
+        Flags(HTextView *v, int o, int n) : view(v), oldf(o), newf(n) {
+            view->flagFont(newf);
+        }
+        ~Flags() { view->flagFont(oldf); }
+        operator int() const { return newf; }
+    };
 };
 
 HTextView::HTextView(HTListener *fL, YScrollView *v, YWindow *parent):
-    YWindow(parent), fRoot(NULL), view(v), listener(fL) {
-    view = v;
-    fVerticalScroll = view->getVerticalScrollBar();
+    YWindow(parent), fRoot(NULL), fScrollView(v), listener(fL) {
+
+    fVerticalScroll = fScrollView->getVerticalScrollBar();
     fVerticalScroll->setScrollBarListener(this);
-    fHorizontalScroll = view->getHorizontalScrollBar();
+    fHorizontalScroll = fScrollView->getHorizontalScrollBar();
     fHorizontalScroll->setScrollBarListener(this);
-    //setBitGravity(NorthWestGravity);
     tx = ty = 0;
     conWidth = conHeight = 0;
+    fontFlag = 0;
+    fontSize = 0;
+    flagFont(0);
 
-    prevURL = nextURL = contentsURL = 0;
-
-    //font = YFont::getFont("9x15");
-    //font = YFont::getFont("-adobe-helvetica-medium-r-normal--10-100-75-75-p-56-iso8859-1");
-    //font = YFont::getFont("-adobe-helvetica-medium-r-normal--*-140-*-*-*-*-iso8859-1");
-    //-adobe-helvetica-bold-o-normal--11-80-100-100-p-60-iso8859-1
-    //font = YFont::getFont("-adobe-helvetica-medium-r-normal--8-80-75-75-p-46-iso8859-1");
-    //font = YFont::getFont("-adobe-helvetica-medium-r-normal--24-240-75-75-p-130-iso8859-1");
-    font = YFont::getFont("-adobe-helvetica-medium-r-normal--12-120-75-75-p-67-iso8859-1", "sans-serif-12");
-    //font = YFont::getFont("-adobe-helvetica-medium-r-normal--11-80-100-100-p-56-iso8859-1");
-    //font = YFont::getFont("-adobe-helvetica-bold-r-normal--12-120-75-75-p-70-iso8859-1");
     normalFg = new YColor("rgb:00/00/00");
     hrFg = new YColor("rgb:80/80/80");
     linkFg = new YColor("rgb:00/00/CC");
     bg = new YColor("rgb:CC/CC/CC");
     testBg = new YColor("rgb:40/40/40");
 
-    actionClose = new YAction();
-    actionNone = new YAction();
-    actionPrev = new YAction();
-    actionNext = new YAction();
-    actionContents = new YAction();
-
     menu = new YMenu();
     menu->setActionListener(this);
-    menu->addItem(_("Back"), 0, _("Alt+Left"), actionNone)->setEnabled(false);
-    menu->addItem(_("Forward"), 0, _("Alt+Right"), actionNone)->setEnabled(false);
+    actionLeft = menu->addItem(_("Back"), 0, _("Alt+Left"), actionLeft);
+    actionLeft->setEnabled(false);
+    actionRight = menu->addItem(_("Forward"), 0, _("Alt+Right"), actionRight);
+    actionRight->setEnabled(false);
     menu->addSeparator();
-    prevItem = menu->addItem(_("Previous"), 0, null, actionPrev);
-    nextItem = menu->addItem(_("Next"), 0, null, actionNext);
+    actionPrev = menu->addItem(_("Previous"), 0, null, actionPrev);
+    actionNext = menu->addItem(_("Next"), 0, null, actionNext);
     menu->addSeparator();
-    contentsItem = menu->addItem(_("Contents"), 0, null, actionContents);
-    menu->addItem(_("Index"), 0, null, actionNone)->setEnabled(false);
+    actionContents = menu->addItem(_("Contents"), 0, null, actionContents);
+    actionIndex = menu->addItem(_("Index"), 0, null, actionIndex);
+    actionIndex->setEnabled(false);
     menu->addSeparator();
-    menu->addItem(_("Close"), 0, _("Ctrl+Q"), actionClose);
+    actionClose = menu->addItem(_("Close"), 0, _("Ctrl+Q"), actionClose);
+}
+
+HTextView::~HTextView() {
+    delete fRoot;
+    delete menu;
+}
+
+void HTextView::addHistory(const mstring& path) {
+    history.push(path);
+    actionLeft->setEnabled(history.hasLeft());
+    actionRight->setEnabled(history.hasRight());
+    actionIndex->setEnabled(history.hasFirst());
 }
 
 node *HTextView::find_node(node *n, int x, int y, node *&anchor, node::node_type type) {
 
-    while (n) {
+    for (; n; n = n->next) {
         if (n->container) {
-            node *f;
-
-            if ((f = find_node(n->container, x, y, anchor, type)) != 0) {
+            node *f = find_node(n->container, x, y, anchor, type);
+            if (f) {
                 if (anchor == 0 && n->type == type)
                     anchor = n;
                 return f;
             }
         }
-        if (n->wrap) {
-            text_node *t = n->wrap;
-            while (t) {
-                if (x >= t->x && x < t->x + t->w &&
-                    y >= t->y && y < t->y + t->h)
-                    return n;
-                t = t->next;
-            }
+        for (text_node *t = n->wrap; t; t = t->next) {
+            if (x >= t->x && x < t->x + t->w &&
+                y >= t->y && y < t->y + t->h)
+                return n;
         }
-        n = n->next;
     }
     return 0;
 }
 
 void HTextView::find_link(node *n) {
-    while (n) {
+    for (; n; n = n->next) {
         if (n->type == node::link) {
-            attribute *rel = find_attribute(n, "rel");
-            attribute *href = find_attribute(n, "href");
-            if (rel && href && rel->value && href->value) {
-                if (strcasecmp(rel->value, "previous") == 0) {
-                    delete[] prevURL;
-                    prevURL = newstr(href->value);
-                    prevItem->setEnabled(true);
+            attr rel, href;
+            if (n->get_attribute("rel", &rel) &&
+                n->get_attribute("href", &href))
+            {
+                if (strcasecmp(rel.value, "previous") == 0) {
+                    prevURL = href.value;
+                    actionPrev->setEnabled(true);
                 }
-                if (strcasecmp(rel->value, "next") == 0) {
-                    delete[] nextURL;
-                    nextURL = newstr(href->value);
-                    nextItem->setEnabled(true);
+                if (strcasecmp(rel.value, "next") == 0) {
+                    nextURL = href.value;
+                    actionNext->setEnabled(true);
                 }
-                if (strcasecmp(rel->value, "contents") == 0) {
-                    delete[] contentsURL;
-                    contentsURL = newstr(href->value);
-                    contentsItem->setEnabled(true);
+                if (strcasecmp(rel.value, "contents") == 0) {
+                    contentsURL = href.value;
+                    actionContents->setEnabled(true);
                 }
             }
         }
         if (n->container)
             find_link(n->container);
-        n = n->next;
+    }
+}
+
+void HTextView::find_fragment(const char *frag) {
+    node *n = fRoot->find_attr(attr::id | attr::name, frag);
+    if (n) {
+        int y = max(0, min(n->yr, contentHeight() - height()));
+        setPos(0, y);
+        fVerticalScroll->setValue(y);
+        fHorizontalScroll->setValue(0);
     }
 }
 
@@ -809,6 +1178,7 @@ void HTextView::layout() {
     int left = x, right = width() - x;
     conWidth = conHeight = 0;
     layout(0, fRoot, left, right, x, y, conWidth, conHeight, 0, state);
+    conHeight += font->height();
     resetScroll();
 }
 
@@ -846,16 +1216,16 @@ void HTextView::layout(
         int &x, int &y, int &w, int &h,
         int flags, int &state)
 {
-    node *n = n1;
-
     ///puts("{");
-    while (n) {
+    for (node *n = n1; n; n = n->next) {
         n->xr = x;
         n->yr = y;
         switch (n->type) {
+        case node::head:
+        case node::meta:
         case node::title:
-            break;
         case node::script:
+        case node::style:
             break;
         case node::h1:
         case node::h2:
@@ -872,7 +1242,9 @@ void HTextView::layout(
             n->xr = x;
             n->yr = y;
             if (n->container) {
-                layout(n, n->container, n->xr, right, x, y, w, h, flags, state);
+                int h1bold = n->type == node::h1 ? BOLD : 0;
+                Flags fl(this, flags, flags | BIG | h1bold);
+                layout(n, n->container, n->xr, right, x, y, w, h, fl, state);
             }
             x = left;
             y = h + font->height();
@@ -880,100 +1252,78 @@ void HTextView::layout(
             removeState(state, sfPar);
             break;
         case node::text:
-            {
-                const char *c;
+            n->wrap.destroy();
+            for (const char *b = n->txt, *c; *b; b = c) {
+                int wc = 0;
 
-                while (n->wrap) {
-                    text_node *t = n->wrap;
-                    n->wrap = n->wrap->next;
-                    delete t;
-                }
+                if (flags & PRE) {
+                    c = b;
+                    while (*c && *c != '\n')
+                        c++;
+                    wc = font->textWidth(b, c - b);
+                } else {
+                    if (x == left)
+                        while (SPACE(*b))
+                            b++;
 
-                text_node **pwrap = &n->wrap;
-                for (const char *b = n->txt; *b; b = c) {
-                    int wc = 0;
+                    c = b;
 
-                    if (flags & PRE) {
-                        c = b;
-                        while (*c && *c != '\n')
-                            c++;
-                        wc = font->textWidth(b, c - b);
-                    } else {
-                        c = b;
+                    do {
+                        const char *d = c;
 
-                        if (x == left)
-                            while (SPACE(*b))
-                                b++;
+                        if (SPACE(*d))
+                            while (SPACE(*d))
+                                d++;
+                        else
+                            while (*d && !SPACE(*d))
+                                d++;
 
-                        c = b;
+                        int w1 = font->textWidth(b, d - b);
 
-                        do {
-                            const char *d = c;
-
-                            if (SPACE(*d))
-                                while (SPACE(*d))
-                                    d++;
-                            else
-                                while (*d && !SPACE(*d))
-                                    d++;
-
-                            int w1 = font->textWidth(b, d - b);
-
-                            if (x + w1 < right) {
-                                wc = w1;
-                                c = d;
-                            } else if (x == left && wc == 0) {
-                                wc = w1;
-                                c = d;
-                                break;
-                            } else if (wc == 0) {
-                                x = left;
-                                y = h;
-                                while (SPACE(*c))
-                                    c++;
-                                b = c;
-                            } else
-                                break;
-                            ///msg("width=%d %d / %d / %d", wc, x, left, right);
-                        } while (*c);
-                    }
-
-                    if (!(flags & PRE) && x == left) {
-                        while (SPACE(*b)) b++;
-                    }
-                    if ((flags & PRE) || c - b > 0) {
-#ifdef TEXT
-                        {
-                            char *f = b;
-                            int ll;
-                            msg("x=%d left=%d line: ", x, left);
-                            ll = 0;
-                            while (f < c) { putchar(*f); f++; ll++; }
-                            msg("[len=%d]", ll);
-                        }
-#endif
-                        par(state, x, y, h, left);
-                        addState(state, sfText);
-
-                        *pwrap = new text_node(b, c - b, x, y, wc, font->height());
-                        pwrap = &((*pwrap)->next);
-                        if (y + (int)font->height() > h)
-                            h = y + font->height();
-
-                        x += wc;
-                        if (x > w)
-                            w = x;
-
-                        if ((flags & PRE)) {
-                            if (*c == '\n') {
+                        if (x + w1 < right) {
+                            wc = w1;
+                            c = d;
+                        } else if (x == left && wc == 0) {
+                            wc = w1;
+                            c = d;
+                            break;
+                        } else if (wc == 0) {
+                            x = left;
+                            y = h;
+                            while (SPACE(*c))
                                 c++;
-                                x = left;
-                                y = h;
-                            }
+                            b = c;
+                        } else
+                            break;
+                        ///msg("width=%d %d / %d / %d", wc, x, left, right);
+                    } while (*c);
+                }
+
+                if (!(flags & PRE) && x == left) {
+                    while (SPACE(*b)) b++;
+                }
+                if ((flags & PRE) || c - b > 0) {
+                    par(state, x, y, h, left);
+                    addState(state, sfText);
+
+                    n->wrap.add(new text_node(b, c - b, flags,
+                                x, y, wc, font->height()));
+                    if (y + (int)font->height() > h)
+                        h = y + font->height();
+
+                    x += wc;
+                    if (x > w)
+                        w = x;
+
+                    if ((flags & PRE)) {
+                        if (*c == '\n') {
+                            c++;
+                            x = left;
+                            y = h;
                         }
                     }
-                    //msg("len=%d x=%d left=%d %s", c - b, x, left, b);
                 }
+                //msg("len=%d x=%d left=%d %s", c - b, x, left, b);
             }
             break;
         case node::line:
@@ -1025,7 +1375,7 @@ void HTextView::layout(
             break;
         case node::anchor:
             if (n->container) {
-                layout(n, n->container, n->xr, right, x, y, w, h, flags, state);
+                layout(n, n->container, left, right, x, y, w, h, flags, state);
             }
             break;
         case node::ul:
@@ -1105,6 +1455,7 @@ void HTextView::layout(
                 //puts("<DD>\n");
                 layout(n, n->container, x, right, x, y, w, h, flags, state);
                 //puts("</DD>\n");
+                h += font->height();
             }
             y = h;
             x = left;
@@ -1136,7 +1487,8 @@ void HTextView::layout(
                 y = h;
             }
             if (n->container) {
-                layout(n, n->container, x, right, x, y, w, h, flags | PRE, state);
+                Flags fl(this, flags, flags | PRE);
+                layout(n, n->container, x, right, x, y, w, h, fl, state);
             }
             y = h;
             x = left;
@@ -1144,44 +1496,69 @@ void HTextView::layout(
             addState(state, sfText);
             //msg("set=%d", state);
             break;
-        case node::head:
+        case node::bold:
+            if (n->container) {
+                Flags fl(this, flags, flags | BOLD);
+                layout(n, n->container, left, right, x, y, w, h, fl, state);
+            }
             break;
-        case node::style:
+        case node::italic:
+            if (n->container) {
+                Flags fl(this, flags, flags | ITAL);
+                layout(n, n->container, left, right, x, y, w, h, fl, state);
+            }
+            break;
+        case node::code:
+            if (n->container) {
+                Flags fl(this, flags, flags | MONO);
+                layout(n, n->container, left, right, x, y, w, h, fl, state);
+            }
+            break;
+        case node::html:
+        case node::body:
+        case node::div:
+        case node::table:
+        case node::tr:
+        case node::td:
+        case node::thead:
+        case node::tbody:
+        case node::tfoot:
+        case node::img:
+        case node::unknown:
+        case node::link:
+        case node::form:
+        case node::input:
+            if (n->container) {
+                layout(n, n->container, left, right, x, y, w, h, flags, state);
+            }
             break;
         default:
+            tlog("default layout for node type %s", node::to_string(n->type));
             if (n->container)
                 layout(n, n->container, left, right, x, y, w, h, flags, state);
             break;
         }
-        n = n->next;
     }
     ///puts("}");
 }
 
-void HTextView::draw(Graphics &g, node *n1, bool href) {
-    node *n = n1;
-
-    while (n) {
+void HTextView::draw(Graphics &g, node *n1, bool isHref) {
+    for (node *n = n1; n; n = n->next) {
         switch (n->type) {
+        case node::head:
         case node::title:
+        case node::script:
+        case node::style:
             break;
+
         case node::text:
-            if (n->wrap) {
-                text_node *t = n->wrap;
-
-#if 0
-                g.setColor(testBg);
-                g.fillRect(t->x - tx, t->y - ty, t->w, t->h);
-                g.setColor(normalFg);
-#endif
-                while (t) {
-                    g.drawChars(t->text, 0, t->len, t->x - tx, t->y + font->ascent() - ty);
-                    if (href) {
-                        g.drawLine(t->x - tx, t->y - ty + font->ascent() + 1,
-                                   t->x + t->w - tx, t->y - ty + font->ascent() + 1);
-                    }
-
-                    t = t->next;
+            for (text_node *t = n->wrap; t; t = t->next) {
+                flagFont(t->fl);
+                g.setFont(font);
+                g.drawChars(t->text, 0, t->len, t->x - tx, t->y + font->ascent() - ty);
+                if (isHref) {
+                    g.drawLine(t->x - tx, t->y - ty + font->ascent() + 1,
+                               t->x + t->w - tx, t->y - ty + font->ascent() + 1);
                 }
             }
             break;
@@ -1195,12 +1572,13 @@ void HTextView::draw(Graphics &g, node *n1, bool href) {
 
         case node::anchor:
             {
-                attribute *href = find_attribute(n, "href");
-                if (href && href->value)
+                attr href;
+                bool found = n->get_attribute("href", &href);
+                if (found && href.value.length())
                     g.setColor(linkFg);
                 if (n->container)
-                    draw(g, n->container, href);
-                if (href)
+                    draw(g, n->container, found || isHref);
+                if (found && isHref == false)
                     g.setColor(normalFg);
             }
             break;
@@ -1208,133 +1586,50 @@ void HTextView::draw(Graphics &g, node *n1, bool href) {
         case node::li:
             g.fillArc(n->xr - tx, n->yr + (font->height() - 7) / 2 - ty, 7, 7, 0, 360 * 64);
             if (n->container)
-                draw(g, n->container, href);
+                draw(g, n->container, isHref);
             break;
 
         default:
             if (n->container)
-                draw(g, n->container, href);
+                draw(g, n->container, isHref);
             break;
         }
-        n = n->next;
     }
 }
 
 bool HTextView::handleKey(const XKeyEvent &key) {
-    if (key.type == KeyPress) {
-
-        if (fVerticalScroll->handleScrollKeys(key) == false
-            && fHorizontalScroll->handleScrollKeys(key) == false)
-        {
-            return YWindow::handleKey(key);
-        }
+    if (fVerticalScroll->handleScrollKeys(key) |
+        fHorizontalScroll->handleScrollKeys(key))
+    {
         return true;
     }
-    return false;
+    // unfortunately doesn't work: menu->handleKey(key);
+    if (key.type == KeyPress) {
+        KeySym k = keyCodeToKeySym(key.keycode);
+        int m = KEY_MODMASK(key.state);
+        if ((m & ControlMask) != 0 && (m & ~ControlMask) == 0) {
+            if (k == XK_q) {
+                actionPerformed(actionClose, 0);
+                return true;
+            }
+        }
+        if ((m & xapp->AltMask) != 0 && (m & ~xapp->AltMask) == 0) {
+            if (k == XK_Left || k == XK_KP_Left) {
+                actionPerformed(actionLeft, 0);
+                return true;
+            }
+            if (k == XK_Right || k == XK_KP_Right) {
+                actionPerformed(actionRight, 0);
+                return true;
+            }
+        }
+    }
+    return YWindow::handleKey(key);
 }
 
 void HTextView::handleButton(const XButtonEvent &button) {
     if (fVerticalScroll->handleScrollMouse(button) == false)
         YWindow::handleButton(button);
-}
-
-class FileView: public YWindow, public HTListener {
-public:
-    FileView(IApp *app, char *path);
-    ~FileView() {
-        if (fPath != 0) {
-            delete[] fPath;
-            fPath = 0;
-        }
-    }
-
-    void loadFile();
-
-    void activateURL(const char *url) {
-        char link[1024];
-        char *r;
-
-        //msg("link: %s", url);
-
-        strcpy(link, fPath);
-
-        r = strrchr(link, '/');
-        if (r)
-            r[1] = 0;
-        else
-            link[0] = 0;
-
-        strcat(link, url);
-
-        r = strchr(link, '#');
-        if (r)
-            *r = 0;
-
-#if 0
-        FileView *view = new FileView(link);
-
-        view->show();
-#else
-        delete[] fPath;
-        fPath = newstr(link);
-        loadFile();
-        view->repaint();
-#endif
-    }
-
-    virtual void configure(const YRect &r) {
-        YWindow::configure(r);
-        scroll->setGeometry(YRect(0, 0, r.width(), r.height()));
-    }
-
-    virtual void handleClose() {
-        IApp *tmp = app;
-        delete this;
-        tmp->exit(0);
-    }
-
-private:
-    char *fPath;
-    IApp *app;
-
-    HTextView *view;
-    YScrollView *scroll;
-    ref<YPixmap> small_icon;
-    ref<YPixmap> large_icon;
-};
-
-FileView::FileView(IApp *app, char *path) {
-    this->app = app;
-    setDND(true);
-    fPath = newstr(path);
-
-    scroll = new YScrollView(this);
-    view = new HTextView(this, scroll, this);
-    scroll->setView(view);
-
-    view->show();
-    scroll->show();
-
-    setTitle(fPath);
-    setClassHint("browser", "IceHelp");
-
-    ref<YIcon> file_icon = YIcon::getIcon("file");
-    small_icon = YPixmap::createFromImage(file_icon->small());
-    large_icon = YPixmap::createFromImage(file_icon->large());
-
-    Pixmap icons[4] = {
-        small_icon->pixmap(), small_icon->mask(),
-        large_icon->pixmap(), large_icon->mask()
-    };
-
-    XChangeProperty(xapp->display(), handle(),
-                    _XA_WIN_ICONS, XA_PIXMAP,
-                    32, PropModeReplace,
-                    (unsigned char *)icons, 4);
-
-    setSize(640, 640);
-
-    loadFile();
 }
 
 void HTextView::handleClick(const XButtonEvent &up, int /*count*/) {
@@ -1347,16 +1642,338 @@ void HTextView::handleClick(const XButtonEvent &up, int /*count*/) {
     } else if (up.button == 1) {
         node *anchor = 0;
         node *n = find_node(fRoot, up.x + tx, up.y + ty, anchor, node::anchor);
-
         if (n && anchor) {
-            attribute *href = find_attribute(anchor, "href");
-
-
-            if (href && href->value) {
-                listener->activateURL(href->value);
+            attr href;
+            if (anchor->get_attribute("href", &href) && href.value) {
+                listener->activateURL(href.value, true);
             }
         }
     }
+}
+
+class FileView: public YWindow, public HTListener {
+public:
+    FileView(YApplication *app, const char *path);
+    ~FileView() {}
+
+    void activateURL(const cstring& url, bool relative = false); 
+
+    virtual void configure(const YRect &r) {
+        YWindow::configure(r);
+        scroll->setGeometry(YRect(0, 0, r.width(), r.height()));
+    }
+
+    virtual void handleClose() {
+        app->exitLoop(0);
+    }
+
+private:
+    bool loadFile(const upath& path);
+    bool loadHttp(const upath& path);
+    void invalidPath(const upath& path, const char *reason);
+
+    upath fPath;
+    YApplication *app;
+
+    HTextView *view;
+    YScrollView *scroll;
+    ref<YPixmap> small_icon;
+    ref<YPixmap> large_icon;
+};
+
+FileView::FileView(YApplication *iapp, const char *path)
+    : fPath(), app(iapp), view(0), scroll(0)
+{
+    setDND(true);
+
+    scroll = new YScrollView(this);
+    view = new HTextView(this, scroll, this);
+    scroll->setView(view);
+
+    view->show();
+    scroll->show();
+
+    setSize(640, 640);
+    setTitle(path);
+    setClassHint("browser", "IceHelp");
+
+    ref<YIcon> file_icon = YIcon::getIcon("file");
+    small_icon = YPixmap::createFromImage(file_icon->small());
+    large_icon = YPixmap::createFromImage(file_icon->large());
+
+    Pixmap icons[4] = {
+        small_icon->pixmap(), small_icon->mask(),
+        large_icon->pixmap(), large_icon->mask()
+    };
+
+    extern Atom _XA_WIN_ICONS;
+    XChangeProperty(xapp->display(), handle(),
+                    _XA_WIN_ICONS, XA_PIXMAP,
+                    32, PropModeReplace,
+                    (unsigned char *)icons, 4);
+
+    activateURL(path);
+}
+
+void FileView::activateURL(const cstring& url, bool relative) {
+    tlog("activateURL('%s', %s)", url.c_str(),
+            relative ? "relative" : "not-relative");
+
+    /*
+     * Differentiate:
+     * - has (only) a fragment (#).
+     * - url is local/remote.
+     * - if local: absolute or relative to previous path.
+     */
+
+    mstring path, frag;
+    if (url.m_str().splitall('#', &path, &frag) == false ||
+        path.length() + frag.length() == 0) {
+        return; // empty
+    }
+
+    if (relative && path.length() > 0 && upath(path).isRelative()) {
+        int k = fPath.path().lastIndexOf('/');
+        if (k >= 0) {
+            path = fPath.path().substring(0, k + 1) + path;
+        }
+    }
+    path = path.searchAndReplaceAll("/./", "/");
+
+    if (path.length() > 0) {
+        if (upath(path).hasProtocol()) {
+            if (path.startsWith("file:///")) {
+                path = path.substring((int)strlen("file://"));
+            }
+        }
+        if (upath(path).hasProtocol()) {
+            if (upath(path).isHttp()) {
+                if (path.count('/') == 2) {
+                    path += "/";
+                }
+                if (loadHttp(path) == false) {
+                    return;
+                }
+            }
+            else {
+                return invalidPath(path, "Unsupported protocol.");
+            }
+        }
+        else if (loadFile(path) == false) {
+            return;
+        }
+    }
+    if (frag.length() > 0 && view->contentHeight() > view->height()) {
+        // search
+        view->find_fragment(cstring(frag));
+    }
+    view->repaint();
+    if (frag.length() > 0) {
+        path = path + "#" + frag;
+    }
+    if (relative && path.charAt(0) == '#') {
+        path = fPath.path() + path;
+    }
+    view->addHistory(path);
+    setTitle(cstring(path));
+    fPath = path;
+}
+
+void FileView::invalidPath(const upath& path, const char *reason) {
+    const char *cstr = cstring(path);
+    const char *cfmt = _("Invalid path: %s\n");
+    const char *crea = _(reason);
+    tlog(cfmt, cstr);
+    tlog("%s", crea);
+
+    const size_t size = 9 + strlen(cfmt) + strlen(cstr) + strlen(crea);
+    char *cbuf = (char *)malloc(size);
+    snprintf(cbuf, size, cfmt, cstr);
+    strlcat(cbuf, ":\n ", size);
+    strlcat(cbuf, crea, size);
+
+    node *root = new node(node::div);
+    flist<node> nodes(root);
+
+    node *txt = new node(node::text);
+    txt->txt = cbuf;
+    nodes.add(txt);
+
+    view->setData(root);
+}
+
+bool FileView::loadFile(const upath& path) {
+    if (path.fileExists() == false) {
+        invalidPath(path, "Path does not refer to a file.");
+        return false;
+    }
+    FILE *fp = fopen(cstring(path), "r");
+    if (fp == 0) {
+        invalidPath(path, "Failed to open file for reading.");
+        return false;
+    }
+    node *nextsub = 0;
+    node::node_type close_type = node::unknown;
+    node *root = parse(fp, 0, 0, nextsub, close_type);
+    assert(nextsub == 0);
+    fclose(fp);
+    dump_tree(0, root);
+    view->setData(root);
+    return true;
+}
+
+class temp_file {
+private:
+    FILE *fp;
+    cbuffer cbuf;
+    bool init(const char *tdir) {
+        cbuf = cstring(upath(tdir) + "iceXXXXXX");
+        int fd = mkstemp(cbuf.peek());
+        if (fd >= 0) fp = fdopen(fd, "w+b");
+        return fp;
+    }
+    temp_file(const temp_file&);
+    temp_file& operator=(const temp_file&);
+public:
+    temp_file() : fp(0) {
+        const char *tenv = getenv("TMPDIR");
+        if ((tenv && init(tenv)) || init("/tmp") || init("/var/tmp")) ;
+        else tlog("Failed to create a temporary file");
+    }
+    ~temp_file() {
+        unlink(cbuf.peek());
+        if (fp) fclose(fp);
+    }
+    operator bool() const { return fp != 0; }
+    int fildes() const { return fileno(fp); }
+    FILE *filep() const { return fp; }
+    const char *path() const { return cbuf; }
+    int size() const {
+        struct stat b;
+        return fstat(fildes(), &b) >= 0 ? (int) b.st_size : 0;
+    }
+    void rewind() const { ::rewind(fp); }
+};
+
+class downloader {
+private:
+    mstring curl, wget, gzip, cat;
+    void test(mstring *mst, const mstring& dir, const char *exe) {
+        if (mst->isEmpty()) {
+            upath bin = upath(dir) + exe;
+            if (bin.isExecutable() && bin.fileExists()) {
+                *mst = bin;
+            }
+        }
+    }
+    bool empty() const {
+        return curl.isEmpty() || wget.isEmpty()
+            || gzip.isEmpty() || cat.isEmpty();
+    }
+    void init() {
+        const char defp[] = "/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin";
+        const char *penv = getenv("PATH");
+        mstring mpth(penv ? penv : defp), mdir;
+        while (empty() && mpth.splitall(':', &mdir, &mpth)) {
+            test(&curl, mdir, "curl");
+            test(&wget, mdir, "wget");
+            test(&gzip, mdir, "gzip");
+            test(&cat, mdir, "cat");
+        }
+    }
+    downloader(const downloader&);
+    downloader& operator=(const downloader&);
+public:
+    downloader() { init(); }
+    operator bool() const {
+        return curl.nonempty() || wget.nonempty();
+    }
+    bool downloadTo(const char *remote, const temp_file& local) {
+        mstring cmd;
+        if (curl.nonempty()) {
+            cmd = curl + " --compressed -s -o ";
+        }
+        else if (wget.nonempty()) {
+            cmd = wget + " -q -k -O ";
+        }
+        else {
+            return false;
+        }
+        cmd = cmd + "'" + local.path() + "' '" + remote + "'";
+        if (!command(cmd)) {
+            return false;
+        }
+        local.rewind();
+        if (is_compressed(local.fildes())) {
+            if (decompress(local) == false) {
+                return false;
+            }
+        }
+        local.rewind();
+        return true;
+    }
+    static bool is_safe(const char *url) {
+        for (const char *p = url; *p; ++p) {
+            if (!ASCII::isAlnum(*p) && !strchr(":/.+-_@%?&=", *p)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    static bool is_compressed(int fd) {
+        char b[3];
+        return read_fd(fd, b, 3) >= 2 && b[0] == '\x1F' && b[1] == '\x8B';
+    }
+    static bool command(const mstring& mcmd) {
+        const char *cmd = cstring(mcmd);
+        int xit = ::system(cmd);
+        if (xit) {
+            tlog("Failed to execute system(%s) (%d)", cmd, xit);
+            return false;
+        }
+        // tlog("Executed system(%s) OK!", cmd);
+        return true;
+    }
+    bool decompress(const temp_file& local) {
+        if (gzip.nonempty() && cat.nonempty()) {
+            temp_file temp;
+            if (temp) {
+                mstring cmd = gzip + " -d -c <'";
+                cmd = cmd + local.path() + "' >'";
+                cmd = cmd + temp.path() + "'";
+                if (command(cmd)) {
+                    cmd = cat + "<'" + temp.path() + "' >'";
+                    cmd = cmd + local.path() + "'";
+                    if (command(cmd)) {
+                        local.rewind();
+                        return true;
+                    }
+                }
+            }
+        }
+        tlog("Failed to decompress %s", local.path());
+        return false;
+    }
+};
+
+bool FileView::loadHttp(const upath& path) {
+    downloader loader;
+    if (!loader) {
+        invalidPath(path, "Could not locate curl or wget in PATH");
+        return false;
+    }
+    if (!loader.is_safe(cstring(path))) {
+        invalidPath(path, "Unsafe characters in URL");
+        return false;
+    }
+    temp_file temp;
+    if (!temp) {
+        return false;
+    }
+    if (loader.downloadTo(cstring(path), temp)) {
+        return loadFile(temp.path());
+    }
+    return false;
 }
 
 static void print_help()
@@ -1380,48 +1997,17 @@ int main(int argc, char **argv) {
 
     YXApplication app(&argc, &argv);
 
-    if (argc == 2) {
-        FileView *view = new FileView(&app, argv[1]);
-        view->show();
+    if (argc != 2) print_help();
 
-        return app.mainLoop();
-    }
+    FileView view(&app, argv[1]);
+    view.show();
+    app.mainLoop();
 
-    print_help();
-}
-
-void FileView::loadFile() {
-    FILE *fp = fopen(fPath, "r");
-    if (fp == 0) {
-        warn(_("Invalid path: %s\n"), fPath);
-        root = new node(node::div);
-        node * last(NULL);
-
-        node * txt(new node(node::text));
-        txt->txt = _("Invalid path: ");
-        last = add(&root, NULL, txt);
-
-        txt = new node(node::text);
-        txt->txt = fPath;
-        last = add(&root, last, txt);
-
-        view->setData(root);
-        return ;
-    }
-    if (fp) {
-        node *nextsub = 0;
-        node::node_type close_type = node::unknown;
-        root = parse(fp, 0, 0, nextsub, close_type);
-        assert(nextsub == 0);
-#ifdef DUMP
-        dump_tree(0, root);
-#endif
-        view->setData(root);
-    }
-    fclose(fp);
+    return 0;
 }
 
 static void dump_tree(int level, node *n) {
+#ifdef DUMP
     while (n) {
         printf("%*s<%s>\n", level, "", node::to_string(n->type));
         if (n->container) {
@@ -1430,6 +2016,7 @@ static void dump_tree(int level, node *n) {
         }
         n = n->next;
     }
+#endif
 }
 
 #if 0
