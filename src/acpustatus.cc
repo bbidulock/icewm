@@ -56,20 +56,6 @@
 #include <dirent.h>
 #include "intl.h"
 
-static int read_file(const char *filename, char *buf, size_t buflen)
-{
-    int fd, len = -1;
-    fd = open(filename, O_RDONLY);
-    if (fd >= 0) {
-        len = read(fd, buf, buflen - 1);
-        if (len >= 0) {
-            buf[len] = '\0';
-        }
-        close(fd);
-    }
-    return len;
-}
-
 #if (defined(linux) || defined(HAVE_KSTAT_H)) || defined(HAVE_SYSCTL_CP_TIME)
 
 extern ref<YPixmap> taskbackPixmap;

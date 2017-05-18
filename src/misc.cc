@@ -10,6 +10,7 @@
 
 #include "intl.h"
 #include "ref.h"
+#include <time.h>
 
 #ifdef HAVE_LIBGEN_H
 #include <libgen.h>
@@ -292,6 +293,13 @@ void logEvent(const XEvent &xev) {
 }
 #endif
 
+static void endMsg(const char *msg) {
+    if (*msg && msg[strlen(msg)-1] != '\n') {
+        fputc('\n', stderr);
+    }
+    fflush(stderr);
+}
+
 void die(int exitcode, char const *msg, ...) {
     fprintf(stderr, "%s: ", ApplicationName);
 
@@ -299,8 +307,7 @@ void die(int exitcode, char const *msg, ...) {
     va_start(ap, msg);
     vfprintf(stderr, msg, ap);
     va_end(ap);
-    fputs("\n", stderr);
-    fflush(stderr);
+    endMsg(msg);
 
     exit(exitcode);
 }
@@ -326,9 +333,7 @@ void warn(char const *msg, ...) {
     va_start(ap, msg);
     vfprintf(stderr, msg, ap);
     va_end(ap);
-
-    fputs("\n", stderr);
-    fflush(stderr);
+    endMsg(msg);
 }
 
 void msg(char const *msg, ...) {
@@ -338,8 +343,21 @@ void msg(char const *msg, ...) {
     va_start(ap, msg);
     vfprintf(stderr, msg, ap);
     va_end(ap);
-    fputs("\n", stderr);
-    fflush(stderr);
+    endMsg(msg);
+}
+
+void tlog(char const *msg, ...) {
+    time_t now = time(NULL);
+    struct tm *loc = localtime(&now);
+
+    fprintf(stderr, "%02d:%02d:%02d: %s: ", loc->tm_hour,
+            loc->tm_min, loc->tm_sec, ApplicationName);
+
+    va_list ap;
+    va_start(ap, msg);
+    vfprintf(stderr, msg, ap);
+    va_end(ap);
+    endMsg(msg);
 }
 
 char *cstrJoin(char const *str, ...) {
@@ -415,6 +433,30 @@ void operator delete[](void *p) {
 }
 
 #endif
+
+/* Prefer this as a safer alternative over strcpy. Return strlen(from). */
+size_t strlcpy(char *dest, const char *from, size_t dest_size)
+{
+    const char *in = from;
+    if (dest_size > 0) {
+        char *to = dest;
+        char *const stop = to + dest_size - 1;
+        while (to < stop && *in)
+            *to++ = *in++;
+        *to = '\0';
+    }
+    while (*in) ++in;
+    return in - from;
+}
+
+/* Prefer this over strcat. Return strlen(dest) + strlen(from). */
+size_t strlcat(char *dest, const char *from, size_t dest_size)
+{
+    char *to = dest;
+    char *const stop = to + dest_size - 1;
+    while (to < stop && *to) ++to;
+    return to - dest + strlcpy(to, from, dest_size - (to - dest));
+}
 
 char *newstr(char const *str) {
     return (str != NULL ? newstr(str, strlen(str)) : NULL);
@@ -608,3 +650,29 @@ void show_backtrace() {
     fprintf(stderr, "end\n");
 #endif
 }
+
+/* read from file descriptor and zero terminate buffer. */
+int read_fd(int fd, char *buf, size_t buflen) {
+    if (fd >= 0 && buf && buflen) {
+        char *ptr = buf;
+        ssize_t got = 0, len = (ssize_t)(buflen - 1);
+        while (len > 0 && (got = read(fd, ptr, (size_t) len)) > 0) {
+            ptr += got;
+            len -= got;
+        }
+        *ptr = 0;
+        return (ptr > buf) ? (int)(ptr - buf) : (int) got;
+    }
+    return -1;
+}
+
+/* read from filename and zero terminate the buffer. */
+int read_file(const char *filename, char *buf, size_t buflen) {
+    int len = -1, fd = open(filename, O_RDONLY);
+    if (fd >= 0) {
+        len = read_fd(fd, buf, buflen);
+        close(fd);
+    }
+    return len;
+}
+

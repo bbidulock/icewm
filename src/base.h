@@ -1,6 +1,8 @@
 #ifndef __BASE_H
 #define __BASE_H
 
+#include <stddef.h>
+
 /*** Atomar Data Types ********************************************************/
 
 #ifdef NEED_BOOL
@@ -37,12 +39,15 @@ inline T abs(T v) {
 
 /*** String Functions *********************************************************/
 
-#if 1
+/* Prefer this as a safer alternative over strcpy. Return strlen(from). */
+size_t strlcpy(char *dest, const char *from, size_t dest_size);
+/* Prefer this over strcat. Return strlen(dest) + strlen(from). */
+size_t strlcat(char *dest, const char *from, size_t dest_size);
+
 char *newstr(char const *str);
 char *newstr(char const *str, int len);
 char *newstr(char const *str, char const *delim);
 char *cstrJoin(char const *str, ...);
-#endif
 
 #if 0
 /*
@@ -95,6 +100,7 @@ static char const * itoa(T i, bool sign = false) {
 void die(int exitcode, char const *msg, ...);
 void warn(char const *msg, ...);
 void msg(char const *msg, ...);
+void tlog(char const *msg, ...);
 void precondition(const char *expr, const char *file, int line);
 void show_backtrace();
 
@@ -209,6 +215,13 @@ void print_help_exit(const char *help);
 void print_version_exit(const char *version);
 void check_help_version(const char *arg, const char *help, const char *version);
 void check_argv(int argc, char **argv, const char *help, const char *version);
+
+/*** file handling ************************************************************/
+
+/* read from file descriptor and zero terminate buffer. */
+int read_fd(int fd, char *buf, size_t buflen);
+/* read from filename and zero terminate the buffer. */
+int read_file(const char *filename, char *buf, size_t buflen);
 
 /******************************************************************************/
 
