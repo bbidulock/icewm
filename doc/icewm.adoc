@@ -2,6 +2,8 @@
 Marko Macek, <Marko.Macek@gmx.net>
 v1.3.12, 2017 May 04
 :homepage: http://www.icewm.org
+:toc:
+:toclevels: 1
 
 This document is the documentation for the *IceWM* X11 window manager.
 It is still incomplete. IceWM and its documentation is
@@ -61,17 +63,20 @@ Docklet support, and startup/shutdown script handling), use the
 `icewm-session` binary instead of pure `icewm`. Note that this is
 not a complete Session Manager but it helps to automate the startup.
 
-First make sure that you choose the correct X startup script in your
-home directory. For most distributions the file `$HOME/.xsession` is
-honored by startx and X display managers like KDM. On RedHat, the
-`$HOME/.Xclients` may be used instead. In all cases, choose the one
+First make sure that you choose the correct
+http://www.tldp.org/HOWTO/XWindow-User-HOWTO/runningx.html[X startup]
+script in your home directory.
+For most distributions either the file `$HOME/.xsession`
+or `$HOME/.xinitrc` is honored by startx and X display managers like KDM.
+On RedHat, the `$HOME/.Xclients` may be used instead.
+In all cases, choose the one
 recommended by your distribution and make sure that there
 is no concurrency between the X startup scripts.
-
-The recommended way to start is from `$HOME/.xsession` shell script (may
-be executable, must be on RedHat). Mine looks something like this:
+Ensure that the script is executable. 
+Mine looks something like this:
 
 ....
+#!/bin/bash
 # run profile to set $PATH and other env vars correctly
 . $HOME/.bash_profile
 # setup touchpad and the external mouse
@@ -88,11 +93,6 @@ session doesn't crash if icewm does (should never happen). You can
 restart icewm from there or start some other window manager. The
 session will close if you close the xterm.
 
-The above should work for most Linux systems.
-If you are running xdm or some other login program
-check it's manpage for the correct place to start the window manager
-(usually `~/.xsession`, `~/.Xsession` or `~/.xinitrc`).
-
 === Startup and shutdown scripts
 
 After initialization `icewm-session` will search
@@ -103,7 +103,7 @@ During termination of `icewm-session`, the `shutdown` script is executed.
 Additionally the flag `--with-gnome` is passed
 if a GNOME session manager is detected.
 
-Example `startup` script:
+Example `~/.icewm/startup` script:
 ....
 #!/bin/bash
 
@@ -423,7 +423,6 @@ WorkspaceNames=" 1 ", " 2 ", " 3 ", " 4 "
 LibPath:: Path to the icewm/lib directory.
 IconPath:: Path to the icon directory. Multiple paths can be entered
 using the colon (UNIX) or semicolon (OS/2) as the separator.
-LibPath:: Path to the icewm/lib directory.
 
 === Programs
 
@@ -452,9 +451,7 @@ Items to show in the window menus, posible values are:
 * w=WindowsList
 * x=maXimize
 * y=laYer
-
 Examples:
-
 ....
 WinMenuItems=rmsnxfhualyticw   #Default menu
 WinMenuItems=rmsnxfhualytickw  #Menu with all possible options
