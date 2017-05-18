@@ -1041,10 +1041,10 @@ void YFrameClient::setMwmHints(const MwmHints &mwm) {
 void YFrameClient::saveSizeHints()
 {
     memcpy(&savedSizeHints, fSizeHints, sizeof(XSizeHints));
-};
+}
 void YFrameClient::restoreSizeHints() {
     memcpy(fSizeHints, &savedSizeHints, sizeof(XSizeHints));
-};
+}
 
 
 long YFrameClient::mwmFunctions() {

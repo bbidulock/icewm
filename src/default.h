@@ -134,7 +134,7 @@ XIV(bool, showWindowList,                       true)
 XIV(bool, showHelp,                             true)
 XIV(bool, allowFullscreen,                      true)
 XIV(bool, fullscreenUseAllMonitors,             false)
-XIV(bool, enableAddressBar,                     true);
+XIV(bool, enableAddressBar,                     true)
 XIV(bool, showAddressBar,                       true)
 XIV(bool, confirmLogout,                        true)
 #ifdef CONFIG_SHAPED_DECORATION

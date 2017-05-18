@@ -3725,7 +3725,7 @@ void YFrameWindow::updateNetStartupId() {
 
 void YFrameWindow::updateNetWMUserTime() {
     unsigned long time = -1UL;
-    Window window = fUserTimeWindow ? : client()->handle();
+    Window window = fUserTimeWindow ? fUserTimeWindow : client()->handle();
     client()->getNetWMUserTime(window, time);
     if (time != fUserTime) {
         fUserTime = time;

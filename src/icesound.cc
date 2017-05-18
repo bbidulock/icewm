@@ -349,7 +349,7 @@ int YALSAAudio::init(int & argc, char **& argv) {
 
     // check the device parameter perhaps?
 
-    CATCH(/**/)
+    CATCH(/**/;)
 }
 
 #endif /* ENABLE_ALSA */
@@ -468,7 +468,7 @@ int YOSSAudio::init(int & argc, char **& argv) {
             THROW(3)
         }
 
-    CATCH(/**/)
+    CATCH(/**/;)
 }
 
 /******************************************************************************
@@ -746,7 +746,7 @@ int YY2Audio::init(int & argc, char **& argv) {
      * or other async event occured during initialization. */
     server = con;
 
-    CATCH(/**/)
+    CATCH(/**/;)
 }
 
 /**

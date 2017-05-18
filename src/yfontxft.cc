@@ -306,7 +306,7 @@ YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
                 } else {
                     parts[nparts].font = NULL;
                     parts[nparts].width = 0;
-                    warn("glyph not found: %d", *(c - 1));
+                    MSG(("glyph not found: %d", *(c - 1)));
                 }
 
                 return parts;

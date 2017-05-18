@@ -41,7 +41,7 @@ XIV(int, quickSwitchIBorder,                    2)      // !!!
 XIV(int, quickSwitchSepSize,                    6)      // !!!
 XSV(const char *, titleButtonsLeft,             "s")
 XSV(const char *, titleButtonsRight,            "xmir")
-XSV(const char *, titleButtonsSupported,        "xmis");
+XSV(const char *, titleButtonsSupported,        "xmis")
 XSV(const char *, themeAuthor,                  0)
 XSV(const char *, themeDescription,             0)
 

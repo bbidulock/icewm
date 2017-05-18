@@ -236,7 +236,8 @@ void MailCheck::socketDataRead(char *buf, int len) {
             static char quit[] = "QUIT\r\n";
             MSG(("pop3: quit"));
             //puts(bf);
-            if (sscanf(bf, "+OK %lu %lu", &fCurCount, &fCurSize) != 2) {
+            if (sscanf(bf, "+OK %ld %ld", &fCurCount, &fCurSize) != 2
+                    || fCurCount < 0 || fCurSize < 0) {
                 fCurCount = 0;
                 fCurSize = 0;
             }
@@ -283,8 +284,8 @@ void MailCheck::socketDataRead(char *buf, int len) {
                                    (fURL->path() == null || fURL->path().equals("/")) ? "INBOX" : cstring(fURL->path()).c_str() + 1,
                                    " (UNSEEN)\r\n", NULL));
             char folder[128] = "";
-            if (sscanf(bf, "* STATUS %127s (MESSAGES %lu)",
-                       folder, &fCurCount) != 2) {
+            if (sscanf(bf, "* STATUS %127s (MESSAGES %ld)",
+                       folder, &fCurCount) != 2 || fCurCount < 0) {
                 fCurCount = 0;
             }
             fCurUnseen = 0;
@@ -295,8 +296,8 @@ void MailCheck::socketDataRead(char *buf, int len) {
             MSG(("imap: logout"));
             const char logout[] = "0003 LOGOUT\r\n";
             char folder[128] = "";
-            if (sscanf(bf, "* STATUS %127s (UNSEEN %lu)",
-                       folder, &fCurUnseen) != 2) {
+            if (sscanf(bf, "* STATUS %127s (UNSEEN %ld)",
+                       folder, &fCurUnseen) != 2 || fCurUnseen < 0) {
                 fCurUnseen = 0;
             }
             sk.write(logout, sizeof(logout)/sizeof(char)-1);

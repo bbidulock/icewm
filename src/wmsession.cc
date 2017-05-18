@@ -184,7 +184,7 @@ static int rd_str(char *s, char *d) {
         if (c == ' ' && old)
             break;
         if (!old && c == '=') {
-            int i = ' ';
+            unsigned int i = ' ';
 
             sscanf(s, "%02X", &i);
             s += 2;

@@ -618,14 +618,19 @@ void TaskBar::trayChanged() {
     //    updateLayout();
 }
 
-typedef struct {
+struct LayoutInfo {
     YWindow *w;
     bool left;
     int row; // 0 = bottom, 1 = top
     bool show;
     int pre, post;
     bool expand;
-} LayoutInfo;
+
+    LayoutInfo() :
+        w(0), left(false), row(0), show(false), pre(0), post(0), expand(false) {}
+    LayoutInfo(YWindow *_w, bool l, int r, bool s, int p, int o, bool e) :
+        w(_w), left(l), row(r), show(s), pre(p), post(o), expand(e) {}
+};
 
 bool operator==(const LayoutInfo &l1, const LayoutInfo &l2)
 {
@@ -638,60 +643,60 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
     wlist.setCapacity(13);
 
 #ifndef NO_CONFIGURE_MENUS
-    nw = (LayoutInfo){ fApplications, true, 1, true, 0, 0, true };
+    nw = LayoutInfo( fApplications, true, 1, true, 0, 0, true );
     wlist.append(nw);
 #endif
-    nw = (LayoutInfo){ fShowDesktop, true, 0, true, 0, 0, true };
+    nw = LayoutInfo( fShowDesktop, true, 0, true, 0, 0, true );
     wlist.append(nw);
 #ifdef CONFIG_WINMENU
-    nw = (LayoutInfo){ fWinList, true, 0, true, 0, 0, true};
+    nw = LayoutInfo( fWinList, true, 0, true, 0, 0, true );
     wlist.append(nw);
 #endif
 #ifndef NO_CONFIGURE_MENUS
-    nw = (LayoutInfo){ fObjectBar, true, 1, true, 4, 0, true };
+    nw = LayoutInfo( fObjectBar, true, 1, true, 4, 0, true );
     wlist.append(nw);
 #endif
-    nw = (LayoutInfo){ fWorkspaces, taskBarWorkspacesLeft, taskBarDoubleHeight && taskBarWorkspacesTop, true, 4, 4, true };
+    nw = LayoutInfo( fWorkspaces, taskBarWorkspacesLeft, taskBarDoubleHeight && taskBarWorkspacesTop, true, 4, 4, true );
     wlist.append(nw);
 
-    nw = (LayoutInfo){ fCollapseButton, false, 0, true, 0, 2, true };
+    nw = LayoutInfo( fCollapseButton, false, 0, true, 0, 2, true );
     wlist.append(nw);
 #ifdef CONFIG_APPLET_CLOCK
-    nw = (LayoutInfo){ fClock, false, 1, true, 2, 2, false };
+    nw = LayoutInfo( fClock, false, 1, true, 2, 2, false );
     wlist.append(nw);
 #endif
 #ifdef CONFIG_APPLET_MAILBOX
     for (MailBoxStatus ** m(fMailBoxStatus); m && *m; ++m) {
-        nw = (LayoutInfo){ *m, false, 1, true, 1, 1, false };
+        nw = LayoutInfo( *m, false, 1, true, 1, 1, false );
         wlist.append(nw);
     }
 #endif
 #ifdef CONFIG_APPLET_CPU_STATUS
     for (CPUStatus ** c(fCPUStatus); c && *c; ++c) {
-        nw = (LayoutInfo){ *c, false, 1, true, 2, 2, false };
+        nw = LayoutInfo( *c, false, 1, true, 2, 2, false );
         wlist.append(nw);
     }
 #endif
 #ifdef CONFIG_APPLET_MEM_STATUS
-    nw = (LayoutInfo){ fMEMStatus, false, 1, true, 2, 2, false };
+    nw = LayoutInfo( fMEMStatus, false, 1, true, 2, 2, false );
     wlist.append(nw);
 #endif
 #ifdef CONFIG_APPLET_NET_STATUS
 #ifdef CONFIG_APPLET_MAILBOX
     for (NetStatus ** n(fNetStatus); n && *n; ++n) {
-        nw = (LayoutInfo){ *n, false, 1, false, 2, 2, false };
+        nw = LayoutInfo( *n, false, 1, false, 2, 2, false );
         wlist.append(nw);
     }
 #endif
 #endif
 #ifdef CONFIG_APPLET_APM
-    nw = (LayoutInfo){ fApm, false, 1, true, 0, 2, false };
+    nw = LayoutInfo( fApm, false, 1, true, 0, 2, false );
     wlist.append(nw);
 #endif
-    nw = (LayoutInfo){ fDesktopTray, false, 1, true, 1, 1, false };
+    nw = LayoutInfo( fDesktopTray, false, 1, true, 1, 1, false );
     wlist.append(nw);
 #ifdef CONFIG_TRAY
-    nw = (LayoutInfo){ fWindowTray, false, 0, true, 1, 1, true };
+    nw = LayoutInfo( fWindowTray, false, 0, true, 1, 1, true );
     wlist.append(nw);
 #endif
     const unsigned long wcount = wlist.getCount();
