@@ -49,6 +49,11 @@ public:
         fOffset(0),
         fCount(0)
     {}
+    mstring():
+        fStr(0),
+        fOffset(0),
+        fCount(0)
+    {}
 
     mstring(const mstring &r):
         fStr(r.fStr),
@@ -61,6 +66,7 @@ public:
 
     int length() const { return fCount; }
     bool isEmpty() const { return 0 == fCount; }
+    bool nonempty() const { return 0 < fCount; }
 
     mstring& operator=(const mstring& rv);
     mstring& operator+=(const mstring& rv);
@@ -78,6 +84,8 @@ public:
     int operator[](int pos) const { return charAt(pos); }
     int charAt(int pos) const;
     int indexOf(char ch) const;
+    int lastIndexOf(char ch) const;
+    int count(char ch) const;
 
     bool equals(const mstring &s) const;
     int compareTo(const mstring &s) const;
@@ -85,6 +93,7 @@ public:
 
     bool startsWith(const mstring &s) const;
     bool endsWith(const mstring &s) const;
+    int find(const mstring &s) const;
 
     bool split(unsigned char token, mstring *left, mstring *remain) const;
     bool splitall(unsigned char token, mstring *left, mstring *remain) const;
@@ -93,6 +102,9 @@ public:
     mstring remove(int position, int len) const;
     mstring insert(int position, const mstring &s) const;
     mstring append(const mstring &s) const;
+    mstring searchAndReplaceAll(const mstring& s, const mstring& r) const;
+    mstring lower() const;
+    mstring upper() const;
 
 #if 0
     static mstring fromUTF32(const UChar *str, int len);
@@ -115,15 +127,22 @@ private:
     mstring str;
 
 public:
-    explicit cstring(const mstring &str);
-    explicit cstring(const char *cstr) : str(cstr) {}
-    explicit cstring(const class upath& up);
+    cstring() : str() {}
+    cstring(const mstring &str);
+    cstring(const char *cstr) : str(cstr) {}
+    cstring(const null_ref &): str() {}
 
     cstring& operator=(const cstring& cs);
     operator const char *() const { return c_str(); }
     const char *c_str() const {
         return str.length() > 0 ? str.data() : "";
     }
+    const mstring& m_str() const { return str; }
+    operator const mstring&() const { return str; }
+    bool operator==(const null_ref &) const { return str == null; }
+    bool operator!=(const null_ref &) const { return str != null; }
+    bool operator==(const cstring& c) const { return str == c.str; }
+    bool operator!=(const cstring& c) const { return str != c.str; }
     int c_str_len() const { return str.length(); }
     int length()    const { return str.length(); }
 };

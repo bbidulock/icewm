@@ -16,12 +16,14 @@ public:
 
     int length() const { return fPath.length(); }
     bool isEmpty() const { return fPath.isEmpty(); }
+    bool nonempty() const { return fPath.nonempty(); }
 
     upath parent() const;
     pstring name() const;
     upath relative(const upath &path) const;
     upath child(const char *path) const;
     upath addExtension(const char *ext) const;
+    pstring getExtension() const;
 
     bool fileExists() const;
     bool dirExists() const;
@@ -30,6 +32,8 @@ public:
     bool isReadable() const;
     bool isWritable() const;
     bool isExecutable() const;
+    bool isHttp() const;
+    bool hasProtocol() const;
     int access(int mode) const;
 
     upath& operator=(const upath& p) {
@@ -52,6 +56,7 @@ public:
     bool equals(const upath &s) const;
 
     const pstring& path() const { return fPath; }
+    operator const pstring&() const { return path(); }
 
     static const pstring& sep() { return slash; }
     static const upath& root() { return rootPath; }

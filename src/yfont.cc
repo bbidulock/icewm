@@ -46,9 +46,7 @@ ref<YFont> YFont::getFont(ustring name, ustring xftFont, bool) {
 #endif
 
 #ifdef CONFIG_COREFONTS
-    char tmp[4096]; // XXX: such things should go into getCoreFont directly
-    name.copy(tmp, sizeof(tmp));
-    return getCoreFont(tmp);
+    return getCoreFont(cstring(name));
 #else
     return null;
 #endif

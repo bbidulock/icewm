@@ -20,6 +20,9 @@ static const char source[] = __FILE__;
 #define ispath(u, s)    if (++testsrun, (u) == upath(s) && equal(u, s)) \
         ++passed; else test_failed(cstring(u), cstring(s), __LINE__)
 
+#define sequal(u, s)    if (++testsrun, equal(u, s)) \
+        ++passed; else test_failed(cstring(u), cstring(s), __LINE__)
+
 static int testsrun, passed, failed;
 static const char *prog;
 
@@ -150,6 +153,26 @@ static void test_mstring()
     expect(k, "_xyz.");
     mstring q = t.append("!?");
     expect(q, "_.!?");
+
+    mstring ht = "http://www.icewm.org/";
+    mstring hs = "https://www.icewm.org/";
+    assert(ht, ht.find("://") == 4);
+    assert(ht, ht.find(":///") == -1);
+    assert(hs, ht.substring(ht.find("www")) == hs.substring(hs.find("www")));
+
+    mstring sl = "/././././././././././";
+    q = sl.searchAndReplaceAll("/./", "/");
+    expect(q, "/");
+    q = sl.searchAndReplaceAll("/./", "@");
+    expect(q, "@.@.@.@.@./");
+    q = sl.searchAndReplaceAll("/./", "/./");
+    expect(q, sl);
+
+    mstring ul = "aBcD.";
+    q = ul.lower();
+    expect(q, "abcd.");
+    q = ul.upper();
+    expect(q, "ABCD.");
 }
 
 static void test_upath()
@@ -210,6 +233,75 @@ static void test_upath()
     expect(neps, "");
     upath peps = eps.parent();
     expect(peps, "/etc");
+
+    upath fi = "file:///etc/passwd";
+    upath ft = "ftp://www.icewm.org/";
+    upath ht = "http://www.icewm.org/";
+    upath hs = "https://www.icewm.org";
+    upath np = "https:/www.icewm.org";
+    upath nq = "https//www.icewm.org";
+    assert(fi, fi.hasProtocol());
+    assert(ft, ft.hasProtocol());
+    assert(ht, ht.hasProtocol());
+    assert(hs, hs.hasProtocol());
+    assert(np, !np.hasProtocol());
+    assert(nq, !nq.hasProtocol());
+    assert(fi, !fi.isHttp());
+    assert(ft, !ft.isHttp());
+    assert(ht, ht.isHttp());
+    assert(hs, hs.isHttp());
+    assert(np, !np.isHttp());
+    assert(nq, !nq.isHttp());
+}
+
+static void test_strlc()
+{
+    strtest tester("strlc");
+    char d[10] = "@";
+    size_t n;
+    n = strlcpy(d, "", 0);
+    sequal(d, "@");
+    assert(d, n == 0);
+
+    n = strlcpy(d, "a", 0);
+    sequal(d, "@");
+    assert(d, n == 1);
+
+    n = strlcpy(d, "", 1);
+    sequal(d, "");
+    assert(d, n == 0);
+
+    n = strlcpy(d, "a", 1);
+    sequal(d, "");
+    assert(d, n == 1);
+
+    n = strlcpy(d, "a", 2);
+    sequal(d, "a");
+    assert(d, n == 1);
+
+    n = strlcpy(d, "ab", 2);
+    sequal(d, "a");
+    assert(d, n == 2);
+
+    n = strlcpy(d, "ab", 3);
+    sequal(d, "ab");
+    assert(d, n == 2);
+
+    n = strlcpy(d, "abc", sizeof d);
+    sequal(d, "abc");
+    assert(d, n == 3);
+
+    n = strlcat(d, "def", 4);
+    sequal(d, "abc");
+    assert(d, n == 6);
+
+    n = strlcat(d, "def", sizeof d);
+    sequal(d, "abcdef");
+    assert(d, n == 6);
+
+    n = strlcat(d, "ghijkl", sizeof d);
+    sequal(d, "abcdefghi");
+    assert(d, n == 12);
 }
 
 int main(int argc, char **argv)
@@ -218,6 +310,7 @@ int main(int argc, char **argv)
 
     test_mstring();
     test_upath();
+    test_strlc();
 
     return 0;
 }

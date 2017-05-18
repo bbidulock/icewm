@@ -73,22 +73,28 @@ upath upath::addExtension(const char *ext) const {
     return upath(path().append(ext));
 }
 
+pstring upath::getExtension() const {
+    int dot = path().lastIndexOf('.');
+    int sep = path().lastIndexOf('/');
+    return dot > sep ? path().substring(dot + 1) : pstring();
+}
+
 bool upath::isAbsolute() const {
-    return path().startsWith(slash);
+    return isSeparator(path()[0]);
 }
 
 bool upath::isRelative() const {
-    return false == isAbsolute();
+    return false == isAbsolute() && false == hasProtocol();
 }
 
 bool upath::fileExists() const {
     struct stat sb;
-    return stat(cstring(*this), &sb) == 0 && S_ISREG(sb.st_mode);
+    return stat(cstring(path()), &sb) == 0 && S_ISREG(sb.st_mode);
 }
 
 bool upath::dirExists() const {
     struct stat sb;
-    return stat(cstring(*this), &sb) == 0 && S_ISDIR(sb.st_mode);
+    return stat(cstring(path()), &sb) == 0 && S_ISDIR(sb.st_mode);
 }
 
 bool upath::isReadable() const {
@@ -96,7 +102,7 @@ bool upath::isReadable() const {
 }
 
 int upath::access(int mode) const {
-    return ::access(cstring(*this), mode);
+    return ::access(cstring(path()), mode);
 }
 
 bool upath::isWritable() const {
@@ -107,16 +113,19 @@ bool upath::isExecutable() const {
     return access(X_OK) == 0;
 }
 
+bool upath::hasProtocol() const {
+    int k = path().indexOf('/');
+    return k > 0 && path()[k-1] == ':' && path()[k+1] == '/';
+}
+
+bool upath::isHttp() const {
+    return path().startsWith("http") && hasProtocol();
+}
+
 bool upath::equals(const upath &s) const {
     if (path() != null && s.path() != null)
         return path().equals(s.path());
     else
         return path() == null && s.path() == null;
-}
-
-cstring::cstring(const upath &u)
-        : str(u.path())
-{
-    str.normalize();
 }
 

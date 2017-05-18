@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include "base.h"
+#include "ascii.h"
 
 MStringData *MStringData::alloc(int length) {
     size_t size = sizeof(MStringData) + (size_t) length + 1;
@@ -97,11 +98,12 @@ mstring& mstring::operator=(const mstring& rv) {
 }
 
 mstring& mstring::operator=(const class null_ref &) {
-    if (fStr)
+    if (fStr) {
         release();
-    fStr = 0;
-    fCount = 0;
-    fOffset = 0;
+        fStr = 0;
+        fCount = 0;
+        fOffset = 0;
+    }
     return *this;
 }
 
@@ -134,9 +136,9 @@ mstring mstring::substring(int pos) const {
 mstring mstring::substring(int pos, int len) const {
     PRECONDITION(pos >= 0);
     PRECONDITION(len >= 0);
-    PRECONDITION(pos + len <= length());
+    PRECONDITION(pos <= length());
 
-    return mstring(fStr, fOffset + pos, len);
+    return mstring(fStr, fOffset + pos, min(len, fCount - pos));
 }
 
 bool mstring::split(unsigned char token, mstring *left, mstring *remain) const {
@@ -166,7 +168,7 @@ bool mstring::splitall(unsigned char token, mstring *left, mstring *remain) cons
 
 int mstring::charAt(int pos) const {
     if (pos >= 0 && pos < length())
-        return fStr->fStr[pos + fOffset];
+        return data()[pos];
     else
         return -1;
 }
@@ -191,13 +193,39 @@ bool mstring::endsWith(const mstring &s) const {
     return false;
 }
 
+int mstring::find(const mstring &s) const {
+    int stop = length() - s.length();
+    for (int start = 0; start <= stop; ++start) {
+        for (int i = 0; ; ++i) {
+            if (i == s.length()) return start;
+            if (data()[i + start] != s.data()[i]) break;
+        }
+    }
+    return -1;
+}
+
 int mstring::indexOf(char ch) const {
     if (length() == 0)
         return -1;
     char *s = (char *)memchr(data(), ch, fCount);
     if (s == NULL)
         return -1;
-    return s - fStr->fStr - fOffset;
+    return s - data();
+}
+
+int mstring::lastIndexOf(char ch) const {
+    for (int k = length() - 1; k >= 0; --k) {
+        if (ch == data()[k]) return k;
+    }
+    return -1;
+}
+
+int mstring::count(char ch) const {
+    int n = 0;
+    for (int k = 0; k < length(); ++k) {
+        n += ch == data()[k];
+    }
+    return n;
 }
 
 bool mstring::equals(const mstring &s) const {
@@ -255,6 +283,40 @@ mstring mstring::append(const mstring &s) const {
     return *this + s;
 }
 
+mstring mstring::searchAndReplaceAll(const mstring& s, const mstring& r) const {
+    mstring m(*this);
+    int offset = 0, step = 1 + r.length() - s.length();
+    for (; offset + s.length() <= m.length(); offset += step) {
+        int k = offset + m.substring(offset).find(s);
+        if (k < offset) break;
+        m = m.replace(k, s.length(), r);
+    }
+    return m;
+}
+
+mstring mstring::lower() const {
+    if (fStr) {
+        MStringData *ud = MStringData::create(data(), fCount);
+        for (int i = 0; i < fCount; ++i) {
+            ud->fStr[i] = ASCII::toLower(ud->fStr[i]);
+        }
+        return mstring(ud, 0, fCount);
+    }
+    return null;
+}
+
+mstring mstring::upper() const {
+    if (*this == null) {
+        return null;
+    } else {
+        MStringData *ud = MStringData::create(data(), fCount);
+        for (int i = 0; i < fCount; ++i) {
+            ud->fStr[i] = ASCII::toUpper(ud->fStr[i]);
+        }
+        return mstring(ud, 0, fCount);
+    }
+}
+
 mstring mstring::trim() const {
     int k = 0, n = length();
     while (k < n && isspace((unsigned char) charAt(k))) {
@@ -270,9 +332,11 @@ void mstring::normalize()
 {
     if (fStr) {
         if (data()[fCount]) {
-            int len = strnlen(data(), fCount);
-            mstring copy(data(), len);
-            *this = copy;
+            MStringData *ud = MStringData::create(data(), fCount);
+            release();
+            fStr = ud;
+            fOffset = 0;
+            acquire();
         }
     }
 }
