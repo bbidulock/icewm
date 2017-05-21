@@ -1,3 +1,4 @@
+#include "config.h"
 #include <X11/Xatom.h>
 #include "ylistbox.h"
 #include "ymenu.h"
