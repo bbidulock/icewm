@@ -31,8 +31,6 @@
 #include "intl.h"
 #include "appnames.h"
 
-extern bool parseKey(const char *arg, KeySym *key, unsigned int *mod);
-
 DObjectMenuItem::DObjectMenuItem(DObject *object):
     YMenuItem(object->getName(), -3, null, this, 0)
 {
@@ -229,7 +227,7 @@ static char *getCommandArgs(char *p, char **command,
 KProgram *keyProgs = 0;
 
 KProgram::KProgram(const char *key, DProgram *prog) {
-    parseKey(key, &fKey, &fMod);
+    YConfig::parseKey(key, &fKey, &fMod);
     fProg = prog;
     fNext = keyProgs;
     keyProgs = this;

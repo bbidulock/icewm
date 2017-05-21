@@ -122,10 +122,12 @@ class IApp;
 
 class YConfig {
 public:
-    static void loadConfigFile(cfoption *options, upath fileName);
+    static bool loadConfigFile(cfoption *options, upath fileName);
     static void freeConfig(cfoption *options);
     static char *getArgument(char **dest, char *p, bool comma);
-    static bool findLoadConfigFile(IApp *app, struct cfoption *options, upath name);
+    static bool findLoadConfigFile(IApp *app, cfoption *options, upath name);
+    static void parseConfiguration(cfoption *options, char *data);
+    static bool parseKey(const char *arg, KeySym *key, unsigned int *mod);
 };
 
 #endif
