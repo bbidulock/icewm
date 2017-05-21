@@ -1,21 +1,21 @@
 /*-
- * Copyright © 2014
- *	Thorsten “mirabilos” Glaser <t.glaser@tarent.de>
+ * Copyright (c) 2014
+ *	Thorsten ``mirabilos'' Glaser <t.glaser@tarent.de>
  *
  * Provided that these terms and disclaimer and all copyright notices
  * are retained or reproduced in an accompanying document, permission
- * is granted to deal in this work without restriction, including un‐
+ * is granted to deal in this work without restriction, including un-
  * limited rights to use, publicly perform, distribute, sell, modify,
  * merge, give away, or sublicence.
  *
- * This work is provided “AS IS” and WITHOUT WARRANTY of any kind, to
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
  * the utmost extent permitted by applicable law, neither express nor
  * implied; without malicious intent or gross negligence. In no event
  * may a licensor, author or contributor be held liable for indirect,
  * direct, other damage, loss, or other issues arising in any way out
  * of dealing in the work, even if advised of the possibility of such
  * damage or existence of a defect, except proven that it results out
- * of said person’s immediate fault when using the work as intended.
+ * of said person's immediate fault when using the work as intended.
  */
 
 #include <errno.h>
@@ -30,17 +30,17 @@
 #include "globit.h"
 
 /*
- * globit_best – return the “best præfix” for a pattern, or the sole match
+ * globit_best - return the best prefix for a pattern, or the sole match
  *
  * Arguments:
- * – [in] const char *pattern
- * – [out] char **result
+ *    [in] const char *pattern
+ *    [out] char **result
  * Return value:
- * – (int) number of matches
+ *    (int) number of matches
  *   + if -1: an error occurred; *result is the error string (or NULL)
  *   + if 0: *result is unchanged
  *   + if 1: *result contains the sole match
- *   + else: *result contains the longest common præfix
+ *   + else: *result contains the longest common prefix
  * In all cases where it is set, the caller has to free(*result) later.
  */
 
@@ -124,7 +124,7 @@ globit_best(const char *pattern_, char **result)
 	glob_t glob_block;
 	const char *errstr = NULL;
 
-	/* initialise pattern, with ‘*’ appended unless it already has magic */
+	/* initialise pattern, with '*' appended unless it already has magic */
 	if (!(pattern = (char*) malloc((z = strlen(pattern_)) + 2))) {
 		*result = strdup("not enough memory");
 		return (-1);
@@ -148,7 +148,7 @@ globit_best(const char *pattern_, char **result)
 		while (*cp && *cp != '/')
 			++cp;
 		if (!*cp) {
-			/* no, so don’t append ‘*’ */
+			/* no, so don't append '*' */
 			memcpy(pattern, pattern_, z + 1);
 		}
 		cp = pattern;
@@ -166,7 +166,7 @@ globit_best(const char *pattern_, char **result)
 		free(pathpfx);
 		pathpfx = strdup(cp == pp ? "." : pp);
 		*cp = c;
-		/* advance path præfix */
+		/* advance path prefix */
 		pp = cp;
 		if (c)
 			++pp;
