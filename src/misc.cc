@@ -294,7 +294,7 @@ void logEvent(const XEvent &xev) {
 #endif
 
 static void endMsg(const char *msg) {
-    if (*msg && msg[strlen(msg)-1] != '\n') {
+    if (*msg == 0 || msg[strlen(msg)-1] != '\n') {
         fputc('\n', stderr);
     }
     fflush(stderr);
@@ -656,9 +656,12 @@ int read_fd(int fd, char *buf, size_t buflen) {
     if (fd >= 0 && buf && buflen) {
         char *ptr = buf;
         ssize_t got = 0, len = (ssize_t)(buflen - 1);
-        while (len > 0 && (got = read(fd, ptr, (size_t) len)) > 0) {
-            ptr += got;
-            len -= got;
+        while (len > 0) {
+            if ((got = read(fd, ptr, (size_t) len)) > 0) {
+                ptr += got;
+                len -= got;
+            } else if (got != -1 || errno != EINTR)
+                break;
         }
         *ptr = 0;
         return (ptr > buf) ? (int)(ptr - buf) : (int) got;
@@ -668,11 +671,32 @@ int read_fd(int fd, char *buf, size_t buflen) {
 
 /* read from filename and zero terminate the buffer. */
 int read_file(const char *filename, char *buf, size_t buflen) {
-    int len = -1, fd = open(filename, O_RDONLY);
+    int len = -1, fd = open(filename, O_RDONLY | O_TEXT);
     if (fd >= 0) {
         len = read_fd(fd, buf, buflen);
         close(fd);
     }
     return len;
+}
+
+/* read a file as a zero-terminated new[] string. */
+char* load_text_file(const char *filename) {
+    int fd = open(filename, O_RDONLY | O_TEXT);
+    if (fd >= 0) {
+        struct stat st;
+        if (fstat(fd, &st) == 0) {
+            char* buf = new char[st.st_size + 1];
+            if (buf) {
+                int len = read_fd(fd, buf, st.st_size + 1);
+                if (len == st.st_size) {
+                    close(fd);
+                    return buf;
+                }
+                delete[] buf;
+            }
+        }
+        close(fd);
+    }
+    return 0;
 }
 

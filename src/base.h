@@ -220,8 +220,12 @@ void check_argv(int argc, char **argv, const char *help, const char *version);
 
 /* read from file descriptor and zero terminate buffer. */
 int read_fd(int fd, char *buf, size_t buflen);
+
 /* read from filename and zero terminate the buffer. */
 int read_file(const char *filename, char *buf, size_t buflen);
+
+/* read a file as a zero-terminated new[] string. */
+char* load_text_file(const char *filename);
 
 /******************************************************************************/
 
