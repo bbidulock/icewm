@@ -321,7 +321,7 @@ void NetStatus::paint(Graphics &g, const YRect &/*r*/) {
  * Need read-access on /dev/isdninfo.
  */
 bool NetStatus::isUpIsdn() {
-#ifdef linux
+#ifdef __linux__
     char str[2048];
     char val[5][32];
     char *p = str;
@@ -390,11 +390,11 @@ bool NetStatus::isUpIsdn() {
         return false;
 #else
     return false;
-#endif // ifdef linux
+#endif // ifdef __linux__
 }
 
 bool NetStatus::isUp() {
-#ifdef linux
+#ifdef __linux__
     if (useIsdn)
         return isUpIsdn();
 #endif
@@ -518,13 +518,13 @@ void NetStatus::getCurrent(long *in, long *out) {
 
     memset(&req, 0, sizeof(req));
 
-#ifdef linux
+#ifdef __linux__
 #undef ifr_name
 #define ifr_name ifr__name
 
     req.stats_ptr = (caddr_t) &req.stats;
 
-#endif // linux
+#endif // __linux__
 
     sprintf(req.ifr_name, PPP_DEVICE);
 
@@ -544,7 +544,7 @@ void NetStatus::getCurrent(long *in, long *out) {
     cur_obytes = 0;
 
 
-#ifdef linux
+#ifdef __linux__
     FILE *fp = fopen("/proc/net/dev", "r");
     if (!fp)
         return ;
@@ -580,7 +580,7 @@ void NetStatus::getCurrent(long *in, long *out) {
         }
     }
     fclose(fp);
-#endif //linux
+#endif //__linux__
 #ifdef __FreeBSD__
     // FreeBSD code by Ronald Klop <ronald@cs.vu.nl>
     struct ifmibdata ifmd;

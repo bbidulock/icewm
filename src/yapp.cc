@@ -61,7 +61,7 @@ void YApplication::initSignals() {
     sfd.registerPoll(this, signalPipe[0]);
 }
 
-#ifdef linux
+#ifdef __linux__
 void alrm_handler(int /*sig*/) {
     show_backtrace();
 }
@@ -99,7 +99,7 @@ YApplication::YApplication(int * /*argc*/, char *** /*argv*/) {
     sigaction(SIGCHLD, &sig, &oldSignalCHLD);
 #endif
 
-#ifdef linux
+#ifdef __linux__
     if (measure_latency) {
         struct sigaction sa;
         sa.sa_handler = alrm_handler;
@@ -555,7 +555,7 @@ void YApplication::resetSignals() {
 }
 
 void YApplication::closeFiles() {
-#ifdef linux   /* for now, some debugging code */
+#ifdef __linux__   /* for now, some debugging code */
     int             i, max = 1024;
     struct rlimit   lim;
 

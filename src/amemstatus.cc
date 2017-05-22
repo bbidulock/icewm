@@ -19,7 +19,7 @@
 
 #include "intl.h"
 
-#if defined(linux)
+#if defined(__linux__)
 
 #define USE_PROC_MEMINFO
 

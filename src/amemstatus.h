@@ -1,7 +1,7 @@
 #ifndef __MEMSTATUS_H
 #define __MEMSTATUS_H
 
-#if defined(linux)
+#if defined(__linux__)
 
 // graphed from the bottom up:
 #define MEM_USER    (0)

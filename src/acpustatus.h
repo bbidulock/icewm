@@ -1,7 +1,7 @@
 #ifndef __CPUSTATUS_H
 #define __CPUSTATUS_H
 
-#if defined(linux) || defined(HAVE_KSTAT_H) || defined(HAVE_SYSCTL_CP_TIME)
+#if defined(__linux__) || defined(HAVE_KSTAT_H) || defined(HAVE_SYSCTL_CP_TIME)
 
 #define IWM_USER   (0)
 #define IWM_NICE   (1)

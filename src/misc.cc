@@ -16,7 +16,7 @@
 #include <libgen.h>
 #endif
 
-#if defined(linux) && defined(HAVE_EXECINFO_H)
+#if defined(__linux__) && defined(HAVE_EXECINFO_H)
 #include <execinfo.h>
 #endif
 
@@ -641,7 +641,7 @@ int strnullcmp(const char *a, const char *b) {
 #endif
 
 void show_backtrace() {
-#if defined(linux) && defined(HAVE_EXECINFO_H)
+#if defined(__linux__) && defined(HAVE_EXECINFO_H)
     void *array[20];
 
     fprintf(stderr, "\nbacktrace:\n");
