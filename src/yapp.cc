@@ -32,9 +32,6 @@ static sigset_t oldSignalMask;
 static sigset_t signalMask;
 static int measure_latency = 0;
 
-static const char * libDir = LIBDIR;
-static const char * configDir = CFGDIR;
-
 void YApplication::initSignals() {
     sigemptyset(&signalMask);
     sigaddset(&signalMask, SIGHUP);
@@ -695,54 +692,49 @@ bool YSignalPoll::forWrite() {
     return false;
 }
 
-const char *YApplication::getLibDir() {
-    return libDir;
+const upath& YApplication::getLibDir() {
+    static upath dir( REDIR_ROOT(LIBDIR) );
+    return dir;
 }
 
-const char *YApplication::getConfigDir() {
-    return configDir;
+const upath& YApplication::getConfigDir() {
+    static upath dir( CFGDIR );
+    return dir;
 }
 
-const char *YApplication::getPrivConfDir() {
-    static char cfgdir[PATH_MAX] = "";
-
-    if (*cfgdir == '\0') {
+const upath& YApplication::getPrivConfDir() {
+    static upath dir;
+    if (dir.isEmpty()) {
         const char *env = getenv("ICEWM_PRIVCFG");
-
-        if (NULL == env) {
+        if (env)
+            dir = env;
+        else {
             env = getenv("HOME");
-            strcpy(cfgdir, env ? env : "");
-            strcat(cfgdir, "/.icewm");
-        } else {
-            strcpy(cfgdir, env);
+            if (env)
+                dir = env;
+            dir += "/.icewm";
         }
-
-        msg("using %s for private configuration files", cfgdir);
+        msg("using %s for private configuration files", cstring(dir).c_str());
     }
-
-    return cfgdir;
+    return dir;
 }
 
-const char *YApplication::getXdgConfDir() {
-    static char cfgdir[PATH_MAX] = "";
-
-    if (*cfgdir == '\0') {
+const upath& YApplication::getXdgConfDir() {
+    static upath dir;
+    if (dir.isEmpty()) {
         const char *env = getenv("XDG_CONFIG_HOME");
-
-        if (NULL == env) {
+        if (env)
+            dir = env;
+        else {
             env = getenv("HOME");
-            strcpy(cfgdir, env ? env : "");
-            strcat(cfgdir, "/.config");
-        } else {
-            strcpy(cfgdir, env);
+            if (env)
+                dir = env;
+            dir += "/.config";
         }
-
-        strcat(cfgdir, "/icewm");
-
-        msg("using %s for private configuration files", cfgdir);
+        dir += "/icewm";
+        msg("using %s for private configuration files", cstring(dir).c_str());
     }
-
-    return cfgdir;
+    return dir;
 }
 
 upath YApplication::findConfigFile(upath name) {
@@ -751,19 +743,19 @@ upath YApplication::findConfigFile(upath name) {
     if (name.isAbsolute())
         return name;
 
-    p = upath(getXdgConfDir()).relative(name);
+    p = getXdgConfDir() + name;
     if (p.fileExists())
         return p;
 
-    p = upath(getPrivConfDir()).relative(name);
+    p = getPrivConfDir() + name;
     if (p.fileExists())
         return p;
 
-    p = upath(configDir).relative(name);
+    p = getConfigDir() + name;
     if (p.fileExists())
         return p;
 
-    p = upath(REDIR_ROOT(libDir)).relative(name);
+    p = getLibDir() + name;
     if (p.fileExists())
         return p;
 

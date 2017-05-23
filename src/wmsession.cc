@@ -200,7 +200,6 @@ static int rd_str(char *s, char *d) {
 void loadWindowInfo() {
     sminfo = new SMWindows();
 
-    FILE *fp;
     char line[1024];
     char cid[1024];
     char role[1024];
@@ -211,12 +210,8 @@ void loadWindowInfo() {
     unsigned long state;
     SMWindowInfo *info;
 
-    char *name = getsesfile();
-
-    if (name == 0)
-        return ;
-
-    fp = fopen(name, "r");
+    upath name = getsesfile();
+    FILE *fp = name.fopen("r");
     if (fp == NULL)
         return ;
 
@@ -281,14 +276,9 @@ void YWMApp::smDie() {
 }
 
 void YWMApp::smSaveYourselfPhase2() {
-    FILE *fp;
-    char *name = getsesfile();
+    upath name = getsesfile();
     YFrameWindow *f = 0;
-    
-    if (name == 0)
-        goto end;
-
-    fp = fopen(name, "w+");
+    FILE *fp = name.fopen("w+");
     if (fp == NULL)
         goto end;
 

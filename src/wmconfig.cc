@@ -119,55 +119,50 @@ void setLook(const char * /*name*/, const char *arg, bool) {
 #endif
 
 int setDefault(const char *basename, const char *config) {
-    const char *confDir = newstr(YApplication::getPrivConfDir());
-    mkdir(confDir, 0777);
-    const char *conf = cstrJoin(confDir, "/", basename, NULL);
-    const char *confNew = cstrJoin(conf, ".new.tmp", NULL);
-    delete[] confDir;
+    upath confDir(YApplication::getPrivConfDir());
+    if (confDir.dirExists() == false)
+        confDir.mkdir(0777);
+    upath conf = confDir + basename;
+    ustring confTmp = conf.path() + ".new.tmp";
+    const char *confNew = cstring(confTmp);
+
     int fd = open(confNew, O_RDWR | O_TEXT | O_CREAT | O_TRUNC | O_EXCL, 0666);
-    if(fd == -1)
-    {
-       fprintf(stderr, "Unable to write %s!", confNew);
+    if (fd == -1) {
+       fail("Unable to write %s", confNew);
        return -1;
     }
-    const char *buf = config;
-    int len = strlen(buf);
-    int nlen;
-    nlen = write(fd, buf, len);
+    int len = strlen(config);
+    int nlen = write(fd, config, len);
     
-    FILE *fdold = fopen(conf, "r");
+    FILE *fdold = fopen(cstring(conf), "r");
     if (fdold) {
-       char *tmpbuf = new char[300];
-       if (tmpbuf) {
-          *tmpbuf = '#';
-          for (int i = 0; i < 10; i++)
-             if (fgets(tmpbuf + 1, 298, fdold)) {
-		int tlen = strlen(tmpbuf);
-		int n, ret;
-		for (n = 0;n < tlen;) {
-		    ret = write(fd, tmpbuf + n, tlen - n);
-		    if (ret == 0 || (ret < 0  && errno != EINTR)) {
-			nlen = -1;
-			break;
-		    }
-		    if (ret > 0)
-			n += ret;
-		}
-	     } else 
+        char tmpbuf[300];
+        *tmpbuf = '#';
+        for (int i = 0; i < 10; i++)
+            if (fgets(tmpbuf + 1, 298, fdold)) {
+                int tlen = strlen(tmpbuf);
+                int n, ret;
+                for (n = 0; n < tlen;) {
+                    ret = write(fd, tmpbuf + n, tlen - n);
+                    if (ret == 0 || (ret < 0 && errno != EINTR)) {
+                        nlen = -1;
+                        break;
+                    }
+                    if (ret > 0)
+                        n += ret;
+                }
+            }
+            else
                 break;
-          delete[] tmpbuf;
-       }
-       fclose(fdold);
+        fclose(fdold);
     }
 
     close(fd);
     if (nlen == len) {
-        rename(confNew, conf);
+        rename(confNew, cstring(conf));
     } else {
         remove(confNew);
     }
-    delete[] confNew;
-    delete[] conf;
     return 0;
 }
 

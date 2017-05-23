@@ -61,10 +61,9 @@ ref<YResourcePaths> YResourcePaths::subdirs(upath subdir, bool themeOnly) {
 
     static char themeSubdir[PATH_MAX];
     static char const *themeDir(themeSubdir);
-    static const char *homeDir(YApplication::getPrivConfDir());
+    upath homeDir(YApplication::getPrivConfDir());
 
-    strncpy(themeSubdir, themeName, sizeof(themeSubdir));
-    themeSubdir[sizeof(themeSubdir) - 1] = '\0';
+    strlcpy(themeSubdir, themeName, sizeof(themeSubdir));
 
     char *dirname(::strrchr(themeSubdir, '/'));
     if (dirname) *dirname = '\0';

@@ -32,19 +32,18 @@ public:
     void refresh();
 
 private:
-    void findThemes(char const *path, YMenu *container);
+    void findThemes(const upath& path, YMenu *container);
 
     static YMenuItem *newThemeItem(
         IApp *app,
         YSMListener *smActionListener,
         char const *label,
-        char const *theme,
         const char *relThemeName);
     
     static void findThemeAlternatives(
         IApp *app,
         YSMListener *smActionListener,
-        char const *path,
+        const upath& path,
         const char *relName,
         YMenuItem *item);
         
@@ -52,7 +51,7 @@ private:
     // much better, we would have a themeCound from the last refresh
     // cycle and update it after menu construction, counting themes that
     // are actually added to menues
-    int countThemes(char const *path);
+    int countThemes(const upath& path);
     int themeCount;
     
     YSMListener *smActionListener;

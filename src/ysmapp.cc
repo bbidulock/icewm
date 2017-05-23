@@ -19,20 +19,12 @@ char *oldSessionId = NULL;
 char *newSessionId = NULL;
 char *sessionProg;
 
-char *getsesfile() {
-    static char filename[PATH_MAX] = "";
-
-    if (*filename == '\0') {
-        strcpy(filename, YApplication::getPrivConfDir());
-        mkdir(filename, 0755);
-
-        strcat(filename, "/.session-");
-        strcat(filename, newSessionId);
-
-        MSG(("Storing session in %s", filename));
-    }
-
-    return filename;
+upath getsesfile() {
+    upath path(YApplication::getPrivConfDir());
+    if (false == path.dirExists())
+        path.mkdir(0755);
+    path += mstring("/.session-") + newSessionId;
+    return path;
 }
 
 static void iceWatchFD(IceConn conn,
@@ -122,14 +114,14 @@ static void setSMProperties() {
 
     const char *rmprog = "/bin/rm";
     const char *rmarg = "-f";
-    char *sidfile = getsesfile();
+    upath sidfile = getsesfile();
 
     discardVal[0].length = strlen(rmprog);
     discardVal[0].value = (char *)rmprog;
     discardVal[1].length = strlen(rmarg);
     discardVal[1].value = (char *)rmarg;
-    discardVal[2].length = strlen(sidfile);
-    discardVal[2].value = sidfile;
+    discardVal[2].length = sidfile.length();
+    discardVal[2].value = (char *)cstring(sidfile).c_str();
 
     SmcSetProperties(SMconn,
                      sizeof(props)/sizeof(props[0]),
