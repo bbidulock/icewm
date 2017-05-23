@@ -15,6 +15,7 @@
 #include "sysdep.h"
 #include <stdlib.h>
 
+#include "ascii.h"
 #include "intl.h"
 
 #if 0
@@ -44,7 +45,7 @@ WindowOption::WindowOption(ustring n_class_instance):
 
 WindowOption::~WindowOption() {
     ////delete[] name; name = 0;
-    ////delete[] icon; icon = 0;
+    delete[] icon;
 }
 
 static int wo_cmp(ustring a_class_instance,
@@ -139,8 +140,8 @@ void WindowOptions::setWinOption(ustring n_class_instance,
         if (arg[0] && !endptr[0])
             op->layer = l;
         else {
-            struct {
-                const char *name;
+            static const struct {
+                const char name[12];
                 int layer;
             } layers[] = {
                 { "Desktop", WinLayerDesktop }, //
@@ -165,8 +166,8 @@ void WindowOptions::setWinOption(ustring n_class_instance,
         if (arg[0] && !endptr[0])
             op->tray = t;
         else {
-            struct {
-                const char *name;
+            static const struct {
+                const char name[12];
                 int tray;
             } tray_ops[] = {
                 { "Ignore", WinTrayIgnore },
@@ -180,7 +181,7 @@ void WindowOptions::setWinOption(ustring n_class_instance,
         }
 #endif
     } else {
-        static struct {
+        static const struct {
             int what;
             const char *name;
             unsigned long flag;
@@ -269,7 +270,7 @@ void WindowOptions::mergeWindowOption(WindowOption &cm,
 }
 
 void WindowOptions::combineOptions(WindowOption &cm, WindowOption &n) {
-    if (!cm.icon && n.icon) cm.icon = n.icon;
+    if (!cm.icon && n.icon) cm.icon = newstr(n.icon);
     cm.functions |= n.functions & ~cm.function_mask;
     cm.function_mask |= n.function_mask;
     cm.decors |= n.decors & ~cm.decor_mask;
@@ -307,23 +308,21 @@ void WindowOptions::combineOptions(WindowOption &cm, WindowOption &n) {
 }
 
 char *parseWinOptions(char *data) {
-    char *p = data;
-    char *w, *e, *c;
+    char *p, *w, *e, *c;
     char *class_instance;
-
     char *opt;
 
-    while (*p) {
-        while (*p == ' ' || *p == '\t' || *p == '\n')
-            p++;
+    for (p = data; *p; ++p) {
+        if (ASCII::isWhiteSpace(*p))
+            continue;
+
         if (*p == '#') {
-            while (*p && *p != '\n') {
+            while (*++p && *p != '\n')
                 if (*p == '\\' && p[1] != 0)
                     p++;
-                p++;
-            }
             continue;
         }
+
         w = p;
         c = 0;
         while (*p && *p != ':') {
@@ -369,7 +368,7 @@ char *parseWinOptions(char *data) {
             p++;
 
         w = p;
-        while (*p && (*p != '\n' && *p != ' ' && *p != '\t'))
+        while (*p && false == ASCII::isWhiteSpace(*p))
             p++;
 
         if (*p != 0) {
@@ -378,10 +377,9 @@ char *parseWinOptions(char *data) {
             delete[] class_instance;
         } else {
             defOptions->setWinOption(class_instance, opt, w);
-            delete class_instance;
+            delete[] class_instance;
             break;
         }
-        p++;
     }
     return p;
 nomem:
@@ -390,40 +388,12 @@ nomem:
 }
 
 void loadWinOptions(upath optFile) {
-    if (optFile == null)
-        return ;
-
-    int fd = open(cstring(optFile.path()).c_str(), O_RDONLY | O_TEXT);
-
-    if (fd == -1)
-        return ;
-
-    struct stat sb;
-
-    if (fstat(fd, &sb) == -1) {
-        close(fd);
-        return;
+    if (optFile.nonempty()) {
+        char *buf = load_text_file(cstring(optFile));
+        if (buf) {
+            parseWinOptions(buf);
+            delete[] buf;
+        }
     }
-
-    int len = sb.st_size;
-
-    char *buf = new char[len + 1];
-    if (buf == 0) {
-        close(fd);
-        return;
-    }
-
-    if ((len = read(fd, buf, len)) < 0) {
-        delete[] buf;
-        close(fd);
-        return;
-    }
-
-    buf[len] = 0;
-    close(fd);
-
-    parseWinOptions(buf);
-
-    delete[] buf;
 }
 #endif
