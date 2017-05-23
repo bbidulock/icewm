@@ -10,6 +10,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <stdio.h>
+#include <fcntl.h>
 
 const pstring upath::slash("/");
 const upath upath::rootPath(slash);
@@ -89,12 +90,12 @@ bool upath::isRelative() const {
 
 bool upath::fileExists() const {
     struct stat sb;
-    return stat(cstring(path()), &sb) == 0 && S_ISREG(sb.st_mode);
+    return stat(string(), &sb) == 0 && S_ISREG(sb.st_mode);
 }
 
 bool upath::dirExists() const {
     struct stat sb;
-    return stat(cstring(path()), &sb) == 0 && S_ISDIR(sb.st_mode);
+    return stat(string(), &sb) == 0 && S_ISDIR(sb.st_mode);
 }
 
 bool upath::isReadable() const {
@@ -102,7 +103,7 @@ bool upath::isReadable() const {
 }
 
 int upath::access(int mode) const {
-    return ::access(cstring(path()), mode);
+    return ::access(string(), mode);
 }
 
 bool upath::isWritable() const {
@@ -111,6 +112,18 @@ bool upath::isWritable() const {
 
 bool upath::isExecutable() const {
     return access(X_OK) == 0;
+}
+
+int upath::mkdir(int mode) const {
+    return ::mkdir(string(), mode);
+}
+
+int upath::open(int flags, int mode) const {
+    return ::open(string(), flags, mode);
+}
+
+FILE* upath::fopen(const char *mode) const {
+    return ::fopen(string(), mode);
 }
 
 bool upath::hasProtocol() const {

@@ -2,6 +2,9 @@
 #define __UPATH_H
 
 #include "mstring.h"
+#ifndef BUFSIZ
+#include <stdio.h>
+#endif
 
 typedef mstring pstring;
 
@@ -35,6 +38,9 @@ public:
     bool isHttp() const;
     bool hasProtocol() const;
     int access(int mode) const;
+    int mkdir(int mode) const;
+    int open(int flags, int mode = 0666) const;
+    FILE* fopen(const char *mode) const;
 
     upath& operator=(const upath& p) {
         fPath = p.fPath;
@@ -57,6 +63,7 @@ public:
 
     const pstring& path() const { return fPath; }
     operator const pstring&() const { return path(); }
+    cstring string() const { return cstring(path()); }
 
     static const pstring& sep() { return slash; }
     static const upath& root() { return rootPath; }
