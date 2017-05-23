@@ -30,6 +30,7 @@
 #include "yicon.h"
 #include "intl.h"
 #include "appnames.h"
+#include "ascii.h"
 
 DObjectMenuItem::DObjectMenuItem(DObject *object):
     YMenuItem(object->getName(), -3, null, this, 0)
@@ -177,10 +178,10 @@ DProgram *DProgram::newProgram(
     return NULL;
 }
 
-char *getWord(char *word, int maxlen, char *p) {
-    while (*p && (*p == ' ' || *p == '\t' || *p == '\r' || *p == '\n'))
+static char *getWord(char *word, int maxlen, char *p) {
+    while (ASCII::isWhiteSpace(*p))
         p++;
-    while (*p && isalnum(*p) && maxlen > 1) {
+    while (ASCII::isAlnum(*p) && maxlen > 1) {
         *word++ = *p++;
         maxlen--;
     }
@@ -259,8 +260,10 @@ char *parseMenus(IApp *app, YSMListener *smActionListener, YActionListener *wmAc
     char word[32];
 
     while (p && *p) {
-        while (*p == ' ' || *p == '\t' || *p == '\n')
+        if (ASCII::isWhiteSpace(*p)) {
             p++;
+            continue;
+        }
         if (*p == '#') {
             while (*p && *p != '\n')
                 p++;
@@ -517,54 +520,6 @@ char *parseMenus(IApp *app, YSMListener *smActionListener, YActionListener *wmAc
     return p;
 }
 
-static void loadMenus(IApp *app, YSMListener *smActionListener, YActionListener *wmActionListener, int fd, ObjectContainer *container) {
-    if (fd == -1) return;
-
-    struct stat sb;
-    if (fstat(fd, &sb) == -1) { close(fd); return; }
-
-    MSG(("sb.st_size: %d", sb.st_size));
-    char *buf = 0;
-    if (sb.st_size == 0) {
-        int len = 0;
-        int got = 0;
-        buf = new char[len + 1];
-
-        while (1) {
-            if (len - got == 0) {
-                len += 4096;
-                char *buf2 = new char[len + 1];
-                memcpy(buf2, buf, got);
-                delete [] buf;
-                buf = buf2;
-            }
-            int len2 = read(fd, buf + got, len - got);
-            if (len2 == 0)
-                break;
-            got += len2;
-        }
-        buf[got] = '\0';
-    } else {
-        buf = new char[sb.st_size + 1];
-        if (buf == 0) { close(fd); return; }
-
-	int n, ret;
-	for (n = 0; n < sb.st_size;) {
-	    ret = read(fd, buf + n, sb.st_size - n);
-	    if (ret == 0 || (ret < 0 && errno != EINTR))
-		break;
-	    if (ret > 0)
-		n += ret;
-	}
-        buf[n] = '\0';
-    }
-    close(fd);
-
-    parseMenus(app, smActionListener, wmActionListener, buf, container);
-
-    delete[] buf;
-}
-
 void loadMenus(
     IApp *app, 
     YSMListener *smActionListener,
@@ -572,9 +527,12 @@ void loadMenus(
     upath menufile,
     ObjectContainer *container)
 {
-    MSG(("menufile: %s", cstring(menufile.path()).c_str()));
-    cstring cs(menufile.path());
-    loadMenus(app, smActionListener, wmActionListener, open(cs.c_str(), O_RDONLY | O_TEXT), container);
+    MSG(("menufile: %s", menufile.string().c_str()));
+    char *buf = load_text_file(menufile.string());
+    if (buf) {
+        parseMenus(app, smActionListener, wmActionListener, buf, container);
+        delete[] buf;
+    }
 }
 
 MenuFileMenu::MenuFileMenu(
@@ -620,8 +578,7 @@ void MenuFileMenu::updatePopup() {
         refresh();
     } else {
         struct stat sb;
-        cstring cs(fPath.path());
-        if (stat(cs.c_str(), &sb) != 0) {
+        if (stat(fPath.string(), &sb) != 0) {
             fPath = 0;
             refresh();
         } else if (sb.st_mtime > fModTime || rel) {
@@ -637,7 +594,7 @@ void MenuFileMenu::refresh() {
         loadMenus(app, smActionListener, wmActionListener, fPath, this);
 }
 
-void loadMenusProg(
+static void loadMenusProg(
     IApp *app,
     YSMListener *smActionListener,
     YActionListener *wmActionListener,
@@ -645,39 +602,46 @@ void loadMenusProg(
     char *const argv[],
     ObjectContainer *container)
 {
-    int fds[2];
-    pid_t child_pid;
-    int status;
+    FILE *fpt = tmpfile();
+    if (fpt == 0) return;
 
-    ///msg("loadMenusProg %s %s %s %s", command, argv[0], argv[1], argv[2]);
+    int tfd = fileno(fpt);
+    int status = 0;
+    pid_t child_pid = fork();
 
-    if (!pipe(fds)) {
-        switch ((child_pid = fork())) {
-        case 0:
-            close(0);
-            open("/dev/null", O_RDONLY);
-
-            close(fds[0]);
-            dup2(fds[1], 1);
-            close(fds[1]);
-
-            execvp(command, argv);
-            _exit(99);
-            break;
-
-        default:
-            close(fds[1]);
-
-            loadMenus(app, smActionListener, wmActionListener, fds[0], container);
-            waitpid(child_pid, &status, 0);
-            close(fds[0]);
-            break;
-
-        case -1:
-            warn("Forking failed (errno=%d)", errno);
-            break;
-        }
+    if (child_pid == -1) {
+        fail("Forking '%s' failed", command);
     }
+    else if (child_pid == 0) {
+        close(0);
+        open("/dev/null", O_RDONLY);
+        if (dup2(tfd, 1) == 1) {
+            if (tfd > 2) close(tfd);
+            execvp(command, argv);
+        }
+        fail("Exec '%s' failed", command);
+        _exit(99);
+    }
+    else if (waitpid(child_pid, &status, 0) == -1) {
+        fail("waitpid('%s') failed");
+    }
+    else if (status != 0) {
+        warn("'%s' exited with code %d.", command, status);
+    }
+    else if (lseek(tfd, (off_t) 0L, SEEK_SET) == (off_t) -1) {
+        fail("lseek failed");
+    }
+    else {
+        char *buf = load_fd(tfd);
+        if (buf && *buf) {
+            parseMenus(app, smActionListener, wmActionListener, buf, container);
+        }
+        else {
+            warn(_("'%s' produces no output"), command);
+        }
+        delete[] buf;
+    }
+    fclose(fpt);
 }
 
 MenuProgMenu::MenuProgMenu(
@@ -752,7 +716,7 @@ void MenuProgMenu::refresh(
 {
     removeAll();
     if (fCommand != null)
-        loadMenusProg(app, smActionListener, wmActionListener, cstring(fCommand.path()).c_str(), fArgs.getCArray(), this);
+        loadMenusProg(app, smActionListener, wmActionListener, fCommand.string(), fArgs.getCArray(), this);
 }
 
 MenuProgReloadMenu::MenuProgReloadMenu(

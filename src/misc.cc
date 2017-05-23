@@ -336,6 +336,18 @@ void warn(char const *msg, ...) {
     endMsg(msg);
 }
 
+void fail(char const *msg, ...) {
+    fprintf(stderr, "%s: ", ApplicationName);
+    fputs(_("Warning: "), stderr);
+
+    va_list ap;
+    va_start(ap, msg);
+    vfprintf(stderr, msg, ap);
+    va_end(ap);
+    fprintf(stderr, ": %s\n", strerror(errno));
+    fflush(stderr);
+}
+
 void msg(char const *msg, ...) {
     fprintf(stderr, "%s: ", ApplicationName);
 
@@ -679,24 +691,58 @@ int read_file(const char *filename, char *buf, size_t buflen) {
     return len;
 }
 
-/* read a file as a zero-terminated new[] string. */
-char* load_text_file(const char *filename) {
-    int fd = open(filename, O_RDONLY | O_TEXT);
-    if (fd >= 0) {
-        struct stat st;
-        if (fstat(fd, &st) == 0) {
+/* read all of filedescriptor and return a zero-terminated new[] string. */
+char* load_fd(int fd) {
+    struct stat st;
+    if (fstat(fd, &st) == 0) {
+        if (S_ISREG(st.st_mode)) {
             char* buf = new char[st.st_size + 1];
             if (buf) {
                 int len = read_fd(fd, buf, st.st_size + 1);
                 if (len == st.st_size) {
-                    close(fd);
                     return buf;
                 }
                 delete[] buf;
             }
+        } else {
+            size_t offset = 0;
+            size_t bufsiz = 4096;
+            char* buf = new char[bufsiz + 1];
+            while (buf) {
+                int len = read_fd(fd, buf + offset, bufsiz + 1 - offset);
+                if (len <= 0 || offset + len < bufsiz) {
+                    if (len < 0 && offset == 0) {
+                        delete[] buf;
+                        buf = 0;
+                    }
+                    break;
+                }
+                else {
+                    size_t tmpsiz = 2 * bufsiz;
+                    char* tmp = new char[tmpsiz + 1];
+                    if (tmp) {
+                        memcpy(tmp, buf, bufsiz + 1);
+                        offset = bufsiz;
+                        bufsiz = tmpsiz;
+                    }
+                    delete[] buf;
+                    buf = tmp;
+                }
+            }
+            return buf;
         }
-        close(fd);
     }
     return 0;
+}
+
+/* read a file as a zero-terminated new[] string. */
+char* load_text_file(const char *filename) {
+    char* buf = 0;
+    int fd = open(filename, O_RDONLY | O_TEXT);
+    if (fd >= 0) {
+        buf = load_fd(fd);
+        close(fd);
+    }
+    return buf;
 }
 

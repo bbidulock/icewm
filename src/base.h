@@ -99,6 +99,7 @@ static char const * itoa(T i, bool sign = false) {
 
 void die(int exitcode, char const *msg, ...);
 void warn(char const *msg, ...);
+void fail(char const *msg, ...);
 void msg(char const *msg, ...);
 void tlog(char const *msg, ...);
 void precondition(const char *expr, const char *file, int line);
@@ -223,6 +224,9 @@ int read_fd(int fd, char *buf, size_t buflen);
 
 /* read from filename and zero terminate the buffer. */
 int read_file(const char *filename, char *buf, size_t buflen);
+
+/* read all of filedescriptor and return a zero-terminated new[] string. */
+char* load_fd(int fd);
 
 /* read a file as a zero-terminated new[] string. */
 char* load_text_file(const char *filename);
