@@ -972,11 +972,8 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
 
     if (displayName == 0)
         displayName = getenv("DISPLAY");
-    else {
-        static char disp[256];
-        snprintf(disp, sizeof disp, "DISPLAY=%s", displayName);
-        putenv(disp);
-    }
+    else
+        setenv("DISPLAY", displayName, 1);
 
     if (!(fDisplay = XOpenDisplay(displayName)))
         die(1, _("Can't open display: %s. X must be running and $DISPLAY set."),
