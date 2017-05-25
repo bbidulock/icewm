@@ -10,20 +10,44 @@
 
 char const *ApplicationName = ICESMEXE;
 
-// the notification of startup step
-unsigned short startup_phase(0); // 0: run tray, 1: run startup script
-
 class SessionManager: public YApplication {
 private:
-    void remove_trailing_spaces(char *line) {
+    char* trim(char *line) {
         size_t len = strlen(line);
         while (len > 0 && isspace((unsigned char) line[len - 1])) {
             line[--len] = 0;
         }
+        while (*line && isspace((unsigned char) *line))
+            ++line;
+        return line;
+    }
+
+    bool expand(char *buf, size_t bufsiz) {
+#ifdef HAVE_WORDEXP
+        wordexp_t w;
+        if (wordexp(trim(buf), &w, 0) != 0 || w.we_wordc == 0)
+            return false;
+        size_t len = strlcpy(buf, trim(w.we_wordv[0]), bufsiz);
+        for (size_t k = 1; k < w.we_wordc && len < bufsiz; ++k) {
+            strlcat(buf, " ", bufsiz);
+            len = strlcat(buf, trim(w.we_wordv[k]), bufsiz);
+        }
+        wordfree(&w);
+        if (len >= bufsiz)
+            return false;
+#else
+        char *str = trim(buf);
+        if (str > buf)
+            strlcpy(buf, str, bufsiz);
+#endif
+        if (buf[0] == '#' || buf[0] == '=')
+            buf[0] = 0;
+        return buf[0] != 0;
     }
 
 public:
     SessionManager(int *argc, char ***argv): YApplication(argc, argv) {
+        startup_phase = 0;
         logout = false;
         wm_pid = -1;
         tray_pid = -1;
@@ -31,46 +55,36 @@ public:
         catchSignal(SIGCHLD);
         catchSignal(SIGTERM);
         catchSignal(SIGINT);
-// startup steps notifications
         catchSignal(SIGUSR1);
     }
 
-    void runScript(const char *scriptName, bool asenv=false) {
+    void loadEnv(const char *scriptName) {
         upath scriptFile = YApplication::findConfigFile(scriptName);
-        cstring cs(scriptFile.path());
-        const char *args[] = { cs.c_str(), 0, 0 };
-
-        if(asenv) {
-            FILE *ef = fopen(cs.c_str(), "r");
+        if (scriptFile.nonempty()) {
+            FILE *ef = scriptFile.fopen("r");
             if(!ef)
                 return;
-            char scratch[500];
-            while (fgets(scratch, 500, ef))
-            {
-                char *line = scratch;
-                remove_trailing_spaces(line);
-#ifdef HAVE_WORDEXP
-                wordexp_t w;
-                wordexp(line, &w, 0);
-                if(w.we_wordc > 0)
-                    line = w.we_wordv[0];
-#endif
-                while(isspace( (unsigned) *line)) line++;
-                char *ceq = strchr(line, (unsigned) '=');
-                if(ceq) {
-                    *ceq = 0;
-                    setenv(line, ceq+1, 1);
+            char scratch[1024];
+            while (fgets(scratch, sizeof scratch, ef)) {
+                if (expand(scratch, sizeof scratch)) {
+                    char *ceq = strchr(scratch, '=');
+                    if (ceq) {
+                        *ceq = 0;
+                        setenv(trim(scratch), trim(ceq + 1), 1);
+                    }
                 }
-#ifdef HAVE_WORDEXP
-                wordfree(&w);
-#endif
             }
             fclose(ef);
-            return;
         }
+    }
 
-        MSG(("Running session script: %s", cs.c_str()));
-        runProgram(cs.c_str(), args);
+    void runScript(const char *scriptName) {
+        upath scriptFile = YApplication::findConfigFile(scriptName);
+        if (scriptFile.nonempty() && scriptFile.isExecutable()) {
+            const char *cs = scriptFile.string();
+            MSG(("Running session script: %s", cs));
+            runProgram(cs, 0);
+        }
     }
 
     void runIcewmbg(bool quit = false) {
@@ -141,14 +155,15 @@ public:
 
         if (sig == SIGUSR1)
         {
-           if(startup_phase++)
+           if (++startup_phase == 1)
               runScript("startup");
-           else
+           else if (startup_phase == 2)
               runIcewmtray();
         }
     }
 
 private:
+    int startup_phase;
     int wm_pid;
     int tray_pid;
     int bg_pid;
@@ -160,7 +175,7 @@ int main(int argc, char **argv) {
 
     SessionManager xapp(&argc, &argv);
 
-    xapp.runScript("env", true);
+    xapp.loadEnv("env");
 
     xapp.runIcewmbg();
     xapp.runWM();
