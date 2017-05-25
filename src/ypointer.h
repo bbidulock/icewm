@@ -96,6 +96,10 @@ public:
 
     ASmartPtr(DataType *d = 0) : super(d) {}
 
+    virtual ~ASmartPtr() {
+        unref();
+    }
+
     void operator=(ASmartPtr& other) { super::assign(other); }
 
 protected:
@@ -122,6 +126,10 @@ public:
     typedef YSmartPtr<DataType> super;
 
     FSmartPtr(DataType *d = 0) : super(d) {}
+
+    virtual ~FSmartPtr() {
+        unref();
+    }
 
     void operator=(FSmartPtr& other) { super::assign(other); }
 
