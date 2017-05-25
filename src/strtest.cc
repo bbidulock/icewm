@@ -302,6 +302,22 @@ static void test_strlc()
     n = strlcat(d, "ghijkl", sizeof d);
     sequal(d, "abcdefghi");
     assert(d, n == 12);
+
+    n = strlcpy(d, "123", sizeof d);
+    sequal(d, "123");
+    assert(d, n == 3);
+
+    n = strlcpy(d, d + 1, sizeof d);
+    sequal(d, "23");
+    assert(d, n == 2);
+
+    n = strlcpy(d, d + 1, sizeof d);
+    sequal(d, "3");
+    assert(d, n == 1);
+
+    n = strlcpy(d, d + 1, sizeof d);
+    sequal(d, "");
+    assert(d, n == 0);
 }
 
 int main(int argc, char **argv)
