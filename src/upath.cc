@@ -90,12 +90,12 @@ bool upath::isRelative() const {
 
 bool upath::fileExists() const {
     struct stat sb;
-    return stat(string(), &sb) == 0 && S_ISREG(sb.st_mode);
+    return stat(&sb) == 0 && S_ISREG(sb.st_mode);
 }
 
 bool upath::dirExists() const {
     struct stat sb;
-    return stat(string(), &sb) == 0 && S_ISDIR(sb.st_mode);
+    return stat(&sb) == 0 && S_ISDIR(sb.st_mode);
 }
 
 bool upath::isReadable() const {
@@ -124,6 +124,10 @@ int upath::open(int flags, int mode) const {
 
 FILE* upath::fopen(const char *mode) const {
     return ::fopen(string(), mode);
+}
+
+int upath::stat(struct stat *st) const {
+    return ::stat(string(), st);
 }
 
 bool upath::hasProtocol() const {

@@ -41,6 +41,7 @@ public:
     int mkdir(int mode) const;
     int open(int flags, int mode = 0666) const;
     FILE* fopen(const char *mode) const;
+    int stat(struct stat *st) const;
 
     upath& operator=(const upath& p) {
         fPath = p.fPath;
