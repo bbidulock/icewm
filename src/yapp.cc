@@ -11,7 +11,6 @@
 #include "yprefs.h"
 
 #include "sysdep.h"
-#include "sys/resource.h"
 
 #include "intl.h"
 
@@ -553,21 +552,17 @@ void YApplication::resetSignals() {
 
 void YApplication::closeFiles() {
 #ifdef __linux__   /* for now, some debugging code */
-    int             i, max = 1024;
-    struct rlimit   lim;
-
-    if (getrlimit(RLIMIT_NOFILE, &lim) == 0)
-        max = lim.rlim_max;
+    int             i, max = dup(0);
 
     for (i = 3; i < max; i++) {
         int fl = 0;
         if (fcntl(i, F_GETFD, &fl) == 0) {
             if (!(fl & FD_CLOEXEC)) {
                 char path[64];
-                char buf[1024];
+                char buf[64];
 
                 memset(buf, 0, sizeof(buf));
-                sprintf(path, "/proc/%d/fd/%d", getpid(), i);
+                snprintf(path, sizeof path, "/proc/%d/fd/%d", (int) getpid(), i);
                 if (readlink(path, buf, sizeof(buf) - 1) == -1)
 		    buf[0] = '\0';
 
@@ -577,6 +572,7 @@ void YApplication::closeFiles() {
             }
         }
     }
+    close(max);
 #endif
 }
 
@@ -606,6 +602,7 @@ int YApplication::runProgram(const char *path, const char *const *args) {
         else
             execlp(path, path, (void *)NULL);
 
+	fail("%s", path);
         _exit(99);
     }
     return cpid;
