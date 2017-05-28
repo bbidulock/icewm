@@ -1854,7 +1854,8 @@ void YFrameWindow::updateFocusOnMap(bool& doActivate) {
     }
 
     manager->updateUserTime(fUserTime);
-    if (fUserTime == 0 || fUserTime != manager->lastUserTime())
+    if (fUserTime != -1UL)
+        if (fUserTime == 0 || fUserTime != manager->lastUserTime())
 	    doActivate = false;
 }
 
