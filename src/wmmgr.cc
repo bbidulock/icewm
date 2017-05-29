@@ -3017,11 +3017,11 @@ void YWindowManager::execAfterFork(const char *command) {
     pid_t pid = fork();
     switch(pid) {
     case -1: /* Failed */
-        warn("fork failed (%d)", errno);
+        fail("fork failed");
         return;
     case 0: /* Child */
         execl("/bin/sh", "sh", "-c", command, (char *) 0);
-        return; /* Never reached */
+        _exit(99);
     default: /* Parent */
         return;
     }
