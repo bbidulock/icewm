@@ -1,8 +1,6 @@
 #ifndef __WMCONFIG_H
 #define __WMCONFIG_H
 
-extern bool configurationNeeded;
-
 class IApp;
 
 void loadConfiguration(IApp *app, const char *fileName);

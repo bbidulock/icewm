@@ -1245,8 +1245,6 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
     }
 }
 
-bool configurationNeeded(true);
-
 YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     YSMApplication(argc, argv, displayName)
 {
