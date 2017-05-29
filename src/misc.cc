@@ -337,6 +337,7 @@ void warn(char const *msg, ...) {
 }
 
 void fail(char const *msg, ...) {
+    int errcode = errno;
     fprintf(stderr, "%s: ", ApplicationName);
     fputs(_("Warning: "), stderr);
 
@@ -344,7 +345,7 @@ void fail(char const *msg, ...) {
     va_start(ap, msg);
     vfprintf(stderr, msg, ap);
     va_end(ap);
-    fprintf(stderr, ": %s\n", strerror(errno));
+    fprintf(stderr, ": %s\n", strerror(errcode));
     fflush(stderr);
 }
 
@@ -606,7 +607,14 @@ void check_argv(int argc, char **argv, const char *help, const char *version)
         ApplicationName = my_basename(argv[0]);
     }
     for (char **arg = argv + 1; arg < argv + argc; ++arg) {
-        check_help_version(*arg, help, version);
+        check_help_version(*arg, (help && *help) ? help :
+                "  --display=NAME      NAME of the X server to use.\n",
+                version);
+
+        char *value(0);
+        if (GetLongArgument(value, "display", arg, argv + argc)) {
+            setenv("DISPLAY", value, 1);
+        }
     }
 }
 
