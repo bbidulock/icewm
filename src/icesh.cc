@@ -432,7 +432,7 @@ int WorkspaceInfo::parseWorkspaceName(char const * name) {
         }
 
         if (workspace > count()) {
-            msg(_("Workspace out of range: %d"), workspace);
+            msg(_("Workspace out of range: %ld"), workspace);
             return WinWorkspaceInvalid;
         }
     }
@@ -497,7 +497,7 @@ Window getClientWindow(Window window)
     unsigned int i;
 
     if (!XQueryTree (display, window, &root, &parent, &children, &nchildren)) {
-        warn("XQueryTree failed for window 0x%x", window);
+        warn("XQueryTree failed for window 0x%lx", window);
         return None;
     }
 

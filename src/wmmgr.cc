@@ -1488,7 +1488,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         // temp workaro/und for flashblock problems
         // reverted, causes problems with Qt5
         if (client->isEmbed() && 0) {
-            warn("app trying to map XEmbed window 0x%X, ignoring", client->handle());
+            warn("app trying to map XEmbed window 0x%lX, ignoring", client->handle());
             delete client;
             goto end;
         }

@@ -856,7 +856,7 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
                 getFrame()->setState(mask,
                                      getFrame()->getState() ^ mask);
         } else {
-            warn("_NET_WM_STATE unknown command: %d", message.data.l[0]);
+            warn("_NET_WM_STATE unknown command: %ld", message.data.l[0]);
         }
 #endif
 #ifdef GNOME1_HINTS

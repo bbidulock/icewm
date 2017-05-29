@@ -362,7 +362,7 @@ int YApplication::mainLoop() {
                 difftime.tv_usec += 1000000;
             }
             if (difftime.tv_sec > 0 || difftime.tv_usec >= 50 * 1000) {
-                DBG warn("latency: %d.%06d",
+                DBG warn("latency: %ld.%06ld",
                      difftime.tv_sec, difftime.tv_usec);
             }
         }
@@ -463,7 +463,7 @@ int YApplication::mainLoop() {
             if (difftime.tv_sec < 0 ||
                 (difftime.tv_sec == 0 && difftime.tv_usec < 0))
             {
-                warn("time warp of %d.%06d",
+                warn("time warp of %ld.%06ld",
                      difftime.tv_sec, difftime.tv_usec);
                 decreaseTimeouts(difftime);
             } else {
