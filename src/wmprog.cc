@@ -603,7 +603,10 @@ static void loadMenusProg(
     ObjectContainer *container)
 {
     FILE *fpt = tmpfile();
-    if (fpt == 0) return;
+    if (fpt == 0) {
+        fail("tmpfile");
+        return;
+    }
 
     int tfd = fileno(fpt);
     int status = 0;
@@ -613,8 +616,11 @@ static void loadMenusProg(
         fail("Forking '%s' failed", command);
     }
     else if (child_pid == 0) {
-        close(0);
-        open("/dev/null", O_RDONLY);
+        int devnull = open("/dev/null", O_RDONLY);
+        if (devnull > 0) {
+            dup2(devnull, 0);
+            close(devnull);
+        }
         if (dup2(tfd, 1) == 1) {
             if (tfd > 2) close(tfd);
             execvp(command, argv);
@@ -622,10 +628,7 @@ static void loadMenusProg(
         fail("Exec '%s' failed", command);
         _exit(99);
     }
-    else if (waitpid(child_pid, &status, 0) == -1) {
-        fail("waitpid('%s') failed");
-    }
-    else if (status != 0) {
+    else if (waitpid(child_pid, &status, 0) == 0 && status != 0) {
         warn("'%s' exited with code %d.", command, status);
     }
     else if (lseek(tfd, (off_t) 0L, SEEK_SET) == (off_t) -1) {
