@@ -59,7 +59,7 @@ YLocale::YLocale(char const * localeName) {
     };
 
     for (unsigned int i = 0; 
-         i < sizeof(codesetItems)/sizeof(int) - 1
+         i + 1 < ACOUNT(codesetItems)
          && NULL != (codeset = nl_langinfo(codesetItems[i]))
          && '\0' == *codeset;
          ++i) {}

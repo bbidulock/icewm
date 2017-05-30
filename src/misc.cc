@@ -665,7 +665,7 @@ void show_backtrace() {
     void *array[20];
 
     fprintf(stderr, "\nbacktrace:\n");
-    int size = backtrace(array, sizeof array / sizeof array[0]);
+    int size = backtrace(array, ACOUNT(array));
     backtrace_symbols_fd(array, size, 2);
     fprintf(stderr, "end\n");
 #endif

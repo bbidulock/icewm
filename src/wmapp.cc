@@ -213,7 +213,7 @@ static void registerProtocols2(Window xid) {
         _XA_WIN_WORKSPACE_COUNT,
         _XA_WIN_WORKSPACE_NAMES
     };
-    unsigned int i = sizeof(win_proto) / sizeof(win_proto[0]);
+    unsigned int i = ACOUNT(win_proto);
 
     XChangeProperty(xapp->display(), manager->handle(),
                     _XA_WIN_PROTOCOLS, XA_ATOM, 32,
@@ -332,7 +332,7 @@ static void registerProtocols2(Window xid) {
         _XA_NET_WM_WINDOW_TYPE_UTILITY,
         _XA_NET_WORKAREA
     };
-    unsigned int j = sizeof(net_proto) / sizeof(net_proto[0]);
+    unsigned int j = ACOUNT(net_proto);
 
     XChangeProperty(xapp->display(), manager->handle(),
                     _XA_NET_SUPPORTED, XA_ATOM, 32,

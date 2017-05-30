@@ -300,7 +300,7 @@ void MailCheck::socketDataRead(char *buf, int len) {
                        folder, &fCurUnseen) != 2 || fCurUnseen < 0) {
                 fCurUnseen = 0;
             }
-            sk.write(logout, sizeof(logout)/sizeof(char)-1);
+            sk.write(logout, sizeof(logout) - 1);
             state = WAIT_QUIT;
         } else if (state == WAIT_QUIT) {
             MSG(("imap: done"));

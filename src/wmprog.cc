@@ -795,7 +795,7 @@ void StartMenu::refresh() {
         path[0] = "/";
         path[1] = getenv("HOME");
 
-        for (unsigned int i = 0; i < sizeof(path)/sizeof(path[0]); i++) {
+        for (unsigned int i = 0; i < ACOUNT(path); i++) {
             const char *p = path[i];
 
             sub = new BrowseMenu(app, smActionListener, wmActionListener, p);
