@@ -166,3 +166,34 @@ int setDefault(const char *basename, const char *config) {
     return 0;
 }
 
+static void print_options(cfoption *options) {
+    for (int i = 0; options[i].type != cfoption::CF_NONE; ++i) {
+        switch (options[i].type) {
+        case cfoption::CF_BOOL:
+            printf("%s=%d\n", options[i].name, *options[i].v.bool_value);
+            break;
+        case cfoption::CF_INT:
+            printf("%s=%d\n", options[i].name, *options[i].v.i.int_value);
+            break;
+        case cfoption::CF_STR:
+            printf("%s=\"%s\"\n", options[i].name,
+                    options[i].v.s.string_value && *options[i].v.s.string_value
+                    ? *options[i].v.s.string_value : "");
+            break;
+#ifndef NO_KEYBIND
+        case cfoption::CF_KEY:
+            printf("%s=\"%s\"\n", options[i].name,
+                    options[i].v.k.key_value->name);
+            break;
+#endif
+        case cfoption::CF_NONE:
+            break;
+        }
+    }
+}
+
+void print_preferences() {
+    print_options(icewm_preferences);
+    print_options(icewm_themable_preferences);
+}
+

@@ -9,5 +9,6 @@ void addWorkspace(const char *name, const char *value, bool append);
 void setLook(const char *name, const char *value, bool append);
 void freeConfiguration();
 int setDefault(const char *basename, const char *config);
+void print_preferences();
 
 #endif
