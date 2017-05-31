@@ -104,7 +104,8 @@ static char *overrideTheme(NULL);
 static char *configArg(NULL);
 
 ref<YIcon> defaultAppIcon;
-bool replace_wm = false;
+static bool replace_wm;
+static bool post_preferences;
 
 // XXX: get rid of this
 extern ref<YPixmap> listbackPixmap;
@@ -1361,6 +1362,9 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     initActions();
     initPointers();
 
+    if (post_preferences)
+        print_preferences();
+
     delete desktop;
 
     managerWindow = registerProtocols1(*argv, *argc);
@@ -1662,19 +1666,179 @@ static void print_usage(const char *argv0) {
              "%s"
              "  --replace           Replace an existing window manager.\n"
              "  --restart           Don't use this: It's an internal flag.\n"
+             "  --configured        Print the compile time configuration.\n"
+             "  --directories       Print the configuration directories.\n"
+             "  --postpreferences   Print preferences after all processing.\n"
              "\n"
              "Environment variables:\n"
-             "  ICEWM_PRIVCFG=PATH  Directory to use for user private configuration files,\n"
+             "  XDG_CONFIG_HOME=PATH  Directory for configuration files,\n"
+             "                      \"$HOME/.config/icewm/\" by default.\n"
+             "  ICEWM_PRIVCFG=PATH  Directory for user configuration files,\n"
              "                      \"$HOME/.icewm/\" by default.\n"
-             "  DISPLAY=NAME        Name of the X server to use, depends on Xlib by default.\n"
-             "  MAIL=URL            Location of your mailbox. If the schema is omitted\n"
-             "                      the local \"file\" schema is assumed.\n"
+             "  DISPLAY=NAME        Name of the X server to use.\n"
+             "  MAIL=URL            Location of your mailbox.\n"
              "\n"
-             "Visit http://www.icewm.org/ for report bugs, "
-             "support requests, comments...\n"),
+             "To report bugs, support requests, comments please visit:\n"
+             "%s\n\n"),
              argv0,
              usage_client_id,
-             usage_debug);
+             usage_debug,
+             PACKAGE_BUGREPORT[0] ? PACKAGE_BUGREPORT :
+             PACKAGE_URL[0] ? PACKAGE_URL :
+             "http://www.icewm.org/");
+    exit(0);
+}
+
+static void print_confdir(const char *name, const char *path) {
+    printf("%s=%s\n", name, path);
+}
+
+static void print_directories(const char *argv0) {
+    printf(_("%s configuration directories:\n"), argv0);
+    print_confdir("CFGDIR", CFGDIR);
+    print_confdir("DOCDIR", DOCDIR);
+    print_confdir("LIBDIR", LIBDIR);
+    print_confdir("LOCDIR", LOCDIR);
+    print_confdir("XdgConfDir", YApplication::getXdgConfDir().string());
+    print_confdir("PrivConfDir", YApplication::getPrivConfDir().string());
+    exit(0);
+}
+
+static void print_configured(const char *argv0) {
+    static const char compile_time_configured_options[] =
+    /* Sorted alphabetically: */
+#if CONFIG_ADDRESSBAR
+    " addressbar"
+#endif
+#if ENABLE_ALSA
+    " alsa"
+#endif
+#if CONFIG_ANTIALIASING
+    " antialiasing"
+#endif
+#if CONFIG_APPLET_APM
+    " apm"
+#endif
+#if CONFIG_APPLET_CLOCK
+    " clock"
+#endif
+#if CONFIG_COREFONTS
+    " corefonts"
+#endif
+#if CONFIG_APPLET_CPU_STATUS
+    " cpu"
+#endif
+#if DEBUG
+    " debug"
+#endif
+#if ENABLE_ESD
+    " esd"
+#endif
+#if WMSPEC_HINTS
+    " ewmh"
+#endif
+#if CONFIG_FDO_MENUS
+    " fdomenus"
+#endif
+#if CONFIG_FRIBIDI
+    " fribidi"
+#endif
+#if CONFIG_GDK_PIXBUF_XLIB
+    " gdkpixbuf"
+#endif
+#if CONFIG_GNOME_MENUS
+    " gnomemenus"
+#endif
+#if GNOME1_HINTS
+    " gnome1hints"
+#endif
+#if CONFIG_GRADIENTS
+    " gradients"
+#endif
+#if CONFIG_GUIEVENTS
+    " guievents"
+#endif
+#if CONFIG_I18N
+    " i18n"
+#endif
+#if LITE
+    " lite"
+#endif
+#if CONFIG_APPLET_MAILBOX
+    " mailbox"
+#endif
+#if CONFIG_APPLET_MEM_STATUS
+    " mem"
+#endif
+#if CONFIG_APPLET_NET_STATUS
+    " net"
+#endif
+#if ENABLE_NLS
+    " nls"
+#endif
+#if NO_CONFIGURE_MENUS
+    " no-confmenu"
+#endif
+#if NO_KEYBIND
+    " no-keybind"
+#endif
+#if X_DISPLAY_MISSING
+    " no-xdisplay"
+#endif
+#if NO_WINDOW_OPTIONS
+    " no-winopt"
+#endif
+#if ENABLE_OSS
+    " oss"
+#endif
+#if CONFIG_PDA
+    " pda"
+#endif
+#if CONFIG_SESSION
+    " session"
+#endif
+#if CONFIG_SHAPE
+    " shape"
+#endif
+#if CONFIG_SHAPED_DECORATION
+    " shapedecorations"
+#endif
+#if CONFIG_TASKBAR
+    " taskbar"
+#endif
+#if CONFIG_TOOLTIP
+    " tooltip"
+#endif
+#if CONFIG_TRAY
+    " tray"
+#endif
+#if CONFIG_UNICODE_SET
+    " unicodeset"
+#endif
+#if CONFIG_WINLIST
+    " winlist"
+#endif
+#if CONFIG_WINMENU
+    " winmenu"
+#endif
+#if CONFIG_WORDEXP
+    " wordexp"
+#endif
+#if CONFIG_XFREETYPE
+    " xfreetype" QUOTE(CONFIG_XFREETYPE)
+#endif
+#if XINERAMA
+    " xinerama"
+#endif
+#if CONFIG_XRANDR
+    " xrandr"
+#endif
+#if ENABLE_YIFF
+    " yiff"
+#endif
+    "\n";
+    printf(_("%s configured options:%s\n"), argv0,
+            compile_time_configured_options);
     exit(0);
 }
 
@@ -1712,6 +1876,12 @@ int main(int argc, char **argv) {
                 replace_wm = true;
             else if (is_long_switch(*arg, "notify"))
                 notify_parent = true;
+            else if (is_long_switch(*arg, "configured"))
+                print_configured(argv[0]);
+            else if (is_long_switch(*arg, "directories"))
+                print_directories(argv[0]);
+            else if (is_long_switch(*arg, "postpreferences"))
+                post_preferences = true;
             else if (is_help_switch(*arg))
                 print_usage(my_basename(argv[0]));
             else if (is_version_switch(*arg))
