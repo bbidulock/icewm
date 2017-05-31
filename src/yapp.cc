@@ -711,7 +711,7 @@ const upath& YApplication::getPrivConfDir() {
                 dir = env;
             dir += "/.icewm";
         }
-        msg("using %s for private configuration files", cstring(dir).c_str());
+        MSG(("using %s for private configuration files", cstring(dir).c_str()));
     }
     return dir;
 }
@@ -729,7 +729,7 @@ const upath& YApplication::getXdgConfDir() {
             dir += "/.config";
         }
         dir += "/icewm";
-        msg("using %s for private configuration files", cstring(dir).c_str());
+        MSG(("using %s for private configuration files", cstring(dir).c_str()));
     }
     return dir;
 }
