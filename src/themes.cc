@@ -106,12 +106,12 @@ int ThemesMenu::countThemes(const upath& path) {
 
            if(de->d_name[0] == '.')
               continue;
-           ret++;
+           ret += (path + de->d_name + "default.theme").access(R_OK);
         }
         closedir(dir);
     }
     // this just assumes that there is no other trash
-    return ret-1;
+    return ret;
 }
 
 ThemesMenu::~ThemesMenu() {
@@ -147,8 +147,6 @@ void ThemesMenu::findThemes(const upath& path, YMenu *container) {
 
             YMenuItem *im(NULL);
             upath subdir = path + de->d_name;
-            if (false == subdir.dirExists())
-                continue;
             upath npath = subdir + tname;
 
             if (npath.access(R_OK) == 0) {
@@ -206,6 +204,10 @@ void ThemesMenu::findThemeAlternatives(
     if (dir != NULL) {
         struct dirent *de;
         while ((de = readdir(dir)) != NULL) {
+
+            if (de->d_name[0] == '.')
+                continue;
+
             char const *ext(strstr(de->d_name, ".theme"));
 
             if (ext != NULL && 0 == strcmp(ext, ".theme") &&
