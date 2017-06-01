@@ -173,6 +173,13 @@ static void test_mstring()
     expect(q, "abcd.");
     q = ul.upper();
     expect(q, "ABCD.");
+
+    mstring u = NULL;
+    expect(u, "");
+    u = mstring(NULL) + "aha";
+    expect(u, "aha");
+    u = mstring("aha") + NULL;
+    expect(u, "aha");
 }
 
 static void test_upath()
@@ -192,6 +199,9 @@ static void test_upath()
     assert(r, r == s);
     assert(r, r != u);
     assert(r, u != r);
+    expect(u, t + u);
+    expect(r, r + u);
+    expect(s, t + s);
 
     upath e = "etc";
     ispath(e, "etc");
@@ -201,6 +211,10 @@ static void test_upath()
     upath res = re;
     res += s;
     ispath(res, "/etc/");
+    expect(e, t + e);
+    expect(e, e + u);
+    expect(re, t + re);
+    expect(re, re + u);
 
     upath p = "passwd";
     ispath(p, "passwd");

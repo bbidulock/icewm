@@ -49,10 +49,7 @@ upath upath::relative(const upath &npath) const {
     if (npath.isEmpty())
         return *this;
     else if (isEmpty()) {
-        if (npath.isAbsolute())
-            return upath(pstring(".") + npath.path());
-        else
-            return npath;
+        return npath;
     }
     else if (path().endsWith(slash)) {
         if (npath.isAbsolute())
