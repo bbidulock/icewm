@@ -12,12 +12,12 @@
 #include <X11/SM/SMlib.h>
 
 YSMApplication *smapp = 0;
-int IceSMfd = -1;
-IceConn IceSMconn = NULL;
-SmcConn SMconn = NULL;
-char *oldSessionId = NULL;
-char *newSessionId = NULL;
-char *sessionProg;
+static int IceSMfd = -1;
+static IceConn IceSMconn = NULL;
+static SmcConn SMconn = NULL;
+static char *oldSessionId = NULL;
+static char *newSessionId = NULL;
+static char *sessionProg;
 
 upath getsesfile() {
     upath path(YApplication::getPrivConfDir());
@@ -45,11 +45,11 @@ static void iceWatchFD(IceConn conn,
     }
 }
 
-void saveYourselfPhase2Proc(SmcConn /*conn*/, SmPointer /*client_data*/) {
+static void saveYourselfPhase2Proc(SmcConn /*conn*/, SmPointer /*client_data*/) {
     smapp->smSaveYourselfPhase2();
 }
 
-void saveYourselfProc(SmcConn /*conn*/,
+static void saveYourselfProc(SmcConn /*conn*/,
                       SmPointer /*client_data*/,
                       int /*save_type*/,
                       Bool shutdown,
@@ -59,15 +59,15 @@ void saveYourselfProc(SmcConn /*conn*/,
     smapp->smSaveYourself(shutdown ? true : false, fast ? true : false);
 }
 
-void shutdownCancelledProc(SmcConn /*conn*/, SmPointer /*client_data*/) {
+static void shutdownCancelledProc(SmcConn /*conn*/, SmPointer /*client_data*/) {
     smapp->smShutdownCancelled();
 }
 
-void saveCompleteProc(SmcConn /*conn*/, SmPointer /*client_data*/) {
+static void saveCompleteProc(SmcConn /*conn*/, SmPointer /*client_data*/) {
     smapp->smSaveComplete();
 }
 
-void dieProc(SmcConn /*conn*/, SmPointer /*client_data*/) {
+static void dieProc(SmcConn /*conn*/, SmPointer /*client_data*/) {
     smapp->smDie();
 }
 
