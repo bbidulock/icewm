@@ -739,12 +739,13 @@ static void initPixmaps() {
             if(titleB[a]._ptr())
                titleB[a]->replicate(true, copyMask);
         }
-
+    }
+    if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk || wmLook == lookFlat || wmLook == lookMotif) {
         menuButton[0] = paths->loadPixmap(0, "menuButtonI.xpm");
         menuButton[1] = paths->loadPixmap(0, "menuButtonA.xpm");
-    if (rolloverTitleButtons) {
-        menuButton[2] = paths->loadPixmap(0, "menuButtonO.xpm");
-    }
+        if (rolloverTitleButtons) {
+            menuButton[2] = paths->loadPixmap(0, "menuButtonO.xpm");
+        }
     }
 #endif
     {
