@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-06-02 10:56-0600\n"
-"PO-Revision-Date: 2017-04-13 00:55+0000\n"
+"PO-Revision-Date: 2017-06-02 22:54+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
-"Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
-"branch/ja/>\n"
+"Language-Team: Japanese "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -353,9 +353,9 @@ msgid "Invalid workspace name: `%s'"
 msgstr "ワークスペース名が正しくありません: `%s'"
 
 #: src/icesh.cc:435
-#, fuzzy, c-format
+#, c-format
 msgid "Workspace out of range: %ld"
-msgstr "ワークスペースの範囲が正しくありません: %d"
+msgstr "ワークスペースの範囲が正しくありません: %ld"
 
 #: src/icesh.cc:569
 #, c-format
@@ -789,6 +789,12 @@ msgid ""
 "  -h, --help          Prints this usage screen and exits.\n"
 "\n"
 msgstr ""
+"使用方法: %s [オプション]\n"
+"オプション:\n"
+"%s\n"
+"  -V, --version       バージョン情報を表示して終了します。\n"
+"  -h, --help          この使用方法を表示して終了します。\n"
+"\n"
 
 #: src/movesize.cc:903
 #, c-format
@@ -1005,7 +1011,7 @@ msgstr ""
 "表示します。\n"
 
 #: src/wmapp.cc:1653
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
 "Starts the IceWM window manager.\n"
@@ -1038,7 +1044,7 @@ msgid ""
 "%s\n"
 "\n"
 msgstr ""
-"使用方法: %s [OPTIONS]\n"
+"使用方法: %s [オプション]\n"
 "IceWM ウインドウマネージャを起動します。\n"
 "\n"
 "オプション:\n"
@@ -1049,32 +1055,37 @@ msgstr ""
 "  -t, --theme=FILE    テーマを FILE から読み込みます。\n"
 "  -n, --no-configure  設定ファイルを無視します。\n"
 "\n"
-"  -v, --version       バージョン情報を表示して終了します。\n"
+"  -V, --version       バージョン情報を表示して終了します。\n"
 "  -h, --help          この使用方法画面を表示して終了します。\n"
 "%s  --replace           既存のウインドウマネージャを置き換えます。\n"
 "  --restart           使用しないでください: 内部フラグです。\n"
+"  --configured        コンパイル時の設定を表示します。\n"
+"  --directories       設定ディレクトリを表示します。\n"
+"  --postpreferences   全ての処理を行なったあと、設定情報を表示します。\n"
 "\n"
 "環境変数:\n"
+"  XDG_CONFIG_HOME=PATH  設定ファイルのディレクトリを指定します。\n"
+"                      既定値は \"$HOME/.config/icewm/\" です。\n"
 "  ICEWM_PRIVCFG=PATH  ユーザの個人設定ファイルとして使用するディレクトリ\n"
 "                      を指定します。既定値は \"$HOME/.icewm/\" です。\n"
-"  DISPLAY=NAME        使用する X サーバを指定します。既定では Xlib に依"
-"存                      して決めます。\n"
+"  DISPLAY=NAME        使用する X サーバを指定します。既定では Xlib に依存\n"
+"                      して決めます。\n"
 "  MAIL=URL            メールボックスの場所を指定します。スキーマが指定\n"
 "                      されていない場合、ローカルのl \"file\" スキーマで\n"
 "                      あるものと仮定します。\n"
 "\n"
-"バグ報告やサポートの要求、コメントなどは http://www.icewm.org/ をご覧くださ"
-"い...\n"
+"バグ報告やサポートの要求、コメントなどは %s をご覧ください...\n"
+"\n"
 
 #: src/wmapp.cc:1698
 #, c-format
 msgid "%s configuration directories:\n"
-msgstr ""
+msgstr "%s の設定ディレクトリ:\n"
 
 #: src/wmapp.cc:1841
-#, fuzzy, c-format
+#, c-format
 msgid "%s configured options:%s\n"
-msgstr "認識できないオプションです: %s\n"
+msgstr "%s の設定済みオプション: %s\n"
 
 #: src/wmapp.cc:1932
 msgid "Confirm Logout"
@@ -1199,7 +1210,7 @@ msgstr "キー %s でエラー"
 #: src/wmprog.cc:643
 #, c-format
 msgid "'%s' produces no output"
-msgstr ""
+msgstr "'%s' は何も出力しませんでした"
 
 #: src/wmprog.cc:823 src/wmprog.cc:825
 msgid "Programs"
