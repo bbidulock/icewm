@@ -67,7 +67,17 @@ README.html: README.md
 README.txt: README.html
 	links -dump -width 80 -codepage utf-8 $< >$@
 
+INSTALL.cmakebuild: INSTALL-cmakebuild.md
+	cat $< | fmt -sct -w80 -g72 >$@
+
+INSTALL-cmakebuild.html: INSTALL-cmakebuild.md
+	$(MARKDOWN) $< >$@
+
+INSTALL-cmakebuild.txt: INSTALL-cmakebuild.html
+	links -dump -width 80 -codepage utf-8 $< >$@
+
 EXTRA_DIST += \
+	INSTALL-cmakebuild.md \
 	INSTALL.cmakebuild \
 	CMakeLists.txt \
 	doc/CMakeLists.txt \
