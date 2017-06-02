@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.3.12.170\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-04-12 18:42-0600\n"
+"POT-Creation-Date: 2017-06-02 10:56-0600\n"
 "PO-Revision-Date: 2017-02-17 00:00+0100\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -39,26 +39,26 @@ msgstr "L"
 msgid " - Full"
 msgstr " - Fuld"
 
-#: src/acpustatus.cc:209
+#: src/acpustatus.cc:195
 #, c-format
 msgid ""
 "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 "intr = %llu, softirq = %llu, steal = %llu\n"
 msgstr ""
 
-#: src/acpustatus.cc:214
+#: src/acpustatus.cc:200
 #, c-format
 msgid ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 "softirq = %llu, steal = %llu (h = %i)\n"
 msgstr ""
 
-#: src/acpustatus.cc:276
+#: src/acpustatus.cc:262
 #, fuzzy, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "CPU belastning: %3.2f %3.2f %3.2f, %u"
 
-#: src/acpustatus.cc:281
+#: src/acpustatus.cc:267
 #, c-format
 msgid ""
 "\n"
@@ -67,7 +67,7 @@ msgstr ""
 "\n"
 "Ram (ledig): %5.2f (%.2f) M"
 
-#: src/acpustatus.cc:286
+#: src/acpustatus.cc:272
 #, c-format
 msgid ""
 "\n"
@@ -76,7 +76,7 @@ msgstr ""
 "\n"
 "Swap (ledig): %.2f (%.2f) M"
 
-#: src/acpustatus.cc:292
+#: src/acpustatus.cc:278
 #, c-format
 msgid ""
 "\n"
@@ -85,7 +85,7 @@ msgstr ""
 "\n"
 "ACPI temperatur: "
 
-#: src/acpustatus.cc:311
+#: src/acpustatus.cc:297
 #, c-format
 msgid ""
 "\n"
@@ -94,22 +94,22 @@ msgstr ""
 "\n"
 "CPU frekvens: %.3fGHz"
 
-#: src/acpustatus.cc:332
+#: src/acpustatus.cc:318
 msgid "CPU"
 msgstr ""
 
-#: src/acpustatus.cc:332
+#: src/acpustatus.cc:318
 #, fuzzy
 msgid "Load: "
 msgstr "CPU belastning: "
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/acpustatus.cc:410
+#: src/acpustatus.cc:396
 msgid "°C"
 msgstr ""
 
-#: src/acpustatus.cc:695
+#: src/acpustatus.cc:681
 #, c-format
 msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 msgstr ""
@@ -124,21 +124,21 @@ msgstr "Ugyldig postkasse protokol: \"%s\""
 msgid "Invalid mailbox path: \"%s\""
 msgstr "Ugyldig postkasse sti: \"%s\""
 
-#: src/amailbox.cc:343
+#: src/amailbox.cc:344
 #, c-format
 msgid "Using MailBox \"%s\"\n"
 msgstr "Bruger postkasse \"%s\"\n"
 
-#: src/amailbox.cc:451
+#: src/amailbox.cc:452
 msgid "Error checking mailbox."
 msgstr "Fejl under kontrol af postkasse."
 
-#: src/amailbox.cc:457
+#: src/amailbox.cc:458
 #, c-format
 msgid "%ld mail message."
 msgstr "%ld post besked."
 
-#: src/amailbox.cc:458
+#: src/amailbox.cc:459
 #, c-format
 msgid "%ld mail messages."
 msgstr "%ld post beskeder."
@@ -167,7 +167,7 @@ msgstr ""
 "  Opkalds-id:\t"
 
 #: src/aworkspaces.cc:155 src/aworkspaces.cc:220 src/aworkspaces.cc:276
-#: src/wmstatus.cc:178
+#: src/wmstatus.cc:180
 msgid "Workspace: "
 msgstr "Arbejdsområde: "
 
@@ -234,47 +234,52 @@ msgstr "Tekstredigering"
 msgid "Other"
 msgstr "Andre"
 
-#: src/icehelp.cc:717
+#: src/icehelp.cc:1093
 msgid "Back"
 msgstr "Tilbage"
 
-#: src/icehelp.cc:717
+#: src/icehelp.cc:1093
 msgid "Alt+Left"
 msgstr "Alt+Venstre"
 
-#: src/icehelp.cc:718
+#: src/icehelp.cc:1095
 msgid "Forward"
 msgstr "Frem"
 
-#: src/icehelp.cc:718
+#: src/icehelp.cc:1095
 msgid "Alt+Right"
 msgstr "Alt+Højre"
 
-#: src/icehelp.cc:720
+#: src/icehelp.cc:1098
 msgid "Previous"
 msgstr "Foregående"
 
-#: src/icehelp.cc:721
+#: src/icehelp.cc:1099
 msgid "Next"
 msgstr "Næste"
 
-#: src/icehelp.cc:723
+#: src/icehelp.cc:1101
 msgid "Contents"
 msgstr "Indhold"
 
-#: src/icehelp.cc:724
+#: src/icehelp.cc:1102
 msgid "Index"
 msgstr "Indeks"
 
-#: src/icehelp.cc:726 src/icesame.cc:63 src/iceview.cc:76 src/wmframe.cc:187
+#: src/icehelp.cc:1105 src/icesame.cc:63 src/iceview.cc:76 src/wmframe.cc:187
 msgid "Close"
 msgstr "Luk"
 
-#: src/icehelp.cc:726 src/icesame.cc:63 src/iceview.cc:76
+#: src/icehelp.cc:1105 src/icesame.cc:63 src/iceview.cc:76
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1330
+#: src/icehelp.cc:1785
+#, c-format
+msgid "Invalid path: %s\n"
+msgstr "Ugyldig sti: %s\n"
+
+#: src/icehelp.cc:1982
 #, c-format
 msgid ""
 "Usage: %s FILENAME\n"
@@ -286,15 +291,6 @@ msgstr ""
 "\n"
 "En meget simpel HTML-browser som viser dokumentet angivet med FILNAVN.\n"
 "\n"
-
-#: src/icehelp.cc:1340
-#, c-format
-msgid "Invalid path: %s\n"
-msgstr "Ugyldig sti: %s\n"
-
-#: src/icehelp.cc:1345
-msgid "Invalid path: "
-msgstr "Ugyldig sti: "
 
 #: src/icelist.cc:84
 msgid "List View"
@@ -357,8 +353,8 @@ msgid "Invalid workspace name: `%s'"
 msgstr "Ugyldigt arbejdsområdenavn: \"%s\""
 
 #: src/icesh.cc:435
-#, c-format
-msgid "Workspace out of range: %d"
+#, fuzzy, c-format
+msgid "Workspace out of range: %ld"
 msgstr "Arbejdsområde udenfor område: %d"
 
 #: src/icesh.cc:569
@@ -477,31 +473,31 @@ msgstr "IceWM-bakketilvalg"
 msgid "Usage error: "
 msgstr "Anvendelsesfejl: "
 
-#: src/icesh.cc:687
+#: src/icesh.cc:696
 #, c-format
 msgid "Invalid argument: `%s'."
 msgstr "Ugyldigt argument: \"%s\"."
 
-#: src/icesh.cc:696
+#: src/icesh.cc:702
 msgid "No actions specified."
 msgstr "Ingen handlinger anført."
 
-#: src/icesh.cc:703 src/icesound.cc:1050 src/icewmhint.cc:76 src/yxapp.cc:975
+#: src/icesh.cc:709 src/icesound.cc:1049 src/icewmhint.cc:92 src/yxapp.cc:979
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "Kan ikke åbne skærm: %s. X skal køre og $DISPLAY sat."
 
-#: src/icesh.cc:743
+#: src/icesh.cc:749
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Ugyldig vinduesidentifikator: \"%s\""
 
-#: src/icesh.cc:896
+#: src/icesh.cc:902
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "arbejdsområde nr. %d: \"%s\"\n"
 
-#: src/icesh.cc:914
+#: src/icesh.cc:920
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Ukendt handling: \"%s\""
@@ -511,52 +507,52 @@ msgstr "Ukendt handling: \"%s\""
 msgid "Socket error: %d"
 msgstr "Sokkel fejl: %d"
 
-#: src/icesound.cc:256 src/icesound.cc:424 src/icesound.cc:792
+#: src/icesound.cc:255 src/icesound.cc:423 src/icesound.cc:791
 #, c-format
 msgid "Playing sample #%d (%s)"
 msgstr "Afspiller prøve nr. %d (%s)"
 
-#: src/icesound.cc:468
+#: src/icesound.cc:467
 #, c-format
 msgid "No such device: %s"
 msgstr "Ingen sådan enhed: %s"
 
-#: src/icesound.cc:561
+#: src/icesound.cc:560
 #, c-format
 msgid "Can't connect to ESound daemon: %s"
 msgstr "Kan ikke oprette forbindelse til ESound-dæmon: %s"
 
-#: src/icesound.cc:562 src/icesound.cc:739 src/icesound.cc:780
-#: src/icewmhint.cc:78 src/yxapp.cc:976
+#: src/icesound.cc:561 src/icesound.cc:738 src/icesound.cc:779
+#: src/icewmhint.cc:94 src/yxapp.cc:980
 msgid "<none>"
 msgstr "<ingen>"
 
-#: src/icesound.cc:582
+#: src/icesound.cc:581
 #, c-format
 msgid "Error <%d> while uploading `%s:%s'"
 msgstr "Fejl <%d> under upload af \"%s:%s\""
 
-#: src/icesound.cc:588
+#: src/icesound.cc:587
 #, c-format
 msgid "Sample <%d> uploaded as `%s:%s'"
 msgstr "Prøve <%d> uploadet som \"%s:%s\""
 
-#: src/icesound.cc:647
+#: src/icesound.cc:646
 #, c-format
 msgid "Playing sample #%d"
 msgstr "Afspiller prøve nr. %d"
 
-#: src/icesound.cc:738 src/icesound.cc:779
+#: src/icesound.cc:737 src/icesound.cc:778
 #, c-format
 msgid "Can't connect to YIFF server: %s"
 msgstr "Kan ikke oprette forbindelse til YIFF-server: %s"
 
-#: src/icesound.cc:744
+#: src/icesound.cc:743
 #, c-format
 msgid "Can't change to audio mode `%s'."
 msgstr "Kan ikke skifte til lydtilstand \"%s\"."
 
-#: src/icesound.cc:886
+#: src/icesound.cc:885
 #, c-format
 msgid ""
 "Audio mode switch detected, initial audio mode `%s' no longer in effect."
@@ -564,17 +560,17 @@ msgstr ""
 "Lydtilstand-flag registreret, indledende lydtilstand \"%s\" ikke længere "
 "aktiv."
 
-#: src/icesound.cc:893
+#: src/icesound.cc:892
 msgid "Audio mode switch detected, automatic audio mode changing disabled."
 msgstr ""
 "Lydtilstand-flag registreret, automatisk skift af lydtilstand deaktiveret."
 
-#: src/icesound.cc:939 src/icesound.cc:952
+#: src/icesound.cc:938 src/icesound.cc:951
 #, c-format
 msgid "Overriding previous audio mode `%s'."
 msgstr "Tilsidesætter foregående lydtilstand \"%s\"."
 
-#: src/icesound.cc:978
+#: src/icesound.cc:977
 #, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
@@ -651,26 +647,26 @@ msgstr ""
 "3     Fejl ved undersystem (dvs. kan ikke oprette forbindelse til server).\n"
 "\n"
 
-#: src/icesound.cc:1175
+#: src/icesound.cc:1174
 msgid "Multiple sound interfaces given."
 msgstr "Flere lyd grænseflader angivet."
 
-#: src/icesound.cc:1187 src/icesound.cc:1199 src/icesound.cc:1212
+#: src/icesound.cc:1186 src/icesound.cc:1198 src/icesound.cc:1211
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr "Understøttelse for %s grænseflade ikke oversat."
 
-#: src/icesound.cc:1216
+#: src/icesound.cc:1215
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr "Ikke understøttet grænseflade: %s."
 
-#: src/icesound.cc:1233
+#: src/icesound.cc:1232
 #, c-format
 msgid "Received signal %d: Terminating..."
 msgstr "Modtaget signal %d: Afslutter..."
 
-#: src/icesound.cc:1242
+#: src/icesound.cc:1241
 #, c-format
 msgid "Received signal %d: Reloading samples..."
 msgstr "Modtaget signal %d: Genindlæser prøver..."
@@ -740,35 +736,46 @@ msgstr ""
 "%s: ugenkendeligt tilvalg \"%s\"\n"
 "Prøv \"%s --help\" for mere information.\n"
 
-#: src/icewmbg.cc:557
+#: src/icewmbg.cc:565
 #, c-format
 msgid "Loading image %s failed"
 msgstr "Indlæsning af billede %s mislykkedes"
 
-#: src/icewmbg.cc:571 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
+#: src/icewmbg.cc:579 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
 msgstr "Indlæsning af pixelkort \"%s\" mislykkedes: %s"
 
-#: src/icewmhint.cc:49
+#: src/icewmhint.cc:45
 msgid "Usage: icewmhint [class.instance] option arg\n"
 msgstr "Anvendelse: icewmhint [class.instance] tilvalg arg\n"
 
-#: src/icewmhint.cc:65
+#: src/icewmhint.cc:81
 #, c-format
 msgid "Out of memory (len=%d)."
 msgstr "Ikke mere ledig hukommelse (len=%d)."
 
-#: src/misc.cc:330
+#: src/misc.cc:330 src/misc.cc:342
 msgid "Warning: "
 msgstr "Advarsel: "
+
+#: src/misc.cc:576
+#, c-format
+msgid ""
+"Usage: %s [OPTIONS]\n"
+"Options:\n"
+"%s\n"
+"  -V, --version       Prints version information and exits.\n"
+"  -h, --help          Prints this usage screen and exits.\n"
+"\n"
+msgstr ""
 
 #: src/movesize.cc:903
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Ukendt retning i flyt-/tilpas størrelse-forespørgsel: %d"
 
-#: src/themes.cc:104
+#: src/themes.cc:93
 msgid "Default"
 msgstr "Standard"
 
@@ -800,158 +807,158 @@ msgstr "Sprog:"
 msgid "icewm - About"
 msgstr "icewm - Om"
 
-#: src/wmapp.cc:444
+#: src/wmapp.cc:445
 msgid "Unable to get current font path."
 msgstr "Ikke i stand til at læse nuværende skrifttype sti."
 
-#: src/wmapp.cc:471
+#: src/wmapp.cc:472
 msgid "Unexpected format of ICEWM_FONT_PATH property"
 msgstr "Uventet format for ICEWM_FONT_PATH-egenskab"
 
-#: src/wmapp.cc:528
+#: src/wmapp.cc:529
 #, c-format
 msgid "Multiple references for gradient \"%s\""
 msgstr "Flere referencer for farveovergang \"%s\""
 
-#: src/wmapp.cc:603
+#: src/wmapp.cc:604
 #, c-format
 msgid "Unknown gradient name: %s"
 msgstr "Ukendt farveovergangsnavn: %s"
 
-#: src/wmapp.cc:866
+#: src/wmapp.cc:868
 msgid "_Logout"
 msgstr "Log _ud"
 
-#: src/wmapp.cc:867
+#: src/wmapp.cc:869
 msgid "_Cancel logout"
 msgstr "_Annuller log ud"
 
-#: src/wmapp.cc:880 src/wmapp.cc:882
+#: src/wmapp.cc:882 src/wmapp.cc:884
 msgid "Lock _Workstation"
 msgstr "Lås _arbejdsstation"
 
-#: src/wmapp.cc:886 src/wmapp.cc:888 src/wmdialog.cc:111
+#: src/wmapp.cc:888 src/wmapp.cc:890 src/wmdialog.cc:111
 msgid "Re_boot"
 msgstr "_Genstart"
 
-#: src/wmapp.cc:892 src/wmapp.cc:894 src/wmdialog.cc:118
+#: src/wmapp.cc:894 src/wmapp.cc:896 src/wmdialog.cc:118
 msgid "Shut_down"
 msgstr "_Luk ned"
 
-#: src/wmapp.cc:900 src/wmapp.cc:902
+#: src/wmapp.cc:902 src/wmapp.cc:904
 msgid "Restart _Icewm"
 msgstr "Genstart _Icewm"
 
 # scootergrisen: tjek om det er korrekt med "Xterm". Synes ikke Xterm virker som forventet.
-#: src/wmapp.cc:906
+#: src/wmapp.cc:908
 msgid "Restart _Xterm"
 msgstr "Genstart _Xterm"
 
-#: src/wmapp.cc:928
+#: src/wmapp.cc:930
 msgid "_Menu"
 msgstr "_Menu"
 
-#: src/wmapp.cc:929
+#: src/wmapp.cc:931
 msgid "_Above Dock"
 msgstr "_Over dok"
 
-#: src/wmapp.cc:930
+#: src/wmapp.cc:932
 msgid "_Dock"
 msgstr "_Dok"
 
-#: src/wmapp.cc:931
+#: src/wmapp.cc:933
 msgid "_OnTop"
 msgstr "Ø_verst"
 
-#: src/wmapp.cc:932
+#: src/wmapp.cc:934
 msgid "_Normal"
 msgstr "_Normal"
 
-#: src/wmapp.cc:933
+#: src/wmapp.cc:935
 msgid "_Below"
 msgstr "_Under"
 
-#: src/wmapp.cc:934
+#: src/wmapp.cc:936
 msgid "D_esktop"
 msgstr "_Skrivebord"
 
-#: src/wmapp.cc:946
+#: src/wmapp.cc:948
 msgid "_Restore"
 msgstr "_Gendan"
 
-#: src/wmapp.cc:948
+#: src/wmapp.cc:950
 msgid "_Move"
 msgstr "_Flyt"
 
-#: src/wmapp.cc:950
+#: src/wmapp.cc:952
 msgid "_Size"
 msgstr "Stø_rrelse"
 
-#: src/wmapp.cc:952
+#: src/wmapp.cc:954
 msgid "Mi_nimize"
 msgstr "Mi_nimer"
 
-#: src/wmapp.cc:954
+#: src/wmapp.cc:956
 msgid "Ma_ximize"
 msgstr "Ma_ksimer"
 
-#: src/wmapp.cc:956
+#: src/wmapp.cc:958
 msgid "_Fullscreen"
 msgstr "F_uldskærm"
 
-#: src/wmapp.cc:960 src/wmwinlist.cc:307
+#: src/wmapp.cc:962 src/wmwinlist.cc:307
 msgid "_Hide"
 msgstr "Sk_jul"
 
-#: src/wmapp.cc:963
+#: src/wmapp.cc:965
 msgid "Roll_up"
 msgstr "Rul _op"
 
-#: src/wmapp.cc:970
+#: src/wmapp.cc:972
 msgid "R_aise"
 msgstr "_Hæv"
 
-#: src/wmapp.cc:972
+#: src/wmapp.cc:974
 msgid "_Lower"
 msgstr "_Sænk"
 
-#: src/wmapp.cc:974
+#: src/wmapp.cc:976
 msgid "La_yer"
 msgstr "L_ag"
 
-#: src/wmapp.cc:978 src/wmwinlist.cc:310
+#: src/wmapp.cc:980 src/wmwinlist.cc:310
 msgid "Move _To"
 msgstr "Flyt _til"
 
-#: src/wmapp.cc:979
+#: src/wmapp.cc:981
 msgid "Occupy _All"
 msgstr "_På alle"
 
-#: src/wmapp.cc:985
+#: src/wmapp.cc:987
 msgid "Limit _Workarea"
 msgstr "Afgræns _arbejdsområde"
 
-#: src/wmapp.cc:990
+#: src/wmapp.cc:992
 msgid "Tray _icon"
 msgstr "_Bakkeikon"
 
-#: src/wmapp.cc:996 src/wmwinlist.cc:295 src/wmwinlist.cc:321
+#: src/wmapp.cc:998 src/wmwinlist.cc:295 src/wmwinlist.cc:321
 msgid "_Close"
 msgstr "_Luk"
 
-#: src/wmapp.cc:998 src/wmwinlist.cc:297
+#: src/wmapp.cc:1000 src/wmwinlist.cc:297
 msgid "_Kill Client"
 msgstr "_Dræb klient"
 
-#: src/wmapp.cc:1002 src/wmdialog.cc:132 src/wmwinmenu.cc:137
+#: src/wmapp.cc:1004 src/wmdialog.cc:132 src/wmwinmenu.cc:137
 msgid "_Window list"
 msgstr "_Vinduesliste"
 
-#: src/wmapp.cc:1018
+#: src/wmapp.cc:1020
 msgid "Another window manager already running, exiting..."
 msgstr "En anden vindueshåndtering kører allerede, afslutter..."
 
-#: src/wmapp.cc:1084
+#: src/wmapp.cc:1086
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -960,20 +967,20 @@ msgstr ""
 "Kunne ikke genstarte: %s\n"
 "Leder $PATH til %s?"
 
-#: src/wmapp.cc:1646
+#: src/wmapp.cc:1641
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 
-#: src/wmapp.cc:1652
+#: src/wmapp.cc:1647
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
 "  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
 
-#: src/wmapp.cc:1658
-#, c-format
+#: src/wmapp.cc:1653
+#, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
 "Starts the IceWM window manager.\n"
@@ -986,21 +993,25 @@ msgid ""
 "  -t, --theme=FILE    Load theme from FILE.\n"
 "  -n, --no-configure  Ignore preferences file.\n"
 "\n"
-"  -v, --version       Prints version information and exits.\n"
+"  -V, --version       Prints version information and exits.\n"
 "  -h, --help          Prints this usage screen and exits.\n"
 "%s  --replace           Replace an existing window manager.\n"
 "  --restart           Don't use this: It's an internal flag.\n"
+"  --configured        Print the compile time configuration.\n"
+"  --directories       Print the configuration directories.\n"
+"  --postpreferences   Print preferences after all processing.\n"
 "\n"
 "Environment variables:\n"
-"  ICEWM_PRIVCFG=PATH  Directory to use for user private configuration "
-"files,\n"
+"  XDG_CONFIG_HOME=PATH  Directory for configuration files,\n"
+"                      \"$HOME/.config/icewm/\" by default.\n"
+"  ICEWM_PRIVCFG=PATH  Directory for user configuration files,\n"
 "                      \"$HOME/.icewm/\" by default.\n"
-"  DISPLAY=NAME        Name of the X server to use, depends on Xlib by "
-"default.\n"
-"  MAIL=URL            Location of your mailbox. If the schema is omitted\n"
-"                      the local \"file\" schema is assumed.\n"
+"  DISPLAY=NAME        Name of the X server to use.\n"
+"  MAIL=URL            Location of your mailbox.\n"
 "\n"
-"Visit http://www.icewm.org/ for report bugs, support requests, comments...\n"
+"To report bugs, support requests, comments please visit:\n"
+"%s\n"
+"\n"
 msgstr ""
 "Anvendelse: %s [TILVALG]\n"
 "Starter IceWM-vindueshåndtering.\n"
@@ -1030,11 +1041,21 @@ msgstr ""
 "Besøg http://www.icewm.org/ for at rapportere fejl, supportforespørgsel, "
 "kommentarer...\n"
 
-#: src/wmapp.cc:1769
+#: src/wmapp.cc:1698
+#, c-format
+msgid "%s configuration directories:\n"
+msgstr ""
+
+#: src/wmapp.cc:1841
+#, fuzzy, c-format
+msgid "%s configured options:%s\n"
+msgstr "Ugenkendeligt tilvalg: %s\n"
+
+#: src/wmapp.cc:1932
 msgid "Confirm Logout"
 msgstr "Bekræft log ud"
 
-#: src/wmapp.cc:1770
+#: src/wmapp.cc:1933
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1050,8 +1071,8 @@ msgstr "Dårligt Look-navn"
 msgid "Loc_k Workstation"
 msgstr "Lås _arbejdsstation"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:989 src/wmprog.cc:991 src/wmprog.cc:995
-#: src/wmprog.cc:997 src/wmtaskbar.cc:438 src/wmtaskbar.cc:440
+#: src/wmdialog.cc:90 src/wmprog.cc:954 src/wmprog.cc:956 src/wmprog.cc:960
+#: src/wmprog.cc:962 src/wmtaskbar.cc:438 src/wmtaskbar.cc:440
 msgid "_Logout..."
 msgstr "Log _ud..."
 
@@ -1063,12 +1084,12 @@ msgstr "_Annuller"
 msgid "_Restart icewm"
 msgstr "Gensta_rt icewm"
 
-#: src/wmdialog.cc:125 src/wmprog.cc:906 src/wmprog.cc:908 src/wmtaskbar.cc:430
+#: src/wmdialog.cc:125 src/wmprog.cc:871 src/wmprog.cc:873 src/wmtaskbar.cc:430
 #: src/wmtaskbar.cc:433
 msgid "_About"
 msgstr "O_m"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3437
+#: src/wmframe.cc:165 src/wmframe.cc:3438
 msgid "Maximize"
 msgstr "Maksimer"
 
@@ -1080,7 +1101,7 @@ msgstr "Minimer"
 msgid "Hide"
 msgstr "Skjul"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3470
+#: src/wmframe.cc:209 src/wmframe.cc:3471
 msgid "Rollup"
 msgstr "Rul op"
 
@@ -1100,20 +1121,20 @@ msgstr ""
 "ADVARSEL! Alle ændringer som ikke er gemt vil gå tabt når\n"
 "denne klient dræbes. Vil du fortsætte?"
 
-#: src/wmframe.cc:3434
+#: src/wmframe.cc:3435
 msgid "Restore"
 msgstr "Gendan"
 
-#: src/wmframe.cc:3468
+#: src/wmframe.cc:3469
 msgid "Rolldown"
 msgstr "Rul ned"
 
-#: src/wmoption.cc:240
+#: src/wmoption.cc:242
 #, c-format
 msgid "Error in window option: %s"
 msgstr "Fejl i vinduestilvalg: %s"
 
-#: src/wmoption.cc:257
+#: src/wmoption.cc:259
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Ukendt vinduestilvalg: %s"
@@ -1122,75 +1143,80 @@ msgstr "Ukendt vinduestilvalg: %s"
 msgid "Syntax error in window options"
 msgstr "Syntaksfejl i vinduestilvalg"
 
-#: src/wmoption.cc:387
+#: src/wmoption.cc:386
 msgid "Out of memory for window options"
 msgstr "Ikke mere ledig hukommelse til vinduestilvalg"
 
-#: src/wmprog.cc:198
+#: src/wmprog.cc:197
 msgid "Missing command argument"
 msgstr "Mangler kommando argument"
 
-#: src/wmprog.cc:216
+#: src/wmprog.cc:215
 #, c-format
 msgid "Bad argument %d"
 msgstr "Dårligt argument %d"
 
-#: src/wmprog.cc:302 src/wmprog.cc:406 src/wmprog.cc:448
+#: src/wmprog.cc:303 src/wmprog.cc:407 src/wmprog.cc:449
 #, c-format
 msgid "Error at prog %s"
 msgstr "Fejl i program %s"
 
-#: src/wmprog.cc:357
+#: src/wmprog.cc:358
 #, c-format
 msgid "Unexepected keyword: %s"
 msgstr "Ikke forventet nøgleord: %s"
 
-#: src/wmprog.cc:496
+#: src/wmprog.cc:497
 #, c-format
 msgid "Error at key %s"
 msgstr "Fejl i nøgle %s"
 
-#: src/wmprog.cc:858 src/wmprog.cc:860
+#: src/wmprog.cc:643
+#, c-format
+msgid "'%s' produces no output"
+msgstr ""
+
+#: src/wmprog.cc:823 src/wmprog.cc:825
 msgid "Programs"
 msgstr "Programmer"
 
-#: src/wmprog.cc:867 src/wmprog.cc:869
+#: src/wmprog.cc:832 src/wmprog.cc:834
 msgid "_Run..."
 msgstr "_Kør..."
 
-#: src/wmprog.cc:878 src/wmprog.cc:880 src/wmtaskbar.cc:418
+#: src/wmprog.cc:843 src/wmprog.cc:845 src/wmtaskbar.cc:418
 msgid "_Windows"
 msgstr "Vin_duer"
 
-#: src/wmprog.cc:922
+#: src/wmprog.cc:887
 msgid "_Help"
 msgstr "_Hjælp"
 
-#: src/wmprog.cc:945
+#: src/wmprog.cc:910
 msgid "_Click to focus"
 msgstr "_Klik for at fokusere"
 
-#: src/wmprog.cc:950
+#: src/wmprog.cc:915
 msgid "_Sloppy mouse focus"
 msgstr "_Sløset musefokus"
 
-#: src/wmprog.cc:955
+#: src/wmprog.cc:920
 msgid "Custo_m"
 msgstr "_Tilpasset"
 
-#: src/wmprog.cc:962 src/wmprog.cc:964
+#: src/wmprog.cc:927 src/wmprog.cc:929
 msgid "_Focus"
 msgstr "_Fokus"
 
-#: src/wmprog.cc:973 src/wmprog.cc:975
+#: src/wmprog.cc:938 src/wmprog.cc:940
 msgid "_Themes"
 msgstr "_Temaer"
 
-#: src/wmprog.cc:979 src/wmprog.cc:981
+#: src/wmprog.cc:944 src/wmprog.cc:946
 msgid "Se_ttings"
 msgstr "_Indstillinger"
 
-#: src/wmsession.cc:239 src/wmsession.cc:255 src/wmsession.cc:265
+#: src/wmsession.cc:234 src/wmsession.cc:250 src/wmsession.cc:260
 #, c-format
 msgid "Session Manager: Unknown line %s"
 msgstr "Sessionshåndtering: Ukendt linje %s"
@@ -1285,7 +1311,7 @@ msgstr "Vinduesliste"
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. arbejdsområde %-.32s"
 
-#: src/yapp.cc:483
+#: src/yapp.cc:479
 #, c-format
 msgid "Message Loop: select failed (errno=%d)"
 msgstr "Besked løkke: valg mislykkedes (errno=%d)"
@@ -1305,17 +1331,17 @@ msgstr "Ugenkendeligt argument: %s\n"
 msgid "Argument required for %s switch"
 msgstr "Argument krævet for %s flag"
 
-#: src/yconfig.cc:186
+#: src/yconfig.cc:160
 #, c-format
 msgid "Unknown key name %s in %s"
 msgstr "Ukendt nøglenavn %s i %s"
 
-#: src/yconfig.cc:211 src/yconfig.cc:224
+#: src/yconfig.cc:185 src/yconfig.cc:198
 #, c-format
 msgid "Bad argument: %s for %s"
 msgstr "Dårligt argument: %s for %s"
 
-#: src/yconfig.cc:259
+#: src/yconfig.cc:233
 #, c-format
 msgid "Bad option: %s"
 msgstr "Dårligt tilvalg: %s"
@@ -1452,27 +1478,27 @@ msgstr "Ugyldig multibyte streng \"%s\": %s"
 msgid "_OK"
 msgstr "_OK"
 
-#: src/ypaths.cc:144 src/ypaths.cc:171
+#: src/ypaths.cc:143 src/ypaths.cc:170
 #, c-format
 msgid "Image not readable: %s"
 msgstr "Billede kan ikke læses: %s"
 
-#: src/ypaths.cc:149
+#: src/ypaths.cc:148
 #, c-format
 msgid "Out of memory for image %s"
 msgstr "Ikke mere ledig hukommelse til billede %s"
 
-#: src/ypaths.cc:156
+#: src/ypaths.cc:155
 #, c-format
 msgid "Could not find image %s"
 msgstr "Kunne ikke finde pixelkort %s"
 
-#: src/ypaths.cc:175
+#: src/ypaths.cc:174
 #, c-format
 msgid "Out of memory for image: %s"
 msgstr "Ikke mere ledig hukommelse til billede: %s"
 
-#: src/ypaths.cc:182
+#: src/ypaths.cc:181
 #, c-format
 msgid "Could not find image: %s"
 msgstr "Kunne ikke finde billede %s"
@@ -1491,7 +1517,7 @@ msgstr ""
 msgid "%s:%d: %d bit visuals are not supported (yet)"
 msgstr "%s:%d: %d synlige bit er ikke understøttet (endnu)"
 
-#: src/ysmapp.cc:106
+#: src/ysmapp.cc:98
 msgid "$USER or $LOGNAME not set?"
 msgstr "$USER eller $LOGNAME ikke sat?"
 
@@ -1504,3 +1530,6 @@ msgstr "\"%s\" beskriver ikke et fælles internet skema"
 #, c-format
 msgid "\"%s\" contains no scheme description"
 msgstr "\"%s\" indholder ingen skema beskrivelse"
+
+#~ msgid "Invalid path: "
+#~ msgstr "Ugyldig sti: "
