@@ -106,7 +106,7 @@ int ThemesMenu::countThemes(const upath& path) {
 
            if(de->d_name[0] == '.')
               continue;
-           ret += (path + de->d_name + "default.theme").access(R_OK);
+           ret += (path + de->d_name + "default.theme").access(R_OK) == 0;
         }
         closedir(dir);
     }
