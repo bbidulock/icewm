@@ -111,6 +111,8 @@ libice_la_SOURCES = \
 	mstring.h \
 	upath.cc \
 	upath.h \
+	udir.cc \
+	udir.h \
 	yapp.cc \
 	yapp.h \
 	MwmUtil.h \
@@ -483,6 +485,7 @@ strtest_SOURCES = \
 	debug.h \
 	sysdep.h \
 	base.h \
+	udir.h \
 	strtest.cc \
 	mstring.h
 strtest_LDADD = libice.la
