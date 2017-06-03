@@ -17,7 +17,7 @@
 #include "base.h"
 #include "prefs.h"
 #include "yprefs.h"
-#include <dirent.h>
+#include "udir.h"
 #include "wmapp.h"
 #include "ascii.h"
 #include "wmconfig.h"
@@ -26,12 +26,10 @@
 
 #include "intl.h"
 
-void setDefaultTheme(const char *theme) {
-    const char *buf = cstrJoin("Theme=\"", theme, "\"\n", NULL);
-
+static void setDefaultTheme(const char *theme) {
+    char buf[600];
+    snprintf(buf, sizeof buf, "Theme=\"%s\"\n", theme);
     setDefault("theme", buf);
-
-    delete [] buf;
 }
 
 DTheme::DTheme(IApp *app, YSMListener *smActionListener, const ustring &label, const ustring &theme):
@@ -94,37 +92,28 @@ void ThemesMenu::refresh() {
 }
 
 int ThemesMenu::countThemes(const upath& path) {
-    DIR *dir(opendir(path.string()));
-    int ret=0;
-
-    if (dir != NULL) {
-        struct dirent *de;
-        while ((de = readdir(dir)) != NULL) {
-           // assume that OS caches this. Otherwise, construct a new
-           // object to just store the string and an YArrayList of them,
-           // read the entries once and work with List contents later
-
-           if(de->d_name[0] == '.')
-              continue;
-           ret += (path + de->d_name + "default.theme").access(R_OK) == 0;
-        }
-        closedir(dir);
+    int ret = 0;
+    for (udir dir(path); dir.next(); ) {
+        ret += (path + dir.entry() + "default.theme").isReadable();
     }
-    // this just assumes that there is no other trash
     return ret;
 }
 
 ThemesMenu::~ThemesMenu() {
 }
 
-YMenuItem * ThemesMenu::newThemeItem(IApp *app, YSMListener *smActionListener, char const *label, char const *relThemeName) {
+YMenuItem * ThemesMenu::newThemeItem(
+        IApp *app,
+        YSMListener *smActionListener,
+        const ustring& label,
+        const ustring& relThemeName) {
     DTheme *dtheme = new DTheme(app, smActionListener, label, relThemeName);
 
     if (dtheme) {
         YMenuItem *item(new DObjectMenuItem(dtheme));
 
         if (item) {
-            item->setChecked(themeName && 0 == strcmp(themeName, relThemeName));
+            item->setChecked(themeName && relThemeName == themeName);
             return item;
         }
     }
@@ -132,62 +121,46 @@ YMenuItem * ThemesMenu::newThemeItem(IApp *app, YSMListener *smActionListener, c
 }
 
 void ThemesMenu::findThemes(const upath& path, YMenu *container) {
-    char const *const tname("/default.theme");
+    ustring defTheme("/default.theme");
 
     bool bNesting = nestedThemeMenuMinNumber && themeCount>nestedThemeMenuMinNumber;
 
-    DIR *dir(opendir(path.string()));
+    for (udir dir(path); dir.next(); ) {
+        YMenuItem *im(NULL);
+        upath subdir = path + dir.entry();
+        upath defThemePath = subdir + defTheme;
 
-    if (dir != NULL) {
-        struct dirent *de;
-        while ((de = readdir(dir)) != NULL) {
-
-            if (de->d_name[0] == '.')
-                continue;
-
-            YMenuItem *im(NULL);
-            upath subdir = path + de->d_name;
-            upath npath = subdir + tname;
-
-            if (npath.access(R_OK) == 0) {
-                char *relThemeName = cstrJoin(de->d_name, tname, NULL);
-                im = newThemeItem(app, smActionListener, de->d_name, relThemeName);
-                if (im) {
-                    if (bNesting) 
-                    {
-                        char fLetter = ASCII::toUpper(de->d_name[0]);
-
-                        int targetItem = container->findFirstLetRef(fLetter, 0, 1);
-                        
-                        if (targetItem < 0) // no submenu for us yet, create one
-                        {
-                            char *smname = strdup("....");
-                            smname[0] = fLetter;
-
-                            YMenu *smenu = new YMenu();
-                            YMenuItem *smItem = new YMenuItem(smname, 0, null, NULL, smenu);
-                            if(smItem && smenu)
-                                container->addSorted(smItem, false);
-                            targetItem = container->findFirstLetRef(fLetter, 0, 1);
-                            if (targetItem < 0)
-                            {
-                                warn("Failed to add submenu");
-                                return;
-                            }
-                        }
-                        container->getItem(targetItem)->getSubmenu()->addSorted(im, false);
-                    } else //the default method without Extra SubMenues
-                        container->addSorted(im, false);
-                }
-                delete [] relThemeName;
-            }
-
-            if (im) {
-                findThemeAlternatives(app, smActionListener, subdir, de->d_name, im);
-            }
+        if (defThemePath.isReadable()) {
+            ustring relThemeName = dir.entry() + defTheme;
+            im = newThemeItem(app, smActionListener, dir.entry(), relThemeName);
         }
+        if (im && bNesting) {
+            char fLetter = ASCII::toUpper(dir.entry()[0]);
+            int targetItem = container->findFirstLetRef(fLetter, 0, 1);
+            if (targetItem < 0) // no submenu for us yet, create one
+            {
+                char *smname = strdup("....");
+                smname[0] = fLetter;
 
-        closedir(dir);
+                YMenu *smenu = new YMenu();
+                YMenuItem *smItem = new YMenuItem(smname, 0, null, NULL, smenu);
+                if(smItem && smenu)
+                    container->addSorted(smItem, false);
+                targetItem = container->findFirstLetRef(fLetter, 0, 1);
+                if (targetItem < 0)
+                {
+                    warn("Failed to add submenu");
+                    return;
+                }
+            }
+            container->getItem(targetItem)->getSubmenu()->addSorted(im, false);
+        }
+        else if (im) { //the default method without Extra SubMenues
+            container->addSorted(im, false);
+        }
+        if (im) {
+            findThemeAlternatives(app, smActionListener, subdir, dir.entry(), im);
+        }
     }
 }
 
@@ -196,41 +169,31 @@ void ThemesMenu::findThemeAlternatives(
     IApp *app,
     YSMListener *smActionListener,
     const upath& path,
-    const char *relName,
+    const ustring& relName,
     YMenuItem *item)
 {
-    DIR *dir(opendir(path.string()));
+    ustring defTheme("default.theme");
+    ustring extension(".theme");
+    for (udir dir(path); dir.nextExt(extension); ) {
+        const ustring entry(dir.entry());
+        if (entry != defTheme) {
+            upath altThemePath(path + entry);
 
-    if (dir != NULL) {
-        struct dirent *de;
-        while ((de = readdir(dir)) != NULL) {
+            if (altThemePath.isReadable()) {
+                YMenu *sub(item->getSubmenu());
 
-            if (de->d_name[0] == '.')
-                continue;
+                if (sub == NULL)
+                    item->setSubmenu(sub = new YMenu());
 
-            char const *ext(strstr(de->d_name, ".theme"));
-
-            if (ext != NULL && 0 == strcmp(ext, ".theme") &&
-                strcmp(de->d_name, "default.theme"))
-            {
-                upath npath(path + de->d_name);
-
-                if (npath.access(R_OK) == 0) {
-                    YMenu *sub(item->getSubmenu());
-
-                    if (sub == NULL)
-                        item->setSubmenu(sub = new YMenu());
-
-                    if (sub) {
-                        ustring tname(de->d_name, ext - de->d_name);
-                        ustring relThemeName = upath(relName) + de->d_name;
-                        sub->add(newThemeItem(app, smActionListener,
-                                    cstring(tname), cstring(relThemeName)));
-                    }
+                if (sub) {
+                    int prefixLength = entry.length() - extension.length();
+                    ustring tname(entry.substring(0, prefixLength));
+                    ustring relThemeName = upath(relName) + entry;
+                    sub->add(newThemeItem(app, smActionListener,
+                                tname, relThemeName));
                 }
             }
         }
-        closedir(dir);
     }
 }
 #endif

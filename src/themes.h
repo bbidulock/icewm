@@ -37,14 +37,14 @@ private:
     static YMenuItem *newThemeItem(
         IApp *app,
         YSMListener *smActionListener,
-        char const *label,
-        const char *relThemeName);
+        const ustring& label,
+        const ustring& relThemeName);
     
     static void findThemeAlternatives(
         IApp *app,
         YSMListener *smActionListener,
         const upath& path,
-        const char *relName,
+        const ustring& relName,
         YMenuItem *item);
         
     // this solution isn't nice. Saving it globaly somewhere would be

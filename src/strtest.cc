@@ -1,6 +1,7 @@
 #include "config.h"
 #include "mstring.h"
 #include "upath.h"
+#include "udir.h"
 #include <stdio.h>
 #include <libgen.h>
 #include <unistd.h>
@@ -334,6 +335,62 @@ static void test_strlc()
     assert(d, n == 0);
 }
 
+static void test_udir()
+{
+    strtest tester("udir");
+
+    {
+        cdir c("/etc");
+        assert(c.path(), c.isOpen());
+        int n = 0, p = 0, g = 0, r = 0;
+        while (c.next()) {
+            ++n;
+            if (0 == strcmp(c.entry(), "passwd")) ++p;
+            if (0 == strcmp(c.entry(), "group")) ++g;
+            if (0 == strcmp(c.entry(), "resolv.conf")) ++r;
+        }
+        assert(c.path(), n >= 3);
+        assert(c.path(), p == 1);
+        assert(c.path(), g == 1);
+        assert(c.path(), r == 1);
+
+        c.open();
+        n = 0;
+        while (c.nextExt(".conf")) {
+            ++n;
+            const char *p = c.entry();
+            assert(c.path(),
+                    strlen(p) >= 5 &&
+                    0 == strcmp(p + strlen(p) - 5, ".conf"));
+        }
+        assert(c.path(), n > 0);
+    }
+
+    {
+        udir u("/etc");
+        assert(u.path(), u.isOpen());
+        int n = 0, p = 0, g = 0, r = 0;
+        while (u.next()) {
+            ++n;
+            if (u.entry() == "passwd") ++p;
+            if (u.entry() == "group") ++g;
+            if (u.entry() == "resolv.conf") ++r;
+        }
+        assert(u.path(), n >= 3);
+        assert(u.path(), p == 1);
+        assert(u.path(), g == 1);
+        assert(u.path(), r == 1);
+
+        u.open("/etc");
+        n = 0;
+        while (u.nextExt(".conf")) {
+            ++n;
+            assert(u.path(), u.entry().endsWith(".conf"));
+        }
+        assert(u.path(), n > 0);
+    }
+}
+
 int main(int argc, char **argv)
 {
     prog = basename(argv[0]);
@@ -341,6 +398,7 @@ int main(int argc, char **argv)
     test_mstring();
     test_upath();
     test_strlc();
+    test_udir();
 
     return 0;
 }
