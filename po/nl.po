@@ -355,7 +355,7 @@ msgstr "Ongeldig werkplaatsnummer: »%s«"
 #: src/icesh.cc:435
 #, c-format
 msgid "Workspace out of range: %ld"
-msgstr "Werkruimte buiten bereik: %|d"
+msgstr "Werkruimte buiten bereik: %ld"
 
 #: src/icesh.cc:569
 #, c-format
