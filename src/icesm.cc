@@ -156,9 +156,9 @@ public:
         if (sig == SIGUSR1)
         {
            if (++startup_phase == 1)
-              runScript("startup");
-           else if (startup_phase == 2)
               runIcewmtray();
+           else if (startup_phase == 2)
+              runScript("startup");
         }
     }
 
