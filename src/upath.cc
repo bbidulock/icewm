@@ -74,7 +74,9 @@ upath upath::addExtension(const char *ext) const {
 pstring upath::getExtension() const {
     int dot = path().lastIndexOf('.');
     int sep = path().lastIndexOf('/');
-    return dot > sep ? path().substring(dot + 1) : pstring();
+    if (dot > sep + 1 && dot + 1 < length())
+        return path().substring(dot);
+    return null;
 }
 
 bool upath::isAbsolute() const {

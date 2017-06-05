@@ -267,6 +267,17 @@ static void test_upath()
     assert(hs, hs.isHttp());
     assert(np, !np.isHttp());
     assert(nq, !nq.isHttp());
+
+    upath a("abc.def");
+    expect(a.getExtension(), ".def");
+    a = "efg.";
+    expect(a.getExtension(), null);
+    a = "/hij.klm/nop";
+    expect(a.getExtension(), null);
+    a = a.path() + ".q";
+    expect(a.getExtension(), ".q");
+    a = "/stu/.vw";
+    expect(a.getExtension(), null);
 }
 
 static void test_strlc()
