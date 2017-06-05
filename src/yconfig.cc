@@ -47,18 +47,19 @@ upath findPath(ustring path, int mode, upath name, bool /*path_relative*/) {
 
 #if !defined(NO_CONFIGURE) || !defined(NO_CONFIGURE_MENUS)
 
-char *YConfig::getArgument(char **dest, char *p, bool comma) {
+char *YConfig::getArgument(char **dest, char *p, bool comma, char *arg, int argsiz) {
     while (*p && (*p == ' ' || *p == '\t'))
         p++;
 
-    char *buf = 0;
+    int bufsiz = argsiz;
+    char *buf = arg;
     char *argStart = p;
-    for (int loopTwice = 2; loopTwice > 0; --loopTwice) {
+    for (int onceOrTwice = 2; onceOrTwice > 0; --onceOrTwice) {
         int k = 0;
         for (p = argStart; *p; p = *p ? 1 + p : p) {
             if (*p == '\'') {
                 while (*++p && *p != '\'') {
-                    if (buf) buf[k] = *p;
+                    if (k < bufsiz) buf[k] = *p;
                     ++k;
                 }
             }
@@ -66,7 +67,7 @@ char *YConfig::getArgument(char **dest, char *p, bool comma) {
                 while (*++p && *p != '"') {
                     if (*p == '\\' && p[1] == '"')
                         ++p;
-                    if (buf) buf[k] = *p;
+                    if (k < bufsiz) buf[k] = *p;
                     ++k;
                 }
             }
@@ -76,27 +77,38 @@ char *YConfig::getArgument(char **dest, char *p, bool comma) {
                 // OTOH, if the two last checks are disable, it will cause a
                 // side effect (multiline argument parsing with \n after \).
                 ++p;
-                if (buf) buf[k] = *p;
+                if (k < bufsiz) buf[k] = *p;
                 ++k;
             }
             else if (ASCII::isWhiteSpace(*p) || (*p == ',' && comma))
                 break;
             else {
-                if (buf) buf[k] = *p;
+                if (k < bufsiz) buf[k] = *p;
                 ++k;
             }
         }
-        if (buf == 0) {
-            buf = new char[k + 1];
+        if (k < bufsiz) {
+            buf[k] = 0;
+            *dest = buf;
+            break;
+        }
+        else if (buf == arg && bufsiz == argsiz) {
+            bufsiz = k + 1;
+            buf = new char[bufsiz];
             if (buf == 0) {
                 return 0;
             }
-        } else {
-            buf[k] = '\0';
-            *dest = buf;
         }
     }
     return p;
+}
+
+char *YConfig::getArgument(char **dest, char *p, bool comma) {
+    char buf[128];
+    char *ptr = 0;
+    char *ret = getArgument(&ptr, p, comma, buf, (int) sizeof buf);
+    *dest = (ptr == buf) ? newstr(buf) : ptr;
+    return ret;
 }
 
 #endif
@@ -263,14 +275,16 @@ static char *parseOption(cfoption *options, char *str) {
     name[len] = 0;
 
     while (*++p) {
+        char buf[128];
         char *argument = 0;
-        p = YConfig::getArgument(&argument, p, true);
+        p = YConfig::getArgument(&argument, p, true, buf, (int) sizeof buf);
         if (p == 0)
             break;
 
         p = setOption(options, name, argument, append, p);
 
-        delete[] argument;
+        if (buf != argument)
+            delete[] argument;
 
         append = true;
 
@@ -323,6 +337,15 @@ void YConfig::freeConfig(cfoption *options) {
 
 bool YConfig::findLoadConfigFile(IApp *app, cfoption *options, upath name) {
     upath conf = app->findConfigFile(name);
+    return conf.nonempty() && YConfig::loadConfigFile(options, conf);
+}
+
+bool YConfig::findLoadThemeFile(IApp *app, cfoption *options, upath name) {
+    upath conf = app->findConfigFile(name);
+    if (conf.isEmpty() || false == conf.fileExists()) {
+        if (name.getExtension().isEmpty())
+            conf = app->findConfigFile(name + "default.theme");
+    }
     return conf.nonempty() && YConfig::loadConfigFile(options, conf);
 }
 
