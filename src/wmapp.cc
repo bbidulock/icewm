@@ -93,15 +93,15 @@ YMenu *windowListAllPopup(NULL);
 YMenu *logoutMenu(NULL);
 
 #ifndef NO_CONFIGURE
-static char *configFile(NULL);
-static char *overrideTheme(NULL);
+static const char* configFile;
+static const char* overrideTheme;
 #endif
 
 #ifndef XTERMCMD
 #define XTERMCMD xterm
 #endif
 
-static char *configArg(NULL);
+static const char* configArg;
 
 ref<YIcon> defaultAppIcon;
 static bool replace_wm;
@@ -1251,24 +1251,27 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     YSMApplication(argc, argv, displayName)
 {
 #ifndef NO_CONFIGURE
+    if (configFile == 0 || *configFile == 0)
+        configFile = "preferences";
+    if (overrideTheme && *overrideTheme)
+        themeName = overrideTheme;
+    else
     {
         cfoption theme_prefs[] = {
             OSV("Theme", &themeName, "Theme name"),
             OK0()
         };
         
-        YConfig::findLoadConfigFile(this, theme_prefs, "preferences");
+        YConfig::findLoadConfigFile(this, theme_prefs, configFile);
         YConfig::findLoadConfigFile(this, theme_prefs, "theme");
     }
-    if (overrideTheme)
-        themeName = newstr(overrideTheme);
 #endif
 
     wmapp = this;
     managerWindow = None;
 
 #ifndef NO_CONFIGURE
-    loadConfiguration(this, configFile ? configFile : "preferences");
+    loadConfiguration(this, configFile);
     if (themeName != 0) {
         MSG(("themeName=%s", themeName));
 
@@ -1660,7 +1663,6 @@ static void print_usage(const char *argv0) {
              "\n"
              "  -c, --config=FILE   Load preferences from FILE.\n"
              "  -t, --theme=FILE    Load theme from FILE.\n"
-             "  -n, --no-configure  Ignore preferences file.\n"
              "\n"
              "  -V, --version       Prints version information and exits.\n"
              "  -h, --help          Prints this usage screen and exits.\n"
@@ -1859,14 +1861,14 @@ int main(int argc, char **argv) {
 #endif
 #ifndef NO_CONFIGURE
             char *value;
-            if(GetLongArgument(value, "config", arg, argv+argc)
-            		|| GetShortArgument(value, "c", arg, argv+argc))
+            if (GetLongArgument(value, "config", arg, argv+argc) ||
+               GetShortArgument(value, "c", arg, argv+argc))
             {
                 configArg = configFile = value;
                 continue;
             }
-            else if ( GetLongArgument(value, "theme", arg, argv+argc) ||
-            		GetLongArgument(value, "t", arg, argv+argc))
+            else if (GetLongArgument(value, "theme", arg, argv+argc)
+                 || GetShortArgument(value, "t", arg, argv+argc))
             {
                 overrideTheme = value;
                 continue;

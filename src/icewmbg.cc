@@ -59,11 +59,11 @@ private:
 
 DesktopBackgroundManager::DesktopBackgroundManager(int *argc, char ***argv):
     YXApplication(argc, argv),
-defaultBackground(0),
-currentBackground(0),
-activeWorkspace(-1),
-_XA_XROOTPMAP_ID(None),
-_XA_XROOTCOLOR_PIXEL(None)
+    defaultBackground(0),
+    currentBackground(0),
+    activeWorkspace(-1),
+    _XA_XROOTPMAP_ID(None),
+    _XA_XROOTCOLOR_PIXEL(None)
 {
     desktop->setStyle(YWindow::wsDesktopAware);
     catchSignal(SIGTERM);
@@ -406,32 +406,43 @@ void DesktopBackgroundManager::sendRestart() {
     XSync(xapp->display(), False);
 }
 
-void printUsage(int rc = 1) {
-    fputs (_("Usage: icewmbg [ -r | -q ]\n"
-             " -r  Restart icewmbg\n"
-             " -q  Quit icewmbg\n"
-             "Loads desktop background according to preferences file\n"
-             " DesktopBackgroundCenter  - Display desktop background centered\n"
-             " DesktopBackgroundScaled  - Display desktop background scaled\n"
-             " SupportSemitransparency  - Support for semitransparent terminals\n"
-             " DesktopBackgroundColor   - Desktop background color\n"
-             " DesktopBackgroundImage   - Desktop background image\n"
-             " DesktopTransparencyColor - Color to announce for semi-transparent windows\n"
-             " DesktopTransparencyImage - Image to announce for semi-transparent windows\n\n"
-             " center:0 scaled:0 = tiled\n"
-             " center:1 scaled:1 = keep aspect ratio\n"),
-           stderr);
-    exit(rc);
+static const char* get_help_text() {
+    return _(
+    "Usage: icewmbg [OPTIONS]\n"
+    "\n"
+    "Options:\n"
+    "  -r, --restart       Restart icewmbg\n"
+    "  -q, --quit          Quit icewmbg\n"
+    "\n"
+    "  -c, --config=FILE   Load preferences from FILE.\n"
+    "  -t, --theme=FILE    Load theme from FILE.\n"
+    "\n"
+    "  --display=NAME      Use NAME to connect to the X server.\n"
+    "  --sync              Synchronize communication with X11 server.\n"
+    "\n"
+    "  -h, --help          Print this usage screen and exit.\n"
+    "  -V, --version       Prints version information and exits.\n"
+    "\n"
+    "Loads desktop background according to preferences file:\n"
+    " DesktopBackgroundCenter  - Display desktop background centered\n"
+    " DesktopBackgroundScaled  - Display desktop background scaled\n"
+    " SupportSemitransparency  - Support for semitransparent terminals\n"
+    " DesktopBackgroundColor   - Desktop background color\n"
+    " DesktopBackgroundImage   - Desktop background image\n"
+    " DesktopTransparencyColor - Color to announce for semi-transparent windows\n"
+    " DesktopTransparencyImage - Image to announce for semi-transparent windows\n"
+    "\n"
+    " center:0 scaled:0 = tiled\n"
+    " center:1 scaled:1 = keep aspect ratio\n"
+    "\n");
 }
 
-void invalidArgument(const char *appName, const char *arg) {
-    fprintf(stderr, _("%s: unrecognized option `%s'\n"
-                      "Try `%s --help' for more information.\n"),
-            appName, arg, appName);
+static void print_help_xit() {
+    fputs(get_help_text(), stderr);
     exit(1);
 }
 
-DesktopBackgroundManager *bg;
+static DesktopBackgroundManager *bg;
 
 void addBgImage(const char * /*name*/, const char *value, bool) {
     bg->addImage(value);
@@ -439,185 +450,80 @@ void addBgImage(const char * /*name*/, const char *value, bool) {
 
 int main(int argc, char **argv) {
     ApplicationName = my_basename(*argv);
+
+    bool sendRestart = false;
+    bool sendQuit = false;
+    const char *overrideTheme = 0;
+    const char *configFile = 0;
+
     for (char **arg = argv + 1; arg < argv + argc; ++arg) {
-        if (is_help_switch(*arg)) {
-            printUsage();
-        }
-        if (is_version_switch(*arg)) {
-            print_version_exit(VERSION);
+        if (**arg == '-') {
+            char *value(0);
+            if (is_switch(*arg, "r", "restart")) {
+                sendRestart = true;
+            }
+            else if (is_switch(*arg, "q", "quit")) {
+                sendQuit = true;
+            }
+            else if (is_help_switch(*arg)) {
+                print_help_xit();
+            }
+            else if (is_version_switch(*arg)) {
+                print_version_exit(VERSION);
+            }
+            else if (GetLongArgument(value, "theme", argv, argv + argc)
+                ||  GetShortArgument(value, "t", argv, argv + argc)) {
+                overrideTheme = value;
+            }
+            else if (GetLongArgument(value, "config", argv, argv + argc)
+                ||  GetShortArgument(value, "c", argv, argv + argc)) {
+                configFile = value;
+            }
         }
     }
 
-    if (nice(5) == -1)
-	exit(1);
-
-#if 0
-    {
-        int n;
-        int gotOpts = 0;
-
-        for (n = 1; n < argc; ++n) if (argv[n][0] == '-')
-            if (argv[n][1] == 's' ||
-                strcmp(argv[n] + 1, "-semitransparency") == 0 &&
-                !supportSemitransparency)
-            {
-                supportSemitransparency = true;
-                gotOpts++;
-            } else if (argv[n][1] == 'h' ||
-                       strcmp(argv[n] + 1, "-help") == 0)
-                printUsage(0);
-            else
-                invalidArgument("icewmbg", argv[n]);
-
-        if (argc < 1 + gotOpts + 1)
-            printUsage();
-    }
-#endif
+    nice(5);
 
     bg = new DesktopBackgroundManager(&argc, &argv);
 
-    if (argc > 1) {
-        if (is_short_switch(argv[1], "r")) {
-            bg->sendRestart();
-            return 0;
-        } else if (is_short_switch(argv[1], "q")) {
-            bg->sendQuit();
-            return 0;
-        } else
-            printUsage();
+    if (sendRestart) {
+        bg->sendRestart();
+        delete bg;
+        return 0;
+    }
+    else if (sendQuit) {
+        bg->sendQuit();
+        delete bg;
+        return 0;
     }
 
 #ifndef NO_CONFIGURE
+    if (configFile == 0 || *configFile == 0)
+        configFile = "preferences";
+    if (overrideTheme && *overrideTheme)
+        themeName = overrideTheme;
+    else
     {
         cfoption theme_prefs[] = {
             OSV("Theme", &themeName, "Theme name"),
             OK0()
         };
 
-        YConfig::findLoadConfigFile(bg, theme_prefs, "preferences");
+        YConfig::findLoadConfigFile(bg, theme_prefs, configFile);
         YConfig::findLoadConfigFile(bg, theme_prefs, "theme");
     }
-    YConfig::findLoadConfigFile(bg, icewmbg_prefs, "preferences");
+    YConfig::findLoadConfigFile(bg, icewmbg_prefs, configFile);
     if (themeName != 0) {
         MSG(("themeName=%s", themeName));
 
-        YConfig::findLoadConfigFile(bg, icewmbg_prefs, upath("themes").child(themeName));
+        YConfig::findLoadThemeFile(bg, icewmbg_prefs,
+                upath("themes").child(themeName));
     }
     YConfig::findLoadConfigFile(bg, icewmbg_prefs, "prefoverride");
 #endif
 
-#if 0
-    {
-        char *configFile = 0;
-
-        if (configFile == 0)
-            configFile = app->findConfigFile("preferences");
-        if (configFile)
-            loadConfig(icewmbg_prefs, configFile);
-        delete configFile; configFile = 0;
-
-        if (themeName) {
-            if (*themeName == '/')
-                loadConfig(icewmbg_prefs, themeName);
-            else {
-                char *theme(strJoin("themes/", themeName, NULL));
-                char *themePath(app->findConfigFile(theme));
-
-                if (themePath)
-                    loadConfig(icewmbg_prefs, themePath);
-
-                delete[] themePath;
-                delete[] theme;
-            }
-        }
-    }
-#endif
-
-    ///XSelectInput(app->display(), desktop->handle(), PropertyChangeMask);
     bg->update();
 
     return bg->mainLoop();
 }
-
-
-///////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////
-
-#if 0
-Pixmap loadPixmap(const char *filename) {
-    Pixmap pixmap = 0;
-#ifdef CONFIG_IMLIB
-    if (!hImlib) hImlib = Imlib_init(display);
-
-    ImlibImage *im = Imlib_load_image(hImlib, (char *)filename);
-    if (im) {
-        Imlib_render(hImlib, im, im->rgb_width, im->rgb_height);
-        pixmap = (Pixmap)Imlib_move_image(hImlib, im);
-        Imlib_destroy_image(hImlib, im);
-    } else {
-        fprintf(stderr, _("Loading image %s failed"), filename);
-        fputs("\n", stderr);
-    }
-#else
-    XpmAttributes xpmAttributes;
-    xpmAttributes.colormap  = defaultColormap;
-    xpmAttributes.closeness = 65535;
-    xpmAttributes.valuemask = XpmSize|XpmReturnPixels|XpmColormap|XpmCloseness;
-
-    Pixmap mask;
-    int const rc(XpmReadFileToPixmap(display, root, (char *)filename,
-                                     &pixmap, &mask, &xpmAttributes));
-
-    if (rc != XpmSuccess)
-        warn(_("Loading of pixmap \"%s\" failed: %s"),
-             filename, XpmGetErrorString(rc));
-    else
-        if (mask != None) XFreePixmap(display, mask);
-#endif
-    return pixmap;
-}
-#endif
-
-#if 0
-#ifdef CONFIG_IMLIB
-#include <Imlib.h>
-
-static ImlibData *hImlib = 0;
-#else
-#include <X11/xpm.h>
-#endif
-#endif
-
-#if 0
-#include <assert.h>
-#include <string.h>
-#include <errno.h>
-#include <sys/types.h>
-#include <sys/time.h>
-#include <fcntl.h>
-#include <stdarg.h>
-#include <X11/Xproto.h>
-#include <X11/Xatom.h>
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
-#include <X11/Xresource.h>
-#include <X11/cursorfont.h>
-#include <X11/keysym.h>
-///#include <signal.h>
-
-#include "base.h"
-#include "WinMgr.h"
-#endif
-
-///#warning duplicates lots of prefs
-///#include "default.h"
-///#include "wmconfig.h"
-
 

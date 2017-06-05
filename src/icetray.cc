@@ -1,4 +1,5 @@
 #include "config.h"
+#include "intl.h"
 #include "ylib.h"
 #include "ylocale.h"
 #include "yxapp.h"
@@ -49,19 +50,23 @@ private:
 
 class SysTrayApp: public YXApplication {
 public:
-    SysTrayApp(int *argc, char ***argv, const char *displayName = 0);
+    SysTrayApp(int *argc, char ***argv,
+               const char* configFile = 0,
+               const char* overrideTheme = 0);
     ~SysTrayApp();
 
-    void loadConfig(); //MCM OFFICIAL
+    void loadConfig();
     bool filterEvent(const XEvent &xev);
     void handleSignal(int sig);
 
 private:
     Atom _ICEWM_ACTION;
     SysTray *tray;
+    const char* configFile;
+    const char* overrideTheme;
 };
 
-int handler(Display *display, XErrorEvent *xev) {
+static int handler(Display *display, XErrorEvent *xev) {
     DBG {
         char message[80], req[80], number[80];
 
@@ -83,8 +88,11 @@ int handler(Display *display, XErrorEvent *xev) {
     }
     return 0;
 }
-SysTrayApp::SysTrayApp(int *argc, char ***argv, const char *displayName):
-    YXApplication(argc, argv, displayName)
+
+SysTrayApp::SysTrayApp(int *argc, char ***argv,
+        const char* _configFile, const char* _overrideTheme):
+    YXApplication(argc, argv),
+    tray(0), configFile(_configFile), overrideTheme(_overrideTheme)
 {
     desktop->setStyle(YWindow::wsDesktopAware);
     catchSignal(SIGINT);
@@ -97,23 +105,29 @@ SysTrayApp::SysTrayApp(int *argc, char ***argv, const char *displayName):
 
     _ICEWM_ACTION = XInternAtom(xapp->display(), "_ICEWM_ACTION", False);
 }
+
 void SysTrayApp::loadConfig() {
 #ifdef CONFIG_TASKBAR
 #ifndef NO_CONFIGURE
+    if (configFile == 0 || *configFile == 0)
+        configFile = "preferences";
+    if (overrideTheme && *overrideTheme)
+        themeName = overrideTheme;
+    else
     {
         cfoption theme_prefs[] = {
             OSV("Theme", &themeName, "Theme name"),
             OK0()
         };
 
-        YConfig::findLoadConfigFile(this, theme_prefs, "preferences");
+        YConfig::findLoadConfigFile(this, theme_prefs, configFile);
         YConfig::findLoadConfigFile(this, theme_prefs, "theme");
     }
-    YConfig::findLoadConfigFile(this, icewmbg_prefs, "preferences");
+    YConfig::findLoadConfigFile(this, icewmbg_prefs, configFile);
     if (themeName != 0) {
         MSG(("themeName=%s", themeName));
 
-        YConfig::findLoadConfigFile(
+        YConfig::findLoadThemeFile(
             this,
             icewmbg_prefs,
             upath("themes").child(themeName));
@@ -121,8 +135,8 @@ void SysTrayApp::loadConfig() {
     YConfig::findLoadConfigFile(this, icewmbg_prefs, "prefoverride");
 #endif
     if (taskBarBg) 
-           delete taskBarBg;
-        taskBarBg = new YColor(clrDefaultTaskBar);
+        delete taskBarBg;
+    taskBarBg = new YColor(clrDefaultTaskBar);
 #endif
 }
 
@@ -230,26 +244,58 @@ bool SysTray::checkMessageEvent(const XClientMessageEvent &message) {
     return true;
 }
 
+static const char* get_help_text() {
+    return _(
+    "  --notify            Notify parent process by sending signal USR1.\n"
+    "  --display=NAME      Use NAME to connect to the X server.\n"
+    "  --sync              Synchronize communication with X11 server.\n"
+    "\n"
+    "  -c, --config=FILE   Load preferences from FILE.\n"
+    "  -t, --theme=FILE    Load the theme from FILE.\n"
+    );
+}
+
 int main(int argc, char **argv) {
     YLocale locale;
 
-    check_argv(argc, argv,
-            "      --notify        Notify parent process by signal USR1.\n",
-            VERSION);
+    bool notifyParent = false;
+    const char* configFile = 0;
+    const char* overrideTheme = 0;
 
-    SysTrayApp stapp(&argc, &argv);
-    int notified = 0;
-    for(int i=1; i<argc; ++i)
-    {
-       if(is_long_switch(argv[i], "notify") && !notified)
-       {
-          kill(getppid(), SIGUSR1);
-          notified = 1;
-       }
+    for (char **arg = 1 + argv; arg < argv + argc; ++arg) {
+        if (**arg == '-') {
+            char* value(0);
+            if (is_long_switch(*arg, "notify")) {
+                notifyParent = true;
+            }
+            else if (GetLongArgument(value, "config", arg, argv+argc)
+                ||  GetShortArgument(value, "c", arg, argv+argc))
+            {
+                configFile = value;
+            }
+            else if (GetLongArgument(value, "theme", arg, argv+argc)
+                ||   GetShortArgument(value, "t", arg, argv+argc))
+            {
+                overrideTheme = value;
+            }
+            else if (is_help_switch(*arg)) {
+                print_help_exit(get_help_text());
+            }
+            else if (is_version_switch(*arg)) {
+                print_version_exit(VERSION);
+            }
 #ifdef DEBUG
-       if(is_long_switch(argv[i], "debug"))
-          debug = 1;
+            else if (is_long_switch(*arg, "debug")) {
+                debug = 1;
+            }
 #endif
+        }
+    }
+
+    SysTrayApp stapp(&argc, &argv, configFile, overrideTheme);
+
+    if (notifyParent) {
+        kill(getppid(), SIGUSR1);
     }
 
     return stapp.mainLoop();

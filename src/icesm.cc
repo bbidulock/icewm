@@ -1,5 +1,6 @@
 #include "config.h"
 #include "base.h"
+#include "intl.h"
 #include "yxapp.h"
 #include "sysdep.h"
 #include "yconfig.h"
@@ -45,8 +46,65 @@ private:
         return buf[0] != 0;
     }
 
+    const char *get_help_text() {
+        return _(
+        "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
+        "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
+        "\n"
+        "  --display=NAME      Use NAME to connect to the X server.\n"
+        "  --sync              Synchronize communication with X11 server.\n"
+        );
+    }
+
+    const char *displayArg;
+    const char *configArg;
+    const char *themeArg;
+    bool syncArg;
+
+    void options(int *argc, char ***argv) {
+        displayArg = 0;
+        configArg = 0;
+        themeArg = 0;
+        syncArg = false;
+
+        for (char **arg = 1 + *argv; arg < *argv + *argc; ++arg) {
+            if (**arg == '-') {
+                char *value(0);
+                if (GetLongArgument(value, "display", arg, *argv+*argc)) {
+                    if (value && *value)
+                        displayArg = value;
+                }
+                else if (GetLongArgument(value, "config", arg, *argv+*argc)
+                    ||  GetShortArgument(value, "c", arg, *argv+*argc))
+                {
+                    configArg = value;
+                }
+                else if (GetLongArgument(value, "theme", arg, *argv+*argc)
+                    ||   GetShortArgument(value, "t", arg, *argv+*argc))
+                {
+                    themeArg = value;
+                }
+                else if (is_long_switch(*arg, "sync")) {
+                    syncArg = true;
+                }
+                else if (is_help_switch(*arg)) {
+                    print_help_exit(get_help_text());
+                }
+                else if (is_version_switch(*arg)) {
+                    print_version_exit(VERSION);
+                }
+                else {
+                    warn(_("Unknown option '%s'"), *arg);
+                }
+            }
+        }
+        if (displayArg)
+            setenv("DISPLAY", displayArg, 1);
+    }
+
 public:
     SessionManager(int *argc, char ***argv): YApplication(argc, argv) {
+        options(argc, argv);
         startup_phase = 0;
         logout = false;
         wm_pid = -1;
@@ -87,17 +145,42 @@ public:
         }
     }
 
+    void appendOptions(const char *args[], int start, size_t narg) {
+        size_t k = (size_t) start;
+        if (displayArg && k + 2 < narg) {
+            args[k++] = "--display";
+            args[k++] = displayArg;
+        }
+        if (configArg && k + 2 < narg) {
+            args[k++] = "--config";
+            args[k++] = configArg;
+        }
+        if (themeArg && k + 2 < narg) {
+            args[k++] = "--theme";
+            args[k++] = themeArg;
+        }
+        if (syncArg && k + 1 < narg) {
+            args[k++] = "--sync";
+        }
+        if (k < narg) {
+            args[k] = 0;
+        }
+    }
+
     void runIcewmbg(bool quit = false) {
-        const char *args[] = { ICEWMBGEXE, 0, 0 };
+        const char *args[12] = { ICEWMBGEXE, 0, 0 };
 
         if (quit) {
             args[1] = "-q";
+        }
+        else {
+            appendOptions(args, 1, ACOUNT(args));
         }
         bg_pid =  runProgram(args[0], args);
     }
 
     void runIcewmtray(bool quit = false) {
-        const char *args[] = { ICEWMTRAYEXE, "--notify", 0 };
+        const char *args[12] = { ICEWMTRAYEXE, "--notify", 0 };
         if (quit) {
             if (tray_pid != -1) {
                 kill(tray_pid, SIGTERM);
@@ -105,12 +188,15 @@ public:
                 waitpid(tray_pid, &status, 0);
             }
             tray_pid = -1;
-        } else
+        }
+        else {
+            appendOptions(args, 2, ACOUNT(args));
             tray_pid = runProgram(args[0], args);
+        }
     }
 
     void runWM(bool quit = false) {
-        const char *args[] = { ICEWMEXE, "--notify", 0 };
+        const char *args[12] = { ICEWMEXE, "--notify", 0 };
         if (quit) {
             if (wm_pid != -1) {
                 kill(wm_pid, SIGTERM);
@@ -119,8 +205,10 @@ public:
             }
             wm_pid = -1;
         }
-        else
+        else {
+            appendOptions(args, 2, ACOUNT(args));
             wm_pid = runProgram(args[0], args);
+        }
     }
 
     void handleSignal(int sig) {
@@ -171,8 +259,6 @@ private:
 };
 
 int main(int argc, char **argv) {
-    check_argv(argc, argv, "", VERSION);
-
     SessionManager xapp(&argc, &argv);
 
     xapp.loadEnv("env");

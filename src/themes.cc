@@ -139,7 +139,7 @@ void ThemesMenu::findThemes(const upath& path, YMenu *container) {
             int targetItem = container->findFirstLetRef(fLetter, 0, 1);
             if (targetItem < 0) // no submenu for us yet, create one
             {
-                char *smname = strdup("....");
+                char smname[] = "....";
                 smname[0] = fLetter;
 
                 YMenu *smenu = new YMenu();

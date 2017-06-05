@@ -36,7 +36,11 @@ void loadConfiguration(IApp *app, const char *fileName) {
 
 void loadThemeConfiguration(IApp *app, const char *themeName) {
 #ifndef NO_CONFIGURE
-    YConfig::findLoadConfigFile(app, icewm_themable_preferences, upath("themes").child(themeName));
+    bool ok = YConfig::findLoadThemeFile(app,
+                icewm_themable_preferences,
+                upath("themes").child(themeName));
+    if (ok == false)
+        fail(_("Failed to load theme %s"), themeName);
 #endif
 }
 
