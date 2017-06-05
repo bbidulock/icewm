@@ -16,15 +16,6 @@
 upath findPath(ustring path, int mode, upath name,
                bool path_relative = false);
 
-struct YPathElement {
-    YPathElement(upath p): fPath(p) {}
-
-    upath joinPath(upath base) const;
-    upath joinPath(upath base, upath name) const;
-
-    upath fPath;
-};
-
 class YResourcePaths: public refcounted {
 public:
 
@@ -33,22 +24,22 @@ public:
 
 private:
     YResourcePaths() {}
-    void addDir(upath root, upath rdir, upath sub);
-public:
-    virtual ~YResourcePaths();
+    void addDir(const upath& dir);
+    
+    template<class Pict>
+    void loadPict(const upath& baseName, ref<Pict>* pict) const;
 
+public:
     ref<YPixmap> loadPixmap(upath base, upath name) const;
-///    ref<YPixbuf> loadPixbuf(upath base, upath name, bool const fullAlpha) const;
     ref<YImage> loadImage(upath base, upath name) const;
-    ref<YIcon> loadIcon(upath base, upath name) const;
 
     int getCount() const { return fPaths.getCount(); }
-    YPathElement *getPath(int index) const { return fPaths[index]; }
+    const upath& getPath(int index) const { return *fPaths[index]; }
 protected:
     void verifyPaths(upath base);
     
 private:
-    YArray<YPathElement *> fPaths;
+    YObjectArray<upath> fPaths;
 };
 
 #endif

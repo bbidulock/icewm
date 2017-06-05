@@ -49,7 +49,7 @@ private:
     Cursor fCursor;
     bool fOwned;
 
-    void load(upath path);
+    bool load(upath path);
 };
 
 #endif

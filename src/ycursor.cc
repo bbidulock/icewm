@@ -262,7 +262,7 @@ static Pixmap createMask(int w, int h) {
     return XCreatePixmap(xapp->display(), desktop->handle(), w, h, 1);
 }
 
-void YCursor::load(upath path) {
+bool YCursor::load(upath path) {
     YCursorPixmap pixmap(path);
     
     if (pixmap.isValid()) { // ============ convert coloured pixmap into a bilevel one ===
@@ -301,7 +301,10 @@ void YCursor::load(upath path) {
                                       pixmap.hotspotX(), pixmap.hotspotY());
 
         XFreePixmap(xapp->display(), bilevel);
+
+        return true;
     }
+    return false;
 }
 #endif
 
@@ -314,13 +317,17 @@ void YCursor::load(upath /*name*/, unsigned int fallback) {
         XFreeCursor(xapp->display(), fCursor);
 
 #ifndef LITE
-    char const *cursors = "cursors/";
+    upath cursors("cursors/");
     ref<YResourcePaths> paths = YResourcePaths::subdirs(cursors);
 
     for (int i = 0; i < paths->getCount(); i++) {
-        upath path = paths->getPath(i)->joinPath(cursors, name);
-        if (path.fileExists())
-            load(path.path());
+        upath path = paths->getPath(i) + cursors + name;
+        if (path.fileExists()) {
+            if (load(path.path())) {
+                /* stop when successful */
+                break;
+            }
+        }
     }
 
     if (fCursor == None)

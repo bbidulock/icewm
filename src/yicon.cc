@@ -128,7 +128,7 @@ upath YIcon::findIcon(int size) {
     }
 
     for (int i = 0; i < iconPaths->getCount(); i++) {
-        upath path = iconPaths->getPath(i)->joinPath(upath("/icons/"));
+        upath path = iconPaths->getPath(i) + "/icons/";
         upath fullpath = findIcon(path, fPath, size);
         if (fullpath != null)
             return fullpath;
