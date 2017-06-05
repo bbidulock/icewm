@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: icewm 1.3.4pre2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-06-02 10:56-0600\n"
-"PO-Revision-Date: 2017-06-05 13:48+0000\n"
-"Last-Translator: Rodrigo Macedo <rmsolucoeseminformatic4@gmail.com>\n"
+"PO-Revision-Date: 2017-06-05 17:52+0000\n"
+"Last-Translator: Luiz Fernando Ranghetti <elchevive68@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -357,9 +357,9 @@ msgid "Invalid workspace name: `%s'"
 msgstr "Nome da área de trabalho inválido: `%s'"
 
 #: src/icesh.cc:435
-#, fuzzy, c-format
+#, c-format
 msgid "Workspace out of range: %ld"
-msgstr "Área de trabalho fora de âmbito: %d"
+msgstr "Área de trabalho fora de âmbito: %ld"
 
 # - I translated the terms in capitals but was in doubt if that's right.
 # - Shouldn't 'geometry' be in capitals too?
@@ -1079,9 +1079,9 @@ msgid "%s configuration directories:\n"
 msgstr "%s Diretórios de configuração:\n"
 
 #: src/wmapp.cc:1841
-#, fuzzy, c-format
+#, c-format
 msgid "%s configured options:%s\n"
-msgstr "Opção não reconhecida: %s\n"
+msgstr "%s opções configuradas: %s\n"
 
 #: src/wmapp.cc:1932
 msgid "Confirm Logout"
