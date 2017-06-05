@@ -10,9 +10,13 @@
 .		if \w'\(rq' .ds rq "\(rq
 .	\}
 .\}
-.TH IceWM 1 "July 20 2005" "Adam Pribyl" "Window Manager"
+.TH ICEWM 1 "2017-06-05" "Adam Pribyl" "Window Manager"
+
 .SH NAME
 icewm \- lightweight X11 window manager
+
+.SH SYNOPSIS
+.B icewm-session [options...]
 
 .SH DESCRIPTION
 .I IceWM
@@ -63,11 +67,110 @@ This is the preferred program to start the IceWM system.
 - plays audio files on GUI events raised by IceWM.
 
 .SH OPTIONS
-For each executable use the option:
 .TP
-.PD 0
+Each of the IceWM executables supports the following options:
+.TP
+.B \-c, \-\^\-config=FILE
+Use FILE as the source of configuration options.
+By default IceWM looks for a file named "preferences".
+Typically this file is stored as one of ~/.config/icewm/preferences,
+or ~/.icewm/preferences, or in one of the configuration
+directories explained below. It contains a long list of options
+which allow the user to tweak the behavior of IceWM to ones taste.
+A default preferences file contains comments about the purpose
+of each option, the range of useful values and the
+current or default value. A preferences file is a readable
+text file which can be modified with the help of a text editor.
+If this option is given to icewm-session then it is passed
+on to icewm. If icewm is started independently then this option
+can be given to icewm directly. However, usually one will
+want to use a preferences file from a default location.
+
+.TP
+.B \-t, \-\^\-theme=FILE
+Use FILE as the name of the IceWM
+.I theme
+to use.
+A theme defines the look and feel of IceWM,
+like colors, fonts, buttons and button behavior.
+Originally a theme defined options to emulate
+the appearance of other desktop environments,
+like Motif, OS/2 Warp, or Windows.
+Over the years many new original themes have been
+designed with beautiful icons and backgrounds, which
+advance the state of the art in desktop look and feel.
+Many of them can be downloaded from the website
+https://www.box-look.org/ and stored in either the
+directory ~/.config/icewm/themes/ or in ~/.icewm/themes/.
+The user can then activate such a theme via the
+IceWM menu in the lower left corner of the display.
+A default theme is usually specified in either
+~/.icewm/theme, or in ~/.config/icewm/theme.
+When a new theme is selected then this value is overwritten,
+so that the next time IceWM is started this choice is reused.
+
+.TP
+.B \-\^\-display=NAME
+NAME specifies the connection to the X11 server.
+If this option is missing, as is usually the case,
+then NAME is read from the environment variable DISPLAY.
+Its default value is typically just :0.
+
+.TP
+.B \-\^\-sync
+This option is sometimes used in software development of IceWM.
+It specifies to use a slower synchronous communication mode
+with the X11 server.  This is irrelevant for normal use of IceWM.
+
+.TP
 .B \-h, \-\^\-help
-to see all of the supported options.
+Gives a complete list of all the available command line options
+with some very brief explanation.
+
+.TP
+.B \-V, \-\^\-version
+Shows the software release version for this program.
+
+.TP
+The icewm program supports some additional options:
+
+.TP
+.B --replace
+Instructs IceWM to replace an existing window manager.
+Once that window manager notices that it is to be replaced
+it will cease operations and typically stop execution.
+This allows IceWM to establish itself as the only active
+window manager.
+
+.TP
+.B --restart
+Instructs IceWM to restart itself, but one should not
+use this option directly. Instead one selects the 
+.B Restart Icewm
+button from the menu in the lower left corner of the desktop.
+
+.TP
+.B --configured
+Shows a list of configuration options which were
+enabled when IceWM was compiled from source code.
+This can be helpful if one suspects some functionality may be missing.
+
+.TP
+.B --directories
+Gives a list of directories where IceWM will look for configuration data.
+This list is not in the actual order in which IceWM uses it.
+However, for each directory one can inspect its contents
+for configuration possibilities.
+
+.TP
+.B --postpreferences
+This gives a long list of all the internal IceWM options
+with their actual values after icewm has processed all of
+the configuration and theme files. In some advanced
+scenarios this can be helpful to inspect which configuration
+was chosen or whether option formatting was correct.
+
+
 .PD 1
 .SH ENVIRONMENT VARIABLES
 
@@ -218,18 +321,25 @@ See the file COMPLIANCE in the distribution for full details.
 from the IceWM menu contains a manual (currently outdated).
 
 .IR http://www.icewm.org/manual/
+gives an outdated manual.
 
 .IR http://www.icewm.org/FAQ/
+gives frequently asked questions.
 
 .IR http://www.icewm.org/themes/
+explains how to design new themes.
 
 .IR https://github.com/bbidulock/icewm/
+for current software development.
+
+.IR https://www.box-look.org/browse/cat/142/ord/latest/
+for new themes.
 
 .SH BUG REPORTS
 If you find a bug in IceWM
 please use the bug reporting system on
 .BR https://github.com/bbidulock/icewm/issues
-to report it.
+to report it. We welcome all friendly feedback.
 
 .SH AUTHORS
 The original version of IceWM was designed
