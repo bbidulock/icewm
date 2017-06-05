@@ -40,6 +40,7 @@
 #include "yicon.h"
 #include "prefs.h"
 #include "upath.h"
+#include "udir.h"
 #include "appnames.h"
 
 #include "intl.h"
@@ -1671,6 +1672,7 @@ static void print_usage(const char *argv0) {
              "  --restart           Don't use this: It's an internal flag.\n"
              "  --configured        Print the compile time configuration.\n"
              "  --directories       Print the configuration directories.\n"
+             "  --list-themes       Print a list of all available themes.\n"
              "  --postpreferences   Print preferences after all processing.\n"
              "\n"
              "Environment variables:\n"
@@ -1689,6 +1691,31 @@ static void print_usage(const char *argv0) {
              PACKAGE_BUGREPORT[0] ? PACKAGE_BUGREPORT :
              PACKAGE_URL[0] ? PACKAGE_URL :
              "http://www.icewm.org/");
+    exit(0);
+}
+
+static void print_themes_list() {
+    themeName = 0;
+    ref<YResourcePaths> res(YResourcePaths::subdirs(null, true));
+    for (int i = 0; i < res->getCount(); ++i) {
+        YObjectArray<upath> store;
+        for (udir dir(res->getPath(i)); dir.next(); ) {
+            upath thmp(dir.path() + dir.entry());
+            if (thmp.dirExists()) {
+                for (udir thmdir(thmp); thmdir.nextExt(".theme"); ) {
+                    upath theme(thmdir.path() + thmdir.entry());
+                    int k = 0;
+                    for (; k < store.getCount(); ++k)
+                        if (theme.path().compareTo(store[k]->path()) < 0)
+                            break;
+                    store.insert(k, new upath(theme));
+                }
+            }
+        }
+        for (int k = 0; k < store.getCount(); ++k) {
+            puts(store[k]->string().c_str());
+        }
+    }
     exit(0);
 }
 
@@ -1883,6 +1910,8 @@ int main(int argc, char **argv) {
                 print_configured(argv[0]);
             else if (is_long_switch(*arg, "directories"))
                 print_directories(argv[0]);
+            else if (is_long_switch(*arg, "list-themes"))
+                print_themes_list();
             else if (is_long_switch(*arg, "postpreferences"))
                 post_preferences = true;
             else if (is_help_switch(*arg))
