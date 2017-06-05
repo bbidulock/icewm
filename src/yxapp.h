@@ -76,6 +76,9 @@ public:
     unsigned int KeyMask;
     unsigned int ButtonMask;
     unsigned int ButtonKeyMask;
+
+    static const char* getHelpText();
+
 private:
     Display *fDisplay;
     Time lastEventTime;

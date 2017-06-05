@@ -935,6 +935,13 @@ void YXApplication::setClipboardText(const ustring &data) {
     fClip->setData(s.c_str(), s.c_str_len());
 }
 
+const char* YXApplication::getHelpText() {
+    return _(
+    "  --display=NAME      NAME of the X server to use.\n"
+    "  --sync              Synchronize X11 commands.\n"
+    );
+}
+
 YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
     YApplication(argc, argv)
 {
@@ -954,10 +961,7 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
         if (**arg == '-') {
             char *value;
             if (is_help_switch(*arg)) {
-                print_help_exit(
-                    "  --display=NAME      NAME of the X server to use.\n"
-                    "  --sync              Synchronize X11 commands.\n"
-                );
+                print_help_exit(getHelpText());
             }
             else if (is_version_switch(*arg)) {
                 print_version_exit(VERSION);
