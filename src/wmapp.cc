@@ -6,7 +6,6 @@
 #include "config.h"
 
 #include "yfull.h"
-#include "yutil.h"
 #include "atray.h"
 #include "wmapp.h"
 #include "wmaction.h"
@@ -1725,12 +1724,12 @@ static void print_confdir(const char *name, const char *path) {
 
 static void print_directories(const char *argv0) {
     printf(_("%s configuration directories:\n"), argv0);
-    print_confdir("CFGDIR", CFGDIR);
-    print_confdir("DOCDIR", DOCDIR);
-    print_confdir("LIBDIR", LIBDIR);
-    print_confdir("LOCDIR", LOCDIR);
     print_confdir("XdgConfDir", YApplication::getXdgConfDir().string());
     print_confdir("PrivConfDir", YApplication::getPrivConfDir().string());
+    print_confdir("CFGDIR", CFGDIR);
+    print_confdir("LIBDIR", LIBDIR);
+    print_confdir("LOCDIR", LOCDIR);
+    print_confdir("DOCDIR", DOCDIR);
     exit(0);
 }
 
