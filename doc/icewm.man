@@ -10,7 +10,7 @@
 .		if \w'\(rq' .ds rq "\(rq
 .	\}
 .\}
-.TH ICEWM 1 "2017-06-05" "Adam Pribyl" "Window Manager"
+.TH ICEWM 1 "2017-06-06" "Adam Pribyl" "IceWM Window Manager"
 
 .SH NAME
 icewm \- lightweight X11 window manager
@@ -21,7 +21,7 @@ icewm \- lightweight X11 window manager
 .SH DESCRIPTION
 .I IceWM
 is a lightweight X11 window manager.
-It aims to provide a small, fast and familiar window
+It aims to be a small, fast and familiar window
 manager for the X11 window system. Compatibility with the
 ICCCM 2.0 and EWMH window manager protocols is an important goal.
 
@@ -32,21 +32,26 @@ The installation comes with several preconfigured themes.
 The IceWM menu allows to choose between them.
 
 Generally, it tries to make all functions available
-both by keyboard and by mouse.
+by both keyboard and mouse.
 Configurability is very good through various preferences files.
 
-IceWM consists of several parts:
+IceWM consists of several programs:
 
 .B icewm 
 - the actual window manager. It positions application windows
 on screen and decorates them with borders. It gives input focus to
-the current active application.
+the current active application. Icewm supports three different
+focus modes: click to focus, sloppy mouse focuse and a custom
+user-definable focus mode. Icewm also draws a small taskbar
+at the bottom of the screen, which gives easy access to programs,
+to active applications, and to a small set of monitoring applets.
 
 .B icewmbg 
 - the background setting application. It can assign plain
 background color or images in different formats to the X background,
 shared or separated for different workspaces. This program should be
-started before IceWM startup.
+started before
+.I icewm.
 
 .B icewmtray 
 - catches the Docklet objects installed by various
@@ -66,6 +71,10 @@ This is the preferred program to start the IceWM system.
 .B icesound
 - plays audio files on GUI events raised by IceWM.
 
+.B icewm-menu-fdo
+- generate an IceWM menu with executable desktop applications
+according to Freedesktop.org specifications.
+
 .SH OPTIONS
 .TP
 Each of the IceWM executables supports the following options:
@@ -77,7 +86,9 @@ Typically this file is stored as one of ~/.config/icewm/preferences,
 or ~/.icewm/preferences, or in one of the configuration
 directories explained below. It contains a long list of options
 which allow the user to tweak the behavior of IceWM to ones taste.
-A default preferences file contains comments about the purpose
+A default
+.I preferences
+file contains comments about the purpose
 of each option, the range of useful values and the
 current or default value. A preferences file is a readable
 text file which can be modified with the help of a text editor.
@@ -158,9 +169,13 @@ This can be helpful if one suspects some functionality may be missing.
 .TP
 .B --directories
 Gives a list of directories where IceWM will look for configuration data.
-This list is not in the actual order in which IceWM uses it.
-However, for each directory one can inspect its contents
-for configuration possibilities.
+This list is printed in the actual order in which IceWM uses it
+to search for configuration files.
+
+.TP
+.B --list-themes
+Icewm will search all the configuration directories for
+theme files and print a list of all found themes.
 
 .TP
 .B --postpreferences
@@ -176,137 +191,249 @@ was chosen or whether option formatting was correct.
 
 .I XDG_CONFIG_HOME=PATH
 .RS
-Directory to use for user private configuration files, "$HOME/.config/icewm/" 
-by default.
+The directory for user private configuration files.
+The default value is "$HOME/.config/icewm/".
 .RE
 
 .I ICEWM_PRIVCFG=PATH  
 .RS
-Directory to use for user private configuration files, "$HOME/.icewm/" 
-by default.
+The directory for user private configuration files.
+The default value is "$HOME/.icewm/".
 .RE
 
 .I DISPLAY=NAME
 .RS
-Name of the X server to use, depends on Xlib by default.
+The name of the X11 server.
 See Xorg(1) or Xserver(1).
+This value can be overridden by the --display option.
 .RE
 
 .I MAIL=URL
 .RS
 Location of your mailbox. If the schema is omitted the local "file" 
-schema is assumed.
+schema is assumed. This is used by the mailbox applet.
 .RE
 
 .SH FILES
-IceWM looks for its configuration files in the following directories, 
-in the following order:
+IceWM looks for configuration files in the following directories, 
+in the given order, until it finds one:
 
 .I $HOME/.config/icewm/
 .RS
-User-specific configurations.
+Contains user-specific configurations.
 .RE
 
 .I $HOME/.icewm/
 .RS
-User-specific configurations.
+Contains user-specific configurations.
 .RE
 
+.I /etc/icewm/
+or
 .I /etc/X11/icewm/
 .RS
-System-wide customized defaults.
+Contains system-wide customized defaults.
+Please note that your local installation may have been
+configured to use a different system location.
+The icewm --directories option will show this location.
 .RE
 
+.I /usr/share/icewm/
+or
 .I /usr/local/share/icewm/
 .RS
-Default installation settings.
+Default local installation settings.
 .RE
 
 .B Configuration files
 
 .I keys
 .RS
-Global keybindings to launch applications (not window manager related).
+Global keybindings to launch applications,
+which need not be window manager related.
+Each non-empty line starts with the word
+.B key.
+After one or more spaces follows a double-quoted string
+of the bound X11 key combination like "Alt+Ctrl+Shift+X".
+Then after at least one space follows a shell command line which
+will be executed by IceWM whenever this key combination is pressed.
 .RE
 
 .I menu
 .RS
 A menu of startable applications; usually customized by the user.
+IceWM provides either the program
+.I icewm-menu-fdo
+or the program
+.I icewm-menu-gnome2
+to generate a default menu.
 .RE
 
 .I preferences
 .RS
-Contains general settings - paths, colors, fonts...
+Contains general settings like paths, colors and fonts,
+but also options to control the IceWM focus behavior
+and the applets which are started in the taskbar.
+The icewm installation will provide a default
+.I preferences
+file, which can be copied to the IceWM user
+configuration directory and modified.
 .RE
 
 .I prefoverride
 .RS
 Settings which override the settings from a theme.
+Some of the IceWM configuration options from the
+preferences file which control the look-and-feel
+may be overridden by the theme,
+if the theme designer thinks this is desirable.
+However, this
+.I prefoverride
+file will again override this for a
+few specific options of your choosing.
+It is safe to leave this file empty initially.
 .RE
 
 .I programs
 .RS
-An automatically generated menu of startable applications 
-(this should be used for wmconfig, menu or similar packages, 
-perhaps as a part of the login or X startup sequence)
+An automatically generated menu of startable applications.
+This could be used by wmconfig, menu or similar programs
+to give easy access to all the desktop applications
+which are installed on the system.
 .RE
 
 .I theme
 .RS
-The currently selected theme.
+This file contains the name of the default theme.
+On startup icewm reads this file to obtain the theme name,
+unless icewm was started with the --theme option.
+Whenever a different theme is selected from the IceWM Menu then
+the theme file is overwritten with the name of the selected theme.
+This theme file contains the keyword
+.B Theme,
+followed by an equals sign,
+followed by a double-quoted string with the theme name.
+The theme name is the name of the theme directory,
+followed by a slash, followed by the theme file.
+Usually the theme file is just "default.theme",
+but a theme may have alternatives.
+Alternatives are small tweakings of a theme.
+These are specified in their own ".theme" file,
+which replaces "default.theme".
+If no theme file exists then IceWM will use the
+default setting of Theme="default/default.theme".
 .RE
 
 .I toolbar
 .RS
 Contains names of quick to launch applications with icons for the taskbar.
+Each non-empty non-comment line starts with the keyword
+.B prog.
+After one or more spaces follows a name, which is displayed in a
+tooltip whenever the mouse cursor hovers over the toolbar icon.
+This name may be a double quoted string.
+Then follows the bare name of the icon to use without extensions.
+This icon will be shown in the toolbar.
+The last component is a shell command line which will be executed
+whenever the user presses the icon in the toolbar.
 .RE
 
 .I winoptions
 .RS
-Application window options.
+Contains settings to control window appearance and behavior
+which are specific to applications or groups of applications.
+Options can control the border, whether it appears on the
+taskbar, the window list, the system tray and the workspaces.
+Also its layer, geometry, whether it is movable, resizable
+and closable.
+Full details for this file are explained in the
+.I IceWM Manual.
 .RE
 
 .I startup
 .RS
 Commands to execute on IceWM startup.
+This is an executable script with commands to tweak
+X11 settings and launch some applications which need
+to be active whenever IceWM is started.
 .RE
 
 .I shutdown
 .RS
 Commands to execute on IceWM shutdown.
+This is an executable script with commands to be
+executed in the last stage of IceWM termination.
+Typically they may undo some of the effects of the
+.I startup
+script.
 .RE
 
 .B Configuration directories
 
 .I icons
 .RS
-Icons used for applications (usually XPM files *_16x16.xpm and *_32x32.xpm).
+Contains icons which are used to picturally identify applications.
+Usually these files are in the XPM format, but PNG is also supported.
+The names of icon files follow a specific naming pattern, like
+.I app_32x32.xpm.
+They start with a basename, usually this is just a single word.
+Then follows an underscore, followed by a size specification in
+the format _SIZExSIZE.
+This is followed by a dot and the file extension,
+where the extension denotes the icon image format.
+Common sizes are 16 and 32, but 11, 24 and 48 also occur.
 .RE
 
 .I ledclock
 .RS
-Pictures of digits for the LED clock displayed in taskbar.
+Pictures of digits for the LED clock which is displayed in
+the bottom-right corner of the taskbar.
+These can be seen when the TaskBarShowClock and TaskBarClockLeds
+options are both set to 1.
 .RE
 
 .I mailbox
 .RS
-Icons used for different states of the mailbox.
+Icons which are used to display different states of
+the mailbox applet in the taskbar.
+There are five states and each has its own icon:
+mail.xpm, newmail.xpm, unreadmail.xpm, nomail.xpm, errmail.xpm.
 .RE
 
 .I taskbar
 .RS
 Pictures to customize the look of the taskbar.
+These include:
+taskbarbg.xpm,
+taskbuttonactive.xpm,
+taskbuttonbg.xpm,
+taskbuttonminimized.xpm,
+toolbuttonbg.xpm,
+workspacebuttonactive.xpm,
+workspacebuttonbg.xpm.
 .RE
 
 .I themes
 .RS
-Directory to store themes.
+A directory to store themes.
+Each theme is stored in its own subdirectory in the
+.I themes
+directory. A theme contains at least a
+.I default.theme
+file, and optionally
+.I "theme alternatives"
+which are additional files which have a ".theme"
+filename extension and which contain tweakings
+of the "default.theme" file.
 .RE
 
 .SH EXAMPLES
 Examples of the above configuration files
 can be found in the default installation 
 path or in the system-wide defaults.
+See the output of
+.I icewm --directories
+for their locations.
 
 .SH CONFORMING TO
 ICCCM 2.0: mostly.  EWMH: mostly.
@@ -318,10 +445,10 @@ See the file COMPLIANCE in the distribution for full details.
 .IR X(7),
 
 .IR "IceWM Help"
-from the IceWM menu contains a manual (currently outdated).
+from the IceWM menu contains a manual (somewhat outdated, but still useful).
 
 .IR http://www.icewm.org/manual/
-gives an outdated manual.
+gives the IceWM Manual (somewhat outdated).
 
 .IR http://www.icewm.org/FAQ/
 gives frequently asked questions.
@@ -340,15 +467,6 @@ If you find a bug in IceWM
 please use the bug reporting system on
 .BR https://github.com/bbidulock/icewm/issues
 to report it. We welcome all friendly feedback.
-
-.SH AUTHORS
-The original version of IceWM was designed
-and implemented in 1997 by Marko Macek.
-In the year 2001 it was maintained by Mathias Hasselmann.
-Then again Marko Macek took over.
-
-The original version of this manual page was written
-in 2005 by Adam Pribyl, covex@ahoj.fsik.cvut.cz.
 
 .SH COPYING
 IceWM is licensed under the GNU Library General Public License.
