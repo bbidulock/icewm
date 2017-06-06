@@ -12,18 +12,7 @@
 #include "yrect.h"
 #include "yicon.h"
 #include "wmwinlist.h"
-
 #include "intl.h"
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include <string.h>
-#include <assert.h>
-#include <errno.h>
-#include <math.h>
-
-#include "base.h"
 
 YColor * WorkspaceButton::normalButtonBg(NULL);
 YColor * WorkspaceButton::normalButtonFg(NULL);
