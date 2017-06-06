@@ -8,24 +8,15 @@
 #include "debug.h"
 #include "sysdep.h"
 #include "yprefs.h"
-
-extern void logEvent(const XEvent &xev);
+#include "yconfig.h"
 
 char const *ApplicationName = "icewmtray";
-
-#include "yconfig.h"
 
 #ifdef CONFIG_TASKBAR
 YColor *taskBarBg;
 
-XSV(const char *, clrDefaultTaskBar,            "rgb:C0/C0/C0")
-XIV(bool, trayDrawBevel,                        false)
-
-cfoption icewmbg_prefs[] = {
-    OSV("ColorDefaultTaskBar",                  &clrDefaultTaskBar,             "Background of the taskbar"),
-    OBV("TrayDrawBevel",                        &trayDrawBevel,                 "Surround the tray with plastic border"),
-    OK0()
-};
+XSV(const char *, clrDefaultTaskBar, "rgb:C0/C0/C0")
+XIV(bool,         trayDrawBevel,     false)
 #endif
 
 class SysTray: public YWindow, public YXTrayNotifier {
@@ -109,6 +100,12 @@ SysTrayApp::SysTrayApp(int *argc, char ***argv,
 void SysTrayApp::loadConfig() {
 #ifdef CONFIG_TASKBAR
 #ifndef NO_CONFIGURE
+    static cfoption tray_prefs[] = {
+        OSV("ColorDefaultTaskBar", &clrDefaultTaskBar, "Background of the taskbar"),
+        OBV("TrayDrawBevel",       &trayDrawBevel,     "Surround the tray with plastic border"),
+        OK0()
+    };
+
     if (configFile == 0 || *configFile == 0)
         configFile = "preferences";
     if (overrideTheme && *overrideTheme)
@@ -123,16 +120,16 @@ void SysTrayApp::loadConfig() {
         YConfig::findLoadConfigFile(this, theme_prefs, configFile);
         YConfig::findLoadConfigFile(this, theme_prefs, "theme");
     }
-    YConfig::findLoadConfigFile(this, icewmbg_prefs, configFile);
+    YConfig::findLoadConfigFile(this, tray_prefs, configFile);
     if (themeName != 0) {
         MSG(("themeName=%s", themeName));
 
         YConfig::findLoadThemeFile(
             this,
-            icewmbg_prefs,
+            tray_prefs,
             upath("themes").child(themeName));
     }
-    YConfig::findLoadConfigFile(this, icewmbg_prefs, "prefoverride");
+    YConfig::findLoadConfigFile(this, tray_prefs, "prefoverride");
 #endif
     if (taskBarBg) 
         delete taskBarBg;
@@ -146,6 +143,7 @@ SysTrayApp::~SysTrayApp() {
 
 bool SysTrayApp::filterEvent(const XEvent &xev) {
 #ifdef DEBUG
+    extern void logEvent(const XEvent &xev);
     logEvent(xev);
 #endif
     if (xev.type == ClientMessage) {
