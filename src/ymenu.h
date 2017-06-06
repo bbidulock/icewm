@@ -3,7 +3,6 @@
 
 #include "ypopup.h"
 #include "ytimer.h"
-#include "yarray.h"
 
 class YAction;
 class YActionListener;

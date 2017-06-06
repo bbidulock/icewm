@@ -3,8 +3,6 @@
 
 #ifndef NO_CONFIGURE_MENUS
 
-#include <sys/time.h>
-
 class BrowseMenu: public ObjectMenu {
 public:
     BrowseMenu(

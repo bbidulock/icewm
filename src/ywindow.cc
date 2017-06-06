@@ -5,7 +5,6 @@
  */
 #include "config.h"
 #include "yfull.h"
-#include "yutil.h"
 #include "ywindow.h"
 #include "ykey.h"
 

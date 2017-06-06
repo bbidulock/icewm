@@ -14,10 +14,6 @@
 
 #define HAVE_NET_STATUS 1
 
-#include "ywindow.h"
-#include "ytimer.h"
-#include <sys/time.h>
-
 class IAppletContainer;
 
 class NetStatus: public YWindow, public YTimerListener {

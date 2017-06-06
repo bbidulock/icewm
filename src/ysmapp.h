@@ -2,7 +2,6 @@
 #define SMAPP_H
 
 #include "yxapp.h"
-#include "ypoll.h"
 
 #ifdef CONFIG_SESSION
 

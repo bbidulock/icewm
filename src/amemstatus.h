@@ -10,8 +10,6 @@
 #define MEM_FREE    (3)
 #define MEM_STATES  (4)
 
-#include "ywindow.h"
-
 class MEMStatus: public YWindow, public YTimerListener {
 public:
     MEMStatus(YWindow *aParent = 0);

@@ -4,7 +4,6 @@
 #include "ywindow.h"
 #include "obj.h"
 #include "objbutton.h"
-#include "ytimer.h"
 
 class WorkspaceButton: public ObjectButton, public YTimerListener {
 public:

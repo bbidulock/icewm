@@ -3,8 +3,6 @@
 
 #include "ywindow.h"
 #include "wmclient.h"
-#include "ytimer.h"
-#include <sys/time.h>
 
 class TaskPane;
 class TaskBarApp;

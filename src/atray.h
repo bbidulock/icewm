@@ -12,7 +12,6 @@
 
 #include "ywindow.h"
 #include "wmclient.h"
-#include "ytimer.h"
 
 class TrayApp: public YWindow, public YTimerListener {
 public:

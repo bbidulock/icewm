@@ -13,9 +13,6 @@
 #define IWM_STEAL  (7)
 #define IWM_STATES (8)
 
-#include "ywindow.h"
-#include "ytimer.h"
-
 class YSMListener;
 
 class CPUStatus: public YWindow, public YTimerListener {
