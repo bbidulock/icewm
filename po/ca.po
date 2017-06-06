@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-06-02 10:56-0600\n"
-"PO-Revision-Date: 2017-06-06 10:30+0000\n"
+"PO-Revision-Date: 2017-06-06 10:31+0000\n"
 "Last-Translator: David Medina <medipas@gmail.com>\n"
 "Language-Team: Catalan "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/ca/>\n"
@@ -1077,7 +1077,7 @@ msgstr ""
 #: src/wmapp.cc:1698
 #, c-format
 msgid "%s configuration directories:\n"
-msgstr "Directoris de configuració (%s):\n"
+msgstr "%s directoris de configuració:\n"
 
 #: src/wmapp.cc:1841
 #, c-format
