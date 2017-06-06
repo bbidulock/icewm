@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-06-02 10:56-0600\n"
-"PO-Revision-Date: 2017-04-14 07:57+0000\n"
+"PO-Revision-Date: 2017-06-06 10:30+0000\n"
 "Last-Translator: David Medina <medipas@gmail.com>\n"
-"Language-Team: Catalan <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
-"branch/ca/>\n"
+"Language-Team: Catalan "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -354,9 +354,9 @@ msgid "Invalid workspace name: `%s'"
 msgstr "Nom d'escriptori no vàlid: %s"
 
 #: src/icesh.cc:435
-#, fuzzy, c-format
+#, c-format
 msgid "Workspace out of range: %ld"
-msgstr "Escriptori fora de l'abast: %d"
+msgstr "Escriptori fora de l'abast: %ld"
 
 #: src/icesh.cc:569
 #, c-format
@@ -785,6 +785,12 @@ msgid ""
 "  -h, --help          Prints this usage screen and exits.\n"
 "\n"
 msgstr ""
+"Ús: %s [OPCIONS]\n"
+"Opcions:\n"
+"%s\n"
+"  -V, --version       Imprimeix la informació de la versió i surt.\n"
+"  -h, --help          Imprimeix aquesta pantalla d'ajuda i surt.\n"
+"\n"
 
 #: src/movesize.cc:903
 #, c-format
@@ -1001,7 +1007,7 @@ msgstr ""
 "de finestres.\n"
 
 #: src/wmapp.cc:1653
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
 "Starts the IceWM window manager.\n"
@@ -1046,31 +1052,37 @@ msgstr ""
 "  -n, --no-configure  Ignora el fitxer de preferències.\n"
 "\n"
 "  -v, --version       Imprimeix la informació de la versió i surt.\n"
-"  -h, --help          Imprimeix aquesta pàgina d'ajuda i surt.\n"
+"  -h, --help          Imprimeix aquesta pantalla d'ajuda i surt.\n"
 "%s  --replace           Reemplaça un gestor de fintestres existent.\n"
 "  --restart           No useu això: és un indicador intern.\n"
+"  --configured        Imprimeix la configuració del moment de compilació.\n"
+"  --directories       Imprimeix els directoris de configuració.\n"
+"  --postpreferences   Imprimeix les preferències després de tot el "
+"processament.\n"
 "\n"
 "Variables d'entorn:\n"
-"  ICEWM_PRIVCFG=PATH  Directori a usar per als fitxers de configuració "
-"privats,\n"
-"                      \"$HOME/.icewm/\" per defecte.\n"
-"  DISPLAY=NAME        Nom del servidor X a usar, depèn de Xlib per defecte.\n"
-"  MAIL=URL            Ubicació del correu. Si s'omet l'esquema, s'assumeix "
-"el fitxer\n"
-"                      local \"file\".\n"
+"  XDG_CONFIG_HOME=PATH  Directori per als fitxers de configuració,\n"
+"                      \"$HOME/.config/icewm/\" per defecte.\n"
+"  ICEWM_PRIVCFG=PATH  Directori per als fitxers de configuració de l'usuari,"
 "\n"
-"Visiteu http://www.icewm.org/ per informar d'errors, demanar suport, fer "
-"comentaris...\n"
+"                      \"$HOME/.icewm/\" per defecte.\n"
+"  DISPLAY=NAME        Nom del servidor X a usar.\n"
+"  MAIL=URL            Ubicació de la bústia de correu.\n"
+"\n"
+"Per informar d'errors, demanar suport o fer comentaris, si us plau, "
+"consulteu...\n"
+"%s\n"
+"\n"
 
 #: src/wmapp.cc:1698
 #, c-format
 msgid "%s configuration directories:\n"
-msgstr ""
+msgstr "Directoris de configuració (%s):\n"
 
 #: src/wmapp.cc:1841
-#, fuzzy, c-format
+#, c-format
 msgid "%s configured options:%s\n"
-msgstr "Opció no reconeguda: %s\n"
+msgstr "%s opcions configurades:%s\n"
 
 #: src/wmapp.cc:1932
 msgid "Confirm Logout"
@@ -1195,7 +1207,7 @@ msgstr "Error a la clau %s"
 #: src/wmprog.cc:643
 #, c-format
 msgid "'%s' produces no output"
-msgstr ""
+msgstr "\"%s\" no produeix cap sortida"
 
 #: src/wmprog.cc:823 src/wmprog.cc:825
 msgid "Programs"
