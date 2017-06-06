@@ -3,6 +3,10 @@
 
 #include <stddef.h>
 
+#ifndef __GNUC__
+#define __attribute__(a)
+#endif
+
 /*** Atomar Data Types ********************************************************/
 
 #ifdef NEED_BOOL
@@ -97,11 +101,11 @@ static char const * itoa(T i, bool sign = false) {
 
 /*** Message Functions ********************************************************/
 
-void die(int exitcode, char const *msg, ...);
-void warn(char const *msg, ...);
-void fail(char const *msg, ...);
-void msg(char const *msg, ...);
-void tlog(char const *msg, ...);
+void die(int exitcode, char const *msg, ...) __attribute__((format(printf, 2, 3) ));
+void warn(char const *msg, ...) __attribute__((format(printf, 1, 2) ));
+void fail(char const *msg, ...) __attribute__((format(printf, 1, 2) ));
+void msg(char const *msg, ...) __attribute__((format(printf, 1, 2) ));
+void tlog(char const *msg, ...) __attribute__((format(printf, 1, 2) ));
 void precondition(const char *expr, const char *file, int line);
 void show_backtrace();
 
