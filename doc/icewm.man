@@ -37,7 +37,7 @@ Configurability is very good through various preferences files.
 
 IceWM consists of several programs:
 
-.B icewm 
+.B icewm
 - the actual window manager. It positions application windows
 on screen and decorates them with borders. It gives input focus to
 the current active application. Icewm supports three different
@@ -46,18 +46,19 @@ user-definable focus mode. Icewm also draws a small taskbar
 at the bottom of the screen, which gives easy access to programs,
 to active applications, and to a small set of monitoring applets.
 
-.B icewmbg 
+.B icewmbg
 - the background setting application. It can assign plain
 background color or images in different formats to the X background,
 shared or separated for different workspaces. This program should be
 started before
-.I icewm.
+.I icewm
+.
 
-.B icewmtray 
+.B icewmtray
 - catches the Docklet objects installed by various
 applications like PSI.
 
-.B icewm-session 
+.B icewm-session
 - runs all of the above when needed.
 It implements basic session management.
 This is the preferred program to start the IceWM system.
@@ -156,7 +157,7 @@ window manager.
 .TP
 .B --restart
 Instructs IceWM to restart itself, but one should not
-use this option directly. Instead one selects the 
+use this option directly. Instead one selects the
 .B Restart Icewm
 button from the menu in the lower left corner of the desktop.
 
@@ -195,7 +196,7 @@ The directory for user private configuration files.
 The default value is "$HOME/.config/icewm/".
 .RE
 
-.I ICEWM_PRIVCFG=PATH  
+.I ICEWM_PRIVCFG=PATH
 .RS
 The directory for user private configuration files.
 The default value is "$HOME/.icewm/".
@@ -210,12 +211,12 @@ This value can be overridden by the --display option.
 
 .I MAIL=URL
 .RS
-Location of your mailbox. If the schema is omitted the local "file" 
+Location of your mailbox. If the schema is omitted the local "file"
 schema is assumed. This is used by the mailbox applet.
 .RE
 
 .SH FILES
-IceWM looks for configuration files in the following directories, 
+IceWM looks for configuration files in the following directories,
 in the given order, until it finds one:
 
 .I $HOME/.config/icewm/
@@ -347,7 +348,8 @@ taskbar, the window list, the system tray and the workspaces.
 Also its layer, geometry, whether it is movable, resizable
 and closable.
 Full details for this file are explained in the
-.I IceWM Manual.
+.I IceWM Manual
+.
 .RE
 
 .I startup
@@ -373,15 +375,18 @@ script.
 .I icons
 .RS
 Contains icons which are used to picturally identify applications.
-Usually these files are in the XPM format, but PNG is also supported.
-The names of icon files follow a specific naming pattern, like
-.I app_32x32.xpm.
+Usually these files are in the XPM format,
+but the PNG and SVG image formats are also supported.
+The names of icon files may follow a specific naming pattern, like
+.I app_32x32.xpm
+.
 They start with a basename, usually this is just a single word.
 Then follows an underscore, followed by a size specification in
 the format _SIZExSIZE.
 This is followed by a dot and the file extension,
 where the extension denotes the icon image format.
-Common sizes are 16 and 32, but 11, 24 and 48 also occur.
+Common sizes are 16, 32 and 48 for small, large and huge icons.
+This depends on the respective IconSize preferences options.
 .RE
 
 .I ledclock
@@ -429,7 +434,7 @@ of the "default.theme" file.
 
 .SH EXAMPLES
 Examples of the above configuration files
-can be found in the default installation 
+can be found in the default installation
 path or in the system-wide defaults.
 See the output of
 .I icewm --directories
