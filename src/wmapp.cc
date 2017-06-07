@@ -940,7 +940,7 @@ static void initMenus(
     moveMenu->setShared(true);
     for (int w = 0; w < workspaceCount; w++) {
         char s[128];
-        sprintf(s, "%lu. %s", (unsigned long)(w + 1), workspaceNames[w]);
+        snprintf(s, sizeof s, "%lu. %s", (unsigned long)(w + 1), workspaceNames[w]);
         moveMenu->addItem(s, 0, null, workspaceActionMoveTo[w]);
     }
 

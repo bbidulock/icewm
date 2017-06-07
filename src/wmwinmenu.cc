@@ -123,8 +123,9 @@ void WindowListMenu::updatePopup() {
             addSeparator();
             first = false;
         }
-        char s[50];
-        sprintf(s, _("%lu. Workspace %-.32s"), (unsigned long)(d + 1),
+        char s[128];
+        snprintf(s, sizeof s,
+                _("%lu. Workspace %-.32s"), (unsigned long)(d + 1),
                 manager->workspaceName(d));
 
         YMenu *sub = 0;

@@ -158,8 +158,8 @@ void GnomeMenu::populateMenu(const char *fPath) {
     const int plen = strlen(fPath);
 
     char tmp[256];
-    strcpy(tmp, fPath);
-    strcat(tmp, "/.directory");
+    strlcpy(tmp, fPath, sizeof tmp);
+    strlcat(tmp, "/.directory", sizeof tmp);
 
     if (isDir && !stat(tmp, &sb)) { // looks like kde/gnome1 style
 
@@ -279,8 +279,8 @@ void GnomeMenu::populateMenu(const char *fPath) {
 
             while ((file = readdir(dir)) != NULL) {
                 char fullpath[256];
-                strcpy(fullpath, dirname);
-                strcat(fullpath, file->d_name);
+                strlcpy(fullpath, dirname, sizeof fullpath);
+                strlcat(fullpath, file->d_name, sizeof fullpath);
                 GnomeDesktopItem *ditem =
                     gnome_desktop_item_new_from_file(fullpath,
                                                      (GnomeDesktopItemLoadFlags)0,

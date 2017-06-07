@@ -453,7 +453,7 @@ void MailBoxStatus::mailChecked(MailBoxState mst, long count) {
     else {
         char s[128] = "";
         if (count != -1) {
-            sprintf(s,
+            snprintf(s, sizeof s,
                     count == 1 ?
                     _("%ld mail message.") :
                     _("%ld mail messages."), // too hard to do properly

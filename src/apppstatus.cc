@@ -193,7 +193,7 @@ void NetStatus::updateToolTip() {
         const char * const caoUnit(niceUnit(cao, rateUnits));
         const char * const caiUnit(niceUnit(cai, rateUnits));
 
-        sprintf(status,
+        snprintf(status, sizeof status,
            /*   _("Interface %s:\n"
                   "  Current rate (in/out):\t%li %s/%li %s\n"
                   "  Current average (in/out):\t%lli %s/%lli %s\n"
@@ -215,7 +215,7 @@ void NetStatus::updateToolTip() {
                 t / 3600, t / 60 % 60, t % 60,
                 *phoneNumber ? _("\n  Caller id:\t") : "", phoneNumber);
     } else {
-        sprintf(status, "%.50s:", netdev.c_str());
+        snprintf(status, sizeof status, "%.50s:", netdev.c_str());
     }
 
     setToolTip(status);
@@ -366,7 +366,7 @@ bool NetStatus::isUpIsdn() {
             sscanf(p, "%s %s %s %s %s", val[0], val[1], val[2], val[3], val[4]);
             for (i = 0; i < 4; i++) {
                 if (strncmp(val[i+1], "?", 1) != 0)
-                    strncpy(phoneNumber, val[i+1], 32);
+                    strlcpy(phoneNumber, val[i+1], sizeof phoneNumber);
             }
         }
 

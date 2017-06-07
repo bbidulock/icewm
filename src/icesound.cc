@@ -145,8 +145,8 @@ public:
     char * findSample(int sid)  {
         char basefname[1024];
 
-        strcpy(basefname, gui_events[sid].name);
-        strcat(basefname, ".wav");
+        strlcpy(basefname, gui_events[sid].name, sizeof basefname);
+        strlcat(basefname, ".wav", sizeof basefname);
 
         return findSample(basefname);
     }
