@@ -464,7 +464,8 @@ void TaskBar::initApplets() {
         int cnt = 0;
 
         for (s = networkDevices; s.splitall(' ', &s, &r); s = r)
-            cnt++;
+            if (s.nonempty())
+                cnt++;
 
         networkDevices = netDevice;
 
@@ -473,6 +474,9 @@ void TaskBar::initApplets() {
             fNetStatus[cnt--] = NULL;
 
             for (s = networkDevices; s.splitall(' ', &s, &r); s = r) {
+                if (s.isEmpty())
+                    continue;
+
                 fNetStatus[cnt--] = new NetStatus(app, smActionListener, s, this, this);
             }
         }
@@ -529,7 +533,8 @@ void TaskBar::initApplets() {
         mstring s(null), r(null);
 
         for (s = mailboxes; s.splitall(' ', &s, &r); s = r)
-            cnt++;
+            if (s.nonempty())
+                cnt++;
 
         if (cnt) {
             fMailBoxStatus = new MailBoxStatus*[cnt + 1];
@@ -537,6 +542,9 @@ void TaskBar::initApplets() {
 
             for (s = mailboxes; s.splitall(' ', &s, &r); s = r)
             {
+                if (s.isEmpty())
+                    continue;
+
                 fMailBoxStatus[cnt--] = new MailBoxStatus(app, smActionListener, s, this);
             }
         } else if (getenv("MAIL")) {

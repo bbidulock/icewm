@@ -1876,6 +1876,8 @@ private:
         const char *penv = getenv("PATH");
         mstring mpth(penv ? penv : defp), mdir;
         while (empty() && mpth.splitall(':', &mdir, &mpth)) {
+            if (mdir.isEmpty())
+                continue;
             test(&curl, mdir, "curl");
             test(&wget, mdir, "wget");
             test(&gzip, mdir, "gzip");

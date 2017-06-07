@@ -26,6 +26,9 @@ upath findPath(ustring path, int mode, upath name, bool /*path_relative*/) {
 
         ustring s(null), r(null);
         for (s = path; s.splitall(PATHSEP, &s, &r); s = r) {
+            if (s.isEmpty())
+                continue;
+
             upath prog = upath(s).relative(name);
             if (prog.access(mode) == 0)
                 return prog;
