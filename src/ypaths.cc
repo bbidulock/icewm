@@ -39,8 +39,6 @@ ref<YResourcePaths> YResourcePaths::subdirs(upath subdir, bool themeOnly) {
     upath xdgDir(YApplication::getXdgConfDir());
     upath homeDir(YApplication::getPrivConfDir());
     upath themeDir(upath(themeName).parent());
-    upath themes("/themes/");
-    upath themesPlusThemeDir(themes + themeDir);
 
     if (themeName && *themeName == '/') {
         MSG(("Searching `%s' resources at absolute location", cstring(subdir.path()).c_str()));
@@ -56,6 +54,9 @@ ref<YResourcePaths> YResourcePaths::subdirs(upath subdir, bool themeOnly) {
         }
     } else {
         MSG(("Searching `%s' resources at relative locations", cstring(subdir.path()).c_str()));
+
+        upath themes("/themes/");
+        upath themesPlusThemeDir(themes + themeDir);
 
         if (themeOnly) {
             paths->addDir(xdgDir + themesPlusThemeDir);
