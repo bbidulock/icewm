@@ -37,11 +37,13 @@ public:
     bool isExecutable() const;
     bool isHttp() const;
     bool hasProtocol() const;
-    int access(int mode) const;
-    int mkdir(int mode) const;
+    int access(int mode = 0) const;
+    int mkdir(int mode = 0777) const;
     int open(int flags, int mode = 0666) const;
     FILE* fopen(const char *mode) const;
     int stat(struct stat *st) const;
+    int remove() const;
+    int renameAs(const pstring& dest) const;
 
     upath& operator=(const upath& p) {
         fPath = p.fPath;
