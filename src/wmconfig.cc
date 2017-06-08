@@ -27,14 +27,14 @@ char *workspaceNames[MAXWORKSPACES];
 YAction *workspaceActionActivate[MAXWORKSPACES];
 YAction *workspaceActionMoveTo[MAXWORKSPACES];
 
-void loadConfiguration(IApp *app, const char *fileName) {
+void WMConfig::loadConfiguration(IApp *app, const char *fileName) {
 #ifndef NO_CONFIGURE
     YConfig::findLoadConfigFile(app, icewm_preferences, fileName);
     YConfig::findLoadConfigFile(app, icewm_themable_preferences, fileName);
 #endif
 }
 
-void loadThemeConfiguration(IApp *app, const char *themeName) {
+void WMConfig::loadThemeConfiguration(IApp *app, const char *themeName) {
 #ifndef NO_CONFIGURE
     bool ok = YConfig::findLoadThemeFile(app,
                 icewm_themable_preferences,
@@ -44,7 +44,7 @@ void loadThemeConfiguration(IApp *app, const char *themeName) {
 #endif
 }
 
-void freeConfiguration() {
+void WMConfig::freeConfiguration() {
 #ifndef NO_CONFIGURE
     YConfig::freeConfig(icewm_preferences);
 #endif
@@ -122,50 +122,75 @@ void setLook(const char * /*name*/, const char *arg, bool) {
 }
 #endif
 
-int setDefault(const char *basename, const char *config) {
-    upath confDir(YApplication::getPrivConfDir());
-    if (confDir.dirExists() == false)
-        confDir.mkdir(0777);
-    upath conf = confDir + basename;
-    ustring confTmp = conf.path() + ".new.tmp";
-    const char *confNew = cstring(confTmp);
-
-    int fd = open(confNew, O_RDWR | O_TEXT | O_CREAT | O_TRUNC | O_EXCL, 0666);
-    if (fd == -1) {
-       fail("Unable to write %s", confNew);
-       return -1;
+static bool ensureDirectory(const upath& path) {
+    if (path.dirExists())
+        return true;
+    if (path.mkdir() != 0) {
+        fail(_("Unable to create directory %s"), path.string().c_str());
+        return false;
     }
-    int len = strlen(config);
-    int nlen = write(fd, config, len);
-    
-    FILE *fdold = fopen(cstring(conf), "r");
-    if (fdold) {
-        char tmpbuf[300];
-        *tmpbuf = '#';
-        for (int i = 0; i < 10; i++)
-            if (fgets(tmpbuf + 1, 298, fdold)) {
-                int tlen = strlen(tmpbuf);
-                int n, ret;
-                for (n = 0; n < tlen;) {
-                    ret = write(fd, tmpbuf + n, tlen - n);
-                    if (ret == 0 || (ret < 0 && errno != EINTR)) {
-                        nlen = -1;
-                        break;
-                    }
-                    if (ret > 0)
-                        n += ret;
-                }
+    return path.dirExists();
+}
+
+static upath getDefaultsFilePath(const pstring& basename) {
+    upath xdg(YApplication::getXdgConfDir());
+    if (xdg.dirExists()) {
+        upath file(xdg + basename);
+        if (file.fileExists())
+            return file;
+    }
+    upath prv(YApplication::getPrivConfDir());
+    if (ensureDirectory(prv)) {
+        return prv + basename;
+    }
+    ensureDirectory(xdg.parent());
+    if (ensureDirectory(xdg)) {
+        return xdg + basename;
+    }
+    return null;
+}
+
+int WMConfig::setDefault(const char *basename, const char *content) {
+    upath confOld(getDefaultsFilePath(basename));
+    upath confNew(confOld.path() + ".new.tmp");
+
+    FILE *fpNew = confNew.fopen("w");
+    if (fpNew) {
+        fputs(content, fpNew);
+        if (content[0] && content[strlen(content)-1] != '\n')
+            fputc('\n', fpNew);
+    }
+    if (fpNew == NULL || fflush(fpNew) || ferror(fpNew)) {
+        fail(_("Unable to write to %s"), confNew.string().c_str());
+        if (fpNew)
+            fclose(fpNew);
+        confNew.remove();
+        return -1;
+    }
+
+    FILE *fpOld = confOld.fopen("r");
+    if (fpOld) {
+        for (int i = 0; i < 10; ++i) {
+            char buf[600] = "#", *line = buf;
+            if (fgets(1 + buf, sizeof buf - 1, fpOld)) {
+                while (line[1] == '#')
+                    ++line;
+                fputs(line, fpNew);
+                if ('\n' != line[strlen(line)-1])
+                    fputc('\n', fpNew);
             }
-            else
-                break;
-        fclose(fdold);
+        }
+        fclose(fpOld);
     }
+    fclose(fpNew);
 
-    close(fd);
-    if (nlen == len) {
-        rename(confNew, cstring(conf));
-    } else {
-        remove(confNew);
+    if (fpOld != 0 || confOld.access() == 0) {
+        confOld.remove();
+    }
+    if (confNew.renameAs(confOld)) {
+        fail(_("Unable to rename %s to %s"),
+                confNew.string().c_str(), confOld.string().c_str());
+        confNew.remove();
     }
     return 0;
 }
@@ -196,7 +221,7 @@ static void print_options(cfoption *options) {
     }
 }
 
-void print_preferences() {
+void WMConfig::print_preferences() {
     print_options(icewm_preferences);
     print_options(icewm_themable_preferences);
 }

@@ -29,7 +29,7 @@
 static void setDefaultTheme(const char *theme) {
     char buf[600];
     snprintf(buf, sizeof buf, "Theme=\"%s\"\n", theme);
-    setDefault("theme", buf);
+    WMConfig::setDefault("theme", buf);
 }
 
 DTheme::DTheme(IApp *app, YSMListener *smActionListener, const ustring &label, const ustring &theme):

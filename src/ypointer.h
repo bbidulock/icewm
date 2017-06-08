@@ -30,7 +30,9 @@
  * a type which provides the appropriate free/delete/delete[] operator.
  *************************************************************************/
 
+#if !defined(RAND_MAX) || !defined(EXIT_SUCCESS)
 #include <stdlib.h>
+#endif
 
 // internal common base
 template <class DataType, class Disposer>

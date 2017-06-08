@@ -1128,7 +1128,7 @@ void YWMApp::setFocusMode(int mode) {
 
     sprintf(s, "FocusMode=%d\n", mode);
 
-    if (setDefault("focus_mode", s) == 0) {
+    if (WMConfig::setDefault("focus_mode", s) == 0) {
         restartClient(0, 0);
     }
 }
@@ -1271,11 +1271,11 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     managerWindow = None;
 
 #ifndef NO_CONFIGURE
-    loadConfiguration(this, configFile);
+    WMConfig::loadConfiguration(this, configFile);
     if (themeName != 0) {
         MSG(("themeName=%s", themeName));
 
-        loadThemeConfiguration(this, themeName);
+        WMConfig::loadThemeConfiguration(this, themeName);
     }
     {
         cfoption focus_prefs[] = {
@@ -1285,7 +1285,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 
         YConfig::findLoadConfigFile(this, focus_prefs, "focus_mode");
     }
-    loadConfiguration(this, "prefoverride");
+    WMConfig::loadConfiguration(this, "prefoverride");
     switch (focusMode) {
     case 0: /* custom */
         break;
@@ -1367,7 +1367,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     initPointers();
 
     if (post_preferences)
-        print_preferences();
+        WMConfig::print_preferences();
 
     delete desktop;
 
@@ -1942,7 +1942,7 @@ int main(int argc, char **argv) {
     YIcon::freeIcons();
 #endif
 #ifndef NO_CONFIGURE
-    freeConfiguration();
+    WMConfig::freeConfiguration();
 #endif
 #ifndef NO_WINDOW_OPTIONS
     delete defOptions; defOptions = 0;
