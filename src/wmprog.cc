@@ -901,7 +901,10 @@ void StartMenu::refresh() {
 #endif
 
     if (showSettingsMenu) {
-        YMenu *settings = new YMenu();
+        // When we have only 2 entries (focus + themes) then
+        // it doesn't make sense to create a whole new YMenu.
+        // Therefore we will reuse 'this' as value for settings.
+        YMenu *settings = this; // new YMenu();
 
         if (showFocusModeMenu) {
             YMenu *focus = new YMenu();
@@ -940,6 +943,9 @@ void StartMenu::refresh() {
                 settings->addSubmenu(_("_Themes"), -2, themes, "themes");
 #endif
         }
+
+        // Only add a menu if we created one:
+        if (this != settings)
 #ifdef LITE
         addSubmenu(_("Se_ttings"), -2, settings);
 #else
