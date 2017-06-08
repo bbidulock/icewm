@@ -72,6 +72,8 @@ YApplication::YApplication(int * /*argc*/, char *** /*argv*/) {
     fFirstTimer = fLastTimer = 0;
     fFirstPoll = fLastPoll = 0;
 
+    setvbuf(stdout, NULL, _IOLBF, BUFSIZ);
+
 #if 0
     {
         char const * cmd(**argv);
