@@ -129,6 +129,14 @@ int upath::stat(struct stat *st) const {
     return ::stat(string(), st);
 }
 
+int upath::remove() const {
+    return ::remove(string());
+}
+
+int upath::renameAs(const pstring& dest) const {
+    return ::rename(string(), cstring(dest));
+}
+
 bool upath::hasProtocol() const {
     int k = path().indexOf('/');
     return k > 0 && path()[k-1] == ':' && path()[k+1] == '/';

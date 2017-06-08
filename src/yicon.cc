@@ -316,6 +316,10 @@ void YIcon::freeIcons() {
     for (int k = iconCache.getCount(); --k >= 0; ) {
         ref<YIcon> icon = iconCache.getItem(k);
         icon->fPath = null;
+        icon->fSmall = null;
+        icon->fLarge = null;
+        icon->fHuge = null;
+        icon = null;
         iconCache.remove(k);
     }
 }
