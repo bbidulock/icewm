@@ -1671,7 +1671,7 @@ static void print_usage(const char *argv0) {
              "  --restart           Don't use this: It's an internal flag.\n"
              "  --configured        Print the compile time configuration.\n"
              "  --directories       Print the configuration directories.\n"
-             "  --list-themes       Print a list of all available themes.\n"
+             "  -l, --list-themes   Print a list of all available themes.\n"
              "  --postpreferences   Print preferences after all processing.\n"
              "\n"
              "Environment variables:\n"
@@ -1909,7 +1909,7 @@ int main(int argc, char **argv) {
                 print_configured(argv[0]);
             else if (is_long_switch(*arg, "directories"))
                 print_directories(argv[0]);
-            else if (is_long_switch(*arg, "list-themes"))
+            else if (is_switch(*arg, "l", "list-themes"))
                 print_themes_list();
             else if (is_long_switch(*arg, "postpreferences"))
                 post_preferences = true;
