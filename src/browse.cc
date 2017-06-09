@@ -34,6 +34,13 @@ BrowseMenu::BrowseMenu(
 BrowseMenu::~BrowseMenu() {
 }
 
+static int compare_ustring_pointers(const void *p1, const void *p2)
+{
+    ustring *u1 = * (ustring * const *) p1;
+    ustring *u2 = * (ustring * const *) p2;
+    return u1->compareTo(*u2);
+}
+
 void BrowseMenu::updatePopup() {
     struct stat sb;
 
@@ -44,14 +51,22 @@ void BrowseMenu::updatePopup() {
 
         removeAll();
 
+        YObjectArray<ustring> dirList;
         for (udir dir(fPath); dir.next(); ) {
-            upath npath(fPath + dir.entry());
+            dirList.append(new ustring(dir.entry()));
+        }
+        ustring **begin = dirList.getItemPtr(0);
+        const int count = dirList.getCount();
+        qsort(begin, count, sizeof(*begin), compare_ustring_pointers);
+        for (int index = 0; index < count; ++index) {
+            const ustring& entry(*begin[index]);
+            upath npath(fPath + entry);
 
             YMenu *sub = 0;
             if (npath.dirExists())
                 sub = new BrowseMenu(app, smActionListener, wmActionListener, npath);
 
-            DFile *pfile = new DFile(app, dir.entry(), null, npath);
+            DFile *pfile = new DFile(app, entry, null, npath);
             YMenuItem *item = add(new DObjectMenuItem(pfile));
             if (item) {
 #ifndef LITE
