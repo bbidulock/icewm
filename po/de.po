@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-06-02 10:56-0600\n"
-"PO-Revision-Date: 2017-06-03 16:33+0000\n"
+"PO-Revision-Date: 2017-06-09 14:45+0000\n"
 "Last-Translator: Sarah Kriesch <ada.lovelace@gmx.de>\n"
 "Language-Team: German "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/de/>\n"
@@ -100,23 +100,22 @@ msgstr ""
 
 #: src/acpustatus.cc:318
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
 #: src/acpustatus.cc:318
-#, fuzzy
 msgid "Load: "
-msgstr "CPU-Last: "
+msgstr "Last: "
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
 #: src/acpustatus.cc:396
 msgid "°C"
-msgstr ""
+msgstr "°C"
 
 #: src/acpustatus.cc:681
 #, c-format
 msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
-msgstr ""
+msgstr "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 
 #: src/amailbox.cc:77
 #, c-format
@@ -354,9 +353,9 @@ msgid "Invalid workspace name: `%s'"
 msgstr "Ungültiger Arbeitsbereich: »%s«"
 
 #: src/icesh.cc:435
-#, fuzzy, c-format
+#, c-format
 msgid "Workspace out of range: %ld"
-msgstr "Arbeitsbereich außerhalb des Wertebereich: %d"
+msgstr "Arbeitsbereich außerhalb des Wertebereich: %l d"
 
 #: src/icesh.cc:569
 #, c-format
