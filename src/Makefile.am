@@ -379,9 +379,7 @@ icewm_menu_gnome1_SOURCES = \
 	default.h \
 	ylib.h \
 	gnome.cc \
-	ascii.h \
-	ycmdline.cc \
-	ycmdline.h
+	ascii.h
 icewm_menu_gnome1_LDADD = libice.la $(GNOME1_LIBS) $(CORE_LIBS)
 
 icewm_menu_gnome2_SOURCES = \
@@ -393,9 +391,7 @@ icewm_menu_gnome2_SOURCES = \
 	default.h \
 	ylib.h \
 	gnome2.cc \
-	ascii.h \
-	ycmdline.cc \
-	ycmdline.h
+	ascii.h
 icewm_menu_gnome2_LDADD = libice.la $(GNOME2_LIBS) $(CORE_LIBS)
 
 icewm_menu_fdo_SOURCES = \
