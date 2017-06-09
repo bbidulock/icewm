@@ -6,7 +6,6 @@
 #include "upath.h"
 #include "objmenu.h"
 #include "yarray.h"
-#include <sys/time.h>
 
 class ObjectContainer;
 class YSMListener;

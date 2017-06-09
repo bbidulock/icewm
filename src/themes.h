@@ -5,7 +5,6 @@
 
 #include "objmenu.h"
 #include "obj.h"
-#include <sys/time.h>
 
 class YMenu;
 class YSMListener;

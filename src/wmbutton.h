@@ -2,7 +2,6 @@
 #define __WMBUTTON_H
 
 #include "yactionbutton.h"
-#include "ymenu.h"
 
 class YFrameWindow;
 
