@@ -526,7 +526,8 @@ static bool loadGradient(ref<YResourcePaths> paths,
         if (gradient == null)
             gradient = paths->loadImage(path, name /*, false */);
         else
-            warn(_("Multiple references for gradient \"%s\""), name);
+            warn(_("Multiple references for gradient '%s' in theme '%s'."),
+                    name, themeName ? themeName : "");
 
         return false;
     }
@@ -601,7 +602,8 @@ static void initPixmaps() {
                     loadGradient(paths, gradient, menubackPixbuf, "menubg.xpm") &&
                     loadGradient(paths, gradient, menuselPixbuf, "menusel.xpm") &&
                     loadGradient(paths, gradient, menusepPixbuf, "menusep.xpm"))
-                    warn(_("Unknown gradient name: %s"), gradient);
+                    warn(_("Unknown gradient name '%s' in theme '%s'."),
+                            gradient, themeName ? themeName : "");
 
                 delete[] gradient;
             }
