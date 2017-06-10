@@ -127,7 +127,6 @@ static bool ensureDirectory(const upath& path) {
         return true;
     if (path.mkdir() != 0) {
         fail(_("Unable to create directory %s"), path.string().c_str());
-        return false;
     }
     return path.dirExists();
 }
@@ -152,6 +151,9 @@ static upath getDefaultsFilePath(const pstring& basename) {
 
 int WMConfig::setDefault(const char *basename, const char *content) {
     upath confOld(getDefaultsFilePath(basename));
+    if (confOld == null) {
+        return -1; // no directory
+    }
     upath confNew(confOld.path() + ".new.tmp");
 
     FILE *fpNew = confNew.fopen("w");
