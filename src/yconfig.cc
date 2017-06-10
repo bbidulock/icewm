@@ -11,6 +11,7 @@
 #include "yapp.h"
 #include "intl.h"
 #include "ascii.h"
+#include "argument.h"
 
 upath findPath(ustring path, int mode, upath name, bool /*path_relative*/) {
 #ifdef __EMX__
@@ -50,68 +51,40 @@ upath findPath(ustring path, int mode, upath name, bool /*path_relative*/) {
 
 #if !defined(NO_CONFIGURE) || !defined(NO_CONFIGURE_MENUS)
 
-char *YConfig::getArgument(char **dest, char *p, bool comma, char *arg, int argsiz) {
+char *YConfig::getArgument(Argument *dest, char *source, bool comma) {
+    char *p = source;
     while (*p && (*p == ' ' || *p == '\t'))
         p++;
 
-    int bufsiz = argsiz;
-    char *buf = arg;
-    char *argStart = p;
-    for (int onceOrTwice = 2; onceOrTwice > 0; --onceOrTwice) {
-        int k = 0;
-        for (p = argStart; *p; p = *p ? 1 + p : p) {
-            if (*p == '\'') {
-                while (*++p && *p != '\'') {
-                    if (k < bufsiz) buf[k] = *p;
-                    ++k;
-                }
-            }
-            else if (*p == '"') {
-                while (*++p && *p != '"') {
-                    if (*p == '\\' && p[1] == '"')
-                        ++p;
-                    if (k < bufsiz) buf[k] = *p;
-                    ++k;
-                }
-            }
-            else if (*p == '\\' && p[1] && p[1] != '\n' && p[1] != '\r') {
-                // add any char protected by backslash and move forward
-                // exception: line ending (unwanted, may do bad things).
-                // OTOH, if the two last checks are disable, it will cause a
-                // side effect (multiline argument parsing with \n after \).
-                ++p;
-                if (k < bufsiz) buf[k] = *p;
-                ++k;
-            }
-            else if (ASCII::isWhiteSpace(*p) || (*p == ',' && comma))
-                break;
-            else {
-                if (k < bufsiz) buf[k] = *p;
-                ++k;
+    dest->reset();
+    for (; *p; p = *p ? 1 + p : p) {
+        if (*p == '\'') {
+            while (*++p && *p != '\'') {
+                *dest += *p;
             }
         }
-        if (k < bufsiz) {
-            buf[k] = 0;
-            *dest = buf;
+        else if (*p == '"') {
+            while (*++p && *p != '"') {
+                if (*p == '\\' && p[1] == '"')
+                    ++p;
+                *dest += *p;
+            }
+        }
+        else if (*p == '\\' && p[1] && p[1] != '\n' && p[1] != '\r') {
+            // add any char protected by backslash and move forward
+            // exception: line ending (unwanted, may do bad things).
+            // OTOH, if the two last checks are disable, it will cause a
+            // side effect (multiline argument parsing with \n after \).
+            ++p;
+            *dest += *p;
+        }
+        else if (ASCII::isWhiteSpace(*p) || (*p == ',' && comma))
             break;
-        }
-        else if (buf == arg && bufsiz == argsiz) {
-            bufsiz = k + 1;
-            buf = new char[bufsiz];
-            if (buf == 0) {
-                return 0;
-            }
+        else {
+            *dest += *p;
         }
     }
     return p;
-}
-
-char *YConfig::getArgument(char **dest, char *p, bool comma) {
-    char buf[128];
-    char *ptr = 0;
-    char *ret = getArgument(&ptr, p, comma, buf, (int) sizeof buf);
-    *dest = (ptr == buf) ? newstr(buf) : ptr;
-    return ret;
 }
 
 #endif
@@ -178,7 +151,7 @@ bool YConfig::parseKey(const char *arg, KeySym *key, unsigned int *mod) {
     return true;
 }
 
-static char *setOption(cfoption *options, char *name, char *arg, bool append, char *rest) {
+static char *setOption(cfoption *options, char *name, const char *arg, bool append, char *rest) {
     unsigned int a;
 
     MSG(("SET %s := %s ;", name, arg));
@@ -258,7 +231,6 @@ static char *parseOption(cfoption *options, char *str) {
     char name[64];
     char *p = str;
     size_t len = 0;
-    bool append = false;
 
     while (*p && *p != '=' && ASCII::isWhiteSpace(*p) == false)
         p++;
@@ -277,28 +249,18 @@ static char *parseOption(cfoption *options, char *str) {
     memcpy(name, str, len);
     name[len] = 0;
 
-    while (*++p) {
-        char buf[128];
-        char *argument = 0;
-        p = YConfig::getArgument(&argument, p, true, buf, (int) sizeof buf);
+    Argument argument;
+    for (bool append = false; append == (*p == ',') && *++p; append = true) {
+        p = YConfig::getArgument(&argument, p, true);
         if (p == 0)
             break;
 
         p = setOption(options, name, argument, append, p);
-
-        if (buf != argument)
-            delete[] argument;
-
-        append = true;
-
         if (p == 0)
             return 0;
 
         while (*p && (*p == ' ' || *p == '\t'))
             p++;
-
-        if (*p != ',')
-            break;
     }
 
     return p;
