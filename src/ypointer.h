@@ -6,7 +6,7 @@
  *
  *  2001/08/02: Mathias Hasselmann <mathias.hasselmann@gmx.net>
  *  - initial version
- *  2017/05/23 BG: redesign.
+ *  2017/06/10: Bert Gijsbers - complete redesign (no virtual, no refcount).
  */
 
 #ifndef __YPOINTER_H
@@ -14,162 +14,172 @@
 
 /**************************************************************************
  * Smart pointers behave like pointers but delete the object they own when 
- * destructed. The following flavors of smart pointers are distinguished:
+ * they go out of scope. The following smart pointers are distinguished:
  *
- *   1. OSmartPtr for `new` objects, deallocated by delete.
- *   2. ASmartPtr for `new[]` arrays, deallocated by delete[].
- *   3. FSmartPtr for malloc data, which is deallocated with free.
+ *   1. osmart for `new` objects, deallocated by delete.
+ *   2. asmart for `new[]` arrays, deallocated by delete[].
+ *   3. fsmart for `malloc` data, deallocated by free.
  *
- * In addition CSmartPtr is an alias for smart new[] character strings.
+ * 2b. csmart is an alias for asmart for new[] character strings.
  *
- * Copy operations are allowed. Ownership of the memory is controlled by an
- * extra parameter 'fOwn'. Only a smart pointer which owns will deallocate.
- *
- * The implementations are all based on a template YSmartPtr which takes
- * as parameters the primitive type of the underlying allocated data and
- * a type which provides the appropriate free/delete/delete[] operator.
+ * For all these types ysmart is a common super class.
+ * All types can be assigned to ysmart.
  *************************************************************************/
 
 #if !defined(RAND_MAX) || !defined(EXIT_SUCCESS)
-#include <stdlib.h>
+#include <stdlib.h>     // require free()
 #endif
 
-// internal common base
-template <class DataType, class Disposer>
-class YSmartPtr {
+// common smart base type
+template <class DataType>
+class ysmart {
+public:
+    typedef void (*dispose_t)(DataType *);
+    static inline void ydispose(DataType *) { }
+
 private:
     DataType *fData;
-    bool      fOwn;
+    dispose_t fDisp;
 
     void unref() {
-        if (fOwn) {
-            fOwn = false;
-            Disposer::dispose(fData);
-        }
+        fDisp(fData);
         fData = 0;
+        fDisp = ydispose;
     }
 
 public:
-    explicit YSmartPtr(DataType *data = 0, bool own = true)
-        : fData(data), fOwn(own) {}
-    YSmartPtr(const YSmartPtr& other)
-        : fData(other.fData), fOwn(false) {}
+    explicit ysmart(DataType *data = 0, dispose_t disp = ydispose)
+        : fData(data), fDisp(disp) {}
+    ysmart(const ysmart& copy)
+        : fData(copy.fData), fDisp(ydispose) {}
 
-    ~YSmartPtr() { unref(); }
+    ~ysmart() { unref(); }
 
-    void data(DataType *other, bool own = true) {
-        if (fData != other) {
+    void data(DataType *some, dispose_t disp = ydispose) {
+        if (fData != some) {
             unref();
-            fData = other;
+            fData = some;
         }
-        fOwn = own;
+        fDisp = disp;
     }
 
-    void take(YSmartPtr& other, bool own = true) {
-        if (this != &other) {
-            if (fData != other.fData) {
+    void take(ysmart& some) {
+        if (this != &some) {
+            if (fData != some.fData) {
                 unref();
-                fData = other.fData;
+                fData = some.fData;
+                fDisp = some.fDisp;
+                some.fDisp = ydispose;
             }
-            if (other.fOwn && own) {
-                other.fOwn = false;
-                fOwn = true;
+            else if (some.fDisp != ydispose) {
+                fDisp = some.fDisp;
+                some.fDisp = ydispose;
             }
         }
     }
 
-    void copy(const YSmartPtr& other) {
-        if (this != &other) {
-            if (fData != other.fData) {
-                unref();
-                fData = other.fData;
-            }
-            fOwn = false;
+    void copy(const ysmart& some) {
+        if (fData != some.fData) {
+            unref();
+            fData = some.fData;
+            fDisp = ydispose;
         }
     }
 
-    void operator=(const YSmartPtr& other) { copy(other); }
+    void operator=(const ysmart& some) { copy(some); }
 
     DataType *release() {
-        DataType *res = fData;
-        fData = 0;
-        fOwn = false;
-        return res;
+        fDisp = ydispose;
+        return fData;
     }
 
     DataType *data() const { return fData; }
-    bool owner() const { return fOwn; }
 
-    bool operator==(const YSmartPtr& p) const { return fData == p.fData; }
-    bool operator!=(const YSmartPtr& p) const { return fData != p.fData; }
+    bool operator==(const ysmart& p) const { return fData == p.fData; }
+    bool operator!=(const ysmart& p) const { return fData != p.fData; }
     bool operator==(void *p) const { return fData == p; }
     bool operator!=(void *p) const { return fData != p; }
+    bool operator==(const class null_ref&) const { return fData == 0; }
+    bool operator!=(const class null_ref&) const { return fData != 0; }
 
-    operator DataType *() const { return data(); }
-    DataType& operator*() const { return *data(); }
-    DataType *operator->() const { return data(); }
+    operator DataType *() const { return fData; }
+    DataType& operator*() const { return *fData; }
+    DataType *operator->() const { return fData; }
 };
 
-// for new objects
+// For pointers to objects which were allocated with 'new'.
 template <class DataType>
-class OSmartPtr : public YSmartPtr<DataType, OSmartPtr<DataType> > {
+class osmart : public ysmart<DataType> {
 public:
-    typedef YSmartPtr<DataType, OSmartPtr<DataType> > super;
+    typedef ysmart<DataType> super;
+    typedef typename super::dispose_t dispose_t;
+    static inline void odispose(DataType *p) { delete p; }
 
-    explicit OSmartPtr(DataType *dat = 0, bool own = true)
-        : super(dat, own) {}
-    OSmartPtr(const OSmartPtr& other)
-        : super(other) {}
+    explicit osmart(DataType *data = 0, dispose_t disp = odispose)
+        : super(data, disp) {}
+    osmart(const osmart& copy)
+        : super(copy) {}
 
-    void operator=(const OSmartPtr& other) { super::copy(other); }
+    void data(DataType *some, dispose_t disp = odispose) {
+        super::data(some, disp);
+    }
 
-    static inline void dispose(DataType *ptr) { delete ptr; }
+    void operator=(const osmart& some) { super::copy(some); }
 };
 
-// for new[] arrays
+// For arrays which were allocated with 'new[]'.
 template <class DataType>
-class ASmartPtr : public YSmartPtr<DataType, ASmartPtr<DataType> > {
+class asmart : public ysmart<DataType> {
 public:
-    typedef YSmartPtr<DataType, ASmartPtr<DataType> > super;
+    typedef ysmart<DataType> super;
+    typedef typename super::dispose_t dispose_t;
+    static inline void adispose(DataType *p) { delete[] p; }
 
-    explicit ASmartPtr(DataType *dat = 0, bool own = true)
-        : super(dat, own) {}
-    ASmartPtr(const ASmartPtr& other)
-        : super(other) {}
+    explicit asmart(DataType *data = 0, dispose_t disp = adispose)
+        : super(data, disp) {}
+    asmart(const asmart& copy)
+        : super(copy) {}
 
-    void operator=(const ASmartPtr& other) { super::copy(other); }
+    void operator=(const asmart& some) { super::copy(some); }
+
+    void data(DataType *some, dispose_t disp = adispose) {
+        super::data(some, disp);
+    }
 
     DataType& operator[](int index) const { return super::data()[index]; }
-
-    static inline void dispose(DataType *ptr) { delete[] ptr; }
 };
 
 // for new[] character strings
-class CSmartPtr : public ASmartPtr<char> {
+class csmart : public asmart<char> {
 public:
-    typedef ASmartPtr<char> super;
+    typedef asmart<char> super;
+    typedef typename super::dispose_t dispose_t;
 
-    explicit CSmartPtr(char *dat = 0, bool own = true)
-        : super(dat, own) {}
-    CSmartPtr(const CSmartPtr& other)
-        : super(other) {}
+    explicit csmart(char *data = 0, dispose_t disp = super::adispose)
+        : super(data, disp) {}
+    csmart(const csmart& copy)
+        : super(copy) {}
 
-    void operator=(const CSmartPtr& other) { super::copy(other); }
+    void operator=(const csmart& some) { super::copy(some); }
 };
 
 // for malloc data
 template <class DataType>
-class FSmartPtr : public YSmartPtr<DataType, FSmartPtr<DataType> > {
+class fsmart : public ysmart<DataType> {
 public:
-    typedef YSmartPtr<DataType, FSmartPtr<DataType> > super;
+    typedef ysmart<DataType> super;
+    typedef typename super::dispose_t dispose_t;
+    static inline void fdispose(DataType *p) { ::free(p); }
 
-    explicit FSmartPtr(DataType *dat = 0, bool own = true)
-        : super(dat, own) {}
-    FSmartPtr(const FSmartPtr& other) : super(other) {}
+    explicit fsmart(DataType *data = 0, dispose_t disp = fdispose)
+        : super(data, disp) {}
+    fsmart(const fsmart& copy) : super(copy) {}
 
-    void operator=(const FSmartPtr& other) { super::copy(other); }
+    void data(DataType *some, dispose_t disp = fdispose) {
+        super::data(some, disp);
+    }
 
-    static inline void dispose(DataType *ptr) { free(ptr); }
+    void operator=(const fsmart& some) { super::copy(some); }
 };
 
 #endif
