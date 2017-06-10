@@ -143,6 +143,7 @@ libice_la_SOURCES = \
 	yxembed.cc \
 	yxembed.h \
 	binascii.h \
+	argument.h \
 	yconfig.cc \
 	yconfig.h \
 	yprefs.cc \
