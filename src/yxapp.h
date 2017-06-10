@@ -93,10 +93,10 @@ private:
     virtual bool handleXEvents();
     virtual void flushXEvents();
 
-    void initAtoms();
     void initModifiers();
-    void initPointers();
-    void initColors();
+    static void initAtoms();
+    static void initPointers();
+    static void initColors();
 };
 
 extern YXApplication *xapp;

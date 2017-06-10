@@ -77,14 +77,14 @@ private:
 
     Window managerWindow;
 
-    void initAtoms();
-    void initPointers();
+    static void initAtoms();
+    static void initPointers();
 #ifndef LITE
-    void initIcons();
-    void termIcons();
+    static void initIcons();
+    static void termIcons();
 #endif
-    void initIconSize();
-    void initPixmaps();
+    static void initIconSize();
+    static void initPixmaps();
 };
 
 #ifdef CONFIG_GUIEVENTS
