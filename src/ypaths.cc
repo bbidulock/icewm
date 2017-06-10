@@ -38,9 +38,12 @@ ref<YResourcePaths> YResourcePaths::subdirs(upath subdir, bool themeOnly) {
 
     upath xdgDir(YApplication::getXdgConfDir());
     upath homeDir(YApplication::getPrivConfDir());
-    upath themeDir(upath(themeName).parent());
 
-    if (themeName && *themeName == '/') {
+    upath themeFile(themeName);
+    pstring themeExt(themeFile.getExtension());
+    upath themeDir(themeExt.isEmpty() ? themeFile : themeFile.parent());
+
+    if (themeDir.isAbsolute()) {
         MSG(("Searching `%s' resources at absolute location", cstring(subdir.path()).c_str()));
 
         if (themeOnly) {
