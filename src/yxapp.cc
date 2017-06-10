@@ -11,6 +11,7 @@
 #include "yprefs.h"
 #include "ypixbuf.h"
 #include "yconfig.h"
+#include "ypointer.h"
 
 #include <sys/resource.h>
 #include <stdlib.h>
@@ -325,7 +326,7 @@ private:
 };
 
 
-static void initAtoms() {
+void YXApplication::initAtoms() {
     struct {
         Atom *atom;
         const char *name;
@@ -514,13 +515,14 @@ static void initAtoms() {
 #endif
 }
 
-static void initPointers() {
-    YXApplication::leftPointer.load("left.xpm",  XC_left_ptr);
-    YXApplication::rightPointer.load("right.xpm", XC_right_ptr);
-    YXApplication::movePointer.load("move.xpm",  XC_fleur);
+void YXApplication::initPointers() {
+    osmart<YCursorLoader> l(YCursor::newLoader());
+    leftPointer  = l->load("left.xpm",  XC_left_ptr);
+    rightPointer = l->load("right.xpm", XC_right_ptr);
+    movePointer  = l->load("move.xpm",  XC_fleur);
 }
 
-static void initColors() {
+void YXApplication::initColors() {
     YColor::black = new YColor("rgb:00/00/00");
     YColor::white = new YColor("rgb:FF/FF/FF");
 }

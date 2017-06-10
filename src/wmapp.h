@@ -74,8 +74,17 @@ private:
     YMsgBox *fLogoutMsgBox;
 
     void runRestart(const char *path, char *const *args);
-private:
+
     Window managerWindow;
+
+    void initAtoms();
+    void initPointers();
+#ifndef LITE
+    void initIcons();
+    void termIcons();
+#endif
+    void initIconSize();
+    void initPixmaps();
 };
 
 #ifdef CONFIG_GUIEVENTS

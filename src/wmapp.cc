@@ -41,7 +41,7 @@
 #include "upath.h"
 #include "udir.h"
 #include "appnames.h"
-
+#include "ypointer.h"
 #include "intl.h"
 
 char const *ApplicationName("IceWM");
@@ -367,7 +367,7 @@ static void unregisterProtocols() {
                     _XA_WIN_PROTOCOLS);
 }
 
-static void initIconSize() {
+void YWMApp::initIconSize() {
     XIconSize *is;
 
     is = XAllocIconSize();
@@ -384,7 +384,7 @@ static void initIconSize() {
 }
 
 
-static void initAtoms() {
+void YWMApp::initAtoms() {
     XA_IcewmWinOptHint = XInternAtom(xapp->display(), "_ICEWM_WINOPTHINT", False);
     XA_ICEWM_FONT_PATH = XInternAtom(xapp->display(), "ICEWM_FONT_PATH", False);
     _XA_XROOTPMAP_ID = XInternAtom(xapp->display(), "_XROOTPMAP_ID", False);
@@ -494,27 +494,29 @@ static void initFontPath(IApp *app) {
 }
 
 #ifndef LITE
-static void initIcons() {
+void YWMApp::initIcons() {
     defaultAppIcon = YIcon::getIcon("app");
 }
-static void termIcons() {
+void YWMApp::termIcons() {
     defaultAppIcon = null;
 }
 #endif
 
-static void initPointers() {
-    YWMApp::sizeRightPointer.      load("sizeR.xpm",   XC_right_side);
-    YWMApp::sizeTopRightPointer.   load("sizeTR.xpm",  XC_top_right_corner);
-    YWMApp::sizeTopPointer.        load("sizeT.xpm",   XC_top_side);
-    YWMApp::sizeTopLeftPointer.    load("sizeTL.xpm",  XC_top_left_corner);
-    YWMApp::sizeLeftPointer.       load("sizeL.xpm",   XC_left_side);
-    YWMApp::sizeBottomLeftPointer. load("sizeBL.xpm",  XC_bottom_left_corner);
-    YWMApp::sizeBottomPointer.     load("sizeB.xpm",   XC_bottom_side);
-    YWMApp::sizeBottomRightPointer.load("sizeBR.xpm",  XC_bottom_right_corner);
-    YWMApp::scrollLeftPointer.     load("scrollL.xpm", XC_sb_left_arrow);
-    YWMApp::scrollRightPointer.    load("scrollR.xpm", XC_sb_right_arrow);
-    YWMApp::scrollUpPointer.       load("scrollU.xpm", XC_sb_up_arrow);
-    YWMApp::scrollDownPointer.     load("scrollD.xpm", XC_sb_down_arrow);
+void YWMApp::initPointers() {
+    osmart<YCursorLoader> l(YCursor::newLoader());
+
+    sizeRightPointer       = l->load("sizeR.xpm",   XC_right_side);
+    sizeTopRightPointer    = l->load("sizeTR.xpm",  XC_top_right_corner);
+    sizeTopPointer         = l->load("sizeT.xpm",   XC_top_side);
+    sizeTopLeftPointer     = l->load("sizeTL.xpm",  XC_top_left_corner);
+    sizeLeftPointer        = l->load("sizeL.xpm",   XC_left_side);
+    sizeBottomLeftPointer  = l->load("sizeBL.xpm",  XC_bottom_left_corner);
+    sizeBottomPointer      = l->load("sizeB.xpm",   XC_bottom_side);
+    sizeBottomRightPointer = l->load("sizeBR.xpm",  XC_bottom_right_corner);
+    scrollLeftPointer      = l->load("scrollL.xpm", XC_sb_left_arrow);
+    scrollRightPointer     = l->load("scrollR.xpm", XC_sb_right_arrow);
+    scrollUpPointer        = l->load("scrollU.xpm", XC_sb_up_arrow);
+    scrollDownPointer      = l->load("scrollD.xpm", XC_sb_down_arrow);
 }
 
 #ifdef CONFIG_GRADIENTS
@@ -536,7 +538,7 @@ static bool loadGradient(ref<YResourcePaths> paths,
 }
 #endif
 
-static void initPixmaps() {
+void YWMApp::initPixmaps() {
     ref<YResourcePaths> paths = YResourcePaths::subdirs(null, true);
 
 #ifdef CONFIG_LOOK_PIXMAP
