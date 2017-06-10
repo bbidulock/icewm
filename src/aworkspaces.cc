@@ -31,6 +31,10 @@ ref<YImage> workspacebuttonPixbuf;
 ref<YImage> workspacebuttonactivePixbuf;
 #endif
 
+static ref<YResourcePaths> getResourcePaths() {
+    return YResourcePaths::subdirs("workspace", false);
+}
+
 WorkspaceButton::WorkspaceButton(long ws, YWindow *parent): ObjectButton(parent, (YAction *)0)
 {
     fWorkspace = ws;
@@ -107,7 +111,7 @@ WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
         fWorkspaceButton = 0;
 
     if (fWorkspaceButton) {
-        ref<YResourcePaths> paths = YResourcePaths::subdirs(null, false);
+        ref<YResourcePaths> paths = getResourcePaths();
 
         int ht = smallIconSize + 8;
         int leftX = 0;
@@ -190,7 +194,7 @@ void WorkspacesPane::relabelButtons() {
     if (pagerShowPreview)
         return;
 
-    ref<YResourcePaths> paths = YResourcePaths::subdirs(null, false);
+    ref<YResourcePaths> paths = getResourcePaths();
 
     for (long w = 0; w < fWorkspaceButtonCount; w++) {
         YButton *wk = fWorkspaceButton[w];
@@ -242,7 +246,7 @@ void WorkspacesPane::updateButtons() {
                 fWorkspaceButton[w] = fOldWorkspaceButton[w];
             int ht = smallIconSize + 8;
             MSG(("WorkspacesPane::updateButtons(): adding new buttons"));
-            ref<YResourcePaths> paths = YResourcePaths::subdirs(null, false);
+            ref<YResourcePaths> paths = getResourcePaths();
             for (long w = fOldWorkspaceButtonCount; w < fWorkspaceButtonCount; w++) {
                 WorkspaceButton *wk = new WorkspaceButton(w, this);
                 if (wk) {
