@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.31\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-06-02 10:56-0600\n"
-"PO-Revision-Date: 2017-06-06 15:39+0000\n"
+"PO-Revision-Date: 2017-06-10 13:24+0000\n"
 "Last-Translator: Alessio Adamo <alessio.adamo@gmail.com>\n"
 "Language-Team: Italian "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/it/>\n"
@@ -783,6 +783,12 @@ msgid ""
 "  -h, --help          Prints this usage screen and exits.\n"
 "\n"
 msgstr ""
+"Uso: %s [OPZIONI]\n"
+"Opzioni:\n"
+"%s\n"
+"  -V, --version       Mostra le informazioni sulla versione ed esce.\n"
+"  -h, --help          Mostra questa schermata d'uso ed esce.\n"
+"\n"
 
 #: src/movesize.cc:903
 #, c-format
@@ -999,7 +1005,7 @@ msgstr ""
 "finestre.\n"
 
 #: src/wmapp.cc:1653
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
 "Starts the IceWM window manager.\n"
@@ -1047,26 +1053,33 @@ msgstr ""
 "  -h, --help          Mostra questo aiuto ed esce.\n"
 "%s  --replace         Sostituisce un window manager esistente.\n"
 "  --restart           Non usare: è un'opzione interna.\n"
+"  --configured        Mostra la configurazione al momento della compilazione."
+"\n"
+"  --directories       Mostra le directory di configurazione.\n"
+"  --postpreferences   Mostra le preferenze dopo tutte le elaborazioni.\n"
 "\n"
 "Variabili d'ambiente:\n"
+"  XDG_CONFIG_HOME=PATH  Directory da usare per i file di configurazione,\n"
+"                      \"$HOME/.config/icewm/\" è quella predefinita.\n"
 "  ICEWM_PRIVCFG=PATH  Directory da usare per i file di configurazione "
 "personale,\n"
 "                      «$HOME/.icewm/» è quella predefinita.\n"
-"  DISPLAY=NOME        Nome del server X in uso, dipende da Xlib.\n"
-"  MAIL=URL            Locazione della mailbox. Se lo schema è omesso\n"
-"                      si assume il «file» di schema locale.\n"
+"  DISPLAY=NOME        Nome del server X da usare.\n"
+"  MAIL=URL            Locazione della mailbox.\n"
 "\n"
-"Visitare http://www.icewm.org/ per segnalare bug, richieste, commenti...\n"
+"Per riportare bug, richieste di supporto, commenti si prega di visitare:\n"
+"%s\n"
+"\n"
 
 #: src/wmapp.cc:1698
 #, c-format
 msgid "%s configuration directories:\n"
-msgstr ""
+msgstr "Directory di configurazione di %s:\n"
 
 #: src/wmapp.cc:1841
-#, fuzzy, c-format
+#, c-format
 msgid "%s configured options:%s\n"
-msgstr "Opzione non riconosciuta: %s\n"
+msgstr "Opzioni configurate di %s: %s\n"
 
 #: src/wmapp.cc:1932
 msgid "Confirm Logout"
@@ -1191,7 +1204,7 @@ msgstr "Errore nel tasto %s"
 #: src/wmprog.cc:643
 #, c-format
 msgid "'%s' produces no output"
-msgstr ""
+msgstr "'%s' non produce alcun risultato"
 
 #: src/wmprog.cc:823 src/wmprog.cc:825
 msgid "Programs"
