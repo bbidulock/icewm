@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-06-11 00:02-0600\n"
-"PO-Revision-Date: 2017-06-10 13:08+0000\n"
+"PO-Revision-Date: 2017-06-11 14:13+0000\n"
 "Last-Translator: David Medina <medipas@gmail.com>\n"
-"Language-Team: Catalan <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
-"branch/ca/>\n"
+"Language-Team: Catalan "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -526,11 +526,17 @@ msgid ""
 "  --display=NAME      Use NAME to connect to the X server.\n"
 "  --sync              Synchronize communication with X11 server.\n"
 msgstr ""
+"  -c, --config=FILE   Permet que l'IceWM carregui preferències des d'un "
+"FITXER.\n"
+"  -t, --theme=FILE    Permet que l'IceWM carregui el tema des d'un FITXER.\n"
+"\n"
+"  --display=NAME      Usa el NOM per connectar al Servidor X.\n"
+"  --sync              Sincronitza la comunicació amb el servidor X11.\n"
 
 #: src/icesm.cc:97
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown option '%s'"
-msgstr "Acció desconeguda: \"%s\""
+msgstr "Opció desconeguda: \"%s\""
 
 #: src/icesound.cc:255 src/icesound.cc:423 src/icesound.cc:791
 #, c-format
@@ -710,6 +716,12 @@ msgid ""
 "  -c, --config=FILE   Load preferences from FILE.\n"
 "  -t, --theme=FILE    Load the theme from FILE.\n"
 msgstr ""
+"  --notify            Notifica-ho al procés pare enviant el senyal USR1.\n"
+"  --display=NAME      Usa el NOM per connectar al servidor X.\n"
+"  --sync              Sincronitza la  comunicació amb el servidor X11.\n"
+"\n"
+"  -c, --config=FILE   Carrega preferències des d'un FITXER.\n"
+"  -t, --theme=FILE    Carrega el tema des d'un FITXER.\n"
 
 #: src/iceview.cc:72
 msgid "Hex View"
@@ -736,7 +748,6 @@ msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
 #: src/icewmbg.cc:411
-#, fuzzy
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "\n"
@@ -766,20 +777,35 @@ msgid ""
 " center:1 scaled:1 = keep aspect ratio\n"
 "\n"
 msgstr ""
-"Ús: icewmbg [ -r | -q ]\n"
-" -r  Reinicia icewmbg\n"
-" -q  Surt de l'icewmbg\n"
-"Carrega el fons d'escriptori segons el fitxer de preferències\n"
+"Ús: icewmbg [OPCIONS]\n"
+"\n"
+"Opcions:\n"
+"  -r, --restart       Reinicia l'icewmbg\n"
+"  -q, --quit          Surt de l'icewmbg\n"
+"\n"
+"  -c, --config=FILE   Carrega preferències des d'un FITXER.\n"
+"  -t, --theme=FILE    Carrega el tema des d'un FITXER.\n"
+"\n"
+"  --display=NAME      Usa el NOM per connectar al servidor X.\n"
+"  --sync              Sincronitza la comunicació amb el servidor X11.\n"
+"\n"
+"  -h, --help          Imprimeix aquesta pantalla d'ajuda i surt.\n"
+"  -V, --version       Imprimeix la informació de la versió i surt.\n"
+"\n"
+"Carrega el fons d'escriptori segons el fitxer de preferències:\n"
 " DesktopBackgroundCenter  - Mostra el fons centrat\n"
 " DesktopBackgroundScaled  - Mostra el fons a escala\n"
 " SupportSemitransparency  - Suport per a terminals semitransparents\n"
-" DesktopBackgroundColor   - Fons de color\n"
-" DesktopBackgroundImage   - Fons d'imatge\n"
-" DesktopTransparencyColor - Color per anunciar finestres semitransparents\n"
-" DesktopTransparencyImage - Imatge per anunciar finestres semitransparents\n"
+" DesktopBackgroundColor   - Color del fons\n"
+" DesktopBackgroundImage   - Imatge del fons\n"
+" DesktopTransparencyColor - Color per anunciar per a finestres "
+"semitransparents\n"
+" DesktopTransparencyImage - Imatge per anunciar per a finestres "
+"semitransparents\n"
 "\n"
 " centrat:0 escalat:0 = mosaic\n"
-" centrat:1 escalat:1 = mantén l'aspecte\n"
+" centrat:1 escalat:1 = mantén la proporció\n"
+"\n"
 
 #: src/icewmhint.cc:45
 msgid "Usage: icewmhint [class.instance] option arg\n"
@@ -857,14 +883,14 @@ msgid "Unexpected format of ICEWM_FONT_PATH property"
 msgstr "Format no esperat a les propietats d'ICEWM_FONT_PATH"
 
 #: src/wmapp.cc:531
-#, fuzzy, c-format
+#, c-format
 msgid "Multiple references for gradient '%s' in theme '%s'."
-msgstr "Referencies múltiples per al gradient \"%s\""
+msgstr "Referencies múltiples per al gradient \"%s\" al tema %s."
 
 #: src/wmapp.cc:607
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown gradient name '%s' in theme '%s'."
-msgstr "Nom del gradient desconegut: %s"
+msgstr "Nom del gradient desconegut, \"%s\", al tema \"%s\"."
 
 #: src/wmapp.cc:872
 msgid "_Logout"
@@ -1026,7 +1052,7 @@ msgstr ""
 "de finestres.\n"
 
 #: src/wmapp.cc:1660
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
 "Starts the IceWM window manager.\n"
@@ -1063,27 +1089,27 @@ msgstr ""
 "Inicia el gestor de finestres de l'IceWM.\n"
 "\n"
 "Opcions:\n"
-"  --display=NAME      Nom del servidor X a usar.\n"
+"  --display=NAME      NOM del servidor X a usar.\n"
 "%s  --sync              Sincronitza ordres d'X11.\n"
 "\n"
-"  -c, --config=FILE   Carrega les preferències des d'un fitxer.\n"
-"  -t, --theme=FILE    Carrega el tema des d'un fitxer.\n"
-"  -n, --no-configure  Ignora el fitxer de preferències.\n"
-"\n"
-"  -v, --version       Imprimeix la informació de la versió i surt.\n"
+"  -c, --config=FILE   Carrega les preferències des d'un FITXER.\n"
+"  -t, --theme=FILE    Carrega el tema des d'un FITXER.\n"
+" \n"
+"  -V, --version       Imprimeix la informació de la versió i surt.\n"
 "  -h, --help          Imprimeix aquesta pantalla d'ajuda i surt.\n"
 "%s  --replace           Reemplaça un gestor de finestres existent.\n"
 "  --restart           No useu això: és una bandera interna.\n"
-"  --configured        Imprimeix la configuració del moment de compilació.\n"
+"  --configured        Imprimeix la configuració de l'hora de la compilació.\n"
 "  --directories       Imprimeix els directoris de configuració.\n"
+"  -l, --list-themes   Imprimeix una llista dels temes disponibles\n"
 "  --postpreferences   Imprimeix les preferències després de tot el "
 "processament.\n"
 "\n"
 "Variables d'entorn:\n"
 "  XDG_CONFIG_HOME=PATH  Directori per als fitxers de configuració,\n"
 "                      \"$HOME/.config/icewm/\" per defecte.\n"
-"  ICEWM_PRIVCFG=PATH  Directori per als fitxers de configuració de "
-"l'usuari,\n"
+"  ICEWM_PRIVCFG=PATH  Directori per als fitxers de configuració de l'usuari,"
+"\n"
 "                      \"$HOME/.icewm/\" per defecte.\n"
 "  DISPLAY=NAME        Nom del servidor X a usar.\n"
 "  MAIL=URL            Ubicació de la bústia de correu.\n"
@@ -1118,7 +1144,7 @@ msgstr ""
 #: src/wmconfig.cc:43
 #, c-format
 msgid "Failed to load theme %s"
-msgstr ""
+msgstr "Ha fallat carregar el tema %s"
 
 #: src/wmconfig.cc:120
 msgid "Bad Look name"
@@ -1127,17 +1153,17 @@ msgstr "Nom Look erroni"
 #: src/wmconfig.cc:129
 #, c-format
 msgid "Unable to create directory %s"
-msgstr ""
+msgstr "No es pot crear el directori %s"
 
 #: src/wmconfig.cc:166
 #, c-format
 msgid "Unable to write to %s"
-msgstr ""
+msgstr "No es pot escriure a %s"
 
 #: src/wmconfig.cc:193
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to rename %s to %s"
-msgstr "Nom clau %s desconegut a %s"
+msgstr "No es pot canviar el nom \"%s\" a \"%s\""
 
 #: src/wmdialog.cc:83
 msgid "Loc_k Workstation"
@@ -1224,43 +1250,43 @@ msgid "Missing command argument"
 msgstr "Falta l'argument de l'ordre"
 
 #: src/wmprog.cc:217
-#, fuzzy, c-format
+#, c-format
 msgid "Bad argument %d to command '%s'"
-msgstr "Argument erroni: %s per a %s"
+msgstr "Argument erroni, \"%d\", per a l'ordre \"%s\"."
 
 #: src/wmprog.cc:250
 msgid "Missing filename argument to include statement"
-msgstr ""
+msgstr "Falta l'argument del nom de fitxer a la sentència d'inclusió"
 
 #: src/wmprog.cc:316
-#, fuzzy, c-format
+#, c-format
 msgid "Error at %s '%s'"
-msgstr "Error a la clau %s"
+msgstr "Error a %s \"%s\""
 
 #: src/wmprog.cc:367
-#, fuzzy, c-format
+#, c-format
 msgid "Unexepected menu keyword: '%s'"
-msgstr "Paraula clau no esperada: %s"
+msgstr "Paraula clau de menú no esperada: %s"
 
 #: src/wmprog.cc:413
-#, fuzzy, c-format
+#, c-format
 msgid "Error at menuprog '%s'"
-msgstr "Error a prog %s"
+msgstr "Error a menuprog \"%s\""
 
 #: src/wmprog.cc:454
-#, fuzzy, c-format
+#, c-format
 msgid "Error at %s: '%s'"
-msgstr "Error a la clau %s"
+msgstr "Error a %s: \"%s\""
 
 #: src/wmprog.cc:479
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown keyword '%s'"
-msgstr "Acció desconeguda: \"%s\""
+msgstr "Paraula clau desconeguda: \"%s\""
 
 #: src/wmprog.cc:503
-#, fuzzy, c-format
+#, c-format
 msgid "Error at keyword '%s' for %s"
-msgstr "Error a la clau %s"
+msgstr "Error a la paraula clau \"%s\" per a %s"
 
 #: src/wmprog.cc:519
 #, c-format
@@ -1268,6 +1294,8 @@ msgid ""
 "Unknown keyword for a non-container: '%s'.\n"
 "Expected either 'key' or 'runonce' here.\n"
 msgstr ""
+"Paraula clau desconeguda per a un no-contenidor: \"%s\"\n"
+"Aquí s'esperava o bé \"key\" o bé \"runonce\".\n"
 
 #: src/wmprog.cc:648
 #, c-format
@@ -1626,6 +1654,8 @@ msgid ""
 "  --display=NAME      NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"
 msgstr ""
+"  --display=NAME      NOM del servidor X per usar.\n"
+"  --sync              Sincronitza les ordres d'X11.\n"
 
 #~ msgid ""
 #~ "%s: unrecognized option `%s'\n"
