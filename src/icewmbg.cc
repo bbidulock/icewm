@@ -482,7 +482,7 @@ int main(int argc, char **argv) {
         }
     }
 
-    nice(5);
+    if (nice(5)) ;
 
     bg = new DesktopBackgroundManager(&argc, &argv);
 
