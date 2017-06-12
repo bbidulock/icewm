@@ -8,7 +8,7 @@ Group:		User Interface/Desktops
 License:	LGPL
 URL:		http://www.icewm.org/
 Packager:       Marko Macek <Marko.Macek@gmx.net>
-Source:		http://ftp.sourceforge.net/icewm/%{name}-%{version}.tar.gz
+Source:		https://github.com/bbidulock/icewm/releases/download/%{version}/%{name}-%{version}.tar.bz2
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %define pkgdata %{_datadir}/%{name}
@@ -88,6 +88,7 @@ GNOME 1.0 menu support for icewm (using gnome 2.x).
 %dir %{pkgdata}/mailbox
 %dir %{pkgdata}/taskbar
 %dir %{pkgdata}/themes
+%dir %{pkgdata}/themes/default
 
 %{_bindir}/*
 %{pkgdata}/icons/*
@@ -114,16 +115,14 @@ GNOME 1.0 menu support for icewm (using gnome 2.x).
 
 %files themes
 %defattr(-,root,root)
-%dir %{pkgdata}/themes/nice
-%{pkgdata}/themes/nice/*
-%dir %{pkgdata}/themes/nice2
-%{pkgdata}/themes/nice2/*
-%dir %{pkgdata}/themes/gtk2
-%{pkgdata}/themes/gtk2/*
-%dir %{pkgdata}/themes/warp3
-%{pkgdata}/themes/warp3/*
-%dir %{pkgdata}/themes/warp4
-%{pkgdata}/themes/warp4/*
+%dir %{pkgdata}/themes/CrystalBlue
+%{pkgdata}/themes/CrystalBlue/*
+%dir %{pkgdata}/themes/Helix
+%{pkgdata}/themes/Helix/*
+%dir %{pkgdata}/themes/NanoBlue
+%{pkgdata}/themes/NanoBlue/*
+%dir %{pkgdata}/themes/Natural
+%{pkgdata}/themes/Natural/*
 %dir %{pkgdata}/themes/motif
 %{pkgdata}/themes/motif/*
 %dir %{pkgdata}/themes/win95
@@ -132,12 +131,14 @@ GNOME 1.0 menu support for icewm (using gnome 2.x).
 %{pkgdata}/themes/metal2/*
 %dir %{pkgdata}/themes/Infadel2
 %{pkgdata}/themes/Infadel2/*
-%dir %{pkgdata}/themes/yellowmotif
-%{pkgdata}/themes/yellowmotif/*
 %dir %{pkgdata}/themes/icedesert
 %{pkgdata}/themes/icedesert/*
 
 %changelog
+* Mon Jun 12 2017 Bert Gijsbers
+ver 1.3.12.415: Add new themes CrystalBlue, Helix, NanoBlue, Natural.
+Remove outdated themes gtk2, nice, nice2, warp3, warp4, yellowmotif.
+
 * Sun Dec 18 2015 Jiri Slaby <jirislaby@gmail.com>
 ver 1.3.12
 
