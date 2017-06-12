@@ -133,6 +133,7 @@ nobase_dist_pkgdata_DATA = \
 	themes/gtk2/minimizeI.xpm \
 	themes/gtk2/restoreA.xpm \
 	themes/gtk2/restoreI.xpm \
+	themes/gtk2/default.jpg \
 	themes/icedesert/closeA.xpm \
 	themes/icedesert/closeI.xpm \
 	themes/icedesert/closeO.xpm \
@@ -153,6 +154,7 @@ nobase_dist_pkgdata_DATA = \
 	themes/icedesert/titleAT.xpm \
 	themes/icedesert/titleIB.xpm \
 	themes/icedesert/titleIT.xpm \
+	themes/icedesert/default.jpeg \
 	themes/Infadel2/closeA.xpm \
 	themes/Infadel2/closeI.xpm \
 	themes/Infadel2/cursors/left.xpm \
@@ -214,6 +216,9 @@ nobase_dist_pkgdata_DATA = \
 	themes/Infadel2/titleIR.xpm \
 	themes/Infadel2/titleIS.xpm \
 	themes/Infadel2/titleIT.xpm \
+	themes/Infadel2/default.jpg \
+	themes/Infadel2/default2.jpg \
+	themes/Infadel2/default.jpg \
 	themes/metal2/closeA.xpm \
 	themes/metal2/closeI.xpm \
 	themes/metal2/default.theme \
@@ -279,12 +284,14 @@ nobase_dist_pkgdata_DATA = \
 	themes/metal2/titleIR.xpm \
 	themes/metal2/titleIS.xpm \
 	themes/metal2/titleIT.xpm \
+	themes/metal2/default.jpeg \
 	themes/motif/close.xpm \
 	themes/motif/default.theme \
 	themes/motif/maximize.xpm \
 	themes/motif/menu.xpm \
 	themes/motif/minimize.xpm \
 	themes/motif/restore.xpm \
+	themes/motif/default.jpeg \
 	themes/nice2/closeA.xpm \
 	themes/nice2/closeI.xpm \
 	themes/nice2/default.theme \
@@ -300,6 +307,7 @@ nobase_dist_pkgdata_DATA = \
 	themes/nice2/titleAT.xpm \
 	themes/nice2/titleIB.xpm \
 	themes/nice2/titleIT.xpm \
+	themes/nice2/default.jpg \
 	themes/nice/blue.theme \
 	themes/nice/close.xpm \
 	themes/nice/default.theme \
@@ -309,6 +317,8 @@ nobase_dist_pkgdata_DATA = \
 	themes/nice/restore.xpm \
 	themes/nice/rolldown.xpm \
 	themes/nice/rollup.xpm \
+	themes/nice/default.jpg \
+	themes/nice/default1.jpg \
 	themes/warp3/close.xpm \
 	themes/warp3/default.theme \
 	themes/warp3/hide.xpm \
@@ -317,23 +327,27 @@ nobase_dist_pkgdata_DATA = \
 	themes/warp3/restore.xpm \
 	themes/warp3/rolldown.xpm \
 	themes/warp3/rollup.xpm \
+	themes/warp3/default.jpeg \
 	themes/warp4/close.xpm \
 	themes/warp4/default.theme \
 	themes/warp4/hide.xpm \
 	themes/warp4/maximize.xpm \
 	themes/warp4/minimize.xpm \
 	themes/warp4/restore.xpm \
+	themes/warp4/default.jpeg \
 	themes/win95/close.xpm \
 	themes/win95/default.theme \
 	themes/win95/maximize.xpm \
 	themes/win95/minimize.xpm \
 	themes/win95/restore.xpm \
+	themes/win95/default.jpg \
 	themes/yellowmotif/close.xpm \
 	themes/yellowmotif/default.theme \
 	themes/yellowmotif/maximize.xpm \
 	themes/yellowmotif/menu.xpm \
 	themes/yellowmotif/minimize.xpm \
 	themes/yellowmotif/restore.xpm \
+	themes/yellowmotif/default.jpg \
 	themes/default/closeA.xpm \
 	themes/default/closeI.xpm \
 	themes/default/default.theme \
@@ -353,4 +367,389 @@ nobase_dist_pkgdata_DATA = \
 	themes/default/rolldownI.xpm \
 	themes/default/rollupA.xpm \
 	themes/default/rollupI.xpm \
-	themes/default/default.png
+	themes/default/default.png \
+	themes/WinClassic2/buttonA.xpm \
+	themes/WinClassic2/buttonI.xpm \
+	themes/WinClassic2/closeA.xpm \
+	themes/WinClassic2/closeI.xpm \
+	themes/WinClassic2/default.theme \
+	themes/WinClassic2/dialogbg.xpm \
+	themes/WinClassic2/frameABL.xpm \
+	themes/WinClassic2/frameABR.xpm \
+	themes/WinClassic2/frameAB.xpm \
+	themes/WinClassic2/frameAL.xpm \
+	themes/WinClassic2/frameAR.xpm \
+	themes/WinClassic2/frameATL.xpm \
+	themes/WinClassic2/frameATR.xpm \
+	themes/WinClassic2/frameAT.xpm \
+	themes/WinClassic2/frameIBL.xpm \
+	themes/WinClassic2/frameIBR.xpm \
+	themes/WinClassic2/frameIB.xpm \
+	themes/WinClassic2/frameIL.xpm \
+	themes/WinClassic2/frameIR.xpm \
+	themes/WinClassic2/frameITL.xpm \
+	themes/WinClassic2/frameITR.xpm \
+	themes/WinClassic2/frameIT.xpm \
+	themes/WinClassic2/helpA.xpm \
+	themes/WinClassic2/helpI.xpm \
+	themes/WinClassic2/hideA.xpm \
+	themes/WinClassic2/hideI.xpm \
+	themes/WinClassic2/logoutbg.xpm \
+	themes/WinClassic2/maximizeA.xpm \
+	themes/WinClassic2/maximizeI.xpm \
+	themes/WinClassic2/menuButtonA.xpm \
+	themes/WinClassic2/menuButtonI.xpm \
+	themes/WinClassic2/minimizeA.xpm \
+	themes/WinClassic2/minimizeI.xpm \
+	themes/WinClassic2/README \
+	themes/WinClassic2/restoreA.xpm \
+	themes/WinClassic2/restoreI.xpm \
+	themes/WinClassic2/titleAB.xpm \
+	themes/WinClassic2/titleAT.xpm \
+	themes/WinClassic2/titleIB.xpm \
+	themes/WinClassic2/titleIT.xpm \
+	themes/WinClassic2/wallpaper.png \
+	themes/WinClassic2/prefoverride \
+	themes/WinClassic2/icons/app_16x16.xpm \
+	themes/WinClassic2/icons/app_32x32.xpm \
+	themes/WinClassic2/icons/excel_16x16.xpm \
+	themes/WinClassic2/icons/excel_32x32.xpm \
+	themes/WinClassic2/icons/explorer_16x16.xpm \
+	themes/WinClassic2/icons/file_16x16.xpm \
+	themes/WinClassic2/icons/file_32x32.xpm \
+	themes/WinClassic2/icons/folder_16x16.xpm \
+	themes/WinClassic2/icons/folder2_16x16.xpm \
+	themes/WinClassic2/icons/help_16x16.xpm \
+	themes/WinClassic2/icons/hibernate_16x16.xpm \
+	themes/WinClassic2/icons/lock_16x16.xpm \
+	themes/WinClassic2/icons/logout_16x16.xpm \
+	themes/WinClassic2/icons/mixer_16x16.xpm \
+	themes/WinClassic2/icons/mplayer_16x16.xpm \
+	themes/WinClassic2/icons/nedit_16x16.xpm \
+	themes/WinClassic2/icons/notepad_16x16.xpm \
+	themes/WinClassic2/icons/paint_16x16.xpm \
+	themes/WinClassic2/icons/programs_16x16.xpm \
+	themes/WinClassic2/icons/reboot_16x16.xpm \
+	themes/WinClassic2/icons/run_16x16.xpm \
+	themes/WinClassic2/icons/run2_16x16.xpm \
+	themes/WinClassic2/icons/settings_16x16.xpm \
+	themes/WinClassic2/icons/settings2_16x16.xpm \
+	themes/WinClassic2/icons/shutdown_16x16.xpm \
+	themes/WinClassic2/icons/wireless_16x16.xpm \
+	themes/WinClassic2/icons/word_16x16.xpm \
+	themes/WinClassic2/icons/word_32x32.xpm \
+	themes/WinClassic2/icons/wordpad_16x16.xpm \
+	themes/WinClassic2/icons/xmms_16x16.xpm \
+	themes/WinClassic2/icons/xmms_32x32.xpm \
+	themes/WinClassic2/icons/xpaint_16x16.xpm \
+	themes/WinClassic2/icons/xterm_16x16.xpm \
+	themes/WinClassic2/icons/xterm_32x32.xpm \
+	themes/WinClassic2/taskbar/desktop-win2k.xpm \
+	themes/WinClassic2/taskbar/desktop-winxp.xpm \
+	themes/WinClassic2/taskbar/desktop.xpm \
+	themes/WinClassic2/taskbar/icewm2.xpm \
+	themes/WinClassic2/taskbar/icewm3.xpm \
+	themes/WinClassic2/taskbar/icewm-win2k-border.xpm \
+	themes/WinClassic2/taskbar/icewm-win2k.xpm \
+	themes/WinClassic2/taskbar/icewm-winxp.xpm \
+	themes/WinClassic2/taskbar/icewm.xpm \
+	themes/WinClassic2/taskbar/taskbuttonactive.xpm \
+	themes/WinClassic2/taskbar/taskbuttonbg.xpm \
+	themes/WinClassic2/taskbar/taskbuttonminimized.xpm \
+	themes/WinClassic2/taskbar/toolbuttonbg.xpm \
+	themes/WinClassic2/taskbar/workspacebuttonactive.xpm \
+	themes/WinClassic2/taskbar/workspacebuttonbg.xpm \
+	themes/Elegance_ice/background.jpg \
+	themes/Elegance_ice/buttonA.xpm \
+	themes/Elegance_ice/buttonI.xpm \
+	themes/Elegance_ice/closeA.xpm \
+	themes/Elegance_ice/closeI.xpm \
+	themes/Elegance_ice/closeO.xpm \
+	themes/Elegance_ice/default.theme \
+	themes/Elegance_ice/dframeABL.xpm \
+	themes/Elegance_ice/dframeABR.xpm \
+	themes/Elegance_ice/dframeAB.xpm \
+	themes/Elegance_ice/dframeAL.xpm \
+	themes/Elegance_ice/dframeAR.xpm \
+	themes/Elegance_ice/dframeATL.xpm \
+	themes/Elegance_ice/dframeATR.xpm \
+	themes/Elegance_ice/dframeAT.xpm \
+	themes/Elegance_ice/dframeIBL.xpm \
+	themes/Elegance_ice/dframeIBR.xpm \
+	themes/Elegance_ice/dframeIB.xpm \
+	themes/Elegance_ice/dframeIL.xpm \
+	themes/Elegance_ice/dframeIR.xpm \
+	themes/Elegance_ice/dframeITL.xpm \
+	themes/Elegance_ice/dframeITR.xpm \
+	themes/Elegance_ice/dframeIT.xpm \
+	themes/Elegance_ice/dialogbg.xpm \
+	themes/Elegance_ice/frameABL.xpm \
+	themes/Elegance_ice/frameABR.xpm \
+	themes/Elegance_ice/frameAB.xpm \
+	themes/Elegance_ice/frameAL.xpm \
+	themes/Elegance_ice/frameAR.xpm \
+	themes/Elegance_ice/frameATL.xpm \
+	themes/Elegance_ice/frameATR.xpm \
+	themes/Elegance_ice/frameAT.xpm \
+	themes/Elegance_ice/frameIBL.xpm \
+	themes/Elegance_ice/frameIBR.xpm \
+	themes/Elegance_ice/frameIB.xpm \
+	themes/Elegance_ice/frameIL.xpm \
+	themes/Elegance_ice/frameIR.xpm \
+	themes/Elegance_ice/frameITL.xpm \
+	themes/Elegance_ice/frameITR.xpm \
+	themes/Elegance_ice/frameIT.xpm \
+	themes/Elegance_ice/logoutbg.xpm \
+	themes/Elegance_ice/maximizeA.xpm \
+	themes/Elegance_ice/maximizeI.xpm \
+	themes/Elegance_ice/maximizeO.xpm \
+	themes/Elegance_ice/menubg.xpm \
+	themes/Elegance_ice/menusel.xpm \
+	themes/Elegance_ice/minimizeA.xpm \
+	themes/Elegance_ice/minimizeI.xpm \
+	themes/Elegance_ice/minimizeO.xpm \
+	themes/Elegance_ice/restoreA.xpm \
+	themes/Elegance_ice/restoreI.xpm \
+	themes/Elegance_ice/restoreO.xpm \
+	themes/Elegance_ice/rolldownA.xpm \
+	themes/Elegance_ice/rolldownI.xpm \
+	themes/Elegance_ice/rolldownO.xpm \
+	themes/Elegance_ice/rollupA.xpm \
+	themes/Elegance_ice/rollupI.xpm \
+	themes/Elegance_ice/rollupO.xpm \
+	themes/Elegance_ice/switchbg.xpm \
+	themes/Elegance_ice/titleAB.xpm \
+	themes/Elegance_ice/titleAJ.xpm \
+	themes/Elegance_ice/titleAL.xpm \
+	themes/Elegance_ice/titleAM.xpm \
+	themes/Elegance_ice/titleAP.xpm \
+	themes/Elegance_ice/titleAQ.xpm \
+	themes/Elegance_ice/titleAR.xpm \
+	themes/Elegance_ice/titleAS.xpm \
+	themes/Elegance_ice/titleAT.xpm \
+	themes/Elegance_ice/titleIB.xpm \
+	themes/Elegance_ice/titleIJ.xpm \
+	themes/Elegance_ice/titleIL.xpm \
+	themes/Elegance_ice/titleIM.xpm \
+	themes/Elegance_ice/titleIP.xpm \
+	themes/Elegance_ice/titleIQ.xpm \
+	themes/Elegance_ice/titleIR.xpm \
+	themes/Elegance_ice/titleIS.xpm \
+	themes/Elegance_ice/titleIT.xpm \
+	themes/Elegance_ice/icons/firefox.xpm \
+	themes/Elegance_ice/icons/folder_16x16.xpm \
+	themes/Elegance_ice/icons/folder_32x32.xpm \
+	themes/Elegance_ice/icons/xterm_16x16.xpm \
+	themes/Elegance_ice/icons/xterm_32x32.xpm \
+	themes/Elegance_ice/taskbar/collapse.xpm \
+	themes/Elegance_ice/taskbar/desktop.xpm \
+	themes/Elegance_ice/taskbar/expand.xpm \
+	themes/Elegance_ice/taskbar/icewm0.xpm \
+	themes/Elegance_ice/taskbar/icewm.xpm \
+	themes/Elegance_ice/taskbar/taskbarbg.xpm \
+	themes/Elegance_ice/taskbar/taskbuttonactive.xpm \
+	themes/Elegance_ice/taskbar/taskbuttonbg.xpm \
+	themes/Elegance_ice/taskbar/taskbuttonminimized.xpm \
+	themes/Elegance_ice/taskbar/toolbuttonbg.xpm \
+	themes/Elegance_ice/taskbar/windows.xpm \
+	themes/Elegance_ice/taskbar/workspacebuttonactive.xpm \
+	themes/Elegance_ice/taskbar/workspacebuttonbg.xpm \
+	themes/SilverXP/buttonA.xpm \
+	themes/SilverXP/buttonI.xpm \
+	themes/SilverXP/closeA.xpm \
+	themes/SilverXP/closeI.xpm \
+	themes/SilverXP/closeO.xpm \
+	themes/SilverXP/default.jpg \
+	themes/SilverXP/default.theme \
+	themes/SilverXP/dframeABL.xpm \
+	themes/SilverXP/dframeABR.xpm \
+	themes/SilverXP/dframeAB.xpm \
+	themes/SilverXP/dframeAL.xpm \
+	themes/SilverXP/dframeAR.xpm \
+	themes/SilverXP/dframeATL.xpm \
+	themes/SilverXP/dframeATR.xpm \
+	themes/SilverXP/dframeAT.xpm \
+	themes/SilverXP/dframeIBL.xpm \
+	themes/SilverXP/dframeIBR.xpm \
+	themes/SilverXP/dframeIB.xpm \
+	themes/SilverXP/dframeIL.xpm \
+	themes/SilverXP/dframeIR.xpm \
+	themes/SilverXP/dframeITL.xpm \
+	themes/SilverXP/dframeITR.xpm \
+	themes/SilverXP/dframeIT.xpm \
+	themes/SilverXP/dialogbg.xpm \
+	themes/SilverXP/frameABL.xpm \
+	themes/SilverXP/frameABR.xpm \
+	themes/SilverXP/frameAB.xpm \
+	themes/SilverXP/frameAL.xpm \
+	themes/SilverXP/frameAR.xpm \
+	themes/SilverXP/frameATL.xpm \
+	themes/SilverXP/frameATR.xpm \
+	themes/SilverXP/frameAT.xpm \
+	themes/SilverXP/frameIBL.xpm \
+	themes/SilverXP/frameIBR.xpm \
+	themes/SilverXP/frameIB.xpm \
+	themes/SilverXP/frameIL.xpm \
+	themes/SilverXP/frameIR.xpm \
+	themes/SilverXP/frameITL.xpm \
+	themes/SilverXP/frameITR.xpm \
+	themes/SilverXP/frameIT.xpm \
+	themes/SilverXP/maximizeA.xpm \
+	themes/SilverXP/maximizeI.xpm \
+	themes/SilverXP/maximizeO.xpm \
+	themes/SilverXP/menubg-gray.xpm \
+	themes/SilverXP/menubg.xpm \
+	themes/SilverXP/menuButtonA.xpm \
+	themes/SilverXP/menuButtonI.xpm \
+	themes/SilverXP/menuButtonO.xpm \
+	themes/SilverXP/menusel.xpm \
+	themes/SilverXP/minimizeA.xpm \
+	themes/SilverXP/minimizeI.xpm \
+	themes/SilverXP/minimizeO.xpm \
+	themes/SilverXP/README.html \
+	themes/SilverXP/README.txt \
+	themes/SilverXP/restoreA.xpm \
+	themes/SilverXP/restoreI.xpm \
+	themes/SilverXP/restoreO.xpm \
+	themes/SilverXP/switchbg.xpm \
+	themes/SilverXP/titleAB.xpm \
+	themes/SilverXP/titleAJ.xpm \
+	themes/SilverXP/titleAL.xpm \
+	themes/SilverXP/titleAM.xpm \
+	themes/SilverXP/titleAP.xpm \
+	themes/SilverXP/titleAQ.xpm \
+	themes/SilverXP/titleAR.xpm \
+	themes/SilverXP/titleAS.xpm \
+	themes/SilverXP/titleAT.xpm \
+	themes/SilverXP/titleIB.xpm \
+	themes/SilverXP/titleIJ.xpm \
+	themes/SilverXP/titleIL.xpm \
+	themes/SilverXP/titleIM.xpm \
+	themes/SilverXP/titleIP.xpm \
+	themes/SilverXP/titleIQ.xpm \
+	themes/SilverXP/titleIR.xpm \
+	themes/SilverXP/titleIS.xpm \
+	themes/SilverXP/titleIT.xpm \
+	themes/SilverXP/icons/abs.xpm \
+	themes/SilverXP/icons/app_16x16.xpm \
+	themes/SilverXP/icons/app_32x32.xpm \
+	themes/SilverXP/icons/app_48x48.xpm \
+	themes/SilverXP/icons/bluefolder.xpm \
+	themes/SilverXP/icons/book.xpm \
+	themes/SilverXP/icons/calc.xpm \
+	themes/SilverXP/icons/cddown.xpm \
+	themes/SilverXP/icons/cdrom.xpm \
+	themes/SilverXP/icons/cdup.xpm \
+	themes/SilverXP/icons/cervisia.xpm \
+	themes/SilverXP/icons/compose.xpm \
+	themes/SilverXP/icons/config.xpm \
+	themes/SilverXP/icons/cpu.xpm \
+	themes/SilverXP/icons/ddd.xpm \
+	themes/SilverXP/icons/designer.xpm \
+	themes/SilverXP/icons/dictionary.xpm \
+	themes/SilverXP/icons/dnd.xpm \
+	themes/SilverXP/icons/drscheme.xpm \
+	themes/SilverXP/icons/edit.xpm \
+	themes/SilverXP/icons/emacs.xpm \
+	themes/SilverXP/icons/emelfm.xpm \
+	themes/SilverXP/icons/file_16x16.xpm \
+	themes/SilverXP/icons/file_32x32.xpm \
+	themes/SilverXP/icons/find.xpm \
+	themes/SilverXP/icons/floppy.xpm \
+	themes/SilverXP/icons/ftp.xpm \
+	themes/SilverXP/icons/gimp2.xpm \
+	themes/SilverXP/icons/gmixer.xpm \
+	themes/SilverXP/icons/goldcd.xpm \
+	themes/SilverXP/icons/go.xpm \
+	themes/SilverXP/icons/gqview.xpm \
+	themes/SilverXP/icons/greenfolder.xpm \
+	themes/SilverXP/icons/gtkgraph.xpm \
+	themes/SilverXP/icons/gv.xpm \
+	themes/SilverXP/icons/hdd.xpm \
+	themes/SilverXP/icons/help.xpm \
+	themes/SilverXP/icons/ickle.xpm \
+	themes/SilverXP/icons/icq_message.xpm \
+	themes/SilverXP/icons/info.xpm \
+	themes/SilverXP/icons/karbon.xpm \
+	themes/SilverXP/icons/kchart.xpm \
+	themes/SilverXP/icons/kcontrol.xpm \
+	themes/SilverXP/icons/kdbg.xpm \
+	themes/SilverXP/icons/kde_16x16.xpm \
+	themes/SilverXP/icons/kdevelop.xpm \
+	themes/SilverXP/icons/kfind.xpm \
+	themes/SilverXP/icons/kfm.xpm \
+	themes/SilverXP/icons/kformula.xpm \
+	themes/SilverXP/icons/khelpcenter.xpm \
+	themes/SilverXP/icons/kivio.xpm \
+	themes/SilverXP/icons/kompare.xpm \
+	themes/SilverXP/icons/konqueror.xpm \
+	themes/SilverXP/icons/kontour.xpm \
+	themes/SilverXP/icons/kpresenter.xpm \
+	themes/SilverXP/icons/ksound.xpm \
+	themes/SilverXP/icons/kspread.xpm \
+	themes/SilverXP/icons/kudesigner.xpm \
+	themes/SilverXP/icons/kugar.xpm \
+	themes/SilverXP/icons/kword.xpm \
+	themes/SilverXP/icons/licq.xpm \
+	themes/SilverXP/icons/log.xpm \
+	themes/SilverXP/icons/mail.xpm \
+	themes/SilverXP/icons/modem.xpm \
+	themes/SilverXP/icons/moz_html.xpm \
+	themes/SilverXP/icons/moz_mail.xpm \
+	themes/SilverXP/icons/moz.xpm \
+	themes/SilverXP/icons/nedit.xpm \
+	themes/SilverXP/icons/netscape_16x16.xpm \
+	themes/SilverXP/icons/netscape_32x32.xpm \
+	themes/SilverXP/icons/net.xpm \
+	themes/SilverXP/icons/ooo_calc_tpl.xpm \
+	themes/SilverXP/icons/ooo_calc.xpm \
+	themes/SilverXP/icons/ooo_chart.xpm \
+	themes/SilverXP/icons/ooo_draw_tpl.xpm \
+	themes/SilverXP/icons/ooo_draw.xpm \
+	themes/SilverXP/icons/ooo_global.xpm \
+	themes/SilverXP/icons/ooo_gulls.xpm \
+	themes/SilverXP/icons/ooo_impress_tpl.xpm \
+	themes/SilverXP/icons/ooo_impress.xpm \
+	themes/SilverXP/icons/ooo_math.xpm \
+	themes/SilverXP/icons/ooo_printeradmin.xpm \
+	themes/SilverXP/icons/ooo_setup.xpm \
+	themes/SilverXP/icons/ooo_template.xpm \
+	themes/SilverXP/icons/ooo_web.xpm \
+	themes/SilverXP/icons/ooo_writer_tpl.xpm \
+	themes/SilverXP/icons/ooo_writer.xpm \
+	themes/SilverXP/icons/openbook.xpm \
+	themes/SilverXP/icons/power.xpm \
+	themes/SilverXP/icons/print.xpm \
+	themes/SilverXP/icons/real.xpm \
+	themes/SilverXP/icons/run.xpm \
+	themes/SilverXP/icons/sim.xpm \
+	themes/SilverXP/icons/sound.xpm \
+	themes/SilverXP/icons/speaker.xpm \
+	themes/SilverXP/icons/start.xpm \
+	themes/SilverXP/icons/sync.xpm \
+	themes/SilverXP/icons/vim_16x16.xpm \
+	themes/SilverXP/icons/vim_32x32.xpm \
+	themes/SilverXP/icons/vim_48x48.xpm \
+	themes/SilverXP/icons/whellbw.xpm \
+	themes/SilverXP/icons/whell.xpm \
+	themes/SilverXP/icons/winamp.xpm \
+	themes/SilverXP/icons/wizard.xpm \
+	themes/SilverXP/icons/xcalc.xpm \
+	themes/SilverXP/icons/xmms.xpm \
+	themes/SilverXP/icons/xterm_16x16.xpm \
+	themes/SilverXP/icons/xterm_32x32.xpm \
+	themes/SilverXP/taskbar/buttonA.xpm \
+	themes/SilverXP/taskbar/buttonI.xpm \
+	themes/SilverXP/taskbar/desktop.xpm \
+	themes/SilverXP/taskbar/green.xpm \
+	themes/SilverXP/taskbar/icewm.xpm \
+	themes/SilverXP/taskbar/taskbarbg.xpm \
+	themes/SilverXP/taskbar/taskbuttonactive.xpm \
+	themes/SilverXP/taskbar/taskbuttonbg.xpm \
+	themes/SilverXP/taskbar/taskbuttonminimized.xpm \
+	themes/SilverXP/taskbar/toolbuttonbg.xpm \
+	themes/SilverXP/taskbar/windows-transparent.xpm \
+	themes/SilverXP/taskbar/windows.xpm \
+	themes/SilverXP/taskbar/workspacebuttonactive.xpm \
+	themes/SilverXP/taskbar/workspacebuttonbg.xpm
+

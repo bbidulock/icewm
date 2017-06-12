@@ -23,3 +23,8 @@ ColorNormalTaskBarApp="rgb:C0/C0/C0"
 ColorNormalTaskBarAppText="rgb:00/00/00"
 ColorActiveTaskBarApp="rgb:E0/E0/E0"
 ColorActiveTaskBarAppText="rgb:00/00/00"
+
+#DesktopBackgroundColor="#B29C84"
+DesktopBackgroundCenter=1
+DesktopBackgroundScaled=1
+DesktopBackgroundImage="default1.jpg"

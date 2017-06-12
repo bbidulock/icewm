@@ -24,3 +24,8 @@ ColorActiveTaskBarAppText="rgb:00/00/00"
 ColorScrollBar="rgb:C0/C0/C0"
 ColorScrollBarSlider="rgb:C0/C0/C0"
 ColorScrollBarButtonArrow="rgb:C0/C0/C0"
+
+#DesktopBackgroundColor="#B29C84"
+DesktopBackgroundCenter=1
+DesktopBackgroundScaled=1
+DesktopBackgroundImage="default.jpeg"

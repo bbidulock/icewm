@@ -13,9 +13,6 @@ CornerSizeY=22
 DlgBorderSizeX=2
 DlgBorderSizeY=2
 
-DesktopBackgroundImage=""
-DesktopBackgroundColor="rgb:40/a0/c0"
-
 ColorNormalBorder="rgb:C0/C0/C0"
 ColorActiveBorder="rgb:C0/C0/C0"
 ColorNormalButton="rgb:C0/C0/C0"
@@ -35,3 +32,8 @@ ColorNormalTaskBarApp="rgb:C0/C0/C0"
 ColorNormalTaskBarAppText="rgb:00/00/00"
 ColorActiveTaskBarApp="rgb:E0/E0/E0"
 ColorActiveTaskBarAppText="rgb:00/00/00"
+
+DesktopBackgroundColor="rgb:40/a0/c0"
+DesktopBackgroundCenter=1
+DesktopBackgroundScaled=1
+DesktopBackgroundImage="default.jpeg"

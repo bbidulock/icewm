@@ -1,0 +1,36 @@
+/* XPM */
+static char * _001_star_butterfly_t_xpm[] = {
+/* width height ncolors chars_per_pixel */
+"16 16 13 1",
+/* colors */
+"` c #000000",
+"a c #9397A5",
+"b c #DEDEDE",
+"c c #212121",
+"d c #008080",
+"e c #48B8FF",
+"f c #949494",
+"g c #808080",
+"h c #FFFFFF",
+"i c #8DD3FF",
+"j c #424242",
+"k c #1C262D",
+"l c None",
+/* pixels */
+"hhhhhhhhhhhhhhbh",
+"hhhhhhhhhhhhakkg",
+"hhhhhhhhhhhf`ghh",
+"hhhhhhhhgcc`jhhh",
+"eeeeeeekkddjeeee",
+"eeeeeeddeeeeeeee",
+"eeeeeeeeeedkdeee",
+"iiiiiiiij`keiiii",
+"iiiiiiij`jiiiiii",
+"iiiiiig`kiiiiiii",
+"iiigkc``aiiiiiii",
+"iik`ckkjiiiiiiii",
+"ikcdiiiiiiiiiiii",
+"dkeeeeeeeeeeeeee",
+"deeeeeeeeeeeeeee",
+"eeeeeeeeeeeeeeee"
+};
