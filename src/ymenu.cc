@@ -675,7 +675,7 @@ YMenuItem * YMenu::addSorted(YMenuItem *item, bool duplicates) {
         if (item->getName() == null || fItems[i]->getName() == null)
             continue;
 
-        int cmp = item->getName().compareTo(fItems[i]->getName());
+        int cmp = item->getName().collate(fItems[i]->getName());
         if (cmp > 0)
             continue;
         else if (cmp != 0 || duplicates) {
