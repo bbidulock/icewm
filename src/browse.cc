@@ -34,13 +34,6 @@ BrowseMenu::BrowseMenu(
 BrowseMenu::~BrowseMenu() {
 }
 
-static int compare_ustring_pointers(const void *p1, const void *p2)
-{
-    ustring *u1 = * (ustring * const *) p1;
-    ustring *u2 = * (ustring * const *) p2;
-    return u1->compareTo(*u2);
-}
-
 void BrowseMenu::updatePopup() {
     struct stat sb;
 
@@ -51,15 +44,13 @@ void BrowseMenu::updatePopup() {
 
         removeAll();
 
-        YObjectArray<ustring> dirList;
-        for (udir dir(fPath); dir.next(); ) {
-            dirList.append(new ustring(dir.entry()));
-        }
-        ustring **begin = dirList.getItemPtr(0);
-        const int count = dirList.getCount();
-        qsort(begin, count, sizeof(*begin), compare_ustring_pointers);
-        for (int index = 0; index < count; ++index) {
-            const ustring& entry(*begin[index]);
+#ifndef LITE
+        ref<YIcon> file = YIcon::getIcon("file");
+        ref<YIcon> folder = YIcon::getIcon("folder");
+#endif
+
+        for (adir dir(fPath.string()); dir.next(); ) {
+            ustring entry(dir.entry());
             upath npath(fPath + entry);
 
             YMenu *sub = 0;
@@ -69,13 +60,6 @@ void BrowseMenu::updatePopup() {
             DFile *pfile = new DFile(app, entry, null, npath);
             YMenuItem *item = add(new DObjectMenuItem(pfile));
             if (item) {
-#ifndef LITE
-                static ref<YIcon> file, folder;
-                if (file == null)
-                    file = YIcon::getIcon("file");
-                if (folder == null)
-                    folder = YIcon::getIcon("folder");
-#endif
                 item->setSubmenu(sub);
 #ifndef LITE
                 if (sub) {
