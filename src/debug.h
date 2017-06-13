@@ -7,10 +7,14 @@ extern bool debug_z;
 
 #define DBG if (debug)
 #define MSG(x) DBG msg x
-#define PRECONDITION(x) if (x); else precondition( #x , __FILE__, __LINE__)
 #else
 #define DBG if (0)
 #define MSG(x)
+#endif
+
+#if defined(DEBUG) || defined(PRECON)
+#define PRECONDITION(x) if (x); else precondition( #x , __FILE__, __LINE__)
+#else
 #define PRECONDITION(x) // nothing
 #endif
 
