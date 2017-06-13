@@ -232,6 +232,10 @@ bool mstring::equals(const mstring &s) const {
     return compareTo(s) == 0;
 }
 
+int mstring::collate(const mstring &s) const {
+    return strcoll(cstring(*this), cstring(s));
+}
+
 int mstring::compareTo(const mstring &s) const {
 #if upstream_comp
     if (s.length() > length()) {
@@ -284,14 +288,17 @@ mstring mstring::append(const mstring &s) const {
 }
 
 mstring mstring::searchAndReplaceAll(const mstring& s, const mstring& r) const {
-    mstring m(*this);
-    int offset = 0, step = 1 + r.length() - s.length();
-    for (; offset + s.length() <= m.length(); offset += step) {
-        int k = offset + m.substring(offset).find(s);
-        if (k < offset) break;
-        m = m.replace(k, s.length(), r);
+    mstring modified(*this);
+    const int step = 1 + r.length() - s.length();
+    for (int offset = 0; offset + s.length() <= modified.length(); ) {
+        int found = offset + modified.substring(offset).find(s);
+        if (found < offset) {
+            break;
+        }
+        modified = modified.replace(found, s.length(), r);
+        offset = max(0, offset + step);
     }
-    return m;
+    return modified;
 }
 
 mstring mstring::lower() const {
