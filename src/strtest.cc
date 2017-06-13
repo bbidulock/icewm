@@ -346,9 +346,9 @@ static void test_strlc()
     assert(d, n == 0);
 }
 
-static void test_udir()
+static void test_cdir()
 {
-    strtest tester("udir");
+    strtest tester("cdir");
 
     {
         cdir c("/etc");
@@ -376,7 +376,11 @@ static void test_udir()
         }
         assert(c.path(), n > 0);
     }
+}
 
+static void test_udir()
+{
+    strtest tester("udir");
     {
         udir u("/etc");
         assert(u.path(), u.isOpen());
@@ -402,6 +406,43 @@ static void test_udir()
     }
 }
 
+static void test_adir()
+{
+    strtest tester("adir");
+
+    {
+        adir a("/etc");
+        assert(a.path(), a.isOpen());
+        char buf[300] = "";
+        while (a.next()) {
+            const char *e = a.entry();
+            assert(e, strcoll(buf, e) < 0);
+            strlcpy(buf, e, sizeof buf);
+        }
+        assert(buf, strcoll(buf, "~~~~~~~~~") < 0);
+    }
+
+}
+
+static void test_sdir()
+{
+    strtest tester("sdir");
+
+    {
+        sdir s("/etc");
+        assert(s.path(), s.isOpen());
+        char buf[300] = "";
+        while (s.next()) {
+            cstring c(s.entry());
+            const char *e = c.c_str();
+            assert(e, strcoll(buf, e) < 0);
+            strlcpy(buf, e, sizeof buf);
+        }
+        assert(buf, strcoll(buf, "~~~~~~~~~") < 0);
+    }
+
+}
+
 int main(int argc, char **argv)
 {
     prog = basename(argv[0]);
@@ -409,7 +450,10 @@ int main(int argc, char **argv)
     test_mstring();
     test_upath();
     test_strlc();
+    test_cdir();
     test_udir();
+    test_adir();
+    test_sdir();
 
     return 0;
 }

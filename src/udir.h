@@ -3,6 +3,7 @@
 
 #include "upath.h"
 
+// unsorted directory for const C-style strings.
 class cdir {
 public:
     explicit cdir(const char* path = 0);
@@ -17,6 +18,7 @@ public:
     bool isOpen() const { return impl; }
     bool next();
     bool nextExt(const char *extension);
+    void rewind();
 
 private:
     cdir(const cdir&);  // unavailable
@@ -27,6 +29,35 @@ private:
     char fEntry[256];
 };
 
+// sorted directory for const C-style strings.
+class adir {
+public:
+    explicit adir(const char* path = 0);
+    ~adir() { close(); }
+    void close();
+    const char* path() const { return fPath; }
+    const char* entry() const;
+    operator bool() const { return isOpen() && fLast < fCount; }
+
+    bool open(const char* path);
+    bool open();
+    bool isOpen() const { return fName != 0 && fString != 0; }
+    bool next();
+    bool nextExt(const char *extension);
+    void rewind() { fLast = -1; }
+    int count() const { return fCount; }
+
+private:
+    adir(const adir&);  // unavailable
+    adir& operator=(const adir&);  // unavailable
+
+    const char* fPath;
+    char** fName;
+    char* fString;
+    int fCount, fLast;
+};
+
+// upath directory returns ustrings.
 class udir {
 public:
     explicit udir(const upath& path = null);
@@ -49,6 +80,33 @@ private:
     upath fPath;
     void *impl;
     ustring fEntry;
+};
+
+// sorted directory for ustrings.
+class sdir {
+public:
+    explicit sdir(const upath& path = null);
+    ~sdir() { close(); }
+    void close();
+    const upath& path() const { return fPath; }
+    const ustring& entry() const;
+    operator bool() const { return isOpen() && fLast < fCount; }
+
+    bool open(const upath& path);
+    bool open();
+    bool isOpen() const { return fName != 0; }
+    bool next();
+    bool nextExt(const ustring& extension);
+    void rewind() { fLast = -1; }
+    int count() const { return fCount; }
+
+private:
+    sdir(const sdir&);  // unavailable
+    sdir& operator=(const sdir&);  // unavailable
+
+    upath fPath;
+    ustring *fName;
+    int fCount, fLast;
 };
 
 #endif
