@@ -11,7 +11,7 @@
 #include "ymenu.h"
 #include "yrect.h"
 #include "yicon.h"
-
+#include "wpixmaps.h"
 #include "yxapp.h" // !!! remove (AltMask)
 #include "yprefs.h"
 #include "prefs.h"
@@ -30,11 +30,6 @@ YColor *YButton::activeButtonFg = 0;
 
 ref<YFont> YButton::normalButtonFont;
 ref<YFont> YButton::activeButtonFont;
-
-// !!! needs to go away
-ref<YPixmap> taskbuttonPixmap;
-ref<YPixmap> taskbuttonactivePixmap;
-ref<YPixmap> taskbuttonminimizedPixmap;
 
 YButton::YButton(YWindow *parent, YAction *action, YMenu *popup) :
     YWindow(parent),

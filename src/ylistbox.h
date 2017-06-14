@@ -116,10 +116,4 @@ private:
 #endif
 };
 
-extern ref<YPixmap> listbackPixmap;
-
-#ifdef CONFIG_GRADIENTS
-extern ref<YImage> listbackPixbuf;
-#endif
-
 #endif

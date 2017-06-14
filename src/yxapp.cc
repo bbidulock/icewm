@@ -194,42 +194,6 @@ Atom XA_XdndStatus;
 YColor *YColor::black(NULL);
 YColor *YColor::white(NULL);
 
-ref<YPixmap> buttonIPixmap;
-ref<YPixmap> buttonAPixmap;
-
-ref<YPixmap> logoutPixmap;
-ref<YPixmap> switchbackPixmap;
-ref<YPixmap> listbackPixmap;
-ref<YPixmap> dialogbackPixmap;
-
-ref<YPixmap> menubackPixmap;
-ref<YPixmap> menusepPixmap;
-ref<YPixmap> menuselPixmap;
-
-#ifdef CONFIG_GRADIENTS
-ref<YImage> buttonIPixbuf;
-ref<YImage> buttonAPixbuf;
-
-ref<YImage> logoutPixbuf;
-ref<YImage> switchbackPixbuf;
-ref<YImage> listbackPixbuf;
-ref<YImage> dialogbackPixbuf;
-
-ref<YImage> menubackPixbuf;
-ref<YImage> menuselPixbuf;
-ref<YImage> menusepPixbuf;
-#endif
-
-//changed robc
-ref<YPixmap> closePixmap[3];
-ref<YPixmap> minimizePixmap[3];
-ref<YPixmap> maximizePixmap[3];
-ref<YPixmap> restorePixmap[3];
-ref<YPixmap> hidePixmap[3];
-ref<YPixmap> rollupPixmap[3];
-ref<YPixmap> rolldownPixmap[3];
-ref<YPixmap> depthPixmap[3];
-
 #ifdef CONFIG_SHAPE
 int shapesSupported;
 int shapeEventBase, shapeErrorBase;

@@ -16,6 +16,7 @@
 #include "prefs.h"
 #include "wmtaskbar.h"
 #include "wmapp.h"
+#include "wpixmaps.h"
 #include "yrect.h"
 #include "yicon.h"
 
@@ -24,12 +25,6 @@ YColor * ObjectBar::bgColor(NULL);
 ref<YFont> ObjectButton::font;
 YColor * ObjectButton::bgColor(NULL);
 YColor * ObjectButton::fgColor(NULL);
-
-ref<YPixmap> toolbuttonPixmap;
-
-#ifdef CONFIG_GRADIENTS
-ref<YImage> toolbuttonPixbuf;
-#endif
 
 ObjectBar::ObjectBar(YWindow *parent): YWindow(parent) {
     if (bgColor == 0)

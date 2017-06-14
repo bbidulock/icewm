@@ -1,8 +1,6 @@
 #ifndef __YAPP_H
 #define __YAPP_H
 
-#include <signal.h>
-
 #include "ypaths.h"
 #include "upath.h"
 #include "ypoll.h"

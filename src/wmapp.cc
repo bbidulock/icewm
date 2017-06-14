@@ -23,6 +23,7 @@
 #include "wmclient.h"
 #include "ymenuitem.h"
 #include "wmsession.h"
+#include "wpixres.h"
 #include "browse.h"
 #include "objmenu.h"
 #include "objbutton.h"
@@ -32,8 +33,6 @@
 #include "prefs.h"
 #include "yimage.h"
 #include "ylocale.h"
-#include <stdio.h>
-#include <sys/resource.h>
 #include "yrect.h"
 #include "yprefs.h"
 #include "yicon.h"
@@ -52,7 +51,7 @@ static bool restart(false);
 YWMApp *wmapp(NULL);
 YWindowManager *manager(NULL);
 
-upath keysFile;
+static upath keysFile;
 
 Atom XA_IcewmWinOptHint(None);
 Atom XA_ICEWM_FONT_PATH(None);
@@ -103,13 +102,10 @@ static const char* overrideTheme;
 
 static const char* configArg;
 
-ref<YIcon> defaultAppIcon;
+static ref<YIcon> defaultAppIcon;
+
 static bool replace_wm;
 static bool post_preferences;
-
-// XXX: get rid of this
-extern ref<YPixmap> listbackPixmap;
-extern ref<YImage> listbackPixbuf;
 
 static Window registerProtocols1(char **argv, int argc) {
     long timestamp = CurrentTime;
@@ -485,7 +481,6 @@ static void initFontPath(IApp *app) {
             XSetFontPath(xapp->display(), newFontPath, ndirs + 1);
 
             if (fontPath) XFreeFontPath(fontPath);
-            delete[] fontsdir;
             delete[] newFontPath;
 #endif
         }
@@ -499,6 +494,9 @@ void YWMApp::initIcons() {
 }
 void YWMApp::termIcons() {
     defaultAppIcon = null;
+}
+ref<YIcon> YWMApp::getDefaultAppIcon() {
+    return defaultAppIcon;
 }
 #endif
 
@@ -517,339 +515,6 @@ void YWMApp::initPointers() {
     scrollRightPointer     = l->load("scrollR.xpm", XC_sb_right_arrow);
     scrollUpPointer        = l->load("scrollU.xpm", XC_sb_up_arrow);
     scrollDownPointer      = l->load("scrollD.xpm", XC_sb_down_arrow);
-}
-
-#ifdef CONFIG_GRADIENTS
-static bool loadGradient(ref<YResourcePaths> paths,
-                         char const * tag, ref<YImage> &gradient,
-                         char const * name, char const * path = NULL)
-{
-    if (!strcmp(tag, name)) {
-        if (gradient == null)
-            gradient = paths->loadImage(path, name /*, false */);
-        else
-            warn(_("Multiple references for gradient '%s' in theme '%s'."),
-                    name, themeName ? themeName : "");
-
-        return false;
-    }
-
-    return true;
-}
-#endif
-
-void YWMApp::initPixmaps() {
-    ref<YResourcePaths> paths = YResourcePaths::subdirs(null, true);
-
-#ifdef CONFIG_LOOK_PIXMAP
-    if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk || wmLook == lookFlat) {
-#ifdef CONFIG_GRADIENTS
-        if (gradients) {
-            for (char const * g(gradients + strspn(gradients, " \t\r\n"));
-                 *g != '\0'; g = strnxt(g, " \t\r\n")) {
-                char const * gradient(newstr(g, " \t\r\n"));
-
-                if (loadGradient(paths, gradient, rgbTitleS[0], "titleIS.xpm") &&
-                    loadGradient(paths, gradient, rgbTitleT[0], "titleIT.xpm") &&
-                    loadGradient(paths, gradient, rgbTitleB[0], "titleIB.xpm") &&
-                    loadGradient(paths, gradient, rgbTitleS[1], "titleAS.xpm") &&
-                    loadGradient(paths, gradient, rgbTitleT[1], "titleAT.xpm") &&
-                    loadGradient(paths, gradient, rgbTitleB[1], "titleAB.xpm") &&
-
-                    loadGradient(paths, gradient, rgbFrameT[0][0], "frameIT.xpm") &&
-                    loadGradient(paths, gradient, rgbFrameL[0][0], "frameIL.xpm") &&
-                    loadGradient(paths, gradient, rgbFrameR[0][0], "frameIR.xpm") &&
-                    loadGradient(paths, gradient, rgbFrameB[0][0], "frameIB.xpm") &&
-                    loadGradient(paths, gradient, rgbFrameT[0][1], "frameAT.xpm") &&
-                    loadGradient(paths, gradient, rgbFrameL[0][1], "frameAL.xpm") &&
-                    loadGradient(paths, gradient, rgbFrameR[0][1], "frameAR.xpm") &&
-                    loadGradient(paths, gradient, rgbFrameB[0][1], "frameAB.xpm") &&
-
-                    loadGradient(paths, gradient, rgbFrameT[1][0], "dframeIT.xpm") &&
-                    loadGradient(paths, gradient, rgbFrameL[1][0], "dframeIL.xpm") &&
-                    loadGradient(paths, gradient, rgbFrameR[1][0], "dframeIR.xpm") &&
-                    loadGradient(paths, gradient, rgbFrameB[1][0], "dframeIB.xpm") &&
-                    loadGradient(paths, gradient, rgbFrameT[1][1], "dframeAT.xpm") &&
-                    loadGradient(paths, gradient, rgbFrameL[1][1], "dframeAL.xpm") &&
-                    loadGradient(paths, gradient, rgbFrameR[1][1], "dframeAR.xpm") &&
-                    loadGradient(paths, gradient, rgbFrameB[1][1], "dframeAB.xpm") &&
-
-#ifdef CONFIG_TASKBAR
-                    loadGradient(paths, gradient, taskbackPixbuf,
-                                 "taskbarbg.xpm", "taskbar/") &&
-                    loadGradient(paths, gradient, taskbuttonPixbuf,
-                                 "taskbuttonbg.xpm", "taskbar/") &&
-                    loadGradient(paths, gradient, taskbuttonactivePixbuf,
-                                 "taskbuttonactive.xpm", "taskbar/") &&
-                    loadGradient(paths, gradient, taskbuttonminimizedPixbuf,
-                                 "taskbuttonminimized.xpm", "taskbar/") &&
-                    loadGradient(paths, gradient, toolbuttonPixbuf,
-                                 "toolbuttonbg.xpm", "taskbar/") &&
-                    loadGradient(paths, gradient, workspacebuttonPixbuf,
-                                 "workspacebuttonbg.xpm", "taskbar/") &&
-                    loadGradient(paths, gradient, workspacebuttonactivePixbuf,
-                                 "workspacebuttonactive.xpm", "taskbar/") &&
-#endif
-
-                    loadGradient(paths, gradient, buttonIPixbuf, "buttonI.xpm") &&
-                    loadGradient(paths, gradient, buttonAPixbuf, "buttonA.xpm") &&
-
-                    loadGradient(paths, gradient, logoutPixbuf, "logoutbg.xpm") &&
-                    loadGradient(paths, gradient, switchbackPixbuf, "switchbg.xpm") &&
-#ifndef LITE
-                    loadGradient(paths, gradient, listbackPixbuf, "listbg.xpm") &&
-#endif
-                    loadGradient(paths, gradient, dialogbackPixbuf, "dialogbg.xpm") &&
-
-                    loadGradient(paths, gradient, menubackPixbuf, "menubg.xpm") &&
-                    loadGradient(paths, gradient, menuselPixbuf, "menusel.xpm") &&
-                    loadGradient(paths, gradient, menusepPixbuf, "menusep.xpm"))
-                    warn(_("Unknown gradient name '%s' in theme '%s'."),
-                            gradient, themeName ? themeName : "");
-
-                delete[] gradient;
-            }
-
-            delete[] gradients;
-            gradients = NULL;
-        }
-#endif
-
-           closePixmap[0] = paths->loadPixmap(0, "closeI.xpm");
-           depthPixmap[0] = paths->loadPixmap(0, "depthI.xpm");
-        maximizePixmap[0] = paths->loadPixmap(0, "maximizeI.xpm");
-        minimizePixmap[0] = paths->loadPixmap(0, "minimizeI.xpm");
-         restorePixmap[0] = paths->loadPixmap(0, "restoreI.xpm");
-            hidePixmap[0] = paths->loadPixmap(0, "hideI.xpm");
-          rollupPixmap[0] = paths->loadPixmap(0, "rollupI.xpm");
-        rolldownPixmap[0] = paths->loadPixmap(0, "rolldownI.xpm");
-           closePixmap[1] = paths->loadPixmap(0, "closeA.xpm");
-           depthPixmap[1] = paths->loadPixmap(0, "depthA.xpm");
-        maximizePixmap[1] = paths->loadPixmap(0, "maximizeA.xpm");
-        minimizePixmap[1] = paths->loadPixmap(0, "minimizeA.xpm");
-         restorePixmap[1] = paths->loadPixmap(0, "restoreA.xpm");
-            hidePixmap[1] = paths->loadPixmap(0, "hideA.xpm");
-          rollupPixmap[1] = paths->loadPixmap(0, "rollupA.xpm");
-        rolldownPixmap[1] = paths->loadPixmap(0, "rolldownA.xpm");
-
-    if (rolloverTitleButtons) {
-           closePixmap[2] = paths->loadPixmap(0, "closeO.xpm");
-           depthPixmap[2] = paths->loadPixmap(0, "depthO.xpm");
-        maximizePixmap[2] = paths->loadPixmap(0, "maximizeO.xpm");
-        minimizePixmap[2] = paths->loadPixmap(0, "minimizeO.xpm");
-         restorePixmap[2] = paths->loadPixmap(0, "restoreO.xpm");
-            hidePixmap[2] = paths->loadPixmap(0, "hideO.xpm");
-          rollupPixmap[2] = paths->loadPixmap(0, "rollupO.xpm");
-        rolldownPixmap[2] = paths->loadPixmap(0, "rolldownO.xpm");
-    }
-        frameTL[0][0] = paths->loadPixmap(0, "frameITL.xpm");
-        frameTR[0][0] = paths->loadPixmap(0, "frameITR.xpm");
-        frameBL[0][0] = paths->loadPixmap(0, "frameIBL.xpm");
-        frameBR[0][0] = paths->loadPixmap(0, "frameIBR.xpm");
-        frameTL[0][1] = paths->loadPixmap(0, "frameATL.xpm");
-        frameTR[0][1] = paths->loadPixmap(0, "frameATR.xpm");
-        frameBL[0][1] = paths->loadPixmap(0, "frameABL.xpm");
-        frameBR[0][1] = paths->loadPixmap(0, "frameABR.xpm");
-
-        frameTL[1][0] = paths->loadPixmap(0, "dframeITL.xpm");
-        frameTR[1][0] = paths->loadPixmap(0, "dframeITR.xpm");
-        frameBL[1][0] = paths->loadPixmap(0, "dframeIBL.xpm");
-        frameBR[1][0] = paths->loadPixmap(0, "dframeIBR.xpm");
-        frameTL[1][1] = paths->loadPixmap(0, "dframeATL.xpm");
-        frameTR[1][1] = paths->loadPixmap(0, "dframeATR.xpm");
-        frameBL[1][1] = paths->loadPixmap(0, "dframeABL.xpm");
-        frameBR[1][1] = paths->loadPixmap(0, "dframeABR.xpm");
-
-        if (TEST_GRADIENT(rgbFrameT[0][0] == null))
-            frameT[0][0] = paths->loadPixmap(0, "frameIT.xpm");
-        if (TEST_GRADIENT(rgbFrameL[0][0] == null))
-            frameL[0][0] = paths->loadPixmap(0, "frameIL.xpm");
-        if (TEST_GRADIENT( rgbFrameR[0][0] == null))
-            frameR[0][0] = paths->loadPixmap(0, "frameIR.xpm");
-        if (TEST_GRADIENT(rgbFrameB[0][0] == null))
-            frameB[0][0] = paths->loadPixmap(0, "frameIB.xpm");
-        if (TEST_GRADIENT(rgbFrameT[0][1] == null))
-            frameT[0][1] = paths->loadPixmap(0, "frameAT.xpm");
-        if (TEST_GRADIENT(rgbFrameL[0][1] == null))
-            frameL[0][1] = paths->loadPixmap(0, "frameAL.xpm");
-        if (TEST_GRADIENT(rgbFrameR[0][1] == null))
-            frameR[0][1] = paths->loadPixmap(0, "frameAR.xpm");
-        if (TEST_GRADIENT(rgbFrameB[0][1] == null))
-            frameB[0][1] = paths->loadPixmap(0, "frameAB.xpm");
-
-        if (TEST_GRADIENT(rgbFrameT[1][0] == null))
-            frameT[1][0] = paths->loadPixmap(0, "dframeIT.xpm");
-        if (TEST_GRADIENT(rgbFrameL[1][0] == null))
-            frameL[1][0] = paths->loadPixmap(0, "dframeIL.xpm");
-        if (TEST_GRADIENT(rgbFrameR[1][0] == null))
-            frameR[1][0] = paths->loadPixmap(0, "dframeIR.xpm");
-        if (TEST_GRADIENT(rgbFrameB[1][0] == null))
-            frameB[1][0] = paths->loadPixmap(0, "dframeIB.xpm");
-        if (TEST_GRADIENT(rgbFrameT[1][1] == null))
-            frameT[1][1] = paths->loadPixmap(0, "dframeAT.xpm");
-        if (TEST_GRADIENT(rgbFrameL[1][1] == null))
-            frameL[1][1] = paths->loadPixmap(0, "dframeAL.xpm");
-        if (TEST_GRADIENT(rgbFrameR[1][1] == null))
-            frameR[1][1] = paths->loadPixmap(0, "dframeAR.xpm");
-        if (TEST_GRADIENT(rgbFrameB[1][1] == null))
-            frameB[1][1] = paths->loadPixmap(0, "dframeAB.xpm");
-
-        titleJ[0] = paths->loadPixmap(0, "titleIJ.xpm");
-        titleL[0] = paths->loadPixmap(0, "titleIL.xpm");
-        titleP[0] = paths->loadPixmap(0, "titleIP.xpm");
-        titleM[0] = paths->loadPixmap(0, "titleIM.xpm");
-        titleR[0] = paths->loadPixmap(0, "titleIR.xpm");
-        titleQ[0] = paths->loadPixmap(0, "titleIQ.xpm");
-        titleJ[1] = paths->loadPixmap(0, "titleAJ.xpm");
-        titleL[1] = paths->loadPixmap(0, "titleAL.xpm");
-        titleP[1] = paths->loadPixmap(0, "titleAP.xpm");
-        titleM[1] = paths->loadPixmap(0, "titleAM.xpm");
-        titleR[1] = paths->loadPixmap(0, "titleAR.xpm");
-        titleQ[1] = paths->loadPixmap(0, "titleAQ.xpm");
-
-//      if (TEST_GRADIENT(NULL == rgbTitleS[0]))
-            titleS[0] = paths->loadPixmap(0, "titleIS.xpm");
-//      if (TEST_GRADIENT(NULL == rgbTitleT[0]))
-            titleT[0] = paths->loadPixmap(0, "titleIT.xpm");
-//      if (TEST_GRADIENT(NULL == rgbTitleB[0]))
-            titleB[0] = paths->loadPixmap(0, "titleIB.xpm");
-//      if (TEST_GRADIENT(NULL == rgbTitleS[1]))
-            titleS[1] = paths->loadPixmap(0, "titleAS.xpm");
-//      if (TEST_GRADIENT(NULL == rgbTitleT[1]))
-            titleT[1] = paths->loadPixmap(0, "titleAT.xpm");
-//      if (TEST_GRADIENT(NULL == rgbTitleB[1]))
-            titleB[1] = paths->loadPixmap(0, "titleAB.xpm");
-#ifdef CONFIG_SHAPED_DECORATION
-        bool const copyMask(true);
-#else
-        bool const copyMask(false);
-#endif
-
-        for (int a = 0; a <= 1; a++) {
-            for (int b = 0; b <= 1; b++) {
-               if(frameT[a][b]._ptr())
-                  frameT[a][b]->replicate(true, copyMask);
-               if(frameB[a][b]._ptr())
-                  frameB[a][b]->replicate(true, copyMask);
-               if(frameL[a][b]._ptr())
-                  frameL[a][b]->replicate(false, copyMask);
-               if(frameR[a][b]._ptr())
-                  frameR[a][b]->replicate(false, copyMask);
-            }
-            if(titleS[a]._ptr())
-               titleS[a]->replicate(true, copyMask);
-            if(titleT[a]._ptr())
-               titleT[a]->replicate(true, copyMask);
-            if(titleB[a]._ptr())
-               titleB[a]->replicate(true, copyMask);
-        }
-    }
-    if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk || wmLook == lookFlat || wmLook == lookMotif) {
-        menuButton[0] = paths->loadPixmap(0, "menuButtonI.xpm");
-        menuButton[1] = paths->loadPixmap(0, "menuButtonA.xpm");
-        if (rolloverTitleButtons) {
-            menuButton[2] = paths->loadPixmap(0, "menuButtonO.xpm");
-        }
-    }
-#endif
-    {
-      if (depthPixmap[0]==null)            depthPixmap[0] = paths->loadPixmap(0, "depth.xpm");
-      if (closePixmap[0]==null)            closePixmap[0] = paths->loadPixmap(0, "close.xpm");
-      if (maximizePixmap[0]==null)      maximizePixmap[0] = paths->loadPixmap(0, "maximize.xpm");
-      if (minimizePixmap[0]==null)      minimizePixmap[0] = paths->loadPixmap(0, "minimize.xpm");
-      if (restorePixmap[0]==null)        restorePixmap[0] = paths->loadPixmap(0, "restore.xpm");
-      if (hidePixmap[0]==null)              hidePixmap[0] = paths->loadPixmap(0, "hide.xpm");
-      if (rollupPixmap[0]==null)          rollupPixmap[0] = paths->loadPixmap(0, "rollup.xpm");
-      if (rolldownPixmap[0]==null)      rolldownPixmap[0] = paths->loadPixmap(0, "rolldown.xpm");
-    }
-
-    if (TEST_GRADIENT(logoutPixbuf == null))
-        logoutPixmap = paths->loadPixmap(0, "logoutbg.xpm");
-    if (TEST_GRADIENT(switchbackPixbuf == null))
-        switchbackPixmap = paths->loadPixmap(0, "switchbg.xpm");
-    if (TEST_GRADIENT(menubackPixbuf == null))
-        menubackPixmap = paths->loadPixmap(0, "menubg.xpm");
-    if (TEST_GRADIENT(menuselPixbuf == null))
-        menuselPixmap = paths->loadPixmap(0, "menusel.xpm");
-    if (TEST_GRADIENT(menusepPixbuf == null))
-        menusepPixmap = paths->loadPixmap(0, "menusep.xpm");
-
-#ifndef LITE
-    if (TEST_GRADIENT(listbackPixbuf == null) &&
-        (listbackPixmap = paths->loadPixmap(0, "listbg.xpm")) == null)
-        listbackPixmap = menubackPixmap;
-#endif
-    if (TEST_GRADIENT(dialogbackPixbuf == null) &&
-        (dialogbackPixmap = paths->loadPixmap(0, "dialogbg.xpm")) == null)
-        dialogbackPixmap = menubackPixmap;
-    if (TEST_GRADIENT(buttonIPixbuf == null) &&
-        (buttonIPixmap = paths->loadPixmap(0, "buttonI.xpm")) == null)
-        buttonIPixmap = paths->loadPixmap("taskbar/", "taskbuttonbg.xpm");
-    if (TEST_GRADIENT(buttonAPixbuf == null) &&
-        (buttonAPixmap = paths->loadPixmap(0, "buttonA.xpm")) == null)
-        buttonAPixmap = paths->loadPixmap("taskbar/", "taskbuttonactive.xpm");
-
-#ifdef CONFIG_TASKBAR
-    if (TEST_GRADIENT(toolbuttonPixbuf == null) &&
-        (toolbuttonPixmap =
-         paths->loadPixmap("taskbar/", "toolbuttonbg.xpm")) == null)
-    {
-        IF_CONFIG_GRADIENTS (buttonIPixbuf != null,
-                             toolbuttonPixbuf = buttonIPixbuf)
-        else toolbuttonPixmap = buttonIPixmap;
-    }
-    if (TEST_GRADIENT(workspacebuttonPixbuf == null) &&
-        (workspacebuttonPixmap =
-         paths->loadPixmap("taskbar/", "workspacebuttonbg.xpm")) == null)
-    {
-        IF_CONFIG_GRADIENTS (buttonIPixbuf != null,
-                             workspacebuttonPixbuf = buttonIPixbuf)
-        else workspacebuttonPixmap = buttonIPixmap;
-    }
-    if (TEST_GRADIENT(workspacebuttonactivePixbuf == null) &&
-        (workspacebuttonactivePixmap =
-         paths->loadPixmap("taskbar/", "workspacebuttonactive.xpm")) == null)
-    {
-        IF_CONFIG_GRADIENTS (buttonAPixbuf != null,
-                             workspacebuttonactivePixbuf = buttonAPixbuf)
-        else workspacebuttonactivePixmap = buttonAPixmap;
-    }
-#endif
-
-    if (logoutPixmap != null) {
-        logoutPixmap->replicate(true, false);
-        logoutPixmap->replicate(false, false);
-    }
-    if (switchbackPixmap != null) {
-        switchbackPixmap->replicate(true, false);
-        switchbackPixmap->replicate(false, false);
-    }
-
-    if (menubackPixmap != null) {
-        menubackPixmap->replicate(true, false);
-        menubackPixmap->replicate(false, false);
-    }
-    if (menusepPixmap != null)
-        menusepPixmap->replicate(true, false);
-    if (menuselPixmap != null)
-        menuselPixmap->replicate(true, false);
-
-#ifndef LITE
-    if (listbackPixmap != null) {
-        listbackPixmap->replicate(true, false);
-        listbackPixmap->replicate(false, false);
-    }
-#endif
-
-    if (dialogbackPixmap != null) {
-        dialogbackPixmap->replicate(true, false);
-        dialogbackPixmap->replicate(false, false);
-    }
-
-    if (buttonIPixmap != null)
-        buttonIPixmap->replicate(true, false);
-    if (buttonAPixmap != null)
-        buttonAPixmap->replicate(true, false);
 }
 
 static void initMenus(
@@ -1388,7 +1053,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     initIcons();
 #endif
     initIconSize();
-    initPixmaps();
+    WPixRes::initPixmaps();
     initMenus(this, this, this);
 
 #ifndef NO_CONFIGURE
@@ -1414,9 +1079,6 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
             case lookMetal:
                 scrollBarWidth = 17;
                 break;
-
-            case lookMAX:
-                break;
         }
     }
 
@@ -1441,9 +1103,6 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
             case lookFlat:
             case lookMetal:
                 scrollBarHeight = scrollBarWidth;
-                break;
-
-            case lookMAX:
                 break;
         }
     }
@@ -1524,32 +1183,7 @@ YWMApp::~YWMApp() {
     delete windowListMenu; windowListMenu = 0;
 #endif
 
-    closePixmap[0] = null;
-    depthPixmap[0] = null;
-    minimizePixmap[0] = null;
-    maximizePixmap[0] = null;
-    restorePixmap[0] = null;
-    hidePixmap[0] = null;
-    rollupPixmap[0] = null;
-    rolldownPixmap[0] = null;
-    menubackPixmap = null;
-    menuselPixmap = null;
-    menusepPixmap = null;
-    switchbackPixmap = null;
-    logoutPixmap = null;
-
-#ifdef CONFIG_GRADIENTS
-    menubackPixbuf = null;
-    menuselPixbuf = null;
-    menusepPixbuf = null;
-#endif
-
-#ifdef CONFIG_TASKBAR
-    if (!showTaskBar) {
-        taskbuttonactivePixmap = null;
-        taskbuttonminimizedPixmap = null;
-    }
-#endif
+    WPixRes::freePixmaps();
 
     //!!!XFreeGC(display(), outlineGC); lazy init in movesize.cc
     //!!!XFreeGC(display(), clipPixmapGC); in ypaint.cc
@@ -1701,22 +1335,14 @@ static void print_themes_list() {
     themeName = 0;
     ref<YResourcePaths> res(YResourcePaths::subdirs(null, true));
     for (int i = 0; i < res->getCount(); ++i) {
-        YObjectArray<upath> store;
-        for (udir dir(res->getPath(i)); dir.next(); ) {
+        for (sdir dir(res->getPath(i)); dir.next(); ) {
             upath thmp(dir.path() + dir.entry());
             if (thmp.dirExists()) {
-                for (udir thmdir(thmp); thmdir.nextExt(".theme"); ) {
+                for (sdir thmdir(thmp); thmdir.nextExt(".theme"); ) {
                     upath theme(thmdir.path() + thmdir.entry());
-                    int k = 0;
-                    for (; k < store.getCount(); ++k)
-                        if (theme.path().compareTo(store[k]->path()) < 0)
-                            break;
-                    store.insert(k, new upath(theme));
+                    puts(cstring(theme));
                 }
             }
-        }
-        for (int k = 0; k < store.getCount(); ++k) {
-            puts(store[k]->string().c_str());
         }
     }
     exit(0);

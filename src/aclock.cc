@@ -14,33 +14,22 @@
 
 #include "aclock.h"
 #include "wmtaskbar.h"
-
+#include "wpixmaps.h"
 #include "wmapp.h"
 #include "prefs.h"
 
 
 #ifdef CONFIG_APPLET_CLOCK
 
-ref<YPixmap> PixNum[10];
-ref<YPixmap> PixSpace;
-ref<YPixmap> PixColon;
-ref<YPixmap> PixSlash;
-ref<YPixmap> PixA;
-ref<YPixmap> PixP;
-ref<YPixmap> PixM;
-ref<YPixmap> PixDot;
-ref<YPixmap> PixPercent;
-
 YColor *YClock::clockBg = 0;
 YColor *YClock::clockFg = 0;
 ref<YFont> YClock::clockFont;
 
-extern ref<YPixmap> taskbackPixmap;
 static YColor *taskBarBg = 0;
 static char const *AppletClockTimeFmt = "%T";
 
 inline char const * strTimeFmt(struct tm const & t) {
-    if ((PixColon == null) || (! prettyClock))
+    if ((ledPixColon == null) || (! prettyClock))
         return (fmtTimeAlt && (t.tm_sec & 1) ? fmtTimeAlt : fmtTime);
     return AppletClockTimeFmt;
 }
@@ -219,7 +208,7 @@ void YClock::paint(Graphics &g, const YRect &/*r*/) {
             if (i >= 0)
                 p = getPixmap(s[i]);
             else
-                p = PixSpace;
+                p = ledPixSpace;
             if (p != null) {
                 x -= p->width();
                 g.drawPixmap(p, x, 0);
@@ -267,31 +256,31 @@ ref<YPixmap> YClock::getPixmap(char c) {
     case '7':
     case '8':
     case '9':
-        pix = PixNum[c - '0'];
+        pix = ledPixNum[c - '0'];
         break;
     case ' ':
-        pix = PixSpace;
+        pix = ledPixSpace;
         break;
     case ':':
-        pix = PixColon;
+        pix = ledPixColon;
         break;
     case '/':
-        pix = PixSlash;
+        pix = ledPixSlash;
         break;
     case '.':
-        pix = PixDot;
+        pix = ledPixDot;
         break;
     case 'p':
     case 'P':
-        pix = PixP;
+        pix = ledPixP;
         break;
     case 'a':
     case 'A':
-        pix = PixA;
+        pix = ledPixA;
         break;
     case 'm':
     case 'M':
-        pix = PixM;
+        pix = ledPixM;
         break;
     }
     return pix;

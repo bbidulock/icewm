@@ -19,7 +19,7 @@
 #include "sysdep.h"
 
 #include "aclock.h"
-
+#include "wpixmaps.h"
 #include "yapp.h"
 #include "prefs.h"
 #include "intl.h"
@@ -1169,7 +1169,7 @@ void YApm::paint(Graphics &g, const YRect &/*r*/) {
             if (i < len) {
                 p = getPixmap(fCurrentState[i]);
             } else
-                p = PixSpace;
+                p = ledPixSpace;
 
             if (p != null) {
                 g.drawPixmap(p, x, 0);
@@ -1215,14 +1215,15 @@ ref<YPixmap> YApm::getPixmap(char c) {
     ref<YPixmap> pix;
     switch (c) {
     case '0': case '1': case '2': case '3': case '4':
-    case '5': case '6': case '7': case '8': case '9': pix = PixNum[c - '0']; break;
-    case ' ': pix = PixSpace; break;
-    case ':': pix = PixColon; break;
-    case '.': pix = PixDot; break;
-    case 'P': pix = PixP; break;
-    case 'M': pix = PixM; break;
-    case '/': pix = PixSlash; break;
-    case '%': pix = PixPercent; break;
+    case '5': case '6': case '7': case '8': case '9':
+        pix = ledPixNum[c - '0']; break;
+    case ' ': pix = ledPixSpace; break;
+    case ':': pix = ledPixColon; break;
+    case '.': pix = ledPixDot; break;
+    case 'P': pix = ledPixP; break;
+    case 'M': pix = ledPixM; break;
+    case '/': pix = ledPixSlash; break;
+    case '%': pix = ledPixPercent; break;
     }
 
     return pix;

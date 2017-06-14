@@ -8,8 +8,7 @@
 #ifndef LITE
 
 #include "ylabel.h"
-#include "ydialog.h"  // !!! remove
-
+#include "wpixmaps.h"
 #include "base.h"
 #include "prefs.h"
 

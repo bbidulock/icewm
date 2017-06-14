@@ -41,17 +41,4 @@ private:
 };
 #endif
 
-// !!! remove this
-#ifdef CONFIG_APPLET_CLOCK
-extern ref<YPixmap> PixNum[10];
-extern ref<YPixmap> PixSpace;
-extern ref<YPixmap> PixColon;
-extern ref<YPixmap> PixSlash;
-extern ref<YPixmap> PixA;
-extern ref<YPixmap> PixP;
-extern ref<YPixmap> PixM;
-extern ref<YPixmap> PixDot;
-extern ref<YPixmap> PixPercent;
-#endif
-
 #endif

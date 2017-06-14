@@ -269,8 +269,11 @@ icewm_SOURCES = \
 	wmmgr.cc \
 	wmmgr.h \
 	appnames.h \
-	wmapp.cc \
 	guievent.h \
+	wpixmaps.h \
+	wpixres.cc \
+	wpixres.h \
+	wmapp.cc \
 	wmapp.h \
 	wmframe.cc \
 	wmframe.h \

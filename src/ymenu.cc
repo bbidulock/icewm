@@ -34,6 +34,16 @@ YColor *disabledMenuItemSt = 0;
 
 ref<YFont> menuFont;
 
+ref<YPixmap> menusepPixmap;
+ref<YPixmap> menuselPixmap;
+ref<YPixmap> menubackPixmap;
+
+#ifdef CONFIG_GRADIENTS
+ref<YImage> menuselPixbuf;
+ref<YImage> menusepPixbuf;
+ref<YImage> menubackPixbuf;
+#endif
+
 int YMenu::fAutoScrollDeltaX = 0;
 int YMenu::fAutoScrollDeltaY = 0;
 int YMenu::fAutoScrollMouseX = -1;

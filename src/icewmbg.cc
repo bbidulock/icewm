@@ -4,13 +4,12 @@
 #include "yxapp.h"
 #include "yarray.h"
 
-#if 1
 #include <stdio.h>
 #include "intl.h"
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#endif
+#include <signal.h>
 
 #include "yconfig.h"
 #include "yprefs.h"

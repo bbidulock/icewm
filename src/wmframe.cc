@@ -28,7 +28,7 @@
 #include "sysdep.h"
 #include "yrect.h"
 #include "yicon.h"
-
+#include "wpixmaps.h"
 #include "aworkspaces.h"
 
 #include "intl.h"
@@ -1950,27 +1950,14 @@ void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
 
     g.setColor(bg);
     switch (wmLook) {
-#if defined(CONFIG_LOOK_WIN95) || defined(CONFIG_LOOK_WARP4) || defined(CONFIG_LOOK_NICE)
-#ifdef CONFIG_LOOK_WIN95
     case lookWin95:
-#endif
-#ifdef CONFIG_LOOK_WARP4
     case lookWarp4:
-#endif
-#ifdef CONFIG_LOOK_NICE
     case lookNice:
-#endif
         g.fillRect(1, 1, width() - 3, height() - 3);
         g.drawBorderW(0, 0, width() - 1, height() - 1, true);
         break;
-#endif
-#if defined(CONFIG_LOOK_MOTIF) || defined(CONFIG_LOOK_WARP3)
-#ifdef CONFIG_LOOK_MOTIF
     case lookMotif:
-#endif
-#ifdef CONFIG_LOOK_WARP3
     case lookWarp3:
-#endif
         g.draw3DRect(0, 0, width() - 1, height() - 1, true);
         g.draw3DRect(borderX() - 1, borderY() - 1,
                      width() - 2 * borderX() + 1, height() - 2 * borderY() + 1,
@@ -1981,7 +1968,6 @@ void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
         g.fillRect(1, (height() - 1) - (borderY() - 2), width() - 2, borderX() - 2);
         g.fillRect((width() - 1) - (borderX() - 2), 1, borderX() - 2, height() - 2);
 
-#ifdef CONFIG_LOOK_MOTIF
         if (wmLook == lookMotif && canSize()) {
             YColor *b(bg->brighter());
             YColor *d(bg->darker());
@@ -1999,9 +1985,6 @@ void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
             g.drawLine(0, height() - wsCornerY, width(), height() - wsCornerY);
         }
         break;
-#endif
-#endif
-#ifdef CONFIG_LOOK_PIXMAP
     case lookPixmap:
     case lookMetal:
     case lookFlat:
@@ -2095,7 +2078,6 @@ void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
             }
         }
         break;
-#endif
     default:
         break;
     }
@@ -3572,7 +3554,7 @@ ref<YIcon> YFrameWindow::clientIcon() const {
         if (f->getClientIcon() != null)
             return f->getClientIcon();
 
-    return defaultAppIcon;
+    return YWMApp::getDefaultAppIcon();
 }
 #endif
 

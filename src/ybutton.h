@@ -88,12 +88,4 @@ private:
     static ref<YFont> activeButtonFont;
 };
 
-extern ref<YPixmap> buttonIPixmap;
-extern ref<YPixmap> buttonAPixmap;
-
-#ifdef CONFIG_GRADIENTS
-extern ref<YImage> buttonIPixbuf;
-extern ref<YImage> buttonAPixbuf;
-#endif
-
 #endif

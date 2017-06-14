@@ -283,9 +283,6 @@ void YScrollBar::paint(Graphics &g, const YRect &/*r*/) {
             g.drawBorderM(0, end + 1, width() - 1, beg - 1, fScrollTo != goDown);
             g.fillRect(2, end + 3, width() - 4, beg - 4);
             break;
-
-        case lookMAX:
-            break;
         }
         // --------------------- upper arrow ---
         g.setColor(fValue > fMinimum ? scrollBarActiveArrow
@@ -314,9 +311,6 @@ void YScrollBar::paint(Graphics &g, const YRect &/*r*/) {
             g.drawArrow(Up, 4, (beg - width() + 12) / 2,
                         width() - 8, fScrollTo == goUp);
             break;
-
-        case lookMAX:
-            break;
         }
         // --------------------- lower arrow ---
         g.setColor(fValue < fMaximum - fVisibleAmount ? scrollBarActiveArrow
@@ -344,9 +338,6 @@ void YScrollBar::paint(Graphics &g, const YRect &/*r*/) {
         case lookMetal:
             g.drawArrow(Down, 4, end + (beg - width() + 14) / 2,
                         width() - 8, fScrollTo == goDown);
-            break;
-
-        case lookMAX:
             break;
         }
 
@@ -391,9 +382,6 @@ void YScrollBar::paint(Graphics &g, const YRect &/*r*/) {
         case lookMetal:
             g.drawBorderM(0, y, width() - 1, h + 1, true);
             g.fillRect(2, y + 2, width() - 4, h - 2);
-            break;
-
-        case lookMAX:
             break;
         }
     } else { // ================================================= horizontal ===
@@ -466,9 +454,6 @@ void YScrollBar::paint(Graphics &g, const YRect &/*r*/) {
             g.drawBorderM(end + 1, 0, beg - 1, height() - 1, fScrollTo != goDown);
             g.fillRect(end + 3, 2, beg - 4, height() - 4);
             break;
-
-        case lookMAX:
-            break;
         }
         // ---------------------- left arrow ---
         g.setColor(fValue > fMinimum ? scrollBarActiveArrow
@@ -496,9 +481,6 @@ void YScrollBar::paint(Graphics &g, const YRect &/*r*/) {
         case lookMetal:
             g.drawArrow(Left, (beg - height() + 12) / 2, 4,
                         height() - 8, fScrollTo == goUp);
-            break;
-
-        case lookMAX:
             break;
         }
         // --------------------- right arrow ---
@@ -528,9 +510,6 @@ void YScrollBar::paint(Graphics &g, const YRect &/*r*/) {
         case lookMetal:
             g.drawArrow(Right, end + (beg - height() + 14) / 2, 4,
                         height() - 8, fScrollTo == goDown);
-            break;
-
-        case lookMAX:
             break;
         }
 
@@ -576,9 +555,6 @@ void YScrollBar::paint(Graphics &g, const YRect &/*r*/) {
         case lookMetal:
             g.drawBorderM(x, 0, w + 1, height() - 1, true);
             g.fillRect(x + 2, 2, w - 2, height() - 4);
-            break;
-
-        case lookMAX:
             break;
         }
     }

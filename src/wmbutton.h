@@ -27,14 +27,5 @@ private:
     YAction *fAction;
     YAction *fAction2;
 };
-//changed robc
-extern ref<YPixmap> closePixmap[3];
-extern ref<YPixmap> minimizePixmap[3];
-extern ref<YPixmap> maximizePixmap[3];
-extern ref<YPixmap> restorePixmap[3];
-extern ref<YPixmap> hidePixmap[3];
-extern ref<YPixmap> rollupPixmap[3];
-extern ref<YPixmap> rolldownPixmap[3];
-extern ref<YPixmap> depthPixmap[3];
 
 #endif
