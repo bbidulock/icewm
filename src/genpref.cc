@@ -1,4 +1,8 @@
 #include "config.h"
+#include "base.h"
+
+char const *ApplicationName;
+
 #ifndef NO_CONFIGURE
 #define CFGDESC
 #include "ykey.h"
@@ -17,8 +21,6 @@ void addBgImage(const char *, const char *, bool) {}
 #include "default.h"
 #include "themable.h"
 #include "icewmbg_prefs.h"
-
-char const *ApplicationName;
 
 void show(cfoption *options) {
     for (unsigned int i = 0; options[i].type != cfoption::CF_NONE; i++) {

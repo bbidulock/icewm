@@ -58,8 +58,10 @@ TaskBar *taskBar = 0;
 YColor *taskBarBg = 0;
 
 static void initPixmaps() {
+#ifdef CONFIG_GRADIENTS
     if (taskbarStartImage == null || !taskbarStartImage->valid())
         taskbarStartImage = taskbarLinuxImage;
+#endif
 }
 
 EdgeTrigger::EdgeTrigger(TaskBar *owner) {
@@ -174,14 +176,20 @@ YFrameClient(aParent, 0) INIT_GRADIENT(fGradient, NULL)
     setWinStateHint(WinStateAllWorkspaces, WinStateAllWorkspaces);
     //!!!setWinStateHint(WinStateDockHorizontal, WinStateDockHorizontal);
 
+#ifdef GNOME1_HINTS
     setWinHintsHint(WinHintsSkipFocus |
                     WinHintsSkipWindowMenu |
                     WinHintsSkipTaskBar);
+#endif
 
+#if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)
     setWinWorkspaceHint(0);
+#endif
+#ifdef GNOME1_HINTS
     setWinLayerHint((taskBarAutoHide || fFullscreen) ? WinLayerAboveAll :
                     fIsCollapsed ? WinLayerAboveDock :
                     taskBarKeepBelow ? WinLayerBelow : WinLayerDock);
+#endif
     Atom protocols[2] = { 
       _XA_WM_DELETE_WINDOW,
       _XA_WM_TAKE_FOCUS
@@ -257,11 +265,11 @@ TaskBar::~TaskBar() {
     for (MailBoxStatus ** m(fMailBoxStatus); m && *m; ++m) delete *m;
     delete[] fMailBoxStatus; fMailBoxStatus = 0;
 #endif
-    delete fApplications; fApplications = 0;
 #ifdef CONFIG_WINMENU
     delete fWinList; fWinList = 0;
 #endif
 #ifndef NO_CONFIGURE_MENUS
+    delete fApplications; fApplications = 0;
     delete fObjectBar; fObjectBar = 0;
 #endif
     delete fWorkspaces;
@@ -787,23 +795,14 @@ void TaskBar::updateLocation() {
     else
         fEdgeTrigger->hide();
 
-/// TODO #warning "optimize this"
     {
-        MwmHints mwm;
-
-        memset(&mwm, 0, sizeof(mwm));
-        mwm.flags =
-            MWM_HINTS_FUNCTIONS |
-            MWM_HINTS_DECORATIONS;
-        mwm.functions =
-            MWM_FUNC_MOVE /*|
-            MWM_FUNC_RESIZE*/;
-        if (fIsHidden)
-            mwm.decorations = 0;
-        else
-            mwm.decorations = 0;
-        //MWM_DECOR_BORDER /*|
-        //MWM_DECOR_RESIZEH*/;
+        MwmHints mwm =
+        { MWM_HINTS_FUNCTIONS | MWM_HINTS_DECORATIONS
+        , MWM_FUNC_MOVE // | MWM_FUNC_RESIZE
+        , 0 // MWM_DECOR_BORDER | MWM_DECOR_RESIZEH
+        , 0
+        , 0
+        };
 
         XChangeProperty(xapp->display(), handle(),
                         _XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
@@ -985,6 +984,7 @@ void TaskBar::handleDrag(const XButtonEvent &/*down*/, const XMotionEvent &motio
 }
 
 void TaskBar::popupStartMenu() {
+#ifndef NO_CONFIGURE_MENUS
     if (fApplications) {
         /*requestFocus();
          fApplications->requestFocus();
@@ -992,6 +992,7 @@ void TaskBar::popupStartMenu() {
         popOut();
         fApplications->popupMenu();
     }
+#endif
 }
 
 void TaskBar::popupWindowListMenu() {
@@ -1041,9 +1042,11 @@ void TaskBar::showBar(bool visible) {
         if (getFrame() == 0)
             manager->mapClient(handle());
         if (getFrame() != 0) {
+#if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)
             setWinLayerHint((taskBarAutoHide || fFullscreen) ? WinLayerAboveAll :
                             fIsCollapsed ? WinLayerAboveDock :
                             taskBarKeepBelow ? WinLayerBelow : WinLayerDock);
+#endif
             getFrame()->setState(WinStateAllWorkspaces, WinStateAllWorkspaces);
             getFrame()->activate(true);
             updateLocation();

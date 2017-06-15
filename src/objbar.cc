@@ -88,7 +88,7 @@ void ObjectBar::addSeparator() {
 
 void ObjectBar::addContainer(const ustring &name, ref<YIcon> icon, ObjectContainer *container) {
     if (container) {
-        YButton *button = new ObjectButton(this, (ObjectMenu*) container);
+        YButton *button = new ObjectButton(this, (YMenu*) container);
         addButton(name, icon, button);
     }
 }

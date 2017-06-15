@@ -79,6 +79,7 @@ extern ref<YImage> toolbuttonPixbuf;
 
 extern ref<YImage> workspacebuttonPixbuf;
 extern ref<YImage> workspacebuttonactivePixbuf;
+#endif
 
 extern ref<YImage> taskbarStartImage;
 extern ref<YImage> taskbarLinuxImage;   // deprecated
@@ -86,7 +87,6 @@ extern ref<YImage> taskbarWindowsImage;
 extern ref<YImage> taskbarShowDesktopImage;
 extern ref<YImage> taskbarCollapseImage;
 extern ref<YImage> taskbarExpandImage;
-#endif
 
 #ifdef CONFIG_APPLET_MAILBOX
 extern ref<YPixmap> mailPixmap;

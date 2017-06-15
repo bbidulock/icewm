@@ -70,6 +70,8 @@ AboutDlg::AboutDlg(): YDialog() {
     //setIconTitle("icewm - About");
 #if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)
     setWinLayerHint(WinLayerAboveDock);
+#endif
+#if defined(GNOME1_HINTS)
     setWinHintsHint(WinHintsSkipWindowMenu);
 #endif
     setWinStateHint(WinStateAllWorkspaces, WinStateAllWorkspaces);

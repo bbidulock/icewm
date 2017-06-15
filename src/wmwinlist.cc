@@ -250,8 +250,10 @@ void WindowListBox::enableCommands(YMenu *popup) {
                 sameWorkspace = false;
         }
     }
+#ifndef CONFIG_PDA
     if (!notHidden)
         popup->disableCommand(actionHide);
+#endif
     if (!notMinimized)
         popup->disableCommand(actionMinimize);
 
@@ -342,8 +344,12 @@ YFrameClient(aParent, 0) {
     setWindowTitle(_("Window list"));
     setIconTitle(_("Window list"));
     setWinStateHint(WinStateAllWorkspaces, WinStateAllWorkspaces);
+#if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)
     setWinWorkspaceHint(0);
+#endif
+#ifdef GNOME1_HINTS
     setWinLayerHint(WinLayerAboveDock);
+#endif
 }
 
 WindowList::~WindowList() {

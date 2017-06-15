@@ -170,11 +170,14 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
 
             g.fillRect(1, 1, width() - 2, height() - 2);
 
-            if (icon != null && showFrameIcon)
+#ifndef LITE
+            if (icon != null && showFrameIcon) {
                 icon->draw(g,
                            (width() - iconSize) / 2,
                            (height() - iconSize) / 2,
                            iconSize);
+            }
+#endif
         } else {
             g.fillRect(0, 0, width(), height());
 
@@ -209,13 +212,17 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
         if (fAction == 0) {
             g.fillRect(xPos, yPos, w, h);
 
-            if (icon != null && showFrameIcon)
+            if (icon != null && showFrameIcon) {
+#ifndef LITE
                 icon->draw(g,
                            xPos + (w - iconSize) / 2,
                            yPos + (h - iconSize) / 2,
                            iconSize);
-            else if (pixmap != null)
+#endif
+            }
+            else if (pixmap != null) {
                 g.drawCenteredPixmap(xPos, yPos, w, h, pixmap);
+            }
         } else {
             if (pixmap != null)
                 g.drawCenteredPixmap(xPos, yPos, w, h, pixmap);
@@ -231,12 +238,14 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
 
             g.fillRect(0, 0, width(), height());
 
+#ifndef LITE
             if (icon != null && showFrameIcon) {
                 icon->draw(g,
                            (width() - iconSize) / 2,
                            (height() - iconSize) / 2,
                            iconSize);
             }
+#endif
         } else {
             g.drawBorderW(0, 0, width() - 1, height() - 1, !armed);
 
@@ -266,14 +275,19 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
                int y(((int)height() - (int)pixmap->height()) / 2);
                g.drawPixmap(pixmap, x, y);
             }
-        } else
+        }
+        else {
             g.fillRect(0, 0, width(), height());
 
-        if (fAction == 0 && icon != null && showFrameIcon)
-            icon->draw(g,
-                       ((int)width() - (int)iconSize) / 2,
-                       ((int)height() - (int)iconSize) / 2,
-                       iconSize);
+#ifndef LITE
+            if (fAction == 0 && icon != null && showFrameIcon) {
+                icon->draw(g,
+                           ((int)width() - (int)iconSize) / 2,
+                           ((int)height() - (int)iconSize) / 2,
+                           iconSize);
+            }
+#endif
+        }
     }
 }
 

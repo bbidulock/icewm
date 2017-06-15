@@ -212,9 +212,11 @@ static const PixmapResource taskbarPixRes[] = {
     PixmapResource(buttonAPixmap, "taskbuttonactive.xpm"),
 
 #ifdef CONFIG_TASKBAR
+#ifdef CONFIG_GRADIENTS
     PixmapResource(toolbuttonPixbuf, "toolbuttonbg.xpm", "buttonI.xpm"),
     PixmapResource(workspacebuttonPixbuf, "workspacebuttonbg.xpm", "buttonI.xpm"),
     PixmapResource(workspacebuttonactivePixbuf, "workspacebuttonactive.xpm", "buttonA.xpm"),
+#endif
 
     PixmapResource(toolbuttonPixmap, "toolbuttonbg.xpm", "buttonI.xpm"),
     PixmapResource(workspacebuttonPixmap, "workspacebuttonbg.xpm", "buttonI.xpm"),

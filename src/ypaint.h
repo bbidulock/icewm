@@ -1,7 +1,6 @@
 #ifndef __YPAINT_H
 #define __YPAINT_H
 
-#include "base.h"
 #include "ref.h"
 #include "ypixmap.h"
 #include "yimage.h"
@@ -11,9 +10,8 @@
 #endif
 
 #include <X11/Xlib.h>
-
-#ifdef CONFIG_SHAPE
 #include <X11/Xutil.h>
+#ifdef CONFIG_SHAPE
 #define __YIMP_XUTIL__
 #include <X11/extensions/shape.h>
 #endif

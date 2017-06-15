@@ -474,8 +474,12 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
             }
             updateMwmHints();
             updateLayer(true);
-        } else if (fClient->getWinLayerHint(&layer))
+        }
+#ifdef GNOME1_HINTS
+        else if (fClient->getWinLayerHint(&layer)) {
             setRequestedLayer(layer);
+        }
+#endif
 #endif
     }
 

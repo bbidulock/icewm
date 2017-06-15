@@ -69,7 +69,6 @@ void addWorkspace(const char * /*name*/, const char *value, bool append) {
     workspaceCount++;
 }
 
-#ifndef NO_CONFIGURE
 static const struct {
     const char name[8];
     enum WMLook value;
@@ -105,6 +104,7 @@ bool getLook(const char *name, const char *arg, enum WMLook *lookPtr) {
     return false;
 }
 
+#ifndef NO_CONFIGURE
 void setLook(const char *name, const char *arg, bool) {
     enum WMLook look = wmLook;
     if (getLook(name, arg, &look)) {
@@ -223,7 +223,9 @@ static void print_options(cfoption *options) {
 }
 
 void WMConfig::print_preferences() {
+#ifndef NO_CONFIGURE
     print_options(icewm_preferences);
     print_options(icewm_themable_preferences);
+#endif
 }
 
