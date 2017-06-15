@@ -72,7 +72,7 @@ int main(int argc, char ** /*argv*/) {
             XGetGeometry(display, window, &xroot, &nwx, &nwy, &nww, &nwh, &bw, &depth);
             XTranslateCoordinates(display, window, root, 0, 0, &nrx, &nry, &child);
 
-            if (nwx != wx || nwy != wy || nww != ww || nwh != nwh || nrx != rx || nry != ry) {
+            if (nwx != wx || nwy != wy || nww != ww || nwh != wh || nrx != rx || nry != ry) {
                 fprintf(stderr, "%d %d %d %d %d %d\n", nwx, nwy, nww, nwh, nrx, nry);
                 wx = nwx;
                 wy = nwy;

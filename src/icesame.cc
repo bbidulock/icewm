@@ -26,6 +26,8 @@
 
 char const *ApplicationName = "icesame";
 
+ref<YPixmap> dialogbackPixmap;
+
 class IceSame: public YWindow, public YActionListener {
 public:
     IceSame(YWindow *parent): YWindow(parent) {
@@ -82,9 +84,11 @@ public:
                             (unsigned char *)&mwm, sizeof(mwm)/sizeof(long)); ///!!!
         }
 
+        char res_name[] = "icesame";
+        char res_class[] = "IceSame";
         XClassHint ch;
-        ch.res_name = "icesame";
-        ch.res_class = "IceSame";
+        ch.res_name = res_name;
+        ch.res_class = res_class;
         XSetClassHint(xapp->display(), handle(), &ch);
 
         newGame();

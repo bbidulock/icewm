@@ -19,6 +19,8 @@
 #include "intl.h"
 
 const char *ApplicationName = "icelist";
+ref<YPixmap> listbackPixmap;
+ref<YImage> listbackPixbuf;
 
 class ObjectList;
 class ObjectListBox;

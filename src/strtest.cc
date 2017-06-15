@@ -1,6 +1,7 @@
 #include "config.h"
 #include "mstring.h"
 #include "upath.h"
+#include "base.h"
 #include "udir.h"
 #include <stdio.h>
 #include <libgen.h>
