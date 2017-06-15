@@ -309,7 +309,7 @@ public:
 static PixmapsDescription pixdes[] = {
     { themePixRes, ACOUNT(themePixRes), 0, true },
     { taskbarPixRes, ACOUNT(taskbarPixRes), "taskbar", true },
-    { taskbar2PixRes, ACOUNT(taskbarPixRes), "taskbar", false },
+    { taskbar2PixRes, ACOUNT(taskbar2PixRes), "taskbar", false },
     { mailboxPixRes, ACOUNT(mailboxPixRes), "mailbox", false },
     { ledclockPixRes, ACOUNT(ledclockPixRes), "ledclock", false },
 };
