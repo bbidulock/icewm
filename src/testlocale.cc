@@ -15,7 +15,7 @@ foreign_str(char const *charset, char const *foreign)
     size_t len(strlen(charset) + strlen(foreign));
     char * str = new char [len + 8];
 
-    sprintf (str, "\033%%/1\\%03o\\%03o%s\002%s",
+    sprintf (str, "\033%%/1\\%03zo\\%03zo%s\002%s",
              128 + len / 128, 128 + len % 128, charset, foreign);
 
     return str;
