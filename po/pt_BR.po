@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.3.4pre2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-06-16 11:28-0600\n"
+"POT-Creation-Date: 2017-06-16 12:18-0600\n"
 "PO-Revision-Date: 2017-06-16 15:58+0000\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive68@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://l10n.opensuse.org/projects/icewm/"
@@ -1147,8 +1147,8 @@ msgstr "_Cancelar"
 msgid "_Restart icewm"
 msgstr "_Reiniciar icewm"
 
-#: src/wmdialog.cc:125 src/wmprog.cc:879 src/wmprog.cc:881
-#: src/wmtaskbar.cc:316 src/wmtaskbar.cc:319
+#: src/wmdialog.cc:125 src/wmprog.cc:879 src/wmprog.cc:881 src/wmtaskbar.cc:316
+#: src/wmtaskbar.cc:319
 msgid "_About"
 msgstr "So_bre"
 
