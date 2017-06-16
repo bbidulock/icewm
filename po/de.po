@@ -56,8 +56,8 @@ msgid ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 "softirq = %llu, steal = %llu (h = %i)\n"
 msgstr ""
-"Balken:\tBenutzer = %llu, nice = %llu, sys = %llu, iowait = %llu, "
-"intr = %llu, softirq = %llu, steal = %llu (h = %i)\n"
+"Balken:\tBenutzer = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = "
+"%llu, softirq = %llu, steal = %llu (h = %i)\n"
 
 #: src/acpustatus.cc:262
 #, c-format
