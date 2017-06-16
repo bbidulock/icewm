@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-06-16 11:28-0600\n"
-"PO-Revision-Date: 2017-06-16 15:29+0000\n"
-"Last-Translator: Bernhard Wiedemann <bwiedemann@suse.com>\n"
+"PO-Revision-Date: 2017-06-16 17:35+0000\n"
+"Last-Translator: Sarah Kriesch <ada.lovelace@gmx.de>\n"
 "Language-Team: German <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
 "branch/de/>\n"
 "Language: de\n"
@@ -56,8 +56,8 @@ msgid ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 "softirq = %llu, steal = %llu (h = %i)\n"
 msgstr ""
-"balken:\tBenutzer = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = "
-"%llu, softirq = %llu, steal = %llu (h = %i)\n"
+"Balken:\tBenutzer = %l 1lu, nice = %l 2lu, sys = %l 3lu, iowait = %l 4lu, "
+"intr = %l 5lu, softirq = %l 6lu, steal = %l 7lu (h = %i 8)\n"
 
 #: src/acpustatus.cc:262
 #, c-format
@@ -518,11 +518,17 @@ msgid ""
 "  --display=NAME      Use NAME to connect to the X server.\n"
 "  --sync              Synchronize communication with X11 server.\n"
 msgstr ""
+"  -c, --config=DATEI   Lässt IceWM Prioritäten aus DATEI laden.\n"
+"  -t, --theme=DATEI    Lässt IceWM  das Theme aus DATEI laden.\n"
+"\n"
+"  --display=NAME      Verwendet NAME zur Verbindung mit dem X-Server.\n"
+"  --sync              Synchronisierung der Kommunikation mit dem X11-"
+"Server.\n"
 
 #: src/icesm.cc:97
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown option '%s'"
-msgstr "Unbekannte Aktion: »%s«"
+msgstr "Unbekannte Aktion: '%s'"
 
 #: src/icesound.cc:255 src/icesound.cc:423 src/icesound.cc:791
 #, c-format
@@ -697,6 +703,14 @@ msgid ""
 "  -c, --config=FILE   Load preferences from FILE.\n"
 "  -t, --theme=FILE    Load the theme from FILE.\n"
 msgstr ""
+"  --notify            Eltern-Prozess mit dem Senden des Signals USR1 "
+"benachrichtigen.\n"
+"  --display=NAME      Verwenden von NAME um sich mit dem X-Server zu "
+"verbinden.\n"
+"  --sync              Synchronisation der Kommunikation mit dem X11-Server.\n"
+"\n"
+"  -c, --config=DATEI   Laden der Prioritäten aus DATEI.\n"
+"  -t, --theme=DATEI    Laden des Themes aus DATEI.\n"
 
 #: src/iceview.cc:72
 msgid "Hex View"
@@ -723,7 +737,6 @@ msgid "Ctrl+W"
 msgstr "Strg+W"
 
 #: src/icewmbg.cc:410
-#, fuzzy
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "\n"
@@ -753,9 +766,22 @@ msgid ""
 " center:1 scaled:1 = keep aspect ratio\n"
 "\n"
 msgstr ""
-"Aufruf: icewmbg [ -r | -q ]\n"
-" -r  icewmbg neustartarten\n"
+"Aufruf: icewmbg [OPTIONEN]\n"
+"\n"
+"Optionen:\n"
+" -r  icewmbg neustarten\n"
 " -q  icewmbg beenden\n"
+"\n"
+"  -c, --config=DATEI   Prioritäten aus DATEI laden.\n"
+"  -t, --theme=DATEI    Theme aus DATEI laden.\n"
+"\n"
+"  --display=NAME      NAME zur Verbindung mit den X-Server verwenden.\n"
+"  --sync              Synchronisierung der Kommunikation mit dem X11-"
+"Server.\n"
+"\n"
+"  -h, --help          Ausgabe der Verwendung und beenden.\n"
+"  -V, --version       Ausgabe der Versionsinformationen und beenden.\n"
+"\n"
 "Lädt den Desktop-Hintergrund gemäß der Datei »preferences«\n"
 " DesktopBackgroundCenter  - Zeigt den Hintergrund zentriert an\n"
 " DesktopBackgroundScaled  - Zeigt den Hintergrund vergrössert an\n"
@@ -767,6 +793,7 @@ msgstr ""
 "\n"
 " center:0 scaled:0 = Kacheln\n"
 " center:1 scaled:1 = Seitenverhältnis beibehalten\n"
+"\n"
 
 #: src/icewmhint.cc:45
 msgid "Usage: icewmhint [class.instance] option arg\n"
@@ -791,6 +818,12 @@ msgid ""
 "  -h, --help          Prints this usage screen and exits.\n"
 "\n"
 msgstr ""
+"Aufruf: %s [OPTIONEN]\n"
+"Optionen:\n"
+"%s\n"
+"  -V, --version       Gibt Versionsinformationen aus und beendet.\n"
+"  -h, --help          Gibt die Verwendung/ Hilfe aus und beendet.\n"
+"\n"
 
 #: src/movesize.cc:903
 #, c-format
@@ -984,6 +1017,8 @@ msgstr ""
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
+"  --client-id=ID      zu verwendende Client-ID, wenn der Sitzungs-Manager "
+"kontaktiert wird.\n"
 
 #: src/wmapp.cc:1288
 msgid ""
@@ -991,9 +1026,13 @@ msgid ""
 "  --debug             Print generic debug messages.\n"
 "  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
+"\n"
+"  --debug             Gibt generische Debug-Nachrichten aus.\n"
+"  --debug-z           Gibt Debug-Nachrichten mit dem Blick auf window "
+"stacking aus.\n"
 
 #: src/wmapp.cc:1294
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
 "Starts the IceWM window manager.\n"
@@ -1035,33 +1074,37 @@ msgstr ""
 "\n"
 "  -c, --config=DATEI  Lädt Einstellungen aus der DATEI.\n"
 "  -t, --theme=DATEI   Lädt das Thema aus der DATEI.\n"
-"  -n, --no-configure  Ignoriert die Datei mit Einstellungen.\n"
 "\n"
-"  -v, --version       Zeigt nur die Version an.\n"
+"  -V, --version       Zeigt nur die Version an.\n"
 "  -h, --help          Zeigt nur diese Hilfe an.\n"
 "%s  --replace           Ersetzt einen laufenden Fenstermanager.\n"
 "  --restart           Bitte nicht verwenden: Dies ist ein interner "
 "Schalter.\n"
+"  --configured        Zeigt die kompilierte Zeit-Konfiguration an.\n"
+"  --directories       Zeigt die Konfigurationsverzeichnisse an.\n"
+"  -l, --list-themes   Zeigt eine Liste aller verfügbaren Themes an.\n"
+"  --postpreferences   Zeigt Prioritäten nach allen Prozessen an.\n"
 "\n"
 "Umgebungsvariablen:\n"
+"  XDG_CONFIG_HOME=PFAD  Verzeichnis für Konfigurationsdateien,\n"
+"                      standardmäßig \"$HOME/.config/icewm/\".\n"
 "  ICEWM_PRIVCFG=PFAD  Verzeichnis mit privaten Konfigurationsdateien des\n"
-"                      Benutzers, standardmäßig »$HOME/.icewm/«.\n"
-"  DISPLAY=NAME        Name des X-Servers; Standard hängt von Xlib ab.\n"
-"  MAIL=URL            Adresse Ihres Postfachs. Ohne Protokoll-Angabe wird\n"
-"                      das lokale »file«-Protokoll angenommen.\n"
+"                      Benutzers, standardmäßig \"$HOME/.icewm/\".\n"
+"  DISPLAY=NAME        Name des zu verwendenden X-Servers.\n"
+"  MAIL=URL            Adresse Ihres Postfachs. \n"
 "\n"
-"Besuchen Sie http://www.icewm.org/ für Fehlerberichte, Support-Anfragen, "
-"Kommentare ...\n"
+"Für Fehlerberichte, Support-Anfragen, Kommentare besuchen Sie bitte: %s\n"
+"\n"
 
 #: src/wmapp.cc:1356
 #, c-format
 msgid "%s configuration directories:\n"
-msgstr ""
+msgstr "%s Konfigurationsverzeichnisse:\n"
 
 #: src/wmapp.cc:1499
-#, fuzzy, c-format
+#, c-format
 msgid "%s configured options:%s\n"
-msgstr "Unbekannte Fensteroption: %s\n"
+msgstr "%s konfigurierte Optionen: %s\n"
 
 #: src/wmapp.cc:1592
 msgid "Confirm Logout"
@@ -1076,9 +1119,9 @@ msgstr ""
 "Fortfahren?"
 
 #: src/wmconfig.cc:43
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load theme %s"
-msgstr "Konnte %s nicht öffnen: %s"
+msgstr "Konnte Theme %s nicht laden"
 
 #: src/wmconfig.cc:113
 #, fuzzy, c-format
@@ -1086,19 +1129,19 @@ msgid "Unknown value '%s' for option '%s'."
 msgstr "Unbekannte Aktion: »%s«"
 
 #: src/wmconfig.cc:122
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to create directory %s"
-msgstr "Fehler beim Erstellen des Kindprozesses: %s"
+msgstr "Kann Verzeichnis %s nicht erstellen"
 
 #: src/wmconfig.cc:159
 #, c-format
 msgid "Unable to write to %s"
-msgstr ""
+msgstr "Kann nicht in %s schreiben"
 
 #: src/wmconfig.cc:186
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to rename %s to %s"
-msgstr "Konnte %s nicht öffnen: %s"
+msgstr "Kann %s nicht in %s umbenennen"
 
 #: src/wmdialog.cc:83
 msgid "Loc_k Workstation"
@@ -1117,8 +1160,8 @@ msgstr "Ab_brechen"
 msgid "_Restart icewm"
 msgstr "IceWM _neu starten"
 
-#: src/wmdialog.cc:125 src/wmprog.cc:879 src/wmprog.cc:881 src/wmtaskbar.cc:316
-#: src/wmtaskbar.cc:319
+#: src/wmdialog.cc:125 src/wmprog.cc:879 src/wmprog.cc:881
+#: src/wmtaskbar.cc:316 src/wmtaskbar.cc:319
 msgid "_About"
 msgstr "Produkt_information"
 
@@ -1197,34 +1240,34 @@ msgid "Missing filename argument to include statement"
 msgstr ""
 
 #: src/wmprog.cc:316
-#, fuzzy, c-format
+#, c-format
 msgid "Error at %s '%s'"
-msgstr "Fehler bei key-Eintrag %s"
+msgstr "Fehler bei  %s '%s'"
 
 #: src/wmprog.cc:367
-#, fuzzy, c-format
+#, c-format
 msgid "Unexepected menu keyword: '%s'"
-msgstr "Unerwartetes Schlüsselwort: %s"
+msgstr "Unerwartetes Menü-Schlüsselwort: '%s'"
 
 #: src/wmprog.cc:413
-#, fuzzy, c-format
+#, c-format
 msgid "Error at menuprog '%s'"
-msgstr "Fehler bei prog-Eintrag %s"
+msgstr "Fehler bei menuprog '%s'"
 
 #: src/wmprog.cc:454
-#, fuzzy, c-format
+#, c-format
 msgid "Error at %s: '%s'"
-msgstr "Fehler bei key-Eintrag %s"
+msgstr "Fehler bei %s: '%s'"
 
 #: src/wmprog.cc:479
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown keyword '%s'"
-msgstr "Unbekannte Aktion: »%s«"
+msgstr "Unbekanntes Schlüsselwort '%s'"
 
 #: src/wmprog.cc:503
-#, fuzzy, c-format
+#, c-format
 msgid "Error at keyword '%s' for %s"
-msgstr "Fehler bei key-Eintrag %s"
+msgstr "Fehler bei Schlüsselwort '%s' für %s"
 
 #: src/wmprog.cc:519
 #, c-format
@@ -1236,7 +1279,7 @@ msgstr ""
 #: src/wmprog.cc:648
 #, c-format
 msgid "'%s' produces no output"
-msgstr ""
+msgstr "'%s' produziert keine Ausgabe"
 
 #: src/wmprog.cc:831 src/wmprog.cc:833
 msgid "Programs"
@@ -1442,9 +1485,10 @@ msgstr ""
 "interpretieren)"
 
 #: src/ycursor.cc:219
-#, fuzzy, c-format
+#, c-format
 msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
-msgstr "Unerwartetes Zeichen (Imlib konnte die Datei »%s« aber interpretieren)"
+msgstr ""
+"BUG? Unerwartetes Zeichen, aber Imlib konnte die Datei \"%s\"  interpretieren"
 
 #: src/yfontcore.cc:71 src/yfontxft.cc:176
 #, c-format
@@ -1597,13 +1641,11 @@ msgid ""
 "  --sync              Synchronize X11 commands.\n"
 msgstr ""
 
-#, fuzzy
 #~ msgid "Multiple references for gradient '%s' in theme '%s'."
-#~ msgstr "Der Verlauf »%s« wurde mehrfach referenziert"
+#~ msgstr "Unterschiedliche Referenzen für Gradienten '%s' in Theme '%s'."
 
-#, fuzzy
 #~ msgid "Unknown gradient name '%s' in theme '%s'."
-#~ msgstr "Unbekannter Verlaufsname: »%s«"
+#~ msgstr "Unbekannter Gradienten-Name '%s' in Theme '%s'."
 
 #
 #~ msgid "Bad Look name"
