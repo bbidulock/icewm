@@ -255,12 +255,6 @@ YCursor::~YCursor() {
     unload();
 }
 
-#ifndef LITE
-
-static Pixmap createMask(int w, int h) {
-    return XCreatePixmap(xapp->display(), desktop->handle(), w, h, 1);
-}
-
 class MyCursorLoader : public YCursorLoader {
 private:
     ref<YResourcePaths> paths;
@@ -274,6 +268,11 @@ public:
 
     virtual Cursor load(upath path, unsigned int fallback);
 };
+
+#ifndef LITE
+static Pixmap createMask(int w, int h) {
+    return XCreatePixmap(xapp->display(), desktop->handle(), w, h, 1);
+}
 
 Cursor MyCursorLoader::load(upath path) {
     Cursor fCursor = None;

@@ -69,55 +69,48 @@ void addWorkspace(const char * /*name*/, const char *value, bool append) {
     workspaceCount++;
 }
 
+static const struct {
+    const char name[8];
+    enum WMLook value;
+} wmLookNames[] = {
+    { "win95",  lookWin95  },
+    { "motif",  lookMotif  },
+    { "warp3",  lookWarp3  },
+    { "warp4",  lookWarp4  },
+    { "nice",   lookNice   },
+    { "pixmap", lookPixmap },
+    { "metal",  lookMetal  },
+    { "gtk",    lookGtk    },
+    { "flat",   lookFlat   },
+};
+
+const char* getLookName(enum WMLook look) {
+    for (size_t k = 0; k < ACOUNT(wmLookNames); ++k) {
+        if (look == wmLookNames[k].value)
+            return wmLookNames[k].name;
+    }
+    return "";
+}
+
+bool getLook(const char *name, const char *arg, enum WMLook *lookPtr) {
+    for (size_t k = 0; k < ACOUNT(wmLookNames); ++k) {
+        if (0 == strcmp(arg, wmLookNames[k].name)) {
+            if (lookPtr) {
+                *lookPtr = wmLookNames[k].value;
+            }
+            return true;
+        }
+    }
+    return false;
+}
+
 #ifndef NO_CONFIGURE
-void setLook(const char * /*name*/, const char *arg, bool) {
-#ifdef CONFIG_LOOK_WARP4
-    if (strcmp(arg, "warp4") == 0)
-        wmLook = lookWarp4;
-    else
-#endif
-#ifdef CONFIG_LOOK_WARP3
-    if (strcmp(arg, "warp3") == 0)
-        wmLook = lookWarp3;
-    else
-#endif
-#ifdef CONFIG_LOOK_WIN95
-    if (strcmp(arg, "win95") == 0)
-        wmLook = lookWin95;
-    else
-#endif
-#ifdef CONFIG_LOOK_MOTIF
-    if (strcmp(arg, "motif") == 0)
-        wmLook = lookMotif;
-    else
-#endif
-#ifdef CONFIG_LOOK_NICE
-    if (strcmp(arg, "nice") == 0)
-        wmLook = lookNice;
-    else
-#endif
-#ifdef CONFIG_LOOK_PIXMAP
-    if (strcmp(arg, "pixmap") == 0)
-        wmLook = lookPixmap;
-    else
-#endif
-#ifdef CONFIG_LOOK_METAL
-    if (strcmp(arg, "metal") == 0)
-        wmLook = lookMetal;
-    else
-#endif
-#ifdef CONFIG_LOOK_FLAT
-    if (strcmp(arg, "flat") == 0)
-        wmLook = lookFlat;
-    else
-#endif
-#ifdef CONFIG_LOOK_GTK
-    if (strcmp(arg, "gtk") == 0)
-        wmLook = lookGtk;
-    else
-#endif
-    {
-        msg(_("Bad Look name"));
+void setLook(const char *name, const char *arg, bool) {
+    enum WMLook look = wmLook;
+    if (getLook(name, arg, &look)) {
+        wmLook = look;
+    } else {
+        msg(_("Unknown value '%s' for option '%s'."), arg, name);
     }
 }
 #endif
@@ -199,6 +192,12 @@ int WMConfig::setDefault(const char *basename, const char *content) {
 
 static void print_options(cfoption *options) {
     for (int i = 0; options[i].type != cfoption::CF_NONE; ++i) {
+        if (options[i].notify) {
+            if (0 == strcmp("Look", options[i].name)) {
+                printf("%s=%s\n", "Look", getLookName(wmLook));
+            }
+            continue;
+        }
         switch (options[i].type) {
         case cfoption::CF_BOOL:
             printf("%s=%d\n", options[i].name, *options[i].v.bool_value);
@@ -224,7 +223,9 @@ static void print_options(cfoption *options) {
 }
 
 void WMConfig::print_preferences() {
+#ifndef NO_CONFIGURE
     print_options(icewm_preferences);
     print_options(icewm_themable_preferences);
+#endif
 }
 

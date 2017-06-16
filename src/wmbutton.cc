@@ -16,6 +16,7 @@
 #include "yicon.h"
 #include "yprefs.h"
 #include "prefs.h"
+#include "wpixmaps.h"
 
 static YColor *titleButtonBg = 0;
 static YColor *titleButtonFg = 0;
@@ -23,10 +24,6 @@ static YColor *titleButtonFg = 0;
 //!!! get rid of this
 extern YColor *activeTitleBarBg;
 extern YColor *inactiveTitleBarBg;
-
-#ifdef CONFIG_LOOK_PIXMAP
-ref<YPixmap> menuButton[3];
-#endif
 
 YFrameButton::YFrameButton(YWindow *parent,
                            YFrameWindow *frame,
@@ -123,19 +120,17 @@ ref<YPixmap> YFrameButton::getPixmap(int pn) const {
         return getFrame()->isRollup() ? rolldownPixmap[pn] : rollupPixmap[pn];
     else if (fAction == actionDepth)
         return depthPixmap[pn];
-#ifdef CONFIG_LOOK_PIXMAP
     else if (fAction == 0 &&
-             (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk || wmLook == lookFlat || wmLook == lookMotif))
+             LOOK(lookPixmap | lookMetal | lookGtk | lookFlat | lookMotif))
         return menuButton[pn];
-#endif
     else
         return null;
 }
 
 void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
     int xPos = 1, yPos = 1;
-    int pn = (wmLook == lookPixmap || wmLook == lookMetal ||
-              wmLook == lookGtk || wmLook == lookFlat) && getFrame()->focused() ? 1 : 0;
+    int pn = LOOK(lookPixmap | lookMetal | lookGtk | lookFlat)
+        && getFrame()->focused() ? 1 : 0;
     const bool armed(isArmed());
 
     g.setColor(titleButtonBg);
@@ -162,11 +157,11 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
 #endif
 
     ref<YPixmap> pixmap = getPixmap(pn);
-    if (pixmap == null) pixmap = getPixmap(0);
+    if (pixmap == null && pn) {
+        pixmap = getPixmap(0);
+    }
 
-    switch (wmLook) {
-#ifdef CONFIG_LOOK_WARP4
-    case lookWarp4:
+    if (wmLook == lookWarp4) {
         if (fAction == 0) {
             g.fillRect(0, 0, width(), height());
 
@@ -175,11 +170,14 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
 
             g.fillRect(1, 1, width() - 2, height() - 2);
 
-            if (icon != null && showFrameIcon)
+#ifndef LITE
+            if (icon != null && showFrameIcon) {
                 icon->draw(g,
                            (width() - iconSize) / 2,
                            (height() - iconSize) / 2,
                            iconSize);
+            }
+#endif
         } else {
             g.fillRect(0, 0, width(), height());
 
@@ -189,19 +187,11 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
                              (width() - pixmap->width()) / 2,
                              (height() - pixmap->height() / 2));
         }
-        break;
-#endif
-
-#if defined(CONFIG_LOOK_MOTIF) || \
-    defined(CONFIG_LOOK_WARP3) || \
-    defined(CONFIG_LOOK_NICE)
-
-    CASE_LOOK_MOTIF:
-    CASE_LOOK_WARP3:
-    CASE_LOOK_NICE: {
+    }
+    else if (LOOK(lookMotif | lookWarp3 | lookNice)) {
         g.draw3DRect(0, 0, width() - 1, height() - 1, !armed);
 
-        if (!LOOK_IS_MOTIF) {
+        if (wmLook != lookMotif) {
             if (armed) {
                 xPos = 3;
                 yPos = 3;
@@ -215,35 +205,30 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
                 g.drawRect(1, 1, width() - 3, width() - 3);
             }
         }
-        /* else if (LOOK_IS_WIN95) {
-         xPos = 2;
-         yPos = 2;
-         }*/
 
-        unsigned const w(LOOK_IS_MOTIF ? width() - 2 : width() - 4);
-        unsigned const h(LOOK_IS_MOTIF ? height() - 2 : height() - 4);
+        unsigned const w(LOOK(lookMotif) ? width() - 2 : width() - 4);
+        unsigned const h(LOOK(lookMotif) ? height() - 2 : height() - 4);
 
         if (fAction == 0) {
             g.fillRect(xPos, yPos, w, h);
 
-            if (icon != null && showFrameIcon)
+            if (icon != null && showFrameIcon) {
+#ifndef LITE
                 icon->draw(g,
                            xPos + (w - iconSize) / 2,
                            yPos + (h - iconSize) / 2,
                            iconSize);
-            else if (pixmap != null)
+#endif
+            }
+            else if (pixmap != null) {
                 g.drawCenteredPixmap(xPos, yPos, w, h, pixmap);
+            }
         } else {
             if (pixmap != null)
                 g.drawCenteredPixmap(xPos, yPos, w, h, pixmap);
         }
-
-        break;
     }
-#endif
-
-#ifdef CONFIG_LOOK_WIN95
-CASE_LOOK_WIN95:
+    else if (wmLook == lookWin95) {
         if (fAction == 0) {
             if (!armed) {
                 YColor * bg(getFrame()->focused() ? activeTitleBarBg
@@ -253,11 +238,14 @@ CASE_LOOK_WIN95:
 
             g.fillRect(0, 0, width(), height());
 
-            if (icon != null && showFrameIcon)
+#ifndef LITE
+            if (icon != null && showFrameIcon) {
                 icon->draw(g,
                            (width() - iconSize) / 2,
                            (height() - iconSize) / 2,
                            iconSize);
+            }
+#endif
         } else {
             g.drawBorderW(0, 0, width() - 1, height() - 1, !armed);
 
@@ -268,18 +256,15 @@ CASE_LOOK_WIN95:
                 g.drawCenteredPixmap(xPos, yPos, width() - 3, height() - 3,
                                      pixmap);
         }
-        break;
-#endif
-#ifdef CONFIG_LOOK_PIXMAP
-    case lookPixmap:
-    case lookMetal:
-    case lookFlat:
-    case lookGtk:
+    }
+    else if (LOOK(lookPixmap | lookMetal | lookFlat | lookGtk)) {
         if (pixmap != null) {
             if ( getPixmap(1) != null ) {
-            int const h(pixmap->height() / 2);
-            g.copyPixmap(pixmap, 0, armed ? h : 0, pixmap->width(), h, 0, 0);
-            } else { //If we have only an image we change the over or armed color and paint it
+                int const h(pixmap->height() / 2);
+                g.copyPixmap(pixmap, 0, armed ? h : 0, pixmap->width(), h, 0, 0);
+            } else {
+                // If we have only an image we change
+                // the over or armed color and paint it.
                g.fillRect(0, 0, width(), height());
                if (armed)
                    g.setColor(activeTitleBarBg->darker());
@@ -290,19 +275,19 @@ CASE_LOOK_WIN95:
                int y(((int)height() - (int)pixmap->height()) / 2);
                g.drawPixmap(pixmap, x, y);
             }
-        } else
+        }
+        else {
             g.fillRect(0, 0, width(), height());
 
-        if (fAction == 0 && icon != null && showFrameIcon)
-            icon->draw(g,
-                       ((int)width() - (int)iconSize) / 2,
-                       ((int)height() - (int)iconSize) / 2,
-                       iconSize);
-
-        break;
+#ifndef LITE
+            if (fAction == 0 && icon != null && showFrameIcon) {
+                icon->draw(g,
+                           ((int)width() - (int)iconSize) / 2,
+                           ((int)height() - (int)iconSize) / 2,
+                           iconSize);
+            }
 #endif
-    default:
-        break;
+        }
     }
 }
 

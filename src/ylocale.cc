@@ -47,7 +47,9 @@ YLocale::YLocale(char const * localeName) {
                "Falling back to 'C' locale'."));
         fLocaleName = setlocale(LC_ALL, "C");
     }
+#ifndef NO_CONFIGURE
     multiByte = true;
+#endif
 
     char const * codeset = NULL;
     int const codesetItems[] = {

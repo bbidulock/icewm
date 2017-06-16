@@ -12,6 +12,7 @@
 #include "yrect.h"
 #include "yicon.h"
 #include "wmwinlist.h"
+#include "wpixmaps.h"
 #include "intl.h"
 
 YColor * WorkspaceButton::normalButtonBg(NULL);
@@ -22,14 +23,6 @@ YColor * WorkspaceButton::activeButtonFg(NULL);
 
 ref<YFont> WorkspaceButton::normalButtonFont;
 ref<YFont> WorkspaceButton::activeButtonFont;
-
-ref<YPixmap> workspacebuttonPixmap;
-ref<YPixmap> workspacebuttonactivePixmap;
-
-#ifdef CONFIG_GRADIENTS
-ref<YImage> workspacebuttonPixbuf;
-ref<YImage> workspacebuttonactivePixbuf;
-#endif
 
 static ref<YResourcePaths> getResourcePaths() {
     return YResourcePaths::subdirs("workspace", false);

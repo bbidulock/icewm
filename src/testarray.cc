@@ -12,7 +12,7 @@ int strnullcmp(const char *a, const char *b) {
 }
 
 static void dump(const char *label, const YArray<int> &array) {
-    printf("%s: count=%ld, capacity=%ld\n  content={",
+    printf("%s: count=%d, capacity=%d\n  content={",
            label, array.getCount(), array.getCapacity());
 
     if (array.getCount() > 0) {
@@ -26,7 +26,7 @@ static void dump(const char *label, const YArray<int> &array) {
 }
 
 static void dump(const char *label, const YArray<const char *> &array) {
-    printf("%s: count=%ld, capacity=%ld\n  content={",
+    printf("%s: count=%d, capacity=%d\n  content={",
            label, array.getCount(), array.getCapacity());
 
     for (YArray<const char *>::SizeType i = 0; i < array.getCount(); ++i)
@@ -36,7 +36,7 @@ static void dump(const char *label, const YArray<const char *> &array) {
 }
 
 static void dump(const char *label, const YStringArray &array) {
-    printf("%s: count=%ld, capacity=%ld\n  content={",
+    printf("%s: count=%d, capacity=%d\n  content={",
            label, array.getCount(), array.getCapacity());
 
     for (YStringArray::SizeType i = 0; i < array.getCount(); ++i)

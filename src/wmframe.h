@@ -608,37 +608,5 @@ private:
     friend class MiniIcon;
 };
 
-//!!! remove this
-extern ref<YPixmap> frameTL[2][2];
-extern ref<YPixmap> frameT[2][2];
-extern ref<YPixmap> frameTR[2][2];
-extern ref<YPixmap> frameL[2][2];
-extern ref<YPixmap> frameR[2][2];
-extern ref<YPixmap> frameBL[2][2];
-extern ref<YPixmap> frameB[2][2];
-extern ref<YPixmap> frameBR[2][2];
-
-extern ref<YPixmap> titleJ[2];
-extern ref<YPixmap> titleL[2];
-extern ref<YPixmap> titleS[2];
-extern ref<YPixmap> titleP[2];
-extern ref<YPixmap> titleT[2];
-extern ref<YPixmap> titleM[2];
-extern ref<YPixmap> titleB[2];
-extern ref<YPixmap> titleR[2];
-extern ref<YPixmap> titleQ[2];
-
-extern ref<YPixmap> menuButton[3];
-
-#ifdef CONFIG_GRADIENTS
-extern ref<YImage> rgbFrameT[2][2];
-extern ref<YImage> rgbFrameL[2][2];
-extern ref<YImage> rgbFrameR[2][2];
-extern ref<YImage> rgbFrameB[2][2];
-extern ref<YImage> rgbTitleS[2];
-extern ref<YImage> rgbTitleT[2];
-extern ref<YImage> rgbTitleB[2];
-#endif
-
 #endif
 

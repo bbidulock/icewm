@@ -11,7 +11,7 @@
 #include "wmdialog.h"
 #include "wmaction.h"
 #include "yactionbutton.h"
-
+#include "wpixmaps.h"
 #include "prefs.h"
 #include "wmapp.h"
 #include "wmmgr.h"

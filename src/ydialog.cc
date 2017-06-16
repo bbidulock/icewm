@@ -11,7 +11,7 @@
 #include "ypixbuf.h"
 #include "ykey.h"
 #include "ydialog.h"
-
+#include "wpixmaps.h"
 #include "yxapp.h"
 #include "prefs.h"
 #include "WinMgr.h"

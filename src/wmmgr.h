@@ -449,6 +449,4 @@ extern Atom _XA_KDE_WM_CHANGE_STATE;
 
 extern Atom XA_IcewmWinOptHint;
 
-extern ref<YIcon> defaultAppIcon;
-
 #endif

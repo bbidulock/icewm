@@ -73,6 +73,7 @@ YApplication::YApplication(int * /*argc*/, char *** /*argv*/) {
     fFirstPoll = fLastPoll = 0;
 
     setvbuf(stdout, NULL, _IOLBF, BUFSIZ);
+    setvbuf(stderr, NULL, _IOLBF, BUFSIZ);
 
 #if 0
     {

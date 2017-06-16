@@ -69,6 +69,11 @@ public:
     static YCursor scrollRightPointer;
     static YCursor scrollUpPointer;
     static YCursor scrollDownPointer;
+
+#ifndef LITE
+    static ref<YIcon> getDefaultAppIcon();
+#endif
+
 private:
     YWindowManager *fWindowManager;
     YMsgBox *fLogoutMsgBox;

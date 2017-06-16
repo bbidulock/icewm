@@ -1,7 +1,6 @@
 #ifndef __MSTRING_H
 #define __MSTRING_H
 
-#include "base.h"
 #include "ref.h"
 #include <string.h>
 

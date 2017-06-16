@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-06-13 17:20-0600\n"
-"PO-Revision-Date: 2017-06-10 17:08+0100\n"
+"PO-Revision-Date: 2017-06-14 20:30+0100\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
 "Language-Team: Slovak <opensuse-translation-sk@opensuse.org>\n"
 "Language: sk\n"
@@ -514,9 +514,9 @@ msgid ""
 msgstr ""
 
 #: src/icesm.cc:97
-#, fuzzy, c-format
+#, c-format, c-format
 msgid "Unknown option '%s'"
-msgstr "Neznáma akcia: `%s'"
+msgstr "Neznáma voľba '%s'"
 
 #: src/icesound.cc:255 src/icesound.cc:423 src/icesound.cc:791
 #, c-format
@@ -627,8 +627,8 @@ msgstr ""
 "\n"
 "Voľby:\n"
 "\n"
-"-d, --display=DISPLEJ         Displej používaný IceWM (predvolené: "
-"$DISPLAY).\n"
+"-d, --display=DISPLEJ         Displej používaný IceWM (predvolené: $DISPLAY)."
+"\n"
 "-s, --sample-dir=ADR      Určuje adresár, ktorý obsahuje zvukové\n"
 "                              súbory (t.j. ~/.icewm/sounds).\n"
 "-i, --interface=CIEĽ         Určuje výstupné zvukové výstupné\n"
@@ -1094,18 +1094,18 @@ msgstr ""
 "Pokračovať?"
 
 #: src/wmconfig.cc:43
-#, fuzzy, c-format
+#, c-format, c-format
 msgid "Failed to load theme %s"
-msgstr "Nepodarilo sa otvoriť %s: %s"
+msgstr "Zlyhalo načítanie témy %s"
 
 #: src/wmconfig.cc:120
 msgid "Bad Look name"
 msgstr "Zlé meno Vzhľadu (Look)"
 
 #: src/wmconfig.cc:129
-#, fuzzy, c-format
+#, c-format, c-format
 msgid "Unable to create directory %s"
-msgstr "Zlyhalo vytvorenie potomka procesu: %s"
+msgstr "Nepodarilo sa vytvoriť adresár %s"
 
 #: src/wmconfig.cc:166
 #, c-format
@@ -1113,9 +1113,9 @@ msgid "Unable to write to %s"
 msgstr ""
 
 #: src/wmconfig.cc:193
-#, fuzzy, c-format
+#, c-format, c-format
 msgid "Unable to rename %s to %s"
-msgstr "Nepodarilo sa otvoriť %s: %s"
+msgstr "Nepodarilo sa premenovať %s na %s"
 
 #: src/wmdialog.cc:83
 msgid "Loc_k Workstation"
@@ -1451,8 +1451,8 @@ msgstr "CHYBA? Poškodená XPM hlavička ale Imlib bola schopná analyzovať \"%
 #, c-format
 msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
 msgstr ""
-"CHYBA? Neočakávaný koniec súboru XPM, ale Imlib bola schopná analyzovať \"%s"
-"\""
+"CHYBA? Neočakávaný koniec súboru XPM, ale Imlib bola schopná analyzovať \"%"
+"s\""
 
 #: src/ycursor.cc:219
 #, c-format
@@ -1578,8 +1578,8 @@ msgid ""
 "Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
 "blue): %0*x/%0*x/%0*x)"
 msgstr ""
-"Ku konverzii pixelov používam núdzový mechanizmus(hĺbka: %d; maska (červená/"
-"zelená/modrá): %0*x/%0*x/%0*x)"
+"Ku konverzii pixelov používam núdzový mechanizmus(hĺbka: %d; maska "
+"(červená/zelená/modrá): %0*x/%0*x/%0*x)"
 
 #: src/ypixbuf.cc:576 src/ypixbuf.cc:725
 #, c-format

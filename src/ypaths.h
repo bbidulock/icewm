@@ -18,28 +18,31 @@ upath findPath(ustring path, int mode, upath name,
 
 class YResourcePaths: public refcounted {
 public:
-
     static ref<YResourcePaths> paths();
     static ref<YResourcePaths> subdirs(upath subdir, bool themeOnly = false);
 
-private:
-    YResourcePaths() {}
-    void addDir(const upath& dir);
-    
-    template<class Pict>
-    void loadPict(const upath& baseName, ref<Pict>* pict) const;
-
-public:
     ref<YPixmap> loadPixmap(upath base, upath name) const;
     ref<YImage> loadImage(upath base, upath name) const;
 
+    static ref<YPixmap> loadPixmapFile(const upath& file);
+    static ref<YImage> loadImageFile(const upath& file);
+
     int getCount() const { return fPaths.getCount(); }
     const upath& getPath(int index) const { return *fPaths[index]; }
+
 protected:
     void verifyPaths(upath base);
     
 private:
     YObjectArray<upath> fPaths;
+
+    YResourcePaths() {}
+    void addDir(const upath& dir);
+    
+    template<class Pict>
+    void loadPict(const upath& baseName, ref<Pict>* pict) const;
+    template<class Pict>
+    static bool loadPictFile(const upath& file, ref<Pict>* pict);
 };
 
 #endif

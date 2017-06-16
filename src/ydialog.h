@@ -24,10 +24,4 @@ private:
 #endif
 };
 
-extern ref<YPixmap> dialogbackPixmap;
-
-#ifdef CONFIG_GRADIENTS
-extern ref<YImage> dialogbackPixbuf;
-#endif
-
 #endif

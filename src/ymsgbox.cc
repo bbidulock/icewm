@@ -49,8 +49,10 @@ YMsgBox::YMsgBox(int buttons, YWindow *owner): YDialog(owner) {
         }
     }
     autoSize();
-#if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)    
+#if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)
     setWinLayerHint(WinLayerAboveDock);
+#endif
+#if defined(GNOME1_HINTS)
     setWinHintsHint(WinHintsSkipWindowMenu);
 #endif
     setWinStateHint(WinStateAllWorkspaces, WinStateAllWorkspaces);

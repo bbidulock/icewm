@@ -42,7 +42,7 @@
 #include "yxtray.h"
 #include "prefs.h"
 #include "yicon.h"
-
+#include "wpixmaps.h"
 #include "aapm.h"
 #include "upath.h"
 
@@ -57,95 +57,10 @@ TaskBar *taskBar = 0;
 
 YColor *taskBarBg = 0;
 
-static ref<YImage> startImage;
-static ref<YImage> windowsImage;
-static ref<YImage> showDesktopImage;
-static ref<YImage> collapseImage;
-static ref<YImage> expandImage;
-
-/// TODO #warning "these should be static/elsewhere"
-ref<YPixmap> taskbackPixmap;
-#ifdef CONFIG_GRADIENTS
-ref<YImage> taskbackPixbuf;
-ref<YImage> taskbuttonPixbuf;
-ref<YImage> taskbuttonactivePixbuf;
-ref<YImage> taskbuttonminimizedPixbuf;
-#endif
-
 static void initPixmaps() {
-    upath base("taskbar");
-    ref<YResourcePaths> themedirs = YResourcePaths::subdirs(base, true);
-    ref<YResourcePaths> subdirs = YResourcePaths::subdirs(base);
-
-    /*
-     * that sucks, a neccessary workaround for differering startmenu pixmap
-     * filename. This will be unified and be a forced standard in
-     * icewm-2
-     */
-    startImage = themedirs->loadImage(base, "start.xpm");
-#if 1
-    if (startImage == null || !startImage->valid())
-        startImage = themedirs->loadImage(base, "linux.xpm");
-    if (startImage == null || !startImage->valid())
-        startImage = themedirs->loadImage(base, "icewm.xpm");
-    if (startImage == null || !startImage->valid())
-        startImage = subdirs->loadImage(base, "icewm.xpm");
-    if (startImage == null || !startImage->valid())
-        startImage = subdirs->loadImage(base, "start.xpm");
-#endif
-
-    windowsImage = subdirs->loadImage(base, "windows.xpm");
-    showDesktopImage = subdirs->loadImage(base, "desktop.xpm");
-    collapseImage = subdirs->loadImage(base, "collapse.xpm");
-    expandImage = subdirs->loadImage(base, "expand.xpm");
-
 #ifdef CONFIG_GRADIENTS
-    if (taskbackPixbuf == null)
-        taskbackPixmap = subdirs->loadPixmap(base, "taskbarbg.xpm");
-    if (taskbuttonPixbuf == null)
-        taskbuttonPixmap = subdirs->loadPixmap(base, "taskbuttonbg.xpm");
-    if (taskbuttonactivePixbuf == null)
-        taskbuttonactivePixmap = subdirs->loadPixmap(base, "taskbuttonactive.xpm");
-    if (taskbuttonminimizedPixbuf == null)
-        taskbuttonminimizedPixmap = subdirs->loadPixmap(base, "taskbuttonminimized.xpm");
-#else
-    taskbackPixmap = subdirs->loadPixmap(base, "taskbarbg.xpm");
-    taskbuttonPixmap = subdirs->loadPixmap(base, "taskbuttonbg.xpm");
-    taskbuttonactivePixmap = subdirs->loadPixmap(base, "taskbuttonactive.xpm");
-    taskbuttonminimizedPixmap = subdirs->loadPixmap(base, "taskbuttonminimized.xpm");
-#endif
-
-#ifdef CONFIG_APPLET_MAILBOX
-    base = "mailbox/";
-    subdirs = YResourcePaths::subdirs(base);
-    mailPixmap = subdirs->loadPixmap(base, "mail.xpm");
-    noMailPixmap = subdirs->loadPixmap(base, "nomail.xpm");
-    errMailPixmap = subdirs->loadPixmap(base, "errmail.xpm");
-    unreadMailPixmap = subdirs->loadPixmap(base, "unreadmail.xpm");
-    newMailPixmap = subdirs->loadPixmap(base, "newmail.xpm");
-#endif
-
-#ifdef CONFIG_APPLET_CLOCK
-    base = "ledclock/";
-    subdirs = YResourcePaths::subdirs(base);
-    PixNum[0] = subdirs->loadPixmap(base, "n0.xpm");
-    PixNum[1] = subdirs->loadPixmap(base, "n1.xpm");
-    PixNum[2] = subdirs->loadPixmap(base, "n2.xpm");
-    PixNum[3] = subdirs->loadPixmap(base, "n3.xpm");
-    PixNum[4] = subdirs->loadPixmap(base, "n4.xpm");
-    PixNum[5] = subdirs->loadPixmap(base, "n5.xpm");
-    PixNum[6] = subdirs->loadPixmap(base, "n6.xpm");
-    PixNum[7] = subdirs->loadPixmap(base, "n7.xpm");
-    PixNum[8] = subdirs->loadPixmap(base, "n8.xpm");
-    PixNum[9] = subdirs->loadPixmap(base, "n9.xpm");
-    PixSpace = subdirs->loadPixmap(base, "space.xpm");
-    PixColon = subdirs->loadPixmap(base, "colon.xpm");
-    PixSlash = subdirs->loadPixmap(base, "slash.xpm");
-    PixDot = subdirs->loadPixmap(base, "dot.xpm");
-    PixA = subdirs->loadPixmap(base, "a.xpm");
-    PixP = subdirs->loadPixmap(base, "p.xpm");
-    PixM = subdirs->loadPixmap(base, "m.xpm");
-    PixPercent = subdirs->loadPixmap(base, "percent.xpm");
+    if (taskbarStartImage == null || !taskbarStartImage->valid())
+        taskbarStartImage = taskbarLinuxImage;
 #endif
 }
 
@@ -261,14 +176,20 @@ YFrameClient(aParent, 0) INIT_GRADIENT(fGradient, NULL)
     setWinStateHint(WinStateAllWorkspaces, WinStateAllWorkspaces);
     //!!!setWinStateHint(WinStateDockHorizontal, WinStateDockHorizontal);
 
+#ifdef GNOME1_HINTS
     setWinHintsHint(WinHintsSkipFocus |
                     WinHintsSkipWindowMenu |
                     WinHintsSkipTaskBar);
+#endif
 
+#if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)
     setWinWorkspaceHint(0);
+#endif
+#ifdef GNOME1_HINTS
     setWinLayerHint((taskBarAutoHide || fFullscreen) ? WinLayerAboveAll :
                     fIsCollapsed ? WinLayerAboveDock :
                     taskBarKeepBelow ? WinLayerBelow : WinLayerDock);
+#endif
     Atom protocols[2] = { 
       _XA_WM_DELETE_WINDOW,
       _XA_WM_TAKE_FOCUS
@@ -299,17 +220,13 @@ YFrameClient(aParent, 0) INIT_GRADIENT(fGradient, NULL)
                         (unsigned char *)&wk, 4);
     }
     {
-        MwmHints mwm;
-
-        memset(&mwm, 0, sizeof(mwm));
-        mwm.flags =
-            MWM_HINTS_FUNCTIONS |
-            MWM_HINTS_DECORATIONS;
-        mwm.functions =
-            MWM_FUNC_MOVE /*|
-            MWM_FUNC_RESIZE*/;
-        mwm.decorations = 0;
-        //MWM_DECOR_BORDER /*|MWM_DECOR_RESIZEH*/;
+        MwmHints mwm =
+        { MWM_HINTS_FUNCTIONS | MWM_HINTS_DECORATIONS
+        , MWM_FUNC_MOVE // | MWM_FUNC_RESIZE
+        , 0 // MWM_DECOR_BORDER | MWM_DECOR_RESIZEH
+        , 0
+        , 0
+        };
 
         setMwmHints(mwm);
     }
@@ -348,45 +265,14 @@ TaskBar::~TaskBar() {
     for (MailBoxStatus ** m(fMailBoxStatus); m && *m; ++m) delete *m;
     delete[] fMailBoxStatus; fMailBoxStatus = 0;
 #endif
-    delete fApplications; fApplications = 0;
 #ifdef CONFIG_WINMENU
     delete fWinList; fWinList = 0;
 #endif
 #ifndef NO_CONFIGURE_MENUS
+    delete fApplications; fApplications = 0;
     delete fObjectBar; fObjectBar = 0;
 #endif
     delete fWorkspaces;
-    taskbackPixmap = null;
-    taskbuttonPixmap = null;
-    taskbuttonactivePixmap = null;
-    taskbuttonminimizedPixmap = null;
-#ifdef CONFIG_GRADIENTS
-    taskbackPixbuf = null;
-    taskbuttonPixbuf = null;
-    taskbuttonactivePixbuf = null;
-    taskbuttonminimizedPixbuf = null;
-#endif
-    startImage = null;
-    windowsImage = null;
-    showDesktopImage = null;;
-#ifdef CONFIG_APPLET_MAILBOX
-    mailPixmap = null;
-    noMailPixmap = null;
-    errMailPixmap = null;
-    unreadMailPixmap = null;
-    newMailPixmap = null;
-#endif
-#ifdef CONFIG_APPLET_CLOCK
-    PixSpace = null;
-    PixSlash = null;
-    PixDot = null;
-    PixA = null;
-    PixP = null;
-    PixM = null;
-    PixColon = null;
-    for (int n = 0; n < 10; n++)
-        PixNum[n] = null;
-#endif
 #ifdef CONFIG_APPLET_APM
     delete fApm; fApm = 0;
 #endif
@@ -516,7 +402,7 @@ void TaskBar::initApplets() {
         fCollapseButton = new YButton(this, actionCollapseTaskbar);
         if (fCollapseButton) {
             fCollapseButton->setText(">");
-            fCollapseButton->setImage(collapseImage);
+            fCollapseButton->setImage(taskbarCollapseImage);
             fCollapseButton->setActionListener(this);
         }
     } else
@@ -568,7 +454,7 @@ void TaskBar::initApplets() {
     if (taskBarShowStartMenu) {
         fApplications = new ObjectButton(this, rootMenu);
         fApplications->setActionListener(this);
-        fApplications->setImage(startImage);
+        fApplications->setImage(taskbarStartImage);
         fApplications->setToolTip(_("Favorite applications"));
     } else
         fApplications = 0;
@@ -584,7 +470,7 @@ void TaskBar::initApplets() {
 #ifdef CONFIG_WINMENU
     if (taskBarShowWindowListMenu) {
         fWinList = new ObjectButton(this, windowListMenu);
-        fWinList->setImage(windowsImage);
+        fWinList->setImage(taskbarWindowsImage);
         fWinList->setActionListener(this);
         fWinList->setToolTip(_("Window list menu"));
     } else
@@ -593,7 +479,7 @@ void TaskBar::initApplets() {
     if (taskBarShowShowDesktopButton) {
         fShowDesktop = new ObjectButton(this, actionShowDesktop);
         fShowDesktop->setText("__");
-        fShowDesktop->setImage(showDesktopImage);
+        fShowDesktop->setImage(taskbarShowDesktopImage);
         fShowDesktop->setActionListener(wmActionListener);
         fShowDesktop->setToolTip(_("Show Desktop"));
     }
@@ -909,23 +795,14 @@ void TaskBar::updateLocation() {
     else
         fEdgeTrigger->hide();
 
-/// TODO #warning "optimize this"
     {
-        MwmHints mwm;
-
-        memset(&mwm, 0, sizeof(mwm));
-        mwm.flags =
-            MWM_HINTS_FUNCTIONS |
-            MWM_HINTS_DECORATIONS;
-        mwm.functions =
-            MWM_FUNC_MOVE /*|
-            MWM_FUNC_RESIZE*/;
-        if (fIsHidden)
-            mwm.decorations = 0;
-        else
-            mwm.decorations = 0;
-        //MWM_DECOR_BORDER /*|
-        //MWM_DECOR_RESIZEH*/;
+        MwmHints mwm =
+        { MWM_HINTS_FUNCTIONS | MWM_HINTS_DECORATIONS
+        , MWM_FUNC_MOVE // | MWM_FUNC_RESIZE
+        , 0 // MWM_DECOR_BORDER | MWM_DECOR_RESIZEH
+        , 0
+        , 0
+        };
 
         XChangeProperty(xapp->display(), handle(),
                         _XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
@@ -1107,6 +984,7 @@ void TaskBar::handleDrag(const XButtonEvent &/*down*/, const XMotionEvent &motio
 }
 
 void TaskBar::popupStartMenu() {
+#ifndef NO_CONFIGURE_MENUS
     if (fApplications) {
         /*requestFocus();
          fApplications->requestFocus();
@@ -1114,6 +992,7 @@ void TaskBar::popupStartMenu() {
         popOut();
         fApplications->popupMenu();
     }
+#endif
 }
 
 void TaskBar::popupWindowListMenu() {
@@ -1163,9 +1042,11 @@ void TaskBar::showBar(bool visible) {
         if (getFrame() == 0)
             manager->mapClient(handle());
         if (getFrame() != 0) {
+#if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)
             setWinLayerHint((taskBarAutoHide || fFullscreen) ? WinLayerAboveAll :
                             fIsCollapsed ? WinLayerAboveDock :
                             taskBarKeepBelow ? WinLayerBelow : WinLayerDock);
+#endif
             getFrame()->setState(WinStateAllWorkspaces, WinStateAllWorkspaces);
             getFrame()->activate(true);
             updateLocation();
@@ -1181,13 +1062,13 @@ void TaskBar::handleCollapseButton() {
     fIsCollapsed = !fIsCollapsed;
     if (fCollapseButton) {
         fCollapseButton->setText(fIsCollapsed ? "<": ">");
-        fCollapseButton->setImage(fIsCollapsed ? expandImage : collapseImage);
+        fCollapseButton->setImage(fIsCollapsed ? taskbarExpandImage : taskbarCollapseImage);
     }
 
     relayout();
 }
 
-void TaskBar::handlePopDown(YPopupWindow */*popup*/) {
+void TaskBar::handlePopDown(YPopupWindow * /*popup*/) {
 }
 
 void TaskBar::configure(const YRect &r) {

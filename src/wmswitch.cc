@@ -10,7 +10,7 @@
 #include "yimage.h"
 #include "ykey.h"
 #include "wmswitch.h"
-
+#include "wpixmaps.h"
 #include "wmmgr.h"
 #include "wmframe.h"
 #include "yxapp.h"

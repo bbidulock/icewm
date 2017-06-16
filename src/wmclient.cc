@@ -1327,7 +1327,9 @@ bool YFrameClient::getWinWorkspaceHint(long *workspace) {
     }
     return false;
 }
+#endif
 
+#if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)
 void YFrameClient::setWinLayerHint(long layer) {
     XChangeProperty(xapp->display(),
                     handle(),
@@ -1336,7 +1338,9 @@ void YFrameClient::setWinLayerHint(long layer) {
                     32, PropModeReplace,
                     (unsigned char *)&layer, 1);
 }
+#endif
 
+#ifdef GNOME1_HINTS
 bool YFrameClient::getWinLayerHint(long *layer) {
     Atom r_type;
     int r_format;

@@ -1,7 +1,6 @@
 #ifndef __YTIMER_H
 #define __YTIMER_H
 
-#include "base.h"
 #include <X11/Xos.h>
 
 class YTimer;

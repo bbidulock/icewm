@@ -1,5 +1,6 @@
 #include "config.h"
 #include "udir.h"
+#include "base.h"
 #include <dirent.h>
 #include <stdlib.h>
 

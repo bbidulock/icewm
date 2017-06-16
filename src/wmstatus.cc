@@ -10,8 +10,7 @@
 #ifndef LITE
 #include "yfull.h"
 #include "wmstatus.h"
-#include "wmswitch.h" // !!! remove (for bg pixmap)
-
+#include "wpixmaps.h"
 #include "wmframe.h"
 #include "wmclient.h"
 #include "wmmgr.h"

@@ -69,10 +69,5 @@ private: // not-used
 };
 
 extern SwitchWindow * switchWindow;
-extern ref<YPixmap> switchbackPixmap;
-
-#ifdef CONFIG_GRADIENTS
-extern ref<YImage> switchbackPixbuf;
-#endif
 
 #endif

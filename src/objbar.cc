@@ -16,6 +16,7 @@
 #include "prefs.h"
 #include "wmtaskbar.h"
 #include "wmapp.h"
+#include "wpixmaps.h"
 #include "yrect.h"
 #include "yicon.h"
 
@@ -24,12 +25,6 @@ YColor * ObjectBar::bgColor(NULL);
 ref<YFont> ObjectButton::font;
 YColor * ObjectButton::bgColor(NULL);
 YColor * ObjectButton::fgColor(NULL);
-
-ref<YPixmap> toolbuttonPixmap;
-
-#ifdef CONFIG_GRADIENTS
-ref<YImage> toolbuttonPixbuf;
-#endif
 
 ObjectBar::ObjectBar(YWindow *parent): YWindow(parent) {
     if (bgColor == 0)
@@ -93,7 +88,7 @@ void ObjectBar::addSeparator() {
 
 void ObjectBar::addContainer(const ustring &name, ref<YIcon> icon, ObjectContainer *container) {
     if (container) {
-        YButton *button = new ObjectButton(this, (ObjectMenu*) container);
+        YButton *button = new ObjectButton(this, (YMenu*) container);
         addButton(name, icon, button);
     }
 }

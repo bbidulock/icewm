@@ -11,6 +11,7 @@
 #include "wmframe.h"
 #include "wmwinlist.h"
 #include "wmapp.h"
+#include "wpixmaps.h"
 #include "yprefs.h"
 #include "prefs.h"
 
@@ -24,24 +25,6 @@ YColor *activeTitleBarSt = 0;
 YColor *inactiveTitleBarBg = 0;
 YColor *inactiveTitleBarFg = 0;
 YColor *inactiveTitleBarSt = 0;
-
-#ifdef CONFIG_LOOK_PIXMAP
-ref<YPixmap> titleJ[2]; // Frame <=> Left buttons
-ref<YPixmap> titleL[2]; // Left buttons <=> Left pane
-ref<YPixmap> titleS[2]; // Left pane
-ref<YPixmap> titleP[2]; // Left pane <=> Title
-ref<YPixmap> titleT[2]; // Title
-ref<YPixmap> titleM[2]; // Title <=> Right pane
-ref<YPixmap> titleB[2]; // Right pane
-ref<YPixmap> titleR[2]; // Right pane <=> Right buttons
-ref<YPixmap> titleQ[2]; // Right buttons <=> Frame
-#endif
-
-#ifdef CONFIG_GRADIENTS
-ref<YImage> rgbTitleS[2];
-ref<YImage> rgbTitleT[2];
-ref<YImage> rgbTitleB[2];
-#endif
 
 YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
     YWindow(parent)
@@ -158,12 +141,9 @@ void YFrameTitleBar::handleBeginDrag(const XButtonEvent &down, const XMotionEven
 
 void YFrameTitleBar::activate() {
     repaint();
-#ifdef CONFIG_LOOK_WIN95
     if (wmLook == lookWin95 && getFrame()->menuButton())
         getFrame()->menuButton()->repaint();
-#endif
-#ifdef CONFIG_LOOK_PIXMAP
-    if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk || wmLook == lookFlat) {
+    if (LOOK(lookPixmap | lookMetal | lookGtk | lookFlat)) {
         if (getFrame()->menuButton()) getFrame()->menuButton()->repaint();
         if (getFrame()->closeButton()) getFrame()->closeButton()->repaint();
         if (getFrame()->maximizeButton()) getFrame()->maximizeButton()->repaint();
@@ -172,7 +152,6 @@ void YFrameTitleBar::activate() {
         if (getFrame()->rollupButton()) getFrame()->rollupButton()->repaint();
         if (getFrame()->depthButton()) getFrame()->depthButton()->repaint();
     }
-#endif
 }
 
 void YFrameTitleBar::deactivate() {
@@ -221,15 +200,10 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
                      * (int) titleBarJustify / 100);
     g.setColor(bg);
     switch (wmLook) {
-#ifdef CONFIG_LOOK_WIN95
     case lookWin95:
-#endif
-#ifdef CONFIG_LOOK_NICE
     case lookNice:
-#endif
         g.fillRect(0, 0, width(), height());
         break;
-#ifdef CONFIG_LOOK_WARP3
     case lookWarp3:
         {
 #ifdef TITLEBAR_BOTTOM
@@ -245,8 +219,6 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
             g.drawLine(0, y2, width(), y2);
         }
         break;
-#endif
-#ifdef CONFIG_LOOK_WARP4
     case lookWarp4:
         if (titleBarJustify == 0)
             stringOffset++;
@@ -261,8 +233,6 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
             g.fillRect(0, 0, width(), height());
         }
         break;
-#endif
-#ifdef CONFIG_LOOK_MOTIF
     case lookMotif:
         if (titleBarJustify == 0)
             stringOffset++;
@@ -272,8 +242,6 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
         g.fillRect(1, 1, width() - 2, height() - 2);
         g.draw3DRect(onLeft, 0, onRight - 1 - onLeft, height() - 1, true);
         break;
-#endif
-#ifdef CONFIG_LOOK_PIXMAP
     case lookPixmap:
     case lookMetal:
     case lookFlat:
@@ -365,7 +333,6 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
 
         break;
     }
-#endif
     default:
         break;
     }
@@ -385,8 +352,8 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
 
 #ifdef CONFIG_SHAPED_DECORATION
 void YFrameTitleBar::renderShape(Pixmap shape) {
-#ifdef CONFIG_LOOK_PIXMAP
-    if (wmLook == lookPixmap || wmLook == lookMetal || wmLook == lookGtk || wmLook == lookFlat) {
+    if (LOOK(lookPixmap | lookMetal | lookGtk | lookFlat))
+    {
         Graphics g(shape, getFrame()->width(), getFrame()->height());
 
         int onLeft(0);
@@ -485,7 +452,6 @@ void YFrameTitleBar::renderShape(Pixmap shape) {
         if (titleQ[pi] != null)
             g.drawMask(titleQ[pi], x() + width() - titleQ[pi]->width(), y());
     }
-#endif
 }
 #endif
 

@@ -89,8 +89,6 @@ char *YConfig::getArgument(Argument *dest, char *source, bool comma) {
 
 #endif
 
-#ifndef NO_CONFIGURE
-
 // FIXME: P1 - parse keys later, not when loading
 bool YConfig::parseKey(const char *arg, KeySym *key, unsigned int *mod) {
     const char *orig_arg = arg;
@@ -150,6 +148,8 @@ bool YConfig::parseKey(const char *arg, KeySym *key, unsigned int *mod) {
     }
     return true;
 }
+
+#ifndef NO_CONFIGURE
 
 static char *setOption(cfoption *options, char *name, const char *arg, bool append, char *rest) {
     unsigned int a;

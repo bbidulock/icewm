@@ -43,128 +43,20 @@ XSV(const char *, iconPath,                     0)
 XSV(const char *, themeName,                    CONFIG_DEFAULT_THEME)
 XSV(const char *, xineramaPrimaryScreenName,    0)
 
-#define CONFIG_DEFAULT_LOOK lookNice
-
-/************************************************************************************************************************************************************/
-
-// !!! make these go away (make individual specific options)
-#define CONFIG_LOOK_NICE
-#define CONFIG_LOOK_WARP3
-#define CONFIG_LOOK_WIN95
-#define CONFIG_LOOK_WARP4
-#define CONFIG_LOOK_MOTIF
-#define CONFIG_LOOK_PIXMAP
-#define CONFIG_LOOK_METAL
-#define CONFIG_LOOK_GTK
-#define CONFIG_LOOK_FLAT
-
-#ifndef WMLOOK
-#define WMLOOK
-typedef enum {
-#ifdef CONFIG_LOOK_WIN95
-    lookWin95,
-#endif
-#ifdef CONFIG_LOOK_MOTIF
-    lookMotif,
-#endif
-#ifdef CONFIG_LOOK_WARP3
-    lookWarp3,
-#endif
-#ifdef CONFIG_LOOK_WARP4
-    lookWarp4,
-#endif
-#ifdef CONFIG_LOOK_NICE
-    lookNice,
-#endif
-#ifdef CONFIG_LOOK_PIXMAP
-    lookPixmap,
-#endif
-#ifdef CONFIG_LOOK_METAL
-    lookMetal,
-#endif
-#ifdef CONFIG_LOOK_GTK
-    lookGtk,
-#endif
-#ifdef CONFIG_LOOK_FLAT
-    lookFlat,
-#endif
-    lookMAX
-} WMLook;
-#endif
-
+enum WMLook {
+    lookWin95  = 1 << 0,
+    lookMotif  = 1 << 1,
+    lookWarp3  = 1 << 2,
+    lookWarp4  = 1 << 3,
+    lookNice   = 1 << 4,
+    lookPixmap = 1 << 5,
+    lookMetal  = 1 << 6,
+    lookGtk    = 1 << 7,
+    lookFlat   = 1 << 8,
+};
+#define LOOK(looks)             (((looks) & wmLook) != 0)
+#define CONFIG_DEFAULT_LOOK     lookNice
 XIV(WMLook, wmLook,                             CONFIG_DEFAULT_LOOK)
-
-#ifdef CONFIG_LOOK_WIN95
-#define LOOK_IS_WIN95           (wmLook == lookWin95)
-#define CASE_LOOK_WIN95         case lookWin95
-#else
-#define LOOK_IS_WIN95 false
-#define CASE_LOOK_WIN95
-#endif
-
-#ifdef CONFIG_LOOK_MOTIF
-#define LOOK_IS_MOTIF           (wmLook == lookMotif)
-#define CASE_LOOK_MOTIF         case lookMotif
-#else
-#define LOOK_IS_MOTIF           false
-#define CASE_LOOK_MOTIF
-#endif
-
-#ifdef CONFIG_LOOK_WARP3
-#define LOOK_IS_WARP3           (wmLook == lookWarp3)
-#define CASE_LOOK_WARP3         case lookWarp3
-#else
-#define LOOK_IS_WARP3 false
-#define CASE_LOOK_WARP3
-#endif
-
-#ifdef CONFIG_LOOK_WARP4
-#define LOOK_IS_WARP4           (wmLook == lookWarp4)
-#define CASE_LOOK_WARP4         case lookWarp4
-#else
-#define LOOK_IS_WARP4 false
-#define CASE_LOOK_WARP4
-#endif
-
-#ifdef CONFIG_LOOK_NICE
-#define LOOK_IS_NICE            (wmLook == lookNice)
-#define CASE_LOOK_NICE          case lookNice
-#else
-#define LOOK_IS_NICE false
-#define CASE_LOOK_NICE
-#endif
-
-#ifdef CONFIG_LOOK_PIXMAP
-#define LOOK_IS_PIXMAP          (wmLook == lookPixmap)
-#define CASE_LOOK_PIXMAP        case lookPixmap
-#else
-#define LOOK_IS_PIXMAP false
-#define CASE_LOOK_PIXMAP
-#endif
-
-#ifdef CONFIG_LOOK_METAL
-#define LOOK_IS_METAL           (wmLook == lookMetal)
-#define CASE_LOOK_METAL         case lookMetal
-#else
-#define LOOK_IS_METAL false
-#define CASE_LOOK_METAL
-#endif
-
-#ifdef CONFIG_LOOK_GTK
-#define LOOK_IS_GTK             (wmLook == lookGtk)
-#define CASE_LOOK_GTK           case lookGtk
-#else
-#define LOOK_IS_GTK false
-#define CASE_LOOK_GTK
-#endif
-
-#ifdef CONFIG_LOOK_FLAT
-#define LOOK_IS_FLAT            (wmLook == lookFlat)
-#define CASE_LOOK_FLAT          case lookFlat
-#else
-#define LOOK_IS_FLAT false
-#define CASE_LOOK_FLAT
-#endif
 
 #ifdef CONFIG_TOOLTIP
 XSV(const char *, clrToolTip,                   "rgb:E0/E0/00")

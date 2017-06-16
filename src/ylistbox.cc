@@ -14,7 +14,7 @@
 #include "ylistbox.h"
 #include "yrect.h"
 #include "yicon.h"
-
+#include "wpixmaps.h"
 #include "yscrollview.h"
 
 #include "yxapp.h"

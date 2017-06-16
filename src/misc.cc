@@ -7,7 +7,7 @@
 #include "sysdep.h"
 #include "ylib.h"
 #include "debug.h"
-
+#include "base.h"
 #include "intl.h"
 #include "ref.h"
 #include <time.h>

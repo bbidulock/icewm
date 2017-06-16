@@ -30,10 +30,4 @@ private:
     static YColor *fgColor;
 };
 
-extern ref<YPixmap> toolbuttonPixmap;
-
-#ifdef CONFIG_GRADIENTS
-extern ref<YImage> toolbuttonPixbuf;
-#endif
-
 #endif

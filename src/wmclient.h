@@ -126,8 +126,12 @@ public:
     void setWinWorkspaceHint(long workspace);
     bool getWinWorkspaceHint(long *workspace);
 
+#if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)
     void setWinLayerHint(long layer);
+#endif
+#if defined(GNOME1_HINTS)
     bool getWinLayerHint(long *layer);
+#endif
 
 #ifdef CONFIG_TRAY
     void setWinTrayHint(long tray_opt);
@@ -137,8 +141,10 @@ public:
     void setWinStateHint(long mask, long state);
     bool getWinStateHint(long *mask, long *state);
 
+#if defined(GNOME1_HINTS)
     void setWinHintsHint(long hints);
     bool getWinHintsHint(long *hints);
+#endif
     long winHints() const { return fWinHints; }
 
 #ifdef WMSPEC_HINTS

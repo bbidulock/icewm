@@ -9,24 +9,11 @@
  */
 
 #include "config.h"
-
-#include "ylib.h"
-#include "default.h"
-#include "ypixbuf.h"
-
-#include "base.h"
 #include "ypaths.h"
 #include "yapp.h"
 #include "yprefs.h"
-
 #include "intl.h"
 
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-
-#include <limits.h>
-#include <fcntl.h>
 
 void YResourcePaths::addDir(const upath& dir) {
     if (dir.dirExists())
@@ -103,20 +90,39 @@ void YResourcePaths::verifyPaths(upath base) {
 }
 
 template<class Pict>
+bool YResourcePaths::loadPictFile(const upath& file, ref<Pict>* pict) {
+    if (file.isReadable()) {
+        *pict = Pict::load(file);
+        if (*pict != null) {
+            return true;
+        }
+        else
+            warn(_("Out of memory for image %s"),
+                    file.string().c_str());
+    } else
+        warn(_("Image not readable: %s"), file.string().c_str());
+    return false;
+}
+
+ref<YPixmap> YResourcePaths::loadPixmapFile(const upath& file) {
+    ref<YPixmap> p;
+    loadPictFile(file, &p);
+    return p;
+}
+
+ref<YImage> YResourcePaths::loadImageFile(const upath& file) {
+    ref<YImage> p;
+    loadPictFile(file, &p);
+    return p;
+}
+
+template<class Pict>
 void YResourcePaths::loadPict(const upath& baseName, ref<Pict>* pict) const {
     for (int i = 0; i < getCount(); ++i) {
         upath path = getPath(i) + baseName;
-
-        if (path.fileExists()) {
-            if (path.isReadable()) {
-                if ((*pict = Pict::load(path)) != null) {
-                    return;
-                } else
-                    warn(_("Out of memory for image %s"),
-                            path.string().c_str());
-            } else
-                warn(_("Image not readable: %s"), path.string().c_str());
-        }
+        bool exist = path.fileExists();
+        if (exist && loadPictFile(path, pict))
+            return;
     }
 #ifdef DEBUG
     if (debug)

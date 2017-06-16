@@ -54,12 +54,4 @@ private:
     void repositionButtons();
 };
 
-extern ref<YPixmap> workspacebuttonPixmap;
-extern ref<YPixmap> workspacebuttonactivePixmap;
-
-#ifdef CONFIG_GRADIENTS
-extern ref<YImage> workspacebuttonPixbuf;
-extern ref<YImage> workspacebuttonactivePixbuf;
-#endif
-
 #endif
