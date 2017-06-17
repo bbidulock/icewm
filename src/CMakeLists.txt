@@ -324,7 +324,7 @@ SET(ICEWM_SRCS ${ICE_COMMON_SRCS} ${ITK_SRCS}
  wmbutton.cc wmsession.cc wmwinlist.cc wmtaskbar.cc
  wmwinmenu.cc wmdialog.cc wmabout.cc wmswitch.cc wmstatus.cc
  wmoption.cc wmaction.cc wmcontainer.cc wmclient.cc wmmgr.cc
- wmapp.cc wmframe.cc wmminiicon.cc wmtitle.cc
+ wmapp.cc wmframe.cc wmminiicon.cc wmtitle.cc wpixres.cc
  movesize.cc themes.cc decorate.cc browse.cc wmprog.cc atasks.cc
  aworkspaces.cc amailbox.cc aclock.cc acpustatus.cc apppstatus.cc
  aaddressbar.cc objbar.cc aapm.cc atray.cc ysmapp.cc yxtray.cc yurl.cc
