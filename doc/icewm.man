@@ -248,6 +248,19 @@ Default local installation settings.
 
 .B Configuration files
 
+.I env
+.RS
+.I icewm-session
+loads additional environment variables from the file
+.B env.
+Each line is subjected to posix-shell expansion by
+.I wordexp(3).
+Comment lines starting by a #-sign are ignored.
+Icewm-session will load those expanded lines which
+contain a name, followed by an equals sign,
+followed by the value (which may be empty).
+.RE
+
 .I keys
 .RS
 Global keybindings to launch applications,
