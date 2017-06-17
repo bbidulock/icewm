@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-06-16 12:18-0600\n"
-"PO-Revision-Date: 2017-06-17 16:53+0000\n"
+"PO-Revision-Date: 2017-06-17 20:33+0000\n"
 "Last-Translator: Sarah Kriesch <ada.lovelace@gmx.de>\n"
 "Language-Team: German "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/de/>\n"
@@ -1237,7 +1237,7 @@ msgstr "Ungültiges Argument %d  zum Befehl '%s'"
 
 #: src/wmprog.cc:250
 msgid "Missing filename argument to include statement"
-msgstr ""
+msgstr "Fehlendes Dateinamen-Argument um einen Bericht hinzuzufügen"
 
 #: src/wmprog.cc:316
 #, c-format
