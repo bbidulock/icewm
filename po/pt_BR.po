@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.3.4pre2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-06-16 12:18-0600\n"
-"PO-Revision-Date: 2017-06-16 15:58+0000\n"
-"Last-Translator: Luiz Fernando Ranghetti <elchevive68@gmail.com>\n"
-"Language-Team: Portuguese (Brazil) <https://l10n.opensuse.org/projects/icewm/"
-"icewm-1-3-branch/pt_BR/>\n"
+"PO-Revision-Date: 2017-06-17 00:42+0000\n"
+"Last-Translator: Rodrigo Macedo <rmsolucoeseminformatic4@gmail.com>\n"
+"Language-Team: Portuguese (Brazil) "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/pt_BR/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -528,6 +528,11 @@ msgid ""
 "  --display=NAME      Use NAME to connect to the X server.\n"
 "  --sync              Synchronize communication with X11 server.\n"
 msgstr ""
+"  -c, --config=FILE   Deixe IceWM carregar as preferências do FILE.\n"
+"  -t, --theme=FILE    Deixe IceWM carregar o tema do FILE.\n"
+"\n"
+"  --display=NAME      Use NAME para se conectar ao servidor X.\n"
+"  --sync              Sincronize a comunicação com o servidor X11.\n"
 
 #: src/icesm.cc:97
 #, c-format
@@ -711,6 +716,12 @@ msgid ""
 "  -c, --config=FILE   Load preferences from FILE.\n"
 "  -t, --theme=FILE    Load the theme from FILE.\n"
 msgstr ""
+"  --notify            Notificar o processo pai enviando o sinal USR1.\n"
+"  --display=NAME      Use NAME para se conectar ao servidor X.\n"
+"  --sync              Sincronizar a comunicação com o servidor X11.\n"
+"\n"
+"  -c, --config=FILE   Carregar preferências do FILE.\n"
+"  -t, --theme=FILE    Carregue o tema do FILE.\n"
 
 #: src/iceview.cc:72
 msgid "Hex View"
@@ -737,7 +748,6 @@ msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
 #: src/icewmbg.cc:410
-#, fuzzy
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "\n"
@@ -767,11 +777,23 @@ msgid ""
 " center:1 scaled:1 = keep aspect ratio\n"
 "\n"
 msgstr ""
-"Uso: icewmbg [ -r | -q ]\n"
-" -r  Reiniciar icewmbg\n"
-" -q  Encerrar icewmbg\n"
+"Uso: icewmbg [OPTIONS]\n"
+"\n"
+"Opções:\n"
+"  -r, --restart       Reiniciar icewmbg\n"
+"  -q, --quit          Encerrar icewmbg\n"
+"\n"
+"  -c, --config=FILE   Carregar preferências do FILE.\n"
+"  -t, --theme=FILE    Carregue o tema FILE.\n"
+"\n"
+"  --display=NAME      Use NAME para conectar o servidor X.\n"
+"  --sync              Sincronizar a comunicação com o servidor X11.\n"
+"\n"
+"  -h, --help          Imprima esta tela de uso e saia.\n"
+"  -V, --version       Imprime informações e saídas de versão.\n"
+"\n"
 "Carrega o plano de fundo da área de trabalho conforme o arquivo de "
-"preferências\n"
+"preferências:\n"
 " DesktopBackgroundCenter  - Mostra o plano de fundo centrado, não azulejado\n"
 " SupportSemitransparency  - Suporte para terminais semitransparentes\n"
 " DesktopBackgroundColor   - Cor do plano de fundo\n"
@@ -780,8 +802,9 @@ msgstr ""
 " DesktopTransparencyImage - Imagem a anunciar para janelas "
 "semitransparentes\n"
 "\n"
-" center:0 scaled:0 = tiled\n"
+" center:0 scaled:0 = quadrado\n"
 " center:1 scaled:1 = manter aspecto\n"
+"\n"
 
 #: src/icewmhint.cc:45
 msgid "Usage: icewmhint [class.instance] option arg\n"
@@ -1019,7 +1042,7 @@ msgstr ""
 "janelas.\n"
 
 #: src/wmapp.cc:1294
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
 "Starts the IceWM window manager.\n"
@@ -1064,7 +1087,7 @@ msgstr ""
 "  -n, --no-configure  Ignora o arquivo de preferências.\n"
 "\n"
 "  -V, --version       Exibe a informação da versão e finaliza.\n"
-"  -h, --help          Exibea janela sobre o uso e finaliza.\n"
+"  -h, --help          Exibe a janela sobre o uso e finaliza.\n"
 "%s  --replace           Substitui um gerenciador de janelas existente.\n"
 "  --restart           Não use isto: é um marcador interno.\n"
 "  --configured        Exibe a configuração do momento da compilação.\n"
@@ -1079,7 +1102,7 @@ msgstr ""
 "  DISPLAY=NOME        Nome do servidor X a usar.\n"
 "  MAIL=URL            Localização da sua caixa de e-mail.\n"
 "\n"
-"Para reportar bugs, solicitar recursos e comentários visite:\n"
+"Para reportar falhas, solicitar recursos e comentários visite:\n"
 "%s\n"
 "\n"
 
@@ -1111,9 +1134,9 @@ msgid "Failed to load theme %s"
 msgstr "Falha ao carregar o tema %s"
 
 #: src/wmconfig.cc:113
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown value '%s' for option '%s'."
-msgstr "Opção desconhecida: `%s'"
+msgstr "Valor desconhecido '%s' para a opção '%s'."
 
 #: src/wmconfig.cc:122
 #, c-format
@@ -1221,7 +1244,7 @@ msgstr "Argumento inválido %d para o comando '%s'"
 
 #: src/wmprog.cc:250
 msgid "Missing filename argument to include statement"
-msgstr ""
+msgstr "Faltando o argumento do nome do arquivo para incluir uma declaração"
 
 #: src/wmprog.cc:316
 #, c-format
@@ -1259,6 +1282,8 @@ msgid ""
 "Unknown keyword for a non-container: '%s'.\n"
 "Expected either 'key' or 'runonce' here.\n"
 msgstr ""
+"Palavra-chave desconhecida para um não-contêiner: '%s'.\n"
+"Esperava que \"chave\" ou \"runonce\" aqui.\n"
 
 #: src/wmprog.cc:648
 #, c-format
