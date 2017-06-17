@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-06-16 12:18-0600\n"
-"PO-Revision-Date: 2017-06-14 20:30+0100\n"
+"PO-Revision-Date: 2017-06-17 19:33+0100\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
 "Language-Team: Slovak <opensuse-translation-sk@opensuse.org>\n"
 "Language: sk\n"
@@ -627,8 +627,8 @@ msgstr ""
 "\n"
 "Voľby:\n"
 "\n"
-"-d, --display=DISPLEJ         Displej používaný IceWM (predvolené: "
-"$DISPLAY).\n"
+"-d, --display=DISPLEJ         Displej používaný IceWM (predvolené: $DISPLAY)."
+"\n"
 "-s, --sample-dir=ADR      Určuje adresár, ktorý obsahuje zvukové\n"
 "                              súbory (t.j. ~/.icewm/sounds).\n"
 "-i, --interface=CIEĽ         Určuje výstupné zvukové výstupné\n"
@@ -718,7 +718,6 @@ msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
 #: src/icewmbg.cc:410
-#, fuzzy
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "\n"
@@ -748,9 +747,21 @@ msgid ""
 " center:1 scaled:1 = keep aspect ratio\n"
 "\n"
 msgstr ""
-"Použitie: icewmbg [-r|-q]\n"
-"-r  Reštartuje icewmbg\n"
-"-q  Ukončí icewmbg\n"
+"Použitie: icewmbg [VOĽBY]\n"
+"\n"
+"Voľby:\n"
+"  -r, --restart         Reštartuje icewmbg\n"
+"  -q, --quit          Ukončí icewmbg\n"
+"\n"
+"  -c, --config=SÚBOR   Načíta predvoľby zo SÚBORU.\n"
+"  -t, --theme=SÚBOR    Načíta tému zo SÚBORU.\n"
+"\n"
+"  --display=NÁZOV      Použite NÁZOV pre pripojenie k X serveru.\n"
+"  --sync              Synchronizujte komunikáciu s X11 serverom.\n"
+"\n"
+"  -h, --help          Vypíše túto obrazovku o použití a skončí.\n"
+"  -V, --version       Vypíše informácie o verzii a skončí.\n"
+"\n"
 "Načíta pozadie plochy podľa súboru predvolieb\n"
 " DesktopBackgroundCenter  - Zobrazí pozadie plochy vycentrované\n"
 " DesktopBackgroundScaled  - Zobrazí pozadie plochy zväčšené\n"
@@ -759,8 +770,10 @@ msgstr ""
 " DesktopBackgroundImage   - Obrázok pozadia plochy\n"
 " DesktopTransparencyColor - Farba podporujúca polopriehľadné okná\n"
 " DesktopTransparencyImage - Obrázok podporujúci polopriehľadné okná\n"
+"\n"
 "center:0 scaled:0 = dlaždice\n"
 "center:1 scaled:1 = ponechať pomer strán\n"
+"\n"
 
 #: src/icewmhint.cc:45
 msgid "Usage: icewmhint [class.instance] option arg\n"
@@ -997,7 +1010,7 @@ msgstr ""
 "  --debug-z           Vypíše ladiace správy týkajúce naskladania okien.\n"
 
 #: src/wmapp.cc:1294
-#, fuzzy, c-format
+#, c-format, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
 "Starts the IceWM window manager.\n"
@@ -1034,14 +1047,13 @@ msgstr ""
 "Spustí správcu okien IceWM.\n"
 "\n"
 "Voľby:\n"
-"  --display=MENO      MENO X servera, ktorý sa použije.\n"
+"  --display=NÁZOV      NÁZOV X servera, ktorý sa použije.\n"
 "%s  --sync               Synchronizuje príkazy X11.\n"
 "\n"
 "  -c, --config=SÚBOR  Načíta predvoľby zo SÚBORU.\n"
 "  -t, --theme=SÚBOR   Načíta tému zo SÚBORU.\n"
-"  -n, --no-configure   Ignoruje súbor predvolieb.\n"
 "\n"
-"  -v, --version        Vypíše informácie o verzii a skončí.\n"
+"  -V, --version        Vypíše informácie o verzii a skončí.\n"
 "  -h, --help           Vypíše túto obrazovku o použití a skončí.\n"
 "%s  -replace             Nahradí existujúceho správcu okien.\n"
 "  --restart            Toto nepoužívať: Je to interný príznak.\n"
@@ -1089,9 +1101,9 @@ msgid "Failed to load theme %s"
 msgstr "Zlyhalo načítanie témy %s"
 
 #: src/wmconfig.cc:113
-#, fuzzy, c-format
+#, c-format, c-format
 msgid "Unknown value '%s' for option '%s'."
-msgstr "Neznáma voľba '%s'"
+msgstr "Neznáma hodnota '%s' pre voľbu '%s'."
 
 #: src/wmconfig.cc:122
 #, c-format
@@ -1193,43 +1205,43 @@ msgid "Missing command argument"
 msgstr "Chýba hodnota príkazu"
 
 #: src/wmprog.cc:217
-#, fuzzy, c-format
+#, c-format, c-format
 msgid "Bad argument %d to command '%s'"
-msgstr "Zlá hodnota: %s pre %s"
+msgstr "Zlý argument %d pre príkaz '%s'"
 
 #: src/wmprog.cc:250
 msgid "Missing filename argument to include statement"
 msgstr ""
 
 #: src/wmprog.cc:316
-#, fuzzy, c-format
+#, c-format, c-format
 msgid "Error at %s '%s'"
-msgstr "Chyba v kľúči %s"
+msgstr "Chyba v %s '%s'"
 
 #: src/wmprog.cc:367
-#, fuzzy, c-format
+#, c-format, c-format
 msgid "Unexepected menu keyword: '%s'"
-msgstr "Neočakávané kľúčové slovo: %s"
+msgstr "Neočakávané kľúčové slovo menu: '%s'"
 
 #: src/wmprog.cc:413
-#, fuzzy, c-format
+#, c-format, c-format
 msgid "Error at menuprog '%s'"
-msgstr "Chyba v programe %s"
+msgstr "Chyba v menuprog '%s'"
 
 #: src/wmprog.cc:454
-#, fuzzy, c-format
+#, c-format, c-format
 msgid "Error at %s: '%s'"
-msgstr "Chyba v kľúči %s"
+msgstr "Chyba v %s: '%s'"
 
 #: src/wmprog.cc:479
-#, fuzzy, c-format
+#, c-format, c-format
 msgid "Unknown keyword '%s'"
-msgstr "Neznáma akcia: `%s'"
+msgstr "Neznáme kľúčové slovo '%s'"
 
 #: src/wmprog.cc:503
-#, fuzzy, c-format
+#, c-format, c-format
 msgid "Error at keyword '%s' for %s"
-msgstr "Chyba v kľúči %s"
+msgstr "Chyba v kľúčovom slove '%s' pre %s"
 
 #: src/wmprog.cc:519
 #, c-format
@@ -1338,7 +1350,7 @@ msgstr "Obľúbené aplikácie"
 
 #: src/wmtaskbar.cc:475
 msgid "Window list menu"
-msgstr "Zoznam okien"
+msgstr "Menu zoznamu okien"
 
 #: src/wmtaskbar.cc:484
 msgid "Show Desktop"
@@ -1442,8 +1454,8 @@ msgstr "CHYBA? Poškodená XPM hlavička ale Imlib bola schopná analyzovať \"%
 #, c-format
 msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
 msgstr ""
-"CHYBA? Neočakávaný koniec súboru XPM, ale Imlib bola schopná analyzovať \"%s"
-"\""
+"CHYBA? Neočakávaný koniec súboru XPM, ale Imlib bola schopná analyzovať \"%"
+"s\""
 
 #: src/ycursor.cc:219
 #, c-format
@@ -1569,8 +1581,8 @@ msgid ""
 "Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
 "blue): %0*x/%0*x/%0*x)"
 msgstr ""
-"Ku konverzii pixelov používam núdzový mechanizmus(hĺbka: %d; maska (červená/"
-"zelená/modrá): %0*x/%0*x/%0*x)"
+"Ku konverzii pixelov používam núdzový mechanizmus(hĺbka: %d; maska "
+"(červená/zelená/modrá): %0*x/%0*x/%0*x)"
 
 #: src/ypixbuf.cc:576 src/ypixbuf.cc:725
 #, c-format
