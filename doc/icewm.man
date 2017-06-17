@@ -261,6 +261,20 @@ contain a name, followed by an equals sign,
 followed by the value (which may be empty).
 .RE
 
+.I focus_mode
+.RS
+IceWM supports three focus models:
+Click to focus (1),
+Sloppy mouse focus (2)
+and a Custom mode (0).
+The Custom mode is defined by ten other
+focus options in the preferences file.
+The default FocusMode is Click to focus.
+This can be changed via the menu.
+IceWM will save this choice in this file.
+Its default value is: FocusMode=1
+.RE
+
 .I keys
 .RS
 Global keybindings to launch applications,
