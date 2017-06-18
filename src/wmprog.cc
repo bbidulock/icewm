@@ -199,7 +199,7 @@ static char *getCommandArgs(char *source, Argument *command,
         msg(_("Missing command argument"));
         return p;
     }
-    args.append(newstr(*command));
+    args.append(*command);
 
     Argument argx;
     while (*p) {
@@ -219,7 +219,7 @@ static char *getCommandArgs(char *source, Argument *command,
             return p;
         }
 
-        args.append(newstr(argx));
+        args.append(argx);
         MSG(("ARG: %s\n", argx.cstr()));
     }
     args.append(0);
