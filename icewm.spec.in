@@ -121,8 +121,6 @@ GNOME 1.0 menu support for icewm (using gnome 2.x).
 %{pkgdata}/themes/Helix/*
 %dir %{pkgdata}/themes/NanoBlue
 %{pkgdata}/themes/NanoBlue/*
-%dir %{pkgdata}/themes/Natural
-%{pkgdata}/themes/Natural/*
 %dir %{pkgdata}/themes/motif
 %{pkgdata}/themes/motif/*
 %dir %{pkgdata}/themes/win95
@@ -136,7 +134,7 @@ GNOME 1.0 menu support for icewm (using gnome 2.x).
 
 %changelog
 * Mon Jun 12 2017 Bert Gijsbers
-ver 1.3.12.415: Add new themes CrystalBlue, Helix, NanoBlue, Natural.
+ver 1.3.12.415: Add new themes CrystalBlue, Helix, NanoBlue.
 Remove outdated themes gtk2, nice, nice2, warp3, warp4, yellowmotif.
 
 * Sun Dec 18 2015 Jiri Slaby <jirislaby@gmail.com>
