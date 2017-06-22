@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-06-16 12:18-0600\n"
+"POT-Creation-Date: 2017-06-21 18:11-0600\n"
 "PO-Revision-Date: 2017-06-17 19:54+0100\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
 "Language-Team: Slovak <opensuse-translation-sk@opensuse.org>\n"
@@ -632,8 +632,8 @@ msgstr ""
 "\n"
 "Voľby:\n"
 "\n"
-"-d, --display=DISPLEJ         Displej používaný IceWM (predvolené: $DISPLAY)."
-"\n"
+"-d, --display=DISPLEJ         Displej používaný IceWM (predvolené: "
+"$DISPLAY).\n"
 "-s, --sample-dir=ADR      Určuje adresár, ktorý obsahuje zvukové\n"
 "                              súbory (t.j. ~/.icewm/sounds).\n"
 "-i, --interface=CIEĽ         Určuje výstupné zvukové výstupné\n"
@@ -1021,7 +1021,6 @@ msgstr ""
 "  --debug-z           Vypíše ladiace správy týkajúce naskladania okien.\n"
 
 #: src/wmapp.cc:1294
-#, c-format, c-format
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1113,7 +1112,6 @@ msgid "Failed to load theme %s"
 msgstr "Zlyhalo načítanie témy %s"
 
 #: src/wmconfig.cc:113
-#, c-format, c-format
 #, c-format
 msgid "Unknown value '%s' for option '%s'."
 msgstr "Neznáma hodnota '%s' pre voľbu '%s'."
@@ -1218,7 +1216,6 @@ msgid "Missing command argument"
 msgstr "Chýba hodnota príkazu"
 
 #: src/wmprog.cc:217
-#, c-format, c-format
 #, c-format
 msgid "Bad argument %d to command '%s'"
 msgstr "Zlý argument %d pre príkaz '%s'"
@@ -1228,37 +1225,31 @@ msgid "Missing filename argument to include statement"
 msgstr "Chýbajúci argument názvu súboru pre príkaz include"
 
 #: src/wmprog.cc:316
-#, c-format, c-format
 #, c-format
 msgid "Error at %s '%s'"
 msgstr "Chyba v %s '%s'"
 
 #: src/wmprog.cc:367
-#, c-format, c-format
 #, c-format
 msgid "Unexepected menu keyword: '%s'"
 msgstr "Neočakávané kľúčové slovo menu: '%s'"
 
 #: src/wmprog.cc:413
-#, c-format, c-format
 #, c-format
 msgid "Error at menuprog '%s'"
 msgstr "Chyba v menuprog '%s'"
 
 #: src/wmprog.cc:454
-#, c-format, c-format
 #, c-format
 msgid "Error at %s: '%s'"
 msgstr "Chyba v %s: '%s'"
 
 #: src/wmprog.cc:479
-#, c-format, c-format
 #, c-format
 msgid "Unknown keyword '%s'"
 msgstr "Neznáme kľúčové slovo '%s'"
 
 #: src/wmprog.cc:503
-#, c-format, c-format
 #, c-format
 msgid "Error at keyword '%s' for %s"
 msgstr "Chyba v kľúčovom slove '%s' pre %s"
@@ -1476,8 +1467,8 @@ msgstr "CHYBA? Poškodená XPM hlavička ale Imlib bola schopná analyzovať \"%
 #, c-format
 msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
 msgstr ""
-"CHYBA? Neočakávaný koniec súboru XPM, ale Imlib bola schopná analyzovať \"%"
-"s\""
+"CHYBA? Neočakávaný koniec súboru XPM, ale Imlib bola schopná analyzovať \"%s"
+"\""
 
 #: src/ycursor.cc:219
 #, c-format
@@ -1603,8 +1594,8 @@ msgid ""
 "Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
 "blue): %0*x/%0*x/%0*x)"
 msgstr ""
-"Ku konverzii pixelov používam núdzový mechanizmus(hĺbka: %d; maska "
-"(červená/zelená/modrá): %0*x/%0*x/%0*x)"
+"Ku konverzii pixelov používam núdzový mechanizmus(hĺbka: %d; maska (červená/"
+"zelená/modrá): %0*x/%0*x/%0*x)"
 
 #: src/ypixbuf.cc:576 src/ypixbuf.cc:725
 #, c-format
