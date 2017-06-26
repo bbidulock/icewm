@@ -10,7 +10,7 @@
 .		if \w'\(rq' .ds rq "\(rq
 .	\}
 .\}
-.TH ICEWM 1 "2017-06-06" "Adam Pribyl" "IceWM Window Manager"
+.TH ICEWM 1 "2017-06-26" "" "IceWM Window Manager"
 
 .SH NAME
 icewm \- lightweight X11 window manager
@@ -60,8 +60,18 @@ applications like PSI.
 
 .B icewm-session
 - runs all of the above when needed.
+It first loads additional environment variables from the optional
+.I env
+file. Then it starts icewmbg, icewmtray and icewm.
+It also runs the
+.I startup
+script.
 It implements basic session management.
-This is the preferred program to start the IceWM system.
+Icewm-session is the preferred program to start the IceWM system.
+On termination the
+.I shutdown
+script will be run first, then icewm-session will terminate
+icewmtray, icewm and icewmbg.
 
 .B icesh
 - could be used to manage IceWM internals from command line.
@@ -272,7 +282,6 @@ focus options in the preferences file.
 The default FocusMode is Click to focus.
 This can be changed via the menu.
 IceWM will save this choice in this file.
-Its default value is: FocusMode=1
 .RE
 
 .I keys
@@ -381,20 +390,26 @@ Full details for this file are explained in the
 
 .I startup
 .RS
-Commands to execute on IceWM startup.
+Contains commands to be executed on IceWM startup.
 This is an executable script with commands to tweak
 X11 settings and launch some applications which need
 to be active whenever IceWM is started.
+It is run by
+.I icewm-session
+when IceWM starts.
 .RE
 
 .I shutdown
 .RS
-Commands to execute on IceWM shutdown.
+Contains commands to be executed on IceWM shutdown.
 This is an executable script with commands to be
 executed in the last stage of IceWM termination.
 Typically they may undo some of the effects of the
 .I startup
 script.
+It is run by
+.I icewm-session
+when IceWM terminates.
 .RE
 
 .B Configuration directories
