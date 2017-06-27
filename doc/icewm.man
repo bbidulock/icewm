@@ -76,6 +76,9 @@ icewmtray, icewm and icewmbg.
 .B icesh
 - could be used to manage IceWM internals from command line.
 
+.B icehelp
+- is used by icewm to display the IceWM manual.
+
 .B icewmhint
 - used internally.
 
