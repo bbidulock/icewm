@@ -1990,19 +1990,33 @@ static void print_help()
 
 int main(int argc, char **argv) {
     YLocale locale;
+    const char *helpfile(0);
 
-    for (char **arg = argv; arg < argv + argc; ++arg) {
-        if (is_help_switch(*arg))
-            print_help();
-        if (is_version_switch(*arg))
-            print_version_exit(VERSION);
+    for (char **arg = 1 + argv; arg < argv + argc; ++arg) {
+        if (**arg == '-') {
+            if (is_help_switch(*arg))
+                print_help();
+            if (is_version_switch(*arg))
+                print_version_exit(VERSION);
+            else {
+                char *dummy(0);
+                if (GetLongArgument(dummy, "display", arg, argv + argc)) {
+                    /*ignore*/;
+                }
+            }
+        }
+        else {
+            helpfile = *arg;
+        }
+    }
+
+    if (helpfile == 0) {
+        helpfile = ICEHELPIDX;
     }
 
     YXApplication app(&argc, &argv);
 
-    if (argc != 2) print_help();
-
-    FileView view(&app, argv[1]);
+    FileView view(&app, helpfile);
     view.show();
     app.mainLoop();
 
