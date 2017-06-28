@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.15pre3\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-06-21 18:11-0600\n"
-"PO-Revision-Date: 2016-09-25 13:30+0000\n"
-"Last-Translator: Benoît Monin <benoit.monin@gmx.fr>\n"
-"Language-Team: French <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
-"branch/fr/>\n"
+"PO-Revision-Date: 2017-06-28 12:26+0000\n"
+"Last-Translator: Guillaume GARDET <guillaume.gardet@opensuse.org>\n"
+"Language-Team: French "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-3-branch/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.6\n"
+"X-Generator: Weblate 2.13.1\n"
 
 #: src/aapm.cc:191 src/aapm.cc:513 src/aapm.cc:753 src/aapm.cc:874
 msgid " - Power"
@@ -34,12 +34,11 @@ msgstr " - En charge"
 
 #: src/aapm.cc:199 src/aapm.cc:489 src/aapm.cc:735
 msgid "C"
-msgstr ""
+msgstr "C"
 
 #: src/aapm.cc:491
-#, fuzzy
 msgid " - Full"
-msgstr " - Chargée"
+msgstr " - Plein"
 
 #: src/acpustatus.cc:195
 #, c-format
@@ -47,6 +46,8 @@ msgid ""
 "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 "intr = %llu, softirq = %llu, steal = %llu\n"
 msgstr ""
+"stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
+"intr = %llu, softirq = %llu, steal = %llu\n"
 
 #: src/acpustatus.cc:200
 #, c-format
@@ -54,14 +55,16 @@ msgid ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 "softirq = %llu, steal = %llu (h = %i)\n"
 msgstr ""
+"bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
+"softirq = %llu, steal = %llu (h = %i)\n"
 
 #: src/acpustatus.cc:262
-#, fuzzy, c-format
+#, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
-msgstr "Charge CPU: %3.2f %3.2f %3.2f, %u processus"
+msgstr "CPU %s Charge : %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:267
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Ram (free): %5.2f (%.2f) M"
@@ -70,7 +73,7 @@ msgstr ""
 "Mémoire (libre) : %5.2f (%.2f) M"
 
 #: src/acpustatus.cc:272
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Swap (free): %.2f (%.2f) M"
@@ -79,7 +82,7 @@ msgstr ""
 "Swap (libre) : %.2f (%.2f) M"
 
 #: src/acpustatus.cc:278
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "ACPI Temp: "
@@ -88,7 +91,7 @@ msgstr ""
 "ACPI Temp : "
 
 #: src/acpustatus.cc:297
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
@@ -98,23 +101,22 @@ msgstr ""
 
 #: src/acpustatus.cc:318
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
 #: src/acpustatus.cc:318
-#, fuzzy
 msgid "Load: "
-msgstr "Charge processeur : "
+msgstr "Charge : "
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
 #: src/acpustatus.cc:385
 msgid "°C"
-msgstr ""
+msgstr "°C"
 
 #: src/acpustatus.cc:671
 #, c-format
 msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
-msgstr ""
+msgstr "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 
 #: src/amailbox.cc:71
 #, c-format
@@ -146,7 +148,7 @@ msgid "%ld mail messages."
 msgstr "%ld messages."
 
 #: src/apppstatus.cc:204
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Interface %s:\n"
 "  Current rate (in/out):\t%li %s/%li %s\n"
@@ -154,10 +156,10 @@ msgid ""
 "  Transferred (in/out):\t%lli %s/%lli %s\n"
 "  Online time:\t%ld:%02ld:%02ld%s%s"
 msgstr ""
-"Interface réseau %s :\n"
-"  Taux de transfert instantané (E/S) :\t%li %s/%li %s\n"
-"  Taux de transfert moyen (E/S) :\t%lli %s/%lli %s\n"
-"  Données transférées (E/S) :\t%lli %s/%lli %s\n"
+"Interface %s :\n"
+"  Taux actuel (E/S) :\t%li %s/%li %s\n"
+"  Taux moyen (E/S) :\t%lli %s/%lli %s\n"
+"  Transférés (E/S) :\t%lli %s/%lli %s\n"
 "  Temps passé en ligne:\t%ld:%02ld:%02ld%s%s"
 
 #: src/apppstatus.cc:216
@@ -175,35 +177,29 @@ msgstr "Bureau : "
 
 #: src/fdomenu.cc:74
 msgid "Accessibility"
-msgstr ""
+msgstr "Accessibilité"
 
 #: src/fdomenu.cc:75
-#, fuzzy
 msgid "Settings"
-msgstr "Réglages"
+msgstr "Paramètres"
 
 #: src/fdomenu.cc:76
-#, fuzzy
 msgid "Screensavers"
 msgstr "Économiseurs d'écran"
 
 #: src/fdomenu.cc:77
-#, fuzzy
 msgid "Accessories"
 msgstr "Accessoires"
 
 #: src/fdomenu.cc:78
-#, fuzzy
 msgid "Development"
 msgstr "Développement"
 
 #: src/fdomenu.cc:79
-#, fuzzy
 msgid "Education"
 msgstr "Éducation"
 
 #: src/fdomenu.cc:80
-#, fuzzy
 msgid "Games"
 msgstr "Jeux"
 
@@ -213,37 +209,30 @@ msgid "Graphics"
 msgstr "Graphiques"
 
 #: src/fdomenu.cc:82
-#, fuzzy
 msgid "Multimedia"
 msgstr "Multimédia"
 
 #: src/fdomenu.cc:83
-#, fuzzy
 msgid "Network"
 msgstr "Réseau"
 
 #: src/fdomenu.cc:84
-#, fuzzy
 msgid "Office"
 msgstr "Bureautique"
 
 #: src/fdomenu.cc:85
-#, fuzzy
 msgid "System"
 msgstr "Système"
 
 #: src/fdomenu.cc:86
-#, fuzzy
 msgid "WINE"
 msgstr "WINE"
 
 #: src/fdomenu.cc:87
-#, fuzzy
 msgid "Editors"
 msgstr "Éditeurs"
 
 #: src/fdomenu.cc:88
-#, fuzzy
 msgid "Other"
 msgstr "Autre"
 
@@ -366,9 +355,9 @@ msgid "Invalid workspace name: `%s'"
 msgstr "Nom de bureau incorrect : \"%s\""
 
 #: src/icesh.cc:435
-#, fuzzy, c-format
+#, c-format
 msgid "Workspace out of range: %ld"
-msgstr "Bureau hors limites : %d"
+msgstr "Bureau hors limites : %ld"
 
 #: src/icesh.cc:569
 #, c-format
@@ -487,9 +476,9 @@ msgid ""
 msgstr ""
 
 #: src/icesm.cc:97
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown option '%s'"
-msgstr "Action inconnue : \"%s\""
+msgstr "Option inconnue : '%s'"
 
 #: src/icesound.cc:255 src/icesound.cc:423 src/icesound.cc:791
 #, c-format
@@ -775,7 +764,6 @@ msgid "CodeSet:"
 msgstr ""
 
 #: src/wmabout.cc:44
-#, fuzzy
 msgid "Language:"
 msgstr "Langue :"
 
