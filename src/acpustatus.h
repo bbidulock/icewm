@@ -46,7 +46,6 @@ private:
     YSMListener *smActionListener;
     bool ShowRamUsage, ShowSwapUsage, ShowAcpiTemp, ShowCpuFreq,
          ShowAcpiTempInGraph;
-    FILE *m_nCachedFd;
 
     YColor *tempColor;
     static ref<YFont> tempFont;

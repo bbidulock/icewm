@@ -153,7 +153,7 @@ public:
 class csmart : public asmart<char> {
 public:
     typedef asmart<char> super;
-    typedef typename super::dispose_t dispose_t;
+    typedef super::dispose_t dispose_t;
 
     explicit csmart(char *data = 0, dispose_t disp = super::adispose)
         : super(data, disp) {}

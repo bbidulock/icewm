@@ -481,7 +481,9 @@ int main(int argc, char **argv) {
         }
     }
 
-    if (nice(5)) ;
+    if (nice(5)) {
+        /*ignore*/;
+    }
 
     bg = new DesktopBackgroundManager(&argc, &argv);
 
