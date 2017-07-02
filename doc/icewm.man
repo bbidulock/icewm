@@ -10,7 +10,7 @@
 .		if \w'\(rq' .ds rq "\(rq
 .	\}
 .\}
-.TH ICEWM 1 "2017-06-26" "" "IceWM Window Manager"
+.TH ICEWM 1 "2017-07-01" "" "IceWM Window Manager"
 
 .SH NAME
 icewm \- lightweight X11 window manager
@@ -112,8 +112,8 @@ can be given to icewm directly. However, usually one will
 want to use a preferences file from a default location.
 
 .TP
-.B \-t, \-\^\-theme=FILE
-Use FILE as the name of the IceWM
+.B \-t, \-\^\-theme=NAME
+Use NAME as the name of the IceWM
 .I theme
 to use.
 A theme defines the look and feel of IceWM,
@@ -127,9 +127,9 @@ advance the state of the art in desktop look and feel.
 Many of them can be downloaded from the website
 https://www.box-look.org/ and stored in either the
 directory ~/.config/icewm/themes/ or in ~/.icewm/themes/.
-The user can then activate such a theme via the
-IceWM menu in the lower left corner of the display.
-A default theme is usually specified in either
+You can then activate such a theme via the
+menu in the lower left corner of the display.
+A default theme is specified in either
 ~/.icewm/theme, or in ~/.config/icewm/theme.
 When a new theme is selected then this value is overwritten,
 so that the next time IceWM is started this choice is reused.
@@ -139,7 +139,6 @@ so that the next time IceWM is started this choice is reused.
 NAME specifies the connection to the X11 server.
 If this option is missing, as is usually the case,
 then NAME is read from the environment variable DISPLAY.
-Its default value is typically just :0.
 
 .TP
 .B \-\^\-sync
@@ -199,6 +198,160 @@ the configuration and theme files. In some advanced
 scenarios this can be helpful to inspect which configuration
 was chosen or whether option formatting was correct.
 
+.PD 1
+.SH TASKBAR
+
+On startup IceWM launches the taskbar at the bottom of the screen.
+The taskbar consists from left to right  of the following components:
+
+.PD 0
+.PP
+The
+.I menu button
+in the lower left corner gives access to the IceWM
+root menu. This menu has submenus to start applications,
+to control IceWM settings, and the IceWM Logout menu.
+
+.PP
+The
+.I Show Desktop
+button unmaps all application windows to fully uncover the desktop.
+
+.PP
+The 
+.I Window list menu button
+gives access to a menu with a list of active windows
+for the current workspace and a list of workspaces
+with submenus for their active application windows.
+
+.PP
+The
+.I toolbar
+is a list of icons for applications which are
+defined in the toolbar configuration file.
+
+.PP
+The
+.I workspace list
+shows one button for each workspace.
+The current workspace is indicated by a pressed button.
+Pressing another workspace button switches to that workspace.
+The workspaces are defined in the preferences file.
+
+.PP
+The
+.I task pane
+consists of a list of wide buttons for each application
+which is running on the current workspace.
+Each task button shows the application icon and the application title.
+The active application is indicated by a pressed button.
+This is the application which has input focus.
+Pressing another button activates that application:
+it is brought to the foreground and receives input focus.
+
+.PP
+If there are not many application buttons then a stretch of plain
+taskbar is visible.
+Clicking on it with the right mouse button gives the taskbar menu.
+
+.PP
+The
+.I tray applet
+shows Docklet objects.
+
+.PP
+The
+.I APM applet
+shows battery power status.
+
+.PP
+The
+.I Net applet
+shows network activity.
+
+.PP
+The
+.I Mem applet
+monitors memory usage.
+
+.PP
+The
+.I CPU applet
+monitors processor utilization.
+
+.PP
+The
+.I Mailbox applet
+monitors mailbox status changes.
+
+.PP
+The
+.I Clock applet
+shows the current time and date.
+
+.PP
+The
+.I taskbar collapse button
+collapses the taskbar and hides it.
+
+.PP
+Not all IceWM applets may show up on the taskbar.
+They must have been enabled during configuration of the IceWM software.
+Their appearance is also controlled by options in the preferences file.
+
+.PD 1
+.SH INPUT FOCUS
+
+Of all visible windows only one can be the
+.I active window.
+This is the window which has
+.I input focus.
+It is the primary receiver of keyboard and mouse events
+and hence one can interact with the application
+which created that window.
+A primary task of a window manager is to allow the user
+to switch input focus between different windows.
+The primary means to do this is the mouse pointer.
+By moving the mouse pointer over the screen to
+another window, and perhaps also by clicking
+on a window, input focus can be directed. 
+
+The
+.I FocusMode
+option controls the way IceWM
+gives input focus to applications.
+It is initialized by the
+.I focus_mode
+configuration file.
+It can be modified via the IceWM Focus menu.
+IceWM supports three focus models:
+Click-to-focus (1),
+Sloppy-mouse-focus (2)
+and Custom-mode (0).
+The default is
+.I FocusMode=1
+(Click-to-focus).
+In this mode changing input focus requires to click a window with the
+left mouse button.
+.I Sloppy-mouse-focus
+sets input focus merely by moving the mouse pointer over a window.
+It is called sloppy, because if the mouse then moves to the desktop
+focus remains with the last active window.
+.I Custom-mode
+is a focus mode which is defined in detail by ten options
+in the preferences file.
+These are:
+ClickToFocus,
+FocusOnAppRaise,
+RequestFocusOnAppRaise,
+RaiseOnFocus,
+RaiseOnClickClient,
+FocusChangesWorkspace,
+FocusOnMap,
+FocusOnMapTransient,
+FocusOnMapTransientActive,
+MapInactiveOnTop.
+The two non-Custom focus modes override these ten options.
 
 .PD 1
 .SH ENVIRONMENT VARIABLES
@@ -224,8 +377,15 @@ This value can be overridden by the --display option.
 
 .I MAIL=URL
 .RS
-Location of your mailbox. If the schema is omitted the local "file"
-schema is assumed. This is used by the mailbox applet.
+Gives the location of your mailbox.
+If the schema is omitted the local "file" schema is assumed.
+This is used by the mailbox applet in the taskbar
+to show the status of your mailbox.
+If the
+.I MailBoxPath
+option in the
+.I preferences
+file is set, then that one takes precedence.
 .RE
 
 .SH FILES
@@ -276,15 +436,12 @@ followed by the value (which may be empty).
 
 .I focus_mode
 .RS
-IceWM supports three focus models:
-Click to focus (1),
-Sloppy mouse focus (2)
-and a Custom mode (0).
-The Custom mode is defined by ten other
-focus options in the preferences file.
-The default FocusMode is Click to focus.
+Defines the initial value for FocusMode.
+Its default value is
+.I FocusMode=1
+(Click-to-focus).
 This can be changed via the menu.
-IceWM will save this choice in this file.
+IceWM will save the Focus menu choice in this file.
 .RE
 
 .I keys
@@ -307,6 +464,12 @@ IceWM provides either the program
 or the program
 .I icewm-menu-gnome2
 to generate a default menu.
+Similar programs are
+.I xdg_menu,
+.I mmaker
+(MenuMaker),
+.I xde-menu,
+.I xdgmenumaker.
 .RE
 
 .I preferences
@@ -490,9 +653,11 @@ ICCCM 2.0: mostly.  EWMH: mostly.
 See the file COMPLIANCE in the distribution for full details.
 
 .SH SEE ALSO
-.IR xinit(1),
-.IR Xorg(1),
-.IR X(7),
+Xorg(1),
+Xserver(1),
+xinit(1),
+xprop(1),
+wmctrl(1).
 
 .IR "IceWM Help"
 from the IceWM menu contains a manual (somewhat outdated, but still useful).
