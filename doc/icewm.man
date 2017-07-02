@@ -10,7 +10,7 @@
 .		if \w'\(rq' .ds rq "\(rq
 .	\}
 .\}
-.TH ICEWM 1 "2017-07-01" "" "IceWM Window Manager"
+.TH ICEWM 1 "2017-07-02" "" "IceWM Window Manager"
 
 .SH NAME
 icewm \- lightweight X11 window manager
@@ -352,6 +352,321 @@ FocusOnMapTransient,
 FocusOnMapTransientActive,
 MapInactiveOnTop.
 The two non-Custom focus modes override these ten options.
+
+Apart from the mouse, IceWM supports changing input
+focus in two other ways. Both involve the keyboard.
+The first uses the
+.I QuickSwitch window.
+It is activated by pressing
+.B Alt+Tab
+or
+.B Alt+Shift+Tab.
+A window pops up in the center of the screen
+with a narrow band over the next or previous
+window which will receive input focus
+when the Alt key is released.
+By repeatedly pressing Alt+Tab or Alt+Shift+Tab
+one can cycle through all windows.
+
+The second keyboard method involves pressing
+.B Alt+Esc
+or
+.B Alt+Shift+Esc.
+Input focus is immediately changed to the next
+or previous window, which will be raised so
+that it becomes fully visible.
+
+
+.PD 0
+.SH KEYBOARD SHORTCUTS
+
+IceWM supports a large number of hotkeys to activate
+some behavior with a single key combination.
+These are all configurable in the preferences file.
+Here we give their default values,
+followed by their preferences names
+and short descriptions of their effect.
+
+.TP
+.B Alt+F1\ 
+KeyWinRaise raises the window which currently has input focus. 
+
+.TP
+.B Alt+F2\ 
+KeyWinOccupyAll makes the active window occupy all workspaces.
+
+.TP
+.B Alt+F3\ 
+KeyWinLower lowers the window which currently has input focus.
+
+.TP
+.B Alt+F4\ 
+KeyWinClose closes the active window.
+
+.TP
+.B Alt+F5\ 
+KeyWinRestore restores the active window to its visible state.
+
+.TP
+.B Alt+F6\ 
+KeyWinNext switches focus to the next window.
+
+.TP
+.B Alt+Shift+F6
+KeyWinPrev switches focus to the previous window.
+
+.TP
+.B Alt+F7\ 
+KeyWinMove starts movement of the active window.
+
+.TP
+.B Alt+F8\ 
+KeyWinSize starts resizing of the active window.
+
+.TP
+.B Alt+F9\ 
+KeyWinMinimize iconifies the active window.
+
+.TP
+.B Alt+F10
+KeyWinMaximize maximizes the active window with borders.
+
+.TP
+.B Alt+Shift+F10
+KeyWinMaximizeVert maximizes the active window vertically.
+
+.TP
+.B Alt+F11
+KeyWinFullscreen maximizes the active window without borders.
+
+.TP
+.B Alt+F12
+KeyWinRollup rolls up the active window.
+
+.TP
+.B Alt+Shift+F12
+KeyWinHide hides the active window.
+
+.TP
+.B Alt+Space
+KeyWinMenu posts the window menu.
+
+.TP
+.B Ctrl+Alt+KP_7
+KeyWinArrangeNW moves the active window to the top left corner of the screen.
+
+.TP
+.B Ctrl+Alt+KP_8
+KeyWinArrangeN moves the active window to the top middle of the screen.
+
+.TP
+.B Ctrl+Alt+KP_9
+KeyWinArrangeNE moves the active window to the top right of the screen.
+
+.TP
+.B Ctrl+Alt+KP_6
+KeyWinArrangeE moves the active window to the middle right of the screen.
+
+.TP
+.B Ctrl+Alt+KP_3
+KeyWinArrangeSE moves the active window to the bottom right of the screen.
+
+.TP
+.B Ctrl+Alt+KP_2
+KeyWinArrangeS moves the active window to the bottom middle of the screen.
+
+.TP
+.B Ctrl+Alt+KP_1
+KeyWinArrangeSW moves the active window to the bottom left of the screen.
+
+.TP
+.B Ctrl+Alt+KP_4
+KeyWinArrangeW moves the active window to the middle left of the screen.
+
+.TP
+.B Ctrl+Alt+KP_5
+KeyWinArrangeC moves the active window to the center of the screen.
+
+.TP
+.B Shift+Esc
+KeySysWinMenu posts the system window menu.
+
+.TP
+.B Alt+Ctrl+Del
+KeySysDialog opens the IceWM system dialog in the center of the screen.
+
+.TP
+.B Ctrl+Esc
+KeySysMenu activates the IceWM root menu in the lower left corner.
+
+.TP
+.B Alt+Ctrl+Esc
+KeySysWindowList opens the IceWM system window list in the center of the screen.
+
+.TP
+.B Alt+Ctrl+Space
+KeySysAddressBar opens the address bar in the taskbar where a command can be typed.
+
+.TP
+.B Alt+Ctrl+Left
+KeySysWorkspacePrev goes one workspace to the left.
+
+.TP
+.B Alt+Ctrl+Right
+KeySysWorkspaceNext goes one workspace to the right.
+
+.TP
+.B Alt+Ctrl+Down
+KeySysWorkspaceLast goes to the previous workspace.
+
+.TP
+.B Alt+Ctrl+Shift+Left
+KeySysWorkspacePrevTakeWin takes the active window one workspace to the left.
+
+.TP
+.B Alt+Ctrl+Shift+Right
+KeySysWorkspaceNextTakeWin takes the active window one workspace to the right.
+
+.TP
+.B Alt+Ctrl+Shift+Down
+KeySysWorkspaceLastTakeWin takes the active window to the previous workspace.
+
+.TP
+.B Alt+Ctrl+1
+KeySysWorkspace1 goes to workspace 1.
+
+.TP
+.B Alt+Ctrl+2
+KeySysWorkspace2 goes to workspace 2.
+
+.TP
+.B Alt+Ctrl+3
+KeySysWorkspace3 goes to workspace 3.
+
+.TP
+.B Alt+Ctrl+4
+KeySysWorkspace4 goes to workspace 4.
+
+.TP
+.B Alt+Ctrl+5
+KeySysWorkspace5 goes to workspace 5.
+
+.TP
+.B Alt+Ctrl+6
+KeySysWorkspace6 goes to workspace 6.
+
+.TP
+.B Alt+Ctrl+7
+KeySysWorkspace7 goes to workspace 7.
+
+.TP
+.B Alt+Ctrl+8
+KeySysWorkspace8 goes to workspace 8.
+
+.TP
+.B Alt+Ctrl+9
+KeySysWorkspace9 goes to workspace 9.
+
+.TP
+.B Alt+Ctrl+0
+KeySysWorkspace10 goes to workspace 10.
+
+.TP
+.B Alt+Ctrl+bracketleft
+KeySysWorkspace11 goes to workspace 11.
+
+.TP
+.B Alt+Ctrl+bracketright
+KeySysWorkspace12 goes to workspace 12.
+
+.TP
+.B Alt+Ctrl+Shift+1
+KeySysWorkspace1TakeWin takes the active window to workspace 1.
+
+.TP
+.B Alt+Ctrl+Shift+2
+KeySysWorkspace2TakeWin takes the active window to workspace 2.
+
+.TP
+.B Alt+Ctrl+Shift+3
+KeySysWorkspace3TakeWin takes the active window to workspace 3.
+
+.TP
+.B Alt+Ctrl+Shift+4
+KeySysWorkspace4TakeWin takes the active window to workspace 4.
+
+.TP
+.B Alt+Ctrl+Shift+5
+KeySysWorkspace5TakeWin takes the active window to workspace 5.
+
+.TP
+.B Alt+Ctrl+Shift+6
+KeySysWorkspace6TakeWin takes the active window to workspace 6.
+
+.TP
+.B Alt+Ctrl+Shift+7
+KeySysWorkspace7TakeWin takes the active window to workspace 7.
+
+.TP
+.B Alt+Ctrl+Shift+8
+KeySysWorkspace8TakeWin takes the active window to workspace 8.
+
+.TP
+.B Alt+Ctrl+Shift+9
+KeySysWorkspace9TakeWin takes the active window to workspace 9.
+
+.TP
+.B Alt+Ctrl+Shift+0
+KeySysWorkspace10TakeWin takes the active window to workspace 10.
+
+.TP
+.B Alt+Ctrl+Shift+bracketleft
+KeySysWorkspace11TakeWin takes the active window to workspace 11.
+
+.TP
+.B Alt+Ctrl+Shift+bracketright
+KeySysWorkspace12TakeWin takes the active window to workspace 12.
+
+.TP
+.B Alt+Shift+F2
+KeySysTileVertical tiles all windows from left to right maximized vertically.
+
+.TP
+.B Alt+Shift+F3
+KeySysTileHorizontal tiles all windows from top to bottom maximized horizontally.
+
+.TP
+.B Alt+Shift+F4
+KeySysCascade makes a horizontal cascade of all windows which are maximized vertically.
+
+.TP
+.B Alt+Shift+F5
+KeySysArrange rearranges the windows.
+
+.TP
+.B Alt+Shift+F7
+KeySysUndoArrange undoes arrangement.
+
+.TP
+.B Alt+Shift+F8
+KeySysArrangeIcons rearranges icons.
+
+.TP
+.B Alt+Shift+F9
+KeySysMinimizeAll minimizes all windows.
+
+.TP
+.B Alt+Shift+F11
+KeySysHideAll hides all windows.
+
+.TP
+.B Alt+Ctrl+d
+KeySysShowDesktop unmaps all windows to show the desktop.
+
+.TP
+.B Alt+Ctrl+h
+KeySysCollapseTaskBar hides the taskbar.
+
 
 .PD 1
 .SH ENVIRONMENT VARIABLES
