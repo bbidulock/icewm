@@ -470,12 +470,12 @@ int main(int argc, char **argv) {
             else if (is_version_switch(*arg)) {
                 print_version_exit(VERSION);
             }
-            else if (GetLongArgument(value, "theme", argv, argv + argc)
-                ||  GetShortArgument(value, "t", argv, argv + argc)) {
+            else if (GetLongArgument(value, "theme", arg, argv + argc)
+                ||  GetShortArgument(value, "t", arg, argv + argc)) {
                 overrideTheme = value;
             }
-            else if (GetLongArgument(value, "config", argv, argv + argc)
-                ||  GetShortArgument(value, "c", argv, argv + argc)) {
+            else if (GetLongArgument(value, "config", arg, argv + argc)
+                ||  GetShortArgument(value, "c", arg, argv + argc)) {
                 configFile = value;
             }
         }
