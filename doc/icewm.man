@@ -373,12 +373,93 @@ The second keyboard method involves pressing
 or
 .B Alt+Shift+Esc.
 Input focus is immediately changed to the next
-or previous window, which will be raised so
-that it becomes fully visible.
+or previous window, which will be raised to
+make it fully visible.
 
+.SH WINDOW PLACEMENT
 
-.PD 0
+A second important task of a window manager
+is to place new windows on the screen.
+By default IceWM chooses a placement with minimal overlap,
+but this is determined by the
+.B SmartPlacement
+option in the preferences file.
+If SmartPlacement is turned off then windows are placed
+in sequence from left to right and top to bottom.
+One can also turn on
+.B ManualPlacement.
+Then new windows appear initially in the top left corner
+and the mouse cursor changes into a fist.
+By moving the fist cursor to a suitable location and
+clicking the new window will appear at the mouse click location.
+
+.SH WINDOW LAYERS
+
+Windows can overlap.
+Which window appears on top is determined by three features.
+Newer windows appear over older windows.
+By clicking on a window it is raised to the top.
+But both are overruled by the
+.I window layer.
+Windows can be placed in different layers via the
+.B Layers
+menu.
+Click with the right mouse button on the window frame
+and select
+.B Layer.
+From there choose one of seven window layers.
+These are ordered from higher to lower.
+Windows in higher layers appear over windows in lower layers.
+
+.SH WORKSPACES
+
+IceWM supports multiple virtual desktops called workspaces.
+A workspace is like a screen where a subset of all
+application windows are mapped.
+Thanks to multiple workspaces we can more easily
+manage a large number of applications.
+The number of workspaces and their names are configurable in the
+.I preferences
+file through the
+.B WorkspaceNames
+option.
+By default four workspaces are created
+with the names 1, 2, 3 and 4 thus:
+
+WorkspaceNames=" 1 ", " 2 ", " 3 ", " 4 "
+
+This syntax is typical for IceWM options which receive multiple values.
+It is a list of comma separated values each of which can be quoted.
+
+The workspaces are visible on the toolbar.
+One can switch to a different workspace by pressing the workspace button
+in the toolbar, but after becoming familiar with the
+.I keyboard shortcuts
+below one will want to use a hotkey to choose a workspace.
+If the
+.B EdgeSwitch
+options is enabled in the preferences file
+(with sub-options
+.B HorizontalEdgeSwitch
+and
+.B VerticalEdgeSwitch)
+then one can move to the next or previous workspace
+by moving the mouse to the edge of the screen.
+The
+.B ContinuousEdgeSwitch
+option enables continuous movement to subsequent workspaces.
+The
+.B EdgeSwitchDelay
+option says how long to wait before a change of workspace occurs.
+
+To move an application window to a different workspace
+one can use a keyboard shortcut.
+Another option is to select the
+.B Move To
+submenu in the window menu of the window frame.
+
 .SH KEYBOARD SHORTCUTS
+.PD 0
 
 IceWM supports a large number of hotkeys to activate
 some behavior with a single key combination.
@@ -972,6 +1053,7 @@ Xorg(1),
 Xserver(1),
 xinit(1),
 xprop(1),
+xwininfo(1),
 wmctrl(1).
 
 .IR "IceWM Help"
