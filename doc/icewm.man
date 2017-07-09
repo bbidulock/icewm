@@ -34,7 +34,7 @@ The IceWM menu allows to choose between them.
 Generally, it tries to make all functions available
 by both keyboard and mouse.
 Configurability is very good through various preferences files.
-However, configuring IceWM is seldom needed:
+However, configuring is not required:
 it works fine out of the box.
 
 IceWM consists of several programs:
@@ -238,6 +238,9 @@ shows one button for each workspace.
 The current workspace is indicated by a pressed button.
 Pressing another workspace button switches to that workspace.
 The workspaces are defined in the preferences file.
+When
+.B PagerShowPreview
+is turned on a small graphical summary for each workspace is shown.
 
 .PP
 The
@@ -269,6 +272,9 @@ shows battery power status.
 The
 .I Net applet
 shows network activity.
+Network devices to monitor are given by the
+.B NetworkStatusDevice
+option.
 
 .PP
 The
@@ -284,11 +290,27 @@ monitors processor utilization.
 The
 .I Mailbox applet
 monitors mailbox status changes.
+The location of the mailbox is given by the
+.B MailBoxPath
+preferences option or else by the
+.B MAIL
+environment variable.
+It can be the path of a local mail spool file or
+the specification of a remote
+.I POP3
+or
+.I IMAP
+location.
+For example:
+.B MailBoxPath="pop3://myname:password@host.com/"
 
 .PP
 The
 .I Clock applet
 shows the current time and date.
+It is configured by the
+.B TimeFormat
+option.
 
 .PP
 The
