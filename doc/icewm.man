@@ -10,7 +10,7 @@
 .		if \w'\(rq' .ds rq "\(rq
 .	\}
 .\}
-.TH ICEWM 1 "2017-07-09" "" "IceWM Window Manager"
+.TH ICEWM 1 "2017-07-11" "" "IceWM Window Manager"
 
 .SH NAME
 icewm \- lightweight X11 window manager
@@ -20,14 +20,22 @@ icewm \- lightweight X11 window manager
 
 .SH DESCRIPTION
 .I IceWM
-is a lightweight X11 window manager.
-It aims to be a small, fast and familiar window
-manager for the X11 window system. Compatibility with the
-ICCCM 2.0 and EWMH window manager protocols is an important goal.
+is a lightweight window manager for the X11 window system.
+It aims to be small, fast and familiar to new users.
+IceWM is called a re-parenting window manager, because
+it draws small frames around application windows.
+Windows are manipulated via the mouse by dragging or resizing this frame.
+It is also called a stacking window manager, because windows can overlap.
+Many windows may exist, some hidden behind others,
+while interaction takes place with the currently visible ones.
+IceWM supports a configurable number of virtual desktops.
+It provides a taskbar for monitoring applications
+and a pager to switch between desktops.
+IceWM is mostly compatible with the ICCCM 2.0 and EWMH window manager protocols.
 
-IceWM was originally designed to emulate the look of Motif, OS/2 Warp
-4, OS/2 Warp 3 and Windows 95. Since it has a theming engine (hint:
-http://www.icewm.org/) other styles are possible.
+IceWM was originally designed to emulate the look of Motif,
+OS/2 Warp 4, OS/2 Warp 3 and Windows 95.
+Since it has a theming engine other styles are possible.
 The installation comes with several preconfigured themes.
 The IceWM menu allows to choose between them.
 
@@ -50,10 +58,11 @@ to active applications, and to a small set of monitoring applets.
 
 .B icewmbg
 - the background setting application. It can assign plain
-background color or images in different formats to the X background,
-shared or separated for different workspaces.
-This program should be started before
-.I icewm.
+background color or images in different formats to the X background.
+It supports semitransparency. Semitransparent background image
+and color can be configured. When the background image has changed
+then icewmbg can be notified to update the background.
+This program should be started before icewm.
 
 .B icewmtray
 - catches the Docklet objects which are installed by various
