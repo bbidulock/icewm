@@ -825,6 +825,34 @@ Dragging with the left button down resizes the window.
 Clicking the right button pops up the context menu.
 Dragging with the right button moves the window.
 
+.PD 1
+.SH SIGNALS
+.PD 0
+The
+.I icewm
+process supports the following signals:
+
+.TP
+.B SIGHUP\ 
+Icewm will restart itself. It is a way to reload the configuration.
+
+.TP
+.B SIGINT
+.TP
+.B SIGTERM
+Icewm will cease to manage application windows and terminate.
+
+.TP
+.B SIGQUIT
+Icewm will initiate the
+.I Logout
+procedure.
+If a
+.B LogoutCommand
+was configured in the
+.I preferences
+file it will be executed.
+
 
 .PD 1
 .SH ENVIRONMENT VARIABLES
