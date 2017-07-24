@@ -3009,7 +3009,8 @@ void YWindowManager::updateClientList() {
 void YWindowManager::updateUserTime(Time time) {
     if (time == 0 || time == -1UL)
         return;
-    if (fLastUserTime == 0 || (time - fLastUserTime) < 0x7fffffff)
+    unsigned delta = (unsigned) ((time - fLastUserTime) & 0xffffffff);
+    if (fLastUserTime == 0 || delta < 0x7fffffff)
         fLastUserTime = time;
 }
 
