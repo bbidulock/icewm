@@ -4,11 +4,12 @@
 #define __CONFIG_H__
 
 #define PACKAGE "@PACKAGE@"
+#define PACKAGE_BUGREPORT "https://github.com/bbidulock/icewm/issues"
 #define PACKAGE_NAME "@PACKAGE@"
 #define PACKAGE_TARNAME "@PACKAGE@"
 #define PACKAGE_VERSION "@VERSION@"
 #define PACKAGE_STRING "@PACKAGE@ @VERSION@"
-#define PACKAGE_URL ""
+#define PACKAGE_URL "https://github.com/bbidulock/icewm"
 #define VERSION "@VERSION@"
 
 #define HOSTCPU "@CMAKE_HOST_SYSTEM_PROCESSOR@"
