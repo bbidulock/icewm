@@ -34,11 +34,12 @@ following commands:
 
     $> git clone http://github.com/bbidulock/@PACKAGE@.git
     $> cd @PACKAGE@
+    $> git checkout -b icewm-1-4-BRANCH
     $> ./autogen.sh
     $> ./configure --prefix=/usr --sysconfdir=/etc \
        --enable-shaped-decorations --enable-gradients \
        --enable-guievents --with-icesound=ALSA,OSS \
-       --disable-menus-gnome2
+       --disable-menus-gnome2 --enable-silent-rules
     $> make V=0
     $> sudo make DESTDIR="$pkgdir" install
 
@@ -85,11 +86,12 @@ Configuring IceWM
 -----------------
 
 Documentation for configuring the window manager can be obtained from [IceWM
-Website][14] or from the online manual: point your browser at [this file][16].
+Website][14] or from the [online manual][16].
 
 Unfortunately the documentation is for version 1.2.27 and is incomplete
-at that; however, it is for the most part usable.  Also, a rather sparse
-`icewm(1)` manual page is available.
+at that; however, it is for the most part usable.
+The good news is that the `icewm(1)` manual page for version 1.4.0
+is complete and fully up-to-date.
 
 
 Included Utilities
@@ -128,7 +130,7 @@ it makes sense to let the window manager send `WM_DELETE_WINDOW` message to the
 last recently used application.
 
 
-__Requirements to uses this feature in IceWM:__
+__Requirements to use this feature in IceWM:__
 
   - A patched kernel, a patch for Linux 2.4.3 is available in the contrib
     file module.
@@ -200,7 +202,7 @@ translations.
 [13]: http://icewm.sourceforge.net/
 [14]: http://www.icewm.org/
 [15]: http://www.icewm.org/FAQ/IceWM-FAQ-11.html
-[16]: https://github.com/bbidulock/icewm/blob/icewm-1-3-BRANCH/doc/icewm.adoc
+[16]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/doc/icewm.adoc
 [17]: http://bbkeys.sourceforge.net/
 [18]: lib/icewm.desktop
 [19]: lib/icewm-session.desktop
