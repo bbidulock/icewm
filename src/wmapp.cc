@@ -1366,133 +1366,133 @@ static void print_directories(const char *argv0) {
 static void print_configured(const char *argv0) {
     static const char compile_time_configured_options[] =
     /* Sorted alphabetically: */
-#if CONFIG_ADDRESSBAR
+#ifdef CONFIG_ADDRESSBAR
     " addressbar"
 #endif
-#if ENABLE_ALSA
+#ifdef ENABLE_ALSA
     " alsa"
 #endif
-#if CONFIG_ANTIALIASING
+#ifdef CONFIG_ANTIALIASING
     " antialiasing"
 #endif
-#if CONFIG_APPLET_APM
+#ifdef CONFIG_APPLET_APM
     " apm"
 #endif
-#if CONFIG_APPLET_CLOCK
+#ifdef CONFIG_APPLET_CLOCK
     " clock"
 #endif
-#if CONFIG_COREFONTS
+#ifdef CONFIG_COREFONTS
     " corefonts"
 #endif
-#if CONFIG_APPLET_CPU_STATUS
+#ifdef CONFIG_APPLET_CPU_STATUS
     " cpu"
 #endif
-#if DEBUG
+#ifdef DEBUG
     " debug"
 #endif
-#if ENABLE_ESD
+#ifdef ENABLE_ESD
     " esd"
 #endif
-#if WMSPEC_HINTS
+#ifdef WMSPEC_HINTS
     " ewmh"
 #endif
-#if CONFIG_FDO_MENUS
+#ifdef CONFIG_FDO_MENUS
     " fdomenus"
 #endif
-#if CONFIG_FRIBIDI
+#ifdef CONFIG_FRIBIDI
     " fribidi"
 #endif
-#if CONFIG_GDK_PIXBUF_XLIB
+#ifdef CONFIG_GDK_PIXBUF_XLIB
     " gdkpixbuf"
 #endif
-#if CONFIG_GNOME_MENUS
+#ifdef CONFIG_GNOME_MENUS
     " gnomemenus"
 #endif
-#if GNOME1_HINTS
+#ifdef GNOME1_HINTS
     " gnome1hints"
 #endif
-#if CONFIG_GRADIENTS
+#ifdef CONFIG_GRADIENTS
     " gradients"
 #endif
-#if CONFIG_GUIEVENTS
+#ifdef CONFIG_GUIEVENTS
     " guievents"
 #endif
-#if CONFIG_I18N
+#ifdef CONFIG_I18N
     " i18n"
 #endif
-#if LITE
+#ifdef LITE
     " lite"
 #endif
-#if CONFIG_APPLET_MAILBOX
+#ifdef CONFIG_APPLET_MAILBOX
     " mailbox"
 #endif
-#if CONFIG_APPLET_MEM_STATUS
+#ifdef CONFIG_APPLET_MEM_STATUS
     " mem"
 #endif
-#if CONFIG_APPLET_NET_STATUS
+#ifdef CONFIG_APPLET_NET_STATUS
     " net"
 #endif
-#if ENABLE_NLS
+#ifdef ENABLE_NLS
     " nls"
 #endif
-#if NO_CONFIGURE_MENUS
+#ifdef NO_CONFIGURE_MENUS
     " no-confmenu"
 #endif
-#if NO_KEYBIND
+#ifdef NO_KEYBIND
     " no-keybind"
 #endif
-#if X_DISPLAY_MISSING
+#ifdef X_DISPLAY_MISSING
     " no-xdisplay"
 #endif
-#if NO_WINDOW_OPTIONS
+#ifdef NO_WINDOW_OPTIONS
     " no-winopt"
 #endif
-#if ENABLE_OSS
+#ifdef ENABLE_OSS
     " oss"
 #endif
-#if CONFIG_PDA
+#ifdef CONFIG_PDA
     " pda"
 #endif
-#if CONFIG_SESSION
+#ifdef CONFIG_SESSION
     " session"
 #endif
-#if CONFIG_SHAPE
+#ifdef CONFIG_SHAPE
     " shape"
 #endif
-#if CONFIG_SHAPED_DECORATION
+#ifdef CONFIG_SHAPED_DECORATION
     " shapedecorations"
 #endif
-#if CONFIG_TASKBAR
+#ifdef CONFIG_TASKBAR
     " taskbar"
 #endif
-#if CONFIG_TOOLTIP
+#ifdef CONFIG_TOOLTIP
     " tooltip"
 #endif
-#if CONFIG_TRAY
+#ifdef CONFIG_TRAY
     " tray"
 #endif
-#if CONFIG_UNICODE_SET
+#ifdef CONFIG_UNICODE_SET
     " unicodeset"
 #endif
-#if CONFIG_WINLIST
+#ifdef CONFIG_WINLIST
     " winlist"
 #endif
-#if CONFIG_WINMENU
+#ifdef CONFIG_WINMENU
     " winmenu"
 #endif
-#if CONFIG_WORDEXP
+#ifdef CONFIG_WORDEXP
     " wordexp"
 #endif
-#if CONFIG_XFREETYPE
+#ifdef CONFIG_XFREETYPE
     " xfreetype" QUOTE(CONFIG_XFREETYPE)
 #endif
-#if XINERAMA
+#ifdef XINERAMA
     " xinerama"
 #endif
-#if CONFIG_XRANDR
+#ifdef CONFIG_XRANDR
     " xrandr"
 #endif
-#if ENABLE_YIFF
+#ifdef ENABLE_YIFF
     " yiff"
 #endif
     "\n";
