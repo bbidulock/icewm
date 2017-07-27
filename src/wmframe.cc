@@ -3358,7 +3358,8 @@ void YFrameWindow::updateLayout() {
     if (affectsWorkArea())
         manager->updateWorkArea();
 #ifdef WMSPEC_HINTS
-    client()->setNetFrameExtents(borderX(), borderX(), borderY() + titleY(), borderY());
+    if (client())
+        client()->setNetFrameExtents(borderX(), borderX(), borderY() + titleY(), borderY());
 #endif
 }
 
