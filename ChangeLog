@@ -1,5 +1,123 @@
 # created with git log --stat=76 -M -C -300|fmt -sct -w80
 
+commit 9b13b2837831888a369c34b9c28939b99c1cd175
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Thu Jul 27 21:11:17 2017 +0200
+
+    Update to version 1.4.0.
+
+ VERSION      | 2 +-
+ configure.ac | 6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+commit bbcaf155b579889035a243435059b9e191b7fa70
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Thu Jul 27 19:19:22 2017 +0200
+
+    Omit -b in git checkout icewm-1-4-BRANCH.
+
+ README.md    | 2 +-
+ README.md.in | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+commit 05e0fefa724d3d1fc2051521fbe761d20bfd66fa
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Thu Jul 27 19:16:44 2017 +0200
+
+    Only load a gradient when it is specified in the theme "gradients" option.
+    This fixes issue #144.
+
+ src/wpixres.cc | 119 +++++++++++++++++++++++++++++++++++------------------
+ 1 file changed, 79 insertions(+), 40 deletions(-)
+
+commit 93e7d6e7673b6f1e60624c38e29322a3263fd30f
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Thu Jul 27 19:06:54 2017 +0200
+
+    Before calling setNetFrameExtents check if client() is non-null.
+    This prevents a SEGV crash which occasionally occurs when closing all
+    windows.
+
+ src/wmframe.cc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+commit c99585a373a909236031daba31d5ab6bc20854da
+Author: Aleš Kastner <alkas@volny.cz>
+Date:   Tue Jul 25 18:41:00 2017 +0000
+
+    Translated using Weblate (Czech)
+
+    Currently translated at 100.0% (276 of 276 strings)
+
+ po/cs.po | 182 +++++++++++++++++++++++++++++++++++++----------------------
+ 1 file changed, 113 insertions(+), 69 deletions(-)
+
+commit 8c941220fdc8e674640d9b8238f71881b5ac4c95
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Jul 24 22:36:58 2017 +0200
+
+    Changes to print_configured to make it compile under CMake.
+
+ src/wmapp.cc | 86 ++++++++++++++++++++++++++++----------------------------
+ 1 file changed, 43 insertions(+), 43 deletions(-)
+
+commit 780966551f89c61011968aa299ac1c2084777a73
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Jul 24 22:35:29 2017 +0200
+
+    Add missing PACKAGE_BUGREPORT define. Change empty PACKAGE_URL into
+    website URL.
+
+ src/config.cmake.h.in | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+commit 2535cc4876a663e8f0754a63707db3d1fa318d0e
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Jul 24 16:14:58 2017 +0200
+
+    Update README.md for 1.4.0 release.
+
+ README.md    | 18 ++++++++++--------
+ README.md.in | 14 ++++++++------
+ 2 files changed, 18 insertions(+), 14 deletions(-)
+
+commit 96cf749d418612014d04c7d5e7e04c1a4fc6ba83
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Jul 24 16:13:53 2017 +0200
+
+    Update NEWS for 1.4.0 release.
+
+ NEWS | 694 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 664 insertions(+), 30 deletions(-)
+
+commit f4bf065d0eb86f9ee5b0111f5fa5f4dcae30c61c
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Jul 24 16:13:21 2017 +0200
+
+    Update ChangeLog for 1.4.0 release.
+
+ ChangeLog | 5240 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 5240 insertions(+)
+
+commit b70345d8a47b90adac84909bb3054ba9eff40d41
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Jul 24 16:12:20 2017 +0200
+
+    Update bug report location to Github.
+
+ BUGS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 9582cd4a7ec03991c3264d2d404b01309c6af693
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Jul 24 14:00:07 2017 +0200
+
+    Enforce 32-bit unsigned comparison of X11 time stamps in updateUserTime.
+    This improves availability of focused windows in issue #37.
+
+ src/wmmgr.cc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
 commit a7e96a0284a4647b2f779a9cacfa5ebb8164f5dd
 Author: Benoît Monin <benoit.monin@gmx.fr>
 Date:   Sat Jul 22 18:01:44 2017 +0000

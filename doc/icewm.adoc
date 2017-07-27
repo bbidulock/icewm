@@ -1,6 +1,6 @@
 = IceWM
 Marko Macek, <Marko.Macek@gmx.net>
-v1.3.12, 2017 May 04
+v1.4.1, 2017 July 27
 :homepage: http://www.icewm.org
 :toc:
 :toclevels: 1

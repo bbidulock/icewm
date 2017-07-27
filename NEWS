@@ -1,9 +1,27 @@
 icewm -- history of user-visible changes.  2017-07-24
 
+Release icewm-1.4.1 released 2017-07-27
+-------------------------------------------
+
+git shortlog -e -n -w80,6,8 1.4.0...HEAD
+
+Bert Gijsbers <gijsbers@science.uva.nl> (4):
+      Before calling setNetFrameExtents check if client() is non-null. This
+        prevents a SEGV crash which occasionally occurs when closing all
+        windows.
+      Only load a gradient when it is specified in the theme "gradients" option.
+        This fixes issue #144.
+      Omit -b in git checkout icewm-1-4-BRANCH.
+      Update to version 1.4.0.
+
+Aleš Kastner <alkas@volny.cz> (1):
+      Translated using Weblate (Czech)
+
+
 Release icewm-1.4.0 released 2017-07-24
 -------------------------------------------
 
-git shortlog -e -n -w80,6,8 1.3.12...HEAD
+git shortlog -e -n -w80,6,8 1.3.12...1.4.0
 
 Bert Gijsbers <gijsbers@science.uva.nl> (155):
       Fix for 'msgstr' not being a valid C format string, unlike 'msgid'.
