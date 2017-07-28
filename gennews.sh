@@ -10,7 +10,7 @@ t=
 i=0
 
 for o in $(git tag --sort=-creatordate) ""; do
-	if [[ $((i++)) -ge 6 ]]; then break; fi
+	if [[ $((i++)) -ge 8 ]]; then break; fi
 	if [ -z "$t" ] ; then
 		head=$(git show -s --format=%H HEAD)
 		last=$(git show -s --format=%H "$o")
