@@ -12,7 +12,7 @@ endif()
 find_program(asciidoctor NAMES asciidoctor asciidoc)
 if(asciidoctor)
    ADD_CUSTOM_COMMAND(OUTPUT "icewm.html"
-      COMMAND ${asciidoctor} "${CMAKE_CURRENT_SOURCE_DIR}/icewm.adoc"
+      COMMAND ${asciidoctor} -o "icewm.html" "${CMAKE_CURRENT_SOURCE_DIR}/icewm.adoc"
       DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/icewm.adoc"
       WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
       )
