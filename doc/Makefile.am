@@ -11,7 +11,7 @@ dist_man1_MANS = \
 
 
 $(html_documentation): icewm.adoc
-	$(ASCIIDOC) $<
+	$(ASCIIDOC) --backend=html4 $<
 
 CLEANFILES = $(html_documentation)
 
