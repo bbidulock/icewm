@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.12\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-06-21 18:11-0600\n"
+"POT-Creation-Date: 2017-07-28 07:24-0600\n"
 "PO-Revision-Date: 2004-01-21 9:30+0200\n"
 "Last-Translator: Coşku Erdem\n"
 "Language-Team: Turkish\n"
@@ -1090,7 +1090,7 @@ msgstr "I_ceVM'i Yeniden Başlat"
 msgid "_About"
 msgstr "_Hakkında"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3424
+#: src/wmframe.cc:165 src/wmframe.cc:3425
 msgid "Maximize"
 msgstr "Büyüt"
 
@@ -1102,7 +1102,7 @@ msgstr "Küçült"
 msgid "Hide"
 msgstr "Gizle"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3457
+#: src/wmframe.cc:209 src/wmframe.cc:3458
 msgid "Rollup"
 msgstr "Sar"
 
@@ -1122,11 +1122,11 @@ msgstr ""
 "DİKKAT!! Bu istemci öldürüldüğünde tüm kaydedilmemiş\n"
 "değişiklikler kaybedilecektir. Emin misiniz?"
 
-#: src/wmframe.cc:3421
+#: src/wmframe.cc:3422
 msgid "Restore"
 msgstr "Eski haline"
 
-#: src/wmframe.cc:3455
+#: src/wmframe.cc:3456
 msgid "Rolldown"
 msgstr "Aşağı sar"
 
