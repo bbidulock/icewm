@@ -34,7 +34,6 @@ following commands:
 
     $> git clone http://github.com/bbidulock/icewm.git
     $> cd icewm
-    $> git checkout icewm-1-4-BRANCH
     $> ./autogen.sh
     $> ./configure --prefix=/usr --sysconfdir=/etc \
        --enable-shaped-decorations --enable-gradients \
