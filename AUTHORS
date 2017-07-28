@@ -1,40 +1,75 @@
-icewm -- authors file.  2016-07-08
+icewm -- authors file.  2017-07-28
 
+Author: Brian Bidulock <bidulock@openss7.org>
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Author: Aleš Kastner <alkas@volny.cz>
+Author: Benoît Monin <benoit.monin@gmx.fr>
+Author: Karl Ove Hufthammer <karl@huftis.org>
+Author: Efstathios Iosifidis <eiosifidis@gmail.com>
 Author: openSUSE Weblate <weblate-noreply@opensuse.org>
-Author: Weblate Admin <weblate-admin@opensuse.org>
+Author: Kukuh Syafaat <syafaatkukuh@gmail.com>
+Author: Alessio Adamo <alessio.adamo@gmail.com>
+Author: Guillaume GARDET <guillaume.gardet@opensuse.org>
+Author: jc sl <trcs@gmx.com>
+Author: Andriy Bandura <andriykopanytsia@gmail.com>
+Author: Luiz Fernando Ranghetti <elchevive68@gmail.com>
+Author: Sarah Kriesch <ada.lovelace@gmx.de>
+Author: David Medina <medipas@gmail.com>
+Author: Ferdinand Galko <galko.ferdinand@gmail.com>
+Author: Yasuhiko Kamata <belphegor@belbel.or.jp>
+Author: Freek de Kruijf <freek@opensuse.org>
+Author: Rodrigo Macedo <rmsolucoeseminformatic4@gmail.com>
 Author: Stanislav Brabec <sbrabec@suse.com>
+Author: Bernhard Wiedemann <bwiedemann@suse.com>
+Author: scootergrisen <scootergrisen@gmail.com>
+Author: gijsbers <gijsbers@users.noreply.github.com>
+Author: Mario <kdesi@kdesi.sk>
+Author: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>
+Author: mohammad alhargan <malham1@gmail.com>
+Author: Brian Bidulock <bidulock@openss7.com>
+Author: Arif Budiman <arifpedia@gmail.com>
+Author: Eduard Bloch <blade@debian.org>
+Author: Ivan Borzenkov <ivan.borzenkov@gmail.com>
+Author: Tetralet <tetralet@gmail.com>
+Author: Code7R <Code7R@users.noreply.github.com>
+Author: Dmitriy Khanzhin <jinn@altlinux.org>
+Author: Дмитрий Ханжин <dmitriy.khanzhin@gmail.com>
+Author: nikoss <nikoss@users.noreply.github.com>
+Author: G. Allen Morris III <gam3@gam3.net>
+Author: Jeff Woods <klaatu@fnordco.com>
+Author: Shyukri Shyukriev <shshyukriev@suse.com>
+Author: Oliver Kurz <okurz@suse.de>
+Author: Reedych <linux.user2003@gmail.com>
+Author: Reedych <reedych@reedych.pw>
+Author: Ettore Atalan <atalanttore@googlemail.com>
+Author: Nathan Follens <nthn@unseen.is>
+Author: Kamil Stańczyk <suszaraa@gmail.com>
+Author: Panagiotis Mantzios <pmantzios@hotmail.com>
+Author: Marguerite Su <i@marguerite.su>
+Author: Wnereiz Z <wnereiz@eienteiland.org>
+Author: Joakim Ganse <joakim.ganse@b-iq.se>
+Author: hayyan rostami <hayyan71@yahoo.com>
+Author: alexandros Vennos <alexandros.venn@gmail.com>
+Author: Bervianto Leo Pratama <bervianto.leo@gmail.com>
+Author: Enol P <enolp@softastur.org>
+Author: Fabian Vogt <fvogt@suse.com>
+Author: Hoàng Phạm <pnhoang96@gmail.com>
+Author: Alex Spitzer <aes368@cornell.edu>
+Author: Weblate Admin <weblate-admin@opensuse.org>
 Author: Dingzhong Chen <wsxy162@gmail.com>
 Author: Jonas Svensson <jonas@ekhorva.se>
-Author: Brian Bidulock <bidulock@openss7.org>
-Author: Brian Bidulock <bidulock@openss7.com>
 Author: Yunseok Choi <xein@naver.com>
-Author: Benoît Monin <benoit.monin@gmx.fr>
 Author: Vojtech Zeisek <Vojtech.Zeisek@opensuse.org>
-Author: Nathan Follens <nthn@unseen.is>
-Author: Efstathios Iosifidis <eiosifidis@gmail.com>
 Author: Dmitriy Khanzhin <dmitriy.khanzhin@gmail.com>
-Author: Ettore Atalan <atalanttore@googlemail.com>
-Author: jc sl <trcs@gmx.com>
 Author: Tomáš Chvátal <tomas.chvatal@gmail.com>
 Author: Frederic Crozat <fcrozat@suse.com>
-Author: Eduard Bloch <blade@debian.org>
-Author: Mario <kdesi@kdesi.sk>
-Author: Jeff Woods <klaatu@fnordco.com>
 Author: Oleg Ivanov <Leo-sp150@yandex.ru>
 Author: 150balbes <olepp@yandex.ru>
-Author: Andriy Bandura <andriykopanytsia@gmail.com>
-Author: Code7R <Code7R@users.noreply.github.com>
 Author: Petteri Aimonen <jpa@git.mail.kapsi.fi>
-Author: Ferdinand Galko <galko.ferdinand@gmail.com>
-Author: Freek de Kruijf <freek@opensuse.org>
-Author: Luiz Fernando Ranghetti <elchevive68@gmail.com>
-Author: David Medina <medipas@gmail.com>
 Author: Alex Minton <alex239@gmail.com>
 Author: w <w@vm>
-Author: Yasuhiko Kamata <belphegor@belbel.or.jp>
 Author: Ronan Chagas <ronisbr@gmail.com>
 Author: Ondřej Súkup <mimi.vx@gmail.com>
-Author: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>
 Author: Sorokin Alexei <sor.alexei@meowr.ru>
 Author: William <william@shallum.net>
 Author: rezso <rezso@rezso.net>
