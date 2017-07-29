@@ -32,14 +32,20 @@ Quick Start
 The quickest and easiest way to get IceWM up and running is to run the
 following commands:
 
+    $> apt-get install git gcc autoconf automake autopoint libtool xfonts-utils asciidoc markdown libxft-dev libxinerama-dev libgdk-pixbuf2.0-dev libxrandr-dev libsndfile1-dev libasound2-dev libsm-dev libfribidi-dev
     $> git clone http://github.com/bbidulock/@PACKAGE@.git
     $> cd @PACKAGE@
     $> git checkout icewm-1-4-BRANCH
     $> ./autogen.sh
-    $> ./configure --prefix=/usr --sysconfdir=/etc \
-       --enable-shaped-decorations --enable-gradients \
-       --enable-guievents --with-icesound=ALSA,OSS \
-       --disable-menus-gnome2 --enable-silent-rules
+    $> ./configure \
+       --prefix=/usr \
+       --sysconfdir=/etc \
+       --enable-shaped-decorations \
+       --enable-gradients \
+       --enable-guievents \
+       --with-icesound=ALSA,OSS \
+       --disable-menus-gnome2 \
+       --enable-silent-rules
     $> make V=0
     $> sudo make DESTDIR="$pkgdir" install
 
@@ -64,22 +70,23 @@ Prerequisites
 
 Building from tarball requires:
 
- - gcc or clang (_for compiling_)
- - libxft (_for font rendering_)
- - libxinerama (_for XINERAMA support_)
- - gdk-pixbuf2 (_for pixmap rendering_)
- - libxrandr (_for XRANDR support_)
- - libsndfile (_for sound support_)
- - libsm (_for X11R6 session management_)
- - fribidi (_for i18n text rendering_)
+ - gcc or clang (_for compiling_);
+ - libxft (package "libxft-dev") (_for font rendering_);
+ - libxinerama (package "libxinerama-dev") (_for XINERAMA support_);
+ - gdk-pixbuf2 (package "libgdk-pixbuf2.0-dev") (_for pixmap rendering_);
+ - libxrandr (package "libxrandr-dev") (_for XRANDR support_);
+ - libsndfile (package "libsndfile1-dev") (_for sound support_);
+ - libasound (package "libasound2-dev") (_for ALSA sound support_);
+ - libsm (package "libsm-dev") (_for X11R6 session management_);
+ - fribidi (package "libfribidi-dev") (_for i18n text rendering_).
 
 Building from git also requires:
 
- - git (_for cloning the git repository and updating changelogs_)
- - autoconf/automake or cmake toolchain (_for build scripts_)
- - xorg-mkfontdir (_for installing themes_)
- - asciidoctor or asciidoc (_for creating html documentation_)
- - markdown (_for building release package_)
+ - git (_for cloning the git repository and updating changelogs_);
+ - autoconf, automake, autopoint and libtool, or cmake toolchain (_for build scripts_);
+ - xorg-mkfontdir (from package "xfonts-utils") (_for installing themes_);
+ - asciidoctor or asciidoc (_for creating html documentation_);
+ - markdown (_for building release package_).
 
 
 Configuring IceWM
