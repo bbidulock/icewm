@@ -45,6 +45,7 @@
  */
 #include "config.h"
 #include "intl.h"
+#include "ytimer.h"
 
 #if 1
 #define THROW(Result) { rc = (Result); goto exceptionHandler; }
@@ -1019,7 +1020,7 @@ Return values:\n\
  */
 int IceSound::run() {
     int rc(0);
-
+    timeval last(monotime());
     Display * display(NULL);
     Window root(None);
     Atom _GUI_EVENT(None);
@@ -1058,9 +1059,6 @@ int IceSound::run() {
     signal(SIGCHLD, chld); // ================================= IPC handlers ===
     signal(SIGHUP, hup);
 
-    struct timeval last; // ================================= X message loop ===
-    gettimeofday(&last, NULL);
-
     while(running) {
         audio->idle();
 
@@ -1074,7 +1072,7 @@ int IceSound::run() {
                     xev.xproperty.state == PropertyNewValue) {
                     Atom type; int format;
                     unsigned long nitems, lbytes;
-                    unsigned char *propdata;
+                    unsigned char *propdata(0);
                     int gev = -1;
 
                     if (XGetWindowProperty(display, root, _GUI_EVENT,
@@ -1094,12 +1092,8 @@ int IceSound::run() {
                         hup(SIGHUP);
                     }
 
-                    struct timeval now; // ---------------- update timing ---
-                    gettimeofday(&now, NULL);
-
-                    if((now.tv_sec - last.tv_sec) >= 2 ||
-                       ((now.tv_sec - last.tv_sec) * 1000000 +
-                        now.tv_usec - last.tv_usec) > 500000) {
+                    timeval now = monotime();
+                    if (last + millitime(500L) < now) {
                         last = now;
                         audio->play(gev);
                     }
