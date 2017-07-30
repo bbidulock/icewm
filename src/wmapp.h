@@ -117,9 +117,7 @@ private:
     static void initPixmaps();
 };
 
-#ifdef CONFIG_GUIEVENTS
 extern YWMApp * wmapp;
-#endif
 
 extern YMenu *windowMenu;
 extern YMenu *occupyMenu;
