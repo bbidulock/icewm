@@ -165,6 +165,11 @@ WorkspacesPane::~WorkspacesPane() {
             delete fWorkspaceButton[w];
         delete [] fWorkspaceButton;
     }
+    for (int i = workspaceCount; --i >= 0; --workspaceCount) {
+        delete[] workspaceNames[i]; workspaceNames[i] = 0;
+        delete workspaceActionActivate[i]; workspaceActionActivate[i] = 0;
+        delete workspaceActionMoveTo[i]; workspaceActionMoveTo[i] = 0;
+    }
 }
 
 void WorkspacesPane::repositionButtons() {
