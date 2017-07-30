@@ -24,7 +24,6 @@ char const * ApplicationName = "icewm-menu-gnome1";
 #include "ylib.h"
 #include "default.h"
 
-#include "ypixbuf.h"
 #include "yapp.h"
 #include "sysdep.h"
 #include "base.h"

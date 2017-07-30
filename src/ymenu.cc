@@ -17,7 +17,6 @@
 #include "yprefs.h"
 
 #include "ascii.h"
-#include "ypixbuf.h"
 
 #ifndef LITE
 #include "yicon.h"

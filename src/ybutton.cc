@@ -5,7 +5,6 @@
  */
 #include "config.h"
 #include "ykey.h"
-#include "ypixbuf.h"
 #include "ybutton.h"
 #include "yaction.h"
 #include "ymenu.h"
