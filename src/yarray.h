@@ -20,6 +20,9 @@
 #include "base.h"
 #include "ref.h"
 
+template<class T>
+class YArrayIterator;
+
 /*******************************************************************************
  * A dynamic array for anonymous data
  ******************************************************************************/
@@ -96,6 +99,8 @@ private:
 template <class DataType>
 class YArray: public YBaseArray {
 public:
+    typedef YArrayIterator<DataType> IterType;
+
     YArray(): YBaseArray(sizeof(DataType)) {}
 
     void append(const DataType &item) {
@@ -130,14 +135,8 @@ public:
     DataType &operator*() { 
         return getItem(0);
     }
-#if 0
-    virtual SizeType find(const DataType &item) {
-        for (SizeType i = 0; i < getCount(); ++i)
-            if (getItem(i) == item) return i;
-
-        return npos;
-    }
-#endif
+    IterType iterator();
+    IterType reverseIterator();
 };
 
 /*******************************************************************************
@@ -280,5 +279,103 @@ public:
         YStack<DataType>::push(item);
     }
 };
+
+/*******************************************************************************
+ * An array iterator
+ ******************************************************************************/
+
+template <class DataType>
+class YArrayIterator {
+public:
+    typedef YArrayIterator<DataType> IterType;
+    typedef YArray<DataType> ArrayType;
+
+private:
+    ArrayType *array;
+    int step;
+    int index;
+
+    bool validate(int extra) const {
+        return inrange(index + extra, 0, array->getCount() - 1);
+    }
+    IterType& move(int amount) {
+        index += amount;
+        return *this;
+    }
+
+public:
+    // initially the iterator is invalid until next() is called.
+    YArrayIterator(ArrayType *arr, bool reverse):
+        array(arr),
+        step(reverse ? -1 : 1),
+        index(reverse ? arr->getCount() : -1)
+    {}
+    bool hasNext() const {
+        return validate(step);
+    }
+    bool hasPrev() const {
+        return validate(-step);
+    }
+    bool isValid() const {
+        return validate(0);
+    }
+    DataType& get() const {
+        return (*array)[index];
+    }
+    DataType& operator*() const {
+        return get();
+    }
+    IterType& operator++() {
+        return move(step);
+    }
+    IterType& operator--() {
+        return move(-step);
+    }
+    DataType& next() {
+        return move(step).get();
+    }
+    DataType& prev() {
+        return move(-step).get();
+    }
+    operator bool() const {
+        return isValid();
+    }
+    DataType& operator->() const {
+        return get();
+    }
+    int where() const {
+        return index;
+    }
+    IterType& remove() {
+        if (isValid())
+            array->remove(where());
+        return *this;
+    }
+};
+
+template<class DataType>
+YArrayIterator<DataType> YArray<DataType>::iterator() {
+    return YArrayIterator<DataType>(this, false);
+}
+
+template<class DataType>
+YArrayIterator<DataType> YArray<DataType>::reverseIterator() {
+    return YArrayIterator<DataType>(this, true);
+}
+
+template<class DataType>
+int find(YArray<DataType>& array, DataType& data) {
+    YArrayIterator<DataType> iter = array.iterator();
+    while (++iter)
+        if (*iter == data) return iter.where();
+    return -1;
+}
+
+template<class DataType>
+int find(const YArray<DataType>& array, const DataType& data) {
+    for (int i = 0; i < array.getCount(); ++i)
+        if (array[i] == data) return i;
+    return -1;
+}
 
 #endif
