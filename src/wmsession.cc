@@ -165,33 +165,24 @@ static int wr_str(FILE *f, const char *s) {
 }
 
 static int rd_str(char *s, char *d) {
-    char c;
-    bool old = true;
+    while (*s == ' ')
+        ++s;
 
-    c = *s++;
-    while (c == ' ')
-        c = *s++;
-    if (c == '"') {
-        old = false;
-        c = *s++;
-    }
+    bool quoted = (*s == '"');
+    if (quoted)
+        ++s;
 
-    while (c != 0) {
-        if (c == '"' && !old) {
-            c = *s++;
+    for (char c = *s; c; c = *s++) {
+        if (quoted ? c == '"' : c == ' ')
             break;
-        }
-        if (c == ' ' && old)
-            break;
-        if (!old && c == '=') {
+        if (quoted && c == '=') {
             unsigned int i = ' ';
-
-            sscanf(s, "%02X", &i);
-            s += 2;
-            c = (char)(i & 0xFF);
+            if (sscanf(s, "%02X", &i) > 0) {
+                s += 2;
+                c = (char)(i & 0xFF);
+            }
         }
         *d++ = c;
-        c = *s++;
     }
     *d = 0;
     return 0;
