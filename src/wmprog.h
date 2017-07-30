@@ -121,6 +121,11 @@ protected:
     time_t fTimeout;
 };
 
+class FocusMenu: public YMenu {
+public:
+    FocusMenu();
+};
+
 class StartMenu: public MenuFileMenu {
 public:
     StartMenu(
@@ -146,6 +151,7 @@ private:
 class KProgram {
 public:
     KProgram(const char *key, DProgram *prog);
+    ~KProgram() { delete fProg; }
 
     bool isKey(KeySym key, unsigned int mod) {
         return (key == fKey && mod == fMod) ? true : false;
@@ -157,15 +163,11 @@ public:
     KeySym key() { return fKey; }
     unsigned int modifiers() { return fMod; }
 
-    KProgram *getNext() { return fNext; }
 private:
-    KProgram *fNext;
     KeySym fKey;
     unsigned int fMod;
     DProgram *fProg;
 };
-
-extern KProgram *keyProgs;
 
 #endif /* NO_CONFIGURE_MENUS */
 
