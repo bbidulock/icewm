@@ -278,16 +278,16 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
         }
         else {
             g.fillRect(0, 0, width(), height());
+        }
 
 #ifndef LITE
-            if (fAction == 0 && icon != null && showFrameIcon) {
-                icon->draw(g,
-                           ((int)width() - (int)iconSize) / 2,
-                           ((int)height() - (int)iconSize) / 2,
-                           iconSize);
-            }
-#endif
+        if (fAction == 0 && icon != null && showFrameIcon) {
+            icon->draw(g,
+                       ((int)width() - (int)iconSize) / 2,
+                       ((int)height() - (int)iconSize) / 2,
+                       iconSize);
         }
+#endif
     }
 }
 
