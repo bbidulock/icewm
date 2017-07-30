@@ -68,6 +68,4 @@ private: // not-used
     SwitchWindow &operator=(const SwitchWindow &);
 };
 
-extern SwitchWindow * switchWindow;
-
 #endif

@@ -8,7 +8,6 @@
 #include "config.h"
 
 #ifndef LITE
-#include "ypixbuf.h"
 #include "ykey.h"
 #include "ydialog.h"
 #include "wpixmaps.h"
