@@ -1,21 +1,39 @@
-icewm -- history of user-visible changes.  2017-07-28
 
-Release icewm-1.4.1.6 released 2017-07-28
------------------------------------------
+Release icewm-1.4.2 released 2017-07-30
+---------------------------------------
 
 git shortlog -e -n -w80,6,8 1.4.1...HEAD
 
-Bert Gijsbers <gijsbers@science.uva.nl> (3):
-      Omit -b in git checkout icewm-1-4-BRANCH.
-      Specify output with -o icewm.html.
-      Update ChangeLog to 1.4.1 and remove all changes for the 1.3.12 release
-        and older.
-
-Brian Bidulock <bidulock@openss7.org> (3):
+Brian Bidulock <bidulock@openss7.org> (10):
       Merge remote-tracking branch 'origin/icewm-1-3-BRANCH' into
         icewm-1-4-BRANCH
       update po files
       update AUTHORS file
+      generate more news
+      update NEWS file
+      icewm-1-4-BRANCH is now the default
+      partially address issue #146
+      better fix for issue #146
+      final tweak for #146
+      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
+        icewm-1-4-BRANCH
+
+Bert Gijsbers <gijsbers@science.uva.nl> (5):
+      Omit -b in git checkout icewm-1-4-BRANCH.
+      Specify output with -o icewm.html.
+      Update ChangeLog to 1.4.1 and remove all changes for the 1.3.12 release
+        and older.
+      New function copyPixmaps adds more defaults for missing pixmaps. When some
+        pixmaps are missing then they are copied from others. This restores
+        backward compatibility in issue #144.
+      Always show icon in the top left corner of a window in issue #144.
+
+Brian Bidulock <bidulock@openss7.com> (1):
+      Merge pull request #150 from
+        Code7R/feature/increase_theme_menu_collapsing_threshold
+
+Eduard Bloch <blade@debian.org> (1):
+      Increased the trigger value for the theme menu nesting algorithm
 
 
 Release icewm-1.4.1 released 2017-07-28

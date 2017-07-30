@@ -1,4 +1,4 @@
-[icewm -- read me first file.  2017-07-27]: #
+[icewm -- read me first file.  2017-07-30]: #
 
 Ice Window Manager (IceWM)
 ==========================
@@ -16,7 +16,7 @@ list, and various other GitHub forks.
 Release
 -------
 
-This is the icewm-1.4.1 package, released under LGPL license 2017-07-24.
+This is the icewm-1.4.2 package, released under LGPL license 2017-07-24.
 This release as well as future versions here, can all be obtained from
 [GitHub][1] using a command such as:
 
@@ -89,7 +89,7 @@ Website][14] or from the [online manual][16].
 
 Unfortunately the documentation is for version 1.2.27 and is incomplete
 at that; however, it is for the most part usable.
-The good news is that the `icewm(1)` manual page for version 1.4.1
+The good news is that the `icewm(1)` manual page for version 1.4.2
 is complete and fully up-to-date.
 
 
