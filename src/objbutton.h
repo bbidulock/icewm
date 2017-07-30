@@ -3,6 +3,7 @@
 
 #include "ybutton.h"
 #include "ymenu.h"
+#include "ypointer.h"
 
 class Program;
 
@@ -23,7 +24,7 @@ public:
     virtual YSurface getSurface();
 
 private:
-    DObject *fObject;
+    osmart<DObject> fObject;
 
     static ref<YFont> font;
     static YColor *bgColor;
