@@ -52,7 +52,7 @@ MEMStatus::MEMStatus(YWindow *aParent): YWindow(aParent) {
             samples[i][j]=0;
         samples[i][MEM_FREE] = 1;
     }
-    setSize(taskBarMEMSamples, 20);
+    setSize(taskBarMEMSamples, taskBarGraphHeight);
     getStatus();
     updateStatus();
     updateToolTip();
@@ -201,7 +201,7 @@ unsigned long long MEMStatus::parseField(const char *buf, size_t bufLen,
             char *endptr = NULL;
             unsigned long long result = strtoull(buf+needleLen, &endptr, 10);
 
-            while(endptr!=0 && *endptr==' ')
+            while (*endptr != 0 && *endptr == ' ')
                 endptr++;
 
             if(*endptr=='k') {   // normal case

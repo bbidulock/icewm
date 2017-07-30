@@ -1808,14 +1808,12 @@ void YWindow::scrollWindow(int dx, int dy) {
     XRectangle r[2];
     int nr = 0;
 
-    static GC scrollGC = None;
-
-    if (scrollGC == None) {
-        scrollGC = XCreateGC(xapp->display(), desktop->handle(), 0, NULL);
-    }
+    GC scrollGC = XCreateGC(xapp->display(), desktop->handle(), 0, NULL);
 
     XCopyArea(xapp->display(), handle(), handle(), scrollGC,
               dx, dy, width(), height(), 0, 0);
+
+    XFreeGC(xapp->display(), scrollGC);
 
     dx = - dx;
     dy = - dy;

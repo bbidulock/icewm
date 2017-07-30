@@ -306,8 +306,8 @@ endforeach()
 
 SET(ICE_COMMON_SRCS mstring.cc udir.cc upath.cc yapp.cc yxapp.cc ytimer.cc
  ywindow.cc ypaint.cc ypopup.cc misc.cc ycursor.cc ysocket.cc ypaths.cc
- ypixbuf.cc ylocale.cc yarray.cc ypipereader.cc yxembed.cc yconfig.cc
- yprefs.cc yfont.cc ypixmap.cc yimage.cc
+ ylocale.cc yarray.cc ypipereader.cc yxembed.cc yconfig.cc
+ yprefs.cc yfont.cc ypixmap.cc
  yimage_gdk.cc yimage_imlib.cc yimage_xpm.cc ytooltip.cc)
 
 if(CONFIG_XFREETYPE)

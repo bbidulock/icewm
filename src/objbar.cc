@@ -20,15 +20,11 @@
 #include "yrect.h"
 #include "yicon.h"
 
-YColor * ObjectBar::bgColor(NULL);
-
 ref<YFont> ObjectButton::font;
 YColor * ObjectButton::bgColor(NULL);
 YColor * ObjectButton::fgColor(NULL);
 
 ObjectBar::ObjectBar(YWindow *parent): YWindow(parent) {
-    if (bgColor == 0)
-        bgColor = new YColor(clrDefaultTaskBar);
     setSize(1, 1);
 }
 
@@ -71,7 +67,7 @@ void ObjectBar::paint(Graphics &g, const YRect &/*r*/) {
         if (taskbackPixmap != null)
             g.fillPixmap(taskbackPixmap, 0, 0, width(), height());
         else {
-            g.setColor(bgColor);
+            g.setColor(getTaskBarBg());
             g.fillRect(0, 0, width(), height());
         }
 }

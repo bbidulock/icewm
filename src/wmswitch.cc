@@ -27,8 +27,6 @@ YColor *SwitchWindow::switchMfg(NULL);
 
 ref<YFont> SwitchWindow::switchFont;
 
-SwitchWindow * switchWindow(NULL);
-
 SwitchWindow::SwitchWindow(YWindow *parent):
     YPopupWindow(parent) INIT_GRADIENT(fGradient, NULL) {
     // why this checks here?

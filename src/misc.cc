@@ -546,6 +546,19 @@ bool GetLongArgument(char* &ret, const char *name, char** &argpp, char **endpp)
 	return true;
 }
 
+bool GetArgument(char* &ret, const char *sn, const char *ln, char** &arg, char **end)
+{
+    bool got = false;
+    if (**arg == '-') {
+        if (arg[0][1] == '-') {
+            got = GetLongArgument(ret, ln, arg, end);
+        } else {
+            got = GetShortArgument(ret, sn, arg, end);
+        }
+    }
+    return got;
+}
+
 bool is_short_switch(const char *arg, const char *name)
 {
     return arg && *arg == '-' && 0 == strcmp(arg + 1, name);

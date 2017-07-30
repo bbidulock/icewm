@@ -75,7 +75,7 @@ int YFont::multilineTabPos(const char *str) const {
 }
 
 YDimension YFont::multilineAlloc(const char *str) const {
-    unsigned const tabPos(multilineTabPos(str));
+    const int tabPos(multilineTabPos(str));
     YDimension alloc(0, ascent());
 
     for (const char * end(strchr(str, '\n')); end;

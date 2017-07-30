@@ -20,7 +20,7 @@ public:
     virtual void handleClick(const XButtonEvent &up, int count);
     virtual void paint(Graphics &g, const YRect &r);
 
-    void updateToolTip();
+    virtual void updateToolTip();
     virtual bool handleTimer(YTimer *t);
 
 private:
@@ -34,10 +34,9 @@ private:
     int calcWidth(const char *s, int count);
     bool hasTransparency();
 
-
-    static YColor *clockBg;
-    static YColor *clockFg;
-    static ref<YFont> clockFont;
+    YColor *clockBg;
+    YColor *clockFg;
+    ref<YFont> clockFont;
 };
 #endif
 

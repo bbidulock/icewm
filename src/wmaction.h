@@ -60,10 +60,14 @@ extern YAction *actionLicense;
 extern YAction *actionRun;
 extern YAction *actionExit;
 extern YAction *actionFocusClickToFocus;
+extern YAction *actionFocusExplicit;
 extern YAction *actionFocusMouseSloppy;
+extern YAction *actionFocusMouseStrict;
+extern YAction *actionFocusQuietSloppy;
 extern YAction *actionFocusCustom;
 
 void initActions();
+void freeActions();
 
 bool canShutdown(bool reboot);
 bool canLock();

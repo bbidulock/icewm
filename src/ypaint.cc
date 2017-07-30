@@ -5,7 +5,6 @@
  */
 #include "config.h"
 #include "ylib.h"
-#include "ypixbuf.h"
 #include "ypaint.h"
 
 #include "yxapp.h"
@@ -20,6 +19,10 @@
 #ifdef CONFIG_XFREETYPE
 #include <X11/Xft/Xft.h>
 #endif
+
+static inline Display* display() {
+    return xapp->display();
+}
 
 /******************************************************************************/
 
@@ -206,35 +209,33 @@ YColor *YColor::brighter() { // !!! fix
 
 Graphics::Graphics(YWindow & window,
                    unsigned long vmask, XGCValues * gcv):
-    fDisplay(xapp->display()),
     fDrawable(window.handle()),
     fColor(NULL), fFont(NULL),
     xOrigin(0), yOrigin(0)
 {
     rWidth = window.width();
     rHeight = window.height();
-    gc = XCreateGC(fDisplay, fDrawable, vmask, gcv);
-#ifdef CONFIG_XFREETYPE
-    fDraw = XftDrawCreate(display(), drawable(), xapp->visual(), xapp->colormap());
+    gc = XCreateGC(display(), drawable(), vmask, gcv);
+#if CONFIG_XFREETYPE
+    fXftDraw = 0;
 #endif
 }
 
 Graphics::Graphics(YWindow & window):
-    fDisplay(xapp->display()), fDrawable(window.handle()),
+    fDrawable(window.handle()),
     fColor(NULL), fFont(NULL),
     xOrigin(0), yOrigin(0)
  {
     rWidth = window.width();
     rHeight = window.height();
     XGCValues gcv; gcv.graphics_exposures = False;
-    gc = XCreateGC(fDisplay, fDrawable, GCGraphicsExposures, &gcv);
-#ifdef CONFIG_XFREETYPE
-    fDraw = XftDrawCreate(display(), drawable(), xapp->visual(), xapp->colormap());
+    gc = XCreateGC(display(), drawable(), GCGraphicsExposures, &gcv);
+#if CONFIG_XFREETYPE
+    fXftDraw = 0;
 #endif
 }
 
 Graphics::Graphics(const ref<YPixmap> &pixmap, int x_org, int y_org):
-    fDisplay(xapp->display()),
     fDrawable(pixmap->pixmap()),
     fColor(NULL), fFont(NULL),
     xOrigin(x_org), yOrigin(y_org)
@@ -242,46 +243,59 @@ Graphics::Graphics(const ref<YPixmap> &pixmap, int x_org, int y_org):
     rWidth = pixmap->width();
     rHeight = pixmap->height();
     XGCValues gcv; gcv.graphics_exposures = False;
-    gc = XCreateGC(fDisplay, fDrawable, GCGraphicsExposures, &gcv);
-#ifdef CONFIG_XFREETYPE
-    fDraw = XftDrawCreate(display(), drawable(), xapp->visual(), xapp->colormap());
+    gc = XCreateGC(display(), drawable(), GCGraphicsExposures, &gcv);
+#if CONFIG_XFREETYPE
+    fXftDraw = 0;
 #endif
 }
 
-Graphics::Graphics(Drawable drawable, int w, int h, unsigned long vmask, XGCValues * gcv):
-    fDisplay(xapp->display()),
+Graphics::Graphics(Drawable drawable, int w, int h,
+                   unsigned long vmask, XGCValues * gcv):
     fDrawable(drawable),
     fColor(NULL), fFont(NULL),
     xOrigin(0), yOrigin(0),
     rWidth(w), rHeight(h)
 {
-    gc = XCreateGC(fDisplay, fDrawable, vmask, gcv);
-#ifdef CONFIG_XFREETYPE
-    fDraw = XftDrawCreate(display(), fDrawable, xapp->visual(), xapp->colormap());
+    gc = XCreateGC(display(), drawable, vmask, gcv);
+#if CONFIG_XFREETYPE
+    fXftDraw = 0;
 #endif
 }
 
 Graphics::Graphics(Drawable drawable, int w, int h):
-    fDisplay(xapp->display()),
     fDrawable(drawable),
     fColor(NULL), fFont(NULL),
     xOrigin(0), yOrigin(0),
     rWidth(w), rHeight(h)
 {
     XGCValues gcv; gcv.graphics_exposures = False;
-    gc = XCreateGC(fDisplay, fDrawable, GCGraphicsExposures, &gcv);
-#ifdef CONFIG_XFREETYPE
-    fDraw = XftDrawCreate(display(), fDrawable, xapp->visual(), xapp->colormap());
+    gc = XCreateGC(display(), drawable, GCGraphicsExposures, &gcv);
+#if CONFIG_XFREETYPE
+    fXftDraw = 0;
 #endif
 }
 
 Graphics::~Graphics() {
-    XFreeGC(fDisplay, gc);
-#ifdef CONFIG_XFREETYPE
-    if (fDraw)
-        XftDrawDestroy(fDraw);
+    XFreeGC(display(), gc);
+    gc = None;
+
+#if CONFIG_XFREETYPE
+    if (fXftDraw) {
+        XftDrawDestroy(fXftDraw);
+        fXftDraw = 0;
+    }
 #endif
 }
+
+#ifdef CONFIG_XFREETYPE
+XftDraw* Graphics::handleXft() {
+    if (fXftDraw == 0) {
+        fXftDraw = XftDrawCreate(display(), drawable(),
+                    xapp->visual(), xapp->colormap());
+    }
+    return fXftDraw;
+}
+#endif
 
 /******************************************************************************/
 
@@ -289,7 +303,7 @@ void Graphics::copyArea(const int x, const int y,
                         const int width, const int height,
                         const int dx, const int dy)
 {
-    XCopyArea(fDisplay, fDrawable, fDrawable, gc,
+    XCopyArea(display(), drawable(), drawable(), gc,
               x - xOrigin, y - yOrigin, width, height,
               dx - xOrigin, dy - yOrigin);
 }
@@ -298,54 +312,20 @@ void Graphics::copyDrawable(Drawable const d,
                             const int x, const int y, const int w, const int h,
                             const int dx, const int dy)
 {
-    XCopyArea(fDisplay, d, fDrawable, gc,
+    XCopyArea(display(), d, drawable(), gc,
               x, y, w, h,
               dx - xOrigin, dy - yOrigin);
 }
 
-#if 0
-void Graphics::copyImage(XImage * image,
-                         const int x, const int y, const int w, const int h,
-                         const int dx, const int dy)
-{
-    XPutImage(fDisplay, fDrawable, gc, image,
-              x, y,
-              dx - xOrigin, dy - yOrigin, w, h);
-}
-#endif
-
-#if 0
-#ifdef CONFIG_ANTIALIASING
-void Graphics::copyPixbuf(YPixbuf & pixbuf,
-                          const int x, const int y, const int w, const int h,
-                          const int dx, const int dy, bool useAlpha)
-{
-    pixbuf.copyToDrawable(fDrawable, gc,
-                          x, y, w, h,
-                          dx - xOrigin, dy - yOrigin,
-                          useAlpha);
-}
-#endif
-
-void Graphics::copyAlphaMask(YPixbuf & pixbuf,
-                             const int x, const int y, const int w, const int h,
-                             const int dx, const int dy)
-{
-    pixbuf.copyAlphaToMask(fDrawable, gc,
-                           x, y, w, h,
-                           dx - xOrigin, dy - yOrigin);
-}
-#endif
-
 /******************************************************************************/
 
 void Graphics::drawPoint(int x, int y) {
-    XDrawPoint(fDisplay, fDrawable, gc,
+    XDrawPoint(display(), drawable(), gc,
                x - xOrigin, y - yOrigin);
 }
 
 void Graphics::drawLine(int x1, int y1, int x2, int y2) {
-    XDrawLine(fDisplay, fDrawable, gc,
+    XDrawLine(display(), drawable(), gc,
               x1 - xOrigin, y1 - yOrigin,
               x2 - xOrigin, y2 - yOrigin);
 }
@@ -356,7 +336,7 @@ void Graphics::drawLines(XPoint *points, int n, int mode) {
         points[i].x -= xOrigin;
         points[i].y -= yOrigin;
     }
-    XDrawLines(fDisplay, fDrawable, gc, points, n, mode);
+    XDrawLines(display(), drawable(), gc, points, n, mode);
     for (int i = 0; i < n1; i++) {
         points[i].x += xOrigin;
         points[i].y += yOrigin;
@@ -370,7 +350,7 @@ void Graphics::drawSegments(XSegment *segments, int n) {
         segments[i].x2 -= xOrigin;
         segments[i].y2 -= yOrigin;
     }
-    XDrawSegments(fDisplay, fDrawable, gc, segments, n);
+    XDrawSegments(display(), drawable(), gc, segments, n);
     for (int i = 0; i < n; i++) {
         segments[i].x1 += xOrigin;
         segments[i].y1 += yOrigin;
@@ -380,7 +360,7 @@ void Graphics::drawSegments(XSegment *segments, int n) {
 }
 
 void Graphics::drawRect(int x, int y, int width, int height) {
-    XDrawRectangle(fDisplay, fDrawable, gc,
+    XDrawRectangle(display(), drawable(), gc,
                    x - xOrigin, y - yOrigin, width, height);
 }
 
@@ -389,7 +369,7 @@ void Graphics::drawRects(XRectangle *rects, int n) {
         rects[i].x -= xOrigin;
         rects[i].y -= yOrigin;
     }
-    XDrawRectangles(fDisplay, fDrawable, gc, rects, n);
+    XDrawRectangles(display(), drawable(), gc, rects, n);
     for (int i = 0; i < n; i++) {
         rects[i].x += xOrigin;
         rects[i].y += yOrigin;
@@ -397,7 +377,7 @@ void Graphics::drawRects(XRectangle *rects, int n) {
 }
 
 void Graphics::drawArc(int x, int y, int width, int height, int a1, int a2) {
-    XDrawArc(fDisplay, fDrawable, gc,
+    XDrawArc(display(), drawable(), gc,
              x - xOrigin, y - yOrigin, width, height, a1, a2);
 }
 
@@ -613,7 +593,7 @@ struct YRotated {
 /******************************************************************************/
 
 void Graphics::fillRect(int x, int y, int width, int height) {
-    XFillRectangle(fDisplay, fDrawable, gc,
+    XFillRectangle(display(), drawable(), gc,
                    x - xOrigin, y - yOrigin, width, height);
 }
 
@@ -622,7 +602,7 @@ void Graphics::fillRects(XRectangle *rects, int n) {
         rects[i].x -= xOrigin;
         rects[i].y -= yOrigin;
     }
-    XFillRectangles(fDisplay, fDrawable, gc, rects, n);
+    XFillRectangles(display(), drawable(), gc, rects, n);
     for (int i = 0; i < n; i++) {
         rects[i].x += xOrigin;
         rects[i].y += yOrigin;
@@ -638,7 +618,7 @@ void Graphics::fillPolygon(XPoint *points, int const n, int const shape,
         points[i].x -= xOrigin;
         points[i].y -= yOrigin;
     }
-    XFillPolygon(fDisplay, fDrawable, gc, points, n, shape, mode);
+    XFillPolygon(display(), drawable(), gc, points, n, shape, mode);
     for (int i = 0; i < n1; i++) {
         points[i].x += xOrigin;
         points[i].y += yOrigin;
@@ -646,7 +626,7 @@ void Graphics::fillPolygon(XPoint *points, int const n, int const shape,
 }
 
 void Graphics::fillArc(int x, int y, int width, int height, int a1, int a2) {
-    XFillArc(fDisplay, fDrawable, gc,
+    XFillArc(display(), drawable(), gc,
              x - xOrigin, y - yOrigin, width, height, a1, a2);
 }
 
@@ -654,11 +634,11 @@ void Graphics::fillArc(int x, int y, int width, int height, int a1, int a2) {
 
 void Graphics::setColor(YColor * aColor) {
     fColor = aColor;
-    XSetForeground(fDisplay, gc, fColor->pixel());
+    XSetForeground(display(), gc, fColor->pixel());
 }
 
 void Graphics::setColorPixel(unsigned long pixel) {
-    XSetForeground(fDisplay, gc, pixel);
+    XSetForeground(display(), gc, pixel);
 }
 
 void Graphics::setFont(ref<YFont> aFont) {
@@ -668,7 +648,7 @@ void Graphics::setFont(ref<YFont> aFont) {
 void Graphics::setLineWidth(int width) {
     XGCValues gcv;
     gcv.line_width = width;
-    XChangeGC(fDisplay, gc, GCLineWidth, &gcv);
+    XChangeGC(display(), gc, GCLineWidth, &gcv);
 }
 
 void Graphics::setPenStyle(bool dotLine) {
@@ -677,16 +657,16 @@ void Graphics::setPenStyle(bool dotLine) {
     if (dotLine) {
         char c = 1;
         gcv.line_style = LineOnOffDash;
-        XSetDashes(fDisplay, gc, 0, &c, 1);
+        XSetDashes(display(), gc, 0, &c, 1);
     } else {
         gcv.line_style = LineSolid;
     }
 
-    XChangeGC(fDisplay, gc, GCLineStyle, &gcv);
+    XChangeGC(display(), gc, GCLineStyle, &gcv);
 }
 
 void Graphics::setFunction(int function) {
-    XSetFunction(fDisplay, gc, function);
+    XSetFunction(display(), gc, function);
 }
 
 /******************************************************************************/
@@ -699,56 +679,30 @@ void Graphics::drawImage(ref<YImage> pix, int x, int y, int w, int h, int dx, in
     pix->draw(*this, x, y, w, h, dx, dy);
 }
 
-#if 0
-void Graphics::drawIconImage(const ref<YIconImage> &image, int const x, int const y) {
-#ifdef CONFIG_ANTIALIASING
-    int dx = x;
-    int dy = y;
-    int dw = image->width();
-    int dh = image->height();
-
-    if (dx < xorigin()) {
-        dw -= xorigin() - dx;
-        dx = xorigin();
-    }
-    if (dy < yorigin()) {
-        dh -= yorigin() - dy;
-        dy = yorigin();
-    }
-    if (dx + dw > xorigin() + rWidth) {
-        dw = xorigin() + rWidth - dx;
-    }
-    if (dy + dh > yorigin() + rHeight) {
-        dh = yorigin() + rHeight - dy;
-    }
-
-    MSG(("drawImage %d %d %d %d %dx%d | %d %d | %d %d | %d %d | %d %d",
-         x, y, dx, dy, dw, dh, xorigin(), yorigin(), x, y,
-         dx - x, dy - y, dx - xOrigin, dy - yOrigin));
-    if (dw <= 0 || dh <= 0)
-        return;
-    YPixbuf bg(fDrawable, None, rWidth, rHeight, dw, dh, dx - xOrigin, dy - yOrigin);
-    bg.copyArea(*image, dx - x, dy - y, dw, dh, 0, 0);
-    bg.copyToDrawable(fDrawable, gc, 0, 0, dw, dh, dx - xOrigin, dy - yOrigin);
-#else
-    drawPixmap(image, x, y);
-#endif
-}
-#endif
-
 void Graphics::drawPixmap(ref<YPixmap> pix, int const x, int const y) {
     if (pix->mask())
         drawClippedPixmap(pix->pixmap(),
                           pix->mask(),
                           0, 0, pix->width(), pix->height(), x, y);
     else
-        XCopyArea(fDisplay, pix->pixmap(), fDrawable, gc,
+        XCopyArea(display(), pix->pixmap(), drawable(), gc,
                   0, 0, pix->width(), pix->height(), x - xOrigin, y - yOrigin);
+}
+
+void Graphics::drawPixmap(ref<YPixmap> pix, int const sx, int const sy,
+        const int w, const int h, const int dx, const int dy) {
+    if (pix->mask())
+        drawClippedPixmap(pix->pixmap(),
+                          pix->mask(),
+                          sx, sy, w, h, dx, dy);
+    else
+        XCopyArea(display(), pix->pixmap(), drawable(), gc,
+                  sx, sy, w, h, dx - xOrigin, dy - yOrigin);
 }
 
 void Graphics::drawMask(ref<YPixmap> pix, int const x, int const y) {
     if (pix->mask())
-        XCopyArea(fDisplay, pix->mask(), fDrawable, gc,
+        XCopyArea(display(), pix->mask(), drawable(), gc,
                   0, 0, pix->width(), pix->height(), x - xOrigin, y - yOrigin);
 }
 
@@ -768,12 +722,12 @@ void Graphics::drawClippedPixmap(Pixmap pix, Pixmap clip,
     gcv.clip_mask = clip;
     gcv.clip_x_origin = toX - xOrigin;
     gcv.clip_y_origin = toY - yOrigin;
-    XChangeGC(fDisplay, clipPixmapGC,
+    XChangeGC(display(), clipPixmapGC,
               GCClipMask|GCClipXOrigin|GCClipYOrigin, &gcv);
-    XCopyArea(fDisplay, pix, fDrawable, clipPixmapGC,
+    XCopyArea(display(), pix, drawable(), clipPixmapGC,
               x, y, w, h, toX - xOrigin, toY - yOrigin);
     gcv.clip_mask = None;
-    XChangeGC(fDisplay, clipPixmapGC, GCClipMask, &gcv);
+    XChangeGC(display(), clipPixmapGC, GCClipMask, &gcv);
 }
 
 void Graphics::compositeImage(ref<YImage> img, int const sx, int const sy, int w, int h, int dx, int dy) {
@@ -975,7 +929,7 @@ void Graphics::repHorz(Drawable d, int pw, int ph, int x, int y, int w) {
     if (d == None)
         return;
     while (w > 0) {
-        XCopyArea(fDisplay, d, fDrawable, gc, 0, 0, min(w, pw), ph, x - xOrigin, y - yOrigin);
+        XCopyArea(display(), d, drawable(), gc, 0, 0, min(w, pw), ph, x - xOrigin, y - yOrigin);
         x += pw;
         w -= pw;
     }
@@ -985,7 +939,7 @@ void Graphics::repVert(Drawable d, int pw, int ph, int x, int y, int h) {
     if (d == None)
         return;
     while (h > 0) {
-        XCopyArea(fDisplay, d, fDrawable, gc, 0, 0, pw, min(h, ph), x - xOrigin, y - yOrigin);
+        XCopyArea(display(), d, drawable(), gc, 0, 0, pw, min(h, ph), x - xOrigin, y - yOrigin);
         y += ph;
         h -= ph;
     }
@@ -1001,11 +955,11 @@ void Graphics::fillPixmap(const ref<YPixmap> &pixmap, int x, int y,
 
     if (px) {
         if (py)
-            XCopyArea(fDisplay, pixmap->pixmap(), fDrawable, gc,
+            XCopyArea(display(), pixmap->pixmap(), drawable(), gc,
                       px, py, pww, phh, x - xOrigin, y - yOrigin);
 
         for (int yy(y + phh), hh(h - phh); hh > 0; yy += ph, hh -= ph)
-            XCopyArea(fDisplay, pixmap->pixmap(), fDrawable, gc,
+            XCopyArea(display(), pixmap->pixmap(), drawable(), gc,
                       px, 0, pww, min(hh, ph), x - xOrigin, yy - yOrigin);
     }
 
@@ -1013,11 +967,11 @@ void Graphics::fillPixmap(const ref<YPixmap> &pixmap, int x, int y,
         int const www(min(ww, pw));
 
         if (py)
-            XCopyArea(fDisplay, pixmap->pixmap(), fDrawable, gc,
+            XCopyArea(display(), pixmap->pixmap(), drawable(), gc,
                       0, py, www, phh, xx - xOrigin, y - yOrigin);
 
         for (int yy(y + phh), hh(h - phh); hh > 0; yy += ph, hh -= ph)
-            XCopyArea(fDisplay, pixmap->pixmap(), fDrawable, gc,
+            XCopyArea(display(), pixmap->pixmap(), drawable(), gc,
                       0, 0, www, min(hh, ph), xx - xOrigin, yy - yOrigin);
     }
 }
@@ -1167,7 +1121,7 @@ void Graphics::drawArrow(YDirection direction, int x, int y, int size,
 
 int Graphics::function() const {
     XGCValues values;
-    XGetGCValues(fDisplay, gc, GCFunction, &values);
+    XGetGCValues(display(), gc, GCFunction, &values);
     return values.function;
 }
 
@@ -1175,18 +1129,18 @@ void Graphics::setClipRectangles(XRectangle *rect, int count) {
     XSetClipRectangles(xapp->display(), gc,
                        -xOrigin, -yOrigin, rect, count, Unsorted);
 #ifdef CONFIG_XFREETYPE
-    XftDrawSetClipRectangles(fDraw, -xOrigin, -yOrigin, rect, count);
+    XftDrawSetClipRectangles(handleXft(), -xOrigin, -yOrigin, rect, count);
 #endif
 }
 
 void Graphics::setClipMask(Pixmap mask) {
-    XSetClipMask(fDisplay, gc, mask);
+    XSetClipMask(display(), gc, mask);
 }
 
 void Graphics::resetClip() {
     XSetClipMask(xapp->display(), gc, None);
 #ifdef CONFIG_XFREETYPE
-    XftDrawSetClip(fDraw, 0);
+    XftDrawSetClip(handleXft(), 0);
 #endif
 }
 

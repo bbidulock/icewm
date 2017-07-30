@@ -60,7 +60,7 @@ NetStatus::NetStatus(
     color[2] = *clrNetIdle
         ? new YColor(clrNetIdle) : NULL;
 
-    setSize(taskBarNetSamples, 20);
+    setSize(taskBarNetSamples, taskBarGraphHeight);
 
     fUpdateTimer = new YTimer(0);
     if (fUpdateTimer) {
@@ -69,7 +69,7 @@ NetStatus::NetStatus(
         fUpdateTimer->startTimer();
     }
     prev_ibytes = prev_obytes = offset_ibytes = offset_obytes = 0;
-    memset(&prev_time, 0, sizeof(prev_time));
+    prev_time = monotime();
     // set prev values for first updateStatus
 
     getCurrent(0, 0);
@@ -658,23 +658,15 @@ void NetStatus::getCurrent(long *in, long *out) {
         // har, har, overflow. Use the recent prev_obytes value as offset this time
         cur_obytes = offset_obytes = prev_obytes;
 
-    struct timeval curr_time;
-    gettimeofday(&curr_time, NULL);
-
-    double delta_t = (double) ((curr_time.tv_sec  - prev_time.tv_sec) * 1000000L
-                               + (curr_time.tv_usec - prev_time.tv_usec)) / 1000000.0;
+    timeval curr_time = monotime();
+    double delta_t = max(0.001, toDouble(curr_time - prev_time));
 
     if (in) {
         *in  = (long) ((cur_ibytes - prev_ibytes) / delta_t);
         *out = (long) ((cur_obytes - prev_obytes) / delta_t);
     }
 
-    //msg("%d %d", *in, *out);
-
-    prev_time.tv_sec = curr_time.tv_sec;
-    prev_time.tv_usec = curr_time.tv_usec;
-
-
+    prev_time = curr_time;
     prev_ibytes = cur_ibytes;
     prev_obytes = cur_obytes;
 }

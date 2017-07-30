@@ -47,6 +47,7 @@ void WMConfig::loadThemeConfiguration(IApp *app, const char *themeName) {
 void WMConfig::freeConfiguration() {
 #ifndef NO_CONFIGURE
     YConfig::freeConfig(icewm_preferences);
+    YConfig::freeConfig(icewm_themable_preferences);
 #endif
 }
 

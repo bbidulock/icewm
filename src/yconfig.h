@@ -129,6 +129,7 @@ public:
     static bool findLoadThemeFile(IApp *app, cfoption *options, upath name);
     static void parseConfiguration(cfoption *options, char *data);
     static bool parseKey(const char *arg, KeySym *key, unsigned int *mod);
+    static size_t cfoptionSize();
 };
 
 #endif

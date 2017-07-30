@@ -13,7 +13,6 @@
 #include "yapp.h"
 #include "yprefs.h"
 #include "prefs.h"
-#include "ypixbuf.h"
 #include "yicon.h"
 
 #include <string.h>

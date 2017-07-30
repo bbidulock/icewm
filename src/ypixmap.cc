@@ -3,8 +3,6 @@
 #include "ypixmap.h"
 #include "yxapp.h"
 
-#include <stdlib.h>
-
 static Pixmap createPixmap(int w, int h, int depth) {
     return XCreatePixmap(xapp->display(), desktop->handle(), w, h, depth);
 }
@@ -42,19 +40,10 @@ void YPixmap::replicate(bool horiz, bool copyMask) {
             Graphics(nMask, width(), dim).repVert(fMask, width(), height(), 0, 0, dim);
     }
 
-    if (
-#if 1
-        true
-#else
-        fOwned
-#endif
-       )
-    {
-        if (fPixmap != None)
-            XFreePixmap(xapp->display(), fPixmap);
-        if (fMask != None)
-            XFreePixmap(xapp->display(), fMask);
-    }
+    if (fPixmap != None)
+        XFreePixmap(xapp->display(), fPixmap);
+    if (fMask != None)
+        XFreePixmap(xapp->display(), fMask);
 
     fPixmap = nPixmap;
     fMask = nMask;
@@ -75,14 +64,6 @@ YPixmap::~YPixmap() {
     }
 }
 
-#if 0
-ref<YPixmap> YPixmap::scale(ref<YPixmap> source, int const w, int const h) {
-    ref<YPixmap> scaled;
-    scaled = source;
-    return scaled;
-}
-#endif
-
 ref<YPixmap> YPixmap::scale(int const w, int const h) {
     ref<YPixmap> pixmap;
     pixmap.init(this);
@@ -100,9 +81,9 @@ ref<YPixmap> YPixmap::create(int w, int h, bool useMask) {
 
     Pixmap pixmap = createPixmap(w, h);
     Pixmap mask = useMask ? createMask(w, h) : None;
-    if (pixmap != None && (!useMask || mask != None))
-
+    if (pixmap != None && (!useMask || mask != None)) {
         n.init(new YPixmap(pixmap, mask, w, h));
+    }
     return n;
 }
 

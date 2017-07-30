@@ -144,8 +144,12 @@ void ThemesMenu::findThemes(const upath& path, YMenu *container) {
 
                 YMenu *smenu = new YMenu();
                 YMenuItem *smItem = new YMenuItem(smname, 0, null, NULL, smenu);
-                if(smItem && smenu)
-                    container->addSorted(smItem, false);
+                if (smItem && smenu) {
+                    if (container->addSorted(smItem, false) == 0) {
+                        warn("Failed to add submenu");
+                        delete smItem;
+                    }
+                }
                 targetItem = container->findFirstLetRef(fLetter, 0, 1);
                 if (targetItem < 0)
                 {
@@ -153,10 +157,17 @@ void ThemesMenu::findThemes(const upath& path, YMenu *container) {
                     return;
                 }
             }
-            container->getItem(targetItem)->getSubmenu()->addSorted(im, false);
+            YMenu *sub = container->getItem(targetItem)->getSubmenu();
+            if (sub == 0 || sub->addSorted(im, false) == 0) {
+                delete im;
+                im = 0;
+            }
         }
         else if (im) { //the default method without Extra SubMenues
-            container->addSorted(im, false);
+            if (container->addSorted(im, false) == 0) {
+                delete im;
+                im = 0;
+            }
         }
         if (im) {
             findThemeAlternatives(app, smActionListener, subdir, dir.entry(), im);

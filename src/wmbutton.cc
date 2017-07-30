@@ -5,7 +5,6 @@
  */
 #include "config.h"
 
-#include "ypixbuf.h"
 #include "ylib.h"
 #include "wmbutton.h"
 
