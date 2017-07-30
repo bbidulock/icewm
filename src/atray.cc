@@ -17,7 +17,6 @@
 #ifdef CONFIG_TRAY
 
 #include "ylib.h"
-#include "ypixbuf.h"
 #include "atray.h"
 #include "wmtaskbar.h"
 #include "yprefs.h"
@@ -29,7 +28,6 @@
 #include "wpixmaps.h"
 #include "yrect.h"
 
-static YColor *taskBarBg = 0;
 static YColor *normalTrayAppFg = 0;
 static YColor *normalTrayAppBg = 0;
 static YColor *activeTrayAppFg = 0;
@@ -247,8 +245,6 @@ bool TrayApp::handleTimer(YTimer *t) {
 
 TrayPane::TrayPane(IAppletContainer *taskBar, YWindow *parent): YWindow(parent) {
     fTaskBar = taskBar;
-    if (taskBarBg == 0) 
-        taskBarBg = new YColor(clrDefaultTaskBar);
     fFirst = fLast = 0;
     fCount = 0;
     fNeedRelayout = true;
@@ -370,7 +366,7 @@ void TrayPane::paint(Graphics &g, const YRect &/*r*/) {
     int const w(width());
     int const h(height());
 
-    g.setColor(taskBarBg);
+    g.setColor(getTaskBarBg());
     
 #ifdef CONFIG_GRADIENTS
     ref<YImage> gradient(parent() ? parent()->getGradient() : null);
