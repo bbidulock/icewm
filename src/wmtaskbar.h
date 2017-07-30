@@ -210,6 +210,8 @@ private:
 
 extern TaskBar *taskBar; // !!! get rid of this
 
+class YColor* getTaskBarBg();
+
 #endif
 
 #endif
