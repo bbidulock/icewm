@@ -3,6 +3,8 @@
 #include <unistd.h>
 #include <signal.h>
 #include <time.h>
+#include <sys/stat.h>
+#include <stdlib.h>
 #include "yfull.h"
 #include "yxapp.h"
 #include "yprefs.h"
@@ -129,9 +131,11 @@ public:
     void clearBackgroundColors()   { backgroundColors.clear();   }
     void clearTransparencyImages() { transparencyImages.clear(); }
     void clearTransparencyColors() { transparencyColors.clear(); }
+#ifndef NO_CONFIGURE
     void enableSemitransparency(bool enable = true) {
         supportSemitransparency = enable;
     }
+#endif
 
 private:
     virtual bool filterEvent(const XEvent& xev);
@@ -816,6 +820,7 @@ int main(int argc, char **argv) {
     bool sendQuit = false;
     bool replace = false;
     bool verbose = false;
+#ifndef NO_CONFIGURE
     const char* overrideTheme = 0;
     const char* configFile = 0;
     const char* image = 0;
@@ -825,10 +830,13 @@ int main(int argc, char **argv) {
     const char* center = 0;
     const char* scaled = 0;
     const char* multi = 0;
+#endif
 
     for (char **arg = argv + 1; arg < argv + argc; ++arg) {
         if (**arg == '-') {
+#ifndef NO_CONFIGURE
             char *value(0);
+#endif
             if (is_switch(*arg, "r", "restart")) {
                 sendRestart = true;
             }
@@ -844,6 +852,10 @@ int main(int argc, char **argv) {
             else if (is_version_switch(*arg)) {
                 print_version_exit(VERSION);
             }
+            else if (is_long_switch(*arg, "verbose")) {
+                verbose = true;
+            }
+#ifndef NO_CONFIGURE
             else if (GetArgument(value, "t", "theme", arg, argv + argc)) {
                 overrideTheme = value;
             }
@@ -871,9 +883,7 @@ int main(int argc, char **argv) {
             else if (GetArgument(value, "m", "multi", arg, argv + argc)) {
                 multi = value;
             }
-            else if (is_long_switch(*arg, "verbose")) {
-                verbose = true;
-            }
+#endif
         }
     }
 

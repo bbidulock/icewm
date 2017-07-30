@@ -191,6 +191,7 @@ int WMConfig::setDefault(const char *basename, const char *content) {
     return 0;
 }
 
+#ifndef NO_CONFIGURE
 static void print_options(cfoption *options) {
     for (int i = 0; options[i].type != cfoption::CF_NONE; ++i) {
         if (options[i].notify) {
@@ -222,6 +223,7 @@ static void print_options(cfoption *options) {
         }
     }
 }
+#endif
 
 void WMConfig::print_preferences() {
 #ifndef NO_CONFIGURE

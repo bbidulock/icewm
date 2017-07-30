@@ -65,7 +65,9 @@ public:
     virtual void smDie();
 #endif
 
+#ifndef NO_CONFIGURE
     void setFocusMode(int mode);
+#endif
     void initFocusMode();
 
     virtual void restartClient(const char *path, char *const *args);

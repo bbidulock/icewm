@@ -146,7 +146,9 @@ void SysTrayApp::loadConfig() {
 }
 
 SysTrayApp::~SysTrayApp() {
+#ifdef CONFIG_TASKBAR
     delete taskBarBg; taskBarBg = 0;
+#endif
 }
 
 bool SysTrayApp::filterEvent(const XEvent &xev) {

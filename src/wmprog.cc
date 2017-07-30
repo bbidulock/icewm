@@ -227,6 +227,7 @@ static char *getCommandArgs(char *source, Argument *command,
     return p;
 }
 
+#ifndef NO_CONFIGURE_MENUS
 YObjectArray<KProgram> keyProgs;
 
 KProgram::KProgram(const char *key, DProgram *prog)
@@ -235,6 +236,7 @@ KProgram::KProgram(const char *key, DProgram *prog)
     YConfig::parseKey(key, &fKey, &fMod);
     keyProgs.append(this);
 }
+#endif
 
 char *parseIncludeStatement(
         IApp *app,

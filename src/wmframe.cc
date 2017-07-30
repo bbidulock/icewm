@@ -2206,6 +2206,7 @@ void YFrameWindow::wmMoveToWorkspace(long workspace) {
 }
 
 void YFrameWindow::updateAllowed() {
+#ifdef WMSPEC_HINTS
     Atom atoms[12];
     int i = 0;
     if ((fFrameFunctions & ffMove) || (fFrameDecors & fdTitleBar))
@@ -2230,7 +2231,6 @@ void YFrameWindow::updateAllowed() {
     }
     atoms[i++] = _XA_NET_WM_ACTION_STICK;
     atoms[i++] = _XA_NET_WM_ACTION_CHANGE_DESKTOP;
-#ifdef WMSPEC_HINTS
     client()->setNetWMAllowedActions(atoms,i);
 #endif
 }

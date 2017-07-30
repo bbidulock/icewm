@@ -1190,6 +1190,7 @@ bool YFrameClient::getWinIcons(Atom *type, int *count, long **elem) {
 }
 #endif
 
+#ifdef WMSPEC_HINTS
 static void *GetFullWindowProperty(Display *display, Window handle, Atom propAtom, int &itemCount, int itemSize1)
 {
     void *data = NULL;
@@ -1228,6 +1229,7 @@ static void *GetFullWindowProperty(Display *display, Window handle, Atom propAto
     }
     return data;
 }
+#endif
 
 #ifdef WMSPEC_HINTS
 bool YFrameClient::getNetWMIcon(int *count, long **elem) {

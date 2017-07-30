@@ -810,6 +810,7 @@ void YWMApp::runCommandOnce(const char *resource, const char *cmdline) {
         runProgram(argv[0], (char *const *) argv);
 }
 
+#ifndef NO_CONFIGURE
 void YWMApp::setFocusMode(int mode) {
     focusMode = mode;
     initFocusMode();
@@ -822,7 +823,7 @@ void YWMApp::setFocusMode(int mode) {
         }
     }
 }
-
+#endif
 
 void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
 
@@ -846,6 +847,7 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
         manager->unmanageClients();
         unregisterProtocols();
         exit(0);
+#ifndef NO_CONFIGURE
     } else if (action == actionFocusClickToFocus) {
         setFocusMode(FocusClick);
     } else if (action == actionFocusMouseSloppy) {
@@ -858,6 +860,7 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
         setFocusMode(FocusQuiet);
     } else if (action == actionFocusCustom) {
         setFocusMode(FocusCustom);
+#endif
     } else if (action == actionRefresh) {
         osmart<YWindow> w(new YWindow());
         if (w) {
@@ -1275,7 +1278,9 @@ YWMApp::~YWMApp() {
 #endif
     delete manager; desktop = manager = 0;
 
+#ifndef NO_CONFIGURE_MENUS
     keyProgs.clear();
+#endif
 
     WPixRes::freePixmaps();
 
