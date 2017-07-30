@@ -8,12 +8,6 @@
 #include "wmtaskbar.h"
 #include "sysdep.h"
 
-extern YColor *taskBarBg;
-
-// make this configurable
-#define TICON_H_MAX 24
-#define TICON_W_MAX 30
-
 class YXTrayProxy: public YWindow {
 public:
     YXTrayProxy(const char *atom, YXTray *tray, YWindow *aParent = 0);
@@ -134,8 +128,7 @@ void YXTrayEmbedder::handleClientUnmap(Window win) {
 
 void YXTrayEmbedder::paint(Graphics &g, const YRect &/*r*/) {
 #ifdef CONFIG_TASKBAR
-    if (taskBarBg)
-        g.setColor(taskBarBg);
+    g.setColor(getTaskBarBg());
 #endif
     g.fillRect(0, 0, width(), height());
 }
@@ -161,39 +154,33 @@ YXTray::YXTray(YXTrayNotifier *notifier,
                YWindow *aParent):
     YWindow(aParent)
 {
-#ifdef CONFIG_TASKBAR
-    if (taskBarBg == 0) {
-        taskBarBg = new YColor(clrDefaultTaskBar);
-    }
-#endif
-
     fNotifier = notifier;
     fInternal = internal;
     fTrayProxy = new YXTrayProxy(atom, this);
     show();
 #ifndef LITE
 #ifdef CONFIG_TASKBAR
-    XSetWindowBackground(xapp->display(), handle(), taskBarBg->pixel());
+    XSetWindowBackground(xapp->display(), handle(), getTaskBarBg()->pixel());
 #endif
     XClearArea(xapp->display(), handle(), 0, 0, 0, 0, True);
 #endif
 }
 
 YXTray::~YXTray() {
-    for (int i = 0; i < fDocked.getCount(); i++) {
-        delete fDocked[i];
-    }
     delete fTrayProxy; fTrayProxy = 0;
 }
 
 void YXTray::getScaleSize(int *ww, int *hh)
 {
-    *ww = *ww * (TICON_H_MAX) / *hh;
-    *hh = TICON_H_MAX;
-
-    if (*ww > TICON_W_MAX) {
-        *hh = *hh * (TICON_W_MAX) / *ww;
-        *ww = TICON_W_MAX;
+    // check if height / max_height < width / max_width. */
+    if (*hh * trayIconMaxWidth < *ww * trayIconMaxHeight) {
+        // the given icon is too wide.
+        *hh = trayIconMaxWidth * *hh / *ww;
+        *ww = trayIconMaxWidth;
+    } else {
+        // the given icon is too tall.
+        *hh = trayIconMaxHeight;
+        *ww = trayIconMaxHeight * *ww / *hh;
     }
 }
 
@@ -285,8 +272,7 @@ void YXTray::paint(Graphics &g, const YRect &/*r*/) {
     if (fInternal)
         return;
 #ifdef CONFIG_TASKBAR
-    if (taskBarBg)
-        g.setColor(taskBarBg);
+    g.setColor(getTaskBarBg());
 #endif
     g.fillRect(0, 0, width(), height());
     if (trayDrawBevel && fDocked.getCount())
@@ -302,13 +288,14 @@ void YXTray::backgroundChanged() {
     if (fInternal)
         return;
 #ifdef CONFIG_TASKBAR
-    XSetWindowBackground(xapp->display(),handle(), taskBarBg->pixel());
+    unsigned long bg = getTaskBarBg()->pixel();
+    XSetWindowBackground(xapp->display(), handle(), bg);
 #endif
     for (int i = 0; i < fDocked.getCount(); i++) {
         YXTrayEmbedder *ec = fDocked[i];
 #ifdef CONFIG_TASKBAR
-        XSetWindowBackground(xapp->display(), ec->handle(), taskBarBg->pixel());
-        XSetWindowBackground(xapp->display(), ec->client_handle(), taskBarBg->pixel());
+        XSetWindowBackground(xapp->display(), ec->handle(), bg);
+        XSetWindowBackground(xapp->display(), ec->client_handle(), bg);
 	/* something is not clearing which background changes */
 	XClearArea(xapp->display(), ec->client_handle(), 0, 0, 0, 0, True);
 #endif
@@ -320,7 +307,7 @@ void YXTray::backgroundChanged() {
 
 void YXTray::relayout() {
     int aw = 0;
-    int h  = TICON_H_MAX;
+    int h  = trayIconMaxHeight;
     if (!fInternal && trayDrawBevel)
         aw+=1;
     int cnt = 0;
@@ -350,7 +337,7 @@ void YXTray::relayout() {
         cnt++;
         int eh(h), ew=ec->width(), ay(0);
         if (!fInternal) {
-            ew=min(TICON_W_MAX,ec->width());
+            ew = min(trayIconMaxWidth, ec->width());
             if (trayDrawBevel) {
                 eh-=2; ay=1;
             }
