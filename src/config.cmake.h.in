@@ -25,70 +25,65 @@
 #define SIZEOF_LONG @SIZEOF_LONG@
 #define SIZEOF_SHORT @SIZEOF_SHORT@
 
-#cmakedefine HAVE_DUP2
-#cmakedefine HAVE_GETCWD
-#cmakedefine HAVE_GETHOSTBYNAME
-#cmakedefine HAVE_GETHOSTNAME
-#cmakedefine HAVE_GETTIMEOFDAY
-#cmakedefine HAVE_MBLEN
-#cmakedefine HAVE_MEMCHR
-#cmakedefine HAVE_MEMMOVE
-#cmakedefine HAVE_MEMSET
-#cmakedefine HAVE_MKDIR
-#cmakedefine HAVE_NL_LANGINFO
-#cmakedefine HAVE_PUTENV
-#cmakedefine HAVE_SELECT
-#cmakedefine HAVE_SETLOCALE
-#cmakedefine HAVE_SOCKET
-#cmakedefine HAVE_STRCASECMP
-#cmakedefine HAVE_STRCHR
-#cmakedefine HAVE_STRCSPN
-#cmakedefine HAVE_STRDUP
-#cmakedefine HAVE_STRERROR
-#cmakedefine HAVE_STRNCASECMP
-#cmakedefine HAVE_STRRCHR
-#cmakedefine HAVE_STRSPN
-#cmakedefine HAVE_STRSTR
-#cmakedefine HAVE_STRTOL
-#cmakedefine HAVE_SYSINFO
-#cmakedefine HAVE_UNAME
-#cmakedefine HAVE_ABORT
-#cmakedefine HAVE_GETTIMEOFDAY
-#cmakedefine HAVE_PUTENV
-#cmakedefine HAVE_SELECT
-#cmakedefine HAVE_SOCKET
-#cmakedefine HAVE_STRTOL
-#cmakedefine HAVE_BASENAME
-#cmakedefine HAVE_SYSCTLBYNAME
-#cmakedefine HAVE_GETLOADAVG
+#cmakedefine HAVE_ABORT 1
+#cmakedefine HAVE_BASENAME 1
+#cmakedefine HAVE_DUP2 1
+#cmakedefine HAVE_GETHOSTBYNAME 1
+#cmakedefine HAVE_GETHOSTNAME 1
+#cmakedefine HAVE_GETLOADAVG 1
+#cmakedefine HAVE_GETTIMEOFDAY 1
+#cmakedefine HAVE_MBLEN 1
+#cmakedefine HAVE_MEMCHR 1
+#cmakedefine HAVE_MEMMOVE 1
+#cmakedefine HAVE_MEMSET 1
+#cmakedefine HAVE_MKDIR 1
+#cmakedefine HAVE_NL_LANGINFO 1
+#cmakedefine HAVE_SELECT 1
+#cmakedefine HAVE_SETLOCALE 1
+#cmakedefine HAVE_SOCKET 1
+#cmakedefine HAVE_STRCASECMP 1
+#cmakedefine HAVE_STRCHR 1
+#cmakedefine HAVE_STRCSPN 1
+#cmakedefine HAVE_STRDUP 1
+#cmakedefine HAVE_STRERROR 1
+#cmakedefine HAVE_STRLCAT 1
+#cmakedefine HAVE_STRLCPY 1
+#cmakedefine HAVE_STRNCASECMP 1
+#cmakedefine HAVE_STRRCHR 1
+#cmakedefine HAVE_STRSTR 1
+#cmakedefine HAVE_STRTOL 1
+#cmakedefine HAVE_STRTOUL 1
+#cmakedefine HAVE_SYSCTLBYNAME 1
+#cmakedefine HAVE_SYSINFO 1
+#cmakedefine HAVE_UNAME 1
+#cmakedefine HAVE_WORDEXP 1
 
-#cmakedefine HAVE_FCNTL_H
-#cmakedefine HAVE_LANGINFO_H
-#cmakedefine HAVE_LIBINTL_H
-#cmakedefine HAVE_LIMITS_H
-#cmakedefine HAVE_LOCALE_H
-#cmakedefine HAVE_NETDB_H
-#cmakedefine HAVE_NETINET_IN_H
-#cmakedefine HAVE_STDDEF_H
-#cmakedefine HAVE_STDLIB_H
-#cmakedefine HAVE_STRING_H
-#cmakedefine HAVE_SYS_FILE_H
-#cmakedefine HAVE_SYS_IOCTL_H
-#cmakedefine HAVE_SYS_PARAM_H
-#cmakedefine HAVE_SYS_SOCKET_H
-#cmakedefine HAVE_SYS_TIME_H
-#cmakedefine HAVE_UNISTD_H
-#cmakedefine HAVE_WCHAR_H
-#cmakedefine HAVE_SCHED_H
-#cmakedefine HAVE_SYS_DKSTAT_H
-#cmakedefine HAVE_SYS_PARAM_H
-#cmakedefine HAVE_SYS_SYSCTL_H
-#cmakedefine HAVE_UVM_UVM_PARAM_H
-#cmakedefine HAVE_LIBGEN_H
-#cmakedefine HAVE_MACHINE_APMVAR_H
-#cmakedefine HAVE_MACHINE_APM_BIOS_H
-#cmakedefine HAVE_EXECINFO_H
-#cmakedefine HAVE_ASPRINTF
+#cmakedefine HAVE_FCNTL_H 1
+#cmakedefine HAVE_LANGINFO_H 1
+#cmakedefine HAVE_LIBINTL_H 1
+#cmakedefine HAVE_LIMITS_H 1
+#cmakedefine HAVE_LOCALE_H 1
+#cmakedefine HAVE_NETDB_H 1
+#cmakedefine HAVE_NETINET_IN_H 1
+#cmakedefine HAVE_STDDEF_H 1
+#cmakedefine HAVE_STDLIB_H 1
+#cmakedefine HAVE_STRING_H 1
+#cmakedefine HAVE_SYS_FILE_H 1
+#cmakedefine HAVE_SYS_IOCTL_H 1
+#cmakedefine HAVE_SYS_PARAM_H 1
+#cmakedefine HAVE_SYS_SOCKET_H 1
+#cmakedefine HAVE_SYS_TIME_H 1
+#cmakedefine HAVE_UNISTD_H 1
+#cmakedefine HAVE_WCHAR_H 1
+#cmakedefine HAVE_SCHED_H 1
+#cmakedefine HAVE_SYS_DKSTAT_H 1
+#cmakedefine HAVE_SYS_PARAM_H 1
+#cmakedefine HAVE_SYS_SYSCTL_H 1
+#cmakedefine HAVE_UVM_UVM_PARAM_H 1
+#cmakedefine HAVE_LIBGEN_H 1
+#cmakedefine HAVE_MACHINE_APMVAR_H 1
+#cmakedefine HAVE_MACHINE_APM_BIOS_H 1
+#cmakedefine HAVE_EXECINFO_H 1
 
 #define LIBDIR "@LIBDIR@"
 #define CFGDIR "@CFGDIR@"
@@ -97,62 +92,58 @@
 #define DATADIR "@DATADIR@"
 #define ICEHELPIDX "@ICEHELPIDX@"
 
-#cmakedefine NO_CONFIGURE_MENUES
-#cmakedefine CONFIG_XPM
-#cmakedefine CONFIG_IMLIB 
-#cmakedefine CONFIG_GDK_PIXBUF_XLIB
-#cmakedefine CONFIG_I18N
-#cmakedefine ENABLE_NLS
-#cmakedefine CONFIG_SESSION
-#cmakedefine CONFIG_SHAPE
-#cmakedefine CONFIG_SHAPED_DECORATION
+#cmakedefine NO_CONFIGURE_MENUES 1
+#cmakedefine CONFIG_XPM 1
+#cmakedefine CONFIG_IMLIB  1
+#cmakedefine CONFIG_GDK_PIXBUF_XLIB 1
+#cmakedefine CONFIG_I18N 1
+#cmakedefine ENABLE_NLS 1
+#cmakedefine CONFIG_SESSION 1
+#cmakedefine CONFIG_SHAPE 1
+#cmakedefine CONFIG_SHAPED_DECORATION 1
 
 #cmakedefine CONFIG_UNICODE_SET "@CONFIG_UNICODE_SET@"
 
-#cmakedefine HAVE_XINTERNATOMS
+#cmakedefine HAVE_XINTERNATOMS 1
 
 
-#cmakedefine CONFIG_ANTIALIASING
-#cmakedefine CONFIG_GRADIENTS
-#cmakedefine CONFIG_XRANDR
+#cmakedefine CONFIG_ANTIALIASING 1
+#cmakedefine CONFIG_GRADIENTS 1
+#cmakedefine CONFIG_XRANDR 1
 
 #cmakedefine CONFIG_XFREETYPE @CONFIG_XFREETYPE_VALUE@
 
-#cmakedefine CONFIG_COREFONTS
-#cmakedefine CONFIG_PDA
+#cmakedefine CONFIG_COREFONTS 1
+#cmakedefine CONFIG_PDA 1
 
-#cmakedefine CONFIG_GUIEVENTS
-#cmakedefine CONFIG_OSS
-#cmakedefine ENABLE_ALSA
-#cmakedefine ENABLE_YIFF
-#cmakedefine ENABLE_ESD
-#cmakedefine XINERAMA
-#cmakedefine CONFIG_FRIBIDI
+#cmakedefine CONFIG_GUIEVENTS 1
+#cmakedefine CONFIG_OSS 1
+#cmakedefine ENABLE_ALSA 1
+#cmakedefine ENABLE_YIFF 1
+#cmakedefine ENABLE_ESD 1
+#cmakedefine XINERAMA 1
+#cmakedefine CONFIG_FRIBIDI 1
 
-#cmakedefine NO_CONFIGURE
-#cmakedefine NO_KEYBIND
-#cmakedefine NO_CONFIGURE_MENUS
-#cmakedefine NO_WINDOW_OPTIONS
-#cmakedefine LITE
-#cmakedefine CONFIG_TOOLTIP
-#cmakedefine CONFIG_WINLIST
-#cmakedefine CONFIG_TASKBAR
-#cmakedefine CONFIG_APPLET_MEM_STATUS
-#cmakedefine CONFIG_ADDRESSBAR
-#cmakedefine CONFIG_TRAY
-#cmakedefine CONFIG_APPLET_MAILBOX
-#cmakedefine CONFIG_APPLET_CPU_STATUS
-#cmakedefine CONFIG_APPLET_NET_STATUS
-#cmakedefine CONFIG_APPLET_CLOCK
-#cmakedefine CONFIG_APPLET_APM
-#cmakedefine CONFIG_WINMENU
+#cmakedefine NO_CONFIGURE 1
+#cmakedefine NO_KEYBIND 1
+#cmakedefine NO_CONFIGURE_MENUS 1
+#cmakedefine NO_WINDOW_OPTIONS 1
+#cmakedefine LITE 1
+#cmakedefine CONFIG_TOOLTIP 1
+#cmakedefine CONFIG_WINLIST 1
+#cmakedefine CONFIG_TASKBAR 1
+#cmakedefine CONFIG_APPLET_MEM_STATUS 1
+#cmakedefine CONFIG_ADDRESSBAR 1
+#cmakedefine CONFIG_TRAY 1
+#cmakedefine CONFIG_APPLET_MAILBOX 1
+#cmakedefine CONFIG_APPLET_CPU_STATUS 1
+#cmakedefine CONFIG_APPLET_NET_STATUS 1
+#cmakedefine CONFIG_APPLET_CLOCK 1
+#cmakedefine CONFIG_APPLET_APM 1
+#cmakedefine CONFIG_WINMENU 1
 
-#cmakedefine WMSPEC_HINTS
-#cmakedefine GNOME1_HINTS
-#cmakedefine DEBUG
-
-
-#cmakedefine HAVE_WORDEXP
-
+#cmakedefine WMSPEC_HINTS 1
+#cmakedefine GNOME1_HINTS 1
+#cmakedefine DEBUG 1
 
 #endif // __CONFIG_H__
