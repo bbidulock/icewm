@@ -374,7 +374,7 @@ TARGET_LINK_LIBRARIES(icewm-menu-fdo${EXEEXT} ${gio_LDFLAGS} ${nls_LIBS} ${EXTRA
 INSTALL(TARGETS icewm-menu-fdo${EXEEXT} DESTINATION ${BINDIR})
 ENDIF()
 
-ADD_EXECUTABLE(icewm-session${EXEEXT} icesm.cc yapp.cc misc.cc mstring.cc upath.cc ytimer.cc yprefs.cc yarray.cc)
+ADD_EXECUTABLE(icewm-session${EXEEXT} icesm.cc yapp.cc misc.cc mstring.cc upath.cc ytimer.cc yprefs.cc yarray.cc ref.cc)
 SET_TARGET_PROPERTIES(icewm-session${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
 TARGET_LINK_LIBRARIES(icewm-session${EXEEXT} ${nls_LIBS} ${EXTRA_LIBS})
 
@@ -382,7 +382,7 @@ ADD_EXECUTABLE(icewmhint${EXEEXT} icewmhint.cc misc.cc)
 SET_TARGET_PROPERTIES(icewmhint${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
 TARGET_LINK_LIBRARIES(icewmhint${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 
-ADD_EXECUTABLE(icesh${EXEEXT} icesh.cc misc.cc mstring.cc)
+ADD_EXECUTABLE(icesh${EXEEXT} icesh.cc misc.cc mstring.cc ref.cc)
 SET_TARGET_PROPERTIES(icesh${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
 TARGET_LINK_LIBRARIES(icesh${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 
