@@ -2,8 +2,8 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([icewm],[1.4.1],[https://github.com/bbidulock/icewm/issues])
-AC_REVISION([1.4.1])
+AC_INIT([icewm],[1.4.2],[https://github.com/bbidulock/icewm/issues])
+AC_REVISION([1.4.2])
 AC_CONFIG_SRCDIR([src/ysmapp.cc])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
@@ -11,7 +11,7 @@ AC_CONFIG_AUX_DIR([scripts])
 AC_USE_SYSTEM_EXTENSIONS
 AC_CANONICAL_TARGET
 
-DATE='2017-07-27'
+DATE='2017-07-30'
 AC_SUBST([DATE])
 
 APPLICATIONS='icewm icewm-session icesh icewmhint icewmbg icewmtray'
@@ -37,13 +37,21 @@ AC_PROG_MKDIR_P
 AC_ARG_VAR([LD], [Linker loader command])
 
 AC_ARG_VAR([MKFONTDIR],[mkfontdir command. @<:@default=mkfontdir@:>@])
-AC_PATH_PROG([MKFONTDIR],[mkfontdir],[${am_missing_run}mkfontdir],[$PATH$PATH_SEPARATOR/usr/X11R6/bin])
-
-AC_ARG_VAR([ASCIIDOC],[asciidoc command. @<:@default=asciidoctor@:>@])
-AC_PATH_PROG([ASCIIDOC],[asciidoctor],[${am_missing_run}asciidoc],[$PATH])
+AC_CHECK_PROGS([MKFONTDIR],[mkfontdir],[${am_missing_run}mkfontdir],[$PATH$PATH_SEPARATOR/usr/X11R6/bin])
 
 AC_ARG_VAR([MARKDOWN],[markdown command. @<:@default=markdown@:>@])
-AC_PATH_PROG([MARKDOWN],[markdown],[${am_missing_run}markdown],[$PATH])
+AC_CHECK_PROGS([MARKDOWN],[markdown],[${am_missing_run}markdown],[$PATH])
+
+AC_ARG_VAR([ASCIIDOC],[asciidoc command. @<:@default=asciidoctor@:>@])
+AC_CHECK_PROGS([ASCIIDOC],[asciidoctor asciidoc],[${am_missing_run}asciidoctor],[$PATH])
+
+AC_ARG_VAR([ASCIIDOC_BACKEND],[asciidoc backend @<:@default=NONE@:>@])
+if test -z "$ASCIIDOC_BACKEND"; then
+	case "$ASCIIDOC" in
+		asciidoc) ASCIIDOC_BACKEND="--backend=html4" ;;
+		asciidoctor) ASCIIDOC_BACKEND="--backend=html5" ;;
+	esac
+fi
 
 LT_PATH_LD
 LT_PREREQ([2.4.2])

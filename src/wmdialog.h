@@ -30,6 +30,4 @@ private:
     IApp *app;
 };
 
-extern CtrlAltDelete *ctrlAltDelete; // !!! remove
-
 #endif

@@ -9,6 +9,20 @@
 #endif
 
 class YWindowManager;
+class AboutDlg;
+class CtrlAltDelete;
+class SwitchWindow;
+
+enum FocusModels {
+    FocusCustom,
+    FocusClick,
+    FocusSloppy,
+    FocusExplicit,
+    FocusStrict,
+    FocusQuiet,
+    FocusModelCount,
+    FocusModelLast = FocusModelCount - 1
+};
 
 class YSMListener {
 public:
@@ -51,7 +65,10 @@ public:
     virtual void smDie();
 #endif
 
+#ifndef NO_CONFIGURE
     void setFocusMode(int mode);
+#endif
+    void initFocusMode();
 
     virtual void restartClient(const char *path, char *const *args);
     virtual void runOnce(const char *resource, const char *path, char *const *args);
@@ -72,11 +89,21 @@ public:
 
 #ifndef LITE
     static ref<YIcon> getDefaultAppIcon();
+
+    bool hasCtrlAltDelete() const { return ctrlAltDelete != 0; }
+    CtrlAltDelete* getCtrlAltDelete();
 #endif
+    bool hasSwitchWindow() const { return switchWindow != 0; }
+    SwitchWindow* getSwitchWindow();
 
 private:
-    YWindowManager *fWindowManager;
+    char** mainArgv;
     YMsgBox *fLogoutMsgBox;
+    AboutDlg* aboutDlg;
+#ifndef LITE
+    CtrlAltDelete* ctrlAltDelete;
+#endif
+    SwitchWindow* switchWindow;
 
     void runRestart(const char *path, char *const *args);
 
@@ -92,9 +119,7 @@ private:
     static void initPixmaps();
 };
 
-#ifdef CONFIG_GUIEVENTS
 extern YWMApp * wmapp;
-#endif
 
 extern YMenu *windowMenu;
 extern YMenu *occupyMenu;
@@ -120,9 +145,10 @@ extern YMenu *logoutMenu;
 #ifndef NO_CONFIGURE_MENUS
 class ObjectMenu;
 extern ObjectMenu *rootMenu;
+
+class KProgram;
+extern YObjectArray<KProgram> keyProgs;
 #endif
-class CtrlAltDelete;
-extern CtrlAltDelete *ctrlAltDelete;
 extern int rebootOrShutdown;
 
 #endif

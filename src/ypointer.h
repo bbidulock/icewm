@@ -125,6 +125,7 @@ public:
     }
 
     void operator=(const osmart& some) { super::copy(some); }
+    void operator=(DataType *some) { super::data(some, odispose); }
 };
 
 // For arrays which were allocated with 'new[]'.
@@ -141,6 +142,7 @@ public:
         : super(copy) {}
 
     void operator=(const asmart& some) { super::copy(some); }
+    void operator=(DataType *some) { super::data(some, adispose); }
 
     void data(DataType *some, dispose_t disp = adispose) {
         super::data(some, disp);
@@ -161,6 +163,7 @@ public:
         : super(copy) {}
 
     void operator=(const csmart& some) { super::copy(some); }
+    void operator=(char *some) { super::data(some, adispose); }
 };
 
 // for malloc data
@@ -180,6 +183,7 @@ public:
     }
 
     void operator=(const fsmart& some) { super::copy(some); }
+    void operator=(DataType *some) { super::data(some, fdispose); }
 };
 
 #endif

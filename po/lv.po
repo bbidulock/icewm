@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-06-21 18:11-0600\n"
+"POT-Creation-Date: 2017-07-28 07:24-0600\n"
 "PO-Revision-Date: 2005-06-12 12:59+0300\n"
 "Last-Translator: Kristaps Kaupe <kristaps.kaupe@inbox.lv>\n"
 "Language-Team: \n"
@@ -1100,7 +1100,7 @@ msgstr "Pā_rstartēt icewm"
 msgid "_About"
 msgstr "P_ar"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3424
+#: src/wmframe.cc:165 src/wmframe.cc:3425
 msgid "Maximize"
 msgstr "Maksimizēt"
 
@@ -1112,7 +1112,7 @@ msgstr "Minimizēt"
 msgid "Hide"
 msgstr "Noslēpt"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3457
+#: src/wmframe.cc:209 src/wmframe.cc:3458
 msgid "Rollup"
 msgstr "Saritināt"
 
@@ -1132,11 +1132,11 @@ msgstr ""
 "UZMANĪBU! Visas nesaglabātās izmaiņas tiks zaudētas, kad\n"
 "šis klients tiks nogalināts. Vai jūs vēlaties turpināt?"
 
-#: src/wmframe.cc:3421
+#: src/wmframe.cc:3422
 msgid "Restore"
 msgstr "Atjaunot"
 
-#: src/wmframe.cc:3455
+#: src/wmframe.cc:3456
 msgid "Rolldown"
 msgstr "Atritināt"
 

@@ -9,7 +9,6 @@
 
 #ifndef LITE
 
-#include "ypixbuf.h"
 #include "ykey.h"
 #include "ylistbox.h"
 #include "yrect.h"

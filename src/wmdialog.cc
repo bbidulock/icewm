@@ -65,8 +65,6 @@ bool canShutdown(bool reboot) {
 
 static YColor *cadBg = 0;
 
-CtrlAltDelete *ctrlAltDelete = 0;
-
 CtrlAltDelete::CtrlAltDelete(IApp *app, YWindow *parent): YWindow(parent) {
     this->app = app;
     int w = 0, h = 0;
@@ -78,16 +76,14 @@ CtrlAltDelete::CtrlAltDelete(IApp *app, YWindow *parent): YWindow(parent) {
     setStyle(wsOverrideRedirect);
     setPointer(YXApplication::leftPointer);
     setToplevel(true);
+
+    /* Create the following buttons in an ordered sequence,
+     * such that tabbing through them is in reading order
+     * from left to right then top to bottom.
+     */
  
     b = lockButton = new YActionButton(this);
     b->setText(_("Loc_k Workstation"), -2);
-    if (b->width() > w) w = b->width();
-    if (b->height() > h) h = b->height();
-    b->setActionListener(this);
-    b->show();
-
-    b = logoutButton = new YActionButton(this);
-    b->setText(_("_Logout..."), -2);
     if (b->width() > w) w = b->width();
     if (b->height() > h) h = b->height();
     b->setActionListener(this);
@@ -100,8 +96,8 @@ CtrlAltDelete::CtrlAltDelete(IApp *app, YWindow *parent): YWindow(parent) {
     b->setActionListener(this);
     b->show();
 
-    b = restartButton = new YActionButton(this);
-    b->setText(_("_Restart icewm"), -2);
+    b = logoutButton = new YActionButton(this);
+    b->setText(_("_Logout..."), -2);
     if (b->width() > w) w = b->width();
     if (b->height() > h) h = b->height();
     b->setActionListener(this);
@@ -121,13 +117,6 @@ CtrlAltDelete::CtrlAltDelete(IApp *app, YWindow *parent): YWindow(parent) {
     b->setActionListener(this);
     b->show();
 
-    b = aboutButton = new YActionButton(this);
-    b->setText(_("_About"), -2);
-    if (b->width() > w) w = b->width();
-    if (b->height() > h) h = b->height();
-    b->setActionListener(this);
-    b->show();
-
     b = windowListButton = new YActionButton(this);
     b->setText(_("_Window list"), -2);
     if (b->width() > w) w = b->width();
@@ -135,6 +124,19 @@ CtrlAltDelete::CtrlAltDelete(IApp *app, YWindow *parent): YWindow(parent) {
     b->setActionListener(this);
     b->show();
 
+    b = restartButton = new YActionButton(this);
+    b->setText(_("_Restart icewm"), -2);
+    if (b->width() > w) w = b->width();
+    if (b->height() > h) h = b->height();
+    b->setActionListener(this);
+    b->show();
+
+    b = aboutButton = new YActionButton(this);
+    b->setText(_("_About"), -2);
+    if (b->width() > w) w = b->width();
+    if (b->height() > h) h = b->height();
+    b->setActionListener(this);
+    b->show();
 
     if (!canShutdown(true))
         rebootButton->setEnabled(false);
@@ -152,8 +154,8 @@ CtrlAltDelete::CtrlAltDelete(IApp *app, YWindow *parent): YWindow(parent) {
                 dy + (dh - height()) / 2);
 
     lockButton->setGeometry(YRect(HORZ, VERT, w, h));
-    logoutButton->setGeometry(YRect(HORZ, VERT + h + MIDV, w, h));
     cancelButton->setGeometry(YRect(HORZ + w + MIDH + w + MIDH, VERT, w, h));
+    logoutButton->setGeometry(YRect(HORZ, VERT + h + MIDV, w, h));
     rebootButton->setGeometry(YRect(HORZ + w + MIDH, VERT + h + MIDV, w, h));
     shutdownButton->setGeometry(YRect(HORZ + w + MIDH + w + MIDH, VERT + h + MIDV, w, h));
     windowListButton->setGeometry(YRect(HORZ, VERT + 2 * (h + MIDV), w, h));
@@ -163,13 +165,13 @@ CtrlAltDelete::CtrlAltDelete(IApp *app, YWindow *parent): YWindow(parent) {
 
 CtrlAltDelete::~CtrlAltDelete() {
     delete lockButton; lockButton = 0;
-    delete logoutButton; logoutButton = 0;
-    delete restartButton; restartButton = 0;
     delete cancelButton; cancelButton = 0;
+    delete logoutButton; logoutButton = 0;
     delete rebootButton; rebootButton = 0;
     delete shutdownButton; shutdownButton = 0;
-    delete aboutButton; aboutButton = 0;
     delete windowListButton; windowListButton = 0;
+    delete restartButton; restartButton = 0;
+    delete aboutButton; aboutButton = 0;
 }
 
 void CtrlAltDelete::paint(Graphics &g, const YRect &/*r*/) {

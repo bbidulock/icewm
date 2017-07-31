@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.7\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-06-21 18:11-0600\n"
+"POT-Creation-Date: 2017-07-28 07:24-0600\n"
 "PO-Revision-Date: 2001-03-25 17:00+GMT1\n"
 "Last-Translator: Vlatko Kosturjak <kost@iname.com>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
@@ -967,7 +967,7 @@ msgstr "_Ponovno pokreni icewm"
 msgid "_About"
 msgstr "_O programu"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3424
+#: src/wmframe.cc:165 src/wmframe.cc:3425
 msgid "Maximize"
 msgstr "Maksimiziraj"
 
@@ -979,7 +979,7 @@ msgstr "Minimiziraj"
 msgid "Hide"
 msgstr "Sakrij"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3457
+#: src/wmframe.cc:209 src/wmframe.cc:3458
 msgid "Rollup"
 msgstr "Zarolaj"
 
@@ -997,11 +997,11 @@ msgid ""
 "this client is killed. Do you wish to proceed?"
 msgstr ""
 
-#: src/wmframe.cc:3421
+#: src/wmframe.cc:3422
 msgid "Restore"
 msgstr "Povrati"
 
-#: src/wmframe.cc:3455
+#: src/wmframe.cc:3456
 msgid "Rolldown"
 msgstr "Odrolaj"
 

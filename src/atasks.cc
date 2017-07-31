@@ -3,7 +3,6 @@
 #ifdef CONFIG_TASKBAR
 
 #include "ylib.h"
-#include "ypixbuf.h"
 #include "atasks.h"
 #include "wmtaskbar.h"
 #include "yprefs.h"
@@ -23,7 +22,6 @@ static YColor *minimizedTaskBarAppFg = 0;
 static YColor *minimizedTaskBarAppBg = 0;
 static YColor *invisibleTaskBarAppFg = 0;
 static YColor *invisibleTaskBarAppBg = 0;
-static YColor *taskBarBg = 0;
 static ref<YFont> normalTaskBarFont;
 static ref<YFont> activeTaskBarFont;
 
@@ -50,7 +48,7 @@ TaskBarApp::TaskBarApp(ClientData *frame, TaskPane *taskPane, YWindow *aParent):
     fFlashing = false;
     fFlashOn = false;
     fFlashTimer = 0;
-    fFlashStart = 0;
+    fFlashStart = zerotime();
     setToolTip(frame->getTitle());
     //setDND(true);
 }
@@ -79,7 +77,7 @@ void TaskBarApp::setFlash(bool flashing) {
 
         if (fFlashing && focusRequestFlashInterval > 0) {
             fFlashOn = true;
-            fFlashStart = time(NULL);
+            fFlashStart = monotime();
             if (fFlashTimer == 0)
                 fFlashTimer = new YTimer(focusRequestFlashInterval);
             if (fFlashTimer) {
@@ -330,12 +328,12 @@ bool TaskBarApp::handleTimer(YTimer *t) {
     if (t == fFlashTimer) {
         if (!fFlashing) {
             fFlashOn = 0;
-            fFlashStart = 0;
+            fFlashStart = zerotime();
             return false;
         }
         fFlashOn = !fFlashOn;
-        if (focusRequestFlashTime != 0) {
-            if (time(NULL) - fFlashStart > focusRequestFlashTime)
+        if (focusRequestFlashTime > 0) {
+            if (fFlashStart + focusRequestFlashTime < monotime())
                 fFlashing = false;
         }
         repaint();
@@ -353,8 +351,6 @@ void TaskBarApp::handleBeginDrag(const XButtonEvent &down, const XMotionEvent &m
 
 TaskPane::TaskPane(IAppletContainer *taskBar, YWindow *parent): YWindow(parent) {
     fTaskBar = taskBar;
-    if (taskBarBg == 0)
-        taskBarBg = new YColor(clrDefaultTaskBar);
     fFirst = fLast = 0;
     fCount = 0;
     fNeedRelayout = true;
@@ -440,14 +436,10 @@ void TaskPane::relayoutNow() {
     int x, y, w, h;
     int tc = 0;
 
-    TaskBarApp *a = fFirst;
-
-    while (a) {
+    for (TaskBarApp *a = fFirst; a; a = a->getNext())
         if (a->getShown())
             tc++;
-        a = a->getNext();
-    }
-    if (tc < taskBarButtonWidthDivisor) tc = taskBarButtonWidthDivisor;
+    tc = max(tc, max(1, taskBarButtonWidthDivisor));
 
     int leftX = 0;
     int rightX = width();
@@ -486,7 +478,7 @@ void TaskPane::handleClick(const XButtonEvent &up, int count) {
 }
 
 void TaskPane::paint(Graphics &g, const YRect &/*r*/) {
-    g.setColor(taskBarBg);
+    g.setColor(getTaskBarBg());
     //g.draw3DRect(0, 0, width() - 1, height() - 1, true);
 
 #ifdef CONFIG_GRADIENTS

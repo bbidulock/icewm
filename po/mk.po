@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-06-21 18:11-0600\n"
+"POT-Creation-Date: 2017-07-28 07:24-0600\n"
 "PO-Revision-Date: 2006-01-26 23:29+0100\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team:  <mk@li.org>\n"
@@ -1118,7 +1118,7 @@ msgstr "_Рестартирај го icewm"
 msgid "_About"
 msgstr "З_а"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3424
+#: src/wmframe.cc:165 src/wmframe.cc:3425
 msgid "Maximize"
 msgstr "Рашири"
 
@@ -1130,7 +1130,7 @@ msgstr "Смали"
 msgid "Hide"
 msgstr "Скриј"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3457
+#: src/wmframe.cc:209 src/wmframe.cc:3458
 msgid "Rollup"
 msgstr "Свиткај нагоре"
 
@@ -1150,11 +1150,11 @@ msgstr ""
 "ВНИМАНИЕ! Сите неснимени промени ќе бидат изгубени кога\n"
 "овој клиент ќе биде прекинат. Дали сакате да продолжите?"
 
-#: src/wmframe.cc:3421
+#: src/wmframe.cc:3422
 msgid "Restore"
 msgstr "Обнови"
 
-#: src/wmframe.cc:3455
+#: src/wmframe.cc:3456
 msgid "Rolldown"
 msgstr "Свиткај надолу"
 

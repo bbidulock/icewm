@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-06-21 18:11-0600\n"
+"POT-Creation-Date: 2017-07-28 07:24-0600\n"
 "PO-Revision-Date: 2000-10-21 12:13+2000\n"
 "Last-Translator: Mathias Hasselmann <mathias.hasselmann@gmx.de>\n"
 "Language-Team: English\n"
@@ -961,7 +961,7 @@ msgstr ""
 msgid "_About"
 msgstr ""
 
-#: src/wmframe.cc:165 src/wmframe.cc:3424
+#: src/wmframe.cc:165 src/wmframe.cc:3425
 msgid "Maximize"
 msgstr ""
 
@@ -973,7 +973,7 @@ msgstr ""
 msgid "Hide"
 msgstr ""
 
-#: src/wmframe.cc:209 src/wmframe.cc:3457
+#: src/wmframe.cc:209 src/wmframe.cc:3458
 msgid "Rollup"
 msgstr ""
 
@@ -991,11 +991,11 @@ msgid ""
 "this client is killed. Do you wish to proceed?"
 msgstr ""
 
-#: src/wmframe.cc:3421
+#: src/wmframe.cc:3422
 msgid "Restore"
 msgstr ""
 
-#: src/wmframe.cc:3455
+#: src/wmframe.cc:3456
 msgid "Rolldown"
 msgstr ""
 

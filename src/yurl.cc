@@ -13,6 +13,7 @@
 #include "base.h"
 #include "intl.h"
 #include "binascii.h"
+#include "ypointer.h"
 
 #include <string.h>
 
@@ -88,7 +89,7 @@ void YURL::assign(ustring url, bool expectInetScheme) {
 
 ustring YURL::unescape(ustring str) {
     if (str != null) {
-        char *nstr = new char[str.length()];
+        csmart nstr(new char[str.length()]);
         if (nstr == 0)
             return null;
         char *d = nstr;
@@ -111,7 +112,6 @@ ustring YURL::unescape(ustring str) {
             *d++ = (char)c;
         }
         str = ustring(nstr, d - nstr);
-	delete [] nstr;
     }
     return str;
 }

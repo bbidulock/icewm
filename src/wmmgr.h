@@ -7,7 +7,7 @@
 #include "WinMgr.h"
 #include "ytimer.h"
 
-#define MAXWORKSPACES 64
+#define MAXWORKSPACES     20
 #define INVALID_WORKSPACE 0xFFFFFFFF
 
 extern long workspaceCount;
@@ -21,6 +21,46 @@ class YFrameClient;
 class YFrameWindow;
 class YSMListener;
 class IApp;
+
+/*
+ * X11 time state to support _NET_WM_USER_TIME.
+ * Keep track of the time in seconds when we receive a X11 time stamp.
+ * Only compare two X11 time stamps if they are in a time interval.
+ */
+class UserTime {
+private:
+    unsigned long xtime;
+    bool valid;
+    long since;
+    enum {
+        XTimeMask = 0xFFFFFFFFUL,
+        XTimeRange = 0x7FFFFFFFUL,
+        SInterval = 0x3FFFFFFFUL,
+    };
+public:
+    UserTime() : xtime(0), valid(false), since(0) { }
+    explicit UserTime(unsigned long xtime, bool valid = true) :
+        xtime(xtime & XTimeMask), valid(valid), since(seconds()) { }
+    unsigned long time() const { return xtime; }
+    bool good() const { return valid; }
+    long when() const { return since; }
+    bool update(unsigned long xtime, bool valid = true) {
+        UserTime u(xtime, valid);
+        return *this < u || xtime == 0 ? (*this = u, true) : false;
+    }
+    bool operator<(const UserTime& u) const {
+        if (since == 0 || u.since == 0) return u.since != 0;
+        if (valid == false || u.valid == false) return u.valid;
+        if (since < u.since && u.since - since > SInterval) return true;
+        if (since > u.since && since - u.since > SInterval) return false;
+        if (xtime < u.xtime) return u.xtime - xtime <= XTimeRange;
+        if (xtime > u.xtime) return xtime - u.xtime >  XTimeRange;
+        return false;
+    }
+    bool operator==(const UserTime& u) const {
+        return !(*this < u) && !(u < *this);
+    }
+};
 
 class EdgeSwitch: public YWindow, public YTimerListener {
 public:
@@ -143,7 +183,7 @@ public:
     bool focusTop(YFrameWindow *f);
     void relocateWindows(long workspace, int screen, int dx, int dy);
     void updateClientList();
-    void updateUserTime(Time time);
+    void updateUserTime(const UserTime& userTime);
 
     YMenu *createWindowMenu(YMenu *menu, long workspace);
     int windowCount(long workspace);
@@ -243,7 +283,7 @@ public:
 
     WMState wmState() const { return fWmState; }
     bool fullscreenEnabled() { return fFullscreenEnabled; }
-    Time lastUserTime() const { return fLastUserTime; }
+    const UserTime& lastUserTime() const { return fLastUserTime; }
 private:
     struct WindowPosState {
         int x, y, w, h;
@@ -285,7 +325,7 @@ private:
     bool fFullscreenEnabled;
 
     WMState fWmState;
-    Time fLastUserTime;
+    UserTime fLastUserTime;
     bool fShowingDesktop;
 };
 

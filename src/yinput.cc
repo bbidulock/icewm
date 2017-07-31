@@ -78,6 +78,19 @@ YInputLine::~YInputLine() {
             cursorBlinkTimer->setTimerListener(0);
         }
     }
+    if (inputMenu) {
+        delete actionCut;
+        delete actionCopy;
+        delete actionPaste;
+        delete actionPasteSelection;
+        delete actionSelectAll;
+        delete inputMenu;
+    }
+    delete inputSelectionFg;
+    delete inputSelectionBg;
+    delete inputFg;
+    delete inputBg;
+    inputFont = null;
 }
 
 void YInputLine::setText(const ustring &text) {

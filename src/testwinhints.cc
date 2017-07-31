@@ -201,7 +201,7 @@ int main(/*int argc, char **argv*/) {
                 int r_format;
                 unsigned long count;
                 unsigned long bytes_remain;
-                unsigned char *prop;
+                unsigned char *prop(0);
 
                 if (property.window == root) {
                     if (property.atom == _XA_WIN_WORKSPACE) {

@@ -1,7 +1,44 @@
 #ifndef __YTIMER_H
 #define __YTIMER_H
 
-#include <X11/Xos.h>
+#include <sys/time.h>
+
+timeval walltime();
+timeval monotime();
+timeval zerotime();
+timeval millitime(long msec);
+timeval maketime(long sec, long usec);
+long seconds();
+
+inline bool operator<(const timeval& a, const timeval& b) {
+    return a.tv_sec != b.tv_sec ?
+           a.tv_sec  < b.tv_sec :
+           a.tv_usec < b.tv_usec;
+}
+
+inline bool operator==(const timeval& a, const timeval& b) {
+    return a.tv_sec == b.tv_sec && a.tv_usec == b.tv_usec;
+}
+
+inline timeval operator+(const timeval& a, const timeval& b) {
+    return maketime( a.tv_sec + b.tv_sec, a.tv_usec + b.tv_usec );
+}
+
+inline timeval operator+(const timeval& a, long sec) {
+    return maketime( a.tv_sec + sec, a.tv_usec );
+}
+
+inline timeval operator-(const timeval& a, const timeval& b) {
+    return maketime( a.tv_sec - b.tv_sec, a.tv_usec - b.tv_usec );
+}
+
+inline timeval& operator+=(timeval& a, const timeval& b) {
+    return a = a + b;
+}
+
+inline double toDouble(const timeval& t) {
+    return (double) t.tv_sec + 1e-6 * t.tv_usec;
+}
 
 class YTimer;
 
@@ -14,14 +51,13 @@ protected:
 
 class YTimer {
 public:
-    YTimer();
-    YTimer(long ms);
+    YTimer(long ms = 0L);
     ~YTimer();
 
     void setTimerListener(YTimerListener *listener) { fListener = listener; }
     YTimerListener *getTimerListener() const { return fListener; }
     
-    void setInterval(long ms) { fInterval = ms; }
+    void setInterval(long ms);
     long getInterval() const { return fInterval; }
 
     void setFixed();
@@ -31,15 +67,16 @@ public:
     void stopTimer();
     void runTimer(); // run timer handler immediately
     bool isRunning() const { return fRunning; }
-    bool isFixed() const { return (!memcmp(&timeout_min, &timeout_max, sizeof(timeout_min))); }
+    bool isFixed() const;
 
 private:
+    void enlist(bool enable);
+    void fuzzTimer();
+
     YTimerListener *fListener;
     long fInterval;
     bool fRunning;
     bool fFixed;
-    YTimer *fPrev;
-    YTimer *fNext;
 
     struct timeval timeout_min, timeout, timeout_max;
 

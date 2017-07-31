@@ -13,6 +13,8 @@
 #include "yapp.h"
 #include "yprefs.h"
 #include "intl.h"
+#include <unistd.h>
+#include <fcntl.h>
 
 
 void YResourcePaths::addDir(const upath& dir) {
@@ -80,11 +82,9 @@ ref<YResourcePaths> YResourcePaths::subdirs(upath subdir, bool themeOnly) {
 }
 
 void YResourcePaths::verifyPaths(upath base) {
-    for (int i = getCount(); --i >= 0; ) {
-        upath path = getPath(i) + base;
-
-        if (!path.isReadable()) {
-            fPaths.remove(i);
+    for (IterType iter = reverseIterator(); ++iter; ) {
+        if (iter->relative(base).isExecutable() == false) {
+            iter.remove();
         }
     }
 }

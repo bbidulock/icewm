@@ -14,12 +14,15 @@
 //than 3 batteries
 #define MAX_ACPI_BATTERY_NUM 3
 
-typedef struct {
+struct Battery {
   //(file)name of battery
-  int present;
   char *name;
+  bool present;
   int capacity_full;
-} bat_info;
+  Battery(const char* batName) : name(newstr(batName)),
+	  present(false), capacity_full(-1) { }
+  ~Battery() { delete[] name; name = 0; }
+};
 
 
 class YApm: public YWindow, public YTimerListener {
@@ -30,7 +33,7 @@ public:
 
     virtual void paint(Graphics &g, const YRect &r);
 
-    void updateToolTip();
+    virtual void updateToolTip();
     virtual bool handleTimer(YTimer *t);
     inline bool hasBatteries() { return batteryNum; }
 
@@ -45,33 +48,30 @@ private:
     void SysStr(char *s, bool Tool);
     void PmuStr(char *, const bool);
     void ApmStr(char *s, bool Tool);
-    int ignore_directory_bat_entry(struct dirent *de);
-    int ignore_directory_ac_entry(struct dirent *de);
+    bool ignore_directory_bat_entry(const char* name);
+    bool ignore_directory_ac_entry(const char* name);
 
-    static YColor *apmBg;
-    static YColor *apmFg;
-    static ref<YFont> apmFont;
+    YColor *apmBg;
+    YColor *apmFg;
+    ref<YFont> apmFont;
 
-    static YColor *apmColorOnLine;
-    static YColor *apmColorBattery;
-    static YColor *apmColorGraphBg;
+    YColor *apmColorOnLine;
+    YColor *apmColorBattery;
+    YColor *apmColorGraphBg;
 
     // display mode: pmu, acpi or apm info
     enum { APM, ACPI, PMU, SYSFS } mode;
     //number of batteries (for apm == 1)
     int batteryNum;
-    //names of batteries to ignore. e.g.
-    //the laptop has two slots but the
-    //user has only one battery
-    static char *acpiIgnoreBatteryNames;
+
     //list of batteries (static info)
-    bat_info *acpiBatteries[MAX_ACPI_BATTERY_NUM];
+    Battery *acpiBatteries[MAX_ACPI_BATTERY_NUM];
     //(file)name of ac adapter
     char *acpiACName;
     char *fCurrentState;
 
     // On line status and charge persent
-    int      acIsOnLine;
+    bool     acIsOnLine;
     double   chargeStatus;
 
     void updateState();

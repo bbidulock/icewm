@@ -8,7 +8,6 @@
 #include "yxapp.h"
 #include "yaction.h"
 #include "wmmgr.h"
-#include "ypixbuf.h"
 #include "yrect.h"
 #include "sysdep.h"
 #include "ylocale.h"

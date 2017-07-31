@@ -60,6 +60,8 @@ public:
         if (pixmapRef != 0) *pixmapRef = null;
         if (imageRef != 0) *imageRef = null;
     }
+    const char* name() const { return filename; }
+    const char* altn() const { return alternative; }
 
 private:
 
@@ -247,8 +249,8 @@ static const PixmapResource themePixRes[] = {
 };
 
 static const PixmapResource taskbarPixRes[] = {
-    PixmapResource(buttonIPixmap, "taskbuttonbg.xpm"),
-    PixmapResource(buttonAPixmap, "taskbuttonactive.xpm"),
+    PixmapResource(buttonIPixmap, "buttonI.xpm", "taskbuttonbg.xpm"),
+    PixmapResource(buttonAPixmap, "buttonA.xpm", "taskbuttonactive.xpm"),
 
 #ifdef CONFIG_TASKBAR
 #ifdef CONFIG_GRADIENTS
@@ -452,8 +454,40 @@ static void replicatePixmaps() {
         buttonAPixmap->replicate(true, false);
 }
 
+static void copyPixmaps() {
+#ifndef LITE
+    if (TEST_GRADIENT(listbackPixbuf == null) && listbackPixmap == null)
+        listbackPixmap = menubackPixmap;
+#endif
+    if (TEST_GRADIENT(dialogbackPixbuf == null) && dialogbackPixmap == null)
+        dialogbackPixmap = menubackPixmap;
+#ifdef CONFIG_TASKBAR
+    if (TEST_GRADIENT(toolbuttonPixbuf == null) && toolbuttonPixmap == null)
+    {
+        IF_CONFIG_GRADIENTS (buttonIPixbuf != null,
+                             toolbuttonPixbuf = buttonIPixbuf)
+        else toolbuttonPixmap = buttonIPixmap;
+    }
+    if (TEST_GRADIENT(workspacebuttonPixbuf == null) &&
+        workspacebuttonPixmap == null)
+    {
+        IF_CONFIG_GRADIENTS (buttonIPixbuf != null,
+                             workspacebuttonPixbuf = buttonIPixbuf)
+        else workspacebuttonPixmap = buttonIPixmap;
+    }
+    if (TEST_GRADIENT(workspacebuttonactivePixbuf == null) &&
+        workspacebuttonactivePixmap == null)
+    {
+        IF_CONFIG_GRADIENTS (buttonAPixbuf != null,
+                             workspacebuttonactivePixbuf = buttonAPixbuf)
+        else workspacebuttonactivePixmap = buttonAPixmap;
+    }
+#endif
+}
+
 void WPixRes::initPixmaps() {
     loadPixmapResources();
+    copyPixmaps();
     replicatePixmaps();
 }
 

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.7\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-06-21 18:11-0600\n"
+"POT-Creation-Date: 2017-07-28 07:24-0600\n"
 "PO-Revision-Date: 2003-04-14 21:23+0200\n"
 "Last-Translator: Gabor Suveg <gabor@suveg.hu>\n"
 "Language-Team:  <hu@li.org>\n"
@@ -1138,7 +1138,7 @@ msgid "_About"
 msgstr "N_évjegy"
 
 # ../src/wmframe.cc:105 ../src/wmframe.cc:515 ../src/wmframe.cc:2182
-#: src/wmframe.cc:165 src/wmframe.cc:3424
+#: src/wmframe.cc:165 src/wmframe.cc:3425
 msgid "Maximize"
 msgstr "Maximalizálás"
 
@@ -1153,7 +1153,7 @@ msgid "Hide"
 msgstr "Elrejtés"
 
 # ../src/wmframe.cc:149 ../src/wmframe.cc:2214
-#: src/wmframe.cc:209 src/wmframe.cc:3457
+#: src/wmframe.cc:209 src/wmframe.cc:3458
 msgid "Rollup"
 msgstr "Felgörgetés"
 
@@ -1179,12 +1179,12 @@ msgstr ""
 "Biztosan ezt akarod?"
 
 # ../src/wmframe.cc:2179
-#: src/wmframe.cc:3421
+#: src/wmframe.cc:3422
 msgid "Restore"
 msgstr "Visszaállítás"
 
 # ../src/wmframe.cc:2212
-#: src/wmframe.cc:3455
+#: src/wmframe.cc:3456
 msgid "Rolldown"
 msgstr "Legörget"
 

@@ -5,7 +5,6 @@
  */
 #include "config.h"
 #include "ylib.h"
-#include "ypixbuf.h"
 #include "wmtitle.h"
 
 #include "wmframe.h"
@@ -398,9 +397,6 @@ void YFrameTitleBar::renderShape(Pixmap shape) {
 
         ustring title = getFrame()->getTitle();
         int tlen = title != null ? titleFont->textWidth(title) : 0;
-        int stringOffset(onLeft + (onRight - onLeft - tlen)
-                         * (int) titleBarJustify / 100);
-
         int const pi(getFrame()->focused() ? 1 : 0);
 
         if (titleL[pi] != null) {
@@ -417,8 +413,8 @@ void YFrameTitleBar::renderShape(Pixmap shape) {
             lRight(onRight - (titleM[pi] != null ? (int)titleM[pi]->width() : 0));
 
         tlen = clamp(lRight - lLeft, 0, tlen);
-        stringOffset = lLeft + (lRight - lLeft - tlen)
-            * (int) titleBarJustify / 100;
+        int stringOffset = lLeft + (lRight - lLeft - tlen)
+                                 * (int) titleBarJustify / 100;
 
         lLeft = stringOffset;
         lRight = stringOffset + tlen;

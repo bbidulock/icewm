@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Icewm 1.2.0-beta1\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-06-21 18:11-0600\n"
+"POT-Creation-Date: 2017-07-28 07:24-0600\n"
 "PO-Revision-Date: 2016-11-04 09:31+0000\n"
 "Last-Translator: Joakim Ganse <joakim.ganse@b-iq.se>\n"
 "Language-Team: Swedish <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -1091,7 +1091,7 @@ msgstr "_Starta om icewm"
 msgid "_About"
 msgstr "_Om"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3424
+#: src/wmframe.cc:165 src/wmframe.cc:3425
 msgid "Maximize"
 msgstr "Maximera"
 
@@ -1103,7 +1103,7 @@ msgstr "Minimera"
 msgid "Hide"
 msgstr "Göm"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3457
+#: src/wmframe.cc:209 src/wmframe.cc:3458
 msgid "Rollup"
 msgstr "Rulla ihop"
 
@@ -1124,11 +1124,11 @@ msgstr ""
 "att gå förlorade när den här klienten dödas.\n"
 "Vill du fortsätta?"
 
-#: src/wmframe.cc:3421
+#: src/wmframe.cc:3422
 msgid "Restore"
 msgstr "Återställ"
 
-#: src/wmframe.cc:3455
+#: src/wmframe.cc:3456
 msgid "Rolldown"
 msgstr "Rulla ut"
 

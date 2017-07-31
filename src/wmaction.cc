@@ -53,7 +53,10 @@ YAction *actionRun(0);
 YAction *actionExit(0);
 
 YAction *actionFocusClickToFocus(0);
+YAction *actionFocusExplicit(0);
 YAction *actionFocusMouseSloppy(0);
+YAction *actionFocusMouseStrict(0);
+YAction *actionFocusQuietSloppy(0);
 YAction *actionFocusCustom(0);
 
 void initActions() {
@@ -106,7 +109,66 @@ void initActions() {
     actionExit = new YAction();
 
     actionFocusClickToFocus = new YAction();
+    actionFocusExplicit = new YAction();
     actionFocusMouseSloppy = new YAction();
+    actionFocusMouseStrict = new YAction();
+    actionFocusQuietSloppy = new YAction();
     actionFocusCustom = new YAction();
 }
 
+void freeActions() {
+    delete actionCascade; actionCascade = 0;
+    delete actionArrange; actionArrange = 0;
+    delete actionTileVertical; actionTileVertical = 0;
+    delete actionTileHorizontal; actionTileHorizontal = 0;
+    delete actionUndoArrange; actionUndoArrange = 0;
+    delete actionArrangeIcons; actionArrangeIcons = 0;
+    delete actionMinimizeAll; actionMinimizeAll = 0;
+    delete actionHideAll; actionHideAll = 0;
+    delete actionShowDesktop; actionShowDesktop = 0;
+#ifndef CONFIG_PDA
+    delete actionHide; actionHide = 0;
+#endif
+    delete actionShow; actionShow = 0;
+    delete actionRaise; actionRaise = 0;
+    delete actionLower; actionLower = 0;
+    delete actionDepth; actionDepth = 0;
+    delete actionMove; actionMove = 0;
+    delete actionSize; actionSize = 0;
+    delete actionMaximize; actionMaximize = 0;
+    delete actionMaximizeVert; actionMaximizeVert = 0;
+    delete actionMinimize; actionMinimize = 0;
+    delete actionRestore; actionRestore = 0;
+    delete actionRollup; actionRollup = 0;
+    delete actionClose; actionClose = 0;
+    delete actionKill; actionKill = 0;
+    delete actionOccupyAllOrCurrent; actionOccupyAllOrCurrent = 0;
+#if DO_NOT_COVER_OLD
+    delete actionDoNotCover; actionDoNotCover = 0;
+#endif
+    delete actionFullscreen; actionFullscreen = 0;
+    delete actionToggleTray; actionToggleTray = 0;
+    delete actionWindowList; actionWindowList = 0;
+    delete actionLogout; actionLogout = 0;
+    delete actionCancelLogout; actionCancelLogout = 0;
+    delete actionLock; actionLock = 0;
+    delete actionReboot; actionReboot = 0;
+    delete actionRestart; actionRestart = 0;
+    delete actionShutdown; actionShutdown = 0;
+    delete actionRefresh; actionRefresh = 0;
+    delete actionCollapseTaskbar; actionCollapseTaskbar = 0;
+#ifndef LITE
+    delete actionAbout; actionAbout = 0;
+    delete actionHelp; actionHelp = 0;
+    delete actionLicense; actionLicense = 0;
+#endif
+    delete actionRun; actionRun = 0;
+    delete actionExit; actionExit = 0;
+
+    delete actionFocusClickToFocus; actionFocusClickToFocus = 0;
+    delete actionFocusExplicit; actionFocusExplicit = 0;
+    delete actionFocusMouseSloppy; actionFocusMouseSloppy = 0;
+    delete actionFocusMouseStrict; actionFocusMouseStrict = 0;
+    delete actionFocusQuietSloppy; actionFocusQuietSloppy = 0;
+    delete actionFocusCustom; actionFocusCustom = 0;
+}

@@ -1,11 +1,47 @@
-icewm -- history of user-visible changes.  2017-07-24
 
-Release icewm-1.4.1 released 2017-07-27
--------------------------------------------
+Release icewm-1.4.2 released 2017-07-30
+---------------------------------------
 
-git shortlog -e -n -w80,6,8 1.4.0...HEAD
+git shortlog -e -n -w80,6,8 1.4.1...HEAD
 
-Bert Gijsbers <gijsbers@science.uva.nl> (4):
+Brian Bidulock <bidulock@openss7.org> (10):
+      Merge remote-tracking branch 'origin/icewm-1-3-BRANCH' into
+        icewm-1-4-BRANCH
+      update po files
+      update AUTHORS file
+      generate more news
+      update NEWS file
+      icewm-1-4-BRANCH is now the default
+      partially address issue #146
+      better fix for issue #146
+      final tweak for #146
+      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
+        icewm-1-4-BRANCH
+
+Bert Gijsbers <gijsbers@science.uva.nl> (5):
+      Omit -b in git checkout icewm-1-4-BRANCH.
+      Specify output with -o icewm.html.
+      Update ChangeLog to 1.4.1 and remove all changes for the 1.3.12 release
+        and older.
+      New function copyPixmaps adds more defaults for missing pixmaps. When some
+        pixmaps are missing then they are copied from others. This restores
+        backward compatibility in issue #144.
+      Always show icon in the top left corner of a window in issue #144.
+
+Brian Bidulock <bidulock@openss7.com> (1):
+      Merge pull request #150 from
+        Code7R/feature/increase_theme_menu_collapsing_threshold
+
+Eduard Bloch <blade@debian.org> (1):
+      Increased the trigger value for the theme menu nesting algorithm
+
+
+Release icewm-1.4.1 released 2017-07-28
+---------------------------------------
+
+git shortlog -e -n -w80,6,8 1.4.0...1.4.1
+
+Bert Gijsbers <gijsbers@science.uva.nl> (5):
       Before calling setNetFrameExtents check if client() is non-null. This
         prevents a SEGV crash which occasionally occurs when closing all
         windows.
@@ -13,17 +49,18 @@ Bert Gijsbers <gijsbers@science.uva.nl> (4):
         This fixes issue #144.
       Omit -b in git checkout icewm-1-4-BRANCH.
       Update to version 1.4.0.
+      Prepare for 1.4.1 release.
 
 Aleš Kastner <alkas@volny.cz> (1):
       Translated using Weblate (Czech)
 
 
 Release icewm-1.4.0 released 2017-07-24
--------------------------------------------
+---------------------------------------
 
 git shortlog -e -n -w80,6,8 1.3.12...1.4.0
 
-Bert Gijsbers <gijsbers@science.uva.nl> (155):
+Bert Gijsbers <gijsbers@science.uva.nl> (161):
       Fix for 'msgstr' not being a valid C format string, unlike 'msgid'.
       Fix for /proc/stat not being opened with FD_CLOEXEC flag. This would cause
         IceWM to generate warnings whenever it fork+execs a child program.
@@ -114,7 +151,7 @@ Bert Gijsbers <gijsbers@science.uva.nl> (155):
         may not be defined even though __linux__ is. For instance with g++
         -std=c++98.
       +4 convenience methods.
-      Stricter parsing of winoptions. One of two loadMenus made obsolete. 
+      Stricter parsing of winoptions. One of two loadMenus made obsolete.
         Rewrote loadMenusProg.
       stricter parsing of whitespace in winoptions. Fix a delete[]. Fix a leak
         for icon. Simplify loadWinOptions.
@@ -144,16 +181,19 @@ Bert Gijsbers <gijsbers@science.uva.nl> (155):
         YWindowManager::execAfterFork.
       Fix int format string errors for calls to warn(...) for long arguments.
       Consistently use ACOUNT where appropriate.
-      Restore support for const copy operations using an ownership flag. 
+      Restore support for const copy operations using an ownership flag.
         Improve efficiency by avoiding virtual tables. Prevent inadvertent
         exchange of pointers between different allocation mechanisms
         (free/delete/[]). Tested OK sofar.
       Consistently use ACOUNT where appropriate.
       print_preferences print_options
       Add 3 options to icewm: "  --configured        Print the compile time
-        configuration.\n" "  --directories       Print the configuration
-        directories.\n" "  --postpreferences   Print preferences after all
-        processing.\n"
+        configuration.
+" "  --directories       Print the configuration
+        directories.
+" "  --postpreferences   Print preferences after all
+        processing.
+"
       Silence annoying startup messages about using private configuration files.
       Update, small changes.
       If left hand side of upath.relative() is empty then return right hand side
@@ -227,7 +267,7 @@ Bert Gijsbers <gijsbers@science.uva.nl> (155):
         not deleted before return from parseMenus().
       Better support theme names which don't have a slash or a .theme
         extensions.
-      getResourcePaths was called with a null argument instead of "workspace". 
+      getResourcePaths was called with a null argument instead of "workspace".
         This results in many more file lookups. Use "workspace" when calling
         getResourcePaths for a small speedup.
       Complete redesign which avoids virtual or refcounts, but supports
@@ -278,6 +318,13 @@ Bert Gijsbers <gijsbers@science.uva.nl> (155):
       Document icewm signals.
       Enforce 32-bit unsigned comparison of X11 time stamps in updateUserTime.
         This improves availability of focused windows in issue #37.
+      Update bug report location to Github.
+      Update ChangeLog for 1.4.0 release.
+      Update NEWS for 1.4.0 release.
+      Update README.md for 1.4.0 release.
+      Add missing PACKAGE_BUGREPORT define. Change empty PACKAGE_URL into
+        website URL.
+      Changes to print_configured to make it compile under CMake.
 
 Brian Bidulock <bidulock@openss7.org> (69):
       missing jpg slipped in
@@ -526,20 +573,20 @@ Oleg Ivanov <Leo-sp150@yandex.ru> (7):
       Merge branch 'icewm-1-3-BRANCH' of https://github.com/150balbes/icewm into
         icewm-1-3-BRANCH
       del icewm-session, edit src, add icons
-      Changes to be committed: 	modified:   NEWS 	modified:   README.md 
+      Changes to be committed: 	modified:   NEWS 	modified:   README.md
         modified:   VERSION 	modified:   autogen.sh 	modified:   configure.ac
-        	modified:   po/be.po 	modified:   po/bg.po 	modified:  
-        po/ca.po 	modified:   po/cs.po 	modified:   po/da.po 
-        modified:   po/de.po 	modified:   po/el.po 	modified:   po/en.po 
-        modified:   po/es.po 	modified:   po/fi.po 	modified:   po/fr.po 
-        modified:   po/hr.po 	modified:   po/hu.po 	modified:   po/id.po 
-        modified:   po/it.po 	modified:   po/ja.po 	modified:   po/ko.po 
-        modified:   po/lt.po 	modified:   po/lv.po 	modified:   po/mk.po 
-        modified:   po/nb.po 	modified:   po/nl.po 	modified:   po/no.po 
-        modified:   po/pl.po 	modified:   po/pt_BR.po 	modified:  
-        po/ro.po 	modified:   po/ru.po 	modified:   po/sk.po 
-        modified:   po/sl.po 	modified:   po/sv.po 	modified:   po/tr.po 
-        modified:   po/uk.po 	modified:   po/vi.po 	modified:   po/zh_CN.po 
+        	modified:   po/be.po 	modified:   po/bg.po 	modified:
+        po/ca.po 	modified:   po/cs.po 	modified:   po/da.po
+        modified:   po/de.po 	modified:   po/el.po 	modified:   po/en.po
+        modified:   po/es.po 	modified:   po/fi.po 	modified:   po/fr.po
+        modified:   po/hr.po 	modified:   po/hu.po 	modified:   po/id.po
+        modified:   po/it.po 	modified:   po/ja.po 	modified:   po/ko.po
+        modified:   po/lt.po 	modified:   po/lv.po 	modified:   po/mk.po
+        modified:   po/nb.po 	modified:   po/nl.po 	modified:   po/no.po
+        modified:   po/pl.po 	modified:   po/pt_BR.po 	modified:
+        po/ro.po 	modified:   po/ru.po 	modified:   po/sk.po
+        modified:   po/sl.po 	modified:   po/sv.po 	modified:   po/tr.po
+        modified:   po/uk.po 	modified:   po/vi.po 	modified:   po/zh_CN.po
         modified:   po/zh_TW.po
       merge
       add support for applets MEMO in themes Infadel2 icedesert
@@ -2069,7 +2116,7 @@ captnmark <> (1078):
       battery status cleanups + configurable polling period
       1.2.30
       remove obsolete code
-      core updates: 	- latency tracing 	- worker process handling 
+      core updates: 	- latency tracing 	- worker process handling
         - reference counting 	- io event loop cleanup
       prepare for 1.3.0
       default configure arguments removed
@@ -2949,7 +2996,7 @@ captnmark <captnmark> (841):
       file yimage_gdk.cc was added on branch icewm-1-3-BRANCH on 2007-01-21
         14:53:20 +0000
       remove obsolete code
-      core updates: 	- latency tracing 	- worker process handling 
+      core updates: 	- latency tracing 	- worker process handling
         - reference counting 	- io event loop cleanup
       prepare for 1.3.0
       default configure arguments removed
@@ -3802,9 +3849,9 @@ DeltaResero <deltaresero@zoho.com> (14):
       Remove PKG_INSTALLDIR
 
 speedblue <> (12):
-      * delete all bit shift (<< and >>) and replace them by number or by    
+      * delete all bit shift (<< and >>) and replace them by number or by
         function when it is necessary   * add src/bits.h for prototype
-        left_shift and right_shift   * add left_shift and right_shift functions 
+        left_shift and right_shift   * add left_shift and right_shift functions
            left_shift(i, j) <-> i << j     right_shift(i, j) <-> i >> j
       add new entry (delete << and >>)
       * remove bit shift patch - This seem to work on big endian computer.
@@ -3819,9 +3866,9 @@ speedblue <> (12):
       * fix for windows interval does not work well
 
 speedblue <speedblue> (12):
-      * delete all bit shift (<< and >>) and replace them by number or by    
+      * delete all bit shift (<< and >>) and replace them by number or by
         function when it is necessary   * add src/bits.h for prototype
-        left_shift and right_shift   * add left_shift and right_shift functions 
+        left_shift and right_shift   * add left_shift and right_shift functions
            left_shift(i, j) <-> i << j     right_shift(i, j) <-> i >> j
       add new entry (delete << and >>)
       * remove bit shift patch - This seem to work on big endian computer.

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.3.12.170\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-06-21 18:11-0600\n"
+"POT-Creation-Date: 2017-07-28 07:24-0600\n"
 "PO-Revision-Date: 2017-06-08 18:38+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -1128,7 +1128,7 @@ msgstr "Gensta_rt icewm"
 msgid "_About"
 msgstr "O_m"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3424
+#: src/wmframe.cc:165 src/wmframe.cc:3425
 msgid "Maximize"
 msgstr "Maksimer"
 
@@ -1140,7 +1140,7 @@ msgstr "Minimer"
 msgid "Hide"
 msgstr "Skjul"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3457
+#: src/wmframe.cc:209 src/wmframe.cc:3458
 msgid "Rollup"
 msgstr "Rul op"
 
@@ -1160,11 +1160,11 @@ msgstr ""
 "ADVARSEL! Alle ændringer som ikke er gemt vil gå tabt når\n"
 "denne klient dræbes. Vil du fortsætte?"
 
-#: src/wmframe.cc:3421
+#: src/wmframe.cc:3422
 msgid "Restore"
 msgstr "Gendan"
 
-#: src/wmframe.cc:3455
+#: src/wmframe.cc:3456
 msgid "Rolldown"
 msgstr "Rul ned"
 

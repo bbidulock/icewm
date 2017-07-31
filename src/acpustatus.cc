@@ -94,7 +94,7 @@ CPUStatus::CPUStatus(YSMListener *smActionListener, YWindow *aParent, int cpuid)
     color[IWM_IDLE] = *clrCpuIdle
         ? new YColor(clrCpuIdle) : NULL;
     color[IWM_STEAL] = new YColor(clrCpuSteal);
-    setSize(taskBarCPUSamples, 20);
+    setSize(taskBarCPUSamples, taskBarGraphHeight);
     ShowRamUsage = cpustatusShowRamUsage;
     ShowSwapUsage = cpustatusShowSwapUsage;
     ShowAcpiTemp = cpustatusShowAcpiTemp;
@@ -107,9 +107,9 @@ CPUStatus::CPUStatus(YSMListener *smActionListener, YWindow *aParent, int cpuid)
 
 CPUStatus::~CPUStatus() {
     for (int a(0); a < taskBarCPUSamples; a++) {
-        delete cpu[a]; cpu[a] = 0;
+        delete[] cpu[a]; cpu[a] = 0;
     }
-    delete cpu; cpu = 0;
+    delete[] cpu; cpu = 0;
     delete color[IWM_USER]; color[IWM_USER] = 0;
     delete color[IWM_NICE]; color[IWM_NICE] = 0;
     delete color[IWM_SYS];  color[IWM_SYS]  = 0;
@@ -118,7 +118,8 @@ CPUStatus::~CPUStatus() {
     delete color[IWM_IOWAIT]; color[IWM_IOWAIT] = 0;
     delete color[IWM_SOFTIRQ]; color[IWM_SOFTIRQ] = 0;
     delete color[IWM_STEAL]; color[IWM_STEAL] = 0;
-    delete tempColor;
+    delete tempColor; tempColor = 0;
+    delete fUpdateTimer; fUpdateTimer = 0;
 }
 
 void CPUStatus::paint(Graphics &g, const YRect &/*r*/) {
@@ -297,9 +298,9 @@ void CPUStatus::updateToolTip() {
             const char *const form = _("\nCPU Freq: %.3fGHz");
             const char *const perc = strstr(form, "%.3f");
             if (cpus < 2 || perc == NULL) {
-                more=snprintf(pos, rest, form, maxf / 1e6);
+                snprintf(pos, rest, form, maxf / 1e6);
             } else {
-                more=snprintf(pos, rest, "%.*s%.3f %.3f %s", (int)(perc - form),
+                snprintf(pos, rest, "%.*s%.3f %.3f %s", (int)(perc - form),
                         form, maxf / 1e6, minf / 1e6, perc + 4);
             }
         }
@@ -679,6 +680,7 @@ void CPUStatus::getStatus() {
         cpu[taskBarCPUSamples - 1][IWM_SOFTIRQ],
         cpu[taskBarCPUSamples - 1][IWM_STEAL]));
 }
+
 void CPUStatus::GetCPUStatus(YSMListener *smActionListener, YWindow *aParent, CPUStatus **&fCPUStatus, bool combine) {
     if (combine) {
         CPUStatus::getCPUStatusCombined(smActionListener, aParent, fCPUStatus);
@@ -708,19 +710,21 @@ void CPUStatus::GetCPUStatus(YSMListener *smActionListener, YWindow *aParent, CP
     kstat_named_t       *kn = NULL;
     kn = (kstat_named_t *)kstat_data_lookup(ks, "ncpus");
     if (kn) {
-        CPUStatus::getCPUStatus(aParent, fCPUStatus, kn->value.ui32);
+        CPUStatus::getCPUStatus(smActionListener, aParent, fCPUStatus, kn->value.ui32);
     } else {
-        CPUStatus::getCPUStatusCombined(aParent, fCPUStatus);
+        CPUStatus::getCPUStatusCombined(smActionListener, aParent, fCPUStatus);
     }
 #elif defined(HAVE_SYSCTL_CP_TIME)
-    CPUStatus::getCPUStatusCombined(aParent, fCPUStatus);
+    CPUStatus::getCPUStatusCombined(smActionListener, aParent, fCPUStatus);
 #endif
 }
+
 void CPUStatus::getCPUStatusCombined(YSMListener *smActionListener, YWindow *aParent, CPUStatus **&fCPUStatus) {
     fCPUStatus = new CPUStatus*[2];
     fCPUStatus[0] = new CPUStatus(smActionListener, aParent);
     fCPUStatus[1] = NULL;
 }
+
 void CPUStatus::getCPUStatus(YSMListener *smActionListener, YWindow *aParent, CPUStatus **&fCPUStatus, unsigned ncpus) {
     fCPUStatus = new CPUStatus*[ncpus + 1];
     /* we must reverse the order, so that left is cpu(0) and right is cpu(ncpus-1) */
@@ -728,6 +732,7 @@ void CPUStatus::getCPUStatus(YSMListener *smActionListener, YWindow *aParent, CP
         fCPUStatus[i] = new CPUStatus(smActionListener, aParent, ncpus - 1 - i);
     fCPUStatus[ncpus] = NULL;
 }
+
 #endif
 #endif
 

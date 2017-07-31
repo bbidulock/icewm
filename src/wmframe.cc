@@ -24,7 +24,6 @@
 #include "wmwinlist.h"
 #include "wmmgr.h"
 #include "wmapp.h"
-#include "ypixbuf.h"
 #include "sysdep.h"
 #include "yrect.h"
 #include "yicon.h"
@@ -127,7 +126,6 @@ YFrameWindow::YFrameWindow(
     fStrutTop = 0;
     fStrutBottom = 0;
 
-    fUserTime = -1UL;
     fUserTimeWindow = None;
 
     fFullscreenMonitorsTop = -1;
@@ -303,8 +301,8 @@ YFrameWindow::~YFrameWindow() {
             manager->setFirstFrame(fNextCreatedFrame);
     }
     removeFrame();
-    if (switchWindow)
-        switchWindow->destroyedFrame(this);
+    if (wmapp->hasSwitchWindow())
+        wmapp->getSwitchWindow()->destroyedFrame(this);
     if (fClient != 0) {
         if (!fClient->destroyed())
             XRemoveFromSaveSet(xapp->display(), client()->handle());
@@ -368,7 +366,7 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
         normalH = sh ? (h - sh->base_height) / sh->height_inc : h ;
 
 
-        if ((sh->flags & PWinGravity) &&
+        if (sh && (sh->flags & PWinGravity) &&
             sh->win_gravity == StaticGravity)
         {
             normalX += borderXN();
@@ -1052,8 +1050,11 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
 }
 
 void YFrameWindow::handleFocus(const XFocusChangeEvent &focus) {
-    if (switchWindow && switchWindow->visible())
-        return ;
+    if (wmapp->hasSwitchWindow()) {
+        if (wmapp->getSwitchWindow()->visible()) {
+            return ;
+        }
+    }
 #if 1
     if (focus.type == FocusIn &&
         focus.mode != NotifyGrab &&
@@ -1858,9 +1859,8 @@ void YFrameWindow::updateFocusOnMap(bool& doActivate) {
     }
 
     manager->updateUserTime(fUserTime);
-    if (fUserTime != -1UL)
-        if (fUserTime == 0 || fUserTime != manager->lastUserTime())
-	    doActivate = false;
+    if (doActivate && fUserTime.good())
+        doActivate = (fUserTime.time() && fUserTime == manager->lastUserTime());
 }
 
 void YFrameWindow::wmShow() {
@@ -2206,6 +2206,7 @@ void YFrameWindow::wmMoveToWorkspace(long workspace) {
 }
 
 void YFrameWindow::updateAllowed() {
+#ifdef WMSPEC_HINTS
     Atom atoms[12];
     int i = 0;
     if ((fFrameFunctions & ffMove) || (fFrameDecors & fdTitleBar))
@@ -2230,7 +2231,6 @@ void YFrameWindow::updateAllowed() {
     }
     atoms[i++] = _XA_NET_WM_ACTION_STICK;
     atoms[i++] = _XA_NET_WM_ACTION_CHANGE_DESKTOP;
-#ifdef WMSPEC_HINTS
     client()->setNetWMAllowedActions(atoms,i);
 #endif
 }
@@ -3703,29 +3703,24 @@ void YFrameWindow::updateNetWMStrutPartial() {
 
 void YFrameWindow::updateNetStartupId() {
     unsigned long time = -1UL;
-    client()->getNetStartupId(time);
-    if (time != fUserTime) {
-        fUserTime = time;
-        if (time != 0 && time != -1UL)
-            manager->updateUserTime(time);
+    if (client()->getNetStartupId(time)) {
+        if (fUserTime.update(time))
+            manager->updateUserTime(fUserTime);
     }
 }
 
 void YFrameWindow::updateNetWMUserTime() {
     unsigned long time = -1UL;
     Window window = fUserTimeWindow ? fUserTimeWindow : client()->handle();
-    client()->getNetWMUserTime(window, time);
-    if (time != fUserTime) {
-        fUserTime = time;
-        if (time != 0 && time != -1UL)
-            manager->updateUserTime(time);
+    if (client()->getNetWMUserTime(window, time)) {
+        if (fUserTime.update(time))
+            manager->updateUserTime(fUserTime);
     }
 }
 
 void YFrameWindow::updateNetWMUserTimeWindow() {
     Window window = fUserTimeWindow;
-    client()->getNetWMUserTimeWindow(window);
-    if (window != fUserTimeWindow) {
+    if (client()->getNetWMUserTimeWindow(window) && window != fUserTimeWindow) {
         if (fUserTimeWindow != None) {
             XDeleteContext(xapp->display(), fUserTimeWindow,
                     windowContext);

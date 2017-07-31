@@ -132,8 +132,6 @@ libice_la_SOURCES = \
 	ysocket.h \
 	ypaths.cc \
 	ypaths.h \
-	ypixbuf.cc \
-	ypixbuf.h \
 	ylocale.cc \
 	ylocale.h \
 	yarray.cc \
@@ -153,7 +151,6 @@ libice_la_SOURCES = \
 	yfontxft.cc \
 	ypixmap.cc \
 	ypixmap.h \
-	yimage.cc \
 	yimage.h \
 	yimage_gdk.cc \
 	yimage_imlib.cc \

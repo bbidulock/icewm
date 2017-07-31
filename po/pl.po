@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.2.15\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-06-21 18:11-0600\n"
+"POT-Creation-Date: 2017-07-28 07:24-0600\n"
 "PO-Revision-Date: 2016-12-24 12:56+0000\n"
 "Last-Translator: Kamil Stańczyk <suszaraa@gmail.com>\n"
 "Language-Team: Polish <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -1102,7 +1102,7 @@ msgstr "U_ruchom ponownie IceWM"
 msgid "_About"
 msgstr "Inform_acje"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3424
+#: src/wmframe.cc:165 src/wmframe.cc:3425
 msgid "Maximize"
 msgstr "Maksymalizuj"
 
@@ -1114,7 +1114,7 @@ msgstr "Minimalizuj"
 msgid "Hide"
 msgstr "Ukryj"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3457
+#: src/wmframe.cc:209 src/wmframe.cc:3458
 msgid "Rollup"
 msgstr "Rozwiń"
 
@@ -1134,11 +1134,11 @@ msgstr ""
 "UWAGA! Wszystkie niezapisane zmiany zostaną utracone\n"
 "gdy ten klient zostanie zamknięty. Czy chcesz kontynuować?"
 
-#: src/wmframe.cc:3421
+#: src/wmframe.cc:3422
 msgid "Restore"
 msgstr "Przywróć"
 
-#: src/wmframe.cc:3455
+#: src/wmframe.cc:3456
 msgid "Rolldown"
 msgstr "Zwiń"
 

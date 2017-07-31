@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sl\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-06-21 18:11-0600\n"
+"POT-Creation-Date: 2017-07-28 07:24-0600\n"
 "PO-Revision-Date: 2004-10-03 21:56+0200\n"
 "Last-Translator: Jernej Kovacic <jkovacic AT email DOT si>\n"
 "Language-Team: Slovenian <translator-team-sl@lists.sourceforge.net>\n"
@@ -1117,7 +1117,7 @@ msgstr "Po_noven zagon IceWM"
 msgid "_About"
 msgstr "O pro_gramu"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3424
+#: src/wmframe.cc:165 src/wmframe.cc:3425
 msgid "Maximize"
 msgstr "Razpni"
 
@@ -1129,7 +1129,7 @@ msgstr "Pomanjšaj"
 msgid "Hide"
 msgstr "Skrij"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3457
+#: src/wmframe.cc:209 src/wmframe.cc:3458
 msgid "Rollup"
 msgstr "Spravi navzgor"
 
@@ -1149,11 +1149,11 @@ msgstr ""
 "OPOZORILO! Vse neshranjene spremebe se bodo ob prekinitvi\n"
 "tega odjemalca izgubile. Ali želite nadaljevati?"
 
-#: src/wmframe.cc:3421
+#: src/wmframe.cc:3422
 msgid "Restore"
 msgstr "Obnovi"
 
-#: src/wmframe.cc:3455
+#: src/wmframe.cc:3456
 msgid "Rolldown"
 msgstr "Spravi navzdol"
 

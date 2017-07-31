@@ -60,8 +60,10 @@ private:
     const char *configArg;
     const char *themeArg;
     bool syncArg;
+    char* argv0;
 
     void options(int *argc, char ***argv) {
+        argv0 = **argv;
         displayArg = 0;
         configArg = 0;
         themeArg = 0;
@@ -134,6 +136,19 @@ public:
             }
             fclose(ef);
         }
+    }
+
+    virtual int runProgram(const char *file, const char *const *args) {
+        upath path;
+        if (strchr(file, '/') == NULL && strchr(argv0, '/') != NULL) {
+            path = upath(argv0).parent() + file;
+            if (path.isExecutable()) {
+                file = path.string();
+                if (args && args[0])
+                    *(const char**)args = file;
+            }
+        }
+        return YApplication::runProgram(file, args);
     }
 
     void runScript(const char *scriptName) {
@@ -218,20 +233,24 @@ public:
             exit(0);
         }
         if (sig == SIGCHLD) {
-            int status = -1;
-            int pid = -1;
+            int status = 0;
+            int pid;
 
             while ((pid = waitpid(-1, &status, WNOHANG)) > 0) {
                 MSG(("waitpid()=%d, status=%d", pid, status));
                 if (pid == wm_pid) {
                     wm_pid = -1;
                     if (WIFEXITED(status)) {
-                        exit(0);
-                    } else {
-                        if (WEXITSTATUS(status) != 0)
-                            runWM();
-                        else if (WIFSIGNALED(status) != 0)
-                            runWM();
+                        if (WEXITSTATUS(status)) {
+                            tlog(_("%s exited with status %d."),
+                                    ICEWMEXE, WEXITSTATUS(status));
+                        }
+                        this->exit(0);
+                    }
+                    else if (WIFSIGNALED(status)) {
+                        tlog(_("%s was killed by signal %d."),
+                                ICEWMEXE, WTERMSIG(status));
+                        runWM();
                     }
                 }
                 if (pid == tray_pid)

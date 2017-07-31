@@ -5,7 +5,6 @@
  */
 #include "config.h"
 #include "yfull.h"
-#include "ypixbuf.h"
 #include "ypaint.h"
 #include "yxapp.h"
 #include "sysdep.h"

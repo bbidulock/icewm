@@ -356,7 +356,7 @@ WindowList::~WindowList() {
     delete list; list = 0;
     delete scroll; scroll = 0;
     windowList = 0;
-
+    delete windowListAllPopup; windowListAllPopup = 0;
 }
 
 void WindowList::updateWorkspaces() {

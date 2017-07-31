@@ -66,7 +66,6 @@ YWindowManager::YWindowManager(
     fWorkAreaWorkspaceCount = 0;
     fWorkAreaScreenCount = 0;
     fFullscreenEnabled = true;
-    fLastUserTime = 0;
     fFocusedWindow = new YFrameWindow *[MAXWORKSPACES];
     for (int w = 0; w < MAXWORKSPACES; w++)
         fFocusedWindow[w] = 0;
@@ -137,6 +136,14 @@ YWindowManager::~YWindowManager() {
             delete [] fWorkArea[i];
         delete [] fWorkArea;
     }
+    delete fBottomSwitch;
+    delete fTopSwitch;
+    delete fRightSwitch;
+    delete fLeftSwitch;
+    delete fTopWin;
+    delete[] fFocusedWindow;
+    for (int l(0); l < WinLayerCount; l++)
+        delete layerActionSet[l];
 }
 
 void YWindowManager::grabKeys() {
@@ -212,10 +219,9 @@ void YWindowManager::grabKeys() {
 
 #ifndef NO_CONFIGURE_MENUS
     {
-        KProgram *k = keyProgs;
-        while (k) {
+        YObjectArray<KProgram>::IterType k = keyProgs.iterator();
+        while (++k) {
             grabVKey(k->key(), k->modifiers());
-            k = k->getNext();
         }
     }
 #endif
@@ -282,26 +288,24 @@ bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int /*
     YFrameWindow *frame = getFocus();
 
 #ifndef NO_CONFIGURE_MENUS
-    KProgram *p = keyProgs;
-    while (p) {
-        //msg("%X=%X %X=%X", k, p->key(), vm, p->modifiers());
+    YObjectArray<KProgram>::IterType p = keyProgs.iterator();
+    while (++p) {
         if (p->isKey(k, vm)) {
             XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
             p->open();
             return true;
         }
-        p = p->getNext();
     }
 #endif
 
-    if (quickSwitch && switchWindow) {
+    if (wmapp->getSwitchWindow() != 0) {
         if (IS_WMKEY(k, vm, gKeySysSwitchNext)) {
             XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
-            switchWindow->begin(1, key.state);
+            wmapp->getSwitchWindow()->begin(1, key.state);
             return true;
         } else if (IS_WMKEY(k, vm, gKeySysSwitchLast)) {
             XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
-            switchWindow->begin(0, key.state);
+            wmapp->getSwitchWindow()->begin(0, key.state);
             return true;
         }
     }
@@ -320,7 +324,9 @@ bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int /*
 #ifndef LITE
     } else if (IS_WMKEY(k, vm, gKeySysDialog)) {
         XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
-        if (ctrlAltDelete) ctrlAltDelete->activate();
+        if (wmapp->getCtrlAltDelete()) {
+            wmapp->getCtrlAltDelete()->activate();
+        }
         return true;
 #endif
 #ifdef CONFIG_WINMENU
@@ -720,6 +726,7 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
             if (w && count > 0)
                 setWindows(w, count, actionMinimizeAll);
             setShowingDesktop(true);
+            delete [] w;
         }
         return;
     }
@@ -1403,7 +1410,6 @@ void YWindowManager::placeWindow(YFrameWindow *frame,
         getNewPosition(frame, x, y, posWidth, posHeight, xiscreen);
         posX = x;
         posY = y;
-        newClient = false;
     } else {
         if (client->sizeHints() &&
             (client->sizeHints()->flags & PWinGravity) &&
@@ -1766,16 +1772,16 @@ gotit:
     Window w = c ? c->handle() : 0;
     if (w == desktop->handle()) {
         msg("%lX Focus 0x%lX desktop",
-            app->getEventTime(), w);
+            xapp->getEventTime(0), w);
     } else if (f && w == f->handle()) {
         msg("%lX Focus 0x%lX frame %s",
-            app->getEventTime(), w, f->getTitle());
+            xapp->getEventTime(0), w, cstring(f->getTitle()).c_str());
     } else if (f && c && w == c->handle()) {
         msg("%lX Focus 0x%lX client %s",
-            app->getEventTime(), w, f->getTitle());
+            xapp->getEventTime(0), w, cstring(f->getTitle()).c_str());
     } else {
         msg("%lX Focus 0x%lX",
-            app->getEventTime(), w);
+            xapp->getEventTime(0), w);
     }
 #endif
     return toFocus;
@@ -1860,8 +1866,11 @@ void YWindowManager::restackWindows(YFrameWindow *) {
         p = p->prevPopup();
     }
 #ifndef LITE
-    if (ctrlAltDelete && ctrlAltDelete->visible())
-        count++;
+    if (wmapp->hasCtrlAltDelete()) {
+        if (wmapp->getCtrlAltDelete()->visible()) {
+            count++;
+        }
+    }
 
 #ifdef CONFIG_TASKBAR
     if (taskBar)
@@ -1918,8 +1927,11 @@ void YWindowManager::restackWindows(YFrameWindow *) {
         w[i++] = fBottomSwitch->handle();
 
 #ifndef LITE
-    if (ctrlAltDelete && ctrlAltDelete->visible())
-        w[i++] = ctrlAltDelete->handle();
+    if (wmapp->hasCtrlAltDelete()) {
+        if (wmapp->getCtrlAltDelete()->visible()) {
+            w[i++] = wmapp->getCtrlAltDelete()->handle();
+        }
+    }
 #endif
 
 #ifndef LITE
@@ -2898,7 +2910,7 @@ void YWindowManager::handleProperty(const XPropertyEvent &property) {
         Atom type;
         int format;
         unsigned long nitems, lbytes;
-        unsigned char *propdata;
+        unsigned char *propdata(0);
 
         if (XGetWindowProperty(xapp->display(), handle(),
                                XA_IcewmWinOptHint, 0, 8192, True, XA_IcewmWinOptHint,
@@ -3006,12 +3018,9 @@ void YWindowManager::updateClientList() {
     checkLogout();
 }
 
-void YWindowManager::updateUserTime(Time time) {
-    if (time == 0 || time == -1UL)
-        return;
-    unsigned delta = (unsigned) ((time - fLastUserTime) & 0xffffffff);
-    if (fLastUserTime == 0 || delta < 0x7fffffff)
-        fLastUserTime = time;
+void YWindowManager::updateUserTime(const UserTime& userTime) {
+    if (userTime.good() && fLastUserTime < userTime)
+        fLastUserTime = userTime;
 }
 
 void YWindowManager::execAfterFork(const char *command) {
@@ -3192,7 +3201,7 @@ void YWindowManager::tilePlace(YFrameWindow *w, int tx, int ty, int tw, int th) 
 void YWindowManager::tileWindows(YFrameWindow **w, int count, bool vertical) {
     saveArrange(w, count);
 
-    if (count == 0)
+    if (count <= 0)
         return ;
 
     int curWin = 0;
@@ -3233,7 +3242,7 @@ void YWindowManager::tileWindows(YFrameWindow **w, int count, bool vertical) {
         if (col >= (cols * (1 + normalWidth) - areaW))
             windowWidth++;
 
-        int normalHeight = areaH / rows;
+        int normalHeight = areaH / max(1, rows);
 
         for (int row = 0; row < rows; row++) {
             int windowHeight = normalHeight;

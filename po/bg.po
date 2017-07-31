@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.10\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-06-21 18:11-0600\n"
+"POT-Creation-Date: 2017-07-28 07:24-0600\n"
 "PO-Revision-Date: 2017-02-26 21:51+0000\n"
 "Last-Translator: Shyukri Shyukriev <shshyukriev@suse.com>\n"
 "Language-Team: Bulgarian <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -1109,7 +1109,7 @@ msgstr "_Рестартира IceWM"
 msgid "_About"
 msgstr "_За"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3424
+#: src/wmframe.cc:165 src/wmframe.cc:3425
 msgid "Maximize"
 msgstr "Максимизира"
 
@@ -1121,7 +1121,7 @@ msgstr "Минимизира"
 msgid "Hide"
 msgstr "Скрива"
 
-#: src/wmframe.cc:209 src/wmframe.cc:3457
+#: src/wmframe.cc:209 src/wmframe.cc:3458
 msgid "Rollup"
 msgstr "Свива"
 
@@ -1141,11 +1141,11 @@ msgstr ""
 "ВНИМАНИЕ! Всички незапазени промени ще бъдат изгубени, когато този клиент "
 "бъде убит. Искате ли да продължите?"
 
-#: src/wmframe.cc:3421
+#: src/wmframe.cc:3422
 msgid "Restore"
 msgstr "Възстановява"
 
-#: src/wmframe.cc:3455
+#: src/wmframe.cc:3456
 msgid "Rolldown"
 msgstr "Развива"
 

@@ -393,7 +393,7 @@ FrameState YFrameClient::getFrameState() {
     Atom type;
     int format;
     unsigned long nitems, lbytes;
-    unsigned char *propdata;
+    unsigned char *propdata(0);
 
     if (XGetWindowProperty(xapp->display(), handle(),
                            _XA_WM_STATE, 0, 3, False, _XA_WM_STATE,
@@ -1127,7 +1127,7 @@ bool YFrameClient::getKwmIcon(int *count, Pixmap **pixmap) {
     int r_format;
     unsigned long nitems;
     unsigned long bytes_remain;
-    unsigned char *prop;
+    unsigned char *prop(0);
 
     if (XGetWindowProperty(xapp->display(), handle(),
                            _XA_KWM_WIN_ICON, 0, 2, False, _XA_KWM_WIN_ICON,
@@ -1166,7 +1166,7 @@ bool YFrameClient::getWinIcons(Atom *type, int *count, long **elem) {
     int r_format;
     unsigned long nitems;
     unsigned long bytes_remain;
-    unsigned char *prop;
+    unsigned char *prop(0);
 
     if (XGetWindowProperty(xapp->display(), handle(),
                            _XA_WIN_ICONS, 0, 4096, False, AnyPropertyType,
@@ -1190,6 +1190,7 @@ bool YFrameClient::getWinIcons(Atom *type, int *count, long **elem) {
 }
 #endif
 
+#ifdef WMSPEC_HINTS
 static void *GetFullWindowProperty(Display *display, Window handle, Atom propAtom, int &itemCount, int itemSize1)
 {
     void *data = NULL;
@@ -1203,7 +1204,7 @@ static void *GetFullWindowProperty(Display *display, Window handle, Atom propAto
         int r_format;
         unsigned long nitems;
         unsigned long bytes_remain;
-        unsigned char *prop;
+        unsigned char *prop(0);
 
         while (XGetWindowProperty(display, handle,
                                propAtom, (itemCount * itemSize1) / 32, 1024*32, False, AnyPropertyType,
@@ -1228,6 +1229,7 @@ static void *GetFullWindowProperty(Display *display, Window handle, Atom propAto
     }
     return data;
 }
+#endif
 
 #ifdef WMSPEC_HINTS
 bool YFrameClient::getNetWMIcon(int *count, long **elem) {
@@ -1250,7 +1252,7 @@ bool YFrameClient::getNetWMIcon(int *count, long **elem) {
     int r_format;
     unsigned long nitems;
     unsigned long bytes_remain;
-    unsigned char *prop;
+    unsigned char *prop(0);
 
     if (XGetWindowProperty(xapp->display(), handle(),
                            _XA_NET_WM_ICON, 0, 1024*256, False, AnyPropertyType,
@@ -1306,7 +1308,7 @@ bool YFrameClient::getWinWorkspaceHint(long *workspace) {
     int r_format;
     unsigned long count;
     unsigned long bytes_remain;
-    unsigned char *prop;
+    unsigned char *prop(0);
 
     if (XGetWindowProperty(xapp->display(),
                            handle(),
@@ -1346,7 +1348,7 @@ bool YFrameClient::getWinLayerHint(long *layer) {
     int r_format;
     unsigned long count;
     unsigned long bytes_remain;
-    unsigned char *prop;
+    unsigned char *prop(0);
 
     if (XGetWindowProperty(xapp->display(),
                            handle(),
@@ -1375,7 +1377,7 @@ bool YFrameClient::getWinTrayHint(long *tray_opt) {
     int r_format;
     unsigned long count;
     unsigned long bytes_remain;
-    unsigned char *prop;
+    unsigned char *prop(0);
 
     if (XGetWindowProperty(xapp->display(),
                            handle(),
@@ -1412,7 +1414,7 @@ bool YFrameClient::getWinStateHint(long *mask, long *state) {
     int r_format;
     unsigned long count;
     unsigned long bytes_remain;
-    unsigned char *prop;
+    unsigned char *prop(0);
 
     if (XGetWindowProperty(xapp->display(),
                            handle(),
@@ -1504,7 +1506,7 @@ bool YFrameClient::getNetWMStateHint(long *mask, long *state) {
     int r_format;
     unsigned long count;
     unsigned long bytes_remain;
-    unsigned char *prop;
+    unsigned char *prop(0);
 
     *mask = 0;
     *state = 0;
@@ -1587,7 +1589,7 @@ bool YFrameClient::getWinHintsHint(long *state) {
     int r_format;
     unsigned long count;
     unsigned long bytes_remain;
-    unsigned char *prop;
+    unsigned char *prop(0);
 
     if (XGetWindowProperty(xapp->display(),
                            handle(),
@@ -1632,7 +1634,7 @@ void YFrameClient::getClientLeader() {
     int r_format;
     unsigned long count;
     unsigned long bytes_remain;
-    unsigned char *prop;
+    unsigned char *prop(0);
 
     fClientLeader = None;
     if (XGetWindowProperty(xapp->display(),
@@ -1766,7 +1768,7 @@ bool YFrameClient::getNetWMStrut(int *left, int *right, int *top, int *bottom) {
     int r_format;
     unsigned long count;
     unsigned long bytes_remain;
-    unsigned char *prop;
+    unsigned char *prop(0);
 
     if (XGetWindowProperty(xapp->display(),
                            handle(),
@@ -1819,7 +1821,7 @@ bool YFrameClient::getNetWMStrutPartial(int *left, int *right, int *top, int *bo
     int r_format;
     unsigned long count;
     unsigned long bytes_remain;
-    unsigned char *prop;
+    unsigned char *prop(0);
 
     if (XGetWindowProperty(xapp->display(),
                            handle(),
@@ -1837,13 +1839,13 @@ bool YFrameClient::getNetWMStrutPartial(int *left, int *right, int *top, int *bo
             *top = strut[2];
             *bottom = strut[3];
             if (left_start_y != 0) *left_start_y = strut[4];
-            if (left_end_y != 0) *left_start_y = strut[5];
+            if (left_end_y != 0) *left_end_y = strut[5];
             if (right_start_y != 0) *right_start_y = strut[6];
-            if (right_end_y != 0) *right_start_y = strut[7];
+            if (right_end_y != 0) *right_end_y = strut[7];
             if (top_start_x != 0) *top_start_x = strut[8];
-            if (top_end_x != 0) *top_start_x = strut[9];
+            if (top_end_x != 0) *top_end_x = strut[9];
             if (bottom_start_x != 0) *bottom_start_x = strut[10];
-            if (bottom_end_x != 0) *bottom_start_x = strut[11];
+            if (bottom_end_x != 0) *bottom_end_x = strut[11];
 
             XFree(prop);
             return true;
@@ -1874,9 +1876,6 @@ bool YFrameClient::getNetStartupId(unsigned long &time) {
 }
 
 bool YFrameClient::getNetWMUserTime(Window window, unsigned long &time) {
-
-    time = -1UL;
-
     if (!prop.net_wm_user_time && !prop.net_wm_user_time_window)
         return false;
 
@@ -1884,7 +1883,7 @@ bool YFrameClient::getNetWMUserTime(Window window, unsigned long &time) {
     int r_format;
     unsigned long count;
     unsigned long bytes_remain;
-    unsigned char *prop;
+    unsigned char *prop(0);
 
     if (XGetWindowProperty(xapp->display(), window,
                 _XA_NET_WM_USER_TIME, 0, 1, False, XA_CARDINAL,
@@ -1908,9 +1907,6 @@ bool YFrameClient::getNetWMUserTime(Window window, unsigned long &time) {
 
 
 bool YFrameClient::getNetWMUserTimeWindow(Window &window) {
-
-    window = None;
-
     if (!prop.net_wm_user_time_window)
         return false;
 
@@ -1918,7 +1914,7 @@ bool YFrameClient::getNetWMUserTimeWindow(Window &window) {
     int r_format;
     unsigned long count;
     unsigned long bytes_remain;
-    unsigned char *prop;
+    unsigned char *prop(0);
 
     if (XGetWindowProperty(xapp->display(), handle(),
                 _XA_NET_WM_USER_TIME_WINDOW, 0, 1, False, XA_WINDOW,
@@ -1948,7 +1944,7 @@ bool YFrameClient::getNetWMWindowType(Atom *window_type) { // !!! for now, map t
     int r_format;
     unsigned long nitems;
     unsigned long bytes_remain;
-    unsigned char *prop;
+    unsigned char *prop(0);
 
     if (XGetWindowProperty(xapp->display(), handle(),
                            _XA_NET_WM_WINDOW_TYPE, 0, 64, False, AnyPropertyType,
@@ -2033,7 +2029,7 @@ bool YFrameClient::getNetWMDesktopHint(long *workspace) {
     int r_format;
     unsigned long count;
     unsigned long bytes_remain;
-    unsigned char *prop;
+    unsigned char *prop(0);
 
     if (XGetWindowProperty(xapp->display(),
                            handle(),
