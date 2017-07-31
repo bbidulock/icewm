@@ -145,7 +145,11 @@ void ThemesMenu::findThemes(const upath& path, YMenu *container) {
 
             YMenuItem *subMenuItemTest = container->findName(subName);
             if(subMenuItemTest && subMenuItemTest->getSubmenu())
+            {
             	targetMenu = subMenuItemTest->getSubmenu();
+            	if(im->isChecked())
+            		subMenuItemTest->setChecked(true);
+            }
             else if(subMenuItemTest)
             {
             	// looks like a submenu but is an item of that kind... weird, ignore
@@ -163,8 +167,9 @@ void ThemesMenu::findThemes(const upath& path, YMenu *container) {
             			subdir.string().c_str()));
             	YMenu *smenu = new YMenu();
             	smenu->addSorted(relatedItem, false);
-            	container->setItem(relatedItemPos,
-            			new YMenuItem(subName, 0, null, NULL, smenu));
+            	YMenuItem *newItem = new YMenuItem(subName, 0, null, NULL, smenu);
+            	newItem->setChecked(relatedItem->isChecked() || im->isChecked());
+            	container->setItem(relatedItemPos, newItem);
             	targetMenu = smenu;
             }
         }
