@@ -110,20 +110,51 @@ AC_CHECK_SIZEOF(long, 4)
 AC_TYPE_SIGNAL
 
 # Checks for library functions.
-AC_FUNC_STRFTIME
-AC_FUNC_VPRINTF
-AC_FUNC_ERROR_AT_LINE
 if test x$cross_compling != xyes ; then :; AC_FUNC_FORK fi
-AC_FUNC_LSTAT_FOLLOWS_SLASHED_SYMLINK
 if test x$cross_compling != xyes ; then :; AC_FUNC_MALLOC fi
-AC_FUNC_MMAP
 if test x$cross_compling != xyes ; then :; AC_FUNC_REALLOC fi
-AC_FUNC_STRNLEN
-AC_CHECK_FUNCS([dup2 getcwd gethostbyname gethostname gettimeofday mblen memchr memmove memset mkdir nl_langinfo putenv select setlocale socket strcasecmp strchr strcspn strdup strerror strncasecmp strrchr strspn strstr strtol sysinfo uname abort wordexp])
-AC_CHECK_FUNCS([gettimeofday putenv select socket strtol strtoul basename])
-AC_CHECK_FUNCS([sysctlbyname asprintf])
+AC_CHECK_FUNCS([abort basename dup2])
+AC_CHECK_FUNCS([gethostbyname gethostname gettimeofday])
+AC_CHECK_FUNCS([mblen memchr memmove memset mkdir nl_langinfo])
+AC_CHECK_FUNCS([select setlocale socket])
+AC_CHECK_FUNCS([strcasecmp strchr strcspn strdup strerror])
+AC_CHECK_FUNCS([strncasecmp strrchr strspn strstr strtol strtoul])
+AC_CHECK_FUNCS([sysctlbyname sysinfo uname wordexp])
 AC_CHECK_FUNC([getloadavg],[AC_DEFINE([HAVE_GETLOADAVG2], 1, [getloadavg() is available])])
 AC_FUNC_SELECT_ARGTYPES
+
+AC_MSG_CHECKING([for strlcpy])
+AC_RUN_IFELSE([AC_LANG_PROGRAM([[#include <string.h>]],[[
+               char a[2];
+               if (strlcpy(a, "yes", 2) != 3)
+                   return 1;]])],
+              [
+               AC_MSG_RESULT([yes])
+               AC_DEFINE_UNQUOTED([HAVE_STRLCPY], 1,
+                                  [Define to 1 if you have the strlcpy function.])
+              ],
+              [
+               AC_MSG_RESULT([no])
+               AC_DEFINE_UNQUOTED([HAVE_STRLCPY], 0,
+                                  [Define to 1 if you have the strlcpy function.])
+              ])
+
+AC_MSG_CHECKING([for strlcat])
+AC_RUN_IFELSE([AC_LANG_PROGRAM([[#include <string.h>]],[[
+               char a[4] = "no";
+               if (strlcat(a, "yes", 4) != 5)
+                   return 1;]])],
+              [
+               AC_MSG_RESULT([yes])
+               AC_DEFINE_UNQUOTED([HAVE_STRLCAT], 1,
+                                  [Define to 1 if you have the strlcat function.])
+              ],
+              [
+               AC_MSG_RESULT([no])
+               AC_DEFINE_UNQUOTED([HAVE_STRLCAT], 0,
+                                  [Define to 1 if you have the strlcat function.])
+              ])
+
 
 PKG_CHECK_MODULES([CORE],[fontconfig xext x11])
 AC_SUBST([CORE_CFLAGS])

@@ -49,9 +49,14 @@ inline T abs(T v) {
 /*** String Functions *********************************************************/
 
 /* Prefer this as a safer alternative over strcpy. Return strlen(from). */
+#ifndef HAVE_STRLCPY
 size_t strlcpy(char *dest, const char *from, size_t dest_size);
+#endif
+
 /* Prefer this over strcat. Return strlen(dest) + strlen(from). */
+#ifndef HAVE_STRLCAT
 size_t strlcat(char *dest, const char *from, size_t dest_size);
+#endif
 
 char *newstr(char const *str);
 char *newstr(char const *str, int len);
