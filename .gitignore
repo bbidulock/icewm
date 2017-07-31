@@ -117,8 +117,12 @@ src/testdesktop
 src/testgnomevfs
 src/testlocale
 src/testwinhints
+
+# Debian/Ubuntu test build
 stamp-*
 
+# CMake example build
+build/
 
 # stgit generated dirs
 patches-*
