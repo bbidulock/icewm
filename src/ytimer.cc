@@ -15,7 +15,7 @@
  * recommending the use of clock_gettime instead.
  */
 static inline timeval timeofday() {
-    timeval tv = {0};
+    timeval tv = {0, 0L};
     gettimeofday(&tv, 0);
     return tv;
 }
@@ -34,7 +34,7 @@ static inline timeval fromspec(timespec ts) {
  */
 timeval walltime() {
 #if _POSIX_TIMERS >= 200112L
-    timespec ts = {0};
+    timespec ts = {0, 0L};
 #if defined(CLOCK_REALTIME_COARSE) && defined(__linux__)
     if (clock_gettime(CLOCK_REALTIME_COARSE, &ts) == 0)
         return fromspec(ts);
@@ -54,7 +54,7 @@ timeval walltime() {
  */
 timeval monotime() {
 #if _POSIX_TIMERS >= 200112L && defined(_POSIX_MONOTONIC_CLOCK)
-    timespec ts = {0};
+    timespec ts = {0, 0L};
 #if defined(CLOCK_MONOTONIC_COARSE) && defined(__linux__)
     if (clock_gettime(CLOCK_MONOTONIC_COARSE, &ts) == 0)
         return fromspec(ts);
@@ -88,7 +88,7 @@ timeval maketime(long sec, long usec) {
 }
 
 timeval zerotime() {
-    return (timeval) { 0L, 0L };
+    return (timeval) { 0, 0L };
 }
 
 timeval millitime(long msec) {

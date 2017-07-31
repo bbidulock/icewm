@@ -97,11 +97,11 @@ bool YApplication::nextTimeout(timeval *timeout) {
 
 bool YApplication::nextTimeoutWithFuzziness(timeval *timeout) {
     bool fixedExists = false;
-    timeval timeout_fixed = {0};
+    timeval timeout_fixed = {0, 0L};
 
     bool fuzzyExists = false;
-    timeval timeout_fuzzy = {0};
-    timeval timeout_max = {0};
+    timeval timeout_fuzzy = {0, 0L};
+    timeval timeout_max = {0, 0L};
 
     for (YArrayIterator<YTimer*> iter = timers.iterator(); ++iter; ) {
         if (iter->isRunning()) {
@@ -140,7 +140,7 @@ bool YApplication::nextTimeoutWithFuzziness(timeval *timeout) {
 bool YApplication::getTimeout(timeval *timeout) {
     bool found = false;
     if (0 < timers.getCount()) {
-        timeval tval = {0};
+        timeval tval = {0, 0L};
         if (inrange(DelayFuzziness, 1, 100))
             found = nextTimeoutWithFuzziness(&tval);
         else
@@ -233,7 +233,7 @@ int YApplication::mainLoop() {
             }
         }
 
-        timeval timeout = {0};
+        timeval timeout = {0, 0L};
         timeval *tp = &timeout;
         if (!didIdle && getTimeout(tp) == false)
             tp = 0;

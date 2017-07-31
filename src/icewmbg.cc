@@ -661,7 +661,8 @@ bool Background::filterEvent(const XEvent &xev) {
 }
 
 void Background::sendClientMessage(Atom message) const {
-    XClientMessageEvent xev = { ClientMessage };
+    XClientMessageEvent xev = {};
+    xev.type = ClientMessage;
     xev.window = window();
     xev.message_type = message;
     xev.format = 32;

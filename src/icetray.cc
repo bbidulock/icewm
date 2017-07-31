@@ -229,7 +229,8 @@ void SysTray::requestDock() {
     Window w = XGetSelectionOwner(xapp->display(), icewm_internal_tray);
 
     if (w && w != handle()) {
-        XClientMessageEvent xev = { ClientMessage };
+        XClientMessageEvent xev;
+        xev.type = ClientMessage;
         xev.window = w;
         xev.message_type = _NET_SYSTEM_TRAY_OPCODE;
         xev.format = 32;

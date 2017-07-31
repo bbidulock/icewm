@@ -284,7 +284,12 @@ ENDIF()
 SET(CMAKE_REQUIRED_FLAGS "${CXXFLAGS_COMMON} -Wimplicit-fallthrough=2")
 CHECK_CXX_SOURCE_COMPILES("int main() {return 0;}" USE_FALLTHROUGH_WARNING)
 IF(USE_FALLTHROUGH_WARNING)
-        SET(CXXFLAGS_COMMON "${CXXFLAGS_COMMON} -Wimplicit-fallthrough=2")
+        if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+                # apparently clang does not support the parameter but the default behavior is what we ant
+                SET(CXXFLAGS_COMMON "${CXXFLAGS_COMMON} -Wimplicit-fallthrough")
+        else()
+                SET(CXXFLAGS_COMMON "${CXXFLAGS_COMMON} -Wimplicit-fallthrough=2")
+        endif()
 ENDIF()
 
 #######################################

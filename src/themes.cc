@@ -123,7 +123,7 @@ YMenuItem * ThemesMenu::newThemeItem(
 void ThemesMenu::findThemes(const upath& path, YMenu *container) {
     ustring defTheme("/default.theme");
 
-    bool bNesting = nestedThemeMenuMinNumber && themeCount>nestedThemeMenuMinNumber;
+    bool bNesting = nestedThemeMenuMinNumber && themeCount > nestedThemeMenuMinNumber;
 
     for (udir dir(path); dir.next(); ) {
         YMenuItem *im(NULL);

@@ -196,7 +196,10 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     getProtocols(false);
 
     {
-        XWMHints wmh = { InputHint, False, WithdrawnState, };
+        XWMHints wmh = {};
+        wmh.flags = InputHint;
+        wmh.input = False;
+        wmh.initial_state = WithdrawnState;
         XSetWMHints(xapp->display(), handle(), &wmh);
     }
     {
