@@ -10,6 +10,7 @@ INCLUDE(CheckTypeSize)
 INCLUDE(CheckIncludeFileCXX)
 INCLUDE(FindPkgConfig)
 INCLUDE(CheckCXXSourceCompiles)
+INCLUDE(CheckCXXCompilerFlag)
 
 SET(CXXFLAGS_COMMON "-pthread -Wall -Wextra -Wno-unused-parameter -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE -I.")
 
@@ -21,12 +22,32 @@ if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
    add_definitions(-DDEBUG)
 endif()
 
+# carefully splicing of command line arguments, even from lists
+macro(_append varname)
+        string(REPLACE ";" " " _apx "${ARGN}")
+        if(NOT DEFINED ${varname})
+                set(${varname} "${_apx}")
+        else()
+                set(${varname} "${${varname}} ${_apx}")
+        endif()
+endmacro()
+
 # I don't need -rdynamic, thanks!
 SET(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "")
 SET(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
 
 # apply to test calls
 SET(CMAKE_REQUIRED_FLAGS ${CXXFLAGS_COMMON})
+
+CHECK_CXX_COMPILER_FLAG(-fvisibility=hidden CXX_VHI)
+if(CXX_VHI)
+        _append(CXXFLAGS_COMMON -fvisibility=hidden)
+endif()
+
+CHECK_CXX_COMPILER_FLAG(-fvisibility-inlines-hidden CXX_VIHI)
+if(CXX_VIHI)
+        _append(CXXFLAGS_COMMON -fvisibility-inlines-hidden)
+endif()
 
 option(CONFIG_XPM "Legacy XPM image loader" off)
 option(CONFIG_IMLIB "(Deprecated) IMLIB image loader" off)
