@@ -34,6 +34,7 @@ option(CONFIG_GDK_PIXBUF_XLIB "LIBGDKPIXBUF based image loader" on)
 option(CONFIG_I18N "Define to enable internationalization" on)
 option(ENABLE_NLS "Enable Native Language Support" on)
 option(CONFIG_SESSION "Define to enable X session management" on)
+option(ENABLE_LTO "Enable Link Time Optimization" off)
 
 SET(CONFIG_UNICODE_SET "" CACHE STRING "Your iconv unicode set in machine endian encoding (e.g. WCHAR_T, UCS-4-INTERNAL, UCS-4LE, UCS-4BE)")
 # turn off when empty, see config.h template for details
@@ -53,6 +54,11 @@ if(ENABLE_NLS OR CONFIG_I18N)
 	if(CONFIG_LIBINTL)
 		LIST(APPEND nls_LIBS intl)
 	endif()
+endif()
+
+if(ENABLE_LTO)
+        set(CXXFLAGS_COMMON "${CXXFLAGS_COMMON} -flto")
+        list(APPEND EXTRA_LIBS -flto)
 endif()
 
 # the only used ones...
@@ -411,8 +417,17 @@ foreach (_variableName
 		CONFIG_WINMENU
 		CONFIG_XFREETYPE
 		XINERAMA
+    ENABLE_LTO
+    ENABLE_ALSA
+    ENABLE_ESD
+    ENABLE_NLS
+    ENABLE_YIFF
 		)
-    message(STATUS "${_variableName} => ${${_variableName}}")
+    if("${${_variableName}}" STREQUAL "")
+            message(STATUS "${_variableName} => OFF")
+    else()
+            message(STATUS "${_variableName} => ${${_variableName}}")
+    endif()
 endforeach()
 
 IF(CONFIG_SESSION)
