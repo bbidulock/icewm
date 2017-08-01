@@ -130,13 +130,13 @@ AC_RUN_IFELSE([AC_LANG_PROGRAM([[#include <string.h>]],[[
                    return 1;]])],
               [
                AC_MSG_RESULT([yes])
-               AC_DEFINE_UNQUOTED([HAVE_STRLCPY], 1,
-                                  [Define to 1 if you have the strlcpy function.])
+               AC_DEFINE([HAVE_STRLCPY], 1,
+                         [Define to 1 if you have the strlcpy function.])
               ],
               [
                AC_MSG_RESULT([no])
-               AC_DEFINE_UNQUOTED([HAVE_STRLCPY], 0,
-                                  [Define to 1 if you have the strlcpy function.])
+               AH_TEMPLATE([HAVE_STRLCPY],
+                           [Define to 1 if you have the strlcpy function.])
               ])
 
 AC_MSG_CHECKING([for strlcat])
@@ -146,13 +146,13 @@ AC_RUN_IFELSE([AC_LANG_PROGRAM([[#include <string.h>]],[[
                    return 1;]])],
               [
                AC_MSG_RESULT([yes])
-               AC_DEFINE_UNQUOTED([HAVE_STRLCAT], 1,
-                                  [Define to 1 if you have the strlcat function.])
+               AC_DEFINE([HAVE_STRLCAT], 1,
+                         [Define to 1 if you have the strlcat function.])
               ],
               [
                AC_MSG_RESULT([no])
-               AC_DEFINE_UNQUOTED([HAVE_STRLCAT], 0,
-                                  [Define to 1 if you have the strlcat function.])
+               AH_TEMPLATE([HAVE_STRLCAT],
+                           [Define to 1 if you have the strlcat function.])
               ])
 
 
