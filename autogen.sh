@@ -9,10 +9,15 @@ GTVERSION=$(gettext --version|head -1|awk '{print$NF}'|sed -r 's,(^[^\.]*\.[^\.]
 if [ -x "`which git 2>/dev/null`" -a -d .git ]; then
 	VERSION=$(git describe --tags|sed 's,[-_],.,g;s,\.g.*$,,')
 	DATE=$(git show -s --format=%ci HEAD^{commit}|awk '{print$1}')
+	BRANCH=$(git tag --sort=-creatordate|head -1)
+	if [[ "$VERSION" != "$BRANCH" ]]; then
+		BRANCH="icewm-1-4-BRANCH"
+	fi
 	sed -i.bak configure.ac -r \
 		-e "s:AC_INIT\([[]$PACKAGE[]],[[][^]]*[]]:AC_INIT([$PACKAGE],[$VERSION]:
 		    s:AC_REVISION\([[][^]]*[]]\):AC_REVISION([$VERSION]):
 		    s:^DATE=.*$:DATE='$DATE':
+		    s:^BRANCH=.*$:BRANCH='$BRANCH':
 		    s:^AM_GNU_GETTEXT_VERSION.*:AM_GNU_GETTEXT_VERSION([$GTVERSION]):"
 	subst="s:%%PACKAGE%%:$PACKAGE:g
 	       s:%%VERSION%%:$VERSION:g
