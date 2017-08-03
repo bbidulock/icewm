@@ -13,6 +13,10 @@ pull requests if you can.  If you would like to perform regular maintenance
 activities (e.g. if you are a maintainer of an IceWM package for a
 distribution), contact me for push access.
 
+I normally like to have the issuers of problem reports close the report once
+it has been resolved.  I do not want you to think that we are being dismissive,
+because I welcome all reports.
+
 Bug reports, feedback, and suggestions pertaining to the original CVS version
 can be sent to: Marko.Macek@gmx.net or icewm-user@lists.sourceforge.net
 
@@ -27,7 +31,8 @@ Development
 
 If you would like to develop against this fork, the easiest way is to obtain a
 [GitHub account][10], fork the [repository][1] and perform your development.
-Send me a pull request when you have something stable.
+Send me a pull request when you have something stable.  If you submit regular
+pull requests that get accepted, I will just give to push access to save time.
 
 Translations
 ------------
@@ -35,7 +40,8 @@ Translations
 You can provide translations by patching `.po` files and issuing pull requests,
 or you can use the [openSUSE weblate tool][11].  There are two XDG files,
 [icewm.desktop][18] and [icewm-session.desktop][19] than may need manual
-translations.
+translations.  If you have difficulties using the tools, just send me the updated
+`.po` file or a patch to apply.
 
 
 [1]: https://github.com/bbidulock/icewm/
