@@ -232,8 +232,11 @@ bool mstring::equals(const mstring &s) const {
     return compareTo(s) == 0;
 }
 
-int mstring::collate(const mstring &s) const {
-    return strcoll(cstring(*this), cstring(s));
+int mstring::collate(const mstring &s, bool ignoreCase) const {
+	if(!ignoreCase)
+		return strcoll(cstring(*this), cstring(s));
+	else
+		return strcoll(cstring(this->lower()), cstring(s.lower()));
 }
 
 int mstring::compareTo(const mstring &s) const {

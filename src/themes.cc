@@ -166,7 +166,7 @@ void ThemesMenu::findThemes(const upath& path, YMenu *container) {
             			cstring(relatedItem->getName()).c_str(),
             			subdir.string().c_str()));
             	YMenu *smenu = new YMenu();
-            	smenu->addSorted(relatedItem, false);
+            	smenu->addSorted(relatedItem, false, true);
             	YMenuItem *newItem = new YMenuItem(subName, 0, null, NULL, smenu);
             	newItem->setChecked(relatedItem->isChecked() || im->isChecked());
             	container->setItem(relatedItemPos, newItem);
@@ -175,7 +175,7 @@ void ThemesMenu::findThemes(const upath& path, YMenu *container) {
         }
 
         if (im) {
-            if (targetMenu->addSorted(im, false) == 0) {
+            if (targetMenu->addSorted(im, false, true) == 0) {
                 delete im;
                 im = 0;
             }
