@@ -89,7 +89,7 @@ Website][14], from the [online manual][16].
 
 Unfortunately that documentation is for version 1.2.27 and is incomplete
 at that; however, it is for the most part still usable.
-The good news is that the `icewm(1)`[21] and `icewmbg(1)`[22]
+The good news is that the [`icewm(1)`][21] and [`icewmbg(1)`][22]
 manual pages are complete and fully up-to-date.
 
 
