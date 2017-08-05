@@ -2,8 +2,8 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([icewm],[1.4.2.73],[https://github.com/bbidulock/icewm/issues])
-AC_REVISION([1.4.2.73])
+AC_INIT([icewm],[1.4.2.78],[https://github.com/bbidulock/icewm/issues])
+AC_REVISION([1.4.2.78])
 AC_CONFIG_SRCDIR([src/ysmapp.cc])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
@@ -11,7 +11,7 @@ AC_CONFIG_AUX_DIR([scripts])
 AC_USE_SYSTEM_EXTENSIONS
 AC_CANONICAL_TARGET
 
-DATE='2017-08-03'
+DATE='2017-08-05'
 AC_SUBST([DATE])
 
 BRANCH='icewm-1-4-BRANCH'

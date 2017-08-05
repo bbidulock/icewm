@@ -85,12 +85,12 @@ Configuring IceWM
 -----------------
 
 Documentation for configuring the window manager can be obtained from [IceWM
-Website][14] or from the [online manual][16].
+Website][14], from the [online manual][16].
 
-Unfortunately the documentation is for version 1.2.27 and is incomplete
-at that; however, it is for the most part usable.
-The good news is that the `icewm(1)` manual page for version 1.4.1
-is complete and fully up-to-date.
+Unfortunately that documentation is for version 1.2.27 and is incomplete
+at that; however, it is for the most part still usable.
+The good news is that the `icewm(1)`[21] and `icewmbg(1)`[22]
+manual pages are complete and fully up-to-date.
 
 
 Included Utilities
@@ -213,5 +213,7 @@ translations.  If you have difficulties using the tools, just send me the update
 [18]: https://github.com/bbidulock/icewm/blob/@BRANCH@/lib/icewm.desktop
 [19]: https://github.com/bbidulock/icewm/blob/@BRANCH@/lib/icewm-session.desktop
 [20]: https://github.com/bbidulock/icewm/blob/@BRANCH@/INSTALL-cmakebuild.md
+[21]: https://github.com/bbidulock/icewm/blob/@BRANCH@/doc/icewm.1.adoc
+[22]: https://github.com/bbidulock/icewm/blob/@BRANCH@/doc/icewmbg.1.adoc
 
 [ vim: set ft=markdown sw=4 tw=80 nocin nosi fo+=tcqlorn: ]: #
