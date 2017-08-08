@@ -1,9 +1,8 @@
 #include "config.h"
 #include "base.h"
 #include "intl.h"
-#include "yxapp.h"
+#include "yapp.h"
 #include "sysdep.h"
-#include "yconfig.h"
 #include "appnames.h"
 #ifdef HAVE_WORDEXP
 #include <wordexp.h>
@@ -53,6 +52,8 @@ private:
         "\n"
         "  --display=NAME      Use NAME to connect to the X server.\n"
         "  --sync              Synchronize communication with X11 server.\n"
+        "\n"
+        "  --notray            Do not start icewmtray.\n"
         );
     }
 
@@ -60,6 +61,7 @@ private:
     const char *configArg;
     const char *themeArg;
     bool syncArg;
+    bool notrayArg;
     char* argv0;
 
     void options(int *argc, char ***argv) {
@@ -68,6 +70,7 @@ private:
         configArg = 0;
         themeArg = 0;
         syncArg = false;
+        notrayArg = false;
 
         for (char **arg = 1 + *argv; arg < *argv + *argc; ++arg) {
             if (**arg == '-') {
@@ -76,18 +79,17 @@ private:
                     if (value && *value)
                         displayArg = value;
                 }
-                else if (GetLongArgument(value, "config", arg, *argv+*argc)
-                    ||  GetShortArgument(value, "c", arg, *argv+*argc))
-                {
+                else if (GetArgument(value, "c", "config", arg, *argv+*argc)) {
                     configArg = value;
                 }
-                else if (GetLongArgument(value, "theme", arg, *argv+*argc)
-                    ||   GetShortArgument(value, "t", arg, *argv+*argc))
-                {
+                else if (GetArgument(value, "t", "theme", arg, *argv+*argc)) {
                     themeArg = value;
                 }
                 else if (is_long_switch(*arg, "sync")) {
                     syncArg = true;
+                }
+                else if (is_long_switch(*arg, "notray")) {
+                    notrayArg = true;
                 }
                 else if (is_help_switch(*arg)) {
                     print_help_exit(get_help_text());
@@ -204,6 +206,9 @@ public:
             }
             tray_pid = -1;
         }
+        else if (notrayArg) {
+            notified();
+        }
         else {
             appendOptions(args, 2, ACOUNT(args));
             tray_pid = runProgram(args[0], args);
@@ -226,13 +231,14 @@ public:
         }
     }
 
+private:
     void handleSignal(int sig) {
         if (sig == SIGTERM || sig == SIGINT) {
             signal(SIGTERM, SIG_IGN);
             signal(SIGINT, SIG_IGN);
-            exit(0);
+            this->exit(0);
         }
-        if (sig == SIGCHLD) {
+        else if (sig == SIGCHLD) {
             int status = 0;
             int pid;
 
@@ -240,33 +246,50 @@ public:
                 MSG(("waitpid()=%d, status=%d", pid, status));
                 if (pid == wm_pid) {
                     wm_pid = -1;
-                    if (WIFEXITED(status)) {
-                        if (WEXITSTATUS(status)) {
-                            tlog(_("%s exited with status %d."),
-                                    ICEWMEXE, WEXITSTATUS(status));
-                        }
-                        this->exit(0);
-                    }
-                    else if (WIFSIGNALED(status)) {
-                        tlog(_("%s was killed by signal %d."),
-                                ICEWMEXE, WTERMSIG(status));
-                        runWM();
-                    }
+                    checkWMExitStatus(status);
                 }
-                if (pid == tray_pid)
+                else if (pid == tray_pid) {
                     tray_pid = -1;
-                if (pid == bg_pid)
+                    checkTrayExitStatus(status);
+                }
+                else if (pid == bg_pid)
                     bg_pid = -1;
             }
         }
+        else if (sig == SIGUSR1)
+            notified();
+    }
 
-        if (sig == SIGUSR1)
-        {
-           if (++startup_phase == 1)
-              runIcewmtray();
-           else if (startup_phase == 2)
-              runScript("startup");
+    void checkWMExitStatus(int status) {
+        if (WIFEXITED(status)) {
+            if (WEXITSTATUS(status)) {
+                tlog(_("%s exited with status %d."),
+                        ICEWMEXE, WEXITSTATUS(status));
+            }
+            this->exit(0);
         }
+        else if (WIFSIGNALED(status)) {
+            tlog(_("%s was killed by signal %d."),
+                    ICEWMEXE, WTERMSIG(status));
+            runWM();
+        }
+    }
+
+    void checkTrayExitStatus(int status) {
+        if (WIFEXITED(status) && WEXITSTATUS(status) == 99) {
+            /*
+             * Exit code 99 means that execvp of icewmtray failed.
+             * Take this as a notification to continue with startup.
+             */
+            notified();
+        }
+    }
+
+    void notified() {
+        if (++startup_phase == 1)
+            runIcewmtray();
+        else if (startup_phase == 2)
+            runScript("startup");
     }
 
 private:
