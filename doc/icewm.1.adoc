@@ -80,6 +80,8 @@ On termination the
 'shutdown'
 script will be run first, then icewm-session will terminate
 icewmtray, icewm and icewmbg.
+(If instead of icewmtray you wish to run your own tray application
+then give icewm-session the '--notray' option.)
 
 *icesh*::
 Could be used to manage IceWM internals from command line.
@@ -355,7 +357,7 @@ Only by explicit clicking on a window is focus directed.
 with the last window. New applications don't receive focus
 and are mapped behind other windows.
 When an application raises to the front it still does not get focus.
-5. 'Quiet-focus' is like 'Sloppy' but no disturbing flashing
+5. 'Quiet-sloppy-focus' is like 'Sloppy' but no disturbing flashing
 occurs on the taskbar when an application requests focus.
 6. 'Custom-mode'
 is a focus mode which is defined in detail by ten options
