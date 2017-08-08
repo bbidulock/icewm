@@ -43,7 +43,7 @@ char const *ApplicationName = "icewmhint";
 static void print_usage()
 {
     puts(_("Usage: icewmhint [class.instance] option arg\n"));
-    exit(1);
+    exit(0);
 }
 
 int main(int argc, char **argv) {

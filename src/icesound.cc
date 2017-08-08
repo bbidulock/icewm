@@ -1260,7 +1260,7 @@ int main(int argc, char *argv[]) {
         if (**arg == '-') {
             if (is_help_switch(*arg)) {
                 IceSound::printUsage();
-                exit(1);
+                exit(0);
             }
             if (is_version_switch(*arg)) {
                 print_version_exit(VERSION);

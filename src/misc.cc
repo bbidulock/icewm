@@ -598,14 +598,14 @@ void print_help_exit(const char *help)
              "  -h, --help          Prints this usage screen and exits.\n"
              "\n"),
             ApplicationName, help);
-    exit(1);
+    exit(0);
 }
 
 void print_version_exit(const char *version)
 {
     printf("%s %s, %s.\n", ApplicationName, version,
         "Copyright 1997-2003 Marko Macek, 2001 Mathias Hasselmann");
-    exit(1);
+    exit(0);
 }
 
 void check_help_version(const char *arg, const char *help, const char *version)

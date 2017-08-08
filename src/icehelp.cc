@@ -1985,7 +1985,7 @@ static void print_help()
              "A very simple HTML browser displaying the document specified "
              "by FILENAME.\n\n"),
            ApplicationName);
-    exit(1);
+    exit(0);
 }
 
 int main(int argc, char **argv) {
