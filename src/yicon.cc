@@ -11,7 +11,7 @@
 #include "sysdep.h"
 #include "prefs.h"
 #include "yprefs.h"
-#include "wmprog.h" // !!! remove this
+#include "ypaths.h"
 
 #include "intl.h"
 

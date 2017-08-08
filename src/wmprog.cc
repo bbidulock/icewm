@@ -9,7 +9,6 @@
 
 #define NEED_TIME_H
 
-#include "ykey.h"
 #include "objmenu.h"
 #include "wmprog.h"
 #include "wmoption.h"
@@ -27,7 +26,7 @@
 #include "themes.h"
 #include "browse.h"
 #include "wmtaskbar.h"
-#include "yicon.h"
+#include "ypaths.h"
 #include "intl.h"
 #include "appnames.h"
 #include "ascii.h"

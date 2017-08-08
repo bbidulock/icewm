@@ -41,6 +41,7 @@
 #include "udir.h"
 #include "appnames.h"
 #include "ypointer.h"
+#include "ypaths.h"
 #include "intl.h"
 
 char const *ApplicationName("IceWM");

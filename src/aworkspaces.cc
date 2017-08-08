@@ -10,7 +10,7 @@
 #include "wmapp.h"
 #include "wmframe.h"
 #include "yrect.h"
-#include "yicon.h"
+#include "ypaths.h"
 #include "wmwinlist.h"
 #include "wpixmaps.h"
 #include "intl.h"

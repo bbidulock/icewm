@@ -1,7 +1,7 @@
 #ifndef __YAPP_H
 #define __YAPP_H
 
-#include "ypaths.h"
+#include "yarray.h"
 #include "upath.h"
 #include "ypoll.h"
 

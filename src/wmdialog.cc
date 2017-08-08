@@ -7,7 +7,7 @@
  */
 #include "config.h"
 
-#include "ykey.h"
+#include "ypaths.h"
 #include "wmdialog.h"
 #include "wmaction.h"
 #include "yactionbutton.h"

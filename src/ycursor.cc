@@ -12,6 +12,7 @@
 #include "default.h"
 #include "yxapp.h"
 #include "wmprog.h"
+#include "ypaths.h"
 
 #ifndef LITE
 
