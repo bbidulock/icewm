@@ -126,6 +126,13 @@ public:
     FocusMenu();
 };
 
+class HelpMenu: public ObjectMenu {
+public:
+    HelpMenu(IApp *app,
+            YSMListener *smActionListener,
+            YActionListener *wmActionListener);
+};
+
 class StartMenu: public MenuFileMenu {
 public:
     StartMenu(
