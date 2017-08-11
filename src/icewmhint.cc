@@ -26,7 +26,6 @@
 #include <signal.h>
 
 #ifdef CONFIG_GUIEVENTS
-#define GUI_EVENT_NAMES
 #include "guievent.h"
 #endif
 
