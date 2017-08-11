@@ -10,6 +10,9 @@
 #include "yrect.h"
 #include "ascii.h"
 #include "intl.h"
+#ifdef HAVE_STRINGS_H
+#include <strings.h>
+#endif
 
 #ifdef DEBUG
 #define DUMP
