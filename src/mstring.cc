@@ -48,6 +48,32 @@ mstring::mstring(const char *str, int len) {
     init(str, len);
 }
 
+mstring::mstring(const char *str1, const char *str2) {
+    int len1 = (int)(str1 ? strlen(str1) : 0);
+    int len2 = (int)(str2 ? strlen(str2) : 0);
+    if (len1) {
+        init(str1, len1 + len2);
+        if (len2)
+            strcpy(fStr->fStr + len1, str2);
+    } else {
+        init(str2, len2);
+    }
+}
+
+mstring::mstring(const char *str1, const char *str2, const char *str3) {
+    int len1 = (int)(str1 ? strlen(str1) : 0);
+    int len2 = (int)(str2 ? strlen(str2) : 0);
+    int len3 = (int)(str3 ? strlen(str3) : 0);
+    fOffset = 0;
+    fCount = len1 + len2 + len3;
+    fStr = MStringData::alloc(fCount);
+    memcpy(fStr->fStr, str1, len1);
+    memcpy(fStr->fStr + len1, str2, len2);
+    memcpy(fStr->fStr + len1 + len2, str3, len3);
+    fStr->fStr[fCount] = 0;
+    acquire();
+}
+
 void mstring::init(const char *str, int len) {
     if (str) {
         fStr = MStringData::create(str, len);
@@ -228,15 +254,20 @@ int mstring::count(char ch) const {
     return n;
 }
 
+bool mstring::equals(const char *s) const {
+    int len = s ? (int) strlen(s) : 0;
+    return len == length() && 0 == memcmp(s, data(), len);
+}
+
 bool mstring::equals(const mstring &s) const {
     return compareTo(s) == 0;
 }
 
 int mstring::collate(const mstring &s, bool ignoreCase) const {
-	if(!ignoreCase)
-		return strcoll(cstring(*this), cstring(s));
-	else
-		return strcoll(cstring(this->lower()), cstring(s.lower()));
+    if (!ignoreCase)
+        return strcoll(cstring(*this), cstring(s));
+    else
+        return strcoll(cstring(this->lower()), cstring(s.lower()));
 }
 
 int mstring::compareTo(const mstring &s) const {
