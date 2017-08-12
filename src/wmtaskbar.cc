@@ -867,17 +867,19 @@ void TaskBar::handleEndPopup(YPopupWindow *popup) {
 void TaskBar::paint(Graphics &g, const YRect &/*r*/) {
 #ifdef CONFIG_GRADIENTS
     if (taskbackPixbuf != null &&
-        !(fGradient != null &&
-          fGradient->width() == width() &&
-          fGradient->height() == height()))
+        (fGradient == null ||
+         fGradient->width() != width() ||
+         fGradient->height() != height()))
     {
-        fGradient = taskbackPixbuf->scale(width(), height());
+        int gradientHeight = height() / (1 + taskBarDoubleHeight);
+        fGradient = taskbackPixbuf->scale(width(), gradientHeight);
     }
 #endif
 
     g.setColor(getTaskBarBg());
     //g.draw3DRect(0, 0, width() - 1, height() - 1, true);
 
+    // When TaskBarDoubleHeight=1 this draws the upper half.
 #ifdef CONFIG_GRADIENTS
     if (fGradient != null)
         g.drawImage(fGradient, 0, 0, width(), height(), 0, 0);
