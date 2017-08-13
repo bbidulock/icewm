@@ -317,7 +317,7 @@ void YOSSAudio::play(int sound) {
     if (conf->verbose())
         tlog("TODO: adjust audio format"); // !!!
 
-    MSG(("copying sound %s to %s\n", samplefile, device));
+    MSG(("copying sound %s\n", (char *) samplefile));
 
     char sbuf[4096];
     for (int n; (n = read(ifd, sbuf, sizeof(sbuf))) > 0; )

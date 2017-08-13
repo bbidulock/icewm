@@ -373,7 +373,7 @@ void YWindow::destroy() {
     if (flags & wfCreated) {
         if (!(flags & wfDestroyed)) {
             if (!(flags & wfAdopted)) {
-                MSG(("----------------------destroy %X", fHandle));
+                MSG(("----------------------destroy %lX", fHandle));
                 XDestroyWindow(xapp->display(), fHandle);
                 removeAllIgnoreUnmap(fHandle);
             } else {
@@ -1887,7 +1887,7 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
         {
             XRRCrtcInfo *ci = XRRGetCrtcInfo(xapp->display(), xrrsr, xrrsr->crtcs[i]);
 
-            MSG(("xrr %d (%d): %d %d %d %d", i, xrrsr->crtcs[i], ci->x, ci->y, ci->width, ci->height));
+            MSG(("xrr %d (%ld): %d %d %d %d", i, xrrsr->crtcs[i], ci->x, ci->y, ci->width, ci->height));
 
             if (!gotLayout && ci->width > 0 && ci->height > 0) {
                 DesktopScreenInfo si;
@@ -1905,7 +1905,7 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
         for (int o = 0; o < xrrsr->noutput; o++) {
             XRROutputInfo *oinfo = XRRGetOutputInfo(xapp->display(), xrrsr, xrrsr->outputs[o]);
 
-            MSG(("output: %s -> %d", oinfo->name, oinfo->crtc));
+            MSG(("output: %s -> %ld", oinfo->name, oinfo->crtc));
 
 #ifndef NO_CONFIGURE
             if (xineramaPrimaryScreenName != 0 && oinfo->name != NULL) {

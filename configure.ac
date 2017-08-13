@@ -2,8 +2,8 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([icewm],[1.4.2.109],[https://github.com/bbidulock/icewm/issues])
-AC_REVISION([1.4.2.109])
+AC_INIT([icewm],[1.4.2.111],[https://github.com/bbidulock/icewm/issues])
+AC_REVISION([1.4.2.111])
 AC_CONFIG_SRCDIR([src/ysmapp.cc])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])

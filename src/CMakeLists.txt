@@ -393,7 +393,7 @@ SET_TARGET_PROPERTIES(icewmbg${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMM
 TARGET_LINK_LIBRARIES(icewmbg${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS}  ${pixbuf_LDFLAGS} ${xinerama_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 
 IF(CONFIG_GUIEVENTS AND (CONFIG_ALSA OR CONFIG_AO OR CONFIG_ESD OR CONFIG_OSS))
-ADD_EXECUTABLE(icesound${EXEEXT} icesound.cc upath.cc misc.cc mstring.cc ytimer.cc yapp.cc yprefs.cc yarray.cc)
+ADD_EXECUTABLE(icesound${EXEEXT} icesound.cc upath.cc misc.cc mstring.cc ytimer.cc yapp.cc yprefs.cc yarray.cc ref.cc)
 SET_TARGET_PROPERTIES(icesound${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
 TARGET_LINK_LIBRARIES(icesound${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${alsa_LDFLAGS} ${ao_LDFLAGS} ${esd_LDFLAGS} ${EXTRA_LIBS})
 INSTALL(TARGETS icesound${EXEEXT} DESTINATION ${BINDIR})

@@ -361,7 +361,7 @@ Status toggleState(Window window, long newState) {
     if (Success != getState(window, mask, state))
         state = mask = 0;
 
-    MSG(("old mask/state: %d/%d", mask, state));
+    MSG(("old mask/state: %ld/%ld", mask, state));
 
     XClientMessageEvent xev;
     memset(&xev, 0, sizeof(xev));
@@ -374,7 +374,7 @@ Status toggleState(Window window, long newState) {
     xev.data.l[1] = (state & mask & newState) ^ newState;
     xev.data.l[2] = CurrentTime;
 
-    MSG(("new mask/state: %d/%d", xev.data.l[0], xev.data.l[1]));
+    MSG(("new mask/state: %ld/%ld", xev.data.l[0], xev.data.l[1]));
 
     return XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
 }
@@ -788,7 +788,7 @@ int main(int argc, char **argv) {
                 }
 
                 if (windowList[i] != None) {
-                    MSG(("selected window 0x%x: `%s.%s'", windowList[i],
+                    MSG(("selected window 0x%lx: `%s.%s'", windowList[i],
                          classhint.res_name, classhint.res_class));
 
                     windowList[matchingWindowCount++] = windowList[i];
@@ -894,7 +894,7 @@ int main(int argc, char **argv) {
                                          parseWorkspaceName(*argp++));
             if (WinWorkspaceInvalid == workspace) THROW(1);
 
-            MSG(("setWorkspace: %d", workspace));
+            MSG(("setWorkspace: %ld", workspace));
             FOREACH_WINDOW(window) setWorkspace(*window, workspace);
         } else if (!strcmp(action, "listWorkspaces")) {
             YTextProperty workspaceNames(root, ATOM_WIN_WORKSPACE_NAMES);
