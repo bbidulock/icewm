@@ -266,32 +266,30 @@ static const PixmapResource taskbarPixRes[] = {
     PixmapResource(taskbarStartImage, "start.xpm", "icewm.xpm"),
 
 #ifdef CONFIG_GRADIENTS
-    PixmapResource(taskbackPixbuf, "taskbarbg.xpm"),
-    PixmapResource(taskbuttonPixbuf, "taskbuttonbg.xpm"),
-    PixmapResource(taskbuttonactivePixbuf, "taskbuttonactive.xpm"),
-    PixmapResource(taskbuttonminimizedPixbuf, "taskbuttonminimized.xpm"),
-#else
+    GradientResource(taskbackPixbuf, "taskbarbg.xpm"),
+    GradientResource(taskbuttonPixbuf, "taskbuttonbg.xpm"),
+    GradientResource(taskbuttonactivePixbuf, "taskbuttonactive.xpm"),
+    GradientResource(taskbuttonminimizedPixbuf, "taskbuttonminimized.xpm"),
+#endif
     PixmapResource(taskbackPixmap, "taskbarbg.xpm"),
     PixmapResource(taskbuttonPixmap, "taskbuttonbg.xpm"),
     PixmapResource(taskbuttonactivePixmap, "taskbuttonactive.xpm"),
     PixmapResource(taskbuttonminimizedPixmap, "taskbuttonminimized.xpm"),
-#endif
 #endif
 };
 
 static const PixmapResource taskbar2PixRes[] = {
 #ifdef CONFIG_TASKBAR
 #ifdef CONFIG_GRADIENTS
-    PixmapResource(taskbackPixbuf, "taskbarbg.xpm"),
-    PixmapResource(taskbuttonPixbuf, "taskbuttonbg.xpm"),
-    PixmapResource(taskbuttonactivePixbuf, "taskbuttonactive.xpm"),
-    PixmapResource(taskbuttonminimizedPixbuf, "taskbuttonminimized.xpm"),
-#else
+    GradientResource(taskbackPixbuf, "taskbarbg.xpm"),
+    GradientResource(taskbuttonPixbuf, "taskbuttonbg.xpm"),
+    GradientResource(taskbuttonactivePixbuf, "taskbuttonactive.xpm"),
+    GradientResource(taskbuttonminimizedPixbuf, "taskbuttonminimized.xpm"),
+#endif
     PixmapResource(taskbackPixmap, "taskbarbg.xpm"),
     PixmapResource(taskbuttonPixmap, "taskbuttonbg.xpm"),
     PixmapResource(taskbuttonactivePixmap, "taskbuttonactive.xpm"),
     PixmapResource(taskbuttonminimizedPixmap, "taskbuttonminimized.xpm"),
-#endif
 
     PixmapResource(taskbarStartImage, "start.xpm", "icewm.xpm"),
     PixmapResource(taskbarLinuxImage, "linux.xpm"),     // deprecated

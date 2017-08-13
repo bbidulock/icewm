@@ -481,11 +481,13 @@ void TaskPane::paint(Graphics &g, const YRect &/*r*/) {
     g.setColor(getTaskBarBg());
     //g.draw3DRect(0, 0, width() - 1, height() - 1, true);
 
+    // When TaskBarDoubleHeight=1 this draws the lower half.
 #ifdef CONFIG_GRADIENTS
     ref<YImage> gradient = parent()->getGradient();
 
     if (gradient != null)
-        g.drawImage(gradient, x(), y(), width(), height(), 0, 0);
+        g.drawImage(gradient, 0, taskBarDoubleHeight ? 0 : y(),
+                    width(), height(), 0, 0);
     else
 #endif    
     if (taskbackPixmap != null)
