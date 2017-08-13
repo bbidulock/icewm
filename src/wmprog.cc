@@ -823,6 +823,7 @@ HelpMenu::HelpMenu(
         { ICEHELPIDX, _("_Manual") },
         { "icewm.1.html", _("_Icewm(1)") },
         { "icewmbg.1.html", _("Icewm_Bg(1)") },
+        { "icesound.1.html", _("Ice_Sound(1)") },
     };
     for (size_t k = 0; k < ACOUNT(help); ++k) {
         YStringArray args(3);

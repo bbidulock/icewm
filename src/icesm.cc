@@ -54,6 +54,7 @@ private:
         "  --sync              Synchronize communication with X11 server.\n"
         "\n"
         "  --notray            Do not start icewmtray.\n"
+        "  --sound             Also start icesound.\n"
         );
     }
 
@@ -62,6 +63,7 @@ private:
     const char *themeArg;
     bool syncArg;
     bool notrayArg;
+    bool soundArg;
     char* argv0;
 
     void options(int *argc, char ***argv) {
@@ -71,6 +73,7 @@ private:
         themeArg = 0;
         syncArg = false;
         notrayArg = false;
+        soundArg = false;
 
         for (char **arg = 1 + *argv; arg < *argv + *argc; ++arg) {
             if (**arg == '-') {
@@ -90,6 +93,9 @@ private:
                 }
                 else if (is_long_switch(*arg, "notray")) {
                     notrayArg = true;
+                }
+                else if (is_long_switch(*arg, "sound")) {
+                    soundArg = true;
                 }
                 else if (is_help_switch(*arg)) {
                     print_help_exit(get_help_text());
@@ -113,6 +119,7 @@ public:
         logout = false;
         wm_pid = -1;
         tray_pid = -1;
+        sound_pid = -1;
         bg_pid = -1;
         catchSignal(SIGCHLD);
         catchSignal(SIGTERM);
@@ -215,6 +222,25 @@ public:
         }
     }
 
+    void runIcesound(bool quit = false) {
+        const char *args[12] = { ICESOUNDEXE, 0 };
+        if (soundArg == false) {
+            return;
+        }
+        else if (quit) {
+            if (sound_pid != -1) {
+                kill(sound_pid, SIGTERM);
+                int status;
+                waitpid(sound_pid, &status, 0);
+            }
+            sound_pid = -1;
+        }
+        else {
+            appendOptions(args, 2, ACOUNT(args));
+            sound_pid = runProgram(args[0], args);
+        }
+    }
+
     void runWM(bool quit = false) {
         const char *args[12] = { ICEWMEXE, "--notify", 0 };
         if (quit) {
@@ -288,14 +314,17 @@ private:
     void notified() {
         if (++startup_phase == 1)
             runIcewmtray();
-        else if (startup_phase == 2)
+        else if (startup_phase == 2) {
             runScript("startup");
+            runIcesound();
+        }
     }
 
 private:
     int startup_phase;
     int wm_pid;
     int tray_pid;
+    int sound_pid;
     int bg_pid;
     bool logout;
 };
@@ -314,5 +343,6 @@ int main(int argc, char **argv) {
     xapp.runIcewmtray(true);
     xapp.runWM(true);
     xapp.runIcewmbg(true);
+    xapp.runIcesound(true);
     return 0;
 }

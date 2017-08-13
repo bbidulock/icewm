@@ -81,8 +81,10 @@ On termination the
 'shutdown'
 script will be run first, then icewm-session will terminate
 icewmtray, icewm and icewmbg.
-(If instead of icewmtray you wish to run your own tray application
-then give icewm-session the '--notray' option.)
+If instead of icewmtray you wish to run your own tray application
+then give icewm-session the '--notray' option.
+Icewm-session will also start 'icesound'
+if you give it the '--sound' option.
 
 *icesh*::
 Could be used to manage IceWM internals from command line.
