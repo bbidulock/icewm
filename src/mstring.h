@@ -41,8 +41,6 @@ private:
     const char *data() const { return fStr->fStr + fOffset; }
 public:
     mstring(const char *str);
-    mstring(const char *str1, const char *str2);
-    mstring(const char *str1, const char *str2, const char *str3);
     mstring(const char *str, int len);
 
     mstring(const class null_ref &):
@@ -73,8 +71,6 @@ public:
     mstring& operator+=(const mstring& rv);
     mstring operator+(const mstring& rv) const;
 
-    bool operator==(const char *rv) const { return equals(rv); }
-    bool operator!=(const char *rv) const { return !equals(rv); }
     bool operator==(const mstring &rv) const { return equals(rv); }
     bool operator!=(const mstring &rv) const { return !equals(rv); }
     bool operator==(const class null_ref &) const { return fStr == 0; }
@@ -90,7 +86,6 @@ public:
     int lastIndexOf(char ch) const;
     int count(char ch) const;
 
-    bool equals(const char *s) const;
     bool equals(const mstring &s) const;
     int collate(const mstring &s, bool ignoreCase = false) const;
     int compareTo(const mstring &s) const;
