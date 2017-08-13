@@ -1,8 +1,203 @@
+icewm -- history of user-visible changes.  2017-08-13
+
+Release icewm-1.4.2.115 released 2017-08-13
+-------------------------------------------
+
+git shortlog -e -n -w80,6,8 1.4.2...HEAD
+
+Bert Gijsbers <gijsbers@science.uva.nl> (82):
+      Add class YArrayIterator for easy iteratation over YArrays.
+      Move definition of null to ref.cc to make clang-analyze happy.
+      4 assignment operators for easy initialization of smart pointers.
+      prevent a leak on nstr in unescape.
+      make scrollGC not static but local.
+      Reduce clutter and clarify.
+      Make tabPos not unsigned but int to prevent warnings, in multilineAlloc.
+      Make sure *key is initialized (clang-analyze). Add YConfig::cfoptionSize()
+        for genpref.
+      Simplify rd_str and prevent a corruption on bad input.
+      Free theme_preferences when done.
+      container->addSorted may refuse to add an item its name is a duplicate.
+        Detect this and free the item to prevent a leak (3x).
+      Prevent a memory leak.
+      When executing a child program check if it can be found alongside the
+        absolute path of icewm-session. Also fix the examination of exit status
+        of icewm and the detection of crashes.
+      Also print a string option if it has only just a description, but not a
+        non-null value.
+      Adding a menu item may fail. If this happens then the items must be freed
+        to prevent a leak.
+      Fix the calculation in the comment for DECIMAL_DIGIT_COUNT. Base max on
+        less than. Add inrange. Add GetArgument. Fix an off-by-one error in
+        intersection and reduce it to a one-liner.
+      Replace the taskBarBg global, which was initialed everywhere, by the
+        function getTaskBarBg(). Properly free data on when taskbar is done.
+        Sanitize taskBarAtTop (clang-analyze).
+      Add two options to control the max tray icon dimensions.
+      Add some handy operators for struct timeval. Add support for clock_gettime
+        and prefer it over gettimeofday. Use monotonic clocks for interval
+        measurements. Simplify timer management. Simplify
+        YApplication::mainLoop. When HOME is undefined get its value from
+        getpwuid.
+      Cleanup battery code. Free all resources. No globals.
+      Add two new options to control applet dimensions: TaskBarGraphHeight,
+        TaskBarGraphWidth. Free resources when done. No globals. Fix
+        MEMStatus::parseField.
+      use getTaskBarBg().
+      Make flash time have sub-second precision. Changes to make clang-analyze
+        happy.
+      free workspace data when done.
+      use getTaskBarBg().
+      Use monotonic time. Fix interval calculation.
+      Define getTaskBarBg(). Prevent leaks. Details.
+      use getTaskBarBg().
+      Calculate stringOffset just once (clang-analyze).
+      Make Graphics smaller/cheaper. Add more precise drawPixmap for speed
+        improvements to large images like backgrounds. Make YDimension use ints
+        to prevent warnings. Remove obsolete CONFIG_ANTIALIASING code.
+      timers for mainLoop.
+      Check if directories are searchable.
+      Add 3 more focus models. freeActions() when done. Hide globals behind a
+        function. Restart icewm from same executable location. Don't initialize
+        upath to 0 but to null. If an item could not be added to a menu then
+        free it.
+      free when done.
+      remove unused code.
+      Don't init a upath with NULL, but use null.
+      Create the dialog buttons in the order such that tabbing through them is
+        in reading order left-right-top-to-bottom.
+      Implement UserTime in a separate class with an extra seconds field.
+      Fix getNetWMStrutPartial. Initialize property data pointer before testing
+        if it is non-null.
+      We no longer need ypixbuf.cc ypixbuf.h yimage.cc.
+      No longer include ypixbuf.h.
+      Remove globals.
+      initialize prop before using it.
+      Rewrite icewmbg to support unique colors and images per workspace.
+        Backgrounds are periodically checked for changes on filesystem when
+        switching workspace. New option for one large full multi-head monitor
+        background. Can now also scale an image to fully cover a single monitor.
+        Suppors all configuration options also from the command line.
+      Remove the ifdef CONFIG_GUIEVENTS around "extern YWMApp* wmapp", so that
+        it is always available.
+      Add some ifdefs/ifndefs to support different configure --enable/--disable
+        option combinations.
+      Changes for ALTLinux which has its own prototypes for strlcpy/strlcat.
+        Also cleanup obsolete AC_FUNC_*s and sort -u the CHECK_FUNCs. Add two
+        AC_RUN_IFELSE to detect correct operations of strlcpy/strcat. Define
+        HAVE_STRLCPY / HAVE_STRLCAT if they do. Don't include our own
+        strlcpy/strlcat if these are defined.
+      Better fix for HAVE_STRLCPY/HAVE_STRLCAT.
+      Also mention HAVE_STRLCPY and HAVE_STRLCAT. Remove obsolete and duplicate
+        defines. Define defines always with a true numeric value of 1.
+      Prefer AC_DEFINE/AH_TEMPLATE over AC_DEFINE_UNQUOTED. This gives an #undef
+        instead of a #define to 0, which is what we want.
+      Manual pages in AsciiDoc.
+      Generate manpages and html files from AsciiDoc.
+      ASCIIMAN and ASCIIMAN_FORMAT variables for generating manpages from
+        AsciiDoc.
+      Generate manpages + their html from AsciiDoc.
+      Explicitly control which themes are installed.
+      Update links to online docs.
+      Fix URL formatting.
+      Move ypaths.h out of yapp.h, because a pure-yapps may not need X11.
+        Include ypaths.h into some C++ files which do need it.
+      Have --help and --version exit not with 1, but with 0.
+      Make icewm-session resilient against a missing icewmtray. Add a --notray
+        option to not start icewmtray. See issue
+        https://github.com/bbidulock/icewm/issues/154.
+      Make icewm-session much smaller in size by not linking any X11, image or
+        font library. ylibrary.cc and ylibrary.h are obsolete. Reduce
+        AM_INSTALLCHECK_STD_OPTIONS_EXEMPT programs.
+      icewm-session --notray.
+      Change Menu Help into a submenu with 3 items for all manual pages.
+      Redesign/rewrite icesound. Try all enabled sound drivers until one works,
+        from ESD, ALSA, OSS, but the order can be specified. Drop support for
+        YIFF. Fix support for ALSA. Make class YCommandLine obsolete. Make
+        verbose more usefully verbose. Add -O and -A options. Also check in
+        ~/.config/icewm/sounds/ for audio files. Identify which GUI events are
+        not implemented yet.
+      drop YIFF.
+      GUI_EVENT_NAMES were not used (prevent a warning).
+      include strings.h for strcasecmp.
+      Update build for new icesound.
+      More sounds info. Add keys example.
+      Move obsolete source to attic.
+      Fixes for correctly drawing taskbarbg.xpm when it is a Gradient. See issue
+        https://github.com/bbidulock/icewm/issues/87.
+      mstring additions to reduce memory allocations.
+      Three fixes for correctly drawing taskbarbg.xpm when it is a Gradient. See
+        issue https://github.com/bbidulock/icewm/issues/87.
+      include strings.h for strcasecmp. Make History::get() return a const
+        char*.
+      Remove superfluous GUI_EVENT_NAMES to prevent a warning.
+      mstring additions to reduce very-short-lived memory allocations.
+      Redesign/rewrite icesound. Try all enabled sound drivers until one works,
+        from AO, ESD, ALSA, OSS, but the order can be specified. Drop support
+        for YIFF. Add support for libAO. Fix support for ALSA. Make class
+        YCommandLine obsolete. Make verbose more usefully verbose. Add -O and -A
+        options. Also check in ~/.config/icewm/sounds/ for audio files. Replace
+        the busy-wait polling with a blocking select. Identify which GUI events
+        are not implemented yet. Update CMake, autoconf/automake and manpage.
+      Move obsolete sources to attic (ycmdline, yimage, ylibrary, ypixbuf).
+      Update CMake build for icesound with libAO.
+      icesound manpage and html.
+      More icesound support.
+      Changes for debug build.
+
+Brian Bidulock <bidulock@openss7.org> (19):
+      new INSTALL file
+      add a branch to configure.ac
+      substitute BRANCH for release version or github branch
+      add branch to readme
+      new default branch
+      substitute branch when generating release files
+      place correct subdir for version or branch
+      add contributing file per github policy
+      more comments on contributing
+      update contributing in readme
+      Revert "Redesign/rewrite icesound. Try all enabled sound drivers until one
+        works, from ESD, ALSA, OSS, but the order can be specified. Drop support
+        for YIFF. Fix support for ALSA. Make class YCommandLine obsolete. Make
+        verbose more usefully verbose. Add -O and -A options. Also check in
+        ~/.config/icewm/sounds/ for audio files. Identify which GUI events are
+        not implemented yet."
+      Revert "drop YIFF."
+      Revert "GUI_EVENT_NAMES were not used (prevent a warning)."
+      Revert "include strings.h for strcasecmp."
+      Revert "Update build for new icesound."
+      Revert "More sounds info. Add keys example."
+      Revert "Move obsolete source to attic."
+      Revert "Fixes for correctly drawing taskbarbg.xpm when it is a Gradient."
+      Revert "mstring additions to reduce memory allocations."
+
+Eduard Bloch <blade@debian.org> (12):
+      Document stamp files, added exception for build dir from CMake build
+        instructions
+      Merge branch 'icewm-1-4-BRANCH' of https://github.com/bbidulock/icewm into
+        icewm-1-4-BRANCH
+      Fix CMake build (yarray dependency after recent refactorings)
+      Fixing all Clang-5 warnings found so far
+      Added a dedicated CMake option for LTO enabling
+      Minor binary size improvement with -fvisibility=hidden for CMake build
+      Fix most creepy format errors/warnings in Debug build
+      Fix Debug build with CMake
+      Prevent accidental deletion of potfile
+      Recreated/improved original smart theme menu nesting algorithm
+      Copying the current theme indicator flag to the nested submenu
+      Use case-insensitive sorting for the theme menu
+
+Brian Bidulock <bidulock@openss7.com> (1):
+      Create CODE_OF_CONDUCT.md
+
+gijsbers <gijsbers@users.noreply.github.com> (1):
+      Merge pull request #151 from gijsbers/post42
+
 
 Release icewm-1.4.2 released 2017-07-30
 ---------------------------------------
 
-git shortlog -e -n -w80,6,8 1.4.1...HEAD
+git shortlog -e -n -w80,6,8 1.4.1...1.4.2
 
 Brian Bidulock <bidulock@openss7.org> (10):
       Merge remote-tracking branch 'origin/icewm-1-3-BRANCH' into
@@ -18,7 +213,7 @@ Brian Bidulock <bidulock@openss7.org> (10):
       Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
         icewm-1-4-BRANCH
 
-Bert Gijsbers <gijsbers@science.uva.nl> (5):
+Bert Gijsbers <gijsbers@science.uva.nl> (6):
       Omit -b in git checkout icewm-1-4-BRANCH.
       Specify output with -o icewm.html.
       Update ChangeLog to 1.4.1 and remove all changes for the 1.3.12 release
@@ -27,6 +222,7 @@ Bert Gijsbers <gijsbers@science.uva.nl> (5):
         pixmaps are missing then they are copied from others. This restores
         backward compatibility in issue #144.
       Always show icon in the top left corner of a window in issue #144.
+      Prepare for release 1.4.2.
 
 Brian Bidulock <bidulock@openss7.com> (1):
       Merge pull request #150 from
@@ -3951,12 +4147,4 @@ nehalmistry <nehalmistry> (1):
 
 uid34047 <> (1):
       some endian stuff (24 bit visuals)
-
-
-Release icewm-1.3.8 released 2013-11-17
----------------------------------------
-
-git shortlog -e -n -w80,6,8 1_3_8...icewm_1_3_8
-
-
 
