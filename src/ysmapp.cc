@@ -23,14 +23,14 @@ upath getsesfile() {
     upath path(YApplication::getPrivConfDir());
     if (false == path.dirExists())
         path.mkdir(0755);
-    path += mstring("/.session-") + newSessionId;
+    path += mstring("/.session-", newSessionId);
     return path;
 }
 
 static void iceWatchFD(IceConn conn,
                        IcePointer /*client_data*/,
                        Bool opening,
-                       IcePointer */*watch_data*/)
+                       IcePointer* /*watch_data*/)
 {
     if (opening) {
         if (IceSMfd != -1) { // shouldn't happen
