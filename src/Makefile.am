@@ -351,15 +351,16 @@ icewmbg_SOURCES = \
 icewmbg_LDADD = libice.la $(IMAGE_LIBS) $(CORE_LIBS)
 
 icesound_SOURCES = \
-	base.h \
-	debug.h \
-	guievent.h \
 	intl.h \
+	debug.h \
 	sysdep.h \
-	upath.h \
-	ypointer.h \
-	ytimer.h \
-	icesound.cc
+	base.h \
+	guievent.h \
+	ylib.h \
+	icesound.cc \
+	ascii.h \
+	ycmdline.cc \
+	ycmdline.h
 icesound_LDADD = libice.la $(AUDIO_LIBS) $(CORE_LIBS)
 
 icewm_menu_gnome1_SOURCES = \
