@@ -328,7 +328,7 @@ CONFIGURE_FILE("${CMAKE_SOURCE_DIR}/src/config.cmake.h.in" "${CMAKE_BINARY_DIR}/
 
 # pkg-config delivers lists, we need plain compiler options! :-(
 foreach(pfx fontconfig xext x11 pixbuf xrandr xft alsa 
-		esd yiff xinerama fribidi gio)
+		esd ao xinerama fribidi gio)
 	string(REPLACE ";" " " ${pfx}_CFLAGS "${${pfx}_CFLAGS}")
 	#message(STATUS "Normalizing argument lists: ${${pfx}_LDFLAGS} ; ${${pfx}_CFLAGS}")
 endforeach()
@@ -393,9 +393,9 @@ SET_TARGET_PROPERTIES(icewmbg${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMM
 TARGET_LINK_LIBRARIES(icewmbg${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS}  ${pixbuf_LDFLAGS} ${xinerama_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 
 IF(CONFIG_GUIEVENTS AND (CONFIG_ALSA OR CONFIG_AO OR CONFIG_ESD OR CONFIG_OSS))
-ADD_EXECUTABLE(icesound${EXEEXT} icesound.cc upath.cc misc.cc mstring.cc)
+ADD_EXECUTABLE(icesound${EXEEXT} icesound.cc upath.cc misc.cc mstring.cc ytimer.cc yapp.cc yprefs.cc yarray.cc)
 SET_TARGET_PROPERTIES(icesound${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
-TARGET_LINK_LIBRARIES(icesound${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${alsa_LDFLAGS} ${yiff_LDFLAGS} ${esd_LDFLAGS} ${EXTRA_LIBS})
+TARGET_LINK_LIBRARIES(icesound${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${alsa_LDFLAGS} ${ao_LDFLAGS} ${esd_LDFLAGS} ${EXTRA_LIBS})
 INSTALL(TARGETS icesound${EXEEXT} DESTINATION ${BINDIR})
 ENDIF()
 

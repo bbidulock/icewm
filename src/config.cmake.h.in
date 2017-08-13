@@ -66,6 +66,7 @@
 #cmakedefine HAVE_LOCALE_H 1
 #cmakedefine HAVE_NETDB_H 1
 #cmakedefine HAVE_NETINET_IN_H 1
+#cmakedefine HAVE_SNDFILE_H 1
 #cmakedefine HAVE_STDDEF_H 1
 #cmakedefine HAVE_STDLIB_H 1
 #cmakedefine HAVE_STRING_H 1
@@ -120,7 +121,7 @@
 #cmakedefine CONFIG_GUIEVENTS 1
 #cmakedefine CONFIG_OSS 1
 #cmakedefine ENABLE_ALSA 1
-#cmakedefine ENABLE_YIFF 1
+#cmakedefine ENABLE_AO 1
 #cmakedefine ENABLE_ESD 1
 #cmakedefine XINERAMA 1
 #cmakedefine CONFIG_FRIBIDI 1
