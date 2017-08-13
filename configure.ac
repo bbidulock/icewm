@@ -2,8 +2,8 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([icewm],[1.4.2.78],[https://github.com/bbidulock/icewm/issues])
-AC_REVISION([1.4.2.78])
+AC_INIT([icewm],[1.4.2.109],[https://github.com/bbidulock/icewm/issues])
+AC_REVISION([1.4.2.109])
 AC_CONFIG_SRCDIR([src/ysmapp.cc])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
@@ -11,7 +11,7 @@ AC_CONFIG_AUX_DIR([scripts])
 AC_USE_SYSTEM_EXTENSIONS
 AC_CANONICAL_TARGET
 
-DATE='2017-08-05'
+DATE='2017-08-13'
 AC_SUBST([DATE])
 
 BRANCH='icewm-1-4-BRANCH'
@@ -102,8 +102,7 @@ AC_HEADER_DIRENT
 AC_HEADER_SYS_WAIT
 AC_PATH_X
 AC_PATH_XTRA
-AC_CHECK_HEADERS([fcntl.h langinfo.h libintl.h limits.h locale.h netdb.h netinet/in.h stddef.h stdlib.h string.h sys/file.h sys/ioctl.h sys/param.h sys/socket.h sys/time.h unistd.h wchar.h])
-AC_CHECK_HEADERS([linux/threads.h linux/tasks.h])
+AC_CHECK_HEADERS([fcntl.h langinfo.h libintl.h limits.h locale.h netdb.h netinet/in.h sndfile.h stddef.h stdlib.h string.h sys/file.h sys/ioctl.h sys/param.h sys/socket.h sys/time.h unistd.h wchar.h])
 AC_CHECK_HEADERS([sched.h sys/dkstat.h sys/param.h sys/sysctl.h uvm/uvm_param.h])
 AC_CHECK_HEADERS([libgen.h])
 AC_CHECK_HEADERS([machine/apmvar.h])
@@ -133,8 +132,8 @@ AC_CHECK_FUNCS([abort basename dup2])
 AC_CHECK_FUNCS([gethostbyname gethostname gettimeofday])
 AC_CHECK_FUNCS([mblen memchr memmove memset mkdir nl_langinfo])
 AC_CHECK_FUNCS([select setlocale socket])
-AC_CHECK_FUNCS([strcasecmp strchr strcspn strdup strerror])
-AC_CHECK_FUNCS([strncasecmp strrchr strspn strstr strtol strtoul])
+AC_CHECK_FUNCS([strcasecmp strchr strcspn strdup strerror strncasecmp])
+AC_CHECK_FUNCS([strrchr strsignal strspn strstr strtol strtoul])
 AC_CHECK_FUNCS([sysctlbyname sysinfo uname wordexp])
 AC_CHECK_FUNC([getloadavg],[AC_DEFINE([HAVE_GETLOADAVG2], 1, [getloadavg() is available])])
 AC_FUNC_SELECT_ARGTYPES
@@ -275,11 +274,11 @@ if test x$enable_pda = xyes; then
 fi
 
 AC_ARG_ENABLE([guievents],
-    AC_HELP_STRING([--enable-guievents],[Enable GUI events (experimental).]))
+    AC_HELP_STRING([--enable-guievents],[Enable GUI events for audio.]))
 AC_ARG_WITH([icesound],
     AC_HELP_STRING([--with-icesound=INTERFACES],[List of audio interfaces for icesound.
-	Requires support for GUI events.  @<:@default: ALSA,OSS,Y,ESound@:>@]),[],
-    [with_icesound='ALSA,OSS,Y,ESound'])
+	Requires support for GUI events.  @<:@default: ALSA,AO,OSS,ESD@:>@]),[],
+    [with_icesound='ALSA,AO,OSS,ESD'])
 if test x$enable_guievents = xyes ; then
     AC_DEFINE([CONFIG_GUIEVENTS],[1],[Define to enable GUI events support.])
     features="${features} gui-events"
@@ -293,16 +292,16 @@ if test x$enable_guievents = xyes ; then
 		AC_DEFINE([ENABLE_ALSA],[1],[Define to enable ALSA support.])
 		CONFIG_ALSA=yes],[AC_MSG_WARN([ALSA is not supported])])
 	    ;;
+	(AO|ao)
+	    PKG_CHECK_MODULES([AO],[sndfile ao],[
+		AUDIO_CFLAGS="$AUDIO_CFLAGS $AO_CFLAGS"
+		AUDIO_LIBS="$AUDIO_LIBS $AO_LIBS"
+		AC_DEFINE([ENABLE_AO],[1],[Define to enable AO support.])
+		CONFIG_AO=yes],[AC_MSG_WARN([AO is not supported])])
+	    ;;
 	(OSS|oss)
 	    AC_DEFINE([ENABLE_OSS],[1],[Define to enable OSS support.])
 	    CONFIG_OSS=yes
-	    ;;
-	(Y|Y2|YIFF|y|y2|yiff)
-	    PKG_CHECK_MODULES([YIFF],[Y2],[
-		AUDIO_CFLAGS="$AUDIO_CFLAGS $YIFF_CFLAGS"
-		AUDIO_LIBS="$AUDIO_LIBS $YIFF_LIBS"
-		AC_DEFINE([ENABLE_YIFF],[1],[Define to enable YIFF support.])
-		CONFIG_YIFF=yes],[AC_MSG_WARN([YIFF is not supported])])
 	    ;;
 	(ESound|ESD|esound|esd)
 	    PKG_CHECK_MODULES([ESD],[esound],[
@@ -316,7 +315,7 @@ if test x$enable_guievents = xyes ; then
 	    ;;
 	esac
     done
-    for iface in ALSA OSS YIFF ESD; do
+    for iface in ALSA AO OSS ESD; do
 	eval "test \"\$CONFIG_$iface\" = yes" && audio_support="$audio_support $iface"
     done
     if test "x$audio_support" != x ; then

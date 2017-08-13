@@ -55,6 +55,7 @@ to active applications, and to a small set of monitoring applets.
 *icewmbg*::
 The background setting application. It can assign plain
 background color or images in different formats to the X background.
+Each workspace can have its own background.
 It supports semitransparency. Semitransparent background image
 and color can be configured. When the background image has changed
 then icewmbg can be notified to update the background.
@@ -87,13 +88,14 @@ then give icewm-session the '--notray' option.)
 Could be used to manage IceWM internals from command line.
 
 *icehelp*::
-Is used by icewm to display the 'IceWM manual'.
+Is used by icewm to display the 'IceWM manual' and the manpages.
 
 *icewmhint*::
 Is used internally.
 
 *icesound*::
 Plays audio files on GUI events raised by IceWM.
+It supports ALSA, AO, EsounD and OSS.
 
 *icewm-menu-fdo*::
 Generate an IceWM menu with executable desktop applications
@@ -826,6 +828,10 @@ After one or more spaces follows a double-quoted string
 of the bound X11 key combination like "Alt+Ctrl+Shift+X".
 Then after at least one space follows a shell command line which
 will be executed by IceWM whenever this key combination is pressed.
+For example, the following line creates a hotkey to reload
+the IceWM configuration:
+
+  key "Ctrl+Shift+r"      pkill -x -HUP icewm
 
 *menu*::
 A menu of startable applications; usually customized by the user.
@@ -957,6 +963,25 @@ Icons which are used to display different states of
 the mailbox applet in the taskbar.
 There are five states and each has its own icon:
 mail.xpm, newmail.xpm, unreadmail.xpm, nomail.xpm, errmail.xpm.
+
+*sounds*::
+Audio files which are played by 'icesound' on GUI events.
+These are:
+startup.wav,
+shutdown.wav,
+restart.wav,
+launchApp.wav,
+workspaceChange.wav,
+windowOpen.wav,
+windowClose.wav,
+windowMax.wav,
+windowRestore.wav,
+windowMin.wav,
+windowHide.wav,
+windowRollup.wav,
+windowMoved.wav,
+windowSized.wav,
+windowLower.wav.
 
 *taskbar*::
 Pictures to customize the look of the taskbar.

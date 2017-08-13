@@ -29,7 +29,10 @@
  *              application
  * 2005-11-30:  Christian W. Zuckschwerdt  <zany@triq.net>
  *              Added ALSA interface support
- * TODO: a virtual YAudioInterface class the OSS, ESD and YIFF implement
+ * 2017-08-11:  Redesign by Bert Gijsbers. Fix ALSA. Remove YCommandLine.
+ *              From multiple enabled interfaces choose the one that works.
+ *              Replace the busy-wait polling with a blocking select.
+ *              Added support for AO.
  *
  * for now get latest patches as well as sound and cursor themes at
  *  http://triq.net/icewm/
@@ -37,25 +40,17 @@
  * Sound output interface types and notes:
  *
  *      ALSA    Advanced Linux Sound Architecture (needs libsndfile)
+ *      AO      libao: a cross platform audio library (needs libsndfile)
  *      OSS     Open Sound Source (generic)
- *      Y       Y sound systems
  *      ESounD  Enlightenment Sound Daemon (uses caching and *throttling)
  *
  * `*' Throttling is max. one sample every 500ms. Comments?
  */
 #include "config.h"
-#include "intl.h"
-#include "ytimer.h"
-
-#if 1
-#define THROW(Result) { rc = (Result); goto exceptionHandler; }
-#define TRY(Command) { if ((rc = (Command))) THROW(rc); }
-#define CATCH(Handler) { exceptionHandler: { Handler } return rc; }
-#endif
 
 #ifndef CONFIG_GUIEVENTS
 #error Configure with "--enable-guievents"
-#else /* CONFIG_GUIEVENTS */
+#endif
 
 #include <stdio.h>
 #include <assert.h>
@@ -63,26 +58,28 @@
 #include <stdarg.h>
 #include <errno.h>
 #include <string.h>
-
-#include <ctype.h>
 #include <unistd.h>
 #include <signal.h>
-
 #include <sys/types.h>
 #include <sys/wait.h>
-
 #include <fcntl.h>
-#include <X11/Xproto.h>
-#include <X11/Xatom.h>
 #include <X11/Xlib.h>
-#include <X11/Xutil.h>
-#include <X11/Xos.h>
 
+#include "ytimer.h"
+#include "base.h"
+#include "ypointer.h"
+#include "upath.h"
+#include "intl.h"
 #define GUI_EVENT_NAMES
 #include "guievent.h"
 
-#include "base.h" /* strJoin */
-#include "ycmdline.h"
+#if defined(ENABLE_ALSA) || defined(ENABLE_AO)
+#if HAVE_SNDFILE_H
+#include <sndfile.h>
+#else
+#error sndfile.h is required; please install libsndfile-dev
+#endif
+#endif
 
 /******************************************************************************/
 
@@ -90,267 +87,189 @@ char const * ApplicationName = "icesound";
 
 #define ALSA_DEFAULT_DEVICE "default"
 #define OSS_DEFAULT_DEVICE "/dev/dsp"
-#define YIFF_DEFAULT_SERVER "127.0.0.1:9433"
 
-/******************************************************************************
- * IceSound application
- ******************************************************************************/
+static const char audio_interfaces[] =
+#ifdef ENABLE_AO
+    "AO,"
+#endif
+#ifdef ENABLE_ESD
+    "ESD,"
+#endif
+#ifdef ENABLE_ALSA
+    "ALSA,"
+#endif
+    "OSS";
 
-class IceSound : public YCommandLine {
+static class SoundAsync {
 public:
-    IceSound(int & argc, char **& argv):
-        YCommandLine(argc, argv), dpyname(NULL) {
-        }
-
-        static void printUsage();
-        int run();
-
-protected:
-    virtual char getArgument(char const * const & arg, char const *& val);
-    virtual int setOption(char const * arg, char opt, char const * val);
-    virtual int setArgument(int, char const *) { return 0; }
-
-public:
-    static char const * samples;
-    static bool verbose;
-    static volatile bool running;
-
-private:
-    static void exit();
-    static void exit(int sig);
-    static void hup(int sig);
-    static void chld(int sig);
-
-    char const * dpyname;
-    static class YAudioInterface * audio;
-};
+    volatile bool running;
+    volatile bool reload;
+} soundAsync = { true, false };
 
 /******************************************************************************
  * A generic audio interface
  ******************************************************************************/
 
+class SoundConf {
+public:
+    virtual ~SoundConf() {}
+    virtual bool verbose() const = 0;
+    virtual const char* alsaDevice() const = 0;
+    virtual const char* ossDevice() const = 0;
+    virtual const char* esdServer() const = 0;
+
+    /**
+     * Finds a filename for sample with the specified gui event.
+     * Returns NULL on error or the full path to the sample file.
+     * The string returned has to be freed by the caller
+     */
+    virtual char* findSample(int sound) const = 0;
+};
+
 class YAudioInterface {
 public:
     virtual ~YAudioInterface() {}
-    virtual int init(int & argc, char **& argv) = 0;
-    virtual void play(int sid) = 0;
+    virtual int init(SoundConf* conf) = 0;
+    virtual void play(int sound) = 0;
     virtual void reload() {}
-    virtual void idle() {}
-
-    /**
-     * Finds a filename for sample with the specified id.
-     * Returns NULL on error or the the full path to the sample file.
-     * The string returned has to be freed by the caller
-     */
-
-    char * findSample(int sid)  {
-        char basefname[1024];
-
-        strlcpy(basefname, gui_events[sid].name, sizeof basefname);
-        strlcat(basefname, ".wav", sizeof basefname);
-
-        return findSample(basefname);
-    }
-
-    char * findSample(char const * basefname);
 };
 
-/**
- * Finds the sample specified.
- * Returns NULL on error or the the full path to the sample file.
- * The string returned has to be freed by the caller
- */
-char * YAudioInterface::findSample(char const * basefname) {
-    static char const * paths[] = {
-        IceSound::samples,
-        cstrJoin(getenv("HOME"), "/.icewm/sounds/", NULL),
-        cstrJoin(CFGDIR, "/sounds/", NULL),
-        cstrJoin(LIBDIR, "/sounds/", NULL)
-    };
-
-    for(unsigned i(0); i < ACOUNT(gui_events); i++)
-        for (unsigned n(0); n < ACOUNT(paths); ++n)
-            if(paths[n] != NULL) {
-                char * filename = cstrJoin(paths[n], basefname, NULL);
-
-                if (access(filename, R_OK) == 0)
-                    return filename;
-
-                delete[] filename;
-            }
-
-    return NULL;
-}
-
- /******************************************************************************
+/******************************************************************************
  * ALSA audio interface
  ******************************************************************************/
 
 #ifdef ENABLE_ALSA
 
 #include <alsa/asoundlib.h>
-#include <sndfile.h>
 
 class YALSAAudio : public YAudioInterface {
 public:
-    YALSAAudio(): device(ALSA_DEFAULT_DEVICE) {}
+    YALSAAudio();
+    virtual ~YALSAAudio();
 
     virtual void play(int sound);
-    virtual int init(int & argc, char **& argv);
+    virtual int init(SoundConf* conf) {
+        this->conf = conf;
+        return open();
+    }
 
 private:
-    friend class CommandLine;
-    class CommandLine : public YCommandLine {
-    public:
-        CommandLine(int & argc, char **& argv, YALSAAudio & alsa):
-            YCommandLine(argc, argv), alsa(alsa) {}
+    int open();
 
-            virtual char getArgument(char const * const & arg, char const *& val) {
-                char const * larg(arg[1] == '-' ? arg + 2 : arg + 1);
-
-                if (!strpcmp(larg, "device")) {
-                    val = getValue(arg, strchr(arg, '='));
-                    return 'D';
-                }
-
-                if (strchr("D", arg[1])) {
-                    val = getValue(arg, arg[2] ? arg + 2 : NULL);
-                    return arg[1];
-                }
-
-                return '\0';
-            }
-
-            virtual int setOption(char const * arg, char opt, char const * val) {
-                switch(opt) {
-                case 'D': // ======================================== device ===
-                    alsa.device = val;
-                    return 0;
-
-                default:
-                    return YCommandLine::setOption(arg, opt, val);
-                }
-            }
-
-    protected:
-        YALSAAudio & alsa;
-    };
-
-    friend class CommandLine;
-    char const * device;
+    SoundConf* conf;
+    snd_pcm_t *playback_handle;
 };
+
+YALSAAudio::YALSAAudio() :
+    conf(0),
+    playback_handle(0)
+{
+}
+
+YALSAAudio::~YALSAAudio() {
+    if (playback_handle) {
+        snd_pcm_hw_free(playback_handle);
+        snd_pcm_close(playback_handle);
+        playback_handle = 0;
+    }
+}
+
+int YALSAAudio::open() {
+    int err;
+    if ((err = snd_pcm_open(&playback_handle,
+                    conf->alsaDevice(), SND_PCM_STREAM_PLAYBACK, 0)) < 0) {
+        warn("cannot open audio device %s (%s)\n",
+                 conf->alsaDevice(),
+                 snd_strerror(err));
+        return 3;
+    }
+    return 0;
+}
 
 /**
  * Play a sound sample directly to the digital signal processor.
  */
 void YALSAAudio::play(int sound) {
-    if (device == NULL) return;
+    csmart samplefile(conf->findSample(sound));
+    if (samplefile == NULL)
+        return;
 
-    for(unsigned i(0); i < ACOUNT(gui_events); i++)
-        if(gui_events[i].type == sound) {
-            char * samplefile(findSample(i));
+    if (conf->verbose())
+        tlog(_("Playing sample #%d (%s)"), sound, (char *) samplefile);
 
-#ifndef DEBUG
-            if (IceSound::verbose)
-#endif
-                msg(_("Playing sample #%d (%s)"), sound, samplefile);
+    int err;
+    snd_pcm_hw_params_t *hw_params(0);
 
-            if (!samplefile) {
-                return;
-          }
+    SF_INFO sfinfo = {};
+    SNDFILE* sf = sf_open(samplefile, SFM_READ, &sfinfo);
+    if (sf == NULL) {
+        warn("%s: %s", (char *) samplefile, sf_strerror(sf));
+        goto done;
+    }
 
-          int err;
-            snd_pcm_t *playback_handle;
-            snd_pcm_hw_params_t *hw_params;
+    if ((err = snd_pcm_hw_params_malloc(&hw_params)) < 0) {
+        warn("cannot allocate hardware parameter structure (%s)\n",
+                 snd_strerror(err));
+        goto done;
+    }
 
-            SF_INFO sfinfo;
-            SNDFILE* sf = sf_open(samplefile, SFM_READ, &sfinfo);
-            if(sf == NULL) {
-                warn("%s: %s", samplefile, sf_strerror(sf));
-                return;
+    if ((err = snd_pcm_hw_params_any(playback_handle, hw_params)) < 0) {
+        warn("cannot initialize hardware parameter structure (%s)\n",
+                 snd_strerror(err));
+        goto done;
+    }
+
+    if ((err = snd_pcm_hw_params_set_access(playback_handle, hw_params,
+                    SND_PCM_ACCESS_RW_INTERLEAVED)) < 0) {
+        warn("cannot set access type (%s)\n", snd_strerror(err));
+        goto done;
+    }
+
+    if ((err = snd_pcm_hw_params_set_format(playback_handle, hw_params,
+                    SND_PCM_FORMAT_S16_LE)) < 0) {
+        warn("cannot set sample format (%s)\n", snd_strerror(err));
+        goto done;
+    }
+
+    if ((err = snd_pcm_hw_params_set_rate_near(playback_handle, hw_params,
+                    (unsigned int *)&sfinfo.samplerate, 0)) < 0) {
+        warn("cannot set sample rate (%s)\n", snd_strerror(err));
+        goto done;
+    }
+
+    if ((err = snd_pcm_hw_params_set_channels(playback_handle, hw_params,
+                    sfinfo.channels)) < 0) {
+        warn("cannot set channel count (%s)\n", snd_strerror(err));
+        goto done;
+    }
+
+    if ((err = snd_pcm_hw_params(playback_handle, hw_params)) < 0) {
+        warn("cannot set parameters (%s)\n", snd_strerror(err));
+        goto done;
+    }
+
+    if ((err = snd_pcm_prepare(playback_handle)) < 0) {
+        warn("cannot prepare audio interface (%s)\n", snd_strerror(err));
+        goto done;
+    }
+
+    {
+        const int N = 8*1024;
+        short sbuf[N]; // period_size * channels * snd_pcm_format_width(format)) / 8
+        for (int n; (n = sf_readf_short(sf, sbuf, N / 2)) > 0; ) {
+            if ((err = snd_pcm_writei(playback_handle, sbuf, n) != n)) {
+                warn("write to audio interface failed (%s) %zd %d\n",
+                         snd_strerror(err), sizeof(short), n);
+                goto done;
             }
-
-            if ((err = snd_pcm_open (&playback_handle, device, SND_PCM_STREAM_PLAYBACK, 0)) < 0) {
-                    warn ("cannot open audio device %s (%s)\n",
-                             device,
-                             snd_strerror (err));
-                    return;
-            }
-
-            if ((err = snd_pcm_hw_params_malloc (&hw_params)) < 0) {
-                    warn ("cannot allocate hardware parameter structure (%s)\n",
-                             snd_strerror (err));
-                    return;
-            }
-
-            if ((err = snd_pcm_hw_params_any (playback_handle, hw_params)) < 0) {
-                    warn ("cannot initialize hardware parameter structure (%s)\n",
-                             snd_strerror (err));
-                    return;
-            }
-
-            if ((err = snd_pcm_hw_params_set_access (playback_handle, hw_params, SND_PCM_ACCESS_RW_INTERLEAVED)) < 0) {
-                    warn ("cannot set access type (%s)\n",
-                             snd_strerror (err));
-                    return;
-            }
-
-            if ((err = snd_pcm_hw_params_set_format (playback_handle, hw_params, SND_PCM_FORMAT_S16_LE)) < 0) {
-                    warn ("cannot set sample format (%s)\n",
-                             snd_strerror (err));
-                    return;
-            }
-
-            if ((err = snd_pcm_hw_params_set_rate_near (playback_handle, hw_params, (unsigned int *)&sfinfo.samplerate, 0)) < 0) {
-                    warn ("cannot set sample rate (%s)\n",
-                             snd_strerror (err));
-                    return;
-            }
-
-            if ((err = snd_pcm_hw_params_set_channels (playback_handle, hw_params, sfinfo.channels)) < 0) {
-                    warn ("cannot set channel count (%s)\n",
-                             snd_strerror (err));
-                    return;
-            }
-
-            if ((err = snd_pcm_hw_params (playback_handle, hw_params)) < 0) {
-                    warn ("cannot set parameters (%s)\n",
-                             snd_strerror (err));
-                    return;
-            }
-
-            snd_pcm_hw_params_free (hw_params);
-
-            if ((err = snd_pcm_prepare (playback_handle)) < 0) {
-                    warn ("cannot prepare audio interface for use (%s)\n",
-                             snd_strerror (err));
-                    return;
-            }
-
-            short sbuf[512]; // period_size * channels * snd_pcm_format_width(format)) / 8
-            for (int n; (n = sf_readf_short (sf, sbuf, 256)) > 0; ) {
-                if ((err = snd_pcm_writei (playback_handle, sbuf, n) != n)) {
-                    warn ("write to audio interface failed (%s) %zd\n",
-                             snd_strerror (err), sizeof(short));
-                    return;
-                }
-            }
-            sf_close(sf);
-
-            snd_pcm_close (playback_handle);
-
-            delete[] samplefile;
         }
-}
+    }
 
-int YALSAAudio::init(int & argc, char **& argv) {
-    int rc(0);
-
-    TRY(CommandLine(argc, argv, *this).parse())
-
-    // check the device parameter perhaps?
-
-    CATCH(/**/;)
+done:
+    if (hw_params)
+        snd_pcm_hw_params_free(hw_params);
+    if (sf)
+        sf_close(sf);
 }
 
 #endif /* ENABLE_ALSA */
@@ -361,115 +280,62 @@ int YALSAAudio::init(int & argc, char **& argv) {
 
 class YOSSAudio : public YAudioInterface {
 public:
-    YOSSAudio(): device(OSS_DEFAULT_DEVICE) {}
+    YOSSAudio(): conf(0) {}
 
     virtual void play(int sound);
-    virtual int init(int & argc, char **& argv);
+    virtual int init(SoundConf* conf);
 
 private:
-    friend class CommandLine;
-    class CommandLine : public YCommandLine {
-    public:
-        CommandLine(int & argc, char **& argv, YOSSAudio & oss):
-            YCommandLine(argc, argv), oss(oss) {}
-
-            virtual char getArgument(char const * const & arg, char const *& val) {
-                char const * larg(arg[1] == '-' ? arg + 2 : arg + 1);
-
-                if (!strpcmp(larg, "device")) {
-                    val = getValue(arg, strchr(arg, '='));
-                    return 'D';
-                }
-
-                if (strchr("D", arg[1])) {
-                    val = getValue(arg, arg[2] ? arg + 2 : NULL);
-                    return arg[1];
-                }
-
-                return '\0';
-            }
-
-            virtual int setOption(char const * arg, char opt, char const * val) {
-                switch(opt) {
-                case 'D': // ======================================== device ===
-                    oss.device = val;
-                    return 0;
-
-                default:
-                    return YCommandLine::setOption(arg, opt, val);
-                }
-            }
-
-    protected:
-        YOSSAudio & oss;
-    };
-
-    friend class CommandLine;
-    char const * device;
+    SoundConf* conf;
 };
 
 /**
  * Play a sound sample directly to the digital signal processor.
  */
 void YOSSAudio::play(int sound) {
-    if (device == NULL) return;
+    csmart samplefile(conf->findSample(sound));
+    if (samplefile == NULL)
+        return;
 
-    for(unsigned i(0); i < ACOUNT(gui_events); i++)
-        if(gui_events[i].type == sound) {
-            char * samplefile(findSample(i));
+    if (conf->verbose())
+        tlog(_("Playing sample #%d (%s)"), sound, (char *) samplefile);
 
-#ifndef DEBUG
-            if (IceSound::verbose)
-#endif
-                msg(_("Playing sample #%d (%s)"), sound, samplefile);
+    int ifd(open(samplefile, O_RDONLY));
+    if (ifd == -1) {
+        fail("%s", (char *) samplefile);
+        return;
+    }
 
-            if (samplefile) {
-                int ifd(open(samplefile, O_RDONLY));
+    int ofd(open(conf->ossDevice(), O_WRONLY));
+    if (ofd == -1) {
+        fail("%s", conf->ossDevice());
+        close(ifd);
+        return;
+    }
 
-                if(ifd == -1) {
-                    warn("%s: %s", samplefile, strerror(errno));
-                    return;
-                }
+    // TODO: adjust audio format !!!
+    if (conf->verbose())
+        tlog("TODO: adjust audio format"); // !!!
 
-                int ofd(open(device, O_WRONLY));
+    MSG(("copying sound %s to %s\n", samplefile, device));
 
-                if(ofd == -1) {
-                    warn("%s: %s", device, strerror(errno));
-                    close(ifd);
-                    return;
-                }
+    char sbuf[4096];
+    for (int n; (n = read(ifd, sbuf, sizeof(sbuf))) > 0; )
+        if (write(ofd, sbuf, n) != n)
+            if (n != -1 || errno != EINTR)
+                break;
 
-                if (IceSound::verbose)
-                    msg("TODO: adjust audio format"); // !!!
-
-#ifdef DEBUG
-                msg("copying sound %s to %s\n", samplefile, device);
-#endif
-                delete[] samplefile;
-
-                char sbuf[4096];
-                for (int n; (n = read(ifd, sbuf, sizeof(sbuf))) > 0; )
-                    if (write(ofd, sbuf, n) != n)
-			if (errno != EINTR)
-			    break;
-
-                close(ofd);
-                close(ifd);
-            }
-        }
+    close(ofd);
+    close(ifd);
 }
 
-int YOSSAudio::init(int & argc, char **& argv) {
-    int rc(0);
-
-    TRY(CommandLine(argc, argv, *this).parse())
-
-        if (access(device, W_OK) != 0) {
-            warn(_("No such device: %s"), device);
-            THROW(3)
-        }
-
-    CATCH(/**/;)
+int YOSSAudio::init(SoundConf* conf) {
+    this->conf = conf;
+    if (access(conf->ossDevice(), W_OK) != 0) {
+        fail(_("%s"), conf->ossDevice());
+        return 3;
+    }
+    return 0;
 }
 
 /******************************************************************************
@@ -483,109 +349,72 @@ int YOSSAudio::init(int & argc, char **& argv) {
 class YESDAudio : public YAudioInterface {
 public:
     YESDAudio():
-        speaker(getenv("ESPEAKER")), socket(-1) {
-            for (unsigned i = 0; i < ACOUNT(sample); ++i) sample[i] = -1;
-        }
+        socket(-1)
+    {
+        for (unsigned i = 0; i < ACOUNT(sample); ++i) sample[i] = -1;
+    }
 
-        virtual ~YESDAudio() {
-            unloadSamples();
-            if (socket > -1) esd_close(socket);
+    virtual ~YESDAudio() {
+        unloadSamples();
+        if (socket > -1) {
+            esd_close(socket);
+            socket = -1;
         }
+    }
 
-        virtual void play(int sound);
+    virtual void play(int sound);
 
-        virtual void reload() {
-            unloadSamples();
-            uploadSamples();
-        }
+    virtual void reload() {
+        unloadSamples();
+        uploadSamples();
+    }
+
+    virtual int init(SoundConf* conf);
 
 private:
-    unsigned uploadSamples();
-    unsigned unloadSamples();
+    int uploadSamples();
+    int unloadSamples();
 
     int uploadSample(int sound, char const * path);
-    virtual int init(int & argc, char **& argv);
-
-private:
-    friend class CommandLine;
-    class CommandLine : public YCommandLine {
-    public:
-        CommandLine(int & argc, char **& argv, YESDAudio & esd):
-            YCommandLine(argc, argv), esd(esd) {}
-
-            virtual char getArgument(char const * const & arg, char const *& val) {
-                char const * larg(arg[1] == '-' ? arg + 2 : arg + 1);
-
-                if (!(strpcmp(larg, "server") &&
-                      strpcmp(larg, "speaker"))) {
-                    val = getValue(arg, strchr(arg, '='));
-                    return 'S';
-                }
-
-                if (strchr("S", arg[1])) {
-                    val = getValue(arg, arg[2] ? arg + 2 : NULL);
-                    return arg[1];
-                }
-
-                return '\0';
-            }
-
-            virtual int setOption(char const * arg, char opt, char const * val) {
-                switch(opt) {
-                case 'S': // ======================================= speaker ===
-                    esd.speaker = val;
-                    return 0;
-
-                default:
-                    return YCommandLine::setOption(arg, opt, val);
-                }
-            }
-
-    private:
-        YESDAudio & esd;
-    };
 
 protected:
-    friend class CommandLine;
-    char const * speaker;
-    int sample[ACOUNT(gui_events)];     // cache sample ids
-    int socket;                         // socket to ESound Daemon
+    SoundConf* conf;
+    int sample[NUM_GUI_EVENTS];     // cache audio samples
+    int socket;                     // socket to ESound Daemon
 };
 
-int YESDAudio::init(int & argc, char **& argv) {
-    int rc(0);
+int YESDAudio::init(SoundConf* conf) {
+    this->conf = conf;
 
-    TRY(CommandLine(argc, argv, *this).parse())
-
-        if ((socket = esd_open_sound(speaker)) == -1) {
+    const char* server = conf->esdServer();
+    if ((socket = esd_open_sound(server)) == -1) {
+        if (conf->verbose())
             warn(_("Can't connect to ESound daemon: %s"),
-                 speaker ? speaker : _("<none>"));
-            THROW(3);
-        }
+                 server ? server : _("<none>"));
+        return 3;
+    }
 
-    CATCH(
-          uploadSamples();
-         )
+    uploadSamples();
+    return 0;
 }
 
 /**
  * Upload a sample in the ESounD server.
  * Returns sample ID or negative on error.
  */
-
 int YESDAudio::uploadSample(int sound, char const * path) {
-    if(socket < 0) return -1;
+    if (socket < 0) return -1;
 
     int rc(esd_file_cache(socket, ApplicationName, path));
 
-    if(rc < 0)
+    if (rc < 0)
         msg(_("Error <%d> while uploading `%s:%s'"), rc,
             ApplicationName, path);
     else {
         sample[sound] = rc;
 
-        if (IceSound::verbose)
-            msg(_("Sample <%d> uploaded as `%s:%s'"), rc,
+        if (conf->verbose())
+            tlog(_("Sample <%d> uploaded as `%s:%s'"), rc,
                 ApplicationName, path);
     }
 
@@ -597,12 +426,12 @@ int YESDAudio::uploadSample(int sound, char const * path) {
  * Returns number of samples catched.
  */
 
-unsigned YESDAudio::unloadSamples() {
-    if(socket < 0) return 0;
+int YESDAudio::unloadSamples() {
+    if (socket < 0) return 0;
 
-    unsigned cnt(0);
-    for(unsigned i(0); i < ACOUNT(gui_events); ++i)
-        if(sample[i] > 0) {
+    int cnt(0);
+    for (int i(0); i < NUM_GUI_EVENTS; ++i)
+        if (sample[i] > 0) {
             esd_sample_free(socket, sample[i]);
             cnt++;
         }
@@ -615,18 +444,20 @@ unsigned YESDAudio::unloadSamples() {
  * Returns the number of loaded samples.
  */
 
-unsigned YESDAudio::uploadSamples() {
-    if(socket < 0) return 0;
+int YESDAudio::uploadSamples() {
+    if (socket < 0) return 0;
 
-    unsigned cnt(0);
-    for(unsigned i(0); i < ACOUNT(gui_events); i++) {
-        char * samplefile(findSample(i));
+    int cnt(0);
+    for (int i(0); i < NUM_GUI_EVENTS; i++) {
+        csmart samplefile(conf->findSample(i));
 
         if (samplefile != NULL) {
             if (uploadSample(i, samplefile) >= 0) ++cnt;
-            delete[] samplefile;
         }
     }
+
+    if (soundAsync.reload)
+        soundAsync.reload = false;
 
     return cnt;
 }
@@ -634,342 +465,242 @@ unsigned YESDAudio::uploadSamples() {
 /**
  * Play a cached sound sample using ESounD.
  */
-
 void YESDAudio::play(int sound) {
     if (socket < 0) return;
 
-    for(unsigned i(0); i < ACOUNT(gui_events); i++)
-        if(gui_events[i].type == sound) {
+    if (soundAsync.reload)
+        reload();
 
-#ifndef DEBUG
-            if (IceSound::verbose)
-#endif
-                msg(_("Playing sample #%d"), i);
+    if (conf->verbose())
+        tlog(_("Playing sample #%d: %d"), sound, sample[sound]);
 
-            if(sample[i] > 0)
-                esd_sample_play(socket, sample[i]);
-        }
+    if (sample[sound] > 0)
+        esd_sample_play(socket, sample[sound]);
 }
 
 #endif /* ENABLE_ESD */
 
-/* *************************** Y Section ************************** */
-/* If ENABLE_YIFF is defined then the Y2 header files will be included
- * and the functions for Y server interfacing will be declared here
- * in this section.
- */
-#ifdef ENABLE_YIFF
+/******************************************************************************
+ * LibAO cross-platform audio output library version 1.2.0 or later.
+ ******************************************************************************/
 
-#include <Y2/Y.h>
-#include <Y2/Ylib.h>
+#ifdef ENABLE_AO
 
-class YY2Audio : public YAudioInterface {
+#include <ao/ao.h>
+
+class YAOAudio : public YAudioInterface {
 public:
-    YY2Audio():
-        server(NULL), recorder(getenv("RECORDER")),
-        mode(NULL), matchMode(false) {
-        }
-
-        virtual ~YY2Audio() {
-            if (server) YCloseConnection(server, False);
-        }
-
-        virtual void play(int sound);
-
-        virtual int init(int & argc, char **& argv);
-
-        virtual void idle();
-
-        void listAudioModes();
-        void play(char const * path,
-                  Coefficient lVol = 1.0, Coefficient rVol = 1.0);
+    YAOAudio() :
+        conf(0),
+        driver(-1)
+    {
+    }
+    virtual ~YAOAudio() {
+        if (conf)
+            ao_shutdown();
+    }
+    virtual void play(int sound);
+    virtual int init(SoundConf* conf);
 
 private:
-    friend class CommandLine;
-    class CommandLine : public YCommandLine {
-    public:
-        CommandLine(int & argc, char **& argv, YY2Audio & yiff):
-            YCommandLine(argc, argv), yiff(yiff) {}
-
-            virtual char getArgument(char const * const & arg, char const *& val) {
-                char const * larg(arg[1] == '-' ? arg + 2 : arg + 1);
-
-                if (!(strpcmp(larg, "server") &&
-                      strpcmp(larg, "recorder"))) {
-                    val = getValue(arg, strchr(arg, '='));
-                    return 'S';
-                } else if (!strpcmp(larg, "audio-mode")) {
-                    val = getValue(arg, strchr(arg, '='));
-                    return 'm';
-                } else if (!strcmp(larg, "audio-mode-auto"))
-                    return 'A';
-
-                if (strchr("Srm", arg[1])) {
-                    val = getValue(arg, arg[2] ? arg + 2 : NULL);
-                    return arg[1];
-                }
-
-                return '\0';
-            }
-
-            virtual int setOption(char const * arg, char opt, char const * val);
-
-    private:
-        YY2Audio & yiff;
-    };
-
-protected:
-    YConnection *server;                // Connection to Y server
-    char const * recorder;              // Address:port string
-    char const *mode;                   // Audio mode name
-    bool matchMode;                     // Automantically adjust audio mode
+    SoundConf* conf;
+    int driver;
 };
 
-int YY2Audio::init(int & argc, char **& argv) {
-    YConnection * con(NULL);
-    int rc(0);
-
-    TRY(CommandLine(argc, argv, *this).parse())
-
-        if (recorder == NULL) recorder = YIFF_DEFAULT_SERVER;
-    con = YOpenConnection(NULL, recorder);
-
-    if (NULL == con) {
-        warn(_("Can't connect to YIFF server: %s"),
-             recorder ? recorder : _("<none>"));
-        THROW(3);
-    }
-
-    if(mode != NULL && YChangeAudioModePreset(con, mode))
-        warn(_("Can't change to audio mode `%s'."), mode);
-
-    /* Now set descriptor to server, this is incase a SIGHUP
-     * or other async event occured during initialization. */
-    server = con;
-
-    CATCH(/**/;)
+int YAOAudio::init(SoundConf* conf) {
+    this->conf = conf;
+    ao_initialize();
+    driver = ao_default_driver_id();
+    if (driver < 0)
+        return 3;
+    return 0;
 }
 
 /**
- * Prints list of preset Audio modes on the Y server.
+ * Play a cached sound sample using ESounD.
  */
-void YY2Audio::listAudioModes() {
-    if (recorder == NULL) recorder = YIFF_DEFAULT_SERVER;
-    YConnection * con(YOpenConnection(NULL, recorder));
+void YAOAudio::play(int sound) {
+    csmart samplefile(conf->findSample(sound));
+    if (samplefile == NULL)
+        return;
 
-    if (con) {
-        YAudioModeValuesStruct ** modes;
-        int num;
+    if (conf->verbose())
+        tlog(_("Playing sample #%d (%s)"), sound, (char *) samplefile);
 
-        if ((modes = YGetAudioModes(con, &num)) != NULL) {
-            for (int i(0); i < num; ++i) {
-                YAudioModeValuesStruct * m_ptr(modes[i]);
+    ao_device* device = 0;
+    ao_sample_format format = {};
 
-                if(m_ptr != NULL)
-                    printf("%s: %i Hz, %i bits, %i ch\n",
-                           m_ptr->name, m_ptr->sample_rate,
-                           m_ptr->sample_size, m_ptr->channels);
+    SF_INFO sfinfo = {};
+    SNDFILE* sf = sf_open(samplefile, SFM_READ, &sfinfo);
+    if (sf == NULL) {
+        warn("%s: %s", (char *) samplefile, sf_strerror(sf));
+        goto done;
+    }
+
+    format.bits = 16;
+    format.rate = sfinfo.samplerate;
+    format.channels = sfinfo.channels;
+    format.byte_format = AO_FMT_LITTLE;
+    format.matrix = NULL;
+
+    device = ao_open_live(driver, &format, NULL);
+    if (device == NULL) {
+        warn(_("ao_open_live failed with %d"), errno);
+        goto done;
+    }
+
+    {
+        const int N = 8*1024;
+        short sbuf[N] = {};
+        for (int n, k; (n = sf_readf_short(sf, sbuf, N / 2)) > 0; ) {
+            k = ao_play(device, (char *) sbuf, n * 2 * 2);
+            if (k == 0) {
+                warn(_("ao_play failed"));
+                goto done;
             }
-
-            YFreeAudioModesList(modes, num);
-        }
-
-        YCloseConnection(con, False);
-    } else
-        warn(_("Can't connect to YIFF server: %s"),
-             recorder ? recorder : _("<none>"));
-}
-
-void YY2Audio::play(int sound) {
-    for(unsigned i(0); i < ACOUNT(gui_events); i++)
-        if(gui_events[i].type == sound) {
-            char * samplefile(findSample(i));
-
-            if (samplefile != NULL) {
-#ifndef DEBUG
-                if (IceSound::verbose)
-#endif
-                    msg(_("Playing sample #%d (%s)"), sound, samplefile);
-
-                play(samplefile);
-                delete[] samplefile;
-            }
-        }
-}
-
-/**
- * Plays the specified path on the Y server.
- */
-void YY2Audio::play(char const * path, Coefficient lVol, Coefficient rVol) {
-    if(server == NULL || path == NULL) return;
-
-    lVol = max(lVol, 0.0);
-    rVol = max(rVol, 0.0);
-
-    if(matchMode) {
-        YEventSoundObjectAttributes sAttr;
-        YAudioModeValuesStruct **modes;
-        int mCount;
-
-        if(!YGetSoundObjectAttributes(server, path, &sAttr) &&
-           (modes = YGetAudioModes(server, &mCount)) != NULL) {
-            YAudioModeValuesStruct *matchingMode(NULL);
-
-            for(int i(0); i < mCount && matchingMode == NULL; ++i) {
-                YAudioModeValuesStruct *mPtr(modes[i]);
-
-                if (mPtr &&
-                    mPtr->sample_rate == sAttr.sample_rate &&
-                    mPtr->channels == sAttr.channels &&
-                    mPtr->sample_size == sAttr.sample_size)
-                    matchingMode = mPtr;
-            }
-
-            if(matchingMode)
-                YChangeAudioModePreset(server, matchingMode->name);
-            else {
-                /* No Audio mode matched, try to set explicit Audio
-                 * values. */
-
-                long cycle(max(100L, YCalculateCycle
-                               (server, sAttr.sample_rate, sAttr.channels,
-                                sAttr.sample_size, 4096)));
-
-                YSetAudioModeValues(server, sAttr.sample_rate, sAttr.channels,
-                                    sAttr.sample_size,
-                                    0, 1, 2, 4096);
-                YSyncAll(server, True);
-                YSetCycle(server, cycle);
-            }
-
-            YFreeAudioModesList(modes, mCount);
         }
     }
 
-    YEventSoundPlay value;
-    value.flags = YPlayValuesFlagPosition |
-        YPlayValuesFlagTotalRepeats |
-        YPlayValuesFlagVolume;
-
-    value.position = 0;                 /* `From the top' */
-    value.total_repeats = 1;            /* Repeat once. */
-    value.left_volume = lVol;
-    value.right_volume = rVol;
-
-    YStartPlaySoundObject(server, path, &value);
+done:
+    if (device)
+        ao_close(device);
+    if (sf)
+        sf_close(sf);
 }
 
-void YY2Audio::idle() {
-    YEvent yev;
-
-    while(YGetNextEvent(server, &yev, False) > 0) {
-        switch(yev.type) {
-        case YAudioChange:
-#ifdef DEBUG
-            if(yev.audio.preset)
-                msg("Y server switched to preset Audio `%s'",
-                    yev.audio.mode_name);
-            else
-                msg("Y server changed Audio to: "
-                    "%i Hz, %i bits, %i ch, %i bytes\n",
-                    yev.audio.sample_rate,
-                    yev.audio.sample_size,
-                    yev.audio.channels,
-                    yev.audio.fragment_size_bytes);
-#endif
-            /* If we are automatically adjusting the Audio mode and some
-             * other Y client or the Y server itself has changed the Audio then
-             * we should stop automatic changing of Audio mode to prevent
-             * `fighting' with the other Y client or Y server. */
-
-            if (mode) {
-                msg(_("Audio mode switch detected, "
-                      "initial audio mode `%s' no longer in effect."),
-                    mode);
-                mode = NULL;
-            }
-
-            if (matchMode) {
-                msg(_("Audio mode switch detected, "
-                      "automatic audio mode changing disabled."));
-                matchMode = false;
-            }
-
-        case YSoundObjectKill:
-#ifdef DEBUG
-            msg("Y sound object #%ld finished playing.", yev.kill.yid);
-#endif
-            break;
-
-        case YDisconnect:
-#ifdef DEBUG
-            msg("Lost connection to Y server, reason `%d'\n",
-                yev.disconnect.reason);
-#endif
-            YCloseConnection(server, False);
-            server = NULL;
-            break;
-
-        case YShutdown:
-#ifdef DEBUG
-            msg("Y server has shutdown, reason `%i'\n",
-                yev.shutdown.reason);
-#endif
-            YCloseConnection(server, False);
-            server = NULL;
-            break;
-        }
-
-        /* Has the Y server been detected to disconnected us or
-         * shutdown in the above event handling? */
-
-        IceSound::running = (server != NULL);
-    }
-}
-
-int YY2Audio::CommandLine::setOption(char const * arg, char opt, char const * val) {
-    switch(opt) {
-    case 'S': // ====================================== recorder ===
-    case 'r':
-        yiff.recorder = val;
-        return 0;
-
-    case 'm': // ==================================== audio-mode ===
-        if (yiff.mode != NULL)
-            warn(_("Overriding previous audio mode `%s'."),
-                 yiff.mode);
-
-        if (val == NULL || strcmp(val, "?") == 0) {
-            yiff.listAudioModes();
-            return -1;
-        }
-
-        yiff.mode = val;
-        return 0;
-
-    case 'A': // =============================== audio-mode-auto ===
-        if (yiff.mode != NULL)
-            warn(_("Overriding previous audio mode `%s'."),
-                 yiff.mode);
-
-        yiff.matchMode = true;
-        return 0;
-
-    default:
-        return YCommandLine::setOption(arg, opt, val);
-    }
-}
-
-#endif  /* ENABLE_YIFF */
+#endif /* ENABLE_AO */
 
 /******************************************************************************
  * IceSound application
  ******************************************************************************/
 
-char const * IceSound::samples(NULL);
-volatile bool IceSound::running(true);
-bool IceSound::verbose(false);
-YAudioInterface * IceSound::audio(NULL);
+class IceSound : public SoundConf {
+public:
+    IceSound(int argc, char** argv);
+    virtual ~IceSound() {}
+
+    virtual bool verbose() const { return verbosity; }
+    virtual const char* alsaDevice() const {
+        return alsaDeviceFile ? alsaDeviceFile :
+            deviceFile ? deviceFile : ALSA_DEFAULT_DEVICE;
+    }
+    virtual const char* ossDevice() const {
+        return ossDeviceFile ? ossDeviceFile :
+            deviceFile ? deviceFile : OSS_DEFAULT_DEVICE;
+    }
+    virtual const char* esdServer() const {
+        return esdServerName ? esdServerName : getenv("ESPEAKER");
+    }
+    virtual char* findSample(int sound) const;
+
+    int run();
+    static void printUsage();
+
+private:
+    bool verbosity;
+    char const* sampleDir;
+    char const* deviceFile;
+    char const* alsaDeviceFile;
+    char const* ossDeviceFile;
+    char const* esdServerName;
+    char const* displayName;
+    char const* interfaceNames;
+    class YAudioInterface* audio;
+    upath paths[6];
+    Atom _GUI_EVENT;
+    Display* display;
+    Window root;
+    timeval last;
+
+    const char* name(int sound) const {
+        return gui_event_names[sound];
+    }
+    void initPaths();
+    void initSignals();
+    int chooseInterface();
+    void loopEvents();
+    void readEvents();
+    void guiEvent();
+    int getProperty();
+
+private:
+    static void stop(int sig);
+    static void hup(int sig);
+};
+
+IceSound::IceSound(int argc, char** argv) :
+    verbosity(false),
+    sampleDir(0),
+    deviceFile(0),
+    alsaDeviceFile(0),
+    ossDeviceFile(0),
+    esdServerName(0),
+    displayName(0),
+    interfaceNames(audio_interfaces),
+    audio(0),
+    _GUI_EVENT(None),
+    display(NULL),
+    root(None),
+    last(monotime())
+{
+#ifdef DEBUG
+    verbosity = true;
+#endif
+    initPaths();
+    initSignals();
+    for (char **arg = argv + 1; arg < argv + argc; ++arg) {
+        if (**arg == '-') {
+            char* value(0);
+            if (GetArgument(value, "d", "display", arg, argv + argc)) {
+                displayName = value;
+            }
+            else if (GetArgument(value, "s", "sample-dir", arg, argv + argc)) {
+                sampleDir = value;
+            }
+            else if (GetArgument(value, "i", "interface", arg, argv + argc)) {
+                interfaceNames = value;
+            }
+            else if (GetArgument(value, "D", "device", arg, argv + argc)) {
+                deviceFile = value;
+            }
+            else if (GetArgument(value, "A", "alsa", arg, argv + argc)) {
+                alsaDeviceFile = value;
+            }
+            else if (GetArgument(value, "O", "oss", arg, argv + argc)) {
+                ossDeviceFile = value;
+            }
+            else if (GetArgument(value, "S", "server", arg, argv + argc)) {
+                esdServerName = value;
+            }
+            else if (is_switch(*arg, "v", "verbose")) {
+                verbosity = true;
+            }
+            else if (is_help_switch(*arg)) {
+                printUsage();
+            }
+            else if (is_version_switch(*arg)) {
+                print_version_exit(VERSION);
+            }
+            else if (is_long_switch(*arg, "list-interfaces")) {
+                printf("%s\n", audio_interfaces);
+                ::exit(0);
+            }
+            else if (is_long_switch(*arg, "list-sounds")) {
+                for (int i = 0; i < NUM_GUI_EVENTS; ++i) {
+                    if (i != 3 && i != 8 && i != 9) {
+                        printf("%s.wav\n", name(i));
+                    }
+                }
+                ::exit(0);
+            }
+            else {
+                warn(_("Unrecognized option: %s\n"), *arg);
+            }
+        } else {
+            warn(_("Unrecognized argument: %s\n"), *arg);
+        }
+    }
+}
 
 /**
  * Print usage information for icesound
@@ -979,252 +710,246 @@ void IceSound::printUsage() {
 Usage: %s [OPTION]...\n\
 \n\
 Plays audio files on GUI events raised by IceWM.\n\
+The currently configured sound interfaces are: %s.\n\
+Icesound will choose the first of these which is usable.\n\
 \n\
 Options:\n\
 \n\
--d, --display=DISPLAY         Display used by IceWM (default: $DISPLAY).\n\
--s, --sample-dir=DIR          Specifies the directory which contains\n\
-                              the sound files (ie ~/.icewm/sounds).\n\
--i, --interface=TARGET        Specifies the sound output target\n\
-                              interface, one of OSS, YIFF, ESD, ALSA\n\
--D, --device=DEVICE           (ALSA & OSS only) specifies the device to use\n\
-                              (OSS default: /dev/dsp; ALSA: default).\n\
--S, --server=ADDR:PORT        (ESD and YIFF) specifies server address and\n\
-                              port number (default localhost:16001 for ESD\n\
-                              and localhost:9433 for YIFF).\n\
--m, --audio-mode[=MODE]       (YIFF only) specifies the Audio mode (leave\n\
-                              blank to get a list).\n\
---audio-mode-auto             (YIFF only) change Audio mode on the fly to\n\
-                              best match sample's Audio (can cause\n\
-                              problems with other Y clients, overrides\n\
-                              --audio-mode).\n\
+ -d, --display=DISPLAY   X11 display used by IceWM (default: $DISPLAY).\n\
 \n\
--v, --verbose                 Be verbose (prints out each sound event to\n\
-                              stdout).\n\
--V, --version                 Prints version information and exits.\n\
--h, --help                    Prints (this) help screen and exits.\n\
+ -s, --sample-dir=DIR    Specifies a directory with sound files.\n\
+                         Default is $HOME/.config/icewm/sounds.\n\
+\n\
+ -i, --interface=LIST    Specifies audio output interfaces. One or more of:\n\
+                         %s separated by commas.\n\
+\n\
+ -D, --device=DEVICE     Backwards compatibility only: the default device. \n\
+                         Please prefer one of the -A/-O/-S options.\n\
+\n\
+ -O, --oss=DEVICE        Specifies the OSS device (default: \"%s\").\n\
+\n\
+ -A, --alsa=DEVICE       Specifies the ALSA device (default: \"%s\").\n\
+\n\
+ -S, --server=ADDR:PORT  Specifies the ESD server address and port number.\n\
+                         For ESD the default is \"localhost:16001\".\n\
+\n\
+     --list-sounds       Lists the supported sound filenames and exits.\n\
+     --list-interfaces   Lists the supported audio interfaces and exits.\n\
+ -v, --verbose           Be verbose and print out each sound event.\n\
+ -V, --version           Prints version information and exits.\n\
+ -h, --help              Prints this help screen and exits.\n\
 \n\
 Return values:\n\
 \n\
-0     Success.\n\
-1     General error.\n\
-2     Command line error.\n\
-3     Subsystems error (ie cannot connect to server).\n\n"),
-           ApplicationName);
+  0    Success.\n\
+  1    General error.\n\
+  2    Command line error.\n\
+  3    Subsystems error (ie cannot connect to server).\n\n"),
+           ApplicationName, audio_interfaces, audio_interfaces,
+           ALSA_DEFAULT_DEVICE, OSS_DEFAULT_DEVICE);
 
-    return;
+    ::exit(0);
+}
+
+void IceSound::initPaths() {
+    int k = 0;
+    if (sampleDir) {
+        paths[k++] = upath(sampleDir) + "/";
+    }
+    const char* home = getenv("HOME");
+    if (home) {
+        upath uhome(home);
+        paths[k++] = uhome + "/.config/icewm/sounds/";
+        paths[k++] = uhome + "/.icewm/sounds/";
+    }
+    paths[k++] = CFGDIR "/sounds/";
+    paths[k++] = LIBDIR "/sounds/";
+    assert(k < (int) ACOUNT(paths));
+}
+
+void IceSound::initSignals() {
+    signal(SIGINT, stop); // === ensure clean exit ===
+    signal(SIGTERM, stop);
+    signal(SIGPIPE, stop);
+    signal(SIGHUP, hup);
+}
+
+/**
+ * Finds a filename for sample with the specified gui event.
+ * Returns NULL on error or the full path to the sample file.
+ * The string returned has to be freed by the caller
+ */
+char* IceSound::findSample(int sound) const {
+    if (inrange(sound, 0, NUM_GUI_EVENTS - 1)) {
+        upath base(mstring(name(sound), ".wav"));
+        for (int k = 0; paths[k] != null; ++k) {
+            upath file(paths[k] + base);
+            if (file.isReadable()) {
+                return newstr(file.string());
+            }
+        }
+        if (verbose())
+            tlog(_("No audio for %s"), name(sound));
+    }
+    return NULL;
 }
 
 /**
  * The hearth of icesound
  */
 int IceSound::run() {
-    int rc(0);
-    timeval last(monotime());
-    Display * display(NULL);
-    Window root(None);
-    Atom _GUI_EVENT(None);
+    MSG(("Compiled with DEBUG flag. Debugging messages will be printed."));
 
-#ifdef ENABLE_NLS
-    bindtextdomain(PACKAGE, LOCDIR);
-    textdomain(PACKAGE);
-#endif
+    int rc = chooseInterface();
+    if (rc) return rc;
 
-#ifdef DEBUG
-    msg("Compiled with DEBUG flag. Debugging messages will be printed.");
-#endif
-
-    TRY(parse())
-
-        signal(SIGINT, exit); // ============================= ensure clean exit ===
-    signal(SIGTERM, exit);
-    signal(SIGPIPE, exit);
-
-    if (audio == NULL) audio = new YOSSAudio(); // ==== init audio interface ===
-    if ((rc = audio->init(argc, argv))) {
-        printf("%d\n", rc);
-        THROW(max(rc, 0))
-    }
-
-    if(NULL == (display = XOpenDisplay(dpyname))) { // ====== connect to X11 ===
+    if (NULL == (display = XOpenDisplay(displayName))) { // === connect to X11 ===
         warn(_("Can't open display: %s. X must be running and $DISPLAY set."),
-             XDisplayName(dpyname));
-        THROW(3)
+             XDisplayName(displayName));
+        rc = 3;
     }
+    else {
+        root = RootWindow(display, DefaultScreen(display));
+        _GUI_EVENT = XInternAtom(display, XA_GUI_EVENT_NAME, False);
+        XSelectInput(display, root, PropertyChangeMask);
+        loopEvents();
+        XCloseDisplay(display);
+        display = NULL;
+    }
+    delete audio;
+    audio = NULL;
+    return rc;
+}
 
-    root = RootWindow(display, DefaultScreen(display));
-    _GUI_EVENT = XInternAtom(display, XA_GUI_EVENT_NAME, False);
-    XSelectInput(display, root, PropertyChangeMask);
+void IceSound::loopEvents() {
+    int fd = ConnectionNumber(display);
+    fd_set rfds;
+    FD_ZERO(&rfds);
+    for (readEvents(); soundAsync.running; readEvents()) {
+        FD_SET(fd, &rfds);
+        select(fd + 1, SELECT_TYPE_ARG234 &rfds, NULL, NULL, NULL);
+    }
+}
 
-    signal(SIGCHLD, chld); // ================================= IPC handlers ===
-    signal(SIGHUP, hup);
-
-    while(running) {
-        audio->idle();
-
-        while (XPending(display)) {
-            XEvent xev;
-
-            XNextEvent(display, &xev);
-            switch(xev.type) {
-            case PropertyNotify:
-                if (xev.xproperty.atom == _GUI_EVENT &&
-                    xev.xproperty.state == PropertyNewValue) {
-                    Atom type; int format;
-                    unsigned long nitems, lbytes;
-                    unsigned char *propdata(0);
-                    int gev = -1;
-
-                    if (XGetWindowProperty(display, root, _GUI_EVENT,
-                                           0, 3, False, _GUI_EVENT,
-                                           &type, &format, &nitems, &lbytes,
-                                           &propdata) == Success &&
-                        propdata) {
-                        gev = *(char *) propdata;
-                        XFree(propdata);
-                    }
-
-                    /* Recieved restart event? */
-                    if(geRestart == gev) { // ------------ restart event ---
-#ifdef DEBUG
-                        msg("Restart event received");
-#endif
-                        hup(SIGHUP);
-                    }
-
-                    timeval now = monotime();
-                    if (last + millitime(500L) < now) {
-                        last = now;
-                        audio->play(gev);
-                    }
-                }
-                break;
-            }
+void IceSound::readEvents() {
+    while (XPending(display) && soundAsync.running) {
+        XEvent xev;
+        xev.type = 0;
+        XNextEvent(display, &xev);
+        if (xev.type == PropertyNotify &&
+            xev.xproperty.atom == _GUI_EVENT &&
+            xev.xproperty.state == PropertyNewValue)
+        {
+            guiEvent();
         }
-
-        usleep(10000);
     }
-
-    CATCH(
-          if (display) XCloseDisplay(display);
-          if (audio) delete audio;
-         )
 }
 
-char IceSound::getArgument(char const * const & arg, char const *& val) {
-    char const * larg(arg[1] == '-' ? arg + 2 : arg + 1);
+int IceSound::getProperty() {
+    Atom type;
+    int format;
+    unsigned long nitems, lbytes;
+    unsigned char *propdata(0);
+    int gev(-1);
 
-    if (!strpcmp(larg, "help"))
-        return 'h';
-    else if (!strcmp(larg, "verbose"))
-        return 'v';
-    else if (!strcmp(larg, "version"))
-        return 'V';
-    else if (!strpcmp(larg, "display")) {
-        val = getValue(arg, strchr(arg, '='));
-        return 's';
-    } else if (!strpcmp(larg, "sample-dir")) {
-        val = getValue(arg, strchr(arg, '='));
-        return 's';
-    } else if (!strpcmp(larg, "interface")) {
-        val = getValue(arg, strchr(arg, '='));
-        return 'i';
+    if (XGetWindowProperty(display, root, _GUI_EVENT,
+                           0, 3, False, _GUI_EVENT,
+                           &type, &format, &nitems, &lbytes,
+                           &propdata) == Success && propdata)
+    {
+        gev = propdata[0];
+        XFree(propdata);
     }
-
-    if (strchr("dsi", arg[1])) {
-        val = getValue(arg, arg[2] ? arg + 2 : NULL);
-        return arg[1];
-    }
-
-    return (strchr("h?vV", arg[1]) ? arg[1] : '\0');
+    return gev;
 }
 
-int IceSound::setOption(char const * /*arg*/, char opt, char const * val) {
-    switch(opt) {
-    case '?': // ================================================ --help ===
-    case 'h':
-        printUsage();
-        return 2;
+void IceSound::guiEvent() {
+    int gev = getProperty();
+    if (gev < 0) {
+        warn(_("Could not get GUI event property"));
+        return;
+    }
+    if (gev >= NUM_GUI_EVENTS) {
+        warn(_("Received invalid GUI event %d"), gev);
+        return;
+    }
+    if (verbose())
+        tlog(_("Received GUI event %s"), name(gev));
 
-    case 'V': // ============================================= --version ===
-        puts(VERSION);
-        return -1;
+    /* Received restart event? */
+    if (geRestart == gev) { // --- restart event ---
+        MSG(("Restart event received"));
+        soundAsync.reload = true;
+    }
 
-    case 'v': // ============================================= --verbose ===
-        verbose = true;
-        break;
+    timeval now = monotime();
+    if (last + millitime(500L) < now) {
+        last = now;
+        audio->play(gev);
+    }
+    else if (verbose())
+        tlog(_("Too quick; ignoring."));
+}
 
-    case 'd': // ============================================= --display ===
-        dpyname = val;
-        break;
-
-    case 's': // ========================================== --sample-dir ===
-        samples = val;
-        break;
-
-    case 'i': // ========================================== --interface ====
-        if(val != NULL) {
-            if (audio != NULL)
-                warn(_("Multiple sound interfaces given."));
-
-            if(!(strcmp(val, "OSS") &&
-                 strcmp(val, "oss"))) {
-                delete audio;
-                audio = new YOSSAudio();
-          } else if(!(strcmp(val, "ALSA") &&
-                 strcmp(val, "alsa"))) {
+int IceSound::chooseInterface() {
+    int rc(3);
+    mstring list(interfaceNames);
+    mstring name;
+    while (audio == NULL && list.splitall(',', &name, &list)) {
+        if (name.isEmpty())
+            continue;
+        name = name.upper();
+        const char* val = cstring(name);
+        if (name == "OSS") {
+            audio = new YOSSAudio();
+        }
+        else if (name == "ALSA") {
 #ifdef ENABLE_ALSA
-                delete audio;
-                audio = new YALSAAudio();
+            audio = new YALSAAudio();
 #else
-               warn(_("Support for the %s interface not compiled."), val);
-               return 2;
+            warn(_("Support for the %s interface not compiled."), val);
 #endif
-            } else if(!(strcmp(val, "ESD") &&
-                        strcmp(val, "esd") &&
-                        strcmp(val, "ESOUND") &&
-                        strcmp(val, "esound") &&
-                        strcmp(val, "ESounD"))) {
+        }
+        else if (name == "AO") {
+#ifdef ENABLE_AO
+            audio = new YAOAudio();
+#else
+            warn(_("Support for the %s interface not compiled."), val);
+#endif
+        }
+        else if (name == "ESD" || name == "ESOUND") {
 #ifdef ENABLE_ESD
-                delete audio;
-                audio = new YESDAudio();
+            audio = new YESDAudio();
 #else
-                warn(_("Support for the %s interface not compiled."), val);
-                return 2;
+            warn(_("Support for the %s interface not compiled."), val);
 #endif
-            } else if(!(strcmp(val, "Y") &&
-                        strcmp(val, "y") &&
-                        strcmp(val, "Y2") &&
-                        strcmp(val, "y2") &&
-                        strcmp(val, "YIFF") &&
-                        strcmp(val, "yiff"))) {
-#ifdef ENABLE_YIFF
+        }
+        else {
+            warn(_("Unsupported interface: %s."), val);
+        }
+        if (audio) {
+            rc = audio->init(this);
+            if (rc) {
                 delete audio;
-                audio = new YY2Audio();
-#else
-                warn(_("Support for the %s interface not compiled."), val);
-                return 2;
-#endif
-            } else {
-                warn(_("Unsupported interface: %s."), val);
-                return 2;
+                audio = 0;
             }
         }
-
-        break;
+    }
+    if (audio == NULL) {
+        warn(_("Failed to connect to audio interfaces %s."), interfaceNames);
     }
 
-    return 0;
+    return rc;
 }
 
 /**
  * Signal handler.
  */
-void IceSound::exit(int sig) {
+void IceSound::stop(int sig) {
     signal(sig, SIG_DFL);
 
-    msg(_("Received signal %d: Terminating..."), sig);
-    running = false;
+    msg(_("Received signal %s: Terminating..."), strsignal(sig));
+    soundAsync.running = false;
 }
 
 /**
@@ -1232,42 +957,17 @@ void IceSound::exit(int sig) {
  */
 void IceSound::hup(int sig) {
     if (sig == SIGHUP) {
-        msg(_("Received signal %d: Reloading samples..."), sig);
-        if (audio) audio->reload();
-    } else
-        msg("Internal error: Received signal %i is not SIGHUP", sig);
-}
-
-/**
- * SIGCHLD signal handler.
- */
-void IceSound::chld(int sig) {
-    if(sig == SIGCHLD) {
-        pid_t pid; int stat;
-
-        while((pid = waitpid(-1, &stat, WNOHANG)) > 0) {
-#ifdef DEBUG
-            msg("Child %d terminated", pid);
-#endif
-        }
-    } else
-        msg("Internal error: Received signal %i is not SIGCHLD", sig);
+        // set the reload flag and let the driver check this.
+        soundAsync.reload = true;
+    }
 }
 
 int main(int argc, char *argv[]) {
+#ifdef ENABLE_NLS
+    bindtextdomain(PACKAGE, LOCDIR);
+    textdomain(PACKAGE);
+#endif
     ApplicationName = my_basename(argv[0]);
-    for (char **arg = argv + 1; arg < argv + argc; ++arg) {
-        if (**arg == '-') {
-            if (is_help_switch(*arg)) {
-                IceSound::printUsage();
-                exit(0);
-            }
-            if (is_version_switch(*arg)) {
-                print_version_exit(VERSION);
-            }
-        }
-    }
     return IceSound(argc, argv).run();
 }
 
-#endif

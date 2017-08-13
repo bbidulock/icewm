@@ -33,7 +33,7 @@ esac
 	--enable-shaped-decorations \
 	--enable-gradients \
 	--enable-guievents \
-	--with-icesound=ALSA,OSS \
+	--with-icesound=ALSA,AO,OSS,ESD \
 	CPPFLAGS="$CPPFLAGS" \
 	CFLAGS="$DEBUG_CFLAGS -Wall -Werror $CFLAGS" \
 	CXXFLAGS="$DEBUG_CXXFLAGS -Wall -Werror $CXXFLAGS" \

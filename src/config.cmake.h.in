@@ -50,6 +50,7 @@
 #cmakedefine HAVE_STRLCPY 1
 #cmakedefine HAVE_STRNCASECMP 1
 #cmakedefine HAVE_STRRCHR 1
+#cmakedefine HAVE_STRSIGNAL 1
 #cmakedefine HAVE_STRSTR 1
 #cmakedefine HAVE_STRTOL 1
 #cmakedefine HAVE_STRTOUL 1

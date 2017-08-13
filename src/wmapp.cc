@@ -1477,6 +1477,9 @@ static void print_configured(const char *argv0) {
 #ifdef CONFIG_ANTIALIASING
     " antialiasing"
 #endif
+#ifdef ENABLE_AO
+    " ao"
+#endif
 #ifdef CONFIG_APPLET_APM
     " apm"
 #endif
@@ -1593,9 +1596,6 @@ static void print_configured(const char *argv0) {
 #endif
 #ifdef CONFIG_XRANDR
     " xrandr"
-#endif
-#ifdef ENABLE_YIFF
-    " yiff"
 #endif
     "\n";
     printf(_("%s configured options:%s\n"), argv0,
