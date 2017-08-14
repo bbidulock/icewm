@@ -1887,7 +1887,7 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
         {
             XRRCrtcInfo *ci = XRRGetCrtcInfo(xapp->display(), xrrsr, xrrsr->crtcs[i]);
 
-            MSG(("xrr %d (%ld): %d %d %d %d", i, xrrsr->crtcs[i], ci->x, ci->y, ci->width, ci->height));
+            MSG(("xrr %d (%lu): %d %d %d %d", i, xrrsr->crtcs[i], ci->x, ci->y, ci->width, ci->height));
 
             if (!gotLayout && ci->width > 0 && ci->height > 0) {
                 DesktopScreenInfo si;
