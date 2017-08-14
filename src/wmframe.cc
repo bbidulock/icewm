@@ -2088,7 +2088,7 @@ void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
 }
 
 void YFrameWindow::handlePopDown(YPopupWindow *popup) {
-    MSG(("popdown %ld up %ld", popup, fPopupActive));
+    MSG(("popdown %p up %p", popup, fPopupActive));
     if (fPopupActive == popup)
         fPopupActive = 0;
 }
@@ -2708,7 +2708,7 @@ void YFrameWindow::addAsTransient() {
         fOwner = manager->findFrame(groupLeader);
 
         if (fOwner) {
-            MSG(("transient for 0x%lX: 0x%lX", groupLeader, fOwner));
+            MSG(("transient for 0x%lX: 0x%p", groupLeader, fOwner));
             PRECONDITION(fOwner->transient() != this);
 
             fNextTransient = fOwner->transient();
