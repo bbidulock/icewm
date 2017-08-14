@@ -4,12 +4,12 @@ PROJECT(ICEWM CXX)
 #
 # The list of manual pages which need to be generated from AsciiDoc.
 #
-set(MAN_NAMES icewm.1 icewmbg.1 icesound.1)
+set(MAN_NAMES icewm.1 icewmbg.1)
 
 #
 # The list of AsciiDoc pages which need to be converted to HTML.
 #
-set(ADOC_NAMES icewm.1.adoc icewmbg.1.adoc icesound.1.adoc icewm.adoc)
+set(ADOC_NAMES icewm.1.adoc icewmbg.1.adoc icewm.adoc)
 
 #
 # The destination directory for HTML pages.
