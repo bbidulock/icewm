@@ -1905,7 +1905,7 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
         for (int o = 0; o < xrrsr->noutput; o++) {
             XRROutputInfo *oinfo = XRRGetOutputInfo(xapp->display(), xrrsr, xrrsr->outputs[o]);
 
-            MSG(("output: %s -> %ld", oinfo->name, oinfo->crtc));
+            MSG(("output: %s -> %lu", oinfo->name, oinfo->crtc));
 
 #ifndef NO_CONFIGURE
             if (xineramaPrimaryScreenName != 0 && oinfo->name != NULL) {
