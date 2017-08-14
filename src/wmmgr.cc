@@ -529,7 +529,7 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
         unsigned int m = KEY_MODMASK(key.state);
         unsigned int vm = VMod(m);
 
-        MSG(("down key: %d, mod: %d", k, m));
+        MSG(("down key: %lu, mod: %d", k, m));
         bool handled = handleWMKey(key, k, m, vm);
         if (xapp->WinMask && win95keys) {
             if (handled) {
@@ -548,7 +548,7 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
 
         (void)m;
 #ifdef DEBUG
-        MSG(("up key: %d, mod: %d", k, m));
+        MSG(("up key: %lu, mod: %d", k, m));
 #endif
         if (xapp->WinMask && win95keys) {
             if (k == xapp->Win_L || k == xapp->Win_R) {
@@ -868,7 +868,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
 
     if (focusLocked())
         return;
-    MSG(("SET FOCUS f=%lX", f));
+    MSG(("SET FOCUS f=%p", f));
 
     if (f == 0) {
         YFrameWindow *ff = getFocus();
@@ -2104,7 +2104,7 @@ void YWindowManager::updateWorkArea() {
         int sw = xiInfo[s].width;
         int sh = xiInfo[s].height;
 
-        MSG(("workarea window %s: ws:%d s:%d x:%d y:%d w:%d h:%d", cstring(w->getTitle()).c_str(), ws, s, w->x(), w->y(), w->width(), w->height()));
+        MSG(("workarea window %s: ws:%ld s:%d x:%d y:%d w:%d h:%d", cstring(w->getTitle()).c_str(), ws, s, w->x(), w->y(), w->width(), w->height()));
         {
             int l = sx + w->strutLeft();
             int t = sy + w->strutTop();
@@ -3437,7 +3437,7 @@ void YWindowManager::doWMAction(long action) {
     xev.data.l[0] = CurrentTime;
     xev.data.l[1] = action;
 
-    MSG(("new mask/state: %d/%d", xev.data.l[0], xev.data.l[1]));
+    MSG(("new mask/state: %ld/%ld", xev.data.l[0], xev.data.l[1]));
 
     XSendEvent(xapp->display(), handle(), False, SubstructureNotifyMask, (XEvent *) &xev);
 }
