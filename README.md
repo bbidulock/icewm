@@ -16,7 +16,7 @@ list, and various other GitHub forks.
 Release
 -------
 
-This is the icewm-1.4.2.115 package, released under LGPL license 2017-08-13.
+This is the icewm-1.4.2.109 package, released under LGPL license 2017-08-13.
 This release as well as future versions here, can all be obtained from
 [GitHub][1] using a command such as:
 
