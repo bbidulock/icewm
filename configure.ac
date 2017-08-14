@@ -494,7 +494,7 @@ AC_ARG_ENABLE([debug],
     AC_HELP_STRING([--enable-debug],[Enable debugging of IceWM.]))
 if test x$enable_debug = xyes ; then
     AC_DEFINE([DEBUG],[1],[Define if you want to debug IceWM.])
-    CXXFLAGS="$CXXFLAGS -g -DDEBUG -O0"
+    CXXFLAGS="$CXXFLAGS -g -DDEBUG"
     features="$features debugging-symbols"
 fi
 
