@@ -3,6 +3,8 @@ AM_CPPFLAGS = -include ../config.h
 AM_CXXFLAGS = $(CORE_CFLAGS) $(XSM_CFLAGS) $(IMAGE_CFLAGS) $(AUDIO_CFLAGS) $(GNOME1_CFLAGS) $(GNOME2_CFLAGS) $(GIO_CFLAGS) -DEXEEXT=$(EXEEXT)
 
 EXTRA_DIST = \
+	ylibrary.cc \
+	ylibrary.h \
 	ypointer.h \
 	globit.c
 
@@ -40,7 +42,12 @@ bin_PROGRAMS = \
 	icewmbg \
 	icewmtray
 
-AM_INSTALLCHECK_STD_OPTIONS_EXEMPT =
+AM_INSTALLCHECK_STD_OPTIONS_EXEMPT = \
+	icewm-session \
+	icesh \
+	icewmhint \
+	icewmbg \
+	icewmtray
 
 
 noinst_PROGRAMS = \
@@ -65,6 +72,7 @@ endif
 
 if BUILD_HELP
 bin_PROGRAMS += icehelp
+AM_INSTALLCHECK_STD_OPTIONS_EXEMPT += icehelp
 endif
 
 if BUILD_SOUND
@@ -325,7 +333,7 @@ icewm_session_SOURCES = \
 	sysdep.h \
 	base.h \
 	icesm.cc
-icewm_session_LDADD = libice.la
+icewm_session_LDADD = libice.la $(IMAGE_LIBS) $(CORE_LIBS)
 
 icewmhint_SOURCES = \
 	intl.h \

@@ -377,8 +377,8 @@ INSTALL(TARGETS icewm-menu-fdo${EXEEXT} DESTINATION ${BINDIR})
 ENDIF()
 
 ADD_EXECUTABLE(icewm-session${EXEEXT} icesm.cc yapp.cc misc.cc mstring.cc upath.cc ytimer.cc yprefs.cc yarray.cc ref.cc)
-SET_TARGET_PROPERTIES(icewm-session${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON}")
-TARGET_LINK_LIBRARIES(icewm-session${EXEEXT} ${nls_LIBS})
+SET_TARGET_PROPERTIES(icewm-session${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
+TARGET_LINK_LIBRARIES(icewm-session${EXEEXT} ${nls_LIBS} ${EXTRA_LIBS})
 
 ADD_EXECUTABLE(icewmhint${EXEEXT} icewmhint.cc misc.cc)
 SET_TARGET_PROPERTIES(icewmhint${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
