@@ -736,8 +736,9 @@ void dumpZorder(const char *oper, YFrameWindow *w, YFrameWindow *a) {
             msg("?? 0x%lX", p->handle());
         PRECONDITION(p->next() != p);
         PRECONDITION(p->prev() != p);
-        if (p->next())
+        if (p->next()) {
             PRECONDITION(p->next()->prev() == p);
+	}
         p = p->next();
     }
 }
