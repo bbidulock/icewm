@@ -148,7 +148,7 @@ void NetStatus::updateToolTip() {
     
     if (isUp()) {
         char const * const sizeUnits[] = { "B", "KiB", "MiB", "GiB", "TiB", NULL };
-        char const * const rateUnits[] = { "bps", "kps", "mps", NULL };
+        char const * const rateUnits[] = { "B/s", "kB/s", "MB/s", NULL };
 
         long const t(time(NULL) - start_time);
 
@@ -179,11 +179,6 @@ void NetStatus::updateToolTip() {
         cai /= taskBarNetSamples;
         cao /= taskBarNetSamples;
 
-		ci *= 8;
-		co *= 8;
-		cai *= 8;
-		cao *= 8;
-		
         const char * const viUnit(niceUnit(vi, sizeUnits));
         const char * const voUnit(niceUnit(vo, sizeUnits));
         const char * const ciUnit(niceUnit(ci, rateUnits));
