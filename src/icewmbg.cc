@@ -749,10 +749,10 @@ static const char* get_help_text() {
 }
 
 static void print_help_xit() {
-    fputs(get_help_text(), stderr);
+    fputs(get_help_text(), stdout);
 #ifdef NO_CONFIGURE
     fputs(_("Please note that not all options are currently configured.\n"),
-            stderr);
+            stdout);
 #endif
     exit(0);
 }
