@@ -3,8 +3,6 @@ AM_CPPFLAGS = -include ../config.h
 AM_CXXFLAGS = $(CORE_CFLAGS) $(XSM_CFLAGS) $(IMAGE_CFLAGS) $(AUDIO_CFLAGS) $(GNOME1_CFLAGS) $(GNOME2_CFLAGS) $(GIO_CFLAGS) -DEXEEXT=$(EXEEXT)
 
 EXTRA_DIST = \
-	ylibrary.cc \
-	ylibrary.h \
 	ypointer.h \
 	globit.c
 
@@ -328,12 +326,14 @@ icesh_SOURCES = \
 icesh_LDADD = libice.la $(CORE_LIBS)
 
 icewm_session_SOURCES = \
-	intl.h \
-	debug.h \
-	sysdep.h \
+	appnames.h \
 	base.h \
+	debug.h \
+	intl.h \
+	sysdep.h \
+	yapp.h \
 	icesm.cc
-icewm_session_LDADD = libice.la $(IMAGE_LIBS) $(CORE_LIBS)
+icewm_session_LDADD = libice.la
 
 icewmhint_SOURCES = \
 	intl.h \
