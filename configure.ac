@@ -53,6 +53,19 @@ if test -z "$ASCIIDOC_BACKEND"; then
 	case "$ASCIIDOC" in
 		asciidoc) ASCIIDOC_BACKEND="--backend=html4" ;;
 		asciidoctor) ASCIIDOC_BACKEND="--backend=html5" ;;
+		*) AC_MSG_WARN([ASCIIDOC $ASCIIDOC is not supported.]) ;;
+	esac
+fi
+
+AC_ARG_VAR([ASCIIMAN],[asciidoc to manpage converter. @<:@default=asciidoctor@:>@])
+AC_CHECK_PROGS([ASCIIMAN],[asciidoctor a2x],[${am_missing_run}asciidoctor],[$PATH])
+
+AC_ARG_VAR([ASCIIMAN_FORMAT],[asciidoc manpage option @<:@default=NONE@:>@])
+if test -z "$ASCIIMAN_FORMAT"; then
+	case "$ASCIIMAN" in
+		a2x) ASCIIMAN_FORMAT="--format=manpage" ;;
+		asciidoctor) ASCIIMAN_FORMAT="--backend=manpage" ;;
+		*) AC_MSG_WARN([ASCIIMAN $ASCIIMAN is not supported.]) ;;
 	esac
 fi
 
