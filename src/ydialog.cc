@@ -24,7 +24,7 @@
 static YColor *dialogBg = 0;
 
 YDialog::YDialog(YWindow *owner):
-    YFrameClient(0, 0) INIT_GRADIENT(fGradient, NULL) {
+    YFrameClient(0, 0) INIT_GRADIENT(fGradient, null) {
     if (dialogBg == 0)
         dialogBg = new YColor(clrDialog);
 

@@ -146,7 +146,7 @@ bool EdgeTrigger::handleTimer(YTimer *t) {
 }
 
 TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener, YSMListener *smActionListener):
-    YFrameClient(aParent, 0) INIT_GRADIENT(fGradient, NULL)
+    YFrameClient(aParent, 0) INIT_GRADIENT(fGradient, null)
 {
     taskBar = this;
  

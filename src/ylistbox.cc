@@ -71,7 +71,7 @@ int YListItem::getOffset() {
 }
 
 YListBox::YListBox(YScrollView *view, YWindow *aParent): 
-    YWindow(aParent) INIT_GRADIENT(fGradient, NULL) {
+    YWindow(aParent) INIT_GRADIENT(fGradient, null) {
     if (listBoxFont == null)
         listBoxFont = YFont::getFont(XFA(listBoxFontName));
     if (listBoxBg == 0)

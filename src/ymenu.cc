@@ -67,7 +67,7 @@ void YMenu::finishPopup(YMenuItem *item, YAction *action,
 YTimer *YMenu::fMenuTimer = 0;
 
 YMenu::YMenu(YWindow *parent):
-    YPopupWindow(parent) INIT_GRADIENT(fGradient, NULL) 
+    YPopupWindow(parent) INIT_GRADIENT(fGradient, null)
 {
     if (menuFont == null)
         menuFont = YFont::getFont(XFA(menuFontName));
