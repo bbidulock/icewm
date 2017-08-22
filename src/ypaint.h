@@ -5,11 +5,7 @@
 #include "ypixmap.h"
 #include "yimage.h"
 #include "mstring.h"
-#if 0
-#endif
 
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
 #ifdef CONFIG_SHAPE
 #define __YIMP_XUTIL__
 #include <X11/extensions/shape.h>
@@ -40,15 +36,9 @@
 class YWindow;
 class YIcon;
 
-#ifdef SHAPE
-struct XShapeEvent;
-#endif
-
 enum YDirection {
     Up, Left, Down, Right
 };
-
-class YImage;
 
 /******************************************************************************/
 /******************************************************************************/
@@ -58,13 +48,7 @@ public:
     YColor(unsigned short red, unsigned short green, unsigned short blue);
     YColor(unsigned long pixel);
     YColor(char const * clr);
-
-#ifdef CONFIG_XFREETYPE
     ~YColor();
-
-    operator XftColor * ();
-    void allocXft();
-#endif
 
     unsigned long pixel() const { return fPixel; }
 
@@ -81,7 +65,16 @@ public:
         return !(*this == c);
     }
 
+#ifdef CONFIG_XFREETYPE
+    operator XftColor*() { return xftColor ? xftColor : allocXft(); }
 private:
+    XftColor* allocXft();
+#endif
+
+private:
+    YColor(const YColor&);
+    YColor& operator=(const YColor&);
+
     void alloc();
 
     unsigned long fPixel;

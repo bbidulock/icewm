@@ -20,9 +20,9 @@
 #include <X11/Xft/Xft.h>
 #endif
 
-static inline Display* display() {
-    return xapp->display();
-}
+static inline Display* display()  { return xapp->display(); }
+static inline Colormap colormap() { return xapp->colormap(); }
+static inline Visual*  visual()   { return xapp->visual(); }
 
 /******************************************************************************/
 
@@ -41,7 +41,7 @@ YColor::YColor(unsigned long pixel):
 
     XColor color;
     color.pixel = pixel;
-    XQueryColor(xapp->display(), xapp->colormap(), &color);
+    XQueryColor(display(), colormap(), &color);
 
     fRed = color.red;
     fGreen = color.green;
@@ -55,7 +55,7 @@ YColor::YColor(const char *clr):
     INIT_XFREETYPE(xftColor, NULL) {
 
     XColor color;
-    XParseColor(xapp->display(), xapp->colormap(),
+    XParseColor(display(), colormap(),
                 clr ? clr : "rgb:00/00/00", &color);
 
     fRed = color.red;
@@ -65,29 +65,23 @@ YColor::YColor(const char *clr):
     alloc();
 }
 
-#ifdef CONFIG_XFREETYPE
 YColor::~YColor() {
-    if (NULL != xftColor) {
-        XftColorFree (xapp->display (), xapp->visual (),
-                      xapp->colormap(), xftColor);
+    delete fDarker;
+    delete fBrighter;
+
+#ifdef CONFIG_XFREETYPE
+    if (xftColor) {
+        XftColorFree (display(), visual(), colormap(), xftColor);
         delete xftColor;
     }
+#endif
 }
 
-YColor::operator XftColor * () {
-    if (NULL == xftColor) {
-        xftColor = new XftColor;
-
-        XRenderColor color;
-        color.red = fRed;
-        color.green = fGreen;
-        color.blue = fBlue;
-        color.alpha = 0xffff;
-
-        XftColorAllocValue(xapp->display(), xapp->visual(),
-                           xapp->colormap(), &color, xftColor);
-    }
-
+#ifdef CONFIG_XFREETYPE
+XftColor* YColor::allocXft() {
+    xftColor = new XftColor;
+    XRenderColor color = { fRed, fGreen, fBlue, 0xffff };
+    XftColorAllocValue(display(), visual(), colormap(), &color, xftColor);
     return xftColor;
 }
 #endif
@@ -99,7 +93,7 @@ void YColor::alloc() {
     color.green = fGreen;
     color.blue = fBlue;
     color.flags = DoRed | DoGreen | DoBlue;
-    Visual *visual = xapp->visual();
+    Visual *visual = ::visual();
 
     if (visual->c_class == TrueColor) {
         int padding, unused;
@@ -125,7 +119,7 @@ void YColor::alloc() {
                        ((color.green >> (16 - green_prec)) << green_shift) +
                        ((color.blue >> (16 - blue_prec)) << blue_shift));
 
-    } else if (Success == XAllocColor(xapp->display(), xapp->colormap(), &color))
+    } else if (Success == XAllocColor(display(), colormap(), &color))
     {
         int j, ncells;
         double d = 65536. * 65536. * 24;
@@ -135,10 +129,10 @@ void YColor::alloc() {
         double u_red, u_green, u_blue;
 
         pix = 0xFFFFFFFF;
-        ncells = DisplayCells(xapp->display(), DefaultScreen(xapp->display()));
+        ncells = DisplayCells(display(), DefaultScreen(display()));
         for (j = 0; j < ncells; j++) {
             clr.pixel = j;
-            XQueryColor(xapp->display(), xapp->colormap(), &clr);
+            XQueryColor(display(), colormap(), &clr);
 
             d_red   = color.red   - clr.red;
             d_green = color.green - clr.green;
@@ -157,19 +151,19 @@ void YColor::alloc() {
         }
         if (pix != 0xFFFFFFFF) {
             clr.pixel = pix;
-            XQueryColor(xapp->display(), xapp->colormap(), &clr);
+            XQueryColor(display(), colormap(), &clr);
             /*DBG(("color=%04X:%04X:%04X, match=%04X:%04X:%04X\n",
                    color.red, color.blue, color.green,
                    clr.red, clr.blue, clr.green));*/
             color = clr;
         }
-        if (XAllocColor(xapp->display(), xapp->colormap(), &color) == 0) {
+        if (XAllocColor(display(), colormap(), &color) == 0) {
             if (color.red + color.green + color.blue >= 32768)
-                color.pixel = WhitePixel(xapp->display(),
-                                         DefaultScreen(xapp->display()));
+                color.pixel = WhitePixel(display(),
+                                         DefaultScreen(display()));
             else
-                color.pixel = BlackPixel(xapp->display(),
-                                         DefaultScreen(xapp->display()));
+                color.pixel = BlackPixel(display(),
+                                         DefaultScreen(display()));
         }
     }
     fRed = color.red;
@@ -210,7 +204,7 @@ YColor *YColor::brighter() { // !!! fix
 Graphics::Graphics(YWindow & window,
                    unsigned long vmask, XGCValues * gcv):
     fDrawable(window.handle()),
-    fColor(NULL), fFont(NULL),
+    fColor(NULL), fFont(null),
     xOrigin(0), yOrigin(0)
 {
     rWidth = window.width();
@@ -223,7 +217,7 @@ Graphics::Graphics(YWindow & window,
 
 Graphics::Graphics(YWindow & window):
     fDrawable(window.handle()),
-    fColor(NULL), fFont(NULL),
+    fColor(NULL), fFont(null),
     xOrigin(0), yOrigin(0)
  {
     rWidth = window.width();
@@ -237,7 +231,7 @@ Graphics::Graphics(YWindow & window):
 
 Graphics::Graphics(const ref<YPixmap> &pixmap, int x_org, int y_org):
     fDrawable(pixmap->pixmap()),
-    fColor(NULL), fFont(NULL),
+    fColor(NULL), fFont(null),
     xOrigin(x_org), yOrigin(y_org)
  {
     rWidth = pixmap->width();
@@ -252,7 +246,7 @@ Graphics::Graphics(const ref<YPixmap> &pixmap, int x_org, int y_org):
 Graphics::Graphics(Drawable drawable, int w, int h,
                    unsigned long vmask, XGCValues * gcv):
     fDrawable(drawable),
-    fColor(NULL), fFont(NULL),
+    fColor(NULL), fFont(null),
     xOrigin(0), yOrigin(0),
     rWidth(w), rHeight(h)
 {
@@ -264,7 +258,7 @@ Graphics::Graphics(Drawable drawable, int w, int h,
 
 Graphics::Graphics(Drawable drawable, int w, int h):
     fDrawable(drawable),
-    fColor(NULL), fFont(NULL),
+    fColor(NULL), fFont(null),
     xOrigin(0), yOrigin(0),
     rWidth(w), rHeight(h)
 {
@@ -291,7 +285,7 @@ Graphics::~Graphics() {
 XftDraw* Graphics::handleXft() {
     if (fXftDraw == 0) {
         fXftDraw = XftDrawCreate(display(), drawable(),
-                    xapp->visual(), xapp->colormap());
+                    visual(), colormap());
     }
     return fXftDraw;
 }
@@ -714,7 +708,7 @@ void Graphics::drawClippedPixmap(Pixmap pix, Pixmap clip,
 
     if (clipPixmapGC == None) {
         gcv.graphics_exposures = False;
-        clipPixmapGC = XCreateGC(xapp->display(), desktop->handle(),
+        clipPixmapGC = XCreateGC(display(), desktop->handle(),
                                  GCGraphicsExposures,
                                  &gcv);
     }
@@ -979,19 +973,22 @@ void Graphics::fillPixmap(const ref<YPixmap> &pixmap, int x, int y,
 void Graphics::drawSurface(YSurface const & surface, int x, int y, int w, int h,
                            int const sx, int const sy,
 #ifdef CONFIG_GRADIENTS
-                           const int sw, const int sh) {
+                           const int sw, const int sh
+#else
+                           const int /*sw*/, const int /*sh*/
+#endif
+) {
+#ifdef CONFIG_GRADIENTS
     if (surface.gradient != null)
         drawGradient(surface.gradient, x, y, w, h, sx, sy, sw, sh);
     else
-#else
-        const int /*sw*/, const int /*sh*/) {
 #endif
-if (surface.pixmap != null)
-    fillPixmap(surface.pixmap, x, y, w, h, sx, sy);
-else if (surface.color) {
-    setColor(surface.color);
-    fillRect(x, y, w, h);
-}
+    if (surface.pixmap != null)
+        fillPixmap(surface.pixmap, x, y, w, h, sx, sy);
+    else if (surface.color) {
+        setColor(surface.color);
+        fillRect(x, y, w, h);
+    }
 }
 
 #ifdef CONFIG_GRADIENTS
@@ -1126,7 +1123,7 @@ int Graphics::function() const {
 }
 
 void Graphics::setClipRectangles(XRectangle *rect, int count) {
-    XSetClipRectangles(xapp->display(), gc,
+    XSetClipRectangles(display(), gc,
                        -xOrigin, -yOrigin, rect, count, Unsorted);
 #ifdef CONFIG_XFREETYPE
     XftDrawSetClipRectangles(handleXft(), -xOrigin, -yOrigin, rect, count);
@@ -1138,7 +1135,7 @@ void Graphics::setClipMask(Pixmap mask) {
 }
 
 void Graphics::resetClip() {
-    XSetClipMask(xapp->display(), gc, None);
+    XSetClipMask(display(), gc, None);
 #ifdef CONFIG_XFREETYPE
     XftDrawSetClip(handleXft(), 0);
 #endif
