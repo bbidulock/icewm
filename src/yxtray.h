@@ -60,7 +60,9 @@ public:
     void destroyedClient(Window win);
 private:
     YXTrayProxy *fTrayProxy;
-    YObjectArray<YXTrayEmbedder> fDocked;
+    typedef YObjectArray<YXTrayEmbedder> DockedType;
+    typedef DockedType::IterType IterType;
+    DockedType fDocked;
     YXTrayNotifier *fNotifier;
     bool fInternal;
 };

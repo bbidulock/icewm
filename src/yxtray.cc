@@ -209,25 +209,23 @@ void YXTray::trayRequestDock(Window win) {
 }
 
 void YXTray::destroyedClient(Window win) {
-///    MSG(("undock %d", fDocked.getCount()));
-    for (int i = 0; i < fDocked.getCount(); i++) {
-        YXTrayEmbedder *ec = fDocked[i];
-///        msg("win %lX %lX", ec->handle(), win);
+    MSG(("undock N=%d, win=%lX", fDocked.getCount(), win));
+    for (IterType ec = fDocked.reverseIterator(); ++ec; ) {
+        MSG(("win %lX, %d handle %lX", win, ec.where(), ec->handle()));
         if (ec->client_handle() == win) {
-///            msg("removing %d %lX", i, win);
-            fDocked.remove(i);
+            MSG(("removing i=%d, win=%lX", ec.where(), win));
+            ec.remove();
+            relayout();
             break;
         }
     }
-    relayout();
 }
 
 void YXTray::handleConfigureRequest(const XConfigureRequestEvent &configureRequest)
 {
     MSG(("tray configureRequest w=%d h=%d internal=%s\n", configureRequest.width, configureRequest.height, fInternal ? "true" : "false"));
     bool changed = false;
-    for (int i = 0; i < fDocked.getCount(); i++) {
-        YXTrayEmbedder *ec = fDocked[i];
+    for (IterType ec = fDocked.iterator(); ++ec; ) {
         if (ec->client_handle() == configureRequest.window) {
             int ww = configureRequest.width;
             int hh = configureRequest.height;
@@ -245,8 +243,7 @@ void YXTray::handleConfigureRequest(const XConfigureRequestEvent &configureReque
 }
 
 void YXTray::showClient(Window win, bool showClient) {
-    for (int i = 0; i < fDocked.getCount(); i++) {
-        YXTrayEmbedder *ec = fDocked[i];
+    for (IterType ec = fDocked.iterator(); ++ec; ) {
         if (ec->client_handle() == win) {
             ec->fVisible = showClient;
             if (showClient)
@@ -259,11 +256,9 @@ void YXTray::showClient(Window win, bool showClient) {
 }
 
 void YXTray::detachTray() {
-    for (int i = 0; i < fDocked.getCount(); i++) {
-        YXTrayEmbedder *ec = fDocked[i];
+    for (IterType ec = fDocked.iterator(); ++ec; ) {
         ec->detach();
-
-   }
+    }
     fDocked.clear();
 }
 
@@ -291,8 +286,7 @@ void YXTray::backgroundChanged() {
     unsigned long bg = getTaskBarBg()->pixel();
     XSetWindowBackground(xapp->display(), handle(), bg);
 #endif
-    for (int i = 0; i < fDocked.getCount(); i++) {
-        YXTrayEmbedder *ec = fDocked[i];
+    for (IterType ec = fDocked.iterator(); ++ec; ) {
 #ifdef CONFIG_TASKBAR
         XSetWindowBackground(xapp->display(), ec->handle(), bg);
         XSetWindowBackground(xapp->display(), ec->client_handle(), bg);
@@ -314,24 +308,18 @@ void YXTray::relayout() {
 
     /*
        sanity check - remove already destroyed xwindows
-       TODO: implement it with only one loop
     */
-    int status = 0;
-    while (status == 0 && fDocked.getCount() > 0) {
-        for (int i = 0; i < fDocked.getCount(); i++) {
-            YXTrayEmbedder *ec = fDocked[i];
-            XWindowAttributes attributes;
-            status = XGetWindowAttributes(xapp->display(), ec->client()->handle(), &attributes);
-            if (status == 0) {
-                MSG(("relayout sanity check: removing %lX", ec->client()->handle()));
-                fDocked.remove(i);
-                break;
-            }
+    for (IterType ec = fDocked.reverseIterator(); ++ec; ) {
+        XWindowAttributes attributes;
+        int status = XGetWindowAttributes(xapp->display(),
+                                          ec->client()->handle(), &attributes);
+        if (status == 0) {
+            MSG(("relayout sanity check: removing %lX", ec->client()->handle()));
+            ec.remove();
         }
     }
 
-    for (int i = 0; i < fDocked.getCount(); i++) {
-        YXTrayEmbedder *ec = fDocked[i];
+    for (IterType ec = fDocked.iterator(); ++ec; ) {
         if (!ec->fVisible)
             continue;
         cnt++;
@@ -368,8 +356,7 @@ void YXTray::relayout() {
         if (fNotifier)
             fNotifier->trayChanged();
     }
-    for (int i = 0; i < fDocked.getCount(); i++) {
-        YXTrayEmbedder *ec = fDocked[i];
+    for (IterType ec = fDocked.iterator(); ++ec; ) {
         if (ec->fVisible)
             ec->show();
     }
