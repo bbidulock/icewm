@@ -24,7 +24,7 @@
 static char const *AppletClockTimeFmt = "%T";
 
 inline char const * strTimeFmt(struct tm const & t) {
-    if ((ledPixColon == null) || (! prettyClock))
+    if ((ledPixColon == null) || (! prettyClock) || strcmp(fmtTime, "%X"))
         return (fmtTimeAlt && (t.tm_sec & 1) ? fmtTimeAlt : fmtTime);
     return AppletClockTimeFmt;
 }
