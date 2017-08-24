@@ -509,5 +509,23 @@ nobase_dist_pkgdata_DATA = \
 	themes/NanoBlue/icons/thunderbird_32x32.xpm \
 	themes/NanoBlue/icons/xterm_16x16.xpm \
 	themes/NanoBlue/icons/xterm_32x32.xpm \
+	themes/NanoBlue/ledclock/a.xpm \
+	themes/NanoBlue/ledclock/colon.xpm \
+	themes/NanoBlue/ledclock/dot.xpm \
+	themes/NanoBlue/ledclock/m.xpm \
+	themes/NanoBlue/ledclock/n0.xpm \
+	themes/NanoBlue/ledclock/n1.xpm \
+	themes/NanoBlue/ledclock/n2.xpm \
+	themes/NanoBlue/ledclock/n3.xpm \
+	themes/NanoBlue/ledclock/n4.xpm \
+	themes/NanoBlue/ledclock/n5.xpm \
+	themes/NanoBlue/ledclock/n6.xpm \
+	themes/NanoBlue/ledclock/n7.xpm \
+	themes/NanoBlue/ledclock/n8.xpm \
+	themes/NanoBlue/ledclock/n9.xpm \
+	themes/NanoBlue/ledclock/p.xpm \
+	themes/NanoBlue/ledclock/slash.xpm \
+	themes/NanoBlue/ledclock/space.xpm \
+	themes/NanoBlue/taskbar/collapse.xpm \
+	themes/NanoBlue/taskbar/expand.xpm \
 	themes/NanoBlue/default.theme
-
