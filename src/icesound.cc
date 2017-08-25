@@ -87,6 +87,7 @@ char const * ApplicationName = "icesound";
 
 #define ALSA_DEFAULT_DEVICE "default"
 #define OSS_DEFAULT_DEVICE "/dev/dsp"
+#define DEFAULT_SNOOZE_TIME 500L
 
 static const char audio_interfaces[] =
 #ifdef ENABLE_AO
@@ -130,7 +131,12 @@ class YAudioInterface {
 public:
     virtual ~YAudioInterface() {}
     virtual int init(SoundConf* conf) = 0;
-    virtual void play(int sound) = 0;
+
+    /**
+     * Play the sound for the event given event.
+     * Return true iff the sound is playable.
+     */
+    virtual bool play(int sound) = 0;
     virtual void reload() {}
 };
 
@@ -147,7 +153,7 @@ public:
     YALSAAudio();
     virtual ~YALSAAudio();
 
-    virtual void play(int sound);
+    virtual bool play(int sound);
     virtual int init(SoundConf* conf) {
         this->conf = conf;
         return open();
@@ -189,10 +195,10 @@ int YALSAAudio::open() {
 /**
  * Play a sound sample directly to the digital signal processor.
  */
-void YALSAAudio::play(int sound) {
+bool YALSAAudio::play(int sound) {
     csmart samplefile(conf->findSample(sound));
     if (samplefile == NULL)
-        return;
+        return false;
 
     if (conf->verbose())
         tlog(_("Playing sample #%d (%s)"), sound, (char *) samplefile);
@@ -270,6 +276,7 @@ done:
         snd_pcm_hw_params_free(hw_params);
     if (sf)
         sf_close(sf);
+    return true;
 }
 
 #endif /* ENABLE_ALSA */
@@ -282,7 +289,7 @@ class YOSSAudio : public YAudioInterface {
 public:
     YOSSAudio(): conf(0) {}
 
-    virtual void play(int sound);
+    virtual bool play(int sound);
     virtual int init(SoundConf* conf);
 
 private:
@@ -292,10 +299,10 @@ private:
 /**
  * Play a sound sample directly to the digital signal processor.
  */
-void YOSSAudio::play(int sound) {
+bool YOSSAudio::play(int sound) {
     csmart samplefile(conf->findSample(sound));
     if (samplefile == NULL)
-        return;
+        return false;
 
     if (conf->verbose())
         tlog(_("Playing sample #%d (%s)"), sound, (char *) samplefile);
@@ -303,14 +310,14 @@ void YOSSAudio::play(int sound) {
     int ifd(open(samplefile, O_RDONLY));
     if (ifd == -1) {
         fail("%s", (char *) samplefile);
-        return;
+        return false;
     }
 
     int ofd(open(conf->ossDevice(), O_WRONLY));
     if (ofd == -1) {
         fail("%s", conf->ossDevice());
         close(ifd);
-        return;
+        return true;
     }
 
     // TODO: adjust audio format !!!
@@ -327,6 +334,7 @@ void YOSSAudio::play(int sound) {
 
     close(ofd);
     close(ifd);
+    return true;
 }
 
 int YOSSAudio::init(SoundConf* conf) {
@@ -362,7 +370,7 @@ public:
         }
     }
 
-    virtual void play(int sound);
+    virtual bool play(int sound);
 
     virtual void reload() {
         unloadSamples();
@@ -465,8 +473,8 @@ int YESDAudio::uploadSamples() {
 /**
  * Play a cached sound sample using ESounD.
  */
-void YESDAudio::play(int sound) {
-    if (socket < 0) return;
+bool YESDAudio::play(int sound) {
+    if (socket < 0) return false;
 
     if (soundAsync.reload)
         reload();
@@ -476,6 +484,8 @@ void YESDAudio::play(int sound) {
 
     if (sample[sound] > 0)
         esd_sample_play(socket, sample[sound]);
+
+    return true;
 }
 
 #endif /* ENABLE_ESD */
@@ -499,7 +509,7 @@ public:
         if (conf)
             ao_shutdown();
     }
-    virtual void play(int sound);
+    virtual bool play(int sound);
     virtual int init(SoundConf* conf);
 
 private:
@@ -519,10 +529,10 @@ int YAOAudio::init(SoundConf* conf) {
 /**
  * Play a cached sound sample using ESounD.
  */
-void YAOAudio::play(int sound) {
+bool YAOAudio::play(int sound) {
     csmart samplefile(conf->findSample(sound));
     if (samplefile == NULL)
-        return;
+        return false;
 
     if (conf->verbose())
         tlog(_("Playing sample #%d (%s)"), sound, (char *) samplefile);
@@ -566,6 +576,7 @@ done:
         ao_close(device);
     if (sf)
         sf_close(sf);
+    return true;
 }
 
 #endif /* ENABLE_AO */
@@ -611,6 +622,7 @@ private:
     Display* display;
     Window root;
     timeval last;
+    long snooze;
 
     const char* name(int sound) const {
         return gui_event_names[sound];
@@ -641,7 +653,8 @@ IceSound::IceSound(int argc, char** argv) :
     _GUI_EVENT(None),
     display(NULL),
     root(None),
-    last(monotime())
+    last(zerotime()),
+    snooze(DEFAULT_SNOOZE_TIME)
 {
 #ifdef DEBUG
     verbosity = true;
@@ -672,6 +685,10 @@ IceSound::IceSound(int argc, char** argv) :
             else if (GetArgument(value, "S", "server", arg, argv + argc)) {
                 esdServerName = value;
             }
+            else if (GetArgument(value, "z", "snooze", arg, argv + argc)) {
+                long t = strtol(value, NULL, 10);
+                if (t > 0) snooze = t;
+            }
             else if (is_switch(*arg, "v", "verbose")) {
                 verbosity = true;
             }
@@ -681,13 +698,22 @@ IceSound::IceSound(int argc, char** argv) :
             else if (is_version_switch(*arg)) {
                 print_version_exit(VERSION);
             }
+            else if (is_switch(*arg, "l", "list-files")) {
+                for (int i = 0; i < NUM_GUI_EVENTS; ++i) {
+                    if (i != geCloseAll) {
+                        value = findSample(i);
+                        if (value) printf("%s\n", value);
+                    }
+                }
+                ::exit(0);
+            }
             else if (is_long_switch(*arg, "list-interfaces")) {
                 printf("%s\n", audio_interfaces);
                 ::exit(0);
             }
             else if (is_long_switch(*arg, "list-sounds")) {
                 for (int i = 0; i < NUM_GUI_EVENTS; ++i) {
-                    if (i != 3 && i != 8 && i != 9) {
+                    if (i != geCloseAll) {
                         printf("%s.wav\n", name(i));
                     }
                 }
@@ -733,10 +759,19 @@ Options:\n\
  -S, --server=ADDR:PORT  Specifies the ESD server address and port number.\n\
                          For ESD the default is \"localhost:16001\".\n\
 \n\
+ -z, --snooze=millisecs  Specifies the snooze interval between sound events\n\
+                         in milliseconds. Default is 500 milliseconds.\n\
+\n\
+ -l, --list-files        Lists the available sound file paths and exits.\n\
+\n\
      --list-sounds       Lists the supported sound filenames and exits.\n\
+\n\
      --list-interfaces   Lists the supported audio interfaces and exits.\n\
+\n\
  -v, --verbose           Be verbose and print out each sound event.\n\
+\n\
  -V, --version           Prints version information and exits.\n\
+\n\
  -h, --help              Prints this help screen and exits.\n\
 \n\
 Return values:\n\
@@ -883,12 +918,12 @@ void IceSound::guiEvent() {
     }
 
     timeval now = monotime();
-    if (last + millitime(500L) < now) {
-        last = now;
-        audio->play(gev);
+    if (last + millitime(500L) < now || gev == geStartup) {
+        if (audio->play(gev))
+            last = now;
     }
     else if (verbose())
-        tlog(_("Too quick; ignoring."));
+        tlog(_("Too quick; ignoring %s."), name(gev));
 }
 
 int IceSound::chooseInterface() {
@@ -933,6 +968,8 @@ int IceSound::chooseInterface() {
                 delete audio;
                 audio = 0;
             }
+            else if (verbose())
+                tlog(_("Using %s audio."), val);
         }
     }
     if (audio == NULL) {
