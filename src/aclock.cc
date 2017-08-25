@@ -201,8 +201,11 @@ void YClock::paint(Graphics &g, const YRect &/*r*/) {
             else
                 p = ledPixSpace;
             if (p != null) {
-                x -= p->width();
-                g.drawPixmap(p, x, 0);
+                int k = 1 + 4 * (s[i] == ' ' && p->width() == 1);
+                while (k--) {
+                    x -= p->width();
+                    g.drawPixmap(p, x, 0);
+                }
             } else if (i < 0) {
                 g.setColor(clockBg);
                 g.fillRect(0, 0, x, height());
