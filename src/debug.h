@@ -6,7 +6,7 @@ extern bool debug;
 extern bool debug_z;
 
 #define DBG if (debug)
-#define MSG(x) DBG msg x
+#define MSG(x) DBG tlog x
 #else
 #define DBG if (0)
 #define MSG(x)
