@@ -53,8 +53,8 @@ private:
         "  --display=NAME      Use NAME to connect to the X server.\n"
         "  --sync              Synchronize communication with X11 server.\n"
         "\n"
-        "  --notray            Do not start icewmtray.\n"
-        "  --sound             Also start icesound.\n"
+        "  -n, --notray        Do not start icewmtray.\n"
+        "  -s, --sound         Also start icesound.\n"
         );
     }
 
@@ -91,10 +91,10 @@ private:
                 else if (is_long_switch(*arg, "sync")) {
                     syncArg = true;
                 }
-                else if (is_long_switch(*arg, "notray")) {
+                else if (is_switch(*arg, "n", "notray")) {
                     notrayArg = true;
                 }
-                else if (is_long_switch(*arg, "sound")) {
+                else if (is_switch(*arg, "s", "sound")) {
                     soundArg = true;
                 }
                 else if (is_help_switch(*arg)) {
@@ -223,7 +223,7 @@ public:
     }
 
     void runIcesound(bool quit = false) {
-        const char *args[12] = { ICESOUNDEXE, 0 };
+        const char *args[12] = { ICESOUNDEXE, "--verbose", 0 };
         if (soundArg == false) {
             return;
         }
@@ -316,7 +316,6 @@ private:
             runIcewmtray();
         else if (startup_phase == 2) {
             runScript("startup");
-            runIcesound();
         }
     }
 
@@ -335,6 +334,7 @@ int main(int argc, char **argv) {
     xapp.loadEnv("env");
 
     xapp.runIcewmbg();
+    xapp.runIcesound();
     xapp.runWM();
 
     xapp.mainLoop();
