@@ -1327,6 +1327,28 @@ bool YWMApp::handleIdle() {
 
 #ifdef CONFIG_GUIEVENTS
 void YWMApp::signalGuiEvent(GUIEvent ge) {
+    /*
+     * The first event must be geStartup.
+     * Ignore all other events before that.
+     */
+    static bool started;
+    if (ge == geStartup)
+        started = true;
+    else if (started == false)
+        return;
+
+    /*
+     * Because there is no event buffering,
+     * when multiple events occur in a burst,
+     * only signal the first event of the burst.
+     */
+    timeval now = monotime();
+    static timeval next;
+    if (now < next && ge != geStartup) {
+        return;
+    }
+    next = now + millitime(100L);
+
     static Atom GUIEventAtom = None;
     unsigned char num = (unsigned char)ge;
 
