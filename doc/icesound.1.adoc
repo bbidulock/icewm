@@ -105,6 +105,13 @@ OPTIONS
   Specifies the ESD server address and port number. +
   For ESD the default is `localhost:16001`.
 
+*-z, --snooze=milliseconds*::
+  Specifies the snooze interval between sound events +
+  in milliseconds. Default is 500 milliseconds.
+
+*-l, --list-files*::
+  Lists the available sound file paths and exits.
+
 *--list-sounds*::
   Lists the supported sound filenames and exits.
 
