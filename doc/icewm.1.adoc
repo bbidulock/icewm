@@ -82,9 +82,10 @@ On termination the
 script will be run first, then icewm-session will terminate
 icewmtray, icewm and icewmbg.
 If instead of icewmtray you wish to run your own tray application
-then give icewm-session the '--notray' option.
+then give icewm-session the `--notray` option.
 Icewm-session will also start 'icesound'
-if you give it the '--sound' option.
+if you give it the `--sound` option.
+See the output of `icewm-session --help` for details.
 
 *icesh*::
 Could be used to manage IceWM internals from command line.
@@ -98,6 +99,7 @@ Is used internally.
 *icesound*::
 Plays audio files on GUI events raised by IceWM.
 It supports ALSA, AO, EsounD and OSS.
+See the manpage *icesound(1)*.
 
 *icewm-menu-fdo*::
 Generate an IceWM menu with executable desktop applications
@@ -795,7 +797,7 @@ Contains user-specific configurations.
 Contains system-wide customized defaults.
 Please note that your local installation may have been
 configured to use a different system location.
-The icewm --directories option will show this location.
+The output of `icewm --directories` will show this location.
 
 */usr/share/icewm/* or */usr/local/share/icewm/*::
 Default local installation settings.
@@ -879,7 +881,7 @@ which are installed on the system.
 *theme*::
 This file contains the name of the default theme.
 On startup icewm reads this file to obtain the theme name,
-unless icewm was started with the --theme option.
+unless icewm was started with the '--theme' option.
 Whenever a different theme is selected from the IceWM Menu then
 the theme file is overwritten with the name of the selected theme.
 This theme file contains the keyword
@@ -907,6 +909,11 @@ Then follows the bare name of the icon to use without extensions.
 This icon will be shown in the toolbar.
 The last component is a shell command line which will be executed
 whenever the user presses the icon in the toolbar.
+For example, the following line in toolbar will create a button
+with tooltip ``Mozilla Firefox'' with the 'firefox' icon
+which launches 'Firefox' when clicked:
+
+  prog  "Mozilla Firefox"  firefox  /usr/bin/firefox --private-window
 
 *winoptions*::
 Contains settings to control window appearance and behavior
@@ -1015,7 +1022,7 @@ Examples of the above configuration files
 can be found in the default installation
 path or in the system-wide defaults.
 See the output of
-'icewm --directories'
+`icewm --directories`
 for their locations.
 
 
