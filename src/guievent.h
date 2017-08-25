@@ -15,8 +15,8 @@ enum GUIEvent {
 
     geWindowOpened,     // 06 implemented
     geWindowClosed,     // 07 implemented
-    geDialogOpened,     // 08 is not used
-    geDialogClosed,     // 09 is not used
+    geDialogOpened,     // 08 implemented
+    geDialogClosed,     // 09 implemented
     geWindowMax,        // 10 implemented
     geWindowRestore,    // 11 implemented
 
