@@ -237,7 +237,10 @@ YFrameWindow::~YFrameWindow() {
         fKillMsgBox = 0;
     }
 #ifdef CONFIG_GUIEVENTS
-    wmapp->signalGuiEvent(geWindowClosed);
+    if (fWindowType == wtDialog)
+        wmapp->signalGuiEvent(geDialogClosed);
+    else
+        wmapp->signalGuiEvent(geWindowClosed);
 #endif
     if (fAutoRaiseTimer && fAutoRaiseTimer->getTimerListener() == this) {
         fAutoRaiseTimer->stopTimer();
@@ -581,7 +584,10 @@ void YFrameWindow::afterManage() {
 #endif
 #endif
 #ifdef CONFIG_GUIEVENTS
-    wmapp->signalGuiEvent(geWindowOpened);
+    if (fWindowType == wtDialog)
+        wmapp->signalGuiEvent(geDialogOpened);
+    else
+        wmapp->signalGuiEvent(geWindowOpened);
 #endif
 }
 
@@ -1644,7 +1650,8 @@ void YFrameWindow::wmLower() {
 
         manager->lockFocus();
 #ifdef CONFIG_GUIEVENTS
-        wmapp->signalGuiEvent(geWindowLower);
+        if (getState() ^ WinStateMinimized)
+            wmapp->signalGuiEvent(geWindowLower);
 #endif
         while (w) {
             w->doLower();
