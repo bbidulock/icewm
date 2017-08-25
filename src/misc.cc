@@ -360,11 +360,14 @@ void msg(char const *msg, ...) {
 }
 
 void tlog(char const *msg, ...) {
-    time_t now = time(NULL);
-    struct tm *loc = localtime(&now);
+    timeval now;
+    gettimeofday(&now, NULL);
+    struct tm *loc = localtime(&now.tv_sec);
 
-    fprintf(stderr, "%02d:%02d:%02d: %s: ", loc->tm_hour,
-            loc->tm_min, loc->tm_sec, ApplicationName);
+    fprintf(stderr, "%02d:%02d:%02d.%03u: %s: ", loc->tm_hour,
+            loc->tm_min, loc->tm_sec,
+            (unsigned)(now.tv_usec / 1000),
+            ApplicationName);
 
     va_list ap;
     va_start(ap, msg);
