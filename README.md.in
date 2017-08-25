@@ -91,7 +91,7 @@ Unfortunately that documentation is for version 1.2.27 and is incomplete
 at that; however, it is for the most part still usable.
 The good news is that the
 [`icewm(1)`][21], [`icewmbg(1)`][22] and [`icesound(1)`][23]
-manual pages are complete and fully up-to-date.
+manual pages for version @VERSION@ are complete and fully up-to-date.
 
 
 Included Utilities
