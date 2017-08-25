@@ -204,8 +204,7 @@ bool YApm::ignore_directory_ac_entry(const char* name) {
 }
 
 void YApm::AcpiStr(char *s, bool Tool) {
-    char buf[255], buf2[80], bat_info[250];
-    FILE *fd;
+    char buf[255], bat_info[250];
 
     *s='\0';
 
@@ -213,9 +212,10 @@ void YApm::AcpiStr(char *s, bool Tool) {
     //the file in /proc/acpi will contain unexpected values
     int ACstatus = -1;
 #if !defined(__FreeBSD__) && !defined(__FreeBSD_kernel__)
+    char buf2[80];
     if (acpiACName && acpiACName[0] != 0) {
         strcat3(buf, "/proc/acpi/ac_adapter/", acpiACName, "/state", sizeof(buf));
-        fd = fopen(buf, "r");
+        FILE* fd = fopen(buf, "r");
         if (fd == NULL) {
             //try older /proc/acpi format
             strcat3(buf, "/proc/acpi/ac_adapter/", acpiACName, "/status", sizeof(buf));
@@ -242,15 +242,15 @@ void YApm::AcpiStr(char *s, bool Tool) {
             fclose(fd);
         }
     }
-#else
+#else // some FreeBSD kernel
+    int i;
     size_t len = sizeof(i);
     if (sysctlbyname("hw.acpi.acline", &i, &len, NULL, 0) >= 0) {
-	if (i == 1)
-	    ACstatus = AC_ONLINE;
-	else if (i = 0)
-	    ACstatus = AC_OFFLINE;
-	else
-	    ACstatus = AC_UNKNOWN;
+	    switch(i) {
+		    case 0: ACstatus = AC_OFFLINE; break;
+		    case 1: ACstatus = AC_ONLINE; break;
+		    default: ACstatus = AC_UNKNOWN; break;
+	    }
     }
 #endif
 
@@ -260,7 +260,6 @@ void YApm::AcpiStr(char *s, bool Tool) {
 
     int n = 0;
     for (int i = 0; i < batteryNum; i++) {
-        const char* BATname = acpiBatteries[i]->name;
         //assign some default values, in case
         //the files in /proc/acpi will contain unexpected values
         bool BATpresent = BAT_ABSENT;
@@ -272,8 +271,9 @@ void YApm::AcpiStr(char *s, bool Tool) {
         int BATtime_remain = -1;
 
 #if !defined(__FreeBSD__) && !defined(__FreeBSD_kernel__)
+        const char* BATname = acpiBatteries[i]->name;
         strcat3(buf, "/proc/acpi/battery/", BATname, "/state", sizeof(buf));
-        fd = fopen(buf, "r");
+        FILE* fd = fopen(buf, "r");
         if (fd == NULL) {
             //try older /proc/acpi format
             strcat3(buf, "/proc/acpi/battery/", BATname, "/status", sizeof(buf));
@@ -317,11 +317,9 @@ void YApm::AcpiStr(char *s, bool Tool) {
             }
             fclose(fd);
         }
-#else
-	int      acpifd;
-
+#else // some FreeBSD kernel
 #define ACPIDEV         "/dev/acpi"
-	acpifd = open(ACPIDEV, O_RDONLY);
+	int acpifd = open(ACPIDEV, O_RDONLY);
 	if (acpifd != -1) {
 	    union acpi_battery_ioctl_arg battio;
 
@@ -852,7 +850,7 @@ YApm::YApm(YWindow *aParent, bool autodetect):
 	mode = ACPI;
 
         //scan for batteries
-	for (i = 0; i < 64 && batteryNum < MAX_ACPI_BATTERY_NUM; ++i) {
+	for (int i = 0; i < 64 && batteryNum < MAX_ACPI_BATTERY_NUM; ++i) {
 	    union acpi_battery_ioctl_arg battio;
 
 	    battio.unit = i;
