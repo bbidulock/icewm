@@ -10,7 +10,7 @@ if [ -x "`which git 2>/dev/null`" -a -d .git ]; then
 	VERSION=$(git describe --tags|sed 's,[-_],.,g;s,\.g.*$,,')
 	DATE=$(git show -s --format=%ci HEAD^{commit}|awk '{print$1}')
 	BRANCH=$(git tag --sort=-creatordate|head -1)
-	if [[ "$VERSION" != "$BRANCH" ]]; then
+	if [ "$VERSION" != "$BRANCH" ]; then
 		BRANCH="icewm-1-4-BRANCH"
 	fi
 	sed -i.bak configure.ac -r \
