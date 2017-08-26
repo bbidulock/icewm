@@ -89,6 +89,11 @@ char const * ApplicationName = "icesound";
 #define OSS_DEFAULT_DEVICE "/dev/dsp"
 #define DEFAULT_SNOOZE_TIME 500L
 
+enum IcesoundStatus {
+    ICESOUND_SUCCESS  = 0,
+    ICESOUND_IF_ERROR = 3,
+};
+
 static const char audio_interfaces[] =
 #ifdef ENABLE_AO
     "AO,"
@@ -138,6 +143,7 @@ public:
      */
     virtual bool play(int sound) = 0;
     virtual void reload() {}
+    virtual void drain() {}
 };
 
 /******************************************************************************
@@ -157,6 +163,10 @@ public:
     virtual int init(SoundConf* conf) {
         this->conf = conf;
         return open();
+    }
+    virtual void drain() {
+        if (playback_handle)
+            snd_pcm_drain(playback_handle);
     }
 
 private:
@@ -187,9 +197,9 @@ int YALSAAudio::open() {
         warn("cannot open audio device %s (%s)\n",
                  conf->alsaDevice(),
                  snd_strerror(err));
-        return 3;
+        return ICESOUND_IF_ERROR;
     }
-    return 0;
+    return ICESOUND_SUCCESS;
 }
 
 /**
@@ -341,9 +351,9 @@ int YOSSAudio::init(SoundConf* conf) {
     this->conf = conf;
     if (access(conf->ossDevice(), W_OK) != 0) {
         fail(_("%s"), conf->ossDevice());
-        return 3;
+        return ICESOUND_IF_ERROR;
     }
-    return 0;
+    return ICESOUND_SUCCESS;
 }
 
 /******************************************************************************
@@ -399,11 +409,11 @@ int YESDAudio::init(SoundConf* conf) {
         if (conf->verbose())
             warn(_("Can't connect to ESound daemon: %s"),
                  server ? server : _("<none>"));
-        return 3;
+        return ICESOUND_IF_ERROR;
     }
 
     uploadSamples();
-    return 0;
+    return ICESOUND_SUCCESS;
 }
 
 /**
@@ -522,8 +532,8 @@ int YAOAudio::init(SoundConf* conf) {
     ao_initialize();
     driver = ao_default_driver_id();
     if (driver < 0)
-        return 3;
-    return 0;
+        return ICESOUND_IF_ERROR;
+    return ICESOUND_SUCCESS;
 }
 
 /**
@@ -562,8 +572,9 @@ bool YAOAudio::play(int sound) {
     {
         const int N = 8*1024;
         short sbuf[N] = {};
-        for (int n, k; (n = sf_readf_short(sf, sbuf, N / 2)) > 0; ) {
-            k = ao_play(device, (char *) sbuf, n * 2 * 2);
+        const int frames = N / format.channels;
+        for (int n, k; (n = sf_readf_short(sf, sbuf, frames)) > 0; ) {
+            k = ao_play(device, (char *) sbuf, n * 2 * format.channels);
             if (k == 0) {
                 warn(_("ao_play failed"));
                 goto done;
@@ -634,6 +645,7 @@ private:
     void readEvents();
     void guiEvent();
     int getProperty();
+    void playOnce(char* name);
 
 private:
     static void stop(int sig);
@@ -701,8 +713,9 @@ IceSound::IceSound(int argc, char** argv) :
             else if (is_switch(*arg, "l", "list-files")) {
                 for (int i = 0; i < NUM_GUI_EVENTS; ++i) {
                     if (i != geCloseAll) {
-                        value = findSample(i);
-                        if (value) printf("%s\n", value);
+                        csmart samplefile(findSample(i));
+                        if (samplefile)
+                            printf("%s\n", (char *) samplefile);
                     }
                 }
                 ::exit(0);
@@ -717,6 +730,10 @@ IceSound::IceSound(int argc, char** argv) :
                         printf("%s.wav\n", name(i));
                     }
                 }
+                ::exit(0);
+            }
+            else if (GetArgument(value, "p", "play", arg, argv + argc)) {
+                playOnce(value);
                 ::exit(0);
             }
             else {
@@ -761,6 +778,8 @@ Options:\n\
 \n\
  -z, --snooze=millisecs  Specifies the snooze interval between sound events\n\
                          in milliseconds. Default is 500 milliseconds.\n\
+\n\
+ -p, --play=sound        Plays the given sound (name or number) and exits.\n\
 \n\
  -l, --list-files        Lists the available sound file paths and exits.\n\
 \n\
@@ -841,7 +860,7 @@ int IceSound::run() {
     if (NULL == (display = XOpenDisplay(displayName))) { // === connect to X11 ===
         warn(_("Can't open display: %s. X must be running and $DISPLAY set."),
              XDisplayName(displayName));
-        rc = 3;
+        rc = ICESOUND_IF_ERROR;
     }
     else {
         root = RootWindow(display, DefaultScreen(display));
@@ -888,7 +907,7 @@ int IceSound::getProperty() {
     int gev(-1);
 
     if (XGetWindowProperty(display, root, _GUI_EVENT,
-                           0, 3, False, _GUI_EVENT,
+                           0, 1, False, _GUI_EVENT,
                            &type, &format, &nitems, &lbytes,
                            &propdata) == Success && propdata)
     {
@@ -918,7 +937,7 @@ void IceSound::guiEvent() {
     }
 
     timeval now = monotime();
-    if (last + millitime(500L) < now || gev == geStartup) {
+    if (last + millitime(snooze) < now || gev == geStartup) {
         if (audio->play(gev))
             last = now;
     }
@@ -927,7 +946,7 @@ void IceSound::guiEvent() {
 }
 
 int IceSound::chooseInterface() {
-    int rc(3);
+    int rc(ICESOUND_IF_ERROR);
     mstring list(interfaceNames);
     mstring name;
     while (audio == NULL && list.splitall(',', &name, &list)) {
@@ -996,6 +1015,28 @@ void IceSound::hup(int sig) {
     if (sig == SIGHUP) {
         // set the reload flag and let the driver check this.
         soundAsync.reload = true;
+    }
+}
+
+void IceSound::playOnce(char* value) {
+    char* end = value;
+    int sound = (int) strtol(value, &end, 10);
+    if (end <= value || *end) {
+        sound = -1;
+        for (int i = 0; i < NUM_GUI_EVENTS && sound < 0; ++i)
+            if (0 == strncmp(value, name(i), strlen(name(i))))
+                sound = i;
+    }
+    if (inrange(sound, 0, NUM_GUI_EVENTS - 1)) {
+        if (chooseInterface() == ICESOUND_SUCCESS) {
+            if (audio->play(sound)) {
+                audio->drain();
+            }
+            delete audio; audio = 0;
+        }
+    }
+    else {
+        warn(_("Unrecognized argument: %s\n"), value);
     }
 }
 
