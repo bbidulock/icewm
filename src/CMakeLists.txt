@@ -140,6 +140,7 @@ CHECK_INCLUDE_FILE_CXX(sys/file.h HAVE_SYS_FILE_H)
 CHECK_INCLUDE_FILE_CXX(sys/ioctl.h HAVE_SYS_IOCTL_H)
 CHECK_INCLUDE_FILE_CXX(sys/param.h HAVE_SYS_PARAM_H)
 CHECK_INCLUDE_FILE_CXX(sys/socket.h HAVE_SYS_SOCKET_H)
+CHECK_INCLUDE_FILE_CXX(sys/soundcard.h HAVE_SYS_SOUNDCARD_H)
 CHECK_INCLUDE_FILE_CXX(sys/time.h HAVE_SYS_TIME_H)
 CHECK_INCLUDE_FILE_CXX(unistd.h HAVE_UNISTD_H)
 CHECK_INCLUDE_FILE_CXX(wchar.h HAVE_WCHAR_H)
@@ -233,7 +234,8 @@ if(CONFIG_GUIEVENTS)
 		set(ENABLE_ESD "${esd_FOUND}")
 	endif()
 	if("${ICESOUND}" MATCHES "oss")
-		set(CONFIG_OSS on)
+		pkg_check_modules(oss sndfile)
+		set(ENABLE_OSS "${oss_FOUND}")
 	endif()
 endif()
 
@@ -328,7 +330,7 @@ CONFIGURE_FILE("${CMAKE_SOURCE_DIR}/src/config.cmake.h.in" "${CMAKE_BINARY_DIR}/
 
 # pkg-config delivers lists, we need plain compiler options! :-(
 foreach(pfx fontconfig xext x11 pixbuf xrandr xft alsa 
-		esd ao xinerama fribidi gio)
+		esd ao oss xinerama fribidi gio)
 	string(REPLACE ";" " " ${pfx}_CFLAGS "${${pfx}_CFLAGS}")
 	#message(STATUS "Normalizing argument lists: ${${pfx}_LDFLAGS} ; ${${pfx}_CFLAGS}")
 endforeach()
@@ -392,10 +394,10 @@ ADD_EXECUTABLE(icewmbg${EXEEXT} icewmbg.cc ref.cc ${ICE_COMMON_SRCS})
 SET_TARGET_PROPERTIES(icewmbg${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
 TARGET_LINK_LIBRARIES(icewmbg${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS}  ${pixbuf_LDFLAGS} ${xinerama_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 
-IF(CONFIG_GUIEVENTS AND (CONFIG_ALSA OR CONFIG_AO OR CONFIG_ESD OR CONFIG_OSS))
+IF(CONFIG_GUIEVENTS AND (ENABLE_ALSA OR ENABLE_AO OR ENABLE_ESD OR ENABLE_OSS))
 ADD_EXECUTABLE(icesound${EXEEXT} icesound.cc upath.cc misc.cc mstring.cc ytimer.cc yapp.cc yprefs.cc yarray.cc ref.cc)
 SET_TARGET_PROPERTIES(icesound${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
-TARGET_LINK_LIBRARIES(icesound${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${alsa_LDFLAGS} ${ao_LDFLAGS} ${esd_LDFLAGS} ${EXTRA_LIBS})
+TARGET_LINK_LIBRARIES(icesound${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${alsa_LDFLAGS} ${ao_LDFLAGS} ${esd_LDFLAGS} ${oss_LDFLAGS} ${EXTRA_LIBS})
 INSTALL(TARGETS icesound${EXEEXT} DESTINATION ${BINDIR})
 ENDIF()
 
@@ -440,11 +442,12 @@ foreach (_variableName
 		CONFIG_WINMENU
 		CONFIG_XFREETYPE
 		XINERAMA
-    ENABLE_LTO
-    ENABLE_ALSA
-    ENABLE_AO
-    ENABLE_ESD
-    ENABLE_NLS
+		ENABLE_LTO
+		ENABLE_ALSA
+		ENABLE_AO
+		ENABLE_ESD
+		ENABLE_OSS
+		ENABLE_NLS
 		)
     if("${${_variableName}}" STREQUAL "")
             message(STATUS "${_variableName} => OFF")

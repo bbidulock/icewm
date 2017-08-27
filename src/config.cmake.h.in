@@ -74,6 +74,7 @@
 #cmakedefine HAVE_SYS_IOCTL_H 1
 #cmakedefine HAVE_SYS_PARAM_H 1
 #cmakedefine HAVE_SYS_SOCKET_H 1
+#cmakedefine HAVE_SYS_SOUNDCARD_H 1
 #cmakedefine HAVE_SYS_TIME_H 1
 #cmakedefine HAVE_UNISTD_H 1
 #cmakedefine HAVE_WCHAR_H 1
@@ -119,10 +120,10 @@
 #cmakedefine CONFIG_PDA 1
 
 #cmakedefine CONFIG_GUIEVENTS 1
-#cmakedefine CONFIG_OSS 1
 #cmakedefine ENABLE_ALSA 1
 #cmakedefine ENABLE_AO 1
 #cmakedefine ENABLE_ESD 1
+#cmakedefine ENABLE_OSS 1
 #cmakedefine XINERAMA 1
 #cmakedefine CONFIG_FRIBIDI 1
 
