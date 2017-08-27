@@ -36,8 +36,8 @@ configuration directories.
 
 Icesound supports several common audio interfaces.
 These are: ALSA, ESounD, OSS and libAO.
-Except for OSS, these must be enabled during configuration.
-ALSA and libAO both require support for 'libsndfile',
+These must be enabled during configuration.
+ALSA, OSS and libAO all require support for 'libsndfile',
 which is a very common library to read audio files.
 
 The implementation quality for these interfaces varies.
@@ -60,10 +60,8 @@ significant number of common audio interfaces.
 It has a simple configuration file
 which is documented in the libao.conf(5) manpage.
 
-The support for 'OSS' in icesound is
-currently rather limited.
-It might work, but this interface
-definitely needs further improvement.
+The 'Open Sound System (OSS)' is a cross-platform
+sound interface, which is fully supported by icesound.
 
 When multiple audio interfaces are available
 icesound will examine them all until it finds
