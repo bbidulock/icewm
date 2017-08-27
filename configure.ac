@@ -102,12 +102,14 @@ AC_HEADER_DIRENT
 AC_HEADER_SYS_WAIT
 AC_PATH_X
 AC_PATH_XTRA
-AC_CHECK_HEADERS([fcntl.h langinfo.h libintl.h limits.h locale.h netdb.h netinet/in.h sndfile.h stddef.h stdlib.h string.h sys/file.h sys/ioctl.h sys/param.h sys/socket.h sys/time.h unistd.h wchar.h])
-AC_CHECK_HEADERS([sched.h sys/dkstat.h sys/param.h sys/sysctl.h uvm/uvm_param.h])
-AC_CHECK_HEADERS([libgen.h])
-AC_CHECK_HEADERS([machine/apmvar.h])
-AC_CHECK_HEADERS([machine/apm_bios.h])
-AC_CHECK_HEADERS([execinfo.h])
+AC_CHECK_HEADERS([execinfo.h fcntl.h])
+AC_CHECK_HEADERS([langinfo.h libgen.h libintl.h limits.h locale.h])
+AC_CHECK_HEADERS([machine/apm_bios.h machine/apmvar.h])
+AC_CHECK_HEADERS([netdb.h netinet/in.h])
+AC_CHECK_HEADERS([sched.h sndfile.h stddef.h stdlib.h string.h])
+AC_CHECK_HEADERS([sys/dkstat.h sys/file.h sys/ioctl.h sys/param.h])
+AC_CHECK_HEADERS([sys/socket.h sys/soundcard.h sys/sysctl.h sys/time.h])
+AC_CHECK_HEADERS([unistd.h uvm/uvm_param.h wchar.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_CHECK_HEADER_STDBOOL
@@ -300,8 +302,11 @@ if test x$enable_guievents = xyes ; then
 		CONFIG_AO=yes],[AC_MSG_WARN([AO is not supported])])
 	    ;;
 	(OSS|oss)
-	    AC_DEFINE([ENABLE_OSS],[1],[Define to enable OSS support.])
-	    CONFIG_OSS=yes
+	    PKG_CHECK_MODULES([OSS],[sndfile],[
+		AUDIO_CFLAGS="$AUDIO_CFLAGS $OSS_CFLAGS"
+		AUDIO_LIBS="$AUDIO_LIBS $OSS_LIBS"
+		AC_DEFINE([ENABLE_OSS],[1],[Define to enable OSS support.])
+		CONFIG_OSS=yes],[AC_MSG_WARN([OSS is not supported])])
 	    ;;
 	(ESound|ESD|esound|esd)
 	    PKG_CHECK_MODULES([ESD],[esound],[
