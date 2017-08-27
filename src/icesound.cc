@@ -52,17 +52,7 @@
 #error Configure with "--enable-guievents"
 #endif
 
-#include <stdio.h>
-#include <assert.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include <errno.h>
-#include <string.h>
-#include <unistd.h>
 #include <signal.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <fcntl.h>
 #include <X11/Xlib.h>
 
 #include "ytimer.h"
@@ -73,7 +63,16 @@
 #define GUI_EVENT_NAMES
 #include "guievent.h"
 
-#if defined(ENABLE_ALSA) || defined(ENABLE_AO)
+#ifdef ENABLE_OSS
+#if defined(HAVE_SYS_IOCTL_H) && defined(HAVE_SYS_SOUNDCARD_H)
+#include <sys/ioctl.h>
+#include <sys/soundcard.h>
+#else
+#undef ENABLE_OSS
+#endif
+#endif
+
+#if defined(ENABLE_ALSA) || defined(ENABLE_AO) || defined(ENABLE_OSS)
 #if HAVE_SNDFILE_H
 #include <sndfile.h>
 #else
@@ -104,7 +103,10 @@ static const char audio_interfaces[] =
 #ifdef ENABLE_ALSA
     "ALSA,"
 #endif
-    "OSS";
+#ifdef ENABLE_OSS
+    "OSS"
+#endif
+    "";
 
 static class SoundAsync {
 public:
@@ -138,7 +140,7 @@ public:
     virtual int init(SoundConf* conf) = 0;
 
     /**
-     * Play the sound for the event given event.
+     * Play the sound for the given event.
      * Return true iff the sound is playable.
      */
     virtual bool play(int sound) = 0;
@@ -295,15 +297,18 @@ done:
  * General (OSS) audio interface
  ******************************************************************************/
 
+#ifdef ENABLE_OSS
+
 class YOSSAudio : public YAudioInterface {
 public:
-    YOSSAudio(): conf(0) {}
+    YOSSAudio(): conf(0), device(-1) {}
 
     virtual bool play(int sound);
     virtual int init(SoundConf* conf);
 
 private:
     SoundConf* conf;
+    int device;
 };
 
 /**
@@ -317,44 +322,111 @@ bool YOSSAudio::play(int sound) {
     if (conf->verbose())
         tlog(_("Playing sample #%d (%s)"), sound, (char *) samplefile);
 
-    int ifd(open(samplefile, O_RDONLY));
-    if (ifd == -1) {
-        fail("%s", (char *) samplefile);
+    SF_INFO sfinfo = {};
+    SNDFILE* sf = sf_open(samplefile, SFM_READ, &sfinfo);
+    if (sf == NULL) {
+        warn("%s: %s", (char *) samplefile, sf_strerror(sf));
         return false;
     }
 
-    int ofd(open(conf->ossDevice(), O_WRONLY));
-    if (ofd == -1) {
-        fail("%s", conf->ossDevice());
-        close(ifd);
-        return true;
+    if (sfinfo.channels < 1 || sfinfo.channels > 2) {
+        warn(_("%s: Invalid number of channels"), (char *) samplefile);
+        sf_close(sf);
+        return false;
     }
 
-    // TODO: adjust audio format !!!
-    if (conf->verbose())
-        tlog("TODO: adjust audio format"); // !!!
+    if (ioctl(device, SNDCTL_DSP_CHANNELS, &sfinfo.channels)) {
+        fail(_("Could not set OSS channels"));
+        goto done;
+    }
 
-    MSG(("copying sound %s to %s\n", (char *) samplefile, conf->ossDevice()));
+    if (ioctl(device, SNDCTL_DSP_SPEED, &sfinfo.samplerate)) {
+        fail(_("Could not set OSS channels"));
+        goto done;
+    }
 
-    char sbuf[4096];
-    for (int n; (n = read(ifd, sbuf, sizeof(sbuf))) > 0; )
-        if (write(ofd, sbuf, n) != n)
-            if (n != -1 || errno != EINTR)
+    if (ioctl(device, SNDCTL_DSP_SYNC, NULL)) {
+        fail(_("Could not sync OSS"));
+        goto done;
+    }
+
+    {
+        const int N = 8*1024;
+        short sbuf[N] = {};
+        const int frames = N / sfinfo.channels;
+        for (int count; (count = sf_readf_short(sf, sbuf, frames)) > 0; ) {
+            int bytes = count * sfinfo.channels * 2;
+            int wrote = write(device, sbuf, bytes);
+            if (wrote == -1) {
+                fail(_("OSS write failed"));
+                goto done;
+            }
+            if (wrote != bytes) {
+                warn(_("OSS incomplete write (%d/%d)"), wrote, bytes);
                 break;
+            }
+        }
+    }
 
-    close(ofd);
-    close(ifd);
+    if (ioctl(device, SNDCTL_DSP_POST, NULL)) {
+        fail(_("Could not post OSS"));
+        goto done;
+    }
+
+    if (ioctl(device, SNDCTL_DSP_SYNC, NULL)) {
+        fail(_("Could not sync OSS"));
+        goto done;
+    }
+
+done:
+    sf_close(sf);
     return true;
 }
 
 int YOSSAudio::init(SoundConf* conf) {
     this->conf = conf;
-    if (access(conf->ossDevice(), W_OK) != 0) {
-        fail(_("%s"), conf->ossDevice());
-        return ICESOUND_IF_ERROR;
+    int result = ICESOUND_IF_ERROR;
+    int stereo = 1;
+    int format =
+#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+        AFMT_S16_LE
+#elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
+        AFMT_S16_BE
+#else
+#error Undefined byte order
+#endif
+        ;
+
+    if ((device = open(conf->ossDevice(), O_WRONLY)) == -1) {
+        fail(_("Could not open OSS device %s"), conf->ossDevice());
+        goto done;
     }
-    return ICESOUND_SUCCESS;
+
+    if (ioctl(device, SNDCTL_DSP_STEREO, &stereo) == -1) {
+        fail(_("Could not set OSS stereo"));
+        goto done;
+    }
+
+    if (ioctl(device, SNDCTL_DSP_RESET, NULL) == -1) {
+        fail(_("Could not reset OSS DSP"));
+        goto done;
+    }
+
+    if (ioctl(device, SNDCTL_DSP_SETFMT, &format) == -1) {
+        fail(_("Could not set OSS format"));
+        goto done;
+    }
+
+    result = ICESOUND_SUCCESS;
+done:
+    if (device >= 0 && result == ICESOUND_IF_ERROR) {
+        close(device);
+        device = -1;
+    }
+    return result;
 }
+
+#endif /* ENABLE_OSS */
 
 /******************************************************************************
  * Enlightenment Sound Daemon audio interface
@@ -646,6 +718,7 @@ private:
     void guiEvent();
     int getProperty();
     void playOnce(char* name);
+    void nosupport(const char* name);
 
 private:
     static void stop(int sig);
@@ -945,37 +1018,44 @@ void IceSound::guiEvent() {
         tlog(_("Too quick; ignoring %s."), name(gev));
 }
 
+void IceSound::nosupport(const char* name) {
+    warn(_("Support for the %s interface not compiled."), name);
+}
+
 int IceSound::chooseInterface() {
     int rc(ICESOUND_IF_ERROR);
-    mstring list(interfaceNames);
-    mstring name;
+    mstring name, list(interfaceNames);
     while (audio == NULL && list.splitall(',', &name, &list)) {
         if (name.isEmpty())
             continue;
         name = name.upper();
         const char* val = cstring(name);
         if (name == "OSS") {
+#ifdef ENABLE_OSS
             audio = new YOSSAudio();
+#else
+            nosupport(val);
+#endif
         }
         else if (name == "ALSA") {
 #ifdef ENABLE_ALSA
             audio = new YALSAAudio();
 #else
-            warn(_("Support for the %s interface not compiled."), val);
+            nosupport(val);
 #endif
         }
         else if (name == "AO") {
 #ifdef ENABLE_AO
             audio = new YAOAudio();
 #else
-            warn(_("Support for the %s interface not compiled."), val);
+            nosupport(val);
 #endif
         }
         else if (name == "ESD" || name == "ESOUND") {
 #ifdef ENABLE_ESD
             audio = new YESDAudio();
 #else
-            warn(_("Support for the %s interface not compiled."), val);
+            nosupport(val);
 #endif
         }
         else {
