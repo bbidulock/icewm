@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # A little script to automagically generate a GNU NEWS file from git.
 
@@ -10,11 +10,12 @@ t=
 i=0
 
 for o in $(git tag --sort=-creatordate) ""; do
-	if [[ $((i++)) -ge 8 ]]; then break; fi
+	if [ $i -ge 8 ]; then break; fi
+	i=$((i+1))
 	if [ -z "$t" ] ; then
 		head=$(git show -s --format=%H HEAD)
 		last=$(git show -s --format=%H "$o")
-		if [[ $head == $last ]]; then
+		if [ "$head" = "$last" ]; then
 			t="$o"
 			continue
 		fi
@@ -28,7 +29,7 @@ for o in $(git tag --sort=-creatordate) ""; do
 	title="Release ${PACKAGE}${PACKAGE:+-}$version released $date"
 	under=$(echo "$title"|sed 's,.,-,g')
 	cmd="git shortlog -e -n -w80,6,8 ${o}${o:+...}${t}"
-	echo -e "\n$title\n$under\n\n$cmd\n\n$(eval $cmd)\n"
+	/usr/bin/echo -e "\n$title\n$under\n\n$cmd\n\n$(eval $cmd)\n"
 	t="$o"
 done|sed -r 's,[[:space:]][[:space:]]*$,,'
 
