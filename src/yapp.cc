@@ -336,31 +336,29 @@ void YApplication::resetSignals() {
     sigprocmask(SIG_SETMASK, &oldSignalMask, 0);
 }
 
-void YApplication::closeFiles(bool report) {
+void YApplication::closeFiles() {
 #ifdef __linux__   /* for now, some debugging code */
-    for (int fd = 3; fd < 42; ++fd) {
-        int flags = 0;
-        if (fcntl(fd, F_GETFD, &flags))
-            break;
+    int             i, max = dup(0);
 
-        if ((flags & FD_CLOEXEC) != 0)
-            continue;
+    for (i = 3; i < max; i++) {
+        int fl = 0;
+        if (fcntl(i, F_GETFD, &fl) == 0) {
+            if (!(fl & FD_CLOEXEC)) {
+                char path[64];
+                char buf[64];
 
-        if (report) {
-            char path[64];
-            char buf[64] = {};
+                memset(buf, 0, sizeof(buf));
+                snprintf(path, sizeof path, "/proc/%d/fd/%d", (int) getpid(), i);
+                if (readlink(path, buf, sizeof(buf) - 1) == -1)
+		    buf[0] = '\0';
 
-            snprintf(path, sizeof path, "/proc/%d/fd/%d", (int) getpid(), fd);
-            if (readlink(path, buf, sizeof(buf) - 1) == -1)
-                buf[0] = '\0';
-
-            warn("File still open: fd=%d, target='%s' (missing FD_CLOEXEC?)",
-                    fd, buf);
-            warn("Closing file descriptor: %d", fd);
+                warn("File still open: fd=%d, target='%s' (missing FD_CLOEXEC?)", i, buf);
+                warn("Closing file descriptor: %d", i);
+                close (i);
+            }
         }
-
-        close(fd);
     }
+    close(max);
 #endif
 }
 
