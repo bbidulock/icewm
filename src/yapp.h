@@ -95,7 +95,7 @@ protected:
     virtual void flushXEvents() {};
     virtual bool handleXEvents() { return false; }
 
-    void closeFiles();
+    void closeFiles(bool report = true);
 };
 
 extern IMainLoop *mainLoop;

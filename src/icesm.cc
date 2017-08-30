@@ -125,6 +125,7 @@ public:
         catchSignal(SIGTERM);
         catchSignal(SIGINT);
         catchSignal(SIGUSR1);
+        closeFiles(false);
     }
 
     void loadEnv(const char *scriptName) {
