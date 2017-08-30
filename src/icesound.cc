@@ -302,6 +302,7 @@ done:
 class YOSSAudio : public YAudioInterface {
 public:
     YOSSAudio(): conf(0), device(-1) {}
+    ~YOSSAudio();
 
     virtual bool play(int sound);
     virtual int init(SoundConf* conf);
@@ -424,6 +425,13 @@ done:
         device = -1;
     }
     return result;
+}
+
+YOSSAudio::~YOSSAudio() {
+    if (device >= 0) {
+        close(device);
+        device = -1;
+    }
 }
 
 #endif /* ENABLE_OSS */
