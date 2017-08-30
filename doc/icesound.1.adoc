@@ -25,8 +25,8 @@ Interested applications can listen for changes to this property.
 GUI events are an optional feature of IceWM.
 It must be explicitly enabled by giving the
 `--enable-guievents` option during configuration.
-There are nearly twenty GUI events defined, but about
-three of these are not currently implemented.
+There are nearly twenty GUI events defined.
+The `--list-sounds` option will show them.
 
 Icesound is an application, which is part of the IceWM
 suite of applications, which responds to these GUI events
@@ -40,7 +40,6 @@ These must be enabled during configuration.
 ALSA, OSS and libAO all require support for 'libsndfile',
 which is a very common library to read audio files.
 
-The implementation quality for these interfaces varies.
 'ALSA' is rather involved to program and it works,
 but this could use more testing.
 It plays at most one sound at a time.
@@ -106,6 +105,9 @@ OPTIONS
 *-z, --snooze=milliseconds*::
   Specifies the snooze interval between sound events +
   in milliseconds. Default is 500 milliseconds.
+
+*-p, --play=sound*::
+  Plays the given sound (name or number) and exits.
 
 *-l, --list-files*::
   Lists the available sound file paths and exits.
