@@ -1,13 +1,8 @@
 
 SUFFIXES = .1 .1.adoc .adoc .html
 
-#
-# Convert from '.1.adoc' to '.1' manpage.
-# The option "-D ." is needed for distcheck.
-# a2x generates a spurious warning on it.
-#
 .1.adoc.1:
-	$(ASCIIMAN) -D . $(ASCIIMAN_FORMAT) $<
+	$(ASCIIMAN) $(ASCIIMAN_FORMAT) $<
 
 .adoc.html:
 	$(ASCIIDOC) $(ASCIIDOC_BACKEND) $<
