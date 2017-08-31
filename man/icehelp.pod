@@ -2,13 +2,28 @@
 
 =head1 NAME
 
- icehelp - 
+ icehelp - a very simple HTML browser
 
 =head1 SYNOPSIS
 
-B<icehelp> [I<OPTIONS>]
+B<icehelp> [I<OPTIONS>] I<FILENAME>
 
 =head1 DESCRIPTION
+
+B<icehelp> is a very simple HTML browser that displays the document
+specified on the command line.  It is used by L<icewm(1)> internall to
+display the L<IceWM Manual> and the manual pages.
+
+=head1 ARGUMENTS
+
+=over
+
+=item I<FILENAME>
+
+Specifies the absolute or relative path (relative to the current working
+directory), that specifies the HTML file to browse.
+
+=back
 
 =head1 OPTIONS
 
