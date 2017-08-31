@@ -6,11 +6,133 @@
 
 =head1 SYNOPSIS
 
-B<icesh> [I<OPTIONS>]
+B<icesh> [I<OPTIONS>] I<ACTIONS>
 
 =head1 DESCRIPTION
 
+=head1 ARGUMENTS
+
+=over
+
+=item B<ACTIONS> ::= I<ACTION>[ I<ACTION>]*
+
+Actions can be one of:
+
+=over
+
+=item B<setIconTitle> I<TITLE>
+
+Set the icon title.
+
+=item B<setWindowTitle> I<TITLE>
+
+Set the window title.
+
+=item B<setGeometry> I<GEOMETRY>
+
+Set the window geometry.
+
+=item B<setState> I<MASK> I<STATE>
+
+Set the GNOME window state to I<STATE>.  Only the bits selected by
+I<MASK> are affected.  I<STATE> and I<MASK> are expressions of the
+domain I<GNOME window state>.
+
+=item B<toggleState> I<STATE>
+
+Toggle the GNOME window state bits specified by the I<STATE> expression.
+
+=item B<setHints> I<HINTS>
+
+Set the GNOME window hints to I<HINTS>.
+
+=item B<setLayer> I<LAYER>
+
+Moves the window to another GNOME window layer.
+
+=item B<setWorkspace> I<WORKSPACE>
+
+Moves the window to another workspace.  Select the root window to change
+the current workspace.
+
+=item B<listWorkspaces>
+
+Lists the names of all work spaces.
+
+=item B<setTrayOption> I<TRAYOPTIOKN>
+
+Set the IceWM tray option hint.
+
+=back
+
+=item B<EXPRESSION> ::= I<SYMBOL> | I<EXPRESSION> { C<+> | C<|> } I<SYMBOL>
+
+=over
+
+=item I<GNOME window state>
+
+Named symbols of the domain I<GNOME window state> (numeric range:
+0-1023):
+
+ AllWorkspaces          (1)
+ Sticky                 (1)
+ Minimized              (2)
+ Maximized             (12)
+ MaximizedVert          (4)
+ MaximizedVertical      (4)
+ MaximizedHoriz         (8)
+ MaximizedHorizontal    (8)
+ Hidden                (16)
+ All                 (1023)
+
+=item I<GNOME window hint>
+
+Named symbols of the domain I<GNOME window hint> (numeric range: 0-63):
+
+ SkipFocus       (1)
+ SkipWindowMenu  (2)
+ SkipTaskBar     (4)
+ FocusOnClick   (16)
+ DoNotCover     (32)
+ All            (63)
+
+=item I<GNOME window layer>
+
+Named symbols of the domain I<GNOME window layer> (numeric range: 0-15):
+
+ Desktop         (0)
+ Below           (2)
+ Normal          (4)
+ OnTop           (6)
+ Dock            (8)
+ AboveDock      (10)
+ Menu           (12)
+
+=item I<IceWM tray option>
+
+Named symbols of the domain I<IceWM tray option> (numeric range: 0-2):
+
+ Ignore          (0)
+ Minimized       (1)
+ Exclusive       (2)
+
+=back
+
+=back
+
 =head1 OPTIONS
+
+=head2 SPECIFIC OPTIONS
+
+=over
+
+=item B<-display> I<DISPLAY>
+
+=item B<-window> I<WINDOW_ID>
+
+=item B<-class> I<WM_CLASS>
+
+=back
 
 =head2 GENERAL OPTIONS
 
