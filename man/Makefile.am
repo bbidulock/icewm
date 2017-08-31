@@ -4,7 +4,8 @@ icewm_man_files = \
 	icewmbg.man \
 	icewm-session.man \
 	icewmtray.man \
-	icesound.man
+	icesound.man \
+	icesh.man
 
 dist_man1_MANS = $(icewm_man_files)
 DISTCLEANFILES = $(icewm_man_files)
@@ -14,7 +15,8 @@ EXTRA_DIST = \
 	icewmbg.pod \
 	icewm-session.pod \
 	icewmtray.pod \
-	icesound.pod
+	icesound.pod \
+	icesh.pod
 
 SUFFIXES = .man .pod
 
