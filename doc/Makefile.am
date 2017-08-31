@@ -18,15 +18,17 @@ generated_manpages = \
 	icewmbg.1 \
 	icesound.1
 
-man1_MANS = \
+dist_man1_MANS = \
 	$(generated_manpages)
 
-dist_doc_DATA = \
+EXTRA_DIST = \
 	icewm.adoc \
 	icewm.1.adoc \
 	icewmbg.1.adoc \
-	icesound.1.adoc \
+	icesound.1.adoc
+
+dist_doc_DATA = \
 	$(html_documentation)
 
-CLEANFILES = $(html_documentation) $(generated_manpages)
+DISTCLEANFILES = $(html_documentation) $(generated_manpages)
 
