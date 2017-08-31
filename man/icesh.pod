@@ -2,7 +2,7 @@
 
 =head1 NAME
 
- icesh - 
+ icesh - control properties of windows
 
 =head1 SYNOPSIS
 
@@ -10,7 +10,14 @@ B<icesh> [I<OPTIONS>] I<ACTIONS>
 
 =head1 DESCRIPTION
 
+B<icesh> provides commands for use by shell scripts that affect a
+window's state similar to L<wmctl(1)> or L<xdotool(1)>, except more
+limited, specifically for B<icewm(1)>, and limited to affecting GNOME
+WinWM/WMH properties.
+
 =head1 ARGUMENTS
+
+B<icesh> accepts the following arguments:
 
 =over
 
@@ -22,50 +29,60 @@ Actions can be one of:
 
 =item B<setIconTitle> I<TITLE>
 
-Set the icon title.
+Set the icon title for the specified window to I<TITLE>.
 
 =item B<setWindowTitle> I<TITLE>
 
-Set the window title.
+Set the window title for the specified window to I<TITLE>
 
 =item B<setGeometry> I<GEOMETRY>
 
-Set the window geometry.
+Set the window geometry for the specified window to I<GEOMETRY>.
 
 =item B<setState> I<MASK> I<STATE>
 
-Set the GNOME window state to I<STATE>.  Only the bits selected by
-I<MASK> are affected.  I<STATE> and I<MASK> are expressions of the
-domain I<GNOME window state>.
+Set the GNOME window state for the specified window to I<STATE>.  Only
+the bits selected by I<MASK> are affected.  I<STATE> and I<MASK> are
+expressions of the domain I<GNOME window state>.  See L</GNOME window
+state>, below, for I<STATE> and I<MASK> symbols.
 
 =item B<toggleState> I<STATE>
 
-Toggle the GNOME window state bits specified by the I<STATE> expression.
+Toggle the GNOME window state bits specified by the I<STATE> expression
+for the specified window.  See L</GNOME window state>, below, for
+    I<STATE> symbols.
 
 =item B<setHints> I<HINTS>
 
-Set the GNOME window hints to I<HINTS>.
+Set the I<GNOME window hints> for the specified window to I<HINTS>.  See
+L</GNOME window hints>, below, for I<HINTS> symbols.
 
 =item B<setLayer> I<LAYER>
 
-Moves the window to another GNOME window layer.
+Moves the specified window to another I<GNOME window layer>.  See
+L</GNOME window layer>, below, for I<LAYER> symbols.
 
 =item B<setWorkspace> I<WORKSPACE>
 
-Moves the window to another workspace.  Select the root window to change
-the current workspace.
+Moves the specified window to another work space.  Select the root
+window to change the current work space.
 
 =item B<listWorkspaces>
 
 Lists the names of all work spaces.
 
-=item B<setTrayOption> I<TRAYOPTIOKN>
+=item B<setTrayOption> I<TRAYOPTION>
 
-Set the IceWM tray option hint.
+Set the I<IceWM tray option> hint for the specified window to
+I<TRAYOPTION>.  See L</IceWM tray options>, below, for I<TRAYOPTION>
+symbols.
 
 =back
 
-=item B<EXPRESSION> ::= I<SYMBOL> | I<EXPRESSION> { C<+> | C<|> } I<SYMBOL>
+=item B<EXPRESSION> ::= I<SYMBOL> | I<EXPRESSION> { C<+> | C<|> }
+I<SYMBOL>
+
+Each I<SYMBOL> may be from one of the following applicable domains:
 
 =over
 
@@ -89,32 +106,32 @@ Named symbols of the domain I<GNOME window state> (numeric range:
 
 Named symbols of the domain I<GNOME window hint> (numeric range: 0-63):
 
- SkipFocus       (1)
- SkipWindowMenu  (2)
- SkipTaskBar     (4)
- FocusOnClick   (16)
- DoNotCover     (32)
- All            (63)
+ SkipFocus              (1)
+ SkipWindowMenu         (2)
+ SkipTaskBar            (4)
+ FocusOnClick          (16)
+ DoNotCover            (32)
+ All                   (63)
 
 =item I<GNOME window layer>
 
 Named symbols of the domain I<GNOME window layer> (numeric range: 0-15):
 
- Desktop         (0)
- Below           (2)
- Normal          (4)
- OnTop           (6)
- Dock            (8)
- AboveDock      (10)
- Menu           (12)
+ Desktop                (0)
+ Below                  (2)
+ Normal                 (4)
+ OnTop                  (6)
+ Dock                   (8)
+ AboveDock             (10)
+ Menu                  (12)
 
 =item I<IceWM tray option>
 
 Named symbols of the domain I<IceWM tray option> (numeric range: 0-2):
 
- Ignore          (0)
- Minimized       (1)
- Exclusive       (2)
+ Ignore                 (0)
+ Minimized              (1)
+ Exclusive              (2)
 
 =back
 
@@ -122,15 +139,26 @@ Named symbols of the domain I<IceWM tray option> (numeric range: 0-2):
 
 =head1 OPTIONS
 
+B<icesh> recognizes the following options:
+
 =head2 SPECIFIC OPTIONS
 
 =over
 
 =item B<-display> I<DISPLAY>
 
+Specifies the X11 I<DISPLAY> to use.  When unspecified, defaults to the
+$DISPLAY environment variable.
+
 =item B<-window> I<WINDOW_ID>
 
+Specifies the identifier of the window, I<WINDOW_ID>, for which the
+action applies.
+
 =item B<-class> I<WM_CLASS>
+
+Specifies the window manager class, I<WM_CLASS>, for which the action
+applies.
 
 =back
 
@@ -152,11 +180,34 @@ Print copying permissions to F<stdout> for the program and exit.
 
 =back
 
+=head1 USAGE
+
+=head1 EXAMPLES
+
+=head1 FILES
+
+=head1 ENVIRONMENT
+
+=head1 SIGNALS
+
+=head1 CAVEATS
+
+=head1 COMPLIANCE
+
+While B<icesh> is largely compliant with the GNOME WinWM/WMH
+specification, it does not support NetWM/EWMH.
+
 =head1 BUGS
 
 B<icesh> had no known bugs at the time of release.  Please report bugs
 for current versions to the source code repository at
 L<https://github.com/bbidulock/icewm/issues>.
+
+=head1 HISTORY
+
+B<icesh> is historical and deprecated.  The command originally supported
+only the GNOME WinWM/WMH specification.  Unlike L<wmctl(1)> and
+L<xdotool(1)>, NetWM/EWMH support was never included.
 
 =head1 AUTHOR
 
