@@ -1,12 +1,14 @@
 
 icewm_man_files = \
-	icewm.man
+	icewm.man \
+	icewmbg.man
 
 dist_man1_MANS = $(icewm_man_files)
 DISTCLEANFILES = $(icewm_man_files)
 
 EXTRA_DIST = \
-	icewm.pod
+	icewm.pod \
+	icewmbg.pod
 
 SUFFIXES = .man .pod
 
