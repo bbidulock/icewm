@@ -39,12 +39,16 @@ Print copying permissions to F<stdout> for the program and exit.
 
 =head2 GENERAL OPTIONS
 
+B<icewmtray> recognizes the following options:
+
 =over
 
 =item B<-n>, B<--notify>
 
 Specifies that B<icewmtray> is to notify its parent process by sending
-the B<SIGUSR1> signal.
+the B<SIGUSR1> signal.  This option is used by L<icewm-session(1)> when
+starting up components so that it can wait for component startup to
+complete.
 
 =item B<-c>, B<--config> I<FILENAME>
 
