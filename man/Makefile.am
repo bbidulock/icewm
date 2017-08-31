@@ -8,7 +8,8 @@ icewm_man_files = \
 	icesh.man \
 	icehelp.man \
 	icewmhint.man \
-	icewm-menu-fdo.man
+	icewm-menu-fdo.man \
+	icewm-set-gnomewm.man
 
 dist_man1_MANS = $(icewm_man_files)
 DISTCLEANFILES = $(icewm_man_files)
@@ -22,7 +23,8 @@ EXTRA_DIST = \
 	icesh.pod \
 	icehelp.pod \
 	icewmhint.pod \
-	icewm-menu-fdo.pod
+	icewm-menu-fdo.pod \
+	icewm-set-gnomewm.pod
 
 SUFFIXES = .man .pod
 
