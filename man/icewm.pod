@@ -46,13 +46,13 @@ gives easy
 access to programs, to active applications, and to a small set of
 monitoring applets.
 
-=item L<icewmbg(2)>
+=item L<icewmbg(1)>
 
 The background setting application. It can assign plain background color
 or images in different formats to the X background.  Each work space can
 have its own background.  It supports semi-transparency. Semitransparent
 background image and colour can be configured. When the background image
-has changed then L<icewmbg(2)> can be notified to update the background.
+has changed then L<icewmbg(1)> can be notified to update the background.
 Multi-head monitor setups are fully supported.  This program should be
 started before B<icewm>.  See the L<icewmbg(1)> manual page for details.
 
@@ -712,6 +712,7 @@ You can control windows by a modified mouse button press:
 =over
 
 =item C<Alt+Pointer_Button1>
+
 C<MouseWinMove> moves the window under the mouse over the screen.
 
 =item C<Alt+Pointer_Button3>
