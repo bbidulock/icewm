@@ -1,30 +1,30 @@
 
 icewm_man_files = \
-	icewm.man \
-	icewmbg.man \
-	icewm-session.man \
-	icewmtray.man \
-	icesound.man \
-	icesh.man \
 	icehelp.man \
+	icesh.man \
+	icesound.man \
+	icewmbg.man \
 	icewmhint.man \
+	icewm.man \
 	icewm-menu-fdo.man \
-	icewm-set-gnomewm.man
+	icewm-session.man \
+	icewm-set-gnomewm.man \
+	icewmtray.man
 
 dist_man1_MANS = $(icewm_man_files)
 DISTCLEANFILES = $(icewm_man_files)
 
 EXTRA_DIST = \
-	icewm.pod \
-	icewmbg.pod \
-	icewm-session.pod \
-	icewmtray.pod \
-	icesound.pod \
-	icesh.pod \
 	icehelp.pod \
+	icesh.pod \
+	icesound.pod \
+	icewmbg.pod \
 	icewmhint.pod \
 	icewm-menu-fdo.pod \
-	icewm-set-gnomewm.pod
+	icewm.pod \
+	icewm-session.pod \
+	icewm-set-gnomewm.pod \
+	icewmtray.pod
 
 SUFFIXES = .man .pod
 
