@@ -12,7 +12,7 @@ B<icewmbg> [I<OPTIONS>]
 
 =head1 BUGS
 
-B<icewmsbg> had no known bugs at the time of release.  Please report bugs
+B<icewmbg> had no known bugs at the time of release.  Please report bugs
 for current versions to the source code repository at
 L<https://github.com/bbidulock/icewm/issues>.
 
