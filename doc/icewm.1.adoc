@@ -10,7 +10,7 @@ icewm - lightweight X11 window manager
 
 SYNOPSIS
 --------
-*icewm-session* ['OPTIONS']
+*icewm* ['OPTIONS']
 
 
 DESCRIPTION
@@ -99,7 +99,7 @@ Is used internally.
 *icesound*::
 Plays audio files on GUI events raised by IceWM.
 It supports ALSA, AO, EsounD and OSS.
-See the manpage *icesound(1)*.
+See the manpage *icesound*(1).
 
 *icewm-menu-fdo*::
 Generate an IceWM menu with executable desktop applications
@@ -771,7 +771,7 @@ The default value is "$HOME/.icewm".
 
 *DISPLAY=NAME*::
 The name of the X11 server.
-See Xorg(1) or Xserver(1).
+See *Xorg*(1) or *Xserver*(1).
 This value can be overridden by the --display option.
 
 *MAIL=URL*::
@@ -809,7 +809,7 @@ Default local installation settings.
 loads additional environment variables from the file
 *env.*
 Each line is subjected to posix-shell expansion by
-'wordexp(3).'
+*wordexp*(3).
 Comment lines starting by a #-sign are ignored.
 icewm-session will load those expanded lines which
 contain a name, followed by an equals sign,
@@ -1036,13 +1036,13 @@ See the file COMPLIANCE in the distribution for full details.
 
 SEE ALSO
 --------
-icewmbg(1),
-Xorg(1),
-Xserver(1),
-xinit(1),
-xprop(1),
-xwininfo(1),
-wmctrl(1).
+*icewmbg*(1),
+*Xorg*(1),
+*Xserver*(1),
+*xinit*(1),
+*xprop*(1),
+*xwininfo*(1),
+*wmctrl*(1).
 
 'IceWM Help'
 from the IceWM menu contains a manual (somewhat outdated, but still useful).
