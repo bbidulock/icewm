@@ -531,6 +531,7 @@ AC_CONFIG_FILES([Makefile
                  src/Makefile
                  po/Makefile.in
                  doc/Makefile
+		 man/Makefile
                  lib/Makefile
 		 lib/keys
 		 lib/menu
