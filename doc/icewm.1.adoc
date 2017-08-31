@@ -763,11 +763,11 @@ ENVIRONMENT VARIABLES
 ---------------------
 *XDG_CONFIG_HOME=PATH*::
 The directory for user private configuration files.
-The default value is "$HOME/.config/icewm/".
+The default value is "$HOME/.config".
 
 *ICEWM_PRIVCFG=PATH*::
 The directory for user private configuration files.
-The default value is "$HOME/.icewm/".
+The default value is "$HOME/.icewm".
 
 *DISPLAY=NAME*::
 The name of the X11 server.
