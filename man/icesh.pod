@@ -6,7 +6,10 @@
 
 =head1 SYNOPSIS
 
-B<icesh> [I<OPTIONS>] I<ACTIONS>
+B<> B<icesh> [I<OPTIONS>] I<ACTIONS>
+ B<icesh> {B<-h>|B<--help>} [I<OPTIONS>] [I<ACTIONS>]
+ B<icesh> {B<-V>|B<--version>}
+ B<icesh> {B<-C>|B<--copying>}
 
 =head1 DESCRIPTION
 
@@ -14,6 +17,57 @@ B<icesh> provides commands for use by shell scripts that affect a
 window's state similar to L<wmctl(1)> or L<xdotool(1)>, except more
 limited, specifically for B<icewm(1)>, and limited to affecting GNOME
 WinWM/WMH properties.
+
+=head1 OPTIONS
+
+B<icesh> recognizes the following options:
+
+=head2 COMMAND OPTIONS
+
+Command options are mutually exclusive.  Only one command option can be
+specified per invocation.  If no command option is specified, action
+argument parsing and processing is performed.
+
+=over
+
+=item B<-h>, B<--help>
+
+Print a brief usage statement to F<stdout> and exit.
+
+=item B<-V>, B<--version>
+
+Print the program version to F<stdout> and exit.
+
+=item B<-C>, B<--copying>
+
+Print copying permissions to F<stdout> for the program and exit.
+
+=back
+
+=head2 GENERAL OPTIONS
+
+=over
+
+=item B<-display> I<DISPLAY>
+
+Specifies the X11 I<DISPLAY> to use.  When unspecified, defaults to the
+$DISPLAY environment variable.
+
+=item B<-window> I<WINDOW_ID>
+
+Specifies the identifier of the window, I<WINDOW_ID>, for which the
+action applies.
+When no I<WINDOW_ID> or I<WM_CLASS> is specified, a selection crossbar
+is invoked to select the desired window.
+
+=item B<-class> I<WM_CLASS>
+
+Specifies the window manager class, I<WM_CLASS>, for which the action
+applies.
+When no I<WINDOW_ID> or I<WM_CLASS> is specified, a selection crossbar
+is invoked to select the desired window.
+
+=back
 
 =head1 ARGUMENTS
 
@@ -64,12 +118,12 @@ L</GNOME window layer>, below, for I<LAYER> symbols.
 
 =item B<setWorkspace> I<WORKSPACE>
 
-Moves the specified window to another work space.  Select the root
-window to change the current work space.
+Moves the specified window to another workspace.  Select the root
+window to change the current workspace.
 
 =item B<listWorkspaces>
 
-Lists the names of all work spaces.
+Lists the names of all workspaces.
 
 =item B<setTrayOption> I<TRAYOPTION>
 
@@ -137,60 +191,27 @@ Named symbols of the domain I<IceWM tray option> (numeric range: 0-2):
 
 =back
 
-=head1 OPTIONS
-
-B<icesh> recognizes the following options:
-
-=head2 SPECIFIC OPTIONS
-
-=over
-
-=item B<-display> I<DISPLAY>
-
-Specifies the X11 I<DISPLAY> to use.  When unspecified, defaults to the
-$DISPLAY environment variable.
-
-=item B<-window> I<WINDOW_ID>
-
-Specifies the identifier of the window, I<WINDOW_ID>, for which the
-action applies.
-
-=item B<-class> I<WM_CLASS>
-
-Specifies the window manager class, I<WM_CLASS>, for which the action
-applies.
-
-=back
-
-=head2 GENERAL OPTIONS
-
-=over
-
-=item B<-h>, B<--help>
-
-Print a brief usage statement to F<stdout> and exit.
-
-=item B<-V>, B<--version>
-
-Print the program version to F<stdout> and exit.
-
-=item B<-C>, B<--copying>
-
-Print copying permissions to F<stdout> for the program and exit.
-
-=back
-
 =head1 USAGE
+
+The purpose of B<icesh> is to provide commands that can be used from a
+shell script (see L<sh(1)>) to affect the state, geometry and hints
+associated with a window, or to list and parse information about
+existing windows.
 
 =head1 EXAMPLES
 
-=head1 FILES
-
 =head1 ENVIRONMENT
 
-=head1 SIGNALS
+The following environment variables are set or examined by B<icesh>:
 
-=head1 CAVEATS
+=over
+
+=item B<DISPLAY>
+
+When the B<-display> option is not specified, the C<DISPLAY> environment
+variable is consulted to determine the display.
+
+=back
 
 =head1 COMPLIANCE
 
@@ -205,9 +226,11 @@ L<https://github.com/bbidulock/icewm/issues>.
 
 =head1 HISTORY
 
-B<icesh> is historical and deprecated.  The command originally supported
-only the GNOME WinWM/WMH specification.  Unlike L<wmctl(1)> and
-L<xdotool(1)>, NetWM/EWMH support was never included.
+B<icesh> is historical and deprecated.  The command originally (and
+still) only supported the GNOME WinWM/WMH specification.  Unlike
+L<wmctl(1)> and L<xdotool(1)>, NetWM/EWMH support was never included.
+Except for the C<setTrayOption> command, L<wmctl(1)> and L<xdotool(1)>
+are quite capable of performing the necessary functions and more.
 
 =head1 AUTHOR
 
