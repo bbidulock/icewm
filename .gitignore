@@ -53,6 +53,7 @@ configure
 configure.ac.bak
 configure.scan
 doc/icewm*.html
+doc/*.1
 doc/icesound*.html
 doc/Makefile
 doc/Makefile.in
