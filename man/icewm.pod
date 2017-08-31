@@ -1028,7 +1028,7 @@ See B<--copying> for full copyright notice and copying permissions.
 
 =head1 LICENSE
 
-B<icewm> is licensed under the GNU Library General Public License.
+B<IceWM> is licensed under the GNU Library General Public License.
 See the F<COPYING> file in the distribution or use the B<--copying> flag
 to display copying permissions.
 
