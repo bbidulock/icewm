@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.12\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-08-25 14:15-0600\n"
+"POT-Creation-Date: 2017-08-30 18:10-0600\n"
 "PO-Revision-Date: 2004-01-21 9:30+0200\n"
 "Last-Translator: Coşku Erdem\n"
 "Language-Team: Turkish\n"
@@ -465,7 +465,7 @@ msgstr "Hatalı argüman: «%s»."
 msgid "No actions specified."
 msgstr "İşlem belirtilmedi."
 
-#: src/icesh.cc:709 src/icesound.cc:842 src/icewmhint.cc:91 src/yxapp.cc:948
+#: src/icesh.cc:709 src/icesound.cc:942 src/icewmhint.cc:91 src/yxapp.cc:948
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "Display açılamıyor: %s. X çalışıyor ve $DISPLAY ayarlanmış olmalı"
@@ -517,60 +517,99 @@ msgstr ""
 msgid "%s was killed by signal %d."
 msgstr ""
 
-#: src/icesound.cc:204 src/icesound.cc:308 src/icesound.cc:538
+#: src/icesound.cc:216 src/icesound.cc:324 src/icesound.cc:628
 #, c-format
 msgid "Playing sample #%d (%s)"
 msgstr "Örnek çalınıyor,  #%d (%s)"
 
-#: src/icesound.cc:343
+#: src/icesound.cc:334
 #, c-format
-msgid "%s"
+msgid "%s: Invalid number of channels"
 msgstr ""
 
-#: src/icesound.cc:400
+#: src/icesound.cc:340 src/icesound.cc:345
+msgid "Could not set OSS channels"
+msgstr ""
+
+#: src/icesound.cc:350 src/icesound.cc:378
+msgid "Could not sync OSS"
+msgstr ""
+
+#: src/icesound.cc:362
+msgid "OSS write failed"
+msgstr ""
+
+#: src/icesound.cc:366
+#, c-format
+msgid "OSS incomplete write (%d/%d)"
+msgstr ""
+
+#: src/icesound.cc:373
+#, fuzzy
+msgid "Could not post OSS"
+msgstr "«%s» font kümesi yüklenemedi."
+
+#: src/icesound.cc:402
+#, fuzzy, c-format
+msgid "Could not open OSS device %s"
+msgstr "%s pixel haritası bulunamadı"
+
+#: src/icesound.cc:407
+msgid "Could not set OSS stereo"
+msgstr ""
+
+#: src/icesound.cc:412
+msgid "Could not reset OSS DSP"
+msgstr ""
+
+#: src/icesound.cc:417
+msgid "Could not set OSS format"
+msgstr ""
+
+#: src/icesound.cc:490
 #, c-format
 msgid "Can't connect to ESound daemon: %s"
 msgstr "ESound daemon'una bağlanılamadı: %s"
 
-#: src/icesound.cc:401 src/icewmhint.cc:93 src/yxapp.cc:949
+#: src/icesound.cc:491 src/icewmhint.cc:93 src/yxapp.cc:949
 msgid "<none>"
 msgstr "<yok>"
 
-#: src/icesound.cc:419
+#: src/icesound.cc:509
 #, c-format
 msgid "Error <%d> while uploading `%s:%s'"
 msgstr "<%d>: «%s:%s» indirilirken hata oluştu"
 
-#: src/icesound.cc:425
+#: src/icesound.cc:515
 #, c-format
 msgid "Sample <%d> uploaded as `%s:%s'"
 msgstr "Örnek <%d> «%s:%s» olarak upload edildi"
 
-#: src/icesound.cc:483
+#: src/icesound.cc:573
 #, fuzzy, c-format
 msgid "Playing sample #%d: %d"
 msgstr "Örnek çalınıyor #%d"
 
-#: src/icesound.cc:558
+#: src/icesound.cc:648
 #, c-format
 msgid "ao_open_live failed with %d"
 msgstr ""
 
-#: src/icesound.cc:568
+#: src/icesound.cc:659
 msgid "ao_play failed"
 msgstr ""
 
-#: src/icesound.cc:723
+#: src/icesound.cc:821
 #, c-format
 msgid "Unrecognized option: %s\n"
 msgstr "Tanınmayan seçenek: %s\n"
 
-#: src/icesound.cc:726
+#: src/icesound.cc:824 src/icesound.cc:1127
 #, c-format
 msgid "Unrecognized argument: %s\n"
 msgstr "Tanınamayan argüman: %s\n"
 
-#: src/icesound.cc:735
+#: src/icesound.cc:833
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
@@ -601,6 +640,8 @@ msgid ""
 "\n"
 " -z, --snooze=millisecs  Specifies the snooze interval between sound events\n"
 "                         in milliseconds. Default is 500 milliseconds.\n"
+"\n"
+" -p, --play=sound        Plays the given sound (name or number) and exits.\n"
 "\n"
 " -l, --list-files        Lists the available sound file paths and exits.\n"
 "\n"
@@ -657,51 +698,51 @@ msgstr ""
 "3     Subsystems error (ie cannot connect to server).\n"
 "\n"
 
-#: src/icesound.cc:827
+#: src/icesound.cc:927
 #, c-format
 msgid "No audio for %s"
 msgstr ""
 
-#: src/icesound.cc:904
+#: src/icesound.cc:1004
 msgid "Could not get GUI event property"
 msgstr ""
 
-#: src/icesound.cc:908
+#: src/icesound.cc:1008
 #, c-format
 msgid "Received invalid GUI event %d"
 msgstr ""
 
-#: src/icesound.cc:912
+#: src/icesound.cc:1012
 #, c-format
 msgid "Received GUI event %s"
 msgstr ""
 
-#: src/icesound.cc:926
+#: src/icesound.cc:1026
 #, c-format
 msgid "Too quick; ignoring %s."
 msgstr ""
 
-#: src/icesound.cc:945 src/icesound.cc:952 src/icesound.cc:959
+#: src/icesound.cc:1030
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr "%s arabirimi desteği derlenmedi."
 
-#: src/icesound.cc:963
+#: src/icesound.cc:1070
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr "Desteklenmeyen arabirim: %s."
 
-#: src/icesound.cc:972
+#: src/icesound.cc:1079
 #, c-format
 msgid "Using %s audio."
 msgstr ""
 
-#: src/icesound.cc:976
+#: src/icesound.cc:1083
 #, fuzzy, c-format
 msgid "Failed to connect to audio interfaces %s."
 msgstr "%s açılamadı: %s"
 
-#: src/icesound.cc:988
+#: src/icesound.cc:1095
 #, fuzzy, c-format
 msgid "Received signal %s: Terminating..."
 msgstr "Alınan sinyal %d: öldürülüyor..."
