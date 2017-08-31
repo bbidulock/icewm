@@ -2,7 +2,7 @@
 
 =head1 NAME
 
- icewmtray - 
+ icewmtray - a system tray for the IceWM panel
 
 =head1 SYNOPSIS
 
@@ -13,7 +13,12 @@ B<> B<icewmtray> [I<OPTIONS>]
 
 =head1 DESCRIPTION
 
+B<icewmtray> provides a system tray for the IceWM panel.  It catches the
+system tray objects which are installed by various applications.
+
 =head1 OPTIONS
+
+B<icewmtray> recognizes the following options:
 
 =head2 COMMAND OPTIONS
 
@@ -64,6 +69,16 @@ Specifies that debugging is to be turned on.  B<icewmtray> must have
 been compiled with debugging for this option to have an effect.
 
 =back
+
+=head1 USAGE
+
+B<icewmtray(1)> is typically launched and terminated by
+L<icewm-session(1)> with the appropriate options: it is usually
+unnecessary to launch it directly.
+
+=head1 COMPLIANCE
+
+B<icewmtray> is compliant to the XDG system tray specification.
 
 =head1 BUGS
 
