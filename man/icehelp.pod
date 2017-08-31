@@ -1,0 +1,33 @@
+=pod
+
+=head1 NAME
+
+ icehelp - 
+
+=head1 SYNOPSIS
+
+B<icehelp> [I<OPTIONS>]
+
+=head1 DESCRIPTION
+
+=head1 BUGS
+
+B<icehelp> had no known bugs at the time of release.  Please report bugs
+for current versions to the source code repository at
+L<https://github.com/bbidulock/icewm/issues>.
+
+=head1 AUTHOR
+
+Brian Bidulock L<mailto:bidulock@openss7.org>.
+
+See B<--copying> for full copyright notice and copying permissions.
+
+=head1 LICENSE
+
+B<IceWM> is licensed under the GNU Library General Public License.
+See the F<COPYING> file in the distribution or use the B<--copying> flag
+to display copying permissions.
+
+=cut
+
+# vim: set sw=4 tw=72 nocin spell spelllang=en_ca:
