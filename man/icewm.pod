@@ -105,6 +105,8 @@ according to XDG specifications.
 
 Each of the IceWM executables supports the following options:
 
+=over
+
 =item B<-c>, B<--config>=I<FILE>
 
 Use I<FILE> as the source of configuration options.  By default B<icewm>
