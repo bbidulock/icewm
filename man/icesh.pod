@@ -145,47 +145,59 @@ Each I<SYMBOL> may be from one of the following applicable domains:
 Named symbols of the domain I<GNOME window state> (numeric range:
 0-1023):
 
- AllWorkspaces          (1)
- Sticky                 (1)
- Minimized              (2)
- Maximized             (12)
- MaximizedVert          (4)
- MaximizedVertical      (4)
- MaximizedHoriz         (8)
- MaximizedHorizontal    (8)
- Hidden                (16)
- All                 (1023)
+    AllWorkspaces          (1)
+    Sticky                 (1)
+    Minimized              (2)
+    Maximized             (12)
+    MaximizedVert          (4)
+    MaximizedVertical      (4)
+    MaximizedHoriz         (8)
+    MaximizedHorizontal    (8)
+    Hidden                (16)
+    All                 (1023)
+
+These symbols are used with the I<MASK> and I<STATE> arguments to the
+C<setState> and C<toggleState> actions.
 
 =item I<GNOME window hint>
 
 Named symbols of the domain I<GNOME window hint> (numeric range: 0-63):
 
- SkipFocus              (1)
- SkipWindowMenu         (2)
- SkipTaskBar            (4)
- FocusOnClick          (16)
- DoNotCover            (32)
- All                   (63)
+    SkipFocus              (1)
+    SkipWindowMenu         (2)
+    SkipTaskBar            (4)
+    FocusOnClick          (16)
+    DoNotCover            (32)
+    All                   (63)
+
+These symbols are used with the I<HINTS> argument to the C<setHints>
+action.
 
 =item I<GNOME window layer>
 
 Named symbols of the domain I<GNOME window layer> (numeric range: 0-15):
 
- Desktop                (0)
- Below                  (2)
- Normal                 (4)
- OnTop                  (6)
- Dock                   (8)
- AboveDock             (10)
- Menu                  (12)
+    Desktop                (0)
+    Below                  (2)
+    Normal                 (4)
+    OnTop                  (6)
+    Dock                   (8)
+    AboveDock             (10)
+    Menu                  (12)
+
+These symbols are used with the I<LAYER> argument to the C<setLayer>
+action.
 
 =item I<IceWM tray option>
 
 Named symbols of the domain I<IceWM tray option> (numeric range: 0-2):
 
- Ignore                 (0)
- Minimized              (1)
- Exclusive              (2)
+    Ignore                 (0)
+    Minimized              (1)
+    Exclusive              (2)
+
+These symbols are used with the I<TRAYOPTION> argument to the
+C<setTrayOption> action.
 
 =back
 
@@ -198,7 +210,27 @@ shell script (see L<sh(1)>) to affect the state, geometry and hints
 associated with a window, or to list and parse information about
 existing windows.
 
+It should be noted that B<icesh> works on any window manager that is
+compliant with the GNOME WinWM/WMH specification.  The C<setTrayOption>
+action; however, is IceWM specific.
+
 =head1 EXAMPLES
+
+The following command will list all the workspaces associated with the
+root window after a window (any window) is selected:
+
+    icesh listWorkspaces
+
+Example output:
+
+    workspace #0: `main'
+    workspace #1: `web'
+    workspace #2: `doc'
+    workspace #3: `dev'
+    workspace #4: `scr'
+    workspace #5: `gfx'
+    workspace #6: `misc'
+    workspace #7: `'
 
 =head1 ENVIRONMENT
 
