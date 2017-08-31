@@ -46,9 +46,9 @@ IceWM consists of several programs:
 *icewm*::
 Is the actual window manager. It positions application windows
 on screen and decorates them with borders. It gives input focus to
-the current active application. Icewm supports three different
+the current active application. IceWM supports three different
 focus modes: click to focus, sloppy mouse focuse and a custom
-user-definable focus mode. Icewm also draws a small taskbar
+user-definable focus mode. IceWM also draws a small taskbar
 at the bottom of the screen, which gives easy access to programs,
 to active applications, and to a small set of monitoring applets.
 
@@ -76,14 +76,14 @@ It also runs the
 'startup'
 script.
 It implements basic session management.
-Icewm-session is the preferred program to start the IceWM system.
+icewm-session is the preferred program to start the IceWM system.
 On termination the
 'shutdown'
 script will be run first, then icewm-session will terminate
 icewmtray, icewm and icewmbg.
 If instead of icewmtray you wish to run your own tray application
 then give icewm-session the `--notray` option.
-Icewm-session will also start 'icesound'
+icewm-session will also start 'icesound'
 if you give it the `--sound` option.
 See the output of `icewm-session --help` for details.
 
@@ -179,7 +179,7 @@ window manager.
 *--restart*::
 Instructs IceWM to restart itself, but one should not
 use this option directly. Instead one selects the
-*Restart Icewm*
+*Restart IceWM*
 button from the menu in the lower left corner of the desktop.
 
 *--configured*::
@@ -193,7 +193,7 @@ This list is printed in the actual order in which IceWM uses it
 to search for configuration files.
 
 *--list-themes*::
-Icewm will search all the configuration directories for
+IceWM will search all the configuration directories for
 theme files and print a list of all found themes.
 
 *--postpreferences*::
@@ -745,17 +745,17 @@ Dragging with the right button moves the window.
 
 SIGNALS
 -------
-Icewm supports the following signals:
+IceWM supports the following signals:
 
 *SIGHUP*::
-Icewm will restart itself. It is a way to reload the configuration.
+IceWM will restart itself. It is a way to reload the configuration.
 
 *SIGINT*::
 *SIGTERM*::
-Icewm will cease to manage application windows and terminate.
+IceWM will cease to manage application windows and terminate.
 
 *SIGQUIT*::
-Icewm will initiate the 'Logout' procedure.
+IceWM will initiate the 'Logout' procedure.
 If a *LogoutCommand* preferences option was configured it will be executed.
 
 
@@ -811,7 +811,7 @@ loads additional environment variables from the file
 Each line is subjected to posix-shell expansion by
 'wordexp(3).'
 Comment lines starting by a #-sign are ignored.
-Icewm-session will load those expanded lines which
+icewm-session will load those expanded lines which
 contain a name, followed by an equals sign,
 followed by the value (which may be empty).
 
