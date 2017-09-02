@@ -53,9 +53,17 @@ The following arguments are required:
 
 =over
 
-=item I<CLASS>B<.>I<INSTANCE>
+=item [I<CLASS>B<.>I<INSTANCE>]
+
+Specifies the ICCCM 2.0 B<WM_CLASS> property in terms of resource name
+and resource class separated by a period (C<.>).  For example:
+C<XTerm.xterm>.  This argument must be specified for all commands
+affecting client windows.
 
 =item I<OPTION> I<ARGUMENT>
+
+Specifies the I<OPTION> to affect and the I<ARGUMENT> that goes with the
+option.  Options and their arguments are as follows:
 
 =over
 
@@ -67,21 +75,48 @@ The following arguments are required:
 
 =item B<layer> I<ARGUMENT>
 
+The layer is a similar concept to the layer specified by GNOME/WMH and
+implied by NetWM/EWMH.  It is in this case however specific to
+L<icewm(1)>.
+
+The command option specifies the layer to be associated with an
+I<CLASS>B<.>I<INSTANCE>.  I<ARGUMENT> is either a numeric layer number
+or a symbolic layer name.  Symbolic layer names are one of the
+following:
+
 =over
 
 =item B<Desktop>
 
+The layer of the desktop.  This is the bottom layer above the root
+window.  It is the layer on which desktops normally place their icons
+and background images.
+
 =item B<Below>
+
+The layer below other windows but immediately above the desktop.
 
 =item B<Normal>
 
+The normal layer for stacking client windows.
+
 =item B<OnTop>
+
+Above normal windows, but below the dock.
 
 =item B<Dock>
 
+The layer upon which panels and docks are normally placed.
+
 =item B<AboveDock>
 
+The layer above the dock.
+
 =item B<Menu>
+
+The menu layer (above everything else).  Pop up menus are not normally
+placed by the window manager: these menus have permanent windows, such
+as pinned menus.
 
 =back
 
