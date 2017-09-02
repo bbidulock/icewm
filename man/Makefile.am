@@ -1,5 +1,5 @@
 
-icewm_man_files = \
+icewm_man1_files = \
 	icehelp.man \
 	icesh.man \
 	icesound.man \
@@ -11,8 +11,19 @@ icewm_man_files = \
 	icewm-set-gnomewm.man \
 	icewmtray.man
 
-dist_man1_MANS = $(icewm_man_files)
-DISTCLEANFILES = $(icewm_man_files)
+dist_man1_MANS = $(icewm_man1_files)
+
+icewm_man5_files = \
+	icewm-keys.man \
+	icewm-menu.man \
+	icewm-preferences.man \
+	icewm-programs.man \
+	icewm-toolbar.man \
+	icewm-winoptions.man
+
+dist_man5_MANS = $(icewm_man5_files)
+
+DISTCLEANFILES = $(icewm_man1_files) $(icewm_man5_files)
 
 EXTRA_DIST = \
 	icehelp.pod \
@@ -20,15 +31,19 @@ EXTRA_DIST = \
 	icesound.pod \
 	icewmbg.pod \
 	icewmhint.pod \
+	icewm-keys.pod \
 	icewm-menu-fdo.pod \
+	icewm-menu.pod \
 	icewm.pod \
+	icewm-preferences.pod \
+	icewm-programs.pod \
 	icewm-session.pod \
 	icewm-set-gnomewm.pod \
-	icewmtray.pod
+	icewm-toolbar.pod \
+	icewmtray.pod \
+	icewm-winoptions.pod
 
-SUFFIXES = .man .pod
-
-.pod.man:
+$(icewm_man1_files): %.man: %.pod
 	pod2man --center="User Commands" \
 		--date="$(DATE)" \
 		--errors="none" \
@@ -39,5 +54,18 @@ SUFFIXES = .man .pod
 		--nourls \
 		--release="$(PACKAGE) $(VERSION)" \
 		--section="1" \
+		$< >$@
+
+$(icewm_man5_files): %.man: %.pod
+	pod2man --center="User Commands" \
+		--date="$(DATE)" \
+		--errors="none" \
+		--fixed="CW" \
+		--fixedbold="CB" \
+		--fixeditalic="CI" \
+		--fixedbolditalic="CX" \
+		--nourls \
+		--release="$(PACKAGE) $(VERSION)" \
+		--section="5" \
 		$< >$@
 
