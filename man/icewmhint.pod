@@ -77,7 +77,7 @@ usual method to find the icon.
 
 Specifies the workspace on which a window of I<CLASS>B<.>I<INSTANCE>
 will be initially placed.  I<ARGUMENT> should be a numeric workspace
-number.
+number (counting from 0).
 
 =item B<geometry> I<ARGUMENT>
 
@@ -98,33 +98,33 @@ following:
 
 =over
 
-=item B<Desktop>
+=item B<Desktop> (0)
 
 The layer of the desktop.  This is the bottom layer above the root
 window.  It is the layer on which desktops normally place their icons
 and background images.
 
-=item B<Below>
+=item B<Below> (2)
 
 The layer below other windows but immediately above the desktop.
 
-=item B<Normal>
+=item B<Normal> (4)
 
 The normal layer for stacking client windows.
 
-=item B<OnTop>
+=item B<OnTop> (6)
 
 Above normal windows, but below the dock.
 
-=item B<Dock>
+=item B<Dock> (8)
 
 The layer upon which panels and docks are normally placed.
 
-=item B<AboveDock>
+=item B<AboveDock> (10)
 
 The layer above the dock.
 
-=item B<Menu>
+=item B<Menu> (12)
 
 The menu layer (above everything else).  Pop up menus are not normally
 placed by the window manager: these menus have permanent windows, such
@@ -135,17 +135,31 @@ as pinned menus.
 =item B<tray> I<ARGUMENT>
 
 Specifies the tray handling to be applied to windows with
-I<CLASS>B<.>I<INSTANCE>.  This option is specific to L<icewm(1)>.
+I<CLASS>B<.>I<INSTANCE>.  This option is specific to L<icewm(1)> and
+sets the C<_ICEWM_TRAY> property associated with the window.
 I<ARGUMENT> can be a numerical option number or a symbolic name as
 follows:
 
 =over
 
-=item B<Ignore>
+=item B<Ignore> (0)
 
-=item B<Minimized>
+Do not add an icon to the tray pane.
+The window button only appears on the task pane.
 
-=item B<Exclusive>
+=item B<Minimized> (1)
+
+Add an icon to the tray pane.  Remove the task pane button when
+minimized.
+The window has its icon on the tray pane and when it is not minimized it
+has also a window button on the task pane.  There is no window button on
+the task pane when the window is minimized.
+
+=item B<Exclusive> (2)
+
+Add an icon to the tray pane.  Never create a task pane button.
+The window has only its icon on the tray pane and there is no window
+button on the task pane.
 
 =back
 
