@@ -69,9 +69,21 @@ option.  Options and their arguments are as follows:
 
 =item B<icon> I<ARGUMENT>
 
+Specifies the icon name for windows of I<CLASS>B<.>I<INSTANCE>.
+I<ARGUMENT> should be the name of the icon.  L<icewm(1)> will use is
+usual method to find the icon.
+
 =item B<workspace> I<ARGUMENT>
 
+Specifies the workspace on which a window of I<CLASS>B<.>I<INSTANCE>
+will be initially placed.  I<ARGUMENT> should be a numeric workspace
+number.
+
 =item B<geometry> I<ARGUMENT>
+
+Specifies the initial geometry for windows of the given
+I<CLASS>B<.>I<INSTANCE>.  I<ARGUMENT> must be a geometry that can be
+parsed by L<XParseGeometry(3)>.
 
 =item B<layer> I<ARGUMENT>
 
@@ -122,6 +134,11 @@ as pinned menus.
 
 =item B<tray> I<ARGUMENT>
 
+Specifies the tray handling to be applied to windows with
+I<CLASS>B<.>I<INSTANCE>.  This option is specific to L<icewm(1)>.
+I<ARGUMENT> can be a numerical option number or a symbolic name as
+follows:
+
 =over
 
 =item B<Ignore>
@@ -132,97 +149,190 @@ as pinned menus.
 
 =back
 
-=item I<FUNCTION>
+=item I<FUNCTION> {B<0>|B<1>}
+
+Specifies which functions are disabled/enabled (0/1) for windows with
+I<CLASS>B<.>I<INSTANCE>.  The Motif-like functions are as follows:
 
 =over
 
 =item B<fMove>
 
+Whether the window can be moved or not.
+
 =item B<fResize>
+
+Whether the window can be resized or not.
 
 =item B<fClose>
 
+Whether the window can be closed or not.
+
 =item B<fMinimize>
+
+Whether the window can be minimized or not.
 
 =item B<fMaximize>
 
+Whether the window can be maximized or not.
+
 =item B<fHide>
+
+Whether the window can be hidden or not.
 
 =item B<fRollup>
 
+Whether the window can be rolled up or not.
+
 =back
 
-=item I<DECOR>
+=item I<DECOR> {B<0>|B<1>}
+
+Specifies which decorations are disabled/enabled (0/1) for windows with
+I<CLASS>B<.>I<INSTANCE>.  The Motif-like decorations are as follows:
 
 =over
 
 =item B<dTitleBar>
 
+Whether the window has a title bar or not.
+
 =item B<dSysMenu>
+
+Whether the window has a window menu or not.
 
 =item B<dBorder>
 
+Whether the window has a border or not.
+
 =item B<dResize>
+
+Whether the window has a resize button (or menu item) or not.
 
 =item B<dClose>
 
+Whether the window has a close button (or menu item) or not.
+
 =item B<dMinimize>
+
+Whether the window has a minimize button (or menu item) or not.
 
 =item B<dMaximize>
 
+Whether the window has a maximize button (or menu item) or not.
+
 =item B<dHide>
+
+Whether the window has a hide button (or menu item) or not.
 
 =item B<dRollup>
 
+Whether the window has a shade button (or menu item) or not.
+
 =item B<dDepth>
+
+Whether the window has a depth button (or menu item) or not.
 
 =back
 
-=item I<FEATURE>
+=item I<FEATURE> {B<0>|B<1>}
+
+Specifies which advanced features to be enabled/disabled (1/0) for
+windows with I<CLASS>B<.>I<INSTANCE>.  The advanced features are as
+follows:
 
 =over
 
 =item B<allWorkspaces>
 
+Whether the window occupies all workspaces or not.
+
 =item B<ignoreTaskBar>
+
+Whether the window is to appear on the taskbar or not when it would
+normally appear on the task bar.
 
 =item B<noIgnoreTaskBar>
 
+Whether the window is to appear on the taskbar or not when it would
+normally not appear on the task bar.
+
 =item B<ignoreWinList>
+
+Whether to ignore the window in the window list or not.
 
 =item B<ignoreQuickSwitch>
 
+Whether to ignore the window in the quick switch list or not.
+
 =item B<fullKeys>
+
+Whether to permit all key presses and releases to be passed to the
+client window or not.
 
 =item B<noFocusOnAppRaise>
 
+Whether to focus the window when raised or not.
+
 =item B<ignoreNoFocusHint>
+
+Whether to ignore ICCCM 2.0 specifications associated with the window
+that specify that it is not allowed to be given focus.
 
 =item B<ignorePositionHint>
 
+Whether to ignore ICCCM 2.0 specifications for positioning of the window
+when initially mapped.
+
 =item B<doNotCover>
+
+Whether or not to allow the window to be covered.
 
 =item B<doNotFocus>
 
+Whether to allow focus to the window or not.
+
 =item B<startFullscreen>
+
+Whether to start such windows in full screen mode.
 
 =item B<startMinimized>
 
+Whether to start such windows minimized.
+
 =item B<startMaximized>
+
+Whether to start such windows maximized.
 
 =item B<startMaximizedVert>
 
+Whether to start such windows maximized vertically.
+
 =item B<startMaximizedHorz>
+
+Whether to start such windows maximized horizontally.
 
 =item B<nonICCCMconfigureRequest>
 
+Whether such windows do not accept ICCCM 2.0 compliant configure
+requests.
+
 =item B<forcedClose>
+
+Whether to force close (kill) a window when it will not close.
 
 =item B<noFocusOnMap>
 
+Whether to focus such windows when mapped or not.
+
 =item B<ignoreUrgentHint>
 
+Whether to ignore the ICCCM urgent hint for such windows.
+
 =item B<appTakesFocus>
+
+Whether to give focus to such windows or to instead have the application
+take focus only when it wants.
 
 =back
 
