@@ -39,6 +39,9 @@ YClock::YClock(YSMListener *smActionListener, YWindow *aParent): YWindow(aParent
     toolTipUTC = false;
     transparent = -1;
 
+    if (prettyClock && ledPixSpace != null && ledPixSpace->width() == 1)
+        ledPixSpace = ledPixSpace->scale(5, ledPixSpace->height());
+
     clockTimer = new YTimer(1000);
     clockTimer->setFixed();
     clockTimer->setTimerListener(this);
@@ -201,11 +204,8 @@ void YClock::paint(Graphics &g, const YRect &/*r*/) {
             else
                 p = ledPixSpace;
             if (p != null) {
-                int k = 1 + 4 * (s[i] == ' ' && p->width() == 1);
-                while (k--) {
-                    x -= p->width();
-                    g.drawPixmap(p, x, 0);
-                }
+                x -= p->width();
+                g.drawPixmap(p, x, 0);
             } else if (i < 0) {
                 g.setColor(clockBg);
                 g.fillRect(0, 0, x, height());
