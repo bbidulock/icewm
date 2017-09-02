@@ -47,7 +47,7 @@
  * `*' Throttling is max. one sample every 500ms. Comments?
  */
 #include "config.h"
-
+#include <assert.h>
 #ifndef CONFIG_GUIEVENTS
 #error Configure with "--enable-guievents"
 #endif
