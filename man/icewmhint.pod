@@ -2,17 +2,29 @@
 
 =head1 NAME
 
- icewmhint - 
+ icewmhint - set IceWM hints by window class and instance
 
 =head1 SYNOPSIS
 
-B<icewmhint> [I<OPTIONS>]
+B<icewmhint> [I<CLASS>B<.>I<INSTANCE>] I<OPTION> I<ARGUMENT>
 
 =head1 DESCRIPTION
 
+B<icewmhint> is a simple utility for passing IceWM hints to L<icewm(1)>
+by window class and instance.  Unlike tools that use WMH or EWMH, such
+as L<icesh(1)>, L<wmctl(1)> and L<xdotool(1)>, B<icewmhint> uses a
+special property, C<_ICEWM_WINOPHINT>, on the root window to pass
+special hints to L<icewm(1)>.
+
 =head1 OPTIONS
 
-=head2 GENERAL OPTIONS
+B<icesh> recognizes the following options:
+
+=head2 COMMAND OPTIONS
+
+Command options are mutually exclusive.  Only one command option can be
+specified per invocation.  If no command option is specified, argument
+parsing and processing is performed.
 
 =over
 
@@ -27,6 +39,159 @@ Print the program version to F<stdout> and exit.
 =item B<-C>, B<--copying>
 
 Print copying permissions to F<stdout> for the program and exit.
+
+=back
+
+=head2 GENERAL OPTIONS
+
+B<icewmhint> has not general options: all information is passed using
+non-option arguments.
+
+=head1 ARGUMENTS
+
+The following arguments are required:
+
+=over
+
+=item I<CLASS>B<.>I<INSTANCE>
+
+=item I<OPTION> I<ARGUMENT>
+
+=over
+
+=item B<icon> I<ARGUMENT>
+
+=item B<workspace> I<ARGUMENT>
+
+=item B<geometry> I<ARGUMENT>
+
+=item B<layer> I<ARGUMENT>
+
+=over
+
+=item B<Desktop>
+
+=item B<Below>
+
+=item B<Normal>
+
+=item B<OnTop>
+
+=item B<Dock>
+
+=item B<AboveDock>
+
+=item B<Menu>
+
+=back
+
+=item B<tray> I<ARGUMENT>
+
+=over
+
+=item B<Ignore>
+
+=item B<Minimized>
+
+=item B<Exclusive>
+
+=back
+
+=item I<FUNCTION>
+
+=over
+
+=item B<fMove>
+
+=item B<fResize>
+
+=item B<fClose>
+
+=item B<fMinimize>
+
+=item B<fMaximize>
+
+=item B<fHide>
+
+=item B<fRollup>
+
+=back
+
+=item I<DECOR>
+
+=over
+
+=item B<dTitleBar>
+
+=item B<dSysMenu>
+
+=item B<dBorder>
+
+=item B<dResize>
+
+=item B<dClose>
+
+=item B<dMinimize>
+
+=item B<dMaximize>
+
+=item B<dHide>
+
+=item B<dRollup>
+
+=item B<dDepth>
+
+=back
+
+=item I<FEATURE>
+
+=over
+
+=item B<allWorkspaces>
+
+=item B<ignoreTaskBar>
+
+=item B<noIgnoreTaskBar>
+
+=item B<ignoreWinList>
+
+=item B<ignoreQuickSwitch>
+
+=item B<fullKeys>
+
+=item B<noFocusOnAppRaise>
+
+=item B<ignoreNoFocusHint>
+
+=item B<ignorePositionHint>
+
+=item B<doNotCover>
+
+=item B<doNotFocus>
+
+=item B<startFullscreen>
+
+=item B<startMinimized>
+
+=item B<startMaximized>
+
+=item B<startMaximizedVert>
+
+=item B<startMaximizedHorz>
+
+=item B<nonICCCMconfigureRequest>
+
+=item B<forcedClose>
+
+=item B<noFocusOnMap>
+
+=item B<ignoreUrgentHint>
+
+=item B<appTakesFocus>
+
+=back
+
+=back
 
 =back
 
