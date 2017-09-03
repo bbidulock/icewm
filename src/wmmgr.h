@@ -268,7 +268,7 @@ public:
     void updateFullscreenLayerEnable(bool enable);
     int getScreen();
 
-    void doWMAction(long action);
+    static void doWMAction(long action);
     void lockFocus() { 
         //MSG(("lockFocus %d", lockFocusCount));
         lockFocusCount++; 

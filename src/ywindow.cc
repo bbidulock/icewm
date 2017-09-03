@@ -212,7 +212,7 @@ void YWindow::setStyle(unsigned long aStyle) {
 
 
             if ((fStyle & wsDesktopAware) || (fStyle & wsManager) ||
-                (fHandle != RootWindow(xapp->display(), DefaultScreen(xapp->display()))))
+                (fHandle != xapp->root()))
                 fEventMask |=
                     StructureNotifyMask |
                     ColormapChangeMask |
@@ -224,7 +224,7 @@ void YWindow::setStyle(unsigned long aStyle) {
                     SubstructureRedirectMask | SubstructureNotifyMask;
 
             fEventMask |= ButtonPressMask | ButtonReleaseMask | ButtonMotionMask;
-            if (fHandle == RootWindow(xapp->display(), DefaultScreen(xapp->display())))
+            if (fHandle == xapp->root())
                 if (!(fStyle & wsManager) || !grabRootWindow)
                     fEventMask &= ~(ButtonPressMask | ButtonReleaseMask | ButtonMotionMask);
 
@@ -345,7 +345,7 @@ void YWindow::create() {
         fEventMask = 0;
 
         if ((fStyle & wsDesktopAware) || (fStyle & wsManager) ||
-            (fHandle != RootWindow(xapp->display(), DefaultScreen(xapp->display()))))
+            (fHandle != xapp->root()))
             fEventMask |=
                 StructureNotifyMask |
                 ColormapChangeMask |
@@ -359,7 +359,7 @@ void YWindow::create() {
 
 
             if (!grabRootWindow &&
-                fHandle == RootWindow(xapp->display(), DefaultScreen(xapp->display())))
+                fHandle == xapp->root())
                 fEventMask &= ~(ButtonPressMask | ButtonReleaseMask | ButtonMotionMask);
         }
 

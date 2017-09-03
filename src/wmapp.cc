@@ -103,6 +103,7 @@ static const char* overrideTheme;
 static ref<YIcon> defaultAppIcon;
 
 static bool replace_wm;
+static bool restart_wm;
 static bool post_preferences;
 
 static Window registerProtocols1(char **argv, int argc) {
@@ -124,7 +125,7 @@ static Window registerProtocols1(char **argv, int argc) {
           CWEventMask, &attrs);
     }
    
-    Window xroot = RootWindow(xapp->display(), DefaultScreen(xapp->display()));
+    Window xroot = xapp->root();
     Window xid = 
         XCreateSimpleWindow(xapp->display(), xroot,
             0, 0, 1, 1, 0,
@@ -1032,6 +1033,12 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     YSMApplication(argc, argv, displayName),
     mainArgv(*argv)
 {
+    if (restart_wm) {
+        YWindowManager::doWMAction(ICEWM_ACTION_RESTARTWM);
+        XSync(xapp->display(), False);
+        ::exit(0);
+    }
+
 #ifndef NO_CONFIGURE
     if (configFile == 0 || *configFile == 0)
         configFile = "preferences";
@@ -1136,7 +1143,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     managerWindow = registerProtocols1(*argv, *argc);
     
     desktop = manager = new YWindowManager(
-        this, this, this, 0, RootWindow(display(), DefaultScreen(display())));
+        this, this, this, 0, root());
     PRECONDITION(desktop != 0);
     
     registerProtocols2(managerWindow);
@@ -1430,8 +1437,10 @@ static void print_usage(const char *argv0) {
              "  -V, --version       Prints version information and exits.\n"
              "  -h, --help          Prints this usage screen and exits.\n"
              "%s"
+             "\n"
              "  --replace           Replace an existing window manager.\n"
-             "  --restart           Don't use this: It's an internal flag.\n"
+             "  -r, --restart       Tell the running icewm to restart itself.\n"
+             "\n"
              "  --configured        Print the compile time configuration.\n"
              "  --directories       Print the configuration directories.\n"
              "  -l, --list-themes   Print a list of all available themes.\n"
@@ -1646,8 +1655,8 @@ int main(int argc, char **argv) {
                 configFile = value;
             else if (GetArgument(value, "t", "theme", arg, argv+argc))
                 overrideTheme = value;
-            else if (is_long_switch(*arg, "restart"))
-                /*ignore*/;
+            else if (is_switch(*arg, "r", "restart"))
+                restart_wm = true;
             else if (is_long_switch(*arg, "replace"))
                 replace_wm = true;
             else if (is_long_switch(*arg, "notify"))
@@ -1669,6 +1678,7 @@ int main(int argc, char **argv) {
 #endif
         }
     }
+
     YWMApp app(&argc, &argv);
 
 #ifdef CONFIG_GUIEVENTS
