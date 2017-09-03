@@ -175,7 +175,7 @@ B<>    B<allWorkspaces>             on all workspaces.
     B<noFocusOnAppRaise>         no focus on raise.
     B<ignoreNoFocusHint>         focus even no-input.
     B<ignorePositionHint>        place automatically.
-    B<doNotCover>                dock: do not cover.
+    B<doNotCover>:               limits workspace if sticky.
     B<doNotFocus>                do not focus.
     B<startFullscreen>           start full screen.
     B<startMinimized>            start minimized.
