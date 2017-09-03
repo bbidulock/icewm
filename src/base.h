@@ -17,7 +17,7 @@ typedef  { false = 0, true = 1 } bool;
 
 /*
  * Decimal digits required to write the largest element of type:
- * bits(Type) * (2.5 = 5/2 ~ (ln(2) / ln(10)))
+ * bits(Type) * (2.5 = 5/2 ~ (8 * ln(2) / ln(10)))
  */
 #define DECIMAL_DIGIT_COUNT(Type) ((sizeof(Type) * 5 + 1) / 2)
 
@@ -28,12 +28,17 @@ inline T min(T a, T b) {
 
 template <class T>
 inline T max(T a, T b) {
-    return (a > b ? a : b);
+    return (a < b ? b : a);
 }
 
 template <class T>
 inline T clamp(T value, T minimum, T maximum) {
     return max(min(value, maximum), minimum);
+}
+
+template <class T>
+inline bool inrange(T value, T lower, T upper) {
+    return !(value < lower) && !(upper < value);
 }
 
 template <class T>
@@ -44,9 +49,14 @@ inline T abs(T v) {
 /*** String Functions *********************************************************/
 
 /* Prefer this as a safer alternative over strcpy. Return strlen(from). */
+#if !defined(HAVE_STRLCPY) || !HAVE_STRLCPY
 size_t strlcpy(char *dest, const char *from, size_t dest_size);
+#endif
+
 /* Prefer this over strcat. Return strlen(dest) + strlen(from). */
+#if !defined(HAVE_STRLCAT) || !HAVE_STRLCAT
 size_t strlcat(char *dest, const char *from, size_t dest_size);
+#endif
 
 char *newstr(char const *str);
 char *newstr(char const *str, int len);
@@ -211,6 +221,7 @@ extern char const *ApplicationName;
 
 bool GetShortArgument(char* &ret, const char *name, char** &argpp, char ** endpp);
 bool GetLongArgument(char* &ret, const char *name, char** &argpp, char ** endpp);
+bool GetArgument(char* &ret, const char *sn, const char *ln, char** &arg, char **end);
 bool is_short_switch(const char *arg, const char *name);
 bool is_long_switch(const char *arg, const char *name);
 bool is_switch(const char *arg, const char *short_name, const char *long_name);
@@ -240,28 +251,7 @@ char* load_text_file(const char *filename);
 #include "debug.h"
 
 inline int intersection(int s1, int e1, int s2, int e2) {
-    int s, e;
-
-    if (s1 > e2)
-        return 0;
-    if (s2 > e1)
-        return 0;
-
-    /* start */
-    if (s2 > s1)
-        s = s2;
-    else
-        s = s1;
-
-    /* end */
-    if (e1 < e2)
-        e = e1;
-    else
-        e = e2;
-    if (e > s)
-        return e - s;
-    else
-        return 0;
+    return max(0, 1 + min(e1, e2) - max(s1, s2));
 }
 
 #endif

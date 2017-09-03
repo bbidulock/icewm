@@ -32,4 +32,8 @@
 #define ICEHELPEXE "icehelp" QUOTE(EXEEXT)
 #endif
 
+#ifndef ICESOUNDEXE
+#define ICESOUNDEXE "icesound" QUOTE(EXEEXT)
+#endif
+
 #endif

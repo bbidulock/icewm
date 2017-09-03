@@ -10,6 +10,7 @@ INCLUDE(CheckTypeSize)
 INCLUDE(CheckIncludeFileCXX)
 INCLUDE(FindPkgConfig)
 INCLUDE(CheckCXXSourceCompiles)
+INCLUDE(CheckCXXCompilerFlag)
 
 SET(CXXFLAGS_COMMON "-pthread -Wall -Wextra -Wno-unused-parameter -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE -I.")
 
@@ -21,6 +22,16 @@ if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
    add_definitions(-DDEBUG)
 endif()
 
+# carefully splicing of command line arguments, even from lists
+macro(_append varname)
+        string(REPLACE ";" " " _apx "${ARGN}")
+        if(NOT DEFINED ${varname})
+                set(${varname} "${_apx}")
+        else()
+                set(${varname} "${${varname}} ${_apx}")
+        endif()
+endmacro()
+
 # I don't need -rdynamic, thanks!
 SET(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "")
 SET(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
@@ -28,12 +39,23 @@ SET(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
 # apply to test calls
 SET(CMAKE_REQUIRED_FLAGS ${CXXFLAGS_COMMON})
 
+CHECK_CXX_COMPILER_FLAG(-fvisibility=hidden CXX_VHI)
+if(CXX_VHI)
+        _append(CXXFLAGS_COMMON -fvisibility=hidden)
+endif()
+
+CHECK_CXX_COMPILER_FLAG(-fvisibility-inlines-hidden CXX_VIHI)
+if(CXX_VIHI)
+        _append(CXXFLAGS_COMMON -fvisibility-inlines-hidden)
+endif()
+
 option(CONFIG_XPM "Legacy XPM image loader" off)
 option(CONFIG_IMLIB "(Deprecated) IMLIB image loader" off)
 option(CONFIG_GDK_PIXBUF_XLIB "LIBGDKPIXBUF based image loader" on)
 option(CONFIG_I18N "Define to enable internationalization" on)
 option(ENABLE_NLS "Enable Native Language Support" on)
 option(CONFIG_SESSION "Define to enable X session management" on)
+option(ENABLE_LTO "Enable Link Time Optimization" off)
 
 SET(CONFIG_UNICODE_SET "" CACHE STRING "Your iconv unicode set in machine endian encoding (e.g. WCHAR_T, UCS-4-INTERNAL, UCS-4LE, UCS-4BE)")
 # turn off when empty, see config.h template for details
@@ -55,14 +77,21 @@ if(ENABLE_NLS OR CONFIG_I18N)
 	endif()
 endif()
 
+if(ENABLE_LTO)
+        set(CXXFLAGS_COMMON "${CXXFLAGS_COMMON} -flto")
+        list(APPEND EXTRA_LIBS -flto)
+endif()
+
 # the only used ones...
 # for x in `cat funclist` ; do grep $x src/* lib/* && echo $x >> exlist ; done 
 # perl -e 'print "CHECK_FUNCTION_EXISTS($_ HAVE_".uc($_).")\n" for @ARGV' `cat exlist`
 # perl -e 'print "#cmakedefine HAVE_".uc($_)."\n" for @ARGV' `cat exlist`
+CHECK_FUNCTION_EXISTS(abort HAVE_ABORT)
+CHECK_FUNCTION_EXISTS(basename HAVE_BASENAME)
 CHECK_FUNCTION_EXISTS(dup2 HAVE_DUP2)
-CHECK_FUNCTION_EXISTS(getcwd HAVE_GETCWD)
 CHECK_FUNCTION_EXISTS(gethostbyname HAVE_GETHOSTBYNAME)
 CHECK_FUNCTION_EXISTS(gethostname HAVE_GETHOSTNAME)
+CHECK_FUNCTION_EXISTS(getloadavg HAVE_GETLOADAVG)
 CHECK_FUNCTION_EXISTS(gettimeofday HAVE_GETTIMEOFDAY)
 CHECK_FUNCTION_EXISTS(mblen HAVE_MBLEN)
 CHECK_FUNCTION_EXISTS(memchr HAVE_MEMCHR)
@@ -70,7 +99,6 @@ CHECK_FUNCTION_EXISTS(memmove HAVE_MEMMOVE)
 CHECK_FUNCTION_EXISTS(memset HAVE_MEMSET)
 CHECK_FUNCTION_EXISTS(mkdir HAVE_MKDIR)
 CHECK_FUNCTION_EXISTS(nl_langinfo HAVE_NL_LANGINFO)
-CHECK_FUNCTION_EXISTS(putenv HAVE_PUTENV)
 CHECK_FUNCTION_EXISTS(select HAVE_SELECT)
 CHECK_FUNCTION_EXISTS(setlocale HAVE_SETLOCALE)
 CHECK_FUNCTION_EXISTS(socket HAVE_SOCKET)
@@ -79,23 +107,18 @@ CHECK_FUNCTION_EXISTS(strchr HAVE_STRCHR)
 CHECK_FUNCTION_EXISTS(strcspn HAVE_STRCSPN)
 CHECK_FUNCTION_EXISTS(strdup HAVE_STRDUP)
 CHECK_FUNCTION_EXISTS(strerror HAVE_STRERROR)
+CHECK_FUNCTION_EXISTS(strlcpy HAVE_STRLCPY)
+CHECK_FUNCTION_EXISTS(strlcat HAVE_STRLCAT)
 CHECK_FUNCTION_EXISTS(strncasecmp HAVE_STRNCASECMP)
 CHECK_FUNCTION_EXISTS(strrchr HAVE_STRRCHR)
+CHECK_FUNCTION_EXISTS(strsignal HAVE_STRSIGNAL)
 CHECK_FUNCTION_EXISTS(strspn HAVE_STRSPN)
 CHECK_FUNCTION_EXISTS(strstr HAVE_STRSTR)
 CHECK_FUNCTION_EXISTS(strtol HAVE_STRTOL)
+CHECK_FUNCTION_EXISTS(strtoul HAVE_STRTOL)
+CHECK_FUNCTION_EXISTS(sysctlbyname HAVE_SYSCTLBYNAME)
 CHECK_FUNCTION_EXISTS(sysinfo HAVE_SYSINFO)
 CHECK_FUNCTION_EXISTS(uname HAVE_UNAME)
-CHECK_FUNCTION_EXISTS(abort HAVE_ABORT)
-CHECK_FUNCTION_EXISTS(gettimeofday HAVE_GETTIMEOFDAY)
-CHECK_FUNCTION_EXISTS(putenv HAVE_PUTENV)
-CHECK_FUNCTION_EXISTS(select HAVE_SELECT)
-CHECK_FUNCTION_EXISTS(socket HAVE_SOCKET)
-CHECK_FUNCTION_EXISTS(strtol HAVE_STRTOL)
-CHECK_FUNCTION_EXISTS(basename HAVE_BASENAME)
-CHECK_FUNCTION_EXISTS(sysctlbyname HAVE_SYSCTLBYNAME)
-CHECK_FUNCTION_EXISTS(getloadavg HAVE_GETLOADAVG)
-CHECK_FUNCTION_EXISTS(asprintf HAVE_ASPRINTF)
 CHECK_FUNCTION_EXISTS(wordexp HAVE_WORDEXP)
 
 CHECK_LIBRARY_EXISTS (X11 XInternAtoms "" HAVE_XINTERNATOMS)
@@ -109,6 +132,7 @@ CHECK_INCLUDE_FILE_CXX(limits.h HAVE_LIMITS_H)
 CHECK_INCLUDE_FILE_CXX(locale.h HAVE_LOCALE_H)
 CHECK_INCLUDE_FILE_CXX(netdb.h HAVE_NETDB_H)
 CHECK_INCLUDE_FILE_CXX(netinet/in.h HAVE_NETINET_IN_H)
+CHECK_INCLUDE_FILE_CXX(sndfile.h HAVE_SNDFILE_H)
 CHECK_INCLUDE_FILE_CXX(stddef.h HAVE_STDDEF_H)
 CHECK_INCLUDE_FILE_CXX(stdlib.h HAVE_STDLIB_H)
 CHECK_INCLUDE_FILE_CXX(string.h HAVE_STRING_H)
@@ -116,6 +140,7 @@ CHECK_INCLUDE_FILE_CXX(sys/file.h HAVE_SYS_FILE_H)
 CHECK_INCLUDE_FILE_CXX(sys/ioctl.h HAVE_SYS_IOCTL_H)
 CHECK_INCLUDE_FILE_CXX(sys/param.h HAVE_SYS_PARAM_H)
 CHECK_INCLUDE_FILE_CXX(sys/socket.h HAVE_SYS_SOCKET_H)
+CHECK_INCLUDE_FILE_CXX(sys/soundcard.h HAVE_SYS_SOUNDCARD_H)
 CHECK_INCLUDE_FILE_CXX(sys/time.h HAVE_SYS_TIME_H)
 CHECK_INCLUDE_FILE_CXX(unistd.h HAVE_UNISTD_H)
 CHECK_INCLUDE_FILE_CXX(wchar.h HAVE_WCHAR_H)
@@ -191,8 +216,8 @@ endif()
 
 option(CONFIG_COREFONTS "Define to enable X11 core fonts" off)
 option(CONFIG_PDA "Define to enable PDA operation (no window hiding)" off)
-option(CONFIG_GUIEVENTS "Define to enable GUI events (experimental)" off)
-set(ICESOUND "ALSA,OSS,Y,ESound" CACHE STRING "List of supported audio subsystems")
+option(CONFIG_GUIEVENTS "Define to enable GUI events for audio" off)
+set(ICESOUND "ALSA,AO,OSS,ESound" CACHE STRING "List of supported audio subsystems")
 if(CONFIG_GUIEVENTS)
 	string(TOLOWER ${ICESOUND} ICESOUND)
 	message(STATUS "Checking audio subsystems from ${ICESOUND}")
@@ -200,16 +225,17 @@ if(CONFIG_GUIEVENTS)
 		pkg_check_modules(alsa sndfile alsa)
 		set(ENABLE_ALSA "${alsa_FOUND}")
 	endif()
+	if("${ICESOUND}" MATCHES "ao")
+		pkg_check_modules(ao sndfile ao)
+                set(ENABLE_AO "${ao_FOUND}")
+	endif()
 	if("${ICESOUND}" MATCHES "esound|esd")
 		pkg_check_modules(esd esound)
 		set(ENABLE_ESD "${esd_FOUND}")
 	endif()
-	if("${ICESOUND}" MATCHES "y")
-		pkg_check_modules(yiff y2)
-		set(ENABLE_YIFF "${yiff_FOUND}")
-	endif()
 	if("${ICESOUND}" MATCHES "oss")
-		set(CONFIG_OSS on)
+		pkg_check_modules(oss sndfile)
+		set(ENABLE_OSS "${oss_FOUND}")
 	endif()
 endif()
 
@@ -284,7 +310,12 @@ ENDIF()
 SET(CMAKE_REQUIRED_FLAGS "${CXXFLAGS_COMMON} -Wimplicit-fallthrough=2")
 CHECK_CXX_SOURCE_COMPILES("int main() {return 0;}" USE_FALLTHROUGH_WARNING)
 IF(USE_FALLTHROUGH_WARNING)
-        SET(CXXFLAGS_COMMON "${CXXFLAGS_COMMON} -Wimplicit-fallthrough=2")
+        if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+                # apparently clang does not support the parameter but the default behavior is what we ant
+                SET(CXXFLAGS_COMMON "${CXXFLAGS_COMMON} -Wimplicit-fallthrough")
+        else()
+                SET(CXXFLAGS_COMMON "${CXXFLAGS_COMMON} -Wimplicit-fallthrough=2")
+        endif()
 ENDIF()
 
 #######################################
@@ -299,15 +330,15 @@ CONFIGURE_FILE("${CMAKE_SOURCE_DIR}/src/config.cmake.h.in" "${CMAKE_BINARY_DIR}/
 
 # pkg-config delivers lists, we need plain compiler options! :-(
 foreach(pfx fontconfig xext x11 pixbuf xrandr xft alsa 
-		esd yiff xinerama fribidi gio)
+		esd ao oss xinerama fribidi gio)
 	string(REPLACE ";" " " ${pfx}_CFLAGS "${${pfx}_CFLAGS}")
 	#message(STATUS "Normalizing argument lists: ${${pfx}_LDFLAGS} ; ${${pfx}_CFLAGS}")
 endforeach()
 
 SET(ICE_COMMON_SRCS mstring.cc udir.cc upath.cc yapp.cc yxapp.cc ytimer.cc
  ywindow.cc ypaint.cc ypopup.cc misc.cc ycursor.cc ysocket.cc ypaths.cc
- ypixbuf.cc ylocale.cc yarray.cc ypipereader.cc yxembed.cc yconfig.cc
- yprefs.cc yfont.cc ypixmap.cc yimage.cc
+ ylocale.cc yarray.cc ypipereader.cc yxembed.cc yconfig.cc
+ yprefs.cc yfont.cc ypixmap.cc
  yimage_gdk.cc yimage_imlib.cc yimage_xpm.cc ytooltip.cc)
 
 if(CONFIG_XFREETYPE)
@@ -347,15 +378,15 @@ TARGET_LINK_LIBRARIES(icewm-menu-fdo${EXEEXT} ${gio_LDFLAGS} ${nls_LIBS} ${EXTRA
 INSTALL(TARGETS icewm-menu-fdo${EXEEXT} DESTINATION ${BINDIR})
 ENDIF()
 
-ADD_EXECUTABLE(icewm-session${EXEEXT} icesm.cc yapp.cc misc.cc mstring.cc upath.cc ytimer.cc yprefs.cc)
-SET_TARGET_PROPERTIES(icewm-session${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
-TARGET_LINK_LIBRARIES(icewm-session${EXEEXT} ${nls_LIBS} ${EXTRA_LIBS})
+ADD_EXECUTABLE(icewm-session${EXEEXT} icesm.cc yapp.cc misc.cc mstring.cc upath.cc ytimer.cc yprefs.cc yarray.cc ref.cc)
+SET_TARGET_PROPERTIES(icewm-session${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON}")
+TARGET_LINK_LIBRARIES(icewm-session${EXEEXT} ${nls_LIBS})
 
 ADD_EXECUTABLE(icewmhint${EXEEXT} icewmhint.cc misc.cc)
 SET_TARGET_PROPERTIES(icewmhint${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
 TARGET_LINK_LIBRARIES(icewmhint${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 
-ADD_EXECUTABLE(icesh${EXEEXT} icesh.cc misc.cc mstring.cc)
+ADD_EXECUTABLE(icesh${EXEEXT} icesh.cc misc.cc mstring.cc ref.cc)
 SET_TARGET_PROPERTIES(icesh${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
 TARGET_LINK_LIBRARIES(icesh${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 
@@ -363,10 +394,10 @@ ADD_EXECUTABLE(icewmbg${EXEEXT} icewmbg.cc ref.cc ${ICE_COMMON_SRCS})
 SET_TARGET_PROPERTIES(icewmbg${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
 TARGET_LINK_LIBRARIES(icewmbg${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS}  ${pixbuf_LDFLAGS} ${xinerama_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 
-IF(CONFIG_GUIEVENTS AND (CONFIG_ALSA OR CONFIG_ESD OR CONFIG_OSS OR CONFIG_YIFF))
-ADD_EXECUTABLE(icesound${EXEEXT} icesound.cc ycmdline.cc misc.cc mstring.cc)
+IF(CONFIG_GUIEVENTS AND (ENABLE_ALSA OR ENABLE_AO OR ENABLE_ESD OR ENABLE_OSS))
+ADD_EXECUTABLE(icesound${EXEEXT} icesound.cc upath.cc misc.cc mstring.cc ytimer.cc yapp.cc yprefs.cc yarray.cc ref.cc)
 SET_TARGET_PROPERTIES(icesound${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
-TARGET_LINK_LIBRARIES(icesound${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${alsa_LDFLAGS} ${yiff_LDFLAGS} ${esd_LDFLAGS} ${EXTRA_LIBS})
+TARGET_LINK_LIBRARIES(icesound${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${alsa_LDFLAGS} ${ao_LDFLAGS} ${esd_LDFLAGS} ${oss_LDFLAGS} ${EXTRA_LIBS})
 INSTALL(TARGETS icesound${EXEEXT} DESTINATION ${BINDIR})
 ENDIF()
 
@@ -411,8 +442,18 @@ foreach (_variableName
 		CONFIG_WINMENU
 		CONFIG_XFREETYPE
 		XINERAMA
+		ENABLE_LTO
+		ENABLE_ALSA
+		ENABLE_AO
+		ENABLE_ESD
+		ENABLE_OSS
+		ENABLE_NLS
 		)
-    message(STATUS "${_variableName} => ${${_variableName}}")
+    if("${${_variableName}}" STREQUAL "")
+            message(STATUS "${_variableName} => OFF")
+    else()
+            message(STATUS "${_variableName} => ${${_variableName}}")
+    endif()
 endforeach()
 
 IF(CONFIG_SESSION)

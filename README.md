@@ -1,4 +1,4 @@
-[icewm -- read me first file.  2017-07-24]: #
+[icewm -- read me first file.  2017-07-30]: #
 
 Ice Window Manager (IceWM)
 ==========================
@@ -16,7 +16,7 @@ list, and various other GitHub forks.
 Release
 -------
 
-This is the icewm-1.4.0 package, released under LGPL license 2017-07-24.
+This is the icewm-1.4.2 package, released under LGPL license 2017-07-30.
 This release as well as future versions here, can all be obtained from
 [GitHub][1] using a command such as:
 
@@ -34,7 +34,6 @@ following commands:
 
     $> git clone http://github.com/bbidulock/icewm.git
     $> cd icewm
-    $> git checkout icewm-1-4-BRANCH
     $> ./autogen.sh
     $> ./configure --prefix=/usr --sysconfdir=/etc \
        --enable-shaped-decorations --enable-gradients \
@@ -90,7 +89,7 @@ Website][14] or from the [online manual][16].
 
 Unfortunately the documentation is for version 1.2.27 and is incomplete
 at that; however, it is for the most part usable.
-The good news is that the `icewm(1)` manual page for version 1.4.0
+The good news is that the `icewm(1)` manual page for version 1.4.1
 is complete and fully up-to-date.
 
 
@@ -161,10 +160,14 @@ pull requests if you can.  If you would like to perform regular maintenance
 activities (e.g. if you are a maintainer of an IceWM package for a
 distribution), contact me for push access.
 
+I normally like to have the issuers of problem reports close the report once
+it has been resolved.  I do not want you to think that we are being dismissive,
+because I welcome all reports.
+
 Bug reports, feedback, and suggestions pertaining to the original CVS version
 can be sent to: Marko.Macek@gmx.net or icewm-user@lists.sourceforge.net
 
-See also BUGS, TODO and the sites at:
+See also [BUGS][9], [TODO][7] and the sites at:
 
   - http://www.icewm.org/
   - http://www.sourceforge.net/projects/icewm/
@@ -176,7 +179,8 @@ Development
 
 If you would like to develop against this fork, the easiest way is to obtain a
 [GitHub account][10], fork the [repository][1] and perform your development.
-Send me a pull request when you have something stable.
+Send me a pull request when you have something stable.  If you submit regular
+pull requests that get accepted, I will just give to push access to save time.
 
 
 Translations
@@ -185,27 +189,29 @@ Translations
 You can provide translations by patching `.po` files and issuing pull requests,
 or you can use the [openSUSE weblate tool][11].  There are two XDG files,
 [icewm.desktop][18] and [icewm-session.desktop][19] than may need manual
-translations.
+translations.  If you have difficulties using the tools, just send me the updated
+`.po` file or a patch to apply.
 
 
 [1]: https://github.com/bbidulock/icewm/
 [2]: https://github.com/bbidulock/icewm/issues/
-[3]: INSTALL
-[4]: ChangeLog
-[5]: COMPLIANCE
-[6]: NEWS
-[7]: TODO
-[8]: COPYING
+[3]: https://github.com/bbidulock/icewm/blob/1.4.2/INSTALL
+[4]: https://github.com/bbidulock/icewm/blob/1.4.2/ChangeLog
+[5]: https://github.com/bbidulock/icewm/blob/1.4.2/COMPLIANCE
+[6]: https://github.com/bbidulock/icewm/blob/1.4.2/NEWS
+[7]: https://github.com/bbidulock/icewm/blob/1.4.2/TODO
+[8]: https://github.com/bbidulock/icewm/blob/1.4.2/COPYING
+[9]: https://github.com/bbidulock/icewm/blob/1.4.2/BUGS
 [10]: https://github.com/
 [11]: http://l10n.opensuse.org/
 [12]: http://sf.net/project/showfiles.php?group_id=31&release_id=31119
 [13]: http://icewm.sourceforge.net/
 [14]: http://www.icewm.org/
 [15]: http://www.icewm.org/FAQ/IceWM-FAQ-11.html
-[16]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/doc/icewm.adoc
+[16]: https://github.com/bbidulock/icewm/blob/1.4.2/doc/icewm.adoc
 [17]: http://bbkeys.sourceforge.net/
-[18]: lib/icewm.desktop
-[19]: lib/icewm-session.desktop
-[20]: INSTALL-cmakebuild.md
+[18]: https://github.com/bbidulock/icewm/blob/1.4.2/lib/icewm.desktop
+[19]: https://github.com/bbidulock/icewm/blob/1.4.2/lib/icewm-session.desktop
+[20]: https://github.com/bbidulock/icewm/blob/1.4.2/INSTALL-cmakebuild.md
 
 [ vim: set ft=markdown sw=4 tw=80 nocin nosi fo+=tcqlorn: ]: #

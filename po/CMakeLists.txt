@@ -28,12 +28,12 @@ if(gettext AND xgettext AND msgmerge AND msgfmt)
 	SET(XGETTEXT_CMD xgettext --from-code=UTF-8 -language=CXX --add-comments=TRANSLATORS: --keyword=_ --keyword=N_ -s --package-name=${PACKAGE} --package-version=${VERSION})
   SET(_potFile "${CMAKE_CURRENT_SOURCE_DIR}/${PACKAGE}.pot")
 
-	ADD_CUSTOM_COMMAND(OUTPUT ${_potFile}
+	ADD_CUSTOM_COMMAND(OUTPUT stamp-potfile
 		COMMAND ${XGETTEXT_CMD} -o "${_potFile}" ${SRCSRELATIVE}
 		DEPENDS ${SRCS}
 		WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 		COMMENT "Extracting translatable messages to ${_potFile} -- may require config restart!")
-	ADD_CUSTOM_TARGET(update_pot DEPENDS ${_potFile})
+	ADD_CUSTOM_TARGET(update_pot DEPENDS stamp-potfile)
 
   if(EXISTS ${_potFile})
 

@@ -9,7 +9,6 @@
 #include "MwmUtil.h"
 #include "prefs.h"
 #include "yprefs.h"
-#include "ypixbuf.h"
 #include "yconfig.h"
 #include "ypointer.h"
 
@@ -956,7 +955,7 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
 
     windowContext = XUniqueContext();
 
-    new YDesktop(0, RootWindow(display(), DefaultScreen(display())));
+    new YDesktop(0, root());
     extern void image_init();
     image_init();
 
@@ -991,6 +990,8 @@ YXApplication::~YXApplication() {
     XCloseDisplay(display());
     fDisplay = 0;
     xapp = 0;
+    delete YColor::white; YColor::white = 0;
+    delete YColor::black; YColor::black = 0;
 }
 
 bool YXApplication::handleXEvents() {

@@ -1,0 +1,103 @@
+=pod
+
+=head1 NAME
+
+ icewmtray - a system tray for the IceWM panel
+
+=head1 SYNOPSIS
+
+B<> B<icewmtray> [I<OPTIONS>]
+ B<icewmtray> {B<-h>|B<--help>} [I<OPTIONS>]
+ B<icewmtray> {B<-V>|B<--version>}
+ B<icewmtray> {B<-C>|B<--copying>}
+
+=head1 DESCRIPTION
+
+B<icewmtray> provides a system tray for the IceWM panel.  It catches the
+system tray objects which are installed by various applications.
+
+=head1 OPTIONS
+
+B<icewmtray> recognizes the following options:
+
+=head2 COMMAND OPTIONS
+
+Command options are mutually exclusive.  Only one command option can be
+specified per invocation.  If no command option is specified, argument
+parsing and processing is performed.
+
+=over
+
+=item B<-h>, B<--help>
+
+Print a brief usage statement to F<stdout> and exit.
+
+=item B<-V>, B<--version>
+
+Print the program version to F<stdout> and exit.
+
+=item B<-C>, B<--copying>
+
+Print copying permissions to F<stdout> for the program and exit.
+
+=back
+
+=head2 GENERAL OPTIONS
+
+B<icewmtray> recognizes the following options:
+
+=over
+
+=item B<-n>, B<--notify>
+
+Specifies that B<icewmtray> is to notify its parent process by sending
+the B<SIGUSR1> signal.  This option is used by L<icewm-session(1)> when
+starting up components so that it can wait for component startup to
+complete.
+
+=item B<-c>, B<--config> I<FILENAME>
+
+Specifies the configuration file to use.
+
+=item B<-t>, B<--theme> I<THEME>
+
+Specifies an override theme to use.
+
+=item B<--debug>
+
+Specifies that debugging is to be turned on.  B<icewmtray> must have
+been compiled with debugging for this option to have an effect.
+
+=back
+
+=head1 USAGE
+
+B<icewmtray(1)> is typically launched and terminated by
+L<icewm-session(1)> with the appropriate options: it is usually
+unnecessary to launch it directly.
+
+=head1 COMPLIANCE
+
+B<icewmtray> is compliant to the XDG system tray specification.
+
+=head1 BUGS
+
+B<icewmtray> had no known bugs at the time of release.  Please report bugs
+for current versions to the source code repository at
+L<https://github.com/bbidulock/icewm/issues>.
+
+=head1 AUTHOR
+
+Brian Bidulock L<mailto:bidulock@openss7.org>.
+
+See B<--copying> for full copyright notice and copying permissions.
+
+=head1 LICENSE
+
+B<IceWM> is licensed under the GNU Library General Public License.
+See the F<COPYING> file in the distribution or use the B<--copying> flag
+to display copying permissions.
+
+=cut
+
+# vim: set sw=4 tw=72 nocin spell spelllang=en_ca:

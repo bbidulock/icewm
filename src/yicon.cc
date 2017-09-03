@@ -5,14 +5,13 @@
  */
 #include "config.h"
 #include "yfull.h"
-#include "ypixbuf.h"
 #include "ypaint.h"
 #include "yicon.h"
 #include "yapp.h"
 #include "sysdep.h"
 #include "prefs.h"
 #include "yprefs.h"
-#include "wmprog.h" // !!! remove this
+#include "ypaths.h"
 
 #include "intl.h"
 
@@ -37,7 +36,7 @@ YIcon::YIcon(upath filename):
 YIcon::YIcon(ref<YImage> small, ref<YImage> large, ref<YImage> huge) :
     fSmall(small), fLarge(large), fHuge(huge),
     loadedS(small != null), loadedL(large != null), loadedH(huge != null),
-    fPath(NULL), fCached(false)
+    fPath(null), fCached(false)
 {
 }
 

@@ -23,6 +23,7 @@ public:
     Visual * visual() { return DefaultVisual(display(), screen()); }
     Colormap colormap() { return DefaultColormap(display(), screen()); }
     unsigned depth() { return DefaultDepth(display(), screen()); }
+    Window root() { return DefaultRootWindow(display()); }
 
     bool hasColormap();
 

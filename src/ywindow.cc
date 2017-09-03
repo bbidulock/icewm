@@ -212,7 +212,7 @@ void YWindow::setStyle(unsigned long aStyle) {
 
 
             if ((fStyle & wsDesktopAware) || (fStyle & wsManager) ||
-                (fHandle != RootWindow(xapp->display(), DefaultScreen(xapp->display()))))
+                (fHandle != xapp->root()))
                 fEventMask |=
                     StructureNotifyMask |
                     ColormapChangeMask |
@@ -224,7 +224,7 @@ void YWindow::setStyle(unsigned long aStyle) {
                     SubstructureRedirectMask | SubstructureNotifyMask;
 
             fEventMask |= ButtonPressMask | ButtonReleaseMask | ButtonMotionMask;
-            if (fHandle == RootWindow(xapp->display(), DefaultScreen(xapp->display())))
+            if (fHandle == xapp->root())
                 if (!(fStyle & wsManager) || !grabRootWindow)
                     fEventMask &= ~(ButtonPressMask | ButtonReleaseMask | ButtonMotionMask);
 
@@ -345,7 +345,7 @@ void YWindow::create() {
         fEventMask = 0;
 
         if ((fStyle & wsDesktopAware) || (fStyle & wsManager) ||
-            (fHandle != RootWindow(xapp->display(), DefaultScreen(xapp->display()))))
+            (fHandle != xapp->root()))
             fEventMask |=
                 StructureNotifyMask |
                 ColormapChangeMask |
@@ -359,7 +359,7 @@ void YWindow::create() {
 
 
             if (!grabRootWindow &&
-                fHandle == RootWindow(xapp->display(), DefaultScreen(xapp->display())))
+                fHandle == xapp->root())
                 fEventMask &= ~(ButtonPressMask | ButtonReleaseMask | ButtonMotionMask);
         }
 
@@ -373,7 +373,7 @@ void YWindow::destroy() {
     if (flags & wfCreated) {
         if (!(flags & wfDestroyed)) {
             if (!(flags & wfAdopted)) {
-                MSG(("----------------------destroy %X", fHandle));
+                MSG(("----------------------destroy %lX", fHandle));
                 XDestroyWindow(xapp->display(), fHandle);
                 removeAllIgnoreUnmap(fHandle);
             } else {
@@ -1808,14 +1808,12 @@ void YWindow::scrollWindow(int dx, int dy) {
     XRectangle r[2];
     int nr = 0;
 
-    static GC scrollGC = None;
-
-    if (scrollGC == None) {
-        scrollGC = XCreateGC(xapp->display(), desktop->handle(), 0, NULL);
-    }
+    GC scrollGC = XCreateGC(xapp->display(), desktop->handle(), 0, NULL);
 
     XCopyArea(xapp->display(), handle(), handle(), scrollGC,
               dx, dy, width(), height(), 0, 0);
+
+    XFreeGC(xapp->display(), scrollGC);
 
     dx = - dx;
     dy = - dy;
@@ -1889,7 +1887,7 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
         {
             XRRCrtcInfo *ci = XRRGetCrtcInfo(xapp->display(), xrrsr, xrrsr->crtcs[i]);
 
-            MSG(("xrr %d (%d): %d %d %d %d", i, xrrsr->crtcs[i], ci->x, ci->y, ci->width, ci->height));
+            MSG(("xrr %d (%lu): %d %d %d %d", i, xrrsr->crtcs[i], ci->x, ci->y, ci->width, ci->height));
 
             if (!gotLayout && ci->width > 0 && ci->height > 0) {
                 DesktopScreenInfo si;
@@ -1907,7 +1905,7 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
         for (int o = 0; o < xrrsr->noutput; o++) {
             XRROutputInfo *oinfo = XRRGetOutputInfo(xapp->display(), xrrsr, xrrsr->outputs[o]);
 
-            MSG(("output: %s -> %d", oinfo->name, oinfo->crtc));
+            MSG(("output: %s -> %lu", oinfo->name, oinfo->crtc));
 
 #ifndef NO_CONFIGURE
             if (xineramaPrimaryScreenName != 0 && oinfo->name != NULL) {

@@ -91,6 +91,7 @@ GNOME 1.0 menu support for icewm (using gnome 2.x).
 %dir %{pkgdata}/themes/default
 
 %{_bindir}/*
+%{_mandir}/man1/*
 %{pkgdata}/icons/*
 %{pkgdata}/ledclock/*
 %{pkgdata}/mailbox/*

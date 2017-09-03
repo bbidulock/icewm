@@ -11,12 +11,24 @@
 #include "wpixmaps.h"
 #undef extern
 
+class ResourceFlag {
+private:
+    bool flag;
+public:
+    ResourceFlag(bool value = false) : flag(value) { }
+    operator bool() const { return flag; }
+    void set(bool value) { flag = value; }
+};
+
 class PixmapResource {
 private:
     ref<YPixmap> *pixmapRef;
     ref<YImage>  *imageRef;
     const char   *filename;
     const char   *alternative;
+
+protected:
+    ResourceFlag  isGradient;
 
 public:
     PixmapResource(ref<YPixmap>& p, ref<YImage>& i,
@@ -33,10 +45,10 @@ public:
     { }
 
     bool nameEqual(const char *str) const {
-        return 0 == strcmp(filename, str);
+        return checkName(filename, str);
     }
     bool altEqual(const char *str) const {
-        return alternative && str && 0 == strcmp(alternative, str);
+        return alternative && str && checkName(alternative, str);
     }
     bool needPixmap() const { return pixmapRef != 0 && *pixmapRef == null; }
     bool needImage() const { return imageRef != 0 && *imageRef == null; }
@@ -48,6 +60,24 @@ public:
         if (pixmapRef != 0) *pixmapRef = null;
         if (imageRef != 0) *imageRef = null;
     }
+    const char* name() const { return filename; }
+    const char* altn() const { return alternative; }
+
+private:
+
+    bool checkName(const char *wanted, const char *given) const {
+        if (0 == strcmp(wanted, given)) {
+#ifdef CONFIG_GRADIENTS
+            if (isGradient) {
+                extern const char* gradients;
+                return gradients && strstr(gradients, wanted);
+            }
+#endif
+            return true;
+        }
+        return false;
+    }
+
 };
 
 void PixmapResource::loadFromFile(const upath& file) const
@@ -60,46 +90,57 @@ void PixmapResource::loadFromFile(const upath& file) const
     }
 }
 
+#ifdef CONFIG_GRADIENTS
+class GradientResource : public PixmapResource {
+public:
+    GradientResource(ref<YImage>& i, const char *n, const char *a = 0) :
+        PixmapResource(i, n, a)
+    {
+        isGradient.set(true);
+    }
+};
+#endif
+
 static const PixmapResource themePixRes[] = {
 #ifdef CONFIG_GRADIENTS
-    PixmapResource(rgbTitleS[0], "titleIS.xpm"),
-    PixmapResource(rgbTitleT[0], "titleIT.xpm"),
-    PixmapResource(rgbTitleB[0], "titleIB.xpm"),
-    PixmapResource(rgbTitleS[1], "titleAS.xpm"),
-    PixmapResource(rgbTitleT[1], "titleAT.xpm"),
-    PixmapResource(rgbTitleB[1], "titleAB.xpm"),
+    GradientResource(rgbTitleS[0], "titleIS.xpm"),
+    GradientResource(rgbTitleT[0], "titleIT.xpm"),
+    GradientResource(rgbTitleB[0], "titleIB.xpm"),
+    GradientResource(rgbTitleS[1], "titleAS.xpm"),
+    GradientResource(rgbTitleT[1], "titleAT.xpm"),
+    GradientResource(rgbTitleB[1], "titleAB.xpm"),
 
-    PixmapResource(rgbFrameT[0][0], "frameIT.xpm"),
-    PixmapResource(rgbFrameL[0][0], "frameIL.xpm"),
-    PixmapResource(rgbFrameR[0][0], "frameIR.xpm"),
-    PixmapResource(rgbFrameB[0][0], "frameIB.xpm"),
-    PixmapResource(rgbFrameT[0][1], "frameAT.xpm"),
-    PixmapResource(rgbFrameL[0][1], "frameAL.xpm"),
-    PixmapResource(rgbFrameR[0][1], "frameAR.xpm"),
-    PixmapResource(rgbFrameB[0][1], "frameAB.xpm"),
+    GradientResource(rgbFrameT[0][0], "frameIT.xpm"),
+    GradientResource(rgbFrameL[0][0], "frameIL.xpm"),
+    GradientResource(rgbFrameR[0][0], "frameIR.xpm"),
+    GradientResource(rgbFrameB[0][0], "frameIB.xpm"),
+    GradientResource(rgbFrameT[0][1], "frameAT.xpm"),
+    GradientResource(rgbFrameL[0][1], "frameAL.xpm"),
+    GradientResource(rgbFrameR[0][1], "frameAR.xpm"),
+    GradientResource(rgbFrameB[0][1], "frameAB.xpm"),
 
-    PixmapResource(rgbFrameT[1][0], "dframeIT.xpm"),
-    PixmapResource(rgbFrameL[1][0], "dframeIL.xpm"),
-    PixmapResource(rgbFrameR[1][0], "dframeIR.xpm"),
-    PixmapResource(rgbFrameB[1][0], "dframeIB.xpm"),
-    PixmapResource(rgbFrameT[1][1], "dframeAT.xpm"),
-    PixmapResource(rgbFrameL[1][1], "dframeAL.xpm"),
-    PixmapResource(rgbFrameR[1][1], "dframeAR.xpm"),
-    PixmapResource(rgbFrameB[1][1], "dframeAB.xpm"),
+    GradientResource(rgbFrameT[1][0], "dframeIT.xpm"),
+    GradientResource(rgbFrameL[1][0], "dframeIL.xpm"),
+    GradientResource(rgbFrameR[1][0], "dframeIR.xpm"),
+    GradientResource(rgbFrameB[1][0], "dframeIB.xpm"),
+    GradientResource(rgbFrameT[1][1], "dframeAT.xpm"),
+    GradientResource(rgbFrameL[1][1], "dframeAL.xpm"),
+    GradientResource(rgbFrameR[1][1], "dframeAR.xpm"),
+    GradientResource(rgbFrameB[1][1], "dframeAB.xpm"),
 
-    PixmapResource(buttonIPixbuf, "buttonI.xpm"),
-    PixmapResource(buttonAPixbuf, "buttonA.xpm"),
+    GradientResource(buttonIPixbuf, "buttonI.xpm"),
+    GradientResource(buttonAPixbuf, "buttonA.xpm"),
 
-    PixmapResource(logoutPixbuf, "logoutbg.xpm"),
-    PixmapResource(switchbackPixbuf, "switchbg.xpm"),
+    GradientResource(logoutPixbuf, "logoutbg.xpm"),
+    GradientResource(switchbackPixbuf, "switchbg.xpm"),
 #ifndef LITE
-    PixmapResource(listbackPixbuf, "listbg.xpm"),
+    GradientResource(listbackPixbuf, "listbg.xpm"),
 #endif
-    PixmapResource(dialogbackPixbuf, "dialogbg.xpm"),
+    GradientResource(dialogbackPixbuf, "dialogbg.xpm"),
 
-    PixmapResource(menubackPixbuf, "menubg.xpm"),
-    PixmapResource(menuselPixbuf, "menusel.xpm"),
-    PixmapResource(menusepPixbuf, "menusep.xpm"),
+    GradientResource(menubackPixbuf, "menubg.xpm"),
+    GradientResource(menuselPixbuf, "menusel.xpm"),
+    GradientResource(menusepPixbuf, "menusep.xpm"),
 #endif /*CONFIG_GRADIENTS*/
 
     PixmapResource(closePixmap[0], "closeI.xpm", "close.xpm"),
@@ -208,14 +249,14 @@ static const PixmapResource themePixRes[] = {
 };
 
 static const PixmapResource taskbarPixRes[] = {
-    PixmapResource(buttonIPixmap, "taskbuttonbg.xpm"),
-    PixmapResource(buttonAPixmap, "taskbuttonactive.xpm"),
+    PixmapResource(buttonIPixmap, "buttonI.xpm", "taskbuttonbg.xpm"),
+    PixmapResource(buttonAPixmap, "buttonA.xpm", "taskbuttonactive.xpm"),
 
 #ifdef CONFIG_TASKBAR
 #ifdef CONFIG_GRADIENTS
-    PixmapResource(toolbuttonPixbuf, "toolbuttonbg.xpm", "buttonI.xpm"),
-    PixmapResource(workspacebuttonPixbuf, "workspacebuttonbg.xpm", "buttonI.xpm"),
-    PixmapResource(workspacebuttonactivePixbuf, "workspacebuttonactive.xpm", "buttonA.xpm"),
+    GradientResource(toolbuttonPixbuf, "toolbuttonbg.xpm", "buttonI.xpm"),
+    GradientResource(workspacebuttonPixbuf, "workspacebuttonbg.xpm", "buttonI.xpm"),
+    GradientResource(workspacebuttonactivePixbuf, "workspacebuttonactive.xpm", "buttonA.xpm"),
 #endif
 
     PixmapResource(toolbuttonPixmap, "toolbuttonbg.xpm", "buttonI.xpm"),
@@ -225,32 +266,30 @@ static const PixmapResource taskbarPixRes[] = {
     PixmapResource(taskbarStartImage, "start.xpm", "icewm.xpm"),
 
 #ifdef CONFIG_GRADIENTS
-    PixmapResource(taskbackPixbuf, "taskbarbg.xpm"),
-    PixmapResource(taskbuttonPixbuf, "taskbuttonbg.xpm"),
-    PixmapResource(taskbuttonactivePixbuf, "taskbuttonactive.xpm"),
-    PixmapResource(taskbuttonminimizedPixbuf, "taskbuttonminimized.xpm"),
-#else
+    GradientResource(taskbackPixbuf, "taskbarbg.xpm"),
+    GradientResource(taskbuttonPixbuf, "taskbuttonbg.xpm"),
+    GradientResource(taskbuttonactivePixbuf, "taskbuttonactive.xpm"),
+    GradientResource(taskbuttonminimizedPixbuf, "taskbuttonminimized.xpm"),
+#endif
     PixmapResource(taskbackPixmap, "taskbarbg.xpm"),
     PixmapResource(taskbuttonPixmap, "taskbuttonbg.xpm"),
     PixmapResource(taskbuttonactivePixmap, "taskbuttonactive.xpm"),
     PixmapResource(taskbuttonminimizedPixmap, "taskbuttonminimized.xpm"),
-#endif
 #endif
 };
 
 static const PixmapResource taskbar2PixRes[] = {
 #ifdef CONFIG_TASKBAR
 #ifdef CONFIG_GRADIENTS
-    PixmapResource(taskbackPixbuf, "taskbarbg.xpm"),
-    PixmapResource(taskbuttonPixbuf, "taskbuttonbg.xpm"),
-    PixmapResource(taskbuttonactivePixbuf, "taskbuttonactive.xpm"),
-    PixmapResource(taskbuttonminimizedPixbuf, "taskbuttonminimized.xpm"),
-#else
+    GradientResource(taskbackPixbuf, "taskbarbg.xpm"),
+    GradientResource(taskbuttonPixbuf, "taskbuttonbg.xpm"),
+    GradientResource(taskbuttonactivePixbuf, "taskbuttonactive.xpm"),
+    GradientResource(taskbuttonminimizedPixbuf, "taskbuttonminimized.xpm"),
+#endif
     PixmapResource(taskbackPixmap, "taskbarbg.xpm"),
     PixmapResource(taskbuttonPixmap, "taskbuttonbg.xpm"),
     PixmapResource(taskbuttonactivePixmap, "taskbuttonactive.xpm"),
     PixmapResource(taskbuttonminimizedPixmap, "taskbuttonminimized.xpm"),
-#endif
 
     PixmapResource(taskbarStartImage, "start.xpm", "icewm.xpm"),
     PixmapResource(taskbarLinuxImage, "linux.xpm"),     // deprecated
@@ -413,8 +452,40 @@ static void replicatePixmaps() {
         buttonAPixmap->replicate(true, false);
 }
 
+static void copyPixmaps() {
+#ifndef LITE
+    if (TEST_GRADIENT(listbackPixbuf == null) && listbackPixmap == null)
+        listbackPixmap = menubackPixmap;
+#endif
+    if (TEST_GRADIENT(dialogbackPixbuf == null) && dialogbackPixmap == null)
+        dialogbackPixmap = menubackPixmap;
+#ifdef CONFIG_TASKBAR
+    if (TEST_GRADIENT(toolbuttonPixbuf == null) && toolbuttonPixmap == null)
+    {
+        IF_CONFIG_GRADIENTS (buttonIPixbuf != null,
+                             toolbuttonPixbuf = buttonIPixbuf)
+        else toolbuttonPixmap = buttonIPixmap;
+    }
+    if (TEST_GRADIENT(workspacebuttonPixbuf == null) &&
+        workspacebuttonPixmap == null)
+    {
+        IF_CONFIG_GRADIENTS (buttonIPixbuf != null,
+                             workspacebuttonPixbuf = buttonIPixbuf)
+        else workspacebuttonPixmap = buttonIPixmap;
+    }
+    if (TEST_GRADIENT(workspacebuttonactivePixbuf == null) &&
+        workspacebuttonactivePixmap == null)
+    {
+        IF_CONFIG_GRADIENTS (buttonAPixbuf != null,
+                             workspacebuttonactivePixbuf = buttonAPixbuf)
+        else workspacebuttonactivePixmap = buttonAPixmap;
+    }
+#endif
+}
+
 void WPixRes::initPixmaps() {
     loadPixmapResources();
+    copyPixmaps();
     replicatePixmaps();
 }
 

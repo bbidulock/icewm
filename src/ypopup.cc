@@ -36,7 +36,7 @@ void YXApplication::popdown(YPopupWindow *popdown) {
     PRECONDITION(fPopup != 0);
     PRECONDITION(fPopup == popdown);
     if (popdown != fPopup) {
-        MSG(("popdown: 0x%lX  fPopup: 0x%lX", popdown, fPopup));
+        MSG(("popdown: 0x%p  fPopup: 0x%p", popdown, fPopup));
         return ;
     }
     fPopup = fPopup->prevPopup();

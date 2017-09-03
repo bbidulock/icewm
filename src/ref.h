@@ -13,14 +13,13 @@ public:
     void __destroy();
 };
 
-class null_ref;
+extern class null_ref& null;
 
 template<class T> class ref {
 private:
     T *ptr;
+    ref(int);   // avoid NULL and 0; require null.
 public:
-#define null (*(class null_ref *)0)
-
     void __ref() {
         ptr->__refcount++;
     }

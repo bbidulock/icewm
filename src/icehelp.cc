@@ -10,6 +10,9 @@
 #include "yrect.h"
 #include "ascii.h"
 #include "intl.h"
+#ifdef HAVE_STRINGS_H
+#include <strings.h>
+#endif
 
 #ifdef DEBUG
 #define DUMP
@@ -747,7 +750,7 @@ public:
     History() : where(-1) { }
     bool empty() const { return array.isEmpty(); }
     int size() const { return array.getCount(); }
-    const cstring& get(int i) const { return *array[i]; }
+    const char* get(int i) const { return *array[i]; }
     void push(const mstring& s) {
         if (where == -1 || (s.nonempty() && s != get(where))) {
             for (int k = size() - 1; k > where; --k) {
@@ -1985,7 +1988,7 @@ static void print_help()
              "A very simple HTML browser displaying the document specified "
              "by FILENAME.\n\n"),
            ApplicationName);
-    exit(1);
+    exit(0);
 }
 
 int main(int argc, char **argv) {

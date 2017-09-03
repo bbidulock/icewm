@@ -1,0 +1,95 @@
+=pod
+
+=head1 NAME
+
+ icewm-toolbar - icewm toolbar configuration file
+
+=head1 SYNOPSIS
+
+F<> F<$XDG_CONFIG_HOME/icewm/toolbar>
+ F<$HOME/.icewm/toolbar>
+ F</usr/share/icewm/toolbar>
+
+=head1 DESCRIPTION
+
+The F<toolbar> file is responsible for configuring quick launch
+application icons that are placed on the L<icewm(1)> panel.  The file is
+used to place programs as buttons on the L<icewm(1)> pane
+
+=head1 FORMAT
+
+The format of the file contains one of the following line syntax:
+
+B<prog> B<">I<title>B<"> I<icon> I<program> I<options>
+
+Where,
+
+=over
+
+=item B<prog>
+
+The literal string B<prog>.
+
+=item B<">I<title>B<">
+
+The title of the toolbar item, which will appear as a tool-tip for the
+program button, enclosed in double quotes (C<">).
+
+=item I<icon>
+
+The icon to display on the toolbar button.  May be specified as a single
+dash (C<->) when no icon is provided.  When no icon is provided, the
+I<title> text will be displayed on the button in place of the icon.
+
+=item I<program>
+
+The executable program (full path or executable name) to run when the
+button is pressed.
+
+=item I<options>
+
+Options and arguments that are passed to I<program>.
+
+=back
+
+Lines beginning with a hash (C<#>) are comment lines.  Comment lines and
+blank lines are ignored.
+
+=head1 EXAMPLES
+
+Following is an example that places a number of toolbar buttons on the
+L<icewm(1)> panel:
+
+ prog "File Manager" file-manager.png pcmanfm
+ prog "Web Browser" web-browser.png /usr/lib/firefox/firefox
+ prog "Terminal" terminal.png roxterm
+ prog "Graphical Editor" text-editor.png gvim -f
+ prog "Calculator" accessories-calculator.png calculator
+ prog "Run Command" gtk-execute.png xde-run
+ prog "Network" gtk-network.png pcmanfm ~/Network
+ prog "Logout" system-log-out.png xde-logout
+
+=head1 FILES
+
+Locations for the toolbar options file are as follows:
+
+F<>    F<$XDG_CONFIG_HOME/icewm/toolbar>
+    F<$HOME/.icewm/toolbar>
+    F</usr/share/icewm/toolbar>
+
+=head1 SEE ALSO
+
+L<icewm(1)>.
+
+=head1 AUTHOR
+
+Brian Bidulock L<mailto:bidulock@openss7.org>.
+
+=head1 LICENSE
+
+B<IceWM> is licensed under the GNU Library General Public License.
+See the F<COPYING> file in the distribution.
+
+=cut
+
+# vim: set sw=4 tw=72 nocin spell spelllang=en_ca:

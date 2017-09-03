@@ -2,7 +2,6 @@
 #define __YMENUITEM_H
 
 #include "ypaint.h"
-#include "ypixbuf.h"
 #include "yicon.h"
 
 class YMenu;

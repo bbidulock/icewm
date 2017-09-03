@@ -2,8 +2,8 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([icewm],[1.3.12.288],[https://github.com/bbidulock/icewm/issues])
-AC_REVISION([1.3.12.288])
+AC_INIT([icewm],[1.4.2],[https://github.com/bbidulock/icewm/issues])
+AC_REVISION([1.4.2])
 AC_CONFIG_SRCDIR([src/ysmapp.cc])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
@@ -11,8 +11,11 @@ AC_CONFIG_AUX_DIR([scripts])
 AC_USE_SYSTEM_EXTENSIONS
 AC_CANONICAL_TARGET
 
-DATE='2017-05-04'
+DATE='2017-07-30'
 AC_SUBST([DATE])
+
+BRANCH='1.4.2'
+AC_SUBST([BRANCH])
 
 APPLICATIONS='icewm icewm-session icesh icewmhint icewmbg icewmtray'
 TESTCASES=`echo src/test*.cc | sed 's%src/\([[^ ]]*\)\.cc%\1%g'`
@@ -37,13 +40,34 @@ AC_PROG_MKDIR_P
 AC_ARG_VAR([LD], [Linker loader command])
 
 AC_ARG_VAR([MKFONTDIR],[mkfontdir command. @<:@default=mkfontdir@:>@])
-AC_PATH_PROG([MKFONTDIR],[mkfontdir],[${am_missing_run}mkfontdir],[$PATH$PATH_SEPARATOR/usr/X11R6/bin])
-
-AC_ARG_VAR([ASCIIDOC],[asciidoc command. @<:@default=asciidoctor@:>@])
-AC_PATH_PROG([ASCIIDOC],[asciidoctor],[${am_missing_run}asciidoc],[$PATH])
+AC_CHECK_PROGS([MKFONTDIR],[mkfontdir],[${am_missing_run}mkfontdir],[$PATH$PATH_SEPARATOR/usr/X11R6/bin])
 
 AC_ARG_VAR([MARKDOWN],[markdown command. @<:@default=markdown@:>@])
-AC_PATH_PROG([MARKDOWN],[markdown],[${am_missing_run}markdown],[$PATH])
+AC_CHECK_PROGS([MARKDOWN],[markdown],[${am_missing_run}markdown],[$PATH])
+
+AC_ARG_VAR([ASCIIDOC],[asciidoc command. @<:@default=asciidoctor@:>@])
+AC_CHECK_PROGS([ASCIIDOC],[asciidoctor asciidoc],[${am_missing_run}asciidoctor],[$PATH])
+
+AC_ARG_VAR([ASCIIDOC_BACKEND],[asciidoc backend @<:@default=NONE@:>@])
+if test -z "$ASCIIDOC_BACKEND"; then
+	case "$ASCIIDOC" in
+		asciidoc) ASCIIDOC_BACKEND="--backend=html4" ;;
+		asciidoctor) ASCIIDOC_BACKEND="--backend=html5" ;;
+		*) AC_MSG_WARN([ASCIIDOC $ASCIIDOC is not supported.]) ;;
+	esac
+fi
+
+AC_ARG_VAR([ASCIIMAN],[asciidoc to manpage converter. @<:@default=asciidoctor@:>@])
+AC_CHECK_PROGS([ASCIIMAN],[asciidoctor a2x],[${am_missing_run}asciidoctor],[$PATH])
+
+AC_ARG_VAR([ASCIIMAN_FORMAT],[asciidoc manpage option @<:@default=NONE@:>@])
+if test -z "$ASCIIMAN_FORMAT"; then
+	case "$ASCIIMAN" in
+		a2x) ASCIIMAN_FORMAT="--format=manpage" ;;
+		asciidoctor) ASCIIMAN_FORMAT="--backend=manpage" ;;
+		*) AC_MSG_WARN([ASCIIMAN $ASCIIMAN is not supported.]) ;;
+	esac
+fi
 
 LT_PATH_LD
 LT_PREREQ([2.4.2])
@@ -78,13 +102,14 @@ AC_HEADER_DIRENT
 AC_HEADER_SYS_WAIT
 AC_PATH_X
 AC_PATH_XTRA
-AC_CHECK_HEADERS([fcntl.h langinfo.h libintl.h limits.h locale.h netdb.h netinet/in.h stddef.h stdlib.h string.h sys/file.h sys/ioctl.h sys/param.h sys/socket.h sys/time.h unistd.h wchar.h])
-AC_CHECK_HEADERS([linux/threads.h linux/tasks.h])
-AC_CHECK_HEADERS([sched.h sys/dkstat.h sys/param.h sys/sysctl.h uvm/uvm_param.h])
-AC_CHECK_HEADERS([libgen.h])
-AC_CHECK_HEADERS([machine/apmvar.h])
-AC_CHECK_HEADERS([machine/apm_bios.h])
-AC_CHECK_HEADERS([execinfo.h])
+AC_CHECK_HEADERS([execinfo.h fcntl.h])
+AC_CHECK_HEADERS([langinfo.h libgen.h libintl.h limits.h locale.h])
+AC_CHECK_HEADERS([machine/apm_bios.h machine/apmvar.h])
+AC_CHECK_HEADERS([netdb.h netinet/in.h])
+AC_CHECK_HEADERS([sched.h sndfile.h stddef.h stdlib.h string.h])
+AC_CHECK_HEADERS([sys/dkstat.h sys/file.h sys/ioctl.h sys/param.h])
+AC_CHECK_HEADERS([sys/socket.h sys/soundcard.h sys/sysctl.h sys/time.h])
+AC_CHECK_HEADERS([unistd.h uvm/uvm_param.h wchar.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_CHECK_HEADER_STDBOOL
@@ -102,20 +127,51 @@ AC_CHECK_SIZEOF(long, 4)
 AC_TYPE_SIGNAL
 
 # Checks for library functions.
-AC_FUNC_STRFTIME
-AC_FUNC_VPRINTF
-AC_FUNC_ERROR_AT_LINE
 if test x$cross_compling != xyes ; then :; AC_FUNC_FORK fi
-AC_FUNC_LSTAT_FOLLOWS_SLASHED_SYMLINK
 if test x$cross_compling != xyes ; then :; AC_FUNC_MALLOC fi
-AC_FUNC_MMAP
 if test x$cross_compling != xyes ; then :; AC_FUNC_REALLOC fi
-AC_FUNC_STRNLEN
-AC_CHECK_FUNCS([dup2 getcwd gethostbyname gethostname gettimeofday mblen memchr memmove memset mkdir nl_langinfo putenv select setlocale socket strcasecmp strchr strcspn strdup strerror strncasecmp strrchr strspn strstr strtol sysinfo uname abort wordexp])
-AC_CHECK_FUNCS([gettimeofday putenv select socket strtol strtoul basename])
-AC_CHECK_FUNCS([sysctlbyname asprintf])
+AC_CHECK_FUNCS([abort basename dup2])
+AC_CHECK_FUNCS([gethostbyname gethostname gettimeofday])
+AC_CHECK_FUNCS([mblen memchr memmove memset mkdir nl_langinfo])
+AC_CHECK_FUNCS([select setlocale socket])
+AC_CHECK_FUNCS([strcasecmp strchr strcspn strdup strerror strncasecmp])
+AC_CHECK_FUNCS([strrchr strsignal strspn strstr strtol strtoul])
+AC_CHECK_FUNCS([sysctlbyname sysinfo uname wordexp])
 AC_CHECK_FUNC([getloadavg],[AC_DEFINE([HAVE_GETLOADAVG2], 1, [getloadavg() is available])])
 AC_FUNC_SELECT_ARGTYPES
+
+AC_MSG_CHECKING([for strlcpy])
+AC_RUN_IFELSE([AC_LANG_PROGRAM([[#include <string.h>]],[[
+               char a[2];
+               if (strlcpy(a, "yes", 2) != 3)
+                   return 1;]])],
+              [
+               AC_MSG_RESULT([yes])
+               AC_DEFINE([HAVE_STRLCPY], 1,
+                         [Define to 1 if you have the strlcpy function.])
+              ],
+              [
+               AC_MSG_RESULT([no])
+               AH_TEMPLATE([HAVE_STRLCPY],
+                           [Define to 1 if you have the strlcpy function.])
+              ])
+
+AC_MSG_CHECKING([for strlcat])
+AC_RUN_IFELSE([AC_LANG_PROGRAM([[#include <string.h>]],[[
+               char a[4] = "no";
+               if (strlcat(a, "yes", 4) != 5)
+                   return 1;]])],
+              [
+               AC_MSG_RESULT([yes])
+               AC_DEFINE([HAVE_STRLCAT], 1,
+                         [Define to 1 if you have the strlcat function.])
+              ],
+              [
+               AC_MSG_RESULT([no])
+               AH_TEMPLATE([HAVE_STRLCAT],
+                           [Define to 1 if you have the strlcat function.])
+              ])
+
 
 PKG_CHECK_MODULES([CORE],[fontconfig xext x11])
 AC_SUBST([CORE_CFLAGS])
@@ -220,11 +276,11 @@ if test x$enable_pda = xyes; then
 fi
 
 AC_ARG_ENABLE([guievents],
-    AC_HELP_STRING([--enable-guievents],[Enable GUI events (experimental).]))
+    AC_HELP_STRING([--enable-guievents],[Enable GUI events for audio.]))
 AC_ARG_WITH([icesound],
     AC_HELP_STRING([--with-icesound=INTERFACES],[List of audio interfaces for icesound.
-	Requires support for GUI events.  @<:@default: ALSA,OSS,Y,ESound@:>@]),[],
-    [with_icesound='ALSA,OSS,Y,ESound'])
+	Requires support for GUI events.  @<:@default: ALSA,AO,OSS,ESD@:>@]),[],
+    [with_icesound='ALSA,AO,OSS,ESD'])
 if test x$enable_guievents = xyes ; then
     AC_DEFINE([CONFIG_GUIEVENTS],[1],[Define to enable GUI events support.])
     features="${features} gui-events"
@@ -238,16 +294,19 @@ if test x$enable_guievents = xyes ; then
 		AC_DEFINE([ENABLE_ALSA],[1],[Define to enable ALSA support.])
 		CONFIG_ALSA=yes],[AC_MSG_WARN([ALSA is not supported])])
 	    ;;
-	(OSS|oss)
-	    AC_DEFINE([ENABLE_OSS],[1],[Define to enable OSS support.])
-	    CONFIG_OSS=yes
+	(AO|ao)
+	    PKG_CHECK_MODULES([AO],[sndfile ao],[
+		AUDIO_CFLAGS="$AUDIO_CFLAGS $AO_CFLAGS"
+		AUDIO_LIBS="$AUDIO_LIBS $AO_LIBS"
+		AC_DEFINE([ENABLE_AO],[1],[Define to enable AO support.])
+		CONFIG_AO=yes],[AC_MSG_WARN([AO is not supported])])
 	    ;;
-	(Y|Y2|YIFF|y|y2|yiff)
-	    PKG_CHECK_MODULES([YIFF],[Y2],[
-		AUDIO_CFLAGS="$AUDIO_CFLAGS $YIFF_CFLAGS"
-		AUDIO_LIBS="$AUDIO_LIBS $YIFF_LIBS"
-		AC_DEFINE([ENABLE_YIFF],[1],[Define to enable YIFF support.])
-		CONFIG_YIFF=yes],[AC_MSG_WARN([YIFF is not supported])])
+	(OSS|oss)
+	    PKG_CHECK_MODULES([OSS],[sndfile],[
+		AUDIO_CFLAGS="$AUDIO_CFLAGS $OSS_CFLAGS"
+		AUDIO_LIBS="$AUDIO_LIBS $OSS_LIBS"
+		AC_DEFINE([ENABLE_OSS],[1],[Define to enable OSS support.])
+		CONFIG_OSS=yes],[AC_MSG_WARN([OSS is not supported])])
 	    ;;
 	(ESound|ESD|esound|esd)
 	    PKG_CHECK_MODULES([ESD],[esound],[
@@ -261,7 +320,7 @@ if test x$enable_guievents = xyes ; then
 	    ;;
 	esac
     done
-    for iface in ALSA OSS YIFF ESD; do
+    for iface in ALSA AO OSS ESD; do
 	eval "test \"\$CONFIG_$iface\" = yes" && audio_support="$audio_support $iface"
     done
     if test "x$audio_support" != x ; then
@@ -453,7 +512,7 @@ AC_ARG_ENABLE([debug],
     AC_HELP_STRING([--enable-debug],[Enable debugging of IceWM.]))
 if test x$enable_debug = xyes ; then
     AC_DEFINE([DEBUG],[1],[Define if you want to debug IceWM.])
-    CXXFLAGS="$CXXFLAGS -g -DDEBUG -O0"
+    CXXFLAGS="$CXXFLAGS -g -DDEBUG"
     features="$features debugging-symbols"
 fi
 
@@ -472,6 +531,7 @@ AC_CONFIG_FILES([Makefile
                  src/Makefile
                  po/Makefile.in
                  doc/Makefile
+		 man/Makefile
                  lib/Makefile
 		 lib/keys
 		 lib/menu

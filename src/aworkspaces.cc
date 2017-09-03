@@ -10,7 +10,7 @@
 #include "wmapp.h"
 #include "wmframe.h"
 #include "yrect.h"
-#include "yicon.h"
+#include "ypaths.h"
 #include "wmwinlist.h"
 #include "wpixmaps.h"
 #include "intl.h"
@@ -164,6 +164,11 @@ WorkspacesPane::~WorkspacesPane() {
         for (long w = 0; w < fWorkspaceButtonCount; w++)
             delete fWorkspaceButton[w];
         delete [] fWorkspaceButton;
+    }
+    for (int i = workspaceCount; --i >= 0; --workspaceCount) {
+        delete[] workspaceNames[i]; workspaceNames[i] = 0;
+        delete workspaceActionActivate[i]; workspaceActionActivate[i] = 0;
+        delete workspaceActionMoveTo[i]; workspaceActionMoveTo[i] = 0;
     }
 }
 

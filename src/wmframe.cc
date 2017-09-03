@@ -24,7 +24,6 @@
 #include "wmwinlist.h"
 #include "wmmgr.h"
 #include "wmapp.h"
-#include "ypixbuf.h"
 #include "sysdep.h"
 #include "yrect.h"
 #include "yicon.h"
@@ -127,7 +126,6 @@ YFrameWindow::YFrameWindow(
     fStrutTop = 0;
     fStrutBottom = 0;
 
-    fUserTime = -1UL;
     fUserTimeWindow = None;
 
     fFullscreenMonitorsTop = -1;
@@ -239,7 +237,10 @@ YFrameWindow::~YFrameWindow() {
         fKillMsgBox = 0;
     }
 #ifdef CONFIG_GUIEVENTS
-    wmapp->signalGuiEvent(geWindowClosed);
+    if (fWindowType == wtDialog)
+        wmapp->signalGuiEvent(geDialogClosed);
+    else
+        wmapp->signalGuiEvent(geWindowClosed);
 #endif
     if (fAutoRaiseTimer && fAutoRaiseTimer->getTimerListener() == this) {
         fAutoRaiseTimer->stopTimer();
@@ -303,8 +304,8 @@ YFrameWindow::~YFrameWindow() {
             manager->setFirstFrame(fNextCreatedFrame);
     }
     removeFrame();
-    if (switchWindow)
-        switchWindow->destroyedFrame(this);
+    if (wmapp->hasSwitchWindow())
+        wmapp->getSwitchWindow()->destroyedFrame(this);
     if (fClient != 0) {
         if (!fClient->destroyed())
             XRemoveFromSaveSet(xapp->display(), client()->handle());
@@ -368,7 +369,7 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
         normalH = sh ? (h - sh->base_height) / sh->height_inc : h ;
 
 
-        if ((sh->flags & PWinGravity) &&
+        if (sh && (sh->flags & PWinGravity) &&
             sh->win_gravity == StaticGravity)
         {
             normalX += borderXN();
@@ -583,7 +584,10 @@ void YFrameWindow::afterManage() {
 #endif
 #endif
 #ifdef CONFIG_GUIEVENTS
-    wmapp->signalGuiEvent(geWindowOpened);
+    if (fWindowType == wtDialog)
+        wmapp->signalGuiEvent(geDialogOpened);
+    else
+        wmapp->signalGuiEvent(geWindowOpened);
 #endif
 }
 
@@ -1052,8 +1056,11 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
 }
 
 void YFrameWindow::handleFocus(const XFocusChangeEvent &focus) {
-    if (switchWindow && switchWindow->visible())
-        return ;
+    if (wmapp->hasSwitchWindow()) {
+        if (wmapp->getSwitchWindow()->visible()) {
+            return ;
+        }
+    }
 #if 1
     if (focus.type == FocusIn &&
         focus.mode != NotifyGrab &&
@@ -1643,7 +1650,8 @@ void YFrameWindow::wmLower() {
 
         manager->lockFocus();
 #ifdef CONFIG_GUIEVENTS
-        wmapp->signalGuiEvent(geWindowLower);
+        if (getState() ^ WinStateMinimized)
+            wmapp->signalGuiEvent(geWindowLower);
 #endif
         while (w) {
             w->doLower();
@@ -1858,9 +1866,8 @@ void YFrameWindow::updateFocusOnMap(bool& doActivate) {
     }
 
     manager->updateUserTime(fUserTime);
-    if (fUserTime != -1UL)
-        if (fUserTime == 0 || fUserTime != manager->lastUserTime())
-	    doActivate = false;
+    if (doActivate && fUserTime.good())
+        doActivate = (fUserTime.time() && fUserTime == manager->lastUserTime());
 }
 
 void YFrameWindow::wmShow() {
@@ -2088,7 +2095,7 @@ void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
 }
 
 void YFrameWindow::handlePopDown(YPopupWindow *popup) {
-    MSG(("popdown %ld up %ld", popup, fPopupActive));
+    MSG(("popdown %p up %p", popup, fPopupActive));
     if (fPopupActive == popup)
         fPopupActive = 0;
 }
@@ -2206,6 +2213,7 @@ void YFrameWindow::wmMoveToWorkspace(long workspace) {
 }
 
 void YFrameWindow::updateAllowed() {
+#ifdef WMSPEC_HINTS
     Atom atoms[12];
     int i = 0;
     if ((fFrameFunctions & ffMove) || (fFrameDecors & fdTitleBar))
@@ -2230,7 +2238,6 @@ void YFrameWindow::updateAllowed() {
     }
     atoms[i++] = _XA_NET_WM_ACTION_STICK;
     atoms[i++] = _XA_NET_WM_ACTION_CHANGE_DESKTOP;
-#ifdef WMSPEC_HINTS
     client()->setNetWMAllowedActions(atoms,i);
 #endif
 }
@@ -2708,7 +2715,7 @@ void YFrameWindow::addAsTransient() {
         fOwner = manager->findFrame(groupLeader);
 
         if (fOwner) {
-            MSG(("transient for 0x%lX: 0x%lX", groupLeader, fOwner));
+            MSG(("transient for 0x%lX: 0x%p", groupLeader, fOwner));
             PRECONDITION(fOwner->transient() != this);
 
             fNextTransient = fOwner->transient();
@@ -3358,7 +3365,8 @@ void YFrameWindow::updateLayout() {
     if (affectsWorkArea())
         manager->updateWorkArea();
 #ifdef WMSPEC_HINTS
-    client()->setNetFrameExtents(borderX(), borderX(), borderY() + titleY(), borderY());
+    if (client())
+        client()->setNetFrameExtents(borderX(), borderX(), borderY() + titleY(), borderY());
 #endif
 }
 
@@ -3702,29 +3710,24 @@ void YFrameWindow::updateNetWMStrutPartial() {
 
 void YFrameWindow::updateNetStartupId() {
     unsigned long time = -1UL;
-    client()->getNetStartupId(time);
-    if (time != fUserTime) {
-        fUserTime = time;
-        if (time != 0 && time != -1UL)
-            manager->updateUserTime(time);
+    if (client()->getNetStartupId(time)) {
+        if (fUserTime.update(time))
+            manager->updateUserTime(fUserTime);
     }
 }
 
 void YFrameWindow::updateNetWMUserTime() {
     unsigned long time = -1UL;
     Window window = fUserTimeWindow ? fUserTimeWindow : client()->handle();
-    client()->getNetWMUserTime(window, time);
-    if (time != fUserTime) {
-        fUserTime = time;
-        if (time != 0 && time != -1UL)
-            manager->updateUserTime(time);
+    if (client()->getNetWMUserTime(window, time)) {
+        if (fUserTime.update(time))
+            manager->updateUserTime(fUserTime);
     }
 }
 
 void YFrameWindow::updateNetWMUserTimeWindow() {
     Window window = fUserTimeWindow;
-    client()->getNetWMUserTimeWindow(window);
-    if (window != fUserTimeWindow) {
+    if (client()->getNetWMUserTimeWindow(window) && window != fUserTimeWindow) {
         if (fUserTimeWindow != None) {
             XDeleteContext(xapp->display(), fUserTimeWindow,
                     windowContext);

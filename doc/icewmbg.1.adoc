@@ -1,0 +1,164 @@
+ICEWMBG(1)
+==========
+:doctype: manpage
+
+
+NAME
+----
+icewmbg - a background settings manager for the IceWM window manager
+
+
+SYNOPSIS
+--------
+*icewmbg* ['OPTIONS']
+
+
+DESCRIPTION
+-----------
+Icewmbg can assign a color or image to the X11 desktop background.
+Many image formats are supported.
+Each IceWM workspace can have its own background.
+
+When the background image has changed then
+icewmbg can be notified to update the background.
+When switching workspaces it checks the image file modification time.
+If the file has changed then it reloads the background image from file.
+
+Icewmbg supports semitransparency.
+Semitransparent background image(s) and color(s) can be configured.
+If these are not specified then the default background is used.
+
+It uses Xinerama and Xrandr to support backgrounds on all connected monitors.
+When monitors appear/disappear or change their resolution icewmbg will adjust.
+It supports an option for one large background over all monitors.
+
+It should be started before icewm, preferably by the icewm-session program.
+
+OPTIONS
+-------
+Where multiple values can be given for images or colors
+they are separated by commas.
+When 'FILE' is a directory then all images
+from that directory are used in sorted order.
+
+*-p, --replace*::
+  Replace an existing icewmbg. If there is a running icewmbg
+  it is instructed to quit. The new icewmbg will take over.
+
+*-q, --quit*::
+  Tell the running icewmbg to quit. This option is used by
+  'icewm-session' when IceWM exits.
+
+*-r, --restart*::
+  Tell the running icewmbg to restart itself.
+  This is useful when a background file or directory
+  has changed or when settings in preferences files have changed.
+
+*-c, --config=FILE*::
+  Load preferences from 'FILE'.
+
+*-t, --theme=NAME*::
+  Load the theme with name 'NAME'.
+
+*-i, --image=FILE(S)*::
+  Load background image(s) from 'FILE(S)'.
+  This overrules the 'DesktopBackgroundImage' preference.
+
+*-k, --color=NAME(S)*::
+  Use background color(s) from 'NAME(S)'.
+  This overrules the 'DesktopBackgroundColor' preference.
+
+*-s, --semis=FILE(S)*::
+  Load transparency image(s) from 'FILE(S)'.
+  This overrules the 'DesktopTransparencyImage' preference.
+
+*-x, --trans=NAME(S)*::
+  Use transparency color(s) from 'NAME(S)'.
+  This overrules the 'DesktopTransparencyColor' preference.
+
+*-e, --center=0/1*::
+  Disable/Enable centering background.
+  This overrules the 'DesktopBackgroundCenter' preference.
+
+*-a, --scaled=0/1*::
+  Disable/Enable scaling background.
+  This overrules the 'DesktopBackgroundScaled' preference.
+
+*-m, --multi=0/1*::
+  Disable/Enable multihead background.
+  This overrules the 'DesktopBackgroundMultihead' preference.
+
+*--display=NAME*::
+  Use 'NAME' to connect to the X server.
+  If this option is missing then 'NAME'
+  is read from the environment variable DISPLAY.
+
+*--sync*::
+  Use a slower synchronous mode communication with X11 server.
+
+*-h, --help*::
+  Print the icewmbg usage screen and exit.
+
+*-V, --version*::
+  Print version information and exit.
+
+
+PREFERENCES
+-----------
+By default icewmbg will load the background settings
+from the IceWM preferences files.
+The settings read are:
+
+  DesktopBackgroundCenter    - Display desktop background centered
+  DesktopBackgroundScaled    - Display desktop background scaled
+  DesktopBackgroundColor     - Desktop background color(s)
+  DesktopBackgroundImage     - Desktop background image(s)
+  SupportSemitransparency    - Support for semitransparent terminals
+  DesktopTransparencyColor   - Semitransparency background color(s)
+  DesktopTransparencyImage   - Semitransparency background image(s)
+  DesktopBackgroundMultihead - One background over all monitors
+
+First these settings are read from the 'preferences' file.
+Then the theme file from the current theme is read,
+which may overrule the 'preferences' settings.
+Lastly the 'prefoverride' file is read, which overrides again.
+Therefore, if you want to allow the theme to set the background
+use 'preferences' for your settings, otherwise use 'prefoverride'.
+
+
+SCALING
+-------
+Often a background image has a different width or height than the screen.
+The settings can specify to center ('DesktopBackgroundCenter')
+or scale ('DesktopBackgroundScaled') an image.
+Either option is either 0 (disabled) or 1 (enabled).
+What happens for their combination is given by the following table:
+
+  center:0 scaled:0 = the background is replicated in both directions
+  center:1 scaled:0 = the background is centered, but not scaled
+  center:1 scaled:1 = fill one dimension and keep aspect the ratio
+  center:0 scaled:1 = fill both dimensions and keep aspect the ratio
+
+
+BUGS
+----
+You are welcome to give your feedback about icewmbg on +
+https://github.com/bbidulock/icewm/issues.
+
+
+RESOURCES
+---------
+Github: https://github.com/bbidulock/icewm/.
+
+
+SEE ALSO
+--------
+icewm(1), wmsetbg(1), xsetbg(1), xv(1).
+
+
+COPYING
+-------
+Icewmbg is licensed under the GNU Library General Public License.
+See the file COPYING in the distribution for full details.
+
+

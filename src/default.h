@@ -40,8 +40,8 @@ XIV(bool, taskBarKeepBelow,                     false)
 XIV(bool, taskBarShowClock,                     true)
 XIV(bool, taskBarShowApm,                       false)
 XIV(bool, taskBarShowApmAuto,                   true)
-XIV(bool, taskBarShowApmTime,                   true) // mschy
-XIV(bool, taskBarShowApmGraph,                  true) // hatred
+XIV(bool, taskBarShowApmTime,                   true)
+XIV(bool, taskBarShowApmGraph,                  true)
 XIV(bool, taskBarShowMailboxStatus,             true)
 XIV(bool, taskBarShowStartMenu,                 true)
 XIV(bool, taskBarShowWindowListMenu,            true)
@@ -64,7 +64,7 @@ XIV(bool, taskBarFullscreenAutoShow,            true)
 XIV(bool, taskBarDoubleHeight,                  false)
 XIV(bool, taskBarWorkspacesLeft,                true)
 XIV(bool, taskBarWorkspacesTop,                 false)
-XIV(bool, pagerShowPreview,                     false)
+XIV(bool, pagerShowPreview,                     true)
 XIV(bool, pagerShowWindowIcons,                 true)
 XIV(bool, pagerShowMinimized,                   true)
 XIV(bool, pagerShowBorders,                     true)
@@ -162,11 +162,12 @@ XIV(int, titleRollupButton,                     2)
 XIV(int, msgBoxDefaultAction,                   0)
 XIV(int, mailCheckDelay,                        30)
 XIV(int, taskBarCPUSamples,                     20)
-XIV(int, taskBarApmGraphWidth,                  10) // hatred
+XIV(int, taskBarApmGraphWidth,                  10)
+XIV(int, taskBarGraphHeight,                    20)
 XIV(int, taskBarMEMSamples,                     20)
 XIV(int, focusRequestFlashTime,                 0)
 XIV(int, focusRequestFlashInterval,             250)
-XIV(int, nestedThemeMenuMinNumber,              15)
+XIV(int, nestedThemeMenuMinNumber,              25)
 XIV(int, batteryPollingPeriod,                  10)
 XIV(int, netWorkAreaBehaviour,                  0)
 
@@ -296,8 +297,8 @@ cfoption icewm_preferences[] = {
     OBV("TaskBarShowClock",                     &taskBarShowClock,              "Show clock on task bar"),
     OBV("TaskBarShowAPMStatus",                 &taskBarShowApm,                "Show APM/ACPI/Battery/Power status monitor on task bar"),
     OBV("TaskBarShowAPMAuto",                   &taskBarShowApmAuto,            "Enable TaskBarShowAPMStatus if a battery is present"),
-    OBV("TaskBarShowAPMTime",                   &taskBarShowApmTime,            "Show APM status on task bar in time-format"),  // mschy
-    OBV("TaskBarShowAPMGraph",                  &taskBarShowApmGraph,           "Show APM status in graph mode"), // hatred
+    OBV("TaskBarShowAPMTime",                   &taskBarShowApmTime,            "Show APM status on task bar in time-format"),
+    OBV("TaskBarShowAPMGraph",                  &taskBarShowApmGraph,           "Show APM status in graph mode"),
     OBV("TaskBarShowMailboxStatus",             &taskBarShowMailboxStatus,      "Show mailbox status on task bar"),
     OBV("TaskBarMailboxStatusBeepOnNewMail",    &beepOnNewMail,                 "Beep when new mail arrives"),
     OBV("TaskBarMailboxStatusCountMessages",    &countMailMessages,             "Count messages in mailbox"),
@@ -401,7 +402,8 @@ cfoption icewm_preferences[] = {
     OIV("TaskbarButtonWidthDivisor",            &taskBarButtonWidthDivisor, 1, 25, "default number of tasks in taskbar"),
     OIV("TaskBarWidthPercentage",               &taskBarWidthPercentage, 0, 100, "Task bar width as percentage of the screen width"),
     OSV("TaskBarJustify",                       &taskBarJustify, "Taskbar justify left, right or center"),
-    OIV("TaskBarApmGraphWidth",                 &taskBarApmGraphWidth, 1, 1000,  "Width of APM Monitor"), // hatred
+    OIV("TaskBarApmGraphWidth",                 &taskBarApmGraphWidth, 1, 1000,  "Width of APM Monitor"),
+    OIV("TaskBarGraphHeight",                   &taskBarGraphHeight, 16, 1000,  "Height of taskbar monitoring applets"),
 #endif
 
     OIV("XineramaPrimaryScreen",                &xineramaPrimaryScreen, 0, 63, "Primary screen for xinerama (taskbar, ...)"),

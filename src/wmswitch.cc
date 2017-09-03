@@ -27,10 +27,8 @@ YColor *SwitchWindow::switchMfg(NULL);
 
 ref<YFont> SwitchWindow::switchFont;
 
-SwitchWindow * switchWindow(NULL);
-
 SwitchWindow::SwitchWindow(YWindow *parent):
-    YPopupWindow(parent) INIT_GRADIENT(fGradient, NULL) {
+    YPopupWindow(parent) INIT_GRADIENT(fGradient, null) {
     // why this checks here?
     if (switchBg == 0)
         switchBg = new YColor(clrQuickSwitch);

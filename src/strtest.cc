@@ -182,6 +182,26 @@ static void test_mstring()
     expect(u, "aha");
     u = mstring("aha") + NULL;
     expect(u, "aha");
+
+    u = mstring("ab", "cd");
+    expect(u, "abcd");
+    u = mstring("ab", (char *) NULL);
+    expect(u, "ab");
+    u = mstring(NULL, "cd");
+    expect(u, "cd");
+    u = mstring((char *) NULL, (char *) NULL);
+    assert(u, u == null);
+
+    u = mstring("ab", "cd", "ef");
+    expect(u, "abcdef");
+    u = mstring("ab", "cd", (char *) NULL);
+    expect(u, "abcd");
+    u = mstring("ab", (char *) NULL, "ef");
+    expect(u, "abef");
+    u = mstring(NULL, "cd", "ef");
+    expect(u, "cdef");
+    u = mstring((char *) NULL, (char *) NULL, (char *) NULL);
+    expect(u, "");
 }
 
 static void test_upath()

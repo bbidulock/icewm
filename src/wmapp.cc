@@ -41,12 +41,12 @@
 #include "udir.h"
 #include "appnames.h"
 #include "ypointer.h"
+#include "ypaths.h"
 #include "intl.h"
 
 char const *ApplicationName("IceWM");
 int rebootOrShutdown = 0;
 static bool initializing(true);
-static bool restart(false);
 
 YWMApp *wmapp(NULL);
 YWindowManager *manager(NULL);
@@ -100,11 +100,10 @@ static const char* overrideTheme;
 #define XTERMCMD xterm
 #endif
 
-static const char* configArg;
-
 static ref<YIcon> defaultAppIcon;
 
 static bool replace_wm;
+static bool restart_wm;
 static bool post_preferences;
 
 static Window registerProtocols1(char **argv, int argc) {
@@ -126,7 +125,7 @@ static Window registerProtocols1(char **argv, int argc) {
           CWEventMask, &attrs);
     }
    
-    Window xroot = RootWindow(xapp->display(), DefaultScreen(xapp->display()));
+    Window xroot = xapp->root();
     Window xid = 
         XCreateSimpleWindow(xapp->display(), xroot,
             0, 0, 1, 1, 0,
@@ -498,7 +497,21 @@ void YWMApp::termIcons() {
 ref<YIcon> YWMApp::getDefaultAppIcon() {
     return defaultAppIcon;
 }
+
+CtrlAltDelete* YWMApp::getCtrlAltDelete() {
+    if (ctrlAltDelete == 0) {
+        ctrlAltDelete = new CtrlAltDelete(this, manager);
+    }
+    return ctrlAltDelete;
+}
 #endif
+
+SwitchWindow* YWMApp::getSwitchWindow() {
+    if (switchWindow == 0 && quickSwitch) {
+        switchWindow = new SwitchWindow(manager);
+    }
+    return switchWindow;
+}
 
 void YWMApp::initPointers() {
     osmart<YCursorLoader> l(YCursor::newLoader());
@@ -721,11 +734,12 @@ void dumpZorder(const char *oper, YFrameWindow *w, YFrameWindow *a) {
             cstring cs(p->client()->windowTitle());
             msg(" %c %c 0x%lX: %s", (p == w) ? '*' : ' ',  (p == a) ? '#' : ' ', p->client()->handle(), cs.c_str());
         } else
-            msg("?? 0x%lX: %s", p->handle());
+            msg("?? 0x%lX", p->handle());
         PRECONDITION(p->next() != p);
         PRECONDITION(p->prev() != p);
-        if (p->next())
+        if (p->next()) {
             PRECONDITION(p->next()->prev() == p);
+	}
         p = p->next();
     }
 }
@@ -746,8 +760,15 @@ void YWMApp::runRestart(const char *path, char *const *args) {
             execlp(path, path, (void *)NULL);
         }
     } else {
-        const char *c = configArg ? "-c" : NULL;
-        execlp(ICEWMEXE, ICEWMEXE, "--restart", c, configArg, (void *)NULL);
+        if (mainArgv[0][0] == '/' ||
+            (strchr(mainArgv[0], '/') != 0 &&
+             access(mainArgv[0], X_OK) == 0))
+        {
+            execv(mainArgv[0], mainArgv);
+            fail("execv %s", mainArgv[0]);
+        }
+        execvp(ICEWMEXE, mainArgv);
+        fail("execvp %s", ICEWMEXE);
     }
 
     xapp->alert();
@@ -792,16 +813,20 @@ void YWMApp::runCommandOnce(const char *resource, const char *cmdline) {
         runProgram(argv[0], (char *const *) argv);
 }
 
+#ifndef NO_CONFIGURE
 void YWMApp::setFocusMode(int mode) {
+    focusMode = mode;
+    initFocusMode();
+
     char s[32];
-
-    sprintf(s, "FocusMode=%d\n", mode);
-
+    snprintf(s, sizeof s, "FocusMode=%d\n", mode);
     if (WMConfig::setDefault("focus_mode", s) == 0) {
-        restartClient(0, 0);
+        if (mode == 0) {
+            restartClient(0, 0);
+        }
     }
 }
-
+#endif
 
 void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
 
@@ -825,15 +850,22 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
         manager->unmanageClients();
         unregisterProtocols();
         exit(0);
+#ifndef NO_CONFIGURE
     } else if (action == actionFocusClickToFocus) {
-        setFocusMode(1);
+        setFocusMode(FocusClick);
     } else if (action == actionFocusMouseSloppy) {
-        setFocusMode(2);
+        setFocusMode(FocusSloppy);
+    } else if (action == actionFocusExplicit) {
+        setFocusMode(FocusExplicit);
+    } else if (action == actionFocusMouseStrict) {
+        setFocusMode(FocusStrict);
+    } else if (action == actionFocusQuietSloppy) {
+        setFocusMode(FocusQuiet);
     } else if (action == actionFocusCustom) {
-        setFocusMode(0);
+        setFocusMode(FocusCustom);
+#endif
     } else if (action == actionRefresh) {
-        static YWindow *w = 0;
-        if (w == 0) w = new YWindow();
+        osmart<YWindow> w(new YWindow());
         if (w) {
             w->setGeometry(YRect(0, 0,
                                  desktop->width(), desktop->height()));
@@ -843,6 +875,8 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
         }
 #ifndef LITE
     } else if (action == actionAbout) {
+        if (aboutDlg == 0)
+            aboutDlg = new AboutDlg();
         if (aboutDlg)
             aboutDlg->showFocused();
 #endif
@@ -904,7 +938,7 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
 #ifdef CONFIG_TASKBAR
     } else if (action == actionCollapseTaskbar && taskBar) {
         taskBar->handleCollapseButton();
-        fWindowManager->focusLastWindow();
+        manager->focusLastWindow();
 #endif
     } else {
         for (int w = 0; w < workspaceCount; w++) {
@@ -916,9 +950,95 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
     }
 }
 
+void YWMApp::initFocusMode() {
+#ifndef NO_CONFIGURE
+    switch (focusMode) {
+
+    case FocusCustom: /* custom */
+        // Need a restart to load from file.
+        break;
+
+    case FocusClick: /* click to focus */
+        clickFocus = true;
+        focusOnAppRaise = false;
+        requestFocusOnAppRaise = true;
+        raiseOnFocus = true;
+        raiseOnClickClient = true;
+        focusOnMap = true;
+        mapInactiveOnTop = true;
+        focusChangesWorkspace = false;
+        focusOnMapTransient = false;
+        focusOnMapTransientActive = true;
+        break;
+
+    case FocusSloppy:  /* sloppy mouse focus */
+        clickFocus = false;
+        focusOnAppRaise = false;
+        requestFocusOnAppRaise = true;
+        raiseOnFocus = false;
+        raiseOnClickClient = true;
+        focusOnMap = true;
+        mapInactiveOnTop = true;
+        focusChangesWorkspace = false;
+        focusOnMapTransient = false;
+        focusOnMapTransientActive = true;
+        break;
+
+    case FocusExplicit: /* explicit focus */
+        clickFocus = true;
+        focusOnAppRaise = false;
+        requestFocusOnAppRaise = false;
+        raiseOnFocus = false;
+        raiseOnClickClient = false;
+        focusOnMap = false;
+        mapInactiveOnTop = true;
+        focusChangesWorkspace = false;
+        focusOnMapTransient = false;
+        focusOnMapTransientActive = true;
+        break;
+
+    case FocusStrict:  /* strict mouse focus */
+        clickFocus = false;
+        focusOnAppRaise = false;
+        requestFocusOnAppRaise = false;
+        raiseOnFocus = true;
+        raiseOnClickClient = true;
+        focusOnMap = false;
+        mapInactiveOnTop = false;
+        focusChangesWorkspace = false;
+        focusOnMapTransient = false;
+        focusOnMapTransientActive = true;
+        break;
+
+    case FocusQuiet:  /* quiet sloppy focus */
+        clickFocus = false;
+        focusOnAppRaise = false;
+        requestFocusOnAppRaise = false;
+        raiseOnFocus = false;
+        raiseOnClickClient = true;
+        focusOnMap = true;
+        mapInactiveOnTop = true;
+        focusChangesWorkspace = false;
+        focusOnMapTransient = false;
+        focusOnMapTransientActive = true;
+        break;
+
+    default:
+        warn("Erroneous focus mode %d.", focusMode);
+    }
+#endif
+}
+
 YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
-    YSMApplication(argc, argv, displayName)
+    YSMApplication(argc, argv, displayName),
+    mainArgv(*argv)
 {
+    if (restart_wm) {
+        YWindowManager::doWMAction(ICEWM_ACTION_RESTARTWM);
+        XSync(xapp->display(), False);
+        ::exit(0);
+    }
+
 #ifndef NO_CONFIGURE
     if (configFile == 0 || *configFile == 0)
         configFile = "preferences";
@@ -948,41 +1068,16 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     }
     {
         cfoption focus_prefs[] = {
-            OIV("FocusMode", &focusMode, 0, 2, "Focus mode (0 = custom, 1 = click, 2 = mouse, 3 = explicit)"),
+            OIV("FocusMode", &focusMode, FocusCustom, FocusModelLast,
+                "Focus mode (0=custom, 1=click, 2=sloppy"
+                ", 3=explicit, 4=strict, 5=quiet)"),
             OK0()
         };
 
         YConfig::findLoadConfigFile(this, focus_prefs, "focus_mode");
     }
     WMConfig::loadConfiguration(this, "prefoverride");
-    switch (focusMode) {
-    case 0: /* custom */
-        break;
-    default: /* click to focus */
-        clickFocus = true;
-        focusOnAppRaise = false;
-        requestFocusOnAppRaise = true;
-        raiseOnFocus = true;
-        raiseOnClickClient = true;
-        focusOnMap = true;
-        mapInactiveOnTop = true;
-        focusChangesWorkspace = false;
-        focusOnMapTransient = false;
-        focusOnMapTransientActive = true;
-        break;
-    case 2:  /* mouse focus */
-        clickFocus = false;
-        focusOnAppRaise = false;
-        requestFocusOnAppRaise = true;
-        raiseOnFocus = false;
-        raiseOnClickClient = true;
-        focusOnMap = true;
-        mapInactiveOnTop = true;
-        focusChangesWorkspace = false;
-        focusOnMapTransient = false;
-        focusOnMapTransientActive = true;
-        break;
-    }
+    initFocusMode();
 #endif
 
     DEPRECATE(warpPointer == true);
@@ -1030,6 +1125,11 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     XSetErrorHandler(handler);
 
     fLogoutMsgBox = 0;
+    aboutDlg = 0;
+#ifndef LITE
+    ctrlAltDelete = 0;
+#endif
+    switchWindow = 0;
 
     initAtoms();
     initActions();
@@ -1042,8 +1142,8 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 
     managerWindow = registerProtocols1(*argv, *argc);
     
-    desktop = manager = fWindowManager = new YWindowManager(
-        this, this, this, 0, RootWindow(display(), DefaultScreen(display())));
+    desktop = manager = new YWindowManager(
+        this, this, this, 0, root());
     PRECONDITION(desktop != 0);
     
     registerProtocols2(managerWindow);
@@ -1112,8 +1212,6 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     statusMoveSize = new MoveSizeStatus(manager);
     statusWorkspace = new WorkspaceStatus(manager);
 #endif
-    if (quickSwitch)
-        switchWindow = new SwitchWindow(manager);
 #ifdef CONFIG_TASKBAR
     if (showTaskBar) {
         taskBar = new TaskBar(this, manager, this, this);
@@ -1127,12 +1225,6 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     windowList = new WindowList(manager, this);
 #endif
     //windowList->show();
-#ifndef LITE
-    ctrlAltDelete = new CtrlAltDelete(this, manager);
-#endif
-#ifndef LITE
-    aboutDlg = new AboutDlg();
-#endif
 
     manager->initWorkspaces();
 
@@ -1154,6 +1246,8 @@ YWMApp::~YWMApp() {
         manager->unmanageClient(fLogoutMsgBox->handle());
         fLogoutMsgBox = 0;
     }
+    delete aboutDlg; aboutDlg = 0;
+    delete switchWindow; switchWindow = 0;
 #ifndef LITE
     termIcons();
     delete ctrlAltDelete; ctrlAltDelete = 0;
@@ -1161,10 +1255,8 @@ YWMApp::~YWMApp() {
 #ifdef CONFIG_TASKBAR
     delete taskBar; taskBar = 0;
 #endif
-    //delete windowList; windowList = 0;
-#ifndef LITE
-    delete switchWindow; switchWindow = 0;
 
+#ifndef LITE
     delete statusMoveSize; statusMoveSize = 0;
     delete statusWorkspace; statusWorkspace = 0;
 #endif
@@ -1174,16 +1266,34 @@ YWMApp::~YWMApp() {
 #endif
 #ifdef CONFIG_WINLIST
     delete windowListPopup; windowListPopup = 0;
+    delete windowList; windowList = 0;
 #endif
+    layerMenu->setShared(false);
+    // delete layerMenu; layerMenu = 0;
+    windowMenu->setShared(false);
     delete windowMenu; windowMenu = 0;
 
+    if (logoutMenu) {
+        logoutMenu->setShared(false);
+        delete logoutMenu; logoutMenu = 0;
+    }
+
     // shared menus last
+    moveMenu->setShared(false);
     delete moveMenu; moveMenu = 0;
 #ifdef CONFIG_WINMENU
+    windowListMenu->setShared(false);
     delete windowListMenu; windowListMenu = 0;
+#endif
+    delete manager; desktop = manager = 0;
+
+#ifndef NO_CONFIGURE_MENUS
+    keyProgs.clear();
 #endif
 
     WPixRes::freePixmaps();
+
+    freeActions();
 
     //!!!XFreeGC(display(), outlineGC); lazy init in movesize.cc
     //!!!XFreeGC(display(), clipPixmapGC); in ypaint.cc
@@ -1224,6 +1334,28 @@ bool YWMApp::handleIdle() {
 
 #ifdef CONFIG_GUIEVENTS
 void YWMApp::signalGuiEvent(GUIEvent ge) {
+    /*
+     * The first event must be geStartup.
+     * Ignore all other events before that.
+     */
+    static bool started;
+    if (ge == geStartup)
+        started = true;
+    else if (started == false)
+        return;
+
+    /*
+     * Because there is no event buffering,
+     * when multiple events occur in a burst,
+     * only signal the first event of the burst.
+     */
+    timeval now = monotime();
+    static timeval next;
+    if (now < next && ge != geStartup) {
+        return;
+    }
+    next = now + millitime(100L);
+
     static Atom GUIEventAtom = None;
     unsigned char num = (unsigned char)ge;
 
@@ -1305,8 +1437,10 @@ static void print_usage(const char *argv0) {
              "  -V, --version       Prints version information and exits.\n"
              "  -h, --help          Prints this usage screen and exits.\n"
              "%s"
+             "\n"
              "  --replace           Replace an existing window manager.\n"
-             "  --restart           Don't use this: It's an internal flag.\n"
+             "  -r, --restart       Tell the running icewm to restart itself.\n"
+             "\n"
              "  --configured        Print the compile time configuration.\n"
              "  --directories       Print the configuration directories.\n"
              "  -l, --list-themes   Print a list of all available themes.\n"
@@ -1374,6 +1508,9 @@ static void print_configured(const char *argv0) {
 #endif
 #ifdef CONFIG_ANTIALIASING
     " antialiasing"
+#endif
+#ifdef ENABLE_AO
+    " ao"
 #endif
 #ifdef CONFIG_APPLET_APM
     " apm"
@@ -1492,9 +1629,6 @@ static void print_configured(const char *argv0) {
 #ifdef CONFIG_XRANDR
     " xrandr"
 #endif
-#ifdef ENABLE_YIFF
-    " yiff"
-#endif
     "\n";
     printf(_("%s configured options:%s\n"), argv0,
             compile_time_configured_options);
@@ -1516,21 +1650,13 @@ int main(int argc, char **argv) {
                 debug_z = true;
 #endif
 #ifndef NO_CONFIGURE
-            char *value;
-            if (GetLongArgument(value, "config", arg, argv+argc) ||
-               GetShortArgument(value, "c", arg, argv+argc))
-            {
-                configArg = configFile = value;
-                continue;
-            }
-            else if (GetLongArgument(value, "theme", arg, argv+argc)
-                 || GetShortArgument(value, "t", arg, argv+argc))
-            {
+            char *value(0);
+            if (GetArgument(value, "c", "config", arg, argv+argc))
+                configFile = value;
+            else if (GetArgument(value, "t", "theme", arg, argv+argc))
                 overrideTheme = value;
-                continue;
-            }
-            else if (is_long_switch(*arg, "restart"))
-                restart = true;
+            else if (is_switch(*arg, "r", "restart"))
+                restart_wm = true;
             else if (is_long_switch(*arg, "replace"))
                 replace_wm = true;
             else if (is_long_switch(*arg, "notify"))
@@ -1552,6 +1678,7 @@ int main(int argc, char **argv) {
 #endif
         }
     }
+
     YWMApp app(&argc, &argv);
 
 #ifdef CONFIG_GUIEVENTS

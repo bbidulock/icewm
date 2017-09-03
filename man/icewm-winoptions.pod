@@ -1,0 +1,251 @@
+=pod
+
+=head1 NAME
+
+ icewm-winoptions - IceWM window options configuration file
+
+=head1 SYNOPSIS
+
+F<> F<$XDG_CONFIG_HOME/icewm/winoptions>
+ F<$HOME/.icewm/winoptions>
+ F</usr/share/icewm/winoptions>
+
+=head1 DESCRIPTION
+
+The IceWM window options configuration file is used to configure
+settings for individual application windows.  The window options that
+are established by this file when L<icewm(1)> starts can be overridden
+while running using the L<icesh(1)> or L<icewmhints(1)> utilities.
+
+=head1 FORMAT
+
+Each line in the file must be in one of the following formats:
+
+B<> I<CLASS>B<.>I<NAME>B<.>I<ROLE>B<.>I<OPTION>B<:> I<VALUE>
+ I<CLASS>B<.>I<NAME>B<.>I<OPTION>B<:> I<VALUE>
+ I<CLASS>B<.>I<ROLE>B<.>I<OPTION>B<:> I<VALUE>
+ I<NAME>B<.>I<ROLE>B<.>I<OPTION>B<:> I<VALUE>
+ I<CLASS>B<.>I<OPTION>B<:> I<VALUE>
+ I<NAME>B<.>I<OPTION>B<:> I<VALUE>
+ I<ROLE>B<.>I<OPTION>B<:> I<VALUE>
+
+Where the fields are defined as follows:
+
+=over
+
+=item I<CLASS>
+
+The resource class portion of the ICCCM B<WM_CLASS> property for the
+window.
+
+=item I<NAME>
+
+The resource name portion of the ICCCM B<WM_CLASS> property for the
+window.
+
+=item I<ROLE>
+
+The resource name portion of the ICCCM B<WM_WINDOW_ROLE> property for
+the window.
+
+=item I<OPTION>: I<VALUE>
+
+One of the options and values described below under L</OPTIONS>.
+
+=back
+
+Note that it is possible that the B<WM_WINDOW_ROLE> may contain a period
+(C<.>).  When it does, the period should be escaped by a single
+backslash when specifying the I<ROLE> in the file.
+
+=head1 OPTIONS
+
+The options and values described in the format, above, consist of an
+option name, I<OPTION> followed by a semicolon (C<:>) a space (C< >) and
+an allowable value for the option, I<VALUE>.  The available options are
+as follows:
+
+=head2 GENERAL OPTIONS
+
+The following option control general characteristics of windows:
+
+=over
+
+=item B<icon>: I<NAME> (default: none)
+
+Specifies the icon name for the window.  I<NAME> is the name of the
+icon.
+
+=item B<workspace>: I<WORKSPACE> (default: current)
+
+Specifies the default workspace for the window.  I<WORKSPACE> is the
+workspace number counting from zero (0).
+
+=item B<layer>: {B<Desktop>|B<Below>|B<Normal>|B<OnTop>|B<Dock>|B<AboveDock>|B<Menu>|I<NUMBER>} (default: 4)
+
+Specifies the default layer for the window.  Layer can be one of the
+following strings or a number from zero (0) to fifteen (15):
+
+B<>  B<Desktop>     (0)  Desktop window.
+  B<Below>       (2)  Below the default layer.
+  B<Normal>      (4)  Default layer for windows.
+  B<OnTop>       (6)  Above the default layer.
+  B<Dock>        (8)  Docked windows at edge of screen.
+  B<AboveDock>  (10)  Windows above the dock.
+  B<Menu>       (12)  Windows above the dock.
+
+=item B<geometry> I<geometry> (default: WM_SIZE_HINTS)
+
+The default geometry for the window.  This geometry should be specified
+in a format that can be parsed by L<XParseGeometry(3)>:
+
+ [=][<width>{xX}<height>][{+-}<xoffset>{+-}<yoffset>]
+
+=item B<tray>: {B<Ignore>|B<Minimized>|B<Exclusive>|I<NUMBER>} (default: 0)
+
+The default tray option for the window.  This affects both the tray and
+the task pane.  Tray can be one of the following strings or a number
+from zero (0) to two (2):
+
+B<>  B<Ignore>     (0)  No icon added to tray.
+  B<Minimized>  (1)  Add to tray, no task when minimized.
+  B<Exclusive>  (2)  Add to tray, no task button.
+
+=back
+
+=head2 FUNCTION OPTIONS
+
+Function options enable/disable (1/0) the ability to take an action on
+the window.  The normal default for all options is enabled (1) unless
+overridden by the application.  The following options are defined:
+
+B<>  B<fMove>:     {B<0>|B<1>}  can be moved.         (default: 1)
+  B<fResize>:   {B<0>|B<1>}  can be resized.       (default: 1)
+  B<fClose>:    {B<0>|B<1>}  can be closed.        (default: 1)
+  B<fMinimize>: {B<0>|B<1>}  can be minimized.     (default: 1)
+  B<fMaximize>: {B<0>|B<1>}  can be maximized.     (default: 1)
+  B<fHide>:     {B<0>|B<1>}  can be hidden.        (default: 1)
+  B<fRollup>:   {B<0>|B<1>}  can be shaded.        (default: 1)
+
+=head2 DECOR OPTIONS
+
+Decor options enable/disable (1/0) decorations on the window.  The
+normal default for all options is enabled (1) unless overridden by the
+application.  The following options are defined:
+
+B<>  B<dTitleBar>: {B<0>|B<1>}  has title bar.        (default: 1)
+  B<dSysMenu>:  {B<0>|B<1>}  has window menu.      (default: 1)
+  B<dBorder>:   {B<0>|B<1>}  has border.           (default: 1)
+  B<dResize>:   {B<0>|B<1>}  has resize grips.     (default: 1)
+  B<dClose>:    {B<0>|B<1>}  has close button.     (default: 1)
+  B<dMinimize>: {B<0>|B<1>}  has minimize button.  (default: 1)
+  B<dMaximize>: {B<0>|B<1>}  has maximize button.  (default: 1)
+  B<dHide>:     {B<0>|B<1>}  has hide button.      (default: 1)
+  B<dRollup>:   {B<0>|B<1>}  has shade button.     (default: 1)
+  B<dDepth>:    {B<0>|B<1>}  has depth button.     (default: 1)
+
+=head2 FEATURE OPTIONS
+
+Feature options enable/disable (1/0) additional features of the window.
+The normal default for all options is disabled (0) unless overridden by
+the application.  The following options are defined:
+
+B<>  B<allWorkspaces>:            {B<1>|B<0>}  on all workspaces.
+  B<ignoreTaskBar>:            {B<1>|B<0>}  not on task bar.
+  B<noIgnoreTaskBar>:          {B<1>|B<0>}  on task bar.
+  B<ignoreWinList>:            {B<1>|B<0>}  not on window list.
+  B<ignoreQuickSwitch>:        {B<1>|B<0>}  not on quick switch.
+  B<fullKeys>:                 {B<1>|B<0>}  provided more keys.
+  B<noFocusOnAppRaise>:        {B<1>|B<0>}  no focus on raise.
+  B<ignoreNoFocusHint>:        {B<1>|B<0>}  focus even no-input.
+  B<ignorePositionHint>:       {B<1>|B<0>}  place automatically.
+  B<doNotCover>:               {B<1>|B<0>}  limits workspace if sticky.
+  B<doNotFocus>:               {B<1>|B<0>}  do not focus.
+  B<startFullscreen>:          {B<1>|B<0>}  start full screen.
+  B<startMinimized>:           {B<1>|B<0>}  start minimized.
+  B<startMaximized>:           {B<1>|B<0>}  start maximized.
+  B<startMaximizedVert>:       {B<1>|B<0>}  start maximized vertical.
+  B<startMaximizedHorz>:       {B<1>|B<0>}  start maximized horizontal.
+  B<nonICCCMconfigureRequest>: {B<1>|B<0>}  more configure requests.
+  B<forcedClose>:              {B<1>|B<0>}  no close dialog.
+  B<noFocusOnMap>:             {B<1>|B<0>}  do not focus when mapped.
+  B<ignoreUrgentHint>:         {B<1>|B<0>}  ignore urgent hints.
+  B<appTakesFocus>:            {B<1>|B<0>}  let application take focus.
+
+=head1 EXAMPLES
+
+Following is the example window options file that ships with L<icewm(1)>
+and typically installs to F</usr/share/icewm/winoptions>.
+
+  # This is an example for IceWM's window options file.
+  #
+  # Place your variants in @CFGDIR@ or in $HOME/.icewm
+  # since modifications to this file will be discarded when you
+  # (re)install icewm.
+  
+  xterm.icon: xterm
+  rxvt.icon: xterm
+  nxterm.icon: xterm
+  fte.icon: fte
+  emacs.Emacs.icon: emacs
+  AWTapp.icon: java
+  # workaround for XV window repositioning problems
+  xv.nonICCCMconfigureRequest: 1
+  xeyes.ignoreWinList: 0
+  xeyes.ignoreTaskBar: 1
+  xeyes.allWorkspaces: 1
+  xeyes.dTitleBar: 0
+  xeyes.dBorder: 0
+  xeyes.dSysMenu: 0
+  xeyes.dResize: 0
+  xeyes.dClose: 0
+  xeyes.dMinimize: 0
+  xeyes.dMaximize: 0
+  xeyes.ignoreNoFocusHint: 1
+  
+  XClock.ignoreNoFocusHint: 1
+  Vim.icon: vim
+  
+  applix.ignoreNoFocusHint: 1
+  XDdts.noFocusOnAppRaise: 1
+  Wingz.noFocusOnAppRaise: 1
+  WingzPro.noFocusOnAppRaise: 1
+  
+  gkrellm.Gkrellm.allWorkspaces: 1
+  gkrellm.Gkrellm.ignoreTaskBar: 1
+  gkrellm.Gkrellm.layer: Below
+  #gkrellm.Gkrellm.doNotCover: 1
+  
+  MainWindow.licq.allWorkspaces: 1
+  MainWindow.licq.ignoreQuickSwitch: 1
+  MainWindow.licq.ignoreWinList: 1
+  MainWindow.licq.layer: Below
+  #MainWindow.licq.doNotCover: 1
+
+=head1 FILES
+
+Locations for the window options file are as follows:
+
+F<>    F<$XDG_CONFIG_HOME/icewm/winoptions>
+    F<$HOME/.icewm/winoptions>
+    F</usr/share/icewm/winoptions>
+
+=head1 SEE ALSO
+
+L<icewm(1)>,
+L<icesh(1)>,
+L<icewmhints(1)>,
+L<XParseGeometry(3)>.
+
+=head1 AUTHOR
+
+Brian Bidulock L<mailto:bidulock@openss7.org>.
+
+=head1 LICENSE
+
+B<IceWM> is licensed under the GNU Library General Public License.
+See the F<COPYING> file in the distribution.
+
+=cut
+
+# vim: set sw=4 tw=72 nocin spell spelllang=en_ca:

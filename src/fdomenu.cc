@@ -344,6 +344,17 @@ static void init()
     qsort(menuinfo, ACOUNT(menuinfo)-1, sizeof(menuinfo[0]), cmpstringp);
 }
 
+static void help(const char *home, const char *dirs, FILE* out, int xit)
+{
+    g_fprintf(out,
+            "This program doesn't use command line options. It only listens to\n"
+            "environment variables defined by XDG Base Directory Specification.\n"
+            "XDG_DATA_HOME=%s\n"
+            "XDG_DATA_DIRS=%s\n"
+            , home, dirs);
+    exit(xit);
+}
+
 int main(int argc, const char **argv)
 {
 	ApplicationName = my_basename(argv[0]);
@@ -363,16 +374,13 @@ int main(int argc, const char **argv)
 	{
 		if (is_version_switch(argv[1]))
 			print_version_exit(VERSION);
+		if (is_help_switch(argv[1]))
+			help(usershare, sysshare, stdout, EXIT_SUCCESS);
 
 		if(strstr(argv[1], ".desktop") && launch(argv[1], argv+2, argc-2))
 			return EXIT_SUCCESS;
 
-		g_fprintf(stderr, "This program doesn't use command line options. It only listens to\n"
-			"environment variables defined by XDG Base Directory Specification.\n"
-			"XDG_DATA_HOME=%s\n"
-				"XDG_DATA_DIRS=%s\n"
-			,usershare, sysshare);
-		return EXIT_FAILURE;
+                help(usershare, sysshare, stderr, EXIT_FAILURE);
 	}
 	gchar **ppDirs = g_strsplit (sysshare, ":", -1);
 #ifdef FREEASAP

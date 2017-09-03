@@ -1,0 +1,68 @@
+=pod
+
+=head1 NAME
+
+ icehelp - a very simple HTML browser
+
+=head1 SYNOPSIS
+
+B<icehelp> [I<OPTIONS>] I<FILENAME>
+
+=head1 DESCRIPTION
+
+B<icehelp> is a very simple HTML browser that displays the document
+specified on the command line.  It is used by L<icewm(1)> internall to
+display the L<IceWM Manual> and the manual pages.
+
+=head1 ARGUMENTS
+
+=over
+
+=item I<FILENAME>
+
+Specifies the absolute or relative path (relative to the current working
+directory), that specifies the HTML file to browse.
+
+=back
+
+=head1 OPTIONS
+
+=head2 GENERAL OPTIONS
+
+=over
+
+=item B<-h>, B<--help>
+
+Print a brief usage statement to F<stdout> and exit.
+
+=item B<-V>, B<--version>
+
+Print the program version to F<stdout> and exit.
+
+=item B<-C>, B<--copying>
+
+Print copying permissions to F<stdout> for the program and exit.
+
+=back
+
+=head1 BUGS
+
+B<icehelp> had no known bugs at the time of release.  Please report bugs
+for current versions to the source code repository at
+L<https://github.com/bbidulock/icewm/issues>.
+
+=head1 AUTHOR
+
+Brian Bidulock L<mailto:bidulock@openss7.org>.
+
+See B<--copying> for full copyright notice and copying permissions.
+
+=head1 LICENSE
+
+B<IceWM> is licensed under the GNU Library General Public License.
+See the F<COPYING> file in the distribution or use the B<--copying> flag
+to display copying permissions.
+
+=cut
+
+# vim: set sw=4 tw=72 nocin spell spelllang=en_ca:

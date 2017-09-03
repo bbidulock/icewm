@@ -20,8 +20,6 @@
 
 #include "intl.h"
 
-AboutDlg *aboutDlg = 0;
-
 AboutDlg::AboutDlg(): YDialog() {
     char const *version("IceWM " VERSION " (" HOSTOS "/" HOSTCPU ")");
     ustring copyright =

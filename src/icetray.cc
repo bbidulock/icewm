@@ -9,14 +9,22 @@
 #include "sysdep.h"
 #include "yprefs.h"
 #include "yconfig.h"
+#include "ypointer.h"
 
 char const *ApplicationName = "icewmtray";
 
 #ifdef CONFIG_TASKBAR
-YColor *taskBarBg;
+static YColor *taskBarBg;
 
 XSV(const char *, clrDefaultTaskBar, "rgb:C0/C0/C0")
 XIV(bool,         trayDrawBevel,     false)
+
+YColor* getTaskBarBg() {
+    if (taskBarBg == 0) {
+        taskBarBg = new YColor(clrDefaultTaskBar);
+    }
+    return taskBarBg;
+}
 #endif
 
 class SysTray: public YWindow, public YXTrayNotifier {
@@ -36,7 +44,7 @@ private:
     Atom icewm_internal_tray;
     Atom manager;
     Atom _NET_SYSTEM_TRAY_OPCODE;
-    YXTray *fTray2;
+    osmart<YXTray> fTray2;
 };
 
 class SysTrayApp: public YXApplication {
@@ -47,12 +55,12 @@ public:
     ~SysTrayApp();
 
     void loadConfig();
-    bool filterEvent(const XEvent &xev);
-    void handleSignal(int sig);
+    virtual bool filterEvent(const XEvent &xev);
+    virtual void handleSignal(int sig);
 
 private:
     Atom _ICEWM_ACTION;
-    SysTray *tray;
+    osmart<SysTray> tray;
     const char* configFile;
     const char* overrideTheme;
 };
@@ -138,7 +146,9 @@ void SysTrayApp::loadConfig() {
 }
 
 SysTrayApp::~SysTrayApp() {
-
+#ifdef CONFIG_TASKBAR
+    delete taskBarBg; taskBarBg = 0;
+#endif
 }
 
 bool SysTrayApp::filterEvent(const XEvent &xev) {
@@ -173,7 +183,7 @@ void SysTrayApp::handleSignal(int sig) {
     case SIGINT:
     case SIGTERM:
         MSG(("exiting."));
-        exit(0);
+        this->exit(0);
         return;
     }
     YXApplication::handleSignal(sig);
@@ -220,8 +230,6 @@ void SysTray::requestDock() {
 
     if (w && w != handle()) {
         XClientMessageEvent xev;
-        memset(&xev, 0, sizeof(xev));
-
         xev.type = ClientMessage;
         xev.window = w;
         xev.message_type = _NET_SYSTEM_TRAY_OPCODE;
@@ -230,12 +238,14 @@ void SysTray::requestDock() {
         xev.data.l[1] = SYSTEM_TRAY_REQUEST_DOCK;
         xev.data.l[2] = handle(); //fTray2->handle();
 
-        XSendEvent(xapp->display(), w, False, StructureNotifyMask, (XEvent *) &xev);
+        XSendEvent(xapp->display(), w, False,
+                   StructureNotifyMask, (XEvent *) &xev);
     }
 }
 
 bool SysTray::checkMessageEvent(const XClientMessageEvent &message) {
-    if (message.message_type == manager && (Atom) message.data.l[1] == icewm_internal_tray) {
+    if (message.message_type == manager &&
+            (Atom) message.data.l[1] == icewm_internal_tray) {
         MSG(("requestDock"));
         requestDock();
     }
@@ -244,7 +254,7 @@ bool SysTray::checkMessageEvent(const XClientMessageEvent &message) {
 
 static const char* get_help_text() {
     return _(
-    "  --notify            Notify parent process by sending signal USR1.\n"
+    "  -n, --notify        Notify parent process by sending signal USR1.\n"
     "  --display=NAME      Use NAME to connect to the X server.\n"
     "  --sync              Synchronize communication with X11 server.\n"
     "\n"
@@ -263,17 +273,13 @@ int main(int argc, char **argv) {
     for (char **arg = 1 + argv; arg < argv + argc; ++arg) {
         if (**arg == '-') {
             char* value(0);
-            if (is_long_switch(*arg, "notify")) {
+            if (is_switch(*arg, "n", "notify")) {
                 notifyParent = true;
             }
-            else if (GetLongArgument(value, "config", arg, argv+argc)
-                ||  GetShortArgument(value, "c", arg, argv+argc))
-            {
+            else if (GetArgument(value, "c", "config", arg, argv+argc)) {
                 configFile = value;
             }
-            else if (GetLongArgument(value, "theme", arg, argv+argc)
-                ||   GetShortArgument(value, "t", arg, argv+argc))
-            {
+            else if (GetArgument(value, "t", "theme", arg, argv+argc)) {
                 overrideTheme = value;
             }
             else if (is_help_switch(*arg)) {

@@ -71,6 +71,9 @@ void BrowseMenu::updatePopup() {
                 }
 #endif
             }
+            else if (sub) {
+                delete sub;
+            }
         }
     }
 }

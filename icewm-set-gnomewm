@@ -6,11 +6,11 @@ do
         -h|-?|--help|--?)
             echo "Usage: $0"
             echo "Set the Gnome windowmanager to IceWM"
-            exit 1
+            exit 0
             ;;
         -V|--version)
             echo "$0 VERSION, Copyrighted."
-            exit 1
+            exit 0
             ;;
         *)
             : echo "$0: Ignoring argument '$arg'." >&2

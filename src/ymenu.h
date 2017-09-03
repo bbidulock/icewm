@@ -36,7 +36,7 @@ public:
 #endif
 
     YMenuItem *add(YMenuItem *item);
-    YMenuItem *addSorted(YMenuItem *item, bool duplicates);
+    YMenuItem *addSorted(YMenuItem *item, bool duplicates, bool ignoreCase = false);
     YMenuItem *addItem(const ustring &name, int hotCharPos, const ustring &param, YAction *action);
     YMenuItem *addItem(const ustring &name, int hotCharPos, YAction *action, YMenu *submenu);
     YMenuItem *addSubmenu(const ustring &name, int hotCharPos, YMenu *submenu);

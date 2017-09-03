@@ -74,7 +74,7 @@ YLocale::YLocale(char const * localeName) {
 
     union { int i; char c[sizeof(int)]; } endian; endian.i = 1;
 
-    MSG(("locale: %s, MB_CUR_MAX: %d, "
+    MSG(("locale: %s, MB_CUR_MAX: %zd, "
          "multibyte: %d, codeset: %s, endian: %c",
          fLocaleName, MB_CUR_MAX, multiByte, codeset, endian.c ? 'b' : 'l'));
 

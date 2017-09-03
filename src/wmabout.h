@@ -26,6 +26,4 @@ private:
     YLabel *fLanguage;
 };
 
-extern AboutDlg *aboutDlg;
-
 #endif

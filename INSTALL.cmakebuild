@@ -33,8 +33,10 @@ Developer/Integrator notes:
  * use cmake -DCMAKE_INSTALL_PREFIX=... (or related variables, see
    CMakeLists.xt) to specify the target file space (default is /usr/local)
  * make install DESTDIR=/tmp/elsewhere copies to another target location
- * Potential tuning options:
-   -DEXTRA_LIBS="-flto -lsupc++" -DCMAKE_CXX_FLAGS="-flto"
+ * Potential tuning options for smaller and/or smaller binaries, build
+   analysis, ...
+   -DEXTRA_LIBS="-lsupc++"
+   -DENABLE_LTO=ON
    -DEXTRA_MSGMERGE=--verbose -DEXTRA_MSGFMT=--verbose
  * There is also a configuration example for debug builds in rebuild.sh,
    see there fore details

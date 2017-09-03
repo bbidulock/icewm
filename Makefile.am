@@ -1,7 +1,7 @@
 
 ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS = src po doc lib
+SUBDIRS = src po doc man lib
 
 EXTRA_DIST = INSTALL COPYING AUTHORS NEWS README README.md README.md.in THANKS TODO ChangeLog
 
@@ -27,7 +27,7 @@ dist-hook:
 		)>$(distdir)/NEWS ; \
 	fi ; \
 	chmod u+w $(distdir)/{README.md,README} ; \
-	sed -r -e 's:\@PACKAGE\@:$(PACKAGE):g;s:\@VERSION\@:$(VERSION):g;s:\@DATE\@:$(DATE):g' $(distdir)/README.md.in >$(distdir)/README.md ; \
+	sed -r -e 's:\@PACKAGE\@:$(PACKAGE):g;s:\@VERSION\@:$(VERSION):g;s:\@DATE\@:$(DATE):g;s:\@BRANCH\@:$(BRANCH):g' $(distdir)/README.md.in >$(distdir)/README.md ; \
 	cat $(distdir)/README.md | fmt -sct -w80 -g72 >$(distdir)/README
 
 ChangeLog:
@@ -56,7 +56,7 @@ NEWS:
 	else touch $@ ; fi
 
 README.md: README.md.in
-	sed -r -e 's:\@PACKAGE\@:$(PACKAGE):g;s:\@VERSION\@:$(VERSION):g;s:\@DATE\@:$(DATE):g' $< >$@
+	sed -r -e 's:\@PACKAGE\@:$(PACKAGE):g;s:\@VERSION\@:$(VERSION):g;s:\@DATE\@:$(DATE):g;s:\@BRANCH\@:$(BRANCH):g' $< >$@
 
 README: README.md
 	cat $< | fmt -sct -w80 -g72 >$@
@@ -100,10 +100,10 @@ EXTRA_DIST += icewm.spec.in icewm.spec icewm.lsm.in icewm.lsm
 DISTCLEANFILES += icewm.spec icewm.lsm
 
 icewm.spec: icewm.spec.in
-	sed -r -e 's:%%PACKAGE%%:$(PACKAGE):g;s:%%VERSION%%:$(VERSION):g;s:%%DATE%%:$(DATE):g' $< >$@
+	sed -r -e 's:%%PACKAGE%%:$(PACKAGE):g;s:%%VERSION%%:$(VERSION):g;s:%%DATE%%:$(DATE):g;s:%%BRANCH%%:$(BRANCH):g' $< >$@
 
 icewm.lsm: icewm.lsm.in
-	sed -r -e 's:%%PACKAGE%%:$(PACKAGE):g;s:%%VERSION%%:$(VERSION):g;s:%%DATE%%:$(DATE):g' $< >$@
+	sed -r -e 's:%%PACKAGE%%:$(PACKAGE):g;s:%%VERSION%%:$(VERSION):g;s:%%DATE%%:$(DATE):g;s:%%BRANCH%%:$(BRANCH):g' $< >$@
 
 dist_bin_SCRIPTS = \
 	icewm-set-gnomewm

@@ -9,7 +9,6 @@
 #include "config.h"
 
 #ifdef CONFIG_TASKBAR
-#include "ypixbuf.h"
 #include "yfull.h"
 #include "ypaint.h"
 #include "wmtaskbar.h"
@@ -55,7 +54,13 @@ YTimer *WorkspaceButton::fRaiseTimer(NULL);
 
 TaskBar *taskBar = 0;
 
-YColor *taskBarBg = 0;
+static YColor* taskBarBg = 0;
+YColor* getTaskBarBg() {
+    if (taskBarBg == 0) {
+        taskBarBg = new YColor(clrDefaultTaskBar);
+    }
+    return taskBarBg;
+}
 
 static void initPixmaps() {
 #ifdef CONFIG_GRADIENTS
@@ -141,11 +146,7 @@ bool EdgeTrigger::handleTimer(YTimer *t) {
 }
 
 TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener, YSMListener *smActionListener):
-#if 1
-YFrameClient(aParent, 0) INIT_GRADIENT(fGradient, NULL)
-#else
-    YWindow(aParent) INIT_GRADIENT(fGradient, NULL)
-#endif
+    YFrameClient(aParent, 0) INIT_GRADIENT(fGradient, null)
 {
     taskBar = this;
  
@@ -161,15 +162,10 @@ YFrameClient(aParent, 0) INIT_GRADIENT(fGradient, NULL)
     fAddressBar = 0;
     fShowDesktop = 0;
 
-    if (taskBarBg == 0) {
-        taskBarBg = new YColor(clrDefaultTaskBar);
-    }
-
     ///setToplevel(true);
 
     initPixmaps();
 
-#if 1
     setWindowTitle(_("Task Bar"));
     setIconTitle(_("Task Bar"));
     setClassHint("icewm", "TaskBar");
@@ -200,13 +196,10 @@ YFrameClient(aParent, 0) INIT_GRADIENT(fGradient, NULL)
     getProtocols(false);
 
     {
-        XWMHints wmh;
-
-        memset(&wmh, 0, sizeof(wmh));
+        XWMHints wmh = {};
         wmh.flags = InputHint;
         wmh.input = False;
-        //wmh.
-
+        wmh.initial_state = WithdrawnState;
         XSetWMHints(xapp->display(), handle(), &wmh);
     }
     {
@@ -230,9 +223,6 @@ YFrameClient(aParent, 0) INIT_GRADIENT(fGradient, NULL)
 
         setMwmHints(mwm);
     }
-#else
-    setStyle(wsOverrideRedirect);
-#endif
     {
         long arg[2];
         arg[0] = NormalState;
@@ -277,11 +267,26 @@ TaskBar::~TaskBar() {
     delete fApm; fApm = 0;
 #endif
 #ifdef CONFIG_APPLET_CPU_STATUS
-    delete [] fCPUStatus;
+    if (fCPUStatus) {
+        for (int i = 0; fCPUStatus[i]; ++i)
+            delete fCPUStatus[i];
+        delete[] fCPUStatus; fCPUStatus = 0;
+    }
 #endif
 #ifdef HAVE_NET_STATUS
-    delete [] fNetStatus;
+    if (fNetStatus) {
+        for (int i = 0; fNetStatus[i]; ++i)
+            delete fNetStatus[i];
+        delete[] fNetStatus; fNetStatus = 0;
+    }
 #endif
+#ifdef CONFIG_ADDRESSBAR
+    delete fAddressBar; fAddressBar = 0;
+#endif
+    delete fCollapseButton; fCollapseButton = 0;
+    delete fShowDesktop; fShowDesktop = 0;
+    delete taskBarMenu; taskBarMenu = 0;
+    delete taskBarBg; taskBarBg = 0;
     taskBar = 0;
     MSG(("taskBar delete"));
 }
@@ -344,26 +349,24 @@ void TaskBar::initApplets() {
 #ifdef CONFIG_APPLET_NET_STATUS
     fNetStatus = 0;
 #ifdef HAVE_NET_STATUS
-    if (taskBarShowNetStatus && netDevice) {
-        mstring networkDevices(netDevice);
-        mstring s(null), r(null);
+    if (taskBarShowNetStatus && netDevice && netDevice[0]) {
+        mstring devName(null), devList(netDevice);
         int cnt = 0;
 
-        for (s = networkDevices; s.splitall(' ', &s, &r); s = r)
-            if (s.nonempty())
-                cnt++;
-
-        networkDevices = netDevice;
+        while (devList.splitall(' ', &devName, &devList))
+            cnt += devName.nonempty();
 
         if (cnt) {
             fNetStatus = new NetStatus*[cnt + 1];
             fNetStatus[cnt--] = NULL;
 
-            for (s = networkDevices; s.splitall(' ', &s, &r); s = r) {
-                if (s.isEmpty())
+            devList = netDevice;
+            while (devList.splitall(' ', &devName, &devList)) {
+                if (devName.isEmpty())
                     continue;
 
-                fNetStatus[cnt--] = new NetStatus(app, smActionListener, s, this, this);
+                fNetStatus[cnt--] = new NetStatus(app, smActionListener,
+                                                  devName, this, this);
             }
         }
     }
@@ -593,19 +596,18 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
     nw = LayoutInfo( fWindowTray, false, 0, true, 1, 1, true );
     wlist.append(nw);
 #endif
-    const unsigned long wcount = wlist.getCount();
+    const int wcount = wlist.getCount();
 
     int w = 0;
     int y[2] = { 0, 0 };
     int h[2] = { 0, 0 };
     int left[2] = { 0, 0 };
     int right[2] = { 0, 0 };
-    unsigned long i;
 
     if (!taskBarDoubleHeight)
-        for (i = 0; i < wcount; i++)
+        for (int i = 0; i < wcount; i++)
             wlist[i].row = 0;
-    for (i = 0; i < wcount; i++) {
+    for (int i = 0; i < wcount; i++) {
         if (!wlist[i].w)
              continue;
         if (wlist[i].w->height() > h[wlist[i].row])
@@ -644,7 +646,7 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
 #endif
     }
 
-    for (i = 0; i < wcount; i++) {
+    for (int i = 0; i < wcount; i++) {
         if (!wlist[i].w)
             continue;
         if (!wlist[i].show && !wlist[i].w->visible())
@@ -711,16 +713,16 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
 
 void TaskBar::relayoutNow() {
 #ifdef CONFIG_TRAY
-    if (taskBar && taskBar->windowTrayPane())
-        taskBar->windowTrayPane()->relayoutNow();
+    if (windowTrayPane())
+        windowTrayPane()->relayoutNow();
 #endif
     if (fNeedRelayout) {
 
         updateLocation();
         fNeedRelayout = false;
     }
-    if (taskBar->taskPane())
-        taskBar->taskPane()->relayoutNow();
+    if (taskPane())
+        taskPane()->relayoutNow();
 }
 
 void TaskBar::updateFullscreen(bool fullscreen) {
@@ -736,7 +738,6 @@ void TaskBar::updateLocation() {
     manager->getScreenGeometry(&dx, &dy, &dw, &dh, -1);
 
     int x = dx;
-    int y = dy;
     int w = 0;
     int h = 0;
 
@@ -755,10 +756,6 @@ void TaskBar::updateLocation() {
         }
 
         x = dw - w;
-        if (taskBarAtTop)
-            y = 0;
-        else
-            y = dh - h;
 
         if (fCollapseButton) {
             fCollapseButton->show();
@@ -767,16 +764,11 @@ void TaskBar::updateLocation() {
         }
     }
 
-    //if (fIsHidden) {
-    //    h = 1;
-    //    y = taskBarAtTop ? dy : dy + dh - 1;
-    //} else {
-        y = taskBarAtTop ? dy : dy + dh - h;
-    //}
-
     int by = taskBarAtTop ? dy : dy + dh - 1;
 
     fEdgeTrigger->setGeometry(YRect(x, by, w, 1));
+
+    int y = taskBarAtTop ? dy : dy + dh - h;
 
     if (fIsHidden) {
         if (fIsMapped && getFrame())
@@ -875,17 +867,19 @@ void TaskBar::handleEndPopup(YPopupWindow *popup) {
 void TaskBar::paint(Graphics &g, const YRect &/*r*/) {
 #ifdef CONFIG_GRADIENTS
     if (taskbackPixbuf != null &&
-        !(fGradient != null &&
-          fGradient->width() == width() &&
-          fGradient->height() == height()))
+        (fGradient == null ||
+         fGradient->width() != width() ||
+         fGradient->height() != height()))
     {
-        fGradient = taskbackPixbuf->scale(width(), height());
+        int gradientHeight = height() / (1 + taskBarDoubleHeight);
+        fGradient = taskbackPixbuf->scale(width(), gradientHeight);
     }
 #endif
 
-    g.setColor(taskBarBg);
+    g.setColor(getTaskBarBg());
     //g.draw3DRect(0, 0, width() - 1, height() - 1, true);
 
+    // When TaskBarDoubleHeight=1 this draws the upper half.
 #ifdef CONFIG_GRADIENTS
     if (fGradient != null)
         g.drawImage(fGradient, 0, 0, width(), height(), 0, 0);
@@ -898,10 +892,10 @@ void TaskBar::paint(Graphics &g, const YRect &/*r*/) {
             g.fillRect(0, y, width(), height() - 1);
             if (!taskBarAtTop) {
                 y++;
-                g.setColor(taskBarBg->brighter());
+                g.setColor(getTaskBarBg()->brighter());
                 g.drawLine(0, 0, width(), 0);
             } else {
-                g.setColor(taskBarBg->darker());
+                g.setColor(getTaskBarBg()->darker());
                 g.drawLine(0, height() - 1, width(), height() - 1);
             }
         }
