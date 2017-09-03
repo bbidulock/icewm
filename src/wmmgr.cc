@@ -3431,7 +3431,7 @@ void YWindowManager::doWMAction(long action) {
     memset(&xev, 0, sizeof(xev));
 
     xev.type = ClientMessage;
-    xev.window = handle();
+    xev.window = xapp->root();
     xev.message_type = _XA_ICEWM_ACTION;
     xev.format = 32;
     xev.data.l[0] = CurrentTime;
@@ -3439,7 +3439,7 @@ void YWindowManager::doWMAction(long action) {
 
     MSG(("new mask/state: %ld/%ld", xev.data.l[0], xev.data.l[1]));
 
-    XSendEvent(xapp->display(), handle(), False, SubstructureNotifyMask, (XEvent *) &xev);
+    XSendEvent(xapp->display(), xapp->root(), False, SubstructureNotifyMask, (XEvent *) &xev);
 }
 
 #ifdef CONFIG_XRANDR
