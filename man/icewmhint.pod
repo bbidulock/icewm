@@ -6,7 +6,7 @@
 
 =head1 SYNOPSIS
 
-B<icewmhint> [I<CLASS>B<.>I<INSTANCE>] I<OPTION> I<ARGUMENT>
+B<icewmhint> [I<CLASS>B<.>I<INSTANCE>] I<OPTION> I<VALUE>
 
 =head1 DESCRIPTION
 
@@ -60,299 +60,133 @@ and resource class separated by a period (C<.>).  For example:
 C<XTerm.xterm>.  This argument must be specified for all commands
 affecting client windows.
 
-=item I<OPTION> I<ARGUMENT>
+=item I<OPTION> I<VALUE>
 
-Specifies the I<OPTION> to affect and the I<ARGUMENT> that goes with the
+Specifies the I<OPTION> to affect and the I<VALUE> that goes with the
 option.  Options and their arguments are as follows:
+
+=back
+
+=head2 GENERAL OPTION ARGUMENTS
+
+General option arguments are normally associated with GNOME WinWM/WMH
+hints (except for the tray option argument).
 
 =over
 
-=item B<icon> I<ARGUMENT>
+=item B<icon> I<NAME>
 
 Specifies the icon name for windows of I<CLASS>B<.>I<INSTANCE>.
-I<ARGUMENT> should be the name of the icon.  L<icewm(1)> will use is
-usual method to find the icon.
+I<NAME> should be the name of the icon.  L<icewm(1)> will use is
+usual method to find the icon.  The default is the name provided by
+window manager hints.
 
-=item B<workspace> I<ARGUMENT>
+=item B<workspace> I<WORKSPACE>
 
 Specifies the workspace on which a window of I<CLASS>B<.>I<INSTANCE>
-will be initially placed.  I<ARGUMENT> should be a numeric workspace
+will be initially placed.  The default is to place the window on the
+current workspace.  I<WORKSPACE> should be a numeric workspace
 number (counting from 0).
 
-=item B<geometry> I<ARGUMENT>
+=item B<geometry> I<GEOMETRY>
 
 Specifies the initial geometry for windows of the given
-I<CLASS>B<.>I<INSTANCE>.  I<ARGUMENT> must be a geometry that can be
-parsed by L<XParseGeometry(3)>.
+I<CLASS>B<.>I<INSTANCE>.  I<GEOMETRY> must be a geometry that can be
+parsed by L<XParseGeometry(3)>.  The default is the geometry provided by
+window manager hints.
 
-=item B<layer> I<ARGUMENT>
+=item B<layer> {B<Desktop>|B<Below>|B<Normal>|B<OnTop>|B<Dock>|B<AboveDock>|B<Menu>|I<NUMBER>}
 
 The layer is a similar concept to the layer specified by GNOME/WMH and
 implied by NetWM/EWMH.  It is in this case however specific to
 L<icewm(1)>.
 
 The command option specifies the layer to be associated with an
-I<CLASS>B<.>I<INSTANCE>.  I<ARGUMENT> is either a numeric layer number
-or a symbolic layer name.  Symbolic layer names are one of the
-following:
+I<CLASS>B<.>I<INSTANCE>.  The default is the C<Normal> layer.  I<VALUE>
+is either a numeric layer I<NUMBER> or a symbolic layer name.  Symbolic
+layer names are one of the following:
 
-=over
+B<>    B<Desktop>    (0)  desktop window layer.
+    B<Below>      (2)  below normal windows.
+    B<Normal>     (4)  default window layer.
+    B<OnTop>      (6)  above normal windows.
+    B<Dock>       (8)  docks (panels and edge displays).
+    B<AboveDock> (10)  above docks.
+    B<Menu>      (12)  above everything else.
 
-=item B<Desktop> (0)
-
-The layer of the desktop.  This is the bottom layer above the root
-window.  It is the layer on which desktops normally place their icons
-and background images.
-
-=item B<Below> (2)
-
-The layer below other windows but immediately above the desktop.
-
-=item B<Normal> (4)
-
-The normal layer for stacking client windows.
-
-=item B<OnTop> (6)
-
-Above normal windows, but below the dock.
-
-=item B<Dock> (8)
-
-The layer upon which panels and docks are normally placed.
-
-=item B<AboveDock> (10)
-
-The layer above the dock.
-
-=item B<Menu> (12)
-
-The menu layer (above everything else).  Pop up menus are not normally
-placed by the window manager: these menus have permanent windows, such
-as pinned menus.
-
-=back
-
-=item B<tray> I<ARGUMENT>
+=item B<tray> {B<Ignore>|B<Minimized>|B<Exclusive>|I<NUMBER>}
 
 Specifies the tray handling to be applied to windows with
 I<CLASS>B<.>I<INSTANCE>.  This option is specific to L<icewm(1)> and
 sets the C<_ICEWM_TRAY> property associated with the window.
-I<ARGUMENT> can be a numerical option number or a symbolic name as
-follows:
+The default is C<Ignore>.  I<VALUE> can be a numerical option I<NUMBER>
+or a symbolic name as follows:
 
-=over
+B<>    B<Ignore>     (0)  only in task list.
+    B<Minimized>  (1)  icon in tray, task list unminimized.
+    B<Exclusive>  (2)  only in tray, not in task list.
 
-=item B<Ignore> (0)
-
-Do not add an icon to the tray pane.
-The window button only appears on the task pane.
-
-=item B<Minimized> (1)
-
-Add an icon to the tray pane.  Remove the task pane button when
-minimized.
-The window has its icon on the tray pane and when it is not minimized it
-has also a window button on the task pane.  There is no window button on
-the task pane when the window is minimized.
-
-=item B<Exclusive> (2)
-
-Add an icon to the tray pane.  Never create a task pane button.
-The window has only its icon on the tray pane and there is no window
-button on the task pane.
-
-=back
-
-=item I<FUNCTION> {B<0>|B<1>}
+=head2 FUNCTION OPTION ARGUMENTS
 
 Specifies which functions are disabled/enabled (0/1) for windows with
-I<CLASS>B<.>I<INSTANCE>.  The Motif-like functions are as follows:
+I<CLASS>B<.>I<INSTANCE>.  All function options have a default value of
+enabled (1) unless overridden by the application.  The Motif-like
+functions are as follows:
 
-=over
+B<>    B<fMove>      can be moved.         (default: 1)
+    B<fResize>    can be resized.       (default: 1)
+    B<fClose>     can be closed.        (default: 1)
+    B<fMinimize>  can be minimized.     (default: 1)
+    B<fMaximize>  can be maximized.     (default: 1)
+    B<fHide>      can be hidden.        (default: 1)
+    B<fRollup>    can be shaded.        (default: 1)
 
-=item B<fMove>
-
-Whether the window can be moved or not.
-
-=item B<fResize>
-
-Whether the window can be resized or not.
-
-=item B<fClose>
-
-Whether the window can be closed or not.
-
-=item B<fMinimize>
-
-Whether the window can be minimized or not.
-
-=item B<fMaximize>
-
-Whether the window can be maximized or not.
-
-=item B<fHide>
-
-Whether the window can be hidden or not.
-
-=item B<fRollup>
-
-Whether the window can be rolled up or not.
-
-=back
-
-=item I<DECOR> {B<0>|B<1>}
+=head2 DECOR OPTION ARGUMENTS
 
 Specifies which decorations are disabled/enabled (0/1) for windows with
-I<CLASS>B<.>I<INSTANCE>.  The Motif-like decorations are as follows:
+I<CLASS>B<.>I<INSTANCE>.  All decor options have a default value of
+enabled (1) unless overridden by the application. The Motif-like
+decorations are as follows:
 
-=over
+B<>    B<dTitleBar>  has title bar.        (default: 1)
+    B<dSysMenu>   has window menu.      (default: 1)
+    B<dBorder>    has border.           (default: 1)
+    B<dResize>    has resize grips.     (default: 1)
+    B<dClose>     has close button.     (default: 1)
+    B<dMinimize>  has minimize button.  (default: 1)
+    B<dMaximize>  has maximize button.  (default: 1)
+    B<dHide>      has hide button.      (default: 1)
+    B<dRollup>    has shade button.     (default: 1)
+    B<dDepth>     has depth button.     (default: 1)
 
-=item B<dTitleBar>
-
-Whether the window has a title bar or not.
-
-=item B<dSysMenu>
-
-Whether the window has a window menu or not.
-
-=item B<dBorder>
-
-Whether the window has a border or not.
-
-=item B<dResize>
-
-Whether the window has a resize button (or menu item) or not.
-
-=item B<dClose>
-
-Whether the window has a close button (or menu item) or not.
-
-=item B<dMinimize>
-
-Whether the window has a minimize button (or menu item) or not.
-
-=item B<dMaximize>
-
-Whether the window has a maximize button (or menu item) or not.
-
-=item B<dHide>
-
-Whether the window has a hide button (or menu item) or not.
-
-=item B<dRollup>
-
-Whether the window has a shade button (or menu item) or not.
-
-=item B<dDepth>
-
-Whether the window has a depth button (or menu item) or not.
-
-=back
-
-=item I<FEATURE> {B<0>|B<1>}
+=head2 FEATURE OPTION ARGUMENTS
 
 Specifies which advanced features to be enabled/disabled (1/0) for
-windows with I<CLASS>B<.>I<INSTANCE>.  The advanced features are as
-follows:
+windows with I<CLASS>B<.>I<INSTANCE>.  All advanced features have a
+default value of disabled (0) unless overridden by the application.  The
+advanced features are as follows:
 
-=over
-
-=item B<allWorkspaces>
-
-Whether the window occupies all workspaces or not.
-
-=item B<ignoreTaskBar>
-
-Whether the window is to appear on the taskbar or not when it would
-normally appear on the task bar.
-
-=item B<noIgnoreTaskBar>
-
-Whether the window is to appear on the taskbar or not when it would
-normally not appear on the task bar.
-
-=item B<ignoreWinList>
-
-Whether to ignore the window in the window list or not.
-
-=item B<ignoreQuickSwitch>
-
-Whether to ignore the window in the quick switch list or not.
-
-=item B<fullKeys>
-
-Whether to permit all key presses and releases to be passed to the
-client window or not.
-
-=item B<noFocusOnAppRaise>
-
-Whether to focus the window when raised or not.
-
-=item B<ignoreNoFocusHint>
-
-Whether to ignore ICCCM 2.0 specifications associated with the window
-that specify that it is not allowed to be given focus.
-
-=item B<ignorePositionHint>
-
-Whether to ignore ICCCM 2.0 specifications for positioning of the window
-when initially mapped.
-
-=item B<doNotCover>
-
-Whether or not to allow the window to be covered.
-
-=item B<doNotFocus>
-
-Whether to allow focus to the window or not.
-
-=item B<startFullscreen>
-
-Whether to start such windows in full screen mode.
-
-=item B<startMinimized>
-
-Whether to start such windows minimized.
-
-=item B<startMaximized>
-
-Whether to start such windows maximized.
-
-=item B<startMaximizedVert>
-
-Whether to start such windows maximized vertically.
-
-=item B<startMaximizedHorz>
-
-Whether to start such windows maximized horizontally.
-
-=item B<nonICCCMconfigureRequest>
-
-Whether such windows do not accept ICCCM 2.0 compliant configure
-requests.
-
-=item B<forcedClose>
-
-Whether to force close (kill) a window when it will not close.
-
-=item B<noFocusOnMap>
-
-Whether to focus such windows when mapped or not.
-
-=item B<ignoreUrgentHint>
-
-Whether to ignore the ICCCM urgent hint for such windows.
-
-=item B<appTakesFocus>
-
-Whether to give focus to such windows or to instead have the application
-take focus only when it wants.
-
-=back
-
-=back
-
-=back
+B<>    B<allWorkspaces>             on all workspaces.
+    B<ignoreTaskBar>             not on task bar.
+    B<noIgnoreTaskBar>           on task bar.
+    B<ignoreWinList>             not on window list.
+    B<ignoreQuickSwitch>         not on quick switch.
+    B<fullKeys>                  provided more keys.
+    B<noFocusOnAppRaise>         no focus on raise.
+    B<ignoreNoFocusHint>         focus even no-input.
+    B<ignorePositionHint>        place automatically.
+    B<doNotCover>                dock: do not cover.
+    B<doNotFocus>                do not focus.
+    B<startFullscreen>           start full screen.
+    B<startMinimized>            start minimized.
+    B<startMaximized>            start maximized.
+    B<startMaximizedVert>        start maximized vertical.
+    B<startMaximizedHorz>        start maximized horizontal.
+    B<nonICCCMconfigureRequest>  more configure requests.
+    B<forcedClose>               no close dialog.
+    B<noFocusOnMap>              do not focus when mapped.
+    B<ignoreUrgentHint>          ignore urgent hints.
+    B<appTakesFocus>             let application take focus.
 
 =head1 BUGS
 
