@@ -115,190 +115,62 @@ B<>  B<Ignore>     (0)  No icon added to tray.
 
 =head2 FUNCTION OPTIONS
 
-The following options control the ability to take an action on the
-window:
+Function options enable/disable (1/0) the ability to take an action on
+the window.  The normal default for all options is enabled (1) unless
+overridden by the application.  The following options are defined:
 
-=over
-
-=item B<fMove>: {B<0>|B<1>} (default: 1)
-
-When set to 0, the window cannot be moved.
-
-=item B<fResize>: {B<0>|B<1>} (default: 1)
-
-When set to 0, the window cannot be resized.
-
-=item B<fClose>: {B<0>|B<1>} (default: 1)
-
-When set to 0, the window cannot be closed.
-
-=item B<fMinimize>: {B<0>|B<1>} (default: 1)
-
-When set to 0, the window cannot be minimized.
-
-=item B<fMaximize>: {B<0>|B<1>} (default: 1)
-
-When set to 0, the window cannot be maximized.
-
-=item B<fHide>: {B<0>|B<1>} (default: 1)
-
-When set to 0, the window cannot be hidden.
-
-=item B<fRollup>: {B<0>|B<1>} (default: 1)
-
-When set to 0, the window cannot be shaded.
-
-=back
+B<>  B<fMove>:     {B<0>|B<1>}  can be moved.         (default: 1)
+  B<fResize>:   {B<0>|B<1>}  can be resized.       (default: 1)
+  B<fClose>:    {B<0>|B<1>}  can be closed.        (default: 1)
+  B<fMinimize>: {B<0>|B<1>}  can be minimized.     (default: 1)
+  B<fMaximize>: {B<0>|B<1>}  can be maximized.     (default: 1)
+  B<fHide>:     {B<0>|B<1>}  can be hidden.        (default: 1)
+  B<fRollup>:   {B<0>|B<1>}  can be shaded.        (default: 1)
 
 =head2 DECOR OPTIONS
 
-The following options control the decorations on the window:
+Decor options enable/disable (1/0) decorations on the window.  The
+normal default for all options is enabled (1) unless overridden by the
+application.  The following options are defined:
 
-=over
-
-=item B<dTitleBar>: {B<0>|B<1>} (default: 1)
-
-When set to 0, the window will not have a title bar.
-
-=item B<dSysMenu>: {B<0>|B<1>} (default: 1)
-
-When set to 0, the window will not have a system menu.
-
-=item B<dBorder>: {B<0>|B<1>} (default: 1)
-
-When set to 0, the window will not have a border.
-
-=item B<dResize>: {B<0>|B<1>} (default: 1)
-
-When set to 0, the window will not have resize grips.
-
-=item B<dClose>: {B<0>|B<1>} (default: 1)
-
-When set to 0, the window will not have a close button.
-
-=item B<dMinimize>: {B<0>|B<1>} (default: 1)
-
-When set to 0, the window will not have a minimize button.
-
-=item B<dMaximize>: {B<0>|B<1>} (default: 1)
-
-When set to 0, the window will not have a maximize button.
-
-=item B<dHide>: {B<0>|B<1>} (default: 1)
-
-When set to 0, the window will not have a hide button.
-
-=item B<dRollup>: {B<0>|B<1>} (default: 1)
-
-When set to 0, the window will not have a shade button.
-
-=item B<dDepth>: {B<0>|B<1>} (default: 1)
-
-When set to 0, the window will not have a depth button.
-
-=back
+B<>  B<dTitleBar>: {B<0>|B<1>}  has title bar.        (default: 1)
+  B<dSysMenu>:  {B<0>|B<1>}  has window menu.      (default: 1)
+  B<dBorder>:   {B<0>|B<1>}  has border.           (default: 1)
+  B<dResize>:   {B<0>|B<1>}  has resize grips.     (default: 1)
+  B<dClose>:    {B<0>|B<1>}  has close button.     (default: 1)
+  B<dMinimize>: {B<0>|B<1>}  has minimize button.  (default: 1)
+  B<dMaximize>: {B<0>|B<1>}  has maximize button.  (default: 1)
+  B<dHide>:     {B<0>|B<1>}  has hide button.      (default: 1)
+  B<dRollup>:   {B<0>|B<1>}  has shade button.     (default: 1)
+  B<dDepth>:    {B<0>|B<1>}  has depth button.     (default: 1)
 
 =head2 FEATURE OPTIONS
 
-=over
+Feature options enable/disable (1/0) additional features of the window.
+The normal default for all options is disabled (0) unless overridden by
+the application.  The following options are defined:
 
-=item B<allWorkspaces>: {B<0>|B<1>} (default: 0)
-
-When set to 1, the window will be visible on all workspaces.
-
-=item B<ignoreTaskBar>: {B<0>|B<1>} (default: 0)
-
-When set to 1, the window will not appear in the task bar.
-
-=item B<noIgnoreTaskBar>: {B<0>|B<1>} (default: 0)
-
-When set to 1, the window will appear in the task bar.
-
-=item B<ignoreWinList>: {B<0>|B<1>} (default: 0)
-
-When set to 1, the window will not appear in the window list.
-
-=item B<ignoreQuickSwitch>: {B<0>|B<1>} (default: 0)
-
-When set to 1, the window will not be accessible using the quick-switch
-feature (i.e C<Alt+Tab>).
-
-=item B<fullKeys>: {B<0>|B<1>} (default: 0)
-
-When set to 1, L<icewm(1)> will leave more keys available to the
-application.
-
-=item B<noFocusOnAppRaise>: {B<0>|B<1>} (default: 0)
-
-When set to 1, the window will not automatically get focus as the
-application raises it.
-
-=item B<ignoreNoFocusHint>: {B<0>|B<1>} (default: 0)
-
-When set to 1, L<icewm(1)> will focus the window even if the window does
-not handle input (according to ICCCM procedures).
-
-=item B<ignorePositionHint>: {B<0>|B<1>} (default: 0)
-
-When set to 1, L<icewm(1)> will position the window automatically
-regardless of whether the application specifies the window position
-(using ICCCM procedures).
-
-=item B<doNotCover>: {B<0>|B<1>} (default: 0)
-
-When set to 1, the window will limit the workspace available for regular
-applications.  The window has to also be sticky to make this work.
-
-=item B<doNotFocus>: {B<0>|B<1>} (default: 0)
-
-When set to 1, do not focus the window even when it is capable of taking
-keyboard focus.
-
-=item B<startFullscreen>: {B<0>|B<1>} (default: 0)
-
-When set to 1, start the window in the full-screen mode.
-
-=item B<startMinimized>: {B<0>|B<1>} (default: 0)
-
-When set to 1, start the window in the minimized state.
-
-=item B<startMaximized>: {B<0>|B<1>} (default: 0)
-
-When set to 1, start the window in the maximized state.
-
-=item B<startMaximizedVert>: {B<0>|B<1>} (default: 0)
-
-When set to 1, start the window in the maximized vertical state.
-
-=item B<startMaximizedHorz>: {B<0>|B<1>} (default: 0)
-
-When set to 1, start the window in the maximized horizontal state.
-
-=item B<nonICCCMconfigureRequest>: {B<0>|B<1>} (default: 0)
-
-When set to 1, do not issue ICCCM compliant configuration requests to
-the application.
-
-=item B<forcedClose>: {B<0>|B<1>} (default: 0)
-
-When set to 1 and the application had not registered
-B<WM_DELETE_WINDOW>, a close confirmation dialog will not be offered
-upon closing the window.
-
-=item B<noFocusOnMap>: {B<0>|B<1>} (default: 0)
-
-When set to 1, do not focus the window when it is mapped.
-
-=item B<ignoreUrgentHint>: {B<0>|B<1>} (default: 0)
-
-When set to 1, ignore urgent hints (described in ICCCM).
-
-=item B<appTakesFocus>: {B<0>|B<1>} (default: 0)
-
-When set to 1, L<icewm(1)> will not give the focus to the application
-but will expect the application to take focus for itself.
-
-=back
+B<>  B<allWorkspaces>:            {B<1>|B<0>}  on all workspaces.
+  B<ignoreTaskBar>:            {B<1>|B<0>}  not on task bar.
+  B<noIgnoreTaskBar>:          {B<1>|B<0>}  on task bar.
+  B<ignoreWinList>:            {B<1>|B<0>}  not on window list.
+  B<ignoreQuickSwitch>:        {B<1>|B<0>}  not on quick switch.
+  B<fullKeys>:                 {B<1>|B<0>}  provided more keys.
+  B<noFocusOnAppRaise>:        {B<1>|B<0>}  no focus on raise.
+  B<ignoreNoFocusHint>:        {B<1>|B<0>}  focus even no-input.
+  B<ignorePositionHint>:       {B<1>|B<0>}  place automatically.
+  B<doNotCover>:               {B<1>|B<0>}  limits workspace if sticky.
+  B<doNotFocus>:               {B<1>|B<0>}  do not focus.
+  B<startFullscreen>:          {B<1>|B<0>}  start full screen.
+  B<startMinimized>:           {B<1>|B<0>}  start minimized.
+  B<startMaximized>:           {B<1>|B<0>}  start maximized.
+  B<startMaximizedVert>:       {B<1>|B<0>}  start maximized vertical.
+  B<startMaximizedHorz>:       {B<1>|B<0>}  start maximized horizontal.
+  B<nonICCCMconfigureRequest>: {B<1>|B<0>}  more configure requests.
+  B<forcedClose>:              {B<1>|B<0>}  no close dialog.
+  B<noFocusOnMap>:             {B<1>|B<0>}  do not focus when mapped.
+  B<ignoreUrgentHint>:         {B<1>|B<0>}  ignore urgent hints.
+  B<appTakesFocus>:            {B<1>|B<0>}  let application take focus.
 
 =head1 EXAMPLES
 
