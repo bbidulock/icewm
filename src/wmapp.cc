@@ -117,7 +117,7 @@ static Window registerProtocols1(char **argv, int argc) {
 
     if (current_wm != None) {
         if (!replace_wm)
-            die(1, "A window manager is already running, use --replace to replace it"); 
+            die(1, _("A window manager is already running, use --replace to replace it"));
       XSetWindowAttributes attrs;
       attrs.event_mask = StructureNotifyMask;
       XChangeWindowAttributes (
@@ -135,16 +135,16 @@ static Window registerProtocols1(char **argv, int argc) {
     XSetSelectionOwner(xapp->display(), wmSx, xid, timestamp);
 
     if (XGetSelectionOwner(xapp->display(), wmSx) != xid) 
-        die(1, "failed to set %s owner", buf);
+        die(1, _("failed to set %s owner"), buf);
 
     if (current_wm != None) {
         XEvent event;
-        msg("Waiting to replace the old window manager");
+        msg(_("Waiting to replace the old window manager"));
         do {
             XWindowEvent(xapp->display(), current_wm,
                          StructureNotifyMask, &event);
         } while (event.type != DestroyNotify);
-        msg("done.");
+        msg(_("done."));
     }
 
     char hostname[64] = { 0, };
