@@ -176,11 +176,9 @@ it will cease operations and typically stop execution.
 This allows IceWM to establish itself as the only active
 window manager.
 
-*--restart*::
-Instructs IceWM to restart itself, but one should not
-use this option directly. Instead one selects the
-*Restart IceWM*
-button from the menu in the lower left corner of the desktop.
+*-r, --restart*::
+Instructs the currently running IceWM to restart itself.
+This can be used when you want to reload the IceWM configuration.
 
 *--configured*::
 Shows a list of configuration options which were
