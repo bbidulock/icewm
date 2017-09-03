@@ -15,7 +15,7 @@
  * recommending the use of clock_gettime instead.
  */
 static inline timeval timeofday() {
-    timeval tv = {0, 0L};
+    timeval tv;
     gettimeofday(&tv, 0);
     return tv;
 }
@@ -34,14 +34,7 @@ static inline timeval fromspec(timespec ts) {
  */
 timeval walltime() {
 #if _POSIX_TIMERS >= 200112L
-    timespec ts = {0, 0L};
-#if defined(CLOCK_REALTIME_COARSE) && defined(__linux__)
-    if (clock_gettime(CLOCK_REALTIME_COARSE, &ts) == 0)
-        return fromspec(ts);
-#elif defined(CLOCK_REALTIME_FAST) && !defined(__linux__)
-    if (clock_gettime(CLOCK_REALTIME_FAST, &ts) == 0)
-        return fromspec(ts);
-#endif
+    timespec ts;
     if (clock_gettime(CLOCK_REALTIME, &ts) == 0)
         return fromspec(ts);
 #endif
@@ -54,14 +47,7 @@ timeval walltime() {
  */
 timeval monotime() {
 #if _POSIX_TIMERS >= 200112L && defined(_POSIX_MONOTONIC_CLOCK)
-    timespec ts = {0, 0L};
-#if defined(CLOCK_MONOTONIC_COARSE) && defined(__linux__)
-    if (clock_gettime(CLOCK_MONOTONIC_COARSE, &ts) == 0)
-        return fromspec(ts);
-#elif defined(CLOCK_MONOTONIC_FAST) && !defined(__linux__)
-    if (clock_gettime(CLOCK_MONOTONIC_FAST, &ts) == 0)
-        return fromspec(ts);
-#endif
+    timespec ts;
     if (clock_gettime(CLOCK_MONOTONIC, &ts) == 0)
         return fromspec(ts);
 #endif
@@ -85,10 +71,6 @@ timeval maketime(long sec, long usec) {
         usec += k * million;
     }
     return (timeval) { sec, usec };
-}
-
-timeval zerotime() {
-    return (timeval) { 0, 0L };
 }
 
 timeval millitime(long msec) {
