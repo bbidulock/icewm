@@ -747,7 +747,7 @@ void dumpZorder(const char *oper, YFrameWindow *w, YFrameWindow *a) {
 
 void YWMApp::runRestart(const char *path, char *const *args) {
     XSelectInput(xapp->display(), desktop->handle(), 0);
-    XSync(xapp->display(), False);
+    XFlush(xapp->display());
     ///!!! problem with repeated SIGHUP for restart...
     resetSignals();
 
@@ -1035,7 +1035,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 {
     if (restart_wm) {
         YWindowManager::doWMAction(ICEWM_ACTION_RESTARTWM);
-        XSync(xapp->display(), False);
+        XFlush(xapp->display());
         ::exit(0);
     }
 

@@ -742,7 +742,6 @@ int YXApplication::grabEvents(YWindow *win, Cursor ptr, unsigned int eventMask, 
     if (win == 0)
         return 0;
 
-    XSync(display(), 0);
     fGrabTree = grabTree;
     if (grabMouse) {
         fGrabMouse = 1;
@@ -1096,7 +1095,7 @@ void YXApplication::handleWindowEvent(Window xwindow, XEvent &xev) {
 }
 
 void YXApplication::flushXEvents() {
-    XSync(display(), False);
+    XFlush(display());
 }
 
 void YXPoll::notifyRead() {
