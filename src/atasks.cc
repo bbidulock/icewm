@@ -510,7 +510,6 @@ void TaskPane::handleButton(const XButtonEvent &button) {
 
 void TaskPane::startDrag(TaskBarApp *drag, int /*byMouse*/, int sx, int sy) {
     if (fDragging == 0) {
-        XSync(xapp->display(), False);
         if (!xapp->grabEvents(this, YXApplication::movePointer.handle(),
                               ButtonPressMask |
                               ButtonReleaseMask |

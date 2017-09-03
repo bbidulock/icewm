@@ -422,7 +422,6 @@ void YFrameWindow::outlineMove() {
     int xx(x()), yy(y());
 
     XGrabServer(xapp->display());
-    XSync(xapp->display(), False);
 
     for(;;) {
         XEvent xev;
@@ -504,7 +503,6 @@ void YFrameWindow::outlineResize() {
     }
 
     XGrabServer(xapp->display());
-    XSync(xapp->display(), False);
 
     for(;;) {
         XEvent xev;
@@ -966,7 +964,6 @@ void YFrameWindow::startMoveSize(int doMove, int byMouse,
             buttonDownY = mouseYroot - y();
     }
 
-    XSync(xapp->display(), False);
     if (!xapp->grabEvents(this,
                           grabPointer,
                           ButtonPressMask |
