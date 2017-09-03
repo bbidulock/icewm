@@ -819,11 +819,12 @@ HelpMenu::HelpMenu(
     struct HelpMenuItem {
         const char *name;
         const char *menu;
+        const char *clas;
     } help[] = {
-        { ICEHELPIDX, _("_Manual") },
-        { "icewm.1.html", _("_Icewm(1)") },
-        { "icewmbg.1.html", _("Icewm_Bg(1)") },
-        { "icesound.1.html", _("Ice_Sound(1)") },
+        { ICEHELPIDX, _("_Manual"), "browser.Manual" },
+        { "icewm.1.html", _("_Icewm(1)"), "browser.IceWM" },
+        { "icewmbg.1.html", _("Icewm_Bg(1)"), "browser.IcewmBg" },
+        { "icesound.1.html", _("Ice_Sound(1)"), "browser.IceSound" },
     };
     for (size_t k = 0; k < ACOUNT(help); ++k) {
         YStringArray args(3);
@@ -842,7 +843,7 @@ HelpMenu::HelpMenu(
             help[k].menu,
             null,
             false,
-            "browser.IceHelp",
+            help[k].clas,
             ICEHELPEXE,
             args);
 
