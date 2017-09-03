@@ -125,7 +125,6 @@ YWindowManager::YWindowManager(
     } else {
         fTopSwitch = fBottomSwitch = 0;
     }
-    XSync(xapp->display(), False);
 
     YWindow::setWindowFocus();
 }
@@ -1030,7 +1029,6 @@ void YWindowManager::manageClients() {
 
     manager->fWmState = YWindowManager::wmSTARTUP;
     XGrabServer(xapp->display());
-    XSync(xapp->display(), False);
     XQueryTree(xapp->display(), handle(),
                &winRoot, &winParent, &winClients, &clientCount);
 
@@ -1064,8 +1062,8 @@ void YWindowManager::unmanageClients() {
         }
     }
     XSetInputFocus(xapp->display(), PointerRoot, RevertToNone, CurrentTime);
-    XSync(xapp->display(), False);
     XUngrabServer(xapp->display());
+    XSync(xapp->display(), True);
 }
 
 int addco(int *v, int &n, int c) {
