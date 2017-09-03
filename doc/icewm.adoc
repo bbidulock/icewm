@@ -1,11 +1,11 @@
-= IceWM
+= IceWM Manual
 Marko Macek, <Marko.Macek@gmx.net>
 v1.4.1, 2017 July 27
 :homepage: http://www.icewm.org
 :toc:
 :toclevels: 1
 
-This document is the documentation for the *IceWM* X11 window manager.
+This document is the manual for the *IceWM* X11 window manager.
 It is still incomplete. IceWM and its documentation is
 covered by a GNU LGPL license, which is included in the distribution.
 
