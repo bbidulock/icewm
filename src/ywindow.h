@@ -213,6 +213,7 @@ public:
     void setDoubleBuffer(bool doubleBuffer);
     
     KeySym keyCodeToKeySym(unsigned int keycode, int index = 0);
+    static unsigned long getLastEnterNotifySerial();
 
 private:
     typedef enum {
@@ -274,6 +275,8 @@ private:
     static unsigned fClickButton;
     static unsigned fClickButtonDown;
     static YTimer *fToolTipTimer;
+    static unsigned long lastEnterNotifySerial;
+    static void updateEnterNotifySerial(const XEvent& event);
 
     bool fDND;
     Window XdndDragSource;

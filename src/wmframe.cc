@@ -42,11 +42,6 @@ extern XContext windowContext;
 extern XContext frameContext;
 extern XContext clientContext;
 
-//int YFrameWindow::fMouseFocusX = -1;
-//int YFrameWindow::fMouseFocusY = -1;
-extern unsigned int ignore_enternotify_hack;
-
-
 bool YFrameWindow::isButton(char c) {
     if (strchr(titleButtonsSupported, c) == 0)
         return false;
@@ -988,9 +983,12 @@ void YFrameWindow::handleClick(const XButtonEvent &up, int /*count*/) {
 
 void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
     if (crossing.type == EnterNotify &&
-        (crossing.mode == NotifyNormal || (strongPointerFocus && crossing.mode == NotifyUngrab)) &&
-        crossing.window == handle()
-        && (strongPointerFocus || (crossing.serial != ignore_enternotify_hack && crossing.serial != ignore_enternotify_hack + 1))
+        (crossing.mode == NotifyNormal ||
+         (strongPointerFocus && crossing.mode == NotifyUngrab)) &&
+        crossing.window == handle() &&
+        (strongPointerFocus ||
+         (crossing.serial != YWindow::getLastEnterNotifySerial() &&
+          crossing.serial != YWindow::getLastEnterNotifySerial() + 1))
 #if false
         &&
         (strongPointerFocus ||

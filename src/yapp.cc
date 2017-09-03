@@ -337,6 +337,7 @@ void YApplication::resetSignals() {
 }
 
 void YApplication::closeFiles() {
+#define DEBUG 1
 #ifdef DEBUG
 #ifdef __linux__   /* for now, some debugging code */
     int             i, max = dup(0);
