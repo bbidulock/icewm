@@ -83,7 +83,7 @@ Following is the example F<keys> file that ships with L<icewm(1)>:
 
 =head1 FILES
 
-Locations for the menu file are as follows:
+Locations for the F<keys> file are as follows:
 
 F<>    F<$XDG_CONFIG_HOME/icewm/keys>
     F<$HOME/.icewm/keys>
