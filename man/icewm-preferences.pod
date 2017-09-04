@@ -252,11 +252,10 @@ Show the window title above (all reachable) icons.
 =item B<QuickSwitchSmallWindow>=0
 
 Attempt to create a small QuickSwitch window (1/3 instead of 3/5 of
-screen width).
 
 =item B<QuickSwitchMaxWidth>=0
 
-Go trough all window titles and choose width of the longest one.
+Go through all window titles and choose width of the longest one.
 
 =item B<QuickSwitchVertical>=1
 
@@ -302,96 +301,95 @@ Reload menu files automatically.
 
 Automatically arrange windows when screen size changes.
 
-=item B<ShowTaskBar>=1
-
-
 =back
 
 =head2 TASK BAR
 
 =over
 
-=item B<TaskBarAtTop=0
+=item B<ShowTaskBar>=1
 
-=item B<TaskBarKeepBelow=0
+=item B<TaskBarAtTop>=0
 
-=item B<TaskBarAutoHide=0
+=item B<TaskBarKeepBelow>=0
 
-=item B<TaskBarFullscreenAutoShow=1
+=item B<TaskBarAutoHide>=0
 
-=item B<TaskBarShowClock=1
+=item B<TaskBarFullscreenAutoShow>=1
 
-=item B<TaskBarShowAPMStatus=0
+=item B<TaskBarShowClock>=1
 
-=item B<TaskBarShowAPMAuto=1
+=item B<TaskBarShowAPMStatus>=0
 
-=item B<TaskBarShowAPMTime=1
+=item B<TaskBarShowAPMAuto>=1
 
-=item B<TaskBarShowAPMGraph=1
+=item B<TaskBarShowAPMTime>=1
 
-=item B<TaskBarShowMailboxStatus=1
+=item B<TaskBarShowAPMGraph>=1
 
-=item B<TaskBarMailboxStatusBeepOnNewMail=0
+=item B<TaskBarShowMailboxStatus>=1
 
-=item B<TaskBarMailboxStatusCountMessages=0
+=item B<TaskBarMailboxStatusBeepOnNewMail>=0
 
-=item B<TaskBarShowWorkspaces=1
+=item B<TaskBarMailboxStatusCountMessages>=0
 
-=item B<TaskBarShowWindows=1
+=item B<TaskBarShowWorkspaces>=1
 
-=item B<TaskBarShowShowDesktopButton=1
+=item B<TaskBarShowWindows>=1
 
-=item B<ShowEllipsis=1
+=item B<TaskBarShowShowDesktopButton>=1
 
-=item B<TaskBarShowTray=1
+=item B<ShowEllipsis>=1
 
-=item B<TrayShowAllWindows=1
+=item B<TaskBarShowTray>=1
 
-=item B<TaskBarShowTransientWindows=1
+=item B<TrayShowAllWindows>=1
 
-=item B<TaskBarShowAllWindows=0
+=item B<TaskBarShowTransientWindows>=1
 
-=item B<TaskBarShowWindowIcons=1
+=item B<TaskBarShowAllWindows>=0
 
-=item B<TaskBarShowStartMenu=1
+=item B<TaskBarShowWindowIcons>=1
 
-=item B<TaskBarShowWindowListMenu=1
+=item B<TaskBarShowStartMenu>=1
 
-=item B<TaskBarShowCPUStatus=1
+=item B<TaskBarShowWindowListMenu>=1
 
-=item B<CPUStatusShowRamUsage=1
+=item B<TaskBarShowCPUStatus>=1
 
-=item B<CPUStatusShowSwapUsage=1
+=item B<CPUStatusShowRamUsage>=1
 
-=item B<CPUStatusShowAcpiTemp=1
+=item B<CPUStatusShowSwapUsage>=1
 
-=item B<CPUStatusShowAcpiTempInGraph=0
+=item B<CPUStatusShowAcpiTemp>=1
 
-=item B<CPUStatusShowCpuFreq=1
+=item B<CPUStatusShowAcpiTempInGraph>=0
 
-=item B<TaskBarShowMEMStatus=1
+=item B<CPUStatusShowCpuFreq>=1
 
-=item B<TaskBarShowNetStatus=1
+=item B<TaskBarShowMEMStatus>=1
 
-=item B<TaskBarShowCollapseButton=0
+=item B<TaskBarShowNetStatus>=1
 
-=item B<TaskBarDoubleHeight=0
+=item B<TaskBarShowCollapseButton>=0
 
-=item B<TaskBarWorkspacesLeft=1
+=item B<TaskBarDoubleHeight>=0
 
-=item B<TaskBarWorkspacesTop=0
+=item B<TaskBarWorkspacesLeft>=1
 
-=item B<PagerShowPreview=1
+=item B<TaskBarWorkspacesTop>=0
 
-=item B<PagerShowWindowIcons=1
+=item B<PagerShowPreview>=1
 
-=item B<PagerShowMinimized=1
+=item B<PagerShowWindowIcons>=1
 
-=item B<PagerShowBorders=1
+=item B<PagerShowMinimized>=1
 
-=item B<PagerShowNumbers=1
+=item B<PagerShowBorders>=1
 
-=item B<TaskBarLaunchOnSingleClick=1
+=item B<PagerShowNumbers>=1
+
+=item B<TaskBarLaunchOnSingleClick>=1
 
 =back
 
