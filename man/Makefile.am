@@ -57,7 +57,7 @@ $(icewm_man1_files): %.man: %.pod
 		$< >$@
 
 $(icewm_man5_files): %.man: %.pod
-	pod2man --center="User Commands" \
+	pod2man --center="Standards, Environments and Macros" \
 		--date="$(DATE)" \
 		--errors="none" \
 		--fixed="CW" \
