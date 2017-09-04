@@ -281,32 +281,59 @@ Default values are shown following the equal sign.
 === Focus and Behavior
 
 The following settings can be set to value 1 (enabled) or value 0 (disabled).
-
-ClickToFocus = 1:: Enables click to focus mode.
-RaiseOnFocus = 1:: Window is raised when focused.
-FocusOnClickClient = 1:: Window is focused when client area is clicked.
+ClickToFocus = 1:: Enables click to focus mode.  RaiseOnFocus = 1:: Window is raised when focused.  FocusOnClickClient = 1:: Window is focused when client area is clicked.
 RaiseOnClickClient = 1:: Window is raised when client area is clicked.
 RaiseOnClickTitleBar = 1:: Window is raised when titlebar is clicked.
 RaiseOnClickButton = 1:: Window is raised when title bar button is clicked.
 RaiseOnClickFrame = 1:: Window is raised when frame is clicked.
+LowerOnClickWhenRaised = 0:: Lower the active window when clicked again.
 PassFirstClickToClient = 1:: The click which raises the window is also passed to the client.
+FocusChangesWorkspace = 0:: Change to the workspace of newly focused windows.
 AutoRaise = 0:: Windows will raise automatically after AutoRaiseDelay when focused.
 StrongPointerFocus = 0:: When focus follows mouse always give the focus to
 the window under mouse pointer - Even when no mouse motion has occured. Using this
 is not recommended. Please prefer to use just ClickToFocus=0.
 FocusOnMap = 1:: Window is focused after being mapped.
 FocusOnMapTransient = 1:: Transient window is focused after being mapped.
+FocusOnMapTransientActive = 1:: Focus dialog window when initially mapped only if parent frame focused.
 FocusOnAppRaise = 1:: The window is focused when application raises it.
+RequestFocusOnAppRaise = 1:: Request focus (flashing in taskbar) when application requests raise.
+MapInactiveOnTop = 1:: Put new windows on top even if not focusing them.
 PointerColormap = 0:: Colormap focus follows pointer.
+DontRotateMenuPointer = 1:: Don't rotate the cursor for popup menus.
+LimitSize = 1:: Limit size of windows to screen.
+LimitPosition = 1:: Limit position of windows to screen.
+LimitByDockLayer = 0:: Let the Dock layer limit the workspace (incompatible with GNOME Panel).
+ConsiderHBorder = 0:: Consider border frames when maximizing horizontally.
+ConsiderVBorder = 0:: Consider border frames when maximizing vertically.
+ConsiderSizeHintsMaximized = 1:: Consider XSizeHints if frame is maximized.
+CenterMaximizedWindows = 0:: Center maximized windows which can't fit the screen (like terminals).
+HideBordersMaximized = 0:: Hide window borders if window is maximized.
+HideTitleBarWhenMaximized = 0:: Hide title bar when maximized.
+CenterLarge = 0:: Center large windows.
+CenterTransientsOnOwner = 1:: Center dialogs on owner window.
 SizeMaximized = 0:: Window can be resized when maximized.
 MinimizeToDesktop = 0:: Window is minimized to desktop area (in addition to the taskbar).
+MiniIconsPlaceHorizontal = 0:: Place the mini-icons horizontal instead of vertical.
+MiniIconsRightToLeft = 0:: Place new mini-icons from right to left.
+MiniIconsBottomToTop = 0:: Place new mini-icons from bottom to top.
 QuickSwitch = 1:: enable Alt+Tab window switcher.
 QuickSwitchToMinimized = 1:: Alt+Tab switches to minimized windows too.
+QuickSwitchToHidden = 1:: Alt+Tab to hidden windows.
+QuickSwitchToUrgent = 1:: Priorize Alt+Tab to urgent windows.
 QuickSwitchToAllWorkspaces = 1:: Alt+Tab switches to windows on any workspace.
-ShowMoveSizeStatus = 1:: Move/resize status window is visible when
-moving/resizing the window.
-ShowWorkspaceStatusAfterSwitch = 1:: Show name of current workspace while
-switching workspaces.
+QuickSwitchGroupWorkspaces = 1:: Alt+Tab: group windows on current workspace.
+QuickSwitchAllIcons = 1:: Show all reachable icons when quick switching.
+QuickSwitchTextFirst = 0:: Show the window title above (all reachable) icons.
+QuickSwitchSmallWindow = 0:: Attempt to create a small QuickSwitch window (1/3 instead of 3/5 of
+QuickSwitchMaxWidth = 0:: Go through all window titles and choose width of the longest one.
+QuickSwitchVertical = 1:: Place the icons and titles vertical instead of horizontal.
+QuickSwitchHugeIcon = 0:: Show the huge (48x48) of the window icon for the active window.
+QuickSwitchFillSelection = 0:: Fill the rectangle highlighting the current icon.
+GrabRootWindow = 1:: Manage root window (EXPERIMENTAL - normally enabled!).
+ShowMoveSizeStatus = 1:: Move/resize status window is visible when moving/resizing the window.
+ShowWorkspaceStatus = 1:: Show name of current workspace while switching.
+ShowWorkspaceStatusAfterSwitch = 1:: Show name of current workspace while switching workspaces.
 ShowWorkspaceStatusAfterActivation = 1:: Show name of current workspace after explicit activation.
 WarpPointer = 0:: Pointer is moved in pointer focus move when focus is moved using the keyboard.
 OpaqueMove = 1:: Window is immediately moved when dragged, no outline is shown.
@@ -314,13 +341,19 @@ OpaqueResize = 0:: Window is immediately resized when dragged, no outline is sho
 Win95Keys = 0:: Makes 3 additional keys perform sensible functions. The keys
 must be mapped to MetaL,MetaR and Menu. The left one will activate the start menu
 and the right one will display the window list.
+ModSuperIsCtrlAlt = 1:: Treat Super/Win modifier as Ctrl+Alt.
 ManualPlacement = 0:: Windows must be placed manually by the user.
+SmartPlacement = 1:: Smart window placement (minimal overlap).
 IgnoreNoFocusHint = 0:: Ignore no-accept-focus hint set by some windows.
 MenuMouseTracking = 0:: If enabled, menus will track the mouse even when no mouse button is pressed.
 SnapMove = 1:: Snap to nearest screen edge/window when moving windows.
 SnapDistance:: Distance in pixels before windows snap together
 EdgeSwitch = 0:: Workspace switches by moving mouse to left/right screen edge.
+HorizontalEdgeSwitch = 0:: Workspace switches by moving mouse to left/right screen edge.
+VerticalEdgeSwitch = 0:: Workspace switches by moving mouse to top/bottom screen edge.
+ContinuousEdgeSwitch = 1:: Workspace switches continuously when moving mouse to screen edge.
 AutoReloadMenus = 1:: Reload menu files automatically if set to 1.
+ArrangeWindowsOnScreenSizeChange = 1:: Automatically arrange windows when screen size changes.
 ShowThemesMenu = 1:: Show themes submenu.
 ShowHelp = 1:: Show the help menu item.
 MsgBoxDefaultAction = 0:: Preselect to Cancel (0) or the OK (1) button in message
@@ -396,6 +429,8 @@ TimeFormat:: format for the taskbar clock (time) (see strftime(3) manpage)
 DateFormat:: format for the taskbar clock tooltip (date+time) (see strftime(3) manpage).
 UseMouseWheel:: mouse wheel support
 DelayPointerFocus:: similar to delayed auto raise.
+ShowPopupsAbovePointer = 0:: Show popup menus above mouse pointer.
+ReplayMenuCancelClick = 0:: Send the clicks outside menus to target window.
 
 === Timings
 
