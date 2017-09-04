@@ -14,6 +14,408 @@ F<> F<$XDG_CONFIG_HOME/icewm/preferences>
 
 =head1 FORMAT
 
+=head2 FOCUS AND BEHAVIOR
+
+=over
+
+=item B<ClickToFocus>=1
+
+Focus windows by clicking in them.
+
+=item B<FocusOnAppRaise>=0
+
+Focus windows when applications request that they be raised.
+
+=item B<RequestFocusOnAppRaise>=1
+
+Request focus (flashing in taskbar) when application requests raise.
+
+=item B<RaiseOnFocus>=1
+
+Raise windows when focused.
+
+=item B<FocusOnClickClient>=1
+
+Focus window when client area clicked.
+
+=item B<RaiseOnClickClient>=1
+
+Raise window when client area clicked.
+
+=item B<RaiseOnClickTitleBar>=1
+
+Raise window when title bar is clicked.
+
+=item B<RaiseOnClickButton>=1
+
+Raise window when frame button is clicked.
+
+=item B<RaiseOnClickFrame>=1
+
+Raise window when frame border is clicked.
+
+=item B<LowerOnClickWhenRaised>=0
+
+Lower the active window when clicked again.
+
+=item B<PassFirstClickToClient>=1
+
+Pass focusing click on client area to client.
+
+=item B<FocusChangesWorkspace>=0
+
+Change to the workspace of newly focused windows.
+
+=item B<FocusOnMap>=1
+
+Focus normal window when initially mapped.
+
+=item B<FocusOnMapTransient>=0
+
+Focus dialog window when initially mapped.
+
+=item B<FocusOnMapTransientActive>=1
+
+Focus dialog window when initially mapped only if parent frame focused.
+
+=item B<MapInactiveOnTop>=1
+
+Put new windows on top even if not focusing them.
+
+=item B<PointerColormap>=1
+
+Colormap focus follows pointer.
+
+=item B<DontRotateMenuPointer>=1
+
+Don't rotate the cursor for popup menus.
+
+=item B<LimitSize>=1
+
+Limit size of windows to screen.
+
+=item B<LimitPosition>=1
+
+Limit position of windows to screen.
+
+=item B<LimitByDockLayer>=0
+
+Let the Dock layer limit the workspace (incompatible with GNOME Panel).
+
+=item B<ConsiderHBorder>=0
+
+Consider border frames when maximizing horizontally.
+
+=item B<ConsiderVBorder>=0
+
+Consider border frames when maximizing vertically.
+
+=item B<ConsiderSizeHintsMaximized>=1
+
+Consider XSizeHints if frame is maximized.
+
+=item B<CenterMaximizedWindows>=0
+
+Center maximized windows which can't fit the screen (like terminals).
+
+=item B<HideBordersMaximized>=0
+
+Hide window borders if window is maximized.
+
+=item B<SizeMaximized>=0
+
+Maximized windows can be resized.
+
+=item B<ShowMoveSizeStatus>=1
+
+Show position status window during move/resize.
+
+=item B<ShowWorkspaceStatus>=1
+
+Show name of current workspace while switching.
+
+=item B<MinimizeToDesktop>=0
+
+Display mini-icons on desktop for minimized windows.
+
+=item B<MiniIconsPlaceHorizontal>=0
+
+Place the mini-icons horizontal instead of vertical.
+
+=item B<MiniIconsRightToLeft>=0
+
+Place new mini-icons from right to left.
+
+=item B<MiniIconsBottomToTop>=0
+
+Place new mini-icons from bottom to top.
+
+=item B<StrongPointerFocus>=0
+
+Always maintain focus under mouse window (makes some keyboard support
+non-functional or unreliable.
+
+=item B<OpaqueMove>=1
+
+Opaque window move.
+
+=item B<OpaqueResize>=1
+
+Opaque window resize.
+
+=item B<ManualPlacement>=0
+
+Windows initially placed manually by user.
+
+=item B<SmartPlacement>=1
+
+Smart window placement (minimal overlap).
+
+=item B<HideTitleBarWhenMaximized>=0
+
+Hide title bar when maximized.
+
+=item B<CenterLarge>=0
+
+Center large windows.
+
+=item B<CenterTransientsOnOwner>=1
+
+Center dialogs on owner window.
+
+=item B<MenuMouseTracking>=0
+
+Menus track mouse even with no mouse buttons held.
+
+=item B<AutoRaise>=0
+
+Auto raise windows after delay.
+
+=item B<DelayPointerFocus>=1
+
+Delay pointer focusing when mouse moves.
+
+=item B<Win95Keys>=1
+
+Support win95 keyboard keys (Penguin/Meta/Win_L,R shows menu).
+
+=item B<ModSuperIsCtrlAlt>=1
+
+Treat Super/Win modifier as Ctrl+Alt.
+
+=item B<UseMouseWheel>=0
+
+Support mouse wheel.
+
+=item B<ShowPopupsAbovePointer>=0
+
+Show popup menus above mouse pointer.
+
+=item B<ReplayMenuCancelClick>=0
+
+Send the clicks outside menus to target window.
+
+=head3 Quick Switch List
+
+=item B<QuickSwitch>=1
+
+Alt+Tab window switching.
+
+=item B<QuickSwitchToMinimized>=1
+
+Alt+Tab to minimized windows.
+
+=item B<QuickSwitchToHidden>=1
+
+Alt+Tab to hidden windows.
+
+=item B<QuickSwitchToUrgent>=1
+
+Priorize Alt+Tab to urgent windows.
+
+=item B<QuickSwitchToAllWorkspaces>=0
+
+Alt+Tab to windows on other workspaces.
+
+=item B<QuickSwitchGroupWorkspaces>=1
+
+Alt+Tab: group windows on current workspace.
+
+=item B<QuickSwitchAllIcons>=1
+
+Show all reachable icons when quick switching.
+
+=item B<QuickSwitchTextFirst>=0
+
+Show the window title above (all reachable) icons.
+
+=item B<QuickSwitchSmallWindow>=0
+
+Attempt to create a small QuickSwitch window (1/3 instead of 3/5 of
+screen width).
+
+=item B<QuickSwitchMaxWidth>=0
+
+Go trough all window titles and choose width of the longest one.
+
+=item B<QuickSwitchVertical>=1
+
+Place the icons and titles vertical instead of horizontal.
+
+=item B<QuickSwitchHugeIcon>=0
+
+Show the huge (48x48) of the window icon for the active window.
+
+=item B<QuickSwitchFillSelection>=0
+
+Fill the rectangle highlighting the current icon.
+
+=item B<GrabRootWindow>=1
+
+Manage root window (EXPERIMENTAL - normally enabled!).
+
+=item B<SnapMove>=1
+
+Snap to nearest screen edge/window when moving windows.
+
+=item B<EdgeSwitch>=0
+
+Workspace switches by moving mouse to left/right screen edge.
+
+=item B<HorizontalEdgeSwitch>=0
+
+Workspace switches by moving mouse to left/right screen edge.
+
+=item B<VerticalEdgeSwitch>=0
+
+Workspace switches by moving mouse to top/bottom screen edge.
+
+=item B<ContinuousEdgeSwitch>=1
+
+Workspace switches continuously when moving mouse to screen edge.
+
+=item B<AutoReloadMenus>=1
+
+Reload menu files automatically.
+
+=item B<ArrangeWindowsOnScreenSizeChange>=1
+
+Automatically arrange windows when screen size changes.
+
+=item B<ShowTaskBar>=1
+
+
+=back
+
+=head2 TASK BAR
+
+=over
+
+=item B<TaskBarAtTop=0
+
+=item B<TaskBarKeepBelow=0
+
+=item B<TaskBarAutoHide=0
+
+=item B<TaskBarFullscreenAutoShow=1
+
+=item B<TaskBarShowClock=1
+
+=item B<TaskBarShowAPMStatus=0
+
+=item B<TaskBarShowAPMAuto=1
+
+=item B<TaskBarShowAPMTime=1
+
+=item B<TaskBarShowAPMGraph=1
+
+=item B<TaskBarShowMailboxStatus=1
+
+=item B<TaskBarMailboxStatusBeepOnNewMail=0
+
+=item B<TaskBarMailboxStatusCountMessages=0
+
+=item B<TaskBarShowWorkspaces=1
+
+=item B<TaskBarShowWindows=1
+
+=item B<TaskBarShowShowDesktopButton=1
+
+=item B<ShowEllipsis=1
+
+=item B<TaskBarShowTray=1
+
+=item B<TrayShowAllWindows=1
+
+=item B<TaskBarShowTransientWindows=1
+
+=item B<TaskBarShowAllWindows=0
+
+=item B<TaskBarShowWindowIcons=1
+
+=item B<TaskBarShowStartMenu=1
+
+=item B<TaskBarShowWindowListMenu=1
+
+=item B<TaskBarShowCPUStatus=1
+
+=item B<CPUStatusShowRamUsage=1
+
+=item B<CPUStatusShowSwapUsage=1
+
+=item B<CPUStatusShowAcpiTemp=1
+
+=item B<CPUStatusShowAcpiTempInGraph=0
+
+=item B<CPUStatusShowCpuFreq=1
+
+=item B<TaskBarShowMEMStatus=1
+
+=item B<TaskBarShowNetStatus=1
+
+=item B<TaskBarShowCollapseButton=0
+
+=item B<TaskBarDoubleHeight=0
+
+=item B<TaskBarWorkspacesLeft=1
+
+=item B<TaskBarWorkspacesTop=0
+
+=item B<PagerShowPreview=1
+
+=item B<PagerShowWindowIcons=1
+
+=item B<PagerShowMinimized=1
+
+=item B<PagerShowBorders=1
+
+=item B<PagerShowNumbers=1
+
+=item B<TaskBarLaunchOnSingleClick=1
+
+=back
+
+=head2 TIMINGS
+
+=head2 WORKSPACES
+
+=head2 PATHS
+
+=head2 PROGRAMS
+
+=head2 WINDOW MENUS
+
+=head2 THEME SETTINGS
+
+=head3 Borders
+
+=head3 Fonts
+
+=head3 Colors
+
+=head3 Task Bar
+
+
 =head1 EXAMPLES
 
 =head1 FILES
