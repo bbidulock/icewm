@@ -382,6 +382,7 @@ TaskBarMailboxStatusBeepOnNewMail = 0:: Beep when new mail arrives.
 TaskBarMailboxStatusCountMessages = 0:: Display mail message count as tooltip.
 TaskBarShowStartMenu = 1:: Show button for the start menu on the task bar.
 TaskBarShowWindowListMenu:: Show button for window list menu on taskbar.
+TaskBarShowCPUStatus = 1:: Show CPU status on task bar (Linux & Solaris).
 TaskBarShowWindows = 1:: Show windows on the taskbar.
 TaskBarShowShowDesktopButton = 1:: Show 'show desktop' button on taskbar.
 ShowEllipsis = 0:: Show Ellipsis in taskbar items.
@@ -391,6 +392,7 @@ TaskBarShowTransientWindows = 1:: Show transient (dialogs, ...) windows on task 
 TaskBarShowWindowIcons = 1:: Show icons of windows on the task bar.
 TaskBarShowWorkspaces = 1:: Show workspace switching buttons on task bar.
 TaskBarShowAllWindows = 0:: Show windows from all workspaces on task bar.
+TaskBarWorkspacesTop = 0:: Place workspace pager on top row when using dual-height taskbar.
 MailBoxPath::
   Path to a mbox file. Remote mail boxes are accessed by
   specifying an URL using the Common Internet Scheme Syntax (RFC 1738):
