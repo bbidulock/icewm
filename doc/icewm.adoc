@@ -281,6 +281,7 @@ Default values are shown following the equal sign.
 === Focus and Behavior
 
 The following settings can be set to value 1 (enabled) or value 0 (disabled).
+
 ClickToFocus = 1:: Enables click to focus mode.  RaiseOnFocus = 1:: Window is raised when focused.  FocusOnClickClient = 1:: Window is focused when client area is clicked.
 RaiseOnClickClient = 1:: Window is raised when client area is clicked.
 RaiseOnClickTitleBar = 1:: Window is raised when titlebar is clicked.
