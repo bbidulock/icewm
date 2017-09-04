@@ -16,6 +16,9 @@ F<> F<$XDG_CONFIG_HOME/icewm/preferences>
 
 =head2 FOCUS AND BEHAVIOR
 
+The following preferences affect focus and general behavior of
+L<icewm(1)>:
+
 =over
 
 =item B<ClickToFocus>=1
@@ -215,7 +218,15 @@ Show popup menus above mouse pointer.
 
 Send the clicks outside menus to target window.
 
+=item B<ClientWindowMouseActions>=1
+
+Allow mouse actions on client windows (buggy with some programs).
+
+=back
+
 =head3 Quick Switch List
+
+=over
 
 =item B<QuickSwitch>=1
 
@@ -304,6 +315,8 @@ Automatically arrange windows when screen size changes.
 =back
 
 =head2 TASK BAR
+
+The following preferences affect the L<icewm(1)> task bar:
 
 =over
 
@@ -474,6 +487,52 @@ Show number of workspace on workspace button (if PagerShowPreview=1).
 =item B<TaskBarLaunchOnSingleClick>=1
 
 Execute taskbar applet commands (like MailCommand,     ClockCommand,   ...) on single click.
+
+=back
+
+=head2 MENUS
+
+=over
+
+=item B<ShowProgramsMenu>=0
+
+Show programs submenu.
+
+=item B<ShowSettingsMenu>=1
+
+Show settings submenu.
+
+=item B<ShowFocusModeMenu>=1
+
+Show focus mode submenu.
+
+=item B<ShowThemesMenu>=1
+
+Show themes submenu.
+
+=item B<ShowLogoutMenu>=1
+
+Show logout menu.
+
+=item B<ShowHelp>=1
+
+Show the help menu item.
+
+=item B<ShowLogoutSubMenu>=1
+
+Show logout submenu.
+
+=item B<ShowAbout>=1
+
+Show the about menu item.
+
+=item B<ShowRun>=1
+
+Show the run menu item.
+
+=item B<ShowWindowList>=1
+
+Show the window menu item.
 
 =back
 
