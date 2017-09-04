@@ -309,87 +309,171 @@ Automatically arrange windows when screen size changes.
 
 =item B<ShowTaskBar>=1
 
+Show task bar.
+
 =item B<TaskBarAtTop>=0
+
+Task bar at top of the screen.
 
 =item B<TaskBarKeepBelow>=0
 
+Keep the task bar below regular windows.
+
 =item B<TaskBarAutoHide>=0
+
+Auto hide task bar after delay.
 
 =item B<TaskBarFullscreenAutoShow>=1
 
+Auto show task bar when fullscreen window active.
+
 =item B<TaskBarShowClock>=1
+
+Show clock on task bar.
 
 =item B<TaskBarShowAPMStatus>=0
 
+Show APM/ACPI/Battery/Power status monitor on task bar.
+
 =item B<TaskBarShowAPMAuto>=1
+
+Enable TaskBarShowAPMStatus if a battery is present.
 
 =item B<TaskBarShowAPMTime>=1
 
+Show APM status on task bar in time-format.
+
 =item B<TaskBarShowAPMGraph>=1
+
+Show APM status in graph mode.
 
 =item B<TaskBarShowMailboxStatus>=1
 
+Show mailbox status on task bar.
+
 =item B<TaskBarMailboxStatusBeepOnNewMail>=0
+
+Beep when new mail arrives.
 
 =item B<TaskBarMailboxStatusCountMessages>=0
 
+Count messages in mailbox.
+
 =item B<TaskBarShowWorkspaces>=1
+
+Show workspace switching buttons on task bar.
 
 =item B<TaskBarShowWindows>=1
 
+Show windows on the taskbar.
+
 =item B<TaskBarShowShowDesktopButton>=1
+
+Show 'show desktop' button on taskbar.
 
 =item B<ShowEllipsis>=1
 
+Show Ellipsis in taskbar items.
+
 =item B<TaskBarShowTray>=1
+
+Show windows in the tray.
 
 =item B<TrayShowAllWindows>=1
 
+Show windows from all workspaces on tray.
+
 =item B<TaskBarShowTransientWindows>=1
+
+Show transient (dialogs, ...) windows on task bar.
 
 =item B<TaskBarShowAllWindows>=0
 
+Show windows from all workspaces on task bar.
+
 =item B<TaskBarShowWindowIcons>=1
+
+Show icons of windows on the task bar.
 
 =item B<TaskBarShowStartMenu>=1
 
+Show 'Start' menu on task bar.
+
 =item B<TaskBarShowWindowListMenu>=1
+
+Show 'window list' menu on task bar.
 
 =item B<TaskBarShowCPUStatus>=1
 
+Show CPU status on task bar (Linux & Solaris).
+
 =item B<CPUStatusShowRamUsage>=1
+
+Show RAM usage in CPU status tool tip.
 
 =item B<CPUStatusShowSwapUsage>=1
 
+Show swap usage in CPU status tool tip.
+
 =item B<CPUStatusShowAcpiTemp>=1
+
+Show ACPI temperature in CPU status tool tip.
 
 =item B<CPUStatusShowAcpiTempInGraph>=0
 
+Show ACPI temperature in CPU status bar.
+
 =item B<CPUStatusShowCpuFreq>=1
+
+Show CPU frequency in CPU status tool tip.
 
 =item B<TaskBarShowMEMStatus>=1
 
+Show memory usage status on task bar (Linux only).
+
 =item B<TaskBarShowNetStatus>=1
+
+Show network status on task bar (Linux only).
 
 =item B<TaskBarShowCollapseButton>=0
 
+Show a button to collapse the taskbar.
+
 =item B<TaskBarDoubleHeight>=0
+
+Use double-height task bar.
 
 =item B<TaskBarWorkspacesLeft>=1
 
+Place workspace pager on left, not right.
+
 =item B<TaskBarWorkspacesTop>=0
+
+Place workspace pager on top row when using dual-height taskbar.
 
 =item B<PagerShowPreview>=1
 
+Show a mini desktop preview on each workspace button.
+
 =item B<PagerShowWindowIcons>=1
+
+Draw window icons inside large enough preview windows on pager (if PagerShowPreview=1).
 
 =item B<PagerShowMinimized>=1
 
+Draw even minimized windows as unfilled rectangles (if PagerShowPreview=1).
+
 =item B<PagerShowBorders>=1
+
+Draw border around workspace buttons (if PagerShowPreview=1).
 
 =item B<PagerShowNumbers>=1
 
+Show number of workspace on workspace button (if PagerShowPreview=1).
+
 =item B<TaskBarLaunchOnSingleClick>=1
+
+Execute taskbar applet commands (like MailCommand,     ClockCommand,   ...) on single click.
 
 =back
 
