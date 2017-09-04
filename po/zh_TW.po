@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-08-30 18:10-0600\n"
+"POT-Creation-Date: 2017-09-04 00:59+0000\n"
 "PO-Revision-Date: 2007-02-22 14:45+0800\n"
 "Last-Translator: Tetralet <tetralet@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -266,7 +266,7 @@ msgstr "內容"
 msgid "Index"
 msgstr "索引"
 
-#: src/icehelp.cc:1108 src/icesame.cc:65 src/iceview.cc:76 src/wmframe.cc:185
+#: src/icehelp.cc:1108 src/icesame.cc:65 src/iceview.cc:76 src/wmframe.cc:180
 msgid "Close"
 msgstr "關閉"
 
@@ -475,7 +475,7 @@ msgstr "引數無效：「%s」。"
 msgid "No actions specified."
 msgstr "未指定動作。"
 
-#: src/icesh.cc:709 src/icesound.cc:942 src/icewmhint.cc:91 src/yxapp.cc:948
+#: src/icesh.cc:709 src/icesound.cc:942 src/icewmhint.cc:91 src/yxapp.cc:947
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "無法開啟顯示：%s。X 必須正在執行且需設定 $DISPLAY。"
@@ -581,7 +581,7 @@ msgstr ""
 msgid "Can't connect to ESound daemon: %s"
 msgstr "無法連線到 ESound 服務程式：%s"
 
-#: src/icesound.cc:491 src/icewmhint.cc:93 src/yxapp.cc:949
+#: src/icesound.cc:491 src/icewmhint.cc:93 src/yxapp.cc:948
 msgid "<none>"
 msgstr "<無>"
 
@@ -890,7 +890,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/movesize.cc:903
+#: src/movesize.cc:901
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "在要求移動/改變大小時方向未知：%d"
@@ -927,147 +927,165 @@ msgstr "語言："
 msgid "icewm - About"
 msgstr "icewm - 關於"
 
-#: src/wmapp.cc:439
+#: src/wmapp.cc:120
+#, fuzzy
+msgid "A window manager is already running, use --replace to replace it"
+msgstr "已有另一個視窗管理程式正在執行，離開中..."
+
+#: src/wmapp.cc:138
+#, fuzzy, c-format
+msgid "failed to set %s owner"
+msgstr "執行 %s 時失敗：%s"
+
+#: src/wmapp.cc:142
+msgid "Waiting to replace the old window manager"
+msgstr ""
+
+#: src/wmapp.cc:147
+msgid "done."
+msgstr ""
+
+#: src/wmapp.cc:440
 msgid "Unable to get current font path."
 msgstr "無法取得目前字型路徑。"
 
-#: src/wmapp.cc:466
+#: src/wmapp.cc:467
 msgid "Unexpected format of ICEWM_FONT_PATH property"
 msgstr "非預期格式的 ICEWM_FONT_PATH 特性"
 
-#: src/wmapp.cc:549
+#: src/wmapp.cc:550
 msgid "_Logout"
 msgstr "登出(_L)"
 
-#: src/wmapp.cc:550
+#: src/wmapp.cc:551
 msgid "_Cancel logout"
 msgstr "取消登出(_C)"
 
-#: src/wmapp.cc:563 src/wmapp.cc:565
+#: src/wmapp.cc:564 src/wmapp.cc:566
 msgid "Lock _Workstation"
 msgstr "鎖定工作站(_W)"
 
-#: src/wmapp.cc:569 src/wmapp.cc:571 src/wmdialog.cc:107
+#: src/wmapp.cc:570 src/wmapp.cc:572 src/wmdialog.cc:107
 msgid "Re_boot"
 msgstr "重開機(_B)"
 
-#: src/wmapp.cc:575 src/wmapp.cc:577 src/wmdialog.cc:114
+#: src/wmapp.cc:576 src/wmapp.cc:578 src/wmdialog.cc:114
 msgid "Shut_down"
 msgstr "關機(_D)"
 
-#: src/wmapp.cc:583 src/wmapp.cc:585
+#: src/wmapp.cc:584 src/wmapp.cc:586
 msgid "Restart _Icewm"
 msgstr "重新啟動 _Icewm"
 
-#: src/wmapp.cc:589
+#: src/wmapp.cc:590
 msgid "Restart _Xterm"
 msgstr "重新啟動 _Xterm"
 
-#: src/wmapp.cc:611
+#: src/wmapp.cc:612
 msgid "_Menu"
 msgstr "選單(_M)"
 
-#: src/wmapp.cc:612
+#: src/wmapp.cc:613
 msgid "_Above Dock"
 msgstr "停靠區之上(_A)"
 
-#: src/wmapp.cc:613
+#: src/wmapp.cc:614
 msgid "_Dock"
 msgstr "停靠區(_D)"
 
-#: src/wmapp.cc:614
+#: src/wmapp.cc:615
 msgid "_OnTop"
 msgstr "上層(_O)"
 
-#: src/wmapp.cc:615
+#: src/wmapp.cc:616
 msgid "_Normal"
 msgstr "正常(_N)"
 
-#: src/wmapp.cc:616
+#: src/wmapp.cc:617
 msgid "_Below"
 msgstr "下層(_B)"
 
-#: src/wmapp.cc:617
+#: src/wmapp.cc:618
 msgid "D_esktop"
 msgstr "桌面(_E)"
 
-#: src/wmapp.cc:629
+#: src/wmapp.cc:630
 msgid "_Restore"
 msgstr "還原(_R)"
 
-#: src/wmapp.cc:631
+#: src/wmapp.cc:632
 msgid "_Move"
 msgstr "移動(_M)"
 
-#: src/wmapp.cc:633
+#: src/wmapp.cc:634
 msgid "_Size"
 msgstr "大小(_S)"
 
-#: src/wmapp.cc:635
+#: src/wmapp.cc:636
 msgid "Mi_nimize"
 msgstr "縮小(_N)"
 
-#: src/wmapp.cc:637
+#: src/wmapp.cc:638
 msgid "Ma_ximize"
 msgstr "放大(_X)"
 
-#: src/wmapp.cc:639
+#: src/wmapp.cc:640
 msgid "_Fullscreen"
 msgstr "全螢幕(_F)"
 
-#: src/wmapp.cc:643 src/wmwinlist.cc:309
+#: src/wmapp.cc:644 src/wmwinlist.cc:309
 msgid "_Hide"
 msgstr "隱藏(_H)"
 
-#: src/wmapp.cc:646
+#: src/wmapp.cc:647
 msgid "Roll_up"
 msgstr "向上循環(_U)"
 
-#: src/wmapp.cc:653
+#: src/wmapp.cc:654
 msgid "R_aise"
 msgstr "提升(_A)"
 
-#: src/wmapp.cc:655
+#: src/wmapp.cc:656
 msgid "_Lower"
 msgstr "降低(_L)"
 
-#: src/wmapp.cc:657
+#: src/wmapp.cc:658
 msgid "La_yer"
 msgstr "層次(_Y)"
 
-#: src/wmapp.cc:661 src/wmwinlist.cc:312
+#: src/wmapp.cc:662 src/wmwinlist.cc:312
 msgid "Move _To"
 msgstr "移至(_T)"
 
-#: src/wmapp.cc:662
+#: src/wmapp.cc:663
 msgid "Occupy _All"
 msgstr "全部佔據(_A)"
 
-#: src/wmapp.cc:668
+#: src/wmapp.cc:669
 msgid "Limit _Workarea"
 msgstr "限制工作區域(_W)"
 
-#: src/wmapp.cc:673
+#: src/wmapp.cc:674
 msgid "Tray _icon"
 msgstr "系統列圖示(_I)"
 
-#: src/wmapp.cc:679 src/wmwinlist.cc:297 src/wmwinlist.cc:323
+#: src/wmapp.cc:680 src/wmwinlist.cc:297 src/wmwinlist.cc:323
 msgid "_Close"
 msgstr "關閉(_C)"
 
-#: src/wmapp.cc:681 src/wmwinlist.cc:299
+#: src/wmapp.cc:682 src/wmwinlist.cc:299
 msgid "_Kill Client"
 msgstr "砍掉客戶端(_K)"
 
-#: src/wmapp.cc:685 src/wmdialog.cc:121 src/wmwinmenu.cc:138
+#: src/wmapp.cc:686 src/wmdialog.cc:121 src/wmwinmenu.cc:138
 msgid "_Window list"
 msgstr "視窗清單(_W)"
 
-#: src/wmapp.cc:701
+#: src/wmapp.cc:702
 msgid "Another window manager already running, exiting..."
 msgstr "已有另一個視窗管理程式正在執行，離開中..."
 
-#: src/wmapp.cc:775
+#: src/wmapp.cc:776
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1076,19 +1094,19 @@ msgstr ""
 "無法重新啟動：%s\n"
 "$PATH 是否指向 %s？"
 
-#: src/wmapp.cc:1407
+#: src/wmapp.cc:1414
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 
-#: src/wmapp.cc:1413
+#: src/wmapp.cc:1420
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
 "  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
 
-#: src/wmapp.cc:1419
+#: src/wmapp.cc:1426
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1103,8 +1121,10 @@ msgid ""
 "\n"
 "  -V, --version       Prints version information and exits.\n"
 "  -h, --help          Prints this usage screen and exits.\n"
-"%s  --replace           Replace an existing window manager.\n"
-"  --restart           Don't use this: It's an internal flag.\n"
+"%s\n"
+"  --replace           Replace an existing window manager.\n"
+"  -r, --restart       Tell the running icewm to restart itself.\n"
+"\n"
 "  --configured        Print the compile time configuration.\n"
 "  --directories       Print the configuration directories.\n"
 "  -l, --list-themes   Print a list of all available themes.\n"
@@ -1147,21 +1167,21 @@ msgstr ""
 "\n"
 "參看 http://www.icewm.org/ 以回報錯誤、要求支援、提供意見...\n"
 
-#: src/wmapp.cc:1481
+#: src/wmapp.cc:1490
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr ""
 
-#: src/wmapp.cc:1624
+#: src/wmapp.cc:1633
 #, fuzzy, c-format
 msgid "%s configured options:%s\n"
 msgstr "無法識別的選項：%s\n"
 
-#: src/wmapp.cc:1709
+#: src/wmapp.cc:1719
 msgid "Confirm Logout"
 msgstr "確定登出"
 
-#: src/wmapp.cc:1710
+#: src/wmapp.cc:1720
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1202,8 +1222,8 @@ msgstr "鎖定工作站(_K)"
 msgid "_Cancel"
 msgstr "取消(_C)"
 
-#: src/wmdialog.cc:100 src/wmprog.cc:1004 src/wmprog.cc:1006 src/wmprog.cc:1010
-#: src/wmprog.cc:1012 src/wmtaskbar.cc:329 src/wmtaskbar.cc:331
+#: src/wmdialog.cc:100 src/wmprog.cc:1005 src/wmprog.cc:1007 src/wmprog.cc:1011
+#: src/wmprog.cc:1013 src/wmtaskbar.cc:327 src/wmtaskbar.cc:329
 msgid "_Logout..."
 msgstr "登出(_L)..."
 
@@ -1211,36 +1231,36 @@ msgstr "登出(_L)..."
 msgid "_Restart icewm"
 msgstr "重新啟動 icewm(_R)"
 
-#: src/wmdialog.cc:135 src/wmprog.cc:947 src/wmprog.cc:949 src/wmtaskbar.cc:321
-#: src/wmtaskbar.cc:324
+#: src/wmdialog.cc:135 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:319
+#: src/wmtaskbar.cc:322
 msgid "_About"
 msgstr "關於(_A)"
 
-#: src/wmframe.cc:163 src/wmframe.cc:3432
+#: src/wmframe.cc:158 src/wmframe.cc:3430
 msgid "Maximize"
 msgstr "放到最大"
 
-#: src/wmframe.cc:176
+#: src/wmframe.cc:171
 msgid "Minimize"
 msgstr "縮到最小"
 
-#: src/wmframe.cc:197
+#: src/wmframe.cc:192
 msgid "Hide"
 msgstr "隱藏"
 
-#: src/wmframe.cc:207 src/wmframe.cc:3465
+#: src/wmframe.cc:202 src/wmframe.cc:3463
 msgid "Rollup"
 msgstr "向上循環"
 
-#: src/wmframe.cc:216
+#: src/wmframe.cc:211
 msgid "Raise/Lower"
 msgstr "提升/降低"
 
-#: src/wmframe.cc:1739
+#: src/wmframe.cc:1737
 msgid "Kill Client: "
 msgstr "砍掉客戶端："
 
-#: src/wmframe.cc:1743
+#: src/wmframe.cc:1741
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1248,11 +1268,11 @@ msgstr ""
 "【警告】！當這個客戶端程式被砍掉時，將會失去所有未儲存的變更。\n"
 "您希望繼續進行嗎？"
 
-#: src/wmframe.cc:3429
+#: src/wmframe.cc:3427
 msgid "Restore"
 msgstr "還原"
 
-#: src/wmframe.cc:3463
+#: src/wmframe.cc:3461
 msgid "Rolldown"
 msgstr "向下循環"
 
@@ -1356,47 +1376,47 @@ msgstr "粗略的滑鼠焦點(_S)"
 msgid "Custo_m"
 msgstr "自訂(_M)"
 
-#: src/wmprog.cc:823
+#: src/wmprog.cc:824
 msgid "_Manual"
 msgstr ""
 
-#: src/wmprog.cc:824
+#: src/wmprog.cc:825
 msgid "_Icewm(1)"
 msgstr ""
 
-#: src/wmprog.cc:825
+#: src/wmprog.cc:826
 msgid "Icewm_Bg(1)"
 msgstr ""
 
-#: src/wmprog.cc:826
+#: src/wmprog.cc:827
 msgid "Ice_Sound(1)"
 msgstr ""
 
-#: src/wmprog.cc:899 src/wmprog.cc:901
+#: src/wmprog.cc:900 src/wmprog.cc:902
 msgid "Programs"
 msgstr "程式"
 
-#: src/wmprog.cc:908 src/wmprog.cc:910
+#: src/wmprog.cc:909 src/wmprog.cc:911
 msgid "_Run..."
 msgstr "執行(_R)..."
 
-#: src/wmprog.cc:919 src/wmprog.cc:921 src/wmtaskbar.cc:309
+#: src/wmprog.cc:920 src/wmprog.cc:922 src/wmtaskbar.cc:307
 msgid "_Windows"
 msgstr "視窗(_W)"
 
-#: src/wmprog.cc:958 src/wmprog.cc:960
+#: src/wmprog.cc:959 src/wmprog.cc:961
 msgid "_Help"
 msgstr "求助(_H)"
 
-#: src/wmprog.cc:974 src/wmprog.cc:976
+#: src/wmprog.cc:975 src/wmprog.cc:977
 msgid "_Focus"
 msgstr "焦點(_F)"
 
-#: src/wmprog.cc:985 src/wmprog.cc:987
+#: src/wmprog.cc:986 src/wmprog.cc:988
 msgid "_Themes"
 msgstr "主題(_T)"
 
-#: src/wmprog.cc:994 src/wmprog.cc:996
+#: src/wmprog.cc:995 src/wmprog.cc:997
 msgid "Se_ttings"
 msgstr "設定(_T)"
 
@@ -1405,59 +1425,59 @@ msgstr "設定(_T)"
 msgid "Session Manager: Unknown line %s"
 msgstr "作業階段管理程式：未知的列 %s"
 
-#: src/wmtaskbar.cc:169 src/wmtaskbar.cc:170
+#: src/wmtaskbar.cc:167 src/wmtaskbar.cc:168
 msgid "Task Bar"
 msgstr "工作列"
 
-#: src/wmtaskbar.cc:298 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+#: src/wmtaskbar.cc:296 src/wmwinlist.cc:314 src/wmwinlist.cc:327
 msgid "Tile _Vertically"
 msgstr "垂直並排(_V)"
 
-#: src/wmtaskbar.cc:299 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+#: src/wmtaskbar.cc:297 src/wmwinlist.cc:315 src/wmwinlist.cc:328
 msgid "T_ile Horizontally"
 msgstr "水平並排(_I)"
 
-#: src/wmtaskbar.cc:300 src/wmwinlist.cc:316 src/wmwinlist.cc:329
+#: src/wmtaskbar.cc:298 src/wmwinlist.cc:316 src/wmwinlist.cc:329
 msgid "Ca_scade"
 msgstr "階狀(_S)"
 
-#: src/wmtaskbar.cc:301 src/wmwinlist.cc:317 src/wmwinlist.cc:330
+#: src/wmtaskbar.cc:299 src/wmwinlist.cc:317 src/wmwinlist.cc:330
 msgid "_Arrange"
 msgstr "排列(_A)"
 
-#: src/wmtaskbar.cc:302 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+#: src/wmtaskbar.cc:300 src/wmwinlist.cc:319 src/wmwinlist.cc:331
 msgid "_Minimize All"
 msgstr "全部縮到最小(_M)"
 
-#: src/wmtaskbar.cc:303 src/wmwinlist.cc:320 src/wmwinlist.cc:332
+#: src/wmtaskbar.cc:301 src/wmwinlist.cc:320 src/wmwinlist.cc:332
 msgid "_Hide All"
 msgstr "全部隱藏(_H)"
 
-#: src/wmtaskbar.cc:304 src/wmwinlist.cc:321 src/wmwinlist.cc:333
+#: src/wmtaskbar.cc:302 src/wmwinlist.cc:321 src/wmwinlist.cc:333
 msgid "_Undo"
 msgstr "復原(_U)"
 
-#: src/wmtaskbar.cc:306
+#: src/wmtaskbar.cc:304
 msgid "Arrange _Icons"
 msgstr "排列圖示(_I)"
 
-#: src/wmtaskbar.cc:312
+#: src/wmtaskbar.cc:310
 msgid "_Refresh"
 msgstr "重新整理(_R)"
 
-#: src/wmtaskbar.cc:319
+#: src/wmtaskbar.cc:317
 msgid "_License"
 msgstr "授權(_L)"
 
-#: src/wmtaskbar.cc:461
+#: src/wmtaskbar.cc:459
 msgid "Favorite applications"
 msgstr "喜愛的應用程式"
 
-#: src/wmtaskbar.cc:478
+#: src/wmtaskbar.cc:476
 msgid "Window list menu"
 msgstr "視窗列表選單"
 
-#: src/wmtaskbar.cc:487
+#: src/wmtaskbar.cc:485
 msgid "Show Desktop"
 msgstr "顯示桌面"
 
@@ -1662,7 +1682,7 @@ msgstr "「%s」並未描述一般網際網路方案"
 msgid "\"%s\" contains no scheme description"
 msgstr "「%s」沒有包含方案描述"
 
-#: src/yxapp.cc:905
+#: src/yxapp.cc:904
 msgid ""
 "  --display=NAME      NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"
@@ -1912,9 +1932,6 @@ msgstr ""
 
 #~ msgid "unknown action"
 #~ msgstr "未知的動作"
-
-#~ msgid "Failed to execute %s: %s"
-#~ msgstr "執行 %s 時失敗：%s"
 
 #~ msgid "Not a regular file: %s"
 #~ msgstr "不是普通檔案：%s"

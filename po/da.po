@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.3.12.170\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-08-30 18:10-0600\n"
+"POT-Creation-Date: 2017-09-04 00:59+0000\n"
 "PO-Revision-Date: 2017-06-08 18:38+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -267,7 +267,7 @@ msgstr "Indhold"
 msgid "Index"
 msgstr "Indeks"
 
-#: src/icehelp.cc:1108 src/icesame.cc:65 src/iceview.cc:76 src/wmframe.cc:185
+#: src/icehelp.cc:1108 src/icesame.cc:65 src/iceview.cc:76 src/wmframe.cc:180
 msgid "Close"
 msgstr "Luk"
 
@@ -483,7 +483,7 @@ msgstr "Ugyldigt argument: \"%s\"."
 msgid "No actions specified."
 msgstr "Ingen handlinger anført."
 
-#: src/icesh.cc:709 src/icesound.cc:942 src/icewmhint.cc:91 src/yxapp.cc:948
+#: src/icesh.cc:709 src/icesound.cc:942 src/icewmhint.cc:91 src/yxapp.cc:947
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "Kan ikke åbne skærm: %s. X skal køre og $DISPLAY sat."
@@ -589,7 +589,7 @@ msgstr ""
 msgid "Can't connect to ESound daemon: %s"
 msgstr "Kan ikke oprette forbindelse til ESound-dæmon: %s"
 
-#: src/icesound.cc:491 src/icewmhint.cc:93 src/yxapp.cc:949
+#: src/icesound.cc:491 src/icewmhint.cc:93 src/yxapp.cc:948
 msgid "<none>"
 msgstr "<ingen>"
 
@@ -907,7 +907,7 @@ msgstr ""
 "  -h, --help          Udskriver denne anvendelsesskærm og afslutter.\n"
 "\n"
 
-#: src/movesize.cc:903
+#: src/movesize.cc:901
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Ukendt retning i flyt-/tilpas størrelse-forespørgsel: %d"
@@ -944,148 +944,166 @@ msgstr "Sprog:"
 msgid "icewm - About"
 msgstr "icewm - Om"
 
-#: src/wmapp.cc:439
+#: src/wmapp.cc:120
+#, fuzzy
+msgid "A window manager is already running, use --replace to replace it"
+msgstr "En anden vindueshåndtering kører allerede, afslutter..."
+
+#: src/wmapp.cc:138
+#, c-format
+msgid "failed to set %s owner"
+msgstr ""
+
+#: src/wmapp.cc:142
+msgid "Waiting to replace the old window manager"
+msgstr ""
+
+#: src/wmapp.cc:147
+msgid "done."
+msgstr ""
+
+#: src/wmapp.cc:440
 msgid "Unable to get current font path."
 msgstr "Ikke i stand til at læse nuværende skrifttype sti."
 
-#: src/wmapp.cc:466
+#: src/wmapp.cc:467
 msgid "Unexpected format of ICEWM_FONT_PATH property"
 msgstr "Uventet format for ICEWM_FONT_PATH-egenskab"
 
-#: src/wmapp.cc:549
+#: src/wmapp.cc:550
 msgid "_Logout"
 msgstr "Log _ud"
 
-#: src/wmapp.cc:550
+#: src/wmapp.cc:551
 msgid "_Cancel logout"
 msgstr "_Annuller log ud"
 
-#: src/wmapp.cc:563 src/wmapp.cc:565
+#: src/wmapp.cc:564 src/wmapp.cc:566
 msgid "Lock _Workstation"
 msgstr "Lås _arbejdsstation"
 
-#: src/wmapp.cc:569 src/wmapp.cc:571 src/wmdialog.cc:107
+#: src/wmapp.cc:570 src/wmapp.cc:572 src/wmdialog.cc:107
 msgid "Re_boot"
 msgstr "_Genstart"
 
-#: src/wmapp.cc:575 src/wmapp.cc:577 src/wmdialog.cc:114
+#: src/wmapp.cc:576 src/wmapp.cc:578 src/wmdialog.cc:114
 msgid "Shut_down"
 msgstr "_Luk ned"
 
-#: src/wmapp.cc:583 src/wmapp.cc:585
+#: src/wmapp.cc:584 src/wmapp.cc:586
 msgid "Restart _Icewm"
 msgstr "Genstart _Icewm"
 
 # scootergrisen: tjek om det er korrekt med "Xterm". Synes ikke Xterm virker som forventet.
-#: src/wmapp.cc:589
+#: src/wmapp.cc:590
 msgid "Restart _Xterm"
 msgstr "Genstart _Xterm"
 
-#: src/wmapp.cc:611
+#: src/wmapp.cc:612
 msgid "_Menu"
 msgstr "_Menu"
 
-#: src/wmapp.cc:612
+#: src/wmapp.cc:613
 msgid "_Above Dock"
 msgstr "_Over dok"
 
-#: src/wmapp.cc:613
+#: src/wmapp.cc:614
 msgid "_Dock"
 msgstr "_Dok"
 
-#: src/wmapp.cc:614
+#: src/wmapp.cc:615
 msgid "_OnTop"
 msgstr "Ø_verst"
 
-#: src/wmapp.cc:615
+#: src/wmapp.cc:616
 msgid "_Normal"
 msgstr "_Normal"
 
-#: src/wmapp.cc:616
+#: src/wmapp.cc:617
 msgid "_Below"
 msgstr "_Under"
 
-#: src/wmapp.cc:617
+#: src/wmapp.cc:618
 msgid "D_esktop"
 msgstr "_Skrivebord"
 
-#: src/wmapp.cc:629
+#: src/wmapp.cc:630
 msgid "_Restore"
 msgstr "_Gendan"
 
-#: src/wmapp.cc:631
+#: src/wmapp.cc:632
 msgid "_Move"
 msgstr "_Flyt"
 
-#: src/wmapp.cc:633
+#: src/wmapp.cc:634
 msgid "_Size"
 msgstr "Stø_rrelse"
 
-#: src/wmapp.cc:635
+#: src/wmapp.cc:636
 msgid "Mi_nimize"
 msgstr "Mi_nimer"
 
-#: src/wmapp.cc:637
+#: src/wmapp.cc:638
 msgid "Ma_ximize"
 msgstr "Ma_ksimer"
 
-#: src/wmapp.cc:639
+#: src/wmapp.cc:640
 msgid "_Fullscreen"
 msgstr "F_uldskærm"
 
-#: src/wmapp.cc:643 src/wmwinlist.cc:309
+#: src/wmapp.cc:644 src/wmwinlist.cc:309
 msgid "_Hide"
 msgstr "Sk_jul"
 
-#: src/wmapp.cc:646
+#: src/wmapp.cc:647
 msgid "Roll_up"
 msgstr "Rul _op"
 
-#: src/wmapp.cc:653
+#: src/wmapp.cc:654
 msgid "R_aise"
 msgstr "_Hæv"
 
-#: src/wmapp.cc:655
+#: src/wmapp.cc:656
 msgid "_Lower"
 msgstr "_Sænk"
 
-#: src/wmapp.cc:657
+#: src/wmapp.cc:658
 msgid "La_yer"
 msgstr "L_ag"
 
-#: src/wmapp.cc:661 src/wmwinlist.cc:312
+#: src/wmapp.cc:662 src/wmwinlist.cc:312
 msgid "Move _To"
 msgstr "Flyt _til"
 
-#: src/wmapp.cc:662
+#: src/wmapp.cc:663
 msgid "Occupy _All"
 msgstr "_På alle"
 
-#: src/wmapp.cc:668
+#: src/wmapp.cc:669
 msgid "Limit _Workarea"
 msgstr "Afgræns _arbejdsområde"
 
-#: src/wmapp.cc:673
+#: src/wmapp.cc:674
 msgid "Tray _icon"
 msgstr "_Bakkeikon"
 
-#: src/wmapp.cc:679 src/wmwinlist.cc:297 src/wmwinlist.cc:323
+#: src/wmapp.cc:680 src/wmwinlist.cc:297 src/wmwinlist.cc:323
 msgid "_Close"
 msgstr "_Luk"
 
-#: src/wmapp.cc:681 src/wmwinlist.cc:299
+#: src/wmapp.cc:682 src/wmwinlist.cc:299
 msgid "_Kill Client"
 msgstr "_Dræb klient"
 
-#: src/wmapp.cc:685 src/wmdialog.cc:121 src/wmwinmenu.cc:138
+#: src/wmapp.cc:686 src/wmdialog.cc:121 src/wmwinmenu.cc:138
 msgid "_Window list"
 msgstr "_Vinduesliste"
 
-#: src/wmapp.cc:701
+#: src/wmapp.cc:702
 msgid "Another window manager already running, exiting..."
 msgstr "En anden vindueshåndtering kører allerede, afslutter..."
 
-#: src/wmapp.cc:775
+#: src/wmapp.cc:776
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1094,21 +1112,21 @@ msgstr ""
 "Kunne ikke genstarte: %s\n"
 "Leder $PATH til %s?"
 
-#: src/wmapp.cc:1407
+#: src/wmapp.cc:1414
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      Klient-id som skal bruges når sessionshåndtering "
 "kontaktes.\n"
 
-#: src/wmapp.cc:1413
+#: src/wmapp.cc:1420
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
 "  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
 
-#: src/wmapp.cc:1419
+#: src/wmapp.cc:1426
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1123,8 +1141,10 @@ msgid ""
 "\n"
 "  -V, --version       Prints version information and exits.\n"
 "  -h, --help          Prints this usage screen and exits.\n"
-"%s  --replace           Replace an existing window manager.\n"
-"  --restart           Don't use this: It's an internal flag.\n"
+"%s\n"
+"  --replace           Replace an existing window manager.\n"
+"  -r, --restart       Tell the running icewm to restart itself.\n"
+"\n"
 "  --configured        Print the compile time configuration.\n"
 "  --directories       Print the configuration directories.\n"
 "  -l, --list-themes   Print a list of all available themes.\n"
@@ -1170,21 +1190,21 @@ msgstr ""
 "Besøg http://www.icewm.org/ for at rapportere fejl, supportforespørgsel, "
 "kommentarer...\n"
 
-#: src/wmapp.cc:1481
+#: src/wmapp.cc:1490
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s konfigurationsmapper:\n"
 
-#: src/wmapp.cc:1624
+#: src/wmapp.cc:1633
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s konfigurerede tilvalg:%s\n"
 
-#: src/wmapp.cc:1709
+#: src/wmapp.cc:1719
 msgid "Confirm Logout"
 msgstr "Bekræft log ud"
 
-#: src/wmapp.cc:1710
+#: src/wmapp.cc:1720
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1225,8 +1245,8 @@ msgstr "Lås _arbejdsstation"
 msgid "_Cancel"
 msgstr "_Annuller"
 
-#: src/wmdialog.cc:100 src/wmprog.cc:1004 src/wmprog.cc:1006 src/wmprog.cc:1010
-#: src/wmprog.cc:1012 src/wmtaskbar.cc:329 src/wmtaskbar.cc:331
+#: src/wmdialog.cc:100 src/wmprog.cc:1005 src/wmprog.cc:1007 src/wmprog.cc:1011
+#: src/wmprog.cc:1013 src/wmtaskbar.cc:327 src/wmtaskbar.cc:329
 msgid "_Logout..."
 msgstr "Log _ud..."
 
@@ -1234,36 +1254,36 @@ msgstr "Log _ud..."
 msgid "_Restart icewm"
 msgstr "Gensta_rt icewm"
 
-#: src/wmdialog.cc:135 src/wmprog.cc:947 src/wmprog.cc:949 src/wmtaskbar.cc:321
-#: src/wmtaskbar.cc:324
+#: src/wmdialog.cc:135 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:319
+#: src/wmtaskbar.cc:322
 msgid "_About"
 msgstr "O_m"
 
-#: src/wmframe.cc:163 src/wmframe.cc:3432
+#: src/wmframe.cc:158 src/wmframe.cc:3430
 msgid "Maximize"
 msgstr "Maksimer"
 
-#: src/wmframe.cc:176
+#: src/wmframe.cc:171
 msgid "Minimize"
 msgstr "Minimer"
 
-#: src/wmframe.cc:197
+#: src/wmframe.cc:192
 msgid "Hide"
 msgstr "Skjul"
 
-#: src/wmframe.cc:207 src/wmframe.cc:3465
+#: src/wmframe.cc:202 src/wmframe.cc:3463
 msgid "Rollup"
 msgstr "Rul op"
 
-#: src/wmframe.cc:216
+#: src/wmframe.cc:211
 msgid "Raise/Lower"
 msgstr "Hæv/sænk"
 
-#: src/wmframe.cc:1739
+#: src/wmframe.cc:1737
 msgid "Kill Client: "
 msgstr "Dræb klient: "
 
-#: src/wmframe.cc:1743
+#: src/wmframe.cc:1741
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1271,11 +1291,11 @@ msgstr ""
 "ADVARSEL! Alle ændringer som ikke er gemt vil gå tabt når\n"
 "denne klient dræbes. Vil du fortsætte?"
 
-#: src/wmframe.cc:3429
+#: src/wmframe.cc:3427
 msgid "Restore"
 msgstr "Gendan"
 
-#: src/wmframe.cc:3463
+#: src/wmframe.cc:3461
 msgid "Rolldown"
 msgstr "Rul ned"
 
@@ -1379,47 +1399,47 @@ msgstr "_Sløset musefokus"
 msgid "Custo_m"
 msgstr "_Tilpasset"
 
-#: src/wmprog.cc:823
+#: src/wmprog.cc:824
 msgid "_Manual"
 msgstr ""
 
-#: src/wmprog.cc:824
+#: src/wmprog.cc:825
 msgid "_Icewm(1)"
 msgstr ""
 
-#: src/wmprog.cc:825
+#: src/wmprog.cc:826
 msgid "Icewm_Bg(1)"
 msgstr ""
 
-#: src/wmprog.cc:826
+#: src/wmprog.cc:827
 msgid "Ice_Sound(1)"
 msgstr ""
 
-#: src/wmprog.cc:899 src/wmprog.cc:901
+#: src/wmprog.cc:900 src/wmprog.cc:902
 msgid "Programs"
 msgstr "Programmer"
 
-#: src/wmprog.cc:908 src/wmprog.cc:910
+#: src/wmprog.cc:909 src/wmprog.cc:911
 msgid "_Run..."
 msgstr "_Kør..."
 
-#: src/wmprog.cc:919 src/wmprog.cc:921 src/wmtaskbar.cc:309
+#: src/wmprog.cc:920 src/wmprog.cc:922 src/wmtaskbar.cc:307
 msgid "_Windows"
 msgstr "Vin_duer"
 
-#: src/wmprog.cc:958 src/wmprog.cc:960
+#: src/wmprog.cc:959 src/wmprog.cc:961
 msgid "_Help"
 msgstr "_Hjælp"
 
-#: src/wmprog.cc:974 src/wmprog.cc:976
+#: src/wmprog.cc:975 src/wmprog.cc:977
 msgid "_Focus"
 msgstr "_Fokus"
 
-#: src/wmprog.cc:985 src/wmprog.cc:987
+#: src/wmprog.cc:986 src/wmprog.cc:988
 msgid "_Themes"
 msgstr "_Temaer"
 
-#: src/wmprog.cc:994 src/wmprog.cc:996
+#: src/wmprog.cc:995 src/wmprog.cc:997
 msgid "Se_ttings"
 msgstr "_Indstillinger"
 
@@ -1428,59 +1448,59 @@ msgstr "_Indstillinger"
 msgid "Session Manager: Unknown line %s"
 msgstr "Sessionshåndtering: Ukendt linje %s"
 
-#: src/wmtaskbar.cc:169 src/wmtaskbar.cc:170
+#: src/wmtaskbar.cc:167 src/wmtaskbar.cc:168
 msgid "Task Bar"
 msgstr "Værktøjslinje"
 
-#: src/wmtaskbar.cc:298 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+#: src/wmtaskbar.cc:296 src/wmwinlist.cc:314 src/wmwinlist.cc:327
 msgid "Tile _Vertically"
 msgstr "Fliselæg _lodret"
 
-#: src/wmtaskbar.cc:299 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+#: src/wmtaskbar.cc:297 src/wmwinlist.cc:315 src/wmwinlist.cc:328
 msgid "T_ile Horizontally"
 msgstr "Fliselæg _vandret"
 
-#: src/wmtaskbar.cc:300 src/wmwinlist.cc:316 src/wmwinlist.cc:329
+#: src/wmtaskbar.cc:298 src/wmwinlist.cc:316 src/wmwinlist.cc:329
 msgid "Ca_scade"
 msgstr "_Overlappet"
 
-#: src/wmtaskbar.cc:301 src/wmwinlist.cc:317 src/wmwinlist.cc:330
+#: src/wmtaskbar.cc:299 src/wmwinlist.cc:317 src/wmwinlist.cc:330
 msgid "_Arrange"
 msgstr "_Arranger"
 
-#: src/wmtaskbar.cc:302 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+#: src/wmtaskbar.cc:300 src/wmwinlist.cc:319 src/wmwinlist.cc:331
 msgid "_Minimize All"
 msgstr "Mi_nimer alle"
 
-#: src/wmtaskbar.cc:303 src/wmwinlist.cc:320 src/wmwinlist.cc:332
+#: src/wmtaskbar.cc:301 src/wmwinlist.cc:320 src/wmwinlist.cc:332
 msgid "_Hide All"
 msgstr "_Skjul alle"
 
-#: src/wmtaskbar.cc:304 src/wmwinlist.cc:321 src/wmwinlist.cc:333
+#: src/wmtaskbar.cc:302 src/wmwinlist.cc:321 src/wmwinlist.cc:333
 msgid "_Undo"
 msgstr "_Fortryd"
 
-#: src/wmtaskbar.cc:306
+#: src/wmtaskbar.cc:304
 msgid "Arrange _Icons"
 msgstr "Arranger _ikoner"
 
-#: src/wmtaskbar.cc:312
+#: src/wmtaskbar.cc:310
 msgid "_Refresh"
 msgstr "_Opdater"
 
-#: src/wmtaskbar.cc:319
+#: src/wmtaskbar.cc:317
 msgid "_License"
 msgstr "_Licens"
 
-#: src/wmtaskbar.cc:461
+#: src/wmtaskbar.cc:459
 msgid "Favorite applications"
 msgstr "Favoritprogrammer"
 
-#: src/wmtaskbar.cc:478
+#: src/wmtaskbar.cc:476
 msgid "Window list menu"
 msgstr "Vindueslistemenu"
 
-#: src/wmtaskbar.cc:487
+#: src/wmtaskbar.cc:485
 msgid "Show Desktop"
 msgstr "Vis skrivebord"
 
@@ -1691,7 +1711,7 @@ msgstr "\"%s\" beskriver ikke et fælles internet skema"
 msgid "\"%s\" contains no scheme description"
 msgstr "\"%s\" indholder ingen skema beskrivelse"
 
-#: src/yxapp.cc:905
+#: src/yxapp.cc:904
 msgid ""
 "  --display=NAME      NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"
