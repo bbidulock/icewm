@@ -6,7 +6,9 @@
 
 =head1 SYNOPSIS
 
-F<$HOME/.icewm/preferences>
+F<> F<$XDG_CONFIG_HOME/icewm/preferences>
+ F<$HOME/.icewm/preferences>
+ F</usr/share/icewm/preferences>
 
 =head1 DESCRIPTION
 
@@ -16,19 +18,24 @@ F<$HOME/.icewm/preferences>
 
 =head1 FILES
 
+Locations for the F<preferences> file are as follows:
+
+F<>    F<$XDG_CONFIG_HOME/icewm/preferences>
+    F<$HOME/.icewm/preferences>
+    F</usr/share/icewm/preferences>
+
 =head1 SEE ALSO
+
+L<icewm(1)>.
 
 =head1 AUTHOR
 
 Brian Bidulock L<mailto:bidulock@openss7.org>.
 
-See B<--copying> for full copyright notice and copying permissions.
-
 =head1 LICENSE
 
 B<IceWM> is licensed under the GNU Library General Public License.
-See the F<COPYING> file in the distribution or use the B<--copying> flag
-to display copying permissions.
+See the F<COPYING> file in the distribution.
 
 =cut
 
