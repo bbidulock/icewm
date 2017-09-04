@@ -815,10 +815,7 @@ void TaskBar::updateWMHints() {
 
     long wk[4] = { 0, 0, 0, 0 };
     if (!taskBarAutoHide && !fIsCollapsed && getFrame()) {
-        if (taskBarAtTop)
-            wk[2] = getFrame()->y() + getFrame()->height();
-        else
-            wk[3] = dh - getFrame()->y();
+        wk[taskBarAtTop ? 2 : 3] = getFrame()->height();
     }
 
     MSG(("SET NET WM STRUT"));
