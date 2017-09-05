@@ -222,6 +222,26 @@ Send the clicks outside menus to target window.
 
 Allow mouse actions on client windows (buggy with some programs).
 
+=item B<GrabRootWindow>=1
+
+Manage root window (EXPERIMENTAL - normally enabled!).
+
+=item B<SnapMove>=1
+
+Snap to nearest screen edge/window when moving windows.
+
+=item B<ArrangeWindowsOnScreenSizeChange>=1
+
+Automatically arrange windows when screen size changes.
+
+=item B<AllowFullscreen>=1
+
+Allow to switch a window to fullscreen.
+
+=item B<FullscreenUseAllMonitors>=0
+
+Span over all available screens if window goes into fullscreen.
+
 =back
 
 =head3 Quick Switch List
@@ -280,13 +300,11 @@ Show the huge (48x48) of the window icon for the active window.
 
 Fill the rectangle highlighting the current icon.
 
-=item B<GrabRootWindow>=1
+=back
 
-Manage root window (EXPERIMENTAL - normally enabled!).
+=head3 Edge Workspace Switching
 
-=item B<SnapMove>=1
-
-Snap to nearest screen edge/window when moving windows.
+=over
 
 =item B<EdgeSwitch>=0
 
@@ -303,14 +321,6 @@ Workspace switches by moving mouse to top/bottom screen edge.
 =item B<ContinuousEdgeSwitch>=1
 
 Workspace switches continuously when moving mouse to screen edge.
-
-=item B<AutoReloadMenus>=1
-
-Reload menu files automatically.
-
-=item B<ArrangeWindowsOnScreenSizeChange>=1
-
-Automatically arrange windows when screen size changes.
 
 =back
 
@@ -488,11 +498,43 @@ Show number of workspace on workspace button (if PagerShowPreview=1).
 
 Execute taskbar applet commands (like MailCommand,     ClockCommand,   ...) on single click.
 
+=item B<EnableAddressBar>=1
+
+Enable address bar functionality in taskbar.
+
+=item B<ShowAddressBar>=1
+
+Show address bar in task bar.
+
+=item B<MailBoxPath>=""
+
+Mailbox path (use \$MAIL instead).
+
+Path to a mbox file. Remote mail boxes are accessed by specifying an URL
+using the Common Internet Scheme Syntax (RFC 1738):
+
+    `scheme://[user[:password]@]server[:port][/path]`.
+
+Supported schemes are C<pop3>, C<imap> and C<file>.  When the scheme is
+omitted F<file://> is prepended silently. IMAP subfolders can be
+accessed by using the  path component.  Reserved characters like
+I<slash> (C</>), I<at> (C<@>) and I<colon> (C<:>) can be specified using
+escape sequences with a hexadecimal encoding like C<%2f> for the slash
+or C<%40> for the at sign.  For example:
+
+    file:///var/spool/mail/captnmark
+    pop3://markus:%2f%40%3a@maol.ch/
+    imap://mathias@localhost/INBOX.Maillisten.icewm-user
+
 =back
 
 =head2 MENUS
 
 =over
+
+=item B<AutoReloadMenus>=1
+
+Reload menu files automatically.
 
 =item B<ShowProgramsMenu>=0
 
