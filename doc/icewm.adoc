@@ -318,6 +318,43 @@ MinimizeToDesktop = 0:: Window is minimized to desktop area (in addition to the 
 MiniIconsPlaceHorizontal = 0:: Place the mini-icons horizontal instead of vertical.
 MiniIconsRightToLeft = 0:: Place new mini-icons from right to left.
 MiniIconsBottomToTop = 0:: Place new mini-icons from bottom to top.
+GrabRootWindow = 1:: Manage root window (EXPERIMENTAL - normally enabled!).
+ShowMoveSizeStatus = 1:: Move/resize status window is visible when moving/resizing the window.
+ShowWorkspaceStatus = 1:: Show name of current workspace while switching.
+ShowWorkspaceStatusAfterSwitch = 1:: Show name of current workspace while switching workspaces.
+ShowWorkspaceStatusAfterActivation = 1:: Show name of current workspace after explicit activation.
+WarpPointer = 0:: Pointer is moved in pointer focus move when focus is moved using the keyboard.
+OpaqueMove = 1:: Window is immediately moved when dragged, no outline is shown.
+OpaqueResize = 0:: Window is immediately resized when dragged, no outline is shown.
+DelayPointerFocus:: Similar to delayed auto raise.
+Win95Keys = 0:: Makes 3 additional keys perform sensible functions. The keys
+must be mapped to MetaL,MetaR and Menu. The left one will activate the start menu
+and the right one will display the window list.
+ModSuperIsCtrlAlt = 1:: Treat Super/Win modifier as Ctrl+Alt.
+UseMouseWheel:: mouse wheel support
+ShowPopupsAbovePointer = 0:: Show popup menus above mouse pointer.
+ReplayMenuCancelClick = 0:: Send the clicks outside menus to target window.
+ManualPlacement = 0:: Windows must be placed manually by the user.
+SmartPlacement = 1:: Smart window placement (minimal overlap).
+IgnoreNoFocusHint = 0:: Ignore no-accept-focus hint set by some windows.
+MenuMouseTracking = 0:: If enabled, menus will track the mouse even when no mouse button is pressed.
+SnapMove = 1:: Snap to nearest screen edge/window when moving windows.
+SnapDistance:: Distance in pixels before windows snap together
+AutoReloadMenus = 1:: Reload menu files automatically if set to 1.
+ArrangeWindowsOnScreenSizeChange = 1:: Automatically arrange windows when screen size changes.
+ShowThemesMenu = 1:: Show themes submenu.
+ShowHelp = 1:: Show the help menu item.
+MsgBoxDefaultAction = 0:: Preselect to Cancel (0) or the OK (1) button in message
+boxes
+UseRootButtons:: Bitmask of root window button click to use in window manager
+ButtonRaiseMask:: Bitmask of buttons that raise the window when pressed
+EdgeResistance = 32:: Resistance to move window with mouse outside screen
+limits. Setting it to 10000 makes the resistance infinite.
+AllowFullscreen = 1:: Allow to switch a window to fullscreen.
+FullscreenUseAllMonitors = 0:: Span over all available screens if window goes into fullscreen.
+
+==== Quick Switch List
+
 QuickSwitch = 1:: enable Alt+Tab window switcher.
 QuickSwitchToMinimized = 1:: Alt+Tab switches to minimized windows too.
 QuickSwitchToHidden = 1:: Alt+Tab to hidden windows.
@@ -331,38 +368,13 @@ QuickSwitchMaxWidth = 0:: Go through all window titles and choose width of the l
 QuickSwitchVertical = 1:: Place the icons and titles vertical instead of horizontal.
 QuickSwitchHugeIcon = 0:: Show the huge (48x48) of the window icon for the active window.
 QuickSwitchFillSelection = 0:: Fill the rectangle highlighting the current icon.
-GrabRootWindow = 1:: Manage root window (EXPERIMENTAL - normally enabled!).
-ShowMoveSizeStatus = 1:: Move/resize status window is visible when moving/resizing the window.
-ShowWorkspaceStatus = 1:: Show name of current workspace while switching.
-ShowWorkspaceStatusAfterSwitch = 1:: Show name of current workspace while switching workspaces.
-ShowWorkspaceStatusAfterActivation = 1:: Show name of current workspace after explicit activation.
-WarpPointer = 0:: Pointer is moved in pointer focus move when focus is moved using the keyboard.
-OpaqueMove = 1:: Window is immediately moved when dragged, no outline is shown.
-OpaqueResize = 0:: Window is immediately resized when dragged, no outline is shown.
-Win95Keys = 0:: Makes 3 additional keys perform sensible functions. The keys
-must be mapped to MetaL,MetaR and Menu. The left one will activate the start menu
-and the right one will display the window list.
-ModSuperIsCtrlAlt = 1:: Treat Super/Win modifier as Ctrl+Alt.
-ManualPlacement = 0:: Windows must be placed manually by the user.
-SmartPlacement = 1:: Smart window placement (minimal overlap).
-IgnoreNoFocusHint = 0:: Ignore no-accept-focus hint set by some windows.
-MenuMouseTracking = 0:: If enabled, menus will track the mouse even when no mouse button is pressed.
-SnapMove = 1:: Snap to nearest screen edge/window when moving windows.
-SnapDistance:: Distance in pixels before windows snap together
+
+==== Edge Workspace Switching
+
 EdgeSwitch = 0:: Workspace switches by moving mouse to left/right screen edge.
 HorizontalEdgeSwitch = 0:: Workspace switches by moving mouse to left/right screen edge.
 VerticalEdgeSwitch = 0:: Workspace switches by moving mouse to top/bottom screen edge.
 ContinuousEdgeSwitch = 1:: Workspace switches continuously when moving mouse to screen edge.
-AutoReloadMenus = 1:: Reload menu files automatically if set to 1.
-ArrangeWindowsOnScreenSizeChange = 1:: Automatically arrange windows when screen size changes.
-ShowThemesMenu = 1:: Show themes submenu.
-ShowHelp = 1:: Show the help menu item.
-MsgBoxDefaultAction = 0:: Preselect to Cancel (0) or the OK (1) button in message
-boxes
-UseRootButtons:: Bitmask of root window button click to use in window manager
-ButtonRaiseMask:: Bitmask of buttons that raise the window when pressed
-EdgeResistance = 32:: Resistance to move window with mouse outside screen
-limits. Setting it to 10000 makes the resistance infinite.
 
 === Task Bar
 
@@ -381,19 +393,37 @@ TaskBarShowAPMGraph = 1:: Show APM status in graph mode.
 TaskBarShowMailboxStatus = 1:: Display status of mailbox (determined by `$MAIL` environment variable).
 TaskBarMailboxStatusBeepOnNewMail = 0:: Beep when new mail arrives.
 TaskBarMailboxStatusCountMessages = 0:: Display mail message count as tooltip.
-TaskBarShowStartMenu = 1:: Show button for the start menu on the task bar.
-TaskBarShowWindowListMenu:: Show button for window list menu on taskbar.
-TaskBarShowCPUStatus = 1:: Show CPU status on task bar (Linux & Solaris).
+TaskBarShowWorkspaces = 1:: Show workspace switching buttons on task bar.
 TaskBarShowWindows = 1:: Show windows on the taskbar.
 TaskBarShowShowDesktopButton = 1:: Show 'show desktop' button on taskbar.
 ShowEllipsis = 0:: Show Ellipsis in taskbar items.
 TaskBarShowTray = 1:: Show windows in the tray.
 TrayShowAllWindows = 1:: Show windows from all workspaces on tray.
 TaskBarShowTransientWindows = 1:: Show transient (dialogs, ...) windows on task bar.
-TaskBarShowWindowIcons = 1:: Show icons of windows on the task bar.
-TaskBarShowWorkspaces = 1:: Show workspace switching buttons on task bar.
 TaskBarShowAllWindows = 0:: Show windows from all workspaces on task bar.
+TaskBarShowWindowIcons = 1:: Show icons of windows on the task bar.
+TaskBarShowStartMenu = 1:: Show button for the start menu on the task bar.
+TaskBarShowWindowListMenu:: Show button for window list menu on taskbar.
+TaskBarShowCPUStatus = 1:: Show CPU status on task bar (Linux & Solaris).
+CPUStatusShowRamUsage = 1:: Show RAM usage in CPU status tool tip.
+CPUStatusShowSwapUsage = 1:: Show swap usage in CPU status tool tip.
+CPUStatusShowAcpiTemp = 1:: Show ACPI temperature in CPU status tool tip.
+CPUStatusShowAcpiTempInGraph = 0:: Show ACPI temperature in CPU graph.
+CPUStatusShowCpuFreq = 1:: Show CPU frequency in CPU status tool tip.
+TaskBarShowMEMStatus = 1:: Show memory usage status on task bar (Linux only).
+TaskBarShowNetStatus = 1:: Show network status on task bar (Linux only).
+TaskBarShowCollapseButton = 0:: Show a button to collapse the taskbar.
+TaskBarDoubleHeight = 0:: Double height task bar
+TaskBarWorkspacesLeft = 1:: Place workspace pager on left, not right.
 TaskBarWorkspacesTop = 0:: Place workspace pager on top row when using dual-height taskbar.
+PagerShowPreview = 0:: Show a mini desktop preview on each workspace button.
+PagerShowWindowIcons = 1:: Draw window icons inside large enough preview windows on pager (if PagerShowPreview=1).
+PagerShowMinimized = 1:: Draw even minimized windows as unfilled rectangles (if PagerShowPreview=1).
+PagerShowBorders = 1:: Draw border around workspace buttons (if PagerShowPreview=1).
+PagerShowNumbers = 1:: Show number of workspace on workspace button (if PagerShowPreview=1).
+TaskBarLaunchOnSingleClick = 1:: Execute taskbar applet commands (like MailCommand,     ClockCommand,   ...) on single click.
+EnableAddressBar = 1:: Enable address bar functionality in taskbar.
+ShowAddressBar = 1:: Show address bar in task bar.
 MailBoxPath::
   Path to a mbox file. Remote mail boxes are accessed by
   specifying an URL using the Common Internet Scheme Syntax (RFC 1738):
@@ -410,30 +440,8 @@ MailBoxPath::
     pop3://markus:%2f%40%3a@maol.ch/
     imap://mathias@localhost/INBOX.Maillisten.icewm-user
 
-
-TaskBarShowMEMStatus = 1:: Show memory usage status on task bar (Linux only).
-TaskBarShowNetStatus = 1:: Show network status on task bar (Linux only).
-TaskBarShowCollapseButton = 0:: Show a button to collapse the taskbar.
-TaskBarWorkspacesLeft = 1:: Place workspace pager on left, not right.
-PagerShowPreview = 0:: Show a mini desktop preview on each workspace button.
-PagerShowWindowIcons = 1:: Draw window icons inside large enough preview windows on pager (if PagerShowPreview=1).
-PagerShowMinimized = 1:: Draw even minimized windows as unfilled rectangles (if PagerShowPreview=1).
-PagerShowBorders = 1:: Draw border around workspace buttons (if PagerShowPreview=1).
-PagerShowNumbers = 1:: Show number of workspace on workspace button (if PagerShowPreview=1).
-TaskBarLaunchOnSingleClick = 1:: Execute taskbar applet commands (like MailCommand,     ClockCommand,   ...) on single click.
-TaskBarDoubleHeight = 0:: Double height task bar
-TaskBarShowCPUStatus = 1:: Show CPU status on task bar.
-CPUStatusShowRamUsage = 1:: Show RAM usage in CPU status tool tip.
-CPUStatusShowSwapUsage = 1:: Show swap usage in CPU status tool tip.
-CPUStatusShowAcpiTemp = 1:: Show ACPI temperature in CPU status tool tip.
-CPUStatusShowAcpiTempInGraph = 0:: Show ACPI temperature in CPU graph.
-CPUStatusShowCpuFreq = 1:: Show CPU frequency in CPU status tool tip.
 TimeFormat:: format for the taskbar clock (time) (see strftime(3) manpage)
 DateFormat:: format for the taskbar clock tooltip (date+time) (see strftime(3) manpage).
-UseMouseWheel:: mouse wheel support
-DelayPointerFocus:: similar to delayed auto raise.
-ShowPopupsAbovePointer = 0:: Show popup menus above mouse pointer.
-ReplayMenuCancelClick = 0:: Send the clicks outside menus to target window.
 
 === Timings
 
