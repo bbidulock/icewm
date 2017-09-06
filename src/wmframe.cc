@@ -832,7 +832,9 @@ void YFrameWindow::getNewPos(const XConfigureRequestEvent &cr,
 }
 
 void YFrameWindow::configureClient(const XConfigureRequestEvent &configureRequest) {
-    client()->setBorder((configureRequest.value_mask & CWBorderWidth) ? configureRequest.border_width : client()->getBorder());
+
+    if (hasbit(configureRequest.value_mask, CWBorderWidth))
+        client()->setBorder(configureRequest.border_width);
 
     int cx, cy, cw, ch;
     getNewPos(configureRequest, cx, cy, cw, ch);

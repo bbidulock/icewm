@@ -181,6 +181,16 @@ inline char const * niceUnit(T & val, char const * const units[],
 
 /*** Bit Operations ***********************************************************/
 
+template <class M, class B>
+inline bool hasbit(M mask, B bits) {
+    return (mask & bits) != 0;
+}
+
+template <class M, class B>
+inline bool hasbits(M mask, B bits) {
+    return (mask & bits) == (M) bits;
+}
+
 /*
  * Returns the lowest bit set in mask.
  */
