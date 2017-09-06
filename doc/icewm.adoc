@@ -570,6 +570,11 @@ DlgBorderSizeY = 2:: Top/bottom border height of non-resizable windows.
 CornerSizeX = 24:: Width of the window corner.
 CornerSizeY = 24:: Height of the window corner.
 TitleBarHeight = 20:: Height of the title bar.
+TitleBarJustify = 0:: Justification of the window title.
+TitleBarHorzOffset = 0:: Horizontal offset for the window title text.
+TitleBarVertOffset = 0:: Vertical offset for the window title text.
+ScrollBarX = 16:: Scrollbar width.
+ScrollBarY = 16:: Scrollbar (button) height.
 
 === Fonts
 
