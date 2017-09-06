@@ -230,6 +230,10 @@ Manage root window (EXPERIMENTAL - normally enabled!).
 
 Snap to nearest screen edge/window when moving windows.
 
+=item B<SnapDistance>=8  [0-64]
+
+Distance in pixels before windows snap together.
+
 =item B<ArrangeWindowsOnScreenSizeChange>=1
 
 Automatically arrange windows when screen size changes.
@@ -241,6 +245,14 @@ Allow to switch a window to fullscreen.
 =item B<FullscreenUseAllMonitors>=0
 
 Span over all available screens if window goes into fullscreen.
+
+=item B<UseRootButtons>=255  [0-255]
+
+Bitmask of root window button click to use in window manager.
+
+=item B<ButtonRaiseMask>=1  [0-255]
+
+Bitmask of buttons that raise the window when pressed.
 
 =back
 
@@ -321,6 +333,11 @@ Workspace switches by moving mouse to top/bottom screen edge.
 =item B<ContinuousEdgeSwitch>=1
 
 Workspace switches continuously when moving mouse to screen edge.
+
+=item B<EdgeResistance>=32  [0-10000]
+
+Resistance in pixels when trying to move windows off the screen (10000 =
+infinite).
 
 =back
 
@@ -576,9 +593,90 @@ Show the run menu item.
 
 Show the window menu item.
 
+=item B<MenuMaximalWidth>=0  [0-16384]
+
+Maximal width of popup menus,  2/3 of the screen's width if set to zero.
+
 =back
 
 =head2 TIMINGS
+
+=over
+
+=item B<DelayFuzziness>=10  (0-100)
+
+Delay fuzziness, to allow merging of multiple timer timeouts into one
+(notebook power saving).
+
+=item B<ClickMotionDistance>=4  [0-32]
+
+Pointer motion distance before click gets interpreted as drag.
+
+=item B<ClickMotionDelay>=200  [0-2000]
+
+Delay before click gets interpreted as drag.
+
+=item B<MultiClickTime>=400  [0-5000]
+
+Multiple click time.
+
+=item B<MenuActivateDelay>=40  [0-5000]
+
+Delay before activating menu items.
+
+=item B<SubmenuMenuActivateDelay>=300  [0-5000]
+
+Delay before activating menu submenus.
+
+=item B<ToolTipDelay>=1000  [0-5000]
+
+Delay before tooltip window is displayed.
+
+=item B<ToolTipTime>=0  [0-60000]
+
+Time before tooltip window is hidden (0 means never.
+
+=item B<AutoHideDelay>=300  [0-5000]
+
+Delay before task bar is hidden.
+
+=item B<AutoShowDelay>=500  [0-5000]
+
+Delay before task bar is shown.
+
+=item B<AutoRaiseDelay>=400  [0-5000]
+
+Delay before windows are auto raised.
+
+=item B<PointerFocusDelay>=200  [0-1000]
+
+Delay for pointer focus switching.
+
+=item B<EdgeSwitchDelay>=600  [0-5000]
+
+Screen edge workspace switching delay.
+
+=item B<ScrollBarStartDelay>=500  [0-5000]
+
+Inital scroll bar autoscroll delay.
+
+=item B<ScrollBarDelay>=30  [0-5000]
+
+Scroll bar autoscroll delay.
+
+=item B<AutoScrollStartDelay>=500  [0-5000]
+
+Auto scroll start delay.
+
+=item B<AutoScrollDelay>=60  [0-5000]
+
+Auto scroll delay.
+
+=item B<WorkspaceStatusTime>=2500  [0-2500]
+
+Time before workspace status window is hidden.
+
+=back
 
 =head2 WORKSPACES
 
