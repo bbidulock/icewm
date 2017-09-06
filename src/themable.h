@@ -210,27 +210,27 @@ cfoption icewm_themable_preferences[] = {
 /************************************************************************************************************************************************************
  * Font definitions
  ************************************************************************************************************************************************************/
-    OFV("TitleFontName",                        &titleFontName,                 ""),
-    OFV("MenuFontName",                         &menuFontName,                  ""),
-    OFV("StatusFontName",                       &statusFontName,                ""),
-    OFV("QuickSwitchFontName",                  &switchFontName,                ""),
-    OFV("NormalButtonFontName",                 &normalButtonFontName,          ""),
-    OFV("ActiveButtonFontName",                 &activeButtonFontName,          ""),
+    OFV("TitleFontName",                        &titleFontName,                 "Name of the title bar font."),
+    OFV("MenuFontName",                         &menuFontName,                  "Name of the menu font."),
+    OFV("StatusFontName",                       &statusFontName,                "Name of the status display font."),
+    OFV("QuickSwitchFontName",                  &switchFontName,                "Name of the font for Alt+Tab switcher window."),
+    OFV("NormalButtonFontName",                 &normalButtonFontName,          "Name of the normal button font."),
+    OFV("ActiveButtonFontName",                 &activeButtonFontName,          "Name of the active button font."),
 #ifdef CONFIG_TASKBAR
-    OFV("NormalTaskBarFontName",                &normalTaskBarFontName,         ""),
-    OFV("ActiveTaskBarFontName",                &activeTaskBarFontName,         ""),
-    OFV("ToolButtonFontName",                   &toolButtonFontName,            "fallback: NormalButtonFontName"),
-    OFV("NormalWorkspaceFontName",              &normalWorkspaceFontName,       "fallback: NormalButtonFontName"),
-    OFV("ActiveWorkspaceFontName",              &activeWorkspaceFontName,       "fallback: ActiveButtonFontName"),
+    OFV("NormalTaskBarFontName",                &normalTaskBarFontName,         "Name of the normal task bar item font."),
+    OFV("ActiveTaskBarFontName",                &activeTaskBarFontName,         "Name of the active task bar item font."),
+    OFV("ToolButtonFontName",                   &toolButtonFontName,            "Name of the tool button font (fallback: NormalButtonFontName)."),
+    OFV("NormalWorkspaceFontName",              &normalWorkspaceFontName,       "Name of the normal workspace button font (fallback: NormalButtonFontName)."),
+    OFV("ActiveWorkspaceFontName",              &activeWorkspaceFontName,       "Name of the active workspace button font (fallback: ActiveButtonFontName)."),
 #endif
-    OFV("MinimizedWindowFontName",              &minimizedWindowFontName,       ""),
-    OFV("ListBoxFontName",                      &listBoxFontName,               ""),
-    OFV("ToolTipFontName",                      &toolTipFontName,               ""),
-    OFV("ClockFontName",                        &clockFontName,                 ""),
-    OFV("TempFontName",                         &tempFontName,                  ""),
-    OFV("ApmFontName",                          &apmFontName,                   ""),
-    OFV("InputFontName",                        &inputFontName,                 ""),
-    OFV("LabelFontName",                        &labelFontName,                 ""),
+    OFV("MinimizedWindowFontName",              &minimizedWindowFontName,       "Name of the mini-window font."),
+    OFV("ListBoxFontName",                      &listBoxFontName,               "Name of the window list font."),
+    OFV("ToolTipFontName",                      &toolTipFontName,               "Name of the tool tip font."),
+    OFV("ClockFontName",                        &clockFontName,                 "Name of the task bar clock font."),
+    OFV("TempFontName",                         &tempFontName,                  "Name of the task bar temperature font."),
+    OFV("ApmFontName",                          &apmFontName,                   "Name of the task bar battery font."),
+    OFV("InputFontName",                        &inputFontName,                 "Name of the input field font."),
+    OFV("LabelFontName",                        &labelFontName,                 "Name of the label font."),
 /************************************************************************************************************************************************************
  * Color definitions
  ************************************************************************************************************************************************************/
