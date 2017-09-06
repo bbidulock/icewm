@@ -900,6 +900,124 @@ Command to run for address bar entries.
 
 =head3 Fonts
 
+=over
+
+=item B<TitleFontName>="-*-sans-medium-r-*-*-*-120-*-*-*-*-*-*"
+
+=item B<TitleFontNameXft>="sans-serif:size=12"
+
+Name of the title bar font.
+
+=item B<MenuFontName>="-*-sans-bold-r-*-*-*-100-*-*-*-*-*-*"
+
+=item B<MenuFontNameXft>="sans-serif:size=10:bold"
+
+Name of the menu font.
+
+=item B<StatusFontName>="-*-monospace-bold-r-*-*-*-120-*-*-*-*-*-*"
+
+=item B<StatusFontNameXft>="monospace:size=12:bold"
+
+Name of the status display font.
+
+=item B<QuickSwitchFontName>="-*-monospace-bold-r-*-*-*-120-*-*-*-*-*-*"
+
+=item B<QuickSwitchFontNameXft>="monospace:size=12:bold"
+
+Name of the font for Alt+Tab switcher window.
+
+=item B<NormalButtonFontName>="-*-sans-medium-r-*-*-*-120-*-*-*-*-*-*"
+
+=item B<NormalButtonFontNameXft>="sans-serif:size=12"
+
+Name of the normal button font.
+
+=item B<ActiveButtonFontName>="-*-sans-bold-r-*-*-*-120-*-*-*-*-*-*"
+
+=item B<ActiveButtonFontNameXft>="sans-serif:size=12:bold"
+
+Name of the active button font.
+
+=item B<NormalTaskBarFontName>="-*-sans-medium-r-*-*-*-120-*-*-*-*-*-*"
+
+=item B<NormalTaskBarFontNameXft>="sans-serif:size=12"
+
+Name of the normal task bar item font.
+
+=item B<ActiveTaskBarFontName>="-*-sans-bold-r-*-*-*-120-*-*-*-*-*-*"
+
+=item B<ActiveTaskBarFontNameXft>="sans-serif:size=12:bold"
+
+Name of the active task bar item font.
+
+=item B<ToolButtonFontName>="-*-sans-medium-r-*-*-*-120-*-*-*-*-*-*"
+
+=item B<ToolButtonFontNameXft>="sans-serif:size=12"
+
+Name of the tool button font (fallback: NormalButtonFontName).
+
+=item B<NormalWorkspaceFontName>="-*-sans-medium-r-*-*-*-120-*-*-*-*-*-*"
+
+=item B<NormalWorkspaceFontNameXft>="sans-serif:size=12"
+
+Name of the normal workspace button font (fallback: NormalButtonFontName).
+
+=item B<ActiveWorkspaceFontName>="-*-sans-medium-r-*-*-*-120-*-*-*-*-*-*"
+
+=item B<ActiveWorkspaceFontNameXft>="sans-serif:size=12"
+
+Name of the active workspace button font (fallback: ActiveButtonFontName).
+
+=item B<MinimizedWindowFontName>="-*-sans-medium-r-*-*-*-120-*-*-*-*-*-*"
+
+=item B<MinimizedWindowFontNameXft>="sans-serif:size=12"
+
+Name of the mini-window font.
+
+=item B<ListBoxFontName>="-*-sans-medium-r-*-*-*-120-*-*-*-*-*-*"
+
+=item B<ListBoxFontNameXft>="sans-serif:size=12"
+
+Name of the window list font.
+
+=item B<ToolTipFontName>="-*-sans-medium-r-*-*-*-120-*-*-*-*-*-*"
+
+=item B<ToolTipFontNameXft>="sans-serif:size=12"
+
+Name of the tool tip font.
+
+=item B<ClockFontName>="-*-monospace-medium-r-*-*-*-140-*-*-*-*-*-*"
+
+=item B<ClockFontNameXft>="monospace:size=12"
+
+Name of the task bar clock font.
+
+=item B<TempFontName>="-*-monospace-medium-r-*-*-*-140-*-*-*-*-*-*"
+
+=item B<TempFontNameXft>="monospace:size=12"
+
+Name of the task bar temperature font.
+
+=item B<ApmFontName>="-*-monospace-medium-r-*-*-*-140-*-*-*-*-*-*"
+
+=item B<ApmFontNameXft>="monospace:size=12"
+
+Name of the task bar battery font.
+
+=item B<InputFontName>="-*-monospace-medium-r-*-*-*-140-*-*-*-*-*-*"
+
+=item B<InputFontNameXft>="monospace:size=12"
+
+Name of the input field font.
+
+=item B<LabelFontName>="-*-sans-medium-r-*-*-*-140-*-*-*-*-*-*"
+
+=item B<LabelFontNameXft>="sans-serif:size=12"
+
+Name of the label font.
+
+=back
+
 =head3 Colors
 
 =over
