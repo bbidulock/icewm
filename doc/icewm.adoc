@@ -340,10 +340,7 @@ IgnoreNoFocusHint = 0:: Ignore no-accept-focus hint set by some windows.
 MenuMouseTracking = 0:: If enabled, menus will track the mouse even when no mouse button is pressed.
 SnapMove = 1:: Snap to nearest screen edge/window when moving windows.
 SnapDistance:: Distance in pixels before windows snap together
-AutoReloadMenus = 1:: Reload menu files automatically if set to 1.
 ArrangeWindowsOnScreenSizeChange = 1:: Automatically arrange windows when screen size changes.
-ShowThemesMenu = 1:: Show themes submenu.
-ShowHelp = 1:: Show the help menu item.
 MsgBoxDefaultAction = 0:: Preselect to Cancel (0) or the OK (1) button in message
 boxes
 EdgeResistance = 32:: Resistance to move window with mouse outside screen
@@ -450,6 +447,21 @@ TaskBarJustify = "left":: Taskbar justify left, right or center.
 TaskBarApmGraphWidth = 10:: Width of APM Monitor.
 TaskBarGraphHeight = 20:: Height of taskbar monitoring applets.
 XineramaPrimaryScreen = 0:: Primary screen for xinerama (taskbar, ...).
+
+=== Menus
+
+AutoReloadMenus = 1:: Reload menu files automatically if set to 1.
+ShowProgramsMenu = 0:: Show programs submenu.
+ShowSettingsMenu = 1:: Show settings submenu.
+ShowFocusModeMenu = 1:: Show focus mode submenu.
+ShowThemesMenu = 1:: Show themes submenu.
+ShowLogoutMenu = 1:: Show logout menu.
+ShowHelp = 1:: Show the help menu item.
+ShowLogoutSubMenu = 1:: Show logout submenu.
+ShowAbout = 1:: Show the about menu item.
+ShowRun = 1:: Show the run menu item.
+ShowWindowList = 1:: Show the window menu item.
+MenuMaximalWidth = 0:: Maximal width of popup menus,  2/3 of the screen's width if set to zero.
 
 === Timings
 
