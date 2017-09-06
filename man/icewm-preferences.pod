@@ -902,7 +902,21 @@ values set there.  To override the theme values, the settings should be
 set in F<prefoverrides> file: see L<icewm-prefoverrides(5)>.  Default
 values are shown following the equal sign.
 
-=head3 Borders
+=head3 Description
+
+=over
+
+=item B<ThemeAuthor>=""
+
+Theme author, e-mail address, credits.
+
+=item B<ThemeDescription>=""
+
+Description of the theme, credits.
+
+=back
+
+=head3 Borders, Icons, Margins and Buttons
 
 =over
 
@@ -953,6 +967,54 @@ Scrollbar width.
 =item B<ScrollBarY>=16  [0-64]
 
 Scrollbar (button) height.
+
+=item B<MenuIconSize>=16  [8-128]
+
+Menu icon size.
+
+=item B<SmallIconSize>=16  [8-128]
+
+Dimension of the small icons.
+
+=item B<LargeIconSize>=32  [8-128]
+
+Dimension of the large icons.
+
+=item B<HugeIconSize>=48  [8-128]
+
+Dimension of the large icons.
+
+=item B<QuickSwitchHorzMargin>=3  [0-64]
+
+Horizontal margin of the quickswitch window.
+
+=item B<QuickSwitchVertMargin>=3  [0-64]
+
+Vertical margin of the quickswitch window.
+
+=item B<QuickSwitchIconMargin>=4  [0-64]
+
+Vertical margin in the quickswitch window.
+
+=item B<QuickSwitchIconBorder>=2  [0-64]
+
+Distance between the active icon and it's border.
+
+=item B<QuickSwitchSeparatorSize>=6  [0-64]
+
+Height of the separator between (all reachable) icons and text, 0 to avoid it.
+
+=item B<TitleButtonsLeft>="s"
+
+Titlebar buttons from left to right (x=close, m=max, i=min, h=hide, r=rollup, s=sysmenu, d=depth).
+
+=item B<TitleButtonsRight>="xmir"
+
+Titlebar buttons from right to left (x=close, m=max, i=min, h=hide, r=rollup, s=sysmenu, d=depth).
+
+=item B<TitleButtonsSupported>="xmis"
+
+Titlebar buttons supported by theme (x,m,i,r,h,s,d).
 
 =back
 
