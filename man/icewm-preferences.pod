@@ -250,6 +250,10 @@ Span over all available screens if window goes into fullscreen.
 
 Bitmask of root window button click to use in window manager.
 
+=item B<MsgBoxDefaultAction>=0  [0-1]
+
+Preselect to Cancel (0) or the OK (1) button in message boxes.
+
 =item B<ButtonRaiseMask>=1  [0-255]
 
 Bitmask of buttons that raise the window when pressed.
@@ -675,6 +679,48 @@ Auto scroll delay.
 =item B<WorkspaceStatusTime>=2500  [0-2500]
 
 Time before workspace status window is hidden.
+
+=item B<MailCheckDelay>=30  [0-86400]
+
+Delay between new-mail checks. (seconds).
+
+=item B<TaskBarCPUDelay>=500  [10-3600000]
+
+Delay between CPU Monitor samples in ms.
+
+=item B<TaskBarCPUSamples>=20  [2-1000]
+
+Width of CPU Monitor.
+
+=item B<TaskBarMEMSamples>=20  [2-1000]
+
+Width of Memory Monitor.
+
+=item B<TaskBarMEMDelay>=500  [10-3600000]
+
+Delay between Memory Monitor samples in ms.
+
+=back
+
+=head2 BUITTONS AND KEYS
+
+=over
+
+=item B<DesktopWinMenuButton>=0  [0-20]
+
+Desktop mouse-button click to show the window list menu.
+
+=item B<DesktopMenuButton>=3  [0-20]
+
+Desktop mouse-button click to show the root menu.
+
+=item B<TitleBarMaximizeButton>=1  [0-5]
+
+TitleBar mouse-button double click to maximize the window.
+
+=item B<TitleBarRollupButton>=2  [0-5]
+
+TitleBar mouse-button double click to rollup the window.
 
 =back
 
