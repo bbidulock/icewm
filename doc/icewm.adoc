@@ -442,6 +442,8 @@ MailBoxPath::
 
 TimeFormat:: format for the taskbar clock (time) (see strftime(3) manpage)
 DateFormat:: format for the taskbar clock tooltip (date+time) (see strftime(3) manpage).
+TaskBarCPUSamples = 20:: Width of CPU Monitor.
+TaskBarMEMSamples = 20:: Width of Memory Monitor.
 
 === Timings
 
@@ -463,6 +465,9 @@ ScrollBarDelay:: Scroll bar autoscroll delay
 AutoScrollStartDelay:: Auto scroll start delay
 AutoScrollDelay:: Auto scroll delay
 WorkspaceStatusTime = 2500:: Time before workspace status window is hidden.
+MailCheckDelay = 30:: Delay between new-mail checks. (seconds).
+TaskBarCPUDelay = 500:: Delay between CPU Monitor samples in ms.
+TaskBarMEMDelay = 500:: Delay between Memory Monitor samples in ms.
 
 === Workspaces
 
