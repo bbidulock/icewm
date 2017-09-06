@@ -1249,6 +1249,14 @@ Incoming load on the network monitor.
 
 Idle (non) load on the network monitor, leave empty to force transparency.
 
+=item B<DesktopBackgroundColor>=""
+
+Desktop background color(s).
+
+=item B<DesktopTransparencyColor>=""
+
+Color(s) to announce for semitransparent windows.
+
 =back
 
 =head3 Desktop Background
@@ -1267,11 +1275,11 @@ Resize desktop background to full screen.
 
 =item B<DesktopBackgroundColor>=""
 
-Desktop background image(s).
+Desktop background color(s).
 
 =item B<DesktopBackgroundImage>=""
 
-Desktop background color(s).
+Desktop background image(s).
 
 =item B<SupportSemitransparency>=1  0/1
 

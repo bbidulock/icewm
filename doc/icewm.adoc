@@ -679,6 +679,8 @@ ColorMEMStatusFree = "rgb:00/00/00":: Free memory in the memory monitor.
 ColorNetSend = "rgb:FF/FF/00":: Outgoing load on the network monitor.
 ColorNetReceive = "rgb:FF/00/FF":: Incoming load on the network monitor.
 ColorNetIdle = "rgb:00/00/00":: Idle (non) load on the network monitor, leave empty to force transparency.
+DesktopBackgroundColor = "":: Color of the desktop background.
+DesktopTransparencyColor = "":: Color(s) to announce for semitransparent windows.
 
 === Desktop Background
 
