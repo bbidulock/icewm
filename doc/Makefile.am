@@ -2,7 +2,7 @@
 SUFFIXES = .adoc .html
 
 .adoc.html:
-	$(ASCIIDOC) $(ASCIIDOC_BACKEND) $<
+	$(AM_V_GEN)$(ASCIIDOC) $(ASCIIDOC_BACKEND) $<
 
 html_documentation = \
 	icewm.html \

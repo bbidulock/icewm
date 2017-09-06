@@ -10,7 +10,7 @@ dist_noinst_SCRIPTS = gennews.sh autogen.sh configure.sh rebuild.sh dist.sh
 DISTCLEANFILES = ChangeLog AUTHORS NEWS README README.md README.html README.txt
 
 dist-hook:
-	if test -x "`which git 2>/dev/null`" -a -d "$(srcdir)/.git" ; then \
+	$(AM_V_GEN)if test -x "`which git 2>/dev/null`" -a -d "$(srcdir)/.git" ; then \
 		chmod u+w $(distdir)/{ChangeLog,AUTHORS,NEWS} ; \
 		( cd $(srcdir) ; \
 		  echo -e "# created with git log --stat=76 -M -C -300|fmt -sct -w80\n" ; \
@@ -31,7 +31,7 @@ dist-hook:
 	cat $(distdir)/README.md | fmt -sct -w80 -g72 >$(distdir)/README
 
 ChangeLog:
-	if test -x "`which git 2>/dev/null`" -a -d "$(srcdir)/.git" ; then \
+	$(AM_V_GEN)if test -x "`which git 2>/dev/null`" -a -d "$(srcdir)/.git" ; then \
 		( cd $(srcdir) ; \
 		  echo -e "# created with git log --stat=76 -M -C -300|fmt -sct -w80\n" ; \
 		  git log --stat=76 -M -C -300|fmt -sct -w80 \
@@ -39,7 +39,7 @@ ChangeLog:
 	else touch $@ ; fi
 
 AUTHORS:
-	if test -x "`which git 2>/dev/null`" -a -d "$(srcdir)/.git" ; then \
+	$(AM_V_GEN)if test -x "`which git 2>/dev/null`" -a -d "$(srcdir)/.git" ; then \
 		( cd $(srcdir) ; \
 		  echo "$(PACKAGE) -- authors file.  $(DATE)" ; \
 		  echo "" ; \
@@ -48,7 +48,7 @@ AUTHORS:
 	else touch $@ ; fi
 
 NEWS:
-	if test -x "`which git 2>/dev/null`" -a -d "$(srcdir)/.git" ; then \
+	$(AM_V_GEN)if test -x "`which git 2>/dev/null`" -a -d "$(srcdir)/.git" ; then \
 		( cd $(srcdir) ; \
 		  echo "$(PACKAGE) -- history of user-visible changes.  $(DATE)" ; \
 		  PACKAGE="$(PACKAGE)" $(srcdir)/gennews.sh \
@@ -56,25 +56,25 @@ NEWS:
 	else touch $@ ; fi
 
 README.md: README.md.in
-	sed -r -e 's:\@PACKAGE\@:$(PACKAGE):g;s:\@VERSION\@:$(VERSION):g;s:\@DATE\@:$(DATE):g;s:\@BRANCH\@:$(BRANCH):g' $< >$@
+	$(AM_V_GEN)sed -r -e 's:\@PACKAGE\@:$(PACKAGE):g;s:\@VERSION\@:$(VERSION):g;s:\@DATE\@:$(DATE):g;s:\@BRANCH\@:$(BRANCH):g' $< >$@
 
 README: README.md
-	cat $< | fmt -sct -w80 -g72 >$@
+	$(AM_V_GEN)cat $< | fmt -sct -w80 -g72 >$@
 
 README.html: README.md
-	$(MARKDOWN) $< >$@
+	$(AM_V_GEN)$(MARKDOWN) $< >$@
 
 README.txt: README.html
-	links -dump -width 80 -codepage utf-8 $< >$@
+	$(AM_V_GEN)links -dump -width 80 -codepage utf-8 $< >$@
 
 INSTALL.cmakebuild: INSTALL-cmakebuild.md
-	cat $< | fmt -sct -w80 -g72 >$@
+	$(AM_V_GEN)cat $< | fmt -sct -w80 -g72 >$@
 
 INSTALL-cmakebuild.html: INSTALL-cmakebuild.md
-	$(MARKDOWN) $< >$@
+	$(AM_V_GEN)$(MARKDOWN) $< >$@
 
 INSTALL-cmakebuild.txt: INSTALL-cmakebuild.html
-	links -dump -width 80 -codepage utf-8 $< >$@
+	$(AM_V_GEN)links -dump -width 80 -codepage utf-8 $< >$@
 
 EXTRA_DIST += \
 	INSTALL-cmakebuild.md \
@@ -93,17 +93,17 @@ EXTRA_DIST += VERSION
 DISTCLEANFILES += VERSION
 
 VERSION:
-	echo -e "PACKAGE=$(PACKAGE)\nVERSION=$(VERSION)" >$@
+	$(AM_V_GEN)echo -e "PACKAGE=$(PACKAGE)\nVERSION=$(VERSION)" >$@
 
 EXTRA_DIST += icewm.spec.in icewm.spec icewm.lsm.in icewm.lsm
 
 DISTCLEANFILES += icewm.spec icewm.lsm
 
 icewm.spec: icewm.spec.in
-	sed -r -e 's:%%PACKAGE%%:$(PACKAGE):g;s:%%VERSION%%:$(VERSION):g;s:%%DATE%%:$(DATE):g;s:%%BRANCH%%:$(BRANCH):g' $< >$@
+	$(AM_V_GEN)sed -r -e 's:%%PACKAGE%%:$(PACKAGE):g;s:%%VERSION%%:$(VERSION):g;s:%%DATE%%:$(DATE):g;s:%%BRANCH%%:$(BRANCH):g' $< >$@
 
 icewm.lsm: icewm.lsm.in
-	sed -r -e 's:%%PACKAGE%%:$(PACKAGE):g;s:%%VERSION%%:$(VERSION):g;s:%%DATE%%:$(DATE):g;s:%%BRANCH%%:$(BRANCH):g' $< >$@
+	$(AM_V_GEN)sed -r -e 's:%%PACKAGE%%:$(PACKAGE):g;s:%%VERSION%%:$(VERSION):g;s:%%DATE%%:$(DATE):g;s:%%BRANCH%%:$(BRANCH):g' $< >$@
 
 dist_bin_SCRIPTS = \
 	icewm-set-gnomewm

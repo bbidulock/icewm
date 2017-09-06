@@ -44,7 +44,7 @@ EXTRA_DIST = \
 	icewm-winoptions.pod
 
 $(icewm_man1_files): %.man: %.pod
-	pod2man --center="User Commands" \
+	$(AM_V_GEN)pod2man --center="User Commands" \
 		--date="$(DATE)" \
 		--errors="none" \
 		--fixed="CW" \
@@ -57,7 +57,7 @@ $(icewm_man1_files): %.man: %.pod
 		$< >$@
 
 $(icewm_man5_files): %.man: %.pod
-	pod2man --center="Standards, Environments and Macros" \
+	$(AM_V_GEN)pod2man --center="Standards, Environments and Macros" \
 		--date="$(DATE)" \
 		--errors="none" \
 		--fixed="CW" \
