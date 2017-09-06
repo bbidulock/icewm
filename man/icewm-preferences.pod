@@ -896,6 +896,12 @@ Command to run for address bar entries.
 
 =head2 THEME SETTINGS
 
+This section shows settings that can be set in theme files.  They can
+also be set in the F<preferences> file, but themes will override the
+values set there.  To override the theme values, the settings should be
+set in F<prefoverrides> file: see L<icewm-prefoverrides(5)>.  Default
+values are shown following the equal sign.
+
 =head3 Borders
 
 =over
