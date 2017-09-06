@@ -583,6 +583,10 @@ Width of APM Monitor.
 
 Height of taskbar monitoring applets.
 
+=item B<XineramaPrimaryScreen>=0  [0-63]
+
+Primary screen for xinerama (taskbar, ...).
+
 =back
 
 =head2 MENUS
@@ -731,6 +735,18 @@ Delay between Memory Monitor samples in ms.
 =item B<TaskBarNetDelay>=500  [10-3600000]
 
 Delay between Net Monitor samples in ms.
+
+=item B<FocusRequestFlashTime>=0  [0-86400]
+
+Number of seconds the taskbar app will blink when requesting focus (0 = forever).
+
+=item B<FocusRequestFlashInterval>=250  [0-30000]
+
+Taskbar blink interval (ms) when requesting focus (0 = blinking disabled).
+
+=item B<BatteryPollingPeriod>=10  [2-3600]
+
+Delay between power status updates (seconds).
 
 =back
 
