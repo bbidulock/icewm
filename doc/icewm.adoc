@@ -575,6 +575,18 @@ TitleBarHorzOffset = 0:: Horizontal offset for the window title text.
 TitleBarVertOffset = 0:: Vertical offset for the window title text.
 ScrollBarX = 16:: Scrollbar width.
 ScrollBarY = 16:: Scrollbar (button) height.
+MenuIconSize = 16:: Menu icon size.
+SmallIconSize = 16:: Dimension of the small icons.
+LargeIconSize = 32:: Dimension of the large icons.
+HugeIconSize = 48:: Dimension of the large icons.
+QuickSwitchHorzMargin = 3:: Horizontal margin of the quickswitch window.
+QuickSwitchVertMargin = 3:: Vertical margin of the quickswitch window.
+QuickSwitchIconMargin = 4:: Vertical margin in the quickswitch window.
+QuickSwitchIconBorder = 2:: Distance between the active icon and it's border.
+QuickSwitchSeparatorSize = 6:: Height of the separator between (all reachable) icons and text, 0 to avoid it.
+TitleButtonsLeft = "s":: Titlebar buttons from left to right (x=close, m=max, i=min, h=hide, r=rollup, s=sysmenu, d=depth).
+TitleButtonsRight = "xmir":: Titlebar buttons from right to left (x=close, m=max, i=min, h=hide, r=rollup, s=sysmenu, d=depth).
+TitleButtonsSupported = "xmis":: Titlebar buttons supported by theme (x,m,i,r,h,s,d).
 
 === Fonts
 
