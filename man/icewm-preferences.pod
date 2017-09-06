@@ -932,11 +932,11 @@ Desktop background color(s).
 
 Desktop background image(s).
 
-=item B<DesktopTransparancyImage>=""
+=item B<DesktopTransparencyImage>=""
 
 Image(s) to announce for semitransparent windows.
 
-=item B<DesktopTransparancyColor>=""
+=item B<DesktopTransparencyColor>=""
 
 Color(s) to announce for semitransparent windows.
 

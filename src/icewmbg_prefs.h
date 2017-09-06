@@ -38,10 +38,10 @@ cfoption icewmbg_prefs[] = {
     OKF("DesktopBackgroundColor",   addBgImage,
         "Desktop background image(s)"),
 
-    OKF("DesktopTransparancyImage", addBgImage,
+    OKF("DesktopTransparencyImage", addBgImage,
         "Image(s) to announce for semitransparent windows"),
 
-    OKF("DesktopTransparancyColor", addBgImage,
+    OKF("DesktopTransparencyColor", addBgImage,
         "Color(s) to announce for semitransparent windows"),
 
     OK0()

@@ -290,7 +290,7 @@ void Background::add(const char* name, const char* value, bool append) {
             backgroundColors.append(new YColor(value));
         }
     }
-    else if (0 == strcmp(name, "DesktopTransparancyImage")) {
+    else if (0 == strcmp(name, "DesktopTransparencyImage")) {
         if (append == false) {
             clearTransparencyImages();
         }
@@ -313,7 +313,7 @@ void Background::add(const char* name, const char* value, bool append) {
             }
         }
     }
-    else if (0 == strcmp(name, "DesktopTransparancyColor")) {
+    else if (0 == strcmp(name, "DesktopTransparencyColor")) {
         if (append == false) {
             clearTransparencyColors();
         }

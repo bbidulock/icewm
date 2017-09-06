@@ -606,8 +606,8 @@ DesktopBackgroundImage = "":: Image (.xpm) for desktop background. If you want i
 to ignore the desktop background image / color set both DesktopBackgroundColor ad
 DesktopBackgroundImage to an empty value ("").
 DesktopBackgroundColor = "":: Color of the desktop background.
-DesktopTransparancyImage = "":: Image(s) to announce for semitransparent windows.
-DesktopTransparancyColor = "":: Color(s) to announce for semitransparent windows.
+DesktopTransparencyImage = "":: Image(s) to announce for semitransparent windows.
+DesktopTransparencyColor = "":: Color(s) to announce for semitransparent windows.
 
 === Task Bar
 
