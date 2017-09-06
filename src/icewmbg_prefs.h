@@ -33,10 +33,10 @@ cfoption icewmbg_prefs[] = {
         "Resize desktop background to full screen"),
 
     OKF("DesktopBackgroundImage",   addBgImage,
-        "Desktop background color(s)"),
+        "Desktop background image(s)"),
 
     OKF("DesktopBackgroundColor",   addBgImage,
-        "Desktop background image(s)"),
+        "Desktop background color(s)"),
 
     OKF("DesktopTransparencyImage", addBgImage,
         "Image(s) to announce for semitransparent windows"),
