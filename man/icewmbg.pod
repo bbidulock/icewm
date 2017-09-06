@@ -135,7 +135,8 @@ Print copying permissions to F<stdout> for the program and exit.
 =head2 PREFERENCES
 
 By default B<icewmbg> will load the background settings from the
-L<icewm(1)> preferences files.  The settings read are:
+L<icewm(1)> preferences files (see L<icewm-preferences(5)>).  The
+settings read are:
 
   DesktopBackgroundCenter    - Display desktop background centered
   DesktopBackgroundScaled    - Display desktop background scaled
@@ -168,7 +169,12 @@ is given by the following table:
 
 =head1 SEE ALSO
 
-L<icewm(1)>, L<wmsetbg(1)>, L<xsetbg(1)>, L<xv(1)>.
+L<icewm(1)>,
+L<icewm-preferences(5)>,
+L<icewm-prefoverride(5)>,
+L<wmsetbg(1)>,
+L<xsetbg(1)>,
+L<xv(1)>.
 
 =head1 BUGS
 

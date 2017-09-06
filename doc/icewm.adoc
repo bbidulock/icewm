@@ -598,16 +598,16 @@ ColorActiveBorder:: Color of the active window border.
 
 === Desktop Background
 
-DesktopBackgroundMultihead = 0:: Paint the background image over all multihead monitors combined.
 DesktopBackgroundCenter = 0:: Display desktop background centered and not tiled. (set to 0 or 1).
-SupportSemitransparency = 1:: Support for semitransparent terminals like Eterm or gnome-terminal.
 DesktopBackgroundScaled = 0:: Resize desktop background to full screen.
+DesktopBackgroundColor = "":: Color of the desktop background.
 DesktopBackgroundImage = "":: Image (.xpm) for desktop background. If you want icewm
 to ignore the desktop background image / color set both DesktopBackgroundColor ad
 DesktopBackgroundImage to an empty value ("").
-DesktopBackgroundColor = "":: Color of the desktop background.
-DesktopTransparencyImage = "":: Image(s) to announce for semitransparent windows.
+SupportSemitransparency = 1:: Support for semitransparent terminals like Eterm or gnome-terminal.
 DesktopTransparencyColor = "":: Color(s) to announce for semitransparent windows.
+DesktopTransparencyImage = "":: Image(s) to announce for semitransparent windows.
+DesktopBackgroundMultihead = 0:: Paint the background image over all multihead monitors combined.
 
 === Task Bar
 

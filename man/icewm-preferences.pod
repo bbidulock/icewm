@@ -908,37 +908,37 @@ The following preferences are read by L<icewmbg(1)>:
 
 =over
 
-=item B<DesktopBackgroundMultihead>=0  0/1
-
-Paint the background image over all multihead monitors combined.
-
 =item B<DesktopBackgroundCenter>=0  0/1
 
 Display desktop background centered and not tiled.
-
-=item B<SupportSemitransparency>=1  0/1
-
-Support for semitransparent terminals like Eterm or gnome-terminal.
 
 =item B<DesktopBackgroundScaled>=0  0/1
 
 Resize desktop background to full screen.
 
+=item B<DesktopBackgroundColor>=""
+
+Desktop background image(s).
+
 =item B<DesktopBackgroundImage>=""
 
 Desktop background color(s).
 
-=item B<DesktopBackgroundColor>=""
+=item B<SupportSemitransparency>=1  0/1
 
-Desktop background image(s).
+Support for semitransparent terminals like Eterm or gnome-terminal.
+
+=item B<DesktopTransparencyColor>=""
+
+Color(s) to announce for semitransparent windows.
 
 =item B<DesktopTransparencyImage>=""
 
 Image(s) to announce for semitransparent windows.
 
-=item B<DesktopTransparencyColor>=""
+=item B<DesktopBackgroundMultihead>=0  0/1
 
-Color(s) to announce for semitransparent windows.
+Paint the background image over all multihead monitors combined.
 
 =back
 
