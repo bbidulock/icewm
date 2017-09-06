@@ -673,6 +673,14 @@ static node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node
                         c = '-';    // em dash
                     else if (strcmp(entity, "&#8217") == 0)
                         c = '\'';   // right single quote
+                    else if (strcmp(entity, "&#8220") == 0) {
+                        buf += "``"; // left double quotes
+                        continue;
+                    }
+                    else if (strcmp(entity, "&#8221") == 0) {
+                        buf += "''"; // right double quotes
+                        continue;
+                    }
                     else if (strcmp(entity, "&#8230") == 0) {
                         buf += "..."; // horizontal ellipsis
                         continue;
