@@ -346,8 +346,6 @@ ShowThemesMenu = 1:: Show themes submenu.
 ShowHelp = 1:: Show the help menu item.
 MsgBoxDefaultAction = 0:: Preselect to Cancel (0) or the OK (1) button in message
 boxes
-UseRootButtons:: Bitmask of root window button click to use in window manager
-ButtonRaiseMask:: Bitmask of buttons that raise the window when pressed
 EdgeResistance = 32:: Resistance to move window with mouse outside screen
 limits. Setting it to 10000 makes the resistance infinite.
 AllowFullscreen = 1:: Allow to switch a window to fullscreen.
@@ -440,10 +438,17 @@ MailBoxPath::
     pop3://markus:%2f%40%3a@maol.ch/
     imap://mathias@localhost/INBOX.Maillisten.icewm-user
 
-TimeFormat:: format for the taskbar clock (time) (see strftime(3) manpage)
-DateFormat:: format for the taskbar clock tooltip (date+time) (see strftime(3) manpage).
+TimeFormat = "%X":: format for the taskbar clock (time) (see strftime(3) manpage).
+TimeFormatAlt = "":: Alternate Clock Time format (e.g. for blinking effects).
+DateFormat = "%c":: format for the taskbar clock tooltip (date+time) (see strftime(3) manpage).
 TaskBarCPUSamples = 20:: Width of CPU Monitor.
 TaskBarMEMSamples = 20:: Width of Memory Monitor.
+TaskBarNetSamples = 20:: Width of Net Monitor.
+TaskbarButtonWidthDivisor = 3:: Default number of tasks in taskbar.
+TaskBarWidthPercentage = 100:: Task bar width as percentage of the screen width.
+TaskBarJustify = "left":: Taskbar justify left, right or center.
+TaskBarApmGraphWidth = 10:: Width of APM Monitor.
+TaskBarGraphHeight = 20:: Height of taskbar monitoring applets.
 
 === Timings
 
@@ -468,6 +473,16 @@ WorkspaceStatusTime = 2500:: Time before workspace status window is hidden.
 MailCheckDelay = 30:: Delay between new-mail checks. (seconds).
 TaskBarCPUDelay = 500:: Delay between CPU Monitor samples in ms.
 TaskBarMEMDelay = 500:: Delay between Memory Monitor samples in ms.
+
+=== Buttons and Keys
+
+UseRootButtons = 255:: Bitmask of root window button click to use in window manager.
+ButtonRaiseMask = 1:: Bitmask of buttons that raise the window when pressed.
+DesktopWinMenuButton = 0:: Desktop mouse-button click to show the window list menu.
+DesktopWinListButton = 2:: Desktop mouse-button click to show the window list.
+DesktopMenuButton = 3:: Desktop mouse-button click to show the root menu.
+TitleBarMaximizeButton = 1:: TitleBar mouse-button double click to maximize the window.
+TitleBarRollupButton = 2:: TitleBar mouse-button double click to rollup the window.
 
 === Workspaces
 
