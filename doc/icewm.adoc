@@ -349,6 +349,7 @@ EdgeResistance = 32:: Resistance to move window with mouse outside screen
 limits. Setting it to 10000 makes the resistance infinite.
 AllowFullscreen = 1:: Allow to switch a window to fullscreen.
 FullscreenUseAllMonitors = 0:: Span over all available screens if window goes into fullscreen.
+NetWorkAreaBehaviour = 0:: NET_WORKAREA behaviour: 0 (single/multimonitor with STRUT information, like metacity), 1 (always full desktop), 2 (singlemonitor with STRUT, multimonitor without STRUT).
 
 ==== Quick Switch List
 
@@ -464,6 +465,7 @@ ShowAbout = 1:: Show the about menu item.
 ShowRun = 1:: Show the run menu item.
 ShowWindowList = 1:: Show the window menu item.
 MenuMaximalWidth = 0:: Maximal width of popup menus,  2/3 of the screen's width if set to zero.
+NestedThemeMenuMinNumber = 25:: Minimal number of themes after which the Themes menu becomes nested (0=disabled).
 
 === Timings
 
