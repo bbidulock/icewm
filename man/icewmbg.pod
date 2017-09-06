@@ -152,7 +152,7 @@ theme file from the current theme is read, which may overrule the
 F<preferences> settings.  Lastly the F<prefoverride> file is read, which
 overrides again.  Therefore, if you want to allow the theme to set the
 background use F<preferences> for your settings, otherwise use
-F<prefoverride>.
+F<prefoverride>.  See L<icewm-prefoverride(5)>.
 
 =head2 SCALING
 
