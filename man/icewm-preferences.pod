@@ -902,6 +902,355 @@ Command to run for address bar entries.
 
 =head3 Colors
 
+=over
+
+=item B<ColorDialog> = "rgb:C0/C0/C0"
+
+Background of dialog windows.
+
+=item B<ColorNormalBorder> = "rgb:C0/C0/C0"
+
+Border of inactive windows.
+
+=item B<ColorActiveBorder> = "rgb:C0/C0/C0"
+
+Border of active windows.
+
+=item B<ColorNormalButton> = "rgb:C0/C0/C0"
+
+Background of regular buttons.
+
+=item B<ColorNormalButtonText> = "rgb:00/00/00"
+
+Textcolor of regular buttons.
+
+=item B<ColorActiveButton> = "rgb:E0/E0/E0"
+
+Background of pressed buttons.
+
+=item B<ColorActiveButtonText> = "rgb:00/00/00"
+
+Textcolor of pressed buttons.
+
+=item B<ColorNormalTitleButton> = "rgb:C0/C0/C0"
+
+Background of titlebar buttons.
+
+=item B<ColorNormalTitleButtonText> = "rgb:00/00/00"
+
+Textcolor of titlebar buttons.
+
+=item B<ColorToolButton> = ""
+
+Background of toolbar buttons, ColorNormalButton is used if empty.
+
+=item B<ColorToolButtonText> = ""
+
+Textcolor of toolbar buttons, ColorNormalButtonText is used if empty.
+
+=item B<ColorNormalWorkspaceButton> = ""
+
+Background of workspace buttons, ColorNormalButton is used if empty.
+
+=item B<ColorNormalWorkspaceButtonText> = ""
+
+Textcolor of workspace buttons, ColorNormalButtonText is used if empty.
+
+=item B<ColorActiveWorkspaceButton> = ""
+
+Background of the active workspace button, ColorActiveButton is used if empty.
+
+=item B<ColorActiveWorkspaceButtonText> = ""
+
+Textcolor of the active workspace button, ColorActiveButtonText is used if empty.
+
+=item B<ColorNormalTitleBar> = "rgb:80/80/80"
+
+Background of the titlebar of regular windows.
+
+=item B<ColorNormalTitleBarText> = "rgb:00/00/00"
+
+Textcolor of the titlebar of regular windows.
+
+=item B<ColorNormalTitleBarShadow> = ""
+
+Textshadow of the titlebar of regular windows.
+
+=item B<ColorActiveTitleBar> = "rgb:00/00/A0"
+
+Background of the titlebar of active windows.
+
+=item B<ColorActiveTitleBarText> = "rgb:FF/FF/FF"
+
+Textcolor of the titlebar of active windows.
+
+=item B<ColorActiveTitleBarShadow> = ""
+
+Textshadow of the titlebar of active windows.
+
+=item B<ColorNormalMinimizedWindow> = "rgb:C0/C0/C0"
+
+Background for mini icons of regular windows.
+
+=item B<ColorNormalMinimizedWindowText> = "rgb:00/00/00"
+
+Textcolor for mini icons of regular windows.
+
+=item B<ColorActiveMinimizedWindow> = "rgb:E0/E0/E0"
+
+Background for mini icons of active windows.
+
+=item B<ColorActiveMinimizedWindowText> = "rgb:00/00/00"
+
+Textcolor for mini icons of active windows.
+
+=item B<ColorNormalMenu> = "rgb:C0/C0/C0"
+
+Background of pop-up menus.
+
+=item B<ColorNormalMenuItemText> = "rgb:00/00/00"
+
+Textcolor of regular menu items.
+
+=item B<ColorActiveMenuItem> = "rgb:A0/A0/A0"
+
+Background of selected menu item, leave empty to force transparency.
+
+=item B<ColorActiveMenuItemText> = "rgb:00/00/00"
+
+Textcolor of selected menu items.
+
+=item B<ColorDisabledMenuItemText> = "rgb:80/80/80"
+
+Textcolor of disabled menu items.
+
+=item B<ColorDisabledMenuItemShadow> = ""
+
+Shadow of regular menu items.
+
+=item B<ColorMoveSizeStatus> = "rgb:C0/C0/C0"
+
+Background of move/resize status window.
+
+=item B<ColorMoveSizeStatusText> = "rgb:00/00/00"
+
+Textcolor of move/resize status window.
+
+=item B<ColorQuickSwitch> = "rgb:C0/C0/C0"
+
+Background of the quick switch window.
+
+=item B<ColorQuickSwitchText> = "rgb:00/00/00"
+
+Textcolor in the quick switch window.
+
+=item B<ColorQuickSwitchActive> = ""
+
+Rectangle arround the active icon in the quick switch window.
+
+=item B<ColorDefaultTaskBar> = "rgb:C0/C0/C0"
+
+Background of the taskbar.
+
+=item B<ColorNormalTaskBarApp> = "rgb:C0/C0/C0"
+
+Background for task buttons of regular windows.
+
+=item B<ColorNormalTaskBarAppText> = "rgb:00/00/00"
+
+Textcolor for task buttons of regular windows.
+
+=item B<ColorActiveTaskBarApp> = "rgb:E0/E0/E0"
+
+Background for task buttons of the active window.
+
+=item B<ColorActiveTaskBarAppText> = "rgb:00/00/00"
+
+Textcolor for task buttons of the active window.
+
+=item B<ColorMinimizedTaskBarApp> = "rgb:A0/A0/A0"
+
+Background for task buttons of minimized windows.
+
+=item B<ColorMinimizedTaskBarAppText> = "rgb:00/00/00"
+
+Textcolor for task buttons of minimized windows.
+
+=item B<ColorInvisibleTaskBarApp> = "rgb:80/80/80"
+
+Background for task buttons of windows on other workspaces.
+
+=item B<ColorInvisibleTaskBarAppText> = "rgb:00/00/00"
+
+Textcolor for task buttons of windows on other workspaces.
+
+=item B<ColorScrollBar> = "rgb:A0/A0/A0"
+
+Scrollbar background (sliding area).
+
+=item B<ColorScrollBarSlider> = "rgb:C0/C0/C0"
+
+Background of the slider button in scrollbars.
+
+=item B<ColorScrollBarButton> = "rgb:C0/C0/C0"
+
+Background of the arrow buttons in scrollbars.
+
+=item B<ColorScrollBarArrow> = "rgb:C0/C0/C0"
+
+Background of the arrow buttons in scrollbars (obsolete).
+
+=item B<ColorScrollBarButtonArrow> = "rgb:00/00/00"
+
+Color of active arrows on scrollbar buttons.
+
+=item B<ColorScrollBarInactiveArrow> = "rgb:80/80/80"
+
+Color of inactive arrows on scrollbar buttons.
+
+=item B<ColorListBox> = "rgb:C0/C0/C0"
+
+Background of listboxes.
+
+=item B<ColorListBoxText> = "rgb:00/00/00"
+
+Textcolor in listboxes.
+
+=item B<ColorListBoxSelection> = "rgb:80/80/80"
+
+Background of selected listbox items.
+
+=item B<ColorListBoxSelectionText> = "rgb:00/00/00"
+
+Textcolor of selected listbox items.
+
+=item B<ColorToolTip> = "rgb:E0/E0/00"
+
+Background of tooltips.
+
+=item B<ColorToolTipText> = "rgb:00/00/00"
+
+Textcolor of tooltips.
+
+=item B<ColorLabel> = "rgb:C0/C0/C0"
+
+Background of labels, leave empty to force transparency.
+
+=item B<ColorLabelText> = "rgb:00/00/00"
+
+Textcolor of labels.
+
+=item B<ColorInput> = "rgb:FF/FF/FF"
+
+Background of text entry fields (e.g. the addressbar).
+
+=item B<ColorInputText> = "rgb:00/00/00"
+
+Textcolor of text entry fields (e.g. the addressbar).
+
+=item B<ColorInputSelection> = "rgb:80/80/80"
+
+Background of selected text in an entry field.
+
+=item B<ColorInputSelectionText> = "rgb:00/00/00"
+
+Selected text in an entry field.
+
+=item B<ColorClock> = "rgb:00/00/00"
+
+Background of non-LCD clock, leave empty to force transparency.
+
+=item B<ColorClockText> = "rgb:00/FF/00"
+
+Background of non-LCD monitor.
+
+=item B<ColorApm> = "rgb:00/00/00"
+
+Background of APM monitor, leave empty to force transparency.
+
+=item B<ColorApmText> = "rgb:00/FF/00"
+
+Textcolor of APM monitor.
+
+=item B<ColorApmBattary> = "rgb:FF/FF/00"
+
+Color of APM monitor in battary mode.
+
+=item B<ColorApmLine> = "rgb:00/FF/00"
+
+Color of APM monitor in line mode.
+
+=item B<ColorApmGraphBg> = "rgb:00/00/00"
+
+Background color for graph mode.
+
+=item B<ColorCPUStatusUser> = "rgb:00/FF/00"
+
+User load on the CPU monitor.
+
+=item B<ColorCPUStatusSystem> = "rgb:FF/00/00"
+
+System load on the CPU monitor.
+
+=item B<ColorCPUStatusInterrupts> = "rgb:FF/FF/00"
+
+Interrupts on the CPU monitor.
+
+=item B<ColorCPUStatusIoWait> = "rgb:60/00/60"
+
+IO Wait on the CPU monitor.
+
+=item B<ColorCPUStatusSoftIrq> = "rgb:00/FF/FF"
+
+Soft Interrupts on the CPU monitor.
+
+=item B<ColorCPUStatusNice> = "rgb:00/00/FF"
+
+Nice load on the CPU monitor.
+
+=item B<ColorCPUStatusIdle> = "rgb:00/00/00"
+
+Idle (non) load on the CPU monitor, leave empty to force
+transparency.
+
+=item B<ColorCPUStatusSteal> = "rgb:FF/8A/91"
+
+Involuntary Wait on the CPU monitor.
+
+=item B<ColorCPUStatusTemp> = "rgb:60/60/C0"
+
+Temperature of the CPU.
+
+=item B<ColorMEMStatusUser> = "rgb:40/40/80"
+
+User program usage in the memory monitor.
+
+=item B<ColorMEMStatusBuffers> = "rgb:60/60/C0"
+
+OS buffers usage in the memory monitor.
+
+=item B<ColorMEMStatusCached> = "rgb:80/80/FF"
+
+OS cached usage in the memory monitor.
+
+=item B<ColorMEMStatusFree> = "rgb:00/00/00"
+
+Free memory in the memory monitor.
+
+=item B<ColorNetSend> = "rgb:FF/FF/00"
+
+Outgoing load on the network monitor.
+
+=item B<ColorNetReceive> = "rgb:FF/00/FF"
+
+Incoming load on the network monitor.
+
+=item B<ColorNetIdle> = "rgb:00/00/00"
+
+Idle (non) load on the network monitor, leave empty to force transparency.
+
+=back
+
 =head3 Desktop Background
 
 The following preferences are read by L<icewmbg(1)>:
