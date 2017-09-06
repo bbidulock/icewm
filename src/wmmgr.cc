@@ -799,7 +799,7 @@ Window YWindowManager::findWindow(const char *resource) {
 Window YWindowManager::findWindow(Window root, char const * wmInstance,
                                   char const * wmClass) {
     Window firstMatch = None;
-    Window parent, *clients;
+    Window parent, *clients(NULL);
     unsigned nClients;
 
     XQueryTree(xapp->display(), root, &root, &parent, &clients, &nClients);
@@ -1025,7 +1025,7 @@ void YWindowManager::setColormapWindow(YFrameWindow *frame) {
 
 void YWindowManager::manageClients() {
     unsigned int clientCount;
-    Window winRoot, winParent, *winClients;
+    Window winRoot, winParent, *winClients(NULL);
 
     manager->fWmState = YWindowManager::wmSTARTUP;
     XGrabServer(xapp->display());
@@ -1066,7 +1066,7 @@ void YWindowManager::unmanageClients() {
     XSync(xapp->display(), True);
 }
 
-int addco(int *v, int &n, int c) {
+static int addco(int *v, int &n, int c) {
     int l, r, m;
 
     /* find */
