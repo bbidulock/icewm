@@ -250,6 +250,12 @@ Span over all available screens if window goes into fullscreen.
 
 Preselect to Cancel (0) or the OK (1) button in message boxes.
 
+=item B<NetWorkAreaBehaviour>=0  [0-2]
+
+NET_WORKAREA behaviour: 0 (single/multi-monitor with STRUT information,
+like metacity), 1 (always full desktop), 2 (single monitor with STRUT,
+multi-monitor without STRUT).
+
 =back
 
 =head3 Quick Switch List
@@ -539,6 +545,10 @@ or C<%40> for the at sign.  For example:
     pop3://markus:%2f%40%3a@maol.ch/
     imap://mathias@localhost/INBOX.Maillisten.icewm-user
 
+=item B<NetworkStatusDevice>="eth0 wlan0"
+
+Network device for which to show status.
+
 =item B<TimeFormat>="%X"
 
 Clock Time format (strftime format string).
@@ -640,6 +650,10 @@ Show the window menu item.
 =item B<MenuMaximalWidth>=0  [0-16384]
 
 Maximal width of popup menus,  2/3 of the screen's width if set to zero.
+
+=item B<NestedThemeMenuMinNumber>=25  [0-1234]
+
+Minimal number of themes after which the Themes menu becomes nested (0=disabled).
 
 =back
 
@@ -784,7 +798,99 @@ TitleBar mouse-button double click to rollup the window.
 
 =head2 PATHS
 
+=over
+
+=item B<IconPath>="/usr/share/icons/hicolor:/usr/share/icons:/usr/share/pixmaps"
+
+Icon search path (colon separated).
+
+=item B<MailBoxPath>=""
+
+Mailbox path (use \$MAIL instead).
+
+=back
+
 =head2 PROGRAMS
+
+=over
+
+=item B<MailCommand>="xterm -name mutt -e mutt"
+
+Command to run on mailbox.
+
+=item B<MailClassHint>="mutt.XTerm"
+
+B<WM_CLASS> to allow B<runonce> for B<MailCommand>.
+
+=item B<NewMailCommand>=""
+
+Command to run when new mail arrives.
+
+=item B<LockCommand>=""
+
+Command to lock display/screensaver.
+
+=item B<ClockCommand>="xclock -name icewm -title Clock"
+
+Command to run on clock.
+
+=item B<ClockClassHint>="icewm.XClock"
+
+B<WM_CLASS> to allow B<runonce> for B<ClockCommand>.
+
+=item B<RunCommand>=""
+
+Command to select and run a program.
+
+=item B<OpenCommand>=""
+
+Open command.
+
+=item B<TerminalCommand>="xterm"
+
+Terminal emulator must accept -e option.
+
+=item B<LogoutCommand>=""
+
+Command to start logout.
+
+=item B<LogoutCancelCommand>=""
+
+Command to cancel logout.
+
+=item B<ShutdownCommand>="/bin/sh -c "{ test -e /run/systemd/system && systemctl poweroff; } ||:""
+
+Command to shutdown the system.
+
+=item B<RebootCommand>="/bin/sh -c "{ test -e /run/systemd/system && systemctl reboot; } ||:""
+
+Command to reboot the system.
+
+=item B<CPUStatusCommand>="xterm -name top -title Process\ Status -e top"
+
+Command to run on CPU status.
+
+=item B<CPUStatusClassHint>="top.XTerm"
+
+B<WM_CLASS> to allow B<runonce> for B<CPUStatusCommand>.
+
+=item B<CPUStatusCombine>=1  0/1
+
+Combine all CPUs to one.
+
+=item B<NetStatusCommand>="xterm -name netstat -title 'Network Status' -e netstat -c"
+
+Command to run on Net status.
+
+=item B<NetStatusClassHint>="netstat.XTerm"
+
+B<WM_CLASS> to allow B<runonce> for B<NetStatusCommand>.
+
+=item B<AddressBarCommand>=""
+
+Command to run for address bar entries.
+
+=back
 
 =head2 WINDOW MENUS
 
