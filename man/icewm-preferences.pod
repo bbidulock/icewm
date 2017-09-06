@@ -898,6 +898,58 @@ Command to run for address bar entries.
 
 =head3 Borders
 
+=over
+
+=item B<BorderSizeX>=6  [0-128]
+
+Horizontal window border.
+
+=item B<BorderSizeY>=6  [0-128]
+
+Vertical window border.
+
+=item B<DlgBorderSizeX>=2  [0-128]
+
+Horizontal dialog window border.
+
+=item B<DlgBorderSizeY>=2  [0-128]
+
+Vertical dialog window border.
+
+=item B<CornerSizeX>=24  [0-64]
+
+Resize corner width.
+
+=item B<CornerSizeY>=24  [0-64]
+
+Resize corner height.
+
+=item B<TitleBarHeight>=20  [0-128]
+
+Title bar height.
+
+=item B<TitleBarJustify>=0  [0-100]
+
+Justification of the window title.
+
+=item B<TitleBarHorzOffset>=0  [-128-128]
+
+Horizontal offset for the window title text.
+
+=item B<TitleBarVertOffset>=0  [-128-128]
+
+Vertical offset for the window title text.
+
+=item B<ScrollBarX>=16  [0-64]
+
+Scrollbar width.
+
+=item B<ScrollBarY>=16  [0-64]
+
+Scrollbar (button) height.
+
+=back
+
 =head3 Fonts
 
 =over
