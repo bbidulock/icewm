@@ -246,17 +246,9 @@ Allow to switch a window to fullscreen.
 
 Span over all available screens if window goes into fullscreen.
 
-=item B<UseRootButtons>=255  [0-255]
-
-Bitmask of root window button click to use in window manager.
-
 =item B<MsgBoxDefaultAction>=0  [0-1]
 
 Preselect to Cancel (0) or the OK (1) button in message boxes.
-
-=item B<ButtonRaiseMask>=1  [0-255]
-
-Bitmask of buttons that raise the window when pressed.
 
 =back
 
@@ -547,6 +539,50 @@ or C<%40> for the at sign.  For example:
     pop3://markus:%2f%40%3a@maol.ch/
     imap://mathias@localhost/INBOX.Maillisten.icewm-user
 
+=item B<TimeFormat>="%X"
+
+Clock Time format (strftime format string).
+
+=item B<TimeFormatAlt>=""
+
+Alternate Clock Time format (e.g. for blinking effects).
+
+=item B<DateFormat>="%c"
+
+Clock Date format for tooltip (strftime format string).
+
+=item B<TaskBarCPUSamples>=20  [2-1000]
+
+Width of CPU Monitor.
+
+=item B<TaskBarMEMSamples>=20  [2-1000]
+
+Width of Memory Monitor.
+
+=item B<TaskBarNetSamples>=20  [2-1000]
+
+Width of Net Monitor.
+
+=item B<TaskbarButtonWidthDivisor>=3  [1-25]
+
+Default number of tasks in taskbar.
+
+=item B<TaskBarWidthPercentage>=100  [0-100]
+
+Task bar width as percentage of the screen width.
+
+=item B<TaskBarJustify>="left"
+
+Taskbar justify left, right or center.
+
+=item B<TaskBarApmGraphWidth>=10  [1-1000]
+
+Width of APM Monitor.
+
+=item B<TaskBarGraphHeight>=20  [16-1000]
+
+Height of taskbar monitoring applets.
+
 =back
 
 =head2 MENUS
@@ -688,23 +724,27 @@ Delay between new-mail checks. (seconds).
 
 Delay between CPU Monitor samples in ms.
 
-=item B<TaskBarCPUSamples>=20  [2-1000]
-
-Width of CPU Monitor.
-
-=item B<TaskBarMEMSamples>=20  [2-1000]
-
-Width of Memory Monitor.
-
 =item B<TaskBarMEMDelay>=500  [10-3600000]
 
 Delay between Memory Monitor samples in ms.
+
+=item B<TaskBarNetDelay>=500  [10-3600000]
+
+Delay between Net Monitor samples in ms.
 
 =back
 
 =head2 BUITTONS AND KEYS
 
 =over
+
+=item B<UseRootButtons>=255  [0-255]
+
+Bitmask of root window button click to use in window manager.
+
+=item B<ButtonRaiseMask>=1  [0-255]
+
+Bitmask of buttons that raise the window when pressed.
 
 =item B<DesktopWinMenuButton>=0  [0-20]
 
