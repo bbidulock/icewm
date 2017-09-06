@@ -449,6 +449,7 @@ TaskBarWidthPercentage = 100:: Task bar width as percentage of the screen width.
 TaskBarJustify = "left":: Taskbar justify left, right or center.
 TaskBarApmGraphWidth = 10:: Width of APM Monitor.
 TaskBarGraphHeight = 20:: Height of taskbar monitoring applets.
+XineramaPrimaryScreen = 0:: Primary screen for xinerama (taskbar, ...).
 
 === Timings
 
@@ -473,6 +474,10 @@ WorkspaceStatusTime = 2500:: Time before workspace status window is hidden.
 MailCheckDelay = 30:: Delay between new-mail checks. (seconds).
 TaskBarCPUDelay = 500:: Delay between CPU Monitor samples in ms.
 TaskBarMEMDelay = 500:: Delay between Memory Monitor samples in ms.
+TaskBarNetDelay = 500:: Delay between Net Monitor samples in ms.
+FocusRequestFlashTime = 0:: Number of seconds the taskbar app will blink when requesting focus (0 = forever).
+FocusRequestFlashInterval = 250:: Taskbar blink interval (ms) when requesting focus (0 = blinking disabled).
+BatteryPollingPeriod = 10:: Delay between power status updates (seconds).
 
 === Buttons and Keys
 
