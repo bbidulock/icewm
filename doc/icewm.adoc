@@ -575,21 +575,51 @@ TitleBarHeight = 20:: Height of the title bar.
 
 The following settings can be set to a string value.
 
-TitleFontName = "":: Name of the title bar font.
-MenuFontName = "":: Name of the menu font.
-StatusFontName = "":: Name of the status display font.
-QuickSwitchFontName = "":: Name of the font for Alt+Tab switcher window.
-NormalTaskBarFontName = "":: Name of the normal task bar item font.
-ActiveTaskBarFontName = "":: Name of the active task bar item font.
-ListBoxFontName = "":: Name of the window list font.
-ToolTipFontName = "":: Name of the tool tip font.
-ClockFontName = "":: Name of the task bar clock font.
+TitleFontName = "-*-sans-medium-r-*-*-*-120-*-*-*-*-*-*":: Name of the title bar font.
+MenuFontName = "-*-sans-bold-r-*-*-*-100-*-*-*-*-*-*":: Name of the menu font.
+StatusFontName = "-*-monospace-bold-r-*-*-*-120-*-*-*-*-*-*":: Name of the status display font.
+QuickSwitchFontName = "-*-monospace-bold-r-*-*-*-120-*-*-*-*-*-*":: Name of the font for Alt+Tab switcher window.
+NormalButtonFontName = "-*-sans-medium-r-*-*-*-120-*-*-*-*-*-*":: Name of the normal button font.
+ActiveButtonFontName = "-*-sans-bold-r-*-*-*-120-*-*-*-*-*-*":: Name of the active button font.
+NormalTaskBarFontName = "-*-sans-medium-r-*-*-*-120-*-*-*-*-*-*":: Name of the normal task bar item font.
+ActiveTaskBarFontName = "-*-sans-bold-r-*-*-*-120-*-*-*-*-*-*":: Name of the active task bar item font.
+ToolButtonFontName = "-*-sans-medium-r-*-*-*-120-*-*-*-*-*-*":: Name of the tool button font (fallback: NormalButtonFontName).
+NormalWorkspaceFontName = "-*-sans-medium-r-*-*-*-120-*-*-*-*-*-*":: Name of the normal workspace button font (fallback: NormalButtonFontName).
+ActiveWorkspaceFontName = "-*-sans-medium-r-*-*-*-120-*-*-*-*-*-*":: Name of the active workspace button font (fallback: ActiveButtonFontName).
+MinimizedWindowFontName = "-*-sans-medium-r-*-*-*-120-*-*-*-*-*-*":: Name of the mini-window font.
+ListBoxFontName = "-*-sans-medium-r-*-*-*-120-*-*-*-*-*-*":: Name of the window list font.
+ToolTipFontName = "-*-sans-medium-r-*-*-*-120-*-*-*-*-*-*":: Name of the tool tip font.
+ClockFontName = "-*-monospace-medium-r-*-*-*-140-*-*-*-*-*-*":: Name of the task bar clock font.
+TempFontName = "-*-monospace-medium-r-*-*-*-140-*-*-*-*-*-*":: Name of the task bar temperature font.
+ApmFontName = "-*-monospace-medium-r-*-*-*-140-*-*-*-*-*-*":: Name of the task bar battery font.
+InputFontName = "-*-monospace-medium-r-*-*-*-140-*-*-*-*-*-*":: Name of the input field font.
+LabelFontName = "-*-sans-medium-r-*-*-*-140-*-*-*-*-*-*":: Name of the label font.
 
-New in 1.2.14: when IceWM is configured with--enable-xfreetype, only the settings with "Xft" suffix will be used. They specifiy the font name in fontconfig format:
+New in 1.2.14: when IceWM is configured with '--enable-xfreetype', only the settings with "Xft" suffix will be used. They specifiy the font name in fontconfig format:
 
 ....
 MenuFontNameXft="sans-serif:size=12:bold"
 ....
+
+TitleFontNameXft = "sans-serif:size=12":: Name of the title bar font.  
+MenuFontNameXft = "sans-serif:size=10:bold":: Name of the menu font.  
+StatusFontNameXft = "monospace:size=12:bold":: Name of the status display font.
+QuickSwitchFontNameXft = "monospace:size=12:bold":: Name of the font for Alt+Tab switcher window.
+NormalButtonFontNameXft = "sans-serif:size=12":: Name of the normal button font.
+ActiveButtonFontNameXft = "sans-serif:size=12:bold":: Name of the active button font.
+NormalTaskBarFontNameXft = "sans-serif:size=12":: Name of the normal task bar item font.
+ActiveTaskBarFontNameXft = "sans-serif:size=12:bold":: Name of the active task bar item font.
+ToolButtonFontNameXft = "sans-serif:size=12":: Name of the tool button font (fallback: NormalButtonFontNameXft).
+NormalWorkspaceFontNameXft = "sans-serif:size=12":: Name of the normal workspace button font (fallback: NormalButtonFontNameXft).
+ActiveWorkspaceFontNameXft = "sans-serif:size=12":: Name of the active workspace button font (fallback: ActiveButtonFontNameXft).
+MinimizedWindowFontNameXft = "sans-serif:size=12":: Name of the mini-window font.
+ListBoxFontNameXft = "sans-serif:size=12":: Name of the window list font.
+ToolTipFontNameXft = "sans-serif:size=12":: Name of the tool tip font.
+ClockFontNameXft = "monospace:size=12":: Name of the task bar clock font.
+TempFontNameXft = "monospace:size=12":: Name of the task bar temperature font.
+ApmFontNameXft = "monospace:size=12":: Name of the task bar battery font.
+InputFontNameXft = "monospace:size=12":: Name of the input field font.
+LabelFontNameXft = "sans-serif:size=12":: Name of the label font.
 
 === Colors
 
