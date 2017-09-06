@@ -447,15 +447,22 @@ DateFormat:: format for the taskbar clock tooltip (date+time) (see strftime(3) m
 
 DelayFuzziness = 10:: Percentage of delay/timeout fuzziness to allow for merging of timer timeouts
 ClickMotionDistance = 5:: Movement before click is interpreted as drag.
+ClickMotionDelay = 200:: Delay before click gets interpreted as drag.
 MultiClickTime = 400:: Time (ms) to recognize for double click.
-AutoRaiseDelay = 400:: Time to auto raise (must enable first with AutoRaise)
-AutoHideDelay = 300:: Time to auto hide taskbar (must enable first with TaskBarAutoHide).
+MenuActivateDelay = 40:: Delay before activating menu items.
+SubmenuMenuActivateDelay = 300:: Delay before activating menu submenus.
 ToolTipDelay = 5000:: Time before showing the tooltip.
 ToolTipTime = 60000:: Time before tooltip window is hidden (0 means never)
+AutoHideDelay = 300:: Time to auto hide taskbar (must enable first with TaskBarAutoHide).
+AutoShowDelay = 500:: Delay before task bar is shown.
+AutoRaiseDelay = 400:: Time to auto raise (must enable first with AutoRaise)
+PointerFocusDelay = 200:: Delay for pointer focus switching.
+EdgeSwitchDelay = 600:: Screen edge workspace switching delay.
 ScrollBarStartDelay:: Initial scroll bar autoscroll delay
 ScrollBarDelay:: Scroll bar autoscroll delay
 AutoScrollStartDelay:: Auto scroll start delay
 AutoScrollDelay:: Auto scroll delay
+WorkspaceStatusTime = 2500:: Time before workspace status window is hidden.
 
 === Workspaces
 
