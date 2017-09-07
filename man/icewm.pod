@@ -116,12 +116,12 @@ one of the configuration directories explained below. It contains a long
 list of options which allow the user to tweak the behaviour of B<icewm>
 to ones taste.  A default F<preferences> file contains comments about
 the purpose of each option, the range of useful values and the current
-or default value. A preferences file is a readable text file which can
-be modified with the help of a text editor.  If this option is given to
-L<icewm-session(1)> then it is passed on to B<icewm>. If B<icewm> is
+or default value. A F<preferences> file is a readable text file which
+can be modified with the help of a text editor.  If this option is given
+to L<icewm-session(1)> then it is passed on to B<icewm>. If B<icewm> is
 started independently then this option can be given to B<icewm>
-directly.  However, usually one will want to use a preferences file from
-a default location.
+directly.  However, usually one will want to use a F<preferences> file
+from a default location.
 
 =item B<-t>, B<--theme>=I<NAME>
 
@@ -233,7 +233,7 @@ the toolbar configuration file.
 The I<Workspace List> shows one button for each work space.  The current
 work space is indicated by a pressed button.  Pressing another work space
 button switches to that work space.  The work spaces are defined in the
-preferences file.  When C<PagerShowPreview> is turned on a small
+F<preferences> file.  When C<PagerShowPreview> is turned on a small
 graphical summary for each workspace is shown.
 
 The I<Task Pane> consists of a list of wide buttons for each application
@@ -273,7 +273,7 @@ The I<Task Bar Collapse> button collapses the task bar and hides it.
 
 Not all B<icewm> applets may show up on the task bar.  They must have
 been enabled during configuration of the B<icewm> software.  Their
-appearance is also controlled by options in the preferences file.
+appearance is also controlled by options in the F<preferences> file.
 
 =head2 INPUT FOCUS
 
@@ -367,11 +367,11 @@ previous window, which will be raised to make it fully visible.
 A second important task of a window manager is to place new windows on
 the screen.  By default B<icewm> chooses a placement with minimal
 overlap, but this is determined by the C<SmartPlacement>> option in the
-preferences file.  If C<SmartPlacement> is turned off then windows are
-placed in sequence from left to right and top to bottom.  One can also
-turn on C<ManualPlacement>.  Then new windows appear initially in the
-top left corner and the mouse cursor changes into a fist.  By moving the
-fist cursor to a suitable location and clicking the new window will
+F<preferences> file.  If C<SmartPlacement> is turned off then windows
+are placed in sequence from left to right and top to bottom.  One can
+also turn on C<ManualPlacement>.  Then new windows appear initially in
+the top left corner and the mouse cursor changes into a fist.  By moving
+the fist cursor to a suitable location and clicking the new window will
 appear at the mouse click location.
 
 =head2 WINDOW LAYERS
@@ -405,7 +405,7 @@ The work spaces are visible on the toolbar.  One can switch to a
 different work space by pressing the work space button in the toolbar,
 but after becoming familiar with the 'keyboard shortcuts' below one will
 want to use a hotkey to choose a work space.  If the C<EdgeSwitch>
-options is enabled in the preferences file (with sub-options
+options is enabled in the F<preferences> file (with sub-options
 C<HorizontalEdgeSwitch> and C<VerticalEdgeSwitch>) then one can move to
 the next or previous workspace by moving the mouse to the edge of the
 screen.  The C<ContinuousEdgeSwitch> option enables continuous movement
@@ -420,8 +420,8 @@ in the window menu of the window frame.
 
 B<icewm> supports a large number of hotkeys to activate some behaviour
 with a single key combination.  These are all configurable in the
-preferences file.  Here we give their default values, followed by their
-preferences names and short descriptions of their effect:
+F<preferences> file.  Here we give their default values, followed by
+their preferences names and short descriptions of their effect:
 
 =over
 
@@ -829,15 +829,19 @@ Default local installation settings.
 
 L<icewm-session(1)> loads additional environment variables from the file
 F<env>.  Each line is subjected to POSIX shell expansion by
-L<wordexp(3)>.  Comment lines starting by a #-sign are ignored.
+L<wordexp(3)>.  Comment lines starting by a hash-sign (C<#>)are ignored.
 L<icewm-session(1)> will load those expanded lines which contain a name,
 followed by an equals sign, followed by the value (which may be empty).
+
+See L<icewm-env(5)>.
 
 =item F<focus_mode>
 
 Defines the initial value for C<FocusMode>.  Its default value is
 C<FocusMode=1> (Click-to-focus).  This can be changed via the menu.
 B<icewm> will save the Focus menu choice in this file.
+
+See L<icewm-focus_mode(5)>.
 
 =item F<keys>
 
@@ -851,6 +855,8 @@ creates a hotkey to reload the B<icewm> configuration:
 
  key "Ctrl+Shift+r"      pkill -x -HUP icewm
 
+See L<icewm-keys(5)>.
+
 =item F<menu>
 
 A menu of applications; usually customized by the user.  B<icewm>
@@ -859,6 +865,8 @@ L<icewm-menu-gnome2(1)> to generate a default menu.  Similar programs
 are L<xdg_menu(1)>, L<mmaker(1)>' (MenuMaker), L<xde-menu(1)>,
 L<xdgmenumaker(1)>.
 
+See L<icewm-menu(5)>.
+
 =item F<preferences>
 
 Contains general settings like paths, colors and fonts, but also options
@@ -866,6 +874,8 @@ to control the B<icewm> focus behaviour and the applets which are
 started in the task bar.  The B<icewm> installation will provide a
 default F<preferences> file, which can be copied to the B<icewm> user
 configuration directory and modified.
+
+See L<icewm-preferences(5)>.
 
 =item F<prefoverride>
 
@@ -876,11 +886,14 @@ thinks this is desirable.  However, this F<prefoverride> file will again
 override this for a few specific options of your choosing.  It is safe
 to leave this file empty initially.
 
+See L<icewm-prefoverride(5)>.
+
 =item F<programs>
 
 An automatically generated menu of applications.  This could be used by
 L<wmconfig(1)>, menu or similar programs to give easy access to all the
 desktop applications which are installed on the system.
+See L<icewm-programs(5)>.
 
 =item F<theme>
 
@@ -898,6 +911,8 @@ file, which replaces F<default.theme>.  If no theme file exists then
 B<icewm> will use the default setting of
 C<Theme="default/default.theme">.
 
+See L<icewm-theme(5)>.
+
 =item F<toolbar>
 
 Contains names of quick to launch applications with icons for the task
@@ -913,6 +928,8 @@ with the F<firefox> icon which launches L<firefox(1)> when clicked:
 
  prog  "Mozilla Firefox"  firefox  /usr/bin/firefox --private-window
 
+See L<icewm-toolbar(5)>.
+
 =item F<winoptions>
 
 Contains settings to control window appearance and behaviour which are
@@ -922,12 +939,16 @@ system tray and the work spaces.  Also its layer, geometry, whether it
 can be moved, resized and closed.  Full details for this file are
 explained in the L<IceWM Manual>.
 
+See L<icewm-winoptions(5)>.
+
 =item F<startup>
 
 Contains commands to be executed on B<icewm> startup.  This is an
 executable script with commands to tweak X11 settings and launch some
 applications which need to be active whenever B<icewm> is started.
 It is run by L<icewm-session(1)> when B<icewm> starts.
+
+See L<icewm-startup(5)>.
 
 =item F<shutdown>
 
@@ -936,6 +957,8 @@ executable script with commands to be executed in the last stage of
 B<icewm> termination.  Typically they may undo some of the effects of
 the F<startup> script.  It is run by L<icewm-session(1)> when B<icewm>
 terminates.
+
+See L<icewm-shutdown(5)>.
 
 =back
 
@@ -1009,6 +1032,25 @@ See the file F<COMPLIANCE> in the distribution for full details.
 =head1 SEE ALSO
 
 L<icewmbg(1)>,
+L<icewmtray(1)>,
+L<icewm-session(1)>,
+L<icesh(1)>,
+L<icehelp(1)>,
+L<icewmhint(1)>,
+L<icesound(1)>,
+L<icewm-menu-fdo(1)>,
+L<icewm-env(5)>,
+L<icewm-focus_mode(5)>,
+L<icewm-keys(5)>,
+L<icewm-menu(5)>,
+L<icewm-preferences(5)>,
+L<icewm-prefoverride(5)>,
+L<icewm-programs(5)>,
+L<icewm-theme(5)>,
+L<icewm-toolbar(5)>,
+L<icewm-winoptions(5)>,
+L<icewm-startup(5)>,
+L<icewm-shutdown(5)>,
 L<Xorg(1)>,
 L<Xserver(1)>,
 L<xinit(1)>,
