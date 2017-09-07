@@ -6,13 +6,35 @@
 
 =head1 SYNOPSIS
 
-B<icewm-menu-fdo> [I<OPTIONS>]
+B<icewm-menu-fdo> [I<FILENAME>]
+ B<icewm-menu-fdo> {B<-h>|B<--help>}
+ B<icewm-menu-fdo> {B<-V>|B<--version>}
+ B<icewm-menu-fdo> {B<-C>|B<--copying>}
 
 =head1 DESCRIPTION
 
+=head1 ARGUMENTS
+
+=over
+
+=item [I<FILENAME>]
+
+When provided with the optional I<FILENAME> argument that is the name
+and location of a F<.desktop> file, B<icewm-menu-fdo> will open an
+launch the application using the C<Exec> line from the desktop file.
+This is similar to L<icewm-menu-gnome2(1)>, which is now deprecated.
+
+=back
+
 =head1 OPTIONS
 
-=head2 GENERAL OPTIONS
+B<icewm-menu-fdo> recognizes the following options:
+
+=head2 COMMAND OPTIONS
+
+Command options are mutually exclusive.  Only one command option can be
+specified per invocation.  If no command option is specified, argument
+parsing and processing is performed.
 
 =over
 
@@ -29,6 +51,37 @@ Print the program version to F<stdout> and exit.
 Print copying permissions to F<stdout> for the program and exit.
 
 =back
+
+=head2 GENERAL OPTIONS
+
+B<icewm-menu-fdo> does not recognize any general options.
+
+=head1 USAGE
+
+This utility is not normally used directly, but is used as the
+executable in a B<menuprog> entry in a menu.  It is the preferred
+replacement for the deprecated L<icewm-menu-gnome2(1)> utility.
+
+=head1 ENVIRONMENT
+
+=head1 CONFORMING TO
+
+B<icewm-menu-fdo> complies roughly to the XDG F<.desktop> file and menu
+specification, see L<Desktop Entry Specification>, Version 1.2alpha,
+2015-03-06 and L<Desktop Menu Specification>, Version 1.1-draft, 31
+March 2011.
+
+=head1 CAVEATS
+
+The B<icewm-menu-fdo> program is only built when the L<icewm(1)> package
+is configured with the B<--enable-menus-fdo> option.
+
+=head1 SEE ALSO
+
+L<Desktop Entry Specification>,
+L<Desktop Menu Specification>,
+L<icewm(1)>,
+L<icewm-preferences(5)>.
 
 =head1 BUGS
 
