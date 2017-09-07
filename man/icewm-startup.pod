@@ -13,6 +13,11 @@ F<> F<$XDG_CONFIG_HOME/icewm/startup>
 
 =head1 DESCRIPTION
 
+Contains commands to be executed on B<icewm> startup.  This is an
+executable script with commands to tweak X11 settings and launch some
+applications which need to be active whenever B<icewm> is started.
+It is run by L<icewm-session(1)> when B<icewm> starts.
+
 =head1 FORMAT
 
 =head1 FILES
