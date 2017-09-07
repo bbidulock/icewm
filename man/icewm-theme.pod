@@ -1,0 +1,40 @@
+=pod
+
+=head1 NAME
+
+ icewm-theme - icewm theme configuration file
+
+=head1 SYNOPSIS
+
+F<> F<$XDG_CONFIG_HOME/icewm/theme>
+ F<$HOME/.icewm/theme>
+ F</usr/share/icewm/theme>
+
+=head1 DESCRIPTION
+
+=head1 FORMAT
+
+=head1 FILES
+
+Locations for the toolbar options file are as follows:
+
+F<>    F<$XDG_CONFIG_HOME/icewm/theme>
+    F<$HOME/.icewm/theme>
+    F</usr/share/icewm/theme>
+
+=head1 SEE ALSO
+
+L<icewm(1)>.
+
+=head1 AUTHOR
+
+Brian Bidulock L<mailto:bidulock@openss7.org>.
+
+=head1 LICENSE
+
+B<IceWM> is licensed under the GNU Library General Public License.
+See the F<COPYING> file in the distribution.
+
+=cut
+
+# vim: set sw=4 tw=72 nocin spell spelllang=en_ca:

@@ -1,0 +1,41 @@
+
+=pod
+
+=head1 NAME
+
+ icewm-startup - icewm startup configuration file
+
+=head1 SYNOPSIS
+
+F<> F<$XDG_CONFIG_HOME/icewm/startup>
+ F<$HOME/.icewm/startup>
+ F</usr/share/icewm/startup>
+
+=head1 DESCRIPTION
+
+=head1 FORMAT
+
+=head1 FILES
+
+Locations for the toolbar options file are as follows:
+
+F<>    F<$XDG_CONFIG_HOME/icewm/startup>
+    F<$HOME/.icewm/startup>
+    F</usr/share/icewm/startup>
+
+=head1 SEE ALSO
+
+L<icewm(1)>.
+
+=head1 AUTHOR
+
+Brian Bidulock L<mailto:bidulock@openss7.org>.
+
+=head1 LICENSE
+
+B<IceWM> is licensed under the GNU Library General Public License.
+See the F<COPYING> file in the distribution.
+
+=cut
+
+# vim: set sw=4 tw=72 nocin spell spelllang=en_ca:

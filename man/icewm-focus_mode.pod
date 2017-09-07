@@ -1,0 +1,40 @@
+=pod
+
+=head1 NAME
+
+ icewm-focus_mode - icewm focus mode configuration file
+
+=head1 SYNOPSIS
+
+F<> F<$XDG_CONFIG_HOME/icewm/focus_mode>
+ F<$HOME/.icewm/focus_mode>
+ F</usr/share/icewm/focus_mode>
+
+=head1 DESCRIPTION
+
+=head1 FORMAT
+
+=head1 FILES
+
+Locations for the toolbar options file are as follows:
+
+F<>    F<$XDG_CONFIG_HOME/icewm/focus_mode>
+    F<$HOME/.icewm/focus_mode>
+    F</usr/share/icewm/focus_mode>
+
+=head1 SEE ALSO
+
+L<icewm(1)>.
+
+=head1 AUTHOR
+
+Brian Bidulock L<mailto:bidulock@openss7.org>.
+
+=head1 LICENSE
+
+B<IceWM> is licensed under the GNU Library General Public License.
+See the F<COPYING> file in the distribution.
+
+=cut
+
+# vim: set sw=4 tw=72 nocin spell spelllang=en_ca:
