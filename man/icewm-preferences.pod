@@ -12,6 +12,12 @@ F<> F<$XDG_CONFIG_HOME/icewm/preferences>
 
 =head1 DESCRIPTION
 
+Contains general settings like paths, colors and fonts, but also options
+to control the B<icewm> focus behaviour and the applets which are
+started in the task bar.  The B<icewm> installation will provide a
+default F<preferences> file, which can be copied to the B<icewm> user
+configuration directory and modified.
+
 =head1 FORMAT
 
 =head2 FOCUS AND BEHAVIOR
