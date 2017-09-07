@@ -12,6 +12,10 @@ F<> F<$XDG_CONFIG_HOME/icewm/focus_mode>
 
 =head1 DESCRIPTION
 
+Defines the initial value for C<FocusMode>.  Its default value is
+C<FocusMode=1> (Click-to-focus).  This can be changed via the menu.
+B<icewm> will save the Focus menu choice in this file.
+
 =head1 FORMAT
 
 =head1 FILES
