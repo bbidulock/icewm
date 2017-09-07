@@ -22,7 +22,7 @@ This release as well as future versions here, can all be obtained from
 
     git clone https://github.com/bbidulock/@PACKAGE@.git
 
-When working from `__git__(1)`, please use this file.  An abbreviated
+When working from __git__(1), please use this file.  An abbreviated
 installation procedure that works for most applications appears below.
 
 
@@ -90,7 +90,7 @@ Website][14] or from the [online manual][16].
 Unfortunately the documentation is for version 1.2.27 and is incomplete
 at that; however, it is for the most part usable.
 The good news is that the
-[`__icewm__(1)`][27], [`__icewmbg__(1)`][23] and [`__icesound__(1)`][22]
+[__icewm__(1)][27], [__icewmbg__(1)][23] and [__icesound__(1)][22]
 manual pages for version @VERSION@ are complete and fully up-to-date.
 
 
@@ -99,20 +99,20 @@ Included Utilities
 
 Currently, the only included utilities are:
 
- - [`__icewmbg__(1)`][23] (_a background setting program_),
- - [`__icewmtray__(1)`][30] (_a system tray for the IceWM taskbar_), and,
- - [`__icewm-session__(1)`][28] (_a program to launch the window manager, icewmbg and
+ - [__icewmbg__(1)][23] (_a background setting program_),
+ - [__icewmtray__(1)][30] (_a system tray for the IceWM taskbar_), and,
+ - [__icewm-session__(1)][28] (_a program to launch the window manager, icewmbg and
    icewmtray in an orderly fashion_),
- - [`__icewm-menu-fdo__(1)`][25] (_a utility to genenerate XDG menus_),
- - [`__icewm-menu-gnome2__(1)`][26] (_a utility to generate GNOME menus_),
- - [`__icewmhint__(1)`][24] (_a utility to set IceWM-specific window options hint_).
- - [`__icesound__(1)`][22] (_play audio files when interesting GUI events happen_).
+ - [__icewm-menu-fdo__(1)][25] (_a utility to genenerate XDG menus_),
+ - [__icewm-menu-gnome2__(1)][26] (_a utility to generate GNOME menus_),
+ - [__icewmhint__(1)][24] (_a utility to set IceWM-specific window options hint_).
+ - [__icesound__(1)][22] (_play audio files when interesting GUI events happen_).
 
 
 Third-party Utilities
 ---------------------
 
-Unspecified keyboard shortcuts can be handled with the `__bbkeys__(1)` utility
+Unspecified keyboard shortcuts can be handled with the __bbkeys__(1) utility
 available from [sourceforge][17].  For additional utilities see the [IceWM
 FAQ][15].
 
