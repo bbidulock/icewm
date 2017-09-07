@@ -13,12 +13,22 @@ F<> F<$XDG_CONFIG_HOME/icewm/env>
 =head1 DESCRIPTION
 
 L<icewm-session(1)> loads additional environment variables from the file
-F<env>.  Each line is subjected to POSIX shell expansion by
-L<wordexp(3)>.  Comment lines starting by a hash-sign (C<#>)are ignored.
+F<env>.
+
+=head1 FORMAT
+
+Each line is subjected to POSIX shell expansion by L<wordexp(3)>.
+Comment lines starting by a hash-sign (C<#>) are ignored.
 L<icewm-session(1)> will load those expanded lines which contain a name,
 followed by an equals sign, followed by the value (which may be empty).
 
-=head1 FORMAT
+=head1 EXAMPLES
+
+ # This is a comment.
+ # And another.
+
+ XDG_CURRENT_DESKTOP="ICEWM"
+ XDG_MENU_PREFIX="unexicon-"
 
 =head1 FILES
 
