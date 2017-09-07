@@ -23,6 +23,8 @@ to leave this file empty initially.
 
 =head1 FORMAT
 
+=head1 EXAMPLES
+
 =head1 FILES
 
 Locations for the toolbar options file are as follows:
