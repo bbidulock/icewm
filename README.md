@@ -104,7 +104,8 @@ Currently, the only included utilities are:
    icewmtray in an orderly fashion_),
  - `icewm-menu-fdo` (_a utility to genenerate XDG menus_),
  - `icewm-menu-gnome2` (_a utility to generate GNOME menus_),
- - `icewmhint` (_a utility to set IceWM-specific window options hint).
+ - `icewmhint` (_a utility to set IceWM-specific window options hint_).
+ - `icesound` (_play audio files when interesting GUI events happen_).
 
 
 Third-party Utilities
