@@ -14,10 +14,16 @@ icewm_man1_files = \
 dist_man1_MANS = $(icewm_man1_files)
 
 icewm_man5_files = \
+	icewm-env.man \
+	icewm-focus_mode.man \
 	icewm-keys.man \
 	icewm-menu.man \
 	icewm-preferences.man \
+	icewm-prefoverride.man \
 	icewm-programs.man \
+	icewm-shutdown.man \
+	icewm-startup.man \
+	icewm-theme.man \
 	icewm-toolbar.man \
 	icewm-winoptions.man
 
@@ -30,15 +36,21 @@ EXTRA_DIST = \
 	icesh.pod \
 	icesound.pod \
 	icewmbg.pod \
+	icewm-env.pod \
+	icewm-focus_mode.pod \
 	icewmhint.pod \
 	icewm-keys.pod \
 	icewm-menu-fdo.pod \
 	icewm-menu.pod \
 	icewm.pod \
 	icewm-preferences.pod \
+	icewm-prefoverride.pod \
 	icewm-programs.pod \
 	icewm-session.pod \
 	icewm-set-gnomewm.pod \
+	icewm-shutdown.pod \
+	icewm-startup.pod \
+	icewm-theme.pod \
 	icewm-toolbar.pod \
 	icewmtray.pod \
 	icewm-winoptions.pod
