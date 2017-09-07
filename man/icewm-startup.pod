@@ -7,9 +7,11 @@
 
 =head1 SYNOPSIS
 
-F<> F<$XDG_CONFIG_HOME/icewm/startup>
+F<> F<$ICEWM_PRIVCFG/startup>
+ F<$XDG_CONFIG_HOME/icewm/startup>
  F<$HOME/.icewm/startup>
  F</usr/share/icewm/startup>
+ F</usr/local/share/icewm/startup>
 
 =head1 DESCRIPTION
 
@@ -24,9 +26,11 @@ It is run by L<icewm-session(1)> when B<icewm> starts.
 
 Locations for the toolbar options file are as follows:
 
-F<>    F<$XDG_CONFIG_HOME/icewm/startup>
+F<>    F<$ICEWM_PRIVCFG/startup>
+    F<$XDG_CONFIG_HOME/icewm/startup>
     F<$HOME/.icewm/startup>
     F</usr/share/icewm/startup>
+    F</usr/local/share/icewm/startup>
 
 =head1 SEE ALSO
 

@@ -6,9 +6,11 @@
 
 =head1 SYNOPSIS
 
-F<> F<$XDG_CONFIG_HOME/icewm/preferences>
+F<> F<$ICEWM_PRIVCFG/preferences>
+ F<$XDG_CONFIG_HOME/icewm/preferences>
  F<$HOME/.icewm/preferences>
  F</usr/share/icewm/preferences>
+ F</usr/local/share/icewm/preferences>
 
 =head1 DESCRIPTION
 
@@ -1551,9 +1553,11 @@ Paint the background image over all multihead monitors combined.
 
 Locations for the F<preferences> file are as follows:
 
-F<>    F<$XDG_CONFIG_HOME/icewm/preferences>
+F<>    F<$ICEWM_PRIVCFG/preferences>
+    F<$XDG_CONFIG_HOME/icewm/preferences>
     F<$HOME/.icewm/preferences>
     F</usr/share/icewm/preferences>
+    F</usr/local/share/icewm/preferences>
 
 =head1 SEE ALSO
 

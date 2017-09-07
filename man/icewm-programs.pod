@@ -6,9 +6,11 @@
 
 =head1 SYNOPSIS
 
-F<> F<$XDG_CONFIG_HOME/icewm/programs>
+F<> F<$ICEWM_PRIVCFG/programs>
+ F<$XDG_CONFIG_HOME/icewm/programs>
  F<$HOME/.icewm/programs>
  F</usr/share/icewm/programs>
+ F</usr/local/share/icewm/programs>
 
 =head1 DESCRIPTION
 
@@ -193,9 +195,11 @@ Following is the example F<programs> file that ships with L<icewm(1)>:
 
 Locations for the programs file are as follows:
 
-F<>    F<$XDG_CONFIG_HOME/icewm/programs>
+F<>    F<$ICEWM_PRIVCFG/programs>
+    F<$XDG_CONFIG_HOME/icewm/programs>
     F<$HOME/.icewm/programs>
     F</usr/share/icewm/programs>
+    F</usr/local/share/icewm/programs>
 
 =head1 SEE ALSO
 

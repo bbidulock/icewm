@@ -6,9 +6,11 @@
 
 =head1 SYNOPSIS
 
-F<> F<$XDG_CONFIG_HOME/icewm/prefoverride>
+F<> F<$ICEWM_PRIVCFG/prefoverride>
+ F<$XDG_CONFIG_HOME/icewm/prefoverride>
  F<$HOME/.icewm/prefoverride>
  F</usr/share/icewm/prefoverride>
+ F</usr/local/share/icewm/prefoverride>
 
 =head1 DESCRIPTION
 
@@ -25,9 +27,11 @@ to leave this file empty initially.
 
 Locations for the toolbar options file are as follows:
 
-F<>    F<$XDG_CONFIG_HOME/icewm/prefoverride>
+F<>    F<$ICEWM_PRIVCFG/prefoverride>
+    F<$XDG_CONFIG_HOME/icewm/prefoverride>
     F<$HOME/.icewm/prefoverride>
     F</usr/share/icewm/prefoverride>
+    F</usr/local/share/icewm/prefoverride>
 
 =head1 SEE ALSO
 

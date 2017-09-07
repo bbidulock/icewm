@@ -6,9 +6,11 @@
 
 =head1 SYNOPSIS
 
-F<> F<$XDG_CONFIG_HOME/icewm/keys>
+F<> F<$ICEWM_PRIVCFG/keys>
+ F<$XDG_CONFIG_HOME/icewm/keys>
  F<$HOME/.icewm/keys>
  F</usr/share/icewm/keys>
+ F</usr/local/share/icewm/keys>
 
 =head1 DESCRIPTION
 
@@ -95,9 +97,11 @@ Following is the example F<keys> file that ships with L<icewm(1)>:
 
 Locations for the F<keys> file are as follows:
 
-F<>    F<$XDG_CONFIG_HOME/icewm/keys>
+F<>    F<$ICEWM_PRIVCFG/keys>
+    F<$XDG_CONFIG_HOME/icewm/keys>
     F<$HOME/.icewm/keys>
     F</usr/share/icewm/keys>
+    F</usr/lcoal/share/icewm/keys>
 
 =head1 SEE ALSO
 

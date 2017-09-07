@@ -6,9 +6,11 @@
 
 =head1 SYNOPSIS
 
-F<> F<$XDG_CONFIG_HOME/icewm/focus_mode>
+F<> F<$ICEWM_PRIVCFG/focus_mode>
+ F<$XDG_CONFIG_HOME/icewm/focus_mode>
  F<$HOME/.icewm/focus_mode>
  F</usr/share/icewm/focus_mode>
+ F</usr/local/share/icewm/focus_mode>
 
 =head1 DESCRIPTION
 
@@ -18,13 +20,24 @@ B<icewm> will save the Focus menu choice in this file.
 
 =head1 FORMAT
 
+The file contains a single line containing the preferences assignment
+for B<FocusMode>.
+
+=head1 EXAMPLES
+
+The following is my F<focus_mode> file:
+
+ FocusMode=2
+
 =head1 FILES
 
 Locations for the toolbar options file are as follows:
 
-F<>    F<$XDG_CONFIG_HOME/icewm/focus_mode>
+F<>    F<$ICEWM_PRIVCFG/focus_mode>
+    F<$XDG_CONFIG_HOME/icewm/focus_mode>
     F<$HOME/.icewm/focus_mode>
     F</usr/share/icewm/focus_mode>
+    F</usr/local/share/icewm/focus_mode>
 
 =head1 SEE ALSO
 
