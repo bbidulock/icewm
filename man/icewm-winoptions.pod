@@ -17,6 +17,13 @@ settings for individual application windows.  The window options that
 are established by this file when L<icewm(1)> starts can be overridden
 while running using the L<icesh(1)> or L<icewmhints(1)> utilities.
 
+Contains settings to control window appearance and behaviour which are
+specific to applications or groups of applications.  Options can control
+the border, whether it appears on the task bar, the window list, the
+system tray and the work spaces.  Also its layer, geometry, whether it
+can be moved, resized and closed.  Full details for this file are
+explained in the L<IceWM Manual>.
+
 =head1 FORMAT
 
 Each line in the file must be in one of the following formats:
