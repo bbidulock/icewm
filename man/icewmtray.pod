@@ -76,7 +76,7 @@ B<icewmtray(1)> is typically launched and terminated by
 L<icewm-session(1)> with the appropriate options: it is usually
 unnecessary to launch it directly.
 
-=head1 COMPLIANCE
+=head1 CONFORMING TO
 
 B<icewmtray> is compliant to the XDG system tray specification.
 
