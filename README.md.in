@@ -85,12 +85,12 @@ Configuring IceWM
 -----------------
 
 Documentation for configuring the window manager can be obtained from [IceWM
-Website][14], from the [online manual][16].
+Website][14] or from the [online manual][16].
 
-Unfortunately that documentation is for version 1.2.27 and is incomplete
-at that; however, it is for the most part still usable.
+Unfortunately the documentation is for version 1.2.27 and is incomplete
+at that; however, it is for the most part usable.
 The good news is that the
-[`icewm(1)`][21], [`icewmbg(1)`][22] and [`icesound(1)`][23]
+[`icewm`(1)][27], [`icewmbg`(1)][23] and [`icesound`(1)][22]
 manual pages for version @VERSION@ are complete and fully up-to-date.
 
 
@@ -99,14 +99,14 @@ Included Utilities
 
 Currently, the only included utilities are:
 
- - `icewmbg` (_a background setting program_),
- - `icewmtray` (_a system tray for the IceWM taskbar_), and,
- - `icewm-session` (_a program to launch the window manager, icewmbg and
+ - [`icewmbg`(1)][23] (_a background setting program_),
+ - [`icewmtray`(1)][30] (_a system tray for the IceWM taskbar_), and,
+ - [`icewm-session`(1)][28] (_a program to launch the window manager, icewmbg and
    icewmtray in an orderly fashion_),
- - `icewm-menu-fdo` (_a utility to genenerate XDG menus_),
- - `icewm-menu-gnome2` (_a utility to generate GNOME menus_),
- - `icewmhint` (_a utility to set IceWM-specific window options hint_).
- - `icesound` (_play audio files when interesting GUI events happen_).
+ - [`icewm-menu-fdo`(1)][25] (_a utility to genenerate XDG menus_),
+ - [`icewm-menu-gnome2`(1)][26] (_a utility to generate GNOME menus_),
+ - [`icewmhint`(1)][24] (_a utility to set IceWM-specific window options hint_).
+ - [`icesound`(1)][22] (_play audio files when interesting GUI events happen_).
 
 
 Third-party Utilities
@@ -215,8 +215,15 @@ translations.  If you have difficulties using the tools, just send me the update
 [18]: https://github.com/bbidulock/icewm/blob/@BRANCH@/lib/icewm.desktop
 [19]: https://github.com/bbidulock/icewm/blob/@BRANCH@/lib/icewm-session.desktop
 [20]: https://github.com/bbidulock/icewm/blob/@BRANCH@/INSTALL-cmakebuild.md
-[21]: https://github.com/bbidulock/icewm/blob/@BRANCH@/doc/icewm.1.adoc
-[22]: https://github.com/bbidulock/icewm/blob/@BRANCH@/doc/icewmbg.1.adoc
-[23]: https://github.com/bbidulock/icewm/blob/@BRANCH@/doc/icesound.1.adoc
+[21]: https://github.com/bbidulock/icewm/blob/@BRANCH@/man/icesh.pod
+[22]: https://github.com/bbidulock/icewm/blob/@BRANCH@/man/icesound.pod
+[23]: https://github.com/bbidulock/icewm/blob/@BRANCH@/man/icewmbg.pod
+[24]: https://github.com/bbidulock/icewm/blob/@BRANCH@/man/icewmhint.pod
+[25]: https://github.com/bbidulock/icewm/blob/@BRANCH@/man/icewm-menu-fdo.pod
+[26]: https://github.com/bbidulock/icewm/blob/@BRANCH@/man/icewm-menu-gnome2.pod
+[27]: https://github.com/bbidulock/icewm/blob/@BRANCH@/man/icewm.pod
+[28]: https://github.com/bbidulock/icewm/blob/@BRANCH@/man/icewm-session.pod
+[29]: https://github.com/bbidulock/icewm/blob/@BRANCH@/man/icewm-set-gnomewm.pod
+[30]: https://github.com/bbidulock/icewm/blob/@BRANCH@/man/icewmtray.pod
 
 [ vim: set ft=markdown sw=4 tw=80 nocin nosi fo+=tcqlorn: ]: #
