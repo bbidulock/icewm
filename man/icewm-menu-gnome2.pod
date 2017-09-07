@@ -6,13 +6,22 @@
 
 =head1 SYNOPSIS
 
-B<icewm-menu-gnome2> [I<OPTIONS>]
+B<> B<icewm-menu-gnome2> [I<OPTIONS>]
+ B<icewm-menu-gnome2> {B<-h>|B<--help>} [I<OPTIONS>]
+ B<icewm-menu-gnome2> {B<-V>|B<--version>}
+ B<icewm-menu-gnome2> {B<-C>|B<--copying>}
 
 =head1 DESCRIPTION
 
 =head1 OPTIONS
 
-=head2 GENERAL OPTIONS
+B<icewm-menu-gnome2> recognizes the following options:
+
+=head2 COMMAND OPTIONS
+
+Command options are mutually exclusive.  Only one command option can be
+specified per invocation.  If no command option is specified, argument
+parsing and processing is performed.
 
 =over
 
@@ -29,6 +38,52 @@ Print the program version to F<stdout> and exit.
 Print copying permissions to F<stdout> for the program and exit.
 
 =back
+
+=head2 GENERAL OPTIONS
+
+B<icewm-menu-gnome2> recognizes the two following mutually exclusive
+options:
+
+=over
+
+=item B<--open> I<FILENAME>
+
+Read the GNOME version 2 F<.desktop> file specified by I<FILENAME> and
+execute the C<Exec> line with variable substitution.  This is used when
+generating menus to launch individual items within the menu.
+
+=item B<--list> I<DIRECTORY>
+
+Read the GNOME version 2 I<DIRECTORY> and generate L<icewm(1)> menu
+items for each file or sub-directory within the I<DIRECTORY>.
+Sub-directories are not immediately expanded but generate B<menuprog>
+entries executing B<icewm-menu-gnome2> with the sub-directory as the
+I<DIRECTORY> argument.
+
+=back
+
+=head1 USAGE
+
+This utility is not normally used directly, but is used as the
+executable in a B<menuprog> entry in a menu.  It is quite deprecated.
+Use L<icewm-menu-fdo(1)> instead.
+
+=head1 CONFORMING TO
+
+B<icewm-menu-gnome2> complies to the GNOME version 2 menu specification.
+This is somewhat different from the XDG desktop file specification, and
+is quite deprecated.
+
+=head1 CAVEATS
+
+The B<icewm-menu-gnome2> program is only built when the L<icewm(1)>
+package is configured with the B<--enable-menus-gnome2> option.
+
+=head1 SEE ALSO
+
+L<icewm(1)>,
+L<icewm-menu-fdo(1)>,
+L<icewm-preferences(5)>.
 
 =head1 BUGS
 
