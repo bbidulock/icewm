@@ -4,6 +4,9 @@
 #include "ywindow.h"
 #include "ymenu.h"
 #include "MwmUtil.h"
+#ifndef InputHint
+#include <X11/Xutil.h>
+#endif
 
 class YFrameWindow;
 class WindowListItem;
