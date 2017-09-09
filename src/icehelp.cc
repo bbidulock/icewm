@@ -10,6 +10,7 @@
 #include "yrect.h"
 #include "ascii.h"
 #include "intl.h"
+#include "ykey.h"
 #ifdef HAVE_STRINGS_H
 #include <strings.h>
 #endif
