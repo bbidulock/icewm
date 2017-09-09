@@ -1,4 +1,5 @@
-#ifndef WMACTION_H_
+#ifndef __WMACTION_H
+#define __WMACTION_H
 
 class YAction;
 
