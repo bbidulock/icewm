@@ -1406,8 +1406,6 @@ void YWMApp::afterWindowEvent(XEvent &xev) {
         lastKeyEvent = xev;
 }
 
-#ifndef NO_CONFIGURE
-
 static void print_usage(const char *argv0) {
     const char *usage_client_id =
 #ifdef CONFIG_SESSION
@@ -1423,6 +1421,17 @@ static void print_usage(const char *argv0) {
 #else
              "";
 #endif
+
+    const char *usage_preferences =
+#ifndef NO_CONFIGURE
+             _("\n"
+             "  -c, --config=FILE   Load preferences from FILE.\n"
+             "  -t, --theme=FILE    Load theme from FILE.\n"
+             "  --postpreferences   Print preferences after all processing.\n");
+#else
+             "";
+#endif
+
     printf(_("Usage: %s [OPTIONS]\n"
              "Starts the IceWM window manager.\n"
              "\n"
@@ -1430,9 +1439,7 @@ static void print_usage(const char *argv0) {
              "  --display=NAME      NAME of the X server to use.\n"
              "%s"
              "  --sync              Synchronize X11 commands.\n"
-             "\n"
-             "  -c, --config=FILE   Load preferences from FILE.\n"
-             "  -t, --theme=FILE    Load theme from FILE.\n"
+             "%s"
              "\n"
              "  -V, --version       Prints version information and exits.\n"
              "  -h, --help          Prints this usage screen and exits.\n"
@@ -1444,13 +1451,12 @@ static void print_usage(const char *argv0) {
              "  --configured        Print the compile time configuration.\n"
              "  --directories       Print the configuration directories.\n"
              "  -l, --list-themes   Print a list of all available themes.\n"
-             "  --postpreferences   Print preferences after all processing.\n"
              "\n"
              "Environment variables:\n"
              "  XDG_CONFIG_HOME=PATH  Directory for configuration files,\n"
-             "                      \"$HOME/.config/icewm/\" by default.\n"
+             "                      \"$HOME/.config\" by default.\n"
              "  ICEWM_PRIVCFG=PATH  Directory for user configuration files,\n"
-             "                      \"$HOME/.icewm/\" by default.\n"
+             "                      \"$HOME/.icewm\" by default.\n"
              "  DISPLAY=NAME        Name of the X server to use.\n"
              "  MAIL=URL            Location of your mailbox.\n"
              "\n"
@@ -1458,6 +1464,7 @@ static void print_usage(const char *argv0) {
              "%s\n\n"),
              argv0,
              usage_client_id,
+             usage_preferences,
              usage_debug,
              PACKAGE_BUGREPORT[0] ? PACKAGE_BUGREPORT :
              PACKAGE_URL[0] ? PACKAGE_URL :
@@ -1572,6 +1579,9 @@ static void print_configured(const char *argv0) {
 #ifdef ENABLE_NLS
     " nls"
 #endif
+#ifdef NO_CONFIGURE
+    " no-configure"
+#endif
 #ifdef NO_CONFIGURE_MENUS
     " no-confmenu"
 #endif
@@ -1635,27 +1645,30 @@ static void print_configured(const char *argv0) {
     exit(0);
 }
 
-#endif
-
 int main(int argc, char **argv) {
     YLocale locale;
     bool notify_parent(false);
 
     for (char ** arg = argv + 1; arg < argv + argc; ++arg) {
         if (**arg == '-') {
-#ifdef DEBUG
-            if (is_long_switch(*arg, "debug"))
-                debug = true;
-            else if (is_long_switch(*arg, "debug-z"))
-                debug_z = true;
-#endif
 #ifndef NO_CONFIGURE
             char *value(0);
             if (GetArgument(value, "c", "config", arg, argv+argc))
                 configFile = value;
             else if (GetArgument(value, "t", "theme", arg, argv+argc))
                 overrideTheme = value;
-            else if (is_switch(*arg, "r", "restart"))
+            else if (is_long_switch(*arg, "postpreferences"))
+                post_preferences = true;
+            else
+#endif
+#ifdef DEBUG
+            if (is_long_switch(*arg, "debug"))
+                debug = true;
+            else if (is_long_switch(*arg, "debug-z"))
+                debug_z = true;
+            else
+#endif
+            if (is_switch(*arg, "r", "restart"))
                 restart_wm = true;
             else if (is_long_switch(*arg, "replace"))
                 replace_wm = true;
@@ -1667,15 +1680,12 @@ int main(int argc, char **argv) {
                 print_directories(argv[0]);
             else if (is_switch(*arg, "l", "list-themes"))
                 print_themes_list();
-            else if (is_long_switch(*arg, "postpreferences"))
-                post_preferences = true;
             else if (is_help_switch(*arg))
                 print_usage(my_basename(argv[0]));
             else if (is_version_switch(*arg))
                 print_version_exit(VERSION);
-#else
-            check_help_version(*arg, "", VERSION);
-#endif
+            else
+                warn(_("Unrecognized option '%s'."), *arg);
         }
     }
 
