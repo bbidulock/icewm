@@ -21,7 +21,8 @@ if [ -x "`which git 2>/dev/null`" -a -d .git ]; then
 		    s:^AM_GNU_GETTEXT_VERSION.*:AM_GNU_GETTEXT_VERSION([$GTVERSION]):"
 	subst="s:%%PACKAGE%%:$PACKAGE:g
 	       s:%%VERSION%%:$VERSION:g
-	       s:%%DATE%%:$DATE:g"
+	       s:%%DATE%%:$DATE:g
+	       s:%%BRANCH%%:$BRANCH:g"
 	sed -r -e "$subst" icewm.spec.in >icewm.spec
 	sed -r -e "$subst" icewm.lsm.in >icewm.lsm
 	echo -e "PACKAGE=$PACKAGE\nVERSION=$VERSION" >VERSION
