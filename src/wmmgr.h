@@ -354,7 +354,6 @@ extern Atom _XA_WIN_WORKSPACE_NAMES;
 extern Atom _XA_WIN_WORKSPACE;
 
 extern Atom _XA_WM_CLIENT_LEADER;
-extern Atom _XA_WM_CLIENT_MACHINE;
 extern Atom _XA_WM_WINDOW_ROLE;
 
 extern Atom _XA_WINDOW_ROLE;
@@ -454,7 +453,6 @@ extern Atom _XA_NET_WM_USER_TIME;                   // OK
 extern Atom _XA_NET_WM_USER_TIME_WINDOW;            // OK
 extern Atom _XA_NET_WM_VISIBLE_ICON_NAME;           // OK
 extern Atom _XA_NET_WM_VISIBLE_NAME;                // OK
-extern Atom _XA_NET_WM_OPACITY;                     // TODO
 extern Atom _XA_NET_WM_WINDOW_TYPE;                 // OK
 extern Atom _XA_NET_WM_WINDOW_TYPE_COMBO;           // OK
 extern Atom _XA_NET_WM_WINDOW_TYPE_DESKTOP;         // OK
