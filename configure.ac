@@ -23,14 +23,17 @@ TESTCASES="$TESTCASES iceview icesame iceicon icerun icelist icebar" # iceclock
 features=''
 
 # Initialize Automake
-AM_INIT_AUTOMAKE([1.13.4 dist-xz no-dist-gzip std-options -Wall color-tests silent-rules tar-pax])
+AM_INIT_AUTOMAKE([1.14 dist-xz no-dist-gzip std-options -Wall color-tests silent-rules tar-pax])
 AM_MAINTAINER_MODE
+AM_SILENT_RULES([yes])
+AC_PREFIX_DEFAULT([/usr])
 
 # Checks for programs.
 AC_LANG_CPLUSPLUS
-AC_PROG_CXX
+AC_PROG_SED
 AC_PROG_AWK
 AC_PROG_CC
+AC_PROG_CXX
 AC_PROG_CPP
 AC_PROG_INSTALL
 AC_PROG_LN_S
@@ -69,6 +72,13 @@ if test -z "$ASCIIMAN_FORMAT"; then
 	esac
 fi
 
+AC_ARG_VAR([LINKS],[links command. @<:@default=lynx@:>@])
+AC_CHECK_PROGS([LINKS],[lynx links],[${am_missing_run}lynx],[$PATH])
+if test "$LINKS" = "links"; then
+	LINKS="links -codepage utf-8"
+fi
+
+AC_DISABLE_STATIC
 LT_PATH_LD
 LT_PREREQ([2.4.2])
 LT_INIT([dlopen])
