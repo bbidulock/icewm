@@ -14,10 +14,9 @@ extern ref<YFont> getXftFont(ustring name, bool antialias);
 extern ref<YFont> getXftFontXlfd(ustring name, bool antialias);
 extern ref<YFont> getCoreFont(const char*);
 
-#ifdef CONFIG_XFREETYPE
 ref<YFont> YFont::getFont(ustring name, ustring xftFont, bool antialias) {
-#else
-ref<YFont> YFont::getFont(ustring name, ustring xftFont, bool) {
+#ifndef CONFIG_XFREETYPE
+    (void) antialias;
 #endif
     ref<YFont> font;
 
@@ -40,8 +39,8 @@ ref<YFont> YFont::getFont(ustring name, ustring xftFont, bool) {
     {
         if (xftFont != null && xftFont.length() > 0)
             return getXftFont(xftFont, antialias);
-        else
-            return getXftFontXlfd(name, antialias);
+
+        return getXftFontXlfd(name, antialias);
     }
 #endif
 
