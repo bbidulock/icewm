@@ -1651,8 +1651,8 @@ int main(int argc, char **argv) {
 
     for (char ** arg = argv + 1; arg < argv + argc; ++arg) {
         if (**arg == '-') {
-#ifndef NO_CONFIGURE
             char *value(0);
+#ifndef NO_CONFIGURE
             if (GetArgument(value, "c", "config", arg, argv+argc))
                 configFile = value;
             else if (GetArgument(value, "t", "theme", arg, argv+argc))
@@ -1684,6 +1684,10 @@ int main(int argc, char **argv) {
                 print_usage(my_basename(argv[0]));
             else if (is_version_switch(*arg))
                 print_version_exit(VERSION);
+            else if (is_long_switch(*arg, "sync"))
+            { /* handled by Xt */ }
+            else if (GetLongArgument(value, "display", arg, &value))
+            { /* handled by Xt */ }
             else
                 warn(_("Unrecognized option '%s'."), *arg);
         }
