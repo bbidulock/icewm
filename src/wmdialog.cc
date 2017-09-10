@@ -47,6 +47,8 @@ bool canShutdown(bool reboot) {
     if (reboot)
         if (rebootCommand == 0 || rebootCommand[0] == 0)
             return false;
+    if (logoutCommand && logoutCommand[0])
+        return false;
 #ifdef CONFIG_SESSION
     if (smapp->haveSessionManager())
         return false;
