@@ -122,7 +122,6 @@ private:
 extern YWMApp * wmapp;
 
 extern YMenu *windowMenu;
-extern YMenu *occupyMenu;
 extern YMenu *layerMenu;
 extern YMenu *moveMenu;
 
@@ -139,7 +138,6 @@ extern YMenu *windowListPopup;
 extern YMenu *windowListAllPopup;
 #endif
 
-extern YMenu *maximizeMenu;
 extern YMenu *logoutMenu;
 
 #ifndef NO_CONFIGURE_MENUS
