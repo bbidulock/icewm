@@ -577,6 +577,13 @@ static void initMenus(
 #else
                 logoutMenu->addItem(_("Shut_down"), -2, null, actionShutdown, "shutdown");
 #endif
+            if (couldRunCommand(suspendCommand))
+#ifdef LITE
+                logoutMenu->addItem(_("_Suspend"), -2, null, actionSuspend);
+#else
+                logoutMenu->addItem(_("_Suspend"), -2, null, actionSuspend, "suspend");
+#endif
+
             if (logoutMenu->itemCount() != oldItemCount)
                 logoutMenu->addSeparator();
 
@@ -840,6 +847,8 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
         this->runCommand(lockCommand);
     } else if (action == actionShutdown) {
         manager->doWMAction(ICEWM_ACTION_SHUTDOWN);
+    } else if (action == actionSuspend) {
+        manager->doWMAction(ICEWM_ACTION_SUSPEND);
     } else if (action == actionReboot) {
         manager->doWMAction(ICEWM_ACTION_REBOOT);
     } else if (action == actionRestart) {
@@ -1820,6 +1829,9 @@ void YWMApp::handleSMAction(int message) {
         wmapp->actionPerformed(actionAbout, 0);
 #endif
         break;
+    case ICEWM_ACTION_SUSPEND:
+    	YWindowManager::execAfterFork(suspendCommand);
+    	break;
     }
 }
 

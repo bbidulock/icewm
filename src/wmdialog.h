@@ -20,6 +20,7 @@ public:
     void deactivate();
 private:
     YActionButton *lockButton;
+    YActionButton *suspendButton;
     YActionButton *logoutButton;
     YActionButton *restartButton;
     YActionButton *cancelButton;

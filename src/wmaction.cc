@@ -42,6 +42,7 @@ YAction *actionLock(0);
 YAction *actionReboot(0);
 YAction *actionRestart(0);
 YAction *actionShutdown(0);
+YAction *actionSuspend(0);
 YAction *actionRefresh(0);
 YAction *actionCollapseTaskbar(0);
 #ifndef LITE
@@ -98,6 +99,7 @@ void initActions() {
     actionReboot = new YAction();
     actionRestart = new YAction();
     actionShutdown = new YAction();
+    actionSuspend = new YAction();
     actionRefresh = new YAction();
     actionCollapseTaskbar = new YAction();
 #ifndef LITE
@@ -155,6 +157,7 @@ void freeActions() {
     delete actionReboot; actionReboot = 0;
     delete actionRestart; actionRestart = 0;
     delete actionShutdown; actionShutdown = 0;
+    delete actionSuspend; actionSuspend = 0;
     delete actionRefresh; actionRefresh = 0;
     delete actionCollapseTaskbar; actionCollapseTaskbar = 0;
 #ifndef LITE

@@ -188,11 +188,14 @@ XSV(const char *, terminalCommand,              "xterm")
 XSV(const char *, logoutCommand,                0)
 XSV(const char *, logoutCancelCommand,          0)
 #if defined(__linux__)
-XSV(const char *, shutdownCommand,              "/bin/sh -c \"{ test -e /run/systemd/system && systemctl poweroff; } ||:\"")
-XSV(const char *, rebootCommand,                "/bin/sh -c \"{ test -e /run/systemd/system && systemctl reboot; } ||:\"")
+// use shell code since those are wrapped through shell in YWindowManager::execAfterFork
+XSV(const char *, shutdownCommand,              "test -e /run/systemd/system && systemctl poweroff")
+XSV(const char *, rebootCommand,                "test -e /run/systemd/system && systemctl reboot")
+XSV(const char *, suspendCommand,               "test -e /run/systemd/system && systemctl suspend")
 #else
 XSV(const char *, shutdownCommand,              0)
 XSV(const char *, rebootCommand,                0)
+XSV(const char *, suspendCommand,               0)
 #endif // LINUX
 XIV(int, taskBarCPUDelay,                       500)
 XIV(int, taskBarMEMDelay,                       500)
@@ -428,6 +431,7 @@ cfoption icewm_preferences[] = {
     OSV("LogoutCancelCommand",                  &logoutCancelCommand,           "Command to cancel logout"),
     OSV("ShutdownCommand",                      &shutdownCommand,               "Command to shutdown the system"),
     OSV("RebootCommand",                        &rebootCommand,                 "Command to reboot the system"),
+    OSV("SuspendCommand",                       &suspendCommand,                "Command to send the system to standby mode"),
     OSV("CPUStatusCommand",                     &cpuCommand,                    "Command to run on CPU status"),
     OSV("CPUStatusClassHint",                   &cpuClassHint,                  "WM_CLASS to allow runonce for CPUStatusCommand"),
     OBV("CPUStatusCombine",                     &cpuCombine,                    "Combine all CPUs to one"),

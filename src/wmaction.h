@@ -12,6 +12,7 @@ class YAction;
 #define ICEWM_ACTION_ABOUT 6
 #define ICEWM_ACTION_WINDOWLIST 7
 #define ICEWM_ACTION_RESTARTWM 8
+#define ICEWM_ACTION_SUSPEND 9
 
 extern YAction *actionCascade;
 extern YAction *actionArrange;
@@ -54,6 +55,7 @@ extern YAction *actionLock;
 extern YAction *actionReboot;
 extern YAction *actionRestart;
 extern YAction *actionShutdown;
+extern YAction *actionSuspend;
 extern YAction *actionRefresh;
 extern YAction *actionAbout;
 extern YAction *actionHelp;
@@ -72,5 +74,9 @@ void freeActions();
 
 bool canShutdown(bool reboot);
 bool canLock();
+/**
+ * Basic check whether a shell command could possibly be run.
+ */
+bool couldRunCommand(const char *cmd);
 
 #endif

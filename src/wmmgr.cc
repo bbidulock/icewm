@@ -743,6 +743,7 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
         case ICEWM_ACTION_LOGOUT:
         case ICEWM_ACTION_CANCEL_LOGOUT:
         case ICEWM_ACTION_SHUTDOWN:
+        case ICEWM_ACTION_SUSPEND:
         case ICEWM_ACTION_REBOOT:
         case ICEWM_ACTION_RESTARTWM:
         case ICEWM_ACTION_WINDOWLIST:
@@ -3022,7 +3023,10 @@ void YWindowManager::updateUserTime(const UserTime& userTime) {
 }
 
 void YWindowManager::execAfterFork(const char *command) {
-    pid_t pid = fork();
+	if(!command || !*command)
+		return;
+    msg("Running system command in shell: %s", command);
+	pid_t pid = fork();
     switch(pid) {
     case -1: /* Failed */
         fail("fork failed");
