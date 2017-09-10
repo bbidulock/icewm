@@ -326,14 +326,24 @@ extern int xrandrEventBase, xrandrErrorBase;
 
 
 extern Atom _XA_WM_CHANGE_STATE;
+extern Atom _XA_WM_CLASS;
 extern Atom _XA_WM_COLORMAP_NOTIFY;
 extern Atom _XA_WM_COLORMAP_WINDOWS;
+extern Atom _XA_WM_COMMAND;
 extern Atom _XA_WM_DELETE_WINDOW;
 extern Atom _XA_WM_DESKTOP;
+extern Atom _XA_WM_HINTS;
+extern Atom _XA_WM_ICON_NAME;
+extern Atom _XA_WM_ICON_SIZE;
 extern Atom _XA_WM_LOCALE_NAME;
+extern Atom _XA_WM_NAME;
+extern Atom _XA_WM_NORMAL_HINTS;
 extern Atom _XA_WM_PROTOCOLS;
+extern Atom _XA_WM_SIZE_HINTS;
 extern Atom _XA_WM_STATE;
 extern Atom _XA_WM_TAKE_FOCUS;
+extern Atom _XA_WM_TRANSIENT_FOR;
+extern Atom _XA_WM_ZOOM_HINTS;
 
 extern Atom _XATOM_MWM_HINTS;
 extern Atom _XA_CLIPBOARD;
