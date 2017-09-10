@@ -66,7 +66,6 @@ static YColor *cadBg = 0;
 CtrlAltDelete::CtrlAltDelete(IApp *app, YWindow *parent): YWindow(parent) {
     this->app = app;
     int w = 0, h = 0;
-    YButton *b;
 
     if (cadBg == 0)
         cadBg = new YColor(clrDialog);
@@ -80,61 +79,14 @@ CtrlAltDelete::CtrlAltDelete(IApp *app, YWindow *parent): YWindow(parent) {
      * from left to right then top to bottom.
      */
  
-    b = lockButton = new YActionButton(this);
-    b->setText(_("Loc_k Workstation"), -2);
-    if (b->width() > w) w = b->width();
-    if (b->height() > h) h = b->height();
-    b->setActionListener(this);
-    b->show();
-
-    b = cancelButton = new YActionButton(this);
-    b->setText(_("_Cancel"), -2);
-    if (b->width() > w) w = b->width();
-    if (b->height() > h) h = b->height();
-    b->setActionListener(this);
-    b->show();
-
-    b = logoutButton = new YActionButton(this);
-    b->setText(_("_Logout..."), -2);
-    if (b->width() > w) w = b->width();
-    if (b->height() > h) h = b->height();
-    b->setActionListener(this);
-    b->show();
-
-    b = rebootButton = new YActionButton(this);
-    b->setText(_("Re_boot"), -2);
-    if (b->width() > w) w = b->width();
-    if (b->height() > h) h = b->height();
-    b->setActionListener(this);
-    b->show();
-
-    b = shutdownButton = new YActionButton(this);
-    b->setText(_("Shut_down"), -2);
-    if (b->width() > w) w = b->width();
-    if (b->height() > h) h = b->height();
-    b->setActionListener(this);
-    b->show();
-
-    b = windowListButton = new YActionButton(this);
-    b->setText(_("_Window list"), -2);
-    if (b->width() > w) w = b->width();
-    if (b->height() > h) h = b->height();
-    b->setActionListener(this);
-    b->show();
-
-    b = restartButton = new YActionButton(this);
-    b->setText(_("_Restart icewm"), -2);
-    if (b->width() > w) w = b->width();
-    if (b->height() > h) h = b->height();
-    b->setActionListener(this);
-    b->show();
-
-    b = aboutButton = new YActionButton(this);
-    b->setText(_("_About"), -2);
-    if (b->width() > w) w = b->width();
-    if (b->height() > h) h = b->height();
-    b->setActionListener(this);
-    b->show();
+    lockButton = addButton(_("Loc_k Workstation"), w, h);
+    cancelButton = addButton(_("_Cancel"), w, h);
+    logoutButton = addButton(_("_Logout..."), w, h);
+    rebootButton = addButton(_("Re_boot"), w, h);
+    shutdownButton = addButton(_("Shut_down"), w, h);
+    windowListButton = addButton(_("_Window list"), w, h);
+    restartButton = addButton(_("_Restart icewm"), w, h);
+    aboutButton = addButton(_("_About"), w, h);
 
     if (!canShutdown(true))
         rebootButton->setEnabled(false);
@@ -240,4 +192,16 @@ void CtrlAltDelete::deactivate() {
     XSync(xapp->display(), False);
     //manager->setFocus(manager->getFocus());
 }
+
+YActionButton* CtrlAltDelete::addButton(const ustring& str, int& maxW, int& maxH)
+{
+	YActionButton* b = new YActionButton(this);
+    b->setText(str, -2);
+    if (b->width() > maxW) maxW = b->width();
+    if (b->height() > maxH) maxH = b->height();
+    b->setActionListener(this);
+    b->show();
+    return b;
+}
+
 #endif
