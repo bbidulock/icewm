@@ -27,27 +27,16 @@ YCursor YXApplication::rightPointer;
 YCursor YXApplication::movePointer;
 
 Atom _XA_WM_CHANGE_STATE;
-Atom _XA_WM_CLASS;
 Atom _XA_WM_CLIENT_LEADER;
-Atom _XA_WM_CLIENT_MACHINE;
 Atom _XA_WM_COLORMAP_NOTIFY;
 Atom _XA_WM_COLORMAP_WINDOWS;
-Atom _XA_WM_COMMAND;
 Atom _XA_WM_DELETE_WINDOW;
 Atom _XA_WM_DESKTOP;
-Atom _XA_WM_HINTS;
-Atom _XA_WM_ICON_NAME;
-Atom _XA_WM_ICON_SIZE;
 Atom _XA_WM_LOCALE_NAME;
-Atom _XA_WM_NAME;
-Atom _XA_WM_NORMAL_HINTS;
 Atom _XA_WM_PROTOCOLS;
-Atom _XA_WM_SIZE_HINTS;
 Atom _XA_WM_STATE;
 Atom _XA_WM_TAKE_FOCUS;
-Atom _XA_WM_TRANSIENT_FOR;
 Atom _XA_WM_WINDOW_ROLE;
-Atom _XA_WM_ZOOM_HINTS;
 
 Atom _XATOM_MWM_HINTS;
 //Atom _XA_MOTIF_WM_INFO;!!!
@@ -295,27 +284,16 @@ void YXApplication::initAtoms() {
         const char *name;
     } atom_info[] = {
         { &_XA_WM_CHANGE_STATE                  , "WM_CHANGE_STATE"                     },
-        { &_XA_WM_CLASS                         , "WM_CLASS"                            },
         { &_XA_WM_CLIENT_LEADER                 , "WM_CLIENT_LEADER"                    },
-        { &_XA_WM_CLIENT_MACHINE                , "WM_CLIENT_MACHINE"                   },
         { &_XA_WM_COLORMAP_NOTIFY               , "WM_COLORMAP_NOTIFY"                  },
         { &_XA_WM_COLORMAP_WINDOWS              , "WM_COLORMAP_WINDOWS"                 },
-        { &_XA_WM_COMMAND                       , "WM_COMMAND"                          },
         { &_XA_WM_DELETE_WINDOW                 , "WM_DELETE_WINDOW"                    },
         { &_XA_WM_DESKTOP                       , "WM_DESKTOP"                          },
-        { &_XA_WM_HINTS                         , "WM_HINTS"                            },
-        { &_XA_WM_ICON_NAME                     , "WM_ICON_NAME"                        },
-        { &_XA_WM_ICON_SIZE                     , "WM_ICON_SIZE"                        },
         { &_XA_WM_LOCALE_NAME                   , "WM_LOCALE_NAME"                      },
-        { &_XA_WM_NAME                          , "WM_NAME"                             },
-        { &_XA_WM_NORMAL_HINTS                  , "WM_NORMAL_HINTS"                     },
         { &_XA_WM_PROTOCOLS                     , "WM_PROTOCOLS"                        },
-        { &_XA_WM_SIZE_HINTS                    , "WM_SIZE_HINTS"                       },
         { &_XA_WM_STATE                         , "WM_STATE"                            },
         { &_XA_WM_TAKE_FOCUS                    , "WM_TAKE_FOCUS"                       },
-        { &_XA_WM_TRANSIENT_FOR                 , "WM_TRANSIENT_FOR"                    },
         { &_XA_WM_WINDOW_ROLE                   , "WM_WINDOW_ROLE"                      },
-        { &_XA_WM_ZOOM_HINTS                    , "WM_ZOOM_HINTS"                       },
 
         { &_XA_WINDOW_ROLE                      , "WINDOW_ROLE"                         },
         { &_XA_SM_CLIENT_ID                     , "SM_CLIENT_ID"                        },
