@@ -6,9 +6,9 @@ rm -f cscope.*
 ./autogen.sh
 ./configure.sh
 make clean
-make V=0 cscope
+make cscope
 cscope -b
-make V=0 clean all README
+make clean all README
 
 else
 # cmake cheat sheet... with Debian-style configuration
