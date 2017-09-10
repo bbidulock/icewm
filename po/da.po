@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.3.12.170\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-09-04 00:59+0000\n"
+"POT-Creation-Date: 2017-09-09 13:16-0600\n"
 "PO-Revision-Date: 2017-06-08 18:38+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -235,52 +235,52 @@ msgstr "Tekstredigering"
 msgid "Other"
 msgstr "Andre"
 
-#: src/icehelp.cc:1096
+#: src/icehelp.cc:1105
 msgid "Back"
 msgstr "Tilbage"
 
-#: src/icehelp.cc:1096
+#: src/icehelp.cc:1105
 msgid "Alt+Left"
 msgstr "Alt+Venstre"
 
-#: src/icehelp.cc:1098
+#: src/icehelp.cc:1107
 msgid "Forward"
 msgstr "Frem"
 
-#: src/icehelp.cc:1098
+#: src/icehelp.cc:1107
 msgid "Alt+Right"
 msgstr "Alt+Højre"
 
-#: src/icehelp.cc:1101
+#: src/icehelp.cc:1110
 msgid "Previous"
 msgstr "Foregående"
 
-#: src/icehelp.cc:1102
+#: src/icehelp.cc:1111
 msgid "Next"
 msgstr "Næste"
 
-#: src/icehelp.cc:1104
+#: src/icehelp.cc:1113
 msgid "Contents"
 msgstr "Indhold"
 
-#: src/icehelp.cc:1105
+#: src/icehelp.cc:1114
 msgid "Index"
 msgstr "Indeks"
 
-#: src/icehelp.cc:1108 src/icesame.cc:65 src/iceview.cc:76 src/wmframe.cc:180
+#: src/icehelp.cc:1117 src/icesame.cc:65 src/iceview.cc:76 src/wmframe.cc:180
 msgid "Close"
 msgstr "Luk"
 
-#: src/icehelp.cc:1108 src/icesame.cc:65 src/iceview.cc:76
+#: src/icehelp.cc:1117 src/icesame.cc:65 src/iceview.cc:76
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1788
+#: src/icehelp.cc:1797
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "Ugyldig sti: %s\n"
 
-#: src/icehelp.cc:1987
+#: src/icehelp.cc:1996
 #, c-format
 msgid ""
 "Usage: %s FILENAME\n"
@@ -1112,21 +1112,29 @@ msgstr ""
 "Kunne ikke genstarte: %s\n"
 "Leder $PATH til %s?"
 
-#: src/wmapp.cc:1414
+#: src/wmapp.cc:1412
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      Klient-id som skal bruges når sessionshåndtering "
 "kontaktes.\n"
 
-#: src/wmapp.cc:1420
+#: src/wmapp.cc:1418
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
 "  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
 
-#: src/wmapp.cc:1426
+#: src/wmapp.cc:1427
+msgid ""
+"\n"
+"  -c, --config=FILE   Load preferences from FILE.\n"
+"  -t, --theme=FILE    Load theme from FILE.\n"
+"  --postpreferences   Print preferences after all processing.\n"
+msgstr ""
+
+#: src/wmapp.cc:1435
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1135,10 +1143,7 @@ msgid ""
 "Options:\n"
 "  --display=NAME      NAME of the X server to use.\n"
 "%s  --sync              Synchronize X11 commands.\n"
-"\n"
-"  -c, --config=FILE   Load preferences from FILE.\n"
-"  -t, --theme=FILE    Load theme from FILE.\n"
-"\n"
+"%s\n"
 "  -V, --version       Prints version information and exits.\n"
 "  -h, --help          Prints this usage screen and exits.\n"
 "%s\n"
@@ -1148,13 +1153,12 @@ msgid ""
 "  --configured        Print the compile time configuration.\n"
 "  --directories       Print the configuration directories.\n"
 "  -l, --list-themes   Print a list of all available themes.\n"
-"  --postpreferences   Print preferences after all processing.\n"
 "\n"
 "Environment variables:\n"
 "  XDG_CONFIG_HOME=PATH  Directory for configuration files,\n"
-"                      \"$HOME/.config/icewm/\" by default.\n"
+"                      \"$HOME/.config\" by default.\n"
 "  ICEWM_PRIVCFG=PATH  Directory for user configuration files,\n"
-"                      \"$HOME/.icewm/\" by default.\n"
+"                      \"$HOME/.icewm\" by default.\n"
 "  DISPLAY=NAME        Name of the X server to use.\n"
 "  MAIL=URL            Location of your mailbox.\n"
 "\n"
@@ -1190,21 +1194,26 @@ msgstr ""
 "Besøg http://www.icewm.org/ for at rapportere fejl, supportforespørgsel, "
 "kommentarer...\n"
 
-#: src/wmapp.cc:1490
+#: src/wmapp.cc:1497
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s konfigurationsmapper:\n"
 
-#: src/wmapp.cc:1633
+#: src/wmapp.cc:1643
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s konfigurerede tilvalg:%s\n"
 
-#: src/wmapp.cc:1719
+#: src/wmapp.cc:1688
+#, fuzzy, c-format
+msgid "Unrecognized option '%s'."
+msgstr "Ugenkendeligt tilvalg: %s\n"
+
+#: src/wmapp.cc:1729
 msgid "Confirm Logout"
 msgstr "Bekræft log ud"
 
-#: src/wmapp.cc:1720
+#: src/wmapp.cc:1730
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1259,7 +1268,7 @@ msgstr "Gensta_rt icewm"
 msgid "_About"
 msgstr "O_m"
 
-#: src/wmframe.cc:158 src/wmframe.cc:3430
+#: src/wmframe.cc:158 src/wmframe.cc:3432
 msgid "Maximize"
 msgstr "Maksimer"
 
@@ -1271,7 +1280,7 @@ msgstr "Minimer"
 msgid "Hide"
 msgstr "Skjul"
 
-#: src/wmframe.cc:202 src/wmframe.cc:3463
+#: src/wmframe.cc:202 src/wmframe.cc:3465
 msgid "Rollup"
 msgstr "Rul op"
 
@@ -1279,11 +1288,11 @@ msgstr "Rul op"
 msgid "Raise/Lower"
 msgstr "Hæv/sænk"
 
-#: src/wmframe.cc:1737
+#: src/wmframe.cc:1739
 msgid "Kill Client: "
 msgstr "Dræb klient: "
 
-#: src/wmframe.cc:1741
+#: src/wmframe.cc:1743
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1291,11 +1300,11 @@ msgstr ""
 "ADVARSEL! Alle ændringer som ikke er gemt vil gå tabt når\n"
 "denne klient dræbes. Vil du fortsætte?"
 
-#: src/wmframe.cc:3427
+#: src/wmframe.cc:3429
 msgid "Restore"
 msgstr "Gendan"
 
-#: src/wmframe.cc:3461
+#: src/wmframe.cc:3463
 msgid "Rolldown"
 msgstr "Rul ned"
 
