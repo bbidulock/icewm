@@ -257,6 +257,7 @@ static bool hasImageExt(const upath& path) {
 
 void Background::add(const char* name, const char* value, bool append) {
     if (value == 0 || *value == 0) {
+        warn("Empty value for '%s'.", name);
     }
     else if (0 == strcmp(name, "DesktopBackgroundImage")) {
         if (append == false) {
