@@ -66,12 +66,12 @@ YColor::YColor(const char *clr):
 }
 
 YColor::~YColor() {
-    delete fDarker;
-    delete fBrighter;
+    delete fDarker; fDarker = 0;
+    delete fBrighter; fBrighter = 0;
 
 #ifdef CONFIG_XFREETYPE
     if (xftColor) {
-        XftColorFree (display(), visual(), colormap(), xftColor);
+        if(display()) XftColorFree (display(), visual(), colormap(), xftColor);
         delete xftColor;
     }
 #endif

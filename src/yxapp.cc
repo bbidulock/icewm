@@ -966,9 +966,9 @@ YXApplication::~YXApplication() {
     xfd.unregisterPoll();
     XCloseDisplay(display());
     fDisplay = 0;
-    xapp = 0;
     delete YColor::white; YColor::white = 0;
     delete YColor::black; YColor::black = 0;
+    xapp = 0;
 }
 
 bool YXApplication::handleXEvents() {
