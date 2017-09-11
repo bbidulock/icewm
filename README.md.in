@@ -16,47 +16,57 @@ list, and various other GitHub forks.
 Release
 -------
 
-This is the @PACKAGE@-@VERSION@ package, released under LGPL license @DATE@.
-This release as well as future versions here, can all be obtained from
-[GitHub][1] using a command such as:
+This is the `@PACKAGE@-@VERSION@` package, released @DATE@.  This release, and
+the latest version, can be obtained from [GitHub][1], using a command such as:
 
-    git clone https://github.com/bbidulock/@PACKAGE@.git
+    $> git clone https://github.com/bbidulock/@PACKAGE@.git
 
-When working from __git__(1), please use this file.  An abbreviated
+Please see the [NEWS][3] file for release notes and history of user visible
+changes for the current version, and the [ChangeLog][4] file for a more
+detailed history of implementation changes.  The [TODO][5] file lists features
+not yet implemented and other outstanding items.
+
+Please see the [INSTALL][7] file for installation instructions.
+
+When working from `git(1)`, please use this file.  An abbreviated
 installation procedure that works for most applications appears below.
+
+This release is published under LGPL.  Please see the license
+in the file [COPYING][9].
 
 
 Quick Start
 -----------
 
-The quickest and easiest way to get IceWM up and running is to run the
+The quickest and easiest way to get @PACKAGE@ up and running is to run the
 following commands:
 
-    $> git clone http://github.com/bbidulock/@PACKAGE@.git
+    $> git clone https://github.com/bbidulock/@PACKAGE@.git
     $> cd @PACKAGE@
     $> ./autogen.sh
-    $> ./configure --prefix=/usr --sysconfdir=/etc \
+    $> ./configure \
        --enable-shaped-decorations --enable-gradients \
        --enable-guievents --with-icesound=ALSA,OSS \
        --disable-menus-gnome2 --enable-silent-rules
-    $> make V=0
-    $> sudo make DESTDIR="$pkgdir" install
+    $> make
+    $> make DESTDIR="$pkgdir" install
 
-This will configure, compile and install IceWM the quickest.  For those who
-would like to customize the installation, use the command:
+This will configure, compile and install @PACKAGE@ the quickest.  For those who
+like to spend the extra 15 seconds reading `./configure --help`, some compile
+time options can be turned on and off before the build.
 
-    ./configure --help
+For general information on GNU's `./configure`, see the file [INSTALL][7].
 
-Please see the [INSTALL][3] file for more detailed installation instructions.
+Please see the [INSTALL][7] file for more detailed installation instructions.
 An alternative way to build IceWM using CMake is [documented here][20].
 The [ChangeLog][4] file contains a detailed history of implementation changes.
-The [COMPLIANCE][5] file lists the current state of EWMH/ICCCM compliance.  The
-[NEWS][6] file has release notes and history of user visible changes of the
-current version.  The [TODO][7] file lists features not yet implemented and
+The [COMPLIANCE][6] file lists the current state of EWMH/ICCCM compliance.  The
+[NEWS][3] file has release notes and history of user visible changes of the
+current version.  The [TODO][5] file lists features not yet implemented and
 other outstanding items.
 
 This release is published under LGPL license that can be found in the file
-[COPYING][8].
+[COPYING][9].
 
 Prerequisites
 -------------
@@ -169,7 +179,7 @@ because I welcome all reports.
 Bug reports, feedback, and suggestions pertaining to the original CVS version
 can be sent to: Marko.Macek@gmx.net or icewm-user@lists.sourceforge.net
 
-See also [BUGS][9], [TODO][7] and the sites at:
+See also [BUGS][8], [TODO][5] and the sites at:
 
   - http://www.icewm.org/
   - http://www.sourceforge.net/projects/icewm/
@@ -195,15 +205,15 @@ translations.  If you have difficulties using the tools, just send me the update
 `.po` file or a patch to apply.
 
 
-[1]: https://github.com/bbidulock/@PACKAGE@/
-[2]: https://github.com/bbidulock/@PACKAGE@/issues/
-[3]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/INSTALL
+[1]: https://github.com/bbidulock/@PACKAGE@
+[2]: https://github.com/bbidulock/@PACKAGE@/issues
+[3]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/NEWS
 [4]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/ChangeLog
-[5]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/COMPLIANCE
-[6]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/NEWS
-[7]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/TODO
-[8]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/COPYING
-[9]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/BUGS
+[5]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/TODO
+[6]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/COMPLIANCE
+[7]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/INSTALL
+[8]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/BUGS
+[9]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/COPYING
 [10]: https://github.com/
 [11]: http://l10n.opensuse.org/
 [12]: http://sf.net/project/showfiles.php?group_id=31&release_id=31119
@@ -226,4 +236,4 @@ translations.  If you have difficulties using the tools, just send me the update
 [29]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewm-set-gnomewm.pod
 [30]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewmtray.pod
 
-[ vim: set ft=markdown sw=4 tw=80 nocin nosi fo+=tcqlorn: ]: #
+[ vim: set ft=markdown sw=4 tw=80 nocin nosi fo+=tcqlorn spell: ]: #
