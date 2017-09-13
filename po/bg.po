@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.10\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-09-09 13:16-0600\n"
+"POT-Creation-Date: 2017-09-13 00:58-0600\n"
 "PO-Revision-Date: 2017-02-26 21:51+0000\n"
 "Last-Translator: Shyukri Shyukriev <shshyukriev@suse.com>\n"
 "Language-Team: Bulgarian <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -898,7 +898,7 @@ msgstr ""
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Неизвестна посока при move/resize заявка: %d"
 
-#: src/themes.cc:91
+#: src/themes.cc:88
 msgid "Default"
 msgstr "По подразбиране"
 
@@ -968,127 +968,131 @@ msgstr "_Отмени изход"
 msgid "Lock _Workstation"
 msgstr "Заключи _Работната станция"
 
-#: src/wmapp.cc:570 src/wmapp.cc:572 src/wmdialog.cc:107
+#: src/wmapp.cc:570 src/wmapp.cc:572 src/wmdialog.cc:93
 msgid "Re_boot"
 msgstr "Ре_стартира системата"
 
-#: src/wmapp.cc:576 src/wmapp.cc:578 src/wmdialog.cc:114
+#: src/wmapp.cc:576 src/wmapp.cc:578 src/wmdialog.cc:94
 msgid "Shut_down"
 msgstr "И_зключва системата"
 
-#: src/wmapp.cc:584 src/wmapp.cc:586
+#: src/wmapp.cc:582 src/wmapp.cc:584 src/wmdialog.cc:90
+msgid "_Suspend"
+msgstr ""
+
+#: src/wmapp.cc:591 src/wmapp.cc:593
 msgid "Restart _Icewm"
 msgstr "Рестартира _IceWM"
 
-#: src/wmapp.cc:590
+#: src/wmapp.cc:597
 msgid "Restart _Xterm"
 msgstr "Рестартира _Xterm"
 
-#: src/wmapp.cc:612
+#: src/wmapp.cc:619
 msgid "_Menu"
 msgstr "_Меню"
 
-#: src/wmapp.cc:613
+#: src/wmapp.cc:620
 msgid "_Above Dock"
 msgstr "_Above Dock "
 
-#: src/wmapp.cc:614
+#: src/wmapp.cc:621
 msgid "_Dock"
 msgstr "_Dock"
 
-#: src/wmapp.cc:615
+#: src/wmapp.cc:622
 msgid "_OnTop"
 msgstr "_Върху"
 
-#: src/wmapp.cc:616
+#: src/wmapp.cc:623
 msgid "_Normal"
 msgstr "_Нормално"
 
-#: src/wmapp.cc:617
+#: src/wmapp.cc:624
 msgid "_Below"
 msgstr "_Под"
 
-#: src/wmapp.cc:618
+#: src/wmapp.cc:625
 msgid "D_esktop"
 msgstr "Десктоп"
 
-#: src/wmapp.cc:630
+#: src/wmapp.cc:637
 msgid "_Restore"
 msgstr "_Възстановяване"
 
-#: src/wmapp.cc:632
+#: src/wmapp.cc:639
 msgid "_Move"
 msgstr "_Преместване"
 
-#: src/wmapp.cc:634
+#: src/wmapp.cc:641
 msgid "_Size"
 msgstr "_Размер"
 
-#: src/wmapp.cc:636
+#: src/wmapp.cc:643
 msgid "Mi_nimize"
 msgstr "Ми_нимизиране"
 
-#: src/wmapp.cc:638
+#: src/wmapp.cc:645
 msgid "Ma_ximize"
 msgstr "Ма_ксимизиране"
 
-#: src/wmapp.cc:640
+#: src/wmapp.cc:647
 msgid "_Fullscreen"
 msgstr "_Цял екран"
 
-#: src/wmapp.cc:644 src/wmwinlist.cc:309
+#: src/wmapp.cc:651 src/wmwinlist.cc:309
 msgid "_Hide"
 msgstr "_Скриване"
 
-#: src/wmapp.cc:647
+#: src/wmapp.cc:654
 msgid "Roll_up"
 msgstr "Св_иване"
 
-#: src/wmapp.cc:654
+#: src/wmapp.cc:661
 msgid "R_aise"
 msgstr "Пов_дигане"
 
-#: src/wmapp.cc:656
+#: src/wmapp.cc:663
 msgid "_Lower"
 msgstr "Сни_жаване"
 
-#: src/wmapp.cc:658
+#: src/wmapp.cc:665
 msgid "La_yer"
 msgstr "Слой"
 
-#: src/wmapp.cc:662 src/wmwinlist.cc:312
+#: src/wmapp.cc:669 src/wmwinlist.cc:312
 msgid "Move _To"
 msgstr "Мести _До"
 
-#: src/wmapp.cc:663
+#: src/wmapp.cc:670
 msgid "Occupy _All"
 msgstr "Заема _Всички"
 
-#: src/wmapp.cc:669
+#: src/wmapp.cc:676
 msgid "Limit _Workarea"
 msgstr "Ограничава _Работно поле"
 
-#: src/wmapp.cc:674
+#: src/wmapp.cc:681
 msgid "Tray _icon"
 msgstr "Tray _Икона"
 
-#: src/wmapp.cc:680 src/wmwinlist.cc:297 src/wmwinlist.cc:323
+#: src/wmapp.cc:687 src/wmwinlist.cc:297 src/wmwinlist.cc:323
 msgid "_Close"
 msgstr "_Затвори"
 
-#: src/wmapp.cc:682 src/wmwinlist.cc:299
+#: src/wmapp.cc:689 src/wmwinlist.cc:299
 msgid "_Kill Client"
 msgstr "_Убий клиент"
 
-#: src/wmapp.cc:686 src/wmdialog.cc:121 src/wmwinmenu.cc:138
+#: src/wmapp.cc:693 src/wmdialog.cc:95 src/wmwinmenu.cc:138
 msgid "_Window list"
 msgstr "_Списък прозорци"
 
-#: src/wmapp.cc:702
+#: src/wmapp.cc:709
 msgid "Another window manager already running, exiting..."
 msgstr "Друг window manager вече в действие, излизам..."
 
-#: src/wmapp.cc:776
+#: src/wmapp.cc:783
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1097,19 +1101,19 @@ msgstr ""
 "Немога да рестартирам: %s\n"
 "$PATH води ли до %s?"
 
-#: src/wmapp.cc:1412
+#: src/wmapp.cc:1421
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 
-#: src/wmapp.cc:1418
+#: src/wmapp.cc:1427
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
 "  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
 
-#: src/wmapp.cc:1427
+#: src/wmapp.cc:1436
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1117,7 +1121,7 @@ msgid ""
 "  --postpreferences   Print preferences after all processing.\n"
 msgstr ""
 
-#: src/wmapp.cc:1435
+#: src/wmapp.cc:1444
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1138,9 +1142,8 @@ msgid ""
 "  -l, --list-themes   Print a list of all available themes.\n"
 "\n"
 "Environment variables:\n"
-"  XDG_CONFIG_HOME=PATH  Directory for configuration files,\n"
-"                      \"$HOME/.config\" by default.\n"
 "  ICEWM_PRIVCFG=PATH  Directory for user configuration files,\n"
+"                      \"$XDG_CONFIG_HOME/icewm\" if exists or\n"
 "                      \"$HOME/.icewm\" by default.\n"
 "  DISPLAY=NAME        Name of the X server to use.\n"
 "  MAIL=URL            Location of your mailbox.\n"
@@ -1176,26 +1179,26 @@ msgstr ""
 "Посетете http://www.icewm.org/ за съобщения за грешки,предложения и "
 "коментари...\n"
 
-#: src/wmapp.cc:1497
+#: src/wmapp.cc:1505
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr ""
 
-#: src/wmapp.cc:1643
+#: src/wmapp.cc:1650
 #, fuzzy, c-format
 msgid "%s configured options:%s\n"
 msgstr "Неразпозната опция: %s\n"
 
-#: src/wmapp.cc:1688
+#: src/wmapp.cc:1699
 #, fuzzy, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Неразпозната опция: %s\n"
 
-#: src/wmapp.cc:1729
+#: src/wmapp.cc:1740
 msgid "Confirm Logout"
 msgstr "Потвърди Изход"
 
-#: src/wmapp.cc:1730
+#: src/wmapp.cc:1741
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1218,34 +1221,34 @@ msgstr "Неизвестно действие: `%s'"
 msgid "Unable to create directory %s"
 msgstr "Failed to create child process: %s"
 
-#: src/wmconfig.cc:160
+#: src/wmconfig.cc:150
 #, c-format
 msgid "Unable to write to %s"
 msgstr ""
 
-#: src/wmconfig.cc:187
+#: src/wmconfig.cc:177
 #, fuzzy, c-format
 msgid "Unable to rename %s to %s"
 msgstr "Не мога да отворя %s: %s"
 
-#: src/wmdialog.cc:86
+#: src/wmdialog.cc:89
 msgid "Loc_k Workstation"
 msgstr "Заключи Работната станция"
 
-#: src/wmdialog.cc:93 src/ymsgbox.cc:46
+#: src/wmdialog.cc:91 src/ymsgbox.cc:46
 msgid "_Cancel"
 msgstr "_Отмени"
 
-#: src/wmdialog.cc:100 src/wmprog.cc:1005 src/wmprog.cc:1007 src/wmprog.cc:1011
+#: src/wmdialog.cc:92 src/wmprog.cc:1005 src/wmprog.cc:1007 src/wmprog.cc:1011
 #: src/wmprog.cc:1013 src/wmtaskbar.cc:327 src/wmtaskbar.cc:329
 msgid "_Logout..."
 msgstr "_Изход..."
 
-#: src/wmdialog.cc:128
+#: src/wmdialog.cc:96
 msgid "_Restart icewm"
 msgstr "_Рестартира IceWM"
 
-#: src/wmdialog.cc:135 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:319
+#: src/wmdialog.cc:97 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:319
 #: src/wmtaskbar.cc:322
 msgid "_About"
 msgstr "_За"
@@ -1665,17 +1668,17 @@ msgstr "Invalid multibyte string \"%s\": %s"
 msgid "_OK"
 msgstr "_ОК"
 
-#: src/ypaths.cc:100
+#: src/ypaths.cc:95
 #, fuzzy, c-format
 msgid "Out of memory for image %s"
 msgstr "Недостатъчна памет за изображение \"%s\""
 
-#: src/ypaths.cc:103
+#: src/ypaths.cc:98
 #, c-format
 msgid "Image not readable: %s"
 msgstr "Изображението е недостъпно: %s"
 
-#: src/ypaths.cc:129
+#: src/ypaths.cc:124
 #, fuzzy, c-format
 msgid "Could not find image %s"
 msgstr "Could not find pixel map %s"
