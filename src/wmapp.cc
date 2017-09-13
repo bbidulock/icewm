@@ -1462,9 +1462,8 @@ static void print_usage(const char *argv0) {
              "  -l, --list-themes   Print a list of all available themes.\n"
              "\n"
              "Environment variables:\n"
-             "  XDG_CONFIG_HOME=PATH  Directory for configuration files,\n"
-             "                      \"$HOME/.config\" by default.\n"
              "  ICEWM_PRIVCFG=PATH  Directory for user configuration files,\n"
+             "                      \"$XDG_CONFIG_HOME/icewm\" if exists or\n"
              "                      \"$HOME/.icewm\" by default.\n"
              "  DISPLAY=NAME        Name of the X server to use.\n"
              "  MAIL=URL            Location of your mailbox.\n"
@@ -1504,7 +1503,6 @@ static void print_confdir(const char *name, const char *path) {
 
 static void print_directories(const char *argv0) {
     printf(_("%s configuration directories:\n"), argv0);
-    print_confdir("XdgConfDir", YApplication::getXdgConfDir().string());
     print_confdir("PrivConfDir", YApplication::getPrivConfDir().string());
     print_confdir("CFGDIR", CFGDIR);
     print_confdir("LIBDIR", LIBDIR);

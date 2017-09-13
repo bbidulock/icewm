@@ -73,19 +73,16 @@ void ThemesMenu::refresh() {
     upath libThemes = YApplication::getLibDir() + themes;
     upath cnfThemes = YApplication::getConfigDir() + themes;
     upath prvThemes = YApplication::getPrivConfDir() + themes;
-    upath xdgThemes = YApplication::getXdgConfDir() + themes;
 
     if (nestedThemeMenuMinNumber)
         themeCount =
             countThemes(libThemes) +
             countThemes(cnfThemes) +
-            countThemes(prvThemes) +
-            countThemes(xdgThemes);
+            countThemes(prvThemes);
 
     findThemes(libThemes, this);
     findThemes(cnfThemes, this);
     findThemes(prvThemes, this);
-    findThemes(xdgThemes, this);
 
     addSeparator();
     add(newThemeItem(app, smActionListener, _("Default"), CONFIG_DEFAULT_THEME));

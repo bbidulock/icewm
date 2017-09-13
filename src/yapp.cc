@@ -463,23 +463,17 @@ const upath& YApplication::getPrivConfDir() {
         if (env)
             dir = env;
         else {
-            dir = getHomeDir() + "/.icewm";
+            env = getenv("XDG_CONFIG_HOME");
+            if (env)
+                dir = env;
+            else {
+                dir = getHomeDir() + "/.config";
+            }
+            dir += "/icewm";
+            if (!dir.fileExists()) {
+                    dir = getHomeDir() + "/.icewm";
+            }
         }
-        MSG(("using %s for private configuration files", cstring(dir).c_str()));
-    }
-    return dir;
-}
-
-const upath& YApplication::getXdgConfDir() {
-    static upath dir;
-    if (dir.isEmpty()) {
-        const char *env = getenv("XDG_CONFIG_HOME");
-        if (env)
-            dir = env;
-        else {
-            dir = getHomeDir() + "/.config";
-        }
-        dir += "/icewm";
         MSG(("using %s for private configuration files", cstring(dir).c_str()));
     }
     return dir;
@@ -503,10 +497,6 @@ upath YApplication::findConfigFile(upath name) {
 
     if (name.isAbsolute())
         return name;
-
-    p = getXdgConfDir() + name;
-    if (p.fileExists())
-        return p;
 
     p = getPrivConfDir() + name;
     if (p.fileExists())

@@ -126,19 +126,9 @@ static bool ensureDirectory(const upath& path) {
 }
 
 static upath getDefaultsFilePath(const pstring& basename) {
-    upath xdg(YApplication::getXdgConfDir());
-    if (xdg.dirExists()) {
-        upath file(xdg + basename);
-        if (file.fileExists())
-            return file;
-    }
     upath prv(YApplication::getPrivConfDir());
     if (ensureDirectory(prv)) {
         return prv + basename;
-    }
-    ensureDirectory(xdg.parent());
-    if (ensureDirectory(xdg)) {
-        return xdg + basename;
     }
     return null;
 }

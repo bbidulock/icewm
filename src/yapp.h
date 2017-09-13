@@ -56,7 +56,6 @@ public:
     static const upath& getLibDir();
     static const upath& getConfigDir();
     static const upath& getPrivConfDir();
-    static const upath& getXdgConfDir();
     static upath getHomeDir();
 
 private:
