@@ -470,7 +470,7 @@ const upath& YApplication::getPrivConfDir() {
                 dir = getHomeDir() + "/.config";
             }
             dir += "/icewm";
-            if (!dir.fileExists()) {
+            if (!dir.dirExists()) {
                     dir = getHomeDir() + "/.icewm";
             }
         }
