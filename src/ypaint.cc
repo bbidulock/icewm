@@ -210,7 +210,7 @@ Graphics::Graphics(YWindow & window,
     rWidth = window.width();
     rHeight = window.height();
     gc = XCreateGC(display(), drawable(), vmask, gcv);
-#if CONFIG_XFREETYPE
+#ifdef CONFIG_XFREETYPE
     fXftDraw = 0;
 #endif
 }
@@ -224,7 +224,7 @@ Graphics::Graphics(YWindow & window):
     rHeight = window.height();
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(display(), drawable(), GCGraphicsExposures, &gcv);
-#if CONFIG_XFREETYPE
+#ifdef CONFIG_XFREETYPE
     fXftDraw = 0;
 #endif
 }
@@ -238,7 +238,7 @@ Graphics::Graphics(const ref<YPixmap> &pixmap, int x_org, int y_org):
     rHeight = pixmap->height();
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(display(), drawable(), GCGraphicsExposures, &gcv);
-#if CONFIG_XFREETYPE
+#ifdef CONFIG_XFREETYPE
     fXftDraw = 0;
 #endif
 }
@@ -251,7 +251,7 @@ Graphics::Graphics(Drawable drawable, int w, int h,
     rWidth(w), rHeight(h)
 {
     gc = XCreateGC(display(), drawable, vmask, gcv);
-#if CONFIG_XFREETYPE
+#ifdef CONFIG_XFREETYPE
     fXftDraw = 0;
 #endif
 }
@@ -264,7 +264,7 @@ Graphics::Graphics(Drawable drawable, int w, int h):
 {
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(display(), drawable, GCGraphicsExposures, &gcv);
-#if CONFIG_XFREETYPE
+#ifdef CONFIG_XFREETYPE
     fXftDraw = 0;
 #endif
 }
@@ -273,7 +273,7 @@ Graphics::~Graphics() {
     XFreeGC(display(), gc);
     gc = None;
 
-#if CONFIG_XFREETYPE
+#ifdef CONFIG_XFREETYPE
     if (fXftDraw) {
         XftDrawDestroy(fXftDraw);
         fXftDraw = 0;

@@ -422,7 +422,7 @@ static void initFontPath(IApp *app) {
             cstring dir(fonts_dirDir.path());
             const char *fontsdir = dir.c_str();
 
-#if CONFIG_XFREETYPE >= 2
+#ifdef CONFIG_XFREETYPE
             MSG(("font dir add %s", fontsdir));
             FcConfigAppFontAddDir(0, (FcChar8 *)fontsdir);
 #endif

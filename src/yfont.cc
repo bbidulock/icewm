@@ -6,47 +6,19 @@
 
 #include <string.h>
 
-#if CONFIG_XFREETYPE == 1
-static int haveXft = -1;
-#endif
-
 extern ref<YFont> getXftFont(ustring name, bool antialias);
 extern ref<YFont> getXftFontXlfd(ustring name, bool antialias);
 extern ref<YFont> getCoreFont(const char*);
 
 ref<YFont> YFont::getFont(ustring name, ustring xftFont, bool antialias) {
-#ifndef CONFIG_XFREETYPE
-    (void) antialias;
-#endif
-    ref<YFont> font;
-
-#if CONFIG_XFREETYPE == 1
-    if (haveXft == -1) {
-        int renderEvents, renderErrors;
-
-        haveXft = (XRenderQueryExtension(xapp->display(), &renderEvents, &renderErrors) &&
-                   XftDefaultHasRender(xapp->display())) ? 1 : 0;
-
-        MSG(("RENDER extension: %d", haveXft));
-        haveXft = 1;
-    }
-#endif
-
 #ifdef CONFIG_XFREETYPE
-#if CONFIG_XFREETYPE == 1
-    if (haveXft)
-#endif
-    {
-        if (xftFont != null && xftFont.length() > 0)
-            return getXftFont(xftFont, antialias);
-
-        return getXftFontXlfd(name, antialias);
-    }
-#endif
-
-#ifdef CONFIG_COREFONTS
+    if (xftFont != null && xftFont.length() > 0)
+        return getXftFont(xftFont, antialias);
+    return getXftFontXlfd(name, antialias);
+#elif defined(CONFIG_COREFONTS)
     return getCoreFont(cstring(name));
 #else
+    (void) antialias;
     return null;
 #endif
 }

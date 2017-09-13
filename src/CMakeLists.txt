@@ -200,21 +200,19 @@ IF(NOT xrandr_FOUND)
 ENDIF()
 endif()
 
+option(CONFIG_COREFONTS "Define to enable X11 core fonts" off)
 option(CONFIG_XFREETYPE "Define to enable XFT support" on)
 if(CONFIG_XFREETYPE)
-   set(CONFIG_XFREETYPE_VALUE 2)
    pkg_check_modules(xft xft>=2.0)
    IF(NOT xft_FOUND)
-      set(CONFIG_XFREETYPE_VALUE 1)
-      pkg_check_modules(xft xft)
-   ENDIF()
-   IF(NOT xft_FOUND)
-      message(WARNING "xft library not found, disabling CONFIG_xft")
+      message(WARNING "xft library (>=2.0) not found, disabling CONFIG_XFREETYPE")
       set(CONFIG_XFREETYPE off)
+      set(CONFIG_COREFONTS on)
    ENDIF()
+else()
+   set(CONFIG_COREFONTS on)
 endif()
 
-option(CONFIG_COREFONTS "Define to enable X11 core fonts" off)
 option(CONFIG_PDA "Define to enable PDA operation (no window hiding)" off)
 option(CONFIG_GUIEVENTS "Define to enable GUI events for audio" off)
 set(ICESOUND "ALSA,AO,OSS,ESound" CACHE STRING "List of supported audio subsystems")
@@ -441,6 +439,7 @@ foreach (_variableName
 		CONFIG_APPLET_APM 
 		CONFIG_WINMENU
 		CONFIG_XFREETYPE
+		CONFIG_COREFONTS
 		XINERAMA
 		ENABLE_LTO
 		ENABLE_ALSA

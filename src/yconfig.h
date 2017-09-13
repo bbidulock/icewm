@@ -38,7 +38,7 @@
 #ifndef __YCONFIG_H__
 #define __YCONFIG_H__
 
-#if CONFIG_XFREETYPE >= 2
+#ifdef CONFIG_XFREETYPE
 #define FONT(pt) "-*-sans-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
 #define BOLDFONT(pt) "-*-sans-bold-r-*-*-*-" #pt "-*-*-*-*-*-*"
 #define TTFONT(pt) "-*-monospace-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
