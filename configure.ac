@@ -2,8 +2,8 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([icewm],[1.4.2.384],[https://github.com/bbidulock/icewm/issues])
-AC_REVISION([1.4.2.384])
+AC_INIT([icewm],[1.4.2],[https://github.com/bbidulock/icewm/issues])
+AC_REVISION([1.4.2])
 AC_CONFIG_SRCDIR([src/ysmapp.cc])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
@@ -11,10 +11,10 @@ AC_CONFIG_AUX_DIR([scripts])
 AC_USE_SYSTEM_EXTENSIONS
 AC_CANONICAL_TARGET
 
-DATE='2017-09-11'
+DATE='2017-07-30'
 AC_SUBST([DATE])
 
-BRANCH='icewm-1-4-BRANCH'
+BRANCH='1.4.2'
 AC_SUBST([BRANCH])
 
 APPLICATIONS='icewm icewm-session icesh icewmhint icewmbg icewmtray'
@@ -86,7 +86,7 @@ LT_LANG([C++])
 AC_PROG_LIBTOOL
 AC_SUBST([LIBTOOL_DEPS])
 
-AM_GNU_GETTEXT_VERSION([0.19.8])
+AM_GNU_GETTEXT_VERSION([0.19.2])
 AM_GNU_GETTEXT([external])
 
 AC_ARG_ENABLE([i18n],
