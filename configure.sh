@@ -30,6 +30,7 @@ esac
 	--enable-dependency-tracking \
 	--prefix=/usr \
 	--sysconfdir=/etc \
+	--mandir=/usr/share/man \
 	--enable-shaped-decorations \
 	--enable-gradients \
 	--enable-guievents \
@@ -39,8 +40,7 @@ esac
 	CXXFLAGS="$DEBUG_CXXFLAGS -Wall -Werror $CXXFLAGS" \
 	LDFLAGS="$LDFLAGS" \
 	DEBUG_CFLAGS="$DEBUG_CFLAGS" \
-	DEBUG_CXXFLAGS="$DEBUG_CXXFLAGS" \
-	EXTRA_LIBS="-lsupc++"
+	DEBUG_CXXFLAGS="$DEBUG_CXXFLAGS"
 
 # cscope target won't work without this
 #
