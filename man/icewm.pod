@@ -111,17 +111,18 @@ Each of the IceWM executables supports the following options:
 
 Use I<FILE> as the source of configuration options.  By default B<icewm>
 looks for a file named F<preferences>.  Typically this file is stored as
-one of F<~/.config/icewm/preferences>, or F<~/.icewm/preferences>, or in
-one of the configuration directories explained below. It contains a long
-list of options which allow the user to tweak the behaviour of B<icewm>
-to ones taste.  A default F<preferences> file contains comments about
-the purpose of each option, the range of useful values and the current
-or default value. A F<preferences> file is a readable text file which
-can be modified with the help of a text editor.  If this option is given
-to L<icewm-session(1)> then it is passed on to B<icewm>. If B<icewm> is
-started independently then this option can be given to B<icewm>
-directly.  However, usually one will want to use a F<preferences> file
-from a default location.
+one of F<$ICEWM_PRIVCFG/preferences>,
+F<$XDG_CONFIG_HOME/icewm/preferences>, or F<$HOME/.icewm/preferences>,
+or in one of the configuration directories explained below. It contains
+a long list of options which allow the user to tweak the behaviour of
+B<icewm> to ones taste.  A default F<preferences> file contains comments
+about the purpose of each option, the range of useful values and the
+current or default value. A F<preferences> file is a readable text file
+which can be modified with the help of a text editor.  If this option is
+given to L<icewm-session(1)> then it is passed on to B<icewm>. If
+B<icewm> is started independently then this option can be given to
+B<icewm> directly.  However, usually one will want to use a
+F<preferences> file from a default location.
 
 =item B<-t>, B<--theme>=I<NAME>
 
@@ -132,13 +133,14 @@ of other desktop environments, like Motif, OS/2 Warp, or Windows.  Over
 the years many new original themes have been designed with beautiful
 icons and backgrounds, which advance the state of the art in desktop
 look and feel.  Many of them can be downloaded from the website
-L<https://www.box-look.org/> and stored in either the directory
-F<~/.config/icewm/themes/> or in F<~/.icewm/themes/>.  You can then
-activate such a theme via the menu in the lower left corner of the
-display.  A default theme is specified in either F<~/.icewm/theme>, or
-in F<~/.config/icewm/theme>.  When a new theme is selected then this
-value is overwritten, so that the next time B<icewm> is started this
-choice is reused.
+L<https://www.box-look.org/> and stored in one of the directories
+F<$ICEWM_PRIVCFG/icewm/themes/>, F<$XDG_CONFIG_HOME/icewm/themes/> or in
+F<$HOME/.icewm/themes/>.  You can then activate such a theme via the
+menu in the lower left corner of the display.  A default theme is
+specified in one of F<$ICEWM_PRIVCFG/icewm/theme>,
+F<$XDG_CONFIG_HOME/icewm/theme>, or in F<$HOME/.icewm/theme>.  When a
+new theme is selected then this value is overwritten, so that the next
+time B<icewm> is started this choice is reused.
 
 =item B<--display>=I<DISPLAY>
 
@@ -769,15 +771,12 @@ preferences option was configured it will be executed.
 
 =over
 
-=item B<XDG_CONFIG_HOME>
-
-The directory for user private configuration files.
-The default value is F<$HOME/.config>.
-
 =item B<ICEWM_PRIVCFG>
 
-The directory for user private configuration files.
-The default value is F<$HOME/.icewm>.
+The directory for user private configuration files.  When this
+environment variable is not specified, the default directory is
+F<$XDG_CONFIG_HOME/icewm> when that directory exists, otherwise the
+default value is F<$HOME/.icewm>.
 
 =item B<DISPLAY>
 
@@ -801,21 +800,29 @@ the given order, until it finds one:
 
 =over
 
-=item F<$XDG_CONFIG_HOME/icewm/>
-
-Contains user-specific configurations.
-
 =item F<$ICEWM_PRIVCFG/>
 
-Contains user-specific configurations.
+Contains user-specific configurations.  When B<ICEWM_PRIVCFG> is
+specified, this directory takes precedence over
+F<$XDG_CONFIG_HOME/icewm> and F<$HOME/.icewm>.
 
-=item F</etc/icewm/> or F</etc/X11/icewm/>
+=item F<$XDG_CONFIG_HOME/icewm/>
+
+Contains user-specific configurations.  When this directory exists it
+take precedence over F<$HOME/.icewm>.
+
+=item F<$HOME/.icewm/>
+
+Contains user-specific configurations.  This is the historical default
+directory.
+
+=item F</etc/icewm/>
 
 Contains system-wide customized defaults.  Please note that your local
 installation may have been configured to use a different system
 location.  The output of C<icewm --directories> will show this location.
 
-=item F</usr/share/icewm/> or F</usr/local/share/icewm/>
+=item F</usr/share/icewm/>
 
 Default local installation settings.
 
