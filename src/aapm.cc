@@ -122,7 +122,7 @@ void YApm::ApmStr(char *s, bool Tool) {
     buf[len] = 0;
 
     acIsOnLine     = (ACstatus == 0x1);
-    chargeStatus = 0;
+    energyFull = energyNow = 0;
 
     if ((i = sscanf(buf, "%s %s 0x%x 0x%x 0x%x 0x%x %d%% %d %s",
                     driver, apmver, &apmflags,
@@ -143,7 +143,8 @@ void YApm::ApmStr(char *s, bool Tool) {
     if (strcmp(units, "min") != 0 && BATtime != -1)
         BATtime /= 60;
 
-    chargeStatus = BATlife;
+    energyNow += BATlife;
+    energyFull += 100;
 
     if (!Tool) {
         if (taskBarShowApmTime) { // mschy
@@ -255,7 +256,7 @@ void YApm::AcpiStr(char *s, bool Tool) {
 #endif
 
     acIsOnLine     = (ACstatus == AC_ONLINE);
-    chargeStatus = 0;
+    energyFull = energyNow = 0;
     int batCount = 0;
 
     int n = 0;
@@ -403,7 +404,8 @@ void YApm::AcpiStr(char *s, bool Tool) {
             //did we parse the needed values successfully?
             BATcapacity_remain >= 0 && BATcapacity_full >= 0)
         {
-           chargeStatus += 100 * (double)BATcapacity_remain / BATcapacity_full;
+           energyFull += BATcapacity_full;
+           energyNow += BATcapacity_remain;
            batCount++;
         }
 
@@ -450,8 +452,6 @@ void YApm::AcpiStr(char *s, bool Tool) {
         strcat(s, bat_info);
     }
 
-    chargeStatus /= batCount;
-
     if (ACstatus == AC_ONLINE) {
         if (Tool)
             strcat(s,_(" - Power"));
@@ -491,8 +491,7 @@ void YApm::SysStr(char *s, bool Tool) {
     }
 
     acIsOnLine     = (ACstatus == AC_ONLINE);
-    chargeStatus = 0;
-    int batCount = 0;
+    energyFull = energyNow = 0;
 
     int n = 0;
     for (int i = 0; i < batteryNum; i++) {
@@ -621,12 +620,17 @@ void YApm::SysStr(char *s, bool Tool) {
         }
         acpiBatteries[i]->present = BATpresent;
 
+        // the code above caches BATcapacity_full when battery is installed;
+        // however, this value and _remain can increase slightly while the battery is charging,
+        // so set a limit to not display resulting value over 100% to the user
+        if(BATcapacity_remain > BATcapacity_full) BATcapacity_remain = BATcapacity_full;
+
         if (BATpresent == BAT_PRESENT &&
             //did we parse the needed values successfully?
             BATcapacity_remain >= 0 && BATcapacity_full >= 0)
         {
-           chargeStatus += 100 * (double)BATcapacity_remain / BATcapacity_full;
-           batCount++;
+           energyFull += BATcapacity_full;
+           energyNow += BATcapacity_remain;
         }
         if (Tool &&
             taskBarShowApmTime &&
@@ -642,8 +646,7 @@ void YApm::SysStr(char *s, bool Tool) {
                  //did we parse the needed values successfully?
                  BATcapacity_remain >= 0 && BATcapacity_full >= 0)
         {
-            sprintf(bat_info, "%3.0f%%",
-                    100 * (double)BATcapacity_remain / BATcapacity_full);
+            sprintf(bat_info, "%3.0f%%", double(100) * BATcapacity_remain / BATcapacity_full);
         }
         else {
             //battery is absent or we didn't parse some needed values
@@ -666,8 +669,6 @@ void YApm::SysStr(char *s, bool Tool) {
         n++;
         strcat(s, bat_info);
     }
-
-    chargeStatus /= batCount;
 
     if (ACstatus == AC_ONLINE) {
         if (Tool)
@@ -701,7 +702,6 @@ void YApm::PmuStr(char *s, const bool tool_tip)
    fclose(fd);
 
    acIsOnLine     = (power_present != 0);
-   chargeStatus = 0;
    int batCount = 0;
 
    char* s_end = s;
@@ -741,7 +741,8 @@ void YApm::PmuStr(char *s, const bool tool_tip)
           //did we parse the needed values successfully?
           charge >= 0 && max_charge >= 0)
       {
-         chargeStatus += 100.0 * (double)charge / (double)max_charge;
+         energyFull += max_charge;
+         energyNow += charge;
          batCount++;
       }
 
@@ -785,8 +786,6 @@ void YApm::PmuStr(char *s, const bool tool_tip)
       }
    }
 
-   chargeStatus /= batCount;
-
    if (power_present) {
       if (tool_tip)
 	strcpy(s_end, _(" - Power"));
@@ -800,7 +799,7 @@ YApm::YApm(YWindow *aParent, bool autodetect):
     apmTimer(0), apmBg(0), apmFg(0), apmFont(null),
     apmColorOnLine(0), apmColorBattery(0), apmColorGraphBg(0),
     mode(APM), batteryNum(0), acpiACName(0), fCurrentState(0),
-    acIsOnLine(false), chargeStatus(0)
+    acIsOnLine(false), energyNow(0), energyFull(0)
 {
     FILE *pmu_info;
     char buf[300];
@@ -1029,7 +1028,7 @@ void YApm::paint(Graphics &g, const YRect &/*r*/) {
        g.setColor(apmColorGraphBg);
        g.fillRect(0, 0, taskBarApmGraphWidth, height());
 
-       int new_h = (int)(chargeStatus/100.0 * (double)height());
+       int new_h = int((double(energyNow)/double(energyFull)) * (double)height());
        if (acIsOnLine == true) { // onLine
           g.setColor(apmColorOnLine);
        } else {

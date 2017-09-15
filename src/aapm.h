@@ -59,7 +59,7 @@ private:
     YColor *apmColorBattery;
     YColor *apmColorGraphBg;
 
-    // display mode: pmu, acpi or apm info
+    // inspection mode: legacy APM, legacy ACPI (procfs), PMU (Mac), ACPI (sysfs)
     enum { APM, ACPI, PMU, SYSFS } mode;
     //number of batteries (for apm == 1)
     int batteryNum;
@@ -72,7 +72,8 @@ private:
 
     // On line status and charge persent
     bool     acIsOnLine;
-    double   chargeStatus;
+    // current and maximum charge, large enough for hundred 40Wh batteries
+    unsigned	energyNow, energyFull;
 
     void updateState();
 };
