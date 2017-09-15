@@ -9,7 +9,7 @@ class YFrameWindow;
 
 class YWindowManagerStatus: public YWindow {
 public:
-    YWindowManagerStatus(YWindow *aParent, ustring (*templFunc) ());
+    YWindowManagerStatus(YWindow *aParent, const ustring &sampleString);
     virtual ~YWindowManagerStatus();
 
     virtual void paint(Graphics &g, const YRect &r);
@@ -36,21 +36,19 @@ public:
     void setStatus(YFrameWindow *frame, const YRect &r);
     void setStatus(YFrameWindow *frame);
 private:
-    static ustring templateFunction();
-
     int fX, fY, fW, fH;
 };
 
 class WorkspaceStatus: public YWindowManagerStatus {
 public:
-    WorkspaceStatus(YWindow *aParent);
+    static WorkspaceStatus * createInstance(YWindow *aParent);
     virtual ~WorkspaceStatus();
 
     virtual ustring getStatus();
     void begin(long workspace);
     virtual void setStatus(long workspace);
 private:
-    static ustring templateFunction();
+    WorkspaceStatus(YWindow *aParent, const ustring& templateString);
     static ustring getStatus(const char* name);
 
     long workspace;    

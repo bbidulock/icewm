@@ -36,7 +36,7 @@ template<class T> T non_zero(T x) { return x ? x : 1; }
 /******************************************************************************/
 
 YWindowManagerStatus::YWindowManagerStatus(YWindow *aParent,
-                                           ustring (*templFunc)())
+		const ustring &sampleString)
     : YWindow(aParent)
 {
     if (statusBg == 0)
@@ -46,7 +46,7 @@ YWindowManagerStatus::YWindowManagerStatus(YWindow *aParent,
     if (statusFont == null)
         statusFont = YFont::getFont(XFA(statusFontName));
 
-    int sW = statusFont->textWidth(templFunc());
+    int sW = statusFont->textWidth(sampleString);
     int sH = statusFont->height();
     
     setGeometry(YRect((manager->width() - sW) / 2,
@@ -89,8 +89,11 @@ void YWindowManagerStatus::begin() {
 /******************************************************************************/
 /******************************************************************************/
 
+#define statusTemplate "9999x9999+9999+9999"
+
 MoveSizeStatus::MoveSizeStatus(YWindow *aParent)
-  : YWindowManagerStatus(aParent, templateFunction) {
+  : YWindowManagerStatus(aParent, mstring(statusTemplate, sizeof(statusTemplate)-1)),
+	fX(0), fY(0), fW(0), fH(0) {
 }
 
 MoveSizeStatus::~MoveSizeStatus() {
@@ -142,10 +145,6 @@ void MoveSizeStatus::setStatus(YFrameWindow *frame) {
     repaintSync();
 }
 
-ustring MoveSizeStatus::templateFunction() {
-    return "9999x9999+9999+9999";
-}
-
 /******************************************************************************/
 /******************************************************************************/
 
@@ -159,8 +158,8 @@ public:
 
 /******************************************************************************/
 
-WorkspaceStatus::WorkspaceStatus(YWindow *aParent)
-  : YWindowManagerStatus(aParent, templateFunction) {
+WorkspaceStatus::WorkspaceStatus(YWindow *aParent, const ustring& templateString)
+  : YWindowManagerStatus(aParent, templateString), workspace(0), timer(0), timeout(0) {
 // !!! read timeout from preferences
     timer = new YTimer(workspaceStatusTime);
     timer->setTimerListener(timeout = new Timeout());
@@ -194,7 +193,7 @@ void WorkspaceStatus::setStatus(long workspace) {
     timer->startTimer();
 }
 
-ustring WorkspaceStatus::templateFunction() {
+WorkspaceStatus * WorkspaceStatus::createInstance(YWindow *aParent) {
     const char* longestWorkspaceName = NULL;
     int maxWorkspaceNameLength = 0;
 
@@ -208,7 +207,7 @@ ustring WorkspaceStatus::templateFunction() {
         }
     }
 
-    return getStatus(longestWorkspaceName);
+    return new WorkspaceStatus(aParent, getStatus(longestWorkspaceName));
 }
 
 #endif

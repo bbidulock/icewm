@@ -1219,7 +1219,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 
 #ifndef LITE
     statusMoveSize = new MoveSizeStatus(manager);
-    statusWorkspace = new WorkspaceStatus(manager);
+    statusWorkspace = WorkspaceStatus::createInstance(manager);
 #endif
 #ifdef CONFIG_TASKBAR
     if (showTaskBar) {
