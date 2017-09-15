@@ -355,6 +355,7 @@ TaskPane::TaskPane(IAppletContainer *taskBar, YWindow *parent): YWindow(parent) 
     fCount = 0;
     fNeedRelayout = true;
     fDragging = 0;
+    fDragX = fDragY = 0;
 }
 
 TaskPane::~TaskPane() {
