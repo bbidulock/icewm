@@ -120,6 +120,7 @@ public:
     static mstring newstr(const char *str);
     static mstring newstr(const char *str, int len);
     void normalize();
+    const char * c_str() const;
 };
 
 typedef class mstring ustring;
