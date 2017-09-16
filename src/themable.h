@@ -316,7 +316,8 @@ cfoption icewm_themable_preferences[] = {
 #ifdef CONFIG_APPLET_APM
     OSV("ColorApm",                             &clrApm,                        "Background of APM monitor, leave empty to force transparency"),
     OSV("ColorApmText",                         &clrApmText,                    "Textcolor of APM monitor"),
-    OSV("ColorApmBattary",                      &clrApmBat,                     "Color of APM monitor in battary mode"),
+    OSV("ColorApmBattary",                      &clrApmBat,                     "Legacy option; don't use, see ColorApmBattery"),
+    OSV("ColorApmBattery",                      &clrApmBat,                     "Color of APM monitor in battery mode"),
     OSV("ColorApmLine",                         &clrApmLine,                    "Color of APM monitor in line mode"),
     OSV("ColorApmGraphBg",                      &clrApmGraphBg,                 "Background color for graph mode"),
 #endif
