@@ -377,4 +377,40 @@ int find(const YArray<DataType>& array, const DataType& data) {
     return -1;
 }
 
+/**
+ * The templates around YBaseArray above are created for handling with void pointers for storage.
+ * This has sometimes practical disadvantages in cases where really basic storage of value typed
+ * members is needed.
+ *
+ * This is an alternative class, which is supposed to be used like a swiss knife. Intentionally
+ * very primitive, doing little memory management and that's it.
+ * No access protection, no hacking around pointer copies.
+ * The data members are expected to be default contructible/copyable/deletable,
+ * persistent memory location not guaranteed after adding members.
+ */
+template<typename DataType>
+class YVec
+{
+    size_t capa;
+    void inflate() {
+        capa = capa == 0 ? 2 : capa*2;
+        DataType *old = data;
+        data = new DataType[capa];
+        for(size_t i=0;i<size;++i) data[i] = old[i];
+        delete[] old;
+    }
+    // shall not be copyable
+    YVec(const YVec& other);
+    YVec operator=(const YVec& other);
+
+public:
+    size_t size;
+    DataType *data;
+    inline YVec():  capa(0), size(0), data(0) {}
+    inline ~YVec() { delete[] data; }
+    DataType& add(const DataType& element)
+    { if(size+1>capa) inflate(); data[(++size)-1] = element; return data[size-1]; }
+    const DataType& operator[](const size_t index) const { return data[index]; }
+};
+
 #endif
