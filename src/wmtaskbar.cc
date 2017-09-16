@@ -44,7 +44,7 @@
 #include "wpixmaps.h"
 #include "aapm.h"
 #include "upath.h"
-
+#include "udir.h"
 #include "intl.h"
 
 #ifdef CONFIG_TRAY
@@ -67,6 +67,32 @@ static void initPixmaps() {
     if (taskbarStartImage == null || !taskbarStartImage->valid())
         taskbarStartImage = taskbarLinuxImage;
 #endif
+}
+
+static void getNetDevNames(const char* netDevice, YVec<mstring> &ret) {
+    if (!taskBarShowNetStatus || !netDevice || !netDevice[0])
+        return;
+
+    mstring devName(null), devList(netDevice);
+
+    while (devList.splitall(' ', &devName, &devList)) {
+        if (!devName.nonempty())
+            continue;
+        if (devName != "<sys>") {
+            ret.add(devName);
+            continue;
+        }
+        udir dir("/sys/class/net");
+        if(!dir.isOpen())
+            continue;
+        while(dir.next())
+        {
+            if(dir.entry() == "lo")
+                continue;
+            MSG(("Found net dev: %s", dir.entry().c_str()));
+            ret.add(mstring(dir.entry()));
+        }
+    }
 }
 
 EdgeTrigger::EdgeTrigger(TaskBar *owner) {
@@ -260,7 +286,7 @@ TaskBar::~TaskBar() {
     delete fApplications; fApplications = 0;
     delete fObjectBar; fObjectBar = 0;
 #endif
-    delete fWorkspaces;
+    delete fWorkspaces; fWorkspaces = 0;
 #ifdef CONFIG_APPLET_APM
     delete fApm; fApm = 0;
 #endif
@@ -347,26 +373,13 @@ void TaskBar::initApplets() {
 #ifdef CONFIG_APPLET_NET_STATUS
     fNetStatus = 0;
 #ifdef HAVE_NET_STATUS
-    if (taskBarShowNetStatus && netDevice && netDevice[0]) {
-        mstring devName(null), devList(netDevice);
-        int cnt = 0;
-
-        while (devList.splitall(' ', &devName, &devList))
-            cnt += devName.nonempty();
-
-        if (cnt) {
-            fNetStatus = new NetStatus*[cnt + 1];
-            fNetStatus[cnt--] = NULL;
-
-            devList = netDevice;
-            while (devList.splitall(' ', &devName, &devList)) {
-                if (devName.isEmpty())
-                    continue;
-
-                fNetStatus[cnt--] = new NetStatus(app, smActionListener,
-                                                  devName, this, this);
-            }
-        }
+    YVec<mstring> names;
+    getNetDevNames(netDevice, names);
+    if (names.size > 0) {
+        fNetStatus = new NetStatus*[names.size + 1];
+        fNetStatus[names.size] = NULL;
+        for (unsigned i = 0; i < names.size; ++i)
+            fNetStatus[i] = new NetStatus(app, smActionListener, names[i], this, this);
     }
 #endif
 #endif

@@ -410,6 +410,7 @@ CPUStatusShowAcpiTempInGraph = 0:: Show ACPI temperature in CPU graph.
 CPUStatusShowCpuFreq = 1:: Show CPU frequency in CPU status tool tip.
 TaskBarShowMEMStatus = 1:: Show memory usage status on task bar (Linux only).
 TaskBarShowNetStatus = 1:: Show network status on task bar (Linux only).
+NetworkStatusDevice = "eth0 wlan0":: List of network devices to be displayed in tray, space separated. A special keyword "<sys>" will be expanded to the list of detected interfaces (on Linux) except for "lo".
 TaskBarShowCollapseButton = 0:: Show a button to collapse the taskbar.
 TaskBarDoubleHeight = 0:: Double height task bar
 TaskBarWorkspacesLeft = 1:: Place workspace pager on left, not right.
