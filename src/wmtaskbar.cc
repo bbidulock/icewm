@@ -426,9 +426,8 @@ void TaskBar::initApplets() {
     fMailBoxStatus = 0;
 
     if (taskBarShowMailboxStatus) {
-        static char const *envMail = 0;
-#define lazyEnvMail (envMail ? envMail : (envMail = getenv("MAIL")))
-        char const * mailboxList(mailBoxPath ? mailBoxPath : lazyEnvMail);
+        char const *envMail = getenv("MAIL");
+        char const *mailboxList(mailBoxPath ? mailBoxPath : envMail);
         unsigned cnt = 0;
 
         mstring mailboxes(mailboxList);
@@ -449,20 +448,17 @@ void TaskBar::initApplets() {
 
                 fMailBoxStatus[cnt--] = new MailBoxStatus(app, smActionListener, s, this);
             }
-        } else if (lazyEnvMail) {
+        } else if (envMail) {
             fMailBoxStatus = new MailBoxStatus*[2];
-            fMailBoxStatus[0] = new MailBoxStatus(app, smActionListener, lazyEnvMail, this);
+            fMailBoxStatus[0] = new MailBoxStatus(app, smActionListener, envMail, this);
             fMailBoxStatus[1] = NULL;
         } else if (getlogin()) {
-            char * mbox = cstrJoin("/var/spool/mail/", getlogin(), NULL);
-
-            if (!access(mbox, R_OK)) {
+            upath mbox(mstring("/var/spool/mail/", getlogin()));
+            if (mbox.isReadable()) {
                 fMailBoxStatus = new MailBoxStatus*[2];
                 fMailBoxStatus[0] = new MailBoxStatus(app, smActionListener, mbox, this);
                 fMailBoxStatus[1] = NULL;
             }
-
-            delete[] mbox;
         }
     }
 #endif
