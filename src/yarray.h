@@ -398,19 +398,22 @@ int find(const YArray<DataType>& array, const DataType& data) {
  * This is an alternative class, which is supposed
  * to be used like a swiss knife. Intentionally
  * very primitive, doing little memory
- * management and that's it.  No access
+ * management and that's it. No access
  * protection, no hacking around pointer copies.
  * The data members are expected to be default
  * contructible/copyable/deletable, persistent
- * memory location not guaranteed after adding
- * members.
+ * memory location is not guaranteed after adding
+ * members or preserving more space.
  */
 template<typename DataType>
 class YVec
 {
     size_t capa;
-    void inflate() {
-        capa = capa == 0 ? 2 : capa*2;
+    /**
+     * @param wanted If zero, duplicate current pool size; otherwise set to exact that size and loose the rest
+     */
+    inline void inflate(size_t wanted = 0) {
+        capa = wanted == 0 ? (capa == 0 ? 2 : capa*2) : wanted;
         DataType *old = data;
         data = new DataType[capa];
         for(size_t i=0;i<size;++i) data[i] = old[i];
@@ -423,8 +426,11 @@ class YVec
 public:
     size_t size;
     DataType *data;
-    inline YVec():  capa(0), size(0), data(0) {}
-    inline ~YVec() { delete[] data; }
+    inline YVec(): capa(0), size(0), data(0) {}
+    inline YVec(size_t initialCapa):  capa(initialCapa), size(0), data(new DataType[initialCapa]) { }
+    inline void reset() { delete[] data; data = 0; size = 0; }
+    inline void preserve(size_t count) { if(count<capa) inflate(count); }
+    inline ~YVec() { reset(); }
     DataType& add(const DataType& element) {
         if (size >= capa)
             inflate();
