@@ -382,11 +382,6 @@ void mstring::normalize()
     }
 }
 
-const char * mstring::c_str() const
-{
-    return cstring(*this).c_str();
-}
-
 cstring::cstring(const mstring &s): str(s) {
     str.normalize();
 }
