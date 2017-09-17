@@ -85,9 +85,10 @@ public:
 
 
 private:
-    YBaseArray(const YBaseArray &) {} // not implemented
+    YBaseArray(const YBaseArray &); // not implemented
 
-    SizeType fElementSize, fCapacity, fCount;
+    const SizeType fElementSize;
+    SizeType fCapacity, fCount;
     StorageType *fElements;
 };
 
@@ -145,20 +146,32 @@ public:
 template <class DataType>
 class YObjectArray: public YArray<DataType *> {
 public:
+    typedef YArray<DataType *> BaseType;
+    typedef typename BaseType::SizeType SizeType;
+
     virtual ~YObjectArray() {
         clear();
     }
 
-    virtual void remove(const typename YArray<DataType *>::SizeType index) {
-        if (index < YArray<DataType *>::getCount())
-             delete YArray<DataType *>::getItem(index);
-        YArray<DataType *>::remove(index);
+    virtual void remove(const SizeType index) {
+        if (index < getCount()) {
+             delete getItem(index);
+             BaseType::remove(index);
+        }
     }
-    
+
+    SizeType getCount() const {
+        return BaseType::getCount();
+    }
+
+    DataType* getItem(const SizeType index) const {
+        return BaseType::getItem(index);
+    }
+
     virtual void clear() {
-        for (typename YArray<DataType *>::SizeType i = 0; i < YArray<DataType *>::getCount(); ++i)
-            delete YArray<DataType *>::getItem(i);
-        YArray<DataType *>::clear();
+        for (SizeType n = getCount(); n > 0; )
+            delete getItem(--n);
+        BaseType::clear();
     }
 };
 
@@ -198,11 +211,11 @@ public:
         YBaseArray::clear();
     }
 };
+
 /*******************************************************************************
  * An array of strings
  ******************************************************************************/
 
-#if 1
 class YStringArray: public YBaseArray {
 public:
     YStringArray(YStringArray &other): YBaseArray((YBaseArray&)other) {}
@@ -244,7 +257,6 @@ public:
     char *const *getCArray() const;
     char **release();
 };
-#endif
 
 /*******************************************************************************
  * A stack emulated by a dynamic array
@@ -378,15 +390,20 @@ int find(const YArray<DataType>& array, const DataType& data) {
 }
 
 /**
- * The templates around YBaseArray above are created for handling with void pointers for storage.
- * This has sometimes practical disadvantages in cases where really basic storage of value typed
+ * The templates around YBaseArray above are created
+ * for handling with void pointers for storage.
+ * This has sometimes practical disadvantages in
+ * cases where really basic storage of value typed
  * members is needed.
- *
- * This is an alternative class, which is supposed to be used like a swiss knife. Intentionally
- * very primitive, doing little memory management and that's it.
- * No access protection, no hacking around pointer copies.
- * The data members are expected to be default contructible/copyable/deletable,
- * persistent memory location not guaranteed after adding members.
+ * This is an alternative class, which is supposed
+ * to be used like a swiss knife. Intentionally
+ * very primitive, doing little memory
+ * management and that's it.  No access
+ * protection, no hacking around pointer copies.
+ * The data members are expected to be default
+ * contructible/copyable/deletable, persistent
+ * memory location not guaranteed after adding
+ * members.
  */
 template<typename DataType>
 class YVec
@@ -408,8 +425,11 @@ public:
     DataType *data;
     inline YVec():  capa(0), size(0), data(0) {}
     inline ~YVec() { delete[] data; }
-    DataType& add(const DataType& element)
-    { if(size+1>capa) inflate(); data[(++size)-1] = element; return data[size-1]; }
+    DataType& add(const DataType& element) {
+        if (size >= capa)
+            inflate();
+        return data[size++] = element;
+    }
     const DataType& operator[](const size_t index) const { return data[index]; }
 };
 
