@@ -2,6 +2,7 @@
 #define __UDIR_H
 
 #include "upath.h"
+#include "yarray.h"
 
 // unsorted directory for const C-style strings.
 class cdir {
@@ -90,23 +91,23 @@ public:
     void close();
     const upath& path() const { return fPath; }
     const ustring& entry() const;
-    operator bool() const { return isOpen() && fLast < fCount; }
+    operator bool() const { return isOpen() && fLast < (int) fName.size; }
 
     bool open(const upath& path);
     bool open();
-    bool isOpen() const { return fName != 0; }
+    bool isOpen() const { return fName.data; }
     bool next();
     bool nextExt(const ustring& extension);
     void rewind() { fLast = -1; }
-    int count() const { return fCount; }
+    int count() const { return fName.size; }
 
 private:
     sdir(const sdir&);  // unavailable
     sdir& operator=(const sdir&);  // unavailable
 
     upath fPath;
-    ustring *fName;
-    int fCount, fLast;
+    YVec<ustring> fName;
+    int fLast;
 };
 
 #endif
