@@ -379,7 +379,7 @@ void TaskBar::initApplets() {
         fNetStatus = new NetStatus*[names.size + 1];
         fNetStatus[names.size] = NULL;
         for (unsigned i = 0; i < names.size; ++i)
-            fNetStatus[i] = new NetStatus(app, smActionListener, names[i], this, this);
+            fNetStatus[names.size-i-1] = new NetStatus(app, smActionListener, names[i], this, this);
     }
 #endif
 #endif
