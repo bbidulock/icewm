@@ -89,7 +89,7 @@ static void getNetDevNames(const char* netDevice, YVec<mstring> &ret) {
         {
             if(dir.entry() == "lo")
                 continue;
-            MSG(("Found net dev: %s", dir.entry().c_str()));
+            MSG(("Found net dev: %s", cstring(dir.entry()).c_str()));
             ret.add(dir.entry());
         }
     }
