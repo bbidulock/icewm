@@ -46,13 +46,25 @@ static void dump(const char *label, const YStringArray &array) {
 }
 
 static const char *cmp(const YStringArray &a, const YStringArray &b) {
-    if (a.getCount() != b.getCount()) return "size differs";
+    static char buf[999];
+    if (a.getCount() != b.getCount()) {
+        sprintf(buf, "size differs: %d != %d", a.getCount(), b.getCount());
+        return buf;
+    }
 
     for (YStringArray::SizeType i = 0; i < a.getCount(); ++i)
-        if (strnullcmp(a[i], b[i])) return "values differ";
+        if (strnullcmp(a[i], b[i])) {
+            sprintf(buf, "values differ at %d: '%s' != '%s'",
+                    i, a[i], b[i]);
+            return buf;
+        }
 
     for (YStringArray::SizeType i = 0; i < a.getCount(); ++i)
-        if (a[i] != b[i]) return "pointers differ";
+        if (a[i] != b[i]) {
+            sprintf(buf, "pointers differ at %d: %p != %p",
+                    i, a[i], b[i]);
+            return buf;
+        }
 
     return "equal - MUST BE AN ERROR";
 }
@@ -71,6 +83,7 @@ int main() {
 
     dump("Array<int>", a);
 
+    puts("");
     puts("testing insert for YArray<int>");
 
     a.insert(5, -1); dump("Array<int>", a);
@@ -84,10 +97,12 @@ int main() {
     assert(a[6] == -1);
     assert(a[17] == -4);
 
+    puts("");
     puts("testing clear for YArray<int>");
     a.clear(); dump("Array<int>", a);
     assert(a.getCount() == 0);
 
+    puts("");
     puts("another insertion test for YArray<int>");
     a.insert(0, 1); dump("Array<int>: inserted 1@0", a);
     a.insert(1, 2); dump("Array<int>: inserted 2@1", a);
@@ -98,6 +113,7 @@ int main() {
     assert(a.getCount() == 6);
     assert(a[5] == 2);
 
+    puts("");
     puts("testing append for YArray<const char *>");
 
     YArray<const char *> b;
@@ -109,6 +125,7 @@ int main() {
     dump("Array<const char *>", b); b.append("bar");
     dump("Array<const char *>", b);
 
+    puts("");
     puts("testing append for YStringArray");
 
     YStringArray c;
@@ -120,6 +137,7 @@ int main() {
     dump("YStringArray", c); c.append("bar");
     dump("YStringArray", c);
 
+    puts("");
     puts("copy constructors for YStringArray");
 
     YStringArray orig;
@@ -138,6 +156,13 @@ int main() {
     printf("orig vs. copy: %s\n", cmp(orig, copy));
     printf("orig vs. copy2: %s\n", cmp(orig, copy2));
     printf("copy vs. copy2: %s\n", cmp(copy, copy2));
+
+    for (int i = 0; i < copy.getCount(); ++i) {
+        printf("C copy[%d] = %s.\n", i, copy.getCArray()[i]);
+    }
+    for (int i = 0; i < copy2.getCount(); ++i) {
+        printf("C copy2[%d] = %s.\n", i, copy2.getCArray()[i]);
+    }
 
     return 0;
 }
