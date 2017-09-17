@@ -82,7 +82,7 @@ static void getNetDevNames(const char* netDevice, YVec<mstring> &ret) {
             ret.add(devName);
             continue;
         }
-        udir dir("/sys/class/net");
+        sdir dir("/sys/class/net");
         if(!dir.isOpen())
             continue;
         while(dir.next())
