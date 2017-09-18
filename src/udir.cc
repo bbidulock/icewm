@@ -122,7 +122,7 @@ bool adir::open() {
     if (fPath) {
         DirPtr dirp(fPath);
         if (dirp) {
-            int count = 0;
+            unsigned int count = 0;
             size_t size = 0;
             for (; dirp.next(); ++count) {
                 size += dirp.size();

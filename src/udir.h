@@ -55,7 +55,7 @@ private:
     const char* fPath;
     char** fName;
     char* fString;
-    int fCount, fLast;
+    unsigned int fCount, fLast;
 };
 
 // upath directory returns ustrings.
@@ -91,7 +91,7 @@ public:
     void close();
     const upath& path() const { return fPath; }
     const ustring& entry() const;
-    operator bool() const { return isOpen() && fLast < (int) fName.size; }
+    operator bool() const { return isOpen() && fLast < fName.size; }
 
     bool open(const upath& path);
     bool open();
@@ -107,7 +107,7 @@ private:
 
     upath fPath;
     YVec<ustring> fName;
-    int fLast;
+    unsigned int fLast;
 };
 
 #endif
