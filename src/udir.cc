@@ -150,11 +150,11 @@ bool adir::open() {
 }
 
 bool adir::next() {
-    return fName && 1 + fLast < fCount && ++fLast >= 0;
+    return fName && 1 + fLast < fCount && ++fLast != unsigned(-1);
 }
 
 const char* adir::entry() const {
-    if (fName && fLast >= 0 && fLast < fCount) {
+    if (fName && fLast != unsigned(-1) && fLast < fCount) {
         return fName[fLast];
     }
     return 0;
@@ -260,7 +260,7 @@ bool sdir::open() {
 }
 
 bool sdir::next() {
-    return fName.data && 1 + fLast < fName.size && ++fLast >= 0;
+    return fName.data && 1 + fLast < fName.size && ++fLast != unsigned(-1);
 }
 
 const ustring& sdir::entry() const {
