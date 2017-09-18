@@ -9,8 +9,8 @@
 F<> F<$ICEWM_PRIVCFG/menu>
  F<$XDG_CONFIG_HOME/icewm/menu>
  F<$HOME/.icewm/menu>
+ F</etc/icewm/menu>
  F</usr/share/icewm/menu>
- F</usr/local/share/icewm/menu>
 
 =head1 DESCRIPTION
 
@@ -142,11 +142,19 @@ Following is the example F<menu> file that ships with L<icewm(1)>:
 
 Locations for the menu file are as follows:
 
-F<>    F<$ICEWM_PRIVCFG/menu>
-    F<$XDG_CONFIG_HOME/icewm/menu>
-    F<$HOME/.icewm/menu>
-    F</usr/share/icewm/menu>
-    F</usr/local/share/icewm/menu>
+=over
+
+=item F<$ICEWM_PRIVCFG/menu>
+
+=item F<$XDG_CONFIG_HOME/icewm/menu>
+
+=item F<$HOME/.icewm/menu>
+
+=item F</etc/icewm/menu>
+
+=item F</usr/share/icewm/menu>
+
+=back
 
 =head1 SEE ALSO
 

@@ -9,8 +9,8 @@
 F<> F<$ICEWM_PRIVCFG/theme>
  F<$XDG_CONFIG_HOME/icewm/theme>
  F<$HOME/.icewm/theme>
+ F</etc/icewm/theme>
  F</usr/share/icewm/theme>
- F</usr/local/share/icewm/theme>
 
 =head1 DESCRIPTION
 
@@ -55,11 +55,19 @@ that L<icewm(1)> keeps a history of the previous ten theme settings.
 
 Locations for the toolbar options file are as follows:
 
-F<>    F<$ICEWM_PRIVCFG/theme>
-    F<$XDG_CONFIG_HOME/icewm/theme>
-    F<$HOME/.icewm/theme>
-    F</usr/share/icewm/theme>
-    F</usr/local/share/icewm/theme>
+=over
+
+=item F<$ICEWM_PRIVCFG/theme>
+
+=item F<$XDG_CONFIG_HOME/icewm/theme>
+
+=item F<$HOME/.icewm/theme>
+
+=item F</etc/icewm/theme>
+
+=item F</usr/share/icewm/theme>
+
+=back
 
 =head1 SEE ALSO
 

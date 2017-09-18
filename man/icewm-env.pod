@@ -9,8 +9,8 @@
 F<> F<$ICEWM_PRIVCFG/env>
  F<$XDG_CONFIG_HOME/icewm/env>
  F<$HOME/.icewm/env>
+ F</etc/icewm/env>
  F</usr/share/icewm/env>
- F</usr/local/share/icewm/env>
 
 =head1 DESCRIPTION
 
@@ -36,11 +36,19 @@ followed by an equals sign, followed by the value (which may be empty).
 
 Locations for the toolbar options file are as follows:
 
-F<>    F<$ICEWM_PRIVCFG/env>
-    F<$XDG_CONFIG_HOME/icewm/env>
-    F<$HOME/.icewm/env>
-    F</usr/share/icewm/env>
-    F</usr/local/share/icewm/env>
+=over
+
+=item F<$ICEWM_PRIVCFG/env>
+
+=item F<$XDG_CONFIG_HOME/icewm/env>
+
+=item F<$HOME/.icewm/env>
+
+=item F</etc/icewm/env>
+
+=item F</usr/share/icewm/env>
+
+=back
 
 =head1 SEE ALSO
 

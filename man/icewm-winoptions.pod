@@ -9,8 +9,8 @@
 F<> F<$ICEWM_PRIVCFG/winoptions>
  F<$XDG_CONFIG_HOME/icewm/winoptions>
  F<$HOME/.icewm/winoptions>
+ F</etc/icewm/winoptions>
  F</usr/share/icewm/winoptions>
- F</usr/local/share/icewm/winoptions>
 
 =head1 DESCRIPTION
 
@@ -235,11 +235,19 @@ and typically installs to F</usr/share/icewm/winoptions>.
 
 Locations for the window options file are as follows:
 
-F<>    F<$ICEWM_PRIVCFG/winoptions>
-    F<$XDG_CONFIG_HOME/icewm/winoptions>
-    F<$HOME/.icewm/winoptions>
-    F</usr/share/icewm/winoptions>
-    F</usr/local/share/icewm/winoptions>
+=over
+
+=item F<$ICEWM_PRIVCFG/winoptions>
+
+=item F<$XDG_CONFIG_HOME/icewm/winoptions>
+
+=item F<$HOME/.icewm/winoptions>
+
+=item F</etc/icewm/winoptions>
+
+=item F</usr/share/icewm/winoptions>
+
+=back
 
 =head1 SEE ALSO
 

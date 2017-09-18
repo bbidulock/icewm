@@ -9,8 +9,8 @@
 F<> F<$ICEWM_PRIVCFG/toolbar>
  F<$XDG_CONFIG_HOME/icewm/toolbar>
  F<$HOME/.icewm/toolbar>
+ F</etc/icewm/toolbar>
  F</usr/share/icewm/toolbar>
- F</usr/local/share/icewm/toolbar>
 
 =head1 DESCRIPTION
 
@@ -88,11 +88,19 @@ L<icewm(1)> panel:
 
 Locations for the toolbar options file are as follows:
 
-F<>    F<$ICEWM_PRIVCFG/toolbar>
-    F<$XDG_CONFIG_HOME/icewm/toolbar>
-    F<$HOME/.icewm/toolbar>
-    F</usr/share/icewm/toolbar>
-    F</usr/local/share/icewm/toolbar>
+=over
+
+=item F<$ICEWM_PRIVCFG/toolbar>
+
+=item F<$XDG_CONFIG_HOME/icewm/toolbar>
+
+=item F<$HOME/.icewm/toolbar>
+
+=item F</etc/icewm/toolbar>
+
+=item F</usr/share/icewm/toolbar>
+
+=over
 
 =head1 SEE ALSO
 

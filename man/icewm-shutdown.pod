@@ -9,8 +9,8 @@
 F<> F<$ICEWM_PRIVCFG/shutdown>
  F<$XDG_CONFIG_HOME/icewm/shutdown>
  F<$HOME/.icewm/shutdown>
+ F</etc/icewm/shutdown>
  F</usr/share/icewm/shutdown>
- F</usr/local/share/icewm/shutdown>
 
 =head1 DESCRIPTION
 
@@ -28,11 +28,19 @@ terminates.
 
 Locations for the toolbar options file are as follows:
 
-F<>    F<$ICEWM_PRIVCFG/shutdown>
-    F<$XDG_CONFIG_HOME/icewm/shutdown>
-    F<$HOME/.icewm/shutdown>
-    F</usr/share/icewm/shutdown>
-    F</usr/local/share/icewm/shutdown>
+=over
+
+=item F<$ICEWM_PRIVCFG/shutdown>
+
+=item F<$XDG_CONFIG_HOME/icewm/shutdown>
+
+=item F<$HOME/.icewm/shutdown>
+
+=item F</etc/icewm/shutdown>
+
+=item F</usr/share/icewm/shutdown>
+
+=back
 
 =head1 SEE ALSO
 
