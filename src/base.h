@@ -162,6 +162,10 @@ bool strequal(const char *a, const char *b);
 int strnullcmp(const char *a, const char *b);
 #endif
 
+inline const char* boolstr(bool bval) {
+    return bval ? "true" : "false";
+}
+
 template <class T>
 inline char const * niceUnit(T & val, char const * const units[],
                              T const lim = 10240, T const div = 1024) {
