@@ -1,7 +1,4 @@
-#include "config.h"
-#include "ylib.h"
 #include "yxembed.h"
-#include "yapp.h"
 
 YXEmbed::YXEmbed(YWindow *aParent):
     YWindow(aParent)

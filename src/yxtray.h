@@ -40,16 +40,17 @@ private:
 
 class YXTray: public YWindow {
 public:
-    YXTray(YXTrayNotifier *notifier, bool internal, const char *atom, YWindow *aParent = 0);
+    YXTray(YXTrayNotifier *notifier, bool internal,
+           const class YAtom& trayatom, YWindow *aParent = 0);
     virtual ~YXTray();
 
     virtual void paint(Graphics &g, const YRect &r);
     virtual void configure(const YRect &r);
-    virtual void getScaleSize(int *ww, int *hh);
     virtual void handleConfigureRequest(const XConfigureRequestEvent &configureRequest);
 
     void backgroundChanged();
     void relayout();
+    int countClients() const { return fDocked.getCount(); }
 
     void trayRequestDock(Window win);
     void detachTray();
@@ -59,6 +60,8 @@ public:
 
     void destroyedClient(Window win);
 private:
+    static void getScaleSize(int *ww, int *hh);
+
     YXTrayProxy *fTrayProxy;
     typedef YObjectArray<YXTrayEmbedder> DockedType;
     typedef DockedType::IterType IterType;

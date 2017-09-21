@@ -108,10 +108,8 @@ static bool post_preferences;
 
 static Window registerProtocols1(char **argv, int argc) {
     long timestamp = CurrentTime;
-    char buf[32];
-    sprintf(buf, "WM_S%d", DefaultScreen(xapp->display()));
-    Atom wmSx = XInternAtom(xapp->display(), buf, False);
-    Atom wm_manager = XInternAtom(xapp->display(), "MANAGER", False);
+    YAtom wmSx("WM_S", true);
+    YAtom wm_manager("MANAGER");
 
     Window current_wm = XGetSelectionOwner(xapp->display(), wmSx);
 
@@ -129,13 +127,13 @@ static Window registerProtocols1(char **argv, int argc) {
     Window xid = 
         XCreateSimpleWindow(xapp->display(), xroot,
             0, 0, 1, 1, 0,
-            BlackPixel(xapp->display(), DefaultScreen(xapp->display())),
-            BlackPixel(xapp->display(), DefaultScreen(xapp->display())));
+            xapp->black(),
+            xapp->black());
 
     XSetSelectionOwner(xapp->display(), wmSx, xid, timestamp);
 
     if (XGetSelectionOwner(xapp->display(), wmSx) != xid) 
-        die(1, _("failed to set %s owner"), buf);
+        die(1, _("Failed to become the owner of the %s selection"), wmSx.str());
 
     if (current_wm != None) {
         XEvent event;

@@ -10,58 +10,49 @@
 
 class YXTrayProxy: public YWindow {
 public:
-    YXTrayProxy(const char *atom, YXTray *tray, YWindow *aParent = 0);
+    YXTrayProxy(const YAtom& atom, YXTray *tray, YWindow *aParent = 0);
     ~YXTrayProxy();
 
     virtual void handleClientMessage(const XClientMessageEvent &message);
 private:
-    Atom _NET_SYSTEM_TRAY_OPCODE;
-    Atom _NET_SYSTEM_TRAY_MESSAGE_DATA;
-    Atom _NET_SYSTEM_TRAY_S0; /// FIXME
+    YAtom _NET_SYSTEM_TRAY_OPCODE;
+    YAtom _NET_SYSTEM_TRAY_MESSAGE_DATA;
+    YAtom _NET_SYSTEM_TRAY_S0;
     YXTray *fTray;
 };
 
-YXTrayProxy::YXTrayProxy(const char *atom, YXTray *tray, YWindow *aParent):
-    YWindow(aParent)
+YXTrayProxy::YXTrayProxy(const YAtom& atom, YXTray *tray, YWindow *aParent):
+    YWindow(aParent),
+    _NET_SYSTEM_TRAY_OPCODE("_NET_SYSTEM_TRAY_OPCODE"),
+    _NET_SYSTEM_TRAY_MESSAGE_DATA("_NET_SYSTEM_TRAY_MESSAGE_DATA"),
+    _NET_SYSTEM_TRAY_S0(atom),
+    fTray(tray)
 {
-    Atom manager = XInternAtom(xapp->display(), "MANAGER", False);
-    fTray = tray;
-
-    _NET_SYSTEM_TRAY_OPCODE = XInternAtom(xapp->display(),
-                                          "_NET_SYSTEM_TRAY_OPCODE",
-                                          False);
-    _NET_SYSTEM_TRAY_MESSAGE_DATA =
-        XInternAtom(xapp->display(),
-                    "_NET_SYSTEM_TRAY_MESSAGE_DATA",
-                    False);
-    _NET_SYSTEM_TRAY_S0 = XInternAtom(xapp->display(),
-                                      atom,
-                                      False);
-
     XSetSelectionOwner(xapp->display(),
                        _NET_SYSTEM_TRAY_S0,
                        handle(),
                        CurrentTime);
 
-    XClientMessageEvent xev;
-    memset(&xev, 0, sizeof(xev));
-
+    XClientMessageEvent xev = {};
     xev.type = ClientMessage;
     xev.window = desktop->handle();
-    xev.message_type = manager;
+    xev.message_type = YAtom("MANAGER");
     xev.format = 32;
     xev.data.l[0] = CurrentTime;
     xev.data.l[1] = _NET_SYSTEM_TRAY_S0;
     xev.data.l[2] = handle();
 
-    XSendEvent(xapp->display(), desktop->handle(), False, StructureNotifyMask, (XEvent *) &xev);
+    xapp->send(xev, desktop->handle(), StructureNotifyMask);
 }
 
 YXTrayProxy::~YXTrayProxy() {
-    XSetSelectionOwner(xapp->display(),
-                       _NET_SYSTEM_TRAY_S0,
-                       None,
-                       CurrentTime);
+    Window w = XGetSelectionOwner(xapp->display(), _NET_SYSTEM_TRAY_S0);
+    if (w == handle()) {
+        XSetSelectionOwner(xapp->display(),
+                           _NET_SYSTEM_TRAY_S0,
+                           None,
+                           CurrentTime);
+    }
 }
 
 void YXTrayProxy::handleClientMessage(const XClientMessageEvent &message) {
@@ -150,7 +141,7 @@ void YXTrayEmbedder::handleMapRequest(const XMapRequestEvent &mapRequest) {
 
 YXTray::YXTray(YXTrayNotifier *notifier,
                bool internal,
-               const char *atom,
+               const YAtom& atom,
                YWindow *aParent):
     YWindow(aParent)
 {
@@ -172,15 +163,19 @@ YXTray::~YXTray() {
 
 void YXTray::getScaleSize(int *ww, int *hh)
 {
-    // check if height / max_height < width / max_width. */
+    // check if max_width / max_height < width / height. */
     if (*hh * trayIconMaxWidth < *ww * trayIconMaxHeight) {
-        // the given icon is too wide.
-        *hh = trayIconMaxWidth * *hh / *ww;
-        *ww = trayIconMaxWidth;
+        // icon is wide.
+        if (*ww != trayIconMaxWidth) {
+            *hh = (trayIconMaxWidth * *hh + (*ww / 2)) / *ww;
+            *ww = trayIconMaxWidth;
+        }
     } else {
-        // the given icon is too tall.
-        *hh = trayIconMaxHeight;
-        *ww = trayIconMaxHeight * *ww / *hh;
+        // icon is tall.
+        if (*hh != trayIconMaxHeight) {
+            *ww = (trayIconMaxHeight * *ww + (*hh / 2)) / *hh;
+            *hh = trayIconMaxHeight;
+        }
     }
 }
 
@@ -196,7 +191,7 @@ void YXTray::trayRequestDock(Window win) {
     int hh = embed->client()->height();
 
     /* Workaround for GTK-Apps */
-    if (!(ww == 0 || hh == 0)){
+    if (ww && hh) {
         if (!fInternal) {
             // scale too big icons
             getScaleSize(&ww, &hh);
@@ -223,7 +218,8 @@ void YXTray::destroyedClient(Window win) {
 
 void YXTray::handleConfigureRequest(const XConfigureRequestEvent &configureRequest)
 {
-    MSG(("tray configureRequest w=%d h=%d internal=%s\n", configureRequest.width, configureRequest.height, fInternal ? "true" : "false"));
+    MSG(("tray configureRequest w=%d h=%d internal=%s\n",
+        configureRequest.width, configureRequest.height, boolstr(fInternal)));
     bool changed = false;
     for (IterType ec = fDocked.iterator(); ++ec; ) {
         if (ec->client_handle() == configureRequest.window) {
@@ -361,23 +357,19 @@ void YXTray::relayout() {
             ec->show();
     }
 
-    MSG(("clients %d width: %d %d", fDocked.getCount(), width(), visible() ? 1 : 0));
+    MSG(("clients %d width: %d, visible %s", fDocked.getCount(), width(), boolstr(visible())));
 }
 
 bool YXTray::kdeRequestDock(Window win) {
     if (fDocked.getCount() == 0)
         return false;
     puts("trying to dock");
-    char trayatom[64];
-    sprintf(trayatom, "_NET_SYSTEM_TRAY_S%d", xapp->screen());
-    Atom tray = XInternAtom(xapp->display(), trayatom, False);
-    Atom opcode = XInternAtom(xapp->display(), "_NET_SYSTEM_TRAY_OPCODE", False);
-    Window w = XGetSelectionOwner(xapp->display(), tray);
+    YAtom _NET_SYSTEM_TRAY_S0("_NET_SYSTEM_TRAY_S", true);
+    YAtom opcode("_NET_SYSTEM_TRAY_OPCODE");
+    Window w = XGetSelectionOwner(xapp->display(), _NET_SYSTEM_TRAY_S0);
 
     if (w && w != handle()) {
-        XClientMessageEvent xev;
-        memset(&xev, 0, sizeof(xev));
-
+        XClientMessageEvent xev = {};
         xev.type = ClientMessage;
         xev.window = w;
         xev.message_type = opcode; //_NET_SYSTEM_TRAY_OPCODE;
@@ -385,8 +377,7 @@ bool YXTray::kdeRequestDock(Window win) {
         xev.data.l[0] = CurrentTime;
         xev.data.l[1] = SYSTEM_TRAY_REQUEST_DOCK;
         xev.data.l[2] = win; //fTray2->handle();
-
-        XSendEvent(xapp->display(), w, False, StructureNotifyMask, (XEvent *) &xev);
+        xapp->send(xev, w, StructureNotifyMask);
         return true;
     }
     return false;

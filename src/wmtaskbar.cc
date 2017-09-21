@@ -513,8 +513,7 @@ void TaskBar::initApplets() {
     } else
         fWindowTray = 0;
 #endif
-    char trayatom[64];
-    sprintf(trayatom,"_ICEWM_INTTRAY_S%d", xapp->screen());
+    YAtom trayatom("_ICEWM_INTTRAY_S", true);
     fDesktopTray = new YXTray(this, true, trayatom, this);
     fDesktopTray->relayout();
 }

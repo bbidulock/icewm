@@ -46,7 +46,7 @@ public:
     void repaint();
     void repaintFocus();
     void repaintSync();
-
+    void readAttributes();
     void reparent(YWindow *parent, int x, int y);
 
     void setWindowFocus();

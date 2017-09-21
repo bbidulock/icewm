@@ -30,21 +30,30 @@ YColor* getTaskBarBg() {
 class SysTray: public YWindow, public YXTrayNotifier {
 public:
     SysTray();
-    bool checkMessageEvent(const XClientMessageEvent &message);
     void requestDock();
 
     void handleUnmap(const XUnmapEvent &) {
-        MSG(("hide"));
+        MSG(("SysTray::handleUnmap hide %s", boolstr(visible())));
         if (visible())
             hide();
     }
 
     void trayChanged();
+    int count() const { return fTray2->countClients(); }
+
 private:
-    Atom icewm_internal_tray;
-    Atom manager;
-    Atom _NET_SYSTEM_TRAY_OPCODE;
+    YAtom icewm_internal_tray;
+    YAtom _NET_SYSTEM_TRAY_OPCODE;
     osmart<YXTray> fTray2;
+
+    void show() {
+        YWindow::show();
+        XMapWindow(xapp->display(), handle());
+    }
+    void hide() {
+        YWindow::hide();
+        XUnmapWindow(xapp->display(), handle());
+    }
 };
 
 class SysTrayApp: public YXApplication {
@@ -59,7 +68,9 @@ public:
     virtual void handleSignal(int sig);
 
 private:
-    Atom _ICEWM_ACTION;
+    YAtom _ICEWM_ACTION;
+    YAtom icewm_internal_tray;
+    YAtom manager;
     osmart<SysTray> tray;
     const char* configFile;
     const char* overrideTheme;
@@ -91,6 +102,9 @@ static int handler(Display *display, XErrorEvent *xev) {
 SysTrayApp::SysTrayApp(int *argc, char ***argv,
         const char* _configFile, const char* _overrideTheme):
     YXApplication(argc, argv),
+    _ICEWM_ACTION("_ICEWM_ACTION"),
+    icewm_internal_tray("_ICEWM_INTTRAY_S", true),
+    manager("MANAGER"),
     tray(0), configFile(_configFile), overrideTheme(_overrideTheme)
 {
     desktop->setStyle(YWindow::wsDesktopAware);
@@ -101,8 +115,6 @@ SysTrayApp::SysTrayApp(int *argc, char ***argv,
 
     XSetErrorHandler(handler);
     tray = new SysTray();
-
-    _ICEWM_ACTION = XInternAtom(xapp->display(), "_ICEWM_ACTION", False);
 }
 
 void SysTrayApp::loadConfig() {
@@ -139,9 +151,10 @@ void SysTrayApp::loadConfig() {
     }
     YConfig::findLoadConfigFile(this, tray_prefs, "prefoverride");
 #endif
-    if (taskBarBg) 
+    if (taskBarBg) {
         delete taskBarBg;
-    taskBarBg = new YColor(clrDefaultTaskBar);
+        taskBarBg = 0;
+    }
 #endif
 }
 
@@ -161,13 +174,16 @@ bool SysTrayApp::filterEvent(const XEvent &xev) {
             MSG(("loadConfig"));
             loadConfig();
             tray->trayChanged();
-        } else
-            tray->checkMessageEvent(xev.xclient);
-        return false;
-    } else if (xev.type == MappingNotify) {
-            MSG(("tray mapping1"));
-        if (xev.xmapping.window == tray->handle()) {
-            MSG(("tray mapping"));
+            return true;
+        }
+        else if (xev.xclient.message_type == manager &&
+          (Atom) xev.xclient.data.l[1] == icewm_internal_tray)
+        {
+            if (tray->count() > 0)
+                tray->requestDock();
+            else
+                tray = new SysTray;
+            return true;
         }
     }
     return false;
@@ -189,32 +205,21 @@ void SysTrayApp::handleSignal(int sig) {
     YXApplication::handleSignal(sig);
 }
 
-SysTray::SysTray(): YWindow(0) {
+SysTray::SysTray():
+    icewm_internal_tray("_ICEWM_INTTRAY_S", true),
+    _NET_SYSTEM_TRAY_OPCODE("_NET_SYSTEM_TRAY_OPCODE")
+{
     desktop->setStyle(YWindow::wsDesktopAware);
 
-    char trayatom[64];
-    sprintf(trayatom, "_NET_SYSTEM_TRAY_S%d", xapp->screen());
+    YAtom trayatom("_NET_SYSTEM_TRAY_S", true);
     fTray2 = new YXTray(this, false, trayatom, this);
-
-    char trayatom2[64];
-    sprintf(trayatom2, "_ICEWM_INTTRAY_S%d", xapp->screen());
-    icewm_internal_tray =
-        XInternAtom(xapp->display(), trayatom2, False);
-    manager =
-        XInternAtom(xapp->display(), "MANAGER", False);
-
-    _NET_SYSTEM_TRAY_OPCODE =
-        XInternAtom(xapp->display(),
-                    "_NET_SYSTEM_TRAY_OPCODE",
-                    False);
-
     fTray2->relayout();
     setSize(fTray2->width(),
             fTray2->height());
     fTray2->show();
     requestDock();
 }
-    
+
 void SysTray::trayChanged() {
     fTray2->backgroundChanged();
     setSize(fTray2->width(),
@@ -229,7 +234,7 @@ void SysTray::requestDock() {
     Window w = XGetSelectionOwner(xapp->display(), icewm_internal_tray);
 
     if (w && w != handle()) {
-        XClientMessageEvent xev;
+        XClientMessageEvent xev = {};
         xev.type = ClientMessage;
         xev.window = w;
         xev.message_type = _NET_SYSTEM_TRAY_OPCODE;
@@ -237,19 +242,8 @@ void SysTray::requestDock() {
         xev.data.l[0] = CurrentTime;
         xev.data.l[1] = SYSTEM_TRAY_REQUEST_DOCK;
         xev.data.l[2] = handle(); //fTray2->handle();
-
-        XSendEvent(xapp->display(), w, False,
-                   StructureNotifyMask, (XEvent *) &xev);
+        xapp->send(xev, w, StructureNotifyMask);
     }
-}
-
-bool SysTray::checkMessageEvent(const XClientMessageEvent &message) {
-    if (message.message_type == manager &&
-            (Atom) message.data.l[1] == icewm_internal_tray) {
-        MSG(("requestDock"));
-        requestDock();
-    }
-    return true;
 }
 
 static const char* get_help_text() {

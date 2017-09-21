@@ -3454,8 +3454,8 @@ void YWindowManager::UpdateScreenSize(XEvent *event) {
     XRRUpdateConfiguration(event);
 #endif
 
-    int nw = DisplayWidth(xapp->display(), DefaultScreen(xapp->display()));
-    int nh = DisplayHeight(xapp->display(), DefaultScreen(xapp->display()));
+    int nw = xapp->displayWidth();
+    int nh = xapp->displayHeight();
     updateXineramaInfo(nw, nh);
 
     if (width() != nw ||

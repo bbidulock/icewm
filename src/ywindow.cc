@@ -117,8 +117,7 @@ unsigned long YWindow::getLastEnterNotifySerial() {
 }
 void YWindow::updateEnterNotifySerial(const XEvent &event) {
     lastEnterNotifySerial = event.xany.serial;
-    if (xapp && xapp->display())
-        XSync(xapp->display(), False);
+    xapp->sync();
 }
 
 /******************************************************************************/
@@ -260,6 +259,26 @@ void YWindow::repaintFocus() {
 ///    }
 }
 
+void YWindow::readAttributes() {
+    XWindowAttributes attributes;
+
+    XGetWindowAttributes(xapp->display(),
+                         fHandle,
+                         &attributes);
+    fX = attributes.x;
+    fY = attributes.y;
+    fWidth = attributes.width;
+    fHeight = attributes.height;
+
+    //MSG(("window initial geometry (%d:%d %dx%d)",
+    //     fX, fY, fWidth, fHeight));
+
+    if (attributes.map_state != IsUnmapped)
+        flags |= wfVisible;
+    else
+        flags &= ~wfVisible;
+}
+
 void YWindow::create() {
     if (flags & wfCreated) return;
 
@@ -325,23 +344,7 @@ void YWindow::create() {
         if ((flags & wfVisible) && !(flags & wfNullSize))
             XMapWindow(xapp->display(), fHandle);
     } else {
-        XWindowAttributes attributes;
-
-        XGetWindowAttributes(xapp->display(),
-                             fHandle,
-                             &attributes);
-        fX = attributes.x;
-        fY = attributes.y;
-        fWidth = attributes.width;
-        fHeight = attributes.height;
-
-        //MSG(("window initial geometry (%d:%d %dx%d)",
-        //     fX, fY, fWidth, fHeight));
-
-        if (attributes.map_state != IsUnmapped)
-            flags |= wfVisible;
-        else
-            flags &= ~wfVisible;
+        readAttributes();
 
         fEventMask = 0;
 
@@ -1961,8 +1964,8 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
         si.screen_number = 0;
         si.x_org = 0;
         si.y_org = 0;
-        si.width = DisplayWidth(xapp->display(), DefaultScreen(xapp->display()));
-        si.height = DisplayHeight(xapp->display(), DefaultScreen(xapp->display()));
+        si.width = xapp->displayWidth();
+        si.height = xapp->displayHeight();
         xiInfo.append(si);
     }
     {
