@@ -1109,3 +1109,19 @@ bool YXPoll::forRead() {
 }
 
 bool YXPoll::forWrite() { return false; }
+
+void YAtom::atomize() {
+    if (screen) {
+        char buf[256];
+        snprintf(buf, sizeof buf, "%s%d", name, xapp->screen());
+        atom = xapp->atom(buf);
+    } else {
+        atom = xapp->atom(name);
+    }
+}
+
+YAtom::operator Atom() {
+    if (atom == None)
+        atomize();
+    return atom;
+}

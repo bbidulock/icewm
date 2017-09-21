@@ -2,8 +2,19 @@
 #define __YXAPP_H
 
 #include "yapp.h"
-
 #include "ywindow.h"
+
+class YAtom {
+    const char* name;
+    bool screen;
+    Atom atom;
+    void atomize();
+public:
+    explicit YAtom(const char* name, bool screen = false) :
+        name(name), screen(screen), atom(None) { }
+    operator Atom();
+    const char* str() const { return name; }
+};
 
 class YXPoll: public YPoll<class YXApplication> {
 public:
@@ -24,6 +35,15 @@ public:
     Colormap colormap() { return DefaultColormap(display(), screen()); }
     unsigned depth() { return DefaultDepth(display(), screen()); }
     Window root() { return DefaultRootWindow(display()); }
+    unsigned long black() { return BlackPixel(display(), screen()); }
+    unsigned long white() { return WhitePixel(display(), screen()); }
+    int displayWidth() { return DisplayWidth(display(), screen()); }
+    int displayHeight() { return DisplayHeight(display(), screen()); }
+    Atom atom(const char* name) { return XInternAtom(display(), name, False); }
+    void sync() { XSync(display(), False); }
+    void send(XClientMessageEvent& ev, Window win, long mask) {
+	XSendEvent(display(), win, False, mask, (XEvent*)&ev);
+    }
 
     bool hasColormap();
 
