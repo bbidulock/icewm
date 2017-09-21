@@ -1,8 +1,8 @@
 #ifndef __YAPP_H
 #define __YAPP_H
 
-#include "yarray.h"
 #include "upath.h"
+#include "yarray.h"
 #include "ypoll.h"
 
 class YTimer;

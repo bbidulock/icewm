@@ -1,8 +1,8 @@
 #ifndef __YXEMBED_H
 #define __YXEMBED_H
 
-#include "yarray.h"
 #include "ywindow.h"
+#include "yarray.h"
 
 class YXEmbedClient;
 

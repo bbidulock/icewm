@@ -5,8 +5,6 @@
  */
 #include "config.h"
 #include "ykey.h"
-#include "ylib.h"
-
 #include "yprefs.h"
 
 #define CFGDEF
