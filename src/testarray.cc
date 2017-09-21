@@ -1,11 +1,31 @@
+#include "mstring.h"
 #include "yarray.h"
+#include "ypointer.h"
 
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
+#include <sys/time.h>
 
 char const *ApplicationName("testarray");
 bool multiByte(true);
+
+class watch {
+    double start;
+    char buf[42];
+public:
+    double time() const {
+        timeval now;
+        gettimeofday(&now, 0);
+        return now.tv_sec + 1e-6 * now.tv_usec;
+    }
+    watch() : start(time()) {}
+    double delta() const { return time() - start; }
+    const char* report() {
+        snprintf(buf, sizeof buf, "%.6f seconds", delta());
+        return buf;
+    }
+};
 
 int strnullcmp(const char *a, const char *b) {
     return a ? (b ? strcmp(a, b) : 1) : (b ? -1 : 0);
@@ -69,7 +89,7 @@ static const char *cmp(const YStringArray &a, const YStringArray &b) {
     return "equal - MUST BE AN ERROR";
 }
 
-int main() {
+static void test_int() {
     YArray<int> a;
 
     puts("testing append YArray<int>");
@@ -114,6 +134,9 @@ int main() {
     assert(a[5] == 2);
 
     puts("");
+}
+
+static void test_cptr() {
     puts("testing append for YArray<const char *>");
 
     YArray<const char *> b;
@@ -126,6 +149,9 @@ int main() {
     dump("Array<const char *>", b);
 
     puts("");
+}
+
+static void test_str() {
     puts("testing append for YStringArray");
 
     YStringArray c;
@@ -138,6 +164,7 @@ int main() {
     dump("YStringArray", c);
 
     puts("");
+
     puts("copy constructors for YStringArray");
 
     YStringArray orig;
@@ -163,6 +190,138 @@ int main() {
     for (int i = 0; i < copy2.getCount(); ++i) {
         printf("C copy2[%d] = %s.\n", i, copy2.getCArray()[i]);
     }
+
+    puts("");
+}
+
+static void test_mstr() {
+    typedef MStringArray::IterType iter_t;
+
+    watch mark;
+
+    char buf[24];
+    const int N = 12345;
+    asmart<mstring> ms(new mstring[N]);
+    for (int i = 0; i < N; ++i) {
+        snprintf(buf, sizeof buf, "%d", i);
+        ms[i] = mstring(buf);
+    }
+    MStringArray ma;
+    for (int i = 0; i < N; ++i) {
+        ma.append(ms[i]);
+    }
+
+    int c = 0;
+    for (iter_t iter = ma.iterator(); ++iter; ) {
+        assert(iter.where() == c);
+        assert(*iter == ms[c]);
+        ++c;
+    }
+    assert(c == N);
+    for (iter_t iter = ma.reverseIterator(); ++iter; ) {
+        --c;
+        assert(iter.where() == c);
+        assert(*iter == ms[c]);
+    }
+    assert(c == 0);
+
+    for (int i = 0; i < N; ++i) {
+        int k = i;
+        while (k & 1)
+            k >>= 1;
+        if (k != i) {
+            ma.remove(i);
+            ma.insert(i, ma[k]);
+        }
+    }
+    for (int i = 0; i < N; ++i) {
+        int k = i;
+        while (k & 1)
+            k >>= 1;
+        assert(ma[i] == ms[k]);
+    }
+
+    printf("tested MStringArray OK (%s)\n\n", mark.report());
+}
+
+/*
+ * A very simple sharable string class for use with ref and YRefArray.
+ * The copy semantics are thanks to ref; use YRefArray for aggregation.
+ */
+class stringcounted : public refcounted {
+public:
+    stringcounted() : ptr(0) {}         // remain null forever
+    stringcounted(const char* str);     // new[] allocate copy
+    virtual ~stringcounted();           // delete[] string ptr
+    operator const char *() const { return ptr; }
+    char operator[](int i) const { return ptr[i]; }
+private:
+    stringcounted(const stringcounted&);        // use ref
+    void operator=(const stringcounted&);       // use ref
+    const char* ptr;
+};
+
+stringcounted::stringcounted(const char* str):
+    ptr(str ? strcpy(new char[1 + strlen(str)], str) : 0)
+{
+}
+
+stringcounted::~stringcounted() {
+    delete[] ptr;
+}
+
+typedef ref<stringcounted> refstring;
+
+inline refstring newRefString(const char *str) {
+    return refstring(new stringcounted(str));
+}
+
+static void test_refstr() {
+    typedef YRefArray<stringcounted> array_t;
+
+    watch mark;
+
+    char buf[24];
+    const int N = 12345;
+    asmart<csmart> ms(new csmart[N]);
+    for (int i = 0; i < N; ++i) {
+        snprintf(buf, sizeof buf, "%d", i);
+        ms[i] = newstr(buf);
+    }
+    array_t ma;
+    for (int i = 0; i < N; ++i) {
+        ma.append(newRefString(ms[i]));
+    }
+
+    for (int i = 0; i < N; ++i) {
+        assert(!strcmp(*ma[i], ms[i]));
+    }
+
+    for (int i = 0; i < N; ++i) {
+        int k = i;
+        while (k & 1)
+            k >>= 1;
+        if (k != i) {
+            ma.remove(i);
+            ma.insert(i, ma[k]);
+        }
+    }
+    for (int i = 0; i < N; ++i) {
+        int k = i;
+        while (k & 1)
+            k >>= 1;
+        assert(!strcmp(*ma[i], ms[k]));
+    }
+
+    printf("tested refstring array OK (%s)\n\n", mark.report());
+}
+
+int main() {
+    test_int();
+    test_cptr();
+    test_str();
+    test_mstr();
+    test_refstr();
 
     return 0;
 }
