@@ -1,6 +1,10 @@
 #ifndef __MSTRING_H
 #define __MSTRING_H
 
+#ifdef __YARRAY_H
+#error include yarray.h after mstring.h
+#endif
+
 #include "ref.h"
 #include <string.h>
 
@@ -22,6 +26,7 @@ struct MStringData {
 class mstring {
 private:
     friend class cstring;
+    friend class MStringArray;
 
     MStringData *fStr;
     int fOffset;

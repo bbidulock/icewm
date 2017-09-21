@@ -98,9 +98,8 @@ void YBaseArray::release() {
     fCount = 0;
 }
 
-YStringArray::YStringArray(const YStringArray &other):
-YBaseArray(sizeof(char *)) {
-    setCapacity(other.getCapacity());
+YStringArray::YStringArray(const YStringArray &other) {
+    setCapacity(other.getCount());
 
     for (SizeType i = 0; i < other.getCount(); ++i)
         append(other.getString(i));
