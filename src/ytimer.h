@@ -39,7 +39,7 @@ inline double toDouble(const timeval& t) {
     return (double) t.tv_sec + 1e-6 * t.tv_usec;
 }
 
-inline timeval zerotime() { return (timeval) {}; }
+inline timeval zerotime() { return (timeval) { 0L, 0L }; }
 
 class YTimer;
 
