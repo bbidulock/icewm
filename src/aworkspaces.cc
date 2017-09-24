@@ -14,6 +14,7 @@
 #include "wmwinlist.h"
 #include "wpixmaps.h"
 #include "intl.h"
+#include <math.h>
 
 YColor * WorkspaceButton::normalButtonBg(NULL);
 YColor * WorkspaceButton::normalButtonFg(NULL);
