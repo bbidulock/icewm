@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.23\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-09-13 00:58-0600\n"
+"POT-Creation-Date: 2017-09-24 02:00-0600\n"
 "PO-Revision-Date: 2017-06-16 22:23+0000\n"
 "Last-Translator: Freek de Kruijf <freek@opensuse.org>\n"
 "Language-Team: Dutch <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -18,24 +18,24 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2.6\n"
 
-#: src/aapm.cc:175 src/aapm.cc:457 src/aapm.cc:674 src/aapm.cc:792
+#: src/aapm.cc:176 src/aapm.cc:457 src/aapm.cc:675 src/aapm.cc:791
 msgid " - Power"
 msgstr " - Voeding"
 
-#: src/aapm.cc:177 src/aapm.cc:460 src/aapm.cc:677
+#: src/aapm.cc:178 src/aapm.cc:460 src/aapm.cc:678
 msgid "P"
 msgstr "E"
 
-#: src/aapm.cc:181 src/aapm.cc:432 src/aapm.cc:655 src/aapm.cc:764
+#: src/aapm.cc:182 src/aapm.cc:434 src/aapm.cc:658 src/aapm.cc:765
 #, c-format
 msgid " - Charging"
 msgstr " - Opladen"
 
-#: src/aapm.cc:183 src/aapm.cc:434 src/aapm.cc:657
+#: src/aapm.cc:184 src/aapm.cc:436 src/aapm.cc:660
 msgid "C"
 msgstr "C"
 
-#: src/aapm.cc:436
+#: src/aapm.cc:438
 msgid " - Full"
 msgstr " - Volledig"
 
@@ -170,7 +170,7 @@ msgstr ""
 "  Beller id:\t"
 
 #: src/aworkspaces.cc:141 src/aworkspaces.cc:211 src/aworkspaces.cc:267
-#: src/wmstatus.cc:179
+#: src/wmstatus.cc:178
 msgid "Workspace: "
 msgstr "Werkplaats: "
 
@@ -785,7 +785,7 @@ msgstr "Laden van thema %s is mislukt"
 msgid "Received signal %s: Terminating..."
 msgstr "Signaal %d ontvangen: Het programma wordt gestopt..."
 
-#: src/icetray.cc:257
+#: src/icetray.cc:251
 #, fuzzy
 msgid ""
 "  -n, --notify        Notify parent process by sending signal USR1.\n"
@@ -982,171 +982,171 @@ msgid "icewm - About"
 msgstr "IceWM - Over"
 
 #
-#: src/wmapp.cc:120
+#: src/wmapp.cc:118
 #, fuzzy
 msgid "A window manager is already running, use --replace to replace it"
 msgstr "Een andere window manager is al aktief. Icewm wordt gestopt...."
 
-#: src/wmapp.cc:138
-#, fuzzy, c-format
-msgid "failed to set %s owner"
-msgstr "Kon %s niet uitvoeren: %s"
+#: src/wmapp.cc:136
+#, c-format
+msgid "Failed to become the owner of the %s selection"
+msgstr ""
 
-#: src/wmapp.cc:142
+#: src/wmapp.cc:140
 msgid "Waiting to replace the old window manager"
 msgstr ""
 
-#: src/wmapp.cc:147
+#: src/wmapp.cc:145
 msgid "done."
 msgstr ""
 
-#: src/wmapp.cc:440
+#: src/wmapp.cc:438
 msgid "Unable to get current font path."
 msgstr "Kan het lettertype pad niet bepalen."
 
-#: src/wmapp.cc:467
+#: src/wmapp.cc:465
 msgid "Unexpected format of ICEWM_FONT_PATH property"
 msgstr "Onverwacht formaat van de eigenschap ICEWM_FONT_PATH"
 
 # OS/2 is dead, but... ;-)
-#: src/wmapp.cc:550
+#: src/wmapp.cc:548
 msgid "_Logout"
 msgstr "_Afmelden"
 
-#: src/wmapp.cc:551
+#: src/wmapp.cc:549
 msgid "_Cancel logout"
 msgstr "_Afmelden afbreken"
 
-#: src/wmapp.cc:564 src/wmapp.cc:566
+#: src/wmapp.cc:562 src/wmapp.cc:564
 msgid "Lock _Workstation"
 msgstr "Werkstation _blokkeren"
 
-#: src/wmapp.cc:570 src/wmapp.cc:572 src/wmdialog.cc:93
+#: src/wmapp.cc:568 src/wmapp.cc:570 src/wmdialog.cc:93
 msgid "Re_boot"
 msgstr "_Re_boot"
 
-#: src/wmapp.cc:576 src/wmapp.cc:578 src/wmdialog.cc:94
+#: src/wmapp.cc:574 src/wmapp.cc:576 src/wmdialog.cc:94
 msgid "Shut_down"
 msgstr "Sto_ppen"
 
-#: src/wmapp.cc:582 src/wmapp.cc:584 src/wmdialog.cc:90
+#: src/wmapp.cc:580 src/wmapp.cc:582 src/wmdialog.cc:90
 msgid "_Suspend"
 msgstr ""
 
-#: src/wmapp.cc:591 src/wmapp.cc:593
+#: src/wmapp.cc:589 src/wmapp.cc:591
 msgid "Restart _Icewm"
 msgstr "_Icewm Opnieuw starten"
 
-#: src/wmapp.cc:597
+#: src/wmapp.cc:595
 msgid "Restart _Xterm"
 msgstr "_Xterm opnieuw starten"
 
-#: src/wmapp.cc:619
+#: src/wmapp.cc:617
 msgid "_Menu"
 msgstr "_Menu"
 
-#: src/wmapp.cc:620
+#: src/wmapp.cc:618
 msgid "_Above Dock"
 msgstr "_Over de Dock"
 
-#: src/wmapp.cc:621
+#: src/wmapp.cc:619
 msgid "_Dock"
 msgstr "_Dock"
 
-#: src/wmapp.cc:622
+#: src/wmapp.cc:620
 msgid "_OnTop"
 msgstr "_BovenIn"
 
-#: src/wmapp.cc:623
+#: src/wmapp.cc:621
 msgid "_Normal"
 msgstr "_Normaal"
 
-#: src/wmapp.cc:624
+#: src/wmapp.cc:622
 msgid "_Below"
 msgstr "_Onder"
 
-#: src/wmapp.cc:625
+#: src/wmapp.cc:623
 msgid "D_esktop"
 msgstr "Bur_eaublad"
 
-#: src/wmapp.cc:637
+#: src/wmapp.cc:635
 msgid "_Restore"
 msgstr "_Herstellen"
 
-#: src/wmapp.cc:639
+#: src/wmapp.cc:637
 msgid "_Move"
 msgstr "_Verplaatsen"
 
-#: src/wmapp.cc:641
+#: src/wmapp.cc:639
 msgid "_Size"
 msgstr "_Grootte veranderen"
 
-#: src/wmapp.cc:643
+#: src/wmapp.cc:641
 msgid "Mi_nimize"
 msgstr "Mi_nimaliseren"
 
-#: src/wmapp.cc:645
+#: src/wmapp.cc:643
 msgid "Ma_ximize"
 msgstr "Ma_ximaliseren"
 
-#: src/wmapp.cc:647
+#: src/wmapp.cc:645
 msgid "_Fullscreen"
 msgstr "_Volledig scherm"
 
-#: src/wmapp.cc:651 src/wmwinlist.cc:309
+#: src/wmapp.cc:649 src/wmwinlist.cc:309
 msgid "_Hide"
 msgstr "Verb_ergen"
 
-#: src/wmapp.cc:654
+#: src/wmapp.cc:652
 msgid "Roll_up"
 msgstr "Op_rollen"
 
-#: src/wmapp.cc:661
+#: src/wmapp.cc:659
 msgid "R_aise"
 msgstr "St_ijgen"
 
-#: src/wmapp.cc:663
+#: src/wmapp.cc:661
 msgid "_Lower"
 msgstr "Da_len"
 
-#: src/wmapp.cc:665
+#: src/wmapp.cc:663
 msgid "La_yer"
 msgstr "_Laag"
 
-#: src/wmapp.cc:669 src/wmwinlist.cc:312
+#: src/wmapp.cc:667 src/wmwinlist.cc:312
 msgid "Move _To"
 msgstr "Verschuiven naa_r"
 
-#: src/wmapp.cc:670
+#: src/wmapp.cc:668
 msgid "Occupy _All"
 msgstr "Op _alle werkplaatsen"
 
-#: src/wmapp.cc:676
+#: src/wmapp.cc:674
 msgid "Limit _Workarea"
 msgstr "_Beperkte werkplaats"
 
-#: src/wmapp.cc:681
+#: src/wmapp.cc:679
 msgid "Tray _icon"
 msgstr "Tray_icon"
 
-#: src/wmapp.cc:687 src/wmwinlist.cc:297 src/wmwinlist.cc:323
+#: src/wmapp.cc:685 src/wmwinlist.cc:297 src/wmwinlist.cc:323
 msgid "_Close"
 msgstr "_Sluiten"
 
-#: src/wmapp.cc:689 src/wmwinlist.cc:299
+#: src/wmapp.cc:687 src/wmwinlist.cc:299
 msgid "_Kill Client"
 msgstr "Programma stoppen"
 
-#: src/wmapp.cc:693 src/wmdialog.cc:95 src/wmwinmenu.cc:138
+#: src/wmapp.cc:691 src/wmdialog.cc:95 src/wmwinmenu.cc:138
 msgid "_Window list"
 msgstr "_Window lijst"
 
 #
-#: src/wmapp.cc:709
+#: src/wmapp.cc:707
 msgid "Another window manager already running, exiting..."
 msgstr "Een andere window manager is al aktief. Icewm wordt gestopt...."
 
-#: src/wmapp.cc:783
+#: src/wmapp.cc:781
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1155,14 +1155,14 @@ msgstr ""
 "De herstart is mislukt: %s\n"
 "Verwijst de »PATH« variable naar de programma directory »%s«?"
 
-#: src/wmapp.cc:1421
+#: src/wmapp.cc:1419
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      Te gebruiken client-id bij contact maken met de "
 "sessiemanager.\n"
 
-#: src/wmapp.cc:1427
+#: src/wmapp.cc:1425
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1172,7 +1172,7 @@ msgstr ""
 "  --debug             Algemene debugberichten afdrukken.\n"
 "  --debug-z           Debugberichten over stapelen van vensters afdrukken.\n"
 
-#: src/wmapp.cc:1436
+#: src/wmapp.cc:1434
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1180,7 +1180,7 @@ msgid ""
 "  --postpreferences   Print preferences after all processing.\n"
 msgstr ""
 
-#: src/wmapp.cc:1444
+#: src/wmapp.cc:1442
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1242,26 +1242,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1505
+#: src/wmapp.cc:1503
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s configuratiemappen:\n"
 
-#: src/wmapp.cc:1650
+#: src/wmapp.cc:1648
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s geconfigureerde opties:%s\n"
 
-#: src/wmapp.cc:1699
+#: src/wmapp.cc:1697
 #, fuzzy, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Onbekende optie: %s\n"
 
-#: src/wmapp.cc:1740
+#: src/wmapp.cc:1738
 msgid "Confirm Logout"
 msgstr "Afmelden bevestigen"
 
-#: src/wmapp.cc:1741
+#: src/wmapp.cc:1739
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1269,27 +1269,27 @@ msgstr ""
 "Bij het afmelden worden alle actieve programma's afgesloten.\n"
 "Afmelden?"
 
-#: src/wmconfig.cc:43
+#: src/wmconfig.cc:41
 #, c-format
 msgid "Failed to load theme %s"
 msgstr "Laden van thema %s is mislukt"
 
-#: src/wmconfig.cc:114
+#: src/wmconfig.cc:112
 #, c-format
 msgid "Unknown value '%s' for option '%s'."
 msgstr "Onbekende waarde '%s' voor optie: '%s'."
 
-#: src/wmconfig.cc:123
+#: src/wmconfig.cc:121
 #, c-format
 msgid "Unable to create directory %s"
 msgstr "Aanmaken van map %s lukte niet"
 
-#: src/wmconfig.cc:150
+#: src/wmconfig.cc:148
 #, c-format
 msgid "Unable to write to %s"
 msgstr "Schrijven naar %s lukt niet"
 
-#: src/wmconfig.cc:177
+#: src/wmconfig.cc:175
 #, c-format
 msgid "Unable to rename %s to %s"
 msgstr "Hernoemen van %s naar %s lukt niet"
@@ -1303,7 +1303,7 @@ msgid "_Cancel"
 msgstr "Af_breken"
 
 #: src/wmdialog.cc:92 src/wmprog.cc:1005 src/wmprog.cc:1007 src/wmprog.cc:1011
-#: src/wmprog.cc:1013 src/wmtaskbar.cc:327 src/wmtaskbar.cc:329
+#: src/wmprog.cc:1013 src/wmtaskbar.cc:353 src/wmtaskbar.cc:355
 msgid "_Logout..."
 msgstr "_Afmelden..."
 
@@ -1311,8 +1311,8 @@ msgstr "_Afmelden..."
 msgid "_Restart icewm"
 msgstr "IceWM _herstarten"
 
-#: src/wmdialog.cc:97 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:319
-#: src/wmtaskbar.cc:322
+#: src/wmdialog.cc:97 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:345
+#: src/wmtaskbar.cc:348
 msgid "_About"
 msgstr "_Over"
 
@@ -1485,7 +1485,7 @@ msgstr "Programma's"
 msgid "_Run..."
 msgstr "Uit_voeren..."
 
-#: src/wmprog.cc:920 src/wmprog.cc:922 src/wmtaskbar.cc:307
+#: src/wmprog.cc:920 src/wmprog.cc:922 src/wmtaskbar.cc:333
 msgid "_Windows"
 msgstr "_Windows"
 
@@ -1510,59 +1510,59 @@ msgstr "Ins_tellingen"
 msgid "Session Manager: Unknown line %s"
 msgstr "Sessie manager: Onbekende regel %s"
 
-#: src/wmtaskbar.cc:167 src/wmtaskbar.cc:168
+#: src/wmtaskbar.cc:193 src/wmtaskbar.cc:194
 msgid "Task Bar"
 msgstr "Taak lijst"
 
-#: src/wmtaskbar.cc:296 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+#: src/wmtaskbar.cc:322 src/wmwinlist.cc:314 src/wmwinlist.cc:327
 msgid "Tile _Vertically"
 msgstr "_Vertikaal uitlijnen"
 
-#: src/wmtaskbar.cc:297 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+#: src/wmtaskbar.cc:323 src/wmwinlist.cc:315 src/wmwinlist.cc:328
 msgid "T_ile Horizontally"
 msgstr "_Horizontaal uitlijnen"
 
-#: src/wmtaskbar.cc:298 src/wmwinlist.cc:316 src/wmwinlist.cc:329
+#: src/wmtaskbar.cc:324 src/wmwinlist.cc:316 src/wmwinlist.cc:329
 msgid "Ca_scade"
 msgstr "_Overlappend uitlijnen"
 
-#: src/wmtaskbar.cc:299 src/wmwinlist.cc:317 src/wmwinlist.cc:330
+#: src/wmtaskbar.cc:325 src/wmwinlist.cc:317 src/wmwinlist.cc:330
 msgid "_Arrange"
 msgstr "_Optimaliseren"
 
-#: src/wmtaskbar.cc:300 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+#: src/wmtaskbar.cc:326 src/wmwinlist.cc:319 src/wmwinlist.cc:331
 msgid "_Minimize All"
 msgstr "Alles _minimaliseren"
 
-#: src/wmtaskbar.cc:301 src/wmwinlist.cc:320 src/wmwinlist.cc:332
+#: src/wmtaskbar.cc:327 src/wmwinlist.cc:320 src/wmwinlist.cc:332
 msgid "_Hide All"
 msgstr "Alles _verstoppen"
 
-#: src/wmtaskbar.cc:302 src/wmwinlist.cc:321 src/wmwinlist.cc:333
+#: src/wmtaskbar.cc:328 src/wmwinlist.cc:321 src/wmwinlist.cc:333
 msgid "_Undo"
 msgstr "_Ongedaan"
 
-#: src/wmtaskbar.cc:304
+#: src/wmtaskbar.cc:330
 msgid "Arrange _Icons"
 msgstr "_Pictogrammen opruimen"
 
-#: src/wmtaskbar.cc:310
+#: src/wmtaskbar.cc:336
 msgid "_Refresh"
 msgstr "_Verversen"
 
-#: src/wmtaskbar.cc:317
+#: src/wmtaskbar.cc:343
 msgid "_License"
 msgstr "_Licentie"
 
-#: src/wmtaskbar.cc:459
+#: src/wmtaskbar.cc:470
 msgid "Favorite applications"
 msgstr "Favoriete programma's"
 
-#: src/wmtaskbar.cc:476
+#: src/wmtaskbar.cc:487
 msgid "Window list menu"
 msgstr "Window lijst menu"
 
-#: src/wmtaskbar.cc:485
+#: src/wmtaskbar.cc:496
 msgid "Show Desktop"
 msgstr "Bureaublad tonen"
 
@@ -1776,6 +1776,10 @@ msgid ""
 msgstr ""
 "  --display=NAAM      NAAM van de te gebruiken X-server.\n"
 "  --sync              X11 opdrachten synchroniseren.\n"
+
+#, fuzzy
+#~ msgid "failed to set %s owner"
+#~ msgstr "Kon %s niet uitvoeren: %s"
 
 #~ msgid "No such device: %s"
 #~ msgstr "Onbekend apparaat: %s"

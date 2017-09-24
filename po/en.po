@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-09-13 00:58-0600\n"
+"POT-Creation-Date: 2017-09-24 02:00-0600\n"
 "PO-Revision-Date: 2000-10-21 12:13+2000\n"
 "Last-Translator: Mathias Hasselmann <mathias.hasselmann@gmx.de>\n"
 "Language-Team: English\n"
@@ -15,24 +15,24 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/aapm.cc:175 src/aapm.cc:457 src/aapm.cc:674 src/aapm.cc:792
+#: src/aapm.cc:176 src/aapm.cc:457 src/aapm.cc:675 src/aapm.cc:791
 msgid " - Power"
 msgstr ""
 
-#: src/aapm.cc:177 src/aapm.cc:460 src/aapm.cc:677
+#: src/aapm.cc:178 src/aapm.cc:460 src/aapm.cc:678
 msgid "P"
 msgstr ""
 
-#: src/aapm.cc:181 src/aapm.cc:432 src/aapm.cc:655 src/aapm.cc:764
+#: src/aapm.cc:182 src/aapm.cc:434 src/aapm.cc:658 src/aapm.cc:765
 #, c-format
 msgid " - Charging"
 msgstr ""
 
-#: src/aapm.cc:183 src/aapm.cc:434 src/aapm.cc:657
+#: src/aapm.cc:184 src/aapm.cc:436 src/aapm.cc:660
 msgid "C"
 msgstr ""
 
-#: src/aapm.cc:436
+#: src/aapm.cc:438
 msgid " - Full"
 msgstr ""
 
@@ -148,7 +148,7 @@ msgid ""
 msgstr ""
 
 #: src/aworkspaces.cc:141 src/aworkspaces.cc:211 src/aworkspaces.cc:267
-#: src/wmstatus.cc:179
+#: src/wmstatus.cc:178
 msgid "Workspace: "
 msgstr ""
 
@@ -658,7 +658,7 @@ msgstr ""
 msgid "Received signal %s: Terminating..."
 msgstr ""
 
-#: src/icetray.cc:257
+#: src/icetray.cc:251
 msgid ""
 "  -n, --notify        Notify parent process by sending signal USR1.\n"
 "  --display=NAME      Use NAME to connect to the X server.\n"
@@ -813,187 +813,187 @@ msgstr ""
 msgid "icewm - About"
 msgstr ""
 
-#: src/wmapp.cc:120
+#: src/wmapp.cc:118
 msgid "A window manager is already running, use --replace to replace it"
 msgstr ""
 
-#: src/wmapp.cc:138
+#: src/wmapp.cc:136
 #, c-format
-msgid "failed to set %s owner"
+msgid "Failed to become the owner of the %s selection"
 msgstr ""
 
-#: src/wmapp.cc:142
+#: src/wmapp.cc:140
 msgid "Waiting to replace the old window manager"
 msgstr ""
 
-#: src/wmapp.cc:147
+#: src/wmapp.cc:145
 msgid "done."
 msgstr ""
 
-#: src/wmapp.cc:440
+#: src/wmapp.cc:438
 msgid "Unable to get current font path."
 msgstr ""
 
-#: src/wmapp.cc:467
+#: src/wmapp.cc:465
 msgid "Unexpected format of ICEWM_FONT_PATH property"
 msgstr ""
 
-#: src/wmapp.cc:550
+#: src/wmapp.cc:548
 msgid "_Logout"
 msgstr ""
 
-#: src/wmapp.cc:551
+#: src/wmapp.cc:549
 msgid "_Cancel logout"
 msgstr ""
 
-#: src/wmapp.cc:564 src/wmapp.cc:566
+#: src/wmapp.cc:562 src/wmapp.cc:564
 msgid "Lock _Workstation"
 msgstr ""
 
-#: src/wmapp.cc:570 src/wmapp.cc:572 src/wmdialog.cc:93
+#: src/wmapp.cc:568 src/wmapp.cc:570 src/wmdialog.cc:93
 msgid "Re_boot"
 msgstr ""
 
-#: src/wmapp.cc:576 src/wmapp.cc:578 src/wmdialog.cc:94
+#: src/wmapp.cc:574 src/wmapp.cc:576 src/wmdialog.cc:94
 msgid "Shut_down"
 msgstr ""
 
-#: src/wmapp.cc:582 src/wmapp.cc:584 src/wmdialog.cc:90
+#: src/wmapp.cc:580 src/wmapp.cc:582 src/wmdialog.cc:90
 msgid "_Suspend"
 msgstr ""
 
-#: src/wmapp.cc:591 src/wmapp.cc:593
+#: src/wmapp.cc:589 src/wmapp.cc:591
 msgid "Restart _Icewm"
 msgstr ""
 
-#: src/wmapp.cc:597
+#: src/wmapp.cc:595
 msgid "Restart _Xterm"
 msgstr ""
 
-#: src/wmapp.cc:619
+#: src/wmapp.cc:617
 msgid "_Menu"
 msgstr ""
 
-#: src/wmapp.cc:620
+#: src/wmapp.cc:618
 msgid "_Above Dock"
 msgstr ""
 
-#: src/wmapp.cc:621
+#: src/wmapp.cc:619
 msgid "_Dock"
 msgstr ""
 
-#: src/wmapp.cc:622
+#: src/wmapp.cc:620
 msgid "_OnTop"
 msgstr ""
 
-#: src/wmapp.cc:623
+#: src/wmapp.cc:621
 msgid "_Normal"
 msgstr ""
 
-#: src/wmapp.cc:624
+#: src/wmapp.cc:622
 msgid "_Below"
 msgstr ""
 
-#: src/wmapp.cc:625
+#: src/wmapp.cc:623
 msgid "D_esktop"
 msgstr ""
 
-#: src/wmapp.cc:637
+#: src/wmapp.cc:635
 msgid "_Restore"
 msgstr ""
 
-#: src/wmapp.cc:639
+#: src/wmapp.cc:637
 msgid "_Move"
 msgstr ""
 
-#: src/wmapp.cc:641
+#: src/wmapp.cc:639
 msgid "_Size"
 msgstr ""
 
-#: src/wmapp.cc:643
+#: src/wmapp.cc:641
 msgid "Mi_nimize"
 msgstr ""
 
-#: src/wmapp.cc:645
+#: src/wmapp.cc:643
 msgid "Ma_ximize"
 msgstr ""
 
-#: src/wmapp.cc:647
+#: src/wmapp.cc:645
 msgid "_Fullscreen"
 msgstr ""
 
-#: src/wmapp.cc:651 src/wmwinlist.cc:309
+#: src/wmapp.cc:649 src/wmwinlist.cc:309
 msgid "_Hide"
 msgstr ""
 
-#: src/wmapp.cc:654
+#: src/wmapp.cc:652
 msgid "Roll_up"
 msgstr ""
 
-#: src/wmapp.cc:661
+#: src/wmapp.cc:659
 msgid "R_aise"
 msgstr ""
 
-#: src/wmapp.cc:663
+#: src/wmapp.cc:661
 msgid "_Lower"
 msgstr ""
 
-#: src/wmapp.cc:665
+#: src/wmapp.cc:663
 msgid "La_yer"
 msgstr ""
 
-#: src/wmapp.cc:669 src/wmwinlist.cc:312
+#: src/wmapp.cc:667 src/wmwinlist.cc:312
 msgid "Move _To"
 msgstr ""
 
-#: src/wmapp.cc:670
+#: src/wmapp.cc:668
 msgid "Occupy _All"
 msgstr ""
 
-#: src/wmapp.cc:676
+#: src/wmapp.cc:674
 msgid "Limit _Workarea"
 msgstr ""
 
-#: src/wmapp.cc:681
+#: src/wmapp.cc:679
 msgid "Tray _icon"
 msgstr ""
 
-#: src/wmapp.cc:687 src/wmwinlist.cc:297 src/wmwinlist.cc:323
+#: src/wmapp.cc:685 src/wmwinlist.cc:297 src/wmwinlist.cc:323
 msgid "_Close"
 msgstr ""
 
-#: src/wmapp.cc:689 src/wmwinlist.cc:299
+#: src/wmapp.cc:687 src/wmwinlist.cc:299
 msgid "_Kill Client"
 msgstr ""
 
-#: src/wmapp.cc:693 src/wmdialog.cc:95 src/wmwinmenu.cc:138
+#: src/wmapp.cc:691 src/wmdialog.cc:95 src/wmwinmenu.cc:138
 msgid "_Window list"
 msgstr ""
 
-#: src/wmapp.cc:709
+#: src/wmapp.cc:707
 msgid "Another window manager already running, exiting..."
 msgstr ""
 
-#: src/wmapp.cc:783
+#: src/wmapp.cc:781
 #, c-format
 msgid ""
 "Could not restart: %s\n"
 "Does $PATH lead to %s?"
 msgstr ""
 
-#: src/wmapp.cc:1421
+#: src/wmapp.cc:1419
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 
-#: src/wmapp.cc:1427
+#: src/wmapp.cc:1425
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
 "  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
 
-#: src/wmapp.cc:1436
+#: src/wmapp.cc:1434
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1001,7 +1001,7 @@ msgid ""
 "  --postpreferences   Print preferences after all processing.\n"
 msgstr ""
 
-#: src/wmapp.cc:1444
+#: src/wmapp.cc:1442
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1033,52 +1033,52 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/wmapp.cc:1505
+#: src/wmapp.cc:1503
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr ""
 
-#: src/wmapp.cc:1650
+#: src/wmapp.cc:1648
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr ""
 
-#: src/wmapp.cc:1699
+#: src/wmapp.cc:1697
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr ""
 
-#: src/wmapp.cc:1740
+#: src/wmapp.cc:1738
 msgid "Confirm Logout"
 msgstr ""
 
-#: src/wmapp.cc:1741
+#: src/wmapp.cc:1739
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
 msgstr ""
 
-#: src/wmconfig.cc:43
+#: src/wmconfig.cc:41
 #, c-format
 msgid "Failed to load theme %s"
 msgstr ""
 
-#: src/wmconfig.cc:114
+#: src/wmconfig.cc:112
 #, c-format
 msgid "Unknown value '%s' for option '%s'."
 msgstr ""
 
-#: src/wmconfig.cc:123
+#: src/wmconfig.cc:121
 #, c-format
 msgid "Unable to create directory %s"
 msgstr ""
 
-#: src/wmconfig.cc:150
+#: src/wmconfig.cc:148
 #, c-format
 msgid "Unable to write to %s"
 msgstr ""
 
-#: src/wmconfig.cc:177
+#: src/wmconfig.cc:175
 #, c-format
 msgid "Unable to rename %s to %s"
 msgstr ""
@@ -1092,7 +1092,7 @@ msgid "_Cancel"
 msgstr ""
 
 #: src/wmdialog.cc:92 src/wmprog.cc:1005 src/wmprog.cc:1007 src/wmprog.cc:1011
-#: src/wmprog.cc:1013 src/wmtaskbar.cc:327 src/wmtaskbar.cc:329
+#: src/wmprog.cc:1013 src/wmtaskbar.cc:353 src/wmtaskbar.cc:355
 msgid "_Logout..."
 msgstr ""
 
@@ -1100,8 +1100,8 @@ msgstr ""
 msgid "_Restart icewm"
 msgstr ""
 
-#: src/wmdialog.cc:97 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:319
-#: src/wmtaskbar.cc:322
+#: src/wmdialog.cc:97 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:345
+#: src/wmtaskbar.cc:348
 msgid "_About"
 msgstr ""
 
@@ -1264,7 +1264,7 @@ msgstr ""
 msgid "_Run..."
 msgstr ""
 
-#: src/wmprog.cc:920 src/wmprog.cc:922 src/wmtaskbar.cc:307
+#: src/wmprog.cc:920 src/wmprog.cc:922 src/wmtaskbar.cc:333
 msgid "_Windows"
 msgstr ""
 
@@ -1289,59 +1289,59 @@ msgstr ""
 msgid "Session Manager: Unknown line %s"
 msgstr ""
 
-#: src/wmtaskbar.cc:167 src/wmtaskbar.cc:168
+#: src/wmtaskbar.cc:193 src/wmtaskbar.cc:194
 msgid "Task Bar"
 msgstr ""
 
-#: src/wmtaskbar.cc:296 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+#: src/wmtaskbar.cc:322 src/wmwinlist.cc:314 src/wmwinlist.cc:327
 msgid "Tile _Vertically"
 msgstr ""
 
-#: src/wmtaskbar.cc:297 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+#: src/wmtaskbar.cc:323 src/wmwinlist.cc:315 src/wmwinlist.cc:328
 msgid "T_ile Horizontally"
 msgstr ""
 
-#: src/wmtaskbar.cc:298 src/wmwinlist.cc:316 src/wmwinlist.cc:329
+#: src/wmtaskbar.cc:324 src/wmwinlist.cc:316 src/wmwinlist.cc:329
 msgid "Ca_scade"
 msgstr ""
 
-#: src/wmtaskbar.cc:299 src/wmwinlist.cc:317 src/wmwinlist.cc:330
+#: src/wmtaskbar.cc:325 src/wmwinlist.cc:317 src/wmwinlist.cc:330
 msgid "_Arrange"
 msgstr ""
 
-#: src/wmtaskbar.cc:300 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+#: src/wmtaskbar.cc:326 src/wmwinlist.cc:319 src/wmwinlist.cc:331
 msgid "_Minimize All"
 msgstr ""
 
-#: src/wmtaskbar.cc:301 src/wmwinlist.cc:320 src/wmwinlist.cc:332
+#: src/wmtaskbar.cc:327 src/wmwinlist.cc:320 src/wmwinlist.cc:332
 msgid "_Hide All"
 msgstr ""
 
-#: src/wmtaskbar.cc:302 src/wmwinlist.cc:321 src/wmwinlist.cc:333
+#: src/wmtaskbar.cc:328 src/wmwinlist.cc:321 src/wmwinlist.cc:333
 msgid "_Undo"
 msgstr ""
 
-#: src/wmtaskbar.cc:304
+#: src/wmtaskbar.cc:330
 msgid "Arrange _Icons"
 msgstr ""
 
-#: src/wmtaskbar.cc:310
+#: src/wmtaskbar.cc:336
 msgid "_Refresh"
 msgstr ""
 
-#: src/wmtaskbar.cc:317
+#: src/wmtaskbar.cc:343
 msgid "_License"
 msgstr ""
 
-#: src/wmtaskbar.cc:459
+#: src/wmtaskbar.cc:470
 msgid "Favorite applications"
 msgstr ""
 
-#: src/wmtaskbar.cc:476
+#: src/wmtaskbar.cc:487
 msgid "Window list menu"
 msgstr ""
 
-#: src/wmtaskbar.cc:485
+#: src/wmtaskbar.cc:496
 msgid "Show Desktop"
 msgstr ""
 
