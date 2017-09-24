@@ -147,8 +147,6 @@ public:
     void data(DataType *some, dispose_t disp = adispose) {
         super::data(some, disp);
     }
-
-    DataType& operator[](int index) const { return super::data()[index]; }
 };
 
 // for new[] character strings
