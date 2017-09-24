@@ -8,7 +8,7 @@ rm -f cscope.*
 make clean
 make cscope
 cscope -b
-make clean all README
+make -j clean all README
 
 else
 # cmake cheat sheet... with Debian-style configuration
