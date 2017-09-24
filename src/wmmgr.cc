@@ -61,6 +61,7 @@ YWindowManager::YWindowManager(
     fLastWorkspace = WinWorkspaceInvalid;
     fArrangeCount = 0;
     fArrangeInfo = 0;
+    rootProxy = 0;
     fWorkAreaMoveWindows = false;
     fWorkArea = 0;
     fWorkAreaWorkspaceCount = 0;
@@ -143,6 +144,7 @@ YWindowManager::~YWindowManager() {
     delete[] fFocusedWindow;
     for (int l(0); l < WinLayerCount; l++)
         delete layerActionSet[l];
+    delete rootProxy;
 }
 
 void YWindowManager::grabKeys() {
