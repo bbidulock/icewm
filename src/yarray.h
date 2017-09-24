@@ -479,6 +479,7 @@ void findRemove(YArray<DataType>& array, DataType& data) {
 template<typename DataType>
 class YVec
 {
+protected:
     size_t capa;
     /**
      * @param wanted If zero, duplicate current pool size; otherwise set to exact that size and loose the rest
@@ -499,7 +500,7 @@ public:
     DataType *data;
     inline YVec(): capa(0), size(0), data(0) {}
     inline YVec(size_t initialCapa):  capa(initialCapa), size(0), data(new DataType[initialCapa]) { }
-    inline void reset() { delete[] data; data = 0; size = 0; }
+    inline void reset() { if(!size) return; delete[] data; data = 0; size = 0; }
     inline void preserve(size_t count) { if(count<capa) inflate(count); }
     inline ~YVec() { reset(); }
     DataType& add(const DataType& element) {
@@ -508,6 +509,20 @@ public:
         return data[size++] = element;
     }
     const DataType& operator[](const size_t index) const { return data[index]; }
+};
+/**
+ * Simple container based on YVec but made only for raw pointers of the particular type.
+ * Ownership of add pointers is transfered to here!
+ */
+template<typename DataType>
+struct YPointVec : public YVec<DataType*>
+{
+    inline void reset() {
+        for(DataType **p = this->data, **e = this->data + this->size; p<e; ++p)
+            delete *p;
+        YVec<DataType*>::reset();
+    }
+    inline ~YPointVec() { reset(); }
 };
 
 #endif

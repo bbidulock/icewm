@@ -16,7 +16,7 @@ class MEMStatus;
 class CPUStatus;
 #endif
 #ifdef CONFIG_APPLET_NET_STATUS
-class NetStatus;
+class NetStatusControl;
 #endif
 class AddressBar;
 class MailBoxStatus;
@@ -163,7 +163,7 @@ private:
     YApm *fApm;
 #endif
 #ifdef CONFIG_APPLET_NET_STATUS
-    NetStatus **fNetStatus;
+    ref<NetStatusControl> fNetStatus;
 #endif
 
 #ifndef NO_CONFIGURE_MENUS

@@ -10,22 +10,23 @@
 
 #ifdef CONFIG_APPLET_NET_STATUS
 #if defined(__linux__) || defined(__FreeBSD__) || defined(__NetBSD__) || \
-    defined(__OpenBSD__)
+    defined(__OpenBSD__) || defined(__FreeBSD_kernel__)
 
 #define HAVE_NET_STATUS 1
 
 class IAppletContainer;
+class NetStatusControl;
 
-class NetStatus: public YWindow, public YTimerListener {
+class NetStatus: public YWindow {
 public:
     NetStatus(IApp *app, YSMListener *smActionListener, mstring netdev, IAppletContainer *taskBar, YWindow *aParent = 0);
     ~NetStatus();
 private:
     IAppletContainer *fTaskBar;
     YColor *color[3];
-    YTimer *fUpdateTimer;
     YSMListener *smActionListener;
     IApp *app;
+    friend class NetStatusControl;
 
     long *ppp_in; /* long could be really enough for rate in B/s */
     long *ppp_out;
@@ -49,13 +50,33 @@ private:
     void getCurrent(long *in, long *out);
     void updateStatus();
     void updateToolTip();
+    void handleTimer();
 
-    // methods overloaded from superclasses
-    virtual bool handleTimer(YTimer *t);
+    // methods overridden from superclasses
     virtual void handleClick(const XButtonEvent &up, int count);
     virtual void paint(Graphics & g, const YRect &r);
 };
 
+class NetStatusControl : public YTimerListener, public refcounted {
+    YTimer* fUpdateTimer;
+    YPointVec<NetStatus> fNetStatus;
+public:
+    NetStatusControl(IApp *app, YSMListener *smActionListener, IAppletContainer *taskBar, YWindow *aParent);
+    ~NetStatusControl();
+    struct Iterator
+    {
+        NetStatus* operator*();
+        void operator++();
+        operator bool();
+    private:
+        friend class NetStatusControl;
+        size_t pos;
+        YPointVec<NetStatus> *fNetStatus;
+    };
+    Iterator getActive();
+    // subclassing method overrides
+    virtual bool handleTimer(YTimer *t);
+};
 
 #else // __linux__ || __FreeBSD__ || __NetBSD__
 #undef CONFIG_APPLET_NET_STATUS

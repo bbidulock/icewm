@@ -44,7 +44,7 @@
 #include "wpixmaps.h"
 #include "aapm.h"
 #include "upath.h"
-#include "udir.h"
+
 #include "intl.h"
 
 #ifdef CONFIG_TRAY
@@ -69,31 +69,6 @@ static void initPixmaps() {
 #endif
 }
 
-static void getNetDevNames(const char* netDevice, YVec<mstring> &ret) {
-    if (!taskBarShowNetStatus || !netDevice || !netDevice[0])
-        return;
-
-    mstring devName(null), devList(netDevice);
-
-    while (devList.splitall(' ', &devName, &devList)) {
-        if (!devName.nonempty())
-            continue;
-        if (devName != "<sys>") {
-            ret.add(devName);
-            continue;
-        }
-        sdir dir("/sys/class/net");
-        if(!dir.isOpen())
-            continue;
-        while(dir.next())
-        {
-            if(dir.entry() == "lo")
-                continue;
-            MSG(("Found net dev: %s", cstring(dir.entry()).c_str()));
-            ret.add(dir.entry());
-        }
-    }
-}
 
 EdgeTrigger::EdgeTrigger(TaskBar *owner) {
     setStyle(wsOverrideRedirect | wsInputOnly);
@@ -297,13 +272,6 @@ TaskBar::~TaskBar() {
         delete[] fCPUStatus; fCPUStatus = 0;
     }
 #endif
-#ifdef HAVE_NET_STATUS
-    if (fNetStatus) {
-        for (int i = 0; fNetStatus[i]; ++i)
-            delete fNetStatus[i];
-        delete[] fNetStatus; fNetStatus = 0;
-    }
-#endif
 #ifdef CONFIG_ADDRESSBAR
     delete fAddressBar; fAddressBar = 0;
 #endif
@@ -375,17 +343,7 @@ void TaskBar::initApplets() {
         CPUStatus::GetCPUStatus(smActionListener, this, fCPUStatus, cpuCombine);
 #endif
 #ifdef CONFIG_APPLET_NET_STATUS
-    fNetStatus = 0;
-#ifdef HAVE_NET_STATUS
-    YVec<mstring> names;
-    getNetDevNames(netDevice, names);
-    if (names.size > 0) {
-        fNetStatus = new NetStatus*[names.size + 1];
-        fNetStatus[names.size] = NULL;
-        for (unsigned i = 0; i < names.size; ++i)
-            fNetStatus[names.size-i-1] = new NetStatus(app, smActionListener, names[i], this, this);
-    }
-#endif
+    fNetStatus.init(new NetStatusControl(app, smActionListener, this, this));
 #endif
 #ifdef CONFIG_APPLET_CLOCK
     if (taskBarShowClock) {
@@ -591,12 +549,10 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
     wlist.append(nw);
 #endif
 #ifdef CONFIG_APPLET_NET_STATUS
-#ifdef CONFIG_APPLET_MAILBOX
-    for (NetStatus ** n(fNetStatus); n && *n; ++n) {
+    for (NetStatusControl::Iterator n=fNetStatus->getActive();n; ++n) {
         nw = LayoutInfo( *n, false, 1, false, 2, 2, false );
         wlist.append(nw);
     }
-#endif
 #endif
 #ifdef CONFIG_APPLET_APM
     nw = LayoutInfo( fApm, false, 1, true, 0, 2, false );

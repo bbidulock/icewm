@@ -23,6 +23,8 @@
 
 #include "wmapp.h"
 
+#include "udir.h"
+
 #ifdef HAVE_NET_STATUS
 #include "prefs.h"
 #include "intl.h"
@@ -62,12 +64,6 @@ NetStatus::NetStatus(
 
     setSize(taskBarNetSamples, taskBarGraphHeight);
 
-    fUpdateTimer = new YTimer(0);
-    if (fUpdateTimer) {
-        fUpdateTimer->setInterval(taskBarNetDelay);
-        fUpdateTimer->setTimerListener(this);
-        fUpdateTimer->startTimer();
-    }
     prev_ibytes = prev_obytes = offset_ibytes = offset_obytes = 0;
     prev_time = monotime();
     // set prev values for first updateStatus
@@ -78,7 +74,7 @@ NetStatus::NetStatus(
     // test for isdn-device
     useIsdn = fNetDev.startsWith("ippp");
     // unset phoneNumber
-    strcpy(phoneNumber,"");
+    phoneNumber[0] = 0;
 
     updateStatus();
     start_time = time(NULL);
@@ -94,7 +90,6 @@ NetStatus::~NetStatus() {
     delete color[2];
     delete[] ppp_in;
     delete[] ppp_out;
-    delete fUpdateTimer;
 }
 
 
@@ -109,9 +104,7 @@ void NetStatus::updateVisible(bool aVisible) {
     }
 }
 
-bool NetStatus::handleTimer(YTimer *t) {
-    if (t != fUpdateTimer)
-        return false;
+void NetStatus::handleTimer() {
 
     bool up = isUp();
 
@@ -139,7 +132,6 @@ bool NetStatus::handleTimer(YTimer *t) {
             updateVisible(false);
 
     wasUp = up;
-    return true;
 }
 
 void NetStatus::updateToolTip() {
@@ -664,6 +656,80 @@ void NetStatus::getCurrent(long *in, long *out) {
     prev_time = curr_time;
     prev_ibytes = cur_ibytes;
     prev_obytes = cur_obytes;
+}
+
+NetStatusControl::~NetStatusControl() {
+    delete fUpdateTimer;
+}
+
+static void getNetDevNames(const char* netDevice, YVec<mstring> &ret) {
+    if (!taskBarShowNetStatus || !netDevice || !netDevice[0])
+        return;
+
+    mstring devName(null), devList(netDevice);
+
+    while (devList.splitall(' ', &devName, &devList)) {
+        if (!devName.nonempty())
+            continue;
+        if (devName != "<sys>") {
+            ret.add(devName);
+            continue;
+        }
+        sdir dir("/sys/class/net");
+        if(!dir.isOpen())
+            continue;
+        while(dir.next())
+        {
+            if(dir.entry() == "lo")
+                continue;
+            MSG(("Found net dev: %s", cstring(dir.entry()).c_str()));
+            ret.add(dir.entry());
+        }
+    }
+}
+
+NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
+        IAppletContainer* taskBar, YWindow* aParent) : fUpdateTimer(0) {
+#ifdef HAVE_NET_STATUS
+    YVec<mstring> names;
+    getNetDevNames(netDevice, names);
+    for (int i = int(names.size) - 1; i > 0; --i)
+        fNetStatus.add(new NetStatus(app, smActionListener, names[i], taskBar, aParent));
+#endif
+
+    fUpdateTimer = new YTimer(0);
+    if (fUpdateTimer) {
+        fUpdateTimer->setInterval(taskBarNetDelay);
+        fUpdateTimer->setTimerListener(this);
+        fUpdateTimer->startTimer();
+    }
+}
+
+bool NetStatusControl::handleTimer(YTimer *t) {
+    if (t != fUpdateTimer)
+        return false;
+    for(size_t i=0;i<fNetStatus.size;++i)
+        fNetStatus[i]->handleTimer();
+    return true;
+}
+
+NetStatusControl::Iterator NetStatusControl::getActive() {
+    Iterator ret;
+    ret.pos=0;
+    ret.fNetStatus = &fNetStatus;
+    return ret;
+}
+
+NetStatus* NetStatusControl::Iterator::operator *() {
+    return fNetStatus->data[pos];
+}
+
+void NetStatusControl::Iterator::operator ++() {
+    ++pos;
+}
+
+NetStatusControl::Iterator::operator bool() {
+    return fNetStatus->data && pos < fNetStatus->size;
 }
 
 #endif // HAVE_NET_STATUS
