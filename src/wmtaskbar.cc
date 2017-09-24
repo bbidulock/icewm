@@ -307,6 +307,10 @@ TaskBar::~TaskBar() {
 #ifdef CONFIG_ADDRESSBAR
     delete fAddressBar; fAddressBar = 0;
 #endif
+    delete fTasks; fTasks = 0;
+#ifdef CONFIG_TRAY
+    delete fWindowTray; fWindowTray = 0;
+#endif
     delete fCollapseButton; fCollapseButton = 0;
     delete fShowDesktop; fShowDesktop = 0;
     delete taskBarMenu; taskBarMenu = 0;
