@@ -1,8 +1,7 @@
 #ifndef __YRECT_H
 #define __YRECT_H
 
-#include "ypoint.h"
-#include <math.h>
+// #include "ypoint.h"
 
 // change this to use x,y,w,h internal representation?
 class YRect {
@@ -55,10 +54,10 @@ public:
     void unionRect(int x, int y, int width, int height) {
         int dest_x, dest_y;
 
-        dest_x = fmin(xx, x);
-        dest_y = fmin(yy, y);
-        ww = fmax(xx + ww, x + width) - dest_x;
-        hh = fmax(yy + hh, y + height) - dest_y;
+        dest_x = min(xx, x);
+        dest_y = min(yy, y);
+        ww = max(xx + ww, x + width) - dest_x;
+        hh = max(yy + hh, y + height) - dest_y;
         xx = dest_x;
         yy = dest_y;
     }
