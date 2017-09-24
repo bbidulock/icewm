@@ -5,5 +5,5 @@
 [ -f Makefile ] && make distclean
 ./autogen.sh
 ./configure.sh
-make distcheck
+make -j distcheck
 
