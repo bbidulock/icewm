@@ -20,9 +20,11 @@ YXEmbedClient::~YXEmbedClient() {
 void YXEmbedClient::handleDestroyWindow(const XDestroyWindowEvent &destroyWindow) {
     MSG(("embed client destroy"));
 
-    fEmbedder->destroyedClient(handle());
-
-    YWindow::handleDestroyWindow(destroyWindow);
+    if (destroyWindow.window == handle()) {
+        if (false == fEmbedder->destroyedClient(handle())) {
+            YWindow::handleDestroyWindow(destroyWindow);
+        }
+    }
 }
 
 void YXEmbedClient::handleUnmap(const XUnmapEvent &/*unmap*/) {

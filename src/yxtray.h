@@ -7,6 +7,9 @@
 #define SYSTEM_TRAY_BEGIN_MESSAGE 1
 #define SYSTEM_TRAY_CANCEL_MESSAGE 2
 
+#define SYSTEM_TRAY_ORIENTATION_HORZ 0
+#define SYSTEM_TRAY_ORIENTATION_VERT 1
+
 class YXTrayProxy;
 class YXTray;
 
@@ -23,7 +26,7 @@ public:
     ~YXTrayEmbedder();
     virtual void paint(Graphics &g, const YRect &r);
     virtual void handleConfigureRequest(const XConfigureRequestEvent &configureRequest);
-    virtual void destroyedClient(Window win);
+    virtual bool destroyedClient(Window win);
     void detach();
     virtual void configure(const YRect &r);
 
@@ -58,7 +61,7 @@ public:
     void showClient(Window win, bool show);
     bool kdeRequestDock(Window win);
 
-    void destroyedClient(Window win);
+    bool destroyedClient(Window win);
 private:
     static void getScaleSize(int *ww, int *hh);
 
