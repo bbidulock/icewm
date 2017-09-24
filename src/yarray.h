@@ -151,6 +151,10 @@ public:
     typedef YArray<DataType *> BaseType;
     typedef typename BaseType::SizeType SizeType;
 
+    YObjectArray() {}
+    explicit YObjectArray(SizeType capacity) {
+        setCapacity(capacity);
+    }
     virtual ~YObjectArray() {
         clear();
     }
