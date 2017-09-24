@@ -357,6 +357,11 @@ WindowList::~WindowList() {
     delete scroll; scroll = 0;
     windowList = 0;
     delete windowListAllPopup; windowListAllPopup = 0;
+
+    for (int ws = 0; ws <= fWorkspaceCount; ws++) {
+        delete workspaceItem[ws];
+    }
+    delete[] workspaceItem;
 }
 
 void WindowList::updateWorkspaces() {
