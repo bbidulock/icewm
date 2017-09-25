@@ -5,5 +5,6 @@
 [ -f Makefile ] && make distclean
 ./autogen.sh
 ./configure.sh
-make -j distcheck
+ncores=$(nproc 2>/dev/null) || ncores=4 &&:
+make -j$ncores distcheck
 
