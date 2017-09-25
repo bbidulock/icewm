@@ -24,6 +24,7 @@
 #include "wmapp.h"
 
 #include "udir.h"
+#include "yarray.h"
 
 #ifdef HAVE_NET_STATUS
 #include "prefs.h"
@@ -68,7 +69,7 @@ NetStatus::NetStatus(
     prev_time = monotime();
     // set prev values for first updateStatus
 
-    getCurrent(0, 0);
+    getCurrent(0, 0, 0);
     wasUp = true;
 
     // test for isdn-device
@@ -76,7 +77,7 @@ NetStatus::NetStatus(
     // unset phoneNumber
     phoneNumber[0] = 0;
 
-    updateStatus();
+    updateStatus(0);
     start_time = time(NULL);
     start_ibytes = cur_ibytes;
     start_obytes = cur_obytes;
@@ -104,7 +105,7 @@ void NetStatus::updateVisible(bool aVisible) {
     }
 }
 
-void NetStatus::handleTimer() {
+void NetStatus::handleTimer(const void* sharedData) {
 
     bool up = isUp();
 
@@ -117,12 +118,12 @@ void NetStatus::handleTimer() {
             cur_ibytes = 0;
             cur_obytes = 0;
 
-            updateStatus();
+            updateStatus(sharedData);
             start_ibytes = cur_ibytes;
             start_obytes = cur_obytes;
             updateVisible(true);
         }
-        updateStatus();
+        updateStatus(sharedData);
 
         if (toolTipVisible())
             updateToolTip();
@@ -481,14 +482,14 @@ bool NetStatus::isUp() {
 #endif
 }
 
-void NetStatus::updateStatus() {
+void NetStatus::updateStatus(const void* sharedData) {
     int last = taskBarNetSamples - 1;
 
     for (int i = 0; i < last; i++) {
         ppp_in[i] = ppp_in[i + 1];
         ppp_out[i] = ppp_out[i + 1];
     }
-    getCurrent(&ppp_in[last], &ppp_out[last]);
+    getCurrent(&ppp_in[last], &ppp_out[last], sharedData);
     /* These two lines clears first measurement; you can throw these lines
      * off, but bug will occur: on startup, the _second_ bar will show
      * always zero -stibor- */
@@ -499,7 +500,7 @@ void NetStatus::updateStatus() {
 }
 
 
-void NetStatus::getCurrent(long *in, long *out) {
+void NetStatus::getCurrent(long *in, long *out, const void* sharedData) {
 #if 0
     struct ifpppstatsreq req; // from <net/if_ppp.h> in the linux world
 
@@ -530,45 +531,37 @@ void NetStatus::getCurrent(long *in, long *out) {
     cur_ibytes = 0;
     cur_obytes = 0;
 
-
 #ifdef __linux__
-    FILE *fp = fopen("/proc/net/dev", "r");
-    if (!fp)
-        return ;
-
-    char buf[512];
-
-    while (fgets(buf, sizeof(buf), fp) != NULL) {
-        char *p = buf;
+    cstring cs(fNetDev);
+    const char *p = (const char*) sharedData;
+    // zero-terminated buffer
+    while (p && *p) {
         while (*p == ' ')
             p++;
-        cstring cs(fNetDev);
         if (strncmp(p, cs.c_str(), cs.c_str_len()) == 0 &&
             p[cs.c_str_len()] == ':')
         {
-            int dummy;
             p = strchr(p, ':') + 1;
-
-            if (sscanf(p, "%llu %*d %*d %*d %*d %*d %*d %*d" " %llu %*d %*d %*d %*d %*d %*d %d",
-                       &cur_ibytes, &cur_obytes, &dummy) != 3)
-            {
-                long long ipackets = 0, opackets = 0;
-
-                sscanf(p, "%lld %*d %*d %*d %*d" " %lld %*d %*d %*d %*d %*d",
-                       &ipackets, &opackets);
-                // for linux<2.0 fake packets as bytes (we only need relative values anyway)
-                cur_ibytes = ipackets;
-                cur_obytes = opackets;
-            }
-
-            //msg("cur:%lld %lld", cur_ibytes, cur_obytes);
-
+            int fastForward;
+            char dummy;
+            int n = sscanf(p, "%llu %*d %*d %*d %*d %*d %*d %*d %llu%n %c",
+                       &cur_ibytes, &cur_obytes, &fastForward, &dummy);
+            if(n == 3)
+            	p = p + fastForward + 1;
             break;
-        }
+		}
+		while (*p)
+		{
+			// advance once past newline
+			if (*(++p) == '\n')
+			{
+				++p;
+				break;
+			}
+		}
     }
-    fclose(fp);
 #endif //__linux__
-#ifdef __FreeBSD__
+#if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
     // FreeBSD code by Ronald Klop <ronald@cs.vu.nl>
     struct ifmibdata ifmd;
     size_t ifmd_size=sizeof ifmd;
@@ -693,7 +686,7 @@ NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
 #ifdef HAVE_NET_STATUS
     YVec<mstring> names;
     getNetDevNames(netDevice, names);
-    for (int i = int(names.size) - 1; i > 0; --i)
+    for (int i = int(names.size) - 1; i >= 0; --i)
         fNetStatus.add(new NetStatus(app, smActionListener, names[i], taskBar, aParent));
 #endif
 
@@ -705,12 +698,30 @@ NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
     }
 }
 
-bool NetStatusControl::handleTimer(YTimer *t) {
-    if (t != fUpdateTimer)
-        return false;
-    for(size_t i=0;i<fNetStatus.size;++i)
-        fNetStatus[i]->handleTimer();
-    return true;
+bool NetStatusControl::handleTimer(YTimer *t)
+{
+	if (t != fUpdateTimer)
+		return false;
+	void* sharedData(0);
+
+#ifdef __linux__
+	FILE *fp = fopen("/proc/net/dev", "r");
+	if (!fp)
+		return false;
+	YVec<char> buf;
+	while(!feof(fp) && !ferror(fp))
+	{
+		buf.preserve(buf.size + 1000);
+		buf.size += fread(buf.data + buf.size, sizeof(char), buf.remainingCapa(), fp);
+	}
+	while(fclose(fp)) {};
+	buf.add(0); // zero terminated, for sure
+	sharedData = buf.data;
+#endif
+
+	for (size_t i = 0; i < fNetStatus.size; ++i)
+		fNetStatus[i]->handleTimer(sharedData);
+	return true;
 }
 
 NetStatusControl::Iterator NetStatusControl::getActive() {

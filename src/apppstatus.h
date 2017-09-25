@@ -47,10 +47,10 @@ private:
     // methods local to this class
     bool isUp();
     bool isUpIsdn();
-    void getCurrent(long *in, long *out);
-    void updateStatus();
+    void getCurrent(long *in, long *out, const void* sharedData);
+    void updateStatus(const void* sharedData);
     void updateToolTip();
-    void handleTimer();
+    void handleTimer(const void* sharedData);
 
     // methods overridden from superclasses
     virtual void handleClick(const XButtonEvent &up, int count);

@@ -481,15 +481,16 @@ class YVec
 {
 protected:
     size_t capa;
-    /**
-     * @param wanted If zero, duplicate current pool size; otherwise set to exact that size and loose the rest
-     */
-    inline void inflate(size_t wanted = 0) {
-        capa = wanted == 0 ? (capa == 0 ? 2 : capa*2) : wanted;
-        DataType *old = data;
-        data = new DataType[capa];
-        for(size_t i=0;i<size;++i) data[i] = old[i];
-        delete[] old;
+    inline void resize(size_t newSize)
+    {
+    	DataType *old = data;
+    	data = new DataType[newSize];
+    	for(size_t i=0;i<size;++i) data[i] = old[i];
+    	delete[] old;
+    	capa = newSize;
+    }
+    inline void inflate() {
+        resize(capa == 0 ? 2 : capa*2);
     }
     // shall not be copyable
     YVec(const YVec& other);
@@ -501,7 +502,8 @@ public:
     inline YVec(): capa(0), size(0), data(0) {}
     inline YVec(size_t initialCapa):  capa(initialCapa), size(0), data(new DataType[initialCapa]) { }
     inline void reset() { if(!size) return; delete[] data; data = 0; size = 0; }
-    inline void preserve(size_t count) { if(count<capa) inflate(count); }
+    inline void preserve(size_t wanted) { if(wanted > capa) resize(wanted); }
+    inline size_t remainingCapa() { return capa - size; }
     inline ~YVec() { reset(); }
     DataType& add(const DataType& element) {
         if (size >= capa)
