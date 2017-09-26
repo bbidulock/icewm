@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-09-24 02:00-0600\n"
+"POT-Creation-Date: 2017-09-26 08:39-0600\n"
 "PO-Revision-Date: 2006-01-26 23:29+0100\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team:  <mk@li.org>\n"
@@ -158,7 +158,7 @@ msgstr ""
 "\n"
 "  Ид. на повикувач:\t"
 
-#: src/aworkspaces.cc:141 src/aworkspaces.cc:211 src/aworkspaces.cc:267
+#: src/aworkspaces.cc:142 src/aworkspaces.cc:212 src/aworkspaces.cc:268
 #: src/wmstatus.cc:178
 msgid "Workspace: "
 msgstr "Работен простор: "
@@ -223,52 +223,88 @@ msgstr ""
 msgid "Other"
 msgstr ""
 
-#: src/icehelp.cc:1105
+#: src/icehelp.cc:1139
 msgid "Back"
 msgstr "Назад"
 
-#: src/icehelp.cc:1105
+#: src/icehelp.cc:1139
 msgid "Alt+Left"
 msgstr "Alt+Лево"
 
-#: src/icehelp.cc:1107
+#: src/icehelp.cc:1141
 msgid "Forward"
 msgstr "Напред"
 
-#: src/icehelp.cc:1107
+#: src/icehelp.cc:1141
 msgid "Alt+Right"
 msgstr "Alt+Десно"
 
-#: src/icehelp.cc:1110
+#: src/icehelp.cc:1144
 msgid "Previous"
 msgstr "Претходно"
 
-#: src/icehelp.cc:1111
+#: src/icehelp.cc:1145
 msgid "Next"
 msgstr "Следно"
 
-#: src/icehelp.cc:1113
+#: src/icehelp.cc:1147
 msgid "Contents"
 msgstr "Содржина"
 
-#: src/icehelp.cc:1114
+#: src/icehelp.cc:1148
 msgid "Index"
 msgstr "Индекс"
 
-#: src/icehelp.cc:1117 src/icesame.cc:65 src/iceview.cc:76 src/wmframe.cc:180
+#: src/icehelp.cc:1151 src/icesame.cc:65 src/iceview.cc:76 src/wmframe.cc:180
 msgid "Close"
 msgstr "Затвори"
 
-#: src/icehelp.cc:1117 src/icesame.cc:65 src/iceview.cc:76
+#: src/icehelp.cc:1151 src/icesame.cc:65 src/iceview.cc:76
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1797
+#: src/icehelp.cc:1822
+#, fuzzy
+msgid "Unsupported protocol."
+msgstr "Неподдржан интерфејс: %s."
+
+#: src/icehelp.cc:1847
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "Невалидна патека: %s\n"
 
+#: src/icehelp.cc:1870
+msgid "Path does not refer to a file."
+msgstr ""
+
+#: src/icehelp.cc:1875
+msgid "Failed to open file for reading."
+msgstr ""
+
+#: src/icehelp.cc:1904
+#, fuzzy
+msgid "Failed to create a temporary file"
+msgstr "Не успеав да креирам анонимна цевка: %s"
+
 #: src/icehelp.cc:1996
+#, c-format
+msgid "Failed to execute system(%s) (%d)"
+msgstr ""
+
+#: src/icehelp.cc:2019
+#, fuzzy, c-format
+msgid "Failed to decompress %s"
+msgstr "Не успеав да отворам %s: %s"
+
+#: src/icehelp.cc:2027
+msgid "Could not locate curl or wget in PATH"
+msgstr ""
+
+#: src/icehelp.cc:2031
+msgid "Unsafe characters in URL"
+msgstr ""
+
+#: src/icehelp.cc:2046
 #, c-format
 msgid ""
 "Usage: %s FILENAME\n"
@@ -1248,7 +1284,7 @@ msgid "_Cancel"
 msgstr "_Откажи"
 
 #: src/wmdialog.cc:92 src/wmprog.cc:1005 src/wmprog.cc:1007 src/wmprog.cc:1011
-#: src/wmprog.cc:1013 src/wmtaskbar.cc:353 src/wmtaskbar.cc:355
+#: src/wmprog.cc:1013 src/wmtaskbar.cc:357 src/wmtaskbar.cc:359
 msgid "_Logout..."
 msgstr "Одја_ви се..."
 
@@ -1256,8 +1292,8 @@ msgstr "Одја_ви се..."
 msgid "_Restart icewm"
 msgstr "_Рестартирај го icewm"
 
-#: src/wmdialog.cc:97 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:345
-#: src/wmtaskbar.cc:348
+#: src/wmdialog.cc:97 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:349
+#: src/wmtaskbar.cc:352
 msgid "_About"
 msgstr "З_а"
 
@@ -1422,7 +1458,7 @@ msgstr "Програми"
 msgid "_Run..."
 msgstr "_Изврши..."
 
-#: src/wmprog.cc:920 src/wmprog.cc:922 src/wmtaskbar.cc:333
+#: src/wmprog.cc:920 src/wmprog.cc:922 src/wmtaskbar.cc:337
 msgid "_Windows"
 msgstr "_Прозорци"
 
@@ -1451,55 +1487,55 @@ msgstr "Менаџер на сесии: Непозната линија %s"
 msgid "Task Bar"
 msgstr "Лента со задачи"
 
-#: src/wmtaskbar.cc:322 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+#: src/wmtaskbar.cc:326 src/wmwinlist.cc:314 src/wmwinlist.cc:327
 msgid "Tile _Vertically"
 msgstr "Поплочи _вертикално"
 
-#: src/wmtaskbar.cc:323 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+#: src/wmtaskbar.cc:327 src/wmwinlist.cc:315 src/wmwinlist.cc:328
 msgid "T_ile Horizontally"
 msgstr "Поплочи _хоризонтално"
 
-#: src/wmtaskbar.cc:324 src/wmwinlist.cc:316 src/wmwinlist.cc:329
+#: src/wmtaskbar.cc:328 src/wmwinlist.cc:316 src/wmwinlist.cc:329
 msgid "Ca_scade"
 msgstr "Ка_скадирај"
 
-#: src/wmtaskbar.cc:325 src/wmwinlist.cc:317 src/wmwinlist.cc:330
+#: src/wmtaskbar.cc:329 src/wmwinlist.cc:317 src/wmwinlist.cc:330
 msgid "_Arrange"
 msgstr "Р_аспореди"
 
-#: src/wmtaskbar.cc:326 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+#: src/wmtaskbar.cc:330 src/wmwinlist.cc:319 src/wmwinlist.cc:331
 msgid "_Minimize All"
 msgstr "С_мали ги сите"
 
-#: src/wmtaskbar.cc:327 src/wmwinlist.cc:320 src/wmwinlist.cc:332
+#: src/wmtaskbar.cc:331 src/wmwinlist.cc:320 src/wmwinlist.cc:332
 msgid "_Hide All"
 msgstr "С_криј ги сите"
 
-#: src/wmtaskbar.cc:328 src/wmwinlist.cc:321 src/wmwinlist.cc:333
+#: src/wmtaskbar.cc:332 src/wmwinlist.cc:321 src/wmwinlist.cc:333
 msgid "_Undo"
 msgstr "_Отповикај"
 
-#: src/wmtaskbar.cc:330
+#: src/wmtaskbar.cc:334
 msgid "Arrange _Icons"
 msgstr "Распореди _икони"
 
-#: src/wmtaskbar.cc:336
+#: src/wmtaskbar.cc:340
 msgid "_Refresh"
 msgstr "_Освежи"
 
-#: src/wmtaskbar.cc:343
+#: src/wmtaskbar.cc:347
 msgid "_License"
 msgstr "_Лиценца"
 
-#: src/wmtaskbar.cc:470
+#: src/wmtaskbar.cc:474
 msgid "Favorite applications"
 msgstr "Омилени апликации"
 
-#: src/wmtaskbar.cc:487
+#: src/wmtaskbar.cc:491
 msgid "Window list menu"
 msgstr "Мени со листа на прозорци"
 
-#: src/wmtaskbar.cc:496
+#: src/wmtaskbar.cc:500
 msgid "Show Desktop"
 msgstr "Прикажи раб. површина"
 
@@ -2053,9 +2089,6 @@ msgstr ""
 #~ msgid "Invalid cursor pixmap: \"%s\" contains too many unique colors"
 #~ msgstr ""
 #~ "Невалидна пиксел-мапа за покажувач: „%s“ содржи премногу уникатни бои"
-
-#~ msgid "Failed to create anonymous pipe: %s"
-#~ msgstr "Не успеав да креирам анонимна цевка: %s"
 
 #~ msgid "Failed to duplicate file descriptor: %s"
 #~ msgstr "Не успеав да го дуплирам дескрипторот за датотека: %s"

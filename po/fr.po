@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.15pre3\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-09-24 02:00-0600\n"
+"POT-Creation-Date: 2017-09-26 08:39-0600\n"
 "PO-Revision-Date: 2017-07-22 18:01+0000\n"
 "Last-Translator: Benoît Monin <benoit.monin@gmx.fr>\n"
 "Language-Team: French <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -170,7 +170,7 @@ msgstr ""
 "\n"
 "  Numéro de l'appelant :\t"
 
-#: src/aworkspaces.cc:141 src/aworkspaces.cc:211 src/aworkspaces.cc:267
+#: src/aworkspaces.cc:142 src/aworkspaces.cc:212 src/aworkspaces.cc:268
 #: src/wmstatus.cc:178
 msgid "Workspace: "
 msgstr "Bureau : "
@@ -235,52 +235,88 @@ msgstr "Éditeurs"
 msgid "Other"
 msgstr "Autre"
 
-#: src/icehelp.cc:1105
+#: src/icehelp.cc:1139
 msgid "Back"
 msgstr "Retour"
 
-#: src/icehelp.cc:1105
+#: src/icehelp.cc:1139
 msgid "Alt+Left"
 msgstr "Alt+Gauche"
 
-#: src/icehelp.cc:1107
+#: src/icehelp.cc:1141
 msgid "Forward"
 msgstr "En avant"
 
-#: src/icehelp.cc:1107
+#: src/icehelp.cc:1141
 msgid "Alt+Right"
 msgstr "Alt+Droite"
 
-#: src/icehelp.cc:1110
+#: src/icehelp.cc:1144
 msgid "Previous"
 msgstr "Précédent"
 
-#: src/icehelp.cc:1111
+#: src/icehelp.cc:1145
 msgid "Next"
 msgstr "Suivant"
 
-#: src/icehelp.cc:1113
+#: src/icehelp.cc:1147
 msgid "Contents"
 msgstr "Sommaire"
 
-#: src/icehelp.cc:1114
+#: src/icehelp.cc:1148
 msgid "Index"
 msgstr "Index"
 
-#: src/icehelp.cc:1117 src/icesame.cc:65 src/iceview.cc:76 src/wmframe.cc:180
+#: src/icehelp.cc:1151 src/icesame.cc:65 src/iceview.cc:76 src/wmframe.cc:180
 msgid "Close"
 msgstr "Fermer"
 
-#: src/icehelp.cc:1117 src/icesame.cc:65 src/iceview.cc:76
+#: src/icehelp.cc:1151 src/icesame.cc:65 src/iceview.cc:76
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1797
+#: src/icehelp.cc:1822
+#, fuzzy
+msgid "Unsupported protocol."
+msgstr "Interface %s non supportée."
+
+#: src/icehelp.cc:1847
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "Chemin incorrect : %s\n"
 
+#: src/icehelp.cc:1870
+msgid "Path does not refer to a file."
+msgstr ""
+
+#: src/icehelp.cc:1875
+msgid "Failed to open file for reading."
+msgstr ""
+
+#: src/icehelp.cc:1904
+#, fuzzy
+msgid "Failed to create a temporary file"
+msgstr "Échec de création d'un tube anonyme : %s"
+
 #: src/icehelp.cc:1996
+#, c-format
+msgid "Failed to execute system(%s) (%d)"
+msgstr ""
+
+#: src/icehelp.cc:2019
+#, fuzzy, c-format
+msgid "Failed to decompress %s"
+msgstr "Échec de chargement du thème %s"
+
+#: src/icehelp.cc:2027
+msgid "Could not locate curl or wget in PATH"
+msgstr ""
+
+#: src/icehelp.cc:2031
+msgid "Unsafe characters in URL"
+msgstr ""
+
+#: src/icehelp.cc:2046
 #, c-format
 msgid ""
 "Usage: %s FILENAME\n"
@@ -1168,7 +1204,7 @@ msgid "_Cancel"
 msgstr "A_nnuler"
 
 #: src/wmdialog.cc:92 src/wmprog.cc:1005 src/wmprog.cc:1007 src/wmprog.cc:1011
-#: src/wmprog.cc:1013 src/wmtaskbar.cc:353 src/wmtaskbar.cc:355
+#: src/wmprog.cc:1013 src/wmtaskbar.cc:357 src/wmtaskbar.cc:359
 msgid "_Logout..."
 msgstr "_Déconnexion ..."
 
@@ -1176,8 +1212,8 @@ msgstr "_Déconnexion ..."
 msgid "_Restart icewm"
 msgstr "_Redémarrer IceWM"
 
-#: src/wmdialog.cc:97 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:345
-#: src/wmtaskbar.cc:348
+#: src/wmdialog.cc:97 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:349
+#: src/wmtaskbar.cc:352
 msgid "_About"
 msgstr "À _propos"
 
@@ -1344,7 +1380,7 @@ msgstr "Programmes"
 msgid "_Run..."
 msgstr "_Exécuter ..."
 
-#: src/wmprog.cc:920 src/wmprog.cc:922 src/wmtaskbar.cc:333
+#: src/wmprog.cc:920 src/wmprog.cc:922 src/wmtaskbar.cc:337
 msgid "_Windows"
 msgstr "_Fenêtres"
 
@@ -1374,55 +1410,55 @@ msgstr "Gestionnaire de session : ligne \"%s\" inconnue"
 msgid "Task Bar"
 msgstr "Barre de tâche"
 
-#: src/wmtaskbar.cc:322 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+#: src/wmtaskbar.cc:326 src/wmwinlist.cc:314 src/wmwinlist.cc:327
 msgid "Tile _Vertically"
 msgstr "Mosaïque _verticale"
 
-#: src/wmtaskbar.cc:323 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+#: src/wmtaskbar.cc:327 src/wmwinlist.cc:315 src/wmwinlist.cc:328
 msgid "T_ile Horizontally"
 msgstr "Mosaïque hori_zontale"
 
-#: src/wmtaskbar.cc:324 src/wmwinlist.cc:316 src/wmwinlist.cc:329
+#: src/wmtaskbar.cc:328 src/wmwinlist.cc:316 src/wmwinlist.cc:329
 msgid "Ca_scade"
 msgstr "Ca_scade"
 
-#: src/wmtaskbar.cc:325 src/wmwinlist.cc:317 src/wmwinlist.cc:330
+#: src/wmtaskbar.cc:329 src/wmwinlist.cc:317 src/wmwinlist.cc:330
 msgid "_Arrange"
 msgstr "_Arranger"
 
-#: src/wmtaskbar.cc:326 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+#: src/wmtaskbar.cc:330 src/wmwinlist.cc:319 src/wmwinlist.cc:331
 msgid "_Minimize All"
 msgstr "_Tout icônifier"
 
-#: src/wmtaskbar.cc:327 src/wmwinlist.cc:320 src/wmwinlist.cc:332
+#: src/wmtaskbar.cc:331 src/wmwinlist.cc:320 src/wmwinlist.cc:332
 msgid "_Hide All"
 msgstr "Tout _cacher"
 
-#: src/wmtaskbar.cc:328 src/wmwinlist.cc:321 src/wmwinlist.cc:333
+#: src/wmtaskbar.cc:332 src/wmwinlist.cc:321 src/wmwinlist.cc:333
 msgid "_Undo"
 msgstr "Ann_uler"
 
-#: src/wmtaskbar.cc:330
+#: src/wmtaskbar.cc:334
 msgid "Arrange _Icons"
 msgstr "Arranger les _icônes"
 
-#: src/wmtaskbar.cc:336
+#: src/wmtaskbar.cc:340
 msgid "_Refresh"
 msgstr "_Rafraîchir"
 
-#: src/wmtaskbar.cc:343
+#: src/wmtaskbar.cc:347
 msgid "_License"
 msgstr "_Licence"
 
-#: src/wmtaskbar.cc:470
+#: src/wmtaskbar.cc:474
 msgid "Favorite applications"
 msgstr "Applications favorites"
 
-#: src/wmtaskbar.cc:487
+#: src/wmtaskbar.cc:491
 msgid "Window list menu"
 msgstr "Menu des fenêtres"
 
-#: src/wmtaskbar.cc:496
+#: src/wmtaskbar.cc:500
 msgid "Show Desktop"
 msgstr "Montrer le bureau"
 
@@ -1938,9 +1974,6 @@ msgstr ""
 #~ msgid "Invalid cursor pixmap: \"%s\" contains too many unique colors"
 #~ msgstr ""
 #~ "Pixmap de curseur incorrect : \"%s\" contient trop de couleurs uniques"
-
-#~ msgid "Failed to create anonymous pipe: %s"
-#~ msgstr "Échec de création d'un tube anonyme : %s"
 
 #~ msgid "Failed to duplicate file descriptor: %s"
 #~ msgstr "Échec de duplication du descripteur de fichier : %s"

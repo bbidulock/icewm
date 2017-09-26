@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.3.12.52\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-09-24 02:00-0600\n"
+"POT-Creation-Date: 2017-09-26 08:39-0600\n"
 "PO-Revision-Date: 2017-05-06 10:55+0000\n"
 "Last-Translator: mohammad alhargan <malham1@gmail.com>\n"
 "Language-Team: Arabic <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -167,7 +167,7 @@ msgstr ""
 "\n"
 "  هوية المتصل:\t"
 
-#: src/aworkspaces.cc:141 src/aworkspaces.cc:211 src/aworkspaces.cc:267
+#: src/aworkspaces.cc:142 src/aworkspaces.cc:212 src/aworkspaces.cc:268
 #: src/wmstatus.cc:178
 msgid "Workspace: "
 msgstr "مساحة العمل: "
@@ -232,52 +232,87 @@ msgstr "محررات"
 msgid "Other"
 msgstr "أخرى"
 
-#: src/icehelp.cc:1105
+#: src/icehelp.cc:1139
 msgid "Back"
 msgstr "للخلف"
 
-#: src/icehelp.cc:1105
+#: src/icehelp.cc:1139
 msgid "Alt+Left"
 msgstr "Alt+يسار"
 
-#: src/icehelp.cc:1107
+#: src/icehelp.cc:1141
 msgid "Forward"
 msgstr "تحويل"
 
-#: src/icehelp.cc:1107
+#: src/icehelp.cc:1141
 msgid "Alt+Right"
 msgstr "Alt+يمين"
 
-#: src/icehelp.cc:1110
+#: src/icehelp.cc:1144
 msgid "Previous"
 msgstr "سابق"
 
-#: src/icehelp.cc:1111
+#: src/icehelp.cc:1145
 msgid "Next"
 msgstr "التالي"
 
-#: src/icehelp.cc:1113
+#: src/icehelp.cc:1147
 msgid "Contents"
 msgstr "محتويات"
 
-#: src/icehelp.cc:1114
+#: src/icehelp.cc:1148
 msgid "Index"
 msgstr "فهرست"
 
-#: src/icehelp.cc:1117 src/icesame.cc:65 src/iceview.cc:76 src/wmframe.cc:180
+#: src/icehelp.cc:1151 src/icesame.cc:65 src/iceview.cc:76 src/wmframe.cc:180
 msgid "Close"
 msgstr "إغلاق"
 
-#: src/icehelp.cc:1117 src/icesame.cc:65 src/iceview.cc:76
+#: src/icehelp.cc:1151 src/icesame.cc:65 src/iceview.cc:76
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1797
+#: src/icehelp.cc:1822
+#, fuzzy
+msgid "Unsupported protocol."
+msgstr "واجهة غير مدعومة: %s."
+
+#: src/icehelp.cc:1847
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "مسار غير صالح: %s\n"
 
+#: src/icehelp.cc:1870
+msgid "Path does not refer to a file."
+msgstr ""
+
+#: src/icehelp.cc:1875
+msgid "Failed to open file for reading."
+msgstr ""
+
+#: src/icehelp.cc:1904
+msgid "Failed to create a temporary file"
+msgstr ""
+
 #: src/icehelp.cc:1996
+#, c-format
+msgid "Failed to execute system(%s) (%d)"
+msgstr ""
+
+#: src/icehelp.cc:2019
+#, fuzzy, c-format
+msgid "Failed to decompress %s"
+msgstr "لا يمكن العثور على الصورة %s"
+
+#: src/icehelp.cc:2027
+msgid "Could not locate curl or wget in PATH"
+msgstr ""
+
+#: src/icehelp.cc:2031
+msgid "Unsafe characters in URL"
+msgstr ""
+
+#: src/icehelp.cc:2046
 #, c-format
 msgid ""
 "Usage: %s FILENAME\n"
@@ -1128,7 +1163,7 @@ msgid "_Cancel"
 msgstr "الغاء"
 
 #: src/wmdialog.cc:92 src/wmprog.cc:1005 src/wmprog.cc:1007 src/wmprog.cc:1011
-#: src/wmprog.cc:1013 src/wmtaskbar.cc:353 src/wmtaskbar.cc:355
+#: src/wmprog.cc:1013 src/wmtaskbar.cc:357 src/wmtaskbar.cc:359
 msgid "_Logout..."
 msgstr "تسجيل الخروج..."
 
@@ -1136,8 +1171,8 @@ msgstr "تسجيل الخروج..."
 msgid "_Restart icewm"
 msgstr "_إعادة تشغيل icewm"
 
-#: src/wmdialog.cc:97 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:345
-#: src/wmtaskbar.cc:348
+#: src/wmdialog.cc:97 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:349
+#: src/wmtaskbar.cc:352
 msgid "_About"
 msgstr "حول"
 
@@ -1305,7 +1340,7 @@ msgstr "برامج"
 msgid "_Run..."
 msgstr "تشغيل..."
 
-#: src/wmprog.cc:920 src/wmprog.cc:922 src/wmtaskbar.cc:333
+#: src/wmprog.cc:920 src/wmprog.cc:922 src/wmtaskbar.cc:337
 msgid "_Windows"
 msgstr "نوافذ"
 
@@ -1334,55 +1369,55 @@ msgstr "مدير الجلسة: خط غير معروف %s"
 msgid "Task Bar"
 msgstr "شريط المهام"
 
-#: src/wmtaskbar.cc:322 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+#: src/wmtaskbar.cc:326 src/wmwinlist.cc:314 src/wmwinlist.cc:327
 msgid "Tile _Vertically"
 msgstr "قرميد عمودي"
 
-#: src/wmtaskbar.cc:323 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+#: src/wmtaskbar.cc:327 src/wmwinlist.cc:315 src/wmwinlist.cc:328
 msgid "T_ile Horizontally"
 msgstr "قرميد أفقي"
 
-#: src/wmtaskbar.cc:324 src/wmwinlist.cc:316 src/wmwinlist.cc:329
+#: src/wmtaskbar.cc:328 src/wmwinlist.cc:316 src/wmwinlist.cc:329
 msgid "Ca_scade"
 msgstr "تتالي"
 
-#: src/wmtaskbar.cc:325 src/wmwinlist.cc:317 src/wmwinlist.cc:330
+#: src/wmtaskbar.cc:329 src/wmwinlist.cc:317 src/wmwinlist.cc:330
 msgid "_Arrange"
 msgstr "رتب"
 
-#: src/wmtaskbar.cc:326 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+#: src/wmtaskbar.cc:330 src/wmwinlist.cc:319 src/wmwinlist.cc:331
 msgid "_Minimize All"
 msgstr "تصغير الكل"
 
-#: src/wmtaskbar.cc:327 src/wmwinlist.cc:320 src/wmwinlist.cc:332
+#: src/wmtaskbar.cc:331 src/wmwinlist.cc:320 src/wmwinlist.cc:332
 msgid "_Hide All"
 msgstr "اخفاء الكل"
 
-#: src/wmtaskbar.cc:328 src/wmwinlist.cc:321 src/wmwinlist.cc:333
+#: src/wmtaskbar.cc:332 src/wmwinlist.cc:321 src/wmwinlist.cc:333
 msgid "_Undo"
 msgstr "تراجع"
 
-#: src/wmtaskbar.cc:330
+#: src/wmtaskbar.cc:334
 msgid "Arrange _Icons"
 msgstr "رتب الايقونات"
 
-#: src/wmtaskbar.cc:336
+#: src/wmtaskbar.cc:340
 msgid "_Refresh"
 msgstr "تجديد"
 
-#: src/wmtaskbar.cc:343
+#: src/wmtaskbar.cc:347
 msgid "_License"
 msgstr "ترخيص"
 
-#: src/wmtaskbar.cc:470
+#: src/wmtaskbar.cc:474
 msgid "Favorite applications"
 msgstr "التطبيقات المفضلة"
 
-#: src/wmtaskbar.cc:487
+#: src/wmtaskbar.cc:491
 msgid "Window list menu"
 msgstr "جدول قوائم النوافذ"
 
-#: src/wmtaskbar.cc:496
+#: src/wmtaskbar.cc:500
 msgid "Show Desktop"
 msgstr "عرض سطح المكتب"
 

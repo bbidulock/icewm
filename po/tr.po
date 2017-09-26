@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.12\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-09-24 02:00-0600\n"
+"POT-Creation-Date: 2017-09-26 08:39-0600\n"
 "PO-Revision-Date: 2004-01-21 9:30+0200\n"
 "Last-Translator: Coşku Erdem\n"
 "Language-Team: Turkish\n"
@@ -155,7 +155,7 @@ msgstr ""
 "\n"
 "  Arayan:\t"
 
-#: src/aworkspaces.cc:141 src/aworkspaces.cc:211 src/aworkspaces.cc:267
+#: src/aworkspaces.cc:142 src/aworkspaces.cc:212 src/aworkspaces.cc:268
 #: src/wmstatus.cc:178
 msgid "Workspace: "
 msgstr "Çalışma Alanı: "
@@ -220,52 +220,88 @@ msgstr ""
 msgid "Other"
 msgstr ""
 
-#: src/icehelp.cc:1105
+#: src/icehelp.cc:1139
 msgid "Back"
 msgstr "Geri"
 
-#: src/icehelp.cc:1105
+#: src/icehelp.cc:1139
 msgid "Alt+Left"
 msgstr "Alt+Sol"
 
-#: src/icehelp.cc:1107
+#: src/icehelp.cc:1141
 msgid "Forward"
 msgstr "İleri"
 
-#: src/icehelp.cc:1107
+#: src/icehelp.cc:1141
 msgid "Alt+Right"
 msgstr "Alt+Sağ"
 
-#: src/icehelp.cc:1110
+#: src/icehelp.cc:1144
 msgid "Previous"
 msgstr "Önceki"
 
-#: src/icehelp.cc:1111
+#: src/icehelp.cc:1145
 msgid "Next"
 msgstr "Sonraki"
 
-#: src/icehelp.cc:1113
+#: src/icehelp.cc:1147
 msgid "Contents"
 msgstr "İçindekiler"
 
-#: src/icehelp.cc:1114
+#: src/icehelp.cc:1148
 msgid "Index"
 msgstr "Indeks"
 
-#: src/icehelp.cc:1117 src/icesame.cc:65 src/iceview.cc:76 src/wmframe.cc:180
+#: src/icehelp.cc:1151 src/icesame.cc:65 src/iceview.cc:76 src/wmframe.cc:180
 msgid "Close"
 msgstr "Kapat"
 
-#: src/icehelp.cc:1117 src/icesame.cc:65 src/iceview.cc:76
+#: src/icehelp.cc:1151 src/icesame.cc:65 src/iceview.cc:76
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1797
+#: src/icehelp.cc:1822
+#, fuzzy
+msgid "Unsupported protocol."
+msgstr "Desteklenmeyen arabirim: %s."
+
+#: src/icehelp.cc:1847
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "Hatalı yol: %s\n"
 
+#: src/icehelp.cc:1870
+msgid "Path does not refer to a file."
+msgstr ""
+
+#: src/icehelp.cc:1875
+msgid "Failed to open file for reading."
+msgstr ""
+
+#: src/icehelp.cc:1904
+#, fuzzy
+msgid "Failed to create a temporary file"
+msgstr "Anonim boru yaratılmadı: %s"
+
 #: src/icehelp.cc:1996
+#, c-format
+msgid "Failed to execute system(%s) (%d)"
+msgstr ""
+
+#: src/icehelp.cc:2019
+#, fuzzy, c-format
+msgid "Failed to decompress %s"
+msgstr "%s açılamadı: %s"
+
+#: src/icehelp.cc:2027
+msgid "Could not locate curl or wget in PATH"
+msgstr ""
+
+#: src/icehelp.cc:2031
+msgid "Unsafe characters in URL"
+msgstr ""
+
+#: src/icehelp.cc:2046
 #, c-format
 msgid ""
 "Usage: %s FILENAME\n"
@@ -1222,7 +1258,7 @@ msgid "_Cancel"
 msgstr "_Vazgeç"
 
 #: src/wmdialog.cc:92 src/wmprog.cc:1005 src/wmprog.cc:1007 src/wmprog.cc:1011
-#: src/wmprog.cc:1013 src/wmtaskbar.cc:353 src/wmtaskbar.cc:355
+#: src/wmprog.cc:1013 src/wmtaskbar.cc:357 src/wmtaskbar.cc:359
 msgid "_Logout..."
 msgstr "_Oturumu Kapat..."
 
@@ -1230,8 +1266,8 @@ msgstr "_Oturumu Kapat..."
 msgid "_Restart icewm"
 msgstr "I_ceVM'i Yeniden Başlat"
 
-#: src/wmdialog.cc:97 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:345
-#: src/wmtaskbar.cc:348
+#: src/wmdialog.cc:97 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:349
+#: src/wmtaskbar.cc:352
 msgid "_About"
 msgstr "_Hakkında"
 
@@ -1396,7 +1432,7 @@ msgstr "Programlar"
 msgid "_Run..."
 msgstr "Çalıştır"
 
-#: src/wmprog.cc:920 src/wmprog.cc:922 src/wmtaskbar.cc:333
+#: src/wmprog.cc:920 src/wmprog.cc:922 src/wmtaskbar.cc:337
 msgid "_Windows"
 msgstr "P_encereler"
 
@@ -1425,55 +1461,55 @@ msgstr "Session Manager: Bilinmeyen satır %s"
 msgid "Task Bar"
 msgstr "Görev Çubuğu"
 
-#: src/wmtaskbar.cc:322 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+#: src/wmtaskbar.cc:326 src/wmwinlist.cc:314 src/wmwinlist.cc:327
 msgid "Tile _Vertically"
 msgstr "D_ikey Döşe"
 
-#: src/wmtaskbar.cc:323 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+#: src/wmtaskbar.cc:327 src/wmwinlist.cc:315 src/wmwinlist.cc:328
 msgid "T_ile Horizontally"
 msgstr "_Yatay Döşe"
 
-#: src/wmtaskbar.cc:324 src/wmwinlist.cc:316 src/wmwinlist.cc:329
+#: src/wmtaskbar.cc:328 src/wmwinlist.cc:316 src/wmwinlist.cc:329
 msgid "Ca_scade"
 msgstr "_Basamakla"
 
-#: src/wmtaskbar.cc:325 src/wmwinlist.cc:317 src/wmwinlist.cc:330
+#: src/wmtaskbar.cc:329 src/wmwinlist.cc:317 src/wmwinlist.cc:330
 msgid "_Arrange"
 msgstr "_Düzenle"
 
-#: src/wmtaskbar.cc:326 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+#: src/wmtaskbar.cc:330 src/wmwinlist.cc:319 src/wmwinlist.cc:331
 msgid "_Minimize All"
 msgstr "_Hepsini Küçült"
 
-#: src/wmtaskbar.cc:327 src/wmwinlist.cc:320 src/wmwinlist.cc:332
+#: src/wmtaskbar.cc:331 src/wmwinlist.cc:320 src/wmwinlist.cc:332
 msgid "_Hide All"
 msgstr "H_epsini gizle"
 
-#: src/wmtaskbar.cc:328 src/wmwinlist.cc:321 src/wmwinlist.cc:333
+#: src/wmtaskbar.cc:332 src/wmwinlist.cc:321 src/wmwinlist.cc:333
 msgid "_Undo"
 msgstr "Ge_rial"
 
-#: src/wmtaskbar.cc:330
+#: src/wmtaskbar.cc:334
 msgid "Arrange _Icons"
 msgstr "_Simgeleri Düzenle"
 
-#: src/wmtaskbar.cc:336
+#: src/wmtaskbar.cc:340
 msgid "_Refresh"
 msgstr "Ye_nile"
 
-#: src/wmtaskbar.cc:343
+#: src/wmtaskbar.cc:347
 msgid "_License"
 msgstr "_Lisans"
 
-#: src/wmtaskbar.cc:470
+#: src/wmtaskbar.cc:474
 msgid "Favorite applications"
 msgstr "Favori uygulamalar"
 
-#: src/wmtaskbar.cc:487
+#: src/wmtaskbar.cc:491
 msgid "Window list menu"
 msgstr "Pencere listesi menüsü"
 
-#: src/wmtaskbar.cc:496
+#: src/wmtaskbar.cc:500
 #, fuzzy
 msgid "Show Desktop"
 msgstr "Ma_saüstü"
@@ -2031,9 +2067,6 @@ msgstr ""
 
 #~ msgid "Resource allocation for rotated string \"%s\" (%dx%d px) failed"
 #~ msgstr "«%s» rotated string'i için kaynak ayrılamadı (%dx%d px)"
-
-#~ msgid "Failed to create anonymous pipe: %s"
-#~ msgstr "Anonim boru yaratılmadı: %s"
 
 #~ msgid "Failed to duplicate file descriptor: %s"
 #~ msgstr "Dosya tanımlayıcısı kopyalanamadı: %s"
