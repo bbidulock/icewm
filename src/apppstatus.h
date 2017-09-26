@@ -12,6 +12,8 @@
 #if defined(__linux__) || defined(__FreeBSD__) || defined(__NetBSD__) || \
     defined(__OpenBSD__) || defined(__FreeBSD_kernel__)
 
+#include "ycollections.h"
+
 #define HAVE_NET_STATUS 1
 
 class IAppletContainer;

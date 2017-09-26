@@ -24,7 +24,7 @@
 #include "wmapp.h"
 
 #include "udir.h"
-#include "yarray.h"
+#include "ycollections.h"
 
 #ifdef HAVE_NET_STATUS
 #include "prefs.h"

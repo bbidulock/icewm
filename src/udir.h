@@ -2,7 +2,7 @@
 #define __UDIR_H
 
 #include "upath.h"
-#include "yarray.h"
+#include "ycollections.h"
 
 // unsorted directory for const C-style strings.
 class cdir {
