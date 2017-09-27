@@ -124,25 +124,8 @@ WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
                     else
                         wk->setText(workspaceNames[w]);
                 }
-#if 0
-                ref<YImage> image
-                    (paths->loadImage("workspace/", workspaceNames[w]));
 
-                if (image != null)
-                    wk->setImage(image);
-                else
-                    wk->setText(workspaceNames[w]);
-#endif
-
-/// TODO "why my_basename here?"
-                char * wn(newstr(my_basename(workspaceNames[w])));
-                char * ext(strrchr(wn, '.'));
-                if (ext) *ext = '\0';
-
-                wk->setToolTip(ustring(_("Workspace: ")).append(wn));
-                delete[] wn;
-
-                //if ((int)wk->height() + 1 > ht) ht = wk->height() + 1;
+                wk->updateName();
             }
             fWorkspaceButton[w] = wk;
         }
@@ -190,27 +173,20 @@ void WorkspacesPane::repositionButtons() {
 }
 
 void WorkspacesPane::relabelButtons() {
-    if (pagerShowPreview)
-        return;
-
     ref<YResourcePaths> paths = getResourcePaths();
 
     for (long w = 0; w < fWorkspaceButtonCount; w++) {
-        YButton *wk = fWorkspaceButton[w];
+        WorkspaceButton *wk = fWorkspaceButton[w];
         if (wk) {
-            ref<YImage> image
-                (paths->loadImage("workspace/",workspaceNames[w]));
-            if (image != null)
-                wk->setImage(image);
-            else
-                wk->setText(workspaceNames[w]);
-
-            char * wn(newstr(my_basename(workspaceNames[w])));
-            char * ext(strrchr(wn, '.'));
-            if (ext) *ext = '\0';
-
-            wk->setToolTip(ustring(_("Workspace: ")).append(wn));
-            delete[] wn;
+            if (false == pagerShowPreview) {
+                ref<YImage> image
+                    (paths->loadImage("workspace/",workspaceNames[w]));
+                if (image != null)
+                    wk->setImage(image);
+                else
+                    wk->setText(workspaceNames[w]);
+            }
+            wk->updateName();
         }
     }
 
@@ -261,11 +237,7 @@ void WorkspacesPane::updateButtons() {
                             wk->setText(workspaceNames[w]);
                     }
 
-                    char * wn(newstr(my_basename(workspaceNames[w])));
-                    char * ext(strrchr(wn, '.'));
-                    if (ext) *ext = '\0';
-
-                    wk->setToolTip(ustring(_("Workspace: ")).append(wn));
+                    wk->updateName();
                 }
                 fWorkspaceButton[w] = wk;
             }
@@ -339,6 +311,19 @@ YSurface WorkspaceButton::getSurface() {
     return (isPressed() ? YSurface(activeButtonBg, workspacebuttonactivePixmap)
             : YSurface(normalButtonBg, workspacebuttonPixmap));
 #endif
+}
+
+mstring WorkspaceButton::baseName() {
+    mstring name(my_basename(workspaceNames[fWorkspace]));
+    name = name.trim();
+    int dot = name.lastIndexOf('.');
+    if (inrange(dot, 1, name.length() - 2))
+        name = name.substring(0, dot);
+    return name;
+}
+
+void WorkspaceButton::updateName() {
+    setToolTip(_("Workspace: ") + baseName());
 }
 
 void WorkspacesPane::repaint() {
@@ -430,11 +415,14 @@ void WorkspaceButton::paint(Graphics &g, const YRect &/*r*/) {
             g.draw3DRect(x-1, y-1, w+1, h+1, !isPressed());
         }
 
+        char label[12] = {};
         if (pagerShowNumbers) {
+            snprintf(label, sizeof label, "%d", int(fWorkspace+1) % 100);
+        } else {
+            strlcpy(label, cstring(baseName()), min(5, int(sizeof label)));
+        }
+        if (label[0] != 0) {
             ref<YFont> font = getFont();
-
-            char label[12];
-            snprintf(label, 12, "%d", int(fWorkspace+1) % 100);
 
             wx = (w - font->textWidth(label)) / 2 + x;
             wy = (h - font->height()) / 2 + font->ascent() + y;

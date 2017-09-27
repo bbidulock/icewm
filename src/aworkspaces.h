@@ -20,6 +20,9 @@ public:
     virtual YColor * getColor();
     virtual YSurface getSurface();
 
+    void updateName();
+    mstring baseName();
+
 private:
     virtual void paint(Graphics &g, const YRect &r);
 
