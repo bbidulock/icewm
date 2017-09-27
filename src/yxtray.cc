@@ -222,9 +222,9 @@ void YXTrayProxy::updateToolTip() {
             fUpdateTimer = new YTimer(timerInterval);
             fUpdateTimer->setTimerListener(this);
         }
-        if (false == fUpdateTimer->isRunning()) {
-            fUpdateTimer->startTimer();
-        }
+    }
+    if (false == fUpdateTimer->isRunning()) {
+        fUpdateTimer->startTimer();
     }
 }
 
