@@ -15,6 +15,10 @@
 #include <strings.h>
 #endif
 
+#define ICEWM_SITE      "http://www.icewm.org/"
+#define ICEWM_FAQ       "http://www.icewm.org/FAQ/"
+#define THEME_HOWTO     "http://www.icewm.org/themes/"
+
 #ifdef DEBUG
 #define DUMP
 //#define TEXT
@@ -491,11 +495,13 @@ node::node_type node::get_type(const char *buf)
         return get_type(cbuf);
     }
     static const char* ignored[] = {
+        "abbr",
         "g",
         "g-emoji",
         "include-fragment",
         "rect",
         "relative-time",
+        "th",
         "time",
         "time-ago",
     };
@@ -1555,6 +1561,7 @@ void HTextView::layout(
                 layout(n, n->container, left, right, x, y, w, h, fl, state);
             }
             break;
+        case node::tt:
         case node::code:
             if (n->container) {
                 Flags fl(this, flags, flags | MONO);
@@ -2043,10 +2050,38 @@ bool FileView::loadHttp(const upath& path) {
 
 static void print_help()
 {
-    printf(_("Usage: %s FILENAME\n\n"
-             "A very simple HTML browser displaying the document specified "
-             "by FILENAME.\n\n"),
-           ApplicationName);
+    printf(_(
+    "Usage: %s [OPTIONS] [ FILENAME | URL ]\n\n"
+    "IceHelp is a very simple HTML browser for the IceWM window manager.\n"
+    "It can display a HTML document from file, or browse a website.\n"
+    "It remembers visited pages in a history, which is navigable\n"
+    "by key bindings and a context menu (right mouse click).\n"
+    "It neither supports rendering of images nor JavaScript.\n"
+    "If no file or URL is given it will display the IceWM Manual\n"
+    "from %s.\n"
+    "\n"
+    "Options:\n"
+    "  --display=NAME      NAME of the X server to use.\n"
+    "  --sync              Synchronize X11 commands.\n"
+    "\n"
+    "  -b, --bugs          Display the IceWM bug reports (primitively).\n"
+    "  -f, --faq           Display the IceWM FAQ and Howto.\n"
+    "  -i, --icewm         Display the IceWM website.\n"
+    "  -m, --manual        Display the IceWM Manual (default).\n"
+    "  -t, --theme         Display the IceWM themes Howto.\n"
+    "\n"
+    "  -V, --version       Prints version information and exits.\n"
+    "  -h, --help          Prints this usage screen and exits.\n"
+    "\n"
+    "Environment variables:\n"
+    "  DISPLAY=NAME        Name of the X server to use.\n"
+    "\n"
+    "To report bugs, support requests, comments please visit:\n"
+    "%s\n"
+    "\n"),
+        ApplicationName,
+        ICEHELPIDX,
+        PACKAGE_BUGREPORT);
     exit(0);
 }
 
@@ -2065,6 +2100,20 @@ int main(int argc, char **argv) {
                 if (GetLongArgument(dummy, "display", arg, argv + argc)) {
                     /*ignore*/;
                 }
+                else if (is_long_switch(*arg, "sync"))
+                    /*ignore*/;
+                else if (is_switch(*arg, "b", "bugs"))
+                    helpfile = PACKAGE_BUGREPORT;
+                else if (is_switch(*arg, "f", "faq"))
+                    helpfile = ICEWM_FAQ;
+                else if (is_switch(*arg, "i", "icewm"))
+                    helpfile = ICEWM_SITE;
+                else if (is_switch(*arg, "m", "manual"))
+                    helpfile = ICEHELPIDX;
+                else if (is_switch(*arg, "t", "themes"))
+                    helpfile = THEME_HOWTO;
+                else
+                    warn(_("Ignoring option '%s'"), *arg);
             }
         }
         else {
