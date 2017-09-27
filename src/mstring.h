@@ -157,4 +157,8 @@ public:
     int length()    const { return str.length(); }
 };
 
+inline mstring operator+(const char* s, const mstring& m) {
+    return mstring(s) + m;
+}
+
 #endif
