@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.4.2.438\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-09-26 08:39-0600\n"
-"PO-Revision-Date: 2017-09-27 17:48+0200\n"
+"PO-Revision-Date: 2017-09-28 19:00+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
 "Language: da\n"
@@ -735,7 +735,7 @@ msgstr ""
 "                         %s adskilt af kommaer.\n"
 "\n"
 " -D, --device=ENHED      Kun bagudkompatibel: standardenheden.\n"
-"                         Foretræk venligst en af tilvalgende -A/-O/-S.\n"
+"                         Foretræk venligst et af tilvalgende -A/-O/-S.\n"
 "\n"
 " -O, --oss=ENHED         Angiver OSS-enheden (standard: \"%s\").\n"
 "\n"
@@ -752,7 +752,7 @@ msgstr ""
 "\n"
 " -l, --list-files        Viser de tilgængelig lydfilstier og afslutter.\n"
 "\n"
-"     --list-sounds       Viser de understøttede lydfilnavne and exits.\n"
+"     --list-sounds       Viser de understøttede lydfilnavne og afslutter.\n"
 "\n"
 "     --list-interfaces   Viser de understøttede lydgrænseflader og "
 "afslutter.\n"
@@ -813,12 +813,12 @@ msgstr "Bruger %s-lyd."
 #: src/icesound.cc:1083
 #, c-format
 msgid "Failed to connect to audio interfaces %s."
-msgstr "Kunne ikke oprette forbindelse til lydgrænsflader %s."
+msgstr "Kunne ikke oprette forbindelse til lydgrænseflader %s."
 
 #: src/icesound.cc:1095
 #, c-format
 msgid "Received signal %s: Terminating..."
-msgstr "Modtaget signal %s: Afslutter..."
+msgstr "Modtog signal %s: Afslutter..."
 
 #: src/icetray.cc:251
 msgid ""
@@ -912,7 +912,7 @@ msgid ""
 "\n"
 msgstr ""
 "Anvendelse: icewmbg [TILVALG]\n"
-"Hvor flere værdi kan gives afskilles de med kommaer.\n"
+"Hvor flere værdier kan gives afskilles de med kommaer.\n"
 "Når billede er en mappe bruges alle billeder fra den mappe.\n"
 "\n"
 "Tilvalg:\n"
@@ -934,13 +934,13 @@ msgstr ""
 "  -a, --scaled=0/1     Deaktivér/aktivér skalering af baggrund.\n"
 "  -m, --multi=0/1      Deaktivér/aktivér multihead-baggrund.\n"
 "\n"
-"  --display=NAVN       Brug NAVN til at oprette forbindelse til X-serveren\n"
+"  --display=NAVN       Brug NAVN til at oprette forbindelse til X-serveren.\n"
 "  --sync               Synkroniser kommunikation med X11-server.\n"
 "\n"
 "  -h, --help           Udskriv denne anvendelsesskærm og afslut.\n"
 "  -V, --version        Udskriver versionsinformation og afslutter.\n"
 "\n"
-"Indlæser skrivebordsbaggrunds i henhold til præferencefilen:\n"
+"Indlæser skrivebordsbaggrund i henhold til præferencefilen:\n"
 " DesktopBackgroundCenter  - Vis skrivebordsbaggrund centreret\n"
 " DesktopBackgroundScaled  - Vis skrivebordsbaggrund skaleret\n"
 " DesktopBackgroundColor   - Skrivebordets baggrundsfarve(r)\n"
@@ -958,7 +958,7 @@ msgstr ""
 
 #: src/icewmbg.cc:754
 msgid "Please note that not all options are currently configured.\n"
-msgstr "Bemærk venligst at ikke alle tilvalg er korrekt konfigureret.\n"
+msgstr "Bemærk venligst at ikke alle tilvalg er konfigureret på nuværende tidspunkt.\n"
 
 #: src/icewmbg.cc:909
 msgid "Cannot start, because another icewmbg is still running."
@@ -1217,9 +1217,9 @@ msgid ""
 "  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
 "\n"
-"  --debug             Udskriv generiske fejlretningsmeddelelser.\n"
-"  --debug-z           Udskriv fejlretningsmeddelelser vedrørende "
-"vinduesstakking.\n"
+"  --debug             Udskriv generiske fejlsøgningsmeddelelser.\n"
+"  --debug-z           Udskriv fejlsøgningsmeddelelser vedrørende "
+"vinduesstakning.\n"
 
 #: src/wmapp.cc:1434
 msgid ""
@@ -1231,7 +1231,7 @@ msgstr ""
 "\n"
 "  -c, --config=FIL    Indlæs præferencer fra FIL.\n"
 "  -t, --theme=FIL     Indlæs tema fra FIL.\n"
-"  --postpreferences   Udskriv præferencer efter al behandling.\n"
+"  --postpreferences   Udskriv præferencer efter endt behandling.\n"
 
 #: src/wmapp.cc:1442
 #, c-format
@@ -1275,12 +1275,12 @@ msgstr ""
 "  -h, --help          Udskriver denne anvendelsesskærm og afslutter.\n"
 "%s\n"
 "  --replace           Erstat en eksisterende vindueshåndtering.\n"
-"  -r, --restart       Fortæl den kørende icwem at den skal genstarte sig "
+"  -r, --restart       Fortæl den kørende icewm at den skal genstarte sig "
 "selv.\n"
 "\n"
 "  --configured        Udskriv konfigurationen for kompileringstiden.\n"
 "  --directories       Udskriv mapperne for konfigurationen.\n"
-"  -l, --list-themes   Udskriv en liste med alle tilgængelige tema.\n"
+"  -l, --list-themes   Udskriv en liste med alle tilgængelige temaer.\n"
 "\n"
 "Miljøvariabler:\n"
 "  ICEWM_PRIVCFG=STI   Mappe som skal bruges til brugerens "
@@ -1290,7 +1290,7 @@ msgstr ""
 "  DISPLAY=NAVN        Navn på X-serveren som skal bruges.\n"
 "  MAIL=URL            Placeringen af din postkasse.\n"
 "\n"
-"Rapportér fejl, supportforespørgsler, kommentarer ved at besøge:\n"
+"Rapportér fejl, supportforespørgsler og kommentarer ved at besøge:\n"
 "%s\n"
 "\n"
 
@@ -1447,7 +1447,7 @@ msgstr "Fejl ved %s \"%s\""
 #: src/wmprog.cc:368
 #, c-format
 msgid "Unexepected menu keyword: '%s'"
-msgstr "Uventet menu-nøgleord: \"%s\""
+msgstr "Uventet menunøgleord: \"%s\""
 
 #: src/wmprog.cc:414
 #, c-format
@@ -1481,7 +1481,7 @@ msgstr ""
 #: src/wmprog.cc:649
 #, c-format
 msgid "'%s' produces no output"
-msgstr "\"%s\" producerer ingen output"
+msgstr "\"%s\" producerer intet output"
 
 #: src/wmprog.cc:797
 msgid "_Click to focus"
@@ -1497,7 +1497,7 @@ msgstr "_Sløset musefokus"
 
 #: src/wmprog.cc:800
 msgid "S_trict mouse focus"
-msgstr "_Striks musefokus"
+msgstr "_Strengt musefokus"
 
 #: src/wmprog.cc:801
 msgid "_Quiet sloppy focus"
@@ -1810,7 +1810,7 @@ msgstr "$USER eller $LOGNAME ikke sat?"
 #: src/yurl.cc:83
 #, c-format
 msgid "\"%s\" doesn't describe a common internet scheme"
-msgstr "\"%s\" beskriver ikke et fælles internetskema"
+msgstr "\"%s\" beskriver ikke et almindeligt internetskema"
 
 #: src/yurl.cc:86
 #, c-format
