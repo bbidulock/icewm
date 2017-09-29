@@ -32,6 +32,11 @@ inline T max(T a, T b) {
 }
 
 template <class T>
+inline void swap(T& a, T& b) {
+    T t(a); a = b; b = t;
+}
+
+template <class T>
 inline T clamp(T value, T minimum, T maximum) {
     return max(min(value, maximum), minimum);
 }
