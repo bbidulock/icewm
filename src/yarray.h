@@ -137,6 +137,9 @@ public:
     DataType &operator*() { 
         return getItem(0);
     }
+    void swap(const SizeType index1, const SizeType index2) {
+        ::swap(getItem(index1), getItem(index2));
+    }
     IterType iterator();
     IterType reverseIterator();
 };
@@ -308,6 +311,9 @@ public:
 class MStringArray: public YArray<mstring> {
 public:
     MStringArray() {}
+    explicit MStringArray(SizeType capacity) {
+        setCapacity(capacity);
+    }
     virtual ~MStringArray() { clear(); }
 
     void append(mstring& item) {
@@ -406,6 +412,9 @@ public:
     operator bool() const {
         return isValid();
     }
+    operator DataType&() const {
+        return get();
+    }
     DataType& operator->() const {
         return get();
     }
@@ -442,6 +451,13 @@ int find(const YArray<DataType>& array, const DataType& data) {
     for (int i = 0; i < array.getCount(); ++i)
         if (array[i] == data) return i;
     return -1;
+}
+
+template<class DataType>
+void findRemove(YArray<DataType>& array, DataType& data) {
+    int k = find(array, data);
+    if (k >= 0)
+        array.remove(k);
 }
 
 /**
