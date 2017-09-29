@@ -42,7 +42,6 @@ TaskBarApp::TaskBarApp(ClientData *frame, TaskPane *taskPane, YWindow *aParent):
     }
     fTaskPane = taskPane;
     fFrame = frame;
-    fPrev = fNext = 0;
     selected = 0;
     fShown = true;
     fFlashing = false;
@@ -54,6 +53,9 @@ TaskBarApp::TaskBarApp(ClientData *frame, TaskPane *taskPane, YWindow *aParent):
 }
 
 TaskBarApp::~TaskBarApp() {
+    if (fTaskPane->dragging() == this)
+        fTaskPane->endDrag();
+
     if (fRaiseTimer && fRaiseTimer->getTimerListener() == this) {
         fRaiseTimer->stopTimer();
         fRaiseTimer->setTimerListener(0);
@@ -247,6 +249,10 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
 
 void TaskBarApp::handleButton(const XButtonEvent &button) {
     YWindow::handleButton(button);
+
+    if (fTaskPane->dragging())
+        return;
+
     if (button.button == 1 || button.button == 2) {
         if (button.type == ButtonPress) {
             selected = 2;
@@ -263,6 +269,15 @@ void TaskBarApp::handleButton(const XButtonEvent &button) {
                         getFrame()->activateWindow(true);
                     }
                 } else if (button.button == 2) {
+                    if (hasbit(button.state, xapp->AltMask)) {
+                        if (getFrame()) {
+                            getFrame()->activateWindow(true);
+                            if (manager->getFocus()) {
+                                manager->getFocus()->wmClose();
+                                return;
+                            }
+                        }
+                    } else
                     if (getFrame()->focused() && getFrame()->visibleNow() &&
                         (!getFrame()->canRaise() || (button.state & ControlMask)))
                         getFrame()->wmLower();
@@ -343,16 +358,15 @@ bool TaskBarApp::handleTimer(YTimer *t) {
 }
 
 void TaskBarApp::handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion) {
-    if (down.button == 3) {
-        fTaskPane->startDrag(this, 0, down.x, down.y);
+    if (down.button == Button1) {
+        raise();
+        fTaskPane->startDrag(this, 0, down.x + x(), down.y + y());
         fTaskPane->processDrag(motion.x + x(), motion.y + y());
     }
 }
 
 TaskPane::TaskPane(IAppletContainer *taskBar, YWindow *parent): YWindow(parent) {
     fTaskBar = taskBar;
-    fFirst = fLast = 0;
-    fCount = 0;
     fNeedRelayout = true;
     fDragging = 0;
     fDragX = fDragY = 0;
@@ -364,28 +378,11 @@ TaskPane::~TaskPane() {
 }
 
 void TaskPane::insert(TaskBarApp *tapp) {
-    fCount++;
-    tapp->setNext(0);
-    tapp->setPrev(fLast);
-    if (fLast)
-        fLast->setNext(tapp);
-    else
-        fFirst = tapp;
-    fLast = tapp;
+    fApps.append(tapp);
 }
 
 void TaskPane::remove(TaskBarApp *tapp) {
-    fCount--;
-
-    if (tapp->getPrev())
-        tapp->getPrev()->setNext(tapp->getNext());
-    else
-        fFirst = tapp->getNext();
-
-    if (tapp->getNext())
-        tapp->getNext()->setPrev(tapp->getPrev());
-    else
-        fLast = tapp->getPrev();
+    findRemove(fApps, tapp);
 }
 
 TaskBarApp *TaskPane::addApp(YFrameWindow *frame) {
@@ -414,14 +411,10 @@ TaskBarApp *TaskPane::addApp(YFrameWindow *frame) {
 }
 
 void TaskPane::removeApp(YFrameWindow *frame) {
-    for (TaskBarApp *task(fFirst); NULL != task; task = task->getNext()) {
+    for (IterType task = fApps.iterator(); ++task; ) {
         if (task->getFrame() == frame) {
-            if (task == fDragging)
-                endDrag();
             task->hide();
             remove(task);
-            delete task;
-
             relayout();
             return;
         }
@@ -434,42 +427,36 @@ void TaskPane::relayoutNow() {
 
     fNeedRelayout = false;
 
-    int x, y, w, h;
     int tc = 0;
 
-    for (TaskBarApp *a = fFirst; a; a = a->getNext())
-        if (a->getShown())
+    for (IterType task = fApps.iterator(); ++task; ) {
+        if (task->getShown())
             tc++;
-    tc = max(tc, max(1, taskBarButtonWidthDivisor));
+        else
+            task->hide();
+    }
+    if (tc == 0)
+        return;
+    tc = max(tc, taskBarButtonWidthDivisor);
 
-    int leftX = 0;
-    int rightX = width();
-
-    w = (rightX - leftX - 2) / tc;
-    int rem = (rightX - leftX - 2) % tc;
-    x = leftX;
-    h = height();
-    y = 0;
-
-    TaskBarApp *f = fFirst;
+    const int wid = (width() - 2) / tc;
+    const int rem = (width() - 2) % tc;
+    int x = 0;
     int lc = 0;
 
-    while (f) {
-        if (f->getShown()) {
-            int w1 = w;
-
-            if (lc < rem)
-                w1++;
-
-            f->setGeometry(YRect(x, y, w1, h));
-            f->show();
+    for (IterType task = fApps.iterator(); ++task; ) {
+        if (task->getShown()) {
+            const int w1 = wid + (lc < rem);
+            if (task != dragging()) {
+                task->setGeometry(YRect(x, 0, w1, height()));
+                task->show();
+            }
             x += w1;
-            x += 0;
             lc++;
-        } else
-            f->hide();
-        f = f->getNext();
+        }
     }
+    if (dragging())
+        dragging()->show();
 }
 
 void TaskPane::handleClick(const XButtonEvent &up, int count) {
@@ -524,54 +511,47 @@ void TaskPane::startDrag(TaskBarApp *drag, int /*byMouse*/, int sx, int sy) {
     }
 }
 
-void TaskPane::processDrag(int mx, int /*my*/) {
-    int x = mx;
-
+void TaskPane::processDrag(int mx, int my) {
     if (fDragging == 0)
         return;
 
-    TaskBarApp *cur = 0;
-    if (x < 0) {
-        cur = fFirst;
-    } else if (x >= width()) {
-        cur = 0;
-    } else {
-        int seen = 0;
-        TaskBarApp *c = fFirst;
-        while (c) {
-            if (c == fDragging)
-                seen = 1;
-            if (c->getShown() && x >= c->x() && x < c->x() + c->width()) {
-                if (seen)
-                    cur = c->getNext();
-                else
-                    cur = c;
-                break;
-            }
-            c = c->getNext();
+    const int w2 = width() - fDragging->width() - 2;
+    const int ox = fDragX - fDragging->x();
+    const int oy = fDragY - fDragging->y();
+    const int cx = clamp(mx, ox, ox + w2);
+    const int cy = clamp(my, oy - 1, oy + 1);
+    const int dx = cx - fDragX;
+    const int dy = cy - fDragY;
+    if (dx == 0 && dy == 0)
+        return;
+
+    fDragging->setPosition(fDragging->x() + dx, fDragging->y() + dy);
+
+    int drag = -1;
+    int drop = -1;
+    for (IterType task = fApps.iterator(); ++task; ) {
+        if (task->getShown()) {
+            if (task == fDragging)
+                drag = task.where();
+            else if (inrange(cx, task->x(), task->x() + task->width() - 1))
+                drop = task.where();
         }
     }
-    if (fDragging != 0 && cur != fDragging->getNext() && cur != fDragging) {
-        remove(fDragging);
-        if (cur == 0)
-            insert(fDragging);
-        else {
-            fDragging->setNext(cur);
-            fDragging->setPrev(cur->getPrev());
-            if (cur->getPrev() == 0)
-                fFirst = fDragging;
-            else
-                cur->getPrev()->setNext(fDragging);
-            cur->setPrev(fDragging);
-        }
-        relayout();
+    if (drag >= 0 && drop >= 0) {
+        fApps.swap(drag, drop);
     }
+    fDragX += dx;
+    fDragY += dy;
+    relayout();
+    relayoutNow();
 }
 
 void TaskPane::endDrag() {
     if (fDragging != 0) {
         xapp->releaseEvents();
         fDragging = 0;
+        relayout();
+        relayoutNow();
     }
 }
 #endif

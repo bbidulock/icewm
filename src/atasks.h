@@ -31,15 +31,9 @@ public:
 
     void setFlash(bool urgent);
     
-    TaskBarApp *getNext() const { return fNext; }
-    TaskBarApp *getPrev() const { return fPrev; }
-    void setNext(TaskBarApp *next) { fNext = next; }
-    void setPrev(TaskBarApp *prev) { fPrev = prev; }
-
 private:
     ClientData *fFrame;
     TaskPane *fTaskPane;
-    TaskBarApp *fPrev, *fNext;
     bool fShown;
     bool fFlashing;
     bool fFlashOn;
@@ -58,8 +52,6 @@ public:
     void remove(TaskBarApp *tapp);
     TaskBarApp *addApp(YFrameWindow *frame);
     void removeApp(YFrameWindow *frame);
-    TaskBarApp *getFirst() const { return fFirst; }
-    TaskBarApp *getLast() const { return fLast; }
 
     void relayout() { fNeedRelayout = true; }
     void relayoutNow();
@@ -72,6 +64,7 @@ public:
     void startDrag(TaskBarApp *drag, int byMouse, int sx, int sy);
     void processDrag(int mx, int my);
     void endDrag();
+    TaskBarApp* dragging() const { return fDragging; }
 
     virtual void handleDrag(const XButtonEvent &down, const XMotionEvent &motion)//LXP
                  {parent()->handleDrag(down,motion);}//LXP
@@ -79,8 +72,11 @@ public:
                  {parent()->handleEndDrag(down,up);}//LXP
 private:
     IAppletContainer *fTaskBar;
-    TaskBarApp *fFirst, *fLast;
-    int fCount;
+
+    typedef YObjectArray<TaskBarApp> AppsType;
+    typedef AppsType::IterType IterType;
+    AppsType fApps;
+
     bool fNeedRelayout;
 
     TaskBarApp *fDragging;
