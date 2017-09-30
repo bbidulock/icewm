@@ -178,7 +178,9 @@ window manager.
 
 *-r, --restart*::
 Instructs the currently running IceWM to restart itself.
-This can be used when you want to reload the IceWM configuration.
+This can be used to reload the IceWM configuration after modifications.
+It is the preferred way to restart IceWM from the command line
+or in scripts.
 
 *--configured*::
 Shows a list of configuration options which were
@@ -247,6 +249,24 @@ The active application is indicated by a pressed button.
 This is the application which has input focus.
 Pressing another button activates that application:
 it is brought to the foreground and receives input focus.
+By (double-)clicking on an active button that application is minimized.
+By clicking on on a minimized button its task is restored and activated.
+
+Clicking on a task button with the middle mouse button will lower
+that application window. Another middle click will raise it.
+If the shift key is also pressed then the task is mapped
+to the current workspace.
+When the Alt key is pressed down then tasks can be closed
+by clicking with the middle mouse button.
+
+The order of the tasks in the 'task pane' can be changed by dragging them.
+Keep the left mouse button down on a task button and
+move it to the desired position.
+
+By clicking on a task with the right mouse button the window menu
+for that task is opened. Entries in this menu can also be activated
+by pressing the letter which is underlined.
+
 
 If there are not many application buttons then a stretch of plain
 taskbar is visible.
@@ -483,6 +503,15 @@ one can use a keyboard shortcut.
 Another option is to select the
 *Move To*
 submenu in the window menu of the window frame.
+
+Please beware that changing the names of workspaces
+in the preferences file and then restarting IceWM
+will not make the changed names visible on the toolbar.
+This is because the old names are preserved as properties
+by the X server and restored by IceWM when it restarts.
+To remove these from the X server run:
+
+  xprop -root -remove _WIN_WORKSPACE_NAMES
 
 KEYBOARD SHORTCUTS
 ------------------
@@ -747,10 +776,12 @@ IceWM supports the following signals:
 
 *SIGHUP*::
 IceWM will restart itself. It is a way to reload the configuration.
+A good alternative is to use the '-r' or '--restart' option.
 
 *SIGINT*::
 *SIGTERM*::
 IceWM will cease to manage application windows and terminate.
+If IceWM was started by icewm-session then icewm-session will also terminate.
 
 *SIGQUIT*::
 IceWM will initiate the 'Logout' procedure.
@@ -833,7 +864,7 @@ will be executed by IceWM whenever this key combination is pressed.
 For example, the following line creates a hotkey to reload
 the IceWM configuration:
 
-  key "Ctrl+Shift+r"      pkill -x -HUP icewm
+  key "Ctrl+Shift+r"      icewm --restart
 
 *menu*::
 A menu of startable applications; usually customized by the user.
