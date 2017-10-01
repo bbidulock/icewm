@@ -235,10 +235,15 @@ The
 shows one button for each workspace.
 The current workspace is indicated by a pressed button.
 Pressing another workspace button switches to that workspace.
-The workspaces are defined in the preferences file.
+The number of workspaces and their names are defined in
+the preferences file by the *WorkspaceNames* option.
 When
 *PagerShowPreview*
 is turned on a small graphical summary for each workspace is shown.
+By pressing the middle mouse button the 'window list' is shown.
+The right button activates the 'window list menu'.
+By using the scroll wheel over the 'workspace list' one can quickly
+cycle over all workspaces.
 
 The
 'task pane'
