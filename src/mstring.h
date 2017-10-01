@@ -84,6 +84,8 @@ public:
     bool operator!=(const mstring &rv) const { return !equals(rv); }
     bool operator==(const class null_ref &) const { return fStr == 0; }
     bool operator!=(const class null_ref &) const { return fStr != 0; }
+//    bool operator==(const char *rv, size_t len) const { return equals(rv, len); }
+//    bool operator!=(const char *rv, size_t len) const { return !equals(rv, len); }
 
     mstring& operator=(const class null_ref &);
     mstring substring(int pos) const;
@@ -96,6 +98,7 @@ public:
     int count(char ch) const;
 
     bool equals(const char *s) const;
+    bool equals(const char *s, int len) const;
     bool equals(const mstring &s) const;
     int collate(const mstring &s, bool ignoreCase = false) const;
     int compareTo(const mstring &s) const;

@@ -52,7 +52,7 @@ private:
     void getCurrent(long *in, long *out, const void* sharedData);
     void updateStatus(const void* sharedData);
     void updateToolTip();
-    void handleTimer(const void* sharedData);
+    void handleTimer(const void* sharedData, bool forceDown);
 
     // methods overridden from superclasses
     virtual void handleClick(const XButtonEvent &up, int count);
@@ -61,21 +61,28 @@ private:
 
 class NetStatusControl : public YTimerListener, public refcounted {
     YTimer* fUpdateTimer;
-    YPointVec<NetStatus> fNetStatus;
+    //YSortedMap<ustring,NetStatus*> fNetStatus;
+    YVec<NetStatus*> fNetStatus;
+
+    IApp* app;
+    YSMListener* smActionListener;
+    IAppletContainer* taskBar;
+    YWindow* aParent;
+
+#ifdef __linux__
+    // preprocessed data from procfs with offset table (name, values, name, vaues, ...)
+    YVec<char> cachedStats;
+    YVec<const char *> cachedStatsIdx;
+    YVec<NetStatus*> covered;
+
+    YVec<mstring> matchPatterns;
+    void fetchSystemData();
+#endif
+
 public:
     NetStatusControl(IApp *app, YSMListener *smActionListener, IAppletContainer *taskBar, YWindow *aParent);
     ~NetStatusControl();
-    struct Iterator
-    {
-        NetStatus* operator*();
-        void operator++();
-        operator bool();
-    private:
-        friend class NetStatusControl;
-        size_t pos;
-        YPointVec<NetStatus> *fNetStatus;
-    };
-    Iterator getActive();
+    YVec<NetStatus*>::iterator getIterator() { return fNetStatus.getIterator();}
     // subclassing method overrides
     virtual bool handleTimer(YTimer *t);
 };

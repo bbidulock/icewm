@@ -33,6 +33,10 @@
 #include <sys/socket.h>
 #include <net/if.h>
 
+#ifdef __linux__
+#include <fnmatch.h>
+#endif
+
 #ifdef __FreeBSD__
 #include <sys/sysctl.h>
 #include <net/if_mib.h>
@@ -105,9 +109,9 @@ void NetStatus::updateVisible(bool aVisible) {
     }
 }
 
-void NetStatus::handleTimer(const void* sharedData) {
+void NetStatus::handleTimer(const void* sharedData, bool forceDown) {
 
-    bool up = isUp();
+    bool up = !forceDown && isUp();
 
     if (up) {
         if (!wasUp) {
@@ -532,34 +536,10 @@ void NetStatus::getCurrent(long *in, long *out, const void* sharedData) {
     cur_obytes = 0;
 
 #ifdef __linux__
-    cstring cs(fNetDev);
     const char *p = (const char*) sharedData;
-    // zero-terminated buffer
-    while (p && *p) {
-        while (*p == ' ')
-            p++;
-        if (strncmp(p, cs.c_str(), cs.c_str_len()) == 0 &&
-            p[cs.c_str_len()] == ':')
-        {
-            p = strchr(p, ':') + 1;
-            int fastForward;
-            char dummy;
-            int n = sscanf(p, "%llu %*d %*d %*d %*d %*d %*d %*d %llu%n %c",
-                       &cur_ibytes, &cur_obytes, &fastForward, &dummy);
-            if(n == 3)
-            	p = p + fastForward + 1;
-            break;
-		}
-		while (*p)
-		{
-			// advance once past newline
-			if (*(++p) == '\n')
-			{
-				++p;
-				break;
-			}
-		}
-    }
+    if(p)
+        sscanf(p, "%llu %*d %*d %*d %*d %*d %*d %*d %llu", &cur_ibytes, &cur_obytes);
+
 #endif //__linux__
 #if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
     // FreeBSD code by Ronald Klop <ronald@cs.vu.nl>
@@ -653,41 +633,85 @@ void NetStatus::getCurrent(long *in, long *out, const void* sharedData) {
 
 NetStatusControl::~NetStatusControl() {
     delete fUpdateTimer;
+    for(NetStatus **p = fNetStatus.data; p<fNetStatus.data+fNetStatus.size;++p)
+        delete *p;
 }
 
-static void getNetDevNames(const char* netDevice, YVec<mstring> &ret) {
-    if (!taskBarShowNetStatus || !netDevice || !netDevice[0])
+#ifdef __linux__
+void NetStatusControl::fetchSystemData() {
+    cachedStats.size = cachedStatsIdx.size = 0;
+    FILE *fp = fopen("/proc/net/dev", "r");
+    if (!fp)
         return;
-
-    mstring devName(null), devList(netDevice);
-
-    while (devList.splitall(' ', &devName, &devList)) {
-        if (!devName.nonempty())
-            continue;
-        if (devName != "<sys>") {
-            ret.add(devName);
-            continue;
-        }
-        sdir dir("/sys/class/net");
-        if(!dir.isOpen())
-            continue;
-        while(dir.next())
+    while (!feof(fp) && !ferror(fp)) {
+        cachedStats.preserve(cachedStats.size + 1000);
+        cachedStats.size += fread(cachedStats.data + cachedStats.size,
+                sizeof(char), cachedStats.remainingCapa(), fp);
+    }
+    while (fclose(fp)) {}
+    cachedStats.add(0); // zero terminated, for sure
+    cachedStatsIdx.size = 0;
+    // XXX: check performance! This is written for easier understanding.
+    // But if strchr is a fast compiler builtin then it might be faster to strchr for ':' and then look back for space or newline...
+    char *pStart = cachedStats.data, *pEnd = cachedStats.data + cachedStats.size;
+    enum tProcState { start, name, goeol };
+    tProcState state = start;
+    for(char *p = pStart;p<pEnd;++p) {
+        switch(state)
         {
-            if(dir.entry() == "lo")
-                continue;
-            MSG(("Found net dev: %s", cstring(dir.entry()).c_str()));
-            ret.add(dir.entry());
+        case start:
+            if(*p == ' ') continue;
+            cachedStatsIdx.add(p);
+            state = name;
+            break;
+        case name:
+            // header junk?
+            if(*p == '|') state = goeol, cachedStatsIdx.size--;
+            else if(*p == ':')
+            {
+                state = goeol;
+                cachedStatsIdx.add(p+1);
+                *p = 0;
+            }
+            break;
+        case goeol:
+            if(*p == '\n') *p = 0, state = start;
+            break;
         }
     }
 }
+#endif
 
 NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
         IAppletContainer* taskBar, YWindow* aParent) : fUpdateTimer(0) {
+
+    this->app = app;
+    this->smActionListener = smActionListener;
+    this->taskBar = taskBar;
+    this->aParent = aParent;
+
 #ifdef HAVE_NET_STATUS
-    YVec<mstring> names;
-    getNetDevNames(netDevice, names);
-    for (int i = int(names.size) - 1; i >= 0; --i)
-        fNetStatus.add(new NetStatus(app, smActionListener, names[i], taskBar, aParent));
+#ifdef __linux__
+    fetchSystemData();
+#endif
+
+    mstring devName, devList(netDevice);
+    while (devList.splitall(' ', &devName, &devList)) {
+        if (!devName.nonempty())
+            continue;
+        // find that device in the list of valid not;
+        // if not, consider it a match pattern and try adding later;
+        // for non-linux, add them always
+#ifdef __linux__
+        bool found=false;
+        for(unsigned i=0; !found && i<cachedStatsIdx.size; i+=2)
+            found = devName.equals(cachedStatsIdx[i]);
+        if(!found)
+            matchPatterns.add(devName);
+        else
+#endif
+        fNetStatus.add(new NetStatus(app, smActionListener, devName, taskBar, aParent));
+    }
 #endif
 
     fUpdateTimer = new YTimer(0);
@@ -698,49 +722,60 @@ NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
     }
 }
 
+
 bool NetStatusControl::handleTimer(YTimer *t)
 {
 	if (t != fUpdateTimer)
 		return false;
-	void* sharedData(0);
 
 #ifdef __linux__
-	FILE *fp = fopen("/proc/net/dev", "r");
-	if (!fp)
-		return false;
-	YVec<char> buf;
-	while(!feof(fp) && !ferror(fp))
+	fetchSystemData();
+
+	// hardcopy of existing monitors to check the remaining ones faster
+	covered.preserve(fNetStatus.size);
+	covered.size = fNetStatus.size;
+	memcpy(covered.data, fNetStatus.data, sizeof(covered[0]) * fNetStatus.size);
+
+	for(unsigned i=0; i<cachedStatsIdx.size; i+=2)
 	{
-		buf.preserve(buf.size + 1000);
-		buf.size += fread(buf.data + buf.size, sizeof(char), buf.remainingCapa(), fp);
+	    //mstring devName(cachedStatsIdx[i], cachedStatsIdx[i+1]-cachedStatsIdx[i]);
+	    bool handled=false;
+	    for(unsigned j = 0; j<fNetStatus.size; ++j)
+	    {
+            if (fNetStatus[j]->fNetDev != cachedStatsIdx[i])
+                continue;
+            fNetStatus[j]->handleTimer(cachedStatsIdx[i + 1], false);
+            handled = true;
+            covered[j] = 0;
+            break;
+        }
+        if (handled)
+            continue;
+
+        // oh, we got a new device? allowed?
+        // XXX: this still wastes some cpu cycles for repeated fnmatch on forbidden devices.
+        // Maybe tackle this with a list of checksums?
+        for (mstring* p = matchPatterns.data;
+                p < matchPatterns.data + matchPatterns.size; ++p) {
+            if (fnmatch(cstring(*p), cachedStatsIdx[i], 0))
+                continue;
+            NetStatus *pn = new NetStatus(app, smActionListener, cachedStatsIdx[i],
+                            taskBar, aParent);
+            fNetStatus.add(pn);
+            pn->handleTimer(cachedStatsIdx[i + 1], false);
+            break;
+        }
 	}
-	while(fclose(fp)) {};
-	buf.add(0); // zero terminated, for sure
-	sharedData = buf.data;
+	// mark disappeared devices as down without additional ioctls
+	for(NetStatus** p = covered.data; p && p < covered.data + covered.size; ++p)
+	    if(*p)
+	        (**p).handleTimer(0, true);
+
+#else
+	for(NetStatus* p=fNetStatus.data; p<fNetStatus.data+fNetStatus.size; ++p)
+	    p->handleTimer(0, false);
 #endif
-
-	for (size_t i = 0; i < fNetStatus.size; ++i)
-		fNetStatus[i]->handleTimer(sharedData);
 	return true;
-}
-
-NetStatusControl::Iterator NetStatusControl::getActive() {
-    Iterator ret;
-    ret.pos=0;
-    ret.fNetStatus = &fNetStatus;
-    return ret;
-}
-
-NetStatus* NetStatusControl::Iterator::operator *() {
-    return fNetStatus->data[pos];
-}
-
-void NetStatusControl::Iterator::operator ++() {
-    ++pos;
-}
-
-NetStatusControl::Iterator::operator bool() {
-    return fNetStatus->data && pos < fNetStatus->size;
 }
 
 #endif // HAVE_NET_STATUS

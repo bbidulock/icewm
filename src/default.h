@@ -208,7 +208,7 @@ XSV(const char *, netCommand,                   "xterm -name netstat -title 'Net
 XSV(const char *, netClassHint,                 "netstat.XTerm")
 #ifdef __linux__
 // use sysfs to build the interface list
-XSV(const char *, netDevice,                    "<sys>")
+XSV(const char *, netDevice,                    "e* w*")
 #else
 XSV(const char *, netDevice,                    "eth0 wlan0")
 #endif

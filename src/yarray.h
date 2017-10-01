@@ -19,7 +19,9 @@
 #include "base.h"
 #include "ref.h"
 
-template<class T>
+template <class DataType>
+class YArray;
+template <class DataType, class ArrayType = YArray<DataType> >
 class YArrayIterator;
 
 /*******************************************************************************
@@ -356,11 +358,10 @@ private:
  * An array iterator
  ******************************************************************************/
 
-template <class DataType>
+template <class DataType, class ArrayType>
 class YArrayIterator {
 public:
-    typedef YArrayIterator<DataType> IterType;
-    typedef YArray<DataType> ArrayType;
+    typedef YArrayIterator<DataType, ArrayType> IterType;
 
 private:
     ArrayType *array;
@@ -368,7 +369,7 @@ private:
     int index;
 
     bool validate(int extra) const {
-        return inrange(index + extra, 0, array->getCount() - 1);
+        return inrange((int) index + extra, (int) 0, (int) array->getCount() - 1);
     }
     IterType& move(int amount) {
         index += amount;

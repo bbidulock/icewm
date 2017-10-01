@@ -26,16 +26,16 @@
  * memory location is not guaranteed after adding
  * members or preserving more space.
  */
-template<typename DataType>
+template<typename DataType, typename SizeType = size_t>
 class YVec
 {
 protected:
-    size_t capa;
-    inline void resize(size_t newSize)
+    SizeType capa;
+    inline void resize(SizeType newSize)
     {
         DataType *old = data;
         data = new DataType[newSize];
-        for(size_t i=0;i<size;++i) data[i] = old[i];
+        for(SizeType i=0;i<size;++i) data[i] = old[i];
         delete[] old;
         capa = newSize;
     }
@@ -47,20 +47,33 @@ protected:
     YVec operator=(const YVec& other);
 
 public:
-    size_t size;
+    SizeType size;
     DataType *data;
     inline YVec(): capa(0), size(0), data(0) {}
-    inline YVec(size_t initialCapa):  capa(initialCapa), size(0), data(new DataType[initialCapa]) { }
+    inline YVec(SizeType initialCapa):  capa(initialCapa), size(0), data(new DataType[initialCapa]) { }
     inline void reset() { if(!size) return; delete[] data; data = 0; size = 0; }
-    inline void preserve(size_t wanted) { if(wanted > capa) resize(wanted); }
-    inline size_t remainingCapa() { return capa - size; }
+    inline void preserve(SizeType wanted) { if(wanted > capa) resize(wanted); }
+    inline SizeType remainingCapa() { return capa - size; }
     inline ~YVec() { reset(); }
     DataType& add(const DataType& element) {
         if (size >= capa)
             inflate();
         return data[size++] = element;
     }
-    const DataType& operator[](const size_t index) const { return data[index]; }
+    DataType& insert(const DataType& element, SizeType destPos)
+    {
+       memmove(&data[destPos+1], &data[destPos], sizeof(element) * size-destPos);
+        size++;
+        return (data[destPos] = element);
+    }
+    const DataType& operator[](const SizeType index) const { return data[index]; }
+    DataType& operator[](const SizeType index) { return data[index]; }
+    SizeType getCount() const { return size; }
+
+    typedef YArrayIterator<DataType, YVec<DataType, SizeType> > iterator;
+    inline iterator getIterator(bool reverse = false) {
+        return iterator(this, reverse);
+    }
 };
 /**
  * Simple container based on YVec but made only for raw pointers of the particular type.
@@ -83,7 +96,13 @@ struct YKeyValuePair
     KeyType key;
     ValueType value;
     YKeyValuePair(KeyType key, ValueType value) : key(key), value(value) {}
+    YKeyValuePair() : key(), value() {}
+    YKeyValuePair(const YKeyValuePair& src) : key(src.key), value(src.value) {}
 };
+
+template<typename KeyType>
+bool lessThan(KeyType left, KeyType right);
+
 /*
  * Very basic implementation of lookup-friendly container.
  * No guarantees WRT non-unique values!
@@ -99,33 +118,35 @@ class YSortedMap
 public:
     typedef YKeyValuePair<KeyType,ValueType> kvp;
 private:
-    YVec<kvp> store;
+    YVec<kvp, int> store;
     bool binsearch(KeyType key, int& pos) {
         size_t leftPos(0), rightPos(store.size - 1), splitPos(0);
         while (leftPos <= rightPos) {
             splitPos = leftPos + (rightPos - leftPos) / 2;
             // single-stepping due to rounding
-            if (lessThan(key, store[splitPos]))
+            if (lessThan(key, store[splitPos].key))
                 rightPos = splitPos - 1;
-            else if (lessThan(store[splitPos], key))
+            else if (lessThan(store[splitPos].key, key))
                 leftPos = splitPos + 1;
-            else if (key == store[splitPos]) {
+            else if (key == store[splitPos].key) {
                 pos = splitPos;
                 return true;
             }
-         }
+        }
+        pos = splitPos;
         return false;
     }
 
 public:
     const ValueType& find(const KeyType& key, const ValueType &notFoundRetValue)
     {
-        size_t pos;
+        int pos;
         if(binsearch(key, pos))
-            return store[pos];
+            return store[pos].value;
         return notFoundRetValue;
     }
     // FIXME: YArrayIterator<kvp> find(KeyType key);
+    // FIXME: iterator? Just wrap the one from store?
     inline void add(KeyType key, ValueType value)
     {
         if(store.size == 0)
@@ -134,23 +155,12 @@ public:
             return;
         }
         store.preserve(store.size+1);
-        size_t destPos=0;
+        int destPos=0;
 
-        // found or not, either it's close, so can be the next bigger or lesser, or can be inside of a sequence of multiple non-equal
         binsearch(key, destPos);
-        for (; !lessThan(key, store[destPos]); --destPos)
-            ;
-        destPos++; // now on the first bigger-or-equal key position
-        memmove(&store[destPos+1], &store[destPos], store.size-destPos);
-        store.size++;
-        store.data[destPos] = value;
-    }
-
-    inline YArrayIterator<kvp> iterator(bool reverse = false) {
-        return YArrayIterator<kvp>(store.data, reverse);
-    }
-    size_t getCount() const {
-        return store.size;
+        // cursor ended on the left side?
+        destPos += (destPos > 0 && lessThan(store[destPos].key, key));
+        store.insert(kvp(key, value), destPos);
     }
 
 };

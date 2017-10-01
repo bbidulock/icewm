@@ -255,7 +255,10 @@ int mstring::count(char ch) const {
 }
 
 bool mstring::equals(const char *s) const {
-    int len = s ? (int) strlen(s) : 0;
+    return equals(s, s ? (int) strlen(s) : 0);
+}
+
+bool mstring::equals(const char *s, int len) const {
     return len == length() && 0 == memcmp(s, data(), len);
 }
 

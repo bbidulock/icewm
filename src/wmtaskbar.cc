@@ -549,8 +549,9 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
     wlist.append(nw);
 #endif
 #ifdef CONFIG_APPLET_NET_STATUS
-    for (NetStatusControl::Iterator n=fNetStatus->getActive();n; ++n) {
-        nw = LayoutInfo( *n, false, 1, false, 2, 2, false );
+    YVec<NetStatus*>::iterator it = fNetStatus->getIterator();
+    while(it.hasNext()) {
+        nw = LayoutInfo( it.next(), false, 1, false, 2, 2, false );
         wlist.append(nw);
     }
 #endif
