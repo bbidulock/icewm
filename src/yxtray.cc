@@ -377,9 +377,9 @@ void YXTray::getScaleSize(int *ww, int *hh)
 void YXTray::trayRequestDock(Window win) {
     MSG(("trayRequestDock win %lX", win));
 
-    if (destroyedClient(win))
+    if (destroyedClient(win)) {
         MSG(("docking a destroyed window"));
-
+    }
     YXTrayEmbedder *embed = new YXTrayEmbedder(this, win);
 
     int ww = embed->client()->width();

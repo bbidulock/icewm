@@ -317,7 +317,7 @@ mstring WorkspaceButton::baseName() {
     mstring name(my_basename(workspaceNames[fWorkspace]));
     name = name.trim();
     int dot = name.lastIndexOf('.');
-    if (inrange(dot, 1, name.length() - 2))
+    if (inrange(dot, 1, (int) name.length() - 2))
         name = name.substring(0, dot);
     return name;
 }

@@ -2101,7 +2101,7 @@ int main(int argc, char **argv) {
                     /*ignore*/;
                 }
                 else if (is_long_switch(*arg, "sync"))
-                    /*ignore*/;
+                {}
                 else if (is_switch(*arg, "b", "bugs"))
                     helpfile = PACKAGE_BUGREPORT;
                 else if (is_switch(*arg, "f", "faq"))

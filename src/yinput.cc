@@ -195,7 +195,7 @@ bool YInputLine::handleKey(const XKeyEvent &key) {
 
         int m = KEY_MODMASK(key.state);
         bool extend = (m & ShiftMask) ? true : false;
-        int textLen = fText.length();
+        unsigned textLen = fText.length();
 
         if (m & ControlMask) {
             switch(k) {
@@ -244,7 +244,7 @@ bool YInputLine::handleKey(const XKeyEvent &key) {
         case XK_Left:
         case XK_KP_Left:
             if (m & ControlMask) {
-                int p = prevWord(curPos, false);
+                unsigned p = prevWord(curPos, false);
                 if (p != curPos) {
                     if (move(p, extend))
                         return true;
@@ -259,7 +259,7 @@ bool YInputLine::handleKey(const XKeyEvent &key) {
         case XK_Right:
         case XK_KP_Right:
             if (m & ControlMask) {
-                int p = nextWord(curPos, false);
+                unsigned p = nextWord(curPos, false);
                 if (p != curPos) {
                     if (move(p, extend))
                         return true;
@@ -368,7 +368,7 @@ void YInputLine::handleMotion(const XMotionEvent &motion) {
             autoScroll(8, &motion); // fix
         else {
             autoScroll(0, &motion);
-            int c = offsetToPos(motion.x + leftOfs);
+            unsigned c = offsetToPos(motion.x + leftOfs);
             if (getClickCount() == 2) {
                 if (c >= markPos) {
                     if (markPos > curPos)
@@ -393,8 +393,8 @@ void YInputLine::handleMotion(const XMotionEvent &motion) {
 void YInputLine::handleClickDown(const XButtonEvent &down, int count) {
     if (down.button == 1) {
         if ((count % 4) == 2) {
-            int l = prevWord(curPos, true);
-            int r = nextWord(curPos, true);
+            unsigned l = prevWord(curPos, true);
+            unsigned r = nextWord(curPos, true);
             if (l != markPos || r != curPos) {
                 markPos = l;
                 curPos = r;
@@ -449,9 +449,9 @@ void YInputLine::handleSelection(const XSelectionEvent &selection) {
     }
 }
 
-int YInputLine::offsetToPos(int offset) {
+unsigned YInputLine::offsetToPos(int offset) {
     ref<YFont> font = inputFont;
-    int ofs = 0, pos = 0;;
+    int ofs = 0, pos = 0;
     int textLen = fText.length();
 
     if (font != null) {
@@ -514,10 +514,10 @@ bool YInputLine::handleTimer(YTimer *t) {
     return false;
 }
 
-bool YInputLine::move(int pos, bool extend) {
-    int textLen = fText.length();
+bool YInputLine::move(unsigned pos, bool extend) {
+    unsigned textLen = fText.length();
 
-    if (curPos < 0 || curPos > textLen)
+    if (curPos > textLen)
         return false;
 
     if (curPos != pos || (!extend && curPos != markPos)) {
@@ -533,16 +533,12 @@ bool YInputLine::move(int pos, bool extend) {
 }
 
 void YInputLine::limit() {
-    int textLen = fText.length();
+    unsigned textLen = fText.length();
 
     if (curPos > textLen)
         curPos = textLen;
-    if (curPos < 0)
-        curPos = 0;
     if (markPos > textLen)
         markPos = textLen;
-    if (markPos < 0)
-        markPos = 0;
 
     ref<YFont> font = inputFont;
     if (font != null) {
@@ -561,24 +557,13 @@ void YInputLine::limit() {
 }
 
 void YInputLine::replaceSelection(const ustring &str) {
-    int min, max;
-
-    // FIXME: GCC7 tells us for optimized builds: src/yinput.cc:552:5: warning: assuming signed overflow does not occur when assuming that (X + c) < X is always false [-Wstrict-overflow]
-    // that might imply that all code paths leading to here are already such that the condition always holds true
-    // Unfortunatelly GCC does not help much here.
-    if (curPos > markPos) {
-        min = markPos;
-        max = curPos;
-    } else {
-        min = curPos;
-        max = markPos;
-    }
-
-    ustring newStr = fText.replace(min, max - min, str);
+    unsigned from=min(curPos, markPos);
+    unsigned to=max(curPos, markPos);
+    ustring newStr = fText.replace(from, to - from, str);
 
     if (newStr != null) {
         fText = newStr;
-        curPos = markPos = min + str.length();
+        curPos = markPos = from + str.length();
         limit();
         repaint();
     }
@@ -593,10 +578,10 @@ bool YInputLine::deleteSelection() {
 }
 
 bool YInputLine::deleteNextChar() {
-    int textLen = fText.length();
+    unsigned textLen = fText.length();
 
     if (curPos < textLen) {
-        markPos = curPos + (curPos < INT_MAX);
+        markPos = curPos + (curPos < UINT_MAX);
         deleteSelection();
         return true;
     }
@@ -620,8 +605,8 @@ bool YInputLine::insertChar(char ch) {
 
 #define CHCLASS(c) ((c) == ' ')
 
-int YInputLine::nextWord(int p, bool sep) {
-    int textLen = fText.length();
+unsigned YInputLine::nextWord(unsigned p, bool sep) {
+    unsigned textLen = fText.length();
 
     while (p < textLen &&
            (CHCLASS(fText.charAt(p)) == CHCLASS(fText.charAt(p + 1)) ||
@@ -634,7 +619,7 @@ int YInputLine::nextWord(int p, bool sep) {
     return p;
 }
 
-int YInputLine::prevWord(int p, bool sep) {
+unsigned YInputLine::prevWord(unsigned p, bool sep) {
     if (p > 0 && !sep)
         p--;
     while (p > 0 &&
@@ -647,7 +632,7 @@ int YInputLine::prevWord(int p, bool sep) {
 }
 
 bool YInputLine::deleteNextWord() {
-    int p = nextWord(curPos, false);
+    unsigned p = nextWord(curPos, false);
     if (p != curPos) {
         markPos = p;
         return deleteSelection();
@@ -655,7 +640,7 @@ bool YInputLine::deleteNextWord() {
     return false;
 }
 bool YInputLine::deletePreviousWord() {
-    int p = prevWord(curPos, false);
+    unsigned p = prevWord(curPos, false);
     if (p != curPos) {
         markPos = p;
         return deleteSelection();
@@ -664,7 +649,7 @@ bool YInputLine::deletePreviousWord() {
 }
 
 bool YInputLine::deleteToEnd() {
-    int textLen = fText.length();
+    unsigned textLen = fText.length();
 
     if (curPos < textLen) {
         markPos = textLen;

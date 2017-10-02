@@ -25,15 +25,15 @@ public:
     virtual void actionPerformed(YAction *action, unsigned int modifiers);
     virtual void handleSelection(const XSelectionEvent &selection);
 
-    bool move(int pos, bool extend);
+    bool move(unsigned pos, bool extend);
     bool hasSelection() const { return (curPos != markPos) ? true : false; }
     void replaceSelection(const ustring &str);
     bool deleteSelection();
     bool deleteNextChar();
     bool deletePreviousChar();
     bool insertChar(char ch);
-    int nextWord(int pos, bool sep);
-    int prevWord(int pos, bool sep);
+    unsigned nextWord(unsigned pos, bool sep);
+    unsigned prevWord(unsigned pos, bool sep);
     bool deleteNextWord();
     bool deletePreviousWord();
     bool deleteToEnd();
@@ -46,8 +46,8 @@ public:
 
 private:
     ustring fText;
-    int markPos;
-    int curPos;
+    unsigned markPos;
+    unsigned curPos;
     int leftOfs;
     bool fHasFocus;
     bool fCursorVisible;
@@ -56,7 +56,7 @@ private:
     static int fAutoScrollDelta;
 
     void limit();
-    int offsetToPos(int offset);
+    unsigned offsetToPos(int offset);
     void autoScroll(int delta, const XMotionEvent *mouse);
     virtual bool handleTimer(YTimer *timer);
     virtual bool handleAutoScroll(const XMotionEvent &mouse);

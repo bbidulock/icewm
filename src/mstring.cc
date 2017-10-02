@@ -27,10 +27,10 @@ MStringData *MStringData::create(const char *str, int length) {
 }
 
 MStringData *MStringData::create(const char *str) {
-    return create(str, (int) strlen(str));
+    return create(str, strlen(str));
 }
 
-mstring::mstring(MStringData *fStr, int fOffset, int fCount):
+mstring::mstring(MStringData *fStr, size_t fOffset, size_t fCount):
     fStr(fStr),
     fOffset(fOffset),
     fCount(fCount)
@@ -40,11 +40,11 @@ mstring::mstring(MStringData *fStr, int fOffset, int fCount):
     if (fStr) acquire(); 
 }
 
-mstring::mstring(const char *str) {
+mstring::mstring(const char *str) : fCount(0) {
     init(str, str ? strlen(str) : 0);
 }
 
-mstring::mstring(const char *str, int len) {
+mstring::mstring(const char *str, size_t len) {
     init(str, len);
 }
 
@@ -74,7 +74,7 @@ mstring::mstring(const char *str1, const char *str2, const char *str3) {
     acquire();
 }
 
-void mstring::init(const char *str, int len) {
+void mstring::init(const char *str, size_t len) {
     if (str) {
         fStr = MStringData::create(str, len);
         fOffset = 0;
@@ -153,15 +153,12 @@ mstring mstring::newstr(const char *str, int count) {
     return mstring(ud, 0, count);
 }
 
-mstring mstring::substring(int pos) const {
-    PRECONDITION(pos >= 0);
+mstring mstring::substring(size_t pos) const {
     PRECONDITION(pos <= length());
     return mstring(fStr, fOffset + pos, fCount - pos);
 }
 
-mstring mstring::substring(int pos, int len) const {
-    PRECONDITION(pos >= 0);
-    PRECONDITION(len >= 0);
+mstring mstring::substring(size_t pos, size_t len) const {
     PRECONDITION(pos <= length());
 
     return mstring(fStr, fOffset + pos, min(len, fCount - pos));
@@ -193,7 +190,7 @@ bool mstring::splitall(unsigned char token, mstring *left, mstring *remain) cons
 }
 
 int mstring::charAt(int pos) const {
-    if (pos >= 0 && pos < length())
+    if (pos >= 0 && pos < (int) length())
         return data()[pos];
     else
         return -1;
@@ -223,7 +220,7 @@ int mstring::find(const mstring &s) const {
     int stop = length() - s.length();
     for (int start = 0; start <= stop; ++start) {
         for (int i = 0; ; ++i) {
-            if (i == s.length()) return start;
+            if (i == (int) s.length()) return start;
             if (data()[i + start] != s.data()[i]) break;
         }
     }
@@ -247,8 +244,8 @@ int mstring::lastIndexOf(char ch) const {
 }
 
 int mstring::count(char ch) const {
-    int n = 0;
-    for (int k = 0; k < length(); ++k) {
+    unsigned n = 0;
+    for (unsigned k = 0; k < length(); ++k) {
         n += ch == data()[k];
     }
     return n;
@@ -258,7 +255,7 @@ bool mstring::equals(const char *s) const {
     return equals(s, s ? (int) strlen(s) : 0);
 }
 
-bool mstring::equals(const char *s, int len) const {
+bool mstring::equals(const char *s, unsigned len) const {
     return len == length() && 0 == memcmp(s, data(), len);
 }
 
@@ -341,7 +338,7 @@ mstring mstring::searchAndReplaceAll(const mstring& s, const mstring& r) const {
 mstring mstring::lower() const {
     if (fStr) {
         MStringData *ud = MStringData::create(data(), fCount);
-        for (int i = 0; i < fCount; ++i) {
+        for (unsigned i = 0; i < fCount; ++i) {
             ud->fStr[i] = ASCII::toLower(ud->fStr[i]);
         }
         return mstring(ud, 0, fCount);
@@ -354,7 +351,7 @@ mstring mstring::upper() const {
         return null;
     } else {
         MStringData *ud = MStringData::create(data(), fCount);
-        for (int i = 0; i < fCount; ++i) {
+        for (unsigned i = 0; i < fCount; ++i) {
             ud->fStr[i] = ASCII::toUpper(ud->fStr[i]);
         }
         return mstring(ud, 0, fCount);

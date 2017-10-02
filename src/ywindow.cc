@@ -1290,7 +1290,7 @@ bool YWindow::changeFocus(bool next) {
             else if (cur->fPrevWindow)
                 cur = cur->fPrevWindow;
             else if (cur->isToplevel())
-                /**/;
+            {}
             else {
                 while (cur->fParentWindow) {
                     cur = cur->fParentWindow;

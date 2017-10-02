@@ -948,7 +948,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
         XSetInputFocus(xapp->display(), fTopWin->handle(), RevertToNone, xapp->getEventTime("setFocus"));
     }
 
-    if (c && w == c->handle() && c->protocols() & YFrameClient::wpTakeFocus) {
+    if (c && w == c->handle() && (c->protocols() & YFrameClient::wpTakeFocus)) {
         c->sendTakeFocus();
     }
 

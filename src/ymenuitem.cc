@@ -44,7 +44,7 @@ YMenuItem::YMenuItem(const ustring &name, int aHotCharPos, const ustring &param,
         }
     }
     
-    if (fName == null || fHotCharPos >= fName.length() || fHotCharPos < -1)
+    if (fName == null || fHotCharPos >= (int) fName.length() || fHotCharPos < -1)
         fHotCharPos = -1;
 }
 
