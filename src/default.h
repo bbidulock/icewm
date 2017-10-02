@@ -167,7 +167,7 @@ XIV(int, taskBarGraphHeight,                    20)
 XIV(int, taskBarMEMSamples,                     20)
 XIV(int, focusRequestFlashTime,                 0)
 XIV(int, focusRequestFlashInterval,             250)
-XIV(int, nestedThemeMenuMinNumber,              25)
+XIV(int, nestedThemeMenuMinNumber,              21)
 XIV(int, batteryPollingPeriod,                  10)
 XIV(int, netWorkAreaBehaviour,                  0)
 
