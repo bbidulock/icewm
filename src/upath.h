@@ -38,7 +38,7 @@ public:
     bool isHttp() const;
     bool hasProtocol() const;
     int access(int mode = 0) const;
-    int mkdir(int mode = 0777) const;
+    int mkdir(int mode = 0700) const;
     int open(int flags, int mode = 0666) const;
     FILE* fopen(const char *mode) const;
     int stat(struct stat *st) const;
