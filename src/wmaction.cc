@@ -41,6 +41,7 @@ YAction *actionCancelLogout(0);
 YAction *actionLock(0);
 YAction *actionReboot(0);
 YAction *actionRestart(0);
+YAction *actionRestartXterm(0);
 YAction *actionShutdown(0);
 YAction *actionSuspend(0);
 YAction *actionRefresh(0);
@@ -98,6 +99,7 @@ void initActions() {
     actionLock = new YAction();
     actionReboot = new YAction();
     actionRestart = new YAction();
+    actionRestartXterm = new YAction();
     actionShutdown = new YAction();
     actionSuspend = new YAction();
     actionRefresh = new YAction();
@@ -156,6 +158,7 @@ void freeActions() {
     delete actionLock; actionLock = 0;
     delete actionReboot; actionReboot = 0;
     delete actionRestart; actionRestart = 0;
+    delete actionRestartXterm; actionRestartXterm = 0;
     delete actionShutdown; actionShutdown = 0;
     delete actionSuspend; actionSuspend = 0;
     delete actionRefresh; actionRefresh = 0;

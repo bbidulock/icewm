@@ -28,7 +28,7 @@ public:
         const bool restart,
         const char *wmclass,
         upath exe,
-        YStringArray &args);
+        const YStringArray &args);
 
 protected:
     DProgram(
@@ -39,7 +39,7 @@ protected:
         const bool restart,
         const char *wmclass,
         upath exe,
-        YStringArray &args);
+        const YStringArray &args);
 
 private:
     const bool fRestart;

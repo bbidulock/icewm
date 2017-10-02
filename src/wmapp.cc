@@ -591,17 +591,19 @@ static void initMenus(
             logoutMenu->addItem(_("Restart _Icewm"), -2, null, actionRestart, "restart");
 #endif
 
+#ifdef LITE // no confirmation since dialog is not available
             DProgram *restartXTerm =
                 DProgram::newProgram(app, smActionListener, _("Restart _Xterm"),
-#ifdef LITE
 				null,
-#else
-				(YIcon::getIcon("xterm")),
-#endif
 				true, 0,
                 		QUOTE(XTERMCMD), noargs);
+
             if (restartXTerm)
                 logoutMenu->add(new DObjectMenuItem(restartXTerm));
+#else
+            logoutMenu->addItem(_("Restart _Xterm"), -2, null, actionRestartXterm, "xterm");
+#endif
+
 #endif
         }
     }
@@ -851,7 +853,22 @@ void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
         manager->doWMAction(ICEWM_ACTION_REBOOT);
     } else if (action == actionRestart) {
         restartClient(0, 0);
-    } else if (action == actionRun) {
+    }
+    else if(action == actionRestartXterm) {
+        struct t_executor : public YMsgBoxListener {
+            YSMListener *listener;
+            t_executor(YSMListener* x) : listener(x) {}
+            virtual void handleMsgBox(YMsgBox *msgbox, int operation) {
+                if (msgbox)
+                    manager->unmanageClient(msgbox->handle());
+                if (operation == YMsgBox::mbOK)
+                    listener->restartClient(QUOTE(XTERMCMD), 0);
+            }
+        };
+        static t_executor delegate(this);
+        YFrameWindow::wmConfirmKill(_("Kill IceWM, replace with Xterm"), &delegate);
+    }
+    else if (action == actionRun) {
         runCommand(runDlgCommand);
     } else if (action == actionExit) {
         manager->unmanageClients();

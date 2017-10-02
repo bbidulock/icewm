@@ -1734,18 +1734,25 @@ void YFrameWindow::wmClose() {
 
 void YFrameWindow::wmConfirmKill() {
 #ifndef LITE
-    if (fKillMsgBox == 0) {
-        YMsgBox *msgbox = new YMsgBox(YMsgBox::mbOK|YMsgBox::mbCancel);
-        ustring title = ustring(_("Kill Client: ")).append(getTitle());
-        fKillMsgBox = msgbox;
+    if (fKillMsgBox)
+        return;
+    fKillMsgBox = wmConfirmKill(ustring(_("Kill Client: ")).append(getTitle()), this);
+#endif
+}
 
-        msgbox->setTitle(title);
-        msgbox->setText(_("WARNING! All unsaved changes will be lost when\n"
-                          "this client is killed. Do you wish to proceed?"));
-        msgbox->autoSize();
-        msgbox->setMsgBoxListener(this);
-        msgbox->showFocused();
-    }
+YMsgBox* YFrameWindow::wmConfirmKill(const ustring& title,
+        YMsgBoxListener *recvr) {
+#ifndef LITE
+    YMsgBox *msgbox = new YMsgBox(YMsgBox::mbOK | YMsgBox::mbCancel);
+    msgbox->setTitle(title);
+    msgbox->setText(_("WARNING! All unsaved changes will be lost when\n"
+            "this client is killed. Do you wish to proceed?"));
+    msgbox->autoSize();
+    msgbox->setMsgBoxListener(recvr);
+    msgbox->showFocused();
+    return msgbox;
+#else
+    return 0;
 #endif
 }
 
