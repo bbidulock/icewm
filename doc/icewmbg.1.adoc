@@ -1,6 +1,7 @@
 ICEWMBG(1)
 ==========
 :doctype: manpage
+:toc:
 
 
 NAME

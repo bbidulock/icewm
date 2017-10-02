@@ -1,9 +1,9 @@
 = IceWM Manual
-Marko Macek, <Marko.Macek@gmx.net>
+Marko Macek <Marko.Macek@gmx.net>
 v1.4.1, 2017 July 27
 :homepage: http://www.icewm.org
 :toc:
-:toclevels: 1
+:toclevels: 2
 
 This document is the manual for the *IceWM* X11 window manager.
 It is still incomplete. IceWM and its documentation is

@@ -1,6 +1,7 @@
 ICEWM(1)
 ========
 :doctype: manpage
+:toc:
 
 
 NAME
@@ -427,6 +428,7 @@ Input focus is immediately changed to the next
 or previous window, which will be raised to
 make it fully visible.
 
+
 WINDOW PLACEMENT
 ----------------
 A second important task of a window manager
@@ -443,6 +445,7 @@ Then new windows appear initially in the top left corner
 and the mouse cursor changes into a fist.
 By moving the fist cursor to a suitable location and
 clicking the new window will appear at the mouse click location.
+
 
 WINDOW LAYERS
 -------------
@@ -461,6 +464,7 @@ and select
 From there choose one of seven window layers.
 These are ordered from higher to lower.
 Windows in higher layers appear over windows in lower layers.
+
 
 WORKSPACES
 ----------
@@ -516,7 +520,8 @@ This is because the old names are preserved as properties
 by the X server and restored by IceWM when it restarts.
 To remove these from the X server run:
 
-  xprop -root -remove _WIN_WORKSPACE_NAMES
+  xprop -root -remove _WIN_WORKSPACE_NAMES -remove _NET_DESKTOP_NAMES
+
 
 KEYBOARD SHORTCUTS
 ------------------
