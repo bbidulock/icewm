@@ -34,8 +34,8 @@ mstring::mstring(MStringData *fStr, size_t fOffset, size_t fCount):
     fStr(fStr),
     fOffset(fOffset),
     fCount(fCount)
-{ 
-    if (fStr) acquire(); 
+{
+    if (fStr) acquire();
 }
 
 mstring::mstring(const char *str) : fCount(0) {
@@ -81,7 +81,7 @@ void mstring::init(const char *str, size_t len) {
     } else {
         fStr = 0;
         fOffset = 0;
-        fCount = 0; 
+        fCount = 0;
     }
 }
 

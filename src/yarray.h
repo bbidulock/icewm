@@ -58,7 +58,7 @@ protected:
     StorageType *getElement(const SizeType index) {
         return fElements + (index * fElementSize);
     }
-    
+
     const void *getBegin() const { return getElement(0); }
     const void *getEnd() const { return getElement(getCount()); }
 
@@ -78,10 +78,10 @@ public:
         return (index < getCount() ? getElement(index) : 0);
     }
 
-    const void *operator[](const SizeType index) const { 
+    const void *operator[](const SizeType index) const {
         return getItem(index);
     }
-    void *operator[](const SizeType index) { 
+    void *operator[](const SizeType index) {
         return getItem(index);
     }
 
@@ -120,10 +120,10 @@ public:
     const DataType &getItem(const SizeType index) const {
         return *getItemPtr(index);
     }
-    const DataType &operator[](const SizeType index) const { 
+    const DataType &operator[](const SizeType index) const {
         return getItem(index);
     }
-    const DataType &operator*() const { 
+    const DataType &operator*() const {
         return getItem(0);
     }
 
@@ -133,10 +133,10 @@ public:
     DataType &getItem(const SizeType index) {
         return *getItemPtr(index);
     }
-    DataType &operator[](const SizeType index) { 
+    DataType &operator[](const SizeType index) {
         return getItem(index);
     }
-    DataType &operator*() { 
+    DataType &operator*() {
         return getItem(0);
     }
     void swap(const SizeType index1, const SizeType index2) {
@@ -256,10 +256,10 @@ public:
     const char *getString(const SizeType index) const {
         return *(const char **) YBaseArray::getItem(index);
     }
-    const char *operator[](const SizeType index) const { 
+    const char *operator[](const SizeType index) const {
         return getString(index);
     }
-    const char *operator*() const { 
+    const char *operator*() const {
         return getString(0);
     }
 
@@ -267,7 +267,7 @@ public:
     virtual void clear();
 
     virtual SizeType find(const char *str);
-    
+
     char *const *getCArray() const;
     char **release();
 };

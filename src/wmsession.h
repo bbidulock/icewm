@@ -58,7 +58,7 @@ void loadWindowInfo();
 bool findWindowInfo(YFrameWindow *f);
 
 upath getsesfile();
-    
+
 #endif
 
 #endif

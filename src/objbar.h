@@ -23,7 +23,7 @@ public:
     virtual void paint(Graphics &g, const YRect &r);
 
     void addButton(const ustring &name, ref<YIcon> icon, YButton *button);
-    
+
 private:
     YObjectArray<YButton> objects;
     static YColor *bgColor;

@@ -40,7 +40,7 @@ public:
     void setOver(bool over);
 
     void setArmed(bool armed, bool mousedown);
-    bool isPressed() const { return fPressed; } 
+    bool isPressed() const { return fPressed; }
     bool isSelected() const { return fSelected; }
     bool isArmed() const { return fArmed; }
     bool isPopupActive() const { return fPopupActive; }
@@ -53,7 +53,7 @@ public:
     bool fOver;
 
     void setEnabled(bool enabled);
-    
+
 private:
     void paint(Graphics &g, int const d, const YRect &r);
 
@@ -80,10 +80,10 @@ private:
 
     static YColor *normalButtonBg;
     static YColor *normalButtonFg;
-    
+
     static YColor *activeButtonBg;
     static YColor *activeButtonFg;
-    
+
     static ref<YFont> normalButtonFont;
     static ref<YFont> activeButtonFont;
 };

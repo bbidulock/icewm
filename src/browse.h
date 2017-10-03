@@ -15,7 +15,7 @@ public:
     virtual void updatePopup();
 private:
     upath fPath;
-    time_t fModTime;    
+    time_t fModTime;
     YSMListener *smActionListener;
     IApp *app;
 };

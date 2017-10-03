@@ -85,7 +85,7 @@ CtrlAltDelete::CtrlAltDelete(IApp *app, YWindow *parent): YWindow(parent) {
      * such that tabbing through them is in reading order
      * from left to right then top to bottom.
      */
- 
+
     lockButton = addButton(_("Loc_k Workstation"), w, h);
     suspendButton = addButton(_("_Suspend"), w, h);
     cancelButton = addButton(_("_Cancel"), w, h);
@@ -137,7 +137,7 @@ CtrlAltDelete::~CtrlAltDelete() {
 }
 
 void CtrlAltDelete::paint(Graphics &g, const YRect &/*r*/) {
-#ifdef CONFIG_GRADIENTS    
+#ifdef CONFIG_GRADIENTS
     YSurface surface(cadBg, logoutPixmap, logoutPixbuf);
 #else
     YSurface surface(cadBg, logoutPixmap);
@@ -175,7 +175,7 @@ void CtrlAltDelete::actionPerformed(tActionId action, unsigned int /*modifiers*/
 bool CtrlAltDelete::handleKey(const XKeyEvent &key) {
     KeySym k = keyCodeToKeySym(key.keycode);
     int m = KEY_MODMASK(key.state);
-        
+
     if (key.type == KeyPress) {
         if (k == XK_Escape && m == 0) {
             deactivate();

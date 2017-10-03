@@ -122,9 +122,9 @@ static Window registerProtocols1(char **argv, int argc) {
           xapp->display(), current_wm,
           CWEventMask, &attrs);
     }
-   
+
     Window xroot = xapp->root();
-    Window xid = 
+    Window xid =
         XCreateSimpleWindow(xapp->display(), xroot,
             0, 0, 1, 1, 0,
             xapp->black(),
@@ -132,7 +132,7 @@ static Window registerProtocols1(char **argv, int argc) {
 
     XSetSelectionOwner(xapp->display(), wmSx, xid, timestamp);
 
-    if (XGetSelectionOwner(xapp->display(), wmSx) != xid) 
+    if (XGetSelectionOwner(xapp->display(), wmSx) != xid)
         die(1, _("Failed to become the owner of the %s selection"), wmSx.str());
 
     if (current_wm != None) {
@@ -213,7 +213,7 @@ static void registerProtocols2(Window xid) {
                     _XA_WIN_PROTOCOLS, XA_ATOM, 32,
                     PropModeReplace, (unsigned char *)win_proto, i);
 
-    XChangeProperty(xapp->display(), xid, 
+    XChangeProperty(xapp->display(), xid,
                     _XA_WIN_SUPPORTING_WM_CHECK, XA_CARDINAL, 32,
                     PropModeReplace, (unsigned char *)&xid, 1);
 
@@ -1075,7 +1075,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
             OSV("Theme", &themeName, "Theme name"),
             OK0()
         };
-        
+
         YConfig::findLoadConfigFile(this, theme_prefs, configFile);
         YConfig::findLoadConfigFile(this, theme_prefs, "theme");
     }
@@ -1165,11 +1165,11 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     delete desktop;
 
     managerWindow = registerProtocols1(*argv, *argc);
-    
+
     desktop = manager = new YWindowManager(
         this, this, this, 0, root());
     PRECONDITION(desktop != 0);
-    
+
     registerProtocols2(managerWindow);
 
     initFontPath(this);

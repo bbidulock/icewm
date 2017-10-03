@@ -13,7 +13,7 @@
 #define __YPOINTER_H
 
 /**************************************************************************
- * Smart pointers behave like pointers but delete the object they own when 
+ * Smart pointers behave like pointers but delete the object they own when
  * they go out of scope. The following smart pointers are distinguished:
  *
  *   1. osmart for `new` objects, deallocated by delete.

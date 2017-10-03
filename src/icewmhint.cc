@@ -72,7 +72,7 @@ int main(int argc, char **argv) {
     int clsin_len = strlen(clsin) + 1;;
     int option_len = strlen(option) + 1;
     int arg_len = strlen(arg) + 1;
-    
+
     int hint_len = clsin_len + option_len + arg_len;
     unsigned char *hint = (unsigned char *)malloc(hint_len);
 

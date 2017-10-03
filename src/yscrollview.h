@@ -25,7 +25,7 @@ public:
     YScrollBar *getVerticalScrollBar() { return scrollVert; }
     YScrollBar *getHorizontalScrollBar() { return scrollHoriz; }
     YScrollable *getScrollable() { return scrollable; }
-    
+
     void layout();
     virtual void configure(const YRect &r);
     virtual void paint(Graphics &g, const YRect &r);

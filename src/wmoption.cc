@@ -39,7 +39,7 @@ WindowOption::WindowOption(ustring n_class_instance):
 #ifdef CONFIG_TRAY
     tray(WinTrayInvalid),
 #endif
-    gflags(0), gx(0), gy(0), gw(0), gh(0) 
+    gflags(0), gx(0), gy(0), gw(0), gh(0)
 {
 }
 

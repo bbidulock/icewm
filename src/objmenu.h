@@ -31,7 +31,7 @@ public:
 #endif
     virtual void addSeparator();
     virtual void addContainer(const ustring &name, ref<YIcon> icon, ObjectContainer *container);
-protected: 
+protected:
     YActionListener *wmActionListener;
 };
 

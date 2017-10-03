@@ -30,7 +30,7 @@ public:
     bool getShown() const { return fShown || fFlashing; }
 
     void setFlash(bool urgent);
-    
+
 private:
     ClientData *fFrame;
     TaskPane *fTaskPane;

@@ -90,13 +90,13 @@ void toggleState(Window w, Atom toggle_state) {
     xev.data.l[1] = (long)toggle_state;
 
     ///xev.data.l[4] = CurrentTime; //xev.data.l[1] = timeStamp;
-    
+
     XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
 }
 
 void setLayer(Window w, long layer) {
     XClientMessageEvent xev;
-  
+
     memset(&xev, 0, sizeof(xev));
     xev.type = ClientMessage;
     xev.window = w;
@@ -110,7 +110,7 @@ void setLayer(Window w, long layer) {
 #if 0
 void setTrayHint(Window w, long tray_opt) {
     XClientMessageEvent xev;
-  
+
     memset(&xev, 0, sizeof(xev));
     xev.type = ClientMessage;
     xev.window = w;
@@ -169,9 +169,9 @@ int main(/*int argc, char **argv*/) {
                  PropertyChangeMask);
 
     XSelectInput(display, root, PropertyChangeMask);
-    
+
     XMapRaised(display, window);
-    
+
     while (1) {
         XEvent xev;
 ///        XButtonEvent &button = xev.xbutton;

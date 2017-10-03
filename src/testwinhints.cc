@@ -67,7 +67,7 @@ void moveResize(Window w, int x, int y, int what) {
 
 void toggleState(Window w, long new_state) {
     XClientMessageEvent xev;
-  
+
     memset(&xev, 0, sizeof(xev));
     xev.type = ClientMessage;
     xev.window = w;
@@ -75,13 +75,13 @@ void toggleState(Window w, long new_state) {
     xev.data.l[0] = (state[0] & state[1] & new_state) ^ new_state;
     xev.data.l[1] = new_state;
     xev.data.l[2] = CurrentTime; //xev.data.l[1] = timeStamp;
-    
+
     XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
 }
 
 void setLayer(Window w, long layer) {
     XClientMessageEvent xev;
-  
+
     memset(&xev, 0, sizeof(xev));
     xev.type = ClientMessage;
     xev.window = w;
@@ -94,7 +94,7 @@ void setLayer(Window w, long layer) {
 
 void setTrayHint(Window w, long tray_opt) {
     XClientMessageEvent xev;
-  
+
     memset(&xev, 0, sizeof(xev));
     xev.type = ClientMessage;
     xev.window = w;
@@ -137,9 +137,9 @@ int main(/*int argc, char **argv*/) {
                  PropertyChangeMask);
 
     XSelectInput(display, root, PropertyChangeMask);
-    
+
     XMapRaised(display, window);
-    
+
     while (1) {
         XEvent xev;
 ///        XButtonEvent &button = xev.xbutton;

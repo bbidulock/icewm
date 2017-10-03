@@ -57,7 +57,7 @@ void alrm_handler(int /*sig*/) {
 
 YApplication::YApplication(int * /*argc*/, char *** /*argv*/) {
     ::mainLoop = this;
-    
+
     fLoopLevel = 0;
     fExitApp = 0;
 

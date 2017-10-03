@@ -93,7 +93,7 @@ private:
     void drawBackground(Graphics &g, int x, int y, int w, int h);
     void drawSeparator(Graphics &g, int x, int y, int w);
 
-    void drawSubmenuArrow(Graphics &g, YMenuItem *mitem, 
+    void drawSubmenuArrow(Graphics &g, YMenuItem *mitem,
                           int left, int top);
     void paintItem(Graphics &g, const int i, const int l, const int t, const int r,
                    const int minY, const int maxY, bool draw);

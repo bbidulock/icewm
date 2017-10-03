@@ -34,13 +34,13 @@ public:
 
 protected:
     void verifyPaths(upath base);
-    
+
 private:
     YObjectArray<upath> fPaths;
 
     YResourcePaths() {}
     void addDir(const upath& dir);
-    
+
     template<class Pict>
     void loadPict(const upath& baseName, ref<Pict>* pict) const;
     template<class Pict>

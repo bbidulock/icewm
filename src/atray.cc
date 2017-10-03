@@ -94,9 +94,9 @@ void TrayApp::paint(Graphics &g, const YRect &/*r*/) {
     int sx(parent() ? x() + parent()->x() : x());
     int sy(parent() ? y() + parent()->y() : y());
 
-    unsigned sw((parent() && parent()->parent() ? 
+    unsigned sw((parent() && parent()->parent() ?
                  parent()->parent() : this)->width());
-    unsigned sh((parent() && parent()->parent() ? 
+    unsigned sh((parent() && parent()->parent() ?
                  parent()->parent() : this)->height());
 #endif
 
@@ -367,19 +367,19 @@ void TrayPane::paint(Graphics &g, const YRect &/*r*/) {
     int const h(height());
 
     g.setColor(getTaskBarBg());
-    
+
 #ifdef CONFIG_GRADIENTS
     ref<YImage> gradient(parent() ? parent()->getGradient() : null);
 
     if (gradient != null)
         g.drawImage(gradient, x(), y(), w, h, 0, 0);
-    else 
-#endif    
+    else
+#endif
     if (taskbackPixmap != null)
         g.fillPixmap(taskbackPixmap, 0, 0, w, h, x(), y());
     else
         g.fillRect(0, 0, w, h);
-    
+
     if (trayDrawBevel && w > 1) {
         if (wmLook == lookMetal)
             g.draw3DRect(1, 1, w - 2, h - 2, false);

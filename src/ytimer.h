@@ -57,7 +57,7 @@ public:
 
     void setTimerListener(YTimerListener *listener) { fListener = listener; }
     YTimerListener *getTimerListener() const { return fListener; }
-    
+
     void setInterval(long ms);
     long getInterval() const { return fInterval; }
 

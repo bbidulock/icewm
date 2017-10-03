@@ -83,7 +83,7 @@ int main(int argc, char **argv)
            "# Themable preferences. Themes will override these.\n"
            "# To override the themes, place them in ~/.icewm/prefoverride\n"
            "# -----------------------------------------------------------\n\n");
-    
+
     show(icewm_themable_preferences);
 
     // special case, for now

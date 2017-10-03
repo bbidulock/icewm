@@ -15,7 +15,7 @@ public:
     virtual void paint(Graphics &g, const YRect &r);
 
     void begin();
-    void end() { hide(); }    
+    void end() { hide(); }
 
     virtual ustring getStatus() = 0;
 
@@ -31,7 +31,7 @@ public:
     virtual ~MoveSizeStatus();
 
     virtual ustring getStatus();
-    
+
     void begin(YFrameWindow *frame);
     void setStatus(YFrameWindow *frame, const YRect &r);
     void setStatus(YFrameWindow *frame);
@@ -51,7 +51,7 @@ private:
     WorkspaceStatus(YWindow *aParent, const ustring& templateString);
     static ustring getStatus(const char* name);
 
-    long workspace;    
+    long workspace;
     class YTimer *timer;
 
     class Timeout;

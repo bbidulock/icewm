@@ -46,7 +46,7 @@ extern ref<YPixmap> taskbackPixmap;
 
 NetStatus::NetStatus(
     IApp *app,
-    YSMListener *smActionListener, 
+    YSMListener *smActionListener,
     mstring netdev,
     IAppletContainer *taskBar,
     YWindow *aParent):
@@ -142,7 +142,7 @@ void NetStatus::handleTimer(const void* sharedData, bool forceDown) {
 void NetStatus::updateToolTip() {
     char status[400];
     cstring netdev(fNetDev);
-    
+
     if (isUp()) {
         char const * const sizeUnits[] = { "B", "KiB", "MiB", "GiB", "TiB", NULL };
         char const * const rateUnits[] = { "B/s", "kB/s", "MB/s", NULL };
@@ -427,10 +427,10 @@ bool NetStatus::isUp() {
     if (sysctlbyname("net.link.generic.system.ifcount", &nr_network_devs,
                     &int_size, (void*)0, 0) == -1) {
         printf("%s@%d: %s\n", __FILE__, __LINE__, strerror(errno));
-    } else { 
+    } else {
         for (int i = 1; i <= nr_network_devs; i++) {
             name[4] = i; /* row of the ifmib table */
-    
+
             if (sysctl(name, 6, &ifmd, &ifmd_size, (void *)0, 0) == -1) {
                 printf("%s@%d: %s\n", __FILE__, __LINE__, strerror(errno));
                 continue;
@@ -444,7 +444,7 @@ bool NetStatus::isUp() {
     return false;
 #else
     if (fNetDev == null)
-        return false;  
+        return false;
 
     int s = socket(PF_INET, SOCK_STREAM, 0);
     if (s == -1)

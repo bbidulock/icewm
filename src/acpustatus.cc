@@ -359,7 +359,7 @@ int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
                 strncat(tempbuf, buf + len - seglen, seglen);
             }
         }
-    } 
+    }
     else if (dir.open("/sys/class/thermal")) {
         while (dir.next()) {
             int len;

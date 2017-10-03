@@ -27,7 +27,7 @@ class YLocale {
 public:
     YLocale(char const * localeName = "");
     ~YLocale();
-    
+
 #ifdef CONFIG_I18N
     static iconv_t getConverter (char const *from, char const **& to);
     static YLChar *localeString(YUChar const *uStr, size_t const uLen,
@@ -46,7 +46,7 @@ private:
 
     iconv_t toUnicode;
     iconv_t toLocale;
-    
+
 #endif
 };
 

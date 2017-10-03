@@ -534,7 +534,7 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
         else
             setWorkspace(workspace);
     } else
-#endif      
+#endif
 #ifdef GNOME1_HINTS
        if (client()->getWinWorkspaceHint(&workspace))
         setWorkspace(workspace);
@@ -2600,11 +2600,11 @@ void YFrameWindow::updateIcon() {
                     largestIconOffset = e;
                     largestIconSize = e[0];
                 }
-    
+
                 // It's possible when huge=large=small, so we must go
                 // through all sizes[]
                 for (int i = 0; i < 3; i++) {
-    
+
                     if (e[0] == sizes[i] && e[0] == e[1] && icons[i] == null)
                         icons[i] = YImage::createFromIconProperty(e + 2, e[0], e[1]);
                 }
@@ -2638,7 +2638,7 @@ void YFrameWindow::updateIcon() {
         else // compatibility
             fFrameIcon = newClientIcon(count/2, 2, elem);
         XFree(elem);
-    } else 
+    } else
 #endif
        if (client()->getKwmIcon(&count, &pixmap) && count == 2) {
         XWMHints *h = client()->hints();
@@ -2865,7 +2865,7 @@ void YFrameWindow::setWorkspace(long workspace) {
         return ;
     if (workspace != fWinWorkspace) {
         fWinWorkspace = workspace;
-#if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)        
+#if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)
         client()->setWinWorkspaceHint(fWinWorkspace);
 #endif
         updateState();
@@ -2972,7 +2972,7 @@ void YFrameWindow::updateLayer(bool restack) {
         fWinActiveLayer = newLayer;
         insertFrame(true);
 
-#if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)        
+#if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)
         if (client())
             client()->setWinLayerHint(fWinActiveLayer);
 #endif
@@ -3411,7 +3411,7 @@ void YFrameWindow::setState(long mask, long state) {
             client()->restoreSizeHints();
         }
     }
-    
+
     // !!! move here
 
     fWinState = fNewState;

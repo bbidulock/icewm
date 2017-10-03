@@ -80,7 +80,7 @@ public:
         csKeepY = 2,
         csRound = 4
     };
-    
+
     void constrainSize(int &w, int &h, int flags);
 
     void gravityOffsets(int &xp, int &yp);
@@ -96,7 +96,7 @@ public:
 
     void getSizeHints();
     XSizeHints *sizeHints() const { return fSizeHints; }
-    
+
     // for going fullscreen and back
     XSizeHints savedSizeHints;
     void saveSizeHints();
@@ -199,7 +199,7 @@ public:
     bool isKdeTrayWindow() { return prop.kde_net_wm_system_tray_window_for; }
 
     bool isEmbed() { return prop.xembed_info; }
-    
+
 private:
     YFrameWindow *fFrame;
     int fProtocols;

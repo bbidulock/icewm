@@ -29,7 +29,7 @@ public:
 #else
     typedef class YLocaleString string_t;
     typedef XftChar8 char_t;
-#endif    
+#endif
 
     YXftFont(ustring name, bool xlfd, bool antialias);
     virtual ~YXftFont();
@@ -41,7 +41,7 @@ public:
     virtual int textWidth(char const * str, int len) const;
 
     virtual int textWidth(string_t const & str) const;
-    virtual void drawGlyphs(class Graphics & graphics, int x, int y, 
+    virtual void drawGlyphs(class Graphics & graphics, int x, int y,
                             char const * str, int len);
 
 private:
@@ -283,7 +283,7 @@ void YXftFont::drawGlyphs(Graphics & graphics, int x, int y,
 }
 
 YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
-                                          size_t nparts) const 
+                                          size_t nparts) const
 {
     XGlyphInfo extends;
     XftFont ** lFont(fFonts + fFontCount);

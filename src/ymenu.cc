@@ -466,7 +466,7 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
 
         if (menuFont != null) { // ================ autoscrolling of large menus ===
             int const fh(menuFont->height());
-    
+
             int dx, dy, dw, dh;
             desktop->getScreenGeometry(&dx, &dy, &dw, &dh, getXiScreen());
 
@@ -606,7 +606,7 @@ bool YMenu::handleAutoScroll(const XMotionEvent & /*mouse*/) {
         {
             int mx = fAutoScrollMouseX - x();
             int my = fAutoScrollMouseY - y();
-    
+
             int selItem = findItem(mx, my);
             focusItem(selItem);
         }
@@ -722,14 +722,14 @@ YMenuItem *YMenu::findName(const ustring &name, const int first) {
 }
 
 int YMenu::findFirstLetRef(char firstLet, const int first, const int ignCase) {
-    if (ignCase) 
+    if (ignCase)
         firstLet = ASCII::toUpper(firstLet);
     for (int i = first; i < itemCount(); i++) {
         YMenuItem *temp = getItem(i);
         ustring iLetterRef = temp->getName();
         if (iLetterRef != null) {
             int iLetter = iLetterRef.charAt(0);
-            if (ignCase) 
+            if (ignCase)
                 iLetter = ASCII::toUpper(iLetter);
             if (iLetter == firstLet)
                 return i;

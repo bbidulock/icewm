@@ -460,7 +460,7 @@ int SwitchWindow::GetZListWorkspace(YFrameWindow **list, int max,
 
             if (w == fRoot->getFocus()) {
                 if (pass == 0) list[count++] = w;
-            } else if (w->isUrgent()) {              
+            } else if (w->isUrgent()) {
                 if (quickSwitchToUrgent) {
                     if (pass == 1) list[count++] = w;
                 } else {

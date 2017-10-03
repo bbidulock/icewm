@@ -18,11 +18,11 @@ public:
     YString(data_t const * str): fData(NULL) {
         set(str);
     }
-    
+
     YString(data_t const * str, size_t len): fData(NULL) {
         set(str, len);
     }
-    
+
     virtual ~YString() {
         delete[] fData;
     }
@@ -57,13 +57,13 @@ public:
 
         fData[index] = value;
     }
-    
+
     data_t const * cStr() {
         set(fLength, 0);
         return fData;
     }
-    
-    data_t const & get(size_t index) const { 
+
+    data_t const & get(size_t index) const {
         return (index < fSize ? fData[index] : 0);
     }
 

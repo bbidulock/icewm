@@ -24,7 +24,7 @@ YMenuItem::YMenuItem(const ustring &name, int aHotCharPos, const ustring &param,
     fName(name), fParam(param), fAction(action),
     fHotCharPos(aHotCharPos), fSubmenu(submenu), fIcon(null),
     fChecked(false), fEnabled(true) {
-    
+
     if (fName != null && (fHotCharPos == -2 || fHotCharPos == -3)) {
         int i = fName.indexOf('_');
         if (i != -1) {
@@ -43,7 +43,7 @@ YMenuItem::YMenuItem(const ustring &name, int aHotCharPos, const ustring &param,
                 fHotCharPos = -1;
         }
     }
-    
+
     if (fName == null || fHotCharPos >= (int) fName.length() || fHotCharPos < -1)
         fHotCharPos = -1;
 }

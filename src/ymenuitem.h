@@ -20,11 +20,11 @@ public:
     tActionId getAction() const { return fAction; }
     YMenu *getSubmenu() const { return fSubmenu; }
 
-    int getHotChar() const { 
+    int getHotChar() const {
         return (fName != null && fHotCharPos >= 0) ? fName.charAt(fHotCharPos) : -1;
     }
 
-    int getHotCharPos() const { 
+    int getHotCharPos() const {
         return fHotCharPos;
     }
 
@@ -44,7 +44,7 @@ public:
     int getParamWidth() const;
 
     bool isSeparator() { return getName() == null && getSubmenu() == 0; }
-    
+
     void setIcon(ref<YIcon> icon);
 private:
     ustring fName;

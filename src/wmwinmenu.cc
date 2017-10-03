@@ -24,7 +24,7 @@
 
 class ActivateWindowMenuItem: public YMenuItem {
 public:
-    ActivateWindowMenuItem(YFrameWindow *frame): 
+    ActivateWindowMenuItem(YFrameWindow *frame):
         YMenuItem(frame->getTitle(), -1, null, (tActionId) this, 0),
         fFrame(frame)
     {
@@ -91,7 +91,7 @@ YMenu *YWindowManager::createWindowMenu(YMenu *menu, long workspace) {
                 if (level != windowLevel)
                     continue;
 
-                if ((levelCount == 0 && level > 0) || 
+                if ((levelCount == 0 && level > 0) ||
                     ((layerCount == 0 && layer > 0) && needSeparator))
                     menu->addSeparator();
 

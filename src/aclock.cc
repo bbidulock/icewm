@@ -174,17 +174,17 @@ void YClock::paint(Graphics &g, const YRect &/*r*/) {
 #endif
         len = strftime(s, sizeof(s), strTimeFmt(*t), t);
 
-    
+
     //clean backgroung first, so that it is possible
     //to use transparent lcd pixmaps
     if (hasTransparency()) {
 #ifdef CONFIG_GRADIENTS
         ref<YImage> gradient(parent()->getGradient());
-    
+
         if (gradient != null)
             g.drawImage(gradient, this->x(), this->y(),
                          width(), height(), 0, 0);
-        else 
+        else
 #endif
         if (taskbackPixmap != null) {
             g.fillPixmap(taskbackPixmap, 0, 0,

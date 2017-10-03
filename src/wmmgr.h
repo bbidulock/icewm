@@ -128,10 +128,10 @@ public:
                         bool reparent = true);
     void destroyedClient(Window win);
     YFrameWindow *mapClient(Window win);
-    
+
     void setFocus(YFrameWindow *f, bool canWarp = false);
     YFrameWindow *getFocus() { return fFocusWin; }
-    
+
     void loseFocus(YFrameWindow *window);
     void activate(YFrameWindow *frame, bool raise, bool canWarp = false);
 
@@ -272,12 +272,12 @@ public:
     int getScreen();
 
     static void doWMAction(long action);
-    void lockFocus() { 
+    void lockFocus() {
         //MSG(("lockFocus %d", lockFocusCount));
-        lockFocusCount++; 
+        lockFocusCount++;
     }
-    void unlockFocus() { 
-        lockFocusCount--; 
+    void unlockFocus() {
+        lockFocusCount--;
         //MSG(("unlockFocus %d", lockFocusCount));
     }
     bool focusLocked() { return lockFocusCount != 0; }

@@ -165,7 +165,7 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
         g.fillRect(1, 1, width() - 2, height() - 2);
     } else {
         g.setColor(bg);
-    
+
         if (style == 2) {
             p = 2;
             if (wmLook == lookMetal) {
@@ -477,7 +477,7 @@ void TaskPane::paint(Graphics &g, const YRect &/*r*/) {
         g.drawImage(gradient, 0, taskBarDoubleHeight ? 0 : y(),
                     width(), height(), 0, 0);
     else
-#endif    
+#endif
     if (taskbackPixmap != null)
         g.fillPixmap(taskbackPixmap, 0, 0, width(), height(), x(), y());
     else

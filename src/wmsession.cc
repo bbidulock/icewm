@@ -78,7 +78,7 @@ void SMWindows::addWindowInfo(SMWindowInfo *info) {
 
 void SMWindows::setWindowInfo(YFrameWindow */*f*/) {
 }
-                                     
+
 bool SMWindows::getWindowInfo(YFrameWindow */*f*/, SMWindowInfo */*info*/) {
     return false;
 }
@@ -110,7 +110,7 @@ bool SMWindows::findWindowInfo(YFrameWindow *f) {
                 if (klass.equals(window->key.windowClass) &&
                     instance.equals(window->key.windowInstance))
                 {
-                    MSG(("got c %s %s %s %d:%d:%d:%d %d %ld %d", 
+                    MSG(("got c %s %s %s %d:%d:%d:%d %d %ld %d",
                          cstring(cid).c_str(), cstring(klass).c_str(), cstring(instance).c_str(),
                          window->x, window->y, window->width, window->height,
                          window->workspace, window->state, window->layer));
@@ -243,7 +243,7 @@ void loadWindowInfo() {
         } else if (line[0] == 'w') {
             int ws = 0;
 
-            if (sscanf(line, "w %d", &ws) == 1) {        
+            if (sscanf(line, "w %d", &ws) == 1) {
                 if (ws >= 0 && ws < manager->workspaceCount())
                     manager->activateWorkspace(ws);
             }

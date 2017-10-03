@@ -50,7 +50,7 @@ public:
     void reparent(YWindow *parent, int x, int y);
 
     void setWindowFocus();
-    
+
     void setTitle(char const * title);
     void setClassHint(char const * rName, char const * rClass);
 
@@ -134,7 +134,7 @@ public:
 #ifdef CONFIG_GRADIENTS
     virtual ref<YImage> getGradient() const {
         return (parent() ? parent()->getGradient() : null); }
-#endif    
+#endif
 
     int x() const { return fX; }
     int y() const { return fY; }
@@ -211,7 +211,7 @@ public:
 
     bool hasPopup();
     void setDoubleBuffer(bool doubleBuffer);
-    
+
     KeySym keyCodeToKeySym(unsigned int keycode, int index = 0);
     static unsigned long getLastEnterNotifySerial();
 
@@ -232,7 +232,7 @@ private:
     void removeWindow();
 
     bool nullGeometry();
-    
+
     YWindow *fParentWindow;
     YWindow *fNextWindow;
     YWindow *fPrevWindow;
@@ -283,7 +283,7 @@ private:
     Window XdndDropTarget;
 
     static YAutoScroll *fAutoScroll;
-    
+
     void addIgnoreUnmap(Window w);
     bool ignoreUnmap(Window w);
     void removeAllIgnoreUnmap(Window w);
@@ -293,7 +293,7 @@ class YDesktop: public YWindow {
 public:
     YDesktop(YWindow *aParent = 0, Window win = 0);
     virtual ~YDesktop();
-    
+
     virtual void resetColormapFocus(bool active);
 
     void updateXineramaInfo(int &w, int &h);

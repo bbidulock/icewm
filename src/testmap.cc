@@ -57,12 +57,12 @@ int main(int argc, char ** /*argv*/) {
                  PropertyChangeMask);
 
     XSelectInput(display, root, PropertyChangeMask);
-    
+
     XMapRaised(display, window);
-    
+
     while (1) {
         if (argc > 1) {
-            int nwx, nwy; 
+            int nwx, nwy;
             unsigned int nww, nwh;
             int nrx, nry;
             unsigned int bw;
@@ -93,7 +93,7 @@ int main(int argc, char ** /*argv*/) {
             switch (xev.type) {
             case ConfigureNotify:
                 fprintf(stderr, "ConfigureNotify %d %d %d %d %d\n",
-                        configure.x, configure.y, 
+                        configure.x, configure.y,
                         configure.width, configure.height,
                         configure.send_event);
                 break;

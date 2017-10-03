@@ -54,7 +54,7 @@ public:
         actionNew = new YAction();
         actionRestart = new YAction();
         actionClose = new YAction();
-        
+
         menu = new YMenu();
         menu->setActionListener(this);
         menu->addItem(_("Undo"), 0, _("Ctrl+Z"), actionUndo);

@@ -111,7 +111,7 @@ void AboutDlg::autoSize() {
     fCodeSetS->setPosition(dx, dy);
     fLanguageS->setPosition(dx, dy);
 
-    
+
     dx = XMAX(dx, RX(fThemeNameS));
     dx = XMAX(dx, RX(fThemeDescriptionS));
     dx = XMAX(dx, RX(fThemeAuthorS));
@@ -127,7 +127,7 @@ void AboutDlg::autoSize() {
     W = XMAX(W, RX(fThemeName));
     dy += cy;
     dy += 4;
-    
+
     fThemeDescriptionS->setPosition(dx1, dy);
     cy = fThemeDescriptionS->height();
     W = XMAX(W, RX(fThemeDescriptionS));
@@ -137,7 +137,7 @@ void AboutDlg::autoSize() {
     dy += cy;
 
     dy += 4;
-    
+
     fThemeAuthorS->setPosition(dx1, dy);
     cy = fThemeAuthorS->height();
     W = XMAX(W, RX(fThemeAuthorS));
@@ -147,7 +147,7 @@ void AboutDlg::autoSize() {
     dy += cy;
 
     dy += 20;
-    
+
     fCodeSetS->setPosition(dx1, dy);
     cy = fCodeSetS->height();
     W = XMAX(W, RX(fCodeSetS));
@@ -157,7 +157,7 @@ void AboutDlg::autoSize() {
     dy += cy;
 
     dy += 4;
-    
+
     fLanguageS->setPosition(dx1, dy);
     cy = fLanguageS->height();
     W = XMAX(W, RX(fLanguageS));
@@ -167,7 +167,7 @@ void AboutDlg::autoSize() {
     dy += cy;
 
     H = dy + 20;
-    
+
     W += 20;
     setSize(W, H);
 }

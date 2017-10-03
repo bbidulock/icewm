@@ -20,7 +20,7 @@ public:
     virtual ~WindowListItem();
 
     virtual int getOffset();
-    
+
     virtual ustring getText();
     virtual ref<YIcon> getIcon();
     ClientData *getFrame() const { return fFrame; }
@@ -37,7 +37,7 @@ public:
 
     virtual bool handleKey(const XKeyEvent &key);
     virtual void handleClick(const XButtonEvent &up, int count);
-    
+
     virtual void activateItem(YListItem *item);
     virtual void actionPerformed(tActionId action, unsigned int modifiers);
 

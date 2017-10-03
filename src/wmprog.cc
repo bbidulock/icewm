@@ -505,7 +505,7 @@ char *parseMenus(
                     return p;
                 }
 
-                DProgram *prog = DProgram::newProgram(                
+                DProgram *prog = DProgram::newProgram(
                     app,
                     smActionListener,
                     key,
@@ -527,7 +527,7 @@ char *parseMenus(
 }
 
 void loadMenus(
-    IApp *app, 
+    IApp *app,
     YSMListener *smActionListener,
     YActionListener *wmActionListener,
     upath menufile,

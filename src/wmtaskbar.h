@@ -121,7 +121,7 @@ public:
 
 #ifdef CONFIG_GRADIENTS
     virtual ref<YImage> getGradient() const { return fGradient; }
-#endif    
+#endif
 
     void contextMenu(int x_root, int y_root);
 
@@ -194,7 +194,7 @@ private:
 
     friend class WindowList;
     friend class WindowListBox;
-    
+
 #ifdef CONFIG_GRADIENTS
     ref<YImage> fGradient;
 #endif

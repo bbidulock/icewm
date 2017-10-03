@@ -184,7 +184,7 @@ inline char const * niceUnit(T & val, char const * const units[],
             val = (val + div / 2) / div;
         }
     }
-    
+
     return uname;
 }
 
@@ -203,14 +203,14 @@ inline bool hasbits(M mask, B bits) {
 /*
  * Returns the lowest bit set in mask.
  */
-template <class T> 
+template <class T>
 inline unsigned lowbit(T mask) {
 #if defined(CONFIG_X86_ASM) && defined(__i386__) && \
     defined(__GNUC__) && (__GNUC__ * 100 + __GNUC_MINOR__ > 208)
     unsigned bit;
     asm ("bsf %1,%0" : "=r" (bit) : "r" (mask));
 #else
-    unsigned bit(0); 
+    unsigned bit(0);
     while(!(mask & (1 << bit)) && bit < sizeof(mask) * 8) ++bit;
 #endif
 
@@ -220,7 +220,7 @@ inline unsigned lowbit(T mask) {
 /*
  * Returns the highest bit set in mask.
  */
-template <class T> 
+template <class T>
 inline unsigned highbit(T mask) {
 #if defined(CONFIG_X86_ASM) && defined(__i386__) && \
     defined(__GNUC__) && (__GNUC__ * 100 + __GNUC_MINOR__ > 208)

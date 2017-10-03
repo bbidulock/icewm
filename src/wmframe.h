@@ -54,7 +54,7 @@ public:
 
     virtual void actionPerformed(tActionId action, unsigned int modifiers);
     virtual void handleMsgBox(YMsgBox *msgbox, int operation);
-    
+
     void wmRestore();
     void wmMinimize();
     void wmMaximize();
@@ -134,7 +134,7 @@ public:
 
     void outlineMove();
     void outlineResize();
-    
+
     void constrainPositionByModifier(int &x, int &y, const XMotionEvent &motion);
     void constrainMouseToWorkspace(int &x, int &y);
 
@@ -198,7 +198,7 @@ public:
     virtual void handlePopDown(YPopupWindow *popup);
 
     virtual void configure(const YRect &r);
-    
+
     void getNewPos(const XConfigureRequestEvent &cr,
                    int &cx, int &cy, int &cw, int &ch);
     void configureClient(const XConfigureRequestEvent &configureRequest);
@@ -282,7 +282,7 @@ public:
     int borderX() const;
     int borderY() const;
     int titleY() const;
-    
+
     void layoutTitleBar();
     void layoutButtons();
     void layoutResizeIndicators();

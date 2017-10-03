@@ -32,7 +32,7 @@ public:
 
     void setShown(bool show);
     bool getShown() const { return fShown; }
-    
+
     TrayApp *getNext() const { return fNext; }
     TrayApp *getPrev() const { return fPrev; }
     void setNext(TrayApp *next) { fNext = next; }
@@ -44,12 +44,12 @@ private:
     bool fShown;
     int selected;
     static YTimer *fRaiseTimer;
-    
+
 #ifdef CONFIG_GRADIENTS
     static ref<YImage> taskMinimizedGradient;
     static ref<YImage> taskActiveGradient;
     static ref<YImage> taskNormalGradient;
-#endif    
+#endif
 };
 
 class IAppletContainer;

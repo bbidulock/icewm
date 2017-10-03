@@ -26,7 +26,7 @@
 #ifdef CONFIG_GRADIENTS //------------------------------------------------------
 #define TEST_GRADIENT(Cond) (Cond)
 #define IF_CONFIG_GRADIENTS(Cond, Stmt) if (Cond) { Stmt; }
-#else    
+#else
 #define TEST_GRADIENT(Cond) true
 #define IF_CONFIG_GRADIENTS(Cond, Stmt) if (false) {}
 #endif // CONFIG_GRADIENTS -----------------------------------------------------
@@ -108,7 +108,7 @@ public:
     virtual int textWidth(const ustring &s) const = 0;
     virtual int textWidth(char const * str, int len) const = 0;
 
-    virtual void drawGlyphs(class Graphics & graphics, int x, int y, 
+    virtual void drawGlyphs(class Graphics & graphics, int x, int y,
                             char const * str, int len) = 0;
 
     int textWidth(char const * str) const;
@@ -148,10 +148,10 @@ public:
 
     void copyArea(const int x, const int y, const int width, const int height,
                   const int dx, const int dy);
-    void copyDrawable(const Drawable d, const int x, const int y, 
+    void copyDrawable(const Drawable d, const int x, const int y,
                       const int w, const int h, const int dx, const int dy);
 #if 0
-    void copyImage(XImage * im, const int x, const int y, 
+    void copyImage(XImage * im, const int x, const int y,
                    const int w, const int h, const int dx, const int dy);
     void copyImage(XImage * im, const int x, const int y) {
         copyImage(im, 0, 0, im->width, im->height, x, y);

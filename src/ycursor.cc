@@ -128,11 +128,11 @@ YCursorPixmap::YCursorPixmap(upath path):
         warn(_("Loading of pixmap \"%s\" failed"), cs.c_str());
         return;
     }
-    
+
     Imlib_render(hImlib, fImage, fImage->rgb_width, fImage->rgb_height);
     fPixmap = (Pixmap)Imlib_move_image(hImlib, fImage);
     fMask = (Pixmap)Imlib_move_mask(hImlib, fImage);
-        
+
     struct Pixel { // ----------------- find the background/foreground color ---
         bool operator!= (const Pixel& o) {
             return (r != o.r || g != o.g || b != o.b); }
@@ -166,7 +166,7 @@ YCursorPixmap::YCursorPixmap(upath path):
                         return;
                     }
             }
-    
+
     fForeground.red = (unsigned short)(fg.r << 8); // -- alloc the background/foreground color ---
     fForeground.green = (unsigned short)(fg.g << 8);
     fForeground.blue = (unsigned short)(fg.b << 8);
@@ -190,7 +190,7 @@ YCursorPixmap::YCursorPixmap(upath path):
                 if ((c == fgetc(xpm)) == '/') // ------ eat C++ line comment ---
                     while (fgetc(xpm) != '\n');
                 else { // -------------------------------- eat block comment ---
-                   int pc; do { pc = c; c = fgetc(xpm); } 
+                   int pc; do { pc = c; c = fgetc(xpm); }
                    while (c != '/' && pc != '*');
                 }
                 break;
@@ -241,7 +241,7 @@ YCursorPixmap::~YCursorPixmap() {
     if (fMask != None)
         XFreePixmap(xapp->display(), fMask);
 
-#ifdef CONFIG_XPM 
+#ifdef CONFIG_XPM
     XpmFreeAttributes(&fAttributes);
 #endif
 
@@ -278,7 +278,7 @@ static Pixmap createMask(int w, int h) {
 Cursor MyCursorLoader::load(upath path) {
     Cursor fCursor = None;
     YCursorPixmap pixmap(path);
-    
+
     if (pixmap.isValid()) { // ============ convert coloured pixmap into a bilevel one ===
         Pixmap bilevel(createMask(pixmap.width(), pixmap.height()));
 
@@ -293,7 +293,7 @@ Cursor MyCursorLoader::load(upath path) {
             while ((pixmap.background().pixel & pmask) == 0) pmask >>= 1;
 
         GC gc; XGCValues gcv; // ------ copy one plane by using a bilevel GC ---
-        gcv.function = (pixmap.foreground().pixel && 
+        gcv.function = (pixmap.foreground().pixel &&
                        (pixmap.foreground().pixel & pmask))
                      ? GXcopyInverted : GXcopy;
         gc = XCreateGC (xapp->display(), bilevel, GCFunction, &gcv);
@@ -310,7 +310,7 @@ Cursor MyCursorLoader::load(upath path) {
                background(pixmap.background());
 
         fCursor = XCreatePixmapCursor(xapp->display(),
-                                      bilevel, pixmap.mask(), 
+                                      bilevel, pixmap.mask(),
                                       &foreground, &background,
                                       pixmap.hotspotX(), pixmap.hotspotY());
 
@@ -357,9 +357,9 @@ Cursor MyCursorLoader::load(upath /*name*/, unsigned int fallback)
         }
     }
 
-#endif    
+#endif
     if (fCursor == None)
         fCursor = XCreateFontCursor(xapp->display(), fallback);
-        
+
     return fCursor;
 }

@@ -38,21 +38,21 @@ private:
         YSMListener *smActionListener,
         const ustring& label,
         const ustring& relThemeName);
-    
+
     static void findThemeAlternatives(
         IApp *app,
         YSMListener *smActionListener,
         const upath& path,
         const ustring& relName,
         YMenuItem *item);
-        
+
     // this solution isn't nice. Saving it globaly somewhere would be
     // much better, we would have a themeCound from the last refresh
     // cycle and update it after menu construction, counting themes that
     // are actually added to menues
     int countThemes(const upath& path);
     int themeCount;
-    
+
     YSMListener *smActionListener;
     YActionListener *wmActionListener;
     IApp *app;

@@ -1794,7 +1794,7 @@ bool YFrameClient::getNetWMStrut(int *left, int *right, int *top, int *bottom) {
     return false;
 }
 
-bool YFrameClient::getNetWMStrutPartial(int *left, int *right, int *top, int *bottom, 
+bool YFrameClient::getNetWMStrutPartial(int *left, int *right, int *top, int *bottom,
         int *left_start_y, int *left_end_y, int *right_start_y, int* right_end_y,
         int *top_start_x, int *top_end_x, int *bottom_start_x, int *bottom_end_x) {
     if (left_start_y   != 0) *left_start_y   = 0;

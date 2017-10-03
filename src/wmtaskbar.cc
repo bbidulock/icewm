@@ -148,7 +148,7 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     YFrameClient(aParent, 0) INIT_GRADIENT(fGradient, null)
 {
     taskBar = this;
- 
+
     this->app = app;
     this->wmActionListener = wmActionListener;
     this->smActionListener = smActionListener;
@@ -185,10 +185,10 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
                     fIsCollapsed ? WinLayerAboveDock :
                     taskBarKeepBelow ? WinLayerBelow : WinLayerDock);
 #endif
-    Atom protocols[2] = { 
+    Atom protocols[2] = {
       _XA_WM_DELETE_WINDOW,
       _XA_WM_TAKE_FOCUS
-      //_NET_WM_PING, 
+      //_NET_WM_PING,
       //_NET_WM_SYNC_REQUEST,
     };
     XSetWMProtocols(xapp->display(), handle(), protocols, 2);
@@ -713,7 +713,7 @@ void TaskBar::updateLocation() {
     w = (dw/100.0) * taskBarWidthPercentage;
     if (strcmp(taskBarJustify, "right") == 0) x = dw - w;
     if (strcmp(taskBarJustify, "center") == 0) x = (dw - w)/2;
-    
+
     updateLayout(w, h);
 
     if (fIsCollapsed) {

@@ -73,7 +73,7 @@ int main() {
         TEST_RATING("de_DE@DEM");
         TEST_RATING("de_DE@euro");
     }
-    
+
     {
         YLocale locale("ru_RU.koi8r");
         printf("Current locale: %s\n", YLocale::getLocaleName());

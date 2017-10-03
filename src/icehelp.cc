@@ -1714,7 +1714,7 @@ public:
     FileView(YApplication *app, const char *path);
     ~FileView() {}
 
-    void activateURL(const cstring& url, bool relative = false); 
+    void activateURL(const cstring& url, bool relative = false);
 
     virtual void configure(const YRect &r) {
         YWindow::configure(r);

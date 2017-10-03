@@ -1914,7 +1914,7 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
 #ifndef NO_CONFIGURE
             if (xineramaPrimaryScreenName != 0 && oinfo->name != NULL) {
                 if (strcmp(xineramaPrimaryScreenName, oinfo->name) == 0)
-                { 
+                {
                     int s = oinfo->crtc;
                     for (int sc = 0; sc < xiInfo.getCount(); sc++) {
                          if (xiInfo[sc].screen_number == s) {
@@ -1977,7 +1977,7 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
                 w = xiInfo[i].width + xiInfo[i].x_org;
             if (xiInfo[i].y_org + xiInfo[i].height > h)
                 h = xiInfo[i].height + xiInfo[i].y_org;
-            
+
             MSG(("screen %d (%d): %d %d %d %d", i, xiInfo[i].screen_number, xiInfo[i].x_org, xiInfo[i].y_org, xiInfo[i].width, xiInfo[i].height));
         }
     }

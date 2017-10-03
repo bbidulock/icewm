@@ -31,13 +31,13 @@ public:
     virtual void runOnce(const char *resource, const char *path, char *const *args) = 0;
     virtual void runCommandOnce(const char *resource, const char *cmdline) = 0;
 protected:
-    virtual ~YSMListener() {}; 
+    virtual ~YSMListener() {};
 };
 
-class YWMApp: 
-    public YSMApplication, 
-    public YActionListener, 
-    public YMsgBoxListener, 
+class YWMApp:
+    public YSMApplication,
+    public YActionListener,
+    public YMsgBoxListener,
     public YSMListener
 {
 public:

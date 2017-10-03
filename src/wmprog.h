@@ -18,7 +18,7 @@ public:
     virtual ~DProgram();
 
     virtual void open();
-    
+
     static char *fullname(const char *exe);
     static DProgram *newProgram(
         IApp *app,
@@ -89,7 +89,7 @@ public:
         upath command,
         YStringArray &args,
         YWindow *parent = 0);
-        
+
     virtual ~MenuProgMenu();
     virtual void updatePopup();
     virtual void refresh(
@@ -138,10 +138,10 @@ public:
     StartMenu(
         IApp *app,
         YSMListener *smActionListener,
-        YActionListener *wmActionListener,    
+        YActionListener *wmActionListener,
         const char *name,
         YWindow *parent = 0);
-        
+
     virtual bool handleKey(const XKeyEvent &key);
     virtual void updatePopup();
     virtual void refresh();
@@ -152,7 +152,7 @@ public:
 
 private:
     YSMListener *smActionListener;
-    YActionListener *wmActionListener;  
+    YActionListener *wmActionListener;
 };
 
 class KProgram {

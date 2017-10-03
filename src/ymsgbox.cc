@@ -91,14 +91,14 @@ void YMsgBox::autoSize() {
     int w = lw + 24, h;
 
     w = clamp(w, 240, desktop->width());
-    
+
     h = 12;
     if (fLabel) {
         fLabel->setPosition((w - lw) / 2, h);
         h += fLabel->height();
     }
     h += 18;
-    
+
     unsigned const hh(max(fButtonOK ? fButtonOK->height() : 0,
                           fButtonCancel ? fButtonCancel->height() : 0));
     unsigned const ww(max(fButtonOK ? fButtonOK->width() : 0,
@@ -116,7 +116,7 @@ void YMsgBox::autoSize() {
     h += fButtonOK ? fButtonOK->height() :
         fButtonCancel ? fButtonCancel->height() : 0;
     h += 12;
-    
+
     setSize(w, h);
 }
 

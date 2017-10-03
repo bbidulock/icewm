@@ -494,7 +494,7 @@ void YXApplication::initModifiers() {
     XModifierKeymap *xmk = XGetModifierMapping(xapp->display());
     AltMask = MetaMask = WinMask = SuperMask = HyperMask =
         NumLockMask = ScrollLockMask = ModeSwitchMask = 0;
-    
+
     if (xmk) {
         KeyCode *c = xmk->modifiermap;
 
@@ -974,8 +974,8 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
         int major = 0;
         int minor = 0;
         XRRQueryVersion(display(), &major, &minor);
-            
-        MSG(("XRRVersion: %d %d", major, minor)); 
+
+        MSG(("XRRVersion: %d %d", major, minor));
         if (major > 1 || (major == 1 && minor >= 2)) {
             xrandrSupported = 1;
             xrandr12 = true;
@@ -1046,7 +1046,7 @@ bool YXApplication::handleXEvents() {
 bool YXApplication::handleIdle() {
     return handleXEvents();
 }
- 
+
 void YXApplication::handleWindowEvent(Window xwindow, XEvent &xev) {
     int rc = 0;
     union {
@@ -1060,7 +1060,7 @@ void YXApplication::handleWindowEvent(Window xwindow, XEvent &xev) {
                            &(window.xptr))) == 0)
     {
         if ((xev.type == KeyPress || xev.type == KeyRelease)
-            && window.ptr->toplevel() != 0) 
+            && window.ptr->toplevel() != 0)
         {
             YWindow *w = window.ptr;
 

@@ -427,8 +427,8 @@ void YFrameWindow::outlineMove() {
         XEvent xev;
 
         XWindowEvent(xapp->display(), handle(),
-                     KeyPressMask | ExposureMask | 
-                     ButtonPressMask | ButtonReleaseMask | 
+                     KeyPressMask | ExposureMask |
+                     ButtonPressMask | ButtonReleaseMask |
                      PointerMotionMask, &xev);
 
         switch (xev.type) {
@@ -509,7 +509,7 @@ void YFrameWindow::outlineResize() {
 
         XWindowEvent(xapp->display(), handle(),
                      KeyPressMask | ExposureMask |
-                     ButtonPressMask | ButtonReleaseMask | 
+                     ButtonPressMask | ButtonReleaseMask |
                      PointerMotionMask, &xev);
 
         switch (xev.type) {
@@ -540,7 +540,7 @@ void YFrameWindow::outlineResize() {
                     case -1:
                         goto end;
                 }
-                
+
                 break;
             }
 
@@ -640,7 +640,7 @@ void YFrameWindow::manualPlace() {
 
                 break;
             }
-            
+
 
             case ButtonPress:
             case ButtonRelease:
@@ -950,7 +950,7 @@ void YFrameWindow::startMoveSize(int doMove, int byMouse,
                 grabPointer = YWMApp::sizeRightPointer.handle();
             else
                 grabPointer = YXApplication::leftPointer.handle();
-            
+
         }
 
         if (grabX == 1)

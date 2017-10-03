@@ -29,7 +29,7 @@ public:
     void expand(int n) { if (n > siz) replace(copyTo(new char[n]), n); }
     char operator[](int at) const { return at < len ? cstr()[at] : 0; }
     void push(char ch) {
-        if (siz < len + 2) expand(2 * len); 
+        if (siz < len + 2) expand(2 * len);
         str()[len + 1] = 0;
         str()[len++] = ch;
     }

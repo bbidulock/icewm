@@ -32,7 +32,7 @@
  *     this has the advantage of being slightly faster, but
  *     demands that all hints are handled at one place. WM ignores
  *     other hints of the same type if these two are present.
- 
+
  *   - check out WMaker and KDE hints to make a superset of all
  *   - virtual desktop, handling of virtual (>screen) scrolling
  *     desktops and pages (fvwm like?)
@@ -111,7 +111,7 @@
  *     XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
  *
  */
- 
+
 #define XA_WIN_WORKSPACE_COUNT "_WIN_WORKSPACE_COUNT"
 /* Type: CARD32
  *       workspace count, set by window manager
@@ -122,7 +122,7 @@
 #define XA_WIN_WORKSPACE_NAMES "_WIN_WORKSPACE_NAMES"
 /* Type: StringList (TextPropery)
  *
- * 
+ *
  * IMPLEMENTED but not FINALIZED.
  * perhaps the name should be separate for each workspace (like KDE).
  * this where WIN_WORKSPACE_COUNT comes into play.
@@ -183,11 +183,11 @@
  * TODO: A few available layers could be used for WMaker menus/submenus
  * (comments?)
  *
- * Partially implemented. Currently requires all docked windows to be 
+ * Partially implemented. Currently requires all docked windows to be
  * sticky (only one workarea for all workspaces). Otherwise non-docked sticky
  * windows could (?) move when switching workspaces (annoying).
  */
- 
+
 #define WinLayerCount          16
 #define WinLayerInvalid        -1L
 

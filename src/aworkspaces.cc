@@ -297,8 +297,8 @@ YSurface WorkspaceButton::getSurface() {
             new YColor(*clrWorkspaceNormalButton
                        ? clrWorkspaceNormalButton : clrNormalButton);
 
-#ifdef CONFIG_GRADIENTS    
-    return (isPressed() ? YSurface(activeButtonBg, 
+#ifdef CONFIG_GRADIENTS
+    return (isPressed() ? YSurface(activeButtonBg,
                                    workspacebuttonactivePixmap,
                                    workspacebuttonactivePixbuf)
             : YSurface(normalButtonBg,
@@ -374,7 +374,7 @@ void WorkspaceButton::paint(Graphics &g, const YRect &/*r*/) {
             wh = (int) round(yfw->height()  / sf);
             if (ww < 1 || wh < 1)
                 continue;
-            if (yfw->isMaximizedVert()) { // !!! hack 
+            if (yfw->isMaximizedVert()) { // !!! hack
                 wy = y; wh = h;
             }
             if (yfw->isMinimized()) {

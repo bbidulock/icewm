@@ -78,7 +78,7 @@ public:
         mbxHasNewMail,
         mbxError
     };
-    
+
     MailBoxStatus(IApp *app, YSMListener *smActionListener, mstring mailBox, YWindow *aParent = 0);
     virtual ~MailBoxStatus();
 
@@ -89,7 +89,7 @@ public:
     void checkMail();
     void mailChecked(MailBoxState mst, long count);
     void newMailArrived();
-    
+
     virtual bool handleTimer(YTimer *t);
 private:
     mstring fMailBox;

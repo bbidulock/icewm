@@ -22,7 +22,7 @@ public:
         YWindow *aParent = 0,
 	int cpuid = -1);
     virtual ~CPUStatus();
-    
+
     virtual void paint(Graphics &g, const YRect &r);
 
     virtual bool handleTimer(YTimer *t);

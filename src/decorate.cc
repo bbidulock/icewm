@@ -207,13 +207,13 @@ void YFrameWindow::layoutShape() {
         {
             int const a(focused() ? 1 : 0);
             int const t((frameDecors() & fdResize) ? 0 : 1);
-    
+
             Pixmap shape = XCreatePixmap(xapp->display(), desktop->handle(), width(), height(), 1);
             Graphics g(shape, width(), height());
-    
+
             g.setColorPixel(1);
             g.fillRect(0, 0, width(), height());
-    
+
             const int xTL(frameTL[t][a] != null ? frameTL[t][a]->width() : 0),
                 xTR(width() -
                     (frameTR[t][a] != null ? frameTR[t][a]->width() : 0)),
@@ -226,7 +226,7 @@ void YFrameWindow::layoutShape() {
                 yTR(frameTR[t][a] != null ? frameTR[t][a]->height() : 0),
                 yBR(height() -
                     (frameBR[t][a] != null ? frameBR[t][a]->height() : 0));
-    
+
             if (frameTL[t][a] != null) {
                 g.copyDrawable(frameTL[t][a]->mask(), 0, 0,
                                frameTL[t][a]->width(), frameTL[t][a]->height(),
@@ -263,7 +263,7 @@ void YFrameWindow::layoutShape() {
                                frameBR[t][a]->width() - borderX(),
                                frameBR[t][a]->width() - borderY());
             }
-    
+
             if (frameT[t][a] != null)
                 g.repHorz(frameT[t][a]->mask(),
                           frameT[t][a]->width(), frameT[t][a]->height(),
@@ -280,7 +280,7 @@ void YFrameWindow::layoutShape() {
                 g.repVert(frameR[t][a]->mask(),
                           frameR[t][a]->width(), frameR[t][a]->height(),
                           width() - frameR[t][a]->width(), yTR, yBR - yTR);
-    
+
             if (titlebar() && titleY())
                 titlebar()->renderShape(shape);
             XShapeCombineMask(xapp->display(), handle(),
@@ -296,7 +296,7 @@ void YFrameWindow::layoutShape() {
 #endif
     }
 }
-    
+
 void YFrameWindow::configure(const YRect &r) {
     MSG(("configure %d %d %d %d", r.x(), r.y(), r.width(), r.height()));
 

@@ -84,9 +84,9 @@ void YScrollView::configure(const YRect &r) {
 
 void YScrollView::paint(Graphics &g, const YRect &r) {
     int dx, dy;
-    
+
     getGap(dx, dy);
-    
+
     g.setColor(scrollBarBg);
     if (dx && dy) g.fillRect(width() - dx, height() - dy, dx, dy);
 
