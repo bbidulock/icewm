@@ -20,7 +20,11 @@
 #include <execinfo.h>
 #endif
 
-int dynActionId = INT_MAX/2;
+size_t genActionId()
+{
+	static int dynActionId = 1 + INT_MAX/2;
+	return dynActionId += 2;
+}
 
 #ifdef DEBUG
 bool debug = false;
