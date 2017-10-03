@@ -20,7 +20,7 @@ public:
     CPUStatus(
         YSMListener *smActionListener = 0,
         YWindow *aParent = 0,
-	int cpuid = -1);
+        int cpuid = -1);
     virtual ~CPUStatus();
 
     virtual void paint(Graphics &g, const YRect &r);

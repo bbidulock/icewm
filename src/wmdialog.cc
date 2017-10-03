@@ -42,7 +42,7 @@ bool couldRunCommand(const char *cmd) {
 
 bool canLock()
 {
-	return couldRunCommand(lockCommand);
+        return couldRunCommand(lockCommand);
 }
 
 bool canShutdown(bool reboot) {
@@ -103,7 +103,7 @@ CtrlAltDelete::CtrlAltDelete(IApp *app, YWindow *parent): YWindow(parent) {
     if (!canLock())
         lockButton->setEnabled(false);
     if (!couldRunCommand(suspendCommand))
-    	suspendButton->setEnabled(false);
+        suspendButton->setEnabled(false);
 
     setSize(HORZ + w + MIDH + w + MIDH + w + HORZ,
             VERT + h + MIDV + h + MIDV + h + VERT);
@@ -209,7 +209,7 @@ void CtrlAltDelete::deactivate() {
 
 YActionButton* CtrlAltDelete::addButton(const ustring& str, int& maxW, int& maxH)
 {
-	YActionButton* b = new YActionButton(this);
+        YActionButton* b = new YActionButton(this);
     b->setText(str, -2);
     if (b->width() > maxW) maxW = b->width();
     if (b->height() > maxH) maxH = b->height();

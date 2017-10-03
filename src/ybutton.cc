@@ -123,8 +123,8 @@ void YButton::paint(Graphics &g, const YRect &/*r*/) {
         } else if (wmLook == lookGtk) {
             g.drawBorderG(x, y, w - 1, h - 1, !d);
             x += 1 + d; y += 1 + d; w -= 3; h -= 3;
-	} else if (wmLook == lookFlat){
-	    d = 0;
+        } else if (wmLook == lookFlat){
+            d = 0;
         } else {
             g.drawBorderW(x, y, w - 1, h - 1, !d);
             x += 1 + d; y += 1 + d; w -= 3; h -= 3;

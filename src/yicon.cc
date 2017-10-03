@@ -203,10 +203,10 @@ ref<YImage> YIcon::huge() {
         fHuge = loadIcon(hugeSize());
         loadedH = true;
 
-	if (fHuge == null && large() != null)
+        if (fHuge == null && large() != null)
             fHuge = large()->scale(hugeSize(), hugeSize());
 
-	if (fHuge == null && small() != null)
+        if (fHuge == null && small() != null)
             fHuge = small()->scale(hugeSize(), hugeSize());
     }
 
@@ -218,11 +218,11 @@ ref<YImage> YIcon::large() {
         fLarge = loadIcon(largeSize());
         loadedL = true;
 
-	if (fLarge == null && huge() != null)
+        if (fLarge == null && huge() != null)
             fLarge = huge()->scale(largeSize(), largeSize());
 
-	if (fLarge == null && small() != null)
-	    fLarge = small()->scale(largeSize(), largeSize());
+        if (fLarge == null && small() != null)
+            fLarge = small()->scale(largeSize(), largeSize());
     }
 
     return fLarge;
@@ -235,7 +235,7 @@ ref<YImage> YIcon::small() {
 
         if (fSmall == null && large() != null)
             fSmall = large()->scale(smallSize(), smallSize());
-	if (fSmall == null && huge() != null)
+        if (fSmall == null && huge() != null)
             fSmall = huge()->scale(smallSize(), smallSize());
     }
 

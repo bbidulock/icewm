@@ -62,7 +62,7 @@ WindowOption *WindowOptions::getWindowOption(ustring a_class_instance,
 
     while (lo < hi) {
         const int pv = (lo + hi) / 2;
-	const WindowOption *pivot = fWinOptions[pv];
+        const WindowOption *pivot = fWinOptions[pv];
 
         int cmp = wo_cmp(a_class_instance,
                          pivot);
@@ -92,7 +92,7 @@ WindowOption *WindowOptions::getWindowOption(ustring a_class_instance,
 
 #ifdef DEBUG
     for (int i = 0; i < fWinOptions.getCount(); ++i)
-    	MSG(("> %d: %p", i, fWinOptions[i]));
+        MSG(("> %d: %p", i, fWinOptions[i]));
 #endif
 
     return newopt;

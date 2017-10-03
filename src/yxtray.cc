@@ -489,10 +489,10 @@ void YXTray::backgroundChanged() {
 #ifdef CONFIG_TASKBAR
         XSetWindowBackground(xapp->display(), ec->handle(), bg);
         XSetWindowBackground(xapp->display(), ec->client_handle(), bg);
-	/* something is not clearing which background changes */
-	XClearArea(xapp->display(), ec->client_handle(), 0, 0, 0, 0, True);
+        /* something is not clearing which background changes */
+        XClearArea(xapp->display(), ec->client_handle(), 0, 0, 0, 0, True);
 #endif
-	ec->repaint();
+        ec->repaint();
     }
     relayout();
     repaint();
