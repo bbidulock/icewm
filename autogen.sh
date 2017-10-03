@@ -10,15 +10,18 @@ if [ -x "`which git 2>/dev/null`" -a -d .git ]; then
 	VERSION=$(git describe --tags|sed 's,[-_],.,g;s,\.g.*$,,')
 	DATE=$(git show -s --format=%ci HEAD^{commit}|awk '{print$1}')
 	BRANCH=$(git tag --sort=-creatordate|head -1)
+	GNITS="gnits "
 	if [ "$VERSION" != "$BRANCH" ]; then
 		BRANCH="icewm-1-4-BRANCH"
+		GNITS=""
 	fi
 	sed -i.bak configure.ac -r \
 		-e "s:AC_INIT\([[]$PACKAGE[]],[[][^]]*[]]:AC_INIT([$PACKAGE],[$VERSION]:
 		    s:AC_REVISION\([[][^]]*[]]\):AC_REVISION([$VERSION]):
 		    s:^DATE=.*$:DATE='$DATE':
 		    s:^BRANCH=.*$:BRANCH='$BRANCH':
-		    s:^AM_GNU_GETTEXT_VERSION.*:AM_GNU_GETTEXT_VERSION([$GTVERSION]):"
+		    s:^AM_GNU_GETTEXT_VERSION.*:AM_GNU_GETTEXT_VERSION([$GTVERSION]):
+		    s:^AM_INIT_AUTOMAKE\([[](gnits )?:AM_INIT_AUTOMAKE([$GNITS:"
 	subst="s:%%PACKAGE%%:$PACKAGE:g
 	       s:%%VERSION%%:$VERSION:g
 	       s:%%DATE%%:$DATE:g
