@@ -59,3 +59,5 @@ static const char* gui_event_names[NUM_GUI_EVENTS] =
 #endif
 
 #endif
+
+// vim: set sw=4 tw=4 et:

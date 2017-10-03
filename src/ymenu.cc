@@ -1183,3 +1183,5 @@ void YMenu::hideSubmenu() {
     fPopupActive = 0;
     submenuItem = -1;
 }
+
+// vim: set sw=4 tw=4 et:

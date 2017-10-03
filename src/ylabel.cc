@@ -89,3 +89,5 @@ void YLabel::autoSize() {
     setSize(1 + w + 1, 1 + h + 1);
 }
 #endif
+
+// vim: set sw=4 tw=4 et:

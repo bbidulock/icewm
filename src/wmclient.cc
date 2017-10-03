@@ -2124,3 +2124,5 @@ void YFrameClient::configure(const YRect &r) {
          r.height()));
 }
 
+
+// vim: set sw=4 tw=4 et:

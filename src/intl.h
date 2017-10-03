@@ -17,3 +17,5 @@
 #       define _(String) (String)
 #       define N_(String) (String)
 #endif
+
+// vim: set sw=4 tw=4 et:

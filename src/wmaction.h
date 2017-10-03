@@ -78,3 +78,5 @@ bool canLock();
 bool couldRunCommand(const char *cmd);
 
 #endif
+
+// vim: set sw=4 tw=4 et:

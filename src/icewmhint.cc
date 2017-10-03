@@ -103,3 +103,5 @@ int main(int argc, char **argv) {
                     hint, hint_len);
     XCloseDisplay(display);
 }
+
+// vim: set sw=4 tw=4 et:

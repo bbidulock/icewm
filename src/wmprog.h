@@ -179,3 +179,5 @@ private:
 #endif /* NO_CONFIGURE_MENUS */
 
 #endif
+
+// vim: set sw=4 tw=4 et:

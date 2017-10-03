@@ -70,3 +70,5 @@ YDimension YFont::multilineAlloc(const ustring &str) const {
     cstring cs(str);
     return multilineAlloc(cs.c_str());
 }
+
+// vim: set sw=4 tw=4 et:

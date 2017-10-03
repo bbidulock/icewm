@@ -140,3 +140,5 @@ char **YStringArray::release() {
     YBaseArray::release();
     return strings;
 }
+
+// vim: set sw=4 tw=4 et:

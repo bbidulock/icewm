@@ -451,3 +451,5 @@ void YFrameTitleBar::renderShape(Pixmap shape) {
 }
 #endif
 
+
+// vim: set sw=4 tw=4 et:

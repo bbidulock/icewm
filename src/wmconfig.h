@@ -18,3 +18,5 @@ void addWorkspace(const char *name, const char *value, bool append);
 void setLook(const char *name, const char *value, bool append);
 
 #endif
+
+// vim: set sw=4 tw=4 et:

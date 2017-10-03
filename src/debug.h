@@ -19,3 +19,5 @@ extern bool debug_z;
 #endif
 
 #endif
+
+// vim: set sw=4 tw=4 et:

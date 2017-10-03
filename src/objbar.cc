@@ -140,3 +140,5 @@ void ObjectButton::actionPerformed(tActionId  action, unsigned modifiers) {
 #ifndef NO_CONFIGURE_MENUS
 ObjectMenu *rootMenu(NULL);
 #endif
+
+// vim: set sw=4 tw=4 et:

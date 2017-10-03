@@ -492,3 +492,5 @@ void WPixRes::initPixmaps() {
 void WPixRes::freePixmaps() {
     freePixmapResources();
 }
+
+// vim: set sw=4 tw=4 et:

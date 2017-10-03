@@ -1125,3 +1125,5 @@ void YFrameWindow::handleMotion(const XMotionEvent &motion) {
     YWindow::handleMotion(motion);
 }
 
+
+// vim: set sw=4 tw=4 et:

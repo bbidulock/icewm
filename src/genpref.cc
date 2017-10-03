@@ -100,3 +100,5 @@ int main(int argc, char **argv)
     show(icewmbg_prefs);
 #endif
 }
+
+// vim: set sw=4 tw=4 et:

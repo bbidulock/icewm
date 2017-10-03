@@ -133,3 +133,5 @@ typedef PropMotifWmInfo PropMwmInfo;
 #endif
 
 #endif /* MWMUTIL_H_INCLUDED */
+
+// vim: set sw=4 tw=4 et:

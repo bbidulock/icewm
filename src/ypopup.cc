@@ -293,3 +293,5 @@ void YPopupWindow::dispatchMotionOutside(bool /*top*/, const XMotionEvent &motio
         fPrevPopup->dispatchMotionOutside(false, motion);
     }
 }
+
+// vim: set sw=4 tw=4 et:

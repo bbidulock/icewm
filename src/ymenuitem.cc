@@ -135,3 +135,5 @@ int YMenuItem::getParamWidth() const {
     ustring param = getParam();
     return  param != null ? menuFont->textWidth(param) : 0;
 }
+
+// vim: set sw=4 tw=4 et:

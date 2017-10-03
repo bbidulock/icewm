@@ -461,3 +461,5 @@ void findRemove(YArray<DataType>& array, DataType& data) {
         array.remove(k);
 }
 #endif
+
+// vim: set sw=4 tw=4 et:

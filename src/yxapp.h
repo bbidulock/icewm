@@ -123,3 +123,5 @@ private:
 extern YXApplication *xapp;
 
 #endif
+
+// vim: set sw=4 tw=4 et:

@@ -1125,3 +1125,5 @@ YAtom::operator Atom() {
         atomize();
     return atom;
 }
+
+// vim: set sw=4 tw=4 et:

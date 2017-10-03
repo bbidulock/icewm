@@ -512,3 +512,5 @@ upath YApplication::findConfigFile(upath name) {
 
     return null;
 }
+
+// vim: set sw=4 tw=4 et:

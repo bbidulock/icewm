@@ -475,3 +475,5 @@ void YButton::setEnabled(bool enabled) {
         repaint();
     }
 }
+
+// vim: set sw=4 tw=4 et:

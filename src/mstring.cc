@@ -389,3 +389,5 @@ cstring& cstring::operator=(const cstring& cs) {
     return *this;
 }
 
+
+// vim: set sw=4 tw=4 et:

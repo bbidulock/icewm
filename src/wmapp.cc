@@ -1847,3 +1847,5 @@ void YWMApp::handleSMAction(int message) {
     }
 }
 
+
+// vim: set sw=4 tw=4 et:

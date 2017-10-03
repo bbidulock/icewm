@@ -115,3 +115,5 @@ ustring YURL::unescape(ustring str) {
     }
     return str;
 }
+
+// vim: set sw=4 tw=4 et:

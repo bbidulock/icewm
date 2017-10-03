@@ -137,3 +137,5 @@ ref<YImage> YResourcePaths::loadImage(upath base, upath name) const {
     loadPict(base + name, &p);
     return p;
 }
+
+// vim: set sw=4 tw=4 et:

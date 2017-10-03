@@ -93,3 +93,5 @@ public:
 #endif // CONFIG_APPLET_NET_STATUS
 
 #endif // NETSTATUS_H
+
+// vim: set sw=4 tw=4 et:

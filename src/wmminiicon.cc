@@ -166,3 +166,5 @@ void MiniIcon::handleDrag(const XButtonEvent &down, const XMotionEvent &motion) 
     }
 }
 #endif
+
+// vim: set sw=4 tw=4 et:

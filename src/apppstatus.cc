@@ -779,3 +779,5 @@ bool NetStatusControl::handleTimer(YTimer *t)
 }
 
 #endif // HAVE_NET_STATUS
+
+// vim: set sw=4 tw=4 et:

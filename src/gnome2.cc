@@ -369,3 +369,5 @@ int main(int argc, char **argv) {
     msg("Usage: %s [ --open PATH | --list PATH ]", argv[0]);
 }
 #endif
+
+// vim: set sw=4 tw=4 et:

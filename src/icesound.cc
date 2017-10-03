@@ -1137,3 +1137,5 @@ int main(int argc, char *argv[]) {
     return IceSound(argc, argv).run();
 }
 
+
+// vim: set sw=4 tw=4 et:

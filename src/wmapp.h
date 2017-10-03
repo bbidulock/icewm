@@ -160,3 +160,5 @@ extern YObjectArray<KProgram> keyProgs;
 extern int rebootOrShutdown;
 
 #endif
+
+// vim: set sw=4 tw=4 et:

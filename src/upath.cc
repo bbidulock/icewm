@@ -153,3 +153,5 @@ bool upath::equals(const upath &s) const {
         return path() == null && s.path() == null;
 }
 
+
+// vim: set sw=4 tw=4 et:

@@ -380,3 +380,5 @@
 #define XA_WIN_EXPANDED_SIZE "_WIN_EXPANDED_SIZE"
 
 #endif
+
+// vim: set sw=4 tw=4 et:

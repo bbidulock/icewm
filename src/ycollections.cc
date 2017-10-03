@@ -22,3 +22,5 @@ inline bool lessThan<char const*>(char const* a, char const* b)
 template class
 YSortedMap<const char*, int>;
 
+
+// vim: set sw=4 tw=4 et:

@@ -3987,3 +3987,5 @@ int YFrameWindow::getRightCoord(int Mx, YFrameWindow **w, int count)
 
     return Mx;
 }
+
+// vim: set sw=4 tw=4 et:

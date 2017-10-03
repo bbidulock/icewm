@@ -839,3 +839,5 @@ void YScrollBar::handleDNDPosition(int x, int y) {
     repaint();
 }
 #endif
+
+// vim: set sw=4 tw=4 et:

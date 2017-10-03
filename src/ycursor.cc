@@ -363,3 +363,5 @@ Cursor MyCursorLoader::load(upath /*name*/, unsigned int fallback)
 
     return fCursor;
 }
+
+// vim: set sw=4 tw=4 et:

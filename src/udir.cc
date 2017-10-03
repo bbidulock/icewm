@@ -276,3 +276,5 @@ bool sdir::nextExt(const ustring& extension) {
     return false;
 }
 
+
+// vim: set sw=4 tw=4 et:

@@ -111,3 +111,5 @@ extern ref<YPixmap> newMailPixmap;
 #endif
 
 #endif
+
+// vim: set sw=4 tw=4 et:

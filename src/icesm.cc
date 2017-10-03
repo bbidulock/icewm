@@ -346,3 +346,5 @@ int main(int argc, char **argv) {
     xapp.runIcesound(true);
     return 0;
 }
+
+// vim: set sw=4 tw=4 et:

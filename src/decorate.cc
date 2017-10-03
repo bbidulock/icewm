@@ -705,3 +705,5 @@ int YFrameWindow::titleYN() const {
         return 0;
     return (frameDecors() & fdTitleBar) ? wsTitleBar : 0;
 }
+
+// vim: set sw=4 tw=4 et:

@@ -743,3 +743,5 @@ bool SwitchWindow::modDown(int mod) {
 void SwitchWindow::handleButton(const XButtonEvent &button) {
     YPopupWindow::handleButton(button);
 }
+
+// vim: set sw=4 tw=4 et:

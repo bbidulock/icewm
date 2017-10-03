@@ -327,3 +327,5 @@ end:
 }
 
 #endif /* CONFIG_SESSION */
+
+// vim: set sw=4 tw=4 et:

@@ -186,3 +186,5 @@ int YLocale::getRating(const char *localeStr) {
 
     return s2 - localeStr;
 }
+
+// vim: set sw=4 tw=4 et:

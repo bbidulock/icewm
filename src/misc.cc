@@ -776,3 +776,5 @@ char* load_text_file(const char *filename) {
     return buf;
 }
 
+
+// vim: set sw=4 tw=4 et:

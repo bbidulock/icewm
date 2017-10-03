@@ -471,3 +471,5 @@ bool MailBoxStatus::handleTimer(YTimer *t) {
 }
 
 #endif
+
+// vim: set sw=4 tw=4 et:

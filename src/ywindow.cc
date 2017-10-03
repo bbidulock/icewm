@@ -2047,3 +2047,5 @@ KeySym YWindow::keyCodeToKeySym(unsigned int keycode, int index) {
 int YDesktop::getScreenCount() {
     return xiInfo.getCount();
 }
+
+// vim: set sw=4 tw=4 et:

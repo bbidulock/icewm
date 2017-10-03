@@ -8,3 +8,5 @@ class null_ref& null(*null_ref_ptr);
 void refcounted::__destroy() {
     delete this;
 }
+
+// vim: set sw=4 tw=4 et:

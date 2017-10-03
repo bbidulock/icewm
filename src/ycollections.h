@@ -166,3 +166,5 @@ public:
 };
 
 #endif // __YCOLLECTIONS_H
+
+// vim: set sw=4 tw=4 et:
