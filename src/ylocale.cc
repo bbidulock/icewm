@@ -42,8 +42,8 @@ YLocale::YLocale(char const * localeName) {
     instance = this;
 
     if (NULL == (fLocaleName = setlocale(LC_ALL, localeName))
-        /* || False == XSupportsLocale()*/) {
-        warn(_("Locale not supported by C library. "
+        || False == XSupportsLocale()) {
+        warn(_("Locale not supported by C library or Xlib. "
                "Falling back to 'C' locale'."));
         fLocaleName = setlocale(LC_ALL, "C");
     }
@@ -54,13 +54,13 @@ YLocale::YLocale(char const * localeName) {
     char const * codeset = NULL;
     int const codesetItems[] = {
 #ifdef CONFIG_NL_CODESETS
-	CONFIG_NL_CODESETS
+        CONFIG_NL_CODESETS
 #else
-	CODESET, _NL_CTYPE_CODESET_NAME, 0
+        CODESET, _NL_CTYPE_CODESET_NAME, 0
 #endif
     };
 
-    for (unsigned int i = 0; 
+    for (unsigned int i = 0;
          i + 1 < ACOUNT(codesetItems)
          && NULL != (codeset = nl_langinfo(codesetItems[i]))
          && '\0' == *codeset;
@@ -83,7 +83,7 @@ YLocale::YLocale(char const * localeName) {
     char const * unicodeCharsets[] = {
 #ifdef CONFIG_UNICODE_SET
         CONFIG_UNICODE_SET,
-#endif    
+#endif
 //      "WCHAR_T//TRANSLIT",
         (*endian.c ? "UCS-4LE//TRANSLIT" : "UCS-4BE//TRANSLIT"),
 //      "WCHAR_T",
@@ -126,7 +126,7 @@ YLocale::~YLocale() {
 
     if ((iconv_t) -1 != toUnicode) iconv_close(toUnicode);
     if ((iconv_t) -1 != toLocale) iconv_close(toLocale);
-#endif    
+#endif
 }
 
 #ifdef CONFIG_I18N
@@ -143,7 +143,7 @@ iconv_t YLocale::getConverter (const char *from, const char **&to) {
 /*
 YLChar * YLocale::localeString(YUChar const * uStr) {
     YLChar * lStr(NULL);
-    
+
     return lStr;
 }
 */
@@ -164,17 +164,17 @@ YUChar *YLocale::unicodeString(const YLChar *lStr, size_t const lLen,
 
     *((YUChar *) outbuf) = 0;
     uLen = ((YUChar *) outbuf) - uStr;
-    
+
     return uStr;
 }
 #endif
 
-const char *YLocale::getLocaleName() { 
+const char *YLocale::getLocaleName() {
 #ifdef CONFIG_I18N
-    return instance->fLocaleName; 
+    return instance->fLocaleName;
 #else
     return "C";
-#endif    
+#endif
 }
 
 int YLocale::getRating(const char *localeStr) {
