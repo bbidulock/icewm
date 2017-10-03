@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-09-26 08:39-0600\n"
+"POT-Creation-Date: 2017-10-03 15:17-0600\n"
 "PO-Revision-Date: 2007-02-22 14:45+0800\n"
 "Last-Translator: Tetralet <tetralet@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -146,7 +146,7 @@ msgstr "%ld 封郵件。"
 msgid "%ld mail messages."
 msgstr "%ld 封郵件。"
 
-#: src/apppstatus.cc:199
+#: src/apppstatus.cc:196
 #, c-format
 msgid ""
 "Interface %s:\n"
@@ -161,7 +161,7 @@ msgstr ""
 "  已 傳 送（入/出）：\t%lli %s/%lli %s\n"
 "  上線時間：\t%ld：%02ld：%02ld%s%s"
 
-#: src/apppstatus.cc:211
+#: src/apppstatus.cc:208
 msgid ""
 "\n"
 "  Caller id:\t"
@@ -169,8 +169,7 @@ msgstr ""
 "\n"
 "  執行者 id：\t"
 
-#: src/aworkspaces.cc:142 src/aworkspaces.cc:212 src/aworkspaces.cc:268
-#: src/wmstatus.cc:178
+#: src/aworkspaces.cc:323 src/wmstatus.cc:178
 msgid "Workspace: "
 msgstr "工作區："
 
@@ -234,99 +233,125 @@ msgstr "編輯器"
 msgid "Other"
 msgstr "其它"
 
-#: src/icehelp.cc:1139
+#: src/icehelp.cc:1144
 msgid "Back"
 msgstr "後退"
 
-#: src/icehelp.cc:1139
+#: src/icehelp.cc:1144
 msgid "Alt+Left"
 msgstr "Alt+Left"
 
-#: src/icehelp.cc:1141
+#: src/icehelp.cc:1146
 msgid "Forward"
 msgstr "前進"
 
-#: src/icehelp.cc:1141
+#: src/icehelp.cc:1146
 msgid "Alt+Right"
 msgstr "Alt+Right"
 
-#: src/icehelp.cc:1144
+#: src/icehelp.cc:1149
 msgid "Previous"
 msgstr "上一個"
 
-#: src/icehelp.cc:1145
+#: src/icehelp.cc:1150
 msgid "Next"
 msgstr "下一個"
 
-#: src/icehelp.cc:1147
+#: src/icehelp.cc:1152
 msgid "Contents"
 msgstr "內容"
 
-#: src/icehelp.cc:1148
+#: src/icehelp.cc:1153
 msgid "Index"
 msgstr "索引"
 
-#: src/icehelp.cc:1151 src/icesame.cc:65 src/iceview.cc:76 src/wmframe.cc:180
+#: src/icehelp.cc:1156 src/icesame.cc:65 src/iceview.cc:76 src/wmframe.cc:180
 msgid "Close"
 msgstr "關閉"
 
-#: src/icehelp.cc:1151 src/icesame.cc:65 src/iceview.cc:76
+#: src/icehelp.cc:1156 src/icesame.cc:65 src/iceview.cc:76
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1822
+#: src/icehelp.cc:1828
 #, fuzzy
 msgid "Unsupported protocol."
 msgstr "不支援的介面：%s。"
 
-#: src/icehelp.cc:1847
+#: src/icehelp.cc:1853
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "路徑無效：%s\n"
 
-#: src/icehelp.cc:1870
+#: src/icehelp.cc:1876
 msgid "Path does not refer to a file."
 msgstr ""
 
-#: src/icehelp.cc:1875
+#: src/icehelp.cc:1881
 msgid "Failed to open file for reading."
 msgstr ""
 
-#: src/icehelp.cc:1904
+#: src/icehelp.cc:1910
 #, fuzzy
 msgid "Failed to create a temporary file"
 msgstr "建立子行程時失敗：%s"
 
-#: src/icehelp.cc:1996
+#: src/icehelp.cc:2002
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr ""
 
-#: src/icehelp.cc:2019
+#: src/icehelp.cc:2025
 #, fuzzy, c-format
 msgid "Failed to decompress %s"
 msgstr "開啟 %s：%s 時失敗"
 
-#: src/icehelp.cc:2027
+#: src/icehelp.cc:2033
 msgid "Could not locate curl or wget in PATH"
 msgstr ""
 
-#: src/icehelp.cc:2031
+#: src/icehelp.cc:2037
 msgid "Unsafe characters in URL"
 msgstr ""
 
-#: src/icehelp.cc:2046
+#: src/icehelp.cc:2053
 #, c-format
 msgid ""
-"Usage: %s FILENAME\n"
+"Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
 "\n"
-"A very simple HTML browser displaying the document specified by FILENAME.\n"
+"IceHelp is a very simple HTML browser for the IceWM window manager.\n"
+"It can display a HTML document from file, or browse a website.\n"
+"It remembers visited pages in a history, which is navigable\n"
+"by key bindings and a context menu (right mouse click).\n"
+"It neither supports rendering of images nor JavaScript.\n"
+"If no file or URL is given it will display the IceWM Manual\n"
+"from %s.\n"
+"\n"
+"Options:\n"
+"  --display=NAME      NAME of the X server to use.\n"
+"  --sync              Synchronize X11 commands.\n"
+"\n"
+"  -b, --bugs          Display the IceWM bug reports (primitively).\n"
+"  -f, --faq           Display the IceWM FAQ and Howto.\n"
+"  -i, --icewm         Display the IceWM website.\n"
+"  -m, --manual        Display the IceWM Manual (default).\n"
+"  -t, --theme         Display the IceWM themes Howto.\n"
+"\n"
+"  -V, --version       Prints version information and exits.\n"
+"  -h, --help          Prints this usage screen and exits.\n"
+"\n"
+"Environment variables:\n"
+"  DISPLAY=NAME        Name of the X server to use.\n"
+"\n"
+"To report bugs, support requests, comments please visit:\n"
+"%s\n"
 "\n"
 msgstr ""
-"用法：%s 檔案名稱\n"
-"\n"
-"非常簡單的 HTML 瀏覽器，用來顯示由檔案名稱所指定的文件。\n"
-"\n"
+
+#: src/icehelp.cc:2115
+#, fuzzy, c-format
+msgid "Ignoring option '%s'"
+msgstr "未知動作：「%s」"
 
 #: src/icelist.cc:85
 msgid "List View"
@@ -911,11 +936,11 @@ msgstr "用法：icewmhint [類別.實體] 選項 引數\n"
 msgid "Out of memory (len=%d)."
 msgstr "記憶體不足（長度＝%d）。"
 
-#: src/misc.cc:330 src/misc.cc:342
+#: src/misc.cc:332 src/misc.cc:344
 msgid "Warning: "
 msgstr "警告："
 
-#: src/misc.cc:596
+#: src/misc.cc:598
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1017,115 +1042,115 @@ msgstr ""
 msgid "Restart _Icewm"
 msgstr "重新啟動 _Icewm"
 
-#: src/wmapp.cc:595
+#: src/wmapp.cc:596 src/wmapp.cc:604
 msgid "Restart _Xterm"
 msgstr "重新啟動 _Xterm"
 
-#: src/wmapp.cc:617
+#: src/wmapp.cc:619
 msgid "_Menu"
 msgstr "選單(_M)"
 
-#: src/wmapp.cc:618
+#: src/wmapp.cc:620
 msgid "_Above Dock"
 msgstr "停靠區之上(_A)"
 
-#: src/wmapp.cc:619
+#: src/wmapp.cc:621
 msgid "_Dock"
 msgstr "停靠區(_D)"
 
-#: src/wmapp.cc:620
+#: src/wmapp.cc:622
 msgid "_OnTop"
 msgstr "上層(_O)"
 
-#: src/wmapp.cc:621
+#: src/wmapp.cc:623
 msgid "_Normal"
 msgstr "正常(_N)"
 
-#: src/wmapp.cc:622
+#: src/wmapp.cc:624
 msgid "_Below"
 msgstr "下層(_B)"
 
-#: src/wmapp.cc:623
+#: src/wmapp.cc:625
 msgid "D_esktop"
 msgstr "桌面(_E)"
 
-#: src/wmapp.cc:635
+#: src/wmapp.cc:637
 msgid "_Restore"
 msgstr "還原(_R)"
 
-#: src/wmapp.cc:637
+#: src/wmapp.cc:639
 msgid "_Move"
 msgstr "移動(_M)"
 
-#: src/wmapp.cc:639
+#: src/wmapp.cc:641
 msgid "_Size"
 msgstr "大小(_S)"
 
-#: src/wmapp.cc:641
+#: src/wmapp.cc:643
 msgid "Mi_nimize"
 msgstr "縮小(_N)"
 
-#: src/wmapp.cc:643
+#: src/wmapp.cc:645
 msgid "Ma_ximize"
 msgstr "放大(_X)"
 
-#: src/wmapp.cc:645
+#: src/wmapp.cc:647
 msgid "_Fullscreen"
 msgstr "全螢幕(_F)"
 
-#: src/wmapp.cc:649 src/wmwinlist.cc:309
+#: src/wmapp.cc:651 src/wmwinlist.cc:309
 msgid "_Hide"
 msgstr "隱藏(_H)"
 
-#: src/wmapp.cc:652
+#: src/wmapp.cc:654
 msgid "Roll_up"
 msgstr "向上循環(_U)"
 
-#: src/wmapp.cc:659
+#: src/wmapp.cc:661
 msgid "R_aise"
 msgstr "提升(_A)"
 
-#: src/wmapp.cc:661
+#: src/wmapp.cc:663
 msgid "_Lower"
 msgstr "降低(_L)"
 
-#: src/wmapp.cc:663
+#: src/wmapp.cc:665
 msgid "La_yer"
 msgstr "層次(_Y)"
 
-#: src/wmapp.cc:667 src/wmwinlist.cc:312
+#: src/wmapp.cc:669 src/wmwinlist.cc:312
 msgid "Move _To"
 msgstr "移至(_T)"
 
-#: src/wmapp.cc:668
+#: src/wmapp.cc:670
 msgid "Occupy _All"
 msgstr "全部佔據(_A)"
 
-#: src/wmapp.cc:674
+#: src/wmapp.cc:676
 msgid "Limit _Workarea"
 msgstr "限制工作區域(_W)"
 
-#: src/wmapp.cc:679
+#: src/wmapp.cc:681
 msgid "Tray _icon"
 msgstr "系統列圖示(_I)"
 
-#: src/wmapp.cc:685 src/wmwinlist.cc:297 src/wmwinlist.cc:323
+#: src/wmapp.cc:687 src/wmwinlist.cc:297 src/wmwinlist.cc:323
 msgid "_Close"
 msgstr "關閉(_C)"
 
-#: src/wmapp.cc:687 src/wmwinlist.cc:299
+#: src/wmapp.cc:689 src/wmwinlist.cc:299
 msgid "_Kill Client"
 msgstr "砍掉客戶端(_K)"
 
-#: src/wmapp.cc:691 src/wmdialog.cc:95 src/wmwinmenu.cc:138
+#: src/wmapp.cc:693 src/wmdialog.cc:95 src/wmwinmenu.cc:138
 msgid "_Window list"
 msgstr "視窗清單(_W)"
 
-#: src/wmapp.cc:707
+#: src/wmapp.cc:709
 msgid "Another window manager already running, exiting..."
 msgstr "已有另一個視窗管理程式正在執行，離開中..."
 
-#: src/wmapp.cc:781
+#: src/wmapp.cc:783
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1134,19 +1159,23 @@ msgstr ""
 "無法重新啟動：%s\n"
 "$PATH 是否指向 %s？"
 
-#: src/wmapp.cc:1419
+#: src/wmapp.cc:869
+msgid "Kill IceWM, replace with Xterm"
+msgstr ""
+
+#: src/wmapp.cc:1434
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 
-#: src/wmapp.cc:1425
+#: src/wmapp.cc:1440
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
 "  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
 
-#: src/wmapp.cc:1434
+#: src/wmapp.cc:1449
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1154,7 +1183,7 @@ msgid ""
 "  --postpreferences   Print preferences after all processing.\n"
 msgstr ""
 
-#: src/wmapp.cc:1442
+#: src/wmapp.cc:1457
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1210,26 +1239,26 @@ msgstr ""
 "\n"
 "參看 http://www.icewm.org/ 以回報錯誤、要求支援、提供意見...\n"
 
-#: src/wmapp.cc:1503
+#: src/wmapp.cc:1518
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr ""
 
-#: src/wmapp.cc:1648
+#: src/wmapp.cc:1663
 #, fuzzy, c-format
 msgid "%s configured options:%s\n"
 msgstr "無法識別的選項：%s\n"
 
-#: src/wmapp.cc:1697
+#: src/wmapp.cc:1712
 #, fuzzy, c-format
 msgid "Unrecognized option '%s'."
 msgstr "無法識別的選項：%s\n"
 
-#: src/wmapp.cc:1738
+#: src/wmapp.cc:1754
 msgid "Confirm Logout"
 msgstr "確定登出"
 
-#: src/wmapp.cc:1739
+#: src/wmapp.cc:1755
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1242,22 +1271,22 @@ msgstr ""
 msgid "Failed to load theme %s"
 msgstr "開啟 %s：%s 時失敗"
 
-#: src/wmconfig.cc:112
+#: src/wmconfig.cc:109
 #, fuzzy, c-format
 msgid "Unknown value '%s' for option '%s'."
 msgstr "未知動作：「%s」"
 
-#: src/wmconfig.cc:121
+#: src/wmconfig.cc:118
 #, fuzzy, c-format
 msgid "Unable to create directory %s"
 msgstr "建立子行程時失敗：%s"
 
-#: src/wmconfig.cc:148
+#: src/wmconfig.cc:145
 #, c-format
 msgid "Unable to write to %s"
 msgstr ""
 
-#: src/wmconfig.cc:175
+#: src/wmconfig.cc:172
 #, fuzzy, c-format
 msgid "Unable to rename %s to %s"
 msgstr "開啟 %s：%s 時失敗"
@@ -1271,7 +1300,7 @@ msgid "_Cancel"
 msgstr "取消(_C)"
 
 #: src/wmdialog.cc:92 src/wmprog.cc:1005 src/wmprog.cc:1007 src/wmprog.cc:1011
-#: src/wmprog.cc:1013 src/wmtaskbar.cc:357 src/wmtaskbar.cc:359
+#: src/wmprog.cc:1013 src/wmtaskbar.cc:325 src/wmtaskbar.cc:327
 msgid "_Logout..."
 msgstr "登出(_L)..."
 
@@ -1279,12 +1308,12 @@ msgstr "登出(_L)..."
 msgid "_Restart icewm"
 msgstr "重新啟動 icewm(_R)"
 
-#: src/wmdialog.cc:97 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:349
-#: src/wmtaskbar.cc:352
+#: src/wmdialog.cc:97 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:317
+#: src/wmtaskbar.cc:320
 msgid "_About"
 msgstr "關於(_A)"
 
-#: src/wmframe.cc:158 src/wmframe.cc:3432
+#: src/wmframe.cc:158 src/wmframe.cc:3439
 msgid "Maximize"
 msgstr "放到最大"
 
@@ -1296,7 +1325,7 @@ msgstr "縮到最小"
 msgid "Hide"
 msgstr "隱藏"
 
-#: src/wmframe.cc:202 src/wmframe.cc:3465
+#: src/wmframe.cc:202 src/wmframe.cc:3472
 msgid "Rollup"
 msgstr "向上循環"
 
@@ -1308,7 +1337,7 @@ msgstr "提升/降低"
 msgid "Kill Client: "
 msgstr "砍掉客戶端："
 
-#: src/wmframe.cc:1743
+#: src/wmframe.cc:1748
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1316,11 +1345,11 @@ msgstr ""
 "【警告】！當這個客戶端程式被砍掉時，將會失去所有未儲存的變更。\n"
 "您希望繼續進行嗎？"
 
-#: src/wmframe.cc:3429
+#: src/wmframe.cc:3436
 msgid "Restore"
 msgstr "還原"
 
-#: src/wmframe.cc:3463
+#: src/wmframe.cc:3470
 msgid "Rolldown"
 msgstr "向下循環"
 
@@ -1448,7 +1477,7 @@ msgstr "程式"
 msgid "_Run..."
 msgstr "執行(_R)..."
 
-#: src/wmprog.cc:920 src/wmprog.cc:922 src/wmtaskbar.cc:337
+#: src/wmprog.cc:920 src/wmprog.cc:922 src/wmtaskbar.cc:305
 msgid "_Windows"
 msgstr "視窗(_W)"
 
@@ -1473,59 +1502,59 @@ msgstr "設定(_T)"
 msgid "Session Manager: Unknown line %s"
 msgstr "作業階段管理程式：未知的列 %s"
 
-#: src/wmtaskbar.cc:193 src/wmtaskbar.cc:194
+#: src/wmtaskbar.cc:168 src/wmtaskbar.cc:169
 msgid "Task Bar"
 msgstr "工作列"
 
-#: src/wmtaskbar.cc:326 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+#: src/wmtaskbar.cc:294 src/wmwinlist.cc:314 src/wmwinlist.cc:327
 msgid "Tile _Vertically"
 msgstr "垂直並排(_V)"
 
-#: src/wmtaskbar.cc:327 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+#: src/wmtaskbar.cc:295 src/wmwinlist.cc:315 src/wmwinlist.cc:328
 msgid "T_ile Horizontally"
 msgstr "水平並排(_I)"
 
-#: src/wmtaskbar.cc:328 src/wmwinlist.cc:316 src/wmwinlist.cc:329
+#: src/wmtaskbar.cc:296 src/wmwinlist.cc:316 src/wmwinlist.cc:329
 msgid "Ca_scade"
 msgstr "階狀(_S)"
 
-#: src/wmtaskbar.cc:329 src/wmwinlist.cc:317 src/wmwinlist.cc:330
+#: src/wmtaskbar.cc:297 src/wmwinlist.cc:317 src/wmwinlist.cc:330
 msgid "_Arrange"
 msgstr "排列(_A)"
 
-#: src/wmtaskbar.cc:330 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+#: src/wmtaskbar.cc:298 src/wmwinlist.cc:319 src/wmwinlist.cc:331
 msgid "_Minimize All"
 msgstr "全部縮到最小(_M)"
 
-#: src/wmtaskbar.cc:331 src/wmwinlist.cc:320 src/wmwinlist.cc:332
+#: src/wmtaskbar.cc:299 src/wmwinlist.cc:320 src/wmwinlist.cc:332
 msgid "_Hide All"
 msgstr "全部隱藏(_H)"
 
-#: src/wmtaskbar.cc:332 src/wmwinlist.cc:321 src/wmwinlist.cc:333
+#: src/wmtaskbar.cc:300 src/wmwinlist.cc:321 src/wmwinlist.cc:333
 msgid "_Undo"
 msgstr "復原(_U)"
 
-#: src/wmtaskbar.cc:334
+#: src/wmtaskbar.cc:302
 msgid "Arrange _Icons"
 msgstr "排列圖示(_I)"
 
-#: src/wmtaskbar.cc:340
+#: src/wmtaskbar.cc:308
 msgid "_Refresh"
 msgstr "重新整理(_R)"
 
-#: src/wmtaskbar.cc:347
+#: src/wmtaskbar.cc:315
 msgid "_License"
 msgstr "授權(_L)"
 
-#: src/wmtaskbar.cc:474
+#: src/wmtaskbar.cc:432
 msgid "Favorite applications"
 msgstr "喜愛的應用程式"
 
-#: src/wmtaskbar.cc:491
+#: src/wmtaskbar.cc:449
 msgid "Window list menu"
 msgstr "視窗列表選單"
 
-#: src/wmtaskbar.cc:500
+#: src/wmtaskbar.cc:458
 msgid "Show Desktop"
 msgstr "顯示桌面"
 
@@ -1642,44 +1671,45 @@ msgstr "字型集 \"%s\" 缺少字碼集："
 msgid "Out of memory for pixmap \"%s\""
 msgstr "像素圖 \"%s\" 的記憶體不足"
 
-#: src/yinput.cc:56
+#: src/yinput.cc:57
 msgid "Cu_t"
 msgstr "剪下(_T)"
 
-#: src/yinput.cc:56
+#: src/yinput.cc:57
 msgid "Ctrl+X"
 msgstr "Ctrl+X"
 
-#: src/yinput.cc:57
+#: src/yinput.cc:58
 msgid "_Copy"
 msgstr "複製(_C)"
 
-#: src/yinput.cc:57
+#: src/yinput.cc:58
 msgid "Ctrl+C"
 msgstr "Ctrl+C"
 
-#: src/yinput.cc:58
+#: src/yinput.cc:59
 msgid "_Paste"
 msgstr "貼上(_P)"
 
-#: src/yinput.cc:58
+#: src/yinput.cc:59
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#: src/yinput.cc:59
+#: src/yinput.cc:60
 msgid "Paste _Selection"
 msgstr "貼上所選(_S)"
 
-#: src/yinput.cc:61
+#: src/yinput.cc:62
 msgid "Select _All"
 msgstr "全部選取(_A)"
 
-#: src/yinput.cc:61
+#: src/yinput.cc:62
 msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
 #: src/ylocale.cc:46
-msgid "Locale not supported by C library. Falling back to 'C' locale'."
+#, fuzzy
+msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
 msgstr "C 函式庫不支援的語系。回復為 'C' 語系。"
 
 #: src/ylocale.cc:70
@@ -1735,6 +1765,18 @@ msgid ""
 "  --display=NAME      NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"
 msgstr ""
+
+#~ msgid ""
+#~ "Usage: %s FILENAME\n"
+#~ "\n"
+#~ "A very simple HTML browser displaying the document specified by "
+#~ "FILENAME.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "用法：%s 檔案名稱\n"
+#~ "\n"
+#~ "非常簡單的 HTML 瀏覽器，用來顯示由檔案名稱所指定的文件。\n"
+#~ "\n"
 
 #, fuzzy
 #~ msgid "failed to set %s owner"
