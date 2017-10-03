@@ -211,7 +211,10 @@ public:
 
     bool readCurrentDesktop(long &workspace);
     void setDesktopGeometry();
+    bool compareDesktopNames(char **strings, int count);
     bool readDesktopNames();
+    bool readNetDesktopNames();
+    bool readWinDesktopNames();
     void setWinDesktopNames(long count);
     void setNetDesktopNames(long count);
     void setDesktopNames(long count);

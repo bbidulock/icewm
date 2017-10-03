@@ -2224,9 +2224,11 @@ void YWindowManager::announceWorkArea() {
     bool isCloned = true;
 
     /*
-      NET_WORKAREA behaviour: 0 (single/multimonitor with STRUT information, like metacity),
+      NET_WORKAREA behaviour: 0 (single/multimonitor with STRUT information,
+                                 like metacity),
                               1 (always full desktop),
-                              2 (singlemonitor with STRUT, multimonitor without STRUT)
+                              2 (singlemonitor with STRUT,
+                                 multimonitor without STRUT)
     */
 
     if (!area)
@@ -2241,30 +2243,34 @@ void YWindowManager::announceWorkArea() {
         }
     }
 
+    const YRect desktopArea(0, 0, desktop->width(), desktop->height());
     for (int ws = 0; ws < nw; ws++) {
-        YRect* r = new YRect(netWorkAreaBehaviour == 1 ? 0 : fWorkArea[ws][0].fMinX,
-                             netWorkAreaBehaviour == 1 ? 0 : fWorkArea[ws][0].fMinY,
-                             netWorkAreaBehaviour == 1 ? desktop->width()  : fWorkArea[ws][0].fMaxX - fWorkArea[ws][0].fMinX,
-                             netWorkAreaBehaviour == 1 ? desktop->height() : fWorkArea[ws][0].fMaxY - fWorkArea[ws][0].fMinY);
+        YRect r(desktopArea);
+        if (netWorkAreaBehaviour != 1) {
+            r = YRect(fWorkArea[ws][0].fMinX, fWorkArea[ws][0].fMinY,
+                      fWorkArea[ws][0].fMaxX - fWorkArea[ws][0].fMinX,
+                      fWorkArea[ws][0].fMaxY - fWorkArea[ws][0].fMinY);
+        }
 
         if (xiInfo.getCount() > 1 && ! isCloned && netWorkAreaBehaviour != 1) {
             if (netWorkAreaBehaviour == 0) {
-            // STRUTS information is messy and broken for multimonitor, but there is no solution for this problem.
-            // So we imitate metacity's behaviour := merge, but limit height of each screen and hope for the best
+                // STRUTS information is messy and broken for multimonitor,
+                // but there is no solution for this problem.
+                // So we imitate metacity's behaviour := merge,
+                // but limit height of each screen and hope for the best
                 for (int i = 1; i < xiInfo.getCount(); i++) {
-                    r->unionRect(fWorkArea[ws][i].fMinX, fWorkArea[ws][i].fMinY,
-                                 fWorkArea[ws][i].fMaxX - fWorkArea[ws][i].fMinX,
-                                 fWorkArea[ws][0].fMaxY - fWorkArea[ws][0].fMinY);
+                    r.unionRect(fWorkArea[ws][i].fMinX, fWorkArea[ws][i].fMinY,
+                                fWorkArea[ws][i].fMaxX - fWorkArea[ws][i].fMinX,
+                                fWorkArea[ws][0].fMaxY - fWorkArea[ws][0].fMinY);
                 }
             } else if (netWorkAreaBehaviour == 2) {
-                r->setRect(0, 0, desktop->width(), desktop->height());
+                r = desktopArea;
             }
         }
-        area[ws * 4    ] = r->x();
-        area[ws * 4 + 1] = r->y();
-        area[ws * 4 + 2] = r->width();
-        area[ws * 4 + 3] = r->height();
-	delete r;
+        area[ws * 4 + 0] = r.x();
+        area[ws * 4 + 1] = r.y();
+        area[ws * 4 + 2] = r.width();
+        area[ws * 4 + 3] = r.height();
     }
 
     XChangeProperty(xapp->display(), handle(),
@@ -2609,111 +2615,112 @@ void YWindowManager::updateMoveMenu() {
 }
 
 bool YWindowManager::readDesktopNames() {
-    XTextProperty names;
+    return readNetDesktopNames()
+        || readWinDesktopNames();
+}
+
+bool YWindowManager::compareDesktopNames(char **strings, int count) {
+    bool changed = false;
+
+    char **oldWorkspaceNames = new char *[count];
+    for (int i = 0; i < count; i++)
+        oldWorkspaceNames[i] = 0;
+
+    for (int i = 0; i < count && i < workspaceCount(); i++) {
+        if (workspaceNames[i] != 0) {
+            MSG(("Workspace %d: '%s' -> '%s'", i, workspaceNames[i], strings[i]));
+            if (strcmp(workspaceNames[i], strings[i])) {
+                oldWorkspaceNames[i] = workspaceNames[i];
+                workspaceNames[i] = newstr(strings[i]);
+                changed = true;
+            }
+        } else {
+            MSG(("Workspace %d: (null) -> '%s'", i, strings[i]));
+            workspaceNames[i] = newstr(strings[i]);
+            changed = true;
+        }
+    }
+
+    if (changed) {
+        updateTaskBarNames();
+        updateMoveMenu();
+    }
+
+    // old strings must persist until after the update
+    for (int i = 0; i < count; i++)
+        if (oldWorkspaceNames[i] != 0)
+            delete[] oldWorkspaceNames[i];
+    delete[] oldWorkspaceNames;
+
+    return changed;
+}
+
+bool YWindowManager::readNetDesktopNames() {
+    bool success = false;
+
 #ifdef WMSPEC_HINTS
     MSG(("reading: _NET_DESKTOP_NAMES(%d)",(int)_XA_NET_DESKTOP_NAMES));
+
+    XTextProperty names;
     if (XGetTextProperty(xapp->display(), handle(), &names,
                          _XA_NET_DESKTOP_NAMES) && names.nitems > 0) {
         int count = 0;
         char **strings = 0;
         if (XmbTextPropertyToTextList(xapp->display(), &names,
                                       &strings, &count) == Success) {
-            bool changed = false;
             if (count > 0 && strings[count - 1][0] == '\0')
                 count--;
-            if (count > MAXWORKSPACES)
-                count = MAXWORKSPACES;
-            char **oldWorkspaceNames = new char *[MAXWORKSPACES];
-            for (int i = 0; i < MAXWORKSPACES; i++)
-                oldWorkspaceNames[i] = 0;
-            for (int i = 0; i < count; i++) {
-                if (workspaceNames[i] != 0) {
-                    MSG(("Workspace %d: '%s' -> '%s'", i, workspaceNames[i], strings[i]));
-                    if (strcmp(workspaceNames[i],strings[i])) {
-                        oldWorkspaceNames[i] = workspaceNames[i];
-                        workspaceNames[i] = newstr(strings[i]);
-                        changed = true;
-                    }
-                } else {
-                    MSG(("Workspace %d: (null) -> '%s'", i, strings[i]));
-                    workspaceNames[i] = newstr(strings[i]);
-                    changed = true;
-                }
-            }
-            if (changed) {
-                updateTaskBarNames();
-                updateMoveMenu();
+            count = min(count, MAXWORKSPACES);
+            if (compareDesktopNames(strings, count)) {
                 setWinDesktopNames(count);
             }
             XFreeStringList(strings);
-            // old strings must persist until after the update
-            for (int i = 0; i < MAXWORKSPACES; i++)
-                if (oldWorkspaceNames[i] != 0)
-                    delete[] oldWorkspaceNames[i];
-            delete[] oldWorkspaceNames;
+            success = true;
         } else {
             MSG(("warning: could not convert strings for _NET_DESKTOP_NAMES"));
         }
         XFree(names.value);
-        return true;
     } else {
         MSG(("warning: could not read _NET_DESKTOP_NAMES"));
     }
 #endif
+    return success;
+}
+
+bool YWindowManager::readWinDesktopNames() {
+    bool success = false;
+
 #ifdef GNOME1_HINTS
     MSG(("reading: _WIN_WORKSPACE_NAMES(%d)",(int)_XA_WIN_WORKSPACE_NAMES));
+
+    XTextProperty names;
     if (XGetTextProperty(xapp->display(), handle(), &names,
                          _XA_WIN_WORKSPACE_NAMES) && names.nitems > 0) {
         int count = 0;
         char **strings = 0;
         if (XmbTextPropertyToTextList(xapp->display(), &names,
                                       &strings, &count) == Success) {
-            bool changed = false;
             if (count > 0 && strings[count - 1][0] == '\0')
                 count--;
-            if (count > MAXWORKSPACES)
-                count = MAXWORKSPACES;
-            char **oldWorkspaceNames = new char *[MAXWORKSPACES];
-            for (int i = 0; i < MAXWORKSPACES; i++)
-                oldWorkspaceNames[i] = 0;
-            for (int i = 0; i < count; i++) {
-                if (workspaceNames[i] != 0) {
-                    MSG(("Workspace %d: '%s' -> '%s'", i, workspaceNames[i], strings[i]));
-                    if (strcmp(workspaceNames[i],strings[i])) {
-                        oldWorkspaceNames[i] = workspaceNames[i];
-                        workspaceNames[i] = newstr(strings[i]);
-                        changed = true;
-                    }
-                } else {
-                    MSG(("Workspace %d: (null) -> '%s'", i, strings[i]));
-                    workspaceNames[i] = newstr(strings[i]);
-                    changed = true;
-                }
-            }
-            if (changed) {
-                updateTaskBarNames();
-                updateMoveMenu();
+            count = min(count, MAXWORKSPACES);
+            if (compareDesktopNames(strings, count)) {
                 setNetDesktopNames(count);
             }
             XFreeStringList(strings);
-            // old strings must persist until after the update
-            for (int i = 0; i < MAXWORKSPACES; i++)
-                if (oldWorkspaceNames[i] != 0)
-                    delete[] oldWorkspaceNames[i];
-            delete[] oldWorkspaceNames;
+            success = true;
         } else {
             MSG(("warning: could not convert strings for _WIN_WORKSPACE_NAMES"));
         }
         XFree(names.value);
-        return true;
     } else {
         MSG(("warning: could not read _WIN_WORKSPACE_NAMES"));
     }
 #endif
-    return false;
+    return success;
 }
 
 void YWindowManager::setWinDesktopNames(long count) {
+#ifdef GNOME1_HINTS
     MSG(("setting: _WIN_WORKSPACE_NAMES"));
     static char terminator[] = { '\0' };
     char **strings = new char *[count + 1];
@@ -2739,9 +2746,11 @@ void YWindowManager::setWinDesktopNames(long count) {
         XFree(names.value);
     }
     delete[] strings;
+#endif
 }
 
 void YWindowManager::setNetDesktopNames(long count) {
+#ifdef WMSPEC_HINTS
     MSG(("setting: _NET_DESKTOP_NAMES"));
     static char terminator[] = { '\0' };
     char **strings = new char *[count + 1];
@@ -2753,14 +2762,21 @@ void YWindowManager::setNetDesktopNames(long count) {
     }
     strings[count] = terminator;
     XTextProperty names;
-    if (XmbTextListToTextProperty(xapp->display(), strings,
-                                  count + 1, XUTF8StringStyle,
-                                  &names)) {
+    int error = XLocaleNotSupported;
+#ifdef X_HAVE_UTF8_STRING
+    error = Xutf8TextListToTextProperty(xapp->display(), strings, count + 1,
+                                        XUTF8StringStyle, &names);
+#endif
+    if (error != Success) {
+        error = XStringListToTextProperty(strings, count + 1, &names);
+    }
+    if (error == Success) {
         XSetTextProperty(xapp->display(), handle(), &names,
                          _XA_NET_DESKTOP_NAMES);
         XFree(names.value);
     }
     delete[] strings;
+#endif
 }
 
 void YWindowManager::setDesktopNames(long count) {
