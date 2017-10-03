@@ -31,7 +31,7 @@ void YApplication::initSignals() {
 #ifdef USE_SIGNALFD
     signalPipe[0] = signalfd(-1, &signalMask, 0);
     if(signalPipe[0]<0)
-    	perror("signalfd");
+        perror("signalfd");
     // XXX: with kernel 2.6.27 the flags above should become effective
     // but let's not require that yet
     fcntl(signalPipe[0], F_SETFL, O_NONBLOCK);
@@ -109,10 +109,10 @@ bool YApplication::nextTimeoutWithFuzziness(timeval *timeout) {
                 // Update if no fixed timer yet or current
                 // is earlier than previously registered one.
                 if (false == fixedExists || iter->timeout < timeout_fixed) {
-		    timeout_fixed = iter->timeout;
-		    fixedExists = true;
-		}
-	    }
+                    timeout_fixed = iter->timeout;
+                    fixedExists = true;
+                }
+            }
             else if (false == fuzzyExists) {
                 // encountered first fuzzy timer, register everything
                 timeout_fuzzy = iter->timeout;
@@ -124,7 +124,7 @@ bool YApplication::nextTimeoutWithFuzziness(timeval *timeout) {
                 timeout_fuzzy = iter->timeout;
                 if (iter->timeout_max < timeout_max)
                     timeout_max = iter->timeout_max;
-	    }
+            }
         }
     }
 
@@ -180,13 +180,13 @@ void YApplication::decreaseTimeouts(timeval diff) {
 void YApplication::registerPoll(YPollBase *t) {
     PRECONDITION(t->fd() >= 0);
     if (find(polls, t) < 0)
-	polls.append(t);
+        polls.append(t);
 }
 
 void YApplication::unregisterPoll(YPollBase *t) {
     int k = find(polls, t);
     if (k >= 0)
-	polls.remove(k);
+        polls.remove(k);
 }
 
 YPollBase::~YPollBase() {
@@ -313,7 +313,7 @@ bool YApplication::handleIdle() {
 void sig_handler(int sig) {
     unsigned char uc = (unsigned char)sig;
     if (write(signalPipe[1], &uc, 1) != 1)
-	fprintf(stderr, "icewm: signal error\n");
+        fprintf(stderr, "icewm: signal error\n");
 }
 #endif
 
@@ -351,7 +351,7 @@ void YApplication::closeFiles() {
                 memset(buf, 0, sizeof(buf));
                 snprintf(path, sizeof path, "/proc/%d/fd/%d", (int) getpid(), i);
                 if (readlink(path, buf, sizeof(buf) - 1) == -1)
-		    buf[0] = '\0';
+                    buf[0] = '\0';
 
                 warn("File still open: fd=%d, target='%s' (missing FD_CLOEXEC?)", i, buf);
                 warn("Closing file descriptor: %d", i);
@@ -390,7 +390,7 @@ int YApplication::runProgram(const char *path, const char *const *args) {
         else
             execlp(path, path, (void *)NULL);
 
-	fail("%s", path);
+        fail("%s", path);
         _exit(99);
     }
     return cpid;
@@ -428,10 +428,10 @@ void YSignalPoll::notifyRead() {
 #else
 void YSignalPoll::notifyRead()
 {
-	struct signalfd_siginfo fdsi;
-	int s = read(signalPipe[0], &fdsi, sizeof(struct signalfd_siginfo));
-	if (s == sizeof(struct signalfd_siginfo))
-		owner()->handleSignal(fdsi.ssi_signo);
+        struct signalfd_siginfo fdsi;
+        int s = read(signalPipe[0], &fdsi, sizeof(struct signalfd_siginfo));
+        if (s == sizeof(struct signalfd_siginfo))
+                owner()->handleSignal(fdsi.ssi_signo);
 }
 #endif
 

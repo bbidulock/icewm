@@ -216,10 +216,10 @@ bool YInputLine::handleKey(const XKeyEvent &key) {
             case XK_KP_Insert:
                 copySelection();
                 return true;
-	    case 'i':
-	    case 'I':
-		complete();
-		return true;
+            case 'i':
+            case 'I':
+                complete();
+                return true;
             }
         }
         if (m & ShiftMask) {
@@ -313,9 +313,9 @@ bool YInputLine::handleKey(const XKeyEvent &key) {
                 }
             }
             break;
-	case XK_Tab:
-	    complete();
-	    break;
+        case XK_Tab:
+            complete();
+            break;
         default:
             {
                 char s[16];
@@ -724,11 +724,11 @@ void YInputLine::complete() {
 
     res_count = globit_best(t.c_str(), &res);
     if (res_count == -1) { //error-case
-	    free(res);
-	    return;
+            free(res);
+            return;
     }
     if (res_count == 0) { //no match found
-	    return;
+            return;
     }
     setText(ustring(res, strlen(res)));
     free(res);

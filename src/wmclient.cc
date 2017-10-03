@@ -1894,8 +1894,8 @@ bool YFrameClient::getNetWMUserTime(Window window, unsigned long &time) {
 
             MSG(("got user time"));
             time = utime[0] & 0xffffffff;
-	    if (time == -1UL)
-		    time = -2UL;
+            if (time == -1UL)
+                    time = -2UL;
 
             XFree(prop);
             return true;

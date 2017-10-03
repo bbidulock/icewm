@@ -153,11 +153,11 @@ public:
     void placeWindow(YFrameWindow *frame, int x, int y, int cw, int ch, bool newClient, bool &canActivate);
 
     YFrameWindow *top(long layer) const {
-	    if (layer < 0)
-		    return fTop[0];
-	    if (layer >= WinLayerCount)
-		    return fTop[WinLayerCount - 1];
-	    return fTop[layer];
+            if (layer < 0)
+                    return fTop[0];
+            if (layer >= WinLayerCount)
+                    return fTop[WinLayerCount - 1];
+            return fTop[layer];
     }
     void setTop(long layer, YFrameWindow *top);
     YFrameWindow *bottom(long layer) const { return fBottom[layer]; }

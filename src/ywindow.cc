@@ -161,7 +161,7 @@ YWindow::~YWindow() {
     fFocusedWindow = 0;
     removeWindow();
     while (fNextWindow != 0)
-	    fNextWindow->removeWindow();
+            fNextWindow->removeWindow();
     while (accel) {
         YAccelerator *next = accel->next;
         delete accel;
@@ -1902,7 +1902,7 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
                 si.height = ci->height;
                 xiInfo.append(si);
             }
-	    XRRFreeCrtcInfo(ci);
+            XRRFreeCrtcInfo(ci);
         }
 
         MSG(("xinerama primary screen name: %s", xineramaPrimaryScreenName));
@@ -1925,9 +1925,9 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
                 }
             }
 #endif
-	    XRRFreeOutputInfo(oinfo);
+            XRRFreeOutputInfo(oinfo);
         }
-	XRRFreeScreenResources(xrrsr);
+        XRRFreeScreenResources(xrrsr);
     }
 #endif
     if (xiInfo.getCount() < 2) { // use xinerama if no XRANDR screens (nvidia hack)
@@ -1954,8 +1954,8 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
                 si.height = xsi[i].height;
                 xiInfo.append(si);
             }
-	    if (xsi)
-		    XFree(xsi);
+            if (xsi)
+                    XFree(xsi);
         }
 #endif
     }

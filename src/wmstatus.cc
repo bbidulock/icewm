@@ -36,7 +36,7 @@ template<class T> T non_zero(T x) { return x ? x : 1; }
 /******************************************************************************/
 
 YWindowManagerStatus::YWindowManagerStatus(YWindow *aParent,
-		const ustring &sampleString)
+                const ustring &sampleString)
     : YWindow(aParent)
 {
     if (statusBg == 0)
@@ -93,7 +93,7 @@ void YWindowManagerStatus::begin() {
 
 MoveSizeStatus::MoveSizeStatus(YWindow *aParent)
   : YWindowManagerStatus(aParent, mstring(statusTemplate, sizeof(statusTemplate)-1)),
-	fX(0), fY(0), fW(0), fH(0) {
+        fX(0), fY(0), fW(0), fH(0) {
 }
 
 MoveSizeStatus::~MoveSizeStatus() {
