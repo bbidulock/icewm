@@ -1728,6 +1728,7 @@ int main(int argc, char **argv) {
     app.signalGuiEvent(geShutdown);
 #endif
     manager->unmanageClients();
+    app.clientsAreUnmanaged();
     unregisterProtocols();
 #ifndef LITE
     YIcon::freeIcons();

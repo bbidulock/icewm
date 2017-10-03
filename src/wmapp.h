@@ -60,6 +60,12 @@ public:
     void logout();
     void cancelLogout();
 
+    // drop ties to own clients/windows since those are now destroyed by unmanageClients
+    inline void clientsAreUnmanaged() {
+        fLogoutMsgBox = 0;
+        aboutDlg = 0;
+    }
+
 #ifdef CONFIG_SESSION
     virtual void smSaveYourselfPhase2();
     virtual void smDie();
@@ -98,8 +104,12 @@ public:
 
 private:
     char** mainArgv;
+
+    // XXX: these pointers are PITA because they can become wild when objects
+    // are destroyed independently by manager. What we need is something like std::weak_ptr...
     YMsgBox *fLogoutMsgBox;
     AboutDlg* aboutDlg;
+
 #ifndef LITE
     CtrlAltDelete* ctrlAltDelete;
 #endif
