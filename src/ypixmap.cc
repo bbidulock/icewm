@@ -17,26 +17,26 @@ static Pixmap createMask(int w, int h) {
 
 void YPixmap::replicate(bool horiz, bool copyMask) {
     if (pixmap() == None || (fMask == None && copyMask))
-	return;
+        return;
 
     int dim(horiz ? width() : height());
     if (dim >= 128) return;
     dim = 128 + dim - 128 % dim;
 
     Pixmap nPixmap(horiz ? createPixmap(dim, height())
-    			 : createPixmap(width(), dim));
+                         : createPixmap(width(), dim));
     Pixmap nMask(copyMask ? (horiz ? createMask(dim, height())
-				   : createMask(width(), dim)) : None);
+                                   : createMask(width(), dim)) : None);
 
     if (horiz)
-	Graphics(nPixmap, dim, height()).repHorz(fPixmap, width(), height(), 0, 0, dim);
+        Graphics(nPixmap, dim, height()).repHorz(fPixmap, width(), height(), 0, 0, dim);
     else
-	Graphics(nPixmap, width(), dim).repVert(fPixmap, width(), height(), 0, 0, dim);
+        Graphics(nPixmap, width(), dim).repVert(fPixmap, width(), height(), 0, 0, dim);
 
     if (nMask != None) {
-	if (horiz)
-	    Graphics(nMask, dim, height()).repHorz(fMask, width(), height(), 0, 0, dim);
-	else
+        if (horiz)
+            Graphics(nMask, dim, height()).repHorz(fMask, width(), height(), 0, 0, dim);
+        else
             Graphics(nMask, width(), dim).repVert(fMask, width(), height(), 0, 0, dim);
     }
 

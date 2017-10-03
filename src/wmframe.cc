@@ -692,7 +692,7 @@ void YFrameWindow::manage(YFrameClient *client) {
 #if 0
     {
         XSetWindowAttributes xswa;
-	xswa.backing_store = Always;
+        xswa.backing_store = Always;
         xswa.win_gravity = NorthWestGravity;
 
         XChangeWindowAttributes(xapp->display(), client->handle(),
@@ -880,11 +880,11 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
             switch (xwc.stack_mode) {
             case Above:
                 if (!focusOnAppRaise) {
-	            if (requestFocusOnAppRaise) {
+                    if (requestFocusOnAppRaise) {
                         if (canRaise()) {
                             setWmUrgency(true);
                         }
-	            }
+                    }
                 } else {
                     if (canRaise()) {
                         wmRaise();
@@ -2585,14 +2585,14 @@ void YFrameWindow::updateIcon() {
     if (client()->getNetWMIcon(&count, &elem)) {
         ref<YImage> icons[3], largestIcon;
         int sizes[] = { YIcon::smallSize(), YIcon::largeSize(), YIcon::hugeSize()};
-	long *largestIconOffset = elem;
-	int largestIconSize = 0;
+        long *largestIconOffset = elem;
+        int largestIconSize = 0;
 
         // Find icons that match Small-/Large-/HugeIconSize and search
         // for the largest icon from NET_WM_ICON set.
         for (long *e = elem;
              e < elem + count && e[0] > 0 && e[1] > 0;
-	     e += 2 + e[0] * e[1]) {
+             e += 2 + e[0] * e[1]) {
 
             if (e + 2 + e[0] * e[1] <= elem + count) {
 
@@ -2609,21 +2609,21 @@ void YFrameWindow::updateIcon() {
                         icons[i] = YImage::createFromIconProperty(e + 2, e[0], e[1]);
                 }
             }
-	}
+        }
 
-	// create the largest icon
+        // create the largest icon
         if (largestIconSize > 0) {
-	    largestIcon =
-		YImage::createFromIconProperty(largestIconOffset + 2,
-					       largestIconSize,
+            largestIcon =
+                YImage::createFromIconProperty(largestIconOffset + 2,
+                                               largestIconSize,
                                                largestIconSize);
         }
 
-	// create the missing icons by downscaling the largest icon
-	// Q: Do we need to upscale the largest icon up to missing icon size?
+        // create the missing icons by downscaling the largest icon
+        // Q: Do we need to upscale the largest icon up to missing icon size?
         if (largestIcon != null) {
             for (int i = 0; i < 3; i++) {
-		if (icons[i] == null && sizes[i] < largestIconSize)
+                if (icons[i] == null && sizes[i] < largestIconSize)
                     icons[i] = largestIcon->scale(sizes[i], sizes[i]);
             }
         }
@@ -3615,7 +3615,7 @@ void YFrameWindow::updateTaskBar() {
     bool needTaskBarApp = true;
 
     if (taskBar && fManaged) {
-	if (isSkipTaskBar())
+        if (isSkipTaskBar())
             needTaskBarApp = false;
         if (isHidden())
             needTaskBarApp = false;

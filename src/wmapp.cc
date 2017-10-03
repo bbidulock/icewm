@@ -301,7 +301,7 @@ static void registerProtocols2(Window xid) {
         _XA_NET_WM_STATE_SKIP_TASKBAR,
         _XA_NET_WM_STATE_STICKY,            // trivial support
         _XA_NET_WM_STRUT,
-        _XA_NET_WM_STRUT_PARTIAL,	    // trivial support
+        _XA_NET_WM_STRUT_PARTIAL,           // trivial support
 //      _XA_NET_WM_SYNC_REQUEST,
 //      _XA_NET_WM_SYNC_REQUEST_COUNTER,
         _XA_NET_WM_USER_TIME,
@@ -594,9 +594,9 @@ static void initMenus(
 #ifdef LITE // no confirmation since dialog is not available
             DProgram *restartXTerm =
                 DProgram::newProgram(app, smActionListener, _("Restart _Xterm"),
-				null,
-				true, 0,
-                		QUOTE(XTERMCMD), noargs);
+                                null,
+                                true, 0,
+                                QUOTE(XTERMCMD), noargs);
 
             if (restartXTerm)
                 logoutMenu->add(new DObjectMenuItem(restartXTerm));
@@ -746,7 +746,7 @@ void dumpZorder(const char *oper, YFrameWindow *w, YFrameWindow *a) {
         PRECONDITION(p->prev() != p);
         if (p->next()) {
             PRECONDITION(p->next()->prev() == p);
-	}
+        }
         p = p->next();
     }
 }
@@ -1842,8 +1842,8 @@ void YWMApp::handleSMAction(int message) {
 #endif
         break;
     case ICEWM_ACTION_SUSPEND:
-    	YWindowManager::execAfterFork(suspendCommand);
-    	break;
+        YWindowManager::execAfterFork(suspendCommand);
+        break;
     }
 }
 

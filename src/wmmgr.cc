@@ -2712,8 +2712,8 @@ void YWindowManager::setWinDesktopNames(long count) {
     strings[count] = terminator;
     XTextProperty names;
     if (XmbTextListToTextProperty(xapp->display(), strings,
-			          count + 1, XStdICCTextStyle,
-				  &names) == Success) {
+                                  count + 1, XStdICCTextStyle,
+                                  &names) == Success) {
         XSetTextProperty(xapp->display(), handle(), &names,
                          _XA_WIN_WORKSPACE_NAMES);
         XFree(names.value);
@@ -2815,21 +2815,21 @@ void YWindowManager::getIconPosition(YFrameWindow *frame, int *iconX, int *iconY
     int *iconRow, *iconCol;
 
     if (miniIconsPlaceHorizontal) {
-	manager->getWorkArea(frame, &mcol, &mrow, &Mcol, &Mrow);
-	width = iw->width();
-	height = iw->height();
-	drow = (int)miniIconsBottomToTop * -2 + 1;
-	dcol = (int)miniIconsRightToLeft * -2 + 1;
-	iconRow = iconY;
-	iconCol = iconX;
+        manager->getWorkArea(frame, &mcol, &mrow, &Mcol, &Mrow);
+        width = iw->width();
+        height = iw->height();
+        drow = (int)miniIconsBottomToTop * -2 + 1;
+        dcol = (int)miniIconsRightToLeft * -2 + 1;
+        iconRow = iconY;
+        iconCol = iconX;
     } else {
-	manager->getWorkArea(frame, &mrow, &mcol, &Mrow, &Mcol);
-	width = iw->height();
-	height = iw->width();
-	drow = (int)miniIconsRightToLeft * -2 + 1;
-	dcol = (int)miniIconsBottomToTop * -2 + 1;
-	iconRow = iconX;
-	iconCol = iconY;
+        manager->getWorkArea(frame, &mrow, &mcol, &Mrow, &Mcol);
+        width = iw->height();
+        height = iw->width();
+        drow = (int)miniIconsRightToLeft * -2 + 1;
+        dcol = (int)miniIconsBottomToTop * -2 + 1;
+        iconRow = iconX;
+        iconCol = iconY;
     }
 
     /* Calculate start row and start column */
@@ -2837,9 +2837,9 @@ void YWindowManager::getIconPosition(YFrameWindow *frame, int *iconX, int *iconY
     int scol = (dcol > 0) ? mcol : (Mcol - width);
 
     if (!init) {
-	row = srow;
-	col = scol;
-	init = true;
+        row = srow;
+        col = scol;
+        init = true;
     }
 
     /* Return values */
@@ -3008,10 +3008,10 @@ void YWindowManager::updateUserTime(const UserTime& userTime) {
 }
 
 void YWindowManager::execAfterFork(const char *command) {
-	if(!command || !*command)
-		return;
+        if(!command || !*command)
+                return;
     msg("Running system command in shell: %s", command);
-	pid_t pid = fork();
+        pid_t pid = fork();
     switch(pid) {
     case -1: /* Failed */
         fail("fork failed");
