@@ -123,6 +123,8 @@ libice_la_SOURCES = \
 	ylocale.h \
 	yarray.cc \
 	yarray.h \
+	ycollections.h \
+	ycollections.cc \
 	ypipereader.cc \
 	ypipereader.h \
 	yxembed.cc \
