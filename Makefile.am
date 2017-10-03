@@ -3,7 +3,7 @@ ACLOCAL_AMFLAGS = -I m4
 
 SUBDIRS = src po doc man lib
 
-EXTRA_DIST = INSTALL COPYING AUTHORS NEWS README README.md README.md.in THANKS TODO ChangeLog
+EXTRA_DIST = INSTALL COPYING AUTHORS NEWS README README.md README.md.in THANKS TODO ChangeLog COMPLIANCE
 
 dist_noinst_SCRIPTS = gennews.sh autogen.sh configure.sh rebuild.sh dist.sh
 
@@ -13,9 +13,9 @@ dist-hook:
 	$(AM_V_GEN)if test -x "`which git 2>/dev/null`" -a -d "$(srcdir)/.git" ; then \
 		chmod u+w $(distdir)/{ChangeLog,AUTHORS,NEWS} ; \
 		( cd $(srcdir) ; \
-		  echo -e "# created with git log --stat=76 -M -C -300|fmt -sct -w80\n" ; \
-		  git log --stat=76 -M -C -300|fmt -sct -w80 \
-		)|head -5000>$(distdir)/ChangeLog ; \
+		  echo -e "# created with git log --stat=76 -M -C -500|fmt -sct -w80\n" ; \
+		  git log --stat=76 -M -C -500|fmt -sct -w80 \
+		)|head -10000>$(distdir)/ChangeLog ; \
 		( cd $(srcdir) ; \
 		  echo "$(PACKAGE) -- authors file.  $(DATE)" ; \
 		  echo "" ; \
@@ -33,9 +33,9 @@ dist-hook:
 ChangeLog:
 	$(AM_V_GEN)if test -x "`which git 2>/dev/null`" -a -d "$(srcdir)/.git" ; then \
 		( cd $(srcdir) ; \
-		  echo -e "# created with git log --stat=76 -M -C -300|fmt -sct -w80\n" ; \
-		  git log --stat=76 -M -C -300|fmt -sct -w80 \
-		)|head -5000>$@ ; \
+		  echo -e "# created with git log --stat=76 -M -C -500|fmt -sct -w80\n" ; \
+		  git log --stat=76 -M -C -500|fmt -sct -w80 \
+		)|head -10000>$@ ; \
 	else touch $@ ; fi
 
 AUTHORS:
@@ -65,7 +65,7 @@ README.html: README.md
 	$(AM_V_GEN)$(MARKDOWN) $< >$@
 
 README.txt: README.html
-	$(AM_V_GEN)links -dump -width 80 -codepage utf-8 $< >$@
+	$(AM_V_GEN)$(LINKS) -dump -width 80 $< >$@
 
 INSTALL.cmakebuild: INSTALL-cmakebuild.md
 	$(AM_V_GEN)cat $< | fmt -sct -w80 -g72 >$@
