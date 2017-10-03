@@ -2608,11 +2608,10 @@ bool YWindowManager::readDesktopNames() {
 bool YWindowManager::compareDesktopNames(char **strings, int count) {
     bool changed = false;
 
-    char **oldWorkspaceNames = new char *[count];
-    for (int i = 0; i < count; i++)
-        oldWorkspaceNames[i] = 0;
+    // old strings must persist until after the update
+    asmart<csmart> oldWorkspaceNames(new csmart[count]);
 
-    for (int i = 0; i < count && i < workspaceCount(); i++) {
+    for (int i = 0; i < count; i++) {
         if (workspaceNames[i] != 0) {
             MSG(("Workspace %d: '%s' -> '%s'", i, workspaceNames[i], strings[i]));
             if (strcmp(workspaceNames[i], strings[i])) {
@@ -2631,12 +2630,6 @@ bool YWindowManager::compareDesktopNames(char **strings, int count) {
         updateTaskBarNames();
         updateMoveMenu();
     }
-
-    // old strings must persist until after the update
-    for (int i = 0; i < count; i++)
-        if (oldWorkspaceNames[i] != 0)
-            delete[] oldWorkspaceNames[i];
-    delete[] oldWorkspaceNames;
 
     return changed;
 }
@@ -2748,15 +2741,9 @@ void YWindowManager::setNetDesktopNames(long count) {
     }
     strings[count] = terminator;
     XTextProperty names;
-    int error = XLocaleNotSupported;
-#ifdef X_HAVE_UTF8_STRING
-    error = Xutf8TextListToTextProperty(xapp->display(), strings, count + 1,
-                                        XUTF8StringStyle, &names);
-#endif
-    if (error != Success) {
-        error = XStringListToTextProperty(strings, count + 1, &names);
-    }
-    if (error == Success) {
+    if (XmbTextListToTextProperty(xapp->display(), strings,
+                                  count + 1, XUTF8StringStyle,
+                                  &names) == Success) {
         XSetTextProperty(xapp->display(), handle(), &names,
                          _XA_NET_DESKTOP_NAMES);
         XFree(names.value);
