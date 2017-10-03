@@ -26,8 +26,8 @@ extern YColor *inactiveTitleBarBg;
 
 YFrameButton::YFrameButton(YWindow *parent,
                            YFrameWindow *frame,
-                           YAction *action,
-                           YAction *action2): YButton(parent, 0)
+                           tActionId action,
+                           tActionId action2): YButton(parent, 0)
 {
     if (titleButtonBg == 0)
         titleButtonBg = new YColor(clrNormalTitleButton);
@@ -83,7 +83,7 @@ void YFrameButton::handleBeginDrag(const XButtonEvent &down, const XMotionEvent 
     }
 }
 
-void YFrameButton::setActions(YAction *action, YAction *action2) {
+void YFrameButton::setActions(tActionId action, tActionId action2) {
     fAction2 = action2;
     if (action != fAction) {
         fAction = action;
@@ -95,7 +95,7 @@ void YFrameButton::updatePopup() {
     getFrame()->updateMenu();
 }
 
-void YFrameButton::actionPerformed(YAction * /*action*/, unsigned int modifiers) {
+void YFrameButton::actionPerformed(tActionId  /*action*/, unsigned int modifiers) {
     if ((modifiers & ShiftMask) && fAction2 != 0)
         getFrame()->actionPerformed(fAction2, modifiers);
     else

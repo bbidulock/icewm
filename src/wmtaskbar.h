@@ -82,7 +82,7 @@ public:
     virtual bool handleTimer(YTimer *t);
 #endif
 
-    virtual void actionPerformed(YAction *action, unsigned int modifiers);
+    virtual void actionPerformed(tActionId action, unsigned int modifiers);
     virtual void handlePopDown(YPopupWindow *popup);
     virtual void handleEndPopup(YPopupWindow *popup);
 

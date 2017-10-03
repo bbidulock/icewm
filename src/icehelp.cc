@@ -918,7 +918,7 @@ protected:
     virtual ~HTListener() {};
 };
 
-class ActionItem : public YAction {
+class ActionItem {
 private:
     YMenuItem   *item;
     ActionItem(const ActionItem&);
@@ -927,7 +927,6 @@ public:
     ActionItem() : item(0) {}
     ~ActionItem() { delete item; }
     void operator=(YMenuItem* menuItem) { item = menuItem; }
-    operator YAction*() { return this; }
     YMenuItem* operator->() { return item; }
 };
 
@@ -1032,31 +1031,31 @@ public:
 
     virtual void handleClick(const XButtonEvent &up, int /*count*/);
 
-    virtual void actionPerformed(YAction *action, unsigned int /*modifiers*/) {
-        if (action == actionClose) {
+    virtual void actionPerformed(tActionId action, unsigned int /*modifiers*/) {
+        if (action == (tActionId) &actionClose) {
             listener->handleClose();
         }
-        else if (action == actionNext) {
+        else if (action == (tActionId) &actionNext) {
             if (actionNext->isEnabled())
                 listener->activateURL(nextURL, true);
         }
-        else if (action == actionPrev) {
+        else if (action == (tActionId) &actionPrev) {
             if (actionPrev->isEnabled())
                 listener->activateURL(prevURL, true);
         }
-        else if (action == actionContents) {
+        else if (action == (tActionId) &actionContents) {
             if (actionContents->isEnabled())
                 listener->activateURL(contentsURL, true);
         }
-        else if (action == actionIndex) {
+        else if (action == (tActionId) &actionIndex) {
             if (actionIndex->isEnabled() && history.first())
                 listener->activateURL(history.current());
         }
-        else if (action == actionLeft) {
+        else if (action == (tActionId) &actionLeft) {
             if (actionLeft->isEnabled() && history.left())
                 listener->activateURL(history.current());
         }
-        else if (action == actionRight) {
+        else if (action == (tActionId) &actionRight) {
             if (actionRight->isEnabled() && history.right())
                 listener->activateURL(history.current());
         }
@@ -1142,19 +1141,19 @@ HTextView::HTextView(HTListener *fL, YScrollView *v, YWindow *parent):
 
     menu = new YMenu();
     menu->setActionListener(this);
-    actionLeft = menu->addItem(_("Back"), 0, _("Alt+Left"), actionLeft);
+    actionLeft = menu->addItem(_("Back"), 0, _("Alt+Left"), (tActionId) &actionLeft);
     actionLeft->setEnabled(false);
-    actionRight = menu->addItem(_("Forward"), 0, _("Alt+Right"), actionRight);
+    actionRight = menu->addItem(_("Forward"), 0, _("Alt+Right"), (tActionId) &actionRight);
     actionRight->setEnabled(false);
     menu->addSeparator();
-    actionPrev = menu->addItem(_("Previous"), 0, null, actionPrev);
-    actionNext = menu->addItem(_("Next"), 0, null, actionNext);
+    actionPrev = menu->addItem(_("Previous"), 0, null, (tActionId) &actionPrev);
+    actionNext = menu->addItem(_("Next"), 0, null, (tActionId) &actionNext);
     menu->addSeparator();
-    actionContents = menu->addItem(_("Contents"), 0, null, actionContents);
-    actionIndex = menu->addItem(_("Index"), 0, null, actionIndex);
+    actionContents = menu->addItem(_("Contents"), 0, null, (tActionId) &actionContents);
+    actionIndex = menu->addItem(_("Index"), 0, null, (tActionId) &actionIndex);
     actionIndex->setEnabled(false);
     menu->addSeparator();
-    actionClose = menu->addItem(_("Close"), 0, _("Ctrl+Q"), actionClose);
+    actionClose = menu->addItem(_("Close"), 0, _("Ctrl+Q"), (tActionId) &actionClose);
 }
 
 HTextView::~HTextView() {
@@ -1668,17 +1667,17 @@ bool HTextView::handleKey(const XKeyEvent &key) {
         int m = KEY_MODMASK(key.state);
         if ((m & ControlMask) != 0 && (m & ~ControlMask) == 0) {
             if (k == XK_q) {
-                actionPerformed(actionClose, 0);
+                actionPerformed((tActionId) &actionClose, 0);
                 return true;
             }
         }
         if ((m & xapp->AltMask) != 0 && (m & ~xapp->AltMask) == 0) {
             if (k == XK_Left || k == XK_KP_Left) {
-                actionPerformed(actionLeft, 0);
+                actionPerformed((tActionId) &actionLeft, 0);
                 return true;
             }
             if (k == XK_Right || k == XK_KP_Right) {
-                actionPerformed(actionRight, 0);
+                actionPerformed((tActionId) &actionRight, 0);
                 return true;
             }
         }

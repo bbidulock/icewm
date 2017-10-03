@@ -14,6 +14,7 @@
 
 #include "yxapp.h"
 #include "prefs.h"
+#include "yaction.h"
 
 #include <string.h>
 #include <stdlib.h>
@@ -31,7 +32,7 @@ YMenu *YInputLine::inputMenu = 0;
 
 int YInputLine::fAutoScrollDelta = 0;
 
-static YAction *actionCut, *actionCopy, *actionPaste, *actionSelectAll, *actionPasteSelection;
+static tActionId actionCut, actionCopy, actionPaste, actionSelectAll, actionPasteSelection;
 
 YInputLine::YInputLine(YWindow *parent): YWindow(parent), fText(null) {
     if (inputFont == null)
@@ -47,11 +48,11 @@ YInputLine::YInputLine(YWindow *parent): YWindow(parent), fText(null) {
     if (inputMenu == 0) {
         inputMenu = new YMenu();
         if (inputMenu) {
-            actionCut = new YAction();
-            actionCopy = new YAction();
-            actionPaste = new YAction();
-            actionPasteSelection = new YAction();
-            actionSelectAll = new YAction();
+            actionCut = dynActionId++;
+            actionCopy = dynActionId++;
+            actionPaste = dynActionId++;
+            actionPasteSelection = dynActionId++;
+            actionSelectAll = dynActionId++;
             inputMenu->setActionListener(this);
             inputMenu->addItem(_("Cu_t"), -2, _("Ctrl+X"), actionCut)->setEnabled(true);
             inputMenu->addItem(_("_Copy"), -2, _("Ctrl+C"), actionCopy)->setEnabled(true);
@@ -78,14 +79,7 @@ YInputLine::~YInputLine() {
             cursorBlinkTimer->setTimerListener(0);
         }
     }
-    if (inputMenu) {
-        delete actionCut;
-        delete actionCopy;
-        delete actionPaste;
-        delete actionPasteSelection;
-        delete actionSelectAll;
-        delete inputMenu;
-    }
+    delete inputMenu;
     delete inputSelectionFg;
     delete inputSelectionBg;
     delete inputFg;
@@ -706,7 +700,7 @@ void YInputLine::copySelection() {
     }
 }
 
-void YInputLine::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
+void YInputLine::actionPerformed(tActionId action, unsigned int /*modifiers*/) {
     if (action == actionSelectAll)
         selectAll();
     else if (action == actionPaste)

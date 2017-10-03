@@ -51,7 +51,7 @@ public:
     virtual void handleSignal(int sig);
     virtual bool handleIdle();
     virtual bool filterEvent(const XEvent &xev);
-    virtual void actionPerformed(YAction *action, unsigned int modifiers);
+    virtual void actionPerformed(tActionId action, unsigned int modifiers);
 
     virtual void handleMsgBox(YMsgBox *msgbox, int operation);
     virtual void handleSMAction(int message);

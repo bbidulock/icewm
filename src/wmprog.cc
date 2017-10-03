@@ -33,7 +33,7 @@
 #include "argument.h"
 
 DObjectMenuItem::DObjectMenuItem(DObject *object):
-    YMenuItem(object->getName(), -3, null, this, 0)
+    YMenuItem(object->getName(), -3, null, (tActionId) this, 0)
 {
     fObject = object;
 #ifndef LITE
@@ -46,7 +46,7 @@ DObjectMenuItem::~DObjectMenuItem() {
     delete fObject;
 }
 
-void DObjectMenuItem::actionPerformed(YActionListener * /*listener*/, YAction * /*action*/, unsigned int /*modifiers*/) {
+void DObjectMenuItem::actionPerformed(YActionListener * /*listener*/, tActionId  /*action*/, unsigned int /*modifiers*/) {
 #ifdef CONFIG_GUIEVENTS
     wmapp->signalGuiEvent(geLaunchApp);
 #endif
@@ -792,7 +792,7 @@ FocusMenu::FocusMenu() {
     struct FocusModelNameAction {
         FocusModels mode;
         const char *name;
-        YAction *action;
+        tActionId action;
     } foci[] = {
         { FocusClick, _("_Click to focus"), actionFocusClickToFocus },
         { FocusExplicit, _("_Explicit focus"), actionFocusExplicit },

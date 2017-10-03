@@ -28,7 +28,7 @@ public:
     virtual void activateWindow(bool raise) = 0;
     virtual bool isHidden() const = 0;
     virtual bool isMinimized() const = 0;
-    virtual void actionPerformed(YAction *action, unsigned int modifiers) = 0;
+    virtual void actionPerformed(tActionId action, unsigned int modifiers) = 0;
     virtual bool focused() const = 0;
     virtual bool visibleNow() const = 0;
     virtual bool canRaise() = 0;
