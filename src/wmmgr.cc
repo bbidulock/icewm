@@ -2711,15 +2711,9 @@ void YWindowManager::setWinDesktopNames(long count) {
     }
     strings[count] = terminator;
     XTextProperty names;
-    int error = XLocaleNotSupported;
-#ifdef X_HAVE_UTF8_STRING
-    error = Xutf8TextListToTextProperty(xapp->display(), strings, count + 1, XUTF8StringStyle, &names);
-#endif
-    if (error != Success)
-        error = XStringListToTextProperty(strings, count + 1, &names);
-
-    if (error == Success)
-    {
+    if (XmbTextListToTextProperty(xapp->display(), strings,
+			          count + 1, XStdICCTextStyle,
+				  &names) == Success) {
         XSetTextProperty(xapp->display(), handle(), &names,
                          _XA_WIN_WORKSPACE_NAMES);
         XFree(names.value);
