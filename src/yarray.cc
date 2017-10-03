@@ -63,6 +63,9 @@ void YBaseArray::insert(const SizeType index, const void *item) {
         memmove(nElements + (index + 1) * fElementSize,
                 fElements + (index) * fElementSize,
                 (fCount - index) * fElementSize);
+    else if (fCount < index)
+        memset(nElements + fCount * fElementSize,
+               0, (index - fCount) * fElementSize);
 
     if (nElements != fElements) {
         delete[] fElements;
