@@ -275,4 +275,4 @@ inline int intersection(int s1, int e1, int s2, int e2) {
 
 #endif
 
-// vim: set sw=4 tw=4 et:
+// vim: set sw=4 ts=4 et:

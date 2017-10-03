@@ -359,4 +359,4 @@ ref<YFont> getXftFont(ustring name, bool antialias) {
 
 #endif // CONFIG_XFREETYPE
 
-// vim: set sw=4 tw=4 et:
+// vim: set sw=4 ts=4 et:

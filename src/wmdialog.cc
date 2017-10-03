@@ -220,4 +220,4 @@ YActionButton* CtrlAltDelete::addButton(const ustring& str, int& maxW, int& maxH
 
 #endif
 
-// vim: set sw=4 tw=4 et:
+// vim: set sw=4 ts=4 et:

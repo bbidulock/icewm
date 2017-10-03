@@ -13,4 +13,4 @@ extern int globit_best(const char *, char **);
 
 #endif /* GLOBIT_H */
 
-// vim: set sw=4 tw=4 et:
+// vim: set sw=4 ts=4 et:

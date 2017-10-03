@@ -299,4 +299,4 @@ int main(int argc, char **argv) {
     return stapp.mainLoop();
 }
 
-// vim: set sw=4 tw=4 et:
+// vim: set sw=4 ts=4 et:

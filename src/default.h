@@ -545,4 +545,4 @@ cfoption icewm_preferences[] = {
 #include "themable.h"
 #endif /* __DEFAULT_H */
 
-// vim: set sw=4 tw=4 et:
+// vim: set sw=4 ts=4 et:

@@ -19,4 +19,4 @@ void setLook(const char *name, const char *value, bool append);
 
 #endif
 
-// vim: set sw=4 tw=4 et:
+// vim: set sw=4 ts=4 et:

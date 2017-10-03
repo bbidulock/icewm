@@ -294,4 +294,4 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
 void YFrameButton::paintFocus(Graphics &/*g*/, const YRect &/*r*/) {
 }
 
-// vim: set sw=4 tw=4 et:
+// vim: set sw=4 ts=4 et:

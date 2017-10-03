@@ -353,4 +353,4 @@ cfoption icewm_themable_preferences[] = {
 #endif
 #endif
 
-// vim: set sw=4 tw=4 et:
+// vim: set sw=4 ts=4 et:
