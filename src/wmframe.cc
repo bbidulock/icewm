@@ -3341,12 +3341,12 @@ void YFrameWindow::updateLayout() {
                 int monitor[4] = { fFullscreenMonitorsTop, fFullscreenMonitorsBottom,
                                    fFullscreenMonitorsLeft, fFullscreenMonitorsRight };
                 manager->getScreenGeometry(&x, &y, &w, &h, monitor[0]);
-                YRect* r = new YRect(x, y, w, h);
+                YRect r(x, y, w, h);
                 for (int i = 1; i < 4; i++) {
                     manager->getScreenGeometry(&x, &y, &w, &h, monitor[i]);
-                    r->unionRect(x, y, w, h);
+                    r.unionRect(x, y, w, h);
                 }
-                setWindowGeometry(*r);
+                setWindowGeometry(r);
             } else if (fullscreenUseAllMonitors) {
                 setWindowGeometry(YRect(0, 0, manager->width(), manager->height()));
             } else {
