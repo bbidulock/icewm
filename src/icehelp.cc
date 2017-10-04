@@ -1036,27 +1036,27 @@ public:
         if (actionClose == action) {
             listener->handleClose();
         }
-        else if (action == (TActionId) &actionNext) {
+        else if (actionNext == action) {
             if (actionNext->isEnabled())
                 listener->activateURL(nextURL, true);
         }
-        else if (action == (TActionId) &actionPrev) {
+        else if (actionPrev == action) {
             if (actionPrev->isEnabled())
                 listener->activateURL(prevURL, true);
         }
-        else if (action == (TActionId) &actionContents) {
+        else if (actionContents == action) {
             if (actionContents->isEnabled())
                 listener->activateURL(contentsURL, true);
         }
-        else if (action == (TActionId) &actionIndex) {
+        else if (actionIndex == action) {
             if (actionIndex->isEnabled() && history.first())
                 listener->activateURL(history.current());
         }
-        else if (action == (TActionId) &actionLeft) {
+        else if (actionLeft == action) {
             if (actionLeft->isEnabled() && history.left())
                 listener->activateURL(history.current());
         }
-        else if (action == (TActionId) &actionRight) {
+        else if (actionRight == action) {
             if (actionRight->isEnabled() && history.right())
                 listener->activateURL(history.current());
         }

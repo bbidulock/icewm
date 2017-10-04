@@ -76,10 +76,10 @@ public:
     ObjectListBox(ObjectList *list, YScrollView *view, YWindow *aParent): YListBox(view, aParent) {
         fObjList = list;
 
-        actionOpenList = new YAction();
-        actionOpenIcon = new YAction();
-        actionOpen = new YAction();
-        actionClose = new YAction();
+        actionOpenList = genActionId();
+        actionOpenIcon = genActionId();
+        actionOpen = genActionId();
+        actionClose = genActionId();
 
         YMenu *openMenu = new YMenu();
         openMenu->addItem(_("List View"), 0, null, actionOpenList);

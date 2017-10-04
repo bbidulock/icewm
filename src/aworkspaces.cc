@@ -29,7 +29,7 @@ static ref<YResourcePaths> getResourcePaths() {
     return YResourcePaths::subdirs("workspace", false);
 }
 
-WorkspaceButton::WorkspaceButton(long ws, YWindow *parent): ObjectButton(parent, (TActionId )0)
+WorkspaceButton::WorkspaceButton(long ws, YWindow *parent): ObjectButton(parent, (TActionId)0)
 {
     fWorkspace = ws;
     //setDND(true);
