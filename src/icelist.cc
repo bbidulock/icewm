@@ -110,17 +110,17 @@ public:
 
     virtual void activateItem(YListItem *item);
 
-    virtual void actionPerformed(tActionId action, unsigned int /*modifiers*/) {
+    virtual void actionPerformed(TActionId action, unsigned int /*modifiers*/) {
         if (action == actionOpenList) {
         }
     }
 private:
     ObjectList *fObjList;
     YMenu *folderMenu;
-    tActionId actionClose;
-    tActionId actionOpen;
-    tActionId actionOpenList;
-    tActionId actionOpenIcon;
+    TActionId actionClose;
+    TActionId actionOpen;
+    TActionId actionOpenList;
+    TActionId actionOpenIcon;
 };
 
 class ObjectList: public YWindow {

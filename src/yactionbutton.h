@@ -6,7 +6,7 @@
 
 class YActionButton: public YButton {
 public:
-    YActionButton(YWindow *parent): YButton(parent, (tActionId) this) {
+    YActionButton(YWindow *parent): YButton(parent, (TActionId) this) {
     }
 };
 

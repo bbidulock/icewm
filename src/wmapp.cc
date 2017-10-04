@@ -835,7 +835,7 @@ void YWMApp::setFocusMode(int mode) {
 }
 #endif
 
-void YWMApp::actionPerformed(tActionId action, unsigned int /*modifiers*/) {
+void YWMApp::actionPerformed(TActionId action, unsigned int /*modifiers*/) {
 
 
     if (action == actionLogout) {

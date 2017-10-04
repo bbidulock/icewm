@@ -13,12 +13,12 @@ public:
         YButton(parent, 0), fObject(object) {}
     ObjectButton(YWindow *parent, YMenu *popup):
         YButton(parent, 0, popup), fObject(NULL) {}
-    ObjectButton(YWindow *parent, tActionId action):
+    ObjectButton(YWindow *parent, TActionId action):
         YButton(parent, action, 0), fObject(NULL) { /* hack */ }
 
     virtual ~ObjectButton() {}
 
-    virtual void actionPerformed(tActionId action, unsigned int modifiers);
+    virtual void actionPerformed(TActionId action, unsigned int modifiers);
     virtual ref<YFont> getFont();
     virtual YColor * getColor();
     virtual YSurface getSurface();

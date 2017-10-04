@@ -127,7 +127,7 @@ YSurface ObjectButton::getSurface() {
 #endif
 }
 
-void ObjectButton::actionPerformed(tActionId  action, unsigned modifiers) {
+void ObjectButton::actionPerformed(TActionId  action, unsigned modifiers) {
 #ifdef CONFIG_GUIEVENTS
     wmapp->signalGuiEvent(geLaunchApp);
 #endif

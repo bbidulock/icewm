@@ -30,26 +30,26 @@ public:
 
 #ifndef LITE
     YMenuItem *add(YMenuItem *item, const char *icons);
-    YMenuItem *addItem(const ustring &name, int hotCharPos, const ustring &param, tActionId action, const char *icons);
-    YMenuItem *addItem(const ustring &name, int hotCharPos, tActionId action, YMenu *submenu, const char *icons);
+    YMenuItem *addItem(const ustring &name, int hotCharPos, const ustring &param, TActionId action, const char *icons);
+    YMenuItem *addItem(const ustring &name, int hotCharPos, TActionId action, YMenu *submenu, const char *icons);
     YMenuItem *addSubmenu(const ustring &name, int hotCharPos, YMenu *submenu, const char *icons);
 #endif
 
     YMenuItem *add(YMenuItem *item);
     YMenuItem *addSorted(YMenuItem *item, bool duplicates, bool ignoreCase = false);
-    YMenuItem *addItem(const ustring &name, int hotCharPos, const ustring &param, tActionId action);
-    YMenuItem *addItem(const ustring &name, int hotCharPos, tActionId action, YMenu *submenu);
+    YMenuItem *addItem(const ustring &name, int hotCharPos, const ustring &param, TActionId action);
+    YMenuItem *addItem(const ustring &name, int hotCharPos, TActionId action, YMenu *submenu);
     YMenuItem *addSubmenu(const ustring &name, int hotCharPos, YMenu *submenu);
     YMenuItem *addSeparator();
     YMenuItem *addLabel(const ustring &name);
     void removeAll();
-    YMenuItem *findAction(const tActionId action);
+    YMenuItem *findAction(const TActionId action);
     YMenuItem *findSubmenu(const YMenu *sub);
     YMenuItem *findName(const ustring &name, const int first = 0);
     int findFirstLetRef(char firstLet, const int first, const int ignCase = 1);
 
-    void enableCommand(tActionId action); // 0 == All
-    void disableCommand(tActionId action); // 0 == All
+    void enableCommand(TActionId action); // 0 == All
+    void disableCommand(TActionId action); // 0 == All
 
     int itemCount() const { return fItems.getCount(); }
     YMenuItem *getItem(int n) const { return fItems[n]; }
@@ -112,7 +112,7 @@ private:
     int onCascadeButton(int selectedItem, int x, int y, bool checkPopup);
 
     void autoScroll(int deltaX, int deltaY, int mx, int my, const XMotionEvent *motion);
-    void finishPopup(YMenuItem *item, tActionId action, unsigned int modifiers);
+    void finishPopup(YMenuItem *item, TActionId action, unsigned int modifiers);
     void hideSubmenu();
 };
 

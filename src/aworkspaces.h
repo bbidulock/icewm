@@ -15,7 +15,7 @@ public:
     virtual void handleDNDLeave();
     virtual bool handleTimer(YTimer *t);
 
-    virtual void actionPerformed(tActionId button, unsigned int modifiers);
+    virtual void actionPerformed(TActionId button, unsigned int modifiers);
     virtual ref<YFont> getFont();
     virtual YColor * getColor();
     virtual YSurface getSurface();

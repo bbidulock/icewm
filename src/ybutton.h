@@ -9,7 +9,7 @@ class YMenu;
 
 class YButton: public YWindow {
 public:
-    YButton(YWindow *parent, tActionId action, YMenu *popup = 0);
+    YButton(YWindow *parent, TActionId action, YMenu *popup = 0);
     virtual ~YButton();
 
     virtual void paint(Graphics &g, const YRect &r);
@@ -18,7 +18,7 @@ public:
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleCrossing(const XCrossingEvent &crossing);
 
-    void setAction(tActionId  action);
+    void setAction(TActionId  action);
     void setPopup(YMenu * popup);
     void setIcon(ref<YIcon> image, int size);
     void setImage(ref<YImage> image);
@@ -45,7 +45,7 @@ public:
     bool isArmed() const { return fArmed; }
     bool isPopupActive() const { return fPopupActive; }
 
-    virtual void actionPerformed(tActionId action, unsigned int modifiers);
+    virtual void actionPerformed(TActionId action, unsigned int modifiers);
     virtual ref<YFont> getFont();
     virtual YColor * getColor();
     virtual YSurface getSurface();
@@ -57,7 +57,7 @@ public:
 private:
     void paint(Graphics &g, int const d, const YRect &r);
 
-    tActionId fAction;
+    TActionId fAction;
     YMenu *fPopup;
     ref<YIcon> fIcon;
     int fIconSize;

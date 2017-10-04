@@ -22,7 +22,7 @@ public:
     virtual void handleFocus(const XFocusChangeEvent &focus);
     virtual void handleClickDown(const XButtonEvent &down, int count);
     virtual void handleClick(const XButtonEvent &up, int count);
-    virtual void actionPerformed(tActionId action, unsigned int modifiers);
+    virtual void actionPerformed(TActionId action, unsigned int modifiers);
     virtual void handleSelection(const XSelectionEvent &selection);
 
     bool move(unsigned pos, bool extend);

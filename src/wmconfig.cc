@@ -22,8 +22,8 @@
 
 long workspaceCount = 0;
 char *workspaceNames[MAXWORKSPACES];
-tActionId workspaceActionActivate[MAXWORKSPACES];
-tActionId workspaceActionMoveTo[MAXWORKSPACES];
+TActionId workspaceActionActivate[MAXWORKSPACES];
+TActionId workspaceActionMoveTo[MAXWORKSPACES];
 
 void WMConfig::loadConfiguration(IApp *app, const char *fileName) {
 #ifndef NO_CONFIGURE

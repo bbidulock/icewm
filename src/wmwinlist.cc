@@ -108,7 +108,7 @@ void WindowListBox::getSelectedWindows(YArray<YFrameWindow *> &frames) {
     }
 }
 
-void WindowListBox::actionPerformed(tActionId action, unsigned int modifiers) {
+void WindowListBox::actionPerformed(TActionId action, unsigned int modifiers) {
     YArray<YFrameWindow *> frameList;
     getSelectedWindows(frameList);
 

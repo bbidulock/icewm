@@ -30,7 +30,7 @@ YColor *YButton::activeButtonFg = 0;
 ref<YFont> YButton::normalButtonFont;
 ref<YFont> YButton::activeButtonFont;
 
-YButton::YButton(YWindow *parent, tActionId action, YMenu *popup) :
+YButton::YButton(YWindow *parent, TActionId action, YMenu *popup) :
     YWindow(parent),
     fOver(false),
     fAction(action), fPopup(popup),
@@ -437,11 +437,11 @@ bool YButton::isFocusTraversable() {
     return true;
 }
 
-void YButton::setAction(tActionId action) {
+void YButton::setAction(TActionId action) {
     fAction = action;
 }
 
-void YButton::actionPerformed(tActionId action, unsigned modifiers) {
+void YButton::actionPerformed(TActionId action, unsigned modifiers) {
     if (fListener && action && fEnabled)
         fListener->actionPerformed(action, modifiers);
 }

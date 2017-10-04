@@ -269,7 +269,7 @@ public:
         YWindow::handleMotion(motion);
     }
 
-    virtual void actionPerformed(tActionId action, unsigned int /*modifiers*/) {
+    virtual void actionPerformed(TActionId action, unsigned int /*modifiers*/) {
         if (action == actionNew)
             newGame();
         else if (action == actionRestart)
@@ -291,7 +291,7 @@ private:
     YColor *c[NCOLOR][2];
     YMenu *menu;
     YLabel *scoreLabel;
-    tActionId actionUndo, *actionNew, *actionRestart, *actionClose;
+    TActionId actionUndo, *actionNew, *actionRestart, *actionClose;
 };
 
 int IceSame::mark(int x, int y) {
