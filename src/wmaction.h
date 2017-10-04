@@ -12,7 +12,15 @@
 #define ICEWM_ACTION_RESTARTWM 8
 #define ICEWM_ACTION_SUSPEND 9
 
-enum eWmActions {
+/*
+ * Reserved IDs for most predefined actions.
+ * The static IDs shall have odd number values which is a basic safety measure
+ * to avoid clashes with raw pointers used as action ID.
+ *
+ * NOTE: please add notes for reserved areas if they are defined with static
+ * values in other sources.
+ */
+enum EWmActions {
 	actionInvalid = 0,
     actionCascade = 1,
     actionArrange = 3,
@@ -69,6 +77,14 @@ enum eWmActions {
     actionFocusMouseStrict = 105,
     actionFocusQuietSloppy = 107,
     actionFocusCustom = 109
+
+    /* NOTE:
+     * 201-233 reserved for yinput.*
+     */
+
+    /*
+     * NOTE: dynamically assigned values start from 511, see misc.cc for details.
+     */
 };
 
 bool canShutdown(bool reboot);
