@@ -37,7 +37,7 @@ public:
 #if 0
         file = YIcon::getIcon("file");
 
-        TActionId actionNone = new YAction();
+        TActionId actionNone = genActionId();
 
         submenu0 = new YMenu();
         submenu0->addItem("XML Tree", 0, null, actionNone);

@@ -50,10 +50,10 @@ public:
         scoreLabel->show();
 
         // !!! keybindings, Menu, Shift+F10
-        actionUndo = new YAction();
-        actionNew = new YAction();
-        actionRestart = new YAction();
-        actionClose = new YAction();
+        actionUndo = genActionId();
+        actionNew = genActionId();
+        actionRestart = genActionId();
+        actionClose = genActionId();
 
         menu = new YMenu();
         menu->setActionListener(this);
