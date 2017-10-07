@@ -1016,7 +1016,7 @@ void TaskBar::showBar(bool visible) {
     }
 }
 
-void TaskBar::actionPerformed(TActionId action, unsigned int modifiers) {
+void TaskBar::actionPerformed(tActionId action, unsigned int modifiers) {
     wmActionListener->actionPerformed(action, modifiers);
 }
 

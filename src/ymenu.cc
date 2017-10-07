@@ -53,7 +53,7 @@ void YMenu::setActionListener(YActionListener *actionListener) {
     fActionListener = actionListener;
 }
 
-void YMenu::finishPopup(YMenuItem *item, TActionId action,
+void YMenu::finishPopup(YMenuItem *item, tActionId action,
                         unsigned int modifiers)
 {
     YActionListener *cmd = fActionListener;
@@ -623,11 +623,11 @@ void YMenu::autoScroll(int deltaX, int deltaY, int mx, int my, const XMotionEven
 }
 
 #ifndef LITE
-YMenuItem *YMenu::addItem(const ustring &name, int hotCharPos, const ustring &param, TActionId action, const char *icons) {
+YMenuItem *YMenu::addItem(const ustring &name, int hotCharPos, const ustring &param, tActionId action, const char *icons) {
     return add(new YMenuItem(name, hotCharPos, param, action, 0), icons);
 }
 
-YMenuItem *YMenu::addItem(const ustring &name, int hotCharPos, TActionId action, YMenu *submenu, const char *icons) {
+YMenuItem *YMenu::addItem(const ustring &name, int hotCharPos, tActionId action, YMenu *submenu, const char *icons) {
     return add(new YMenuItem(name, hotCharPos, null, action, submenu), icons);
 }
 
@@ -637,11 +637,11 @@ YMenuItem *YMenu::addSubmenu(const ustring &name, int hotCharPos, YMenu *submenu
 #endif
 
 
-YMenuItem *YMenu::addItem(const ustring &name, int hotCharPos, const ustring &param, TActionId action) {
+YMenuItem *YMenu::addItem(const ustring &name, int hotCharPos, const ustring &param, tActionId action) {
     return add(new YMenuItem(name, hotCharPos, param, action, 0));
 }
 
-YMenuItem *YMenu::addItem(const ustring &name, int hotCharPos, TActionId action, YMenu *submenu) {
+YMenuItem *YMenu::addItem(const ustring &name, int hotCharPos, tActionId action, YMenu *submenu) {
     return add(new YMenuItem(name, hotCharPos, null, action, submenu));
 }
 
@@ -698,7 +698,7 @@ YMenuItem * YMenu::addSorted(YMenuItem *item, bool duplicates, bool ignoreCase) 
     return item;
 }
 
-YMenuItem *YMenu::findAction(const TActionId action) {
+YMenuItem *YMenu::findAction(const tActionId action) {
     for (int i = 0; i < itemCount(); i++)
         if (action == getItem(i)->getAction()) return getItem(i);
     return 0;
@@ -739,13 +739,13 @@ int YMenu::findFirstLetRef(char firstLet, const int first, const int ignCase) {
 }
 
 
-void YMenu::enableCommand(TActionId action) {
+void YMenu::enableCommand(tActionId action) {
     for (int i = 0; i < itemCount(); i++)
         if (action == 0 || action == getItem(i)->getAction())
             getItem(i)->setEnabled(true);
     }
 
-void YMenu::disableCommand(TActionId action) {
+void YMenu::disableCommand(tActionId action) {
     for (int i = 0; i < itemCount(); i++)
         if (action == 0 || action == getItem(i)->getAction())
             getItem(i)->setEnabled(false);

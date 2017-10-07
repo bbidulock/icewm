@@ -703,7 +703,7 @@ void YInputLine::copySelection() {
     }
 }
 
-void YInputLine::actionPerformed(TActionId action, unsigned int /*modifiers*/) {
+void YInputLine::actionPerformed(tActionId action, unsigned int /*modifiers*/) {
     if (action == actionSelectAll)
         selectAll();
     else if (action == actionPaste)

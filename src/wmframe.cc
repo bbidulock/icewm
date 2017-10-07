@@ -1358,7 +1358,7 @@ void YFrameWindow::sendConfigure() {
 #endif
 }
 
-void YFrameWindow::actionPerformed(TActionId action, unsigned int modifiers) {
+void YFrameWindow::actionPerformed(tActionId action, unsigned int modifiers) {
     if (action == actionRestore) {
         wmRestore();
     } else if (action == actionMinimize) {

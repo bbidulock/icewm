@@ -20,7 +20,7 @@
 extern ref<YFont> menuFont;
 
 YMenuItem::YMenuItem(const ustring &name, int aHotCharPos, const ustring &param,
-                     TActionId action, YMenu *submenu) :
+                     tActionId action, YMenu *submenu) :
     fName(name), fParam(param), fAction(action),
     fHotCharPos(aHotCharPos), fSubmenu(submenu), fIcon(null),
     fChecked(false), fEnabled(true) {
@@ -72,7 +72,7 @@ void YMenuItem::setIcon(ref<YIcon> icon) {
     fIcon = icon;
 }
 
-void YMenuItem::actionPerformed(YActionListener *listener, TActionId action, unsigned int modifiers) {
+void YMenuItem::actionPerformed(YActionListener *listener, tActionId action, unsigned int modifiers) {
     if (listener && action)
         listener->actionPerformed(action, modifiers);
 }

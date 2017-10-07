@@ -25,7 +25,7 @@
 class ActivateWindowMenuItem: public YMenuItem {
 public:
     ActivateWindowMenuItem(YFrameWindow *frame):
-        YMenuItem(frame->getTitle(), -1, null, (TActionId) this, 0),
+        YMenuItem(frame->getTitle(), -1, null, (tActionId) this, 0),
         fFrame(frame)
     {
 #ifndef LITE
@@ -34,7 +34,7 @@ public:
 #endif
     }
 
-    virtual void actionPerformed(YActionListener * /*listener*/, TActionId  /*action*/, unsigned int modifiers) {
+    virtual void actionPerformed(YActionListener * /*listener*/, tActionId  /*action*/, unsigned int modifiers) {
         YFrameWindow *f = manager->topLayer();
 
         while (f) {

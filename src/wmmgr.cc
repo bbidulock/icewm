@@ -32,7 +32,7 @@
 XContext frameContext;
 XContext clientContext;
 
-TActionId layerActionSet[WinLayerCount];
+tActionId layerActionSet[WinLayerCount];
 
 YWindowManager::YWindowManager(
     IApp *app,
@@ -1290,7 +1290,7 @@ void YWindowManager::cascadePlace(YFrameWindow **w, int count) {
     }
 }
 
-void YWindowManager::setWindows(YFrameWindow **w, int count, TActionId action) {
+void YWindowManager::setWindows(YFrameWindow **w, int count, tActionId action) {
     saveArrange(w, count);
 
     if (count == 0)

@@ -135,11 +135,11 @@ void YMsgBox::setText(const ustring &text) {
 void YMsgBox::setPixmap(ref<YPixmap>/*pixmap*/) {
 }
 
-void YMsgBox::actionPerformed(TActionId action, unsigned int /*modifiers*/) {
+void YMsgBox::actionPerformed(tActionId action, unsigned int /*modifiers*/) {
     if (fListener) {
-        if (action == (TActionId) fButtonOK) {
+        if (action == (tActionId) fButtonOK) {
             fListener->handleMsgBox(this, mbOK);
-        } else if (action == (TActionId) fButtonCancel) {
+        } else if (action == (tActionId) fButtonCancel) {
             fListener->handleMsgBox(this, mbCancel);
         }
     }
