@@ -149,26 +149,25 @@ void CtrlAltDelete::paint(Graphics &g, const YRect &/*r*/) {
 
 void CtrlAltDelete::actionPerformed(TActionId action, unsigned int /*modifiers*/) {
     deactivate();
-    void *pActionSource = (YActionButton*) action;
-    if (pActionSource == lockButton) {
+    if (action == (TActionId) lockButton) {
         if (lockCommand && lockCommand[0])
             app->runCommand(lockCommand);
-    } else if (pActionSource == logoutButton) {
+    } else if (action == (TActionId) logoutButton) {
         manager->doWMAction(ICEWM_ACTION_LOGOUT);
-    } else if (pActionSource == cancelButton) {
+    } else if (action == (TActionId) cancelButton) {
         // !!! side-effect, not really nice
         manager->doWMAction(ICEWM_ACTION_CANCEL_LOGOUT);
-    } else if (pActionSource == restartButton) {
+    } else if (action == (TActionId) restartButton) {
         manager->doWMAction(ICEWM_ACTION_RESTARTWM);
-    } else if (pActionSource == shutdownButton) {
+    } else if (action == (TActionId) shutdownButton) {
         manager->doWMAction(ICEWM_ACTION_SHUTDOWN);
-    } else if (pActionSource == rebootButton) {
+    } else if (action == (TActionId) rebootButton) {
         manager->doWMAction(ICEWM_ACTION_REBOOT);
-    } else if (pActionSource == suspendButton) {
+    } else if (action == (TActionId) suspendButton) {
         manager->doWMAction(ICEWM_ACTION_SUSPEND);
-    } else if (pActionSource == aboutButton) {
+    } else if (action == (TActionId) aboutButton) {
         manager->doWMAction(ICEWM_ACTION_ABOUT);
-    } else if (pActionSource == windowListButton) {
+    } else if (action == (TActionId) windowListButton) {
         manager->doWMAction(ICEWM_ACTION_WINDOWLIST);
     }
 }
