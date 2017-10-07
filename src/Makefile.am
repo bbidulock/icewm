@@ -624,7 +624,7 @@ testlocale_SOURCES = \
 	base.h \
 	ylib.h \
 	testlocale.cc
-testlocale_LDADD = libice.la
+testlocale_LDADD = libice.la $(CORE_LIBS)
 
 testarray_SOURCES = \
 	intl.h \
