@@ -59,8 +59,8 @@ void addWorkspace(const char * /*name*/, const char *value, bool append) {
     if (workspaceCount >= MAXWORKSPACES)
         return;
     workspaceNames[workspaceCount] = newstr(value);
-    workspaceActionActivate[workspaceCount] = genActionId();
-    workspaceActionMoveTo[workspaceCount] = genActionId();
+    workspaceActionActivate[workspaceCount] = dynActionId++;
+    workspaceActionMoveTo[workspaceCount] = dynActionId++;
     PRECONDITION(workspaceNames[workspaceCount] != NULL);
     workspaceCount++;
 }

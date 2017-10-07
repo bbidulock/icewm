@@ -52,7 +52,7 @@ YWindowManager::YWindowManager(
     fFocusWin = 0;
     lockFocusCount = 0;
     for (int l(0); l < WinLayerCount; l++) {
-        layerActionSet[l] = genActionId();
+        layerActionSet[l] = dynActionId++;
         fTop[l] = fBottom[l] = 0;
     }
     fFirst = fLast = 0;
@@ -2430,8 +2430,8 @@ void YWindowManager::appendNewWorkspace() {
         workspaceNames[ws] = newstr(s);
     }
 
-    workspaceActionActivate[ws] = genActionId();
-    workspaceActionMoveTo[ws] = genActionId();
+    workspaceActionActivate[ws] = dynActionId++;
+    workspaceActionMoveTo[ws] = dynActionId++;
 
     ::workspaceCount++;
 

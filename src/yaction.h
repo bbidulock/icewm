@@ -3,7 +3,7 @@
 
 // Create a unique id for actions which are not handled by global EAction pool
 typedef size_t tActionId;
-tActionId genActionId();
+extern tActionId dynActionId;
 
 class YActionListener {
 public:

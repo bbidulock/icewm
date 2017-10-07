@@ -48,11 +48,11 @@ YInputLine::YInputLine(YWindow *parent): YWindow(parent), fText(null) {
     if (inputMenu == 0) {
         inputMenu = new YMenu();
         if (inputMenu) {
-            actionCut = genActionId();
-            actionCopy = genActionId();
-            actionPaste = genActionId();
-            actionPasteSelection = genActionId();
-            actionSelectAll = genActionId();
+            actionCut = dynActionId++;
+            actionCopy = dynActionId++;
+            actionPaste = dynActionId++;
+            actionPasteSelection = dynActionId++;
+            actionSelectAll = dynActionId++;
             inputMenu->setActionListener(this);
             inputMenu->addItem(_("Cu_t"), -2, _("Ctrl+X"), actionCut)->setEnabled(true);
             inputMenu->addItem(_("_Copy"), -2, _("Ctrl+C"), actionCopy)->setEnabled(true);
