@@ -22,7 +22,7 @@
 
 size_t genActionId()
 {
-	static int dynActionId = 511;
+	static int dynActionId = 1 + ((INT_MAX/4)<<1);
 	return dynActionId += 2;
 }
 

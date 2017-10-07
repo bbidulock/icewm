@@ -927,7 +927,6 @@ public:
     ActionItem() : item(0) {}
     ~ActionItem() { delete item; }
     void operator=(YMenuItem* menuItem) { item = menuItem; }
-    bool operator==(tActionId refAction) { return (void*) refAction == this; }
     YMenuItem* operator->() { return item; }
 };
 
@@ -1033,7 +1032,7 @@ public:
     virtual void handleClick(const XButtonEvent &up, int /*count*/);
 
     virtual void actionPerformed(tActionId action, unsigned int /*modifiers*/) {
-        if (actionClose == action) {
+        if (action == (tActionId) &actionClose) {
             listener->handleClose();
         }
         else if (action == (tActionId) &actionNext) {
