@@ -6,9 +6,22 @@
 class YFrameWindow;
 class YWindowManager;
 
-class SwitchWindow: public YPopupWindow {
+// data model, default implementation is list of windows
+class ISwitchItems;
+
+// helper interface, can close the parent window when needed
+class IClosablePopup
+{
 public:
-    SwitchWindow(YWindow *parent = 0);
+    // report true if window was up; close in any case
+    virtual bool close()=0;
+    virtual ~IClosablePopup(){};
+};
+
+class SwitchWindow: public YPopupWindow, IClosablePopup {
+    ISwitchItems* zItems;
+public:
+    SwitchWindow(YWindow *parent = 0, ISwitchItems *items = 0);
     virtual ~SwitchWindow();
 
     virtual void paint(Graphics &g, const YRect &r);
@@ -24,9 +37,6 @@ public:
     void destroyedFrame(YFrameWindow *frame);
 
 private:
-    YWindowManager *fRoot;
-    YFrameWindow *fActiveWindow;
-    YFrameWindow *fLastWindow;
 
 #ifdef CONFIG_GRADIENTS
     ref<YImage> fGradient;
@@ -47,19 +57,10 @@ private:
     bool isModKey(KeyCode c);
     void resize(int xiscreen);
 
-    int getZListCount();
-    int getZList(YFrameWindow **list, int max);
-    int GetZListWorkspace(YFrameWindow **list, int max,
-                          bool workspaceOnly, int workspace);
-    void updateZList();
-    void freeZList();
-    int zCount;
-    int zTarget;
-    YFrameWindow **zList;
-
     void cancel();
+    bool close();
     void accept();
-    void displayFocus(YFrameWindow *frame);
+    void displayFocus(void *frame);
     //YFrameWindow *nextWindow(YFrameWindow *from, bool zdown, bool next);
     YFrameWindow *nextWindow(bool zdown);
 
