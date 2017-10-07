@@ -20,8 +20,6 @@
 #include <execinfo.h>
 #endif
 
-int dynActionId = INT_MAX/2;
-
 #ifdef DEBUG
 bool debug = false;
 bool debug_z = false;

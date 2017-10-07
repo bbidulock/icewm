@@ -29,7 +29,7 @@ static ref<YResourcePaths> getResourcePaths() {
     return YResourcePaths::subdirs("workspace", false);
 }
 
-WorkspaceButton::WorkspaceButton(long ws, YWindow *parent): ObjectButton(parent, (tActionId )0)
+WorkspaceButton::WorkspaceButton(long ws, YWindow *parent): ObjectButton(parent, (YAction *)0)
 {
     fWorkspace = ws;
     //setDND(true);
@@ -82,7 +82,7 @@ bool WorkspaceButton::handleTimer(YTimer *t) {
     return false;
 }
 
-void WorkspaceButton::actionPerformed(tActionId /*action*/, unsigned int modifiers) {
+void WorkspaceButton::actionPerformed(YAction */*action*/, unsigned int modifiers) {
     if (modifiers & ShiftMask) {
         manager->switchToWorkspace(fWorkspace, true);
     } else if (modifiers & xapp->AltMask) {
@@ -149,8 +149,11 @@ WorkspacesPane::~WorkspacesPane() {
             delete fWorkspaceButton[w];
         delete [] fWorkspaceButton;
     }
-    for (int i = workspaceCount; --i >= 0; --workspaceCount)
-        delete[] workspaceNames[i];
+    for (int i = workspaceCount; --i >= 0; --workspaceCount) {
+        delete[] workspaceNames[i]; workspaceNames[i] = 0;
+        delete workspaceActionActivate[i]; workspaceActionActivate[i] = 0;
+        delete workspaceActionMoveTo[i]; workspaceActionMoveTo[i] = 0;
+    }
 }
 
 void WorkspacesPane::repositionButtons() {

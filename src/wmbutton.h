@@ -7,7 +7,7 @@ class YFrameWindow;
 
 class YFrameButton: public YButton {
 public:
-    YFrameButton(YWindow *parent, YFrameWindow *frame, tActionId action, tActionId action2 = 0);
+    YFrameButton(YWindow *parent, YFrameWindow *frame, YAction *action, YAction *action2 = 0);
     virtual ~YFrameButton();
 
     virtual void paint(Graphics &g, const YRect &r);
@@ -16,16 +16,16 @@ public:
     virtual void handleClick(const XButtonEvent &up, int count);
     virtual void handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion);
 
-    virtual void actionPerformed(tActionId action, unsigned int modifiers);
-    void setActions(tActionId action, tActionId action2 = 0);
+    virtual void actionPerformed(YAction *action, unsigned int modifiers);
+    void setActions(YAction *action, YAction *action2 = 0);
     virtual void updatePopup();
 
     ref<YPixmap> getPixmap(int pn) const;
     YFrameWindow *getFrame() const { return fFrame; };
 private:
     YFrameWindow *fFrame;
-    tActionId fAction;
-    tActionId fAction2;
+    YAction *fAction;
+    YAction *fAction2;
 };
 
 #endif

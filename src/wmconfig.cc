@@ -22,8 +22,8 @@
 
 long workspaceCount = 0;
 char *workspaceNames[MAXWORKSPACES];
-tActionId workspaceActionActivate[MAXWORKSPACES];
-tActionId workspaceActionMoveTo[MAXWORKSPACES];
+YAction *workspaceActionActivate[MAXWORKSPACES];
+YAction *workspaceActionMoveTo[MAXWORKSPACES];
 
 void WMConfig::loadConfiguration(IApp *app, const char *fileName) {
 #ifndef NO_CONFIGURE
@@ -51,16 +51,19 @@ void WMConfig::freeConfiguration() {
 
 void addWorkspace(const char * /*name*/, const char *value, bool append) {
     if (!append) {
-        for (int i = 0; i < workspaceCount; i++)
+        for (int i = 0; i < workspaceCount; i++) {
             delete[] workspaceNames[i];
+            delete workspaceActionActivate[i];
+            delete workspaceActionMoveTo[i];
+        }
         workspaceCount = 0;
     }
 
     if (workspaceCount >= MAXWORKSPACES)
         return;
     workspaceNames[workspaceCount] = newstr(value);
-    workspaceActionActivate[workspaceCount] = dynActionId++;
-    workspaceActionMoveTo[workspaceCount] = dynActionId++;
+    workspaceActionActivate[workspaceCount] = new YAction(); // !! fix
+    workspaceActionMoveTo[workspaceCount] = new YAction();
     PRECONDITION(workspaceNames[workspaceCount] != NULL);
     workspaceCount++;
 }

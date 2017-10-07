@@ -27,12 +27,11 @@
 #include "prefs.h"
 #include "yprefs.h"
 #include "yrect.h"
-#include "yaction.h"
 
 XContext frameContext;
 XContext clientContext;
 
-tActionId layerActionSet[WinLayerCount];
+YAction *layerActionSet[WinLayerCount];
 
 YWindowManager::YWindowManager(
     IApp *app,
@@ -52,7 +51,7 @@ YWindowManager::YWindowManager(
     fFocusWin = 0;
     lockFocusCount = 0;
     for (int l(0); l < WinLayerCount; l++) {
-        layerActionSet[l] = dynActionId++;
+        layerActionSet[l] = new YAction();
         fTop[l] = fBottom[l] = 0;
     }
     fFirst = fLast = 0;
@@ -143,6 +142,8 @@ YWindowManager::~YWindowManager() {
     delete fLeftSwitch;
     delete fTopWin;
     delete[] fFocusedWindow;
+    for (int l(0); l < WinLayerCount; l++)
+        delete layerActionSet[l];
     delete rootProxy;
 }
 
@@ -1290,7 +1291,7 @@ void YWindowManager::cascadePlace(YFrameWindow **w, int count) {
     }
 }
 
-void YWindowManager::setWindows(YFrameWindow **w, int count, tActionId action) {
+void YWindowManager::setWindows(YFrameWindow **w, int count, YAction *action) {
     saveArrange(w, count);
 
     if (count == 0)
@@ -2425,13 +2426,17 @@ void YWindowManager::appendNewWorkspace() {
     long ws = ::workspaceCount;
 
     if (workspaceNames[ws] == 0) {
-        char s[23];
-        snprintf(s, sizeof(s), " %ld ", ws);
+        char s[32];
+        snprintf(s, 32, " %ld ", ws);
         workspaceNames[ws] = newstr(s);
     }
 
-    workspaceActionActivate[ws] = dynActionId++;
-    workspaceActionMoveTo[ws] = dynActionId++;
+    if (workspaceActionActivate[ws] != 0)
+        delete workspaceActionActivate[ws];
+    if (workspaceActionMoveTo[ws] != 0)
+        delete workspaceActionMoveTo[ws];
+    workspaceActionActivate[ws] = new YAction();
+    workspaceActionMoveTo[ws] = new YAction();
 
     ::workspaceCount++;
 
@@ -2463,6 +2468,15 @@ void YWindowManager::removeLastWorkspace() {
     ::workspaceCount--;
 
     updateWorkspaces(false);
+
+    if (workspaceActionActivate[ws] != 0) {
+        delete workspaceActionActivate[ws];
+        workspaceActionActivate[ws] = 0;
+    }
+    if (workspaceActionMoveTo[ws] != 0) {
+        delete workspaceActionMoveTo[ws];
+        workspaceActionMoveTo[ws] = 0;
+    }
 }
 
 void YWindowManager::updateWorkspaces(bool increase) {

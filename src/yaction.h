@@ -1,13 +1,13 @@
 #ifndef __YACTION_H
 #define __YACTION_H
 
-// Create a unique id for actions which are not handled by global EAction pool
-typedef size_t tActionId;
-extern tActionId dynActionId;
+class YAction {
+public:
+};
 
 class YActionListener {
 public:
-    virtual void actionPerformed(tActionId action, unsigned int modifiers) = 0;
+    virtual void actionPerformed(YAction *action, unsigned int modifiers) = 0;
 protected:
     virtual ~YActionListener() {};
 };

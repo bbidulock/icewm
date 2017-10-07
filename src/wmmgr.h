@@ -12,9 +12,9 @@
 
 extern long workspaceCount;
 extern char *workspaceNames[MAXWORKSPACES];
-extern tActionId workspaceActionActivate[MAXWORKSPACES];
-extern tActionId workspaceActionMoveTo[MAXWORKSPACES];
-extern tActionId layerActionSet[WinLayerCount];
+extern YAction *workspaceActionActivate[MAXWORKSPACES];
+extern YAction *workspaceActionMoveTo[MAXWORKSPACES];
+extern YAction *layerActionSet[WinLayerCount];
 
 class YWindowManager;
 class YFrameClient;
@@ -255,7 +255,7 @@ public:
     void smartPlace(YFrameWindow **w, int count);
     void getCascadePlace(YFrameWindow *frame, int &lastX, int &lastY, int &x, int &y, int w, int h);
     void cascadePlace(YFrameWindow **w, int count);
-    void setWindows(YFrameWindow **w, int count, tActionId action);
+    void setWindows(YFrameWindow **w, int count, YAction *action);
 
     void getWindowsToArrange(YFrameWindow ***w, int *count, bool sticky = false, bool skipNonMinimizable = false);
 

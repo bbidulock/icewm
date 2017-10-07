@@ -1,6 +1,8 @@
 #ifndef __WMACTION_H
 #define __WMACTION_H
 
+class YAction;
+
 #define ICEWM_ACTION_NOP 0
 //#define ICEWM_ACTION_PING 1
 #define ICEWM_ACTION_LOGOUT 2
@@ -12,63 +14,64 @@
 #define ICEWM_ACTION_RESTARTWM 8
 #define ICEWM_ACTION_SUSPEND 9
 
-enum eWmActions {
-    actionCascade,
-    actionArrange,
-    actionTileVertical,
-    actionTileHorizontal,
-    actionUndoArrange,
-    actionArrangeIcons,
-    actionMinimizeAll,
-    actionHideAll,
-    actionShowDesktop,
+extern YAction *actionCascade;
+extern YAction *actionArrange;
+extern YAction *actionTileVertical;
+extern YAction *actionTileHorizontal;
+extern YAction *actionUndoArrange;
+extern YAction *actionArrangeIcons;
+extern YAction *actionMinimizeAll;
+extern YAction *actionHideAll;
+extern YAction *actionShowDesktop;
 
 #ifndef CONFIG_PDA
-    actionHide,
+extern YAction *actionHide;
 #endif
-    actionShow,
-    actionRaise,
-    actionLower,
-    actionDepth,
-    actionMove,
-    actionSize,
-    actionMaximize,
-    actionMaximizeVert,
-    actionMinimize,
-    actionRestore,
-    actionRollup,
-    actionClose,
-    actionKill,
-    actionOccupyAllOrCurrent,
+extern YAction *actionShow;
+extern YAction *actionRaise;
+extern YAction *actionLower;
+extern YAction *actionDepth;
+extern YAction *actionMove;
+extern YAction *actionSize;
+extern YAction *actionMaximize;
+extern YAction *actionMaximizeVert;
+extern YAction *actionMinimize;
+extern YAction *actionRestore;
+extern YAction *actionRollup;
+extern YAction *actionClose;
+extern YAction *actionKill;
+extern YAction *actionOccupyAllOrCurrent;
 #if DO_NOT_COVER_OLD
-    actionDoNotCover,
+extern YAction *actionDoNotCover;
 #endif
-    actionFullscreen,
-    actionToggleTray,
-    actionCollapseTaskbar,
+extern YAction *actionFullscreen;
+extern YAction *actionToggleTray;
+extern YAction *actionCollapseTaskbar;
 
-    actionWindowList,
-    actionLogout,
-    actionCancelLogout,
-    actionLock,
-    actionReboot,
-    actionRestart,
-    actionRestartXterm,
-    actionShutdown,
-    actionSuspend,
-    actionRefresh,
-    actionAbout,
-    actionHelp,
-    actionLicense,
-    actionRun,
-    actionExit,
-    actionFocusClickToFocus,
-    actionFocusExplicit,
-    actionFocusMouseSloppy,
-    actionFocusMouseStrict,
-    actionFocusQuietSloppy,
-    actionFocusCustom
-};
+extern YAction *actionWindowList;
+extern YAction *actionLogout;
+extern YAction *actionCancelLogout;
+extern YAction *actionLock;
+extern YAction *actionReboot;
+extern YAction *actionRestart;
+extern YAction *actionRestartXterm;
+extern YAction *actionShutdown;
+extern YAction *actionSuspend;
+extern YAction *actionRefresh;
+extern YAction *actionAbout;
+extern YAction *actionHelp;
+extern YAction *actionLicense;
+extern YAction *actionRun;
+extern YAction *actionExit;
+extern YAction *actionFocusClickToFocus;
+extern YAction *actionFocusExplicit;
+extern YAction *actionFocusMouseSloppy;
+extern YAction *actionFocusMouseStrict;
+extern YAction *actionFocusQuietSloppy;
+extern YAction *actionFocusCustom;
+
+void initActions();
+void freeActions();
 
 bool canShutdown(bool reboot);
 bool canLock();

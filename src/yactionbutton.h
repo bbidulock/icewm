@@ -4,9 +4,9 @@
 #include "ybutton.h"
 #include "yaction.h"
 
-class YActionButton: public YButton {
+class YActionButton: public YButton, public YAction {
 public:
-    YActionButton(YWindow *parent): YButton(parent, (tActionId) this) {
+    YActionButton(YWindow *parent): YButton(parent, this) {
     }
 };
 

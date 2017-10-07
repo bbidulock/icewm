@@ -461,7 +461,7 @@ public:
         }
     }
 
-    virtual void actionPerformed(tActionId action, unsigned int /*modifiers*/) {
+    virtual void actionPerformed(YAction *action, unsigned int /*modifiers*/) {
         if (action == actionToggleHexView) {
             hexView = hexView ? false : true;
             repaint();
@@ -520,8 +520,8 @@ private:
     bool wrapLines;
 
     YMenu *menu;
-    tActionId actionClose;
-    tActionId actionToggleExpandTabs, *actionToggleWrapLines, *actionToggleHexView;
+    YAction *actionClose;
+    YAction *actionToggleExpandTabs, *actionToggleWrapLines, *actionToggleHexView;
 };
 
 class FileView: public YWindow {
