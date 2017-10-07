@@ -40,6 +40,10 @@
 #include <machine/apmvar.h>
 #endif
 
+#ifdef __linux__
+#include <math.h>
+#endif
+
 extern YColor* getTaskBarBg();
 
 #define AC_UNKNOWN      0
@@ -640,13 +644,15 @@ void YApm::SysStr(char *s, bool Tool) {
             //did we parse the needed values successfully?
             BATcapacity_full >= 0 && BATcapacity_remain >= 0 && BATrate > 0) {
             BATtime_remain = (int) (60 * (double)(BATcapacity_remain) / BATrate);
-            sprintf(bat_info, "%d:%02d (%3.0f%%)", BATtime_remain / 60, BATtime_remain % 60,100 * (double)BATcapacity_remain / BATcapacity_full);
+            sprintf(bat_info, "%d:%02d (%3.0f%%)",
+                    BATtime_remain / 60, BATtime_remain % 60,
+                    round(double(100) * BATcapacity_remain / BATcapacity_full));
         }
         else if (BATpresent == BAT_PRESENT &&
                  //did we parse the needed values successfully?
                  BATcapacity_remain >= 0 && BATcapacity_full >= 0)
         {
-            sprintf(bat_info, "%3.0f%%", double(100) * BATcapacity_remain / BATcapacity_full);
+            sprintf(bat_info, "%3.0f%%", round(double(100) * BATcapacity_remain / BATcapacity_full));
         }
         else {
             //battery is absent or we didn't parse some needed values
@@ -1028,7 +1034,8 @@ void YApm::paint(Graphics &g, const YRect &/*r*/) {
        g.setColor(apmColorGraphBg);
        g.fillRect(0, 0, taskBarApmGraphWidth, height());
 
-       int new_h = int((double(energyNow)/double(energyFull)) * (double)height());
+       double capa = round(double(energyNow)/double(energyFull));
+       int new_h = int(capa * height());
        if (acIsOnLine == true) { // onLine
           g.setColor(apmColorOnLine);
        } else {
