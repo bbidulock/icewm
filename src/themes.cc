@@ -80,9 +80,9 @@ void ThemesMenu::refresh() {
             countThemes(cnfThemes) +
             countThemes(prvThemes);
 
-    findThemes(libThemes, this);
-    findThemes(cnfThemes, this);
     findThemes(prvThemes, this);
+    findThemes(cnfThemes, this);
+    findThemes(libThemes, this);
 
     addSeparator();
     add(newThemeItem(app, smActionListener, _("Default"), CONFIG_DEFAULT_THEME));
@@ -120,7 +120,7 @@ YMenuItem * ThemesMenu::newThemeItem(
 void ThemesMenu::findThemes(const upath& path, YMenu *container) {
     ustring defTheme("/default.theme");
 
-    bool bNesting = nestedThemeMenuMinNumber && themeCount > nestedThemeMenuMinNumber;
+    bool bNesting = inrange(nestedThemeMenuMinNumber, 1, themeCount - 1);
     char subName[5] = { 'X', '.','.','.', 0};
 
     for (udir dir(path); dir.next(); ) {
@@ -136,38 +136,40 @@ void ThemesMenu::findThemes(const upath& path, YMenu *container) {
 
         // maybe shift some stuff around to create a simple structure
         if (im && bNesting) {
-        	char fLetter = ASCII::toUpper(dir.entry()[0]);
-        	subName[0] = fLetter;
+                char fLetter = ASCII::toUpper(dir.entry()[0]);
+                subName[0] = fLetter;
             int relatedItemPos = -2;
 
             YMenuItem *subMenuItemTest = container->findName(subName);
-            if(subMenuItemTest && subMenuItemTest->getSubmenu())
+            if (subMenuItemTest && subMenuItemTest->getSubmenu())
             {
-            	targetMenu = subMenuItemTest->getSubmenu();
-            	if(im->isChecked())
-            		subMenuItemTest->setChecked(true);
+                targetMenu = subMenuItemTest->getSubmenu();
+                if (im->isChecked())
+                        subMenuItemTest->setChecked(true);
             }
-            else if(subMenuItemTest)
+            else if (subMenuItemTest)
             {
-            	// looks like a submenu but is an item of that kind... weird, ignore
+                // looks like a submenu but is an item
+                // of that kind... weird, ignore
             }
-            else if(0 > (relatedItemPos = container->findFirstLetRef(fLetter, 0, 1)))
+            else if (0 > (relatedItemPos = container->findFirstLetRef(fLetter, 0, 1)))
             {
-            	MSG(("adding: %s to main menu", subdir.string().c_str()));
+                MSG(("adding: %s to main menu", subdir.string().c_str()));
             }
             else
             {
-            	// ok, have the position of the related entry which needs to be moved to submenu
-            	YMenuItem *relatedItem = container->getItem(relatedItemPos);
-            	MSG(("Moving %s to submenu to prepare for %s",
-            			cstring(relatedItem->getName()).c_str(),
-            			subdir.string().c_str()));
-            	YMenu *smenu = new YMenu();
-            	smenu->addSorted(relatedItem, false, true);
-            	YMenuItem *newItem = new YMenuItem(subName, 0, null, 0, smenu);
-            	newItem->setChecked(relatedItem->isChecked() || im->isChecked());
-            	container->setItem(relatedItemPos, newItem);
-            	targetMenu = smenu;
+                // ok, have the position of the related entry
+                // which needs to be moved to submenu
+                YMenuItem *relatedItem = container->getItem(relatedItemPos);
+                MSG(("Moving %s to submenu to prepare for %s",
+                                cstring(relatedItem->getName()).c_str(),
+                                subdir.string().c_str()));
+                YMenu *smenu = new YMenu();
+                smenu->addSorted(relatedItem, false, true);
+                YMenuItem *newItem = new YMenuItem(subName, 0, null, 0, smenu);
+                newItem->setChecked(relatedItem->isChecked() || im->isChecked());
+                container->setItem(relatedItemPos, newItem);
+                targetMenu = smenu;
             }
         }
 
@@ -179,6 +181,12 @@ void ThemesMenu::findThemes(const upath& path, YMenu *container) {
         }
         if (im) {
             findThemeAlternatives(app, smActionListener, subdir, dir.entry(), im);
+            if (im->isChecked()) {
+                YMenuItem *sub = container->findName(subName);
+                if (sub && sub->getSubmenu()) {
+                    sub->setChecked(true);
+                }
+            }
         }
     }
 }
@@ -208,8 +216,11 @@ void ThemesMenu::findThemeAlternatives(
                     int prefixLength = entry.length() - extension.length();
                     ustring tname(entry.substring(0, prefixLength));
                     ustring relThemeName = upath(relName) + entry;
-                    sub->add(newThemeItem(app, smActionListener,
-                                tname, relThemeName));
+                    YMenuItem *im = newThemeItem(app, smActionListener,
+                                tname, relThemeName);
+                    sub->add(im);
+                    if (im->isChecked())
+                        item->setChecked(true);
                 }
             }
         }
