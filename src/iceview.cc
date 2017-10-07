@@ -61,10 +61,10 @@ public:
         fontWidth = font->textWidth("M");
         fontHeight = font->height();
 
-        actionClose = genActionId();
-        actionToggleExpandTabs = genActionId();
-        actionToggleWrapLines = genActionId();
-        actionToggleHexView = genActionId();
+        actionClose = new YAction();
+        actionToggleExpandTabs = new YAction();
+        actionToggleWrapLines = new YAction();
+        actionToggleHexView = new YAction();
         menu = new YMenu();
         menu->setActionListener(this);
         //menu->addItem(_("Find..."), 0, _("Ctrl+F"), actionFind);
