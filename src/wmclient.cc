@@ -1025,15 +1025,12 @@ void YFrameClient::getMwmHints() {
 }
 
 void YFrameClient::setMwmHints(const MwmHints &mwm) {
-    if (fMwmHints) {
-        XFree(fMwmHints);
-        fMwmHints = 0;
-    }
     XChangeProperty(xapp->display(), handle(),
                     _XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
                     32, PropModeReplace,
                     (const unsigned char *)&mwm, sizeof(mwm)/sizeof(long)); ///!!!
-    fMwmHints = (MwmHints *)malloc(sizeof(MwmHints));
+    if (fMwmHints == 0)
+        fMwmHints = (MwmHints *)malloc(sizeof(MwmHints));
     if (fMwmHints)
         *fMwmHints = mwm;
 }
