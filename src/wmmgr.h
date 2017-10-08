@@ -33,9 +33,9 @@ private:
     bool valid;
     long since;
     enum {
-        XTimeMask = 0xFFFFFFFFUL,
-        XTimeRange = 0x7FFFFFFFUL,
-        SInterval = 0x3FFFFFFFUL,
+        XTimeMask = 0xFFFFFFFFUL,       // milliseconds
+        XTimeRange = 0x7FFFFFFFUL,      // milliseconds
+        SInterval = 0x3FFFFFFFUL / 1000,     // seconds
     };
 public:
     UserTime() : xtime(0), valid(false), since(0) { }
