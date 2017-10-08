@@ -1,0 +1,190 @@
+#!/usr/bin/perl
+#
+# Create config to enable some popular monitor configurations
+#
+# Copyright (c) 2017 Eduard Bloch
+# License: Simplified BSD License
+#
+#use Data::Dumper;
+
+use strict;
+
+my $curmon;
+my $primary;
+my @connected;
+my $disco;
+my @active;
+
+my $readedid;
+my $curedid;
+my %realname;
+
+# disabled for now since the names are not always matching, like HDMI-1 vs. /sys/devices/pci0000:00/0000:00:02.0/0000:01:00.0/drm/card0/card0-HDMI-A-1
+my $useSysfs=0;
+
+my $xrandr = "xrandr";
+
+my $header = chr(0).chr(0xfc).chr(0);
+my $end = chr(0x0a);
+
+if($useSysfs)
+{
+        # xrandr --verbose can be slow, grab data from sysfs if possible
+        # Unclear how to map X screens to DRM reliably, use the shortcut only
+        # when just one graphics card is installed.
+        my @drmCards = <"/sys/devices/*/*/*/drm/card*">;
+        if($#drmCards == 0)
+        {
+                foreach(<"/sys/devices/*/*/*/drm/card0/card0-*/edid">)
+                {
+                        my $fd;
+                        my $data;
+                        my $hdump;
+                        if(open($fd, $_))
+                        {
+                                /card0.card0-([^\/]+)\/edid/;
+                                my $connector = $1;
+                                read $fd, $data, 4000;
+                                #$hdump = unpack("H*", $data);
+                                #$realname{$connector} = pack("H*", $1) if($hdump =~ /00fc00(.*?)0a/)
+                                #
+                                # Alternatively: just dig through the binary data;
+                                # should be bytes 72–89 by the EDID spec but better
+                                # look around and trim the first word...
+                                my $pos = index $data, $header, 70;
+                                if($pos>0)
+                                {
+                                        $data = substr $data, $pos+3, 18;
+                                        $data =~ s/^\s+//;
+                                        $data =~ s/\s.*//;
+                                        #print "# sysfs name: $data\n";
+                                        $realname{$connector} = $data.'~'.$connector;
+                                }
+                        }
+
+                }
+        }
+}
+my $fishEdid = !%realname;
+$xrandr.=" --verbose" if $fishEdid;
+
+# the disconnected displays might become zombies... make sure to turn them off
+my $turnOff ="";
+
+for(`$xrandr`)
+{
+        if(/^(\S+)\s+(connected|disconnected)\s+(primary)?/)
+        {
+                $curmon = $1;
+                $primary = $curmon if !$primary;
+                $disco = ($2 eq "disconnected");
+                if($disco)
+                {
+                        $turnOff.=" --display $curmon --off";
+                }
+                else
+                {
+                        push(@connected, $curmon);
+                        $realname{$curmon}=${curmon} if ! $realname{$curmon};
+                }
+        }
+        # detect active only when there is a flag in the resolution list...
+        push(@active, $curmon) if(/^\s.*\*/ && !$disco);
+        if($fishEdid)
+        {
+                # another bit of interest is the EDID stuff, while we are at it...
+                if(/EDID:/)
+                {
+                        $readedid = 1;
+                        $curedid = "";
+                }
+                elsif(!/:/)
+                {
+                        if($readedid)
+                        {
+                                /(\w+)/;
+                                $curedid.=$1;
+                        }
+                }
+                else
+                {
+                        if($readedid)
+                        {
+                                $readedid = 0;
+                                if($curedid =~ /00fc00(.*?)0a/)
+                                {
+                                        my $name=pack("H*", $1);
+                                        # XXX: not sure about endian, check EDID spec
+                                        #print "moo, $curedid is $1 for $curmon aka $name\n";
+                                        $realname{$curmon} = $name.'~'.$curmon;
+                                }
+                        }
+                }
+        }
+}
+
+# has primary become disconnected? Just removed? Let the first one be primary then
+$primary=$connected[0] if($primary && !grep(/$primary/, @connected));
+print "# Next primary: $primary\n";
+
+#print Dumper(\@active,\@connected,$primary, \%realname);
+if(1 == @connected)
+{
+        my $mon = shift(@connected);
+        $mon =~ s/\s.*//;
+        print "# $mon\n";
+        print "prog \"".$realname{$mon}."\" setscreen1 /bin/true\n";
+        exit 0;
+}
+
+my $second;
+# assuming that the primary is always among the connected screens...
+# but prefer those which are already active
+foreach(@active, @connected)
+{
+        next if $_ eq $primary;
+        $second = $_;
+        last;
+}
+
+my @notPrimary = grep(!/$primary/, @connected);
+
+my $i=1;
+foreach my $mon ($primary, @notPrimary)
+{
+        #print "# $primary, $second\n";
+        my $cmd = "prog '$realname{$mon}' setscreen$i sh -c 'xrandr ".
+        join(" ", map { "--output $_ ".($_ eq $mon ? "--auto" : "--off") } @connected)
+        ."$turnOff'\n";
+        print $cmd;
+
+        $i++;
+}
+
+# actually enable all but set the extra monitors on left of primary
+my $cmd = "prog '$realname{$second} + $realname{$primary}' setscreen21 sh -c 'xrandr ".
+join(" ", map { "--output $_ --auto ".( $_ eq $primary ? "--primary" : "--left-of $primary")} @connected)
+."$turnOff'\n";
+print $cmd;
+
+my $cmd = "prog '$realname{$primary} + $realname{$second}' setscreen12 sh -c 'xrandr ".
+join(" ", map { "--output $_ --auto ".( $_ eq $primary ? "--primary" : "--right-of $primary")} @connected)
+."$turnOff'\n";
+print $cmd;
+
+my $cmd = "prog '".join(" / ", map { $realname{$_} } @connected)."' setscreen_all sh -c 'xrandr ".
+join(" ", map { "--output $_ --auto ".( $_ eq $primary ? "--primary" : "--same-as $primary")} @connected)
+."$turnOff'\n";
+print $cmd;
+
+my $prev="";
+my $cmd = "prog '".join(" + ", map { $realname{$_} } @connected)."' setscreen_chain sh -c 'xrandr";
+for(@connected)
+{
+        $cmd.=" --output $_ --auto";
+        $cmd.=" --right-of $prev" if $prev;
+        $prev=$_;
+}
+$cmd.="$turnOff'\n";
+print $cmd;
+
