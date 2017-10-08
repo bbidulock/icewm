@@ -31,7 +31,7 @@
 XContext frameContext;
 XContext clientContext;
 
-YAction *layerActionSet[WinLayerCount];
+YAction layerActionSet[WinLayerCount];
 
 YWindowManager::YWindowManager(
     IApp *app,
@@ -51,7 +51,6 @@ YWindowManager::YWindowManager(
     fFocusWin = 0;
     lockFocusCount = 0;
     for (int l(0); l < WinLayerCount; l++) {
-        layerActionSet[l] = new YAction();
         fTop[l] = fBottom[l] = 0;
     }
     fFirst = fLast = 0;
@@ -142,8 +141,6 @@ YWindowManager::~YWindowManager() {
     delete fLeftSwitch;
     delete fTopWin;
     delete[] fFocusedWindow;
-    for (int l(0); l < WinLayerCount; l++)
-        delete layerActionSet[l];
     delete rootProxy;
 }
 
@@ -1291,7 +1288,7 @@ void YWindowManager::cascadePlace(YFrameWindow **w, int count) {
     }
 }
 
-void YWindowManager::setWindows(YFrameWindow **w, int count, YAction *action) {
+void YWindowManager::setWindows(YFrameWindow **w, int count, YAction action) {
     saveArrange(w, count);
 
     if (count == 0)
@@ -2431,13 +2428,6 @@ void YWindowManager::appendNewWorkspace() {
         workspaceNames[ws] = newstr(s);
     }
 
-    if (workspaceActionActivate[ws] != 0)
-        delete workspaceActionActivate[ws];
-    if (workspaceActionMoveTo[ws] != 0)
-        delete workspaceActionMoveTo[ws];
-    workspaceActionActivate[ws] = new YAction();
-    workspaceActionMoveTo[ws] = new YAction();
-
     ::workspaceCount++;
 
     updateWorkspaces(true);
@@ -2468,15 +2458,6 @@ void YWindowManager::removeLastWorkspace() {
     ::workspaceCount--;
 
     updateWorkspaces(false);
-
-    if (workspaceActionActivate[ws] != 0) {
-        delete workspaceActionActivate[ws];
-        workspaceActionActivate[ws] = 0;
-    }
-    if (workspaceActionMoveTo[ws] != 0) {
-        delete workspaceActionMoveTo[ws];
-        workspaceActionMoveTo[ws] = 0;
-    }
 }
 
 void YWindowManager::updateWorkspaces(bool increase) {

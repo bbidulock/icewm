@@ -10,12 +10,12 @@
 class DObject;
 class YSMListener;
 
-class DObjectMenuItem: public YMenuItem, public YAction {
+class DObjectMenuItem: public YAction, public YMenuItem {
 public:
     DObjectMenuItem(DObject *object);
     virtual ~DObjectMenuItem();
 
-    virtual void actionPerformed(YActionListener *listener, YAction *action, unsigned int modifiers);
+    virtual void actionPerformed(YActionListener *listener, YAction action, unsigned int modifiers);
 private:
     DObject *fObject;
 };

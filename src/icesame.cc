@@ -14,6 +14,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <time.h>
 
 #include "intl.h"
 
@@ -50,10 +51,6 @@ public:
         scoreLabel->show();
 
         // !!! keybindings, Menu, Shift+F10
-        actionUndo = new YAction();
-        actionNew = new YAction();
-        actionRestart = new YAction();
-        actionClose = new YAction();
 
         menu = new YMenu();
         menu->setActionListener(this);
@@ -269,7 +266,7 @@ public:
         YWindow::handleMotion(motion);
     }
 
-    virtual void actionPerformed(YAction *action, unsigned int /*modifiers*/) {
+    virtual void actionPerformed(YAction action, unsigned int /*modifiers*/) {
         if (action == actionNew)
             newGame();
         else if (action == actionRestart)
@@ -291,7 +288,7 @@ private:
     YColor *c[NCOLOR][2];
     YMenu *menu;
     YLabel *scoreLabel;
-    YAction *actionUndo, *actionNew, *actionRestart, *actionClose;
+    YAction actionUndo, actionNew, actionRestart, actionClose;
 };
 
 int IceSame::mark(int x, int y) {

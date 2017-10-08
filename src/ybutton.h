@@ -2,14 +2,13 @@
 #define __YBUTTON_H
 
 #include "ywindow.h"
+#include "yaction.h"
 
-class YAction;
-class YActionListener;
 class YMenu;
 
 class YButton: public YWindow {
 public:
-    YButton(YWindow *parent, YAction *action, YMenu *popup = 0);
+    YButton(YWindow *parent, YAction action, YMenu *popup = 0);
     virtual ~YButton();
 
     virtual void paint(Graphics &g, const YRect &r);
@@ -18,7 +17,7 @@ public:
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleCrossing(const XCrossingEvent &crossing);
 
-    void setAction(YAction * action);
+    void setAction(YAction action);
     void setPopup(YMenu * popup);
     void setIcon(ref<YIcon> image, int size);
     void setImage(ref<YImage> image);
@@ -45,7 +44,7 @@ public:
     bool isArmed() const { return fArmed; }
     bool isPopupActive() const { return fPopupActive; }
 
-    virtual void actionPerformed(YAction *action, unsigned int modifiers);
+    virtual void actionPerformed(YAction action, unsigned int modifiers);
     virtual ref<YFont> getFont();
     virtual YColor * getColor();
     virtual YSurface getSurface();
@@ -57,7 +56,7 @@ public:
 private:
     void paint(Graphics &g, int const d, const YRect &r);
 
-    YAction *fAction;
+    YAction fAction;
     YMenu *fPopup;
     ref<YIcon> fIcon;
     int fIconSize;

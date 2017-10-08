@@ -61,10 +61,6 @@ public:
         fontWidth = font->textWidth("M");
         fontHeight = font->height();
 
-        actionClose = new YAction();
-        actionToggleExpandTabs = new YAction();
-        actionToggleWrapLines = new YAction();
-        actionToggleHexView = new YAction();
         menu = new YMenu();
         menu->setActionListener(this);
         //menu->addItem(_("Find..."), 0, _("Ctrl+F"), actionFind);
@@ -461,7 +457,7 @@ public:
         }
     }
 
-    virtual void actionPerformed(YAction *action, unsigned int /*modifiers*/) {
+    virtual void actionPerformed(YAction action, unsigned int /*modifiers*/) {
         if (action == actionToggleHexView) {
             hexView = hexView ? false : true;
             repaint();
@@ -520,8 +516,8 @@ private:
     bool wrapLines;
 
     YMenu *menu;
-    YAction *actionClose;
-    YAction *actionToggleExpandTabs, *actionToggleWrapLines, *actionToggleHexView;
+    YAction actionClose;
+    YAction actionToggleExpandTabs, actionToggleWrapLines, actionToggleHexView;
 };
 
 class FileView: public YWindow {

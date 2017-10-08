@@ -835,7 +835,7 @@ void YWMApp::setFocusMode(int mode) {
 }
 #endif
 
-void YWMApp::actionPerformed(YAction *action, unsigned int /*modifiers*/) {
+void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
 
 
     if (action == actionLogout) {
@@ -1156,7 +1156,6 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     switchWindow = 0;
 
     initAtoms();
-    initActions();
     initPointers();
 
     if (post_preferences)
@@ -1316,8 +1315,6 @@ YWMApp::~YWMApp() {
 #endif
 
     WPixRes::freePixmaps();
-
-    freeActions();
 
     //!!!XFreeGC(display(), outlineGC); lazy init in movesize.cc
     //!!!XFreeGC(display(), clipPixmapGC); in ypaint.cc

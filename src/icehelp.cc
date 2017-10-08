@@ -927,7 +927,6 @@ public:
     ActionItem() : item(0) {}
     ~ActionItem() { delete item; }
     void operator=(YMenuItem* menuItem) { item = menuItem; }
-    operator YAction*() { return this; }
     YMenuItem* operator->() { return item; }
 };
 
@@ -1032,7 +1031,7 @@ public:
 
     virtual void handleClick(const XButtonEvent &up, int /*count*/);
 
-    virtual void actionPerformed(YAction *action, unsigned int /*modifiers*/) {
+    virtual void actionPerformed(YAction action, unsigned int /*modifiers*/) {
         if (action == actionClose) {
             listener->handleClose();
         }

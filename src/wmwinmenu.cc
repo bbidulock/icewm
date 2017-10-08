@@ -22,10 +22,11 @@
 
 #include "intl.h"
 
-class ActivateWindowMenuItem: public YMenuItem, public YAction {
+class ActivateWindowMenuItem: public YAction, public YMenuItem {
 public:
     ActivateWindowMenuItem(YFrameWindow *frame):
-        YMenuItem(frame->getTitle(), -1, null, this, 0),
+        YAction(),
+        YMenuItem(frame->getTitle(), -1, null, YAction(*this), 0),
         fFrame(frame)
     {
 #ifndef LITE
@@ -34,7 +35,7 @@ public:
 #endif
     }
 
-    virtual void actionPerformed(YActionListener * /*listener*/, YAction * /*action*/, unsigned int modifiers) {
+    virtual void actionPerformed(YActionListener * /*listener*/, YAction /*action*/, unsigned int modifiers) {
         YFrameWindow *f = manager->topLayer();
 
         while (f) {

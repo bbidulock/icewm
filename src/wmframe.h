@@ -52,7 +52,7 @@ public:
 
     virtual bool handleTimer(YTimer *t);
 
-    virtual void actionPerformed(YAction *action, unsigned int modifiers);
+    virtual void actionPerformed(YAction action, unsigned int modifiers);
     virtual void handleMsgBox(YMsgBox *msgbox, int operation);
 
     void wmRestore();

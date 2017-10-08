@@ -3,21 +3,20 @@
 
 #include "ypaint.h"
 #include "yicon.h"
+#include "yaction.h"
 
 class YMenu;
-class YAction;
-class YActionListener;
 
 class YMenuItem {
 public:
-    YMenuItem(const ustring &name, int hotCharPos, const ustring &param, YAction *action, YMenu *submenu);
+    YMenuItem(const ustring &name, int hotCharPos, const ustring &param, YAction action, YMenu *submenu);
     YMenuItem(const ustring &name);
     YMenuItem();
     virtual ~YMenuItem();
 
     ustring getName() const { return fName; }
     ustring getParam() const { return fParam; }
-    YAction *getAction() const { return fAction; }
+    YAction getAction() const { return fAction; }
     YMenu *getSubmenu() const { return fSubmenu; }
 
     int getHotChar() const {
@@ -35,7 +34,7 @@ public:
     void setEnabled(bool e) { fEnabled = e; }
     void setSubmenu(YMenu *submenu) { fSubmenu = submenu; }
 
-    virtual void actionPerformed(YActionListener *listener, YAction *action, unsigned int modifiers);
+    virtual void actionPerformed(YActionListener *listener, YAction action, unsigned int modifiers);
 
     int queryHeight(int &top, int &bottom, int &pad) const;
 
@@ -49,7 +48,7 @@ public:
 private:
     ustring fName;
     ustring fParam;
-    YAction *fAction;
+    YAction fAction;
     int fHotCharPos;
     YMenu *fSubmenu;
     ref<YIcon> fIcon;

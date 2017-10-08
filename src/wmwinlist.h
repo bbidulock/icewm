@@ -39,7 +39,7 @@ public:
     virtual void handleClick(const XButtonEvent &up, int count);
 
     virtual void activateItem(YListItem *item);
-    virtual void actionPerformed(YAction *action, unsigned int modifiers);
+    virtual void actionPerformed(YAction action, unsigned int modifiers);
 
     void enableCommands(YMenu *popup);
     void getSelectedWindows(YArray<YFrameWindow *> &frames);
