@@ -8,18 +8,10 @@
 #include "config.h"
 
 #ifndef LITE
-#include "ykey.h"
 #include "ydialog.h"
 #include "wpixmaps.h"
 #include "yxapp.h"
 #include "prefs.h"
-#include "WinMgr.h"
-#include "wmframe.h"
-#include "wmclient.h"
-#include "wmmgr.h"
-#include "wmdialog.h"
-#include "wmabout.h"
-#include "sysdep.h"
 
 static YColor *dialogBg = 0;
 
