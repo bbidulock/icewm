@@ -33,8 +33,7 @@
 #include "argument.h"
 
 DObjectMenuItem::DObjectMenuItem(DObject *object):
-    YAction(),
-    YMenuItem(object->getName(), -3, null, YAction(*this), 0)
+    YMenuItem(object->getName(), -3, null, YAction(), 0)
 {
     fObject = object;
 #ifndef LITE

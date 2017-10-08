@@ -4,13 +4,14 @@
 #include "ybutton.h"
 #include "yaction.h"
 
-class YActionButton: public YAction, public YButton {
+class YActionButton: public YButton {
 public:
     YActionButton(YWindow *parent):
-        YAction(),
-        YButton(parent, YAction(*this))
+        YButton(parent, YAction())
     {
     }
+
+    operator YAction() const { return getAction(); }
 };
 
 #endif

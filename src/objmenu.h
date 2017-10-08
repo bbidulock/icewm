@@ -10,7 +10,7 @@
 class DObject;
 class YSMListener;
 
-class DObjectMenuItem: public YAction, public YMenuItem {
+class DObjectMenuItem: public YMenuItem {
 public:
     DObjectMenuItem(DObject *object);
     virtual ~DObjectMenuItem();

@@ -17,6 +17,7 @@ public:
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleCrossing(const XCrossingEvent &crossing);
 
+    YAction getAction() const { return fAction; }
     void setAction(YAction action);
     void setPopup(YMenu * popup);
     void setIcon(ref<YIcon> image, int size);
