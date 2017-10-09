@@ -44,6 +44,8 @@ public:
     void send(XClientMessageEvent& ev, Window win, long mask) {
         XSendEvent(display(), win, False, mask, (XEvent*)&ev);
     }
+    void focusWindow(Window w);
+    void focusRoot();
 
     bool hasColormap();
 

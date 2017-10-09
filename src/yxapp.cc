@@ -1098,6 +1098,14 @@ void YXApplication::flushXEvents() {
     XFlush(display());
 }
 
+void YXApplication::focusWindow(Window w) {
+    XSetInputFocus(display(), w, RevertToPointerRoot, CurrentTime);
+}
+
+void YXApplication::focusRoot() {
+    focusWindow(PointerRoot);
+}
+
 void YXPoll::notifyRead() {
     owner()->handleXEvents();
 }
