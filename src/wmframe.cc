@@ -165,7 +165,7 @@ YFrameWindow::YFrameWindow(
 #ifndef CONFIG_PDA
                                            actionMinimize, actionHide);
 #else
-                                           actionMinimize, YAction(0));
+                                           actionMinimize, actionNull);
 #endif
         //fMinimizeButton->setWinGravity(NorthEastGravity);
         fMinimizeButton->setToolTip(_("Minimize"));
@@ -215,7 +215,7 @@ YFrameWindow::YFrameWindow(
     if (!isButton('s'))
         fMenuButton = 0;
     else {
-        fMenuButton = new YFrameButton(fTitleBar, this, YAction(0));
+        fMenuButton = new YFrameButton(fTitleBar, this, actionNull);
         fMenuButton->show();
         fMenuButton->setActionListener(this);
     }

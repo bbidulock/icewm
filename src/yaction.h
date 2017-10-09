@@ -1,10 +1,14 @@
 #ifndef __YACTION_H
 #define __YACTION_H
 
+#ifndef __WMACTION_H
+#include "wmaction.h"
+#endif
+
 class YAction {
 public:
     YAction() : id(next()) {}
-    explicit YAction(int id) : id(id) {}
+    YAction(EAction id) : id(id) {}
     YAction(const YAction& copy) : id(copy.id) {}
     void operator=(const YAction& copy) { id = copy.id; }
 
@@ -19,14 +23,15 @@ public:
     bool operator!=(const YAction& rhs) const {
         return id != rhs.id;
     }
+    bool operator==(EAction rhs) const {
+        return id == rhs;
+    }
+    bool operator!=(EAction rhs) const {
+        return id != rhs;
+    }
 
 private:
     int id;
-
-    operator bool() const; // no bool
-    void operator&() const; // no address taking
-    bool operator==(int) const; // no integer
-    bool operator!=(int) const; // no integer
 };
 
 class YActionListener {

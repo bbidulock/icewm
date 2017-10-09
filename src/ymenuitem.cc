@@ -49,12 +49,12 @@ YMenuItem::YMenuItem(const ustring &name, int aHotCharPos, const ustring &param,
 }
 
 YMenuItem::YMenuItem(const ustring &name) :
-    fName(name), fParam(null), fAction(0), fHotCharPos (-1),
+    fName(name), fParam(null), fAction(actionNull), fHotCharPos (-1),
     fSubmenu(0), fIcon(null), fChecked(false), fEnabled(true) {
 }
 
 YMenuItem::YMenuItem():
-    fName(null), fParam(null), fAction(0), fHotCharPos(-1),
+    fName(null), fParam(null), fAction(actionNull), fHotCharPos(-1),
     fSubmenu(0), fIcon(null), fChecked(false), fEnabled(false) {
 }
 
@@ -73,7 +73,7 @@ void YMenuItem::setIcon(ref<YIcon> icon) {
 }
 
 void YMenuItem::actionPerformed(YActionListener *listener, YAction action, unsigned int modifiers) {
-    if (listener && action != YAction(0))
+    if (listener && action != actionNull)
         listener->actionPerformed(action, modifiers);
 }
 

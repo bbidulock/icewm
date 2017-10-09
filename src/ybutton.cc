@@ -442,7 +442,7 @@ void YButton::setAction(YAction action) {
 }
 
 void YButton::actionPerformed(YAction action, unsigned modifiers) {
-    if (fListener && action != YAction(0) && fEnabled)
+    if (fListener && action != actionNull && fEnabled)
         fListener->actionPerformed(action, modifiers);
 }
 

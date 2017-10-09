@@ -146,7 +146,7 @@ void YMenu::donePopup(YPopupWindow *popup) {
 
 bool YMenu::isCondCascade(int selItem) {
     if (selItem != -1 &&
-        getItem(selItem)->getAction() != YAction(0) &&
+        getItem(selItem)->getAction() != actionNull &&
         getItem(selItem)->getSubmenu())
     {
         return true;
@@ -255,7 +255,7 @@ int YMenu::findActiveItem(int cur, int direction) {
         c += direction;
         if (c < 0) c = itemCount() - 1;
         if (c >= itemCount()) c = 0;
-    } while (c != cur && (getItem(c)->getAction() == YAction(0) &&
+    } while (c != cur && (getItem(c)->getAction() == actionNull &&
                           !getItem(c)->getSubmenu()));
     return c;
 }
@@ -263,12 +263,12 @@ int YMenu::findActiveItem(int cur, int direction) {
 int YMenu::activateItem(int modifiers, bool byMouse) {
     PRECONDITION(selectedItem != -1);
     if (getItem(selectedItem)->isEnabled()) {
-        if (getItem(selectedItem)->getAction() == YAction(0) &&
+        if (getItem(selectedItem)->getAction() == actionNull &&
             getItem(selectedItem)->getSubmenu() != 0)
         {
             focusItem(selectedItem);
             activateSubMenu(selectedItem, byMouse);
-        } else if (getItem(selectedItem)->getAction() != YAction(0)) {
+        } else if (getItem(selectedItem)->getAction() != actionNull) {
             finishPopup(getItem(selectedItem), getItem(selectedItem)->getAction(), modifiers);
         }
     } else {
@@ -284,7 +284,7 @@ int YMenu::findHotItem(char k) {
         int hot = getItem(i)->getHotChar();
 
         const YMenuItem *mitem = getItem(i);
-        if (mitem->getAction() != YAction(0) ||
+        if (mitem->getAction() != actionNull ||
             mitem->getSubmenu())
         {
             if (hot != -1 && ASCII::toUpper(hot) == k)
@@ -303,7 +303,7 @@ int YMenu::findHotItem(char k) {
             c = 0;
 
         const YMenuItem *mitem = getItem(c);
-        if (mitem->getAction() != YAction(0) ||
+        if (mitem->getAction() != actionNull ||
             mitem->getSubmenu())
         {
             int hot = mitem->getHotChar();
@@ -344,7 +344,7 @@ bool YMenu::handleKey(const XKeyEvent &key) {
                     activateSubMenu(selectedItem, false);
                 } else if (k == XK_Return || k == XK_KP_Enter) {
                     if (selectedItem != -1 &&
-                        (getItem(selectedItem)->getAction() != YAction(0) ||
+                        (getItem(selectedItem)->getAction() != actionNull ||
                          getItem(selectedItem)->getSubmenu() != 0))
                     {
                         activateItem(key.state, false);
@@ -421,7 +421,7 @@ void YMenu::handleButton(const XButtonEvent &button) {
             bool noAction = true;
             if (selectedItem != -1) {
                 noAction =
-                getItem(selectedItem)->getAction() == YAction(0) &&
+                getItem(selectedItem)->getAction() == actionNull &&
                 getItem(selectedItem)->getSubmenu() == 0;
             }
 
@@ -431,10 +431,10 @@ void YMenu::handleButton(const XButtonEvent &button) {
                 else
                     focusItem(findActiveItem(itemCount() - 1, 1));
             } else {
-                if ((getItem(selectedItem)->getAction() != YAction(0) ||
+                if ((getItem(selectedItem)->getAction() != actionNull ||
                      getItem(selectedItem)->getSubmenu() != 0)
                     &&
-                    (getItem(selectedItem)->getAction() == YAction(0) ||
+                    (getItem(selectedItem)->getAction() == actionNull ||
                      getItem(selectedItem)->getSubmenu() == 0 || !nocascade)
                    )
                 {
@@ -632,7 +632,7 @@ YMenuItem *YMenu::addItem(const ustring &name, int hotCharPos, YAction action, Y
 }
 
 YMenuItem *YMenu::addSubmenu(const ustring &name, int hotCharPos, YMenu *submenu, const char *icons) {
-    return add(new YMenuItem(name, hotCharPos, null, YAction(0), submenu), icons);
+    return add(new YMenuItem(name, hotCharPos, null, actionNull, submenu), icons);
 }
 #endif
 
@@ -646,7 +646,7 @@ YMenuItem *YMenu::addItem(const ustring &name, int hotCharPos, YAction action, Y
 }
 
 YMenuItem *YMenu::addSubmenu(const ustring &name, int hotCharPos, YMenu *submenu) {
-    return add(new YMenuItem(name, hotCharPos, null, YAction(0), submenu));
+    return add(new YMenuItem(name, hotCharPos, null, actionNull, submenu));
 }
 
 YMenuItem * YMenu::addSeparator() {
@@ -741,13 +741,13 @@ int YMenu::findFirstLetRef(char firstLet, const int first, const int ignCase) {
 
 void YMenu::enableCommand(YAction action) {
     for (int i = 0; i < itemCount(); i++)
-        if (action == YAction(0) || action == getItem(i)->getAction())
+        if (action == actionNull || action == getItem(i)->getAction())
             getItem(i)->setEnabled(true);
     }
 
 void YMenu::disableCommand(YAction action) {
     for (int i = 0; i < itemCount(); i++)
-        if (action == YAction(0) || action == getItem(i)->getAction())
+        if (action == actionNull || action == getItem(i)->getAction())
             getItem(i)->setEnabled(false);
     }
 
@@ -966,7 +966,7 @@ void YMenu::paintItem(Graphics &g, const int i, const int l, const int t, const 
             drawSeparator(g, 1, t, width() - 2);
     } else {
         bool const active(i == paintedItem &&
-                          (mitem->getAction() != YAction(0) ||
+                          (mitem->getAction() != actionNull ||
                            mitem->getSubmenu()));
 
         int eh, top, bottom, pad, ih;
@@ -1099,7 +1099,7 @@ void YMenu::paintItem(Graphics &g, const int i, const int l, const int t, const 
                     g.drawChars(param,
                                 paramPos + delta, baseLine);
                 } else if (mitem->getSubmenu() != 0) {
-                    if (mitem->getAction() != YAction(0)) {
+                    if (mitem->getAction() != actionNull) {
                         g.setColor(menuBg);
                         if (0) {
                             drawBackground(g, width() - r - 1 -ih - pad, t + top + pad, ih, ih);

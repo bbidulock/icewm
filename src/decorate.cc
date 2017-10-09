@@ -22,7 +22,7 @@ void YFrameWindow::updateMenu() {
     YMenu *windowMenu = this->windowMenu();
     // enable all commands
     windowMenu->setActionListener(this);
-    windowMenu->enableCommand(YAction(0));
+    windowMenu->enableCommand(actionNull);
 
     if (isMaximized())
         windowMenu->disableCommand(actionMaximize);

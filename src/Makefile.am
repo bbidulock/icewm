@@ -245,7 +245,6 @@ icewm_SOURCES = \
 	wmstatus.h \
 	wmoption.cc \
 	wmoption.h \
-	wmaction.cc \
 	wmaction.h \
 	wmcontainer.cc \
 	wmcontainer.h \
@@ -445,7 +444,6 @@ icebar_SOURCES = \
 	ascii.h \
 	themes.cc \
 	themes.h \
-	wmaction.cc \
 	wmaction.h \
 	amailbox.cc \
 	amailbox.h \
@@ -581,7 +579,6 @@ testmenus_SOURCES = \
 	prefs.h \
 	wmprog.cc \
 	wmprog.h \
-	wmaction.cc \
 	wmaction.h \
 	ascii.h \
 	themes.cc \

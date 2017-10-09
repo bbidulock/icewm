@@ -10,9 +10,9 @@ class Program;
 class ObjectButton: public YButton {
 public:
     ObjectButton(YWindow *parent, DObject *object):
-        YButton(parent, YAction(0)), fObject(object) {}
+        YButton(parent, actionNull), fObject(object) {}
     ObjectButton(YWindow *parent, YMenu *popup):
-        YButton(parent, YAction(0), popup), fObject(NULL) {}
+        YButton(parent, actionNull, popup), fObject(NULL) {}
     ObjectButton(YWindow *parent, YAction action):
         YButton(parent, action, 0), fObject(NULL) { /* hack */ }
 

@@ -166,7 +166,7 @@ void ThemesMenu::findThemes(const upath& path, YMenu *container) {
                                 subdir.string().c_str()));
                 YMenu *smenu = new YMenu();
                 smenu->addSorted(relatedItem, false, true);
-                YMenuItem *newItem = new YMenuItem(subName, 0, null, YAction(0), smenu);
+                YMenuItem *newItem = new YMenuItem(subName, 0, null, actionNull, smenu);
                 newItem->setChecked(relatedItem->isChecked() || im->isChecked());
                 container->setItem(relatedItemPos, newItem);
                 targetMenu = smenu;
