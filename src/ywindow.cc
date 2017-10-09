@@ -187,7 +187,7 @@ YWindow::~YWindow() {
 }
 
 void YWindow::setWindowFocus() {
-    xapp->focusWindow(handle());
+    XSetInputFocus(xapp->display(), handle(), RevertToNone, CurrentTime);
 }
 
 void YWindow::setTitle(char const * title) {

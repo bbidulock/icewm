@@ -935,14 +935,14 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
                 XFree(cr);
             }
             if ((!focusproxyfound) && input) {
-                xapp->focusWindow(w);
+                XSetInputFocus(xapp->display(), w, None, xapp->getEventTime("setFocus"));
             }
         }
         else if (!focusproxyfound) {
-            xapp->focusWindow(w);
+            XSetInputFocus(xapp->display(), w, None, xapp->getEventTime("setFocus"));
         }
     } else {
-        xapp->focusWindow(fTopWin->handle());
+        XSetInputFocus(xapp->display(), fTopWin->handle(), RevertToNone, xapp->getEventTime("setFocus"));
     }
 
     if (c && w == c->handle() && (c->protocols() & YFrameClient::wpTakeFocus)) {
@@ -1061,7 +1061,7 @@ void YWindowManager::unmanageClients() {
             unmanageClient(w, true);
         }
     }
-    xapp->focusRoot();
+    XSetInputFocus(xapp->display(), PointerRoot, RevertToNone, CurrentTime);
     XUngrabServer(xapp->display());
     XSync(xapp->display(), True);
 }
@@ -1694,7 +1694,7 @@ void YWindowManager::focusTopWindow() {
     if (wmState() != wmRUNNING)
         return ;
     if (!clickFocus && strongPointerFocus) {
-        xapp->focusRoot();
+        XSetInputFocus(xapp->display(), PointerRoot, RevertToNone, CurrentTime);
         return ;
     }
     if (!focusTop(topLayer(WinLayerNormal)))
@@ -1791,7 +1791,7 @@ void YWindowManager::focusLastWindow() {
     if (focusLocked())
         return;
     if (!clickFocus && strongPointerFocus) {
-        xapp->focusRoot();
+        XSetInputFocus(xapp->display(), PointerRoot, RevertToNone, CurrentTime);
         return ;
     }
 
@@ -2337,6 +2337,7 @@ void YWindowManager::activateWorkspace(long workspace) {
         YFrameWindow *toFocus = getLastFocus(true, workspace);
 
         lockFocus();
+///        XSetInputFocus(app->display(), desktop->handle(), RevertToNone, CurrentTime);
 
 #ifdef CONFIG_TASKBAR
         if (taskBar && fActiveWorkspace != WinWorkspaceInvalid) {
