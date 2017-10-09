@@ -48,8 +48,6 @@ YAction actionRefresh;
 YAction actionCollapseTaskbar;
 #ifndef LITE
 YAction actionAbout;
-YAction actionHelp;
-YAction actionLicense;
 #endif
 YAction actionRun;
 YAction actionExit;

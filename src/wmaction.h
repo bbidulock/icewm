@@ -59,8 +59,6 @@ extern YAction actionShutdown;
 extern YAction actionSuspend;
 extern YAction actionRefresh;
 extern YAction actionAbout;
-extern YAction actionHelp;
-extern YAction actionLicense;
 extern YAction actionRun;
 extern YAction actionExit;
 extern YAction actionFocusClickToFocus;
@@ -69,9 +67,6 @@ extern YAction actionFocusMouseSloppy;
 extern YAction actionFocusMouseStrict;
 extern YAction actionFocusQuietSloppy;
 extern YAction actionFocusCustom;
-
-void initActions();
-void freeActions();
 
 bool canShutdown(bool reboot);
 bool canLock();
