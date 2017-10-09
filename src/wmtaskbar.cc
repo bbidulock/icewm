@@ -185,14 +185,13 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
                     fIsCollapsed ? WinLayerAboveDock :
                     taskBarKeepBelow ? WinLayerBelow : WinLayerDock);
 #endif
-    Atom protocols[] = {
+    Atom protocols[2] = {
       _XA_WM_DELETE_WINDOW,
-      //_XA_WM_TAKE_FOCUS,
+      _XA_WM_TAKE_FOCUS
       //_NET_WM_PING,
       //_NET_WM_SYNC_REQUEST,
     };
-    XSetWMProtocols(xapp->display(), handle(),
-                    protocols, int ACOUNT(protocols));
+    XSetWMProtocols(xapp->display(), handle(), protocols, 2);
     getProtocols(false);
 
     {
