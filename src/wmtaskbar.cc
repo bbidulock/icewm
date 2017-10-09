@@ -309,6 +309,15 @@ void TaskBar::initMenu() {
         taskBarMenu->addItem(_("_Refresh"), -2, null, actionRefresh);
 
 #ifndef LITE
+#if 0
+        YMenu *helpMenu; // !!!
+
+        helpMenu = new YMenu();
+        helpMenu->addItem(_("_License"), -2, "", actionLicense);
+        helpMenu->addSeparator();
+        helpMenu->addItem(_("_About"), -2, "", actionAbout);
+#endif
+
         taskBarMenu->addItem(_("_About"), -2, actionAbout, 0);
 #endif
         if (logoutMenu) {
@@ -757,7 +766,11 @@ void TaskBar::updateLocation() {
         , 0
         };
 
-        setMwmHints(mwm);
+        XChangeProperty(xapp->display(), handle(),
+                        _XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
+                        32, PropModeReplace,
+                        (unsigned char *)&mwm, sizeof(mwm)/sizeof(long)); ///!!!
+        getMwmHints();
         if (getFrame())
             getFrame()->updateMwmHints();
     }
@@ -998,6 +1011,7 @@ void TaskBar::showBar(bool visible) {
                             taskBarKeepBelow ? WinLayerBelow : WinLayerDock);
 #endif
             getFrame()->setState(WinStateAllWorkspaces, WinStateAllWorkspaces);
+            getFrame()->activate(true);
             updateLocation();
         }
     }
