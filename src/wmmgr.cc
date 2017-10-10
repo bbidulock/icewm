@@ -875,16 +875,6 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
     }
 
     bool input = f ? f->getInputFocusHint() : false;
-#if 0
-    XWMHints *hints = c ? c->hints() : 0;
-
-    if (!f || !(f->frameOptions() & YFrameWindow::foIgnoreNoFocusHint)) {
-        if (hints && (hints->flags & InputHint) && !hints->input)
-            input = false;
-    }
-    if (f && (f->frameOptions() & YFrameWindow::foDoNotFocus))
-        input = false;
-#endif
 
     if (f && f->visible()) {
         if (c && c->visible() && !(f->isRollup() || f->isIconic()))
