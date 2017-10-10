@@ -874,16 +874,19 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
         if (ff) switchFocusFrom(ff);
     }
 
-    bool input = f ? f->getInputFocusHint() : false;
-
     if (f && f->visible()) {
         if (c && c->visible() && !(f->isRollup() || f->isIconic()))
             w = c->handle();
         else
             w = f->handle();
 
-        if (input)
+        // XXX: It is important that we do not switch focus to a window to which
+        // we send WM_TAKE_FOCUS at this point, wait until the window actually
+        // takes focus.
+
+        if (f->getInputFocusHint())
             switchFocusTo(f);
+
         f->setWmUrgency(false);
     }
 #ifdef DEBUG
@@ -902,15 +905,12 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
     }
 #endif
 
-    if (c && w == c->handle() && (c->protocols() & YFrameClient::wpTakeFocus)) {
+    if (c && w == c->handle() && ((c->protocols() & YFrameClient::wpTakeFocus) || (f->frameOptions() & foAppTakesFocus)))
         c->sendTakeFocus();
-    }
-    else if (w != None) {// input || w == desktop->handle()) {
-        XSetInputFocus(xapp->display(), w, None, xapp->getEventTime("setFocus"));
-    }
-    else {
+    else if (w != None)
+        XSetInputFocus(xapp->display(), w, RevertToNone, xapp->getEventTime("setFocus"));
+    else
         XSetInputFocus(xapp->display(), fTopWin->handle(), RevertToNone, xapp->getEventTime("setFocus"));
-    }
 
     if (!pointerColormap)
         setColormapWindow(f);
