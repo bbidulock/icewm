@@ -916,36 +916,9 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
         c->sendTakeFocus();
     }
     else if (w != None) {// input || w == desktop->handle()) {
-        /* UGLY HACK for JAVA7! */
-        /* hack is likely no longer necessary as we now do not set focus when a WM_TAKE_FOCUS
-           message is sent in compliance with ICCCM 2.0 */
-        if (activateJava7FocusHack) {
-            bool focusproxyfound = false;
-            Window rr, pr, *cr(NULL);
-            unsigned int nc;
-            XQueryTree(xapp->display(), w, &rr, &pr, &cr, &nc);
-            if (cr) {
-                unsigned int i;
-                for (i = 0; i < nc && !focusproxyfound; i++) {
-                    char *str(NULL);
-                    XFetchName(xapp->display(), cr[i], &str);
-                    if (str) {
-                        if (strcmp("FocusProxy", str)) {
-                            MSG(("HACK: Java(7) window found. Suppress XSetInputFocus."));
-                            focusproxyfound = true;
-                        }
-                        XFree(str);
-                    }
-                }
-                XFree(cr);
-            }
-            if ((!focusproxyfound) && input) {
-                XSetInputFocus(xapp->display(), w, None, xapp->getEventTime("setFocus"));
-            }
-        } else {
-            XSetInputFocus(xapp->display(), w, None, xapp->getEventTime("setFocus"));
-        }
-    } else {
+        XSetInputFocus(xapp->display(), w, None, xapp->getEventTime("setFocus"));
+    }
+    else {
         XSetInputFocus(xapp->display(), fTopWin->handle(), RevertToNone, xapp->getEventTime("setFocus"));
     }
 
