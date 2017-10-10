@@ -2846,8 +2846,8 @@ bool YFrameWindow::getInputFocusHint() {
 
     if (!(frameOptions() & YFrameWindow::foIgnoreNoFocusHint)) {
         if (hints && (hints->flags & InputHint) && !hints->input) {
-            if (!(client()->protocols() & YFrameClient::wpTakeFocus) &&
-                !(frameOptions() & foAppTakesFocus))
+            if (!(client()->protocols() & YFrameClient::wpTakeFocus) ||
+                (frameOptions() & foAppTakesFocus))
             {
                 input = false;
             }
