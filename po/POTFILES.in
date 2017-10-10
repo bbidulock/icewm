@@ -3,6 +3,7 @@ src/aapm.cc
 src/aclock.cc
 src/acpustatus.cc
 src/amailbox.cc
+src/amemstatus.cc
 src/apppstatus.cc
 src/atasks.cc
 src/atray.cc
@@ -11,6 +12,7 @@ src/browse.cc
 src/decorate.cc
 src/fdomenu.cc
 src/genpref.cc
+src/globit.cc
 src/gnome2.cc
 src/gnome.cc
 src/iceclock.cc
@@ -40,6 +42,7 @@ src/testmenus.cc
 src/testnetwmhints.cc
 src/testwinhints.cc
 src/themes.cc
+src/udir.cc
 src/upath.cc
 src/wmabout.cc
 src/wmapp.cc
@@ -60,9 +63,11 @@ src/wmtaskbar.cc
 src/wmtitle.cc
 src/wmwinlist.cc
 src/wmwinmenu.cc
+src/wpixres.cc
 src/yapp.cc
 src/yarray.cc
 src/ybutton.cc
+src/ycollections.cc
 src/yconfig.cc
 src/ycursor.cc
 src/ydialog.cc
