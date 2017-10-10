@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-10-03 15:17-0600\n"
+"POT-Creation-Date: 2017-10-09 23:31-0600\n"
 "PO-Revision-Date: 2016-06-06 12:13+0000\n"
 "Last-Translator: Stanislav Brabec <sbrabec@suse.com>\n"
 "Language-Team: Hebrew <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -144,6 +144,42 @@ msgstr "הודעת דואר %ld."
 msgid "%ld mail messages."
 msgstr "%ld הודעות דואר."
 
+#: src/amemstatus.cc:134
+msgid "GB"
+msgstr ""
+
+#: src/amemstatus.cc:138
+msgid "MB"
+msgstr ""
+
+#: src/amemstatus.cc:142
+msgid "kB"
+msgstr ""
+
+#: src/amemstatus.cc:146
+msgid "bytes"
+msgstr ""
+
+#: src/amemstatus.cc:170
+msgid "Memory Total: "
+msgstr ""
+
+#: src/amemstatus.cc:171
+msgid "Free: "
+msgstr ""
+
+#: src/amemstatus.cc:172
+msgid "Cached: "
+msgstr ""
+
+#: src/amemstatus.cc:173
+msgid "Buffers: "
+msgstr ""
+
+#: src/amemstatus.cc:174
+msgid "User: "
+msgstr ""
+
 #: src/apppstatus.cc:196
 #, c-format
 msgid ""
@@ -167,7 +203,7 @@ msgstr ""
 "\n"
 "  מזהה מתקשר:\t"
 
-#: src/aworkspaces.cc:323 src/wmstatus.cc:178
+#: src/aworkspaces.cc:325 src/wmstatus.cc:178
 msgid "Workspace: "
 msgstr "חלל עבודה: "
 
@@ -264,11 +300,11 @@ msgstr "תכנים"
 msgid "Index"
 msgstr "אינדקס"
 
-#: src/icehelp.cc:1156 src/icesame.cc:65 src/iceview.cc:76 src/wmframe.cc:180
+#: src/icehelp.cc:1156 src/icesame.cc:62 src/iceview.cc:72 src/wmframe.cc:180
 msgid "Close"
 msgstr "סגור"
 
-#: src/icehelp.cc:1156 src/icesame.cc:65 src/iceview.cc:76
+#: src/icehelp.cc:1156 src/icesame.cc:62 src/iceview.cc:72
 msgid "Ctrl+Q"
 msgstr ""
 
@@ -351,44 +387,44 @@ msgstr ""
 msgid "Ignoring option '%s'"
 msgstr "פעולה לא מוכרת: `%s'"
 
-#: src/icelist.cc:85
+#: src/icelist.cc:80
 msgid "List View"
 msgstr "תצוגת רשימה"
 
-#: src/icelist.cc:86
+#: src/icelist.cc:81
 msgid "Icon View"
 msgstr "תצוגת סמל"
 
-#: src/icelist.cc:90
+#: src/icelist.cc:85
 msgid "Open"
 msgstr "פתיחה"
 
-#: src/icesame.cc:60
+#: src/icesame.cc:57
 msgid "Undo"
 msgstr "בטל"
 
-#: src/icesame.cc:60
+#: src/icesame.cc:57
 msgid "Ctrl+Z"
 msgstr ""
 
-#: src/icesame.cc:62
+#: src/icesame.cc:59
 msgid "New"
 msgstr "חדש"
 
-#: src/icesame.cc:62
+#: src/icesame.cc:59
 msgid "Ctrl+N"
 msgstr ""
 
 # אתחל
-#: src/icesame.cc:63
+#: src/icesame.cc:60
 msgid "Restart"
 msgstr "ריסט"
 
-#: src/icesame.cc:63
+#: src/icesame.cc:60
 msgid "Ctrl+R"
 msgstr ""
 
-#: src/icesame.cc:68
+#: src/icesame.cc:65
 msgid "Same Game"
 msgstr "אותו משחק"
 
@@ -518,7 +554,7 @@ msgstr "מרחב עבודה מספר %d: ‏`%s'\n"
 msgid "Unknown action: `%s'"
 msgstr "פעולה לא מוכרת: `%s'"
 
-#: src/iceskt.cc:36
+#: src/iceskt.cc:41
 #, c-format
 msgid "Socket error: %d"
 msgstr "שגיאת Socket‏: %d"
@@ -756,27 +792,27 @@ msgid ""
 "  -t, --theme=FILE    Load the theme from FILE.\n"
 msgstr ""
 
-#: src/iceview.cc:72
+#: src/iceview.cc:68
 msgid "Hex View"
 msgstr "תצוגת Hex"
 
-#: src/iceview.cc:72
+#: src/iceview.cc:68
 msgid "Ctrl+H"
 msgstr ""
 
-#: src/iceview.cc:73
+#: src/iceview.cc:69
 msgid "Expand Tabs"
 msgstr "הרחב כרטיסיות"
 
-#: src/iceview.cc:73
+#: src/iceview.cc:69
 msgid "Ctrl+T"
 msgstr ""
 
-#: src/iceview.cc:74
+#: src/iceview.cc:70
 msgid "Wrap Lines"
 msgstr "כרוך שורות"
 
-#: src/iceview.cc:74
+#: src/iceview.cc:70
 msgid "Ctrl+W"
 msgstr ""
 
@@ -851,11 +887,11 @@ msgstr "CLI"
 msgid "Out of memory (len=%d)."
 msgstr "אזל הזיכרון (len=%d)."
 
-#: src/misc.cc:332 src/misc.cc:344
+#: src/misc.cc:330 src/misc.cc:342
 msgid "Warning: "
 msgstr "אזהרה: "
 
-#: src/misc.cc:598
+#: src/misc.cc:596
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1080,19 +1116,19 @@ msgstr ""
 msgid "Kill IceWM, replace with Xterm"
 msgstr ""
 
-#: src/wmapp.cc:1434
+#: src/wmapp.cc:1433
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 
-#: src/wmapp.cc:1440
+#: src/wmapp.cc:1439
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
 "  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
 
-#: src/wmapp.cc:1449
+#: src/wmapp.cc:1448
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1100,7 +1136,7 @@ msgid ""
 "  --postpreferences   Print preferences after all processing.\n"
 msgstr ""
 
-#: src/wmapp.cc:1457
+#: src/wmapp.cc:1456
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1132,26 +1168,26 @@ msgid ""
 "\n"
 msgstr "CLI"
 
-#: src/wmapp.cc:1518
+#: src/wmapp.cc:1517
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr ""
 
-#: src/wmapp.cc:1663
+#: src/wmapp.cc:1662
 #, fuzzy, c-format
 msgid "%s configured options:%s\n"
 msgstr "אפשרות לא מוכרת: %s\n"
 
-#: src/wmapp.cc:1712
+#: src/wmapp.cc:1711
 #, fuzzy, c-format
 msgid "Unrecognized option '%s'."
 msgstr "אפשרות לא מוכרת: %s\n"
 
-#: src/wmapp.cc:1754
+#: src/wmapp.cc:1753
 msgid "Confirm Logout"
 msgstr "אימות התנתקות"
 
-#: src/wmapp.cc:1755
+#: src/wmapp.cc:1754
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1164,23 +1200,23 @@ msgstr ""
 msgid "Failed to load theme %s"
 msgstr ""
 
-#: src/wmconfig.cc:109
+#: src/wmconfig.cc:108
 #, fuzzy, c-format
 msgid "Unknown value '%s' for option '%s'."
 msgstr "פעולה לא מוכרת: `%s'"
 
-#: src/wmconfig.cc:118
+#: src/wmconfig.cc:117
 #, c-format
 msgid "Unable to create directory %s"
 msgstr ""
 
-#: src/wmconfig.cc:145
+#: src/wmconfig.cc:144
 #, c-format
 msgid "Unable to write to %s"
 msgstr ""
 
 # מקש
-#: src/wmconfig.cc:172
+#: src/wmconfig.cc:171
 #, fuzzy, c-format
 msgid "Unable to rename %s to %s"
 msgstr "שם מקש לא מוכר %s בתוך %s"
@@ -1207,7 +1243,7 @@ msgstr "_אתחל את icewm"
 msgid "_About"
 msgstr "_אודות"
 
-#: src/wmframe.cc:158 src/wmframe.cc:3439
+#: src/wmframe.cc:158 src/wmframe.cc:3443
 msgid "Maximize"
 msgstr "הגדל"
 
@@ -1219,7 +1255,7 @@ msgstr "מזער"
 msgid "Hide"
 msgstr "הסתר"
 
-#: src/wmframe.cc:202 src/wmframe.cc:3472
+#: src/wmframe.cc:202 src/wmframe.cc:3476
 msgid "Rollup"
 msgstr "גלול מעלה"
 
@@ -1240,11 +1276,11 @@ msgstr ""
 "אזהרה! כל השינויים שלא נשמרו יאבדו כאשר\n"
 "לקוח זה הרוג. האם ברצונך להמשיך?"
 
-#: src/wmframe.cc:3436
+#: src/wmframe.cc:3440
 msgid "Restore"
 msgstr "שחזר"
 
-#: src/wmframe.cc:3470
+#: src/wmframe.cc:3474
 msgid "Rolldown"
 msgstr "גלול מטה"
 
@@ -1576,39 +1612,39 @@ msgstr ""
 msgid "Out of memory for pixmap \"%s\""
 msgstr "אזל הזיכרון עבור מפת סיביות \"%s\""
 
-#: src/yinput.cc:57
+#: src/yinput.cc:51
 msgid "Cu_t"
 msgstr "_גזור"
 
-#: src/yinput.cc:57
+#: src/yinput.cc:51
 msgid "Ctrl+X"
 msgstr ""
 
-#: src/yinput.cc:58
+#: src/yinput.cc:52
 msgid "_Copy"
 msgstr "ה_עתק"
 
-#: src/yinput.cc:58
+#: src/yinput.cc:52
 msgid "Ctrl+C"
 msgstr ""
 
-#: src/yinput.cc:59
+#: src/yinput.cc:53
 msgid "_Paste"
 msgstr "ה_דבק"
 
-#: src/yinput.cc:59
+#: src/yinput.cc:53
 msgid "Ctrl+V"
 msgstr ""
 
-#: src/yinput.cc:60
+#: src/yinput.cc:54
 msgid "Paste _Selection"
 msgstr "הדבק _בחירה"
 
-#: src/yinput.cc:62
+#: src/yinput.cc:56
 msgid "Select _All"
 msgstr "בחר ה_כל"
 
-#: src/yinput.cc:62
+#: src/yinput.cc:56
 msgid "Ctrl+A"
 msgstr ""
 

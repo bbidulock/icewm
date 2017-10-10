@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.10\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-10-03 15:17-0600\n"
+"POT-Creation-Date: 2017-10-09 23:31-0600\n"
 "PO-Revision-Date: 2017-02-26 21:51+0000\n"
 "Last-Translator: Shyukri Shyukriev <shshyukriev@suse.com>\n"
 "Language-Team: Bulgarian <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -142,6 +142,42 @@ msgstr "%ld съобщение"
 msgid "%ld mail messages."
 msgstr "%ld съобщения"
 
+#: src/amemstatus.cc:134
+msgid "GB"
+msgstr ""
+
+#: src/amemstatus.cc:138
+msgid "MB"
+msgstr ""
+
+#: src/amemstatus.cc:142
+msgid "kB"
+msgstr ""
+
+#: src/amemstatus.cc:146
+msgid "bytes"
+msgstr ""
+
+#: src/amemstatus.cc:170
+msgid "Memory Total: "
+msgstr ""
+
+#: src/amemstatus.cc:171
+msgid "Free: "
+msgstr ""
+
+#: src/amemstatus.cc:172
+msgid "Cached: "
+msgstr ""
+
+#: src/amemstatus.cc:173
+msgid "Buffers: "
+msgstr ""
+
+#: src/amemstatus.cc:174
+msgid "User: "
+msgstr ""
+
 #: src/apppstatus.cc:196
 #, fuzzy, c-format
 msgid ""
@@ -165,7 +201,7 @@ msgstr ""
 "\n"
 "  Телефонен номер:\t"
 
-#: src/aworkspaces.cc:323 src/wmstatus.cc:178
+#: src/aworkspaces.cc:325 src/wmstatus.cc:178
 msgid "Workspace: "
 msgstr "Работно поле: "
 
@@ -262,11 +298,11 @@ msgstr "Съдържание"
 msgid "Index"
 msgstr "Индекс"
 
-#: src/icehelp.cc:1156 src/icesame.cc:65 src/iceview.cc:76 src/wmframe.cc:180
+#: src/icehelp.cc:1156 src/icesame.cc:62 src/iceview.cc:72 src/wmframe.cc:180
 msgid "Close"
 msgstr "Затвори"
 
-#: src/icehelp.cc:1156 src/icesame.cc:65 src/iceview.cc:76
+#: src/icehelp.cc:1156 src/icesame.cc:62 src/iceview.cc:72
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
@@ -350,43 +386,43 @@ msgstr ""
 msgid "Ignoring option '%s'"
 msgstr "Неизвестно действие: `%s'"
 
-#: src/icelist.cc:85
+#: src/icelist.cc:80
 msgid "List View"
 msgstr "Списъчен изглед"
 
-#: src/icelist.cc:86
+#: src/icelist.cc:81
 msgid "Icon View"
 msgstr "Икони"
 
-#: src/icelist.cc:90
+#: src/icelist.cc:85
 msgid "Open"
 msgstr "Отвори"
 
-#: src/icesame.cc:60
+#: src/icesame.cc:57
 msgid "Undo"
 msgstr "Отмени"
 
-#: src/icesame.cc:60
+#: src/icesame.cc:57
 msgid "Ctrl+Z"
 msgstr "Ctrl+Z"
 
-#: src/icesame.cc:62
+#: src/icesame.cc:59
 msgid "New"
 msgstr "Нов"
 
-#: src/icesame.cc:62
+#: src/icesame.cc:59
 msgid "Ctrl+N"
 msgstr "Ctrl+N"
 
-#: src/icesame.cc:63
+#: src/icesame.cc:60
 msgid "Restart"
 msgstr "Рестартиране"
 
-#: src/icesame.cc:63
+#: src/icesame.cc:60
 msgid "Ctrl+R"
 msgstr "Ctrl+R"
 
-#: src/icesame.cc:68
+#: src/icesame.cc:65
 msgid "Same Game"
 msgstr "Игра"
 
@@ -559,7 +595,7 @@ msgstr "работно поле #%d: `%s'\n"
 msgid "Unknown action: `%s'"
 msgstr "Неизвестно действие: `%s'"
 
-#: src/iceskt.cc:36
+#: src/iceskt.cc:41
 #, c-format
 msgid "Socket error: %d"
 msgstr "Грешка в socket: %d"
@@ -837,27 +873,27 @@ msgid ""
 "  -t, --theme=FILE    Load the theme from FILE.\n"
 msgstr ""
 
-#: src/iceview.cc:72
+#: src/iceview.cc:68
 msgid "Hex View"
 msgstr "Шестнадесетичен изглед"
 
-#: src/iceview.cc:72
+#: src/iceview.cc:68
 msgid "Ctrl+H"
 msgstr "Ctrl+H"
 
-#: src/iceview.cc:73
+#: src/iceview.cc:69
 msgid "Expand Tabs"
 msgstr "Разширява табулациите"
 
-#: src/iceview.cc:73
+#: src/iceview.cc:69
 msgid "Ctrl+T"
 msgstr "Ctrl+T"
 
-#: src/iceview.cc:74
+#: src/iceview.cc:70
 msgid "Wrap Lines"
 msgstr "Свиване на редовете"
 
-#: src/iceview.cc:74
+#: src/iceview.cc:70
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
@@ -939,11 +975,11 @@ msgstr "Употреба: icewmhint [class.instance] option arg\n"
 msgid "Out of memory (len=%d)."
 msgstr "Недостатъчна памет (len=%d)."
 
-#: src/misc.cc:332 src/misc.cc:344
+#: src/misc.cc:330 src/misc.cc:342
 msgid "Warning: "
 msgstr "Предупреждение: "
 
-#: src/misc.cc:598
+#: src/misc.cc:596
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1166,19 +1202,19 @@ msgstr ""
 msgid "Kill IceWM, replace with Xterm"
 msgstr ""
 
-#: src/wmapp.cc:1434
+#: src/wmapp.cc:1433
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 
-#: src/wmapp.cc:1440
+#: src/wmapp.cc:1439
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
 "  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
 
-#: src/wmapp.cc:1449
+#: src/wmapp.cc:1448
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1186,7 +1222,7 @@ msgid ""
 "  --postpreferences   Print preferences after all processing.\n"
 msgstr ""
 
-#: src/wmapp.cc:1457
+#: src/wmapp.cc:1456
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1244,26 +1280,26 @@ msgstr ""
 "Посетете http://www.icewm.org/ за съобщения за грешки,предложения и "
 "коментари...\n"
 
-#: src/wmapp.cc:1518
+#: src/wmapp.cc:1517
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr ""
 
-#: src/wmapp.cc:1663
+#: src/wmapp.cc:1662
 #, fuzzy, c-format
 msgid "%s configured options:%s\n"
 msgstr "Неразпозната опция: %s\n"
 
-#: src/wmapp.cc:1712
+#: src/wmapp.cc:1711
 #, fuzzy, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Неразпозната опция: %s\n"
 
-#: src/wmapp.cc:1754
+#: src/wmapp.cc:1753
 msgid "Confirm Logout"
 msgstr "Потвърди Изход"
 
-#: src/wmapp.cc:1755
+#: src/wmapp.cc:1754
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1276,22 +1312,22 @@ msgstr ""
 msgid "Failed to load theme %s"
 msgstr "Не мога да отворя %s: %s"
 
-#: src/wmconfig.cc:109
+#: src/wmconfig.cc:108
 #, fuzzy, c-format
 msgid "Unknown value '%s' for option '%s'."
 msgstr "Неизвестно действие: `%s'"
 
-#: src/wmconfig.cc:118
+#: src/wmconfig.cc:117
 #, fuzzy, c-format
 msgid "Unable to create directory %s"
 msgstr "Failed to create child process: %s"
 
-#: src/wmconfig.cc:145
+#: src/wmconfig.cc:144
 #, c-format
 msgid "Unable to write to %s"
 msgstr ""
 
-#: src/wmconfig.cc:172
+#: src/wmconfig.cc:171
 #, fuzzy, c-format
 msgid "Unable to rename %s to %s"
 msgstr "Не мога да отворя %s: %s"
@@ -1318,7 +1354,7 @@ msgstr "_Рестартира IceWM"
 msgid "_About"
 msgstr "_За"
 
-#: src/wmframe.cc:158 src/wmframe.cc:3439
+#: src/wmframe.cc:158 src/wmframe.cc:3443
 msgid "Maximize"
 msgstr "Максимизира"
 
@@ -1330,7 +1366,7 @@ msgstr "Минимизира"
 msgid "Hide"
 msgstr "Скрива"
 
-#: src/wmframe.cc:202 src/wmframe.cc:3472
+#: src/wmframe.cc:202 src/wmframe.cc:3476
 msgid "Rollup"
 msgstr "Свива"
 
@@ -1350,11 +1386,11 @@ msgstr ""
 "ВНИМАНИЕ! Всички незапазени промени ще бъдат изгубени, когато този клиент "
 "бъде убит. Искате ли да продължите?"
 
-#: src/wmframe.cc:3436
+#: src/wmframe.cc:3440
 msgid "Restore"
 msgstr "Възстановява"
 
-#: src/wmframe.cc:3470
+#: src/wmframe.cc:3474
 msgid "Rolldown"
 msgstr "Развива"
 
@@ -1673,39 +1709,39 @@ msgstr "Missing codesets for fontset \"%s\":"
 msgid "Out of memory for pixmap \"%s\""
 msgstr "Недостатъчна памет за изображение \"%s\""
 
-#: src/yinput.cc:57
+#: src/yinput.cc:51
 msgid "Cu_t"
 msgstr "_Изрежи"
 
-#: src/yinput.cc:57
+#: src/yinput.cc:51
 msgid "Ctrl+X"
 msgstr "Ctrl+X"
 
-#: src/yinput.cc:58
+#: src/yinput.cc:52
 msgid "_Copy"
 msgstr "_Копирай"
 
-#: src/yinput.cc:58
+#: src/yinput.cc:52
 msgid "Ctrl+C"
 msgstr "Ctrl+C"
 
-#: src/yinput.cc:59
+#: src/yinput.cc:53
 msgid "_Paste"
 msgstr "_Постави"
 
-#: src/yinput.cc:59
+#: src/yinput.cc:53
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#: src/yinput.cc:60
+#: src/yinput.cc:54
 msgid "Paste _Selection"
 msgstr "Постави _Селекция"
 
-#: src/yinput.cc:62
+#: src/yinput.cc:56
 msgid "Select _All"
 msgstr "Маркирай _Всичко"
 
-#: src/yinput.cc:62
+#: src/yinput.cc:56
 msgid "Ctrl+A"
 msgstr "Ctrl+A"
 

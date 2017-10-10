@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-10-03 15:17-0600\n"
+"POT-Creation-Date: 2017-10-09 23:31-0600\n"
 "PO-Revision-Date: 2017-07-05 14:27+0700\n"
 "Last-Translator: Kukuh Syafaat <syafaatkukuh@gmail.com>\n"
 "Language-Team: Indonesian <https://l10n.opensuse.org/projects/icewm/"
@@ -146,6 +146,42 @@ msgstr "%ld pesan surat."
 msgid "%ld mail messages."
 msgstr "%ld pesan surat."
 
+#: src/amemstatus.cc:134
+msgid "GB"
+msgstr ""
+
+#: src/amemstatus.cc:138
+msgid "MB"
+msgstr ""
+
+#: src/amemstatus.cc:142
+msgid "kB"
+msgstr ""
+
+#: src/amemstatus.cc:146
+msgid "bytes"
+msgstr ""
+
+#: src/amemstatus.cc:170
+msgid "Memory Total: "
+msgstr ""
+
+#: src/amemstatus.cc:171
+msgid "Free: "
+msgstr ""
+
+#: src/amemstatus.cc:172
+msgid "Cached: "
+msgstr ""
+
+#: src/amemstatus.cc:173
+msgid "Buffers: "
+msgstr ""
+
+#: src/amemstatus.cc:174
+msgid "User: "
+msgstr ""
+
 #: src/apppstatus.cc:196
 #, c-format
 msgid ""
@@ -169,7 +205,7 @@ msgstr ""
 "\n"
 "  Id pemanggil:\t"
 
-#: src/aworkspaces.cc:323 src/wmstatus.cc:178
+#: src/aworkspaces.cc:325 src/wmstatus.cc:178
 msgid "Workspace: "
 msgstr "Ruang kerja: "
 
@@ -265,11 +301,11 @@ msgstr "Isi"
 msgid "Index"
 msgstr "Indeks"
 
-#: src/icehelp.cc:1156 src/icesame.cc:65 src/iceview.cc:76 src/wmframe.cc:180
+#: src/icehelp.cc:1156 src/icesame.cc:62 src/iceview.cc:72 src/wmframe.cc:180
 msgid "Close"
 msgstr "Tutup"
 
-#: src/icehelp.cc:1156 src/icesame.cc:65 src/iceview.cc:76
+#: src/icehelp.cc:1156 src/icesame.cc:62 src/iceview.cc:72
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
@@ -353,43 +389,43 @@ msgstr ""
 msgid "Ignoring option '%s'"
 msgstr "Opsi tak dikenal '%s'"
 
-#: src/icelist.cc:85
+#: src/icelist.cc:80
 msgid "List View"
 msgstr "Tampilan Daftar"
 
-#: src/icelist.cc:86
+#: src/icelist.cc:81
 msgid "Icon View"
 msgstr "Tampilan Ikon"
 
-#: src/icelist.cc:90
+#: src/icelist.cc:85
 msgid "Open"
 msgstr "Buka"
 
-#: src/icesame.cc:60
+#: src/icesame.cc:57
 msgid "Undo"
 msgstr "Urungkan"
 
-#: src/icesame.cc:60
+#: src/icesame.cc:57
 msgid "Ctrl+Z"
 msgstr "Ctrl+Z"
 
-#: src/icesame.cc:62
+#: src/icesame.cc:59
 msgid "New"
 msgstr "Baru"
 
-#: src/icesame.cc:62
+#: src/icesame.cc:59
 msgid "Ctrl+N"
 msgstr "Ctrl+N"
 
-#: src/icesame.cc:63
+#: src/icesame.cc:60
 msgid "Restart"
 msgstr "Jalankan ulang"
 
-#: src/icesame.cc:63
+#: src/icesame.cc:60
 msgid "Ctrl+R"
 msgstr "Ctrl+R"
 
-#: src/icesame.cc:68
+#: src/icesame.cc:65
 msgid "Same Game"
 msgstr "Permainan Sama"
 
@@ -569,7 +605,7 @@ msgstr "ruang kerja #%d: `%s'\n"
 msgid "Unknown action: `%s'"
 msgstr "Aksi tidak diketahui: `%s'"
 
-#: src/iceskt.cc:36
+#: src/iceskt.cc:41
 #, c-format
 msgid "Socket error: %d"
 msgstr "Kesalahan socket: %d"
@@ -863,27 +899,27 @@ msgstr ""
 "  -c, --config=FILE   Muat preferensi dari FILE.\n"
 "  -t, --theme=FILE    Muat tema dari FILE.\n"
 
-#: src/iceview.cc:72
+#: src/iceview.cc:68
 msgid "Hex View"
 msgstr "Tampilan Heksa"
 
-#: src/iceview.cc:72
+#: src/iceview.cc:68
 msgid "Ctrl+H"
 msgstr "Ctrl+H"
 
-#: src/iceview.cc:73
+#: src/iceview.cc:69
 msgid "Expand Tabs"
 msgstr "Perluas Tab"
 
-#: src/iceview.cc:73
+#: src/iceview.cc:69
 msgid "Ctrl+T"
 msgstr "Ctrl+T"
 
-#: src/iceview.cc:74
+#: src/iceview.cc:70
 msgid "Wrap Lines"
 msgstr "Garis Wrap"
 
-#: src/iceview.cc:74
+#: src/iceview.cc:70
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
@@ -986,11 +1022,11 @@ msgstr "Penggunaan: icewmhint [class.instance] opsi argumen\n"
 msgid "Out of memory (len=%d)."
 msgstr "Kehabisan memori (len=%d)."
 
-#: src/misc.cc:332 src/misc.cc:344
+#: src/misc.cc:330 src/misc.cc:342
 msgid "Warning: "
 msgstr "Peringatan: "
 
-#: src/misc.cc:598
+#: src/misc.cc:596
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1219,14 +1255,14 @@ msgstr ""
 msgid "Kill IceWM, replace with Xterm"
 msgstr ""
 
-#: src/wmapp.cc:1434
+#: src/wmapp.cc:1433
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      Klien id yang digunakan saat menghubungi manajer "
 "sesi.\n"
 
-#: src/wmapp.cc:1440
+#: src/wmapp.cc:1439
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1236,7 +1272,7 @@ msgstr ""
 "  --debug             Cetak pesan debug umum.\n"
 "  --debug-z           Cetak pesan debug tantang jendela bertumpuk.\n"
 
-#: src/wmapp.cc:1449
+#: src/wmapp.cc:1448
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1244,7 +1280,7 @@ msgid ""
 "  --postpreferences   Print preferences after all processing.\n"
 msgstr ""
 
-#: src/wmapp.cc:1457
+#: src/wmapp.cc:1456
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1306,26 +1342,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1518
+#: src/wmapp.cc:1517
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "Direktori konfigurasi %s:\n"
 
-#: src/wmapp.cc:1663
+#: src/wmapp.cc:1662
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s pilihan dikonfigurasi: %s\n"
 
-#: src/wmapp.cc:1712
+#: src/wmapp.cc:1711
 #, fuzzy, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Opsi tidak dikenali: %s\n"
 
-#: src/wmapp.cc:1754
+#: src/wmapp.cc:1753
 msgid "Confirm Logout"
 msgstr "Konfirmasi Keluar"
 
-#: src/wmapp.cc:1755
+#: src/wmapp.cc:1754
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1338,22 +1374,22 @@ msgstr ""
 msgid "Failed to load theme %s"
 msgstr "Gagal memuat tema %s"
 
-#: src/wmconfig.cc:109
+#: src/wmconfig.cc:108
 #, c-format
 msgid "Unknown value '%s' for option '%s'."
 msgstr "Nilai tak dikenal '%s' untuk opsi '%s'."
 
-#: src/wmconfig.cc:118
+#: src/wmconfig.cc:117
 #, c-format
 msgid "Unable to create directory %s"
 msgstr "Tidak dapat membuat direktori %s"
 
-#: src/wmconfig.cc:145
+#: src/wmconfig.cc:144
 #, c-format
 msgid "Unable to write to %s"
 msgstr "Tidak dapat menulis ke %s"
 
-#: src/wmconfig.cc:172
+#: src/wmconfig.cc:171
 #, c-format
 msgid "Unable to rename %s to %s"
 msgstr "Tidak dapat mengganti nama %s menjadi %s"
@@ -1380,7 +1416,7 @@ msgstr "_Jalankan ulang icewm"
 msgid "_About"
 msgstr "_Tentang"
 
-#: src/wmframe.cc:158 src/wmframe.cc:3439
+#: src/wmframe.cc:158 src/wmframe.cc:3443
 msgid "Maximize"
 msgstr "Maksimalkan"
 
@@ -1392,7 +1428,7 @@ msgstr "Minimalkan"
 msgid "Hide"
 msgstr "Sembunyikan"
 
-#: src/wmframe.cc:202 src/wmframe.cc:3472
+#: src/wmframe.cc:202 src/wmframe.cc:3476
 msgid "Rollup"
 msgstr "Gulung atas"
 
@@ -1413,11 +1449,11 @@ msgstr ""
 "akan hilang ketika klien dimatikan. Apakah Anda\n"
 "ingin melanjutkan?"
 
-#: src/wmframe.cc:3436
+#: src/wmframe.cc:3440
 msgid "Restore"
 msgstr "Pulihkan"
 
-#: src/wmframe.cc:3470
+#: src/wmframe.cc:3474
 msgid "Rolldown"
 msgstr "Gulung bawah"
 
@@ -1742,39 +1778,39 @@ msgstr "SetKode tidak ada pada set fon \"%s\":"
 msgid "Out of memory for pixmap \"%s\""
 msgstr "Kehabisan memori untuk pixmap \"%s\""
 
-#: src/yinput.cc:57
+#: src/yinput.cc:51
 msgid "Cu_t"
 msgstr "Pot_ong"
 
-#: src/yinput.cc:57
+#: src/yinput.cc:51
 msgid "Ctrl+X"
 msgstr "Ctrl+X"
 
-#: src/yinput.cc:58
+#: src/yinput.cc:52
 msgid "_Copy"
 msgstr "_Salin"
 
-#: src/yinput.cc:58
+#: src/yinput.cc:52
 msgid "Ctrl+C"
 msgstr "Ctrl+C"
 
-#: src/yinput.cc:59
+#: src/yinput.cc:53
 msgid "_Paste"
 msgstr "_Tempel"
 
-#: src/yinput.cc:59
+#: src/yinput.cc:53
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#: src/yinput.cc:60
+#: src/yinput.cc:54
 msgid "Paste _Selection"
 msgstr "Tempel _Pilihan"
 
-#: src/yinput.cc:62
+#: src/yinput.cc:56
 msgid "Select _All"
 msgstr "Pilih _Semua"
 
-#: src/yinput.cc:62
+#: src/yinput.cc:56
 msgid "Ctrl+A"
 msgstr "Ctrl+A"
 

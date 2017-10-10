@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.23\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-10-03 15:17-0600\n"
+"POT-Creation-Date: 2017-10-09 23:31-0600\n"
 "PO-Revision-Date: 2017-06-16 22:23+0000\n"
 "Last-Translator: Freek de Kruijf <freek@opensuse.org>\n"
 "Language-Team: Dutch <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -146,6 +146,43 @@ msgstr "%ld bericht."
 msgid "%ld mail messages."
 msgstr "%ld berichten."
 
+#: src/amemstatus.cc:134
+msgid "GB"
+msgstr ""
+
+#: src/amemstatus.cc:138
+#, fuzzy
+msgid "MB"
+msgstr "L"
+
+#: src/amemstatus.cc:142
+msgid "kB"
+msgstr ""
+
+#: src/amemstatus.cc:146
+msgid "bytes"
+msgstr ""
+
+#: src/amemstatus.cc:170
+msgid "Memory Total: "
+msgstr ""
+
+#: src/amemstatus.cc:171
+msgid "Free: "
+msgstr ""
+
+#: src/amemstatus.cc:172
+msgid "Cached: "
+msgstr ""
+
+#: src/amemstatus.cc:173
+msgid "Buffers: "
+msgstr ""
+
+#: src/amemstatus.cc:174
+msgid "User: "
+msgstr ""
+
 #: src/apppstatus.cc:196
 #, c-format
 msgid ""
@@ -169,7 +206,7 @@ msgstr ""
 "\n"
 "  Beller id:\t"
 
-#: src/aworkspaces.cc:323 src/wmstatus.cc:178
+#: src/aworkspaces.cc:325 src/wmstatus.cc:178
 msgid "Workspace: "
 msgstr "Werkplaats: "
 
@@ -265,11 +302,11 @@ msgstr "Inhoudsopgave"
 msgid "Index"
 msgstr "Index"
 
-#: src/icehelp.cc:1156 src/icesame.cc:65 src/iceview.cc:76 src/wmframe.cc:180
+#: src/icehelp.cc:1156 src/icesame.cc:62 src/iceview.cc:72 src/wmframe.cc:180
 msgid "Close"
 msgstr "Sluiten"
 
-#: src/icehelp.cc:1156 src/icesame.cc:65 src/iceview.cc:76
+#: src/icehelp.cc:1156 src/icesame.cc:62 src/iceview.cc:72
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
@@ -353,43 +390,43 @@ msgstr ""
 msgid "Ignoring option '%s'"
 msgstr "Onbekende optie: '%s'"
 
-#: src/icelist.cc:85
+#: src/icelist.cc:80
 msgid "List View"
 msgstr "Lijst"
 
-#: src/icelist.cc:86
+#: src/icelist.cc:81
 msgid "Icon View"
 msgstr "Pictogrammen"
 
-#: src/icelist.cc:90
+#: src/icelist.cc:85
 msgid "Open"
 msgstr "Openen"
 
-#: src/icesame.cc:60
+#: src/icesame.cc:57
 msgid "Undo"
 msgstr "Ongedaan maken"
 
-#: src/icesame.cc:60
+#: src/icesame.cc:57
 msgid "Ctrl+Z"
 msgstr "Ctrl+Z"
 
-#: src/icesame.cc:62
+#: src/icesame.cc:59
 msgid "New"
 msgstr "Nieuw"
 
-#: src/icesame.cc:62
+#: src/icesame.cc:59
 msgid "Ctrl+N"
 msgstr "Ctrl+N"
 
-#: src/icesame.cc:63
+#: src/icesame.cc:60
 msgid "Restart"
 msgstr "Herstart"
 
-#: src/icesame.cc:63
+#: src/icesame.cc:60
 msgid "Ctrl+R"
 msgstr "Ctrl+R"
 
-#: src/icesame.cc:68
+#: src/icesame.cc:65
 msgid "Same Game"
 msgstr "Hetzelfde spel"
 
@@ -568,7 +605,7 @@ msgstr "Werkplaats #%d: »%s«\n"
 msgid "Unknown action: `%s'"
 msgstr "Onbekende actie: »%s«"
 
-#: src/iceskt.cc:36
+#: src/iceskt.cc:41
 #, c-format
 msgid "Socket error: %d"
 msgstr "Sokjes fout ;-): %d"
@@ -864,27 +901,27 @@ msgstr ""
 "  -c, --config=BESTAND   voorkeuren uit BESTAND laden.\n"
 "  -t, --theme=BESTAND    het thema laden uit BESTAND.\n"
 
-#: src/iceview.cc:72
+#: src/iceview.cc:68
 msgid "Hex View"
 msgstr "Hexadecimal"
 
-#: src/iceview.cc:72
+#: src/iceview.cc:68
 msgid "Ctrl+H"
 msgstr "Ctrl+H"
 
-#: src/iceview.cc:73
+#: src/iceview.cc:69
 msgid "Expand Tabs"
 msgstr "Tabstops uitbreiden"
 
-#: src/iceview.cc:73
+#: src/iceview.cc:69
 msgid "Ctrl+T"
 msgstr "Ctrl+T"
 
-#: src/iceview.cc:74
+#: src/iceview.cc:70
 msgid "Wrap Lines"
 msgstr "Lange regels afbreken"
 
-#: src/iceview.cc:74
+#: src/iceview.cc:70
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
@@ -984,11 +1021,11 @@ msgstr "Syntax: icewmhint [klasse.instantie] optie argument\n"
 msgid "Out of memory (len=%d)."
 msgstr "Onvoldoende geheugen (len=%d)."
 
-#: src/misc.cc:332 src/misc.cc:344
+#: src/misc.cc:330 src/misc.cc:342
 msgid "Warning: "
 msgstr "Waarschuwing: "
 
-#: src/misc.cc:598
+#: src/misc.cc:596
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1220,14 +1257,14 @@ msgstr ""
 msgid "Kill IceWM, replace with Xterm"
 msgstr ""
 
-#: src/wmapp.cc:1434
+#: src/wmapp.cc:1433
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      Te gebruiken client-id bij contact maken met de "
 "sessiemanager.\n"
 
-#: src/wmapp.cc:1440
+#: src/wmapp.cc:1439
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1237,7 +1274,7 @@ msgstr ""
 "  --debug             Algemene debugberichten afdrukken.\n"
 "  --debug-z           Debugberichten over stapelen van vensters afdrukken.\n"
 
-#: src/wmapp.cc:1449
+#: src/wmapp.cc:1448
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1245,7 +1282,7 @@ msgid ""
 "  --postpreferences   Print preferences after all processing.\n"
 msgstr ""
 
-#: src/wmapp.cc:1457
+#: src/wmapp.cc:1456
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1307,26 +1344,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1518
+#: src/wmapp.cc:1517
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s configuratiemappen:\n"
 
-#: src/wmapp.cc:1663
+#: src/wmapp.cc:1662
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s geconfigureerde opties:%s\n"
 
-#: src/wmapp.cc:1712
+#: src/wmapp.cc:1711
 #, fuzzy, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Onbekende optie: %s\n"
 
-#: src/wmapp.cc:1754
+#: src/wmapp.cc:1753
 msgid "Confirm Logout"
 msgstr "Afmelden bevestigen"
 
-#: src/wmapp.cc:1755
+#: src/wmapp.cc:1754
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1339,22 +1376,22 @@ msgstr ""
 msgid "Failed to load theme %s"
 msgstr "Laden van thema %s is mislukt"
 
-#: src/wmconfig.cc:109
+#: src/wmconfig.cc:108
 #, c-format
 msgid "Unknown value '%s' for option '%s'."
 msgstr "Onbekende waarde '%s' voor optie: '%s'."
 
-#: src/wmconfig.cc:118
+#: src/wmconfig.cc:117
 #, c-format
 msgid "Unable to create directory %s"
 msgstr "Aanmaken van map %s lukte niet"
 
-#: src/wmconfig.cc:145
+#: src/wmconfig.cc:144
 #, c-format
 msgid "Unable to write to %s"
 msgstr "Schrijven naar %s lukt niet"
 
-#: src/wmconfig.cc:172
+#: src/wmconfig.cc:171
 #, c-format
 msgid "Unable to rename %s to %s"
 msgstr "Hernoemen van %s naar %s lukt niet"
@@ -1381,7 +1418,7 @@ msgstr "IceWM _herstarten"
 msgid "_About"
 msgstr "_Over"
 
-#: src/wmframe.cc:158 src/wmframe.cc:3439
+#: src/wmframe.cc:158 src/wmframe.cc:3443
 msgid "Maximize"
 msgstr "Maximaliseren"
 
@@ -1393,7 +1430,7 @@ msgstr "Minimaliseren"
 msgid "Hide"
 msgstr "Verbergen"
 
-#: src/wmframe.cc:202 src/wmframe.cc:3472
+#: src/wmframe.cc:202 src/wmframe.cc:3476
 msgid "Rollup"
 msgstr "Oprollen"
 
@@ -1416,11 +1453,11 @@ msgstr ""
 "als u dit programma stopt!\n"
 "Wilt u doorgaan?"
 
-#: src/wmframe.cc:3436
+#: src/wmframe.cc:3440
 msgid "Restore"
 msgstr "Herstellen"
 
-#: src/wmframe.cc:3470
+#: src/wmframe.cc:3474
 msgid "Rolldown"
 msgstr "Afrollen"
 
@@ -1746,39 +1783,39 @@ msgstr "Missende codeset in de lettertpeset »%s«:"
 msgid "Out of memory for pixmap \"%s\""
 msgstr "Onvoldoende geheugen voor afbeelding »%s«"
 
-#: src/yinput.cc:57
+#: src/yinput.cc:51
 msgid "Cu_t"
 msgstr "Kn_ippen"
 
-#: src/yinput.cc:57
+#: src/yinput.cc:51
 msgid "Ctrl+X"
 msgstr "Ctrl+X"
 
-#: src/yinput.cc:58
+#: src/yinput.cc:52
 msgid "_Copy"
 msgstr "_Kopieren"
 
-#: src/yinput.cc:58
+#: src/yinput.cc:52
 msgid "Ctrl+C"
 msgstr "Ctrl+C"
 
-#: src/yinput.cc:59
+#: src/yinput.cc:53
 msgid "_Paste"
 msgstr "_Plakken"
 
-#: src/yinput.cc:59
+#: src/yinput.cc:53
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#: src/yinput.cc:60
+#: src/yinput.cc:54
 msgid "Paste _Selection"
 msgstr "Selectie _plakken"
 
-#: src/yinput.cc:62
+#: src/yinput.cc:56
 msgid "Select _All"
 msgstr "_Alles selecteren"
 
-#: src/yinput.cc:62
+#: src/yinput.cc:56
 msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
@@ -2204,9 +2241,6 @@ msgstr ""
 
 #~ msgid "Session Manager: Init error: %s"
 #~ msgstr "Sessie manager: Initialisatie fout: %s"
-
-#~ msgid "M"
-#~ msgstr "L"
 
 #~ msgid ""
 #~ "# preferences(%s) - generated by genpref\n"

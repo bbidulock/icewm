@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.4.2.438\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-10-03 15:17-0600\n"
+"POT-Creation-Date: 2017-10-09 23:31-0600\n"
 "PO-Revision-Date: 2017-09-28 19:48+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -146,6 +146,42 @@ msgstr "%ld postbesked."
 msgid "%ld mail messages."
 msgstr "%ld postbeskeder."
 
+#: src/amemstatus.cc:134
+msgid "GB"
+msgstr ""
+
+#: src/amemstatus.cc:138
+msgid "MB"
+msgstr ""
+
+#: src/amemstatus.cc:142
+msgid "kB"
+msgstr ""
+
+#: src/amemstatus.cc:146
+msgid "bytes"
+msgstr ""
+
+#: src/amemstatus.cc:170
+msgid "Memory Total: "
+msgstr ""
+
+#: src/amemstatus.cc:171
+msgid "Free: "
+msgstr ""
+
+#: src/amemstatus.cc:172
+msgid "Cached: "
+msgstr ""
+
+#: src/amemstatus.cc:173
+msgid "Buffers: "
+msgstr ""
+
+#: src/amemstatus.cc:174
+msgid "User: "
+msgstr ""
+
 #: src/apppstatus.cc:196
 #, c-format
 msgid ""
@@ -169,7 +205,7 @@ msgstr ""
 "\n"
 "  Opkalds-id:\t"
 
-#: src/aworkspaces.cc:323 src/wmstatus.cc:178
+#: src/aworkspaces.cc:325 src/wmstatus.cc:178
 msgid "Workspace: "
 msgstr "Arbejdsområde: "
 
@@ -268,11 +304,11 @@ msgstr "Indhold"
 msgid "Index"
 msgstr "Indeks"
 
-#: src/icehelp.cc:1156 src/icesame.cc:65 src/iceview.cc:76 src/wmframe.cc:180
+#: src/icehelp.cc:1156 src/icesame.cc:62 src/iceview.cc:72 src/wmframe.cc:180
 msgid "Close"
 msgstr "Luk"
 
-#: src/icehelp.cc:1156 src/icesame.cc:65 src/iceview.cc:76
+#: src/icehelp.cc:1156 src/icesame.cc:62 src/iceview.cc:72
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
@@ -354,43 +390,43 @@ msgstr ""
 msgid "Ignoring option '%s'"
 msgstr "Ukendt tilvalg \"%s\""
 
-#: src/icelist.cc:85
+#: src/icelist.cc:80
 msgid "List View"
 msgstr "Listevisning"
 
-#: src/icelist.cc:86
+#: src/icelist.cc:81
 msgid "Icon View"
 msgstr "Ikonvisning"
 
-#: src/icelist.cc:90
+#: src/icelist.cc:85
 msgid "Open"
 msgstr "Åbn"
 
-#: src/icesame.cc:60
+#: src/icesame.cc:57
 msgid "Undo"
 msgstr "Fortryd"
 
-#: src/icesame.cc:60
+#: src/icesame.cc:57
 msgid "Ctrl+Z"
 msgstr "Ctrl+Z"
 
-#: src/icesame.cc:62
+#: src/icesame.cc:59
 msgid "New"
 msgstr "Ny"
 
-#: src/icesame.cc:62
+#: src/icesame.cc:59
 msgid "Ctrl+N"
 msgstr "Ctrl+N"
 
-#: src/icesame.cc:63
+#: src/icesame.cc:60
 msgid "Restart"
 msgstr "Genstart"
 
-#: src/icesame.cc:63
+#: src/icesame.cc:60
 msgid "Ctrl+R"
 msgstr "Ctrl+R"
 
-#: src/icesame.cc:68
+#: src/icesame.cc:65
 msgid "Same Game"
 msgstr "Start spillet igen"
 
@@ -564,7 +600,7 @@ msgstr "arbejdsområde nr. %d: \"%s\"\n"
 msgid "Unknown action: `%s'"
 msgstr "Ukendt handling: \"%s\""
 
-#: src/iceskt.cc:36
+#: src/iceskt.cc:41
 #, c-format
 msgid "Socket error: %d"
 msgstr "Sokkelfejl: %d"
@@ -867,27 +903,27 @@ msgstr ""
 "  -c, --config=FIL    Indlæs præferencer fra FIL.\n"
 "  -t, --theme=FIL     Indlæs temaet fra FIL.\n"
 
-#: src/iceview.cc:72
+#: src/iceview.cc:68
 msgid "Hex View"
 msgstr "Hex-visning"
 
-#: src/iceview.cc:72
+#: src/iceview.cc:68
 msgid "Ctrl+H"
 msgstr "Ctrl+H"
 
-#: src/iceview.cc:73
+#: src/iceview.cc:69
 msgid "Expand Tabs"
 msgstr "Udvid faneblade"
 
-#: src/iceview.cc:73
+#: src/iceview.cc:69
 msgid "Ctrl+T"
 msgstr "Ctrl+T"
 
-#: src/iceview.cc:74
+#: src/iceview.cc:70
 msgid "Wrap Lines"
 msgstr "Ombryd linjer"
 
-#: src/iceview.cc:74
+#: src/iceview.cc:70
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
@@ -1007,11 +1043,11 @@ msgstr "Anvendelse: icewmhint [class.instance] tilvalg arg\n"
 msgid "Out of memory (len=%d)."
 msgstr "Ikke mere ledig hukommelse (len=%d)."
 
-#: src/misc.cc:332 src/misc.cc:344
+#: src/misc.cc:330 src/misc.cc:342
 msgid "Warning: "
 msgstr "Advarsel: "
 
-#: src/misc.cc:598
+#: src/misc.cc:596
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1241,14 +1277,14 @@ msgstr ""
 msgid "Kill IceWM, replace with Xterm"
 msgstr ""
 
-#: src/wmapp.cc:1434
+#: src/wmapp.cc:1433
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      Klient-id som skal bruges når sessionshåndteringen "
 "kontaktes.\n"
 
-#: src/wmapp.cc:1440
+#: src/wmapp.cc:1439
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1259,7 +1295,7 @@ msgstr ""
 "  --debug-z           Udskriv fejlsøgningsmeddelelser vedrørende "
 "vinduesstakning.\n"
 
-#: src/wmapp.cc:1449
+#: src/wmapp.cc:1448
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1271,7 +1307,7 @@ msgstr ""
 "  -t, --theme=FIL     Indlæs tema fra FIL.\n"
 "  --postpreferences   Udskriv præferencer efter endt behandling.\n"
 
-#: src/wmapp.cc:1457
+#: src/wmapp.cc:1456
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1332,26 +1368,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1518
+#: src/wmapp.cc:1517
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s konfigurationsmapper:\n"
 
-#: src/wmapp.cc:1663
+#: src/wmapp.cc:1662
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s konfigurerede tilvalg:%s\n"
 
-#: src/wmapp.cc:1712
+#: src/wmapp.cc:1711
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Ugenkendeligt tilvalg \"%s\"."
 
-#: src/wmapp.cc:1754
+#: src/wmapp.cc:1753
 msgid "Confirm Logout"
 msgstr "Bekræft udlogning"
 
-#: src/wmapp.cc:1755
+#: src/wmapp.cc:1754
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1364,22 +1400,22 @@ msgstr ""
 msgid "Failed to load theme %s"
 msgstr "Kunne ikke indlæse tema %s"
 
-#: src/wmconfig.cc:109
+#: src/wmconfig.cc:108
 #, c-format
 msgid "Unknown value '%s' for option '%s'."
 msgstr "Ukendt værdi \"%s\" for tilvalg \"%s\"."
 
-#: src/wmconfig.cc:118
+#: src/wmconfig.cc:117
 #, c-format
 msgid "Unable to create directory %s"
 msgstr "Kan ikke oprette mappe %s"
 
-#: src/wmconfig.cc:145
+#: src/wmconfig.cc:144
 #, c-format
 msgid "Unable to write to %s"
 msgstr "Kan ikke skrive til %s"
 
-#: src/wmconfig.cc:172
+#: src/wmconfig.cc:171
 #, c-format
 msgid "Unable to rename %s to %s"
 msgstr "Kan ikke omdøbe %s til %s"
@@ -1406,7 +1442,7 @@ msgstr "Gensta_rt icewm"
 msgid "_About"
 msgstr "O_m"
 
-#: src/wmframe.cc:158 src/wmframe.cc:3439
+#: src/wmframe.cc:158 src/wmframe.cc:3443
 msgid "Maximize"
 msgstr "Maksimer"
 
@@ -1418,7 +1454,7 @@ msgstr "Minimer"
 msgid "Hide"
 msgstr "Skjul"
 
-#: src/wmframe.cc:202 src/wmframe.cc:3472
+#: src/wmframe.cc:202 src/wmframe.cc:3476
 msgid "Rollup"
 msgstr "Rul op"
 
@@ -1438,11 +1474,11 @@ msgstr ""
 "ADVARSEL! Alle ændringer som ikke er gemt, vil gå tabt, når\n"
 "denne klient dræbes. Vil du fortsætte?"
 
-#: src/wmframe.cc:3436
+#: src/wmframe.cc:3440
 msgid "Restore"
 msgstr "Gendan"
 
-#: src/wmframe.cc:3470
+#: src/wmframe.cc:3474
 msgid "Rolldown"
 msgstr "Rul ned"
 
@@ -1765,39 +1801,39 @@ msgstr "Manglende tegnsæt for skrifttypesæt \"%s\":"
 msgid "Out of memory for pixmap \"%s\""
 msgstr "Ikke mere ledig hukommelse til pixelkort \"%s\""
 
-#: src/yinput.cc:57
+#: src/yinput.cc:51
 msgid "Cu_t"
 msgstr "_Klip"
 
-#: src/yinput.cc:57
+#: src/yinput.cc:51
 msgid "Ctrl+X"
 msgstr "Ctrl+X"
 
-#: src/yinput.cc:58
+#: src/yinput.cc:52
 msgid "_Copy"
 msgstr "K_opiér"
 
-#: src/yinput.cc:58
+#: src/yinput.cc:52
 msgid "Ctrl+C"
 msgstr "Ctrl+C"
 
-#: src/yinput.cc:59
+#: src/yinput.cc:53
 msgid "_Paste"
 msgstr "_Indsæt"
 
-#: src/yinput.cc:59
+#: src/yinput.cc:53
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#: src/yinput.cc:60
+#: src/yinput.cc:54
 msgid "Paste _Selection"
 msgstr "Ind_sæt markering"
 
-#: src/yinput.cc:62
+#: src/yinput.cc:56
 msgid "Select _All"
 msgstr "Markér _alt"
 
-#: src/yinput.cc:62
+#: src/yinput.cc:56
 msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
