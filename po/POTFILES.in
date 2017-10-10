@@ -42,7 +42,6 @@ src/testwinhints.cc
 src/themes.cc
 src/upath.cc
 src/wmabout.cc
-src/wmaction.cc
 src/wmapp.cc
 src/wmbutton.cc
 src/wmclient.cc
