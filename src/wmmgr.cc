@@ -912,10 +912,15 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
     }
 #endif
 
-    if (w != None) {// input || w == desktop->handle()) {
+    if (c && w == c->handle() && (c->protocols() & YFrameClient::wpTakeFocus)) {
+        c->sendTakeFocus();
+    }
+    else if (w != None) {// input || w == desktop->handle()) {
         /* UGLY HACK for JAVA7! */
-        bool focusproxyfound = false;
+        /* hack is likely no longer necessary as we now do not set focus when a WM_TAKE_FOCUS
+           message is sent in compliance with ICCCM 2.0 */
         if (activateJava7FocusHack) {
+            bool focusproxyfound = false;
             Window rr, pr, *cr(NULL);
             unsigned int nc;
             XQueryTree(xapp->display(), w, &rr, &pr, &cr, &nc);
@@ -937,16 +942,11 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
             if ((!focusproxyfound) && input) {
                 XSetInputFocus(xapp->display(), w, None, xapp->getEventTime("setFocus"));
             }
-        }
-        else if (!focusproxyfound) {
+        } else {
             XSetInputFocus(xapp->display(), w, None, xapp->getEventTime("setFocus"));
         }
     } else {
         XSetInputFocus(xapp->display(), fTopWin->handle(), RevertToNone, xapp->getEventTime("setFocus"));
-    }
-
-    if (c && w == c->handle() && (c->protocols() & YFrameClient::wpTakeFocus)) {
-        c->sendTakeFocus();
     }
 
     if (!pointerColormap)
