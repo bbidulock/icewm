@@ -23,7 +23,7 @@ Section 4: Client to Window Manager Communication
 		 WM_TAKE_FOCUS:		compliant
 	4.1.2.8  WM_COLORMAP_WINDOWS:	NOT supported
 		 WM_COLORMAP_NOTIFY:	NOT supported
-	4.1.2.9  WM_CLIENT_MACHINE:	unused
+	4.1.2.9  WM_CLIENT_MACHINE:	supported
 
 4.1.3  Window Manager Properties:
 	4.1.3.1  WM_STATE:		compliant
@@ -57,7 +57,9 @@ Section 4: Client to Window Manager Communication
 Section 5: Session Management
 
 5.1  Client Support:
+	SM_CLIENT_ID			compliant
 	WM_CLIENT_LEADER		compliant
+	WM_WINDOW_ROLE			compliant
 
 5.2  Window Manager Support:		compliant
 	WM_COMMAND			NOT supported
