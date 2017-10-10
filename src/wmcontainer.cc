@@ -105,12 +105,8 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
     }
 #endif
     ///!!! do this first?
-    if (doActivate) {
-        bool input = getFrame() ? getFrame()->getInputFocusHint() : true;
-
-        if (input)
-            getFrame()->activate();
-    }
+    if (doActivate && getFrame()->getInputFocusHint())
+        getFrame()->activate();
     if (doRaise)
         getFrame()->wmRaise();
     ///!!! it might be nice if this was per-window option (app-request)
