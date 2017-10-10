@@ -1,4 +1,4 @@
--- TODO for IceWM.  2013-10-05
+-- TODO for IceWM.  2017-10-10
 
 * set WM_CLIENT_MACHINE on check window
 
@@ -7,6 +7,30 @@
 * add support for _NET_WM_DESKTOP_LAYOUT (trivial)
 
 * add support for _NET_WM_HANDLED_ICONS
+
+* add support for WM_ICON_SIZE
+
+* add support for WM_COLORMAP_WINDOWS and WM_COLORMAP_NOTIFY
+
+* add support for icon_pixmap and icon_window field of WM_HINTS property.
+
+* add support for WindowMaker dock apps (add a dock).
+
+* add support for _NET_REQUEST_FRAME_EXTENTS.
+
+* add support for application and global modality with _NET_WM_STATE_MODAL.
+
+* add support for _NET_WM_HANDLED_ICONS.
+
+* add support for _NET_WM_PING.
+
+* add support for _NET_WM_SYNC_REQUEST and _NET_WM_SYNC_REQUEST_COUNTER.
+
+* add support for startup notification (_NET_STARTUP_INFO{,_BEGIN}).
+
+* add support for _NET_SYSTEM_TRAY_ORIENTATION.
+
+* add support for _NET_SYSTEM_TRAY_VISUAL.
 
 Old to do items:
 
