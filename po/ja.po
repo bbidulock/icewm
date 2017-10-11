@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-10-09 23:31-0600\n"
-"PO-Revision-Date: 2017-06-16 22:57+0000\n"
+"PO-Revision-Date: 2017-10-11 02:11+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
-"Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
-"branch/ja/>\n"
+"Language-Team: Japanese "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.6\n"
+"X-Generator: Weblate 2.13.1\n"
 
 #: src/aapm.cc:176 src/aapm.cc:457 src/aapm.cc:675 src/aapm.cc:791
 msgid " - Power"
@@ -148,40 +148,39 @@ msgstr "%ld 通のメール。"
 
 #: src/amemstatus.cc:134
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: src/amemstatus.cc:138
-#, fuzzy
 msgid "MB"
-msgstr "M"
+msgstr "MB"
 
 #: src/amemstatus.cc:142
 msgid "kB"
-msgstr ""
+msgstr "kB"
 
 #: src/amemstatus.cc:146
 msgid "bytes"
-msgstr ""
+msgstr "バイト"
 
 #: src/amemstatus.cc:170
 msgid "Memory Total: "
-msgstr ""
+msgstr "メモリ合計: "
 
 #: src/amemstatus.cc:171
 msgid "Free: "
-msgstr ""
+msgstr "空き: "
 
 #: src/amemstatus.cc:172
 msgid "Cached: "
-msgstr ""
+msgstr "キャッシュ済み: "
 
 #: src/amemstatus.cc:173
 msgid "Buffers: "
-msgstr ""
+msgstr "バッファ: "
 
 #: src/amemstatus.cc:174
 msgid "User: "
-msgstr ""
+msgstr "ユーザ: "
 
 #: src/apppstatus.cc:196
 #, c-format
@@ -311,9 +310,8 @@ msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
 #: src/icehelp.cc:1828
-#, fuzzy
 msgid "Unsupported protocol."
-msgstr "未対応のインターフェイスです: %s"
+msgstr "未対応のプロトコルです。"
 
 #: src/icehelp.cc:1853
 #, c-format
@@ -322,34 +320,33 @@ msgstr "パスが正しくありません: %s\n"
 
 #: src/icehelp.cc:1876
 msgid "Path does not refer to a file."
-msgstr ""
+msgstr "パスの指定がファイルを指し示していません。"
 
 #: src/icehelp.cc:1881
 msgid "Failed to open file for reading."
-msgstr ""
+msgstr "ファイルを読み込み用に開く処理が失敗しました。"
 
 #: src/icehelp.cc:1910
-#, fuzzy
 msgid "Failed to create a temporary file"
-msgstr "ディレクトリ %s を作成できません"
+msgstr "一時ファイルを作成する処理が失敗しました"
 
 #: src/icehelp.cc:2002
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
-msgstr ""
+msgstr "system(%s) の実行に失敗しました (%d)"
 
 #: src/icehelp.cc:2025
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to decompress %s"
-msgstr "テーマ %s の読み込みに失敗しました"
+msgstr "%s の展開に失敗しました"
 
 #: src/icehelp.cc:2033
 msgid "Could not locate curl or wget in PATH"
-msgstr ""
+msgstr "PATH 内に curl および wget のどちらも見つかりません"
 
 #: src/icehelp.cc:2037
 msgid "Unsafe characters in URL"
-msgstr ""
+msgstr "URL 内に安全ではない文字が含まれています"
 
 #: src/icehelp.cc:2053
 #, c-format
@@ -384,11 +381,39 @@ msgid ""
 "%s\n"
 "\n"
 msgstr ""
+"使用方法: %s [オプション] [ ファイル名 | URL ]\n"
+"\n"
+"IceHelp は、 IceWM ウインドウマネージャ向けに作られたシンプルな HTML ブラウザです。\n"
+"ファイルとして保存されている HTML 文書を表示することができるほか、 Web サイトを表示\n"
+"することもできます。また、訪問済みのページを履歴として記憶することができるほか、その\n"
+"履歴をキーボード操作やコンテキストメニュー (マウスの右クリック) で表示することができます。\n"
+"画像の表示や JavaScript には対応していません。ファイルや URL を指定しない場合は、\n"
+"%s にある IceWM のマニュアルを表示します。\n"
+"\n"
+"オプション:\n"
+"  --display=NAME      使用すべき X サーバの名前を指定します。\n"
+"  --sync              X11 のコマンドを同期して実行します。\n"
+"\n"
+"  -b, --bugs          IceWM のバグ報告サイトを表示します。\n"
+"  -f, --faq           IceWM の FAQ と Howto を表示します。\n"
+"  -i, --icewm         IceWM の Web サイトを表示します。\n"
+"  -m, --manual        IceWM のマニュアルを表示します (既定値)。\n"
+"  -t, --theme         IceWM テーマの Howto を表示します。\n"
+"\n"
+"  -V, --version       バージョン情報を表示して終了します。\n"
+"  -h, --help          この使用方法の説明を表示して終了します。\n"
+"\n"
+"環境変数:\n"
+"  DISPLAY=NAME        使用すべき X サーバの名前を指定することができます。\n"
+"\n"
+"バグの報告やサポートの要求、コメントなどは下記をご覧ください:\n"
+"%s\n"
+"\n"
 
 #: src/icehelp.cc:2115
-#, fuzzy, c-format
+#, c-format
 msgid "Ignoring option '%s'"
-msgstr "不明なオプションです: `%s'"
+msgstr "下記のオプションは無視されます: '%s'"
 
 #: src/icelist.cc:80
 msgid "List View"
@@ -615,7 +640,6 @@ msgid "Socket error: %d"
 msgstr "ソケットエラー: %d"
 
 #: src/icesm.cc:50
-#, fuzzy
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -626,13 +650,14 @@ msgid ""
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
-"  -c, --config=FILE   IceWM に対して、 FILE で指定したファイルから設定を読み"
-"込むように指示します。\n"
-"  -t, --theme=FILE    IceWM に対して、 FILE で指定したファイルからテーマを読"
-"み込むように指示します。\n"
+"  -c, --config=FILE   IceWM に対して、 FILE で指定したファイルから設定を読み込むように指示します。\n"
+"  -t, --theme=FILE    IceWM に対して、 FILE で指定したファイルからテーマを読み込むように指示します。\n"
 "\n"
 "  --display=NAME      NAME で指定した指定した X server に接続します。\n"
-"  --sync              X11 サーバとの通信を同期します。\n"
+"  --sync              X11 サーバとの通信を同期して処理するようにします。\n"
+"\n"
+"  -n, --notray        icewmtray を起動しないようにします。\n"
+"  -s, --sound         icesound も併せて起動するようにします。\n"
 
 #: src/icesm.cc:107
 #, c-format
@@ -642,12 +667,12 @@ msgstr "不明なオプションです: `%s'"
 #: src/icesm.cc:292
 #, c-format
 msgid "%s exited with status %d."
-msgstr ""
+msgstr "%s はステータスコード %d で終了しました。"
 
 #: src/icesm.cc:298
 #, c-format
 msgid "%s was killed by signal %d."
-msgstr ""
+msgstr "%s はシグナル %d で終了しました。"
 
 #: src/icesound.cc:216 src/icesound.cc:324 src/icesound.cc:628
 #, c-format
@@ -657,46 +682,45 @@ msgstr "サンプル #%d を再生しています (%s)"
 #: src/icesound.cc:334
 #, c-format
 msgid "%s: Invalid number of channels"
-msgstr ""
+msgstr "%s: チャンネル数が正しくありません"
 
 #: src/icesound.cc:340 src/icesound.cc:345
 msgid "Could not set OSS channels"
-msgstr ""
+msgstr "OSS チャンネルの設定ができませんでした"
 
 #: src/icesound.cc:350 src/icesound.cc:378
 msgid "Could not sync OSS"
-msgstr ""
+msgstr "OSS の同期ができませんでした"
 
 #: src/icesound.cc:362
 msgid "OSS write failed"
-msgstr ""
+msgstr "OSS の書き込みに失敗しました"
 
 #: src/icesound.cc:366
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
-msgstr ""
+msgstr "OSS への書き込みが完了しませんでした (%d/%d)"
 
 #: src/icesound.cc:373
-#, fuzzy
 msgid "Could not post OSS"
-msgstr "フォントセット \"%s\" を読み込めませんでした。"
+msgstr "OSS をポストできませんでした"
 
 #: src/icesound.cc:402
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open OSS device %s"
-msgstr "画像 %s が見つかりません"
+msgstr "OSS デバイス %s を開くことができませんでした"
 
 #: src/icesound.cc:407
 msgid "Could not set OSS stereo"
-msgstr ""
+msgstr "OSS ステレオの設定ができませんでした"
 
 #: src/icesound.cc:412
 msgid "Could not reset OSS DSP"
-msgstr ""
+msgstr "OSS DSP のリセットができませんでした"
 
 #: src/icesound.cc:417
 msgid "Could not set OSS format"
-msgstr ""
+msgstr "OSS の形式設定ができませんでした"
 
 #: src/icesound.cc:490
 #, c-format
@@ -718,18 +742,18 @@ msgid "Sample <%d> uploaded as `%s:%s'"
 msgstr "サンプル <%d> は `%s:%s' としてアップロードされました"
 
 #: src/icesound.cc:573
-#, fuzzy, c-format
+#, c-format
 msgid "Playing sample #%d: %d"
-msgstr "サンプル #%d を再生しています"
+msgstr "サンプル #%d: %d を再生しています"
 
 #: src/icesound.cc:648
-#, fuzzy, c-format
+#, c-format
 msgid "ao_open_live failed with %d"
-msgstr "pixmap %s が rc=%d で読み込みに失敗しました"
+msgstr "ao_open_live が %d で失敗しました"
 
 #: src/icesound.cc:659
 msgid "ao_play failed"
-msgstr ""
+msgstr "ao_play が失敗しました"
 
 #: src/icesound.cc:821
 #, c-format
@@ -742,7 +766,7 @@ msgid "Unrecognized argument: %s\n"
 msgstr "認識できないパラメータです: %s\n"
 
 #: src/icesound.cc:833
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
 "\n"
@@ -798,74 +822,77 @@ msgstr ""
 "使用方法: %s [オプション]...\n"
 "\n"
 "IceWM が発生させた GUI イベントに対して、オーディオファイルを再生します。\n"
+"現時点で設定済みのサウンドインターフェイスは下記の通りです: %s\n"
+"Icesound は利用可能な最初のインターフェイスを選択します。\n"
 "\n"
 "オプション:\n"
 "\n"
-"-d, --display=DISPLAY         IceWM が使用するディスプレイ (既定値: "
-"$DISPLAY).\n"
-"-s, --sample-dir=DIR          サウンドファイルが含まれているディレクトリの指"
-"定\n"
-"                              (例: ~/.icewm/sounds).\n"
-"-i, --interface=TARGET        サウンド出力のインターフェイスを指定します\n"
-"                              OSS, YIFF, ESD, ALSA のいずれかを指定します\n"
-"-D, --device=DEVICE           (ALSA および OSS のみ) 使用するデバイスを指定し"
-"ます\n"
-"                              (OSS の既定値: /dev/dsp; ALSA の既定値: "
-"default).\n"
-"-S, --server=ADDR:PORT        (ESD および YIFF のみ) サーバのアドレスとポート"
-"番号を\n"
-"                              指定します (ESD の場合、既定値は "
-"localhost:16001\n"
-"                              であり、 YIFF の場合は localhost:9433 になりま"
-"す)\n"
-"-m, --audio-mode[=MODE]       (YIFF のみ) オーディオモードを指定します (一覧"
-"を取得\n"
-"                              したい場合は、何も指定しないでください)\n"
-"--audio-mode-auto             (YIFF のみ) サンプルのオーディオに最も適切な"
-"オーディオ\n"
-"                              モードに即時に切り替えます (他の Y クライアント"
-"が存在\n"
-"                              する場合、問題が発生する場合があります。ま"
-"た、\n"
-"                              --audio-mode の指定よりも優先して働きます) 。\n"
+" -d, --display=DISPLAY   IceWM が使用するディスプレイを指定します (既定値: $DISPLAY) 。\n"
 "\n"
-"-v, --verbose                 冗長な出力を行ないます (それぞれのサウンドイベ"
-"ントを\n"
-"                              stdout に出力します)\n"
-"-V, --version                 バージョン情報を表示して終了します\n"
-"-h, --help                    このヘルプ画面を表示して終了します\n"
+" -s, --sample-dir=DIR    サウンドファイルが含まれているディレクトリを指定します。\n"
+"                         既定値は $HOME/.config/icewm/sounds です。\n"
+"\n"
+" -i, --interface=LIST    サウンド出力のインターフェイスを指定します。下記の中から 1 つ以上を指定します:\n"
+"                         %s 。複数を指定したい場合はカンマで区切ります。\n"
+"\n"
+" -D, --device=DEVICE     後方互換性のためだけに用意されているオプションで、既定のデバイスを指定します。\n"
+"                         -A/-O/-S の各オプションの使用をお勧めします。\n"
+"\n"
+" -O, --oss=DEVICE        OSS デバイスを指定します (既定値: \"%s\") 。\n"
+"\n"
+" -A, --alsa=DEVICE       ALSA デバイスを指定します (既定値: \"%s\") 。\n"
+"\n"
+" -S, --server=ADDR:PORT  ESD サーバのアドレス (ADDR) とポート番号 (PORT) を指定します。\n"
+"                         ESD の既定値は \"localhost:16001\" です。\n"
+"\n"
+" -z, --snooze=millisecs  サウンドイベント同士のスヌーズ間隔をミリ秒単位で指定します。\n"
+"                         既定値は 500 ミリ秒です。\n"
+"\n"
+" -p, --play=sound        指定されたサウンド (名前または番号) を再生して終了します。\n"
+"\n"
+" -l, --list-files        利用可能なサウンドファイルパスの一覧を表示して終了します。\n"
+"\n"
+"     --list-sounds       対応するサウンドファイル名の一覧を表示して終了します。\n"
+"\n"
+"     --list-interfaces   対応するオーディオインターフェイスの一覧を表示して終了します。\n"
+"\n"
+" -v, --verbose           冗長な出力を行ないます (それぞれのサウンドイベントを stdout に出力します) 。\n"
+"\n"
+" -V, --version           バージョン情報を表示して終了します。\n"
+"\n"
+" -h, --help              このヘルプ画面を表示して終了します。\n"
 "\n"
 "返り値:\n"
 "\n"
-"0     成功\n"
-"1     一般的なエラー\n"
-"2     コマンドラインのエラー\n"
-"3     サブシステムのエラー (サーバに接続できないなど)\n"
+"  0    成功\n"
+"  1    一般的なエラー\n"
+"  2    コマンドラインのエラー\n"
+"  3    サブシステムのエラー (サーバに接続できないなど)\n"
 "\n"
 
 #: src/icesound.cc:927
 #, c-format
 msgid "No audio for %s"
-msgstr ""
+msgstr "%s に対するサウンドがありません"
 
 #: src/icesound.cc:1004
 msgid "Could not get GUI event property"
-msgstr ""
+msgstr "GUI イベントプロパティの取得ができませんでした"
 
 #: src/icesound.cc:1008
 #, c-format
 msgid "Received invalid GUI event %d"
-msgstr ""
+msgstr "正しくない GUI イベント %d を受信しました"
 
 #: src/icesound.cc:1012
 #, c-format
 msgid "Received GUI event %s"
-msgstr ""
+msgstr "GUI イベント %s を受信しました"
 
 #: src/icesound.cc:1026
 #, c-format
 msgid "Too quick; ignoring %s."
-msgstr ""
+msgstr "間隔が短すぎます; %s を無視しています。"
 
 #: src/icesound.cc:1030
 #, c-format
@@ -880,20 +907,19 @@ msgstr "未対応のインターフェイスです: %s"
 #: src/icesound.cc:1079
 #, c-format
 msgid "Using %s audio."
-msgstr ""
+msgstr "%s オーディオを使用しています。"
 
 #: src/icesound.cc:1083
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to connect to audio interfaces %s."
-msgstr "テーマ %s の読み込みに失敗しました"
+msgstr "オーディオインターフェイス %s への接続に失敗しました。"
 
 #: src/icesound.cc:1095
-#, fuzzy, c-format
+#, c-format
 msgid "Received signal %s: Terminating..."
-msgstr "シグナル %d を受け取りました。終了しています..."
+msgstr "シグナル %s を受け取りました。終了しています..."
 
 #: src/icetray.cc:251
-#, fuzzy
 msgid ""
 "  -n, --notify        Notify parent process by sending signal USR1.\n"
 "  --display=NAME      Use NAME to connect to the X server.\n"
@@ -902,10 +928,9 @@ msgid ""
 "  -c, --config=FILE   Load preferences from FILE.\n"
 "  -t, --theme=FILE    Load the theme from FILE.\n"
 msgstr ""
-"  --notify            シグナル USR1 を送信することで親プロセスに通知を送信し"
-"ます。\n"
+"  -n, --notify        シグナル USR1 を送信することで親プロセスに通知を送信します。\n"
 "  --display=NAME      NAME で指定した指定した X server に接続します。\n"
-"  --sync              X11 サーバとの通信を同期します。\n"
+"  --sync              X11 サーバとの通信を同期して処理するようにします。\n"
 "\n"
 "  -c, --config=FILE   FILE で指定したファイルから設定を読み込みます。\n"
 "  -t, --theme=FILE    FILE で指定したファイルからテーマを読み込みます。\n"
@@ -935,12 +960,11 @@ msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
 #: src/icewmbg.cc:73
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load image '%s'."
-msgstr "テーマ %s の読み込みに失敗しました"
+msgstr "画像 '%s' の読み込みに失敗しました。"
 
 #: src/icewmbg.cc:706
-#, fuzzy
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -987,40 +1011,56 @@ msgid ""
 "\n"
 msgstr ""
 "使用方法: icewmbg [オプション]\n"
+"複数の値を指定したい場合は、カンマで区切って指定してください。\n"
+"画像としてディレクトリを指定すると、そのディレクトリ内にある全ての画像を使用します。\n"
 "\n"
 "オプション:\n"
-"  -r, --restart       icewmbg を再起動します。\n"
-"  -q, --quit          icewmbg を終了します。\n"
+"  -p, --replace        既存の icewmbg を置き換えます。\n"
+"  -q, --quit           現在動作中の icewmbg に対して、終了するように依頼します。\n"
+"  -r, --restart        現在動作中の icewmbg に対して、再起動するように依頼します。\n"
 "\n"
-"  -c, --config=FILE   FILE で指定したファイルから設定を読み込みます。\n"
-"  -t, --theme=FILE    FILE で指定したファイルからテーマを読み込みます。\n"
+"  -c, --config=FILE    設定を FILE で指定したファイルから読み込みます。\n"
+"  -t, --theme=NAME     テーマを NAME で指定した名前から読み込みます。\n"
 "\n"
-"  --display=NAME      NAME で指定した指定した X server に接続します。\n"
-"  --sync              X11 サーバとの通信を同期します。\n"
+"  -i, --image=FILE(S)  FILE(S) で指定した背景画像を読み込みます。\n"
+"  -k, --color=NAME(S)  NAME(S) で指定した背景色を使用します。\n"
 "\n"
-"  -h, --help          このヘルプ画面を表示して終了します。\n"
-"  -V, --version       バージョン情報を表示して終了します。\n"
+"  -s, --semis=FILE(S)  FILE(S) で指定した透過画像を読み込みます。\n"
+"  -x, --trans=NAME(S)  NAME(S) で指定した透過色を使用します。\n"
+"\n"
+"  -e, --center=0/1     背景の中央寄せを有効または無効にします。\n"
+"  -a, --scaled=0/1     背景の拡大／縮小を有効または無効にします。\n"
+"  -m, --multi=0/1      マルチモニタ向けの背景を有効または無効にします。\n"
+"\n"
+"  --display=NAME       NAME で指定した指定した X server に接続します。\n"
+"  --sync               X11 サーバとの通信を同期して処理します。\n"
+"\n"
+"  -h, --help           この使用方法の説明を表示して終了します。\n"
+"  -V, --version        バージョン情報を表示して終了します。\n"
 "\n"
 "デスクトップの背景は、設定ファイルに従って読み込みを行ないます:\n"
 " DesktopBackgroundCenter  - デスクトップの背景を中央揃えで表示します\n"
 " DesktopBackgroundScaled  - デスクトップの背景を拡大／縮小して表示します\n"
-" SupportSemitransparency  - 半透明の端末に対応させます\n"
 " DesktopBackgroundColor   - デスクトップの背景色を指定します\n"
 " DesktopBackgroundImage   - デスクトップの背景画像を指定します\n"
+" SupportSemitransparency  - 半透明の端末に対応させます\n"
 " DesktopTransparencyColor - 半透明のウインドウに通知する色を指定します\n"
 " DesktopTransparencyImage - 半透明のウインドウに通知する画像を指定します\n"
+" DesktopBackgroundMultihead - 全てのモニタに対して単一の背景を使用するようにします\n"
 "\n"
 " center:0 scaled:0 = タイル表示\n"
-" center:1 scaled:1 = アスペクト比の維持\n"
+" center:1 scaled:0 = 中央に表示\n"
+" center:1 scaled:1 = 縦横のいずれかを埋め、アスペクト比を維持\n"
+" center:0 scaled:1 = 縦横の両方を埋め、アスペクト比を維持\n"
 "\n"
 
 #: src/icewmbg.cc:754
 msgid "Please note that not all options are currently configured.\n"
-msgstr ""
+msgstr "なお、全てのオプションが設定済みというわけではないことに注意してください。\n"
 
 #: src/icewmbg.cc:909
 msgid "Cannot start, because another icewmbg is still running."
-msgstr ""
+msgstr "既に icewmbg が動作しているため、新しく起動することができません。"
 
 #: src/icewmhint.cc:44
 msgid "Usage: icewmhint [class.instance] option arg\n"
@@ -1090,22 +1130,22 @@ msgid "icewm - About"
 msgstr "icewm について"
 
 #: src/wmapp.cc:118
-#, fuzzy
 msgid "A window manager is already running, use --replace to replace it"
-msgstr "他のウインドウマネージャが既に起動しています。終了します..."
+msgstr ""
+"ウインドウマネージャは既に起動しています。 --replace オプションを指定することで、新しいウインドウマネージャに置き換えることができます"
 
 #: src/wmapp.cc:136
 #, c-format
 msgid "Failed to become the owner of the %s selection"
-msgstr ""
+msgstr "%s の選択に対する所有者になることができませんでした"
 
 #: src/wmapp.cc:140
 msgid "Waiting to replace the old window manager"
-msgstr ""
+msgstr "以前のウインドウマネージャの置き換えを待っています"
 
 #: src/wmapp.cc:145
 msgid "done."
-msgstr ""
+msgstr "完了。"
 
 #: src/wmapp.cc:438
 msgid "Unable to get current font path."
@@ -1137,7 +1177,7 @@ msgstr "シャットダウン (_D)"
 
 #: src/wmapp.cc:580 src/wmapp.cc:582 src/wmdialog.cc:90
 msgid "_Suspend"
-msgstr ""
+msgstr "サスペンド (_S)"
 
 #: src/wmapp.cc:589 src/wmapp.cc:591
 msgid "Restart _Icewm"
@@ -1262,7 +1302,7 @@ msgstr ""
 
 #: src/wmapp.cc:869
 msgid "Kill IceWM, replace with Xterm"
-msgstr ""
+msgstr "IceWM を kill し、 Xterm に置き換えます"
 
 #: src/wmapp.cc:1433
 msgid ""
@@ -1289,9 +1329,13 @@ msgid ""
 "  -t, --theme=FILE    Load theme from FILE.\n"
 "  --postpreferences   Print preferences after all processing.\n"
 msgstr ""
+"\n"
+"  -c, --config=FILE   FILE で指定したファイルから設定を読み込みます。\n"
+"  -t, --theme=FILE    FILE で指定したファイルからテーマを読み込みます。\n"
+"  --postpreferences   全ての処理が終了した後、設定内容を表示します。\n"
 
 #: src/wmapp.cc:1456
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
 "Starts the IceWM window manager.\n"
@@ -1324,27 +1368,24 @@ msgstr ""
 "使用方法: %s [オプション]\n"
 "IceWM ウインドウマネージャを起動します。\n"
 "\n"
-"Options:\n"
+"オプション:\n"
 "  --display=NAME      使用する X サーバ名を指定します。\n"
-"%s  --sync              X11 コマンドを同期させます。\n"
-"\n"
-"  -c, --config=FILE   設定を FILE から読み込みます。\n"
-"  -t, --theme=FILE    テーマを FILE から読み込みます。\n"
-"\n"
+"%s  --sync              X11 コマンドを同期して処理します。\n"
+"%s\n"
 "  -V, --version       バージョン情報を表示して終了します。\n"
 "  -h, --help          この使用方法画面を表示して終了します。\n"
-"%s  --replace           既存のウインドウマネージャを置き換えます。\n"
-"  --restart           使用しないでください: 内部フラグです。\n"
+"%s\n"
+"  --replace           既存のウインドウマネージャを置き換えます。\n"
+"  -r, --restart       動作中の icewm に対して再起動を指示します。\n"
+"\n"
 "  --configured        コンパイル時の設定を表示します。\n"
 "  --directories       設定ディレクトリを表示します。\n"
 "  -l, --list-themes   利用可能な全てのテーマを一覧表示します。\n"
-"  --postpreferences   全ての処理を行なったあと、設定情報を表示します。\n"
 "\n"
-"Environment variables:\n"
-"  XDG_CONFIG_HOME=PATH  設定ファイルのディレクトリを指定します。\n"
-"                      既定値は \"$HOME/.config/icewm/\" です。\n"
-"  ICEWM_PRIVCFG=PATH  ユーザの個人設定ファイルとして使用するディレクトリ\n"
-"                      を指定します。既定値は \"$HOME/.icewm/\" です。\n"
+"環境変数:\n"
+"  ICEWM_PRIVCFG=PATH  ユーザの設定ファイルとして使用するディレクトリ\n"
+"                      既定値は \"$XDG_CONFIG_HOME/icewm\" (存在すれば) または\n"
+"                      \"$HOME/.icewm\" です。\n"
 "  DISPLAY=NAME        使用する X サーバを指定します。\n"
 "  MAIL=URL            メールボックスの場所を指定します。\n"
 "\n"
@@ -1363,9 +1404,9 @@ msgid "%s configured options:%s\n"
 msgstr "%s の設定済みオプション: %s\n"
 
 #: src/wmapp.cc:1711
-#, fuzzy, c-format
+#, c-format
 msgid "Unrecognized option '%s'."
-msgstr "認識できないオプションです: %s\n"
+msgstr "認識できないオプション '%s' です。"
 
 #: src/wmapp.cc:1753
 msgid "Confirm Logout"
@@ -1546,23 +1587,20 @@ msgid "_Click to focus"
 msgstr "クリックしてフォーカス (_C)"
 
 #: src/wmprog.cc:798
-#, fuzzy
 msgid "_Explicit focus"
-msgstr "クリックしてフォーカス (_C)"
+msgstr "明示的なフォーカス (_E)"
 
 #: src/wmprog.cc:799
 msgid "_Sloppy mouse focus"
-msgstr "マウスに追随 (_S)"
+msgstr "あいまいなマウスフォーカス (_S)"
 
 #: src/wmprog.cc:800
-#, fuzzy
 msgid "S_trict mouse focus"
-msgstr "マウスに追随 (_S)"
+msgstr "厳密なマウスフォーカス (_T)"
 
 #: src/wmprog.cc:801
-#, fuzzy
 msgid "_Quiet sloppy focus"
-msgstr "マウスに追随 (_S)"
+msgstr "静寂であいまいなマウスフォーカス (_Q)"
 
 #: src/wmprog.cc:802
 msgid "Custo_m"
@@ -1570,19 +1608,19 @@ msgstr "独自 (_M)"
 
 #: src/wmprog.cc:824
 msgid "_Manual"
-msgstr ""
+msgstr "マニュアル (_M)"
 
 #: src/wmprog.cc:825
 msgid "_Icewm(1)"
-msgstr ""
+msgstr "_Icewm(1)"
 
 #: src/wmprog.cc:826
 msgid "Icewm_Bg(1)"
-msgstr ""
+msgstr "Icewm_Bg(1)"
 
 #: src/wmprog.cc:827
 msgid "Ice_Sound(1)"
-msgstr ""
+msgstr "Ice_Sound(1)"
 
 #: src/wmprog.cc:900 src/wmprog.cc:902
 msgid "Programs"
@@ -1709,7 +1747,7 @@ msgstr "%lu. ワークスペース %-.32s"
 #: src/yapp.cc:273
 #, c-format
 msgid "%s: select failed"
-msgstr ""
+msgstr "%s: select が失敗しました"
 
 #: src/yconfig.cc:147
 #, c-format
@@ -1831,11 +1869,8 @@ msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
 #: src/ylocale.cc:46
-#, fuzzy
 msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
-msgstr ""
-"C ライブラリ側でロケールに対応していません。 'C' ロケールにフォールバックしま"
-"す。"
+msgstr "C ライブラリまたは Xlib がロケールに対応していません。 'C' ロケールにフォールバックします。"
 
 #: src/ylocale.cc:70
 msgid ""

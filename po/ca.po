@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-10-09 23:31-0600\n"
-"PO-Revision-Date: 2017-06-17 19:53+0000\n"
+"PO-Revision-Date: 2017-10-10 16:55+0000\n"
 "Last-Translator: David Medina <medipas@gmail.com>\n"
-"Language-Team: Catalan <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
-"branch/ca/>\n"
+"Language-Team: Catalan "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8 bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.6\n"
+"X-Generator: Weblate 2.13.1\n"
 
 #: src/aapm.cc:176 src/aapm.cc:457 src/aapm.cc:675 src/aapm.cc:791
 msgid " - Power"
@@ -148,40 +148,39 @@ msgstr "%ld missatges de correu."
 
 #: src/amemstatus.cc:134
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: src/amemstatus.cc:138
-#, fuzzy
 msgid "MB"
-msgstr "M"
+msgstr "MB"
 
 #: src/amemstatus.cc:142
 msgid "kB"
-msgstr ""
+msgstr "kB"
 
 #: src/amemstatus.cc:146
 msgid "bytes"
-msgstr ""
+msgstr "bytes"
 
 #: src/amemstatus.cc:170
 msgid "Memory Total: "
-msgstr ""
+msgstr "Memòria total: "
 
 #: src/amemstatus.cc:171
 msgid "Free: "
-msgstr ""
+msgstr "Lliure: "
 
 #: src/amemstatus.cc:172
 msgid "Cached: "
-msgstr ""
+msgstr "A la cau: "
 
 #: src/amemstatus.cc:173
 msgid "Buffers: "
-msgstr ""
+msgstr "Memòries intermèdies: "
 
 #: src/amemstatus.cc:174
 msgid "User: "
-msgstr ""
+msgstr "Usuari: "
 
 #: src/apppstatus.cc:196
 #, c-format
@@ -311,9 +310,8 @@ msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
 #: src/icehelp.cc:1828
-#, fuzzy
 msgid "Unsupported protocol."
-msgstr "Interfície no admesa: %s."
+msgstr "Protocol no admès."
 
 #: src/icehelp.cc:1853
 #, c-format
@@ -322,34 +320,33 @@ msgstr "Camí no vàlid: %s\n"
 
 #: src/icehelp.cc:1876
 msgid "Path does not refer to a file."
-msgstr ""
+msgstr "El camí no fa referència a un fitxer."
 
 #: src/icehelp.cc:1881
 msgid "Failed to open file for reading."
-msgstr ""
+msgstr "Ha fallat obrir el fitxer per llegir-lo."
 
 #: src/icehelp.cc:1910
-#, fuzzy
 msgid "Failed to create a temporary file"
-msgstr "No es pot crear el directori %s"
+msgstr "Ha fallat crear un fitxer temporal"
 
 #: src/icehelp.cc:2002
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
-msgstr ""
+msgstr "Ha fallat executar el sistema (%s) (%d)"
 
 #: src/icehelp.cc:2025
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to decompress %s"
-msgstr "Ha fallat carregar el tema %s"
+msgstr "Ha fallat descomprimir %s"
 
 #: src/icehelp.cc:2033
 msgid "Could not locate curl or wget in PATH"
-msgstr ""
+msgstr "No s'ha pogut ubicar curl o wget al CAMÍ"
 
 #: src/icehelp.cc:2037
 msgid "Unsafe characters in URL"
-msgstr ""
+msgstr "Caràcters no segurs a l'URL"
 
 #: src/icehelp.cc:2053
 #, c-format
@@ -386,9 +383,9 @@ msgid ""
 msgstr ""
 
 #: src/icehelp.cc:2115
-#, fuzzy, c-format
+#, c-format
 msgid "Ignoring option '%s'"
-msgstr "Opció desconeguda: \"%s\""
+msgstr "S'ignora l'opció \"%s\""
 
 #: src/icelist.cc:80
 msgid "List View"
@@ -642,12 +639,12 @@ msgstr "Opció desconeguda: \"%s\""
 #: src/icesm.cc:292
 #, c-format
 msgid "%s exited with status %d."
-msgstr ""
+msgstr "%s ha sortit amb l'estat %d."
 
 #: src/icesm.cc:298
 #, c-format
 msgid "%s was killed by signal %d."
-msgstr ""
+msgstr "%s ha estat matat pel senyal %d."
 
 #: src/icesound.cc:216 src/icesound.cc:324 src/icesound.cc:628
 #, c-format
@@ -657,46 +654,45 @@ msgstr "Reproduint l'exemple #%d (%s)"
 #: src/icesound.cc:334
 #, c-format
 msgid "%s: Invalid number of channels"
-msgstr ""
+msgstr "%s: nombre no vàlid de canals"
 
 #: src/icesound.cc:340 src/icesound.cc:345
 msgid "Could not set OSS channels"
-msgstr ""
+msgstr "No s'han pogut establir canals OSS"
 
 #: src/icesound.cc:350 src/icesound.cc:378
 msgid "Could not sync OSS"
-msgstr ""
+msgstr "No s'ha pogut sincronitzar OSS"
 
 #: src/icesound.cc:362
 msgid "OSS write failed"
-msgstr ""
+msgstr "Ha fallat l'escriptura d'OSS"
 
 #: src/icesound.cc:366
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
-msgstr ""
+msgstr "Escriptura d'OSS incompleta (%d/%d)"
 
 #: src/icesound.cc:373
-#, fuzzy
 msgid "Could not post OSS"
-msgstr "No s'ha pogut carregar la lletra \"%s\"."
+msgstr "No s'ha pogut enviar OSS"
 
 #: src/icesound.cc:402
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open OSS device %s"
-msgstr "No s'ha pogut trobar la imatge %s"
+msgstr "No s'ha pogut obrir el dispositiu OSS %s"
 
 #: src/icesound.cc:407
 msgid "Could not set OSS stereo"
-msgstr ""
+msgstr "No s'ha pogut establir OSS estèreo"
 
 #: src/icesound.cc:412
 msgid "Could not reset OSS DSP"
-msgstr ""
+msgstr "No s'ha pogut restablir DSP OSS"
 
 #: src/icesound.cc:417
 msgid "Could not set OSS format"
-msgstr ""
+msgstr "No s'ha pogut establir el format d'OSS"
 
 #: src/icesound.cc:490
 #, c-format
@@ -718,18 +714,18 @@ msgid "Sample <%d> uploaded as `%s:%s'"
 msgstr "Exemple <%d> carregat com a \"%s:%s\""
 
 #: src/icesound.cc:573
-#, fuzzy, c-format
+#, c-format
 msgid "Playing sample #%d: %d"
-msgstr "Reproduint l'exemple #%d"
+msgstr "Reproduint l'exemple %d:%d"
 
 #: src/icesound.cc:648
 #, c-format
 msgid "ao_open_live failed with %d"
-msgstr ""
+msgstr "ao_open_live ha fallat amb %d"
 
 #: src/icesound.cc:659
 msgid "ao_play failed"
-msgstr ""
+msgstr "ao_play ha fallat"
 
 #: src/icesound.cc:821
 #, c-format
@@ -842,26 +838,26 @@ msgstr ""
 #: src/icesound.cc:927
 #, c-format
 msgid "No audio for %s"
-msgstr ""
+msgstr "No hi ha àudio per a %s"
 
 #: src/icesound.cc:1004
 msgid "Could not get GUI event property"
-msgstr ""
+msgstr "No s'ha pogut obtenir la propietat d'esdeveniment IGU"
 
 #: src/icesound.cc:1008
 #, c-format
 msgid "Received invalid GUI event %d"
-msgstr ""
+msgstr "Esdeveniment IGU rebut no vàlid: %d"
 
 #: src/icesound.cc:1012
 #, c-format
 msgid "Received GUI event %s"
-msgstr ""
+msgstr "Esdeveniment IGU rebut: %s"
 
 #: src/icesound.cc:1026
 #, c-format
 msgid "Too quick; ignoring %s."
-msgstr ""
+msgstr "Massa ràpid. S'ignora %s."
 
 #: src/icesound.cc:1030
 #, c-format
@@ -876,17 +872,17 @@ msgstr "Interfície no admesa: %s."
 #: src/icesound.cc:1079
 #, c-format
 msgid "Using %s audio."
-msgstr ""
+msgstr "S'usa àudio %s."
 
 #: src/icesound.cc:1083
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to connect to audio interfaces %s."
-msgstr "Ha fallat carregar el tema %s"
+msgstr "Ha fallat connectar amb les interfícies d'àudio %s."
 
 #: src/icesound.cc:1095
-#, fuzzy, c-format
+#, c-format
 msgid "Received signal %s: Terminating..."
-msgstr "Senyal %d rebut: Acabant..."
+msgstr "Senyal %s rebut: acabant..."
 
 #: src/icetray.cc:251
 #, fuzzy
@@ -930,9 +926,9 @@ msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
 #: src/icewmbg.cc:73
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load image '%s'."
-msgstr "Ha fallat carregar el tema %s"
+msgstr "Ha fallat carregar la imatge \"%s\"."
 
 #: src/icewmbg.cc:706
 #, fuzzy
@@ -1014,6 +1010,7 @@ msgstr ""
 #: src/icewmbg.cc:754
 msgid "Please note that not all options are currently configured.\n"
 msgstr ""
+"Si us plau, tingueu en compte que no totes les opcions estan configurades.\n"
 
 #: src/icewmbg.cc:909
 msgid "Cannot start, because another icewmbg is still running."
