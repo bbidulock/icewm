@@ -2844,17 +2844,8 @@ bool YFrameWindow::getInputFocusHint() {
     XWMHints *hints = fClient->hints();
     bool input = true;
 
-    // The return value here specifies whether it is possible to set focus to
-    // the window.  When WM_TAKE_FOCUS is set in WM_PROTOCOLS or the
-    // AppTakesFocus frame option is set, focus cannot be set to the window
-    // (WM_TAKE_FOCUS message must be sent instead according to ICCCM 2.0).
-
     if (!(frameOptions() & YFrameWindow::foIgnoreNoFocusHint) &&
         (hints && (hints->flags & InputHint) && !hints->input)) {
-        input = false;
-    }
-    if ((client()->protocols() & YFrameClient::wpTakeFocus) ||
-        (frameOptions() & foAppTakesFocus)) {
         input = false;
     }
     if (frameOptions() & foDoNotFocus) {

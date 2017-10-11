@@ -880,10 +880,6 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
         else
             w = f->handle();
 
-        // XXX: It is important that we do not switch focus to a window to which
-        // we send WM_TAKE_FOCUS at this point, wait until the window actually
-        // takes focus.
-
         if (f->getInputFocusHint())
             switchFocusTo(f);
 
@@ -907,8 +903,10 @@ void YWindowManager::setFocus(YFrameWindow *f, bool /*canWarp*/) {
 
     if (c && w == c->handle() && ((c->protocols() & YFrameClient::wpTakeFocus) || (f->frameOptions() & YFrameWindow::foAppTakesFocus)))
         c->sendTakeFocus();
-    else if (w != None)
-        XSetInputFocus(xapp->display(), w, RevertToNone, xapp->getEventTime("setFocus"));
+    if (w != None) {
+        if (f->getInputFocusHint())
+            XSetInputFocus(xapp->display(), w, RevertToNone, xapp->getEventTime("setFocus"));
+    }
     else
         XSetInputFocus(xapp->display(), fTopWin->handle(), RevertToNone, xapp->getEventTime("setFocus"));
 
