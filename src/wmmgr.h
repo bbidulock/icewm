@@ -238,7 +238,7 @@ public:
 
     void switchFocusTo(YFrameWindow *frame, bool reorderFocus = true);
     void switchFocusFrom(YFrameWindow *frame);
-    void notifyFocus(YFrameWindow *frame);
+    void notifyActive(YFrameWindow *frame);
 
     void popupStartMenu(YWindow *owner);
 #ifdef CONFIG_WINMENU

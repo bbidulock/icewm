@@ -3017,7 +3017,7 @@ void YWindowManager::removeClientFrame(YFrameWindow *frame) {
         updateWorkArea();
 }
 
-void YWindowManager::notifyFocus(YFrameWindow *frame) {
+void YWindowManager::notifyActive(YFrameWindow *frame) {
     Window wnd = frame ? frame->client()->handle() : None;
     if (wnd != fActiveWindow) {
         XChangeProperty(xapp->display(), handle(),
@@ -3045,7 +3045,7 @@ void YWindowManager::switchFocusTo(YFrameWindow *frame, bool reorderFocus) {
         frame->removeFocusFrame();
         frame->insertFocusFrame(true);
     }
-    notifyFocus(frame);
+    notifyActive(frame);
     updateClientList();
 }
 
