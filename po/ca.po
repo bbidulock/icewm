@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-10-09 23:31-0600\n"
-"PO-Revision-Date: 2017-10-10 16:55+0000\n"
+"PO-Revision-Date: 2017-10-11 17:02+0000\n"
 "Last-Translator: David Medina <medipas@gmail.com>\n"
 "Language-Team: Catalan "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/ca/>\n"
@@ -1014,7 +1014,7 @@ msgstr ""
 
 #: src/icewmbg.cc:909
 msgid "Cannot start, because another icewmbg is still running."
-msgstr ""
+msgstr "No es pot iniciar, perquè encara s'executa un altre icewmbg."
 
 #: src/icewmhint.cc:44
 msgid "Usage: icewmhint [class.instance] option arg\n"
@@ -1084,22 +1084,21 @@ msgid "icewm - About"
 msgstr "icewm - Quant a"
 
 #: src/wmapp.cc:118
-#, fuzzy
 msgid "A window manager is already running, use --replace to replace it"
-msgstr "Un altre gestor de finestres està en ús, sortint..."
+msgstr "Ja s'executa un gestor de finestres. Useu --replace per reemplaçar-lo."
 
 #: src/wmapp.cc:136
 #, c-format
 msgid "Failed to become the owner of the %s selection"
-msgstr ""
+msgstr "Ha fallat esdevenir el propietari de la selecció %s"
 
 #: src/wmapp.cc:140
 msgid "Waiting to replace the old window manager"
-msgstr ""
+msgstr "S'espera per reemplaçar el gestor de finestres anterior."
 
 #: src/wmapp.cc:145
 msgid "done."
-msgstr ""
+msgstr "fet."
 
 #: src/wmapp.cc:438
 msgid "Unable to get current font path."
@@ -1131,7 +1130,7 @@ msgstr "At_ura"
 
 #: src/wmapp.cc:580 src/wmapp.cc:582 src/wmdialog.cc:90
 msgid "_Suspend"
-msgstr ""
+msgstr "_Suspèn"
 
 #: src/wmapp.cc:589 src/wmapp.cc:591
 msgid "Restart _Icewm"
@@ -1256,7 +1255,7 @@ msgstr ""
 
 #: src/wmapp.cc:869
 msgid "Kill IceWM, replace with Xterm"
-msgstr ""
+msgstr "Mata l'IceWM, reemplaça'l per l'Xterm"
 
 #: src/wmapp.cc:1433
 msgid ""
@@ -1360,9 +1359,9 @@ msgid "%s configured options:%s\n"
 msgstr "%s opcions configurades:%s\n"
 
 #: src/wmapp.cc:1711
-#, fuzzy, c-format
+#, c-format
 msgid "Unrecognized option '%s'."
-msgstr "Opció no reconeguda: %s\n"
+msgstr "Opció no reconeguda: \"%s\"."
 
 #: src/wmapp.cc:1753
 msgid "Confirm Logout"
@@ -1543,23 +1542,21 @@ msgid "_Click to focus"
 msgstr "_Cliqueu-hi per focalitzar-ho"
 
 #: src/wmprog.cc:798
-#, fuzzy
 msgid "_Explicit focus"
-msgstr "_Cliqueu-hi per focalitzar-ho"
+msgstr "Focus _explícit"
 
 #: src/wmprog.cc:799
 msgid "_Sloppy mouse focus"
 msgstr "_Focus del ratolí descurat"
 
 #: src/wmprog.cc:800
-#, fuzzy
 msgid "S_trict mouse focus"
-msgstr "_Focus del ratolí descurat"
+msgstr "Focus del ratolí es_tricte"
 
 #: src/wmprog.cc:801
 #, fuzzy
 msgid "_Quiet sloppy focus"
-msgstr "_Focus del ratolí descurat"
+msgstr "Focus des_curat silenciós"
 
 #: src/wmprog.cc:802
 msgid "Custo_m"
@@ -1567,19 +1564,19 @@ msgstr "_Personalitzat"
 
 #: src/wmprog.cc:824
 msgid "_Manual"
-msgstr ""
+msgstr "_Manual"
 
 #: src/wmprog.cc:825
 msgid "_Icewm(1)"
-msgstr ""
+msgstr "_Icewm(1)"
 
 #: src/wmprog.cc:826
 msgid "Icewm_Bg(1)"
-msgstr ""
+msgstr "Icewm_Bg(1)"
 
 #: src/wmprog.cc:827
 msgid "Ice_Sound(1)"
-msgstr ""
+msgstr "Ice_Sound(1)"
 
 #: src/wmprog.cc:900 src/wmprog.cc:902
 msgid "Programs"
@@ -1706,7 +1703,7 @@ msgstr "%lu. Espai de treball %-.32s"
 #: src/yapp.cc:273
 #, c-format
 msgid "%s: select failed"
-msgstr ""
+msgstr "%s: ha fallat la selecció"
 
 #: src/yconfig.cc:147
 #, c-format
@@ -1821,9 +1818,9 @@ msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
 #: src/ylocale.cc:46
-#, fuzzy
 msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
-msgstr "Llengua no admesa a la biblioteca C. Es torna per defecte a \"C\"."
+msgstr ""
+"Llengua no admesa per la biblioteca C o Xlib. Es torna per defecte a \"C\"."
 
 #: src/ylocale.cc:70
 msgid ""
