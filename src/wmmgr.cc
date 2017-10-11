@@ -48,6 +48,7 @@ YWindowManager::YWindowManager(
     fShowingDesktop = false;
     fShuttingDown = false;
     fOtherScreenFocused = false;
+    fActiveWindow = (Window) -1;
     fFocusWin = 0;
     lockFocusCount = 0;
     for (int l(0); l < WinLayerCount; l++) {
@@ -3017,13 +3018,15 @@ void YWindowManager::removeClientFrame(YFrameWindow *frame) {
 }
 
 void YWindowManager::notifyFocus(YFrameWindow *frame) {
-    long wnd = frame ? frame->client()->handle() : None;
-    XChangeProperty(xapp->display(), handle(),
-                    _XA_NET_ACTIVE_WINDOW,
-                    XA_WINDOW,
-                    32, PropModeReplace,
-                    (unsigned char *)&wnd, 1);
-
+    Window wnd = frame ? frame->client()->handle() : None;
+    if (wnd != fActiveWindow) {
+        XChangeProperty(xapp->display(), handle(),
+                        _XA_NET_ACTIVE_WINDOW,
+                        XA_WINDOW,
+                        32, PropModeReplace,
+                        (unsigned char *)&wnd, 1);
+        fActiveWindow = wnd;
+    }
 }
 
 void YWindowManager::switchFocusTo(YFrameWindow *frame, bool reorderFocus) {
