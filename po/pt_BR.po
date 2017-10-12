@@ -9,16 +9,16 @@ msgstr ""
 "Project-Id-Version: icewm 1.3.4pre2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-10-09 23:31-0600\n"
-"PO-Revision-Date: 2017-06-18 22:08+0000\n"
+"PO-Revision-Date: 2017-10-12 18:25+0000\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive68@gmail.com>\n"
-"Language-Team: Portuguese (Brazil) <https://l10n.opensuse.org/projects/icewm/"
-"icewm-1-3-branch/pt_BR/>\n"
+"Language-Team: Portuguese (Brazil) "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/pt_BR/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.6\n"
+"X-Generator: Weblate 2.13.1\n"
 "X-Language: pt_BR\n"
 
 #: src/aapm.cc:176 src/aapm.cc:457 src/aapm.cc:675 src/aapm.cc:791
@@ -151,39 +151,39 @@ msgstr "%ld mensagens de correio."
 
 #: src/amemstatus.cc:134
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: src/amemstatus.cc:138
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 #: src/amemstatus.cc:142
 msgid "kB"
-msgstr ""
+msgstr "kB"
 
 #: src/amemstatus.cc:146
 msgid "bytes"
-msgstr ""
+msgstr "bytes"
 
 #: src/amemstatus.cc:170
 msgid "Memory Total: "
-msgstr ""
+msgstr "Memória total: "
 
 #: src/amemstatus.cc:171
 msgid "Free: "
-msgstr ""
+msgstr "Livre: "
 
 #: src/amemstatus.cc:172
 msgid "Cached: "
-msgstr ""
+msgstr "Em cache: "
 
 #: src/amemstatus.cc:173
 msgid "Buffers: "
-msgstr ""
+msgstr "Buffers: "
 
 #: src/amemstatus.cc:174
 msgid "User: "
-msgstr ""
+msgstr "Usuário: "
 
 #: src/apppstatus.cc:196
 #, c-format
@@ -313,9 +313,8 @@ msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
 #: src/icehelp.cc:1828
-#, fuzzy
 msgid "Unsupported protocol."
-msgstr "Interface não suportada: %s."
+msgstr "Protocolo não suportado."
 
 #: src/icehelp.cc:1853
 #, c-format
@@ -324,34 +323,33 @@ msgstr "Caminho inválido: %s\n"
 
 #: src/icehelp.cc:1876
 msgid "Path does not refer to a file."
-msgstr ""
+msgstr "O caminho não se refere a um arquivo."
 
 #: src/icehelp.cc:1881
 msgid "Failed to open file for reading."
-msgstr ""
+msgstr "Falha ao abrir o arquivo para leitura."
 
 #: src/icehelp.cc:1910
-#, fuzzy
 msgid "Failed to create a temporary file"
-msgstr "Incapaz de criar pipe anônimo: %s"
+msgstr "Falha ao criar um arquivo temporário"
 
 #: src/icehelp.cc:2002
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
-msgstr ""
+msgstr "Falha ao executar o sistema(%s) (%d)"
 
 #: src/icehelp.cc:2025
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to decompress %s"
-msgstr "Falha ao carregar o tema %s"
+msgstr "Falha ao descomprimir %s"
 
 #: src/icehelp.cc:2033
 msgid "Could not locate curl or wget in PATH"
-msgstr ""
+msgstr "Não foi possível localizar curl ou wget no PATH"
 
 #: src/icehelp.cc:2037
 msgid "Unsafe characters in URL"
-msgstr ""
+msgstr "Caracteres não seguros na URL"
 
 #: src/icehelp.cc:2053
 #, c-format
@@ -388,9 +386,9 @@ msgid ""
 msgstr ""
 
 #: src/icehelp.cc:2115
-#, fuzzy, c-format
+#, c-format
 msgid "Ignoring option '%s'"
-msgstr "Opção desconhecida: `%s'"
+msgstr "Ignorando opção '%s'"
 
 #: src/icelist.cc:80
 msgid "List View"
@@ -642,12 +640,12 @@ msgstr "Opção desconhecida: `%s'"
 #: src/icesm.cc:292
 #, c-format
 msgid "%s exited with status %d."
-msgstr ""
+msgstr "%s saiu com o status %d."
 
 #: src/icesm.cc:298
 #, c-format
 msgid "%s was killed by signal %d."
-msgstr ""
+msgstr "%s foi morto pelo sinal %d."
 
 #: src/icesound.cc:216 src/icesound.cc:324 src/icesound.cc:628
 #, c-format
@@ -657,46 +655,45 @@ msgstr "Tocando amostra #%d (%s)"
 #: src/icesound.cc:334
 #, c-format
 msgid "%s: Invalid number of channels"
-msgstr ""
+msgstr "%s: Número de canais inválido"
 
 #: src/icesound.cc:340 src/icesound.cc:345
 msgid "Could not set OSS channels"
-msgstr ""
+msgstr "Não foi possível definir os canais OSS"
 
 #: src/icesound.cc:350 src/icesound.cc:378
 msgid "Could not sync OSS"
-msgstr ""
+msgstr "Não foi possível sincronizar OSS"
 
 #: src/icesound.cc:362
 msgid "OSS write failed"
-msgstr ""
+msgstr "Falha na gravação OSS"
 
 #: src/icesound.cc:366
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
-msgstr ""
+msgstr "Gravação OSS incompleta (%d/%d)"
 
 #: src/icesound.cc:373
-#, fuzzy
 msgid "Could not post OSS"
-msgstr "Não foi possível carregar o jogo de fontes \"%s\"."
+msgstr "Não foi possível publicar OSS"
 
 #: src/icesound.cc:402
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open OSS device %s"
-msgstr "Não foi possível encontrar a imagem %s"
+msgstr "Não foi possível abrir o dispositivo OSS %s"
 
 #: src/icesound.cc:407
 msgid "Could not set OSS stereo"
-msgstr ""
+msgstr "Não foi possível definir estéreo no OSS"
 
 #: src/icesound.cc:412
 msgid "Could not reset OSS DSP"
-msgstr ""
+msgstr "Não foi possível reiniciar o DSP OSS"
 
 #: src/icesound.cc:417
 msgid "Could not set OSS format"
-msgstr ""
+msgstr "Não foi possível definir o formato OSS"
 
 #: src/icesound.cc:490
 #, c-format
@@ -718,9 +715,9 @@ msgid "Sample <%d> uploaded as `%s:%s'"
 msgstr "Amostra <%d> subida como `%s:%s'"
 
 #: src/icesound.cc:573
-#, fuzzy, c-format
+#, c-format
 msgid "Playing sample #%d: %d"
-msgstr "Tocando amostra #%d"
+msgstr "Tocando amostra #%d: %d"
 
 #: src/icesound.cc:648
 #, c-format
