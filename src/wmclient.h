@@ -161,6 +161,7 @@ public:
     bool getNetStartupId(unsigned long &time);
     bool getNetWMUserTime(Window window, unsigned long &time);
     bool getNetWMUserTimeWindow(Window &window);
+    bool getNetWMWindowOpacity(long &opacity);
     bool getNetWMWindowType(Atom *window_type);
     void setNetWMFullscreenMonitors(int top, int bottom, int left, int right);
     void setNetFrameExtents(int left, int right, int top, int bottom);
@@ -251,6 +252,7 @@ private:
         bool net_startup_id : 1; // no property notify
         bool net_wm_user_time : 1;
         bool net_wm_user_time_window : 1;
+        bool net_wm_window_opacity : 1;
 #endif
 #ifndef NO_MWM_HINTS
         bool mwm_hints : 1;

@@ -522,6 +522,11 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
             if (getFrame())
                 getFrame()->updateNetWMUserTimeWindow();
             prop.net_wm_user_time_window = new_prop;
+        } else if (property.atom == _XA_NET_WM_WINDOW_OPACITY) {
+            MSG(("change: net wm window opacity"));
+            if (new_prop) prop.net_wm_window_opacity = true;
+            if (getFrame())
+                getFrame()->updateNetWMWindowOpacity();
         } else if (property.atom == _XA_NET_WM_FULLSCREEN_MONITORS) {
             // ignore - we triggered this event
             // (do i need to set a property here?)
@@ -1931,6 +1936,34 @@ bool YFrameClient::getNetWMUserTimeWindow(Window &window) {
     return false;
 }
 
+bool YFrameClient::getNetWMWindowOpacity(long &opacity) {
+    if (!prop.net_wm_window_opacity)
+        return false;
+
+    Atom r_type;
+    int r_format;
+    unsigned long count;
+    unsigned long bytes_remain;
+    unsigned char *prop(0);
+
+    if (XGetWindowProperty(xapp->display(), handle(),
+                _XA_NET_WM_WINDOW_OPACITY, 0, 1, False, XA_CARDINAL,
+                &r_type, &r_format, &count, &bytes_remain, &prop) == Success && prop)
+    {
+        if (r_type == XA_CARDINAL && r_format == 32 && count == 1U) {
+            long *data = (long *) prop;
+
+            MSG(("got window opacity"));
+            opacity = data[0];
+
+            XFree(prop);
+            return true;
+        }
+        XFree(prop);
+    }
+    return false;
+}
+
 bool YFrameClient::getNetWMWindowType(Atom *window_type) { // !!! for now, map to layers
     *window_type = None;
 
@@ -2093,6 +2126,7 @@ void YFrameClient::getPropertiesList() {
             else if (a == _XA_NET_STARTUP_ID) HAS(prop.net_startup_id);
             else if (a == _XA_NET_WM_USER_TIME) HAS(prop.net_wm_user_time);
             else if (a == _XA_NET_WM_USER_TIME_WINDOW) HAS(prop.net_wm_user_time_window);
+            else if (a == _XA_NET_WM_WINDOW_OPACITY) HAS(prop.net_wm_window_opacity);
 #endif
 #ifdef GNOME1_HINTS
             else if (a == _XA_WIN_HINTS) HAS(prop.win_hints);

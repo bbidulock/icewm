@@ -438,6 +438,7 @@ public:
     void updateNetStartupId();
     void updateNetWMUserTime();
     void updateNetWMUserTimeWindow();
+    void updateNetWMWindowOpacity();
     void updateNetWMFullscreenMonitors(int, int, int, int);
 #endif
     int strutLeft() { return fStrutLeft; }

@@ -3746,6 +3746,17 @@ void YFrameWindow::updateNetWMUserTimeWindow() {
     }
 }
 
+void YFrameWindow::updateNetWMWindowOpacity() {
+    long data[1] = { 0, };
+    if (client()->getNetWMWindowOpacity(data[0]))
+        XChangeProperty(xapp->display(), handle(),
+                _XA_NET_WM_WINDOW_OPACITY, XA_CARDINAL,
+                32, PropModeReplace,
+                (unsigned char *) data, 1);
+    else
+        XDeleteProperty(xapp->display(), handle(), _XA_NET_WM_WINDOW_OPACITY);
+}
+
 void YFrameWindow::updateNetWMFullscreenMonitors(int t, int b, int l, int r) {
     if (t != fFullscreenMonitorsTop ||
         b != fFullscreenMonitorsBottom ||
