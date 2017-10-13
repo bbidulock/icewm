@@ -33,7 +33,7 @@ struct DesktopScreenInfo {
 
 class YWindow {
 public:
-    YWindow(YWindow *aParent = 0, Window win = 0);
+    YWindow(YWindow *aParent = 0, Window win = 0, int depth = CopyFromParent, Visual *visual = CopyFromParent);
     virtual ~YWindow();
 
     void setStyle(unsigned long aStyle);
@@ -232,6 +232,9 @@ private:
     void removeWindow();
 
     bool nullGeometry();
+
+    int fDepth;
+    Visual *fVisual;
 
     YWindow *fParentWindow;
     YWindow *fNextWindow;

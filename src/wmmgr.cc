@@ -1476,7 +1476,12 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 
     manager->updateFullscreenLayerEnable(false);
 
-    frame = new YFrameWindow(wmActionListener, 0);
+    XWindowAttributes wa;
+    XGetWindowAttributes(xapp->display(), client->handle(), &wa);
+
+    frame = new YFrameWindow(wmActionListener, 0,
+            wa.depth == 32 ? wa.depth : CopyFromParent,
+            wa.depth == 32 ? wa.visual : CopyFromParent);
     if (frame == 0) {
         delete client;
         goto end;

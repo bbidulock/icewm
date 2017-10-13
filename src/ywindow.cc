@@ -123,7 +123,8 @@ void YWindow::updateEnterNotifySerial(const XEvent &event) {
 /******************************************************************************/
 /******************************************************************************/
 
-YWindow::YWindow(YWindow *parent, Window win):
+YWindow::YWindow(YWindow *parent, Window win, int depth, Visual *visual):
+    fDepth(depth), fVisual(visual),
     fParentWindow(parent),
     fNextWindow(0), fPrevWindow(0), fFirstWindow(0), fLastWindow(0),
     fFocusedWindow(0),
@@ -331,9 +332,9 @@ void YWindow::create() {
                                 parent()->handle(),
                                 x(), y(), zw, zh,
                                 0,
-                                CopyFromParent,
+                                fDepth,
                                 (fStyle & wsInputOnly) ? InputOnly : InputOutput,
-                                CopyFromParent,
+                                fVisual,
                                 attrmask,
                                 &attributes);
 
