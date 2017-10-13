@@ -26,7 +26,7 @@ YColor *inactiveTitleBarFg = 0;
 YColor *inactiveTitleBarSt = 0;
 
 YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
-    YWindow(parent)
+    YWindow(parent, 0, xapp->depth(), xapp->visual(), xapp->colormap())
 {
     if (titleFont == null)
         titleFont = YFont::getFont(XFA(titleFontName));

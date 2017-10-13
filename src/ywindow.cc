@@ -123,8 +123,8 @@ void YWindow::updateEnterNotifySerial(const XEvent &event) {
 /******************************************************************************/
 /******************************************************************************/
 
-YWindow::YWindow(YWindow *parent, Window win, int depth, Visual *visual):
-    fDepth(depth), fVisual(visual),
+YWindow::YWindow(YWindow *parent, Window win, int depth, Visual *visual, Colormap colormap):
+    fDepth(depth), fVisual(visual), fColormap(colormap),
     fParentWindow(parent),
     fNextWindow(0), fPrevWindow(0), fFirstWindow(0), fLastWindow(0),
     fFocusedWindow(0),
@@ -319,6 +319,16 @@ void YWindow::create() {
             attributes.win_gravity = fWinGravity;
             attrmask |= CWWinGravity;
         }
+        if (fColormap != CopyFromParent) {
+            attributes.colormap = fColormap;
+            attrmask |= CWColormap;
+        }
+        if (fDepth != CopyFromParent) {
+            attributes.background_pixel = xapp->black();
+            attrmask |= CWBackPixel;
+            attributes.border_pixel = xapp->black();
+            attrmask |= CWBorderPixel;
+        }
 
         attributes.event_mask = fEventMask;
         int zw = width();
@@ -338,6 +348,11 @@ void YWindow::create() {
                                 attrmask,
                                 &attributes);
 
+        XWindowAttributes wa;
+        XGetWindowAttributes(xapp->display(), fHandle, &wa);
+        fDepth = wa.depth;
+        fVisual = wa.visual;
+        fColormap = wa.colormap;
         if (parent() == desktop &&
             !(flags & (wsManager | wsOverrideRedirect)))
             XSetWMProtocols(xapp->display(), fHandle, &_XA_WM_DELETE_WINDOW, 1);
@@ -1813,7 +1828,7 @@ void YWindow::scrollWindow(int dx, int dy) {
     XRectangle r[2];
     int nr = 0;
 
-    GC scrollGC = XCreateGC(xapp->display(), desktop->handle(), 0, NULL);
+    GC scrollGC = XCreateGC(xapp->display(), handle(), 0, NULL);
 
     XCopyArea(xapp->display(), handle(), handle(), scrollGC,
               dx, dy, width(), height(), 0, 0);

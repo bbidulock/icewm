@@ -21,7 +21,7 @@ class YFrameTitleBar;
 
 class YFrameWindow: public YWindow, public YActionListener, public YTimerListener, public YPopDownListener, public YMsgBoxListener, public ClientData {
 public:
-    YFrameWindow(YActionListener *wmActionListener, YWindow *parent, int depth, Visual *visual);
+    YFrameWindow(YActionListener *wmActionListener, YWindow *parent, int depth, Visual *visual, Colormap colormap);
     virtual ~YFrameWindow();
 
     void doManage(YFrameClient *client, bool &doActivate, bool &requestFocus);

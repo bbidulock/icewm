@@ -52,8 +52,8 @@ bool YFrameWindow::isButton(char c) {
 
 YFrameWindow::YFrameWindow(
     YActionListener *wmActionListener,
-    YWindow *parent, int depth, Visual *visual)
-    : YWindow(parent, 0, depth, visual)
+    YWindow *parent, int depth, Visual *visual, Colormap colormap)
+    : YWindow(parent, 0, depth, visual, colormap)
 {
     this->wmActionListener = wmActionListener;
 
@@ -590,49 +590,62 @@ void YFrameWindow::afterManage() {
 // on frame (for resize)
 void YFrameWindow::createPointerWindows() {
     XSetWindowAttributes attributes;
+    unsigned int attrmask = 0;
     unsigned int klass = InputOnly;
 
     attributes.event_mask = 0;
+    attrmask |= CWEventMask;
 
     attributes.cursor = YWMApp::sizeTopPointer.handle();
+    attrmask |= CWCursor;
+
+    attributes.colormap = xapp->colormap();
+    attrmask |= CWColormap;
+
+    attributes.background_pixel = xapp->black();
+    attrmask |= CWBackPixel;
+
+    attributes.border_pixel = xapp->black();
+    attrmask |= CWBorderPixel;
+
     topSide = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
-                            CopyFromParent, klass, CopyFromParent,
-                            CWCursor | CWEventMask, &attributes);
+                            0, klass, xapp->visual(),
+                            attrmask, &attributes);
 
     attributes.cursor = YWMApp::sizeLeftPointer.handle();
     leftSide = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
-                            CopyFromParent, klass, CopyFromParent,
-                            CWCursor | CWEventMask, &attributes);
+                            0, klass, xapp->visual(),
+                            attrmask, &attributes);
 
     attributes.cursor = YWMApp::sizeRightPointer.handle();
     rightSide = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
-                            CopyFromParent, klass, CopyFromParent,
-                            CWCursor | CWEventMask, &attributes);
+                            0, klass, xapp->visual(),
+                            attrmask, &attributes);
 
     attributes.cursor = YWMApp::sizeBottomPointer.handle();
     bottomSide = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
-                            CopyFromParent, klass, CopyFromParent,
-                            CWCursor | CWEventMask, &attributes);
+                            0, klass, xapp->visual(),
+                            attrmask, &attributes);
 
     attributes.cursor = YWMApp::sizeTopLeftPointer.handle();
     topLeftCorner = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
-                                  CopyFromParent, klass, CopyFromParent,
-                                  CWCursor | CWEventMask, &attributes);
+                                  0, klass, xapp->visual(),
+                                  attrmask, &attributes);
 
     attributes.cursor = YWMApp::sizeTopRightPointer.handle();
     topRightCorner = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
-                                   CopyFromParent, klass, CopyFromParent,
-                                   CWCursor | CWEventMask, &attributes);
+                                   0, klass, xapp->visual(),
+                                   attrmask, &attributes);
 
     attributes.cursor = YWMApp::sizeBottomLeftPointer.handle();
     bottomLeftCorner = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
-                                     CopyFromParent, klass, CopyFromParent,
-                                     CWCursor | CWEventMask, &attributes);
+                                     0, klass, xapp->visual(),
+                                     attrmask, &attributes);
 
     attributes.cursor = YWMApp::sizeBottomRightPointer.handle();
     bottomRightCorner = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
-                                      CopyFromParent, klass, CopyFromParent,
-                                      CWCursor | CWEventMask, &attributes);
+                                      0, klass, xapp->visual(),
+                                      attrmask, &attributes);
 
     XMapSubwindows(xapp->display(), handle());
     indicatorsVisible = 1;
