@@ -458,7 +458,7 @@ extern Atom _XA_NET_WM_USER_TIME;                   // OK
 extern Atom _XA_NET_WM_USER_TIME_WINDOW;            // OK
 extern Atom _XA_NET_WM_VISIBLE_ICON_NAME;           // OK
 extern Atom _XA_NET_WM_VISIBLE_NAME;                // OK
-extern Atom _XA_NET_WM_OPACITY;                     // TODO
+extern Atom _XA_NET_WM_WINDOW_OPACITY;              // OK
 extern Atom _XA_NET_WM_WINDOW_TYPE;                 // OK
 extern Atom _XA_NET_WM_WINDOW_TYPE_COMBO;           // OK
 extern Atom _XA_NET_WM_WINDOW_TYPE_DESKTOP;         // OK

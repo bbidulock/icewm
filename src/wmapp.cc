@@ -308,7 +308,7 @@ static void registerProtocols2(Window xid) {
         _XA_NET_WM_USER_TIME_WINDOW,
         _XA_NET_WM_VISIBLE_ICON_NAME,       // trivial support
         _XA_NET_WM_VISIBLE_NAME,            // trivial support
-//      _XA_NET_WM_WINDOW_OPACITY,
+        _XA_NET_WM_WINDOW_OPACITY,
         _XA_NET_WM_WINDOW_TYPE,
         _XA_NET_WM_WINDOW_TYPE_COMBO,
         _XA_NET_WM_WINDOW_TYPE_DESKTOP,
