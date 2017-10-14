@@ -506,7 +506,7 @@ CtrlAltDelete* YWMApp::getCtrlAltDelete() {
 
 SwitchWindow* YWMApp::getSwitchWindow() {
     if (switchWindow == 0 && quickSwitch) {
-        switchWindow = new SwitchWindow(manager);
+        switchWindow = new SwitchWindow(manager, NULL, quickSwitchVertical);
     }
     return switchWindow;
 }

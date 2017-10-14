@@ -297,8 +297,10 @@ public:
 
 };
 
-SwitchWindow::SwitchWindow(YWindow *parent, ISwitchItems *items):
-    YPopupWindow(parent) INIT_GRADIENT(fGradient, null) {
+SwitchWindow::SwitchWindow(YWindow *parent, ISwitchItems *items,
+                           bool verticalStyle):
+    YPopupWindow(parent) INIT_GRADIENT(fGradient, null),
+    m_verticalStyle(verticalStyle) {
 
     zItems = items ? items : new WindowItemsCtrlr;
 
@@ -471,7 +473,7 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
 
 #ifndef LITE
     // for vertical positioning, continue below. Avoid spagheti code.
-    if(quickSwitchVertical) goto verticalMode;
+    if(m_verticalStyle) goto verticalMode;
 #endif
 
     if (zItems->getActiveItem()) {

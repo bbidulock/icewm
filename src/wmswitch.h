@@ -9,7 +9,7 @@ class YWindowManager;
 // data model, default implementation is list of windows
 class ISwitchItems;
 
-// helper interface, can close the parent window when needed
+// XXX: this only exists because there are no lambda functions
 class IClosablePopup
 {
 public:
@@ -20,8 +20,10 @@ public:
 
 class SwitchWindow: public YPopupWindow, IClosablePopup {
     ISwitchItems* zItems;
+    bool m_verticalStyle;
 public:
-    SwitchWindow(YWindow *parent = 0, ISwitchItems *items = 0);
+    SwitchWindow(YWindow *parent = 0,
+                 ISwitchItems *items = 0, bool verticalStyle=true);
     virtual ~SwitchWindow();
 
     virtual void paint(Graphics &g, const YRect &r);
