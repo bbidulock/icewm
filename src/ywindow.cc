@@ -319,16 +319,17 @@ void YWindow::create() {
             attributes.win_gravity = fWinGravity;
             attrmask |= CWWinGravity;
         }
-        if (fColormap != CopyFromParent) {
+        if (fColormap != CopyFromParent && fColormap != xapp->colormap()) {
             attributes.colormap = fColormap;
             attrmask |= CWColormap;
         }
-        if (fDepth != CopyFromParent) {
+        if (fDepth != CopyFromParent && fDepth != (int) xapp->depth()) {
             attributes.background_pixel = xapp->black();
             attrmask |= CWBackPixel;
             attributes.border_pixel = xapp->black();
             attrmask |= CWBorderPixel;
         }
+        Visual* visual(fVisual == xapp->visual() ? CopyFromParent : fVisual);
 
         attributes.event_mask = fEventMask;
         int zw = width();
@@ -344,7 +345,7 @@ void YWindow::create() {
                                 0,
                                 fDepth,
                                 (fStyle & wsInputOnly) ? InputOnly : InputOutput,
-                                fVisual,
+                                visual,
                                 attrmask,
                                 &attributes);
 
