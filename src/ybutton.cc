@@ -31,7 +31,7 @@ ref<YFont> YButton::normalButtonFont;
 ref<YFont> YButton::activeButtonFont;
 
 YButton::YButton(YWindow *parent, YAction action, YMenu *popup) :
-    YWindow(parent, 0, xapp->depth(), xapp->visual(), xapp->colormap()),
+    YWindow(parent),
     fOver(false),
     fAction(action), fPopup(popup),
     fIcon(null),
