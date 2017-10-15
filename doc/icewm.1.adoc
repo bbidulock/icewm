@@ -512,6 +512,8 @@ one can use a keyboard shortcut.
 Another option is to select the
 *Move To*
 submenu in the window menu of the window frame.
+If the application has input focus then a Shift + left button click
+on the destination workspace button will also move it there.
 
 Please beware that changing the names of workspaces
 in the preferences file and then restarting IceWM
@@ -771,7 +773,7 @@ of a window also listens for mouse clicks.
 Left double clicking maximizes the window (TitleBarMaximizeButton=1).
 Middle double clicking rolls up the window (TitleBarRollupButton=2).
 Pressing a mouse button and moving it will move the window.
-Alt + left button lowers the window.
+Alt + left button click lowers the window.
 
 When the mouse is on the
 'window frame'
