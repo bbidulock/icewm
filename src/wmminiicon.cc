@@ -25,7 +25,7 @@ static YColor *activeMinimizedWindowBg = 0;
 static YColor *activeMinimizedWindowFg = 0;
 
 MiniIcon::MiniIcon(YWindow *aParent, YFrameWindow *frame):
-    YWindow(aParent, 0, xapp->depth(), xapp->visual(), xapp->colormap()) {
+    YWindow(aParent) {
     if (minimizedWindowFont == null)
         minimizedWindowFont = YFont::getFont(XFA(minimizedWindowFontName));
     if (normalMinimizedWindowBg == 0)
