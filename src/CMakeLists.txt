@@ -273,6 +273,8 @@ if(CONFIG_GUIEVENTS)
                         CHECK_INCLUDE_FILE_CXX(sys/soundcard.h HAVE_SYS_SOUNDCARD_H)
                         set(ENABLE_OSS "${oss_FOUND}") # source will undef if now header present
                 endif()
+
+                string(REPLACE ";" " " audio_flags "${audio_flags}")
         endif(sndfile_FOUND)
 endif()
 
