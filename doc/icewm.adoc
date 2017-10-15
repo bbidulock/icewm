@@ -827,7 +827,7 @@ Each line in the file must be in one of the possible formats:
 * window_name.option: argument
 * window_role.option: argument
 
-Each window on the desktop has (should) *class* and *name* resources associated with it. Some more recent applications will also have a *window role* resource, though not all do.
+Each window on the desktop should have *class* and *name* resources associated with it. Some more recent applications will also have a *window role* resource, though not all do.
 They can be determined using the `xprop` utility.
 
 `xprop` should display a line like this when used on a toplevel window:
