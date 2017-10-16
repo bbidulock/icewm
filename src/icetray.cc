@@ -19,12 +19,14 @@ static YColor *taskBarBg;
 XSV(const char *, clrDefaultTaskBar, "rgb:C0/C0/C0")
 XIV(bool,         trayDrawBevel,     false)
 
+#if 0
 YColor* getTaskBarBg() {
     if (taskBarBg == 0) {
         taskBarBg = new YColor(clrDefaultTaskBar);
     }
     return taskBarBg;
 }
+#endif
 #endif
 
 class SysTray: public YWindow, public YXTrayNotifier {
