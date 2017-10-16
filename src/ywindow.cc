@@ -1103,6 +1103,11 @@ void YWindow::setSize(int width, int height) {
     }
 }
 
+void YWindow::setParentRelative(void) {
+    XSetWindowBackgroundPixmap(xapp->display(), handle(), ParentRelative);
+    XClearArea(xapp->display(), handle(), 0, 0, 0, 0, True);
+}
+
 void YWindow::mapToGlobal(int &x, int &y) {
     int dx, dy;
     Window child;

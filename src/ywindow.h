@@ -57,7 +57,9 @@ public:
     void setGeometry(const YRect &r);
     void setSize(int width, int height);
     void setPosition(int x, int y);
+    void setParentRelative(void);
     virtual void configure(const YRect &r);
+
 
     virtual void paint(Graphics &g, const YRect &r);
     virtual void paintFocus(Graphics &, const YRect &) {}

@@ -3,6 +3,7 @@
 YXEmbed::YXEmbed(YWindow *aParent):
     YWindow(aParent)
 {
+    setParentRelative();
 }
 
 YXEmbed::~YXEmbed() {
@@ -12,6 +13,7 @@ YXEmbedClient::YXEmbedClient(YXEmbed *embedder, YWindow *aParent, Window win):
     YWindow(aParent, win)
 {
     fEmbedder = embedder;
+    setParentRelative();
 }
 
 YXEmbedClient::~YXEmbedClient() {

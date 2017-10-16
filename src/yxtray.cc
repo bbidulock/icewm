@@ -89,6 +89,7 @@ YXTrayProxy::YXTrayProxy(const YAtom& atom, YXTray *tray, YWindow *aParent):
     _NET_SYSTEM_TRAY_S0(atom),
     fTray(tray)
 {
+    setParentRelative();
     if (isExternal()) {
         long orientation = SYSTEM_TRAY_ORIENTATION_HORZ;
         XChangeProperty(xapp->display(), handle(),
@@ -313,10 +314,13 @@ void YXTrayEmbedder::handleClientUnmap(Window win) {
 }
 
 void YXTrayEmbedder::paint(Graphics &g, const YRect &/*r*/) {
+#if 0
 #ifdef CONFIG_TASKBAR
+    ClearArea(xapp->display(), handle(), 0, 0, 0, 0, True);
     g.setColor(getTaskBarBg());
 #endif
     g.fillRect(0, 0, width(), height());
+#endif
 }
 
 void YXTrayEmbedder::configure(const YRect &r) {
@@ -338,17 +342,19 @@ YXTray::YXTray(YXTrayNotifier *notifier,
                bool internal,
                const YAtom& atom,
                YWindow *aParent):
-    YWindow(aParent)
+    YWindow(aParent), fNotifier(notifier), fInternal(internal)
 {
-    fNotifier = notifier;
-    fInternal = internal;
+    if (!internal)
+        setParentRelative();
     fTrayProxy = new YXTrayProxy(atom, this);
     show();
+#if 0
 #ifndef LITE
 #ifdef CONFIG_TASKBAR
     XSetWindowBackground(xapp->display(), handle(), getTaskBarBg()->pixel());
 #endif
     XClearArea(xapp->display(), handle(), 0, 0, 0, 0, True);
+#endif
 #endif
 }
 
@@ -465,10 +471,12 @@ void YXTray::detachTray() {
 void YXTray::paint(Graphics &g, const YRect &/*r*/) {
     if (fInternal)
         return;
+#if 0
 #ifdef CONFIG_TASKBAR
     g.setColor(getTaskBarBg());
 #endif
     g.fillRect(0, 0, width(), height());
+#endif
     if (trayDrawBevel && fDocked.getCount())
         g.draw3DRect(0, 0, width() - 1, height() - 1, false);
 }
@@ -481,14 +489,18 @@ void YXTray::configure(const YRect &r) {
 void YXTray::backgroundChanged() {
     if (fInternal)
         return;
+#if 0
 #ifdef CONFIG_TASKBAR
     unsigned long bg = getTaskBarBg()->pixel();
     XSetWindowBackground(xapp->display(), handle(), bg);
 #endif
+#endif
     for (IterType ec = fDocked.iterator(); ++ec; ) {
 #ifdef CONFIG_TASKBAR
+#if 0
         XSetWindowBackground(xapp->display(), ec->handle(), bg);
         XSetWindowBackground(xapp->display(), ec->client_handle(), bg);
+#endif
         /* something is not clearing which background changes */
         XClearArea(xapp->display(), ec->client_handle(), 0, 0, 0, 0, True);
 #endif
