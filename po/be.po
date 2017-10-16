@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.2.2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-10-09 23:31-0600\n"
+"POT-Creation-Date: 2017-10-16 10:00-0600\n"
 "PO-Revision-Date: 2003-01-27 22:26+0300\n"
 "Last-Translator: Hleb Valoska <el_globus@tut.by>\n"
 "Language-Team: Belarusian <i18n@mova.org>\n"
@@ -849,7 +849,7 @@ msgstr "Няўдалае адкрыцьцё %s: %s"
 msgid "Received signal %s: Terminating..."
 msgstr "Атрыманы сыгнал %d: Сканчэньне працы..."
 
-#: src/icetray.cc:251
+#: src/icetray.cc:252
 msgid ""
 "  -n, --notify        Notify parent process by sending signal USR1.\n"
 "  --display=NAME      Use NAME to connect to the X server.\n"
@@ -1323,7 +1323,7 @@ msgid "_Cancel"
 msgstr "_Адмена"
 
 #: src/wmdialog.cc:92 src/wmprog.cc:1005 src/wmprog.cc:1007 src/wmprog.cc:1011
-#: src/wmprog.cc:1013 src/wmtaskbar.cc:325 src/wmtaskbar.cc:327
+#: src/wmprog.cc:1013 src/wmtaskbar.cc:328 src/wmtaskbar.cc:330
 msgid "_Logout..."
 msgstr "_Скончыць сэанс"
 
@@ -1331,12 +1331,12 @@ msgstr "_Скончыць сэанс"
 msgid "_Restart icewm"
 msgstr "_Перазапусьціць icewm"
 
-#: src/wmdialog.cc:97 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:317
-#: src/wmtaskbar.cc:320
+#: src/wmdialog.cc:97 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:320
+#: src/wmtaskbar.cc:323
 msgid "_About"
 msgstr "Пр_а"
 
-#: src/wmframe.cc:158 src/wmframe.cc:3443
+#: src/wmframe.cc:158 src/wmframe.cc:3438
 msgid "Maximize"
 msgstr "Разгарнуць"
 
@@ -1348,7 +1348,7 @@ msgstr "Згарнуць"
 msgid "Hide"
 msgstr "Схаваць"
 
-#: src/wmframe.cc:202 src/wmframe.cc:3476
+#: src/wmframe.cc:202 src/wmframe.cc:3471
 msgid "Rollup"
 msgstr "Пракруціць"
 
@@ -1357,11 +1357,11 @@ msgstr "Пракруціць"
 msgid "Raise/Lower"
 msgstr "Узьняць/апусьціць"
 
-#: src/wmframe.cc:1739
+#: src/wmframe.cc:1743
 msgid "Kill Client: "
 msgstr "Забіць кліент: "
 
-#: src/wmframe.cc:1748
+#: src/wmframe.cc:1752
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1369,11 +1369,11 @@ msgstr ""
 "УВАГА! Усе незахаваныя зьмены будуць згубленыя,\n"
 "калі забіць гэты кліент. Працягваць?"
 
-#: src/wmframe.cc:3440
+#: src/wmframe.cc:3435
 msgid "Restore"
 msgstr "Аднавіць"
 
-#: src/wmframe.cc:3474
+#: src/wmframe.cc:3469
 msgid "Rolldown"
 msgstr "Раскруціць"
 
@@ -1502,7 +1502,7 @@ msgstr "Праграмы"
 msgid "_Run..."
 msgstr "_Выканаць..."
 
-#: src/wmprog.cc:920 src/wmprog.cc:922 src/wmtaskbar.cc:305
+#: src/wmprog.cc:920 src/wmprog.cc:922 src/wmtaskbar.cc:308
 msgid "_Windows"
 msgstr "В_окны"
 
@@ -1527,59 +1527,59 @@ msgstr ""
 msgid "Session Manager: Unknown line %s"
 msgstr "Кіраўнік сэсій: невядомы радок %s"
 
-#: src/wmtaskbar.cc:168 src/wmtaskbar.cc:169
+#: src/wmtaskbar.cc:171 src/wmtaskbar.cc:172
 msgid "Task Bar"
 msgstr "Панэль задач"
 
-#: src/wmtaskbar.cc:294 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+#: src/wmtaskbar.cc:297 src/wmwinlist.cc:314 src/wmwinlist.cc:327
 msgid "Tile _Vertically"
 msgstr "Побач па _вэртыкалі"
 
-#: src/wmtaskbar.cc:295 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+#: src/wmtaskbar.cc:298 src/wmwinlist.cc:315 src/wmwinlist.cc:328
 msgid "T_ile Horizontally"
 msgstr "Побач па _гарызанталі"
 
-#: src/wmtaskbar.cc:296 src/wmwinlist.cc:316 src/wmwinlist.cc:329
+#: src/wmtaskbar.cc:299 src/wmwinlist.cc:316 src/wmwinlist.cc:329
 msgid "Ca_scade"
 msgstr "_Каскадам"
 
-#: src/wmtaskbar.cc:297 src/wmwinlist.cc:317 src/wmwinlist.cc:330
+#: src/wmtaskbar.cc:300 src/wmwinlist.cc:317 src/wmwinlist.cc:330
 msgid "_Arrange"
 msgstr "_Упарадкавана"
 
-#: src/wmtaskbar.cc:298 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+#: src/wmtaskbar.cc:301 src/wmwinlist.cc:319 src/wmwinlist.cc:331
 msgid "_Minimize All"
 msgstr "_Згарнуць усе"
 
-#: src/wmtaskbar.cc:299 src/wmwinlist.cc:320 src/wmwinlist.cc:332
+#: src/wmtaskbar.cc:302 src/wmwinlist.cc:320 src/wmwinlist.cc:332
 msgid "_Hide All"
 msgstr "_Схаваць усе"
 
-#: src/wmtaskbar.cc:300 src/wmwinlist.cc:321 src/wmwinlist.cc:333
+#: src/wmtaskbar.cc:303 src/wmwinlist.cc:321 src/wmwinlist.cc:333
 msgid "_Undo"
 msgstr "_Вернуць"
 
-#: src/wmtaskbar.cc:302
+#: src/wmtaskbar.cc:305
 msgid "Arrange _Icons"
 msgstr "Упарадкаваць _значкі"
 
-#: src/wmtaskbar.cc:308
+#: src/wmtaskbar.cc:311
 msgid "_Refresh"
 msgstr "А_бнавіць"
 
-#: src/wmtaskbar.cc:315
+#: src/wmtaskbar.cc:318
 msgid "_License"
 msgstr "_Ліцэнзія"
 
-#: src/wmtaskbar.cc:432
+#: src/wmtaskbar.cc:435
 msgid "Favorite applications"
 msgstr "Любімыя дастасаваньні"
 
-#: src/wmtaskbar.cc:449
+#: src/wmtaskbar.cc:452
 msgid "Window list menu"
 msgstr "Мэню сьпісу вакон"
 
-#: src/wmtaskbar.cc:458
+#: src/wmtaskbar.cc:461
 #, fuzzy
 msgid "Show Desktop"
 msgstr "На ўзроўні _стальца"
