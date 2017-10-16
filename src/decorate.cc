@@ -526,16 +526,6 @@ void YFrameWindow::layoutResizeIndicators() {
     XMoveResizeWindow(xapp->display(), topRightCorner, width() - wsCornerX, 0, wsCornerX, wsCornerY);
     XMoveResizeWindow(xapp->display(), bottomLeftCorner, 0, height() - wsCornerY, wsCornerX, wsCornerY);
     XMoveResizeWindow(xapp->display(), bottomRightCorner, width() - wsCornerX, height() - wsCornerY, wsCornerX, wsCornerY);
-
-    XRaiseWindow(xapp->display(), topSide);
-    XRaiseWindow(xapp->display(), leftSide);
-    XRaiseWindow(xapp->display(), rightSide);
-    XRaiseWindow(xapp->display(), bottomSide);
-
-    XRaiseWindow(xapp->display(), topLeftCorner);
-    XRaiseWindow(xapp->display(), topRightCorner);
-    XRaiseWindow(xapp->display(), bottomLeftCorner);
-    XRaiseWindow(xapp->display(), bottomRightCorner);
 }
 
 void YFrameWindow::layoutClient() {
