@@ -710,7 +710,7 @@ int handler(Display *display, XErrorEvent *xev) {
         exit(1);
     }
 
-    DBG {
+    /* DBG */ {
         char message[80], req[80], number[80];
 
         sprintf(number, "%d", xev->request_code);
