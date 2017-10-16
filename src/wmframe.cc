@@ -599,49 +599,41 @@ void YFrameWindow::createPointerWindows() {
     attrmask |= CWCursor;
 
     attributes.cursor = YWMApp::sizeTopPointer.handle();
-    fprintf(stderr, "%s: calling XCreateWindow\n", __func__);
     topSide = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
                             0, klass, None,
                             attrmask, &attributes);
 
     attributes.cursor = YWMApp::sizeLeftPointer.handle();
-    fprintf(stderr, "%s: calling XCreateWindow\n", __func__);
     leftSide = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
                             0, klass, None,
                             attrmask, &attributes);
 
     attributes.cursor = YWMApp::sizeRightPointer.handle();
-    fprintf(stderr, "%s: calling XCreateWindow\n", __func__);
     rightSide = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
                             0, klass, None,
                             attrmask, &attributes);
 
     attributes.cursor = YWMApp::sizeBottomPointer.handle();
-    fprintf(stderr, "%s: calling XCreateWindow\n", __func__);
     bottomSide = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
                             0, klass, None,
                             attrmask, &attributes);
 
     attributes.cursor = YWMApp::sizeTopLeftPointer.handle();
-    fprintf(stderr, "%s: calling XCreateWindow\n", __func__);
     topLeftCorner = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
                                   0, klass, None,
                                   attrmask, &attributes);
 
     attributes.cursor = YWMApp::sizeTopRightPointer.handle();
-    fprintf(stderr, "%s: calling XCreateWindow\n", __func__);
     topRightCorner = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
                                    0, klass, None,
                                    attrmask, &attributes);
 
     attributes.cursor = YWMApp::sizeBottomLeftPointer.handle();
-    fprintf(stderr, "%s: calling XCreateWindow\n", __func__);
     bottomLeftCorner = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
                                      0, klass, None,
                                      attrmask, &attributes);
 
     attributes.cursor = YWMApp::sizeBottomRightPointer.handle();
-    fprintf(stderr, "%s: calling XCreateWindow\n", __func__);
     bottomRightCorner = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
                                       0, klass, None,
                                       attrmask, &attributes);
