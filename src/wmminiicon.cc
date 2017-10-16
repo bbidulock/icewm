@@ -25,7 +25,10 @@ static YColor *activeMinimizedWindowBg = 0;
 static YColor *activeMinimizedWindowFg = 0;
 
 MiniIcon::MiniIcon(YWindow *aParent, YFrameWindow *frame):
-    YWindow(aParent) {
+    YWindow(desktop) {
+    // force creation before reparenting
+    (void) handle();
+    reparent(aParent, 0, 0);
     if (minimizedWindowFont == null)
         minimizedWindowFont = YFont::getFont(XFA(minimizedWindowFontName));
     if (normalMinimizedWindowBg == 0)
