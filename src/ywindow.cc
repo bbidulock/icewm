@@ -439,6 +439,8 @@ void YWindow::insertWindow() {
 }
 
 void YWindow::reparent(YWindow *parent, int x, int y) {
+    // ensure window was created before reparenting
+    (void) handle();
     if (flags & wfVisible) {
         addIgnoreUnmap(handle());
     }

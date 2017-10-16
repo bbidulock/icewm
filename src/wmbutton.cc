@@ -33,8 +33,6 @@ YFrameButton::YFrameButton(YWindow *parent,
     fAction(action),
     fAction2(action2)
 {
-    // force creation before reparenting
-    (void) handle();
     reparent(parent, 0, 0);
     if (titleButtonBg == 0)
         titleButtonBg = new YColor(clrNormalTitleButton);

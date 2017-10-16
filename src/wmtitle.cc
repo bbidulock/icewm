@@ -28,8 +28,6 @@ YColor *inactiveTitleBarSt = 0;
 YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
     YWindow(desktop)
 {
-    // force creation before reparenting
-    (void) handle();
     reparent(parent, 0, 0);
     if (titleFont == null)
         titleFont = YFont::getFont(XFA(titleFontName));
