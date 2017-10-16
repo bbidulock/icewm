@@ -35,6 +35,8 @@ nobase_dist_pkgdata_DATA = \
 	icons/file_32x32.xpm \
 	icons/focus_16x16.xpm \
 	icons/focus_32x32.xpm \
+	icons/focus_16x16.png \
+	icons/focus_32x32.png \
 	icons/folder_16x16.xpm \
 	icons/folder_32x32.xpm \
 	icons/fte_16x16.xpm \

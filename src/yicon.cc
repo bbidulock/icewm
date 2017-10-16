@@ -66,7 +66,7 @@ upath YIcon::findIcon(upath dir, upath base, unsigned size) {
     const size_t iconSize = sizeof iconName;
     const cstring cbase(base.string());
     const char* cBaseStr = cbase.c_str();
-    static const char iconExts[3][5] = { ".xpm", ".png", ".svg" };
+    static const char iconExts[3][5] = { ".svg", ".png", ".xpm" };
     static const int numIconExts = (int) ACOUNT(iconExts);
 
     upath fullpath(joinPath(dir, base));
