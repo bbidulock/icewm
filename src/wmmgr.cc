@@ -1482,8 +1482,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     if (wa.depth == 32)
         frame = new YFrameWindow(wmActionListener, 0,
                                  wa.depth,
-                                 wa.visual,
-                                 wa.colormap);
+                                 wa.visual);
     else
         frame = new YFrameWindow(wmActionListener);
 

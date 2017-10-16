@@ -52,8 +52,8 @@ bool YFrameWindow::isButton(char c) {
 
 YFrameWindow::YFrameWindow(
     YActionListener *wmActionListener,
-    YWindow *parent, int depth, Visual *visual, Colormap colormap)
-    : YWindow(parent, 0, depth, visual, colormap)
+    YWindow *parent, int depth, Visual *visual)
+    : YWindow(parent, 0, depth, visual)
 {
     this->wmActionListener = wmActionListener;
 
