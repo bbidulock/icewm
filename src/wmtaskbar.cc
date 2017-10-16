@@ -164,6 +164,9 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     ///setToplevel(true);
 
     initPixmaps();
+    XSetWindowBackground(xapp->display(), handle(), getTaskBarBg()->pixel());
+    if (taskbackPixmap != null)
+        XSetWindowBackgroundPixmap(xapp->display(), handle(), taskbackPixmap->pixmap());
 
     setWindowTitle(_("Task Bar"));
     setIconTitle(_("Task Bar"));

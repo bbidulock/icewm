@@ -344,8 +344,7 @@ YXTray::YXTray(YXTrayNotifier *notifier,
                YWindow *aParent):
     YWindow(aParent), fNotifier(notifier), fInternal(internal)
 {
-    if (!internal)
-        setParentRelative();
+    setParentRelative();
     fTrayProxy = new YXTrayProxy(atom, this);
     show();
 #if 0
@@ -471,10 +470,10 @@ void YXTray::detachTray() {
 void YXTray::paint(Graphics &g, const YRect &/*r*/) {
     if (fInternal)
         return;
-#if 0
 #ifdef CONFIG_TASKBAR
     g.setColor(getTaskBarBg());
 #endif
+#if 0
     g.fillRect(0, 0, width(), height());
 #endif
     if (trayDrawBevel && fDocked.getCount())
