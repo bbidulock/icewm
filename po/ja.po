@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-10-09 23:31-0600\n"
+"POT-Creation-Date: 2017-10-16 10:00-0600\n"
 "PO-Revision-Date: 2017-10-11 02:11+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
-"Language-Team: Japanese "
-"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/ja/>\n"
+"Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -383,11 +383,16 @@ msgid ""
 msgstr ""
 "使用方法: %s [オプション] [ ファイル名 | URL ]\n"
 "\n"
-"IceHelp は、 IceWM ウインドウマネージャ向けに作られたシンプルな HTML ブラウザです。\n"
-"ファイルとして保存されている HTML 文書を表示することができるほか、 Web サイトを表示\n"
-"することもできます。また、訪問済みのページを履歴として記憶することができるほか、その\n"
-"履歴をキーボード操作やコンテキストメニュー (マウスの右クリック) で表示することができます。\n"
-"画像の表示や JavaScript には対応していません。ファイルや URL を指定しない場合は、\n"
+"IceHelp は、 IceWM ウインドウマネージャ向けに作られたシンプルな HTML ブラウザ"
+"です。\n"
+"ファイルとして保存されている HTML 文書を表示することができるほか、 Web サイト"
+"を表示\n"
+"することもできます。また、訪問済みのページを履歴として記憶することができるほ"
+"か、その\n"
+"履歴をキーボード操作やコンテキストメニュー (マウスの右クリック) で表示するこ"
+"とができます。\n"
+"画像の表示や JavaScript には対応していません。ファイルや URL を指定しない場合"
+"は、\n"
 "%s にある IceWM のマニュアルを表示します。\n"
 "\n"
 "オプション:\n"
@@ -650,8 +655,10 @@ msgid ""
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
-"  -c, --config=FILE   IceWM に対して、 FILE で指定したファイルから設定を読み込むように指示します。\n"
-"  -t, --theme=FILE    IceWM に対して、 FILE で指定したファイルからテーマを読み込むように指示します。\n"
+"  -c, --config=FILE   IceWM に対して、 FILE で指定したファイルから設定を読み"
+"込むように指示します。\n"
+"  -t, --theme=FILE    IceWM に対して、 FILE で指定したファイルからテーマを読"
+"み込むように指示します。\n"
 "\n"
 "  --display=NAME      NAME で指定した指定した X server に接続します。\n"
 "  --sync              X11 サーバとの通信を同期して処理するようにします。\n"
@@ -827,36 +834,47 @@ msgstr ""
 "\n"
 "オプション:\n"
 "\n"
-" -d, --display=DISPLAY   IceWM が使用するディスプレイを指定します (既定値: $DISPLAY) 。\n"
+" -d, --display=DISPLAY   IceWM が使用するディスプレイを指定します (既定値: "
+"$DISPLAY) 。\n"
 "\n"
-" -s, --sample-dir=DIR    サウンドファイルが含まれているディレクトリを指定します。\n"
+" -s, --sample-dir=DIR    サウンドファイルが含まれているディレクトリを指定しま"
+"す。\n"
 "                         既定値は $HOME/.config/icewm/sounds です。\n"
 "\n"
-" -i, --interface=LIST    サウンド出力のインターフェイスを指定します。下記の中から 1 つ以上を指定します:\n"
+" -i, --interface=LIST    サウンド出力のインターフェイスを指定します。下記の中"
+"から 1 つ以上を指定します:\n"
 "                         %s 。複数を指定したい場合はカンマで区切ります。\n"
 "\n"
-" -D, --device=DEVICE     後方互換性のためだけに用意されているオプションで、既定のデバイスを指定します。\n"
+" -D, --device=DEVICE     後方互換性のためだけに用意されているオプションで、既"
+"定のデバイスを指定します。\n"
 "                         -A/-O/-S の各オプションの使用をお勧めします。\n"
 "\n"
 " -O, --oss=DEVICE        OSS デバイスを指定します (既定値: \"%s\") 。\n"
 "\n"
 " -A, --alsa=DEVICE       ALSA デバイスを指定します (既定値: \"%s\") 。\n"
 "\n"
-" -S, --server=ADDR:PORT  ESD サーバのアドレス (ADDR) とポート番号 (PORT) を指定します。\n"
+" -S, --server=ADDR:PORT  ESD サーバのアドレス (ADDR) とポート番号 (PORT) を指"
+"定します。\n"
 "                         ESD の既定値は \"localhost:16001\" です。\n"
 "\n"
-" -z, --snooze=millisecs  サウンドイベント同士のスヌーズ間隔をミリ秒単位で指定します。\n"
+" -z, --snooze=millisecs  サウンドイベント同士のスヌーズ間隔をミリ秒単位で指定"
+"します。\n"
 "                         既定値は 500 ミリ秒です。\n"
 "\n"
-" -p, --play=sound        指定されたサウンド (名前または番号) を再生して終了します。\n"
+" -p, --play=sound        指定されたサウンド (名前または番号) を再生して終了し"
+"ます。\n"
 "\n"
-" -l, --list-files        利用可能なサウンドファイルパスの一覧を表示して終了します。\n"
+" -l, --list-files        利用可能なサウンドファイルパスの一覧を表示して終了し"
+"ます。\n"
 "\n"
-"     --list-sounds       対応するサウンドファイル名の一覧を表示して終了します。\n"
+"     --list-sounds       対応するサウンドファイル名の一覧を表示して終了しま"
+"す。\n"
 "\n"
-"     --list-interfaces   対応するオーディオインターフェイスの一覧を表示して終了します。\n"
+"     --list-interfaces   対応するオーディオインターフェイスの一覧を表示して終"
+"了します。\n"
 "\n"
-" -v, --verbose           冗長な出力を行ないます (それぞれのサウンドイベントを stdout に出力します) 。\n"
+" -v, --verbose           冗長な出力を行ないます (それぞれのサウンドイベント"
+"を stdout に出力します) 。\n"
 "\n"
 " -V, --version           バージョン情報を表示して終了します。\n"
 "\n"
@@ -919,7 +937,7 @@ msgstr "オーディオインターフェイス %s への接続に失敗しま�
 msgid "Received signal %s: Terminating..."
 msgstr "シグナル %s を受け取りました。終了しています..."
 
-#: src/icetray.cc:251
+#: src/icetray.cc:252
 msgid ""
 "  -n, --notify        Notify parent process by sending signal USR1.\n"
 "  --display=NAME      Use NAME to connect to the X server.\n"
@@ -928,7 +946,8 @@ msgid ""
 "  -c, --config=FILE   Load preferences from FILE.\n"
 "  -t, --theme=FILE    Load the theme from FILE.\n"
 msgstr ""
-"  -n, --notify        シグナル USR1 を送信することで親プロセスに通知を送信します。\n"
+"  -n, --notify        シグナル USR1 を送信することで親プロセスに通知を送信し"
+"ます。\n"
 "  --display=NAME      NAME で指定した指定した X server に接続します。\n"
 "  --sync              X11 サーバとの通信を同期して処理するようにします。\n"
 "\n"
@@ -1012,12 +1031,15 @@ msgid ""
 msgstr ""
 "使用方法: icewmbg [オプション]\n"
 "複数の値を指定したい場合は、カンマで区切って指定してください。\n"
-"画像としてディレクトリを指定すると、そのディレクトリ内にある全ての画像を使用します。\n"
+"画像としてディレクトリを指定すると、そのディレクトリ内にある全ての画像を使用"
+"します。\n"
 "\n"
 "オプション:\n"
 "  -p, --replace        既存の icewmbg を置き換えます。\n"
-"  -q, --quit           現在動作中の icewmbg に対して、終了するように依頼します。\n"
-"  -r, --restart        現在動作中の icewmbg に対して、再起動するように依頼します。\n"
+"  -q, --quit           現在動作中の icewmbg に対して、終了するように依頼しま"
+"す。\n"
+"  -r, --restart        現在動作中の icewmbg に対して、再起動するように依頼し"
+"ます。\n"
 "\n"
 "  -c, --config=FILE    設定を FILE で指定したファイルから読み込みます。\n"
 "  -t, --theme=NAME     テーマを NAME で指定した名前から読み込みます。\n"
@@ -1046,7 +1068,8 @@ msgstr ""
 " SupportSemitransparency  - 半透明の端末に対応させます\n"
 " DesktopTransparencyColor - 半透明のウインドウに通知する色を指定します\n"
 " DesktopTransparencyImage - 半透明のウインドウに通知する画像を指定します\n"
-" DesktopBackgroundMultihead - 全てのモニタに対して単一の背景を使用するようにします\n"
+" DesktopBackgroundMultihead - 全てのモニタに対して単一の背景を使用するように"
+"します\n"
 "\n"
 " center:0 scaled:0 = タイル表示\n"
 " center:1 scaled:0 = 中央に表示\n"
@@ -1056,7 +1079,8 @@ msgstr ""
 
 #: src/icewmbg.cc:754
 msgid "Please note that not all options are currently configured.\n"
-msgstr "なお、全てのオプションが設定済みというわけではないことに注意してください。\n"
+msgstr ""
+"なお、全てのオプションが設定済みというわけではないことに注意してください。\n"
 
 #: src/icewmbg.cc:909
 msgid "Cannot start, because another icewmbg is still running."
@@ -1132,7 +1156,8 @@ msgstr "icewm について"
 #: src/wmapp.cc:118
 msgid "A window manager is already running, use --replace to replace it"
 msgstr ""
-"ウインドウマネージャは既に起動しています。 --replace オプションを指定することで、新しいウインドウマネージャに置き換えることができます"
+"ウインドウマネージャは既に起動しています。 --replace オプションを指定すること"
+"で、新しいウインドウマネージャに置き換えることができます"
 
 #: src/wmapp.cc:136
 #, c-format
@@ -1384,7 +1409,8 @@ msgstr ""
 "\n"
 "環境変数:\n"
 "  ICEWM_PRIVCFG=PATH  ユーザの設定ファイルとして使用するディレクトリ\n"
-"                      既定値は \"$XDG_CONFIG_HOME/icewm\" (存在すれば) または\n"
+"                      既定値は \"$XDG_CONFIG_HOME/icewm\" (存在すれば) また"
+"は\n"
 "                      \"$HOME/.icewm\" です。\n"
 "  DISPLAY=NAME        使用する X サーバを指定します。\n"
 "  MAIL=URL            メールボックスの場所を指定します。\n"
@@ -1454,7 +1480,7 @@ msgid "_Cancel"
 msgstr "キャンセル (_C)"
 
 #: src/wmdialog.cc:92 src/wmprog.cc:1005 src/wmprog.cc:1007 src/wmprog.cc:1011
-#: src/wmprog.cc:1013 src/wmtaskbar.cc:325 src/wmtaskbar.cc:327
+#: src/wmprog.cc:1013 src/wmtaskbar.cc:328 src/wmtaskbar.cc:330
 msgid "_Logout..."
 msgstr "ログアウト (_L)..."
 
@@ -1462,12 +1488,12 @@ msgstr "ログアウト (_L)..."
 msgid "_Restart icewm"
 msgstr "icewm を再起動 (_R)"
 
-#: src/wmdialog.cc:97 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:317
-#: src/wmtaskbar.cc:320
+#: src/wmdialog.cc:97 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:320
+#: src/wmtaskbar.cc:323
 msgid "_About"
 msgstr "情報 (_A)"
 
-#: src/wmframe.cc:158 src/wmframe.cc:3443
+#: src/wmframe.cc:158 src/wmframe.cc:3438
 msgid "Maximize"
 msgstr "最大化"
 
@@ -1479,7 +1505,7 @@ msgstr "最小化"
 msgid "Hide"
 msgstr "隠す"
 
-#: src/wmframe.cc:202 src/wmframe.cc:3476
+#: src/wmframe.cc:202 src/wmframe.cc:3471
 msgid "Rollup"
 msgstr "シェード"
 
@@ -1487,11 +1513,11 @@ msgstr "シェード"
 msgid "Raise/Lower"
 msgstr "上/下に表示"
 
-#: src/wmframe.cc:1739
+#: src/wmframe.cc:1743
 msgid "Kill Client: "
 msgstr "クライアント強制終了: "
 
-#: src/wmframe.cc:1748
+#: src/wmframe.cc:1752
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1499,11 +1525,11 @@ msgstr ""
 "このクライアントを強制終了すると、保存されて\n"
 "いない変更点が失われてしまいます。処理を続けてよろしいですか？"
 
-#: src/wmframe.cc:3440
+#: src/wmframe.cc:3435
 msgid "Restore"
 msgstr "元に戻す"
 
-#: src/wmframe.cc:3474
+#: src/wmframe.cc:3469
 msgid "Rolldown"
 msgstr "シェード解除"
 
@@ -1630,7 +1656,7 @@ msgstr "プログラム"
 msgid "_Run..."
 msgstr "実行 (_R)..."
 
-#: src/wmprog.cc:920 src/wmprog.cc:922 src/wmtaskbar.cc:305
+#: src/wmprog.cc:920 src/wmprog.cc:922 src/wmtaskbar.cc:308
 msgid "_Windows"
 msgstr "ウインドウ一覧 (_W)"
 
@@ -1655,59 +1681,59 @@ msgstr "設定 (_T)"
 msgid "Session Manager: Unknown line %s"
 msgstr "セッションマネージャ: 未知の行 %s"
 
-#: src/wmtaskbar.cc:168 src/wmtaskbar.cc:169
+#: src/wmtaskbar.cc:171 src/wmtaskbar.cc:172
 msgid "Task Bar"
 msgstr "タスクバー"
 
-#: src/wmtaskbar.cc:294 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+#: src/wmtaskbar.cc:297 src/wmwinlist.cc:314 src/wmwinlist.cc:327
 msgid "Tile _Vertically"
 msgstr "垂直に並べる (_V)"
 
-#: src/wmtaskbar.cc:295 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+#: src/wmtaskbar.cc:298 src/wmwinlist.cc:315 src/wmwinlist.cc:328
 msgid "T_ile Horizontally"
 msgstr "水平に並べる (_I)"
 
-#: src/wmtaskbar.cc:296 src/wmwinlist.cc:316 src/wmwinlist.cc:329
+#: src/wmtaskbar.cc:299 src/wmwinlist.cc:316 src/wmwinlist.cc:329
 msgid "Ca_scade"
 msgstr "カスケード (_S)"
 
-#: src/wmtaskbar.cc:297 src/wmwinlist.cc:317 src/wmwinlist.cc:330
+#: src/wmtaskbar.cc:300 src/wmwinlist.cc:317 src/wmwinlist.cc:330
 msgid "_Arrange"
 msgstr "整列 (_A)"
 
-#: src/wmtaskbar.cc:298 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+#: src/wmtaskbar.cc:301 src/wmwinlist.cc:319 src/wmwinlist.cc:331
 msgid "_Minimize All"
 msgstr "全て最小化 (_M)"
 
-#: src/wmtaskbar.cc:299 src/wmwinlist.cc:320 src/wmwinlist.cc:332
+#: src/wmtaskbar.cc:302 src/wmwinlist.cc:320 src/wmwinlist.cc:332
 msgid "_Hide All"
 msgstr "全て隠す (_H)"
 
-#: src/wmtaskbar.cc:300 src/wmwinlist.cc:321 src/wmwinlist.cc:333
+#: src/wmtaskbar.cc:303 src/wmwinlist.cc:321 src/wmwinlist.cc:333
 msgid "_Undo"
 msgstr "元に戻す (_U)"
 
-#: src/wmtaskbar.cc:302
+#: src/wmtaskbar.cc:305
 msgid "Arrange _Icons"
 msgstr "アイコン整列 (_I)"
 
-#: src/wmtaskbar.cc:308
+#: src/wmtaskbar.cc:311
 msgid "_Refresh"
 msgstr "再描画 (_R)"
 
-#: src/wmtaskbar.cc:315
+#: src/wmtaskbar.cc:318
 msgid "_License"
 msgstr "ライセンス (_L)"
 
-#: src/wmtaskbar.cc:432
+#: src/wmtaskbar.cc:435
 msgid "Favorite applications"
 msgstr "お気に入りのアプリケーション"
 
-#: src/wmtaskbar.cc:449
+#: src/wmtaskbar.cc:452
 msgid "Window list menu"
 msgstr "ウインドウ一覧メニュー"
 
-#: src/wmtaskbar.cc:458
+#: src/wmtaskbar.cc:461
 msgid "Show Desktop"
 msgstr "デスクトップの表示"
 
@@ -1870,7 +1896,9 @@ msgstr "Ctrl+A"
 
 #: src/ylocale.cc:46
 msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
-msgstr "C ライブラリまたは Xlib がロケールに対応していません。 'C' ロケールにフォールバックします。"
+msgstr ""
+"C ライブラリまたは Xlib がロケールに対応していません。 'C' ロケールにフォール"
+"バックします。"
 
 #: src/ylocale.cc:70
 msgid ""

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.15pre3\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-10-09 23:31-0600\n"
+"POT-Creation-Date: 2017-10-16 10:00-0600\n"
 "PO-Revision-Date: 2017-07-22 18:01+0000\n"
 "Last-Translator: Benoît Monin <benoit.monin@gmx.fr>\n"
 "Language-Team: French <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -823,7 +823,7 @@ msgstr "Échec de chargement du thème %s"
 msgid "Received signal %s: Terminating..."
 msgstr "Réception du signal %d : terminaison ..."
 
-#: src/icetray.cc:251
+#: src/icetray.cc:252
 msgid ""
 "  -n, --notify        Notify parent process by sending signal USR1.\n"
 "  --display=NAME      Use NAME to connect to the X server.\n"
@@ -1270,7 +1270,7 @@ msgid "_Cancel"
 msgstr "A_nnuler"
 
 #: src/wmdialog.cc:92 src/wmprog.cc:1005 src/wmprog.cc:1007 src/wmprog.cc:1011
-#: src/wmprog.cc:1013 src/wmtaskbar.cc:325 src/wmtaskbar.cc:327
+#: src/wmprog.cc:1013 src/wmtaskbar.cc:328 src/wmtaskbar.cc:330
 msgid "_Logout..."
 msgstr "_Déconnexion ..."
 
@@ -1278,12 +1278,12 @@ msgstr "_Déconnexion ..."
 msgid "_Restart icewm"
 msgstr "_Redémarrer IceWM"
 
-#: src/wmdialog.cc:97 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:317
-#: src/wmtaskbar.cc:320
+#: src/wmdialog.cc:97 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:320
+#: src/wmtaskbar.cc:323
 msgid "_About"
 msgstr "À _propos"
 
-#: src/wmframe.cc:158 src/wmframe.cc:3443
+#: src/wmframe.cc:158 src/wmframe.cc:3438
 msgid "Maximize"
 msgstr "Maximiser"
 
@@ -1295,7 +1295,7 @@ msgstr "Icônifier"
 msgid "Hide"
 msgstr "Cacher"
 
-#: src/wmframe.cc:202 src/wmframe.cc:3476
+#: src/wmframe.cc:202 src/wmframe.cc:3471
 msgid "Rollup"
 msgstr "Enrouler"
 
@@ -1305,11 +1305,11 @@ msgid "Raise/Lower"
 msgstr "Premier/Dernier plan"
 
 #
-#: src/wmframe.cc:1739
+#: src/wmframe.cc:1743
 msgid "Kill Client: "
 msgstr "Tuer le client : "
 
-#: src/wmframe.cc:1748
+#: src/wmframe.cc:1752
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1317,11 +1317,11 @@ msgstr ""
 "ATTENTION ! Tous les changements non sauvegardés seront\n"
 "perdus quand ce client sera tué. Souhaitez-vous continuer ?"
 
-#: src/wmframe.cc:3440
+#: src/wmframe.cc:3435
 msgid "Restore"
 msgstr "Restaurer"
 
-#: src/wmframe.cc:3474
+#: src/wmframe.cc:3469
 msgid "Rolldown"
 msgstr "Dérouler"
 
@@ -1446,7 +1446,7 @@ msgstr "Programmes"
 msgid "_Run..."
 msgstr "_Exécuter ..."
 
-#: src/wmprog.cc:920 src/wmprog.cc:922 src/wmtaskbar.cc:305
+#: src/wmprog.cc:920 src/wmprog.cc:922 src/wmtaskbar.cc:308
 msgid "_Windows"
 msgstr "_Fenêtres"
 
@@ -1472,59 +1472,59 @@ msgstr "_Réglages"
 msgid "Session Manager: Unknown line %s"
 msgstr "Gestionnaire de session : ligne \"%s\" inconnue"
 
-#: src/wmtaskbar.cc:168 src/wmtaskbar.cc:169
+#: src/wmtaskbar.cc:171 src/wmtaskbar.cc:172
 msgid "Task Bar"
 msgstr "Barre de tâche"
 
-#: src/wmtaskbar.cc:294 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+#: src/wmtaskbar.cc:297 src/wmwinlist.cc:314 src/wmwinlist.cc:327
 msgid "Tile _Vertically"
 msgstr "Mosaïque _verticale"
 
-#: src/wmtaskbar.cc:295 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+#: src/wmtaskbar.cc:298 src/wmwinlist.cc:315 src/wmwinlist.cc:328
 msgid "T_ile Horizontally"
 msgstr "Mosaïque hori_zontale"
 
-#: src/wmtaskbar.cc:296 src/wmwinlist.cc:316 src/wmwinlist.cc:329
+#: src/wmtaskbar.cc:299 src/wmwinlist.cc:316 src/wmwinlist.cc:329
 msgid "Ca_scade"
 msgstr "Ca_scade"
 
-#: src/wmtaskbar.cc:297 src/wmwinlist.cc:317 src/wmwinlist.cc:330
+#: src/wmtaskbar.cc:300 src/wmwinlist.cc:317 src/wmwinlist.cc:330
 msgid "_Arrange"
 msgstr "_Arranger"
 
-#: src/wmtaskbar.cc:298 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+#: src/wmtaskbar.cc:301 src/wmwinlist.cc:319 src/wmwinlist.cc:331
 msgid "_Minimize All"
 msgstr "_Tout icônifier"
 
-#: src/wmtaskbar.cc:299 src/wmwinlist.cc:320 src/wmwinlist.cc:332
+#: src/wmtaskbar.cc:302 src/wmwinlist.cc:320 src/wmwinlist.cc:332
 msgid "_Hide All"
 msgstr "Tout _cacher"
 
-#: src/wmtaskbar.cc:300 src/wmwinlist.cc:321 src/wmwinlist.cc:333
+#: src/wmtaskbar.cc:303 src/wmwinlist.cc:321 src/wmwinlist.cc:333
 msgid "_Undo"
 msgstr "Ann_uler"
 
-#: src/wmtaskbar.cc:302
+#: src/wmtaskbar.cc:305
 msgid "Arrange _Icons"
 msgstr "Arranger les _icônes"
 
-#: src/wmtaskbar.cc:308
+#: src/wmtaskbar.cc:311
 msgid "_Refresh"
 msgstr "_Rafraîchir"
 
-#: src/wmtaskbar.cc:315
+#: src/wmtaskbar.cc:318
 msgid "_License"
 msgstr "_Licence"
 
-#: src/wmtaskbar.cc:432
+#: src/wmtaskbar.cc:435
 msgid "Favorite applications"
 msgstr "Applications favorites"
 
-#: src/wmtaskbar.cc:449
+#: src/wmtaskbar.cc:452
 msgid "Window list menu"
 msgstr "Menu des fenêtres"
 
-#: src/wmtaskbar.cc:458
+#: src/wmtaskbar.cc:461
 msgid "Show Desktop"
 msgstr "Montrer le bureau"
 
