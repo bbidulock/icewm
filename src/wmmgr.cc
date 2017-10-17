@@ -2282,7 +2282,7 @@ void YWindowManager::relocateWindows(long workspace, int screen, int dx, int dy)
 
 void YWindowManager::resizeWindows() {
     for (YFrameWindow * f = topLayer(); f; f = f->nextLayer()) {
-        if (f->inWorkArea()) {
+        if (f->inWorkArea() && f->client() && !f->client()->destroyed()) {
             if (f->isMaximized())
                 f->updateDerivedSize(WinStateMaximizedVert | WinStateMaximizedHoriz);
             f->updateLayout();
