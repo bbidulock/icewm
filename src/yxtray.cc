@@ -513,6 +513,7 @@ void YXTray::relayout() {
                 ay=1; aw=1; eh-=2;
         }
         ec->setGeometry(YRect(aw,ay,ew,eh));
+        ec->client()->setGeometry(YRect(0,0,ew,eh));
         aw += ew;
     }
     if (fInternal && trayDrawBevel)
