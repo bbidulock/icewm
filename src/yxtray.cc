@@ -453,7 +453,7 @@ void YXTray::detachTray() {
 
 
 void YXTray::paint(Graphics &g, const YRect &/*r*/) {
-    if (fInternal)
+    if (!fInternal)
         return;
 #ifdef CONFIG_TASKBAR
     g.setColor(getTaskBarBg());
@@ -484,8 +484,9 @@ void YXTray::backgroundChanged() {
 void YXTray::relayout() {
     int aw = 0;
     int h  = trayIconMaxHeight;
-    if (!fInternal && trayDrawBevel)
-        aw+=1;
+    if (fInternal && trayDrawBevel) {
+        h+=2;
+    }
     int cnt = 0;
 
     /*
@@ -508,14 +509,13 @@ void YXTray::relayout() {
         int eh(h), ew=ec->width(), ay(0);
         if (!fInternal) {
             ew = min(trayIconMaxWidth, ec->width());
-            if (trayDrawBevel) {
-                eh-=2; ay=1;
-            }
+        } else if (trayDrawBevel) {
+                ay=1; aw=1; eh-=2;
         }
         ec->setGeometry(YRect(aw,ay,ew,eh));
         aw += ew;
     }
-    if (!fInternal && trayDrawBevel)
+    if (fInternal && trayDrawBevel)
         aw+=1;
 
     int w = aw;
