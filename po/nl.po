@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.23\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-10-18 03:14-0600\n"
-"PO-Revision-Date: 2017-10-18 21:18+0000\n"
+"PO-Revision-Date: 2017-10-18 21:20+0000\n"
 "Last-Translator: Freek de Kruijf <freek@opensuse.org>\n"
 "Language-Team: Dutch "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/nl/>\n"
@@ -333,7 +333,7 @@ msgstr "Aanmaken van een tijdelijk bestand is mislukt"
 #: src/icehelp.cc:2002
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
-msgstr "Systeem uitvoeren is mislukt (%s) (%d)"
+msgstr "Systeem (%s) (%d) uitvoeren is mislukt"
 
 #: src/icehelp.cc:2025
 #, c-format
@@ -342,11 +342,11 @@ msgstr "Decomprimeren is mislukt van %s"
 
 #: src/icehelp.cc:2033
 msgid "Could not locate curl or wget in PATH"
-msgstr ""
+msgstr "Kon curl of wget in PATH niet lokaliseren"
 
 #: src/icehelp.cc:2037
 msgid "Unsafe characters in URL"
-msgstr ""
+msgstr "Onveilige tekens in URL"
 
 #: src/icehelp.cc:2053
 #, c-format
