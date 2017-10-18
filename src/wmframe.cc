@@ -302,7 +302,7 @@ YFrameWindow::~YFrameWindow() {
     if (wmapp->hasSwitchWindow())
         wmapp->getSwitchWindow()->destroyedFrame(this);
     if (fClient != 0) {
-        if (!fClient->destroyed())
+        if (!fClient->destroyed() && fClient->adopted())
             XRemoveFromSaveSet(xapp->display(), client()->handle());
         XDeleteContext(xapp->display(), client()->handle(), frameContext);
     }
@@ -704,7 +704,8 @@ void YFrameWindow::manage(YFrameClient *client) {
     }
 #endif
 
-    XAddToSaveSet(xapp->display(), client->handle());
+    if (client->adopted())
+        XAddToSaveSet(xapp->display(), client->handle());
 
     client->reparent(fClientContainer, 0, 0);
 
@@ -746,7 +747,7 @@ void YFrameWindow::unmanage(bool reparent) {
         if (manager->wmState() != YWindowManager::wmSHUTDOWN)
             client()->setFrameState(WithdrawnState);
 
-        if (!client()->destroyed())
+        if (!client()->destroyed() && client()->adopted())
             XRemoveFromSaveSet(xapp->display(), client()->handle());
     }
 
@@ -1280,7 +1281,7 @@ YFrameWindow *YFrameWindow::findWindow(int flags) {
             goto next;
 #endif
 #endif
-        if (!p->client()->adopted())
+        if (!p->client()->adopted() || p->client()->destroyed())
             goto next;
 
         return p;
@@ -1306,7 +1307,7 @@ YFrameWindow *YFrameWindow::findWindow(int flags) {
         return 0;
     if ((flags & fwfWorkspace) && !p->visibleNow())
         return 0;
-    if (!p->client()->adopted())
+    if (!p->client()->adopted() || p->client()->destroyed())
         return 0;
 
     return this;
@@ -3743,8 +3744,9 @@ void YFrameWindow::updateNetWMUserTimeWindow() {
             XSaveContext(xapp->display(), window,
                     windowContext, (XPointer)client());
             XWindowAttributes wa;
-            XGetWindowAttributes(xapp->display(), window, &wa);
-            XSelectInput(xapp->display(), wa.your_event_mask | PropertyChangeMask, window);
+            if (XGetWindowAttributes(xapp->display(), window, &wa))
+                XSelectInput(xapp->display(), window,
+                             wa.your_event_mask | PropertyChangeMask);
         }
         updateNetWMUserTime();
     }

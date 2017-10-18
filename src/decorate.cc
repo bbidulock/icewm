@@ -484,7 +484,8 @@ void YFrameWindow::layoutButtons() {
 
 void YFrameWindow::layoutResizeIndicators() {
     if (((frameDecors() & (fdResize | fdBorder)) == (fdResize | fdBorder)) &&
-        !isRollup() && !isMinimized() && (frameFunctions() & ffResize))
+        !isRollup() && !isMinimized() && (frameFunctions() & ffResize) &&
+        !isFullscreen())
     {
         if (!indicatorsVisible) {
             indicatorsVisible = 1;
@@ -519,7 +520,7 @@ void YFrameWindow::layoutResizeIndicators() {
 
     XMoveResizeWindow(xapp->display(), topSide, 0, 0, width(), borderY());
     XMoveResizeWindow(xapp->display(), leftSide, 0, 0, borderX(), height());
-    XMoveResizeWindow(xapp->display(), rightSide, width() - borderX(), 0, borderY(), height());
+    XMoveResizeWindow(xapp->display(), rightSide, width() - borderX(), 0, borderX(), height());
     XMoveResizeWindow(xapp->display(), bottomSide, 0, height() - borderY(), width(), borderY());
 
     XMoveResizeWindow(xapp->display(), topLeftCorner, 0, 0, wsCornerX, wsCornerY);

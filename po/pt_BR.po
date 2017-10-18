@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.3.4pre2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-10-16 10:00-0600\n"
-"PO-Revision-Date: 2017-10-12 18:25+0000\n"
+"PO-Revision-Date: 2017-10-17 19:36+0000\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive68@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/pt_BR/>\n"
@@ -615,7 +615,6 @@ msgid "Socket error: %d"
 msgstr "Erro de soquete: %d"
 
 #: src/icesm.cc:50
-#, fuzzy
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -631,6 +630,9 @@ msgstr ""
 "\n"
 "  --display=NOME      Use NOME para se conectar ao servidor X.\n"
 "  --sync              Sincronize a comunicação com o servidor X11.\n"
+"\n"
+"  -n, --notray        Não iniciar o icewmtray.\n"
+"  -s, --sound         Iniciar também o icesound.\n"
 
 #: src/icesm.cc:107
 #, c-format
@@ -722,11 +724,11 @@ msgstr "Tocando amostra #%d: %d"
 #: src/icesound.cc:648
 #, c-format
 msgid "ao_open_live failed with %d"
-msgstr ""
+msgstr "ao_open_live falhou com %d"
 
 #: src/icesound.cc:659
 msgid "ao_play failed"
-msgstr ""
+msgstr "ao_play falhou"
 
 #: src/icesound.cc:821
 #, c-format
@@ -740,7 +742,7 @@ msgstr "Argumento não reconhecido: %s\n"
 
 # It's used "ie" (that is). You didn't mean to use "e.g." (for example)?
 #: src/icesound.cc:833
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
 "\n"
@@ -796,66 +798,82 @@ msgstr ""
 "Uso: %s [OPÇÃO]   \n"
 "\n"
 "Toca arquivos de áudio em eventos gráficos abertos pelo IceWM.\n"
+"As interfaces de som atualmente configuradas são: %s.\n"
+"O icesound irá escolher a primeira destas que for usável.\n"
 "\n"
 "Opções:\n"
 "\n"
-"-d, --display=DISPLAY         Display usado pelo IceWM (padrão: $DISPLAY).\n"
+"-d, --display=DISPLAY         Display X11 usado pelo IceWM (padrão: "
+"$DISPLAY).\n"
+"\n"
 "-s, --sample-dir=DIR          Especifica o diretório que contém\n"
 "                              os arquivos de som (~/.icewm/sounds).\n"
-"-i, --interface=ALVO          Especifica a interface alvo da saída de som,\n"
-"                              uma de ALSA, OSS, YIFF, ESD\n"
-"-D, --device=DISPOSITIVO      (ALSA OSS) especifica o processador\n"
-"                              de sinal digital (padrão (ALSA) default (OSS) /"
-"dev/dsp).\n"
-"-S, --server=END:PORT         (ESD e YIFF) especifica o endereço do servidor "
-"e\n"
-"                              o número da porta (padrão localhost:16001 para "
-"ESD\n"
-"                              e localhost:9433 para YIFF).\n"
-"-m, --audio-mode[=MODO]       (somente YIFF) especifica o modo Áudio (deixe\n"
-"                              em branco para obter uma lista).\n"
-"--audio-mode-auto             (somente YIFF) muda o modo Áudio no ato para\n"
-"                              combinar melhor com Áudio da amostra (pode "
-"causar\n"
-"                              problemas com outros clientes Y, sobrepuja\n"
-"                              --audio-mode).\n"
 "\n"
-"-v, --verbose                 Eloquente (imprime cada evento de áudio para\n"
-"                              stdout).\n"
-"-V, --version                 Imprime a informação da versão e finaliza.\n"
-"-h, --help                    Imprime (esta) tela de ajuda e finaliza.\n"
+"-i, --interface=LISTA          Especifica as interfaces de saída de som. Uma "
+"ou mais\n"
+"                              de %s separadas por vírgula.\n"
+"\n"
+"-D, --device=DISPOSITIVO     Apenas para retro-compatibilidade: o "
+"dispositivo padrão. \n"
+"                              Prefira uma das opções -A/-O/-S.\n"
+"\n"
+"-O, --oss=DISPOSITIVO        Especifica o dispositivo OSS (padrão: \"%s\").\n"
+"\n"
+"-A, --alsa=DISPOSITIVO       Especifica o dispositivo ALSA (padrão: \"%s"
+"\").\n"
+"\n"
+"-S, --server=END:PORT         Especifica o endereço e número da porta do "
+"servidor ESD.\n"
+"                              Para o ESD o padrão é \"localhost:16001\".\n"
+"\n"
+" -z, --snooze=milissegundos  Especifica o intervalo de espera entre os "
+"eventos de som em\n"
+"                              milissegundos. O padrão é 500 milissegundos.\n"
+"\n"
+" -p, --play=som        Toca o som fornecido (nome ou número) e sai.\n"
+"\n"
+" -l, --list-files        Lista os caminhos de arquivos de som disponíveis e "
+"sai.\n"
+"     --list-sounds       Lista os nome de arquivos de som suportados e sai.\n"
+"     --list-interfaces   Lista as interfaces de áudio suportados e sai.\n"
+"\n"
+"-v, --verbose                 Detalhado (imprime cada evento de áudio).\n"
+"\n"
+"-V, --version                 Imprime a informação da versão e sai.\n"
+"\n"
+"-h, --help                    Imprime esta tela de ajuda e sai.\n"
 "\n"
 "Valores de retorno:\n"
 "\n"
 "0     Successo.\n"
-"1     Erro genérico.\n"
+"1     Erro geral.\n"
 "2     Erro de linha de comando.\n"
-"3     Erro de subsistemas (incapaz de conectar ao servidor).\n"
+"3     Erro de subsistemas (por ex.: não foi possível conectar ao servidor).\n"
 "\n"
 
 #: src/icesound.cc:927
 #, c-format
 msgid "No audio for %s"
-msgstr ""
+msgstr "Sem áudio para %s"
 
 #: src/icesound.cc:1004
 msgid "Could not get GUI event property"
-msgstr ""
+msgstr "Não foi possível obter a propriedade do evento da interface"
 
 #: src/icesound.cc:1008
 #, c-format
 msgid "Received invalid GUI event %d"
-msgstr ""
+msgstr "Recebido evento da interface inválido %d"
 
 #: src/icesound.cc:1012
 #, c-format
 msgid "Received GUI event %s"
-msgstr ""
+msgstr "Recebido evento de interface %s"
 
 #: src/icesound.cc:1026
 #, c-format
 msgid "Too quick; ignoring %s."
-msgstr ""
+msgstr "Muito rápido; ignorando %s."
 
 #: src/icesound.cc:1030
 #, c-format
@@ -870,20 +888,19 @@ msgstr "Interface não suportada: %s."
 #: src/icesound.cc:1079
 #, c-format
 msgid "Using %s audio."
-msgstr ""
+msgstr "Usando áudio %s."
 
 #: src/icesound.cc:1083
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to connect to audio interfaces %s."
-msgstr "Falha ao carregar o tema %s"
+msgstr "Falha ao conectar às interfaces de áudio %s."
 
 #: src/icesound.cc:1095
-#, fuzzy, c-format
+#, c-format
 msgid "Received signal %s: Terminating..."
-msgstr "Sinal %d recebido: Terminando..."
+msgstr "Sinal recebido %s: Terminando..."
 
 #: src/icetray.cc:252
-#, fuzzy
 msgid ""
 "  -n, --notify        Notify parent process by sending signal USR1.\n"
 "  --display=NAME      Use NAME to connect to the X server.\n"
@@ -896,7 +913,7 @@ msgstr ""
 "  --display=NOME      Usar NOME para se conectar ao servidor X.\n"
 "  --sync              Sincronizar a comunicação com o servidor X11.\n"
 "\n"
-"  -c, --config=ARQUIVO   Carregar preferências do ARQUIVO.\n"
+"  -c, --config=ARQUIVO   Carregar as preferências do ARQUIVO.\n"
 "  -t, --theme=ARQUIVO    Carregar o tema do ARQUIVO.\n"
 
 #: src/iceview.cc:68
@@ -924,12 +941,11 @@ msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
 #: src/icewmbg.cc:73
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load image '%s'."
-msgstr "Falha ao carregar o tema %s"
+msgstr "Falha ao carregar a imagem '%s'."
 
 #: src/icewmbg.cc:706
-#, fuzzy
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -976,41 +992,58 @@ msgid ""
 "\n"
 msgstr ""
 "Uso: icewmbg [OPÇÕES]\n"
+"Quando múltiplos valores podem ser fornecidos, eles são separados por "
+"vírgula.\n"
+"Quando a imagem é um diretório, todas as imagens deste diretório serão "
+"usadas.\n"
 "\n"
 "Opções:\n"
-"  -r, --restart       Reiniciar icewmbg\n"
-"  -q, --quit          Encerrar icewmbg\n"
+"  -p, --replace        Substitui um icewmbg existente.\n"
+"  -q, --quit          Encerrar o icewmbg em execução.\n"
+"  -r, --restart       Reiniciar o icewmbg em execução.\n"
 "\n"
-"  -c, --config=ARQUIVO   Carregar preferências do ARQUIVO.\n"
-"  -t, --theme=ARQUIVO    Carregue o tema ARQUIVO.\n"
+"  -c, --config=ARQUIVO   Carregar as preferências do ARQUIVO.\n"
+"  -t, --theme=ARQUIVO    Carregue o tema do ARQUIVO.\n"
+"\n"
+"  -i, --image=ARQUIVO(S)  Carregar a imagem de fundo do ARQUIVO.\n"
+"  -k, --color=NOME(S)  Usar a cor de fundo do NOME.\n"
+"\n"
+"  -s, --semis=ARQUIVO(S)  Carregar a imagem de transparência do ARQUIVO.\n"
+"  -x, --trans=NOME(S)  Usa a cor de transparência do NOME.\n"
+"\n"
+"  -e, --center=0/1     Desabilitar/habilitar fundo centralizado.\n"
+"  -a, --scaled=0/1     Desabilitar/habilitar fundo ajustado.\n"
+"  -m, --multi=0/1      Desabilitar/habilitar fundo em vários monitores.\n"
 "\n"
 "  --display=NOME      Use NOME para conectar o servidor X.\n"
 "  --sync              Sincronizar a comunicação com o servidor X11.\n"
 "\n"
-"  -h, --help          Imprimir esta tela de uso e sair.\n"
-"  -V, --version       Imprimir informações da versão e sair.\n"
+"  -h, --help          Imprimir esta tela de uso e sai.\n"
+"  -V, --version       Imprimir informações da versão e sai.\n"
 "\n"
-"Carrega o plano de fundo da área de trabalho conforme o arquivo de "
-"preferências:\n"
-" DesktopBackgroundCenter  - Mostra o plano de fundo centrado, não azulejado\n"
+"Carrega o fundo da área de trabalho conforme o arquivo de preferências:\n"
+" DesktopBackgroundCenter  - Mostra o fundo centralizado\n"
+" DesktopBackgroundScaled  - Mostra o fundo ajustado\n"
+" DesktopBackgroundColor   - Cor de fundo\n"
+" DesktopBackgroundImage   - Imagem de fundo\n"
 " SupportSemitransparency  - Suporte para terminais semitransparentes\n"
-" DesktopBackgroundColor   - Cor do plano de fundo\n"
-" DesktopBackgroundImage   - Imagem do plano de fundo\n"
-" DesktopTransparencyColor - Cor a anunciar para janelas semitransparentes\n"
-" DesktopTransparencyImage - Imagem a anunciar para janelas "
-"semitransparentes\n"
+" DesktopTransparencyColor - Cor de fundo semitransparente\n"
+" DesktopTransparencyImage - Imagem de fundo semitransparente\n"
+" DesktopBackgroundMultihead - Mesmo fundo em todos os monitores\n"
 "\n"
-" center:0 scaled:0 = quadrado\n"
-" center:1 scaled:1 = manter aspecto\n"
+" center:0 scaled:0 = ladrilhado\n"
+" center:1 scaled:0 = centralizado\n"
+" center:1 scaled:1 = preenche uma dimensão e mantém a proporção\n"
+" center:0 scaled:1 = preenche ambas dimensões e mantém a proporção\n"
 "\n"
 
 #: src/icewmbg.cc:754
 msgid "Please note that not all options are currently configured.\n"
-msgstr ""
+msgstr "Note que nem todas as opções estão atualmente configuradas.\n"
 
 #: src/icewmbg.cc:909
 msgid "Cannot start, because another icewmbg is still running."
-msgstr ""
+msgstr "Não foi possível iniciar, porque outro icewmbg está em execução."
 
 #: src/icewmhint.cc:44
 msgid "Usage: icewmhint [class.instance] option arg\n"
@@ -1080,22 +1113,23 @@ msgid "icewm - About"
 msgstr "icewm - Sobre"
 
 #: src/wmapp.cc:118
-#, fuzzy
 msgid "A window manager is already running, use --replace to replace it"
-msgstr "Outro gerenciador de janelas já está sendo executado, saindo..."
+msgstr ""
+"Um gerenciador de janelas já está em execução, use --replace para substituí-"
+"lo"
 
 #: src/wmapp.cc:136
 #, c-format
 msgid "Failed to become the owner of the %s selection"
-msgstr ""
+msgstr "Falha ao tornar-se proprietário da seleção %s"
 
 #: src/wmapp.cc:140
 msgid "Waiting to replace the old window manager"
-msgstr ""
+msgstr "Aguardando a substituição do gerenciador de janelas antigo"
 
 #: src/wmapp.cc:145
 msgid "done."
-msgstr ""
+msgstr "concluído."
 
 #: src/wmapp.cc:438
 msgid "Unable to get current font path."
@@ -1128,7 +1162,7 @@ msgstr "Deslig_ar"
 
 #: src/wmapp.cc:580 src/wmapp.cc:582 src/wmdialog.cc:90
 msgid "_Suspend"
-msgstr ""
+msgstr "_Suspender"
 
 #: src/wmapp.cc:589 src/wmapp.cc:591
 msgid "Restart _Icewm"
@@ -1253,7 +1287,7 @@ msgstr ""
 
 #: src/wmapp.cc:869
 msgid "Kill IceWM, replace with Xterm"
-msgstr ""
+msgstr "Matar IceWM, substitui com Xterm"
 
 #: src/wmapp.cc:1433
 msgid ""
@@ -1280,6 +1314,10 @@ msgid ""
 "  -t, --theme=FILE    Load theme from FILE.\n"
 "  --postpreferences   Print preferences after all processing.\n"
 msgstr ""
+"\n"
+"  -c, --config=ARQUIVO   Carrega as preferências do ARQUIVO.\n"
+"  -t, --theme=ARQUIVO    Carrega o tema do ARQUIVO.\n"
+"  --postpreferences   Imprime as preferências após todo o processamento.\n"
 
 #: src/wmapp.cc:1456
 #, fuzzy, c-format
@@ -1354,9 +1392,9 @@ msgid "%s configured options:%s\n"
 msgstr "%s opções configuradas: %s\n"
 
 #: src/wmapp.cc:1711
-#, fuzzy, c-format
+#, c-format
 msgid "Unrecognized option '%s'."
-msgstr "Opção não reconhecida: %s\n"
+msgstr "Opção não reconhecida: '%s'."
 
 #: src/wmapp.cc:1753
 msgid "Confirm Logout"
@@ -1537,23 +1575,20 @@ msgid "_Click to focus"
 msgstr "_Clicar para focar"
 
 #: src/wmprog.cc:798
-#, fuzzy
 msgid "_Explicit focus"
-msgstr "_Clicar para focar"
+msgstr "Foco _explícito"
 
 #: src/wmprog.cc:799
 msgid "_Sloppy mouse focus"
 msgstr "_Foco segue o mouse"
 
 #: src/wmprog.cc:800
-#, fuzzy
 msgid "S_trict mouse focus"
-msgstr "_Foco segue o mouse"
+msgstr "Foco do mouse e_strito"
 
 #: src/wmprog.cc:801
-#, fuzzy
 msgid "_Quiet sloppy focus"
-msgstr "_Foco segue o mouse"
+msgstr "Foco _quieto"
 
 #: src/wmprog.cc:802
 msgid "Custo_m"
@@ -1561,19 +1596,19 @@ msgstr "_Personalizado"
 
 #: src/wmprog.cc:824
 msgid "_Manual"
-msgstr ""
+msgstr "_Manual"
 
 #: src/wmprog.cc:825
 msgid "_Icewm(1)"
-msgstr ""
+msgstr "_Icewm(1)"
 
 #: src/wmprog.cc:826
 msgid "Icewm_Bg(1)"
-msgstr ""
+msgstr "Icewm_Bg(1)"
 
 #: src/wmprog.cc:827
 msgid "Ice_Sound(1)"
-msgstr ""
+msgstr "Ice_Sound(1)"
 
 #: src/wmprog.cc:900 src/wmprog.cc:902
 msgid "Programs"
@@ -1700,7 +1735,7 @@ msgstr "%lu. Área de trabalho %-.32s"
 #: src/yapp.cc:273
 #, c-format
 msgid "%s: select failed"
-msgstr ""
+msgstr "%s: falha na seleção"
 
 #: src/yconfig.cc:147
 #, c-format
@@ -1814,10 +1849,10 @@ msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
 #: src/ylocale.cc:46
-#, fuzzy
 msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
 msgstr ""
-"Localização não suportada pela biblioteca C. Retrocedendo à localização 'C'."
+"Localização não suportada pela biblioteca C ou Xlib. Retrocedendo à "
+"localização 'C'."
 
 #: src/ylocale.cc:70
 msgid ""

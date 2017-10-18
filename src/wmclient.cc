@@ -414,6 +414,7 @@ void YFrameClient::handleUnmap(const XUnmapEvent &unmap) {
     XEvent ev;
     if (XCheckTypedWindowEvent(xapp->display(), unmap.window,
                                DestroyNotify, &ev)) {
+        YWindow::handleDestroyWindow(ev.xdestroywindow);
         manager->destroyedClient(unmap.window);
     } else {
         manager->unmanageClient(unmap.window, false);
