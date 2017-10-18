@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.31\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-10-16 10:00-0600\n"
+"POT-Creation-Date: 2017-10-18 03:14-0600\n"
 "PO-Revision-Date: 2017-10-10 14:21+0000\n"
 "Last-Translator: Alessio Adamo <alessio.adamo@gmail.com>\n"
 "Language-Team: Italian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -1417,7 +1417,7 @@ msgstr "_Riavvia icewm"
 msgid "_About"
 msgstr "_Informazioni"
 
-#: src/wmframe.cc:158 src/wmframe.cc:3438
+#: src/wmframe.cc:158 src/wmframe.cc:3444
 msgid "Maximize"
 msgstr "Massimizza"
 
@@ -1429,7 +1429,7 @@ msgstr "Minimizza"
 msgid "Hide"
 msgstr "Nascondi"
 
-#: src/wmframe.cc:202 src/wmframe.cc:3471
+#: src/wmframe.cc:202 src/wmframe.cc:3477
 msgid "Rollup"
 msgstr "Arrotola"
 
@@ -1437,11 +1437,11 @@ msgstr "Arrotola"
 msgid "Raise/Lower"
 msgstr "Alza/Abbassa"
 
-#: src/wmframe.cc:1743
+#: src/wmframe.cc:1744
 msgid "Kill Client: "
 msgstr "Uccidi il client: "
 
-#: src/wmframe.cc:1752
+#: src/wmframe.cc:1753
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1449,11 +1449,11 @@ msgstr ""
 "Attenzione: uccidendo questo client si perdono\n"
 "le modifiche non ancora salvate. Procedere?"
 
-#: src/wmframe.cc:3435
+#: src/wmframe.cc:3441
 msgid "Restore"
 msgstr "Ripristina"
 
-#: src/wmframe.cc:3469
+#: src/wmframe.cc:3475
 msgid "Rolldown"
 msgstr "Srotola"
 

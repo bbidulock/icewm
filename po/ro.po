@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-10-16 10:00-0600\n"
+"POT-Creation-Date: 2017-10-18 03:14-0600\n"
 "PO-Revision-Date: 2002-10-04 12:30+0200\n"
 "Last-Translator: Tiberiu Micu <tibimicu@gmx.net>\n"
 "Language-Team: Romanian <ro@li.org>\n"
@@ -1302,7 +1302,7 @@ msgstr "_Reporneşte icewm"
 msgid "_About"
 msgstr "Despre"
 
-#: src/wmframe.cc:158 src/wmframe.cc:3438
+#: src/wmframe.cc:158 src/wmframe.cc:3444
 msgid "Maximize"
 msgstr "Maximizează"
 
@@ -1314,7 +1314,7 @@ msgstr "Minimizează"
 msgid "Hide"
 msgstr "Ascunde"
 
-#: src/wmframe.cc:202 src/wmframe.cc:3471
+#: src/wmframe.cc:202 src/wmframe.cc:3477
 msgid "Rollup"
 msgstr "Rulează în sus"
 
@@ -1322,11 +1322,11 @@ msgstr "Rulează în sus"
 msgid "Raise/Lower"
 msgstr "Ridică/Coboară"
 
-#: src/wmframe.cc:1743
+#: src/wmframe.cc:1744
 msgid "Kill Client: "
 msgstr "Închide client: "
 
-#: src/wmframe.cc:1752
+#: src/wmframe.cc:1753
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1334,11 +1334,11 @@ msgstr ""
 "AVERTISMENT! Toate schimbările nesalvate vor fi pierdute\n"
 "când acest client este închis. Doriţi sa continuaţi?"
 
-#: src/wmframe.cc:3435
+#: src/wmframe.cc:3441
 msgid "Restore"
 msgstr "Restaurează"
 
-#: src/wmframe.cc:3469
+#: src/wmframe.cc:3475
 msgid "Rolldown"
 msgstr "Rulează în jos"
 

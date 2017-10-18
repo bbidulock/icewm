@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-10-16 10:00-0600\n"
+"POT-Creation-Date: 2017-10-18 03:14-0600\n"
 "PO-Revision-Date: 2017-07-05 14:27+0700\n"
 "Last-Translator: Kukuh Syafaat <syafaatkukuh@gmail.com>\n"
 "Language-Team: Indonesian <https://l10n.opensuse.org/projects/icewm/"
@@ -1416,7 +1416,7 @@ msgstr "_Jalankan ulang icewm"
 msgid "_About"
 msgstr "_Tentang"
 
-#: src/wmframe.cc:158 src/wmframe.cc:3438
+#: src/wmframe.cc:158 src/wmframe.cc:3444
 msgid "Maximize"
 msgstr "Maksimalkan"
 
@@ -1428,7 +1428,7 @@ msgstr "Minimalkan"
 msgid "Hide"
 msgstr "Sembunyikan"
 
-#: src/wmframe.cc:202 src/wmframe.cc:3471
+#: src/wmframe.cc:202 src/wmframe.cc:3477
 msgid "Rollup"
 msgstr "Gulung atas"
 
@@ -1436,11 +1436,11 @@ msgstr "Gulung atas"
 msgid "Raise/Lower"
 msgstr "Naikkan/Turunkan"
 
-#: src/wmframe.cc:1743
+#: src/wmframe.cc:1744
 msgid "Kill Client: "
 msgstr "Matikan Klien: "
 
-#: src/wmframe.cc:1752
+#: src/wmframe.cc:1753
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1449,11 +1449,11 @@ msgstr ""
 "akan hilang ketika klien dimatikan. Apakah Anda\n"
 "ingin melanjutkan?"
 
-#: src/wmframe.cc:3435
+#: src/wmframe.cc:3441
 msgid "Restore"
 msgstr "Pulihkan"
 
-#: src/wmframe.cc:3469
+#: src/wmframe.cc:3475
 msgid "Rolldown"
 msgstr "Gulung bawah"
 

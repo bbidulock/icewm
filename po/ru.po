@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-10-16 10:00-0600\n"
+"POT-Creation-Date: 2017-10-18 03:14-0600\n"
 "PO-Revision-Date: 2017-03-15 18:27+0000\n"
 "Last-Translator: Dmitriy Khanzhin <dmitriy.khanzhin@gmail.com>\n"
 "Language-Team: Russian <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -1298,7 +1298,7 @@ msgstr "_Перезапуск IceWM"
 msgid "_About"
 msgstr "О пр_ограмме"
 
-#: src/wmframe.cc:158 src/wmframe.cc:3438
+#: src/wmframe.cc:158 src/wmframe.cc:3444
 msgid "Maximize"
 msgstr "Развернуть"
 
@@ -1310,7 +1310,7 @@ msgstr "Свернуть"
 msgid "Hide"
 msgstr "Скрыть"
 
-#: src/wmframe.cc:202 src/wmframe.cc:3471
+#: src/wmframe.cc:202 src/wmframe.cc:3477
 msgid "Rollup"
 msgstr "Скрутить"
 
@@ -1320,11 +1320,11 @@ msgid "Raise/Lower"
 msgstr "Поднять/Опустить"
 
 #
-#: src/wmframe.cc:1743
+#: src/wmframe.cc:1744
 msgid "Kill Client: "
 msgstr "Убить Окно: "
 
-#: src/wmframe.cc:1752
+#: src/wmframe.cc:1753
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1332,11 +1332,11 @@ msgstr ""
 "ВНИМАНИЕ! Все несохраненные данные будут потеряны\n"
 "при закрытии этого окна. Вы согласны его закрыть?"
 
-#: src/wmframe.cc:3435
+#: src/wmframe.cc:3441
 msgid "Restore"
 msgstr "Восстановить"
 
-#: src/wmframe.cc:3469
+#: src/wmframe.cc:3475
 msgid "Rolldown"
 msgstr "Скрутить вниз"
 
