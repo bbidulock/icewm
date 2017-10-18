@@ -37,7 +37,7 @@
 #include <fnmatch.h>
 #endif
 
-#ifdef __FreeBSD__
+#if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
 #include <sys/sysctl.h>
 #include <net/if_mib.h>
 #endif
