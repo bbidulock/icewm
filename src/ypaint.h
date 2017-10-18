@@ -142,8 +142,8 @@ public:
     Graphics(YWindow & window, unsigned long vmask, XGCValues * gcv);
     Graphics(YWindow & window);
     Graphics(const ref<YPixmap> &pixmap, int x_org, int y_org);
-    Graphics(Drawable drawable, int w, int h, unsigned long vmask, XGCValues * gcv);
-    Graphics(Drawable drawable, int w, int h);
+    Graphics(Drawable drawable, int w, int h, int depth, unsigned long vmask, XGCValues * gcv);
+    Graphics(Drawable drawable, int w, int h, int depth);
     ~Graphics();
 
     void copyArea(const int x, const int y, const int width, const int height,
@@ -158,11 +158,7 @@ public:
     }
 #endif
     void copyPixmap(const ref<YPixmap> &p, const int x, const int y,
-                     const int w, const int h, const int dx, const int dy)
-    {
-        if (p != null)
-            copyDrawable(p->pixmap(), x, y, w, h, dx, dy);
-    }
+                     const int w, const int h, const int dx, const int dy);
 
     void drawPoint(int x, int y);
     void drawLine(int x1, int y1, int x2, int y2);
@@ -256,6 +252,7 @@ public:
     int yorigin() const { return yOrigin; }
     int rwidth() const { return rWidth; }
     int rheight() const { return rHeight; }
+    int rdepth() const { return rDepth; }
 
     void setClipRectangles(XRectangle *rect, int count);
     void setClipMask(Pixmap mask = None);
@@ -270,7 +267,7 @@ private:
     YColor * fColor;
     ref<YFont> fFont;
     int xOrigin, yOrigin;
-    int rWidth, rHeight;
+    int rWidth, rHeight, rDepth;
 };
 
 #endif

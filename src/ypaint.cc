@@ -209,6 +209,7 @@ Graphics::Graphics(YWindow & window,
 {
     rWidth = window.width();
     rHeight = window.height();
+    rDepth = window.depth();
     gc = XCreateGC(display(), drawable(), vmask, gcv);
 #ifdef CONFIG_XFREETYPE
     fXftDraw = 0;
@@ -222,6 +223,7 @@ Graphics::Graphics(YWindow & window):
  {
     rWidth = window.width();
     rHeight = window.height();
+    rDepth = window.depth();
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(display(), drawable(), GCGraphicsExposures, &gcv);
 #ifdef CONFIG_XFREETYPE
@@ -236,6 +238,7 @@ Graphics::Graphics(const ref<YPixmap> &pixmap, int x_org, int y_org):
  {
     rWidth = pixmap->width();
     rHeight = pixmap->height();
+    rDepth = pixmap->depth();
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(display(), drawable(), GCGraphicsExposures, &gcv);
 #ifdef CONFIG_XFREETYPE
@@ -243,12 +246,12 @@ Graphics::Graphics(const ref<YPixmap> &pixmap, int x_org, int y_org):
 #endif
 }
 
-Graphics::Graphics(Drawable drawable, int w, int h,
+Graphics::Graphics(Drawable drawable, int w, int h, int depth,
                    unsigned long vmask, XGCValues * gcv):
     fDrawable(drawable),
     fColor(NULL), fFont(null),
     xOrigin(0), yOrigin(0),
-    rWidth(w), rHeight(h)
+    rWidth(w), rHeight(h), rDepth(depth)
 {
     gc = XCreateGC(display(), drawable, vmask, gcv);
 #ifdef CONFIG_XFREETYPE
@@ -256,11 +259,11 @@ Graphics::Graphics(Drawable drawable, int w, int h,
 #endif
 }
 
-Graphics::Graphics(Drawable drawable, int w, int h):
+Graphics::Graphics(Drawable drawable, int w, int h, int depth):
     fDrawable(drawable),
     fColor(NULL), fFont(null),
     xOrigin(0), yOrigin(0),
-    rWidth(w), rHeight(h)
+    rWidth(w), rHeight(h), rDepth(depth)
 {
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(display(), drawable, GCGraphicsExposures, &gcv);
@@ -285,7 +288,7 @@ Graphics::~Graphics() {
 XftDraw* Graphics::handleXft() {
     if (fXftDraw == 0) {
         fXftDraw = XftDrawCreate(display(), drawable(),
-                    visual(), colormap());
+                    visual(), xapp->colormap());
     }
     return fXftDraw;
 }
@@ -309,6 +312,20 @@ void Graphics::copyDrawable(Drawable const d,
     XCopyArea(display(), d, drawable(), gc,
               x, y, w, h,
               dx - xOrigin, dy - yOrigin);
+}
+
+void Graphics::copyPixmap(const ref<YPixmap> &p,
+                          const int x, const int y, const int w, const int h,
+                          const int dx, const int dy)
+{
+    if (p == null)
+        return;
+    if (p->depth() == rdepth()) {
+        copyDrawable(p->pixmap(), x, y, w, h, dx, dy);
+        return;
+    }
+    tlog("Graphics::%s: attempt to copy pixmap 0x%lx of depth %d using gc of depth %d\n",
+            __func__, p->pixmap(), p->depth(), rdepth());
 }
 
 /******************************************************************************/
@@ -628,10 +645,15 @@ void Graphics::fillArc(int x, int y, int width, int height, int a1, int a2) {
 
 void Graphics::setColor(YColor * aColor) {
     fColor = aColor;
-    XSetForeground(display(), gc, fColor->pixel());
+    unsigned long pixel = fColor->pixel();
+    if (rdepth() == 32)
+        pixel |= 0xff000000;
+    XSetForeground(display(), gc, pixel);
 }
 
 void Graphics::setColorPixel(unsigned long pixel) {
+    if (rdepth() == 32)
+        pixel |= 0xff000000;
     XSetForeground(display(), gc, pixel);
 }
 
@@ -674,6 +696,11 @@ void Graphics::drawImage(ref<YImage> pix, int x, int y, int w, int h, int dx, in
 }
 
 void Graphics::drawPixmap(ref<YPixmap> pix, int const x, int const y) {
+    if (pix->depth() != rdepth()) {
+        tlog("Graphics::%s: attempt to draw pixmap 0x%lx of depth %d with gc of depth %d\n",
+                __func__, pix->pixmap(), pix->depth(), rdepth());
+        return;
+    }
     if (pix->mask())
         drawClippedPixmap(pix->pixmap(),
                           pix->mask(),
@@ -685,6 +712,11 @@ void Graphics::drawPixmap(ref<YPixmap> pix, int const x, int const y) {
 
 void Graphics::drawPixmap(ref<YPixmap> pix, int const sx, int const sy,
         const int w, const int h, const int dx, const int dy) {
+    if (pix->depth() != rdepth()) {
+        tlog("Graphics::%s: attempt to draw pixmap 0x%lx of depth %d with gc of depth %d\n",
+                __func__, pix->pixmap(), pix->depth(), rdepth());
+        return;
+    }
     if (pix->mask())
         drawClippedPixmap(pix->pixmap(),
                           pix->mask(),

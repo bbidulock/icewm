@@ -163,13 +163,14 @@ ref<YPixmap> YImageGDK::renderToPixmap() {
 
     return createPixmap(pixmap, mask,
                         gdk_pixbuf_get_width(fPixbuf),
-                        gdk_pixbuf_get_height(fPixbuf));
+                        gdk_pixbuf_get_height(fPixbuf),
+                        xapp->depth());
 }
 
-ref<YPixmap> YImage::createPixmap(Pixmap pixmap, Pixmap mask, int w, int h) {
+ref<YPixmap> YImage::createPixmap(Pixmap pixmap, Pixmap mask, int w, int h, int depth) {
     ref<YPixmap> n;
 
-    n.init(new YPixmap(pixmap, mask, w, h));
+    n.init(new YPixmap(pixmap, mask, w, h, depth));
     return n;
 }
 

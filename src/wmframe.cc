@@ -1963,6 +1963,11 @@ void YFrameWindow::activateWindow(bool raise) {
 void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
     YColor *bg;
 
+    if (g.rdepth() != depth()) {
+        tlog("YFrameWindow::%s: attempt to use gc of depth %d on window 0x%lx of depth %d\n",
+                __func__, g.rdepth(), handle(), depth());
+        return;
+    }
     if (!(frameDecors() & (fdResize | fdBorder)))
         return ;
 
@@ -2532,7 +2537,7 @@ ref<YIcon> newClientIcon(int count, int reclen, long * elem) {
         }
         MSG(("client icon: %ld %d %d %d %d", pixmap, w, h, depth, xapp->depth()));
         if (depth == 1) {
-            ref<YPixmap> img = YPixmap::create(w, h);
+            ref<YPixmap> img = YPixmap::create(w, h, xapp->depth());
             Graphics g(img, 0, 0);
 
             g.setColorPixel(0xffffff);

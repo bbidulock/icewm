@@ -7,9 +7,11 @@ static Pixmap createPixmap(int w, int h, int depth) {
     return XCreatePixmap(xapp->display(), desktop->handle(), w, h, depth);
 }
 
+#if 0
 static Pixmap createPixmap(int w, int h) {
     return createPixmap(w, h, xapp->depth());
 }
+#endif
 
 static Pixmap createMask(int w, int h) {
     return XCreatePixmap(xapp->display(), desktop->handle(), w, h, 1);
@@ -23,21 +25,21 @@ void YPixmap::replicate(bool horiz, bool copyMask) {
     if (dim >= 128) return;
     dim = 128 + dim - 128 % dim;
 
-    Pixmap nPixmap(horiz ? createPixmap(dim, height())
-                         : createPixmap(width(), dim));
+    Pixmap nPixmap(horiz ? createPixmap(dim, height(), depth())
+                         : createPixmap(width(), dim, depth()));
     Pixmap nMask(copyMask ? (horiz ? createMask(dim, height())
                                    : createMask(width(), dim)) : None);
 
     if (horiz)
-        Graphics(nPixmap, dim, height()).repHorz(fPixmap, width(), height(), 0, 0, dim);
+        Graphics(nPixmap, dim, height(), depth()).repHorz(fPixmap, width(), height(), 0, 0, dim);
     else
-        Graphics(nPixmap, width(), dim).repVert(fPixmap, width(), height(), 0, 0, dim);
+        Graphics(nPixmap, width(), dim, depth()).repVert(fPixmap, width(), height(), 0, 0, dim);
 
     if (nMask != None) {
         if (horiz)
-            Graphics(nMask, dim, height()).repHorz(fMask, width(), height(), 0, 0, dim);
+            Graphics(nMask, dim, height(), depth()).repHorz(fMask, width(), height(), 0, 0, dim);
         else
-            Graphics(nMask, width(), dim).repVert(fMask, width(), height(), 0, 0, dim);
+            Graphics(nMask, width(), dim, depth()).repVert(fMask, width(), height(), 0, 0, dim);
     }
 
     if (fPixmap != None)
@@ -76,13 +78,13 @@ ref<YPixmap> YPixmap::scale(int const w, int const h) {
     return pixmap;
 }
 
-ref<YPixmap> YPixmap::create(int w, int h, bool useMask) {
+ref<YPixmap> YPixmap::create(int w, int h, int depth, bool useMask) {
     ref<YPixmap> n;
 
-    Pixmap pixmap = createPixmap(w, h);
+    Pixmap pixmap = createPixmap(w, h, depth);
     Pixmap mask = useMask ? createMask(w, h) : None;
     if (pixmap != None && (!useMask || mask != None)) {
-        n.init(new YPixmap(pixmap, mask, w, h));
+        n.init(new YPixmap(pixmap, mask, w, h, depth));
     }
     return n;
 }

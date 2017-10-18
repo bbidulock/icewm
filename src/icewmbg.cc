@@ -455,7 +455,7 @@ ref<YPixmap> Background::renderBackground(ref<YPixmap> back, YColor* color) {
         }
     }
 
-    ref<YPixmap> cBack = YPixmap::create(width, height);
+    ref<YPixmap> cBack = YPixmap::create(width, height, xapp->depth());
     Graphics g(cBack, 0, 0);
     g.setColor(color);
     g.fillRect(0, 0, width, height);

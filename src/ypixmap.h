@@ -9,7 +9,7 @@ class YImage;
 
 class YPixmap: public virtual refcounted {
 public:
-    static ref<YPixmap> create(int w, int h, bool mask = false);
+    static ref<YPixmap> create(int w, int h, int depth, bool mask = false);
     static ref<YPixmap> load(upath filename);
 //    static ref<YPixmap> scale(ref<YPixmap> source, int width, int height);
     static ref<YPixmap> createFromImage(ref<YImage> image);
@@ -32,14 +32,16 @@ public:
 #endif
     int width() const { return fWidth; }
     int height() const { return fHeight; }
+    int depth() const { return fDepth; }
     ref<YPixmap> scale(int w, int h);
 
 protected:
-    YPixmap(Pixmap pixmap, Pixmap mask, int w, int h) {
+    YPixmap(Pixmap pixmap, Pixmap mask, int w, int h, int depth) {
         fPixmap = pixmap;
         fMask = mask;
         fWidth = w;
         fHeight = h;
+        fDepth = depth;
     }
     virtual ~YPixmap();
 
@@ -48,6 +50,7 @@ protected:
 private:
     int fWidth;
     int fHeight;
+    int fDepth;
 #if 1
     Pixmap fPixmap;
     Pixmap fMask;

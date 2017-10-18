@@ -688,7 +688,7 @@ void YWindow::handleEvent(const XEvent &event) {
 
 ref<YPixmap> YWindow::beginPaint(YRect &r) {
     //    return new YPixmap(width(), height());
-    ref<YPixmap> pix = YPixmap::create(r.width(), r.height());
+    ref<YPixmap> pix = YPixmap::create(r.width(), r.height(), depth());
     return pix;
 }
 

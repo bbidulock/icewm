@@ -209,7 +209,7 @@ void YFrameWindow::layoutShape() {
             int const t((frameDecors() & fdResize) ? 0 : 1);
 
             Pixmap shape = XCreatePixmap(xapp->display(), desktop->handle(), width(), height(), 1);
-            Graphics g(shape, width(), height());
+            Graphics g(shape, width(), height(), 1);
 
             g.setColorPixel(1);
             g.fillRect(0, 0, width(), height());

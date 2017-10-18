@@ -354,7 +354,7 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
 void YFrameTitleBar::renderShape(Pixmap shape) {
     if (LOOK(lookPixmap | lookMetal | lookGtk | lookFlat))
     {
-        Graphics g(shape, getFrame()->width(), getFrame()->height());
+        Graphics g(shape, getFrame()->width(), getFrame()->height(), xapp->depth());
 
         int onLeft(0);
         int onRight(width());
