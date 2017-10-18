@@ -524,7 +524,7 @@ void YXTray::relayout() {
         if (w < 1)
             w = 1;
     } else {
-        if (w < 2)
+        if (w < 4)
             w = 0;
     }
     if (cnt == 0) {
