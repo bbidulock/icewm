@@ -499,12 +499,12 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
 #ifdef WMSPEC_HINTS
     if (client()->getNetWMStateHint(&state_mask, &state)) {
         setState(state_mask, state);
-    }
+    } else
 #endif
     if (client()->getWinStateHint(&state_mask, &state)) {
         setState(state_mask, state);
     }
-    {
+    if (manager->wmState() != YWindowManager::wmSTARTUP) {
         FrameState st = client()->getFrameState();
 
         if (st == WithdrawnState) {
