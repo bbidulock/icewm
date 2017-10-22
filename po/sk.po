@@ -7,15 +7,16 @@ msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-10-22 03:55-0600\n"
-"PO-Revision-Date: 2017-06-17 19:54+0100\n"
+"PO-Revision-Date: 2017-10-22 12:52+0000\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
-"Language-Team: Slovak <opensuse-translation-sk@opensuse.org>\n"
+"Language-Team: Slovak "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Weblate 2.13.1\n"
 
 #: src/aapm.cc:176 src/aapm.cc:457 src/aapm.cc:675 src/aapm.cc:791
 msgid " - Power"
@@ -147,27 +148,27 @@ msgstr "%ld poštových správ."
 
 #: src/amemstatus.cc:134
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: src/amemstatus.cc:138
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 #: src/amemstatus.cc:142
 msgid "kB"
-msgstr ""
+msgstr "kB"
 
 #: src/amemstatus.cc:146
 msgid "bytes"
-msgstr ""
+msgstr "bajtov"
 
 #: src/amemstatus.cc:170
 msgid "Memory Total: "
-msgstr ""
+msgstr "Celková pamäť: "
 
 #: src/amemstatus.cc:171
 msgid "Free: "
-msgstr ""
+msgstr "Voľná: "
 
 #: src/amemstatus.cc:172
 msgid "Cached: "
@@ -309,9 +310,8 @@ msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
 #: src/icehelp.cc:1828
-#, fuzzy
 msgid "Unsupported protocol."
-msgstr "Nepodporované rozhranie: %s."
+msgstr "Nepodporovaný protokol."
 
 #: src/icehelp.cc:1853
 #, c-format
@@ -327,9 +327,8 @@ msgid "Failed to open file for reading."
 msgstr ""
 
 #: src/icehelp.cc:1910
-#, fuzzy
 msgid "Failed to create a temporary file"
-msgstr "Zlyhalo otvorenie nepomenovanej rúry: %s"
+msgstr "Zlyhalo vytvorenie dočasného súboru"
 
 #: src/icehelp.cc:2002
 #, c-format
@@ -337,9 +336,9 @@ msgid "Failed to execute system(%s) (%d)"
 msgstr ""
 
 #: src/icehelp.cc:2025
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to decompress %s"
-msgstr "Zlyhalo načítanie témy %s"
+msgstr "Zlyhalo rozbalenie %s"
 
 #: src/icehelp.cc:2033
 msgid "Could not locate curl or wget in PATH"
@@ -384,9 +383,9 @@ msgid ""
 msgstr ""
 
 #: src/icehelp.cc:2115
-#, fuzzy, c-format
+#, c-format
 msgid "Ignoring option '%s'"
-msgstr "Neznáma voľba '%s'"
+msgstr "Ignorovanie voľby '%s'"
 
 #: src/icelist.cc:80
 msgid "List View"
@@ -602,7 +601,6 @@ msgid "Socket error: %d"
 msgstr "Chyba soketu: %d"
 
 #: src/icesm.cc:50
-#, fuzzy
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -613,11 +611,14 @@ msgid ""
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
-"  -c, --config=SÚBOR    Umožní IceWM načítať predvoľby zo SÚBORU.\n"
-"  -t, --theme=SÚBOR    Umožní IceWM načítať tému zo SÚBORU.\n"
+"  -c, --config=SÚBOR    Umožní IceWM načítať predvoľby zo SÚBOR-u.\n"
+"  -t, --theme=SÚBOR    Umožní IceWM načítať tému zo SÚBOR-u.\n"
 "\n"
-"  --display=NÁZOV      Použite NÁZOV pre pripojenie k X serveru.\n"
-"  --sync              Synchronizujte komunikáciu s X11 serverom.\n"
+"  --display=NÁZOV      Použije NÁZOV pre pripojenie k X serveru.\n"
+"  --sync              Synchronizuje komunikáciu s X11 serverom.\n"
+"  \n"
+"  -n, --notray        Nespustí icewmtray.\n"
+"  -s, --sound         Tiež spustí icesound.\n"
 
 #: src/icesm.cc:107
 #, c-format
@@ -662,9 +663,8 @@ msgid "OSS incomplete write (%d/%d)"
 msgstr ""
 
 #: src/icesound.cc:373
-#, fuzzy
 msgid "Could not post OSS"
-msgstr "Nemôžem nahrať sadu písma \"%s\"."
+msgstr "Nebolo možné odoslať OSS"
 
 #: src/icesound.cc:402
 #, fuzzy, c-format

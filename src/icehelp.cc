@@ -26,6 +26,13 @@
 
 #define SPACE(c)  ASCII::isWhiteSpace(c)
 
+enum ViewerDimensions {
+    ViewerWidth      = 700,
+    ViewerHeight     = 700,
+    ViewerLeftMargin =  20,
+    ViewerTopMargin  =  10,
+};
+
 char const * ApplicationName = "icehelp";
 
 class cbuffer {
@@ -579,6 +586,7 @@ static node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node
                     type == node::hrule ||
                     type == node::link ||
                     type == node::unknown ||
+                    (type == node::form && (!parent || parent->type != type)) ||
                     type == node::meta)
                 {
                 }
@@ -712,7 +720,11 @@ static node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node
                         buf += "''"; // right double quotes
                         continue;
                     }
-                    else if (strcmp(entity, "&#8230") == 0) {
+                    else if (strcmp(entity, "&#8226") == 0
+                          || strcmp(entity, "&middot") == 0)
+                        c = '*';   // bullet
+                    else if (strcmp(entity, "&#8230") == 0
+                          || strcmp(entity, "&hellip") == 0) {
                         buf += "..."; // horizontal ellipsis
                         continue;
                     }
@@ -1226,7 +1238,7 @@ void HTextView::find_fragment(const char *frag) {
 
 void HTextView::layout() {
     int state = sfPar;
-    int x = 10, y = 5;
+    int x = ViewerLeftMargin, y = ViewerTopMargin;
     int left = x, right = width() - x;
     conWidth = conHeight = 0;
     layout(0, fRoot, left, right, x, y, conWidth, conHeight, 0, state);
@@ -1751,7 +1763,7 @@ FileView::FileView(YApplication *iapp, const char *path)
     view->show();
     scroll->show();
 
-    setSize(640, 640);
+    setSize(ViewerWidth, ViewerHeight);
     setTitle(path);
     setClassHint("browser", "IceHelp");
 
@@ -1769,6 +1781,31 @@ FileView::FileView(YApplication *iapp, const char *path)
                     _XA_WIN_ICONS, XA_PIXMAP,
                     32, PropModeReplace,
                     (unsigned char *)icons, 4);
+
+    extern Atom _XA_NET_WM_PID;
+    XID pid = getpid();
+    XChangeProperty(xapp->display(), handle(),
+                    _XA_NET_WM_PID, XA_CARDINAL,
+                    32, PropModeReplace,
+                    (unsigned char *)&pid, 1);
+
+    char hostname[256] = {};
+    gethostname(hostname, sizeof hostname);
+    XTextProperty hname = {
+        .value = (unsigned char *) hostname,
+        .encoding = XA_STRING,
+        .format = 8,
+        .nitems = strnlen(hostname, sizeof hostname)
+    };
+    XSetWMClientMachine(xapp->display(), handle(), &hname);
+
+    XWMHints wmhints = {};
+    wmhints.flags = InputHint | StateHint | IconPixmapHint | IconMaskHint;
+    wmhints.input = True;
+    wmhints.initial_state = NormalState;
+    wmhints.icon_pixmap = large_icon->pixmap();
+    wmhints.icon_mask = large_icon->mask();
+    XSetWMHints(xapp->display(), handle(), &wmhints);
 
     activateURL(path);
 }
