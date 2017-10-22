@@ -53,10 +53,12 @@ protected:
 class YTimer {
 public:
     YTimer(long ms = 0L);
+    YTimer(long ms, YTimerListener *listener, bool start);
     ~YTimer();
 
     void setTimerListener(YTimerListener *listener) { fListener = listener; }
     YTimerListener *getTimerListener() const { return fListener; }
+    void disableTimerListener(YTimerListener *listener);
 
     void setInterval(long ms);
     long getInterval() const { return fInterval; }

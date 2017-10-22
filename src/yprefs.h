@@ -25,7 +25,7 @@ XIV(int, MultiClickTime,                        400)
 XIV(int, autoScrollStartDelay,                  500)
 XIV(int, autoScrollDelay,                       60)
 #ifdef CONFIG_TOOLTIP
-XIV(int, ToolTipDelay,                          1000)
+XIV(int, ToolTipDelay,                          500)
 XIV(int, ToolTipTime,                           0)
 #endif
 

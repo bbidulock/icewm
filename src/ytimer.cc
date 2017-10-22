@@ -95,6 +95,16 @@ YTimer::YTimer(long ms) :
     }
 }
 
+YTimer::YTimer(long ms, YTimerListener* listener, bool start) :
+    fListener(listener),
+    fInterval(max(0L, ms)),
+    fRunning(false),
+    fFixed(false)
+{
+    if (start)
+        startTimer();
+}
+
 YTimer::~YTimer() {
     stopTimer();
 }
@@ -154,6 +164,17 @@ void YTimer::enlist(bool enable) {
         } else {
             mainLoop->unregisterTimer(this);
         }
+    }
+}
+
+void YTimer::disableTimerListener(YTimerListener *listener) {
+    // a global timer may be in use by several listeners.
+    // here one of those listeners asks to be deregistered.
+    // if it was the active listener then also stop the timer.
+    YTimer* nonNull(this);
+    if (nonNull && fListener == listener) {
+        fListener = 0;
+        stopTimer();
     }
 }
 
