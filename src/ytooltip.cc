@@ -10,49 +10,51 @@
 #include "base.h"
 #include "prefs.h"
 #include "yprefs.h"
+#include "yrect.h"
 
 #include <string.h>
 
-YColor *YToolTip::toolTipBg = 0;
-YColor *YToolTip::toolTipFg = 0;
-
-ref<YFont> YToolTip::toolTipFont;
-YTimer *YToolTip::fToolTipVisibleTimer = 0;
-
-YToolTip::YToolTip(YWindow *aParent): YWindow(aParent), fText(null) {
-    if (toolTipBg == 0)
-        toolTipBg = new YColor(clrToolTip);
-    if (toolTipFg == 0)
-        toolTipFg = new YColor(clrToolTipText);
-    if (toolTipFont == null)
-        toolTipFont = YFont::getFont(XFA(toolTipFontName));
-
-    setStyle(wsOverrideRedirect);
+YToolTipWindow::YToolTipWindow() :
+    toolTipBg(clrToolTip),
+    toolTipFg(clrToolTipText),
+    toolTipFont(YFont::getFont(XFA(toolTipFontName)))
+{
 }
 
-YToolTip::~YToolTip() {
-    if (fToolTipVisibleTimer) {
-        if (fToolTipVisibleTimer->getTimerListener() == this) {
-            fToolTipVisibleTimer->setTimerListener(0);
-            fToolTipVisibleTimer->stopTimer();
-        }
-    }
+YToolTip::YToolTip() :
+    fLocate(0)
+{
 }
 
-void YToolTip::paint(Graphics &g, const YRect &/*r*/) {
-    g.setColor(toolTipBg);
+void YToolTipWindow::paint(Graphics &g, const YRect &/*r*/) {
+    g.setColor(&toolTipBg);
     g.fillRect(0, 0, width(), height());
     g.setColor(YColor::black);
     g.drawRect(0, 0, width() - 1, height() - 1);
     if (fText != null) {
         int y = toolTipFont->ascent() + 2;
         g.setFont(toolTipFont);
-        g.setColor(toolTipFg);
+        g.setColor(&toolTipFg);
         g.drawStringMultiline(3, y, fText);
     }
 }
 
 void YToolTip::setText(const ustring &tip) {
+    fText = tip;
+    if (fWindow)
+        fWindow->setText(tip);
+}
+
+bool YToolTip::visible() {
+    return fWindow && fWindow->visible();
+}
+
+void YToolTip::repaint() {
+    if (visible())
+        fWindow->repaint();
+}
+
+void YToolTipWindow::setText(const ustring &tip) {
     fText = tip;
     if (fText != null) {
         YDimension const size(toolTipFont->multilineAlloc(fText));
@@ -74,28 +76,41 @@ void YToolTip::setText(const ustring &tip) {
     repaint();
 }
 
-bool YToolTip::handleTimer(YTimer *t) {
-    if (t == fToolTipVisibleTimer && fToolTipVisibleTimer)
-        hide();
-    else
-        display();
+bool YToolTip::handleTimer(YTimer *timer) {
+    timer == fTimer ? hide() : display();
     return false;
 }
 
-void YToolTip::display() {
-    raise();
-    show();
-
-    if (!fToolTipVisibleTimer && ToolTipTime > 0)
-        fToolTipVisibleTimer = new YTimer(ToolTipTime);
-
-    if (fToolTipVisibleTimer) {
-        fToolTipVisibleTimer->setTimerListener(this);
-        fToolTipVisibleTimer->startTimer();
+YToolTipWindow* YToolTip::window() {
+    if (fWindow == 0) {
+        fWindow = new YToolTipWindow;
+        fWindow->setStyle(YWindow::wsOverrideRedirect);
+        fWindow->setText(fText);
+        if (fLocate)
+            fWindow->locate(fLocate);
     }
+    return fWindow;
+}
+
+void YToolTip::display() {
+    window()->raise();
+    window()->show();
+    if (ToolTipTime)
+        fTimer = new YTimer(ToolTipTime, this, true);
+}
+
+void YToolTip::hide() {
+    fWindow = 0;
+    fTimer = 0;
 }
 
 void YToolTip::locate(YWindow *w, const XCrossingEvent &/*crossing*/) {
+    fLocate = w;
+    if (fWindow)
+        fWindow->locate(fLocate);
+}
+
+void YToolTipWindow::locate(YWindow *w) {
     int x, y;
 
     x = w->width() / 2;
