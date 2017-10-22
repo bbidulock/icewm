@@ -504,7 +504,7 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
     if (client()->getWinStateHint(&state_mask, &state)) {
         setState(state_mask, state);
     }
-    if (manager->wmState() != YWindowManager::wmSTARTUP) {
+    {
         FrameState st = client()->getFrameState();
 
         if (st == WithdrawnState) {
@@ -518,7 +518,8 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
         switch (st) {
         case IconicState:
             fFrameOptions |= foMinimized;
-            setState(WinStateMinimized, WinStateMinimized);
+            if (manager->wmState() != YWindowManager::wmSTARTUP)
+                setState(WinStateMinimized, WinStateMinimized);
             break;
 
         case NormalState:
