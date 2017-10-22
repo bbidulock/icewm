@@ -590,9 +590,13 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
 }
 
 void YFrameClient::handleColormap(const XColormapEvent &colormap) {
-    setColormap(colormap.colormap); //(colormap.state == ColormapInstalled && colormap.c_new == True)
-    //                ? colormap.colormap
-    //                : None);
+    if (colormap.colormap == None ||
+        colormap.c_new == True ||
+        colormap.state == ColormapInstalled)
+    {
+        setColormap(colormap.colormap);
+    }
+    // else if (colormap.state == ColormapUninstalled) {}
 }
 
 
