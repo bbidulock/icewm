@@ -67,12 +67,19 @@ Section 5: Session Management
 
 Section 6: Manipulation of Shared Resources
 
-6.1  The Input Focus
-6.2  The Pointer
-6.3  Grabs
-6.4  Colormaps
-6.5  The Keyboard Mapping
-6.6  The Modifier Mapping
+6.1  The Input Focus			???
+6.2  The Pointer			???
+6.3  Grabs				???
+6.4  Colormaps				???
+6.5  The Keyboard Mapping		???
+6.6  The Modifier Mapping		???
+
+Others:
+	WM_LOCALE_NAME			???
+
+Deprecated:
+	WM_SIZE_HINTS			???
+	WM_ZOOM_HINTS			???
 
 ------------------------------------------------------------------------
 
@@ -185,10 +192,60 @@ _NET_STARTUP_ID:			supported
 _NET_STARTUP_INFO:			NOT supported
 _NET_STARTUP_INFO_BEGIN:		NOT supported
 
+XEmbed Protocol Specification Version 0.5:
+
+Embedding life cycle
+	_XEMBED_INFO
+		XEMBED_MAPPED
+    Message Specifications
+	XEMBED_EMBEDDED_NOTIFY		NOT supported
+	XEMBED_WINDOW_ACTIVATE		NOT supported
+	XEMBED_WINDOW_DEACTIVATE	NOT supported
+	XEMBED_REQUEST_FOCUS		NOT supported
+	XEMBED_FOCUS_IN			NOT supported
+		XEMBED_FOCUS_CURRENT		???
+		XEMBED_FOCUS_FIRST		???
+		XEMBED_FOCUS_LAST		???
+	XEMBED_FOCUS_OUT		NOT supported
+	XEMBED_FOCUS_NEXT		NOT supported
+	XEMBED_FOCUS_PREV		NOT supported
+	XEMBED_GRAB_KEY			(deprecated)
+	XEMBED_UNGRAB_KEY		(deprecated)
+	XEMBED_MODALITY_ON		NOT supported
+	XEMBED_MODALITY_OFF		NOT supported
+	XEMBED_REGISTER_ACCELERATOR	NOT supported
+		XEMBED_MODIFIER_SHIFT		???
+		XEMBED_MODIFIER_CONTROL		???
+		XEMBED_MODIFIER_ALT		???
+		XEMBED_MODIFIER_SUPER		???
+		XEMBED_MODIFIER_MYPER		???
+	XEMBED_UNREGISTER_ACCELERATOR	NOT supported
+	XEMBED_ACTIVATE_ACCELERATOR	NOT supported
+		XEMBED_ACCELERATOR_OVERLOADED	???
+   Techniques
+	Handling errors
+	Forwarding X Events
+	Sending XEmbed messages
+    Issues
+	Implementation of modality
+	Clarify function of timestamps
+	Complexity of accelerator handling
+	Infinite loops in focusing
+	Robustness
+	Sensitivity
+	Directional focusing
+	Modal dialogs
+	Propagation of key presses
+	Handling of toplevel modes
+
 System Tray Specification:
 
+_NET_SYSTEM_TRAY_S(n)			?
 _NET_SYSTEM_TRAY_MESSAGE_DATA:		supported
 _NET_SYSTEM_TRAY_OPCODE:		supported
+	SYSTEM_TRAY_REQUEST_DOCK	?
+	SYSTEM_TRAY_BEGIN_MESSAGE	?
+	SYSTEM_TRAY_CANCEL_MESSAGE	?
 _NET_SYSTEM_TRAY_ORIENTATION:		NOT supported
 _NET_SYSTEM_TRAY_VISUAL:		NOT supported
 
