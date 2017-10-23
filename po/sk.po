@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-10-22 03:55-0600\n"
-"PO-Revision-Date: 2017-10-22 12:52+0000\n"
+"PO-Revision-Date: 2017-10-23 12:21+0000\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
 "Language-Team: Slovak "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/sk/>\n"
@@ -667,9 +667,9 @@ msgid "Could not post OSS"
 msgstr "Nebolo možné odoslať OSS"
 
 #: src/icesound.cc:402
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open OSS device %s"
-msgstr "Nie je možné nájsť obrázok %s"
+msgstr "Nebolo možné otvoriť zariadenie OSS %s"
 
 #: src/icesound.cc:407
 msgid "Could not set OSS stereo"
@@ -703,9 +703,9 @@ msgid "Sample <%d> uploaded as `%s:%s'"
 msgstr "Vzorka <%d> bola nahraná ako `%s:%s'"
 
 #: src/icesound.cc:573
-#, fuzzy, c-format
+#, c-format
 msgid "Playing sample #%d: %d"
-msgstr "Prehrávanie vzorky #%d"
+msgstr "Prehrávanie ukážky #%d: %d"
 
 #: src/icesound.cc:648
 #, c-format
@@ -858,17 +858,16 @@ msgid "Using %s audio."
 msgstr ""
 
 #: src/icesound.cc:1083
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to connect to audio interfaces %s."
-msgstr "Zlyhalo načítanie témy %s"
+msgstr "Zlyhalo pripojenie k audio rozhraniam %s."
 
 #: src/icesound.cc:1095
-#, fuzzy, c-format
+#, c-format
 msgid "Received signal %s: Terminating..."
-msgstr "Prijatý signál %d: Končím..."
+msgstr "Prijatý signál %s: Ukončenie..."
 
 #: src/icetray.cc:252
-#, fuzzy
 msgid ""
 "  -n, --notify        Notify parent process by sending signal USR1.\n"
 "  --display=NAME      Use NAME to connect to the X server.\n"
@@ -878,11 +877,11 @@ msgid ""
 "  -t, --theme=FILE    Load the theme from FILE.\n"
 msgstr ""
 "  --notify            Upozorní rodičovský proces odosielaním signálu USR1.\n"
-"  --display=NAME      Use NAME to connect to the X server.\n"
-"  --sync              Synchronize communication with X11 server.\n"
+"  --display=NAME      Požije NÁZOV pre pripojenie k X serveru.\n"
+"  --sync              Synchronizuje komunikáciu s X11 serverom.\n"
 "\n"
-"  -c, --config=SÚBOR   Načíta predvoľby zo SÚBORU.\n"
-"  -t, --theme=SÚBOR    Načíta tému zo SÚBORU.\n"
+"  -c, --config=SÚBOR   Načíta predvoľby zo SÚBOR-u.\n"
+"  -t, --theme=SÚBOR    Načíta tému zo SÚBOR-u.\n"
 
 #: src/iceview.cc:68
 msgid "Hex View"
