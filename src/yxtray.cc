@@ -274,6 +274,24 @@ void YXTrayProxy::handleClientMessage(const XClientMessageEvent &message) {
     }
 }
 
+#define XEMBED_PROTOCOL_VERSION         0
+
+#define XEMBED_MAPPED                   (1<<0)
+
+#define XEMBED_EMBEDDED_NOTIFY          0
+#define XEMBED_WINDOW_ACTIVATE          1
+#define XEMBED_WINDOW_DEACTIVATE        2
+#define XEMBED_REQUEST_FOCUS            3
+#define XEMBED_FOCUS_IN                 4
+#define XEMBED_FOCUS_OUT                5
+#define XEMBED_FOCUS_NEXT               6
+#define XEMBED_FOCUS_PREV               7
+#define XEMBED_MODALITY_ON              10
+#define XEMBED_MODALITY_OFF             11
+#define XEMBED_REGISTER_ACCELERATOR     12
+#define XEMBED_UNREGISTER_ACCELERATOR   13
+#define XEMBED_ACTIVATE_ACCELERATOR     14
+
 YXTrayEmbedder::YXTrayEmbedder(YXTray *tray, Window win): YXEmbed(tray) {
     fTray = tray;
     setStyle(wsManager);
@@ -286,6 +304,39 @@ YXTrayEmbedder::YXTrayEmbedder(YXTray *tray, Window win): YXEmbed(tray) {
     XAddToSaveSet(xapp->display(), client_handle());
 
     fDocked->reparent(this, 0, 0);
+
+    YAtom _XEMBED("_XEMBED");
+    XClientMessageEvent xev = {};
+
+    long info[2] = { XEMBED_PROTOCOL_VERSION, XEMBED_MAPPED };
+
+    XChangeProperty(xapp->display(), win,
+            YAtom("_XEMBED_INFO"),
+            XA_CARDINAL, 32, PropModeReplace,
+            (unsigned char *) &info, 2);
+
+    xev.type = ClientMessage;
+    xev.window = win;
+    xev.message_type = _XEMBED;
+    xev.format = 32;
+    xev.data.l[0] = CurrentTime;
+    xev.data.l[1] = XEMBED_EMBEDDED_NOTIFY;
+    xev.data.l[2] = 0; // no detail
+    xev.data.l[3] = handle();
+    xev.data.l[4] = XEMBED_PROTOCOL_VERSION;
+    xapp->send(xev, win, NoEventMask);
+
+    xev.type = ClientMessage;
+    xev.window = win;
+    xev.message_type = _XEMBED;
+    xev.format = 32;
+    xev.data.l[0] = CurrentTime;
+    xev.data.l[1] = XEMBED_WINDOW_ACTIVATE;
+    xev.data.l[2] = 0; // no detail
+    xev.data.l[3] = 0; // no data1
+    xev.data.l[4] = 0; // no data2
+    xapp->send(xev, win, NoEventMask);
+
     fVisible = true;
     fDocked->show();
 }
@@ -311,6 +362,11 @@ bool YXTrayEmbedder::destroyedClient(Window win) {
 
 void YXTrayEmbedder::handleClientUnmap(Window win) {
     fTray->showClient(win, false);
+}
+
+void YXTrayEmbedder::handleClientMap(Window win) {
+    fDocked->show();
+    fTray->showClient(win, true);
 }
 
 void YXTrayEmbedder::paint(Graphics &g, const YRect &/*r*/) {

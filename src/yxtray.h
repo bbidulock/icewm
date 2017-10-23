@@ -33,6 +33,7 @@ public:
     Window client_handle() { return fDocked->handle(); }
     YXEmbedClient *client() { return fDocked; }
     void handleClientUnmap(Window win);
+    void handleClientMap(Window win);
     virtual void handleMapRequest(const XMapRequestEvent &mapRequest);
 
     bool fVisible;
