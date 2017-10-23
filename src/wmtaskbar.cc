@@ -168,7 +168,6 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     setWindowTitle(_("Task Bar"));
     setIconTitle(_("Task Bar"));
     setClassHint("icewm", "TaskBar");
-    setWinStateHint(WinStateAllWorkspaces, WinStateAllWorkspaces);
     //!!!setWinStateHint(WinStateDockHorizontal, WinStateDockHorizontal);
 
 #ifdef GNOME1_HINTS
@@ -178,7 +177,7 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
 #endif
 
 #if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)
-    setWinWorkspaceHint(0);
+    setWinWorkspaceHint(-1);
 #endif
 #ifdef GNOME1_HINTS
     setWinLayerHint((taskBarAutoHide || fFullscreen) ? WinLayerAboveAll :
@@ -1010,7 +1009,7 @@ void TaskBar::showBar(bool visible) {
                             fIsCollapsed ? WinLayerAboveDock :
                             taskBarKeepBelow ? WinLayerBelow : WinLayerDock);
 #endif
-            getFrame()->setState(WinStateAllWorkspaces, WinStateAllWorkspaces);
+            getFrame()->setAllWorkspaces();
             getFrame()->activate(true);
             updateLocation();
         }

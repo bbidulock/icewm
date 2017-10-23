@@ -78,9 +78,9 @@ public:
     void wmSize();
     void wmOccupyAll();
     void wmOccupyAllOrCurrent();
-    void wmOccupyWorkspace(long workspace);
-    void wmOccupyOnlyWorkspace(long workspace);
-    void wmMoveToWorkspace(long workspace);
+    void wmOccupyWorkspace(int workspace);
+    void wmOccupyOnlyWorkspace(int workspace);
+    void wmMoveToWorkspace(int workspace);
     void wmSetLayer(long layer);
 #ifdef CONFIG_TRAY
     void wmSetTrayOption(long option);
@@ -365,8 +365,8 @@ public:
     void setWindowType(enum WindowType winType) { fWindowType = winType; }
     bool isTypeDock(void) { return (fWindowType == wtDock); }
 
-    long getWorkspace() const { return fWinWorkspace; }
-    void setWorkspace(long workspace);
+    int getWorkspace() const { return fWinWorkspace; }
+    void setWorkspace(int workspace);
     void setWorkspaceHint(long workspace);
     long getActiveLayer() const { return fWinActiveLayer; }
     void setRequestedLayer(long layer);
@@ -386,7 +386,8 @@ public:
     bool isSkipPager() const { return (getState() & WinStateSkipPager) ? true : false; }
     bool isSkipTaskBar() const { return (getState() & WinStateSkipTaskBar) ? true : false; }
     bool isRollup() const { return (getState() & WinStateRollup) ? true : false; }
-    bool isSticky() const { return (getState() & WinStateAllWorkspaces) ? true : false; }
+    bool isSticky() const { return (getState() & WinStateSticky) ? true : false; }
+    bool isAllWorkspaces() const { return (getWorkspace() == -1) ? true : false; }
     //bool isHidWorkspace() { return (getState() & WinStateHidWorkspace) ? true : false; }
     //bool isHidTransient() { return (getState() & WinStateHidTransient) ? true : false; }
 
@@ -400,10 +401,10 @@ public:
     bool isManaged() const { return fManaged; }
     void setManaged(bool isManaged) { fManaged = isManaged; }
 
-    void setSticky(bool sticky);
+    void setAllWorkspaces(void);
 
-    bool visibleOn(long workspace) const {
-        return (isSticky() || getWorkspace() == workspace);
+    bool visibleOn(int workspace) const {
+        return (isAllWorkspaces() || getWorkspace() == workspace);
     }
     bool visibleNow() const { return visibleOn(manager->activeWorkspace()); }
 
@@ -543,7 +544,7 @@ private:
     static YTimer *fAutoRaiseTimer;
     static YTimer *fDelayFocusTimer;
 
-    long fWinWorkspace;
+    int fWinWorkspace;
     long fWinRequestedLayer;
     long fWinActiveLayer;
 #ifdef CONFIG_TRAY

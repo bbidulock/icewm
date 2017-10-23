@@ -202,8 +202,7 @@ Atom ATOM_WIN_TRAY;
 /******************************************************************************/
 
 Symbol stateIdentifiers[] = {
-    { "AllWorkspaces",          WinStateAllWorkspaces   },
-    { "Sticky",                 WinStateAllWorkspaces   },
+    { "Sticky",                 WinStateSticky          },
     { "Minimized",              WinStateMinimized       },
     { "Maximized",              WinStateMaximizedVert   |
     WinStateMaximizedHoriz  },
