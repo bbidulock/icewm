@@ -193,15 +193,23 @@ Atom XA_XdndStatus;
 YColor *YColor::black(NULL);
 YColor *YColor::white(NULL);
 
+#ifdef CONFIG_RENDER
+int renderSupported;
+int renderEventBase, renderErrorBase;
+int renderVersionMajor, renderVersionMinor;
+#endif
+
 #ifdef CONFIG_SHAPE
 int shapesSupported;
 int shapeEventBase, shapeErrorBase;
+int shapeVersionMajor, shapeVersionMinor;
 #endif
 
 #ifdef CONFIG_XRANDR
 int xrandrSupported;
-bool xrandr12 = false;
 int xrandrEventBase, xrandrErrorBase;
+int xrandrVersionMajor, xrandrVersionMinor;
+bool xrandr12 = false;
 #endif
 
 #ifdef DEBUG
