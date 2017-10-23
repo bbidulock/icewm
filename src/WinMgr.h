@@ -269,7 +269,7 @@
 #define WIN_STATE_ARRANGE_IGNORE    (1<<9) /* ignore for auto arranging */
 #endif
 
-#define WinStateAllWorkspaces  (1 << 0)   /* appears on all workspaces */
+#define WinStateSticky         (1 << 0)   /* sticks to virtual desktop */
 #define WinStateMinimized      (1 << 1)   /* to iconbox,taskbar,... */
 #define WinStateMaximizedVert  (1 << 2)   /* maximized vertically */
 #define WinStateMaximizedHoriz (1 << 3)   /* maximized horizontally */
@@ -292,7 +292,7 @@
 #define WinStateWasMinimized   (1 << 30)  /* was minimized when parent was minimized/hidden */
 #define WinStateWithdrawn      (1 << 31)  /* managed, but not available to user */
 
-#define WIN_STATE_ALL (WinStateAllWorkspaces | WinStateMinimized |\
+#define WIN_STATE_ALL (WinStateSticky | WinStateMinimized |\
                        WinStateMaximizedVert | WinStateMaximizedHoriz |\
                        WinStateHidden | WinStateRollup | WinStateHidWorkspace |\
                        WinStateHidTransient | WinStateFixedPosition |\

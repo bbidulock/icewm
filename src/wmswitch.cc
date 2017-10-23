@@ -447,7 +447,7 @@ int SwitchWindow::GetZListWorkspace(YFrameWindow **list, int max,
             }
 
             if (!w->isUrgent()) {
-                if (workspaceOnly && w->isSticky() && workspace != fRoot->activeWorkspace()) {
+                if (workspaceOnly && w->isAllWorkspaces() && workspace != fRoot->activeWorkspace()) {
                     w = w->prevFocus();
                     continue;
                 }

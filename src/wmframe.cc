@@ -414,7 +414,7 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
             {
 /// TODO #warning "this needs some cleanup"
                 setWindowType(wtDesktop);
-                setSticky(true);
+                setAllWorkspaces();
             } else
             if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_DIALOG)
             {
@@ -427,7 +427,7 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
             if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_DOCK)
             {
                 setWindowType(wtDock);
-                setSticky(true);
+                setAllWorkspaces();
             } else
             if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_DROPDOWN_MENU)
             {
@@ -529,15 +529,12 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
     }
 
 #ifdef WMSPEC_HINTS
-    if (client()->getNetWMDesktopHint(&workspace)) {
-        if (workspace == (long)0xFFFFFFFF)
-            setSticky(true);
-        else
-            setWorkspace(workspace);
-    } else
+    if (client()->getNetWMDesktopHint(&workspace))
+        setWorkspace(workspace);
+    else
 #endif
 #ifdef GNOME1_HINTS
-       if (client()->getWinWorkspaceHint(&workspace))
+    if (client()->getWinWorkspaceHint(&workspace))
         setWorkspace(workspace);
 #endif
 
@@ -2185,11 +2182,10 @@ void YFrameWindow::updateIconTitle() {
 }
 
 void YFrameWindow::wmOccupyAllOrCurrent() {
-    if (isSticky()) {
+    if (isAllWorkspaces()) {
         mainOwner()->setWorkspace(manager->activeWorkspace());
-        setSticky(false);
     } else {
-        setSticky(true);
+        setAllWorkspaces();
     }
 #ifdef CONFIG_TASKBAR
     if (taskBar)
@@ -2202,7 +2198,8 @@ void YFrameWindow::wmOccupyAllOrCurrent() {
 }
 
 void YFrameWindow::wmOccupyAll() {
-    setSticky(!isSticky());
+    if (!isAllWorkspaces())
+        setAllWorkspaces();
     if (affectsWorkArea())
         manager->updateWorkArea();
 #ifdef CONFIG_TASKBAR
@@ -2215,18 +2212,17 @@ void YFrameWindow::wmOccupyAll() {
 #endif
 }
 
-void YFrameWindow::wmOccupyWorkspace(long workspace) {
+void YFrameWindow::wmOccupyWorkspace(int workspace) {
     PRECONDITION(workspace < workspaceCount);
     mainOwner()->setWorkspace(workspace);
 }
 
-void YFrameWindow::wmOccupyOnlyWorkspace(long workspace) {
+void YFrameWindow::wmOccupyOnlyWorkspace(int workspace) {
     PRECONDITION(workspace < workspaceCount);
     mainOwner()->setWorkspace(workspace);
-    setSticky(false);
 }
 
-void YFrameWindow::wmMoveToWorkspace(long workspace) {
+void YFrameWindow::wmMoveToWorkspace(int workspace) {
     wmOccupyOnlyWorkspace(workspace);
 }
 
@@ -2866,8 +2862,8 @@ bool YFrameWindow::getInputFocusHint() {
 }
 
 
-void YFrameWindow::setWorkspace(long workspace) {
-    if (workspace >= workspaceCount || workspace < 0)
+void YFrameWindow::setWorkspace(int workspace) {
+    if (workspace >= workspaceCount || workspace < -1)
         return ;
     if (workspace != fWinWorkspace) {
         fWinWorkspace = workspace;
@@ -3422,12 +3418,6 @@ void YFrameWindow::setState(long mask, long state) {
 
     fWinState = fNewState;
 
-    if ((fOldState ^ fNewState) & WinStateAllWorkspaces) {
-        MSG(("WinStateAllWorkspaces: %d", isSticky()));
-#ifdef CONFIG_TASKBAR
-        updateTaskBar();
-#endif
-    }
     MSG(("setState: oldState: %lX, newState: %lX, mask: %lX, state: %lX",
          fOldState, fNewState, mask, state));
     //msg("normal1: (%d:%d %dx%d)", normalX, normalY, normalWidth, normalHeight);
@@ -3535,8 +3525,8 @@ void YFrameWindow::setState(long mask, long state) {
     }
 }
 
-void YFrameWindow::setSticky(bool sticky) {
-    setState(WinStateAllWorkspaces, sticky ? WinStateAllWorkspaces : 0);
+void YFrameWindow::setAllWorkspaces() {
+    setWorkspace(-1);
 
 #ifdef CONFIG_WINLIST
     windowList->updateWindowListApp(fWinListItem);

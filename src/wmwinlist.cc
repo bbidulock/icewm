@@ -246,7 +246,7 @@ void WindowListBox::enableCommands(YMenu *popup) {
             } else if (workspace != ws) {
                 sameWorkspace = false;
             }
-            if (item->getFrame()->isSticky())
+            if (item->getFrame()->isAllWorkspaces())
                 sameWorkspace = false;
         }
     }
@@ -343,9 +343,8 @@ YFrameClient(aParent, 0) {
     windowList = this;
     setWindowTitle(_("Window list"));
     setIconTitle(_("Window list"));
-    setWinStateHint(WinStateAllWorkspaces, WinStateAllWorkspaces);
 #if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)
-    setWinWorkspaceHint(0);
+    setWinWorkspaceHint(-1);
 #endif
 #ifdef GNOME1_HINTS
     setWinLayerHint(WinLayerAboveDock);
@@ -422,7 +421,7 @@ void WindowList::insertApp(WindowListItem *item) {
         list->addAfter(frame->owner()->winListItem(), item);
     } else {
         int nw = frame->getWorkspace();
-        if (!frame->isSticky())
+        if (!frame->isAllWorkspaces())
             list->addAfter(workspaceItem[nw], item);
         else
             list->addItem(item);
@@ -485,7 +484,7 @@ void WindowList::showFocused(int x, int y) {
             getFrame()->setNormalPositionOuter(px, py);
         }
         getFrame()->setRequestedLayer(WinLayerAboveDock);
-        getFrame()->setState(WinStateAllWorkspaces, WinStateAllWorkspaces);
+        getFrame()->setAllWorkspaces();
         getFrame()->activateWindow(true);
     }
 }

@@ -63,7 +63,7 @@ void YFrameWindow::updateMenu() {
     if ((item = windowMenu->findAction(actionRollup)))
         item->setChecked(isRollup());
     if ((item = windowMenu->findAction(actionOccupyAllOrCurrent)))
-        item->setChecked(isSticky());
+        item->setChecked(isAllWorkspaces());
 #if DO_NOT_COVER_OLD
     if ((item = windowMenu->findAction(actionDoNotCover)))
         item->setChecked(doNotCover());
@@ -71,7 +71,7 @@ void YFrameWindow::updateMenu() {
     if ((item = windowMenu->findAction(actionFullscreen)))
         item->setChecked(isFullscreen());
     if ((item = windowMenu->findSubmenu(moveMenu)))
-        item->setEnabled(!isSticky());
+        item->setEnabled(!isAllWorkspaces());
 
     for (int i(0); i < moveMenu->itemCount(); i++) {
         item = moveMenu->getItem(i);

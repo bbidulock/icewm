@@ -35,10 +35,11 @@ public:
     virtual void wmRaise() = 0;
     virtual void wmLower() = 0;
     virtual void wmMinimize() = 0;
-    virtual long getWorkspace() const = 0;
+    virtual int getWorkspace() const = 0;
     virtual bool isSticky() const = 0;
-    virtual void wmOccupyWorkspace(long workspace) = 0;
-    virtual void wmOccupyOnlyWorkspace(long workspace) = 0;
+    virtual bool isAllWorkspaces() const = 0;
+    virtual void wmOccupyWorkspace(int workspace) = 0;
+    virtual void wmOccupyOnlyWorkspace(int workspace) = 0;
     virtual void popupSystemMenu(YWindow *owner) = 0;
     virtual void popupSystemMenu(YWindow *owner, int x, int y,
                          unsigned int flags,

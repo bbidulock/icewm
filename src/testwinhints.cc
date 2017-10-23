@@ -169,7 +169,7 @@ int main(/*int argc, char **argv*/) {
                     changeWorkspace(window,
                                     (windowWorkspace + 1) % workspaceCount);
                 else if (k == 's')
-                    toggleState(window, WinStateAllWorkspaces);
+                    toggleState(window, WinStateSticky);
                 /*
                 else if (k == 'd')
                     toggleState(window, WinStateDockHorizontal);

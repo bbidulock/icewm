@@ -1065,7 +1065,7 @@ int YWindowManager::calcCoverage(bool down, YFrameWindow *frame1, int x, int y, 
         if (f == frame1 || f->isMinimized() || f->isHidden() || !f->isManaged())
             continue;
 
-        if (!f->isSticky() && f->getWorkspace() != frame1->getWorkspace())
+        if (!f->isAllWorkspaces() && f->getWorkspace() != frame1->getWorkspace())
             continue;
 
         cover +=
@@ -1141,7 +1141,7 @@ bool YWindowManager::getSmartPlace(bool down, YFrameWindow *frame1, int &x, int 
         if (f == frame1 || f->isMinimized() || f->isHidden() || !f->isManaged() || f->isMaximized())
             continue;
 
-        if (!f->isSticky() && f->getWorkspace() != frame1->getWorkspace())
+        if (!f->isAllWorkspaces() && f->getWorkspace() != frame1->getWorkspace())
             continue;
 
         addco(xcoord, xcount, f->x());
@@ -1548,13 +1548,9 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     if (wmState() == YWindowManager::wmRUNNING) {
 #ifndef NO_WINDOW_OPTIONS
         if (frame->frameOptions() & YFrameWindow::foAllWorkspaces)
-            frame->setSticky(true);
-#endif
-#ifndef NO_WINDOW_OPTIONS
+            frame->setAllWorkspaces();
         if (frame->frameOptions() & YFrameWindow::foFullscreen)
             frame->setState(WinStateFullscreen, WinStateFullscreen);
-#endif
-#ifndef NO_WINDOW_OPTIONS
         if (frame->frameOptions() & (YFrameWindow::foMaximizedVert | YFrameWindow::foMaximizedHorz))
             frame->setState(WinStateMaximizedVert | WinStateMaximizedHoriz,
                             ((frame->frameOptions() & YFrameWindow::foMaximizedVert) ? WinStateMaximizedVert : 0) |
@@ -1691,7 +1687,7 @@ bool YWindowManager::focusTop(YFrameWindow *f) {
     return true;
 }
 
-YFrameWindow *YWindowManager::getLastFocus(bool skipSticky, long workspace) {
+YFrameWindow *YWindowManager::getLastFocus(bool skipAllWorkspaces, long workspace) {
     if (workspace == -1)
         workspace = activeWorkspace();
 
@@ -1708,7 +1704,7 @@ YFrameWindow *YWindowManager::getLastFocus(bool skipSticky, long workspace) {
 
     if (toFocus == 0) {
         int pass = 0;
-        if (!skipSticky)
+        if (!skipAllWorkspaces)
             pass = 1;
         for (; pass < 3; pass++) {
             for (YFrameWindow *w = lastFocusFrame();
@@ -1727,7 +1723,7 @@ YFrameWindow *YWindowManager::getLastFocus(bool skipSticky, long workspace) {
                     continue;
                 if (w->avoidFocus() || pass == 2)
                     continue;
-                if (w->isSticky() || pass == 1)
+                if (w->isAllWorkspaces() || pass == 1)
                     continue;
                 toFocus = w;
                 goto gotit;
@@ -1936,7 +1932,7 @@ void YWindowManager::getWorkArea(YFrameWindow *frame,
             whole = true;
 
         ws = frame->getWorkspace();
-        if (frame->isSticky())
+        if (frame->isAllWorkspaces())
             ws = activeWorkspace();
 
         if (ws < 0 || ws >= fWorkAreaWorkspaceCount)
@@ -2063,17 +2059,14 @@ void YWindowManager::updateWorkArea() {
             w->isMinimized())
             continue;
 
-        long ws = w->getWorkspace();
-        if (w->isSticky())
-            ws = -1;
-
+        int ws = w->getWorkspace();
         int s = w->getScreen();
         int sx = xiInfo[s].x_org;
         int sy = xiInfo[s].y_org;
         int sw = xiInfo[s].width;
         int sh = xiInfo[s].height;
 
-        MSG(("workarea window %s: ws:%ld s:%d x:%d y:%d w:%d h:%d", cstring(w->getTitle()).c_str(), ws, s, w->x(), w->y(), w->width(), w->height()));
+        MSG(("workarea window %s: ws:%d s:%d x:%d y:%d w:%d h:%d", cstring(w->getTitle()).c_str(), ws, s, w->x(), w->y(), w->width(), w->height()));
         {
             int l = sx + w->strutLeft();
             int t = sy + w->strutTop();
@@ -2145,7 +2138,7 @@ void YWindowManager::updateWorkArea() {
         fOldWorkAreaScreenCount != fWorkAreaScreenCount) {
         changed = true;
     } else {
-        for (long ws = 0; ws < fWorkAreaWorkspaceCount; ws++) {
+        for (int ws = 0; ws < fWorkAreaWorkspaceCount; ws++) {
             for (int s = 0; s < fWorkAreaScreenCount; s++) {
                 if (fWorkArea[ws][s].fMinX != fOldWorkArea[ws][s].fMinX ||
                     fWorkArea[ws][s].fMinY != fOldWorkArea[ws][s].fMinY ||
@@ -2163,7 +2156,7 @@ void YWindowManager::updateWorkArea() {
     if (changed) {
         announceWorkArea();
         if (fWorkAreaMoveWindows) {
-            for (long ws = 0; ws < fWorkAreaWorkspaceCount; ws++) {
+            for (int ws = 0; ws < fWorkAreaWorkspaceCount; ws++) {
                 if (ws >= fOldWorkAreaWorkspaceCount)
                     break;
 
@@ -2272,7 +2265,7 @@ void YWindowManager::relocateWindows(long workspace, int screen, int dx, int dy)
     for (YFrameWindow * f = topLayer(); f; f = f->nextLayer())
         if (f->inWorkArea() && f->getScreen() == screen) {
             if (f->getWorkspace() == workspace ||
-                (f->isSticky() && workspace == activeWorkspace()))
+                (f->isAllWorkspaces() && workspace == activeWorkspace()))
             {
                 f->setNormalPositionOuter(f->x() + dx, f->y() + dy);
             }
@@ -3107,7 +3100,7 @@ void YWindowManager::popupWindowListMenu(YWindow *owner) {
 void YWindowManager::switchToWorkspace(long nw, bool takeCurrent) {
     if (nw >= 0 && nw < workspaceCount()) {
         YFrameWindow *frame = getFocus();
-        if (takeCurrent && frame && !frame->isSticky()) {
+        if (takeCurrent && frame && !frame->isAllWorkspaces()) {
             lockFocus();
             frame->wmOccupyAll();
             frame->wmRaise();
@@ -3218,14 +3211,14 @@ void YWindowManager::tileWindows(YFrameWindow **w, int count, bool vertical) {
     }
 }
 
-void YWindowManager::getWindowsToArrange(YFrameWindow ***win, int *count, bool sticky, bool skipNonMinimizable) {
+void YWindowManager::getWindowsToArrange(YFrameWindow ***win, int *count, bool all, bool skipNonMinimizable) {
     YFrameWindow *w = topLayer(WinLayerNormal);
 
     *count = 0;
     while (w) {
         if (w->owner() == 0 && // not transient ?
             w->visibleOn(activeWorkspace()) && // visible
-            (sticky || !w->isSticky()) && // not on all workspaces
+            (all || !w->isAllWorkspaces()) && // not on all workspaces
             !w->isRollup() &&
             !w->isMinimized() &&
             !w->isHidden() &&
@@ -3242,7 +3235,7 @@ void YWindowManager::getWindowsToArrange(YFrameWindow ***win, int *count, bool s
         while (w) {
             if (w->owner() == 0 && // not transient ?
                 w->visibleOn(activeWorkspace()) && // visible
-                (sticky || !w->isSticky()) && // not on all workspaces
+                (all || !w->isAllWorkspaces()) && // not on all workspaces
                 !w->isRollup() &&
                 !w->isMinimized() &&
                 !w->isHidden()&&

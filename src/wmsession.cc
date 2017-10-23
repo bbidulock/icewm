@@ -314,7 +314,7 @@ void YWMApp::smSaveYourselfPhase2() {
                         continue;
                     }
                 }
-                fprintf(fp, "%d:%d:%d:%d %ld %lu %ld\n",
+                fprintf(fp, "%d:%d:%d:%d %d %lu %ld\n",
                         f->x(), f->y(), f->client()->width(), f->client()->height(),
                         f->getWorkspace(), f->getState(), f->getActiveLayer());
             }
