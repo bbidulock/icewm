@@ -41,9 +41,6 @@ void YXEmbedClient::handleReparentNotify(const XReparentEvent &reparent) {
     }
 }
 
-#define XEMBED_PROTOCOL_VERSION         0
-#define XEMBED_MAPPED                   (1<<0)
-
 void YXEmbedClient::handleProperty(const XPropertyEvent &property) {
     MSG(("embed client property"));
 

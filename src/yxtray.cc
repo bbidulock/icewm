@@ -275,24 +275,6 @@ void YXTrayProxy::handleClientMessage(const XClientMessageEvent &message) {
     }
 }
 
-#define XEMBED_PROTOCOL_VERSION         0
-
-#define XEMBED_MAPPED                   (1<<0)
-
-#define XEMBED_EMBEDDED_NOTIFY          0
-#define XEMBED_WINDOW_ACTIVATE          1
-#define XEMBED_WINDOW_DEACTIVATE        2
-#define XEMBED_REQUEST_FOCUS            3
-#define XEMBED_FOCUS_IN                 4
-#define XEMBED_FOCUS_OUT                5
-#define XEMBED_FOCUS_NEXT               6
-#define XEMBED_FOCUS_PREV               7
-#define XEMBED_MODALITY_ON              10
-#define XEMBED_MODALITY_OFF             11
-#define XEMBED_REGISTER_ACCELERATOR     12
-#define XEMBED_UNREGISTER_ACCELERATOR   13
-#define XEMBED_ACTIVATE_ACCELERATOR     14
-
 YXTrayEmbedder::YXTrayEmbedder(YXTray *tray, Window win): YXEmbed(tray) {
     fTray = tray;
     setStyle(wsManager);
