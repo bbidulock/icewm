@@ -380,6 +380,7 @@ void TaskBar::initApplets() {
             fCollapseButton->setText(">");
             fCollapseButton->setImage(taskbarCollapseImage);
             fCollapseButton->setActionListener(this);
+            fCollapseButton->setToolTip("Hide taskbar");
         }
     } else
         fCollapseButton = 0;
@@ -1025,6 +1026,7 @@ void TaskBar::handleCollapseButton() {
     if (fCollapseButton) {
         fCollapseButton->setText(fIsCollapsed ? "<": ">");
         fCollapseButton->setImage(fIsCollapsed ? taskbarExpandImage : taskbarCollapseImage);
+        fCollapseButton->setToolTip(fIsCollapsed ? "Show taskbar" : "Hide taskbar");
     }
 
     relayout();
