@@ -1658,6 +1658,9 @@ static void print_configured(const char *argv0) {
 #ifdef CONFIG_XRANDR
     " xrandr"
 #endif
+#ifdef CONFIG_RENDER
+    " xrender"
+#endif
     "\n";
     printf(_("%s configured options:%s\n"), argv0,
             compile_time_configured_options);
