@@ -229,6 +229,17 @@ if test x$enable_gradients != xno; then
     enable_antialiasing=implied
 fi
 
+AC_ARG_ENABLE([xrender],
+    AC_HELP_STRING([--disable-xrender],[Disable use of RENDER extension.]))
+if test x$enable_xrender != xno ; then
+    PKG_CHECK_MODULES([RENDER],[xrender],[
+	CORE_CFLAGS="$RENDER_CFLAGS $CORE_CFLAGS"
+	CORE_LIBS="$RENDER_LIBS $CORE_LIBS"
+	AC_DEFINE([CONFIG_RENDER],[1],[Define to enable RENDER extension.])
+	features="$features render"],
+	[AC_MSG_WARN([RENDER not supported.])])
+fi
+
 AC_ARG_ENABLE([xrandr],
     AC_HELP_STRING([--disable-xrandr],[Disable use of XRANDR extension.]))
 if test x$enable_xrandr != xno; then
