@@ -3523,6 +3523,11 @@ void YFrameWindow::setState(long mask, long state) {
             activate();
         }
     }
+    if ((fOldState ^ fNewState) & WinStateFocused) {
+        if ((fNewState & WinStateFocused) &&
+             this != manager->getFocus())
+            manager->setFocus(this);
+    }
 }
 
 void YFrameWindow::setAllWorkspaces() {
