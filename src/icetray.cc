@@ -209,6 +209,7 @@ SysTray::SysTray():
     icewm_internal_tray("_ICEWM_INTTRAY_S", true),
     _NET_SYSTEM_TRAY_OPCODE("_NET_SYSTEM_TRAY_OPCODE")
 {
+    setTitle("SysTray");
     setParentRelative();
     desktop->setStyle(YWindow::wsDesktopAware);
 

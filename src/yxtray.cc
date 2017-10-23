@@ -89,6 +89,7 @@ YXTrayProxy::YXTrayProxy(const YAtom& atom, YXTray *tray, YWindow *aParent):
     _NET_SYSTEM_TRAY_S0(atom),
     fTray(tray)
 {
+    setTitle("YXTrayProxy");
     setParentRelative();
     if (isExternal()) {
         long orientation = SYSTEM_TRAY_ORIENTATION_HORZ;
@@ -295,6 +296,7 @@ void YXTrayProxy::handleClientMessage(const XClientMessageEvent &message) {
 YXTrayEmbedder::YXTrayEmbedder(YXTray *tray, Window win): YXEmbed(tray) {
     fTray = tray;
     setStyle(wsManager);
+    setTitle("YXTrayEmbedder");
     fDocked = new YXEmbedClient(this, this, win);
 
     XSetWindowBorderWidth(xapp->display(),
@@ -393,6 +395,7 @@ YXTray::YXTray(YXTrayNotifier *notifier,
                YWindow *aParent):
     YWindow(aParent), fNotifier(notifier), fInternal(internal)
 {
+    setTitle("YXTray");
     setParentRelative();
     fTrayProxy = new YXTrayProxy(atom, this);
     show();

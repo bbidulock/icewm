@@ -165,6 +165,7 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
 
     initPixmaps();
 
+    setTitle("TaskBar");
     setWindowTitle(_("Task Bar"));
     setIconTitle(_("Task Bar"));
     setClassHint("icewm", "TaskBar");
@@ -331,8 +332,10 @@ void TaskBar::initMenu() {
 
 void TaskBar::initApplets() {
 #ifdef CONFIG_APPLET_MEM_STATUS
-    if (taskBarShowMEMStatus)
+    if (taskBarShowMEMStatus) {
         fMEMStatus = new MEMStatus(this);
+        fMEMStatus->setTitle("MEMStatus");
+    }
     else
         fMEMStatus = 0;
 #endif
@@ -347,6 +350,7 @@ void TaskBar::initApplets() {
 #ifdef CONFIG_APPLET_CLOCK
     if (taskBarShowClock) {
         fClock = new YClock(smActionListener, this);
+        fClock->setTitle("IceClock");
     } else
         fClock = 0;
 #endif
@@ -359,6 +363,7 @@ void TaskBar::initApplets() {
                            access("/proc/pmu", R_OK|X_OK) == 0))
     {
         fApm = new YApm(this);
+        fApm->setTitle("IceAPM");
     }
     else if(!taskBarShowApm && taskBarShowApmAuto)
     {
@@ -367,6 +372,7 @@ void TaskBar::initApplets() {
                 delete fApm;
                 fApm = 0;
         }
+        else fApm->setTitle("IceAPM");
     }
 
     else
@@ -381,6 +387,7 @@ void TaskBar::initApplets() {
             fCollapseButton->setActionListener(this);
             fCollapseButton->setToolTip("Hide taskbar");
         }
+        fCollapseButton->setTitle("Collapse");
     } else
         fCollapseButton = 0;
 
@@ -430,6 +437,7 @@ void TaskBar::initApplets() {
         fApplications->setActionListener(this);
         fApplications->setImage(taskbarStartImage);
         fApplications->setToolTip(_("Favorite applications"));
+        fApplications->setTitle("TaskBarMenu");
     } else
         fApplications = 0;
 
@@ -439,6 +447,7 @@ void TaskBar::initApplets() {
         if (t != null) {
             loadMenus(app, smActionListener, wmActionListener, t, fObjectBar);
         }
+        fObjectBar->setTitle("IceToolbar");
     }
 #endif
 #ifdef CONFIG_WINMENU
@@ -447,6 +456,7 @@ void TaskBar::initApplets() {
         fWinList->setImage(taskbarWindowsImage);
         fWinList->setActionListener(this);
         fWinList->setToolTip(_("Window list menu"));
+        fWinList->setTitle("ShowWindowList");
     } else
         fWinList = 0;
 #endif
@@ -456,27 +466,34 @@ void TaskBar::initApplets() {
         fShowDesktop->setImage(taskbarShowDesktopImage);
         fShowDesktop->setActionListener(wmActionListener);
         fShowDesktop->setToolTip(_("Show Desktop"));
+        fShowDesktop->setTitle("ShowDesktop");
     }
     if (taskBarShowWorkspaces && workspaceCount > 0) {
         fWorkspaces = new WorkspacesPane(this);
+        fWorkspaces->setTitle("Workspaces");
     } else
         fWorkspaces = 0;
 #ifdef CONFIG_ADDRESSBAR
-    if (enableAddressBar)
+    if (enableAddressBar) {
         fAddressBar = new AddressBar(app, this);
+        fAddressBar->setTitle("AddressBar");
+    }
 #endif
     if (taskBarShowWindows) {
         fTasks = new TaskPane(this, this);
+        fTasks->setTitle("TaskPane");
     } else
         fTasks = 0;
 #ifdef CONFIG_TRAY
     if (taskBarShowTray) {
         fWindowTray = new TrayPane(this, this);
+        fWindowTray->setTitle("TrayPane");
     } else
         fWindowTray = 0;
 #endif
     YAtom trayatom("_ICEWM_INTTRAY_S", true);
     fDesktopTray = new YXTray(this, true, trayatom, this);
+    fDesktopTray->setTitle("DesktopTray");
     fDesktopTray->relayout();
 }
 
@@ -1012,6 +1029,7 @@ void TaskBar::showBar(bool visible) {
             getFrame()->setAllWorkspaces();
             getFrame()->activate(true);
             updateLocation();
+            parent()->setTitle("TaskBarFrame");
         }
     }
 }

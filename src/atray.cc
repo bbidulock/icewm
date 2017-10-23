@@ -63,6 +63,7 @@ TrayApp::TrayApp(ClientData *frame, YWindow *aParent): YWindow(aParent) {
     selected = 0;
     fShown = true;
     setToolTip(frame->getTitle());
+    setTitle(cstring(frame->getTitle()));
     //setDND(true);
 }
 
