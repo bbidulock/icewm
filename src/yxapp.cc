@@ -972,22 +972,32 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
     initColors();
 
 #ifdef CONFIG_SHAPE
-    shapesSupported = XShapeQueryExtension(display(),
-                                           &shapeEventBase, &shapeErrorBase);
-#endif
-#ifdef CONFIG_XRANDR
-    xrandrSupported = XRRQueryExtension(display(),
-                                        &xrandrEventBase, &xrandrErrorBase);
+    if ((shapesSupported = XShapeQueryExtension(display(),
+                                           &shapeEventBase, &shapeErrorBase)))
     {
-        int major = 0;
-        int minor = 0;
-        XRRQueryVersion(display(), &major, &minor);
+        XShapeQueryVersion(display(),
+                &shapeVersionMajor, &shapeVersionMinor);
+    }
+#endif
 
-        MSG(("XRRVersion: %d %d", major, minor));
-        if (major > 1 || (major == 1 && minor >= 2)) {
-            xrandrSupported = 1;
+#ifdef CONFIG_RENDER
+    if ((renderSupported = XRenderQueryExtension(display(),
+                    &renderEventBase, &renderErrorBase)))
+    {
+        XRenderQueryVersion(display(),
+                &renderVersionMajor, &renderVersionMinor);
+    }
+#endif
+
+#ifdef CONFIG_XRANDR
+    if ((xrandrSupported = XRRQueryExtension(display(),
+                                        &xrandrEventBase, &xrandrErrorBase)))
+    {
+        XRRQueryVersion(display(), &xrandrVersionMajor, &xrandrVersionMinor);
+
+        MSG(("XRRVersion: %d %d", xrandrVersionMajor, xrandrVersionMinor));
+        if (xrandrVersionMajor > 1 || (xrandrVersionMajor == 1 && xrandrVersionMinor >= 2))
             xrandr12 = true;
-        }
     }
 #endif
 }
