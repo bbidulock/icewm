@@ -2249,7 +2249,7 @@ void YWindowManager::announceWorkArea() {
     delete [] area;
 #endif
 #ifdef GNOME1_HINTS
-    if (fActiveWorkspace != -1) {
+    if (fActiveWorkspace != -1 && fActiveWorkspace < workspaceCount()) {
         long area[4];
         int cw = fActiveWorkspace;
         area[0] = fWorkArea[cw][0].fMinX;
