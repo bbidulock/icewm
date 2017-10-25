@@ -42,6 +42,8 @@ public:
 
     Cursor handle() const { return fCursor; }
 
+    operator Cursor() const { return fCursor; }
+
 private:
     Cursor fCursor;
     bool fOwned;
