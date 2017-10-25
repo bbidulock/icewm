@@ -5,28 +5,20 @@
  */
 
 #include "config.h"
-#include "yfull.h"
 #include "wmframe.h"
 
 #include "yprefs.h"
 #include "prefs.h"
 #include "atasks.h"
 #include "atray.h"
-#include "aaddressbar.h"
-#include "wmaction.h"
-#include "wmclient.h"
 #include "wmcontainer.h"
 #include "wmtitle.h"
-#include "wmbutton.h"
 #include "wmminiicon.h"
 #include "wmswitch.h"
 #include "wmtaskbar.h"
 #include "wmwinlist.h"
-#include "wmmgr.h"
 #include "wmapp.h"
-#include "sysdep.h"
 #include "yrect.h"
-#include "yicon.h"
 #include "wpixmaps.h"
 #include "aworkspaces.h"
 
@@ -41,14 +33,6 @@ YTimer *YFrameWindow::fDelayFocusTimer = 0;
 extern XContext windowContext;
 extern XContext frameContext;
 extern XContext clientContext;
-
-bool YFrameWindow::isButton(char c) {
-    if (strchr(titleButtonsSupported, c) == 0)
-        return false;
-    if (strchr(titleButtonsRight, c) != 0 || strchr(titleButtonsLeft, c) != 0)
-        return true;
-    return false;
-}
 
 YFrameWindow::YFrameWindow(
     YActionListener *wmActionListener,
@@ -77,6 +61,17 @@ YFrameWindow::YFrameWindow(
     fNextFocusFrame = 0;
     fPrevFocusFrame = 0;
 
+    topSide = None;
+    leftSide = None;
+    rightSide = None;
+    bottomSide = None;
+    topLeft = None;
+    topRight = None;
+    bottomLeft = None;
+    bottomRight = None;
+    indicatorsCreated = false;
+    indicatorsVisible = false;
+
     fPopupActive = 0;
     fWmUrgency = false;
     fClientUrgency = false;
@@ -94,7 +89,6 @@ YFrameWindow::YFrameWindow(
     iconY = -1;
     movingWindow = 0;
     sizingWindow = 0;
-    indicatorsVisible = 0;
     fFrameFunctions = 0;
     fFrameDecors = 0;
     fFrameOptions = 0;
@@ -120,6 +114,7 @@ YFrameWindow::YFrameWindow(
     fStrutRight = 0;
     fStrutTop = 0;
     fStrutBottom = 0;
+    fTitleBar = 0;
 
     fUserTimeWindow = None;
 
@@ -141,88 +136,10 @@ YFrameWindow::YFrameWindow(
     fWinState = 0;
     fWinOptionMask = ~0;
 
-    createPointerWindows();
-
     fClientContainer = new YClientContainer(this, this);
     fClientContainer->show();
-
-    fTitleBar = new YFrameTitleBar(this, this);
-    fTitleBar->show();
-
-    if (!isButton('m')) /// optimize strchr (flags)
-        fMaximizeButton = 0;
-    else {
-        fMaximizeButton = new YFrameButton(fTitleBar, this, actionMaximize, actionMaximizeVert);
-        //fMaximizeButton->setWinGravity(NorthEastGravity);
-        fMaximizeButton->show();
-        fMaximizeButton->setToolTip(_("Maximize"));
-    }
-
-    if (!isButton('i'))
-        fMinimizeButton = 0;
-    else {
-        fMinimizeButton = new YFrameButton(fTitleBar, this,
-#ifndef CONFIG_PDA
-                                           actionMinimize, actionHide);
-#else
-                                           actionMinimize, actionNull);
-#endif
-        //fMinimizeButton->setWinGravity(NorthEastGravity);
-        fMinimizeButton->setToolTip(_("Minimize"));
-        fMinimizeButton->show();
-    }
-
-    if (!isButton('x'))
-        fCloseButton = 0;
-    else {
-        fCloseButton = new YFrameButton(fTitleBar, this, actionClose, actionKill);
-        //fCloseButton->setWinGravity(NorthEastGravity);
-        fCloseButton->setToolTip(_("Close"));
-        fCloseButton->show();
-    }
-
-#ifndef CONFIG_PDA
-    if (!isButton('h'))
-#endif
-        fHideButton = 0;
-#ifndef CONFIG_PDA
-    else {
-        fHideButton = new YFrameButton(fTitleBar, this, actionHide, actionHide);
-        //fHideButton->setWinGravity(NorthEastGravity);
-        fHideButton->setToolTip(_("Hide"));
-        fHideButton->show();
-    }
-#endif
-
-    if (!isButton('r'))
-        fRollupButton = 0;
-    else {
-        fRollupButton = new YFrameButton(fTitleBar, this, actionRollup, actionRollup);
-        //fRollupButton->setWinGravity(NorthEastGravity);
-        fRollupButton->setToolTip(_("Rollup"));
-        fRollupButton->show();
-    }
-
-    if (!isButton('d'))
-        fDepthButton = 0;
-    else {
-        fDepthButton = new YFrameButton(fTitleBar, this, actionDepth, actionDepth);
-        //fDepthButton->setWinGravity(NorthEastGravity);
-        fDepthButton->setToolTip(_("Raise/Lower"));
-        fDepthButton->show();
-    }
-
-    if (!isButton('s'))
-        fMenuButton = 0;
-    else {
-        fMenuButton = new YFrameButton(fTitleBar, this, actionNull);
-        fMenuButton->show();
-        fMenuButton->setActionListener(this);
-    }
-#ifndef LITE
-    if (minimizeToDesktop)
-        fMiniIcon = new MiniIcon(this, this);
-#endif
+    fClientContainer->setTitle("Container");
+    setTitle("Frame");
 }
 
 YFrameWindow::~YFrameWindow() {
@@ -319,23 +236,21 @@ YFrameWindow::~YFrameWindow() {
 
     delete fClient; fClient = 0;
     delete fClientContainer; fClientContainer = 0;
-    delete fMenuButton; fMenuButton = 0;
-    delete fCloseButton; fCloseButton = 0;
-    delete fMaximizeButton; fMaximizeButton = 0;
-    delete fMinimizeButton; fMinimizeButton = 0;
-    delete fHideButton; fHideButton = 0;
-    delete fRollupButton; fRollupButton = 0;
-    delete fDepthButton; fDepthButton = 0;
+
+    /* if (indicatorsCreated) {
+        // do we really need to explicitly destroy these?
+        XDestroyWindow(xapp->display(), topSide);
+        XDestroyWindow(xapp->display(), leftSide);
+        XDestroyWindow(xapp->display(), rightSide);
+        XDestroyWindow(xapp->display(), bottomSide);
+        XDestroyWindow(xapp->display(), topLeft);
+        XDestroyWindow(xapp->display(), topRight);
+        XDestroyWindow(xapp->display(), bottomLeft);
+        XDestroyWindow(xapp->display(), bottomRight);
+    } */
+
     delete fTitleBar; fTitleBar = 0;
 
-    XDestroyWindow(xapp->display(), topSide);
-    XDestroyWindow(xapp->display(), leftSide);
-    XDestroyWindow(xapp->display(), rightSide);
-    XDestroyWindow(xapp->display(), bottomSide);
-    XDestroyWindow(xapp->display(), topLeftCorner);
-    XDestroyWindow(xapp->display(), topRightCorner);
-    XDestroyWindow(xapp->display(), bottomLeftCorner);
-    XDestroyWindow(xapp->display(), bottomRightCorner);
     manager->updateClientList();
 
 #ifdef CONFIG_TASKBAR
@@ -345,6 +260,15 @@ YFrameWindow::~YFrameWindow() {
         taskBar->workspacesPane()->repaint();
     }
 #endif
+}
+
+YFrameTitleBar* YFrameWindow::titlebar() {
+    bool titleVisible = (titleY() > 0);
+    if (fTitleBar == 0 && titleVisible) {
+        fTitleBar = new YFrameTitleBar(this, this);
+        fTitleBar->show();
+    }
+    return fTitleBar;
 }
 
 void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &requestFocus) {
@@ -584,60 +508,48 @@ void YFrameWindow::afterManage() {
 #endif
 }
 
-// create 8 windows that are used to show the proper pointer
-// on frame (for resize)
-void YFrameWindow::createPointerWindows() {
+// create a window to show a resize pointer on the frame border
+Window YFrameWindow::createPointerWindow(Cursor cursor, Window parent) {
     XSetWindowAttributes attributes;
-    unsigned int attrmask = 0;
-    unsigned int klass = InputOnly;
-
     attributes.event_mask = 0;
-    attrmask |= CWEventMask;
+    attributes.cursor = cursor;
+    return XCreateWindow(xapp->display(), parent, 0, 0, 1, 1, 0,
+                         0, InputOnly, CopyFromParent,
+                         CWEventMask | CWCursor, &attributes);
+}
 
-    attrmask |= CWCursor;
+// create 8 resize pointer indicator windows
+void YFrameWindow::createPointerWindows() {
 
-    attributes.cursor = YWMApp::sizeTopPointer.handle();
-    topSide = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
-                            0, klass, None,
-                            attrmask, &attributes);
+    // There is a competition for mouse input between
+    // the resize handles, the titlebar and its buttons.
+    // The following solution positions the three top resize
+    // handles between the titlebar and the titlebar buttons.
+    Window titleWin = titlebar() ? titlebar()->handle() : handle();
 
-    attributes.cursor = YWMApp::sizeLeftPointer.handle();
-    leftSide = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
-                            0, klass, None,
-                            attrmask, &attributes);
+    topSide = createPointerWindow(YWMApp::sizeTopPointer,
+                                  titleWin);
+    leftSide = createPointerWindow(YWMApp::sizeLeftPointer,
+                                   handle());
+    rightSide = createPointerWindow(YWMApp::sizeRightPointer,
+                                    handle());
+    bottomSide = createPointerWindow(YWMApp::sizeBottomPointer,
+                                     handle());
 
-    attributes.cursor = YWMApp::sizeRightPointer.handle();
-    rightSide = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
-                            0, klass, None,
-                            attrmask, &attributes);
+    topLeft = createPointerWindow(YWMApp::sizeTopLeftPointer,
+                                  titleWin);
+    topRight = createPointerWindow(YWMApp::sizeTopRightPointer,
+                                   titleWin);
+    bottomLeft = createPointerWindow(YWMApp::sizeBottomLeftPointer,
+                                     handle());
+    bottomRight = createPointerWindow(YWMApp::sizeBottomRightPointer,
+                                      handle());
 
-    attributes.cursor = YWMApp::sizeBottomPointer.handle();
-    bottomSide = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
-                            0, klass, None,
-                            attrmask, &attributes);
+    indicatorsCreated = true;
 
-    attributes.cursor = YWMApp::sizeTopLeftPointer.handle();
-    topLeftCorner = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
-                                  0, klass, None,
-                                  attrmask, &attributes);
-
-    attributes.cursor = YWMApp::sizeTopRightPointer.handle();
-    topRightCorner = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
-                                   0, klass, None,
-                                   attrmask, &attributes);
-
-    attributes.cursor = YWMApp::sizeBottomLeftPointer.handle();
-    bottomLeftCorner = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
-                                     0, klass, None,
-                                     attrmask, &attributes);
-
-    attributes.cursor = YWMApp::sizeBottomRightPointer.handle();
-    bottomRightCorner = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
-                                      0, klass, None,
-                                      attrmask, &attributes);
-
-    XMapSubwindows(xapp->display(), handle());
-    indicatorsVisible = 1;
+    if (titlebar()) {
+        titlebar()->raiseButtons();
+    }
 }
 
 void YFrameWindow::grabKeys() {
@@ -1483,13 +1395,13 @@ void YFrameWindow::wmMove() {
         wx = x();
     if (wy < y())
         wy = y();
-    startMoveSize(1, 0,
+    startMoveSize(true, false,
                   0, 0,
                   wx - x(), wy - y());
 }
 
 void YFrameWindow::wmSize() {
-    startMoveSize(0, 0,
+    startMoveSize(false, false,
                   0, 0,
                   0, 0);
 }
@@ -1806,10 +1718,11 @@ void YFrameWindow::loseWinFocus() {
                 if (fClientContainer)
                     fClientContainer->grabButtons();
         if (isIconic())
-            fMiniIcon->repaint();
+            getMiniIcon()->repaint();
         else {
             repaint();
-            titlebar()->deactivate();
+            if (titlebar())
+                titlebar()->deactivate();
         }
 #ifdef CONFIG_TASKBAR
         updateTaskBar();
@@ -1823,9 +1736,10 @@ void YFrameWindow::setWinFocus() {
 
         setState(WinStateFocused, WinStateFocused);
         if (isIconic())
-            fMiniIcon->repaint();
+            getMiniIcon()->repaint();
         else {
-            titlebar()->activate();
+            if (titlebar())
+                titlebar()->activate();
             repaint();
         }
 #ifdef CONFIG_TASKBAR
@@ -1957,6 +1871,13 @@ void YFrameWindow::activateWindow(bool raise) {
     activate(true);
 }
 
+MiniIcon *YFrameWindow::getMiniIcon() {
+#ifndef LITE
+    if (minimizeToDesktop && fMiniIcon == 0)
+        fMiniIcon = new MiniIcon(this, this);
+#endif
+    return fMiniIcon;
+}
 
 void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
     YColor *bg;
@@ -2117,9 +2038,13 @@ void YFrameWindow::handlePopDown(YPopupWindow *popup) {
 
 void YFrameWindow::popupSystemMenu(YWindow *owner) {
     if (fPopupActive == 0) {
-        if (fMenuButton && fMenuButton->visible() &&
-            fTitleBar && fTitleBar->visible())
-            fMenuButton->popupMenu();
+        if (titlebar() &&
+            titlebar()->visible() &&
+            titlebar()->menuButton() &&
+            titlebar()->menuButton()->visible())
+        {
+            titlebar()->menuButton()->popupMenu();
+        }
         else {
             int ax = x() + container()->x();
             int ay = y() + container()->y();
@@ -2148,7 +2073,8 @@ void YFrameWindow::popupSystemMenu(YWindow *owner, int x, int y,
 }
 
 void YFrameWindow::updateTitle() {
-    titlebar()->repaint();
+    if (titlebar())
+        titlebar()->repaint();
     layoutShape();
     updateIconTitle();
 #ifdef CONFIG_WINLIST
@@ -2177,7 +2103,7 @@ void YFrameWindow::updateIconTitle() {
         fTrayApp->setToolTip(client()->windowTitle());
 #endif
     if (isIconic()) {
-        fMiniIcon->repaint();
+        getMiniIcon()->repaint();
     }
 }
 
@@ -2682,7 +2608,8 @@ void YFrameWindow::updateIcon() {
     }
 
 // !!! BAH, we need an internal signaling framework
-    if (menuButton()) menuButton()->repaint();
+    if (titlebar() && titlebar()->menuButton())
+        titlebar()->menuButton()->repaint();
     if (getMiniIcon()) getMiniIcon()->repaint();
 #ifdef CONFIG_TRAY
     if (fTrayApp) fTrayApp->repaint();
@@ -3333,7 +3260,8 @@ void YFrameWindow::updateLayout() {
         if (iconX == -1 && iconY == -1)
             manager->getIconPosition(this, &iconX, &iconY);
 
-        setWindowGeometry(YRect(iconX, iconY, fMiniIcon->width(), fMiniIcon->height()));
+        setWindowGeometry(YRect(iconX, iconY,
+                          getMiniIcon()->width(), getMiniIcon()->height()));
     } else {
         if (isFullscreen()) {
             // for _NET_WM_FULLSCREEN_MONITORS
@@ -3426,13 +3354,14 @@ void YFrameWindow::setState(long mask, long state) {
     {
         MSG(("WinStateMaximized: %d", isMaximized()));
 
-        if (fMaximizeButton) {
+        YFrameButton* maximize = titlebar() ? titlebar()->maximizeButton() : 0;
+        if (maximize) {
             if (isMaximized()) {
-                fMaximizeButton->setActions(actionRestore, actionRestore);
-                fMaximizeButton->setToolTip(_("Restore"));
+                maximize->setActions(actionRestore, actionRestore);
+                maximize->setToolTip(_("Restore"));
             } else {
-                fMaximizeButton->setActions(actionMaximize, actionMaximizeVert);
-                fMaximizeButton->setToolTip(_("Maximize"));
+                maximize->setActions(actionMaximize, actionMaximizeVert);
+                maximize->setToolTip(_("Maximize"));
             }
         }
     }
@@ -3443,12 +3372,12 @@ void YFrameWindow::setState(long mask, long state) {
         else if (owner() && owner()->isMinimized())
             owner()->setState(WinStateMinimized, 0);
 
-        if (minimizeToDesktop && fMiniIcon) {
+        if (minimizeToDesktop && getMiniIcon()) {
             if (isIconic()) {
-                fMiniIcon->raise();
-                fMiniIcon->show();
+                getMiniIcon()->raise();
+                getMiniIcon()->show();
             } else {
-                fMiniIcon->hide();
+                getMiniIcon()->hide();
                 iconX = x();
                 iconY = y();
             }
@@ -3461,13 +3390,14 @@ void YFrameWindow::setState(long mask, long state) {
     }
     if ((fOldState ^ fNewState) & WinStateRollup) {
         MSG(("WinStateRollup: %d", isRollup()));
-        if (fRollupButton) {
+        YFrameButton* rollup = titlebar() ? titlebar()->rollupButton() : 0;
+        if (rollup) {
             if (isRollup()) {
-                fRollupButton->setToolTip(_("Rolldown"));
+                rollup->setToolTip(_("Rolldown"));
             } else {
-                fRollupButton->setToolTip(_("Rollup"));
+                rollup->setToolTip(_("Rollup"));
             }
-            fRollupButton->repaint();
+            rollup->repaint();
         }
         layoutResizeIndicators();
     }

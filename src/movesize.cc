@@ -588,7 +588,7 @@ void YFrameWindow::manualPlace() {
     buttonDownY = 0;
 
     if (!xapp->grabEvents(desktop,
-                          YXApplication::movePointer.handle(),
+                          YXApplication::movePointer,
                           ButtonPressMask |
                           ButtonReleaseMask |
                           PointerMotionMask))
@@ -877,9 +877,7 @@ bool YFrameWindow::canSize(bool horiz, bool vert) {
 }
 
 bool YFrameWindow::canMove() {
-    if (!(frameFunctions() & ffMove))
-        return false;
-    return true;
+    return hasbit(frameFunctions(), ffMove);
 }
 
 #ifdef WMSPEC_HINTS
@@ -895,14 +893,14 @@ void YFrameWindow::startMoveSize(int x, int y,
             x -= this->x();
             y -= this->y();
         }
-        startMoveSize((direction == _NET_WM_MOVERESIZE_MOVE) ? 1 : 0,
+        startMoveSize((direction == _NET_WM_MOVERESIZE_MOVE),
                       true, sx[direction], sy[direction], x, y);
     } else
         warn(_("Unknown direction in move/resize request: %d"), direction);
 }
 #endif
 
-void YFrameWindow::startMoveSize(int doMove, int byMouse,
+void YFrameWindow::startMoveSize(bool doMove, bool byMouse,
                                  int sideX, int sideY,
                                  int mouseXroot, int mouseYroot) {
     Cursor grabPointer = None;
@@ -923,7 +921,7 @@ void YFrameWindow::startMoveSize(int doMove, int byMouse,
 #ifdef CONFIG_GUIEVENTS
         wmapp->signalGuiEvent(geWindowMoved);
 #endif
-        grabPointer = YXApplication::movePointer.handle();
+        grabPointer = YXApplication::movePointer;
     } else if (!doMove) {
 #ifdef CONFIG_GUIEVENTS
         wmapp->signalGuiEvent(geWindowSized);
@@ -931,25 +929,25 @@ void YFrameWindow::startMoveSize(int doMove, int byMouse,
 
         if (grabY == -1) {
             if (grabX == -1)
-                grabPointer = YWMApp::sizeTopLeftPointer.handle();
+                grabPointer = YWMApp::sizeTopLeftPointer;
             else if (grabX == 1)
-                grabPointer = YWMApp::sizeTopRightPointer.handle();
+                grabPointer = YWMApp::sizeTopRightPointer;
             else
-                grabPointer = YWMApp::sizeTopPointer.handle();
+                grabPointer = YWMApp::sizeTopPointer;
         } else if (grabY == 1) {
             if (grabX == -1)
-                grabPointer = YWMApp::sizeBottomLeftPointer.handle();
+                grabPointer = YWMApp::sizeBottomLeftPointer;
             else if (grabX == 1)
-                grabPointer = YWMApp::sizeBottomRightPointer.handle();
+                grabPointer = YWMApp::sizeBottomRightPointer;
             else
-                grabPointer = YWMApp::sizeBottomPointer.handle();
+                grabPointer = YWMApp::sizeBottomPointer;
         } else {
             if (grabX == -1)
-                grabPointer = YWMApp::sizeLeftPointer.handle();
+                grabPointer = YWMApp::sizeLeftPointer;
             else if (grabX == 1)
-                grabPointer = YWMApp::sizeRightPointer.handle();
+                grabPointer = YWMApp::sizeRightPointer;
             else
-                grabPointer = YXApplication::leftPointer.handle();
+                grabPointer = YXApplication::leftPointer;
 
         }
 
@@ -1017,7 +1015,7 @@ void YFrameWindow::endMoveSize() {
 
 void YFrameWindow::handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion) {
     if ((down.button == 3) && canMove()) {
-        startMoveSize(1, 1,
+        startMoveSize(true, true,
                       0, 0,
                       down.x, down.y);
         handleDrag(down, motion);
@@ -1042,7 +1040,7 @@ void YFrameWindow::handleBeginDrag(const XButtonEvent &down, const XMotionEvent 
         }
 
         if (grabX != 0 || grabY != 0) {
-            startMoveSize(0, 1,
+            startMoveSize(false, true,
                           grabX, grabY,
                           down.x_root, down.y_root);
 

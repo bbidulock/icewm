@@ -78,7 +78,7 @@ void YFrameButton::handleClick(const XButtonEvent &up, int count) {
 void YFrameButton::handleBeginDrag(const XButtonEvent &down, const XMotionEvent &/*motion*/) {
     if (down.button == 3 && getFrame()->canMove()) {
         if (!isPopupActive())
-            getFrame()->startMoveSize(1, 1,
+            getFrame()->startMoveSize(true, true,
                                       0, 0,
                                       down.x + x() + getFrame()->titlebar()->x(),
                                       down.y + y() + getFrame()->titlebar()->y());

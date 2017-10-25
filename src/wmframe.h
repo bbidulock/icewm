@@ -1,15 +1,8 @@
 #ifndef __WMFRAME_H
 #define __WMFRAME_H
 
-#include "ywindow.h"
-#include "ymenu.h"
-#include "ytimer.h"
 #include "ymsgbox.h"
-#include "yaction.h"
-#include "wmclient.h"
-#include "wmbutton.h"
 #include "wmoption.h"
-#include "WinMgr.h"
 #include "wmmgr.h"
 #include "yicon.h"
 
@@ -30,6 +23,7 @@ public:
     void unmanage(bool reparent = true);
     void sendConfigure();
 
+    Window createPointerWindow(Cursor cursor, Window parent);
     void createPointerWindows();
     void grabKeys();
 
@@ -104,15 +98,14 @@ public:
     void updateFocusOnMap(bool &doActivate);
 
     YFrameClient *client() const { return fClient; }
-    YFrameTitleBar *titlebar() const { return fTitleBar; }
+    YFrameTitleBar *titlebar();
     YClientContainer *container() const { return fClientContainer; }
 
 #ifdef WMSPEC_HINTS
-    void startMoveSize(int x, int y,
-                                     int direction);
+    void startMoveSize(int x, int y, int direction);
 #endif
 
-    void startMoveSize(int doMove, int byMouse,
+    void startMoveSize(bool doMove, bool byMouse,
                        int sideX, int sideY,
                        int mouseXroot, int mouseYroot);
     void endMoveSize();
@@ -179,13 +172,6 @@ public:
 
     YFrameWindow *findWindow(int flag);
 
-    YFrameButton *menuButton() const { return fMenuButton; }
-    YFrameButton *closeButton() const { return fCloseButton; }
-    YFrameButton *minimizeButton() const { return fMinimizeButton; }
-    YFrameButton *maximizeButton() const { return fMaximizeButton; }
-    YFrameButton *hideButton() const { return fHideButton; }
-    YFrameButton *rollupButton() const { return fRollupButton; }
-    YFrameButton *depthButton() const { return fDepthButton; }
     void updateMenu();
 
     virtual void raise();
@@ -208,7 +194,7 @@ public:
     void setShape();
 #endif
 
-    enum {
+    enum YFrameFunctions {
         ffMove          = (1 << 0),
         ffResize        = (1 << 1),
         ffClose         = (1 << 2),
@@ -216,9 +202,9 @@ public:
         ffMaximize      = (1 << 4),
         ffHide          = (1 << 5),
         ffRollup        = (1 << 6)
-    } YFrameFunctions;
+    };
 
-    enum {
+    enum YFrameDecors {
         fdTitleBar      = (1 << 0),
         fdSysMenu       = (1 << 1),
         fdBorder        = (1 << 2),
@@ -229,7 +215,7 @@ public:
         fdHide          = (1 << 7),
         fdRollup        = (1 << 8),
         fdDepth         = (1 << 9)
-    } YFrameDecors;
+    };
 
     /// !!! needs refactoring (some are not optional right now)
     /// should be #ifndef NO_WINDOW_OPTIONS
@@ -257,9 +243,9 @@ public:
         foIgnoreUrgent          = (1 << 19)
     };
 
-    unsigned long frameFunctions() const { return fFrameFunctions; }
-    unsigned long frameDecors() const { return fFrameDecors; }
-    unsigned long frameOptions() const { return fFrameOptions; }
+    unsigned frameFunctions() const { return fFrameFunctions; }
+    unsigned frameDecors() const { return fFrameDecors; }
+    unsigned frameOptions() const { return fFrameOptions; }
     void updateAllowed();
     void updateNetWMState();
     void getFrameHints();
@@ -396,7 +382,7 @@ public:
 
     bool isIconic() const { return isMinimized() && fMiniIcon; }
 
-    MiniIcon *getMiniIcon() const { return fMiniIcon; }
+    MiniIcon *getMiniIcon();
 
     bool isManaged() const { return fManaged; }
     void setManaged(bool isManaged) { fManaged = isManaged; }
@@ -428,10 +414,6 @@ public:
 
     virtual ustring getTitle() const { return client()->windowTitle(); }
     virtual ustring getIconTitle() const { return client()->iconTitle(); }
-
-    YFrameButton *getButton(char c);
-    void positionButton(YFrameButton *b, int &xPos, bool onRight);
-    bool isButton(char c);
 
 #ifdef WMSPEC_HINTS
     void updateNetWMStrut();
@@ -470,6 +452,11 @@ public:
     long getOldLayer() { return fOldLayer; }
     void saveOldLayer() { fOldLayer = fWinActiveLayer; }
 
+    bool hasIndicators() const { return indicatorsCreated; }
+    Window topSideIndicator() const { return topSide; }
+    Window topLeftIndicator() const { return topLeft; }
+    Window topRightIndicator() const { return topRight; }
+
 private:
     /*typedef enum {
         fsMinimized       = 1 << 0,
@@ -480,9 +467,9 @@ private:
     } FrameStateFlags;*/
 
     bool fFocused;
-    unsigned long fFrameFunctions;
-    unsigned long fFrameDecors;
-    unsigned long fFrameOptions;
+    unsigned fFrameFunctions;
+    unsigned fFrameDecors;
+    unsigned fFrameOptions;
 
     int normalX, normalY, normalW, normalH;
     int posX, posY, posW, posH;
@@ -493,13 +480,6 @@ private:
     YFrameClient *fClient;
     YClientContainer *fClientContainer;
     YFrameTitleBar *fTitleBar;
-    YFrameButton *fCloseButton;
-    YFrameButton *fMenuButton;
-    YFrameButton *fMaximizeButton;
-    YFrameButton *fMinimizeButton;
-    YFrameButton *fHideButton;
-    YFrameButton *fRollupButton;
-    YFrameButton *fDepthButton;
 
     YPopupWindow *fPopupActive;
 
@@ -519,8 +499,9 @@ private:
     YFrameWindow *fPrevFocusFrame;
 
     Window topSide, leftSide, rightSide, bottomSide;
-    Window topLeftCorner, topRightCorner, bottomLeftCorner, bottomRightCorner;
-    int indicatorsVisible;
+    Window topLeft, topRight, bottomLeft, bottomRight;
+    bool indicatorsCreated;
+    bool indicatorsVisible;
 
 #ifdef CONFIG_TASKBAR
     TaskBarApp *fTaskBarApp;

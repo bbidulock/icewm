@@ -2,6 +2,7 @@
 #define __WMTITLE_H
 
 #include "ywindow.h"
+#include "wmbutton.h"
 
 class YFrameWindow;
 
@@ -9,6 +10,8 @@ class YFrameTitleBar: public YWindow {
 public:
     YFrameTitleBar(YWindow *parent, YFrameWindow *frame);
     virtual ~YFrameTitleBar();
+
+    static void initTitleColorsFonts();
 
     void activate();
     void deactivate();
@@ -28,10 +31,32 @@ public:
     virtual void handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion);
 
     YFrameWindow *getFrame() const { return fFrame; };
+
+    YFrameButton* menuButton();
+    YFrameButton* closeButton();
+    YFrameButton* minimizeButton();
+    YFrameButton* maximizeButton();
+    YFrameButton* hideButton();
+    YFrameButton* rollupButton();
+    YFrameButton* depthButton();
+
+    YFrameButton* getButton(char c);
+    void positionButton(YFrameButton *b, int &xPos, bool onRight);
+    bool isButton(char c);
+    void layoutButtons();
+    void raiseButtons();
+
 private:
     YFrameWindow *fFrame;
-    int movingWindow;
     bool wasCanRaise;
+
+    YFrameButton* fCloseButton;
+    YFrameButton* fMenuButton;
+    YFrameButton* fMaximizeButton;
+    YFrameButton* fMinimizeButton;
+    YFrameButton* fHideButton;
+    YFrameButton* fRollupButton;
+    YFrameButton* fDepthButton;
 };
 
 #endif

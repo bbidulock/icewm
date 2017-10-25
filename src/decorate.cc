@@ -4,19 +4,15 @@
  * Copyright (C) 1997-2002 Marko Macek
  */
 #include "config.h"
-#include "yfull.h"
 #include "wmframe.h"
 
-#include "wmaction.h"
 #include "wmtitle.h"
 #include "wmapp.h"
-#include "wmclient.h"
 #include "wmcontainer.h"
 #include "wpixmaps.h"
 #include "ymenuitem.h"
 #include "yrect.h"
 #include "prefs.h"
-#include "yprefs.h"
 
 void YFrameWindow::updateMenu() {
     YMenu *windowMenu = this->windowMenu();
@@ -309,7 +305,6 @@ void YFrameWindow::configure(const YRect &r) {
 void YFrameWindow::performLayout()
 {
     layoutTitleBar();
-    layoutButtons();
     layoutResizeIndicators();
     layoutClient();
     layoutShape();
@@ -318,6 +313,9 @@ void YFrameWindow::performLayout()
 }
 
 void YFrameWindow::layoutTitleBar() {
+    if (titlebar() == 0)
+        return;
+
     if (titleY() == 0) {
         titlebar()->hide();
     } else {
@@ -331,154 +329,10 @@ void YFrameWindow::layoutTitleBar() {
                   + height() - titleY() - 2 * borderY()
 #endif
                   ,
-                  (title_width > 0) ? title_width : 1,
+                  max(1, title_width),
                   titleY()));
-    }
-}
 
-YFrameButton *YFrameWindow::getButton(char c) {
-    unsigned long decors = frameDecors();
-    switch (c) {
-    case 's': if (decors & fdSysMenu) return fMenuButton; break;
-    case 'x': if (decors & fdClose) return fCloseButton; break;
-    case 'm': if (decors & fdMaximize) return fMaximizeButton; break;
-    case 'i': if (decors & fdMinimize) return fMinimizeButton; break;
-    case 'h': if (decors & fdHide) return fHideButton; break;
-    case 'r': if (decors & fdRollup) return fRollupButton; break;
-    case 'd': if (decors & fdDepth) return fDepthButton; break;
-    default:
-        return 0;
-    }
-    return 0;
-}
-
-void YFrameWindow::positionButton(YFrameButton *b, int &xPos, bool onRight) {
-    /// !!! clean this up
-    if (b == fMenuButton) {
-        const unsigned bw(((LOOK(lookPixmap | lookMetal | lookGtk |
-                                 lookFlat | lookMotif ) && showFrameIcon) ||
-                            b->getPixmap(0) == null) ?
-                           titleY() : b->getPixmap(0)->width());
-
-        if (onRight) xPos -= bw;
-        b->setGeometry(YRect(xPos, 0, bw, titleY()));
-        if (!onRight) xPos += bw;
-    } else if (LOOK(lookPixmap | lookMetal | lookGtk | lookFlat)) {
-        const unsigned bw(b->getPixmap(0) != null
-                ? b->getPixmap(0)->width() : titleY());
-
-        if (onRight) xPos -= bw;
-        b->setGeometry(YRect(xPos, 0, bw, titleY()));
-        if (!onRight) xPos += bw;
-    } else if (wmLook == lookWin95) {
-        if (onRight) xPos -= titleY();
-        b->setGeometry(YRect(xPos, 2, titleY(), titleY() - 3));
-        if (!onRight) xPos += titleY();
-    } else {
-        if (onRight) xPos -= titleY();
-        b->setGeometry(YRect(xPos, 0, titleY(), titleY()));
-        if (!onRight) xPos += titleY();
-    }
-}
-
-void YFrameWindow::layoutButtons() {
-    if (titleY() == 0)
-        return ;
-
-    unsigned long decors = frameDecors();
-
-    if (fMinimizeButton) {
-        if (decors & fdMinimize)
-            fMinimizeButton->show();
-        else
-            fMinimizeButton->hide();
-    }
-
-    if (fMaximizeButton) {
-        if (decors & fdMaximize)
-            fMaximizeButton->show();
-        else
-            fMaximizeButton->hide();
-    }
-
-    if (fRollupButton) {
-        if (decors & fdRollup)
-            fRollupButton->show();
-        else
-            fRollupButton->hide();
-    }
-
-    if (fHideButton) {
-        if (decors & fdHide)
-            fHideButton->show();
-        else
-            fHideButton->hide();
-    }
-
-    if (fCloseButton) {
-        if ((decors & fdClose))
-            fCloseButton->show();
-        else
-            fCloseButton->hide();
-    }
-
-    if (fMenuButton) {
-        if (decors & fdSysMenu)
-            fMenuButton->show();
-        else
-            fMenuButton->hide();
-    }
-
-    if (fDepthButton) {
-        if (decors & fdDepth)
-            fDepthButton->show();
-        else
-            fDepthButton->hide();
-    }
-
-    const int pi(focused() ? 1 : 0);
-
-    if (titleButtonsLeft) {
-        int xPos(titleJ[pi] != null ? titleJ[pi]->width() : 0);
-
-        for (const char *bc = titleButtonsLeft; *bc; bc++) {
-            YFrameButton *b = 0;
-
-            switch (*bc) {
-            case ' ':
-                xPos++;
-                b = 0;
-                break;
-            default:
-                b = getButton(*bc);
-                break;
-            }
-
-            if (b)
-                positionButton(b, xPos, false);
-        }
-    }
-
-    if (titleButtonsRight) {
-        int xPos(width() - 2 * borderX() -
-                 (titleQ[pi] != null ? titleQ[pi]->width() : 0));
-
-        for (const char *bc = titleButtonsRight; *bc; bc++) {
-            YFrameButton *b = 0;
-
-            switch (*bc) {
-            case ' ':
-                xPos--;
-                b = 0;
-                break;
-            default:
-                b = getButton(*bc);
-                break;
-            }
-
-            if (b)
-                positionButton(b, xPos, true);
-        }
+        titlebar()->layoutButtons();
     }
 }
 
@@ -487,46 +341,57 @@ void YFrameWindow::layoutResizeIndicators() {
         !isRollup() && !isMinimized() && (frameFunctions() & ffResize) &&
         !isFullscreen())
     {
+        if (!indicatorsCreated)
+            createPointerWindows();
         if (!indicatorsVisible) {
-            indicatorsVisible = 1;
+            indicatorsVisible = true;
 
             XMapWindow(xapp->display(), topSide);
             XMapWindow(xapp->display(), leftSide);
             XMapWindow(xapp->display(), rightSide);
             XMapWindow(xapp->display(), bottomSide);
 
-            XMapWindow(xapp->display(), topLeftCorner);
-            XMapWindow(xapp->display(), topRightCorner);
-            XMapWindow(xapp->display(), bottomLeftCorner);
-            XMapWindow(xapp->display(), bottomRightCorner);
+            XMapWindow(xapp->display(), topLeft);
+            XMapWindow(xapp->display(), topRight);
+            XMapWindow(xapp->display(), bottomLeft);
+            XMapWindow(xapp->display(), bottomRight);
         }
     } else {
         if (indicatorsVisible) {
-            indicatorsVisible = 0;
+            indicatorsVisible = false;
 
             XUnmapWindow(xapp->display(), topSide);
             XUnmapWindow(xapp->display(), leftSide);
             XUnmapWindow(xapp->display(), rightSide);
             XUnmapWindow(xapp->display(), bottomSide);
 
-            XUnmapWindow(xapp->display(), topLeftCorner);
-            XUnmapWindow(xapp->display(), topRightCorner);
-            XUnmapWindow(xapp->display(), bottomLeftCorner);
-            XUnmapWindow(xapp->display(), bottomRightCorner);
+            XUnmapWindow(xapp->display(), topLeft);
+            XUnmapWindow(xapp->display(), topRight);
+            XUnmapWindow(xapp->display(), bottomLeft);
+            XUnmapWindow(xapp->display(), bottomRight);
         }
     }
     if (!indicatorsVisible)
         return;
 
-    XMoveResizeWindow(xapp->display(), topSide, 0, 0, width(), borderY());
-    XMoveResizeWindow(xapp->display(), leftSide, 0, 0, borderX(), height());
-    XMoveResizeWindow(xapp->display(), rightSide, width() - borderX(), 0, borderX(), height());
-    XMoveResizeWindow(xapp->display(), bottomSide, 0, height() - borderY(), width(), borderY());
+    XMoveResizeWindow(xapp->display(), topSide,
+                      0, 0, width(), borderY());
+    XMoveResizeWindow(xapp->display(), leftSide,
+                      0, 0, borderX(), height());
+    XMoveResizeWindow(xapp->display(), rightSide,
+                      width() - borderX(), 0, borderX(), height());
+    XMoveResizeWindow(xapp->display(), bottomSide,
+                      0, height() - borderY(), width(), borderY());
 
-    XMoveResizeWindow(xapp->display(), topLeftCorner, 0, 0, wsCornerX, wsCornerY);
-    XMoveResizeWindow(xapp->display(), topRightCorner, width() - wsCornerX, 0, wsCornerX, wsCornerY);
-    XMoveResizeWindow(xapp->display(), bottomLeftCorner, 0, height() - wsCornerY, wsCornerX, wsCornerY);
-    XMoveResizeWindow(xapp->display(), bottomRightCorner, width() - wsCornerX, height() - wsCornerY, wsCornerX, wsCornerY);
+    XMoveResizeWindow(xapp->display(), topLeft,
+                      0, 0, wsCornerX, wsCornerY);
+    XMoveResizeWindow(xapp->display(), topRight,
+                      width() - wsCornerX, 0, wsCornerX, wsCornerY);
+    XMoveResizeWindow(xapp->display(), bottomLeft,
+                      0, height() - wsCornerY, wsCornerX, wsCornerY);
+    XMoveResizeWindow(xapp->display(), bottomRight,
+                      width() - wsCornerX, height() - wsCornerY,
+                      wsCornerX, wsCornerY);
 }
 
 void YFrameWindow::layoutClient() {
