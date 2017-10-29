@@ -1104,7 +1104,13 @@ void YXApplication::handleWindowEvent(Window xwindow, XEvent &xev) {
                 xev.xmaprequest.parent,
                 xev.xmaprequest.window);
             desktop->handleEvent(xev);
-        } else if (xev.type != DestroyNotify) {
+        }
+        else if (xev.type == ClientMessage &&
+                 xev.xclient.message_type == _XA_NET_REQUEST_FRAME_EXTENTS) {
+            if (desktop)
+                desktop->handleEvent(xev);
+        }
+        else if (xev.type != DestroyNotify) {
             MSG(("unknown window 0x%lX event=%d", xev.xany.window, xev.type));
         }
     }

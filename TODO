@@ -1,8 +1,8 @@
 -- TODO for IceWM.  2017-10-10
 
-* set WM_CLIENT_MACHINE on check window
+* [DONE] set WM_CLIENT_MACHINE on check window
 
-* set WM_NAME and WM_CLASS on check window
+* [DONE] set WM_NAME and WM_CLASS on check window
 
 * add support for _NET_WM_DESKTOP_LAYOUT (trivial)
 
@@ -16,7 +16,7 @@
 
 * add support for WindowMaker dock apps (add a dock).
 
-* add support for _NET_REQUEST_FRAME_EXTENTS.
+* [DONE] add support for _NET_REQUEST_FRAME_EXTENTS.
 
 * add support for application and global modality with _NET_WM_STATE_MODAL.
 
