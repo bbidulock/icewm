@@ -13,19 +13,19 @@ key "Alt+Ctrl+t"			xterm
 key "Alt+Ctrl+b"			xdg-open about:blank
 key "Alt+Ctrl+s"			xdg-open http://www.google.com
 
-key "Super+KP_Subtract"			amixer sset PCM 5%-
-key "Super+KP_Add"			amixer sset PCM 5%+
+key "Super+KP_Subtract"			amixer sset Master 5%-
+key "Super+KP_Add"			amixer sset Master 5%+
 
-# "Multimedia key" bindings for XFree86. Gather the keycodes of your
+# "Multimedia key" bindings for Xorg. Gather the keycodes of your
 # advanced function keys by watching the output of the xev command whilest
 # pressing those keys and map those symbols by using xmodmap.
 
 key "XF86Standby"			/bin/sh -c "{ test -e /run/systemd/system && systemctl suspend; } ||:"
 key "XF86Sleep"				/bin/sh -c "{ test -e /run/systemd/system && systemctl suspend; } ||:"
-key "XF86AudioLowerVolume"		amixer sset PCM 5%-
-key "XF86AudioRaiseVolume"		amixer sset PCM 5%+
-key "XF86AudioMute"			amixer sset PCM 0%
+key "XF86AudioLowerVolume"		amixer sset Master 5%-
+key "XF86AudioRaiseVolume"		amixer sset Master 5%+
+key "XF86AudioMute"			amixer sset Master toggle
 key "XF86HomePage"			xdg-open about:blank
 key "XF86Search"			xdg-open http://www.google.com
 key "XF86Eject"				eject
-key "XF86Calculator"  /bin/sh -c "gnome-calculator || xcalc || ( type bc >/dev/null 2>&1 && xterm -e bc -l)"
+key "XF86Calculator"			/bin/sh -c "gnome-calculator || xcalc || ( type bc >/dev/null 2>&1 && xterm -e bc -l)"
