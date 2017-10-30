@@ -110,7 +110,7 @@ _NET_CLOSE_WINDOW:			supported
 _NET_MOVERESIZE_WINDOW:			supported
 _NET_WM_MOVERESIZE:			supported
 _NET_RESTACK_WINDOW:			supported
-_NET_REQUEST_FRAME_EXTENTS:		NOT supported
+_NET_REQUEST_FRAME_EXTENTS:		supported
 
 
 Section 5: Application Window Properties
