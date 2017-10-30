@@ -6,9 +6,6 @@
 class YFrameWindow;
 class YWindowManager;
 
-// data model, default implementation is list of windows
-class ISwitchItems;
-
 // XXX: this only exists because there are no lambda functions
 class IClosablePopup
 {
@@ -16,6 +13,34 @@ public:
     // report true if window was up; close in any case
     virtual bool close()=0;
     virtual ~IClosablePopup(){};
+};
+
+// data model, default implementation is list of windows
+//class ISwitchItems;
+class ISwitchItems
+{
+public:
+    virtual void updateList() =0;
+    virtual int getCount() =0;
+    virtual ~ISwitchItems() {}
+
+    // move the focused target up or down and return the new focused element
+    virtual int moveTarget(bool zdown)=0;
+    /// Show changed focus preview to user
+    virtual void displayFocusChange(int idxFocused)=0;
+
+    // set target cursor and implementation specific stuff in the beginning
+    virtual void begin(bool zdown)=0;
+    virtual void cancel()=0;
+    virtual void accept(IClosablePopup *parent)=0;
+
+    // XXX: convert to iterator
+    virtual int getActiveItem()=0;
+    virtual ustring getTitle(int idx) =0;
+    virtual ref<YIcon> getIcon(int idx) =0;
+
+    // Manager notification about windows disappearing under the fingers
+    virtual void destroyedItem(void* framePtr) =0;
 };
 
 class SwitchWindow: public YPopupWindow, IClosablePopup {
@@ -62,7 +87,7 @@ private:
     void cancel();
     bool close();
     void accept();
-    void displayFocus(void *frame);
+    void displayFocus(int itemIdx);
     //YFrameWindow *nextWindow(YFrameWindow *from, bool zdown, bool next);
     YFrameWindow *nextWindow(bool zdown);
 
