@@ -31,6 +31,7 @@
 #include "appnames.h"
 #include "ascii.h"
 #include "argument.h"
+#include "wmswitch.h"
 
 DObjectMenuItem::DObjectMenuItem(DObject *object):
     YMenuItem(object->getName(), -3, null, YAction(), 0)
@@ -229,12 +230,96 @@ static char *getCommandArgs(char *source, Argument *command,
 #ifndef NO_CONFIGURE_MENUS
 YObjectArray<KProgram> keyProgs;
 
-KProgram::KProgram(const char *key, DProgram *prog)
-    : fKey(NoSymbol), fMod(0), fProg(prog)
+KProgram::KProgram(const char *key, DProgram *prog, bool bIsDynSwitchMenuProg)
+    : fKey(NoSymbol), fMod(0), bIsDynSwitchMenu(bIsDynSwitchMenuProg), fProg(prog), pSwitchWindow(0)
 {
     YConfig::parseKey(key, &fKey, &fMod);
     keyProgs.append(this);
 }
+
+class MenuProgSwitchItems: public ISwitchItems {
+    MenuProgMenu *menu;
+    int zTarget;
+
+    KeySym key;
+    unsigned int mod;
+
+public:
+    MenuProgSwitchItems(DProgram* prog, KeySym key, unsigned keymod) : ISwitchItems()
+        , zTarget(0), key(key), mod(keymod) {
+        menu = new MenuProgMenu(wmapp, wmapp, NULL /* no wmaction handling*/,
+                "switch popup internal menu", prog->fCmd, prog->fArgs, 0);
+    }
+    virtual void updateList() override
+            {
+        menu->refresh(wmapp, 0);
+        zTarget = 0;
+            }
+    virtual int getCount() override {
+        return menu->itemCount();
+    }
+    virtual bool isKey(KeySym k, unsigned int mod) override {
+        return k == this->key && mod == this->mod;
+    }
+
+    // move the focused target up or down and return the new focused element
+    virtual int moveTarget(bool zdown) override {
+        int count = menu->itemCount();
+        zTarget = (zTarget + count + (zdown?1:-1)) % count;
+        // no further gimmicks
+        return zTarget;
+    }
+    /// Show changed focus preview to user
+    virtual void displayFocusChange(int idxFocused) override {}
+    // set target cursor and implementation specific stuff in the beginning
+    virtual void begin(bool zdown) override {
+        updateList();
+        moveTarget(zdown);
+    }
+    virtual void cancel() override {
+    }
+    virtual void accept(IClosablePopup *parent) override {
+        auto item=menu->getItem(zTarget);
+        if(!item) return;
+        // even through all the obscure "abstraction" it should just run DObjectMenuItem::actionPerformed
+        item->actionPerformed(0, actionRun, 0);
+        parent->close();
+    }
+
+    virtual int getActiveItem() override {
+        return zTarget;
+    }
+    virtual ustring getTitle(int idx) override {
+        if(idx<0 || idx>=this->getCount())
+            return null;
+        return menu->getItem(idx)->getName();
+    }
+    virtual ref<YIcon> getIcon(int idx) override {
+        if(idx<0 || idx>=this->getCount())
+            return null;
+        return menu->getItem(idx)->getIcon();
+    }
+
+    // Manager notification about windows disappearing under the fingers
+    virtual void destroyedItem(void* framePtr) override {
+    }
+
+};
+
+void KProgram::open(unsigned mods) {
+    if (!fProg) return;
+
+    if(bIsDynSwitchMenu) {
+        if(!pSwitchWindow) {
+            pSwitchWindow = new SwitchWindow(manager, new MenuProgSwitchItems(fProg, fKey, fMod), quickSwitchVertical);
+        }
+        pSwitchWindow->begin(true, mods);
+    }
+    else
+        fProg->open();
+}
+
+
 #endif
 
 char *parseIncludeStatement(
@@ -481,8 +566,9 @@ char *parseMenus(
                 return 0;
             }
         } else {
-            if (!(strcmp(word, "key") &&
-                  strcmp(word, "runonce")))
+            if (0 == strcmp(word, "key")
+                    || 0 == strcmp(word, "runonce")
+                    || 0 == strcmp(word, "switchkey"))
             {
                 Argument key;
 
@@ -515,7 +601,7 @@ char *parseMenus(
                     command.cstr(),
                     args);
 
-                if (prog) new KProgram(key, prog);
+                if (prog) new KProgram(key, prog, *word == 's');
             } else {
                 msg(_("Unknown keyword for a non-container: '%s'.\n"
                       "Expected either 'key' or 'runonce' here.\n"), word);

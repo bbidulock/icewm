@@ -189,7 +189,6 @@ public:
             fRoot->activate(fActiveWindow, true, true);
             parent->close();
             fActiveWindow->wmRaise();
-            //manager->activate(fActiveWindow, true);
         }
         freeList();
         fLastWindow = fActiveWindow = 0;
@@ -208,6 +207,9 @@ public:
             moveTarget(true);
         }
         displayFocusChange(fActiveWindow);
+    }
+    virtual bool isKey(KeySym k, unsigned int vm) override {
+        return (IS_WMKEY(k, vm, gKeySysSwitchNext));
     }
 };
 
@@ -703,11 +705,11 @@ bool SwitchWindow::handleKey(const XKeyEvent &key) {
     unsigned int vm = VMod(m);
 
     if (key.type == KeyPress) {
-        if ((IS_WMKEY(k, vm, gKeySysSwitchNext))) {
+        if (zItems->isKey(k, vm)) {
             int focused = zItems->moveTarget(true);
             displayFocus(focused);
             return true;
-        } else if ((IS_WMKEY(k, vm, gKeySysSwitchLast))) {
+        } else if ((IS_WMKEY(k, vm, gKeySysSwitchLast))) { // XXX: what to do with the swich-last key...
             int focused = zItems->moveTarget(false);
             displayFocus(focused);
             return true;
@@ -715,12 +717,12 @@ bool SwitchWindow::handleKey(const XKeyEvent &key) {
             cancel();
             return true;
         }
-        if ((IS_WMKEY(k, vm, gKeySysSwitchNext)) && !modDown(m)) {
+        if (zItems->isKey(k, vm) && !modDown(m)) {
             accept();
             return true;
         }
     } else if (key.type == KeyRelease) {
-        if ((IS_WMKEY(k, vm, gKeySysSwitchNext)) && !modDown(m)) {
+        if (zItems->isKey(k, vm) && !modDown(m)) {
             accept();
             return true;
         } else if (isModKey((KeyCode)key.keycode)) {

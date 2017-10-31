@@ -10,10 +10,13 @@
 class ObjectContainer;
 class YSMListener;
 class YActionListener;
+class SwitchWindow;
+class MenuProgSwitchItems;
 
 void loadMenus(IApp *app, YSMListener *smActionListener, YActionListener *wmActionListener, upath fileName, ObjectContainer *container);
 
 class DProgram: public DObject {
+    friend class MenuProgSwitchItems;
 public:
     virtual ~DProgram();
 
@@ -155,25 +158,32 @@ private:
     YActionListener *wmActionListener;
 };
 
+/**
+ * Management item which wraps DProgram and holds the trigger key information.
+ */
 class KProgram {
 public:
-    KProgram(const char *key, DProgram *prog);
+    KProgram(const char *key, DProgram *prog, bool bIsDynSwitchMenuProg);
     ~KProgram() { delete fProg; }
 
     bool isKey(KeySym key, unsigned int mod) {
-        return (key == fKey && mod == fMod) ? true : false;
+        return (key == fKey && mod == fMod);
     }
-    void open() {
-        if (fProg)
-            fProg->open();
-    }
+    void open(unsigned mods);
     KeySym key() { return fKey; }
     unsigned int modifiers() { return fMod; }
 
 private:
     KeySym fKey;
     unsigned int fMod;
+    // not a program starter but custom switch menu
+    // use as bool to fit into memory wasted wit 64bit alignment
+    unsigned int bIsDynSwitchMenu;
     DProgram *fProg;
+    // For dynswitch mode, keep the persistent handler window until its destroyed.
+    // The instance is NOT deleted because there is apparently interference with ywindows cleanup
+    // sequence and this object here is cached over process lifetime anyway.
+    SwitchWindow *pSwitchWindow;
 };
 
 #endif /* NO_CONFIGURE_MENUS */

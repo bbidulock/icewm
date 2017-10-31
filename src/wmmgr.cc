@@ -289,22 +289,22 @@ bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int /*
 #ifndef NO_CONFIGURE_MENUS
     YObjectArray<KProgram>::IterType p = keyProgs.iterator();
     while (++p) {
-        if (p->isKey(k, vm)) {
-            XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
-            p->open();
-            return true;
-        }
+        if (!p->isKey(k, vm)) continue;
+
+        XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
+        p->open(key.state);
+        return true;
     }
 #endif
 
     if (wmapp->getSwitchWindow() != 0) {
         if (IS_WMKEY(k, vm, gKeySysSwitchNext)) {
             XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
-            wmapp->getSwitchWindow()->begin(1, key.state);
+            wmapp->getSwitchWindow()->begin(true, key.state);
             return true;
         } else if (IS_WMKEY(k, vm, gKeySysSwitchLast)) {
             XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
-            wmapp->getSwitchWindow()->begin(0, key.state);
+            wmapp->getSwitchWindow()->begin(false, key.state);
             return true;
         }
     }

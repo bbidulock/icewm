@@ -41,6 +41,8 @@ public:
 
     // Manager notification about windows disappearing under the fingers
     virtual void destroyedItem(void* framePtr) =0;
+
+    virtual bool isKey(KeySym k, unsigned int mod) =0;
 };
 
 class SwitchWindow: public YPopupWindow, IClosablePopup {
