@@ -106,5 +106,6 @@ icewm.lsm: icewm.lsm.in
 	$(AM_V_GEN)sed -r -e 's:%%PACKAGE%%:$(PACKAGE):g;s:%%VERSION%%:$(VERSION):g;s:%%DATE%%:$(DATE):g;s:%%BRANCH%%:$(BRANCH):g' $< >$@
 
 dist_bin_SCRIPTS = \
-	icewm-set-gnomewm
+	icewm-set-gnomewm \
+	contrib/icewm-menu-xrandr
 
