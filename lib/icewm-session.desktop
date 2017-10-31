@@ -2,6 +2,7 @@
 Encoding=UTF-8
 Type=XSession
 Name=IceWM Session
+Name[da]=IceWM-session
 GenericName=Window Manager
 GenericName[da]=Vindueshåndtering
 GenericName[fr]=Gestionnaire de Fenêtres
