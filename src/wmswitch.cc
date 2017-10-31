@@ -590,69 +590,6 @@ verticalMode:
 #endif
 }
 
-                if (workspaceOnly && w->isSticky() && workspace != fRoot->activeWorkspace()) {
-/*
- YFrameWindow *SwitchWindow::nextWindow(YFrameWindow *from, bool zdown, bool next) {
- if (from == 0) {
- next = false;
- from = zdown ? manager->topLayer() : manager->bottomLayer();
- }
- int flags =
- YFrameWindow::fwfFocusable |
- (quickSwitchToAllWorkspaces ? 0 : YFrameWindow::fwfWorkspace) |
- YFrameWindow::fwfLayers |
- YFrameWindow::fwfSwitchable |
- (next ? YFrameWindow::fwfNext: 0) |
- (zdown ? 0 : YFrameWindow::fwfBackward);
-
- YFrameWindow *n = 0;
-
- if (from == 0)
- return 0;
-
- if (zdown) {
- n = from->findWindow(flags | YFrameWindow::fwfUnminimized | YFrameWindow::fwfNotHidden);
- if (n == 0 && quickSwitchToMinimized)
- n = from->findWindow(flags | YFrameWindow::fwfMinimized | YFrameWindow::fwfNotHidden);
- if (n == 0 && quickSwitchToHidden)
- n = from->findWindow(flags | YFrameWindow::fwfHidden);
- if (n == 0) {
- flags |= YFrameWindow::fwfCycle;
- n = from->findWindow(flags | YFrameWindow::fwfUnminimized | YFrameWindow::fwfNotHidden);
- if (n == 0 && quickSwitchToMinimized)
- n = from->findWindow(flags | YFrameWindow::fwfMinimized | YFrameWindow::fwfNotHidden);
- if (n == 0 && quickSwitchToHidden)
- n = from->findWindow(flags | YFrameWindow::fwfHidden);
- }
- } else {
- if (n == 0 && quickSwitchToHidden)
- n = from->findWindow(flags | YFrameWindow::fwfHidden);
- if (n == 0 && quickSwitchToMinimized)
- n = from->findWindow(flags | YFrameWindow::fwfMinimized | YFrameWindow::fwfNotHidden);
- if (n == 0)
- n = from->findWindow(flags | YFrameWindow::fwfUnminimized | YFrameWindow::fwfNotHidden);
- if (n == 0) {
- flags |= YFrameWindow::fwfCycle;
- if (n == 0 && quickSwitchToHidden)
- n = from->findWindow(flags | YFrameWindow::fwfHidden);
- if (n == 0 && quickSwitchToMinimized)
- n = from->findWindow(flags | YFrameWindow::fwfMinimized | YFrameWindow::fwfNotHidden);
- if (n == 0)
- n = from->findWindow(flags | YFrameWindow::fwfUnminimized | YFrameWindow::fwfNotHidden);
- }
- }
- if (n == 0)
- n = from->findWindow(flags |
- YFrameWindow::fwfVisible |
- (quickSwitchToMinimized) ? 0 : YFrameWindow::fwfUnminimized |
- YFrameWindow::fwfSame);
- if (n == 0)
- n = fLastWindow;
-
- return n;
- }
- */
-
 void SwitchWindow::begin(bool zdown, int mods) {
     modsDown = mods & (xapp->AltMask | xapp->MetaMask |
                        xapp->HyperMask | xapp->SuperMask |
