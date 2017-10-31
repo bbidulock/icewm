@@ -76,7 +76,7 @@ for(`$xrandr`)
         if(/^(\S+)\s+(connected|disconnected)\s+(primary)?/)
         {
                 $curmon = $1;
-                $primary = $curmon if !$primary;
+                $primary = $curmon if $3;
                 $disco = ($2 eq "disconnected");
                 if($disco)
                 {
@@ -165,18 +165,19 @@ sub getName {
         return $id;
 }
 
+# single head activation
 my $i=1;
 foreach my $mon ($primary, @notPrimary)
 {
-        #print "# $primary, $second\n";
         my $cmd = "prog '". getName($mon)."' setscreen$i sh -c 'xrandr ".
-        join(" ", map { "--output $_ ".($_ eq $mon ? "--auto" : "--off") } @connected)
+        join(" ", map { "--output $_ ".($_ eq $mon ? "--auto --primary" : "--off") } @connected)
         ."$turnRestOff'\n";
         print $cmd;
 
         $i++;
 }
 
+# predefined multihead setups
 my $cmd = "prog '".getName($primary)." + ".getName($second)."' setscreen12 sh -c 'xrandr --output $second --auto --right-of $primary $turnNonPrimSecOff $turnRestOff'\n";
 print $cmd;
 
