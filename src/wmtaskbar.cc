@@ -46,6 +46,7 @@
 #include "upath.h"
 
 #include "intl.h"
+#include "base.h"
 
 #ifdef CONFIG_TRAY
 YTimer *TrayApp::fRaiseTimer(NULL);

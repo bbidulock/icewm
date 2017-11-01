@@ -7,10 +7,11 @@
 #define __attribute__(a)
 #endif
 
-// we use optional override keyword if available without extra configuration
-// trickery (i.e. if the compiler runs in C++11 mode by default)
+// use override helper keyword where available
 #if __cplusplus < 201103L
-#define override
+#define OVERRIDE
+#else
+#define OVERRIDE override
 #endif
 
 /*** Atomar Data Types ********************************************************/

@@ -123,14 +123,14 @@ public:
         return zList.size;
     }
 
-    virtual ref<YIcon> getIcon(int itemIdx) override
+    virtual ref<YIcon> getIcon(int itemIdx) OVERRIDE
     {
         YFrameWindow* winItem=zList[itemIdx];
         return winItem->getIcon();
     }
 
 
-    int moveTarget(bool zdown) override {
+    int moveTarget(bool zdown) OVERRIDE {
         zTarget = (zTarget + zList.size + (zdown?1:-1)) % zList.size;
         fActiveWindow = zList[zTarget];
         return zTarget;
@@ -159,7 +159,7 @@ public:
         getZList();
     }
 
-    void displayFocusChange(int idx) override {
+    void displayFocusChange(int idx) OVERRIDE {
         if(idx<0) return;
         displayFocusChange(zList[idx]);
     }
@@ -208,7 +208,7 @@ public:
         }
         displayFocusChange(fActiveWindow);
     }
-    virtual bool isKey(KeySym k, unsigned int vm) override {
+    virtual bool isKey(KeySym k, unsigned int vm) OVERRIDE {
         return (IS_WMKEY(k, vm, gKeySysSwitchNext));
     }
 };

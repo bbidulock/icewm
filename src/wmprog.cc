@@ -250,35 +250,35 @@ public:
         menu = new MenuProgMenu(wmapp, wmapp, NULL /* no wmaction handling*/,
                 "switch popup internal menu", prog->fCmd, prog->fArgs, 0);
     }
-    virtual void updateList() override
+    virtual void updateList() OVERRIDE
             {
         menu->refresh(wmapp, 0);
         zTarget = 0;
             }
-    virtual int getCount() override {
+    virtual int getCount() OVERRIDE {
         return menu->itemCount();
     }
-    virtual bool isKey(KeySym k, unsigned int mod) override {
+    virtual bool isKey(KeySym k, unsigned int mod) OVERRIDE {
         return k == this->key && mod == this->mod;
     }
 
     // move the focused target up or down and return the new focused element
-    virtual int moveTarget(bool zdown) override {
+    virtual int moveTarget(bool zdown) OVERRIDE {
         int count = menu->itemCount();
         zTarget = (zTarget + count + (zdown?1:-1)) % count;
         // no further gimmicks
         return zTarget;
     }
     /// Show changed focus preview to user
-    virtual void displayFocusChange(int idxFocused) override {}
+    virtual void displayFocusChange(int idxFocused) OVERRIDE {}
     // set target cursor and implementation specific stuff in the beginning
-    virtual void begin(bool zdown) override {
+    virtual void begin(bool zdown) OVERRIDE {
         updateList();
         moveTarget(zdown);
     }
-    virtual void cancel() override {
+    virtual void cancel() OVERRIDE {
     }
-    virtual void accept(IClosablePopup *parent) override {
+    virtual void accept(IClosablePopup *parent) OVERRIDE {
         auto item=menu->getItem(zTarget);
         if(!item) return;
         // even through all the obscure "abstraction" it should just run DObjectMenuItem::actionPerformed
@@ -286,22 +286,22 @@ public:
         parent->close();
     }
 
-    virtual int getActiveItem() override {
+    virtual int getActiveItem() OVERRIDE {
         return zTarget;
     }
-    virtual ustring getTitle(int idx) override {
+    virtual ustring getTitle(int idx) OVERRIDE {
         if(idx<0 || idx>=this->getCount())
             return null;
         return menu->getItem(idx)->getName();
     }
-    virtual ref<YIcon> getIcon(int idx) override {
+    virtual ref<YIcon> getIcon(int idx) OVERRIDE {
         if(idx<0 || idx>=this->getCount())
             return null;
         return menu->getItem(idx)->getIcon();
     }
 
     // Manager notification about windows disappearing under the fingers
-    virtual void destroyedItem(void* framePtr) override {
+    virtual void destroyedItem(void* framePtr) OVERRIDE {
     }
 
 };
