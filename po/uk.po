@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-10-27 18:46-0600\n"
+"POT-Creation-Date: 2017-11-01 21:50-0600\n"
 "PO-Revision-Date: 2017-06-22 15:25+0000\n"
 "Last-Translator: Andriy Bandura <andriykopanytsia@gmail.com>\n"
 "Language-Team: Ukrainian <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -15,24 +15,24 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.13.1\n"
 
-#: src/aapm.cc:176 src/aapm.cc:457 src/aapm.cc:675 src/aapm.cc:791
+#: src/aapm.cc:180 src/aapm.cc:461 src/aapm.cc:681 src/aapm.cc:797
 msgid " - Power"
 msgstr " - Живлення"
 
-#: src/aapm.cc:178 src/aapm.cc:460 src/aapm.cc:678
+#: src/aapm.cc:182 src/aapm.cc:464 src/aapm.cc:684
 msgid "P"
 msgstr "П"
 
-#: src/aapm.cc:182 src/aapm.cc:434 src/aapm.cc:658 src/aapm.cc:765
+#: src/aapm.cc:186 src/aapm.cc:438 src/aapm.cc:664 src/aapm.cc:771
 #, c-format
 msgid " - Charging"
 msgstr " - Заряд"
 
-#: src/aapm.cc:184 src/aapm.cc:436 src/aapm.cc:660
+#: src/aapm.cc:188 src/aapm.cc:440 src/aapm.cc:666
 msgid "C"
 msgstr "З"
 
-#: src/aapm.cc:438
+#: src/aapm.cc:442
 msgid " - Full"
 msgstr " - Повний"
 
@@ -1398,8 +1398,8 @@ msgstr "За_мкнути станцію"
 msgid "_Cancel"
 msgstr "_Скасувати"
 
-#: src/wmdialog.cc:92 src/wmprog.cc:1005 src/wmprog.cc:1007 src/wmprog.cc:1011
-#: src/wmprog.cc:1013 src/wmtaskbar.cc:325 src/wmtaskbar.cc:327
+#: src/wmdialog.cc:92 src/wmprog.cc:1091 src/wmprog.cc:1093 src/wmprog.cc:1097
+#: src/wmprog.cc:1099 src/wmtaskbar.cc:326 src/wmtaskbar.cc:328
 msgid "_Logout..."
 msgstr "_Вихід..."
 
@@ -1407,8 +1407,8 @@ msgstr "_Вихід..."
 msgid "_Restart icewm"
 msgstr "_Перезапустити IceWM"
 
-#: src/wmdialog.cc:97 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:317
-#: src/wmtaskbar.cc:320
+#: src/wmdialog.cc:97 src/wmprog.cc:1034 src/wmprog.cc:1036
+#: src/wmtaskbar.cc:318 src/wmtaskbar.cc:321
 msgid "_About"
 msgstr "_Про"
 
@@ -1458,50 +1458,50 @@ msgstr "Синтаксична помилка у опціях вікна"
 msgid "Out of memory for window options"
 msgstr "Невистачає пам'яті для опцій вікна"
 
-#: src/wmprog.cc:198
+#: src/wmprog.cc:199
 msgid "Missing command argument"
 msgstr "Пропущений аргумент команди"
 
-#: src/wmprog.cc:216
+#: src/wmprog.cc:217
 #, c-format
 msgid "Bad argument %d to command '%s'"
 msgstr "Поганий аргумент %d для команди '%s'"
 
-#: src/wmprog.cc:251
+#: src/wmprog.cc:336
 msgid "Missing filename argument to include statement"
 msgstr "Пропущений аргумент назви файлу для команди include"
 
-#: src/wmprog.cc:317
+#: src/wmprog.cc:402
 #, c-format
 msgid "Error at %s '%s'"
 msgstr "Помилка у ключі %s '%s'"
 
-#: src/wmprog.cc:368
+#: src/wmprog.cc:453
 #, c-format
 msgid "Unexepected menu keyword: '%s'"
 msgstr "Неочікуване ключове слово меню: '%s'"
 
-#: src/wmprog.cc:414
+#: src/wmprog.cc:499
 #, c-format
 msgid "Error at menuprog '%s'"
 msgstr "Помилка у меню програми '%s'"
 
-#: src/wmprog.cc:455
+#: src/wmprog.cc:540
 #, c-format
 msgid "Error at %s: '%s'"
 msgstr "Помилка у %s: '%s'"
 
-#: src/wmprog.cc:480
+#: src/wmprog.cc:565
 #, c-format
 msgid "Unknown keyword '%s'"
 msgstr "Невідоме ключове слово '%s'"
 
-#: src/wmprog.cc:504
+#: src/wmprog.cc:590
 #, c-format
 msgid "Error at keyword '%s' for %s"
 msgstr "Помилка у ключовому слові '%s' для %s"
 
-#: src/wmprog.cc:520
+#: src/wmprog.cc:606
 #, c-format
 msgid ""
 "Unknown keyword for a non-container: '%s'.\n"
@@ -1510,79 +1510,79 @@ msgstr ""
 "Невідоме ключове слово для  не-контейнера: '%s'.\n"
 "Тут очікується або 'key', або 'runonce'.\n"
 
-#: src/wmprog.cc:649
+#: src/wmprog.cc:735
 #, c-format
 msgid "'%s' produces no output"
 msgstr "'%s' не створює виводу"
 
-#: src/wmprog.cc:797
+#: src/wmprog.cc:883
 msgid "_Click to focus"
 msgstr "_Клацання по фокусу"
 
-#: src/wmprog.cc:798
+#: src/wmprog.cc:884
 #, fuzzy
 msgid "_Explicit focus"
 msgstr "_Клацання по фокусу"
 
-#: src/wmprog.cc:799
+#: src/wmprog.cc:885
 msgid "_Sloppy mouse focus"
 msgstr "_Фокус недбалої мишки"
 
-#: src/wmprog.cc:800
+#: src/wmprog.cc:886
 #, fuzzy
 msgid "S_trict mouse focus"
 msgstr "_Фокус недбалої мишки"
 
-#: src/wmprog.cc:801
+#: src/wmprog.cc:887
 #, fuzzy
 msgid "_Quiet sloppy focus"
 msgstr "_Фокус недбалої мишки"
 
-#: src/wmprog.cc:802
+#: src/wmprog.cc:888
 msgid "Custo_m"
 msgstr "_Особливе"
 
-#: src/wmprog.cc:824
+#: src/wmprog.cc:910
 msgid "_Manual"
 msgstr ""
 
-#: src/wmprog.cc:825
+#: src/wmprog.cc:911
 msgid "_Icewm(1)"
 msgstr ""
 
-#: src/wmprog.cc:826
+#: src/wmprog.cc:912
 msgid "Icewm_Bg(1)"
 msgstr ""
 
-#: src/wmprog.cc:827
+#: src/wmprog.cc:913
 msgid "Ice_Sound(1)"
 msgstr ""
 
-#: src/wmprog.cc:900 src/wmprog.cc:902
+#: src/wmprog.cc:986 src/wmprog.cc:988
 msgid "Programs"
 msgstr "Програми"
 
-#: src/wmprog.cc:909 src/wmprog.cc:911
+#: src/wmprog.cc:995 src/wmprog.cc:997
 msgid "_Run..."
 msgstr "_Запустити..."
 
-#: src/wmprog.cc:920 src/wmprog.cc:922 src/wmtaskbar.cc:305
+#: src/wmprog.cc:1006 src/wmprog.cc:1008 src/wmtaskbar.cc:306
 msgid "_Windows"
 msgstr "_Вікна"
 
-#: src/wmprog.cc:959 src/wmprog.cc:961
+#: src/wmprog.cc:1045 src/wmprog.cc:1047
 msgid "_Help"
 msgstr "_Довідка"
 
-#: src/wmprog.cc:975 src/wmprog.cc:977
+#: src/wmprog.cc:1061 src/wmprog.cc:1063
 msgid "_Focus"
 msgstr "_Фокус"
 
-#: src/wmprog.cc:986 src/wmprog.cc:988
+#: src/wmprog.cc:1072 src/wmprog.cc:1074
 msgid "_Themes"
 msgstr "_Теми"
 
-#: src/wmprog.cc:995 src/wmprog.cc:997
+#: src/wmprog.cc:1081 src/wmprog.cc:1083
 msgid "Se_ttings"
 msgstr "Пара_метри"
 
@@ -1591,59 +1591,59 @@ msgstr "Пара_метри"
 msgid "Session Manager: Unknown line %s"
 msgstr "Session Manager: невідома лінія %s"
 
-#: src/wmtaskbar.cc:169 src/wmtaskbar.cc:170
+#: src/wmtaskbar.cc:170 src/wmtaskbar.cc:171
 msgid "Task Bar"
 msgstr "Панель завдань"
 
-#: src/wmtaskbar.cc:294 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+#: src/wmtaskbar.cc:295 src/wmwinlist.cc:314 src/wmwinlist.cc:327
 msgid "Tile _Vertically"
 msgstr "Викласти по _вертикалі"
 
-#: src/wmtaskbar.cc:295 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+#: src/wmtaskbar.cc:296 src/wmwinlist.cc:315 src/wmwinlist.cc:328
 msgid "T_ile Horizontally"
 msgstr "Викласти по _горизонталі"
 
-#: src/wmtaskbar.cc:296 src/wmwinlist.cc:316 src/wmwinlist.cc:329
+#: src/wmtaskbar.cc:297 src/wmwinlist.cc:316 src/wmwinlist.cc:329
 msgid "Ca_scade"
 msgstr "Ка_скадом"
 
-#: src/wmtaskbar.cc:297 src/wmwinlist.cc:317 src/wmwinlist.cc:330
+#: src/wmtaskbar.cc:298 src/wmwinlist.cc:317 src/wmwinlist.cc:330
 msgid "_Arrange"
 msgstr "_Впорядкувати"
 
-#: src/wmtaskbar.cc:298 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+#: src/wmtaskbar.cc:299 src/wmwinlist.cc:319 src/wmwinlist.cc:331
 msgid "_Minimize All"
 msgstr "_Згорнути усі"
 
-#: src/wmtaskbar.cc:299 src/wmwinlist.cc:320 src/wmwinlist.cc:332
+#: src/wmtaskbar.cc:300 src/wmwinlist.cc:320 src/wmwinlist.cc:332
 msgid "_Hide All"
 msgstr "_Сховати усі"
 
-#: src/wmtaskbar.cc:300 src/wmwinlist.cc:321 src/wmwinlist.cc:333
+#: src/wmtaskbar.cc:301 src/wmwinlist.cc:321 src/wmwinlist.cc:333
 msgid "_Undo"
 msgstr "_Повернути"
 
-#: src/wmtaskbar.cc:302
+#: src/wmtaskbar.cc:303
 msgid "Arrange _Icons"
 msgstr "Впорядкувати _іконки"
 
-#: src/wmtaskbar.cc:308
+#: src/wmtaskbar.cc:309
 msgid "_Refresh"
 msgstr "_Оновити"
 
-#: src/wmtaskbar.cc:315
+#: src/wmtaskbar.cc:316
 msgid "_License"
 msgstr "_Ліцензія"
 
-#: src/wmtaskbar.cc:439
+#: src/wmtaskbar.cc:440
 msgid "Favorite applications"
 msgstr "Улюблені аплікації"
 
-#: src/wmtaskbar.cc:458
+#: src/wmtaskbar.cc:459
 msgid "Window list menu"
 msgstr "Меню списоку вікон"
 
-#: src/wmtaskbar.cc:468
+#: src/wmtaskbar.cc:469
 msgid "Show Desktop"
 msgstr "Показати стільницю"
 

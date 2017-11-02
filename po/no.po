@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-10-27 18:46-0600\n"
+"POT-Creation-Date: 2017-11-01 21:50-0600\n"
 "PO-Revision-Date: 2002-09-22 22:00+0200\n"
 "Last-Translator: Petter Johan Olsen <petter.olsen@cc.uit.no>\n"
 "Language-Team: Norwegian\n"
@@ -15,26 +15,26 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/aapm.cc:176 src/aapm.cc:457 src/aapm.cc:675 src/aapm.cc:791
+#: src/aapm.cc:180 src/aapm.cc:461 src/aapm.cc:681 src/aapm.cc:797
 msgid " - Power"
 msgstr " - Strøm"
 
 # this is the short version of "Power" above
-#: src/aapm.cc:178 src/aapm.cc:460 src/aapm.cc:678
+#: src/aapm.cc:182 src/aapm.cc:464 src/aapm.cc:684
 msgid "P"
 msgstr "S"
 
-#: src/aapm.cc:182 src/aapm.cc:434 src/aapm.cc:658 src/aapm.cc:765
+#: src/aapm.cc:186 src/aapm.cc:438 src/aapm.cc:664 src/aapm.cc:771
 #, c-format
 msgid " - Charging"
 msgstr " - Lader"
 
 # this is the short version of "Charging" above
-#: src/aapm.cc:184 src/aapm.cc:436 src/aapm.cc:660
+#: src/aapm.cc:188 src/aapm.cc:440 src/aapm.cc:666
 msgid "C"
 msgstr "L"
 
-#: src/aapm.cc:438
+#: src/aapm.cc:442
 msgid " - Full"
 msgstr ""
 
@@ -1319,8 +1319,8 @@ msgstr "Lås _arbeidsstasjon"
 msgid "_Cancel"
 msgstr "A_vbryt"
 
-#: src/wmdialog.cc:92 src/wmprog.cc:1005 src/wmprog.cc:1007 src/wmprog.cc:1011
-#: src/wmprog.cc:1013 src/wmtaskbar.cc:325 src/wmtaskbar.cc:327
+#: src/wmdialog.cc:92 src/wmprog.cc:1091 src/wmprog.cc:1093 src/wmprog.cc:1097
+#: src/wmprog.cc:1099 src/wmtaskbar.cc:326 src/wmtaskbar.cc:328
 msgid "_Logout..."
 msgstr "_Logg av"
 
@@ -1328,8 +1328,8 @@ msgstr "_Logg av"
 msgid "_Restart icewm"
 msgstr "_Start Icewm på nytt"
 
-#: src/wmdialog.cc:97 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:317
-#: src/wmtaskbar.cc:320
+#: src/wmdialog.cc:97 src/wmprog.cc:1034 src/wmprog.cc:1036
+#: src/wmtaskbar.cc:318 src/wmtaskbar.cc:321
 msgid "_About"
 msgstr "_Om"
 
@@ -1379,126 +1379,126 @@ msgstr "Syntaksfeil i vindusopsjonene"
 msgid "Out of memory for window options"
 msgstr "Ikke mer minne tilgjengelig for vindusopsjoner"
 
-#: src/wmprog.cc:198
+#: src/wmprog.cc:199
 msgid "Missing command argument"
 msgstr "Mangler kommandoargument"
 
-#: src/wmprog.cc:216
+#: src/wmprog.cc:217
 #, fuzzy, c-format
 msgid "Bad argument %d to command '%s'"
 msgstr "Ugyldig argument: %s for %s"
 
-#: src/wmprog.cc:251
+#: src/wmprog.cc:336
 msgid "Missing filename argument to include statement"
 msgstr ""
 
-#: src/wmprog.cc:317
+#: src/wmprog.cc:402
 #, fuzzy, c-format
 msgid "Error at %s '%s'"
 msgstr "Feil i nøkkel %s"
 
-#: src/wmprog.cc:368
+#: src/wmprog.cc:453
 #, fuzzy, c-format
 msgid "Unexepected menu keyword: '%s'"
 msgstr "Uventet nøkkelord: `%s'"
 
-#: src/wmprog.cc:414
+#: src/wmprog.cc:499
 #, fuzzy, c-format
 msgid "Error at menuprog '%s'"
 msgstr "Feil i prog `%s'"
 
-#: src/wmprog.cc:455
+#: src/wmprog.cc:540
 #, fuzzy, c-format
 msgid "Error at %s: '%s'"
 msgstr "Feil i nøkkel %s"
 
-#: src/wmprog.cc:480
+#: src/wmprog.cc:565
 #, fuzzy, c-format
 msgid "Unknown keyword '%s'"
 msgstr "Ukjent kommando: `%s'"
 
-#: src/wmprog.cc:504
+#: src/wmprog.cc:590
 #, fuzzy, c-format
 msgid "Error at keyword '%s' for %s"
 msgstr "Feil i nøkkel %s"
 
-#: src/wmprog.cc:520
+#: src/wmprog.cc:606
 #, c-format
 msgid ""
 "Unknown keyword for a non-container: '%s'.\n"
 "Expected either 'key' or 'runonce' here.\n"
 msgstr ""
 
-#: src/wmprog.cc:649
+#: src/wmprog.cc:735
 #, c-format
 msgid "'%s' produces no output"
 msgstr ""
 
-#: src/wmprog.cc:797
+#: src/wmprog.cc:883
 msgid "_Click to focus"
 msgstr ""
 
-#: src/wmprog.cc:798
+#: src/wmprog.cc:884
 msgid "_Explicit focus"
 msgstr ""
 
-#: src/wmprog.cc:799
+#: src/wmprog.cc:885
 msgid "_Sloppy mouse focus"
 msgstr ""
 
-#: src/wmprog.cc:800
+#: src/wmprog.cc:886
 msgid "S_trict mouse focus"
 msgstr ""
 
-#: src/wmprog.cc:801
+#: src/wmprog.cc:887
 msgid "_Quiet sloppy focus"
 msgstr ""
 
-#: src/wmprog.cc:802
+#: src/wmprog.cc:888
 msgid "Custo_m"
 msgstr ""
 
-#: src/wmprog.cc:824
+#: src/wmprog.cc:910
 msgid "_Manual"
 msgstr ""
 
-#: src/wmprog.cc:825
+#: src/wmprog.cc:911
 msgid "_Icewm(1)"
 msgstr ""
 
-#: src/wmprog.cc:826
+#: src/wmprog.cc:912
 msgid "Icewm_Bg(1)"
 msgstr ""
 
-#: src/wmprog.cc:827
+#: src/wmprog.cc:913
 msgid "Ice_Sound(1)"
 msgstr ""
 
-#: src/wmprog.cc:900 src/wmprog.cc:902
+#: src/wmprog.cc:986 src/wmprog.cc:988
 msgid "Programs"
 msgstr "Programmer"
 
-#: src/wmprog.cc:909 src/wmprog.cc:911
+#: src/wmprog.cc:995 src/wmprog.cc:997
 msgid "_Run..."
 msgstr "_Kjør..."
 
-#: src/wmprog.cc:920 src/wmprog.cc:922 src/wmtaskbar.cc:305
+#: src/wmprog.cc:1006 src/wmprog.cc:1008 src/wmtaskbar.cc:306
 msgid "_Windows"
 msgstr "_Vinduer"
 
-#: src/wmprog.cc:959 src/wmprog.cc:961
+#: src/wmprog.cc:1045 src/wmprog.cc:1047
 msgid "_Help"
 msgstr "_Hjelp"
 
-#: src/wmprog.cc:975 src/wmprog.cc:977
+#: src/wmprog.cc:1061 src/wmprog.cc:1063
 msgid "_Focus"
 msgstr ""
 
-#: src/wmprog.cc:986 src/wmprog.cc:988
+#: src/wmprog.cc:1072 src/wmprog.cc:1074
 msgid "_Themes"
 msgstr "_Temaer"
 
-#: src/wmprog.cc:995 src/wmprog.cc:997
+#: src/wmprog.cc:1081 src/wmprog.cc:1083
 msgid "Se_ttings"
 msgstr ""
 
@@ -1507,59 +1507,59 @@ msgstr ""
 msgid "Session Manager: Unknown line %s"
 msgstr "Sesjonshåndterer: ukjent linje `%s'"
 
-#: src/wmtaskbar.cc:169 src/wmtaskbar.cc:170
+#: src/wmtaskbar.cc:170 src/wmtaskbar.cc:171
 msgid "Task Bar"
 msgstr "Oppgavelinje"
 
-#: src/wmtaskbar.cc:294 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+#: src/wmtaskbar.cc:295 src/wmwinlist.cc:314 src/wmwinlist.cc:327
 msgid "Tile _Vertically"
 msgstr "Flislegg _vertikalt"
 
-#: src/wmtaskbar.cc:295 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+#: src/wmtaskbar.cc:296 src/wmwinlist.cc:315 src/wmwinlist.cc:328
 msgid "T_ile Horizontally"
 msgstr "Flislegg _horisontalt"
 
-#: src/wmtaskbar.cc:296 src/wmwinlist.cc:316 src/wmwinlist.cc:329
+#: src/wmtaskbar.cc:297 src/wmwinlist.cc:316 src/wmwinlist.cc:329
 msgid "Ca_scade"
 msgstr "_Overlapp"
 
-#: src/wmtaskbar.cc:297 src/wmwinlist.cc:317 src/wmwinlist.cc:330
+#: src/wmtaskbar.cc:298 src/wmwinlist.cc:317 src/wmwinlist.cc:330
 msgid "_Arrange"
 msgstr "_Arranger"
 
-#: src/wmtaskbar.cc:298 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+#: src/wmtaskbar.cc:299 src/wmwinlist.cc:319 src/wmwinlist.cc:331
 msgid "_Minimize All"
 msgstr "_Minimer alle"
 
-#: src/wmtaskbar.cc:299 src/wmwinlist.cc:320 src/wmwinlist.cc:332
+#: src/wmtaskbar.cc:300 src/wmwinlist.cc:320 src/wmwinlist.cc:332
 msgid "_Hide All"
 msgstr "_Gjem alle"
 
-#: src/wmtaskbar.cc:300 src/wmwinlist.cc:321 src/wmwinlist.cc:333
+#: src/wmtaskbar.cc:301 src/wmwinlist.cc:321 src/wmwinlist.cc:333
 msgid "_Undo"
 msgstr "A_ngre"
 
-#: src/wmtaskbar.cc:302
+#: src/wmtaskbar.cc:303
 msgid "Arrange _Icons"
 msgstr "Still opp _ikoner"
 
-#: src/wmtaskbar.cc:308
+#: src/wmtaskbar.cc:309
 msgid "_Refresh"
 msgstr "G_jenoppfrisk"
 
-#: src/wmtaskbar.cc:315
+#: src/wmtaskbar.cc:316
 msgid "_License"
 msgstr "_Lisens"
 
-#: src/wmtaskbar.cc:439
+#: src/wmtaskbar.cc:440
 msgid "Favorite applications"
 msgstr "Ofte brukte applikasjoner"
 
-#: src/wmtaskbar.cc:458
+#: src/wmtaskbar.cc:459
 msgid "Window list menu"
 msgstr "Vindusmeny"
 
-#: src/wmtaskbar.cc:468
+#: src/wmtaskbar.cc:469
 #, fuzzy
 msgid "Show Desktop"
 msgstr "_Skrivebord"

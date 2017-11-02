@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-10-27 18:46-0600\n"
+"POT-Creation-Date: 2017-11-01 21:50-0600\n"
 "PO-Revision-Date: 2017-11-01 17:28+0000\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
-"Language-Team: Slovak "
-"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/sk/>\n"
+"Language-Team: Slovak <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,24 +18,24 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 2.13.1\n"
 
-#: src/aapm.cc:176 src/aapm.cc:457 src/aapm.cc:675 src/aapm.cc:791
+#: src/aapm.cc:180 src/aapm.cc:461 src/aapm.cc:681 src/aapm.cc:797
 msgid " - Power"
 msgstr " - Napájanie"
 
-#: src/aapm.cc:178 src/aapm.cc:460 src/aapm.cc:678
+#: src/aapm.cc:182 src/aapm.cc:464 src/aapm.cc:684
 msgid "P"
 msgstr "N"
 
-#: src/aapm.cc:182 src/aapm.cc:434 src/aapm.cc:658 src/aapm.cc:765
+#: src/aapm.cc:186 src/aapm.cc:438 src/aapm.cc:664 src/aapm.cc:771
 #, c-format
 msgid " - Charging"
 msgstr " - Dobíjanie"
 
-#: src/aapm.cc:184 src/aapm.cc:436 src/aapm.cc:660
+#: src/aapm.cc:188 src/aapm.cc:440 src/aapm.cc:666
 msgid "C"
 msgstr "D"
 
-#: src/aapm.cc:438
+#: src/aapm.cc:442
 msgid " - Full"
 msgstr " - Plné"
 
@@ -1403,8 +1403,8 @@ msgstr "Zamknúť pracovnú _stanicu"
 msgid "_Cancel"
 msgstr "_Zrušiť"
 
-#: src/wmdialog.cc:92 src/wmprog.cc:1005 src/wmprog.cc:1007 src/wmprog.cc:1011
-#: src/wmprog.cc:1013 src/wmtaskbar.cc:325 src/wmtaskbar.cc:327
+#: src/wmdialog.cc:92 src/wmprog.cc:1091 src/wmprog.cc:1093 src/wmprog.cc:1097
+#: src/wmprog.cc:1099 src/wmtaskbar.cc:326 src/wmtaskbar.cc:328
 msgid "_Logout..."
 msgstr "Odh_lásenie..."
 
@@ -1412,8 +1412,8 @@ msgstr "Odh_lásenie..."
 msgid "_Restart icewm"
 msgstr "_Reštartovať icewm"
 
-#: src/wmdialog.cc:97 src/wmprog.cc:948 src/wmprog.cc:950 src/wmtaskbar.cc:317
-#: src/wmtaskbar.cc:320
+#: src/wmdialog.cc:97 src/wmprog.cc:1034 src/wmprog.cc:1036
+#: src/wmtaskbar.cc:318 src/wmtaskbar.cc:321
 msgid "_About"
 msgstr "O _aplikacii"
 
@@ -1463,50 +1463,50 @@ msgstr "Syntaktická chyba vo voľbách okna"
 msgid "Out of memory for window options"
 msgstr "Málo pamäte pre voľby okna"
 
-#: src/wmprog.cc:198
+#: src/wmprog.cc:199
 msgid "Missing command argument"
 msgstr "Chýba hodnota príkazu"
 
-#: src/wmprog.cc:216
+#: src/wmprog.cc:217
 #, c-format
 msgid "Bad argument %d to command '%s'"
 msgstr "Zlý argument %d pre príkaz '%s'"
 
-#: src/wmprog.cc:251
+#: src/wmprog.cc:336
 msgid "Missing filename argument to include statement"
 msgstr "Chýbajúci argument názvu súboru pre príkaz include"
 
-#: src/wmprog.cc:317
+#: src/wmprog.cc:402
 #, c-format
 msgid "Error at %s '%s'"
 msgstr "Chyba v %s '%s'"
 
-#: src/wmprog.cc:368
+#: src/wmprog.cc:453
 #, c-format
 msgid "Unexepected menu keyword: '%s'"
 msgstr "Neočakávané kľúčové slovo menu: '%s'"
 
-#: src/wmprog.cc:414
+#: src/wmprog.cc:499
 #, c-format
 msgid "Error at menuprog '%s'"
 msgstr "Chyba v menuprog '%s'"
 
-#: src/wmprog.cc:455
+#: src/wmprog.cc:540
 #, c-format
 msgid "Error at %s: '%s'"
 msgstr "Chyba v %s: '%s'"
 
-#: src/wmprog.cc:480
+#: src/wmprog.cc:565
 #, c-format
 msgid "Unknown keyword '%s'"
 msgstr "Neznáme kľúčové slovo '%s'"
 
-#: src/wmprog.cc:504
+#: src/wmprog.cc:590
 #, c-format
 msgid "Error at keyword '%s' for %s"
 msgstr "Chyba v kľúčovom slove '%s' pre %s"
 
-#: src/wmprog.cc:520
+#: src/wmprog.cc:606
 #, c-format
 msgid ""
 "Unknown keyword for a non-container: '%s'.\n"
@@ -1515,78 +1515,78 @@ msgstr ""
 "Neznáme kľúčové slovo pre non-container: '%s'.\n"
 "Očakáva sa tu buď 'key' alebo 'runonce'.\n"
 
-#: src/wmprog.cc:649
+#: src/wmprog.cc:735
 #, c-format
 msgid "'%s' produces no output"
 msgstr "'%s' nevytára žiadny výstup"
 
-#: src/wmprog.cc:797
+#: src/wmprog.cc:883
 msgid "_Click to focus"
 msgstr "Aktivovať _kliknutím"
 
-#: src/wmprog.cc:798
+#: src/wmprog.cc:884
 #, fuzzy
 msgid "_Explicit focus"
 msgstr "Aktivovať _kliknutím"
 
-#: src/wmprog.cc:799
+#: src/wmprog.cc:885
 msgid "_Sloppy mouse focus"
 msgstr "Aktivovať _presunom myši"
 
-#: src/wmprog.cc:800
+#: src/wmprog.cc:886
 #, fuzzy
 msgid "S_trict mouse focus"
 msgstr "Aktivovať _presunom myši"
 
-#: src/wmprog.cc:801
+#: src/wmprog.cc:887
 msgid "_Quiet sloppy focus"
 msgstr "Aktivovať pokojným _presunom"
 
-#: src/wmprog.cc:802
+#: src/wmprog.cc:888
 msgid "Custo_m"
 msgstr "Vlast_né"
 
-#: src/wmprog.cc:824
+#: src/wmprog.cc:910
 msgid "_Manual"
 msgstr ""
 
-#: src/wmprog.cc:825
+#: src/wmprog.cc:911
 msgid "_Icewm(1)"
 msgstr ""
 
-#: src/wmprog.cc:826
+#: src/wmprog.cc:912
 msgid "Icewm_Bg(1)"
 msgstr ""
 
-#: src/wmprog.cc:827
+#: src/wmprog.cc:913
 msgid "Ice_Sound(1)"
 msgstr ""
 
-#: src/wmprog.cc:900 src/wmprog.cc:902
+#: src/wmprog.cc:986 src/wmprog.cc:988
 msgid "Programs"
 msgstr "Programy"
 
-#: src/wmprog.cc:909 src/wmprog.cc:911
+#: src/wmprog.cc:995 src/wmprog.cc:997
 msgid "_Run..."
 msgstr "_Spustiť..."
 
-#: src/wmprog.cc:920 src/wmprog.cc:922 src/wmtaskbar.cc:305
+#: src/wmprog.cc:1006 src/wmprog.cc:1008 src/wmtaskbar.cc:306
 msgid "_Windows"
 msgstr "_Okná"
 
-#: src/wmprog.cc:959 src/wmprog.cc:961
+#: src/wmprog.cc:1045 src/wmprog.cc:1047
 msgid "_Help"
 msgstr "_Pomocník"
 
-#: src/wmprog.cc:975 src/wmprog.cc:977
+#: src/wmprog.cc:1061 src/wmprog.cc:1063
 msgid "_Focus"
 msgstr "_Aktivovať"
 
-#: src/wmprog.cc:986 src/wmprog.cc:988
+#: src/wmprog.cc:1072 src/wmprog.cc:1074
 msgid "_Themes"
 msgstr "_Témy"
 
-#: src/wmprog.cc:995 src/wmprog.cc:997
+#: src/wmprog.cc:1081 src/wmprog.cc:1083
 msgid "Se_ttings"
 msgstr "Nas_tavenia"
 
@@ -1595,59 +1595,59 @@ msgstr "Nas_tavenia"
 msgid "Session Manager: Unknown line %s"
 msgstr "Manažér sedení: Neznámy riadok %s"
 
-#: src/wmtaskbar.cc:169 src/wmtaskbar.cc:170
+#: src/wmtaskbar.cc:170 src/wmtaskbar.cc:171
 msgid "Task Bar"
 msgstr "Panel úloh"
 
-#: src/wmtaskbar.cc:294 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+#: src/wmtaskbar.cc:295 src/wmwinlist.cc:314 src/wmwinlist.cc:327
 msgid "Tile _Vertically"
 msgstr "Zarovnať _vertikálne"
 
-#: src/wmtaskbar.cc:295 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+#: src/wmtaskbar.cc:296 src/wmwinlist.cc:315 src/wmwinlist.cc:328
 msgid "T_ile Horizontally"
 msgstr "Zarovnať _horizontálne"
 
-#: src/wmtaskbar.cc:296 src/wmwinlist.cc:316 src/wmwinlist.cc:329
+#: src/wmtaskbar.cc:297 src/wmwinlist.cc:316 src/wmwinlist.cc:329
 msgid "Ca_scade"
 msgstr "Zarovnať do _kaskády"
 
-#: src/wmtaskbar.cc:297 src/wmwinlist.cc:317 src/wmwinlist.cc:330
+#: src/wmtaskbar.cc:298 src/wmwinlist.cc:317 src/wmwinlist.cc:330
 msgid "_Arrange"
 msgstr "_Usporiadať"
 
-#: src/wmtaskbar.cc:298 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+#: src/wmtaskbar.cc:299 src/wmwinlist.cc:319 src/wmwinlist.cc:331
 msgid "_Minimize All"
 msgstr "_Minimalizovať všetko"
 
-#: src/wmtaskbar.cc:299 src/wmwinlist.cc:320 src/wmwinlist.cc:332
+#: src/wmtaskbar.cc:300 src/wmwinlist.cc:320 src/wmwinlist.cc:332
 msgid "_Hide All"
 msgstr "_Skryť všetko"
 
-#: src/wmtaskbar.cc:300 src/wmwinlist.cc:321 src/wmwinlist.cc:333
+#: src/wmtaskbar.cc:301 src/wmwinlist.cc:321 src/wmwinlist.cc:333
 msgid "_Undo"
 msgstr "_Vrátiť"
 
-#: src/wmtaskbar.cc:302
+#: src/wmtaskbar.cc:303
 msgid "Arrange _Icons"
 msgstr "Usporiadať _Ikony"
 
-#: src/wmtaskbar.cc:308
+#: src/wmtaskbar.cc:309
 msgid "_Refresh"
 msgstr "_Obnoviť"
 
-#: src/wmtaskbar.cc:315
+#: src/wmtaskbar.cc:316
 msgid "_License"
 msgstr "_Licencia"
 
-#: src/wmtaskbar.cc:439
+#: src/wmtaskbar.cc:440
 msgid "Favorite applications"
 msgstr "Obľúbené aplikácie"
 
-#: src/wmtaskbar.cc:458
+#: src/wmtaskbar.cc:459
 msgid "Window list menu"
 msgstr "Menu zoznamu okien"
 
-#: src/wmtaskbar.cc:468
+#: src/wmtaskbar.cc:469
 msgid "Show Desktop"
 msgstr "Ukáž plochu"
 
