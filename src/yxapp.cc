@@ -6,8 +6,7 @@
 
 #include "wmprog.h"
 #include "yaction.h"
-#include "base.h"
-#include "ytimer.h"
+#include "ymenu.h"
 #include "wmmgr.h"
 #include "MwmUtil.h"
 #include "prefs.h"
