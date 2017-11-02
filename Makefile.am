@@ -109,3 +109,6 @@ dist_bin_SCRIPTS = \
 	icewm-set-gnomewm \
 	contrib/icewm-menu-xrandr
 
+AM_INSTALLCHECK_STD_OPTIONS_EXEMPT = \
+	contrib/icewm-menu-xrandr
+
