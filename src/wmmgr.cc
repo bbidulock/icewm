@@ -5,6 +5,7 @@
  */
 #include "config.h"
 #include "yfull.h"
+#include "ymenu.h"
 #include "wmmgr.h"
 
 #include "aaddressbar.h"
@@ -39,11 +40,11 @@ YWindowManager::YWindowManager(
     YSMListener *smListener,
     YWindow *parent,
     Window win)
-    : YDesktop(parent, win)
+    : YDesktop(parent, win),
+    app(app),
+    wmActionListener(wmActionListener),
+    smActionListener(smListener)
 {
-    this->app = app;
-    this->wmActionListener = wmActionListener;
-    this->smActionListener = smListener;
     fWmState = wmSTARTUP;
     fShowingDesktop = false;
     fShuttingDown = false;
@@ -51,11 +52,7 @@ YWindowManager::YWindowManager(
     fActiveWindow = (Window) -1;
     fFocusWin = 0;
     lockFocusCount = 0;
-    for (int l(0); l < WinLayerCount; l++) {
-        fTop[l] = fBottom[l] = 0;
-    }
-    fFirst = fLast = 0;
-    fFirstFocus = fLastFocus = 0;
+
     fColormapWindow = 0;
     fActiveWorkspace = WinWorkspaceInvalid;
     fLastWorkspace = WinWorkspaceInvalid;
@@ -67,7 +64,6 @@ YWindowManager::YWindowManager(
     fWorkAreaWorkspaceCount = 0;
     fWorkAreaScreenCount = 0;
     fFullscreenEnabled = true;
-    fFocusedWindow = new YFrameWindow *[MAXWORKSPACES];
     for (int w = 0; w < MAXWORKSPACES; w++)
         fFocusedWindow[w] = 0;
 
@@ -141,7 +137,6 @@ YWindowManager::~YWindowManager() {
     delete fRightSwitch;
     delete fLeftSwitch;
     delete fTopWin;
-    delete[] fFocusedWindow;
     delete rootProxy;
 }
 
@@ -1002,19 +997,32 @@ void YWindowManager::activate(YFrameWindow *window, bool raise, bool canWarp) {
     }
 }
 
+YFrameWindow *YWindowManager::top(long layer) const {
+    PRECONDITION(inrange(layer, 0L, WinLayerCount - 1L));
+    return fLayers[layer].front();
+}
+
 void YWindowManager::setTop(long layer, YFrameWindow *top) {
     if (true || !clientMouseActions) // some programs are buggy
-        if (fTop[layer]) {
+        if (fLayers[layer]) {
             if (raiseOnClickClient)
-                fTop[layer]->container()->grabButtons();
+                fLayers[layer].front()->container()->grabButtons();
         }
-    fTop[layer] = top;
+    fLayers[layer].prepend(top);
     if (true || !clientMouseActions) // some programs are buggy
-        if (fTop[layer]) {
+        if (fLayers[layer]) {
             if (raiseOnClickClient &&
-                !(focusOnClickClient && !fTop[layer]->focused()))
-                fTop[layer]->container()->releaseButtons();
+                !(focusOnClickClient && !fLayers[layer].front()->focused()))
+                fLayers[layer].front()->container()->releaseButtons();
         }
+}
+
+YFrameWindow *YWindowManager::bottom(long layer) const {
+    return fLayers[layer].back();
+}
+
+void YWindowManager::setBottom(long layer, YFrameWindow *bottom) {
+    fLayers[layer].append(bottom);
 }
 
 void YWindowManager::installColormap(Colormap cmap) {
@@ -1763,10 +1771,8 @@ YFrameWindow *YWindowManager::getLastFocus(bool skipAllWorkspaces, long workspac
         if (!skipAllWorkspaces)
             pass = 1;
         for (; pass < 3; pass++) {
-            for (YFrameWindow *w = lastFocusFrame();
-                 w;
-                 w = w->prevFocus())
-            {
+            YFrameIter w = focusedIterator();
+            while (++w) {
 #if 1
                 if ((w->client() && !w->client()->adopted()))
                     continue;
@@ -1833,16 +1839,61 @@ void YWindowManager::focusLastWindow() {
 
 YFrameWindow *YWindowManager::topLayer(long layer) {
     for (long l = layer; l >= 0; l--)
-        if (fTop[l]) return fTop[l];
+        if (fLayers[l])
+            return fLayers[l].front();
 
     return 0;
 }
 
 YFrameWindow *YWindowManager::bottomLayer(long layer) {
     for (long l = layer; l < WinLayerCount; l++)
-        if (fBottom[l]) return fBottom[l];
+        if (fLayers[l])
+            return fLayers[l].back();
 
     return 0;
+}
+
+void YWindowManager::setAbove(YFrameWindow* frame, YFrameWindow* above) {
+    const long layer = frame->getActiveLayer();
+    if (above != 0 && layer != above->getActiveLayer()) {
+        MSG(("ignore z-order change between layers: win=0x%lX (above: 0x%lX) ",
+                    frame->handle(), above->client()->handle()));
+        return;
+    }
+
+#ifdef DEBUG
+    if (debug_z) dumpZorder("before setAbove", frame, above);
+#endif
+    if (above != frame->next() && above != frame) {
+        fLayers[layer].remove(frame);
+        if (above) {
+            fLayers[layer].insertBefore(frame, above);
+        } else {
+            fLayers[layer].append(frame);
+        }
+#ifdef DEBUG
+        if (debug_z) dumpZorder("after setAbove", this, above);
+#endif
+    }
+    updateFullscreenLayer();
+}
+
+void YWindowManager::setBelow(YFrameWindow* frame, YFrameWindow* below) {
+    if (below != 0 &&
+        frame->getActiveLayer() != below->getActiveLayer())
+    {
+        MSG(("ignore z-order change between layers: win=0x%lX (below %ld)",
+                   frame->handle(), below->client()->handle()));
+        return;
+    }
+    if (below != frame->prev() && below != frame)
+        setAbove(frame, below ? below->next() : 0);
+}
+
+void YWindowManager::removeLayeredFrame(YFrameWindow *frame) {
+    long layer = frame->getActiveLayer();
+    PRECONDITION(inrange(layer, 0L, WinLayerCount - 1L));
+    fLayers[layer].remove(frame);
 }
 
 void YWindowManager::updateFullscreenLayerEnable(bool enable) {
@@ -1869,109 +1920,55 @@ void YWindowManager::updateFullscreenLayer() { /// HACK !!!
 }
 
 void YWindowManager::restackWindows(YFrameWindow *) {
-    int count = 0;
-    YFrameWindow *f;
-    YPopupWindow *p;
-
-    for (f = topLayer(); f; f = f->nextLayer())
-        count++;
-
-#ifndef LITE
-    if (statusMoveSize && statusMoveSize->visible())
-        count++;
-#endif
-
-    p = xapp->popup();
-    while (p) {
-        count++;
-        p = p->prevPopup();
-    }
-#ifndef LITE
-    if (wmapp->hasCtrlAltDelete()) {
-        if (wmapp->getCtrlAltDelete()->visible()) {
-            count++;
-        }
-    }
-
-#ifdef CONFIG_TASKBAR
-    if (taskBar)
-        count++;
-#endif
-#endif
-
-    if (fLeftSwitch && fLeftSwitch->visible())
-        count++;
-
-    if (fRightSwitch && fRightSwitch->visible())
-        count++;
-
-    if (fTopSwitch && fTopSwitch->visible())
-        count++;
-
-    if (fBottomSwitch && fBottomSwitch->visible())
-        count++;
-
-    if (count == 0)
-        return ;
+    int count = focusedCount();
 
     count++; // permanent top window
 
-    Window *w = new Window[count];
-    if (w == 0)
-        return ;
+    YArray<Window> w;
+    w.setCapacity(9 + count);
 
-    int i = 0;
+    w.append(fTopWin->handle());
 
-    w[i++] = fTopWin->handle();
-
-    p = xapp->popup();
-    while (p) {
-        w[i++] = p->handle();
-        p = p->prevPopup();
-    }
+    for (YPopupWindow* p = xapp->popup(); p; p = p->prevPopup())
+        w.append(p->handle());
 
 #ifdef CONFIG_TASKBAR
     if (taskBar)
-        w[i++] = taskBar->edgeTriggerWindow();;
+        w.append(taskBar->edgeTriggerWindow());
 #endif
 
     if (fLeftSwitch && fLeftSwitch->visible())
-        w[i++] = fLeftSwitch->handle();
+        w.append(fLeftSwitch->handle());
 
     if (fRightSwitch && fRightSwitch->visible())
-        w[i++] = fRightSwitch->handle();
+        w.append(fRightSwitch->handle());
 
     if (fTopSwitch && fTopSwitch->visible())
-        w[i++] = fTopSwitch->handle();
+        w.append(fTopSwitch->handle());
 
     if (fBottomSwitch && fBottomSwitch->visible())
-        w[i++] = fBottomSwitch->handle();
+        w.append(fBottomSwitch->handle());
 
 #ifndef LITE
     if (wmapp->hasCtrlAltDelete()) {
         if (wmapp->getCtrlAltDelete()->visible()) {
-            w[i++] = wmapp->getCtrlAltDelete()->handle();
+            w.append(wmapp->getCtrlAltDelete()->handle());
         }
     }
 #endif
 
 #ifndef LITE
     if (statusMoveSize->visible())
-        w[i++] = statusMoveSize->handle();
+        w.append(statusMoveSize->handle());
 #endif
 
-    for (f = topLayer(); f; f = f->nextLayer()) {
-        w[i++] = f->handle();
+    for (YFrameWindow* f = topLayer(); f; f = f->nextLayer()) {
+        w.append(f->handle());
     }
 
-    if (count > 1) {
-        XRestackWindows(xapp->display(), w, count);
+    if (w.getCount() > 1) {
+        XRestackWindows(xapp->display(), &*w, w.getCount());
     }
-    if (i != count) {
-        warn("i=%d, count=%d", i, count);
-    }
-    PRECONDITION(i == count);
-    delete[] w;
 }
 
 void YWindowManager::getWorkArea(YFrameWindow *frame,
@@ -2999,9 +2996,11 @@ void YWindowManager::updateClientList() {
 
     if (ids) {
         int w = 0;
-        for (YFrameWindow *frame2 = firstFrame(); frame2; frame2 = frame2->nextCreated()) {
+        YFrameIter frame2 = fCreationOrder.iterator();
+        while (++frame2) {
             if (frame2->client() && frame2->client()->adopted())
-                ids[w++] = frame2->client()->handle();
+                if (++w <= count)
+                    ids[w - 1] = frame2->client()->handle();
         }
         PRECONDITION(w == count);
     }
@@ -3099,9 +3098,8 @@ void YWindowManager::switchFocusTo(YFrameWindow *frame, bool reorderFocus) {
 
         fFocusedWindow[activeWorkspace()] = frame;
     }
-    if (frame && frame->nextFocus() && reorderFocus) {
-        frame->removeFocusFrame();
-        frame->insertFocusFrame(true);
+    if (frame && reorderFocus) {
+        raiseFocusFrame(frame);
     }
     notifyActive(frame);
     updateClientList();
@@ -3508,5 +3506,36 @@ void YWindowManager::UpdateScreenSize(XEvent *event) {
     }
 }
 #endif
+
+void YWindowManager::appendCreatedFrame(YFrameWindow *f) {
+    fCreationOrder.append(f);
+}
+
+void YWindowManager::removeCreatedFrame(YFrameWindow *f) {
+    fCreationOrder.remove(f);
+}
+
+void YWindowManager::insertFocusFrame(YFrameWindow* frame, bool focused) {
+    if (focused || fFocusedOrder.count() < 1) {
+        fFocusedOrder.append(frame);
+    }
+    else {
+        fFocusedOrder.insertBefore(frame, fFocusedOrder.back());
+    }
+}
+
+void YWindowManager::removeFocusFrame(YFrameWindow* frame) {
+    fFocusedOrder.remove(frame);
+}
+
+void YWindowManager::lowerFocusFrame(YFrameWindow* frame) {
+    fFocusedOrder.remove(frame);
+    fFocusedOrder.prepend(frame);
+}
+
+void YWindowManager::raiseFocusFrame(YFrameWindow* frame) {
+    fFocusedOrder.remove(frame);
+    fFocusedOrder.append(frame);
+}
 
 // vim: set sw=4 ts=4 et:

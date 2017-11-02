@@ -5,6 +5,7 @@
 #include "wmoption.h"
 #include "wmmgr.h"
 #include "yicon.h"
+#include "ylist.h"
 
 class YClientContainer;
 class MiniIcon;
@@ -12,7 +13,17 @@ class TaskBarApp;
 class TrayApp;
 class YFrameTitleBar;
 
-class YFrameWindow: public YWindow, public YActionListener, public YTimerListener, public YPopDownListener, public YMsgBoxListener, public ClientData {
+class YFrameWindow:
+    public YWindow,
+    public YActionListener,
+    public YTimerListener,
+    public YPopDownListener,
+    public YMsgBoxListener,
+    public ClientData,
+    public YLayeredNode,
+    public YCreatedNode,
+    public YFocusedNode
+{
 public:
     YFrameWindow(YActionListener *wmActionListener, YWindow *parent = 0, int depth = CopyFromParent, Visual *visual = CopyFromParent);
     virtual ~YFrameWindow();
@@ -48,6 +59,7 @@ public:
 
     virtual void actionPerformed(YAction action, unsigned int modifiers);
     virtual void handleMsgBox(YMsgBox *msgbox, int operation);
+    virtual YFrameWindow* frame() { return this; }
 
     void wmRestore();
     void wmMinimize();
@@ -149,10 +161,6 @@ public:
     void removeFrame();
     void setAbove(YFrameWindow *aboveFrame); // 0 = at the bottom
     void setBelow(YFrameWindow *belowFrame); // 0 = at the top
-    YFrameWindow *next() const { return fNextFrame; }
-    YFrameWindow *prev() const { return fPrevFrame; }
-    void setNext(YFrameWindow *next) { fNextFrame = next; }
-    void setPrev(YFrameWindow *prev) { fPrevFrame = prev; }
 
     typedef enum {
         fwfVisible    = 1 << 0, // visible windows only
@@ -429,20 +437,6 @@ public:
     int strutTop() { return fStrutTop; }
     int strutBottom() { return fStrutBottom; }
 
-    YFrameWindow *nextCreated() { return fNextCreatedFrame; }
-    YFrameWindow *prevCreated() { return fPrevCreatedFrame; }
-    void setNextCreated(YFrameWindow *f) { fNextCreatedFrame = f; }
-    void setPrevCreated(YFrameWindow *f) { fPrevCreatedFrame = f; }
-
-    YFrameWindow *nextFocus() { return fNextFocusFrame; }
-    YFrameWindow *prevFocus() { return fPrevFocusFrame; }
-    void setNextFocus(YFrameWindow *f) { fNextFocusFrame = f; }
-    void setPrevFocus(YFrameWindow *f) { fPrevFocusFrame = f; }
-
-    void insertFocusFrame(bool focus);
-    void insertLastFocusFrame();
-    void removeFocusFrame();
-
     void updateUrgency();
     void setWmUrgency(bool wmUrgency);
     bool isUrgent() { return fWmUrgency || fClientUrgency; }
@@ -488,15 +482,6 @@ private:
     int movingWindow, sizingWindow;
     int sizeByMouse;
     int origX, origY, origW, origH;
-
-    YFrameWindow *fNextFrame; // window below this one
-    YFrameWindow *fPrevFrame; // window above this one
-
-    YFrameWindow *fNextCreatedFrame;
-    YFrameWindow *fPrevCreatedFrame;
-
-    YFrameWindow *fNextFocusFrame;
-    YFrameWindow *fPrevFocusFrame;
 
     Window topSide, leftSide, rightSide, bottomSide;
     Window topLeft, topRight, bottomLeft, bottomRight;

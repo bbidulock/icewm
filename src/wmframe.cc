@@ -55,11 +55,6 @@ YFrameWindow::YFrameWindow(
     setDoubleBuffer(false);
     fClient = 0;
     fFocused = false;
-    fNextFrame = fPrevFrame = 0;
-    fNextCreatedFrame = 0;
-    fPrevCreatedFrame = 0;
-    fNextFocusFrame = 0;
-    fPrevFocusFrame = 0;
 
     topSide = None;
     leftSide = None;
@@ -201,20 +196,9 @@ YFrameWindow::~YFrameWindow() {
     // perhaps should be done another way
     removeTransients();
     removeAsTransient();
-    removeFocusFrame();
+    manager->removeFocusFrame(this);
     manager->removeClientFrame(this);
-    {
-        // !!! consider having an array instead
-        if (fNextCreatedFrame)
-            fNextCreatedFrame->setPrevCreated(fPrevCreatedFrame);
-        else
-            manager->setLastFrame(fPrevCreatedFrame);
-
-        if (fPrevCreatedFrame)
-            fPrevCreatedFrame->setNextCreated(fNextCreatedFrame);
-        else
-            manager->setFirstFrame(fNextCreatedFrame);
-    }
+    manager->removeCreatedFrame(this);
     removeFrame();
     if (wmapp->hasSwitchWindow())
         wmapp->getSwitchWindow()->destroyedFrame(this);
@@ -311,17 +295,10 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
     updateIcon();
 #endif
     manage(fClient);
-    {
-        if (manager->lastFrame())
-            manager->lastFrame()->setNextCreated(this);
-        else
-            manager->setFirstFrame(this);
-        setPrevCreated(manager->lastFrame());
-        manager->setLastFrame(this);
-    }
+    manager->appendCreatedFrame(this);
     bool isRunning = manager->wmState() == YWindowManager::wmRUNNING;
     insertFrame(!isRunning);
-    insertFocusFrame(!isRunning);
+    manager->insertFocusFrame(this, !isRunning);
 
     getFrameHints();
 
@@ -1025,19 +1002,7 @@ void YFrameWindow::removeFrame() {
 #ifdef DEBUG
     if (debug_z) dumpZorder("before removing", this);
 #endif
-    if (prev())
-        prev()->setNext(next());
-    else
-        manager->setTop(getActiveLayer(), next());
-
-    if (next())
-        next()->setPrev(prev());
-    else
-        manager->setBottom(getActiveLayer(), prev());
-
-    setPrev(0);
-    setNext(0);
-
+    manager->removeLayeredFrame(this);
 #ifdef DEBUG
     if (debug_z) dumpZorder("after removing", this);
 #endif
@@ -1048,21 +1013,9 @@ void YFrameWindow::insertFrame(bool top) {
     if (debug_z) dumpZorder("before inserting", this);
 #endif
     if (top) {
-        setNext(manager->top(getActiveLayer()));
-        setPrev(0);
         manager->setTop(getActiveLayer(), this);
-        if (next())
-            next()->setPrev(this);
-        else
-            manager->setBottom(getActiveLayer(), this);
     } else {
-        setPrev(manager->bottom(getActiveLayer()));
-        setNext(0);
         manager->setBottom(getActiveLayer(), this);
-        if (prev())
-            prev()->setNext(this);
-        else
-            manager->setTop(getActiveLayer(), this);
     }
 #ifdef DEBUG
     if (debug_z) dumpZorder("after inserting", this);
@@ -1070,98 +1023,11 @@ void YFrameWindow::insertFrame(bool top) {
 }
 
 void YFrameWindow::setAbove(YFrameWindow *aboveFrame) {
-    if (aboveFrame != 0 &&
-        getActiveLayer() != aboveFrame->getActiveLayer())
-    {
-        MSG(("ignore z-order change between layers: win=0x%lX (above: 0x%lX) ", handle(), aboveFrame->client()->handle()));
-        return;
-    }
-
-#ifdef DEBUG
-    if (debug_z) dumpZorder("before setAbove", this, aboveFrame);
-#endif
-    if (aboveFrame != next() && aboveFrame != this) {
-        if (prev())
-            prev()->setNext(next());
-        else
-            manager->setTop(getActiveLayer(), next());
-
-        if (next())
-            next()->setPrev(prev());
-        else
-            manager->setBottom(getActiveLayer(), prev());
-
-        setNext(aboveFrame);
-        if (next()) {
-            setPrev(next()->prev());
-            next()->setPrev(this);
-        } else {
-            setPrev(manager->bottom(getActiveLayer()));
-            manager->setBottom(getActiveLayer(), this);
-        }
-        if (prev())
-            prev()->setNext(this);
-        else
-            manager->setTop(getActiveLayer(), this);
-#ifdef DEBUG
-        if (debug_z) dumpZorder("after setAbove", this, aboveFrame);
-#endif
-    }
-    manager->updateFullscreenLayer();
+    manager->setAbove(this, aboveFrame);
 }
 
 void YFrameWindow::setBelow(YFrameWindow *belowFrame) {
-    if (belowFrame != 0 &&
-        getActiveLayer() != belowFrame->getActiveLayer())
-    {
-        MSG(("ignore z-order change between layers: win=0x%lX (below %ld)", handle(), belowFrame->client()->handle()));
-        return;
-    }
-    if (belowFrame != prev() && belowFrame != this)
-        setAbove(belowFrame ? belowFrame->next() : 0);
-}
-
-void YFrameWindow::insertFocusFrame(bool focus) {
-    if (focus || manager->lastFocusFrame() == 0) {
-        if (manager->lastFocusFrame())
-            manager->lastFocusFrame()->setNextFocus(this);
-        else
-            manager->setFirstFocusFrame(this);
-        setPrevFocus(manager->lastFocusFrame());
-        manager->setLastFocusFrame(this);
-    } else {
-        setPrevFocus(manager->lastFocusFrame()->prevFocus());
-        setNextFocus(manager->lastFocusFrame());
-        manager->lastFocusFrame()->setPrevFocus(this);
-        if (prevFocus() == 0)
-            manager->setFirstFocusFrame(this);
-        else
-            prevFocus()->setNextFocus(this);
-    }
-}
-
-void YFrameWindow::insertLastFocusFrame() {
-    setPrevFocus(0);
-    setNextFocus(manager->firstFocusFrame());
-    manager->setFirstFocusFrame(this);
-    if (nextFocus() == 0)
-        manager->setLastFocusFrame(this);
-    else
-        nextFocus()->setPrevFocus(this);
-}
-
-void YFrameWindow::removeFocusFrame() {
-    if (fNextFocusFrame)
-        fNextFocusFrame->setPrevFocus(fPrevFocusFrame);
-    else
-        manager->setLastFocusFrame(fPrevFocusFrame);
-
-    if (fPrevFocusFrame)
-        fPrevFocusFrame->setNextFocus(fNextFocusFrame);
-    else
-        manager->setFirstFocusFrame(fNextFocusFrame);
-    fNextFocusFrame = 0;
-    fPrevFocusFrame = 0;
+    manager->setBelow(this, belowFrame);
 }
 
 YFrameWindow *YFrameWindow::findWindow(int flags) {
@@ -1561,16 +1427,13 @@ void YFrameWindow::wmHide() {
 
 void YFrameWindow::wmLower() {
     if (this != manager->bottom(getActiveLayer())) {
-        YFrameWindow *w = this;
-
         manager->lockFocus();
 #ifdef CONFIG_GUIEVENTS
         if (getState() ^ WinStateMinimized)
             wmapp->signalGuiEvent(geWindowLower);
 #endif
-        while (w) {
+        for (YFrameWindow *w = this; w; w = w->owner()) {
             w->doLower();
-            w = w->owner();
         }
         manager->restackWindows(this);
         manager->unlockFocus();
@@ -1580,8 +1443,7 @@ void YFrameWindow::wmLower() {
 
 void YFrameWindow::doLower() {
     setAbove(0);
-    removeFocusFrame();
-    insertLastFocusFrame();
+    manager->lowerFocusFrame(this);
 }
 
 void YFrameWindow::wmRaise() {
@@ -2625,7 +2487,7 @@ void YFrameWindow::updateIcon() {
 #endif
 
 YFrameWindow *YFrameWindow::nextLayer() {
-    if (fNextFrame) return fNextFrame;
+    if (next()) return next();
 
     for (long l(getActiveLayer() - 1); l > -1; --l)
         if (manager->top(l)) return manager->top(l);
@@ -2634,7 +2496,7 @@ YFrameWindow *YFrameWindow::nextLayer() {
 }
 
 YFrameWindow *YFrameWindow::prevLayer() {
-    if (fPrevFrame) return fPrevFrame;
+    if (prev()) return prev();
 
     for (long l(getActiveLayer() + 1); l < WinLayerCount; ++l)
         if (manager->bottom(l)) return manager->bottom(l);

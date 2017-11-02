@@ -13,6 +13,7 @@
 #include "default.h"
 
 #include "wmoption.h"
+#include "ymenu.h"
 #include "wmmgr.h"
 #include "yaction.h"
 #include "yapp.h"

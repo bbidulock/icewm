@@ -59,9 +59,9 @@ class WindowItemsCtrlr : public ISwitchItems
     void GetZListWorkspace(bool workspaceOnly, int workspace)
     {
         for (int pass = 0; pass <= 5; pass++) {
-            YFrameWindow *w = fRoot->lastFocusFrame();
+            YFrameIter w = fRoot->focusedReverseIterator();
 
-            while (w) {
+            while (++w) {
                 // pass 0: focused window
                 // pass 1: urgent windows
                 // pass 2: normal windows
@@ -69,18 +69,15 @@ class WindowItemsCtrlr : public ISwitchItems
                 // pass 4: hidden windows
                 // pass 5: unfocusable windows
                 if ((w->client() && !w->client()->adopted()) && !w->visible()) {
-                    w = w->prevFocus();
                     continue;
                 }
 
                 if (!w->isUrgent()) {
                     if (workspaceOnly && w->isSticky() && workspace != fRoot->activeWorkspace()) {
-                        w = w->prevFocus();
                         continue;
                     }
 
                     if (workspaceOnly && !w->visibleOn(workspace)) {
-                        w = w->prevFocus();
                         continue;
                     }
                 }
@@ -107,7 +104,6 @@ class WindowItemsCtrlr : public ISwitchItems
                 } else {
                     if (pass == 2) zList.add(w);
                 }
-                w = w->prevFocus();
             }
         }
     }

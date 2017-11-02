@@ -1,14 +1,10 @@
 #ifndef __WMMGR_H
 #define __WMMGR_H
 
-#include <X11/Xproto.h>
-#include "ywindow.h"
-#include "ymenu.h"
 #include "WinMgr.h"
-#include "ytimer.h"
+#include "ylist.h"
 
 #define MAXWORKSPACES     20
-#define INVALID_WORKSPACE 0xFFFFFFFF
 
 extern long workspaceCount;
 extern char *workspaceNames[MAXWORKSPACES];
@@ -152,29 +148,27 @@ public:
     void getNewPosition(YFrameWindow *frame, int &x, int &y, int w, int h, int xiscreen);
     void placeWindow(YFrameWindow *frame, int x, int y, int cw, int ch, bool newClient, bool &canActivate);
 
-    YFrameWindow *top(long layer) const {
-            if (layer < 0)
-                    return fTop[0];
-            if (layer >= WinLayerCount)
-                    return fTop[WinLayerCount - 1];
-            return fTop[layer];
-    }
+    YFrameWindow *top(long layer) const;
     void setTop(long layer, YFrameWindow *top);
-    YFrameWindow *bottom(long layer) const { return fBottom[layer]; }
-    void setBottom(long layer, YFrameWindow *bottom) { fBottom[layer] = bottom; }
+    YFrameWindow *bottom(long layer) const;
+    void setBottom(long layer, YFrameWindow *bottom);
 
     YFrameWindow *topLayer(long layer = WinLayerCount - 1);
     YFrameWindow *bottomLayer(long layer = 0);
 
-    YFrameWindow *firstFrame() { return fFirst; }
-    YFrameWindow *lastFrame() { return fLast; }
-    void setFirstFrame(YFrameWindow *f) { fFirst = f; }
-    void setLastFrame(YFrameWindow *f) { fLast = f; }
+    void setAbove(YFrameWindow* frame, YFrameWindow* above);
+    void setBelow(YFrameWindow* frame, YFrameWindow* below);
+    void removeLayeredFrame(YFrameWindow *);
+    void appendCreatedFrame(YFrameWindow *f);
+    void removeCreatedFrame(YFrameWindow *f);
 
-    YFrameWindow *firstFocusFrame() { return fFirstFocus; }
-    YFrameWindow *lastFocusFrame() { return fLastFocus; }
-    void setFirstFocusFrame(YFrameWindow *f) { fFirstFocus = f; }
-    void setLastFocusFrame(YFrameWindow *f) { fLastFocus = f; }
+    YFrameIter focusedIterator() { return fFocusedOrder.iterator(); }
+    YFrameIter focusedReverseIterator() { return fFocusedOrder.reverseIterator(); }
+    int focusedCount() const { return fFocusedOrder.count(); }
+    void insertFocusFrame(YFrameWindow* frame, bool focused);
+    void removeFocusFrame(YFrameWindow* frame);
+    void lowerFocusFrame(YFrameWindow* frame);
+    void raiseFocusFrame(YFrameWindow* frame);
 
     void restackWindows(YFrameWindow *win);
     void focusTopWindow();
@@ -297,19 +291,19 @@ private:
     void updateArea(long workspace, int screen_number, int l, int t, int r, int b);
     bool handleWMKey(const XKeyEvent &key, KeySym k, unsigned int m, unsigned int vm);
 
+    IApp *app;
+    YActionListener *wmActionListener;
+    YSMListener *smActionListener;
     Window fActiveWindow;
     YFrameWindow *fFocusWin;
-    YFrameWindow *fTop[WinLayerCount];
-    YFrameWindow *fBottom[WinLayerCount];
-    YFrameWindow *fFirst, *fLast; // creation order
-    YFrameWindow *fFirstFocus, *fLastFocus; // focus order
-    YFrameWindow **fFocusedWindow;
+    YLayeredList fLayers[WinLayerCount];
+    YCreatedList fCreationOrder;  // frame creation order
+    YFocusedList fFocusedOrder;   // focus order: old -> now
+    YFrameWindow *fFocusedWindow[MAXWORKSPACES];
+
     long fActiveWorkspace;
     long fLastWorkspace;
     YFrameWindow *fColormapWindow;
-    YActionListener *wmActionListener;
-    YSMListener *smActionListener;
-    IApp *app;
 
     long fWorkAreaWorkspaceCount;
     int fWorkAreaScreenCount;

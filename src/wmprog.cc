@@ -279,7 +279,7 @@ public:
     virtual void cancel() OVERRIDE {
     }
     virtual void accept(IClosablePopup *parent) OVERRIDE {
-        auto item=menu->getItem(zTarget);
+        YMenuItem* item=menu->getItem(zTarget);
         if(!item) return;
         // even through all the obscure "abstraction" it should just run DObjectMenuItem::actionPerformed
         item->actionPerformed(0, actionRun, 0);
