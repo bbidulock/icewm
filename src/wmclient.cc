@@ -1365,7 +1365,7 @@ bool YFrameClient::getWinLayerHint(long *layer) {
     {
         if (r_type == XA_CARDINAL && r_format == 32 && count == 1U) {
             long l = *(long *)prop;
-            if (l < WinLayerCount) {
+            if (inrange(l, 0L, WinLayerCount - 1L)) {
                 *layer = l;
                 XFree(prop);
                 return true;

@@ -2874,7 +2874,7 @@ void YWindowManager::getIconPosition(YFrameWindow *frame, int *iconX, int *iconY
 int YWindowManager::windowCount(long workspace) {
     int count = 0;
 
-    for (int layer = 0 ; layer <= WinLayerCount; layer++) {
+    for (int layer = 0 ; layer < WinLayerCount; layer++) {
         for (YFrameWindow *frame = top(layer); frame; frame = frame->next()) {
             if (!frame->visibleOn(workspace))
                 continue;
