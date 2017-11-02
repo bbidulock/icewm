@@ -1872,7 +1872,7 @@ void YWindowManager::setAbove(YFrameWindow* frame, YFrameWindow* above) {
             fLayers[layer].append(frame);
         }
 #ifdef DEBUG
-        if (debug_z) dumpZorder("after setAbove", this, above);
+        if (debug_z) dumpZorder("after setAbove", frame, above);
 #endif
     }
     updateFullscreenLayer();
