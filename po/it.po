@@ -11,10 +11,10 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.31\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-11-01 21:50-0600\n"
-"PO-Revision-Date: 2017-10-10 14:21+0000\n"
+"PO-Revision-Date: 2017-11-02 10:59+0000\n"
 "Last-Translator: Alessio Adamo <alessio.adamo@gmail.com>\n"
-"Language-Team: Italian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/it/>\n"
+"Language-Team: Italian "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -314,9 +314,8 @@ msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
 #: src/icehelp.cc:1865
-#, fuzzy
 msgid "Unsupported protocol."
-msgstr "Interfaccia non supportata: %s."
+msgstr "Protocollo non supportato."
 
 #: src/icehelp.cc:1890
 #, c-format
@@ -332,9 +331,8 @@ msgid "Failed to open file for reading."
 msgstr ""
 
 #: src/icehelp.cc:1947
-#, fuzzy
 msgid "Failed to create a temporary file"
-msgstr "Impossibile creare una pipe anonima: %s"
+msgstr "Impossibile creare un file temporaneo"
 
 #: src/icehelp.cc:2039
 #, c-format
@@ -342,9 +340,9 @@ msgid "Failed to execute system(%s) (%d)"
 msgstr ""
 
 #: src/icehelp.cc:2062
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to decompress %s"
-msgstr "Impossibile caricare il tema %s"
+msgstr "Impossibile decomprimere %s"
 
 #: src/icehelp.cc:2070
 msgid "Could not locate curl or wget in PATH"
@@ -389,9 +387,9 @@ msgid ""
 msgstr ""
 
 #: src/icehelp.cc:2152
-#, fuzzy, c-format
+#, c-format
 msgid "Ignoring option '%s'"
-msgstr "Opzione sconosciuta «%s»"
+msgstr "Ignorata l'opzione «%s»"
 
 #: src/icelist.cc:80
 msgid "List View"
@@ -617,7 +615,6 @@ msgid "Socket error: %d"
 msgstr "Errore di socket: %d"
 
 #: src/icesm.cc:50
-#, fuzzy
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -633,6 +630,9 @@ msgstr ""
 "\n"
 "  --display=NOME      Usa NOME per connettersi al server X.\n"
 "  --sync              Sincronizza la comunicazione con il server X11.\n"
+"\n"
+"  -n, --notray        Non avviare icewmtray.\n"
+"  -s, --sound         Avvia anche icesound.\n"
 
 #: src/icesm.cc:107
 #, c-format
@@ -718,9 +718,9 @@ msgid "Sample <%d> uploaded as `%s:%s'"
 msgstr "Campione <%d> caricato come «%s:%s»"
 
 #: src/icesound.cc:573
-#, fuzzy, c-format
+#, c-format
 msgid "Playing sample #%d: %d"
-msgstr "Riproduzione del campione #%d"
+msgstr "Riproduzione del campione #%d: %d"
 
 #: src/icesound.cc:648
 #, c-format
@@ -874,17 +874,16 @@ msgid "Using %s audio."
 msgstr ""
 
 #: src/icesound.cc:1083
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to connect to audio interfaces %s."
-msgstr "Impossibile caricare il tema %s"
+msgstr "Impossibile connettersi alle interfacce audio %s."
 
 #: src/icesound.cc:1095
-#, fuzzy, c-format
+#, c-format
 msgid "Received signal %s: Terminating..."
-msgstr "Ricevuto il segnale %d: viene terminata l'esecuzione..."
+msgstr "Ricevuto il segnale %s: viene terminata l'esecuzione..."
 
 #: src/icetray.cc:253
-#, fuzzy
 msgid ""
 "  -n, --notify        Notify parent process by sending signal USR1.\n"
 "  --display=NAME      Use NAME to connect to the X server.\n"
@@ -925,9 +924,9 @@ msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
 #: src/icewmbg.cc:73
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load image '%s'."
-msgstr "Impossibile caricare il tema %s"
+msgstr "Impossibile caricare l'immagine «%s»."
 
 #: src/icewmbg.cc:706
 #, fuzzy
