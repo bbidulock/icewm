@@ -49,6 +49,11 @@ if(CXX_VIHI)
         _append(CXXFLAGS_COMMON -fvisibility-inlines-hidden)
 endif()
 
+CHECK_CXX_COMPILER_FLAG(-std=gnu++98 CXX_FORCELEGACY)
+if(CXX_VIHI)
+        _append(CXXFLAGS_COMMON -std=gnu++98)
+endif()
+
 option(CONFIG_XPM "Legacy XPM image loader" off)
 option(CONFIG_IMLIB "(Deprecated) IMLIB image loader" off)
 option(CONFIG_GDK_PIXBUF_XLIB "LIBGDKPIXBUF based image loader" on)
