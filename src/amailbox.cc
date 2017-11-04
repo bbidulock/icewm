@@ -11,6 +11,8 @@
 #include "intl.h"
 
 #ifdef CONFIG_APPLET_MAILBOX
+#ifdef CONFIG_TASKBAR
+
 #include "ylib.h"
 #include "amailbox.h"
 
@@ -470,6 +472,7 @@ bool MailBoxStatus::handleTimer(YTimer *t) {
     return true;
 }
 
+#endif
 #endif
 
 // vim: set sw=4 ts=4 et:

@@ -677,8 +677,10 @@ static void initMenus(
 #endif
 
 #ifdef CONFIG_TRAY
+#ifdef CONFIG_TASKBAR
     if (strchr(winMenuItems, 'i') && taskBarShowTray)
         windowMenu->addItem(_("Tray _icon"), -2, null, actionToggleTray);
+#endif
 #endif
 
     if (strchr(winMenuItems, 'c') || strchr(winMenuItems, 'k'))

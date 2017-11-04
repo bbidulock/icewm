@@ -14,6 +14,7 @@
 #include "aapm.h"
 
 #ifdef CONFIG_APPLET_APM
+#ifdef CONFIG_TASKBAR
 
 #include "ylib.h"
 #include "sysdep.h"
@@ -1125,6 +1126,7 @@ int YApm::calcWidth(const char *s, int count) {
         return len;
     }
 }
+#endif
 #endif
 
 // vim: set sw=4 ts=4 et:

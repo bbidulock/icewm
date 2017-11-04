@@ -56,6 +56,8 @@
 #include "udir.h"
 #include "intl.h"
 
+#ifdef CONFIG_TASKBAR
+
 #if defined(__linux__) || defined(HAVE_KSTAT_H) || defined(HAVE_SYSCTL_CP_TIME)
 
 extern ref<YPixmap> taskbackPixmap;
@@ -735,6 +737,6 @@ void CPUStatus::getCPUStatus(YSMListener *smActionListener, YWindow *aParent, CP
 
 #endif
 #endif
-
+#endif
 
 // vim: set sw=4 ts=4 et:

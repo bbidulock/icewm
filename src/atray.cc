@@ -15,6 +15,7 @@
 #include "config.h"
 
 #ifdef CONFIG_TRAY
+#ifdef CONFIG_TASKBAR
 
 #include "ylib.h"
 #include "atray.h"
@@ -390,6 +391,7 @@ void TrayPane::paint(Graphics &g, const YRect &/*r*/) {
     }
 }
 
+#endif
 #endif
 
 // vim: set sw=4 ts=4 et:

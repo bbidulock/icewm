@@ -18,7 +18,7 @@
 #include "wmapp.h"
 #include "prefs.h"
 
-
+#ifdef CONFIG_TASKBAR
 #ifdef CONFIG_APPLET_CLOCK
 
 static char const *AppletClockTimeFmt = "%T";
@@ -312,6 +312,7 @@ bool YClock::hasTransparency() {
     transparent = 0;
     return false;
 }
+#endif
 #endif
 
 // vim: set sw=4 ts=4 et:

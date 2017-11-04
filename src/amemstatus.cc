@@ -8,6 +8,8 @@
 #include "config.h"
 
 #ifdef CONFIG_APPLET_MEM_STATUS
+#ifdef CONFIG_TASKBAR
+
 #include "ylib.h"
 #include "wmapp.h"
 
@@ -256,6 +258,7 @@ void MEMStatus::getStatus() {
     cur[MEM_USER] = user;
 #endif // USE_PROC_MEMINFO
 }
+#endif
 #endif
 #endif
 

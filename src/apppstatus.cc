@@ -27,6 +27,8 @@
 #include "ycollections.h"
 
 #ifdef HAVE_NET_STATUS
+#ifdef CONFIG_TASKBAR
+
 #include "prefs.h"
 #include "intl.h"
 #include <sys/ioctl.h>
@@ -779,5 +781,5 @@ bool NetStatusControl::handleTimer(YTimer *t)
 }
 
 #endif // HAVE_NET_STATUS
-
+#endif // CONFIG_TASKBAR
 // vim: set sw=4 ts=4 et:

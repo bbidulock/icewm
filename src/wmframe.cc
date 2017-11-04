@@ -169,11 +169,13 @@ YFrameWindow::~YFrameWindow() {
     }
 #endif
 #ifdef CONFIG_TRAY
+#ifdef CONFIG_TASKBAR
     if (fTrayApp) {
         if (taskBar)
             taskBar->removeTrayApp(this);
         fTrayApp = 0;
     }
+#endif
 #endif
 #ifdef CONFIG_WINLIST
     if (fWinListItem) {
@@ -1980,8 +1982,10 @@ void YFrameWindow::wmOccupyAllOrCurrent() {
         taskBar->relayoutTasks();
 #endif
 #ifdef CONFIG_TRAY
+#ifdef CONFIG_TASKBAR
     if (taskBar)
         taskBar->relayoutTray();
+#endif
 #endif
 }
 
@@ -1995,8 +1999,10 @@ void YFrameWindow::wmOccupyAll() {
         taskBar->relayoutTasks();
 #endif
 #ifdef CONFIG_TRAY
+#ifdef CONFIG_TASKBAR
     if (taskBar)
         taskBar->relayoutTray();
+#endif
 #endif
 }
 
