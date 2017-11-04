@@ -344,7 +344,7 @@ void TaskBar::initApplets() {
     if (taskBarShowCPUStatus)
         CPUStatus::GetCPUStatus(smActionListener, this, fCPUStatus, cpuCombine);
 #endif
-#ifdef CONFIG_APPLET_NET_STATUS
+#if defined(CONFIG_APPLET_NET_STATUS) && defined(HAVE_NET_STATUS)
     fNetStatus.init(new NetStatusControl(app, smActionListener, this, this));
 #endif
 #ifdef CONFIG_APPLET_CLOCK
@@ -565,7 +565,7 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
     nw = LayoutInfo( fMEMStatus, false, 1, true, 2, 2, false );
     wlist.append(nw);
 #endif
-#ifdef CONFIG_APPLET_NET_STATUS
+#if defined(CONFIG_APPLET_NET_STATUS) && defined(HAVE_NET_STATUS)
     YVec<NetStatus*>::iterator it = fNetStatus->getIterator();
     while(it.hasNext()) {
         nw = LayoutInfo( it.next(), false, 1, false, 2, 2, false );

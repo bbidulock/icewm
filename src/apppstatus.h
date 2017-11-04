@@ -9,12 +9,11 @@
 #define NETSTATUS_H
 
 #ifdef CONFIG_APPLET_NET_STATUS
-#if defined(__linux__) || defined(__FreeBSD__) || defined(__NetBSD__) || \
-    defined(__OpenBSD__) || defined(__FreeBSD_kernel__)
 
 #include "ycollections.h"
+#include "base.h"
 
-#define HAVE_NET_STATUS 1
+#if HAVE_NET_STATUS
 
 class IAppletContainer;
 class NetStatusControl;

@@ -280,6 +280,15 @@ inline int intersection(int s1, int e1, int s2, int e2) {
     return max(0, 1 + min(e1, e2) - max(s1, s2));
 }
 
+// XXX: find a better location for shared preprocessor hackery
+#ifndef HAVE_NET_STATUS
+#if defined(__linux__) || defined(__FreeBSD__) || defined(__NetBSD__) || \
+    defined(__OpenBSD__) || defined(__FreeBSD_kernel__)
+#define HAVE_NET_STATUS 1
+#endif
+#endif
+
+
 #endif
 
 // vim: set sw=4 ts=4 et:

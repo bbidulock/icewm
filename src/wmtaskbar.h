@@ -15,9 +15,14 @@ class MEMStatus;
 #ifdef CONFIG_APPLET_CPU_STATUS
 class CPUStatus;
 #endif
+
 #ifdef CONFIG_APPLET_NET_STATUS
+#include "base.h"
+#ifdef HAVE_NET_STATUS
 class NetStatusControl;
 #endif
+#endif
+
 class AddressBar;
 class MailBoxStatus;
 class YClock;
@@ -162,7 +167,7 @@ private:
 #ifdef CONFIG_APPLET_APM
     YApm *fApm;
 #endif
-#ifdef CONFIG_APPLET_NET_STATUS
+#if defined(CONFIG_APPLET_NET_STATUS) && HAVE_NET_STATUS
     ref<NetStatusControl> fNetStatus;
 #endif
 
