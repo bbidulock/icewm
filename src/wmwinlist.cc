@@ -64,10 +64,11 @@ ustring WindowListItem::getText() {
 }
 
 ref<YIcon> WindowListItem::getIcon() {
+#ifndef LITE
     if (fFrame)
         return getFrame()->getIcon();
-    else
-        return null;
+#endif
+    return null;
 }
 
 

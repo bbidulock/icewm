@@ -121,8 +121,11 @@ public:
 
     virtual ref<YIcon> getIcon(int itemIdx) OVERRIDE
     {
+#ifndef LITE
         YFrameWindow* winItem=zList[itemIdx];
-        return winItem->getIcon();
+        if(winItem) return winItem->getIcon();
+#endif
+        return null;
     }
 
 

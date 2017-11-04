@@ -153,12 +153,13 @@ void TrayApp::paint(Graphics &g, const YRect &/*r*/) {
             }
         }
     }
-
+#ifndef LITE
     ref<YIcon> icon(getFrame()->getIcon());
 
     if (icon != null) {
         icon->draw(g, 2, 2, YIcon::smallSize());
     }
+#endif
 }
 
 void TrayApp::handleButton(const XButtonEvent &button) {
