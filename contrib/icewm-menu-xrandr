@@ -24,6 +24,7 @@ my $useSysfs=1;
 
 my $xrandr = "xrandr";
 
+# start of the EDID descriptor which contains the display name
 my $header = chr(0).chr(0xfc).chr(0);
 my $end = chr(0x0a);
 
@@ -48,20 +49,18 @@ if($useSysfs)
                                 #$hdump = unpack("H*", $data);
                                 #$realname{$connector} = pack("H*", $1) if($hdump =~ /00fc00(.*?)0a/)
                                 #
-                                # Alternatively: just dig through the binary data;
-                                # should be bytes 72–89 by the EDID spec but better
-                                # look around and trim the first word...
-                                my $pos = index $data, $header, 70;
+                                # digging through descriptors, https://en.wikipedia.org/wiki/Extended_Display_Identification_Data
+                                my $pos = index $data, $header, 54;
                                 if($pos>0)
                                 {
-                                        $data = substr $data, $pos+3, 18;
-                                        $data =~ s/^\s+//;
-                                        $data =~ s/\s.*//;
+                                        $data = substr $data, $pos+3, 15;
+                                        # sanitize first or further RE fail on binary cruft
+                                        $data =~ s/\W/ /g;
+                                        $data =~ s/ *$|^\W*//g;
                                         #print "# sysfs name: $data\n";
                                         $realname{$connector} = $data.'~'.$connector;
                                 }
                         }
-
                 }
         }
 }
