@@ -7,6 +7,7 @@
 class AboutDlg: public YDialog {
 public:
     AboutDlg();
+    ~AboutDlg();
 
     void autoSize();
     void showFocused();

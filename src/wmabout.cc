@@ -73,20 +73,26 @@ AboutDlg::AboutDlg(): YDialog() {
 #if defined(GNOME1_HINTS)
     setWinHintsHint(WinHintsSkipWindowMenu);
 #endif
-    {
-        MwmHints mwm;
+    setMwmHints( (MwmHints) {
+       .flags = MWM_HINTS_FUNCTIONS | MWM_HINTS_DECORATIONS,
+       .functions = MWM_FUNC_MOVE | MWM_FUNC_CLOSE,
+       .decorations = MWM_DECOR_BORDER | MWM_DECOR_TITLE | MWM_DECOR_MENU,
+    });
+}
 
-        memset(&mwm, 0, sizeof(mwm));
-        mwm.flags =
-            MWM_HINTS_FUNCTIONS |
-            MWM_HINTS_DECORATIONS;
-        mwm.functions =
-            MWM_FUNC_MOVE | MWM_FUNC_CLOSE;
-        mwm.decorations =
-            MWM_DECOR_BORDER | MWM_DECOR_TITLE | MWM_DECOR_MENU;
-
-        setMwmHints(mwm);
-    }
+AboutDlg::~AboutDlg() {
+    delete fProgTitle;
+    delete fCopyright;
+    delete fThemeName;
+    delete fThemeDescription;
+    delete fThemeAuthor;
+    delete fThemeNameS;
+    delete fThemeDescriptionS;
+    delete fThemeAuthorS;
+    delete fCodeSetS;
+    delete fCodeSet;
+    delete fLanguageS;
+    delete fLanguage;
 }
 
 #define RX(w) (int((w)->x() + (w)->width()))
