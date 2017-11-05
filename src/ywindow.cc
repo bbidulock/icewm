@@ -126,7 +126,6 @@ void YWindow::updateEnterNotifySerial(const XEvent &event) {
 YWindow::YWindow(YWindow *parent, Window win, int depth, Visual *visual):
     fDepth(depth), fVisual(visual), fAllocColormap(None),
     fParentWindow(parent),
-    fNextWindow(0), fPrevWindow(0), fFirstWindow(0), fLastWindow(0),
     fFocusedWindow(0),
 
     fHandle(win), flags(0), fStyle(0), fX(0), fY(0), fWidth(1), fHeight(1),
@@ -161,8 +160,8 @@ YWindow::~YWindow() {
         fAutoScroll->autoScroll(0, false, 0);
     fFocusedWindow = 0;
     removeWindow();
-    while (fNextWindow != 0)
-            fNextWindow->removeWindow();
+    while (nextWindow() != 0)
+           nextWindow()->removeWindow();
     while (accel) {
         YAccelerator *next = accel->next;
         delete accel;
@@ -412,32 +411,14 @@ void YWindow::destroy() {
 }
 void YWindow::removeWindow() {
     if (fParentWindow) {
-        if (fParentWindow->fFocusedWindow == this)
-            fParentWindow->fFocusedWindow = 0;
-        if (fPrevWindow)
-            fPrevWindow->fNextWindow = fNextWindow;
-        else
-            fParentWindow->fFirstWindow = fNextWindow;
-
-        if (fNextWindow)
-            fNextWindow->fPrevWindow = fPrevWindow;
-        else
-            fParentWindow->fLastWindow = fPrevWindow;
+        fParentWindow->remove(this);
         fParentWindow = 0;
     }
-    fPrevWindow = fNextWindow = 0;
 }
 
 void YWindow::insertWindow() {
     if (fParentWindow) {
-        fNextWindow = fParentWindow->fFirstWindow;
-        fPrevWindow = 0;
-
-        if (fNextWindow)
-            fNextWindow->fPrevWindow = this;
-        else
-            fParentWindow->fLastWindow = this;
-        fParentWindow->fFirstWindow = this;
+        fParentWindow->prepend(this);
     }
 }
 
@@ -1300,9 +1281,9 @@ bool YWindow::changeFocus(bool next) {
 
     if (cur == 0) {
         if (next)
-            cur = fLastWindow;
+            cur = lastWindow();
         else
-            cur = fFirstWindow;
+            cur = firstWindow();
     }
 
     YWindow *org = cur;
@@ -1310,38 +1291,38 @@ bool YWindow::changeFocus(bool next) {
         ///!!! need focus ordering
 
         if (next) {
-            if (cur->fLastWindow)
-                cur = cur->fLastWindow;
-            else if (cur->fPrevWindow)
-                cur = cur->fPrevWindow;
+            if (cur->lastWindow())
+                cur = cur->lastWindow();
+            else if (cur->prevWindow())
+                cur = cur->prevWindow();
             else if (cur->isToplevel())
             {}
             else {
-                while (cur->fParentWindow) {
-                    cur = cur->fParentWindow;
+                while (cur->parent()) {
+                    cur = cur->parent();
                     if (cur->isToplevel())
                         break;
-                    if (cur->fPrevWindow) {
-                        cur = cur->fPrevWindow;
+                    if (cur->prevWindow()) {
+                        cur = cur->prevWindow();
                         break;
                     }
                 }
             }
         } else {
             // is reverse tabbing of nested windows correct?
-            if (cur->fFirstWindow)
-                cur = cur->fFirstWindow;
-            else if (cur->fNextWindow)
-                cur = cur->fNextWindow;
+            if (cur->firstWindow())
+                cur = cur->firstWindow();
+            else if (cur->nextWindow())
+                cur = cur->nextWindow();
             else if (cur->isToplevel())
                 /**/;
             else {
-                while (cur->fParentWindow) {
-                    cur = cur->fParentWindow;
+                while (cur->parent()) {
+                    cur = cur->parent();
                     if (cur->isToplevel())
                         break;
-                    if (cur->fNextWindow) {
-                        cur = cur->fNextWindow;
+                    if (cur->nextWindow()) {
+                        cur = cur->nextWindow();
                         break;
                     }
                 }

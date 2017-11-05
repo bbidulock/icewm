@@ -219,4 +219,30 @@ inline YFrameIter YFrameList<Node>::reverseIterator() {
     return YFrameIter(List::back(), true);
 }
 
+class YWindow;
+
+class YWindowNode : public YListNode<YWindowNode> {
+public:
+    virtual ~YWindowNode() { }
+    virtual YWindow* window() = 0;
+    YWindow* nextWindow() const {
+        return nodeNext() ? nodeNext()->window() : 0;
+    }
+    YWindow* prevWindow() const {
+        return nodePrev() ? nodePrev()->window() : 0;
+    }
+};
+
+class YWindowList : public YList<YWindowNode> {
+    typedef YList<YWindowNode> List;
+
+public:
+    YWindow* firstWindow() const {
+        return List::front() ? List::front()->window() : 0;
+    }
+    YWindow* lastWindow() const {
+        return List::back() ? List::back()->window() : 0;
+    }
+};
+
 #endif

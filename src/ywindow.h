@@ -4,6 +4,7 @@
 #include "ypaint.h"
 #include "ycursor.h"
 #include "yarray.h"
+#include "ylist.h"
 
 class YPopupWindow;
 class YToolTip;
@@ -31,7 +32,7 @@ struct DesktopScreenInfo {
     int height;
 };
 
-class YWindow {
+class YWindow : private YWindowNode, private YWindowList {
 public:
     YWindow(YWindow *aParent = 0, Window win = 0, int depth = CopyFromParent, Visual *visual = CopyFromParent);
     virtual ~YWindow();
@@ -126,6 +127,7 @@ public:
 
     Window handle();
     YWindow *parent() const { return fParentWindow; }
+    YWindow *window() { return this; }
 
     ref<YPixmap> beginPaint(YRect &r);
     void endPaint(Graphics &g, ref<YPixmap> pixmap, YRect &r);
@@ -242,10 +244,6 @@ private:
     Colormap fAllocColormap;
 
     YWindow *fParentWindow;
-    YWindow *fNextWindow;
-    YWindow *fPrevWindow;
-    YWindow *fFirstWindow;
-    YWindow *fLastWindow;
     YWindow *fFocusedWindow;
 
     Window fHandle;
