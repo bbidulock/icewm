@@ -69,6 +69,7 @@ private:
     YWindowManager *fManager;
     YCursor & fCursor;
     int fDelta;
+    bool fVert;
 
     static YTimer *fEdgeSwitchTimer;
 };
@@ -206,6 +207,7 @@ public:
     bool readCurrentDesktop(long &workspace);
     void setDesktopGeometry();
     bool compareDesktopNames(char **strings, int count);
+    bool readDesktopLayout();
     bool readDesktopNames();
     bool readNetDesktopNames();
     bool readWinDesktopNames();
@@ -281,6 +283,16 @@ public:
     WMState wmState() const { return fWmState; }
     bool fullscreenEnabled() { return fFullscreenEnabled; }
     const UserTime& lastUserTime() const { return fLastUserTime; }
+
+    struct DesktopLayout {
+        int orient;
+        int columns;
+        int rows;
+        int corner;
+    };
+
+    const DesktopLayout& layout() const { return fLayout; }
+
 private:
     struct WindowPosState {
         int x, y, w, h;
@@ -325,6 +337,10 @@ private:
     WMState fWmState;
     UserTime fLastUserTime;
     bool fShowingDesktop;
+    bool fCreatedUpdated;
+    bool fLayeredUpdated;
+
+    DesktopLayout fLayout;
 };
 
 extern YWindowManager *manager;
@@ -377,6 +393,13 @@ extern Atom _XA_ICEWM_ACTION;
 #define _NET_WM_MOVERESIZE_MOVE              8 /* Movement only */
                                                  //*=testnetwmhints
 
+#define _NET_WM_ORIENTATION_HORZ    0
+#define _NET_WM_ORIENTATION_VERT    1
+#define _NET_WM_TOPLEFT     0
+#define _NET_WM_TOPRIGHT    1
+#define _NET_WM_BOTTOMRIGHT 2
+#define _NET_WM_BOTTOMLEFT  3
+
 
 extern Atom _XA_NET_ACTIVE_WINDOW;                  // OK
 extern Atom _XA_NET_CLIENT_LIST;                    // OK (perf: don't update on stacking changes)
@@ -384,7 +407,7 @@ extern Atom _XA_NET_CLIENT_LIST_STACKING;           // OK
 extern Atom _XA_NET_CLOSE_WINDOW;                   // OK
 extern Atom _XA_NET_CURRENT_DESKTOP;                // OK
 extern Atom _XA_NET_DESKTOP_GEOMETRY;               // OK
-extern Atom _XA_NET_DESKTOP_LAYOUT;                 // TODO
+extern Atom _XA_NET_DESKTOP_LAYOUT;                 // OK
 extern Atom _XA_NET_DESKTOP_NAMES;                  //*OK
 extern Atom _XA_NET_DESKTOP_VIEWPORT;               // OK (trivial)
 extern Atom _XA_NET_FRAME_EXTENTS;                  // OK

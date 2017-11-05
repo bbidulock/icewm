@@ -52,6 +52,12 @@ YWindowManager::YWindowManager(
     fActiveWindow = (Window) -1;
     fFocusWin = 0;
     lockFocusCount = 0;
+    fLayout = (DesktopLayout) {
+         _NET_WM_ORIENTATION_HORZ,
+         MAXWORKSPACES,
+         1,
+         _NET_WM_TOPLEFT,
+    };
 
     fColormapWindow = 0;
     fActiveWorkspace = WinWorkspaceInvalid;
@@ -66,6 +72,8 @@ YWindowManager::YWindowManager(
     fFullscreenEnabled = true;
     for (int w = 0; w < MAXWORKSPACES; w++)
         fFocusedWindow[w] = 0;
+    fCreatedUpdated = true;
+    fLayeredUpdated = true;
 
     frameContext = XUniqueContext();
     clientContext = XUniqueContext();
@@ -1009,6 +1017,7 @@ void YWindowManager::setTop(long layer, YFrameWindow *top) {
                 fLayers[layer].front()->container()->grabButtons();
         }
     fLayers[layer].prepend(top);
+    fLayeredUpdated = true;
     if (true || !clientMouseActions) // some programs are buggy
         if (fLayers[layer]) {
             if (raiseOnClickClient &&
@@ -1023,6 +1032,7 @@ YFrameWindow *YWindowManager::bottom(long layer) const {
 
 void YWindowManager::setBottom(long layer, YFrameWindow *bottom) {
     fLayers[layer].append(bottom);
+    fLayeredUpdated = true;
 }
 
 void YWindowManager::installColormap(Colormap cmap) {
@@ -1866,6 +1876,7 @@ void YWindowManager::setAbove(YFrameWindow* frame, YFrameWindow* above) {
 #endif
     if (above != frame->next() && above != frame) {
         fLayers[layer].remove(frame);
+        fLayeredUpdated = true;
         if (above) {
             fLayers[layer].insertBefore(frame, above);
         } else {
@@ -1894,6 +1905,7 @@ void YWindowManager::removeLayeredFrame(YFrameWindow *frame) {
     long layer = frame->getActiveLayer();
     PRECONDITION(inrange(layer, 0L, WinLayerCount - 1L));
     fLayers[layer].remove(frame);
+    fLayeredUpdated = true;
 }
 
 void YWindowManager::updateFullscreenLayerEnable(bool enable) {
@@ -2346,6 +2358,7 @@ void YWindowManager::initWorkspaces() {
     setDesktopViewport();
     setShowingDesktop();
     readCurrentDesktop(ws);
+    readDesktopLayout();
     activateWorkspace(ws);
 }
 
@@ -2610,6 +2623,44 @@ void YWindowManager::updateMoveMenu() {
             moveMenu->addItem(s, 0, null, workspaceActionMoveTo[w]);
         }
     }
+}
+
+bool YWindowManager::readDesktopLayout() {
+    bool success = false;
+
+#ifdef WMSPEC_HINTS
+    Atom type(0);
+    int format(0);
+    unsigned long count(0), remain(0);
+    long *prop(0);
+    if (XGetWindowProperty(xapp->display(), handle(),
+                           _XA_NET_DESKTOP_LAYOUT, 0L, 4L, False,
+                           XA_CARDINAL, &type, &format, &count, &remain,
+                           (unsigned char **) &prop) == Success && prop)
+    {
+        if (type == XA_CARDINAL && format == 32 && count >= 3) {
+            int orient = (int) prop[0];
+            int cols   = (int) prop[1];
+            int rows   = (int) prop[2];
+            int corner = (count == 3) ? _NET_WM_TOPLEFT : (int) prop[3];
+            if (inrange(orient, 0, 1) &&
+                inrange(cols, 0, 100) &&
+                inrange(rows, 0, 100) &&
+                (rows || cols) &&
+                inrange(corner, 0, 3))
+            {
+                fLayout = (DesktopLayout) { orient, cols, rows, corner, };
+                success = true;
+            }
+        }
+        XFree(prop);
+    }
+    MSG(("read: _NET_DESKTOP_LAYOUT(%d): %s (%d, %d) { %d, %d, %d, %d }",
+        (int) _XA_NET_DESKTOP_LAYOUT, boolstr(success), format, count,
+        fLayout.orient, fLayout.columns, fLayout.rows, fLayout.corner));
+#endif
+
+    return success;
 }
 
 bool YWindowManager::readDesktopNames() {
@@ -2953,6 +3004,9 @@ void YWindowManager::handleProperty(const XPropertyEvent &property) {
         MSG(("change: net desktop names"));
         readDesktopNames();
     }
+    if (property.atom == _XA_NET_DESKTOP_LAYOUT) {
+        readDesktopLayout();
+    }
 #endif
 #ifdef GNOME1_HINTS
     if (property.atom == _XA_WIN_WORKSPACE_NAMES) {
@@ -2963,55 +3017,60 @@ void YWindowManager::handleProperty(const XPropertyEvent &property) {
 }
 
 void YWindowManager::updateClientList() {
+    YArray<XID> ids;
+    if (fLayeredUpdated || fCreatedUpdated) {
+        ids.setCapacity(fCreationOrder.count());
+    }
+
 #if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)
-    int count = 0;
-    XID *ids = 0;
+    if (fLayeredUpdated) {
+        fLayeredUpdated = false;
 
-    for (YFrameWindow *frame = topLayer(); frame; frame = frame->nextLayer()) {
-        if (frame->client() && frame->client()->adopted())
-            count++;
-    }
-
-    if ((ids = new XID[count]) != 0) {
-        int w = 0;
-        for (YFrameWindow *frame2 = topLayer(); frame2; frame2 = frame2->nextLayer()) {
-            if (frame2->client() && frame2->client()->adopted())
-                ids[count - 1 - w++] = frame2->client()->handle();
+        for (int i = 0; i < WinLayerCount; ++i) {
+            if (fLayers[i]) {
+                YFrameIter frame = fLayers[i].reverseIterator();
+                while (++frame) {
+                    if (frame->client() && frame->client()->adopted()) {
+                        ids.append(frame->client()->handle());
+                    }
+                }
+            }
         }
-        PRECONDITION(w == count);
-    }
+
 #ifdef GNOME1_HINTS
-    XChangeProperty(xapp->display(), desktop->handle(),
-                    _XA_WIN_CLIENT_LIST,
-                    XA_CARDINAL,
-                    32, PropModeReplace,
-                    (unsigned char *)ids, count);
+        XChangeProperty(xapp->display(), desktop->handle(),
+                        _XA_WIN_CLIENT_LIST,
+                        XA_CARDINAL,
+                        32, PropModeReplace,
+                        ids.getCount() ? (unsigned char *) &*ids : 0,
+                        ids.getCount());
 #endif
 #ifdef WMSPEC_HINTS
-    XChangeProperty(xapp->display(), desktop->handle(),
-                    _XA_NET_CLIENT_LIST_STACKING,
-                    XA_WINDOW,
-                    32, PropModeReplace,
-                    (unsigned char *)ids, count);
-
-    if (ids) {
-        int w = 0;
-        YFrameIter frame2 = fCreationOrder.iterator();
-        while (++frame2) {
-            if (frame2->client() && frame2->client()->adopted())
-                if (++w <= count)
-                    ids[w - 1] = frame2->client()->handle();
-        }
-        PRECONDITION(w == count);
+        XChangeProperty(xapp->display(), desktop->handle(),
+                        _XA_NET_CLIENT_LIST_STACKING,
+                        XA_WINDOW,
+                        32, PropModeReplace,
+                        ids.getCount() ? (unsigned char *) &*ids : 0,
+                        ids.getCount());
     }
 
-    XChangeProperty(xapp->display(), desktop->handle(),
-                    _XA_NET_CLIENT_LIST,
-                    XA_WINDOW,
-                    32, PropModeReplace,
-                    (unsigned char *)ids, count);
+    if (fCreatedUpdated) {
+        fCreatedUpdated = false;
+
+        ids.shrink(0);
+        for (YFrameIter frame = fCreationOrder.iterator(); ++frame; ) {
+            if (frame->client() && frame->client()->adopted())
+                ids.append(frame->client()->handle());
+        }
+
+        XChangeProperty(xapp->display(), desktop->handle(),
+                        _XA_NET_CLIENT_LIST,
+                        XA_WINDOW,
+                        32, PropModeReplace,
+                        ids.getCount() ? (unsigned char *) &*ids : 0,
+                        ids.getCount());
 #endif
-    delete [] ids;
+    }
 #endif
     checkLogout();
 }
@@ -3358,13 +3417,15 @@ void YWindowManager::exitAfterLastClient(bool shuttingDown) {
 YTimer *EdgeSwitch::fEdgeSwitchTimer(NULL);
 
 EdgeSwitch::EdgeSwitch(YWindowManager *manager, int delta, bool vertical):
-YWindow(manager),
-fManager(manager),
-fCursor(delta < 0 ? vertical ? YWMApp::scrollUpPointer
-                             : YWMApp::scrollLeftPointer
-                  : vertical ? YWMApp::scrollDownPointer
-                             : YWMApp::scrollRightPointer),
-fDelta(delta) {
+    YWindow(manager),
+    fManager(manager),
+    fCursor(delta < 0 ? vertical ? YWMApp::scrollUpPointer
+                                 : YWMApp::scrollLeftPointer
+                      : vertical ? YWMApp::scrollDownPointer
+                                 : YWMApp::scrollRightPointer),
+    fDelta(delta),
+    fVert(vertical)
+{
     setStyle(wsOverrideRedirect | wsInputOnly);
     setPointer(YXApplication::leftPointer);
 }
@@ -3400,26 +3461,68 @@ bool EdgeSwitch::handleTimer(YTimer *t) {
     if (t != fEdgeSwitchTimer)
         return false;
 
-    int w = desktop->width() - 5;
+    int worksps = (int) fManager->workspaceCount();
+    int orient  = fManager->layout().orient;
+    int columns = min(fManager->layout().columns, worksps);
+    int rows    = min(fManager->layout().rows, worksps);
+    int corner  = fManager->layout().corner;
 
-    if (fDelta == -1) {
-        fManager->switchToPrevWorkspace(false);
-        if (warpPointerOnEdgeSwitch) {
-            XWarpPointer(xapp->display(), None, None, 0, 0, 0, 0, w, 0);
-        }
+    if (rows == 0)
+        rows = (worksps + (worksps - 1)) / columns;
+    if (columns == 0)
+        columns = (worksps + (worksps - 1)) / rows;
+    if (orient == _NET_WM_ORIENTATION_VERT) {
+        columns = (worksps + (rows - 1)) / rows;
     } else {
-        fManager->switchToNextWorkspace(false);
-        if (warpPointerOnEdgeSwitch) {
-            XWarpPointer(xapp->display(), None, None, 0, 0, 0, 0, -w, 0);
+        rows = (worksps + (columns - 1)) / columns;
+    }
+
+    int dx = fVert ? 0 : fDelta;
+    int dy = fVert ? fDelta : 0;
+    if (corner == _NET_WM_TOPRIGHT || corner == _NET_WM_BOTTOMRIGHT)
+        dx = -dx;
+    if (corner == _NET_WM_BOTTOMLEFT || corner == _NET_WM_BOTTOMRIGHT)
+        dy = -dy;
+    if (orient == _NET_WM_ORIENTATION_VERT) {
+        swap(rows, columns);
+        swap(dx, dy);
+    }
+
+    int col = fManager->activeWorkspace() % columns;
+    int row = fManager->activeWorkspace() / columns;
+
+    if (dx == 0 && rows == 1) {
+        swap(dx, dy);
+    }
+
+    int wsp, end(100);
+    do {
+        if (0 == --end) {
+            tlog("inflp");
+            goto end;
         }
+
+        col = (col + dx + columns) % columns;
+        row = (row + dy + rows) % rows;
+        wsp = col + row * columns;
+    } while (wsp >= worksps);
+
+    fManager->switchToWorkspace(wsp, false);
+
+    if (warpPointerOnEdgeSwitch) {
+        int dest_x = -fDelta * !fVert * (desktop->width() - 5);
+        int dest_y = -fDelta * fVert * (desktop->height() - 5);
+        XWarpPointer(xapp->display(), None, None, 0, 0, 0, 0,
+                     dest_x, dest_y);
     }
 
     if (edgeContWorkspaceSwitching) {
         return true;
-    } else {
-        setPointer(YXApplication::leftPointer);
-        return false;
     }
+
+end:
+    setPointer(YXApplication::leftPointer);
+    return false;
 }
 
 int YWindowManager::getScreen() {
@@ -3509,10 +3612,12 @@ void YWindowManager::UpdateScreenSize(XEvent *event) {
 
 void YWindowManager::appendCreatedFrame(YFrameWindow *f) {
     fCreationOrder.append(f);
+    fCreatedUpdated = true;
 }
 
 void YWindowManager::removeCreatedFrame(YFrameWindow *f) {
     fCreationOrder.remove(f);
+    fCreatedUpdated = true;
 }
 
 void YWindowManager::insertFocusFrame(YFrameWindow* frame, bool focused) {

@@ -4,11 +4,9 @@
 
 * [DONE] set WM_NAME and WM_CLASS on check window
 
-* add support for _NET_WM_DESKTOP_LAYOUT (trivial)
+* [DONE] add support for _NET_DESKTOP_LAYOUT
 
-* add support for _NET_WM_HANDLED_ICONS
-
-* add support for WM_ICON_SIZE
+* [DONE] add support for WM_ICON_SIZE
 
 * add support for WM_COLORMAP_WINDOWS and WM_COLORMAP_NOTIFY
 
