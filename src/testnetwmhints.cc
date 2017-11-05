@@ -4,6 +4,9 @@
 #include <assert.h>
 #include <ctype.h>
 #include <time.h>
+#include <limits.h>
+#include <stdarg.h>
+#include <unistd.h>
 #include <sys/types.h>
 #include <sys/time.h>
 #include <X11/Xproto.h>
@@ -21,15 +24,31 @@
 #define _NET_WM_STATE_ADD 1
 #define _NET_WM_STATE_TOGGLE 2
 
+#define _NET_WM_ORIENTATION_HORZ    0
+#define _NET_WM_ORIENTATION_VERT    1
+#define _NET_WM_TOPLEFT     0
+#define _NET_WM_TOPRIGHT    1
+#define _NET_WM_BOTTOMRIGHT 2
+#define _NET_WM_BOTTOMLEFT  3
+
 #define KEY_MODMASK(x) ((x) & (ControlMask | ShiftMask | Mod1Mask))
 #define BUTTON_MASK(x) ((x) & (Button1Mask | Button2Mask | Button3Mask))
 #define BUTTON_MODMASK(x) ((x) & (ControlMask | ShiftMask | Mod1Mask | Button1Mask | Button2Mask | Button3Mask))
 
 #define COUNT(a)    (int(sizeof a / sizeof(*a)))
+#define CTRL(k)     ((k) & 0x1F)
+#define TEST(p)     if (p); else fail( #p, __func__, __LINE__ )
+
+static struct Layout {
+    long orient;
+    long columns;
+    long rows;
+    long corner;
+} layout = { 0L, 4L, 3L, _NET_WM_TOPLEFT, };
 
 typedef unsigned long Pixel;
 
-void tell(const char* msg, ...) {
+static void tell(const char* msg, ...) {
     FILE* output = stdout;
     timeval now;
     gettimeofday(&now, NULL);
@@ -46,6 +65,10 @@ void tell(const char* msg, ...) {
     fflush(output);
 }
 
+static void fail(const char* expr, const char* func, const int line) {
+    tell("%s: %3d: ( %s ) FAILED!\n", func, line, expr);
+}
+
 class TDisplay {
     Display *dpy;
 public:
@@ -53,7 +76,7 @@ public:
     Display* display() { return dpy ? dpy : dpy = XOpenDisplay(0); }
     ~TDisplay() { if (dpy) { XCloseDisplay(dpy); dpy = 0; } }
     operator Display*() { return display(); }
-    operator _XPrivDisplay() { return _XPrivDisplay(display()); }
+    // operator _XPrivDisplay() { return _XPrivDisplay(display()); }
 };
 
 static TDisplay display;
@@ -113,6 +136,9 @@ static TAtom _XA_NET_WM_STATE_SKIP_PAGER("_NET_WM_STATE_SKIP_PAGER");
 static TAtom _XA_NET_WM_STATE_SKIP_TASKBAR("_NET_WM_STATE_SKIP_TASKBAR");
 static TAtom _XA_NET_WM_STATE_STICKY("_NET_WM_STATE_STICKY");
 static TAtom _XA_NET_WM_MOVERESIZE("_NET_WM_MOVERESIZE");
+static TAtom _XA_NET_WM_PID("_NET_WM_PID");
+static TAtom _XA_NET_WM_PING("_NET_WM_PING");
+static TAtom _XA_NET_DESKTOP_LAYOUT("_NET_DESKTOP_LAYOUT");
 static TAtom _XA_NET_REQUEST_FRAME_EXTENTS("_NET_REQUEST_FRAME_EXTENTS");
 static TAtom _XA_NET_FRAME_EXTENTS("_NET_FRAME_EXTENTS");
 static TAtom _XA_WM_DELETE_WINDOW("WM_DELETE_WINDOW");
@@ -137,6 +163,7 @@ static TAtom _XA_NET_WM_WINDOW_TYPE_UTILITY("_NET_WM_WINDOW_TYPE_UTILITY");
 static const char* atomName(Atom atom) {
     static const size_t count = 1024;
     static char* atoms[count];
+    if (atom <= 0) return "invalid_atom_zero";
     if (atom < count && atoms[atom] != 0)
         return atoms[atom];
     char* name = XGetAtomName(display, atom);
@@ -198,6 +225,15 @@ void setLayer(Window w, long layer) {
     XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
 }
 
+void setLayout(Window w) {
+    tell("setLayout %ld, %ld, %ld, %ld\n",
+            layout.orient, layout.columns, layout.rows, layout.corner);
+    XChangeProperty(display, w,
+                    _XA_NET_DESKTOP_LAYOUT, XA_CARDINAL,
+                    32, PropModeReplace,
+                    (unsigned char *) &layout, 4);
+}
+
 #if 0
 void setTrayHint(Window w, long tray_opt) {
     XClientMessageEvent xev = {};
@@ -223,12 +259,35 @@ void requestExtents(Window w) {
     XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
 }
 
+static int xfail(Display* display, XErrorEvent* xev) {
+
+    char message[80], req[80], number[80];
+
+    snprintf(number, sizeof number, "%d", xev->request_code);
+    XGetErrorDatabaseText(display, "XRequest", number, "",
+                          req, sizeof(req));
+    if (!req[0])
+        snprintf(req, sizeof req, "[request_code=%d]", xev->request_code);
+
+    if (XGetErrorText(display,
+                      xev->error_code,
+                      message, sizeof(message)) !=
+                      Success)
+        *message = '\0';
+
+    tell("X error %s(0x%lX): %s\n", req, xev->resourceid, message);
+    return 0;
+}
+
 int main(int argc, char **argv) {
 
-    int screen = DefaultScreen(display);
-    root = RootWindow(display, screen);
-    colormap = DefaultColormap(display, screen);
-    Pixel black = BlackPixel(display, screen);
+    XSetErrorHandler(xfail);
+    XSynchronize(display, True);
+
+    int screen = XDefaultScreen(display);
+    root = XRootWindow(display, screen);
+    colormap = XDefaultColormap(display, screen);
+    Pixel black = XBlackPixel(display, screen);
 
     window = XCreateWindow(display, root,
                            0,
@@ -240,12 +299,31 @@ int main(int argc, char **argv) {
 
     XSetWindowBackground(display, window, black);
 
-    Atom protocols[] = { _XA_WM_DELETE_WINDOW, _XA_WM_TAKE_FOCUS, };
+    Atom protocols[] = {
+        _XA_WM_DELETE_WINDOW, _XA_WM_TAKE_FOCUS,
+        _XA_NET_WM_PING,
+    };
     XSetWMProtocols(display, window, protocols, COUNT(protocols) );
 
     XClassHint classHint = { (char *)"name:1", (char *)"class 1" };
     XSetClassHint(display, window, &classHint);
     XStoreName(display, window, basename(*argv));
+
+    char hostname[HOST_NAME_MAX + 1] = {};
+    gethostname(hostname, HOST_NAME_MAX);
+    XTextProperty hname = {
+        .value = (unsigned char *) hostname,
+        .encoding = XA_STRING,
+        .format = 8,
+        .nitems = strnlen(hostname, HOST_NAME_MAX),
+    };
+    XSetWMClientMachine(display, window, &hname);
+
+    XID pid = getpid();
+    XChangeProperty(display, window,
+                    _XA_NET_WM_PID, XA_CARDINAL,
+                    32, PropModeReplace,
+                    (unsigned char *)&pid, 1);
 
     long imask = ExposureMask | StructureNotifyMask |
                  ButtonPressMask | ButtonReleaseMask |
@@ -333,17 +411,27 @@ int main(int argc, char **argv) {
 
     case ClientMessage: {
         if (client.message_type == _XA_WM_PROTOCOLS &&
-            client.format == 32 &&
             client.data.l[0] == _XA_WM_DELETE_WINDOW)
         {
+            TEST(client.format == 32);
             return 0;
         }
         else
         if (client.message_type == _XA_WM_PROTOCOLS &&
-            client.format == 32 &&
             client.data.l[0] == _XA_WM_TAKE_FOCUS)
         {
+            TEST(client.format == 32);
             tell("WM_TAKE_FOCUS\n");
+        }
+        else
+        if (client.message_type == _XA_WM_PROTOCOLS &&
+            client.data.l[0] == _XA_NET_WM_PING)
+        {
+            TEST(client.format == 32);
+            long* l = client.data.l;
+            tell("_NET_WM_PING %ld, 0x%lX, 0x%lX, 0x%lX\n",
+                    l[1], l[2], l[3], l[4]);
+            XSendEvent(display, root, False, SubstructureNotifyMask, &xev);
         }
         else {
             tell("client message %lu, %d, %lu, %ld\n",
@@ -358,7 +446,7 @@ int main(int argc, char **argv) {
                                         (key.state & ShiftMask) != 0);
         unsigned m = KEY_MODMASK(key.state);
         if (m == ControlMask && k < '~' && isalpha(k))
-            k &= 0x1F;
+            k = CTRL(k);
 
         if (k == 'q' || k == XK_Escape)
             return 0;
@@ -412,7 +500,7 @@ int main(int argc, char **argv) {
             tell("%d %d\n", key.x_root, key.y_root);
             moveResize(window, key.x_root, key.y_root, 4); // _|
         }
-        else if (k == 'x' || k == 'X' || k == ('X' & 0x1f)) {
+        else if (k == 'x' || k == 'X' || k == CTRL('X')) {
             Window w = m == ShiftMask ? window :
                 m == ControlMask ? root : unmapped;
             const char *s = m == ShiftMask ? "window" :
@@ -420,12 +508,51 @@ int main(int argc, char **argv) {
             tell("x = '%c' for %s\n", k, s);
             requestExtents(w);
         }
-        else if (k > 0 && k < 256) {
-            tell("'%c' %u\n", k, k);
+        else if (k == CTRL('V')) {
+            layout.orient = _NET_WM_ORIENTATION_VERT;
+            setLayout(root);
+        }
+        else if (k == CTRL('H')) {
+            layout.orient = _NET_WM_ORIENTATION_HORZ;
+            setLayout(root);
+        }
+        else if (k == CTRL('L')) {
+            layout.corner = _NET_WM_TOPLEFT;
+            setLayout(root);
+        }
+        else if (k == CTRL('T')) {
+            layout.corner = _NET_WM_TOPRIGHT;
+            setLayout(root);
+        }
+        else if (k == CTRL('B')) {
+            layout.corner = _NET_WM_BOTTOMLEFT;
+            setLayout(root);
+        }
+        else if (k == CTRL('R')) {
+            layout.corner = _NET_WM_BOTTOMRIGHT;
+            setLayout(root);
+        }
+        else if (k == CTRL('C')) {
+            char buf[100];
+            printf("Desktop Layout Columns (%ld): ", layout.columns);
+            fflush(stdout);
+            if (fgets(buf, sizeof buf, stdin))
+                sscanf(buf, " %ld", &layout.columns);
+            printf("Desktop Layout Rows (%ld): ", layout.rows);
+            fflush(stdout);
+            if (fgets(buf, sizeof buf, stdin))
+                sscanf(buf, " %ld", &layout.rows);
+            setLayout(root);
+        }
+        else {
+            tell("Unrecognized key %d\n", k);
         }
     } break;
 
     case PropertyNotify: {
+        if (property.state == PropertyDelete)
+            break;
+
         Atom r_type;
         int r_format;
         unsigned long count;
@@ -438,12 +565,12 @@ int main(int argc, char **argv) {
                                    _XA_WIN_WORKSPACE,
                                    0, 1, False, XA_CARDINAL,
                                    &r_type, &r_format,
-                                   &count, &bytes_remain, &prop) == Success && prop)
+                                   &count, &bytes_remain,
+                                   &prop) == Success && prop)
             {
-                if (r_type == XA_CARDINAL && r_format == 32 && count == 1) {
-                    activeWorkspace = ((long *)prop)[0];
-                    tell("active=%ld of %ld\n", activeWorkspace, workspaceCount);
-                }
+                TEST(r_type == XA_CARDINAL && r_format == 32 && count == 1);
+                activeWorkspace = ((long *)prop)[0];
+                tell("active=%ld of %ld\n", activeWorkspace, workspaceCount);
                 XFree(prop);
             }
         }
@@ -456,16 +583,16 @@ int main(int argc, char **argv) {
                                    _XA_WIN_WORKAREA,
                                    0, 4, False, XA_CARDINAL,
                                    &r_type, &r_format,
-                                   &count, &bytes_remain, &prop) == Success && prop)
+                                   &count, &bytes_remain,
+                                   &prop) == Success && prop)
             {
-                if (r_type == XA_CARDINAL && r_format == 32 && count == 4) {
-                    long *area = (long *)prop;
-                    tell("workarea: min=%d,%d max=%d,%d\n",
-                           area[0],
-                           area[1],
-                           area[2],
-                           area[3]);
-                }
+                TEST(r_type == XA_CARDINAL && r_format == 32 && count == 4);
+                long *area = (long *)prop;
+                tell("workarea: min=%d,%d max=%d,%d\n",
+                       area[0],
+                       area[1],
+                       area[2],
+                       area[3]);
                 XFree(prop);
             }
         }
@@ -476,12 +603,12 @@ int main(int argc, char **argv) {
                                    _XA_WIN_WORKSPACE,
                                    0, 1, False, XA_CARDINAL,
                                    &r_type, &r_format,
-                                   &count, &bytes_remain, &prop) == Success && prop)
+                                   &count, &bytes_remain,
+                                   &prop) == Success && prop)
             {
-                if (r_type == XA_CARDINAL && r_format == 32 && count == 1) {
-                    windowWorkspace = ((long *)prop)[0];
-                    tell("window=%ld of %ld\n", windowWorkspace, workspaceCount);
-                }
+                TEST(r_type == XA_CARDINAL && r_format == 32 && count == 1);
+                windowWorkspace = ((long *)prop)[0];
+                tell("workspace %ld of %ld\n", windowWorkspace, workspaceCount);
                 XFree(prop);
             }
         }
@@ -491,13 +618,32 @@ int main(int argc, char **argv) {
                                    _XA_WIN_STATE,
                                    0, 2, False, XA_CARDINAL,
                                    &r_type, &r_format,
-                                   &count, &bytes_remain, &prop) == Success && prop)
+                                   &count, &bytes_remain,
+                                   &prop) == Success && prop)
             {
-                if (r_type == XA_CARDINAL && r_format == 32 && count == 2) {
-                    state[0] = ((long *)prop)[0];
-                    state[1] = ((long *)prop)[1];
-                    tell("state=%lX %lX\n", state[0], state[1]);
+                TEST(r_type == XA_CARDINAL && r_format == 32 && count == 2);
+                state[0] = ((long *)prop)[0];
+                state[1] = ((long *)prop)[1];
+                tell("win state %lX %lX\n", state[0], state[1]);
+                XFree(prop);
+            }
+        }
+        else if (property.atom == _XA_NET_WM_STATE) {
+            if (XGetWindowProperty(display, window,
+                                   _XA_NET_WM_STATE,
+                                   0, 20, False, XA_ATOM,
+                                   &r_type, &r_format,
+                                   &count, &bytes_remain,
+                                   &prop) == Success && prop)
+            {
+                TEST(r_type == XA_ATOM && r_format == 32 && count >= 0);
+                tell("net wm state\n");
+                for (unsigned long i = 0; i < count; ++i) {
+                    printf("%s%s", i ? ", " : "\t\t",
+                            atomName(((long *)prop)[i]));
                 }
+                if (count)
+                    printf("\n");
                 XFree(prop);
             }
         }
@@ -506,12 +652,12 @@ int main(int argc, char **argv) {
                                    _XA_WIN_LAYER,
                                    0, 1, False, XA_CARDINAL,
                                    &r_type, &r_format,
-                                   &count, &bytes_remain, &prop) == Success && prop)
+                                   &count, &bytes_remain,
+                                   &prop) == Success && prop)
             {
-                if (r_type == XA_CARDINAL && r_format == 32 && count == 1) {
-                    long layer = ((long *)prop)[0];
-                    tell("layer=%ld\n", layer);
-                }
+                TEST(r_type == XA_CARDINAL && r_format == 32 && count == 1);
+                long layer = ((long *)prop)[0];
+                tell("win layer %ld\n", layer);
                 XFree(prop);
             }
         }
@@ -520,12 +666,12 @@ int main(int argc, char **argv) {
                                    _XA_WIN_TRAY,
                                    0, 1, False, XA_CARDINAL,
                                    &r_type, &r_format,
-                                   &count, &bytes_remain, &prop) == Success && prop)
+                                   &count, &bytes_remain,
+                                   &prop) == Success && prop)
             {
-                if (r_type == XA_CARDINAL && r_format == 32 && count == 1) {
-                    long tray = ((long *)prop)[0];
-                    tell("tray option=%d\n", tray);
-                }
+                TEST(r_type == XA_CARDINAL && r_format == 32 && count == 1);
+                long tray = ((long *)prop)[0];
+                tell("tray option=%d\n", tray);
             }
         }*/
         else {
@@ -542,16 +688,18 @@ int main(int argc, char **argv) {
             if (XGetWindowProperty(display, w, atom,
                                    0, 1000000, False, AnyPropertyType,
                                    &type, &format, &nitems,
-                                   &after, &prop) == Success) {
+                                   &after, &prop) == Success && prop) {
                 tell("%-8s %-26s %2d %s\n", s, atomName(atom), format,
                         atomName(type));
                 if (atom == _XA_NET_FRAME_EXTENTS) {
+                    TEST(type == XA_CARDINAL && format == 32 && nitems == 4);
                     long* data = (long *) prop;
                     int n = int(nitems);
-                    tell("\t");
                     for (int i = 0; i < n; ++i) {
-                        printf(" %ld%s", data[i], n-i > 1 ? "," : "\n");
+                        printf("%s%ld", i ? ", " : "\t\t", data[i]);
                     }
+                    if (n)
+                        printf("\n");
                 }
                 XFree(prop);
             }
