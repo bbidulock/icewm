@@ -42,6 +42,7 @@ public:
     void insert(const SizeType index, const void *item);
     virtual void remove(const SizeType index);
     virtual void clear();
+    virtual void shrink(const SizeType reducedCount);
 
     SizeType getCapacity() const { return fCapacity; }
     SizeType getCount() const { return fCount; }
@@ -63,6 +64,8 @@ protected:
     const void *getEnd() const { return getElement(getCount()); }
 
     void release();
+    void swap(YBaseArray& other);
+
 public:
     SizeType getIndex(void const * ptr) const {
         PRECONDITION(ptr >= getBegin() && ptr < getEnd());
@@ -142,6 +145,9 @@ public:
     void swap(const SizeType index1, const SizeType index2) {
         ::swap(getItem(index1), getItem(index2));
     }
+    void swap(YArray<DataType>& other) {
+        YBaseArray::swap(other);
+    }
     IterType iterator();
     IterType reverseIterator();
 };
@@ -184,6 +190,12 @@ public:
             delete getItem(--n);
         BaseType::clear();
     }
+
+    virtual void shrink(int reducedCount) {
+        for (SizeType n = getCount(); n > reducedCount; )
+            delete getItem(--n);
+        BaseType::clear();
+    }
 };
 
 template <class DataType>
@@ -219,6 +231,12 @@ public:
         for (SizeType i = 0; i < getCount(); ++i)
             getItemPtr(i)->__unref();
         YBaseArray::clear();
+    }
+
+    virtual void shrink(int reducedCount) {
+        for (SizeType n = getCount(); n > reducedCount; )
+            getItemPtr(--n)->__unref();
+        YBaseArray::shrink(reducedCount);
     }
 
 private:
@@ -265,6 +283,7 @@ public:
 
     virtual void remove(const SizeType index);
     virtual void clear();
+    virtual void shrink(int reducedSize);
 
     virtual SizeType find(const char *str);
 
@@ -345,6 +364,12 @@ public:
         for (SizeType i = 0; i < getCount(); ++i)
             getItemPtr(i)->release();
         YBaseArray::clear();
+    }
+
+    virtual void shrink(int reducedCount) {
+        for (SizeType n = getCount(); n > reducedCount; )
+            getItemPtr(--n)->release();
+        YBaseArray::shrink(reducedCount);
     }
 
 private:

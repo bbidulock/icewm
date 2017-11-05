@@ -90,6 +90,13 @@ void YBaseArray::remove(const SizeType index) {
         clear();
 }
 
+void YBaseArray::shrink(const SizeType reducedCount) {
+    MSG(("shrink %d %d", reducedCount, fCount));
+    if (reducedCount >= 0 && reducedCount <= fCount)
+        fCount = reducedCount;
+    else PRECONDITION(false);
+}
+
 void YBaseArray::clear() {
     delete[] fElements;
     release();
@@ -99,6 +106,13 @@ void YBaseArray::release() {
     fElements = 0;
     fCapacity = 0;
     fCount = 0;
+}
+
+void YBaseArray::swap(YBaseArray& other) {
+    PRECONDITION(fElementSize == other.fElementSize);
+    ::swap(fCapacity, other.fCapacity);
+    ::swap(fCount,    other.fCount);
+    ::swap(fElements, other.fElements);
 }
 
 YStringArray::YStringArray(const YStringArray &other) : YArray<const char*>() {
@@ -129,6 +143,12 @@ void YStringArray::remove(const SizeType index) {
 void YStringArray::clear() {
     for (int i = 0; i < getCount(); ++i) delete[] getString(i);
     YBaseArray::clear();
+}
+
+void YStringArray::shrink(int reducedSize) {
+    for (int n = getCount(); n > reducedSize; )
+        delete[] getString(--n);
+    YArray::shrink(reducedSize);
 }
 
 char * const *YStringArray::getCArray() const {
