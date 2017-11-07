@@ -48,7 +48,11 @@ protected:
     virtual ~ClientData() {};
 };
 
-class YFrameClient: public YWindow  {
+class YFrameClient: public YWindow
+#ifdef WMSPEC_HINTS
+                  , public YTimerListener
+#endif
+{
 public:
     YFrameClient(YWindow *parent, YFrameWindow *frame, Window win = 0);
     virtual ~YFrameClient();
@@ -69,12 +73,15 @@ public:
 
     enum {
         wpDeleteWindow = 1 << 0,
-        wpTakeFocus    = 1 << 1
+        wpTakeFocus    = 1 << 1,
+        wpPing         = 1 << 2,
     } WindowProtocols;
 
     void sendMessage(Atom msg, Time timeStamp);
     bool sendTakeFocus();
     bool sendDelete();
+    bool sendPing();
+    void recvPing(const XClientMessageEvent &message);
 
     enum {
         csKeepX = 1,
@@ -103,7 +110,7 @@ public:
     void saveSizeHints();
     void restoreSizeHints();
 
-    unsigned long protocols() const { return fProtocols; }
+    unsigned protocols() const { return fProtocols; }
     void getProtocols(bool force);
 
     void getTransient();
@@ -167,6 +174,10 @@ public:
     void setNetWMFullscreenMonitors(int top, int bottom, int left, int right);
     void setNetFrameExtents(int left, int right, int top, int bottom);
     void setNetWMAllowedActions(Atom *actions, int count);
+
+    bool isPinging() const { return fPinging; }
+    bool pingTime() const { return fPingTime; }
+    virtual bool handleTimer(YTimer *t);
 #endif
 
 #ifndef NO_MWM_HINTS
@@ -211,7 +222,14 @@ private:
     XClassHint *fClassHint;
     XWMHints *fHints;
     Colormap fColormap;
+#ifdef CONFIG_SHAPE
     bool fShaped;
+#endif
+#ifdef WMSPEC_HINTS
+    bool fPinging;
+    long fPingTime;
+    YTimer* fPingTimer;
+#endif
     long fWinHints;
 
     ustring fWindowTitle;

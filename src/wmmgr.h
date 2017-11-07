@@ -452,7 +452,7 @@ extern Atom _XA_NET_WM_MOVERESIZE;                  //*OK
 extern Atom _XA_NET_WM_NAME;                        // OK
 extern Atom _XA_NET_WM_OPAQUE_REGION;               // TODO
 extern Atom _XA_NET_WM_PID;                         // OK (trivial)
-extern Atom _XA_NET_WM_PING;                        // TODO
+extern Atom _XA_NET_WM_PING;                        // OK
 extern Atom _XA_NET_WM_STATE;                       // OK
 extern Atom _XA_NET_WM_STATE_ABOVE;                 // OK
 extern Atom _XA_NET_WM_STATE_BELOW;                 // OK

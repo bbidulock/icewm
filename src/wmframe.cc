@@ -1498,6 +1498,12 @@ void YFrameWindow::wmClose() {
     XGrabServer(xapp->display());
     client()->getProtocols(true);
 
+#ifdef WMSPEC_HINTS
+    bool hasPing = hasbit(client()->protocols(), YFrameClient::wpPing);
+    if (hasPing) {
+        client()->sendPing();
+    }
+#endif
     if (client()->protocols() & YFrameClient::wpDeleteWindow) {
         client()->sendDelete();
     } else {

@@ -1097,20 +1097,24 @@ void YXApplication::handleWindowEvent(Window xwindow, XEvent &xev) {
         if (xev.type == MapRequest) {
             // !!! java seems to do this ugliness
             //YFrameWindow *f = getFrame(xev.xany.window);
-            msg("APP BUG? mapRequest for window %lX sent to destroyed frame %lX!",
+            tlog("APP BUG? mapRequest for window %lX sent to destroyed frame %lX!",
                 xev.xmaprequest.parent,
                 xev.xmaprequest.window);
             desktop->handleEvent(xev);
         } else if (xev.type == ConfigureRequest) {
-            msg("APP BUG? configureRequest for window %lX sent to destroyed frame %lX!",
+            tlog("APP BUG? configureRequest for window %lX sent to destroyed frame %lX!",
                 xev.xmaprequest.parent,
                 xev.xmaprequest.window);
             desktop->handleEvent(xev);
         }
-        else if (xev.type == ClientMessage &&
-                 xev.xclient.message_type == _XA_NET_REQUEST_FRAME_EXTENTS) {
-            if (desktop)
+        else if (xev.type == ClientMessage && desktop != 0) {
+            Atom mesg = xev.xclient.message_type;
+            if (mesg == _XA_NET_REQUEST_FRAME_EXTENTS) {
                 desktop->handleEvent(xev);
+            }
+            else MSG(("Unknown client message %ld, win 0x%lX, data %ld,%ld",
+                     mesg, xev.xclient.window,
+                     xev.xclient.data.l[0], xev.xclient.data.l[1]));
         }
         else if (xev.type != DestroyNotify) {
             MSG(("unknown window 0x%lX event=%d", xev.xany.window, xev.type));

@@ -1,11 +1,12 @@
+#include <assert.h>
+#include <ctype.h>
+#include <limits.h>
+#include <signal.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
-#include <ctype.h>
 #include <time.h>
-#include <limits.h>
-#include <stdarg.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/time.h>
@@ -279,10 +280,42 @@ static int xfail(Display* display, XErrorEvent* xev) {
     return 0;
 }
 
+static void sigcatch(int signo) {
+    tell("Received signal %d: \"%s\".\n", signo, strsignal(signo));
+}
+
 int main(int argc, char **argv) {
 
-    XSetErrorHandler(xfail);
-    XSynchronize(display, True);
+    signal(SIGTERM, sigcatch);
+
+    bool pinging = false;
+
+    for (int opt, ok = 1; ok && (opt = getopt(argc, argv, "d:eps")) > 0; ) {
+        switch (opt) {
+        case 'd':
+            setenv("DISPLAY", optarg, True);
+            break;
+
+        case 'e':
+            XSetErrorHandler(xfail);
+            break;
+
+        case 'p':
+            pinging ^= true;
+            break;
+
+        case 's':
+            XSynchronize(display, True);
+            break;
+
+        default:
+            ok = 0;
+        }
+    }
+    if (optind < argc) {
+        fprintf(stderr, "%s: bad arg '%s'.\n", *argv, argv[optind]);
+        exit(1);
+    }
 
     int screen = XDefaultScreen(display);
     root = XRootWindow(display, screen);
@@ -328,7 +361,7 @@ int main(int argc, char **argv) {
     long imask = ExposureMask | StructureNotifyMask |
                  ButtonPressMask | ButtonReleaseMask |
                  KeyPressMask | KeyReleaseMask |
-                 PropertyChangeMask;
+                 PropertyChangeMask | SubstructureNotifyMask;
     XSelectInput(display, window, imask);
 
     XSelectInput(display, root, PropertyChangeMask);
@@ -410,35 +443,39 @@ int main(int argc, char **argv) {
     while (XNextEvent(display, &xev) == Success) switch (xev.type) {
 
     case ClientMessage: {
-        if (client.message_type == _XA_WM_PROTOCOLS &&
-            client.data.l[0] == _XA_WM_DELETE_WINDOW)
-        {
+        if (client.message_type == _XA_WM_PROTOCOLS) {
             TEST(client.format == 32);
-            return 0;
+            if (client.data.l[0] == _XA_WM_DELETE_WINDOW) {
+                tell("WM_DELETE_WINDOW\n");
+                break;
+            }
+            else
+            if (client.data.l[0] == _XA_WM_TAKE_FOCUS) {
+                tell("WM_TAKE_FOCUS\n");
+                break;
+            }
+            else
+            if (client.data.l[0] == _XA_NET_WM_PING) {
+                long* l = client.data.l;
+                tell("_NET_WM_PING %ld, 0x%lX, 0x%lX, 0x%lX\n",
+                        l[1], l[2], l[3], l[4]);
+                if (pinging) {
+                    client.window = root;
+                    XSendEvent(display, root, False,
+                               SubstructureRedirectMask|SubstructureNotifyMask,
+                               &xev);
+                    XFlush(display);
+                    tell("\tSent pong.\n");
+                }
+                else {
+                    tell("\tNo pong sent.\n");
+                }
+                break;
+            }
         }
-        else
-        if (client.message_type == _XA_WM_PROTOCOLS &&
-            client.data.l[0] == _XA_WM_TAKE_FOCUS)
-        {
-            TEST(client.format == 32);
-            tell("WM_TAKE_FOCUS\n");
-        }
-        else
-        if (client.message_type == _XA_WM_PROTOCOLS &&
-            client.data.l[0] == _XA_NET_WM_PING)
-        {
-            TEST(client.format == 32);
-            long* l = client.data.l;
-            tell("_NET_WM_PING %ld, 0x%lX, 0x%lX, 0x%lX\n",
-                    l[1], l[2], l[3], l[4]);
-            XSendEvent(display, root, False, SubstructureNotifyMask, &xev);
-        }
-        else {
-            tell("client message %lu, %d, %lu, %ld\n",
-                 client.message_type, client.format,
-                 client.window, client.data.l[0]);
-        }
-
+        tell("client message %lu, %d, %lu, %ld\n",
+             client.message_type, client.format,
+             client.window, client.data.l[0]);
     } break;
 
     case KeyPress: {

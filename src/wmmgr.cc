@@ -788,6 +788,14 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
 
         return;
     }
+    if (message.message_type == _XA_WM_PROTOCOLS &&
+        message.data.l[0] == (long) _XA_NET_WM_PING) {
+        YFrameWindow* frame = findFrame(message.data.l[2]);
+        if (frame) {
+            frame->client()->recvPing(message);
+        }
+        return;
+    }
 #endif
 #ifdef GNOME1_HINTS
     if (message.message_type == _XA_WIN_WORKSPACE) {
