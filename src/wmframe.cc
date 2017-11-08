@@ -80,6 +80,10 @@ YFrameWindow::YFrameWindow(
     posY = 0;
     posW = 1;
     posH = 1;
+    extentLeft = -1;
+    extentRight = -1;
+    extentTop = -1;
+    extentBottom = -1;
     iconX = -1;
     iconY = -1;
     movingWindow = 0;
@@ -633,8 +637,10 @@ void YFrameWindow::unmanage(bool reparent) {
 
         client()->setSize(posWidth, posHeight);
 
-        if (manager->wmState() != YWindowManager::wmSHUTDOWN)
+        if (manager->wmState() != YWindowManager::wmSHUTDOWN) {
             client()->setFrameState(WithdrawnState);
+            extentLeft = extentRight = extentTop = extentBottom = -1;
+        }
 
         if (!client()->destroyed() && client()->adopted())
             XRemoveFromSaveSet(xapp->display(), client()->handle());
@@ -1498,12 +1504,7 @@ void YFrameWindow::wmClose() {
     XGrabServer(xapp->display());
     client()->getProtocols(true);
 
-#ifdef WMSPEC_HINTS
-    bool hasPing = hasbit(client()->protocols(), YFrameClient::wpPing);
-    if (hasPing) {
-        client()->sendPing();
-    }
-#endif
+    client()->sendPing();
     if (client()->protocols() & YFrameClient::wpDeleteWindow) {
         client()->sendDelete();
     } else {
@@ -3175,18 +3176,18 @@ void YFrameWindow::updateLayout() {
     }
     if (affectsWorkArea())
         manager->updateWorkArea();
-#ifdef WMSPEC_HINTS
-    if (client())
-        client()->setNetFrameExtents(borderX(), borderX(), borderY() + titleY(), borderY());
-#endif
+    updateExtents();
 }
 
 void YFrameWindow::updateExtents() {
-    int left, right, top, bottom;
-    left = right = borderX();
-    top = bottom = borderY();
-    top += titleY();
-    if (left != extentLeft || right != extentRight || top != extentTop || bottom != extentBottom) {
+    int bX = borderX(), bY = borderY(), tY = titleY();
+    int left = bX, right = bX, top = bY + tY, bottom = bY;
+
+    if (extentLeft != left ||
+        extentRight != right ||
+        extentTop != top ||
+        extentBottom != bottom)
+    {
         extentLeft = left;
         extentRight = right;
         extentTop = top;
