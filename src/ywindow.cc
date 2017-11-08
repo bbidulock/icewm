@@ -206,7 +206,7 @@ void YWindow::setClassHint(char const * rName, char const * rClass) {
     XSetClassHint(xapp->display(), handle(), &wmclass);
 }
 
-void YWindow::setStyle(unsigned long aStyle) {
+void YWindow::setStyle(unsigned aStyle) {
     if (fStyle != aStyle) {
         fStyle = aStyle;
 
