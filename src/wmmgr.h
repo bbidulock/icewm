@@ -402,7 +402,7 @@ extern Atom _XA_ICEWM_ACTION;
 
 
 extern Atom _XA_NET_ACTIVE_WINDOW;                  // OK
-extern Atom _XA_NET_CLIENT_LIST;                    // OK (perf: don't update on stacking changes)
+extern Atom _XA_NET_CLIENT_LIST;                    // OK
 extern Atom _XA_NET_CLIENT_LIST_STACKING;           // OK
 extern Atom _XA_NET_CLOSE_WINDOW;                   // OK
 extern Atom _XA_NET_CURRENT_DESKTOP;                // OK
