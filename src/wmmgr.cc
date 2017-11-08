@@ -3476,9 +3476,9 @@ bool EdgeSwitch::handleTimer(YTimer *t) {
     int corner  = fManager->layout().corner;
 
     if (rows == 0)
-        rows = (worksps + (worksps - 1)) / columns;
+        rows = (worksps + (columns - 1)) / columns;
     if (columns == 0)
-        columns = (worksps + (worksps - 1)) / rows;
+        columns = (worksps + (rows - 1)) / rows;
     if (orient == _NET_WM_ORIENTATION_VERT) {
         columns = (worksps + (rows - 1)) / rows;
     } else {
