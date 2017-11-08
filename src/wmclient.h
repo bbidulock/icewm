@@ -8,6 +8,8 @@
 #include <X11/Xutil.h>
 #endif
 
+#define InvalidFrameState   (-1)
+
 class YFrameWindow;
 class WindowListItem;
 class YIcon;
@@ -218,6 +220,8 @@ private:
     int fProtocols;
     int haveButtonGrab;
     unsigned int fBorder;
+    FrameState fSavedFrameState;
+    long fSavedWinState[2];
     XSizeHints *fSizeHints;
     XClassHint *fClassHint;
     XWMHints *fHints;

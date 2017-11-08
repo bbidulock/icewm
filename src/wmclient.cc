@@ -32,7 +32,9 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win): YW
 #endif
     fHints = 0;
     fWinHints = 0;
-    //fSavedFrameState =
+    fSavedFrameState = InvalidFrameState;
+    fSavedWinState[0] = 0;
+    fSavedWinState[1] = 0;
     fSizeHints = XAllocSizeHints();
     fClassHint = XAllocClassHint();
     fTransientFor = 0;
@@ -417,8 +419,7 @@ bool YFrameClient::handleTimer(YTimer* timer) {
                 XFree(text.value);
             }
         }
-        if (prop)
-            XFree(prop);
+        XFree(prop);
     }
 
     return false;
@@ -428,7 +429,8 @@ bool YFrameClient::handleTimer(YTimer* timer) {
 void YFrameClient::recvPing(const XClientMessageEvent &message) {
 #ifdef WMSPEC_HINTS
     const long* l = message.data.l;
-    if (l[0] == (long) _XA_NET_WM_PING &&
+    if (fPinging &&
+        l[0] == (long) _XA_NET_WM_PING &&
         l[1] == fPingTime &&
         l[2] == (long) handle() &&
         // l[3] == (long) this &&
@@ -437,7 +439,8 @@ void YFrameClient::recvPing(const XClientMessageEvent &message) {
     {
         fPinging = false;
         fPingTime = xapp->getEventTime("recvPing");
-        fPingTimer->disableTimerListener(this);
+        delete fPingTimer;
+        fPingTimer = 0;
     }
 #endif
 }
@@ -454,13 +457,6 @@ void YFrameClient::setFrame(YFrameWindow *newFrame) {
 }
 
 void YFrameClient::setFrameState(FrameState state) {
-    unsigned long arg[2];
-
-    arg[0] = (unsigned long) state;
-    arg[1] = (unsigned long) None;
-
-    //msg("setting frame state to %d", arg[0]);
-
     if (state == WithdrawnState) {
         if (manager->wmState() != YWindowManager::wmSHUTDOWN) {
             MSG(("deleting window properties id=%lX", handle()));
@@ -477,18 +473,25 @@ void YFrameClient::setFrameState(FrameState state) {
 #endif
             XDeleteProperty(xapp->display(), handle(), _XA_WIN_STATE);
             XDeleteProperty(xapp->display(), handle(), _XA_WM_STATE);
+            fSavedFrameState = InvalidFrameState;
+            fSavedWinState[0] = fSavedWinState[1] = 0;
         }
-    } else {
+    }
+    else if (state != fSavedFrameState) {
+        long arg[2] = { state, None };
         XChangeProperty(xapp->display(), handle(),
                         _XA_WM_STATE, _XA_WM_STATE,
                         32, PropModeReplace,
                         (unsigned char *)arg, 2);
+        fSavedFrameState = state;
     }
 }
 
 FrameState YFrameClient::getFrameState() {
     if (!prop.wm_state)
         return WithdrawnState;
+
+    fSavedFrameState = InvalidFrameState;
 
     FrameState st = WithdrawnState;
     Atom type;
@@ -497,11 +500,12 @@ FrameState YFrameClient::getFrameState() {
     unsigned char *propdata(0);
 
     if (XGetWindowProperty(xapp->display(), handle(),
-                           _XA_WM_STATE, 0, 3, False, _XA_WM_STATE,
+                           _XA_WM_STATE, 0, 2, False, _XA_WM_STATE,
                            &type, &format, &nitems, &lbytes,
                            &propdata) == Success && propdata)
     {
-        st = *(long *)propdata;
+        if (format == 32 && nitems >= 1)
+            fSavedFrameState = st = *(long *)propdata;
         XFree(propdata);
     }
     return st;
@@ -1533,32 +1537,34 @@ bool YFrameClient::getWinStateHint(long *mask, long *state) {
             if (count >= 2U)
                 m = ((long *)prop)[1];
 
-            *state = s;
-            *mask = m;
+            fSavedWinState[0] = *state = s;
+            fSavedWinState[1] = *mask = m;
             XFree(prop);
             return true;
         }
         MSG(("bad state"));
         XFree(prop);
     }
+    fSavedWinState[0] = 0;
+    fSavedWinState[1] = 0;
     return false;
 }
 
 void YFrameClient::setWinStateHint(long mask, long state) {
-    long s[2];
-
-    s[0] = state & mask;
-    s[1] = mask;
-
     MSG(("set state=%lX mask=%lX", state, mask));
 
 #ifdef GNOME1_HINTS
-    XChangeProperty(xapp->display(),
-                    handle(),
-                    _XA_WIN_STATE,
-                    XA_CARDINAL,
-                    32, PropModeReplace,
-                    (unsigned char *)&s, 2);
+    if ((state & mask) != fSavedWinState[0] || mask != fSavedWinState[1]) {
+        fSavedWinState[0] = (state & mask);
+        fSavedWinState[1] = mask;
+
+        XChangeProperty(xapp->display(),
+                        handle(),
+                        _XA_WIN_STATE,
+                        XA_CARDINAL,
+                        32, PropModeReplace,
+                        (unsigned char *) fSavedWinState, 2);
+    }
 
 #endif
 #ifdef WMSPEC_HINTS
