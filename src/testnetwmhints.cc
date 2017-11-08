@@ -104,6 +104,7 @@ public:
         atom = XInternAtom(display, name, False); }
 };
 
+static TAtom _XA_WM_STATE("WM_STATE");
 static TAtom _XA_WIN_WORKSPACE("_WIN_WORKSPACE");
 static TAtom _XA_WIN_WORKSPACE_NAMES("_WIN_WORKSPACE_NAMES");
 static TAtom _XA_WIN_STATE("_WIN_STATE");
@@ -600,7 +601,7 @@ int main(int argc, char **argv) {
             property.atom == _XA_WIN_WORKSPACE) {
             if (XGetWindowProperty(display, root,
                                    _XA_WIN_WORKSPACE,
-                                   0, 1, False, XA_CARDINAL,
+                                   0, 1, False, AnyPropertyType,
                                    &r_type, &r_format,
                                    &count, &bytes_remain,
                                    &prop) == Success && prop)
@@ -618,7 +619,7 @@ int main(int argc, char **argv) {
         else if (property.atom == _XA_WIN_WORKAREA) {
             if (XGetWindowProperty(display, root,
                                    _XA_WIN_WORKAREA,
-                                   0, 4, False, XA_CARDINAL,
+                                   0, 4, False, AnyPropertyType,
                                    &r_type, &r_format,
                                    &count, &bytes_remain,
                                    &prop) == Success && prop)
@@ -638,7 +639,7 @@ int main(int argc, char **argv) {
                  property.atom == _XA_WIN_WORKSPACE) {
             if (XGetWindowProperty(display, window,
                                    _XA_WIN_WORKSPACE,
-                                   0, 1, False, XA_CARDINAL,
+                                   0, 1, False, AnyPropertyType,
                                    &r_type, &r_format,
                                    &count, &bytes_remain,
                                    &prop) == Success && prop)
@@ -653,7 +654,7 @@ int main(int argc, char **argv) {
             long state[2] = {};
             if (XGetWindowProperty(display, window,
                                    _XA_WIN_STATE,
-                                   0, 2, False, XA_CARDINAL,
+                                   0, 2, False, AnyPropertyType,
                                    &r_type, &r_format,
                                    &count, &bytes_remain,
                                    &prop) == Success && prop)
@@ -668,26 +669,42 @@ int main(int argc, char **argv) {
         else if (property.atom == _XA_NET_WM_STATE) {
             if (XGetWindowProperty(display, window,
                                    _XA_NET_WM_STATE,
-                                   0, 20, False, XA_ATOM,
+                                   0, 20, False, AnyPropertyType,
                                    &r_type, &r_format,
                                    &count, &bytes_remain,
                                    &prop) == Success && prop)
             {
                 TEST(r_type == XA_ATOM && r_format == 32 && count >= 0);
-                tell("net wm state\n");
+                tell("net wm state  ");
                 for (unsigned long i = 0; i < count; ++i) {
-                    printf("%s%s", i ? ", " : "\t\t",
+                    printf("%s%s", i ? ", " : "",
                             atomName(((long *)prop)[i]));
                 }
-                if (count)
-                    printf("\n");
+                printf("\n");
+                XFree(prop);
+            }
+        }
+        else if (property.atom == _XA_WM_STATE) {
+            if (XGetWindowProperty(display, window,
+                                   _XA_WM_STATE,
+                                   0, 2, False, AnyPropertyType,
+                                   &r_type, &r_format,
+                                   &count, &bytes_remain,
+                                   &prop) == Success && prop)
+            {
+                TEST(r_type == _XA_WM_STATE && r_format == 32 && count == 2);
+                tell("wm state");
+                for (unsigned i = 0; i < count; ++i) {
+                    printf("%s%ld", i ? ", " : "  ", ((long *)prop)[i]);
+                }
+                printf("\n");
                 XFree(prop);
             }
         }
         else if (property.atom == _XA_WIN_LAYER) {
             if (XGetWindowProperty(display, window,
                                    _XA_WIN_LAYER,
-                                   0, 1, False, XA_CARDINAL,
+                                   0, 1, False, AnyPropertyType,
                                    &r_type, &r_format,
                                    &count, &bytes_remain,
                                    &prop) == Success && prop)
@@ -701,7 +718,7 @@ int main(int argc, char **argv) {
         /*else if (property.atom == _XA_WIN_TRAY) {
             if (XGetWindowProperty(display, window,
                                    _XA_WIN_TRAY,
-                                   0, 1, False, XA_CARDINAL,
+                                   0, 1, False, AnyPropertyType,
                                    &r_type, &r_format,
                                    &count, &bytes_remain,
                                    &prop) == Success && prop)
