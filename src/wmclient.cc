@@ -1551,19 +1551,25 @@ bool YFrameClient::getWinStateHint(long *mask, long *state) {
 }
 
 void YFrameClient::setWinStateHint(long mask, long state) {
-    MSG(("set state=%lX mask=%lX", state, mask));
+    MSG(("set state=%8lX mask=%3lX, saved %8lX, %3lX, %p",
+          state, mask, fSavedWinState[0], fSavedWinState[1], this));
 
 #ifdef GNOME1_HINTS
-    if ((state & mask) != fSavedWinState[0] || mask != fSavedWinState[1]) {
-        fSavedWinState[0] = (state & mask);
-        fSavedWinState[1] = mask;
+    if (hasbit(mask, state ^ fSavedWinState[0]) || mask != fSavedWinState[1]) {
+        long prop[2] = { state & mask, mask };
 
         XChangeProperty(xapp->display(),
                         handle(),
                         _XA_WIN_STATE,
                         XA_CARDINAL,
                         32, PropModeReplace,
-                        (unsigned char *) fSavedWinState, 2);
+                        (unsigned char *) prop, 2);
+
+        fSavedWinState[0] = state;
+        fSavedWinState[1] = mask;
+    }
+    else if (state == fSavedWinState[0]) {
+        return;
     }
 
 #endif
@@ -1606,8 +1612,10 @@ void YFrameClient::setWinStateHint(long mask, long state) {
                     _XA_NET_WM_STATE, XA_ATOM,
                     32, PropModeReplace,
                     (unsigned char *)a, i);
-#endif
 
+    fSavedWinState[0] = state;
+    fSavedWinState[1] = mask;
+#endif
 }
 
 #ifdef WMSPEC_HINTS
