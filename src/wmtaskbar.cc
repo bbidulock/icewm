@@ -47,9 +47,6 @@
 
 #include "intl.h"
 
-#ifdef CONFIG_TRAY
-YTimer *TrayApp::fRaiseTimer(NULL);
-#endif
 YTimer *WorkspaceButton::fRaiseTimer(NULL);
 
 TaskBar *taskBar = 0;

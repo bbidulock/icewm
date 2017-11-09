@@ -17,13 +17,10 @@
 #ifdef CONFIG_TRAY
 #ifdef CONFIG_TASKBAR
 
-#include "ylib.h"
 #include "atray.h"
 #include "wmtaskbar.h"
 #include "yprefs.h"
 #include "prefs.h"
-#include "yxapp.h"
-#include "wmmgr.h"
 #include "wmframe.h"
 #include "wmwinlist.h"
 #include "wpixmaps.h"
@@ -60,7 +57,6 @@ TrayApp::TrayApp(ClientData *frame, YWindow *aParent): YWindow(aParent) {
         activeTrayFont = YFont::getFont(XFA(activeTaskBarFontName));
     }
     fFrame = frame;
-    fPrev = fNext = 0;
     selected = 0;
     fShown = true;
     setToolTip(frame->getTitle());
@@ -69,10 +65,6 @@ TrayApp::TrayApp(ClientData *frame, YWindow *aParent): YWindow(aParent) {
 }
 
 TrayApp::~TrayApp() {
-    if (fRaiseTimer && fRaiseTimer->getTimerListener() == this) {
-        fRaiseTimer->stopTimer();
-        fRaiseTimer->setTimerListener(0);
-    }
 }
 
 bool TrayApp::isFocusTraversable() {
@@ -220,27 +212,27 @@ void TrayApp::handleClick(const XButtonEvent &up, int /*count*/) {
 }
 
 void TrayApp::handleDNDEnter() {
-    if (fRaiseTimer == 0)
-        fRaiseTimer = new YTimer(autoRaiseDelay);
     if (fRaiseTimer) {
-        fRaiseTimer->setTimerListener(this);
         fRaiseTimer->startTimer();
     }
+    else
+        fRaiseTimer = new YTimer(autoRaiseDelay, this, true);
+
     selected = 3;
     repaint();
 }
 
 void TrayApp::handleDNDLeave() {
-    if (fRaiseTimer && fRaiseTimer->getTimerListener() == this) {
-        fRaiseTimer->stopTimer();
-        fRaiseTimer->setTimerListener(0);
-    }
+    if (fRaiseTimer)
+        fRaiseTimer = 0;
+
     selected = 0;
     repaint();
 }
 
 bool TrayApp::handleTimer(YTimer *t) {
     if (t == fRaiseTimer) {
+        fRaiseTimer = 0;
         getFrame()->wmRaise();
     }
     return false;
@@ -248,37 +240,10 @@ bool TrayApp::handleTimer(YTimer *t) {
 
 TrayPane::TrayPane(IAppletContainer *taskBar, YWindow *parent): YWindow(parent) {
     fTaskBar = taskBar;
-    fFirst = fLast = 0;
-    fCount = 0;
     fNeedRelayout = true;
 }
 
 TrayPane::~TrayPane() {
-}
-
-void TrayPane::insert(TrayApp *tapp) {
-    fCount++;
-    tapp->setNext(0);
-    tapp->setPrev(fLast);
-    if (fLast)
-        fLast->setNext(tapp);
-    else
-        fFirst = tapp;
-    fLast = tapp;
-}
-
-void TrayPane::remove(TrayApp *tapp) {
-    fCount--;
-
-    if (tapp->getPrev())
-        tapp->getPrev()->setNext(tapp->getNext());
-    else
-        fFirst = tapp->getNext();
-
-    if (tapp->getNext())
-        tapp->getNext()->setPrev(tapp->getPrev());
-    else
-        fLast = tapp->getPrev();
 }
 
 TrayApp *TrayPane::addApp(YFrameWindow *frame) {
@@ -292,7 +257,7 @@ TrayApp *TrayPane::addApp(YFrameWindow *frame) {
     TrayApp *tapp = new TrayApp(frame, this);
 
     if (tapp != 0) {
-        insert(tapp);
+        fApps.append(tapp);
         tapp->show();
 
         if (!(frame->visibleOn(manager->activeWorkspace()) ||
@@ -305,11 +270,10 @@ TrayApp *TrayPane::addApp(YFrameWindow *frame) {
 }
 
 void TrayPane::removeApp(YFrameWindow *frame) {
-    for (TrayApp *icon(fFirst); NULL != icon; icon = icon->getNext()) {
+    for (IterType icon = fApps.iterator(); ++icon; ) {
         if (icon->getFrame() == frame) {
             icon->hide();
-            remove(icon);
-            delete icon;
+            icon.remove();
 
             relayout();
             return;
@@ -320,7 +284,7 @@ void TrayPane::removeApp(YFrameWindow *frame) {
 int TrayPane::getRequiredWidth() {
     int tc = 0;
 
-    for (TrayApp *a(fFirst); a != NULL; a = a->getNext())
+    for (IterType a = fApps.iterator(); ++a; )
         if (a->getShown()) tc++;
 
     return (tc ? 4 + tc * (height() - 4) : 1);
@@ -342,14 +306,14 @@ void TrayPane::relayoutNow() {
     int x, y, w, h;
     int tc = 0;
 
-    for (TrayApp *a(fFirst); a != NULL; a = a->getNext())
+    for (IterType a = fApps.iterator(); ++a; )
         if (a->getShown()) tc++;
 
     w = h = height() - 4;
     x = width() - 2 - tc * w;
     y = 2;
 
-    for (TrayApp *f(fFirst); f != NULL; f = f->getNext()) {
+    for (IterType f = fApps.iterator(); ++f; ) {
         if (f->getShown()) {
             f->setGeometry(YRect(x, y, w, h));
             f->show();
