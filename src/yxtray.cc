@@ -379,6 +379,7 @@ YXTray::YXTray(YXTrayNotifier *notifier,
 {
     setTitle("YXTray");
     setParentRelative();
+    XSetWindowBackground(xapp->display(), handle(), getTaskBarBg()->pixel());
     fTrayProxy = new YXTrayProxy(atom, this);
     show();
 }
