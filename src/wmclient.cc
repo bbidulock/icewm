@@ -393,6 +393,18 @@ bool YFrameClient::handleTimer(YTimer* timer) {
         return false;
     }
 
+    if (killPid() == false && getFrame()->owner()) {
+        getFrame()->owner()->client()->killPid();
+    }
+
+    return false;
+}
+#endif
+
+bool YFrameClient::killPid() {
+    bool killed = false;
+
+#ifdef WMSPEC_HINTS
     Atom type = 0;
     int format = 0;
     unsigned long nitems = 0;
@@ -415,16 +427,17 @@ bool YFrameClient::handleTimer(YTimer* timer) {
                     (theirs[len] == 0 || theirs[len] == '.'))
                 {
                     kill(pid, SIGTERM);
+                    killed = true;
                 }
                 XFree(text.value);
             }
         }
         XFree(prop);
     }
-
-    return false;
-}
 #endif
+
+    return killed;
+}
 
 void YFrameClient::recvPing(const XClientMessageEvent &message) {
 #ifdef WMSPEC_HINTS

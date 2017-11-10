@@ -84,6 +84,7 @@ public:
     bool sendDelete();
     bool sendPing();
     void recvPing(const XClientMessageEvent &message);
+    bool killPid();
 
     enum {
         csKeepX = 1,
