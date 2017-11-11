@@ -8,6 +8,12 @@
 #include <wordexp.h>
 #endif
 
+#ifdef CONFIG_EXTERNAL_TRAY
+#define NOTRAY false
+#else
+#define NOTRAY true
+#endif
+
 char const *ApplicationName = ICESMEXE;
 
 class SessionManager: public YApplication {
@@ -72,7 +78,7 @@ private:
         configArg = 0;
         themeArg = 0;
         syncArg = false;
-        notrayArg = false;
+        notrayArg = NOTRAY;
         soundArg = false;
 
         for (char **arg = 1 + *argv; arg < *argv + *argc; ++arg) {

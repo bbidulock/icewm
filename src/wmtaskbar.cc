@@ -489,7 +489,13 @@ void TaskBar::initApplets() {
     } else
         fWindowTray = 0;
 #endif
+
+#ifdef CONFIG_EXTERNAL_TRAY
     YAtom trayatom("_ICEWM_INTTRAY_S", true);
+#else
+    YAtom trayatom("_NET_SYSTEM_TRAY_S", true);
+#endif
+
     fDesktopTray = new YXTray(this, true, trayatom, this);
     fDesktopTray->setTitle("DesktopTray");
     fDesktopTray->relayout();
