@@ -27,9 +27,7 @@ enum EAction {
     actionHideAll            = 115,
     actionShowDesktop        = 117,
 
-#ifndef CONFIG_PDA
     actionHide               = 119,
-#endif
     actionShow               = 121,
     actionRaise              = 123,
     actionLower              = 125,

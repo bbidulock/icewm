@@ -1,8 +1,6 @@
 #ifndef __THEMES_H
 #define __THEMES_H
 
-#ifndef NO_CONFIGURE_MENUS
-
 #include "objmenu.h"
 #include "obj.h"
 
@@ -57,8 +55,6 @@ private:
     YActionListener *wmActionListener;
     IApp *app;
 };
-
-#endif
 
 #endif
 

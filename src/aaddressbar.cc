@@ -9,7 +9,6 @@
 #include "ykey.h"
 #include "aaddressbar.h"
 
-#ifdef CONFIG_ADDRESSBAR
 #include "yxapp.h"
 #include "wmmgr.h"
 #include "sysdep.h"
@@ -76,7 +75,5 @@ void AddressBar::hideNow() {
         hide();
     }
 }
-
-#endif
 
 // vim: set sw=4 ts=4 et:

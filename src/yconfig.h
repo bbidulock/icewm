@@ -21,18 +21,10 @@
 
 #define XFA(a) a, a##Xft
 
-#ifndef NO_CONFIGURE
 #ifdef CFGDEF
 #define XIV(t,a,b) t a(b);
 #else
 #define XIV(t,a,b) extern t a;
-#endif
-#else
-#ifdef CFGDEF
-#define XIV(t,a,b)
-#else
-#define XIV(t,a,b) static const t a(b);  // I hope this can be optimized away
-#endif
 #endif
 
 #ifndef __YCONFIG_H__

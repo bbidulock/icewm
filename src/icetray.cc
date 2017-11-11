@@ -13,7 +13,6 @@
 
 char const *ApplicationName = "icewmtray";
 
-#ifdef CONFIG_TASKBAR
 static YColor *taskBarBg;
 
 XSV(const char *, clrDefaultTaskBar, "rgb:C0/C0/C0")
@@ -25,7 +24,6 @@ YColor* getTaskBarBg() {
     }
     return taskBarBg;
 }
-#endif
 
 #ifdef CONFIG_EXTERNAL_TRAY
 class SysTray: public YWindow, public YXTrayNotifier {
@@ -119,8 +117,6 @@ SysTrayApp::SysTrayApp(int *argc, char ***argv,
 }
 
 void SysTrayApp::loadConfig() {
-#ifdef CONFIG_TASKBAR
-#ifndef NO_CONFIGURE
     static cfoption tray_prefs[] = {
         OSV("ColorDefaultTaskBar", &clrDefaultTaskBar, "Background of the taskbar"),
         OBV("TrayDrawBevel",       &trayDrawBevel,     "Surround the tray with plastic border"),
@@ -151,18 +147,14 @@ void SysTrayApp::loadConfig() {
             upath("themes").child(themeName));
     }
     YConfig::findLoadConfigFile(this, tray_prefs, "prefoverride");
-#endif
     if (taskBarBg) {
         delete taskBarBg;
         taskBarBg = 0;
     }
-#endif
 }
 
 SysTrayApp::~SysTrayApp() {
-#ifdef CONFIG_TASKBAR
     delete taskBarBg; taskBarBg = 0;
-#endif
 }
 
 bool SysTrayApp::filterEvent(const XEvent &xev) {

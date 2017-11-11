@@ -18,12 +18,6 @@ extern "C" {
 }
 #endif
 
-#ifdef CONFIG_GRADIENTS
-#define INIT_GRADIENT(Member, Value) , Member(Value)
-#else
-#define INIT_GRADIENT(Member, Value)
-#endif
-
 struct DesktopScreenInfo {
     int screen_number;
     int x_org;
@@ -135,10 +129,8 @@ public:
 
     Graphics & getGraphics();
 
-#ifdef CONFIG_GRADIENTS
     virtual ref<YImage> getGradient() const {
         return (parent() ? parent()->getGradient() : null); }
-#endif
 
     int x() const { return fX; }
     int y() const { return fY; }
@@ -269,9 +261,7 @@ private:
     };
 
     YAccelerator *accel;
-#ifdef CONFIG_TOOLTIP
     YToolTip *fToolTip;
-#endif
 
     static XButtonEvent fClickEvent;
     static YWindow *fClickWindow;

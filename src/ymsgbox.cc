@@ -7,8 +7,6 @@
  */
 #include "config.h"
 
-#ifndef LITE
-
 #include "ylib.h"
 #include "ymsgbox.h"
 
@@ -49,13 +47,9 @@ YMsgBox::YMsgBox(int buttons, YWindow *owner): YDialog(owner) {
         }
     }
     autoSize();
-#if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)
     setWinLayerHint(WinLayerAboveDock);
     setWinWorkspaceHint(-1);
-#endif
-#if defined(GNOME1_HINTS)
     setWinHintsHint(WinHintsSkipWindowMenu);
-#endif
     {
 
         Atom protocols[2];
@@ -173,6 +167,5 @@ void YMsgBox::showFocused() {
         getFrame()->activateWindow(true);
     }
 }
-#endif
 
 // vim: set sw=4 ts=4 et:

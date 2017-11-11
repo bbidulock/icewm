@@ -18,9 +18,6 @@
 #include "wmapp.h"
 #include "prefs.h"
 
-#ifdef CONFIG_TASKBAR
-#ifdef CONFIG_APPLET_CLOCK
-
 static char const *AppletClockTimeFmt = "%T";
 
 inline char const * strTimeFmt(struct tm const & t) {
@@ -178,14 +175,12 @@ void YClock::paint(Graphics &g, const YRect &/*r*/) {
     //clean backgroung first, so that it is possible
     //to use transparent lcd pixmaps
     if (hasTransparency()) {
-#ifdef CONFIG_GRADIENTS
         ref<YImage> gradient(parent()->getGradient());
 
         if (gradient != null)
             g.drawImage(gradient, this->x(), this->y(),
                          width(), height(), 0, 0);
         else
-#endif
         if (taskbackPixmap != null) {
             g.fillPixmap(taskbackPixmap, 0, 0,
                          width(), height(), this->x(), this->y());
@@ -312,7 +307,5 @@ bool YClock::hasTransparency() {
     transparent = 0;
     return false;
 }
-#endif
-#endif
 
 // vim: set sw=4 ts=4 et:

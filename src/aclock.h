@@ -4,8 +4,6 @@
 #include "ywindow.h"
 #include "ytimer.h"
 
-#ifdef CONFIG_APPLET_CLOCK
-
 class YSMListener;
 
 class YClock: public YWindow, public YTimerListener {
@@ -38,8 +36,6 @@ private:
     YColor *clockFg;
     ref<YFont> clockFont;
 };
-#endif
-
 #endif
 
 // vim: set sw=4 ts=4 et:

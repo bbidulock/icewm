@@ -24,10 +24,8 @@ XIV(int, ClickMotionDelay,                      200)
 XIV(int, MultiClickTime,                        400)
 XIV(int, autoScrollStartDelay,                  500)
 XIV(int, autoScrollDelay,                       60)
-#ifdef CONFIG_TOOLTIP
 XIV(int, ToolTipDelay,                          500)
 XIV(int, ToolTipTime,                           0)
-#endif
 
 ///#warning "move this one back to WM"
 XIV(bool, grabRootWindow,                       true)
@@ -59,10 +57,8 @@ enum WMLook {
 #define CONFIG_DEFAULT_LOOK     lookNice
 XIV(WMLook, wmLook,                             CONFIG_DEFAULT_LOOK)
 
-#ifdef CONFIG_TOOLTIP
 XSV(const char *, clrToolTip,                   "rgb:E0/E0/00")
 XSV(const char *, clrToolTipText,               "rgb:00/00/00")
-#endif
 XFV(const char *, toolTipFontName,              FONT(120), "sans-serif:size=12")
 
 #endif

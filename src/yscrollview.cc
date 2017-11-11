@@ -5,8 +5,6 @@
  */
 #include "config.h"
 
-#ifndef LITE
-
 #include "yscrollview.h"
 
 #include "ylistbox.h"
@@ -92,7 +90,5 @@ void YScrollView::paint(Graphics &g, const YRect &r) {
 
     YWindow::paint(g, r);
 }
-
-#endif
 
 // vim: set sw=4 ts=4 et:

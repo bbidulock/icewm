@@ -74,14 +74,12 @@ void YButton::paint(Graphics &g, int const d, const YRect &r) {
     YSurface surface(getSurface());
     g.drawSurface(surface, x, y, w, h);
 
-#ifndef LITE
     if (fIcon != null)
         fIcon->draw(g,
                     x + (w - fIconSize) / 2,
                     y + (h - fIconSize) / 2,
                     fIconSize);
     else
-#endif
     if (fImage != null)
         g.drawImage(fImage,
                     x + (w - fImage->width()) / 2,
@@ -455,13 +453,8 @@ YColor * YButton::getColor() {
 }
 
 YSurface YButton::getSurface() {
-#ifdef CONFIG_GRADIENTS
     return (fPressed ? YSurface(activeButtonBg, buttonAPixmap, buttonAPixbuf)
                      : YSurface(normalButtonBg, buttonIPixmap, buttonIPixbuf));
-#else
-    return (fPressed ? YSurface(activeButtonBg, buttonAPixmap)
-                     : YSurface(normalButtonBg, buttonIPixmap));
-#endif
 }
 
 void YButton::setEnabled(bool enabled) {

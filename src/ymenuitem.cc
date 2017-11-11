@@ -84,10 +84,8 @@ int YMenuItem::queryHeight(int &top, int &bottom, int &pad) const {
         int fontHeight = max(16, menuFont->height() + 1);
         int ih = fontHeight;
 
-#ifndef LITE
         if (YIcon::menuSize() > ih)
             ih = YIcon::menuSize();
-#endif
 
         if (wmLook == lookWarp4 || wmLook == lookWin95) {
             top = bottom = 0;
@@ -118,12 +116,8 @@ int YMenuItem::queryHeight(int &top, int &bottom, int &pad) const {
 }
 
 int YMenuItem::getIconWidth() const {
-#ifdef LITE
-    return 0;
-#else
     ref<YIcon> icon = getIcon();
     return icon != null ? YIcon::menuSize(): 0;
-#endif
 }
 
 int YMenuItem::getNameWidth() const {

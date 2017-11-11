@@ -8,8 +8,6 @@
 #ifndef ATRAY_H_
 #define ATRAY_H_
 
-#ifdef CONFIG_TRAY
-
 #include "ywindow.h"
 #include "ypointer.h"
 #include "ytimer.h"
@@ -42,11 +40,9 @@ private:
     int selected;
     osmart<YTimer> fRaiseTimer;
 
-#ifdef CONFIG_GRADIENTS
     static ref<YImage> taskMinimizedGradient;
     static ref<YImage> taskActiveGradient;
     static ref<YImage> taskNormalGradient;
-#endif
 };
 
 class IAppletContainer;
@@ -74,8 +70,6 @@ private:
     typedef AppsType::IterType IterType;
     AppsType fApps;
 };
-
-#endif
 
 #endif
 

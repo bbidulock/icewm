@@ -1,8 +1,6 @@
 #ifndef __BROWSE_H
 #define __BROWSE_H
 
-#ifndef NO_CONFIGURE_MENUS
-
 class BrowseMenu: public ObjectMenu {
 public:
     BrowseMenu(
@@ -19,8 +17,6 @@ private:
     YSMListener *smActionListener;
     IApp *app;
 };
-
-#endif
 
 #endif
 

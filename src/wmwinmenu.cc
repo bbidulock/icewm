@@ -5,8 +5,6 @@
  */
 #include "config.h"
 
-#ifdef CONFIG_WINMENU
-
 #include "wmaction.h"
 #include "ylib.h"
 #include "ymenu.h"
@@ -28,10 +26,8 @@ public:
         YMenuItem(frame->getTitle(), -1, null, YAction(), 0),
         fFrame(frame)
     {
-#ifndef LITE
         if (fFrame->clientIcon() != null)
             setIcon(fFrame->clientIcon());
-#endif
     }
 
     virtual void actionPerformed(YActionListener * /*listener*/, YAction /*action*/, unsigned int modifiers) {
@@ -72,10 +68,8 @@ YMenu *YWindowManager::createWindowMenu(YMenu *menu, long workspace) {
                     continue;
                 if (!frame->visibleOn(workspace))
                     continue;
-#ifndef NO_WINDOW_OPTIONS
                 if (frame->frameOptions() & YFrameWindow::foIgnoreWinList)
                     continue;
-#endif
                 if (workspace != activeWorkspace() &&
                     frame->visibleOn(activeWorkspace()))
                     continue;
@@ -133,12 +127,8 @@ void WindowListMenu::updatePopup() {
             sub = manager->createWindowMenu(0, d);
         addItem(s, (d < 10) ? 0 : -1, workspaceActionActivate[d], sub);
     }
-#ifdef CONFIG_WINLIST
     addSeparator();
     addItem(_("_Window list"), -2, KEY_NAME(gKeySysWindowList), actionWindowList);
-#endif
 }
-
-#endif
 
 // vim: set sw=4 ts=4 et:

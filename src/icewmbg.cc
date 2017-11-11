@@ -132,11 +132,9 @@ public:
     void clearBackgroundColors()   { backgroundColors.clear();   }
     void clearTransparencyImages() { transparencyImages.clear(); }
     void clearTransparencyColors() { transparencyColors.clear(); }
-#ifndef NO_CONFIGURE
     void enableSemitransparency(bool enable = true) {
         supportSemitransparency = enable;
     }
-#endif
 
 private:
     virtual bool filterEvent(const XEvent& xev);
@@ -226,7 +224,6 @@ Background::Background(int *argc, char ***argv, bool verb):
 
 Background::~Background() {
     int pid = getBgPid();
-#ifndef NO_CONFIGURE
     if (supportSemitransparency) {
         if (pid <= 0 || pid == getpid()) {
             if (_XA_XROOTPMAP_ID)
@@ -235,7 +232,6 @@ Background::~Background() {
                 deleteProperty(_XA_XROOTCOLOR_PIXEL);
         }
     }
-#endif
     if (pid == getpid()) {
         deleteProperty(_XA_ICEWMBG_PID);
     }
@@ -446,7 +442,6 @@ ref<YPixmap> Background::renderBackground(ref<YPixmap> back, YColor* color) {
         return back;
     }
 
-#ifndef NO_CONFIGURE
     int numScreens = multiheadBackground ? 1 : desktop->getScreenCount();
     if (numScreens == 1) {
         if (width == back->width() && height == back->height()) {
@@ -539,7 +534,6 @@ ref<YPixmap> Background::renderBackground(ref<YPixmap> back, YColor* color) {
                      max(y, y + (height - bh) / 2));
     }
     back = cBack;
-#endif
 
     return back;
 }
@@ -570,7 +564,6 @@ void Background::changeBackground(bool force) {
     }
 
     if (handleBackground) {
-#ifndef NO_CONFIGURE
         if (supportSemitransparency &&
             _XA_XROOTPMAP_ID &&
             _XA_XROOTCOLOR_PIXEL)
@@ -591,18 +584,15 @@ void Background::changeBackground(bool force) {
             changeProperty(_XA_XROOTCOLOR_PIXEL, XA_CARDINAL,
                            (unsigned char *) &tPixel);
         }
-#endif
     }
     XClearWindow(display(), window());
     XFlush(display());
-#ifndef NO_CONFIGURE
     if (false == supportSemitransparency &&
         backgroundImages.getCount() <= 1 &&
         backgroundColors.getCount() <= 1)
     {
         this->exit(0);
     }
-#endif
     currentBackgroundPixmap = backgroundPixmap;
     currentBackgroundColor = backgroundColor;
 }
@@ -750,14 +740,11 @@ static const char* get_help_text() {
 
 static void print_help_xit() {
     fputs(get_help_text(), stdout);
-#ifdef NO_CONFIGURE
     fputs(_("Please note that not all options are currently configured.\n"),
             stdout);
-#endif
     exit(0);
 }
 
-#ifndef NO_CONFIGURE
 static Background *globalBg;
 
 void addBgImage(const char* name, const char* value, bool append) {
@@ -813,7 +800,6 @@ static void testFlag(bool* flag, const char* value) {
         if (*value == '1') *flag = true;
     }
 }
-#endif
 
 int main(int argc, char **argv) {
     ApplicationName = my_basename(*argv);
@@ -822,7 +808,6 @@ int main(int argc, char **argv) {
     bool sendQuit = false;
     bool replace = false;
     bool verbose = false;
-#ifndef NO_CONFIGURE
     const char* overrideTheme = 0;
     const char* configFile = 0;
     const char* image = 0;
@@ -832,13 +817,10 @@ int main(int argc, char **argv) {
     const char* center = 0;
     const char* scaled = 0;
     const char* multi = 0;
-#endif
 
     for (char **arg = argv + 1; arg < argv + argc; ++arg) {
         if (**arg == '-') {
-#ifndef NO_CONFIGURE
             char *value(0);
-#endif
             if (is_switch(*arg, "r", "restart")) {
                 sendRestart = true;
             }
@@ -857,7 +839,6 @@ int main(int argc, char **argv) {
             else if (is_long_switch(*arg, "verbose")) {
                 verbose = true;
             }
-#ifndef NO_CONFIGURE
             else if (GetArgument(value, "t", "theme", arg, argv + argc)) {
                 overrideTheme = value;
             }
@@ -885,7 +866,6 @@ int main(int argc, char **argv) {
             else if (GetArgument(value, "m", "multi", arg, argv + argc)) {
                 multi = value;
             }
-#endif
         }
     }
 
@@ -910,7 +890,6 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-#ifndef NO_CONFIGURE
     globalBg = &bg;
     bgLoadConfig(configFile, overrideTheme);
     if (image) {
@@ -935,7 +914,6 @@ int main(int argc, char **argv) {
     testFlag(&scaleBackground, scaled);
     testFlag(&multiheadBackground, multi);
     globalBg = NULL;
-#endif
     bg.update();
 
     return bg.mainLoop();

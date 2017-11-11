@@ -23,8 +23,6 @@
 
 #include "intl.h"
 
-#ifdef CONFIG_WINLIST
-
 WindowList *windowList = 0;
 
 WindowListItem::WindowListItem(ClientData *frame, int workspace): YListItem() {
@@ -64,10 +62,8 @@ ustring WindowListItem::getText() {
 }
 
 ref<YIcon> WindowListItem::getIcon() {
-#ifndef LITE
     if (fFrame)
         return getFrame()->getIcon();
-#endif
     return null;
 }
 
@@ -134,11 +130,9 @@ void WindowListBox::actionPerformed(YAction action, unsigned int modifiers) {
         }
     } else {
         for (int i = 0; i < frameList.getCount(); i++) {
-#ifndef CONFIG_PDA
             if (action == actionHide)
                 if (frameList[i]->isHidden())
                     continue;
-#endif
             if (action == actionMinimize)
                 if (frameList[i]->isMinimized())
                     continue;
@@ -251,10 +245,8 @@ void WindowListBox::enableCommands(YMenu *popup) {
                 sameWorkspace = false;
         }
     }
-#ifndef CONFIG_PDA
     if (!notHidden)
         popup->disableCommand(actionHide);
-#endif
     if (!notMinimized)
         popup->disableCommand(actionMinimize);
 
@@ -306,9 +298,7 @@ YFrameClient(aParent, 0) {
     windowListPopup = new YMenu();
     windowListPopup->setActionListener(list);
     windowListPopup->addItem(_("_Show"), -2, null, actionShow);
-#ifndef CONFIG_PDA
     windowListPopup->addItem(_("_Hide"), -2, null, actionHide);
-#endif
     windowListPopup->addItem(_("_Minimize"), -2, null, actionMinimize);
     windowListPopup->addSubmenu(_("Move _To"), -2, moveMenu);
     windowListPopup->addSeparator();
@@ -344,12 +334,8 @@ YFrameClient(aParent, 0) {
     windowList = this;
     setWindowTitle(_("Window list"));
     setIconTitle(_("Window list"));
-#if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)
     setWinWorkspaceHint(-1);
-#endif
-#ifdef GNOME1_HINTS
     setWinLayerHint(WinLayerAboveDock);
-#endif
 }
 
 WindowList::~WindowList() {
@@ -489,6 +475,5 @@ void WindowList::showFocused(int x, int y) {
         getFrame()->activateWindow(true);
     }
 }
-#endif
 
 // vim: set sw=4 ts=4 et:

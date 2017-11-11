@@ -34,8 +34,6 @@ private:
     YColor *color[MEM_STATES];
     YTimer *fUpdateTimer;
 };
-#else
-#undef CONFIG_APPLET_MEM_STATUS
 #endif
 
 #endif

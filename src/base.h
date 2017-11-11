@@ -144,14 +144,7 @@ void show_backtrace();
 #define DIR_DELIMINATOR '/'
 #endif
 
-extern "C" {
-#ifdef __EMX__
-char* __XOS2RedirRoot(char const*);
-#define REDIR_ROOT(path) __XOS2RedirRoot(path)
-#else
 #define REDIR_ROOT(path) (path)
-#endif
-}
 
 //!!! clean these up
 #define KEY_MODMASK(x) ((x) & (xapp->KeyMask))

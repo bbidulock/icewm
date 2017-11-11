@@ -5,9 +5,6 @@
  */
 
 #include "config.h"
-
-#ifndef NO_CONFIGURE_MENUS
-
 #include "obj.h"
 #include "objmenu.h"
 #include "browse.h"
@@ -44,10 +41,8 @@ void BrowseMenu::updatePopup() {
 
         removeAll();
 
-#ifndef LITE
         ref<YIcon> file = YIcon::getIcon("file");
         ref<YIcon> folder = YIcon::getIcon("folder");
-#endif
 
         for (adir dir(fPath.string()); dir.next(); ) {
             ustring entry(dir.entry());
@@ -61,7 +56,6 @@ void BrowseMenu::updatePopup() {
             YMenuItem *item = add(new DObjectMenuItem(pfile));
             if (item) {
                 item->setSubmenu(sub);
-#ifndef LITE
                 if (sub) {
                     if (folder != null)
                         item->setIcon(folder);
@@ -69,7 +63,6 @@ void BrowseMenu::updatePopup() {
                     if (file != null)
                         item->setIcon(file);
                 }
-#endif
             }
             else if (sub) {
                 delete sub;
@@ -77,6 +70,5 @@ void BrowseMenu::updatePopup() {
         }
     }
 }
-#endif
 
 // vim: set sw=4 ts=4 et:

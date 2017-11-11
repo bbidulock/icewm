@@ -3,7 +3,7 @@
  *
  * Copyright (C) 1997-2003 Marko Macek
  *
- * Windows/OS2 like Alt{+Shift}+Tab window switching
+ * Alt{+Shift}+Tab window switching
  */
 #include "config.h"
 
@@ -121,10 +121,8 @@ public:
 
     virtual ref<YIcon> getIcon(int itemIdx) OVERRIDE
     {
-#ifndef LITE
         YFrameWindow* winItem=zList[itemIdx];
         if(winItem) return winItem->getIcon();
-#endif
         return null;
     }
 
@@ -214,8 +212,9 @@ public:
 
 SwitchWindow::SwitchWindow(YWindow *parent, ISwitchItems *items,
                            bool verticalStyle):
-    YPopupWindow(parent) INIT_GRADIENT(fGradient, null) {
-
+    YPopupWindow(parent),
+    fGradient(null)
+{
     zItems = items ? items : new WindowItemsCtrlr;
     m_verticalStyle = verticalStyle;
 
@@ -267,9 +266,7 @@ void SwitchWindow::accept() {
 
 SwitchWindow::~SwitchWindow() {
     close();
-#ifdef CONFIG_GRADIENTS
     fGradient = null;
-#endif
     delete(zItems);
 }
 
@@ -300,16 +297,13 @@ void SwitchWindow::resize(int xiscreen) {
         tWidth = cTitle != null ? switchFont->textWidth(cTitle) : 0;
     }
 
-#ifndef LITE
     if (quickSwitchVertical || !quickSwitchAllIcons)
         tWidth += 2 * quickSwitchIMargin + YIcon::largeSize() + 3;
-#endif
     if (tWidth > aWidth)
         aWidth = tWidth;
 
     int w = aWidth;
     int h = switchFont->height();
-#ifndef LITE
     int const mWidth(dw * 6/7);
 
     if (quickSwitchVertical) {
@@ -351,7 +345,6 @@ void SwitchWindow::resize(int xiscreen) {
                 h = iHeight;
         }
     }
-#endif
     h += quickSwitchVMargin * 2;
     w += quickSwitchHMargin * 2;
 
@@ -361,7 +354,6 @@ void SwitchWindow::resize(int xiscreen) {
 }
 
 void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
-#ifdef CONFIG_GRADIENTS
     if (switchbackPixbuf != null &&
         !(fGradient != null &&
           fGradient->width() == width() - 2 &&
@@ -369,30 +361,24 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
     {
         fGradient = switchbackPixbuf->scale(width() - 2, height() - 2);
     }
-#endif
 
     g.setColor(switchBg);
     g.drawBorderW(0, 0, width() - 1, height() - 1, true);
 
-#ifdef CONFIG_GRADIENTS
     if (fGradient != null)
         g.drawImage(fGradient, 1, 1, width() - 2, height() - 2, 1, 1);
     else
-#endif
     if (switchbackPixmap != null)
         g.fillPixmap(switchbackPixmap, 1, 1, width() - 3, height() - 3);
     else
         g.fillRect(1, 1, width() - 3, height() - 3);
 
-#ifndef LITE
     // for vertical positioning, continue below. Avoid spagheti code.
     if(m_verticalStyle) goto verticalMode;
-#endif
 
     if (zItems->getActiveItem() >= 0) {
         int tOfs(0);
 
-#ifndef LITE
         int ih = quickSwitchHugeIcon ? YIcon::hugeSize() : YIcon::largeSize();
 
         ref<YIcon> icon;
@@ -428,7 +414,6 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
                 g.drawLine(x + 1, 1, x + 1, width() - 2);
             }
         }
-#endif
 
         g.setColor(switchFg);
         g.setFont(switchFont);
@@ -446,7 +431,6 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
 
             g.drawChars(cTitle, x, y);
 
-#ifndef LITE
             if (quickSwitchAllIcons && quickSwitchSepSize) {
                 int const h(quickSwitchVMargin + ih +
                             quickSwitchIMargin * 2 +
@@ -458,10 +442,8 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
                 g.setColor(switchBg->brighter());
                 g.drawLine(1, y + 1, width() - 2, y + 1);
             }
-#endif
         }
 
-#ifndef LITE
         if (quickSwitchAllIcons) {
             int const ds(quickSwitchHugeIcon ? YIcon::hugeSize() -
                          YIcon::largeSize() : 0);
@@ -514,10 +496,8 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
             }
             //      {} while ((frame = nextWindow(frame, true, true)) != first);
         }
-#endif
     }
 
-#ifndef LITE
     return;
 
 verticalMode:
@@ -586,7 +566,6 @@ verticalMode:
             g.drawLine(x + 1, 1, x + 1, height() - 2);
         }
     }
-#endif
 }
 
 void SwitchWindow::begin(bool zdown, int mods) {

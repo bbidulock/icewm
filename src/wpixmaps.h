@@ -43,16 +43,11 @@ extern ref<YPixmap> titleB[2]; // Right pane
 extern ref<YPixmap> titleR[2]; // Right pane <=> Right buttons
 extern ref<YPixmap> titleQ[2]; // Right buttons <=> Frame
 
-#ifdef CONFIG_TASKBAR
 extern ref<YPixmap> taskbackPixmap;
-
 extern ref<YPixmap> toolbuttonPixmap;
-
 extern ref<YPixmap> workspacebuttonPixmap;
 extern ref<YPixmap> workspacebuttonactivePixmap;
-#endif
 
-#ifdef CONFIG_GRADIENTS
 extern ref<YImage> buttonIPixbuf;
 extern ref<YImage> buttonAPixbuf;
 
@@ -79,7 +74,6 @@ extern ref<YImage> toolbuttonPixbuf;
 
 extern ref<YImage> workspacebuttonPixbuf;
 extern ref<YImage> workspacebuttonactivePixbuf;
-#endif
 
 extern ref<YImage> taskbarStartImage;
 extern ref<YImage> taskbarLinuxImage;   // deprecated
@@ -88,15 +82,12 @@ extern ref<YImage> taskbarShowDesktopImage;
 extern ref<YImage> taskbarCollapseImage;
 extern ref<YImage> taskbarExpandImage;
 
-#ifdef CONFIG_APPLET_MAILBOX
 extern ref<YPixmap> mailPixmap;
 extern ref<YPixmap> noMailPixmap;
 extern ref<YPixmap> errMailPixmap;
 extern ref<YPixmap> unreadMailPixmap;
 extern ref<YPixmap> newMailPixmap;
-#endif
 
-#ifdef CONFIG_APPLET_CLOCK
 extern ref<YPixmap> ledPixNum[10];
 extern ref<YPixmap> ledPixSpace;
 extern ref<YPixmap> ledPixColon;
@@ -106,7 +97,6 @@ extern ref<YPixmap> ledPixP;
 extern ref<YPixmap> ledPixM;
 extern ref<YPixmap> ledPixDot;
 extern ref<YPixmap> ledPixPercent;
-#endif
 
 #endif
 

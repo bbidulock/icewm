@@ -61,8 +61,6 @@ bool canShutdown(bool reboot) {
     return true;
 }
 
-#ifndef LITE
-
 #define HORZ 10
 #define MIDH 10
 #define VERT 10
@@ -137,11 +135,7 @@ CtrlAltDelete::~CtrlAltDelete() {
 }
 
 void CtrlAltDelete::paint(Graphics &g, const YRect &/*r*/) {
-#ifdef CONFIG_GRADIENTS
     YSurface surface(cadBg, logoutPixmap, logoutPixbuf);
-#else
-    YSurface surface(cadBg, logoutPixmap);
-#endif
     g.setColor(surface.color);
     g.drawSurface(surface, 1, 1, width() - 2, height() - 2);
     g.draw3DRect(0, 0, width() - 1, height() - 1, true);
@@ -217,7 +211,5 @@ YActionButton* CtrlAltDelete::addButton(const ustring& str, int& maxW, int& maxH
     b->show();
     return b;
 }
-
-#endif
 
 // vim: set sw=4 ts=4 et:

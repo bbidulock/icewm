@@ -5,8 +5,6 @@
  */
 #include "config.h"
 
-#ifndef LITE
-
 #include "ylib.h"
 #include "wmminiicon.h"
 
@@ -167,6 +165,5 @@ void MiniIcon::handleDrag(const XButtonEvent &down, const XMotionEvent &motion) 
         getFrame()->setCurrentGeometryOuter(YRect(x, y, width(), height()));
     }
 }
-#endif
 
 // vim: set sw=4 ts=4 et:

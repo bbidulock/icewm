@@ -33,7 +33,6 @@ XIV(bool, opaqueMove,                           true)
 XIV(bool, opaqueResize,                         true)
 XIV(bool, hideTitleBarWhenMaximized,            false)
 XSV(const char *, winMenuItems,                 "rmsnxfhualyticw")
-#ifdef CONFIG_TASKBAR
 XIV(bool, showTaskBar,                          true)
 XIV(bool, taskBarAtTop,                         false)
 XIV(bool, taskBarKeepBelow,                     false)
@@ -52,10 +51,8 @@ XIV(bool, taskBarShowShowDesktopButton,         true)
 XIV(int, taskBarButtonWidthDivisor,             3)
 XIV(int, taskBarWidthPercentage,                100)
 XSV(const char *, taskBarJustify,               "left")
-#ifdef CONFIG_TRAY
 XIV(bool, taskBarShowTray,                      true)
 XIV(bool, trayShowAllWindows,                   true)
-#endif
 XIV(bool, taskBarShowTransientWindows,          true)
 XIV(bool, taskBarShowAllWindows,                false)
 XIV(bool, taskBarShowWindowIcons,               true)
@@ -79,7 +76,6 @@ XIV(bool, taskBarShowMEMStatus,                 true)
 XIV(bool, taskBarShowNetStatus,                 true)
 XIV(bool, taskBarLaunchOnSingleClick,           true)
 XIV(bool, taskBarShowCollapseButton,            false)
-#endif
 XIV(bool, minimizeToDesktop,                    false)
 XIV(bool, miniIconsPlaceHorizontal,             false)
 XIV(bool, miniIconsRightToLeft,                 false)
@@ -137,7 +133,7 @@ XIV(bool, fullscreenUseAllMonitors,             false)
 XIV(bool, enableAddressBar,                     true)
 XIV(bool, showAddressBar,                       true)
 XIV(bool, confirmLogout,                        true)
-#ifdef CONFIG_SHAPED_DECORATION
+#ifdef CONFIG_SHAPE
 XIV(bool, protectClientWindow,                  true)
 #endif
 XIV(int, MenuMaximalWidth,                      0)
@@ -170,10 +166,7 @@ XIV(int, nestedThemeMenuMinNumber,              21)
 XIV(int, batteryPollingPeriod,                  10)
 XIV(int, netWorkAreaBehaviour,                  0)
 
-#ifdef CONFIG_APPLET_APM
 XSV(const char *, acpiIgnoreBatteries,          0)
-#endif
-
 XSV(const char *, mailBoxPath,                  0)
 XSV(const char *, mailCommand,                  "xterm -name mutt -e mutt")
 XSV(const char *, mailClassHint,                "mutt.XTerm")
@@ -222,7 +215,7 @@ XSV(const char *, fmtTimeAlt,                   NULL)
 XSV(const char *, fmtDate,                      "%Y-%m-%d %H:%M:%S %z %B %A")
 #endif
 
-#if defined(CFGDEF) && !defined(NO_CONFIGURE)
+#if defined(CFGDEF)
 
 cfoption icewm_preferences[] = {
     OBV("ClickToFocus",                         &clickFocus,                    "Focus windows by clicking"),
@@ -295,7 +288,6 @@ cfoption icewm_preferences[] = {
     OBV("ContinuousEdgeSwitch",                 &edgeContWorkspaceSwitching,    "Workspace switches continuously when moving mouse to screen edge"),
     OBV("AutoReloadMenus",                      &autoReloadMenus,               "Reload menu files automatically"),
     OBV("ArrangeWindowsOnScreenSizeChange",     &arrangeWindowsOnScreenSizeChange, "Automatically arrange windows when screen size changes"),
-#ifdef CONFIG_TASKBAR
     OBV("ShowTaskBar",                          &showTaskBar,                   "Show task bar"),
     OBV("TaskBarAtTop",                         &taskBarAtTop,                  "Task bar at top of the screen"),
     OBV("TaskBarKeepBelow",                     &taskBarKeepBelow,              "Keep the task bar below regular windows"),
@@ -313,10 +305,8 @@ cfoption icewm_preferences[] = {
     OBV("TaskBarShowWindows",                   &taskBarShowWindows,            "Show windows on the taskbar"),
     OBV("TaskBarShowShowDesktopButton",         &taskBarShowShowDesktopButton,  "Show 'show desktop' button on taskbar"),
     OBV("ShowEllipsis",                         &showEllipsis,                  "Show Ellipsis in taskbar items"),
-#ifdef CONFIG_TRAY
     OBV("TaskBarShowTray",                      &taskBarShowTray,               "Show windows in the tray"),
     OBV("TrayShowAllWindows",                   &trayShowAllWindows,            "Show windows from all workspaces on tray"),
-#endif
     OBV("TaskBarShowTransientWindows",          &taskBarShowTransientWindows,   "Show transient (dialogs, ...) windows on task bar"),
     OBV("TaskBarShowAllWindows",                &taskBarShowAllWindows,         "Show windows from all workspaces on task bar"),
     OBV("TaskBarShowWindowIcons",               &taskBarShowWindowIcons,        "Show icons of windows on the task bar"),
@@ -340,7 +330,6 @@ cfoption icewm_preferences[] = {
     OBV("PagerShowBorders",                     &pagerShowBorders,              "Draw border around workspace buttons (if PagerShowPreview=1)"),
     OBV("PagerShowNumbers",                     &pagerShowNumbers,              "Show number of workspace on workspace button (if PagerShowPreview=1)"),
     OBV("TaskBarLaunchOnSingleClick",           &taskBarLaunchOnSingleClick,    "Execute taskbar applet commands (like MailCommand,     ClockCommand,   ...) on single click"),
-#endif
 //    OBV("WarpPointer",                          &warpPointer,                   "Move mouse when doing focusing in pointer focus mode"),
     OBV("ClientWindowMouseActions",             &clientMouseActions,            "Allow mouse actions on client windows (buggy with some programs)"),
     OBV("ShowProgramsMenu",                     &showPrograms,                  "Show programs submenu"),
@@ -361,7 +350,7 @@ cfoption icewm_preferences[] = {
     OBV("MultiByte",                            &multiByte,                     "Overrides automatic multiple byte detection"),
 #endif
     OBV("ConfirmLogout",                        &confirmLogout,                 "Confirm logout"),
-#ifdef CONFIG_SHAPED_DECORATION
+#ifdef CONFIG_SHAPE
     OBV("ShapesProtectClientWindow",            &protectClientWindow,           "Don't cut client windows by shapes set trough frame corner pixmap"),
 #endif
     OBV("DoubleBuffer",                         &doubleBuffer,                  "Use double buffering when redrawing the display"),
@@ -373,10 +362,8 @@ cfoption icewm_preferences[] = {
     OIV("MenuActivateDelay",                    &MenuActivateDelay, 0, 5000,    "Delay before activating menu items"),
     OIV("SubmenuMenuActivateDelay",             &SubmenuActivateDelay, 0, 5000, "Delay before activating menu submenus"),
     OIV("MenuMaximalWidth",                     &MenuMaximalWidth, 0, 16384,    "Maximal width of popup menus,  2/3 of the screen's width if set to zero"),
-#ifdef CONFIG_TOOLTIP
     OIV("ToolTipDelay",                         &ToolTipDelay, 0, 5000,         "Delay before tooltip window is displayed"),
     OIV("ToolTipTime",                          &ToolTipTime, 0, 60000,         "Time before tooltip window is hidden (0 means never"),
-#endif
     OIV("AutoHideDelay",                        &autoHideDelay, 0, 5000,        "Delay before task bar is hidden"),
     OIV("AutoShowDelay",                        &autoShowDelay, 0, 5000,        "Delay before task bar is shown"),
     OIV("AutoRaiseDelay",                       &autoRaiseDelay, 0, 5000,       "Delay before windows are auto raised"),
@@ -398,7 +385,6 @@ cfoption icewm_preferences[] = {
     OIV("TitleBarRollupButton",                 &titleRollupButton, 0, 5,       "TitleBar mouse-button double click to rollup the window"),
     OIV("MsgBoxDefaultAction",                  &msgBoxDefaultAction, 0, 1,     "Preselect to Cancel (0) or the OK (1) button in message boxes"),
     OIV("MailCheckDelay",                       &mailCheckDelay, 0, (3600*24),  "Delay between new-mail checks. (seconds)"),
-#ifdef CONFIG_TASKBAR
     OIV("TaskBarCPUDelay",                      &taskBarCPUDelay, 10, (60*60*1000),    "Delay between CPU Monitor samples in ms"),
     OIV("TaskBarCPUSamples",                    &taskBarCPUSamples, 2, 1000,    "Width of CPU Monitor"),
     OIV("TaskBarMEMSamples",                    &taskBarMEMSamples, 2, 1000,    "Width of Memory Monitor"),
@@ -410,7 +396,6 @@ cfoption icewm_preferences[] = {
     OSV("TaskBarJustify",                       &taskBarJustify, "Taskbar justify left, right or center"),
     OIV("TaskBarApmGraphWidth",                 &taskBarApmGraphWidth, 1, 1000,  "Width of APM Monitor"),
     OIV("TaskBarGraphHeight",                   &taskBarGraphHeight, 16, 1000,  "Height of taskbar monitoring applets"),
-#endif
 
     OIV("XineramaPrimaryScreen",                &xineramaPrimaryScreen, 0, 63, "Primary screen for xinerama (taskbar, ...)"),
     OIV("FocusRequestFlashTime",                &focusRequestFlashTime, 0, (3600 * 24), "Number of seconds the taskbar app will blink when requesting focus (0 = forever)"),
@@ -446,12 +431,8 @@ cfoption icewm_preferences[] = {
     OSV("TimeFormatAlt",                        &fmtTimeAlt,                    "Alternate Clock Time format (e.g. for blinking effects)"),
     OSV("DateFormat",                           &fmtDate,                       "Clock Date format for tooltip (strftime format string)"),
     OSV("XRRPrimaryScreenName",                 &xineramaPrimaryScreenName,     "screen/output name of the primary screen"),
-#ifdef CONFIG_APPLET_APM
     OSV("AcpiIgnoreBatteries",                  &acpiIgnoreBatteries,           "List of battery names (directories) in /proc/acpi/battery to ignore. Useful when more slots are built-in, but only one battery is used"),
-#endif
 
-
-#ifndef NO_KEYBIND
     OKV("MouseWinMove",                         gMouseWinMove,                  "Mouse binding for window move"),
     OKV("MouseWinSize",                         gMouseWinSize,                  "Mouse binding for window resize"),
     OKV("MouseWinRaise",                        gMouseWinRaise,                 "Mouse binding to raise window"),
@@ -532,7 +513,7 @@ cfoption icewm_preferences[] = {
     OKV("KeySysUndoArrange",                    gKeySysUndoArrange,             ""),
     OKV("KeySysShowDesktop",                    gKeySysShowDesktop,             ""),
     OKV("KeySysCollapseTaskBar",                gKeySysCollapseTaskBar,         ""),
-#endif
+
     OKF("WorkspaceNames", addWorkspace, ""),
     OSV("WinMenuItems",                         &winMenuItems,                  "Items supported in menu window (rmsnxfhualytickw)"),
     OK0()

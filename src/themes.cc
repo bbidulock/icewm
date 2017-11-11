@@ -4,10 +4,7 @@
  * Copyright (C) 1997-2002 Marko Macek
  */
 #include "config.h"
-
-#ifndef NO_CONFIGURE_MENUS
 #include "themes.h"
-
 #include "yapp.h"
 #include "ymenu.h"
 #include "wmmgr.h"
@@ -226,6 +223,5 @@ void ThemesMenu::findThemeAlternatives(
         }
     }
 }
-#endif
 
 // vim: set sw=4 ts=4 et:

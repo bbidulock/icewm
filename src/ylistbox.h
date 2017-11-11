@@ -111,9 +111,7 @@ private:
     void focusVisible();
     void ensureVisibility(int item);
 
-#ifdef CONFIG_GRADIENTS
     ref<YImage> fGradient;
-#endif
 };
 
 #endif

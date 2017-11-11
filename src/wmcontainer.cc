@@ -170,14 +170,12 @@ void YClientContainer::grabActions() {
     if (clientMouseActions) {
         if (!fHaveActionGrab) {
             fHaveActionGrab = true;
-#ifndef NO_KEYBIND
             if (gMouseWinMove.key != 0)
                 grabVButton(gMouseWinMove.key - XK_Pointer_Button1 + 1, gMouseWinMove.mod);
             if (gMouseWinSize.key != 0)
                 grabVButton(gMouseWinSize.key - XK_Pointer_Button1 + 1, gMouseWinSize.mod);
             if (gMouseWinRaise.key != 0)
                 grabVButton(gMouseWinRaise.key - XK_Pointer_Button1 + 1, gMouseWinRaise.mod);
-#endif
         }
     }
 }

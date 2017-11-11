@@ -7,15 +7,9 @@
  * !!! this should be external module (replacable for POP,IMAP,...)
  */
 #include "config.h"
-
 #include "intl.h"
-
-#ifdef CONFIG_APPLET_MAILBOX
-#ifdef CONFIG_TASKBAR
-
 #include "ylib.h"
 #include "amailbox.h"
-
 #include "sysdep.h"
 #include "base.h"
 #include "prefs.h"
@@ -376,13 +370,11 @@ void MailBoxStatus::paint(Graphics &g, const YRect &/*r*/) {
     }
 
     if (pixmap == null || pixmap->mask()) {
-#ifdef CONFIG_GRADIENTS
         ref<YImage> gradient = parent()->getGradient();
 
         if (gradient != null)
             g.drawImage(gradient, x(), y(), width(), height(), 0, 0);
         else
-#endif
             if (taskbackPixmap != null)
                 g.fillPixmap(taskbackPixmap, 0, 0,
                              width(), height(), this->x(), this->y());
@@ -472,8 +464,5 @@ bool MailBoxStatus::handleTimer(YTimer *t) {
     checkMail();
     return true;
 }
-
-#endif
-#endif
 
 // vim: set sw=4 ts=4 et:

@@ -5,8 +5,6 @@
  */
 #include "config.h"
 
-#ifndef NO_CONFIGURE_MENUS
-
 #define NEED_TIME_H
 
 #include "objmenu.h"
@@ -37,10 +35,8 @@ DObjectMenuItem::DObjectMenuItem(DObject *object):
     YMenuItem(object->getName(), -3, null, YAction(), 0)
 {
     fObject = object;
-#ifndef LITE
     if (object->getIcon() != null)
         setIcon(object->getIcon());
-#endif
 }
 
 DObjectMenuItem::~DObjectMenuItem() {
@@ -48,9 +44,7 @@ DObjectMenuItem::~DObjectMenuItem() {
 }
 
 void DObjectMenuItem::actionPerformed(YActionListener * /*listener*/, YAction /*action*/, unsigned int /*modifiers*/) {
-#ifdef CONFIG_GUIEVENTS
     wmapp->signalGuiEvent(geLaunchApp);
-#endif
     fObject->open();
 }
 
@@ -78,31 +72,21 @@ void ObjectMenu::addObject(DObject *fObject) {
     add(new DObjectMenuItem(fObject));
 }
 
-#ifndef LITE
 void ObjectMenu::addObject(DObject *fObject, const char *icons) {
     add(new DObjectMenuItem(fObject), icons);
 }
-#endif
 
 void ObjectMenu::addSeparator() {
     YMenu::addSeparator();
 }
 
-#ifdef LITE
-void ObjectMenu::addContainer(const ustring &name, ref<YIcon> /*icon*/, ObjectContainer *container) {
-#else
 void ObjectMenu::addContainer(const ustring &name, ref<YIcon> icon, ObjectContainer *container) {
-#endif
     if (container) {
-#ifndef LITE
         YMenuItem *item =
-#endif
             addSubmenu(name, -3, (ObjectMenu *)container);
 
-#ifndef LITE
         if (item && icon != null)
             item->setIcon(icon);
-#endif
     }
 }
 
@@ -227,7 +211,6 @@ static char *getCommandArgs(char *source, Argument *command,
     return p;
 }
 
-#ifndef NO_CONFIGURE_MENUS
 YObjectArray<KProgram> keyProgs;
 
 KProgram::KProgram(const char *key, DProgram *prog, bool bIsDynSwitchMenuProg)
@@ -319,9 +302,6 @@ void KProgram::open(unsigned mods) {
         fProg->open();
 }
 
-
-#endif
-
 char *parseIncludeStatement(
         IApp *app,
         YSMListener *smActionListener,
@@ -404,9 +384,7 @@ char *parseMenus(
                 }
 
                 ref<YIcon> icon;
-#ifndef LITE
                 if (icons[0] != '-') icon = YIcon::getIcon(icons);
-#endif
                 DProgram * prog = DProgram::newProgram(
                     app,
                     smActionListener,
@@ -434,10 +412,8 @@ char *parseMenus(
                 p++;
 
                 ref<YIcon> icon;
-#ifndef LITE
                 if (icons[0] != '-')
                     icon = YIcon::getIcon(icons);
-#endif
 
                 ObjectMenu *sub = new ObjectMenu(wmActionListener);
 
@@ -470,10 +446,8 @@ char *parseMenus(
                 if (p == 0) return p;
 
                 ref<YIcon> icon;
-#ifndef LITE
                 if (icons[0] != '-')
                     icon = YIcon::getIcon(icons);
-#endif
                 ObjectMenu *filemenu = new MenuFileMenu(
                         app, smActionListener, wmActionListener,
                         menufile.cstr(), 0);
@@ -501,10 +475,8 @@ char *parseMenus(
                 }
 
                 ref<YIcon> icon;
-#ifndef LITE
                 if (icons[0] != '-')
                     icon = YIcon::getIcon(icons);
-#endif
                 MSG(("menuprog %s %s", name.cstr(), command.cstr()));
 
                 upath fullPath = findPath(getenv("PATH"), X_OK, command.cstr());
@@ -542,10 +514,8 @@ char *parseMenus(
                 }
 
                 ref<YIcon> icon;
-#ifndef LITE
                 if (icons[0] != '-')
                     icon = YIcon::getIcon(icons);
-#endif
                 MSG(("menuprogreload %s %s", name.cstr(), command.cstr()));
 
                 upath fullPath = findPath(getenv("PATH"), X_OK, command.cstr());
@@ -934,11 +904,7 @@ HelpMenu::HelpMenu(
             args);
 
         if (prog)
-#ifdef LITE
-            addObject(prog);
-#else
             addObject(prog, "help");
-#endif
     }
 }
 
@@ -952,9 +918,7 @@ void StartMenu::refresh() {
     if (openCommand && openCommand[0]) {
         upath path[] = { upath::root(), YApplication::getHomeDir() };
         YMenu *sub;
-#ifndef LITE
         ref<YIcon> folder = YIcon::getIcon("folder");
-#endif
         for (unsigned int i = 0; i < ACOUNT(path); i++) {
             upath& p = path[i];
 
@@ -963,10 +927,8 @@ void StartMenu::refresh() {
             YMenuItem *item = add(new DObjectMenuItem(file));
             if (item && sub) {
                 item->setSubmenu(sub);
-#ifndef LITE
                 if (folder != null)
                     item->setIcon(folder);
-#endif
             }
             else if (sub) {
                 delete sub;
@@ -975,79 +937,40 @@ void StartMenu::refresh() {
         addSeparator();
     }
 
-#ifdef CONFIG_WINLIST
     int const oldItemCount = itemCount();
-#endif
 
     if (showPrograms) {
         ObjectMenu *programs = new MenuFileMenu(app, smActionListener, wmActionListener, "programs", 0);
         ///    if (programs->itemCount() > 0)
-#ifdef LITE
-        addSubmenu(_("Programs"), 0, programs);
-#else
         addSubmenu(_("Programs"), 0, programs, "programs");
-#endif
     }
 
     if (showRun) {
         if (runDlgCommand && runDlgCommand[0])
-#ifdef LITE
-            addItem(_("_Run..."), -2, "", actionRun);
-#else
             addItem(_("_Run..."), -2, "", actionRun, "run");
-#endif
     }
 
-#ifdef CONFIG_WINLIST
-#ifdef CONFIG_WINMENU
     if (itemCount() != oldItemCount) addSeparator();
     if (showWindowList)
-#ifdef LITE
-        addItem(_("_Windows"), -2, actionWindowList, windowListMenu);
-#else
         addItem(_("_Windows"), -2, actionWindowList, windowListMenu, "windows");
-#endif
-#endif
-#endif
 
-    if (
-#ifndef LITE
-#ifdef CONFIG_TASKBAR
-        (!showTaskBar && showAbout) ||
-#endif
+    if ( (!showTaskBar && showAbout) ||
         showHelp ||
-#endif
         showSettingsMenu
     )
-#ifdef CONFIG_WINLIST
-#ifdef CONFIG_WINMENU
-        if (showWindowList)
-#endif
-#endif
+    if (showWindowList)
         addSeparator();
 
-#ifndef LITE
-#ifdef CONFIG_TASKBAR
     if (!showTaskBar) {
         if (showAbout)
-#ifdef LITE
-            addItem(_("_About"), -2, actionAbout, 0);
-#else
             addItem(_("_About"), -2, actionAbout, 0, "about");
-#endif
     }
-#endif
 
     if (showHelp) {
         HelpMenu *helpMenu =
             new HelpMenu(app, smActionListener, wmActionListener);
-#ifdef LITE
-            addSubmenu(_("_Help"), -2, helpMenu);
-#else
             addSubmenu(_("_Help"), -2, helpMenu, "help");
-#endif
     }
-#endif
 
     if (showSettingsMenu) {
         // When we have only 2 entries (focus + themes) then
@@ -1057,49 +980,28 @@ void StartMenu::refresh() {
 
         if (showFocusModeMenu) {
             FocusMenu *focus = new FocusMenu();
-#ifdef LITE
-            settings->addSubmenu(_("_Focus"), -2, focus);
-#else
             settings->addSubmenu(_("_Focus"), -2, focus, "focus");
-#endif
         }
 
 
         if (showThemesMenu) {
             YMenu *themes = new ThemesMenu(app, smActionListener, wmActionListener);
             if (themes)
-#ifdef LITE
-                settings->addSubmenu(_("_Themes"), -2, themes);
-#else
                 settings->addSubmenu(_("_Themes"), -2, themes, "themes");
-#endif
         }
 
         // Only add a menu if we created one:
         if (this != settings)
-#ifdef LITE
-        addSubmenu(_("Se_ttings"), -2, settings);
-#else
-        addSubmenu(_("Se_ttings"), -2, settings, "settings");
-#endif
+            addSubmenu(_("Se_ttings"), -2, settings, "settings");
     }
 
     if (logoutMenu) {
         addSeparator();
         if (showLogoutSubMenu)
-#ifdef LITE
-            addItem(_("_Logout..."), -2, actionLogout, logoutMenu);
-#else
             addItem(_("_Logout..."), -2, actionLogout, logoutMenu, "logout");
-#endif
         else
-#ifdef LITE
-            addItem(_("_Logout..."), -2, null, actionLogout);
-#else
             addItem(_("_Logout..."), -2, null, actionLogout, "logout");
-#endif
     }
 }
-#endif
 
 // vim: set sw=4 ts=4 et:

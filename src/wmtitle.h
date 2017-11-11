@@ -20,7 +20,7 @@ public:
 
     virtual void paint(Graphics &g, const YRect &r);
 
-#ifdef CONFIG_SHAPED_DECORATION
+#ifdef CONFIG_SHAPE
     void renderShape(Pixmap shape);
 #endif
 

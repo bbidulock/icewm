@@ -5,8 +5,6 @@
  */
 #include "config.h"
 
-#ifndef LITE
-
 #include "ylabel.h"
 #include "wpixmaps.h"
 #include "base.h"
@@ -35,13 +33,11 @@ YLabel::~YLabel() {
 }
 
 void YLabel::paint(Graphics &g, const YRect &/*r*/) {
-#ifdef CONFIG_GRADIENTS
     ref<YImage> gradient(parent() ? parent()->getGradient() : null);
 
     if (gradient != null)
         g.drawImage(gradient, x() - 1, y() - 1, width(), height(), 0, 0);
     else
-#endif
     if (dialogbackPixmap != null)
         g.fillPixmap(dialogbackPixmap, 0, 0, width(), height(), x() - 1, y() - 1);
     else {
@@ -88,6 +84,5 @@ void YLabel::autoSize() {
     }
     setSize(1 + w + 1, 1 + h + 1);
 }
-#endif
 
 // vim: set sw=4 ts=4 et:

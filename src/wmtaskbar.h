@@ -7,22 +7,12 @@
 #include "ytimer.h"
 #include "wmclient.h"
 #include "yxtray.h"
+#include "base.h"
 
 class ObjectBar;
-#ifdef CONFIG_APPLET_MEM_STATUS
 class MEMStatus;
-#endif
-#ifdef CONFIG_APPLET_CPU_STATUS
 class CPUStatus;
-#endif
-
-#ifdef CONFIG_APPLET_NET_STATUS
-#include "base.h"
-#ifdef HAVE_NET_STATUS
 class NetStatusControl;
-#endif
-#endif
-
 class AddressBar;
 class MailBoxStatus;
 class YClock;
@@ -42,7 +32,6 @@ protected:
     virtual ~IAppletContainer() {}
 };
 
-#ifdef CONFIG_TASKBAR
 class TaskBar;
 
 class EdgeTrigger: public YWindow, public YTimerListener {
@@ -91,15 +80,11 @@ public:
     virtual void handlePopDown(YPopupWindow *popup);
     virtual void handleEndPopup(YPopupWindow *popup);
 
-#ifdef WMSPEC_HINTS
     void updateWMHints();
-#endif
     void updateLocation();
     void configure(const YRect &r);
 
-#ifdef CONFIG_APPLET_CLOCK
     YClock *clock() { return fClock; }
-#endif
 
     bool windowTrayRequestDock(Window w);
     void setWorkspaceActive(long workspace, int active);
@@ -120,13 +105,9 @@ public:
 
     AddressBar *addressBar() const { return fAddressBar; }
     TaskPane *taskPane() const { return fTasks; }
-#ifdef CONFIG_TRAY
     TrayPane *windowTrayPane() const { return fWindowTray; }
-#endif
 
-#ifdef CONFIG_GRADIENTS
     virtual ref<YImage> getGradient() const { return fGradient; }
-#endif
 
     void contextMenu(int x_root, int y_root);
 
@@ -149,35 +130,17 @@ private:
     TaskPane *fTasks;
 
     YButton *fCollapseButton;
-#ifdef CONFIG_TRAY
     TrayPane *fWindowTray;
-#endif
-#ifdef CONFIG_APPLET_CLOCK
     YClock *fClock;
-#endif
-#ifdef CONFIG_APPLET_MAILBOX
     MailBoxStatus **fMailBoxStatus;
-#endif
-#ifdef CONFIG_APPLET_MEM_STATUS
     MEMStatus *fMEMStatus;
-#endif
-#ifdef CONFIG_APPLET_CPU_STATUS
     CPUStatus **fCPUStatus;
-#endif
-#ifdef CONFIG_APPLET_APM
     YApm *fApm;
-#endif
-#if defined(CONFIG_APPLET_NET_STATUS) && HAVE_NET_STATUS
     ref<NetStatusControl> fNetStatus;
-#endif
 
-#ifndef NO_CONFIGURE_MENUS
     ObjectBar *fObjectBar;
     YButton *fApplications;
-#endif
-#ifdef CONFIG_WINMENU
     YButton *fWinList;
-#endif
     YButton *fShowDesktop;
     AddressBar *fAddressBar;
     WorkspacesPane *fWorkspaces;
@@ -200,9 +163,7 @@ private:
     friend class WindowList;
     friend class WindowListBox;
 
-#ifdef CONFIG_GRADIENTS
     ref<YImage> fGradient;
-#endif
 
     bool fNeedRelayout;
 
@@ -216,8 +177,6 @@ private:
 extern TaskBar *taskBar; // !!! get rid of this
 
 class YColor* getTaskBarBg();
-
-#endif
 
 #endif
 

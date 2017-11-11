@@ -66,10 +66,7 @@ public:
     void destroyedFrame(YFrameWindow *frame);
 
 private:
-
-#ifdef CONFIG_GRADIENTS
     ref<YImage> fGradient;
-#endif
 
     static YColor *switchFg;
     static YColor *switchBg;

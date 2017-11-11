@@ -14,8 +14,6 @@
 #include "wmprog.h"
 #include "ypaths.h"
 
-#ifndef LITE
-
 #include <limits.h>
 #include <stdlib.h>
 
@@ -250,8 +248,6 @@ YCursorPixmap::~YCursorPixmap() {
 #endif
 }
 
-#endif
-
 YCursor::~YCursor() {
     unload();
 }
@@ -270,7 +266,6 @@ public:
     virtual Cursor load(upath path, unsigned int fallback);
 };
 
-#ifndef LITE
 static Pixmap createMask(int w, int h) {
     return XCreatePixmap(xapp->display(), desktop->handle(), w, h, 1);
 }
@@ -318,7 +313,6 @@ Cursor MyCursorLoader::load(upath path) {
     }
     return fCursor;
 }
-#endif
 
 void YCursor::unload() {
     if (fOwned) {
@@ -336,15 +330,10 @@ YCursorLoader* YCursor::newLoader() {
     return new MyCursorLoader();
 }
 
-#ifndef LITE
 Cursor MyCursorLoader::load(upath name, unsigned int fallback)
-#else
-Cursor MyCursorLoader::load(upath /*name*/, unsigned int fallback)
-#endif
 {
     Cursor fCursor = None;
 
-#ifndef LITE
     upath cursors("cursors/");
 
     for (int i = 0; i < paths->getCount(); i++) {
@@ -357,7 +346,6 @@ Cursor MyCursorLoader::load(upath /*name*/, unsigned int fallback)
         }
     }
 
-#endif
     if (fCursor == None)
         fCursor = XCreateFontCursor(xapp->display(), fallback);
 

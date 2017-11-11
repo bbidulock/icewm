@@ -77,8 +77,6 @@ private:
 
     void updateState();
 };
-#else
-#undef CONFIG_APPLET_APM
 #endif
 
 // vim: set sw=4 ts=4 et:

@@ -4,12 +4,7 @@
  * Copyright (C) 1999-2002 Marko Macek
  */
 #include "config.h"
-
-#ifndef NO_CONFIGURE_MENUS
 #include "objmenu.h"
-#endif
-
-#ifdef CONFIG_TASKBAR
 #include "objbar.h"
 #include "objbutton.h"
 #include "ybutton.h"
@@ -33,12 +28,10 @@ ObjectBar::~ObjectBar() {
 
 void ObjectBar::addButton(const ustring &name, ref<YIcon> icon, YButton *button) {
     button->setToolTip(name);
-#ifndef LITE
     if (icon != null) {
         button->setIcon(icon, YIcon::smallSize());
         button->setSize(button->width() + 4, button->width() + 4);
     } else
-#endif
         button->setText(name);
 
     button->setPosition(width(), 0);
@@ -57,19 +50,17 @@ void ObjectBar::addButton(const ustring &name, ref<YIcon> icon, YButton *button)
 }
 
 void ObjectBar::paint(Graphics &g, const YRect &/*r*/) {
-#ifdef CONFIG_GRADIENTS
     ref<YImage> gradient(parent()->getGradient());
 
     if (gradient != null)
         g.drawImage(gradient, this->x(), this->y(), width(), height(), 0, 0);
     else
-#endif
-        if (taskbackPixmap != null)
-            g.fillPixmap(taskbackPixmap, 0, 0, width(), height());
-        else {
-            g.setColor(getTaskBarBg());
-            g.fillRect(0, 0, width(), height());
-        }
+    if (taskbackPixmap != null)
+        g.fillPixmap(taskbackPixmap, 0, 0, width(), height());
+    else {
+        g.setColor(getTaskBarBg());
+        g.fillRect(0, 0, width(), height());
+    }
 }
 
 void ObjectBar::addObject(DObject *object) {
@@ -120,25 +111,15 @@ YSurface ObjectButton::getSurface() {
     if (bgColor == 0)
         bgColor = new YColor(*clrToolButton ? clrToolButton : clrNormalButton);
 
-#ifdef CONFIG_GRADIENTS
     return YSurface(bgColor, toolbuttonPixmap, toolbuttonPixbuf);
-#else
-    return YSurface(bgColor, toolbuttonPixmap);
-#endif
 }
 
 void ObjectButton::actionPerformed(YAction action, unsigned modifiers) {
-#ifdef CONFIG_GUIEVENTS
     wmapp->signalGuiEvent(geLaunchApp);
-#endif
     if (fObject) fObject->open();
     else YButton::actionPerformed(action, modifiers);
 }
 
-#endif /* CONFIG_TASKBAR */
-
-#ifndef NO_CONFIGURE_MENUS
 ObjectMenu *rootMenu(NULL);
-#endif
 
 // vim: set sw=4 ts=4 et:

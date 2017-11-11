@@ -1,8 +1,6 @@
 #ifndef __ADDRBAR_H
 #define __ADDRBAR_H
 
-#ifdef CONFIG_ADDRESSBAR
-
 #include "yinputline.h"
 
 class IApp;
@@ -19,8 +17,6 @@ public:
 private:
     IApp *app;
 };
-
-#endif
 
 #endif
 

@@ -53,13 +53,11 @@ XFV(const char *, statusFontName,               BOLDTTFONT(120), "monospace:size
 XFV(const char *, switchFontName,               BOLDTTFONT(120), "monospace:size=12:bold")
 XFV(const char *, normalButtonFontName,         FONT(120), "sans-serif:size=12")
 XFV(const char *, activeButtonFontName,         BOLDFONT(120), "sans-serif:size=12:bold")
-#ifdef CONFIG_TASKBAR
 XFV(const char *, normalTaskBarFontName,        FONT(120), "sans-serif:size=12")
 XFV(const char *, activeTaskBarFontName,        BOLDFONT(120), "sans-serif:size=12:bold")
 XFV(const char *, toolButtonFontName,           FONT(120), "sans-serif:size=12")
 XFV(const char *, normalWorkspaceFontName,      FONT(120), "sans-serif:size=12")
 XFV(const char *, activeWorkspaceFontName,      FONT(120), "sans-serif:size=12")
-#endif
 XFV(const char *, minimizedWindowFontName,      FONT(120), "sans-serif:size=12")
 XFV(const char *, listBoxFontName,              FONT(120), "sans-serif:size=12")
 XFV(const char *, labelFontName,                FONT(140), "sans-serif:size=12")
@@ -94,9 +92,7 @@ XSV(const char *, clrMoveSizeStatusText,        "rgb:00/00/00")
 XSV(const char *, clrQuickSwitch,               "rgb:C0/C0/C0")
 XSV(const char *, clrQuickSwitchText,           "rgb:00/00/00")
 XSV(const char *, clrQuickSwitchActive,         0)
-//#ifdef CONFIG_TASKBAR
 XSV(const char *, clrDefaultTaskBar,            "rgb:C0/C0/C0")
-//#endif
 XSV(const char *, clrNormalButton,              "rgb:C0/C0/C0")
 XSV(const char *, clrNormalButtonText,          "rgb:00/00/00")
 XSV(const char *, clrActiveButton,              "rgb:E0/E0/E0")
@@ -107,7 +103,6 @@ XSV(const char *, clrWorkspaceActiveButton,     "")
 XSV(const char *, clrWorkspaceActiveButtonText, "")
 XSV(const char *, clrWorkspaceNormalButton,     "")
 XSV(const char *, clrWorkspaceNormalButtonText, "")
-#ifdef CONFIG_TASKBAR
 XSV(const char *, clrNormalTaskBarApp,          "rgb:C0/C0/C0")
 XSV(const char *, clrNormalTaskBarAppText,      "rgb:00/00/00")
 XSV(const char *, clrActiveTaskBarApp,          "rgb:E0/E0/E0")
@@ -116,7 +111,6 @@ XSV(const char *, clrMinimizedTaskBarApp,       "rgb:A0/A0/A0")
 XSV(const char *, clrMinimizedTaskBarAppText,   "rgb:00/00/00")
 XSV(const char *, clrInvisibleTaskBarApp,       "rgb:80/80/80")
 XSV(const char *, clrInvisibleTaskBarAppText,   "rgb:00/00/00")
-#endif
 XSV(const char *, clrScrollBar,                 "rgb:A0/A0/A0")
 XSV(const char *, clrScrollBarArrow,            "rgb:00/00/00")
 XSV(const char *, clrScrollBarInactive,         "rgb:80/80/80")
@@ -155,17 +149,12 @@ XSV(const char *, clrMemFree,                   "rgb:00/00/00")
 XSV(const char *, clrNetSend,                   "rgb:FF/FF/00")
 XSV(const char *, clrNetReceive,                "rgb:FF/00/FF")
 XSV(const char *, clrNetIdle,                   "rgb:00/00/00")
-
-#ifdef CONFIG_GRADIENTS
 XSV(const char *, gradients,                    0)
-#endif
 
-#if defined(CFGDEF) && !defined(NO_CONFIGURE)
+#if defined(CFGDEF)
 
 cfoption icewm_themable_preferences[] = {
-#ifndef LITE
     OBV("RolloverButtonsSupported",             &rolloverTitleButtons,          "Does it support the 'O' title bar button images (for mouse rollover)"),
-#endif
     OBV("TaskBarClockLeds",                     &prettyClock,                   "Task bar clock/APM uses nice pixmapped LCD display (but then it doesn't display correctly in many languages anymore, e.g. for Japanese and Korean it works only when a real font is used and not the LEDs"),
 
     OIV("TrayIconMaxWidth",                     &trayIconMaxWidth, 16, 128,     "Maximum scaled width of tray icons"),
@@ -216,13 +205,11 @@ cfoption icewm_themable_preferences[] = {
     OFV("QuickSwitchFontName",                  &switchFontName,                "Name of the font for Alt+Tab switcher window."),
     OFV("NormalButtonFontName",                 &normalButtonFontName,          "Name of the normal button font."),
     OFV("ActiveButtonFontName",                 &activeButtonFontName,          "Name of the active button font."),
-#ifdef CONFIG_TASKBAR
     OFV("NormalTaskBarFontName",                &normalTaskBarFontName,         "Name of the normal task bar item font."),
     OFV("ActiveTaskBarFontName",                &activeTaskBarFontName,         "Name of the active task bar item font."),
     OFV("ToolButtonFontName",                   &toolButtonFontName,            "Name of the tool button font (fallback: NormalButtonFontName)."),
     OFV("NormalWorkspaceFontName",              &normalWorkspaceFontName,       "Name of the normal workspace button font (fallback: NormalButtonFontName)."),
     OFV("ActiveWorkspaceFontName",              &activeWorkspaceFontName,       "Name of the active workspace button font (fallback: ActiveButtonFontName)."),
-#endif
     OFV("MinimizedWindowFontName",              &minimizedWindowFontName,       "Name of the mini-window font."),
     OFV("ListBoxFontName",                      &listBoxFontName,               "Name of the window list font."),
     OFV("ToolTipFontName",                      &toolTipFontName,               "Name of the tool tip font."),
@@ -276,7 +263,6 @@ cfoption icewm_themable_preferences[] = {
     OSV("ColorQuickSwitch",                     &clrQuickSwitch,                "Background of the quick switch window"),
     OSV("ColorQuickSwitchText",                 &clrQuickSwitchText,            "Textcolor in the quick switch window"),
     OSV("ColorQuickSwitchActive",               &clrQuickSwitchActive,          "Rectangle arround the active icon in the quick switch window"),
-#ifdef CONFIG_TASKBAR
     OSV("ColorDefaultTaskBar",                  &clrDefaultTaskBar,             "Background of the taskbar"),
     OSV("ColorNormalTaskBarApp",                &clrNormalTaskBarApp,           "Background for task buttons of regular windows"),
     OSV("ColorNormalTaskBarAppText",            &clrNormalTaskBarAppText,       "Textcolor for task buttons of regular windows"),
@@ -286,7 +272,6 @@ cfoption icewm_themable_preferences[] = {
     OSV("ColorMinimizedTaskBarAppText",         &clrMinimizedTaskBarAppText,    "Textcolor for task buttons of minimized windows"),
     OSV("ColorInvisibleTaskBarApp",             &clrInvisibleTaskBarApp,        "Background for task buttons of windows on other workspaces"),
     OSV("ColorInvisibleTaskBarAppText",         &clrInvisibleTaskBarAppText,    "Textcolor for task buttons of windows on other workspaces"),
-#endif
     OSV("ColorScrollBar",                       &clrScrollBar,                  "Scrollbar background (sliding area)"),
     OSV("ColorScrollBarSlider",                 &clrScrollBarSlider,            "Background of the slider button in scrollbars"),
     OSV("ColorScrollBarButton",                 &clrScrollBarButton,            "Background of the arrow buttons in scrollbars"),
@@ -298,10 +283,8 @@ cfoption icewm_themable_preferences[] = {
     OSV("ColorListBoxText",                     &clrListBoxText,                "Textcolor in listboxes"),
     OSV("ColorListBoxSelection",                &clrListBoxSelected,            "Background of selected listbox items"),
     OSV("ColorListBoxSelectionText",            &clrListBoxSelectedText,        "Textcolor of selected listbox items"),
-#ifdef CONFIG_TOOLTIP
     OSV("ColorToolTip",                         &clrToolTip,                    "Background of tooltips"),
     OSV("ColorToolTipText",                     &clrToolTipText,                "Textcolor of tooltips"),
-#endif
     OSV("ColorLabel",                           &clrLabel,                      "Background of labels, leave empty to force transparency"),
     OSV("ColorLabelText",                       &clrLabelText,                  "Textcolor of labels"),
     OSV("ColorInput",                           &clrInput,                      "Background of text entry fields (e.g. the addressbar)"),
@@ -309,19 +292,16 @@ cfoption icewm_themable_preferences[] = {
     OSV("ColorInputSelection",                  &clrInputSelection,             "Background of selected text in an entry field"),
     OSV("ColorInputSelectionText",              &clrInputSelectionText,         "Selected text in an entry field"),
 
-#ifdef CONFIG_APPLET_CLOCK
     OSV("ColorClock",                           &clrClock,                      "Background of non-LCD clock, leave empty to force transparency"),
     OSV("ColorClockText",                       &clrClockText,                  "Background of non-LCD monitor"),
-#endif
-#ifdef CONFIG_APPLET_APM
+
     OSV("ColorApm",                             &clrApm,                        "Background of APM monitor, leave empty to force transparency"),
     OSV("ColorApmText",                         &clrApmText,                    "Textcolor of APM monitor"),
     OSV("ColorApmBattary",                      &clrApmBat,                     "Legacy option; don't use, see ColorApmBattery"),
     OSV("ColorApmBattery",                      &clrApmBat,                     "Color of APM monitor in battery mode"),
     OSV("ColorApmLine",                         &clrApmLine,                    "Color of APM monitor in line mode"),
     OSV("ColorApmGraphBg",                      &clrApmGraphBg,                 "Background color for graph mode"),
-#endif
-#ifdef CONFIG_APPLET_CPU_STATUS
+
     OSV("ColorCPUStatusUser",                   &clrCpuUser,                    "User load on the CPU monitor"),
     OSV("ColorCPUStatusSystem",                 &clrCpuSys,                     "System load on the CPU monitor"),
     OSV("ColorCPUStatusInterrupts",             &clrCpuIntr,                    "Interrupts on the CPU monitor"),
@@ -331,21 +311,17 @@ cfoption icewm_themable_preferences[] = {
     OSV("ColorCPUStatusIdle",                   &clrCpuIdle,                    "Idle (non) load on the CPU monitor, leave empty to force transparency"),
     OSV("ColorCPUStatusSteal",                  &clrCpuSteal,                   "Involuntary Wait on the CPU monitor"),
     OSV("ColorCPUStatusTemp",                   &clrCpuTemp,                    "Temperature of the CPU"),
-#endif
-#ifdef CONFIG_APPLET_MEM_STATUS
+
     OSV("ColorMEMStatusUser",                   &clrMemUser,                    "User program usage in the memory monitor"),
     OSV("ColorMEMStatusBuffers",                &clrMemBuffers,                 "OS buffers usage in the memory monitor"),
     OSV("ColorMEMStatusCached",                 &clrMemCached,                  "OS cached usage in the memory monitor"),
     OSV("ColorMEMStatusFree",                   &clrMemFree,                    "Free memory in the memory monitor"),
-#endif
-#ifdef CONFIG_APPLET_NET_STATUS
+
     OSV("ColorNetSend",                         &clrNetSend,                    "Outgoing load on the network monitor"),
     OSV("ColorNetReceive",                      &clrNetReceive,                 "Incoming load on the network monitor"),
     OSV("ColorNetIdle",                         &clrNetIdle,                    "Idle (non) load on the network monitor, leave empty to force transparency"),
-#endif
-#ifdef CONFIG_GRADIENTS
+
     OSV("Gradients",                            &gradients,                     "List of gradient pixmaps in the current theme"),
-#endif
     OKF("Look", setLook, ""),
     OK0()
 };

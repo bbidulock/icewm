@@ -88,10 +88,8 @@ public:
     void wmOccupyOnlyWorkspace(int workspace);
     void wmMoveToWorkspace(int workspace);
     void wmSetLayer(long layer);
-#ifdef CONFIG_TRAY
     void wmSetTrayOption(long option);
     void wmToggleTray();
-#endif
 #if DO_NOT_COVER_OLD
     void wmToggleDoNotCover();
 #endif
@@ -113,9 +111,7 @@ public:
     YFrameTitleBar *titlebar();
     YClientContainer *container() const { return fClientContainer; }
 
-#ifdef WMSPEC_HINTS
     void startMoveSize(int x, int y, int direction);
-#endif
 
     void startMoveSize(bool doMove, bool byMouse,
                        int sideX, int sideY,
@@ -225,9 +221,6 @@ public:
         fdDepth         = (1 << 9)
     };
 
-    /// !!! needs refactoring (some are not optional right now)
-    /// should be #ifndef NO_WINDOW_OPTIONS
-
     enum YFrameOptions {
         foAllWorkspaces         = (1 << 0),
         foIgnoreTaskBar         = (1 << 1),
@@ -257,10 +250,8 @@ public:
     void updateAllowed();
     void updateNetWMState();
     void getFrameHints();
-#ifndef NO_WINDOW_OPTIONS
     void getWindowOptions(WindowOption &opt, bool remove); /// !!! fix kludges
     void getWindowOptions(WindowOptions *list, WindowOption &opt, bool remove);
-#endif
 
     YMenu *windowMenu();
 
@@ -288,10 +279,8 @@ public:
 
     YFrameWindow *nextLayer();
     YFrameWindow *prevLayer();
-#ifdef CONFIG_WINLIST
     WindowListItem *winListItem() const { return fWinListItem; }
     void setWinListItem(WindowListItem *i) { fWinListItem = i; }
-#endif
 
     void addAsTransient();
     void removeAsTransient();
@@ -306,10 +295,8 @@ public:
     YFrameWindow *owner() const { return fOwner; }
     YFrameWindow *mainOwner();
 
-#ifndef LITE
     ref<YIcon> getClientIcon() const { return fFrameIcon; }
     ref<YIcon> clientIcon() const;
-#endif
 
     void getNormalGeometryInner(int *x, int *y, int *w, int *h);
     void setNormalGeometryOuter(int x, int y, int w, int h);
@@ -323,9 +310,7 @@ public:
 
     void updateTitle();
     void updateIconTitle();
-#ifndef LITE
     void updateIcon();
-#endif
     void updateState();
     void updateLayer(bool restack = true);
     //void updateWorkspace();
@@ -335,9 +320,7 @@ public:
 
     void updateMwmHints();
     void updateProperties();
-#ifdef CONFIG_TASKBAR
     void updateTaskBar();
-#endif
 
     enum WindowType {
         wtCombo,
@@ -364,10 +347,8 @@ public:
     void setWorkspaceHint(long workspace);
     long getActiveLayer() const { return fWinActiveLayer; }
     void setRequestedLayer(long layer);
-#ifdef CONFIG_TRAY
     long getTrayOption() const { return fWinTrayOption; }
     void setTrayOption(long option);
-#endif
     void setDoNotCover(bool flag);
     bool isMaximized() const { return (getState() &
                                  (WinStateMaximizedHoriz |
@@ -416,14 +397,11 @@ public:
         return (frameOptions() & foDoNotCover) ? true : false;
     }
 
-#ifndef LITE
     virtual ref<YIcon> getIcon() const { return clientIcon(); }
-#endif
 
     virtual ustring getTitle() const { return client()->windowTitle(); }
     virtual ustring getIconTitle() const { return client()->iconTitle(); }
 
-#ifdef WMSPEC_HINTS
     void updateNetWMStrut();
     void updateNetWMStrutPartial();
     void updateNetStartupId();
@@ -431,7 +409,7 @@ public:
     void updateNetWMUserTimeWindow();
     void updateNetWMWindowOpacity();
     void updateNetWMFullscreenMonitors(int, int, int, int);
-#endif
+
     int strutLeft() { return fStrutLeft; }
     int strutRight() { return fStrutRight; }
     int strutTop() { return fStrutTop; }
@@ -488,19 +466,11 @@ private:
     bool indicatorsCreated;
     bool indicatorsVisible;
 
-#ifdef CONFIG_TASKBAR
     TaskBarApp *fTaskBarApp;
-#endif
-#ifdef CONFIG_TRAY
     TrayApp *fTrayApp;
-#endif
     MiniIcon *fMiniIcon;
-#ifdef CONFIG_WINLIST
     WindowListItem *fWinListItem;
-#endif
-#ifndef LITE
     ref<YIcon> fFrameIcon;
-#endif
 
     YFrameWindow *fOwner;
     YFrameWindow *fTransient;
@@ -513,9 +483,7 @@ private:
     int fWinWorkspace;
     long fWinRequestedLayer;
     long fWinActiveLayer;
-#ifdef CONFIG_TRAY
     long fWinTrayOption;
-#endif
     long fWinState;
     long fWinStateMask;
     bool fManaged;

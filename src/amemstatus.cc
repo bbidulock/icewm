@@ -6,19 +6,12 @@
  * Memory Status
  */
 #include "config.h"
-
-#ifdef CONFIG_APPLET_MEM_STATUS
-#ifdef CONFIG_TASKBAR
-
 #include "ylib.h"
 #include "wmapp.h"
-
 #include "amemstatus.h"
 #include "sysdep.h"
 #include "default.h"
-
 #include "ytimer.h"
-
 #include "intl.h"
 
 #if defined(__linux__)
@@ -98,7 +91,6 @@ void MEMStatus::paint(Graphics &g, const YRect &/*r*/) {
                 g.setColor(color[j]);
                 g.drawLine(i, y-1, i, y-bar);
             } else {
-#ifdef CONFIG_GRADIENTS
                 ref<YImage> gradient = parent()->getGradient();
 
                 if (gradient != null)
@@ -107,7 +99,6 @@ void MEMStatus::paint(Graphics &g, const YRect &/*r*/) {
                                 width(), bar,
                                 i, y - bar);
                 else
-#endif
                     if (taskbackPixmap != null)
                         g.fillPixmap(taskbackPixmap,
                                      i, y - bar,
@@ -258,8 +249,6 @@ void MEMStatus::getStatus() {
     cur[MEM_USER] = user;
 #endif // USE_PROC_MEMINFO
 }
-#endif
-#endif
 #endif
 
 // vim: set sw=4 ts=4 et:

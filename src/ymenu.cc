@@ -18,9 +18,7 @@
 
 #include "ascii.h"
 
-#ifndef LITE
 #include "yicon.h"
-#endif
 
 #include <string.h>
 
@@ -37,11 +35,9 @@ ref<YPixmap> menusepPixmap;
 ref<YPixmap> menuselPixmap;
 ref<YPixmap> menubackPixmap;
 
-#ifdef CONFIG_GRADIENTS
 ref<YImage> menuselPixbuf;
 ref<YImage> menusepPixbuf;
 ref<YImage> menubackPixbuf;
-#endif
 
 int YMenu::fAutoScrollDeltaX = 0;
 int YMenu::fAutoScrollDeltaY = 0;
@@ -67,7 +63,8 @@ void YMenu::finishPopup(YMenuItem *item, YAction action,
 YTimer *YMenu::fMenuTimer = 0;
 
 YMenu::YMenu(YWindow *parent):
-    YPopupWindow(parent) INIT_GRADIENT(fGradient, null)
+    YPopupWindow(parent),
+    fGradient(null)
 {
     if (menuFont == null)
         menuFont = YFont::getFont(XFA(menuFontName));
@@ -105,9 +102,7 @@ YMenu::~YMenu() {
         fMenuTimer->stopTimer();
     }
     hideSubmenu();
-#ifdef CONFIG_GRADIENTS
     fGradient = null;
-#endif
 }
 
 void YMenu::activatePopup(int flags) {
@@ -165,11 +160,9 @@ int YMenu::onCascadeButton(int selItem, int x, int /*y*/, bool /*checkPopup*/) {
         int fontHeight = menuFont->height() + 1;
         int h = fontHeight;
 
-#ifndef LITE
         if (getItem(selItem)->getIcon() != null &&
             YIcon::menuSize() > h)
             h = YIcon::menuSize();
-#endif
 
         if (x <= int(width() - h - 4))
             return 1;
@@ -622,7 +615,6 @@ void YMenu::autoScroll(int deltaX, int deltaY, int mx, int my, const XMotionEven
     beginAutoScroll(deltaX || deltaY, motion);
 }
 
-#ifndef LITE
 YMenuItem *YMenu::addItem(const ustring &name, int hotCharPos, const ustring &param, YAction action, const char *icons) {
     return add(new YMenuItem(name, hotCharPos, param, action, 0), icons);
 }
@@ -634,8 +626,6 @@ YMenuItem *YMenu::addItem(const ustring &name, int hotCharPos, YAction action, Y
 YMenuItem *YMenu::addSubmenu(const ustring &name, int hotCharPos, YMenu *submenu, const char *icons) {
     return add(new YMenuItem(name, hotCharPos, null, actionNull, submenu), icons);
 }
-#endif
-
 
 YMenuItem *YMenu::addItem(const ustring &name, int hotCharPos, const ustring &param, YAction action) {
     return add(new YMenuItem(name, hotCharPos, param, action, 0));
@@ -668,7 +658,6 @@ YMenuItem * YMenu::add(YMenuItem *item) {
     return item;
 }
 
-#ifndef LITE
 YMenuItem * YMenu::add(YMenuItem *item, const char *icons) {
     //YIcon *icon = 0;
     ref<YIcon> icon = YIcon::getIcon(icons);
@@ -676,8 +665,6 @@ YMenuItem * YMenu::add(YMenuItem *item, const char *icons) {
     if (item) fItems.append(item);
     return item;
 }
-#endif
-
 
 YMenuItem * YMenu::addSorted(YMenuItem *item, bool duplicates, bool ignoreCase) {
     for (int i = 0; i < itemCount(); i++) {
@@ -859,14 +846,12 @@ void YMenu::sizePopup(int hspace) {
     width = paramPos + maxParam + 4 + r;
     height += b;
 
-#ifdef CONFIG_GRADIENTS
     if (menubackPixbuf != null
         && !(fGradient != null &&
              fGradient->width() == width &&
              fGradient->height() == height)) {
         fGradient = menubackPixbuf->scale(width, height);
     }
-#endif
 
     setSize(width, height);
 }
@@ -894,11 +879,9 @@ void YMenu::paintItems() {
 }
 
 void YMenu::drawBackground(Graphics &g, int x, int y, int w, int h) {
-#ifdef CONFIG_GRADIENTS
     if (fGradient != null)
         g.drawImage(fGradient, x, y, w, h, x, y);
     else
-#endif
     if (menubackPixmap != null)
         g.fillPixmap(menubackPixmap, x, y, w, h);
     else
@@ -908,7 +891,6 @@ void YMenu::drawBackground(Graphics &g, int x, int y, int w, int h) {
 void YMenu::drawSeparator(Graphics &g, int x, int y, int w) {
     g.setColor(menuBg);
 
-#ifdef CONFIG_GRADIENTS
     if (menusepPixbuf != null) {
         drawBackground(g, x, y, w, 2 - menusepPixbuf->height()/2);
 
@@ -919,7 +901,6 @@ void YMenu::drawSeparator(Graphics &g, int x, int y, int w) {
         drawBackground(g, x, y + 2 + (menusepPixbuf->height()+1)/2,
                        w, 2 - (menusepPixbuf->height()+1)/2);
     } else
-#endif
     if (menusepPixmap != null) {
         drawBackground(g, x, y, w, 2 - menusepPixmap->height()/2);
 
@@ -979,20 +960,18 @@ void YMenu::paintItem(Graphics &g, const int i, const int l, const int t, const 
 
             if (draw) {
                 if (active) {
-#ifdef CONFIG_GRADIENTS
                     if (menuselPixbuf != null) {
                         g.drawGradient(menuselPixbuf, l, t, width() - r - l, eh);
-                    } else
-#endif
-                        if (menuselPixmap != null) {
-                            g.fillPixmap(menuselPixmap, l, t, width() - r - l, eh);
-                        } else if (activeMenuItemBg) {
-                            g.setColor(activeMenuItemBg);
-                            g.fillRect(l, t, width() - r - l, eh);
-                        } else {
-                            g.setColor(menuBg);
-                            drawBackground(g, l, t, width() - r - l, eh);
-                        }
+                    }
+                    else if (menuselPixmap != null) {
+                        g.fillPixmap(menuselPixmap, l, t, width() - r - l, eh);
+                    } else if (activeMenuItemBg) {
+                        g.setColor(activeMenuItemBg);
+                        g.fillRect(l, t, width() - r - l, eh);
+                    } else {
+                        g.setColor(menuBg);
+                        drawBackground(g, l, t, width() - r - l, eh);
+                    }
                 } else {
                     g.setColor(menuBg);
                     drawBackground(g, l, t, width() - r - l, eh);
@@ -1056,13 +1035,11 @@ void YMenu::paintItem(Graphics &g, const int i, const int l, const int t, const 
 
                     g.fillPolygon(points, 4, Convex, CoordModePrevious);
                 } else if (mitem->getIcon() != null) {
-#ifndef LITE
                     mitem->getIcon()->draw(g,
                                l + 1 + delta, t + delta + top + pad +
                                (eh - top - pad * 2 - bottom -
                                 YIcon::menuSize()) / 2,
                                 YIcon::menuSize());
-#endif
                 }
 
                 if (name != null) {

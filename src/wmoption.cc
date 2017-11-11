@@ -5,7 +5,6 @@
  */
 #include "config.h"
 
-#ifndef NO_WINDOW_OPTIONS
 #include "yfull.h"
 #include "wmoption.h"
 #include "wmframe.h"
@@ -36,9 +35,7 @@ WindowOption::WindowOption(ustring n_class_instance):
     options(0), option_mask(0),
     workspace(WinWorkspaceInvalid),
     layer(WinLayerInvalid),
-#ifdef CONFIG_TRAY
     tray(WinTrayInvalid),
-#endif
     gflags(0), gx(0), gy(0), gw(0), gh(0)
 {
 }
@@ -156,7 +153,6 @@ void WindowOptions::setWinOption(ustring n_class_instance,
                 if (strcmp(layers[i].name, arg) == 0)
                     op->layer = layers[i].layer;
         }
-#ifdef CONFIG_TRAY
     } else if (strcmp(opt, "tray") == 0) {
         char *endptr;
         long const t(strtol(arg, &endptr, 10));
@@ -179,7 +175,6 @@ void WindowOptions::setWinOption(ustring n_class_instance,
                 if (strcmp(tray_ops[i].name, arg) == 0)
                     op->tray = tray_ops[i].tray;
         }
-#endif
     } else {
         static const struct {
             int what;
@@ -281,10 +276,8 @@ void WindowOptions::combineOptions(WindowOption &cm, WindowOption &n) {
         cm.workspace = n.workspace;
     if (n.layer != (long)WinLayerInvalid)
         cm.layer = n.layer;
-#ifdef CONFIG_TRAY
     if (n.tray != (long)WinTrayInvalid)
         cm.tray = n.tray;
-#endif
     if ((n.gflags & XValue) && !(cm.gflags & XValue)) {
         cm.gx = n.gx;
         cm.gflags |= XValue;
@@ -396,6 +389,5 @@ void loadWinOptions(upath optFile) {
         }
     }
 }
-#endif
 
 // vim: set sw=4 ts=4 et:

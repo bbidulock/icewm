@@ -27,27 +27,21 @@ YAction workspaceActionActivate[MAXWORKSPACES];
 YAction workspaceActionMoveTo[MAXWORKSPACES];
 
 void WMConfig::loadConfiguration(IApp *app, const char *fileName) {
-#ifndef NO_CONFIGURE
     YConfig::findLoadConfigFile(app, icewm_preferences, fileName);
     YConfig::findLoadConfigFile(app, icewm_themable_preferences, fileName);
-#endif
 }
 
 void WMConfig::loadThemeConfiguration(IApp *app, const char *themeName) {
-#ifndef NO_CONFIGURE
     bool ok = YConfig::findLoadThemeFile(app,
                 icewm_themable_preferences,
                 upath("themes").child(themeName));
     if (ok == false)
         fail(_("Failed to load theme %s"), themeName);
-#endif
 }
 
 void WMConfig::freeConfiguration() {
-#ifndef NO_CONFIGURE
     YConfig::freeConfig(icewm_preferences);
     YConfig::freeConfig(icewm_themable_preferences);
-#endif
 }
 
 void addWorkspace(const char * /*name*/, const char *value, bool append) {
@@ -100,7 +94,6 @@ bool getLook(const char *name, const char *arg, enum WMLook *lookPtr) {
     return false;
 }
 
-#ifndef NO_CONFIGURE
 void setLook(const char *name, const char *arg, bool) {
     enum WMLook look = wmLook;
     if (getLook(name, arg, &look)) {
@@ -109,7 +102,6 @@ void setLook(const char *name, const char *arg, bool) {
         msg(_("Unknown value '%s' for option '%s'."), arg, name);
     }
 }
-#endif
 
 static bool ensureDirectory(const upath& path) {
     if (path.dirExists())
@@ -176,7 +168,6 @@ int WMConfig::setDefault(const char *basename, const char *content) {
     return 0;
 }
 
-#ifndef NO_CONFIGURE
 static void print_options(cfoption *options) {
     for (int i = 0; options[i].type != cfoption::CF_NONE; ++i) {
         if (options[i].notify) {
@@ -197,24 +188,19 @@ static void print_options(cfoption *options) {
                     options[i].v.s.string_value && *options[i].v.s.string_value
                     ? *options[i].v.s.string_value : "");
             break;
-#ifndef NO_KEYBIND
         case cfoption::CF_KEY:
             printf("%s=\"%s\"\n", options[i].name,
                     options[i].v.k.key_value->name);
             break;
-#endif
         case cfoption::CF_NONE:
             break;
         }
     }
 }
-#endif
 
 void WMConfig::print_preferences() {
-#ifndef NO_CONFIGURE
     print_options(icewm_preferences);
     print_options(icewm_themable_preferences);
-#endif
 }
 
 

@@ -18,13 +18,9 @@ typedef int FrameState;
 
 class ClientData {
 public:
-#ifdef CONFIG_WINLIST
     virtual void setWinListItem(WindowListItem *i) = 0;
-#endif
     virtual YFrameWindow *owner() const = 0;
-#ifndef LITE
     virtual ref<YIcon> getIcon() const = 0;
-#endif
     virtual ustring getTitle() const = 0;
     virtual ustring getIconTitle() const = 0;
     virtual void activateWindow(bool raise) = 0;
@@ -51,9 +47,7 @@ protected:
 };
 
 class YFrameClient: public YWindow
-#ifdef WMSPEC_HINTS
                   , public YTimerListener
-#endif
 {
 public:
     YFrameClient(YWindow *parent, YFrameWindow *frame, Window win = 0);
@@ -140,28 +134,19 @@ public:
     void setWinWorkspaceHint(long workspace);
     bool getWinWorkspaceHint(long *workspace);
 
-#if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)
     void setWinLayerHint(long layer);
-#endif
-#if defined(GNOME1_HINTS)
     bool getWinLayerHint(long *layer);
-#endif
 
-#ifdef CONFIG_TRAY
     void setWinTrayHint(long tray_opt);
     bool getWinTrayHint(long *tray_opt);
-#endif
 
     void setWinStateHint(long mask, long state);
     bool getWinStateHint(long *mask, long *state);
 
-#if defined(GNOME1_HINTS)
     void setWinHintsHint(long hints);
     bool getWinHintsHint(long *hints);
-#endif
     long winHints() const { return fWinHints; }
 
-#ifdef WMSPEC_HINTS
     bool getNetWMIcon(int *count, long **elem);
     bool getNetWMStateHint(long *mask, long *state);
     bool getNetWMDesktopHint(long *workspace);
@@ -181,22 +166,17 @@ public:
     bool isPinging() const { return fPinging; }
     bool pingTime() const { return fPingTime; }
     virtual bool handleTimer(YTimer *t);
-#endif
 
-#ifndef NO_MWM_HINTS
     MwmHints *mwmHints() const { return fMwmHints; }
     void getMwmHints();
     void setMwmHints(const MwmHints &mwm);
     long mwmFunctions();
     long mwmDecors();
-#endif
 
-#ifndef NO_KWM_HINTS
     bool getKwmIcon(int *count, Pixmap **pixmap);
-#endif
 
-#ifdef CONFIG_SHAPE
     bool shaped() const { return fShaped; }
+#ifdef CONFIG_SHAPE
     void queryShape();
 #endif
 
@@ -227,14 +207,10 @@ private:
     XClassHint *fClassHint;
     XWMHints *fHints;
     Colormap fColormap;
-#ifdef CONFIG_SHAPE
     bool fShaped;
-#endif
-#ifdef WMSPEC_HINTS
     bool fPinging;
     long fPingTime;
     YTimer* fPingTimer;
-#endif
     long fWinHints;
 
     ustring fWindowTitle;
@@ -264,7 +240,6 @@ private:
         bool sm_client_id : 1;
         bool kwm_win_icon : 1;
         bool kde_net_wm_system_tray_window_for : 1;
-#ifdef WMSPEC_HINTS
         bool net_wm_name : 1;
         bool net_wm_icon_name : 1;
         bool net_wm_icon : 1;
@@ -277,17 +252,12 @@ private:
         bool net_wm_user_time : 1;
         bool net_wm_user_time_window : 1;
         bool net_wm_window_opacity : 1;
-#endif
-#ifndef NO_MWM_HINTS
         bool mwm_hints : 1;
-#endif
-#ifdef GNOME1_HINTS
         bool win_hints : 1;
         bool win_workspace : 1; // no property notify
         bool win_state : 1; // no property notify
         bool win_layer : 1; // no property notify
         bool win_icons : 1;
-#endif
         bool xembed_info : 1;
     } prop;
 private: // not-used

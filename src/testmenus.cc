@@ -20,10 +20,8 @@ void YWMApp::restartClient(const char *path, char *const *args) {
 }
 void YWMApp::runOnce(const char *resource, const char *path, char *const *args) {
 }
-#ifdef CONFIG_GUIEVENTS
 void YWMApp::signalGuiEvent(GUIEvent) {
 }
-#endif
 
 class MenuWindow: public YWindow {
 public:

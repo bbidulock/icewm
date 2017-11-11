@@ -15,8 +15,6 @@ XIV(bool, centerBackground, false)
 XIV(bool, multiheadBackground, false)
 XIV(bool, supportSemitransparency, true)
 
-#ifndef NO_CONFIGURE
-
 void addBgImage(const char *name, const char *value, bool append);
 
 cfoption icewmbg_prefs[] = {
@@ -46,8 +44,6 @@ cfoption icewmbg_prefs[] = {
 
     OK0()
 };
-
-#endif
 
 #endif
 

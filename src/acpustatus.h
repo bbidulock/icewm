@@ -52,8 +52,6 @@ private:
     static void getCPUStatusCombined(YSMListener *smActionListener, YWindow *aParent, CPUStatus **&fCPUStatus);
     static void getCPUStatus(YSMListener *smActionListener, YWindow *aParent, CPUStatus **&fCPUStatus, unsigned ncpus);
 };
-#else
-#undef CONFIG_APPLET_CPU_STATUS
 #endif
 
 #endif

@@ -496,9 +496,7 @@ void YXTray::detachTray() {
 void YXTray::paint(Graphics &g, const YRect &/*r*/) {
     if (!fInternal)
         return;
-#ifdef CONFIG_TASKBAR
     g.setColor(getTaskBarBg());
-#endif
     if (trayDrawBevel && fDocked.getCount())
         g.draw3DRect(0, 0, width() - 1, height() - 1, false);
 }
@@ -512,10 +510,8 @@ void YXTray::backgroundChanged() {
     if (fInternal)
         return;
     for (IterType ec = fDocked.iterator(); ++ec; ) {
-#ifdef CONFIG_TASKBAR
         /* something is not clearing which background changes */
         XClearArea(xapp->display(), ec->client_handle(), 0, 0, 0, 0, True);
-#endif
         ec->repaint();
     }
     relayout();

@@ -113,10 +113,8 @@ ref<YPixmap> YFrameButton::getPixmap(int pn) const {
         return restorePixmap[pn];
     else if (fAction == actionClose)
         return closePixmap[pn];
-#ifndef CONFIG_PDA
     else if (fAction == actionHide)
         return hidePixmap[pn];
-#endif
     else if (fAction == actionRollup)
         return getFrame()->isRollup() ? rolldownPixmap[pn] : rollupPixmap[pn];
     else if (fAction == actionDepth)
@@ -145,17 +143,9 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
     }
 
     int iconSize =
-#ifdef LITE
-        0;
-#else
     YIcon::smallSize();
-#endif
-#ifdef LITE
-    ref<YIcon> icon;
-#else
     ref<YIcon> icon =
         (fAction == actionNull) ? getFrame()->clientIcon() : null;
-#endif
 
     ref<YPixmap> pixmap = getPixmap(pn);
     if (pixmap == null && pn) {
@@ -176,14 +166,12 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
 
             g.fillRect(1, 1, width() - 2, height() - 2);
 
-#ifndef LITE
             if (icon != null && showFrameIcon) {
                 icon->draw(g,
                            (width() - iconSize) / 2,
                            (height() - iconSize) / 2,
                            iconSize);
             }
-#endif
         } else {
             g.fillRect(0, 0, width(), height());
 
@@ -219,12 +207,10 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
             g.fillRect(xPos, yPos, w, h);
 
             if (icon != null && showFrameIcon) {
-#ifndef LITE
                 icon->draw(g,
                            xPos + (w - iconSize) / 2,
                            yPos + (h - iconSize) / 2,
                            iconSize);
-#endif
             }
             else if (pixmap != null) {
                 g.drawCenteredPixmap(xPos, yPos, w, h, pixmap);
@@ -244,14 +230,12 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
 
             g.fillRect(0, 0, width(), height());
 
-#ifndef LITE
             if (icon != null && showFrameIcon) {
                 icon->draw(g,
                            (width() - iconSize) / 2,
                            (height() - iconSize) / 2,
                            iconSize);
             }
-#endif
         } else {
             g.drawBorderW(0, 0, width() - 1, height() - 1, !armed);
 
@@ -286,14 +270,12 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
             g.fillRect(0, 0, width(), height());
         }
 
-#ifndef LITE
         if (fAction == actionNull && icon != null && showFrameIcon) {
             icon->draw(g,
                        ((int)width() - (int)iconSize) / 2,
                        ((int)height() - (int)iconSize) / 2,
                        iconSize);
         }
-#endif
     }
 }
 

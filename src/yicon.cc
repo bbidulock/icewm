@@ -15,8 +15,6 @@
 
 #include "intl.h"
 
-#ifndef LITE
-
 static ref<YResourcePaths> iconPaths;
 
 static void initIconPaths() {
@@ -349,7 +347,5 @@ void YIcon::draw(Graphics &g, int x, int y, int size) {
         }
     }
 }
-
-#endif
 
 // vim: set sw=4 ts=4 et:

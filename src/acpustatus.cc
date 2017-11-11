@@ -16,11 +16,8 @@
  *    -stibor-
  */
 #include "config.h"
-
-#ifdef CONFIG_APPLET_CPU_STATUS
 #include "ylib.h"
 #include "wmapp.h"
-
 #include "acpustatus.h"
 #include "sysdep.h"
 #include "default.h"
@@ -55,8 +52,6 @@
 #endif
 #include "udir.h"
 #include "intl.h"
-
-#ifdef CONFIG_TASKBAR
 
 #if defined(__linux__) || defined(HAVE_KSTAT_H) || defined(HAVE_SYSCTL_CP_TIME)
 
@@ -213,14 +208,12 @@ void CPUStatus::paint(Graphics &g, const YRect &/*r*/) {
                 g.setColor(color[IWM_IDLE]);
                 g.drawLine(i, 0, i, y);
             } else {
-#ifdef CONFIG_GRADIENTS
                 ref<YImage> gradient = parent()->getGradient();
 
                 if (gradient != null)
                     g.drawImage(gradient,
                                  this->x() + i, this->y(), width(), y + 1, i, 0);
                 else
-#endif
                     if (taskbackPixmap != null)
                         g.fillPixmap(taskbackPixmap,
                                      i, 0, width(), y + 1, this->x() + i, this->y());
@@ -738,8 +731,6 @@ void CPUStatus::getCPUStatus(YSMListener *smActionListener, YWindow *aParent, CP
     fCPUStatus[ncpus] = NULL;
 }
 
-#endif
-#endif
 #endif
 
 // vim: set sw=4 ts=4 et:

@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.6)
 
 PROJECT(ICEWM CXX)
 
-INCLUDE(CheckIncludeFiles) 
+INCLUDE(CheckIncludeFiles)
 INCLUDE(CheckLibraryExists)
 INCLUDE(CheckFunctionExists)
 INCLUDE(CheckIncludeFile)
@@ -88,7 +88,7 @@ if(ENABLE_LTO)
 endif()
 
 # the only used ones...
-# for x in `cat funclist` ; do grep $x src/* lib/* && echo $x >> exlist ; done 
+# for x in `cat funclist` ; do grep $x src/* lib/* && echo $x >> exlist ; done
 # perl -e 'print "CHECK_FUNCTION_EXISTS($_ HAVE_".uc($_).")\n" for @ARGV' `cat exlist`
 # perl -e 'print "#cmakedefine HAVE_".uc($_)."\n" for @ARGV' `cat exlist`
 CHECK_FUNCTION_EXISTS(abort HAVE_ABORT)
@@ -125,8 +125,6 @@ CHECK_FUNCTION_EXISTS(sysctlbyname HAVE_SYSCTLBYNAME)
 CHECK_FUNCTION_EXISTS(sysinfo HAVE_SYSINFO)
 CHECK_FUNCTION_EXISTS(uname HAVE_UNAME)
 CHECK_FUNCTION_EXISTS(wordexp HAVE_WORDEXP)
-
-CHECK_LIBRARY_EXISTS (X11 XInternAtoms "" HAVE_XINTERNATOMS)
 
 # perl -e 'do { s/\.|\//_/g; $_=uc $_;  print "#cmakedefine HAVE_$_\n"} for @ARGV' `cat headersDa`
 # perl -e 'do {my $orig=$_; s/\.|\//_/g; $_=uc $_; print "CHECK_INCLUDE_FILE_CXX($orig HAVE_$_)\n"} for @ARGV' `cat headersDa`
@@ -185,15 +183,6 @@ if(CONFIG_SHAPE AND NOT xext_FOUND)
    message(WARNING "Xext library not found, disabling CONFIG_SHAPE")
    set(CONFIG_SHAPE off)
 endif()
-if(CONFIG_SHAPE)
-	option(CONFIG_SHAPED_DECORATION "Define to allow transparent frame borders" on)
-endif()
-
-option(CONFIG_ANTIALIASING "CONFIG_ANTIALIASING" on)
-option(CONFIG_GRADIENTS "CONFIG_GRADIENTS" on)
-if(CONFIG_GRADIENTS)
-   set(CONFIG_ANTIALIASING on)
-endif()
 
 option(CONFIG_XRANDR "Define to enable XRANDR extension" on)
 if(CONFIG_XRANDR)
@@ -201,6 +190,15 @@ pkg_check_modules(xrandr xrandr)
 IF(NOT xrandr_FOUND)
    message(WARNING "Xrandr library not found, disabling CONFIG_XRANDR")
    set(CONFIG_XRANDR off)
+ENDIF()
+endif()
+
+option(CONFIG_RENDER "Define to enable XRENDER extension" off)
+if(CONFIG_RENDER)
+pkg_check_modules(xrender xrender)
+IF(NOT xrender_FOUND)
+    message(WARNING "Xrender library not found, disabling CONFIG_RENDER")
+    set(CONFIG_RENDER off)
 ENDIF()
 endif()
 
@@ -217,71 +215,67 @@ else()
    set(CONFIG_COREFONTS on)
 endif()
 
-option(CONFIG_PDA "Define to enable PDA operation (no window hiding)" off)
-option(CONFIG_GUIEVENTS "Define to enable GUI events for audio" off)
 set(ICESOUND "ALSA,AO,OSS,ESound" CACHE STRING "List of supported audio subsystems")
-if(CONFIG_GUIEVENTS)
-	string(TOLOWER ${ICESOUND} ICESOUND)
-        message(STATUS "Checking audio subsystems from ICESOUND: ${ICESOUND}")
+string(TOLOWER ${ICESOUND} ICESOUND)
+message(STATUS "Checking audio subsystems from ICESOUND: ${ICESOUND}")
 
-        #clear cache
-        set(ENABLE_ALSA off)
-        set(ENABLE_AO off)
-        set(ENABLE_ESD off)
-        set(ENABLE_OSS off)
-        set(audio_libs )
-        set(audio_flags )
-        # Triggers some cmake bug, use copy-pasta for now
-        #macro(_addsnd varname flagname)
-        #        set("${FLAGNAME}" "${${varname}_FOUND}")
-        #        if("${${varname}_FOUND}" EQUAL 1)
-        #                list(APPEND audio_libs "${${varname}_LDFLAGS}" "${${varname}_LIBS}")
-        #                list(APPEND audio_flags "${${varname}_CFLAGS}")
-        #        endif()
-        #endmacro()
+#clear cache
+set(ENABLE_ALSA off)
+set(ENABLE_AO off)
+set(ENABLE_ESD off)
+set(ENABLE_OSS off)
+set(audio_libs )
+set(audio_flags )
+# Triggers some cmake bug, use copy-pasta for now
+#macro(_addsnd varname flagname)
+#        set("${FLAGNAME}" "${${varname}_FOUND}")
+#        if("${${varname}_FOUND}" EQUAL 1)
+#                list(APPEND audio_libs "${${varname}_LDFLAGS}" "${${varname}_LIBS}")
+#                list(APPEND audio_flags "${${varname}_CFLAGS}")
+#        endif()
+#endmacro()
 
-        pkg_check_modules(sndfile sndfile)
+pkg_check_modules(sndfile sndfile)
+if(sndfile_FOUND)
         if(sndfile_FOUND)
-                if(sndfile_FOUND)
-                        list(APPEND audio_flags "${sndfile_CFLAGS}")
-                        list(APPEND audio_libs ${sndfile_LDFLAGS})
-                        list(APPEND audio_libs ${sndfile_LIBS})
+                list(APPEND audio_flags "${sndfile_CFLAGS}")
+                list(APPEND audio_libs ${sndfile_LDFLAGS})
+                list(APPEND audio_libs ${sndfile_LIBS})
+        endif()
+        if("${ICESOUND}" MATCHES "alsa")
+                pkg_check_modules(alsa alsa)
+                set(ENABLE_ALSA "${alsa_FOUND}")
+                if(alsa_FOUND)
+                        list(APPEND audio_flags "${alsa_CFLAGS}")
+                        list(APPEND audio_libs ${alsa_LDFLAGS})
+                        list(APPEND audio_libs ${alsa_LIBS})
                 endif()
-                if("${ICESOUND}" MATCHES "alsa")
-                        pkg_check_modules(alsa alsa)
-                        set(ENABLE_ALSA "${alsa_FOUND}")
-                        if(alsa_FOUND)
-                                list(APPEND audio_flags "${alsa_CFLAGS}")
-                                list(APPEND audio_libs ${alsa_LDFLAGS})
-                                list(APPEND audio_libs ${alsa_LIBS})
-                        endif()
-                endif()
-                if("${ICESOUND}" MATCHES "ao")
-                        pkg_check_modules(ao ao)
-                        set(ENABLE_AO "${ao_FOUND}")
-                if(ao_FOUND)
-                        list(APPEND audio_flags "${ao_CFLAGS}")
-                        list(APPEND audio_libs ${ao_LDFLAGS})
-                        list(APPEND audio_libs ${ao_LIBS})
-                endif()
-                endif()
-                if("${ICESOUND}" MATCHES "esound|esd")
-                        pkg_check_modules(esd esound)
-                        set(ENABLE_ESD "${esd_FOUND}")
-                if(esd_FOUND)
-                        list(APPEND audio_flags "${esd_CFLAGS}")
-                        list(APPEND audio_libs ${esd_LDFLAGS})
-                        list(APPEND audio_libs ${esd_LIBS})
-                endif()
-                endif()
-                if("${ICESOUND}" MATCHES "oss")
-                        CHECK_INCLUDE_FILE_CXX(sys/soundcard.h HAVE_SYS_SOUNDCARD_H)
-                        set(ENABLE_OSS "${oss_FOUND}") # source will undef if now header present
-                endif()
+        endif()
+        if("${ICESOUND}" MATCHES "ao")
+                pkg_check_modules(ao ao)
+                set(ENABLE_AO "${ao_FOUND}")
+        if(ao_FOUND)
+                list(APPEND audio_flags "${ao_CFLAGS}")
+                list(APPEND audio_libs ${ao_LDFLAGS})
+                list(APPEND audio_libs ${ao_LIBS})
+        endif()
+        endif()
+        if("${ICESOUND}" MATCHES "esound|esd")
+                pkg_check_modules(esd esound)
+                set(ENABLE_ESD "${esd_FOUND}")
+        if(esd_FOUND)
+                list(APPEND audio_flags "${esd_CFLAGS}")
+                list(APPEND audio_libs ${esd_LDFLAGS})
+                list(APPEND audio_libs ${esd_LIBS})
+        endif()
+        endif()
+        if("${ICESOUND}" MATCHES "oss")
+                CHECK_INCLUDE_FILE_CXX(sys/soundcard.h HAVE_SYS_SOUNDCARD_H)
+                set(ENABLE_OSS "${oss_FOUND}") # source will undef if now header present
+        endif()
 
-                string(REPLACE ";" " " audio_flags "${audio_flags}")
-        endif(sndfile_FOUND)
-endif()
+        string(REPLACE ";" " " audio_flags "${audio_flags}")
+endif(sndfile_FOUND)
 
 option(XINERAMA "Define to enable Xinerama support" on)
 if(XINERAMA)
@@ -298,33 +292,8 @@ if(CONFIG_FRIBIDI)
 	if(not fribidi_FOUND)
 		message(WARNING "FRIBIDI is not supported")
 		set(CONFIG_FRIBIDI off)
-			
-	endif()
-endif()
 
-option(NO_CONFIGURE "Define to disable preferences support")
-option(NO_KEYBIND "Define to disable keybinding support")
-option(NO_CONFIGURE_MENUS "Define to disable configurable menu support")
-option(NO_WINDOW_OPTIONS "Define to disable configurable window options support")
-option(LITE "Lite version (overrides certain options)")
-if(LITE)
-	set(CONFIG_ADDRESSBAR off)
-	set(CONFIG_WINLIST off)
-else()
-	option(CONFIG_TOOLTIP "Define to support tooltips" on)
-	option(CONFIG_WINLIST "Define for OS/2 like window list" on)
-	option(CONFIG_TASKBAR "Define to enable builtin taskbar" on)
-	if(CONFIG_TASKBAR)
-		option(CONFIG_ADDRESSBAR "Define for address bar" on)
-		option(CONFIG_TRAY "Define for system tray" on)
-		option(CONFIG_APPLET_MAILBOX "Define for mailbox applet" on)
-		option(CONFIG_APPLET_CPU_STATUS "Define for CPU status applet" on)
-		option(CONFIG_APPLET_MEM_STATUS "Define for memory status applet" on)
-		option(CONFIG_APPLET_NET_STATUS "Define for network status applet" on)
-		option(CONFIG_APPLET_CLOCK "Define for LCD clock applet" on)
-		option(CONFIG_APPLET_APM "Define for APM status applet" on)
 	endif()
-	option(CONFIG_WINMENU "Define to enable window list menu" on)
 endif()
 
 option(CONFIG_FDO_MENUS "Define to support freedesktop.org style menus" on)
@@ -336,8 +305,6 @@ if(CONFIG_FDO_MENUS)
 	endif()
 endif()
 
-option(WMSPEC_HINTS "Define to enable NetWM/EWMH support" on)
-option(GNOME1_HINTS "Define to enable WinWM/WMH (GNOME1) support" on)
 option(DEBUG "Define if you want to debug IceWM" off)
 
 
@@ -376,7 +343,7 @@ CONFIGURE_FILE("${CMAKE_SOURCE_DIR}/src/config.cmake.h.in" "${CMAKE_BINARY_DIR}/
 #######################################
 
 # pkg-config delivers lists, we need plain compiler options! :-(
-foreach(pfx fontconfig xext x11 pixbuf xrandr xft alsa 
+foreach(pfx fontconfig xext x11 pixbuf xrandr xrender xft alsa
 		esd ao oss xinerama fribidi gio)
 	string(REPLACE ";" " " ${pfx}_CFLAGS "${${pfx}_CFLAGS}")
 	#message(STATUS "Normalizing argument lists: ${${pfx}_LDFLAGS} ; ${${pfx}_CFLAGS}")
@@ -410,9 +377,9 @@ SET(ICEWM_SRCS ${ICE_COMMON_SRCS} ${ITK_SRCS}
 
 
 ADD_EXECUTABLE(icewm${EXEEXT} ${ICEWM_SRCS})
-set(icewm_pc_flags "${fontconfig_CFLAGS} ${x11_CFLAGS} ${xext_CFLAGS} ${pixbuf_CFLAGS} ${xft_CFLAGS} ${xrandr_CFLAGS} ${xinerama_CFLAGS} ${fribidi_CFLAGS}")
+set(icewm_pc_flags "${fontconfig_CFLAGS} ${x11_CFLAGS} ${xext_CFLAGS} ${pixbuf_CFLAGS} ${xft_CFLAGS} ${xrandr_CFLAGS} ${xrender_CFLAGS} ${xinerama_CFLAGS} ${fribidi_CFLAGS}")
 SET_TARGET_PROPERTIES(icewm${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
-set(icewm_libs ${sm_LIBS} ${nls_LIBS} ${lsd_LDFLAGS} ${pixbuf_LDFLAGS} ${fontconfig_LDFLAGS} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${xinerama_LDFLAGS} ${fribidi_LDFLAGS} ${EXTRA_LIBS})
+set(icewm_libs ${sm_LIBS} ${nls_LIBS} ${lsd_LDFLAGS} ${pixbuf_LDFLAGS} ${fontconfig_LDFLAGS} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${xrender_LDFLAGS} ${xinerama_LDFLAGS} ${fribidi_LDFLAGS} ${EXTRA_LIBS})
 TARGET_LINK_LIBRARIES(icewm${EXEEXT} ${icewm_libs})
 
 ADD_EXECUTABLE(genpref${EXEEXT} genpref.cc misc.cc)
@@ -439,25 +406,23 @@ TARGET_LINK_LIBRARIES(icesh${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} 
 
 ADD_EXECUTABLE(icewmbg${EXEEXT} icewmbg.cc ref.cc ${ICE_COMMON_SRCS})
 SET_TARGET_PROPERTIES(icewmbg${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
-TARGET_LINK_LIBRARIES(icewmbg${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS}  ${pixbuf_LDFLAGS} ${xinerama_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
+TARGET_LINK_LIBRARIES(icewmbg${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${xrender_LDFLAGS} ${pixbuf_LDFLAGS} ${xinerama_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 
-IF(CONFIG_GUIEVENTS AND (ENABLE_ALSA OR ENABLE_AO OR ENABLE_ESD OR ENABLE_OSS))
+IF(ENABLE_ALSA OR ENABLE_AO OR ENABLE_ESD OR ENABLE_OSS)
 ADD_EXECUTABLE(icesound${EXEEXT} icesound.cc upath.cc misc.cc mstring.cc ytimer.cc yapp.cc yprefs.cc yarray.cc ref.cc)
 SET_TARGET_PROPERTIES(icesound${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags} ${audio_flags}")
 TARGET_LINK_LIBRARIES(icesound${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${audio_libs} ${EXTRA_LIBS})
 INSTALL(TARGETS icesound${EXEEXT} DESTINATION ${BINDIR})
 ENDIF()
 
-IF(NOT LITE)
 ADD_EXECUTABLE(icehelp${EXEEXT} icehelp.cc ${ICE_COMMON_SRCS} yscrollbar.cc ref.cc yicon.cc wmconfig.cc ymenu.cc ymenuitem.cc yprefs.cc yscrollview.cc)
 SET_TARGET_PROPERTIES(icehelp${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
-TARGET_LINK_LIBRARIES(icehelp${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${pixbuf_LDFLAGS} ${xinerama_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
+TARGET_LINK_LIBRARIES(icehelp${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${xrender_LDFLAGS} ${pixbuf_LDFLAGS} ${xinerama_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 INSTALL(TARGETS icehelp${EXEEXT} DESTINATION ${BINDIR})
-ENDIF()
 
 ADD_EXECUTABLE(icewmtray${EXEEXT} icetray.cc ref.cc wmconfig.cc yxtray.cc ${ICE_COMMON_SRCS})
 SET_TARGET_PROPERTIES(icewmtray${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
-TARGET_LINK_LIBRARIES(icewmtray${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${pixbuf_LDFLAGS} ${xinerama_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
+TARGET_LINK_LIBRARIES(icewmtray${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${xrender_LDFLAGS} ${pixbuf_LDFLAGS} ${xinerama_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 
 INSTALL(TARGETS icewm${EXEEXT} icesh${EXEEXT} icewm-session${EXEEXT} icewmhint${EXEEXT} icewmbg${EXEEXT} icewmtray${EXEEXT} DESTINATION ${BINDIR})
 
@@ -473,21 +438,13 @@ endif()
 #######################################
 # print information and some warnings #
 #######################################
-foreach (_variableName 
+foreach (_variableName
 		PACKAGE
 		VERSION
-    LITE
 		DATADIR LIBDIR LOCDIR DOCDIR CFGDIR ICEHELPIDX
 		CONFIG_XPM
-		CONFIG_IMLIB 
+		CONFIG_IMLIB
 		CONFIG_GDK_PIXBUF_XLIB
-		CONFIG_TOOLTIP CONFIG_WINLIST CONFIG_TASKBAR
-		CONFIG_ADDRESSBAR CONFIG_TRAY 
-		CONFIG_APPLET_MAILBOX 
-		CONFIG_APPLET_CPU_STATUS CONFIG_APPLET_NET_STATUS 
-		CONFIG_APPLET_CLOCK 
-		CONFIG_APPLET_APM 
-		CONFIG_WINMENU
 		CONFIG_XFREETYPE
 		CONFIG_COREFONTS
 		XINERAMA

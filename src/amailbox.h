@@ -1,8 +1,6 @@
 #ifndef __MAILBOX_H
 #define __MAILBOX_H
 
-#ifdef CONFIG_APPLET_MAILBOX
-
 #include "ywindow.h"
 #include "ytimer.h"
 #include "ysocket.h"
@@ -101,15 +99,10 @@ private:
 };
 #endif
 
-// !!! remove this
-#ifdef CONFIG_APPLET_MAILBOX
 extern ref<YPixmap> noMailPixmap;
 extern ref<YPixmap> errMailPixmap;
 extern ref<YPixmap> mailPixmap;
 extern ref<YPixmap> unreadMailPixmap;
 extern ref<YPixmap> newMailPixmap;
-#endif
-
-#endif
 
 // vim: set sw=4 ts=4 et:

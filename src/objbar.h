@@ -1,8 +1,6 @@
 #ifndef __OBJBAR_H
 #define __OBJBAR_H
 
-#ifdef CONFIG_TASKBAR
-
 #include "ywindow.h"
 #include "ybutton.h"
 #include "obj.h"
@@ -28,8 +26,6 @@ private:
     YObjectArray<YButton> objects;
     static YColor *bgColor;
 };
-
-#endif
 
 #endif
 

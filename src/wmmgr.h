@@ -182,9 +182,7 @@ public:
 
     YMenu *createWindowMenu(YMenu *menu, long workspace);
     int windowCount(long workspace);
-#ifdef CONFIG_WINMENU
     void popupWindowListMenu(YWindow *owner, int x, int y);
-#endif
 
     void initWorkspaces();
 
@@ -237,9 +235,7 @@ public:
     void notifyActive(YFrameWindow *frame);
 
     void popupStartMenu(YWindow *owner);
-#ifdef CONFIG_WINMENU
     void popupWindowListMenu(YWindow *owner);
-#endif
 
     void switchToWorkspace(long nw, bool takeCurrent);
     void switchToPrevWorkspace(bool takeCurrent);
@@ -359,9 +355,7 @@ extern Atom _XA_WIN_LAYER;
 extern Atom _XA_WIN_PROTOCOLS;
 extern Atom _XA_WIN_STATE;
 extern Atom _XA_WIN_SUPPORTING_WM_CHECK;
-#ifdef CONFIG_TRAY
 extern Atom _XA_WIN_TRAY;
-#endif
 extern Atom _XA_WIN_WORKAREA;
 extern Atom _XA_WIN_WORKSPACE_COUNT;
 extern Atom _XA_WIN_WORKSPACE_NAMES;

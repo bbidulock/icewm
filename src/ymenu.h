@@ -28,12 +28,10 @@ public:
 
     void trackMotion(const int x_root, const int y_root, const unsigned state, bool submenu);
 
-#ifndef LITE
     YMenuItem *add(YMenuItem *item, const char *icons);
     YMenuItem *addItem(const ustring &name, int hotCharPos, const ustring &param, YAction action, const char *icons);
     YMenuItem *addItem(const ustring &name, int hotCharPos, YAction action, YMenu *submenu, const char *icons);
     YMenuItem *addSubmenu(const ustring &name, int hotCharPos, YMenu *submenu, const char *icons);
-#endif
 
     YMenuItem *add(YMenuItem *item);
     YMenuItem *addSorted(YMenuItem *item, bool duplicates, bool ignoreCase = false);
@@ -76,9 +74,7 @@ private:
     int activatedX, activatedY;
     int submenuItem;
 
-#ifdef CONFIG_GRADIENTS
     ref<YImage> fGradient;
-#endif
 
     static YMenu *fPointedMenu;
     static YTimer *fMenuTimer;
@@ -120,13 +116,11 @@ extern ref<YPixmap> menubackPixmap;
 extern ref<YPixmap> menuselPixmap;
 extern ref<YPixmap> menusepPixmap;
 
-#ifdef CONFIG_GRADIENTS
 //class YPixbuf;
 
 extern ref<YImage> menubackPixbuf;
 extern ref<YImage> menuselPixbuf;
 extern ref<YImage> menusepPixbuf;
-#endif
 
 #endif
 

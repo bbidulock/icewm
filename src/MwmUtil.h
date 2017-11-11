@@ -20,22 +20,18 @@
  *
  **/
 
-#ifndef MWMUTIL_H_INCLUDED
-#define MWMUTIL_H_INCLUDED
+#ifndef __MWMUTIL_H
+#define __MWMUTIL_H
 
-//#include <X11/Xmd.h>
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-typedef struct {
+struct MwmHints {
     unsigned long flags;
     unsigned long functions;
     unsigned long decorations;
     long input_mode;
     unsigned long status;
-} MwmHints;
+};
+
+#define PROP_MWM_HINTS_ELEMENTS          5
 
 #define MWM_HINTS_FUNCTIONS     (1L << 0)
 #define MWM_HINTS_DECORATIONS   (1L << 1)
@@ -57,11 +53,10 @@ typedef struct {
 #define MWM_DECOR_MINIMIZE      (1L << 5)
 #define MWM_DECOR_MAXIMIZE      (1L << 6)
 
-#define MWM_INPUT_MODELESS 0
-#define MWM_INPUT_PRIMARY_APPLICATION_MODAL 1
-#define MWM_INPUT_SYSTEM_MODAL 2
-#define MWM_INPUT_FULL_APPLICATION_MODAL 3
-#define MWM_INPUT_APPLICATION_MODAL MWM_INPUT_PRIMARY_APPLICATION_MODAL
+#define MWM_INPUT_MODELESS               0L
+#define MWM_INPUT_APPLICATION_MODAL      1L
+#define MWM_INPUT_SYSTEM_MODAL           2L
+#define MWM_INPUT_FULL_APPLICATION_MODAL 3L
 
 #define MWM_TEAROFF_WINDOW      (1L<<0)
 
@@ -79,59 +74,6 @@ typedef struct {
 #define _XA_MWM_MENU                    _XA_MOTIF_WM_MENU
 #define _XA_MWM_INFO                    _XA_MOTIF_WM_INFO
 
-#define PROP_MOTIF_WM_HINTS_ELEMENTS 5
-#define PROP_MWM_HINTS_ELEMENTS PROP_MOTIF_WM_HINTS_ELEMENTS
-
-#if 0
-
-typedef unsigned long xCARD32;
-typedef long xINT32;
-
-
-/*
- * _MWM_INFO property
- */
-typedef struct {
-    long flags;
-    Window wm_window;
-} MotifWmInfo;
-
-typedef MotifWmInfo MwmInfo;
-
-#define MWM_INFO_STARTUP_STANDARD       (1L<<0)
-#define MWM_INFO_STARTUP_CUSTOM         (1L<<1)
-
-/*
- * _MWM_HINTS property
- */
-typedef struct {
-    xCARD32 flags;
-    xCARD32 functions;
-    xCARD32 decorations;
-    xINT32 inputMode;
-    xCARD32 status;
-} PropMotifWmHints;
-
-typedef PropMotifWmHints PropMwmHints;
-
-/*
- * _MWM_INFO property, slight return
- */
-typedef struct {
-    xCARD32 flags;
-    xCARD32 wmWindow;
-} PropMotifWmInfo;
-
-typedef PropMotifWmInfo PropMwmInfo;
-
-#define PROP_MOTIF_WM_INFO_ELEMENTS 2
-#define PROP_MWM_INFO_ELEMENTS PROP_MOTIF_WM_INFO_ELEMENTS
 #endif
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif /* MWMUTIL_H_INCLUDED */
 
 // vim: set sw=4 ts=4 et:

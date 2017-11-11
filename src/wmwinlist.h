@@ -1,8 +1,6 @@
 #ifndef __WINLIST_H
 #define __WINLIST_H
 
-#ifdef CONFIG_WINLIST
-
 #include "wmclient.h" // !!! should be ywindow
 #include "ylistbox.h"
 #include "yscrollview.h"
@@ -78,8 +76,6 @@ private:
 };
 
 extern WindowList *windowList;
-
-#endif
 
 #endif
 

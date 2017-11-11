@@ -7,8 +7,6 @@
  */
 #include "config.h"
 
-#ifndef LITE
-
 #include "ykey.h"
 #include "yscrollbar.h"
 
@@ -838,6 +836,5 @@ void YScrollBar::handleDNDPosition(int x, int y) {
     }
     repaint();
 }
-#endif
 
 // vim: set sw=4 ts=4 et:

@@ -442,9 +442,7 @@ void YFrameWindow::outlineMove() {
                     case -2:
                         if (xx != ox || yy != oy) {
                             drawMoveSizeFX(ox, oy, width(), height());
-#ifndef LITE
                             statusMoveSize->setStatus(this, YRect(xx, yy, width(), height()));
-#endif
                             drawMoveSizeFX(xx, yy, width(), height());
                         }
 
@@ -474,9 +472,7 @@ void YFrameWindow::outlineMove() {
 
                 if (xx != ox || yy != oy) {
                     drawMoveSizeFX(ox, oy, width(), height());
-#ifndef LITE
                     statusMoveSize->setStatus(this, YRect(xx, yy, width(), height()));
-#endif
                     drawMoveSizeFX(xx, yy, width(), height());
                 }
 
@@ -523,9 +519,7 @@ void YFrameWindow::outlineResize() {
                     case 1:
                         if (ox != xx || oy != yy || ow != ww || oh != hh) {
                             drawMoveSizeFX(ox, oy, ow, oh);
-#ifndef LITE
                             statusMoveSize->setStatus(this, YRect(xx, yy, ww, hh));
-#endif
                             drawMoveSizeFX(xx, yy, ww, hh);
                         }
 
@@ -555,9 +549,7 @@ void YFrameWindow::outlineResize() {
 
                 if (ox != xx || oy != yy || ow != ww || oh != hh) {
                     drawMoveSizeFX(ox, oy, ow, oh);
-#ifndef LITE
                     statusMoveSize->setStatus(this, YRect(xx, yy, ww, hh));
-#endif
                     drawMoveSizeFX(xx, yy, ww, hh);
                 }
 
@@ -595,9 +587,7 @@ void YFrameWindow::manualPlace() {
         return;
 
     XGrabServer(xapp->display());
-#ifndef LITE
     statusMoveSize->begin(this);
-#endif
 
     drawMoveSizeFX(xx, yy, width(), height());
 
@@ -620,9 +610,7 @@ void YFrameWindow::manualPlace() {
                     case -2:
                         if (xx != ox || yy != oy) {
                             drawMoveSizeFX(ox, oy, width(), height());
-#ifndef LITE
                             statusMoveSize->setStatus(this, YRect(xx, yy, width(), height()));
-#endif
                             drawMoveSizeFX(xx, yy, width(), height());
                         }
 
@@ -652,9 +640,7 @@ void YFrameWindow::manualPlace() {
                 handleMoveMouse(xev.xmotion, xx, yy);
                 if (xx != ox || yy != oy) {
                     drawMoveSizeFX(ox, oy, width(), height());
-#ifndef LITE
                     statusMoveSize->setStatus(this, YRect(xx, yy, width(), height()));
-#endif
                     drawMoveSizeFX(xx, yy, width(), height());
                 }
 
@@ -666,9 +652,7 @@ void YFrameWindow::manualPlace() {
 end:
     drawMoveSizeFX(xx, yy, width(), height());
 
-#ifndef LITE
     statusMoveSize->end();
-#endif
     moveWindow(xx, yy);
     xapp->releaseEvents();
     XUngrabServer(xapp->display());
@@ -729,9 +713,7 @@ bool YFrameWindow::handleKey(const XKeyEvent &key) {
                 setCurrentGeometryOuter(YRect(newX, newY, newWidth, newHeight));
                 drawMoveSizeFX(x(), y(), width(), height());
 
-#ifndef LITE
                 statusMoveSize->setStatus(this);
-#endif
                 break;
             case -2:
                 drawMoveSizeFX(x(), y(), width(), height());
@@ -880,7 +862,6 @@ bool YFrameWindow::canMove() {
     return hasbit(frameFunctions(), ffMove);
 }
 
-#ifdef WMSPEC_HINTS
 void YFrameWindow::startMoveSize(int x, int y,
                                  int direction)
 {
@@ -898,7 +879,6 @@ void YFrameWindow::startMoveSize(int x, int y,
     } else
         warn(_("Unknown direction in move/resize request: %d"), direction);
 }
-#endif
 
 void YFrameWindow::startMoveSize(bool doMove, bool byMouse,
                                  int sideX, int sideY,
@@ -918,14 +898,10 @@ void YFrameWindow::startMoveSize(bool doMove, bool byMouse,
         buttonDownX = mouseXroot;
         buttonDownY = mouseYroot;
 
-#ifdef CONFIG_GUIEVENTS
         wmapp->signalGuiEvent(geWindowMoved);
-#endif
         grabPointer = YXApplication::movePointer;
     } else if (!doMove) {
-#ifdef CONFIG_GUIEVENTS
         wmapp->signalGuiEvent(geWindowSized);
-#endif
 
         if (grabY == -1) {
             if (grabX == -1)
@@ -976,9 +952,7 @@ void YFrameWindow::startMoveSize(bool doMove, bool byMouse,
     else
         sizingWindow = 1;
 
-#ifndef LITE
     statusMoveSize->begin(this);
-#endif
 
     drawMoveSizeFX(x(), y(), width(), height());
 
@@ -993,9 +967,7 @@ void YFrameWindow::startMoveSize(bool doMove, bool byMouse,
 
 void YFrameWindow::endMoveSize() {
     xapp->releaseEvents();
-#ifndef LITE
     statusMoveSize->end();
-#endif
 
     if ((movingWindow && opaqueMove) ||
         (sizingWindow && opaqueResize))
@@ -1006,11 +978,9 @@ void YFrameWindow::endMoveSize() {
 
     manager->setWorkAreaMoveWindows(false);
 
-#ifdef CONFIG_TASKBAR
     if (taskBar && taskBar->workspacesPane()) {
         taskBar->workspacesPane()->repaint();
     }
-#endif
 }
 
 void YFrameWindow::handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion) {
@@ -1070,9 +1040,7 @@ void YFrameWindow::moveWindow(int newX, int newY) {
     if (opaqueMove)
         drawMoveSizeFX(x(), y(), width(), height());
 
-#ifndef LITE
     statusMoveSize->setStatus(this);
-#endif
 }
 
 void YFrameWindow::handleDrag(const XButtonEvent &/*down*/, const XMotionEvent &/*motion*/) {
@@ -1108,9 +1076,7 @@ void YFrameWindow::handleMotion(const XMotionEvent &motion) {
         setCurrentGeometryOuter(YRect(newX, newY, newWidth, newHeight));
         drawMoveSizeFX(x(), y(), width(), height());
 
-#ifndef LITE
         statusMoveSize->setStatus(this);
-#endif
         return ;
     } else if (movingWindow) {
         int newX = x();

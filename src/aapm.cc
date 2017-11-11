@@ -13,9 +13,6 @@
 #include "config.h"
 #include "aapm.h"
 
-#ifdef CONFIG_APPLET_APM
-#ifdef CONFIG_TASKBAR
-
 #include "ylib.h"
 #include "sysdep.h"
 #include "wpixmaps.h"
@@ -1002,14 +999,12 @@ void YApm::paint(Graphics &g, const YRect &/*r*/) {
 
     //clean background of current size first, so that
     //it is possible to use transparent apm-background
-#ifdef CONFIG_GRADIENTS
     ref<YImage> gradient(parent()->getGradient());
 
     if (gradient != null) {
         g.drawImage(gradient, this->x(), this->y(), width(), height(), 0, 0);
     }
     else
-#endif
     if (taskbackPixmap != null) {
         g.fillPixmap(taskbackPixmap,
                      0, 0, width(), height(),
@@ -1126,7 +1121,5 @@ int YApm::calcWidth(const char *s, int count) {
         return len;
     }
 }
-#endif
-#endif
 
 // vim: set sw=4 ts=4 et:

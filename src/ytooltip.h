@@ -1,7 +1,6 @@
 #ifndef __YTOOLTIP_H
 #define __YTOOLTIP_H
 
-#ifdef CONFIG_TOOLTIP
 #include "ywindow.h"
 #include "ytimer.h"
 #include "ypointer.h"
@@ -45,8 +44,6 @@ private:
     osmart<YToolTipWindow> fWindow;
     osmart<YTimer> fTimer;
 };
-#endif
-
 #endif
 
 // vim: set sw=4 ts=4 et:

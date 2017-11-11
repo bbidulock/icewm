@@ -48,10 +48,6 @@
  */
 #include "config.h"
 #include <assert.h>
-#ifndef CONFIG_GUIEVENTS
-#error Configure with "--enable-guievents"
-#endif
-
 #include <signal.h>
 #include <X11/Xlib.h>
 

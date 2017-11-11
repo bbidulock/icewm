@@ -18,7 +18,7 @@ AC_SUBST([DATE])
 BRANCH='1.4.2'
 AC_SUBST([BRANCH])
 
-APPLICATIONS='icewm icewm-session icesh icewmhint icewmbg icewmtray'
+APPLICATIONS='icewm icewm-session icesh icewmhint icewmbg icewmtray icehelp'
 TESTCASES=`echo src/test*.cc | sed 's%src/\([[^ ]]*\)\.cc%\1%g'`
 TESTCASES="$TESTCASES iceview icesame iceicon icerun icelist icebar" # iceclock
 features=''
@@ -188,9 +188,6 @@ PKG_CHECK_MODULES([CORE],[fontconfig xext x11])
 AC_SUBST([CORE_CFLAGS])
 AC_SUBST([CORE_LIBS])
 
-AC_CHECK_LIB([X11],[XInternAtoms],
-    [AC_DEFINE([HAVE_XINTERNATOMS],[1],[Define to enable XInternAtoms])])
-
 AC_ARG_ENABLE([sm],
     AC_HELP_STRING([--disable-sm],[Disable X session management.]))
 if test x$enable_sm != xno ; then
@@ -201,32 +198,10 @@ fi
 
 AC_ARG_ENABLE([shape],
     AC_HELP_STRING([--disable-shape],[Disable use of SHAPE extension.]))
-AC_ARG_ENABLE([shaped-decorations],
-    AC_HELP_STRING([--disable-shaped-decorations], [Disable transparent frame
-	decoration (titlebar borders), requests X shape extension (experimental).]))
-
-if test x$enable_shaped_decorations = xyes ; then
-    enable_shape=yes
-fi
 if test x$enable_shape != xno ; then
     AC_CHECK_LIB([Xext],[XShapeCombineRectangles],
-	[AC_DEFINE([CONFIG_SHAPE],[1],[Define to enable X shape extension])
-	if test x$enable_shaped_decorations != xno ; then
-	    AC_DEFINE([CONFIG_SHAPED_DECORATION],[1],[Define to allow transparent frame borders.])
-	    features="$features shaped-decorations"
-	fi],[
-	AC_MSG_WARN([SHAPE not supported.])
-	if test x$enable_shaped_decorations = xyes ; then
-	    AC_MSG_WARN([Shaped decorations not supported.])
-	fi])
-fi
-
-AC_ARG_ENABLE([gradients],
-    AC_HELP_STRING([--disable-gradients],[Disable gradients.]))
-if test x$enable_gradients != xno; then
-    AC_DEFINE([CONFIG_GRADIENTS],[1],[Define to enable gradient support.])
-    features="$features gradients"
-    enable_antialiasing=implied
+	[AC_DEFINE([CONFIG_SHAPE],[1],[Define to enable X shape extension])],
+        AC_MSG_WARN([SHAPE not supported.]))
 fi
 
 AC_ARG_ENABLE([xrender],
@@ -271,79 +246,53 @@ if test x$enable_corefonts = xyes; then
     features="$features corefonts"
 fi
 
-AC_ARG_ENABLE([antialiasing],
-    AC_HELP_STRING([--disable-antialiasing],[Disable antialiasing support.]))
-if test x$enable_xfreetype != xno -a x$enable_antialiasing != xno; then
-    AC_DEFINE([CONFIG_ANTIALIASING],[1],[Define to enable antialiasing.])
-    features="$features antialiasing"
-else
-    if test x$enable_antialiasing = xyes; then
-	AC_MSG_WARN([Antialiasing not supported.])
-	enable_antialiasing=no
-    fi
-fi
-
-AC_ARG_ENABLE([pda],
-    AC_HELP_STRING([--enable-pda],[Enable PDA operation (disables window hiding).]))
-if test x$enable_pda = xyes; then
-    AC_DEFINE([CONFIG_PDA],[1],[Define to enable PDA operation (no window hiding).])
-    features="${features} pda"
-fi
-
-AC_ARG_ENABLE([guievents],
-    AC_HELP_STRING([--enable-guievents],[Enable GUI events for audio.]))
 AC_ARG_WITH([icesound],
-    AC_HELP_STRING([--with-icesound=INTERFACES],[List of audio interfaces for icesound.
-	Requires support for GUI events.  @<:@default: ALSA,AO,OSS,ESD@:>@]),[],
+    AC_HELP_STRING([--with-icesound=INTERFACES],[List of audio interfaces for icesound. @<:@default: ALSA,AO,OSS,ESD@:>@]),[],
     [with_icesound='ALSA,AO,OSS,ESD'])
-if test x$enable_guievents = xyes ; then
-    AC_DEFINE([CONFIG_GUIEVENTS],[1],[Define to enable GUI events support.])
-    features="${features} gui-events"
 
-    for iface in `echo "$with_icesound"|sed 's|,| |g'` ; do
-	case $iface in
-	(ALSA|alsa)
-	    PKG_CHECK_MODULES([ALSA],[sndfile alsa],[
-		AUDIO_CFLAGS="$AUDIO_CFLAGS $ALSA_CFLAGS"
-		AUDIO_LIBS="$AUDIO_LIBS $ALSA_LIBS"
-		AC_DEFINE([ENABLE_ALSA],[1],[Define to enable ALSA support.])
-		CONFIG_ALSA=yes],[AC_MSG_WARN([ALSA is not supported])])
-	    ;;
-	(AO|ao)
-	    PKG_CHECK_MODULES([AO],[sndfile ao],[
-		AUDIO_CFLAGS="$AUDIO_CFLAGS $AO_CFLAGS"
-		AUDIO_LIBS="$AUDIO_LIBS $AO_LIBS"
-		AC_DEFINE([ENABLE_AO],[1],[Define to enable AO support.])
-		CONFIG_AO=yes],[AC_MSG_WARN([AO is not supported])])
-	    ;;
-	(OSS|oss)
-	    PKG_CHECK_MODULES([OSS],[sndfile],[
-		AUDIO_CFLAGS="$AUDIO_CFLAGS $OSS_CFLAGS"
-		AUDIO_LIBS="$AUDIO_LIBS $OSS_LIBS"
-		AC_DEFINE([ENABLE_OSS],[1],[Define to enable OSS support.])
-		CONFIG_OSS=yes],[AC_MSG_WARN([OSS is not supported])])
-	    ;;
-	(ESound|ESD|esound|esd)
-	    PKG_CHECK_MODULES([ESD],[esound],[
-		AUDIO_CFLAGS="$AUDIO_CFLAGS $ESD_CFLAGS"
-		AUDIO_LIBS="$AUDIO_LIBS $ESD_LIBS"
-		AC_DEFINE([ENABLE_ESD],[1],[Define to enable ESD support.])
-		CONFIG_ESD=yes],[AC_MSG_WARN([ESD is not supported])])
-	    ;;
-	(*)
-	    AC_MSG_WARN([Invalid audio interface: $iface])
-	    ;;
-	esac
-    done
-    for iface in ALSA AO OSS ESD; do
-	eval "test \"\$CONFIG_$iface\" = yes" && audio_support="$audio_support $iface"
-    done
-    if test "x$audio_support" != x ; then
-	BUILD_SOUND=yes
-	APPLICATIONS="${APPLICATIONS} icesound"
-    else
-	AC_MSG_WARN([No valid sound interface, not building icesound.])
-    fi
+for iface in `echo "$with_icesound"|sed 's|,| |g'` ; do
+    case $iface in
+    (ALSA|alsa)
+        PKG_CHECK_MODULES([ALSA],[sndfile alsa],[
+            AUDIO_CFLAGS="$AUDIO_CFLAGS $ALSA_CFLAGS"
+            AUDIO_LIBS="$AUDIO_LIBS $ALSA_LIBS"
+            AC_DEFINE([ENABLE_ALSA],[1],[Define to enable ALSA support.])
+            CONFIG_ALSA=yes],[AC_MSG_WARN([ALSA is not supported])])
+        ;;
+    (AO|ao)
+        PKG_CHECK_MODULES([AO],[sndfile ao],[
+            AUDIO_CFLAGS="$AUDIO_CFLAGS $AO_CFLAGS"
+            AUDIO_LIBS="$AUDIO_LIBS $AO_LIBS"
+            AC_DEFINE([ENABLE_AO],[1],[Define to enable AO support.])
+            CONFIG_AO=yes],[AC_MSG_WARN([AO is not supported])])
+        ;;
+    (OSS|oss)
+        PKG_CHECK_MODULES([OSS],[sndfile],[
+            AUDIO_CFLAGS="$AUDIO_CFLAGS $OSS_CFLAGS"
+            AUDIO_LIBS="$AUDIO_LIBS $OSS_LIBS"
+            AC_DEFINE([ENABLE_OSS],[1],[Define to enable OSS support.])
+            CONFIG_OSS=yes],[AC_MSG_WARN([OSS is not supported])])
+        ;;
+    (ESound|ESD|esound|esd)
+        PKG_CHECK_MODULES([ESD],[esound],[
+            AUDIO_CFLAGS="$AUDIO_CFLAGS $ESD_CFLAGS"
+            AUDIO_LIBS="$AUDIO_LIBS $ESD_LIBS"
+            AC_DEFINE([ENABLE_ESD],[1],[Define to enable ESD support.])
+            CONFIG_ESD=yes],[AC_MSG_WARN([ESD is not supported])])
+        ;;
+    (*)
+        AC_MSG_WARN([Invalid audio interface: $iface])
+        ;;
+    esac
+done
+for iface in ALSA AO OSS ESD; do
+    eval "test \"\$CONFIG_$iface\" = yes" && audio_support="$audio_support $iface"
+done
+if test "x$audio_support" != x ; then
+    BUILD_SOUND=yes
+    APPLICATIONS="${APPLICATIONS} icesound"
+else
+    AC_MSG_WARN([No valid sound interface, not building icesound.])
 fi
 
 AC_SUBST([AUDIO_CFLAGS])
@@ -369,59 +318,6 @@ if test "$enable_fribidi" != "no" && test "$enable_i18n" != "no"; then
 	AC_DEFINE([CONFIG_FRIBIDI],[1],[Define to enable fribidi support.])
 	features="$features fribidi"],
 	[AC_MSG_WARN([FRIBIDI is not supported.])])
-fi
-
-AC_ARG_ENABLE([prefs],
-    AC_HELP_STRING([--disable-prefs],[Disable configurable preferences.]))
-if test x$enable_prefs = xno ; then
-    AC_DEFINE([NO_CONFIGURE],[1],[Define to disable preferences support.])
-fi
-
-AC_ARG_ENABLE([keyconf],
-    AC_HELP_STRING([--disable-keyconf],[Disable configurable key bindings.]))
-if test x$enable_keyconf = xno ; then
-    AC_DEFINE([NO_KEYBIND],[1],[Define to disable keybinding support.])
-fi
-
-AC_ARG_ENABLE([menuconf],
-    AC_HELP_STRING([--disable-menuconf],[Disable configurable menus.]))
-if test x$enable_menuconf = xno ; then
-    AC_DEFINE([NO_CONFIGURE_MENUS],[1],[Define to disable configurable menu support.])
-fi
-
-AC_ARG_ENABLE([winoptions],
-    AC_HELP_STRING([--disable-winoptions],[Disable configurable window options.]))
-if test x$enable_winoptions = xno ; then
-    AC_DEFINE([NO_WINDOW_OPTIONS],[1],[Define to disable configurable window options support.])
-fi
-
-AC_ARG_ENABLE([taskbar],
-    AC_HELP_STRING([--disable-taskbar],[Disable builtin taskbar.]))
-AC_ARG_ENABLE([winmenu],
-    AC_HELP_STRING([--disable-winmenu],[Disable window list menu.]))
-AC_ARG_ENABLE([lite],
-    AC_HELP_STRING([--enable-lite],[Build lightweight version of IceWM.]))
-if test x$enable_lite != xyes ; then
-    AC_DEFINE([CONFIG_TOOLTIP],[1],[Define to support tooltips.])
-    if test x$enable_taskbar != xno ; then
-	AC_DEFINE([CONFIG_TASKBAR],[1],[Define to enable builtin taskbar.])
-	AC_DEFINE([CONFIG_ADDRESSBAR],[1],[Define for address bar.])
-	AC_DEFINE([CONFIG_TRAY],[1],[Define for system tray.])
-	AC_DEFINE([CONFIG_APPLET_MAILBOX],[1],[Define for mailbox applet.])
-	AC_DEFINE([CONFIG_APPLET_CPU_STATUS],[1],[Define for CPU status applet.])
-	AC_DEFINE([CONFIG_APPLET_MEM_STATUS],[1],[Define for memory status applet.])
-	AC_DEFINE([CONFIG_APPLET_NET_STATUS],[1],[Define for network status applet.])
-	AC_DEFINE([CONFIG_APPLET_CLOCK],[1],[Define for LCD clock applet.])
-	AC_DEFINE([CONFIG_APPLET_APM],[1],[Define for APM status applet.])
-    fi
-    AC_DEFINE([CONFIG_WINLIST],[1],[Define for OS/2 like window list.])
-    if test x$enable_winmenu != xno ; then
-	AC_DEFINE([CONFIG_WINMENU],[1],[Define to enable window list menu.])
-    fi
-    BUILD_HELP=yes
-    APPLICATIONS="${APPLICATIONS} icehelp"
-else
-    AC_DEFINE([LITE],[1],[Lite version])
 fi
 
 AC_SUBST([GNOME1_CFLAGS])
@@ -510,18 +406,6 @@ AC_DEFINE_UNQUOTED([HOSTCPU],["${host_cpu}"],
 	[Define to the host CPU.])
 AC_DEFINE_UNQUOTED([ICEHELPIDX],["${DOCDIR}/icewm.html"],
 	[Define to the IceWM help index file.])
-
-AC_ARG_ENABLE([wmspec],
-    AC_HELP_STRING([--disable-wmspec],[Disable NetWM/EWMH support.]))
-if test x$enable_wmspec != xno ; then
-    AC_DEFINE([WMSPEC_HINTS],[1],[Define to enable NetWM/EWMH support.])
-fi
-
-AC_ARG_ENABLE([gnome1],
-    AC_HELP_STRING([--disable-gnome1],[Disable WinWM/WMH (GNOME1) support.]))
-if test x$enable_gnome1 != xno ; then
-    AC_DEFINE([GNOME1_HINTS],[1],[Define to enable WinWM/WMH (GNOME1) support.])
-fi
 
 AC_ARG_ENABLE([debug],
     AC_HELP_STRING([--enable-debug],[Enable debugging of IceWM.]))

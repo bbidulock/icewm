@@ -95,7 +95,6 @@
 #define DATADIR "@DATADIR@"
 #define ICEHELPIDX "@ICEHELPIDX@"
 
-#cmakedefine NO_CONFIGURE_MENUES 1
 #cmakedefine CONFIG_XPM 1
 #cmakedefine CONFIG_IMLIB  1
 #cmakedefine CONFIG_GDK_PIXBUF_XLIB 1
@@ -103,50 +102,17 @@
 #cmakedefine ENABLE_NLS 1
 #cmakedefine CONFIG_SESSION 1
 #cmakedefine CONFIG_SHAPE 1
-#cmakedefine CONFIG_SHAPED_DECORATION 1
-
 #cmakedefine CONFIG_UNICODE_SET "@CONFIG_UNICODE_SET@"
-
-#cmakedefine HAVE_XINTERNATOMS 1
-
-
-#cmakedefine CONFIG_ANTIALIASING 1
-#cmakedefine CONFIG_GRADIENTS 1
+#cmakedefine CONFIG_RENDER 1
 #cmakedefine CONFIG_XRANDR 1
-
 #cmakedefine CONFIG_XFREETYPE @CONFIG_XFREETYPE_VALUE@
-
 #cmakedefine CONFIG_COREFONTS 1
-#cmakedefine CONFIG_PDA 1
-
-#cmakedefine CONFIG_GUIEVENTS 1
 #cmakedefine ENABLE_ALSA 1
 #cmakedefine ENABLE_AO 1
 #cmakedefine ENABLE_ESD 1
 #cmakedefine ENABLE_OSS 1
 #cmakedefine XINERAMA 1
 #cmakedefine CONFIG_FRIBIDI 1
-
-#cmakedefine NO_CONFIGURE 1
-#cmakedefine NO_KEYBIND 1
-#cmakedefine NO_CONFIGURE_MENUS 1
-#cmakedefine NO_WINDOW_OPTIONS 1
-#cmakedefine LITE 1
-#cmakedefine CONFIG_TOOLTIP 1
-#cmakedefine CONFIG_WINLIST 1
-#cmakedefine CONFIG_TASKBAR 1
-#cmakedefine CONFIG_APPLET_MEM_STATUS 1
-#cmakedefine CONFIG_ADDRESSBAR 1
-#cmakedefine CONFIG_TRAY 1
-#cmakedefine CONFIG_APPLET_MAILBOX 1
-#cmakedefine CONFIG_APPLET_CPU_STATUS 1
-#cmakedefine CONFIG_APPLET_NET_STATUS 1
-#cmakedefine CONFIG_APPLET_CLOCK 1
-#cmakedefine CONFIG_APPLET_APM 1
-#cmakedefine CONFIG_WINMENU 1
-
-#cmakedefine WMSPEC_HINTS 1
-#cmakedefine GNOME1_HINTS 1
 #cmakedefine DEBUG 1
 
 #endif // __CONFIG_H__

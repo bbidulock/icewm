@@ -6,7 +6,6 @@
 #include "config.h"
 #include "globit.h"
 
-#ifndef LITE
 #include "ykey.h"
 #include "yinputline.h"
 #include "ymenu.h"
@@ -729,7 +728,5 @@ void YInputLine::complete() {
     setText(ustring(res, strlen(res)));
     free(res);
 }
-
-#endif
 
 // vim: set sw=4 ts=4 et:

@@ -1,8 +1,6 @@
 #ifndef __WMPROG_H
 #define __WMPROG_H
 
-#ifndef NO_CONFIGURE_MENUS
-
 #include "upath.h"
 #include "objmenu.h"
 #include "yarray.h"
@@ -185,8 +183,6 @@ private:
     // sequence and this object here is cached over process lifetime anyway.
     SwitchWindow *pSwitchWindow;
 };
-
-#endif /* NO_CONFIGURE_MENUS */
 
 #endif
 

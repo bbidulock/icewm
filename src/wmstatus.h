@@ -1,8 +1,6 @@
 #ifndef __WMSTATUS_H
 #define __WMSTATUS_H
 
-#ifndef LITE
-
 #include "ywindow.h"
 
 class YFrameWindow;
@@ -60,8 +58,6 @@ private:
 
 extern MoveSizeStatus *statusMoveSize;
 extern WorkspaceStatus *statusWorkspace;
-
-#endif
 
 #endif
 

@@ -7,7 +7,6 @@
  */
 #include "config.h"
 
-#ifndef LITE
 #include "ylib.h"
 #include "wmabout.h"
 
@@ -66,13 +65,9 @@ AboutDlg::AboutDlg(): YDialog() {
 
     setWindowTitle(_("icewm - About"));
     //setIconTitle("icewm - About");
-#if defined(GNOME1_HINTS) || defined(WMSPEC_HINTS)
     setWinLayerHint(WinLayerAboveDock);
     setWinWorkspaceHint(-1);
-#endif
-#if defined(GNOME1_HINTS)
     setWinHintsHint(WinHintsSkipWindowMenu);
-#endif
     setMwmHints( (MwmHints) {
        .flags = MWM_HINTS_FUNCTIONS | MWM_HINTS_DECORATIONS,
        .functions = MWM_FUNC_MOVE | MWM_FUNC_CLOSE,
@@ -196,6 +191,5 @@ void AboutDlg::handleClose() {
     if (!getFrame()->isHidden())
         getFrame()->wmHide();
 }
-#endif
 
 // vim: set sw=4 ts=4 et:

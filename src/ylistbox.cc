@@ -7,8 +7,6 @@
  */
 #include "config.h"
 
-#ifndef LITE
-
 #include "ykey.h"
 #include "ylistbox.h"
 #include "yrect.h"
@@ -71,7 +69,9 @@ int YListItem::getOffset() {
 }
 
 YListBox::YListBox(YScrollView *view, YWindow *aParent):
-    YWindow(aParent) INIT_GRADIENT(fGradient, null) {
+    YWindow(aParent),
+    fGradient(null)
+{
     if (listBoxFont == null)
         listBoxFont = YFont::getFont(XFA(listBoxFontName));
     if (listBoxBg == 0)
@@ -109,9 +109,7 @@ YListBox::YListBox(YScrollView *view, YWindow *aParent):
 YListBox::~YListBox() {
     fFirst = fLast = 0;
     freeItems();
-#ifdef CONFIG_GRADIENTS
     fGradient = null;
-#endif
 }
 
 bool YListBox::isFocusTraversable() {
@@ -287,7 +285,6 @@ void YListBox::configure(const YRect &r) {
 
     resetScrollBars();
 
-#ifdef CONFIG_GRADIENTS
     if (listbackPixbuf != null
         && !(fGradient != null &&
              fGradient->width() == r.width() &&
@@ -296,7 +293,6 @@ void YListBox::configure(const YRect &r) {
         fGradient = listbackPixbuf->scale(r.width(), r.height());
         repaint();
     }
-#endif
 }
 
 bool YListBox::handleKey(const XKeyEvent &key) {
@@ -570,18 +566,15 @@ void YListBox::paintItem(Graphics &g, int n) {
         g.setColor(listBoxSelBg);
         g.fillRect(0, y - fOffsetY, width(), lh);
     } else {
-#ifdef CONFIG_GRADIENTS
         if (fGradient != null)
             g.drawImage(fGradient, 0, y - fOffsetY, width(), lh,
                          0, y - fOffsetY);
-        else
-#endif
-            if (listbackPixmap != null)
-                g.fillPixmap(listbackPixmap, 0, y - fOffsetY, width(), lh);
-            else {
-                g.setColor(listBoxBg);
-                g.fillRect(0, y - fOffsetY, width(), lh);
-            }
+        else if (listbackPixmap != null)
+            g.fillPixmap(listbackPixmap, 0, y - fOffsetY, width(), lh);
+        else {
+            g.setColor(listBoxBg);
+            g.fillRect(0, y - fOffsetY, width(), lh);
+        }
     }
 
     if (fFocusedItem == n) {
@@ -625,12 +618,9 @@ void YListBox::paint(Graphics &g, const YRect &r) {
     int const y(contentHeight());
 
     if (y < height()) {
-#ifdef CONFIG_GRADIENTS
         if (fGradient != null)
             g.drawImage(fGradient, 0, y, width(), height() - y, 0, y);
-        else
-#endif
-            if (listbackPixmap != null)
+        else if (listbackPixmap != null)
             g.fillPixmap(listbackPixmap, 0, y, width(), height() - y);
         else {
             g.setColor(listBoxBg);
@@ -852,6 +842,5 @@ int YListBox::contentHeight() {
 YWindow *YListBox::getWindow() {
     return this;
 }
-#endif
 
 // vim: set sw=4 ts=4 et:

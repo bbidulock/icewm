@@ -23,14 +23,6 @@
 #define INIT_XFREETYPE(Member, Value)
 #endif // CONFIG_XFREETYPE -----------------------------------------------------
 
-#ifdef CONFIG_GRADIENTS //------------------------------------------------------
-#define TEST_GRADIENT(Cond) (Cond)
-#define IF_CONFIG_GRADIENTS(Cond, Stmt) if (Cond) { Stmt; }
-#else
-#define TEST_GRADIENT(Cond) true
-#define IF_CONFIG_GRADIENTS(Cond, Stmt) if (false) {}
-#endif // CONFIG_GRADIENTS -----------------------------------------------------
-
 class YWindow;
 class YIcon;
 
@@ -121,20 +113,13 @@ public:
 /******************************************************************************/
 
 struct YSurface {
-#ifdef CONFIG_GRADIENTS
     YSurface(class YColor * color, ref<YPixmap> pixmap,
              ref<YImage> gradient):
     color(color), pixmap(pixmap), gradient(gradient) {}
-#else
-    YSurface(class YColor * color, ref<YPixmap> pixmap):
-    color(color), pixmap(pixmap) {}
-#endif
 
     class YColor * color;
     ref<YPixmap> pixmap;
-#ifdef CONFIG_GRADIENTS
     ref<YImage> gradient;
-#endif
 };
 
 class Graphics {
@@ -220,7 +205,6 @@ public:
         drawSurface(surface, x, y, w, h, 0, 0, w, h);
     }
 
-#ifdef CONFIG_GRADIENTS
     void drawGradient(ref<YImage> gradient,
                       int const x, int const y, const int w, const int h,
                       int const gx, int const gy, const int gw, const int gh);
@@ -228,7 +212,6 @@ public:
                       int const x, int const y, const int w, const int h) {
         drawGradient(gradient, x, y, w, h, 0, 0, w, h);
     }
-#endif
 
     void repHorz(ref<YPixmap> p, int x, int y, int w) {
         if (p != null)

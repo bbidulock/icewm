@@ -137,9 +137,7 @@ YWindow::YWindow(YWindow *parent, Window win, int depth, Visual *visual):
     fEnabled(true), fToplevel(false),
     fDoubleBuffer(doubleBuffer),
     accel(0),
-#ifdef CONFIG_TOOLTIP
     fToolTip(0),
-#endif
     fDND(false), XdndDragSource(None), XdndDropTarget(None)
 {
     if (fHandle != None) {
@@ -167,7 +165,6 @@ YWindow::~YWindow() {
         delete accel;
         accel = next;
     }
-#ifdef CONFIG_TOOLTIP
     if (fToolTip) {
         fToolTip->hide();
         if (fToolTipTimer && fToolTipTimer->getTimerListener() == fToolTip) {
@@ -176,7 +173,6 @@ YWindow::~YWindow() {
         }
         delete fToolTip; fToolTip = 0;
     }
-#endif
     if (fClickWindow == this)
         fClickWindow = 0;
     if (fGraphics) {
@@ -806,7 +802,6 @@ bool YWindow::handleKey(const XKeyEvent &key) {
 }
 
 void YWindow::handleButton(const XButtonEvent &button) {
-#ifdef CONFIG_TOOLTIP
     if (fToolTip) {
         fToolTip->hide();
         if (fToolTipTimer && fToolTipTimer->getTimerListener() == fToolTip) {
@@ -814,7 +809,6 @@ void YWindow::handleButton(const XButtonEvent &button) {
             fToolTipTimer->setTimerListener(0);
         }
     }
-#endif
 
     int const dx(abs(button.x_root - fClickEvent.x_root));
     int const dy(abs(button.y_root - fClickEvent.y_root));
@@ -893,9 +887,6 @@ void YWindow::handleMotion(const XMotionEvent &motion) {
     }
 }
 
-#ifndef CONFIG_TOOLTIP
-void YWindow::setToolTip(const ustring &/*tip*/) {
-#else
 YTimer *YWindow::fToolTipTimer = 0;
 
 void YWindow::setToolTip(const ustring &tip) {
@@ -911,23 +902,15 @@ void YWindow::setToolTip(const ustring &tip) {
         fToolTip = new YToolTip();
         fToolTip->setText(tip);
     }
-#endif
 }
 
 bool YWindow::toolTipVisible() {
-#ifdef CONFIG_TOOLTIP
     return (fToolTip && fToolTip->visible());
-#else
-    return false;
-#endif
 }
 
 void YWindow::updateToolTip() {
 }
 
-#ifndef CONFIG_TOOLTIP
-void YWindow::handleCrossing(const XCrossingEvent &/*crossing*/) {
-#else
 void YWindow::handleCrossing(const XCrossingEvent &crossing) {
     if (fToolTip) {
         if (crossing.type == EnterNotify && crossing.mode == NotifyNormal) {
@@ -948,7 +931,6 @@ void YWindow::handleCrossing(const XCrossingEvent &crossing) {
             }
         }
     }
-#endif
 }
 
 void YWindow::handleClientMessage(const XClientMessageEvent &message) {
@@ -1917,7 +1899,6 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
 
             MSG(("output: %s -> %lu", oinfo->name, oinfo->crtc));
 
-#ifndef NO_CONFIGURE
             if (xineramaPrimaryScreenName != 0 && oinfo->name != NULL) {
                 if (strcmp(xineramaPrimaryScreenName, oinfo->name) == 0)
                 {
@@ -1930,7 +1911,6 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
                     }
                 }
             }
-#endif
             XRRFreeOutputInfo(oinfo);
         }
         XRRFreeScreenResources(xrrsr);

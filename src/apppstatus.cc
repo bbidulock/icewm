@@ -27,7 +27,6 @@
 #include "ycollections.h"
 
 #ifdef HAVE_NET_STATUS
-#ifdef CONFIG_TASKBAR
 
 #include "prefs.h"
 #include "intl.h"
@@ -276,14 +275,12 @@ void NetStatus::paint(Graphics &g, const YRect &/*r*/) {
                     g.setColor(color[2]);
                     g.drawLine(i, l, i, t);
                 } else {
-#ifdef CONFIG_GRADIENTS
                     ref<YImage> gradient(parent()->getGradient());
 
                     if (gradient != null)
                         g.drawImage(gradient,
                                      x() + i, y() + l, width(), t - l, i, l);
                     else
-#endif
                         if (taskbackPixmap != null)
                             g.fillPixmap(taskbackPixmap,
                                          i, l, width(), t - l, x() + i, y() + l);
@@ -294,14 +291,12 @@ void NetStatus::paint(Graphics &g, const YRect &/*r*/) {
                 g.setColor(color[2]);
                 g.drawLine(i, 0, i, h - 1);
             } else {
-#ifdef CONFIG_GRADIENTS
                 ref<YImage> gradient(parent()->getGradient());
 
                 if (gradient != null)
                     g.drawImage(gradient,
                                  x() + i, y(), width(), h, i, 0);
                 else
-#endif
                     if (taskbackPixmap != null)
                         g.fillPixmap(taskbackPixmap,
                                      i, 0, width(), h, x() + i, y());
@@ -782,5 +777,5 @@ bool NetStatusControl::handleTimer(YTimer *t)
 }
 
 #endif // HAVE_NET_STATUS
-#endif // CONFIG_TASKBAR
+
 // vim: set sw=4 ts=4 et:

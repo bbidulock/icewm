@@ -1004,17 +1004,11 @@ void Graphics::fillPixmap(const ref<YPixmap> &pixmap, int x, int y,
 
 void Graphics::drawSurface(YSurface const & surface, int x, int y, int w, int h,
                            int const sx, int const sy,
-#ifdef CONFIG_GRADIENTS
                            const int sw, const int sh
-#else
-                           const int /*sw*/, const int /*sh*/
-#endif
 ) {
-#ifdef CONFIG_GRADIENTS
     if (surface.gradient != null)
         drawGradient(surface.gradient, x, y, w, h, sx, sy, sw, sh);
     else
-#endif
     if (surface.pixmap != null)
         fillPixmap(surface.pixmap, x, y, w, h, sx, sy);
     else if (surface.color) {
@@ -1023,7 +1017,6 @@ void Graphics::drawSurface(YSurface const & surface, int x, int y, int w, int h,
     }
 }
 
-#ifdef CONFIG_GRADIENTS
 void Graphics::drawGradient(ref<YImage> gradient,
                             int const x, int const y, const int w, const int h,
                             int const gx, int const gy, const int gw, const int gh)
@@ -1031,7 +1024,6 @@ void Graphics::drawGradient(ref<YImage> gradient,
     ref<YImage> scaled = gradient->scale(gw, gh);
     scaled->draw(*this, gx, gy, w, h, x, y);
 }
-#endif
 
 /******************************************************************************/
 

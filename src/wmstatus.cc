@@ -7,7 +7,6 @@
  */
 #include "config.h"
 
-#ifndef LITE
 #include "yfull.h"
 #include "wmstatus.h"
 #include "wpixmaps.h"
@@ -78,9 +77,7 @@ void YWindowManagerStatus::paint(Graphics &g, const YRect &/*r*/) {
 
 void YWindowManagerStatus::begin() {
     setPosition(x(),
-#ifdef CONFIG_TASKBAR
                  taskBarAtTop ? 4 :
-#endif
                  (manager->height() - height()) - 4);
     raise();
     show();
@@ -209,7 +206,5 @@ WorkspaceStatus * WorkspaceStatus::createInstance(YWindow *aParent) {
 
     return new WorkspaceStatus(aParent, getStatus(longestWorkspaceName));
 }
-
-#endif
 
 // vim: set sw=4 ts=4 et:

@@ -90,20 +90,6 @@
 #define defgKeySysShowDesktop           'd', kfAlt+kfCtrl, "Alt+Ctrl+d"
 #define defgKeySysCollapseTaskBar       'h', kfAlt+kfCtrl, "Alt+Ctrl+h"
 
-#ifdef NO_KEYBIND
-
-#define IS_WMKEYx2(k,vm,k1,vm1,d) ((k) == (k1) && ((vm) == (vm1)))
-#define IS_WMKEYx(k,vm,b) IS_WMKEYx2(k,vm,b)
-#define IS_WMKEY(k,vm,b) IS_WMKEYx(k,vm,def##b)
-#define GRAB_WMKEYx2(k,vm,d) grabVKey(k,vm)
-#define GRAB_WMKEYx(k) GRAB_WMKEYx2(k)
-#define GRAB_WMKEY(k) GRAB_WMKEYx(def##k)
-#define KEY_NAMEx2(k,m,s) (s)
-#define KEY_NAMEx(k) KEY_NAMEx2(k)
-#define KEY_NAME(k) KEY_NAMEx(def##k)
-
-#else
-
 #ifdef CFGDEF
 #define DEF_WMKEY(k) WMKey k = { def##k, true }
 #else
@@ -208,7 +194,5 @@ DEF_WMKEY(gKeySysShowDesktop);
 DEF_WMKEY(gKeySysCollapseTaskBar);
 
 #undef DEF_WMKEY
-
-#endif
 
 // vim: set sw=4 ts=4 et:

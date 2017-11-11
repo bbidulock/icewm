@@ -6,7 +6,6 @@
 #include "config.h"
 #include "ytooltip.h"
 
-#ifdef CONFIG_TOOLTIP
 #include "base.h"
 #include "prefs.h"
 #include "yprefs.h"
@@ -127,6 +126,5 @@ void YToolTipWindow::locate(YWindow *w) {
         x = 0;
     setPosition(x, y);
 }
-#endif
 
 // vim: set sw=4 ts=4 et:

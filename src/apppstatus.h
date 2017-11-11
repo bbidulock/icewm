@@ -8,8 +8,6 @@
 #ifndef NETSTATUS_H
 #define NETSTATUS_H
 
-#ifdef CONFIG_APPLET_NET_STATUS
-
 #include "ycollections.h"
 #include "base.h"
 
@@ -86,10 +84,7 @@ public:
     virtual bool handleTimer(YTimer *t) OVERRIDE;
 };
 
-#else // __linux__ || __FreeBSD__ || __NetBSD__
-#undef CONFIG_APPLET_NET_STATUS
 #endif
-#endif // CONFIG_APPLET_NET_STATUS
 
 #endif // NETSTATUS_H
 
