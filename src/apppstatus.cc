@@ -89,6 +89,7 @@ NetStatus::NetStatus(
     start_obytes = cur_obytes;
     updateToolTip();
     updateVisible(true);
+    setTitle(cstring("NET-"+netdev));
 }
 
 NetStatus::~NetStatus() {

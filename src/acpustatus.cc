@@ -105,6 +105,9 @@ CPUStatus::CPUStatus(YSMListener *smActionListener, YWindow *aParent, int cpuid)
     getStatus();
     updateStatus();
     updateToolTip();
+    char buf[99];
+    snprintf(buf, 99, "CPU%d", cpuid);
+    setTitle(buf);
 }
 
 CPUStatus::~CPUStatus() {

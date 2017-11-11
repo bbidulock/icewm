@@ -34,6 +34,7 @@ WorkspaceButton::WorkspaceButton(long ws, YWindow *parent):
 {
     fWorkspace = ws;
     //setDND(true);
+    setTitle(manager->workspaceName(ws));
 }
 
 void WorkspaceButton::handleClick(const XButtonEvent &up, int /*count*/) {

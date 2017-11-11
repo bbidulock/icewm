@@ -344,6 +344,7 @@ YWindow(aParent), fMailBox(mailbox), check(this)
         }
         checkMail();
     }
+    setTitle("MailBox");
 }
 
 MailBoxStatus::~MailBoxStatus() {
