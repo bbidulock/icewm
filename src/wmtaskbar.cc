@@ -441,15 +441,21 @@ void TaskBar::initApplets() {
     } else
         fWindowTray = 0;
 
+    if (taskBarEnableSystemTray) {
+        const char atomstr[] =
 #ifdef CONFIG_EXTERNAL_TRAY
-    YAtom trayatom("_ICEWM_INTTRAY_S", true);
+                   "_ICEWM_INTTRAY_S"
 #else
-    YAtom trayatom("_NET_SYSTEM_TRAY_S", true);
+                   "_NET_SYSTEM_TRAY_S"
 #endif
+                   ;
+        YAtom trayatom(atomstr, true);
+        bool isInternal = ('I' == atomstr[1]);
 
-    fDesktopTray = new YXTray(this, true, trayatom, this);
-    fDesktopTray->setTitle("DesktopTray");
-    fDesktopTray->relayout();
+        fDesktopTray = new YXTray(this, isInternal, trayatom, this);
+        fDesktopTray->setTitle("SystemTray");
+        fDesktopTray->relayout();
+    }
 }
 
 void TaskBar::trayChanged() {

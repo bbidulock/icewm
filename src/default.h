@@ -51,6 +51,7 @@ XIV(bool, taskBarShowShowDesktopButton,         true)
 XIV(int, taskBarButtonWidthDivisor,             3)
 XIV(int, taskBarWidthPercentage,                100)
 XSV(const char *, taskBarJustify,               "left")
+XIV(bool, taskBarEnableSystemTray,              true)
 XIV(bool, taskBarShowTray,                      true)
 XIV(bool, trayShowAllWindows,                   true)
 XIV(bool, taskBarShowTransientWindows,          true)
@@ -305,7 +306,8 @@ cfoption icewm_preferences[] = {
     OBV("TaskBarShowWindows",                   &taskBarShowWindows,            "Show windows on the taskbar"),
     OBV("TaskBarShowShowDesktopButton",         &taskBarShowShowDesktopButton,  "Show 'show desktop' button on taskbar"),
     OBV("ShowEllipsis",                         &showEllipsis,                  "Show Ellipsis in taskbar items"),
-    OBV("TaskBarShowTray",                      &taskBarShowTray,               "Show windows in the tray"),
+    OBV("TaskBarShowTray",                      &taskBarShowTray,               "Show application icons in the tray panel"),
+    OBV("TaskBarEnableSystemTray",              &taskBarEnableSystemTray,       "Enable the system tray in the taskbar"),
     OBV("TrayShowAllWindows",                   &trayShowAllWindows,            "Show windows from all workspaces on tray"),
     OBV("TaskBarShowTransientWindows",          &taskBarShowTransientWindows,   "Show transient (dialogs, ...) windows on task bar"),
     OBV("TaskBarShowAllWindows",                &taskBarShowAllWindows,         "Show windows from all workspaces on task bar"),
