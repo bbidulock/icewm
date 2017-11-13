@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: icewm-1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-11-01 21:50-0600\n"
-"PO-Revision-Date: 2017-07-25 18:42+0000\n"
-"Last-Translator: Aleš Kastner <alkas@volny.cz>\n"
-"Language-Team: Czech <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
-"branch/cs/>\n"
+"PO-Revision-Date: 2017-11-13 16:11+0000\n"
+"Last-Translator: Vojtech Zeisek <Vojtech.Zeisek@opensuse.org>\n"
+"Language-Team: Czech "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -313,9 +313,8 @@ msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
 #: src/icehelp.cc:1865
-#, fuzzy
 msgid "Unsupported protocol."
-msgstr "Nepodporované zařízení: %s."
+msgstr "Nepodporovaný protokol."
 
 #: src/icehelp.cc:1890
 #, c-format
@@ -331,9 +330,8 @@ msgid "Failed to open file for reading."
 msgstr ""
 
 #: src/icehelp.cc:1947
-#, fuzzy
 msgid "Failed to create a temporary file"
-msgstr "Selhalo otevření nepojmenované roury: %s"
+msgstr "Selhalo vytvoření dočasného souboru"
 
 #: src/icehelp.cc:2039
 #, c-format
@@ -341,9 +339,9 @@ msgid "Failed to execute system(%s) (%d)"
 msgstr ""
 
 #: src/icehelp.cc:2062
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to decompress %s"
-msgstr "Selhalo zavedení tématu %s"
+msgstr "Selhalo rozbalení %s"
 
 #: src/icehelp.cc:2070
 msgid "Could not locate curl or wget in PATH"
@@ -388,9 +386,9 @@ msgid ""
 msgstr ""
 
 #: src/icehelp.cc:2152
-#, fuzzy, c-format
+#, c-format
 msgid "Ignoring option '%s'"
-msgstr "Neznámá volba: '%s'"
+msgstr "Ignoruje se volba '%s'"
 
 #: src/icelist.cc:80
 msgid "List View"
@@ -606,7 +604,6 @@ msgid "Socket error: %d"
 msgstr "Chyba socketu: %d"
 
 #: src/icesm.cc:50
-#, fuzzy
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -622,6 +619,9 @@ msgstr ""
 "\n"
 "  --display=NÁZEV      Použite NÁZEV pro připojení k X serveru.\n"
 "  --sync              Synchronizujte komunikaci se serverem X11.\n"
+"\n"
+" -n, --notray        Nespouštět icewmtray.\n"
+"  -s, --sound         Také spustit icesound.\n"
 
 #: src/icesm.cc:107
 #, c-format
@@ -671,9 +671,9 @@ msgid "Could not post OSS"
 msgstr "Nemohu nahrát sadu fontů „%s“."
 
 #: src/icesound.cc:402
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open OSS device %s"
-msgstr "Nemohu nalézt obrázek %s"
+msgstr "Nemohu otevřít OSS zařízení %s"
 
 #: src/icesound.cc:407
 msgid "Could not set OSS stereo"
@@ -707,9 +707,9 @@ msgid "Sample <%d> uploaded as `%s:%s'"
 msgstr "Vzorek <%d> byl nahrán jako „%s:%s“"
 
 #: src/icesound.cc:573
-#, fuzzy, c-format
+#, c-format
 msgid "Playing sample #%d: %d"
-msgstr "Přehrávání vzorku #%d"
+msgstr "Přehrávání vzorku %d:%d"
 
 #: src/icesound.cc:648
 #, c-format
@@ -731,7 +731,7 @@ msgid "Unrecognized argument: %s\n"
 msgstr "Nerozpoznaný argument: %s\n"
 
 #: src/icesound.cc:833
-#, fuzzy, c-format
+#, c-format, fuzzy
 msgid ""
 "Usage: %s [OPTION]...\n"
 "\n"
@@ -784,18 +784,24 @@ msgid ""
 "  3    Subsystems error (ie cannot connect to server).\n"
 "\n"
 msgstr ""
-"Použití: %s [PŘEPÍNAČ]…\n"
+"Použití: %s [PŘEPÍNAČ]...\n"
 "\n"
 "Při událostech GUI vyvolaných IceWMem přehrává zvukové soubory.\n"
+"Aktuálně nastavená zvuková prostředí jsou: %s.\n"
+"Isesound z nich vybere první použitelné.\n"
 "\n"
 "Přepínače:\n"
 "\n"
-"-d, --display=DISPLEJ         Displej používaný IceWMem\n"
-"                              (implicitní: $DISPLAY).\n"
-"-s, --sample-dir=ADRESÁŘ      Udává adresář obsahující zvukové\n"
-"                              soubory (tj. ~/.icewm/sounds).\n"
-"-i, --interface=CÍL           Udává cílové zařízení zvukového\n"
-"                              výstupu, jeden z ALSA, OSS, YIFF, ESD\n"
+"-d, --display=DISPLEJ         Displej používaný IceWMem (implicitní: "
+"$DISPLAY).\n"
+"\n"
+"-s, --sample-dir=ADRESÁŘ      Udává adresář obsahující zvukové soubory\n"
+"                         Výchozí je ~/.config/icewm/sounds\n"
+"\n"
+"-i, --interface=SEZNAM           Udává cílová zařízení zvukového\n"
+"                              výstupu. Jeden nebo více z %s oddělené "
+"čárkami\n"
+"\n"
 "-D, --device=ZAŘÍZENÍ         (ALSA OSS) udává digitální\n"
 "                              signálový procesor (implicitní:\n"
 "                              (ALSA) default (OSS) /dev/dsp).\n"
@@ -865,17 +871,16 @@ msgid "Using %s audio."
 msgstr ""
 
 #: src/icesound.cc:1083
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to connect to audio interfaces %s."
-msgstr "Selhalo zavedení tématu %s"
+msgstr "Selhalo připojení ke zvukovému zařízení %s."
 
 #: src/icesound.cc:1095
-#, fuzzy, c-format
+#, c-format
 msgid "Received signal %s: Terminating..."
-msgstr "Přijat signál %d: Končím…"
+msgstr "Přijat signál %s: Končím…"
 
 #: src/icetray.cc:253
-#, fuzzy
 msgid ""
 "  -n, --notify        Notify parent process by sending signal USR1.\n"
 "  --display=NAME      Use NAME to connect to the X server.\n"
@@ -884,7 +889,8 @@ msgid ""
 "  -c, --config=FILE   Load preferences from FILE.\n"
 "  -t, --theme=FILE    Load the theme from FILE.\n"
 msgstr ""
-"  --notify            Upozorní rodičovský proces odesláním signálu USR1.\n"
+"  -n,  --notify            Upozorní rodičovský proces odesláním signálu USR1."
+"\n"
 "  --display=NAME Použije NAME ke spojení s X serverem.\n"
 "  --sync              Synchronizuje komunikaci se serverem X11.\n"
 "\n"
@@ -916,9 +922,9 @@ msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
 #: src/icewmbg.cc:73
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load image '%s'."
-msgstr "Selhalo zavedení tématu %s"
+msgstr "Selhalo načtení obrazu '%s'."
 
 #: src/icewmbg.cc:706
 #, fuzzy
@@ -1071,9 +1077,8 @@ msgid "icewm - About"
 msgstr "icewm – O Aplikaci"
 
 #: src/wmapp.cc:118
-#, fuzzy
 msgid "A window manager is already running, use --replace to replace it"
-msgstr "Jiný správce oken již běží, končím…"
+msgstr "Správce oken již běží, abyste jej nahradili, použijte --replace"
 
 #: src/wmapp.cc:136
 #, c-format
@@ -1222,7 +1227,7 @@ msgstr "_Zavřít"
 
 #: src/wmapp.cc:689 src/wmwinlist.cc:299
 msgid "_Kill Client"
-msgstr "Zabít _klienta"
+msgstr "_Zabít klienta"
 
 #: src/wmapp.cc:693 src/wmdialog.cc:95 src/wmwinmenu.cc:138
 msgid "_Window list"
@@ -1230,7 +1235,7 @@ msgstr "Seznam _oken"
 
 #: src/wmapp.cc:709
 msgid "Another window manager already running, exiting..."
-msgstr "Jiný správce oken již běží, končím…"
+msgstr "Jiný správce oken již běží, končím..."
 
 #: src/wmapp.cc:783
 #, c-format
@@ -1343,9 +1348,9 @@ msgid "%s configured options:%s\n"
 msgstr "%s zkonfigurované voľby: %s\n"
 
 #: src/wmapp.cc:1714
-#, fuzzy, c-format
+#, c-format
 msgid "Unrecognized option '%s'."
-msgstr "Nerozpoznaný přepínač: %s\n"
+msgstr "Nerozpoznaná volba '%s'."
 
 #: src/wmapp.cc:1756
 msgid "Confirm Logout"
@@ -1483,7 +1488,7 @@ msgstr "Chyba v menu-programu '%s'"
 #: src/wmprog.cc:540
 #, c-format
 msgid "Error at %s: '%s'"
-msgstr "Chyba v %s '%s'"
+msgstr "Chyba v %s: '%s'"
 
 #: src/wmprog.cc:565
 #, c-format
@@ -1514,9 +1519,8 @@ msgid "_Click to focus"
 msgstr "Vybrat _kliknutím"
 
 #: src/wmprog.cc:884
-#, fuzzy
 msgid "_Explicit focus"
-msgstr "Vybrat _kliknutím"
+msgstr "_Vybrat kliknutím"
 
 #: src/wmprog.cc:885
 msgid "_Sloppy mouse focus"
@@ -1805,11 +1809,10 @@ msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
 #: src/ylocale.cc:46
-#, fuzzy
 msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
 msgstr ""
-"Nastavení jazyka (locale) není knihovnou C podporováno. Vracím nastavení "
-"jazyka (locale) na „C“."
+"Nastavení jazyka (locale) není knihovnou C nebo Xlib podporováno. Vracím "
+"nastavení jazyka (locale) na „C“."
 
 #: src/ylocale.cc:70
 msgid ""
