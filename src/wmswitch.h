@@ -2,6 +2,7 @@
 #define __SWITCH_H
 
 #include "ymenu.h"
+#include "ypointer.h"
 
 class YFrameWindow;
 class YWindowManager;
@@ -12,7 +13,7 @@ class IClosablePopup
 public:
     // report true if window was up; close in any case
     virtual bool close()=0;
-    virtual ~IClosablePopup(){};
+    virtual ~IClosablePopup() {}
 };
 
 // data model, default implementation is list of windows
@@ -46,8 +47,6 @@ public:
 };
 
 class SwitchWindow: public YPopupWindow, IClosablePopup {
-    ISwitchItems* zItems;
-    bool m_verticalStyle;
 public:
     SwitchWindow(YWindow *parent = 0,
                  ISwitchItems *items = 0, bool verticalStyle=true);
@@ -66,14 +65,17 @@ public:
     void destroyedFrame(YFrameWindow *frame);
 
 private:
+    ISwitchItems* zItems;
+    bool m_verticalStyle;
+
     ref<YImage> fGradient;
 
-    static YColor *switchFg;
-    static YColor *switchBg;
-    static YColor *switchHl;
-    static YColor *switchMbg;
-    static YColor *switchMfg;
-    static ref<YFont> switchFont;
+    osmart<YColor> switchFg;
+    osmart<YColor> switchBg;
+    osmart<YColor> switchHl;
+    osmart<YColor> switchMbg;
+    osmart<YColor> switchMfg;
+    ref<YFont> switchFont;
 
     int modsDown;
 
@@ -89,6 +91,9 @@ private:
     void displayFocus(int itemIdx);
     //YFrameWindow *nextWindow(YFrameWindow *from, bool zdown, bool next);
     YFrameWindow *nextWindow(bool zdown);
+
+    void paintHorizontal(Graphics &g);
+    void paintVertical(Graphics &g);
 
 private: // not-used
     SwitchWindow(const SwitchWindow &);

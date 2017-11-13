@@ -18,21 +18,11 @@
 #include "yrect.h"
 #include "yicon.h"
 #include "wmwinlist.h"
-#include "ycollections.h"
-
-YColor *SwitchWindow::switchFg(NULL);
-YColor *SwitchWindow::switchBg(NULL);
-YColor *SwitchWindow::switchHl(NULL);
-YColor *SwitchWindow::switchMbg(NULL);
-YColor *SwitchWindow::switchMfg(NULL);
-
-ref<YFont> SwitchWindow::switchFont;
-
 
 class WindowItemsCtrlr : public ISwitchItems
 {
     int zTarget;
-    YVec<YFrameWindow*> zList;
+    YArray<YFrameWindow*> zList;
     YWindowManager *fRoot;
     YFrameWindow *fActiveWindow;
     YFrameWindow *fLastWindow;
@@ -43,17 +33,18 @@ class WindowItemsCtrlr : public ISwitchItems
             int activeWorkspace = fRoot->activeWorkspace();
             GetZListWorkspace(true, activeWorkspace);
             if (quickSwitchToAllWorkspaces) {
-                for (int w = 0; w <= workspaceCount; w++) {
+                for (int w = 0; w < workspaceCount; ++w) {
                     if (w != activeWorkspace)
                         GetZListWorkspace(true, w);
                 }
             }
         } else
             GetZListWorkspace(false, -1);
+        fActiveWindow = 0;
     }
 
     void freeList() {
-        zList.size = 0;
+        zList.shrink(0);
     }
 
     void GetZListWorkspace(bool workspaceOnly, int workspace)
@@ -73,7 +64,8 @@ class WindowItemsCtrlr : public ISwitchItems
                 }
 
                 if (!w->isUrgent()) {
-                    if (workspaceOnly && w->isSticky() && workspace != fRoot->activeWorkspace()) {
+                    if (workspaceOnly && w->isSticky() &&
+                        workspace != fRoot->activeWorkspace()) {
                         continue;
                     }
 
@@ -83,26 +75,26 @@ class WindowItemsCtrlr : public ISwitchItems
                 }
 
                 if (w == fRoot->getFocus()) {
-                    if (pass == 0) zList.add(w);
+                    if (pass == 0) zList.append(w);
                 } else if (w->isUrgent()) {
                     if (quickSwitchToUrgent) {
-                        if (pass == 1) zList.add(w);
+                        if (pass == 1) zList.append(w);
                     } else {
-                        if (pass == 2) zList.add(w);
+                        if (pass == 2) zList.append(w);
                     }
                 } else if (w->frameOptions() & YFrameWindow::foIgnoreQSwitch) {
                 } else if (w->avoidFocus()) {
-                    if (pass == 5) zList.add(w);
+                    if (pass == 5) zList.append(w);
                 } else if (w->isHidden()) {
                     if (pass == 4)
                         if (quickSwitchToHidden)
-                            zList.add(w);
+                            zList.append(w);
                 } else if (w->isMinimized()) {
                     if (pass == 3)
                         if (quickSwitchToMinimized)
-                            zList.add(w);
+                            zList.append(w);
                 } else {
-                    if (pass == 2) zList.add(w);
+                    if (pass == 2) zList.append(w);
                 }
             }
         }
@@ -116,31 +108,40 @@ public:
 
     virtual int getCount()
     {
-        return zList.size;
+        return zList.getCount();
     }
 
     virtual ref<YIcon> getIcon(int itemIdx) OVERRIDE
     {
-        YFrameWindow* winItem=zList[itemIdx];
-        if(winItem) return winItem->getIcon();
+        if (inrange(itemIdx, 0, getCount() - 1)) {
+            YFrameWindow* winItem = zList[itemIdx];
+            if (winItem) return winItem->getIcon();
+        }
         return null;
     }
 
 
     int moveTarget(bool zdown) OVERRIDE {
-        zTarget = (zTarget + zList.size + (zdown?1:-1)) % zList.size;
-        fActiveWindow = zList[zTarget];
+        if (getCount() > 1)
+            zTarget = (zTarget + getCount() + (zdown ? 1 : -1)) % getCount();
+        else
+            zTarget = 0;
+        if (inrange(zTarget, 0, getCount() - 1))
+            fActiveWindow = zList[zTarget];
+        else
+            fActiveWindow = 0;
         return zTarget;
     }
 
     WindowItemsCtrlr() :
         zTarget(0), fRoot(manager), fActiveWindow(0), fLastWindow(0)
-        {
-        }
+    {
+    }
+
     ~WindowItemsCtrlr()
     {
-
     }
+
     int getActiveItem()
     {
         return zTarget;
@@ -148,17 +149,19 @@ public:
 
     virtual ustring getTitle(int idx)
     {
-        if(idx<0) return null;
-        return zList[idx]->client()->windowTitle();
+        if (inrange(idx, 0, getCount() - 1))
+            return zList[idx]->client()->windowTitle();
+        return null;
     }
+
     void updateList() {
         freeList();
         getZList();
     }
 
     void displayFocusChange(int idx) OVERRIDE {
-        if(idx<0) return;
-        displayFocusChange(zList[idx]);
+        if (inrange(idx, 0, getCount() - 1))
+            displayFocusChange(zList[idx]);
     }
 
     void begin(bool zdown)
@@ -193,9 +196,10 @@ public:
 
     void destroyedItem(void *item)
     {
-        YFrameWindow* frame = (YFrameWindow*) item;
-        if (zList.size == 0)
+        if (getCount() == 0)
             return;
+
+        YFrameWindow* frame = (YFrameWindow*) item;
         if (frame == fLastWindow)
             fLastWindow = 0;
         updateList();
@@ -205,6 +209,7 @@ public:
         }
         displayFocusChange(fActiveWindow);
     }
+
     virtual bool isKey(KeySym k, unsigned int vm) OVERRIDE {
         return (IS_WMKEY(k, vm, gKeySysSwitchNext));
     }
@@ -213,30 +218,24 @@ public:
 SwitchWindow::SwitchWindow(YWindow *parent, ISwitchItems *items,
                            bool verticalStyle):
     YPopupWindow(parent),
-    fGradient(null)
+    fGradient(null),
+    switchFg(new YColor(clrQuickSwitchText)),
+    switchBg(new YColor(clrQuickSwitch)),
+    switchHl(clrQuickSwitchActive ? new YColor(clrQuickSwitchActive) : 0),
+    switchMfg(new YColor(clrActiveTitleBarText)),
+    switchFont(YFont::getFont(XFA(switchFontName)))
 {
     zItems = items ? items : new WindowItemsCtrlr;
     m_verticalStyle = verticalStyle;
 
-    // why this checks here?
-    if (switchBg == 0)
-        switchBg = new YColor(clrQuickSwitch);
-    if (switchFg == 0)
-        switchFg = new YColor(clrQuickSwitchText);
-    if (/*switchHl == 0 &&*/ clrQuickSwitchActive)
-        switchHl = new YColor(clrQuickSwitchActive);
-    if (switchFont == null)
-        switchFont = YFont::getFont(XFA(switchFontName));
-
     // I prefer clrNormalMenu but some themes use inverted settings where
     // clrNormalMenu is the same as clrQuickSwitch
-    if (switchHl)
-        switchMbg = switchHl;
+    if (clrQuickSwitchActive)
+        switchMbg = new YColor(clrQuickSwitchActive);
     else if (!strcmp(clrNormalMenu, clrQuickSwitch))
         switchMbg = new YColor(clrActiveMenuItem);
     else
         switchMbg = new YColor(clrNormalMenu);
-    switchMfg = new YColor(clrActiveTitleBarText);
 
     modsDown = 0;
     isUp = false;
@@ -267,7 +266,7 @@ void SwitchWindow::accept() {
 SwitchWindow::~SwitchWindow() {
     close();
     fGradient = null;
-    delete(zItems);
+    delete zItems;
 }
 
 void SwitchWindow::resize(int xiscreen) {
@@ -355,9 +354,9 @@ void SwitchWindow::resize(int xiscreen) {
 
 void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
     if (switchbackPixbuf != null &&
-        !(fGradient != null &&
-          fGradient->width() == width() - 2 &&
-          fGradient->height() == height() - 2))
+        (fGradient == null ||
+         fGradient->width() != width() - 2 ||
+         fGradient->height() != height() - 2))
     {
         fGradient = switchbackPixbuf->scale(width() - 2, height() - 2);
     }
@@ -373,9 +372,13 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
     else
         g.fillRect(1, 1, width() - 3, height() - 3);
 
-    // for vertical positioning, continue below. Avoid spagheti code.
-    if(m_verticalStyle) goto verticalMode;
+    // for vertical positioning, continue below. Avoid spaghetti code.
+    return m_verticalStyle
+        ? paintVertical(g)
+        : paintHorizontal(g);
+}
 
+void SwitchWindow::paintHorizontal(Graphics &g) {
     if (zItems->getActiveItem() >= 0) {
         int tOfs(0);
 
@@ -497,10 +500,9 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
             //      {} while ((frame = nextWindow(frame, true, true)) != first);
         }
     }
+}
 
-    return;
-
-verticalMode:
+void SwitchWindow::paintVertical(Graphics &g) {
     if (zItems->getActiveItem() >= 0) {
 
         int ih = 0;
@@ -514,7 +516,7 @@ verticalMode:
         for (int i = 0, zCount=zItems->getCount(); i < zCount; i++) {
 
             g.setColor(switchFg);
-            if(i == zItems->getActiveItem()) {
+            if (i == zItems->getActiveItem()) {
                 g.setColor(switchMbg);
                 g.fillRect(quickSwitchHMargin, pos + quickSwitchVMargin , width() - quickSwitchHMargin*2, ih + quickSwitchIMargin );
                 g.setColor(switchMfg);
@@ -573,7 +575,7 @@ void SwitchWindow::begin(bool zdown, int mods) {
                        xapp->HyperMask | xapp->SuperMask |
                        xapp->ModeSwitchMask | ControlMask);
 
-    if(close())
+    if (close())
         return;
 
     int xiscreen = manager->getScreen();
@@ -612,6 +614,10 @@ void SwitchWindow::displayFocus(int itemIdx) {
 
 void SwitchWindow::destroyedFrame(YFrameWindow *frame) {
     zItems->destroyedItem(frame);
+    if (zItems->getCount() == 0)
+        cancel();
+    else
+        repaint();
 }
 
 bool SwitchWindow::handleKey(const XKeyEvent &key) {
@@ -667,9 +673,7 @@ bool SwitchWindow::modDown(int mod) {
    int m = mod & (xapp->AltMask | xapp->MetaMask | xapp->HyperMask |
          xapp->SuperMask | xapp->ModeSwitchMask | ControlMask);
 
-    if ((m & modsDown) != modsDown)
-        return false;
-    return true;
+    return hasbits(m, modsDown);
 }
 
 void SwitchWindow::handleButton(const XButtonEvent &button) {
