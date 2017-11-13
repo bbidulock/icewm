@@ -40,11 +40,15 @@ class WindowItemsCtrlr : public ISwitchItems
             }
         } else
             GetZListWorkspace(false, -1);
-        fActiveWindow = 0;
+
+        if (fActiveWindow != 0 && find(zList, fActiveWindow) == -1)
+            fActiveWindow = 0;
+        if (fLastWindow != 0 && find(zList, fLastWindow) == -1)
+            fLastWindow = 0;
     }
 
     void freeList() {
-        zList.shrink(0);
+        zList.clear();
     }
 
     void GetZListWorkspace(bool workspaceOnly, int workspace)
@@ -203,7 +207,7 @@ public:
         if (frame == fLastWindow)
             fLastWindow = 0;
         updateList();
-        if (frame == fActiveWindow) {
+        if (frame == fActiveWindow || fActiveWindow == 0) {
             zTarget = -1;
             moveTarget(true);
         }
@@ -588,6 +592,11 @@ void SwitchWindow::begin(bool zdown, int mods) {
         displayFocus(item);
         isUp = popup(0, 0, 0, xiscreen, YPopupWindow::pfNoPointerChange);
     }
+
+    if (zItems->getCount() < 1) {
+        close();
+    }
+    else if (isUp)
     {
         Window root, child;
         int root_x, root_y, win_x, win_y;
@@ -614,10 +623,13 @@ void SwitchWindow::displayFocus(int itemIdx) {
 
 void SwitchWindow::destroyedFrame(YFrameWindow *frame) {
     zItems->destroyedItem(frame);
-    if (zItems->getCount() == 0)
+    if (zItems->getCount() == 0) {
         cancel();
-    else
+    }
+    else if (isUp) {
+        resize(manager->getScreen());
         repaint();
+    }
 }
 
 bool SwitchWindow::handleKey(const XKeyEvent &key) {
@@ -630,7 +642,8 @@ bool SwitchWindow::handleKey(const XKeyEvent &key) {
             int focused = zItems->moveTarget(true);
             displayFocus(focused);
             return true;
-        } else if ((IS_WMKEY(k, vm, gKeySysSwitchLast))) { // XXX: what to do with the swich-last key...
+        } else if ((IS_WMKEY(k, vm, gKeySysSwitchLast))) {
+            // XXX: what to do with the swich-last key...
             int focused = zItems->moveTarget(false);
             displayFocus(focused);
             return true;
