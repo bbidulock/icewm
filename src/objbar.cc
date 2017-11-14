@@ -75,7 +75,10 @@ void ObjectBar::addSeparator() {
 
 void ObjectBar::addContainer(const ustring &name, ref<YIcon> icon, ObjectContainer *container) {
     if (container) {
-        YButton *button = new ObjectButton(this, (YMenu*) container);
+        ObjectMenu* menu = dynamic_cast<ObjectMenu *>(container);
+        PRECONDITION(menu);
+        if (!menu) return CARP(Bad menu);
+        YButton *button = new ObjectButton(this, menu);
         addButton(name, icon, button);
     }
 }
