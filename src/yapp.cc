@@ -210,6 +210,9 @@ void YPollBase::registerPoll(int fd) {
 }
 
 int YApplication::mainLoop() {
+    if (fLoopLevel == 0)
+        handleSignal(SIGCHLD);
+
     fLoopLevel++;
 
     timeval prevtime = monotime();
