@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-11-01 21:50-0600\n"
-"PO-Revision-Date: 2017-11-02 16:29+0100\n"
+"PO-Revision-Date: 2017-11-14 14:03+0100\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
 "Language-Team: Slovak <opensuse-translation-sk@opensuse.org>\n"
 "Language: sk\n"
@@ -1297,7 +1297,7 @@ msgid ""
 msgstr ""
 
 #: src/wmapp.cc:1456
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
 "Starts the IceWM window manager.\n"
@@ -1333,27 +1333,27 @@ msgstr ""
 "Voľby:\n"
 "  --display=NÁZOV      NÁZOV X servera, ktorý sa použije.\n"
 "%s  --sync               Synchronizuje príkazy X11.\n"
-"\n"
-"  -c, --config=SÚBOR  Načíta predvoľby zo SÚBORU.\n"
-"  -t, --theme=SÚBOR   Načíta tému zo SÚBORU.\n"
+"%s\n"
 "\n"
 "  -V, --version        Vypíše informácie o verzii a skončí.\n"
 "  -h, --help           Vypíše túto obrazovku o použití a skončí.\n"
-"%s  -replace             Nahradí existujúceho správcu okien.\n"
-"  --restart            Toto nepoužívať: Je to interný príznak.\n"
-"  --configured        Vypíše konfiguráciu času kompilácie..\n"
+"%s\n"
+"  --replace           Nahradí existujúceho správcu okien.\n"
+"  -r, --restart       Oznámi spustenému icewm, aby sa reštartoval.\n"
+"\n"
+"  --configured        Vypíše konfiguráciu času kompilácie.\n"
 "  --directories       Vypíše konfiguračné adresáre.\n"
-"  --postpreferences   Vypíše predvoľby po úplnom spracovaní.\n"
+"  -l, --list-themes   Vypíše zoznam dostupných tém.\n"
 "\n"
 "Premenné prostredia:\n"
-"  XDG_CONFIG_HOME=PATH  Adresár pre konfiguračné súbory,\n"
-"                      predvolený je \"$HOME/.config/icewm/\".\n"
 "  ICEWM_PRIVCFG=CESTA  Adresár pre konfiguračné súbory používateľa,\n"
-"                      predvolený je \"$HOME/.icewm/“.\n"
+"                      \"$XDG_CONFIG_HOME/icewm\" ak existuje alebo\n"
+"                      \"$HOME/.icewm/“ podľa pedvoleného nastavenia.\n"
 "  DISPLAY=MENO        Meno X servera, ktorý sa použije.\n"
 "  MAIL=URL             Umiestnenie vašej poštovej schránky.\n"
 "\n"
-"Ak chcete nahlásiť chybu, požiadavku na podporu, komentáre, navštívte:\n"
+"Ak chcete nahlásiť chybu, požiadavku na podporu, komentáre, prosím, "
+"navštívte:\n"
 "%s\n"
 "\n"
 
@@ -1539,18 +1539,16 @@ msgid "_Click to focus"
 msgstr "Aktivovať _kliknutím"
 
 #: src/wmprog.cc:884
-#, fuzzy
 msgid "_Explicit focus"
-msgstr "Aktivovať _kliknutím"
+msgstr "_Vybrať kliknutím"
 
 #: src/wmprog.cc:885
 msgid "_Sloppy mouse focus"
 msgstr "Aktivovať _presunom myši"
 
 #: src/wmprog.cc:886
-#, fuzzy
 msgid "S_trict mouse focus"
-msgstr "Aktivovať _presunom myši"
+msgstr "S_triktné aktivovanie myšou"
 
 #: src/wmprog.cc:887
 msgid "_Quiet sloppy focus"
@@ -1830,9 +1828,10 @@ msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
 #: src/ylocale.cc:46
-#, fuzzy
 msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
-msgstr "Locale nie je podporované knižnicou C. Použijem 'C' locale'."
+msgstr ""
+"Locale nie je podporované knižnicou C alebo Xlib. Núdzovo sa použije 'C' "
+"locale'."
 
 #: src/ylocale.cc:70
 msgid ""
