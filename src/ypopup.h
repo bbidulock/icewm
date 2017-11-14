@@ -35,10 +35,11 @@ private:
                int x_delta, int y_delta,
                int xiScreen,
                unsigned int flags);
+    void popdown();
+
     friend class YMenu;
     friend class YButton;
 public:
-    void popdown();
 
     virtual void updatePopup();
     void finishPopup();

@@ -50,9 +50,10 @@ public:
     virtual YColor * getColor();
     virtual YSurface getSurface();
 
-    bool fOver;
-
     void setEnabled(bool enabled);
+
+protected:
+    bool fOver;
 
 private:
     void paint(Graphics &g, int const d, const YRect &r);
