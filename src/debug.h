@@ -14,9 +14,14 @@ extern bool debug_z;
 
 #if defined(DEBUG) || defined(PRECON)
 #define PRECONDITION(x) if (x); else precondition( #x , __FILE__, __LINE__)
+#define NOTE(x)   tlog("%s:%d:%s: %s", __FILE__, __LINE__, __func__, #x )
+#define INFO(x,y) tlog("%s:%d:%s: " x, __FILE__, __LINE__, __func__, y )
 #else
 #define PRECONDITION(x) // nothing
+#define NOTE(x)   // nothing
+#define INFO(x,y) // nothing
 #endif
+#define CARP(x) tlog("%s:%d:%s: %s", __FILE__, __LINE__, __func__, #x )
 
 #endif
 
