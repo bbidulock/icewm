@@ -17,6 +17,7 @@
 
 #include "ytimer.h"
 #include "ypopup.h"
+#include <typeinfo>
 
 /******************************************************************************/
 /******************************************************************************/
@@ -1632,6 +1633,11 @@ YDesktop::YDesktop(YWindow *aParent, Window win):
 }
 
 YDesktop::~YDesktop() {
+    for (YWindow* w; (w = firstWindow()) != 0; delete w) {
+        char* name = demangle(typeid(*w).name());
+        INFO("deleting stray %s", name);
+        free(name);
+    }
 }
 
 void YDesktop::resetColormapFocus(bool /*active*/) {

@@ -26,7 +26,7 @@ struct DesktopScreenInfo {
     int height;
 };
 
-class YWindow : private YWindowNode, private YWindowList {
+class YWindow : protected YWindowList, private YWindowNode {
 public:
     YWindow(YWindow *aParent = 0, Window win = 0, int depth = CopyFromParent, Visual *visual = CopyFromParent);
     virtual ~YWindow();
