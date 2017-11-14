@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: icewm-1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-11-01 21:50-0600\n"
-"PO-Revision-Date: 2017-11-13 16:11+0000\n"
+"PO-Revision-Date: 2017-11-14 13:52+0000\n"
 "Last-Translator: Vojtech Zeisek <Vojtech.Zeisek@opensuse.org>\n"
 "Language-Team: Czech "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/cs/>\n"
@@ -151,39 +151,39 @@ msgstr "%ld poštovních zpráv."
 
 #: src/amemstatus.cc:134
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: src/amemstatus.cc:138
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 #: src/amemstatus.cc:142
 msgid "kB"
-msgstr ""
+msgstr "kB"
 
 #: src/amemstatus.cc:146
 msgid "bytes"
-msgstr ""
+msgstr "bytů"
 
 #: src/amemstatus.cc:170
 msgid "Memory Total: "
-msgstr ""
+msgstr "Celkem paměti: "
 
 #: src/amemstatus.cc:171
 msgid "Free: "
-msgstr ""
+msgstr "Volno: "
 
 #: src/amemstatus.cc:172
 msgid "Cached: "
-msgstr ""
+msgstr "Ve vyrovnávací paměti: "
 
 #: src/amemstatus.cc:173
 msgid "Buffers: "
-msgstr ""
+msgstr "Zásobníky: "
 
 #: src/amemstatus.cc:174
 msgid "User: "
-msgstr ""
+msgstr "Uživatel: "
 
 #: src/apppstatus.cc:196
 #, c-format
@@ -323,11 +323,11 @@ msgstr "Neplatná cesta: %s↵\n"
 
 #: src/icehelp.cc:1913
 msgid "Path does not refer to a file."
-msgstr ""
+msgstr "Cesta neodkazuje na soubor."
 
 #: src/icehelp.cc:1918
 msgid "Failed to open file for reading."
-msgstr ""
+msgstr "Selhalo otevření souboru pro čtení."
 
 #: src/icehelp.cc:1947
 msgid "Failed to create a temporary file"
@@ -336,7 +336,7 @@ msgstr "Selhalo vytvoření dočasného souboru"
 #: src/icehelp.cc:2039
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
-msgstr ""
+msgstr "Selhalo spuštění systému (%s) (%d)"
 
 #: src/icehelp.cc:2062
 #, c-format
@@ -345,11 +345,11 @@ msgstr "Selhalo rozbalení %s"
 
 #: src/icehelp.cc:2070
 msgid "Could not locate curl or wget in PATH"
-msgstr ""
+msgstr "V PATH se nepodařilo najít curl ani wget"
 
 #: src/icehelp.cc:2074
 msgid "Unsafe characters in URL"
-msgstr ""
+msgstr "Nebezpečné znaky v URL"
 
 #: src/icehelp.cc:2090
 #, c-format
@@ -631,12 +631,12 @@ msgstr "Neznámá volba: '%s'"
 #: src/icesm.cc:292
 #, c-format
 msgid "%s exited with status %d."
-msgstr ""
+msgstr "%s skončil se stavem %d."
 
 #: src/icesm.cc:298
 #, c-format
 msgid "%s was killed by signal %d."
-msgstr ""
+msgstr "%s byl zabit signálem %d."
 
 #: src/icesound.cc:216 src/icesound.cc:324 src/icesound.cc:628
 #, c-format
@@ -646,29 +646,28 @@ msgstr "Přehrávání vzorku #%d (%s)"
 #: src/icesound.cc:334
 #, c-format
 msgid "%s: Invalid number of channels"
-msgstr ""
+msgstr "%s: neplatný počet kanálů"
 
 #: src/icesound.cc:340 src/icesound.cc:345
 msgid "Could not set OSS channels"
-msgstr ""
+msgstr "Nepodařilo se nastavit OSS kanál"
 
 #: src/icesound.cc:350 src/icesound.cc:378
 msgid "Could not sync OSS"
-msgstr ""
+msgstr "Nepodařilo se synchronizovat OSS"
 
 #: src/icesound.cc:362
 msgid "OSS write failed"
-msgstr ""
+msgstr "Zápis OSS selhal"
 
 #: src/icesound.cc:366
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
-msgstr ""
+msgstr "Zápis OSS byl neúplný (%d/%d)"
 
 #: src/icesound.cc:373
-#, fuzzy
 msgid "Could not post OSS"
-msgstr "Nemohu nahrát sadu fontů „%s“."
+msgstr "Nepodařilo se odeslat OSS"
 
 #: src/icesound.cc:402
 #, c-format
@@ -677,15 +676,15 @@ msgstr "Nemohu otevřít OSS zařízení %s"
 
 #: src/icesound.cc:407
 msgid "Could not set OSS stereo"
-msgstr ""
+msgstr "Nepodařilo se nastavit OSS stereo"
 
 #: src/icesound.cc:412
 msgid "Could not reset OSS DSP"
-msgstr ""
+msgstr "Nepodařilo se resetovat OSS DSP"
 
 #: src/icesound.cc:417
 msgid "Could not set OSS format"
-msgstr ""
+msgstr "Nepodařilo se nastavit formát OSS"
 
 #: src/icesound.cc:490
 #, c-format
@@ -714,11 +713,11 @@ msgstr "Přehrávání vzorku %d:%d"
 #: src/icesound.cc:648
 #, c-format
 msgid "ao_open_live failed with %d"
-msgstr ""
+msgstr "ao_open_live selhal s %d"
 
 #: src/icesound.cc:659
 msgid "ao_play failed"
-msgstr ""
+msgstr "ao_play selhal"
 
 #: src/icesound.cc:821
 #, c-format
@@ -834,26 +833,26 @@ msgstr ""
 #: src/icesound.cc:927
 #, c-format
 msgid "No audio for %s"
-msgstr ""
+msgstr "Žádné audio pro %s"
 
 #: src/icesound.cc:1004
 msgid "Could not get GUI event property"
-msgstr ""
+msgstr "Nepodařilo se správně obdržet událost GUI"
 
 #: src/icesound.cc:1008
 #, c-format
 msgid "Received invalid GUI event %d"
-msgstr ""
+msgstr "Obdržena neplatná GUI událost %d"
 
 #: src/icesound.cc:1012
 #, c-format
 msgid "Received GUI event %s"
-msgstr ""
+msgstr "Obdržena GUI událost %s"
 
 #: src/icesound.cc:1026
 #, c-format
 msgid "Too quick; ignoring %s."
-msgstr ""
+msgstr "Příliš rychle, ignoruje se %s."
 
 #: src/icesound.cc:1030
 #, c-format
@@ -868,7 +867,7 @@ msgstr "Nepodporované zařízení: %s."
 #: src/icesound.cc:1079
 #, c-format
 msgid "Using %s audio."
-msgstr ""
+msgstr "Používá se %s audio."
 
 #: src/icesound.cc:1083
 #, c-format
@@ -1003,11 +1002,11 @@ msgstr ""
 
 #: src/icewmbg.cc:754
 msgid "Please note that not all options are currently configured.\n"
-msgstr ""
+msgstr "Veďte laskavě v patrnosti, že veškeré volby jsou nastaveny.\n"
 
 #: src/icewmbg.cc:909
 msgid "Cannot start, because another icewmbg is still running."
-msgstr ""
+msgstr "Spuštění selhalo, protože jiný icewmbg ještě běží."
 
 #: src/icewmhint.cc:44
 msgid "Usage: icewmhint [class.instance] option arg\n"
@@ -1083,15 +1082,15 @@ msgstr "Správce oken již běží, abyste jej nahradili, použijte --replace"
 #: src/wmapp.cc:136
 #, c-format
 msgid "Failed to become the owner of the %s selection"
-msgstr ""
+msgstr "Selhalo převzetí vlastnictví výběru %s"
 
 #: src/wmapp.cc:140
 msgid "Waiting to replace the old window manager"
-msgstr ""
+msgstr "Čeká se na náhradu starého správce oken"
 
 #: src/wmapp.cc:145
 msgid "done."
-msgstr ""
+msgstr "hotovo."
 
 #: src/wmapp.cc:438
 msgid "Unable to get current font path."
@@ -1123,7 +1122,7 @@ msgstr "_Vypnout počítač"
 
 #: src/wmapp.cc:580 src/wmapp.cc:582 src/wmdialog.cc:90
 msgid "_Suspend"
-msgstr ""
+msgstr "_Pozastavit"
 
 #: src/wmapp.cc:589 src/wmapp.cc:591
 msgid "Restart _Icewm"
@@ -1248,7 +1247,7 @@ msgstr ""
 
 #: src/wmapp.cc:869
 msgid "Kill IceWM, replace with Xterm"
-msgstr ""
+msgstr "Zabít IceWM, nahradit Xtermem"
 
 #: src/wmapp.cc:1433
 msgid ""
@@ -1274,6 +1273,10 @@ msgid ""
 "  -t, --theme=FILE    Load theme from FILE.\n"
 "  --postpreferences   Print preferences after all processing.\n"
 msgstr ""
+"\n"
+"  -c, --config=SOUBOR   Načíst nastavení ze SOUBORu.\n"
+"  -t, --theme=SOUBOR    Načíst téma ze SOUBORu.\n"
+"  --postpreferences   Po zpracování vypsat nastavení.\n"
 
 #: src/wmapp.cc:1456
 #, fuzzy, c-format
@@ -1520,21 +1523,19 @@ msgstr "Vybrat _kliknutím"
 
 #: src/wmprog.cc:884
 msgid "_Explicit focus"
-msgstr "_Vybrat kliknutím"
+msgstr "_Explicitní výběr"
 
 #: src/wmprog.cc:885
 msgid "_Sloppy mouse focus"
-msgstr "Vybrat _najetím"
+msgstr "_Ledabylý výběr"
 
 #: src/wmprog.cc:886
-#, fuzzy
 msgid "S_trict mouse focus"
-msgstr "Vybrat _najetím"
+msgstr "P_řísný výběr"
 
 #: src/wmprog.cc:887
-#, fuzzy
 msgid "_Quiet sloppy focus"
-msgstr "Vybrat _najetím"
+msgstr "_Celkem ledabylý výběr"
 
 #: src/wmprog.cc:888
 msgid "Custo_m"
@@ -1542,19 +1543,19 @@ msgstr "_Uživatelské"
 
 #: src/wmprog.cc:910
 msgid "_Manual"
-msgstr ""
+msgstr "_Ručně"
 
 #: src/wmprog.cc:911
 msgid "_Icewm(1)"
-msgstr ""
+msgstr "_Icewm(1)"
 
 #: src/wmprog.cc:912
 msgid "Icewm_Bg(1)"
-msgstr ""
+msgstr "Icewm_Bg(1)"
 
 #: src/wmprog.cc:913
 msgid "Ice_Sound(1)"
-msgstr ""
+msgstr "Ice_Sound(1)"
 
 #: src/wmprog.cc:986 src/wmprog.cc:988
 msgid "Programs"
@@ -1693,7 +1694,7 @@ msgstr "%lu. Pracovní plocha %-.32s"
 #: src/yapp.cc:273
 #, c-format
 msgid "%s: select failed"
-msgstr ""
+msgstr "%s: výběr selhal"
 
 #: src/yconfig.cc:147
 #, c-format
