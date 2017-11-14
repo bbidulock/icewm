@@ -15,7 +15,9 @@
 #ifdef HAVE_LIBGEN_H
 #include <libgen.h>
 #endif
-
+#ifdef HAVE_GCC_ABI_DEMANGLE
+#include <cxxabi.h>
+#endif
 #if defined(__linux__) && defined(HAVE_EXECINFO_H)
 #include <execinfo.h>
 #endif
@@ -495,6 +497,16 @@ char *newstr(char const *str, int len) {
     }
 
     return s;
+}
+
+char* demangle(const char* str) {
+#ifdef HAVE_GCC_ABI_DEMANGLE
+    int status = 0;
+    char* c_name = abi::__cxa_demangle(str, 0, 0, &status);
+    if (c_name)
+        return c_name;
+#endif
+    return strdup(str);
 }
 
 /*

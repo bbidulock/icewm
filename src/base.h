@@ -75,6 +75,8 @@ char *newstr(char const *str, int len);
 char *newstr(char const *str, char const *delim);
 char *cstrJoin(char const *str, ...);
 
+char* demangle(const char* str);
+
 #if 0
 /*
  * Convert unsigned to string
