@@ -25,8 +25,8 @@ public:
     ThemesMenu(IApp *app, YSMListener *smActionListener, YActionListener *wmActionListener, YWindow *parent = 0);
     virtual ~ThemesMenu();
 
-    void updatePopup();
-    void refresh();
+    virtual void updatePopup();
+    virtual void refresh();
 
 private:
     void findThemes(const upath& path, YMenu *container);
