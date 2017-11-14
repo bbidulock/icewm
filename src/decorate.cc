@@ -45,7 +45,7 @@ void YFrameWindow::updateMenu() {
         windowMenu->disableCommand(actionMinimize);
     if (!(func & ffHide))
         windowMenu->disableCommand(actionHide);
-    if (!(func & ffRollup) || !titlebar()->visible())
+    if (!(func & ffRollup) || !titlebar() || !titlebar()->visible())
         windowMenu->disableCommand(actionRollup);
     if (!(func & ffMaximize))
         windowMenu->disableCommand(actionMaximize);
