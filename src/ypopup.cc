@@ -48,7 +48,9 @@ void YXApplication::popdown(YPopupWindow *popdown) {
 
 YPopupWindow::YPopupWindow(YWindow *aParent): YWindow(aParent) {
     fForWindow = 0;
+    fPopDownListener = 0;
     fPrevPopup = 0;
+    fOwner = 0;
     fFlags = 0;
     fUp = false;
     fXiScreen = -1;
