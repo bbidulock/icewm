@@ -111,7 +111,7 @@ DProgram::DProgram(
     const bool restart,
     const char *wmclass,
     upath exe,
-    const YStringArray &args)
+    YStringArray &args)
     : DObject(app, name, icon),
     fRestart(restart),
     fRes(newstr(wmclass)),
@@ -145,7 +145,7 @@ DProgram *DProgram::newProgram(
     const bool restart,
     const char *wmclass,
     upath exe,
-    const YStringArray &args)
+    YStringArray &args)
 {
     if (exe != null) {
         MSG(("LOOKING FOR: %s\n", exe.string().c_str()));
