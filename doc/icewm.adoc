@@ -1,33 +1,36 @@
 = IceWM Manual
 Marko Macek <Marko.Macek@gmx.net>
-v1.4.1, 2017 July 27
+v1.4.2, 2017 November 15
 :homepage: http://www.icewm.org
 :toc:
 :toclevels: 2
 
 This document is the manual for the *IceWM* X11 window manager.
-It is still incomplete. IceWM and its documentation is
-covered by a GNU LGPL license, which is included in the distribution.
+It is still incomplete.
+The IceWM manpages provide additional documentation.
+IceWM and its documentation are covered by a GNU LGPL license,
+which is included in the distribution.
 
 == Introduction
 
 The goal of IceWM is to provide a small, fast and familiar window
-manager for the X11 window system. Compatibility with the
-EWMH and ICCCM window manager protocols is desired and will
-be implemented where appropriate.
+manager for the X11 window system, which is compatible
+with the EWMH and ICCCM window manager protocols.
+Generally, it tries to make all functions available both by keyboard
+and by mouse (this is not currently possible when using mouse focus).
 
 IceWM originally was designed to emulate the look of Motif,
 OS/2 Warp 4, OS/2 Warp 3 and Windows 95.
 Since it has a theming engine others styles are possible.
-
-Generally, it tries to make all functions available both by keyboard
-and by mouse (this is not currently possible when using mouse focus).
-Extreme configurability was not the goal.
+A large number of original themes have been created and
+https://www.box-look.org/browse/cat/142/ord/latest/[published by users].
 
 Further information can be found at
-http://www.icewm.org/[the icewm website]
-and at
-http://icewm.sourceforge.net/[SourceForge].
+http://www.icewm.org/[the original IceWM website],
+which is no longer being updated, and at the
+https://github.com/bbidulock/icewm/[current site of development],
+which includes the
+https://github.com/bbidulock/icewm/issues/[support requests].
 
 == First steps
 
@@ -42,22 +45,17 @@ It handles window placement and draws the window decorations.
 background color or images in different formats to the X background.
 Either shared or separate for different workspaces.
 This program should be started before `icewm`.
-* *icewmtray* - Catches the Docklet objects installed by various
-applications like PSI.
-* *icewm-session* - The IceWM session manager. It runs all of the above. 
+* *icewm-session* - The IceWM session manager runs all of the above.
 This is the preferred program to start IceWM.
-* *icewm-menu-gnome2* - This is used internally.
-It generates IceWM program menus from
-FreeDesktop .desktop files (KDE/GNOME(2) menus).
-* *icewmhint* - Used internally.
+* *icewm-menu-fdo* and *icewm-menu-gnome2* -
+These generate IceWM program menus from
+FreeDesktop `.desktop` files (KDE/GNOME(2) menus).
+* *icewmhint* - Set IceWM hints by window class and instance.
 
 === Starting icewm
 
-The `icewm-session`, `icewm`, `icewmbg` and `icewmtray` executables
-must be in your path for the restart function to work correctly.
 The `icewm` program alone is suitable for use
 with desktop environments like GNOME.
-
 If you wish to run the whole IceWM suite (WM, background changer,
 Docklet support, and startup/shutdown script handling), use the
 `icewm-session` binary instead of pure `icewm`. Note that this is
@@ -69,10 +67,9 @@ script in your home directory.
 For most distributions either the file `$HOME/.xsession`
 or `$HOME/.xinitrc` is honored by startx and X display managers like KDM.
 On RedHat, the `$HOME/.Xclients` may be used instead.
-In all cases, choose the one
-recommended by your distribution and make sure that there
-is no concurrency between the X startup scripts.
-Ensure that the script is executable. 
+In all cases, choose the one recommended by your distribution and
+make sure that there is no concurrency between the X startup scripts.
+Ensure that the script is executable.
 Mine looks something like this:
 
 ....
@@ -99,9 +96,7 @@ After initialization `icewm-session` will search
 the resource path for a `startup` script.
 If this file is found and if it is executable
 `icewm-session` will run this script.
-During termination of `icewm-session`, the `shutdown` script is executed.
-Additionally the flag `--with-gnome` is passed
-if a GNOME session manager is detected.
+During termination of `icewm-session` the `shutdown` script is executed.
 
 Example `~/.icewm/startup` script:
 ....
@@ -115,7 +110,7 @@ xscreensaver &
 
 Hint: this feature is meant for easy desktop initialization
 and it is part of IceWM due to popular demand.
-For more sophisticated session management 
+For more sophisticated session management
 one could use a real session manager.
 IceWM supports the XSESSION protocol.
 
@@ -123,13 +118,13 @@ IceWM supports the XSESSION protocol.
 
 Please note that if icewm-session is used as the only startup mechanism
 (without having .xsession involved), one can write additional environment
-settings into the file `$HOME/.icewm/env` but this only supports simple assignments.
-This means: no multiline is supported, no redundant whitespaces, no POSIX shell code; however,
-expansion of simple shell style variables should be supported on most
-platforms). This extra environment is only effective in applications started by
+settings into the file `$HOME/.icewm/env`.
+Expansion of simple shell style variables should be supported on most
+platforms. Shell command expansion is supported if `wordexp` was configured.
+This extra environment is only effective in applications started by
 icewm-session and their subprocesses.
 
-Example (env):
+Example `env`:
 ....
 PATH=~/bin:$PATH
 LANG=de_DE.UTF-8
@@ -233,9 +228,11 @@ information, themes and customization;
 together these locations are called the resource path.
 The resource path contains the following directories:
 
+$ICEWM_PRIVCFG::
+$XDG_CONFIG_HOME/icewm::
 $HOME/.icewm::
-this is the user's personal customization. This location can
-be customized by setting the ICEWM_PRIVCFG environment variable.
+The first of these which is defined and existent
+is used to search for the user's personal customization.
 /etc/icewm::
 the system-wide defaults directory
 /usr/share/icewm OR /usr/local/share/icewm::
@@ -245,7 +242,7 @@ The directories are searched in the above order, so any file located
 in the system/install directory can be overridden by the user by creating
 the same directory hierarchy under `$HOME/.icewm`.
 
-To customize icewm yourself, you should create the `$HOME/.icewm`
+To customize icewm yourself, you could create the `$HOME/.icewm`
 directory and copy the files that you wish to modify
 (like `preferences`, `winoptions`), from `/etc/icewm`,
 `/usr/share/icewm` or `/usr/local/share/icewm` and then modify as you like.
@@ -268,13 +265,13 @@ toolbar:: Quick launch application icons on the taskbar.
 
 == Theme
 
-File `~/.icewm/theme` contains the currently selected theme.
+The `theme` file contains the currently selected theme.
 It will be overwritten automatically when a theme is
 selected from the Themes menu.
 
 == Preferences
 
-This section shows preferences that can be set in `~/.icewm/preferences`.
+This section shows preferences that can be set in `preferences`.
 Themes will not be able to override these settings.
 Default values are shown following the equal sign.
 
@@ -427,9 +424,9 @@ MailBoxPath::
   Path to a mbox file. Remote mail boxes are accessed by
   specifying an URL using the Common Internet Scheme Syntax (RFC 1738):
     `scheme://[user[:password]@]server[:port][/path]`.
-  Supported schemes are `pop3`, `imap` and `file`. When the scheme is 
-  omitted `file://` is prepended silently. IMAP subfolders can be access by 
-  using the  path component.  
+  Supported schemes are `pop3`, `imap` and `file`. When the scheme is
+  omitted `file://` is prepended silently. IMAP subfolders can be access by
+  using the  path component.
   Reserved characters like _slash_, _at_ and _colon_
   can be specified using escape sequences with a
   hexadecimal encoding like %2f for the slash
@@ -619,8 +616,8 @@ New in 1.2.14: when IceWM is configured with '--enable-xfreetype', only the sett
 MenuFontNameXft="sans-serif:size=12:bold"
 ....
 
-TitleFontNameXft = "sans-serif:size=12":: Name of the title bar font.  
-MenuFontNameXft = "sans-serif:size=10:bold":: Name of the menu font.  
+TitleFontNameXft = "sans-serif:size=12":: Name of the title bar font.
+MenuFontNameXft = "sans-serif:size=10:bold":: Name of the menu font.
 StatusFontNameXft = "monospace:size=12:bold":: Name of the status display font.
 QuickSwitchFontNameXft = "monospace:size=12:bold":: Name of the font for Alt+Tab switcher window.
 NormalButtonFontNameXft = "sans-serif:size=12":: Name of the normal button font.
@@ -700,7 +697,7 @@ ColorToolTip = "rgb:E0/E0/00":: Background of tooltips.
 ColorToolTipText = "rgb:00/00/00":: Textcolor of tooltips.
 ColorLabel = "rgb:C0/C0/C0":: Background of labels, leave empty to force transparency.
 ColorLabelText = "rgb:00/00/00":: Textcolor of labels.
-ColorInput = "rgb:FF/FF/FF":: Background of text entry fields (e.g. the addressbar).  
+ColorInput = "rgb:FF/FF/FF":: Background of text entry fields (e.g. the addressbar).
 ColorInputText = "rgb:00/00/00":: Textcolor of text entry fields (e.g. the addressbar).
 ColorInputSelection = "rgb:80/80/80":: Background of selected text in an entry field.
 ColorInputSelectionText = "rgb:00/00/00":: Selected text in an entry field.
@@ -801,7 +798,7 @@ menu "title" icon_name {
 Only double quotes are interpreted by icewm. IceWM doesn't run the shell
 automatically, so you may have to do that.
 
-== Hot Keys 
+== Hot Keys
 
 IceWM allows launching of arbitrary programs with any key combination. This is
 configured in the `keys` file.  The syntax of this file is like:
@@ -813,51 +810,59 @@ For example:
 key  "Alt+Ctrl+t"  xterm -rv
 ....
 
-== Window Options
+== Window Options (updated 2017-11-15)
 
 *winoptions* file is used to configure settings for individual application windows.
 
 Each line in the file must be in one of the possible formats:
 
-* window_class.window_name.window_role.option: argument
-* window_class.window_name.option: argument
-* window_class.window_role.option: argument
+* window_name.window_class.option: argument
 * window_name.window_role.option: argument
 * window_class.option: argument
 * window_name.option: argument
 * window_role.option: argument
 
-Each window on the desktop should have *class* and *name* resources associated with it. Some more recent applications will also have a *window role* resource, though not all do.
+Each window on the desktop should have *name* and *class*
+resources associated with it.  Some more recent applications
+may also have a *window role* resource, though not all do.
 They can be determined using the `xprop` utility.
 
 `xprop` should display a line like this when used on a toplevel window:
 ....
-WM_CLASS = "name", "class"
+WM_CLASS = "name", "Class"
 ....
 and may also display a line like this:
 ....
 WM_WINDOW_ROLE = "window role"
 ....
 
-It's possible that an application's *class* and/or *name* contains the dot character (".") used by IceWM to separate *class*, *name* and *role* values. To lock it, precede it with the backslash character. In the following example, we suppose an application's window has *the.class* as its *class* value and *the.name* as its *name* value :
+It's possible that an application's *name* and/or *class*
+contains a dot character (*.*), which is also used
+by IceWM to separate *name*, *class* and *role* values.
+In this case precede the dot with the backslash character.
+In the following example, we suppose an application's
+window has `the.name` as its *name* value
+and `The.Class` as its *class* value and for this
+combination we set *option* to *argument*.
 
 ....
-class.name.option: argument
+the\.name.The\.Class.option: argument
 ....
 
 Options that can be set per window are as follows:
 
 icon:: The name of the icon.
 workspace:: Default workspace for window (number, counting from 0)
-layer:: Default layer for the window. Layer can be one of the following strings:
-
-Desktop:: Desktop window. There should be only one window in this layer.
-Below:: Below default layer.
-Normal:: Default layer for the windows.
-OnTop:: Above the default.
-Dock:: Layer for windows docked to the edge of the screen.
-AboveDock:: Layer for the windows above the dock.
-Menu:: Layer for the windows above the dock.
+layer:: The default stacking layer for the window.
+Layer can be one of the following seven strings:
+;;
+Desktop::: Desktop window. There should be only one window in this layer.
+Below::: Below default layer.
+Normal::: Default layer for the windows.
+OnTop::: Above the default.
+Dock::: Layer for windows docked to the edge of the screen.
+AboveDock::: Layer for the windows above the dock.
+Menu::: Layer for the windows above the dock.
 
 You can also use the numbers from `WinMgr.h`.
 
@@ -872,6 +877,7 @@ tray::
 The default tray option for the window.
 This affects both the tray and the task pane.
 Tray can be one of the following strings:
+;;
 Ignore::: Don't add an icon to the tray pane.
 Minimized::: Add an icon the the tray. Remove the task pane button when minimized.
 Exclusive::: Add an icon the the tray. Never create a task pane button .
@@ -895,15 +901,26 @@ dResize=1:: If set to 0, window will not have a resize border.
 dClose=1:: If set to 0, window will not have a close button.
 dMinimize=1:: If set to 0, window will not have a minimize button.
 dMaximize=1:: If set to 0, window will not have a maximize button.
-noFocusOnAppRaise:: if set to 1, window will not automatically get focus as
+noFocusOnAppRaise=0:: if set to 1, window will not automatically get focus as
 application raises it.
-ignoreNoFocusHint:: if set to 1, icewm will focus even if the window does not
+ignoreNoFocusHint=0:: if set to 1, icewm will focus even if the window does not
 handle input.
+ignorePositionHint=0:: if set to 1, icewm will ignore the position hint.
 doNotCover=0:: if set to 1, this window will limit the workspace available for
-regular applications. window has to be sticky at the moment to make it work
+regular applications. At the moment the window has to be sticky to make it work.
+doNotFocus=0:: if set to 1, icewm will never give focus to the window.
+startFullscreen=0:: if set to 1, window will cover the entire screen.
+startMinimized=0:: if set to 1, window start minimized.
+startMaximized=0:: if set to 1, window start maximized.
+startMaximizedVert=0:: if set to 1, window start maximized vertically.
+startMaximizedHorz=0:: if set to 1, window start maximized horizontally.
+nonICCCMconfigureRequest=0:: if set to 1, icewm assumes the application does not support the ICCCM standard wrt positioning and compensate for that.
 forcedClose=0:: if set to 1 and the application had not registered
 WM_DELETE_WINDOW, a close confirmation dialog won't be offered upon closing
 the window.
+noFocusOnMap=0:: if set to 1, icewm will not assign focus when the window is mapped for the first time.
+ignoreUrgentHint=0:: if set to 1, icewm will ignore it if the window sets the urgent hint.
+appTakesFocus=0:: if set to 1, icewm will assume the window supports the WM_TAKE_FOCUS protocol even if the window did not advertise that it does.
 
 == Icon handling
 
@@ -927,8 +944,8 @@ with screen resolution (16x16 and 32x32 icons are quite small on 4000x4000
 screens ;-)
 
 === Imlib
-When compiled with the Imlib image library all of Imlib's image formats 
-(bmp, jpeg, ppm, tiff, gif, png, ps, xpm on my machine) are supported. 
+When compiled with the Imlib image library all of Imlib's image formats
+(bmp, jpeg, ppm, tiff, gif, png, ps, xpm on my machine) are supported.
 Use them by specifying the full filename or an absolute path:
 
 ICON.bmp:: A PPM icon in your IconPath.
@@ -970,26 +987,62 @@ Theme = "nice/default.theme"::
 Name of the theme to use. Both the directory
 and theme file name must be specified.
 
-If the theme directory contains a file named _fonts.dir_ created by       
+If the theme directory contains a file named _fonts.dir_ created by
 mkfontdir the theme directory is inserted into the X servers font search path.
 
-(http://themes.freshmeat.net/[freshmeat] used to contain various nice themes created by users of IceWM.)
+https://www.box-look.org/browse/cat/142/ord/latest/[www.box-look.org]
+has a very large number of themes which were created by users of IceWM.
 
 == Command Line Options
 
 `icewm` supports the following options:
 
---display DISPLAY:: Set X display to *DISPLAY*.
---config CONFIG:: Use configuration file *CONFIG*.
---version:: Display version.
---no-configure:: Don't use a configuration file. Uses builtin defaults only.
---debug:: Dump various debug information to stderr.
+--display=NAME::      NAME of the X server to use.
+--client-id=ID::      Client id to use when contacting session manager.
+--sync::              Synchronize X11 commands.
+-c, --config=FILE::   Load preferences from FILE.
+-t, --theme=FILE::    Load theme from FILE.
+--postpreferences::   Print preferences after all processing.
+-V, --version::       Prints version information and exits.
+-h, --help::          Prints this usage screen and exits.
+--replace::           Replace an existing window manager.
+-r, --restart::       Tell the running icewm to restart itself.
+--configured::        Print the compile time configuration.
+--directories::       Print the configuration directories.
+-l, --list-themes::   Print a list of all available themes.
 
 == Glossary
 
 Resource Path::
-A set of directories used by IceWM to locate resources like configuration files, themes, icons. 
-See section about .
+A set of directories used by IceWM to locate resources like configuration files, themes, icons.
+See section *The Resource Path*.
 
-== Themes
+== Authors
 
+Authors having contributed to this document include
+Gallium, Macek, Hasselmann, Gijsbers, Bidulock and Bloch.
+
+== See Also
+
+*icehelp.1*,
+*icesh.1*,
+*icesound.1*,
+*icewm-env.1*,
+*icewm-focus_mode.1*,
+*icewm-keys.1*,
+*icewm-menu-fdo.1*,
+*icewm-menu-gnome2.1*,
+*icewm-menu.1*,
+*icewm-preferences.1*,
+*icewm-prefoverride.1*,
+*icewm-programs.1*,
+*icewm-session.1*,
+*icewm-set-gnomewm.1*,
+*icewm-shutdown.1*,
+*icewm-startup.1*,
+*icewm-theme.1*,
+*icewm-toolbar.1*,
+*icewm-winoptions.1*,
+*icewm.1*,
+*icewmbg.1*,
+*icewmhint.1*.
