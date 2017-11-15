@@ -7,15 +7,16 @@ msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-11-01 21:50-0600\n"
-"PO-Revision-Date: 2017-11-14 14:03+0100\n"
+"PO-Revision-Date: 2017-11-15 13:13+0000\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
-"Language-Team: Slovak <opensuse-translation-sk@opensuse.org>\n"
+"Language-Team: Slovak "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Weblate 2.13.1\n"
 
 #: src/aapm.cc:180 src/aapm.cc:461 src/aapm.cc:681 src/aapm.cc:797
 msgid " - Power"
@@ -171,15 +172,15 @@ msgstr "Voľná: "
 
 #: src/amemstatus.cc:172
 msgid "Cached: "
-msgstr ""
+msgstr "Vyrovnávacia pamäť: "
 
 #: src/amemstatus.cc:173
 msgid "Buffers: "
-msgstr ""
+msgstr "Zásobníky: "
 
 #: src/amemstatus.cc:174
 msgid "User: "
-msgstr ""
+msgstr "Používateľ: "
 
 #: src/apppstatus.cc:196
 #, c-format
@@ -319,11 +320,11 @@ msgstr "Neplatná cesta: %s\n"
 
 #: src/icehelp.cc:1913
 msgid "Path does not refer to a file."
-msgstr ""
+msgstr "Cesta neodkazuje na súbor."
 
 #: src/icehelp.cc:1918
 msgid "Failed to open file for reading."
-msgstr ""
+msgstr "Zlyhalo otvorenie súboru na čítanie."
 
 #: src/icehelp.cc:1947
 msgid "Failed to create a temporary file"
