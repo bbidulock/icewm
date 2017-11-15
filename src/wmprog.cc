@@ -80,10 +80,10 @@ void ObjectMenu::addSeparator() {
     YMenu::addSeparator();
 }
 
-void ObjectMenu::addContainer(const ustring &name, ref<YIcon> icon, ObjectContainer *container) {
+void ObjectMenu::addContainer(const ustring &name, ref<YIcon> icon, ObjectMenu *container) {
     if (container) {
         YMenuItem *item =
-            addSubmenu(name, -3, (ObjectMenu *)container);
+            addSubmenu(name, -3, container);
 
         if (item && icon != null)
             item->setIcon(icon);

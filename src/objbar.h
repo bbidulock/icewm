@@ -16,7 +16,7 @@ public:
 
     virtual void addObject(DObject *object);
     virtual void addSeparator();
-    virtual void addContainer(const ustring &name, ref<YIcon> icon, ObjectContainer *container);
+    virtual void addContainer(const ustring &name, ref<YIcon> icon, ObjectMenu *container);
 
     virtual void paint(Graphics &g, const YRect &r);
 
