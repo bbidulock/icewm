@@ -7,16 +7,15 @@ msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-11-01 21:50-0600\n"
-"PO-Revision-Date: 2017-11-15 13:13+0000\n"
+"PO-Revision-Date: 2017-11-16 09:22+0100\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
-"Language-Team: Slovak "
-"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/sk/>\n"
+"Language-Team: Slovak <opensuse-translation-sk@opensuse.org>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 2.13.1\n"
+"X-Generator: Lokalize 2.0\n"
 
 #: src/aapm.cc:180 src/aapm.cc:461 src/aapm.cc:681 src/aapm.cc:797
 msgid " - Power"
@@ -333,7 +332,7 @@ msgstr "Zlyhalo vytvorenie dočasného súboru"
 #: src/icehelp.cc:2039
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
-msgstr ""
+msgstr "Zlyhalo vykonanie system(%s) (%d)"
 
 #: src/icehelp.cc:2062
 #, c-format
@@ -342,11 +341,11 @@ msgstr "Zlyhalo rozbalenie %s"
 
 #: src/icehelp.cc:2070
 msgid "Could not locate curl or wget in PATH"
-msgstr ""
+msgstr "Nebolo možné nájsť curl alebo wget v PATH"
 
 #: src/icehelp.cc:2074
 msgid "Unsafe characters in URL"
-msgstr ""
+msgstr "Nebezpečné znaky v URL"
 
 #: src/icehelp.cc:2090
 #, c-format
@@ -381,6 +380,36 @@ msgid ""
 "%s\n"
 "\n"
 msgstr ""
+"Použitie: %s [VOĽBY] [ NÁZOV_SÚBORU | URL ]\n"
+"\n"
+"IceHelp je veľmi jednoduchý prehliadač HTML pre správcu okien IceWM.\n"
+"Môže zobrazovať dokument HTML zo súboru alebo prehliadať webové stránky.\n"
+"Pamätá si navštívené stránky v histórii, ktorou sa naviguje pomocou\n"
+"priradených klávesov alebo kontextovým menu (pravým kliknutím myši).\n"
+"Nepodporuje vykresľovanie obrázkov ani JavaScript.\n"
+"Ak nie je uvedený žiadny súbor alebo URL, zobrazí sa príručka IceWM\n"
+"z %s.\n"
+"\n"
+"Voľby:\n"
+"  --display=NÁZOV      NÁZOV X servera, ktorý sa použije.\n"
+"%s  --sync               Synchronizuje príkazy X11.\n"
+"\n"
+"  -b, --bugs          Zobrazí chybové hlásenia IceWM (primitívne).\n"
+"  -f, --faq           Zobrazí IceWM FAQ a Howto.\n"
+"  -i, --icewm         Zobrazí webovú stránku IceWM.\n"
+"  -m, --manual        Zobrazí príručku IceWM (predvolené nastavenie).\n"
+"  -t, --theme         Zobrazí Howto pre témy IceWM.\n"
+"\n"
+"  -V, --version       Vypíše informácie o verzii a skončí.\n"
+"  -h, --help          Vypíše túto obrazovku o použití a skončí.\n"
+"\n"
+"Premenné prostredia:\n"
+"  DISPLAY=MENO        Meno X servera, ktorý sa použije.\n"
+"\n"
+"Ak chcete nahlásiť chybu, požiadavku na podporu, komentáre, prosím, "
+"navštívte:\n"
+"%s\n"
+"\n"
 
 #: src/icehelp.cc:2152
 #, c-format
@@ -628,12 +657,12 @@ msgstr "Neznáma voľba '%s'"
 #: src/icesm.cc:292
 #, c-format
 msgid "%s exited with status %d."
-msgstr ""
+msgstr "%s skončilo so stavom %d."
 
 #: src/icesm.cc:298
 #, c-format
 msgid "%s was killed by signal %d."
-msgstr ""
+msgstr "%s bolo zabité signálom %d."
 
 #: src/icesound.cc:216 src/icesound.cc:324 src/icesound.cc:628
 #, c-format
