@@ -4,28 +4,14 @@
  * Copyright (C) 1997-2002 Marko Macek
  */
 #include "config.h"
-
-#include "yfull.h"
 #include "wmoption.h"
 #include "wmframe.h"
-
-#include "WinMgr.h"
-#include "base.h"
-#include "sysdep.h"
-#include <stdlib.h>
-
 #include "ascii.h"
 #include "intl.h"
+#include <ctype.h>
 
-#if 0
-static int strnullcmp(const char *a, const char *b) {
-    return a ? (b ? strcmp(a, b) : 1) : (b ? -1 : 0);
-}
-#endif
-
-upath winOptFile;
-WindowOptions *defOptions = 0;
-WindowOptions *hintOptions = 0;
+WindowOptions *defOptions;
+WindowOptions *hintOptions;
 
 WindowOption::WindowOption(ustring n_class_instance):
     w_class_instance(n_class_instance),
@@ -40,47 +26,32 @@ WindowOption::WindowOption(ustring n_class_instance):
 {
 }
 
-WindowOption::~WindowOption() {
-    ////delete[] name; name = 0;
-    delete[] icon;
-}
-
-static int wo_cmp(ustring a_class_instance,
-                  const WindowOption *pivot)
-{
-    int cmp = a_class_instance.compareTo(pivot->w_class_instance);
-    return cmp;
-}
-
-WindowOption *WindowOptions::getWindowOption(ustring a_class_instance,
-                                             bool create, bool remove)
-{
+bool WindowOptions::findOption(ustring a_class_instance, int *index) {
     int lo = 0, hi = fWinOptions.getCount();
 
     while (lo < hi) {
         const int pv = (lo + hi) / 2;
         const WindowOption *pivot = fWinOptions[pv];
 
-        int cmp = wo_cmp(a_class_instance,
-                         pivot);
+        int cmp = a_class_instance.compareTo(pivot->w_class_instance);
         if (cmp > 0) {
             lo = pv + 1;
-            continue;
         } else if (cmp < 0) {
             hi = pv;
-            continue;
+        } else {
+            *index = pv;
+            return true;
         }
-
-        if (remove) {
-            static WindowOption result = *pivot;
-            fWinOptions.remove(pv);
-            return &result;
-        }
-
-        return fWinOptions.getItem(pv);
     }
 
-    if (!create) return 0;
+    *index = lo;
+    return false;
+}
+
+WindowOption *WindowOptions::getOption(ustring a_class_instance) {
+    int lo;
+    if (findOption(a_class_instance, &lo))
+        return fWinOptions[lo];
 
     WindowOption *newopt = new WindowOption(a_class_instance);
 
@@ -98,15 +69,17 @@ WindowOption *WindowOptions::getWindowOption(ustring a_class_instance,
 void WindowOptions::setWinOption(ustring n_class_instance,
                                  const char *opt, const char *arg)
 {
-    WindowOption *op = getWindowOption(n_class_instance, true);
+    WindowOption *op = getOption(n_class_instance);
 
     //msg("%s-%s-%s", class_instance, opt, arg);
 
     if (strcmp(opt, "icon") == 0) {
-        delete [] op->icon;
         op->icon = newstr(arg);
     } else if (strcmp(opt, "workspace") == 0) {
-        op->workspace = atoi(arg);
+        int workspace = atoi(arg);
+        op->workspace = inrange(workspace, 0, MAXWORKSPACES - 1)
+                      ? workspace
+                      : WinWorkspaceInvalid;
     } else if (strcmp(opt, "geometry") == 0) {
         int rx, ry;
         unsigned int rw, rh;
@@ -134,24 +107,30 @@ void WindowOptions::setWinOption(ustring n_class_instance,
 
         op->layer = WinLayerInvalid;
 
-        if (arg[0] && !endptr[0])
-            op->layer = l;
+        if (arg[0] && !endptr[0]) {
+            if (inrange(l, 0L, WinLayerCount - 1L))
+                op->layer = (int) l;
+        }
         else {
             static const struct {
                 const char name[12];
                 int layer;
             } layers[] = {
-                { "Desktop", WinLayerDesktop }, //
-                { "Below", WinLayerBelow }, //
-                { "Normal", WinLayerNormal }, //
-                { "OnTop", WinLayerOnTop }, //
-                { "Dock", WinLayerDock }, //
-                { "AboveDock", WinLayerAboveDock }, //
-                { "Menu", WinLayerMenu }
+                { "Desktop",    WinLayerDesktop },
+                { "Below",      WinLayerBelow },
+                { "Normal",     WinLayerNormal },
+                { "OnTop",      WinLayerOnTop },
+                { "Dock",       WinLayerDock },
+                { "AboveDock",  WinLayerAboveDock },
+                { "Menu",       WinLayerMenu },
+                { "Fullscreen", WinLayerFullscreen },
+                { "AboveAll",   WinLayerAboveAll },
             };
             for (unsigned int i = 0; i < ACOUNT(layers); i++)
-                if (strcmp(layers[i].name, arg) == 0)
+                if (strcmp(layers[i].name, arg) == 0) {
                     op->layer = layers[i].layer;
+                    return;
+                }
         }
     } else if (strcmp(opt, "tray") == 0) {
         char *endptr;
@@ -159,99 +138,111 @@ void WindowOptions::setWinOption(ustring n_class_instance,
 
         op->tray = WinTrayInvalid;
 
-        if (arg[0] && !endptr[0])
-            op->tray = t;
+        if (arg[0] && !endptr[0]) {
+            if (inrange(t, 0L, WinTrayOptionCount - 1L))
+                op->tray = (int) t;
+        }
         else {
             static const struct {
                 const char name[12];
                 int tray;
             } tray_ops[] = {
-                { "Ignore", WinTrayIgnore },
+                { "Ignore",    WinTrayIgnore },
                 { "Minimized", WinTrayMinimized },
                 { "Exclusive", WinTrayExclusive },
-                { "1", WinTrayExclusive }
             };
             for (unsigned int i = 0; i < ACOUNT(tray_ops); i++)
-                if (strcmp(tray_ops[i].name, arg) == 0)
+                if (strcmp(tray_ops[i].name, arg) == 0) {
                     op->tray = tray_ops[i].tray;
+                    return;
+                }
         }
     } else {
+        const unsigned foMaximized = YFrameWindow::foMaximizedHorz |
+                                     YFrameWindow::foMaximizedVert;
+        const unsigned foNonICCCM = YFrameWindow::foNonICCCMConfigureRequest;
         static const struct {
-            int what;
             const char *name;
-            unsigned long flag;
+            unsigned flag;
         } options[] = {
-            { 0, "fMove", YFrameWindow::ffMove }, //
-            { 0, "fResize", YFrameWindow::ffResize }, //
-            { 0, "fClose", YFrameWindow::ffClose }, //
-            { 0, "fMinimize", YFrameWindow::ffMinimize }, //
-            { 0, "fMaximize", YFrameWindow::ffMaximize }, //
-            { 0, "fHide", YFrameWindow::ffHide }, //
-            { 0, "fRollup", YFrameWindow::ffRollup }, //
-            { 1, "dTitleBar", YFrameWindow::fdTitleBar }, //
-            { 1, "dSysMenu", YFrameWindow::fdSysMenu }, //
-            { 1, "dBorder", YFrameWindow::fdBorder }, //
-            { 1, "dResize", YFrameWindow::fdResize }, //
-            { 1, "dClose", YFrameWindow::fdClose }, //
-            { 1, "dMinimize", YFrameWindow::fdMinimize }, //
-            { 1, "dMaximize", YFrameWindow::fdMaximize }, //
-            { 1, "dHide", YFrameWindow::fdHide },
-            { 1, "dRollup", YFrameWindow::fdRollup },
-            { 1, "dDepth", YFrameWindow::fdDepth },
-            { 2, "allWorkspaces", YFrameWindow::foAllWorkspaces }, //
-            { 2, "ignoreTaskBar", YFrameWindow::foIgnoreTaskBar }, //
-            { 2, "noIgnoreTaskBar", YFrameWindow::foNoIgnoreTaskBar }, //
-            { 2, "ignoreWinList", YFrameWindow::foIgnoreWinList }, //
-            { 2, "ignoreQuickSwitch", YFrameWindow::foIgnoreQSwitch }, //
-            { 2, "fullKeys", YFrameWindow::foFullKeys }, //
-            { 2, "noFocusOnAppRaise", YFrameWindow::foNoFocusOnAppRaise }, //
-            { 2, "ignoreNoFocusHint", YFrameWindow::foIgnoreNoFocusHint }, //
-            { 2, "ignorePositionHint", YFrameWindow::foIgnorePosition }, //
-            { 2, "doNotCover", YFrameWindow::foDoNotCover }, //
-            { 2, "doNotFocus", YFrameWindow::foDoNotFocus }, //
-            { 2, "startFullscreen", YFrameWindow::foFullscreen },
-            { 2, "startMinimized", YFrameWindow::foMinimized }, //
-            { 2, "startMaximized", YFrameWindow::foMaximizedVert | YFrameWindow::foMaximizedHorz }, //
-            { 2, "startMaximizedVert", YFrameWindow::foMaximizedVert }, //
-            { 2, "startMaximizedHorz", YFrameWindow::foMaximizedHorz }, //
-            { 2, "nonICCCMconfigureRequest", YFrameWindow::foNonICCCMConfigureRequest },
-            { 2, "forcedClose", YFrameWindow::foForcedClose },
-            { 2, "noFocusOnMap", YFrameWindow::foNoFocusOnMap },
-            { 2, "ignoreUrgentHint", YFrameWindow::foIgnoreUrgent },
-            { 2, "appTakesFocus", YFrameWindow::foAppTakesFocus }
+            // Keep sorted on name:
+            { "allWorkspaces",            YFrameWindow::foAllWorkspaces },
+            { "appTakesFocus",            YFrameWindow::foAppTakesFocus },
+            { "dBorder",                  YFrameWindow::fdBorder },
+            { "dClose",                   YFrameWindow::fdClose },
+            { "dDepth",                   YFrameWindow::fdDepth },
+            { "dHide",                    YFrameWindow::fdHide },
+            { "dMaximize",                YFrameWindow::fdMaximize },
+            { "dMinimize",                YFrameWindow::fdMinimize },
+            { "dResize",                  YFrameWindow::fdResize },
+            { "dRollup",                  YFrameWindow::fdRollup },
+            { "dSysMenu",                 YFrameWindow::fdSysMenu },
+            { "dTitleBar",                YFrameWindow::fdTitleBar },
+            { "doNotCover",               YFrameWindow::foDoNotCover },
+            { "doNotFocus",               YFrameWindow::foDoNotFocus },
+            { "fClose",                   YFrameWindow::ffClose },
+            { "fHide",                    YFrameWindow::ffHide },
+            { "fMaximize",                YFrameWindow::ffMaximize },
+            { "fMinimize",                YFrameWindow::ffMinimize },
+            { "fMove",                    YFrameWindow::ffMove },
+            { "fResize",                  YFrameWindow::ffResize },
+            { "fRollup",                  YFrameWindow::ffRollup },
+            { "forcedClose",              YFrameWindow::foForcedClose },
+            { "fullKeys",                 YFrameWindow::foFullKeys },
+            { "ignoreNoFocusHint",        YFrameWindow::foIgnoreNoFocusHint },
+            { "ignorePagerPreview",       YFrameWindow::foIgnorePagerPreview },
+            { "ignorePositionHint",       YFrameWindow::foIgnorePosition },
+            { "ignoreQuickSwitch",        YFrameWindow::foIgnoreQSwitch },
+            { "ignoreTaskBar",            YFrameWindow::foIgnoreTaskBar },
+            { "ignoreUrgentHint",         YFrameWindow::foIgnoreUrgent },
+            { "ignoreWinList",            YFrameWindow::foIgnoreWinList },
+            { "noFocusOnAppRaise",        YFrameWindow::foNoFocusOnAppRaise },
+            { "noFocusOnMap",             YFrameWindow::foNoFocusOnMap },
+            { "noIgnoreTaskBar",          YFrameWindow::foNoIgnoreTaskBar },
+            { "nonICCCMconfigureRequest", foNonICCCM },
+            { "startFullscreen",          YFrameWindow::foFullscreen },
+            { "startMaximized",           foMaximized },
+            { "startMaximizedHorz",       YFrameWindow::foMaximizedHorz },
+            { "startMaximizedVert",       YFrameWindow::foMaximizedVert },
+            { "startMinimized",           YFrameWindow::foMinimized },
         };
 
-        for (unsigned int a = 0; a < ACOUNT(options); a++) {
-            unsigned long *what, *what_mask;
-
-            if (options[a].what == 0) {
-                what = &op->functions;
-                what_mask  = &op->function_mask;
-            } else if (options[a].what == 1) {
-                what = &op->decors;
-                what_mask = &op->decor_mask;
-            } else if (options[a].what == 2) {
-                what = &op->options;
-                what_mask = &op->option_mask;
-            } else {
-                msg(_("Error in window option: %s"), opt);
+        int least = 0;
+        int count = int ACOUNT(options);
+        while (least < count) {
+            int mid = least + (count - least) / 2;
+            int cmp = strcmp(opt, options[mid].name);
+            if (cmp < 0)
+                count = mid;
+            else if (0 < cmp)
+                least = 1 + mid;
+            else {
+                least = mid;
                 break;
             }
+        }
+        if (count <= least) {
+            msg(_("Unknown window option: %s"), opt);
+        }
+        else {
+            unsigned bit = options[least].flag;
+            bool setting = 0 != atoi(arg);
+            unsigned set = setting ? bit : 0;
+            unsigned clr = setting ? 0 : bit;
 
-            if (strcmp(opt, options[a].name) == 0) {
-                if (*what == 2 && options[a].flag == YFrameWindow::foIgnoreWinList)
-                    DEPRECATE("ignoreWinlist windowoption");
-                if (*what == 2 && options[a].flag == YFrameWindow::foIgnoreQSwitch)
-                    DEPRECATE("ignoreQuickSwitch windowoption");
-                if (atoi(arg) != 0)
-                    *what = (*what) | options[a].flag;
-                else
-                    *what = (*what) & ~options[a].flag;
-                *what_mask =  (*what_mask) | options[a].flag;
-                return ;
+            if (*opt == 'f' && isupper((unsigned char) opt[1])) {
+                op->functions = ((op->functions | set) & ~clr);
+                op->function_mask |= bit;
+            }
+            else if (*opt == 'd' && isupper((unsigned char) opt[1])) {
+                op->decors = ((op->decors | set) & ~clr);
+                op->decor_mask |= bit;
+            }
+            else {
+                op->options = ((op->options | set) & ~clr);
+                op->option_mask |= bit;
             }
         }
-        msg(_("Unknown window option: %s"), opt);
     }
 }
 
@@ -259,9 +250,13 @@ void WindowOptions::mergeWindowOption(WindowOption &cm,
                                       ustring a_class_instance,
                                       bool remove)
 {
-    WindowOption *wo = getWindowOption(a_class_instance, false, remove);
-    if (wo)
+    int lo;
+    if (findOption(a_class_instance, &lo)) {
+        WindowOption *wo = fWinOptions[lo];
         combineOptions(cm, *wo);
+        if (remove)
+            fWinOptions.remove(lo);
+    }
 }
 
 void WindowOptions::combineOptions(WindowOption &cm, WindowOption &n) {
@@ -300,7 +295,7 @@ void WindowOptions::combineOptions(WindowOption &cm, WindowOption &n) {
     }
 }
 
-char *parseWinOptions(char *data) {
+static char *parseWinOptions(char *data) {
     char *p, *w, *e, *c;
     char *class_instance;
     char *opt;
@@ -364,6 +359,8 @@ char *parseWinOptions(char *data) {
         while (*p && false == ASCII::isWhiteSpace(*p))
             p++;
 
+        if (defOptions == 0)
+            defOptions = new WindowOptions();
         if (*p != 0) {
             *p = 0;
             defOptions->setWinOption(class_instance, opt, w);

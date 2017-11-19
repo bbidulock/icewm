@@ -2065,12 +2065,6 @@ void YFrameWindow::getFrameHints() {
 }
 
 void YFrameWindow::getWindowOptions(WindowOption &opt, bool remove) {
-    memset((void *)&opt, 0, sizeof(opt));
-
-    opt.workspace = WinWorkspaceInvalid;
-    opt.layer = WinLayerInvalid;
-    opt.tray = WinTrayInvalid;
-
     if (defOptions) getWindowOptions(defOptions, opt, false);
     if (hintOptions) getWindowOptions(hintOptions, opt, remove);
 }

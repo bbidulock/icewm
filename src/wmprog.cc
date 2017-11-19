@@ -589,6 +589,9 @@ void loadMenus(
     upath menufile,
     ObjectContainer *container)
 {
+    if (menufile.isEmpty())
+        return;
+
     MSG(("menufile: %s", menufile.string().c_str()));
     char *buf = load_text_file(menufile.string());
     if (buf) {

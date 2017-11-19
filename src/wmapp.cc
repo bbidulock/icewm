@@ -51,8 +51,6 @@ static bool initializing(true);
 YWMApp *wmapp(NULL);
 YWindowManager *manager(NULL);
 
-static upath keysFile;
-
 Atom XA_IcewmWinOptHint(None);
 Atom XA_ICEWM_FONT_PATH(None);
 
@@ -1033,26 +1031,14 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     if (workspaceCount == 0)
         addWorkspace(0, " 0 ", false);
 
-    if (winOptFile == null)
-        winOptFile = this->findConfigFile("winoptions");
-
-    if (keysFile == null)
-        keysFile = this->findConfigFile("keys");
-
     catchSignal(SIGINT);
     catchSignal(SIGTERM);
     catchSignal(SIGQUIT);
     catchSignal(SIGHUP);
     catchSignal(SIGCHLD);
 
-    defOptions = new WindowOptions();
-    hintOptions = new WindowOptions();
-    if (winOptFile != null)
-        loadWinOptions(winOptFile);
-    winOptFile = null;
-
-    if (keysFile != null)
-        loadMenus(this, this, this, keysFile, 0);
+    loadWinOptions(findConfigFile("winoptions"));
+    loadMenus(this, this, this, findConfigFile("keys"), 0);
 
     XSetErrorHandler(handler);
 

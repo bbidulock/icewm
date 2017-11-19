@@ -2878,7 +2878,10 @@ void YWindowManager::handleProperty(const XPropertyEvent &property) {
                 if (p != e)
                     break;
 
-                hintOptions->setWinOption(clsin, option, arg);
+                if (hintOptions == 0)
+                    hintOptions = new WindowOptions();
+                if (hintOptions != 0)
+                    hintOptions->setWinOption(clsin, option, arg);
             }
             XFree(propdata);
         }
