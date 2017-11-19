@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-11-01 21:50-0600\n"
-"PO-Revision-Date: 2017-11-19 13:48+0100\n"
+"PO-Revision-Date: 2017-11-19 18:39+0100\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
 "Language-Team: Slovak <opensuse-translation-sk@opensuse.org>\n"
 "Language: sk\n"
@@ -889,7 +889,7 @@ msgstr "Prijatá GUI udalosť %s"
 #: src/icesound.cc:1026
 #, c-format
 msgid "Too quick; ignoring %s."
-msgstr ""
+msgstr "Príliš rýchlo; ignorovanie %s."
 
 #: src/icesound.cc:1030
 #, c-format
@@ -904,7 +904,7 @@ msgstr "Nepodporované rozhranie: %s."
 #: src/icesound.cc:1079
 #, c-format
 msgid "Using %s audio."
-msgstr ""
+msgstr "Použitie %s audio."
 
 #: src/icesound.cc:1083
 #, c-format
@@ -1053,11 +1053,11 @@ msgstr ""
 
 #: src/icewmbg.cc:754
 msgid "Please note that not all options are currently configured.\n"
-msgstr ""
+msgstr "Upozorňujeme, že nie všetky voľby sú momentálne nakonfigurované.\n"
 
 #: src/icewmbg.cc:909
 msgid "Cannot start, because another icewmbg is still running."
-msgstr ""
+msgstr "Nebolo možné spustiť, pretože iný icewmbg stále beží."
 
 #: src/icewmhint.cc:44
 msgid "Usage: icewmhint [class.instance] option arg\n"
@@ -1133,15 +1133,15 @@ msgstr "Už je spustený správca okien, ak ho chcete nahradiť, použite --repl
 #: src/wmapp.cc:136
 #, c-format
 msgid "Failed to become the owner of the %s selection"
-msgstr ""
+msgstr "Nepodarilo sa stať sa vlastníkom výberu %s"
 
 #: src/wmapp.cc:140
 msgid "Waiting to replace the old window manager"
-msgstr ""
+msgstr "Čakanie sa nahradenie starého správcu okien"
 
 #: src/wmapp.cc:145
 msgid "done."
-msgstr ""
+msgstr "hotovo."
 
 #: src/wmapp.cc:438
 msgid "Unable to get current font path."
@@ -1174,7 +1174,7 @@ msgstr "_Vypnúť počítač"
 
 #: src/wmapp.cc:580 src/wmapp.cc:582 src/wmdialog.cc:90
 msgid "_Suspend"
-msgstr ""
+msgstr "_Pozastaviť"
 
 #: src/wmapp.cc:589 src/wmapp.cc:591
 msgid "Restart _Icewm"
@@ -1299,7 +1299,7 @@ msgstr ""
 
 #: src/wmapp.cc:869
 msgid "Kill IceWM, replace with Xterm"
-msgstr ""
+msgstr "Zabiť IceWM, nahradiť s Xterm"
 
 #: src/wmapp.cc:1433
 msgid ""
@@ -1325,6 +1325,10 @@ msgid ""
 "  -t, --theme=FILE    Load theme from FILE.\n"
 "  --postpreferences   Print preferences after all processing.\n"
 msgstr ""
+"\n"
+"  -c, --config=SÚBOR   Načíta predvoľby zo SÚBOR-u.\n"
+"  -t, --theme=SÚBOR    Načíta tému zo SÚBOR-u.\n"
+"  --postpreferences   Vypíše predvoľby po spracovaní všetkého.\n"
 
 #: src/wmapp.cc:1456
 #, c-format
@@ -1590,19 +1594,19 @@ msgstr "Vlast_né"
 
 #: src/wmprog.cc:910
 msgid "_Manual"
-msgstr ""
+msgstr "_Ručne"
 
 #: src/wmprog.cc:911
 msgid "_Icewm(1)"
-msgstr ""
+msgstr "_Icewm(1)"
 
 #: src/wmprog.cc:912
 msgid "Icewm_Bg(1)"
-msgstr ""
+msgstr "Icewm_Bg(1)"
 
 #: src/wmprog.cc:913
 msgid "Ice_Sound(1)"
-msgstr ""
+msgstr "Ice_Sound(1)"
 
 #: src/wmprog.cc:986 src/wmprog.cc:988
 msgid "Programs"
@@ -1741,7 +1745,7 @@ msgstr "%lu. Pracovná plocha %-.32s"
 #: src/yapp.cc:273
 #, c-format
 msgid "%s: select failed"
-msgstr ""
+msgstr "%s: výber zlyhal"
 
 #: src/yconfig.cc:147
 #, c-format
