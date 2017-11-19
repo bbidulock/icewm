@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-11-01 21:50-0600\n"
-"PO-Revision-Date: 2017-11-16 09:22+0100\n"
+"PO-Revision-Date: 2017-11-19 13:48+0100\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
 "Language-Team: Slovak <opensuse-translation-sk@opensuse.org>\n"
 "Language: sk\n"
@@ -672,24 +672,24 @@ msgstr "Hrám vzorku #%d (%s)"
 #: src/icesound.cc:334
 #, c-format
 msgid "%s: Invalid number of channels"
-msgstr ""
+msgstr "%s: Neplatný počet kanálov"
 
 #: src/icesound.cc:340 src/icesound.cc:345
 msgid "Could not set OSS channels"
-msgstr ""
+msgstr "Nebolo možné nastaviť OSS kanály"
 
 #: src/icesound.cc:350 src/icesound.cc:378
 msgid "Could not sync OSS"
-msgstr ""
+msgstr "Nebolo možné synchronizovať OSS"
 
 #: src/icesound.cc:362
 msgid "OSS write failed"
-msgstr ""
+msgstr "Zápis OSS zlyhal"
 
 #: src/icesound.cc:366
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
-msgstr ""
+msgstr "Neúplný zápis OSS (%d/%d)"
 
 #: src/icesound.cc:373
 msgid "Could not post OSS"
@@ -702,15 +702,15 @@ msgstr "Nebolo možné otvoriť zariadenie OSS %s"
 
 #: src/icesound.cc:407
 msgid "Could not set OSS stereo"
-msgstr ""
+msgstr "Nebolo možné nastaviť OSS stereo"
 
 #: src/icesound.cc:412
 msgid "Could not reset OSS DSP"
-msgstr ""
+msgstr "Nebolo možné resetovať OSS DSP"
 
 #: src/icesound.cc:417
 msgid "Could not set OSS format"
-msgstr ""
+msgstr "Nebolo možné nastaviť formát OSS"
 
 #: src/icesound.cc:490
 #, c-format
@@ -739,11 +739,11 @@ msgstr "Prehrávanie ukážky #%d: %d"
 #: src/icesound.cc:648
 #, c-format
 msgid "ao_open_live failed with %d"
-msgstr ""
+msgstr "ao_open_live zlyhalo s %d"
 
 #: src/icesound.cc:659
 msgid "ao_play failed"
-msgstr ""
+msgstr "ao_play zlyhalo"
 
 #: src/icesound.cc:821
 #, c-format
@@ -870,21 +870,21 @@ msgstr ""
 #: src/icesound.cc:927
 #, c-format
 msgid "No audio for %s"
-msgstr ""
+msgstr "Žiadne audio pre %s"
 
 #: src/icesound.cc:1004
 msgid "Could not get GUI event property"
-msgstr ""
+msgstr "Nebolo možné správne získať GUI udalosť"
 
 #: src/icesound.cc:1008
 #, c-format
 msgid "Received invalid GUI event %d"
-msgstr ""
+msgstr "Prijatá neplatná GUI udalosť %d"
 
 #: src/icesound.cc:1012
 #, c-format
 msgid "Received GUI event %s"
-msgstr ""
+msgstr "Prijatá GUI udalosť %s"
 
 #: src/icesound.cc:1026
 #, c-format
