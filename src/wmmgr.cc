@@ -2422,7 +2422,6 @@ void YWindowManager::updateWorkspaces(bool increase) {
             taskBar->workspacesPane()->updateButtons();
             taskBar->relayout();
             taskBar->relayoutNow();
-            taskBar->updateLocation();
         }
     }
     if (windowList) {
@@ -2516,7 +2515,6 @@ void YWindowManager::updateTaskBarNames() {
             taskBar->workspacesPane()->relabelButtons();
             taskBar->relayout();
             taskBar->relayoutNow();
-            taskBar->updateLocation();
         }
     }
 }
@@ -3444,9 +3442,10 @@ void YWindowManager::UpdateScreenSize(XEvent *event) {
         setSize(nw, nh);
         updateWorkArea();
         if (taskBar) {
+            if (taskBar->workspacesPane() && pagerShowPreview)
+                taskBar->workspacesPane()->updateButtons();
             taskBar->relayout();
             taskBar->relayoutNow();
-            taskBar->updateLocation();
         }
         if (edgeHorzWorkspaceSwitching) {
             if (fLeftSwitch) {
