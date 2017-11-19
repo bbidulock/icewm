@@ -358,7 +358,9 @@ void WorkspaceButton::paint(Graphics &g, const YRect &/*r*/) {
                 yfw = yfw->prevLayer()) {
             if (yfw->isHidden() ||
                     !yfw->visibleOn(fWorkspace) ||
-                    (yfw->frameOptions() & YFrameWindow::foIgnoreWinList))
+                    hasbit(yfw->frameOptions(),
+                        YFrameWindow::foIgnoreWinList |
+                        YFrameWindow::foIgnorePagerPreview))
                 continue;
             wx = (int) round(yfw->x() / sf) + x;
             wy = (int) round(yfw->y() / sf) + y;

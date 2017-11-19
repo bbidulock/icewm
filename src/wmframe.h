@@ -158,7 +158,7 @@ public:
     void setAbove(YFrameWindow *aboveFrame); // 0 = at the bottom
     void setBelow(YFrameWindow *belowFrame); // 0 = at the top
 
-    typedef enum {
+    enum FindWindowFlags {
         fwfVisible    = 1 << 0, // visible windows only
         fwfCycle      = 1 << 1, // cycle when bottom(top) reached
         fwfBackward   = 1 << 2, // go up in zorder (default=down)
@@ -172,7 +172,7 @@ public:
         fwfUnminimized = 1 << 10, // normal/rolledup only
         fwfHidden     = 1 << 11, // hidden
         fwfNotHidden  = 1 << 12 // not hidden
-    } FindWindowFlags;
+    };
 
     YFrameWindow *findWindow(int flag);
 
@@ -222,26 +222,27 @@ public:
     };
 
     enum YFrameOptions {
-        foAllWorkspaces         = (1 << 0),
-        foIgnoreTaskBar         = (1 << 1),
-        foIgnoreWinList         = (1 << 2),
-        foFullKeys              = (1 << 3),
-        foIgnoreQSwitch         = (1 << 4),
-        foNoFocusOnAppRaise     = (1 << 5),
-        foIgnoreNoFocusHint     = (1 << 6),
-        foIgnorePosition        = (1 << 7),
-        foDoNotCover            = (1 << 8),
-        foFullscreen            = (1 << 9),
-        foMaximizedVert         = (1 << 10),
-        foMaximizedHorz         = (1 << 11),
-        foNonICCCMConfigureRequest = (1 << 12),
-        foMinimized             = (1 << 13),
-        foDoNotFocus            = (1 << 14),
-        foForcedClose           = (1 << 15),
-        foNoFocusOnMap          = (1 << 16),
-        foNoIgnoreTaskBar       = (1 << 17),
-        foAppTakesFocus         = (1 << 18),
-        foIgnoreUrgent          = (1 << 19)
+        foAllWorkspaces            = (1 << 0),
+        foAppTakesFocus            = (1 << 1),
+        foDoNotCover               = (1 << 2),
+        foDoNotFocus               = (1 << 3),
+        foForcedClose              = (1 << 4),
+        foFullKeys                 = (1 << 5),
+        foFullscreen               = (1 << 6),
+        foIgnoreNoFocusHint        = (1 << 7),
+        foIgnorePagerPreview       = (1 << 8),
+        foIgnorePosition           = (1 << 9),
+        foIgnoreQSwitch            = (1 << 10),
+        foIgnoreTaskBar            = (1 << 11),
+        foIgnoreUrgent             = (1 << 12),
+        foIgnoreWinList            = (1 << 13),
+        foMaximizedHorz            = (1 << 14),
+        foMaximizedVert            = (1 << 15),
+        foMinimized                = (1 << 16),
+        foNoFocusOnAppRaise        = (1 << 17),
+        foNoFocusOnMap             = (1 << 18),
+        foNoIgnoreTaskBar          = (1 << 19),
+        foNonICCCMConfigureRequest = (1 << 20),
     };
 
     unsigned frameFunctions() const { return fFrameFunctions; }
@@ -458,7 +459,6 @@ private:
     int buttonDownX, buttonDownY;
     int grabX, grabY;
     int movingWindow, sizingWindow;
-    int sizeByMouse;
     int origX, origY, origW, origH;
 
     Window topSide, leftSide, rightSide, bottomSide;
@@ -485,7 +485,6 @@ private:
     long fWinActiveLayer;
     long fWinTrayOption;
     long fWinState;
-    long fWinStateMask;
     bool fManaged;
     long fWinOptionMask;
     long fOldLayer;

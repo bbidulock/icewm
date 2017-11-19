@@ -885,7 +885,6 @@ void YFrameWindow::startMoveSize(bool doMove, bool byMouse,
                                  int mouseXroot, int mouseYroot) {
     Cursor grabPointer = None;
 
-    sizeByMouse = byMouse;
     grabX = sideX;
     grabY = sideY;
     origX = x();
