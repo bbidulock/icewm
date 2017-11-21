@@ -345,7 +345,7 @@ bool YFrameClient::sendDelete() {
 
 bool YFrameClient::sendPing() {
     bool sent = false;
-    if (hasbit(protocols(), wpPing) && fPinging == false) {
+    if (hasbit(protocols(), (unsigned) wpPing) && fPinging == false) {
         XClientMessageEvent xev = {};
         xev.type = ClientMessage;
         xev.window = handle();
@@ -1091,7 +1091,7 @@ void YFrameClient::setMwmHints(const MwmHints &mwm) {
     XChangeProperty(xapp->display(), handle(),
                     _XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
                     32, PropModeReplace,
-                    (const unsigned char *)&mwm, sizeof(mwm)/sizeof(long)); ///!!!
+                    (const unsigned char *)&mwm, PROP_MWM_HINTS_ELEMENTS);
     if (fMwmHints == 0)
         fMwmHints = (MwmHints *)malloc(sizeof(MwmHints));
     if (fMwmHints)
