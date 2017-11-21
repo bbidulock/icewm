@@ -136,18 +136,18 @@ static Window registerProtocols1(char **argv, int argc) {
     gethostname(hostname, 64);
 
     XTextProperty hname = {
-        .value = (unsigned char *) hostname,
-        .encoding = XA_STRING,
-        .format = 8,
-        .nitems = strnlen(hostname, 64)
+        (unsigned char *) hostname,
+        XA_STRING,
+        8,
+        strnlen(hostname, 64)
     };
 
     static char wm_class[] = "IceWM";
     static char wm_instance[] = "icewm";
 
     XClassHint class_hint = {
-        .res_name = (argv == NULL) ? wm_instance : NULL,
-        .res_class = wm_class
+        (argv == NULL) ? wm_instance : NULL,
+        wm_class
     };
 
     static char wm_name[] = "IceWM " VERSION " (" HOSTOS "/" HOSTCPU ")";
@@ -643,13 +643,13 @@ int handler(Display *display, XErrorEvent *xev) {
     /* DBG */ {
         char message[80], req[80], number[80];
 
-        sprintf(number, "%d", xev->request_code);
+        snprintf(number, 80, "%d", xev->request_code);
         XGetErrorDatabaseText(display,
                               "XRequest",
                               number, "",
                               req, sizeof(req));
         if (!req[0])
-            sprintf(req, "[request_code=%d]", xev->request_code);
+            snprintf(req, 80, "[request_code=%d]", xev->request_code);
 
         if (XGetErrorText(display,
                           xev->error_code,

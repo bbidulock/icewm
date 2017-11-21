@@ -1792,10 +1792,10 @@ FileView::FileView(YApplication *iapp, const char *path)
     char hostname[256] = {};
     gethostname(hostname, sizeof hostname);
     XTextProperty hname = {
-        .value = (unsigned char *) hostname,
-        .encoding = XA_STRING,
-        .format = 8,
-        .nitems = strnlen(hostname, sizeof hostname)
+        (unsigned char *) hostname,
+        XA_STRING,
+        8,
+        strnlen(hostname, sizeof hostname)
     };
     XSetWMClientMachine(xapp->display(), handle(), &hname);
 

@@ -1,5 +1,6 @@
 #include <assert.h>
 #include <ctype.h>
+#include <libgen.h>
 #include <limits.h>
 #include <signal.h>
 #include <stdarg.h>
@@ -351,10 +352,10 @@ int main(int argc, char **argv) {
     char hostname[HOST_NAME_MAX + 1] = {};
     gethostname(hostname, HOST_NAME_MAX);
     XTextProperty hname = {
-        .value = (unsigned char *) hostname,
-        .encoding = XA_STRING,
-        .format = 8,
-        .nitems = strnlen(hostname, HOST_NAME_MAX),
+        (unsigned char *) hostname,
+        XA_STRING,
+        8,
+        strnlen(hostname, HOST_NAME_MAX),
     };
     XSetWMClientMachine(display, window, &hname);
 
