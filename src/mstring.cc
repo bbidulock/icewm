@@ -52,7 +52,7 @@ mstring::mstring(const char *str1, const char *str2) {
     if (len1) {
         init(str1, len1 + len2);
         if (len2)
-            strcpy(fStr->fStr + len1, str2);
+            strlcpy(fStr->fStr + len1, str2, len2 + 1);
     } else {
         init(str2, len2);
     }
