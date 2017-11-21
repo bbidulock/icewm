@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <netinet/in.h>
+#include <sys/socket.h>
 
 static YApplication *app;
 char const *ApplicationName = "iceskt";
