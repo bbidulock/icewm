@@ -148,7 +148,7 @@ void YStringArray::clear() {
 void YStringArray::shrink(int reducedSize) {
     for (int n = getCount(); n > reducedSize; )
         delete[] getString(--n);
-    YArray::shrink(reducedSize);
+    BaseType::shrink(reducedSize);
 }
 
 char * const *YStringArray::getCArray() const {

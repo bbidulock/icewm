@@ -161,7 +161,7 @@ template <class DataType>
 class YObjectArray: public YArray<DataType *> {
 public:
     typedef YArray<DataType *> BaseType;
-    using typename BaseType::SizeType;
+    typedef typename BaseType::SizeType SizeType;
     using BaseType::getCount;
     using BaseType::getItem;
 
@@ -242,9 +242,10 @@ private:
 
 class YStringArray: public YArray<const char *> {
 public:
-    typedef YArrayIterator<const char *> IterType;
+    typedef YArray<const char *> BaseType;
+    typedef BaseType::IterType IterType;
 
-    YStringArray(YStringArray &other): YArray((YArray&)other) {}
+    YStringArray(YStringArray &other): BaseType((BaseType&)other) { }
     YStringArray(const YStringArray &other);
 
     explicit YStringArray(SizeType capacity = 0) {
