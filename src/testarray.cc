@@ -68,20 +68,23 @@ static void dump(const char *label, const YStringArray &array) {
 static const char *cmp(const YStringArray &a, const YStringArray &b) {
     static char buf[999];
     if (a.getCount() != b.getCount()) {
-        sprintf(buf, "size differs: %d != %d", a.getCount(), b.getCount());
+        snprintf(buf, sizeof buf,
+                 "size differs: %d != %d", a.getCount(), b.getCount());
         return buf;
     }
 
     for (YStringArray::SizeType i = 0; i < a.getCount(); ++i)
         if (strnullcmp(a[i], b[i])) {
-            sprintf(buf, "values differ at %d: '%s' != '%s'",
+            snprintf(buf, sizeof buf,
+                     "values differ at %d: '%s' != '%s'",
                     i, a[i], b[i]);
             return buf;
         }
 
     for (YStringArray::SizeType i = 0; i < a.getCount(); ++i)
         if (a[i] != b[i]) {
-            sprintf(buf, "pointers differ at %d: %p != %p",
+            snprintf(buf, sizeof buf,
+                     "pointers differ at %d: %p != %p",
                     i, a[i], b[i]);
             return buf;
         }
@@ -262,12 +265,12 @@ private:
 };
 
 stringcounted::stringcounted(const char* str):
-    ptr(str ? strcpy(new char[1 + strlen(str)], str) : 0)
+    ptr(str ? strdup(str) : 0)
 {
 }
 
 stringcounted::~stringcounted() {
-    delete[] ptr;
+    free((void *) ptr);
 }
 
 typedef ref<stringcounted> refstring;
