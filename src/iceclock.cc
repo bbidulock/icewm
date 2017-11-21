@@ -4,6 +4,14 @@
 
 const char *ApplicationName = "iceclock";
 
+YColor* getTaskBarBg() {
+    static YColor* taskBarBg;
+    if (taskBarBg == 0) {
+        taskBarBg = new YColor("rgb:C0/C0/C0");
+    }
+    return taskBarBg;
+}
+
 int main(int argc, char **argv) {
     YApplication app(&argc, &argv);
 
