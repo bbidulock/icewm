@@ -201,17 +201,14 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
                         32, PropModeReplace,
                         (unsigned char *)&wk, 4);
     }
-    {
-        MwmHints mwm =
-        { MWM_HINTS_FUNCTIONS | MWM_HINTS_DECORATIONS
-        , MWM_FUNC_MOVE // | MWM_FUNC_RESIZE
-        , 0 // MWM_DECOR_BORDER | MWM_DECOR_RESIZEH
-        , 0
-        , 0
-        };
 
-        setMwmHints(mwm);
-    }
+    setMwmHints(MwmHints(
+       MWM_HINTS_FUNCTIONS | MWM_HINTS_DECORATIONS,
+       MWM_FUNC_MOVE,
+       0,
+       0,
+       0));
+
     {
         long arg[2];
         arg[0] = NormalState;
@@ -245,11 +242,13 @@ TaskBar::~TaskBar() {
     delete fObjectBar; fObjectBar = 0;
     delete fWorkspaces; fWorkspaces = 0;
     delete fApm; fApm = 0;
+#ifdef IWM_STATES
     if (fCPUStatus) {
         for (int i = 0; fCPUStatus[i]; ++i)
             delete fCPUStatus[i];
         delete[] fCPUStatus; fCPUStatus = 0;
     }
+#endif
     delete fAddressBar; fAddressBar = 0;
     delete fTasks; fTasks = 0;
     delete fWindowTray; fWindowTray = 0;
@@ -301,15 +300,21 @@ void TaskBar::initMenu() {
 }
 
 void TaskBar::initApplets() {
+#ifdef MEM_STATES
     if (taskBarShowMEMStatus) {
         fMEMStatus = new MEMStatus(this);
         fMEMStatus->setTitle("MEMStatus");
     }
     else
         fMEMStatus = 0;
+#endif
+
+#ifdef IWM_STATES
     fCPUStatus = 0;
     if (taskBarShowCPUStatus)
         CPUStatus::GetCPUStatus(smActionListener, this, fCPUStatus, cpuCombine);
+#endif
+
     fNetStatus.init(new NetStatusControl(app, smActionListener, this, this));
     if (taskBarShowClock) {
         fClock = new YClock(smActionListener, this);
@@ -506,12 +511,19 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
         nw = LayoutInfo( *m, false, 1, true, 1, 1, false );
         wlist.append(nw);
     }
+
+#ifdef IWM_STATES
     for (CPUStatus ** c(fCPUStatus); c && *c; ++c) {
         nw = LayoutInfo( *c, false, 1, true, 2, 2, false );
         wlist.append(nw);
     }
+#endif
+
+#ifdef MEM_STATES
     nw = LayoutInfo( fMEMStatus, false, 1, true, 2, 2, false );
     wlist.append(nw);
+#endif
+
     YVec<NetStatus*>::iterator it = fNetStatus->getIterator();
     while(it.hasNext()) {
         nw = LayoutInfo( it.next(), false, 1, false, 2, 2, false );
@@ -705,23 +717,22 @@ void TaskBar::updateLocation() {
     else
         fEdgeTrigger->hide();
 
-    {
-        MwmHints mwm =
-        { MWM_HINTS_FUNCTIONS | MWM_HINTS_DECORATIONS
-        , MWM_FUNC_MOVE // | MWM_FUNC_RESIZE
-        , 0 // MWM_DECOR_BORDER | MWM_DECOR_RESIZEH
-        , 0
-        , 0
-        };
+    MwmHints mwm(
+       MWM_HINTS_FUNCTIONS | MWM_HINTS_DECORATIONS,
+       MWM_FUNC_MOVE,
+       0,
+       0,
+       0);
+    setMwmHints(mwm);
 
-        XChangeProperty(xapp->display(), handle(),
-                        _XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
-                        32, PropModeReplace,
-                        (unsigned char *)&mwm, sizeof(mwm)/sizeof(long)); ///!!!
-        getMwmHints();
-        if (getFrame())
-            getFrame()->updateMwmHints();
-    }
+    XChangeProperty(xapp->display(), handle(),
+                    _XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
+                    32, PropModeReplace,
+                    (unsigned char *)&mwm, PROP_MWM_HINTS_ELEMENTS);
+    getMwmHints();
+    if (getFrame())
+        getFrame()->updateMwmHints();
+
     ///!!! fix
     updateWMHints();
 }
