@@ -770,8 +770,8 @@ bool NetStatusControl::handleTimer(YTimer *t)
                 (**p).handleTimer(0, true);
 
 #else
-        for(NetStatus* p=fNetStatus.data; p<fNetStatus.data+fNetStatus.size; ++p)
-            p->handleTimer(0, false);
+        for(NetStatus** p=fNetStatus.data; p<fNetStatus.data+fNetStatus.size; ++p)
+            (*p)->handleTimer(0, false);
 #endif
         return true;
 }
