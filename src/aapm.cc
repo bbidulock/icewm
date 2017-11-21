@@ -38,9 +38,7 @@
 #include <machine/apmvar.h>
 #endif
 
-#ifdef __linux__
 #include <math.h>
-#endif
 
 extern YColor* getTaskBarBg();
 
@@ -56,6 +54,7 @@ extern YColor* getTaskBarBg();
 #define BAT_DISCHARGING 2
 #define BAT_FULL        3
 
+#define SYS_STR_SIZE    64
 
 void YApm::ApmStr(char *s, bool Tool) {
 #if (defined(__FreeBSD__) || defined(__FreeBSD_kernel__)) && defined(i386)
@@ -95,12 +94,12 @@ void YApm::ApmStr(char *s, bool Tool) {
     }
     close(fd);
 
-    sprintf(apmver, "%u.%u", ai.ai_major, ai.ai_minor);
+    snprintf(apmver, sizeof apmver, "%u.%u", ai.ai_major, ai.ai_minor);
     ACstatus = ai.ai_acline;
     BATflag = ai.ai_batt_stat == 3 ? 8 : 0;
     BATlife = ai.ai_batt_life;
     BATtime = ai.ai_batt_time == 0 ? -1 : ai.ai_batt_time;
-    strcpy(units, "sec");
+    strlcpy(units, "sec", sizeof units);
 #elif defined __NetBSD__
     memset(&ai, 0, sizeof(ai));
     if (ioctl(fd, APM_IOC_GETPOWER, &ai) == -1)
@@ -111,12 +110,12 @@ void YApm::ApmStr(char *s, bool Tool) {
     }
     close(fd);
 
-    strcpy(apmver, "?.?");
+    strlcpy(apmver, "?.?", sizeof apmver);
     ACstatus = (ai.ac_state == APM_AC_ON) ? 1 : 0;
     BATflag = (ai.battery_state == APM_BATT_CHARGING) ? 8 : 0;
     BATlife = ai.battery_life;
     BATtime = (ai.minutes_left == 0) ? -1 : ai.minutes_left;
-    strcpy(units, "min");
+    strlcpy(units, "min", sizeof units);
 #else
     len = read(fd, buf, sizeof(buf) - 1);
     close(fd);
@@ -154,12 +153,12 @@ void YApm::ApmStr(char *s, bool Tool) {
                 // -1 indicates that apm-bios can't
                 // calculate time for akku
                 // no wonder -> we're plugged!
-                sprintf(s, "%3d%%", BATlife);
+                snprintf(s, SYS_STR_SIZE, "%3d%%", BATlife);
             } else {
-                sprintf(s, "%d:%02d", BATtime/60, (BATtime)%60);
+                snprintf(s, SYS_STR_SIZE, "%d:%02d", BATtime/60, (BATtime)%60);
             }
         } else
-            sprintf(s, "%3d%%", BATlife);
+            snprintf(s, SYS_STR_SIZE, "%3d%%", BATlife);
 #if 0
         while ((i < 3) && (buf[28 + i] != '%'))
             i++;
@@ -168,22 +167,22 @@ void YApm::ApmStr(char *s, bool Tool) {
         }
 #endif
     } else {
-        sprintf(s, "%d%%", BATlife);
+        snprintf(s, SYS_STR_SIZE, "%d%%", BATlife);
     }
 
 
 
     if (ACstatus == 0x1) {
         if (Tool)
-            strcat(s, _(" - Power"));
+            strlcat(s, _(" - Power"), SYS_STR_SIZE);
         else
-            strcat(s, _("P"));
+            strlcat(s, _("P"), SYS_STR_SIZE);
     }
     if ((BATflag & 8)) {
         if (Tool)
-            strcat(s, _(" - Charging"));
+            strlcat(s, _(" - Charging"), SYS_STR_SIZE);
         else
-            strcat(s, _("C"));
+            strlcat(s, _("C"), SYS_STR_SIZE);
     }
 }
 
@@ -421,45 +420,46 @@ void YApm::AcpiStr(char *s, bool Tool) {
             BATcapacity_full >= 0 && BATcapacity_remain >= 0 && BATrate > 0) {
             if (BATtime_remain == -1)
                 BATtime_remain = (int) (60 * (double)(BATcapacity_remain) / BATrate);
-            sprintf(bat_info, "%d:%02d", BATtime_remain / 60, BATtime_remain % 60);
+            snprintf(bat_info, sizeof bat_info, "%d:%02d",
+                     BATtime_remain / 60, BATtime_remain % 60);
         }
         else if (BATpresent == BAT_PRESENT &&
                  //did we parse the needed values successfully?
                  BATcapacity_remain >= 0 && BATcapacity_full >= 0)
         {
-            sprintf(bat_info, "%3.0f%%",
+            snprintf(bat_info, sizeof bat_info, "%3.0f%%",
                     100 * (double)BATcapacity_remain / BATcapacity_full);
         }
 
         if (BATstatus == BAT_CHARGING) {
             if (Tool)
-                strcat(bat_info, _(" - Charging"));
+                strlcat(bat_info, _(" - Charging"), sizeof bat_info);
             else
-                strcat(bat_info, _("C"));
+                strlcat(bat_info, _("C"), sizeof bat_info);
         } else if (BATstatus == BAT_FULL && Tool)
-                strcat(bat_info, _(" - Full"));
+                strlcat(bat_info, _(" - Full"), sizeof bat_info);
 
         if (Tool && BATrate > 0) {
-            sprintf(buf, " %d", BATrate);
-            strcat(bat_info, buf);
+            snprintf(buf, sizeof buf, " %d", BATrate);
+            strlcat(bat_info, buf, sizeof bat_info);
         }
 
         if ((n > 0) && (*bat_info)) {
             if (Tool)
-                strcat(s, " / ");
+                strlcat(s, " / ", SYS_STR_SIZE);
             else
-                strcat(s, "/");
+                strlcat(s, "/", SYS_STR_SIZE);
         }
         n++;
-        strcat(s, bat_info);
+        strlcat(s, bat_info, SYS_STR_SIZE);
     }
 
     if (ACstatus == AC_ONLINE) {
         if (Tool)
-            strcat(s,_(" - Power"));
+            strlcat(s,_(" - Power"), SYS_STR_SIZE);
         else {
-///            if (!prettyClock) strcat(s, " ");
-            strcat(s,_("P"));
+///            if (!prettyClock) strlcat(s, " ", SYS_STR_SIZE);
+            strlcat(s,_("P"), SYS_STR_SIZE);
         }
     }
 
@@ -642,7 +642,7 @@ void YApm::SysStr(char *s, bool Tool) {
             //did we parse the needed values successfully?
             BATcapacity_full >= 0 && BATcapacity_remain >= 0 && BATrate > 0) {
             BATtime_remain = (int) (60 * (double)(BATcapacity_remain) / BATrate);
-            sprintf(bat_info, "%d:%02d (%3.0f%%)",
+            snprintf(bat_info, sizeof bat_info, "%d:%02d (%3.0f%%)",
                     BATtime_remain / 60, BATtime_remain % 60,
                     round(double(100) * BATcapacity_remain / BATcapacity_full));
         }
@@ -650,7 +650,8 @@ void YApm::SysStr(char *s, bool Tool) {
                  //did we parse the needed values successfully?
                  BATcapacity_remain >= 0 && BATcapacity_full >= 0)
         {
-            sprintf(bat_info, "%3.0f%%", round(double(100) * BATcapacity_remain / BATcapacity_full));
+            snprintf(bat_info, sizeof bat_info, "%3.0f%%",
+                     round(double(100) * BATcapacity_remain / BATcapacity_full));
         }
         else {
             //battery is absent or we didn't parse some needed values
@@ -659,27 +660,27 @@ void YApm::SysStr(char *s, bool Tool) {
 
         if (BATstatus == BAT_CHARGING) {
             if (Tool)
-                strcat(bat_info, _(" - Charging"));
+                strlcat(bat_info, _(" - Charging"), sizeof bat_info);
             else
-                strcat(bat_info, _("C"));
+                strlcat(bat_info, _("C"), sizeof bat_info);
         }
 
         if ((n > 0) && (*bat_info)) {
             if (Tool)
-                strcat(s, " / ");
+                strlcat(s, " / ", SYS_STR_SIZE);
             else
-                strcat(s, "/");
+                strlcat(s, "/", SYS_STR_SIZE);
         }
         n++;
-        strcat(s, bat_info);
+        strlcat(s, bat_info, SYS_STR_SIZE);
     }
 
     if (ACstatus == AC_ONLINE) {
         if (Tool)
-            strcat(s,_(" - Power"));
+            strlcat(s, _(" - Power"), SYS_STR_SIZE);
         else {
-///            if (!prettyClock) strcat(s, " ");
-            strcat(s,_("P"));
+///            if (!prettyClock) strlcat(s, " ", SYS_STR_SIZE);
+            strlcat(s, _("P"), SYS_STR_SIZE);
         }
     }
 
@@ -689,7 +690,7 @@ void YApm::PmuStr(char *s, const bool tool_tip)
 {
    FILE *fd = fopen("/proc/pmu/info", "r");
    if (fd == NULL) {
-      strcpy(s, "Err");
+      strlcpy(s, "Err", SYS_STR_SIZE);
       // this is somewhat difficult, because pmu support seams to be gone
       return;
    }
@@ -714,7 +715,7 @@ void YApm::PmuStr(char *s, const bool tool_tip)
       snprintf(file_name, ACOUNT(file_name), "/proc/pmu/battery_%d", i);
       fd = fopen(file_name, "r");
       if (fd == NULL) {
-         strcpy(s_end, "Err");
+         strlcpy(s_end, "Err", SYS_STR_SIZE - (s_end - s));
          s_end += 3;
          continue;
       }
@@ -752,49 +753,58 @@ void YApm::PmuStr(char *s, const bool tool_tip)
 
       if (tool_tip) {
          if (i > 0) {
-            strcpy(s_end, " / ");
+            strlcpy(s_end, " / ", SYS_STR_SIZE - (s_end - s));
             s_end += 3;
          }
 
          if (battery_present) {
             if ( !battery_full )
-              s_end += sprintf(s_end, " %d%c%02d%s", rem_time/60,
+              s_end += snprintf(s_end, SYS_STR_SIZE - (s_end - s),
+                               " %d%c%02d%s", rem_time/60,
                                time_in_min?':':'.', rem_time%60,
                                time_in_min?"h":"m");
 
-            s_end += sprintf(s_end, " %.0f%% %d/%dmAh %.3fV", 100.0*charge/max_charge,
+            s_end += snprintf(s_end, SYS_STR_SIZE - (s_end - s),
+                     " %.0f%% %d/%dmAh %.3fV", 100.0*charge/max_charge,
                      charge, max_charge, voltage/1e3);
 
             if (battery_charging)
-              s_end += sprintf(s_end, _(" - Charging"));
+              s_end += snprintf(s_end, SYS_STR_SIZE - (s_end - s),
+                                "%s", _(" - Charging"));
          } else {
            // Battery not present
-            strcpy(s_end, "--");
+            strlcpy(s_end, "--", SYS_STR_SIZE - (s_end - s));
             s_end += 2;
          }
       } else {  // Taskbar
-         if (i > 0)
-           strcpy(s_end++, "/");
+         if (i > 0) {
+           strlcpy(s_end, "/", SYS_STR_SIZE - (s_end - s));
+           s_end += 1;
+         }
 
          if (! battery_present ) {
-            strcpy(s_end, "--");
+            strlcpy(s_end, "--", SYS_STR_SIZE - (s_end - s));
             s_end += 2;
          } else if (taskBarShowApmTime && !battery_full)
-           s_end += sprintf(s_end, "%d%c%02d", rem_time/60,
+           s_end += snprintf(s_end, SYS_STR_SIZE - (s_end - s),
+                             "%d%c%02d", rem_time/60,
                             time_in_min?':':'.', rem_time%60);
          else
-           s_end += sprintf(s_end, "%3.0f%%", 100.0*charge/max_charge);
+           s_end += snprintf(s_end, SYS_STR_SIZE - (s_end - s),
+                             "%3.0f%%", 100.0*charge/max_charge);
 
-         if (battery_charging)
-            strcpy(s_end++, "C");
+         if (battery_charging) {
+            strlcpy(s_end, "C", SYS_STR_SIZE - (s_end - s));
+            s_end += 1;
+         }
       }
    }
 
    if (power_present) {
       if (tool_tip)
-        strcpy(s_end, _(" - Power"));
+        strlcpy(s_end, _(" - Power"), SYS_STR_SIZE - (s_end - s));
       else
-        strcpy(s_end, "P");
+        strlcpy(s_end, "P", SYS_STR_SIZE - (s_end - s));
    }
 }
 
@@ -924,7 +934,7 @@ YApm::~YApm() {
 }
 
 void YApm::updateToolTip() {
-    char s[64] = {' ', ' ', ' ', 0, 0, 0, 0, 0};
+    char s[SYS_STR_SIZE] = {' ', ' ', ' ', 0, 0, 0, 0, 0};
 
     switch (mode) {
     case ACPI:
@@ -954,22 +964,22 @@ int YApm::calcInitialWidth() {
         if ((mode == ACPI || mode == SYSFS) && acpiBatteries[i]->present == BAT_ABSENT)
             continue;
         if (taskBarShowApmTime)
-            strcat(buf, "0:00 0.0W");
+            strlcat(buf, "0:00 0.0W", sizeof buf);
         else
-            strcat(buf, "100%");
-        strcat(buf, "C");
+            strlcat(buf, "100%", sizeof buf);
+        strlcat(buf, "C", sizeof buf);
         if (n > 0)
-            strcat(buf, "/");
+            strlcat(buf, "/", sizeof buf);
         n++;
     }
-///    if (!prettyClock) strcat(buf, " ");
-    strcat(buf, "P");
+///    if (!prettyClock) strlcat(buf, " ", sizeof buf);
+    strlcat(buf, "P", sizeof buf);
 
     return calcWidth(buf, strlen(buf));
 }
 
 void YApm::updateState() {
-    char s[64] = {' ', ' ', ' ', 0, 0, 0, 0, 0};
+    char s[SYS_STR_SIZE] = {' ', ' ', ' ', 0, 0, 0, 0, 0};
 
     switch (mode) {
     case ACPI:
