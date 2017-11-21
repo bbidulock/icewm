@@ -54,7 +54,11 @@ YLocale::YLocale(char const * localeName) {
 #ifdef CONFIG_NL_CODESETS
         CONFIG_NL_CODESETS
 #else
-        CODESET, _NL_CTYPE_CODESET_NAME, 0
+        CODESET,
+#ifdef _NL_CTYPE_CODESET_NAME
+        _NL_CTYPE_CODESET_NAME,
+#endif
+        0
 #endif
     };
 
