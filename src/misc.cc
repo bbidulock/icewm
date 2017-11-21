@@ -15,6 +15,9 @@
 #ifdef HAVE_LIBGEN_H
 #include <libgen.h>
 #endif
+#if defined(__GXX_RTTI) && (__GXX_ABI_VERSION >= 1002)
+#define HAVE_GCC_ABI_DEMANGLE
+#endif
 #ifdef HAVE_GCC_ABI_DEMANGLE
 #include <cxxabi.h>
 #endif
