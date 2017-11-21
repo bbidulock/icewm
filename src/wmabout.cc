@@ -68,11 +68,12 @@ AboutDlg::AboutDlg(): YDialog() {
     setWinLayerHint(WinLayerAboveDock);
     setWinWorkspaceHint(-1);
     setWinHintsHint(WinHintsSkipWindowMenu);
-    setMwmHints( (MwmHints) {
-       .flags = MWM_HINTS_FUNCTIONS | MWM_HINTS_DECORATIONS,
-       .functions = MWM_FUNC_MOVE | MWM_FUNC_CLOSE,
-       .decorations = MWM_DECOR_BORDER | MWM_DECOR_TITLE | MWM_DECOR_MENU,
-    });
+    setMwmHints(MwmHints(
+       MWM_HINTS_FUNCTIONS | MWM_HINTS_DECORATIONS,
+       MWM_FUNC_MOVE | MWM_FUNC_CLOSE,
+       MWM_DECOR_BORDER | MWM_DECOR_TITLE | MWM_DECOR_MENU,
+       0,
+       0));
 }
 
 AboutDlg::~AboutDlg() {

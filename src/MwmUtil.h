@@ -29,9 +29,21 @@ struct MwmHints {
     unsigned long decorations;
     long input_mode;
     unsigned long status;
+
+    MwmHints(unsigned long flags = 0,
+             unsigned long functions = 0,
+             unsigned long decorations = 0,
+             long input_mode = 0,
+             unsigned long status = 0):
+        flags(flags),
+        functions(functions),
+        decorations(decorations),
+        input_mode(input_mode),
+        status(status)
+    { }
 };
 
-#define PROP_MWM_HINTS_ELEMENTS          5
+#define PROP_MWM_HINTS_ELEMENTS  5
 
 #define MWM_HINTS_FUNCTIONS     (1L << 0)
 #define MWM_HINTS_DECORATIONS   (1L << 1)

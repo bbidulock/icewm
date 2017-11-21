@@ -63,23 +63,18 @@ public:
 
         // !!! fix
         setTitle(_("Same Game"));
-        {
-            MwmHints mwm;
 
-            memset(&mwm, 0, sizeof(mwm));
-            mwm.flags =
-                MWM_HINTS_FUNCTIONS |
-                MWM_HINTS_DECORATIONS;
-            mwm.functions =
-                MWM_FUNC_MOVE | MWM_FUNC_CLOSE | MWM_FUNC_MINIMIZE;
-            mwm.decorations =
-                /*MWM_DECOR_BORDER |*/ MWM_DECOR_TITLE | MWM_DECOR_MENU | MWM_DECOR_MINIMIZE;
+        MwmHints mwm(
+                MWM_HINTS_FUNCTIONS | MWM_HINTS_DECORATIONS,
+                MWM_FUNC_MOVE | MWM_FUNC_CLOSE | MWM_FUNC_MINIMIZE,
+                MWM_DECOR_TITLE | MWM_DECOR_MENU | MWM_DECOR_MINIMIZE,
+                0,
+                0);
 
-            XChangeProperty(xapp->display(), handle(),
-                            _XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
-                            32, PropModeReplace,
-                            (unsigned char *)&mwm, sizeof(mwm)/sizeof(long)); ///!!!
-        }
+        XChangeProperty(xapp->display(), handle(),
+                        _XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
+                        32, PropModeReplace,
+                        (unsigned char *)&mwm, PROP_MWM_HINTS_ELEMENTS);
 
         char res_name[] = "icesame";
         char res_class[] = "IceSame";

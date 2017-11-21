@@ -58,20 +58,12 @@ YMsgBox::YMsgBox(int buttons, YWindow *owner): YDialog(owner) {
         XSetWMProtocols(xapp->display(), handle(), protocols, 2);
         getProtocols(true);
     }
-    {
-        MwmHints mwm;
-
-        memset(&mwm, 0, sizeof(mwm));
-        mwm.flags =
-            MWM_HINTS_FUNCTIONS |
-            MWM_HINTS_DECORATIONS;
-        mwm.functions =
-            MWM_FUNC_MOVE | MWM_FUNC_CLOSE;
-        mwm.decorations =
-            MWM_DECOR_BORDER | MWM_DECOR_TITLE | MWM_DECOR_MENU;
-
-        setMwmHints(mwm);
-    }
+    setMwmHints(MwmHints(
+       MWM_HINTS_FUNCTIONS | MWM_HINTS_DECORATIONS,
+       MWM_FUNC_MOVE | MWM_FUNC_CLOSE,
+       MWM_DECOR_BORDER | MWM_DECOR_TITLE | MWM_DECOR_MENU,
+       0,
+       0));
 }
 
 YMsgBox::~YMsgBox() {
