@@ -61,7 +61,7 @@ char *ObjectListItem::getLocation() {
     char *npath;
 
     npath = new char[nlen];
-    strcpy(npath, dir);
+    memcpy(npath, dir, dlen + 1);
     if (dlen == 0 || dir[dlen - 1] != '/') {
         strcpy(npath + dlen, "/");
         dlen++;
