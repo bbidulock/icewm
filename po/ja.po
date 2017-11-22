@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-11-01 21:50-0600\n"
+"POT-Creation-Date: 2017-11-21 21:20-0700\n"
 "PO-Revision-Date: 2017-10-11 02:11+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
 "Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -18,24 +18,23 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 2.13.1\n"
 
-#: src/aapm.cc:180 src/aapm.cc:461 src/aapm.cc:681 src/aapm.cc:797
+#: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:680 src/aapm.cc:805
 msgid " - Power"
 msgstr " - 給電中"
 
-#: src/aapm.cc:182 src/aapm.cc:464 src/aapm.cc:684
+#: src/aapm.cc:179 src/aapm.cc:462 src/aapm.cc:683
 msgid "P"
 msgstr "P"
 
-#: src/aapm.cc:186 src/aapm.cc:438 src/aapm.cc:664 src/aapm.cc:771
-#, c-format
+#: src/aapm.cc:183 src/aapm.cc:436 src/aapm.cc:663 src/aapm.cc:773
 msgid " - Charging"
 msgstr " - 充電中"
 
-#: src/aapm.cc:188 src/aapm.cc:440 src/aapm.cc:666
+#: src/aapm.cc:185 src/aapm.cc:438 src/aapm.cc:665
 msgid "C"
 msgstr "C"
 
-#: src/aapm.cc:442
+#: src/aapm.cc:440
 msgid " - Full"
 msgstr " - 充電完了"
 
@@ -57,12 +56,12 @@ msgstr ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 "softirq = %llu, steal = %llu (h = %i)\n"
 
-#: src/acpustatus.cc:263
+#: src/acpustatus.cc:261
 #, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "CPU %s の負荷: %3.2f %3.2f %3.2f, %u 個のプロセス"
 
-#: src/acpustatus.cc:268
+#: src/acpustatus.cc:266
 #, c-format
 msgid ""
 "\n"
@@ -71,7 +70,7 @@ msgstr ""
 "\n"
 "メモリ (空き): %5.2f (%.2f) M"
 
-#: src/acpustatus.cc:273
+#: src/acpustatus.cc:271
 #, c-format
 msgid ""
 "\n"
@@ -80,7 +79,7 @@ msgstr ""
 "\n"
 "スワップ (空き): %.2f (%.2f) M"
 
-#: src/acpustatus.cc:279
+#: src/acpustatus.cc:277
 #, c-format
 msgid ""
 "\n"
@@ -89,7 +88,7 @@ msgstr ""
 "\n"
 "ACPI 温度: "
 
-#: src/acpustatus.cc:298
+#: src/acpustatus.cc:296
 #, c-format
 msgid ""
 "\n"
@@ -98,91 +97,91 @@ msgstr ""
 "\n"
 "CPU 周波数: %.3fGHz"
 
-#: src/acpustatus.cc:319
+#: src/acpustatus.cc:317
 msgid "CPU"
 msgstr "CPU"
 
-#: src/acpustatus.cc:319
+#: src/acpustatus.cc:317
 msgid "Load: "
 msgstr "負荷: "
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/acpustatus.cc:386
+#: src/acpustatus.cc:384
 msgid "°C"
 msgstr "度 (摂氏)"
 
-#: src/acpustatus.cc:672
+#: src/acpustatus.cc:670
 #, c-format
 msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 msgstr "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 
-#: src/amailbox.cc:71
+#: src/amailbox.cc:67
 #, c-format
 msgid "Invalid mailbox protocol: \"%s\""
 msgstr "メールボックスのプロトコルが正しくありません: \"%s\""
 
-#: src/amailbox.cc:73
+#: src/amailbox.cc:69
 #, c-format
 msgid "Invalid mailbox path: \"%s\""
 msgstr "メールボックスのパスが正しくありません: \"%s\""
 
-#: src/amailbox.cc:335
+#: src/amailbox.cc:331
 #, c-format
 msgid "Using MailBox \"%s\"\n"
 msgstr "使用中メールボックス \"%s\"\n"
 
-#: src/amailbox.cc:443
+#: src/amailbox.cc:438
 msgid "Error checking mailbox."
 msgstr "メールボックスの確認時にエラーが発生しました。"
 
-#: src/amailbox.cc:449
+#: src/amailbox.cc:444
 #, c-format
 msgid "%ld mail message."
 msgstr "%ld 通のメール。"
 
-#: src/amailbox.cc:450
+#: src/amailbox.cc:445
 #, c-format
 msgid "%ld mail messages."
 msgstr "%ld 通のメール。"
 
-#: src/amemstatus.cc:134
+#: src/amemstatus.cc:127
 msgid "GB"
 msgstr "GB"
 
-#: src/amemstatus.cc:138
+#: src/amemstatus.cc:131
 msgid "MB"
 msgstr "MB"
 
-#: src/amemstatus.cc:142
+#: src/amemstatus.cc:135
 msgid "kB"
 msgstr "kB"
 
-#: src/amemstatus.cc:146
+#: src/amemstatus.cc:139
 msgid "bytes"
 msgstr "バイト"
 
-#: src/amemstatus.cc:170
+#: src/amemstatus.cc:163
 msgid "Memory Total: "
 msgstr "メモリ合計: "
 
-#: src/amemstatus.cc:171
+#: src/amemstatus.cc:164
 msgid "Free: "
 msgstr "空き: "
 
-#: src/amemstatus.cc:172
+#: src/amemstatus.cc:165
 msgid "Cached: "
 msgstr "キャッシュ済み: "
 
-#: src/amemstatus.cc:173
+#: src/amemstatus.cc:166
 msgid "Buffers: "
 msgstr "バッファ: "
 
-#: src/amemstatus.cc:174
+#: src/amemstatus.cc:167
 msgid "User: "
 msgstr "ユーザ: "
 
-#: src/apppstatus.cc:196
+#: src/apppstatus.cc:198
 #, c-format
 msgid ""
 "Interface %s:\n"
@@ -197,7 +196,7 @@ msgstr ""
 "  累積転送量 (入力/出力):\t%lli %s/%lli %s\n"
 "  オンライン時間:\t%ld:%02ld:%02ld%s%s"
 
-#: src/apppstatus.cc:208
+#: src/apppstatus.cc:210
 msgid ""
 "\n"
 "  Caller id:\t"
@@ -205,7 +204,7 @@ msgstr ""
 "\n"
 "  発信元:\t"
 
-#: src/aworkspaces.cc:325 src/wmstatus.cc:178
+#: src/aworkspaces.cc:315 src/wmstatus.cc:175
 msgid "Workspace: "
 msgstr "ワークスペース: "
 
@@ -301,7 +300,7 @@ msgstr "内容"
 msgid "Index"
 msgstr "目次"
 
-#: src/icehelp.cc:1168 src/icesame.cc:62 src/iceview.cc:72 src/wmtitle.cc:101
+#: src/icehelp.cc:1168 src/icesame.cc:62 src/iceview.cc:72 src/wmtitle.cc:97
 msgid "Close"
 msgstr "閉じる"
 
@@ -617,7 +616,7 @@ msgstr "パラメータが正しくありません: `%s'"
 msgid "No actions specified."
 msgstr "アクションが指定されていません。"
 
-#: src/icesh.cc:708 src/icesound.cc:942 src/icewmhint.cc:91 src/yxapp.cc:955
+#: src/icesh.cc:708 src/icesound.cc:938 src/icewmhint.cc:88 src/yxapp.cc:947
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
@@ -639,12 +638,12 @@ msgstr "ワークスペース #%d: `%s'\n"
 msgid "Unknown action: `%s'"
 msgstr "不明なアクションです: `%s'"
 
-#: src/iceskt.cc:41
+#: src/iceskt.cc:42
 #, c-format
 msgid "Socket error: %d"
 msgstr "ソケットエラー: %d"
 
-#: src/icesm.cc:50
+#: src/icesm.cc:56
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -666,113 +665,113 @@ msgstr ""
 "  -n, --notray        icewmtray を起動しないようにします。\n"
 "  -s, --sound         icesound も併せて起動するようにします。\n"
 
-#: src/icesm.cc:107
+#: src/icesm.cc:113
 #, c-format
 msgid "Unknown option '%s'"
 msgstr "不明なオプションです: `%s'"
 
-#: src/icesm.cc:292
+#: src/icesm.cc:298
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s はステータスコード %d で終了しました。"
 
-#: src/icesm.cc:298
+#: src/icesm.cc:304
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s はシグナル %d で終了しました。"
 
-#: src/icesound.cc:216 src/icesound.cc:324 src/icesound.cc:628
+#: src/icesound.cc:212 src/icesound.cc:320 src/icesound.cc:624
 #, c-format
 msgid "Playing sample #%d (%s)"
 msgstr "サンプル #%d を再生しています (%s)"
 
-#: src/icesound.cc:334
+#: src/icesound.cc:330
 #, c-format
 msgid "%s: Invalid number of channels"
 msgstr "%s: チャンネル数が正しくありません"
 
-#: src/icesound.cc:340 src/icesound.cc:345
+#: src/icesound.cc:336 src/icesound.cc:341
 msgid "Could not set OSS channels"
 msgstr "OSS チャンネルの設定ができませんでした"
 
-#: src/icesound.cc:350 src/icesound.cc:378
+#: src/icesound.cc:346 src/icesound.cc:374
 msgid "Could not sync OSS"
 msgstr "OSS の同期ができませんでした"
 
-#: src/icesound.cc:362
+#: src/icesound.cc:358
 msgid "OSS write failed"
 msgstr "OSS の書き込みに失敗しました"
 
-#: src/icesound.cc:366
+#: src/icesound.cc:362
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
 msgstr "OSS への書き込みが完了しませんでした (%d/%d)"
 
-#: src/icesound.cc:373
+#: src/icesound.cc:369
 msgid "Could not post OSS"
 msgstr "OSS をポストできませんでした"
 
-#: src/icesound.cc:402
+#: src/icesound.cc:398
 #, c-format
 msgid "Could not open OSS device %s"
 msgstr "OSS デバイス %s を開くことができませんでした"
 
-#: src/icesound.cc:407
+#: src/icesound.cc:403
 msgid "Could not set OSS stereo"
 msgstr "OSS ステレオの設定ができませんでした"
 
-#: src/icesound.cc:412
+#: src/icesound.cc:408
 msgid "Could not reset OSS DSP"
 msgstr "OSS DSP のリセットができませんでした"
 
-#: src/icesound.cc:417
+#: src/icesound.cc:413
 msgid "Could not set OSS format"
 msgstr "OSS の形式設定ができませんでした"
 
-#: src/icesound.cc:490
+#: src/icesound.cc:486
 #, c-format
 msgid "Can't connect to ESound daemon: %s"
 msgstr "ESound デーモンに接続することができません: %s"
 
-#: src/icesound.cc:491 src/icewmhint.cc:93 src/yxapp.cc:956
+#: src/icesound.cc:487 src/icewmhint.cc:90 src/yxapp.cc:948
 msgid "<none>"
 msgstr "<なし>"
 
-#: src/icesound.cc:509
+#: src/icesound.cc:505
 #, c-format
 msgid "Error <%d> while uploading `%s:%s'"
 msgstr "`%2$s:%3$s' をアップロードする際にエラーが発生しました <%1$d>"
 
-#: src/icesound.cc:515
+#: src/icesound.cc:511
 #, c-format
 msgid "Sample <%d> uploaded as `%s:%s'"
 msgstr "サンプル <%d> は `%s:%s' としてアップロードされました"
 
-#: src/icesound.cc:573
+#: src/icesound.cc:569
 #, c-format
 msgid "Playing sample #%d: %d"
 msgstr "サンプル #%d: %d を再生しています"
 
-#: src/icesound.cc:648
+#: src/icesound.cc:644
 #, c-format
 msgid "ao_open_live failed with %d"
 msgstr "ao_open_live が %d で失敗しました"
 
-#: src/icesound.cc:659
+#: src/icesound.cc:655
 msgid "ao_play failed"
 msgstr "ao_play が失敗しました"
 
-#: src/icesound.cc:821
+#: src/icesound.cc:817
 #, c-format
 msgid "Unrecognized option: %s\n"
 msgstr "認識できないオプションです: %s\n"
 
-#: src/icesound.cc:824 src/icesound.cc:1127
+#: src/icesound.cc:820 src/icesound.cc:1123
 #, c-format
 msgid "Unrecognized argument: %s\n"
 msgstr "認識できないパラメータです: %s\n"
 
-#: src/icesound.cc:833
+#: src/icesound.cc:829
 #, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
@@ -888,56 +887,56 @@ msgstr ""
 "  3    サブシステムのエラー (サーバに接続できないなど)\n"
 "\n"
 
-#: src/icesound.cc:927
+#: src/icesound.cc:923
 #, c-format
 msgid "No audio for %s"
 msgstr "%s に対するサウンドがありません"
 
-#: src/icesound.cc:1004
+#: src/icesound.cc:1000
 msgid "Could not get GUI event property"
 msgstr "GUI イベントプロパティの取得ができませんでした"
 
-#: src/icesound.cc:1008
+#: src/icesound.cc:1004
 #, c-format
 msgid "Received invalid GUI event %d"
 msgstr "正しくない GUI イベント %d を受信しました"
 
-#: src/icesound.cc:1012
+#: src/icesound.cc:1008
 #, c-format
 msgid "Received GUI event %s"
 msgstr "GUI イベント %s を受信しました"
 
-#: src/icesound.cc:1026
+#: src/icesound.cc:1022
 #, c-format
 msgid "Too quick; ignoring %s."
 msgstr "間隔が短すぎます; %s を無視しています。"
 
-#: src/icesound.cc:1030
+#: src/icesound.cc:1026
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr "%s インターフェイスへの対応はコンパイルされていません。"
 
-#: src/icesound.cc:1070
+#: src/icesound.cc:1066
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr "未対応のインターフェイスです: %s"
 
-#: src/icesound.cc:1079
+#: src/icesound.cc:1075
 #, c-format
 msgid "Using %s audio."
 msgstr "%s オーディオを使用しています。"
 
-#: src/icesound.cc:1083
+#: src/icesound.cc:1079
 #, c-format
 msgid "Failed to connect to audio interfaces %s."
 msgstr "オーディオインターフェイス %s への接続に失敗しました。"
 
-#: src/icesound.cc:1095
+#: src/icesound.cc:1091
 #, c-format
 msgid "Received signal %s: Terminating..."
 msgstr "シグナル %s を受け取りました。終了しています..."
 
-#: src/icetray.cc:253
+#: src/icetray.cc:246
 msgid ""
 "  -n, --notify        Notify parent process by sending signal USR1.\n"
 "  --display=NAME      Use NAME to connect to the X server.\n"
@@ -983,7 +982,7 @@ msgstr "Ctrl+W"
 msgid "Failed to load image '%s'."
 msgstr "画像 '%s' の読み込みに失敗しました。"
 
-#: src/icewmbg.cc:706
+#: src/icewmbg.cc:696
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1077,29 +1076,29 @@ msgstr ""
 " center:0 scaled:1 = 縦横の両方を埋め、アスペクト比を維持\n"
 "\n"
 
-#: src/icewmbg.cc:754
+#: src/icewmbg.cc:743
 msgid "Please note that not all options are currently configured.\n"
 msgstr ""
 "なお、全てのオプションが設定済みというわけではないことに注意してください。\n"
 
-#: src/icewmbg.cc:909
+#: src/icewmbg.cc:889
 msgid "Cannot start, because another icewmbg is still running."
 msgstr "既に icewmbg が動作しているため、新しく起動することができません。"
 
-#: src/icewmhint.cc:44
+#: src/icewmhint.cc:41
 msgid "Usage: icewmhint [class.instance] option arg\n"
 msgstr "使用方法: icewmhint [class.instance] オプションパラメータ\n"
 
-#: src/icewmhint.cc:80
+#: src/icewmhint.cc:77
 #, c-format
 msgid "Out of memory (len=%d)."
 msgstr "メモリ不足 (長さ=%d)."
 
-#: src/misc.cc:330 src/misc.cc:342
+#: src/misc.cc:335 src/misc.cc:347
 msgid "Warning: "
 msgstr "警告: "
 
-#: src/misc.cc:596
+#: src/misc.cc:611
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1116,207 +1115,207 @@ msgstr ""
 "  -h, --help          この使用方法を表示して終了します。\n"
 "\n"
 
-#: src/movesize.cc:899
+#: src/movesize.cc:880
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "移動／サイズ変更の要求において、未知の方向を指定しています: %d"
 
-#: src/themes.cc:88
+#: src/themes.cc:85
 msgid "Default"
 msgstr "既定値"
 
-#: src/wmabout.cc:27 src/wmabout.cc:29
+#: src/wmabout.cc:26 src/wmabout.cc:28
 msgid "(C)"
 msgstr "(C)"
 
-#: src/wmabout.cc:35
+#: src/wmabout.cc:34
 msgid "Theme:"
 msgstr "テーマ:"
 
-#: src/wmabout.cc:36
+#: src/wmabout.cc:35
 msgid "Theme Description:"
 msgstr "テーマの説明:"
 
-#: src/wmabout.cc:37
+#: src/wmabout.cc:36
 msgid "Theme Author:"
 msgstr "テーマの作者:"
 
-#: src/wmabout.cc:41
+#: src/wmabout.cc:40
 msgid "CodeSet:"
 msgstr "コードセット:"
 
-#: src/wmabout.cc:42
+#: src/wmabout.cc:41
 msgid "Language:"
 msgstr "言語:"
 
-#: src/wmabout.cc:67
+#: src/wmabout.cc:66
 msgid "icewm - About"
 msgstr "icewm について"
 
-#: src/wmapp.cc:118
+#: src/wmapp.cc:105
 msgid "A window manager is already running, use --replace to replace it"
 msgstr ""
 "ウインドウマネージャは既に起動しています。 --replace オプションを指定すること"
 "で、新しいウインドウマネージャに置き換えることができます"
 
-#: src/wmapp.cc:136
+#: src/wmapp.cc:123
 #, c-format
 msgid "Failed to become the owner of the %s selection"
 msgstr "%s の選択に対する所有者になることができませんでした"
 
-#: src/wmapp.cc:140
+#: src/wmapp.cc:127
 msgid "Waiting to replace the old window manager"
 msgstr "以前のウインドウマネージャの置き換えを待っています"
 
-#: src/wmapp.cc:145
+#: src/wmapp.cc:132
 msgid "done."
 msgstr "完了。"
 
-#: src/wmapp.cc:438
+#: src/wmapp.cc:418
 msgid "Unable to get current font path."
 msgstr "現在のフォントパスを取得することができません。"
 
-#: src/wmapp.cc:465
+#: src/wmapp.cc:445
 msgid "Unexpected format of ICEWM_FONT_PATH property"
 msgstr "ICEWM_FONT_PATH プロパティの形式が正しくありません"
 
-#: src/wmapp.cc:548
+#: src/wmapp.cc:523
 msgid "_Logout"
 msgstr "ログアウト (_L)"
 
-#: src/wmapp.cc:549
+#: src/wmapp.cc:524
 msgid "_Cancel logout"
 msgstr "ログアウトを破棄 (_C)"
 
-#: src/wmapp.cc:562 src/wmapp.cc:564
+#: src/wmapp.cc:531
 msgid "Lock _Workstation"
 msgstr "ワークステーションをロック (_W)"
 
-#: src/wmapp.cc:568 src/wmapp.cc:570 src/wmdialog.cc:93
+#: src/wmapp.cc:533 src/wmdialog.cc:91
 msgid "Re_boot"
 msgstr "再起動 (_B)"
 
-#: src/wmapp.cc:574 src/wmapp.cc:576 src/wmdialog.cc:94
+#: src/wmapp.cc:535 src/wmdialog.cc:92
 msgid "Shut_down"
 msgstr "シャットダウン (_D)"
 
-#: src/wmapp.cc:580 src/wmapp.cc:582 src/wmdialog.cc:90
+#: src/wmapp.cc:537 src/wmdialog.cc:88
 msgid "_Suspend"
 msgstr "サスペンド (_S)"
 
-#: src/wmapp.cc:589 src/wmapp.cc:591
+#: src/wmapp.cc:542
 msgid "Restart _Icewm"
 msgstr "icewm を再起動 (_I)"
 
-#: src/wmapp.cc:596 src/wmapp.cc:604
+#: src/wmapp.cc:544
 msgid "Restart _Xterm"
 msgstr "xterm を再起動 (_X)"
 
-#: src/wmapp.cc:619
+#: src/wmapp.cc:557
 msgid "_Menu"
 msgstr "メニュー (_M)"
 
-#: src/wmapp.cc:620
+#: src/wmapp.cc:558
 msgid "_Above Dock"
 msgstr "ドックの上 (_A)"
 
-#: src/wmapp.cc:621
+#: src/wmapp.cc:559
 msgid "_Dock"
 msgstr "ドック (_D)"
 
-#: src/wmapp.cc:622
+#: src/wmapp.cc:560
 msgid "_OnTop"
 msgstr "上に (_O)"
 
-#: src/wmapp.cc:623
+#: src/wmapp.cc:561
 msgid "_Normal"
 msgstr "通常 (_N)"
 
-#: src/wmapp.cc:624
+#: src/wmapp.cc:562
 msgid "_Below"
 msgstr "下に (_B)"
 
-#: src/wmapp.cc:625
+#: src/wmapp.cc:563
 msgid "D_esktop"
 msgstr "デスクトップ (_E)"
 
-#: src/wmapp.cc:637
+#: src/wmapp.cc:575
 msgid "_Restore"
 msgstr "元に戻す (_R)"
 
-#: src/wmapp.cc:639
+#: src/wmapp.cc:577
 msgid "_Move"
 msgstr "移動 (_M)"
 
-#: src/wmapp.cc:641
+#: src/wmapp.cc:579
 msgid "_Size"
 msgstr "サイズ (_S)"
 
-#: src/wmapp.cc:643
+#: src/wmapp.cc:581
 msgid "Mi_nimize"
 msgstr "最小化 (_N)"
 
-#: src/wmapp.cc:645
+#: src/wmapp.cc:583
 msgid "Ma_ximize"
 msgstr "最大化 (_X)"
 
-#: src/wmapp.cc:647
+#: src/wmapp.cc:585
 msgid "_Fullscreen"
 msgstr "フルスクリーン (_F)"
 
-#: src/wmapp.cc:651 src/wmwinlist.cc:309
+#: src/wmapp.cc:588 src/wmwinlist.cc:301
 msgid "_Hide"
 msgstr "隠す (_H)"
 
-#: src/wmapp.cc:654
+#: src/wmapp.cc:590
 msgid "Roll_up"
 msgstr "シェード (_U)"
 
-#: src/wmapp.cc:661
+#: src/wmapp.cc:597
 msgid "R_aise"
 msgstr "上に表示 (_A)"
 
-#: src/wmapp.cc:663
+#: src/wmapp.cc:599
 msgid "_Lower"
 msgstr "下に表示 (_L)"
 
-#: src/wmapp.cc:665
+#: src/wmapp.cc:601
 msgid "La_yer"
 msgstr "レイヤ (_Y)"
 
-#: src/wmapp.cc:669 src/wmwinlist.cc:312
+#: src/wmapp.cc:605 src/wmwinlist.cc:303
 msgid "Move _To"
 msgstr "移動 (_T)"
 
-#: src/wmapp.cc:670
+#: src/wmapp.cc:606
 msgid "Occupy _All"
 msgstr "居座る (_A)"
 
-#: src/wmapp.cc:676
+#: src/wmapp.cc:612
 msgid "Limit _Workarea"
 msgstr "作業領域の制限 (_W)"
 
-#: src/wmapp.cc:681
+#: src/wmapp.cc:616
 msgid "Tray _icon"
 msgstr "トレイアイコン (_I)"
 
-#: src/wmapp.cc:687 src/wmwinlist.cc:297 src/wmwinlist.cc:323
+#: src/wmapp.cc:621 src/wmwinlist.cc:290 src/wmwinlist.cc:314
 msgid "_Close"
 msgstr "閉じる (_C)"
 
-#: src/wmapp.cc:689 src/wmwinlist.cc:299
+#: src/wmapp.cc:623 src/wmwinlist.cc:292
 msgid "_Kill Client"
 msgstr "クライアント強制終了 (_K)"
 
-#: src/wmapp.cc:693 src/wmdialog.cc:95 src/wmwinmenu.cc:138
+#: src/wmapp.cc:626 src/wmdialog.cc:93 src/wmwinmenu.cc:131
 msgid "_Window list"
 msgstr "ウインドウ一覧 (_W)"
 
-#: src/wmapp.cc:709
+#: src/wmapp.cc:639
 msgid "Another window manager already running, exiting..."
 msgstr "他のウインドウマネージャが既に起動しています。終了します..."
 
-#: src/wmapp.cc:783
+#: src/wmapp.cc:713
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1325,18 +1324,18 @@ msgstr ""
 "%s を再起動できません。\n"
 "$PATH 内に %s がありますか？"
 
-#: src/wmapp.cc:869
+#: src/wmapp.cc:795
 msgid "Kill IceWM, replace with Xterm"
 msgstr "IceWM を kill し、 Xterm に置き換えます"
 
-#: src/wmapp.cc:1433
+#: src/wmapp.cc:1296
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      セッションマネージャに接続する際のクライアント ID を指"
 "定します。\n"
 
-#: src/wmapp.cc:1439
+#: src/wmapp.cc:1302
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1347,7 +1346,7 @@ msgstr ""
 "  --debug-z           ウインドウのスタック処理に関連するデバッグメッセージを"
 "表示します。\n"
 
-#: src/wmapp.cc:1448
+#: src/wmapp.cc:1310
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1359,7 +1358,7 @@ msgstr ""
 "  -t, --theme=FILE    FILE で指定したファイルからテーマを読み込みます。\n"
 "  --postpreferences   全ての処理が終了した後、設定内容を表示します。\n"
 
-#: src/wmapp.cc:1456
+#: src/wmapp.cc:1315
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1419,26 +1418,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1517
+#: src/wmapp.cc:1376
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s の設定ディレクトリ:\n"
 
-#: src/wmapp.cc:1665
+#: src/wmapp.cc:1446
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s の設定済みオプション: %s\n"
 
-#: src/wmapp.cc:1714
+#: src/wmapp.cc:1493
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "認識できないオプション '%s' です。"
 
-#: src/wmapp.cc:1756
+#: src/wmapp.cc:1524
 msgid "Confirm Logout"
 msgstr "ログアウトの確認"
 
-#: src/wmapp.cc:1757
+#: src/wmapp.cc:1525
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1446,58 +1445,58 @@ msgstr ""
 "ログアウトすると起動中のアプリケーションを\n"
 "全て終了します。処理を続けてよろしいですか？"
 
-#: src/wmconfig.cc:41
+#: src/wmconfig.cc:39
 #, c-format
 msgid "Failed to load theme %s"
 msgstr "テーマ %s の読み込みに失敗しました"
 
-#: src/wmconfig.cc:108
+#: src/wmconfig.cc:102
 #, c-format
 msgid "Unknown value '%s' for option '%s'."
 msgstr "オプション '%2$s' に対する値 '%1$s' が不明です。"
 
-#: src/wmconfig.cc:117
+#: src/wmconfig.cc:110
 #, c-format
 msgid "Unable to create directory %s"
 msgstr "ディレクトリ %s を作成できません"
 
-#: src/wmconfig.cc:144
+#: src/wmconfig.cc:137
 #, c-format
 msgid "Unable to write to %s"
 msgstr "%s に書き込めません"
 
-#: src/wmconfig.cc:171
+#: src/wmconfig.cc:164
 #, c-format
 msgid "Unable to rename %s to %s"
 msgstr "%s を %s に名前変更できません"
 
-#: src/wmdialog.cc:89
+#: src/wmdialog.cc:87
 msgid "Loc_k Workstation"
 msgstr "ワークステーションをロック (_K)"
 
-#: src/wmdialog.cc:91 src/ymsgbox.cc:46
+#: src/wmdialog.cc:89 src/ymsgbox.cc:44
 msgid "_Cancel"
 msgstr "キャンセル (_C)"
 
-#: src/wmdialog.cc:92 src/wmprog.cc:1091 src/wmprog.cc:1093 src/wmprog.cc:1097
-#: src/wmprog.cc:1099 src/wmtaskbar.cc:326 src/wmtaskbar.cc:328
+#: src/wmdialog.cc:90 src/wmprog.cc:1004 src/wmprog.cc:1006
+#: src/wmtaskbar.cc:294 src/wmtaskbar.cc:296
 msgid "_Logout..."
 msgstr "ログアウト (_L)..."
 
-#: src/wmdialog.cc:96
+#: src/wmdialog.cc:94
 msgid "_Restart icewm"
 msgstr "icewm を再起動 (_R)"
 
-#: src/wmdialog.cc:97 src/wmprog.cc:1034 src/wmprog.cc:1036
-#: src/wmtaskbar.cc:318 src/wmtaskbar.cc:321
+#: src/wmdialog.cc:95 src/wmprog.cc:969 src/wmtaskbar.cc:287
+#: src/wmtaskbar.cc:290
 msgid "_About"
 msgstr "情報 (_A)"
 
-#: src/wmframe.cc:1654
+#: src/wmframe.cc:1424
 msgid "Kill Client: "
 msgstr "クライアント強制終了: "
 
-#: src/wmframe.cc:1663
+#: src/wmframe.cc:1431
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1505,84 +1504,79 @@ msgstr ""
 "このクライアントを強制終了すると、保存されて\n"
 "いない変更点が失われてしまいます。処理を続けてよろしいですか？"
 
-#: src/wmframe.cc:3361
+#: src/wmframe.cc:3031
 msgid "Restore"
 msgstr "元に戻す"
 
-#: src/wmframe.cc:3364 src/wmtitle.cc:71
+#: src/wmframe.cc:3034 src/wmtitle.cc:71
 msgid "Maximize"
 msgstr "最大化"
 
-#: src/wmframe.cc:3396
+#: src/wmframe.cc:3064
 msgid "Rolldown"
 msgstr "シェード解除"
 
-#: src/wmframe.cc:3398 src/wmtitle.cc:127
+#: src/wmframe.cc:3066 src/wmtitle.cc:121
 msgid "Rollup"
 msgstr "シェード"
 
-#: src/wmoption.cc:242
-#, c-format
-msgid "Error in window option: %s"
-msgstr "ウインドウオプションのエラーです: %s"
-
-#: src/wmoption.cc:259
+#: src/wmoption.cc:225
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "未知のウインドウオプションです: %s"
 
-#: src/wmoption.cc:340
+#: src/wmoption.cc:328
 msgid "Syntax error in window options"
 msgstr "ウインドウオプションの文法エラーです"
 
-#: src/wmoption.cc:386
+#: src/wmoption.cc:376
 msgid "Out of memory for window options"
 msgstr "ウインドウオプションのためのメモリが足りません"
 
-#: src/wmprog.cc:199
+#: src/wmprog.cc:183
 msgid "Missing command argument"
 msgstr "コマンドのパラメータが足りません"
 
-#: src/wmprog.cc:217
+#: src/wmprog.cc:201
 #, c-format
 msgid "Bad argument %d to command '%s'"
 msgstr "コマンド  '%2$s' に対するパラメータ %1$d が誤っています"
 
-#: src/wmprog.cc:336
+#: src/wmprog.cc:316
 msgid "Missing filename argument to include statement"
 msgstr "include ステートメントにファイル名のパラメータが指定されていません"
 
-#: src/wmprog.cc:402
+#: src/wmprog.cc:382
 #, c-format
 msgid "Error at %s '%s'"
 msgstr "%s '%s' でエラーです"
 
-#: src/wmprog.cc:453
+#: src/wmprog.cc:429
 #, c-format
 msgid "Unexepected menu keyword: '%s'"
 msgstr "予期しないメニューキーワードです: '%s'"
 
-#: src/wmprog.cc:499
+#: src/wmprog.cc:473
 #, c-format
 msgid "Error at menuprog '%s'"
 msgstr "menuprog '%s' でエラーが発生しました"
 
-#: src/wmprog.cc:540
+#: src/wmprog.cc:512
 #, c-format
 msgid "Error at %s: '%s'"
 msgstr "%s: '%s'　でエラーです"
 
-#: src/wmprog.cc:565
+#: src/wmprog.cc:535
 #, c-format
 msgid "Unknown keyword '%s'"
 msgstr "不明なキーワードです: `%s'"
 
-#: src/wmprog.cc:590
+#: src/wmprog.cc:560
 #, c-format
 msgid "Error at keyword '%s' for %s"
 msgstr "%2$s に対するキーワード '%1$s' でエラーです"
 
-#: src/wmprog.cc:606
+#: src/wmprog.cc:576
 #, c-format
 msgid ""
 "Unknown keyword for a non-container: '%s'.\n"
@@ -1591,76 +1585,76 @@ msgstr ""
 "非コンテナに対する不明なキーワードです: '%s' 。\n"
 "ここでは 'key' もしくは 'runonce' のいずれかが期待されます。\n"
 
-#: src/wmprog.cc:735
+#: src/wmprog.cc:708
 #, c-format
 msgid "'%s' produces no output"
 msgstr "'%s' は何も出力しませんでした"
 
-#: src/wmprog.cc:883
+#: src/wmprog.cc:856
 msgid "_Click to focus"
 msgstr "クリックしてフォーカス (_C)"
 
-#: src/wmprog.cc:884
+#: src/wmprog.cc:857
 msgid "_Explicit focus"
 msgstr "明示的なフォーカス (_E)"
 
-#: src/wmprog.cc:885
+#: src/wmprog.cc:858
 msgid "_Sloppy mouse focus"
 msgstr "あいまいなマウスフォーカス (_S)"
 
-#: src/wmprog.cc:886
+#: src/wmprog.cc:859
 msgid "S_trict mouse focus"
 msgstr "厳密なマウスフォーカス (_T)"
 
-#: src/wmprog.cc:887
+#: src/wmprog.cc:860
 msgid "_Quiet sloppy focus"
 msgstr "静寂であいまいなマウスフォーカス (_Q)"
 
-#: src/wmprog.cc:888
+#: src/wmprog.cc:861
 msgid "Custo_m"
 msgstr "独自 (_M)"
 
-#: src/wmprog.cc:910
+#: src/wmprog.cc:883
 msgid "_Manual"
 msgstr "マニュアル (_M)"
 
-#: src/wmprog.cc:911
+#: src/wmprog.cc:884
 msgid "_Icewm(1)"
 msgstr "_Icewm(1)"
 
-#: src/wmprog.cc:912
+#: src/wmprog.cc:885
 msgid "Icewm_Bg(1)"
 msgstr "Icewm_Bg(1)"
 
-#: src/wmprog.cc:913
+#: src/wmprog.cc:886
 msgid "Ice_Sound(1)"
 msgstr "Ice_Sound(1)"
 
-#: src/wmprog.cc:986 src/wmprog.cc:988
+#: src/wmprog.cc:948
 msgid "Programs"
 msgstr "プログラム"
 
-#: src/wmprog.cc:995 src/wmprog.cc:997
+#: src/wmprog.cc:953
 msgid "_Run..."
 msgstr "実行 (_R)..."
 
-#: src/wmprog.cc:1006 src/wmprog.cc:1008 src/wmtaskbar.cc:306
+#: src/wmprog.cc:958 src/wmtaskbar.cc:277
 msgid "_Windows"
 msgstr "ウインドウ一覧 (_W)"
 
-#: src/wmprog.cc:1045 src/wmprog.cc:1047
+#: src/wmprog.cc:975
 msgid "_Help"
 msgstr "ヘルプ (_H)"
 
-#: src/wmprog.cc:1061 src/wmprog.cc:1063
+#: src/wmprog.cc:986
 msgid "_Focus"
 msgstr "フォーカス (_F)"
 
-#: src/wmprog.cc:1072 src/wmprog.cc:1074
+#: src/wmprog.cc:993
 msgid "_Themes"
 msgstr "テーマ (_T)"
 
-#: src/wmprog.cc:1081 src/wmprog.cc:1083
+#: src/wmprog.cc:998
 msgid "Se_ttings"
 msgstr "設定 (_T)"
 
@@ -1669,164 +1663,164 @@ msgstr "設定 (_T)"
 msgid "Session Manager: Unknown line %s"
 msgstr "セッションマネージャ: 未知の行 %s"
 
-#: src/wmtaskbar.cc:170 src/wmtaskbar.cc:171
+#: src/wmtaskbar.cc:165 src/wmtaskbar.cc:166
 msgid "Task Bar"
 msgstr "タスクバー"
 
-#: src/wmtaskbar.cc:295 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+#: src/wmtaskbar.cc:267 src/wmwinlist.cc:305 src/wmwinlist.cc:318
 msgid "Tile _Vertically"
 msgstr "垂直に並べる (_V)"
 
-#: src/wmtaskbar.cc:296 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+#: src/wmtaskbar.cc:268 src/wmwinlist.cc:306 src/wmwinlist.cc:319
 msgid "T_ile Horizontally"
 msgstr "水平に並べる (_I)"
 
-#: src/wmtaskbar.cc:297 src/wmwinlist.cc:316 src/wmwinlist.cc:329
+#: src/wmtaskbar.cc:269 src/wmwinlist.cc:307 src/wmwinlist.cc:320
 msgid "Ca_scade"
 msgstr "カスケード (_S)"
 
-#: src/wmtaskbar.cc:298 src/wmwinlist.cc:317 src/wmwinlist.cc:330
+#: src/wmtaskbar.cc:270 src/wmwinlist.cc:308 src/wmwinlist.cc:321
 msgid "_Arrange"
 msgstr "整列 (_A)"
 
-#: src/wmtaskbar.cc:299 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+#: src/wmtaskbar.cc:271 src/wmwinlist.cc:310 src/wmwinlist.cc:322
 msgid "_Minimize All"
 msgstr "全て最小化 (_M)"
 
-#: src/wmtaskbar.cc:300 src/wmwinlist.cc:320 src/wmwinlist.cc:332
+#: src/wmtaskbar.cc:272 src/wmwinlist.cc:311 src/wmwinlist.cc:323
 msgid "_Hide All"
 msgstr "全て隠す (_H)"
 
-#: src/wmtaskbar.cc:301 src/wmwinlist.cc:321 src/wmwinlist.cc:333
+#: src/wmtaskbar.cc:273 src/wmwinlist.cc:312 src/wmwinlist.cc:324
 msgid "_Undo"
 msgstr "元に戻す (_U)"
 
-#: src/wmtaskbar.cc:303
+#: src/wmtaskbar.cc:275
 msgid "Arrange _Icons"
 msgstr "アイコン整列 (_I)"
 
-#: src/wmtaskbar.cc:309
+#: src/wmtaskbar.cc:279
 msgid "_Refresh"
 msgstr "再描画 (_R)"
 
-#: src/wmtaskbar.cc:316
+#: src/wmtaskbar.cc:285
 msgid "_License"
 msgstr "ライセンス (_L)"
 
-#: src/wmtaskbar.cc:440
+#: src/wmtaskbar.cc:400
 msgid "Favorite applications"
 msgstr "お気に入りのアプリケーション"
 
-#: src/wmtaskbar.cc:459
+#: src/wmtaskbar.cc:417
 msgid "Window list menu"
 msgstr "ウインドウ一覧メニュー"
 
-#: src/wmtaskbar.cc:469
+#: src/wmtaskbar.cc:426
 msgid "Show Desktop"
 msgstr "デスクトップの表示"
 
-#: src/wmtitle.cc:89
+#: src/wmtitle.cc:85
 msgid "Minimize"
 msgstr "最小化"
 
-#: src/wmtitle.cc:114
+#: src/wmtitle.cc:109
 msgid "Hide"
 msgstr "隠す"
 
-#: src/wmtitle.cc:139
+#: src/wmtitle.cc:133
 msgid "Raise/Lower"
 msgstr "上/下に表示"
 
-#: src/wmwinlist.cc:61
+#: src/wmwinlist.cc:59
 msgid "All Workspaces"
 msgstr "全てのワークスペース"
 
-#: src/wmwinlist.cc:297
+#: src/wmwinlist.cc:290
 msgid "Del"
 msgstr "削除"
 
-#: src/wmwinlist.cc:301
+#: src/wmwinlist.cc:294
 msgid "_Terminate Process"
 msgstr "プロセス終了 (_T)"
 
-#: src/wmwinlist.cc:302
+#: src/wmwinlist.cc:295
 msgid "Kill _Process"
 msgstr "プロセス強制終了 (_P)"
 
-#: src/wmwinlist.cc:307
+#: src/wmwinlist.cc:300
 msgid "_Show"
 msgstr "表示 (_S)"
 
-#: src/wmwinlist.cc:311
+#: src/wmwinlist.cc:302
 msgid "_Minimize"
 msgstr "最小化 (_M)"
 
-#: src/wmwinlist.cc:344 src/wmwinlist.cc:345
+#: src/wmwinlist.cc:335 src/wmwinlist.cc:336
 msgid "Window list"
 msgstr "ウインドウ一覧"
 
-#: src/wmwinmenu.cc:128
+#: src/wmwinmenu.cc:122
 #, c-format
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. ワークスペース %-.32s"
 
-#: src/yapp.cc:273
+#: src/yapp.cc:276
 #, c-format
 msgid "%s: select failed"
 msgstr "%s: select が失敗しました"
 
-#: src/yconfig.cc:147
+#: src/yconfig.cc:139
 #, c-format
 msgid "Unknown key name %s in %s"
 msgstr "%2$s 内に未知のキー名 %1$s があります"
 
-#: src/yconfig.cc:174 src/yconfig.cc:187
+#: src/yconfig.cc:165 src/yconfig.cc:178
 #, c-format
 msgid "Bad argument: %s for %s"
 msgstr "無効な引数: %2$s に対して %1$s"
 
-#: src/yconfig.cc:222
+#: src/yconfig.cc:211
 #, c-format
 msgid "Bad option: %s"
 msgstr "オプションが正しくありません: %s"
 
-#: src/ycursor.cc:103
+#: src/ycursor.cc:101
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
 msgstr "ピクセルマップ \"%s\" の読み込みに失敗しました: %s"
 
-#: src/ycursor.cc:128
+#: src/ycursor.cc:126
 #, c-format
 msgid "Loading of pixmap \"%s\" failed"
 msgstr "ピクセルマップ \"%s\" の読み込みに失敗しました"
 
-#: src/ycursor.cc:161
+#: src/ycursor.cc:159
 #, c-format
 msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
 msgstr ""
 "カーソルのピクセルマップが正しくありません: \"%s\" にはユニークな色が多すぎま"
 "す"
 
-#: src/ycursor.cc:183
+#: src/ycursor.cc:181
 #, c-format
 msgid "BUG? Imlib was able to read \"%s\""
 msgstr "バグ？ imlib が \"%s\" を読み込めませんでした"
 
-#: src/ycursor.cc:209
+#: src/ycursor.cc:207
 #, c-format
 msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
 msgstr ""
 "バグ？ \"%s\" の XPM ヘッダが正しくありませんが、 imlib 側で読み込めてしまい"
 "ました"
 
-#: src/ycursor.cc:217
+#: src/ycursor.cc:215
 #, c-format
 msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
 msgstr ""
 "バグ？ \"%s\" の XPM ファイルの終了部が正しくありませんが、 imlib 側で読み込"
 "めてしまいました"
 
-#: src/ycursor.cc:220
+#: src/ycursor.cc:218
 #, c-format
 msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
 msgstr ""
@@ -1853,44 +1847,44 @@ msgstr "フォントセット \"%s\" を読み込めませんでした。"
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "フォントセット \"%s\" に対するコードセットがありません:"
 
-#: src/yicon.cc:190
+#: src/yicon.cc:188
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
 msgstr "ピクセルマップ \"%s\" に対してメモリが不足しています"
 
-#: src/yinput.cc:51
+#: src/yinput.cc:50
 msgid "Cu_t"
 msgstr "切り取り (_T)"
 
-#: src/yinput.cc:51
+#: src/yinput.cc:50
 msgid "Ctrl+X"
 msgstr "Ctrl+X"
 
-#: src/yinput.cc:52
+#: src/yinput.cc:51
 msgid "_Copy"
 msgstr "コピー (_C)"
 
-#: src/yinput.cc:52
+#: src/yinput.cc:51
 msgid "Ctrl+C"
 msgstr "Ctrl+C"
 
-#: src/yinput.cc:53
+#: src/yinput.cc:52
 msgid "_Paste"
 msgstr "貼り付け (_P)"
 
-#: src/yinput.cc:53
+#: src/yinput.cc:52
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#: src/yinput.cc:54
+#: src/yinput.cc:53
 msgid "Paste _Selection"
 msgstr "貼り付け選択 (_S)"
 
-#: src/yinput.cc:56
+#: src/yinput.cc:55
 msgid "Select _All"
 msgstr "全て選択 (_A)"
 
-#: src/yinput.cc:56
+#: src/yinput.cc:55
 msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
@@ -1900,24 +1894,24 @@ msgstr ""
 "C ライブラリまたは Xlib がロケールに対応していません。 'C' ロケールにフォール"
 "バックします。"
 
-#: src/ylocale.cc:70
+#: src/ylocale.cc:72
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
 "現在のロケールに対するコードセットを判別できませんでした。 ISO-8859-1 と仮定"
 "します。\n"
 
-#: src/ylocale.cc:102 src/ylocale.cc:109
+#: src/ylocale.cc:104 src/ylocale.cc:111
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv は %s から %s への変換に対応していません。"
 
-#: src/ylocale.cc:163
+#: src/ylocale.cc:165
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "マルチバイト文字列が正しくありません \"%s\": %s"
 
-#: src/ymsgbox.cc:38
+#: src/ymsgbox.cc:36
 msgid "_OK"
 msgstr "_OK"
 
@@ -1950,13 +1944,16 @@ msgstr "\"%s\" は一般的なインターネットスキームではありま�
 msgid "\"%s\" contains no scheme description"
 msgstr "\"%s\" にはスキームの指定がありません"
 
-#: src/yxapp.cc:912
+#: src/yxapp.cc:904
 msgid ""
 "  --display=NAME      NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"
 msgstr ""
 "  --display=NAME      使用する X サーバ名を指定します。\n"
 "  --sync              X11 コマンドを同期させます。\n"
+
+#~ msgid "Error in window option: %s"
+#~ msgstr "ウインドウオプションのエラーです: %s"
 
 #~ msgid ""
 #~ "Usage: %s FILENAME\n"
