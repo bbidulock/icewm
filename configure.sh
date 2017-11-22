@@ -31,9 +31,6 @@ esac
 	--prefix=/usr \
 	--sysconfdir=/etc \
 	--mandir=/usr/share/man \
-	--enable-shaped-decorations \
-	--enable-gradients \
-	--enable-guievents \
 	--with-icesound=ALSA,AO,OSS,ESD \
 	CPPFLAGS="$CPPFLAGS" \
 	CFLAGS="$DEBUG_CFLAGS -Wall -Werror $CFLAGS" \
