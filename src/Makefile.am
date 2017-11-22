@@ -40,6 +40,8 @@ bin_PROGRAMS = \
 	icewmbg \
 	icewmtray
 
+AM_INSTALLCHECK_STD_OPTIONS_EXEMPT = icewmtray
+
 noinst_PROGRAMS = \
 	genpref
 
