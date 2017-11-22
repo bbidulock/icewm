@@ -45,9 +45,8 @@ following commands:
     $> cd @PACKAGE@
     $> ./autogen.sh
     $> ./configure \
-       --enable-shaped-decorations --enable-gradients \
-       --enable-guievents --with-icesound=ALSA,OSS \
-       --disable-menus-gnome2 --enable-silent-rules
+       --with-icesound=ALSA,OSS \
+       --disable-menus-gnome2
     $> make
     $> make DESTDIR="$pkgdir" install
 
