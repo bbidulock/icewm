@@ -101,6 +101,7 @@ libice_la_SOURCES = \
 	ytimer.cc \
 	ytimer.h \
 	ascii.h \
+	ylist.h \
 	ywindow.cc \
 	ywindow.h \
 	ypaint.cc \
