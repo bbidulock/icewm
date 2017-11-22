@@ -33,7 +33,7 @@ protected:
     YImage(int width, int height) { fWidth = width; fHeight = height; }
     virtual ~YImage() {};
 
-    ref<YPixmap> createPixmap(Pixmap pixmap, Pixmap mask, int w, int h, int depth);
+    ref<YPixmap> createPixmap(Pixmap pixmap, Pixmap mask, unsigned w, unsigned h, unsigned depth);
 
 private:
     unsigned fWidth;

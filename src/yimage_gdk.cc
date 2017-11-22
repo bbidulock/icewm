@@ -167,7 +167,7 @@ ref<YPixmap> YImageGDK::renderToPixmap() {
                         xapp->depth());
 }
 
-ref<YPixmap> YImage::createPixmap(Pixmap pixmap, Pixmap mask, int w, int h, int depth) {
+ref<YPixmap> YImage::createPixmap(Pixmap pixmap, Pixmap mask, unsigned w, unsigned h, unsigned depth) {
     ref<YPixmap> n;
 
     n.init(new YPixmap(pixmap, mask, w, h, depth));
