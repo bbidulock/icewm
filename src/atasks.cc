@@ -174,7 +174,7 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
         int const dp(wmLook == lookFlat ? 0: wmLook == lookMetal ? 2 : p);
         int const ds(wmLook == lookFlat ? 0: wmLook == lookMetal ? 4 : 3);
 
-        if (width() > ds && height() > ds) {
+        if ((int) width() > ds && (int) height() > ds) {
             if (bgGrad != null)
                 g.drawGradient(bgGrad, dp, dp, width() - ds, height() - ds);
             else
@@ -214,7 +214,7 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
                 pad = 3;
             }
             int const tx = pad + iconSize;
-            int const ty = max(2,
+            int const ty = max(2U,
                                (height() + font->height() -
                                 ((wmLook == lookMetal || wmLook == lookFlat) ? 2 : 1)) / 2 -
                                font->descent());
@@ -507,7 +507,7 @@ void TaskPane::processDrag(int mx, int my) {
         if (task->getShown()) {
             if (task == fDragging)
                 drag = task.where();
-            else if (inrange(cx, task->x(), task->x() + task->width() - 1))
+            else if (inrange(cx, task->x(), task->x() + (int) task->width() - 1))
                 drop = task.where();
         }
     }

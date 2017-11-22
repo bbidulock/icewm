@@ -274,7 +274,8 @@ SwitchWindow::~SwitchWindow() {
 }
 
 void SwitchWindow::resize(int xiscreen) {
-    int dx, dy, dw, dh;
+    int dx, dy;
+    unsigned dw, dh;
 
     manager->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
 
@@ -428,7 +429,7 @@ void SwitchWindow::paintHorizontal(Graphics &g) {
         ustring cTitle = zItems->getTitle(zItems->getActiveItem());
         if (cTitle != null) {
             const int x = max((width() - tOfs -
-                               switchFont->textWidth(cTitle)) >> 1, 0) + tOfs;
+                               switchFont->textWidth(cTitle)) >> 1, 0U) + tOfs;
             const int y(quickSwitchAllIcons
                         ? quickSwitchTextFirst
                         ? quickSwitchVMargin + switchFont->ascent()

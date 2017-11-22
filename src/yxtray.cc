@@ -387,20 +387,20 @@ YXTray::~YXTray() {
     delete fTrayProxy; fTrayProxy = 0;
 }
 
-void YXTray::getScaleSize(int *ww, int *hh)
+void YXTray::getScaleSize(unsigned& w, unsigned& h)
 {
     // check if max_width / max_height < width / height. */
-    if (*hh * trayIconMaxWidth < *ww * trayIconMaxHeight) {
+    if (h * trayIconMaxWidth < w * trayIconMaxHeight) {
         // icon is wide.
-        if (*ww != trayIconMaxWidth) {
-            *hh = (trayIconMaxWidth * *hh + (*ww / 2)) / *ww;
-            *ww = trayIconMaxWidth;
+        if (w != trayIconMaxWidth) {
+            h = (trayIconMaxWidth * h + (w / 2)) / w;
+            w = trayIconMaxWidth;
         }
     } else {
         // icon is tall.
-        if (*hh != trayIconMaxHeight) {
-            *ww = (trayIconMaxHeight * *ww + (*hh / 2)) / *hh;
-            *hh = trayIconMaxHeight;
+        if (h != trayIconMaxHeight) {
+            w = (trayIconMaxHeight * w + (h / 2)) / h;
+            h = trayIconMaxHeight;
         }
     }
 }
@@ -413,8 +413,8 @@ void YXTray::trayRequestDock(Window win) {
     }
     YXTrayEmbedder *embed = new YXTrayEmbedder(this, win);
 
-    int ww = embed->client()->width();
-    int hh = embed->client()->height();
+    unsigned ww = embed->client()->width();
+    unsigned hh = embed->client()->height();
 
     MSG(("docking window size %d %d", ww, hh));
 
@@ -422,7 +422,7 @@ void YXTray::trayRequestDock(Window win) {
     if (ww && hh) {
         if (!fInternal) {
             // scale icons
-            getScaleSize(&ww, &hh);
+            getScaleSize(ww, hh);
         }
         embed->setSize(ww, hh);
         embed->fVisible = true;
@@ -455,11 +455,11 @@ void YXTray::handleConfigureRequest(const XConfigureRequestEvent &configureReque
     bool changed = false;
     for (IterType ec = fDocked.iterator(); ++ec; ) {
         if (ec->client_handle() == configureRequest.window) {
-            int ww = configureRequest.width;
-            int hh = configureRequest.height;
+            unsigned ww = configureRequest.width;
+            unsigned hh = configureRequest.height;
             if (!fInternal) {
                 /* scale icons */
-                getScaleSize(&ww, &hh);
+                getScaleSize(ww, hh);
             }
             if (ww != ec->width() || hh != ec->height())
                 changed = true;
@@ -520,7 +520,7 @@ void YXTray::backgroundChanged() {
 
 void YXTray::relayout() {
     int aw = 0;
-    int h  = trayIconMaxHeight;
+    unsigned h  = trayIconMaxHeight;
     if (fInternal && trayDrawBevel) {
         h+=2;
     }
@@ -556,7 +556,7 @@ void YXTray::relayout() {
     if (fInternal && trayDrawBevel)
         aw+=1;
 
-    int w = aw;
+    unsigned w = aw;
     if (!fInternal) {
         if (w < 1)
             w = 1;

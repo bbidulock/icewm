@@ -9,17 +9,17 @@ class YImage;
 
 class YPixmap: public virtual refcounted {
 public:
-    static ref<YPixmap> create(int w, int h, int depth, bool mask = false);
+    static ref<YPixmap> create(unsigned w, unsigned h, unsigned depth, bool mask = false);
     static ref<YPixmap> load(upath filename);
 //    static ref<YPixmap> scale(ref<YPixmap> source, int width, int height);
     static ref<YPixmap> createFromImage(ref<YImage> image);
     static ref<YPixmap> createFromPixmapAndMask(Pixmap pixmap,
                                                 Pixmap mask,
-                                                int w, int h);
+                                                unsigned w, unsigned h);
 #if 1
     static ref<YPixmap> createFromPixmapAndMaskScaled(Pixmap pix, Pixmap mask,
-                                                      int width, int height,
-                                                      int nw, int nh);
+                                                      unsigned width, unsigned height,
+                                                      unsigned nw, unsigned nh);
 #endif
 
 #if 1
@@ -30,13 +30,13 @@ public:
     Pixmap pixmap() const { return fPixmap; }
     Pixmap mask() const { return fMask; }
 #endif
-    int width() const { return fWidth; }
-    int height() const { return fHeight; }
-    int depth() const { return fDepth; }
-    ref<YPixmap> scale(int w, int h);
+    unsigned width() const { return fWidth; }
+    unsigned height() const { return fHeight; }
+    unsigned depth() const { return fDepth; }
+    ref<YPixmap> scale(unsigned w, unsigned h);
 
 protected:
-    YPixmap(Pixmap pixmap, Pixmap mask, int w, int h, int depth) {
+    YPixmap(Pixmap pixmap, Pixmap mask, unsigned w, unsigned h, unsigned depth) {
         fPixmap = pixmap;
         fMask = mask;
         fWidth = w;
@@ -48,9 +48,9 @@ protected:
     friend class YImage;
 
 private:
-    int fWidth;
-    int fHeight;
-    int fDepth;
+    unsigned fWidth;
+    unsigned fHeight;
+    unsigned fDepth;
 #if 1
     Pixmap fPixmap;
     Pixmap fMask;

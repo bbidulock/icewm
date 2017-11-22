@@ -29,7 +29,7 @@ private:
     YActionButton *aboutButton;
     YActionButton *windowListButton;
     IApp *app;
-    YActionButton *addButton(const ustring& str, int& maxW, int& maxH);
+    YActionButton *addButton(const ustring& str, unsigned& maxW, unsigned& maxH);
 };
 
 #endif

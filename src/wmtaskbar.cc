@@ -487,7 +487,7 @@ bool operator==(const LayoutInfo &l1, const LayoutInfo &l2)
     return memcmp(&l1, &l2, sizeof(LayoutInfo)) == 0;
 }
 
-void TaskBar::updateLayout(int &size_w, int &size_h) {
+void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
     LayoutInfo nw;
     YArray<LayoutInfo> wlist;
     wlist.setCapacity(13);
@@ -537,9 +537,9 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
     wlist.append(nw);
     const int wcount = wlist.getCount();
 
-    int w = 0;
+    unsigned w = 0;
     int y[2] = { 0, 0 };
-    int h[2] = { 0, 0 };
+    unsigned h[2] = { 0, 0 };
     int left[2] = { 0, 0 };
     int right[2] = { 0, 0 };
 
@@ -554,7 +554,8 @@ void TaskBar::updateLayout(int &size_w, int &size_h) {
     }
 
     {
-        int dx, dy, dw, dh;
+        int dx, dy;
+        unsigned dw, dh;
         manager->getScreenGeometry(&dx, &dy, &dw, &dh);
         w = (dw/100.0) * taskBarWidthPercentage;
     }
@@ -664,12 +665,13 @@ void TaskBar::updateFullscreen(bool fullscreen) {
 }
 
 void TaskBar::updateLocation() {
-    int dx, dy, dw, dh;
+    int dx, dy;
+    unsigned dw, dh;
     manager->getScreenGeometry(&dx, &dy, &dw, &dh, -1);
 
     int x = dx;
-    int w = 0;
-    int h = 0;
+    unsigned int w = 0;
+    unsigned int h = 0;
 
     w = (dw/100.0) * taskBarWidthPercentage;
     if (strcmp(taskBarJustify, "right") == 0) x = dw - w;
@@ -738,7 +740,8 @@ void TaskBar::updateLocation() {
 }
 
 void TaskBar::updateWMHints() {
-    int dx, dy, dw, dh;
+    int dx, dy;
+    unsigned dw, dh;
     manager->getScreenGeometry(&dx, &dy, &dw, &dh);
 
     long wk[4] = { 0, 0, 0, 0 };

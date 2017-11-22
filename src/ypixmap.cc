@@ -66,7 +66,7 @@ YPixmap::~YPixmap() {
     }
 }
 
-ref<YPixmap> YPixmap::scale(int const w, int const h) {
+ref<YPixmap> YPixmap::scale(unsigned const w, unsigned const h) {
     ref<YPixmap> pixmap;
     pixmap.init(this);
     ref<YImage> image = YImage::createFromPixmap(pixmap);
@@ -78,7 +78,7 @@ ref<YPixmap> YPixmap::scale(int const w, int const h) {
     return pixmap;
 }
 
-ref<YPixmap> YPixmap::create(int w, int h, int depth, bool useMask) {
+ref<YPixmap> YPixmap::create(unsigned w, unsigned h, unsigned depth, bool useMask) {
     ref<YPixmap> n;
 
     Pixmap pixmap = createPixmap(w, h, depth);
@@ -95,16 +95,16 @@ ref<YPixmap> YPixmap::createFromImage(ref<YImage> image) {
 
 ref<YPixmap> YPixmap::createFromPixmapAndMask(Pixmap /*pixmap*/,
                                               Pixmap /*mask*/,
-                                              int /*w*/,
-                                              int /*h*/)
+                                              unsigned /*w*/,
+                                              unsigned /*h*/)
 {
     die(2, "YPixmap::createFromPixmapAndMask");
     return null;
 }
 
 ref<YPixmap> YPixmap::createFromPixmapAndMaskScaled(Pixmap pix, Pixmap mask,
-                                                    int width, int height,
-                                                    int nw, int nh)
+                                                    unsigned width, unsigned height,
+                                                    unsigned nw, unsigned nh)
 {
     if (pix != None) {
         ref<YImage> image =

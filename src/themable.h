@@ -10,37 +10,37 @@ XIV(bool, prettyClock,                          true)
 #endif
 XIV(bool, rolloverTitleButtons,                 false)
 
-XIV(int, trayIconMaxWidth,                      32)
-XIV(int, trayIconMaxHeight,                     24)
+XIV(unsigned, trayIconMaxWidth,                 32)
+XIV(unsigned, trayIconMaxHeight,                24)
 XIV(bool, trayDrawBevel,                        false)
 XIV(bool, titleBarCentered,                     false)
 XIV(bool, titleBarJoinLeft,                     false)
 XIV(bool, titleBarJoinRight,                    false)
 XIV(bool, showFrameIcon,                        true)
 
-XIV(int, wsBorderX,                             6)
-XIV(int, wsBorderY,                             6)
-XIV(int, wsDlgBorderX,                          2)
-XIV(int, wsDlgBorderY,                          2)
-XIV(int, wsCornerX,                             24)
-XIV(int, wsCornerY,                             24)
-XIV(int, wsTitleBar,                            20)
+XIV(unsigned, wsBorderX,                        6)
+XIV(unsigned, wsBorderY,                        6)
+XIV(unsigned, wsDlgBorderX,                     2)
+XIV(unsigned, wsDlgBorderY,                     2)
+XIV(unsigned, wsCornerX,                        24)
+XIV(unsigned, wsCornerY,                        24)
+XIV(unsigned, wsTitleBar,                       20)
 XIV(int, titleBarJustify,                       0)
 XIV(int, titleBarHorzOffset,                    0)
 XIV(int, titleBarVertOffset,                    0)
-XIV(int, scrollBarWidth,                        16)
-XIV(int, scrollBarHeight,                       16)
+XIV(unsigned, scrollBarWidth,                   16)
+XIV(unsigned, scrollBarHeight,                  16)
 
-XIV(int, menuIconSize,                          16)
-XIV(int, smallIconSize,                         16)
-XIV(int, largeIconSize,                         32)
-XIV(int, hugeIconSize,                          48)
+XIV(unsigned, menuIconSize,                     16)
+XIV(unsigned, smallIconSize,                    16)
+XIV(unsigned, largeIconSize,                    32)
+XIV(unsigned, hugeIconSize,                     48)
 
-XIV(int, quickSwitchHMargin,                    3)      // !!!
-XIV(int, quickSwitchVMargin,                    3)      // !!!
-XIV(int, quickSwitchIMargin,                    4)      // !!!
-XIV(int, quickSwitchIBorder,                    2)      // !!!
-XIV(int, quickSwitchSepSize,                    6)      // !!!
+XIV(unsigned, quickSwitchHMargin,               3)      // !!!
+XIV(unsigned, quickSwitchVMargin,               3)      // !!!
+XIV(unsigned, quickSwitchIMargin,               4)      // !!!
+XIV(unsigned, quickSwitchIBorder,               2)      // !!!
+XIV(unsigned, quickSwitchSepSize,               6)      // !!!
 XSV(const char *, titleButtonsLeft,             "s")
 XSV(const char *, titleButtonsRight,            "xmir")
 XSV(const char *, titleButtonsSupported,        "xmis")
@@ -157,8 +157,8 @@ cfoption icewm_themable_preferences[] = {
     OBV("RolloverButtonsSupported",             &rolloverTitleButtons,          "Does it support the 'O' title bar button images (for mouse rollover)"),
     OBV("TaskBarClockLeds",                     &prettyClock,                   "Task bar clock/APM uses nice pixmapped LCD display (but then it doesn't display correctly in many languages anymore, e.g. for Japanese and Korean it works only when a real font is used and not the LEDs"),
 
-    OIV("TrayIconMaxWidth",                     &trayIconMaxWidth, 16, 128,     "Maximum scaled width of tray icons"),
-    OIV("TrayIconMaxHeight",                    &trayIconMaxHeight, 16, 128,    "Maximum scaled height of tray icons"),
+    OUV("TrayIconMaxWidth",                     &trayIconMaxWidth, 16, 128,     "Maximum scaled width of tray icons"),
+    OUV("TrayIconMaxHeight",                    &trayIconMaxHeight, 16, 128,    "Maximum scaled height of tray icons"),
     OBV("TrayDrawBevel",                        &trayDrawBevel,                 "Surround the tray with plastic border"),
 
     OBV("TitleBarCentered",                     &titleBarCentered,              "Draw window title centered (obsoleted by TitleBarJustify)"),
@@ -166,29 +166,29 @@ cfoption icewm_themable_preferences[] = {
     OBV("TitleBarJoinRight",                    &titleBarJoinRight,             "Join title*T and title*B"),
     OBV("ShowMenuButtonIcon",                   &showFrameIcon,                 "Show application icon over menu button"),
 
-    OIV("BorderSizeX",                          &wsBorderX, 0, 128,             "Horizontal window border"),
-    OIV("BorderSizeY",                          &wsBorderY, 0, 128,             "Vertical window border"),
-    OIV("DlgBorderSizeX",                       &wsDlgBorderX, 0, 128,          "Horizontal dialog window border"),
-    OIV("DlgBorderSizeY",                       &wsDlgBorderY, 0, 128,          "Vertical dialog window border"),
-    OIV("CornerSizeX",                          &wsCornerX, 0, 64,              "Resize corner width"),
-    OIV("CornerSizeY",                          &wsCornerY, 0, 64,              "Resize corner height"),
-    OIV("TitleBarHeight",                       &wsTitleBar, 0, 128,            "Title bar height"),
+    OUV("BorderSizeX",                          &wsBorderX, 0, 128,             "Horizontal window border"),
+    OUV("BorderSizeY",                          &wsBorderY, 0, 128,             "Vertical window border"),
+    OUV("DlgBorderSizeX",                       &wsDlgBorderX, 0, 128,          "Horizontal dialog window border"),
+    OUV("DlgBorderSizeY",                       &wsDlgBorderY, 0, 128,          "Vertical dialog window border"),
+    OUV("CornerSizeX",                          &wsCornerX, 0, 64,              "Resize corner width"),
+    OUV("CornerSizeY",                          &wsCornerY, 0, 64,              "Resize corner height"),
+    OUV("TitleBarHeight",                       &wsTitleBar, 0, 128,            "Title bar height"),
     OIV("TitleBarJustify",                      &titleBarJustify, 0, 100,       "Justification of the window title"),
     OIV("TitleBarHorzOffset",                   &titleBarHorzOffset, -128, 128, "Horizontal offset for the window title text"),
     OIV("TitleBarVertOffset",                   &titleBarVertOffset, -128, 128, "Vertical offset for the window title text"),
-    OIV("ScrollBarX",                           &scrollBarWidth, 0, 64,         "Scrollbar width"),
-    OIV("ScrollBarY",                           &scrollBarHeight, 0, 64,        "Scrollbar (button) height"),
+    OUV("ScrollBarX",                           &scrollBarWidth, 0, 64,         "Scrollbar width"),
+    OUV("ScrollBarY",                           &scrollBarHeight, 0, 64,        "Scrollbar (button) height"),
 
-    OIV("MenuIconSize",                         &menuIconSize, 8, 128,          "Menu icon size"),
-    OIV("SmallIconSize",                        &smallIconSize, 8, 128,         "Dimension of the small icons"),
-    OIV("LargeIconSize",                        &largeIconSize, 8, 128,         "Dimension of the large icons"),
-    OIV("HugeIconSize",                         &hugeIconSize, 8, 128,          "Dimension of the large icons"),
+    OUV("MenuIconSize",                         &menuIconSize, 8, 128,          "Menu icon size"),
+    OUV("SmallIconSize",                        &smallIconSize, 8, 128,         "Dimension of the small icons"),
+    OUV("LargeIconSize",                        &largeIconSize, 8, 128,         "Dimension of the large icons"),
+    OUV("HugeIconSize",                         &hugeIconSize, 8, 128,          "Dimension of the large icons"),
 
-    OIV("QuickSwitchHorzMargin",                &quickSwitchHMargin, 0, 64,     "Horizontal margin of the quickswitch window"),
-    OIV("QuickSwitchVertMargin",                &quickSwitchVMargin, 0, 64,     "Vertical margin of the quickswitch window"),
-    OIV("QuickSwitchIconMargin",                &quickSwitchIMargin, 0, 64,     "Vertical margin in the quickswitch window"),
-    OIV("QuickSwitchIconBorder",                &quickSwitchIBorder, 0, 64,     "Distance between the active icon and it's border"),
-    OIV("QuickSwitchSeparatorSize",             &quickSwitchSepSize, 0, 64,     "Height of the separator between (all reachable) icons and text, 0 to avoid it"),
+    OUV("QuickSwitchHorzMargin",                &quickSwitchHMargin, 0, 64,     "Horizontal margin of the quickswitch window"),
+    OUV("QuickSwitchVertMargin",                &quickSwitchVMargin, 0, 64,     "Vertical margin of the quickswitch window"),
+    OUV("QuickSwitchIconMargin",                &quickSwitchIMargin, 0, 64,     "Vertical margin in the quickswitch window"),
+    OUV("QuickSwitchIconBorder",                &quickSwitchIBorder, 0, 64,     "Distance between the active icon and it's border"),
+    OUV("QuickSwitchSeparatorSize",             &quickSwitchSepSize, 0, 64,     "Height of the separator between (all reachable) icons and text, 0 to avoid it"),
 
     OSV("ThemeAuthor",                          &themeAuthor,                   "Theme author, e-mail address, credits"),
     OSV("ThemeDescription",                     &themeDescription,              "Description of the theme, credits"),

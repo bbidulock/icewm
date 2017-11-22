@@ -181,7 +181,7 @@ private:
     YColors transparencyColors;
     PixCache cache;
     int activeWorkspace;
-    int desktopWidth, desktopHeight;
+    unsigned desktopWidth, desktopHeight;
     ref<YPixmap> currentBackgroundPixmap;
     YColor* currentBackgroundColor;
 
@@ -435,8 +435,8 @@ int Background::getWorkspace() const {
 
 ref<YPixmap> Background::renderBackground(ref<YPixmap> back, YColor* color) {
     if (verbose) tlog("rendering...");
-    int width = desktopWidth;
-    int height = desktopHeight;
+    unsigned width = desktopWidth;
+    unsigned height = desktopHeight;
     if (back == null || width == 0 || height == 0) {
         if (verbose) tlog("%s null return", __func__);
         return back;
@@ -462,10 +462,11 @@ ref<YPixmap> Background::renderBackground(ref<YPixmap> back, YColor* color) {
         return back;
     }
 
-    int zeroWidth(0), zeroHeight(0);
+    unsigned zeroWidth(0), zeroHeight(0);
     if (numScreens > 1) {
         for (int screen = 0; screen < numScreens; ++screen) {
-            int x(0), y(0), w(0), h(0);
+            int x(0), y(0);
+            unsigned w(0), h(0);
             desktop->getScreenGeometry(&x, &y, &w, &h, screen);
             if (x == 0 && y == 0) {
                 if (zeroWidth < w)
@@ -497,8 +498,8 @@ ref<YPixmap> Background::renderBackground(ref<YPixmap> back, YColor* color) {
         }
         if (verbose) tlog("%s (%d, %d) (%dx%d+%d+%d)", __func__,
                 desktopWidth, desktopHeight, width, height, x, y);
-        int bw = back->width();
-        int bh = back->height();
+        unsigned bw = back->width();
+        unsigned bh = back->height();
         if (scaleBackground && false == centerBackground) {
             if (bh * width < bw * height) {
                 bw = height * bw / bh;
@@ -526,12 +527,12 @@ ref<YPixmap> Background::renderBackground(ref<YPixmap> back, YColor* color) {
             scaled = back;
         }
         g.drawPixmap(scaled,
-                     max(0, (bw - width) / 2),
-                     max(0, (bh - height) / 2),
+                     max(0U, (bw - width) / 2),
+                     max(0U, (bh - height) / 2),
                      min(width, bw),
                      min(height, bh),
-                     max(x, x + (width - bw) / 2),
-                     max(y, y + (height - bh) / 2));
+                     max(x, x + (int)(width - bw) / 2),
+                     max(y, y + (int)(height - bh) / 2));
     }
     back = cBack;
 
@@ -618,12 +619,12 @@ bool Background::filterEvent(const XEvent &xev) {
             update();
         }
         if (xev.xproperty.atom == _XA_NET_DESKTOP_GEOMETRY) {
-            int w = desktopWidth, h = desktopHeight;
+            unsigned w = desktopWidth, h = desktopHeight;
             getDesktopGeometry();
             update(w != desktopWidth || h != desktopHeight);
         }
         if (xev.xproperty.atom == _XA_NET_WORKAREA) {
-            int w = desktopWidth, h = desktopHeight;
+            unsigned w = desktopWidth, h = desktopHeight;
             desktop->updateXineramaInfo(desktopWidth, desktopHeight);
             update(w != desktopWidth || h != desktopHeight);
         }

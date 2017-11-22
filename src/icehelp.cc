@@ -980,10 +980,10 @@ public:
     }
 
 
-    void par(int &state, int &x, int &y, int &h, const int left);
-    void epar(int &state, int &x, int &y, int &h, const int left);
+    void par(int &state, int &x, int &y, unsigned &h, const int left);
+    void epar(int &state, int &x, int &y, unsigned &h, const int left);
     void layout();
-    void layout(node *parent, node *n1, int left, int right, int &x, int &y, int &w, int &h, int flags, int &state);
+    void layout(node *parent, node *n1, int left, int right, int &x, int &y, unsigned &w, unsigned &h, int flags, int &state);
     void draw(Graphics &g, node *n1, bool isHref = false);
     node *find_node(node *n, int x, int y, node *&anchor, node::node_type type);
     void find_fragment(const char *frag);
@@ -1033,10 +1033,10 @@ public:
             setPos(tx, pos);
     }
 
-    int contentWidth() {
+    unsigned contentWidth() {
         return conWidth;
     }
-    int contentHeight() {
+    unsigned contentHeight() {
         return conHeight;
     }
     YWindow *getWindow() { return this; }
@@ -1085,8 +1085,8 @@ private:
     node *fRoot;
 
     int tx, ty;
-    int conWidth;
-    int conHeight;
+    unsigned conWidth;
+    unsigned conHeight;
 
     FontRef font;
     int fontFlag, fontSize;
@@ -1229,7 +1229,7 @@ void HTextView::find_link(node *n) {
 void HTextView::find_fragment(const char *frag) {
     node *n = fRoot->find_attr(attr::id | attr::name, frag);
     if (n) {
-        int y = max(0, min(n->yr, contentHeight() - height()));
+        int y = max(0, min(n->yr, (int) contentHeight() - (int) height()));
         setPos(0, y);
         fVerticalScroll->setValue(y);
         fHorizontalScroll->setValue(0);
@@ -1256,7 +1256,7 @@ void removeState(int &state, int value) {
     //msg("removeState=%d %d", state, value);
 }
 
-void HTextView::par(int &state, int &x, int &y, int &h, const int left) {
+void HTextView::par(int &state, int &x, int &y, unsigned &h, const int left) {
     if (!(state & sfPar)) {
         h += font->height();
         x = left;
@@ -1265,7 +1265,7 @@ void HTextView::par(int &state, int &x, int &y, int &h, const int left) {
     }
 }
 
-void HTextView::epar(int &state, int &x, int &y, int &h, const int left) {
+void HTextView::epar(int &state, int &x, int &y, unsigned &h, const int left) {
     if ((x > left) || ((state & (sfText | sfPar)) == sfText)) {
         h += font->height();
         x = left;
@@ -1277,7 +1277,7 @@ void HTextView::epar(int &state, int &x, int &y, int &h, const int left) {
 
 void HTextView::layout(
         node *parent, node *n1, int left, int right,
-        int &x, int &y, int &w, int &h,
+        int &x, int &y, unsigned &w, unsigned &h,
         int flags, int &state)
 {
     ///puts("{");
@@ -1372,11 +1372,11 @@ void HTextView::layout(
 
                     n->wrap.add(new text_node(b, c - b, flags,
                                 x, y, wc, font->height()));
-                    if (y + (int)font->height() > h)
+                    if (y + (int)font->height() > (int)h)
                         h = y + font->height();
 
                     x += wc;
-                    if (x > w)
+                    if (x > (int)w)
                         w = x;
 
                     if ((flags & PRE)) {

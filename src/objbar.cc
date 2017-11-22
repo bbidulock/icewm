@@ -35,7 +35,7 @@ void ObjectBar::addButton(const ustring &name, ref<YIcon> icon, YButton *button)
         button->setText(name);
 
     button->setPosition(width(), 0);
-    int h = button->height();
+    unsigned h = button->height();
     if (h < height())
         h = height();
 

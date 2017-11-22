@@ -9,26 +9,26 @@ class Graphics;
 
 class YImage: public refcounted {
 public:
-    static ref<YImage> create(int width, int height);
+    static ref<YImage> create(unsigned width, unsigned height);
     static ref<YImage> load(upath filename);
     static ref<YImage> createFromPixmap(ref<YPixmap> image);
     static ref<YImage> createFromPixmapAndMask(Pixmap pix, Pixmap mask,
-                                               int width, int height);
+                                               unsigned width, unsigned height);
     static ref<YImage> createFromPixmapAndMaskScaled(Pixmap pix, Pixmap mask,
-                                                     int width, int height,
-                                                     int nw, int nh);
+                                                     unsigned width, unsigned height,
+                                                     unsigned nw, unsigned nh);
     static ref<YImage> createFromIconProperty(long *pixels,
-                                              int width, int height);
+                                              unsigned width, unsigned height);
 
-    int width() const { return fWidth; }
-    int height() const { return fHeight; }
+    unsigned width() const { return fWidth; }
+    unsigned height() const { return fHeight; }
     virtual bool valid() const = 0;
 
     virtual ref<YPixmap> renderToPixmap() = 0;
-    virtual ref<YImage> scale(int width, int height) = 0;
+    virtual ref<YImage> scale(unsigned width, unsigned height) = 0;
     virtual void draw(Graphics &g, int dx, int dy) = 0;
-    virtual void draw(Graphics &g, int x, int y, int w, int h, int dx, int dy) = 0;
-    virtual void composite(Graphics &g, int x, int y, int w, int h, int dx, int dy) = 0;
+    virtual void draw(Graphics &g, int x, int y, unsigned w, unsigned h, int dx, int dy) = 0;
+    virtual void composite(Graphics &g, int x, int y, unsigned w, unsigned h, int dx, int dy) = 0;
 protected:
     YImage(int width, int height) { fWidth = width; fHeight = height; }
     virtual ~YImage() {};
@@ -36,8 +36,8 @@ protected:
     ref<YPixmap> createPixmap(Pixmap pixmap, Pixmap mask, int w, int h, int depth);
 
 private:
-    int fWidth;
-    int fHeight;
+    unsigned fWidth;
+    unsigned fHeight;
 };
 
 #endif

@@ -506,8 +506,8 @@ private:
     UserTime fUserTime;
     Window fUserTimeWindow;
 
-    int fShapeWidth;
-    int fShapeHeight;
+    unsigned fShapeWidth;
+    unsigned fShapeHeight;
     int fShapeTitleY;
     int fShapeBorderX;
     int fShapeBorderY;

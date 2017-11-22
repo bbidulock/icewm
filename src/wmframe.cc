@@ -1739,7 +1739,7 @@ void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
                              mxbr, mybr,
                              width() - mxbr, height() - mybr);
 
-                if (width() > (mxtl + mxtr)) {
+                if ((int) width() > (mxtl + mxtr)) {
                     if (frameT[t][n] != null)
                         g.repHorz(frameT[t][n],
                                   mxtl, 0, width() - mxtl - mxtr);
@@ -1747,14 +1747,14 @@ void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
                         mxtl, 0, width() - mxtl - mxtr, borderY());
                 }
 
-                if (height() > (mytl + mybl)) {
+                if ((int) height() > (mytl + mybl)) {
                     if (frameL[t][n] != null) g.repVert(frameL[t][n],
                         0, mytl, height() - mytl - mybl);
                     else g.drawGradient(rgbFrameL[t][n],
                         0, mytl, borderX(), height() - mytl - mybl);
                 }
 
-                if (height() > (mytr + mybr)) {
+                if ((int) height() > (mytr + mybr)) {
                     if (frameR[t][n] != null) g.repVert(frameR[t][n],
                         width() - borderX(), mytr, height() - mytr - mybr);
                     else g.drawGradient(rgbFrameR[t][n],
@@ -1762,7 +1762,7 @@ void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
                         borderX(), height() - mytr - mybr);
                 }
 
-                if (width() > (mxbl + mxbr)) {
+                if ((int) width() > (mxbl + mxbr)) {
                     if (frameB[t][n] != null) g.repHorz(frameB[t][n],
                         mxbl, height() - borderY(), width() - mxbl - mxbr);
                     else g.drawGradient(rgbFrameB[t][n],
@@ -2131,7 +2131,7 @@ ref<YIcon> newClientIcon(int count, int reclen, long * elem) {
 
         Window root;
         int x, y;
-        int w = 0, h = 0;
+        unsigned w = 0, h = 0;
         unsigned border = 0, depth = 0;
 
         if (reclen >= 6) {
@@ -2213,9 +2213,9 @@ void YFrameWindow::updateIcon() {
 
     if (client()->getNetWMIcon(&count, &elem)) {
         ref<YImage> icons[3], largestIcon;
-        int sizes[] = { YIcon::smallSize(), YIcon::largeSize(), YIcon::hugeSize()};
+        unsigned sizes[] = { YIcon::smallSize(), YIcon::largeSize(), YIcon::hugeSize()};
         long *largestIconOffset = elem;
-        int largestIconSize = 0;
+        unsigned largestIconSize = 0;
 
         // Find icons that match Small-/Large-/HugeIconSize and search
         // for the largest icon from NET_WM_ICON set.
@@ -2939,7 +2939,8 @@ void YFrameWindow::updateLayout() {
             // for _NET_WM_FULLSCREEN_MONITORS
             if (fFullscreenMonitorsTop >= 0 && fFullscreenMonitorsBottom >= 0 &&
                 fFullscreenMonitorsLeft >= 0 && fFullscreenMonitorsRight >= 0) {
-                int x, y, w, h;
+                int x, y;
+                unsigned w, h;
                 int monitor[4] = { fFullscreenMonitorsTop, fFullscreenMonitorsBottom,
                                    fFullscreenMonitorsLeft, fFullscreenMonitorsRight };
                 manager->getScreenGeometry(&x, &y, &w, &h, monitor[0]);
@@ -2956,7 +2957,8 @@ void YFrameWindow::updateLayout() {
                                                          posY,
                                                          posW,
                                                          posH);
-                int dx, dy, dw, dh;
+                int dx, dy;
+                unsigned dw, dh;
                 manager->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
                 setWindowGeometry(YRect(dx, dy, dw, dh));
             }
@@ -3458,7 +3460,7 @@ void YFrameWindow::wmSnapMove(int tcb, int lcr) {
            break;
        case waBottom:
            newY = getBottomCoord(My, w, count) - height();
-           if (!considerVertBorder && (newY + height()) == My)
+           if (!considerVertBorder && (newY + (int) height()) == My)
                newY += borderY();
            break;
     }
@@ -3474,7 +3476,7 @@ void YFrameWindow::wmSnapMove(int tcb, int lcr) {
            break;
        case waRight:
            newX = getRightCoord(Mx, w, count) - width();
-           if (!considerHorizBorder && (newX + width()) == Mx)
+           if (!considerHorizBorder && (newX + (int) width()) == Mx)
                newX += borderX();
            break;
     }
@@ -3496,9 +3498,9 @@ int YFrameWindow::getTopCoord(int my, YFrameWindow **w, int count)
     for (i = y() - 2; i > my; i--) {
         for (n = 0; n < count; n++) {
             if (    (this != w[n])
-                 && (i == (w[n]->y() + w[n]->height()))
-                 && ( x()            < (w[n]->x() + w[n]->width()))
-                 && ((x() + width()) > (w[n]->x())) ) {
+                 && (i == (w[n]->y() + (int) w[n]->height()))
+                 && ( x()            < (w[n]->x() + (int) w[n]->width()))
+                 && ((x() + (int) width()) > (w[n]->x())) ) {
                 return i;
             }
         }
@@ -3511,15 +3513,15 @@ int YFrameWindow::getBottomCoord(int My, YFrameWindow **w, int count)
 {
     int i, n;
 
-    if ((y() + height()) > My)
+    if ((y() + (int) height()) > My)
         return y() + height();
 
     for (i = y() + height() + 2; i < My; i++) {
         for (n = 0; n < count; n++) {
             if (    (this != w[n])
                  && (i == w[n]->y())
-                 && ( x()            < (w[n]->x() + w[n]->width()))
-                 && ((x() + width()) > (w[n]->x())) ) {
+                 && ( x()            < (w[n]->x() + (int) w[n]->width()))
+                 && ((x() + (int) width()) > (w[n]->x())) ) {
                 return i;
             }
         }
@@ -3538,9 +3540,9 @@ int YFrameWindow::getLeftCoord(int mx, YFrameWindow **w, int count)
     for (i = x() - 2; i > mx; i--) {
         for (n = 0; n < count; n++) {
             if (    (this != w[n])
-                 && (i == (w[n]->x() + w[n]->width()))
-                 && ( y()             < (w[n]->y() + w[n]->height()))
-                 && ((y() + height()) > (w[n]->y())) ) {
+                 && (i == (w[n]->x() + (int) w[n]->width()))
+                 && ( y()             < (w[n]->y() + (int) w[n]->height()))
+                 && ((y() + (int) height()) > (w[n]->y())) ) {
                 return i;
             }
         }
@@ -3553,15 +3555,15 @@ int YFrameWindow::getRightCoord(int Mx, YFrameWindow **w, int count)
 {
     int i, n;
 
-    if ((x() + width()) > Mx)
+    if ((x() + (int) width()) > Mx)
         return x() + width();
 
     for (i = x() + width() + 2; i < Mx; i++) {
         for (n = 0; n < count; n++) {
             if (    (this != w[n])
                  && (i == w[n]->x())
-                 && ( y()             < (w[n]->y() + w[n]->height()))
-                 && ((y() + height()) > (w[n]->y())) ) {
+                 && ( y()             < (w[n]->y() + (int) w[n]->height()))
+                 && ((y() + (int) height()) > (w[n]->y())) ) {
                 return i;
             }
         }

@@ -424,7 +424,7 @@ public:
             setPos(tx, pos);
     }
 
-    int contentWidth() {
+    unsigned contentWidth() {
         if (hexView)
             return 78 * fontWidth + 2;
         else if (wrapLines)
@@ -432,7 +432,7 @@ public:
         else
             return maxWidth + 2;
     }
-    int contentHeight() {
+    unsigned contentHeight() {
         int n;
         if (hexView)
             n = chunkCount;

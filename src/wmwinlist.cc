@@ -323,11 +323,12 @@ YFrameClient(aParent, 0) {
     windowListAllPopup->addItem(_("_Hide All"), -2, KEY_NAME(gKeySysHideAll), actionHideAll);
     windowListAllPopup->addItem(_("_Undo"), -2, KEY_NAME(gKeySysUndoArrange), actionUndoArrange);
 
-    int dx, dy, dw, dh;
+    int dx, dy;
+    unsigned dw, dh;
     manager->getScreenGeometry(&dx, &dy, &dw, &dh, 0);
 
-    int w = dw;
-    int h = dh;
+    unsigned w = dw;
+    unsigned h = dh;
 
     setGeometry(YRect(w / 4, h / 4, w / 2, h / 2));
 
@@ -455,7 +456,8 @@ void WindowList::showFocused(int x, int y) {
             int px, py;
 
             int xiscreen = manager->getScreenForRect(x, y, 1, 1);
-            int dx, dy, dw, dh;
+            int dx, dy;
+            unsigned dw, dh;
             manager->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
 
             px = x - getFrame()->width() / 2;

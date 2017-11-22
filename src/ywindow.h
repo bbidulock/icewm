@@ -22,8 +22,8 @@ struct DesktopScreenInfo {
     int screen_number;
     int x_org;
     int y_org;
-    int width;
-    int height;
+    unsigned width;
+    unsigned height;
 };
 
 class YWindow : protected YWindowList, private YWindowNode {
@@ -50,7 +50,7 @@ public:
     void setClassHint(char const * rName, char const * rClass);
 
     void setGeometry(const YRect &r);
-    void setSize(int width, int height);
+    void setSize(unsigned width, unsigned height);
     void setPosition(int x, int y);
     void setParentRelative(void);
     virtual void configure(const YRect &r);
@@ -134,9 +134,9 @@ public:
 
     int x() const { return fX; }
     int y() const { return fY; }
-    int width() const { return fWidth; }
-    int height() const { return fHeight; }
-    int depth() const { return fDepth; }
+    unsigned width() const { return fWidth; }
+    unsigned height() const { return fHeight; }
+    unsigned depth() const { return fDepth; }
     Visual *visual() const { return fVisual; }
 
     bool visible() const { return (flags & wfVisible); }
@@ -231,7 +231,7 @@ private:
 
     bool nullGeometry();
 
-    int fDepth;
+    unsigned fDepth;
     Visual *fVisual;
     Colormap fAllocColormap;
 
@@ -242,7 +242,7 @@ private:
     unsigned flags;
     unsigned fStyle;
     int fX, fY;
-    int fWidth, fHeight;
+    unsigned fWidth, fHeight;
     YCursor fPointer;
     int unmapCount;
     Graphics *fGraphics;
@@ -292,12 +292,12 @@ public:
 
     virtual void resetColormapFocus(bool active);
 
-    void updateXineramaInfo(int &w, int &h);
+    void updateXineramaInfo(unsigned &w, unsigned &h);
 
     void getScreenGeometry(int *x, int *y,
-                           int *width, int *height,
+                           unsigned *width, unsigned *height,
                            int screen_no = -1);
-    int getScreenForRect(int x, int y, int width, int height);
+    int getScreenForRect(int x, int y, unsigned width, unsigned height);
 
     int getScreenCount();
 

@@ -84,10 +84,10 @@ private:
     static int fAutoScrollMouseX, fAutoScrollMouseY;
 
     void getOffsets(int &left, int &top, int &right, int &bottom);
-    void getArea(int &x, int &y, int &w, int &h);
+    void getArea(int &x, int &y, unsigned &w, unsigned &h);
 
-    void drawBackground(Graphics &g, int x, int y, int w, int h);
-    void drawSeparator(Graphics &g, int x, int y, int w);
+    void drawBackground(Graphics &g, int x, int y, unsigned w, unsigned h);
+    void drawSeparator(Graphics &g, int x, int y, unsigned w);
 
     void drawSubmenuArrow(Graphics &g, YMenuItem *mitem,
                           int left, int top);
@@ -96,7 +96,7 @@ private:
 
     void repaintItem(int item);
     void paintItems();
-    int findItemPos(int item, int &x, int &y, int &h);
+    int findItemPos(int item, int &x, int &y, unsigned &h);
     int findItem(int x, int y);
     int findActiveItem(int cur, int direction);
     int findHotItem(char k);

@@ -183,6 +183,9 @@ static void print_options(cfoption *options) {
         case cfoption::CF_INT:
             printf("%s=%d\n", options[i].name, *options[i].v.i.int_value);
             break;
+        case cfoption::CF_UINT:
+            printf("%s=%u\n", options[i].name, *options[i].v.u.uint_value);
+            break;
         case cfoption::CF_STR:
             printf("%s=\"%s\"\n", options[i].name,
                     options[i].v.s.string_value && *options[i].v.s.string_value

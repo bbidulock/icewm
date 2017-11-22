@@ -1960,17 +1960,18 @@ void YWindowManager::getWorkArea(YFrameWindow *frame,
     }
 
     if (xiscreen != -1) {
-        int dx, dy, dw, dh;
+        int dx, dy;
+        unsigned dw, dh;
         manager->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
 
         if (*mx < dx)
             *mx = dx;
         if (*my < dy)
             *my = dy;
-        if (*Mx > dx + dw)
-            *Mx = dx + dw;
-        if (*My > dy + dh)
-            *My = dy + dh;
+        if (*Mx > dx + (int) dw)
+            *Mx = dx + (int) dw;
+        if (*My > dy + (int) dh)
+            *My = dy + (int) dh;
     }
 }
 
@@ -2099,15 +2100,15 @@ void YWindowManager::updateWorkArea() {
             int b = sy + sh;
 
             if (isHoriz) {
-                if (w->y() + int(w->height()) < lowY) {
+                if (w->y() + (int) w->height() < lowY) {
                     t = w->y() + w->height();
-                } else if (w->y() + height() > hiY) {
+                } else if (w->y() + (int) height() > hiY) {
                     b = w->y();
                 }
             } else {
-                if (w->x() + int(w->width()) < lowX) {
+                if (w->x() + (int) w->width() < lowX) {
                     l = w->x() + w->width();
-                } else if (w->x() + width() > hiX) {
+                } else if (w->x() + (int) width() > hiX) {
                     r = w->x();
                 }
             }
@@ -3420,8 +3421,8 @@ void YWindowManager::UpdateScreenSize(XEvent *event) {
     XRRUpdateConfiguration(event);
 #endif
 
-    int nw = xapp->displayWidth();
-    int nh = xapp->displayHeight();
+    unsigned nw = xapp->displayWidth();
+    unsigned nh = xapp->displayHeight();
     updateXineramaInfo(nw, nh);
 
     if (width() != nw ||

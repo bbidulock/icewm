@@ -169,7 +169,7 @@ private:
 
     void initMenu();
     void initApplets();
-    void updateLayout(int &size_w, int &size_h);
+    void updateLayout(unsigned &size_w, unsigned &size_h);
 
     EdgeTrigger *fEdgeTrigger;
 };

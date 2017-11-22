@@ -73,10 +73,10 @@ YMsgBox::~YMsgBox() {
 }
 
 void YMsgBox::autoSize() {
-    int lw = fLabel ? fLabel->width() : 0;
-    int w = lw + 24, h;
+    unsigned lw = fLabel ? fLabel->width() : 0;
+    unsigned w = lw + 24, h;
 
-    w = clamp(w, 240, desktop->width());
+    w = clamp(w, 240U, desktop->width());
 
     h = 12;
     if (fLabel) {
@@ -151,7 +151,8 @@ void YMsgBox::showFocused() {
     if (getFrame() == 0)
         manager->manageClient(handle(), false);
     if (getFrame()) {
-        int dx, dy, dw, dh;
+        int dx, dy;
+        unsigned dw, dh;
         desktop->getScreenGeometry(&dx, &dy, &dw, &dh);
         getFrame()->setNormalPositionOuter(
             dx + dw / 2 - getFrame()->width() / 2,

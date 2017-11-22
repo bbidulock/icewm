@@ -116,7 +116,7 @@ upath YIcon::findIcon(upath dir, upath base, unsigned size) {
     return null;
 }
 
-upath YIcon::findIcon(int size) {
+upath YIcon::findIcon(unsigned size) {
     initIconPaths();
 
     mstring copy(iconPath), part;
@@ -158,7 +158,7 @@ upath YIcon::findIcon(int size) {
     return null;
 }
 
-ref<YImage> YIcon::loadIcon(int size) {
+ref<YImage> YIcon::loadIcon(unsigned size) {
     ref<YImage> icon;
 
     if (fPath != null) {
@@ -167,7 +167,7 @@ ref<YImage> YIcon::loadIcon(int size) {
         if (fPath.isAbsolute() && fPath.fileExists()) {
             loadPath = fPath;
         } else {
-            const int sizes[] = {
+            const unsigned sizes[] = {
                 size, hugeSize(), largeSize(), smallSize()
             };
             for (int i = 0; i < (int) ACOUNT(sizes); ++i) {
@@ -240,7 +240,7 @@ ref<YImage> YIcon::small() {
     return fSmall;
 }
 
-ref<YImage> YIcon::getScaledIcon(int size) {
+ref<YImage> YIcon::getScaledIcon(unsigned size) {
     ref<YImage> base = null;
 
 #if 1
@@ -321,19 +321,19 @@ void YIcon::freeIcons() {
     }
 }
 
-int YIcon::menuSize() {
+unsigned YIcon::menuSize() {
     return menuIconSize;
 }
 
-int YIcon::smallSize() {
+unsigned YIcon::smallSize() {
     return smallIconSize;
 }
 
-int YIcon::largeSize() {
+unsigned YIcon::largeSize() {
     return largeIconSize;
 }
 
-int YIcon::hugeSize() {
+unsigned YIcon::hugeSize() {
     return hugeIconSize;
 }
 

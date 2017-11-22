@@ -246,7 +246,7 @@ Graphics::Graphics(const ref<YPixmap> &pixmap, int x_org, int y_org):
 #endif
 }
 
-Graphics::Graphics(Drawable drawable, int w, int h, int depth,
+Graphics::Graphics(Drawable drawable, unsigned w, unsigned h, unsigned depth,
                    unsigned long vmask, XGCValues * gcv):
     fDrawable(drawable),
     fColor(NULL), fFont(null),
@@ -259,7 +259,7 @@ Graphics::Graphics(Drawable drawable, int w, int h, int depth,
 #endif
 }
 
-Graphics::Graphics(Drawable drawable, int w, int h, int depth):
+Graphics::Graphics(Drawable drawable, unsigned w, unsigned h, unsigned depth):
     fDrawable(drawable),
     fColor(NULL), fFont(null),
     xOrigin(0), yOrigin(0),
@@ -297,7 +297,7 @@ XftDraw* Graphics::handleXft() {
 /******************************************************************************/
 
 void Graphics::copyArea(const int x, const int y,
-                        const int width, const int height,
+                        const unsigned width, const unsigned height,
                         const int dx, const int dy)
 {
     XCopyArea(display(), drawable(), drawable(), gc,
@@ -306,7 +306,7 @@ void Graphics::copyArea(const int x, const int y,
 }
 
 void Graphics::copyDrawable(Drawable const d,
-                            const int x, const int y, const int w, const int h,
+                            const int x, const int y, const unsigned w, const unsigned h,
                             const int dx, const int dy)
 {
     XCopyArea(display(), d, drawable(), gc,
@@ -315,7 +315,7 @@ void Graphics::copyDrawable(Drawable const d,
 }
 
 void Graphics::copyPixmap(const ref<YPixmap> &p,
-                          const int x, const int y, const int w, const int h,
+                          const int x, const int y, const unsigned w, const unsigned h,
                           const int dx, const int dy)
 {
     if (p == null)
@@ -370,24 +370,24 @@ void Graphics::drawSegments(XSegment *segments, int n) {
     }
 }
 
-void Graphics::drawRect(int x, int y, int width, int height) {
+void Graphics::drawRect(int x, int y, unsigned width, unsigned height) {
     XDrawRectangle(display(), drawable(), gc,
                    x - xOrigin, y - yOrigin, width, height);
 }
 
-void Graphics::drawRects(XRectangle *rects, int n) {
-    for (int i = 0; i < n; i++) {
+void Graphics::drawRects(XRectangle *rects, unsigned n) {
+    for (unsigned i = 0; i < n; i++) {
         rects[i].x -= xOrigin;
         rects[i].y -= yOrigin;
     }
     XDrawRectangles(display(), drawable(), gc, rects, n);
-    for (int i = 0; i < n; i++) {
+    for (unsigned i = 0; i < n; i++) {
         rects[i].x += xOrigin;
         rects[i].y += yOrigin;
     }
 }
 
-void Graphics::drawArc(int x, int y, int width, int height, int a1, int a2) {
+void Graphics::drawArc(int x, int y, unsigned width, unsigned height, int a1, int a2) {
     XDrawArc(display(), drawable(), gc,
              x - xOrigin, y - yOrigin, width, height, a1, a2);
 }
@@ -603,7 +603,7 @@ struct YRotated {
 
 /******************************************************************************/
 
-void Graphics::fillRect(int x, int y, int width, int height) {
+void Graphics::fillRect(int x, int y, unsigned width, unsigned height) {
     XFillRectangle(display(), drawable(), gc,
                    x - xOrigin, y - yOrigin, width, height);
 }
@@ -636,7 +636,7 @@ void Graphics::fillPolygon(XPoint *points, int const n, int const shape,
     }
 }
 
-void Graphics::fillArc(int x, int y, int width, int height, int a1, int a2) {
+void Graphics::fillArc(int x, int y, unsigned width, unsigned height, int a1, int a2) {
     XFillArc(display(), drawable(), gc,
              x - xOrigin, y - yOrigin, width, height, a1, a2);
 }
@@ -661,7 +661,7 @@ void Graphics::setFont(ref<YFont> aFont) {
     fFont = aFont;
 }
 
-void Graphics::setLineWidth(int width) {
+void Graphics::setLineWidth(unsigned width) {
     XGCValues gcv;
     gcv.line_width = width;
     XChangeGC(display(), gc, GCLineWidth, &gcv);
@@ -691,7 +691,7 @@ void Graphics::drawImage(ref<YImage> pix, int const x, int const y) {
     pix->draw(*this, x, y);
 }
 
-void Graphics::drawImage(ref<YImage> pix, int x, int y, int w, int h, int dx, int dy) {
+void Graphics::drawImage(ref<YImage> pix, int x, int y, unsigned w, unsigned h, int dx, int dy) {
     pix->draw(*this, x, y, w, h, dx, dy);
 }
 
@@ -711,7 +711,7 @@ void Graphics::drawPixmap(ref<YPixmap> pix, int const x, int const y) {
 }
 
 void Graphics::drawPixmap(ref<YPixmap> pix, int const sx, int const sy,
-        const int w, const int h, const int dx, const int dy) {
+        const unsigned w, const unsigned h, const int dx, const int dy) {
     if (pix->depth() != rdepth()) {
         tlog("Graphics::%s: attempt to draw pixmap 0x%lx of depth %d with gc of depth %d\n",
                 __func__, pix->pixmap(), pix->depth(), rdepth());
@@ -733,7 +733,7 @@ void Graphics::drawMask(ref<YPixmap> pix, int const x, int const y) {
 }
 
 void Graphics::drawClippedPixmap(Pixmap pix, Pixmap clip,
-                                 int x, int y, int w, int h, int toX, int toY)
+                                 int x, int y, unsigned w, unsigned h, int toX, int toY)
 {
     static GC clipPixmapGC = None;
     XGCValues gcv;
@@ -756,7 +756,7 @@ void Graphics::drawClippedPixmap(Pixmap pix, Pixmap clip,
     XChangeGC(display(), clipPixmapGC, GCClipMask, &gcv);
 }
 
-void Graphics::compositeImage(ref<YImage> img, int const sx, int const sy, int w, int h, int dx, int dy) {
+void Graphics::compositeImage(ref<YImage> img, int const sx, int const sy, unsigned w, unsigned h, int dx, int dy) {
     if (img != null) {
         int rx = dx;
         int ry = dy;
@@ -794,7 +794,7 @@ void Graphics::compositeImage(ref<YImage> img, int const sx, int const sy, int w
 
 /******************************************************************************/
 
-void Graphics::draw3DRect(int x, int y, int w, int h, bool raised) {
+void Graphics::draw3DRect(int x, int y, unsigned w, unsigned h, bool raised) {
     YColor *back(color());
     YColor *bright(back->brighter());
     YColor *dark(back->darker());
@@ -812,7 +812,7 @@ void Graphics::draw3DRect(int x, int y, int w, int h, bool raised) {
     drawPoint(x, y + h);
 }
 
-void Graphics::drawBorderW(int x, int y, int w, int h, bool raised) {
+void Graphics::drawBorderW(int x, int y, unsigned w, unsigned h, bool raised) {
     YColor *back(color());
     YColor *bright(back->brighter());
     YColor *dark(back->darker());
@@ -843,7 +843,7 @@ void Graphics::drawBorderW(int x, int y, int w, int h, bool raised) {
 
 // doesn't move... needs two pixels on all sides for up and down
 // position.
-void Graphics::drawBorderM(int x, int y, int w, int h, bool raised) {
+void Graphics::drawBorderM(int x, int y, unsigned w, unsigned h, bool raised) {
     YColor *back(color());
     YColor *bright(back->brighter());
     YColor *dark(back->darker());
@@ -888,7 +888,7 @@ void Graphics::drawBorderM(int x, int y, int w, int h, bool raised) {
     }
 }
 
-void Graphics::drawBorderG(int x, int y, int w, int h, bool raised) {
+void Graphics::drawBorderG(int x, int y, unsigned w, unsigned h, bool raised) {
     YColor *back(color());
     YColor *bright(back->brighter());
     YColor *dark(back->darker());
@@ -917,7 +917,7 @@ void Graphics::drawBorderG(int x, int y, int w, int h, bool raised) {
     setColor(back);
 }
 
-void Graphics::drawCenteredPixmap(int x, int y, int w, int h, ref<YPixmap> pixmap) {
+void Graphics::drawCenteredPixmap(int x, int y, unsigned w, unsigned h, ref<YPixmap> pixmap) {
     int r = x + w;
     int b = y + h;
     int pw = pixmap->width();
@@ -927,8 +927,8 @@ void Graphics::drawCenteredPixmap(int x, int y, int w, int h, ref<YPixmap> pixma
     drawPixmap(pixmap, x + w / 2 - pw / 2, y + h / 2 - ph / 2);
 }
 
-void Graphics::drawOutline(int l, int t, int r, int b, int iw, int ih) {
-    if (l + iw >= r && t + ih >= b)
+void Graphics::drawOutline(int l, int t, int r, int b, unsigned iw, unsigned ih) {
+    if (l + (int)iw >= r && t + (int)ih >= b)
         return ;
 
     int li = (l + r) / 2 - iw / 2;
@@ -951,7 +951,7 @@ void Graphics::drawOutline(int l, int t, int r, int b, int iw, int ih) {
             fillRect(li, bi, ri - li, b - bi);
 }
 
-void Graphics::repHorz(Drawable d, int pw, int ph, int x, int y, int w) {
+void Graphics::repHorz(Drawable d, unsigned pw, unsigned ph, int x, int y, unsigned w) {
     if (d == None)
         return;
     while (w > 0) {
@@ -961,7 +961,7 @@ void Graphics::repHorz(Drawable d, int pw, int ph, int x, int y, int w) {
     }
 }
 
-void Graphics::repVert(Drawable d, int pw, int ph, int x, int y, int h) {
+void Graphics::repVert(Drawable d, unsigned pw, unsigned ph, int x, int y, unsigned h) {
     if (d == None)
         return;
     while (h > 0) {
@@ -972,7 +972,7 @@ void Graphics::repVert(Drawable d, int pw, int ph, int x, int y, int h) {
 }
 
 void Graphics::fillPixmap(const ref<YPixmap> &pixmap, int x, int y,
-                          int w, int h, int px, int py) {
+                          unsigned w, unsigned h, int px, int py) {
     int const pw(pixmap->width());
     int const ph(pixmap->height());
 
@@ -1002,9 +1002,9 @@ void Graphics::fillPixmap(const ref<YPixmap> &pixmap, int x, int y,
     }
 }
 
-void Graphics::drawSurface(YSurface const & surface, int x, int y, int w, int h,
+void Graphics::drawSurface(YSurface const & surface, int x, int y, unsigned w, unsigned h,
                            int const sx, int const sy,
-                           const int sw, const int sh
+                           const unsigned sw, const unsigned sh
 ) {
     if (surface.gradient != null)
         drawGradient(surface.gradient, x, y, w, h, sx, sy, sw, sh);
@@ -1018,8 +1018,8 @@ void Graphics::drawSurface(YSurface const & surface, int x, int y, int w, int h,
 }
 
 void Graphics::drawGradient(ref<YImage> gradient,
-                            int const x, int const y, const int w, const int h,
-                            int const gx, int const gy, const int gw, const int gh)
+                            int const x, int const y, const unsigned w, const unsigned h,
+                            int const gx, int const gy, const unsigned gw, const unsigned gh)
 {
     ref<YImage> scaled = gradient->scale(gw, gh);
     scaled->draw(*this, gx, gy, w, h, x, y);
@@ -1027,7 +1027,7 @@ void Graphics::drawGradient(ref<YImage> gradient,
 
 /******************************************************************************/
 
-void Graphics::drawArrow(YDirection direction, int x, int y, int size,
+void Graphics::drawArrow(YDirection direction, int x, int y, unsigned size,
                          bool pressed)
 {
     YColor *nc(color());

@@ -615,7 +615,7 @@ void YListBox::paint(Graphics &g, const YRect &r) {
     for (int n(min); n <= max; n++) paintItem(g, n);
     resetScrollBars();
 
-    int const y(contentHeight());
+    unsigned const y(contentHeight());
 
     if (y < height()) {
         if (fGradient != null)
@@ -831,11 +831,11 @@ bool YListBox::isSelected(YListItem *item) { // !!! remove this !!!
     return s;
 }
 
-int YListBox::contentWidth() {
+unsigned YListBox::contentWidth() {
     return maxWidth();
 }
 
-int YListBox::contentHeight() {
+unsigned YListBox::contentHeight() {
     return getItemCount() * getLineHeight();
 }
 

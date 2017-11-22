@@ -340,7 +340,7 @@ void WorkspaceButton::paint(Graphics &g, const YRect &/*r*/) {
             x += 1; y += 1; w -= 2; h -= 2;
         }
 
-        int wx, wy, ww, wh;
+        unsigned wx, wy, ww, wh;
         double sf = (double) desktop->width() / w;
 
         ref<YIcon> icon;
@@ -362,10 +362,10 @@ void WorkspaceButton::paint(Graphics &g, const YRect &/*r*/) {
                         YFrameWindow::foIgnoreWinList |
                         YFrameWindow::foIgnorePagerPreview))
                 continue;
-            wx = (int) round(yfw->x() / sf) + x;
-            wy = (int) round(yfw->y() / sf) + y;
-            ww = (int) round(yfw->width() / sf);
-            wh = (int) round(yfw->height()  / sf);
+            wx = (unsigned) round(yfw->x() / sf) + x;
+            wy = (unsigned) round(yfw->y() / sf) + y;
+            ww = (unsigned) round(yfw->width() / sf);
+            wh = (unsigned) round(yfw->height()  / sf);
             if (ww < 1 || wh < 1)
                 continue;
             if (yfw->isMaximizedVert()) { // !!! hack

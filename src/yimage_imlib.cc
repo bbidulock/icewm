@@ -5,7 +5,8 @@
 #include "yimage.h"
 #include "yxapp.h"
 
-void image_init() {
+extern "C" {
+#include <Imlib2.h>
 }
 
 class YImageImlib: public YImage {
@@ -137,6 +138,9 @@ ref<YPixmap> YImage::createPixmap(Pixmap pixmap, Pixmap mask, int w, int h) {
 }
 
 void YImageImlib::draw(Graphics &g, int x, int y) {
+}
+
+void image_init() {
 }
 
 #endif

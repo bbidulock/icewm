@@ -64,7 +64,7 @@ public:
 
     bool destroyedClient(Window win);
 private:
-    static void getScaleSize(int *ww, int *hh);
+    static void getScaleSize(unsigned& w, unsigned& h);
 
     YXTrayProxy *fTrayProxy;
     typedef YObjectArray<YXTrayEmbedder> DockedType;

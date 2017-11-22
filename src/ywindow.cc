@@ -710,12 +710,12 @@ void YWindow::paintExpose(int ex, int ey, int ew, int eh) {
         ey -= ee;
         eh += ee;
     }
-    if (ex + ew < width()) {
+    if (ex + ew < (int) width()) {
         ew += ee;
     } else {
         ew = width() - ex;
     }
-    if (ey + eh + ee < height()) {
+    if (ey + eh + ee < (int) height()) {
         eh += ee;
     } else {
         eh = height() - ey;
@@ -754,8 +754,8 @@ void YWindow::handleConfigure(const XConfigureEvent &configure) {
     if (configure.window == handle()) {
         if (configure.x != fX ||
             configure.y != fY ||
-            configure.width != fWidth ||
-            configure.height != fHeight)
+            (unsigned) configure.width != fWidth ||
+            (unsigned) configure.height != fHeight)
         {
             fX = configure.x;
             fY = configure.y;
@@ -1052,7 +1052,7 @@ void YWindow::setPosition(int x, int y) {
     }
 }
 
-void YWindow::setSize(int width, int height) {
+void YWindow::setSize(unsigned width, unsigned height) {
     if (width != fWidth || height != fHeight) {
         fWidth = width;
         fHeight = height;
@@ -1628,7 +1628,7 @@ YDesktop::YDesktop(YWindow *aParent, Window win):
 {
     desktop = this;
     setDoubleBuffer(false);
-    int w, h;
+    unsigned w, h;
     updateXineramaInfo(w, h);
 }
 
@@ -1871,7 +1871,7 @@ void YWindow::scrollWindow(int dx, int dy) {
     }
 }
 
-void YDesktop::updateXineramaInfo(int &w, int &h) {
+void YDesktop::updateXineramaInfo(unsigned &w, unsigned &h) {
     xiInfo.clear();
 
 #ifdef CONFIG_XRANDR
@@ -1978,7 +1978,7 @@ void YDesktop::updateXineramaInfo(int &w, int &h) {
 
 
 void YDesktop::getScreenGeometry(int *x, int *y,
-                                 int *width, int *height,
+                                 unsigned *width, unsigned *height,
                                  int screen_no)
 {
     if (screen_no == -1)
@@ -2004,7 +2004,7 @@ void YDesktop::getScreenGeometry(int *x, int *y,
     *height = desktop->height();
 }
 
-int YDesktop::getScreenForRect(int x, int y, int width, int height) {
+int YDesktop::getScreenForRect(int x, int y, unsigned width, unsigned height) {
     int screen = -1;
     long coverage = -1;
 

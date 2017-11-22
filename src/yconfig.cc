@@ -181,6 +181,19 @@ static char *setOption(cfoption *options, char *name, const char *arg, bool appe
                 return rest;
             }
             break;
+        case cfoption::CF_UINT:
+            if (options[a].v.u.uint_value) {
+                unsigned const v(strtoul(arg, NULL, 0));
+
+                if (v >= options[a].v.u.min && v <= options[a].v.u.max)
+                    *(options[a].v.u.uint_value) = v;
+                else {
+                    msg(_("Bad argument: %s for %s"), arg, name);
+                    return rest;
+                }
+                return rest;
+            }
+            break;
         case cfoption::CF_STR:
             if (options[a].v.s.string_value) {
                 if (!options[a].v.s.initial)

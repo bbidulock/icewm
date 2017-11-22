@@ -7,8 +7,8 @@ class YScrollBar;
 
 class YScrollable {
 public:
-    virtual int contentWidth() = 0;
-    virtual int contentHeight() = 0;
+    virtual unsigned contentWidth() = 0;
+    virtual unsigned contentHeight() = 0;
 
     virtual YWindow *getWindow() = 0; // !!! hack ?
 protected:

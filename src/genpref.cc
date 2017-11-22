@@ -36,6 +36,11 @@ void show(cfoption *options) {
                    options[i].name, *options[i].v.i.int_value,
                    options[i].v.i.min, options[i].v.i.max);
             break;
+        case cfoption::CF_UINT:
+            printf("# %s=%u # [%u-%u]\n",
+                   options[i].name, *options[i].v.u.uint_value,
+                   options[i].v.u.min, options[i].v.u.max);
+            break;
         case cfoption::CF_STR:
             if (options[i].v.s.string_value ||
                     (options[i].description && *options[i].description)) {

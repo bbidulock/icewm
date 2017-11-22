@@ -11,7 +11,7 @@ public:
     ref<YImage> large();
     ref<YImage> small();
 
-    ref<YImage> getScaledIcon(int size);
+    ref<YImage> getScaledIcon(unsigned size);
 
     upath iconName() const { return fPath; }
 
@@ -20,10 +20,10 @@ public:
     bool isCached() { return fCached; }
     void setCached(bool cached) { fCached = cached; }
 
-    static int menuSize();
-    static int smallSize();
-    static int largeSize();
-    static int hugeSize();
+    static unsigned menuSize();
+    static unsigned smallSize();
+    static unsigned largeSize();
+    static unsigned hugeSize();
 
     void draw(Graphics &g, int x, int y, int size);
 
@@ -40,10 +40,10 @@ private:
     bool fCached;
 
     upath findIcon(upath dir, upath base, unsigned size);
-    upath findIcon(int size);
+    upath findIcon(unsigned size);
     void removeFromCache();
     static int cacheFind(upath name);
-    ref<YImage> loadIcon(int size);
+    ref<YImage> loadIcon(unsigned size);
 };
 
 #endif

@@ -157,8 +157,8 @@ int YMenu::onCascadeButton(int selItem, int x, int /*y*/, bool /*checkPopup*/) {
             return 0;
 #endif
 
-        int fontHeight = menuFont->height() + 1;
-        int h = fontHeight;
+        unsigned fontHeight = menuFont->height() + 1;
+        unsigned h = fontHeight;
 
         if (getItem(selItem)->getIcon() != null &&
             YIcon::menuSize() > h)
@@ -174,7 +174,8 @@ void YMenu::focusItem(int itemNo) {
     if (itemNo != selectedItem) {
         selectedItem = itemNo;
 
-        int dx, dy, dw, dh;
+        int dx, dy;
+        unsigned dw, dh;
         desktop->getScreenGeometry(&dx, &dy, &dw, &dh, getXiScreen());
 
         if (selectedItem != -1) {
@@ -182,7 +183,8 @@ void YMenu::focusItem(int itemNo) {
                 x() + width() > dx + dw ||
                 y() + height() > dy + dh)
             {
-                int ix, iy, ih;
+                int ix, iy;
+                unsigned ih;
                 int ny = y();
 
                 findItemPos(selectedItem, ix, iy, ih);
@@ -207,7 +209,8 @@ void YMenu::activateSubMenu(int item, bool byMouse) {
         hideSubmenu();
 
         if (sub) {
-            int xp, yp, ih;
+            int xp, yp;
+            unsigned ih;
             int l, t, r, b;
 
             getOffsets(l, t, r, b);
@@ -460,18 +463,15 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
         if (menuFont != null) { // ================ autoscrolling of large menus ===
             int const fh(menuFont->height());
 
-            int dx, dy, dw, dh;
+            int dx, dy;
+            unsigned dw, dh;
             desktop->getScreenGeometry(&dx, &dy, &dw, &dh, getXiScreen());
 
-            int const sx(motion.x_root < fh ? +fh :
-                         motion.x_root >= (dx + dw - fh - 1) ? -fh :
-                         0),
-                sy(motion.y_root < fh ? +fh :
-                   motion.y_root >= (dy + dh - fh - 1) ? -fh :
-                   0);
+            int const sx(motion.x_root < fh ? +fh : motion.x_root >= (int) ((dx + dw - fh - 1) ? -fh : 0)),
+                      sy(motion.y_root < fh ? +fh : motion.y_root >= (int) ((dy + dh - fh - 1) ? -fh : 0));
 
-            if (motion.y_root >= y() && motion.y_root < (y() + height()) &&
-                motion.x_root >= x() && motion.x_root < (x() + width()))
+            if (motion.y_root >= y() && motion.y_root < (y() + (int) height()) &&
+                motion.x_root >= x() && motion.x_root < (x() + (int) width()))
             {
                 autoScroll(sx, sy, motion.x_root, motion.y_root, &motion);
             }
@@ -573,7 +573,8 @@ bool YMenu::handleAutoScroll(const XMotionEvent & /*mouse*/) {
     int px = x();
     int py = y();
 
-    int dx, dy, dw, dh;
+    int dx, dy;
+    unsigned dw, dh;
     desktop->getScreenGeometry(&dx, &dy, &dw, &dh, getXiScreen());
 
     if (fAutoScrollDeltaX != 0) {
@@ -752,13 +753,14 @@ void YMenu::getOffsets(int &left, int &top, int &right, int &bottom) {
     }
 }
 
-void YMenu::getArea(int &x, int &y, int &w, int &h) {
-    getOffsets(x, y, w, h);
-    w = width() - 1 - x - w;
-    h = height() - 1 - y - h;
+void YMenu::getArea(int &x, int &y, unsigned &w, unsigned &h) {
+    int r = w, b = h;
+    getOffsets(x, y, r, b);
+    w = width() - 1 - x - r;
+    h = height() - 1 - y - b;
 }
 
-int YMenu::findItemPos(int itemNo, int &x, int &y, int &ih) {
+int YMenu::findItemPos(int itemNo, int &x, int &y, unsigned &ih) {
     x = -1;
     y = -1;
     ih = 0;
@@ -766,7 +768,7 @@ int YMenu::findItemPos(int itemNo, int &x, int &y, int &ih) {
     if (itemNo < 0 || itemNo > itemCount())
         return -1;
 
-    int w, h;
+    unsigned w, h;
     int top, bottom, pad;
 
     getArea(x, y, w, h);
@@ -780,7 +782,8 @@ int YMenu::findItemPos(int itemNo, int &x, int &y, int &ih) {
 }
 
 int YMenu::findItem(int mx, int my) {
-    int x, y, w, h;
+    int x, y;
+    unsigned w, h;
 
     getArea(x, y, w, h);
     for (int i = 0; i < itemCount(); i++) {
@@ -788,7 +791,7 @@ int YMenu::findItem(int mx, int my) {
 
         h = fItems[i]->queryHeight(top, bottom, pad);
 
-        if (my >= y && my < y + h && mx > 0 && mx < int(width()) - 1) {
+        if (my >= y && my < y + (int) h && mx > 0 && mx < int(width()) - 1) {
             if (!fItems[i]->isSeparator())
                 return i;
             else
@@ -802,7 +805,7 @@ int YMenu::findItem(int mx, int my) {
 }
 
 void YMenu::sizePopup(int hspace) {
-    int width, height;
+    unsigned width, height;
     int maxName(0);
     int maxParam(0);
     int maxIcon(16);
@@ -811,7 +814,8 @@ void YMenu::sizePopup(int hspace) {
     int left(1);
 
     getOffsets(l, t, r, b);
-    int dx, dy, dw, dh;
+    int dx, dy;
+    unsigned dw, dh;
     desktop->getScreenGeometry(&dx, &dy, &dw, &dh, getXiScreen());
 
     width = l;
@@ -832,10 +836,10 @@ void YMenu::sizePopup(int hspace) {
                                 (mitem->getSubmenu() ? 2 + ih : 0));
     }
 
-    maxName = min(maxName, MenuMaximalWidth ? MenuMaximalWidth : dw * 2/3);
+    maxName = min(maxName, int(MenuMaximalWidth ? MenuMaximalWidth : dw * 2/3));
 
     hspace -= 4 + r + maxIcon + l + left + padx + 2 + maxParam + 6 + 2;
-    hspace = max(hspace, dw / 3);
+    hspace = max(hspace, int(dw / 3));
 
     // !!! not correct, to be fixed
     if (maxName > hspace)
@@ -857,7 +861,8 @@ void YMenu::sizePopup(int hspace) {
 }
 
 void YMenu::repaintItem(int item) {
-    int x, y, h;
+    int x, y;
+    unsigned h;
 
     if (findItemPos(item, x, y, h) != -1)
         XClearArea(xapp->display(), handle(), 0, y, width(), h, True);
@@ -878,7 +883,7 @@ void YMenu::paintItems() {
     }
 }
 
-void YMenu::drawBackground(Graphics &g, int x, int y, int w, int h) {
+void YMenu::drawBackground(Graphics &g, int x, int y, unsigned w, unsigned h) {
     if (fGradient != null)
         g.drawImage(fGradient, x, y, w, h, x, y);
     else
@@ -888,7 +893,7 @@ void YMenu::drawBackground(Graphics &g, int x, int y, int w, int h) {
         g.fillRect(x, y, w, h);
 }
 
-void YMenu::drawSeparator(Graphics &g, int x, int y, int w) {
+void YMenu::drawSeparator(Graphics &g, int x, int y, unsigned w) {
     g.setColor(menuBg);
 
     if (menusepPixbuf != null) {
@@ -1137,7 +1142,8 @@ void YMenu::paint(Graphics &g, const YRect &r1) {
 
     int l, t, r, b;
     getOffsets(l, t, r, b);
-    int x, y, w, h;
+    int x, y;
+    unsigned w, h;
     getArea(x, y, w, h);
     int iy = y;
     int top, bottom, pad;
@@ -1145,8 +1151,8 @@ void YMenu::paint(Graphics &g, const YRect &r1) {
     for (int i = 0; i < itemCount(); i++) {
         int ih = getItem(i)->queryHeight(top, bottom, pad);
 
-        if (iy < r1.y() + r1.height() &&
-            iy + ih > r1.y())
+        if (iy < r1.y() + (int) r1.height() &&
+            iy + (int) ih > r1.y())
         {
             paintItem(g, i, l, iy, r, r1.y(), r1.y() + r1.height(), 1);
         }

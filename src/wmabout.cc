@@ -175,7 +175,8 @@ void AboutDlg::autoSize() {
 }
 
 void AboutDlg::showFocused() {
-    int dx, dy, dw, dh;
+    int dx, dy;
+    unsigned dw, dh;
     manager->getScreenGeometry(&dx, &dy, &dw, &dh);
 
     if (getFrame() == 0)

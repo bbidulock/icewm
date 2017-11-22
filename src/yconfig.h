@@ -69,36 +69,39 @@ struct WMKey {
 };
 
 #ifdef CFGDESC
-#define OBV(n,v,d) { cfoption::CF_BOOL, n, { v, { 0, 0, 0 }, { 0, false }, { 0 } }, 0, d }
-#define OIV(n,v,m,M,d) { cfoption::CF_INT, n, { 0, { v, m, M }, { 0, false }, { 0 } }, 0, d }
-#define OSV(n,v,d) { cfoption::CF_STR, n, { 0, { 0, 0, 0 }, { v, true }, { 0 } }, 0, d }
+#define OBV(n,v,d) { cfoption::CF_BOOL, n, { v, { 0, 0, 0 }, { 0, 0, 0 }, { 0, false }, { 0 } }, 0, d }
+#define OIV(n,v,m,M,d) { cfoption::CF_INT, n, { 0, { v, m, M }, { 0, 0, 0 }, { 0, false }, { 0 } }, 0, d }
+#define OUV(n,v,m,M,d) { cfoption::CF_UINT, n, { 0, { 0, 0, 0 }, { v, m, M }, { 0, false }, { 0 } }, 0, d }
+#define OSV(n,v,d) { cfoption::CF_STR, n, { 0, { 0, 0, 0 }, { 0, 0, 0 }, { v, true }, { 0 } }, 0, d }
 #define OFV(n,v,d) \
-    { cfoption::CF_STR, n, { 0, { 0, 0, 0 }, { v, true }, { 0 } }, 0, d }, \
-    { cfoption::CF_STR, n "Xft", { 0, { 0, 0, 0 }, { v##Xft, true }, { 0 } }, 0, d }
+    { cfoption::CF_STR, n, { 0, { 0, 0, 0 }, { 0, 0, 0 }, { v, true }, { 0 } }, 0, d }, \
+    { cfoption::CF_STR, n "Xft", { 0, { 0, 0, 0 }, { 0, 0, 0 }, { v##Xft, true }, { 0 } }, 0, d }
 
-#define OKV(n,v,d) { cfoption::CF_KEY, n, { 0, { 0, 0, 0 }, { 0, false }, { &v } }, 0, d }
-#define OKF(n,f,d) { cfoption::CF_STR, n, { NULL, { 0, 0, 0 }, { 0, false }, { 0 } }, &f, d }
-#define OK0() { cfoption::CF_NONE, 0, { NULL, { 0, 0, 0 }, { 0, false }, { 0 } }, 0, 0 }
+#define OKV(n,v,d) { cfoption::CF_KEY, n, { 0, { 0, 0, 0 }, { 0, 0, 0 }, { 0, false }, { &v } }, 0, d }
+#define OKF(n,f,d) { cfoption::CF_STR, n, { NULL, { 0, 0, 0 }, { 0, 0, 0 }, { 0, false }, { 0 } }, &f, d }
+#define OK0() { cfoption::CF_NONE, 0, { NULL, { 0, 0, 0 }, { 0, 0, 0 }, { 0, false }, { 0 } }, 0, 0 }
 
 #else
-#define OBV(n,v,d) { cfoption::CF_BOOL, n, { v, { 0, 0, 0 }, { 0, false }, { 0 } }, 0 }
-#define OIV(n,v,m,M,d) { cfoption::CF_INT, n, { 0, { v, m, M }, { 0, false }, { 0 } }, 0 }
-#define OSV(n,v,d) { cfoption::CF_STR, n, { 0, { 0, 0, 0 }, { v, true }, { 0 } }, 0 }
+#define OBV(n,v,d) { cfoption::CF_BOOL, n, { v, { 0, 0, 0 }, { 0, 0, 0 }, { 0, false }, { 0 } }, 0 }
+#define OIV(n,v,m,M,d) { cfoption::CF_INT, n, { 0, { v, m, M }, { 0, 0, 0 }, { 0, false }, { 0 } }, 0 }
+#define OUV(n,v,m,M,d) { cfoption::CF_UINT, n, { 0, { 0, 0, 0 }, { v, m, M }, { 0, false }, { 0 } }, 0 }
+#define OSV(n,v,d) { cfoption::CF_STR, n, { 0, { 0, 0, 0 }, { 0, 0, 0 }, { v, true }, { 0 } }, 0 }
 #define OFV(n,v,d) \
-    { cfoption::CF_STR, n, { 0, { 0, 0, 0 }, { v, true }, { 0 } }, 0 }, \
-    { cfoption::CF_STR, n "Xft", { 0, { 0, 0, 0 }, { v##Xft, true }, { 0 } }, 0 }
+    { cfoption::CF_STR, n, { 0, { 0, 0, 0 }, { 0, 0, 0 }, { v, true }, { 0 } }, 0 }, \
+    { cfoption::CF_STR, n "Xft", { 0, { 0, 0, 0 }, { 0, 0, 0 }, { v##Xft, true }, { 0 } }, 0 }
 
-#define OKV(n,v,d) { cfoption::CF_KEY, n, { 0, { 0, 0, 0 }, { 0, false }, { &v } }, 0 }
-#define OKF(n,f,d) { cfoption::CF_STR, n, { NULL, { 0, 0, 0 }, { 0, false }, { 0 } }, &f }
-#define OK0() { cfoption::CF_NONE, 0, { NULL, { 0, 0, 0 }, { 0, false }, { 0 } }, 0 }
+#define OKV(n,v,d) { cfoption::CF_KEY, n, { 0, { 0, 0, 0 }, { 0, 0, 0 }, { 0, false }, { &v } }, 0 }
+#define OKF(n,f,d) { cfoption::CF_STR, n, { NULL, { 0, 0, 0 }, { 0, 0, 0 }, { 0, false }, { 0 } }, &f }
+#define OK0() { cfoption::CF_NONE, 0, { NULL, { 0, 0, 0 }, { 0, 0, 0 }, { 0, false }, { 0 } }, 0 }
 #endif
 
 struct cfoption {
-    enum { CF_BOOL, CF_INT, CF_STR, CF_KEY, CF_NONE } type;
+    enum { CF_BOOL, CF_INT, CF_UINT, CF_STR, CF_KEY, CF_NONE } type;
     const char *name;
     struct {
         bool *bool_value;
         struct { int *int_value; int min, max; } i;
+        struct { unsigned *uint_value; unsigned min, max; } u;
         struct { const char **string_value; bool initial; } s;
         struct { struct WMKey *key_value; } k;
     } v;

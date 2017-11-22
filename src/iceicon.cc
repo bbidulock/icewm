@@ -76,8 +76,8 @@ public:
     YIconItem *findItemByPoint(int x, int y);
     int findItem(YIconItem *item);
 
-    virtual int contentWidth();
-    virtual int contentHeight();
+    virtual unsigned contentWidth();
+    virtual unsigned contentHeight();
     virtual YWindow *getWindow();
 
     virtual void activateItem(YIconItem *item);
@@ -94,8 +94,8 @@ private:
     int fOffsetX;
     int fOffsetY;
 
-    int conWidth;
-    int conHeight;
+    unsigned conWidth;
+    unsigned conHeight;
 
     void resetScrollBars();
     void freeItems();
@@ -377,11 +377,11 @@ void YIconView::resetScrollBars() {
         fView->layout();
 }
 
-int YIconView::contentWidth() {
+unsigned YIconView::contentWidth() {
     return conWidth;
 }
 
-int YIconView::contentHeight() {
+unsigned YIconView::contentHeight() {
     return conHeight;
 }
 

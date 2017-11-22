@@ -11,23 +11,23 @@ extern "C" {
 
 class YImageGDK: public YImage {
 public:
-    YImageGDK(int width, int height, GdkPixbuf *pixbuf): YImage(width, height) {
+    YImageGDK(unsigned width, unsigned height, GdkPixbuf *pixbuf): YImage(width, height) {
         fPixbuf = pixbuf;
     }
     virtual ~YImageGDK() {
         g_object_unref(G_OBJECT(fPixbuf));
     }
     virtual ref<YPixmap> renderToPixmap();
-    virtual ref<YImage> scale(int width, int height);
+    virtual ref<YImage> scale(unsigned width, unsigned height);
     virtual void draw(Graphics &g, int dx, int dy);
-    virtual void draw(Graphics &g, int x, int y, int w, int h, int dx, int dy);
-    virtual void composite(Graphics &g, int x, int y, int w, int h, int dx, int dy);
+    virtual void draw(Graphics &g, int x, int y, unsigned w, unsigned h, int dx, int dy);
+    virtual void composite(Graphics &g, int x, int y, unsigned w, unsigned h, int dx, int dy);
     virtual bool valid() const { return fPixbuf != 0; }
 private:
     GdkPixbuf *fPixbuf;
 };
 
-ref<YImage> YImage::create(int width, int height) {
+ref<YImage> YImage::create(unsigned width, unsigned height) {
     ref<YImage> image;
     GdkPixbuf *pixbuf =
         gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8, width, height);
@@ -50,7 +50,7 @@ ref<YImage> YImage::load(upath filename) {
     return image;
 }
 
-ref<YImage> YImageGDK::scale(int w, int h) {
+ref<YImage> YImageGDK::scale(unsigned w, unsigned h) {
     ref<YImage> image;
     GdkPixbuf *pixbuf;
     pixbuf = gdk_pixbuf_scale_simple(fPixbuf,
@@ -71,7 +71,7 @@ ref<YImage> YImage::createFromPixmap(ref<YPixmap> pixmap) {
 }
 
 ref<YImage> YImage::createFromPixmapAndMask(Pixmap pixmap, Pixmap mask,
-                                            int width, int height)
+                                            unsigned width, unsigned height)
 {
     ref<YImage> image;
     GdkPixbuf *pixbuf =
@@ -98,8 +98,8 @@ ref<YImage> YImage::createFromPixmapAndMask(Pixmap pixmap, Pixmap mask,
 
             if (image) {
                 //unsigned char *pix = image->data;
-                for (int r = 0; r < height; r++) {
-                    for (int c = 0; c < width; c++) {
+                for (unsigned r = 0; r < height; r++) {
+                    for (unsigned c = 0; c < width; c++) {
                         unsigned int pix = XGetPixel(image, c, r);
                         pixels[c * 4 + 3] = (unsigned char)(pix ? 255 : 0);
                     }
@@ -118,7 +118,7 @@ ref<YImage> YImage::createFromPixmapAndMask(Pixmap pixmap, Pixmap mask,
 }
 
 ref<YImage> YImage::createFromIconProperty(long *prop_pixels,
-                                           int width, int height)
+                                           unsigned width, unsigned height)
 {
     ref<YImage> image;
     GdkPixbuf *pixbuf =
@@ -130,8 +130,8 @@ ref<YImage> YImage::createFromIconProperty(long *prop_pixels,
 
     guchar *pixels = gdk_pixbuf_get_pixels(pixbuf);
 
-    for (int r = 0; r < height; r++) {
-        for (int c = 0; c < width; c++) {
+    for (unsigned r = 0; r < height; r++) {
+        for (unsigned c = 0; c < width; c++) {
             unsigned long pix =
                 prop_pixels[c + r * width];
             pixels[c * 4 + 2] = (unsigned char)(pix & 0xFF);
@@ -148,8 +148,8 @@ ref<YImage> YImage::createFromIconProperty(long *prop_pixels,
 }
 
 ref<YImage> YImage::createFromPixmapAndMaskScaled(Pixmap pix, Pixmap mask,
-                                                  int width, int height,
-                                                  int nw, int nh)
+                                                  unsigned width, unsigned height,
+                                                  unsigned nw, unsigned nh)
 {
     ref<YImage> image = createFromPixmapAndMask(pix, mask, width, height);
     if (image != null)
@@ -186,7 +186,7 @@ void YImageGDK::draw(Graphics &g, int dx, int dy) {
 #endif
 }
 
-void YImageGDK::draw(Graphics &g, int x, int y, int w, int h, int dx, int dy) {
+void YImageGDK::draw(Graphics &g, int x, int y, unsigned w, unsigned h, int dx, int dy) {
 #if 1
     composite(g, x, y, w, h, dx, dy);
 #else
@@ -197,7 +197,7 @@ void YImageGDK::draw(Graphics &g, int x, int y, int w, int h, int dx, int dy) {
 #endif
 }
 
-void YImageGDK::composite(Graphics &g, int x, int y, int w, int h, int dx, int dy) {
+void YImageGDK::composite(Graphics &g, int x, int y, unsigned w, unsigned h, int dx, int dy) {
 
     //MSG(("composite -- %d %d %d %d | %d %d", x, y, w, h, dx, dy));
     if (g.xorigin() > dx) {
@@ -214,11 +214,11 @@ void YImageGDK::composite(Graphics &g, int x, int y, int w, int h, int dx, int d
     }
     if (h <= 0)
         return;
-    if (dx + w > g.xorigin() + g.rwidth())
+    if ((int) (dx + w) > (int) (g.xorigin() + g.rwidth()))
         w = g.xorigin() + g.rwidth() - dx;
     if (w <= 0)
         return;
-    if (dy + h > g.yorigin() + g.rheight())
+    if ((int) (dy + h) > (int) (g.yorigin() + g.rheight()))
         h = g.yorigin() + g.rheight() - dy;
     if (h <= 0)
         return;

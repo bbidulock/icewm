@@ -9,14 +9,14 @@ public:
 #if 0
     YRect(): x1(0), y1(0), x2(0), y2(0) {}
 #endif
-    YRect(int x, int y, int w, int h)
+    YRect(int x, int y, unsigned w, unsigned h)
         :xx(x), yy(y), ww(w), hh(h)
     { }
 
     int x() const { return xx; }
     int y() const { return yy; }
-    int width() const { return ww; }
-    int height() const { return hh; }
+    unsigned width() const { return ww; }
+    unsigned height() const { return hh; }
 
 #if 0
     int left() const { return x1; }
@@ -36,7 +36,7 @@ public:
 
 #endif
 
-    void setRect(int x, int y, int w, int h) {
+    void setRect(int x, int y, unsigned w, unsigned h) {
         xx = x;
         yy = y;
         ww = w;
@@ -51,7 +51,7 @@ public:
     }
 
     // does the same as gdk_rectangle_union
-    void unionRect(int x, int y, int width, int height) {
+    void unionRect(int x, int y, unsigned width, unsigned height) {
         int dest_x, dest_y;
 
         dest_x = min(xx, x);
@@ -75,7 +75,8 @@ public:
 #endif
 
 private:
-    int xx, yy, ww, hh;
+    int xx, yy;
+    unsigned ww, hh;
 };
 
 #endif

@@ -273,14 +273,15 @@ void TrayPane::relayoutNow() {
 
     fNeedRelayout = false;
 
-    int nw = getRequiredWidth();
+    unsigned nw = getRequiredWidth();
     if (nw != width()) {
         MSG(("tray: nw=%d x=%d w=%d", nw, x(), width()));
         setGeometry(YRect(x() + width() - nw, y(), nw, height()));
         fTaskBar->relayout();
     }
 
-    int x, y, w, h;
+    int x, y;
+    unsigned w, h;
     int tc = 0;
 
     for (IterType a = fApps.iterator(); ++a; )
