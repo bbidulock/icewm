@@ -201,26 +201,30 @@ void YImageGDK::composite(Graphics &g, int x, int y, unsigned w, unsigned h, int
 
     //MSG(("composite -- %d %d %d %d | %d %d", x, y, w, h, dx, dy));
     if (g.xorigin() > dx) {
+        if ((int) w <= g.xorigin() - dx)
+            return;
         w -= g.xorigin() - dx;
         x += g.xorigin() - dx;
         dx = g.xorigin();
     }
-    if (w <= 0)
-        return;
     if (g.yorigin() > dy) {
+        if ((int) h <= g.xorigin() - dx)
+            return;
         h -= g.yorigin() - dy;
         y += g.yorigin() - dy;
         dy = g.yorigin();
     }
-    if (h <= 0)
-        return;
-    if ((int) (dx + w) > (int) (g.xorigin() + g.rwidth()))
+    if ((int) (dx + w) > (int) (g.xorigin() + g.rwidth())) {
+        if ((int) (g.xorigin() + g.rwidth()) <= dx)
+            return;
         w = g.xorigin() + g.rwidth() - dx;
-    if (w <= 0)
-        return;
-    if ((int) (dy + h) > (int) (g.yorigin() + g.rheight()))
+    }
+    if ((int) (dy + h) > (int) (g.yorigin() + g.rheight())) {
+        if ((int) (g.yorigin() + g.rheight()) <= dy)
+            return;
         h = g.yorigin() + g.rheight() - dy;
-    if (h <= 0)
+    }
+    if (w <= 0 || h <= 0)
         return;
 
     //MSG(("composite ++ %d %d %d %d | %d %d", x, y, w, h, dx, dy));
