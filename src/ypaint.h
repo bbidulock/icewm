@@ -222,7 +222,7 @@ public:
             repVert(p->pixmap(), p->width(), p->height(), x, y, h);
     }
 
-    int drawable() const { return fDrawable; }
+    Drawable drawable() const { return fDrawable; }
     GC handleX() const { return gc; }
 #ifdef CONFIG_XFREETYPE
     XftDraw *handleXft();
