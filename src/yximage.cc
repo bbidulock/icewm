@@ -44,11 +44,14 @@ ref<YImage> YImage::create(unsigned width, unsigned height)
 {
     ref<YImage> image;
     XImage *ximage = 0;
-    char *data = new char[width*height];
 
-    ximage = XCreateImage(xapp->display(), xapp->visual(), 32, ZPixmap, 0, data, width, height, 8, 0);
-    if (ximage != 0)
+    ximage = XCreateImage(xapp->display(), xapp->visual(), 32, ZPixmap, 0, NULL, width, height, 8, 0);
+    if (ximage != 0 && (ximage->data = new char[ximage->bytes_per_line*height])) {
         image.init(new YXImage(ximage));
+        ximage = 0; // consumed above
+    }
+    if (ximage)
+        XDestroyImage(ximage);
     return image;
 }
 
@@ -111,8 +114,8 @@ ref<YImage> YXImage::loadxpm(upath filename)
             unsigned w = xdraw->width;
             unsigned h = xdraw->height;
 
-            ximage = XCreateImage(xapp->display(), xapp->visual(), 32, ZPixmap, 0, new char[w*h], w, h, 8, 0);
-            if (ximage) {
+            ximage = XCreateImage(xapp->display(), xapp->visual(), 32, ZPixmap, 0, NULL, w, h, 8, 0);
+            if (ximage && (ximage->data = new char[ximage->bytes_per_line*h])) {
                 for (unsigned j = 0; j < h; j++) {
                     for (unsigned i = 0; i < w; i++) {
                         if (XGetPixel(xmask, i, j))
@@ -122,7 +125,10 @@ ref<YImage> YXImage::loadxpm(upath filename)
                     }
                 }
                 image.init(new YXImage(ximage));
+                ximage = 0; // consumed above
             }
+            if (ximage)
+                XDestroyImage(ximage);
             XDestroyImage(xdraw);
             XDestroyImage(xmask);
         }
@@ -195,10 +201,9 @@ ref<YImage> YXImage::loadpng(upath filename)
     png_read_image(png_ptr, row_pointers);
     png_read_end(png_ptr, info_ptr);
     ximage = XCreateImage(xapp->display(), xapp->visual(), 32, ZPixmap, 0, NULL, width, height, 8, 0);
-    if (ximage == 0)
-        goto pngerr;
     vol_ximage = ximage;
-    ximage->data = new char[ximage->bytes_per_line*height];
+    if (!ximage || !(ximage->data = new char[ximage->bytes_per_line*height]))
+        goto pngerr;
     for (p = png_pixels, j = 0; j < height; j++) {
         for (i = 0; i < width; i++, p += channels) {
             switch(color_type) {
@@ -255,8 +260,8 @@ ref<YImage> YXImage::upscale(unsigned nw, unsigned nh)
         unsigned w = width();
         unsigned h = height();
 
-        ximage = XCreateImage(xapp->display(), xapp->visual(), 32, ZPixmap, 0, new char[nw*nh], nw, nh, 8, 0);
-        if (ximage && ximage->data) {
+        ximage = XCreateImage(xapp->display(), xapp->visual(), 32, ZPixmap, 0, NULL, nw, nh, 8, 0);
+        if (ximage && (ximage->data = new char[ximage->bytes_per_line*nh])) {
             /* don't usually scale up, so just center smaller image in area (with alpha) */
             int x = ((int)w - (int)nw) / 2;
             int y = ((int)h - (int)nh) / 2;
@@ -301,8 +306,8 @@ ref<YImage> YXImage::downscale(unsigned nw, unsigned nh)
         unsigned sh = lround(h * scale);
         unsigned sw = lround(w * scale);
 
-        ximage = XCreateImage(xapp->display(), v, d, ZPixmap, 0, new char[sw*sh], sw, sh, 0, 0);
-        if (!ximage || !ximage->data)
+        ximage = XCreateImage(xapp->display(), v, d, ZPixmap, 0, NULL, sw, sh, 0, 0);
+        if (!ximage || !(ximage->data = new char[ximage->bytes_per_line*sh]))
             goto error;
         if (!(chanls = new double[ximage->bytes_per_line * ximage->height * 4 * sizeof(*chanls)]))
             goto error;
@@ -464,8 +469,8 @@ ref<YImage> YXImage::combine(XImage *xdraw, XImage *xmask)
         image.init(new YXImage(ximage));
         return image;
     }
-    ximage = XCreateImage(xapp->display(), xapp->visual(), 32, ZPixmap, 0, new char[w*h], w, h, 8, 0);
-    if (!ximage || !ximage->data)
+    ximage = XCreateImage(xapp->display(), xapp->visual(), 32, ZPixmap, 0, NULL, w, h, 8, 0);
+    if (!ximage || !(ximage->data = new char[ximage->bytes_per_line*h]))
         goto error;
     for (unsigned j = 0; j < h; j++)
         for (unsigned i = 0; i < w; i++)
@@ -487,9 +492,8 @@ ref<YImage> YImage::createFromIconProperty(long *prop_pixels, unsigned w, unsign
     XImage *ximage;
 
     // icon properties are always 32-bit ARGB
-    ximage = XCreateImage(xapp->display(), xapp->visual(), 32, ZPixmap, 0,
-                          new char[w*h], w, h, 8, 0);
-    if (!ximage || !ximage->data)
+    ximage = XCreateImage(xapp->display(), xapp->visual(), 32, ZPixmap, 0, NULL, w, h, 8, 0);
+    if (!ximage || !(ximage->data = new char[ximage->bytes_per_line*h]))
         goto error;
     for (unsigned j = 0; j < h; j++)
         for (unsigned i = 0; i < w; i++, prop_pixels++)
@@ -532,24 +536,19 @@ ref <YPixmap> YXImage::renderToPixmap()
                     if (((XGetPixel(fImage, i, j) >> 24) & 0xff) < 128)
                         has_mask = true;
         if (hasAlpha()) {
-            xdraw = XCreateImage(xapp->display(), xapp->visual(), xapp->depth(),
-                                 ZPixmap, 0, new char[w * h], w, h, 8, 0);
+            xdraw = XCreateImage(xapp->display(), xapp->visual(), xapp->depth(), ZPixmap, 0, NULL, w, h, 8, 0);
+            if (!xdraw || !(xdraw->data = new char[xdraw->bytes_per_line*h]))
+                goto done;
             for (unsigned j = 0; j < h; j++)
                 for (unsigned i = 0; i < w; i++)
                     XPutPixel(xdraw, i, j, XGetPixel(fImage, i, j));
-        } else
-            xdraw = XSubImage(fImage, 0, 0, w, h);
-        if (!xdraw || !xdraw->data) {
+        } else if (!(xdraw = XSubImage(fImage, 0, 0, w, h)))
             goto done;
-        }
+
         if (has_mask) {
             // too big data, but so what?
-            xmask = XCreateImage(xapp->display(), xapp->visual(), 1,
-                         XYPixmap, 0, new char[w * h], w, h, 8, 0);
-            if (!xmask)
-                goto done;
-            xmask->data = new char[xmask->bytes_per_line * h];
-            if (!xmask->data)
+            xmask = XCreateImage(xapp->display(), xapp->visual(), 1, XYPixmap, 0, NULL, w, h, 8, 0);
+            if (!xmask || !(xmask->data = new char[xmask->bytes_per_line*h]))
                 goto done;
             for (unsigned j = 0; j < h; j++)
                 for (unsigned i = 0; i < w; i++)
