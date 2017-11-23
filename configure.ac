@@ -199,9 +199,14 @@ fi
 AC_ARG_ENABLE([shape],
     AC_HELP_STRING([--disable-shape],[Disable use of SHAPE extension.]))
 if test x$enable_shape != xno ; then
-    AC_CHECK_LIB([Xext],[XShapeCombineRectangles],
-	[AC_DEFINE([CONFIG_SHAPE],[1],[Define to enable X shape extension])],
-        AC_MSG_WARN([SHAPE not supported.]))
+    PKG_CHECK_MODULES([SHAPE],[xext],[
+	CORE_CFLAGS="$SHAPE_CFLAGS $CORE_CFLAGS"
+	CORE_LIBS="$SHAPE_LIBS $CORE_LIBS"
+	AC_DEFINE([CONFIG_SHAPE],[1],[Define to enable X shape extension])
+	features="$features shape"],
+	[AC_MSG_WARN([SHAPE not supported.])])
+else
+    AC_MSG_WARN([SHAPE disabled.])
 fi
 
 AC_ARG_ENABLE([xrender],
@@ -213,17 +218,21 @@ if test x$enable_xrender != xno ; then
 	AC_DEFINE([CONFIG_RENDER],[1],[Define to enable RENDER extension.])
 	features="$features render"],
 	[AC_MSG_WARN([RENDER not supported.])])
+else
+    AC_MSG_WARN([RENDER disabled.])
 fi
 
 AC_ARG_ENABLE([xrandr],
-    AC_HELP_STRING([--disable-xrandr],[Disable use of XRANDR extension.]))
+    AC_HELP_STRING([--disable-xrandr],[Disable use of RANDR extension.]))
 if test x$enable_xrandr != xno; then
-    PKG_CHECK_MODULES([XRANDR],[xrandr],[
-	CORE_CFLAGS="$XRANDR_CFLAGS $CORE_CFLAGS"
-	CORE_LIBS="$XRANDR_LIBS $CORE_LIBS"
-	AC_DEFINE([CONFIG_XRANDR],[1],[Define to enable XRANDR extension.])
+    PKG_CHECK_MODULES([RANDR],[xrandr],[
+	CORE_CFLAGS="$RANDR_CFLAGS $CORE_CFLAGS"
+	CORE_LIBS="$RANDR_LIBS $CORE_LIBS"
+	AC_DEFINE([CONFIG_XRANDR],[1],[Define to enable RANDR extension.])
 	features="$features xrandr"],
-	[AC_MSG_WARN([XRANDR not supported.])])
+	[AC_MSG_WARN([RANDR not supported.])])
+else
+    AC_MSG_WARN([RANDR disabled.])
 fi
 
 AC_ARG_ENABLE([xfreetype],
@@ -350,10 +359,31 @@ fi
 AC_SUBST([GIO_CFLAGS])
 AC_SUBST([GIO_LIBS])
 
-PKG_CHECK_MODULES([IMAGE],[gdk-pixbuf-xlib-2.0],[
-    AC_DEFINE([CONFIG_GDK_PIXBUF_XLIB],[1],
-	[Define to use gdk_pixbuf_xlib for image rendering.])
-    image_library=gdk_pixbuf_xlib])
+AC_ARG_ENABLE([gdk-pixbuf],
+    AC_HELP_STRING([--disable-gdk-pixbuf],[Disabled gdk-pixbuf rendering.]))
+if test "x$enable_gdk_pixbuf" != xno ; then
+    PKG_CHECK_MODULES([PIXBUF],[gdk-pixbuf-xlib-2.0],[
+	IMAGE_CFLAGS="$PIXBUF_CFLAGS"
+	IMAGE_LIBS="$PIXBUF_LIBS"
+	AC_DEFINE([CONFIG_GDK_PIXBUF_XLIB],[1],[Define to enable gdk-pixbuf rendering.])
+	image_library=gdk-pixbuf-xlib-2.0],[
+	enable_gdk_pixbuf=no
+	AC_MSG_WARN([gdk-pixbuf not supported.])])
+fi
+if test "x$enable_gdk_pixbuf" = xno; then
+    PKG_CHECK_MODULES([XPM],[xpm],[
+	IMAGE_CFLAGS="$XPM_CFLAGS"
+	IMAGE_LIBS="$XPM_LIBS"
+	AC_DEFINE([CONFIG_XPM],[1],[Define to enable libxpm rendering.])
+	image_library=libxpm],[
+	AC_MSG_ERROR([libxpm not supported.])])
+    PKG_CHECK_MODULES([LIBPNG],[libpng >= 1.6],[
+	IMAGE_CFLAGS="$LIBPNG_CFLAGS $IMAGE_CFLAGS"
+	IMAGE_LIBS="$LIBPNG_LIBS $IMAGE_LIBS"
+	AC_DEFINE([CONFIG_LIBPNG],[1],[Define to enable libpng rendering.])
+	image_library="$image_library libpng"],[
+	AC_MSG_WARN([libpng not supported.])])
+fi
 AC_SUBST([IMAGE_CFLAGS])
 AC_SUBST([IMAGE_LIBS])
 
