@@ -146,8 +146,6 @@ libice_la_SOURCES = \
 	ypixmap.h \
 	yimage.h \
 	yimage_gdk.cc \
-	yimage_imlib.cc \
-	yimage_xpm.cc \
 	ytooltip.cc \
 	ytooltip.h
 
