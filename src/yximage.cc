@@ -2,6 +2,7 @@
 
 #if (defined CONFIG_XPM || defined CONFIG_LIBPNG) && !defined CONFIG_GDK_PIXBUF_XLIB
 
+#include <math.h>
 #include "yimage.h"
 #include "yxapp.h"
 
@@ -15,17 +16,18 @@
 
 class YXImage: public YImage {
 public:
-    YXImage(int width, int height, XImage *ximage): YImageX(width, height), fImage(ximage) { }
     YXImage(XImage *ximage) : YImage(ximage->width, ximage->height), fImage(ximage) { }
     virtual ~YXImage() {
         if (fImage != 0)
             XDestroyImage(fImage);
     }
     virtual ref<YPixmap> renderToPixmap();
-    virtual ref<YImage> scale(int width, int height);
-    virtual void draw(Graphics &g, int x, int y);
+    virtual ref<YImage> scale(unsigned width, unsigned height);
+    virtual void draw(Graphics &g, int dx, int dy);
+    virtual void draw(Graphics &g, int x, int y, unsigned w, unsigned h, int dx, int dy);
+    virtual void composite(Graphics &g, int x, int y, unsigned w, unsigned h, int dx, int dy);
     virtual bool valid() const { return fImage != 0; }
-protected:
+    unsigned depth() const { return fImage ? fImage->depth : 0; }
     static ref<YImage> loadxbm(upath filename);
 #ifdef CONFIG_XPM
     static ref<YImage> loadxpm(upath filename);
@@ -33,16 +35,16 @@ protected:
 #ifdef CONFIG_LIBPNG
     static ref<YImage> loadpng(upath filename);
 #endif
+    static ref<YImage> combine(XImage *xdraw, XImage *xmask);
 private:
-    bool hasAlpha() const { return !valid() ? false : fImage->depth == 32; }
+    bool hasAlpha() const { return fImage ? fImage->depth == 32 : false; }
     virtual ref<YImage> upscale(unsigned width, unsigned height);
     virtual ref<YImage> downscale(unsigned width, unsigned height);
     virtual ref<YImage> subimage(int x, int y, unsigned width, unsigned height);
-    virtual ref<YImage> combine(XImage *xdraw, XImage *xmask);
     XImage *fImage;
 };
 
-ref<YImage> YImage::create(int width, int height)
+ref<YImage> YImage::create(unsigned width, unsigned height)
 {
     ref<YImage> image;
     XImage *ximage = 0;
@@ -50,7 +52,7 @@ ref<YImage> YImage::create(int width, int height)
 
     ximage = XCreateImage(xapp->display(), xapp->visual(), 32, ZPixmap, 0, data, width, height, 8, 0);
     if (ximage != 0)
-        image.init(new YXImage(width, height, ximage));
+        image.init(new YXImage(ximage));
     return image;
 }
 
@@ -60,14 +62,14 @@ ref<YImage> YImage::load(upath filename)
     pstring ext(filename.getExtension());
 
     if (ext == ".xbm")
-        image = loadxbm(filename);
+        image = YXImage::loadxbm(filename);
 #ifdef CONFIG_XPM
     else if (ext == ".xpm")
-        image = loadxpm(filename);
+        image = YXImage::loadxpm(filename);
 #endif
 #ifdef CONFIG_LIBPNG
     else if (ext == ".png")
-        image = loadpng(filename);
+        image = YXImage::loadpng(filename);
 #endif
     return image;
 }
@@ -81,7 +83,7 @@ ref<YImage> YXImage::loadxbm(upath filename)
     char *data = 0;
     int status;
 
-    status = XReadBitmapFileData(filename.string(), &w, &h, &data, &x, &y);
+    status = XReadBitmapFileData(filename.string(), &w, &h, (unsigned char **)&data, &x, &y);
     if (status == BitmapSuccess) {
         ximage = XCreateImage(xapp->display(), None, 1, XYBitmap, 0, data, w, h, 8, 0);
         if (ximage != 0)
@@ -97,7 +99,7 @@ ref<YImage> YXImage::loadxpm(upath filename)
 {
     ref<YImage> image;
     XImage *xdraw = 0, *xmask = 0;
-    XpmAtrributes xa;
+    XpmAttributes xa;
     int status;
 
     xa.visual = xapp->visual();
@@ -108,7 +110,7 @@ ref<YImage> YXImage::loadxpm(upath filename)
     status = XpmReadFileToImage(xapp->display(), filename.string(), &xdraw, &xmask, &xa);
 
     if (status == XpmSuccess) {
-        XFreeAttributes(&xa);
+        XpmFreeAttributes(&xa);
         if (xmask == 0)
             image.init(new YXImage(xdraw));
         else {
@@ -118,10 +120,8 @@ ref<YImage> YXImage::loadxpm(upath filename)
 
             ximage = XCreateImage(xapp->display(), xapp->visual(), 32, ZPixmap, 0, new char[w*h], w, h, 8, 0);
             if (ximage) {
-                int i, j;
-
-                for (j = 0; j < h, j++) {
-                    for (i = 0; i < w; i++) {
+                for (unsigned j = 0; j < h; j++) {
+                    for (unsigned i = 0; i < w; i++) {
                         if (XGetPixel(xmask, i, j))
                             XPutPixel(ximage, i, j, XGetPixel(xdraw, i, j) | 0xFF000000);
                         else
@@ -142,6 +142,7 @@ ref<YImage> YXImage::loadxpm(upath filename)
 ref<YImage> YXImage::loadpng(upath filename)
 {
     ref<YImage> image;
+    png_byte *png_pixels = 0, **row_pointers = 0, *p;
     XImage *ximage = 0;
     volatile void *vol_png_pixels = 0, *vol_row_pointers = 0;
     volatile void *vol_ximage = 0;
@@ -165,7 +166,6 @@ ref<YImage> YXImage::loadpng(upath filename)
         goto pngerr;
 
     png_uint_32 width, height, row_bytes, i, j;
-    png_byte *png_pixels = 0, **row_pointers = 0, *p;
     int bit_depth, color_type, channels;
     unsigned long pixel, A, R, G, B;
 
@@ -180,7 +180,7 @@ ref<YImage> YXImage::loadpng(upath filename)
     if (bit_depth == 16)
         png_set_strip_16(png_ptr);
     if (color_type == PNG_COLOR_TYPE_GRAY || color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
-        png_sete_gray_to_rgb(png_ptr);
+        png_set_gray_to_rgb(png_ptr);
     png_read_update_info(png_ptr, info_ptr);
     png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, NULL, NULL, NULL);
     if (color_type == PNG_COLOR_TYPE_GRAY)
@@ -196,17 +196,17 @@ ref<YImage> YXImage::loadpng(upath filename)
     row_bytes = png_get_rowbytes(png_ptr, info_ptr);
     png_pixels = new png_byte[row_bytes * height];
     vol_png_pixels = png_pixels;
-    row_pointers = new png_byptep[height];
+    row_pointers = new png_bytep[height];
     vol_row_pointers = row_pointers;
     for (i = 0; i < height; i++)
-        row_pointers[i] = png_pixles + i + row_bytes;
-    png_read_image(pnt_ptr, row_pointers);
+        row_pointers[i] = png_pixels + i + row_bytes;
+    png_read_image(png_ptr, row_pointers);
     png_read_end(png_ptr, info_ptr);
     ximage = XCreateImage(xapp->display(), xapp->visual(), 32, ZPixmap, 0, NULL, width, height, 8, 0);
     if (ximage == 0)
         goto pngerr;
     vol_ximage = ximage;
-    ximage->data = new char[width*height*sizeof(DATA32)];
+    ximage->data = new char[ximage->bytes_per_line*height];
     for (p = png_pixels, j = 0; j < height; j++) {
         for (i = 0; i < width; i++, p += channels) {
             switch(color_type) {
@@ -244,7 +244,7 @@ ref<YImage> YXImage::loadpng(upath filename)
     png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
     goto noread;
   noinfo:
-    png_destroy_read_strict(&png_ptr, NULL, NULL);
+    png_destroy_read_struct(&png_ptr, NULL, NULL);
   noread:
     fclose(f);
   nofile:
@@ -259,33 +259,30 @@ ref<YImage> YXImage::upscale(unsigned nw, unsigned nh)
     ref<YImage> image;
     XImage *ximage = 0;
 
-    if (!valid())
-        goto done;
+    if (valid()) {
+        unsigned w = width();
+        unsigned h = height();
 
-    unsigned w = width();
-    unsigned h = height();
+        ximage = XCreateImage(xapp->display(), xapp->visual(), 32, ZPixmap, 0, new char[nw*nh], nw, nh, 8, 0);
+        if (ximage && ximage->data) {
+            /* don't usually scale up, so just center smaller image in area (with alpha) */
+            int x = ((int)w - (int)nw) / 2;
+            int y = ((int)h - (int)nh) / 2;
+            unsigned long bits = hasAlpha() ? 0UL : 0xFF000000;
 
-    ximage = XCreateImage(xapp->display() xapp->visual(), 32, ZPixmap, 9, new char[nw*nh], 8 0);
-    if (!ximage || !ximage->data)
-        goto done;
-
-    /* don't usually scale up, so just center smaller image in area (with alpha) */
-    int x = ((int)w - (int)nw) / 2;
-    int y = ((int)h - (int)nh) / 2;
-    unsigned long bits = hasAlpha() ? 0UL : 0xFF000000;
-
-    for (unsigned j = 0; j < h; j++) {
-        if ((int)j + y < 0 || (int)j + y > (int)nh)
-            continue;
-        for (unsigned i = 0; i < w; i++) {
-            if ((int)i + x < 0 || (int)i + x > (int)nw)
-                continue;
-            PutPixel(ximage, i + x, j + y, XGetPixel(fImage, i, j) | bits);
+            for (unsigned j = 0; j < h; j++) {
+                if ((int)j + y < 0 || (int)j + y > (int)nh)
+                    continue;
+                for (unsigned i = 0; i < w; i++) {
+                    if ((int)i + x < 0 || (int)i + x > (int)nw)
+                        continue;
+                    XPutPixel(ximage, i + x, j + y, XGetPixel(fImage, i, j) | bits);
+                }
+            }
+            image.init(new YXImage(ximage));
+            ximage = 0; // consumed above
         }
     }
-    image.init(new YXImage(ximage));
-    ximage = 0; // consumed above
-  done:
     if (ximage)
         XDestroyImage(ximage);
     return image;
@@ -294,106 +291,110 @@ ref<YImage> YXImage::upscale(unsigned nw, unsigned nh)
 ref<YImage> YXImage::downscale(unsigned nw, unsigned nh)
 {
     ref<YImage> image;
-
-    if (!valid())
-        goto error;
-
-    unsigned w = width();
-    unsigned h = height();
-    unsigned d = depth();
-    Visual *v = visual();
-    bool has_alpha = hasAlpha();
-
+    XImage *ximage = 0;
     double *chanls = 0;
     double *counts = 0;
     double *colors = 0;
 
-    double scale = (double) nh / (double) h;
-    unsigned sh = lround(h * scale);
-    unsigned sw = lroutd(w * scale);
+    if (!valid())
+        goto error;
+    {
+        unsigned w = width();
+        unsigned h = height();
+        unsigned d = depth();
+        Visual *v = xapp->visual();
+        bool has_alpha = hasAlpha();
 
-    ximage = XCreateImage(xapp->display(), v, d, ZPixmap, 0, new char[sw*sh], sw, sh, 0, 0);
-    if (!ximage || !ximage->draw)
-        goto error;
-    if (!(chanls = new double[ximage->bytes_per_line * ximage->height * 4 * sizeof(*chanls)]))
-        goto error;
-    if (!(counts = new double[ximage->bytes_per_line * ximage->height * sizeof(*counts)]))
-        goto error;
-    if (!(colors = new double[ximage->bytes_per_line * ximage->height * sizeof(*colors)]))
-        goto error;
+        double scale = (double) nh / (double) h;
+        unsigned sh = lround(h * scale);
+        unsigned sw = lround(w * scale);
 
-    double pppx = (double) w / (double) sw;
-    double pppy = (double) h / (double) sh;
+        ximage = XCreateImage(xapp->display(), v, d, ZPixmap, 0, new char[sw*sh], sw, sh, 0, 0);
+        if (!ximage || !ximage->data)
+            goto error;
+        if (!(chanls = new double[ximage->bytes_per_line * ximage->height * 4 * sizeof(*chanls)]))
+            goto error;
+        if (!(counts = new double[ximage->bytes_per_line * ximage->height * sizeof(*counts)]))
+            goto error;
+        if (!(colors = new double[ximage->bytes_per_line * ximage->height * sizeof(*colors)]))
+            goto error;
+        {
+            double pppx = (double) w / (double) sw;
+            double pppy = (double) h / (double) sh;
 
-    for (double ty = 0.0, double by = pppy, unsigned l = 0; l < sh; l++, ty += pppy, by += pppy) {
-        for (unsigned j = floor(ty); j < by; j++) {
-            unsigned yf = 1.0;
-            if (j < ty && j + 1 > ty)
-                yf = ty - j;
-            else if (j < by && j + 1 > by)
-                yf = by - j;
-            for (double lx = 0.0, double rx = pppx, unsigned k = 0; k < sw; k++, lx += pppx, rx += pppx) {
-                for (unsigned i = floor(lx); i < rx; i++) {
-                    unsigned xf = 1.0;
-                    if (i < lx && i + 1 > lx)
-                        xf = lx - i;
-                    else if (i < rx && i + 1 > rx)
-                        xf = rx - i;
-                    double ff = xf * yf;
-                    unsigned m = l * sw + k;
-                    unsigned n = m << 2;
-                    counts[m] += ff;
-                    unsigned long pixel = XGetPixel(fImage, i, j);
-                    unsigned A = has_alpha ? (pixel >> 24) & 0xff : 255;
-                    unsigned R = (pixel >> 16) & 0xff;
-                    unsigned G = (pixel >>  8) & 0xff;
-                    unsigned B = (pixel >>  0) & 0xff;
-                    colors[m] += ff;
-                    chanls[n+0] += A * ff;
-                    chanls[n+1] += R * ff;
-                    chanls[n+2] += G * ff;
-                    chanls[n+3] += B * ff;
+            double ty, by; unsigned l;
+            for (ty = 0.0, by = pppy, l = 0; l < sh; l++, ty += pppy, by += pppy) {
+                for (unsigned j = floor(ty); j < by; j++) {
+                    unsigned yf = 1.0;
+                    if (j < ty && j + 1 > ty)
+                        yf = ty - j;
+                    else if (j < by && j + 1 > by)
+                        yf = by - j;
+                    double lx, rx; unsigned k;
+                    for (lx = 0.0, rx = pppx, k = 0; k < sw; k++, lx += pppx, rx += pppx) {
+                        for (unsigned i = floor(lx); i < rx; i++) {
+                            unsigned xf = 1.0;
+                            if (i < lx && i + 1 > lx)
+                                xf = lx - i;
+                            else if (i < rx && i + 1 > rx)
+                                xf = rx - i;
+                            double ff = xf * yf;
+                            unsigned m = l * sw + k;
+                            unsigned n = m << 2;
+                            counts[m] += ff;
+                            unsigned long pixel = XGetPixel(fImage, i, j);
+                            unsigned A = has_alpha ? (pixel >> 24) & 0xff : 255;
+                            unsigned R = (pixel >> 16) & 0xff;
+                            unsigned G = (pixel >>  8) & 0xff;
+                            unsigned B = (pixel >>  0) & 0xff;
+                            colors[m] += ff;
+                            chanls[n+0] += A * ff;
+                            chanls[n+1] += R * ff;
+                            chanls[n+2] += G * ff;
+                            chanls[n+3] += B * ff;
+                        }
+                    }
                 }
             }
+            unsigned amax = 0;
+            for (unsigned l = 0; l < sh; l++) {
+                for (unsigned k = 0; k < sw; k++) {
+                    unsigned m = l * sw + k;
+                    unsigned n = m << 2;
+                    unsigned long pixel = 0;
+                    if (counts[m])
+                        pixel |= (lround(chanls[n+0] / counts[m]) & 0xff) << 24;
+                    if (colors[m]) {
+                        pixel |= (lround(chanls[n+1] / colors[m]) & 0xff) << 16;
+                        pixel |= (lround(chanls[n+2] / colors[m]) & 0xff) <<  8;
+                        pixel |= (lround(chanls[n+3] / colors[m]) & 0xff) <<  0;
+                    }
+                    XPutPixel(ximage, k, l, pixel);
+                    amax = max(amax, (unsigned)((pixel >> 24) & 0xff));
+                }
+            }
+            if (!amax)
+                /* no opacity at all! */
+                for (unsigned l = 0; l < sh; l++)
+                    for (unsigned k = 0; k < sw; k++)
+                        XPutPixel(ximage, k, l, XGetPixel(ximage, k, l) | 0xFF000000);
+            else if (amax < 255) {
+                double bump = (double) 255 / (double) amax;
+                for (unsigned l = 0; l < sh; l++)
+                    for (unsigned k = 0; k < sw; k++) {
+                        unsigned long pixel = XGetPixel(ximage, k, l);
+                        amax = (pixel >> 24) & 0xff;
+                        amax = lround((double) amax * bump);
+                        if (amax > 255)
+                            amax = 255;
+                        pixel = (pixel & 0x00FFFFFF) | (amax << 24);
+                        XPutPixel(ximage, k, l, pixel);
+                    }
+            }
+            image.init(new YXImage(ximage));
+            ximage = 0; // consumed above
         }
     }
-    unsigned amax = 0;
-    for (unsigned l = 0; l < sh; l++) {
-        for (unsigned k = 0; k < sw; k++) {
-            unsigned m = l * sw + k;
-            unsigned n = m << 2;
-            unsigned long pixel = 0;
-            if (counts[m])
-                pixel |= (lround(chanls[n+0] / counts[m]) & 0xff) << 24;
-            if (colors[m]) {
-                pixel |= (lround(chanls[n+1] / colors[m]) & 0xff) << 16;
-                pixel |= (lround(chanls[n+2] / colors[m]) & 0xff) <<  8;
-                pixel |= (lround(chanls[n+3] / colors[m]) & 0xff) <<  0;
-            }
-            XPutPixel(ximage, k, l, pixel);
-            amax = max(amax, ((pixel >> 24) & 0xff));
-        }
-    }
-    if (!amax)
-        /* no opacity at all! */
-        for (unsigned l = 0; l < sh; l++)
-            for (unsigned k = 0; k < sw; k++)
-                XPutPixel(ximage, k, l, XGetPixel(ximage, k, l) | 0xFF000000);
-    else if (amax < 255) {
-        double bump = (double) 255 / (double) amax;
-        for (unsigned l = 0; l < sh; l++)
-            for (unsigned k = 0; k < sw; k++) {
-                unsigned long pixel = XGetPixel(ximage, k, l);
-                amax = (pixel >> 24) & 0xff;
-                amax = lround((double) amax * bump);
-                if (amax > 255)
-                    amax = 255;
-                pixel = (pixel & 0x00FFFFFF) | (amax << 24);
-                XPutPixel(ximage, k, l, pixel);
-            }
-    }
-    image.init(new YXImage(ximage));
-    ximage = 0; // consumed above
   error:
     if (chanls)
         delete[] chanls;
@@ -419,7 +420,6 @@ ref<YImage> YXImage::subimage(int x, int y, unsigned w, unsigned h)
 ref<YImage> YXImage::scale(unsigned nw, unsigned nh)
 {
     ref<YImage> image;
-    XImage *ximage;
 
     if (!valid())
         return image;
@@ -447,11 +447,9 @@ ref<YImage> YImage::createFromPixmapAndMask(Pixmap pixmap, Pixmap mask,
     ref<YImage> image;
     XImage *xdraw, *xmask = 0;
 
-    if (!valid())
-        return image;
     xdraw = XGetImage(xapp->display(), pixmap, 0, 0, width, height, AllPlanes, ZPixmap);
     if (xdraw && (!mask || (xmask = XGetImage(xapp->display(), mask, 0, 0, width, height, 0x1, XYPixmap))))
-        image = combine(xdraw, xmask);
+        image = YXImage::combine(xdraw, xmask);
     if (xdraw)
         XDestroyImage(xdraw);
     if (xmask)
@@ -463,9 +461,6 @@ ref<YImage> YXImage::combine(XImage *xdraw, XImage *xmask)
 {
     ref<YImage> image;
     XImage *ximage = 0;
-
-    if (!valid())
-        return image;
 
     unsigned w = xdraw->width;
     unsigned h = xdraw->height;
@@ -494,7 +489,7 @@ ref<YImage> YXImage::combine(XImage *xdraw, XImage *xmask)
     return image;
 }
 
-ref<YImage> YXImage::createFromIconProperty(long *prop_pixels, unsigned w, unsigned h)
+ref<YImage> YImage::createFromIconProperty(long *prop_pixels, unsigned w, unsigned h)
 {
     ref<YImage> image;
     XImage *ximage;
@@ -515,12 +510,12 @@ ref<YImage> YXImage::createFromIconProperty(long *prop_pixels, unsigned w, unsig
     return image;
 }
 
-ref<YImage> YImage::createFromPixmapAndMaskScalede(Pixmap pix, Pixmap mask,
+ref<YImage> YImage::createFromPixmapAndMaskScaled(Pixmap pix, Pixmap mask,
                                                    unsigned w, unsigned h,
                                                    unsigned nw, unsigned nh)
 {
     ref<YImage> image = createFromPixmapAndMask(pix, mask, w, h);
-    if (image)
+    if (image != null)
         image = image->scale(nw, nh);
     return image;
 }
@@ -536,70 +531,79 @@ ref <YPixmap> YXImage::renderToPixmap()
 
 	if (!valid())
 		goto done;
-	unsigned w = width();
-	unsigned h = height();
-    if (hasAlpha)
-        for (unsigned j = 0; !has_mask && j < h; j++)
-            for (unsigned i = 0; !has_mask && i < w; i++)
-                if (((XGetPixel(fImage, i, j) >> 24) & 0xff) < 128)
-                    has_mask = true;
-    if (hasAlpha) {
-        xdraw = XCreateImage(xapp->display(), xapp->visual(), xapp->depth(),
-                             ZPixmap, 0, new char[w * h], w, h, 8, 0);
-        for (unsigned j = 0; j < h; j++)
-            for (unsigned i = 0; i < w; i++)
-                XPutPixel(xdraw, i, j, XGetPixel(ximage, i, j));
-    } else
-        xdraw = XSubImage(fImage, 0, 0, w, h);
-    if (!xdraw || !xdraw->data)
-        goto done;
-	if (has_mask) {
-		// too big data, but so what?
-		xmask = XCreateImage(xapp->display(), xapp->visual(), 1,
-				     XYPixmap, 0, new char[w * h], w, h, 8, 0);
-        if (!xmask)
-            goto done;
-        xmask->data = new char[xmask->bytes_per_line * h];
-        if (!xmask->data)
-            goto done;
-		for (unsigned j = 0; j < h; j++)
-			for (unsigned i = 0; i < w; i++)
-				XPutPixel(xmask, i, j,
-					      ((XGetPixel(fImage, i, j) >> 24) & 0xff) < 128 ? 0 : 1);
-	}
     {
-        draw = XCreatePixmap(xapp->display(), xapp->root(), w, h, xapp->depth());
-        if (!draw)
+        unsigned w = width();
+        unsigned h = height();
+        if (hasAlpha())
+            for (unsigned j = 0; !has_mask && j < h; j++)
+                for (unsigned i = 0; !has_mask && i < w; i++)
+                    if (((XGetPixel(fImage, i, j) >> 24) & 0xff) < 128)
+                        has_mask = true;
+        if (hasAlpha()) {
+            xdraw = XCreateImage(xapp->display(), xapp->visual(), xapp->depth(),
+                                 ZPixmap, 0, new char[w * h], w, h, 8, 0);
+            for (unsigned j = 0; j < h; j++)
+                for (unsigned i = 0; i < w; i++)
+                    XPutPixel(xdraw, i, j, XGetPixel(fImage, i, j));
+        } else
+            xdraw = XSubImage(fImage, 0, 0, w, h);
+        if (!xdraw || !xdraw->data) {
             goto done;
-        gcd = XCreateGC(xapp->display(), draw, 0UL, &xg);
-        if (!gcd)
-            goto done;
-        XPutImage(xapp->display(), draw, gcd, xdraw, 0, 0, 0, 0, w, h);
+        }
+        if (has_mask) {
+            // too big data, but so what?
+            xmask = XCreateImage(xapp->display(), xapp->visual(), 1,
+                         XYPixmap, 0, new char[w * h], w, h, 8, 0);
+            if (!xmask)
+                goto done;
+            xmask->data = new char[xmask->bytes_per_line * h];
+            if (!xmask->data)
+                goto done;
+            for (unsigned j = 0; j < h; j++)
+                for (unsigned i = 0; i < w; i++)
+                    XPutPixel(xmask, i, j,
+                              ((XGetPixel(fImage, i, j) >> 24) & 0xff) < 128 ? 0 : 1);
+        }
+        {
+            draw = XCreatePixmap(xapp->display(), xapp->root(), w, h, xapp->depth());
+            if (!draw)
+                goto done;
+            gcd = XCreateGC(xapp->display(), draw, 0UL, &xg);
+            if (!gcd)
+                goto done;
+            XPutImage(xapp->display(), draw, gcd, xdraw, 0, 0, 0, 0, w, h);
+        }
+        if (xmask) {
+            mask = XCreatePixmap(xapp->display(), xapp->root(), w, h, 1);
+            if (!mask)
+                goto done;
+            gcm = XCreateGC(xapp->display(), mask, 0UL, &xg);
+            if (!gcm)
+                goto done;
+            XPutImage(xapp->display(), mask, gcm, xmask, 0, 0, 0, 0, w, h);
+        }
+        pixmap = createPixmap(draw, mask, w, h, xapp->depth());
+        draw = mask = None; // consumed above
+    }
+  done:
+	if (gcm) {
+		XFreeGC(xapp->display(), gcm);
+    }
+	if (gcd) {
+		XFreeGC(xapp->display(), gcd);
+    }
+    if (mask) {
+        XFreePixmap(xapp->display(), mask);
+    }
+    if (draw) {
+        XFreePixmap(xapp->display(), draw);
     }
 	if (xmask) {
-		mask = XCreatePixmap(xapp->display(), xapp->root(), w, h, 1);
-		if (!mask)
-			goto done;
-        gcm = XCreateGC(xapp->display(), mask, 0UL, &xg);
-        if (!gcm)
-            goto done;
-        XPutImage(xapp->display(), mask, gcm, xmask, 0, 0, 0, 0, w, h);
-	}
-	pixmap = createPixmap(draw, mask, w, h, xapp->depth());
-    draw = mask = None; // consumed above
-  done:
-	if (gcm)
-		XFreeGC(xapp->display(), gcm);
-	if (gcd)
-		XFreeGC(xapp->display(), gcd);
-    if (mask)
-        XFreePixmap(xapp->display(), mask);
-    if (draw)
-        XFreePixmap(xapp->display(), draw);
-	if (xmask)
 		XDestroyImage(xmask);
-	if (xdraw)
+    }
+	if (xdraw) {
 		XDestroyImage(xdraw);
+    }
 	return pixmap;
 }
 
@@ -655,10 +659,10 @@ void YXImage::composite(Graphics& g, int x, int y, unsigned w, unsigned h, int d
         return;
 
     if (!hasAlpha()) {
-        XPutImage(xapp->display(), g.drawable(), g.gc, fImage,  0, 0, dx - g.origin(), dy - g.origin(), w, h);
+        XPutImage(xapp->display(), g.drawable(), g.handleX(), fImage,  0, 0, dx - g.xorigin(), dy - g.yorigin(), w, h);
         return;
     }
-    xback = XGetImage(xapp->display(), g.drawable(), dx - g.origin, dy - g.yorigin, w, h);
+    xback = XGetImage(xapp->display(), g.drawable(), dx - g.xorigin(), dy - g.yorigin(), w, h, AllPlanes, ZPixmap);
     if (!xback)
         return;
     for (unsigned j = 0; j < h; j++) {
@@ -680,10 +684,10 @@ void YXImage::composite(Graphics& g, int x, int y, unsigned w, unsigned h, int d
             Gb = ((A * G) + ((255 - A) * Gb)) / 255;
             Bb = ((A * B) + ((255 - A) * Bb)) / 255;
             pixel = (Rb << 16)|(Gb << 8)|(Bb << 0);
-            XPutPixel(xback, i, j);
+            XPutPixel(xback, i, j, pixel);
         }
     }
-    XPutImage(xapp->display(), g.drawable(), g.gc, xback, dx - g.origin, dy - g.yorigin, w, h);
+    XPutImage(xapp->display(), g.drawable(), g.handleX(), xback, 0, 0, dx - g.xorigin(), dy - g.yorigin(), w, h);
     XDestroyImage(xback);
 }
 

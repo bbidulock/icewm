@@ -30,7 +30,7 @@ public:
     virtual void draw(Graphics &g, int x, int y, unsigned w, unsigned h, int dx, int dy) = 0;
     virtual void composite(Graphics &g, int x, int y, unsigned w, unsigned h, int dx, int dy) = 0;
 protected:
-    YImage(int width, int height) { fWidth = width; fHeight = height; }
+    YImage(unsigned width, unsigned height) { fWidth = width; fHeight = height; }
     virtual ~YImage() {};
 
     ref<YPixmap> createPixmap(Pixmap pixmap, Pixmap mask, unsigned w, unsigned h, unsigned depth);
