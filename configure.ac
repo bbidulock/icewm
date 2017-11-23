@@ -454,3 +454,5 @@ ICE_MSG_VALUE([       KDEDIR], kdedatadir)
 ICE_MSG_VALUE([       DOCDIR], DOCDIR)
 ICE_MSG_VALUE([       MANDIR], mandir)
 AC_MSG_RESULT([])
+
+# vim: set ft=config sw=4:
