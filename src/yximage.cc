@@ -1,14 +1,12 @@
 #include "config.h"
 
-#if (defined CONFIG_XPM || defined CONFIG_LIBPNG) && !defined CONFIG_GDK_PIXBUF_XLIB
+#if defined CONFIG_XPM
 
 #include <math.h>
 #include "yimage.h"
 #include "yxapp.h"
 
-#ifdef CONFIG_XPM
 #include <X11/xpm.h>
-#endif
 
 #ifdef CONFIG_LIBPNG
 #include <png.h>
@@ -29,9 +27,7 @@ public:
     virtual bool valid() const { return fImage != 0; }
     unsigned depth() const { return fImage ? fImage->depth : 0; }
     static ref<YImage> loadxbm(upath filename);
-#ifdef CONFIG_XPM
     static ref<YImage> loadxpm(upath filename);
-#endif
 #ifdef CONFIG_LIBPNG
     static ref<YImage> loadpng(upath filename);
 #endif
@@ -63,10 +59,8 @@ ref<YImage> YImage::load(upath filename)
 
     if (ext == ".xbm")
         image = YXImage::loadxbm(filename);
-#ifdef CONFIG_XPM
     else if (ext == ".xpm")
         image = YXImage::loadxpm(filename);
-#endif
 #ifdef CONFIG_LIBPNG
     else if (ext == ".png")
         image = YXImage::loadpng(filename);
@@ -94,7 +88,6 @@ ref<YImage> YXImage::loadxbm(upath filename)
     return image;
 }
 
-#ifdef CONFIG_XPM
 ref<YImage> YXImage::loadxpm(upath filename)
 {
     ref<YImage> image;
@@ -136,7 +129,6 @@ ref<YImage> YXImage::loadxpm(upath filename)
     }
     return image;
 }
-#endif
 
 #ifdef CONFIG_LIBPNG
 ref<YImage> YXImage::loadpng(upath filename)

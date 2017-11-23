@@ -1406,6 +1406,12 @@ static void print_configured(const char *argv0) {
 #ifdef CONFIG_GDK_PIXBUF_XLIB
     " gdkpixbuf"
 #endif
+#ifdef CONFIG_XPM
+    " libxpm"
+#endif
+#ifdef CONFIG_LIBPNG
+    " libpng"
+#endif
 #ifdef CONFIG_GNOME_MENUS
     " gnomemenus"
 #endif
