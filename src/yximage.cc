@@ -36,11 +36,13 @@ public:
 #endif
     static ref<YImage> combine(XImage *xdraw, XImage *xmask);
 private:
+    bool isBitmap() const { return fBitmap; }
     bool hasAlpha() const { return fImage ? fImage->depth == 32 : false; }
     virtual ref<YImage> upscale(unsigned width, unsigned height);
     virtual ref<YImage> downscale(unsigned width, unsigned height);
     virtual ref<YImage> subimage(int x, int y, unsigned width, unsigned height);
     XImage *fImage;
+    bool fBitmap;
 };
 
 ref<YImage> YImage::create(unsigned width, unsigned height)
