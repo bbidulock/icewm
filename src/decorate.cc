@@ -198,18 +198,16 @@ void YFrameWindow::layoutShape() {
             g.setColorPixel(1);
             g.fillRect(0, 0, width(), height());
 
-            const int xTL(frameTL[t][a] != null ? frameTL[t][a]->width() : 0),
-                xTR(width() -
-                    (frameTR[t][a] != null ? frameTR[t][a]->width() : 0)),
+            const int
+                xTL(frameTL[t][a] != null ? frameTL[t][a]->width() : 0),
+                xTR(width() - (frameTR[t][a] != null ? frameTR[t][a]->width() : 0)),
                 xBL(frameBL[t][a] != null ? frameBL[t][a]->width() : 0),
-                xBR(width() -
-                    (frameBR[t][a] != null ? frameBR[t][a]->width() : 0));
-            const int yTL(frameTL[t][a] != null ? frameTL[t][a]->height() : 0),
-                yBL(height() -
-                    (frameBL[t][a] != null ? frameBL[t][a]->height() : 0)),
+                xBR(width() - (frameBR[t][a] != null ? frameBR[t][a]->width() : 0));
+            const int
+                yTL(frameTL[t][a] != null ? frameTL[t][a]->height() : 0),
+                yBL(height() - (frameBL[t][a] != null ? frameBL[t][a]->height() : 0)),
                 yTR(frameTR[t][a] != null ? frameTR[t][a]->height() : 0),
-                yBR(height() -
-                    (frameBR[t][a] != null ? frameBR[t][a]->height() : 0));
+                yBR(height() - (frameBR[t][a] != null ? frameBR[t][a]->height() : 0));
 
             if (frameTL[t][a] != null) {
                 g.copyDrawable(frameTL[t][a]->mask(), 0, 0,
