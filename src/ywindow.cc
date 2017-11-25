@@ -732,8 +732,8 @@ void YWindow::paintExpose(int ex, int ey, int ew, int eh) {
         eh = height() - ey;
     }
 
-    YRect r1(ex, ey, ew, eh);
-    if (r1.width() > 0 && r1.height() > 0) {
+    if (ew > 0 && eh > 0) {
+        YRect r1(ex, ey, ew, eh);
         if (fDoubleBuffer) {
             ref<YPixmap> pixmap = beginPaint(r1);
             Graphics g1(pixmap, ex, ey);
