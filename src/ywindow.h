@@ -32,6 +32,8 @@ public:
     virtual ~YWindow();
 
     void setStyle(unsigned aStyle);
+    unsigned getStyle() const { return fStyle; }
+    long getEventMask() const { return fEventMask; }
 
     void show();
     void hide();
@@ -43,6 +45,7 @@ public:
     void repaintSync();
     void readAttributes();
     void reparent(YWindow *parent, int x, int y);
+    bool getWindowAttributes(XWindowAttributes* attr);
 
     void setWindowFocus();
 
@@ -85,7 +88,7 @@ public:
     virtual void handleDestroyWindow(const XDestroyWindowEvent &destroyWindow);
     virtual void handleReparentNotify(const XReparentEvent &) {}
     virtual void handleConfigureRequest(const XConfigureRequestEvent &);
-    virtual void handleMapRequest(const XMapRequestEvent &) {}
+    virtual void handleMapRequest(const XMapRequestEvent &);
 #ifdef CONFIG_SHAPE
     virtual void handleShapeNotify(const XShapeEvent &) {}
 #endif

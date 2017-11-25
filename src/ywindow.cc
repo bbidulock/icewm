@@ -260,12 +260,23 @@ void YWindow::repaintFocus() {
 ///    }
 }
 
+bool YWindow::getWindowAttributes(XWindowAttributes* attr) {
+    if (fHandle == None)
+        return false;
+
+    if (XGetWindowAttributes(xapp->display(), fHandle, attr))
+        return true;
+
+    flags |= wfDestroyed;
+    return false;
+}
+
 void YWindow::readAttributes() {
     XWindowAttributes attributes;
 
-    XGetWindowAttributes(xapp->display(),
-                         fHandle,
-                         &attributes);
+    if (!getWindowAttributes(&attributes))
+        return;
+
     fX = attributes.x;
     fY = attributes.y;
     fWidth = attributes.width;
@@ -447,7 +458,7 @@ Window YWindow::handle() {
 }
 
 void YWindow::show() {
-    if (!(flags & wfVisible)) {
+    if (!(flags & (wfVisible | wfDestroyed))) {
         flags |= wfVisible;
         if (!(flags & wfNullSize))
             XMapWindow(xapp->display(), handle());
@@ -457,7 +468,7 @@ void YWindow::show() {
 void YWindow::hide() {
     if (flags & wfVisible) {
         flags &= ~wfVisible;
-        if (!(flags & wfNullSize)) {
+        if (!(flags & (wfNullSize | wfDestroyed))) {
             addIgnoreUnmap(handle());
             XUnmapWindow(xapp->display(), handle());
         }
@@ -585,7 +596,7 @@ void YWindow::handleEvent(const XEvent &event) {
                                  &new_event) == True)
              {
                  if (event.type != new_event.type ||
-                     event.xmotion.window != new_event.xmotion.window)
+                     event.xconfigure.window != new_event.xconfigure.window)
                  {
                      XPutBackEvent(xapp->display(), &new_event);
                      break;
@@ -984,7 +995,10 @@ void YWindow::handleUnmapNotify(const XUnmapEvent &xunmap) {
 void YWindow::handleUnmap(const XUnmapEvent &) {
 }
 
-void YWindow::handleConfigureRequest(const XConfigureRequestEvent & /*configureRequest*/) {
+void YWindow::handleConfigureRequest(const XConfigureRequestEvent&) {
+}
+
+void YWindow::handleMapRequest(const XMapRequestEvent&) {
 }
 
 void YWindow::handleDestroyWindow(const XDestroyWindowEvent &destroyWindow) {
@@ -999,12 +1013,7 @@ void YWindow::paint(Graphics &g, const YRect &r) {
 }
 
 bool YWindow::nullGeometry() {
-    bool zero;
-
-    if (fWidth == 0 || fHeight == 0)
-        zero = true;
-    else
-        zero = false;
+    bool zero = (fWidth == 0 || fHeight == 0);
 
     if (zero && !(flags & wfNullSize)) {
         flags |= wfNullSize;
