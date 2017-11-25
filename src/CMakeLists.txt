@@ -353,7 +353,7 @@ SET(ICE_COMMON_SRCS mstring.cc udir.cc upath.cc yapp.cc yxapp.cc ytimer.cc
  ywindow.cc ypaint.cc ypopup.cc misc.cc ycursor.cc ysocket.cc ypaths.cc
  ylocale.cc yarray.cc ycollections.cc ypipereader.cc yxembed.cc yconfig.cc
  yprefs.cc yfont.cc ypixmap.cc
- yimage_gdk.cc yimage_imlib.cc yimage_xpm.cc ytooltip.cc)
+ yimage_gdk.cc ytooltip.cc)
 
 if(CONFIG_XFREETYPE)
 	list(APPEND ICE_COMMON_SRCS yfontxft.cc)
