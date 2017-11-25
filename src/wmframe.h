@@ -458,7 +458,7 @@ private:
 
     int buttonDownX, buttonDownY;
     int grabX, grabY;
-    int movingWindow, sizingWindow;
+    bool movingWindow, sizingWindow;
     int origX, origY, origW, origH;
 
     Window topSide, leftSide, rightSide, bottomSide;
