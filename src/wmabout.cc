@@ -63,8 +63,11 @@ AboutDlg::AboutDlg(): YDialog() {
     fLanguageS->show();
     fLanguage->show();
 
+    setTitle("About");
     setWindowTitle(_("icewm - About"));
     //setIconTitle("icewm - About");
+    setClassHint("about", "IceWM");
+
     setWinLayerHint(WinLayerAboveDock);
     setWinWorkspaceHint(-1);
     setWinHintsHint(WinHintsSkipWindowMenu);
