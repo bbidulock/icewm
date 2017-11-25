@@ -61,7 +61,6 @@ YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
 
     initTitleColorsFonts();
     setTitle("TitleBar");
-    setBitGravity(NorthGravity);
     setWinGravity(NorthGravity);
 }
 
