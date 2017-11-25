@@ -483,6 +483,7 @@ void YFrameWindow::createPointerWindows() {
     if (titlebar()) {
         titlebar()->raiseButtons();
     }
+    XRaiseWindow(xapp->display(), container()->handle());
 }
 
 void YFrameWindow::grabKeys() {
