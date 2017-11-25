@@ -11,7 +11,10 @@ public:
 #endif
     YRect(int x, int y, unsigned w, unsigned h)
         :xx(x), yy(y), ww(w), hh(h)
-    { }
+    {
+        PRECONDITION(ww < INT_MAX);
+        PRECONDITION(hh < INT_MAX);
+    }
 
     int x() const { return xx; }
     int y() const { return yy; }
