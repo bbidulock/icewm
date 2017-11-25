@@ -335,6 +335,8 @@ YFrameClient(aParent, 0) {
     windowList = this;
     setWindowTitle(_("Window list"));
     setIconTitle(_("Window list"));
+
+    setWinHintsHint(WinHintsSkipTaskBar);
     setWinWorkspaceHint(-1);
     setWinLayerHint(WinLayerAboveDock);
 }
