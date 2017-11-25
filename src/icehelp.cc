@@ -937,7 +937,7 @@ private:
     ActionItem& operator=(const ActionItem&);
 public:
     ActionItem() : item(0) {}
-    ~ActionItem() { delete item; }
+    ~ActionItem() { }
     void operator=(YMenuItem* menuItem) { item = menuItem; }
     YMenuItem* operator->() { return item; }
 };
@@ -1724,7 +1724,10 @@ void HTextView::handleClick(const XButtonEvent &up, int /*count*/) {
 class FileView: public YWindow, public HTListener {
 public:
     FileView(YApplication *app, const char *path);
-    ~FileView() {}
+    ~FileView() {
+        delete view;
+        delete scroll;
+    }
 
     void activateURL(const cstring& url, bool relative = false);
 
@@ -2084,6 +2087,27 @@ bool FileView::loadHttp(const upath& path) {
     return false;
 }
 
+static int handler(Display *display, XErrorEvent *xev) {
+    if (true) {
+        char message[80], req[80], number[80];
+
+        snprintf(number, 80, "%d", xev->request_code);
+        XGetErrorDatabaseText(display, "XRequest",
+                              number, "",
+                              req, sizeof(req));
+        if (req[0] == 0)
+            snprintf(req, 80, "[request_code=%d]", xev->request_code);
+
+        if (XGetErrorText(display, xev->error_code, message, 80) != Success)
+            *message = '\0';
+
+        tlog("X error %s(0x%lX): %s. #%lu, +%lu, -%lu.",
+             req, xev->resourceid, message, xev->serial,
+             NextRequest(display), LastKnownRequestProcessed(display));
+    }
+    return 0;
+}
+
 static void print_help()
 {
     printf(_(
@@ -2160,6 +2184,8 @@ int main(int argc, char **argv) {
     if (helpfile == 0) {
         helpfile = ICEHELPIDX;
     }
+
+    XSetErrorHandler(handler);
 
     YXApplication app(&argc, &argv);
 
