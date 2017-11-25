@@ -333,8 +333,10 @@ YFrameClient(aParent, 0) {
     setGeometry(YRect(w / 4, h / 4, w / 2, h / 2));
 
     windowList = this;
+    setTitle("WindowList");
     setWindowTitle(_("Window list"));
     setIconTitle(_("Window list"));
+    setClassHint("windowList", "IceWM");
 
     setWinHintsHint(WinHintsSkipTaskBar);
     setWinWorkspaceHint(-1);
