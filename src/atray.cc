@@ -226,11 +226,6 @@ TrayPane::~TrayPane() {
 }
 
 TrayApp *TrayPane::addApp(YFrameWindow *frame) {
-    if (frame->client() == windowList)
-        return 0;
-    if (frame->client() == taskBar)
-        return 0;
-
     TrayApp *tapp = new TrayApp(frame, this);
 
     if (tapp != 0) {
