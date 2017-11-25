@@ -61,6 +61,8 @@ YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
 
     initTitleColorsFonts();
     setTitle("TitleBar");
+    setBitGravity(NorthGravity);
+    setWinGravity(NorthGravity);
 }
 
 YFrameButton* YFrameTitleBar::maximizeButton() {
@@ -361,6 +363,9 @@ void YFrameTitleBar::positionButton(YFrameButton *b, int &xPos, bool onRight) {
         b->setGeometry(YRect(xPos, 0, titleY, titleY));
         if (!onRight) xPos += titleY;
     }
+
+    if (onRight)
+        b->setWinGravity(NorthEastGravity);
 }
 
 void YFrameTitleBar::layoutButtons() {
