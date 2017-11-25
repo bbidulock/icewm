@@ -308,10 +308,10 @@
 // #define WIN_HINTS_FOCUS_ON_CLICK    (1<<4) /* app only accepts focus if clicked */
 
 #define XA_WIN_HINTS            "_WIN_HINTS"
-#define WinHintsSkipFocus       (1 << 0)
-#define WinHintsSkipWindowMenu  (1 << 1)
-#define WinHintsSkipTaskBar     (1 << 2)
-#define WinHintsGroupTransient  (1 << 3)
+#define WinHintsSkipFocus       (1 << 0) /* "alt-tab" skips this win */
+#define WinHintsSkipWindowMenu  (1 << 1) /* do not show in window list */
+#define WinHintsSkipTaskBar     (1 << 2) /* do not show on taskbar */
+#define WinHintsGroupTransient  (1 << 3) /* Reserved - definition is unclear */
 #define WinHintsFocusOnClick    (1 << 4) /* app only accepts focus when clicked */
 #define WinHintsDoNotCover      (1 << 5) /* attempt to not cover this window */
 #define WinHintsDockHorizontal  (1 << 6) /* docked horizontally */
