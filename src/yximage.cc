@@ -49,7 +49,7 @@ ref<YImage> YImage::create(unsigned width, unsigned height)
     XImage *ximage = 0;
 
     ximage = XCreateImage(xapp->display(), xapp->visual(), 32, ZPixmap, 0, NULL, width, height, 8, 0);
-    if (ximage != 0 && (ximage->data = new char[ximage->bytes_per_line*height])) {
+    if (ximage != 0 && (ximage->data = (char*) calloc(ximage->bytes_per_line*height,sizeof(char)))) {
         image.init(new YXImage(ximage));
         ximage = 0; // consumed above
     }
@@ -118,7 +118,7 @@ ref<YImage> YXImage::loadxpm(upath filename)
             unsigned h = xdraw->height;
 
             ximage = XCreateImage(xapp->display(), xapp->visual(), 32, ZPixmap, 0, NULL, w, h, 8, 0);
-            if (ximage && (ximage->data = new char[ximage->bytes_per_line*h])) {
+            if (ximage && (ximage->data = (char*) calloc(ximage->bytes_per_line*h, sizeof(char)))) {
                 for (unsigned j = 0; j < h; j++) {
                     for (unsigned i = 0; i < w; i++) {
                         if (XGetPixel(xmask, i, j))
@@ -223,7 +223,7 @@ ref<YImage> YXImage::loadpng(upath filename)
     png_read_image(png_ptr, row_pointers);
     png_read_end(png_ptr, info_ptr);
     ximage = XCreateImage(xapp->display(), xapp->visual(), 32, ZPixmap, 0, NULL, width, height, 8, 0);
-    if (!ximage || !(ximage->data = new char[ximage->bytes_per_line*height])) {
+    if (!ximage || !(ximage->data = (char*) calloc(ximage->bytes_per_line*height, sizeof(char)))) {
         if (ximage) {
             tlog("could not allocate ximage data\n");
             XDestroyImage(ximage);
@@ -264,9 +264,9 @@ ref<YImage> YXImage::loadpng(upath filename)
   pngerr:
     ximage = (typeof(ximage)) vol_ximage;
     png_pixels = (typeof(png_pixels)) vol_png_pixels;
-    free(png_pixels);
+    delete[] png_pixels;
     row_pointers = (typeof(row_pointers)) vol_row_pointers;
-    free(row_pointers);
+    delete[] row_pointers;
     png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
     goto noread;
   noinfo:
@@ -301,7 +301,7 @@ ref<YImage> YXImage::upscale(unsigned nw, unsigned nh)
         bool has_alpha = hasAlpha();
 
         ximage = XCreateImage(xapp->display(), v, d, ZPixmap, 0, NULL, nw, nh, 8, 0);
-        if (!ximage || !(ximage->data = new char[ximage->bytes_per_line*nh])) {
+        if (!ximage || !(ximage->data = (char*) calloc(ximage->bytes_per_line*nh, sizeof(char)))) {
             tlog("could not allocate ximage %ux%ux%u or data\n", nw, nh, d);
             goto error;
         }
@@ -428,23 +428,28 @@ ref<YImage> YXImage::downscale(unsigned nw, unsigned nh)
         bool has_alpha = hasAlpha();
 
         ximage = XCreateImage(xapp->display(), v, d, ZPixmap, 0, NULL, nw, nh, 8, 0);
-        if (!ximage || !(ximage->data = new char[ximage->bytes_per_line*nh])) {
+        if (!ximage || !(ximage->data = (char*) calloc(ximage->bytes_per_line*nh, sizeof(char)))) {
             tlog("could not allocate ximage %ux%ux%u or data\n", nw, nh, d);
             goto error;
         }
+        size_t alloc_size = ximage->bytes_per_line * ximage->height * 4 * sizeof(*chanls);
         // tlog("created downscale ximage at %ux%ux%u\n", ximage->width, ximage->height, ximage->depth);
-        if (!(chanls = new double[ximage->bytes_per_line * ximage->height * 4 * sizeof(*chanls)])) {
+        if (!(chanls = new double[alloc_size])) {
             tlog("could not allocate working arrays\n");
             goto error;
         }
-        if (!(counts = new double[ximage->bytes_per_line * ximage->height * sizeof(*counts)])) {
+        memset(chanls, double(0), alloc_size);
+        alloc_size = ximage->bytes_per_line * ximage->height * sizeof(*counts);
+        if (!(counts = new double[alloc_size])) {
             tlog("could not allocate working arrays\n");
             goto error;
         }
-        if (!(colors = new double[ximage->bytes_per_line * ximage->height * sizeof(*colors)])) {
+        memset(counts, double(0), alloc_size);
+        if (!(colors = new double[alloc_size])) {
             tlog("could not allocate working arrays\n");
             goto error;
         }
+        memset(colors, double(0), alloc_size);
         {
             double pppx = (double) w / (double) nw;
             double pppy = (double) h / (double) nh;
@@ -621,7 +626,7 @@ ref<YImage> YXImage::combine(XImage *xdraw, XImage *xmask)
         return image;
     }
     ximage = XCreateImage(xapp->display(), xapp->visual(), 32, ZPixmap, 0, NULL, w, h, 8, 0);
-    if (!ximage || !(ximage->data = new char[ximage->bytes_per_line*h]))
+    if (!ximage || !(ximage->data = (char*) calloc(ximage->bytes_per_line*h, sizeof(char))))
         goto error;
     // tlog("created ximage for combine at %ux%ux%u with mask %ux%ux%u\n",
     //      ximage->width, ximage->height, ximage->depth,
@@ -648,7 +653,7 @@ ref<YImage> YImage::createFromIconProperty(long *prop_pixels, unsigned w, unsign
     // tlog("creating icon %ux%u\n", w, h);
     // icon properties are always 32-bit ARGB
     ximage = XCreateImage(xapp->display(), xapp->visual(), 32, ZPixmap, 0, NULL, w, h, 8, 0);
-    if (!ximage || !(ximage->data = new char[ximage->bytes_per_line*h]))
+    if (!ximage || !(ximage->data = (char*) calloc(ximage->bytes_per_line*h, sizeof(char))))
         goto error;
     // tlog("created ximage for icon %ux%ux%u\n", ximage->width, ximage->height, ximage->depth);
     for (unsigned j = 0; j < h; j++)
@@ -694,7 +699,7 @@ ref <YPixmap> YXImage::renderToPixmap()
                         has_mask = true;
         if (hasAlpha()) {
             xdraw = XCreateImage(xapp->display(), xapp->visual(), xapp->depth(), ZPixmap, 0, NULL, w, h, 8, 0);
-            if (!xdraw || !(xdraw->data = new char[xdraw->bytes_per_line*h]))
+            if (!xdraw || !(xdraw->data = (char*) calloc(xdraw->bytes_per_line*h, sizeof(char))))
                 goto done;
             for (unsigned j = 0; j < h; j++)
                 for (unsigned i = 0; i < w; i++)
@@ -704,7 +709,7 @@ ref <YPixmap> YXImage::renderToPixmap()
         // tlog("created ximage %ux%ux%u for pixmap\n", xdraw->width, xdraw->height, xdraw->depth);
 
         xmask = XCreateImage(xapp->display(), xapp->visual(), 1, XYPixmap, 0, NULL, w, h, 8, 0);
-        if (!xmask || !(xmask->data = new char[xmask->bytes_per_line*h]))
+        if (!xmask || !(xmask->data = (char*) calloc(xmask->bytes_per_line*h, sizeof(char))))
             goto done;
         for (unsigned j = 0; j < h; j++)
             for (unsigned i = 0; i < w; i++)
