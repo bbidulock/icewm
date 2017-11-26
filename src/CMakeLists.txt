@@ -80,7 +80,13 @@ elseif(CONFIG_IMLIB AND NOT CONFIG_XPM AND NOT CONFIG_LIBPNG AND NOT CONFIG_GDK_
 elseif(CONFIG_XPM AND CONFIG_LIBPNG AND NOT CONFIG_GDK_PIXBUF_XLIB AND NOT CONFIG_IMLIB)
     #ok
 else()
-    MESSAGE(FATAL_ERROR "Possible combination of image loaders are: imlib, xpm+png, pixbuf")
+    MESSAGE(FATAL_ERROR "Possible combination of image loaders are:
+    -DCONFIG_XPM=on -DCONFIG_LIBPNG=on -DCONFIG_IMLIB=off -DCONFIG_GDK_PIXBUF_XLIB=off
+    or
+    -DCONFIG_XPM=off -DCONFIG_LIBPNG=off -DCONFIG_IMLIB=off -DCONFIG_GDK_PIXBUF_XLIB=on
+    or
+    -DCONFIG_XPM=off -DCONFIG_LIBPNG=off -DCONFIG_IMLIB=on -DCONFIG_GDK_PIXBUF_XLIB=off
+")
 endif()
 
 # TODO: find some common helper to handle that variables
