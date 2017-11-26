@@ -79,13 +79,11 @@ for(`$xrandr`)
                 $disco = ($2 eq "disconnected");
                 if($disco)
                 {
-                        # that was a wrong solution, does not work
-                        #                        $turnRestOff.=" --display $curmon --off";
+                        $turnRestOff.=" --display $curmon --off";
                 }
                 else
                 {
                         push(@connected, $curmon);
-                        #$realname{$curmon}=${curmon} if ! $realname{$curmon};
                 }
         }
         # detect active only when there is a flag in the resolution list...
@@ -128,14 +126,6 @@ $primary=$connected[0] if($primary && !grep(/$primary/, @connected));
 print "# Next primary: $primary\n";
 
 #print Dumper(\@active,\@connected,$primary, \%realname);
-if(1 == @connected)
-{
-        my $mon = shift(@connected);
-        $mon =~ s/\s.*//;
-        print "# $mon\n";
-        print "prog \"".getName($mon)."\" setscreen1 /bin/true\n";
-        exit 0;
-}
 
 my $second;
 # assuming that the primary is always among the connected screens...
@@ -175,6 +165,8 @@ foreach my $mon ($primary, @notPrimary)
 
         $i++;
 }
+
+exit 0 if 1 == @connected;
 
 # predefined multihead setups
 my $cmd = "prog '".getName($primary)." + ".getName($second)."' setscreen12 sh -c 'xrandr --output $second --auto --right-of $primary $turnNonPrimSecOff $turnRestOff'\n";

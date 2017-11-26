@@ -364,11 +364,6 @@ void TaskPane::remove(TaskBarApp *tapp) {
 }
 
 TaskBarApp *TaskPane::addApp(YFrameWindow *frame) {
-    if (frame->client() == windowList)
-        return 0;
-    if (frame->client() == taskBar)
-        return 0;
-
     TaskBarApp *tapp = new TaskBarApp(frame, this, this);
 
     if (tapp != 0) {

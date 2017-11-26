@@ -51,7 +51,7 @@ ref<YImage> YImage::create(unsigned width, unsigned height)
     XImage *ximage = 0;
 
     ximage = XCreateImage(xapp->display(), xapp->visual(), 32, ZPixmap, 0, NULL, width, height, 8, 0);
-    if (ximage != 0 && (ximage->data = new char[ximage->bytes_per_line*height])) {
+    if (ximage != 0 && (ximage->data = (char*) calloc(ximage->bytes_per_line*height,sizeof(char)))) {
         image.init(new YXImage(ximage));
         ximage = 0; // consumed above
     }
@@ -130,7 +130,7 @@ ref<YImage> YXImage::loadxpm(upath filename)
             unsigned h = xdraw->height;
 
             ximage = XCreateImage(xapp->display(), xapp->visual(), 32, ZPixmap, 0, NULL, w, h, 8, 0);
-            if (ximage && (ximage->data = new char[ximage->bytes_per_line*h])) {
+            if (ximage && (ximage->data = (char*) calloc(ximage->bytes_per_line*h, sizeof(char)))) {
                 for (unsigned j = 0; j < h; j++) {
                     for (unsigned i = 0; i < w; i++) {
                         if (XGetPixel(xmask, i, j))
@@ -235,7 +235,7 @@ ref<YImage> YXImage::loadpng(upath filename)
     png_read_image(png_ptr, row_pointers);
     png_read_end(png_ptr, info_ptr);
     ximage = XCreateImage(xapp->display(), xapp->visual(), 32, ZPixmap, 0, NULL, width, height, 8, 0);
-    if (!ximage || !(ximage->data = new char[ximage->bytes_per_line*height])) {
+    if (!ximage || !(ximage->data = (char*) calloc(ximage->bytes_per_line*height, sizeof(char)))) {
         if (ximage) {
             tlog("could not allocate ximage data\n");
             XDestroyImage(ximage);
@@ -276,9 +276,9 @@ ref<YImage> YXImage::loadpng(upath filename)
   pngerr:
     ximage = (typeof(ximage)) vol_ximage;
     png_pixels = (typeof(png_pixels)) vol_png_pixels;
-    free(png_pixels);
+    delete[] png_pixels;
     row_pointers = (typeof(row_pointers)) vol_row_pointers;
-    free(row_pointers);
+    delete[] row_pointers;
     png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
     goto noread;
   noinfo:
@@ -446,6 +446,7 @@ ref<YImage> YXImage::downscale(unsigned nw, unsigned nh)
             tlog("ERROR: could not allocate ximage %ux%ux%u or data\n", nw, nh, d);
             goto error;
         }
+        size_t alloc_size = ximage->bytes_per_line * ximage->height * 4 * sizeof(*chanls);
         // tlog("created downscale ximage at %ux%ux%u\n", ximage->width, ximage->height, ximage->depth);
         if (!(chanls = new double[ximage->bytes_per_line * ximage->height * 4 * sizeof(*chanls)])) {
             tlog("ERROR: could not allocate working arrays\n");
@@ -459,6 +460,7 @@ ref<YImage> YXImage::downscale(unsigned nw, unsigned nh)
             tlog("ERROR: could not allocate working arrays\n");
             goto error;
         }
+        memset(colors, double(0), alloc_size);
         {
             double pppx = (double) w / (double) nw;
             double pppy = (double) h / (double) nh;

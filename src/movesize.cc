@@ -947,9 +947,9 @@ void YFrameWindow::startMoveSize(bool doMove, bool byMouse,
     }
 
     if (doMove)
-        movingWindow = 1;
+        movingWindow = true;
     else
-        sizingWindow = 1;
+        sizingWindow = true;
 
     statusMoveSize->begin(this);
 
@@ -972,8 +972,8 @@ void YFrameWindow::endMoveSize() {
         (sizingWindow && opaqueResize))
         drawMoveSizeFX(x(), y(), width(), height());
 
-    movingWindow = 0;
-    sizingWindow = 0;
+    movingWindow = false;
+    sizingWindow = false;
 
     manager->setWorkAreaMoveWindows(false);
 

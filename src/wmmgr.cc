@@ -2560,8 +2560,8 @@ bool YWindowManager::readDesktopLayout() {
         }
         XFree(prop);
     }
-    MSG(("read: _NET_DESKTOP_LAYOUT(%d): %s (%d, %d) { %d, %d, %d, %d }",
-        (int) _XA_NET_DESKTOP_LAYOUT, boolstr(success), format, count,
+    MSG(("read: _NET_DESKTOP_LAYOUT(%d): %s (%d, %lu) { %d, %d, %d, %d }",
+        (int) _XA_NET_DESKTOP_LAYOUT, boolstr(success), format, (long unsigned int) count,
         fLayout.orient, fLayout.columns, fLayout.rows, fLayout.corner));
 
     return success;

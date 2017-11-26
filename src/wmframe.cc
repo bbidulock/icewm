@@ -86,8 +86,8 @@ YFrameWindow::YFrameWindow(
     extentBottom = -1;
     iconX = -1;
     iconY = -1;
-    movingWindow = 0;
-    sizingWindow = 0;
+    movingWindow = false;
+    sizingWindow = false;
     fFrameFunctions = 0;
     fFrameDecors = 0;
     fFrameOptions = 0;
@@ -483,6 +483,7 @@ void YFrameWindow::createPointerWindows() {
     if (titlebar()) {
         titlebar()->raiseButtons();
     }
+    XRaiseWindow(xapp->display(), container()->handle());
 }
 
 void YFrameWindow::grabKeys() {
@@ -3383,10 +3384,13 @@ void YFrameWindow::updateUrgency() {
 }
 
 void YFrameWindow::setWmUrgency(bool wmUrgency) {
+
     if (!(frameOptions() & foIgnoreUrgent))
     {
+        bool change = (wmUrgency != isUrgent());
         fWmUrgency = wmUrgency;
-        updateUrgency();
+        if (change)
+            updateUrgency();
     }
 }
 

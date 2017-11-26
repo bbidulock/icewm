@@ -14,6 +14,10 @@
 #include "yconfig.h"
 #include "ypointer.h"
 
+#ifdef CONFIG_RENDER
+#include <X11/extensions/Xrender.h>
+#endif
+
 #include <sys/resource.h>
 #include <stdlib.h>
 
@@ -1102,9 +1106,12 @@ void YXApplication::handleWindowEvent(Window xwindow, XEvent &xev) {
             if (mesg == _XA_NET_REQUEST_FRAME_EXTENTS) {
                 desktop->handleEvent(xev);
             }
-            else MSG(("Unknown client message %ld, win 0x%lX, data %ld,%ld",
+            else
+            {
+                MSG(("Unknown client message %ld, win 0x%lX, data %ld,%ld",
                      mesg, xev.xclient.window,
                      xev.xclient.data.l[0], xev.xclient.data.l[1]));
+            }
         }
         else if (xev.type != DestroyNotify) {
             MSG(("unknown window 0x%lX event=%d", xev.xany.window, xev.type));

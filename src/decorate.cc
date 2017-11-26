@@ -88,7 +88,10 @@ void YFrameWindow::updateMenu() {
         for (int k = 0; k < windowMenu->itemCount(); k++) {
             item = windowMenu->getItem(k);
             if (item->getAction() == actionToggleTray) {
-                item->setChecked(getTrayOption() != WinTrayIgnore);
+                bool enabled = false == (frameOptions() & foIgnoreTaskBar);
+                bool checked = enabled && (getTrayOption() != WinTrayIgnore);
+                item->setChecked(checked);
+                item->setEnabled(enabled);
             }
         }
 ///    }

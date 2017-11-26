@@ -94,7 +94,7 @@ void YBaseArray::shrink(const SizeType reducedCount) {
     MSG(("shrink %d %d", reducedCount, fCount));
     if (reducedCount >= 0 && reducedCount <= fCount)
         fCount = reducedCount;
-    else PRECONDITION(false);
+    else { PRECONDITION(false); }
 }
 
 void YBaseArray::clear() {

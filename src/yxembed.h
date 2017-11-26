@@ -2,7 +2,6 @@
 #define __YXEMBED_H
 
 #include "ywindow.h"
-#include "yarray.h"
 #include "yxapp.h"
 #include <X11/Xatom.h>
 
@@ -28,26 +27,24 @@ class YXEmbedClient;
 
 class YXEmbed: public YWindow {
 public:
-    YXEmbed(YWindow *aParent = 0);
+    explicit YXEmbed(YWindow *aParent);
     virtual ~YXEmbed();
 
-//    YObjectArray<YWindow> fClients;
-
-//    YXEmbedClient *manage(YXEmbed *embedder, Window win);
-    virtual bool destroyedClient(Window /*win*/) = 0;
+    virtual bool destroyedClient(Window win) = 0;
     virtual void handleClientUnmap(Window win) = 0;
     virtual void handleClientMap(Window win) = 0;
 };
 
 class YXEmbedClient: public YWindow {
 public:
-    YXEmbedClient(YXEmbed *embedder, YWindow *aParent = 0, Window win = 0);
+    YXEmbedClient(YXEmbed *embedder, YWindow *aParent, Window win);
     virtual ~YXEmbedClient();
 
-    void handleDestroyWindow(const XDestroyWindowEvent &destroyWindow);
-    void handleReparentNotify(const XReparentEvent &reparent);
-    void handleProperty(const XPropertyEvent &property);
-    void handleUnmap(const XUnmapEvent &unmap);
+    virtual void handleDestroyWindow(const XDestroyWindowEvent& destroyWindow);
+    virtual void handleReparentNotify(const XReparentEvent& reparent);
+    virtual void handleConfigure(const XConfigureEvent& configure);
+    virtual void handleProperty(const XPropertyEvent& property);
+    virtual void handleUnmap(const XUnmapEvent& unmap);
 
 private:
     YXEmbed *fEmbedder;
