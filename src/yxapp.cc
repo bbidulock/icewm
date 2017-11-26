@@ -14,6 +14,10 @@
 #include "yconfig.h"
 #include "ypointer.h"
 
+#ifdef CONFIG_RENDER
+#include <X11/extensions/Xrender.h>
+#endif
+
 #include <sys/resource.h>
 #include <stdlib.h>
 
