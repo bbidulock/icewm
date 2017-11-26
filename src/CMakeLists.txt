@@ -15,21 +15,21 @@ INCLUDE(CheckCXXCompilerFlag)
 SET(CXXFLAGS_COMMON "-pthread -Wall -Wextra -Wno-unused-parameter -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE -I.")
 
 if("${CMAKE_BUILD_TYPE}" STREQUAL "" AND ("" STREQUAL "${CMAKE_CXX_FLAGS}"))
-	SET(CMAKE_BUILD_TYPE Release)
+    SET(CMAKE_BUILD_TYPE Release)
 endif()
 
 if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-   add_definitions(-DDEBUG)
+    add_definitions(-DDEBUG)
 endif()
 
 # carefully splicing of command line arguments, even from lists
 macro(_append varname)
-        string(REPLACE ";" " " _apx "${ARGN}")
-        if(NOT DEFINED ${varname})
-                set(${varname} "${_apx}")
-        else()
-                set(${varname} "${${varname}} ${_apx}")
-        endif()
+    string(REPLACE ";" " " _apx "${ARGN}")
+    if(NOT DEFINED ${varname})
+        set(${varname} "${_apx}")
+    else()
+        set(${varname} "${${varname}} ${_apx}")
+    endif()
 endmacro()
 
 # I don't need -rdynamic, thanks!
@@ -41,50 +41,63 @@ SET(CMAKE_REQUIRED_FLAGS ${CXXFLAGS_COMMON})
 
 CHECK_CXX_COMPILER_FLAG(-fvisibility=hidden CXX_VHI)
 if(CXX_VHI)
-        _append(CXXFLAGS_COMMON -fvisibility=hidden)
+    _append(CXXFLAGS_COMMON -fvisibility=hidden)
 endif()
 
 CHECK_CXX_COMPILER_FLAG(-fvisibility-inlines-hidden CXX_VIHI)
 if(CXX_VIHI)
-        _append(CXXFLAGS_COMMON -fvisibility-inlines-hidden)
+    _append(CXXFLAGS_COMMON -fvisibility-inlines-hidden)
 endif()
 
 CHECK_CXX_COMPILER_FLAG(-std=gnu++98 CXX_FORCELEGACY)
 if(CXX_VIHI)
-        _append(CXXFLAGS_COMMON -std=gnu++98)
+    _append(CXXFLAGS_COMMON -std=gnu++98)
 endif()
 
-option(CONFIG_XPM "Legacy XPM image loader" off)
+option(CONFIG_LIBPNG "(Experimental) PNGLIB image loader" on)
+option(CONFIG_GDK_PIXBUF_XLIB "LIBGDKPIXBUF based image loader" off)
+option(CONFIG_XPM "(Optional) XPM image loader" on)
 option(CONFIG_IMLIB "(Deprecated) IMLIB image loader" off)
-option(CONFIG_GDK_PIXBUF_XLIB "LIBGDKPIXBUF based image loader" on)
 option(CONFIG_I18N "Define to enable internationalization" on)
-option(ENABLE_NLS "Enable Native Language Support" on)
+option(CONFIG_RENDER "Define to enable XRENDER extension" on)
+option(CONFIG_XRANDR "Define to enable XRANDR extension" on)
 option(CONFIG_SESSION "Define to enable X session management" on)
+option(ENABLE_NLS "Enable Native Language Support" on)
 option(ENABLE_LTO "Enable Link Time Optimization" off)
 
 SET(CONFIG_UNICODE_SET "" CACHE STRING "Your iconv unicode set in machine endian encoding (e.g. WCHAR_T, UCS-4-INTERNAL, UCS-4LE, UCS-4BE)")
 # turn off when empty, see config.h template for details
 IF("" STREQUAL "${CONFIG_UNICODE_SET}")
-	SET(CONFIG_UNICODE_SET OFF)
+    SET(CONFIG_UNICODE_SET OFF)
 ELSE()
-	MESSAGE(STATUS "Configured custom unicode set: ${CONFIG_UNICODE_SET}.")
+    MESSAGE(STATUS "Configured custom unicode set: ${CONFIG_UNICODE_SET}.")
 ENDIF()
+
+if(CONFIG_GDK_PIXBUF_XLIB AND NOT CONFIG_LIBPNG AND NOT CONFIG_XPM AND NOT CONFIG_IMLIB)
+    #ok
+elseif(CONFIG_IMLIB AND NOT CONFIG_XPM AND NOT CONFIG_LIBPNG AND NOT CONFIG_GDK_PIXBUF_XLIB)
+    #ok
+elseif(CONFIG_XPM AND CONFIG_LIBPNG AND NOT CONFIG_GDK_PIXBUF_XLIB AND NOT CONFIG_IMLIB)
+    #ok
+else()
+    MESSAGE(FATAL_ERROR "Possible combination of image loaders are: imlib, xpm+png, pixbuf")
+endif()
 
 # TODO: find some common helper to handle that variables
 if(ENABLE_NLS OR CONFIG_I18N)
-	find_library(CONFIG_LIBICONV iconv)
-	if(CONFIG_LIBICONV)
-		LIST(APPEND nls_LIBS iconv)
-	endif()
-	find_library(CONFIG_LIBINTL intl)
-	if(CONFIG_LIBINTL)
-		LIST(APPEND nls_LIBS intl)
-	endif()
+    find_library(CONFIG_LIBICONV iconv)
+    if(CONFIG_LIBICONV)
+        LIST(APPEND nls_LIBS iconv)
+    endif()
+    find_library(CONFIG_LIBINTL intl)
+    if(CONFIG_LIBINTL)
+        LIST(APPEND nls_LIBS intl)
+    endif()
 endif()
 
 if(ENABLE_LTO)
-        set(CXXFLAGS_COMMON "${CXXFLAGS_COMMON} -flto")
-        list(APPEND EXTRA_LIBS -flto)
+    set(CXXFLAGS_COMMON "${CXXFLAGS_COMMON} -flto")
+    list(APPEND EXTRA_LIBS -flto)
 endif()
 
 # the only used ones...
@@ -169,50 +182,62 @@ pkg_check_modules(fontconfig fontconfig)
 pkg_check_modules(xext xext)
 pkg_check_modules(x11 x11)
 if(CONFIG_GDK_PIXBUF_XLIB)
-	pkg_check_modules(pixbuf gdk-pixbuf-xlib-2.0)
+    pkg_check_modules(pixbuf gdk-pixbuf-xlib-2.0)
+endif()
+
+if(CONFIG_XPM)
+    pkg_check_modules(libxpm xpm)
+    if(NOT libxpm_FOUND)
+        message(FATAL_ERROR "XPM image loader selected but libxpm dev files not found.")
+    endif()
+endif()
+
+if(CONFIG_LIBPNG)
+    pkg_check_modules(libpng libpng)
+    if(NOT libpng_FOUND)
+        message(FATAL_ERROR "PNG image loader selected but libpng dev files not found.")
+    endif()
 endif()
 
 IF(CONFIG_SESSION)
-	LIST(APPEND sm_LIBS SM)
-	LIST(APPEND sm_LIBS ICE)
+    LIST(APPEND sm_LIBS SM)
+    LIST(APPEND sm_LIBS ICE)
 ENDIF()
 
 option(CONFIG_SHAPE "Define to enable transparent frame	decoration (titlebar borders), requests X shape extension." on)
 # TODO: check the symbol: AC_CHECK_LIB([Xext],[XShapeCombineRectangles],
 if(CONFIG_SHAPE AND NOT xext_FOUND)
-   message(WARNING "Xext library not found, disabling CONFIG_SHAPE")
-   set(CONFIG_SHAPE off)
+    message(WARNING "Xext library not found, disabling CONFIG_SHAPE")
+    set(CONFIG_SHAPE off)
 endif()
 
-option(CONFIG_XRANDR "Define to enable XRANDR extension" on)
 if(CONFIG_XRANDR)
-pkg_check_modules(xrandr xrandr)
-IF(NOT xrandr_FOUND)
-   message(WARNING "Xrandr library not found, disabling CONFIG_XRANDR")
-   set(CONFIG_XRANDR off)
-ENDIF()
+    pkg_check_modules(xrandr xrandr)
+    IF(NOT xrandr_FOUND)
+        message(WARNING "Xrandr library not found, disabling CONFIG_XRANDR")
+        set(CONFIG_XRANDR off)
+    ENDIF()
 endif()
 
-option(CONFIG_RENDER "Define to enable XRENDER extension" off)
 if(CONFIG_RENDER)
-pkg_check_modules(xrender xrender)
-IF(NOT xrender_FOUND)
-    message(WARNING "Xrender library not found, disabling CONFIG_RENDER")
-    set(CONFIG_RENDER off)
-ENDIF()
+    pkg_check_modules(xrender xrender)
+    IF(NOT xrender_FOUND)
+        message(WARNING "Xrender library not found, disabling CONFIG_RENDER")
+        set(CONFIG_RENDER off)
+    ENDIF()
 endif()
 
 option(CONFIG_COREFONTS "Define to enable X11 core fonts" off)
 option(CONFIG_XFREETYPE "Define to enable XFT support" on)
 if(CONFIG_XFREETYPE)
-   pkg_check_modules(xft xft>=2.0)
-   IF(NOT xft_FOUND)
-      message(WARNING "xft library (>=2.0) not found, disabling CONFIG_XFREETYPE")
-      set(CONFIG_XFREETYPE off)
-      set(CONFIG_COREFONTS on)
-   ENDIF()
+    pkg_check_modules(xft xft>=2.0)
+    IF(NOT xft_FOUND)
+        message(WARNING "xft library (>=2.0) not found, disabling CONFIG_XFREETYPE")
+        set(CONFIG_XFREETYPE off)
+        set(CONFIG_COREFONTS on)
+    ENDIF()
 else()
-   set(CONFIG_COREFONTS on)
+    set(CONFIG_COREFONTS on)
 endif()
 
 set(ICESOUND "ALSA,AO,OSS,ESound" CACHE STRING "List of supported audio subsystems")
@@ -237,72 +262,72 @@ set(audio_flags )
 
 pkg_check_modules(sndfile sndfile)
 if(sndfile_FOUND)
-        if(sndfile_FOUND)
-                list(APPEND audio_flags "${sndfile_CFLAGS}")
-                list(APPEND audio_libs ${sndfile_LDFLAGS})
-                list(APPEND audio_libs ${sndfile_LIBS})
+    if(sndfile_FOUND)
+        list(APPEND audio_flags "${sndfile_CFLAGS}")
+        list(APPEND audio_libs ${sndfile_LDFLAGS})
+        list(APPEND audio_libs ${sndfile_LIBS})
+    endif()
+    if("${ICESOUND}" MATCHES "alsa")
+        pkg_check_modules(alsa alsa)
+        set(ENABLE_ALSA "${alsa_FOUND}")
+        if(alsa_FOUND)
+            list(APPEND audio_flags "${alsa_CFLAGS}")
+            list(APPEND audio_libs ${alsa_LDFLAGS})
+            list(APPEND audio_libs ${alsa_LIBS})
         endif()
-        if("${ICESOUND}" MATCHES "alsa")
-                pkg_check_modules(alsa alsa)
-                set(ENABLE_ALSA "${alsa_FOUND}")
-                if(alsa_FOUND)
-                        list(APPEND audio_flags "${alsa_CFLAGS}")
-                        list(APPEND audio_libs ${alsa_LDFLAGS})
-                        list(APPEND audio_libs ${alsa_LIBS})
-                endif()
-        endif()
-        if("${ICESOUND}" MATCHES "ao")
-                pkg_check_modules(ao ao)
-                set(ENABLE_AO "${ao_FOUND}")
+    endif()
+    if("${ICESOUND}" MATCHES "ao")
+        pkg_check_modules(ao ao)
+        set(ENABLE_AO "${ao_FOUND}")
         if(ao_FOUND)
-                list(APPEND audio_flags "${ao_CFLAGS}")
-                list(APPEND audio_libs ${ao_LDFLAGS})
-                list(APPEND audio_libs ${ao_LIBS})
+            list(APPEND audio_flags "${ao_CFLAGS}")
+            list(APPEND audio_libs ${ao_LDFLAGS})
+            list(APPEND audio_libs ${ao_LIBS})
         endif()
-        endif()
-        if("${ICESOUND}" MATCHES "esound|esd")
-                pkg_check_modules(esd esound)
-                set(ENABLE_ESD "${esd_FOUND}")
+    endif()
+    if("${ICESOUND}" MATCHES "esound|esd")
+        pkg_check_modules(esd esound)
+        set(ENABLE_ESD "${esd_FOUND}")
         if(esd_FOUND)
-                list(APPEND audio_flags "${esd_CFLAGS}")
-                list(APPEND audio_libs ${esd_LDFLAGS})
-                list(APPEND audio_libs ${esd_LIBS})
+            list(APPEND audio_flags "${esd_CFLAGS}")
+            list(APPEND audio_libs ${esd_LDFLAGS})
+            list(APPEND audio_libs ${esd_LIBS})
         endif()
-        endif()
-        if("${ICESOUND}" MATCHES "oss")
-                CHECK_INCLUDE_FILE_CXX(sys/soundcard.h HAVE_SYS_SOUNDCARD_H)
-                set(ENABLE_OSS "${oss_FOUND}") # source will undef if now header present
-        endif()
+    endif()
+    if("${ICESOUND}" MATCHES "oss")
+        CHECK_INCLUDE_FILE_CXX(sys/soundcard.h HAVE_SYS_SOUNDCARD_H)
+        set(ENABLE_OSS "${HAVE_SYS_SOUNDCARD_H}")
+    endif()
 
-        string(REPLACE ";" " " audio_flags "${audio_flags}")
+    string(REPLACE ";" " " audio_flags "${audio_flags}")
 endif(sndfile_FOUND)
 
 option(XINERAMA "Define to enable Xinerama support" on)
 if(XINERAMA)
-	pkg_check_modules(xinerama xinerama)
-	if(NOT xinerama_FOUND)
-		message(WARNING "XINERAMA is not supported")
-		set(XINERAMA off)
-	endif()
+    pkg_check_modules(xinerama xinerama)
+    if(NOT xinerama_FOUND)
+        message(WARNING "XINERAMA is not supported")
+        set(XINERAMA off)
+    endif()
 endif()
 
 option(CONFIG_FRIBIDI on)
 if(CONFIG_FRIBIDI)
-	pkg_check_modules(fribidi fribidi)
-	if(not fribidi_FOUND)
-		message(WARNING "FRIBIDI is not supported")
-		set(CONFIG_FRIBIDI off)
+    pkg_check_modules(fribidi fribidi)
+    if(not fribidi_FOUND)
+        message(WARNING "FRIBIDI is not supported")
+        set(CONFIG_FRIBIDI off)
 
-	endif()
+    endif()
 endif()
 
 option(CONFIG_FDO_MENUS "Define to support freedesktop.org style menus" on)
 if(CONFIG_FDO_MENUS)
-	pkg_check_modules(gio gio-2.0 gio-unix-2.0)
-	if(NOT gio_FOUND)
-		set(CONFIG_FDO_MENUS off)
-		message(WARNING "Freedesktop style menus not supported")
-	endif()
+    pkg_check_modules(gio gio-2.0 gio-unix-2.0)
+    if(NOT gio_FOUND)
+        set(CONFIG_FDO_MENUS off)
+        message(WARNING "Freedesktop style menus not supported")
+    endif()
 endif()
 
 option(DEBUG "Define if you want to debug IceWM" off)
@@ -317,19 +342,19 @@ SET(LDFLAGS_ORIG ${CMAKE_EXE_LINKER_FLAGS})
 SET(CMAKE_EXE_LINKER_FLAGS "${LDFLAGS_ORIG} -Wl,--as-needed ")
 CHECK_CXX_SOURCE_COMPILES("int main() {return 0;}" USE_WLASNEEDED)
 IF(NOT USE_WLASNEEDED)
-   SET(CMAKE_EXE_LINKER_FLAGS ${LDFLAGS_ORIG})
+    SET(CMAKE_EXE_LINKER_FLAGS ${LDFLAGS_ORIG})
 ENDIF()
 
 # teach GCC7 to interpret our comments
 SET(CMAKE_REQUIRED_FLAGS "${CXXFLAGS_COMMON} -Wimplicit-fallthrough=2")
 CHECK_CXX_SOURCE_COMPILES("int main() {return 0;}" USE_FALLTHROUGH_WARNING)
 IF(USE_FALLTHROUGH_WARNING)
-        if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-                # apparently clang does not support the parameter but the default behavior is what we ant
-                SET(CXXFLAGS_COMMON "${CXXFLAGS_COMMON} -Wimplicit-fallthrough")
-        else()
-                SET(CXXFLAGS_COMMON "${CXXFLAGS_COMMON} -Wimplicit-fallthrough=2")
-        endif()
+    if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+        # apparently clang does not support the parameter but the default behavior is what we ant
+        SET(CXXFLAGS_COMMON "${CXXFLAGS_COMMON} -Wimplicit-fallthrough")
+    else()
+        SET(CXXFLAGS_COMMON "${CXXFLAGS_COMMON} -Wimplicit-fallthrough=2")
+    endif()
 ENDIF()
 
 #######################################
@@ -344,52 +369,53 @@ CONFIGURE_FILE("${CMAKE_SOURCE_DIR}/src/config.cmake.h.in" "${CMAKE_BINARY_DIR}/
 
 # pkg-config delivers lists, we need plain compiler options! :-(
 foreach(pfx fontconfig xext x11 pixbuf xrandr xrender xft alsa
-		esd ao oss xinerama fribidi gio)
-	string(REPLACE ";" " " ${pfx}_CFLAGS "${${pfx}_CFLAGS}")
-	#message(STATUS "Normalizing argument lists: ${${pfx}_LDFLAGS} ; ${${pfx}_CFLAGS}")
+        esd ao oss xinerama fribidi gio)
+    string(REPLACE ";" " " ${pfx}_CFLAGS "${${pfx}_CFLAGS}")
+    #message(STATUS "Normalizing argument lists: ${${pfx}_LDFLAGS} ; ${${pfx}_CFLAGS}")
 endforeach()
 
 SET(ICE_COMMON_SRCS mstring.cc udir.cc upath.cc yapp.cc yxapp.cc ytimer.cc
- ywindow.cc ypaint.cc ypopup.cc misc.cc ycursor.cc ysocket.cc ypaths.cc
- ylocale.cc yarray.cc ycollections.cc ypipereader.cc yxembed.cc yconfig.cc
- yprefs.cc yfont.cc ypixmap.cc
- yimage_gdk.cc ytooltip.cc)
+    ywindow.cc ypaint.cc ypopup.cc misc.cc ycursor.cc ysocket.cc ypaths.cc
+    ylocale.cc yarray.cc ycollections.cc ypipereader.cc yxembed.cc yconfig.cc
+    yprefs.cc yfont.cc ypixmap.cc
+    yimage_gdk.cc yximage.cc ytooltip.cc)
 
 if(CONFIG_XFREETYPE)
-	list(APPEND ICE_COMMON_SRCS yfontxft.cc)
+    list(APPEND ICE_COMMON_SRCS yfontxft.cc)
 endif()
 if(CONFIG_COREFONTS)
-	list(APPEND ICE_COMMON_SRCS yfontcore.cc)
+    list(APPEND ICE_COMMON_SRCS yfontcore.cc)
 endif()
 
 SET(ITK_SRCS ymenu.cc ylabel.cc yscrollview.cc ymenuitem.cc yscrollbar.cc ybutton.cc ylistbox.cc yinput.cc yicon.cc wmconfig.cc ref.cc
-   ydialog.cc ymsgbox.cc)
+    ydialog.cc ymsgbox.cc)
 
 SET(ICEWM_SRCS ${ICE_COMMON_SRCS} ${ITK_SRCS}
- wmbutton.cc wmsession.cc wmwinlist.cc wmtaskbar.cc
- wmwinmenu.cc wmdialog.cc wmabout.cc wmswitch.cc wmstatus.cc
- wmoption.cc wmcontainer.cc wmclient.cc wmmgr.cc
- wmapp.cc wmframe.cc wmminiicon.cc wmtitle.cc wpixres.cc
- movesize.cc themes.cc decorate.cc browse.cc wmprog.cc atasks.cc
- aworkspaces.cc amailbox.cc aclock.cc acpustatus.cc apppstatus.cc
- aaddressbar.cc objbar.cc aapm.cc atray.cc ysmapp.cc yxtray.cc yurl.cc
- globit.cc amemstatus.cc)
+    wmbutton.cc wmsession.cc wmwinlist.cc wmtaskbar.cc
+    wmwinmenu.cc wmdialog.cc wmabout.cc wmswitch.cc wmstatus.cc
+    wmoption.cc wmcontainer.cc wmclient.cc wmmgr.cc
+    wmapp.cc wmframe.cc wmminiicon.cc wmtitle.cc wpixres.cc
+    movesize.cc themes.cc decorate.cc browse.cc wmprog.cc atasks.cc
+    aworkspaces.cc amailbox.cc aclock.cc acpustatus.cc apppstatus.cc
+    aaddressbar.cc objbar.cc aapm.cc atray.cc ysmapp.cc yxtray.cc yurl.cc
+    globit.cc amemstatus.cc)
 
 
 ADD_EXECUTABLE(icewm${EXEEXT} ${ICEWM_SRCS})
-set(icewm_pc_flags "${fontconfig_CFLAGS} ${x11_CFLAGS} ${xext_CFLAGS} ${pixbuf_CFLAGS} ${xft_CFLAGS} ${xrandr_CFLAGS} ${xrender_CFLAGS} ${xinerama_CFLAGS} ${fribidi_CFLAGS}")
+set(icewm_pc_flags "${fontconfig_CFLAGS} ${x11_CFLAGS} ${xext_CFLAGS} ${libpng_CFLAGS} ${libxpm_CFLAGS} ${pixbuf_CFLAGS} ${xft_CFLAGS} ${xrandr_CFLAGS} ${xrender_CFLAGS} ${xinerama_CFLAGS} ${fribidi_CFLAGS}")
 SET_TARGET_PROPERTIES(icewm${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
-set(icewm_libs ${sm_LIBS} ${nls_LIBS} ${lsd_LDFLAGS} ${pixbuf_LDFLAGS} ${fontconfig_LDFLAGS} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${xrender_LDFLAGS} ${xinerama_LDFLAGS} ${fribidi_LDFLAGS} ${EXTRA_LIBS})
-TARGET_LINK_LIBRARIES(icewm${EXEEXT} ${icewm_libs})
+set(icewm_libs ${sm_LIBS} ${nls_LIBS} ${lsd_LDFLAGS} ${fontconfig_LDFLAGS} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${xinerama_LDFLAGS} ${fribidi_LDFLAGS} ${EXTRA_LIBS})
+set(icewm_img_libs ${xrender_LDFLAGS} ${libpng_LDFLAGS} ${libxpm_LDFLAGS} ${pixbuf_LDFLAGS}) 
+TARGET_LINK_LIBRARIES(icewm${EXEEXT} ${icewm_libs} ${icewm_img_libs})
 
 ADD_EXECUTABLE(genpref${EXEEXT} genpref.cc misc.cc)
 TARGET_LINK_LIBRARIES(genpref${EXEEXT} ${EXTRA_LIBS})
 
 IF(CONFIG_FDO_MENUS)
-ADD_EXECUTABLE(icewm-menu-fdo${EXEEXT} fdomenu.cc misc.cc)
-SET_TARGET_PROPERTIES(icewm-menu-fdo${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${gio_CFLAGS}")
-TARGET_LINK_LIBRARIES(icewm-menu-fdo${EXEEXT} ${gio_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
-INSTALL(TARGETS icewm-menu-fdo${EXEEXT} DESTINATION ${BINDIR})
+    ADD_EXECUTABLE(icewm-menu-fdo${EXEEXT} fdomenu.cc misc.cc)
+    SET_TARGET_PROPERTIES(icewm-menu-fdo${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${gio_CFLAGS}")
+    TARGET_LINK_LIBRARIES(icewm-menu-fdo${EXEEXT} ${gio_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
+    INSTALL(TARGETS icewm-menu-fdo${EXEEXT} DESTINATION ${BINDIR})
 ENDIF()
 
 ADD_EXECUTABLE(icewm-session${EXEEXT} icesm.cc yapp.cc misc.cc mstring.cc upath.cc ytimer.cc yprefs.cc yarray.cc ref.cc)
@@ -406,73 +432,78 @@ TARGET_LINK_LIBRARIES(icesh${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} 
 
 ADD_EXECUTABLE(icewmbg${EXEEXT} icewmbg.cc ref.cc ${ICE_COMMON_SRCS})
 SET_TARGET_PROPERTIES(icewmbg${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
-TARGET_LINK_LIBRARIES(icewmbg${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${xrender_LDFLAGS} ${pixbuf_LDFLAGS} ${xinerama_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
+TARGET_LINK_LIBRARIES(icewmbg${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS}  ${icewm_img_libs} ${xinerama_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 
 IF(ENABLE_ALSA OR ENABLE_AO OR ENABLE_ESD OR ENABLE_OSS)
-ADD_EXECUTABLE(icesound${EXEEXT} icesound.cc upath.cc misc.cc mstring.cc ytimer.cc yapp.cc yprefs.cc yarray.cc ref.cc)
-SET_TARGET_PROPERTIES(icesound${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags} ${audio_flags}")
-TARGET_LINK_LIBRARIES(icesound${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${audio_libs} ${EXTRA_LIBS})
-INSTALL(TARGETS icesound${EXEEXT} DESTINATION ${BINDIR})
+    ADD_EXECUTABLE(icesound${EXEEXT} icesound.cc upath.cc misc.cc mstring.cc ytimer.cc yapp.cc yprefs.cc yarray.cc ref.cc)
+    SET_TARGET_PROPERTIES(icesound${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags} ${audio_flags}")
+    TARGET_LINK_LIBRARIES(icesound${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${audio_libs} ${EXTRA_LIBS})
+    INSTALL(TARGETS icesound${EXEEXT} DESTINATION ${BINDIR})
 ENDIF()
 
 ADD_EXECUTABLE(icehelp${EXEEXT} icehelp.cc ${ICE_COMMON_SRCS} yscrollbar.cc ref.cc yicon.cc wmconfig.cc ymenu.cc ymenuitem.cc yprefs.cc yscrollview.cc)
 SET_TARGET_PROPERTIES(icehelp${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
-TARGET_LINK_LIBRARIES(icehelp${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${xrender_LDFLAGS} ${pixbuf_LDFLAGS} ${xinerama_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
+TARGET_LINK_LIBRARIES(icehelp${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${icewm_img_libs} ${xinerama_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 INSTALL(TARGETS icehelp${EXEEXT} DESTINATION ${BINDIR})
 
-ADD_EXECUTABLE(icewmtray${EXEEXT} icetray.cc ref.cc wmconfig.cc yxtray.cc ${ICE_COMMON_SRCS})
-SET_TARGET_PROPERTIES(icewmtray${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
-TARGET_LINK_LIBRARIES(icewmtray${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${xrender_LDFLAGS} ${pixbuf_LDFLAGS} ${xinerama_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
+# TBD. Internal tray is better, this is probably not needed anymore.
+#ADD_EXECUTABLE(icewmtray${EXEEXT} icetray.cc ref.cc wmconfig.cc yxtray.cc ${ICE_COMMON_SRCS})
+#SET_TARGET_PROPERTIES(icewmtray${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
+#TARGET_LINK_LIBRARIES(icewmtray${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${xinerama_LDFLAGS} ${nls_LIBS} ${icewm_img_libs} ${EXTRA_LIBS})
 
-INSTALL(TARGETS icewm${EXEEXT} icesh${EXEEXT} icewm-session${EXEEXT} icewmhint${EXEEXT} icewmbg${EXEEXT} icewmtray${EXEEXT} DESTINATION ${BINDIR})
+INSTALL(TARGETS icewm${EXEEXT} icesh${EXEEXT} icewm-session${EXEEXT} icewmhint${EXEEXT} icewmbg${EXEEXT} DESTINATION ${BINDIR})
 
 if(NOT CMAKE_CROSSCOMPILING)
-   ADD_CUSTOM_COMMAND(TARGET genpref${EXEEXT}
-      POST_BUILD
-      COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/lib
-      COMMAND genpref${EXEEXT} > lib/preferences
-      WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-   INSTALL(FILES ${CMAKE_BINARY_DIR}/lib/preferences DESTINATION ${LIBDIR})
+    ADD_CUSTOM_COMMAND(TARGET genpref${EXEEXT}
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/lib
+        COMMAND genpref${EXEEXT} > lib/preferences
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+    INSTALL(FILES ${CMAKE_BINARY_DIR}/lib/preferences DESTINATION ${LIBDIR})
 endif()
 
 #######################################
 # print information and some warnings #
 #######################################
 foreach (_variableName
-		PACKAGE
-		VERSION
-		DATADIR LIBDIR LOCDIR DOCDIR CFGDIR ICEHELPIDX
-		CONFIG_XPM
-		CONFIG_IMLIB
-		CONFIG_GDK_PIXBUF_XLIB
-		CONFIG_XFREETYPE
-		CONFIG_COREFONTS
-		XINERAMA
-		ENABLE_LTO
-		ENABLE_ALSA
-		ENABLE_AO
-		ENABLE_ESD
-		ENABLE_OSS
-		ENABLE_NLS
-		)
+        PACKAGE
+        VERSION
+        DATADIR LIBDIR LOCDIR DOCDIR CFGDIR ICEHELPIDX
+        CONFIG_XPM
+        CONFIG_IMLIB
+        CONFIG_LIBPNG
+        CONFIG_RENDER
+        CONFIG_GDK_PIXBUF_XLIB
+        CONFIG_XFREETYPE
+        CONFIG_COREFONTS
+        XINERAMA
+        ENABLE_LTO
+        ENABLE_ALSA
+        ENABLE_AO
+        ENABLE_ESD
+        ENABLE_OSS
+        ENABLE_NLS
+        )
     if("${${_variableName}}" STREQUAL "")
-            message(STATUS "${_variableName} => OFF")
+        message(STATUS "${_variableName} => OFF")
     else()
-            message(STATUS "${_variableName} => ${${_variableName}}")
+        message(STATUS "${_variableName} => ${${_variableName}}")
     endif()
 endforeach()
 
 IF(CONFIG_SESSION)
-   find_library(HAVE_LIBSM "SM")
-   IF(NOT HAVE_LIBSM)
-	   message(AUTHOR_WARNING "libSM.so not found, session management probably won't work")
-   ENDIF()
-   find_library(HAVE_LIBICE "ICE")
-   IF(NOT HAVE_LIBICE)
-	   message(AUTHOR_WARNING "libICE.so not found, session management probably won't work")
-   ENDIF()
+    find_library(HAVE_LIBSM "SM")
+    IF(NOT HAVE_LIBSM)
+        message(AUTHOR_WARNING "libSM.so not found, session management probably won't work")
+    ENDIF()
+    find_library(HAVE_LIBICE "ICE")
+    IF(NOT HAVE_LIBICE)
+        message(AUTHOR_WARNING "libICE.so not found, session management probably won't work")
+    ENDIF()
 ENDIF()
 
 if(NOT CONFIG_XFREETYPE AND NOT CONFIG_COREFONTS)
-	message(FATAL_ERROR "Either CONFIG_COREFONTS or CONFIG_COREFONTS must be enabled")
+    message(FATAL_ERROR "Either CONFIG_COREFONTS or CONFIG_COREFONTS must be enabled")
 endif()
+
+# vim: set sw=4 ts=4 et:
