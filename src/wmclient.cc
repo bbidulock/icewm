@@ -356,10 +356,10 @@ bool YFrameClient::sendPing() {
         xev.data.l[2] = (long) handle();
         xev.data.l[3] = (long) this;
         xev.data.l[4] = (long) fFrame;
-        xapp->send(xev, handle(), SubstructureNotifyMask);
+        xapp->send(xev, handle(), NoEventMask);
         fPinging = true;
         fPingTime = xev.data.l[1];
-        fPingTimer = new YTimer(1000L, this, true);
+        fPingTimer = new YTimer(3000L, this, true);
         sent = true;
     }
     return sent;
