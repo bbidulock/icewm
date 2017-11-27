@@ -145,6 +145,8 @@ CHECK_FUNCTION_EXISTS(sysinfo HAVE_SYSINFO)
 CHECK_FUNCTION_EXISTS(uname HAVE_UNAME)
 CHECK_FUNCTION_EXISTS(wordexp HAVE_WORDEXP)
 
+CHECK_LIBRARY_EXISTS (X11 XInternAtoms "" HAVE_XINTERNATOMS)
+
 # perl -e 'do { s/\.|\//_/g; $_=uc $_;  print "#cmakedefine HAVE_$_\n"} for @ARGV' `cat headersDa`
 # perl -e 'do {my $orig=$_; s/\.|\//_/g; $_=uc $_; print "CHECK_INCLUDE_FILE_CXX($orig HAVE_$_)\n"} for @ARGV' `cat headersDa`
 CHECK_INCLUDE_FILE_CXX(fcntl.h HAVE_FCNTL_H)

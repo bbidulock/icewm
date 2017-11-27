@@ -188,6 +188,9 @@ PKG_CHECK_MODULES([CORE],[fontconfig xext x11])
 AC_SUBST([CORE_CFLAGS])
 AC_SUBST([CORE_LIBS])
 
+AC_CHECK_LIB([X11],[XInternAtoms],
+    [AC_DEFINE([HAVE_XINTERNATOMS],[1],[Define to enable XInternAtoms])])
+
 AC_ARG_ENABLE([sm],
     AC_HELP_STRING([--disable-sm],[Disable X session management.]))
 if test x$enable_sm != xno ; then
