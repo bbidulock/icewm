@@ -1402,7 +1402,6 @@ void YFrameWindow::wmClose() {
     if (!canClose())
         return ;
 
-    wmHide();
     XGrabServer(xapp->display());
     client()->getProtocols(true);
 
