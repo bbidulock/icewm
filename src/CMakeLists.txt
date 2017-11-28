@@ -57,7 +57,6 @@ endif()
 option(CONFIG_LIBPNG "(Experimental) PNGLIB image loader" on)
 option(CONFIG_GDK_PIXBUF_XLIB "LIBGDKPIXBUF based image loader" off)
 option(CONFIG_XPM "(Optional) XPM image loader" on)
-option(CONFIG_IMLIB "(Deprecated) IMLIB image loader" off)
 option(CONFIG_I18N "Define to enable internationalization" on)
 option(CONFIG_RENDER "Define to enable XRENDER extension" on)
 option(CONFIG_XRANDR "Define to enable XRANDR extension" on)
@@ -73,19 +72,17 @@ ELSE()
     MESSAGE(STATUS "Configured custom unicode set: ${CONFIG_UNICODE_SET}.")
 ENDIF()
 
-if(CONFIG_GDK_PIXBUF_XLIB AND NOT CONFIG_LIBPNG AND NOT CONFIG_XPM AND NOT CONFIG_IMLIB)
+if(CONFIG_GDK_PIXBUF_XLIB AND NOT CONFIG_LIBPNG AND NOT CONFIG_XPM)
     #ok
-elseif(CONFIG_IMLIB AND NOT CONFIG_XPM AND NOT CONFIG_LIBPNG AND NOT CONFIG_GDK_PIXBUF_XLIB)
+elseif(NOT CONFIG_XPM AND NOT CONFIG_LIBPNG AND NOT CONFIG_GDK_PIXBUF_XLIB)
     #ok
-elseif(CONFIG_XPM AND CONFIG_LIBPNG AND NOT CONFIG_GDK_PIXBUF_XLIB AND NOT CONFIG_IMLIB)
+elseif(CONFIG_XPM AND CONFIG_LIBPNG AND NOT CONFIG_GDK_PIXBUF_XLIB)
     #ok
 else()
     MESSAGE(FATAL_ERROR "Possible combination of image loaders are:
-    -DCONFIG_XPM=on -DCONFIG_LIBPNG=on -DCONFIG_IMLIB=off -DCONFIG_GDK_PIXBUF_XLIB=off
+    -DCONFIG_XPM=on -DCONFIG_LIBPNG=on -DCONFIG_GDK_PIXBUF_XLIB=off
     or
-    -DCONFIG_XPM=off -DCONFIG_LIBPNG=off -DCONFIG_IMLIB=off -DCONFIG_GDK_PIXBUF_XLIB=on
-    or
-    -DCONFIG_XPM=off -DCONFIG_LIBPNG=off -DCONFIG_IMLIB=on -DCONFIG_GDK_PIXBUF_XLIB=off
+    -DCONFIG_XPM=off -DCONFIG_LIBPNG=off -DCONFIG_GDK_PIXBUF_XLIB=on
 ")
 endif()
 
@@ -189,8 +186,15 @@ CHECK_TYPE_SIZE(short SIZEOF_SHORT)
 pkg_check_modules(fontconfig fontconfig)
 pkg_check_modules(xext xext)
 pkg_check_modules(x11 x11)
+
+set(icewm_img_libs "")
+
 if(CONFIG_GDK_PIXBUF_XLIB)
     pkg_check_modules(pixbuf gdk-pixbuf-xlib-2.0)
+    if(NOT pixbuf_FOUND)
+        message(FATAL_ERROR "GDX-PIXBUF image loader selected but its dev files were not found.")
+    endif()
+    LIST(APPEND icewm_img_libs ${pixbuf_LDFLAGS})
 endif()
 
 if(CONFIG_XPM)
@@ -198,6 +202,7 @@ if(CONFIG_XPM)
     if(NOT libxpm_FOUND)
         message(FATAL_ERROR "XPM image loader selected but libxpm dev files not found.")
     endif()
+    LIST(APPEND icewm_img_libs ${libxpm_LDFLAGS})
 endif()
 
 if(CONFIG_LIBPNG)
@@ -205,6 +210,7 @@ if(CONFIG_LIBPNG)
     if(NOT libpng_FOUND)
         message(FATAL_ERROR "PNG image loader selected but libpng dev files not found.")
     endif()
+    LIST(APPEND icewm_img_libs ${libpng_LDFLAGS})
 endif()
 
 IF(CONFIG_SESSION)
@@ -233,6 +239,7 @@ if(CONFIG_RENDER)
         message(WARNING "Xrender library not found, disabling CONFIG_RENDER")
         set(CONFIG_RENDER off)
     ENDIF()
+    LIST(APPEND icewm_img_libs ${xrender_LDFLAGS})
 endif()
 
 option(CONFIG_COREFONTS "Define to enable X11 core fonts" off)
@@ -325,7 +332,6 @@ if(CONFIG_FRIBIDI)
     if(not fribidi_FOUND)
         message(WARNING "FRIBIDI is not supported")
         set(CONFIG_FRIBIDI off)
-
     endif()
 endif()
 
@@ -412,8 +418,7 @@ SET(ICEWM_SRCS ${ICE_COMMON_SRCS} ${ITK_SRCS}
 ADD_EXECUTABLE(icewm${EXEEXT} ${ICEWM_SRCS})
 set(icewm_pc_flags "${fontconfig_CFLAGS} ${x11_CFLAGS} ${xext_CFLAGS} ${libpng_CFLAGS} ${libxpm_CFLAGS} ${pixbuf_CFLAGS} ${xft_CFLAGS} ${xrandr_CFLAGS} ${xrender_CFLAGS} ${xinerama_CFLAGS} ${fribidi_CFLAGS}")
 SET_TARGET_PROPERTIES(icewm${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
-set(icewm_libs ${sm_LIBS} ${nls_LIBS} ${lsd_LDFLAGS} ${fontconfig_LDFLAGS} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${xinerama_LDFLAGS} ${fribidi_LDFLAGS} ${EXTRA_LIBS})
-set(icewm_img_libs ${xrender_LDFLAGS} ${libpng_LDFLAGS} ${libxpm_LDFLAGS} ${pixbuf_LDFLAGS}) 
+set(icewm_libs ${sm_LIBS} ${nls_LIBS} ${fontconfig_LDFLAGS} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${xinerama_LDFLAGS} ${fribidi_LDFLAGS} ${EXTRA_LIBS})
 TARGET_LINK_LIBRARIES(icewm${EXEEXT} ${icewm_libs} ${icewm_img_libs})
 
 ADD_EXECUTABLE(genpref${EXEEXT} genpref.cc misc.cc)
