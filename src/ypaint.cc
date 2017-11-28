@@ -20,6 +20,12 @@
 #include <X11/Xft/Xft.h>
 #endif
 
+#ifdef DEBUG
+/* since recently sometimes copy area for NULL pixmap is done: */
+#define XCopyArea(a,b,c,d,e,f,g,h,i,j) \
+    do { Drawable B(b),C(c); PRECONDITION(B); PRECONDITION(C); ::XCopyArea(a,B,C,d,e,f,g,h,i,j); } while(0)
+#endif
+
 static inline Display* display()  { return xapp->display(); }
 static inline Colormap colormap() { return xapp->colormap(); }
 static inline Visual*  visual()   { return xapp->visual(); }
