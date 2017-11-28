@@ -1124,6 +1124,8 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
 
     statusMoveSize = new MoveSizeStatus(manager);
     statusWorkspace = WorkspaceStatus::createInstance(manager);
+
+    windowList = new WindowList(manager, this);
     if (showTaskBar) {
         taskBar = new TaskBar(this, manager, this, this);
         if (taskBar)
@@ -1131,7 +1133,6 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     } else {
         taskBar = 0;
     }
-    windowList = new WindowList(manager, this);
     //windowList->show();
 
     manager->initWorkspaces();
