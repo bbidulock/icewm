@@ -35,6 +35,8 @@ enum ViewerDimensions {
 
 char const * ApplicationName = "icehelp";
 
+static bool verbose, nodelete;
+
 class cbuffer {
     size_t cap, ins;
     char *ptr;
@@ -1767,8 +1769,8 @@ FileView::FileView(YApplication *iapp, const char *path)
     scroll->show();
 
     setSize(ViewerWidth, ViewerHeight);
-    setTitle(path);
-    setClassHint("browser", "IceHelp");
+    setTitle("IceHelp");
+    setClassHint("icehelp", "IceWM");
 
     ref<YIcon> file_icon = YIcon::getIcon("file");
     small_icon = YPixmap::createFromImage(file_icon->small());
@@ -1814,8 +1816,10 @@ FileView::FileView(YApplication *iapp, const char *path)
 }
 
 void FileView::activateURL(const cstring& url, bool relative) {
-    tlog("activateURL('%s', %s)", url.c_str(),
-            relative ? "relative" : "not-relative");
+    if (verbose) {
+        tlog("activateURL('%s', %s)", url.c_str(),
+                relative ? "relative" : "not-relative");
+    }
 
     /*
      * Differentiate:
@@ -1884,7 +1888,7 @@ void FileView::activateURL(const cstring& url, bool relative) {
         path = fPath.path() + path;
     }
     view->addHistory(path);
-    setTitle(cstring(path));
+    setTitle(cstring(upath(path).name() + " -- IceHelp"));
     fPath = path;
 }
 
@@ -2151,27 +2155,30 @@ int main(int argc, char **argv) {
 
     for (char **arg = 1 + argv; arg < argv + argc; ++arg) {
         if (**arg == '-') {
-            if (is_help_switch(*arg))
+            if (is_switch(*arg, "b", "bugs"))
+                helpfile = PACKAGE_BUGREPORT;
+            else if (is_switch(*arg, "f", "faq"))
+                helpfile = ICEWM_FAQ;
+            else if (is_switch(*arg, "i", "icewm"))
+                helpfile = ICEWM_SITE;
+            else if (is_switch(*arg, "m", "manual"))
+                helpfile = ICEHELPIDX;
+            else if (is_switch(*arg, "t", "themes"))
+                helpfile = THEME_HOWTO;
+            else if (is_help_switch(*arg))
                 print_help();
-            if (is_version_switch(*arg))
+            else if (is_version_switch(*arg))
                 print_version_exit(VERSION);
+            else if (is_long_switch(*arg, "nodelete"))
+                nodelete = true;
+            else if (is_long_switch(*arg, "verbose"))
+                verbose = true;
+            else if (is_long_switch(*arg, "sync")) {
+                /*ignore*/; }
             else {
                 char *dummy(0);
                 if (GetLongArgument(dummy, "display", arg, argv + argc)) {
-                    /*ignore*/;
-                }
-                else if (is_long_switch(*arg, "sync"))
-                {}
-                else if (is_switch(*arg, "b", "bugs"))
-                    helpfile = PACKAGE_BUGREPORT;
-                else if (is_switch(*arg, "f", "faq"))
-                    helpfile = ICEWM_FAQ;
-                else if (is_switch(*arg, "i", "icewm"))
-                    helpfile = ICEWM_SITE;
-                else if (is_switch(*arg, "m", "manual"))
-                    helpfile = ICEHELPIDX;
-                else if (is_switch(*arg, "t", "themes"))
-                    helpfile = THEME_HOWTO;
+                    /*ignore*/; }
                 else
                     warn(_("Ignoring option '%s'"), *arg);
             }
@@ -2190,6 +2197,12 @@ int main(int argc, char **argv) {
     YXApplication app(&argc, &argv);
 
     FileView view(&app, helpfile);
+
+    if (nodelete) {
+        extern Atom _XA_WM_PROTOCOLS;
+        XDeleteProperty(app.display(), view.handle(), _XA_WM_PROTOCOLS);
+    }
+
     view.show();
     app.mainLoop();
 
