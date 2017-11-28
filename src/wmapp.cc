@@ -657,11 +657,10 @@ int handler(Display *display, XErrorEvent *xev) {
                           Success)
             *message = '\0';
 
-        tlog("X error %s(0x%lX): %s", req, xev->resourceid, message);
-        tlog("\tResource id 0x%lx\n", xev->resourceid);
-        tlog("\tFailed request %lu\n", xev->serial);
-        tlog("\tNext request now %lu\n", NextRequest(display));
-        tlog("\tLast processed %lu\n", LastKnownRequestProcessed(display));
+        tlog("X error %s(0x%lX): %s, #%lu, %+ld, %+ld.",
+             req, xev->resourceid, message,
+             xev->serial, (long) NextRequest(display) - (long) xev->serial,
+             (long) LastKnownRequestProcessed(display) - (long) xev->serial);
     }
     return 0;
 }
