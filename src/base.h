@@ -221,6 +221,8 @@ inline unsigned lowbit(T mask) {
 
 /*
  * Returns the highest bit set in mask.
+ *
+ * XXX: what shall it return if no bit is set?
  */
 template <class T>
 inline unsigned highbit(T mask) {
@@ -229,11 +231,16 @@ inline unsigned highbit(T mask) {
     unsigned bit;
     asm ("bsr %1,%0" : "=r" (bit) : "r" (mask));
 #else
-    unsigned bit(sizeof(mask) * 8 - 1);
-    while(!(mask & (1 << bit)) && bit > 0) --bit;
+    unsigned ret=0;
+    while(true)
+    {
+        mask = mask>>1;
+        if(!mask)
+            return ret;
+        ret++;
+    }
+    return 0;
 #endif
-
-    return bit;
 }
 
 /*** argc/argv processing *****************************************************/
