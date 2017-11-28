@@ -12,7 +12,10 @@ INCLUDE(FindPkgConfig)
 INCLUDE(CheckCXXSourceCompiles)
 INCLUDE(CheckCXXCompilerFlag)
 
-SET(CXXFLAGS_COMMON "-pthread -Wall -Wextra -Wno-unused-parameter -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE -I.")
+SET(CXXFLAGS_COMMON "-pthread -Wall -Wextra -Wno-unused-parameter -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE -I. -DHAVE_CONFIG_H")
+
+set(icewm_img_libs "")
+set(icewm_libs "")
 
 if("${CMAKE_BUILD_TYPE}" STREQUAL "" AND ("" STREQUAL "${CMAKE_CXX_FLAGS}"))
     SET(CMAKE_BUILD_TYPE Release)
@@ -50,9 +53,15 @@ if(CXX_VIHI)
 endif()
 
 CHECK_CXX_COMPILER_FLAG(-std=gnu++98 CXX_FORCELEGACY)
-if(CXX_VIHI)
+if(CXX_FORCELEGACY)
     _append(CXXFLAGS_COMMON -std=gnu++98)
 endif()
+
+CHECK_CXX_COMPILER_FLAG(-Wl,-fuse-ld=gold CXX_LINKER_GOLD)
+if(CXX_LINKER_GOLD)
+    list(APPEND icewm_libs -Wl,-fuse-ld=gold)
+endif()
+
 
 option(CONFIG_LIBPNG "(Experimental) PNGLIB image loader" on)
 option(CONFIG_GDK_PIXBUF_XLIB "LIBGDKPIXBUF based image loader" off)
@@ -186,8 +195,6 @@ CHECK_TYPE_SIZE(short SIZEOF_SHORT)
 pkg_check_modules(fontconfig fontconfig)
 pkg_check_modules(xext xext)
 pkg_check_modules(x11 x11)
-
-set(icewm_img_libs "")
 
 if(CONFIG_GDK_PIXBUF_XLIB)
     pkg_check_modules(pixbuf gdk-pixbuf-xlib-2.0)
@@ -418,7 +425,7 @@ SET(ICEWM_SRCS ${ICE_COMMON_SRCS} ${ITK_SRCS}
 ADD_EXECUTABLE(icewm${EXEEXT} ${ICEWM_SRCS})
 set(icewm_pc_flags "${fontconfig_CFLAGS} ${x11_CFLAGS} ${xext_CFLAGS} ${libpng_CFLAGS} ${libxpm_CFLAGS} ${pixbuf_CFLAGS} ${xft_CFLAGS} ${xrandr_CFLAGS} ${xrender_CFLAGS} ${xinerama_CFLAGS} ${fribidi_CFLAGS}")
 SET_TARGET_PROPERTIES(icewm${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
-set(icewm_libs ${sm_LIBS} ${nls_LIBS} ${fontconfig_LDFLAGS} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${xinerama_LDFLAGS} ${fribidi_LDFLAGS} ${EXTRA_LIBS})
+list(APPEND icewm_libs ${sm_LIBS} ${nls_LIBS} ${fontconfig_LDFLAGS} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${xinerama_LDFLAGS} ${fribidi_LDFLAGS} ${EXTRA_LIBS})
 TARGET_LINK_LIBRARIES(icewm${EXEEXT} ${icewm_libs} ${icewm_img_libs})
 
 ADD_EXECUTABLE(genpref${EXEEXT} genpref.cc misc.cc)
