@@ -154,7 +154,7 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
         pixmap = getPixmap(0);
     }
 
-    if (pixmap->depth() != g.rdepth()) {
+    if (pixmap != null && pixmap->depth() != g.rdepth()) {
         tlog("YFrameButton::%s: attempt to use pixmap 0x%lx of depth %d with gc of depth %d\n",
                 __func__, pixmap->pixmap(), pixmap->depth(), g.rdepth());
     }
