@@ -28,7 +28,12 @@ YBaseArray::YBaseArray(YBaseArray &other):
 void YBaseArray::setCapacity(SizeType nCapacity) {
     if (nCapacity != fCapacity) {
         StorageType *nElements = new StorageType[nCapacity * fElementSize];
-        memcpy(nElements, fElements, min(nCapacity, fCapacity) * fElementSize);
+        size_t how_much = min(nCapacity, fCapacity) * fElementSize;
+        if(how_much)
+        {
+            assert(fElements);
+            memcpy(nElements, fElements, how_much);
+        }
 
         delete[] fElements;
         fElements = nElements;
@@ -56,7 +61,7 @@ void YBaseArray::insert(const SizeType index, const void *item) {
     StorageType *nElements(nCount <= fCapacity ? fElements :
                            new StorageType[nCapacity * fElementSize]);
 
-    if (nElements != fElements)
+    if (nElements != fElements && fElements)
         memcpy(nElements, fElements, min(index, fCount) * fElementSize);
 
     if (index < fCount)
