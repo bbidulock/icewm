@@ -659,41 +659,87 @@ bool YScrollBar::handleScrollKeys(const XKeyEvent &key) {
         KeySym k = keyCodeToKeySym(key.keycode);
         int m = KEY_MODMASK(key.state);
 
-        if (m == 0 && fOrientation == Vertical) {
+        if (fOrientation == Vertical) {
             switch (k) {
             case XK_Up:
             case XK_KP_Up:
-                scroll(-fUnitIncrement);
-                return true;
+                if (m == 0) {
+                    scroll(-fUnitIncrement);
+                    return true;
+                }
+                if (m == ShiftMask) {
+                    scroll(-fUnitIncrement * 4);
+                    return true;
+                }
+                if (m == ControlMask) {
+                    scroll(-fUnitIncrement * 16);
+                    return true;
+                }
+                break;
             case XK_Home:
             case XK_KP_Home:
-                move(0);
-                return true;
+                if (m == 0) {
+                    move(0);
+                    return true;
+                }
+                break;
             case XK_Prior:
             case XK_KP_Prior:
-                if (m & ControlMask)
+                if (m == ControlMask) {
                     move(0);
-                else
+                    return true;
+                }
+                if (m == ShiftMask) {
+                    scroll(-fBlockIncrement * 4);
+                    return true;
+                }
+                if (m == 0) {
                     scroll(-fBlockIncrement);
-                return true;
+                    return true;
+                }
+                break;
             case XK_Down:
             case XK_KP_Down:
-                scroll(+fUnitIncrement);
-                return true;
+                if (m == 0) {
+                    scroll(+fUnitIncrement);
+                    return true;
+                }
+                if (m == ShiftMask) {
+                    scroll(+fUnitIncrement * 4);
+                    return true;
+                }
+                if (m == ControlMask) {
+                    scroll(+fUnitIncrement * 16);
+                    return true;
+                }
+                break;
             case XK_End:
             case XK_KP_End:
-                move(fMaximum - fVisibleAmount);
-                return true;
+                if (m == 0) {
+                    move(fMaximum - fVisibleAmount);
+                    return true;
+                }
+                break;
             case XK_Next:
             case XK_KP_Next:
-                if (m & ControlMask)
+                if (m == ControlMask) {
                     move(fMaximum - fVisibleAmount);
-                else
+                    return true;
+                }
+                if (m == ShiftMask) {
+                    scroll(+fBlockIncrement * 4);
+                    return true;
+                }
+                if (m == 0) {
                     scroll(+fBlockIncrement);
-                return true;
+                    return true;
+                }
+                break;
+            default:
+                break;
             }
         }
-        if (m == 0 && fOrientation == Horizontal) {
+        else if (m == 0 && fOrientation == Horizontal) {
             switch (k) {
             case XK_Left:
             case XK_KP_Left:
@@ -711,6 +757,8 @@ bool YScrollBar::handleScrollKeys(const XKeyEvent &key) {
             case XK_KP_End:
                 move(fMaximum - fVisibleAmount);
                 return true;
+            default:
+                break;
             }
         }
     }
