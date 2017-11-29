@@ -20,6 +20,22 @@ done
 # gmake jobs
 [[ -v jobs ]] || jobs=-j$(($(nproc 2>/dev/null||echo 4)<<1))
 
+# check all POTFILES exist
+if [[ -f po/POTFILES.in ]]; then
+    fail=
+    for file in $(< po/POTFILES.in ); do
+        if [[ ! -f $file ]]; then
+            echo "Missing $file is still in po/POTFILES.in!" >&2
+            fail+="$file "
+        fi
+    done
+    if [[ -n $fail ]]; then
+        echo "Please update po/POTFILES.in for $fail!" >&2
+        set -x
+        exit 99
+    fi
+fi
+
 if [[ -v ACONF ]]; then
 
     rm -f cscope.*
