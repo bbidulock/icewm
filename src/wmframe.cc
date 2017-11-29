@@ -1419,9 +1419,8 @@ void YFrameWindow::wmClose() {
 }
 
 void YFrameWindow::wmConfirmKill() {
-    if (fKillMsgBox)
-        return;
-    fKillMsgBox = wmConfirmKill(ustring(_("Kill Client: ")).append(getTitle()), this);
+    if (fKillMsgBox == 0)
+        fKillMsgBox = wmConfirmKill(_("Kill Client: ") + getTitle(), this);
 }
 
 YMsgBox* YFrameWindow::wmConfirmKill(const ustring& title,
@@ -1447,29 +1446,23 @@ void YFrameWindow::wmKill() {
 }
 
 void YFrameWindow::wmPrevWindow() {
-    if (next() != this) {
-        YFrameWindow *f = findWindow(fwfNext | fwfBackward | fwfVisible | fwfCycle | fwfFocusable | fwfWorkspace | fwfSame);
-        if (f) {
-            f->wmRaise();
-            manager->setFocus(f, true);
-        }
+    int flags = fwfNext | fwfVisible | fwfCycle |
+                fwfFocusable | fwfWorkspace | fwfSame;
+    YFrameWindow *f = findWindow(flags | fwfBackward);
+    if (f && f != this) {
+        f->wmRaise();
+        manager->setFocus(f, true);
     }
 }
 
 void YFrameWindow::wmNextWindow() {
-    if (next() != this) {
+    int flags = fwfNext | fwfVisible | fwfCycle |
+                fwfFocusable | fwfWorkspace | fwfSame;
+    YFrameWindow *f = findWindow(flags);
+    if (f && f != this) {
         wmLower();
-        manager->setFocus(findWindow(fwfNext | fwfVisible | fwfCycle | fwfFocusable | fwfWorkspace | fwfSame), true);
-    }
-}
-
-void YFrameWindow::wmLastWindow() {
-    if (next() != this) {
-        YFrameWindow *f = findWindow(fwfNext | fwfVisible | fwfCycle | fwfFocusable | fwfWorkspace | fwfSame);
-        if (f) {
-            f->wmRaise();
-            manager->setFocus(f, true);
-        }
+        f->wmRaise();
+        manager->setFocus(f, true);
     }
 }
 

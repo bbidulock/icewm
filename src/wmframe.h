@@ -79,7 +79,6 @@ public:
     void wmKill();
     void wmNextWindow();
     void wmPrevWindow();
-    void wmLastWindow();
     void wmMove();
     void wmSize();
     void wmOccupyAll();
