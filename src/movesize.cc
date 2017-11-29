@@ -382,6 +382,9 @@ void YFrameWindow::handleMoveMouse(const XMotionEvent &motion, int &newX, int &n
 void YFrameWindow::handleResizeMouse(const XMotionEvent &motion,
                                      int &newX, int &newY, int &newWidth, int &newHeight)
 {
+    if (buttonDownX == 0 && buttonDownY == 0)
+        return;
+
     int mouseX = motion.x_root;
     int mouseY = motion.y_root;
 
@@ -415,7 +418,6 @@ void YFrameWindow::handleResizeMouse(const XMotionEvent &motion,
         newX = x() + width() - newWidth;
     if (grabY == -1)
         newY = y() + height() - newHeight;
-
 }
 
 void YFrameWindow::outlineMove() {
@@ -891,6 +893,8 @@ void YFrameWindow::startMoveSize(bool doMove, bool byMouse,
     origY = y();
     origW = width();
     origH = height();
+    buttonDownX = 0;
+    buttonDownY = 0;
 
     manager->setWorkAreaMoveWindows(true);
     if (doMove && grabX == 0 && grabY == 0) {
@@ -943,13 +947,13 @@ void YFrameWindow::startMoveSize(bool doMove, bool byMouse,
                           ButtonReleaseMask |
                           PointerMotionMask))
     {
+        movingWindow = false;
+        sizingWindow = false;
         return ;
     }
 
-    if (doMove)
-        movingWindow = true;
-    else
-        sizingWindow = true;
+    movingWindow = doMove;
+    sizingWindow = !doMove;
 
     statusMoveSize->begin(this);
 
