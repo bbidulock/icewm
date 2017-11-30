@@ -106,14 +106,11 @@ void YColor::alloc() {
         int depth = visual->bits_per_rgb;
 
         int red_shift = lowbit(visual->red_mask);
-        int red_hbit = highbit(visual->red_mask);
-        int red_prec = red_hbit - red_shift + 1;
+        int red_prec = highbit(visual->red_mask) - red_shift + 1;
         int green_shift = lowbit(visual->green_mask);
-        int green_hbit = highbit(visual->green_mask);
-        int green_prec = green_hbit - green_shift + 1;
+        int green_prec = highbit(visual->green_mask) - green_shift + 1;
         int blue_shift = lowbit(visual->blue_mask);
-        int blue_hbit = highbit(visual->blue_mask);
-        int blue_prec = blue_hbit - blue_shift + 1;
+        int blue_prec = highbit(visual->blue_mask) - blue_shift + 1;
 
         /* Shifting by >= width-of-type isn't defined in C */
         if (depth >= 32)
@@ -122,13 +119,6 @@ void YColor::alloc() {
             padding = ((~(unsigned int)0)) << depth;
 
         unused = ~ (visual->red_mask | visual->green_mask | visual->blue_mask | padding);
-
-        assert(red_shift >= 0);
-        assert(green_shift >= 0);
-        assert(blue_shift >= 0);
-        assert((16 - red_prec) >= 0);
-        assert((16 - green_prec) >= 0);
-        assert((16 - blue_prec) >= 0);
 
         color.pixel = (unused +
                        ((color.red >> (16 - red_prec)) << red_shift) +
