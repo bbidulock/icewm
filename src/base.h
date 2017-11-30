@@ -213,7 +213,7 @@ inline unsigned lowbit(T mask) {
     asm ("bsf %1,%0" : "=r" (bit) : "r" (mask));
 #else
     unsigned bit(0);
-    while(!(mask & (1 << bit)) && bit < sizeof(mask) * 8) ++bit;
+    while(!(mask & (((T) 1) << bit)) && bit < sizeof(mask) * 8) ++bit;
 #endif
 
     return bit;
@@ -230,7 +230,7 @@ inline unsigned highbit(T mask) {
     asm ("bsr %1,%0" : "=r" (bit) : "r" (mask));
 #else
     unsigned bit(sizeof(mask) * 8 - 1);
-    while(!(mask & (1 << bit)) && bit > 0) --bit;
+    while(!(mask & (((T) 1) << bit)) && bit > 0) --bit;
 #endif
 
     return bit;
