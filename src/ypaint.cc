@@ -315,6 +315,9 @@ void Graphics::copyDrawable(Drawable const d,
                             const int x, const int y, const unsigned w, const unsigned h,
                             const int dx, const int dy)
 {
+    if (d == None)
+        return;
+
     XCopyArea(display(), d, drawable(), gc,
               x, y, w, h,
               dx - xOrigin, dy - yOrigin);
