@@ -197,35 +197,40 @@ void YImageGDK::draw(Graphics &g, int x, int y, unsigned w, unsigned h, int dx, 
 #endif
 }
 
-void YImageGDK::composite(Graphics &g, int x, int y, unsigned w, unsigned h, int dx, int dy) {
+void YImageGDK::composite(Graphics &g, int x, int y, unsigned width, unsigned height, int dx, int dy) {
+    int w = (int) width;
+    int h = (int) height;
 
     //MSG(("composite -- %d %d %d %d | %d %d", x, y, w, h, dx, dy));
     if (g.xorigin() > dx) {
-        if ((int) w <= g.xorigin() - dx)
+        if (w <= g.xorigin() - dx)
             return;
         w -= g.xorigin() - dx;
         x += g.xorigin() - dx;
         dx = g.xorigin();
     }
     if (g.yorigin() > dy) {
-        if ((int) h <= g.xorigin() - dx)
+        if (h <= g.xorigin() - dx)
             return;
         h -= g.yorigin() - dy;
         y += g.yorigin() - dy;
         dy = g.yorigin();
     }
-    if ((int) (dx + w) > (int) (g.xorigin() + g.rwidth())) {
+    if (dx + w > (int) (g.xorigin() + g.rwidth())) {
         if ((int) (g.xorigin() + g.rwidth()) <= dx)
             return;
         w = g.xorigin() + g.rwidth() - dx;
     }
-    if ((int) (dy + h) > (int) (g.yorigin() + g.rheight())) {
+    if (dy + h > (int) (g.yorigin() + g.rheight())) {
         if ((int) (g.yorigin() + g.rheight()) <= dy)
             return;
         h = g.yorigin() + g.rheight() - dy;
     }
     if (w <= 0 || h <= 0)
         return;
+
+    const int src_x = int(dx - g.xorigin());
+    const int src_y = int(dy - g.yorigin());
 
     //MSG(("composite ++ %d %d %d %d | %d %d", x, y, w, h, dx, dy));
     GdkPixbuf *pixbuf =
@@ -234,13 +239,13 @@ void YImageGDK::composite(Graphics &g, int x, int y, unsigned w, unsigned h, int
                                       g.drawable(),
                                       xapp->colormap(),
                                       xapp->visual(),
-                                      dx - g.xorigin(), dy - g.yorigin(), 0, 0, w, h);
+                                      src_x, src_y, 0, 0, w, h);
     gdk_pixbuf_composite(fPixbuf, pixbuf,
                          0, 0, w, h,
                          -x, -y, 1.0, 1.0,
                          GDK_INTERP_BILINEAR, 255);
     gdk_pixbuf_xlib_render_to_drawable(pixbuf, g.drawable(), g.handleX(),
-                                             0, 0, dx - g.xorigin(), dy - g.yorigin(), w, h,
+                                             0, 0, src_x, src_y, w, h,
 //                                             GDK_PIXBUF_ALPHA_BILEVEL, 128,
                                              XLIB_RGB_DITHER_NONE, 0, 0);
     g_object_unref(G_OBJECT(pixbuf));
