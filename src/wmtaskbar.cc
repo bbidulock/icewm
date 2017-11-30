@@ -620,7 +620,7 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
         if (fTasks) {
             fTasks->setGeometry(YRect(left[0],
                                       y[0],
-                                      right[0] - left[0],
+                                      max(0, right[0] - left[0]),
                                       h[0]));
             fTasks->show();
             fTasks->relayout();
@@ -631,7 +631,7 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
 
         fAddressBar->setGeometry(YRect(left[row],
                                        y[row] + 2,
-                                       right[row] - left[row],
+                                       max(0, right[row] - left[row]),
                                        h[row] - 4));
         fAddressBar->raise();
         if (::showAddressBar) {
