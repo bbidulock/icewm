@@ -513,6 +513,11 @@ void YFrameClient::handleUnmap(const XUnmapEvent &unmap) {
         YWindow::handleDestroyWindow(ev.xdestroywindow);
         manager->destroyedClient(unmap.window);
     } else {
+        if (adopted()) {
+            // When destroyed set wfDestroyed flag.
+            XWindowAttributes attr;
+            getWindowAttributes(&attr);
+        }
         manager->unmanageClient(unmap.window, false);
     }
 }
