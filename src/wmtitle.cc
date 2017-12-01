@@ -62,11 +62,6 @@ YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
     initTitleColorsFonts();
     setTitle("TitleBar");
     setWinGravity(NorthGravity);
-
-    // experiment for issue #203: set BG to avoid undefined gaps.
-    YColor* bg = inactiveTitleBarBg ? inactiveTitleBarBg : activeTitleBarBg;
-    if (bg)
-        XSetWindowBackground(xapp->display(), handle(), bg->pixel());
 }
 
 YFrameButton* YFrameTitleBar::maximizeButton() {
