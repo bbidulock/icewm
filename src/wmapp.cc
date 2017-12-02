@@ -565,10 +565,23 @@ static void initMenus(
     moveMenu = new YMenu();
     assert(moveMenu != 0);
     moveMenu->setShared(true);
-    for (int w = 0; w < workspaceCount; w++) {
+    for (int w = 1; w <= workspaceCount; w++) {
         char s[128];
-        snprintf(s, sizeof s, "%lu. %s", (unsigned long)(w + 1), workspaceNames[w]);
-        moveMenu->addItem(s, 0, null, workspaceActionMoveTo[w]);
+        snprintf(s, sizeof s, "%2d.  %s ", w, workspaceNames[w - 1]);
+        moveMenu->addItem(s, 1,
+                w ==  1 ? KEY_NAME(gKeySysWorkspace1TakeWin)  :
+                w ==  2 ? KEY_NAME(gKeySysWorkspace2TakeWin)  :
+                w ==  3 ? KEY_NAME(gKeySysWorkspace3TakeWin)  :
+                w ==  4 ? KEY_NAME(gKeySysWorkspace4TakeWin)  :
+                w ==  5 ? KEY_NAME(gKeySysWorkspace5TakeWin)  :
+                w ==  6 ? KEY_NAME(gKeySysWorkspace6TakeWin)  :
+                w ==  7 ? KEY_NAME(gKeySysWorkspace7TakeWin)  :
+                w ==  8 ? KEY_NAME(gKeySysWorkspace8TakeWin)  :
+                w ==  9 ? KEY_NAME(gKeySysWorkspace9TakeWin)  :
+                w == 10 ? KEY_NAME(gKeySysWorkspace10TakeWin) :
+                w == 11 ? KEY_NAME(gKeySysWorkspace11TakeWin) :
+                w == 12 ? KEY_NAME(gKeySysWorkspace12TakeWin) :
+                "", workspaceActionMoveTo[w - 1]);
     }
 
     if (strchr(winMenuItems, 'r'))
