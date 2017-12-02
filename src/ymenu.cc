@@ -857,7 +857,7 @@ void YMenu::sizePopup(int hspace) {
         fGradient = menubackPixbuf->scale(width, height);
     }
 
-    setSize(width, height);
+    setSize(width + 10, height);
 }
 
 void YMenu::repaintItem(int item) {
