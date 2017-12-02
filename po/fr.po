@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.15pre3\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-11-21 21:20-0700\n"
-"PO-Revision-Date: 2017-07-22 18:01+0000\n"
-"Last-Translator: Benoît Monin <benoit.monin@gmx.fr>\n"
-"Language-Team: French <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
-"branch/fr/>\n"
+"PO-Revision-Date: 2017-12-03 02:02+0000\n"
+"Last-Translator: Antoine Belvire <antoine.belvire@laposte.net>\n"
+"Language-Team: French "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.13.1\n"
+"X-Generator: Weblate 2.17.1\n"
 
 #: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:680 src/aapm.cc:805
 msgid " - Power"
@@ -148,40 +148,39 @@ msgstr "%ld messages."
 
 #: src/amemstatus.cc:127
 msgid "GB"
-msgstr ""
+msgstr "Go"
 
 #: src/amemstatus.cc:131
-#, fuzzy
 msgid "MB"
-msgstr "L"
+msgstr "Mo"
 
 #: src/amemstatus.cc:135
 msgid "kB"
-msgstr ""
+msgstr "ko"
 
 #: src/amemstatus.cc:139
 msgid "bytes"
-msgstr ""
+msgstr "octets"
 
 #: src/amemstatus.cc:163
 msgid "Memory Total: "
-msgstr ""
+msgstr "Mémoire totale : "
 
 #: src/amemstatus.cc:164
 msgid "Free: "
-msgstr ""
+msgstr "Libre : "
 
 #: src/amemstatus.cc:165
 msgid "Cached: "
-msgstr ""
+msgstr "En cache : "
 
 #: src/amemstatus.cc:166
 msgid "Buffers: "
-msgstr ""
+msgstr "Tampons : "
 
 #: src/amemstatus.cc:167
 msgid "User: "
-msgstr ""
+msgstr "Utilisateur : "
 
 #: src/apppstatus.cc:198
 #, c-format
@@ -311,9 +310,8 @@ msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
 #: src/icehelp.cc:1865
-#, fuzzy
 msgid "Unsupported protocol."
-msgstr "Interface %s non supportée."
+msgstr "Protocole non supporté."
 
 #: src/icehelp.cc:1890
 #, c-format
@@ -322,16 +320,15 @@ msgstr "Chemin incorrect : %s\n"
 
 #: src/icehelp.cc:1913
 msgid "Path does not refer to a file."
-msgstr ""
+msgstr "Le chemin ne fait pas référence à un fichier."
 
 #: src/icehelp.cc:1918
 msgid "Failed to open file for reading."
-msgstr ""
+msgstr "Échec de l'ouverture du fichier en lecture."
 
 #: src/icehelp.cc:1947
-#, fuzzy
 msgid "Failed to create a temporary file"
-msgstr "Échec de création d'un tube anonyme : %s"
+msgstr "Échec de la création d'une fichier temporaire"
 
 #: src/icehelp.cc:2039
 #, c-format
@@ -339,17 +336,17 @@ msgid "Failed to execute system(%s) (%d)"
 msgstr ""
 
 #: src/icehelp.cc:2062
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to decompress %s"
-msgstr "Échec de chargement du thème %s"
+msgstr "Échec de la décompression de %s"
 
 #: src/icehelp.cc:2070
 msgid "Could not locate curl or wget in PATH"
-msgstr ""
+msgstr "Impossible de trouver curl ou wget dans PATH"
 
 #: src/icehelp.cc:2074
 msgid "Unsafe characters in URL"
-msgstr ""
+msgstr "Caractères dangereux dans l'URL"
 
 #: src/icehelp.cc:2090
 #, c-format
@@ -386,9 +383,9 @@ msgid ""
 msgstr ""
 
 #: src/icehelp.cc:2152
-#, fuzzy, c-format
+#, c-format
 msgid "Ignoring option '%s'"
-msgstr "Option inconnue : '%s'"
+msgstr "Option '%s' ignorée"
 
 #: src/icelist.cc:80
 msgid "List View"
@@ -582,12 +579,12 @@ msgstr "Option inconnue : '%s'"
 #: src/icesm.cc:298
 #, c-format
 msgid "%s exited with status %d."
-msgstr ""
+msgstr "%s s'est terminé avec le statut %d."
 
 #: src/icesm.cc:304
 #, c-format
 msgid "%s was killed by signal %d."
-msgstr ""
+msgstr "%s a été terminé par le signal %d."
 
 #: src/icesound.cc:212 src/icesound.cc:320 src/icesound.cc:624
 #, c-format
@@ -597,15 +594,15 @@ msgstr "Lecture du son n°%d (%s)"
 #: src/icesound.cc:330
 #, c-format
 msgid "%s: Invalid number of channels"
-msgstr ""
+msgstr "%s : nombre de canaux non valide"
 
 #: src/icesound.cc:336 src/icesound.cc:341
 msgid "Could not set OSS channels"
-msgstr ""
+msgstr "Impossible de définir les canaux OSS"
 
 #: src/icesound.cc:346 src/icesound.cc:374
 msgid "Could not sync OSS"
-msgstr ""
+msgstr "Impossible de synchroniser OSS"
 
 #: src/icesound.cc:358
 msgid "OSS write failed"
@@ -622,13 +619,13 @@ msgid "Could not post OSS"
 msgstr "Impossible de charger le jeu de police \"%s\"."
 
 #: src/icesound.cc:398
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open OSS device %s"
-msgstr "Impossible de trouver l'image %s"
+msgstr "Impossible d'ouvrir le périphérique OSS %s"
 
 #: src/icesound.cc:403
 msgid "Could not set OSS stereo"
-msgstr ""
+msgstr "Impossible de définir la stéréo OSS"
 
 #: src/icesound.cc:408
 msgid "Could not reset OSS DSP"
@@ -636,7 +633,7 @@ msgstr ""
 
 #: src/icesound.cc:413
 msgid "Could not set OSS format"
-msgstr ""
+msgstr "Impossible de définir le format OSS"
 
 #: src/icesound.cc:486
 #, c-format
@@ -658,18 +655,18 @@ msgid "Sample <%d> uploaded as `%s:%s'"
 msgstr "Son <%d> chargé, correspond à \"%s:%s\""
 
 #: src/icesound.cc:569
-#, fuzzy, c-format
+#, c-format
 msgid "Playing sample #%d: %d"
-msgstr "Lecture du son n°%d"
+msgstr "Lecture du son #%d : %d"
 
 #: src/icesound.cc:644
-#, fuzzy, c-format
+#, c-format
 msgid "ao_open_live failed with %d"
-msgstr "Le chargement du pixmap %s a échoué, code d'erreur : %d"
+msgstr "ao_open_live a échoué avec %d"
 
 #: src/icesound.cc:655
 msgid "ao_play failed"
-msgstr ""
+msgstr "ao_play a échoué"
 
 #: src/icesound.cc:817
 #, c-format
@@ -776,7 +773,7 @@ msgstr ""
 #: src/icesound.cc:923
 #, c-format
 msgid "No audio for %s"
-msgstr ""
+msgstr "Pas d'audio pour %s"
 
 #: src/icesound.cc:1000
 msgid "Could not get GUI event property"
@@ -785,12 +782,12 @@ msgstr ""
 #: src/icesound.cc:1004
 #, c-format
 msgid "Received invalid GUI event %d"
-msgstr ""
+msgstr "Réception d'un événement GUI non valide %d"
 
 #: src/icesound.cc:1008
 #, c-format
 msgid "Received GUI event %s"
-msgstr ""
+msgstr "Réception d'un événement GUI %s"
 
 #: src/icesound.cc:1022
 #, c-format
@@ -818,9 +815,9 @@ msgid "Failed to connect to audio interfaces %s."
 msgstr "Échec de chargement du thème %s"
 
 #: src/icesound.cc:1091
-#, fuzzy, c-format
+#, c-format
 msgid "Received signal %s: Terminating..."
-msgstr "Réception du signal %d : terminaison ..."
+msgstr "Réception du signal %s : terminaison..."
 
 #: src/icetray.cc:246
 msgid ""
@@ -857,9 +854,9 @@ msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
 #: src/icewmbg.cc:73
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load image '%s'."
-msgstr "Échec de chargement du thème %s"
+msgstr "Échec du chargement de l'image '%s'."
 
 #: src/icewmbg.cc:696
 msgid ""
@@ -910,11 +907,13 @@ msgstr ""
 
 #: src/icewmbg.cc:743
 msgid "Please note that not all options are currently configured.\n"
-msgstr ""
+msgstr "Veuillez noter que toutes les options ne sont pas configurées.\n"
 
 #: src/icewmbg.cc:889
 msgid "Cannot start, because another icewmbg is still running."
 msgstr ""
+"Impossible de démarrer, parce qu'une autre instance d'icewmbg est en cours "
+"d'exécution."
 
 #: src/icewmhint.cc:41
 msgid "Usage: icewmhint [class.instance] option arg\n"
@@ -979,9 +978,10 @@ msgstr "IceWM - À propos"
 
 #
 #: src/wmapp.cc:105
-#, fuzzy
 msgid "A window manager is already running, use --replace to replace it"
-msgstr "Un gestionnaire de fenêtre tourne déjà. Terminaison ..."
+msgstr ""
+"Un gestionnaire de fenêtres est déjà en cours d'exécution, utilisez --"
+"replace pour le remplacer"
 
 #: src/wmapp.cc:123
 #, c-format
@@ -994,7 +994,7 @@ msgstr ""
 
 #: src/wmapp.cc:132
 msgid "done."
-msgstr ""
+msgstr "fait."
 
 #: src/wmapp.cc:418
 msgid "Unable to get current font path."
@@ -1027,7 +1027,7 @@ msgstr "_Arrêter l'ordinateur"
 
 #: src/wmapp.cc:537 src/wmdialog.cc:88
 msgid "_Suspend"
-msgstr ""
+msgstr "Mettre en _veille"
 
 #: src/wmapp.cc:542
 msgid "Restart _Icewm"
@@ -1218,9 +1218,9 @@ msgid "%s configured options:%s\n"
 msgstr "%s options configurées : %s\n"
 
 #: src/wmapp.cc:1493
-#, fuzzy, c-format
+#, c-format
 msgid "Unrecognized option '%s'."
-msgstr "Option inconnue : %s\n"
+msgstr "Option non reconnue '%s'."
 
 #: src/wmapp.cc:1524
 msgid "Confirm Logout"
@@ -1252,7 +1252,7 @@ msgstr "Impossible de créer le répertoire %s"
 #: src/wmconfig.cc:137
 #, c-format
 msgid "Unable to write to %s"
-msgstr ""
+msgstr "Impossible d'écrire dans %s"
 
 #: src/wmconfig.cc:164
 #, c-format
@@ -1260,7 +1260,6 @@ msgid "Unable to rename %s to %s"
 msgstr "Impossible de renommer %s en %s"
 
 #: src/wmdialog.cc:87
-#, fuzzy
 msgid "Loc_k Workstation"
 msgstr "_Verrouiller l'écran"
 
@@ -1338,14 +1337,14 @@ msgid "Missing filename argument to include statement"
 msgstr ""
 
 #: src/wmprog.cc:382
-#, fuzzy, c-format
+#, c-format
 msgid "Error at %s '%s'"
-msgstr "Erreur à la directive key %s"
+msgstr "Erreur à %s '%s'"
 
 #: src/wmprog.cc:429
-#, fuzzy, c-format
+#, c-format
 msgid "Unexepected menu keyword: '%s'"
-msgstr "Mot-clé inattendu : %s"
+msgstr "Mot-clé de menu inattendu : %s"
 
 #: src/wmprog.cc:473
 #, fuzzy, c-format
@@ -1353,14 +1352,14 @@ msgid "Error at menuprog '%s'"
 msgstr "Erreur à la directive prog \"%s\""
 
 #: src/wmprog.cc:512
-#, fuzzy, c-format
+#, c-format
 msgid "Error at %s: '%s'"
-msgstr "Erreur à la directive key %s"
+msgstr "Erreur à %s : '%s'"
 
 #: src/wmprog.cc:535
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown keyword '%s'"
-msgstr "Action inconnue : \"%s\""
+msgstr "Mot-clé inconnu '%s'"
 
 #: src/wmprog.cc:560
 #, fuzzy, c-format
@@ -1381,11 +1380,11 @@ msgstr ""
 
 #: src/wmprog.cc:856
 msgid "_Click to focus"
-msgstr ""
+msgstr "_Cliquer pour prendre le focus"
 
 #: src/wmprog.cc:857
 msgid "_Explicit focus"
-msgstr ""
+msgstr "Focus _explicite"
 
 #: src/wmprog.cc:858
 msgid "_Sloppy mouse focus"
@@ -1393,7 +1392,7 @@ msgstr ""
 
 #: src/wmprog.cc:859
 msgid "S_trict mouse focus"
-msgstr ""
+msgstr "Focus souris s_trict"
 
 #: src/wmprog.cc:860
 msgid "_Quiet sloppy focus"
@@ -1401,23 +1400,23 @@ msgstr ""
 
 #: src/wmprog.cc:861
 msgid "Custo_m"
-msgstr ""
+msgstr "_Personnalisé"
 
 #: src/wmprog.cc:883
 msgid "_Manual"
-msgstr ""
+msgstr "_Manuel"
 
 #: src/wmprog.cc:884
 msgid "_Icewm(1)"
-msgstr ""
+msgstr "_Icewm(1)"
 
 #: src/wmprog.cc:885
 msgid "Icewm_Bg(1)"
-msgstr ""
+msgstr "Icewm_Bg(1)"
 
 #: src/wmprog.cc:886
 msgid "Ice_Sound(1)"
-msgstr ""
+msgstr "Ice_Sound(1)"
 
 #: src/wmprog.cc:948
 msgid "Programs"
@@ -1437,14 +1436,13 @@ msgstr "_Aide"
 
 #: src/wmprog.cc:986
 msgid "_Focus"
-msgstr ""
+msgstr "_Focus"
 
 #: src/wmprog.cc:993
 msgid "_Themes"
 msgstr "_Thèmes"
 
 #: src/wmprog.cc:998
-#, fuzzy
 msgid "Se_ttings"
 msgstr "_Réglages"
 
@@ -1527,9 +1525,8 @@ msgid "All Workspaces"
 msgstr "Tous les bureaux"
 
 #: src/wmwinlist.cc:290
-#, fuzzy
 msgid "Del"
-msgstr "Supprimer"
+msgstr "Suppr"
 
 #: src/wmwinlist.cc:294
 msgid "_Terminate Process"
@@ -1559,7 +1556,7 @@ msgstr "%lu. Bureau %-.32s"
 #: src/yapp.cc:276
 #, c-format
 msgid "%s: select failed"
-msgstr ""
+msgstr "%s : la sélection a échoué"
 
 #: src/yconfig.cc:139
 #, c-format
@@ -1607,9 +1604,9 @@ msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
 msgstr "BOGUE ? Fin prématurée de fichier XPM mais Imlib a pu lire \"%s\""
 
 #: src/ycursor.cc:218
-#, fuzzy, c-format
+#, c-format
 msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
-msgstr "BOGUE ? Caractère inattendu mais Imlib a pu lire \"%s\""
+msgstr "BOGUE ? Caractère inattendu mais Imlib a pu lire \"%s\""
 
 #: src/yfontcore.cc:71 src/yfontxft.cc:176
 #, c-format
@@ -1705,12 +1702,12 @@ msgid "Out of memory for image %s"
 msgstr "Plus de mémoire pour l'image %s"
 
 #: src/ypaths.cc:98
-#, fuzzy, c-format
+#, c-format
 msgid "Image not readable: %s"
-msgstr "Image non lisible : %s"
+msgstr "Image non lisible : %s"
 
 #: src/ypaths.cc:124
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find image %s"
 msgstr "Impossible de trouver l'image %s"
 
