@@ -963,14 +963,14 @@ void Graphics::drawOutline(int l, int t, int r, int b, unsigned iw, unsigned ih)
 void Graphics::repHorz(Drawable d, unsigned pw, unsigned ph, int x, int y, unsigned w) {
     if (d == None)
         return;
-#if 1
+#if 0
     XSetTile(xapp->display(), gc, d);
     XSetTSOrigin(xapp->display(), gc, x - xOrigin, y - yOrigin);
     XSetFillStyle(xapp->display(), gc, FillTiled);
     XFillRectangle(xapp->display(), drawable(), gc, x - xOrigin, y - yOrigin, w, ph);
     XSetFillStyle(xapp->display(), gc, FillSolid);
 #else
-    while (w > 0) {
+    while (w > 0 && h < SHRT_MAX) {
         XCopyArea(display(), d, drawable(), gc, 0, 0, min(w, pw), ph, x - xOrigin, y - yOrigin);
         x += pw;
         w -= pw;
