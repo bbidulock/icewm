@@ -5,10 +5,8 @@
  */
 #include "config.h"
 
-#include "ylib.h"
 #include "wmbutton.h"
 
-#include "wmaction.h"
 #include "wmframe.h"
 #include "wmtitle.h"
 #include "yxapp.h"
@@ -25,11 +23,13 @@ extern YColor *activeTitleBarBg;
 extern YColor *inactiveTitleBarBg;
 
 YFrameButton::YFrameButton(YWindow *parent,
+                           bool right,
                            YFrameWindow *frame,
                            YAction action,
                            YAction action2):
     YButton(desktop, actionNull),
     fFrame(frame),
+    fRight(right),
     fAction(action),
     fAction2(action2)
 {
@@ -41,6 +41,8 @@ YFrameButton::YFrameButton(YWindow *parent,
 
     if (fAction == actionNull)
         setPopup(frame->windowMenu());
+    if (right)
+        setWinGravity(NorthEastGravity);
 
     setSize(0,0);
 }
