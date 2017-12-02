@@ -981,14 +981,14 @@ void Graphics::repHorz(Drawable d, unsigned pw, unsigned ph, int x, int y, unsig
 void Graphics::repVert(Drawable d, unsigned pw, unsigned ph, int x, int y, unsigned h) {
     if (d == None)
         return;
-#if 1
+#if 0
     XSetTile(xapp->display(), gc, d);
     XSetTSOrigin(xapp->display(), gc, x - xOrigin, y - yOrigin);
     XSetFillStyle(xapp->display(), gc, FillTiled);
     XFillRectangle(xapp->display(), drawable(), gc, x - xOrigin, y - yOrigin, pw, h);
     XSetFillStyle(xapp->display(), gc, FillSolid);
 #else
-    while (h > 0) {
+    while (h > 0 && h < SHRT_MAX) {
         XCopyArea(display(), d, drawable(), gc, 0, 0, pw, min(h, ph), x - xOrigin, y - yOrigin);
         y += ph;
         h -= ph;
