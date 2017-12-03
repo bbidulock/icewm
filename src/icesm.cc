@@ -56,7 +56,7 @@ private:
         "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
         "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
         "\n"
-        "  --display=NAME      Use NAME to connect to the X server.\n"
+        "  -d, --display=NAME  Use NAME to connect to the X server.\n"
         "  --sync              Synchronize communication with X11 server.\n"
         "\n"
         "  -n, --notray        Do not start icewmtray.\n"
@@ -84,7 +84,7 @@ private:
         for (char **arg = 1 + *argv; arg < *argv + *argc; ++arg) {
             if (**arg == '-') {
                 char *value(0);
-                if (GetLongArgument(value, "display", arg, *argv+*argc)) {
+                if (GetArgument(value, "d", "display", arg, *argv+*argc)) {
                     if (value && *value)
                         displayArg = value;
                 }

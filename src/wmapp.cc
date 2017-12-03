@@ -1342,7 +1342,7 @@ static void print_usage(const char *argv0) {
              "Starts the IceWM window manager.\n"
              "\n"
              "Options:\n"
-             "  --display=NAME      NAME of the X server to use.\n"
+             "  -d, --display=NAME  NAME of the X server to use.\n"
              "%s"
              "  --sync              Synchronize X11 commands.\n"
              "%s"
@@ -1519,7 +1519,7 @@ int main(int argc, char **argv) {
                 print_version_exit(VERSION);
             else if (is_long_switch(*arg, "sync"))
             { /* handled by Xt */ }
-            else if (GetLongArgument(value, "display", arg, &value))
+            else if (GetArgument(value, "d", "display", arg, &value))
             { /* handled by Xt */ }
             else
                 warn(_("Unrecognized option '%s'."), *arg);

@@ -647,11 +647,11 @@ void check_argv(int argc, char **argv, const char *help, const char *version)
     }
     for (char **arg = argv + 1; arg < argv + argc; ++arg) {
         check_help_version(*arg, (help && *help) ? help :
-                "  --display=NAME      NAME of the X server to use.\n",
+                "  -d, --display=NAME    NAME of the X server to use.\n",
                 version);
 
         char *value(0);
-        if (GetLongArgument(value, "display", arg, argv + argc)) {
+        if (GetArgument(value, "d", "display", arg, argv + argc)) {
             setenv("DISPLAY", value, 1);
         }
     }

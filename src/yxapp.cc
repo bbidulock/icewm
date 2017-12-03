@@ -905,7 +905,7 @@ void YXApplication::setClipboardText(const ustring &data) {
 
 const char* YXApplication::getHelpText() {
     return _(
-    "  --display=NAME      NAME of the X server to use.\n"
+    "  -d, --display=NAME  NAME of the X server to use.\n"
     "  --sync              Synchronize X11 commands.\n"
     );
 }
@@ -934,7 +934,7 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
             else if (is_version_switch(*arg)) {
                 print_version_exit(VERSION);
             }
-            else if (GetLongArgument(value, "display", arg, *argv+*argc)) {
+            else if (GetArgument(value, "d", "display", arg, *argv+*argc)) {
                 displayName = value;
             }
             else if (is_long_switch(*arg, "sync"))

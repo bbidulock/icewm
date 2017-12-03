@@ -2125,7 +2125,7 @@ static void print_help()
     "from %s.\n"
     "\n"
     "Options:\n"
-    "  --display=NAME      NAME of the X server to use.\n"
+    "  -d, --display=NAME  NAME of the X server to use.\n"
     "  --sync              Synchronize X11 commands.\n"
     "\n"
     "  -b, --bugs          Display the IceWM bug reports (primitively).\n"
@@ -2177,7 +2177,7 @@ int main(int argc, char **argv) {
                 /*ignore*/; }
             else {
                 char *dummy(0);
-                if (GetLongArgument(dummy, "display", arg, argv + argc)) {
+                if (GetArgument(dummy, "d", "display", arg, argv + argc)) {
                     /*ignore*/; }
                 else
                     warn(_("Ignoring option '%s'"), *arg);
