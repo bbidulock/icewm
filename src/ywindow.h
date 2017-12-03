@@ -293,8 +293,6 @@ public:
     YDesktop(YWindow *aParent = 0, Window win = 0);
     virtual ~YDesktop();
 
-    virtual void resetColormapFocus(bool active);
-
     void updateXineramaInfo(unsigned &w, unsigned &h);
 
     void getScreenGeometry(int *x, int *y,

@@ -1649,9 +1649,6 @@ YDesktop::~YDesktop() {
     }
 }
 
-void YDesktop::resetColormapFocus(bool /*active*/) {
-}
-
 void YWindow::grabVKey(int key, unsigned int vm) {
     int m = 0;
 

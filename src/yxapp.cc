@@ -786,8 +786,6 @@ int YXApplication::grabEvents(YWindow *win, Cursor ptr, unsigned int eventMask, 
     }
     XAllowEvents(xapp->display(), SyncPointer, CurrentTime);
 
-    desktop->resetColormapFocus(false);
-
     fXGrabWindow = win;
     fGrabWindow = win;
     return 1;
@@ -804,7 +802,7 @@ int YXApplication::releaseEvents() {
         fGrabMouse = 0;
     }
     XUngrabKeyboard(display(), CurrentTime);
-    desktop->resetColormapFocus(true);
+
     return 1;
 }
 
@@ -1031,13 +1029,13 @@ bool YXApplication::handleXEvents() {
         if (filterEvent(xev)) {
             ;
         } else {
-            int ge = (xev.type == ButtonPress ||
+            bool ge = xev.type == ButtonPress ||
                       xev.type == ButtonRelease ||
                       xev.type == MotionNotify ||
                       xev.type == KeyPress ||
                       xev.type == KeyRelease /*||
                       xev.type == EnterNotify ||
-                      xev.type == LeaveNotify*/) ? 1 : 0;
+                      xev.type == LeaveNotify*/;
 
             fReplayEvent = false;
 
@@ -1049,7 +1047,9 @@ bool YXApplication::handleXEvents() {
                 handleWindowEvent(xev.xany.window, xev);
             }
             if (fGrabWindow) {
-                if (xev.type == ButtonPress || xev.type == ButtonRelease || xev.type == MotionNotify)
+                if (xev.type == ButtonPress ||
+                    xev.type == ButtonRelease ||
+                    xev.type == MotionNotify)
                 {
                     if (!fReplayEvent) {
                         XAllowEvents(xapp->display(), SyncPointer, CurrentTime);
