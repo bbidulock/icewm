@@ -990,6 +990,10 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     mainArgv(*argv)
 {
     if (restart_wm) {
+        if (overrideTheme && *overrideTheme) {
+            mstring themeContent("Theme=\"" + mstring(overrideTheme) + "\"");
+            WMConfig::setDefault("theme", cstring(themeContent));
+        }
         YWindowManager::doWMAction(ICEWM_ACTION_RESTARTWM);
         XFlush(xapp->display());
         ::exit(0);
