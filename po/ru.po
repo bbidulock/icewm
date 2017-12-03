@@ -12,11 +12,11 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: IceWM 1.2.9\n"
+"Project-Id-Version: IceWM 1.4.2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-11-21 21:20-0700\n"
 "PO-Revision-Date: 2017-03-15 18:27+0000\n"
-"Last-Translator: Dmitriy Khanzhin <dmitriy.khanzhin@gmail.com>\n"
+"Last-Translator: Eduard Bloch <edi@gmx.de>\n"
 "Language-Team: Russian <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
 "branch/ru/>\n"
 "Language: ru\n"
@@ -69,7 +69,6 @@ msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "Загрузка %s ЦП: %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:266
-#, c-format
 msgid ""
 "\n"
 "Ram (free): %5.2f (%.2f) M"
@@ -154,27 +153,27 @@ msgstr "%ld почтовых сообщений."
 
 #: src/amemstatus.cc:127
 msgid "GB"
-msgstr ""
+msgstr "ГБ"
 
 #: src/amemstatus.cc:131
 msgid "MB"
-msgstr ""
+msgstr "МБ"
 
 #: src/amemstatus.cc:135
 msgid "kB"
-msgstr ""
+msgstr "КБ"
 
 #: src/amemstatus.cc:139
 msgid "bytes"
-msgstr ""
+msgstr "байтов"
 
 #: src/amemstatus.cc:163
 msgid "Memory Total: "
-msgstr ""
+msgstr "Сумма Памяти: "
 
 #: src/amemstatus.cc:164
 msgid "Free: "
-msgstr ""
+msgstr "Свободно: "
 
 #: src/amemstatus.cc:165
 msgid "Cached: "
@@ -186,7 +185,7 @@ msgstr ""
 
 #: src/amemstatus.cc:167
 msgid "User: "
-msgstr ""
+msgstr "Пользователь"
 
 #: src/apppstatus.cc:198
 #, c-format
@@ -316,9 +315,8 @@ msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
 #: src/icehelp.cc:1865
-#, fuzzy
 msgid "Unsupported protocol."
-msgstr "Интерфейс %s не поддерживается."
+msgstr "Протокол не поддерживается."
 
 #: src/icehelp.cc:1890
 #, c-format
@@ -334,9 +332,8 @@ msgid "Failed to open file for reading."
 msgstr ""
 
 #: src/icehelp.cc:1947
-#, fuzzy
 msgid "Failed to create a temporary file"
-msgstr "Ошибка создания анонимного потока: %s"
+msgstr "Ошибка создания промежуточного файла: %s"
 
 #: src/icehelp.cc:2039
 #, c-format
@@ -344,17 +341,16 @@ msgid "Failed to execute system(%s) (%d)"
 msgstr ""
 
 #: src/icehelp.cc:2062
-#, fuzzy, c-format
 msgid "Failed to decompress %s"
-msgstr "Ошибка открытия %s: %s"
+msgstr "Ошибка распаковки %s"
 
 #: src/icehelp.cc:2070
 msgid "Could not locate curl or wget in PATH"
-msgstr ""
+msgstr "'curl' или 'wget' в PATH не найдены"
 
 #: src/icehelp.cc:2074
 msgid "Unsafe characters in URL"
-msgstr ""
+msgstr "Опасные знаки в ссылке"
 
 #: src/icehelp.cc:2090
 #, c-format
@@ -391,9 +387,8 @@ msgid ""
 msgstr ""
 
 #: src/icehelp.cc:2152
-#, fuzzy, c-format
 msgid "Ignoring option '%s'"
-msgstr "Неизвестное действие: `%s'"
+msgstr "Неизвестная опция: `%s'"
 
 #: src/icelist.cc:80
 msgid "List View"
@@ -456,9 +451,8 @@ msgid "Invalid workspace name: `%s'"
 msgstr "Неверное имя рабочего места: `%s'"
 
 #: src/icesh.cc:434
-#, fuzzy, c-format
 msgid "Workspace out of range: %ld"
-msgstr "Рабочее место за пределами диапазона: %d"
+msgstr "Рабочее место за пределами: %ld"
 
 # Кому нужно,переводите...
 #: src/icesh.cc:568
@@ -581,19 +575,17 @@ msgid ""
 msgstr ""
 
 #: src/icesm.cc:113
-#, fuzzy, c-format
 msgid "Unknown option '%s'"
-msgstr "Неизвестное действие: `%s'"
+msgstr "Неизвестная опция: `%s'"
 
 #: src/icesm.cc:298
-#, c-format
 msgid "%s exited with status %d."
-msgstr ""
+msgstr "%s закончился с кодом %d."
 
 #: src/icesm.cc:304
 #, c-format
 msgid "%s was killed by signal %d."
-msgstr ""
+msgstr "%s был уничтожен через сигнал %d."
 
 #: src/icesound.cc:212 src/icesound.cc:320 src/icesound.cc:624
 #, c-format
@@ -826,9 +818,8 @@ msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
 #: src/icewmbg.cc:73
-#, fuzzy, c-format
 msgid "Failed to load image '%s'."
-msgstr "Ошибка открытия %s: %s"
+msgstr "Ошибка загрузки картинки `%s'."
 
 #: src/icewmbg.cc:696
 #, fuzzy
@@ -902,7 +893,7 @@ msgstr ""
 
 #: src/icewmhint.cc:41
 msgid "Usage: icewmhint [class.instance] option arg\n"
-msgstr "Использование: icewmhint [klasse.instanz] option argument\n"
+msgstr "Использование: icewmhint [class.instance] option argument\n"
 
 #: src/icewmhint.cc:77
 #, c-format
@@ -963,9 +954,8 @@ msgstr "О IceWM"
 
 #
 #: src/wmapp.cc:105
-#, fuzzy
 msgid "A window manager is already running, use --replace to replace it"
-msgstr "Оконный менеджер уже запущен. Выхожу..."
+msgstr "Оконный менеджер уже запущен, можно использовать --replace чтобы его заместить."
 
 #: src/wmapp.cc:123
 #, c-format
@@ -1344,43 +1334,36 @@ msgid "Missing command argument"
 msgstr "Потерян аргумент"
 
 #: src/wmprog.cc:201
-#, fuzzy, c-format
 msgid "Bad argument %d to command '%s'"
-msgstr "Неправильный argument: %s для %s"
+msgstr "Неправильный аргумент %s для команды `%s'"
 
 #: src/wmprog.cc:316
 msgid "Missing filename argument to include statement"
 msgstr ""
 
 #: src/wmprog.cc:382
-#, fuzzy, c-format
 msgid "Error at %s '%s'"
-msgstr "Ошибка в ключе %s"
+msgstr "Ошибка в %s `%s'"
 
 #: src/wmprog.cc:429
-#, fuzzy, c-format
 msgid "Unexepected menu keyword: '%s'"
-msgstr "Неизвестное ключевое слово: %s"
+msgstr "Неожиданной ключевое слово `menu': %s"
 
 #: src/wmprog.cc:473
-#, fuzzy, c-format
 msgid "Error at menuprog '%s'"
-msgstr "Ошибка в программе %s"
+msgstr "Ошибка в меню-программе %s"
 
 #: src/wmprog.cc:512
-#, fuzzy, c-format
 msgid "Error at %s: '%s'"
-msgstr "Ошибка в ключе %s"
+msgstr "Ошибка в %s: `%s'"
 
 #: src/wmprog.cc:535
-#, fuzzy, c-format
 msgid "Unknown keyword '%s'"
-msgstr "Неизвестное действие: `%s'"
+msgstr "Неизвестное ключевое слово `%s'"
 
 #: src/wmprog.cc:560
-#, fuzzy, c-format
 msgid "Error at keyword '%s' for %s"
-msgstr "Ошибка в ключе %s"
+msgstr "Ошибка в ключе `%s' для %s"
 
 #: src/wmprog.cc:576
 #, c-format
@@ -1423,7 +1406,7 @@ msgstr "Сво_ё"
 
 #: src/wmprog.cc:883
 msgid "_Manual"
-msgstr ""
+msgstr "Инстр_укция"
 
 #: src/wmprog.cc:884
 msgid "_Icewm(1)"
@@ -1693,7 +1676,7 @@ msgstr "Ctrl+A"
 #: src/ylocale.cc:46
 #, fuzzy
 msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
-msgstr "Локаль не поддерживается библиотекой C. Перехожу на локаль 'C'."
+msgstr "Локаль не поддерживается библиотекой C. Отхожу на локаль 'C'."
 
 #: src/ylocale.cc:72
 msgid ""
