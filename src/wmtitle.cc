@@ -531,6 +531,9 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
     case lookMetal:
     case lookFlat:
     case lookGtk: {
+        // test for issue #203
+        g.fillRect(0, 0, width(), height());
+
         int const pi(getFrame()->focused() ? 1 : 0);
 
         // !!! we really need a fallback mechanism for small windows
@@ -584,7 +587,7 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
                 g.drawGradient(rgbTitleS[pi], onLeft, 0,
                                lLeft - onLeft, height(), 0, 0, gw, height());
             }
-            else if (titleS[pi] != null)
+            else if (titleS[pi] != null && titleS[pi]->pixmap())
                 g.repHorz(titleS[pi], onLeft, 0, lLeft - onLeft);
             else
                 g.fillRect(onLeft, 0, lLeft - onLeft, height());
@@ -599,7 +602,7 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
                 g.drawGradient(rgbTitleB[pi], lRight, 0,
                                onRight - lRight, height(), gx, 0, gw, height());
             }
-            else if (titleB[pi] != null)
+            else if (titleB[pi] != null && titleB[pi]->pixmap())
                 g.repHorz(titleB[pi], lRight, 0, onRight - lRight);
             else
                 g.fillRect(lRight, 0, onRight - lRight, height());
