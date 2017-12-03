@@ -304,8 +304,12 @@ void YXTrayProxy::handleClientMessage(const XClientMessageEvent &message) {
     }
 }
 
-YXTrayEmbedder::YXTrayEmbedder(YXTray *tray, Window win): YXEmbed(tray) {
-    fTray = tray;
+YXTrayEmbedder::YXTrayEmbedder(YXTray *tray, Window win):
+    YWindow(tray),
+    fTray(tray),
+    fDocked(0)
+{
+    setParentRelative();
     setStyle(wsManager);
     setTitle("YXTrayEmbedder");
     fDocked = new YXEmbedClient(this, this, win);
@@ -389,7 +393,7 @@ void YXTrayEmbedder::paint(Graphics &g, const YRect &/*r*/) {
 }
 
 void YXTrayEmbedder::configure(const YRect &r) {
-    YXEmbed::configure(r);
+    YWindow::configure(r);
     fDocked->setGeometry(YRect(0, 0, r.width(), r.height()));
 }
 

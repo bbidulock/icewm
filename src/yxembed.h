@@ -25,14 +25,16 @@
 
 class YXEmbedClient;
 
-class YXEmbed: public YWindow {
+class YXEmbed {
 public:
-    explicit YXEmbed(YWindow *aParent);
     virtual ~YXEmbed();
 
     virtual bool destroyedClient(Window win) = 0;
     virtual void handleClientUnmap(Window win) = 0;
     virtual void handleClientMap(Window win) = 0;
+    virtual Window getHandle() = 0;
+    virtual unsigned getWidth() = 0;
+    virtual unsigned getHeight() = 0;
 };
 
 class YXEmbedClient: public YWindow {

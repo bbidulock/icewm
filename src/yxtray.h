@@ -20,7 +20,7 @@ protected:
     virtual ~YXTrayNotifier() {}
 };
 
-class YXTrayEmbedder: public YXEmbed {
+class YXTrayEmbedder: public YWindow, public YXEmbed {
 public:
     YXTrayEmbedder(YXTray *tray, Window win);
     ~YXTrayEmbedder();
@@ -37,7 +37,12 @@ public:
     YXEmbedClient *client() { return fDocked; }
 
     bool fVisible;
+
 private:
+    virtual Window getHandle() { return YWindow::handle(); }
+    virtual unsigned getWidth() { return YWindow::width(); }
+    virtual unsigned getHeight() { return YWindow::height(); }
+
     YXTray *fTray;
     YXEmbedClient *fDocked;
 };
