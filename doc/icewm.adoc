@@ -996,7 +996,7 @@ has a very large number of themes which were created by users of IceWM.
 
 `icewm` supports the following options:
 
-+--display=NAME+::      NAME of the X server to use.
++-d, --display=NAME+::  NAME of the X server to use.
 +--client-id=ID+::      Client id to use when contacting session manager.
 +--sync+::              Synchronize X11 commands.
 +-c, --config=FILE+::   Load preferences from FILE.

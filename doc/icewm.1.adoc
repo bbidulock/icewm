@@ -64,38 +64,33 @@ Multihead monitor setups are fully supported.
 This program should be started before icewm.
 See the *icewmbg(1)* manpage for details.
 
-*icewmtray*::
-Catches the Docklet objects which are installed by various
-applications like PSI.
-
 *icewm-session*::
 Runs all of the above when needed.
 It first loads additional environment variables from the optional
-'env'
-file. Then it starts icewmbg, icewmtray and icewm.
-It also runs the
-'startup'
-script.
+'env' file. Then it starts icewmbg and icewm.
+It also runs the 'startup' script.
 It implements basic session management.
 icewm-session is the preferred program to start the IceWM system.
-On termination the
-'shutdown'
-script will be run first, then icewm-session will terminate
-icewmtray, icewm and icewmbg.
-If instead of icewmtray you wish to run your own tray application
-then give icewm-session the `--notray` option.
-icewm-session will also start 'icesound'
-if you give it the `--sound` option.
+On termination the 'shutdown' script will be run first,
+then icewm-session will terminate icewm and icewmbg.
+Icewm-session will also start icesound
+if you give it the '--sound' option.
 See the output of `icewm-session --help` for details.
 
 *icesh*::
-Could be used to manage IceWM internals from command line.
+Could be used to manage IceWM internals from the command line.
+Refer to the *icesh*(1) manpage for details.
 
 *icehelp*::
 Is used by icewm to display the 'IceWM manual' and the manpages.
+See the output of `icehelp --help` for details.
 
 *icewmhint*::
-Is used internally.
+Is a simple utility for passing IceWM hints to IceWM
+by window class and instance.
+Icewmhint uses a special property, '"_ICEWM_WINOPHINT"',
+on the root window to pass special hints to IceWM.
+See the *icewmhint*(1) manpage.
 
 *icesound*::
 Plays audio files on GUI events raised by IceWM.
@@ -113,8 +108,8 @@ Each of the IceWM executables supports the following options:
 *-c, --config=FILE*::
 Use FILE as the source of configuration options.
 By default IceWM looks for a file named "preferences".
-Typically this file is stored as one of ~/.config/icewm/preferences,
-or ~/.icewm/preferences, or in one of the configuration
+Typically this file is stored as one of `~/.config/icewm/preferences`,
+or `~/.icewm/preferences`, or in one of the configuration
 directories explained below. It contains a long list of options
 which allow the user to tweak the behavior of IceWM to ones taste.
 A default
@@ -142,15 +137,15 @@ designed with beautiful icons and backgrounds, which
 advance the state of the art in desktop look and feel.
 Many of them can be downloaded from the website
 https://www.box-look.org/ and stored in either the
-directory ~/.config/icewm/themes/ or in ~/.icewm/themes/.
+directory `~/.config/icewm/themes/` or in `~/.icewm/themes/`.
 You can then activate such a theme via the
 menu in the lower left corner of the display.
 A default theme is specified in either
-~/.icewm/theme, or in ~/.config/icewm/theme.
+`~/.icewm/theme`, or in `~/.config/icewm/theme`.
 When a new theme is selected then this value is overwritten,
 so that the next time IceWM is started this choice is reused.
 
-*--display=NAME*::
+*-d, --display=NAME*::
 NAME specifies the connection to the X11 server.
 If this option is missing, as is usually the case,
 then NAME is read from the environment variable DISPLAY.
@@ -182,6 +177,11 @@ Instructs the currently running IceWM to restart itself.
 This can be used to reload the IceWM configuration after modifications.
 It is the preferred way to restart IceWM from the command line
 or in scripts.
+To restart IceWM with a different theme,
+combine it with the '--theme=NAME' option.
+The theme name will then be saved
+to the 'theme' configuration file,
+before restarting IceWM.
 
 *--configured*::
 Shows a list of configuration options which were
@@ -193,13 +193,13 @@ Gives a list of directories where IceWM will look for configuration data.
 This list is printed in the actual order in which IceWM uses it
 to search for configuration files.
 
-*--list-themes*::
+*-l, --list-themes*::
 IceWM will search all the configuration directories for
 theme files and print a list of all found themes.
 
 *--postpreferences*::
 This gives a long list of all the internal IceWM options
-with their actual values after icewm has processed all of
+with their actual values _after_ icewm has processed all of
 the configuration and theme files. In some advanced
 scenarios this can be helpful to inspect which configuration
 was chosen or whether option formatting was correct.
@@ -557,9 +557,19 @@ KeyWinPrev switches focus to the previous window.
 
 *Alt+F7*::
 KeyWinMove starts movement of the active window.
+Move the window either by the mouse or by the arrow keys.
+The arrow keys can be accelerated four times by the Shift key
+or sixteen times by the Control key.
+Press the left button or the Enter key when done.
+To cancel press Escape.
 
 *Alt+F8*::
 KeyWinSize starts resizing of the active window.
+Resize the window either by the mouse or by the arrow keys.
+The arrow keys can be accelerated four times by the Shift key
+or sixteen times by the Control key.
+Press the left button or the Enter key when done.
+To cancel press Escape.
 
 *Alt+F9*::
 KeyWinMinimize iconifies the active window.
@@ -753,10 +763,11 @@ You can control windows by a modified mouse button press:
 MouseWinMove moves the window under the mouse over the screen.
 
 *Alt+Pointer_Button3*::
-MouseWinSize resizes the window.
+MouseWinSize moves the window if the mouse is in the center,
+but resizes the window if the mouse is out of the center.
 Keep the key and button pressed.
 To enlarge the window move the mouse button away from the center.
-To shrink it move towards the center.
+To shrink it move towards the center of the window.
 
 *Ctrl+Alt+Pointer_Button1*::
 MouseWinRaise raises the window under the mouse.
@@ -799,6 +810,8 @@ If IceWM was started by icewm-session then icewm-session will also terminate.
 IceWM will initiate the 'Logout' procedure.
 If a *LogoutCommand* preferences option was configured it will be executed.
 
+*SIGUSR2*::
+Developers may use this to toggle logging of X11 events.
 
 ENVIRONMENT VARIABLES
 ---------------------
@@ -1086,7 +1099,7 @@ SEE ALSO
 *wmctrl*(1).
 
 'IceWM Help'
-from the IceWM menu contains a manual (somewhat outdated, but still useful).
+from the IceWM menu contains a manual (a little outdated, but still useful).
 
 http://www.icewm.org/manual/
 gives the IceWM Manual (somewhat outdated).
