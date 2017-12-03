@@ -709,6 +709,7 @@ void show_backtrace(const int limit) {
 
     fprintf(stderr, "backtrace:\n"); fflush(stderr);
 
+    int status(1);
     if (path && access(path, R_OK) == 0 && access(tool, X_OK) == 0) {
         const size_t bufsize(1234);
         char buf[bufsize];
@@ -718,9 +719,9 @@ void show_backtrace(const int limit) {
             snprintf(buf + len, bufsize - len, " %p", array[i]);
             len += strlen(buf + len);
         }
-        system(buf);
+        status = system(buf);
     }
-    else {
+    if (status) {
         backtrace_symbols_fd(array, count, 2);
     }
     fprintf(stderr, "end\n");
