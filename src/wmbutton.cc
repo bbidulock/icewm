@@ -172,8 +172,8 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
 
             if (icon != null && showFrameIcon) {
                 icon->draw(g,
-                           (width() - iconSize) / 2,
-                           (height() - iconSize) / 2,
+                           ((int) width() - iconSize) / 2,
+                           ((int) height() - iconSize) / 2,
                            iconSize);
             }
         } else {
@@ -182,8 +182,8 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
             if (pixmap != null)
                 g.copyPixmap(pixmap, 0, armed ? 20 : 0,
                              pixmap->width(), pixmap->height() / 2,
-                             (width() - pixmap->width()) / 2,
-                             (height() - pixmap->height() / 2));
+                             ((int) width() - (int) pixmap->width()) / 2,
+                             ((int) height() - (int) pixmap->height() / 2));
         }
     }
     else if (LOOK(lookMotif | lookWarp3 | lookNice)) {
@@ -212,8 +212,8 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
 
             if (icon != null && showFrameIcon) {
                 icon->draw(g,
-                           xPos + (w - iconSize) / 2,
-                           yPos + (h - iconSize) / 2,
+                           xPos + ((int) w - iconSize) / 2,
+                           yPos + ((int) h - iconSize) / 2,
                            iconSize);
             }
             else if (pixmap != null) {
@@ -236,8 +236,8 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
 
             if (icon != null && showFrameIcon) {
                 icon->draw(g,
-                           (width() - iconSize) / 2,
-                           (height() - iconSize) / 2,
+                           ((int) width() - iconSize) / 2,
+                           ((int) height() - iconSize) / 2,
                            iconSize);
             }
         } else {
