@@ -26,6 +26,7 @@
 #define SIZEOF_SHORT @SIZEOF_SHORT@
 
 #cmakedefine HAVE_ABORT 1
+#cmakedefine HAVE_BACKTRACE_SYMBOLS_FD 1
 #cmakedefine HAVE_BASENAME 1
 #cmakedefine HAVE_DUP2 1
 #cmakedefine HAVE_GETHOSTBYNAME 1

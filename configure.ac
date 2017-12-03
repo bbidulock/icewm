@@ -141,7 +141,7 @@ AC_TYPE_SIGNAL
 if test x$cross_compling != xyes ; then :; AC_FUNC_FORK fi
 if test x$cross_compling != xyes ; then :; AC_FUNC_MALLOC fi
 if test x$cross_compling != xyes ; then :; AC_FUNC_REALLOC fi
-AC_CHECK_FUNCS([abort basename dup2])
+AC_CHECK_FUNCS([abort backtrace_symbols_fd basename dup2])
 AC_CHECK_FUNCS([gethostbyname gethostname gettimeofday])
 AC_CHECK_FUNCS([mblen memchr memmove memset mkdir nl_langinfo])
 AC_CHECK_FUNCS([select setlocale socket])

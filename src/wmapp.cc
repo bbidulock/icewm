@@ -1056,6 +1056,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     catchSignal(SIGQUIT);
     catchSignal(SIGHUP);
     catchSignal(SIGCHLD);
+    catchSignal(SIGUSR2);
 
     loadWinOptions(findConfigFile("winoptions"));
     loadMenus(this, this, this, findConfigFile("keys"), 0);
@@ -1225,6 +1226,10 @@ void YWMApp::handleSignal(int sig) {
 
     case SIGHUP:
         restartClient(0, 0);
+        break;
+
+    case SIGUSR2:
+        tlog("logEvents %s", boolstr(toggleLogEvents()));
         break;
 
     default:

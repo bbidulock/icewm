@@ -117,6 +117,7 @@ endif()
 # perl -e 'print "CHECK_FUNCTION_EXISTS($_ HAVE_".uc($_).")\n" for @ARGV' `cat exlist`
 # perl -e 'print "#cmakedefine HAVE_".uc($_)."\n" for @ARGV' `cat exlist`
 CHECK_FUNCTION_EXISTS(abort HAVE_ABORT)
+CHECK_FUNCTION_EXISTS(backtrace_symbols_fd HAVE_BACKTRACE_SYMBOLS_FD)
 CHECK_FUNCTION_EXISTS(basename HAVE_BASENAME)
 CHECK_FUNCTION_EXISTS(dup2 HAVE_DUP2)
 CHECK_FUNCTION_EXISTS(gethostbyname HAVE_GETHOSTBYNAME)

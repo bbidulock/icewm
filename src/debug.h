@@ -23,6 +23,10 @@ extern bool debug_z;
 #endif
 #define CARP(x) tlog("%s:%d:%s: %s", __FILE__, __LINE__, __func__, #x )
 
+#if defined(DEBUG) && !defined(LOGEVENTS)
+#define LOGEVENTS 1
+#endif
+
 #endif
 
 // vim: set sw=4 ts=4 et:

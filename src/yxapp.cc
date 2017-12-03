@@ -866,10 +866,6 @@ Time YXApplication::getEventTime(const char */*debug*/) const {
     return lastEventTime;
 }
 
-
-extern void logEvent(const XEvent &xev);
-
-
 bool YXApplication::hasColormap() {
     XVisualInfo pattern;
     pattern.screen = DefaultScreen(display());
@@ -1023,9 +1019,8 @@ bool YXApplication::handleXEvents() {
 
         saveEventTime(xev);
 
-#ifdef DEBUG
-        DBG logEvent(xev);
-#endif
+        logEvent(xev);
+
         if (filterEvent(xev)) {
             ;
         } else {
