@@ -100,6 +100,7 @@ YWindowManager::YWindowManager(
     fTopWin = new YWindow();;
     fTopWin->setStyle(YWindow::wsOverrideRedirect);
     fTopWin->setGeometry(YRect(-1, -1, 1, 1));
+    fTopWin->setTitle("IceTopWin");
     fTopWin->show();
     if (edgeHorzWorkspaceSwitching) {
         fLeftSwitch = new EdgeSwitch(this, -1, false);
@@ -268,6 +269,7 @@ void YWindowManager::setupRootProxy() {
         rootProxy = new YProxyWindow(0);
         if (rootProxy) {
             rootProxy->setStyle(wsOverrideRedirect);
+            rootProxy->setTitle("IceRootProxy");
             XID rid = rootProxy->handle();
 
             XChangeProperty(xapp->display(), manager->handle(),
