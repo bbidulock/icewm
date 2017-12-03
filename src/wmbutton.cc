@@ -147,7 +147,7 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
     }
 
     int iconSize =
-    YIcon::smallSize();
+        YIcon::smallSize();
     ref<YIcon> icon =
         (fAction == actionNull) ? getFrame()->clientIcon() : null;
 
@@ -162,14 +162,14 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
     }
 
     if (wmLook == lookWarp4) {
-        if (fAction == actionNull) {
-            g.fillRect(0, 0, width(), height());
+        g.fillRect(0, 0, width(), height());
 
-            if (armed)
-                g.setColor(activeTitleBarBg);
-
+        if (armed) {
+            g.setColor(activeTitleBarBg);
             g.fillRect(1, 1, width() - 2, height() - 2);
+        }
 
+        if (fAction == actionNull) {
             if (icon != null && showFrameIcon) {
                 icon->draw(g,
                            ((int) width() - iconSize) / 2,
@@ -177,8 +177,6 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
                            iconSize);
             }
         } else {
-            g.fillRect(0, 0, width(), height());
-
             if (pixmap != null)
                 g.copyPixmap(pixmap, 0, armed ? 20 : 0,
                              pixmap->width(), pixmap->height() / 2,
@@ -207,9 +205,8 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
         unsigned const w(LOOK(lookMotif) ? width() - 2 : width() - 4);
         unsigned const h(LOOK(lookMotif) ? height() - 2 : height() - 4);
 
+        g.fillRect(xPos, yPos, w, h);
         if (fAction == actionNull) {
-            g.fillRect(xPos, yPos, w, h);
-
             if (icon != null && showFrameIcon) {
                 icon->draw(g,
                            xPos + ((int) w - iconSize) / 2,
@@ -225,15 +222,13 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
         }
     }
     else if (wmLook == lookWin95) {
+        g.fillRect(0, 0, width(), height());
         if (fAction == actionNull) {
             if (!armed) {
                 YColor * bg(getFrame()->focused() ? activeTitleBarBg
                             : inactiveTitleBarBg);
                 g.setColor(bg);
             }
-
-            g.fillRect(0, 0, width(), height());
-
             if (icon != null && showFrameIcon) {
                 icon->draw(g,
                            ((int) width() - iconSize) / 2,
@@ -252,26 +247,23 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
         }
     }
     else if (LOOK(lookPixmap | lookMetal | lookFlat | lookGtk)) {
-        if (pixmap != null) {
-            if ( getPixmap(1) != null ) {
-                int const h(pixmap->height() / 2);
-                g.copyPixmap(pixmap, 0, armed ? h : 0, pixmap->width(), h, 0, 0);
-            } else {
-                // If we have only an image we change
-                // the over or armed color and paint it.
-               g.fillRect(0, 0, width(), height());
-               if (armed)
-                   g.setColor(activeTitleBarBg->darker());
-               else if (rolloverTitleButtons && fOver)
-                   g.setColor(activeTitleBarBg->brighter());
-               g.fillRect(1, 1, width()-2, height()-3);
+        if (pixmap != null && getPixmap(1) != null) {
+            int const h(pixmap->height() / 2);
+            g.copyPixmap(pixmap, 0, armed ? h : 0, pixmap->width(), h, 0, 0);
+        } else {
+            // If we have only an image we change
+            // the over or armed color and paint it.
+           g.fillRect(0, 0, width(), height());
+           if (armed)
+               g.setColor(activeTitleBarBg->darker());
+           else if (rolloverTitleButtons && fOver)
+               g.setColor(activeTitleBarBg->brighter());
+           g.fillRect(1, 1, width()-2, height()-3);
+           if (pixmap != null) {
                int x(((int)width()  - (int)pixmap->width())  / 2);
                int y(((int)height() - (int)pixmap->height()) / 2);
                g.drawPixmap(pixmap, x, y);
             }
-        }
-        else {
-            g.fillRect(0, 0, width(), height());
         }
 
         if (fAction == actionNull && icon != null && showFrameIcon) {
