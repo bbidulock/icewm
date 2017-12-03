@@ -101,41 +101,37 @@ bool YResourcePaths::loadPictFile(const upath& file, ref<Pict>* pict) {
 
 ref<YPixmap> YResourcePaths::loadPixmapFile(const upath& file) {
     ref<YPixmap> p;
-    loadPictFile(file, &p);
-    return p;
+    return loadPictFile(file, &p) && p->pixmap() ? p : null;
 }
 
 ref<YImage> YResourcePaths::loadImageFile(const upath& file) {
     ref<YImage> p;
-    loadPictFile(file, &p);
-    return p;
+    return loadPictFile(file, &p) && p->valid() ? p : null;
 }
 
 template<class Pict>
-void YResourcePaths::loadPict(const upath& baseName, ref<Pict>* pict) const {
+bool YResourcePaths::loadPict(const upath& baseName, ref<Pict>* pict) const {
     for (int i = 0; i < getCount(); ++i) {
         upath path = getPath(i) + baseName;
-        bool exist = path.fileExists();
-        if (exist && loadPictFile(path, pict))
-            return;
+        if (path.fileExists() && loadPictFile(path, pict))
+            return true;
     }
 #ifdef DEBUG
     if (debug)
         warn(_("Could not find image %s"), baseName.string().c_str());
 #endif
+    return false;
 }
 
 
 ref<YPixmap> YResourcePaths::loadPixmap(upath base, upath name) const {
     ref<YPixmap> p;
-    loadPict(base + name, &p);
-    return p;
+    return loadPict(base + name, &p) && p->pixmap() ? p : null;
 }
 
 ref<YImage> YResourcePaths::loadImage(upath base, upath name) const {
     ref<YImage> p;
-    loadPict(base + name, &p);
-    return p;
+    return loadPict(base + name, &p) && p->valid() ? p : null;
 }
 
 // vim: set sw=4 ts=4 et:

@@ -42,7 +42,7 @@ private:
     void addDir(const upath& dir);
 
     template<class Pict>
-    void loadPict(const upath& baseName, ref<Pict>* pict) const;
+    bool loadPict(const upath& baseName, ref<Pict>* pict) const;
     template<class Pict>
     static bool loadPictFile(const upath& file, ref<Pict>* pict);
 };
