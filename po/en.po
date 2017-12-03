@@ -7,16 +7,13 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-11-21 21:20-0700\n"
-"PO-Revision-Date: 2017-11-30 15:01+0000\n"
-"Last-Translator: Kate Shcher <wwwkkk30@yandex.ru>\n"
-"Language-Team: English "
-"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/en/>\n"
+"PO-Revision-Date: 2000-10-21 12:13+2000\n"
+"Last-Translator: Mathias Hasselmann <mathias.hasselmann@gmx.de>\n"
+"Language-Team: English\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.17.1\n"
 
 #: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:680 src/aapm.cc:805
 msgid " - Power"
@@ -892,31 +889,31 @@ msgstr "©"
 
 #: src/wmabout.cc:34
 msgid "Theme:"
-msgstr "Тема:"
+msgstr ""
 
 #: src/wmabout.cc:35
 msgid "Theme Description:"
-msgstr "Описание темы:"
+msgstr ""
 
 #: src/wmabout.cc:36
 msgid "Theme Author:"
-msgstr "Автор темы:"
+msgstr ""
 
 #: src/wmabout.cc:40
 msgid "CodeSet:"
-msgstr "Текст программы:"
+msgstr ""
 
 #: src/wmabout.cc:41
 msgid "Language:"
-msgstr "Язык:"
+msgstr ""
 
 #: src/wmabout.cc:66
 msgid "icewm - About"
-msgstr "icewm - Описание"
+msgstr ""
 
 #: src/wmapp.cc:105
 msgid "A window manager is already running, use --replace to replace it"
-msgstr "Менеджер окон уже запущен, используйте  -replace для его перемещения"
+msgstr ""
 
 #: src/wmapp.cc:123
 #, c-format
@@ -925,76 +922,75 @@ msgstr ""
 
 #: src/wmapp.cc:127
 msgid "Waiting to replace the old window manager"
-msgstr "Ожидает перемещения предыдущего менеджера окон"
+msgstr ""
 
 #: src/wmapp.cc:132
 msgid "done."
-msgstr "выполнено."
+msgstr ""
 
 #: src/wmapp.cc:418
 msgid "Unable to get current font path."
-msgstr "Невозможно получить правильный путь к шрифту."
+msgstr ""
 
 #: src/wmapp.cc:445
 msgid "Unexpected format of ICEWM_FONT_PATH property"
-msgstr "Неподдерживаемый формат свойства ICEWM_FONT_PATH"
+msgstr ""
 
 #: src/wmapp.cc:523
 msgid "_Logout"
-msgstr "_Выйти из профиля"
+msgstr ""
 
 #: src/wmapp.cc:524
 msgid "_Cancel logout"
-msgstr "Отмена входа в профиль"
+msgstr ""
 
 #: src/wmapp.cc:531
 msgid "Lock _Workstation"
-msgstr "Определить рабочую станцию"
+msgstr ""
 
 #: src/wmapp.cc:533 src/wmdialog.cc:91
 msgid "Re_boot"
-msgstr "Перезагрузка"
+msgstr ""
 
 #: src/wmapp.cc:535 src/wmdialog.cc:92
 msgid "Shut_down"
-msgstr "Выключить"
+msgstr ""
 
 #: src/wmapp.cc:537 src/wmdialog.cc:88
 msgid "_Suspend"
-msgstr "_Ожидание"
+msgstr ""
 
 #: src/wmapp.cc:542
 msgid "Restart _Icewm"
-msgstr "Перезапуск_Icewm"
+msgstr ""
 
 #: src/wmapp.cc:544
 msgid "Restart _Xterm"
-msgstr "Перезапуск _Xterm"
+msgstr ""
 
 #: src/wmapp.cc:557
 msgid "_Menu"
-msgstr "_Меню"
+msgstr ""
 
 #: src/wmapp.cc:558
-#, fuzzy
 msgid "_Above Dock"
-msgstr "_Нижний трей индикации запущенных программ"
+msgstr ""
 
 #: src/wmapp.cc:559
 msgid "_Dock"
-msgstr "_Трей"
+msgstr ""
 
 #: src/wmapp.cc:560
 msgid "_OnTop"
-msgstr "_Наверх"
+msgstr ""
 
 #: src/wmapp.cc:561
 msgid "_Normal"
-msgstr "_Нормально"
+msgstr ""
 
 #: src/wmapp.cc:562
 msgid "_Below"
-msgstr "_Ниже"
+msgstr ""
 
 #: src/wmapp.cc:563
 msgid "D_esktop"
