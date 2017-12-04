@@ -960,14 +960,20 @@ void Graphics::drawOutline(int l, int t, int r, int b, unsigned iw, unsigned ih)
             fillRect(li, bi, ri - li, b - bi);
 }
 
-void Graphics::repHorz(Drawable d, unsigned pw, unsigned ph, int x, int y, unsigned w) {
+void Graphics::repHorz(Drawable d, unsigned pw, unsigned ph, int x, int y, unsigned width) {
     if (d == None)
         return;
 #if 1
     XSetTile(xapp->display(), gc, d);
-    XSetTSOrigin(xapp->display(), gc, x - xOrigin, y - yOrigin);
-    XSetFillStyle(xapp->display(), gc, FillTiled);
-    XFillRectangle(xapp->display(), drawable(), gc, x - xOrigin, y - yOrigin, w, ph);
+    // test for #203: width per 256 pixels
+    while (inrange(width, 1U, (unsigned) SHRT_MAX)) {
+        int w = max(256, (int) width);
+        XSetTSOrigin(xapp->display(), gc, x - xOrigin, y - yOrigin);
+        XSetFillStyle(xapp->display(), gc, FillTiled);
+        XFillRectangle(xapp->display(), drawable(), gc, x - xOrigin, y - yOrigin, w, ph);
+        x += w;
+        width -= (unsigned) w;
+    }
     XSetFillStyle(xapp->display(), gc, FillSolid);
 #else
     while (w > 0) {
