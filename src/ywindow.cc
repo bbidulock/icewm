@@ -729,7 +729,7 @@ void YWindow::paintExpose(int ex, int ey, int ew, int eh) {
     if (ey + eh + ee < (int) height()) {
         eh += ee;
     } else {
-        eh = height() - ey;
+        eh = int(height()) - ey;
     }
 
     if (ew > 0 && eh > 0) {
@@ -2017,7 +2017,7 @@ int YDesktop::getScreenForRect(int x, int y, unsigned width, unsigned height) {
     if (xiInfo.getCount() == 0)
         return 0;
     for (int s = 0; s < xiInfo.getCount(); s++) {
-        int x_i = intersection(x, x + width,
+        int x_i = intersection(x, x + int(width),
                                xiInfo[s].x_org, xiInfo[s].x_org + xiInfo[s].width);
         //MSG(("x_i %d %d %d %d %d", x_i, x, width, xiInfo[s].x_org, xiInfo[s].width));
         int y_i = intersection(y, y + height,

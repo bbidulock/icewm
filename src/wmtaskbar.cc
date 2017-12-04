@@ -378,7 +378,8 @@ void TaskBar::initApplets() {
                 if (s.isEmpty())
                     continue;
 
-                fMailBoxStatus[cnt--] = new MailBoxStatus(app, smActionListener, s, this);
+                fMailBoxStatus[cnt] = new MailBoxStatus(app, smActionListener, s, this);
+                if(cnt) cnt--; // more complicated than needed, to make UBSan happy
             }
         } else if (envMail) {
             fMailBoxStatus = new MailBoxStatus*[2];

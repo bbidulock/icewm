@@ -334,43 +334,42 @@ void YFrameWindow::handleMoveMouse(const XMotionEvent &motion, int &newX, int &n
     int mx, my, Mx, My;
     manager->getWorkArea(this, &mx, &my, &Mx, &My);
 
-
     if (!(motion.state & ShiftMask)) {
         if (/*EdgeResistance >= 0 && %%% */ EdgeResistance < 10000) {
-            if (newX + int(width() + n * borderX()) > Mx) {
-                if (newX + int(width() + n * borderX()) < int(Mx + EdgeResistance))
-                    newX = Mx - width() - n * borderX();
+            if (newX + int(width()) + n * borderX() > Mx) {
+                if (newX + int(width()) + n * borderX() < Mx + EdgeResistance)
+                    newX = Mx - int(width()) - n * borderX();
                 else if (motion.state & ShiftMask)
                     newX -= EdgeResistance;
             }
-            if (newY + int(height() + n * borderY()) > My) {
-                if (newY + int(height() + n * borderY()) < int(My + EdgeResistance))
-                    newY = My - height() - n * borderY();
+            if (newY + int(height()) + n * borderY() > My) {
+                if (newY + int(height()) + n * borderY() < My + EdgeResistance)
+                    newY = My - int(height()) - n * borderY();
                 else if (motion.state & ShiftMask)
                     newY -= EdgeResistance;
             }
             if (newX < mx) {
-                if (newX > int(- EdgeResistance + mx))
+                if (newX > mx - EdgeResistance)
                     newX = mx;
                 else if (motion.state & ShiftMask)
                     newX += EdgeResistance;
             }
             if (newY < my) {
-                if (newY > int(- EdgeResistance + my))
+                if (newY > my - EdgeResistance)
                     newY = my;
                 else if (motion.state & ShiftMask)
                     newY += EdgeResistance;
             }
         }
         if (EdgeResistance == 10000 || isMaximizedHoriz()) {
-            if (newX + int(width() + n * borderX()) > Mx)
-                newX = Mx - width() - n * borderX();
+            if (newX + int(width()) + n * borderX() > Mx)
+                newX = Mx - int(width()) - n * borderX();
             if (newX < mx)
                 newX = mx;
         }
         if (EdgeResistance == 10000 || isMaximizedVert()) {
-            if (newY + int(height() + n * borderY()) > My)
-                newY = My - height() - n * borderY();
+            if (newY + int(height()) + n * borderY() > My)
+                newY = My - int(height()) - n * borderY();
             if (newY < my)
                 newY = my;
         }

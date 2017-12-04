@@ -3291,7 +3291,7 @@ void YFrameWindow::updateNetWMStrutPartial() {
 }
 
 void YFrameWindow::updateNetStartupId() {
-    unsigned long time = -1UL;
+    unsigned long time = (unsigned long) -1;
     if (client()->getNetStartupId(time)) {
         if (fUserTime.update(time))
             manager->updateUserTime(fUserTime);
@@ -3299,7 +3299,7 @@ void YFrameWindow::updateNetStartupId() {
 }
 
 void YFrameWindow::updateNetWMUserTime() {
-    unsigned long time = -1UL;
+    unsigned long time = (unsigned long) -1;
     Window window = fUserTimeWindow ? fUserTimeWindow : client()->handle();
     if (client()->getNetWMUserTime(window, time)) {
         if (fUserTime.update(time))
