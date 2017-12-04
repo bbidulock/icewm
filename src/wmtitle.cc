@@ -644,7 +644,7 @@ void YFrameTitleBar::renderShape(Pixmap shape) {
         if (titleButtonsLeft)
             for (const char *bc = titleButtonsLeft; *bc; bc++) {
                 YFrameButton const *b(getButton(*bc));
-                if (b) {
+                if (b && b->visible() && b->onRight() == false) {
                     onLeft = max(onLeft, (int)(b->x() + b->width()));
 
                     ref<YPixmap> pixmap = b->getPixmap(0);
@@ -661,7 +661,7 @@ void YFrameTitleBar::renderShape(Pixmap shape) {
         if (titleButtonsRight)
             for (const char *bc = titleButtonsRight; *bc; bc++) {
                 YFrameButton const *b(getButton(*bc));
-                if (b) {
+                if (b && b->visible() && b->onRight()) {
                     onRight = min(onRight, b->x());
 
                     ref<YPixmap> pixmap = b->getPixmap(0);
