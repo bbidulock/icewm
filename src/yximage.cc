@@ -143,15 +143,22 @@ ref<YImage> YXImage::loadxpm(upath filename)
 ref<YImage> YXImage::loadpng(upath filename)
 {
     ref<YImage> image;
-    png_byte *png_pixels = 0, **row_pointers = 0, *p;
+    png_byte *png_pixels, **row_pointers, *p;
     XImage *ximage = 0;
-    volatile void *vol_png_pixels = 0, *vol_row_pointers = 0;
-    volatile void *vol_ximage = 0;
+    // working around clobbering issues with high optimization levels, see https://stackoverflow.com/questions/7721854/what-sense-do-these-clobbered-variable-warnings-make
+    static void *vol_png_pixels, *vol_row_pointers;
+    static void *vol_ximage;
     png_structp png_ptr;
     png_infop info_ptr;
     png_byte buf[8];
     int ret;
     FILE *f;
+
+    png_pixels = 0;
+    row_pointers = 0;
+    vol_png_pixels = 0;
+    vol_row_pointers = 0;
+    vol_ximage = 0;
 
     if (!(f = fopen(filename.string(), "rb"))) {
         tlog("could not open %s: %s\n", filename.string().c_str(), strerror(errno));
@@ -181,6 +188,11 @@ ref<YImage> YXImage::loadpng(upath filename)
     png_uint_32 width, height, row_bytes, i, j;
     int bit_depth, color_type, channels;
     unsigned long pixel, A, R, G, B;
+    A = R = G = B = 0;
+    png_pixels = 0;
+    row_pointers = 0;
+    vol_png_pixels = 0;
+    vol_row_pointers = 0;
 
     png_init_io(png_ptr, f);
     png_set_sig_bytes(png_ptr, 8);
@@ -192,8 +204,8 @@ ref<YImage> YXImage::loadpng(upath filename)
     if (color_type == PNG_COLOR_TYPE_GRAY && bit_depth < 8) {
         png_set_expand(png_ptr);
     }
-	if (png_get_valid(png_ptr, info_ptr, PNG_INFO_tRNS)) {
-		png_set_expand(png_ptr);
+    if (png_get_valid(png_ptr, info_ptr, PNG_INFO_tRNS)) {
+        png_set_expand(png_ptr);
     }
     if (bit_depth == 16) {
         png_set_strip_16(png_ptr);
@@ -236,26 +248,26 @@ ref<YImage> YXImage::loadpng(upath filename)
     for (p = png_pixels, j = 0; j < height; j++) {
         for (i = 0; i < width; i++, p += channels) {
             switch(color_type) {
-            case PNG_COLOR_TYPE_GRAY:
-                R = G = B = p[0];
-                A = 255;
-                break;
-            case PNG_COLOR_TYPE_GRAY_ALPHA:
-                R = G = B = p[0];
-                A = p[1];
-                break;
-            case PNG_COLOR_TYPE_RGB:
-                R = p[0];
-                G = p[1];
-                B = p[2];
-                A = 255;
-                break;
-            case PNG_COLOR_TYPE_RGB_ALPHA:
-                R = p[0];
-                G = p[1];
-                B = p[2];
-                A = p[3];
-                break;
+                case PNG_COLOR_TYPE_GRAY:
+                    R = G = B = p[0];
+                    A = 255;
+                    break;
+                case PNG_COLOR_TYPE_GRAY_ALPHA:
+                    R = G = B = p[0];
+                    A = p[1];
+                    break;
+                case PNG_COLOR_TYPE_RGB:
+                    R = p[0];
+                    G = p[1];
+                    B = p[2];
+                    A = 255;
+                    break;
+                case PNG_COLOR_TYPE_RGB_ALPHA:
+                    R = p[0];
+                    G = p[1];
+                    B = p[2];
+                    A = p[3];
+                    break;
             }
             pixel = (A << 24)|(R <<16)|(G<<8)|(B<<0);
             XPutPixel(ximage, i, j, pixel);
