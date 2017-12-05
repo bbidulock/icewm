@@ -33,7 +33,11 @@ YFrameButton::YFrameButton(YWindow *parent,
     fAction(action),
     fAction2(action2)
 {
+    if (right)
+        setWinGravity(NorthEastGravity);
+
     reparent(parent, 0, 0);
+
     if (titleButtonBg == 0)
         titleButtonBg = new YColor(clrNormalTitleButton);
     if (titleButtonFg == 0)
@@ -41,8 +45,6 @@ YFrameButton::YFrameButton(YWindow *parent,
 
     if (fAction == actionNull)
         setPopup(frame->windowMenu());
-    if (right)
-        setWinGravity(NorthEastGravity);
 
     setSize(0,0);
 }
