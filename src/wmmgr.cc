@@ -933,14 +933,23 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp) {
     }
 #endif
 
-    if (c && w == c->handle() && ((c->protocols() & YFrameClient::wpTakeFocus) || (f->frameOptions() & YFrameWindow::foAppTakesFocus)))
-        c->sendTakeFocus();
     if (w != None) {
         if (f->getInputFocusHint())
-            XSetInputFocus(xapp->display(), w, RevertToNone, xapp->getEventTime("setFocus"));
+            XSetInputFocus(xapp->display(), w, RevertToNone,
+                           xapp->getEventTime("setFocus"));
     }
-    else
-        XSetInputFocus(xapp->display(), fTopWin->handle(), RevertToNone, xapp->getEventTime("setFocus"));
+    else {
+        XSetInputFocus(xapp->display(), fTopWin->handle(), RevertToNone,
+                       xapp->getEventTime("setFocus"));
+    }
+
+    if (c &&
+        w == c->handle() &&
+        ((c->protocols() & YFrameClient::wpTakeFocus) ||
+         (f->frameOptions() & YFrameWindow::foAppTakesFocus)))
+    {
+        c->sendTakeFocus();
+    }
 
     if (!pointerColormap)
         setColormapWindow(f);
