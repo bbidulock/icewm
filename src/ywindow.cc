@@ -629,7 +629,8 @@ void YWindow::handleEvent(const XEvent &event) {
         break;
 
     case GraphicsExpose:
-        handleGraphicsExpose(event.xgraphicsexpose); break;
+        handleGraphicsExpose(event.xgraphicsexpose);
+        break;
 
     case MapNotify:
         updateEnterNotifySerial(event);
@@ -659,6 +660,7 @@ void YWindow::handleEvent(const XEvent &event) {
 
     case GravityNotify:
         updateEnterNotifySerial(event);
+        handleGravityNotify(event.xgravity);
         break;
 
     case CirculateNotify:
@@ -776,6 +778,17 @@ void YWindow::handleConfigure(const XConfigureEvent &configure) {
             fY = configure.y;
             fWidth = configure.width;
             fHeight = configure.height;
+
+            this->configure(YRect(fX, fY, fWidth, fHeight));
+        }
+    }
+}
+
+void YWindow::handleGravityNotify(const XGravityEvent& gravity) {
+    if (gravity.window == handle()) {
+        if (gravity.x != fX || gravity.y != fY) {
+            fX = gravity.x;
+            fY = gravity.y;
 
             this->configure(YRect(fX, fY, fWidth, fHeight));
         }
