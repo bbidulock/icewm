@@ -269,13 +269,9 @@ public:
     int titleY() const;
 
     void layoutTitleBar();
-    void layoutButtons();
     void layoutResizeIndicators();
     void layoutShape();
     void layoutClient();
-
-    //void workspaceShow();
-    //void workspaceHide();
 
     YFrameWindow *nextLayer();
     YFrameWindow *prevLayer();
