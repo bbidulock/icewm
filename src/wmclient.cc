@@ -241,27 +241,27 @@ void YFrameClient::constrainSize(int &w, int &h, int flags)
             if (xMin * h > yMin * w) { // min aspect
                 if (flags & csKeepX) {
                     w = clamp(w, wMin, wMax);
-                    h = w * yMin / xMin;
+                    h = w * yMin / non_zero(xMin);
                     h = clamp(h, hMin, hMax);
-                    w = h * xMin / yMin;
+                    w = h * xMin / non_zero(yMin);
                 } else {
                     h = clamp(h, hMin, hMax);
-                    w = h * xMin / yMin;
+                    w = h * xMin / non_zero(yMin);
                     w = clamp(w, wMin, wMax);
-                    h = w * yMin / xMin;
+                    h = w * yMin / non_zero(xMin);
                 }
             }
             if (xMax * h < yMax * w) { // max aspect
                 if (flags & csKeepX) {
                     w = clamp(w, wMin, wMax);
-                    h = w * yMax / xMax;
+                    h = w * yMax / non_zero(xMax);
                     h = clamp(h, hMin, hMax);
-                    w = h * xMax / yMax;
+                    w = h * xMax / non_zero(yMax);
                 } else {
                     h = clamp(h, hMin, hMax);
-                    w = h * xMax / yMax;
+                    w = h * xMax / non_zero(yMax);
                     w = clamp(w, wMin, wMax);
-                    h = w * yMax / xMax;
+                    h = w * yMax / non_zero(xMax);
                 }
             }
         }
@@ -270,11 +270,12 @@ void YFrameClient::constrainSize(int &w, int &h, int flags)
         w = clamp(w, wMin, wMax);
 
         if (flags & csRound) {
-            w += wInc / 2; h += hInc / 2;
+            w += wInc / 2;
+            h += hInc / 2;
         }
 
-        w-= max(0, w - wBase) % wInc;
-        h-= max(0, h - hBase) % hInc;
+        w -= max(0, w - wBase) % non_zero(wInc);
+        h -= max(0, h - hBase) % non_zero(hInc);
     }
 
     if (w <= 0) w = 1;
