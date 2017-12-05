@@ -83,6 +83,7 @@ public:
     virtual void handleVisibility(const XVisibilityEvent &visibility);
     virtual void handleCreateWindow(const XCreateWindowEvent &createWindow);
 #endif
+    virtual void handleGravityNotify(const XGravityEvent &gravity);
     void handleMapNotify(const XMapEvent &map);
     virtual void handleUnmapNotify(const XUnmapEvent &unmap);
     virtual void handleUnmap(const XUnmapEvent &unmap);
