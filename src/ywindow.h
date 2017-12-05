@@ -35,6 +35,7 @@ public:
     unsigned getStyle() const { return fStyle; }
     long getEventMask() const { return fEventMask; }
 
+    void setVisible(bool enable);
     void show();
     void hide();
     virtual void raise();

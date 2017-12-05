@@ -475,6 +475,10 @@ void YWindow::hide() {
     }
 }
 
+void YWindow::setVisible(bool enable) {
+    return enable ? show() : hide();
+}
+
 void YWindow::setWinGravity(int gravity) {
     if (flags & wfCreated) {
         unsigned long eventmask = CWWinGravity;
