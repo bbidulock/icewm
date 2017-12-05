@@ -29,8 +29,6 @@ ref<YFont> YWindowManagerStatus::statusFont;
 MoveSizeStatus *statusMoveSize = 0;
 WorkspaceStatus *statusWorkspace = 0;
 
-template<class T> T non_zero(T x) { return x ? x : 1; }
-
 /******************************************************************************/
 /******************************************************************************/
 

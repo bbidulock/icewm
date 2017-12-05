@@ -64,6 +64,11 @@ inline T Elvis(T a, T b) {
     return a ? a : b;
 }
 
+template <class T>
+inline T non_zero(T x) {
+    return Elvis(x, (T) 1);
+}
+
 /*** String Functions *********************************************************/
 
 /* Prefer this as a safer alternative over strcpy. Return strlen(from). */
