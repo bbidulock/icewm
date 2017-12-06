@@ -70,10 +70,10 @@ void AddressBar::showNow() {
 }
 
 void AddressBar::hideNow() {
-    manager->focusLastWindow();
     if (!showAddressBar || (taskBarShowWindows && !taskBarDoubleHeight) ) {
         hide();
     }
+    manager->focusLastWindow();
 }
 
 // vim: set sw=4 ts=4 et:
