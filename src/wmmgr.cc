@@ -1797,7 +1797,7 @@ void YWindowManager::focusLastWindow() {
 /// TODO #warning "per workspace?"
     YFrameWindow *toFocus = getLastFocus(false);
 
-    if (toFocus == 0) {
+    if (toFocus == 0 || toFocus->client() == taskBar) {
         focusTopWindow();
     } else {
         if (raiseOnFocus)
