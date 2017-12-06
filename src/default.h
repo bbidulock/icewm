@@ -252,7 +252,7 @@ cfoption icewm_preferences[] = {
     OBV("MiniIconsPlaceHorizontal",             &miniIconsPlaceHorizontal,      "Place the mini-icons horizontal instead of vertical"),
     OBV("MiniIconsRightToLeft",                 &miniIconsRightToLeft,          "Place new mini-icons from right to left"),
     OBV("MiniIconsBottomToTop",                 &miniIconsBottomToTop,          "Place new mini-icons from bottom to top"),
-    OBV("StrongPointerFocus",                   &strongPointerFocus,            "Always maintain focus under mouse window (makes some keyboard support non-functional or unreliable"),
+    OBV("StrongPointerFocus",                   &strongPointerFocus,            "Always maintain focus under mouse window (makes some keyboard support non-functional or unreliable)"),
     OBV("OpaqueMove",                           &opaqueMove,                    "Opaque window move"),
     OBV("OpaqueResize",                         &opaqueResize,                  "Opaque window resize"),
     OBV("ManualPlacement",                      &manualPlacement,               "Windows initially placed manually by user"),
