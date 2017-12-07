@@ -933,12 +933,15 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp) {
     }
 #endif
 
+    bool focusUnset(fFocusWin == 0);
     if (w != None) {
-        if (f->getInputFocusHint())
+        if (f->getInputFocusHint()) {
             XSetInputFocus(xapp->display(), w, RevertToNone,
                            xapp->getEventTime("setFocus"));
+            focusUnset = false;
+        }
     }
-    else {
+    if (w == None || focusUnset) {
         XSetInputFocus(xapp->display(), fTopWin->handle(), RevertToNone,
                        xapp->getEventTime("setFocus"));
     }
@@ -1732,6 +1735,7 @@ YFrameWindow *YWindowManager::getLastFocus(bool skipAllWorkspaces, long workspac
         if (toFocus->isMinimized() ||
             toFocus->isHidden() ||
             !toFocus->visibleOn(workspace) ||
+            toFocus->client() == taskBar ||
             toFocus->avoidFocus())
             toFocus = 0;
     }
@@ -1756,6 +1760,8 @@ YFrameWindow *YWindowManager::getLastFocus(bool skipAllWorkspaces, long workspac
                 if (w->avoidFocus() || pass == 2)
                     continue;
                 if (w->isAllWorkspaces() || pass == 1)
+                    continue;
+                if (w->client() == taskBar)
                     continue;
                 toFocus = w;
                 goto gotit;
