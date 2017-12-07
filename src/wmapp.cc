@@ -1519,7 +1519,7 @@ int main(int argc, char **argv) {
                 print_version_exit(VERSION);
             else if (is_long_switch(*arg, "sync"))
             { /* handled by Xt */ }
-            else if (GetArgument(value, "d", "display", arg, &value))
+            else if (GetArgument(value, "d", "display", arg, argv+argc))
             { /* handled by Xt */ }
             else
                 warn(_("Unrecognized option '%s'."), *arg);
