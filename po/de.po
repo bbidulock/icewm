@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-12-10 17:58+0100\n"
 "PO-Revision-Date: 2017-06-18 17:36+0000\n"
-"Last-Translator: Sarah Kriesch <ada.lovelace@gmx.de>\n"
+"Last-Translator: Eduard Bloch <edi@gmx.de>\n"
 "Language-Team: German <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
 "branch/de/>\n"
 "Language: de\n"
@@ -335,7 +335,6 @@ msgid "Support"
 msgstr ""
 
 #: src/icehelp.cc:1228
-#, fuzzy
 msgid "Theme Howto"
 msgstr "Autor des Motives:"
 
@@ -350,45 +349,42 @@ msgstr ""
 #: src/icehelp.cc:1934
 #, fuzzy
 msgid "Unsupported protocol."
-msgstr "Nicht unterstütztes Audiointerface: %s."
+msgstr "Protokoll wird nicht unterstützt"
 
 #: src/icehelp.cc:1959
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "Ungültiger Pfad: %s\n"
 
-#: src/icehelp.cc:1982
+#: src/icehelp.cc:1913
 msgid "Path does not refer to a file."
-msgstr ""
+msgstr "Der Pfad führt zu keiner Datei."
 
-#: src/icehelp.cc:1987
+#: src/icehelp.cc:1918
 msgid "Failed to open file for reading."
-msgstr ""
+msgstr "Konnte nicht geöffnet werden."
 
-#: src/icehelp.cc:2016
-#, fuzzy
+#: src/icehelp.cc:1947
 msgid "Failed to create a temporary file"
-msgstr "Kann Verzeichnis %s nicht erstellen"
+msgstr "Konnte eine temporäre Datei nicht erstellen"
 
-#: src/icehelp.cc:2108
-#, c-format
+#: src/icehelp.cc:2039
 msgid "Failed to execute system(%s) (%d)"
-msgstr ""
+msgstr "Fehlerhafte Ausführung von system(%s) (%d)"
 
-#: src/icehelp.cc:2131
-#, fuzzy, c-format
+#: src/icehelp.cc:2062
 msgid "Failed to decompress %s"
-msgstr "Konnte Theme %s nicht laden"
+msgstr "Konnte %s nicht entpacken"
 
-#: src/icehelp.cc:2139
+#: src/icehelp.cc:2070
 msgid "Could not locate curl or wget in PATH"
-msgstr ""
+msgstr "curl oder wget in PATH nicht gefunden"
 
-#: src/icehelp.cc:2143
+#: src/icehelp.cc:2074
 msgid "Unsafe characters in URL"
-msgstr ""
+msgstr "Unsichere Zeichen im URL"
 
-#: src/icehelp.cc:2180
+#: src/icehelp.cc:2090
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -426,10 +422,9 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/icehelp.cc:2257
-#, fuzzy, c-format
+#: src/icehelp.cc:2152
 msgid "Ignoring option '%s'"
-msgstr "Unbekannte Aktion: '%s'"
+msgstr "Ignoriere die Option '%s'"
 
 #: src/icelist.cc:80
 msgid "List View"
@@ -674,12 +669,12 @@ msgstr "Unbekannte Aktion: '%s'"
 #: src/icesm.cc:298
 #, c-format
 msgid "%s exited with status %d."
-msgstr ""
+msgstr "%s wurde mit Status %d beendet."
 
 #: src/icesm.cc:304
 #, c-format
 msgid "%s was killed by signal %d."
-msgstr ""
+msgstr "%s wurde durch Signal %d abgewürgt."
 
 #: src/icesound.cc:212 src/icesound.cc:320 src/icesound.cc:624
 #, c-format
@@ -689,46 +684,44 @@ msgstr "Spiele Sample #%d (%s)"
 #: src/icesound.cc:330
 #, c-format
 msgid "%s: Invalid number of channels"
-msgstr ""
+msgstr "%s: Ungültige Anzahl der Kanäle"
 
 #: src/icesound.cc:336 src/icesound.cc:341
 msgid "Could not set OSS channels"
-msgstr ""
+msgstr "Konnte OSS-Kanäle nicht konfigurieren"
 
 #: src/icesound.cc:346 src/icesound.cc:374
 msgid "Could not sync OSS"
-msgstr ""
+msgstr "Synchronisierung von OSS fehlgeschlagen"
 
 #: src/icesound.cc:358
 msgid "OSS write failed"
-msgstr ""
+msgstr "Schreibfehler bei OSS"
 
 #: src/icesound.cc:362
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
-msgstr ""
+msgstr "Unvollständiger Schreibvorgang bei OSS (%d/%d)"
 
 #: src/icesound.cc:369
-#, fuzzy
 msgid "Could not post OSS"
-msgstr "Schriftfamilie »%s« konnte nicht geladen werden."
+msgstr "Konnte OSS nicht benachrichtigen"
 
 #: src/icesound.cc:398
-#, fuzzy, c-format
 msgid "Could not open OSS device %s"
-msgstr "Bild »%s« nicht gefunden"
+msgstr "Konnte OSS-Gerät »%s« nicht öffnen"
 
 #: src/icesound.cc:403
 msgid "Could not set OSS stereo"
-msgstr ""
+msgstr "Konnte OSS-Stereo nicht konfigurieren"
 
 #: src/icesound.cc:408
 msgid "Could not reset OSS DSP"
-msgstr ""
+msgstr "Konnte OSS-DSP nicht zurücksetzen"
 
 #: src/icesound.cc:413
 msgid "Could not set OSS format"
-msgstr ""
+msgstr "Konnte OSS-Format nicht einstellen"
 
 #: src/icesound.cc:486
 #, c-format
@@ -750,9 +743,8 @@ msgid "Sample <%d> uploaded as `%s:%s'"
 msgstr "Sample <%d> wurde als »%s:%s« geladen"
 
 #: src/icesound.cc:569
-#, fuzzy, c-format
 msgid "Playing sample #%d: %d"
-msgstr "Spiele Sample #%d"
+msgstr "Spiele Sample #%d: %d"
 
 #: src/icesound.cc:644
 #, c-format
@@ -1115,9 +1107,8 @@ msgstr "IceWM - Produktinformation"
 
 #
 #: src/wmapp.cc:105
-#, fuzzy
 msgid "A window manager is already running, use --replace to replace it"
-msgstr "Ein anderer Fenstermanager ist bereits aktiv, breche ab..."
+msgstr "Ein anderer Fenstermanager ist bereits aktiv, zum Ersetzen --replace verwenden."
 
 #: src/wmapp.cc:123
 #, c-format
@@ -1126,11 +1117,11 @@ msgstr ""
 
 #: src/wmapp.cc:127
 msgid "Waiting to replace the old window manager"
-msgstr ""
+msgstr "Warte auf den Austausch vom alten Fenstermanager"
 
 #: src/wmapp.cc:132
 msgid "done."
-msgstr ""
+msgstr "erledigt."
 
 #: src/wmapp.cc:418
 msgid "Unable to get current font path."
@@ -1163,7 +1154,7 @@ msgstr "_Herunterfahren"
 
 #: src/wmapp.cc:537 src/wmdialog.cc:88
 msgid "_Suspend"
-msgstr ""
+msgstr "_Energiesparmodus"
 
 #: src/wmapp.cc:542
 msgid "Restart _Icewm"
@@ -1376,7 +1367,7 @@ msgstr ""
 "  DISPLAY=NAME        Name des zu verwendenden X-Servers.\n"
 "  MAIL=URL            Adresse Ihres Postfachs. \n"
 "\n"
-"Für Fehlerberichte, Support-Anfragen, Kommentare besuchen Sie bitte: %s\n"
+"Für Fehlerberichte, Support-Anfragen, Kommentare besuchen Sie bitte:\n%s\n"
 "\n"
 
 #: src/wmapp.cc:1402
@@ -1389,12 +1380,11 @@ msgstr "%s Konfigurationsverzeichnisse:\n"
 msgid "%s configured options:%s\n"
 msgstr "%s konfigurierte Optionen: %s\n"
 
-#: src/wmapp.cc:1525
-#, fuzzy, c-format
+#: src/wmapp.cc:1493
 msgid "Unrecognized option '%s'."
-msgstr "Unbekannte Fensteroption: %s\n"
+msgstr "Unbekannte Option: '%s'."
 
-#: src/wmapp.cc:1556
+#: src/wmapp.cc:1524
 msgid "Confirm Logout"
 msgstr "Abmelden bestätigen"
 
@@ -1552,10 +1542,9 @@ msgstr "'%s' produziert keine Ausgabe"
 
 #: src/wmprog.cc:856
 msgid "_Click to focus"
-msgstr "durch _Klicken"
+msgstr "durch _Klicken, mit Hervorheben"
 
 #: src/wmprog.cc:857
-#, fuzzy
 msgid "_Explicit focus"
 msgstr "durch _Klicken"
 
@@ -1564,14 +1553,12 @@ msgid "_Sloppy mouse focus"
 msgstr "folgt _Maus"
 
 #: src/wmprog.cc:859
-#, fuzzy
 msgid "S_trict mouse focus"
-msgstr "folgt _Maus"
+msgstr "folgt _Maus, mit Hervorheben"
 
 #: src/wmprog.cc:860
-#, fuzzy
 msgid "_Quiet sloppy focus"
-msgstr "folgt _Maus"
+msgstr "folgt _Maus (passiv)"
 
 #: src/wmprog.cc:861
 msgid "Custo_m"
@@ -1579,19 +1566,19 @@ msgstr "_Benutzerdefiniert"
 
 #: src/wmprog.cc:883
 msgid "_Manual"
-msgstr ""
+msgstr "_Handbuch"
 
 #: src/wmprog.cc:884
 msgid "_Icewm(1)"
-msgstr ""
+msgstr "_Icewm(1)"
 
 #: src/wmprog.cc:885
 msgid "Icewm_Bg(1)"
-msgstr ""
+msgstr "Icewm_Bg(1)"
 
 #: src/wmprog.cc:886
 msgid "Ice_Sound(1)"
-msgstr ""
+msgstr "Ice_Sound(1)"
 
 #: src/wmprog.cc:948
 msgid "Programs"
@@ -1731,7 +1718,7 @@ msgstr "%lu. Arbeitsbereich %-.32s"
 #: src/yapp.cc:276
 #, c-format
 msgid "%s: select failed"
-msgstr ""
+msgstr "%s: select gescheitert"
 
 #: src/yconfig.cc:139
 #, c-format
@@ -1855,7 +1842,6 @@ msgid "Ctrl+A"
 msgstr "Strg+A"
 
 #: src/ylocale.cc:46
-#, fuzzy
 msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
 msgstr ""
 "Lokale wird von der C-Bibliothek nicht unterstützt. Es wird auf die »C«-"
