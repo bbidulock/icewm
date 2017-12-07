@@ -177,11 +177,13 @@ Instructs the currently running IceWM to restart itself.
 This can be used to reload the IceWM configuration after modifications.
 It is the preferred way to restart IceWM from the command line
 or in scripts.
-To restart IceWM with a different theme,
-combine it with the '--theme=NAME' option.
-The theme name will then be saved
-to the 'theme' configuration file,
-before restarting IceWM.
+To load a different theme from the command line,
+combine this with the '--theme=NAME' option like:
++
+  icewm -r -t CrystalBlue
++
+The theme name will then be saved to the 'theme'
+configuration file, before restarting IceWM.
 
 *--configured*::
 Shows a list of configuration options which were
@@ -632,7 +634,18 @@ KeySysMenu activates the IceWM root menu in the lower left corner.
 KeySysWindowList opens the IceWM system window list in the center of the screen.
 
 *Alt+Ctrl+Space*::
-KeySysAddressBar opens the address bar in the taskbar where a command can be typed.
+KeySysAddressBar opens the address bar in the taskbar
+where a shell command can be typed.
+Pressing the Enter key will execute the command.
+If *AddressBarCommand* was configured it will be used
+to execute the command otherwise `/bin/sh` is used.
+If the Control key was also pressed then the command
+is executed in a terminal as given by *TerminalCommand*.
+The address bar maintains a history which is
+navigable by the up/down keys.
+A rich set of editing operations is supported,
+including cut-/copy-/paste-operations
+and file completion using Tab or Ctrl-I.
 
 *Alt+Ctrl+Left*::
 KeySysWorkspacePrev goes one workspace to the left.
