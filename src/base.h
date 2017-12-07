@@ -213,6 +213,11 @@ inline bool hasbits(M mask, B bits) {
     return (mask & bits) == (M) bits;
 }
 
+template <class M, class B>
+inline bool notbit(M mask, B bits) {
+    return (mask & bits) == 0;
+}
+
 /*
  * Returns the lowest bit set in mask.
  */
@@ -257,8 +262,10 @@ bool GetArgument(char* &ret, const char *sn, const char *ln, char** &arg, char *
 bool is_short_switch(const char *arg, const char *name);
 bool is_long_switch(const char *arg, const char *name);
 bool is_switch(const char *arg, const char *short_name, const char *long_name);
+bool is_copying_switch(const char *arg);
 bool is_help_switch(const char *arg);
 bool is_version_switch(const char *arg);
+void print_copying_exit(const char *help);
 void print_help_exit(const char *help);
 void print_version_exit(const char *version);
 void check_help_version(const char *arg, const char *help, const char *version);
@@ -282,6 +289,7 @@ char* load_text_file(const char *filename);
 
 #include "debug.h"
 
+void logFocus(const union _XEvent &xev);
 void logEvent(const union _XEvent &xev);
 void setLogEvent(int evtype, bool enable);
 bool toggleLogEvents();

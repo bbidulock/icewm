@@ -95,6 +95,27 @@ void setLogEvent(int evtype, bool enable) {
 #endif
 }
 
+#undef msg
+#define msg tlog
+
+void logFocus(const XEvent& xev) {
+    msg("window=0x%lX: %s mode=%s, detail=%s",
+        xev.xfocus.window,
+        (xev.type == FocusIn) ? "focusIn" : "focusOut",
+        xev.xfocus.mode == NotifyNormal ? "NotifyNormal" :
+        xev.xfocus.mode == NotifyWhileGrabbed ? "NotifyWhileGrabbed" :
+        xev.xfocus.mode == NotifyGrab ? "NotifyGrab" :
+        xev.xfocus.mode == NotifyUngrab ? "NotifyUngrab" : "???",
+        xev.xfocus.detail == NotifyAncestor ? "NotifyAncestor" :
+        xev.xfocus.detail == NotifyVirtual ? "NotifyVirtual" :
+        xev.xfocus.detail == NotifyInferior ? "NotifyInferior" :
+        xev.xfocus.detail == NotifyNonlinear ? "NotifyNonlinear" :
+        xev.xfocus.detail == NotifyNonlinearVirtual ? "NotifyNonlinearVirtual" :
+        xev.xfocus.detail == NotifyPointer ? "NotifyPointer" :
+        xev.xfocus.detail == NotifyPointerRoot ? "NotifyPointerRoot" :
+        xev.xfocus.detail == NotifyDetailNone ? "NotifyDetailNone" : "???");
+}
+
 void logEvent(const XEvent &xev) {
 #ifdef LOGEVENTS
     if (loggingEvents == false || (size_t) xev.type >= sizeof loggedEvents)
@@ -103,9 +124,6 @@ void logEvent(const XEvent &xev) {
         return;
     if (loggedEvents[xev.type] == false)
         return;
-
-#undef msg
-#define msg tlog
 
     switch (xev.type) {
 
@@ -167,11 +185,7 @@ void logEvent(const XEvent &xev) {
 
     case FocusIn:
     case FocusOut:
-        msg("window=0x%lX: %s mode=%d, detail=%d",
-            xev.xfocus.window,
-            (xev.type == FocusIn) ? "focusIn" : "focusOut",
-            xev.xfocus.mode,
-            xev.xfocus.detail);
+        logFocus(xev);
         break;
 
     case ColormapNotify:
@@ -202,6 +216,13 @@ void logEvent(const XEvent &xev) {
             xev.xconfigure.border_width,
             xev.xconfigure.above,
             xev.xconfigure.override_redirect ? "True" : "False");
+        break;
+
+    case GravityNotify:
+        msg("window=0x%lX: gravityNotify serial=%10lu, x=%+d, y=%+d",
+            xev.xgravity.window,
+            (unsigned long) xev.xany.serial,
+            xev.xgravity.x, xev.xgravity.y);
         break;
 
     case VisibilityNotify:
@@ -600,6 +621,11 @@ bool is_switch(const char *arg, const char *short_name, const char *long_name)
     return is_short_switch(arg, short_name) || is_long_switch(arg, long_name);
 }
 
+bool is_copying_switch(const char *arg)
+{
+    return is_switch(arg, "C", "copying");
+}
+
 bool is_help_switch(const char *arg)
 {
     return is_switch(arg, "h", "help") || is_switch(arg, "?", "?");
@@ -616,6 +642,7 @@ void print_help_exit(const char *help)
              "Options:\n"
              "%s"
              "\n"
+             "  -C, --copying       Prints license information and exits.\n"
              "  -V, --version       Prints version information and exits.\n"
              "  -h, --help          Prints this usage screen and exits.\n"
              "\n"),
@@ -630,6 +657,15 @@ void print_version_exit(const char *version)
     exit(0);
 }
 
+void print_copying_exit()
+{
+    printf("%s\n",
+    "IceWM is licensed under the GNU Library General Public License. "
+    "See the file COPYING in the distribution for full details."
+    );
+    exit(0);
+}
+
 void check_help_version(const char *arg, const char *help, const char *version)
 {
     if (is_help_switch(arg)) {
@@ -637,6 +673,9 @@ void check_help_version(const char *arg, const char *help, const char *version)
     }
     if (is_version_switch(arg)) {
         print_version_exit(version);
+    }
+    if (is_copying_switch(arg)) {
+        print_copying_exit();
     }
 }
 
