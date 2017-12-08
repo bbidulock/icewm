@@ -89,7 +89,7 @@ for(`$xrandr`)
                 $disco = ($2 eq "disconnected");
                 if($disco)
                 {
-                        $turnRestOff.=" --display $curmon --off";
+                        #$turnRestOff.=" --display $curmon --off";
                 }
                 else
                 {
