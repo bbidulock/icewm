@@ -1759,7 +1759,7 @@ YFrameWindow *YWindowManager::getLastFocus(bool skipAllWorkspaces, long workspac
                     continue;
                 if (w->avoidFocus() || pass == 2)
                     continue;
-                if (w->isAllWorkspaces() || pass == 1)
+                if ((w->isAllWorkspaces() && w != fFocusWin) || pass == 1)
                     continue;
                 if (w->client() == taskBar)
                     continue;
