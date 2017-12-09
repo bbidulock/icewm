@@ -319,8 +319,8 @@ void logEvent(const XEvent &xev) {
              xev.type, boolstr(xev.xany.send_event), xev.xany.serial);
         break;
     }
-#undef msg
 #endif
+#undef msg
 }
 
 static void endMsg(const char *msg) {
