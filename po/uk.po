@@ -3,17 +3,17 @@ msgstr ""
 "Project-Id-Version: IceWM 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-11-21 21:20-0700\n"
-"PO-Revision-Date: 2017-12-06 11:06+0000\n"
+"PO-Revision-Date: 2017-06-22 15:25+0000\n"
 "Last-Translator: Andriy Bandura <andriykopanytsia@gmail.com>\n"
-"Language-Team: Ukrainian "
-"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/uk/>\n"
+"Language-Team: Ukrainian <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
+"branch/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
-"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.17.1\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 2.13.1\n"
 
 #: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:680 src/aapm.cc:805
 msgid " - Power"
@@ -144,39 +144,40 @@ msgstr "%ld поштових повідомлень."
 
 #: src/amemstatus.cc:127
 msgid "GB"
-msgstr "ГБ"
+msgstr ""
 
 #: src/amemstatus.cc:131
+#, fuzzy
 msgid "MB"
-msgstr "МБ"
+msgstr "М"
 
 #: src/amemstatus.cc:135
 msgid "kB"
-msgstr "кБ"
+msgstr ""
 
 #: src/amemstatus.cc:139
 msgid "bytes"
-msgstr "байтів"
+msgstr ""
 
 #: src/amemstatus.cc:163
 msgid "Memory Total: "
-msgstr "Обсяг пам'яті:_ "
+msgstr ""
 
 #: src/amemstatus.cc:164
 msgid "Free: "
-msgstr "Вільно: "
+msgstr ""
 
 #: src/amemstatus.cc:165
 msgid "Cached: "
-msgstr "Кешовано: "
+msgstr ""
 
 #: src/amemstatus.cc:166
 msgid "Buffers: "
-msgstr "Буфери: "
+msgstr ""
 
 #: src/amemstatus.cc:167
 msgid "User: "
-msgstr "Користувач: "
+msgstr ""
 
 #: src/apppstatus.cc:198
 #, c-format
@@ -306,8 +307,9 @@ msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
 #: src/icehelp.cc:1865
+#, fuzzy
 msgid "Unsupported protocol."
-msgstr "Непідтримуваний протокол."
+msgstr "Інтерфейс %s не підтримується."
 
 #: src/icehelp.cc:1890
 #, c-format
@@ -316,33 +318,34 @@ msgstr "Невірний шлях: %s\n"
 
 #: src/icehelp.cc:1913
 msgid "Path does not refer to a file."
-msgstr "Шлях не посилається на фал."
+msgstr ""
 
 #: src/icehelp.cc:1918
 msgid "Failed to open file for reading."
-msgstr "Не вдалося відкрити файл для читання."
+msgstr ""
 
 #: src/icehelp.cc:1947
+#, fuzzy
 msgid "Failed to create a temporary file"
-msgstr "Не вдалося створити тимчасовий файл"
+msgstr "Не вдалося створити теку %s"
 
 #: src/icehelp.cc:2039
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
-msgstr "Не вдалося виконати систему (%s) (%d)"
+msgstr ""
 
 #: src/icehelp.cc:2062
-#, c-format
+#, fuzzy, c-format
 msgid "Failed to decompress %s"
-msgstr "Помилка розпакування %s"
+msgstr "Помилка завантаження теми %s"
 
 #: src/icehelp.cc:2070
 msgid "Could not locate curl or wget in PATH"
-msgstr "'curl' або 'wget' в PATH не знайдені"
+msgstr ""
 
 #: src/icehelp.cc:2074
 msgid "Unsafe characters in URL"
-msgstr "Небезпечні символи у посиланні"
+msgstr ""
 
 #: src/icehelp.cc:2090
 #, c-format
@@ -379,7 +382,7 @@ msgid ""
 msgstr ""
 
 #: src/icehelp.cc:2152
-#, c-format
+#, fuzzy, c-format
 msgid "Ignoring option '%s'"
 msgstr "Невідомий параметр '%s'"
 
@@ -600,6 +603,7 @@ msgid "Socket error: %d"
 msgstr "Помилка гнізда: %d"
 
 #: src/icesm.cc:56
+#, fuzzy
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -615,9 +619,6 @@ msgstr ""
 "\n"
 "  --display=НАЗВА      Використовуйте НАЗВА для з'єднання із сервером X.\n"
 "  --sync              Синхронізація комунікації із сервером X11.\n"
-"\n"
-"  -n, --notray        Не запускає icewmtray.\n"
-"  -s, --sound         Також запускає icesound.\n"
 
 #: src/icesm.cc:113
 #, c-format
@@ -627,12 +628,12 @@ msgstr "Невідомий параметр '%s'"
 #: src/icesm.cc:298
 #, c-format
 msgid "%s exited with status %d."
-msgstr "%s завершився із кодом %d."
+msgstr ""
 
 #: src/icesm.cc:304
 #, c-format
 msgid "%s was killed by signal %d."
-msgstr "%s був вбитий через сигнал %d."
+msgstr ""
 
 #: src/icesound.cc:212 src/icesound.cc:320 src/icesound.cc:624
 #, c-format
@@ -642,45 +643,46 @@ msgstr "Граю зразок #%d (%s)"
 #: src/icesound.cc:330
 #, c-format
 msgid "%s: Invalid number of channels"
-msgstr "%s: недійсне число каналів"
+msgstr ""
 
 #: src/icesound.cc:336 src/icesound.cc:341
 msgid "Could not set OSS channels"
-msgstr "Неможливо задати канали OSS"
+msgstr ""
 
 #: src/icesound.cc:346 src/icesound.cc:374
 msgid "Could not sync OSS"
-msgstr "Неможливо синхронізувати OSS"
+msgstr ""
 
 #: src/icesound.cc:358
 msgid "OSS write failed"
-msgstr "Не вдалося записати OSS"
+msgstr ""
 
 #: src/icesound.cc:362
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
-msgstr "Не повний запис OSS (%d/%d)"
+msgstr ""
 
 #: src/icesound.cc:369
+#, fuzzy
 msgid "Could not post OSS"
-msgstr "Неможливо розмістити OSS"
+msgstr "Не можу завантажити набір шрифтів \"%s\"."
 
 #: src/icesound.cc:398
-#, c-format
+#, fuzzy, c-format
 msgid "Could not open OSS device %s"
-msgstr "Неможливо відкрити пристрій OSS %s"
+msgstr "Не можу знайти малюнок %s"
 
 #: src/icesound.cc:403
 msgid "Could not set OSS stereo"
-msgstr "Неможливо задати стерео OSS"
+msgstr ""
 
 #: src/icesound.cc:408
 msgid "Could not reset OSS DSP"
-msgstr "Неможливо відновити OSS DSP"
+msgstr ""
 
 #: src/icesound.cc:413
 msgid "Could not set OSS format"
-msgstr "Неможливо задати формат OSS"
+msgstr ""
 
 #: src/icesound.cc:486
 #, c-format
@@ -702,18 +704,18 @@ msgid "Sample <%d> uploaded as `%s:%s'"
 msgstr "Звук <%d> завантажений як `%s:%s'"
 
 #: src/icesound.cc:569
-#, c-format
+#, fuzzy, c-format
 msgid "Playing sample #%d: %d"
-msgstr "Відтворюється зразок %d: %d"
+msgstr "Граю зразок #%d"
 
 #: src/icesound.cc:644
 #, c-format
 msgid "ao_open_live failed with %d"
-msgstr "ao_open_live провалився із %d"
+msgstr ""
 
 #: src/icesound.cc:655
 msgid "ao_play failed"
-msgstr "ao_play провалився"
+msgstr ""
 
 #: src/icesound.cc:817
 #, c-format
@@ -726,7 +728,7 @@ msgid "Unrecognized argument: %s\n"
 msgstr "Невідомий аргумент: %s\n"
 
 #: src/icesound.cc:829
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
 "\n"
@@ -810,10 +812,10 @@ msgstr ""
 "-v, --verbose                 Докладний вивід (записує кожну звукову подію "
 "у\n"
 "                              stdout).\n"
-"-V, --version                 Друкує інформацію про версію та здійснює вихід."
-"\n"
-"-h, --help                    Друкує (цю) сторінку довідки та здійснює вихід."
-"\n"
+"-V, --version                 Друкує інформацію про версію та здійснює "
+"вихід.\n"
+"-h, --help                    Друкує (цю) сторінку довідки та здійснює "
+"вихід.\n"
 "\n"
 "Повертає значення:\n"
 "\n"
@@ -826,26 +828,26 @@ msgstr ""
 #: src/icesound.cc:923
 #, c-format
 msgid "No audio for %s"
-msgstr "Немає аудіо для %s"
+msgstr ""
 
 #: src/icesound.cc:1000
 msgid "Could not get GUI event property"
-msgstr "Неможливо отримати властивість події GUI"
+msgstr ""
 
 #: src/icesound.cc:1004
 #, c-format
 msgid "Received invalid GUI event %d"
-msgstr "Отримано недійсну подію GUI %d"
+msgstr ""
 
 #: src/icesound.cc:1008
 #, c-format
 msgid "Received GUI event %s"
-msgstr "Отримано подію GUI %s"
+msgstr ""
 
 #: src/icesound.cc:1022
 #, c-format
 msgid "Too quick; ignoring %s."
-msgstr "Надто швидко; пропускаю %s."
+msgstr ""
 
 #: src/icesound.cc:1026
 #, c-format
@@ -860,19 +862,20 @@ msgstr "Інтерфейс %s не підтримується."
 #: src/icesound.cc:1075
 #, c-format
 msgid "Using %s audio."
-msgstr "Використовується %s аудіо."
+msgstr ""
 
 #: src/icesound.cc:1079
-#, c-format
+#, fuzzy, c-format
 msgid "Failed to connect to audio interfaces %s."
-msgstr "Не вдалося з'єднатися з аудіо інтерфейсами %s."
+msgstr "Помилка завантаження теми %s"
 
 #: src/icesound.cc:1091
-#, c-format
+#, fuzzy, c-format
 msgid "Received signal %s: Terminating..."
-msgstr "Отриманий сигнал %s: Переривання..."
+msgstr "Отриманий сигнал %d: Переривання праці..."
 
 #: src/icetray.cc:246
+#, fuzzy
 msgid ""
 "  -n, --notify        Notify parent process by sending signal USR1.\n"
 "  --display=NAME      Use NAME to connect to the X server.\n"
@@ -881,7 +884,7 @@ msgid ""
 "  -c, --config=FILE   Load preferences from FILE.\n"
 "  -t, --theme=FILE    Load the theme from FILE.\n"
 msgstr ""
-"  -n, --notify            Повідомити батьківський процес, надіславши сигнал "
+"  --notify            Повідомити батьківський процес, надіславши сигнал "
 "USR1.\n"
 "  --display=НАЗВА      Використовуйте НАЗВА для з'єднання із сервером X.\n"
 "  --sync              Синхронізація взаємодії із сервером X11.\n"
@@ -914,9 +917,9 @@ msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
 #: src/icewmbg.cc:73
-#, c-format
+#, fuzzy, c-format
 msgid "Failed to load image '%s'."
-msgstr "Помилка завантаження малюнка „%s\"."
+msgstr "Помилка завантаження теми %s"
 
 #: src/icewmbg.cc:696
 #, fuzzy
@@ -994,11 +997,11 @@ msgstr ""
 
 #: src/icewmbg.cc:743
 msgid "Please note that not all options are currently configured.\n"
-msgstr "Зауважимо, що не всі параметри наразі налаштовано.\n"
+msgstr ""
 
 #: src/icewmbg.cc:889
 msgid "Cannot start, because another icewmbg is still running."
-msgstr "Неможливо запустити, бо інший icewmbg запущений."
+msgstr ""
 
 #: src/icewmhint.cc:41
 msgid "Usage: icewmhint [class.instance] option arg\n"
@@ -1068,23 +1071,22 @@ msgid "icewm - About"
 msgstr "Про IceWM"
 
 #: src/wmapp.cc:105
+#, fuzzy
 msgid "A window manager is already running, use --replace to replace it"
-msgstr ""
-"Віконний менеджер вже запущений, можна скористатися --replace, щоби його "
-"замінити"
+msgstr "Віконний менеджер вже запущений, виходжу..."
 
 #: src/wmapp.cc:123
 #, c-format
 msgid "Failed to become the owner of the %s selection"
-msgstr "Не вдалося стати власником виділення %s"
+msgstr ""
 
 #: src/wmapp.cc:127
 msgid "Waiting to replace the old window manager"
-msgstr "Очікування на заміну старого менеджера вікон"
+msgstr ""
 
 #: src/wmapp.cc:132
 msgid "done."
-msgstr "готово."
+msgstr ""
 
 #: src/wmapp.cc:418
 msgid "Unable to get current font path."
