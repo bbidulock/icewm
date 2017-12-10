@@ -218,6 +218,8 @@ public:
     KeySym keyCodeToKeySym(unsigned int keycode, int index = 0);
     static unsigned long getLastEnterNotifySerial();
 
+    void unmanageWindow() { removeWindow(); }
+
 private:
     enum WindowFlags {
         wfVisible   = 1 << 0,

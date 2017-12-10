@@ -596,6 +596,8 @@ void YFrameWindow::unmanage(bool reparent) {
         if (!client()->destroyed() && client()->adopted())
             XRemoveFromSaveSet(xapp->display(), client()->handle());
     }
+    else
+        fClient->unmanageWindow();
 
     client()->setFrame(0);
 
