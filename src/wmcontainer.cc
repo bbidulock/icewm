@@ -135,7 +135,17 @@ void YClientContainer::grabButtons() {
         fHaveGrab = true;
 
         XGrabButton(xapp->display(),
-                    AnyButton, AnyModifier,
+                    Button1, AnyModifier,
+                    handle(), True,
+                    ButtonPressMask,
+                    GrabModeSync, GrabModeAsync, None, None);
+        XGrabButton(xapp->display(),
+                    Button2, AnyModifier,
+                    handle(), True,
+                    ButtonPressMask,
+                    GrabModeSync, GrabModeAsync, None, None);
+        XGrabButton(xapp->display(),
+                    Button3, AnyModifier,
                     handle(), True,
                     ButtonPressMask,
                     GrabModeSync, GrabModeAsync, None, None);
@@ -146,14 +156,18 @@ void YClientContainer::releaseButtons() {
     if (fHaveGrab) {
         fHaveGrab = false;
 
-        XUngrabButton(xapp->display(), AnyButton, AnyModifier, handle());
+        XUngrabButton(xapp->display(), Button1, AnyModifier, handle());
+        XUngrabButton(xapp->display(), Button2, AnyModifier, handle());
+        XUngrabButton(xapp->display(), Button3, AnyModifier, handle());
         fHaveActionGrab = false;
     }
     grabActions();
 }
 
 void YClientContainer::regrabMouse() {
-    XUngrabButton(xapp->display(), AnyButton, AnyModifier, handle());
+    XUngrabButton(xapp->display(), Button1, AnyModifier, handle());
+    XUngrabButton(xapp->display(), Button2, AnyModifier, handle());
+    XUngrabButton(xapp->display(), Button3, AnyModifier, handle());
 
     if (fHaveActionGrab)  {
         fHaveActionGrab = false;
@@ -167,16 +181,17 @@ void YClientContainer::regrabMouse() {
 }
 
 void YClientContainer::grabActions() {
-    if (clientMouseActions) {
-        if (!fHaveActionGrab) {
-            fHaveActionGrab = true;
-            if (gMouseWinMove.key != 0)
-                grabVButton(gMouseWinMove.key - XK_Pointer_Button1 + 1, gMouseWinMove.mod);
-            if (gMouseWinSize.key != 0)
-                grabVButton(gMouseWinSize.key - XK_Pointer_Button1 + 1, gMouseWinSize.mod);
-            if (gMouseWinRaise.key != 0)
-                grabVButton(gMouseWinRaise.key - XK_Pointer_Button1 + 1, gMouseWinRaise.mod);
-        }
+    if (clientMouseActions && fHaveActionGrab == false) {
+        fHaveActionGrab = true;
+        const KeySym minButton = XK_Pointer_Button1;
+        const KeySym maxButton = XK_Pointer_Button3;
+        const KeySym xkButton0 = XK_Pointer_Button1 - 1;
+        if (inrange(gMouseWinMove.key, minButton, maxButton))
+            grabVButton(gMouseWinMove.key - xkButton0, gMouseWinMove.mod);
+        if (inrange(gMouseWinSize.key, minButton, maxButton))
+            grabVButton(gMouseWinSize.key - xkButton0, gMouseWinSize.mod);
+        if (inrange(gMouseWinRaise.key, minButton, maxButton))
+            grabVButton(gMouseWinRaise.key - xkButton0, gMouseWinRaise.mod);
     }
 }
 
