@@ -1005,10 +1005,10 @@ public:
 
     void resetScroll() {
         fVerticalScroll->setValues(ty, height(), 0, contentHeight());
-        fVerticalScroll->setBlockIncrement(height());
+        fVerticalScroll->setBlockIncrement(max(40U, height()) / 2);
         fVerticalScroll->setUnitIncrement(font->height());
         fHorizontalScroll->setValues(tx, width(), 0, contentWidth());
-        fHorizontalScroll->setBlockIncrement(width());
+        fHorizontalScroll->setBlockIncrement(max(40U, width()) / 2);
         fHorizontalScroll->setUnitIncrement(20);
         if (fScrollView)
             fScrollView->layout();
