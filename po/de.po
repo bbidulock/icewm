@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-11-21 21:20-0700\n"
+"POT-Creation-Date: 2017-12-10 17:58+0100\n"
 "PO-Revision-Date: 2017-06-18 17:36+0000\n"
 "Last-Translator: Sarah Kriesch <ada.lovelace@gmx.de>\n"
 "Language-Team: German <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -206,7 +206,7 @@ msgstr ""
 "\n"
 "  Anschlußkennung:\t"
 
-#: src/aworkspaces.cc:315 src/wmstatus.cc:175
+#: src/aworkspaces.cc:315 src/wmstatus.cc:173
 msgid "Workspace: "
 msgstr "Arbeitsbereich: "
 
@@ -270,88 +270,125 @@ msgstr "Editoren"
 msgid "Other"
 msgstr "Sonstiges"
 
-#: src/icehelp.cc:1156
+#: src/icehelp.cc:1199
 msgid "Back"
 msgstr "Zurück"
 
-#: src/icehelp.cc:1156
+#: src/icehelp.cc:1199
 msgid "Alt+Left"
 msgstr "Alt+Links"
 
-#: src/icehelp.cc:1158
+#: src/icehelp.cc:1201
 msgid "Forward"
 msgstr "Weiter"
 
-#: src/icehelp.cc:1158
+#: src/icehelp.cc:1201
 msgid "Alt+Right"
 msgstr "Alt+Rechts"
 
-#: src/icehelp.cc:1161
+#: src/icehelp.cc:1204
 msgid "Previous"
 msgstr "Vorherige Seite"
 
-#: src/icehelp.cc:1162
+#: src/icehelp.cc:1205
 msgid "Next"
 msgstr "Nächste Seite"
 
-#: src/icehelp.cc:1164
+#: src/icehelp.cc:1207
 msgid "Contents"
 msgstr "Inhaltsverzeichnis"
 
-#: src/icehelp.cc:1165
+#: src/icehelp.cc:1208
 msgid "Index"
 msgstr "Index"
 
-#: src/icehelp.cc:1168 src/icesame.cc:62 src/iceview.cc:72 src/wmtitle.cc:97
+#: src/icehelp.cc:1211 src/icesame.cc:62 src/iceview.cc:72 src/wmtitle.cc:108
 msgid "Close"
 msgstr "Schließen"
 
-#: src/icehelp.cc:1168 src/icesame.cc:62 src/iceview.cc:72
+#: src/icehelp.cc:1211 src/icesame.cc:62 src/iceview.cc:72
 msgid "Ctrl+Q"
 msgstr "Strg+Q"
 
-#: src/icehelp.cc:1865
+#: src/icehelp.cc:1216
+msgid "Icewm(1)"
+msgstr ""
+
+#: src/icehelp.cc:1218
+msgid "Icewmbg(1)"
+msgstr ""
+
+#: src/icehelp.cc:1220
+msgid "Icesound(1)"
+msgstr ""
+
+#: src/icehelp.cc:1222
+msgid "FAQ"
+msgstr ""
+
+#: src/icehelp.cc:1224
+msgid "Manual"
+msgstr ""
+
+#: src/icehelp.cc:1226
+msgid "Support"
+msgstr ""
+
+#: src/icehelp.cc:1228
+#, fuzzy
+msgid "Theme Howto"
+msgstr "Autor des Motives:"
+
+#: src/icehelp.cc:1230
+msgid "Website"
+msgstr ""
+
+#: src/icehelp.cc:1232
+msgid "Github"
+msgstr ""
+
+#: src/icehelp.cc:1934
 #, fuzzy
 msgid "Unsupported protocol."
 msgstr "Nicht unterstütztes Audiointerface: %s."
 
-#: src/icehelp.cc:1890
+#: src/icehelp.cc:1959
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "Ungültiger Pfad: %s\n"
 
-#: src/icehelp.cc:1913
+#: src/icehelp.cc:1982
 msgid "Path does not refer to a file."
 msgstr ""
 
-#: src/icehelp.cc:1918
+#: src/icehelp.cc:1987
 msgid "Failed to open file for reading."
 msgstr ""
 
-#: src/icehelp.cc:1947
+#: src/icehelp.cc:2016
 #, fuzzy
 msgid "Failed to create a temporary file"
 msgstr "Kann Verzeichnis %s nicht erstellen"
 
-#: src/icehelp.cc:2039
+#: src/icehelp.cc:2108
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr ""
 
-#: src/icehelp.cc:2062
+#: src/icehelp.cc:2131
 #, fuzzy, c-format
 msgid "Failed to decompress %s"
 msgstr "Konnte Theme %s nicht laden"
 
-#: src/icehelp.cc:2070
+#: src/icehelp.cc:2139
 msgid "Could not locate curl or wget in PATH"
 msgstr ""
 
-#: src/icehelp.cc:2074
+#: src/icehelp.cc:2143
 msgid "Unsafe characters in URL"
 msgstr ""
 
-#: src/icehelp.cc:2090
+#: src/icehelp.cc:2180
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -365,14 +402,18 @@ msgid ""
 "from %s.\n"
 "\n"
 "Options:\n"
-"  --display=NAME      NAME of the X server to use.\n"
+"  -d, --display=NAME  NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"
 "\n"
+"  -B                  Display the IceWM icewmbg manpage.\n"
 "  -b, --bugs          Display the IceWM bug reports (primitively).\n"
 "  -f, --faq           Display the IceWM FAQ and Howto.\n"
-"  -i, --icewm         Display the IceWM website.\n"
+"  -g                  Display the IceWM Github website.\n"
+"  -i, --icewm         Display the IceWM icewm manpage.\n"
 "  -m, --manual        Display the IceWM Manual (default).\n"
+"  -s                  Display the IceWM icesound manpage.\n"
 "  -t, --theme         Display the IceWM themes Howto.\n"
+"  -w, --website       Display the IceWM website.\n"
 "\n"
 "  -V, --version       Prints version information and exits.\n"
 "  -h, --help          Prints this usage screen and exits.\n"
@@ -385,7 +426,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/icehelp.cc:2152
+#: src/icehelp.cc:2257
 #, fuzzy, c-format
 msgid "Ignoring option '%s'"
 msgstr "Unbekannte Aktion: '%s'"
@@ -579,7 +620,7 @@ msgstr "Ungültiges Argument: »%s«."
 msgid "No actions specified."
 msgstr "Keine Aktion angegeben."
 
-#: src/icesh.cc:708 src/icesound.cc:938 src/icewmhint.cc:88 src/yxapp.cc:947
+#: src/icesh.cc:708 src/icesound.cc:938 src/icewmhint.cc:88 src/yxapp.cc:951
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
@@ -612,7 +653,7 @@ msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
 "\n"
-"  --display=NAME      Use NAME to connect to the X server.\n"
+"  -d, --display=NAME  Use NAME to connect to the X server.\n"
 "  --sync              Synchronize communication with X11 server.\n"
 "\n"
 "  -n, --notray        Do not start icewmtray.\n"
@@ -694,7 +735,7 @@ msgstr ""
 msgid "Can't connect to ESound daemon: %s"
 msgstr "Kann keine Verbindung zum ESound-Daemon herstellen: %s"
 
-#: src/icesound.cc:487 src/icewmhint.cc:90 src/yxapp.cc:948
+#: src/icesound.cc:487 src/icewmhint.cc:90 src/yxapp.cc:952
 msgid "<none>"
 msgstr "<keines>"
 
@@ -920,7 +961,7 @@ msgstr "Strg+W"
 msgid "Failed to load image '%s'."
 msgstr "Konnte Theme %s nicht laden"
 
-#: src/icewmbg.cc:696
+#: src/icewmbg.cc:697
 #, fuzzy
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
@@ -996,11 +1037,11 @@ msgstr ""
 " center:1 scaled:1 = Seitenverhältnis beibehalten\n"
 "\n"
 
-#: src/icewmbg.cc:743
+#: src/icewmbg.cc:744
 msgid "Please note that not all options are currently configured.\n"
 msgstr ""
 
-#: src/icewmbg.cc:889
+#: src/icewmbg.cc:890
 msgid "Cannot start, because another icewmbg is still running."
 msgstr ""
 
@@ -1013,16 +1054,17 @@ msgstr "Syntax: icewmhint [klasse.instanz] option argument\n"
 msgid "Out of memory (len=%d)."
 msgstr "Speichermangel (len=%d)."
 
-#: src/misc.cc:335 src/misc.cc:347
+#: src/misc.cc:360 src/misc.cc:372
 msgid "Warning: "
 msgstr "Achtung: "
 
-#: src/misc.cc:611
-#, c-format
+#: src/misc.cc:641
+#, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
 "Options:\n"
 "%s\n"
+"  -C, --copying       Prints license information and exits.\n"
 "  -V, --version       Prints version information and exits.\n"
 "  -h, --help          Prints this usage screen and exits.\n"
 "\n"
@@ -1034,7 +1076,7 @@ msgstr ""
 "  -h, --help          Gibt die Verwendung/ Hilfe aus und beendet.\n"
 "\n"
 
-#: src/movesize.cc:880
+#: src/movesize.cc:890
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Unbekannte Richtung in Verschieben/Vergrößern-Anfrage: %d"
@@ -1067,7 +1109,7 @@ msgstr "Kodierung:"
 msgid "Language:"
 msgstr "Sprache:"
 
-#: src/wmabout.cc:66
+#: src/wmabout.cc:67
 msgid "icewm - About"
 msgstr "IceWM - Produktinformation"
 
@@ -1159,84 +1201,84 @@ msgstr "_Tiefer"
 msgid "D_esktop"
 msgstr "D_esktop"
 
-#: src/wmapp.cc:575
+#: src/wmapp.cc:588
 msgid "_Restore"
 msgstr "_Wiederherstellen"
 
-#: src/wmapp.cc:577
+#: src/wmapp.cc:590
 msgid "_Move"
 msgstr "_Verschieben"
 
-#: src/wmapp.cc:579
+#: src/wmapp.cc:592
 msgid "_Size"
 msgstr "_Größe ändern"
 
-#: src/wmapp.cc:581
+#: src/wmapp.cc:594
 msgid "Mi_nimize"
 msgstr "Mi_nimieren"
 
-#: src/wmapp.cc:583
+#: src/wmapp.cc:596
 msgid "Ma_ximize"
 msgstr "Ma_ximieren"
 
-#: src/wmapp.cc:585
+#: src/wmapp.cc:598
 msgid "_Fullscreen"
 msgstr "ganzer Bi_ldschirm"
 
-#: src/wmapp.cc:588 src/wmwinlist.cc:301
+#: src/wmapp.cc:601 src/wmwinlist.cc:301
 msgid "_Hide"
 msgstr "Vers_tecken"
 
-#: src/wmapp.cc:590
+#: src/wmapp.cc:603
 msgid "Roll_up"
 msgstr "Ein_rollen"
 
-#: src/wmapp.cc:597
+#: src/wmapp.cc:610
 msgid "R_aise"
 msgstr "An_heben"
 
-#: src/wmapp.cc:599
+#: src/wmapp.cc:612
 msgid "_Lower"
 msgstr "Sen_ken"
 
-#: src/wmapp.cc:601
+#: src/wmapp.cc:614
 msgid "La_yer"
 msgstr "_Ebene"
 
-#: src/wmapp.cc:605 src/wmwinlist.cc:303
+#: src/wmapp.cc:618 src/wmwinlist.cc:303
 msgid "Move _To"
 msgstr "Verschieben na_ch"
 
-#: src/wmapp.cc:606
+#: src/wmapp.cc:619
 msgid "Occupy _All"
 msgstr "Auf _allen Arbeitsbereichen"
 
-#: src/wmapp.cc:612
+#: src/wmapp.cc:625
 msgid "Limit _Workarea"
 msgstr "_Beschränke Arbeitsfläche"
 
-#: src/wmapp.cc:616
+#: src/wmapp.cc:629
 msgid "Tray _icon"
 msgstr "Tray_icon"
 
-#: src/wmapp.cc:621 src/wmwinlist.cc:290 src/wmwinlist.cc:314
+#: src/wmapp.cc:634 src/wmwinlist.cc:290 src/wmwinlist.cc:314
 msgid "_Close"
 msgstr "_Schließen"
 
-#: src/wmapp.cc:623 src/wmwinlist.cc:292
+#: src/wmapp.cc:636 src/wmwinlist.cc:292
 msgid "_Kill Client"
 msgstr "Anwendung ab_würgen"
 
-#: src/wmapp.cc:626 src/wmdialog.cc:93 src/wmwinmenu.cc:131
+#: src/wmapp.cc:639 src/wmdialog.cc:93 src/wmwinmenu.cc:131
 msgid "_Window list"
 msgstr "_Fensterliste"
 
 #
-#: src/wmapp.cc:639
+#: src/wmapp.cc:652
 msgid "Another window manager already running, exiting..."
 msgstr "Ein anderer Fenstermanager ist bereits aktiv, breche ab..."
 
-#: src/wmapp.cc:713
+#: src/wmapp.cc:729
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1245,18 +1287,18 @@ msgstr ""
 "Der Neustart ist fehlgeschlagen: %s\n"
 "Verweist die Variable »PATH« auf das Programm »%s«?"
 
-#: src/wmapp.cc:795
+#: src/wmapp.cc:811
 msgid "Kill IceWM, replace with Xterm"
 msgstr ""
 
-#: src/wmapp.cc:1296
+#: src/wmapp.cc:1322
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      zu verwendende Client-ID, wenn der Sitzungs-Manager "
 "kontaktiert wird.\n"
 
-#: src/wmapp.cc:1302
+#: src/wmapp.cc:1328
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1267,7 +1309,7 @@ msgstr ""
 "  --debug-z           Gibt Debug-Nachrichten mit dem Blick auf window "
 "stacking aus.\n"
 
-#: src/wmapp.cc:1310
+#: src/wmapp.cc:1336
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1275,14 +1317,14 @@ msgid ""
 "  --postpreferences   Print preferences after all processing.\n"
 msgstr ""
 
-#: src/wmapp.cc:1315
+#: src/wmapp.cc:1341
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
 "Starts the IceWM window manager.\n"
 "\n"
 "Options:\n"
-"  --display=NAME      NAME of the X server to use.\n"
+"  -d, --display=NAME  NAME of the X server to use.\n"
 "%s  --sync              Synchronize X11 commands.\n"
 "%s\n"
 "  -V, --version       Prints version information and exits.\n"
@@ -1337,26 +1379,26 @@ msgstr ""
 "Für Fehlerberichte, Support-Anfragen, Kommentare besuchen Sie bitte: %s\n"
 "\n"
 
-#: src/wmapp.cc:1376
+#: src/wmapp.cc:1402
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s Konfigurationsverzeichnisse:\n"
 
-#: src/wmapp.cc:1446
+#: src/wmapp.cc:1478
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s konfigurierte Optionen: %s\n"
 
-#: src/wmapp.cc:1493
+#: src/wmapp.cc:1525
 #, fuzzy, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Unbekannte Fensteroption: %s\n"
 
-#: src/wmapp.cc:1524
+#: src/wmapp.cc:1556
 msgid "Confirm Logout"
 msgstr "Abmelden bestätigen"
 
-#: src/wmapp.cc:1525
+#: src/wmapp.cc:1557
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1412,11 +1454,11 @@ msgid "_About"
 msgstr "Produkt_information"
 
 #
-#: src/wmframe.cc:1424
+#: src/wmframe.cc:1425
 msgid "Kill Client: "
 msgstr "Abwürgen von: "
 
-#: src/wmframe.cc:1431
+#: src/wmframe.cc:1432
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1425,19 +1467,19 @@ msgstr ""
 "beim Abwürgen der Anwendung verloren gehen!\n"
 "Wünschen Sie trotzdem fortzufahren?"
 
-#: src/wmframe.cc:3031
+#: src/wmframe.cc:3028
 msgid "Restore"
 msgstr "Wiederherstellen"
 
-#: src/wmframe.cc:3034 src/wmtitle.cc:71
+#: src/wmframe.cc:3031 src/wmtitle.cc:78
 msgid "Maximize"
 msgstr "Maximieren"
 
-#: src/wmframe.cc:3064
+#: src/wmframe.cc:3061
 msgid "Rolldown"
 msgstr "Ausrollen"
 
-#: src/wmframe.cc:3066 src/wmtitle.cc:121
+#: src/wmframe.cc:3063 src/wmtitle.cc:136
 msgid "Rollup"
 msgstr "Einrollen"
 
@@ -1446,13 +1488,10 @@ msgstr "Einrollen"
 msgid "Unknown window option: %s"
 msgstr "Unbekannte Fensteroption: %s"
 
-#: src/wmoption.cc:328
-msgid "Syntax error in window options"
+#: src/wmoption.cc:333
+#, fuzzy, c-format
+msgid "Syntax error in window options on line %d of %s"
 msgstr "Syntaxfehler in Fensteroptionen"
-
-#: src/wmoption.cc:376
-msgid "Out of memory for window options"
-msgstr "Kein freier Speicher für Fensteroptionen verfügbar"
 
 #: src/wmprog.cc:183
 msgid "Missing command argument"
@@ -1631,28 +1670,28 @@ msgstr "_Aktualisieren"
 msgid "_License"
 msgstr "_Lizenz"
 
-#: src/wmtaskbar.cc:400
+#: src/wmtaskbar.cc:401
 msgid "Favorite applications"
 msgstr "Häufig benutzte Anwendungen"
 
-#: src/wmtaskbar.cc:417
+#: src/wmtaskbar.cc:418
 msgid "Window list menu"
 msgstr "Fensterliste"
 
-#: src/wmtaskbar.cc:426
+#: src/wmtaskbar.cc:427
 msgid "Show Desktop"
 msgstr "Desktop anzeigen"
 
-#: src/wmtitle.cc:85
+#: src/wmtitle.cc:94
 msgid "Minimize"
 msgstr "Minimieren"
 
-#: src/wmtitle.cc:109
+#: src/wmtitle.cc:122
 msgid "Hide"
 msgstr "Verstecken"
 
 #
-#: src/wmtitle.cc:133
+#: src/wmtitle.cc:150
 msgid "Raise/Lower"
 msgstr "Anheben/Senken"
 
@@ -1680,7 +1719,7 @@ msgstr "_Anzeigen"
 msgid "_Minimize"
 msgstr "Mi_nimieren"
 
-#: src/wmwinlist.cc:335 src/wmwinlist.cc:336
+#: src/wmwinlist.cc:337 src/wmwinlist.cc:338
 msgid "Window list"
 msgstr "Fensterliste"
 
@@ -1699,12 +1738,12 @@ msgstr ""
 msgid "Unknown key name %s in %s"
 msgstr "Unbekanntes Tastensymbol %s in %s"
 
-#: src/yconfig.cc:165 src/yconfig.cc:178
+#: src/yconfig.cc:165 src/yconfig.cc:178 src/yconfig.cc:191
 #, c-format
 msgid "Bad argument: %s for %s"
 msgstr "Ungültiges argument: %s für %s"
 
-#: src/yconfig.cc:211
+#: src/yconfig.cc:224
 #, c-format
 msgid "Bad option: %s"
 msgstr "Ungültige Option: %s"
@@ -1774,39 +1813,44 @@ msgstr "Fehlende Zeichensätze in der Schriftfamilie »%s«:"
 msgid "Out of memory for pixmap \"%s\""
 msgstr "Kein Speicher frei zum Laden der Pixmap »%s«"
 
-#: src/yinput.cc:50
-msgid "Cu_t"
-msgstr "Aus_schneiden"
-
-#: src/yinput.cc:50
-msgid "Ctrl+X"
-msgstr "Strg+X"
-
-#: src/yinput.cc:51
+#: src/yinput.cc:34
 msgid "_Copy"
 msgstr "_Kopieren"
 
-#: src/yinput.cc:51
+#: src/yinput.cc:34
 msgid "Ctrl+C"
 msgstr "Strg+C"
 
-#: src/yinput.cc:52
+#: src/yinput.cc:36
+msgid "Cu_t"
+msgstr "Aus_schneiden"
+
+#: src/yinput.cc:36
+msgid "Ctrl+X"
+msgstr "Strg+X"
+
+#: src/yinput.cc:38
 msgid "_Paste"
 msgstr "_Einfügen"
 
-#: src/yinput.cc:52
+#: src/yinput.cc:38
 msgid "Ctrl+V"
 msgstr "Strg+V"
 
-#: src/yinput.cc:53
+#: src/yinput.cc:40
 msgid "Paste _Selection"
 msgstr "Aus_wahl einfügen"
 
-#: src/yinput.cc:55
+#: src/yinput.cc:40
+#, fuzzy
+msgid "Ctrl+P"
+msgstr "Strg+Q"
+
+#: src/yinput.cc:43
 msgid "Select _All"
 msgstr "_Alles auswählen"
 
-#: src/yinput.cc:55
+#: src/yinput.cc:43
 msgid "Ctrl+A"
 msgstr "Strg+A"
 
@@ -1849,7 +1893,7 @@ msgstr "Kein Speicher frei fürs Bild »%s«"
 msgid "Image not readable: %s"
 msgstr "Bild nicht lesbar: %s"
 
-#: src/ypaths.cc:124
+#: src/ypaths.cc:121
 #, c-format
 msgid "Could not find image %s"
 msgstr "Bild »%s« nicht gefunden"
@@ -1868,13 +1912,17 @@ msgstr "»%s« entspricht nicht der Common Internet Scheme Syntax"
 msgid "\"%s\" contains no scheme description"
 msgstr "»%s« enthält keine Schemabeschreibung"
 
-#: src/yxapp.cc:904
+#: src/yxapp.cc:908
+#, fuzzy
 msgid ""
-"  --display=NAME      NAME of the X server to use.\n"
+"  -d, --display=NAME  NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"
 msgstr ""
 "  --display=NAME      NAME des zu verwendenden  X-Servers.\n"
 "  --sync              Synchronisation von X11-Befehlen.\n"
+
+#~ msgid "Out of memory for window options"
+#~ msgstr "Kein freier Speicher für Fensteroptionen verfügbar"
 
 #~ msgid "Error in window option: %s"
 #~ msgstr "Fehlerhafte Fensteroption: %s"
