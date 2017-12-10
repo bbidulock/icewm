@@ -866,17 +866,26 @@ bool YFrameWindow::canMove() {
 void YFrameWindow::startMoveSize(int x, int y,
                                  int direction)
 {
-    int sx[] = { -1, 0, 1, 1, 1, 0, -1, -1, 0 };
-    int sy[] = { -1, -1, -1, 0, 1, 1, 1, 0, 0 };
+    int sx[] = { -1, 0, 1, 1, 1, 0, -1, -1, };
+    int sy[] = { -1, -1, -1, 0, 1, 1, 1, 0, };
 
-    if (direction >= 0 && direction < (int) ACOUNT(sx)) {
-        MSG(("move size %d %d %d", x, y, direction));
-        if (direction == _NET_WM_MOVERESIZE_MOVE) {
-            x -= this->x();
-            y -= this->y();
-        }
-        startMoveSize((direction == _NET_WM_MOVERESIZE_MOVE),
-                      true, sx[direction], sy[direction], x, y);
+    if (inrange(direction, 0, int ACOUNT(sx))) {
+        MSG(("move size %d %d direction %d", x, y, direction));
+        startMoveSize(false, true, sx[direction], sy[direction], x, y);
+    }
+    else if (direction == _NET_WM_MOVERESIZE_MOVE) {
+        MSG(("move size %d %d move by mouse", x, y));
+        startMoveSize(true, true, 0, 0, x - this->x(), y - this->y());
+    }
+    else if (direction == _NET_WM_MOVERESIZE_SIZE_KEYBOARD) {
+        MSG(("move size %d %d size by keyboard", x, y));
+        startMoveSize(false, false, 0, 0, x - this->x(), y - this->y());
+    }
+    else if (direction == _NET_WM_MOVERESIZE_MOVE_KEYBOARD) {
+        MSG(("move size %d %d move by keyboard", x, y));
+        startMoveSize(true, false, 0, 0, x - this->x(), y - this->y());
+    }
+    else if (direction == _NET_WM_MOVERESIZE_CANCEL) {
     } else
         warn(_("Unknown direction in move/resize request: %d"), direction);
 }
