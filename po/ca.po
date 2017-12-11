@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-12-10 17:58+0100\n"
-"PO-Revision-Date: 2017-10-16 16:07+0000\n"
+"PO-Revision-Date: 2017-12-11 09:24+0000\n"
 "Last-Translator: David Medina <medipas@gmail.com>\n"
-"Language-Team: Catalan <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/ca/>\n"
+"Language-Team: Catalan "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8 bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.13.1\n"
+"X-Generator: Weblate 2.17.1\n"
 
 #: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:680 src/aapm.cc:805
 msgid " - Power"
@@ -309,45 +309,40 @@ msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
 #: src/icehelp.cc:1216
-#, fuzzy
 msgid "Icewm(1)"
-msgstr "_Icewm(1)"
+msgstr "Icewm (1)"
 
 #: src/icehelp.cc:1218
-#, fuzzy
 msgid "Icewmbg(1)"
-msgstr "Icewm_Bg(1)"
+msgstr "Icewmbg (1)"
 
 #: src/icehelp.cc:1220
-#, fuzzy
 msgid "Icesound(1)"
-msgstr "Ice_Sound(1)"
+msgstr "Icesound (1)"
 
 #: src/icehelp.cc:1222
 msgid "FAQ"
-msgstr ""
+msgstr "PMF"
 
 #: src/icehelp.cc:1224
-#, fuzzy
 msgid "Manual"
-msgstr "_Manual"
+msgstr "Manual"
 
 #: src/icehelp.cc:1226
 msgid "Support"
-msgstr ""
+msgstr "Suport"
 
 #: src/icehelp.cc:1228
-#, fuzzy
 msgid "Theme Howto"
-msgstr "Autor del tema:"
+msgstr "Gestió del tema"
 
 #: src/icehelp.cc:1230
 msgid "Website"
-msgstr ""
+msgstr "Lloc web"
 
 #: src/icehelp.cc:1232
 msgid "Github"
-msgstr ""
+msgstr "Github"
 
 #: src/icehelp.cc:1934
 msgid "Unsupported protocol."
@@ -389,7 +384,7 @@ msgid "Unsafe characters in URL"
 msgstr "Caràcters no segurs a l'URL"
 
 #: src/icehelp.cc:2180
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
 "\n"
@@ -431,20 +426,25 @@ msgstr ""
 "IceWM.\n"
 "Pot mostrar un document HTML des d'un fitxer o navegar per un lloc web.\n"
 "Recorda les pàgines visitades en un historial, que és navegable\n"
-"a través de dreceres de teclat i un menú contextual (clic del botó dret).\n"
+"a través de dreceres de teclat i un menú contextual (clic del botó contrari)."
+"\n"
 "No admet ni la renderització d'imatges ni JavaScript.\n"
 "Si no es proporciona cap fitxer ni URL, es mostrarà el manual de l'IceWM\n"
 "de %s.\n"
 "\n"
 "Options:\n"
-"  --display=NAME      NOM del servidor X per usar.\n"
+"  -d, --display=NAME      Nom del servidor X per usar.\n"
 "  --sync              Sincronitza ordes d'X11.\n"
 "\n"
+"  -B                  Mostra la pàgina del manual de l'icewmbg de l'IceWM.\n"
 "  -b, --bugs          Mostra els informes d'error de l'IceWM (inicialment).\n"
 "  -f, --faq           Mostra les PMF i el Com_fer-ho.\n"
-"  -i, --icewm         Mostra el lloc web de l'IceWM.\n"
+"  -g                  Mostra el lloc web de Github de l'IceWM.\n"
+"  -i, --icewm         Mostra la pàgina del manual de l'icewm de l'IceWM.\n"
 "  -m, --manual        Mostra el manual de l'IceWM (per defecte).\n"
-"  -t, --theme         Mostra els temes de Com_fer-ho de l'IceWM.\n"
+"  -s                  Mostra la pàgina del manual de l'icesound de l'IceWM.\n"
+"  -t, --theme         Mostra el Com_fer-ho dels temes de l'IceWM.\n"
+"  -w, --website       Mostra el lloc web de l'IceWM.\n"
 "\n"
 "  -V, --version       Imprimeix la informació de la versió i surt.\n"
 "  -h, --help          Imprimeix aquesta pantalla de l'ús i surt.\n"
@@ -688,7 +688,6 @@ msgid "Socket error: %d"
 msgstr "Error de sòcol: %d"
 
 #: src/icesm.cc:56
-#, fuzzy
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -703,7 +702,7 @@ msgstr ""
 "FITXER.\n"
 "  -t, --theme=FILE    Permet que l'IceWM carregui el tema des d'un FITXER.\n"
 "\n"
-"  --display=NAME      Usa el NOM per connectar al Servidor X.\n"
+"  -d, --display=NAME      Usa el NOM per connectar al servidor X.\n"
 "  --sync              Sincronitza la comunicació amb el servidor X11.\n"
 "\n"
 "  -n, --notray        No iniciïs l'icewmtray.\n"
@@ -1137,7 +1136,7 @@ msgid "Warning: "
 msgstr "Atenció: "
 
 #: src/misc.cc:641
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
 "Options:\n"
@@ -1150,6 +1149,7 @@ msgstr ""
 "Ús: %s [OPCIONS]\n"
 "Opcions:\n"
 "%s\n"
+"  -C, --copying       Imprimeix la informació de la llicència i surt.\n"
 "  -V, --version       Imprimeix la informació de la versió i surt.\n"
 "  -h, --help          Imprimeix aquesta pantalla d'ajuda i surt.\n"
 "\n"
@@ -1397,7 +1397,7 @@ msgstr ""
 "processament.\n"
 
 #: src/wmapp.cc:1341
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
 "Starts the IceWM window manager.\n"
@@ -1431,7 +1431,7 @@ msgstr ""
 "Inicia el gestor de finestres de l'IceWM.\n"
 "\n"
 "Opcions:\n"
-"  --display=NAME      NOM del servidor X per usar.\n"
+" -d,  --display=NAME      NOM del servidor X per usar.\n"
 "%s  --sync              Sincronitza ordres d'X11.\n"
 "%s\n"
 "  -V, --version       Imprimeix la informació de la versió i surt.\n"
@@ -1444,7 +1444,7 @@ msgstr ""
 "  --directories       Imprimeix els directoris de configuració.\n"
 "  -l, --list-themes   Imprimeix una llista dels temes disponibles.\n"
 "\n"
-"Variables d'entorn:\n"
+"Variables de l'entorn:\n"
 " ICEWM_PRIVCFG=PATH  Directori per als fitxers de configuració de l'usuari,\n"
 "                      \"$XDG_CONFIG_HOME/icewm\" si existeix, o bé\n"
 "                      \"$HOME/.icewm/\" per defecte.\n"
@@ -1452,8 +1452,8 @@ msgstr ""
 "  MAIL=URL            Ubicació de la bústia de correu.\n"
 "\n"
 "Per informar d'errors, fer peticions de suport o comentaris, si us plau, "
-"visiteu...\n"
-"%s\n"
+"visiteu\n"
+"%s.\n"
 "\n"
 
 #: src/wmapp.cc:1402
@@ -1564,9 +1564,9 @@ msgid "Unknown window option: %s"
 msgstr "Opció de finestra desconeguda: %s"
 
 #: src/wmoption.cc:333
-#, fuzzy, c-format
+#, c-format
 msgid "Syntax error in window options on line %d of %s"
-msgstr "Error de sintaxi a l'opció de finestra"
+msgstr "Error de sintaxi de les opcions de finestra a la línia %d de %s."
 
 #: src/wmprog.cc:183
 msgid "Missing command argument"
@@ -1909,9 +1909,8 @@ msgid "Paste _Selection"
 msgstr "Enganxa la _selecció"
 
 #: src/yinput.cc:40
-#, fuzzy
 msgid "Ctrl+P"
-msgstr "Ctrl+Q"
+msgstr "Ctrl+P"
 
 #: src/yinput.cc:43
 msgid "Select _All"
@@ -1977,12 +1976,11 @@ msgid "\"%s\" contains no scheme description"
 msgstr "\"%s\"no conté cap descripció d'esquema"
 
 #: src/yxapp.cc:908
-#, fuzzy
 msgid ""
 "  -d, --display=NAME  NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"
 msgstr ""
-"  --display=NAME      NOM del servidor X per usar.\n"
+"  -d, --display=NAME      Nom del servidor X per usar.\n"
 "  --sync              Sincronitza les ordres d'X11.\n"
 
 #~ msgid "Out of memory for window options"
