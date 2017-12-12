@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: icewm-1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-12-10 17:58+0100\n"
-"PO-Revision-Date: 2017-12-03 22:56+0000\n"
-"Last-Translator: Aleš Kastner <alkas@volny.cz>\n"
-"Language-Team: Czech <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/cs/>\n"
+"PO-Revision-Date: 2017-12-12 19:01+0000\n"
+"Last-Translator: Michal Suchanek <msuchanek@suse.com>\n"
+"Language-Team: Czech "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -340,13 +340,12 @@ msgid "Support"
 msgstr ""
 
 #: src/icehelp.cc:1228
-#, fuzzy
 msgid "Theme Howto"
-msgstr "Autor tématu:"
+msgstr "Návod k tématu"
 
 #: src/icehelp.cc:1230
 msgid "Website"
-msgstr ""
+msgstr "Webová stránka"
 
 #: src/icehelp.cc:1232
 msgid "Github"
@@ -1612,18 +1611,22 @@ msgid "_Click to focus"
 msgstr "Vybrat _kliknutím"
 
 #: src/wmprog.cc:857
+#, fuzzy
 msgid "_Explicit focus"
 msgstr "_Explicitní výběr"
 
 #: src/wmprog.cc:858
+#, fuzzy
 msgid "_Sloppy mouse focus"
 msgstr "_Ledabylý výběr"
 
 #: src/wmprog.cc:859
+#, fuzzy
 msgid "S_trict mouse focus"
 msgstr "P_řísný výběr"
 
 #: src/wmprog.cc:860
+#, fuzzy
 msgid "_Quiet sloppy focus"
 msgstr "_Celkem ledabylý výběr"
 
