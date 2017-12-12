@@ -19,8 +19,18 @@ my $readedid;
 my $curedid;
 my %realname;
 
-# can be disabled if something goes wrong with sysfs data lookup
-my $useSysfs=1;
+# sysfs data lookup disabled for now because of not being reliable.
+# With Nouveau, some -A token is added to sysfs names.
+# With Radeon, the enumeration is not mapped correctly, like this:
+# $ ls /sys/devices/pci0000:00/0000:00:02.0/0000:01:00.0/drm/card0/*-* -d
+# /sys/devices/pci0000:00/0000:00:02.0/0000:01:00.0/drm/card0/card0-DP-1     /sys/devices/pci0000:00/0000:00:02.0/0000:01:00.0/drm/card0/card0-HDMI-A-1
+# /sys/devices/pci0000:00/0000:00:02.0/0000:01:00.0/drm/card0/card0-DVI-D-1
+# $ xrandr | grep conne
+# DisplayPort-0 disconnected primary (normal left inverted right x axis y axis)
+# HDMI-A-0 disconnected (normal left inverted right x axis y axis)
+# DVI-D-0 connected 1280x1024+0+0 (normal left inverted right x axis y axis) 376mm x 301mm
+# 
+my $useSysfs=0;
 
 my $xrandr = "xrandr";
 
