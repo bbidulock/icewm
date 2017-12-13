@@ -157,7 +157,9 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     fShowDesktop = 0;
 
     ///setToplevel(true);
-    XSetWindowBackground(xapp->display(), handle(), getTaskBarBg()->pixel());
+    setBackground(getTaskBarBg()->pixel());
+    if (taskbackPixmap != null)
+        setBackgroundPixmap(taskbackPixmap->pixmap());
 
     initPixmaps();
 
