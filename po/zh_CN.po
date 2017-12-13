@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-12-10 17:58+0100\n"
-"PO-Revision-Date: 2017-12-13 04:01+0000\n"
+"PO-Revision-Date: 2017-12-13 12:01+0000\n"
 "Last-Translator: Wnereiz Z <wnereiz@eienteiland.org>\n"
 "Language-Team: Chinese (China) "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/zh_CN/>\n"
@@ -49,13 +49,17 @@ msgid ""
 "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 "intr = %llu, softirq = %llu, steal = %llu\n"
 msgstr ""
+"stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
+"intr = %llu, softirq = %llu, steal = %llu\n"
 
 #: src/acpustatus.cc:201
-#, c-format
+#, c-format, fuzzy
 msgid ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 "softirq = %llu, steal = %llu (h = %i)\n"
 msgstr ""
+"bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
+"softirq = %llu, steal = %llu (h = %i)\n"
 
 #: src/acpustatus.cc:261
 #, fuzzy, c-format
@@ -160,7 +164,7 @@ msgstr ""
 
 #: src/amemstatus.cc:139
 msgid "bytes"
-msgstr ""
+msgstr "字节"
 
 #: src/amemstatus.cc:163
 msgid "Memory Total: "
@@ -386,10 +390,10 @@ msgstr "无法依据 PATH 找到 curl 或 wget"
 
 #: src/icehelp.cc:2143
 msgid "Unsafe characters in URL"
-msgstr ""
+msgstr "URL 包含不安全的字符"
 
 #: src/icehelp.cc:2180
-#, c-format
+#, c-format, fuzzy
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
 "\n"
@@ -425,6 +429,38 @@ msgid ""
 "%s\n"
 "\n"
 msgstr ""
+"使用方法： %s [选项] [ 文件名 | URL ]\n"
+"\n"
+"IceHelp 是一个非常简单的 HTML 浏览器，用于 IceWM 窗口管理器。\n"
+"它可以用来显示 HTML 文件形式的文档，或者用于浏览网站。\n"
+"IceHelp 会在历史记录中保存访问过的网页，这些网页曾经使用\n"
+"按键绑定或上下文菜单（鼠标右键）进行浏览。\n"
+"不支持图片渲染和 JavaScript。如果不给出文件或者 URL，\n"
+"则会显示 %s 中的手册内容。\n"
+"\n"
+"选项：\n"
+"  -d, --display=NAME  要使用的 X 服务器名称。\n"
+"  --sync              同步 X11 命令。\n"
+"\n"
+"  -B                  显示 IceWM icewmbg 手册页。\n"
+"  -b, --bugs          显示 IceWM （原始的）缺陷报告。\n"
+"  -f, --faq           显示 IceWM 问答和帮助。\n"
+"  -g                  显示 IceWM Github 网站。\n"
+"  -i, --icewm         显示 IceWM icewm 手册页。\n"
+"  -m, --manual        显示（默认的） IceWM Manual。\n"
+"  -s                  显示 IceWM icesound 手册页。\n"
+"  -t, --theme         显示 IceWM themes 帮助。\n"
+"  -w, --website       显示 IceWM 网站。\n"
+"\n"
+"  -V, --version       打印版本信息并退出。\n"
+"  -h, --help          打印此帮助屏幕信息并退出。\n"
+"\n"
+"环境变量：\n"
+"  DISPLAY=NAME        要使用的 X 服务器名称。\n"
+"\n"
+"提交缺陷报告、支援请求或评论，请访问：\n"
+"%s\n"
+"\n"
 
 #: src/icehelp.cc:2257
 #, fuzzy, c-format
@@ -636,6 +672,7 @@ msgid "Socket error: %d"
 msgstr "socket 错误：%d"
 
 #: src/icesm.cc:56
+#, fuzzy
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -646,6 +683,14 @@ msgid ""
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
+"  -c, --config=FILE   从 FILE 加载 IceWM 配置选项。\n"
+"  -t, --theme=FILE   从 FILE 加载 IceWM 主题。\n"
+"\n"
+"  -d, --display=NAME  使用 NAME 连接 X 服务器。\n"
+"  --sync              与 X11 服务器同步通信信息。\n"
+"\n"
+"  -n, --notray        不启动 icewmtray。\n"
+"  -s, --sound         同时启动 icesound。\n"
 
 #: src/icesm.cc:113
 #, fuzzy, c-format
@@ -655,12 +700,12 @@ msgstr "未知的行为：`%s'"
 #: src/icesm.cc:298
 #, c-format
 msgid "%s exited with status %d."
-msgstr ""
+msgstr "%s 以状态 %d 退出。"
 
 #: src/icesm.cc:304
 #, c-format
 msgid "%s was killed by signal %d."
-msgstr ""
+msgstr "%s 由信号 %d 杀掉。"
 
 #: src/icesound.cc:212 src/icesound.cc:320 src/icesound.cc:624
 #, c-format
@@ -670,24 +715,24 @@ msgstr "播放例子 #%d (%s)"
 #: src/icesound.cc:330
 #, c-format
 msgid "%s: Invalid number of channels"
-msgstr ""
+msgstr "%s: 无效的频道编号"
 
 #: src/icesound.cc:336 src/icesound.cc:341
 msgid "Could not set OSS channels"
-msgstr ""
+msgstr "无法设置 OSS 频道"
 
 #: src/icesound.cc:346 src/icesound.cc:374
 msgid "Could not sync OSS"
-msgstr ""
+msgstr "无法同步 OSS"
 
 #: src/icesound.cc:358
 msgid "OSS write failed"
-msgstr ""
+msgstr "OSS 写入失败"
 
 #: src/icesound.cc:362
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
-msgstr ""
+msgstr "OSS 写入未完成 (%d/%d)"
 
 #: src/icesound.cc:369
 #, fuzzy
@@ -701,15 +746,15 @@ msgstr "找不到位图 %s"
 
 #: src/icesound.cc:403
 msgid "Could not set OSS stereo"
-msgstr ""
+msgstr "无法设置 OSS 立体声"
 
 #: src/icesound.cc:408
 msgid "Could not reset OSS DSP"
-msgstr ""
+msgstr "无法重置 OSS DSP"
 
 #: src/icesound.cc:413
 msgid "Could not set OSS format"
-msgstr ""
+msgstr "无法设置 OSS 格式"
 
 #: src/icesound.cc:486
 #, c-format
@@ -738,11 +783,11 @@ msgstr "播放例子 #%d"
 #: src/icesound.cc:644
 #, c-format
 msgid "ao_open_live failed with %d"
-msgstr ""
+msgstr "ao_open_live 失败原因： %d"
 
 #: src/icesound.cc:655
 msgid "ao_play failed"
-msgstr ""
+msgstr "ao_play 运行失败"
 
 #: src/icesound.cc:817
 #, c-format
@@ -847,26 +892,26 @@ msgstr ""
 #: src/icesound.cc:923
 #, c-format
 msgid "No audio for %s"
-msgstr ""
+msgstr "%s 无音频"
 
 #: src/icesound.cc:1000
 msgid "Could not get GUI event property"
-msgstr ""
+msgstr "无法获得 GUI 事件属性"
 
 #: src/icesound.cc:1004
 #, c-format
 msgid "Received invalid GUI event %d"
-msgstr ""
+msgstr "接收到无效的 GUI 事件 %d"
 
 #: src/icesound.cc:1008
 #, c-format
 msgid "Received GUI event %s"
-msgstr ""
+msgstr "接收到 GUI 事件 %s"
 
 #: src/icesound.cc:1022
 #, c-format
 msgid "Too quick; ignoring %s."
-msgstr ""
+msgstr "速度过快；忽略 %s."
 
 #: src/icesound.cc:1026
 #, c-format
@@ -881,7 +926,7 @@ msgstr "不支持的接口：%s。"
 #: src/icesound.cc:1075
 #, c-format
 msgid "Using %s audio."
-msgstr ""
+msgstr "使用 %s 音频。"
 
 #: src/icesound.cc:1079
 #, fuzzy, c-format
@@ -894,6 +939,7 @@ msgid "Received signal %s: Terminating..."
 msgstr "收到信号 %d：终止..."
 
 #: src/icetray.cc:246
+#, fuzzy
 msgid ""
 "  -n, --notify        Notify parent process by sending signal USR1.\n"
 "  --display=NAME      Use NAME to connect to the X server.\n"
@@ -902,6 +948,12 @@ msgid ""
 "  -c, --config=FILE   Load preferences from FILE.\n"
 "  -t, --theme=FILE    Load the theme from FILE.\n"
 msgstr ""
+"  -n, --notify        发送信号 USER1 通知父进程。\n"
+"  --display=NAME      使用 NAME 连接 X 服务器。\n"
+"  --sync              与 X11 服务器同步通信信息。\n"
+"\n"
+"  -c, --config=FILE   从 FILE 中加载设置选项。\n"
+"  -t, --theme=FILE    从 FILE 中加载主题。\n"
 
 #: src/iceview.cc:68
 msgid "Hex View"
@@ -992,11 +1044,11 @@ msgstr ""
 
 #: src/icewmbg.cc:744
 msgid "Please note that not all options are currently configured.\n"
-msgstr ""
+msgstr "请注意并非全部选项都已设置。\n"
 
 #: src/icewmbg.cc:890
 msgid "Cannot start, because another icewmbg is still running."
-msgstr ""
+msgstr "无法启动，因为其他 icewmbg 仍在运行。"
 
 #: src/icewmhint.cc:41
 msgid "Usage: icewmhint [class.instance] option arg\n"
@@ -1012,7 +1064,7 @@ msgid "Warning: "
 msgstr "警告： "
 
 #: src/misc.cc:641
-#, c-format
+#, c-format, fuzzy
 msgid ""
 "Usage: %s [OPTIONS]\n"
 "Options:\n"
@@ -1022,6 +1074,13 @@ msgid ""
 "  -h, --help          Prints this usage screen and exits.\n"
 "\n"
 msgstr ""
+"使用方法： %s [选项]\n"
+"选项：\n"
+"%s\n"
+"  -C, --copying       打印许可证信息并退出。\n"
+"  -V, --version       打印版本信息并退出。\n"
+"  -h, --help          打印此帮助画面并退出。\n"
+"\n"
 
 #: src/movesize.cc:890
 #, c-format
@@ -1072,11 +1131,11 @@ msgstr ""
 
 #: src/wmapp.cc:127
 msgid "Waiting to replace the old window manager"
-msgstr ""
+msgstr "等待替换旧的窗口管理器"
 
 #: src/wmapp.cc:132
 msgid "done."
-msgstr ""
+msgstr "完成。"
 
 #: src/wmapp.cc:418
 msgid "Unable to get current font path."
@@ -1233,12 +1292,12 @@ msgstr ""
 
 #: src/wmapp.cc:811
 msgid "Kill IceWM, replace with Xterm"
-msgstr ""
+msgstr "杀掉 IceWM，替换为 Xterm"
 
 #: src/wmapp.cc:1322
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
-msgstr ""
+msgstr "  --client-id=ID      与会话管理器通信时使用客户端 ID\n"
 
 #: src/wmapp.cc:1328
 msgid ""
@@ -1246,6 +1305,9 @@ msgid ""
 "  --debug             Print generic debug messages.\n"
 "  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
+"\n"
+"  --debug             打印通用调试信息。\n"
+"  --debug-z           窗口层叠时打印调试信息。\n"
 
 #: src/wmapp.cc:1336
 msgid ""
@@ -1254,6 +1316,10 @@ msgid ""
 "  -t, --theme=FILE    Load theme from FILE.\n"
 "  --postpreferences   Print preferences after all processing.\n"
 msgstr ""
+"\n"
+"  -c, --config=FILE   从 FILE 中加载配置选项。\n"
+"  -t, --theme=FILE    从 FILE 中加载主题。\n"
+"  --postpreferences   所有处理过程结束后打印配置选项。\n"
 
 #: src/wmapp.cc:1341
 #, fuzzy, c-format
@@ -1312,7 +1378,7 @@ msgstr ""
 #: src/wmapp.cc:1402
 #, c-format
 msgid "%s configuration directories:\n"
-msgstr ""
+msgstr "%s 配置选项目录：\n"
 
 #: src/wmapp.cc:1478
 #, fuzzy, c-format
@@ -1354,7 +1420,7 @@ msgstr "创建子进程失败: %s"
 #: src/wmconfig.cc:137
 #, c-format
 msgid "Unable to write to %s"
-msgstr ""
+msgstr "无法写入 %s"
 
 #: src/wmconfig.cc:164
 #, fuzzy, c-format
@@ -1455,14 +1521,14 @@ msgid "Error at %s: '%s'"
 msgstr "键 %s 错误"
 
 #: src/wmprog.cc:535
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown keyword '%s'"
-msgstr "未知的行为：`%s'"
+msgstr "未知关键字：`%s'"
 
 #: src/wmprog.cc:560
-#, fuzzy, c-format
+#, c-format
 msgid "Error at keyword '%s' for %s"
-msgstr "键 %s 错误"
+msgstr "%s 的关键字 '%s' 错误"
 
 #: src/wmprog.cc:576
 #, c-format
@@ -1470,6 +1536,8 @@ msgid ""
 "Unknown keyword for a non-container: '%s'.\n"
 "Expected either 'key' or 'runonce' here.\n"
 msgstr ""
+"未知的非容器 '%s' 关键字。\n"
+"此处需要 关键字 'key' 或 'runonce'。\n"
 
 #: src/wmprog.cc:708
 #, c-format
