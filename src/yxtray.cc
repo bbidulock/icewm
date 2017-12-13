@@ -4,6 +4,7 @@
 #include "yxapp.h"
 #include "prefs.h"
 #include "wmtaskbar.h"
+#include "wpixmaps.h"
 #include "ypointer.h"
 #include <X11/Xatom.h>
 
@@ -60,9 +61,15 @@ ustring fetchTitle(Window win) {
     return null;
 }
 
+struct DockRequest {
+    Window window;
+    osmart<YTimer> timer;
+    DockRequest(Window w, YTimer* t) : window(w), timer(t) { }
+};
+
 class YXTrayProxy: public YWindow, private YTimerListener {
 public:
-    YXTrayProxy(const YAtom& atom, YXTray *tray, YWindow *aParent = 0);
+    YXTrayProxy(const YAtom& atom, YXTray *tray);
     virtual ~YXTrayProxy();
 
     virtual void handleClientMessage(const XClientMessageEvent &message);
@@ -72,8 +79,7 @@ private:
     YAtom _NET_SYSTEM_TRAY_S0;
     YXTray *fTray;
     osmart<YTimer> fUpdateTimer;
-    osmart<YTimer> fDelayTimer;
-    YArray<Window> fDockRequests;
+    YObjectArray<DockRequest> fDockRequests;
     mstring toolTip;
 
     void requestDock(Window dockRequest);
@@ -96,15 +102,13 @@ private:
     virtual void updateToolTip();
 };
 
-YXTrayProxy::YXTrayProxy(const YAtom& atom, YXTray *tray, YWindow *aParent):
-    YWindow(aParent),
+YXTrayProxy::YXTrayProxy(const YAtom& atom, YXTray *tray):
     _NET_SYSTEM_TRAY_OPCODE("_NET_SYSTEM_TRAY_OPCODE"),
     _NET_SYSTEM_TRAY_MESSAGE_DATA("_NET_SYSTEM_TRAY_MESSAGE_DATA"),
     _NET_SYSTEM_TRAY_S0(atom),
     fTray(tray)
 {
     setTitle("YXTrayProxy");
-    setParentRelative();
     if (isExternal()) {
         long orientation = SYSTEM_TRAY_ORIENTATION_HORZ;
         XChangeProperty(xapp->display(), handle(),
@@ -245,16 +249,22 @@ void YXTrayProxy::updateToolTip() {
 }
 
 bool YXTrayProxy::handleTimer(YTimer *timer) {
-    MSG(("YXTrayProxy::handleTimer"));
+    MSG(("YXTrayProxy::handleTimer %s %d %ld", boolstr(timer == fUpdateTimer),
+                             fDockRequests.getCount(), timer->getInterval()));
+
     if (timer == fUpdateTimer) {
         updateToolTip();
+        return false;
     }
-    else if (timer == fDelayTimer) {
-        for (int i = 0; i < fDockRequests.getCount(); ++i)
-            fTray->trayRequestDock(fDockRequests[i]);
-        fDockRequests.clear();
-        fDelayTimer = 0;
+
+    for (int i = 0; i < fDockRequests.getCount(); ++i) {
+        if (timer == fDockRequests[i]->timer) {
+            fTray->trayRequestDock(fDockRequests[i]->window);
+            fDockRequests.remove(i);
+            return false;
+        }
     }
+
     return false;
 }
 
@@ -262,9 +272,9 @@ void YXTrayProxy::requestDock(Window dockRequest) {
     MSG(("systemTrayRequestDock 0x%lX, title \"%s\"",
           dockRequest, cstring(fetchTitle(dockRequest)).c_str()));
 
-    fDockRequests.append(dockRequest);
-    if (fDelayTimer == 0)
-        fDelayTimer = new YTimer(100L, this, true);
+    long delay = 80L + 25L * fDockRequests.getCount();
+    YTimer* tm = new YTimer(delay, this, true);
+    fDockRequests.append(new DockRequest(dockRequest, tm));
 }
 
 void YXTrayProxy::handleClientMessage(const XClientMessageEvent &message) {
@@ -313,13 +323,8 @@ YXTrayEmbedder::YXTrayEmbedder(YXTray *tray, Window win):
     setStyle(wsManager);
     setTitle("YXTrayEmbedder");
     fDocked = new YXEmbedClient(this, this, win);
-
-    XSetWindowBorderWidth(xapp->display(),
-                          client_handle(),
-                          0);
-
-    XAddToSaveSet(xapp->display(), client_handle());
-
+    fDocked->setBorderWidth(0);
+    XAddToSaveSet(xapp->display(), win);
     fDocked->reparent(this, 0, 0);
 
     YAtom _XEMBED("_XEMBED");
@@ -354,6 +359,7 @@ YXTrayEmbedder::YXTrayEmbedder(YXTray *tray, Window win):
     xev.data.l[4] = 0; // no data2
     xapp->send(xev, win, NoEventMask);
 
+    fDocked->setParentRelative();
     fVisible = true;
     fDocked->show();
 }
@@ -411,7 +417,10 @@ YXTray::YXTray(YXTrayNotifier *notifier,
                bool internal,
                const YAtom& atom,
                YWindow *aParent):
-    YWindow(aParent), fNotifier(notifier), fInternal(internal)
+    YWindow(aParent),
+    fTrayProxy(0),
+    fNotifier(notifier),
+    fInternal(internal)
 {
     setTitle("YXTray");
     setParentRelative();
