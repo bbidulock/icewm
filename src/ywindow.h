@@ -56,6 +56,9 @@ public:
     void setGeometry(const YRect &r);
     void setSize(unsigned width, unsigned height);
     void setPosition(int x, int y);
+    void setBorderWidth(unsigned width);
+    void setBackground(unsigned long pixel);
+    void setBackgroundPixmap(Pixmap pixmap);
     void setParentRelative(void);
     virtual void configure(const YRect &r);
 

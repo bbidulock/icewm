@@ -239,7 +239,7 @@ Graphics &YWindow::getGraphics() {
 }
 
 void YWindow::repaint() {
-    XClearArea(xapp->display(), handle(), 0, 0, width(), height(), True);
+    XClearArea(xapp->display(), handle(), 0, 0, 0, 0, True);
 }
 
 void YWindow::repaintSync() { // useful when server grabbed
@@ -1091,9 +1091,20 @@ void YWindow::setSize(unsigned width, unsigned height) {
     }
 }
 
+void YWindow::setBorderWidth(unsigned width) {
+    XSetWindowBorderWidth(xapp->display(), handle(), width);
+}
+
+void YWindow::setBackground(unsigned long pixel) {
+    XSetWindowBackground(xapp->display(), handle(), pixel);
+}
+
+void YWindow::setBackgroundPixmap(Pixmap pixmap) {
+    XSetWindowBackgroundPixmap(xapp->display(), handle(), pixmap);
+}
+
 void YWindow::setParentRelative(void) {
-    XSetWindowBackgroundPixmap(xapp->display(), handle(), ParentRelative);
-    XClearArea(xapp->display(), handle(), 0, 0, 0, 0, True);
+    setBackgroundPixmap(ParentRelative);
 }
 
 void YWindow::mapToGlobal(int &x, int &y) {
