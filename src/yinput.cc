@@ -12,6 +12,10 @@
 #include "prefs.h"
 #include "intl.h"
 
+#ifndef UINT_MAX
+#include <limits.h>
+#endif
+
 YInputLine::YInputLine(YWindow *parent):
     YWindow(parent),
     fText(null),
