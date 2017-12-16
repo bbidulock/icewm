@@ -1,10 +1,8 @@
 #include "config.h"
 #include "yxtray.h"
 #include "yrect.h"
-#include "yxapp.h"
 #include "prefs.h"
 #include "wmtaskbar.h"
-#include "wpixmaps.h"
 #include "ypointer.h"
 #include <X11/Xatom.h>
 
@@ -416,11 +414,13 @@ void YXTrayEmbedder::handleMapRequest(const XMapRequestEvent &mapRequest) {
 YXTray::YXTray(YXTrayNotifier *notifier,
                bool internal,
                const YAtom& atom,
-               YWindow *aParent):
+               YWindow *aParent,
+               bool drawBevel):
     YWindow(aParent),
     fTrayProxy(0),
     fNotifier(notifier),
-    fInternal(internal)
+    fRunProxy(internal == false),
+    fDrawBevel(drawBevel)
 {
     setTitle("YXTray");
     setParentRelative();
@@ -468,7 +468,7 @@ void YXTray::trayRequestDock(Window win) {
     if (ww == 0 && hh == 0)
         ww = hh = 24;
 
-    if (!fInternal) {
+    if (fRunProxy) {
         // scale icons
         getScaleSize(ww, hh);
     }
@@ -496,14 +496,14 @@ bool YXTray::destroyedClient(Window win) {
 
 void YXTray::handleConfigureRequest(const XConfigureRequestEvent &configureRequest)
 {
-    MSG(("tray configureRequest w=%d h=%d internal=%s\n",
-        configureRequest.width, configureRequest.height, boolstr(fInternal)));
+    MSG(("tray configureRequest w=%d h=%d\n",
+        configureRequest.width, configureRequest.height));
     bool changed = false;
     for (IterType ec = fDocked.iterator(); ++ec; ) {
         if (ec->client_handle() == configureRequest.window) {
             unsigned ww = configureRequest.width;
             unsigned hh = configureRequest.height;
-            if (!fInternal) {
+            if (fRunProxy) {
                 /* scale icons */
                 getScaleSize(ww, hh);
             }
@@ -540,7 +540,7 @@ void YXTray::detachTray() {
 
 
 void YXTray::paint(Graphics &g, const YRect &/*r*/) {
-    if (!fInternal)
+    if (!fDrawBevel)
         return;
     g.setColor(getTaskBarBg());
     if (trayDrawBevel && fDocked.getCount())
@@ -553,7 +553,7 @@ void YXTray::configure(const YRect &r) {
 }
 
 void YXTray::backgroundChanged() {
-    if (fInternal)
+    if (fDrawBevel)
         return;
     for (IterType ec = fDocked.iterator(); ++ec; ) {
         /* something is not clearing which background changes */
@@ -566,9 +566,9 @@ void YXTray::backgroundChanged() {
 
 void YXTray::relayout() {
     int aw = 0;
-    unsigned h  = trayIconMaxHeight;
-    if (fInternal && trayDrawBevel) {
-        h+=2;
+    unsigned h = trayIconMaxHeight;
+    if (fDrawBevel) {
+        h += 1;
     }
     int cnt = 0;
 
@@ -595,24 +595,23 @@ void YXTray::relayout() {
         if (!ec->fVisible)
             continue;
         cnt++;
-        int eh(h), ew=ec->width(), ay(0);
-        if (!fInternal) {
-            ew = min(trayIconMaxWidth, ec->width());
-        } else if (trayDrawBevel) {
-                ay=1; aw=1; eh-=2;
+        int eh(h), ew = ec->width(), ay(0);
+        if (fDrawBevel) {
+            ay = 1; aw = max(1, aw); eh -= 1;
         }
         ec->setGeometry(YRect(aw,ay,ew,eh));
         ec->client()->setGeometry(YRect(0,0,ew,eh));
         aw += ew;
     }
-    if (fInternal && trayDrawBevel)
+    if (fDrawBevel)
         aw+=1;
 
     unsigned w = aw;
-    if (!fInternal) {
+    if (fRunProxy) {
         if (w < 1)
             w = 1;
-    } else {
+    }
+    if (fDrawBevel) {
         if (w < 4)
             w = 0;
     }
@@ -633,7 +632,8 @@ void YXTray::relayout() {
             ec->show();
     }
 
-    MSG(("clients %d width: %d, visible %s", fDocked.getCount(), width(), boolstr(visible())));
+    MSG(("clients %d width: %d, visible %s",
+         fDocked.getCount(), width(), boolstr(visible())));
 }
 
 bool YXTray::kdeRequestDock(Window win) {

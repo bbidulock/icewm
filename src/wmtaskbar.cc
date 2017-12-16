@@ -460,7 +460,8 @@ void TaskBar::initApplets() {
         YAtom trayatom(atomstr, true);
         bool isInternal = ('I' == atomstr[1]);
 
-        fDesktopTray = new YXTray(this, isInternal, trayatom, this);
+        fDesktopTray = new YXTray(this, isInternal, trayatom,
+                                  this, trayDrawBevel);
         fDesktopTray->setTitle("SystemTray");
         fDesktopTray->relayout();
     }
