@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.35\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-12-10 17:58+0100\n"
+"POT-Creation-Date: 2017-12-16 04:21+0100\n"
 "PO-Revision-Date: 2016-04-25 08:06+0000\n"
 "Last-Translator: YunSeok Choi <xein@naver.com>\n"
 "Language-Team: Korean <http://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -1009,11 +1009,11 @@ msgstr "사용법: icewmhint [class.instance] option arg\n"
 msgid "Out of memory (len=%d)."
 msgstr "메모리 부족 (len=%d)."
 
-#: src/misc.cc:360 src/misc.cc:372
+#: src/misc.cc:436 src/misc.cc:448
 msgid "Warning: "
 msgstr "경고: "
 
-#: src/misc.cc:641
+#: src/misc.cc:717
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1374,7 +1374,7 @@ msgid "_Cancel"
 msgstr "취소(_C)"
 
 #: src/wmdialog.cc:90 src/wmprog.cc:1004 src/wmprog.cc:1006
-#: src/wmtaskbar.cc:294 src/wmtaskbar.cc:296
+#: src/wmtaskbar.cc:296 src/wmtaskbar.cc:298
 msgid "_Logout..."
 msgstr "로그아웃(_L)..."
 
@@ -1382,8 +1382,8 @@ msgstr "로그아웃(_L)..."
 msgid "_Restart icewm"
 msgstr "icewm 다시 시작(_R)"
 
-#: src/wmdialog.cc:95 src/wmprog.cc:969 src/wmtaskbar.cc:287
-#: src/wmtaskbar.cc:290
+#: src/wmdialog.cc:95 src/wmprog.cc:969 src/wmtaskbar.cc:289
+#: src/wmtaskbar.cc:292
 msgid "_About"
 msgstr "정보(_A)"
 
@@ -1531,7 +1531,7 @@ msgstr "프로그램"
 msgid "_Run..."
 msgstr "실행(_R)..."
 
-#: src/wmprog.cc:958 src/wmtaskbar.cc:277
+#: src/wmprog.cc:958 src/wmtaskbar.cc:279
 msgid "_Windows"
 msgstr "창(_W)"
 
@@ -1556,59 +1556,59 @@ msgstr "설정(_T)"
 msgid "Session Manager: Unknown line %s"
 msgstr "세션 관리자: 알 수 없는 줄 %s"
 
-#: src/wmtaskbar.cc:165 src/wmtaskbar.cc:166
+#: src/wmtaskbar.cc:167 src/wmtaskbar.cc:168
 msgid "Task Bar"
 msgstr "태스크바"
 
-#: src/wmtaskbar.cc:267 src/wmwinlist.cc:305 src/wmwinlist.cc:318
+#: src/wmtaskbar.cc:269 src/wmwinlist.cc:305 src/wmwinlist.cc:318
 msgid "Tile _Vertically"
 msgstr "수직 정렬(_V)"
 
-#: src/wmtaskbar.cc:268 src/wmwinlist.cc:306 src/wmwinlist.cc:319
+#: src/wmtaskbar.cc:270 src/wmwinlist.cc:306 src/wmwinlist.cc:319
 msgid "T_ile Horizontally"
 msgstr "수평 정렬(_I)"
 
-#: src/wmtaskbar.cc:269 src/wmwinlist.cc:307 src/wmwinlist.cc:320
+#: src/wmtaskbar.cc:271 src/wmwinlist.cc:307 src/wmwinlist.cc:320
 msgid "Ca_scade"
 msgstr "계단식 정렬(_S)"
 
-#: src/wmtaskbar.cc:270 src/wmwinlist.cc:308 src/wmwinlist.cc:321
+#: src/wmtaskbar.cc:272 src/wmwinlist.cc:308 src/wmwinlist.cc:321
 msgid "_Arrange"
 msgstr "정렬(_A)"
 
-#: src/wmtaskbar.cc:271 src/wmwinlist.cc:310 src/wmwinlist.cc:322
+#: src/wmtaskbar.cc:273 src/wmwinlist.cc:310 src/wmwinlist.cc:322
 msgid "_Minimize All"
 msgstr "모두 최소화(_M)"
 
-#: src/wmtaskbar.cc:272 src/wmwinlist.cc:311 src/wmwinlist.cc:323
+#: src/wmtaskbar.cc:274 src/wmwinlist.cc:311 src/wmwinlist.cc:323
 msgid "_Hide All"
 msgstr "모두 숨기기(_H)"
 
-#: src/wmtaskbar.cc:273 src/wmwinlist.cc:312 src/wmwinlist.cc:324
+#: src/wmtaskbar.cc:275 src/wmwinlist.cc:312 src/wmwinlist.cc:324
 msgid "_Undo"
 msgstr "실행 취소(_U)"
 
-#: src/wmtaskbar.cc:275
+#: src/wmtaskbar.cc:277
 msgid "Arrange _Icons"
 msgstr "아이콘 정렬(_I)"
 
-#: src/wmtaskbar.cc:279
+#: src/wmtaskbar.cc:281
 msgid "_Refresh"
 msgstr "새롭게(_R)"
 
-#: src/wmtaskbar.cc:285
+#: src/wmtaskbar.cc:287
 msgid "_License"
 msgstr "라이센스(_L)"
 
-#: src/wmtaskbar.cc:401
+#: src/wmtaskbar.cc:403
 msgid "Favorite applications"
 msgstr "즐겨쓰는 프로그램들"
 
-#: src/wmtaskbar.cc:418
+#: src/wmtaskbar.cc:420
 msgid "Window list menu"
 msgstr "창 목록 메뉴"
 
-#: src/wmtaskbar.cc:427
+#: src/wmtaskbar.cc:429
 msgid "Show Desktop"
 msgstr "바탕화면 보기"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-12-10 17:58+0100\n"
+"POT-Creation-Date: 2017-12-16 04:21+0100\n"
 "PO-Revision-Date: 2017-06-23 21:37+0000\n"
 "Last-Translator: jc sl <trcs@gmx.com>\n"
 "Language-Team: Spanish <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -1057,11 +1057,11 @@ msgstr "Uso: icewmhint [class.instance] opción arg\n"
 msgid "Out of memory (len=%d)."
 msgstr "No queda memoria (len=%d)."
 
-#: src/misc.cc:360 src/misc.cc:372
+#: src/misc.cc:436 src/misc.cc:448
 msgid "Warning: "
 msgstr "Atención: "
 
-#: src/misc.cc:641
+#: src/misc.cc:717
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1436,7 +1436,7 @@ msgid "_Cancel"
 msgstr "_Cancelar"
 
 #: src/wmdialog.cc:90 src/wmprog.cc:1004 src/wmprog.cc:1006
-#: src/wmtaskbar.cc:294 src/wmtaskbar.cc:296
+#: src/wmtaskbar.cc:296 src/wmtaskbar.cc:298
 msgid "_Logout..."
 msgstr "Cerrar _sesión..."
 
@@ -1444,8 +1444,8 @@ msgstr "Cerrar _sesión..."
 msgid "_Restart icewm"
 msgstr "Reiniciar _icewm"
 
-#: src/wmdialog.cc:95 src/wmprog.cc:969 src/wmtaskbar.cc:287
-#: src/wmtaskbar.cc:290
+#: src/wmdialog.cc:95 src/wmprog.cc:969 src/wmtaskbar.cc:289
+#: src/wmtaskbar.cc:292
 msgid "_About"
 msgstr "_Acerca de"
 
@@ -1595,7 +1595,7 @@ msgstr "Programas"
 msgid "_Run..."
 msgstr "_Ejecutar..."
 
-#: src/wmprog.cc:958 src/wmtaskbar.cc:277
+#: src/wmprog.cc:958 src/wmtaskbar.cc:279
 msgid "_Windows"
 msgstr "_Ventanas"
 
@@ -1620,59 +1620,59 @@ msgstr "Con_figuraciones"
 msgid "Session Manager: Unknown line %s"
 msgstr "Administrador de sesiones: línea %s desconocida"
 
-#: src/wmtaskbar.cc:165 src/wmtaskbar.cc:166
+#: src/wmtaskbar.cc:167 src/wmtaskbar.cc:168
 msgid "Task Bar"
 msgstr "Barra de tareas"
 
-#: src/wmtaskbar.cc:267 src/wmwinlist.cc:305 src/wmwinlist.cc:318
+#: src/wmtaskbar.cc:269 src/wmwinlist.cc:305 src/wmwinlist.cc:318
 msgid "Tile _Vertically"
 msgstr "_Mosaico vertical"
 
-#: src/wmtaskbar.cc:268 src/wmwinlist.cc:306 src/wmwinlist.cc:319
+#: src/wmtaskbar.cc:270 src/wmwinlist.cc:306 src/wmwinlist.cc:319
 msgid "T_ile Horizontally"
 msgstr "Mosaico _horizontal"
 
-#: src/wmtaskbar.cc:269 src/wmwinlist.cc:307 src/wmwinlist.cc:320
+#: src/wmtaskbar.cc:271 src/wmwinlist.cc:307 src/wmwinlist.cc:320
 msgid "Ca_scade"
 msgstr "_Cascada"
 
-#: src/wmtaskbar.cc:270 src/wmwinlist.cc:308 src/wmwinlist.cc:321
+#: src/wmtaskbar.cc:272 src/wmwinlist.cc:308 src/wmwinlist.cc:321
 msgid "_Arrange"
 msgstr "_Ordenar"
 
-#: src/wmtaskbar.cc:271 src/wmwinlist.cc:310 src/wmwinlist.cc:322
+#: src/wmtaskbar.cc:273 src/wmwinlist.cc:310 src/wmwinlist.cc:322
 msgid "_Minimize All"
 msgstr "Mi_nimizar todo"
 
-#: src/wmtaskbar.cc:272 src/wmwinlist.cc:311 src/wmwinlist.cc:323
+#: src/wmtaskbar.cc:274 src/wmwinlist.cc:311 src/wmwinlist.cc:323
 msgid "_Hide All"
 msgstr "Oc_ultar todo"
 
-#: src/wmtaskbar.cc:273 src/wmwinlist.cc:312 src/wmwinlist.cc:324
+#: src/wmtaskbar.cc:275 src/wmwinlist.cc:312 src/wmwinlist.cc:324
 msgid "_Undo"
 msgstr "_Deshacer"
 
-#: src/wmtaskbar.cc:275
+#: src/wmtaskbar.cc:277
 msgid "Arrange _Icons"
 msgstr "Ordenar _iconos"
 
-#: src/wmtaskbar.cc:279
+#: src/wmtaskbar.cc:281
 msgid "_Refresh"
 msgstr "_Actualizar"
 
-#: src/wmtaskbar.cc:285
+#: src/wmtaskbar.cc:287
 msgid "_License"
 msgstr "_Licencia"
 
-#: src/wmtaskbar.cc:401
+#: src/wmtaskbar.cc:403
 msgid "Favorite applications"
 msgstr "Aplicaciones favoritas"
 
-#: src/wmtaskbar.cc:418
+#: src/wmtaskbar.cc:420
 msgid "Window list menu"
 msgstr "Menú de lista de ventanas"
 
-#: src/wmtaskbar.cc:427
+#: src/wmtaskbar.cc:429
 msgid "Show Desktop"
 msgstr "Mostrar escritorio"
 
