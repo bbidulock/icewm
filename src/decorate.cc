@@ -195,7 +195,8 @@ void YFrameWindow::layoutShape() {
             int const a(focused() ? 1 : 0);
             int const t((frameDecors() & fdResize) ? 0 : 1);
 
-            Pixmap shape = XCreatePixmap(xapp->display(), desktop->handle(), width(), height(), 1);
+            Pixmap shape = XCreatePixmap(xapp->display(), desktop->handle(),
+                                         width(), height(), 1);
             Graphics g(shape, width(), height(), 1);
 
             g.setColorPixel(1);
@@ -340,6 +341,9 @@ void YFrameWindow::layoutResizeIndicators() {
             XMapWindow(xapp->display(), topRight);
             XMapWindow(xapp->display(), bottomLeft);
             XMapWindow(xapp->display(), bottomRight);
+
+            XMapWindow(xapp->display(), topLeftSide);
+            XMapWindow(xapp->display(), topRightSide);
         }
     } else {
         if (indicatorsVisible) {
@@ -354,29 +358,45 @@ void YFrameWindow::layoutResizeIndicators() {
             XUnmapWindow(xapp->display(), topRight);
             XUnmapWindow(xapp->display(), bottomLeft);
             XUnmapWindow(xapp->display(), bottomRight);
+
+            XUnmapWindow(xapp->display(), topLeftSide);
+            XUnmapWindow(xapp->display(), topRightSide);
         }
     }
     if (!indicatorsVisible)
         return;
 
+    int ww(max(3, (int) width()));
+    int hh(max(3, (int) height()));
+    int bx(max(1, (int) borderX()));
+    int by(max(1, (int) borderY()));
+    int cx(max(1, (int) wsCornerX));
+    int cy(max(1, (int) wsCornerY));
+    int xx(max(1, min(cx, ww / 2)));
+    int yy(max(1, min(cy, hh / 2)));
+
     XMoveResizeWindow(xapp->display(), topSide,
-                      0, 0, width(), borderY());
+                      xx, 0, ww - 2 * xx, by);
     XMoveResizeWindow(xapp->display(), leftSide,
-                      0, 0, borderX(), height());
+                      0, yy, bx, hh - 2 * yy);
     XMoveResizeWindow(xapp->display(), rightSide,
-                      width() - borderX(), 0, borderX(), height());
+                      ww - bx, yy, bx, hh - 2 * yy);
     XMoveResizeWindow(xapp->display(), bottomSide,
-                      0, height() - borderY(), width(), borderY());
+                      xx, hh - by, ww - 2 * xx, by);
 
     XMoveResizeWindow(xapp->display(), topLeft,
-                      0, 0, wsCornerX, wsCornerY);
+                      0, 0, xx, yy);
     XMoveResizeWindow(xapp->display(), topRight,
-                      width() - wsCornerX, 0, wsCornerX, wsCornerY);
+                      ww - xx, 0, xx, yy);
     XMoveResizeWindow(xapp->display(), bottomLeft,
-                      0, height() - wsCornerY, wsCornerX, wsCornerY);
+                      0, hh - yy, xx, yy);
     XMoveResizeWindow(xapp->display(), bottomRight,
-                      width() - wsCornerX, height() - wsCornerY,
-                      wsCornerX, wsCornerY);
+                      ww - xx, hh - yy, xx, yy);
+
+    XMoveResizeWindow(xapp->display(), topLeftSide,
+                      0, 0, bx, yy);
+    XMoveResizeWindow(xapp->display(), topRightSide,
+                      ww - bx, 0, bx, yy);
 }
 
 void YFrameWindow::layoutClient() {

@@ -458,6 +458,7 @@ private:
 
     Window topSide, leftSide, rightSide, bottomSide;
     Window topLeft, topRight, bottomLeft, bottomRight;
+    Window topLeftSide, topRightSide;
     bool indicatorsCreated;
     bool indicatorsVisible;
 

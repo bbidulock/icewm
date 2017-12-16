@@ -64,6 +64,8 @@ YFrameWindow::YFrameWindow(
     topRight = None;
     bottomLeft = None;
     bottomRight = None;
+    topLeftSide = None;
+    topRightSide = None;
     indicatorsCreated = false;
     indicatorsVisible = false;
 
@@ -229,8 +231,7 @@ YFrameWindow::~YFrameWindow() {
 }
 
 YFrameTitleBar* YFrameWindow::titlebar() {
-    bool titleVisible = (titleY() > 0);
-    if (fTitleBar == 0 && titleVisible) {
+    if (fTitleBar == 0 && titleY() > 0) {
         fTitleBar = new YFrameTitleBar(this, this);
         fTitleBar->show();
     }
@@ -443,12 +444,13 @@ void YFrameWindow::afterManage() {
 
 // create a window to show a resize pointer on the frame border
 Window YFrameWindow::createPointerWindow(Cursor cursor, Window parent) {
+    unsigned long valuemask = CWEventMask | CWCursor;
     XSetWindowAttributes attributes;
     attributes.event_mask = 0;
     attributes.cursor = cursor;
     return XCreateWindow(xapp->display(), parent, 0, 0, 1, 1, 0,
                          0, InputOnly, CopyFromParent,
-                         CWEventMask | CWCursor, &attributes);
+                         valuemask, &attributes);
 }
 
 // create 8 resize pointer indicator windows
@@ -456,34 +458,32 @@ void YFrameWindow::createPointerWindows() {
 
     // There is a competition for mouse input between
     // the resize handles, the titlebar and its buttons.
-    // The following solution positions the three top resize
+    // The following solution positions the corner resize
     // handles between the titlebar and the titlebar buttons.
-    Window titleWin = titlebar() ? titlebar()->handle() : handle();
+    const Window frameWin = handle();
+    const Window titleWin = titlebar() ? titlebar()->handle() : frameWin;
 
-    topSide = createPointerWindow(YWMApp::sizeTopPointer,
-                                  titleWin);
-    leftSide = createPointerWindow(YWMApp::sizeLeftPointer,
-                                   handle());
-    rightSide = createPointerWindow(YWMApp::sizeRightPointer,
-                                    handle());
-    bottomSide = createPointerWindow(YWMApp::sizeBottomPointer,
-                                     handle());
+    topSide = createPointerWindow(YWMApp::sizeTopPointer, frameWin);
+    leftSide = createPointerWindow(YWMApp::sizeLeftPointer, frameWin);
+    rightSide = createPointerWindow(YWMApp::sizeRightPointer, frameWin);
+    bottomSide = createPointerWindow(YWMApp::sizeBottomPointer, frameWin);
 
-    topLeft = createPointerWindow(YWMApp::sizeTopLeftPointer,
-                                  titleWin);
-    topRight = createPointerWindow(YWMApp::sizeTopRightPointer,
-                                   titleWin);
-    bottomLeft = createPointerWindow(YWMApp::sizeBottomLeftPointer,
-                                     handle());
-    bottomRight = createPointerWindow(YWMApp::sizeBottomRightPointer,
-                                      handle());
+    topLeft = createPointerWindow(YWMApp::sizeTopLeftPointer, titleWin);
+    topRight = createPointerWindow(YWMApp::sizeTopRightPointer, titleWin);
+    bottomLeft = createPointerWindow(YWMApp::sizeBottomLeftPointer, frameWin);
+    bottomRight = createPointerWindow(YWMApp::sizeBottomRightPointer, frameWin);
+
+    topLeftSide = createPointerWindow(YWMApp::sizeTopLeftPointer, frameWin);
+    topRightSide = createPointerWindow(YWMApp::sizeTopRightPointer, frameWin);
 
     indicatorsCreated = true;
 
     if (titlebar()) {
         titlebar()->raiseButtons();
     }
-    XRaiseWindow(xapp->display(), container()->handle());
+    XRaiseWindow(xapp->display(), topSide);
+    XStoreName(xapp->display(), topSide, "topSide");
+    container()->raise();
 }
 
 void YFrameWindow::grabKeys() {
