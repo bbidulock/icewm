@@ -1,7 +1,9 @@
 #ifndef __YRECT_H
 #define __YRECT_H
 
-// #include "ypoint.h"
+#ifndef INT_MAX
+#include <limits.h>
+#endif
 
 // change this to use x,y,w,h internal representation?
 class YRect {
