@@ -12,6 +12,9 @@
 #include "ref.h"
 #include <time.h>
 
+#ifdef CONFIG_SHAPE
+#include <X11/extensions/shape.h>
+#endif
 #ifdef HAVE_LIBGEN_H
 #include <libgen.h>
 #endif
@@ -35,6 +38,48 @@ bool loggedEventsInited;
 #ifdef LOGEVENTS
 bool loggedEvents[LASTEvent];
 #endif
+
+static const char eventNames[][17] = {
+    "KeyPress",             //  2
+    "KeyRelease",           //  3
+    "ButtonPress",          //  4
+    "ButtonRelease",        //  5
+    "MotionNotify",         //  6
+    "EnterNotify",          //  7
+    "LeaveNotify",          //  8
+    "FocusIn",              //  9
+    "FocusOut",             // 10
+    "KeymapNotify",         // 11
+    "Expose",               // 12
+    "GraphicsExpose",       // 13
+    "NoExpose",             // 14
+    "VisibilityNotify",     // 15
+    "CreateNotify",         // 16
+    "DestroyNotify",        // 17
+    "UnmapNotify",          // 18
+    "MapNotify",            // 19
+    "MapRequest",           // 20
+    "ReparentNotify",       // 21
+    "ConfigureNotify",      // 22
+    "ConfigureRequest",     // 23
+    "GravityNotify",        // 24
+    "ResizeRequest",        // 25
+    "CirculateNotify",      // 26
+    "CirculateRequest",     // 27
+    "PropertyNotify",       // 28
+    "SelectionClear",       // 29
+    "SelectionRequest",     // 30
+    "SelectionNotify",      // 31
+    "ColormapNotify",       // 32
+    "ClientMessage",        // 33
+    "MappingNotify",        // 34
+    "GenericEvent",         // 35
+};
+const char* eventName(int eventType) {
+    if (inrange(eventType, KeyPress, GenericEvent))
+        return eventNames[eventType - KeyPress];
+    return "UnknownEvent!";
+}
 
 bool initLogEvents() {
 #ifdef LOGEVENTS
@@ -98,10 +143,47 @@ void setLogEvent(int evtype, bool enable) {
 #undef msg
 #define msg tlog
 
+inline const char* boolStr(Bool aBool) {
+    return aBool ? "True" : "False";
+}
+
+void logButton(const XEvent& xev) {
+    msg("window=0x%lX: %s root=0x%lX, subwindow=0x%lX, time=%ld, "
+        "(%d:%d %d:%d) state=0x%X button=0x%X same_screen=%s",
+        xev.xbutton.window,
+        eventName(xev.type),
+        xev.xbutton.root,
+        xev.xbutton.subwindow,
+        xev.xbutton.time,
+        xev.xbutton.x, xev.xbutton.y,
+        xev.xbutton.x_root, xev.xbutton.y_root,
+        xev.xbutton.state,
+        xev.xbutton.button,
+        boolStr(xev.xbutton.same_screen));
+}
+
+void logCrossing(const XEvent& xev) {
+    msg("window=0x%lX: %s serial=%10lu root=0x%lX, subwindow=0x%lX, time=%ld, "
+        "(%d:%d %d:%d) mode=%d detail=%d same_screen=%s, focus=%s state=0x%X",
+        xev.xcrossing.window,
+        eventName(xev.type),
+        (unsigned long) xev.xany.serial,
+        xev.xcrossing.root,
+        xev.xcrossing.subwindow,
+        xev.xcrossing.time,
+        xev.xcrossing.x, xev.xcrossing.y,
+        xev.xcrossing.x_root, xev.xcrossing.y_root,
+        xev.xcrossing.mode,
+        xev.xcrossing.detail,
+        xev.xcrossing.same_screen ? "True" : "False",
+        xev.xcrossing.focus ? "True" : "False",
+        xev.xcrossing.state);
+}
+
 void logFocus(const XEvent& xev) {
     msg("window=0x%lX: %s mode=%s, detail=%s",
         xev.xfocus.window,
-        (xev.type == FocusIn) ? "focusIn" : "focusOut",
+        eventName(xev.type),
         xev.xfocus.mode == NotifyNormal ? "NotifyNormal" :
         xev.xfocus.mode == NotifyWhileGrabbed ? "NotifyWhileGrabbed" :
         xev.xfocus.mode == NotifyGrab ? "NotifyGrab" :
@@ -116,7 +198,33 @@ void logFocus(const XEvent& xev) {
         xev.xfocus.detail == NotifyDetailNone ? "NotifyDetailNone" : "???");
 }
 
-void logEvent(const XEvent &xev) {
+void logMotion(const XEvent& xev) {
+    msg("window=0x%lX: %s root=0x%lX, subwindow=0x%lX, time=%ld, "
+        "(%d:%d %d:%d) state=0x%X is_hint=%s same_screen=%s",
+        xev.xmotion.window,
+        eventName(xev.type),
+        xev.xmotion.root,
+        xev.xmotion.subwindow,
+        xev.xmotion.time,
+        xev.xmotion.x, xev.xmotion.y,
+        xev.xmotion.x_root, xev.xmotion.y_root,
+        xev.xmotion.state,
+        xev.xmotion.is_hint == NotifyHint ? "NotifyHint" : "",
+        xev.xmotion.same_screen ? "True" : "False");
+}
+
+void logShape(const XEvent& xev) {
+#ifdef CONFIG_SHAPE
+    const XShapeEvent &shp = (const XShapeEvent &)xev;
+    msg("window=0x%lX: %s kind=%s %d:%d=%dx%d shaped=%s time=%ld",
+        shp.window, "ShapeEvent",
+        shp.kind == ShapeBounding ? "ShapeBounding" :
+        shp.kind == ShapeClip ? "ShapeClip" : "unknown_shape_kind",
+        shp.x, shp.y, shp.width, shp.height, boolstr(shp.shaped), shp.time);
+#endif
+}
+
+void logEvent(const XEvent& xev) {
 #ifdef LOGEVENTS
     if (loggingEvents == false || (size_t) xev.type >= sizeof loggedEvents)
         return;
@@ -248,55 +356,23 @@ void logEvent(const XEvent &xev) {
 
     case ButtonPress:
     case ButtonRelease:
-        msg("window=0x%lX: %s root=0x%lX, subwindow=0x%lX, time=%ld, (%d:%d %d:%d) state=0x%X detail=0x%X same_screen=%s",
-            xev.xbutton.window,
-            (xev.type == ButtonPress) ? "buttonPress" : "buttonRelease",
-            xev.xbutton.root,
-            xev.xbutton.subwindow,
-            xev.xbutton.time,
-            xev.xbutton.x, xev.xbutton.y,
-            xev.xbutton.x_root, xev.xbutton.y_root,
-            xev.xbutton.state,
-            xev.xbutton.button,
-            xev.xbutton.same_screen ? "True" : "False");
+        logButton(xev);
         break;
 
     case MotionNotify:
-        msg("window=0x%lX: motionNotify root=0x%lX, subwindow=0x%lX, time=%ld, (%d:%d %d:%d) state=0x%X is_hint=%c same_screen=%s",
-            xev.xmotion.window,
-            xev.xmotion.root,
-            xev.xmotion.subwindow,
-            xev.xmotion.time,
-            xev.xmotion.x, xev.xmotion.y,
-            xev.xmotion.x_root, xev.xmotion.y_root,
-            xev.xmotion.state,
-            xev.xmotion.is_hint,
-            xev.xmotion.same_screen ? "True" : "False");
+        logMotion(xev);
         break;
 
     case EnterNotify:
     case LeaveNotify:
-        msg("window=0x%lX: %s serial=%10lu root=0x%lX, subwindow=0x%lX, time=%ld, (%d:%d %d:%d) mode=%d detail=%d same_screen=%s, focus=%s state=0x%X",
-            xev.xcrossing.window,
-            (xev.type == EnterNotify) ? "enterNotify" : "leaveNotify",
-            (unsigned long) xev.xany.serial,
-            xev.xcrossing.root,
-            xev.xcrossing.subwindow,
-            xev.xcrossing.time,
-            xev.xcrossing.x, xev.xcrossing.y,
-            xev.xcrossing.x_root, xev.xcrossing.y_root,
-            xev.xcrossing.mode,
-            xev.xcrossing.detail,
-            xev.xcrossing.same_screen ? "True" : "False",
-            xev.xcrossing.focus ? "True" : "False",
-            xev.xcrossing.state);
+        logCrossing(xev);
         break;
 
     case KeyPress:
     case KeyRelease:
         msg("window=0x%lX: %s root=0x%lX, subwindow=0x%lX, time=%ld, (%d:%d %d:%d) state=0x%X keycode=0x%x same_screen=%s",
             xev.xkey.window,
-            (xev.type == KeyPress) ? "keyPress" : "keyRelease",
+            eventName(xev.type),
             xev.xkey.root,
             xev.xkey.subwindow,
             xev.xkey.time,

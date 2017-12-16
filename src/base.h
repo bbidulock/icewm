@@ -289,10 +289,15 @@ char* load_text_file(const char *filename);
 
 #include "debug.h"
 
-void logFocus(const union _XEvent &xev);
-void logEvent(const union _XEvent &xev);
+void logButton(const union _XEvent& xev);
+void logCrossing(const union _XEvent& xev);
+void logFocus(const union _XEvent& xev);
+void logMotion(const union _XEvent& xev);
+void logShape(const union _XEvent& xev);
+void logEvent(const union _XEvent& xev);
 void setLogEvent(int evtype, bool enable);
 bool toggleLogEvents();
+const char* eventName(int eventType);
 
 inline int intersection(int s1, int e1, int s2, int e2) {
     return max(0, 1 + min(e1, e2) - max(s1, s2));
