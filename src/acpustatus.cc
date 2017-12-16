@@ -248,10 +248,10 @@ void CPUStatus::updateToolTip() {
         snprintf(cpuid, sizeof(cpuid), "%d", fCpuID);
 #ifdef __linux__
     char fmt[255] = "";
-#define ___checkspace if(more<0 || rest-more<=0) return; pos+=more; rest-=more;
+#define ___checkspace if (more<0 || rest-more<=0) return; pos+=more; rest-=more;
     struct sysinfo sys;
 
-    if(0==sysinfo(&sys))
+    if (0==sysinfo(&sys))
     {
         char *pos=fmt;
         int rest=sizeof(fmt);
@@ -277,7 +277,7 @@ void CPUStatus::updateToolTip() {
             more=snprintf(pos, rest, _("\nACPI Temp: "));
             ___checkspace;
             more=getAcpiTemp(pos, rest);
-            if(more)
+            if (more)
             {
               ___checkspace;
             }
@@ -393,7 +393,7 @@ int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
 float CPUStatus::getCpuFreq(unsigned int cpu) {
     char buf[16], namebuf[100];
     const char * categories[] = { "cpuinfo", "scaling" };
-    for(unsigned i = 0; i < ACOUNT(categories); ++i)
+    for (unsigned i = 0; i < ACOUNT(categories); ++i)
     {
         float cpufreq = 0;
         snprintf(namebuf, sizeof namebuf,

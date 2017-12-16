@@ -35,7 +35,7 @@ protected:
     {
         DataType *old = data;
         data = new DataType[newSize];
-        for(SizeType i=0;i<size;++i) data[i] = old[i];
+        for (SizeType i=0;i<size;++i) data[i] = old[i];
         delete[] old;
         capa = newSize;
     }
@@ -56,7 +56,7 @@ public:
         delete[] data; data = 0;
         capa = size = 0;
     }
-    inline void preserve(SizeType wanted) { if(wanted > capa) resize(wanted); }
+    inline void preserve(SizeType wanted) { if (wanted > capa) resize(wanted); }
     inline SizeType remainingCapa() { return capa - size; }
     inline ~YVec() { reset(); }
     DataType& add(const DataType& element) {
@@ -91,7 +91,7 @@ template<typename DataType>
 struct YPointVec : public YVec<DataType*>
 {
     inline void reset() {
-        for(DataType **p = this->data, **e = this->data + this->size; p<e; ++p)
+        for (DataType **p = this->data, **e = this->data + this->size; p<e; ++p)
             delete *p;
         YVec<DataType*>::reset();
     }
@@ -149,7 +149,7 @@ public:
     const ValueType& find(const KeyType& key, const ValueType &notFoundRetValue)
     {
         int pos;
-        if(binsearch(key, pos))
+        if (binsearch(key, pos))
             return store[pos].value;
         return notFoundRetValue;
     }
@@ -157,7 +157,7 @@ public:
     // FIXME: iterator? Just wrap the one from store?
     inline void add(KeyType key, ValueType value)
     {
-        if(store.size == 0)
+        if (store.size == 0)
         {
             store.add(kvp(key,value));
             return;

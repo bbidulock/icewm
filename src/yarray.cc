@@ -29,7 +29,7 @@ void YBaseArray::setCapacity(SizeType nCapacity) {
     if (nCapacity != fCapacity) {
         StorageType *nElements = new StorageType[nCapacity * fElementSize];
         size_t how_much = min(nCapacity, fCapacity) * fElementSize;
-        if(how_much)
+        if (how_much)
         {
             assert(fElements);
             memcpy(nElements, fElements, how_much);

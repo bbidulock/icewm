@@ -877,7 +877,7 @@ bool YXApplication::hasColormap() {
                                               &pattern, &nVisuals));
     XVisualInfo *visual = first_visual;
 
-    while(visual && nVisuals--) {
+    while (visual && nVisuals--) {
         if (visual->c_class & 1)
             rc = true;
         visual++;

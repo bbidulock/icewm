@@ -622,8 +622,8 @@ char* demangle(const char* str) {
  *              "--interface=/tmp" "--interface"
  */
 int strpcmp(char const * str, char const * pfx, char const * delim) {
-    if(str == NULL || pfx == NULL) return -1;
-    while(*pfx == *str && *pfx != '\0') ++str, ++pfx;
+    if (str == NULL || pfx == NULL) return -1;
+    while (*pfx == *str && *pfx != '\0') ++str, ++pfx;
 
     return (*pfx == '\0' && strchr(delim, *str) ? 0 : *str - *pfx);
 }
@@ -638,14 +638,14 @@ char const * strnxt(const char * str, const char * delim) {
 bool GetShortArgument(char* &ret, const char *name, char** &argpp, char **endpp)
 {
         unsigned int alen=strlen(name);
-        if(**argpp != '-' || strncmp((*argpp)+1, name, alen))
+        if (**argpp != '-' || strncmp((*argpp)+1, name, alen))
                 return false;
-        if(*((*argpp)+1+alen))
+        if (*((*argpp)+1+alen))
         {
                 ret=(*argpp)+1+alen;
                 return true;
         }
-        else if(argpp+1>=endpp)
+        else if (argpp+1>=endpp)
                 return false;
         ++argpp;
         ret=*argpp;
@@ -655,14 +655,14 @@ bool GetShortArgument(char* &ret, const char *name, char** &argpp, char **endpp)
 bool GetLongArgument(char* &ret, const char *name, char** &argpp, char **endpp)
 {
         unsigned int alen=strlen(name);
-        if(strncmp(*argpp, "--", 2) || strncmp((*argpp)+2, name, alen))
+        if (strncmp(*argpp, "--", 2) || strncmp((*argpp)+2, name, alen))
                 return false;
-        if(*((*argpp)+2+alen) == '=')
+        if (*((*argpp)+2+alen) == '=')
         {
                 ret=(*argpp)+3+alen;
                 return true;
         }
-        if(argpp+1>=endpp)
+        if (argpp+1>=endpp)
                 return false;
         ++argpp;
         ret = *argpp;

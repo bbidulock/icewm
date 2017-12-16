@@ -263,7 +263,7 @@ public:
     }
     virtual void accept(IClosablePopup *parent) OVERRIDE {
         YMenuItem* item=menu->getItem(zTarget);
-        if(!item) return;
+        if (!item) return;
         // even through all the obscure "abstraction" it should just run DObjectMenuItem::actionPerformed
         item->actionPerformed(0, actionRun, 0);
         parent->close();
@@ -273,12 +273,12 @@ public:
         return zTarget;
     }
     virtual ustring getTitle(int idx) OVERRIDE {
-        if(idx<0 || idx>=this->getCount())
+        if (idx<0 || idx>=this->getCount())
             return null;
         return menu->getItem(idx)->getName();
     }
     virtual ref<YIcon> getIcon(int idx) OVERRIDE {
-        if(idx<0 || idx>=this->getCount())
+        if (idx<0 || idx>=this->getCount())
             return null;
         return menu->getItem(idx)->getIcon();
     }
@@ -292,8 +292,8 @@ public:
 void KProgram::open(unsigned mods) {
     if (!fProg) return;
 
-    if(bIsDynSwitchMenu) {
-        if(!pSwitchWindow) {
+    if (bIsDynSwitchMenu) {
+        if (!pSwitchWindow) {
             pSwitchWindow = new SwitchWindow(manager, new MenuProgSwitchItems(fProg, fKey, fMod), quickSwitchVertical);
         }
         pSwitchWindow->begin(true, mods);

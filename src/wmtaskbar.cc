@@ -333,10 +333,10 @@ void TaskBar::initApplets() {
         fApm = new YApm(this);
         fApm->setTitle("IceAPM");
     }
-    else if(!taskBarShowApm && taskBarShowApmAuto)
+    else if (!taskBarShowApm && taskBarShowApmAuto)
     {
         fApm = new YApm(this, true);
-        if( ! fApm->hasBatteries()) {
+        if ( ! fApm->hasBatteries()) {
                 delete fApm;
                 fApm = 0;
         }
@@ -381,7 +381,7 @@ void TaskBar::initApplets() {
                     continue;
 
                 fMailBoxStatus[cnt] = new MailBoxStatus(app, smActionListener, s, this);
-                if(cnt) cnt--; // more complicated than needed, to make UBSan happy
+                if (cnt) cnt--; // more complicated than needed, to make UBSan happy
             }
         } else if (envMail) {
             fMailBoxStatus = new MailBoxStatus*[2];
@@ -529,7 +529,7 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
 #endif
 
     YVec<NetStatus*>::iterator it = fNetStatus->getIterator();
-    while(it.hasNext()) {
+    while (it.hasNext()) {
         nw = LayoutInfo( it.next(), false, 1, false, 2, 2, false );
         wlist.append(nw);
     }

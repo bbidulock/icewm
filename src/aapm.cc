@@ -625,7 +625,7 @@ void YApm::SysStr(char *s, bool Tool) {
         // the code above caches BATcapacity_full when battery is installed;
         // however, this value and _remain can increase slightly while the battery is charging,
         // so set a limit to not display resulting value over 100% to the user
-        if(BATcapacity_remain > BATcapacity_full) BATcapacity_remain = BATcapacity_full;
+        if (BATcapacity_remain > BATcapacity_full) BATcapacity_remain = BATcapacity_full;
 
         if (BATpresent == BAT_PRESENT &&
             //did we parse the needed values successfully?
@@ -891,7 +891,7 @@ YApm::YApm(YWindow *aParent, bool autodetect):
        batteryNum = 1;
     }
 
-    if(autodetect && 0 == batteryNum)
+    if (autodetect && 0 == batteryNum)
         return;
 
     if (apmBg == 0 && *clrApm) apmBg = new YColor(clrApm);

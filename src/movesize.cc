@@ -424,7 +424,7 @@ void YFrameWindow::outlineMove() {
 
     XGrabServer(xapp->display());
 
-    for(;;) {
+    for (;;) {
         XEvent xev;
 
         XWindowEvent(xapp->display(), handle(),
@@ -501,7 +501,7 @@ void YFrameWindow::outlineResize() {
 
     XGrabServer(xapp->display());
 
-    for(;;) {
+    for (;;) {
         XEvent xev;
 
         XWindowEvent(xapp->display(), handle(),
@@ -592,7 +592,7 @@ void YFrameWindow::manualPlace() {
 
     drawMoveSizeFX(xx, yy, width(), height());
 
-    for(;;) {
+    for (;;) {
         XEvent xev;
 
         XMaskEvent(xapp->display(),

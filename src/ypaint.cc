@@ -23,7 +23,7 @@
 #ifdef DEBUG
 /* since recently sometimes copy area for NULL pixmap is done: */
 #define XCopyArea(a,b,c,d,e,f,g,h,i,j) \
-    do { Drawable B(b),C(c); PRECONDITION(B); PRECONDITION(C); ::XCopyArea(a,B,C,d,e,f,g,h,i,j); } while(0)
+    do { Drawable B(b),C(c); PRECONDITION(B); PRECONDITION(C); ::XCopyArea(a,B,C,d,e,f,g,h,i,j); } while (0)
 #endif
 
 static inline Display* display()  { return xapp->display(); }
@@ -77,7 +77,7 @@ YColor::~YColor() {
 
 #ifdef CONFIG_XFREETYPE
     if (xftColor) {
-        if(display()) XftColorFree (display(), visual(), colormap(), xftColor);
+        if (display()) XftColorFree (display(), visual(), colormap(), xftColor);
         delete xftColor;
     }
 #endif

@@ -3158,7 +3158,7 @@ void YFrameWindow::updateMwmHints() {
 }
 
 ref<YIcon> YFrameWindow::clientIcon() const {
-    for(YFrameWindow const *f(this); f != NULL; f = f->owner())
+    for (YFrameWindow const *f(this); f != NULL; f = f->owner())
         if (f->getClientIcon() != null)
             return f->getClientIcon();
 

@@ -137,7 +137,7 @@ public:
         upath scriptFile = YApplication::findConfigFile(scriptName);
         if (scriptFile.nonempty()) {
             FILE *ef = scriptFile.fopen("r");
-            if(!ef)
+            if (!ef)
                 return;
             char scratch[1024];
             while (fgets(scratch, sizeof scratch, ef)) {

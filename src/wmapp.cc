@@ -796,7 +796,7 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
     } else if (action == actionRestart) {
         restartClient(0, 0);
     }
-    else if(action == actionRestartXterm) {
+    else if (action == actionRestartXterm) {
         struct t_executor : public YMsgBoxListener {
             YSMListener *listener;
             t_executor(YSMListener* x) : listener(x) {}
@@ -1531,7 +1531,7 @@ int main(int argc, char **argv) {
     app.signalGuiEvent(geStartup);
     manager->manageClients();
 
-    if(notify_parent)
+    if (notify_parent)
        kill(getppid(), SIGUSR1);
 
     int rc = app.mainLoop();
