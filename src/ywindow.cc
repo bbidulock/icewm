@@ -215,7 +215,7 @@ void YWindow::setStyle(unsigned aStyle) {
                 fEventMask |= PointerMotionMask;
 
 
-            if (hasbits(fStyle, wsDesktopAware | wsManager) ||
+            if (hasbit(fStyle, wsDesktopAware | wsManager) ||
                 (fHandle != xapp->root()))
                 fEventMask |=
                     StructureNotifyMask |
