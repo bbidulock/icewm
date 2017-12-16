@@ -13,11 +13,13 @@
 
 #include <string.h>
 
-YToolTipWindow::YToolTipWindow() :
+YToolTipWindow::YToolTipWindow(ustring text) :
     toolTipBg(clrToolTip),
     toolTipFg(clrToolTipText),
     toolTipFont(YFont::getFont(XFA(toolTipFontName)))
 {
+    setStyle(wsToolTip | wsOverrideRedirect);
+    setText(text);
 }
 
 YToolTip::YToolTip() :
@@ -82,9 +84,7 @@ bool YToolTip::handleTimer(YTimer *timer) {
 
 YToolTipWindow* YToolTip::window() {
     if (fWindow == 0) {
-        fWindow = new YToolTipWindow;
-        fWindow->setStyle(YWindow::wsOverrideRedirect);
-        fWindow->setText(fText);
+        fWindow = new YToolTipWindow(fText);
         if (fLocate)
             fWindow->locate(fLocate);
     }

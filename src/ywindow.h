@@ -162,7 +162,8 @@ public:
         wsInputOnly        = 1 << 3,
         wsOutputOnly       = 1 << 4,
         wsPointerMotion    = 1 << 5,
-        wsDesktopAware     = 1 << 6
+        wsDesktopAware     = 1 << 6,
+        wsToolTip          = 1 << 7,
     };
 
     virtual bool isFocusTraversable();

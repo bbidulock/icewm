@@ -208,11 +208,14 @@ void YWindow::setStyle(unsigned aStyle) {
         fStyle = aStyle;
 
         if (flags & wfCreated) {
+            if (fStyle & wsToolTip)
+                fEventMask = ExposureMask;
+
             if (fStyle & wsPointerMotion)
                 fEventMask |= PointerMotionMask;
 
 
-            if ((fStyle & wsDesktopAware) || (fStyle & wsManager) ||
+            if (hasbits(fStyle, wsDesktopAware | wsManager) ||
                 (fHandle != xapp->root()))
                 fEventMask |=
                     StructureNotifyMask |
@@ -301,6 +304,9 @@ void YWindow::create() {
         fEventMask |=
             ExposureMask |
             ButtonPressMask | ButtonReleaseMask | ButtonMotionMask;
+
+        if (fStyle & wsToolTip)
+            fEventMask = ExposureMask;
 
         if (fStyle & wsPointerMotion)
             fEventMask |= PointerMotionMask;
@@ -669,8 +675,10 @@ void YWindow::handleEvent(const XEvent &event) {
 
     default:
 #ifdef CONFIG_SHAPE
-        if (shapesSupported && event.type == (shapeEventBase + ShapeNotify))
+        if (shapesSupported && event.type == (shapeEventBase + ShapeNotify)) {
             handleShapeNotify(*(const XShapeEvent *)&event);
+            break;
+        }
 #endif
 #ifdef CONFIG_XRANDR
         //msg("event.type=%d %d %d", event.type, xrandrEventBase, xrandrSupported);
