@@ -702,7 +702,7 @@ int main(int argc, char **argv) {
                                    &count, &bytes_remain,
                                    &prop) == Success && prop)
             {
-                TEST(r_type == XA_ATOM && r_format == 32 && count >= 0);
+                TEST(r_type == XA_ATOM && r_format == 32);
                 tell("net wm state  ");
                 for (unsigned long i = 0; i < count; ++i) {
                     printf("%s%s", i ? ", " : "",
@@ -752,7 +752,7 @@ int main(int argc, char **argv) {
                                    &prop) == Success && prop)
             {
                 TEST(r_type == _XA_ICEWM_GUI_EVENT && r_format == 8 && count == 1);
-                if (*prop >= 0 && *prop < COUNT(gui_event_names))
+                if (*prop < COUNT(gui_event_names))
                     tell("IceWM GUI event %s\n", gui_event_names[*prop]);
                 else
                     tell("IceWM GUI event %d\n", *prop);
