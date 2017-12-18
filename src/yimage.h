@@ -24,7 +24,7 @@ public:
     unsigned height() const { return fHeight; }
     virtual bool valid() const = 0;
 
-    virtual ref<YPixmap> renderToPixmap() = 0;
+    virtual ref<YPixmap> renderToPixmap(unsigned depth) = 0;
     virtual ref<YImage> scale(unsigned width, unsigned height) = 0;
     virtual void draw(Graphics &g, int dx, int dy) = 0;
     virtual void draw(Graphics &g, int x, int y, unsigned w, unsigned h, int dx, int dy) = 0;

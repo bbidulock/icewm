@@ -215,7 +215,7 @@ Graphics::Graphics(YWindow & window,
 {
     rWidth = window.width();
     rHeight = window.height();
-    rDepth = window.depth();
+    rDepth = (window.depth() ? window.depth() : xapp->depth());
     gc = XCreateGC(display(), drawable(), vmask, gcv);
 #ifdef CONFIG_XFREETYPE
     fXftDraw = 0;
@@ -229,7 +229,7 @@ Graphics::Graphics(YWindow & window):
  {
     rWidth = window.width();
     rHeight = window.height();
-    rDepth = window.depth();
+    rDepth = (window.depth() ? window.depth() : xapp->depth());
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(display(), drawable(), GCGraphicsExposures, &gcv);
 #ifdef CONFIG_XFREETYPE

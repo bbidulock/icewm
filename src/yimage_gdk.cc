@@ -17,7 +17,7 @@ public:
     virtual ~YImageGDK() {
         g_object_unref(G_OBJECT(fPixbuf));
     }
-    virtual ref<YPixmap> renderToPixmap();
+    virtual ref<YPixmap> renderToPixmap(unsigned depth);
     virtual ref<YImage> scale(unsigned width, unsigned height);
     virtual void draw(Graphics &g, int dx, int dy);
     virtual void draw(Graphics &g, int x, int y, unsigned w, unsigned h, int dx, int dy);
@@ -157,14 +157,14 @@ ref<YImage> YImage::createFromPixmapAndMaskScaled(Pixmap pix, Pixmap mask,
     return image;
 }
 
-ref<YPixmap> YImageGDK::renderToPixmap() {
+ref<YPixmap> YImageGDK::renderToPixmap(unsigned depth) {
     Pixmap pixmap = None, mask = None;
     gdk_pixbuf_xlib_render_pixmap_and_mask(fPixbuf, &pixmap, &mask, 128);
 
     return createPixmap(pixmap, mask,
                         gdk_pixbuf_get_width(fPixbuf),
                         gdk_pixbuf_get_height(fPixbuf),
-                        xapp->depth());
+                        depth);
 }
 
 ref<YPixmap> YImage::createPixmap(Pixmap pixmap, Pixmap mask, unsigned w, unsigned h, unsigned depth) {

@@ -73,7 +73,7 @@ ref<YPixmap> YPixmap::scale(unsigned const w, unsigned const h) {
     if (image != null) {
         image = image->scale(w, h);
         if (image != null)
-            pixmap = YPixmap::createFromImage(image);
+            pixmap = YPixmap::createFromImage(image, depth());
     }
     return pixmap;
 }
@@ -89,8 +89,8 @@ ref<YPixmap> YPixmap::create(unsigned w, unsigned h, unsigned depth, bool useMas
     return n;
 }
 
-ref<YPixmap> YPixmap::createFromImage(ref<YImage> image) {
-    return image->renderToPixmap();
+ref<YPixmap> YPixmap::createFromImage(ref<YImage> image, unsigned depth) {
+    return image->renderToPixmap(depth);
 }
 
 ref<YPixmap> YPixmap::createFromPixmapAndMask(Pixmap /*pixmap*/,
@@ -112,7 +112,7 @@ ref<YPixmap> YPixmap::createFromPixmapAndMaskScaled(Pixmap pix, Pixmap mask,
                                                   width, height, nw, nh);
         if (image != null) {
             ref<YPixmap> pixmap =
-                YPixmap::createFromImage(image);
+                YPixmap::createFromImage(image, xapp->depth());
             return pixmap;
         }
     }
@@ -123,7 +123,7 @@ ref<YPixmap> YPixmap::load(upath filename) {
     ref<YImage> image = YImage::load(filename);
     ref<YPixmap> pixmap;
     if (image != null) {
-        pixmap = YPixmap::createFromImage(image);
+        pixmap = YPixmap::createFromImage(image, xapp->depth());
     }
     return pixmap;
 }

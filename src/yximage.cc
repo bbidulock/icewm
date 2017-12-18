@@ -22,7 +22,7 @@ public:
         if (fImage != 0)
             XDestroyImage(fImage);
     }
-    virtual ref<YPixmap> renderToPixmap();
+    virtual ref<YPixmap> renderToPixmap(unsigned depth);
     virtual ref<YImage> scale(unsigned width, unsigned height);
     virtual void draw(Graphics &g, int dx, int dy);
     virtual void draw(Graphics &g, int x, int y, unsigned w, unsigned h, int dx, int dy);
@@ -35,8 +35,9 @@ public:
     static ref<YImage> loadpng(upath filename);
 #endif
     static ref<YImage> combine(XImage *xdraw, XImage *xmask);
+
 private:
-    bool hasAlpha() const { return fImage ? fImage->depth == 32 : false; }
+    bool hasAlpha() const { return depth() == 32; }
     virtual ref<YImage> upscale(unsigned width, unsigned height);
     virtual ref<YImage> downscale(unsigned width, unsigned height);
     virtual ref<YImage> subimage(int x, int y, unsigned width, unsigned height);
@@ -274,10 +275,10 @@ ref<YImage> YXImage::loadpng(upath filename)
         }
     }
   pngerr:
-    ximage = (typeof(ximage)) vol_ximage;
-    png_pixels = (typeof(png_pixels)) vol_png_pixels;
+    ximage = (XImage *) vol_ximage;
+    png_pixels = (png_byte *) vol_png_pixels;
     delete[] png_pixels;
-    row_pointers = (typeof(row_pointers)) vol_row_pointers;
+    row_pointers = (png_byte **) vol_row_pointers;
     delete[] row_pointers;
     png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
     goto noread;
@@ -689,7 +690,7 @@ ref<YImage> YImage::createFromPixmapAndMaskScaled(Pixmap pix, Pixmap mask,
     return image;
 }
 
-ref <YPixmap> YXImage::renderToPixmap()
+ref <YPixmap> YXImage::renderToPixmap(unsigned depth)
 {
 	ref <YPixmap> pixmap;
 	bool has_mask = false;
@@ -710,7 +711,7 @@ ref <YPixmap> YXImage::renderToPixmap()
                     if (((XGetPixel(fImage, i, j) >> 24) & 0xff) < 128)
                         has_mask = true;
         if (hasAlpha()) {
-            xdraw = XCreateImage(xapp->display(), xapp->visual(), xapp->depth(), ZPixmap, 0, NULL, w, h, 8, 0);
+            xdraw = XCreateImage(xapp->display(), xapp->visual(), depth, ZPixmap, 0, NULL, w, h, 8, 0);
             if (!xdraw || !(xdraw->data = (char*) calloc(xdraw->bytes_per_line*h, sizeof(char))))
                 goto done;
             for (unsigned j = 0; j < h; j++)
@@ -753,7 +754,7 @@ ref <YPixmap> YXImage::renderToPixmap()
         // tlog("next request %lu at %s: +%d : %s()\n", NextRequest(xapp->display()), __FILE__, __LINE__, __func__);
         XPutImage(xapp->display(), mask, gcm, xmask, 0, 0, 0, 0, xmask->width, xmask->height);
 
-        pixmap = createPixmap(draw, mask, xdraw->width, xdraw->height, xapp->depth());
+        pixmap = createPixmap(draw, mask, xdraw->width, xdraw->height, depth);
         draw = mask = None; // consumed above
     }
   done:
@@ -778,12 +779,10 @@ ref <YPixmap> YXImage::renderToPixmap()
 	return pixmap;
 }
 
-ref<YPixmap> YImage::createPixmap(Pixmap draw, Pixmap mask, unsigned w, unsigned h, unsigned depth)
+ref<YPixmap> YImage::createPixmap(Pixmap draw, Pixmap mask,
+                                  unsigned w, unsigned h, unsigned depth)
 {
-    ref<YPixmap> pixmap;
-
-    pixmap.init(new YPixmap(draw, mask, w, h, depth));
-    return pixmap;
+    return ref<YPixmap>(new YPixmap(draw, mask, w, h, depth));
 }
 
 void YXImage::draw(Graphics& g, int dx, int dy)
@@ -791,12 +790,14 @@ void YXImage::draw(Graphics& g, int dx, int dy)
     composite(g, 0, 0, width(), height(), dx, dy);
 }
 
-void YXImage::draw(Graphics& g, int x, int y, unsigned w, unsigned h, int dx, int dy)
+void YXImage::draw(Graphics& g, int x, int y,
+                   unsigned w, unsigned h, int dx, int dy)
 {
     composite(g, x, y, w, h, dx, dy);
 }
 
-void YXImage::composite(Graphics& g, int x, int y, unsigned w, unsigned h, int dx, int dy)
+void YXImage::composite(Graphics& g, int x, int y,
+                        unsigned w, unsigned h, int dx, int dy)
 {
     XImage *xback = 0;
 

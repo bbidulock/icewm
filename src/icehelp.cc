@@ -1835,8 +1835,8 @@ FileView::FileView(YApplication *iapp, const char *path)
     setClassHint("icehelp", "IceWM");
 
     ref<YIcon> file_icon = YIcon::getIcon("file");
-    small_icon = YPixmap::createFromImage(file_icon->small());
-    large_icon = YPixmap::createFromImage(file_icon->large());
+    small_icon = YPixmap::createFromImage(file_icon->small(), xapp->depth());
+    large_icon = YPixmap::createFromImage(file_icon->large(), xapp->depth());
 
     Pixmap icons[4] = {
         small_icon->pixmap(), small_icon->mask(),
