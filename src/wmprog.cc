@@ -302,6 +302,32 @@ void KProgram::open(unsigned mods) {
         fProg->open();
 }
 
+ustring guessIconNameFromExe(const char* exe)
+{
+    upath fullname(exe);
+    char buf[1024];
+    for(int i=7; i; --i)
+    {
+        fullname = findPath(getenv("PATH"), X_OK, fullname);
+        if (fullname == null)
+            return "-";
+        ssize_t linkLen = readlink(fullname.string().c_str(), buf, ACOUNT(buf));
+        if(linkLen < 0)
+            break;
+        fullname = upath(buf, linkLen);
+    }
+    // crop to the generic name
+    ustring s(fullname.string().m_str());
+    int spos = s.lastIndexOf('/');
+    if(spos >= 0)
+        s = s.remove(0, spos + 1);
+    // scripts have a suffix sometimes which is not part of the icon name
+    spos = s.indexOf('.');
+    if(spos >= 0)
+        s = s.substring(0, spos);
+    return s;
+}
+
 char *parseIncludeStatement(
         IApp *app,
         YSMListener *smActionListener,
@@ -384,7 +410,17 @@ char *parseMenus(
                 }
 
                 ref<YIcon> icon;
-                if (icons[0] != '-') icon = YIcon::getIcon(icons);
+
+                if (icons[0] == '!')
+                {
+                    ustring iconName = guessIconNameFromExe(command);
+                    if(iconName.charAt(0) != '-')
+                        icon = YIcon::getIcon(cstring(iconName));
+
+                }
+                else if (icons[0] != '-')
+                    icon = YIcon::getIcon(icons);
+
                 DProgram * prog = DProgram::newProgram(
                     app,
                     smActionListener,

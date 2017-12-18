@@ -774,7 +774,7 @@ Restarting another window manager can be done using the restart program:
 restart "title" icon_name program_executable options
 ....
 
-icon_name can be `-` if icon is not wanted.
+icon_name can be `-` if icon is not wanted, or `!` if the icon name shall be guessed by checking the command (i.e. the real executable file, following symlinks as needed).
 
 The "runonce" keyword allows to launch an application only when no window
 has the WM_CLASS hint specified. Otherwise the first window having this
