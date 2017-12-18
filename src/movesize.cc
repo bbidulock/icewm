@@ -720,7 +720,7 @@ bool YFrameWindow::handleKey(const XKeyEvent &key) {
                 drawMoveSizeFX(x(), y(), width(), height());
                 setCurrentGeometryOuter(YRect(newX, newY, newWidth, newHeight));
                 drawMoveSizeFX(x(), y(), width(), height());
-                /* falls-through */
+                /* fall-through */
 
             case -1:
                 endMoveSize();
