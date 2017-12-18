@@ -661,7 +661,7 @@ msgstr "Неизвестная опция: `%s'"
 #: src/icesm.cc:298
 #, c-format
 msgid "%s exited with status %d."
-msgstr "%s закончился с кодом %d."
+msgstr "%s завершился с кодом %d."
 
 #: src/icesm.cc:304
 #, c-format
@@ -676,11 +676,11 @@ msgstr "Играет звук #%d (%s)"
 #: src/icesound.cc:330
 #, c-format
 msgid "%s: Invalid number of channels"
-msgstr ""
+msgstr "%s: неправильное число каналов"
 
 #: src/icesound.cc:336 src/icesound.cc:341
 msgid "Could not set OSS channels"
-msgstr ""
+msgstr "Не удается задать OSS каналы"
 
 #: src/icesound.cc:346 src/icesound.cc:374
 msgid "Could not sync OSS"
@@ -696,14 +696,12 @@ msgid "OSS incomplete write (%d/%d)"
 msgstr ""
 
 #: src/icesound.cc:369
-#, fuzzy
 msgid "Could not post OSS"
-msgstr "Не могу загрузить набор шрифтов \"%s\"."
+msgstr ""
 
 #: src/icesound.cc:398
-#, fuzzy, c-format
 msgid "Could not open OSS device %s"
-msgstr "Не могу найти картинку %s"
+msgstr "Не удается открыть OSS устройство %s"
 
 #: src/icesound.cc:403
 msgid "Could not set OSS stereo"
@@ -729,7 +727,7 @@ msgstr "<пусто>"
 #: src/icesound.cc:505
 #, c-format
 msgid "Error <%d> while uploading `%s:%s'"
-msgstr "Ошибка <%d> при посылке `%s:%s'"
+msgstr "Ошибка <%d> при отправке `%s:%s'"
 
 #: src/icesound.cc:511
 #, c-format
@@ -814,6 +812,56 @@ msgid ""
 "  3    Subsystems error (ie cannot connect to server).\n"
 "\n"
 msgstr ""
+"Использование: %s [OPTION]...\n"
+"\n"
+"Проигрывает аудио файлы по событиям из IceWM.\n"
+"Для вывода звука используется: %s.\n"
+"Icesound выбирает первое доступное устройство.\n"
+"\n"
+"Параметры:\n"
+"\n"
+" -d, --display=DISPLAY   X11 display used by IceWM (default: $DISPLAY).\n"
+"\n"
+" -s, --sample-dir=DIR    Specifies a directory with sound files.\n"
+"                         Default is $HOME/.config/icewm/sounds.\n"
+"\n"
+" -i, --interface=LIST    Specifies audio output interfaces. One or more of:\n"
+"                         %s separated by commas.\n"
+"\n"
+" -D, --device=DEVICE     Backwards compatibility only: the default device. \n"
+"                         Please prefer one of the -A/-O/-S options.\n"
+"\n"
+" -O, --oss=DEVICE        Specifies the OSS device (default: \"%s\").\n"
+"\n"
+" -A, --alsa=DEVICE       Specifies the ALSA device (default: \"%s\").\n"
+"\n"
+" -S, --server=ADDR:PORT  Specifies the ESD server address and port number.\n"
+"                         For ESD the default is \"localhost:16001\".\n"
+"\n"
+" -z, --snooze=millisecs  Specifies the snooze interval between sound events\n"
+"                         in milliseconds. Default is 500 milliseconds.\n"
+"\n"
+" -p, --play=sound        Plays the given sound (name or number) and exits.\n"
+"\n"
+" -l, --list-files        Lists the available sound file paths and exits.\n"
+"\n"
+"     --list-sounds       Lists the supported sound filenames and exits.\n"
+"\n"
+"     --list-interfaces   Lists the supported audio interfaces and exits.\n"
+"\n"
+" -v, --verbose           Be verbose and print out each sound event.\n"
+"\n"
+" -V, --version           Показать версию программы и выйти.\n"
+"\n"
+" -h, --help              Показать информацию по использованию и выйти.\n"
+"\n"
+"Return values:\n"
+"\n"
+"  0    Success.\n"
+"  1    General error.\n"
+"  2    Command line error.\n"
+"  3    Subsystems error (ie cannot connect to server).\n"
+"\n"
 
 #: src/icesound.cc:923
 #, c-format
@@ -855,14 +903,12 @@ msgid "Using %s audio."
 msgstr ""
 
 #: src/icesound.cc:1079
-#, fuzzy, c-format
 msgid "Failed to connect to audio interfaces %s."
-msgstr "Ошибка открытия %s: %s"
+msgstr "Ошибка соединения с устройством вывода звука %s."
 
 #: src/icesound.cc:1091
-#, fuzzy, c-format
 msgid "Received signal %s: Terminating..."
-msgstr "Получен сигнал %d: Прерывание работы..."
+msgstr "Получен сигнал %s: Прерывание работы..."
 
 #: src/icetray.cc:246
 msgid ""
@@ -904,7 +950,6 @@ msgid "Failed to load image '%s'."
 msgstr "Ошибка загрузки картинки `%s'."
 
 #: src/icewmbg.cc:697
-#, fuzzy
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -950,20 +995,49 @@ msgid ""
 " center:0 scaled:1 = fill both dimensions and keep aspect ratio\n"
 "\n"
 msgstr ""
-"Применение: icewmbg [ -r | -q ]\n"
-" -r  Перезапуск icewmbg\n"
-" -q  Завершить icewmbg\n"
+"Использование: icewmbg [OPTIONS]\n"
+"При указании нескольких параметров, параметры разделяются пробелом.\n"
+"Если в --image указать каталог, будут использованы все изображения в каталоге.\n"
+"\n"
+"Параметры:\n"
+"  -p, --replace        Заменить существующий icewmbg.\n"
+"  -q, --quit           Остановить запущенный icewmbg.\n"
+"  -r, --restart        Перезапустить запущенный icewmbg.\n"
+"\n"
+"  -c, --config=FILE    Использовать конфигурацию из FILE.\n"
+"  -t, --theme=NAME     Использовать тему с именем NAME.\n"
+"\n"
+"  -i, --image=FILE(S)  Load background image(s) from FILE(S).\n"
+"  -k, --color=NAME(S)  Use background color(s) from NAME(S).\n"
+"\n"
+"  -s, --semis=FILE(S)  Load transparency image(s) from FILE(S).\n"
+"  -x, --trans=NAME(S)  Use transparency color(s) from NAME(S).\n"
+"\n"
+"  -e, --center=0/1     Disable/Enable centering background.\n"
+"  -a, --scaled=0/1     Disable/Enable scaling background.\n"
+"  -m, --multi=0/1      Disable/Enable multihead background.\n"
+"\n"
+"  --display=NAME       Use NAME to connect to the X server.\n"
+"  --sync               Synchronize communication with X11 server.\n"
+"\n"
+"  -h, --help           Показать версию программы и выйти.\n"
+"  -V, --version        Показать информацию по использованию и выйти.\n"
+"\n"
 "Настройки фона рабочего стола в файле preferences (перекрываются из тем)\n"
 " DesktopBackgroundCenter  - Центрировать фон рабочего стола\n"
 " DesktopBackgroundScaled  - Масштабировать фон рабочего стола\n"
-" SupportSemitransparency  - Поддержка полупрозрачности терминалов\n"
 " DesktopBackgroundColor   - Цвет фона рабочего стола\n"
 " DesktopBackgroundImage   - Рисунок фона рабочего стола\n"
+" SupportSemitransparency  - Поддержка полупрозрачности терминалов\n"
 " DesktopTransparencyColor - Цвет фона полупрозрачных окон\n"
 " DesktopTransparencyImage - Рисунок фона полупрозрачных окон\n"
+" DesktopBackgroundMultihead - Один фоновый рисунок для всех мониторов\n"
 "\n"
 " center:0 scaled:0 = плиточный вид\n"
+" center:1 scaled:0 = по центру\n"
 " center:1 scaled:1 = сохранить соотношение сторон\n"
+" center:0 scaled:1 = заполнить с сохранением пропорций\n"
+"\n"
 
 #: src/icewmbg.cc:744
 msgid "Please note that not all options are currently configured.\n"
@@ -971,7 +1045,7 @@ msgstr ""
 
 #: src/icewmbg.cc:890
 msgid "Cannot start, because another icewmbg is still running."
-msgstr ""
+msgstr "Ошибка запуска, другой процесс icewmbg уже запущен."
 
 #: src/icewmhint.cc:41
 msgid "Usage: icewmhint [class.instance] option arg\n"
@@ -1240,7 +1314,6 @@ msgid ""
 msgstr ""
 
 #: src/wmapp.cc:1341
-#, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
 "Starts the IceWM window manager.\n"
@@ -1276,15 +1349,16 @@ msgstr ""
 "Опции:\n"
 "  --display=ИМЯ       Имя используемого X-сервера.\n"
 "%s  --sync              Синхронизировать команды X11.\n"
-"\n"
-"  -c, --config=ФАЙЛ   Загрузить \"preferences\" из ФАЙЛа .\n"
-"  -t, --theme=ФАЙЛ    Загрузить тему из ФАЙЛа.\n"
-"  -n, --no-configure  Игнорировать файл \"preferences\".\n"
-"\n"
-"  -v, --version       Напечатать информацию о версии и выйти.\n"
+"%s\n"
+"  -V, --version       Напечатать информацию о версии и выйти.\n"
 "  -h, --help          Напечатать эту информацию о применении и выйти.\n"
-"%s  --replace           Заместить существующий оконный менеджер.\n"
-"  --restart           Не используйте это: Это внутренний флаг.\n"
+"%s\n"
+"  --replace           Заместить существующий оконный менеджер.\n"
+"  -r, --restart       Tell the running icewm to restart itself.\n"
+"\n"
+"  --configured        Print the compile time configuration.\n"
+"  --directories       Print the configuration directories.\n"
+"  -l, --list-themes   Print a list of all available themes.\n"
 "\n"
 "Переменные окружения:\n"
 "  ICEWM_PRIVCFG=ПУТЬ  Каталог, используемый для пользовательских\n"
@@ -1295,8 +1369,9 @@ msgstr ""
 "опущена,\n"
 "                      предполагается схема с локальным \"файлом\".\n"
 "\n"
-"Посетите http://www.icewm.org/ для сообщений об ошибках, поддержки, "
-"комментариев...\n"
+"Для сообщений об ошибках, поддержки, комментариев, посетите:\n"
+"%s\n"
+"\n"
 
 #: src/wmapp.cc:1402
 #, c-format
@@ -1304,14 +1379,12 @@ msgid "%s configuration directories:\n"
 msgstr ""
 
 #: src/wmapp.cc:1478
-#, fuzzy, c-format
 msgid "%s configured options:%s\n"
-msgstr "Неизвестная опция: %s\n"
+msgstr ""
 
 #: src/wmapp.cc:1525
-#, fuzzy, c-format
 msgid "Unrecognized option '%s'."
-msgstr "Неизвестная опция: %s\n"
+msgstr "Неизвестная опция '%s'."
 
 #: src/wmapp.cc:1556
 msgid "Confirm Logout"
@@ -1326,9 +1399,8 @@ msgstr ""
 "Продолжить?"
 
 #: src/wmconfig.cc:39
-#, fuzzy, c-format
 msgid "Failed to load theme %s"
-msgstr "Ошибка открытия %s: %s"
+msgstr "Ошибка загрузки темы %s"
 
 #: src/wmconfig.cc:102
 #, fuzzy, c-format
