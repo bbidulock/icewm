@@ -1491,7 +1491,7 @@ msgstr ""
 #: src/wmprog.cc:382
 #, c-format
 msgid "Error at %s '%s'"
-msgstr "Ошибка в %s `%s'"
+msgstr "Ошибка в %s '%s'"
 
 #: src/wmprog.cc:429
 #, c-format
