@@ -464,7 +464,7 @@ msgstr ""
 #: src/icehelp.cc:2257
 #, c-format
 msgid "Ignoring option '%s'"
-msgstr "Неизвестная опция: `%s'"
+msgstr "Неизвестная опция: '%s'"
 
 #: src/icelist.cc:80
 msgid "List View"
@@ -654,7 +654,7 @@ msgstr ""
 #: src/icesm.cc:113
 #, c-format
 msgid "Unknown option '%s'"
-msgstr "Неизвестная опция: `%s'"
+msgstr "Неизвестная опция: '%s'"
 
 #: src/icesm.cc:298
 #, c-format
@@ -944,7 +944,7 @@ msgstr "Ctrl+W"
 #: src/icewmbg.cc:73
 #, c-format
 msgid "Failed to load image '%s'."
-msgstr "Ошибка загрузки картинки `%s'."
+msgstr "Ошибка загрузки картинки '%s'."
 
 #: src/icewmbg.cc:697
 msgid ""
