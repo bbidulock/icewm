@@ -332,18 +332,16 @@ msgid "FAQ"
 msgstr ""
 
 #: src/icehelp.cc:1224
-#, fuzzy
 msgid "Manual"
-msgstr "Инстр_укция"
+msgstr ""
 
 #: src/icehelp.cc:1226
 msgid "Support"
 msgstr ""
 
 #: src/icehelp.cc:1228
-#, fuzzy
 msgid "Theme Howto"
-msgstr "Автор темы:"
+msgstr ""
 
 #: src/icehelp.cc:1230
 msgid "Website"
@@ -735,9 +733,8 @@ msgid "Sample <%d> uploaded as `%s:%s'"
 msgstr "Звук <%d> загружен как `%s:%s'"
 
 #: src/icesound.cc:569
-#, fuzzy, c-format
 msgid "Playing sample #%d: %d"
-msgstr "Играет звук #%d"
+msgstr ""
 
 #: src/icesound.cc:644
 #, c-format
@@ -1403,14 +1400,12 @@ msgid "Failed to load theme %s"
 msgstr "Ошибка загрузки темы %s"
 
 #: src/wmconfig.cc:102
-#, fuzzy, c-format
 msgid "Unknown value '%s' for option '%s'."
-msgstr "Неизвестное действие: `%s'"
+msgstr "Неизвестное значение '%s' для параметра '%s'."
 
 #: src/wmconfig.cc:110
-#, fuzzy, c-format
 msgid "Unable to create directory %s"
-msgstr "Ошибка создания дочернего процесса: %s"
+msgstr "Не удается создать каталог %s"
 
 #: src/wmconfig.cc:137
 #, c-format
@@ -1418,9 +1413,8 @@ msgid "Unable to write to %s"
 msgstr ""
 
 #: src/wmconfig.cc:164
-#, fuzzy, c-format
 msgid "Unable to rename %s to %s"
-msgstr "Ошибка открытия %s: %s"
+msgstr "Не удается переименовать %s в %s"
 
 #: src/wmdialog.cc:87
 msgid "Loc_k Workstation"
@@ -1479,18 +1473,16 @@ msgid "Unknown window option: %s"
 msgstr "Неизвестная опция окна: %s"
 
 #: src/wmoption.cc:333
-#, fuzzy, c-format
 msgid "Syntax error in window options on line %d of %s"
-msgstr "Синтаксическая ошибка в опции окна"
+msgstr ""
 
 #: src/wmprog.cc:183
 msgid "Missing command argument"
 msgstr "Потерян аргумент"
 
 #: src/wmprog.cc:201
-#, fuzzy, c-format
 msgid "Bad argument %d to command '%s'"
-msgstr "Неправильный аргумент %s для команды `%s'"
+msgstr "Неправильный аргумент %d для команды '%s'"
 
 #: src/wmprog.cc:316
 msgid "Missing filename argument to include statement"
@@ -1504,27 +1496,27 @@ msgstr "Ошибка в %s `%s'"
 #: src/wmprog.cc:429
 #, c-format
 msgid "Unexepected menu keyword: '%s'"
-msgstr "Неожиданной ключевое слово `menu': %s"
+msgstr ""
 
 #: src/wmprog.cc:473
 #, c-format
 msgid "Error at menuprog '%s'"
-msgstr "Ошибка в меню-программе %s"
+msgstr ""
 
 #: src/wmprog.cc:512
 #, c-format
 msgid "Error at %s: '%s'"
-msgstr "Ошибка в %s: `%s'"
+msgstr "Ошибка в %s: '%s'"
 
 #: src/wmprog.cc:535
 #, c-format
 msgid "Unknown keyword '%s'"
-msgstr "Неизвестное ключевое слово `%s'"
+msgstr "Неизвестное ключевое слово '%s'"
 
 #: src/wmprog.cc:560
 #, c-format
 msgid "Error at keyword '%s' for %s"
-msgstr "Ошибка в ключе `%s' для %s"
+msgstr "Ошибка в ключе '%s' для %s"
 
 #: src/wmprog.cc:576
 #, c-format
