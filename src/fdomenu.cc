@@ -17,7 +17,6 @@
 #include "base.h"
 #include "sysdep.h"
 #include "intl.h"
-#include "appnames.h"
 
 char const *ApplicationName;
 
@@ -25,6 +24,8 @@ char const *ApplicationName;
 #include <glib/gprintf.h>
 #include <glib/gstdio.h>
 #include <gio/gdesktopappinfo.h>
+#include <string>
+#include <list>
 
 typedef GTree* tMenuContainer;
 
@@ -69,6 +70,9 @@ struct tListMeta
         const char *title;
         tMenuContainer* store;
 };
+
+char *themedIonToPath(char *icon_path);
+
 tListMeta menuinfo[] =
 {
 { N_("Accessibility"), &maccessibility },
@@ -197,9 +201,14 @@ void proc_dir(const char *path, unsigned depth=0)
                 auto_gfree<char> iconstringrelease;
                 if (pIcon)
                 {
-                        char *s = g_icon_to_string(pIcon);
-                        iconstringrelease.m_p=s;
-                        sicon=s;
+                        char *icon_path = g_icon_to_string(pIcon);
+                        if (G_IS_THEMED_ICON(pIcon)) {
+                                char * realIconPath = themedIonToPath(icon_path);
+                                g_free(icon_path);
+                                icon_path = realIconPath;
+                        }
+                        iconstringrelease.m_p=icon_path;
+                        sicon=icon_path;
                 }
 
                 gchar *menuLine;
@@ -267,6 +276,25 @@ void proc_dir(const char *path, unsigned depth=0)
                 }
                 g_strfreev(ppCats);
         }
+}
+
+char *themedIonToPath(char *icon_theme_name) {
+        std::list<std::string> iconSearchOrder;
+        iconSearchOrder.push_back("/usr/share/icons/hicolor/48x48/apps/%s.png");
+        iconSearchOrder.push_back("/usr/share/pixmaps/%s.png");
+        iconSearchOrder.push_back("/usr/share/pixmaps/%s.xpm");
+
+        for (std::list<std::string>::iterator oneSearchPath = iconSearchOrder.begin() ; oneSearchPath != iconSearchOrder.end(); ++oneSearchPath) {
+                char *pathToFile = g_strdup_printf(oneSearchPath->c_str(), icon_theme_name);
+                if (g_file_test(pathToFile, G_FILE_TEST_EXISTS))
+                {
+                        return pathToFile;
+                } else
+                {
+                        g_free((pathToFile));
+                }
+        }
+        return g_strdup("noicon.png");
 }
 
 static gboolean printKey(const char *key, const char *value, void*)
