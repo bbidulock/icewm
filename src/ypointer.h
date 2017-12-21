@@ -19,6 +19,7 @@
  *   1. osmart for `new` objects, deallocated by delete.
  *   2. asmart for `new[]` arrays, deallocated by delete[].
  *   3. fsmart for `malloc` data, deallocated by free.
+ *   3. xsmart for `Xmalloc` data, deallocated by XFree.
  *
  * 2b. csmart is an alias for asmart for new[] character strings.
  *
@@ -105,6 +106,9 @@ public:
     operator DataType *() const { return fData; }
     DataType& operator*() const { return *fData; }
     DataType *operator->() const { return fData; }
+
+protected:
+    DataType** address() { return &fData; }
 };
 
 // For pointers to objects which were allocated with 'new'.
@@ -182,6 +186,32 @@ public:
 
     void operator=(const fsmart& some) { super::copy(some); }
     void operator=(DataType *some) { super::data(some, fdispose); }
+};
+
+extern "C" {
+    extern int XFree(void*);
+}
+
+// for XFree-able data
+template <class DataType>
+class xsmart : public ysmart<DataType> {
+public:
+    typedef ysmart<DataType> super;
+    typedef typename super::dispose_t dispose_t;
+    static inline void xdispose(DataType *p) { if (p) ::XFree(p); }
+
+    explicit xsmart(DataType *data = 0, dispose_t disp = xdispose)
+        : super(data, disp) {}
+    xsmart(const xsmart& copy) : super(copy) {}
+
+    void data(DataType *some, dispose_t disp = xdispose) {
+        super::data(some, disp);
+    }
+
+    void operator=(const xsmart& some) { super::copy(some); }
+    void operator=(DataType *some) { super::data(some, xdispose); }
+
+    DataType** operator&() { return super::address(); }
 };
 
 #endif
