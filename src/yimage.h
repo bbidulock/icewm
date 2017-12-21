@@ -9,7 +9,6 @@ class Graphics;
 
 class YImage: public refcounted {
 public:
-    static ref<YImage> create(unsigned width, unsigned height);
     static ref<YImage> load(upath filename);
     static ref<YImage> createFromPixmap(ref<YPixmap> image);
     static ref<YImage> createFromPixmapAndMask(Pixmap pix, Pixmap mask,

@@ -11,7 +11,9 @@ extern "C" {
 
 class YImageGDK: public YImage {
 public:
-    YImageGDK(unsigned width, unsigned height, GdkPixbuf *pixbuf): YImage(width, height) {
+    YImageGDK(unsigned width, unsigned height, GdkPixbuf *pixbuf):
+        YImage(width, height)
+    {
         fPixbuf = pixbuf;
     }
     virtual ~YImageGDK() {
@@ -20,22 +22,14 @@ public:
     virtual ref<YPixmap> renderToPixmap(unsigned depth);
     virtual ref<YImage> scale(unsigned width, unsigned height);
     virtual void draw(Graphics &g, int dx, int dy);
-    virtual void draw(Graphics &g, int x, int y, unsigned w, unsigned h, int dx, int dy);
-    virtual void composite(Graphics &g, int x, int y, unsigned w, unsigned h, int dx, int dy);
+    virtual void draw(Graphics &g, int x, int y,
+                       unsigned w, unsigned h, int dx, int dy);
+    virtual void composite(Graphics &g, int x, int y,
+                            unsigned w, unsigned h, int dx, int dy);
     virtual bool valid() const { return fPixbuf != 0; }
 private:
     GdkPixbuf *fPixbuf;
 };
-
-ref<YImage> YImage::create(unsigned width, unsigned height) {
-    ref<YImage> image;
-    GdkPixbuf *pixbuf =
-        gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8, width, height);
-    if (pixbuf != NULL) {
-        image.init(new YImageGDK(width, height, pixbuf));
-    }
-    return image;
-}
 
 ref<YImage> YImage::load(upath filename) {
     ref<YImage> image;
@@ -159,18 +153,72 @@ ref<YImage> YImage::createFromPixmapAndMaskScaled(Pixmap pix, Pixmap mask,
 
 ref<YPixmap> YImageGDK::renderToPixmap(unsigned depth) {
     Pixmap pixmap = None, mask = None;
-    gdk_pixbuf_xlib_render_pixmap_and_mask(fPixbuf, &pixmap, &mask, 128);
 
-    return createPixmap(pixmap, mask,
-                        gdk_pixbuf_get_width(fPixbuf),
-                        gdk_pixbuf_get_height(fPixbuf),
-                        depth);
+    if (depth == (unsigned) xlib_rgb_get_depth()) {
+        gdk_pixbuf_xlib_render_pixmap_and_mask(fPixbuf, &pixmap, &mask, 128);
+    }
+    else if (depth == 32) {
+        int width = int(this->width());
+        int height = int(this->height());
+        XImage* image = XCreateImage(xapp->display(), xapp->visual(), depth,
+                                     ZPixmap, 0, NULL, width, height, 8, 0);
+        if (image)
+            image->data = (char *) calloc(image->bytes_per_line * height, 1);
+        XImage* imask = XCreateImage(xapp->display(), xapp->visual(), 1,
+                                     XYPixmap, 0, NULL, width, height, 8, 0);
+        if (imask)
+            imask->data = (char *) calloc(imask->bytes_per_line * height, 1);
+
+        if (image && image->data && imask && imask->data) {
+            if (4 != gdk_pixbuf_get_n_channels(fPixbuf) ||
+                1 != gdk_pixbuf_get_has_alpha(fPixbuf)) {
+                static int atmost(3);
+                if (atmost-- > 0)
+                    tlog("gdk pixbuf channels %d != 4 || has_alpha %d != 1",
+                         gdk_pixbuf_get_n_channels(fPixbuf),
+                         gdk_pixbuf_get_has_alpha(fPixbuf));
+            }
+            guchar *pixels = gdk_pixbuf_get_pixels(fPixbuf);
+
+            for (int r = 0; r < height; r++) {
+                for (int c = 0; c < width; c++) {
+                    XPutPixel(image, c, r,
+                              (pixels[c * 4] << 16) +
+                              (pixels[c * 4 + 1] << 8) +
+                              (pixels[c * 4 + 2] << 0) +
+                              (pixels[c * 4 + 3] << 24));
+                    XPutPixel(imask, c, r, pixels[c * 4 + 3] >= 128);
+                }
+                pixels += gdk_pixbuf_get_rowstride(fPixbuf);
+            }
+
+            pixmap = XCreatePixmap(xapp->display(), xapp->root(),
+                                   width, height, depth);
+            GC gc = XCreateGC(xapp->display(), pixmap, None, None);
+            XPutImage(xapp->display(), pixmap, gc, image,
+                      0, 0, 0, 0, width, height);
+            XFreeGC(xapp->display(), gc);
+
+            mask = XCreatePixmap(xapp->display(), xapp->root(),
+                                 width, height, 1);
+            gc = XCreateGC(xapp->display(), mask, None, None);
+            XPutImage(xapp->display(), mask, gc, imask,
+                      0, 0, 0, 0, width, height);
+            XFreeGC(xapp->display(), gc);
+
+            XDestroyImage(image);
+            XDestroyImage(imask);
+        }
+    }
+
+    return createPixmap(pixmap, mask, width(), height(), depth);
 }
 
-ref<YPixmap> YImage::createPixmap(Pixmap pixmap, Pixmap mask, unsigned w, unsigned h, unsigned depth) {
+ref<YPixmap> YImage::createPixmap(Pixmap pixmap, Pixmap mask,
+                                  unsigned w, unsigned h, unsigned depth) {
     ref<YPixmap> n;
 
-    n.init(new YPixmap(pixmap, mask, w, h, depth));
+    n.init(new YPixmap(pixmap, mask, w, h, depth, ref<YImage>(this)));
     return n;
 }
 

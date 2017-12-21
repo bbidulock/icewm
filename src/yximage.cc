@@ -44,21 +44,6 @@ private:
     XImage *fImage;
 };
 
-ref<YImage> YImage::create(unsigned width, unsigned height)
-{
-    ref<YImage> image;
-    XImage *ximage = 0;
-
-    ximage = XCreateImage(xapp->display(), xapp->visual(), 32, ZPixmap, 0, NULL, width, height, 8, 0);
-    if (ximage != 0 && (ximage->data = (char*) calloc(ximage->bytes_per_line*height,sizeof(char)))) {
-        image.init(new YXImage(ximage));
-        ximage = 0; // consumed above
-    }
-    if (ximage)
-        XDestroyImage(ximage);
-    return image;
-}
-
 ref<YImage> YImage::load(upath filename)
 {
     ref<YImage> image;
@@ -782,7 +767,7 @@ ref <YPixmap> YXImage::renderToPixmap(unsigned depth)
 ref<YPixmap> YImage::createPixmap(Pixmap draw, Pixmap mask,
                                   unsigned w, unsigned h, unsigned depth)
 {
-    return ref<YPixmap>(new YPixmap(draw, mask, w, h, depth));
+    return ref<YPixmap>(new YPixmap(draw, mask, w, h, depth, ref<YImage>(this)));
 }
 
 void YXImage::draw(Graphics& g, int dx, int dy)

@@ -135,7 +135,7 @@ void YColor::alloc() {
         double u_red, u_green, u_blue;
 
         pix = 0xFFFFFFFF;
-        ncells = DisplayCells(display(), DefaultScreen(display()));
+        ncells = DisplayCells(display(), xapp->screen());
         for (j = 0; j < ncells; j++) {
             clr.pixel = j;
             XQueryColor(display(), colormap(), &clr);
@@ -165,11 +165,9 @@ void YColor::alloc() {
         }
         if (XAllocColor(display(), colormap(), &color) == 0) {
             if (color.red + color.green + color.blue >= 32768)
-                color.pixel = WhitePixel(display(),
-                                         DefaultScreen(display()));
+                color.pixel = xapp->white();
             else
-                color.pixel = BlackPixel(display(),
-                                         DefaultScreen(display()));
+                color.pixel = xapp->black();
         }
     }
     fRed = color.red;
@@ -237,7 +235,7 @@ Graphics::Graphics(YWindow & window):
 #endif
 }
 
-Graphics::Graphics(const ref<YPixmap> &pixmap, int x_org, int y_org):
+Graphics::Graphics(ref<YPixmap> pixmap, int x_org, int y_org):
     fDrawable(pixmap->pixmap()),
     fColor(NULL), fFont(null),
     xOrigin(x_org), yOrigin(y_org)
@@ -312,7 +310,8 @@ void Graphics::copyArea(const int x, const int y,
 }
 
 void Graphics::copyDrawable(Drawable const d,
-                            const int x, const int y, const unsigned w, const unsigned h,
+                            const int x, const int y,
+                            const unsigned w, const unsigned h,
                             const int dx, const int dy)
 {
     if (d == None)
@@ -323,8 +322,9 @@ void Graphics::copyDrawable(Drawable const d,
               dx - xOrigin, dy - yOrigin);
 }
 
-void Graphics::copyPixmap(const ref<YPixmap> &p,
-                          const int x, const int y, const unsigned w, const unsigned h,
+void Graphics::copyPixmap(ref<YPixmap> p,
+                          const int x, const int y,
+                          const unsigned w, const unsigned h,
                           const int dx, const int dy)
 {
     if (p == null)
@@ -333,8 +333,17 @@ void Graphics::copyPixmap(const ref<YPixmap> &p,
         copyDrawable(p->pixmap(), x, y, w, h, dx, dy);
         return;
     }
-    tlog("Graphics::%s: attempt to copy pixmap 0x%lx of depth %d using gc of depth %d\n",
-            __func__, p->pixmap(), p->depth(), rdepth());
+
+    if (32 == rdepth()) {
+        Pixmap pixmap32 = p->pixmap32();
+        if (pixmap32) {
+            copyDrawable(pixmap32, x, y, w, h, dx, dy);
+            return;
+        }
+    }
+
+    tlog("%s:%d:Graphics::%s: attempt to copy pixmap 0x%lx of depth %d using gc of depth %d",
+            __FILE__, __LINE__, __func__, p->pixmap(), p->depth(), rdepth());
 }
 
 /******************************************************************************/
@@ -996,7 +1005,43 @@ void Graphics::repVert(Drawable d, unsigned pw, unsigned ph, int x, int y, unsig
 #endif
 }
 
-void Graphics::fillPixmap(const ref<YPixmap> &pixmap, int x, int y,
+void Graphics::repHorz(ref<YPixmap> p, int x, int y, unsigned w) {
+    if (p == null)
+        return;
+
+    if (p->depth() == rdepth()) {
+        repHorz(p->pixmap(), p->width(), p->height(), x, y, w);
+        return;
+    }
+
+    if (32 == rdepth()) {
+        Pixmap pixmap = p->pixmap32();
+        if (pixmap) {
+            repHorz(pixmap, p->width(), p->height(), x, y, w);
+            return;
+        }
+    }
+}
+
+void Graphics::repVert(ref<YPixmap> p, int x, int y, unsigned h) {
+    if (p == null)
+        return;
+
+    if (p->depth() == rdepth()) {
+        repVert(p->pixmap(), p->width(), p->height(), x, y, h);
+        return;
+    }
+
+    if (32 == rdepth()) {
+        Pixmap pixmap32 = p->pixmap32();
+        if (pixmap32) {
+            repVert(pixmap32, p->width(), p->height(), x, y, h);
+            return;
+        }
+    }
+}
+
+void Graphics::fillPixmap(ref<YPixmap> pixmap, int x, int y,
                           unsigned w, unsigned h, int px, int py) {
     int const pw(pixmap->width());
     int const ph(pixmap->height());

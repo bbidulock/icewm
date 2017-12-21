@@ -16,32 +16,33 @@ public:
     static ref<YPixmap> createFromPixmapAndMask(Pixmap pixmap,
                                                 Pixmap mask,
                                                 unsigned w, unsigned h);
-#if 1
     static ref<YPixmap> createFromPixmapAndMaskScaled(Pixmap pix, Pixmap mask,
                                                       unsigned width, unsigned height,
                                                       unsigned nw, unsigned nh);
-#endif
 
-#if 1
     void replicate(bool horiz, bool copyMask);
-#endif
 
-#if 1
     Pixmap pixmap() const { return fPixmap; }
     Pixmap mask() const { return fMask; }
-#endif
     unsigned width() const { return fWidth; }
     unsigned height() const { return fHeight; }
     unsigned depth() const { return fDepth; }
+    ref<YImage> image();
+    Pixmap pixmap32();
     ref<YPixmap> scale(unsigned w, unsigned h);
 
-protected:
-    YPixmap(Pixmap pixmap, Pixmap mask, unsigned w, unsigned h, unsigned depth) {
-        fPixmap = pixmap;
-        fMask = mask;
-        fWidth = w;
-        fHeight = h;
-        fDepth = depth;
+private:
+    YPixmap(Pixmap pixmap, Pixmap mask,
+            unsigned width, unsigned height,
+            unsigned depth, ref<YImage> image):
+        fWidth(width),
+        fHeight(height),
+        fDepth(depth),
+        fPixmap(pixmap),
+        fMask(mask),
+        fImage(image),
+        fPixmap32()
+    {
     }
     virtual ~YPixmap();
 
@@ -51,10 +52,11 @@ private:
     unsigned fWidth;
     unsigned fHeight;
     unsigned fDepth;
-#if 1
+
     Pixmap fPixmap;
     Pixmap fMask;
-#endif
+    ref<YImage> fImage;
+    ref<YPixmap> fPixmap32;
 };
 
 #endif
