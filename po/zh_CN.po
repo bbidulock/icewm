@@ -12,16 +12,16 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-01-16 16:56-0700\n"
-"PO-Revision-Date: 2017-12-21 07:01+0000\n"
+"PO-Revision-Date: 2018-01-23 09:07+0000\n"
 "Last-Translator: Wnereiz Z <wnereiz@eienteiland.org>\n"
-"Language-Team: Chinese (China) <https://l10n.opensuse.org/projects/icewm/"
-"icewm-1-4-branch/zh_CN/>\n"
+"Language-Team: Chinese (China) "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/zh_CN/>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.17.1\n"
+"X-Generator: Weblate 2.18\n"
 
 #: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:681 src/aapm.cc:806
 msgid " - Power"
@@ -46,7 +46,7 @@ msgstr " - 已充满"
 #: src/aapm.cc:999
 #, c-format
 msgid "power:\t%s"
-msgstr ""
+msgstr "电量：%s"
 
 #: src/acpustatus.cc:196
 #, c-format
