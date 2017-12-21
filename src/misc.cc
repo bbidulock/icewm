@@ -736,8 +736,8 @@ void print_version_exit(const char *version)
 void print_copying_exit()
 {
     printf("%s\n",
-    "IceWM is licensed under the GNU Library General Public License. "
-    "See the file COPYING in the distribution for full details."
+    "IceWM is licensed under the GNU Library General Public License.\n"
+    "See the file COPYING in the distribution for full details.\n"
     );
     exit(0);
 }

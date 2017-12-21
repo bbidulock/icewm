@@ -265,7 +265,7 @@ bool is_switch(const char *arg, const char *short_name, const char *long_name);
 bool is_copying_switch(const char *arg);
 bool is_help_switch(const char *arg);
 bool is_version_switch(const char *arg);
-void print_copying_exit(const char *help);
+void print_copying_exit();
 void print_help_exit(const char *help);
 void print_version_exit(const char *version);
 void check_help_version(const char *arg, const char *help, const char *version);
