@@ -54,6 +54,8 @@ if [[ -v DBGCM ]]; then
     mkdir -p builddir-debug || rm -rf builddir-debug/CMake*
     cd builddir-debug &&
         cmake .. \
+        -DCONFIG_GDK_PIXBUF_XLIB=ON \
+        -DCONFIG_XPM=off \
         -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_BUILD_TYPE=Debug \
         -DICEHELPIDX=/usr/share/doc/icewm-common/html/icewm.html \
