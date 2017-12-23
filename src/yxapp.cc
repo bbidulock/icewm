@@ -1,9 +1,6 @@
 #include "config.h"
-
 #include "yxapp.h"
-
 #include "yfull.h"
-
 #include "wmprog.h"
 #include "yaction.h"
 #include "ymenu.h"
@@ -19,7 +16,6 @@
 #endif
 
 #include <sys/resource.h>
-#include <stdlib.h>
 
 #include "intl.h"
 
@@ -910,20 +906,9 @@ const char* YXApplication::getHelpText() {
     );
 }
 
-YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
-    YApplication(argc, argv)
-{
-    xapp = this;
-    lastEventTime = CurrentTime;
-    fGrabWindow = 0;
-    fGrabTree = 0;
-    fXGrabWindow = 0;
-    fGrabMouse = 0;
-    fPopup = 0;
-    fClip = 0;
-    fReplayEvent = false;
-
-    bool runSynchronized(false);
+YXApplication::AppArgs
+YXApplication::parseArgs(int *argc, char ***argv, const char *displayName) {
+    AppArgs appArgs = { displayName, None, };
 
     for (char ** arg = *argv + 1; arg < *argv + *argc; ++arg) {
         if (**arg == '-') {
@@ -934,26 +919,60 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
             else if (is_version_switch(*arg)) {
                 print_version_exit(VERSION);
             }
+            else if (is_copying_switch(*arg)) {
+                print_copying_exit();
+            }
             else if (GetArgument(value, "d", "display", arg, *argv+*argc)) {
-                displayName = value;
+                appArgs.displayName = value;
             }
             else if (is_long_switch(*arg, "sync"))
-                runSynchronized = true;
+                appArgs.runSynchronized = true;
         }
     }
 
-    if (displayName == 0)
-        displayName = getenv("DISPLAY");
+    if (appArgs.displayName == None)
+        appArgs.displayName = getenv("DISPLAY");
     else
-        setenv("DISPLAY", displayName, 1);
+        setenv("DISPLAY", appArgs.displayName, True);
 
-    if (!(fDisplay = XOpenDisplay(displayName)))
+    return appArgs;
+}
+
+Display* YXApplication::openDisplay() {
+    Display* display = XOpenDisplay(fArgs.displayName);
+    if (display == 0)
         die(1, _("Can't open display: %s. X must be running and $DISPLAY set."),
-            displayName ? displayName : _("<none>"));
+            fArgs.displayName ? fArgs.displayName : _("<none>"));
 
-    if (runSynchronized)
-        XSynchronize(display(), True);
+    if (fArgs.runSynchronized)
+        XSynchronize(display, True);
 
+    return display;
+}
+
+YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
+    YApplication(argc, argv),
+
+    fArgs( parseArgs(argc, argv, displayName)),
+    fDisplay( openDisplay()),
+    fScreen( DefaultScreen(display())),
+    fRoot(  RootWindow(display(), screen())),
+    fDepth( DefaultDepth(display(), screen())),
+    fVisual( DefaultVisual(display(), screen())),
+    fColormap( DefaultColormap(display(), screen())),
+    fBlack( BlackPixel(display(), screen())),
+    fWhite( WhitePixel(display(), screen())),
+
+    lastEventTime(CurrentTime),
+    fPopup(0),
+    fGrabTree(0),
+    fXGrabWindow(0),
+    fGrabMouse(0),
+    fGrabWindow(0),
+    fClip(0),
+    fReplayEvent(false)
+{
+    xapp = this;
     xfd.registerPoll(this, ConnectionNumber(display()));
 
     windowContext = XUniqueContext();
@@ -966,6 +985,10 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
     initModifiers();
     initPointers();
     initColors();
+    initExtensions();
+}
+
+void YXApplication::initExtensions() {
 
 #ifdef CONFIG_SHAPE
     if ((shapesSupported = XShapeQueryExtension(display(),
@@ -992,7 +1015,7 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
         XRRQueryVersion(display(), &xrandrVersionMajor, &xrandrVersionMinor);
 
         MSG(("XRRVersion: %d %d", xrandrVersionMajor, xrandrVersionMinor));
-        if (xrandrVersionMajor > 1 || (xrandrVersionMajor == 1 && xrandrVersionMinor >= 2))
+        if (12 <= 10 * xrandrVersionMajor + xrandrVersionMinor)
             xrandr12 = true;
     }
 #endif
@@ -1001,14 +1024,15 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
 YXApplication::~YXApplication() {
     xfd.unregisterPoll();
     XCloseDisplay(display());
-    fDisplay = 0;
     delete YColor::white; YColor::white = 0;
     delete YColor::black; YColor::black = 0;
     xapp = 0;
 }
 
 bool YXApplication::handleXEvents() {
-    if (XPending(display()) > 0) {
+    const int prratio = 3;
+    int retrieved = 0;
+    for (; retrieved < XPending(display()); retrieved += prratio) {
         XEvent xev;
 
         XNextEvent(display(), &xev);
@@ -1053,9 +1077,8 @@ bool YXApplication::handleXEvents() {
             }
         }
         XFlush(display());
-        return true;
     }
-    return false;
+    return retrieved > 0;
 }
 
 bool YXApplication::handleIdle() {
