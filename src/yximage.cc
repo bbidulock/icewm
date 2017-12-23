@@ -12,6 +12,10 @@
 #ifdef CONFIG_LIBPNG
 #include <png.h>
 #endif
+#ifdef CONFIG_LIBJPEG
+#include <jpeglib.h>
+#include <setjmp.h>
+#endif
 
 class YXImage: public YImage {
 public:
@@ -34,6 +38,9 @@ public:
 #ifdef CONFIG_LIBPNG
     static ref<YImage> loadpng(upath filename);
 #endif
+#ifdef CONFIG_LIBJPEG
+    static ref<YImage> loadjpg(upath filename);
+#endif
     static ref<YImage> combine(XImage *xdraw, XImage *xmask);
 
 private:
@@ -47,15 +54,25 @@ private:
 ref<YImage> YImage::load(upath filename)
 {
     ref<YImage> image;
-    pstring ext(filename.getExtension());
+    pstring ext(filename.getExtension().lower());
 
     if (ext == ".xbm")
         image = YXImage::loadxbm(filename);
     else if (ext == ".xpm")
         image = YXImage::loadxpm(filename);
-#ifdef CONFIG_LIBPNG
     else if (ext == ".png")
+#ifdef CONFIG_LIBPNG
         image = YXImage::loadpng(filename);
+#else
+        { static int count; if (count < 1) { ++count;
+            warn(_("Support for PNG images was not enabled")); } }
+#endif
+    else if (ext == ".jpg" || ext == ".jpeg")
+#ifdef CONFIG_LIBJPEG
+        image = YXImage::loadjpg(filename);
+#else
+        { static int count; if (count < 1) { ++count;
+            warn(_("Support for JPEG images was not enabled")); } }
 #endif
     return image;
 }
@@ -132,8 +149,8 @@ ref<YImage> YXImage::loadpng(upath filename)
     png_byte *png_pixels, **row_pointers, *p;
     XImage *ximage = 0;
     // working around clobbering issues with high optimization levels, see https://stackoverflow.com/questions/7721854/what-sense-do-these-clobbered-variable-warnings-make
-    static void *vol_png_pixels, *vol_row_pointers;
-    static void *vol_ximage;
+    volatile void *vol_png_pixels, *vol_row_pointers;
+    volatile void *vol_ximage;
     png_structp png_ptr;
     png_infop info_ptr;
     png_byte buf[8];
@@ -278,6 +295,77 @@ ref<YImage> YXImage::loadpng(upath filename)
 }
 #endif
 
+#ifdef CONFIG_LIBJPEG
+struct jpeg_error_jmp : public jpeg_error_mgr {
+    jmp_buf setjmp_buffer;
+};
+
+static void my_jpeg_error_exit(j_common_ptr cinfo) {
+    jpeg_error_jmp* myjmp = (jpeg_error_jmp*) cinfo->err;
+    (*cinfo->err->output_message) (cinfo);
+    longjmp(myjmp->setjmp_buffer, 1);
+}
+
+ref<YImage> YXImage::loadjpg(upath filename)
+{
+    ref<YImage> yximage;
+    struct jpeg_decompress_struct cinfo;
+    struct jpeg_error_jmp jerr;
+    JSAMPARRAY buffer;
+    int row_stride;
+    FILE* infile = filename.fopen("rb");
+    if (infile == 0) {
+        fail("could not open %s", filename.string().c_str());
+        return yximage;
+    }
+
+    cinfo.err = jpeg_std_error(&jerr);
+    jerr.error_exit = my_jpeg_error_exit;
+    if (setjmp(jerr.setjmp_buffer)) {
+        jpeg_destroy_decompress(&cinfo);
+        fclose(infile);
+        return yximage;
+    }
+
+    jpeg_create_decompress(&cinfo);
+    jpeg_stdio_src(&cinfo, infile);
+    (void) jpeg_read_header(&cinfo, TRUE);
+    (void) jpeg_start_decompress(&cinfo);
+    row_stride = cinfo.output_width * cinfo.output_components;
+    buffer = (*cinfo.mem->alloc_sarray)
+                ((j_common_ptr) &cinfo, JPOOL_IMAGE, row_stride, 1);
+
+    int width = int(cinfo.output_width);
+    int height = int(cinfo.output_height);
+    XImage* ximage = XCreateImage(xapp->display(), xapp->visual(),
+                                  32, ZPixmap, 0, NULL,
+                                  width, height, 8, 0);
+    if (ximage)
+        ximage->data = (char *) calloc(ximage->bytes_per_line * height, 1);
+    if (ximage && ximage->data) {
+        for (int line; (line = int(cinfo.output_scanline)) < height; ) {
+            (void) jpeg_read_scanlines(&cinfo, buffer, 1);
+            unsigned char* buf = (unsigned char *) buffer[0];
+            for (int i = 0; i < width; ++i, buf += 3) {
+                XPutPixel(ximage, i, line,
+                          (buf[0] << 16) |
+                          (buf[1] <<  8) |
+                          (buf[2]      ) |
+                          0xFF000000);
+            }
+        }
+        yximage.init(new YXImage(ximage));
+    }
+    else if (ximage)
+        XDestroyImage(ximage);
+
+    (void) jpeg_finish_decompress(&cinfo);
+    jpeg_destroy_decompress(&cinfo);
+    fclose(infile);
+    return yximage;
+}
+#endif
+
 ref<YImage> YXImage::upscale(unsigned nw, unsigned nh)
 {
     ref<YImage> image;
@@ -405,6 +493,11 @@ ref<YImage> YXImage::upscale(unsigned nw, unsigned nh)
     return image;
 }
 
+/*
+ * XXX: Downscaling a large image gives *very* poor results.
+ * This is especially noticable in icewmbg background images.
+ * TODO: This method is in _dire_ need of a better algorithm.
+ */
 ref<YImage> YXImage::downscale(unsigned nw, unsigned nh)
 {
     ref<YImage> image;

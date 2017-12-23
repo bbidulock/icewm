@@ -656,24 +656,32 @@ int handler(Display *display, XErrorEvent *xev) {
     /* DBG */ {
         char message[80], req[80], number[80];
 
-        snprintf(number, 80, "%d", xev->request_code);
-        XGetErrorDatabaseText(display,
-                              "XRequest",
-                              number, "",
-                              req, sizeof(req));
-        if (!req[0])
-            snprintf(req, 80, "[request_code=%d]", xev->request_code);
+        snprintf(number, sizeof number, "%d", xev->request_code);
+        XGetErrorDatabaseText(display, "XRequest", number, "", req, sizeof req);
+        if (req[0] == 0)
+            snprintf(req, sizeof req, "[request_code=%d]", xev->request_code);
 
-        if (XGetErrorText(display,
-                          xev->error_code,
-                          message, sizeof(message)) !=
-                          Success)
+        if (XGetErrorText(display, xev->error_code, message, sizeof message))
             *message = '\0';
 
         tlog("X error %s(0x%lX): %s, #%lu, %+ld, %+ld.",
              req, xev->resourceid, message,
              xev->serial, (long) NextRequest(display) - (long) xev->serial,
              (long) LastKnownRequestProcessed(display) - (long) xev->serial);
+
+#if defined(DEBUG) || defined(PRECON)
+        if (xapp->synchronized()) {
+            switch (xev->resourceid) {
+                case X_GetImage:
+                case X_CreateGC:
+                    show_backtrace();
+                    break;
+                default:
+                    // show_backtrace();
+                    break;
+            }
+        }
+#endif
     }
     return 0;
 }
@@ -1432,17 +1440,20 @@ static void print_configured(const char *argv0) {
 #ifdef CONFIG_GDK_PIXBUF_XLIB
     " gdkpixbuf"
 #endif
-#ifdef CONFIG_XPM
-    " libxpm"
-#endif
-#ifdef CONFIG_LIBPNG
-    " libpng"
-#endif
 #ifdef CONFIG_GNOME_MENUS
     " gnomemenus"
 #endif
 #ifdef CONFIG_I18N
     " i18n"
+#endif
+#ifdef CONFIG_LIBJPEG
+    " libjpeg"
+#endif
+#ifdef CONFIG_LIBPNG
+    " libpng"
+#endif
+#ifdef CONFIG_XPM
+    " libxpm"
 #endif
 #ifdef ENABLE_NLS
     " nls"
