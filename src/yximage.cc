@@ -6,6 +6,7 @@
 #include <errno.h>
 #include "yimage.h"
 #include "yxapp.h"
+#include "intl.h"
 
 #include <X11/xpm.h>
 
