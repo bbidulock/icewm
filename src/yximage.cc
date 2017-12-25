@@ -56,25 +56,36 @@ ref<YImage> YImage::load(upath filename)
 {
     ref<YImage> image;
     pstring ext(filename.getExtension().lower());
+    bool unsup = false;
 
     if (ext == ".xbm")
         image = YXImage::loadxbm(filename);
     else if (ext == ".xpm")
         image = YXImage::loadxpm(filename);
-    else if (ext == ".png")
+    else if (ext == ".png") {
 #ifdef CONFIG_LIBPNG
         image = YXImage::loadpng(filename);
 #else
         { static int count; if (count < 1) { ++count;
             warn(_("Support for PNG images was not enabled")); } }
 #endif
-    else if (ext == ".jpg" || ext == ".jpeg")
+    }
+    else if (ext == ".jpg" || ext == ".jpeg") {
 #ifdef CONFIG_LIBJPEG
         image = YXImage::loadjpg(filename);
 #else
         { static int count; if (count < 1) { ++count;
             warn(_("Support for JPEG images was not enabled")); } }
 #endif
+    }
+    else {
+        unsup = true;
+        static int count; if (count < 1) { ++count;
+        warn(_("Unsupported file format: %s"), cstring(ext).c_str()); }
+    }
+
+    if (image == null && !unsup)
+            warn(_("Out of memory for pixmap \"%s\""), filename.string().c_str());
     return image;
 }
 
