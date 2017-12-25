@@ -5,6 +5,7 @@
 #include "ycursor.h"
 #include "yarray.h"
 #include "ylist.h"
+#include "yrect.h"
 
 class YPopupWindow;
 class YToolTip;
@@ -146,6 +147,7 @@ public:
     unsigned height() const { return fHeight; }
     unsigned depth() const { return fDepth; }
     Visual *visual() const { return fVisual; }
+    YRect geometry() const { return YRect(fX, fY, fWidth, fHeight); }
 
     bool visible() const { return (flags & wfVisible); }
     bool created() const { return (flags & wfCreated); }

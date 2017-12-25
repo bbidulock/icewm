@@ -787,7 +787,7 @@ void YWindow::handleConfigure(const XConfigureEvent &configure) {
             fWidth = configure.width;
             fHeight = configure.height;
 
-            this->configure(YRect(fX, fY, fWidth, fHeight));
+            this->configure(geometry());
         }
     }
 }
@@ -798,7 +798,7 @@ void YWindow::handleGravityNotify(const XGravityEvent& gravity) {
             fX = gravity.x;
             fY = gravity.y;
 
-            this->configure(YRect(fX, fY, fWidth, fHeight));
+            this->configure(geometry());
         }
     }
 }
@@ -1070,7 +1070,7 @@ void YWindow::setGeometry(const YRect &r) {
                                   fX, fY, fWidth, fHeight);
         }
 
-        configure(YRect(fX, fY, fWidth, fHeight));
+        configure(geometry());
     }
 }
 
@@ -1082,7 +1082,7 @@ void YWindow::setPosition(int x, int y) {
         if (flags & wfCreated)
             XMoveWindow(xapp->display(), fHandle, fX, fY);
 
-        configure(YRect(fX, fY, width(), height()));
+        configure(geometry());
     }
 }
 
@@ -1095,7 +1095,7 @@ void YWindow::setSize(unsigned width, unsigned height) {
             if (!nullGeometry())
                 XResizeWindow(xapp->display(), fHandle, fWidth, fHeight);
 
-        configure(YRect(x(), y(), fWidth, fHeight));
+        configure(geometry());
     }
 }
 
