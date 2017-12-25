@@ -1032,7 +1032,7 @@ YXApplication::~YXApplication() {
 bool YXApplication::handleXEvents() {
     const int prratio = 3;
     int retrieved = 0;
-    for (; retrieved < XPending(display()); retrieved += prratio) {
+    for (; retrieved < XPending(display()); retrieved += prratio - 1) {
         XEvent xev;
 
         XNextEvent(display(), &xev);
