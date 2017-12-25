@@ -150,7 +150,8 @@ public:
     bool canLower();
     bool canRaise();
     bool canFullscreen() { return true; }
-    bool Overlaps(bool below);
+    bool overlaps(bool below);
+    unsigned overlap(YFrameWindow *other);
 
     void insertFrame(bool top);
     void removeFrame();

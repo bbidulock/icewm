@@ -1108,10 +1108,10 @@ void YFrameWindow::actionPerformed(YAction action, unsigned int modifiers) {
         if (canRaise())
             wmRaise();
     } else if (action == actionDepth) {
-        if (Overlaps(true) && canRaise()){
+        if (overlaps(bool(Below)) && canRaise()){
             wmRaise();
             manager->setFocus(this, true);
-        } else if (Overlaps(false) && canLower())
+        } else if (overlaps(bool(Above)) && canLower())
             wmLower();
     } else if (action == actionRollup) {
         if (canRollup())

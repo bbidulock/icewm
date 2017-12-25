@@ -472,68 +472,21 @@ bool YFrameWindow::canRaise() {
     return false;
 }
 
-bool YFrameWindow::Overlaps(bool above) {
-    YFrameWindow *f;
-    int w1x2 , w1y2 , w2x2 , w2y2;
-    long curWorkspace = manager->activeWorkspace();
-    bool B,C,D,E,F,H;
-
-    if (above)
-        f = prev();
-    else
-        f = next();
-
-    while (f) {
-        if (!f->isMinimized() && !f->isHidden() && f->visibleOn(curWorkspace)) {
-            w2x2 = f->x() + (int)f->width() - 1;
-            w2y2 = f->y() + (int)f->height() - 1;
-            w1x2 = x() + (int)width() - 1;
-            w1y2 = y() + (int)height() - 1;
-            B = w2x2 >= x();
-            C = y() >= f->y();
-            E = w1x2 >= f->x();
-            F = w2x2 >= w1x2;
-            H = w2y2 >= w1y2;
-            if (w1y2 >= f->y()) {
-                if (F) {
-                    if (E && H) {
-                        return true;
-                    }
-                } else {
-                    if (B && !C) {
-                        return true;
-                    }
-                }
-            }
-            D = w2y2 >= y();
-            if (x() >= f->x()) {
-                if (C) {
-                    if (B && D) {
-                        return true;
-                    }
-                } else {
-                    if (F && !H) {
-                        return true;
-                    }
-                }
-            } else {
-                if (H) {
-                    if (C && !F) {
-                        return true;
-                    }
-                } else {
-                    if (E && D) {
-                        return true;
-                    }
-                }
-            }
-        }
-
-        if (above)
-            f = f->prev();
-        else
-            f = f->next();
+unsigned YFrameWindow::overlap(YFrameWindow* f) {
+    if (false == f->isHidden() &&
+        false == f->isMinimized() &&
+        f->visibleOn(manager->activeWorkspace()))
+    {
+        return geometry().intersect(f->geometry()).pixels();
     }
+    return 0;
+}
+
+bool YFrameWindow::overlaps(bool below) {
+    YFrameWindow* f = below ? prev() : next();
+    for (; f; f = below ? f->prev() : f->next())
+        if (overlap(f))
+            return true;
     return false;
 }
 
