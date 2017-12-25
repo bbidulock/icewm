@@ -3,6 +3,7 @@
 #include "ypaint.h"
 #include "yxapp.h"
 #include "ywindow.h"
+#include "default.h"
 
 #include <string.h>
 
@@ -11,9 +12,17 @@ extern ref<YFont> getXftFontXlfd(ustring name, bool antialias);
 extern ref<YFont> getCoreFont(const char*);
 
 ref<YFont> YFont::getFont(ustring name, ustring xftFont, bool antialias) {
-#ifdef CONFIG_XFREETYPE
-    if (xftFont != null && xftFont.length() > 0)
-        return getXftFont(xftFont, antialias);
+#if defined(CONFIG_XFREETYPE) && defined(CONFIG_COREFONTS)
+    ref<YFont> ret;
+    if(fontPreferFreetype) {
+        if (xftFont != null && xftFont.length() > 0) ret = getXftFont(xftFont, antialias);
+        if(ret != null) return ret;
+        ret = getXftFontXlfd(name, antialias);
+        if(ret != null) return ret;
+    }
+    return getCoreFont(cstring(name));
+#elif defined(CONFIG_XFREETYPE)
+    if (xftFont != null && xftFont.length() > 0) return getXftFont(xftFont, antialias);
     return getXftFontXlfd(name, antialias);
 #elif defined(CONFIG_COREFONTS)
     return getCoreFont(cstring(name));
