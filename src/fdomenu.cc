@@ -17,6 +17,7 @@
 #include "base.h"
 #include "sysdep.h"
 #include "intl.h"
+#include "appnames.h" // for QUOTE macro
 
 char const *ApplicationName;
 
