@@ -59,21 +59,24 @@
 #define GUI_EVENT_NAMES
 #include "guievent.h"
 
-#ifdef ENABLE_OSS
-#if defined(HAVE_SYS_IOCTL_H) && defined(HAVE_SYS_SOUNDCARD_H)
+#ifdef HAVE_SYS_IOCTL_H
+#include <unistd.h>
 #include <sys/ioctl.h>
-#include <sys/soundcard.h>
-#else
-#undef ENABLE_OSS
-#endif
 #endif
 
-#if defined(ENABLE_ALSA) || defined(ENABLE_AO) || defined(ENABLE_OSS)
-#if HAVE_SNDFILE_H
-#include <sndfile.h>
-#else
-#error sndfile.h is required; please install libsndfile-dev
+#ifdef HAVE_SYS_SOUNDCARD_H
+#include <sys/soundcard.h>
 #endif
+
+#ifdef HAVE_SNDFILE_H
+#include <sndfile.h>
+#endif
+
+#ifdef HAVE_FCNTL_H
+#include <fcntl.h>
+// that's precise enough to detect a modern system
+#include <sys/types.h>
+#include <sys/stat.h>
 #endif
 
 /******************************************************************************/
