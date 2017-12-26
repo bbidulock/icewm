@@ -57,11 +57,10 @@ if(CXX_FORCELEGACY)
     _append(CXXFLAGS_COMMON -std=gnu++98)
 endif()
 
-CHECK_CXX_COMPILER_FLAG(-Wl,-fuse-ld=gold CXX_LINKER_GOLD)
-if(CXX_LINKER_GOLD)
-    list(APPEND icewm_libs -Wl,-fuse-ld=gold)
-endif()
-
+#CHECK_CXX_COMPILER_FLAG(-Wl,-fuse-ld=gold CXX_LINKER_GOLD)
+#if(CXX_LINKER_GOLD)
+#    list(APPEND icewm_libs -Wl,-fuse-ld=gold)
+#endif()
 
 option(CONFIG_LIBPNG "(Experimental) PNGLIB image loader" on)
 option(CONFIG_LIBJPEG "JPEGLIB image loader" on)
