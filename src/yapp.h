@@ -91,7 +91,7 @@ protected:
     virtual void unregisterPoll(YPollBase *t);
 
 protected:
-    virtual void flushXEvents() {};
+    virtual void flushXEvents() {}
     virtual bool handleXEvents() { return false; }
 
     void closeFiles();

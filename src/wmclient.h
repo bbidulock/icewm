@@ -43,7 +43,7 @@ public:
                          unsigned int flags,
                          YWindow *forWindow = 0) = 0;
 protected:
-    virtual ~ClientData() {};
+    virtual ~ClientData() {}
 };
 
 class YFrameClient: public YWindow

@@ -34,14 +34,14 @@ template<class T>
 struct auto_gfree
 {
         T *m_p;
-        auto_gfree() : m_p(NULL) {};
-        auto_gfree(T *xp) : m_p(xp) {};
+        auto_gfree() : m_p(NULL) {}
+        auto_gfree(T *xp) : m_p(xp) {}
         ~auto_gfree() { g_free(m_p); }
 };
 struct auto_gunref
 {
         GObject *m_p;
-        auto_gunref(GObject *xp): m_p(xp) {};
+        auto_gunref(GObject *xp): m_p(xp) {}
         ~auto_gunref() { g_object_unref(m_p); }
 };
 
@@ -100,7 +100,7 @@ void proc_dir(const char *path, unsigned depth=0)
                 return;
         struct tdircloser {
                 GDir *m_p;
-                tdircloser(GDir *p) : m_p(p) {};
+                tdircloser(GDir *p) : m_p(p) {}
                 ~tdircloser() { g_dir_close(m_p);}
         } dircloser(pdir);
 

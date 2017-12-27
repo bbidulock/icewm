@@ -306,24 +306,24 @@ ustring guessIconNameFromExe(const char* exe)
 {
     upath fullname(exe);
     char buf[1024];
-    for(int i=7; i; --i)
+    for (int i=7; i; --i)
     {
         fullname = findPath(getenv("PATH"), X_OK, fullname);
         if (fullname == null)
             return "-";
         ssize_t linkLen = readlink(fullname.string().c_str(), buf, ACOUNT(buf));
-        if(linkLen < 0)
+        if (linkLen < 0)
             break;
         fullname = upath(buf, linkLen);
     }
     // crop to the generic name
     ustring s(fullname.string().m_str());
     int spos = s.lastIndexOf('/');
-    if(spos >= 0)
+    if (spos >= 0)
         s = s.remove(0, spos + 1);
     // scripts have a suffix sometimes which is not part of the icon name
     spos = s.indexOf('.');
-    if(spos >= 0)
+    if (spos >= 0)
         s = s.substring(0, spos);
     return s;
 }
@@ -414,7 +414,7 @@ char *parseMenus(
                 if (icons[0] == '!')
                 {
                     ustring iconName = guessIconNameFromExe(command);
-                    if(iconName.charAt(0) != '-')
+                    if (iconName.charAt(0) != '-')
                         icon = YIcon::getIcon(cstring(iconName));
 
                 }

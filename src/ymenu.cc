@@ -921,9 +921,9 @@ void YMenu::drawSeparator(Graphics &g, int x, int y, unsigned w) {
         if (activeMenuItemBg)
             g.setColor(activeMenuItemBg);
 
-        g.drawLine(x, y + 1, w, y + 1);;
+        g.drawLine(x, y + 1, w, y + 1);
         g.setColor(menuBg->brighter());
-        g.drawLine(x, y + 2, w, y + 2);;
+        g.drawLine(x, y + 2, w, y + 2);
         g.drawLine(x, y, x, y + 2);
     } else {
         drawBackground(g, x, y + 0, w, 1);

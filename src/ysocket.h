@@ -9,7 +9,7 @@ public:
     virtual void socketError(int err) = 0;
     virtual void socketDataRead(char *buf, int len) = 0;
 protected:
-    virtual ~YSocketListener() {};
+    virtual ~YSocketListener() {}
 };
 
 class YSocket: private YPollBase {

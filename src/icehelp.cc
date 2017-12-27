@@ -933,7 +933,7 @@ public:
     virtual void activateURL(const cstring& url, bool relative = false) = 0;
     virtual void handleClose() = 0;
 protected:
-    virtual ~HTListener() {};
+    virtual ~HTListener() {}
 };
 
 class ActionItem : public YAction {

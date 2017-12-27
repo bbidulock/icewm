@@ -47,7 +47,7 @@ class YTimerListener {
 public:
     virtual bool handleTimer(YTimer *timer) = 0;
 protected:
-    virtual ~YTimerListener() {};
+    virtual ~YTimerListener() {}
 };
 
 class YTimer {

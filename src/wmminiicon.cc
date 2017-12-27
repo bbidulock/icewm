@@ -46,8 +46,8 @@ MiniIcon::~MiniIcon() {
 
 void MiniIcon::paint(Graphics &g, const YRect &/*r*/) {
     bool focused = getFrame()->focused();
-    YColor *bg = focused ? activeMinimizedWindowBg : normalMinimizedWindowBg;;
-    YColor *fg = focused ? activeMinimizedWindowFg : normalMinimizedWindowFg;;
+    YColor *bg = focused ? activeMinimizedWindowBg : normalMinimizedWindowBg;
+    YColor *fg = focused ? activeMinimizedWindowFg : normalMinimizedWindowFg;
     int tx = 2;
     int x, y, w, h;
 

@@ -193,7 +193,7 @@ YIconView::YIconView(YScrollView *view, YWindow *aParent): YWindow(aParent) {
     fontHeight = font->height();
 
     if (fView) {
-        fVerticalScroll = view->getVerticalScrollBar();;
+        fVerticalScroll = view->getVerticalScrollBar();
         fHorizontalScroll = view->getHorizontalScrollBar();
     } else {
         fHorizontalScroll = 0;

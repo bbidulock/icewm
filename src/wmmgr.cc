@@ -97,7 +97,7 @@ YWindowManager::YWindowManager(
     }
 #endif
 
-    fTopWin = new YWindow();;
+    fTopWin = new YWindow();
     fTopWin->setStyle(YWindow::wsOverrideRedirect);
     fTopWin->setGeometry(YRect(-1, -1, 1, 1));
     fTopWin->setTitle("IceTopWin");
