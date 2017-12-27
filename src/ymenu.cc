@@ -847,7 +847,7 @@ void YMenu::sizePopup(int hspace) {
 
     namePos = l + left + padx + maxIcon + 2;
     paramPos = namePos + 2 + maxName + 6;
-    width = paramPos + maxParam + 4 + r;
+    width = paramPos + maxParam + 4 + r + 10;
     height += b;
 
     if (menubackPixbuf != null
@@ -857,7 +857,7 @@ void YMenu::sizePopup(int hspace) {
         fGradient = menubackPixbuf->scale(width, height);
     }
 
-    setSize(width + 10, height);
+    setSize(width, height);
 }
 
 void YMenu::repaintItem(int item) {
