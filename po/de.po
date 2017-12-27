@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-12-16 04:21+0100\n"
-"PO-Revision-Date: 2017-12-26 18:19+0000\n"
+"PO-Revision-Date: 2017-12-27 16:27+0000\n"
 "Last-Translator: Sarah Kriesch <ada.lovelace@gmx.de>\n"
 "Language-Team: German "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/de/>\n"
@@ -26,7 +26,7 @@ msgstr " - Energie"
 
 #: src/aapm.cc:179 src/aapm.cc:462 src/aapm.cc:683
 msgid "P"
-msgstr "E"
+msgstr "P"
 
 #: src/aapm.cc:183 src/aapm.cc:436 src/aapm.cc:663 src/aapm.cc:773
 msgid " - Charging"
@@ -34,7 +34,7 @@ msgstr " - Laden"
 
 #: src/aapm.cc:185 src/aapm.cc:438 src/aapm.cc:665
 msgid "C"
-msgstr "L"
+msgstr "C"
 
 #: src/aapm.cc:440
 msgid " - Full"
@@ -121,17 +121,17 @@ msgstr "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 #: src/amailbox.cc:67
 #, c-format
 msgid "Invalid mailbox protocol: \"%s\""
-msgstr "Unbekanntes E-Mail-Protokoll: »%s«"
+msgstr "Unbekanntes E-Mail-Protokoll: \"%s\""
 
 #: src/amailbox.cc:69
 #, c-format
 msgid "Invalid mailbox path: \"%s\""
-msgstr "Ungültiger Mailbox-Pfad: »%s«"
+msgstr "Ungültiger Mailbox-Pfad: \"%s\""
 
 #: src/amailbox.cc:331
 #, c-format
 msgid "Using MailBox \"%s\"\n"
-msgstr "Benutze Postfach: »%s«\n"
+msgstr "Benutze Postfach: \"%s\"\n"
 
 #: src/amailbox.cc:438
 msgid "Error checking mailbox."
@@ -140,24 +140,24 @@ msgstr "Fehler beim Prüfen des Postfachs."
 #: src/amailbox.cc:444
 #, c-format
 msgid "%ld mail message."
-msgstr "%ld Nachricht."
+msgstr "%ld E-Mail-Nachricht."
 
 #: src/amailbox.cc:445
 #, c-format
 msgid "%ld mail messages."
-msgstr "%ld Nachrichten."
+msgstr "%ld E-Mail-Nachrichten."
 
 #: src/amemstatus.cc:127
 msgid "GB"
-msgstr "GiB"
+msgstr "GB"
 
 #: src/amemstatus.cc:131
 msgid "MB"
-msgstr "MiB"
+msgstr "MB"
 
 #: src/amemstatus.cc:135
 msgid "kB"
-msgstr "KiB"
+msgstr "kB"
 
 #: src/amemstatus.cc:139
 msgid "bytes"
@@ -240,7 +240,7 @@ msgstr "Spiele"
 
 #: src/fdomenu.cc:81
 msgid "Graphics"
-msgstr "Grafik"
+msgstr "Grafiken"
 
 #: src/fdomenu.cc:82
 msgid "Multimedia"
@@ -288,15 +288,15 @@ msgstr "Alt+Rechts"
 
 #: src/icehelp.cc:1204
 msgid "Previous"
-msgstr "Vorherige Seite"
+msgstr "Vorherige"
 
 #: src/icehelp.cc:1205
 msgid "Next"
-msgstr "Nächste Seite"
+msgstr "Nächste"
 
 #: src/icehelp.cc:1207
 msgid "Contents"
-msgstr "Inhaltsverzeichnis"
+msgstr "Inhalte"
 
 #: src/icehelp.cc:1208
 msgid "Index"
@@ -379,11 +379,11 @@ msgstr "Konnte %s nicht entpacken"
 
 #: src/icehelp.cc:2139
 msgid "Could not locate curl or wget in PATH"
-msgstr "curl oder wget in PATH nicht gefunden"
+msgstr "curl oder wget konnten in PATH nicht gefunden werden"
 
 #: src/icehelp.cc:2143
 msgid "Unsafe characters in URL"
-msgstr "Unsichere Zeichen im URL"
+msgstr "Unsichere Zeichen in URL"
 
 #: src/icehelp.cc:2180
 #, c-format
@@ -466,32 +466,32 @@ msgstr "Strg+R"
 
 #: src/icesame.cc:65
 msgid "Same Game"
-msgstr "IceSAME"
+msgstr "Gleiches Spiel"
 
 #: src/icesh.cc:187
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
-msgstr "Aktion »%s« benötigt mindestens %d Argumente."
+msgstr "Aktion `%s` benötigt mindestens %d Argumente."
 
 #: src/icesh.cc:194
 #, c-format
 msgid "Invalid expression: `%s'"
-msgstr "Ungültiger Ausdruck: »%s«"
+msgstr "Ungültiger Ausdruck: `%s`"
 
 #: src/icesh.cc:315
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
-msgstr "Benannte Symbole aus der Domäne »%s« (Wertebereich: %ld-%ld):\n"
+msgstr "Benannte Symbole aus der Domain `%s` (Wertebereich: %ld-%ld):\n"
 
 #: src/icesh.cc:428
 #, c-format
 msgid "Invalid workspace name: `%s'"
-msgstr "Ungültiger Arbeitsbereich: »%s«"
+msgstr "Ungültiger Arbeitsbereich: `%s`"
 
 #: src/icesh.cc:434
 #, c-format
 msgid "Workspace out of range: %ld"
-msgstr "Arbeitsbereich außerhalb des Wertebereich: %ld"
+msgstr "Arbeitsbereich außerhalb des Wertebereichs: %ld"
 
 #: src/icesh.cc:568
 #, c-format
@@ -606,38 +606,38 @@ msgstr "IceWM-Trayoption"
 
 #: src/icesh.cc:615
 msgid "Usage error: "
-msgstr "Syntaxfehler: "
+msgstr "Verwendungsfehler: "
 
 #: src/icesh.cc:695
 #, c-format
 msgid "Invalid argument: `%s'."
-msgstr "Ungültiges Argument: »%s«."
+msgstr "Ungültiges Argument: `%s`."
 
 #: src/icesh.cc:701
 msgid "No actions specified."
-msgstr "Keine Aktion angegeben."
+msgstr "Keine Aktionen angegeben."
 
 #: src/icesh.cc:708 src/icesound.cc:938 src/icewmhint.cc:88 src/yxapp.cc:951
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
-"Das Display %s ist nicht erreichbar. Der X-Server muß laufen und \n"
-"die Umgebungsvariable $DISPLAY auf ihn verweisen."
+"Das Display kann nicht geöffnet werden: %s. Der X muss laufen und \n"
+"die Umgebungsvariable $DISPLAY gesetzt sein."
 
 #: src/icesh.cc:748
 #, c-format
 msgid "Invalid window identifier: `%s'"
-msgstr "Ungültiger Fensterbezeichner: »%s«"
+msgstr "Ungültiger Fensterbezeichner: `%s`"
 
 #: src/icesh.cc:901
 #, c-format
 msgid "workspace #%d: `%s'\n"
-msgstr "Arbeitsbereich #%d: »%s«\n"
+msgstr "Arbeitsbereich #%d: `%s`\n"
 
 #: src/icesh.cc:919
 #, c-format
 msgid "Unknown action: `%s'"
-msgstr "Unbekannte Aktion: »%s«"
+msgstr "Unbekannte Aktion: `%s`"
 
 #: src/iceskt.cc:42
 #, c-format
@@ -678,25 +678,25 @@ msgstr "%s wurde mit Status %d beendet."
 #: src/icesm.cc:304
 #, c-format
 msgid "%s was killed by signal %d."
-msgstr "%s wurde durch Signal %d abgewürgt."
+msgstr "%s wurde durch Signal %d getötet."
 
 #: src/icesound.cc:212 src/icesound.cc:320 src/icesound.cc:624
 #, c-format
 msgid "Playing sample #%d (%s)"
-msgstr "Spiele Sample #%d (%s)"
+msgstr "Spiele Beispiel #%d (%s)"
 
 #: src/icesound.cc:330
 #, c-format
 msgid "%s: Invalid number of channels"
-msgstr "%s: Ungültige Anzahl der Kanäle"
+msgstr "%s: Ungültige Anzahl an Kanälen"
 
 #: src/icesound.cc:336 src/icesound.cc:341
 msgid "Could not set OSS channels"
-msgstr "Konnte OSS-Kanäle nicht konfigurieren"
+msgstr "Konnte OSS-Kanäle nicht festlegen"
 
 #: src/icesound.cc:346 src/icesound.cc:374
 msgid "Could not sync OSS"
-msgstr "Synchronisierung von OSS fehlgeschlagen"
+msgstr "Konnte OSS nicht synchronisieren"
 
 #: src/icesound.cc:358
 msgid "OSS write failed"
@@ -709,16 +709,16 @@ msgstr "Unvollständiger Schreibvorgang bei OSS (%d/%d)"
 
 #: src/icesound.cc:369
 msgid "Could not post OSS"
-msgstr "Konnte OSS nicht benachrichtigen"
+msgstr "Konnte OSS nicht versenden"
 
 #: src/icesound.cc:398
 #, c-format
 msgid "Could not open OSS device %s"
-msgstr "Konnte OSS-Gerät »%s« nicht öffnen"
+msgstr "Konnte OSS-Gerät %s nicht öffnen"
 
 #: src/icesound.cc:403
 msgid "Could not set OSS stereo"
-msgstr "Konnte OSS-Stereo nicht konfigurieren"
+msgstr "Konnte OSS-Stereo nicht festlegen"
 
 #: src/icesound.cc:408
 msgid "Could not reset OSS DSP"
@@ -740,17 +740,17 @@ msgstr "<keines>"
 #: src/icesound.cc:505
 #, c-format
 msgid "Error <%d> while uploading `%s:%s'"
-msgstr "Fehler <%d> beim Hochladen von »%s:%s«"
+msgstr "Fehler <%d> beim Hochladen von `%s:%s`"
 
 #: src/icesound.cc:511
 #, c-format
 msgid "Sample <%d> uploaded as `%s:%s'"
-msgstr "Sample <%d> wurde als »%s:%s« geladen"
+msgstr "Beispiel <%d> wurde als `%s:%s` hochgeladen"
 
 #: src/icesound.cc:569
 #, c-format
 msgid "Playing sample #%d: %d"
-msgstr "Spiele Sample #%d: %d"
+msgstr "Spiele Beispiel #%d: %d"
 
 #: src/icesound.cc:644
 #, c-format
@@ -764,12 +764,12 @@ msgstr "ao_play schlug fehl"
 #: src/icesound.cc:817
 #, c-format
 msgid "Unrecognized option: %s\n"
-msgstr "Unbekannte Fensteroption: %s\n"
+msgstr "Nicht erkannte Option: %s\n"
 
 #: src/icesound.cc:820 src/icesound.cc:1123
 #, c-format
 msgid "Unrecognized argument: %s\n"
-msgstr "Unbekanntes Argument: %s\n"
+msgstr "Nicht erkanntes Argument: %s\n"
 
 #: src/icesound.cc:829
 #, c-format
@@ -914,12 +914,12 @@ msgstr "Zu schnell; %s wird ignoriert."
 #: src/icesound.cc:1026
 #, c-format
 msgid "Support for the %s interface not compiled."
-msgstr "Die Unterstützung für das %s-Interface wurde nicht einkompiliert."
+msgstr "Die Unterstützung für das %s-Interface wurde nicht kompiliert."
 
 #: src/icesound.cc:1066
 #, c-format
 msgid "Unsupported interface: %s."
-msgstr "Nicht unterstütztes Audiointerface: %s."
+msgstr "Nicht unterstütztes Interface: %s."
 
 #: src/icesound.cc:1075
 #, c-format
@@ -964,7 +964,7 @@ msgstr "Strg+H"
 
 #: src/iceview.cc:69
 msgid "Expand Tabs"
-msgstr "Tabulator expandieren"
+msgstr "Tabs erweitern"
 
 #: src/iceview.cc:69
 msgid "Ctrl+T"
@@ -1088,7 +1088,7 @@ msgstr "Kann nicht starten, weil ein anderes icewmbg schon läuft."
 
 #: src/icewmhint.cc:41
 msgid "Usage: icewmhint [class.instance] option arg\n"
-msgstr "Syntax: icewmhint [klasse.instanz] option argument\n"
+msgstr "Verwendung: icewmhint [klasse.instanz] option argument\n"
 
 #: src/icewmhint.cc:77
 #, c-format
@@ -1110,7 +1110,7 @@ msgid ""
 "  -h, --help          Prints this usage screen and exits.\n"
 "\n"
 msgstr ""
-"Aufruf: %s [OPTIONEN]\n"
+"Verwendung: %s [OPTIONEN]\n"
 "Optionen:\n"
 "%s\n"
 "  -C, --copying       Gibt Lizenzinformationen aus und beendet.\n"
@@ -1153,7 +1153,7 @@ msgstr "Sprache:"
 
 #: src/wmabout.cc:67
 msgid "icewm - About"
-msgstr "IceWM - Produktinformation"
+msgstr "IceWM - Über"
 
 #
 #: src/wmapp.cc:105
@@ -1179,7 +1179,7 @@ msgstr "Der aktuelle Fontpfad kann nicht bestimmt werden."
 
 #: src/wmapp.cc:445
 msgid "Unexpected format of ICEWM_FONT_PATH property"
-msgstr "Unerwartetes Format der ICEWM_FONT_PATH-Fenstereigenschaft"
+msgstr "Unerwartetes Format der ICEWM_FONT_PATH-Property"
 
 # OS/2 is dead, but... ;-)
 #: src/wmapp.cc:523
@@ -1196,7 +1196,7 @@ msgstr "Arbeitsplatz _sperren"
 
 #: src/wmapp.cc:533 src/wmdialog.cc:91
 msgid "Re_boot"
-msgstr "_Warmstart"
+msgstr "_Neustart"
 
 #: src/wmapp.cc:535 src/wmdialog.cc:92
 msgid "Shut_down"
@@ -1220,7 +1220,7 @@ msgstr "_Menü"
 
 #: src/wmapp.cc:558
 msgid "_Above Dock"
-msgstr "_Über dem Dock"
+msgstr "_Über  Dock"
 
 #: src/wmapp.cc:559
 msgid "_Dock"
@@ -1228,7 +1228,7 @@ msgstr "_Dock"
 
 #: src/wmapp.cc:560
 msgid "_OnTop"
-msgstr "_Schwebend"
+msgstr "_Obenauf"
 
 #: src/wmapp.cc:561
 msgid "_Normal"
@@ -1236,7 +1236,7 @@ msgstr "_Normal"
 
 #: src/wmapp.cc:562
 msgid "_Below"
-msgstr "_Tiefer"
+msgstr "_Darunter"
 
 #: src/wmapp.cc:563
 msgid "D_esktop"
@@ -1252,7 +1252,7 @@ msgstr "_Verschieben"
 
 #: src/wmapp.cc:592
 msgid "_Size"
-msgstr "_Größe ändern"
+msgstr "_Größe"
 
 #: src/wmapp.cc:594
 msgid "Mi_nimize"
@@ -1272,7 +1272,7 @@ msgstr "Vers_tecken"
 
 #: src/wmapp.cc:603
 msgid "Roll_up"
-msgstr "Ein_rollen"
+msgstr "Auf_rollen"
 
 #: src/wmapp.cc:610
 msgid "R_aise"
@@ -1288,11 +1288,11 @@ msgstr "_Ebene"
 
 #: src/wmapp.cc:618 src/wmwinlist.cc:303
 msgid "Move _To"
-msgstr "Verschieben na_ch"
+msgstr "Verschieben _nach"
 
 #: src/wmapp.cc:619
 msgid "Occupy _All"
-msgstr "Auf _allen Arbeitsbereichen"
+msgstr "_Alles Belegen"
 
 #: src/wmapp.cc:625
 msgid "Limit _Workarea"
@@ -1300,7 +1300,7 @@ msgstr "_Beschränke Arbeitsfläche"
 
 #: src/wmapp.cc:629
 msgid "Tray _icon"
-msgstr "Tray_icon"
+msgstr "Tray_Icon"
 
 #: src/wmapp.cc:634 src/wmwinlist.cc:290 src/wmwinlist.cc:314
 msgid "_Close"
@@ -1308,7 +1308,7 @@ msgstr "_Schließen"
 
 #: src/wmapp.cc:636 src/wmwinlist.cc:292
 msgid "_Kill Client"
-msgstr "Anwendung ab_würgen"
+msgstr "Anwendung _töten"
 
 #: src/wmapp.cc:639 src/wmdialog.cc:93 src/wmwinmenu.cc:131
 msgid "_Window list"
@@ -1317,7 +1317,7 @@ msgstr "_Fensterliste"
 #
 #: src/wmapp.cc:652
 msgid "Another window manager already running, exiting..."
-msgstr "Ein anderer Fenstermanager ist bereits aktiv, breche ab..."
+msgstr "Ein anderer Fenstermanager ist bereits aktiv, beenden..."
 
 #: src/wmapp.cc:729
 #, c-format
@@ -1325,8 +1325,8 @@ msgid ""
 "Could not restart: %s\n"
 "Does $PATH lead to %s?"
 msgstr ""
-"Der Neustart ist fehlgeschlagen: %s\n"
-"Verweist die Variable »PATH« auf das Programm »%s«?"
+"Neustart fehlgeschlagen: %s\n"
+"Verweist die Variable $PATH auf das Programm %s?"
 
 #: src/wmapp.cc:811
 msgid "Kill IceWM, replace with Xterm"
@@ -1393,7 +1393,7 @@ msgid ""
 "%s\n"
 "\n"
 msgstr ""
-"Syntax: %s [OPTIONEN]\n"
+"Verwendung: %s [OPTIONEN]\n"
 "Startet den IceWM Fenstermanager.\n"
 "\n"
 "Optionen:\n"
@@ -1495,20 +1495,20 @@ msgstr "IceWM _neu starten"
 #: src/wmdialog.cc:95 src/wmprog.cc:969 src/wmtaskbar.cc:289
 #: src/wmtaskbar.cc:292
 msgid "_About"
-msgstr "Produkt_information"
+msgstr "_Über"
 
 #
 #: src/wmframe.cc:1425
 msgid "Kill Client: "
-msgstr "Abwürgen von: "
+msgstr "Client töten: "
 
 #: src/wmframe.cc:1432
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
 msgstr ""
-"ACHTUNG! Alle nicht gesicherten Änderungen werden\n"
-"beim Abwürgen der Anwendung verloren gehen!\n"
+"WARNUNG! Alle nicht gesicherten Änderungen werden\n"
+"beim Töten der Anwendung verloren gehen!\n"
 "Wünschen Sie trotzdem fortzufahren?"
 
 #: src/wmframe.cc:3028
@@ -1521,7 +1521,7 @@ msgstr "Maximieren"
 
 #: src/wmframe.cc:3061
 msgid "Rolldown"
-msgstr "Ausrollen"
+msgstr "Herunterrollen"
 
 #: src/wmframe.cc:3063 src/wmtitle.cc:136
 msgid "Rollup"
@@ -1544,7 +1544,7 @@ msgstr "Fehlendes Argument für Kommandozeilenparameter"
 #: src/wmprog.cc:201
 #, c-format
 msgid "Bad argument %d to command '%s'"
-msgstr "Ungültiges Argument %d  zum Befehl '%s'"
+msgstr "Schlechtes Argument %d  zum Befehl '%s'"
 
 #: src/wmprog.cc:316
 msgid "Missing filename argument to include statement"
@@ -1596,23 +1596,23 @@ msgstr "'%s' produziert keine Ausgabe"
 
 #: src/wmprog.cc:856
 msgid "_Click to focus"
-msgstr "durch _Klicken, mit Hervorheben"
+msgstr "_Klick auf Fokus"
 
 #: src/wmprog.cc:857
 msgid "_Explicit focus"
-msgstr "durch _Klicken"
+msgstr "_Expliziter Fokus"
 
 #: src/wmprog.cc:858
 msgid "_Sloppy mouse focus"
-msgstr "folgt _Maus"
+msgstr "_Schlechter Maus-Fokus"
 
 #: src/wmprog.cc:859
 msgid "S_trict mouse focus"
-msgstr "folgt _Maus, mit Hervorheben"
+msgstr "G_enauer Maus-Fokus"
 
 #: src/wmprog.cc:860
 msgid "_Quiet sloppy focus"
-msgstr "folgt _Maus (passiv)"
+msgstr "_Leicht schlechter Fokus"
 
 #: src/wmprog.cc:861
 msgid "Custo_m"
@@ -1656,7 +1656,7 @@ msgstr "_Fokus"
 
 #: src/wmprog.cc:993
 msgid "_Themes"
-msgstr "_Motive"
+msgstr "_Themes"
 
 #: src/wmprog.cc:998
 msgid "Se_ttings"
@@ -1685,15 +1685,15 @@ msgstr "_Überlappend anordnen"
 
 #: src/wmtaskbar.cc:272 src/wmwinlist.cc:308 src/wmwinlist.cc:321
 msgid "_Arrange"
-msgstr "_Optimal anordnen"
+msgstr "_Ordnen"
 
 #: src/wmtaskbar.cc:273 src/wmwinlist.cc:310 src/wmwinlist.cc:322
 msgid "_Minimize All"
-msgstr "Alle _minimieren"
+msgstr "Alle _Minimieren"
 
 #: src/wmtaskbar.cc:274 src/wmwinlist.cc:311 src/wmwinlist.cc:323
 msgid "_Hide All"
-msgstr "Alle _verstecken"
+msgstr "Alle _Verstecken"
 
 #: src/wmtaskbar.cc:275 src/wmwinlist.cc:312 src/wmwinlist.cc:324
 msgid "_Undo"
@@ -1713,11 +1713,11 @@ msgstr "_Lizenz"
 
 #: src/wmtaskbar.cc:403
 msgid "Favorite applications"
-msgstr "Häufig benutzte Anwendungen"
+msgstr "Favorisierte Anwendungen"
 
 #: src/wmtaskbar.cc:420
 msgid "Window list menu"
-msgstr "Fensterliste"
+msgstr "Fensterlisten-Menü"
 
 #: src/wmtaskbar.cc:429
 msgid "Show Desktop"
@@ -1746,11 +1746,11 @@ msgstr "Entf"
 
 #: src/wmwinlist.cc:294
 msgid "_Terminate Process"
-msgstr "Prozeß be_enden"
+msgstr "Prozess be_enden"
 
 #: src/wmwinlist.cc:295
 msgid "Kill _Process"
-msgstr "Prozeß ab_brechen"
+msgstr "Prozess _töten"
 
 #: src/wmwinlist.cc:300
 msgid "_Show"
@@ -1772,7 +1772,7 @@ msgstr "%lu. Arbeitsbereich %-.32s"
 #: src/yapp.cc:276
 #, c-format
 msgid "%s: select failed"
-msgstr "%s: select gescheitert"
+msgstr "%s: Auswahl fehlgeschlagen"
 
 #: src/yconfig.cc:139
 #, c-format
@@ -1782,77 +1782,75 @@ msgstr "Unbekanntes Tastensymbol %s in %s"
 #: src/yconfig.cc:165 src/yconfig.cc:178 src/yconfig.cc:191
 #, c-format
 msgid "Bad argument: %s for %s"
-msgstr "Ungültiges argument: %s für %s"
+msgstr "Schlechtes Argument: %s für %s"
 
 #: src/yconfig.cc:224
 #, c-format
 msgid "Bad option: %s"
-msgstr "Ungültige Option: %s"
+msgstr "Schlechte Option: %s"
 
 #: src/ycursor.cc:101
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
-msgstr "Laden der Bilddatei »%s« fehlgeschlagen: %s"
+msgstr "Laden der Bilddatei \"%s\" fehlgeschlagen: %s"
 
 #: src/ycursor.cc:126
 #, c-format
 msgid "Loading of pixmap \"%s\" failed"
-msgstr "Laden der Bilddatei »%s« fehlgeschlagen"
+msgstr "Laden der Bilddatei \"%s\" fehlgeschlagen"
 
 #: src/ycursor.cc:159
 #, c-format
 msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
-msgstr "Ungültiges Cursorpixmap: »%s« enthält zu viele unterschiedliche Farben"
+msgstr ""
+"Ungültiges Cursor-Bilddatei: \"%s\" enthält zu viele einzigartige Farben"
 
 #: src/ycursor.cc:181
 #, c-format
 msgid "BUG? Imlib was able to read \"%s\""
-msgstr "BUG? Imlib war in der Lage »%s« zu lesen"
+msgstr "BUG? Imlib war in der Lage \"%s\" zu lesen"
 
 #: src/ycursor.cc:207
 #, c-format
 msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
-msgstr ""
-"BUG? Fehlerhafter XPM-Header (Imlib konnte die Datei »%s« aber "
-"interpretieren)"
+msgstr "BUG? Fehlerhafter XPM-Header, aberImlib konnte die Datei \"%s\" parsen"
 
 #: src/ycursor.cc:215
 #, c-format
 msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
 msgstr ""
-"BUG? Unerwartetes Ende der XPM-Datei (Imlib konnte die Datei »%s« aber "
-"interpretieren)"
+"BUG? Unerwartetes Ende der XPM-Datei, aber Imlib konnte die Datei \"%s\" "
+"parsen"
 
 #: src/ycursor.cc:218
 #, c-format
 msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
-msgstr ""
-"BUG? Unerwartetes Zeichen, aber Imlib konnte die Datei \"%s\"  interpretieren"
+msgstr "BUG? Unerwartetes Zeichen, aber Imlib konnte die Datei \"%s\"  parsen"
 
 #: src/yfontcore.cc:71 src/yfontxft.cc:176
 #, c-format
 msgid "Could not load font \"%s\"."
-msgstr "Die Schriftart »%s« konnte nicht geladen werden."
+msgstr "Die Schriftart \"%s\" konnte nicht geladen werden."
 
 #: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:199
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
-msgstr "Rückgriff auf die Schriftart »%s« ist fehlgeschlagen."
+msgstr "Rückgriff auf die Schriftart \"%s\" ist fehlgeschlagen."
 
 #: src/yfontcore.cc:114
 #, c-format
 msgid "Could not load fontset \"%s\"."
-msgstr "Schriftfamilie »%s« konnte nicht geladen werden."
+msgstr "Schriftsatz \"%s\" konnte nicht geladen werden."
 
 #: src/yfontcore.cc:126
 #, c-format
 msgid "Missing codesets for fontset \"%s\":"
-msgstr "Fehlende Zeichensätze in der Schriftfamilie »%s«:"
+msgstr "Fehlende Zeichensätze im Schriftsatz \"%s\":"
 
 #: src/yicon.cc:188
 #, c-format
 msgid "Out of memory for pixmap \"%s\""
-msgstr "Kein Speicher frei zum Laden der Pixmap »%s«"
+msgstr "Kein Speicher frei zum Laden der Bilddatei \"%s\""
 
 #: src/yinput.cc:34
 msgid "_Copy"
@@ -1897,15 +1895,15 @@ msgstr "Strg+A"
 #: src/ylocale.cc:46
 msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
 msgstr ""
-"Lokale wird von der C-Bibliothek nicht unterstützt. Es wird auf die »C«-"
-"Lokale zurückgegriffen."
+"Lokale wird von der C-Bibliothek nicht unterstützt. Es wird auf die lokale "
+"Variable 'C' zurückgegriffen."
 
 #: src/ylocale.cc:72
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
-"Die Kodierung der momentanen Lokale konnte nicht bestimmt werden. Es wird "
-"ISO-8859-1 angenommen.\n"
+"Die Kodierung der momentanen lokalen Variablen konnte nicht bestimmt werden. "
+"Es wird ISO-8859-1 angenommen.\n"
 
 #: src/ylocale.cc:104 src/ylocale.cc:111
 #, c-format
@@ -1916,7 +1914,7 @@ msgstr ""
 #: src/ylocale.cc:165
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
-msgstr "Ungültige Multibyte-Zeichenkette »%s«: %s"
+msgstr "Ungültige Multibyte-Zeichenkette \"%s\": %s"
 
 #: src/ymsgbox.cc:36
 msgid "_OK"
@@ -1925,7 +1923,7 @@ msgstr "_OK"
 #: src/ypaths.cc:95
 #, c-format
 msgid "Out of memory for image %s"
-msgstr "Kein Speicher frei fürs Bild »%s«"
+msgstr "Kein Speicher frei für das Bild %s"
 
 #: src/ypaths.cc:98
 #, c-format
@@ -1935,21 +1933,21 @@ msgstr "Bild nicht lesbar: %s"
 #: src/ypaths.cc:121
 #, c-format
 msgid "Could not find image %s"
-msgstr "Bild »%s« nicht gefunden"
+msgstr "Bild %s konnte nicht gefunden werden"
 
 #: src/ysmapp.cc:98
 msgid "$USER or $LOGNAME not set?"
-msgstr "Sind die Umgebungsvariablen $USER bzw. $LOGNAME gesetzt?"
+msgstr "Sind die Umgebungsvariablen $USER oder $LOGNAME nicht gesetzt?"
 
 #: src/yurl.cc:83
 #, c-format
 msgid "\"%s\" doesn't describe a common internet scheme"
-msgstr "»%s« entspricht nicht der Common Internet Scheme Syntax"
+msgstr "\"%s\" entspricht nicht dem Common Internet Scheme"
 
 #: src/yurl.cc:86
 #, c-format
 msgid "\"%s\" contains no scheme description"
-msgstr "»%s« enthält keine Schemabeschreibung"
+msgstr "\"%s\" enthält keine Schemabeschreibung"
 
 #: src/yxapp.cc:908
 msgid ""
