@@ -62,10 +62,14 @@
 #ifdef HAVE_SYS_IOCTL_H
 #include <unistd.h>
 #include <sys/ioctl.h>
+#else
+#undef ENABLE_OSS
 #endif
 
 #ifdef HAVE_SYS_SOUNDCARD_H
 #include <sys/soundcard.h>
+#else
+#undef ENABLE_OSS
 #endif
 
 #ifdef HAVE_SNDFILE_H
