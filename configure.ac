@@ -4,7 +4,6 @@
 AC_PREREQ([2.69])
 AC_INIT([icewm],[1.4.2],[https://github.com/bbidulock/icewm/issues])
 AC_REVISION([1.4.2])
-
 AC_CONFIG_SRCDIR([src/ysmapp.cc])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
@@ -332,9 +331,6 @@ if test "$enable_fribidi" != "no" && test "$enable_i18n" != "no"; then
 	[AC_MSG_WARN([FRIBIDI is not supported.])])
 fi
 
-AC_SUBST([GNOME1_CFLAGS])
-AC_SUBST([GNOME1_LIBS])
-
 AC_ARG_ENABLE([menus-gnome2],
     AC_HELP_STRING([--disable-menus-gnome2],[Disable display of GNOME 2 menus.]))
 if test x$enable_menus_gnome2 != xno; then
@@ -398,7 +394,6 @@ AC_SUBST([IMAGE_LIBS])
 
 AM_CONDITIONAL([BUILD_TESTS],[test x$BUILD_TESTS = xyes])
 AM_CONDITIONAL([BUILD_SOUND],[test x$BUILD_SOUND = xyes])
-AM_CONDITIONAL([BUILD_MENU_GNOME1],[test x$BUILD_MENU_GNOME1 = xyes])
 AM_CONDITIONAL([BUILD_MENU_GNOME2],[test x$BUILD_MENU_GNOME2 = xyes])
 AM_CONDITIONAL([BUILD_MENU_FDO],[test x$BUILD_MENU_FDO = xyes])
 
