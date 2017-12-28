@@ -6,11 +6,19 @@
 
 =head1 SYNOPSIS
 
-F<> F<$ICEWM_PRIVCFG/toolbar>
- F<$XDG_CONFIG_HOME/icewm/toolbar>
- F<$HOME/.icewm/toolbar>
- F</etc/icewm/toolbar>
- F</usr/share/icewm/toolbar>
+=over
+
+=item F<$ICEWM_PRIVCFG/toolbar>
+
+=item F<$XDG_CONFIG_HOME/icewm/toolbar>
+
+=item F<$HOME/.icewm/toolbar>
+
+=item F</etc/icewm/toolbar>
+
+=item F</usr/share/icewm/toolbar>
+
+=back
 
 =head1 DESCRIPTION
 
@@ -29,13 +37,17 @@ the user presses the icon in the toolbar.  For example, the following
 line in toolbar will create a button with tool tip C<Mozilla Firefox>
 with the F<firefox> icon which launches L<firefox(1)> when clicked:
 
- prog  "Mozilla Firefox"  firefox  /usr/bin/firefox --private-window
+    prog  "Mozilla Firefox"  firefox  /usr/bin/firefox --private-window
 
 =head1 FORMAT
 
 The format of the file contains one of the following line syntax:
 
+=over
+
 B<prog> B<">I<title>B<"> I<icon> I<program> I<options>
+
+=back
 
 Where,
 
@@ -75,14 +87,14 @@ blank lines are ignored.
 Following is an example that places a number of toolbar buttons on the
 L<icewm(1)> panel:
 
- prog "File Manager" file-manager.png pcmanfm
- prog "Web Browser" web-browser.png /usr/lib/firefox/firefox
- prog "Terminal" terminal.png roxterm
- prog "Graphical Editor" text-editor.png gvim -f
- prog "Calculator" accessories-calculator.png calculator
- prog "Run Command" gtk-execute.png xde-run
- prog "Network" gtk-network.png pcmanfm ~/Network
- prog "Logout" system-log-out.png xde-logout
+    prog "File Manager" file-manager.png pcmanfm
+    prog "Web Browser" web-browser.png /usr/lib/firefox/firefox
+    prog "Terminal" terminal.png roxterm
+    prog "Graphical Editor" text-editor.png gvim -f
+    prog "Calculator" accessories-calculator.png calculator
+    prog "Run Command" gtk-execute.png xde-run
+    prog "Network" gtk-network.png pcmanfm ~/Network
+    prog "Logout" system-log-out.png xde-logout
 
 =head1 FILES
 
