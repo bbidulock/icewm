@@ -6,11 +6,19 @@
 
 =head1 SYNOPSIS
 
-F<> F<$ICEWM_PRIVCFG/keys>
- F<$XDG_CONFIG_HOME/icewm/keys>
- F<$HOME/.icewm/keys>
- F</etc/icewm/keys>
- F</usr/share/icewm/keys>
+=over
+
+=item F<$ICEWM_PRIVCFG/keys>
+
+=item F<$XDG_CONFIG_HOME/icewm/keys>
+
+=item F<$HOME/.icewm/keys>
+
+=item F</etc/icewm/keys>
+
+=item F</usr/share/icewm/keys>
+
+=back
 
 =head1 DESCRIPTION
 
@@ -26,13 +34,21 @@ follows a shell command line which will be executed by B<icewm> whenever
 this key combination is pressed.  For example, the following line
 creates a hotkey to reload the B<icewm> configuration:
 
- key "Ctrl+Shift+r"      pkill -x -HUP icewm
+    key "Ctrl+Shift+r"      pkill -x -HUP icewm
 
 =head1 FORMAT
 
 The syntax of the F<keys> file is as follows:
 
-B<>    B<key> B<">I<key_combination>B<"> I<program> I<options>
+=over
+
+=over
+
+=item B<key> B<">I<key_combination>B<"> I<program> I<options>
+
+=back
+
+=back
 
 Where,
 
@@ -62,36 +78,36 @@ verbatim.
 
 Following is the example F<keys> file that ships with L<icewm(1)>:
 
- # This is an example for IceWM's hotkey definition file.
- #
- # Place your variants in @CFGDIR@ or in $HOME/.icewm
- # since modifications to this file will be discarded when
- # you (re)install icewm.
- #
- # A list of all valid keyboard symbols can be found in
- # /usr/include/X11/keysym.h, keysymdefs.h, XF86keysym.h,
- # ...  You'll have to omit XK_ prefixs and to replace
- # XF86XK_ prefixes by XF86. Valid modifiers are Alt,
- # Ctrl, Shift, Meta, Super and Hyper.
- #
- key "Alt+Ctrl+t" xterm
- key "Alt+Ctrl+b" xdg-open about:blank
- key "Alt+Ctrl+s" xdg-open http://www.google.com
- 
- key "Super+KP_Subtract" amixer sset PCM 5%-
- key "Super+KP_Add" amixer sset PCM 5%+
- 
- # "Multimedia key" bindings for XFree86. Gather the
- # keycodes of your advanced function keys by watching the
- # output of the xev command whilest pressing those keys
- # and map those symbols by using xmodmap.
- 
- key "XF86AudioLowerVolume" amixer sset PCM 5%-
- key "XF86AudioRaiseVolume" amixer sset PCM 5%+
- key "XF86AudioMute" amixer sset PCM 0%
- key "XF86HomePage" xdg-open about:blank
- key "XF86Search" xdg-open http://www.google.com
- key "XF86Eject" eject
+    # This is an example for IceWM's hotkey definition file.
+    #
+    # Place your variants in @CFGDIR@ or in $HOME/.icewm
+    # since modifications to this file will be discarded when
+    # you (re)install icewm.
+    #
+    # A list of all valid keyboard symbols can be found in
+    # /usr/include/X11/keysym.h, keysymdefs.h, XF86keysym.h,
+    # ...  You'll have to omit XK_ prefixs and to replace
+    # XF86XK_ prefixes by XF86. Valid modifiers are Alt,
+    # Ctrl, Shift, Meta, Super and Hyper.
+    #
+    key "Alt+Ctrl+t" xterm
+    key "Alt+Ctrl+b" xdg-open about:blank
+    key "Alt+Ctrl+s" xdg-open http://www.google.com
+    
+    key "Super+KP_Subtract" amixer sset PCM 5%-
+    key "Super+KP_Add" amixer sset PCM 5%+
+    
+    # "Multimedia key" bindings for XFree86. Gather the
+    # keycodes of your advanced function keys by watching the
+    # output of the xev command whilest pressing those keys
+    # and map those symbols by using xmodmap.
+    
+    key "XF86AudioLowerVolume" amixer sset PCM 5%-
+    key "XF86AudioRaiseVolume" amixer sset PCM 5%+
+    key "XF86AudioMute" amixer sset PCM 0%
+    key "XF86HomePage" xdg-open about:blank
+    key "XF86Search" xdg-open http://www.google.com
+    key "XF86Eject" eject
 
 =head1 FILES
 
