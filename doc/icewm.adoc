@@ -47,9 +47,8 @@ Either shared or separate for different workspaces.
 This program should be started before `icewm`.
 * *icewm-session* - The IceWM session manager runs all of the above.
 This is the preferred program to start IceWM.
-* *icewm-menu-fdo* and *icewm-menu-gnome2* -
-These generate IceWM program menus from
-FreeDesktop `.desktop` files (KDE/GNOME(2) menus).
+* *icewm-menu-fdo* -
+This generates IceWM program menus from FreeDesktop `.desktop` files.
 * *icewmhint* - Set IceWM hints by window class and instance.
 
 === Starting icewm
@@ -1031,7 +1030,6 @@ icewm-env(1),
 icewm-focus_mode(1),
 icewm-keys(1),
 icewm-menu-fdo(1),
-icewm-menu-gnome2(1),
 icewm-menu(1),
 icewm-preferences(1),
 icewm-prefoverride(1),
