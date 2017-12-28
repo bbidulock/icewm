@@ -332,35 +332,30 @@ AC_SUBST([GIO_CFLAGS])
 AC_SUBST([GIO_LIBS])
 
 AC_ARG_ENABLE([gdk-pixbuf],
-    AC_HELP_STRING([--disable-gdk-pixbuf],[Disabled gdk-pixbuf rendering.]))
-if test "x$enable_gdk_pixbuf" != xno ; then
+    AC_HELP_STRING([--enable-gdk-pixbuf],[Enable gdk-pixbuf rendering.
+	@<:@default=disabled@:>@]))
+if test "x$enable_gdk_pixbuf" = xyes ; then
     PKG_CHECK_MODULES([PIXBUF],[gdk-pixbuf-xlib-2.0],[
 	IMAGE_CFLAGS="$PIXBUF_CFLAGS"
 	IMAGE_LIBS="$PIXBUF_LIBS"
 	AC_DEFINE([CONFIG_GDK_PIXBUF_XLIB],[1],[Define to enable gdk-pixbuf rendering.])
-	image_library=gdk-pixbuf-xlib-2.0],[
-	enable_gdk_pixbuf=no
-	AC_MSG_WARN([gdk-pixbuf not supported.])])
-fi
-if test "x$enable_gdk_pixbuf" = xno; then
+	image_library=gdk-pixbuf-xlib-2.0])
+else
     PKG_CHECK_MODULES([XPM],[xpm],[
 	IMAGE_CFLAGS="$XPM_CFLAGS"
 	IMAGE_LIBS="$XPM_LIBS"
 	AC_DEFINE([CONFIG_XPM],[1],[Define to enable libxpm rendering.])
-	image_library=libxpm],[
-	AC_MSG_ERROR([libxpm not supported.])])
+	image_library=libxpm])
     PKG_CHECK_MODULES([LIBPNG],[libpng >= 1.6],[
 	IMAGE_CFLAGS="$LIBPNG_CFLAGS $IMAGE_CFLAGS"
 	IMAGE_LIBS="$LIBPNG_LIBS $IMAGE_LIBS"
 	AC_DEFINE([CONFIG_LIBPNG],[1],[Define to enable libpng rendering.])
-	image_library="$image_library libpng"],[
-	AC_MSG_WARN([libpng not supported.])])
+	image_library="$image_library libpng"])
     PKG_CHECK_MODULES([LIBJPEG],[libjpeg >= 1.0],[
         IMAGE_CFLAGS="$LIBJPEG_CFLAGS $IMAGE_CFLAGS"
         IMAGE_LIBS="$LIBJPEG_LIBS $IMAGE_LIBS"
         AC_DEFINE([CONFIG_LIBJPEG],[1],[Define to enable libjpeg rendering.])
-        image_library="$image_library libjpeg"],[
-        AC_MSG_WARN([libjpeg not supported.])])
+        image_library="$image_library libjpeg"])
 fi
 AC_SUBST([IMAGE_CFLAGS])
 AC_SUBST([IMAGE_LIBS])
