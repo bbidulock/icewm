@@ -6,11 +6,19 @@
 
 =head1 SYNOPSIS
 
-F<> F<$ICEWM_PRIVCFG/prefoverride>
- F<$XDG_CONFIG_HOME/icewm/prefoverride>
- F<$HOME/.icewm/prefoverride>
- F</etc/icewm/prefoverride>
- F</usr/share/icewm/prefoverride>
+=over
+
+=item F<$ICEWM_PRIVCFG/prefoverride>
+
+=item F<$XDG_CONFIG_HOME/icewm/prefoverride>
+
+=item F<$HOME/.icewm/prefoverride>
+
+=item F</etc/icewm/prefoverride>
+
+=item F</usr/share/icewm/prefoverride>
+
+=back
 
 =head1 DESCRIPTION
 
