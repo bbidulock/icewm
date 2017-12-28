@@ -87,23 +87,33 @@ EXTRA_DIST = \
 
 $(icewm_man1_htmls) $(extra_man1_htmls): %.1.html: %.pod
 	$(AM_V_GEN)pod2html \
+		--backlink \
+		--header \
+		--poderrors \
+		--index \
+		--podroot=$(top_builddir) \
+		--podpath=man \
 		--htmldir=$(docdir) \
 		--noindex \
 		--infile=$< \
-		--outfile=$@ \
 		--quiet \
-		--title="User Commands"
-	sed -r -i -e 's,http://man.he.net/man(.)/([^"]*),\2.\1.html,g' $@
+		--title="User Commands" | \
+		$(SED) -r -e 's,http://man.he.net/man(.)/([^"]*),\2.\1.html,g' >$@
 
 $(icewm_man5_htmls): %.5.html: %.pod
 	$(AM_V_GEN)pod2html \
+		--backlink \
+		--header \
+		--poderrors \
+		--index \
+		--podroot=$(top_builddir) \
+		--podpath=man \
 		--htmldir=$(docdir) \
 		--noindex \
 		--infile=$< \
-		--outfile=$@ \
 		--quiet \
-		--title="Standards, Environments and Macros"
-	sed -r -i -e 's,http://man.he.net/man(.)/([^"]*),\2.\1.html,g' $@
+		--title="Standards, Environments and Macros" | \
+		$(SED) -r -e 's,http://man.he.net/man(.)/([^"]*),\2.\1.html,g' >$@
 
 $(icewm_man1_files) $(extra_man1_files): %.man: %.pod
 	$(AM_V_GEN)pod2man --center="User Commands" \
