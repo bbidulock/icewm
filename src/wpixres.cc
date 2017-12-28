@@ -234,8 +234,8 @@ static const PixmapResource themePixRes[] = {
     PixmapResource(menuselPixmap, "menusel.xpm"),
     PixmapResource(menusepPixmap, "menusep.xpm"),
 
-    PixmapResource(listbackPixmap, "listbg.xpm", "menubg.xpm"),
-    PixmapResource(dialogbackPixmap, "dialogbg.xpm", "menubg.xpm"),
+    PixmapResource(listbackPixmap, "listbg.xpm"),
+    PixmapResource(dialogbackPixmap, "dialogbg.xpm"),
 };
 
 static const PixmapResource taskbarPixRes[] = {
@@ -429,9 +429,11 @@ static void replicatePixmaps() {
 }
 
 static void copyPixmaps() {
-    if (listbackPixbuf == null && listbackPixmap == null)
+    if (listbackPixbuf == null && listbackPixmap == null
+            && menubackPixbuf == null)
         listbackPixmap = menubackPixmap;
-    if (dialogbackPixbuf == null && dialogbackPixmap == null)
+    if (dialogbackPixbuf == null && dialogbackPixmap == null
+            && menubackPixbuf == null)
         dialogbackPixmap = menubackPixmap;
     if (toolbuttonPixbuf == null && toolbuttonPixmap == null)
     {
