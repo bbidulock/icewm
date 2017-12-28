@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.15pre3\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-12-16 04:21+0100\n"
+"POT-Creation-Date: 2017-12-27 23:29-0700\n"
 "PO-Revision-Date: 2017-12-03 02:02+0000\n"
 "Last-Translator: Antoine Belvire <antoine.belvire@laposte.net>\n"
 "Language-Team: French <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -19,25 +19,30 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 2.17.1\n"
 
-#: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:680 src/aapm.cc:805
+#: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:681 src/aapm.cc:806
 msgid " - Power"
 msgstr " - Courant"
 
-#: src/aapm.cc:179 src/aapm.cc:462 src/aapm.cc:683
+#: src/aapm.cc:179 src/aapm.cc:462 src/aapm.cc:684
 msgid "P"
 msgstr "C"
 
-#: src/aapm.cc:183 src/aapm.cc:436 src/aapm.cc:663 src/aapm.cc:773
+#: src/aapm.cc:183 src/aapm.cc:436 src/aapm.cc:664 src/aapm.cc:774
 msgid " - Charging"
 msgstr " - En charge"
 
-#: src/aapm.cc:185 src/aapm.cc:438 src/aapm.cc:665
+#: src/aapm.cc:185 src/aapm.cc:438 src/aapm.cc:666
 msgid "C"
 msgstr "C"
 
 #: src/aapm.cc:440
 msgid " - Full"
 msgstr " - Plein"
+
+#: src/aapm.cc:999
+#, c-format
+msgid "power:\t%s"
+msgstr ""
 
 #: src/acpustatus.cc:196
 #, c-format
@@ -209,63 +214,63 @@ msgstr ""
 msgid "Workspace: "
 msgstr "Bureau : "
 
-#: src/fdomenu.cc:74
+#: src/fdomenu.cc:79
 msgid "Accessibility"
 msgstr "Accessibilité"
 
-#: src/fdomenu.cc:75
+#: src/fdomenu.cc:80
 msgid "Settings"
 msgstr "Paramètres"
 
-#: src/fdomenu.cc:76
+#: src/fdomenu.cc:81
 msgid "Screensavers"
 msgstr "Économiseurs d'écran"
 
-#: src/fdomenu.cc:77
+#: src/fdomenu.cc:82
 msgid "Accessories"
 msgstr "Accessoires"
 
-#: src/fdomenu.cc:78
+#: src/fdomenu.cc:83
 msgid "Development"
 msgstr "Développement"
 
-#: src/fdomenu.cc:79
+#: src/fdomenu.cc:84
 msgid "Education"
 msgstr "Éducation"
 
-#: src/fdomenu.cc:80
+#: src/fdomenu.cc:85
 msgid "Games"
 msgstr "Jeux"
 
-#: src/fdomenu.cc:81
+#: src/fdomenu.cc:86
 msgid "Graphics"
 msgstr "Graphiques"
 
-#: src/fdomenu.cc:82
+#: src/fdomenu.cc:87
 msgid "Multimedia"
 msgstr "Multimédia"
 
-#: src/fdomenu.cc:83
+#: src/fdomenu.cc:88
 msgid "Network"
 msgstr "Réseau"
 
-#: src/fdomenu.cc:84
+#: src/fdomenu.cc:89
 msgid "Office"
 msgstr "Bureautique"
 
-#: src/fdomenu.cc:85
+#: src/fdomenu.cc:90
 msgid "System"
 msgstr "Système"
 
-#: src/fdomenu.cc:86
+#: src/fdomenu.cc:91
 msgid "WINE"
 msgstr "WINE"
 
-#: src/fdomenu.cc:87
+#: src/fdomenu.cc:92
 msgid "Editors"
 msgstr "Éditeurs"
 
-#: src/fdomenu.cc:88
+#: src/fdomenu.cc:93
 msgid "Other"
 msgstr "Autre"
 
@@ -577,7 +582,7 @@ msgstr "Paramètre incorrect : \"%s\"."
 msgid "No actions specified."
 msgstr "Aucune action spécifiée."
 
-#: src/icesh.cc:708 src/icesound.cc:938 src/icewmhint.cc:88 src/yxapp.cc:951
+#: src/icesh.cc:708 src/icesound.cc:945 src/icewmhint.cc:88 src/yxapp.cc:944
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
@@ -631,99 +636,99 @@ msgstr "%s s'est terminé avec le statut %d."
 msgid "%s was killed by signal %d."
 msgstr "%s a été terminé par le signal %d."
 
-#: src/icesound.cc:212 src/icesound.cc:320 src/icesound.cc:624
+#: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
 #, c-format
 msgid "Playing sample #%d (%s)"
 msgstr "Lecture du son n°%d (%s)"
 
-#: src/icesound.cc:330
+#: src/icesound.cc:337
 #, c-format
 msgid "%s: Invalid number of channels"
 msgstr "%s : nombre de canaux non valide"
 
-#: src/icesound.cc:336 src/icesound.cc:341
+#: src/icesound.cc:343 src/icesound.cc:348
 msgid "Could not set OSS channels"
 msgstr "Impossible de définir les canaux OSS"
 
-#: src/icesound.cc:346 src/icesound.cc:374
+#: src/icesound.cc:353 src/icesound.cc:381
 msgid "Could not sync OSS"
 msgstr "Impossible de synchroniser OSS"
 
-#: src/icesound.cc:358
+#: src/icesound.cc:365
 msgid "OSS write failed"
 msgstr ""
 
-#: src/icesound.cc:362
+#: src/icesound.cc:369
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
 msgstr ""
 
-#: src/icesound.cc:369
+#: src/icesound.cc:376
 #, fuzzy
 msgid "Could not post OSS"
 msgstr "Impossible de charger le jeu de police \"%s\"."
 
-#: src/icesound.cc:398
+#: src/icesound.cc:405
 #, c-format
 msgid "Could not open OSS device %s"
 msgstr "Impossible d'ouvrir le périphérique OSS %s"
 
-#: src/icesound.cc:403
+#: src/icesound.cc:410
 msgid "Could not set OSS stereo"
 msgstr "Impossible de définir la stéréo OSS"
 
-#: src/icesound.cc:408
+#: src/icesound.cc:415
 msgid "Could not reset OSS DSP"
 msgstr ""
 
-#: src/icesound.cc:413
+#: src/icesound.cc:420
 msgid "Could not set OSS format"
 msgstr "Impossible de définir le format OSS"
 
-#: src/icesound.cc:486
+#: src/icesound.cc:493
 #, c-format
 msgid "Can't connect to ESound daemon: %s"
 msgstr "Échec de connexion au démon ESound : %s"
 
-#: src/icesound.cc:487 src/icewmhint.cc:90 src/yxapp.cc:952
+#: src/icesound.cc:494 src/icewmhint.cc:90 src/yxapp.cc:945
 msgid "<none>"
 msgstr "<aucun>"
 
-#: src/icesound.cc:505
+#: src/icesound.cc:512
 #, c-format
 msgid "Error <%d> while uploading `%s:%s'"
 msgstr "Erreur <%d> pendant le chargement de \"%s:%s\""
 
-#: src/icesound.cc:511
+#: src/icesound.cc:518
 #, c-format
 msgid "Sample <%d> uploaded as `%s:%s'"
 msgstr "Son <%d> chargé, correspond à \"%s:%s\""
 
-#: src/icesound.cc:569
+#: src/icesound.cc:576
 #, c-format
 msgid "Playing sample #%d: %d"
 msgstr "Lecture du son #%d : %d"
 
-#: src/icesound.cc:644
+#: src/icesound.cc:651
 #, c-format
 msgid "ao_open_live failed with %d"
 msgstr "ao_open_live a échoué avec %d"
 
-#: src/icesound.cc:655
+#: src/icesound.cc:662
 msgid "ao_play failed"
 msgstr "ao_play a échoué"
 
-#: src/icesound.cc:817
+#: src/icesound.cc:824
 #, c-format
 msgid "Unrecognized option: %s\n"
 msgstr "Option inconnue : %s\n"
 
-#: src/icesound.cc:820 src/icesound.cc:1123
+#: src/icesound.cc:827 src/icesound.cc:1130
 #, c-format
 msgid "Unrecognized argument: %s\n"
 msgstr "Paramètre inconnu : %s\n"
 
-#: src/icesound.cc:829
+#: src/icesound.cc:836
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
@@ -815,51 +820,51 @@ msgstr ""
 "3 : erreur sous-systèmes (par exemple, connexion au serveur impossible).\n"
 "\n"
 
-#: src/icesound.cc:923
+#: src/icesound.cc:930
 #, c-format
 msgid "No audio for %s"
 msgstr "Pas d'audio pour %s"
 
-#: src/icesound.cc:1000
+#: src/icesound.cc:1007
 msgid "Could not get GUI event property"
 msgstr ""
 
-#: src/icesound.cc:1004
+#: src/icesound.cc:1011
 #, c-format
 msgid "Received invalid GUI event %d"
 msgstr "Réception d'un événement GUI non valide %d"
 
-#: src/icesound.cc:1008
+#: src/icesound.cc:1015
 #, c-format
 msgid "Received GUI event %s"
 msgstr "Réception d'un événement GUI %s"
 
-#: src/icesound.cc:1022
+#: src/icesound.cc:1029
 #, c-format
 msgid "Too quick; ignoring %s."
 msgstr ""
 
-#: src/icesound.cc:1026
+#: src/icesound.cc:1033
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr "Support pour l'interface %s non compilé."
 
-#: src/icesound.cc:1066
+#: src/icesound.cc:1073
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr "Interface %s non supportée."
 
-#: src/icesound.cc:1075
+#: src/icesound.cc:1082
 #, c-format
 msgid "Using %s audio."
 msgstr ""
 
-#: src/icesound.cc:1079
+#: src/icesound.cc:1086
 #, fuzzy, c-format
 msgid "Failed to connect to audio interfaces %s."
 msgstr "Échec de chargement du thème %s"
 
-#: src/icesound.cc:1091
+#: src/icesound.cc:1098
 #, c-format
 msgid "Received signal %s: Terminating..."
 msgstr "Réception du signal %s : terminaison..."
@@ -903,7 +908,7 @@ msgstr "Ctrl+W"
 msgid "Failed to load image '%s'."
 msgstr "Échec du chargement de l'image '%s'."
 
-#: src/icewmbg.cc:697
+#: src/icewmbg.cc:703
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -950,11 +955,11 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/icewmbg.cc:744
+#: src/icewmbg.cc:750
 msgid "Please note that not all options are currently configured.\n"
 msgstr "Veuillez noter que toutes les options ne sont pas configurées.\n"
 
-#: src/icewmbg.cc:890
+#: src/icewmbg.cc:896
 msgid "Cannot start, because another icewmbg is still running."
 msgstr ""
 "Impossible de démarrer, parce qu'une autre instance d'icewmbg est en cours "
@@ -969,11 +974,11 @@ msgstr "Utilisation : icewmhint [classe.instance] option paramètre\n"
 msgid "Out of memory (len=%d)."
 msgstr "Plus de mémoire (len=%d)."
 
-#: src/misc.cc:436 src/misc.cc:448
+#: src/misc.cc:439 src/misc.cc:451
 msgid "Warning: "
 msgstr "Attention : "
 
-#: src/misc.cc:717
+#: src/misc.cc:720
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1188,7 +1193,7 @@ msgstr "_Liste des fenêtres"
 msgid "Another window manager already running, exiting..."
 msgstr "Un gestionnaire de fenêtre tourne déjà. Terminaison ..."
 
-#: src/wmapp.cc:729
+#: src/wmapp.cc:737
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1197,23 +1202,23 @@ msgstr ""
 "Impossible de relancer \"%s\"\n"
 "$PATH mène-t-il à \"%s\" ?"
 
-#: src/wmapp.cc:811
+#: src/wmapp.cc:819
 msgid "Kill IceWM, replace with Xterm"
 msgstr ""
 
-#: src/wmapp.cc:1322
+#: src/wmapp.cc:1330
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 
-#: src/wmapp.cc:1328
+#: src/wmapp.cc:1336
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
 "  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
 
-#: src/wmapp.cc:1336
+#: src/wmapp.cc:1344
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1221,7 +1226,7 @@ msgid ""
 "  --postpreferences   Print preferences after all processing.\n"
 msgstr ""
 
-#: src/wmapp.cc:1341
+#: src/wmapp.cc:1349
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1253,26 +1258,26 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/wmapp.cc:1402
+#: src/wmapp.cc:1410
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr ""
 
-#: src/wmapp.cc:1478
+#: src/wmapp.cc:1489
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s options configurées : %s\n"
 
-#: src/wmapp.cc:1525
+#: src/wmapp.cc:1536
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Option non reconnue '%s'."
 
-#: src/wmapp.cc:1556
+#: src/wmapp.cc:1567
 msgid "Confirm Logout"
 msgstr "Confirmer la déconnexion"
 
-#: src/wmapp.cc:1557
+#: src/wmapp.cc:1568
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1313,7 +1318,7 @@ msgstr "_Verrouiller l'écran"
 msgid "_Cancel"
 msgstr "A_nnuler"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:1004 src/wmprog.cc:1006
+#: src/wmdialog.cc:90 src/wmprog.cc:1040 src/wmprog.cc:1042
 #: src/wmtaskbar.cc:296 src/wmtaskbar.cc:298
 msgid "_Logout..."
 msgstr "_Déconnexion ..."
@@ -1322,7 +1327,7 @@ msgstr "_Déconnexion ..."
 msgid "_Restart icewm"
 msgstr "_Redémarrer IceWM"
 
-#: src/wmdialog.cc:95 src/wmprog.cc:969 src/wmtaskbar.cc:289
+#: src/wmdialog.cc:95 src/wmprog.cc:1005 src/wmtaskbar.cc:289
 #: src/wmtaskbar.cc:292
 msgid "_About"
 msgstr "À _propos"
@@ -1375,117 +1380,117 @@ msgstr "Paramètre de commande manquant"
 msgid "Bad argument %d to command '%s'"
 msgstr "Argument invalide %d pour la commande '%s'"
 
-#: src/wmprog.cc:316
+#: src/wmprog.cc:342
 msgid "Missing filename argument to include statement"
 msgstr ""
 
-#: src/wmprog.cc:382
+#: src/wmprog.cc:408
 #, c-format
 msgid "Error at %s '%s'"
 msgstr "Erreur à %s '%s'"
 
-#: src/wmprog.cc:429
+#: src/wmprog.cc:465
 #, c-format
 msgid "Unexepected menu keyword: '%s'"
 msgstr "Mot-clé de menu inattendu : %s"
 
-#: src/wmprog.cc:473
+#: src/wmprog.cc:509
 #, fuzzy, c-format
 msgid "Error at menuprog '%s'"
 msgstr "Erreur à la directive prog \"%s\""
 
-#: src/wmprog.cc:512
+#: src/wmprog.cc:548
 #, c-format
 msgid "Error at %s: '%s'"
 msgstr "Erreur à %s : '%s'"
 
-#: src/wmprog.cc:535
+#: src/wmprog.cc:571
 #, c-format
 msgid "Unknown keyword '%s'"
 msgstr "Mot-clé inconnu '%s'"
 
-#: src/wmprog.cc:560
+#: src/wmprog.cc:596
 #, fuzzy, c-format
 msgid "Error at keyword '%s' for %s"
 msgstr "Erreur à la directive key %s"
 
-#: src/wmprog.cc:576
+#: src/wmprog.cc:612
 #, c-format
 msgid ""
 "Unknown keyword for a non-container: '%s'.\n"
 "Expected either 'key' or 'runonce' here.\n"
 msgstr ""
 
-#: src/wmprog.cc:708
+#: src/wmprog.cc:744
 #, c-format
 msgid "'%s' produces no output"
 msgstr ""
 
-#: src/wmprog.cc:856
+#: src/wmprog.cc:892
 msgid "_Click to focus"
 msgstr "_Cliquer pour prendre le focus"
 
-#: src/wmprog.cc:857
+#: src/wmprog.cc:893
 msgid "_Explicit focus"
 msgstr "Focus _explicite"
 
-#: src/wmprog.cc:858
+#: src/wmprog.cc:894
 msgid "_Sloppy mouse focus"
 msgstr ""
 
-#: src/wmprog.cc:859
+#: src/wmprog.cc:895
 msgid "S_trict mouse focus"
 msgstr "Focus souris s_trict"
 
-#: src/wmprog.cc:860
+#: src/wmprog.cc:896
 msgid "_Quiet sloppy focus"
 msgstr ""
 
-#: src/wmprog.cc:861
+#: src/wmprog.cc:897
 msgid "Custo_m"
 msgstr "_Personnalisé"
 
-#: src/wmprog.cc:883
+#: src/wmprog.cc:919
 msgid "_Manual"
 msgstr "_Manuel"
 
-#: src/wmprog.cc:884
+#: src/wmprog.cc:920
 msgid "_Icewm(1)"
 msgstr "_Icewm(1)"
 
-#: src/wmprog.cc:885
+#: src/wmprog.cc:921
 msgid "Icewm_Bg(1)"
 msgstr "Icewm_Bg(1)"
 
-#: src/wmprog.cc:886
+#: src/wmprog.cc:922
 msgid "Ice_Sound(1)"
 msgstr "Ice_Sound(1)"
 
-#: src/wmprog.cc:948
+#: src/wmprog.cc:984
 msgid "Programs"
 msgstr "Programmes"
 
-#: src/wmprog.cc:953
+#: src/wmprog.cc:989
 msgid "_Run..."
 msgstr "_Exécuter ..."
 
-#: src/wmprog.cc:958 src/wmtaskbar.cc:279
+#: src/wmprog.cc:994 src/wmtaskbar.cc:279
 msgid "_Windows"
 msgstr "_Fenêtres"
 
-#: src/wmprog.cc:975
+#: src/wmprog.cc:1011
 msgid "_Help"
 msgstr "_Aide"
 
-#: src/wmprog.cc:986
+#: src/wmprog.cc:1022
 msgid "_Focus"
 msgstr "_Focus"
 
-#: src/wmprog.cc:993
+#: src/wmprog.cc:1029
 msgid "_Themes"
 msgstr "_Thèmes"
 
-#: src/wmprog.cc:998
+#: src/wmprog.cc:1034
 msgid "Se_ttings"
 msgstr "_Réglages"
 
@@ -1671,49 +1676,44 @@ msgstr "Impossible de charger le jeu de police \"%s\"."
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "Encodage absent pour le jeu de police \"%s\" : "
 
-#: src/yicon.cc:188
-#, c-format
-msgid "Out of memory for pixmap \"%s\""
-msgstr "Plus de mémoire pour le pixmap \"%s\""
-
-#: src/yinput.cc:34
+#: src/yinput.cc:38
 msgid "_Copy"
 msgstr "_Copier"
 
-#: src/yinput.cc:34
+#: src/yinput.cc:38
 msgid "Ctrl+C"
 msgstr "Ctrl+C"
 
-#: src/yinput.cc:36
+#: src/yinput.cc:40
 msgid "Cu_t"
 msgstr "Cou_per"
 
-#: src/yinput.cc:36
+#: src/yinput.cc:40
 msgid "Ctrl+X"
 msgstr "Ctrl+X"
 
-#: src/yinput.cc:38
+#: src/yinput.cc:42
 msgid "_Paste"
 msgstr "Co_ller"
 
-#: src/yinput.cc:38
+#: src/yinput.cc:42
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#: src/yinput.cc:40
+#: src/yinput.cc:44
 msgid "Paste _Selection"
 msgstr "Coller la _sélection"
 
-#: src/yinput.cc:40
+#: src/yinput.cc:44
 #, fuzzy
 msgid "Ctrl+P"
 msgstr "Ctrl+Q"
 
-#: src/yinput.cc:43
+#: src/yinput.cc:47
 msgid "Select _All"
 msgstr "T_out sélectionner"
 
-#: src/yinput.cc:43
+#: src/yinput.cc:47
 msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
@@ -1773,11 +1773,14 @@ msgstr "\"%s\" n'est pas un format Internet standard"
 msgid "\"%s\" contains no scheme description"
 msgstr "\"%s\" ne contient pas de description de protocole"
 
-#: src/yxapp.cc:908
+#: src/yxapp.cc:904
 msgid ""
 "  -d, --display=NAME  NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"
 msgstr ""
+
+#~ msgid "Out of memory for pixmap \"%s\""
+#~ msgstr "Plus de mémoire pour le pixmap \"%s\""
 
 #~ msgid "Out of memory for window options"
 #~ msgstr "Plus de mémoire pour les options de fenêtre"
