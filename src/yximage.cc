@@ -549,7 +549,6 @@ ref<YImage> YXImage::downscale(unsigned nw, unsigned nh)
             tlog("ERROR: could not allocate ximage %ux%ux%u or data\n", nw, nh, d);
             goto error;
         }
-        size_t alloc_size = ximage->bytes_per_line * ximage->height * 4 * sizeof(*chanls);
         // tlog("created downscale ximage at %ux%ux%u\n", ximage->width, ximage->height, ximage->depth);
         if (!(chanls = new double[ximage->bytes_per_line * ximage->height * 4])) {
             tlog("ERROR: could not allocate working arrays\n");
@@ -563,38 +562,45 @@ ref<YImage> YXImage::downscale(unsigned nw, unsigned nh)
             tlog("ERROR: could not allocate working arrays\n");
             goto error;
         }
-        memset(colors, double(0), alloc_size);
         {
-            double pppx = (double) w / (double) nw;
-            double pppy = (double) h / (double) nh;
+            double scale = (double) nh / (double) h;
 
-            double ty, by; unsigned l;
-            for (ty = 0.0, by = pppy, l = 0; l < nh; l++, ty += pppy, by += pppy) {
-                for (unsigned j = floor(ty); j < by; j++) {
-                    double yf = 1.0;
-                    if (j < ty && j + 1 > ty)
-                        yf = ty - j;
-                    else if (j < by && j + 1 > by)
-                        yf = by - j;
-                    double lx, rx; unsigned k;
-                    for (lx = 0.0, rx = pppx, k = 0; k < nw; k++, lx += pppx, rx += pppx) {
-                        for (unsigned i = floor(lx); i < rx; i++) {
-                            double xf = 1.0;
-                            if (i < lx && i + 1 > lx)
-                                xf = lx - i;
-                            else if (i < rx && i + 1 > rx)
-                                xf = rx - i;
-                            double ff = xf * yf;
-                            unsigned m = l * nw + k;
-                            unsigned n = m << 2;
+            unsigned sh = lround(h * scale);
+            unsigned sw = lround(w * scale);
+
+            double pppx = (double) sw / (double) w;
+            double pppy = (double) sh / (double) h;
+
+            double lx, rx, ty, by, xf, yf, ff;
+
+            unsigned long pixel;
+            unsigned i, j, k, l, m, n, A, R, G, B;
+
+            for (ty = 0.0, by = pppy, l = 0; l < h; l++, ty = by, by = (l + 1) *pppy) {
+                for (j = floor(ty); j < by; j++) {
+
+                    if (ty < (j + 1) && (j + 1) < by) yf = (j + 1) - ty;
+                    else if (ty < j && j < by) yf = by - j;
+                    else yf = 1.0;
+
+                    for (lx = 0.0, rx = pppx, k = 0; k < w; k++, lx = rx, rx = (k + 1) * pppx) {
+                        for (i = floor(lx); i < rx; i++) {
+
+                            if (lx < (i + 1) && (i + 1) < rx) yf = (i + 1) - lx;
+                            else if (lx < i && i < rx) yf = rx - i;
+                            else xf = 1.0;
+
+                            ff = xf * yf;
+                            m = j * sw + i;
+                            n = m << 2;
                             counts[m] += ff;
-                            unsigned long pixel = XGetPixel(fImage, i, j);
+                            pixel = XGetPixel(fImage, k, l);
                             if (fBitmap && (pixel & 0x00FFFFFF))
                                 pixel |= 0x00FFFFFF;
-                            unsigned A = has_alpha ? (pixel >> 24) & 0xff : 255;
-                            unsigned R = (pixel >> 16) & 0xff;
-                            unsigned G = (pixel >>  8) & 0xff;
-                            unsigned B = (pixel >>  0) & 0xff;
+                            A = has_alpha ? (pixel >> 24) & 0xff : 255;
+                            R = (pixel >> 16) & 0xff;
+                            G = (pixel >>  8) & 0xff;
+                            B = (pixel >>  0) & 0xff;
                             colors[m] += ff;
                             chanls[n+0] += A * ff;
                             chanls[n+1] += R * ff;
@@ -604,39 +610,43 @@ ref<YImage> YXImage::downscale(unsigned nw, unsigned nh)
                     }
                 }
             }
+#ifndef min
+#define min(a,b) (((a) < (b)) ? (a) : (b))
+#endif
+#ifndef max
+#define max(a,b) (((a) > (b)) ? (a) : (b))
+#endif
             unsigned amax = 0;
-            for (unsigned l = 0; l < nh; l++) {
-                for (unsigned k = 0; k < nw; k++) {
-                    unsigned m = l * nw + k;
-                    unsigned n = m << 2;
-                    unsigned long pixel = 0;
+            for (j = 0; j < sh; j++) {
+                for (i = 0; i < sw; i++) {
+                    n = j * sw + i;
+                    m = n << 2;
+                    pixel = 0;
                     if (counts[m])
-                        pixel |= (lround(chanls[n+0] / counts[m]) & 0xff) << 24;
+                        pixel |= (min(255, lround(chanls[m+0] / counts[n])) & 0xff) << 24;
                     if (colors[m]) {
-                        pixel |= (lround(chanls[n+1] / colors[m]) & 0xff) << 16;
-                        pixel |= (lround(chanls[n+2] / colors[m]) & 0xff) <<  8;
-                        pixel |= (lround(chanls[n+3] / colors[m]) & 0xff) <<  0;
+                        pixel |= (min(255, lround(chanls[m+1] / colors[n])) & 0xff) << 16;
+                        pixel |= (min(255, lround(chanls[m+2] / colors[n])) & 0xff) <<  8;
+                        pixel |= (min(255, lround(chanls[m+3] / colors[n])) & 0xff) <<  0;
                     }
-                    XPutPixel(ximage, k, l, pixel);
-                    amax = max(amax, (unsigned)((pixel >> 24) & 0xff));
+                    XPutPixel(ximage, i, j, pixel);
+                    amax = max(amax, ((pixel >> 24) & 0xff));
                 }
             }
-            if (!amax)
+            if (!amax) {
                 /* no opacity at all! */
-                for (unsigned l = 0; l < nh; l++)
-                    for (unsigned k = 0; k < nw; k++)
-                        XPutPixel(ximage, k, l, XGetPixel(ximage, k, l) | 0xFF000000);
-            else if (amax < 255) {
+                for (j = 0; j < sh; j++)
+                    for (i = 0; i < sw; i++)
+                        XPutPixel(ximage, i, j, XGetPixel(ximage, i, j) | 0xff000000);
+            } else if (amax < 255) {
                 double bump = (double) 255 / (double) amax;
-                for (unsigned l = 0; l < nh; l++)
-                    for (unsigned k = 0; k < nw; k++) {
-                        unsigned long pixel = XGetPixel(ximage, k, l);
+                for (j = 0; j < sh; j++)
+                    for (i = 0; i < sw; i++) {
+                        pixel = XGetPixel(ximage, i, j);
                         amax = (pixel >> 24) & 0xff;
-                        amax = lround((double) amax * bump);
-                        if (amax > 255)
-                            amax = 255;
-                        pixel = (pixel & 0x00FFFFFF) | (amax << 24);
-                        XPutPixel(ximage, k, l, pixel);
+                        amax = min(255, lround(amax * bump));
+                        pixel = (pixel & 0x00ffffff) | (amax << 24);
+                        XPutPixel(ximage, i, j, pixel);
                     }
             }
             image.init(new YXImage(ximage, fBitmap));
