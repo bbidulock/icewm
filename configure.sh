@@ -31,8 +31,6 @@ esac
 	--prefix=/usr \
 	--sysconfdir=/etc \
 	--mandir=/usr/share/man \
-	--with-icesound=ALSA,AO,OSS,ESD \
-	--disable-gdk-pixbuf \
 	CPPFLAGS="$CPPFLAGS" \
 	CFLAGS="$DEBUG_CFLAGS -Wall -Werror $CFLAGS" \
 	CXXFLAGS="$DEBUG_CXXFLAGS -Wall -Werror $CXXFLAGS" \
