@@ -145,7 +145,7 @@ ref<YImage> YXImage::loadxpm(upath filename)
             unsigned h = xdraw->height;
 
             ximage = XCreateImage(xapp->display(), xapp->visual(), 32, ZPixmap, 0, NULL, w, h, 8, 0);
-            if (ximage && (ximage->data = (char*) calloc(ximage->bytes_per_line*h, sizeof(char)))) {
+            if (ximage && (ximage->data = (typeof(ximage->data))calloc(ximage->bytes_per_line*h, sizeof(char)))) {
                 for (unsigned j = 0; j < h; j++) {
                     for (unsigned i = 0; i < w; i++) {
                         if (XGetPixel(xmask, i, j))
@@ -253,16 +253,16 @@ ref<YImage> YXImage::loadpng(upath filename)
     else
         channels = 0;
     row_bytes = png_get_rowbytes(png_ptr, info_ptr);
-    png_pixels = new png_byte[row_bytes * height];
+    png_pixels = (typeof(png_pixels))calloc(row_bytes * height, sizeof(*png_pixels));
     vol_png_pixels = png_pixels;
-    row_pointers = new png_bytep[height];
+    row_pointers = (typeof(row_pointers))calloc(height, sizeof(*row_pointers));
     vol_row_pointers = row_pointers;
     for (i = 0; i < height; i++)
         row_pointers[i] = png_pixels + i * row_bytes;
     png_read_image(png_ptr, row_pointers);
     png_read_end(png_ptr, info_ptr);
     ximage = XCreateImage(xapp->display(), xapp->visual(), 32, ZPixmap, 0, NULL, width, height, 8, 0);
-    if (!ximage || !(ximage->data = (char*) calloc(ximage->bytes_per_line*height, sizeof(char)))) {
+    if (!ximage || !(ximage->data = (typeof(ximage->data))calloc(ximage->bytes_per_line, height))) {
         if (ximage) {
             tlog("could not allocate ximage data\n");
             XDestroyImage(ximage);
@@ -303,9 +303,9 @@ ref<YImage> YXImage::loadpng(upath filename)
   pngerr:
     ximage = (XImage *) vol_ximage;
     png_pixels = (png_byte *) vol_png_pixels;
-    delete[] png_pixels;
+    free(png_pixels);
     row_pointers = (png_byte **) vol_row_pointers;
-    delete[] row_pointers;
+    free(row_pointers);
     png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
     goto noread;
   noinfo:
@@ -365,7 +365,7 @@ ref<YImage> YXImage::loadjpg(upath filename)
                                   32, ZPixmap, 0, NULL,
                                   width, height, 8, 0);
     if (ximage)
-        ximage->data = (char *) calloc(ximage->bytes_per_line * height, 1);
+        ximage->data = (typeof(ximage->data))calloc(ximage->bytes_per_line, height);
     if (ximage && ximage->data) {
         for (int line; (line = int(cinfo.output_scanline)) < height; ) {
             (void) jpeg_read_scanlines(&cinfo, buffer, 1);
@@ -411,20 +411,20 @@ ref<YImage> YXImage::upscale(unsigned nw, unsigned nh)
 
         // tlog("upscale from %ux%ux%u to %ux%u\n", w, h, d, nw, nh);
         ximage = XCreateImage(xapp->display(), v, d, ZPixmap, 0, NULL, nw, nh, 8, 0);
-        if (!ximage || !(ximage->data = new char[ximage->bytes_per_line*ximage->height])) {
+        if (!ximage || !(ximage->data = (typeof(ximage->data))calloc(ximage->bytes_per_line, ximage->height))) {
             tlog("ERROR: could not allocate ximage %ux%ux%u or data\n", nw, nh, d);
             goto error;
         }
         // tlog("created upscale ximage at %ux%ux%u\n", ximage->width, ximage->height, ximage->depth);
-        if (!(chanls = new double[ximage->bytes_per_line * ximage->height * 4])) {
+        if (!(chanls = (typeof(chanls))calloc(ximage->bytes_per_line * ximage->height, 4 * sizeof(*chanls)))) {
             tlog("ERROR: could not allocate working arrays\n");
             goto error;
         }
-        if (!(counts = new double[ximage->bytes_per_line * ximage->height])) {
+        if (!(counts = (typeof(counts))calloc(ximage->bytes_per_line * ximage->height, sizeof(*counts)))) {
             tlog("ERROR: could not allocate working arrays\n");
             goto error;
         }
-        if (!(colors = new double[ximage->bytes_per_line * ximage->height])) {
+        if (!(colors = (typeof(colors))calloc(ximage->bytes_per_line * ximage->height, sizeof(*colors)))) {
             tlog("ERROR: could not allocate working arrays\n");
             goto error;
         }
@@ -509,11 +509,11 @@ ref<YImage> YXImage::upscale(unsigned nw, unsigned nh)
     }
   error:
     if (chanls)
-        delete[] chanls;
+        free(chanls);
     if (counts)
-        delete[] counts;
+        free(counts);
     if (colors)
-        delete[] colors;
+        free(colors);
     if (ximage)
         XDestroyImage(ximage);
     return image;
@@ -545,20 +545,20 @@ ref<YImage> YXImage::downscale(unsigned nw, unsigned nh)
 
         // tlog("downscale from %ux%ux%u to %ux%u\n", w, h, d, nw, nh);
         ximage = XCreateImage(xapp->display(), v, d, ZPixmap, 0, NULL, nw, nh, 8, 0);
-        if (!ximage || !(ximage->data = new char[ximage->bytes_per_line*ximage->height])) {
+        if (!ximage || !(ximage->data = (typeof(ximage->data))calloc(ximage->bytes_per_line, ximage->height))) {
             tlog("ERROR: could not allocate ximage %ux%ux%u or data\n", nw, nh, d);
             goto error;
         }
         // tlog("created downscale ximage at %ux%ux%u\n", ximage->width, ximage->height, ximage->depth);
-        if (!(chanls = new double[ximage->bytes_per_line * ximage->height * 4])) {
+        if (!(chanls = (typeof(chanls))calloc(ximage->bytes_per_line * ximage->height, 4 * sizeof(*chanls)))) {
             tlog("ERROR: could not allocate working arrays\n");
             goto error;
         }
-        if (!(counts = new double[ximage->bytes_per_line * ximage->height])) {
+        if (!(counts = (typeof(counts))calloc(ximage->bytes_per_line * ximage->height, sizeof(*counts)))) {
             tlog("ERROR: could not allocate working arrays\n");
             goto error;
         }
-        if (!(colors = new double[ximage->bytes_per_line * ximage->height])) {
+        if (!(colors = (typeof(colors))calloc(ximage->bytes_per_line * ximage->height, sizeof(*colors)))) {
             tlog("ERROR: could not allocate working arrays\n");
             goto error;
         }
@@ -655,11 +655,11 @@ ref<YImage> YXImage::downscale(unsigned nw, unsigned nh)
     }
   error:
     if (chanls)
-        delete[] chanls;
+        free(chanls);
     if (counts)
-        delete[] counts;
+        free(counts);
     if (colors)
-        delete[] colors;
+        free(colors);
     if (ximage)
         XDestroyImage(ximage);
     return image;
@@ -772,7 +772,7 @@ ref<YImage> YXImage::combine(XImage *xdraw, XImage *xmask)
         return image;
     }
     ximage = XCreateImage(xapp->display(), xapp->visual(), 32, ZPixmap, 0, NULL, w, h, 8, 0);
-    if (!ximage || !(ximage->data = new char[ximage->bytes_per_line*ximage->height])) {
+    if (!ximage || !(ximage->data = (typeof(ximage->data))calloc(ximage->bytes_per_line, ximage->height))) {
         tlog("ERROR: could not create ximage or allocate data\n");
         goto error;
     }
@@ -801,7 +801,7 @@ ref<YImage> YImage::createFromIconProperty(long *prop_pixels, unsigned w, unsign
     // tlog("creating icon %ux%u\n", w, h);
     // icon properties are always 32-bit ARGB
     ximage = XCreateImage(xapp->display(), xapp->visual(), 32, ZPixmap, 0, NULL, w, h, 8, 0);
-    if (!ximage || !(ximage->data = new char[ximage->bytes_per_line*ximage->height])) {
+    if (!ximage || !(ximage->data = (typeof(ximage->data))calloc(ximage->bytes_per_line, ximage->height))) {
         tlog("ERROR: could not create image %ux%ux32 or allocate memory\n", w, h);
         goto error;
     }
@@ -851,7 +851,7 @@ ref <YPixmap> YXImage::renderToPixmap(unsigned depth)
                         has_mask = true;
         if (hasAlpha()) {
             xdraw = XCreateImage(xapp->display(), xapp->visual(), xapp->depth(), ZPixmap, 0, NULL, w, h, 8, 0);
-            if (!xdraw || !(xdraw->data = new char[xdraw->bytes_per_line*xdraw->height])) {
+            if (!xdraw || !(xdraw->data = (typeof(xdraw->data))calloc(xdraw->bytes_per_line, xdraw->height))) {
                 tlog("ERROR: could not create XImage or allocate %ux%ux%u data\n", w, h, xapp->depth());
                 goto error;
             }
@@ -865,7 +865,7 @@ ref <YPixmap> YXImage::renderToPixmap(unsigned depth)
         // tlog("created ximage %ux%ux%u for pixmap\n", xdraw->width, xdraw->height, xdraw->depth);
 
         xmask = XCreateImage(xapp->display(), xapp->visual(), 1, XYBitmap, 0, NULL, w, h, 8, 0);
-        if (!xmask || !(xmask->data = new char[xmask->bytes_per_line*xmask->height])) {
+        if (!xmask || !(xmask->data = (typeof(xmask->data))calloc(xmask->bytes_per_line, xmask->height))) {
             tlog("ERROR: could not create XImage mask %ux%u\n", w, h);
             goto error;
         }
