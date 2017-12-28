@@ -519,11 +519,6 @@ ref<YImage> YXImage::upscale(unsigned nw, unsigned nh)
     return image;
 }
 
-/*
- * XXX: Downscaling a large image gives *very* poor results.
- * This is especially noticable in icewmbg background images.
- * TODO: This method is in _dire_ need of a better algorithm.
- */
 ref<YImage> YXImage::downscale(unsigned nw, unsigned nh)
 {
     ref<YImage> image;
@@ -563,13 +558,8 @@ ref<YImage> YXImage::downscale(unsigned nw, unsigned nh)
             goto error;
         }
         {
-            double scale = (double) nh / (double) h;
-
-            unsigned sh = lround(h * scale);
-            unsigned sw = lround(w * scale);
-
-            double pppx = (double) sw / (double) w;
-            double pppy = (double) sh / (double) h;
+            double pppx = (double) nw / (double) w;
+            double pppy = (double) nh / (double) h;
 
             double lx, rx, ty, by, xf, yf, ff;
 
@@ -591,7 +581,7 @@ ref<YImage> YXImage::downscale(unsigned nw, unsigned nh)
                             else xf = 1.0;
 
                             ff = xf * yf;
-                            m = j * sw + i;
+                            m = j * nw + i;
                             n = m << 2;
                             counts[m] += ff;
                             pixel = XGetPixel(fImage, k, l);
@@ -617,9 +607,9 @@ ref<YImage> YXImage::downscale(unsigned nw, unsigned nh)
 #define max(a,b) (((a) > (b)) ? (a) : (b))
 #endif
             unsigned amax = 0;
-            for (j = 0; j < sh; j++) {
-                for (i = 0; i < sw; i++) {
-                    n = j * sw + i;
+            for (j = 0; j < nh; j++) {
+                for (i = 0; i < nw; i++) {
+                    n = j * nw + i;
                     m = n << 2;
                     pixel = 0;
                     if (counts[m])
@@ -635,13 +625,13 @@ ref<YImage> YXImage::downscale(unsigned nw, unsigned nh)
             }
             if (!amax) {
                 /* no opacity at all! */
-                for (j = 0; j < sh; j++)
-                    for (i = 0; i < sw; i++)
+                for (j = 0; j < nh; j++)
+                    for (i = 0; i < nw; i++)
                         XPutPixel(ximage, i, j, XGetPixel(ximage, i, j) | 0xff000000);
             } else if (amax < 255) {
                 double bump = (double) 255 / (double) amax;
-                for (j = 0; j < sh; j++)
-                    for (i = 0; i < sw; i++) {
+                for (j = 0; j < nh; j++)
+                    for (i = 0; i < nw; i++) {
                         pixel = XGetPixel(ximage, i, j);
                         amax = (pixel >> 24) & 0xff;
                         amax = min(255, lround(amax * bump));
