@@ -356,8 +356,10 @@ int main(int argc, char **argv) {
     for (char ** arg = argv + 1; arg < argv + argc; ++arg) {
         if (**arg == '-') {
             char *path = 0;
-            if (is_help_switch(*arg))
-                break;
+            if (is_help_switch(*arg)) {
+                fprintf(stdout, "Usage: %s [ --open PATH | --list PATH ]\n", argv[0]);
+                exit(0);
+            }
             if (is_version_switch(*arg))
                 print_version_exit(VERSION);
             if (GetLongArgument(path, "open", arg, argv+argc))
