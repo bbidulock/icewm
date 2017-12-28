@@ -6,10 +6,17 @@
 
 =head1 SYNOPSIS
 
-B<> B<icewm-menu-gnome2> [I<OPTIONS>]
- B<icewm-menu-gnome2> {B<-h>|B<--help>} [I<OPTIONS>]
- B<icewm-menu-gnome2> {B<-V>|B<--version>}
- B<icewm-menu-gnome2> {B<-C>|B<--copying>}
+=over
+
+=item B<icewm-menu-gnome2> [I<OPTIONS>]
+
+=item B<icewm-menu-gnome2> {B<-h>|B<--help>} [I<OPTIONS>]
+
+=item B<icewm-menu-gnome2> {B<-V>|B<--version>}
+
+=item B<icewm-menu-gnome2> {B<-C>|B<--copying>}
+
+=back
 
 =head1 DESCRIPTION
 
