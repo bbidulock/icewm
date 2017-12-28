@@ -56,7 +56,7 @@ has changed then L<icewmbg(1)> can be notified to update the background.
 Multi-head monitor setups are fully supported.  This program should be
 started before B<icewm>.  See the L<icewmbg(1)> manual page for details.
 
-=item L<icewmtray(2)>
+=item L<icewmtray(1)>
 
 Catches the system tray objects which are installed by various
 applications.
