@@ -106,13 +106,13 @@ I<CLASS>B<.>I<INSTANCE>.  The default is the C<Normal> layer.  I<VALUE>
 is either a numeric layer I<NUMBER> or a symbolic layer name.  Symbolic
 layer names are one of the following:
 
-B<>    B<Desktop>    (0)  desktop window layer.
-    B<Below>      (2)  below normal windows.
-    B<Normal>     (4)  default window layer.
-    B<OnTop>      (6)  above normal windows.
-    B<Dock>       (8)  docks (panels and edge displays).
-    B<AboveDock> (10)  above docks.
-    B<Menu>      (12)  above everything else.
+    Desktop    (0)  desktop window layer.
+    Below      (2)  below normal windows.
+    Normal     (4)  default window layer.
+    OnTop      (6)  above normal windows.
+    Dock       (8)  docks (panels and edge displays).
+    AboveDock (10)  above docks.
+    Menu      (12)  above everything else.
 
 =item B<tray> {B<Ignore>|B<Minimized>|B<Exclusive>|I<NUMBER>}
 
@@ -122,9 +122,11 @@ sets the C<_ICEWM_TRAY> property associated with the window.
 The default is C<Ignore>.  I<VALUE> can be a numerical option I<NUMBER>
 or a symbolic name as follows:
 
-B<>    B<Ignore>     (0)  only in task list.
-    B<Minimized>  (1)  icon in tray, task list unminimized.
-    B<Exclusive>  (2)  only in tray, not in task list.
+    Ignore     (0)  only in task list.
+    Minimized  (1)  icon in tray, task list unminimized.
+    Exclusive  (2)  only in tray, not in task list.
+
+=back
 
 =head2 FUNCTION OPTION ARGUMENTS
 
@@ -133,13 +135,13 @@ I<CLASS>B<.>I<INSTANCE>.  All function options have a default value of
 enabled (1) unless overridden by the application.  The Motif-like
 functions are as follows:
 
-B<>    B<fMove>      can be moved.         (default: 1)
-    B<fResize>    can be resized.       (default: 1)
-    B<fClose>     can be closed.        (default: 1)
-    B<fMinimize>  can be minimized.     (default: 1)
-    B<fMaximize>  can be maximized.     (default: 1)
-    B<fHide>      can be hidden.        (default: 1)
-    B<fRollup>    can be shaded.        (default: 1)
+    fMove      can be moved:         (default: 1).
+    fResize    can be resized:       (default: 1).
+    fClose     can be closed:        (default: 1).
+    fMinimize  can be minimized:     (default: 1).
+    fMaximize  can be maximized:     (default: 1).
+    fHide      can be hidden:        (default: 1).
+    fRollup    can be shaded:        (default: 1).
 
 =head2 DECOR OPTION ARGUMENTS
 
@@ -148,16 +150,16 @@ I<CLASS>B<.>I<INSTANCE>.  All decor options have a default value of
 enabled (1) unless overridden by the application. The Motif-like
 decorations are as follows:
 
-B<>    B<dTitleBar>  has title bar.        (default: 1)
-    B<dSysMenu>   has window menu.      (default: 1)
-    B<dBorder>    has border.           (default: 1)
-    B<dResize>    has resize grips.     (default: 1)
-    B<dClose>     has close button.     (default: 1)
-    B<dMinimize>  has minimize button.  (default: 1)
-    B<dMaximize>  has maximize button.  (default: 1)
-    B<dHide>      has hide button.      (default: 1)
-    B<dRollup>    has shade button.     (default: 1)
-    B<dDepth>     has depth button.     (default: 1)
+    dTitleBar  has title bar:        (default: 1).
+    dSysMenu   has window menu:      (default: 1).
+    dBorder    has border:           (default: 1).
+    dResize    has resize grips:     (default: 1).
+    dClose     has close button:     (default: 1).
+    dMinimize  has minimize button:  (default: 1).
+    dMaximize  has maximize button:  (default: 1).
+    dHide      has hide button:      (default: 1).
+    dRollup    has shade button:     (default: 1).
+    dDepth     has depth button:     (default: 1).
 
 =head2 FEATURE OPTION ARGUMENTS
 
@@ -166,27 +168,27 @@ windows with I<CLASS>B<.>I<INSTANCE>.  All advanced features have a
 default value of disabled (0) unless overridden by the application.  The
 advanced features are as follows:
 
-B<>    B<allWorkspaces>             on all workspaces.
-    B<ignoreTaskBar>             not on task bar.
-    B<noIgnoreTaskBar>           on task bar.
-    B<ignoreWinList>             not on window list.
-    B<ignoreQuickSwitch>         not on quick switch.
-    B<fullKeys>                  provided more keys.
-    B<noFocusOnAppRaise>         no focus on raise.
-    B<ignoreNoFocusHint>         focus even no-input.
-    B<ignorePositionHint>        place automatically.
-    B<doNotCover>:               limits workspace if sticky.
-    B<doNotFocus>                do not focus.
-    B<startFullscreen>           start full screen.
-    B<startMinimized>            start minimized.
-    B<startMaximized>            start maximized.
-    B<startMaximizedVert>        start maximized vertical.
-    B<startMaximizedHorz>        start maximized horizontal.
-    B<nonICCCMconfigureRequest>  more configure requests.
-    B<forcedClose>               no close dialog.
-    B<noFocusOnMap>              do not focus when mapped.
-    B<ignoreUrgentHint>          ignore urgent hints.
-    B<appTakesFocus>             let application take focus.
+    allWorkspaces             on all workspaces.
+    ignoreTaskBar             not on task bar.
+    noIgnoreTaskBar           on task bar.
+    ignoreWinList             not on window list.
+    ignoreQuickSwitch         not on quick switch.
+    fullKeys                  provided more keys.
+    noFocusOnAppRaise         no focus on raise.
+    ignoreNoFocusHint         focus even no-input.
+    ignorePositionHint        place automatically.
+    doNotCover                limits workspace if sticky.
+    doNotFocus                do not focus.
+    startFullscreen           start full screen.
+    startMinimized            start minimized.
+    startMaximized            start maximized.
+    startMaximizedVert        start maximized vertical.
+    startMaximizedHorz        start maximized horizontal.
+    nonICCCMconfigureRequest  more configure requests.
+    forcedClose               no close dialog.
+    noFocusOnMap              do not focus when mapped.
+    ignoreUrgentHint          ignore urgent hints.
+    appTakesFocus             let application take focus.
 
 =head1 BUGS
 
