@@ -32,11 +32,6 @@ man1_MANS += icewm-menu-fdo.man
 doc_DATA += icewm-menu-fdo.1.html
 endif
 
-if BUILD_MENU_GNOME2
-man1_MANS += icewm-menu-gnome2.man
-doc_DATA += icewm-menu-gnome2.1.html
-endif
-
 icewm_man5_files = \
 	icewm-env.man \
 	icewm-focus_mode.man \
