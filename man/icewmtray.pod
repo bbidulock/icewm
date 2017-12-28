@@ -6,10 +6,17 @@
 
 =head1 SYNOPSIS
 
-B<> B<icewmtray> [I<OPTIONS>]
- B<icewmtray> {B<-h>|B<--help>} [I<OPTIONS>]
- B<icewmtray> {B<-V>|B<--version>}
- B<icewmtray> {B<-C>|B<--copying>}
+=over
+
+=item B<icewmtray> [I<OPTIONS>]
+
+=item B<icewmtray> {B<-h>|B<--help>} [I<OPTIONS>]
+
+=item B<icewmtray> {B<-V>|B<--version>}
+
+=item B<icewmtray> {B<-C>|B<--copying>}
+
+=back
 
 =head1 DESCRIPTION
 
