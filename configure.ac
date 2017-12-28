@@ -323,14 +323,12 @@ AC_ARG_ENABLE([menus-gnome2],
     AC_HELP_STRING([--disable-menus-gnome2],[Disable display of GNOME 2 menus.]))
 if test x$enable_menus_gnome2 != xno; then
     PKG_CHECK_MODULES([GNOME2],[gnome-desktop-2.0 libgnomeui-2.0],[
-	GNOME_VER=2
 	AC_DEFINE([CONFIG_GNOME_MENUS],[1],[Define to make IceWM more GNOME-friendly])
 	BUILD_MENU_GNOME2=yes
 	APPLICATIONS="${APPLICATIONS} icewm-menu-gnome2"],
 	[AC_MSG_WARN([GNOME2 menus not supported.])])
 fi
 
-AC_SUBST([GNOME_VER])
 AC_SUBST([GNOME2_CFLAGS])
 AC_SUBST([GNOME2_LIBS])
 
@@ -444,7 +442,6 @@ CORE_LIBS="$CORE_LIBS "'$(EXTRA_LIBS)'
 
 # needed by lib/menu.in
 AC_SUBST([CONFIG_GNOME2_MENU_DIR])
-dnl AC_SUBST([GNOME_VER])
 AC_SUBST([CONFIG_KDE_MENU_DIR])
 
 AC_CONFIG_FILES([Makefile
