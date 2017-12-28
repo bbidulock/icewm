@@ -6,11 +6,19 @@
 
 =head1 SYNOPSIS
 
-F<> F<$ICEWM_PRIVCFG/programs>
- F<$XDG_CONFIG_HOME/icewm/programs>
- F<$HOME/.icewm/programs>
- F</etc/icewm/programs>
- F</usr/share/icewm/programs>
+=over
+
+=item F<$ICEWM_PRIVCFG/programs>
+
+=item F<$XDG_CONFIG_HOME/icewm/programs>
+
+=item F<$HOME/.icewm/programs>
+
+=item F</etc/icewm/programs>
+
+=item F</usr/share/icewm/programs>
+
+=back
 
 =head1 DESCRIPTION
 
