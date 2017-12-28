@@ -6,10 +6,17 @@
 
 =head1 SYNOPSIS
 
-B<> B<icesh> [I<OPTIONS>] I<ACTIONS>
- B<icesh> {B<-h>|B<--help>} [I<OPTIONS>] [I<ACTIONS>]
- B<icesh> {B<-V>|B<--version>}
- B<icesh> {B<-C>|B<--copying>}
+=over
+
+=item B<icesh> [I<OPTIONS>] I<ACTIONS>
+
+=item B<icesh> {B<-h>|B<--help>} [I<OPTIONS>] [I<ACTIONS>]
+
+=item B<icesh> {B<-V>|B<--version>}
+
+=item B<icesh> {B<-C>|B<--copying>}
+
+=back
 
 =head1 DESCRIPTION
 
