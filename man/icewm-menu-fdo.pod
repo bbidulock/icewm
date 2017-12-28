@@ -22,7 +22,6 @@ B<icewm-menu-fdo> [I<FILENAME>]
 When provided with the optional I<FILENAME> argument that is the name
 and location of a F<.desktop> file, B<icewm-menu-fdo> will open an
 launch the application using the C<Exec> line from the desktop file.
-This is similar to L<icewm-menu-gnome2(1)>, which is now deprecated.
 
 =back
 
@@ -59,8 +58,7 @@ B<icewm-menu-fdo> does not recognize any general options.
 =head1 USAGE
 
 This utility is not normally used directly, but is used as the
-executable in a B<menuprog> entry in a menu.  It is the preferred
-replacement for the deprecated L<icewm-menu-gnome2(1)> utility.
+executable in a B<menuprog> entry in a menu.
 
 =head1 ENVIRONMENT
 
