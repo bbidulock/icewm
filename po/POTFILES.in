@@ -13,7 +13,6 @@ src/decorate.cc
 src/fdomenu.cc
 src/genpref.cc
 src/globit.cc
-src/gnome2.cc
 src/iceclock.cc
 src/icehelp.cc
 src/iceicon.cc
