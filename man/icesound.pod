@@ -152,19 +152,19 @@ Print copying permissions to F<stdout> for the program and exit.
 
 =over
 
-=item 0
+=item B<0>
 
 Success.
 
-=item 1
+=item B<1>
 
 General error.
 
-=item 2
+=item B<2>
 
 Command line error.
 
-=item 3
+=item B<3>
 
 Subsystems error (i.e cannot connect to server).
 
