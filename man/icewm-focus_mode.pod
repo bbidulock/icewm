@@ -6,11 +6,19 @@
 
 =head1 SYNOPSIS
 
-F<> F<$ICEWM_PRIVCFG/focus_mode>
- F<$XDG_CONFIG_HOME/icewm/focus_mode>
- F<$HOME/.icewm/focus_mode>
- F</etc/icewm/focus_mode>
- F</usr/share/icewm/focus_mode>
+=over
+
+=item F<$ICEWM_PRIVCFG/focus_mode>
+
+=item F<$XDG_CONFIG_HOME/icewm/focus_mode>
+
+=item F<$HOME/.icewm/focus_mode>
+
+=item F</etc/icewm/focus_mode>
+
+=item F</usr/share/icewm/focus_mode>
+
+=back
 
 =head1 DESCRIPTION
 
