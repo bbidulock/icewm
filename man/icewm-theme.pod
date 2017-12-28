@@ -6,11 +6,19 @@
 
 =head1 SYNOPSIS
 
-F<> F<$ICEWM_PRIVCFG/theme>
- F<$XDG_CONFIG_HOME/icewm/theme>
- F<$HOME/.icewm/theme>
- F</etc/icewm/theme>
- F</usr/share/icewm/theme>
+=over
+
+=item F<$ICEWM_PRIVCFG/theme>
+
+=item F<$XDG_CONFIG_HOME/icewm/theme>
+
+=item F<$HOME/.icewm/theme>
+
+=item F</etc/icewm/theme>
+
+=item F</usr/share/icewm/theme>
+
+=back
 
 =head1 DESCRIPTION
 
@@ -39,17 +47,17 @@ C<Theme="default/default.theme">.
 Following is my current F<theme> file.  You can see from the comments
 that L<icewm(1)> keeps a history of the previous ten theme settings.
 
- Theme="Unexicon-towers/default.theme"
- #Theme="Unexicon-pedestals/default.theme"
- ##Theme="Unexicon-penguins/default.theme"
- ###Theme="Unexicon/default.theme"
- ####Theme="Squared-for-debian/default.theme"
- #####Theme="Squared-grey/default.theme"
- ######Theme="Squared-green/default.theme"
- #######Theme="Penguins/default.theme"
- ########Theme="Squared-blue/default.theme"
- #########Theme="default/default.theme"
- ##########Theme="yellowmotif/default.theme"
+    Theme="Unexicon-towers/default.theme"
+    #Theme="Unexicon-pedestals/default.theme"
+    ##Theme="Unexicon-penguins/default.theme"
+    ###Theme="Unexicon/default.theme"
+    ####Theme="Squared-for-debian/default.theme"
+    #####Theme="Squared-grey/default.theme"
+    ######Theme="Squared-green/default.theme"
+    #######Theme="Penguins/default.theme"
+    ########Theme="Squared-blue/default.theme"
+    #########Theme="default/default.theme"
+    ##########Theme="yellowmotif/default.theme"
 
 =head1 FILES
 
