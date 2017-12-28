@@ -545,24 +545,20 @@ ref<YImage> YXImage::downscale(unsigned nw, unsigned nh)
 
         // tlog("downscale from %ux%ux%u to %ux%u\n", w, h, d, nw, nh);
         ximage = XCreateImage(xapp->display(), v, d, ZPixmap, 0, NULL, nw, nh, 8, 0);
-        if (!ximage || !(ximage->data = (char*) malloc(ximage->bytes_per_line*ximage->height))) {
+        if (!ximage || !(ximage->data = new char[ximage->bytes_per_line*ximage->height])) {
             tlog("ERROR: could not allocate ximage %ux%ux%u or data\n", nw, nh, d);
             goto error;
         }
         // tlog("created downscale ximage at %ux%ux%u\n", ximage->width, ximage->height, ximage->depth);
-        if (!(chanls = new double[alloc_members])) {
+        if (!(chanls = new double[ximage->bytes_per_line * ximage->height * 4])) {
             tlog("ERROR: could not allocate working arrays\n");
             goto error;
         }
-        for(double* p=chanls;p<chanls+alloc_members;++p) *p=0.0;
-
-        if (!(counts = new double[pixels])) {
+        if (!(counts = new double[ximage->bytes_per_line * ximage->height])) {
             tlog("ERROR: could not allocate working arrays\n");
             goto error;
         }
-        for(double* p=counts;p<counts+pixels;++p) *p=0.0;
-        
-        if (!(colors = new double[pixels])) {
+        if (!(colors = new double[ximage->bytes_per_line * ximage->height])) {
             tlog("ERROR: could not allocate working arrays\n");
             goto error;
         }
@@ -656,8 +652,6 @@ ref<YImage> YXImage::downscale(unsigned nw, unsigned nh)
             image.init(new YXImage(ximage, fBitmap));
             ximage = 0; // consumed above
         }
-        image.init(new YXImage(ximage, fBitmap));
-        ximage = 0; // consumed above
     }
   error:
     if (chanls)
@@ -807,7 +801,7 @@ ref<YImage> YImage::createFromIconProperty(long *prop_pixels, unsigned w, unsign
     // tlog("creating icon %ux%u\n", w, h);
     // icon properties are always 32-bit ARGB
     ximage = XCreateImage(xapp->display(), xapp->visual(), 32, ZPixmap, 0, NULL, w, h, 8, 0);
-    if (!ximage || !(ximage->data = (char*)malloc(ximage->bytes_per_line*ximage->height))) {
+    if (!ximage || !(ximage->data = new char[ximage->bytes_per_line*ximage->height])) {
         tlog("ERROR: could not create image %ux%ux32 or allocate memory\n", w, h);
         goto error;
     }
@@ -857,7 +851,7 @@ ref <YPixmap> YXImage::renderToPixmap(unsigned depth)
                         has_mask = true;
         if (hasAlpha()) {
             xdraw = XCreateImage(xapp->display(), xapp->visual(), xapp->depth(), ZPixmap, 0, NULL, w, h, 8, 0);
-            if (!xdraw || !(xdraw->data = (char*)malloc(xdraw->bytes_per_line*xdraw->height))) {
+            if (!xdraw || !(xdraw->data = new char[xdraw->bytes_per_line*xdraw->height])) {
                 tlog("ERROR: could not create XImage or allocate %ux%ux%u data\n", w, h, xapp->depth());
                 goto error;
             }
@@ -871,7 +865,7 @@ ref <YPixmap> YXImage::renderToPixmap(unsigned depth)
         // tlog("created ximage %ux%ux%u for pixmap\n", xdraw->width, xdraw->height, xdraw->depth);
 
         xmask = XCreateImage(xapp->display(), xapp->visual(), 1, XYBitmap, 0, NULL, w, h, 8, 0);
-        if (!xmask || !(xmask->data = (char*)malloc(xmask->bytes_per_line*xmask->height))) {
+        if (!xmask || !(xmask->data = new char[xmask->bytes_per_line*xmask->height])) {
             tlog("ERROR: could not create XImage mask %ux%u\n", w, h);
             goto error;
         }
