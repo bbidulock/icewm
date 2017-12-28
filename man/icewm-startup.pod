@@ -7,11 +7,19 @@
 
 =head1 SYNOPSIS
 
-F<> F<$ICEWM_PRIVCFG/startup>
- F<$XDG_CONFIG_HOME/icewm/startup>
- F<$HOME/.icewm/startup>
- F</etc/icewm/startup>
- F</usr/share/icewm/startup>
+=over
+
+=item F<$ICEWM_PRIVCFG/startup>
+
+=item F<$XDG_CONFIG_HOME/icewm/startup>
+
+=item F<$HOME/.icewm/startup>
+
+=item F</etc/icewm/startup>
+
+=item F</usr/share/icewm/startup>
+
+=back
 
 =head1 DESCRIPTION
 
