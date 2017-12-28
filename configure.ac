@@ -367,7 +367,6 @@ AC_SUBST([IMAGE_LIBS])
 
 AM_CONDITIONAL([BUILD_TESTS],[test x$BUILD_TESTS = xyes])
 AM_CONDITIONAL([BUILD_SOUND],[test x$BUILD_SOUND = xyes])
-AM_CONDITIONAL([BUILD_MENU_GNOME2],[test x$BUILD_MENU_GNOME2 = xyes])
 AM_CONDITIONAL([BUILD_MENU_FDO],[test x$BUILD_MENU_FDO = xyes])
 
 test "x$prefix" = xNONE && prefix="$ac_default_prefix"
