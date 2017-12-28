@@ -70,10 +70,6 @@ if BUILD_SOUND
 bin_PROGRAMS += icesound
 endif
 
-if BUILD_MENU_GNOME2
-bin_PROGRAMS += icewm-menu-gnome2
-endif
-
 if BUILD_MENU_FDO
 bin_PROGRAMS += icewm-menu-fdo
 endif
