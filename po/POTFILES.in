@@ -14,7 +14,6 @@ src/fdomenu.cc
 src/genpref.cc
 src/globit.cc
 src/gnome2.cc
-src/gnome.cc
 src/iceclock.cc
 src/icehelp.cc
 src/iceicon.cc
