@@ -160,3 +160,6 @@ README.txt
 .cproject
 .project
 .settings
+
+man/*.html
+pod2htmd.tmp
