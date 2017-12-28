@@ -319,19 +319,6 @@ if test "$enable_fribidi" != "no" && test "$enable_i18n" != "no"; then
 	[AC_MSG_WARN([FRIBIDI is not supported.])])
 fi
 
-AC_ARG_ENABLE([menus-gnome2],
-    AC_HELP_STRING([--disable-menus-gnome2],[Disable display of GNOME 2 menus.]))
-if test x$enable_menus_gnome2 != xno; then
-    PKG_CHECK_MODULES([GNOME2],[gnome-desktop-2.0 libgnomeui-2.0],[
-	AC_DEFINE([CONFIG_GNOME_MENUS],[1],[Define to make IceWM more GNOME-friendly])
-	BUILD_MENU_GNOME2=yes
-	APPLICATIONS="${APPLICATIONS} icewm-menu-gnome2"],
-	[AC_MSG_WARN([GNOME2 menus not supported.])])
-fi
-
-AC_SUBST([GNOME2_CFLAGS])
-AC_SUBST([GNOME2_LIBS])
-
 AC_ARG_ENABLE([menus-fdo],
     AC_HELP_STRING([--disable-menus-fdo],[Disable support of freedesktop.org style menus.]))
 if test x$enable_menus_fdo != xno; then
