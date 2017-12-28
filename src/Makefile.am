@@ -6,7 +6,7 @@
 
 
 AM_CPPFLAGS = -include ../config.h
-AM_CXXFLAGS = $(CORE_CFLAGS) $(XSM_CFLAGS) $(IMAGE_CFLAGS) $(AUDIO_CFLAGS) $(GNOME1_CFLAGS) $(GNOME2_CFLAGS) $(GIO_CFLAGS) -DEXEEXT=$(EXEEXT)
+AM_CXXFLAGS = $(CORE_CFLAGS) $(XSM_CFLAGS) $(IMAGE_CFLAGS) $(AUDIO_CFLAGS) $(GNOME2_CFLAGS) $(GIO_CFLAGS) -DEXEEXT=$(EXEEXT)
 
 EXTRA_DIST = \
 	ypointer.h \
@@ -15,7 +15,6 @@ EXTRA_DIST = \
 EXTRA_PROGRAMS = \
 	icehelp \
 	icesound \
-	icewm-menu-gnome1 \
 	icewm-menu-gnome2 \
 	icewm-menu-fdo \
 	testarray \
@@ -362,18 +361,6 @@ icesound_SOURCES = \
 	ytimer.h \
 	icesound.cc
 icesound_LDADD = libice.la $(AUDIO_LIBS) $(CORE_LIBS) @LIBINTL@
-
-icewm_menu_gnome1_SOURCES = \
-	intl.h \
-	debug.h \
-	sysdep.h \
-	base.h \
-	themable.h \
-	default.h \
-	ylib.h \
-	gnome.cc \
-	ascii.h
-icewm_menu_gnome1_LDADD = libice.la $(GNOME1_LIBS) $(CORE_LIBS)
 
 icewm_menu_gnome2_SOURCES = \
 	intl.h \
