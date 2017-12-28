@@ -30,9 +30,6 @@ XIV(int, ToolTipTime,                           0)
 ///#warning "move this one back to WM"
 XIV(bool, grabRootWindow,                       true)
 
-#ifdef CONFIG_XFREETYPE
-XIV(bool, haveXft,                              true)
-#endif
 #if defined(__linux__) || defined(__FreeBSD__)
 XSV(const char *, iconPath,                     "/usr/share/icons/hicolor:/usr/share/icons:/usr/share/pixmaps")
 #else

@@ -34,7 +34,7 @@ public:
         wrapLines = true;
 
         view = v;
-        fVerticalScroll = view->getVerticalScrollBar();;
+        fVerticalScroll = view->getVerticalScrollBar();
         fVerticalScroll->setScrollBarListener(this);
         fHorizontalScroll = view->getHorizontalScrollBar();
         fHorizontalScroll->setScrollBarListener(this);

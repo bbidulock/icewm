@@ -26,6 +26,7 @@
 #define SIZEOF_SHORT @SIZEOF_SHORT@
 
 #cmakedefine HAVE_ABORT 1
+#cmakedefine HAVE_BACKTRACE_SYMBOLS_FD 1
 #cmakedefine HAVE_BASENAME 1
 #cmakedefine HAVE_DUP2 1
 #cmakedefine HAVE_GETHOSTBYNAME 1
@@ -104,6 +105,7 @@
 #cmakedefine CONFIG_SESSION 1
 #cmakedefine CONFIG_SHAPE 1
 #cmakedefine CONFIG_UNICODE_SET "@CONFIG_UNICODE_SET@"
+#cmakedefine HAVE_XINTERNATOMS 1
 #cmakedefine CONFIG_RENDER 1
 #cmakedefine CONFIG_XRANDR 1
 #cmakedefine CONFIG_XFREETYPE @CONFIG_XFREETYPE_VALUE@

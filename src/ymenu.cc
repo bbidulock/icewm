@@ -847,7 +847,7 @@ void YMenu::sizePopup(int hspace) {
 
     namePos = l + left + padx + maxIcon + 2;
     paramPos = namePos + 2 + maxName + 6;
-    width = paramPos + maxParam + 4 + r;
+    width = paramPos + maxParam + 4 + r + 10;
     height += b;
 
     if (menubackPixbuf != null
@@ -921,9 +921,9 @@ void YMenu::drawSeparator(Graphics &g, int x, int y, unsigned w) {
         if (activeMenuItemBg)
             g.setColor(activeMenuItemBg);
 
-        g.drawLine(x, y + 1, w, y + 1);;
+        g.drawLine(x, y + 1, w, y + 1);
         g.setColor(menuBg->brighter());
-        g.drawLine(x, y + 2, w, y + 2);;
+        g.drawLine(x, y + 2, w, y + 2);
         g.drawLine(x, y, x, y + 2);
     } else {
         drawBackground(g, x, y + 0, w, 1);

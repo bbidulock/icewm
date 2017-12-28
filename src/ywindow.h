@@ -5,6 +5,7 @@
 #include "ycursor.h"
 #include "yarray.h"
 #include "ylist.h"
+#include "yrect.h"
 
 class YPopupWindow;
 class YToolTip;
@@ -35,6 +36,7 @@ public:
     unsigned getStyle() const { return fStyle; }
     long getEventMask() const { return fEventMask; }
 
+    void setVisible(bool enable);
     void show();
     void hide();
     virtual void raise();
@@ -55,6 +57,9 @@ public:
     void setGeometry(const YRect &r);
     void setSize(unsigned width, unsigned height);
     void setPosition(int x, int y);
+    void setBorderWidth(unsigned width);
+    void setBackground(unsigned long pixel);
+    void setBackgroundPixmap(Pixmap pixmap);
     void setParentRelative(void);
     virtual void configure(const YRect &r);
 
@@ -82,6 +87,7 @@ public:
     virtual void handleVisibility(const XVisibilityEvent &visibility);
     virtual void handleCreateWindow(const XCreateWindowEvent &createWindow);
 #endif
+    virtual void handleGravityNotify(const XGravityEvent &gravity);
     void handleMapNotify(const XMapEvent &map);
     virtual void handleUnmapNotify(const XUnmapEvent &unmap);
     virtual void handleUnmap(const XUnmapEvent &unmap);
@@ -141,6 +147,7 @@ public:
     unsigned height() const { return fHeight; }
     unsigned depth() const { return fDepth; }
     Visual *visual() const { return fVisual; }
+    YRect geometry() const { return YRect(fX, fY, fWidth, fHeight); }
 
     bool visible() const { return (flags & wfVisible); }
     bool created() const { return (flags & wfCreated); }
@@ -157,7 +164,8 @@ public:
         wsInputOnly        = 1 << 3,
         wsOutputOnly       = 1 << 4,
         wsPointerMotion    = 1 << 5,
-        wsDesktopAware     = 1 << 6
+        wsDesktopAware     = 1 << 6,
+        wsToolTip          = 1 << 7,
     };
 
     virtual bool isFocusTraversable();
@@ -215,6 +223,8 @@ public:
 
     KeySym keyCodeToKeySym(unsigned int keycode, int index = 0);
     static unsigned long getLastEnterNotifySerial();
+
+    void unmanageWindow() { removeWindow(); }
 
 private:
     enum WindowFlags {
@@ -292,8 +302,6 @@ class YDesktop: public YWindow {
 public:
     YDesktop(YWindow *aParent = 0, Window win = 0);
     virtual ~YDesktop();
-
-    virtual void resetColormapFocus(bool active);
 
     void updateXineramaInfo(unsigned &w, unsigned &h);
 

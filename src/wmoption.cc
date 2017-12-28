@@ -71,7 +71,7 @@ void WindowOptions::setWinOption(ustring n_class_instance,
 {
     WindowOption *op = getOption(n_class_instance);
 
-    //msg("%s-%s-%s", class_instance, opt, arg);
+    // msg("%s . %s : %s", cstring(n_class_instance).c_str(), opt, arg);
 
     if (strcmp(opt, "icon") == 0) {
         op->icon = newstr(arg);
@@ -295,95 +295,94 @@ void WindowOptions::combineOptions(WindowOption &cm, WindowOption &n) {
     }
 }
 
-static char *parseWinOptions(char *data) {
-    char *p, *w, *e, *c;
-    char *class_instance;
-    char *opt;
+static char *parseWinOptions(char *data, const char* filename) {
+    char *p, *word, *end, *dot, *opt;
+    int newlines = 0, linenum = 1, numerrors = 0;
 
-    for (p = data; *p; ++p) {
-        if (ASCII::isWhiteSpace(*p))
+    for (p = data; *p; ++p, linenum = 1 + newlines) {
+        if (ASCII::isWhiteSpace(*p)) {
+            if (*p == '\n')
+                ++newlines;
             continue;
+        }
 
         if (*p == '#') {
-            while (*++p && *p != '\n')
+            while (*++p && *p != '\n') {
                 if (*p == '\\' && p[1] != 0)
-                    p++;
+                    if (*++p == '\n')
+                        ++newlines;
+            }
+            ++newlines;
             continue;
         }
 
-        w = p;
-        c = 0;
-        while (*p && *p != ':') {
-            if (*p == '\\' && p[1] != 0)
-                p++;
+        word = p;
+        dot = 0;
+        while (*p && *p != ':' && *p != '\n') {
+            if (*p == '\\' && p[1] != 0) {
+                if (*++p == '\n')
+                    ++newlines;
+            }
             else if (*p == '.')
-                c = p;
+                dot = p;
             p++;
         }
-        e = p;
+        end = p;
 
-        if (e == w || *p == 0)
-            break;
-        if (c == 0) {
-            msg(_("Syntax error in window options"));
-            break;
+        if (*p == 0 || dot == 0 || end == word || *end != ':') {
+            msg(_("Syntax error in window options on line %d of %s"),
+                    linenum, filename);
+            while (*p && *p != '\n')
+                ++p;
+            if (*p == 0 || 2 < ++numerrors)
+                break;
+            if (*p == '\n')
+                ++newlines;
+            continue;
         }
 
-        if (c - w + 1 == 0)
-            class_instance = 0;
-        else {
-            char *d = w, *p = w;
-            while (p < c) {
-                if (*p == '\\' && p + 1 < c)
-                    p++;
-                *d++ = *p++;
-            }
-
-/// TODO #warning "separate handling of class and instance, the current way is a hack"
-            class_instance = newstr(w, d - w);
-            if (class_instance == 0)
-                goto nomem;
-            MSG(("class_instance: (%s)", class_instance));
+        char *dest = word;
+        for (char *scan = word; scan < dot; ++scan) {
+            if (*scan == '\\' && scan + 1 < dot)
+                ++scan;
+            *dest++ = *scan;
         }
 
-        *e = 0;
-        c++;
-        opt = c;
-        e++;
+        mstring class_instance(word, dest - word);
 
-        p = e;
+        *end = 0;
+        opt = 1 + dot;
+        end++;
+
+        p = end;
         while (*p == ' ' || *p == '\t')
             p++;
 
-        w = p;
+        word = p;
         while (*p && false == ASCII::isWhiteSpace(*p))
             p++;
+        if (*p == '\n')
+            ++newlines;
+
+        bool lastline(*p == '\0');
+        *p = '\0';
 
         if (defOptions == 0)
             defOptions = new WindowOptions();
-        if (*p != 0) {
-            *p = 0;
-            defOptions->setWinOption(class_instance, opt, w);
-            delete[] class_instance;
-        } else {
-            defOptions->setWinOption(class_instance, opt, w);
-            delete[] class_instance;
+
+        defOptions->setWinOption(class_instance, opt, word);
+
+        if (lastline)
             break;
-        }
     }
     return p;
-nomem:
-    msg(_("Out of memory for window options"));
-    return 0;
 }
 
 void loadWinOptions(upath optFile) {
     if (optFile.nonempty()) {
-        char *buf = load_text_file(cstring(optFile));
-        if (buf) {
-            parseWinOptions(buf);
-            delete[] buf;
-        }
+        csmart buf(load_text_file(optFile.string()));
+        if (buf)
+            parseWinOptions(buf, optFile.string());
     }
 }
 

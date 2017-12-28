@@ -377,7 +377,6 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
     else
         g.fillRect(1, 1, width() - 3, height() - 3);
 
-    // for vertical positioning, continue below. Avoid spaghetti code.
     return m_verticalStyle
         ? paintVertical(g)
         : paintHorizontal(g);
@@ -386,12 +385,11 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
 void SwitchWindow::paintHorizontal(Graphics &g) {
     if (zItems->getActiveItem() >= 0) {
         int tOfs(0);
-
-        int ih = quickSwitchHugeIcon ? YIcon::hugeSize() : YIcon::largeSize();
+        int iconSize = quickSwitchHugeIcon ? YIcon::hugeSize() : YIcon::largeSize();
 
         ref<YIcon> icon;
-        if (!quickSwitchAllIcons && (icon = zItems->getIcon(zItems->getActiveItem())) != null) {
-            int iconSize = quickSwitchHugeIcon ? YIcon::hugeSize() : YIcon::largeSize();
+        if (!quickSwitchAllIcons &&
+                (icon = zItems->getIcon(zItems->getActiveItem())) != null) {
             int iconWidth = iconSize, iconHeight = iconSize;
 
             if (icon != null) {
@@ -440,7 +438,7 @@ void SwitchWindow::paintHorizontal(Graphics &g) {
             g.drawChars(cTitle, x, y);
 
             if (quickSwitchAllIcons && quickSwitchSepSize) {
-                int const h(quickSwitchVMargin + ih +
+                int const h(quickSwitchVMargin + iconSize +
                             quickSwitchIMargin * 2 +
                             quickSwitchSepSize / 2);
                 int const y(quickSwitchTextFirst ? height() - h : h);
@@ -461,7 +459,7 @@ void SwitchWindow::paintHorizontal(Graphics &g) {
             int curIcon(-1);
 
             int const y(quickSwitchTextFirst
-                        ? height() - quickSwitchVMargin - ih - quickSwitchIMargin + ds / 2
+                        ? height() - quickSwitchVMargin - iconSize - quickSwitchIMargin + ds / 2
                         : quickSwitchVMargin + ds + quickSwitchIMargin - ds / 2);
 
             g.setColor(switchHl ? switchHl : switchBg->brighter());
@@ -472,37 +470,32 @@ void SwitchWindow::paintHorizontal(Graphics &g) {
             int x((width() - min(visIcons, zItems->getCount()) * dx - ds) /  2 +
                   quickSwitchIMargin);
 
-            for (int i = 0, zCount = zItems->getCount(); i < zCount; i++) {
-                if (icon != null) {
-                    if (i >= off && i < end) {
-                        ref<YIcon> icon = zItems->getIcon(i);
-                        if (i == zItems->getActiveItem()) {
-                            if (quickSwitchFillSelection)
-                                g.fillRect(x - quickSwitchIBorder,
-                                           y - quickSwitchIBorder - ds/2,
-                                           ih + 2 * quickSwitchIBorder,
-                                           ih + 2 * quickSwitchIBorder);
-                            else
-                                g.drawRect(x - quickSwitchIBorder,
-                                           y - quickSwitchIBorder - ds/2,
-                                           ih + 2 * quickSwitchIBorder,
-                                           ih + 2 * quickSwitchIBorder);
+            for (int i = 0, zCount = zItems->getCount (); i < zCount; i++) {
+                if (i >= off && i < end) {
+                    ref<YIcon> icon = zItems->getIcon (i);
+                    if (icon != null && i == zItems->getActiveItem ()) {
+                        if (quickSwitchFillSelection)
+                            g.fillRect (x - quickSwitchIBorder,
+                                        y - quickSwitchIBorder - ds / 2,
+                                        iconSize + 2 * quickSwitchIBorder,
+                                        iconSize + 2 * quickSwitchIBorder);
+                        else
+                            g.drawRect (x - quickSwitchIBorder,
+                                        y - quickSwitchIBorder - ds / 2,
+                                        iconSize + 2 * quickSwitchIBorder,
+                                        iconSize + 2 * quickSwitchIBorder);
 
-                            int iconSize = quickSwitchHugeIcon ? YIcon::hugeSize() : YIcon::largeSize();
-                            if (icon != null)
-                                icon->draw(g, x, y - ds/2, iconSize);
+                        if (icon != null)
+                            icon->draw (g, x, y - ds / 2, iconSize);
 
-                            x+= ds;
-                        } else {
-                            if (icon != null)
-                                icon->draw(g, x, y, YIcon::largeSize());
-                        }
-
-                        x += dx;
+                        x += ds;
+                    } else {
+                        if (icon != null)
+                            icon->draw (g, x, y, YIcon::largeSize ());
                     }
+                    x += dx;
                 }
             }
-            //      {} while ((frame = nextWindow(frame, true, true)) != first);
         }
     }
 }

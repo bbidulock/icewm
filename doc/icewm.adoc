@@ -1,6 +1,6 @@
 = IceWM Manual
 Marko Macek <Marko.Macek@gmx.net>
-v1.4.2, 2017 November 15
+v1.4.2, 2017 November 18
 :homepage: http://www.icewm.org
 :toc:
 :toclevels: 2
@@ -86,8 +86,8 @@ xterm
 ....
 
 The xterm on the last line is there simply to make sure that your X
-session doesn't crash if icewm does (should never happen). You can
-restart icewm from there or start some other window manager. The
+session doesn't crash if IceWM does (should never happen). You can
+restart IceWM from there or start some other window manager. The
 session will close if you close the xterm.
 
 === Startup and shutdown scripts
@@ -514,8 +514,8 @@ WorkspaceNames=" 1 ", " 2 ", " 3 ", " 4 "
 === Paths
 
 +LibPath+:: Path to the icewm/lib directory.
-+IconPath+:: Path to the icon directory. Multiple paths can be entered
-using the colon (UNIX) or semicolon (OS/2) as the separator.
++IconPath+:: Path to the icon directory. Multiple paths can be given
+using the colon as a separator.
 
 === Programs
 
@@ -725,15 +725,15 @@ MenuFontNameXft="sans-serif:size=12:bold"
 +ColorNetSend = "rgb:FF/FF/00"+:: Outgoing load on the network monitor.
 +ColorNetReceive = "rgb:FF/00/FF"+:: Incoming load on the network monitor.
 +ColorNetIdle = "rgb:00/00/00"+:: Idle (non) load on the network monitor, leave empty to force transparency.
-+DesktopBackgroundColor = ""+:: Color of the desktop background.
-+DesktopTransparencyColor = ""+:: Color(s) to announce for semitransparent windows.
 
 === Desktop Background
 
+The following options are used by `icewmbg`:
+
 +DesktopBackgroundCenter = 0+:: Display desktop background centered and not tiled. (set to 0 or 1).
 +DesktopBackgroundScaled = 0+:: Resize desktop background to full screen.
-+DesktopBackgroundColor = ""+:: Color of the desktop background.
-+DesktopBackgroundImage = ""+:: Image (.xpm) for desktop background. If you want icewm
++DesktopBackgroundColor = ""+:: Color(s) of the desktop background.
++DesktopBackgroundImage = ""+:: Image(s) for desktop background. If you want IceWM
 to ignore the desktop background image / color set both DesktopBackgroundColor ad
 DesktopBackgroundImage to an empty value ("").
 +SupportSemitransparency = 1+:: Support for semitransparent terminals like Eterm or gnome-terminal.
@@ -774,7 +774,7 @@ Restarting another window manager can be done using the restart program:
 restart "title" icon_name program_executable options
 ....
 
-icon_name can be `-` if icon is not wanted.
+icon_name can be `-` if icon is not wanted, or `!` if the icon name shall be guessed by checking the command (i.e. the real executable file, following symlinks as needed).
 
 The "runonce" keyword allows to launch an application only when no window
 has the WM_CLASS hint specified. Otherwise the first window having this
@@ -796,7 +796,7 @@ menu "title" icon_name {
 }
 ....
 
-Only double quotes are interpreted by icewm. IceWM doesn't run the shell
+Only double quotes are interpreted by IceWM. IceWM doesn't run the shell
 automatically, so you may have to do that.
 
 == Hot Keys
@@ -885,46 +885,41 @@ _Ignore_::: Don't add an icon to the tray pane.
 _Minimized_::: Add an icon the the tray. Remove the task pane button when minimized.
 _Exclusive_::: Add an icon the the tray. Never create a task pane button.
 
-+allWorkspaces=0+:: If set to 1, window will be visible on all workspaces.
-+ignorePagerPreview=0+:: If set to 1, window will not appear in pager preview.
-+ignoreWinList=0+:: If set to 1, window will not appear in the window list.
-+ignoreTaskBar=0+:: If set to 1, window will not appear on the task bar.
-+ignoreQuickSwitch=0+:: If set to 1, window will not be accessible using QuickSwitch feature (Alt+Tab).
-+fullKeys=0+:: If set to 1, the window manager leave more keys (Alt+F?) to the application.
-+fMove=1+:: If set to 0, window will not be movable.
-+fResize=1+:: If set to 0, window will not be resizable.
-+fClose=1+:: If set to 0, window will not be closable.
-+fMinimize=1+:: If set to 0, window will not be minimizable.
-+fMaximize=1+:: If set to 0, window will not be maximizable.
-+fHide=1+:: If set to 0, window will not be hidable.
-+fRollup=1+:: If set to 0, window will not be shadable.
-+dTitleBar=1+:: If set to 0, window will not have a title bar.
-+dSysMenu=1+:: If set to 0, window will not have a system menu.
-+dBorder=1+:: If set to 0, window will not have a border.
-+dResize=1+:: If set to 0, window will not have a resize border.
-+dClose=1+:: If set to 0, window will not have a close button.
-+dMinimize=1+:: If set to 0, window will not have a minimize button.
-+dMaximize=1+:: If set to 0, window will not have a maximize button.
-+noFocusOnAppRaise=0+:: if set to 1, window will not automatically get focus as
-application raises it.
-+ignoreNoFocusHint=0+:: if set to 1, icewm will focus even if the window does not
-handle input.
-+ignorePositionHint=0+:: if set to 1, icewm will ignore the position hint.
-+doNotCover=0+:: if set to 1, this window will limit the workspace available for
-regular applications. At the moment the window has to be sticky to make it work.
-+doNotFocus=0+:: if set to 1, icewm will never give focus to the window.
-+startFullscreen=0+:: if set to 1, window will cover the entire screen.
-+startMinimized=0+:: if set to 1, window start minimized.
-+startMaximized=0+:: if set to 1, window start maximized.
-+startMaximizedVert=0+:: if set to 1, window start maximized vertically.
-+startMaximizedHorz=0+:: if set to 1, window start maximized horizontally.
-+nonICCCMconfigureRequest=0+:: if set to 1, icewm assumes the application does not support the ICCCM standard wrt positioning and compensate for that.
-+forcedClose=0+:: if set to 1 and the application had not registered
-WM_DELETE_WINDOW, a close confirmation dialog won't be offered upon closing
-the window.
-+noFocusOnMap=0+:: if set to 1, icewm will not assign focus when the window is mapped for the first time.
-+ignoreUrgentHint=0+:: if set to 1, icewm will ignore it if the window sets the urgent hint.
-+appTakesFocus=0+:: if set to 1, icewm will assume the window supports the WM_TAKE_FOCUS protocol even if the window did not advertise that it does.
++allWorkspaces: 0+:: If set to 1, window will be visible on all workspaces.
++appTakesFocus: 0+:: if set to 1, IceWM will assume the window supports the WM_TAKE_FOCUS protocol even if the window did not advertise that it does.
++dBorder: 1+:: If set to 0, window will not have a border.
++dClose: 1+:: If set to 0, window will not have a close button.
++dMaximize: 1+:: If set to 0, window will not have a maximize button.
++dMinimize: 1+:: If set to 0, window will not have a minimize button.
++dResize: 1+:: If set to 0, window will not have a resize border.
++dSysMenu: 1+:: If set to 0, window will not have a system menu.
++dTitleBar: 1+:: If set to 0, window will not have a title bar.
++doNotCover: 0+:: if set to 1, this window will limit the workspace available for regular applications. At the moment the window has to be sticky to make it work.
++doNotFocus: 0+:: if set to 1, IceWM will never give focus to the window.
++fClose: 1+:: If set to 0, window will not be closable.
++fHide: 1+:: If set to 0, window will not be hidable.
++fMaximize: 1+:: If set to 0, window will not be maximizable.
++fMinimize: 1+:: If set to 0, window will not be minimizable.
++fMove: 1+:: If set to 0, window will not be movable.
++fResize: 1+:: If set to 0, window will not be resizable.
++fRollup: 1+:: If set to 0, window will not be shadable.
++forcedClose: 0+:: if set to 1 and the application had not registered WM_DELETE_WINDOW, a close confirmation dialog won't be offered upon closing the window.
++fullKeys: 0+:: If set to 1, the window manager leave more keys (Alt+F?) to the application.
++ignoreNoFocusHint: 0+:: if set to 1, IceWM will focus even if the window does not handle input.
++ignorePagerPreview: 0+:: If set to 1, window will not appear in pager preview.
++ignorePositionHint: 0+:: if set to 1, IceWM will ignore the position hint.
++ignoreQuickSwitch: 0+:: If set to 1, window will not be accessible using QuickSwitch feature (Alt+Tab).
++ignoreTaskBar: 0+:: If set to 1, window will not appear on the task bar.
++ignoreUrgentHint: 0+:: if set to 1, IceWM will ignore it if the window sets the urgent hint.
++ignoreWinList: 0+:: If set to 1, window will not appear in the window list.
++noFocusOnAppRaise: 0+:: if set to 1, window will not automatically get focus as application raises it.
++noFocusOnMap: 0+:: if set to 1, IceWM will not assign focus when the window is mapped for the first time.
++nonICCCMconfigureRequest: 0+:: if set to 1, IceWM assumes the application does not support the ICCCM standard wrt positioning and compensate for that.
++startFullscreen: 0+:: if set to 1, window will cover the entire screen.
++startMaximized: 0+:: if set to 1, window starts maximized.
++startMaximizedHorz: 0+:: if set to 1, window starts maximized horizontally.
++startMaximizedVert: 0+:: if set to 1, window starts maximized vertically.
++startMinimized: 0+:: if set to 1, window starts minimized.
 
 == Icon handling
 
@@ -1001,7 +996,7 @@ has a very large number of themes which were created by users of IceWM.
 
 `icewm` supports the following options:
 
-+--display=NAME+::      NAME of the X server to use.
++-d, --display=NAME+::  NAME of the X server to use.
 +--client-id=ID+::      Client id to use when contacting session manager.
 +--sync+::              Synchronize X11 commands.
 +-c, --config=FILE+::   Load preferences from FILE.

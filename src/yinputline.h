@@ -4,6 +4,7 @@
 #include "ywindow.h"
 #include "ytimer.h"
 #include "yaction.h"
+#include "ypointer.h"
 
 class YMenu;
 
@@ -45,29 +46,36 @@ public:
     void complete();
 
 private:
+    virtual bool handleTimer(YTimer *timer);
+    virtual bool handleAutoScroll(const XMotionEvent &mouse);
+
+    void limit();
+    void autoScroll(int delta, const XMotionEvent *mouse);
+    unsigned offsetToPos(int offset);
+
     ustring fText;
     unsigned markPos;
     unsigned curPos;
     int leftOfs;
+    int fAutoScrollDelta;
     bool fHasFocus;
     bool fCursorVisible;
     bool fSelecting;
+    const short fBlinkTime;
 
-    static int fAutoScrollDelta;
+    ref<YFont> inputFont;
+    osmart<YColor> inputBg;
+    osmart<YColor> inputFg;
+    osmart<YColor> inputSelectionBg;
+    osmart<YColor> inputSelectionFg;
+    osmart<YTimer> cursorBlinkTimer;
+    osmart<YMenu> inputMenu;
 
-    void limit();
-    unsigned offsetToPos(int offset);
-    void autoScroll(int delta, const XMotionEvent *mouse);
-    virtual bool handleTimer(YTimer *timer);
-    virtual bool handleAutoScroll(const XMotionEvent &mouse);
-
-    static YColor *inputBg;
-    static YColor *inputFg;
-    static YColor *inputSelectionBg;
-    static YColor *inputSelectionFg;
-    static ref<YFont> inputFont;
-    static YTimer *cursorBlinkTimer;
-    static YMenu *inputMenu;
+    YAction actionCut;
+    YAction actionCopy;
+    YAction actionPaste;
+    YAction actionSelectAll;
+    YAction actionPasteSelection;
 
 private: // not-used
     YInputLine(const YInputLine &);

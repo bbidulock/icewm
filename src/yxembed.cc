@@ -1,11 +1,5 @@
 #include "yxembed.h"
 
-YXEmbed::YXEmbed(YWindow *aParent):
-    YWindow(aParent)
-{
-    setParentRelative();
-}
-
 YXEmbed::~YXEmbed() {
 }
 
@@ -21,21 +15,21 @@ YXEmbedClient::~YXEmbedClient() {
 }
 
 void YXEmbedClient::handleDestroyWindow(const XDestroyWindowEvent& destroy) {
-    MSG(("embed client destroy: evt 0x%lX, win 0x%lX",
-                destroy.event, destroy.window));
+    MSG(("embed client destroy: evt 0x%lX, win 0x%lX, handle 0x%lX",
+                destroy.event, destroy.window, handle()));
 
     if (destroy.window == handle()) {
         YWindow::handleDestroyWindow(destroy);
-        fEmbedder->destroyedClient(handle());
+        fEmbedder->destroyedClient(destroy.window);
     }
 }
 
 void YXEmbedClient::handleReparentNotify(const XReparentEvent &reparent) {
-    MSG(("embed client reparent: win 0x%lX, par 0x%lX",
-                reparent.window, reparent.parent));
+    MSG(("embed client reparent: win 0x%lX, par 0x%lX, handle 0x%lX",
+                reparent.window, reparent.parent, handle()));
 
     if (reparent.window == handle() &&
-            reparent.parent != fEmbedder->handle()) {
+            reparent.parent != fEmbedder->getHandle()) {
         if (false == fEmbedder->destroyedClient(handle())) {
             YWindow::handleReparentNotify(reparent);
         }
@@ -48,8 +42,8 @@ void YXEmbedClient::handleConfigure(const XConfigureEvent& event) {
 
     YWindow::handleConfigure(event);
 
-    int ww = (int) fEmbedder->width();
-    int hh = (int) fEmbedder->height();
+    int ww = (int) fEmbedder->getWidth();
+    int hh = (int) fEmbedder->getHeight();
     if (ww >= 16 && hh >= 16 &&
         (!inrange(event.width,  ww - 4, ww + 8) ||
          !inrange(event.height, hh - 4, hh + 1)))
@@ -87,7 +81,8 @@ void YXEmbedClient::handleProperty(const XPropertyEvent &property) {
 }
 
 void YXEmbedClient::handleUnmap(const XUnmapEvent& unmap) {
-    MSG(("embed client unmap: evt 0x%lX, win 0x%lX", unmap.event, unmap.window));
+    MSG(("embed client unmap: evt 0x%lX, win 0x%lX, handle 0x%lX",
+                unmap.event, unmap.window, handle()));
 
     fEmbedder->handleClientUnmap(handle());
 }

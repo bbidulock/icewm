@@ -29,14 +29,14 @@ public:
     YXApplication(int *argc, char ***argv, const char *displayName = 0);
     virtual ~YXApplication();
 
-    Display * display() const { return fDisplay; }
-    int screen() { return DefaultScreen (display()); }
-    Visual * visual() { return DefaultVisual(display(), screen()); }
-    Colormap colormap() { return DefaultColormap(display(), screen()); }
-    unsigned depth() { return DefaultDepth(display(), screen()); }
-    Window root() { return DefaultRootWindow(display()); }
-    unsigned long black() { return BlackPixel(display(), screen()); }
-    unsigned long white() { return WhitePixel(display(), screen()); }
+    Display * display()   const { return fDisplay; }
+    int screen()          const { return fScreen; }
+    Window root()         const { return fRoot; }
+    Visual * visual()     const { return fVisual; }
+    unsigned depth()      const { return fDepth; }
+    Colormap colormap()   const { return fColormap; }
+    unsigned long black() const { return fBlack; }
+    unsigned long white() const { return fWhite; }
     int displayWidth() { return DisplayWidth(display(), screen()); }
     int displayHeight() { return DisplayHeight(display(), screen()); }
     Atom atom(const char* name) { return XInternAtom(display(), name, False); }
@@ -46,6 +46,7 @@ public:
     }
 
     bool hasColormap();
+    bool synchronized() const { return fArgs.runSynchronized; }
 
     void saveEventTime(const XEvent &xev);
     Time getEventTime(const char *debug) const;
@@ -97,7 +98,23 @@ public:
     static const char* getHelpText();
 
 private:
-    Display *fDisplay;
+    struct AppArgs {
+        const char* displayName;
+        bool runSynchronized;
+    } const fArgs;
+
+    AppArgs parseArgs(int *argc, char ***argv, const char *displayName);
+    Display* openDisplay();
+
+    Display* const fDisplay;
+    int const fScreen;
+    Window const fRoot;
+    unsigned const fDepth;
+    Visual* const fVisual;
+    Colormap const fColormap;
+    unsigned long const fBlack;
+    unsigned long const fWhite;
+
     Time lastEventTime;
     YPopupWindow *fPopup;
     friend class YXPoll;
@@ -114,6 +131,7 @@ private:
     virtual bool handleXEvents();
     virtual void flushXEvents();
 
+    void initExtensions();
     void initModifiers();
     static void initAtoms();
     static void initPointers();

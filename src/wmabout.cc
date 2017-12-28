@@ -94,20 +94,25 @@ AboutDlg::~AboutDlg() {
     delete fLanguage;
 }
 
-#define RX(w) (int((w)->x() + (w)->width()))
-#define XMAX(x,nx) ((nx) > (x) ? (nx) : (x))
+static unsigned right(YLabel *w) {
+    return w->x() + w->width();
+}
 
 void AboutDlg::autoSize() {
-    int dx = 20, dx1 = 20;
-    int dy = 20;
-    int W = 0, H;
-    int cy;
+    unsigned const margin = 20;
+    unsigned dx = margin, dx1 = margin;
+    unsigned dy = margin;
+    unsigned W = 0;
+    unsigned cy;
 
-    fProgTitle->setPosition(dx, dy); dy += fProgTitle->height();
-    W = XMAX(W, RX(fProgTitle));
+    fProgTitle->setPosition(dx, dy);
+    dy += fProgTitle->height();
+    W = max(W, right(fProgTitle));
     dy += 4;
-    fCopyright->setPosition(dx, dy); dy += fCopyright->height();
-    W = XMAX(W, RX(fCopyright));
+
+    fCopyright->setPosition(dx, dy);
+    dy += fCopyright->height();
+    W = max(W, right(fCopyright));
     dy += 20;
 
     fThemeNameS->setPosition(dx, dy);
@@ -117,64 +122,61 @@ void AboutDlg::autoSize() {
     fLanguageS->setPosition(dx, dy);
 
 
-    dx = XMAX(dx, RX(fThemeNameS));
-    dx = XMAX(dx, RX(fThemeDescriptionS));
-    dx = XMAX(dx, RX(fThemeAuthorS));
-    dx = XMAX(dx, RX(fCodeSetS));
-    dx = XMAX(dx, RX(fLanguageS));
+    dx = max(dx, right(fThemeNameS));
+    dx = max(dx, right(fThemeDescriptionS));
+    dx = max(dx, right(fThemeAuthorS));
+    dx = max(dx, right(fCodeSetS));
+    dx = max(dx, right(fLanguageS));
     dx += 20;
 
     fThemeNameS->setPosition(dx1, dy);
     cy = fThemeNameS->height();
-    W = XMAX(W, RX(fThemeName));
+    W = max(W, right(fThemeName));
     fThemeName->setPosition(dx, dy);
-    cy = XMAX(cy, int(fThemeName->height()));
-    W = XMAX(W, RX(fThemeName));
+    cy = max(cy, fThemeName->height());
+    W = max(W, right(fThemeName));
     dy += cy;
     dy += 4;
 
     fThemeDescriptionS->setPosition(dx1, dy);
     cy = fThemeDescriptionS->height();
-    W = XMAX(W, RX(fThemeDescriptionS));
+    W = max(W, right(fThemeDescriptionS));
     fThemeDescription->setPosition(dx, dy);
-    cy = XMAX(cy, int(fThemeDescription->height()));
-    W = XMAX(W, RX(fThemeDescription));
+    cy = max(cy, fThemeDescription->height());
+    W = max(W, right(fThemeDescription));
     dy += cy;
 
     dy += 4;
 
     fThemeAuthorS->setPosition(dx1, dy);
     cy = fThemeAuthorS->height();
-    W = XMAX(W, RX(fThemeAuthorS));
+    W = max(W, right(fThemeAuthorS));
     fThemeAuthor->setPosition(dx, dy);
-    cy = XMAX(cy, int(fThemeAuthor->height()));
-    W = XMAX(W, RX(fThemeAuthor));
+    cy = max(cy, fThemeAuthor->height());
+    W = max(W, right(fThemeAuthor));
     dy += cy;
 
     dy += 20;
 
     fCodeSetS->setPosition(dx1, dy);
     cy = fCodeSetS->height();
-    W = XMAX(W, RX(fCodeSetS));
+    W = max(W, right(fCodeSetS));
     fCodeSet->setPosition(dx, dy);
-    cy = XMAX(cy, int(fCodeSet->height()));
-    W = XMAX(W, RX(fCodeSet));
+    cy = max(cy, fCodeSet->height());
+    W = max(W, right(fCodeSet));
     dy += cy;
 
     dy += 4;
 
     fLanguageS->setPosition(dx1, dy);
     cy = fLanguageS->height();
-    W = XMAX(W, RX(fLanguageS));
+    W = max(W, right(fLanguageS));
     fLanguage->setPosition(dx, dy);
-    cy = XMAX(cy, int(fLanguage->height()));
-    W = XMAX(W, RX(fLanguage));
+    cy = max(cy, fLanguage->height());
+    W = max(W, right(fLanguage));
     dy += cy;
 
-    H = dy + 20;
-
-    W += 20;
-    setSize(W, H);
+    setSize(W + margin, dy + margin);
 }
 
 void AboutDlg::showFocused() {
@@ -186,8 +188,8 @@ void AboutDlg::showFocused() {
         manager->manageClient(handle(), false);
     if (getFrame() != 0) {
         getFrame()->setNormalPositionOuter(
-            dx + dw / 2 - getFrame()->width() / 2,
-            dy + dh / 2 - getFrame()->height() / 2);
+            dx + int(dw / 2 - getFrame()->width() / 2),
+            dy + int(dh / 2 - getFrame()->height() / 2));
         getFrame()->activateWindow(true);
     }
 }

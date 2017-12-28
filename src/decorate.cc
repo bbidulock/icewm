@@ -195,7 +195,8 @@ void YFrameWindow::layoutShape() {
             int const a(focused() ? 1 : 0);
             int const t((frameDecors() & fdResize) ? 0 : 1);
 
-            Pixmap shape = XCreatePixmap(xapp->display(), desktop->handle(), width(), height(), 1);
+            Pixmap shape = XCreatePixmap(xapp->display(), desktop->handle(),
+                                         width(), height(), 1);
             Graphics g(shape, width(), height(), 1);
 
             g.setColorPixel(1);
@@ -340,6 +341,9 @@ void YFrameWindow::layoutResizeIndicators() {
             XMapWindow(xapp->display(), topRight);
             XMapWindow(xapp->display(), bottomLeft);
             XMapWindow(xapp->display(), bottomRight);
+
+            XMapWindow(xapp->display(), topLeftSide);
+            XMapWindow(xapp->display(), topRightSide);
         }
     } else {
         if (indicatorsVisible) {
@@ -354,29 +358,45 @@ void YFrameWindow::layoutResizeIndicators() {
             XUnmapWindow(xapp->display(), topRight);
             XUnmapWindow(xapp->display(), bottomLeft);
             XUnmapWindow(xapp->display(), bottomRight);
+
+            XUnmapWindow(xapp->display(), topLeftSide);
+            XUnmapWindow(xapp->display(), topRightSide);
         }
     }
     if (!indicatorsVisible)
         return;
 
+    int ww(max(3, (int) width()));
+    int hh(max(3, (int) height()));
+    int bx(max(1, (int) borderX()));
+    int by(max(1, (int) borderY()));
+    int cx(max(1, (int) wsCornerX));
+    int cy(max(1, (int) wsCornerY));
+    int xx(max(1, min(cx, ww / 2)));
+    int yy(max(1, min(cy, hh / 2)));
+
     XMoveResizeWindow(xapp->display(), topSide,
-                      0, 0, width(), borderY());
+                      xx, 0, ww - 2 * xx, by);
     XMoveResizeWindow(xapp->display(), leftSide,
-                      0, 0, borderX(), height());
+                      0, yy, bx, hh - 2 * yy);
     XMoveResizeWindow(xapp->display(), rightSide,
-                      width() - borderX(), 0, borderX(), height());
+                      ww - bx, yy, bx, hh - 2 * yy);
     XMoveResizeWindow(xapp->display(), bottomSide,
-                      0, height() - borderY(), width(), borderY());
+                      xx, hh - by, ww - 2 * xx, by);
 
     XMoveResizeWindow(xapp->display(), topLeft,
-                      0, 0, wsCornerX, wsCornerY);
+                      0, 0, xx, yy);
     XMoveResizeWindow(xapp->display(), topRight,
-                      width() - wsCornerX, 0, wsCornerX, wsCornerY);
+                      ww - xx, 0, xx, yy);
     XMoveResizeWindow(xapp->display(), bottomLeft,
-                      0, height() - wsCornerY, wsCornerX, wsCornerY);
+                      0, hh - yy, xx, yy);
     XMoveResizeWindow(xapp->display(), bottomRight,
-                      width() - wsCornerX, height() - wsCornerY,
-                      wsCornerX, wsCornerY);
+                      ww - xx, hh - yy, xx, yy);
+
+    XMoveResizeWindow(xapp->display(), topLeftSide,
+                      0, 0, bx, yy);
+    XMoveResizeWindow(xapp->display(), topRightSide,
+                      ww - bx, 0, bx, yy);
 }
 
 void YFrameWindow::layoutClient() {
@@ -452,68 +472,21 @@ bool YFrameWindow::canRaise() {
     return false;
 }
 
-bool YFrameWindow::Overlaps(bool above) {
-    YFrameWindow *f;
-    int w1x2 , w1y2 , w2x2 , w2y2;
-    long curWorkspace = manager->activeWorkspace();
-    bool B,C,D,E,F,H;
-
-    if (above)
-        f = prev();
-    else
-        f = next();
-
-    while (f) {
-        if (!f->isMinimized() && !f->isHidden() && f->visibleOn(curWorkspace)) {
-            w2x2 = f->x() + (int)f->width() - 1;
-            w2y2 = f->y() + (int)f->height() - 1;
-            w1x2 = x() + (int)width() - 1;
-            w1y2 = y() + (int)height() - 1;
-            B = w2x2 >= x();
-            C = y() >= f->y();
-            E = w1x2 >= f->x();
-            F = w2x2 >= w1x2;
-            H = w2y2 >= w1y2;
-            if (w1y2 >= f->y()) {
-                if (F) {
-                    if (E && H) {
-                        return true;
-                    }
-                } else {
-                    if (B && !C) {
-                        return true;
-                    }
-                }
-            }
-            D = w2y2 >= y();
-            if (x() >= f->x()) {
-                if (C) {
-                    if (B && D) {
-                        return true;
-                    }
-                } else {
-                    if (F && !H) {
-                        return true;
-                    }
-                }
-            } else {
-                if (H) {
-                    if (C && !F) {
-                        return true;
-                    }
-                } else {
-                    if (E && D) {
-                        return true;
-                    }
-                }
-            }
-        }
-
-        if (above)
-            f = f->prev();
-        else
-            f = f->next();
+unsigned YFrameWindow::overlap(YFrameWindow* f) {
+    if (false == f->isHidden() &&
+        false == f->isMinimized() &&
+        f->visibleOn(manager->activeWorkspace()))
+    {
+        return geometry().intersect(f->geometry()).pixels();
     }
+    return 0;
+}
+
+bool YFrameWindow::overlaps(bool below) {
+    YFrameWindow* f = below ? prev() : next();
+    for (; f; f = below ? f->prev() : f->next())
+        if (overlap(f))
+            return true;
     return false;
 }
 

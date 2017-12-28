@@ -89,7 +89,7 @@ from that directory are used in sorted order.
   Disable/Enable multihead background.
   This overrules the 'DesktopBackgroundMultihead' preference.
 
-*--display=NAME*::
+*-d, --display=NAME*::
   Use 'NAME' to connect to the X server.
   If this option is missing then 'NAME'
   is read from the environment variable DISPLAY.

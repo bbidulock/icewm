@@ -30,7 +30,7 @@ void YApplication::initSignals() {
 
 #ifdef USE_SIGNALFD
     signalPipe[0] = signalfd(-1, &signalMask, 0);
-    if(signalPipe[0]<0)
+    if (signalPipe[0]<0)
         perror("signalfd");
     // XXX: with kernel 2.6.27 the flags above should become effective
     // but let's not require that yet

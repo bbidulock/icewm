@@ -11,31 +11,25 @@ extern "C" {
 
 class YImageGDK: public YImage {
 public:
-    YImageGDK(unsigned width, unsigned height, GdkPixbuf *pixbuf): YImage(width, height) {
+    YImageGDK(unsigned width, unsigned height, GdkPixbuf *pixbuf):
+        YImage(width, height)
+    {
         fPixbuf = pixbuf;
     }
     virtual ~YImageGDK() {
         g_object_unref(G_OBJECT(fPixbuf));
     }
-    virtual ref<YPixmap> renderToPixmap();
+    virtual ref<YPixmap> renderToPixmap(unsigned depth);
     virtual ref<YImage> scale(unsigned width, unsigned height);
     virtual void draw(Graphics &g, int dx, int dy);
-    virtual void draw(Graphics &g, int x, int y, unsigned w, unsigned h, int dx, int dy);
-    virtual void composite(Graphics &g, int x, int y, unsigned w, unsigned h, int dx, int dy);
+    virtual void draw(Graphics &g, int x, int y,
+                       unsigned w, unsigned h, int dx, int dy);
+    virtual void composite(Graphics &g, int x, int y,
+                            unsigned w, unsigned h, int dx, int dy);
     virtual bool valid() const { return fPixbuf != 0; }
 private:
     GdkPixbuf *fPixbuf;
 };
-
-ref<YImage> YImage::create(unsigned width, unsigned height) {
-    ref<YImage> image;
-    GdkPixbuf *pixbuf =
-        gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8, width, height);
-    if (pixbuf != NULL) {
-        image.init(new YImageGDK(width, height, pixbuf));
-    }
-    return image;
-}
 
 ref<YImage> YImage::load(upath filename) {
     ref<YImage> image;
@@ -157,20 +151,74 @@ ref<YImage> YImage::createFromPixmapAndMaskScaled(Pixmap pix, Pixmap mask,
     return image;
 }
 
-ref<YPixmap> YImageGDK::renderToPixmap() {
+ref<YPixmap> YImageGDK::renderToPixmap(unsigned depth) {
     Pixmap pixmap = None, mask = None;
-    gdk_pixbuf_xlib_render_pixmap_and_mask(fPixbuf, &pixmap, &mask, 128);
 
-    return createPixmap(pixmap, mask,
-                        gdk_pixbuf_get_width(fPixbuf),
-                        gdk_pixbuf_get_height(fPixbuf),
-                        xapp->depth());
+    if (depth == (unsigned) xlib_rgb_get_depth()) {
+        gdk_pixbuf_xlib_render_pixmap_and_mask(fPixbuf, &pixmap, &mask, 128);
+    }
+    else if (depth == 32) {
+        int width = int(this->width());
+        int height = int(this->height());
+        XImage* image = XCreateImage(xapp->display(), xapp->visual(), depth,
+                                     ZPixmap, 0, NULL, width, height, 8, 0);
+        if (image)
+            image->data = (char *) calloc(image->bytes_per_line * height, 1);
+        XImage* imask = XCreateImage(xapp->display(), xapp->visual(), 1,
+                                     XYPixmap, 0, NULL, width, height, 8, 0);
+        if (imask)
+            imask->data = (char *) calloc(imask->bytes_per_line * height, 1);
+
+        if (image && image->data && imask && imask->data) {
+            if (4 != gdk_pixbuf_get_n_channels(fPixbuf) ||
+                1 != gdk_pixbuf_get_has_alpha(fPixbuf)) {
+                static int atmost(3);
+                if (atmost-- > 0)
+                    tlog("gdk pixbuf channels %d != 4 || has_alpha %d != 1",
+                         gdk_pixbuf_get_n_channels(fPixbuf),
+                         gdk_pixbuf_get_has_alpha(fPixbuf));
+            }
+            guchar *pixels = gdk_pixbuf_get_pixels(fPixbuf);
+
+            for (int r = 0; r < height; r++) {
+                for (int c = 0; c < width; c++) {
+                    XPutPixel(image, c, r,
+                              (pixels[c * 4] << 16) +
+                              (pixels[c * 4 + 1] << 8) +
+                              (pixels[c * 4 + 2] << 0) +
+                              (pixels[c * 4 + 3] << 24));
+                    XPutPixel(imask, c, r, pixels[c * 4 + 3] >= 128);
+                }
+                pixels += gdk_pixbuf_get_rowstride(fPixbuf);
+            }
+
+            pixmap = XCreatePixmap(xapp->display(), xapp->root(),
+                                   width, height, depth);
+            GC gc = XCreateGC(xapp->display(), pixmap, None, None);
+            XPutImage(xapp->display(), pixmap, gc, image,
+                      0, 0, 0, 0, width, height);
+            XFreeGC(xapp->display(), gc);
+
+            mask = XCreatePixmap(xapp->display(), xapp->root(),
+                                 width, height, 1);
+            gc = XCreateGC(xapp->display(), mask, None, None);
+            XPutImage(xapp->display(), mask, gc, imask,
+                      0, 0, 0, 0, width, height);
+            XFreeGC(xapp->display(), gc);
+
+            XDestroyImage(image);
+            XDestroyImage(imask);
+        }
+    }
+
+    return createPixmap(pixmap, mask, width(), height(), depth);
 }
 
-ref<YPixmap> YImage::createPixmap(Pixmap pixmap, Pixmap mask, unsigned w, unsigned h, unsigned depth) {
+ref<YPixmap> YImage::createPixmap(Pixmap pixmap, Pixmap mask,
+                                  unsigned w, unsigned h, unsigned depth) {
     ref<YPixmap> n;
 
-    n.init(new YPixmap(pixmap, mask, w, h, depth));
+    n.init(new YPixmap(pixmap, mask, w, h, depth, ref<YImage>(this)));
     return n;
 }
 
@@ -197,35 +245,40 @@ void YImageGDK::draw(Graphics &g, int x, int y, unsigned w, unsigned h, int dx, 
 #endif
 }
 
-void YImageGDK::composite(Graphics &g, int x, int y, unsigned w, unsigned h, int dx, int dy) {
+void YImageGDK::composite(Graphics &g, int x, int y, unsigned width, unsigned height, int dx, int dy) {
+    int w = (int) width;
+    int h = (int) height;
 
     //MSG(("composite -- %d %d %d %d | %d %d", x, y, w, h, dx, dy));
     if (g.xorigin() > dx) {
-        if ((int) w <= g.xorigin() - dx)
+        if (w <= g.xorigin() - dx)
             return;
         w -= g.xorigin() - dx;
         x += g.xorigin() - dx;
         dx = g.xorigin();
     }
     if (g.yorigin() > dy) {
-        if ((int) h <= g.xorigin() - dx)
+        if (h <= g.xorigin() - dx)
             return;
         h -= g.yorigin() - dy;
         y += g.yorigin() - dy;
         dy = g.yorigin();
     }
-    if ((int) (dx + w) > (int) (g.xorigin() + g.rwidth())) {
+    if (dx + w > (int) (g.xorigin() + g.rwidth())) {
         if ((int) (g.xorigin() + g.rwidth()) <= dx)
             return;
         w = g.xorigin() + g.rwidth() - dx;
     }
-    if ((int) (dy + h) > (int) (g.yorigin() + g.rheight())) {
+    if (dy + h > (int) (g.yorigin() + g.rheight())) {
         if ((int) (g.yorigin() + g.rheight()) <= dy)
             return;
         h = g.yorigin() + g.rheight() - dy;
     }
     if (w <= 0 || h <= 0)
         return;
+
+    const int src_x = int(dx - g.xorigin());
+    const int src_y = int(dy - g.yorigin());
 
     //MSG(("composite ++ %d %d %d %d | %d %d", x, y, w, h, dx, dy));
     GdkPixbuf *pixbuf =
@@ -234,13 +287,13 @@ void YImageGDK::composite(Graphics &g, int x, int y, unsigned w, unsigned h, int
                                       g.drawable(),
                                       xapp->colormap(),
                                       xapp->visual(),
-                                      dx - g.xorigin(), dy - g.yorigin(), 0, 0, w, h);
+                                      src_x, src_y, 0, 0, w, h);
     gdk_pixbuf_composite(fPixbuf, pixbuf,
                          0, 0, w, h,
                          -x, -y, 1.0, 1.0,
                          GDK_INTERP_BILINEAR, 255);
     gdk_pixbuf_xlib_render_to_drawable(pixbuf, g.drawable(), g.handleX(),
-                                             0, 0, dx - g.xorigin(), dy - g.yorigin(), w, h,
+                                             0, 0, src_x, src_y, w, h,
 //                                             GDK_PIXBUF_ALPHA_BILEVEL, 128,
                                              XLIB_RGB_DITHER_NONE, 0, 0);
     g_object_unref(G_OBJECT(pixbuf));

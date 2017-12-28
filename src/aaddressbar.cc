@@ -6,16 +6,15 @@
  * AddressBar
  */
 #include "config.h"
-#include "ykey.h"
 #include "aaddressbar.h"
-
 #include "yxapp.h"
 #include "wmmgr.h"
-#include "sysdep.h"
 #include "default.h"
 
-
-AddressBar::AddressBar(IApp *app, YWindow *parent): YInputLine(parent) {
+AddressBar::AddressBar(IApp *app, YWindow *parent):
+    YInputLine(parent),
+    location(0)
+{
     this->app = app;
 }
 
@@ -25,40 +24,73 @@ AddressBar::~AddressBar() {
 bool AddressBar::handleKey(const XKeyEvent &key) {
     if (key.type == KeyPress) {
         KeySym k = keyCodeToKeySym(key.keycode);
-        int m = KEY_MODMASK(key.state);
 
         if (k == XK_KP_Enter || k == XK_Return) {
-            cstring t(getText());
-            const char *args[7];
-            int i = 0;
-
             hideNow();
-
-            if (m & ControlMask) {
-                args[i++] = terminalCommand;
-                args[i++] = "-e";
-            }
-            if (addressBarCommand && addressBarCommand[0]) {
-                args[i++] = addressBarCommand;
-            } else {
-/// TODO #warning calling /bin/sh is considered to be bloat
-                args[i++] = "/bin/sh";
-                args[i++] = "-c";
-            }
-            args[i++] = t.c_str();
-            args[i++] = 0;
-            if (m & ControlMask)
-                if (t.c_str_len() == 0 || t.c_str()[0] == 0)
-                    args[1] = 0;
-            app->runProgram(args[0], args);
-            selectAll();
-            return true;
-        } else if (k == XK_Escape) {
+            return handleReturn(KEY_MODMASK(key.state));
+        }
+        else if (k == XK_Escape) {
             hideNow();
             return true;
         }
+        else if (k == XK_Up ||
+                (k == XK_KP_Up && !(key.state & xapp->NumLockMask)))
+        {
+            return changeLocation(location - 1);
+        }
+        else if (k == XK_Down ||
+                (k == XK_KP_Down && !(key.state & xapp->NumLockMask)))
+        {
+            return changeLocation(location + 1);
+        }
     }
     return YInputLine::handleKey(key);
+}
+
+bool AddressBar::handleReturn(int mask) {
+    mstring line(getText());
+    cstring text(line);
+    const char *args[7];
+    int i = 0;
+
+    if (line.nonempty()) {
+        history.append(line);
+        location = history.getCount();
+    }
+
+    if (mask & ControlMask) {
+        args[i++] = terminalCommand;
+        args[i++] = "-e";
+    }
+    if (addressBarCommand && addressBarCommand[0]) {
+        args[i++] = addressBarCommand;
+    } else {
+        args[i++] = "/bin/sh";
+        args[i++] = "-c";
+    }
+    args[i++] = text.c_str();
+    args[i++] = 0;
+
+    if (line.isEmpty())
+        args[hasbit(mask, ControlMask)] = 0;
+    if (args[0])
+        app->runProgram(args[0], args);
+    selectAll();
+
+    return true;
+}
+
+bool AddressBar::changeLocation(int newLocation) {
+    if (inrange(newLocation, 0, history.getCount())) {
+        location = newLocation;
+        if (location == history.getCount()) {
+            setText(null);
+        }
+        else {
+            setText(history[location]);
+        }
+    }
+    return true;
 }
 
 void AddressBar::showNow() {
@@ -70,10 +102,21 @@ void AddressBar::showNow() {
 }
 
 void AddressBar::hideNow() {
-    manager->focusLastWindow();
     if (!showAddressBar || (taskBarShowWindows && !taskBarDoubleHeight) ) {
         hide();
     }
+    manager->focusLastWindow();
+}
+
+void AddressBar::handleFocus(const XFocusChangeEvent &focus) {
+    if (focus.type == FocusOut) {
+        if (focus.mode == NotifyNormal || focus.mode == NotifyWhileGrabbed) {
+            if (!showAddressBar || (taskBarShowWindows && !taskBarDoubleHeight) ) {
+                hide();
+            }
+        }
+    }
+    YInputLine::handleFocus(focus);
 }
 
 // vim: set sw=4 ts=4 et:

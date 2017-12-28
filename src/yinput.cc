@@ -5,81 +5,52 @@
  */
 #include "config.h"
 #include "globit.h"
-
-#include "ykey.h"
 #include "yinputline.h"
 #include "ymenu.h"
 #include "ymenuitem.h"
-
 #include "yxapp.h"
 #include "prefs.h"
-
-#include <string.h>
-#include <stdlib.h>
-#include <limits.h>
-
 #include "intl.h"
 
-ref<YFont> YInputLine::inputFont;
-YColor *YInputLine::inputBg = 0;
-YColor *YInputLine::inputFg = 0;
-YColor *YInputLine::inputSelectionBg = 0;
-YColor *YInputLine::inputSelectionFg = 0;
-YTimer *YInputLine::cursorBlinkTimer = 0;
-YMenu *YInputLine::inputMenu = 0;
+#ifndef UINT_MAX
+#include <limits.h>
+#endif
 
-int YInputLine::fAutoScrollDelta = 0;
+YInputLine::YInputLine(YWindow *parent):
+    YWindow(parent),
+    fText(null),
+    markPos(0),
+    curPos(0),
+    leftOfs(0),
+    fAutoScrollDelta(0),
+    fHasFocus(false),
+    fCursorVisible(true),
+    fSelecting(false),
+    fBlinkTime(333),
+    inputFont(YFont::getFont(XFA(inputFontName))),
+    inputBg(new YColor(clrInput)),
+    inputFg(new YColor(clrInputText)),
+    inputSelectionBg(new YColor(clrInputSelection)),
+    inputSelectionFg(new YColor(clrInputSelectionText)),
+    inputMenu(new YMenu())
+{
+    inputMenu->setActionListener(this);
+    inputMenu->addItem(_("_Copy"), -2, _("Ctrl+C"), actionCopy)
+             ->setEnabled(true);
+    inputMenu->addItem(_("Cu_t"), -2, _("Ctrl+X"), actionCut)
+             ->setEnabled(true);
+    inputMenu->addItem(_("_Paste"), -2, _("Ctrl+V"), actionPaste)
+             ->setEnabled(true);
+    inputMenu->addItem(_("Paste _Selection"), -2, _("Ctrl+P"), actionPasteSelection)
+             ->setEnabled(true);
+    inputMenu->addSeparator();
+    inputMenu->addItem(_("Select _All"), -2, _("Ctrl+A"), actionSelectAll);
 
-static YAction actionCut, actionCopy, actionPaste, actionSelectAll, actionPasteSelection;
-
-YInputLine::YInputLine(YWindow *parent): YWindow(parent), fText(null) {
-    if (inputFont == null)
-        inputFont = YFont::getFont(XFA(inputFontName));
-    if (inputBg == 0)
-        inputBg = new YColor(clrInput);
-    if (inputFg == 0)
-        inputFg = new YColor(clrInputText);
-    if (inputSelectionBg == 0)
-        inputSelectionBg = new YColor(clrInputSelection);
-    if (inputSelectionFg == 0)
-        inputSelectionFg = new YColor(clrInputSelectionText);
-    if (inputMenu == 0) {
-        inputMenu = new YMenu();
-        if (inputMenu) {
-            inputMenu->setActionListener(this);
-            inputMenu->addItem(_("Cu_t"), -2, _("Ctrl+X"), actionCut)->setEnabled(true);
-            inputMenu->addItem(_("_Copy"), -2, _("Ctrl+C"), actionCopy)->setEnabled(true);
-            inputMenu->addItem(_("_Paste"), -2, _("Ctrl+V"), actionPaste)->setEnabled(true);
-            inputMenu->addItem(_("Paste _Selection"), -2, null, actionPasteSelection)->setEnabled(true);
-            inputMenu->addSeparator();
-            inputMenu->addItem(_("Select _All"), -2, _("Ctrl+A"), actionSelectAll);
-        }
-    }
-
-    curPos = 0;
-    markPos = 0;
-    leftOfs = 0;
-    fHasFocus = false;
-    fSelecting = false;
-    fCursorVisible = true;
     if (inputFont != null)
         setSize(width(), inputFont->height() + 2);
 }
+
 YInputLine::~YInputLine() {
-    if (cursorBlinkTimer) {
-        if (cursorBlinkTimer->getTimerListener() == this) {
-            cursorBlinkTimer->stopTimer();
-            cursorBlinkTimer->setTimerListener(0);
-        }
-    }
-    if (inputMenu) {
-        delete inputMenu;
-    }
-    delete inputSelectionFg;
-    delete inputSelectionBg;
-    delete inputFg;
-    delete inputBg;
-    inputFont = null;
 }
 
 void YInputLine::setText(const ustring &text) {
@@ -457,25 +428,17 @@ unsigned YInputLine::offsetToPos(int offset) {
 
 void YInputLine::handleFocus(const XFocusChangeEvent &focus) {
     if (focus.type == FocusIn /* && fHasFocus == false*/
-        && focus.detail != NotifyPointer && focus.detail != NotifyPointerRoot)
+        && focus.detail != NotifyPointer
+        && focus.detail != NotifyPointerRoot)
     {
         fHasFocus = true;
         selectAll();
-        if (cursorBlinkTimer == 0)
-            cursorBlinkTimer = new YTimer(300);
-        if (cursorBlinkTimer) {
-            cursorBlinkTimer->setTimerListener(this);
-            cursorBlinkTimer->startTimer();
-        }
-    } else if (focus.type == FocusOut/* && fHasFocus == true*/) {
+        cursorBlinkTimer = new YTimer(fBlinkTime, this, true);
+    }
+    else if (focus.type == FocusOut/* && fHasFocus == true*/) {
         fHasFocus = false;
         repaint();
-        if (cursorBlinkTimer) {
-            if (cursorBlinkTimer->getTimerListener() == this) {
-                cursorBlinkTimer->stopTimer();
-                cursorBlinkTimer->setTimerListener(0);
-            }
-        }
+        cursorBlinkTimer = 0;
     }
 }
 
@@ -496,9 +459,9 @@ bool YInputLine::handleAutoScroll(const XMotionEvent & /*mouse*/) {
 
 bool YInputLine::handleTimer(YTimer *t) {
     if (t == cursorBlinkTimer) {
-        fCursorVisible = fCursorVisible ? false : true;
+        fCursorVisible ^= true;
         repaint();
-        return true;
+        return fHasFocus;
     }
     return false;
 }
@@ -628,6 +591,7 @@ bool YInputLine::deleteNextWord() {
     }
     return false;
 }
+
 bool YInputLine::deletePreviousWord() {
     unsigned p = prevWord(curPos, false);
     if (p != curPos) {
@@ -712,6 +676,7 @@ void YInputLine::autoScroll(int delta, const XMotionEvent *motion) {
     fAutoScrollDelta = delta;
     beginAutoScroll(delta ? true : false, motion);
 }
+
 void YInputLine::complete() {
     char *res=NULL;
     int  res_count=0;

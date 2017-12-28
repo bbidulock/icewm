@@ -461,15 +461,16 @@ void WindowList::showFocused(int x, int y) {
 
             int xiscreen = manager->getScreenForRect(x, y, 1, 1);
             int dx, dy;
-            unsigned dw, dh;
-            manager->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
+            unsigned uw, uh;
+            manager->getScreenGeometry(&dx, &dy, &uw, &uh, xiscreen);
+            int dw = int(uw), dh = int(uh);
 
-            px = x - getFrame()->width() / 2;
-            py = y - getFrame()->height() / 2;
-            if (px + getFrame()->width() > dx + dw)
-                px = dx + dw - getFrame()->width();
-            if (py + getFrame()->height() > dy + dh)
-                py = dx + dh - getFrame()->height();
+            px = x - int(getFrame()->width() / 2);
+            py = y - int(getFrame()->height() / 2);
+            if (px + int(getFrame()->width()) > dx + dw)
+                px = dx + dw - int(getFrame()->width());
+            if (py + int(getFrame()->height()) > dy + dh)
+                py = dx + dh - int(getFrame()->height());
             if (px < dx)
                 px = dx;
             if (py < dy)

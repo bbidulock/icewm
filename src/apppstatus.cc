@@ -337,7 +337,7 @@ bool NetStatus::isUpIsdn() {
 
     //msg("dbs: len is %d", len);
 
-    while( true ) {
+    while ( true ) {
         if (strncmp(p, "flags:", 6)==0) {
             sscanf(p, "%s %s %s %s %s", val[0], val[1], val[2], val[3], val[4]);
             for (i = 0 ; i < 4; i++) {
@@ -362,7 +362,7 @@ bool NetStatus::isUpIsdn() {
 
         do { // find next line
             p++;
-        } while((*p != '\0') &&
+        } while ((*p != '\0') &&
                 (*p != '\n'));
 
         if (     *p == '\0' ||
@@ -535,7 +535,7 @@ void NetStatus::getCurrent(long *in, long *out, const void* sharedData) {
 
 #ifdef __linux__
     const char *p = (const char*) sharedData;
-    if(p)
+    if (p)
         sscanf(p, "%llu %*d %*d %*d %*d %*d %*d %*d %llu", &cur_ibytes, &cur_obytes);
 
 #endif //__linux__
@@ -552,11 +552,11 @@ void NetStatus::getCurrent(long *in, long *out, const void* sharedData) {
     name[3] = IFMIB_IFDATA;
     name[5] = IFDATA_GENERAL;
 
-    if(sysctlbyname("net.link.generic.system.ifcount",&nr_network_devs,
+    if (sysctlbyname("net.link.generic.system.ifcount",&nr_network_devs,
                     &int_size,(void*)0,0) == -1) {
         printf("%s@%d: %s\n",__FILE__,__LINE__,strerror(errno));
     } else {
-        for(int i=1;i<=nr_network_devs;i++) {
+        for (int i=1;i<=nr_network_devs;i++) {
             name[4] = i; /* row of the ifmib table */
 
             if (sysctl(name, 6, &ifmd, &ifmd_size, (void *)0, 0) == -1) {
@@ -631,7 +631,7 @@ void NetStatus::getCurrent(long *in, long *out, const void* sharedData) {
 
 NetStatusControl::~NetStatusControl() {
     delete fUpdateTimer;
-    for(NetStatus **p = fNetStatus.data; p<fNetStatus.data+fNetStatus.size;++p)
+    for (NetStatus **p = fNetStatus.data; p<fNetStatus.data+fNetStatus.size;++p)
         delete *p;
 }
 
@@ -654,18 +654,18 @@ void NetStatusControl::fetchSystemData() {
     char *pStart = cachedStats.data, *pEnd = cachedStats.data + cachedStats.size;
     enum tProcState { start, name, goeol };
     tProcState state = start;
-    for(char *p = pStart;p<pEnd;++p) {
+    for (char *p = pStart;p<pEnd;++p) {
         switch(state)
         {
         case start:
-            if(*p == ' ') continue;
+            if (*p == ' ') continue;
             cachedStatsIdx.add(p);
             state = name;
             break;
         case name:
             // header junk?
-            if(*p == '|') state = goeol, cachedStatsIdx.size--;
-            else if(*p == ':')
+            if (*p == '|') state = goeol, cachedStatsIdx.size--;
+            else if (*p == ':')
             {
                 state = goeol;
                 cachedStatsIdx.add(p+1);
@@ -673,7 +673,7 @@ void NetStatusControl::fetchSystemData() {
             }
             break;
         case goeol:
-            if(*p == '\n') *p = 0, state = start;
+            if (*p == '\n') *p = 0, state = start;
             break;
         }
     }
@@ -702,9 +702,9 @@ NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
         // for non-linux, add them always
 #ifdef __linux__
         bool found=false;
-        for(unsigned i=0; !found && i<cachedStatsIdx.size; i+=2)
+        for (unsigned i=0; !found && i<cachedStatsIdx.size; i+=2)
             found = devName.equals(cachedStatsIdx[i]);
-        if(!found)
+        if (!found)
             matchPatterns.add(devName);
         else
 #endif
@@ -734,11 +734,11 @@ bool NetStatusControl::handleTimer(YTimer *t)
         covered.size = fNetStatus.size;
         memcpy(covered.data, fNetStatus.data, sizeof(covered[0]) * fNetStatus.size);
 
-        for(unsigned i=0; i<cachedStatsIdx.size; i+=2)
+        for (unsigned i=0; i<cachedStatsIdx.size; i+=2)
         {
             //mstring devName(cachedStatsIdx[i], cachedStatsIdx[i+1]-cachedStatsIdx[i]);
             bool handled=false;
-            for(unsigned j = 0; j<fNetStatus.size; ++j)
+            for (unsigned j = 0; j<fNetStatus.size; ++j)
             {
             if (fNetStatus[j]->fNetDev != cachedStatsIdx[i])
                 continue;
@@ -765,12 +765,12 @@ bool NetStatusControl::handleTimer(YTimer *t)
         }
         }
         // mark disappeared devices as down without additional ioctls
-        for(NetStatus** p = covered.data; p && p < covered.data + covered.size; ++p)
-            if(*p)
+        for (NetStatus** p = covered.data; p && p < covered.data + covered.size; ++p)
+            if (*p)
                 (**p).handleTimer(0, true);
 
 #else
-        for(NetStatus** p=fNetStatus.data; p<fNetStatus.data+fNetStatus.size; ++p)
+        for (NetStatus** p=fNetStatus.data; p<fNetStatus.data+fNetStatus.size; ++p)
             (*p)->handleTimer(0, false);
 #endif
         return true;

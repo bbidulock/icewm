@@ -8,7 +8,7 @@ public:
 protected:
     virtual ~refcounted() {}
 public:
-    refcounted(): __refcount(0) {};
+    refcounted(): __refcount(0) {}
 
     void __destroy();
 };

@@ -7,7 +7,7 @@ class YPopDownListener {
 public:
     virtual void handlePopDown(YPopupWindow *popup) = 0;
 protected:
-    virtual ~YPopDownListener() {};
+    virtual ~YPopDownListener() {}
 };
 
 class YPopupWindow: public YWindow {

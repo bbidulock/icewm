@@ -85,7 +85,7 @@ YListBox::YListBox(YScrollView *view, YWindow *aParent):
     setBitGravity(NorthWestGravity);
     fView = view;
     if (fView) {
-        fVerticalScroll = view->getVerticalScrollBar();;
+        fVerticalScroll = view->getVerticalScrollBar();
         fHorizontalScroll = view->getHorizontalScrollBar();
     } else {
         fHorizontalScroll = 0;

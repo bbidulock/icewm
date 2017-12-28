@@ -250,7 +250,7 @@ bool sdir::open() {
         DirPtr dirp(fPath);
         if (dirp) {
             fName.preserve(4);
-            while(dirp.next())
+            while (dirp.next())
                 fName.add(dirp.name());
             qsort(fName.data, fName.size, sizeof(fName[0]), compare_ustrings);
         }

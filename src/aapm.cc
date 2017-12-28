@@ -533,6 +533,7 @@ void YApm::SysStr(char *s, bool Tool) {
             fclose(fd);
         }
 
+        // XXX: investigate, if current_now is missing, can we stop polling it? For all or just for this battery?
         strcat3(buf, "/sys/class/power_supply/", BATname, "/current_now", sizeof(buf));
         fd = fopen(buf, "r");
         if (fd == NULL) {
@@ -625,7 +626,7 @@ void YApm::SysStr(char *s, bool Tool) {
         // the code above caches BATcapacity_full when battery is installed;
         // however, this value and _remain can increase slightly while the battery is charging,
         // so set a limit to not display resulting value over 100% to the user
-        if(BATcapacity_remain > BATcapacity_full) BATcapacity_remain = BATcapacity_full;
+        if (BATcapacity_remain > BATcapacity_full) BATcapacity_remain = BATcapacity_full;
 
         if (BATpresent == BAT_PRESENT &&
             //did we parse the needed values successfully?
@@ -891,7 +892,7 @@ YApm::YApm(YWindow *aParent, bool autodetect):
        batteryNum = 1;
     }
 
-    if(autodetect && 0 == batteryNum)
+    if (autodetect && 0 == batteryNum)
         return;
 
     if (apmBg == 0 && *clrApm) apmBg = new YColor(clrApm);
@@ -995,6 +996,7 @@ void YApm::updateState() {
         PmuStr(s, 0);
         break;
     }
+    MSG((_("power:\t%s"), s));
 
     if (fCurrentState != 0)
         delete[] fCurrentState;
@@ -1040,14 +1042,8 @@ void YApm::paint(Graphics &g, const YRect &/*r*/) {
        g.setColor(apmColorGraphBg);
        g.fillRect(0, 0, taskBarApmGraphWidth, height());
 
-       double capa = round(double(energyNow)/double(energyFull));
-       int new_h = int(capa * height());
-       if (acIsOnLine == true) { // onLine
-          g.setColor(apmColorOnLine);
-       } else {
-          g.setColor(apmColorBattery);
-       }
-
+       int new_h = (int) round((double(energyNow)/double(energyFull)) * height());
+       g.setColor(acIsOnLine ? apmColorOnLine : apmColorBattery);
        g.fillRect(0, height() - new_h, taskBarApmGraphWidth, new_h);
     } else if (prettyClock) {
         ref<YPixmap> p;

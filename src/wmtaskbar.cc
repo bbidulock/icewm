@@ -157,7 +157,9 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     fShowDesktop = 0;
 
     ///setToplevel(true);
-    XSetWindowBackground(xapp->display(), handle(), getTaskBarBg()->pixel());
+    setBackground(getTaskBarBg()->pixel());
+    if (taskbackPixmap != null)
+        setBackgroundPixmap(taskbackPixmap->pixmap());
 
     initPixmaps();
 
@@ -331,10 +333,10 @@ void TaskBar::initApplets() {
         fApm = new YApm(this);
         fApm->setTitle("IceAPM");
     }
-    else if(!taskBarShowApm && taskBarShowApmAuto)
+    else if (!taskBarShowApm && taskBarShowApmAuto)
     {
         fApm = new YApm(this, true);
-        if( ! fApm->hasBatteries()) {
+        if ( ! fApm->hasBatteries()) {
                 delete fApm;
                 fApm = 0;
         }
@@ -378,7 +380,8 @@ void TaskBar::initApplets() {
                 if (s.isEmpty())
                     continue;
 
-                fMailBoxStatus[cnt--] = new MailBoxStatus(app, smActionListener, s, this);
+                fMailBoxStatus[cnt] = new MailBoxStatus(app, smActionListener, s, this);
+                if (cnt) cnt--; // more complicated than needed, to make UBSan happy
             }
         } else if (envMail) {
             fMailBoxStatus = new MailBoxStatus*[2];
@@ -457,7 +460,8 @@ void TaskBar::initApplets() {
         YAtom trayatom(atomstr, true);
         bool isInternal = ('I' == atomstr[1]);
 
-        fDesktopTray = new YXTray(this, isInternal, trayatom, this);
+        fDesktopTray = new YXTray(this, isInternal, trayatom,
+                                  this, trayDrawBevel);
         fDesktopTray->setTitle("SystemTray");
         fDesktopTray->relayout();
     }
@@ -525,7 +529,7 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
 #endif
 
     YVec<NetStatus*>::iterator it = fNetStatus->getIterator();
-    while(it.hasNext()) {
+    while (it.hasNext()) {
         nw = LayoutInfo( it.next(), false, 1, false, 2, 2, false );
         wlist.append(nw);
     }
@@ -620,7 +624,7 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
         if (fTasks) {
             fTasks->setGeometry(YRect(left[0],
                                       y[0],
-                                      right[0] - left[0],
+                                      max(0, right[0] - left[0]),
                                       h[0]));
             fTasks->show();
             fTasks->relayout();
@@ -631,7 +635,7 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
 
         fAddressBar->setGeometry(YRect(left[row],
                                        y[row] + 2,
-                                       right[row] - left[row],
+                                       max(0, right[row] - left[row]),
                                        h[row] - 4));
         fAddressBar->raise();
         if (::showAddressBar) {

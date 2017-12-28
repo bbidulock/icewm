@@ -64,6 +64,7 @@ public:
     TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener, YSMListener *smActionListener);
     virtual ~TaskBar();
 
+private:
     virtual void paint(Graphics &g, const YRect &r);
     virtual bool handleKey(const XKeyEvent &key);
     virtual void handleButton(const XButtonEvent &button);
@@ -86,6 +87,7 @@ public:
 
     YClock *clock() { return fClock; }
 
+public:
     bool windowTrayRequestDock(Window w);
     void setWorkspaceActive(long workspace, int active);
 
@@ -98,10 +100,25 @@ public:
     void popupStartMenu();
     void popupWindowListMenu();
 
-    void popOut();
     void showAddressBar();
     void showBar(bool visible);
     void handleCollapseButton();
+
+    void relayout() { fNeedRelayout = true; }
+    void relayoutNow();
+
+    void detachDesktopTray();
+
+    void relayoutTray();
+    class TrayApp *addTrayApp(YFrameWindow *w);
+    void removeTrayApp(YFrameWindow *w);
+
+    bool autoTimer(bool show);
+    void updateFullscreen(bool fullscreen);
+    Window edgeTriggerWindow() { return fEdgeTrigger->handle(); }
+
+private:
+    void popOut();
 
     AddressBar *addressBar() const { return fAddressBar; }
     TaskPane *taskPane() const { return fTasks; }
@@ -111,20 +128,8 @@ public:
 
     void contextMenu(int x_root, int y_root);
 
-    void relayout() { fNeedRelayout = true; }
-    void relayoutNow();
-
-    void detachDesktopTray();
     void trayChanged();
     YXTray *netwmTray() { return fDesktopTray; }
-
-    void relayoutTray();
-    class TrayApp *addTrayApp(YFrameWindow *w);
-    void removeTrayApp(YFrameWindow *w);
-
-    bool autoTimer(bool show);
-    void updateFullscreen(bool fullscreen);
-    Window edgeTriggerWindow() { return fEdgeTrigger->handle(); }
 
 private:
     TaskPane *fTasks;

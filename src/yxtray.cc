@@ -1,7 +1,6 @@
 #include "config.h"
 #include "yxtray.h"
 #include "yrect.h"
-#include "yxapp.h"
 #include "prefs.h"
 #include "wmtaskbar.h"
 #include "ypointer.h"
@@ -60,9 +59,15 @@ ustring fetchTitle(Window win) {
     return null;
 }
 
+struct DockRequest {
+    Window window;
+    osmart<YTimer> timer;
+    DockRequest(Window w, YTimer* t) : window(w), timer(t) { }
+};
+
 class YXTrayProxy: public YWindow, private YTimerListener {
 public:
-    YXTrayProxy(const YAtom& atom, YXTray *tray, YWindow *aParent = 0);
+    YXTrayProxy(const YAtom& atom, YXTray *tray);
     virtual ~YXTrayProxy();
 
     virtual void handleClientMessage(const XClientMessageEvent &message);
@@ -72,8 +77,7 @@ private:
     YAtom _NET_SYSTEM_TRAY_S0;
     YXTray *fTray;
     osmart<YTimer> fUpdateTimer;
-    osmart<YTimer> fDelayTimer;
-    YArray<Window> fDockRequests;
+    YObjectArray<DockRequest> fDockRequests;
     mstring toolTip;
 
     void requestDock(Window dockRequest);
@@ -96,15 +100,13 @@ private:
     virtual void updateToolTip();
 };
 
-YXTrayProxy::YXTrayProxy(const YAtom& atom, YXTray *tray, YWindow *aParent):
-    YWindow(aParent),
+YXTrayProxy::YXTrayProxy(const YAtom& atom, YXTray *tray):
     _NET_SYSTEM_TRAY_OPCODE("_NET_SYSTEM_TRAY_OPCODE"),
     _NET_SYSTEM_TRAY_MESSAGE_DATA("_NET_SYSTEM_TRAY_MESSAGE_DATA"),
     _NET_SYSTEM_TRAY_S0(atom),
     fTray(tray)
 {
     setTitle("YXTrayProxy");
-    setParentRelative();
     if (isExternal()) {
         long orientation = SYSTEM_TRAY_ORIENTATION_HORZ;
         XChangeProperty(xapp->display(), handle(),
@@ -245,16 +247,22 @@ void YXTrayProxy::updateToolTip() {
 }
 
 bool YXTrayProxy::handleTimer(YTimer *timer) {
-    MSG(("YXTrayProxy::handleTimer"));
+    MSG(("YXTrayProxy::handleTimer %s %d %ld", boolstr(timer == fUpdateTimer),
+                             fDockRequests.getCount(), timer->getInterval()));
+
     if (timer == fUpdateTimer) {
         updateToolTip();
+        return false;
     }
-    else if (timer == fDelayTimer) {
-        for (int i = 0; i < fDockRequests.getCount(); ++i)
-            fTray->trayRequestDock(fDockRequests[i]);
-        fDockRequests.clear();
-        fDelayTimer = 0;
+
+    for (int i = 0; i < fDockRequests.getCount(); ++i) {
+        if (timer == fDockRequests[i]->timer) {
+            fTray->trayRequestDock(fDockRequests[i]->window);
+            fDockRequests.remove(i);
+            return false;
+        }
     }
+
     return false;
 }
 
@@ -262,9 +270,9 @@ void YXTrayProxy::requestDock(Window dockRequest) {
     MSG(("systemTrayRequestDock 0x%lX, title \"%s\"",
           dockRequest, cstring(fetchTitle(dockRequest)).c_str()));
 
-    fDockRequests.append(dockRequest);
-    if (fDelayTimer == 0)
-        fDelayTimer = new YTimer(100L, this, true);
+    long delay = 80L + 25L * fDockRequests.getCount();
+    YTimer* tm = new YTimer(delay, this, true);
+    fDockRequests.append(new DockRequest(dockRequest, tm));
 }
 
 void YXTrayProxy::handleClientMessage(const XClientMessageEvent &message) {
@@ -304,18 +312,17 @@ void YXTrayProxy::handleClientMessage(const XClientMessageEvent &message) {
     }
 }
 
-YXTrayEmbedder::YXTrayEmbedder(YXTray *tray, Window win): YXEmbed(tray) {
-    fTray = tray;
+YXTrayEmbedder::YXTrayEmbedder(YXTray *tray, Window win):
+    YWindow(tray),
+    fTray(tray),
+    fDocked(0)
+{
+    setParentRelative();
     setStyle(wsManager);
     setTitle("YXTrayEmbedder");
     fDocked = new YXEmbedClient(this, this, win);
-
-    XSetWindowBorderWidth(xapp->display(),
-                          client_handle(),
-                          0);
-
-    XAddToSaveSet(xapp->display(), client_handle());
-
+    fDocked->setBorderWidth(0);
+    XAddToSaveSet(xapp->display(), win);
     fDocked->reparent(this, 0, 0);
 
     YAtom _XEMBED("_XEMBED");
@@ -350,6 +357,7 @@ YXTrayEmbedder::YXTrayEmbedder(YXTray *tray, Window win): YXEmbed(tray) {
     xev.data.l[4] = 0; // no data2
     xapp->send(xev, win, NoEventMask);
 
+    fDocked->setParentRelative();
     fVisible = true;
     fDocked->show();
 }
@@ -389,7 +397,7 @@ void YXTrayEmbedder::paint(Graphics &g, const YRect &/*r*/) {
 }
 
 void YXTrayEmbedder::configure(const YRect &r) {
-    YXEmbed::configure(r);
+    YWindow::configure(r);
     fDocked->setGeometry(YRect(0, 0, r.width(), r.height()));
 }
 
@@ -406,8 +414,13 @@ void YXTrayEmbedder::handleMapRequest(const XMapRequestEvent &mapRequest) {
 YXTray::YXTray(YXTrayNotifier *notifier,
                bool internal,
                const YAtom& atom,
-               YWindow *aParent):
-    YWindow(aParent), fNotifier(notifier), fInternal(internal)
+               YWindow *aParent,
+               bool drawBevel):
+    YWindow(aParent),
+    fTrayProxy(0),
+    fNotifier(notifier),
+    fRunProxy(internal == false),
+    fDrawBevel(drawBevel)
 {
     setTitle("YXTray");
     setParentRelative();
@@ -455,7 +468,7 @@ void YXTray::trayRequestDock(Window win) {
     if (ww == 0 && hh == 0)
         ww = hh = 24;
 
-    if (!fInternal) {
+    if (fRunProxy) {
         // scale icons
         getScaleSize(ww, hh);
     }
@@ -483,14 +496,14 @@ bool YXTray::destroyedClient(Window win) {
 
 void YXTray::handleConfigureRequest(const XConfigureRequestEvent &configureRequest)
 {
-    MSG(("tray configureRequest w=%d h=%d internal=%s\n",
-        configureRequest.width, configureRequest.height, boolstr(fInternal)));
+    MSG(("tray configureRequest w=%d h=%d\n",
+        configureRequest.width, configureRequest.height));
     bool changed = false;
     for (IterType ec = fDocked.iterator(); ++ec; ) {
         if (ec->client_handle() == configureRequest.window) {
             unsigned ww = configureRequest.width;
             unsigned hh = configureRequest.height;
-            if (!fInternal) {
+            if (fRunProxy) {
                 /* scale icons */
                 getScaleSize(ww, hh);
             }
@@ -527,7 +540,7 @@ void YXTray::detachTray() {
 
 
 void YXTray::paint(Graphics &g, const YRect &/*r*/) {
-    if (!fInternal)
+    if (!fDrawBevel)
         return;
     g.setColor(getTaskBarBg());
     if (trayDrawBevel && fDocked.getCount())
@@ -540,7 +553,7 @@ void YXTray::configure(const YRect &r) {
 }
 
 void YXTray::backgroundChanged() {
-    if (fInternal)
+    if (fDrawBevel)
         return;
     for (IterType ec = fDocked.iterator(); ++ec; ) {
         /* something is not clearing which background changes */
@@ -553,9 +566,9 @@ void YXTray::backgroundChanged() {
 
 void YXTray::relayout() {
     int aw = 0;
-    unsigned h  = trayIconMaxHeight;
-    if (fInternal && trayDrawBevel) {
-        h+=2;
+    unsigned h = trayIconMaxHeight;
+    if (fDrawBevel) {
+        h += 1;
     }
     int cnt = 0;
 
@@ -582,24 +595,23 @@ void YXTray::relayout() {
         if (!ec->fVisible)
             continue;
         cnt++;
-        int eh(h), ew=ec->width(), ay(0);
-        if (!fInternal) {
-            ew = min(trayIconMaxWidth, ec->width());
-        } else if (trayDrawBevel) {
-                ay=1; aw=1; eh-=2;
+        int eh(h), ew = ec->width(), ay(0);
+        if (fDrawBevel) {
+            ay = 1; aw = max(1, aw); eh -= 1;
         }
         ec->setGeometry(YRect(aw,ay,ew,eh));
         ec->client()->setGeometry(YRect(0,0,ew,eh));
         aw += ew;
     }
-    if (fInternal && trayDrawBevel)
+    if (fDrawBevel)
         aw+=1;
 
     unsigned w = aw;
-    if (!fInternal) {
+    if (fRunProxy) {
         if (w < 1)
             w = 1;
-    } else {
+    }
+    if (fDrawBevel) {
         if (w < 4)
             w = 0;
     }
@@ -620,7 +632,8 @@ void YXTray::relayout() {
             ec->show();
     }
 
-    MSG(("clients %d width: %d, visible %s", fDocked.getCount(), width(), boolstr(visible())));
+    MSG(("clients %d width: %d, visible %s",
+         fDocked.getCount(), width(), boolstr(visible())));
 }
 
 bool YXTray::kdeRequestDock(Window win) {

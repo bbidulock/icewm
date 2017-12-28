@@ -14,8 +14,8 @@ public:
     upath(const pstring& path): fPath(path) {}
     upath(const char *path): fPath(path) {}
     upath(const char *path, int len): fPath(path, len) {}
-    upath(const upath& path): fPath(path.fPath) {};
-    upath(): fPath(null) {};
+    upath(const upath& path): fPath(path.fPath) {}
+    upath(): fPath(null) {}
 
     int length() const { return fPath.length(); }
     bool isEmpty() const { return fPath.isEmpty(); }

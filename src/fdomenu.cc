@@ -17,7 +17,7 @@
 #include "base.h"
 #include "sysdep.h"
 #include "intl.h"
-#include "appnames.h"
+#include "appnames.h" // for QUOTE macro
 
 char const *ApplicationName;
 
@@ -25,6 +25,8 @@ char const *ApplicationName;
 #include <glib/gprintf.h>
 #include <glib/gstdio.h>
 #include <gio/gdesktopappinfo.h>
+#include <string>
+#include <list>
 
 typedef GTree* tMenuContainer;
 
@@ -32,21 +34,21 @@ template<class T>
 struct auto_gfree
 {
         T *m_p;
-        auto_gfree() : m_p(NULL) {};
-        auto_gfree(T *xp) : m_p(xp) {};
+        auto_gfree() : m_p(NULL) {}
+        auto_gfree(T *xp) : m_p(xp) {}
         ~auto_gfree() { g_free(m_p); }
 };
 struct auto_gunref
 {
         GObject *m_p;
-        auto_gunref(GObject *xp): m_p(xp) {};
+        auto_gunref(GObject *xp): m_p(xp) {}
         ~auto_gunref() { g_object_unref(m_p); }
 };
 
 bool find_in_zArray(const char * const *arrToScan, const char *keyword)
 {
-        for(const gchar * const * p=arrToScan;*p;++p)
-                if(!strcmp(keyword, *p))
+        for (const gchar * const * p=arrToScan;*p;++p)
+                if (!strcmp(keyword, *p))
                         return true;
         return false;
 }
@@ -69,6 +71,9 @@ struct tListMeta
         const char *title;
         tMenuContainer* store;
 };
+
+char *themedIonToPath(char *icon_path);
+
 tListMeta menuinfo[] =
 {
 { N_("Accessibility"), &maccessibility },
@@ -91,33 +96,33 @@ tListMeta menuinfo[] =
 void proc_dir(const char *path, unsigned depth=0)
 {
         GDir *pdir = g_dir_open (path, 0, NULL);
-        if(!pdir)
+        if (!pdir)
                 return;
         struct tdircloser {
                 GDir *m_p;
-                tdircloser(GDir *p) : m_p(p) {};
+                tdircloser(GDir *p) : m_p(p) {}
                 ~tdircloser() { g_dir_close(m_p);}
         } dircloser(pdir);
 
         const gchar *szFilename(NULL);
-        while(NULL != (szFilename = g_dir_read_name (pdir)))
+        while (NULL != (szFilename = g_dir_read_name (pdir)))
         {
-                if(!szFilename)
+                if (!szFilename)
                         continue;
                 gchar *szFullName = g_strjoin("/", path, szFilename, NULL);
                 auto_gfree<gchar> xxfree(szFullName);
                 static GStatBuf buf;
-                if(g_stat(szFullName, &buf))
+                if (g_stat(szFullName, &buf))
                         return;
-                if(S_ISDIR(buf.st_mode))
+                if (S_ISDIR(buf.st_mode))
                 {
                         static ino_t reclog[6];
-                        for(unsigned i=0; i<depth; ++i)
+                        for (unsigned i=0; i<depth; ++i)
                         {
-                                if(reclog[i] == buf.st_ino)
+                                if (reclog[i] == buf.st_ino)
                                         goto dir_visited_before;
                         }
-                        if(depth<ACOUNT(reclog))
+                        if (depth<ACOUNT(reclog))
                         {
                                 reclog[++depth] = buf.st_ino;
                                 proc_dir(szFullName, depth);
@@ -126,19 +131,19 @@ void proc_dir(const char *path, unsigned depth=0)
                         dir_visited_before:;
                 }
 
-                if(!S_ISREG(buf.st_mode))
+                if (!S_ISREG(buf.st_mode))
                         continue;
 
                 GDesktopAppInfo *pInfo = g_desktop_app_info_new_from_filename (szFullName);
-                if(!pInfo)
+                if (!pInfo)
                         continue;
                 auto_gunref ___pinfo_releaser((GObject*)pInfo);
 
-                if(!g_app_info_should_show((GAppInfo*) pInfo))
+                if (!g_app_info_should_show((GAppInfo*) pInfo))
                         continue;
 
                 const char *cmdraw = g_app_info_get_commandline ((GAppInfo*) pInfo);
-                if(!cmdraw || !*cmdraw)
+                if (!cmdraw || !*cmdraw)
                         continue;
 
                 // if the strings contains the exe and then only file/url tags that we wouldn't
@@ -149,10 +154,10 @@ void proc_dir(const char *path, unsigned depth=0)
                 auto_gfree<gchar> cmdfree(cmdMod);
                 gchar *pcut = strpbrk(cmdMod, " \f\n\r\t\v");
 
-                if(pcut)
+                if (pcut)
                 {
                         bool bExpectXchar=false;
-                        for(gchar *p=pcut; *p && bUseSimplifiedCmd; ++p)
+                        for (gchar *p=pcut; *p && bUseSimplifiedCmd; ++p)
                         {
                                 int c = (unsigned) *p;
                                 if (bExpectXchar)
@@ -170,26 +175,26 @@ void proc_dir(const char *path, unsigned depth=0)
                                 }
                                 else if (isspace(unsigned(c)))
                                         continue;
-                                else if(! strchr(p, '%'))
+                                else if (! strchr(p, '%'))
                                         goto cmdMod_is_good_as_is;
                                 else
                                         bUseSimplifiedCmd = false;
                         }
 
-                        if(bExpectXchar)
+                        if (bExpectXchar)
                                 bUseSimplifiedCmd = false;
-                        if(bUseSimplifiedCmd)
+                        if (bUseSimplifiedCmd)
                                 *pcut = '\0';
                         cmdMod_is_good_as_is:;
                 }
 
                 const char *pName=g_app_info_get_name( (GAppInfo*) pInfo);
-                if(!pName)
+                if (!pName)
                         continue;
                 const char *pCats=g_desktop_app_info_get_categories(pInfo);
-                if(!pCats)
+                if (!pCats)
                         pCats="Other";
-                if(0 == strncmp(pCats, "X-", 2))
+                if (0 == strncmp(pCats, "X-", 2))
                         continue;
 
                 const char *sicon = "-";
@@ -197,9 +202,14 @@ void proc_dir(const char *path, unsigned depth=0)
                 auto_gfree<char> iconstringrelease;
                 if (pIcon)
                 {
-                        char *s = g_icon_to_string(pIcon);
-                        iconstringrelease.m_p=s;
-                        sicon=s;
+                        char *icon_path = g_icon_to_string(pIcon);
+                        if (G_IS_THEMED_ICON(pIcon)) {
+                                char * realIconPath = themedIonToPath(icon_path);
+                                g_free(icon_path);
+                                icon_path = realIconPath;
+                        }
+                        iconstringrelease.m_p=icon_path;
+                        sicon=icon_path;
                 }
 
                 gchar *menuLine;
@@ -211,10 +221,10 @@ void proc_dir(const char *path, unsigned depth=0)
                 bUseSimplifiedCmd = false;
 #endif
 
-                if(bUseSimplifiedCmd && !bForTerminal) // best case
+                if (bUseSimplifiedCmd && !bForTerminal) // best case
                         menuLine = g_strjoin(" ", sicon, cmdMod, NULL);
 #ifdef XTERMCMD
-                else if(bForTerminal && bUseSimplifiedCmd)
+                else if (bForTerminal && bUseSimplifiedCmd)
                         menuLine = g_strjoin(" ", sicon, QUOTE(XTERMCMD), "-e", cmdMod, NULL);
 #endif
                 else // not simple command or needs a terminal started via launcher callback, or both
@@ -269,6 +279,25 @@ void proc_dir(const char *path, unsigned depth=0)
         }
 }
 
+char *themedIonToPath(char *icon_theme_name) {
+        std::list<std::string> iconSearchOrder;
+        iconSearchOrder.push_back("/usr/share/icons/hicolor/48x48/apps/%s.png");
+        iconSearchOrder.push_back("/usr/share/pixmaps/%s.png");
+        iconSearchOrder.push_back("/usr/share/pixmaps/%s.xpm");
+
+        for (std::list<std::string>::iterator oneSearchPath = iconSearchOrder.begin() ; oneSearchPath != iconSearchOrder.end(); ++oneSearchPath) {
+                char *pathToFile = g_strdup_printf(oneSearchPath->c_str(), icon_theme_name);
+                if (g_file_test(pathToFile, G_FILE_TEST_EXISTS))
+                {
+                        return pathToFile;
+                } else
+                {
+                        g_free((pathToFile));
+                }
+        }
+        return g_strdup("noicon.png");
+}
+
 static gboolean printKey(const char *key, const char *value, void*)
 {
         printf("prog \"%s\" %s\n", key, value);
@@ -277,7 +306,7 @@ static gboolean printKey(const char *key, const char *value, void*)
 
 void print_submenu(const char *title, tMenuContainer data)
 {
-        if(!data || !g_tree_nnodes(data))
+        if (!data || !g_tree_nnodes(data))
                 return;
         printf("menu \"%s\" folder {\n", title);
         g_tree_foreach(data, (GTraverseFunc) printKey, NULL);
@@ -295,13 +324,13 @@ void dump_menu()
 bool launch(const char *dfile, const char **argv, int argc)
 {
         GDesktopAppInfo *pInfo = g_desktop_app_info_new_from_filename (dfile);
-        if(!pInfo)
+        if (!pInfo)
                 return false;
 #if 0 // g_file_get_uri crashes, no idea why, even enforcing file prefix doesn't help
-        if(argc>0)
+        if (argc>0)
         {
                 GList* parms=NULL;
-                for(int i=0; i<argc; ++i)
+                for (int i=0; i<argc; ++i)
                         parms=g_list_append(parms,
                                         g_strdup_printf("%s%s", strstr(argv[i], "://") ? "" : "file://",
                                                         argv[i]));
@@ -333,7 +362,7 @@ static void init()
     textdomain(PACKAGE);
 #endif
 
-    for(tListMeta *p=menuinfo; p < menuinfo+ACOUNT(menuinfo); ++p)
+    for (tListMeta *p=menuinfo; p < menuinfo+ACOUNT(menuinfo); ++p)
     {
 #ifdef ENABLE_NLS
         p->title = gettext(p->title);
@@ -364,20 +393,20 @@ int main(int argc, const char **argv)
         const char * usershare=getenv("XDG_DATA_HOME"),
                         *sysshare=getenv("XDG_DATA_DIRS");
 
-        if(!usershare || !*usershare)
+        if (!usershare || !*usershare)
                 usershare=g_strjoin(NULL, getenv("HOME"), "/.local/share", NULL);
 
-        if(!sysshare || !*sysshare)
+        if (!sysshare || !*sysshare)
                 sysshare="/usr/local/share:/usr/share";
 
-        if(argc>1)
+        if (argc>1)
         {
                 if (is_version_switch(argv[1]))
                         print_version_exit(VERSION);
                 if (is_help_switch(argv[1]))
                         help(usershare, sysshare, stdout, EXIT_SUCCESS);
 
-                if(strstr(argv[1], ".desktop") && launch(argv[1], argv+2, argc-2))
+                if (strstr(argv[1], ".desktop") && launch(argv[1], argv+2, argc-2))
                         return EXIT_SUCCESS;
 
                 help(usershare, sysshare, stderr, EXIT_FAILURE);

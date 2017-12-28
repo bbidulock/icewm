@@ -58,6 +58,17 @@ inline T abs(T v) {
     return (v < 0 ? -v : v);
 }
 
+// https://en.wikipedia.org/wiki/Elvis_operator
+template <class T>
+inline T Elvis(T a, T b) {
+    return a ? a : b;
+}
+
+template <class T>
+inline T non_zero(T x) {
+    return Elvis(x, (T) 1);
+}
+
 /*** String Functions *********************************************************/
 
 /* Prefer this as a safer alternative over strcpy. Return strlen(from). */
@@ -131,7 +142,7 @@ void fail(char const *msg, ...) __attribute__((format(printf, 1, 2) ));
 void msg(char const *msg, ...) __attribute__((format(printf, 1, 2) ));
 void tlog(char const *msg, ...) __attribute__((format(printf, 1, 2) ));
 void precondition(const char *expr, const char *file, int line);
-void show_backtrace();
+void show_backtrace(const int limit = 0);
 
 #define DEPRECATE(x) \
     do { \
@@ -202,6 +213,11 @@ inline bool hasbits(M mask, B bits) {
     return (mask & bits) == (M) bits;
 }
 
+template <class M, class B>
+inline bool notbit(M mask, B bits) {
+    return (mask & bits) == 0;
+}
+
 /*
  * Returns the lowest bit set in mask.
  */
@@ -213,7 +229,7 @@ inline unsigned lowbit(T mask) {
     asm ("bsf %1,%0" : "=r" (bit) : "r" (mask));
 #else
     unsigned bit(0);
-    while(!(mask & (1 << bit)) && bit < sizeof(mask) * 8) ++bit;
+    while (!(mask & (((T) 1) << bit)) && bit < sizeof(mask) * 8) ++bit;
 #endif
 
     return bit;
@@ -230,7 +246,7 @@ inline unsigned highbit(T mask) {
     asm ("bsr %1,%0" : "=r" (bit) : "r" (mask));
 #else
     unsigned bit(sizeof(mask) * 8 - 1);
-    while(!(mask & (1 << bit)) && bit > 0) --bit;
+    while (!(mask & (((T) 1) << bit)) && bit > 0) --bit;
 #endif
 
     return bit;
@@ -246,8 +262,10 @@ bool GetArgument(char* &ret, const char *sn, const char *ln, char** &arg, char *
 bool is_short_switch(const char *arg, const char *name);
 bool is_long_switch(const char *arg, const char *name);
 bool is_switch(const char *arg, const char *short_name, const char *long_name);
+bool is_copying_switch(const char *arg);
 bool is_help_switch(const char *arg);
 bool is_version_switch(const char *arg);
+void print_copying_exit();
 void print_help_exit(const char *help);
 void print_version_exit(const char *version);
 void check_help_version(const char *arg, const char *help, const char *version);
@@ -271,18 +289,19 @@ char* load_text_file(const char *filename);
 
 #include "debug.h"
 
+void logButton(const union _XEvent& xev);
+void logCrossing(const union _XEvent& xev);
+void logFocus(const union _XEvent& xev);
+void logMotion(const union _XEvent& xev);
+void logShape(const union _XEvent& xev);
+void logEvent(const union _XEvent& xev);
+void setLogEvent(int evtype, bool enable);
+bool toggleLogEvents();
+const char* eventName(int eventType);
+
 inline int intersection(int s1, int e1, int s2, int e2) {
     return max(0, 1 + min(e1, e2) - max(s1, s2));
 }
-
-// XXX: find a better location for shared preprocessor hackery
-#ifndef HAVE_NET_STATUS
-#if defined(__linux__) || defined(__FreeBSD__) || defined(__NetBSD__) || \
-    defined(__OpenBSD__) || defined(__FreeBSD_kernel__)
-#define HAVE_NET_STATUS 1
-#endif
-#endif
-
 
 #endif
 

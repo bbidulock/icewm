@@ -208,11 +208,14 @@ void YWindow::setStyle(unsigned aStyle) {
         fStyle = aStyle;
 
         if (flags & wfCreated) {
+            if (fStyle & wsToolTip)
+                fEventMask = ExposureMask;
+
             if (fStyle & wsPointerMotion)
                 fEventMask |= PointerMotionMask;
 
 
-            if ((fStyle & wsDesktopAware) || (fStyle & wsManager) ||
+            if (hasbit(fStyle, wsDesktopAware | wsManager) ||
                 (fHandle != xapp->root()))
                 fEventMask |=
                     StructureNotifyMask |
@@ -239,7 +242,7 @@ Graphics &YWindow::getGraphics() {
 }
 
 void YWindow::repaint() {
-    XClearArea(xapp->display(), handle(), 0, 0, width(), height(), True);
+    XClearArea(xapp->display(), handle(), 0, 0, 0, 0, True);
 }
 
 void YWindow::repaintSync() { // useful when server grabbed
@@ -301,6 +304,9 @@ void YWindow::create() {
         fEventMask |=
             ExposureMask |
             ButtonPressMask | ButtonReleaseMask | ButtonMotionMask;
+
+        if (fStyle & wsToolTip)
+            fEventMask = ExposureMask;
 
         if (fStyle & wsPointerMotion)
             fEventMask |= PointerMotionMask;
@@ -475,6 +481,10 @@ void YWindow::hide() {
     }
 }
 
+void YWindow::setVisible(bool enable) {
+    return enable ? show() : hide();
+}
+
 void YWindow::setWinGravity(int gravity) {
     if (flags & wfCreated) {
         unsigned long eventmask = CWWinGravity;
@@ -625,7 +635,8 @@ void YWindow::handleEvent(const XEvent &event) {
         break;
 
     case GraphicsExpose:
-        handleGraphicsExpose(event.xgraphicsexpose); break;
+        handleGraphicsExpose(event.xgraphicsexpose);
+        break;
 
     case MapNotify:
         updateEnterNotifySerial(event);
@@ -655,6 +666,7 @@ void YWindow::handleEvent(const XEvent &event) {
 
     case GravityNotify:
         updateEnterNotifySerial(event);
+        handleGravityNotify(event.xgravity);
         break;
 
     case CirculateNotify:
@@ -663,8 +675,10 @@ void YWindow::handleEvent(const XEvent &event) {
 
     default:
 #ifdef CONFIG_SHAPE
-        if (shapesSupported && event.type == (shapeEventBase + ShapeNotify))
+        if (shapesSupported && event.type == (shapeEventBase + ShapeNotify)) {
             handleShapeNotify(*(const XShapeEvent *)&event);
+            break;
+        }
 #endif
 #ifdef CONFIG_XRANDR
         //msg("event.type=%d %d %d", event.type, xrandrEventBase, xrandrSupported);
@@ -729,7 +743,7 @@ void YWindow::paintExpose(int ex, int ey, int ew, int eh) {
     if (ey + eh + ee < (int) height()) {
         eh += ee;
     } else {
-        eh = height() - ey;
+        eh = int(height()) - ey;
     }
 
     if (ew > 0 && eh > 0) {
@@ -773,7 +787,18 @@ void YWindow::handleConfigure(const XConfigureEvent &configure) {
             fWidth = configure.width;
             fHeight = configure.height;
 
-            this->configure(YRect(fX, fY, fWidth, fHeight));
+            this->configure(geometry());
+        }
+    }
+}
+
+void YWindow::handleGravityNotify(const XGravityEvent& gravity) {
+    if (gravity.window == handle()) {
+        if (gravity.x != fX || gravity.y != fY) {
+            fX = gravity.x;
+            fY = gravity.y;
+
+            this->configure(geometry());
         }
     }
 }
@@ -1045,7 +1070,7 @@ void YWindow::setGeometry(const YRect &r) {
                                   fX, fY, fWidth, fHeight);
         }
 
-        configure(YRect(fX, fY, fWidth, fHeight));
+        configure(geometry());
     }
 }
 
@@ -1057,7 +1082,7 @@ void YWindow::setPosition(int x, int y) {
         if (flags & wfCreated)
             XMoveWindow(xapp->display(), fHandle, fX, fY);
 
-        configure(YRect(fX, fY, width(), height()));
+        configure(geometry());
     }
 }
 
@@ -1070,13 +1095,24 @@ void YWindow::setSize(unsigned width, unsigned height) {
             if (!nullGeometry())
                 XResizeWindow(xapp->display(), fHandle, fWidth, fHeight);
 
-        configure(YRect(x(), y(), fWidth, fHeight));
+        configure(geometry());
     }
 }
 
+void YWindow::setBorderWidth(unsigned width) {
+    XSetWindowBorderWidth(xapp->display(), handle(), width);
+}
+
+void YWindow::setBackground(unsigned long pixel) {
+    XSetWindowBackground(xapp->display(), handle(), pixel);
+}
+
+void YWindow::setBackgroundPixmap(Pixmap pixmap) {
+    XSetWindowBackgroundPixmap(xapp->display(), handle(), pixmap);
+}
+
 void YWindow::setParentRelative(void) {
-    XSetWindowBackgroundPixmap(xapp->display(), handle(), ParentRelative);
-    XClearArea(xapp->display(), handle(), 0, 0, 0, 0, True);
+    setBackgroundPixmap(ParentRelative);
 }
 
 void YWindow::mapToGlobal(int &x, int &y) {
@@ -1649,9 +1685,6 @@ YDesktop::~YDesktop() {
     }
 }
 
-void YDesktop::resetColormapFocus(bool /*active*/) {
-}
-
 void YWindow::grabVKey(int key, unsigned int vm) {
     int m = 0;
 
@@ -2020,7 +2053,7 @@ int YDesktop::getScreenForRect(int x, int y, unsigned width, unsigned height) {
     if (xiInfo.getCount() == 0)
         return 0;
     for (int s = 0; s < xiInfo.getCount(); s++) {
-        int x_i = intersection(x, x + width,
+        int x_i = intersection(x, x + int(width),
                                xiInfo[s].x_org, xiInfo[s].x_org + xiInfo[s].width);
         //MSG(("x_i %d %d %d %d %d", x_i, x, width, xiInfo[s].x_org, xiInfo[s].width));
         int y_i = intersection(y, y + height,

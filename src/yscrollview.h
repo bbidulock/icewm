@@ -12,7 +12,7 @@ public:
 
     virtual YWindow *getWindow() = 0; // !!! hack ?
 protected:
-    virtual ~YScrollable() {};
+    virtual ~YScrollable() {}
 };
 
 class YScrollView: public YWindow {

@@ -11,12 +11,8 @@ public:
     YFrameTitleBar(YWindow *parent, YFrameWindow *frame);
     virtual ~YFrameTitleBar();
 
-    static void initTitleColorsFonts();
-
     void activate();
     void deactivate();
-
-    int titleLen();
 
     virtual void paint(Graphics &g, const YRect &r);
 
@@ -25,8 +21,6 @@ public:
 #endif
 
     virtual void handleButton(const XButtonEvent &button);
-    virtual void handleMotion(const XMotionEvent &motion);
-
     virtual void handleClick(const XButtonEvent &up, int count);
     virtual void handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion);
 
@@ -40,13 +34,19 @@ public:
     YFrameButton* rollupButton();
     YFrameButton* depthButton();
 
-    YFrameButton* getButton(char c);
-    void positionButton(YFrameButton *b, int &xPos, bool onRight);
-    bool isButton(char c);
     void layoutButtons();
     void raiseButtons();
 
 private:
+    static void initTitleColorsFonts();
+
+    unsigned decors();
+    int titleLen();
+
+    YFrameButton* getButton(char c);
+    void positionButton(YFrameButton *b, int &xPos, bool onRight);
+    bool isButton(char c);
+
     YFrameWindow *fFrame;
     bool wasCanRaise;
 

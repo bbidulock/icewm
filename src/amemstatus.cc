@@ -87,7 +87,7 @@ void MEMStatus::paint(Graphics &g, const YRect &/*r*/) {
                 continue;
             }
 
-            if(color[j]) {
+            if (color[j]) {
                 g.setColor(color[j]);
                 g.drawLine(i, y-1, i, y-bar);
             } else {
@@ -121,15 +121,15 @@ bool MEMStatus::handleTimer(YTimer *t) {
 
 void MEMStatus::printAmount(char *out, size_t outSize,
                             unsigned long long amount) {
-    if(amount >= (200ull*1024*1024*1024)) {
+    if (amount >= (200ull*1024*1024*1024)) {
         snprintf( out, outSize, "%llu %.20s",
                   amount/(1024*1024*1024),
                   _("GB") );
-    } else if(amount >= (200*1024*1024)) {
+    } else if (amount >= (200*1024*1024)) {
         snprintf( out, outSize, "%llu %.20s",
                   amount/(1024*1024),
                   _("MB") );
-    } else if(amount >= (200*1024)) {
+    } else if (amount >= (200*1024)) {
         snprintf( out, outSize, "%llu %.20s",
                   amount/1024,
                   _("kB") );
@@ -185,23 +185,23 @@ unsigned long long MEMStatus::parseField(const char *buf, size_t bufLen,
 #ifdef USE_PROC_MEMINFO
     ptrdiff_t needleLen = strlen(needle);
     const char *end = buf + bufLen;
-    while(buf < end) {
+    while (buf < end) {
         const char *nl = (const char *)memchr(buf, '\n', end-buf);
-        if(nl == 0)
+        if (nl == 0)
             break;
 
-        if(nl-buf > needleLen && memcmp(buf, needle, needleLen) == 0) {
+        if (nl-buf > needleLen && memcmp(buf, needle, needleLen) == 0) {
             char *endptr = NULL;
             unsigned long long result = strtoull(buf+needleLen, &endptr, 10);
 
             while (*endptr != 0 && *endptr == ' ')
                 endptr++;
 
-            if(*endptr=='k') {   // normal case
+            if (*endptr=='k') {   // normal case
                 result *= 1024;
-            } else if(*endptr=='M') {
+            } else if (*endptr=='M') {
                 result *= 1024*1024;
-            } else if(*endptr=='G') {
+            } else if (*endptr=='G') {
                 result *= 1024*1024*1024;
             }
             return result;

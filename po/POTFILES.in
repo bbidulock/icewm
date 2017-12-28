@@ -76,8 +76,6 @@ src/yfontcore.cc
 src/yfontxft.cc
 src/yicon.cc
 src/yimage_gdk.cc
-src/yimage_imlib.cc
-src/yimage_xpm.cc
 src/yinput.cc
 src/ylabel.cc
 src/ylistbox.cc

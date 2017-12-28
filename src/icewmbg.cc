@@ -220,6 +220,7 @@ Background::Background(int *argc, char ***argv, bool verb):
     catchSignal(SIGTERM);
     catchSignal(SIGINT);
     catchSignal(SIGQUIT);
+    catchSignal(SIGUSR2);
 }
 
 Background::~Background() {
@@ -330,6 +331,10 @@ void Background::handleSignal(int sig) {
         this->exit(1);
         break;
 
+    case SIGUSR2:
+        tlog("logEvents %s", boolstr(toggleLogEvents()));
+        break;
+
     default:
         YApplication::handleSignal(sig);
         break;
@@ -390,6 +395,7 @@ YColor* Background::getTransparencyColor() {
 
 void Background::update(bool force) {
     activeWorkspace = getWorkspace();
+    if (verbose) tlog("update %s %d", boolstr(force), activeWorkspace);
     changeBackground(force);
 }
 

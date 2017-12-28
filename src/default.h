@@ -47,6 +47,7 @@ XIV(bool, taskBarShowWindowListMenu,            true)
 XIV(bool, taskBarShowWorkspaces,                true)
 XIV(bool, taskBarShowWindows,                   true)
 XIV(bool, taskBarShowShowDesktopButton,         true)
+XIV(bool, fontPreferFreetype,                   true)
 
 XIV(int, taskBarButtonWidthDivisor,             3)
 XIV(int, taskBarWidthPercentage,                100)
@@ -252,7 +253,7 @@ cfoption icewm_preferences[] = {
     OBV("MiniIconsPlaceHorizontal",             &miniIconsPlaceHorizontal,      "Place the mini-icons horizontal instead of vertical"),
     OBV("MiniIconsRightToLeft",                 &miniIconsRightToLeft,          "Place new mini-icons from right to left"),
     OBV("MiniIconsBottomToTop",                 &miniIconsBottomToTop,          "Place new mini-icons from bottom to top"),
-    OBV("StrongPointerFocus",                   &strongPointerFocus,            "Always maintain focus under mouse window (makes some keyboard support non-functional or unreliable"),
+    OBV("StrongPointerFocus",                   &strongPointerFocus,            "Always maintain focus under mouse window (makes some keyboard support non-functional or unreliable)"),
     OBV("OpaqueMove",                           &opaqueMove,                    "Opaque window move"),
     OBV("OpaqueResize",                         &opaqueResize,                  "Opaque window resize"),
     OBV("ManualPlacement",                      &manualPlacement,               "Windows initially placed manually by user"),
@@ -334,16 +335,16 @@ cfoption icewm_preferences[] = {
     OBV("TaskBarLaunchOnSingleClick",           &taskBarLaunchOnSingleClick,    "Execute taskbar applet commands (like MailCommand,     ClockCommand,   ...) on single click"),
 //    OBV("WarpPointer",                          &warpPointer,                   "Move mouse when doing focusing in pointer focus mode"),
     OBV("ClientWindowMouseActions",             &clientMouseActions,            "Allow mouse actions on client windows (buggy with some programs)"),
-    OBV("ShowProgramsMenu",                     &showPrograms,                  "Show programs submenu"),
-    OBV("ShowSettingsMenu",                     &showSettingsMenu,                  "Show settings submenu"),
-    OBV("ShowFocusModeMenu",                     &showFocusModeMenu,                  "Show focus mode submenu"),
-    OBV("ShowThemesMenu",                       &showThemesMenu,                "Show themes submenu"),
-    OBV("ShowLogoutMenu",                       &showLogoutMenu,                "Show logout menu"),
-    OBV("ShowHelp",                             &showHelp,                      "Show the help menu item"),
-    OBV("ShowLogoutSubMenu",                    &showLogoutSubMenu,             "Show logout submenu"),
-    OBV("ShowAbout",                            &showAbout,                     "Show the about menu item"),
-    OBV("ShowRun",                              &showRun,                       "Show the run menu item"),
-    OBV("ShowWindowList",                       &showWindowList,                "Show the window menu item"),
+    OBV("ShowProgramsMenu",                     &showPrograms,                  "Show programs submenu in the program menu"),
+    OBV("ShowSettingsMenu",                     &showSettingsMenu,              "Show settings submenu in the program menu"),
+    OBV("ShowFocusModeMenu",                    &showFocusModeMenu,             "Show focus mode submenu in the program menu"),
+    OBV("ShowThemesMenu",                       &showThemesMenu,                "Show themes submenu in the program menu"),
+    OBV("ShowLogoutMenu",                       &showLogoutMenu,                "Show logout menu in the program menu"),
+    OBV("ShowHelp",                             &showHelp,                      "Show the help menu item in the program menu"),
+    OBV("ShowLogoutSubMenu",                    &showLogoutSubMenu,             "Show logout submenu in the program menu"),
+    OBV("ShowAbout",                            &showAbout,                     "Show the about menu item in the program menu"),
+    OBV("ShowRun",                              &showRun,                       "Show the run menu item in the program menu"),
+    OBV("ShowWindowList",                       &showWindowList,                "Show the window menu item in the program menu"),
     OBV("AllowFullscreen",                      &allowFullscreen,               "Allow to switch a window to fullscreen"),
     OBV("FullscreenUseAllMonitors",             &fullscreenUseAllMonitors,      "Span over all available screens if window goes into fullscreen"),
     OBV("EnableAddressBar",                     &enableAddressBar,              "Enable address bar functionality in taskbar"),
@@ -357,6 +358,7 @@ cfoption icewm_preferences[] = {
 #endif
     OBV("DoubleBuffer",                         &doubleBuffer,                  "Use double buffering when redrawing the display"),
     OBV("XRRDisable",                           &xrrDisable,                    "Disable use of new XRANDR API for dual head (nvidia workaround)"),
+    OBV("PreferFreetypeFonts",                  &fontPreferFreetype,            "Favor *Xft fonts over core X11 fonts where possible"),
     OIV("DelayFuzziness",                       &DelayFuzziness, 0, 100,        "Delay fuzziness, to allow merging of multiple timer timeouts into one (notebook power saving)"),
     OIV("ClickMotionDistance",                  &ClickMotionDistance, 0, 32,    "Pointer motion distance before click gets interpreted as drag"),
     OIV("ClickMotionDelay",                     &ClickMotionDelay, 0, 2000,     "Delay before click gets interpreted as drag"),

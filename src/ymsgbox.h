@@ -11,7 +11,7 @@ class YMsgBoxListener {
 public:
     virtual void handleMsgBox(YMsgBox *msgbox, int operation) = 0;
 protected:
-    virtual ~YMsgBoxListener() {};
+    virtual ~YMsgBoxListener() {}
 };
 
 class YMsgBox: public YDialog, public YActionListener {

@@ -6,16 +6,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-11-21 21:20-0700\n"
-"PO-Revision-Date: 2017-11-19 18:39+0100\n"
+"POT-Creation-Date: 2017-12-16 04:21+0100\n"
+"PO-Revision-Date: 2017-12-12 07:18+0000\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
-"Language-Team: Slovak <opensuse-translation-sk@opensuse.org>\n"
+"Language-Team: Slovak <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Weblate 2.17.1\n"
 
 #: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:680 src/aapm.cc:805
 msgid " - Power"
@@ -203,7 +204,7 @@ msgstr ""
 "\n"
 "  Id volajúceho:\t"
 
-#: src/aworkspaces.cc:315 src/wmstatus.cc:175
+#: src/aworkspaces.cc:315 src/wmstatus.cc:173
 msgid "Workspace: "
 msgstr "Pracovná plocha: "
 
@@ -267,86 +268,122 @@ msgstr "Editory"
 msgid "Other"
 msgstr "Iné"
 
-#: src/icehelp.cc:1156
+#: src/icehelp.cc:1199
 msgid "Back"
 msgstr "Späť"
 
-#: src/icehelp.cc:1156
+#: src/icehelp.cc:1199
 msgid "Alt+Left"
 msgstr "Alt+Vľavo"
 
-#: src/icehelp.cc:1158
+#: src/icehelp.cc:1201
 msgid "Forward"
 msgstr "Dopredu"
 
-#: src/icehelp.cc:1158
+#: src/icehelp.cc:1201
 msgid "Alt+Right"
 msgstr "Alt+Vpravo"
 
-#: src/icehelp.cc:1161
+#: src/icehelp.cc:1204
 msgid "Previous"
 msgstr "Predchádzajúce"
 
-#: src/icehelp.cc:1162
+#: src/icehelp.cc:1205
 msgid "Next"
 msgstr "Nasledujúce"
 
-#: src/icehelp.cc:1164
+#: src/icehelp.cc:1207
 msgid "Contents"
 msgstr "Obsah"
 
-#: src/icehelp.cc:1165
+#: src/icehelp.cc:1208
 msgid "Index"
 msgstr "Index"
 
-#: src/icehelp.cc:1168 src/icesame.cc:62 src/iceview.cc:72 src/wmtitle.cc:97
+#: src/icehelp.cc:1211 src/icesame.cc:62 src/iceview.cc:72 src/wmtitle.cc:108
 msgid "Close"
 msgstr "Zavrieť"
 
-#: src/icehelp.cc:1168 src/icesame.cc:62 src/iceview.cc:72
+#: src/icehelp.cc:1211 src/icesame.cc:62 src/iceview.cc:72
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1865
+#: src/icehelp.cc:1216
+msgid "Icewm(1)"
+msgstr "Icewm(1)"
+
+#: src/icehelp.cc:1218
+msgid "Icewmbg(1)"
+msgstr "Icewmbg(1)"
+
+#: src/icehelp.cc:1220
+msgid "Icesound(1)"
+msgstr "Icesound(1)"
+
+#: src/icehelp.cc:1222
+msgid "FAQ"
+msgstr "FAQ"
+
+#: src/icehelp.cc:1224
+msgid "Manual"
+msgstr "Ručne"
+
+#: src/icehelp.cc:1226
+msgid "Support"
+msgstr "Podpora"
+
+#: src/icehelp.cc:1228
+msgid "Theme Howto"
+msgstr "Howto témy"
+
+#: src/icehelp.cc:1230
+msgid "Website"
+msgstr "Webové stránky"
+
+#: src/icehelp.cc:1232
+msgid "Github"
+msgstr "Github"
+
+#: src/icehelp.cc:1934
 msgid "Unsupported protocol."
 msgstr "Nepodporovaný protokol."
 
-#: src/icehelp.cc:1890
+#: src/icehelp.cc:1959
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "Neplatná cesta: %s\n"
 
-#: src/icehelp.cc:1913
+#: src/icehelp.cc:1982
 msgid "Path does not refer to a file."
 msgstr "Cesta neodkazuje na súbor."
 
-#: src/icehelp.cc:1918
+#: src/icehelp.cc:1987
 msgid "Failed to open file for reading."
 msgstr "Zlyhalo otvorenie súboru na čítanie."
 
-#: src/icehelp.cc:1947
+#: src/icehelp.cc:2016
 msgid "Failed to create a temporary file"
 msgstr "Zlyhalo vytvorenie dočasného súboru"
 
-#: src/icehelp.cc:2039
+#: src/icehelp.cc:2108
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr "Zlyhalo vykonanie system(%s) (%d)"
 
-#: src/icehelp.cc:2062
+#: src/icehelp.cc:2131
 #, c-format
 msgid "Failed to decompress %s"
 msgstr "Zlyhalo rozbalenie %s"
 
-#: src/icehelp.cc:2070
+#: src/icehelp.cc:2139
 msgid "Could not locate curl or wget in PATH"
 msgstr "Nebolo možné nájsť curl alebo wget v PATH"
 
-#: src/icehelp.cc:2074
+#: src/icehelp.cc:2143
 msgid "Unsafe characters in URL"
 msgstr "Nebezpečné znaky v URL"
 
-#: src/icehelp.cc:2090
+#: src/icehelp.cc:2180
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -360,14 +397,18 @@ msgid ""
 "from %s.\n"
 "\n"
 "Options:\n"
-"  --display=NAME      NAME of the X server to use.\n"
+"  -d, --display=NAME  NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"
 "\n"
+"  -B                  Display the IceWM icewmbg manpage.\n"
 "  -b, --bugs          Display the IceWM bug reports (primitively).\n"
 "  -f, --faq           Display the IceWM FAQ and Howto.\n"
-"  -i, --icewm         Display the IceWM website.\n"
+"  -g                  Display the IceWM Github website.\n"
+"  -i, --icewm         Display the IceWM icewm manpage.\n"
 "  -m, --manual        Display the IceWM Manual (default).\n"
+"  -s                  Display the IceWM icesound manpage.\n"
 "  -t, --theme         Display the IceWM themes Howto.\n"
+"  -w, --website       Display the IceWM website.\n"
 "\n"
 "  -V, --version       Prints version information and exits.\n"
 "  -h, --help          Prints this usage screen and exits.\n"
@@ -390,14 +431,18 @@ msgstr ""
 "z %s.\n"
 "\n"
 "Voľby:\n"
-"  --display=NÁZOV      NÁZOV X servera, ktorý sa použije.\n"
+"  -d,  --display=NÁZOV   NÁZOV X servera, ktorý sa použije.\n"
 "  --sync               Synchronizuje príkazy X11.\n"
 "\n"
+"  -B                  Zobrazí manuálovú stránku pre IceWM icewmbg.\n"
 "  -b, --bugs          Zobrazí chybové hlásenia IceWM (primitívne).\n"
 "  -f, --faq           Zobrazí IceWM FAQ a Howto.\n"
+"  -g                  Zobrazí webovú stránku pre IceWM Github.\n"
 "  -i, --icewm         Zobrazí webovú stránku IceWM.\n"
 "  -m, --manual        Zobrazí príručku IceWM (predvolené nastavenie).\n"
+"  -s                  Zobrazí manuálovú stránku pre IceWM icesound.\n"
 "  -t, --theme         Zobrazí Howto pre témy IceWM.\n"
+"  -w, --website       Zobrazí webovú stránku pre IceWM.\n"
 "\n"
 "  -V, --version       Vypíše informácie o verzii a skončí.\n"
 "  -h, --help          Vypíše túto obrazovku o použití a skončí.\n"
@@ -410,7 +455,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/icehelp.cc:2152
+#: src/icehelp.cc:2257
 #, c-format
 msgid "Ignoring option '%s'"
 msgstr "Ignorovanie voľby '%s'"
@@ -601,7 +646,7 @@ msgstr "Neplatná hodnota: `%s'."
 msgid "No actions specified."
 msgstr "Nebola zadaná žiadna akcia."
 
-#: src/icesh.cc:708 src/icesound.cc:938 src/icewmhint.cc:88 src/yxapp.cc:947
+#: src/icesh.cc:708 src/icesound.cc:938 src/icewmhint.cc:88 src/yxapp.cc:951
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
@@ -633,7 +678,7 @@ msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
 "\n"
-"  --display=NAME      Use NAME to connect to the X server.\n"
+"  -d, --display=NAME  Use NAME to connect to the X server.\n"
 "  --sync              Synchronize communication with X11 server.\n"
 "\n"
 "  -n, --notray        Do not start icewmtray.\n"
@@ -642,7 +687,7 @@ msgstr ""
 "  -c, --config=SÚBOR    Umožní IceWM načítať predvoľby zo SÚBOR-u.\n"
 "  -t, --theme=SÚBOR    Umožní IceWM načítať tému zo SÚBOR-u.\n"
 "\n"
-"  --display=NÁZOV      Použije NÁZOV pre pripojenie k X serveru.\n"
+"  -d,  --display=NÁZOV  Použije NÁZOV pre pripojenie k X serveru.\n"
 "  --sync              Synchronizuje komunikáciu s X11 serverom.\n"
 "  \n"
 "  -n, --notray        Nespustí icewmtray.\n"
@@ -716,7 +761,7 @@ msgstr "Nebolo možné nastaviť formát OSS"
 msgid "Can't connect to ESound daemon: %s"
 msgstr "Nedá sa spojiť s ESound démonom: %s"
 
-#: src/icesound.cc:487 src/icewmhint.cc:90 src/yxapp.cc:948
+#: src/icesound.cc:487 src/icewmhint.cc:90 src/yxapp.cc:952
 msgid "<none>"
 msgstr "<žiadny>"
 
@@ -960,7 +1005,7 @@ msgstr "Ctrl+W"
 msgid "Failed to load image '%s'."
 msgstr "Zlyhalo načítanie obrázka: '%s'."
 
-#: src/icewmbg.cc:696
+#: src/icewmbg.cc:697
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1050,11 +1095,11 @@ msgstr ""
 " center:0 scaled:1 = vyplní oba rozmery a zachová pomer strán\n"
 "\n"
 
-#: src/icewmbg.cc:743
+#: src/icewmbg.cc:744
 msgid "Please note that not all options are currently configured.\n"
 msgstr "Upozorňujeme, že nie všetky voľby sú momentálne nakonfigurované.\n"
 
-#: src/icewmbg.cc:889
+#: src/icewmbg.cc:890
 msgid "Cannot start, because another icewmbg is still running."
 msgstr "Nebolo možné spustiť, pretože iný icewmbg stále beží."
 
@@ -1067,16 +1112,17 @@ msgstr "Použitie: icewmhint [trieda.instance] prepínač hodnota\n"
 msgid "Out of memory (len=%d)."
 msgstr "Nedostatok pamäti (veľkosť=%d)."
 
-#: src/misc.cc:335 src/misc.cc:347
+#: src/misc.cc:436 src/misc.cc:448
 msgid "Warning: "
 msgstr "Upozornenie: "
 
-#: src/misc.cc:611
+#: src/misc.cc:717
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
 "Options:\n"
 "%s\n"
+"  -C, --copying       Prints license information and exits.\n"
 "  -V, --version       Prints version information and exits.\n"
 "  -h, --help          Prints this usage screen and exits.\n"
 "\n"
@@ -1084,11 +1130,12 @@ msgstr ""
 "Použitie: %s [VOĽBY]\n"
 "Voľby:\n"
 "%s\n"
+"  -C, --copying       Vypíše informácie o licencii a skončí..\n"
 "  -V, --version       Vypíše informácie o verzii a skončí.\n"
 "  -h, --help          Vypíše túto obrazovku o použití a skončí.\n"
 "\n"
 
-#: src/movesize.cc:880
+#: src/movesize.cc:890
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Neznámy smer pri požiadavke posun/zmena veľkosti: %d"
@@ -1121,7 +1168,7 @@ msgstr "Kódová sada:"
 msgid "Language:"
 msgstr "Jazyk:"
 
-#: src/wmabout.cc:66
+#: src/wmabout.cc:67
 msgid "icewm - About"
 msgstr "icewm - O Aplikácii"
 
@@ -1211,83 +1258,83 @@ msgstr "_Dole"
 msgid "D_esktop"
 msgstr "_Plocha"
 
-#: src/wmapp.cc:575
+#: src/wmapp.cc:588
 msgid "_Restore"
 msgstr "O_bnoviť"
 
-#: src/wmapp.cc:577
+#: src/wmapp.cc:590
 msgid "_Move"
 msgstr "_Presunúť"
 
-#: src/wmapp.cc:579
+#: src/wmapp.cc:592
 msgid "_Size"
 msgstr "_Veľkosť"
 
-#: src/wmapp.cc:581
+#: src/wmapp.cc:594
 msgid "Mi_nimize"
 msgstr "_Minimalizovať"
 
-#: src/wmapp.cc:583
+#: src/wmapp.cc:596
 msgid "Ma_ximize"
 msgstr "Ma_ximalizovať"
 
-#: src/wmapp.cc:585
+#: src/wmapp.cc:598
 msgid "_Fullscreen"
 msgstr "_Celá obrazovka"
 
-#: src/wmapp.cc:588 src/wmwinlist.cc:301
+#: src/wmapp.cc:601 src/wmwinlist.cc:301
 msgid "_Hide"
 msgstr "_Schovať"
 
-#: src/wmapp.cc:590
+#: src/wmapp.cc:603
 msgid "Roll_up"
 msgstr "Zrol_ovať"
 
-#: src/wmapp.cc:597
+#: src/wmapp.cc:610
 msgid "R_aise"
 msgstr "Zvýš_iť"
 
-#: src/wmapp.cc:599
+#: src/wmapp.cc:612
 msgid "_Lower"
 msgstr "_Znížiť"
 
-#: src/wmapp.cc:601
+#: src/wmapp.cc:614
 msgid "La_yer"
 msgstr "Vrs_tva"
 
-#: src/wmapp.cc:605 src/wmwinlist.cc:303
+#: src/wmapp.cc:618 src/wmwinlist.cc:303
 msgid "Move _To"
 msgstr "_Presunúť na"
 
-#: src/wmapp.cc:606
+#: src/wmapp.cc:619
 msgid "Occupy _All"
 msgstr "N_a všetky plochy"
 
-#: src/wmapp.cc:612
+#: src/wmapp.cc:625
 msgid "Limit _Workarea"
 msgstr "Obmedziť pracovnú ob_lasť"
 
-#: src/wmapp.cc:616
+#: src/wmapp.cc:629
 msgid "Tray _icon"
 msgstr "Dokuj _ikonu"
 
-#: src/wmapp.cc:621 src/wmwinlist.cc:290 src/wmwinlist.cc:314
+#: src/wmapp.cc:634 src/wmwinlist.cc:290 src/wmwinlist.cc:314
 msgid "_Close"
 msgstr "_Zavrieť"
 
-#: src/wmapp.cc:623 src/wmwinlist.cc:292
+#: src/wmapp.cc:636 src/wmwinlist.cc:292
 msgid "_Kill Client"
 msgstr "Zabiť _klienta"
 
-#: src/wmapp.cc:626 src/wmdialog.cc:93 src/wmwinmenu.cc:131
+#: src/wmapp.cc:639 src/wmdialog.cc:93 src/wmwinmenu.cc:131
 msgid "_Window list"
 msgstr "Zoznam _okien"
 
-#: src/wmapp.cc:639
+#: src/wmapp.cc:652
 msgid "Another window manager already running, exiting..."
 msgstr "Iný window manažér beží, končím..."
 
-#: src/wmapp.cc:713
+#: src/wmapp.cc:729
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1296,18 +1343,18 @@ msgstr ""
 "Nemôžem reštartovať: %s\n"
 "Vedie $PATH k %s?"
 
-#: src/wmapp.cc:795
+#: src/wmapp.cc:811
 msgid "Kill IceWM, replace with Xterm"
 msgstr "Zabiť IceWM, nahradiť s Xterm"
 
-#: src/wmapp.cc:1296
+#: src/wmapp.cc:1322
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      ID klienta, ktoré bude použité pri kontaktovaní "
 "správcu sedenia.\n"
 
-#: src/wmapp.cc:1302
+#: src/wmapp.cc:1328
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1317,7 +1364,7 @@ msgstr ""
 "  --debug             Vypíše všeobecné ladiace správy.\n"
 "  --debug-z           Vypíše ladiace správy týkajúce naskladania okien.\n"
 
-#: src/wmapp.cc:1310
+#: src/wmapp.cc:1336
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1329,14 +1376,14 @@ msgstr ""
 "  -t, --theme=SÚBOR    Načíta tému zo SÚBOR-u.\n"
 "  --postpreferences   Vypíše predvoľby po spracovaní všetkého.\n"
 
-#: src/wmapp.cc:1315
+#: src/wmapp.cc:1341
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
 "Starts the IceWM window manager.\n"
 "\n"
 "Options:\n"
-"  --display=NAME      NAME of the X server to use.\n"
+"  -d, --display=NAME  NAME of the X server to use.\n"
 "%s  --sync              Synchronize X11 commands.\n"
 "%s\n"
 "  -V, --version       Prints version information and exits.\n"
@@ -1364,7 +1411,7 @@ msgstr ""
 "Spustí správcu okien IceWM.\n"
 "\n"
 "Voľby:\n"
-"  --display=NÁZOV      NÁZOV X servera, ktorý sa použije.\n"
+"  -d,  --display=NÁZOV  NÁZOV X servera, ktorý sa použije.\n"
 "%s  --sync               Synchronizuje príkazy X11.\n"
 "%s\n"
 "\n"
@@ -1390,26 +1437,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1376
+#: src/wmapp.cc:1402
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s konfiguračné adresáre:\n"
 
-#: src/wmapp.cc:1446
+#: src/wmapp.cc:1478
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s nakonfigurované voľby: %s\n"
 
-#: src/wmapp.cc:1493
+#: src/wmapp.cc:1525
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Nerozpoznaná voľba: '%s'."
 
-#: src/wmapp.cc:1524
+#: src/wmapp.cc:1556
 msgid "Confirm Logout"
 msgstr "Potvrdiť odhlásenie"
 
-#: src/wmapp.cc:1525
+#: src/wmapp.cc:1557
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1451,7 +1498,7 @@ msgid "_Cancel"
 msgstr "_Zrušiť"
 
 #: src/wmdialog.cc:90 src/wmprog.cc:1004 src/wmprog.cc:1006
-#: src/wmtaskbar.cc:294 src/wmtaskbar.cc:296
+#: src/wmtaskbar.cc:296 src/wmtaskbar.cc:298
 msgid "_Logout..."
 msgstr "Odh_lásenie..."
 
@@ -1459,16 +1506,16 @@ msgstr "Odh_lásenie..."
 msgid "_Restart icewm"
 msgstr "_Reštartovať icewm"
 
-#: src/wmdialog.cc:95 src/wmprog.cc:969 src/wmtaskbar.cc:287
-#: src/wmtaskbar.cc:290
+#: src/wmdialog.cc:95 src/wmprog.cc:969 src/wmtaskbar.cc:289
+#: src/wmtaskbar.cc:292
 msgid "_About"
 msgstr "O _aplikacii"
 
-#: src/wmframe.cc:1424
+#: src/wmframe.cc:1425
 msgid "Kill Client: "
 msgstr "Zabiť klienta: "
 
-#: src/wmframe.cc:1431
+#: src/wmframe.cc:1432
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1476,19 +1523,19 @@ msgstr ""
 "VAROVANIE! Ak bude tento klient zabitý, budú\n"
 "všetky neuložené dáta stratené. Chcete pokračovať?"
 
-#: src/wmframe.cc:3031
+#: src/wmframe.cc:3028
 msgid "Restore"
 msgstr "Obnoviť"
 
-#: src/wmframe.cc:3034 src/wmtitle.cc:71
+#: src/wmframe.cc:3031 src/wmtitle.cc:78
 msgid "Maximize"
 msgstr "Maximalizovať"
 
-#: src/wmframe.cc:3064
+#: src/wmframe.cc:3061
 msgid "Rolldown"
 msgstr "Rozbaliť"
 
-#: src/wmframe.cc:3066 src/wmtitle.cc:121
+#: src/wmframe.cc:3063 src/wmtitle.cc:136
 msgid "Rollup"
 msgstr "Z_rolovať"
 
@@ -1497,13 +1544,10 @@ msgstr "Z_rolovať"
 msgid "Unknown window option: %s"
 msgstr "Neznáma voľba okna: %s"
 
-#: src/wmoption.cc:328
-msgid "Syntax error in window options"
-msgstr "Syntaktická chyba vo voľbách okna"
-
-#: src/wmoption.cc:376
-msgid "Out of memory for window options"
-msgstr "Málo pamäte pre voľby okna"
+#: src/wmoption.cc:333
+#, c-format
+msgid "Syntax error in window options on line %d of %s"
+msgstr "Syntaktická chyba vo voľbách okna na riadku %d z %s"
 
 #: src/wmprog.cc:183
 msgid "Missing command argument"
@@ -1610,7 +1654,7 @@ msgstr "Programy"
 msgid "_Run..."
 msgstr "_Spustiť..."
 
-#: src/wmprog.cc:958 src/wmtaskbar.cc:277
+#: src/wmprog.cc:958 src/wmtaskbar.cc:279
 msgid "_Windows"
 msgstr "_Okná"
 
@@ -1635,71 +1679,71 @@ msgstr "Nas_tavenia"
 msgid "Session Manager: Unknown line %s"
 msgstr "Manažér sedení: Neznámy riadok %s"
 
-#: src/wmtaskbar.cc:165 src/wmtaskbar.cc:166
+#: src/wmtaskbar.cc:167 src/wmtaskbar.cc:168
 msgid "Task Bar"
 msgstr "Panel úloh"
 
-#: src/wmtaskbar.cc:267 src/wmwinlist.cc:305 src/wmwinlist.cc:318
+#: src/wmtaskbar.cc:269 src/wmwinlist.cc:305 src/wmwinlist.cc:318
 msgid "Tile _Vertically"
 msgstr "Zarovnať _vertikálne"
 
-#: src/wmtaskbar.cc:268 src/wmwinlist.cc:306 src/wmwinlist.cc:319
+#: src/wmtaskbar.cc:270 src/wmwinlist.cc:306 src/wmwinlist.cc:319
 msgid "T_ile Horizontally"
 msgstr "Zarovnať _horizontálne"
 
-#: src/wmtaskbar.cc:269 src/wmwinlist.cc:307 src/wmwinlist.cc:320
+#: src/wmtaskbar.cc:271 src/wmwinlist.cc:307 src/wmwinlist.cc:320
 msgid "Ca_scade"
 msgstr "Zarovnať do _kaskády"
 
-#: src/wmtaskbar.cc:270 src/wmwinlist.cc:308 src/wmwinlist.cc:321
+#: src/wmtaskbar.cc:272 src/wmwinlist.cc:308 src/wmwinlist.cc:321
 msgid "_Arrange"
 msgstr "_Usporiadať"
 
-#: src/wmtaskbar.cc:271 src/wmwinlist.cc:310 src/wmwinlist.cc:322
+#: src/wmtaskbar.cc:273 src/wmwinlist.cc:310 src/wmwinlist.cc:322
 msgid "_Minimize All"
 msgstr "_Minimalizovať všetko"
 
-#: src/wmtaskbar.cc:272 src/wmwinlist.cc:311 src/wmwinlist.cc:323
+#: src/wmtaskbar.cc:274 src/wmwinlist.cc:311 src/wmwinlist.cc:323
 msgid "_Hide All"
 msgstr "_Skryť všetko"
 
-#: src/wmtaskbar.cc:273 src/wmwinlist.cc:312 src/wmwinlist.cc:324
+#: src/wmtaskbar.cc:275 src/wmwinlist.cc:312 src/wmwinlist.cc:324
 msgid "_Undo"
 msgstr "_Vrátiť"
 
-#: src/wmtaskbar.cc:275
+#: src/wmtaskbar.cc:277
 msgid "Arrange _Icons"
 msgstr "Usporiadať _Ikony"
 
-#: src/wmtaskbar.cc:279
+#: src/wmtaskbar.cc:281
 msgid "_Refresh"
 msgstr "_Obnoviť"
 
-#: src/wmtaskbar.cc:285
+#: src/wmtaskbar.cc:287
 msgid "_License"
 msgstr "_Licencia"
 
-#: src/wmtaskbar.cc:400
+#: src/wmtaskbar.cc:403
 msgid "Favorite applications"
 msgstr "Obľúbené aplikácie"
 
-#: src/wmtaskbar.cc:417
+#: src/wmtaskbar.cc:420
 msgid "Window list menu"
 msgstr "Menu zoznamu okien"
 
-#: src/wmtaskbar.cc:426
+#: src/wmtaskbar.cc:429
 msgid "Show Desktop"
 msgstr "Ukáž plochu"
 
-#: src/wmtitle.cc:85
+#: src/wmtitle.cc:94
 msgid "Minimize"
 msgstr "Minimalizovať"
 
-#: src/wmtitle.cc:109
+#: src/wmtitle.cc:122
 msgid "Hide"
 msgstr "Skryť"
 
-#: src/wmtitle.cc:133
+#: src/wmtitle.cc:150
 msgid "Raise/Lower"
 msgstr "Zdvihnúť/Znížiť"
 
@@ -1727,7 +1771,7 @@ msgstr "Ukáz_ať"
 msgid "_Minimize"
 msgstr "_Minimalizovať"
 
-#: src/wmwinlist.cc:335 src/wmwinlist.cc:336
+#: src/wmwinlist.cc:337 src/wmwinlist.cc:338
 msgid "Window list"
 msgstr "Zoznam okien"
 
@@ -1746,12 +1790,12 @@ msgstr "%s: výber zlyhal"
 msgid "Unknown key name %s in %s"
 msgstr "Neznáme meno kľúča %s v %s"
 
-#: src/yconfig.cc:165 src/yconfig.cc:178
+#: src/yconfig.cc:165 src/yconfig.cc:178 src/yconfig.cc:191
 #, c-format
 msgid "Bad argument: %s for %s"
 msgstr "Zlá hodnota: %s pre %s"
 
-#: src/yconfig.cc:211
+#: src/yconfig.cc:224
 #, c-format
 msgid "Bad option: %s"
 msgstr "Zla voľba: %s"
@@ -1819,39 +1863,43 @@ msgstr "Chýba znaková sada písma \"%s\":"
 msgid "Out of memory for pixmap \"%s\""
 msgstr "Nedostatok pamäte pre pixmapu \"%s\""
 
-#: src/yinput.cc:50
-msgid "Cu_t"
-msgstr "Vystrihnú_ť"
-
-#: src/yinput.cc:50
-msgid "Ctrl+X"
-msgstr "Ctrl+X"
-
-#: src/yinput.cc:51
+#: src/yinput.cc:34
 msgid "_Copy"
 msgstr "_Kopírovať"
 
-#: src/yinput.cc:51
+#: src/yinput.cc:34
 msgid "Ctrl+C"
 msgstr "Ctrl+C"
 
-#: src/yinput.cc:52
+#: src/yinput.cc:36
+msgid "Cu_t"
+msgstr "Vystrihnú_ť"
+
+#: src/yinput.cc:36
+msgid "Ctrl+X"
+msgstr "Ctrl+X"
+
+#: src/yinput.cc:38
 msgid "_Paste"
 msgstr "_Vložiť"
 
-#: src/yinput.cc:52
+#: src/yinput.cc:38
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#: src/yinput.cc:53
+#: src/yinput.cc:40
 msgid "Paste _Selection"
 msgstr "V_ložiť Výber"
 
-#: src/yinput.cc:55
+#: src/yinput.cc:40
+msgid "Ctrl+P"
+msgstr "Ctrl+P"
+
+#: src/yinput.cc:43
 msgid "Select _All"
 msgstr "Vybr_ať všetko"
 
-#: src/yinput.cc:55
+#: src/yinput.cc:43
 msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
@@ -1891,7 +1939,7 @@ msgstr "Nedostatok pamäte pre obrázok %s"
 msgid "Image not readable: %s"
 msgstr "Obrázok je nečitateľný: %s"
 
-#: src/ypaths.cc:124
+#: src/ypaths.cc:121
 #, c-format
 msgid "Could not find image %s"
 msgstr "Nie je možné nájsť obrázok %s"
@@ -1910,13 +1958,16 @@ msgstr "\"%s\" neodpovedá bežnému internetovému schému"
 msgid "\"%s\" contains no scheme description"
 msgstr "\"%s\" neobsahuje popis schémy"
 
-#: src/yxapp.cc:904
+#: src/yxapp.cc:908
 msgid ""
-"  --display=NAME      NAME of the X server to use.\n"
+"  -d, --display=NAME  NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"
 msgstr ""
-"  --display=NÁZOV      NÁZOV X servera, ktorý sa použije.\n"
+"  -d,  --display=NÁZOV  NÁZOV X servera, ktorý sa použije.\n"
 "  --sync               Synchronizuje príkazy X11.\n"
+
+#~ msgid "Out of memory for window options"
+#~ msgstr "Málo pamäte pre voľby okna"
 
 #~ msgid "Error in window option: %s"
 #~ msgstr "Chyba v nastavení okna  %s"

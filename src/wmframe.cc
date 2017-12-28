@@ -64,6 +64,8 @@ YFrameWindow::YFrameWindow(
     topRight = None;
     bottomLeft = None;
     bottomRight = None;
+    topLeftSide = None;
+    topRightSide = None;
     indicatorsCreated = false;
     indicatorsVisible = false;
 
@@ -229,8 +231,7 @@ YFrameWindow::~YFrameWindow() {
 }
 
 YFrameTitleBar* YFrameWindow::titlebar() {
-    bool titleVisible = (titleY() > 0);
-    if (fTitleBar == 0 && titleVisible) {
+    if (fTitleBar == 0 && titleY() > 0) {
         fTitleBar = new YFrameTitleBar(this, this);
         fTitleBar->show();
     }
@@ -443,12 +444,13 @@ void YFrameWindow::afterManage() {
 
 // create a window to show a resize pointer on the frame border
 Window YFrameWindow::createPointerWindow(Cursor cursor, Window parent) {
+    unsigned long valuemask = CWEventMask | CWCursor;
     XSetWindowAttributes attributes;
     attributes.event_mask = 0;
     attributes.cursor = cursor;
     return XCreateWindow(xapp->display(), parent, 0, 0, 1, 1, 0,
                          0, InputOnly, CopyFromParent,
-                         CWEventMask | CWCursor, &attributes);
+                         valuemask, &attributes);
 }
 
 // create 8 resize pointer indicator windows
@@ -456,34 +458,32 @@ void YFrameWindow::createPointerWindows() {
 
     // There is a competition for mouse input between
     // the resize handles, the titlebar and its buttons.
-    // The following solution positions the three top resize
+    // The following solution positions the corner resize
     // handles between the titlebar and the titlebar buttons.
-    Window titleWin = titlebar() ? titlebar()->handle() : handle();
+    const Window frameWin = handle();
+    const Window titleWin = titlebar() ? titlebar()->handle() : frameWin;
 
-    topSide = createPointerWindow(YWMApp::sizeTopPointer,
-                                  titleWin);
-    leftSide = createPointerWindow(YWMApp::sizeLeftPointer,
-                                   handle());
-    rightSide = createPointerWindow(YWMApp::sizeRightPointer,
-                                    handle());
-    bottomSide = createPointerWindow(YWMApp::sizeBottomPointer,
-                                     handle());
+    topSide = createPointerWindow(YWMApp::sizeTopPointer, frameWin);
+    leftSide = createPointerWindow(YWMApp::sizeLeftPointer, frameWin);
+    rightSide = createPointerWindow(YWMApp::sizeRightPointer, frameWin);
+    bottomSide = createPointerWindow(YWMApp::sizeBottomPointer, frameWin);
 
-    topLeft = createPointerWindow(YWMApp::sizeTopLeftPointer,
-                                  titleWin);
-    topRight = createPointerWindow(YWMApp::sizeTopRightPointer,
-                                   titleWin);
-    bottomLeft = createPointerWindow(YWMApp::sizeBottomLeftPointer,
-                                     handle());
-    bottomRight = createPointerWindow(YWMApp::sizeBottomRightPointer,
-                                      handle());
+    topLeft = createPointerWindow(YWMApp::sizeTopLeftPointer, titleWin);
+    topRight = createPointerWindow(YWMApp::sizeTopRightPointer, titleWin);
+    bottomLeft = createPointerWindow(YWMApp::sizeBottomLeftPointer, frameWin);
+    bottomRight = createPointerWindow(YWMApp::sizeBottomRightPointer, frameWin);
+
+    topLeftSide = createPointerWindow(YWMApp::sizeTopLeftPointer, frameWin);
+    topRightSide = createPointerWindow(YWMApp::sizeTopRightPointer, frameWin);
 
     indicatorsCreated = true;
 
     if (titlebar()) {
         titlebar()->raiseButtons();
     }
-    XRaiseWindow(xapp->display(), container()->handle());
+    XRaiseWindow(xapp->display(), topSide);
+    XStoreName(xapp->display(), topSide, "topSide");
+    container()->raise();
 }
 
 void YFrameWindow::grabKeys() {
@@ -596,6 +596,8 @@ void YFrameWindow::unmanage(bool reparent) {
         if (!client()->destroyed() && client()->adopted())
             XRemoveFromSaveSet(xapp->display(), client()->handle());
     }
+    else
+        fClient->unmanageWindow();
 
     client()->setFrame(0);
 
@@ -1106,10 +1108,10 @@ void YFrameWindow::actionPerformed(YAction action, unsigned int modifiers) {
         if (canRaise())
             wmRaise();
     } else if (action == actionDepth) {
-        if (Overlaps(true) && canRaise()){
+        if (overlaps(bool(Below)) && canRaise()){
             wmRaise();
             manager->setFocus(this, true);
-        } else if (Overlaps(false) && canLower())
+        } else if (overlaps(bool(Above)) && canLower())
             wmLower();
     } else if (action == actionRollup) {
         if (canRollup())
@@ -1402,7 +1404,6 @@ void YFrameWindow::wmClose() {
     if (!canClose())
         return ;
 
-    wmHide();
     XGrabServer(xapp->display());
     client()->getProtocols(true);
 
@@ -1420,9 +1421,8 @@ void YFrameWindow::wmClose() {
 }
 
 void YFrameWindow::wmConfirmKill() {
-    if (fKillMsgBox)
-        return;
-    fKillMsgBox = wmConfirmKill(ustring(_("Kill Client: ")).append(getTitle()), this);
+    if (fKillMsgBox == 0)
+        fKillMsgBox = wmConfirmKill(_("Kill Client: ") + getTitle(), this);
 }
 
 YMsgBox* YFrameWindow::wmConfirmKill(const ustring& title,
@@ -1448,29 +1448,23 @@ void YFrameWindow::wmKill() {
 }
 
 void YFrameWindow::wmPrevWindow() {
-    if (next() != this) {
-        YFrameWindow *f = findWindow(fwfNext | fwfBackward | fwfVisible | fwfCycle | fwfFocusable | fwfWorkspace | fwfSame);
-        if (f) {
-            f->wmRaise();
-            manager->setFocus(f, true);
-        }
+    int flags = fwfNext | fwfVisible | fwfCycle |
+                fwfFocusable | fwfWorkspace | fwfSame;
+    YFrameWindow *f = findWindow(flags | fwfBackward);
+    if (f && f != this) {
+        f->wmRaise();
+        manager->setFocus(f, true);
     }
 }
 
 void YFrameWindow::wmNextWindow() {
-    if (next() != this) {
+    int flags = fwfNext | fwfVisible | fwfCycle |
+                fwfFocusable | fwfWorkspace | fwfSame;
+    YFrameWindow *f = findWindow(flags);
+    if (f && f != this) {
         wmLower();
-        manager->setFocus(findWindow(fwfNext | fwfVisible | fwfCycle | fwfFocusable | fwfWorkspace | fwfSame), true);
-    }
-}
-
-void YFrameWindow::wmLastWindow() {
-    if (next() != this) {
-        YFrameWindow *f = findWindow(fwfNext | fwfVisible | fwfCycle | fwfFocusable | fwfWorkspace | fwfSame);
-        if (f) {
-            f->wmRaise();
-            manager->setFocus(f, true);
-        }
+        f->wmRaise();
+        manager->setFocus(f, true);
     }
 }
 
@@ -3164,7 +3158,7 @@ void YFrameWindow::updateMwmHints() {
 }
 
 ref<YIcon> YFrameWindow::clientIcon() const {
-    for(YFrameWindow const *f(this); f != NULL; f = f->owner())
+    for (YFrameWindow const *f(this); f != NULL; f = f->owner())
         if (f->getClientIcon() != null)
             return f->getClientIcon();
 
@@ -3299,7 +3293,7 @@ void YFrameWindow::updateNetWMStrutPartial() {
 }
 
 void YFrameWindow::updateNetStartupId() {
-    unsigned long time = -1UL;
+    unsigned long time = (unsigned long) -1;
     if (client()->getNetStartupId(time)) {
         if (fUserTime.update(time))
             manager->updateUserTime(fUserTime);
@@ -3307,7 +3301,7 @@ void YFrameWindow::updateNetStartupId() {
 }
 
 void YFrameWindow::updateNetWMUserTime() {
-    unsigned long time = -1UL;
+    unsigned long time = (unsigned long) -1;
     Window window = fUserTimeWindow ? fUserTimeWindow : client()->handle();
     if (client()->getNetWMUserTime(window, time)) {
         if (fUserTime.update(time))

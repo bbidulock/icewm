@@ -263,7 +263,7 @@ public:
     }
     virtual void accept(IClosablePopup *parent) OVERRIDE {
         YMenuItem* item=menu->getItem(zTarget);
-        if(!item) return;
+        if (!item) return;
         // even through all the obscure "abstraction" it should just run DObjectMenuItem::actionPerformed
         item->actionPerformed(0, actionRun, 0);
         parent->close();
@@ -273,12 +273,12 @@ public:
         return zTarget;
     }
     virtual ustring getTitle(int idx) OVERRIDE {
-        if(idx<0 || idx>=this->getCount())
+        if (idx<0 || idx>=this->getCount())
             return null;
         return menu->getItem(idx)->getName();
     }
     virtual ref<YIcon> getIcon(int idx) OVERRIDE {
-        if(idx<0 || idx>=this->getCount())
+        if (idx<0 || idx>=this->getCount())
             return null;
         return menu->getItem(idx)->getIcon();
     }
@@ -292,14 +292,40 @@ public:
 void KProgram::open(unsigned mods) {
     if (!fProg) return;
 
-    if(bIsDynSwitchMenu) {
-        if(!pSwitchWindow) {
+    if (bIsDynSwitchMenu) {
+        if (!pSwitchWindow) {
             pSwitchWindow = new SwitchWindow(manager, new MenuProgSwitchItems(fProg, fKey, fMod), quickSwitchVertical);
         }
         pSwitchWindow->begin(true, mods);
     }
     else
         fProg->open();
+}
+
+ustring guessIconNameFromExe(const char* exe)
+{
+    upath fullname(exe);
+    char buf[1024];
+    for (int i=7; i; --i)
+    {
+        fullname = findPath(getenv("PATH"), X_OK, fullname);
+        if (fullname == null)
+            return "-";
+        ssize_t linkLen = readlink(fullname.string().c_str(), buf, ACOUNT(buf));
+        if (linkLen < 0)
+            break;
+        fullname = upath(buf, linkLen);
+    }
+    // crop to the generic name
+    ustring s(fullname.string().m_str());
+    int spos = s.lastIndexOf('/');
+    if (spos >= 0)
+        s = s.remove(0, spos + 1);
+    // scripts have a suffix sometimes which is not part of the icon name
+    spos = s.indexOf('.');
+    if (spos >= 0)
+        s = s.substring(0, spos);
+    return s;
 }
 
 char *parseIncludeStatement(
@@ -384,7 +410,17 @@ char *parseMenus(
                 }
 
                 ref<YIcon> icon;
-                if (icons[0] != '-') icon = YIcon::getIcon(icons);
+
+                if (icons[0] == '!')
+                {
+                    ustring iconName = guessIconNameFromExe(command);
+                    if (iconName.charAt(0) != '-')
+                        icon = YIcon::getIcon(cstring(iconName));
+
+                }
+                else if (icons[0] != '-')
+                    icon = YIcon::getIcon(icons);
+
                 DProgram * prog = DProgram::newProgram(
                     app,
                     smActionListener,

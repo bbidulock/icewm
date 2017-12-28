@@ -335,7 +335,7 @@ int runFile(const char *dentry_path) {
 //      gnome_desktop_item_launch(ditem, NULL, 0, NULL);
 
         const char *app = gnome_desktop_item_get_string(ditem, GNOME_DESKTOP_ITEM_EXEC);
-        if(!app)
+        if (!app)
         	return 1;
 
         for (i = 0; app[i] && app[i] != ' '; ++i) {

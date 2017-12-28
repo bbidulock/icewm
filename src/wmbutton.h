@@ -7,7 +7,7 @@ class YFrameWindow;
 
 class YFrameButton: public YButton {
 public:
-    YFrameButton(YWindow *parent, YFrameWindow *frame, YAction action, YAction action2 = actionNull);
+    YFrameButton(YWindow *parent, bool right, YFrameWindow *frame, YAction action, YAction action2 = actionNull);
     virtual ~YFrameButton();
 
     virtual void paint(Graphics &g, const YRect &r);
@@ -22,8 +22,11 @@ public:
 
     ref<YPixmap> getPixmap(int pn) const;
     YFrameWindow *getFrame() const { return fFrame; };
+    bool onRight() const { return fRight; }
+
 private:
     YFrameWindow *fFrame;
+    bool fRight;
     YAction fAction;
     YAction fAction2;
 };

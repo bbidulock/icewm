@@ -36,7 +36,7 @@ public:
 private:
     T *fOwner;
 protected:
-    virtual ~YPoll() {};
+    virtual ~YPoll() {}
 };
 
 #endif

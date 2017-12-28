@@ -20,7 +20,7 @@ protected:
     virtual ~YXTrayNotifier() {}
 };
 
-class YXTrayEmbedder: public YXEmbed {
+class YXTrayEmbedder: public YWindow, public YXEmbed {
 public:
     YXTrayEmbedder(YXTray *tray, Window win);
     ~YXTrayEmbedder();
@@ -37,7 +37,12 @@ public:
     YXEmbedClient *client() { return fDocked; }
 
     bool fVisible;
+
 private:
+    virtual Window getHandle() { return YWindow::handle(); }
+    virtual unsigned getWidth() { return YWindow::width(); }
+    virtual unsigned getHeight() { return YWindow::height(); }
+
     YXTray *fTray;
     YXEmbedClient *fDocked;
 };
@@ -45,7 +50,8 @@ private:
 class YXTray: public YWindow {
 public:
     YXTray(YXTrayNotifier *notifier, bool internal,
-           const class YAtom& trayatom, YWindow *aParent = 0);
+           const class YAtom& trayatom, YWindow *aParent = 0,
+           bool drawBevel = false);
     virtual ~YXTray();
 
     virtual void paint(Graphics &g, const YRect &r);
@@ -71,7 +77,8 @@ private:
     typedef DockedType::IterType IterType;
     DockedType fDocked;
     YXTrayNotifier *fNotifier;
-    bool fInternal;
+    bool fRunProxy;
+    bool fDrawBevel;
 };
 
 #endif

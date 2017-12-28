@@ -334,43 +334,42 @@ void YFrameWindow::handleMoveMouse(const XMotionEvent &motion, int &newX, int &n
     int mx, my, Mx, My;
     manager->getWorkArea(this, &mx, &my, &Mx, &My);
 
-
     if (!(motion.state & ShiftMask)) {
         if (/*EdgeResistance >= 0 && %%% */ EdgeResistance < 10000) {
-            if (newX + int(width() + n * borderX()) > Mx) {
-                if (newX + int(width() + n * borderX()) < int(Mx + EdgeResistance))
-                    newX = Mx - width() - n * borderX();
+            if (newX + int(width()) + n * borderX() > Mx) {
+                if (newX + int(width()) + n * borderX() < Mx + EdgeResistance)
+                    newX = Mx - int(width()) - n * borderX();
                 else if (motion.state & ShiftMask)
                     newX -= EdgeResistance;
             }
-            if (newY + int(height() + n * borderY()) > My) {
-                if (newY + int(height() + n * borderY()) < int(My + EdgeResistance))
-                    newY = My - height() - n * borderY();
+            if (newY + int(height()) + n * borderY() > My) {
+                if (newY + int(height()) + n * borderY() < My + EdgeResistance)
+                    newY = My - int(height()) - n * borderY();
                 else if (motion.state & ShiftMask)
                     newY -= EdgeResistance;
             }
             if (newX < mx) {
-                if (newX > int(- EdgeResistance + mx))
+                if (newX > mx - EdgeResistance)
                     newX = mx;
                 else if (motion.state & ShiftMask)
                     newX += EdgeResistance;
             }
             if (newY < my) {
-                if (newY > int(- EdgeResistance + my))
+                if (newY > my - EdgeResistance)
                     newY = my;
                 else if (motion.state & ShiftMask)
                     newY += EdgeResistance;
             }
         }
         if (EdgeResistance == 10000 || isMaximizedHoriz()) {
-            if (newX + int(width() + n * borderX()) > Mx)
-                newX = Mx - width() - n * borderX();
+            if (newX + int(width()) + n * borderX() > Mx)
+                newX = Mx - int(width()) - n * borderX();
             if (newX < mx)
                 newX = mx;
         }
         if (EdgeResistance == 10000 || isMaximizedVert()) {
-            if (newY + int(height() + n * borderY()) > My)
-                newY = My - height() - n * borderY();
+            if (newY + int(height()) + n * borderY() > My)
+                newY = My - int(height()) - n * borderY();
             if (newY < my)
                 newY = my;
         }
@@ -382,6 +381,9 @@ void YFrameWindow::handleMoveMouse(const XMotionEvent &motion, int &newX, int &n
 void YFrameWindow::handleResizeMouse(const XMotionEvent &motion,
                                      int &newX, int &newY, int &newWidth, int &newHeight)
 {
+    if (buttonDownX == 0 && buttonDownY == 0)
+        return;
+
     int mouseX = motion.x_root;
     int mouseY = motion.y_root;
 
@@ -415,7 +417,6 @@ void YFrameWindow::handleResizeMouse(const XMotionEvent &motion,
         newX = x() + width() - newWidth;
     if (grabY == -1)
         newY = y() + height() - newHeight;
-
 }
 
 void YFrameWindow::outlineMove() {
@@ -423,7 +424,7 @@ void YFrameWindow::outlineMove() {
 
     XGrabServer(xapp->display());
 
-    for(;;) {
+    for (;;) {
         XEvent xev;
 
         XWindowEvent(xapp->display(), handle(),
@@ -500,7 +501,7 @@ void YFrameWindow::outlineResize() {
 
     XGrabServer(xapp->display());
 
-    for(;;) {
+    for (;;) {
         XEvent xev;
 
         XWindowEvent(xapp->display(), handle(),
@@ -591,7 +592,7 @@ void YFrameWindow::manualPlace() {
 
     drawMoveSizeFX(xx, yy, width(), height());
 
-    for(;;) {
+    for (;;) {
         XEvent xev;
 
         XMaskEvent(xapp->display(),
@@ -719,7 +720,7 @@ bool YFrameWindow::handleKey(const XKeyEvent &key) {
                 drawMoveSizeFX(x(), y(), width(), height());
                 setCurrentGeometryOuter(YRect(newX, newY, newWidth, newHeight));
                 drawMoveSizeFX(x(), y(), width(), height());
-                /* falls-through */
+                /* fall-through */
 
             case -1:
                 endMoveSize();
@@ -865,17 +866,26 @@ bool YFrameWindow::canMove() {
 void YFrameWindow::startMoveSize(int x, int y,
                                  int direction)
 {
-    int sx[] = { -1, 0, 1, 1, 1, 0, -1, -1, 0 };
-    int sy[] = { -1, -1, -1, 0, 1, 1, 1, 0, 0 };
+    int sx[] = { -1, 0, 1, 1, 1, 0, -1, -1, };
+    int sy[] = { -1, -1, -1, 0, 1, 1, 1, 0, };
 
-    if (direction >= 0 && direction < (int) ACOUNT(sx)) {
-        MSG(("move size %d %d %d", x, y, direction));
-        if (direction == _NET_WM_MOVERESIZE_MOVE) {
-            x -= this->x();
-            y -= this->y();
-        }
-        startMoveSize((direction == _NET_WM_MOVERESIZE_MOVE),
-                      true, sx[direction], sy[direction], x, y);
+    if (inrange(direction, 0, int ACOUNT(sx))) {
+        MSG(("move size %d %d direction %d", x, y, direction));
+        startMoveSize(false, true, sx[direction], sy[direction], x, y);
+    }
+    else if (direction == _NET_WM_MOVERESIZE_MOVE) {
+        MSG(("move size %d %d move by mouse", x, y));
+        startMoveSize(true, true, 0, 0, x - this->x(), y - this->y());
+    }
+    else if (direction == _NET_WM_MOVERESIZE_SIZE_KEYBOARD) {
+        MSG(("move size %d %d size by keyboard", x, y));
+        startMoveSize(false, false, 0, 0, x - this->x(), y - this->y());
+    }
+    else if (direction == _NET_WM_MOVERESIZE_MOVE_KEYBOARD) {
+        MSG(("move size %d %d move by keyboard", x, y));
+        startMoveSize(true, false, 0, 0, x - this->x(), y - this->y());
+    }
+    else if (direction == _NET_WM_MOVERESIZE_CANCEL) {
     } else
         warn(_("Unknown direction in move/resize request: %d"), direction);
 }
@@ -891,6 +901,8 @@ void YFrameWindow::startMoveSize(bool doMove, bool byMouse,
     origY = y();
     origW = width();
     origH = height();
+    buttonDownX = 0;
+    buttonDownY = 0;
 
     manager->setWorkAreaMoveWindows(true);
     if (doMove && grabX == 0 && grabY == 0) {
@@ -943,13 +955,13 @@ void YFrameWindow::startMoveSize(bool doMove, bool byMouse,
                           ButtonReleaseMask |
                           PointerMotionMask))
     {
+        movingWindow = false;
+        sizingWindow = false;
         return ;
     }
 
-    if (doMove)
-        movingWindow = true;
-    else
-        sizingWindow = true;
+    movingWindow = doMove;
+    sizingWindow = !doMove;
 
     statusMoveSize->begin(this);
 

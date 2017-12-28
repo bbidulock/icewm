@@ -385,7 +385,9 @@ extern Atom _XA_ICEWM_ACTION;
 #define _NET_WM_MOVERESIZE_SIZE_BOTTOMLEFT   6
 #define _NET_WM_MOVERESIZE_SIZE_LEFT         7
 #define _NET_WM_MOVERESIZE_MOVE              8 /* Movement only */
-                                                 //*=testnetwmhints
+#define _NET_WM_MOVERESIZE_SIZE_KEYBOARD     9
+#define _NET_WM_MOVERESIZE_MOVE_KEYBOARD    10
+#define _NET_WM_MOVERESIZE_CANCEL           11
 
 #define _NET_WM_ORIENTATION_HORZ    0
 #define _NET_WM_ORIENTATION_VERT    1

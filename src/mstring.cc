@@ -286,7 +286,7 @@ int mstring::compareTo(const mstring &s) const {
         if (res)
            return res;
     }
-    return length() - s.length();
+    return int(length()) - int(s.length());
 #endif
 }
 

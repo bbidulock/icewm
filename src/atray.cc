@@ -283,7 +283,7 @@ void TrayPane::relayoutNow() {
         if (a->getShown()) tc++;
 
     w = h = height() - 4;
-    x = width() - 2 - tc * w;
+    x = int(width()) - 2 - tc * w;
     y = 2;
 
     for (IterType f = fApps.iterator(); ++f; ) {

@@ -64,11 +64,17 @@ YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
     setWinGravity(NorthGravity);
 }
 
+unsigned YFrameTitleBar::decors() {
+    return getFrame()->frameDecors();
+}
+
 YFrameButton* YFrameTitleBar::maximizeButton() {
-    if (fMaximizeButton == 0 && isButton('m')) {
-        fMaximizeButton = new YFrameButton(this,
+    if (fMaximizeButton == 0 && isButton('m') &&
+        hasbit(decors(), YFrameWindow::fdMaximize))
+    {
+        bool right = (strchr(titleButtonsRight, 'm') != 0);
+        fMaximizeButton = new YFrameButton(this, right,
                 getFrame(), actionMaximize, actionMaximizeVert);
-        //fMaximizeButton->setWinGravity(NorthEastGravity);
         fMaximizeButton->setToolTip(_("Maximize"));
         fMaximizeButton->setTitle("Maximize");
         fMaximizeButton->show();
@@ -77,12 +83,14 @@ YFrameButton* YFrameTitleBar::maximizeButton() {
 }
 
 YFrameButton* YFrameTitleBar::minimizeButton() {
-    if (fMinimizeButton == 0 && isButton('i')) {
-        fMinimizeButton = new YFrameButton(this,
+    if (fMinimizeButton == 0 && isButton('i') &&
+        hasbit(decors(), YFrameWindow::fdMinimize))
+    {
+        bool right = (strchr(titleButtonsRight, 'i') != 0);
+        fMinimizeButton = new YFrameButton(this, right,
                 getFrame(), actionMinimize,
                 actionHide
                 );
-        //fMinimizeButton->setWinGravity(NorthEastGravity);
         fMinimizeButton->setToolTip(_("Minimize"));
         fMinimizeButton->setTitle("Minimize");
         fMinimizeButton->show();
@@ -91,10 +99,12 @@ YFrameButton* YFrameTitleBar::minimizeButton() {
 }
 
 YFrameButton* YFrameTitleBar::closeButton() {
-    if (fCloseButton == 0 && isButton('x')) {
-        fCloseButton = new YFrameButton(this,
+    if (fCloseButton == 0 && isButton('x') &&
+        hasbit(decors(), YFrameWindow::fdClose))
+    {
+        bool right = (strchr(titleButtonsRight, 'x') != 0);
+        fCloseButton = new YFrameButton(this, right,
                 getFrame(), actionClose, actionKill);
-        //fCloseButton->setWinGravity(NorthEastGravity);
         fCloseButton->setToolTip(_("Close"));
         fCloseButton->setTitle("Close");
         fCloseButton->show();
@@ -103,10 +113,12 @@ YFrameButton* YFrameTitleBar::closeButton() {
 }
 
 YFrameButton* YFrameTitleBar::hideButton() {
-    if (fHideButton == 0 && isButton('h')) {
-        fHideButton = new YFrameButton(this,
+    if (fHideButton == 0 && isButton('h') &&
+        hasbit(decors(), YFrameWindow::fdHide))
+    {
+        bool right = (strchr(titleButtonsRight, 'h') != 0);
+        fHideButton = new YFrameButton(this, right,
                 getFrame(), actionHide, actionHide);
-        //fHideButton->setWinGravity(NorthEastGravity);
         fHideButton->setToolTip(_("Hide"));
         fHideButton->setTitle("Hide");
         fHideButton->show();
@@ -115,10 +127,12 @@ YFrameButton* YFrameTitleBar::hideButton() {
 }
 
 YFrameButton* YFrameTitleBar::rollupButton() {
-    if (fRollupButton == 0 && isButton('r')) {
-        fRollupButton = new YFrameButton(this,
+    if (fRollupButton == 0 && isButton('r') &&
+        hasbit(decors(), YFrameWindow::fdRollup))
+    {
+        bool right = (strchr(titleButtonsRight, 'r') != 0);
+        fRollupButton = new YFrameButton(this, right,
                 getFrame(), actionRollup, actionRollup);
-        //fRollupButton->setWinGravity(NorthEastGravity);
         fRollupButton->setToolTip(_("Rollup"));
         fRollupButton->setTitle("Rollup");
         fRollupButton->show();
@@ -127,10 +141,12 @@ YFrameButton* YFrameTitleBar::rollupButton() {
 }
 
 YFrameButton* YFrameTitleBar::depthButton() {
-    if (fDepthButton == 0 && isButton('d')) {
-        fDepthButton = new YFrameButton(this,
+    if (fDepthButton == 0 && isButton('d') &&
+        hasbit(decors(), YFrameWindow::fdDepth))
+    {
+        bool right = (strchr(titleButtonsRight, 'd') != 0);
+        fDepthButton = new YFrameButton(this, right,
                 getFrame(), actionDepth, actionDepth);
-        //fDepthButton->setWinGravity(NorthEastGravity);
         fDepthButton->setToolTip(_("Raise/Lower"));
         fDepthButton->setTitle("Lower");
         fDepthButton->show();
@@ -139,8 +155,11 @@ YFrameButton* YFrameTitleBar::depthButton() {
 }
 
 YFrameButton* YFrameTitleBar::menuButton() {
-    if (fMenuButton == 0 && isButton('s')) {
-        fMenuButton = new YFrameButton(this,
+    if (fMenuButton == 0 && isButton('s') &&
+        hasbit(decors(), YFrameWindow::fdSysMenu))
+    {
+        bool right = (strchr(titleButtonsRight, 's') != 0);
+        fMenuButton = new YFrameButton(this, right,
                 getFrame(), actionNull, actionNull);
         fMenuButton->setTitle("SysMenu");
         fMenuButton->show();
@@ -166,40 +185,16 @@ bool YFrameTitleBar::isButton(char c) {
 }
 
 YFrameButton *YFrameTitleBar::getButton(char c) {
-    unsigned decors = getFrame()->frameDecors();
     switch (c) {
-    case 's':
-        if (decors & YFrameWindow::fdSysMenu)
-            return menuButton();
-        break;
-    case 'x':
-        if (decors & YFrameWindow::fdClose)
-            return closeButton();
-        break;
-    case 'm':
-        if (decors & YFrameWindow::fdMaximize)
-            return maximizeButton();
-        break;
-    case 'i':
-        if (decors & YFrameWindow::fdMinimize)
-            return minimizeButton();
-        break;
-    case 'h':
-        if (decors & YFrameWindow::fdHide)
-            return hideButton();
-        break;
-    case 'r':
-        if (decors & YFrameWindow::fdRollup)
-            return rollupButton();
-        break;
-    case 'd':
-        if (decors & YFrameWindow::fdDepth)
-            return depthButton();
-        break;
-    default:
-        return 0;
+    case 's': return menuButton();
+    case 'x': return closeButton();
+    case 'm': return maximizeButton();
+    case 'i': return minimizeButton();
+    case 'h': return hideButton();
+    case 'r': return rollupButton();
+    case 'd': return depthButton();
+    default: return 0;
     }
-    return 0;
 }
 
 void YFrameTitleBar::raiseButtons() {
@@ -239,10 +234,6 @@ void YFrameTitleBar::handleButton(const XButtonEvent &button) {
         }
     }
     YWindow::handleButton(button);
-}
-
-void YFrameTitleBar::handleMotion(const XMotionEvent &motion) {
-    YWindow::handleMotion(motion);
 }
 
 void YFrameTitleBar::handleClick(const XButtonEvent &up, int count) {
@@ -301,7 +292,8 @@ void YFrameTitleBar::handleBeginDrag(
         const XMotionEvent &motion)
 {
     // check for a drag on the reparented resize handles
-    if (down.subwindow != None &&
+    if (down.subwindow == None ?
+        down.y == 0 && down.button == Button1 :
         getFrame()->hasIndicators() &&
         (down.subwindow == getFrame()->topSideIndicator() ||
          down.subwindow == getFrame()->topLeftIndicator() ||
@@ -362,9 +354,6 @@ void YFrameTitleBar::positionButton(YFrameButton *b, int &xPos, bool onRight) {
         b->setGeometry(YRect(xPos, 0, titleY, titleY));
         if (!onRight) xPos += titleY;
     }
-
-    if (onRight)
-        b->setWinGravity(NorthEastGravity);
 }
 
 void YFrameTitleBar::layoutButtons() {
@@ -372,76 +361,35 @@ void YFrameTitleBar::layoutButtons() {
         return ;
 
     unsigned decors = getFrame()->frameDecors();
-
-    if (fMinimizeButton) {
-        if (decors & YFrameWindow::fdMinimize)
-            fMinimizeButton->show();
-        else
-            fMinimizeButton->hide();
+    struct { YFrameButton* fbut; unsigned flag; } buttons[] = {
+        { fMinimizeButton, YFrameWindow::fdMinimize },
+        { fMaximizeButton, YFrameWindow::fdMaximize },
+        { fRollupButton,   YFrameWindow::fdRollup   },
+        { fHideButton,     YFrameWindow::fdHide     },
+        { fCloseButton,    YFrameWindow::fdClose    },
+        { fMenuButton,     YFrameWindow::fdSysMenu  },
+        { fDepthButton,    YFrameWindow::fdDepth    },
+    };
+    for (int i = 0; i < int ACOUNT(buttons); ++i) {
+        YFrameButton* b = buttons[i].fbut;
+        bool visibility = hasbit(decors, buttons[i].flag);
+        if (b && b->visible() != visibility)
+            b->setVisible(visibility);
     }
 
-    if (fMaximizeButton) {
-        if (decors & YFrameWindow::fdMaximize)
-            fMaximizeButton->show();
-        else
-            fMaximizeButton->hide();
-    }
-
-    if (fRollupButton) {
-        if (decors & YFrameWindow::fdRollup)
-            fRollupButton->show();
-        else
-            fRollupButton->hide();
-    }
-
-    if (fHideButton) {
-        if (decors & YFrameWindow::fdHide)
-            fHideButton->show();
-        else
-            fHideButton->hide();
-    }
-
-    if (fCloseButton) {
-        if (decors & YFrameWindow::fdClose)
-            fCloseButton->show();
-        else
-            fCloseButton->hide();
-    }
-
-    if (fMenuButton) {
-        if (decors & YFrameWindow::fdSysMenu)
-            fMenuButton->show();
-        else
-            fMenuButton->hide();
-    }
-
-    if (fDepthButton) {
-        if (decors & YFrameWindow::fdDepth)
-            fDepthButton->show();
-        else
-            fDepthButton->hide();
-    }
-
-    const int pi(focused() ? 1 : 0);
+    bool const pi(focused());
 
     if (titleButtonsLeft) {
         int xPos(titleJ[pi] != null ? titleJ[pi]->width() : 0);
 
         for (const char *bc = titleButtonsLeft; *bc; bc++) {
-            YFrameButton *b = 0;
-
-            switch (*bc) {
-            case ' ':
+            if (*bc == ' ')
                 xPos++;
-                b = 0;
-                break;
-            default:
-                b = getButton(*bc);
-                break;
+            else {
+                YFrameButton *b = getButton(*bc);
+                if (b && b->visible() && b->onRight() == false)
+                    positionButton(b, xPos, false);
             }
-
-            if (b)
-                positionButton(b, xPos, false);
         }
     }
 
@@ -450,20 +398,13 @@ void YFrameTitleBar::layoutButtons() {
                  (titleQ[pi] != null ? titleQ[pi]->width() : 0));
 
         for (const char *bc = titleButtonsRight; *bc; bc++) {
-            YFrameButton *b = 0;
-
-            switch (*bc) {
-            case ' ':
+            if (*bc == ' ')
                 xPos--;
-                b = 0;
-                break;
-            default:
-                b = getButton(*bc);
-                break;
+            else {
+                YFrameButton *b = getButton(*bc);
+                if (b && b->visible() && b->onRight())
+                    positionButton(b, xPos, true);
             }
-
-            if (b)
-                positionButton(b, xPos, true);
         }
     }
 }
@@ -491,15 +432,25 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
 
     if (titleButtonsLeft) {
         for (const char *bc = titleButtonsLeft; *bc; bc++) {
-            YWindow const *b(getButton(*bc));
-            if (b) onLeft = max(onLeft, (int)(b->x() + b->width()));
+            if (*bc == ' ')
+                ++onLeft;
+            else {
+                YFrameButton const *b(getButton(*bc));
+                if (b && b->visible() && b->onRight() == false)
+                    onLeft = max(onLeft, (int)(b->x() + b->width()));
+            }
         }
     }
 
     if (titleButtonsRight) {
         for (const char *bc = titleButtonsRight; *bc; bc++) {
-            YWindow const *b(getButton(*bc));
-            if (b) onRight = min(onRight, b->x());
+            if (*bc == ' ')
+                --onRight;
+            else {
+                YFrameButton const *b(getButton(*bc));
+                if (b && b->visible() && b->onRight())
+                    onRight = max(onRight - (int) b->width(), b->x());
+            }
         }
     }
 
@@ -555,7 +506,7 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
     case lookMetal:
     case lookFlat:
     case lookGtk: {
-        int const pi(getFrame()->focused() ? 1 : 0);
+        bool const pi(getFrame()->focused());
 
         // !!! we really need a fallback mechanism for small windows
         if (titleL[pi] != null) {
@@ -608,7 +559,7 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
                 g.drawGradient(rgbTitleS[pi], onLeft, 0,
                                lLeft - onLeft, height(), 0, 0, gw, height());
             }
-            else if (titleS[pi] != null)
+            else if (titleS[pi] != null && titleS[pi]->pixmap())
                 g.repHorz(titleS[pi], onLeft, 0, lLeft - onLeft);
             else
                 g.fillRect(onLeft, 0, lLeft - onLeft, height());
@@ -623,7 +574,7 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
                 g.drawGradient(rgbTitleB[pi], lRight, 0,
                                onRight - lRight, height(), gx, 0, gw, height());
             }
-            else if (titleB[pi] != null)
+            else if (titleB[pi] != null && titleB[pi]->pixmap())
                 g.repHorz(titleB[pi], lRight, 0, onRight - lRight);
             else
                 g.fillRect(lRight, 0, onRight - lRight, height());
@@ -664,34 +615,42 @@ void YFrameTitleBar::renderShape(Pixmap shape) {
 
         if (titleButtonsLeft)
             for (const char *bc = titleButtonsLeft; *bc; bc++) {
-                YFrameButton const *b(getButton(*bc));
-                if (b) {
-                    onLeft = max(onLeft, (int)(b->x() + b->width()));
+                if (*bc == ' ')
+                    ++onLeft;
+                else {
+                    YFrameButton const *b(getButton(*bc));
+                    if (b && b->visible() && b->onRight() == false) {
+                        onLeft = max(onLeft, (int)(b->x() + b->width()));
 
-                    ref<YPixmap> pixmap = b->getPixmap(0);
-                    if (pixmap != null && b->getPixmap(1) != null ) {
-                        g.copyDrawable(pixmap->mask(), 0, 0,
-                                       b->width(),
-                                       b->height(),
-                                       x() + b->x(),
-                                       y() + b->y());
+                        ref<YPixmap> pixmap = b->getPixmap(0);
+                        if (pixmap != null && b->getPixmap(1) != null ) {
+                            g.copyDrawable(pixmap->mask(), 0, 0,
+                                           b->width(),
+                                           b->height(),
+                                           x() + b->x(),
+                                           y() + b->y());
+                        }
                     }
                 }
             }
 
         if (titleButtonsRight)
             for (const char *bc = titleButtonsRight; *bc; bc++) {
-                YFrameButton const *b(getButton(*bc));
-                if (b) {
-                    onRight = min(onRight, b->x());
+                if (*bc == ' ')
+                    --onRight;
+                else {
+                    YFrameButton const *b(getButton(*bc));
+                    if (b && b->visible() && b->onRight()) {
+                        onRight = max(onRight - (int) b->width(), b->x());
 
-                    ref<YPixmap> pixmap = b->getPixmap(0);
-                    if ( pixmap != null && b->getPixmap(1) != null ) {
-                        g.copyDrawable(pixmap->mask(), 0, 0,
-                                       b->width(),
-                                       b->height(),
-                                       x() + b->x(),
-                                       y() + b->y());
+                        ref<YPixmap> pixmap = b->getPixmap(0);
+                        if ( pixmap != null && b->getPixmap(1) != null ) {
+                            g.copyDrawable(pixmap->mask(), 0, 0,
+                                           b->width(),
+                                           b->height(),
+                                           onRight + b->x(),
+                                           y() + b->y());
+                        }
                     }
                 }
             }
@@ -701,7 +660,7 @@ void YFrameTitleBar::renderShape(Pixmap shape) {
 
         ustring title = getFrame()->getTitle();
         int tlen = title != null ? titleFont->textWidth(title) : 0;
-        int const pi(getFrame()->focused() ? 1 : 0);
+        bool const pi(getFrame()->focused());
 
         if (titleL[pi] != null) {
             g.drawMask(titleL[pi], onLeft, y());

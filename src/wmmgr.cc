@@ -97,9 +97,10 @@ YWindowManager::YWindowManager(
     }
 #endif
 
-    fTopWin = new YWindow();;
+    fTopWin = new YWindow();
     fTopWin->setStyle(YWindow::wsOverrideRedirect);
     fTopWin->setGeometry(YRect(-1, -1, 1, 1));
+    fTopWin->setTitle("IceTopWin");
     fTopWin->show();
     if (edgeHorzWorkspaceSwitching) {
         fLeftSwitch = new EdgeSwitch(this, -1, false);
@@ -268,6 +269,7 @@ void YWindowManager::setupRootProxy() {
         rootProxy = new YProxyWindow(0);
         if (rootProxy) {
             rootProxy->setStyle(wsOverrideRedirect);
+            rootProxy->setTitle("IceRootProxy");
             XID rid = rootProxy->handle();
 
             XChangeProperty(xapp->display(), manager->handle(),
@@ -494,11 +496,11 @@ bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int /*
         ///        } else if (IS_WMKEY(k, vm, gKeySysRun)) {
         ///            if (runDlgCommand && runDlgCommand[0])
         ///                app->runCommand(runDlgCommand);
-    } else if(IS_WMKEY(k, vm, gKeySysShowDesktop)) {
+    } else if (IS_WMKEY(k, vm, gKeySysShowDesktop)) {
         XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
         wmActionListener->actionPerformed(actionShowDesktop, 0);
         return true;
-    } else if(IS_WMKEY(k, vm, gKeySysCollapseTaskBar)) {
+    } else if (IS_WMKEY(k, vm, gKeySysCollapseTaskBar)) {
         XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
         if (taskBar)
             taskBar->handleCollapseButton();
@@ -931,14 +933,26 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp) {
     }
 #endif
 
-    if (c && w == c->handle() && ((c->protocols() & YFrameClient::wpTakeFocus) || (f->frameOptions() & YFrameWindow::foAppTakesFocus)))
-        c->sendTakeFocus();
+    bool focusUnset(fFocusWin == 0);
     if (w != None) {
-        if (f->getInputFocusHint())
-            XSetInputFocus(xapp->display(), w, RevertToNone, xapp->getEventTime("setFocus"));
+        if (f->getInputFocusHint()) {
+            XSetInputFocus(xapp->display(), w, RevertToNone,
+                           xapp->getEventTime("setFocus"));
+            focusUnset = false;
+        }
     }
-    else
-        XSetInputFocus(xapp->display(), fTopWin->handle(), RevertToNone, xapp->getEventTime("setFocus"));
+    if (w == None || focusUnset) {
+        XSetInputFocus(xapp->display(), fTopWin->handle(), RevertToNone,
+                       xapp->getEventTime("setFocus"));
+    }
+
+    if (c &&
+        w == c->handle() &&
+        ((c->protocols() & YFrameClient::wpTakeFocus) ||
+         (f->frameOptions() & YFrameWindow::foAppTakesFocus)))
+    {
+        c->sendTakeFocus();
+    }
 
     if (!pointerColormap)
         setColormapWindow(f);
@@ -1721,6 +1735,7 @@ YFrameWindow *YWindowManager::getLastFocus(bool skipAllWorkspaces, long workspac
         if (toFocus->isMinimized() ||
             toFocus->isHidden() ||
             !toFocus->visibleOn(workspace) ||
+            toFocus->client() == taskBar ||
             toFocus->avoidFocus())
             toFocus = 0;
     }
@@ -1744,7 +1759,9 @@ YFrameWindow *YWindowManager::getLastFocus(bool skipAllWorkspaces, long workspac
                     continue;
                 if (w->avoidFocus() || pass == 2)
                     continue;
-                if (w->isAllWorkspaces() || pass == 1)
+                if ((w->isAllWorkspaces() && w != fFocusWin) || pass == 1)
+                    continue;
+                if (w->client() == taskBar)
                     continue;
                 toFocus = w;
                 goto gotit;
@@ -1786,7 +1803,7 @@ void YWindowManager::focusLastWindow() {
 /// TODO #warning "per workspace?"
     YFrameWindow *toFocus = getLastFocus(false);
 
-    if (toFocus == 0) {
+    if (toFocus == 0 || toFocus->client() == taskBar) {
         focusTopWindow();
     } else {
         if (raiseOnFocus)
@@ -2957,7 +2974,7 @@ void YWindowManager::updateUserTime(const UserTime& userTime) {
 }
 
 void YWindowManager::execAfterFork(const char *command) {
-        if(!command || !*command)
+        if (!command || !*command)
                 return;
     msg("Running system command in shell: %s", command);
         pid_t pid = fork();

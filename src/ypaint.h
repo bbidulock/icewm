@@ -126,7 +126,7 @@ class Graphics {
 public:
     Graphics(YWindow & window, unsigned long vmask, XGCValues * gcv);
     Graphics(YWindow & window);
-    Graphics(const ref<YPixmap> &pixmap, int x_org, int y_org);
+    Graphics(ref<YPixmap> pixmap, int x_org, int y_org);
     Graphics(Drawable drawable, unsigned w, unsigned h, unsigned depth, unsigned long vmask, XGCValues * gcv);
     Graphics(Drawable drawable, unsigned w, unsigned h, unsigned depth);
     ~Graphics();
@@ -142,7 +142,7 @@ public:
         copyImage(im, 0, 0, im->width, im->height, x, y);
     }
 #endif
-    void copyPixmap(const ref<YPixmap> &p, const int x, const int y,
+    void copyPixmap(ref<YPixmap> p, const int x, const int y,
                      const unsigned w, const unsigned h, const int dx, const int dy);
 
     void drawPoint(int x, int y);
@@ -196,7 +196,7 @@ public:
     void drawOutline(int l, int t, int r, int b, unsigned iw, unsigned ih);
     void repHorz(Drawable drawable, unsigned pw, unsigned ph, int x, int y, unsigned w);
     void repVert(Drawable drawable, unsigned pw, unsigned ph, int x, int y, unsigned h);
-    void fillPixmap(const ref<YPixmap> &pixmap, int x, int y, unsigned w, unsigned h,
+    void fillPixmap(ref<YPixmap> pixmap, int x, int y, unsigned w, unsigned h,
                     int sx = 0, int sy = 0);
 
     void drawSurface(YSurface const & surface, int x, int y, unsigned w, unsigned h,
@@ -213,14 +213,8 @@ public:
         drawGradient(gradient, x, y, w, h, 0, 0, w, h);
     }
 
-    void repHorz(ref<YPixmap> p, int x, int y, unsigned w) {
-        if (p != null)
-            repHorz(p->pixmap(), p->width(), p->height(), x, y, w);
-    }
-    void repVert(ref<YPixmap> p, int x, int y, unsigned h) {
-        if (p != null)
-            repVert(p->pixmap(), p->width(), p->height(), x, y, h);
-    }
+    void repHorz(ref<YPixmap> p, int x, int y, unsigned w);
+    void repVert(ref<YPixmap> p, int x, int y, unsigned h);
 
     Drawable drawable() const { return fDrawable; }
     GC handleX() const { return gc; }

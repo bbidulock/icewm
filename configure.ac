@@ -141,7 +141,7 @@ AC_TYPE_SIGNAL
 if test x$cross_compling != xyes ; then :; AC_FUNC_FORK fi
 if test x$cross_compling != xyes ; then :; AC_FUNC_MALLOC fi
 if test x$cross_compling != xyes ; then :; AC_FUNC_REALLOC fi
-AC_CHECK_FUNCS([abort basename dup2])
+AC_CHECK_FUNCS([abort backtrace_symbols_fd basename dup2])
 AC_CHECK_FUNCS([gethostbyname gethostname gettimeofday])
 AC_CHECK_FUNCS([mblen memchr memmove memset mkdir nl_langinfo])
 AC_CHECK_FUNCS([select setlocale socket])
@@ -187,6 +187,9 @@ AC_RUN_IFELSE([AC_LANG_PROGRAM([[#include <string.h>]],[[
 PKG_CHECK_MODULES([CORE],[fontconfig xext x11])
 AC_SUBST([CORE_CFLAGS])
 AC_SUBST([CORE_LIBS])
+
+AC_CHECK_LIB([X11],[XInternAtoms],
+    [AC_DEFINE([HAVE_XINTERNATOMS],[1],[Define to enable XInternAtoms])])
 
 AC_ARG_ENABLE([sm],
     AC_HELP_STRING([--disable-sm],[Disable X session management.]))
@@ -383,6 +386,12 @@ if test "x$enable_gdk_pixbuf" = xno; then
 	AC_DEFINE([CONFIG_LIBPNG],[1],[Define to enable libpng rendering.])
 	image_library="$image_library libpng"],[
 	AC_MSG_WARN([libpng not supported.])])
+    PKG_CHECK_MODULES([LIBJPEG],[libjpeg >= 1.0],[
+        IMAGE_CFLAGS="$LIBJPEG_CFLAGS $IMAGE_CFLAGS"
+        IMAGE_LIBS="$LIBJPEG_LIBS $IMAGE_LIBS"
+        AC_DEFINE([CONFIG_LIBJPEG],[1],[Define to enable libjpeg rendering.])
+        image_library="$image_library libjpeg"],[
+        AC_MSG_WARN([libjpeg not supported.])])
 fi
 AC_SUBST([IMAGE_CFLAGS])
 AC_SUBST([IMAGE_LIBS])

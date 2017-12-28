@@ -64,7 +64,12 @@ upath YIcon::findIcon(upath dir, upath base, unsigned size) {
     const size_t iconSize = sizeof iconName;
     const cstring cbase(base.string());
     const char* cBaseStr = cbase.c_str();
-    static const char iconExts[3][5] = { ".png", ".svg", ".xpm" };
+    static const char iconExts[][5] = { ".png",
+#if defined(CONFIG_GDK_PIXBUF_XLIB) || defined(CONFIG_LIBSVG)
+            ".svg",
+#endif
+            ".xpm"
+    };
     static const int numIconExts = (int) ACOUNT(iconExts);
 
     upath fullpath(joinPath(dir, base));
@@ -184,8 +189,6 @@ ref<YImage> YIcon::loadIcon(unsigned size) {
         if (loadPath != null) {
             cstring cs(loadPath.path());
             icon = YImage::load(cs.c_str());
-            if (icon == null)
-                warn(_("Out of memory for pixmap \"%s\""), cs.c_str());
         }
     }
 #if 1

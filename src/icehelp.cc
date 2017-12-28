@@ -18,6 +18,10 @@
 #define ICEWM_SITE      "http://www.icewm.org/"
 #define ICEWM_FAQ       "http://www.icewm.org/FAQ/"
 #define THEME_HOWTO     "http://www.icewm.org/themes/"
+#define ICEGIT_SITE     "https://github.com/bbidulock/icewm/"
+#define ICEWM_1         DOCDIR "/icewm.1.html"
+#define ICEWMBG_1       DOCDIR "/icewmbg.1.html"
+#define ICESOUND_1      DOCDIR "/icesound.1.html"
 
 #ifdef DEBUG
 #define DUMP
@@ -34,6 +38,8 @@ enum ViewerDimensions {
 };
 
 char const * ApplicationName = "icehelp";
+
+static bool verbose, nodelete;
 
 class cbuffer {
     size_t cap, ins;
@@ -927,7 +933,7 @@ public:
     virtual void activateURL(const cstring& url, bool relative = false) = 0;
     virtual void handleClose() = 0;
 protected:
-    virtual ~HTListener() {};
+    virtual ~HTListener() {}
 };
 
 class ActionItem : public YAction {
@@ -999,10 +1005,10 @@ public:
 
     void resetScroll() {
         fVerticalScroll->setValues(ty, height(), 0, contentHeight());
-        fVerticalScroll->setBlockIncrement(height());
+        fVerticalScroll->setBlockIncrement(max(40U, height()) / 2);
         fVerticalScroll->setUnitIncrement(font->height());
         fHorizontalScroll->setValues(tx, width(), 0, contentWidth());
-        fHorizontalScroll->setBlockIncrement(width());
+        fHorizontalScroll->setBlockIncrement(max(40U, width()) / 2);
         fHorizontalScroll->setUnitIncrement(20);
         if (fScrollView)
             fScrollView->layout();
@@ -1071,6 +1077,42 @@ public:
             if (actionRight->isEnabled() && history.right())
                 listener->activateURL(history.current());
         }
+        else if (action == actionLink[0]) {
+            if (actionLink[0]->isEnabled())
+                listener->activateURL(ICEWM_1);
+        }
+        else if (action == actionLink[1]) {
+            if (actionLink[1]->isEnabled())
+                listener->activateURL(ICEWMBG_1);
+        }
+        else if (action == actionLink[2]) {
+            if (actionLink[2]->isEnabled())
+                listener->activateURL(ICESOUND_1);
+        }
+        else if (action == actionLink[3]) {
+            if (actionLink[3]->isEnabled())
+                listener->activateURL(ICEWM_FAQ);
+        }
+        else if (action == actionLink[4]) {
+            if (actionLink[4]->isEnabled())
+                listener->activateURL(ICEHELPIDX);
+        }
+        else if (action == actionLink[5]) {
+            if (actionLink[5]->isEnabled())
+                listener->activateURL(PACKAGE_BUGREPORT);
+        }
+        else if (action == actionLink[6]) {
+            if (actionLink[6]->isEnabled())
+                listener->activateURL(THEME_HOWTO);
+        }
+        else if (action == actionLink[7]) {
+            if (actionLink[7]->isEnabled())
+                listener->activateURL(ICEWM_SITE);
+        }
+        else if (action == actionLink[8]) {
+            if (actionLink[8]->isEnabled())
+                listener->activateURL(ICEGIT_SITE);
+        }
     }
 
     virtual void configure(const YRect &r) {
@@ -1104,6 +1146,7 @@ private:
     ActionItem actionPrev;
     ActionItem actionNext;
     ActionItem actionContents;
+    ActionItem actionLink[10];
     HTListener *listener;
 
     cstring prevURL;
@@ -1166,6 +1209,27 @@ HTextView::HTextView(HTListener *fL, YScrollView *v, YWindow *parent):
     actionIndex->setEnabled(false);
     menu->addSeparator();
     actionClose = menu->addItem(_("Close"), 0, _("Ctrl+Q"), actionClose);
+    menu->addSeparator();
+
+    int k = -1;
+    k++;
+    actionLink[k] = menu->addItem(_("Icewm(1)"), 2, null, actionLink[k]);
+    k++;
+    actionLink[k] = menu->addItem(_("Icewmbg(1)"), 5, null, actionLink[k]);
+    k++;
+    actionLink[k] = menu->addItem(_("Icesound(1)"), 3, null, actionLink[k]);
+    k++;
+    actionLink[k] = menu->addItem(_("FAQ"), 0, null, actionLink[k]);
+    k++;
+    actionLink[k] = menu->addItem(_("Manual"), 0, null, actionLink[k]);
+    k++;
+    actionLink[k] = menu->addItem(_("Support"), 0, null, actionLink[k]);
+    k++;
+    actionLink[k] = menu->addItem(_("Theme Howto"), 0, null, actionLink[k]);
+    k++;
+    actionLink[k] = menu->addItem(_("Website"), 0, null, actionLink[k]);
+    k++;
+    actionLink[k] = menu->addItem(_("Github"), 0, null, actionLink[k]);
 }
 
 HTextView::~HTextView() {
@@ -1767,12 +1831,12 @@ FileView::FileView(YApplication *iapp, const char *path)
     scroll->show();
 
     setSize(ViewerWidth, ViewerHeight);
-    setTitle(path);
-    setClassHint("browser", "IceHelp");
+    setTitle("IceHelp");
+    setClassHint("icehelp", "IceWM");
 
     ref<YIcon> file_icon = YIcon::getIcon("file");
-    small_icon = YPixmap::createFromImage(file_icon->small());
-    large_icon = YPixmap::createFromImage(file_icon->large());
+    small_icon = YPixmap::createFromImage(file_icon->small(), xapp->depth());
+    large_icon = YPixmap::createFromImage(file_icon->large(), xapp->depth());
 
     Pixmap icons[4] = {
         small_icon->pixmap(), small_icon->mask(),
@@ -1814,8 +1878,10 @@ FileView::FileView(YApplication *iapp, const char *path)
 }
 
 void FileView::activateURL(const cstring& url, bool relative) {
-    tlog("activateURL('%s', %s)", url.c_str(),
-            relative ? "relative" : "not-relative");
+    if (verbose) {
+        tlog("activateURL('%s', %s)", url.c_str(),
+                relative ? "relative" : "not-relative");
+    }
 
     /*
      * Differentiate:
@@ -1884,7 +1950,7 @@ void FileView::activateURL(const cstring& url, bool relative) {
         path = fPath.path() + path;
     }
     view->addHistory(path);
-    setTitle(cstring(path));
+    setTitle(cstring(path + " -- IceHelp"));
     fPath = path;
 }
 
@@ -2121,14 +2187,18 @@ static void print_help()
     "from %s.\n"
     "\n"
     "Options:\n"
-    "  --display=NAME      NAME of the X server to use.\n"
+    "  -d, --display=NAME  NAME of the X server to use.\n"
     "  --sync              Synchronize X11 commands.\n"
     "\n"
+    "  -B                  Display the IceWM icewmbg manpage.\n"
     "  -b, --bugs          Display the IceWM bug reports (primitively).\n"
     "  -f, --faq           Display the IceWM FAQ and Howto.\n"
-    "  -i, --icewm         Display the IceWM website.\n"
+    "  -g                  Display the IceWM Github website.\n"
+    "  -i, --icewm         Display the IceWM icewm manpage.\n"
     "  -m, --manual        Display the IceWM Manual (default).\n"
+    "  -s                  Display the IceWM icesound manpage.\n"
     "  -t, --theme         Display the IceWM themes Howto.\n"
+    "  -w, --website       Display the IceWM website.\n"
     "\n"
     "  -V, --version       Prints version information and exits.\n"
     "  -h, --help          Prints this usage screen and exits.\n"
@@ -2151,27 +2221,38 @@ int main(int argc, char **argv) {
 
     for (char **arg = 1 + argv; arg < argv + argc; ++arg) {
         if (**arg == '-') {
-            if (is_help_switch(*arg))
+            if (is_switch(*arg, "b", "bugs"))
+                helpfile = PACKAGE_BUGREPORT;
+            else if (is_switch(*arg, "f", "faq"))
+                helpfile = ICEWM_FAQ;
+            else if (is_short_switch(*arg, "B"))
+                helpfile = ICEWMBG_1;
+            else if (is_short_switch(*arg, "g"))
+                helpfile = ICEGIT_SITE;
+            else if (is_switch(*arg, "i", "icewm"))
+                helpfile = ICEWM_1;
+            else if (is_switch(*arg, "m", "manual"))
+                helpfile = ICEHELPIDX;
+            else if (is_short_switch(*arg, "s"))
+                helpfile = ICESOUND_1;
+            else if (is_switch(*arg, "t", "themes"))
+                helpfile = THEME_HOWTO;
+            else if (is_switch(*arg, "w", "website"))
+                helpfile = ICEWM_SITE;
+            else if (is_help_switch(*arg))
                 print_help();
-            if (is_version_switch(*arg))
+            else if (is_version_switch(*arg))
                 print_version_exit(VERSION);
+            else if (is_long_switch(*arg, "nodelete"))
+                nodelete = true;
+            else if (is_long_switch(*arg, "verbose"))
+                verbose = true;
+            else if (is_long_switch(*arg, "sync")) {
+                /*ignore*/; }
             else {
                 char *dummy(0);
-                if (GetLongArgument(dummy, "display", arg, argv + argc)) {
-                    /*ignore*/;
-                }
-                else if (is_long_switch(*arg, "sync"))
-                {}
-                else if (is_switch(*arg, "b", "bugs"))
-                    helpfile = PACKAGE_BUGREPORT;
-                else if (is_switch(*arg, "f", "faq"))
-                    helpfile = ICEWM_FAQ;
-                else if (is_switch(*arg, "i", "icewm"))
-                    helpfile = ICEWM_SITE;
-                else if (is_switch(*arg, "m", "manual"))
-                    helpfile = ICEHELPIDX;
-                else if (is_switch(*arg, "t", "themes"))
-                    helpfile = THEME_HOWTO;
+                if (GetArgument(dummy, "d", "display", arg, argv + argc)) {
+                    /*ignore*/; }
                 else
                     warn(_("Ignoring option '%s'"), *arg);
             }
@@ -2190,6 +2271,12 @@ int main(int argc, char **argv) {
     YXApplication app(&argc, &argv);
 
     FileView view(&app, helpfile);
+
+    if (nodelete) {
+        extern Atom _XA_WM_PROTOCOLS;
+        XDeleteProperty(app.display(), view.handle(), _XA_WM_PROTOCOLS);
+    }
+
     view.show();
     app.mainLoop();
 

@@ -11,11 +11,18 @@ public:
     virtual ~AddressBar();
 
     virtual bool handleKey(const XKeyEvent &key);
+    virtual void handleFocus(const XFocusChangeEvent &focus);
 
     void showNow();
     void hideNow();
+
 private:
+    bool changeLocation(int newLocation);
+    bool handleReturn(int mask);
+
     IApp *app;
+    MStringArray history;
+    int location;
 };
 
 #endif
