@@ -1,5 +1,6 @@
 
 icewm_man1_files = \
+	icehelp.man \
 	icesh.man \
 	icewmbg.man \
 	icewmhint.man \
@@ -8,28 +9,32 @@ icewm_man1_files = \
 	icewm-set-gnomewm.man \
 	icewmtray.man
 
+icewm_man1_htmls = $(icewm_man1_files:%.man=%.1.html)
+
+doc_DATA = $(icewm_man1_htmls)
+
 extra_man1_files = \
-	icehelp.man \
 	icesound.man \
 	icewm-menu-fdo.man \
 	icewm-menu-gnome2.man
 
-dist_man1_MANS = $(icewm_man1_files)
+extra_man1_htmls = $(extra_man1_files:%.man=%.1.html)
 
-if BUILD_HELP
-dist_man1_MANS += icehelp.man
-endif
+man1_MANS = $(icewm_man1_files)
 
 if BUILD_SOUND
-dist_man1_MANS += icesound.man
+man1_MANS += icesound.man
+doc_DATA += icesound.1.html
 endif
 
 if BUILD_MENU_FDO
-dist_man1_MANS += icewm-menu-fdo.man
+man1_MANS += icewm-menu-fdo.man
+doc_DATA += icewm-menu-fdo.1.html
 endif
 
 if BUILD_MENU_GNOME2
-dist_man1_MANS += icewm-menu-gnome2.man
+man1_MANS += icewm-menu-gnome2.man
+doc_DATA += icewm-menu-gnome2.1.html
 endif
 
 icewm_man5_files = \
@@ -46,12 +51,16 @@ icewm_man5_files = \
 	icewm-toolbar.man \
 	icewm-winoptions.man
 
-dist_man5_MANS = $(icewm_man5_files)
+icewm_man5_htmls = $(icewm_man5_files:%.man=%.5.html)
 
-DISTCLEANFILES = $(icewm_man1_files) $(extra_man1_files) $(icewm_man5_files)
+man5_MANS = $(icewm_man5_files)
+doc_DATA += $(icewm_man5_htmls)
+
+CLEANFILES = \
+	$(icewm_man1_files) $(extra_man1_files) $(icewm_man5_files) \
+	$(icewm_man1_htmls) $(extra_man1_htmls) $(icewm_man5_htmls) *.tmp
 
 EXTRA_DIST = \
-	$(extra_man1_files) \
 	icehelp.pod \
 	icesh.pod \
 	icesound.pod \
@@ -75,6 +84,26 @@ EXTRA_DIST = \
 	icewm-toolbar.pod \
 	icewmtray.pod \
 	icewm-winoptions.pod
+
+$(icewm_man1_htmls) $(extra_man1_htmls): %.1.html: %.pod
+	$(AM_V_GEN)pod2html \
+		--htmldir=$(docdir) \
+		--noindex \
+		--infile=$< \
+		--outfile=$@ \
+		--quiet \
+		--title="User Commands"
+	sed -r -i -e 's,http://man.he.net/man(.)/([^"]*),\2.\1.html,g' $@
+
+$(icewm_man5_htmls): %.5.html: %.pod
+	$(AM_V_GEN)pod2html \
+		--htmldir=$(docdir) \
+		--noindex \
+		--infile=$< \
+		--outfile=$@ \
+		--quiet \
+		--title="Standards, Environments and Macros"
+	sed -r -i -e 's,http://man.he.net/man(.)/([^"]*),\2.\1.html,g' $@
 
 $(icewm_man1_files) $(extra_man1_files): %.man: %.pod
 	$(AM_V_GEN)pod2man --center="User Commands" \
