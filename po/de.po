@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-12-28 11:44-0700\n"
-"PO-Revision-Date: 2017-12-27 16:27+0000\n"
+"PO-Revision-Date: 2017-12-29 13:02+0000\n"
 "Last-Translator: Sarah Kriesch <ada.lovelace@gmx.de>\n"
-"Language-Team: German <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/de/>\n"
+"Language-Team: German "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1613,7 +1613,7 @@ msgstr "_Schlechter Maus-Fokus"
 
 #: src/wmprog.cc:895
 msgid "S_trict mouse focus"
-msgstr "G_enauer Maus-Fokus"
+msgstr "_Genauer Maus-Fokus"
 
 #: src/wmprog.cc:896
 msgid "_Quiet sloppy focus"
