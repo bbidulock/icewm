@@ -20,8 +20,11 @@ key "Super+KP_Add"			amixer sset Master 5%+
 # advanced function keys by watching the output of the xev command whilest
 # pressing those keys and map those symbols by using xmodmap.
 
-key "XF86Standby"			/bin/sh -c "{ test -e /run/systemd/system && systemctl suspend; } ||:"
-key "XF86Sleep"				/bin/sh -c "{ test -e /run/systemd/system && systemctl suspend; } ||:"
+# Note: some of them might have unwanted side effects through concurrency with
+# other listeners like systemd for the suspend key events
+#
+# key "XF86Standby"			/bin/sh -c "{ test -e /run/systemd/system && systemctl suspend; } ||:"
+# key "XF86Sleep"				/bin/sh -c "{ test -e /run/systemd/system && systemctl suspend; } ||:"
 key "XF86AudioLowerVolume"		amixer sset Master 5%-
 key "XF86AudioRaiseVolume"		amixer sset Master 5%+
 key "XF86AudioMute"			amixer sset Master toggle
