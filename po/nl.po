@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.23\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-12-28 11:44-0700\n"
-"PO-Revision-Date: 2017-11-19 15:53+0000\n"
-"Last-Translator: Freek de Kruijf <freek@opensuse.org>\n"
-"Language-Team: Dutch <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/nl/>\n"
+"PO-Revision-Date: 2018-01-06 14:01+0000\n"
+"Last-Translator: Nathan Follens <nthn@unseen.is>\n"
+"Language-Team: Dutch "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.13.1\n"
+"X-Generator: Weblate 2.17.1\n"
 
 #: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:681 src/aapm.cc:806
 msgid " - Power"
@@ -327,15 +327,15 @@ msgstr ""
 
 #: src/icehelp.cc:1222
 msgid "FAQ"
-msgstr ""
+msgstr "VGV"
 
 #: src/icehelp.cc:1224
 msgid "Manual"
-msgstr ""
+msgstr "Handleiding"
 
 #: src/icehelp.cc:1226
 msgid "Support"
-msgstr ""
+msgstr "Ondersteuning"
 
 #: src/icehelp.cc:1228
 #, fuzzy
@@ -344,15 +344,15 @@ msgstr "Thema auteur:"
 
 #: src/icehelp.cc:1230
 msgid "Website"
-msgstr ""
+msgstr "Website"
 
 #: src/icehelp.cc:1232
 msgid "Github"
-msgstr ""
+msgstr "GitHub"
 
 #: src/icehelp.cc:1934
 msgid "Unsupported protocol."
-msgstr "Niet ondersteund protocol."
+msgstr "Niet-ondersteund protocol."
 
 #: src/icehelp.cc:1959
 #, c-format
@@ -379,11 +379,11 @@ msgstr "Systeem (%s) (%d) uitvoeren is mislukt"
 #: src/icehelp.cc:2131
 #, c-format
 msgid "Failed to decompress %s"
-msgstr "Decomprimeren is mislukt van %s"
+msgstr "Decomprimeren van %s is mislukt"
 
 #: src/icehelp.cc:2139
 msgid "Could not locate curl or wget in PATH"
-msgstr "Kon curl of wget in PATH niet lokaliseren"
+msgstr "Kon curl of wget niet vinden in PATH"
 
 #: src/icehelp.cc:2143
 msgid "Unsafe characters in URL"
@@ -428,9 +428,9 @@ msgid ""
 msgstr ""
 
 #: src/icehelp.cc:2257
-#, fuzzy, c-format
+#, c-format
 msgid "Ignoring option '%s'"
-msgstr "Onbekende optie: '%s'"
+msgstr "Optie ‘%s’ wordt genegeerd"
 
 #: src/icelist.cc:80
 msgid "List View"
