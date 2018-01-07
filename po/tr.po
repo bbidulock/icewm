@@ -39,7 +39,7 @@ msgstr ""
 #: src/aapm.cc:999
 #, c-format
 msgid "power:\t%s"
-msgstr ""
+msgstr "şarj:\t%s"
 
 #: src/acpustatus.cc:196
 #, c-format
@@ -65,14 +65,14 @@ msgstr "CPU Yükü: %3.2f %3.2f %3.2f, %u süreç."
 msgid ""
 "\n"
 "Ram (free): %5.2f (%.2f) M"
-msgstr ""
+msgstr "Bellek (boşta): %5.2f (%.2f) M"
 
 #: src/acpustatus.cc:271
 #, c-format
 msgid ""
 "\n"
 "Swap (free): %.2f (%.2f) M"
-msgstr ""
+msgstr "Takas Alanı (Boşta): %.2f (%.2f) M"
 
 #: src/acpustatus.cc:277
 #, c-format
@@ -86,15 +86,15 @@ msgstr ""
 msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
-msgstr ""
+msgstr "İşlemci Frekansı: %.3fGHz"
 
 #: src/acpustatus.cc:317
 msgid "CPU"
-msgstr ""
+msgstr "İşlemci"
 
 #: src/acpustatus.cc:317
 msgid "Load: "
-msgstr ""
+msgstr "Yük: "
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
@@ -138,23 +138,23 @@ msgstr "%ld posta mesajı."
 
 #: src/amemstatus.cc:127
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: src/amemstatus.cc:131
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 #: src/amemstatus.cc:135
 msgid "kB"
-msgstr ""
+msgstr "kB"
 
 #: src/amemstatus.cc:139
 msgid "bytes"
-msgstr ""
+msgstr "bytes"
 
 #: src/amemstatus.cc:163
 msgid "Memory Total: "
-msgstr ""
+msgstr "Toplam Bellek:"
 
 #: src/amemstatus.cc:164
 msgid "Free: "
