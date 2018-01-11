@@ -11,20 +11,20 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.31\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-12-28 11:44-0700\n"
-"PO-Revision-Date: 2017-11-02 10:59+0000\n"
+"PO-Revision-Date: 2018-01-12 01:03+0000\n"
 "Last-Translator: Alessio Adamo <alessio.adamo@gmail.com>\n"
-"Language-Team: Italian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/it/>\n"
+"Language-Team: Italian "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.13.1\n"
+"X-Generator: Weblate 2.18\n"
 
 #: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:681 src/aapm.cc:806
 msgid " - Power"
-msgstr " - Alimentazione"
+msgstr " - Energia"
 
 #: src/aapm.cc:179 src/aapm.cc:462 src/aapm.cc:684
 msgid "P"
@@ -45,7 +45,7 @@ msgstr " - Carica"
 #: src/aapm.cc:999
 #, c-format
 msgid "power:\t%s"
-msgstr ""
+msgstr "energia:\t%s"
 
 #: src/acpustatus.cc:196
 #, c-format
@@ -180,15 +180,15 @@ msgstr "Libera: "
 
 #: src/amemstatus.cc:165
 msgid "Cached: "
-msgstr ""
+msgstr "Nella cache: "
 
 #: src/amemstatus.cc:166
 msgid "Buffers: "
-msgstr ""
+msgstr "Buffer: "
 
 #: src/amemstatus.cc:167
 msgid "User: "
-msgstr ""
+msgstr "Utente: "
 
 #: src/apppstatus.cc:198
 #, c-format
@@ -319,40 +319,39 @@ msgstr "Ctrl+Q"
 
 #: src/icehelp.cc:1216
 msgid "Icewm(1)"
-msgstr ""
+msgstr "Icewm(1)"
 
 #: src/icehelp.cc:1218
 msgid "Icewmbg(1)"
-msgstr ""
+msgstr "Icewmbg(1)"
 
 #: src/icehelp.cc:1220
 msgid "Icesound(1)"
-msgstr ""
+msgstr "Icesound(1)"
 
 #: src/icehelp.cc:1222
 msgid "FAQ"
-msgstr ""
+msgstr "FAQ"
 
 #: src/icehelp.cc:1224
 msgid "Manual"
-msgstr ""
+msgstr "Manuale"
 
 #: src/icehelp.cc:1226
 msgid "Support"
-msgstr ""
+msgstr "Supporto"
 
 #: src/icehelp.cc:1228
-#, fuzzy
 msgid "Theme Howto"
-msgstr "Autore del tema:"
+msgstr "Guida del tema"
 
 #: src/icehelp.cc:1230
 msgid "Website"
-msgstr ""
+msgstr "Sito web"
 
 #: src/icehelp.cc:1232
 msgid "Github"
-msgstr ""
+msgstr "Github"
 
 #: src/icehelp.cc:1934
 msgid "Unsupported protocol."
@@ -365,11 +364,11 @@ msgstr "Percorso non valido: %s\n"
 
 #: src/icehelp.cc:1982
 msgid "Path does not refer to a file."
-msgstr ""
+msgstr "Il percorso non fa riferimento a un file."
 
 #: src/icehelp.cc:1987
 msgid "Failed to open file for reading."
-msgstr ""
+msgstr "Impossibile aprire il file in lettura."
 
 #: src/icehelp.cc:2016
 msgid "Failed to create a temporary file"
@@ -378,7 +377,7 @@ msgstr "Impossibile creare un file temporaneo"
 #: src/icehelp.cc:2108
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
-msgstr ""
+msgstr "Impossibile eseguire il sistema (%s) (%d)"
 
 #: src/icehelp.cc:2131
 #, c-format
@@ -387,11 +386,11 @@ msgstr "Impossibile decomprimere %s"
 
 #: src/icehelp.cc:2139
 msgid "Could not locate curl or wget in PATH"
-msgstr ""
+msgstr "Non è stato possibile localizzare curl o wget in PATH"
 
 #: src/icehelp.cc:2143
 msgid "Unsafe characters in URL"
-msgstr ""
+msgstr "Caratteri pericolosi nell'URL"
 
 #: src/icehelp.cc:2180
 #, c-format
@@ -660,7 +659,6 @@ msgid "Socket error: %d"
 msgstr "Errore di socket: %d"
 
 #: src/icesm.cc:56
-#, fuzzy
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -674,7 +672,7 @@ msgstr ""
 "  -c, --config=FILE   Fa sì che IceWM carichi le preferenze da FILE.\n"
 "  -t, --theme=FILE    Fa sì che IceWM carichi il tema da FILE.\n"
 "\n"
-"  --display=NOME      Usa NOME per connettersi al server X.\n"
+"  -d, --display=NOME  Usa NOME per connettersi al server X.\n"
 "  --sync              Sincronizza la comunicazione con il server X11.\n"
 "\n"
 "  -n, --notray        Non avviare icewmtray.\n"
@@ -688,12 +686,12 @@ msgstr "Opzione sconosciuta «%s»"
 #: src/icesm.cc:298
 #, c-format
 msgid "%s exited with status %d."
-msgstr ""
+msgstr "%s è terminato con stato %d."
 
 #: src/icesm.cc:304
 #, c-format
 msgid "%s was killed by signal %d."
-msgstr ""
+msgstr "%s è stato terminato dal segnale %d."
 
 #: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
 #, c-format
@@ -703,34 +701,33 @@ msgstr "Riproduzione del campione #%d (%s)"
 #: src/icesound.cc:337
 #, c-format
 msgid "%s: Invalid number of channels"
-msgstr ""
+msgstr "%s: numero di canali non valido"
 
 #: src/icesound.cc:343 src/icesound.cc:348
 msgid "Could not set OSS channels"
-msgstr ""
+msgstr "Impossibile impostare i canali OSS"
 
 #: src/icesound.cc:353 src/icesound.cc:381
 msgid "Could not sync OSS"
-msgstr ""
+msgstr "Impossibile sincronizzare OSS"
 
 #: src/icesound.cc:365
 msgid "OSS write failed"
-msgstr ""
+msgstr "Scrittura di OSS non riuscita"
 
 #: src/icesound.cc:369
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
-msgstr ""
+msgstr "Scrittura di OSS incompleta (%d/%d)"
 
 #: src/icesound.cc:376
-#, fuzzy
 msgid "Could not post OSS"
-msgstr "Impossibile caricare il fontset «%s»."
+msgstr "Impossibile caricare OSS"
 
 #: src/icesound.cc:405
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open OSS device %s"
-msgstr "Impossibile trovare l'immagine %s"
+msgstr "Impossibile aprire il dispositivo OSS %s"
 
 #: src/icesound.cc:410
 msgid "Could not set OSS stereo"
