@@ -9,16 +9,16 @@ msgstr ""
 "Project-Id-Version: icewm 1.4.2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-12-28 11:44-0700\n"
-"PO-Revision-Date: 2017-10-31 08:35+0000\n"
-"Last-Translator: scootergrisen Required Fields <scootergrisen@gmail.com>\n"
-"Language-Team: Danish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/da/>\n"
+"PO-Revision-Date: 2018-01-12 00:01+0000\n"
+"Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
+"Language-Team: Danish "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.13.1\n"
+"X-Generator: Weblate 2.18\n"
 
 #: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:681 src/aapm.cc:806
 msgid " - Power"
@@ -319,28 +319,24 @@ msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
 #: src/icehelp.cc:1216
-#, fuzzy
 msgid "Icewm(1)"
-msgstr "_Icewm(1)"
+msgstr "Icewm(1)"
 
 #: src/icehelp.cc:1218
-#, fuzzy
 msgid "Icewmbg(1)"
-msgstr "Icewm_Bg(1)"
+msgstr "Icewmbg(1)"
 
 #: src/icehelp.cc:1220
-#, fuzzy
 msgid "Icesound(1)"
-msgstr "Ice_Sound(1)"
+msgstr "Icesound(1)"
 
 #: src/icehelp.cc:1222
 msgid "FAQ"
 msgstr ""
 
 #: src/icehelp.cc:1224
-#, fuzzy
 msgid "Manual"
-msgstr "_Manuelt"
+msgstr "Manuelt"
 
 #: src/icehelp.cc:1226
 msgid "Support"
