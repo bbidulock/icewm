@@ -2,14 +2,13 @@
 # Copyright (C) YEAR Marko Macek <Marko.Macek@gmx.net>
 # This file is distributed under the same license as the icewm package.
 # Ole Carlsen <carlo@sol.dk>, 2006.
-# scootergrisen, 2017.
-#
+# scootergrisen, 2017-2018.
 msgid ""
 msgstr ""
-"Project-Id-Version: icewm 1.4.2\n"
+"Project-Id-Version: icewm 1.4.2.1038\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2017-12-28 11:44-0700\n"
-"PO-Revision-Date: 2018-01-12 00:01+0000\n"
+"PO-Revision-Date: 2018-01-12 12:18+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/da/>\n"
@@ -43,7 +42,7 @@ msgstr " - Fuld"
 #: src/aapm.cc:999
 #, c-format
 msgid "power:\t%s"
-msgstr ""
+msgstr "strøm:\t%s"
 
 #: src/acpustatus.cc:196
 #, c-format
@@ -332,7 +331,7 @@ msgstr "Icesound(1)"
 
 #: src/icehelp.cc:1222
 msgid "FAQ"
-msgstr ""
+msgstr "OSS"
 
 #: src/icehelp.cc:1224
 msgid "Manual"
@@ -340,20 +339,19 @@ msgstr "Manuelt"
 
 #: src/icehelp.cc:1226
 msgid "Support"
-msgstr ""
+msgstr "Support"
 
 #: src/icehelp.cc:1228
-#, fuzzy
 msgid "Theme Howto"
-msgstr "Temaets forfatter:"
+msgstr "Temaers Howto"
 
 #: src/icehelp.cc:1230
 msgid "Website"
-msgstr ""
+msgstr "Websted"
 
 #: src/icehelp.cc:1232
 msgid "Github"
-msgstr ""
+msgstr "Github"
 
 #: src/icehelp.cc:1934
 msgid "Unsupported protocol."
@@ -395,7 +393,7 @@ msgid "Unsafe characters in URL"
 msgstr "Usikre tegn i URL"
 
 #: src/icehelp.cc:2180
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
 "\n"
@@ -445,11 +443,15 @@ msgstr ""
 "  --display=NAVN      NAVN på X-serveren som skal bruges.\n"
 "  --sync              Synkroniser X11-kommandoer.\n"
 "\n"
+"  -B                  Vis IceWM icewmbg-mansiden.\n"
 "  -b, --bugs          Vis IceWM-fejlrapporter (primitivt).\n"
 "  -f, --faq           Vis IceWM-FAQ og -Howto.\n"
-"  -i, --icewm         Vis IceWM-websted.\n"
+"  -g                  Vis IceWM Github-webstedet.\n"
+"  -i, --icewm         Vis IceWM icewm-mansiden.\n"
 "  -m, --manual        Vis IceWM-manual (standard).\n"
+"  -s                  Vis IceWM icesound-mansiden.\n"
 "  -t, --theme         Vis IceWM-temaers Howto.\n"
+"  -w, --website       Vis IceWM-webstedet.\n"
 "\n"
 "  -V, --version       Udskriver versionsinformation og afslutter.\n"
 "  -h, --help          Udskriver denne anvendelsesskærm og afslutter.\n"
@@ -682,7 +684,6 @@ msgid "Socket error: %d"
 msgstr "Sokkelfejl: %d"
 
 #: src/icesm.cc:56
-#, fuzzy
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -696,7 +697,7 @@ msgstr ""
 "  -c, --config=FIL    Lad IceWM indlæse præferencer fra FIL.\n"
 "  -t, --theme=FIL     Lad IceWM indlæse temaet fra FIL.\n"
 "\n"
-"  --display=NAVN      Brug NAVN til at oprette forbindelse til X-serveren.\n"
+"  -d, --display=NAME  Brug NAVN til at oprette forbindelse til X-serveren.\n"
 "  --sync              Synkroniser kommunikation med X11-server.\n"
 "\n"
 "  -n, --notray        Start ikke icewmtray.\n"
@@ -1125,7 +1126,7 @@ msgid "Warning: "
 msgstr "Advarsel: "
 
 #: src/misc.cc:720
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
 "Options:\n"
@@ -1138,6 +1139,7 @@ msgstr ""
 "Anvendelse: %s [TILVALG]\n"
 "Tilvalg:\n"
 "%s\n"
+"  -C, --copying       Udskriver licensinformation og afslutter.\n"
 "  -V, --version       Udskriver versionsinformation og afslutter.\n"
 "  -h, --help          Udskriver denne anvendelsesskærm og afslutter.\n"
 "\n"
@@ -1386,7 +1388,7 @@ msgstr ""
 "  --postpreferences   Udskriv præferencer efter endt behandling.\n"
 
 #: src/wmapp.cc:1349
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
 "Starts the IceWM window manager.\n"
@@ -1420,7 +1422,7 @@ msgstr ""
 "Starter IceWM-vindueshåndtering.\n"
 "\n"
 "Tilvalg:\n"
-"  --display=NAVN      NAVN på X-serveren som skal bruges.\n"
+"  -d, --display=NAME  NAVN på X-serveren som skal bruges.\n"
 "%s  --sync              Synkroniser X11-kommandoer.\n"
 "%s\n"
 "  -V, --version       Udskriver versionsinformation og afslutter.\n"
@@ -1554,9 +1556,9 @@ msgid "Unknown window option: %s"
 msgstr "Ukendt vinduestilvalg: %s"
 
 #: src/wmoption.cc:333
-#, fuzzy, c-format
+#, c-format
 msgid "Syntax error in window options on line %d of %s"
-msgstr "Syntaksfejl i vinduestilvalg"
+msgstr "Syntaksfejl i vinduestilvalg på linje %d af %s"
 
 #: src/wmprog.cc:183
 msgid "Missing command argument"
@@ -1895,9 +1897,8 @@ msgid "Paste _Selection"
 msgstr "Ind_sæt markering"
 
 #: src/yinput.cc:44
-#, fuzzy
 msgid "Ctrl+P"
-msgstr "Ctrl+Q"
+msgstr "Ctrl+P"
 
 #: src/yinput.cc:47
 msgid "Select _All"
@@ -1964,12 +1965,11 @@ msgid "\"%s\" contains no scheme description"
 msgstr "\"%s\" indeholder ingen skemabeskrivelse"
 
 #: src/yxapp.cc:904
-#, fuzzy
 msgid ""
 "  -d, --display=NAME  NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"
 msgstr ""
-"  --display=NAVN      NAVN på X-serveren som skal bruges.\n"
+"  -d, --display=NAVN  NAVN på X-serveren som skal bruges.\n"
 "  --sync              Synkroniser X11-kommandoer.\n"
 
 #~ msgid "Out of memory for pixmap \"%s\""
