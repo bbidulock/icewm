@@ -17,6 +17,8 @@ my @active;
 
 my $readedid;
 my $curedid;
+
+# monitor name mapping, either from cache or built from EDID info later
 my %realname;
 
 # sysfs data lookup disabled for now because of not being reliable.
@@ -30,7 +32,7 @@ my %realname;
 # HDMI-A-0 disconnected (normal left inverted right x axis y axis)
 # DVI-D-0 connected 1280x1024+0+0 (normal left inverted right x axis y axis) 376mm x 301mm
 # 
-my $useSysfs=0;
+#my $useSysfs=0;
 
 my $xrandr = "xrandr";
 
@@ -52,43 +54,44 @@ my $cachePath = "$cacheDir/xrandrmenu.cache";
 # start of the EDID descriptor which contains the display name
 my $header = chr(0).chr(0xfc).chr(0);
 my $end = chr(0x0a);
-my $edidGlobPat = "/sys/devices/*/*/*/drm/card0/card0-*/edid";
+my @edids = sort(<"/sys/devices/*/*/*/drm/card*/card*-*/edid">, <"/sys/devices/*/*/drm/card*/card*-*/edid">);
 
-if($useSysfs)
+## Unfortunately unreliable!
+##
+## if($useSysfs)
+## {
+##         # xrandr --verbose can be slow, grab data from sysfs if possible
+##         # Unclear how to map X screens to DRM reliably, use the shortcut only
+##         # when just one graphics card is installed.
+##         if($#edids == 0)
+##         {
+##                 foreach(<"$edidGlobPat">)
+##                 {
+##                         my $data = get_contents($_);
+##                         next if !$data;
+##                         my $hdump;
+##                         /card0.card0-([^\/]+)\/edid/;
+##                         my $connector = $1;
+##                         #$hdump = unpack("H*", $data);
+##                         #$realname{$connector} = pack("H*", $1) if($hdump =~ /00fc00(.*?)0a/)
+##                         #
+##                         # digging through descriptors, https://en.wikipedia.org/wiki/Extended_Display_Identification_Data
+##                         my $pos = index $data, $header, 54;
+##                         if($pos>0)
+##                         {
+##                                 $data = substr $data, $pos+3, 15;
+##                                 # sanitize first or further RE fail on binary cruft
+##                                 $data =~ s/\W/ /g;
+##                                 $data =~ s/ *$|^\W*//g;
+##                                 #print "# sysfs name: $data\n";
+##                                 $realname{$connector} = $data.'~'.$connector;
+##                         }
+##                 }
+##         }
+## }
+## else
 {
-        # xrandr --verbose can be slow, grab data from sysfs if possible
-        # Unclear how to map X screens to DRM reliably, use the shortcut only
-        # when just one graphics card is installed.
-        my @drmCards = <"/sys/devices/*/*/*/drm/card*">;
-        if($#drmCards == 0)
-        {
-                foreach(<"$edidGlobPat">)
-                {
-                        my $data = get_contents($_);
-                        next if !$data;
-                        my $hdump;
-                        /card0.card0-([^\/]+)\/edid/;
-                        my $connector = $1;
-                        #$hdump = unpack("H*", $data);
-                        #$realname{$connector} = pack("H*", $1) if($hdump =~ /00fc00(.*?)0a/)
-                        #
-                        # digging through descriptors, https://en.wikipedia.org/wiki/Extended_Display_Identification_Data
-                        my $pos = index $data, $header, 54;
-                        if($pos>0)
-                        {
-                                $data = substr $data, $pos+3, 15;
-                                # sanitize first or further RE fail on binary cruft
-                                $data =~ s/\W/ /g;
-                                $data =~ s/ *$|^\W*//g;
-                                #print "# sysfs name: $data\n";
-                                $realname{$connector} = $data.'~'.$connector;
-                        }
-                }
-        }
-}
-else
-{
-        foreach(<"$edidGlobPat">)
+        foreach(@edids)
         {
                 my $more = get_contents($_);
                 next if ! $more;
@@ -249,6 +252,7 @@ for(@connected)
 $cmd.="$turnRestOff'\n";
 print $cmd;
 
+#print Dumper(%realname);
 my $fd;
 if(open($fd, ">", $cachePath))
 {
