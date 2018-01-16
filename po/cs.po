@@ -8,11 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm-1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-12-28 11:44-0700\n"
+"POT-Creation-Date: 2018-01-16 16:56-0700\n"
 "PO-Revision-Date: 2018-01-03 20:15+0000\n"
 "Last-Translator: Aleš Kastner <alkas@volny.cz>\n"
-"Language-Team: Czech "
-"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/cs/>\n"
+"Language-Team: Czech <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1008,12 +1008,12 @@ msgstr "Zalamovat Řádky"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icewmbg.cc:73
+#: src/icewmbg.cc:77
 #, c-format
 msgid "Failed to load image '%s'."
 msgstr "Selhalo načtení obrazu '%s'."
 
-#: src/icewmbg.cc:703
+#: src/icewmbg.cc:707
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1102,11 +1102,11 @@ msgstr ""
 "část obrazu se ořízne)\n"
 "\n"
 
-#: src/icewmbg.cc:750
+#: src/icewmbg.cc:754
 msgid "Please note that not all options are currently configured.\n"
 msgstr "Veďte laskavě v patrnosti, že veškeré volby jsou nastaveny.\n"
 
-#: src/icewmbg.cc:896
+#: src/icewmbg.cc:900
 msgid "Cannot start, because another icewmbg is still running."
 msgstr "Spuštění selhalo, protože jiný icewmbg ještě běží."
 

@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.4.2.1038\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-12-28 11:44-0700\n"
+"POT-Creation-Date: 2018-01-16 16:56-0700\n"
 "PO-Revision-Date: 2018-01-12 12:18+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
-"Language-Team: Danish "
-"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/da/>\n"
+"Language-Team: Danish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1005,12 +1005,12 @@ msgstr "Ombryd linjer"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icewmbg.cc:73
+#: src/icewmbg.cc:77
 #, c-format
 msgid "Failed to load image '%s'."
 msgstr "Kunne ikke indlæse billede \"%s\"."
 
-#: src/icewmbg.cc:703
+#: src/icewmbg.cc:707
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1102,13 +1102,13 @@ msgstr ""
 " center:0 scaled:1 = udfyld begge dimensioner og bevar højde-bredde-forhold\n"
 "\n"
 
-#: src/icewmbg.cc:750
+#: src/icewmbg.cc:754
 msgid "Please note that not all options are currently configured.\n"
 msgstr ""
 "Bemærk venligst at ikke alle tilvalg er konfigureret på nuværende "
 "tidspunkt.\n"
 
-#: src/icewmbg.cc:896
+#: src/icewmbg.cc:900
 msgid "Cannot start, because another icewmbg is still running."
 msgstr "Kan ikke starte eftersom en anden icewmbg stadig kører."
 

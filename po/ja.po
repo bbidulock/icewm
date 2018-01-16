@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-12-28 11:44-0700\n"
+"POT-Creation-Date: 2018-01-16 16:56-0700\n"
 "PO-Revision-Date: 2017-12-10 22:37+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
 "Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -1026,12 +1026,12 @@ msgstr "行折り返し"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icewmbg.cc:73
+#: src/icewmbg.cc:77
 #, c-format
 msgid "Failed to load image '%s'."
 msgstr "画像 '%s' の読み込みに失敗しました。"
 
-#: src/icewmbg.cc:703
+#: src/icewmbg.cc:707
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1125,12 +1125,12 @@ msgstr ""
 " center:0 scaled:1 = 縦横の両方を埋め、アスペクト比を維持\n"
 "\n"
 
-#: src/icewmbg.cc:750
+#: src/icewmbg.cc:754
 msgid "Please note that not all options are currently configured.\n"
 msgstr ""
 "なお、全てのオプションが設定済みというわけではないことに注意してください。\n"
 
-#: src/icewmbg.cc:896
+#: src/icewmbg.cc:900
 msgid "Cannot start, because another icewmbg is still running."
 msgstr "既に icewmbg が動作しているため、新しく起動することができません。"
 

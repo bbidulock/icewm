@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-12-28 11:44-0700\n"
+"POT-Creation-Date: 2018-01-16 16:56-0700\n"
 "PO-Revision-Date: 2017-12-21 07:01+0000\n"
 "Last-Translator: Wnereiz Z <wnereiz@eienteiland.org>\n"
 "Language-Team: Chinese (China) <https://l10n.opensuse.org/projects/icewm/"
@@ -992,12 +992,12 @@ msgstr "换行"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icewmbg.cc:73
+#: src/icewmbg.cc:77
 #, c-format
 msgid "Failed to load image '%s'."
 msgstr "加载图片 '%s' 失败。"
 
-#: src/icewmbg.cc:703
+#: src/icewmbg.cc:707
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1087,11 +1087,11 @@ msgstr ""
 " center:0 scaled:1 = 沿双方向填充并保持缩放率\n"
 "\n"
 
-#: src/icewmbg.cc:750
+#: src/icewmbg.cc:754
 msgid "Please note that not all options are currently configured.\n"
 msgstr "请注意并非全部选项都已设置。\n"
 
-#: src/icewmbg.cc:896
+#: src/icewmbg.cc:900
 msgid "Cannot start, because another icewmbg is still running."
 msgstr "无法启动，因为其他 icewmbg 仍在运行。"
 

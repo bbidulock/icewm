@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sl\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-12-28 11:44-0700\n"
+"POT-Creation-Date: 2018-01-16 16:56-0700\n"
 "PO-Revision-Date: 2004-10-03 21:56+0200\n"
 "Last-Translator: Jernej Kovacic <jkovacic AT email DOT si>\n"
 "Language-Team: Slovenian <translator-team-sl@lists.sourceforge.net>\n"
@@ -947,12 +947,12 @@ msgstr "Prelom vrstic"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icewmbg.cc:73
+#: src/icewmbg.cc:77
 #, fuzzy, c-format
 msgid "Failed to load image '%s'."
 msgstr "Neuspešno odpiranje %s: %s"
 
-#: src/icewmbg.cc:703
+#: src/icewmbg.cc:707
 #, fuzzy
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
@@ -1010,11 +1010,11 @@ msgstr ""
 " DesktopTransparencyColor - Barva oznanitve polprosojnih oken\n"
 " DesktopTransparencyImage - Slika oznanitve polprosojnih oken\n"
 
-#: src/icewmbg.cc:750
+#: src/icewmbg.cc:754
 msgid "Please note that not all options are currently configured.\n"
 msgstr ""
 
-#: src/icewmbg.cc:896
+#: src/icewmbg.cc:900
 msgid "Cannot start, because another icewmbg is still running."
 msgstr ""
 

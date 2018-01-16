@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-12-28 11:44-0700\n"
+"POT-Creation-Date: 2018-01-16 16:56-0700\n"
 "PO-Revision-Date: 2017-11-03 14:12+0700\n"
 "Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian <https://l10n.opensuse.org/projects/icewm/"
@@ -967,12 +967,12 @@ msgstr "Garis Wrap"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icewmbg.cc:73
+#: src/icewmbg.cc:77
 #, fuzzy, c-format
 msgid "Failed to load image '%s'."
 msgstr "Gagal memuat tema %s"
 
-#: src/icewmbg.cc:703
+#: src/icewmbg.cc:707
 #, fuzzy
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
@@ -1049,11 +1049,11 @@ msgstr ""
 " center:1 scaled:1 = jaga aspek rasio\n"
 "\n"
 
-#: src/icewmbg.cc:750
+#: src/icewmbg.cc:754
 msgid "Please note that not all options are currently configured.\n"
 msgstr ""
 
-#: src/icewmbg.cc:896
+#: src/icewmbg.cc:900
 msgid "Cannot start, because another icewmbg is still running."
 msgstr ""
 

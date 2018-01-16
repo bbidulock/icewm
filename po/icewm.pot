@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: icewm 1.4.2.1038\n"
+"Project-Id-Version: icewm 1.4.2.1066\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-12-28 11:44-0700\n"
+"POT-Creation-Date: 2018-01-16 16:56-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -837,12 +837,12 @@ msgstr ""
 msgid "Ctrl+W"
 msgstr ""
 
-#: src/icewmbg.cc:73
+#: src/icewmbg.cc:77
 #, c-format
 msgid "Failed to load image '%s'."
 msgstr ""
 
-#: src/icewmbg.cc:703
+#: src/icewmbg.cc:707
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -889,11 +889,11 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/icewmbg.cc:750
+#: src/icewmbg.cc:754
 msgid "Please note that not all options are currently configured.\n"
 msgstr ""
 
-#: src/icewmbg.cc:896
+#: src/icewmbg.cc:900
 msgid "Cannot start, because another icewmbg is still running."
 msgstr ""
 

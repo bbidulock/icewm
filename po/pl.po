@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.2.15\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-12-28 11:44-0700\n"
+"POT-Creation-Date: 2018-01-16 16:56-0700\n"
 "PO-Revision-Date: 2016-12-24 12:56+0000\n"
 "Last-Translator: Kamil Stańczyk <suszaraa@gmail.com>\n"
 "Language-Team: Polish <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -932,12 +932,12 @@ msgstr "Zawijaj linie"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icewmbg.cc:73
+#: src/icewmbg.cc:77
 #, fuzzy, c-format
 msgid "Failed to load image '%s'."
 msgstr "Błąd otwarcia %s: %s"
 
-#: src/icewmbg.cc:703
+#: src/icewmbg.cc:707
 #, fuzzy
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
@@ -998,11 +998,11 @@ msgstr ""
 " center:0 scaled:0 = kafelkowy\n"
 " center:1 scaled:1 = zachowaj format obrazu\n"
 
-#: src/icewmbg.cc:750
+#: src/icewmbg.cc:754
 msgid "Please note that not all options are currently configured.\n"
 msgstr ""
 
-#: src/icewmbg.cc:896
+#: src/icewmbg.cc:900
 msgid "Cannot start, because another icewmbg is still running."
 msgstr ""
 

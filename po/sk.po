@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-12-28 11:44-0700\n"
+"POT-Creation-Date: 2018-01-16 16:56-0700\n"
 "PO-Revision-Date: 2017-12-29 15:06+0000\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
-"Language-Team: Slovak "
-"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/sk/>\n"
+"Language-Team: Slovak <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1005,12 +1005,12 @@ msgstr "Zalamovať riadky"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icewmbg.cc:73
+#: src/icewmbg.cc:77
 #, c-format
 msgid "Failed to load image '%s'."
 msgstr "Zlyhalo načítanie obrázka: '%s'."
 
-#: src/icewmbg.cc:703
+#: src/icewmbg.cc:707
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1100,11 +1100,11 @@ msgstr ""
 " center:0 scaled:1 = vyplní oba rozmery a zachová pomer strán\n"
 "\n"
 
-#: src/icewmbg.cc:750
+#: src/icewmbg.cc:754
 msgid "Please note that not all options are currently configured.\n"
 msgstr "Upozorňujeme, že nie všetky voľby sú momentálne nakonfigurované.\n"
 
-#: src/icewmbg.cc:896
+#: src/icewmbg.cc:900
 msgid "Cannot start, because another icewmbg is still running."
 msgstr "Nebolo možné spustiť, pretože iný icewmbg stále beží."
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-12-28 11:44-0700\n"
+"POT-Creation-Date: 2018-01-16 16:56-0700\n"
 "PO-Revision-Date: 2016-06-06 12:13+0000\n"
 "Last-Translator: Stanislav Brabec <sbrabec@suse.com>\n"
 "Language-Team: Hebrew <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -861,12 +861,12 @@ msgstr "כרוך שורות"
 msgid "Ctrl+W"
 msgstr ""
 
-#: src/icewmbg.cc:73
+#: src/icewmbg.cc:77
 #, fuzzy, c-format
 msgid "Failed to load image '%s'."
 msgstr "לא היה ניתן למצוא תמונה %s"
 
-#: src/icewmbg.cc:703
+#: src/icewmbg.cc:707
 #, fuzzy
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
@@ -914,11 +914,11 @@ msgid ""
 "\n"
 msgstr "CLI"
 
-#: src/icewmbg.cc:750
+#: src/icewmbg.cc:754
 msgid "Please note that not all options are currently configured.\n"
 msgstr ""
 
-#: src/icewmbg.cc:896
+#: src/icewmbg.cc:900
 msgid "Cannot start, because another icewmbg is still running."
 msgstr ""
 

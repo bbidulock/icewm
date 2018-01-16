@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-12-28 11:44-0700\n"
+"POT-Creation-Date: 2018-01-16 16:56-0700\n"
 "PO-Revision-Date: 2002-09-22 22:00+0200\n"
 "Last-Translator: Petter Johan Olsen <petter.olsen@cc.uit.no>\n"
 "Language-Team: Norwegian\n"
@@ -927,12 +927,12 @@ msgstr "Del lange linjer"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icewmbg.cc:73
+#: src/icewmbg.cc:77
 #, fuzzy, c-format
 msgid "Failed to load image '%s'."
 msgstr "Kunne ikke åpne %s: %s"
 
-#: src/icewmbg.cc:703
+#: src/icewmbg.cc:707
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -979,11 +979,11 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/icewmbg.cc:750
+#: src/icewmbg.cc:754
 msgid "Please note that not all options are currently configured.\n"
 msgstr ""
 
-#: src/icewmbg.cc:896
+#: src/icewmbg.cc:900
 msgid "Cannot start, because another icewmbg is still running."
 msgstr ""
 
