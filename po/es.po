@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-01-16 16:56-0700\n"
-"PO-Revision-Date: 2017-06-23 21:37+0000\n"
+"PO-Revision-Date: 2018-01-20 17:30+0000\n"
 "Last-Translator: jc sl <trcs@gmx.com>\n"
-"Language-Team: Spanish <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
-"branch/es/>\n"
+"Language-Team: Spanish "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.13.1\n"
+"X-Generator: Weblate 2.18\n"
 
 #: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:681 src/aapm.cc:806
 msgid " - Power"
@@ -42,7 +42,7 @@ msgstr " - Completa"
 #: src/aapm.cc:999
 #, c-format
 msgid "power:\t%s"
-msgstr ""
+msgstr "energía:\t%s"
 
 #: src/acpustatus.cc:196
 #, c-format
@@ -50,6 +50,8 @@ msgid ""
 "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 "intr = %llu, softirq = %llu, steal = %llu\n"
 msgstr ""
+"estadísticas:\tusuario = %llu, nice = %llu, sys = %llu, idle = %llu, iowait ="
+" %llu, intr = %llu, softirq = %llu, steal = %llu\n"
 
 #: src/acpustatus.cc:201
 #, c-format
@@ -57,6 +59,8 @@ msgid ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 "softirq = %llu, steal = %llu (h = %i)\n"
 msgstr ""
+"barras:\tusuario = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %"
+"llu, softirq = %llu, steal = %llu (h = %i)\n"
 
 #: src/acpustatus.cc:261
 #, c-format
@@ -116,7 +120,7 @@ msgstr "°C"
 #: src/acpustatus.cc:670
 #, c-format
 msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
-msgstr ""
+msgstr "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 
 #: src/amailbox.cc:67
 #, c-format
@@ -149,31 +153,31 @@ msgstr "mensajes de correo %ld."
 
 #: src/amemstatus.cc:127
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: src/amemstatus.cc:131
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 #: src/amemstatus.cc:135
 msgid "kB"
-msgstr ""
+msgstr "kB"
 
 #: src/amemstatus.cc:139
 msgid "bytes"
-msgstr ""
+msgstr "bytes"
 
 #: src/amemstatus.cc:163
 msgid "Memory Total: "
-msgstr ""
+msgstr "Memoria total: "
 
 #: src/amemstatus.cc:164
 msgid "Free: "
-msgstr ""
+msgstr "Libre: "
 
 #: src/amemstatus.cc:165
 msgid "Cached: "
-msgstr ""
+msgstr "En caché: "
 
 #: src/amemstatus.cc:166
 msgid "Buffers: "
@@ -181,7 +185,7 @@ msgstr ""
 
 #: src/amemstatus.cc:167
 msgid "User: "
-msgstr ""
+msgstr "Usuario: "
 
 #: src/apppstatus.cc:198
 #, c-format
@@ -312,45 +316,43 @@ msgstr "Ctrl+Q"
 
 #: src/icehelp.cc:1216
 msgid "Icewm(1)"
-msgstr ""
+msgstr "Icewm(1)"
 
 #: src/icehelp.cc:1218
 msgid "Icewmbg(1)"
-msgstr ""
+msgstr "Icewmbg(1)"
 
 #: src/icehelp.cc:1220
 msgid "Icesound(1)"
-msgstr ""
+msgstr "Icesound(1)"
 
 #: src/icehelp.cc:1222
 msgid "FAQ"
-msgstr ""
+msgstr "PP. FF. (Preguntas frecuentes)"
 
 #: src/icehelp.cc:1224
 msgid "Manual"
-msgstr ""
+msgstr "Manual"
 
 #: src/icehelp.cc:1226
 msgid "Support"
-msgstr ""
+msgstr "Asistencia"
 
 #: src/icehelp.cc:1228
-#, fuzzy
 msgid "Theme Howto"
-msgstr "Autor del tema:"
+msgstr "Cómo hacer temas"
 
 #: src/icehelp.cc:1230
 msgid "Website"
-msgstr ""
+msgstr "Sitio web"
 
 #: src/icehelp.cc:1232
 msgid "Github"
-msgstr ""
+msgstr "Github"
 
 #: src/icehelp.cc:1934
-#, fuzzy
 msgid "Unsupported protocol."
-msgstr "Interfaz no soportada: %s."
+msgstr "Protocolo no soportado."
 
 #: src/icehelp.cc:1959
 #, c-format
@@ -359,16 +361,15 @@ msgstr "Ruta no válida: %s\n"
 
 #: src/icehelp.cc:1982
 msgid "Path does not refer to a file."
-msgstr ""
+msgstr "El parche no hace referencia a un archivo."
 
 #: src/icehelp.cc:1987
 msgid "Failed to open file for reading."
-msgstr ""
+msgstr "Error al abrir el archivo para leerlo."
 
 #: src/icehelp.cc:2016
-#, fuzzy
 msgid "Failed to create a temporary file"
-msgstr "Falló crear tubería anónima: %s"
+msgstr "Error al crear un archivo temporal"
 
 #: src/icehelp.cc:2108
 #, c-format
@@ -376,17 +377,17 @@ msgid "Failed to execute system(%s) (%d)"
 msgstr ""
 
 #: src/icehelp.cc:2131
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to decompress %s"
-msgstr "Error al cargar el tema %s"
+msgstr "Error al descomprimir %s"
 
 #: src/icehelp.cc:2139
 msgid "Could not locate curl or wget in PATH"
-msgstr ""
+msgstr "No se puede encontrar curl o wget en PATH"
 
 #: src/icehelp.cc:2143
 msgid "Unsafe characters in URL"
-msgstr ""
+msgstr "Caracteres peligrosos en el URL"
 
 #: src/icehelp.cc:2180
 #, c-format
@@ -427,9 +428,9 @@ msgid ""
 msgstr ""
 
 #: src/icehelp.cc:2257
-#, fuzzy, c-format
+#, c-format
 msgid "Ignoring option '%s'"
-msgstr "Opción desconocida «%s»"
+msgstr "Se ignora la opción '%s'"
 
 #: src/icelist.cc:80
 msgid "List View"
@@ -678,12 +679,12 @@ msgstr "Opción desconocida «%s»"
 #: src/icesm.cc:298
 #, c-format
 msgid "%s exited with status %d."
-msgstr ""
+msgstr "%s ha terminado con el código de salida %d."
 
 #: src/icesm.cc:304
 #, c-format
 msgid "%s was killed by signal %d."
-msgstr ""
+msgstr "%s ha sido finalizado por la señal %d."
 
 #: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
 #, c-format
@@ -693,24 +694,24 @@ msgstr "Reproduciendo muestra #%d (%s)"
 #: src/icesound.cc:337
 #, c-format
 msgid "%s: Invalid number of channels"
-msgstr ""
+msgstr "%s: número no válido de canales"
 
 #: src/icesound.cc:343 src/icesound.cc:348
 msgid "Could not set OSS channels"
-msgstr ""
+msgstr "No se pueden establecer canales de OSS"
 
 #: src/icesound.cc:353 src/icesound.cc:381
 msgid "Could not sync OSS"
-msgstr ""
+msgstr "No se puede sincronizar con OSS"
 
 #: src/icesound.cc:365
 msgid "OSS write failed"
-msgstr ""
+msgstr "Fallo de OSS al escribir"
 
 #: src/icesound.cc:369
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
-msgstr ""
+msgstr "Escritura de OSS incompleta (%d/%d)"
 
 #: src/icesound.cc:376
 #, fuzzy
@@ -718,9 +719,9 @@ msgid "Could not post OSS"
 msgstr "No se pudo cagar fontset «%s»."
 
 #: src/icesound.cc:405
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open OSS device %s"
-msgstr "No se pudo encontrar la imagen %s"
+msgstr "No se puede abrir el dispositivo OSS %s"
 
 #: src/icesound.cc:410
 msgid "Could not set OSS stereo"
@@ -728,11 +729,11 @@ msgstr ""
 
 #: src/icesound.cc:415
 msgid "Could not reset OSS DSP"
-msgstr ""
+msgstr "No se puede reiniciar el DSP de OSS"
 
 #: src/icesound.cc:420
 msgid "Could not set OSS format"
-msgstr ""
+msgstr "No se puede establecer el formato de OSS"
 
 #: src/icesound.cc:493
 #, c-format
@@ -754,18 +755,18 @@ msgid "Sample <%d> uploaded as `%s:%s'"
 msgstr "Muestra <%d> subida como `%s:%s'"
 
 #: src/icesound.cc:576
-#, fuzzy, c-format
+#, c-format
 msgid "Playing sample #%d: %d"
-msgstr "Reproduciendo muestra #%d"
+msgstr "Reproduciendo muestra #%d: %d"
 
 #: src/icesound.cc:651
 #, c-format
 msgid "ao_open_live failed with %d"
-msgstr ""
+msgstr "ao_open_live ha fallado con %d"
 
 #: src/icesound.cc:662
 msgid "ao_play failed"
-msgstr ""
+msgstr "ao_play ha fallado"
 
 #: src/icesound.cc:824
 #, c-format
@@ -878,7 +879,7 @@ msgstr ""
 #: src/icesound.cc:930
 #, c-format
 msgid "No audio for %s"
-msgstr ""
+msgstr "No hay audio para %s"
 
 #: src/icesound.cc:1007
 msgid "Could not get GUI event property"
@@ -887,17 +888,17 @@ msgstr ""
 #: src/icesound.cc:1011
 #, c-format
 msgid "Received invalid GUI event %d"
-msgstr ""
+msgstr "Se ha recibido un evento no válido de la IGU %d"
 
 #: src/icesound.cc:1015
 #, c-format
 msgid "Received GUI event %s"
-msgstr ""
+msgstr "Se ha recibido el evento %s de la GUI"
 
 #: src/icesound.cc:1029
 #, c-format
 msgid "Too quick; ignoring %s."
-msgstr ""
+msgstr "Demasiado rápido; se ignora %s."
 
 #: src/icesound.cc:1033
 #, c-format
@@ -915,14 +916,14 @@ msgid "Using %s audio."
 msgstr ""
 
 #: src/icesound.cc:1086
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to connect to audio interfaces %s."
-msgstr "Error al cargar el tema %s"
+msgstr "Error al conectar con las interfaces de audio %s."
 
 #: src/icesound.cc:1098
-#, fuzzy, c-format
+#, c-format
 msgid "Received signal %s: Terminating..."
-msgstr "Señal %d recibida: Terminando..."
+msgstr "Señal %s recibida: Terminando..."
 
 #: src/icetray.cc:246
 #, fuzzy
@@ -966,9 +967,9 @@ msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
 #: src/icewmbg.cc:77
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load image '%s'."
-msgstr "Error al cargar el tema %s"
+msgstr "Error al cargar la imagen '%s'."
 
 #: src/icewmbg.cc:707
 #, fuzzy
@@ -1047,11 +1048,11 @@ msgstr ""
 
 #: src/icewmbg.cc:754
 msgid "Please note that not all options are currently configured.\n"
-msgstr ""
+msgstr "Tenga presente que no están configuradas todas las opciones.\n"
 
 #: src/icewmbg.cc:900
 msgid "Cannot start, because another icewmbg is still running."
-msgstr ""
+msgstr "No se puede iniciar porque otro icewmbg está aún en ejecución."
 
 #: src/icewmhint.cc:41
 msgid "Usage: icewmhint [class.instance] option arg\n"
@@ -1122,22 +1123,22 @@ msgid "icewm - About"
 msgstr "Acerca de IceWM"
 
 #: src/wmapp.cc:105
-#, fuzzy
 msgid "A window manager is already running, use --replace to replace it"
-msgstr "Otro gestor de ventanas ya se está ejecutando, saliendo..."
+msgstr ""
+"Ya hay otro gestor de ventanas en ejecución; use --replace para reemplazarlo"
 
 #: src/wmapp.cc:123
 #, c-format
 msgid "Failed to become the owner of the %s selection"
-msgstr ""
+msgstr "Error al obtener la propiedad de la selección %s"
 
 #: src/wmapp.cc:127
 msgid "Waiting to replace the old window manager"
-msgstr ""
+msgstr "A la espera de reemplazar el administrador de ventanas anterior"
 
 #: src/wmapp.cc:132
 msgid "done."
-msgstr ""
+msgstr "hecho."
 
 #: src/wmapp.cc:418
 msgid "Unable to get current font path."
@@ -1169,7 +1170,7 @@ msgstr "_Apagar"
 
 #: src/wmapp.cc:537 src/wmdialog.cc:88
 msgid "_Suspend"
-msgstr ""
+msgstr "_Supender"
 
 #: src/wmapp.cc:542
 msgid "Restart _Icewm"
@@ -1294,7 +1295,7 @@ msgstr ""
 
 #: src/wmapp.cc:819
 msgid "Kill IceWM, replace with Xterm"
-msgstr ""
+msgstr "Matar IceWM, reemplazarlo por Xterm"
 
 #: src/wmapp.cc:1330
 msgid ""
@@ -1391,9 +1392,9 @@ msgid "%s configured options:%s\n"
 msgstr "%s opciones configuradas:%s\n"
 
 #: src/wmapp.cc:1536
-#, fuzzy, c-format
+#, c-format
 msgid "Unrecognized option '%s'."
-msgstr "Opción no reconocida: %s\n"
+msgstr "Opción no reconocida '%s'."
 
 #: src/wmapp.cc:1567
 msgid "Confirm Logout"
@@ -1488,9 +1489,9 @@ msgid "Unknown window option: %s"
 msgstr "Opción de ventana desconocida: %s"
 
 #: src/wmoption.cc:333
-#, fuzzy, c-format
+#, c-format
 msgid "Syntax error in window options on line %d of %s"
-msgstr "Error de sintaxis en las opciones de ventana"
+msgstr "Error sintáctico en las opciones de ventana en la línea %d de %s"
 
 #: src/wmprog.cc:183
 msgid "Missing command argument"
@@ -1503,7 +1504,7 @@ msgstr "Argumento erróneo %d para el comando «%s»"
 
 #: src/wmprog.cc:342
 msgid "Missing filename argument to include statement"
-msgstr ""
+msgstr "Falta el argumento del nombre del fichero a incluir en la sentencia"
 
 #: src/wmprog.cc:408
 #, c-format
@@ -1511,9 +1512,9 @@ msgid "Error at %s '%s'"
 msgstr "Error en %s «%s»"
 
 #: src/wmprog.cc:465
-#, fuzzy, c-format
+#, c-format
 msgid "Unexepected menu keyword: '%s'"
-msgstr "Palabra clave menu inesperada: «%s»"
+msgstr "Palabra clave del menú inesperada: '%s'"
 
 #: src/wmprog.cc:509
 #, c-format
@@ -1554,18 +1555,16 @@ msgid "_Click to focus"
 msgstr "Ha_cer clic para ganar foco"
 
 #: src/wmprog.cc:893
-#, fuzzy
 msgid "_Explicit focus"
-msgstr "Ha_cer clic para ganar foco"
+msgstr "Foco _explícito"
 
 #: src/wmprog.cc:894
 msgid "_Sloppy mouse focus"
 msgstr "De_slizar lel ratón para ganr foco"
 
 #: src/wmprog.cc:895
-#, fuzzy
 msgid "S_trict mouse focus"
-msgstr "De_slizar lel ratón para ganr foco"
+msgstr "Foco del ratón es_tricto"
 
 #: src/wmprog.cc:896
 #, fuzzy
@@ -1578,19 +1577,19 @@ msgstr "Perzonali_zar"
 
 #: src/wmprog.cc:919
 msgid "_Manual"
-msgstr ""
+msgstr "_Manual"
 
 #: src/wmprog.cc:920
 msgid "_Icewm(1)"
-msgstr ""
+msgstr "_Icewm(1)"
 
 #: src/wmprog.cc:921
 msgid "Icewm_Bg(1)"
-msgstr ""
+msgstr "Icewm_Bg(1)"
 
 #: src/wmprog.cc:922
 msgid "Ice_Sound(1)"
-msgstr ""
+msgstr "Ice_Sound(1)"
 
 #: src/wmprog.cc:984
 msgid "Programs"
@@ -1729,7 +1728,7 @@ msgstr "%lu. Área de trabajo %-.32s"
 #: src/yapp.cc:276
 #, c-format
 msgid "%s: select failed"
-msgstr ""
+msgstr "%s: ha fallado la selección"
 
 #: src/yconfig.cc:139
 #, c-format
@@ -1830,9 +1829,8 @@ msgid "Paste _Selection"
 msgstr "Pegar _selección"
 
 #: src/yinput.cc:44
-#, fuzzy
 msgid "Ctrl+P"
-msgstr "Ctrl+Q"
+msgstr "Ctrl+P"
 
 #: src/yinput.cc:47
 msgid "Select _All"
@@ -1843,10 +1841,10 @@ msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
 #: src/ylocale.cc:46
-#, fuzzy
 msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
 msgstr ""
-"Local no soportada por la biblioteca C. Intentando local 'C' de respaldo."
+"Configuración regional no soportada por la biblioteca C o Xlib. Revertiendo "
+"a 'C'."
 
 #: src/ylocale.cc:72
 msgid ""
