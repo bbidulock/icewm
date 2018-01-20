@@ -443,7 +443,7 @@ ref<YImage> YXImage::upscale(unsigned nw, unsigned nh)
                     double lx, rx; unsigned k;
                     for (lx = 0.0, rx = pppx, k = 0; k < nw; k++, lx += pppx, rx += pppx) {
                         for (unsigned i = floor(lx); i < rx; i++) {
-                            unsigned xf = 1.0;
+                            double xf = 1.0;
                             if (lx < (i + 1) && (i + 1) < rx)
                                 xf = (i + 1) - lx;
                             else if (lx < i && i < rx)
