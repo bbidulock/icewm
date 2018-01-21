@@ -170,22 +170,14 @@ ref<YImage> YXImage::loadxpm(upath filename)
 ref<YImage> YXImage::loadpng(upath filename)
 {
     ref<YImage> image;
-    png_byte *png_pixels, **row_pointers, *p;
-    XImage *ximage = 0;
     // working around clobbering issues with high optimization levels, see https://stackoverflow.com/questions/7721854/what-sense-do-these-clobbered-variable-warnings-make
-    volatile void *vol_png_pixels, *vol_row_pointers;
-    volatile void *vol_ximage;
+    volatile png_byte *png_pixels = 0, **row_pointers = 0;
+    volatile XImage *ximage = 0;
     png_structp png_ptr;
     png_infop info_ptr;
     png_byte buf[8];
     int ret;
     FILE *f;
-
-    png_pixels = 0;
-    row_pointers = 0;
-    vol_png_pixels = 0;
-    vol_row_pointers = 0;
-    vol_ximage = 0;
 
     if (!(f = fopen(filename.string(), "rb"))) {
         tlog("could not open %s: %s\n", filename.string().c_str(), strerror(errno));
@@ -210,102 +202,95 @@ ref<YImage> YXImage::loadpng(upath filename)
     if (setjmp(png_jmpbuf(png_ptr))) {
         tlog("ERROR: longjump from setjump\n");
         goto pngerr;
-    }
+    } else {
+        png_uint_32 width, height, row_bytes, i, j;
+        int bit_depth, color_type, channels;
 
-    png_uint_32 width, height, row_bytes, i, j;
-    int bit_depth, color_type, channels;
-    unsigned long pixel, A, R, G, B;
-    A = R = G = B = 0;
-    png_pixels = 0;
-    row_pointers = 0;
-    vol_png_pixels = 0;
-    vol_row_pointers = 0;
-
-    png_init_io(png_ptr, f);
-    png_set_sig_bytes(png_ptr, 8);
-    png_read_info(png_ptr, info_ptr);
-    png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, NULL, NULL, NULL);
-    if (color_type == PNG_COLOR_TYPE_PALETTE) {
-        png_set_palette_to_rgb(png_ptr);
-    }
-    if (color_type == PNG_COLOR_TYPE_GRAY && bit_depth < 8) {
-        png_set_expand(png_ptr);
-    }
-    if (png_get_valid(png_ptr, info_ptr, PNG_INFO_tRNS)) {
-        png_set_expand(png_ptr);
-    }
-    if (bit_depth == 16) {
-        png_set_strip_16(png_ptr);
-    }
-    if (color_type == PNG_COLOR_TYPE_GRAY || color_type == PNG_COLOR_TYPE_GRAY_ALPHA) {
-        png_set_gray_to_rgb(png_ptr);
-    }
-    png_read_update_info(png_ptr, info_ptr);
-    png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, NULL, NULL, NULL);
-    if (color_type == PNG_COLOR_TYPE_GRAY)
-        channels = 1;
-    else if (color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
-        channels = 2;
-    else if (color_type == PNG_COLOR_TYPE_RGB)
-        channels = 3;
-    else if (color_type == PNG_COLOR_TYPE_RGB_ALPHA)
-        channels = 4;
-    else
-        channels = 0;
-    row_bytes = png_get_rowbytes(png_ptr, info_ptr);
-    png_pixels = (typeof(png_pixels))calloc(row_bytes * height, sizeof(*png_pixels));
-    vol_png_pixels = png_pixels;
-    row_pointers = (typeof(row_pointers))calloc(height, sizeof(*row_pointers));
-    vol_row_pointers = row_pointers;
-    for (i = 0; i < height; i++)
-        row_pointers[i] = png_pixels + i * row_bytes;
-    png_read_image(png_ptr, row_pointers);
-    png_read_end(png_ptr, info_ptr);
-    ximage = XCreateImage(xapp->display(), xapp->visual(), 32, ZPixmap, 0, NULL, width, height, 8, 0);
-    if (!ximage || !(ximage->data = (typeof(ximage->data))calloc(ximage->bytes_per_line, height))) {
-        if (ximage) {
-            tlog("could not allocate ximage data\n");
-            XDestroyImage(ximage);
-            goto pngerr;
+        png_init_io(png_ptr, f);
+        png_set_sig_bytes(png_ptr, 8);
+        png_read_info(png_ptr, info_ptr);
+        png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, NULL, NULL, NULL);
+        if (color_type == PNG_COLOR_TYPE_PALETTE) {
+            png_set_palette_to_rgb(png_ptr);
         }
-        tlog("could not allocate ximage\n");
-        goto pngerr;
-    }
-    vol_ximage = ximage;
-    for (p = png_pixels, j = 0; j < height; j++) {
-        for (i = 0; i < width; i++, p += channels) {
-            switch(color_type) {
-                case PNG_COLOR_TYPE_GRAY:
-                    R = G = B = p[0];
-                    A = 255;
-                    break;
-                case PNG_COLOR_TYPE_GRAY_ALPHA:
-                    R = G = B = p[0];
-                    A = p[1];
-                    break;
-                case PNG_COLOR_TYPE_RGB:
-                    R = p[0];
-                    G = p[1];
-                    B = p[2];
-                    A = 255;
-                    break;
-                case PNG_COLOR_TYPE_RGB_ALPHA:
-                    R = p[0];
-                    G = p[1];
-                    B = p[2];
-                    A = p[3];
-                    break;
+        if (color_type == PNG_COLOR_TYPE_GRAY && bit_depth < 8) {
+            png_set_expand(png_ptr);
+        }
+        if (png_get_valid(png_ptr, info_ptr, PNG_INFO_tRNS)) {
+            png_set_expand(png_ptr);
+        }
+        if (bit_depth == 16) {
+            png_set_strip_16(png_ptr);
+        }
+        if (color_type == PNG_COLOR_TYPE_GRAY || color_type == PNG_COLOR_TYPE_GRAY_ALPHA) {
+            png_set_gray_to_rgb(png_ptr);
+        }
+        png_read_update_info(png_ptr, info_ptr);
+        png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, NULL, NULL, NULL);
+        if (color_type == PNG_COLOR_TYPE_GRAY)
+            channels = 1;
+        else if (color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
+            channels = 2;
+        else if (color_type == PNG_COLOR_TYPE_RGB)
+            channels = 3;
+        else if (color_type == PNG_COLOR_TYPE_RGB_ALPHA)
+            channels = 4;
+        else
+            channels = 0;
+        row_bytes = png_get_rowbytes(png_ptr, info_ptr);
+        png_pixels = (typeof(png_pixels))calloc(row_bytes * height, sizeof(*png_pixels));
+        row_pointers = (typeof(row_pointers))calloc(height, sizeof(*row_pointers));
+        for (i = 0; i < height; i++)
+            row_pointers[i] = png_pixels + i * row_bytes;
+        png_read_image(png_ptr, (png_byte **)row_pointers);
+        png_read_end(png_ptr, info_ptr);
+        ximage = XCreateImage(xapp->display(), xapp->visual(), 32, ZPixmap, 0, NULL, width, height, 8, 0);
+        if (!ximage || !(ximage->data = (typeof(ximage->data))calloc(ximage->bytes_per_line, height))) {
+            if (ximage) {
+                tlog("could not allocate ximage data\n");
+                XDestroyImage((XImage *)ximage);
+                goto pngerr;
             }
-            pixel = (A << 24)|(R <<16)|(G<<8)|(B<<0);
-            XPutPixel(ximage, i, j, pixel);
+            tlog("could not allocate ximage\n");
+            goto pngerr;
+        } else {
+            png_byte *p, *nv_png_pixels = (typeof(nv_png_pixels)) png_pixels;
+            unsigned long pixel, A = 0, R = 0, G = 0, B = 0;
+            XImage *nv_ximage = (typeof(nv_ximage)) ximage;
+
+            for (p = nv_png_pixels, j = 0; j < height; j++) {
+                for (i = 0; i < width; i++, p += channels) {
+                    switch(color_type) {
+                        case PNG_COLOR_TYPE_GRAY:
+                            R = G = B = p[0];
+                            A = 255;
+                            break;
+                        case PNG_COLOR_TYPE_GRAY_ALPHA:
+                            R = G = B = p[0];
+                            A = p[1];
+                            break;
+                        case PNG_COLOR_TYPE_RGB:
+                            R = p[0];
+                            G = p[1];
+                            B = p[2];
+                            A = 255;
+                            break;
+                        case PNG_COLOR_TYPE_RGB_ALPHA:
+                            R = p[0];
+                            G = p[1];
+                            B = p[2];
+                            A = p[3];
+                            break;
+                    }
+                    pixel = (A << 24)|(R <<16)|(G<<8)|(B<<0);
+                    XPutPixel(nv_ximage, i, j, pixel);
+                }
+            }
         }
     }
   pngerr:
-    ximage = (XImage *) vol_ximage;
-    png_pixels = (png_byte *) vol_png_pixels;
-    free(png_pixels);
-    row_pointers = (png_byte **) vol_row_pointers;
-    free(row_pointers);
+    free((png_byte *)png_pixels);
+    free((png_byte **)row_pointers);
     png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
     goto noread;
   noinfo:
@@ -314,7 +299,7 @@ ref<YImage> YXImage::loadpng(upath filename)
     fclose(f);
   nofile:
     if (ximage)
-        image.init(new YXImage(ximage));
+        image.init(new YXImage((XImage *)ximage));
     return image;
 }
 #endif
