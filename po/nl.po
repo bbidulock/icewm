@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.23\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-01-16 16:56-0700\n"
-"PO-Revision-Date: 2018-01-06 14:01+0000\n"
+"PO-Revision-Date: 2018-01-22 15:01+0000\n"
 "Last-Translator: Nathan Follens <nthn@unseen.is>\n"
-"Language-Team: Dutch <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/nl/>\n"
+"Language-Team: Dutch "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.17.1\n"
+"X-Generator: Weblate 2.18\n"
 
 #: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:681 src/aapm.cc:806
 msgid " - Power"
@@ -315,15 +315,15 @@ msgstr "Ctrl+Q"
 
 #: src/icehelp.cc:1216
 msgid "Icewm(1)"
-msgstr ""
+msgstr "Icewm(1)"
 
 #: src/icehelp.cc:1218
 msgid "Icewmbg(1)"
-msgstr ""
+msgstr "Icewmbg(1)"
 
 #: src/icehelp.cc:1220
 msgid "Icesound(1)"
-msgstr ""
+msgstr "Icesound(1)"
 
 #: src/icehelp.cc:1222
 msgid "FAQ"
