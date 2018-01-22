@@ -827,7 +827,7 @@ void show_backtrace(const int limit) {
 
     fprintf(stderr, "backtrace:\n"); fflush(stderr);
 
-    int status(1);
+    int status(EXIT_FAILURE);
     if (path && access(path, R_OK) == 0 && access(tool, X_OK) == 0) {
         const size_t bufsize(1234);
         char buf[bufsize];
@@ -841,13 +841,12 @@ void show_backtrace(const int limit) {
         if (fp) {
             bool not_found = false;
             while (fgets(buf, int(bufsize), fp)) {
+                fputs(buf, stdout);
                 len = strlen(buf);
                 if (5 <= len && 0 == strcmp(buf + len - 5, "??:0\n"))
                     not_found = true;
             }
-            status = pclose(fp);
-            if (status == 0 && not_found)
-                status = 1;
+            status = Elvis(pclose(fp), int(not_found));
             if (status) {
                 fprintf(stderr, "symbols:\n");
                 fflush(stderr);
