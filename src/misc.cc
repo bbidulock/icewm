@@ -837,7 +837,22 @@ void show_backtrace(const int limit) {
             snprintf(buf + len, bufsize - len, " %p", array[i]);
             len += strlen(buf + len);
         }
-        status = system(buf);
+        FILE* fp = popen(buf, "r");
+        if (fp) {
+            bool not_found = false;
+            while (fgets(buf, int(bufsize), fp)) {
+                len = strlen(buf);
+                if (5 <= len && 0 == strcmp(buf + len - 5, "??:0\n"))
+                    not_found = true;
+            }
+            status = pclose(fp);
+            if (status == 0 && not_found)
+                status = 1;
+            if (status) {
+                fprintf(stderr, "symbols:\n");
+                fflush(stderr);
+            }
+        }
     }
     if (status) {
         backtrace_symbols_fd(array, count, 2);
