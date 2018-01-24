@@ -198,7 +198,7 @@ genpref_SOURCES = \
 	themable.h \
 	default.h \
 	genpref.cc
-genpref_LDADD = misc.$(OBJEXT) @LIBINTL@
+genpref_LDADD = libice.la @LIBINTL@
 
 icewm_SOURCES = \
 	intl.h \
@@ -329,7 +329,7 @@ icewmhint_SOURCES = \
 	base.h \
 	guievent.h \
 	icewmhint.cc
-icewmhint_LDADD = misc.$(OBJEXT) $(CORE_LIBS) @LIBINTL@
+icewmhint_LDADD = libice.la $(CORE_LIBS) @LIBINTL@
 
 icewmbg_SOURCES = \
 	intl.h \
@@ -361,7 +361,7 @@ icewm_menu_fdo_SOURCES = \
 	sysdep.h \
 	base.h \
 	fdomenu.cc
-icewm_menu_fdo_LDADD = misc.$(OBJEXT) $(GIO_LIBS)
+icewm_menu_fdo_LDADD = libice.la $(GIO_LIBS)
 
 icehelp_SOURCES = \
 	intl.h \

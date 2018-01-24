@@ -10,6 +10,7 @@
 #include "base.h"
 #include "intl.h"
 #include "ref.h"
+#include "yarray.h"
 #include <time.h>
 
 #ifdef CONFIG_SHAPE
@@ -616,6 +617,13 @@ char* demangle(const char* str) {
     return strdup(str);
 }
 
+unsigned long strhash(const char* str) {
+    unsigned long hash = 5381;
+    for (; *str; ++str)
+        hash = 33 * hash ^ (unsigned char) *str;
+    return hash;
+}
+
 /*
  *      Returns zero if s2 is a prefix of s1.
  *
@@ -816,6 +824,12 @@ int strnullcmp(const char *a, const char *b) {
     return a ? (b ? strcmp(a, b) : 1) : (b ? -1 : 0);
 }
 #endif
+
+bool testOnce(const char* file, const int line) {
+    static YArray<unsigned long> list;
+    unsigned long hash = strhash(file) * 0x10001 ^ line;
+    return find(list, hash) < 0 ? list.append(hash), true : false;
+}
 
 void show_backtrace(const int limit) {
 #if defined(HAVE_BACKTRACE_SYMBOLS_FD) && defined(HAVE_EXECINFO_H)
