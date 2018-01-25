@@ -965,7 +965,7 @@ void YXImage::composite(Graphics& g, int x, int y,
     unsigned hi = fImage->height;
     unsigned di = fImage->depth;
     bool bitmap = isBitmap();
-    unsigned long fg = g.color()->pixel() & 0x00FFFFFF;
+    unsigned long fg = g.color() ? g.color()->pixel() & 0x00FFFFFF : 0;
     unsigned long bg = 0x00000000; /* for now */
     tlog("compositing %ux%u+%d+%d of %ux%ux%u onto drawable 0x%lx at +%d+%d\n", w, h, x, y, wi, hi, di, g.drawable(), dx, dy);
     Window root;
