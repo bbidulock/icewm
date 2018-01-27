@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: 1.2.15\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-01-16 16:56-0700\n"
-"PO-Revision-Date: 2018-01-27 12:04+0000\n"
+"PO-Revision-Date: 2018-01-28 01:04+0000\n"
 "Last-Translator: Ewelina Michalowska <ewelina.michalowska@stgambit.com>\n"
 "Language-Team: Polish "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/pl/>\n"
@@ -367,9 +367,8 @@ msgid "Failed to open file for reading."
 msgstr "Nie można otworzyć pliku do odczytu."
 
 #: src/icehelp.cc:2016
-#, fuzzy
 msgid "Failed to create a temporary file"
-msgstr "Nie udało się utworzyć nienazwanego potoku: %s"
+msgstr "Nie udało się utworzyć pliku tymczasowego"
 
 #: src/icehelp.cc:2108
 #, c-format
@@ -377,9 +376,9 @@ msgid "Failed to execute system(%s) (%d)"
 msgstr "Nie można wykonać polecenia systemowego (%s) (%d)"
 
 #: src/icehelp.cc:2131
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to decompress %s"
-msgstr "Błąd otwarcia %s: %s"
+msgstr "Nie udało się zdekompresować pliku %s"
 
 #: src/icehelp.cc:2139
 msgid "Could not locate curl or wget in PATH"
@@ -467,9 +466,9 @@ msgstr ""
 "\n"
 
 #: src/icehelp.cc:2257
-#, fuzzy, c-format
+#, c-format
 msgid "Ignoring option '%s'"
-msgstr "Nieznana akcja: \"%s\""
+msgstr "Ignorowanie opcji %s"
 
 #: src/icelist.cc:80
 msgid "List View"
@@ -532,9 +531,9 @@ msgid "Invalid workspace name: `%s'"
 msgstr "Nieprawidłowa nazwa obszaru roboczego: \"%s\""
 
 #: src/icesh.cc:434
-#, fuzzy, c-format
+#, c-format
 msgid "Workspace out of range: %ld"
-msgstr "Obszar roboczy poza zakresem: %d"
+msgstr "Obszar roboczy poza zakresem: %ld"
 
 #: src/icesh.cc:568
 #, c-format
@@ -699,9 +698,9 @@ msgstr ""
 "  -s, --sound         Uruchomienie programu icesound.\n"
 
 #: src/icesm.cc:113
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown option '%s'"
-msgstr "Nieznana akcja: \"%s\""
+msgstr "Nieznana opcja: %s"
 
 #: src/icesm.cc:298
 #, c-format
@@ -741,14 +740,13 @@ msgid "OSS incomplete write (%d/%d)"
 msgstr "Niekompletny zapis OSS (%d/%d)"
 
 #: src/icesound.cc:376
-#, fuzzy
 msgid "Could not post OSS"
-msgstr "Błąd ładowania zestawu fontów \"%s\"."
+msgstr "Nie udało się opublikować OSS"
 
 #: src/icesound.cc:405
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open OSS device %s"
-msgstr "Nie można znaleźć obrazka %s"
+msgstr "Nie udało się otworzyć urządzenia OS %s"
 
 #: src/icesound.cc:410
 msgid "Could not set OSS stereo"
@@ -782,9 +780,9 @@ msgid "Sample <%d> uploaded as `%s:%s'"
 msgstr "Próbka <%d> wysłana jako \"%s:%s\""
 
 #: src/icesound.cc:576
-#, fuzzy, c-format
+#, c-format
 msgid "Playing sample #%d: %d"
-msgstr "Odtwarzanie próbki #%d"
+msgstr "Odtwarzanie próbki #%d: %d"
 
 #: src/icesound.cc:651
 #, c-format
@@ -806,7 +804,7 @@ msgid "Unrecognized argument: %s\n"
 msgstr "Nierozpoznany argument: %s\n"
 
 #: src/icesound.cc:836
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
 "\n"
@@ -859,44 +857,68 @@ msgid ""
 "  3    Subsystems error (ie cannot connect to server).\n"
 "\n"
 msgstr ""
-"Użycie: %s [OPCJE]...\n"
-"\n"
-"Odtwarza pliki audio przy zdarzeniach GUI wywołanych przez IceWM.\n"
-"\n"
-"Opcje:\n"
-"\n"
-"-d, --display=DISPLAY         Ekran używany przez IceWM (standardowo: "
-"$DISPLAY).\n"
-"-s, --sample-dir=DIR          Określa katalog, który zawiera pliki\n"
-"                              dźwiękowe (np. ~/.icewm/sounds).\n"
-"-i, --interface=TARGET        Określa interfejs wyjścia dźwięku\n"
-"                              jeden z ALSA, OSS, YIFF, ESD\n"
-"-D, --device=DEVICE           (ALSA OSS) określa cyfrowy procesor dźwięku\n"
-"                              (standardowo (ALSA) default (OSS) /dev/dsp).\n"
-"-S, --server=ADDR:PORT        (ESD i YIFF) określa adres serwera i numer\n"
-"                              portu (standardowo localhost:16001 dla ESD\n"
-"                              i localhost:9433 dla YIFF).\n"
-"-m, --audio-mode[=MODE]       (tylko YIFF) określa tryb audio (pozostaw "
-"puste\n"
-"                              a dostaniesz listę).\n"
-"--audio-mode-auto             (tylko YIFF) zmienia w locie tryb audio na "
-"najlepszy\n"
-"                              spróbkowany (może byc przyczyną problemów \n"
-"                              z innymi klientami Y, nadpisuje\n"
-"                              --audio-mode).\n"
-"\n"
-"-v, --verbose                 Tryb gadatliwy (wypisuje każde zdarzenie "
-"dźwiękowe\n"
-"                              na stdout).\n"
-"-V, --version                 Wyświetla informację o wersji i kończy.\n"
-"-h, --help                    Wyświetla (ten) ekran pomocy i kończy.\n"
-"\n"
-"Zwracane wartości:\n"
-"\n"
-"0     Powodzenie.\n"
-"1     Ogólny błąd.\n"
-"2     Błąd linii komend.\n"
-"3     Błąd podsystemów (np. nie można podłączyć się do serwera).\n"
+"Użycie: %s [OPCJA]...↵\n"
+"↵\n"
+"Odtwarza pliki audio przy zdarzeniach GUI wywołanych przez IceWM.↵\n"
+"Aktualnie skonfigurowane interfejsy dźwiękowe: %2.↵\n"
+"Icesound wybierze pierwszy użyteczny z tych interfejsów.↵\n"
+"↵\n"
+"Opcje:↵\n"
+"↵\n"
+"-d, --display=EKRAN         Ekran X11 używany przez IceWM (domyślnie: "
+"$DISPLAY).↵\n"
+"↵\n"
+"-s, --sample-dir=KATALOG          Określa katalog z plikami dźwiękowymi.↵\n"
+"                              Domyślnie $HOME/.config/icewm/sounds.↵\n"
+"↵\n"
+"-i, --interface=LISTA        Określa interfejs wyjścia dźwięku. Co najmniej "
+"jeden z:↵\n"
+"                              %s trzech rozdzielonych przecinkami.↵\n"
+"↵\n"
+"-D, --device=URZĄDZENIE           Tylko zgodność wsteczna: urządzenie "
+"domyślne.↵\n"
+"                              Preferowana jedna z opcji: -A/-O/-S.↵\n"
+"↵\n"
+"-O, --oss=URZĄDZENIE        Określa urządzenie OSS (domyślnie: %s 4).↵\n"
+"↵\n"
+" -A, --alsa=URZĄDZENIE       Określa urządzenie ALSA (domyślnie: %s 5).↵\n"
+"↵\n"
+"-S, --server=ADRES:PORT        Określa adres i numer portu serwera ESD.↵\n"
+"                              Ustawienie domyślne w przypadku serwera ESD: "
+"localhost:16001.↵\n"
+"↵\n"
+"-z, --snooze=milisekundy  Określa interwał przerwy między zdarzeniami "
+"dźwiękowymi↵\n"
+"                         w milisekundach. Ustawieniem domyślnym jest 500 "
+"milisekund.↵\n"
+"↵\n"
+" -p, --play=dźwięk        Odtwarza podany dźwięk (nazwa lub numer) i kończy "
+"działanie.↵\n"
+"↵\n"
+" -l, --list-files        Wyświetla listę dostępnych ścieżek plików "
+"dźwiękowych i kończy działanie.↵\n"
+"↵\n"
+"     --list-sounds       Wyświetla listę nazw plików obsługiwanych dźwięków "
+"i kończy działanie.↵\n"
+"↵\n"
+"     --list-interfaces   Wyświetla listę obsług9iwanych interfejsów audio i "
+"kończy działanie.↵\n"
+"↵\n"
+"-v, --verbose                 Włączenie trybu szczegółowego i wyświetlanie "
+"każdego zdarzenia dźwiękowego.↵\n"
+"↵\n"
+"-V, --version                 Wyświetla informację o wersji i kończy "
+"działanie.↵\n"
+"↵\n"
+"-h, --help                    Wyświetla (ten) ekran pomocy i kończy "
+"działanie.↵\n"
+"↵\n"
+"Zwracane wartości:↵\n"
+"↵\n"
+"0     Powodzenie.↵\n"
+"1     Ogólny błąd.↵\n"
+"2     Błąd wiersza poleceń.↵\n"
+"3     Błąd podsystemów (np. nie można się połączyć z serwerem).↵\n"
 "\n"
 
 #: src/icesound.cc:930
@@ -939,14 +961,14 @@ msgid "Using %s audio."
 msgstr "Używanie audio %s."
 
 #: src/icesound.cc:1086
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to connect to audio interfaces %s."
-msgstr "Błąd otwarcia %s: %s"
+msgstr "Nie udało się połączyć z interfejsami audio %s."
 
 #: src/icesound.cc:1098
-#, fuzzy, c-format
+#, c-format
 msgid "Received signal %s: Terminating..."
-msgstr "Odebrano sygnał %d: Kończenie..."
+msgstr "Odebrano sygnał %s: kończenie..."
 
 #: src/icetray.cc:246
 msgid ""
@@ -990,9 +1012,9 @@ msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
 #: src/icewmbg.cc:77
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load image '%s'."
-msgstr "Błąd otwarcia %s: %s"
+msgstr "Nie udało się wczytać obrazu %s."
 
 #: src/icewmbg.cc:707
 #, fuzzy
@@ -1135,9 +1157,9 @@ msgid "icewm - About"
 msgstr "O IceWM"
 
 #: src/wmapp.cc:105
-#, fuzzy
 msgid "A window manager is already running, use --replace to replace it"
-msgstr "Inny menadżer okien jest już uruchomiony, kończenie pracy..."
+msgstr ""
+"Menadżer okien jest już uruchomiony, użyj opcji --replace, aby go zastąpić"
 
 #: src/wmapp.cc:123
 #, c-format
@@ -1401,14 +1423,14 @@ msgid "%s configuration directories:\n"
 msgstr "Katalogi konfiguracji %s:\n"
 
 #: src/wmapp.cc:1489
-#, fuzzy, c-format
+#, c-format
 msgid "%s configured options:%s\n"
-msgstr "Nierozpoznana opcja: %s\n"
+msgstr "Skonfigurowane opcje %s: %s\n"
 
 #: src/wmapp.cc:1536
-#, fuzzy, c-format
+#, c-format
 msgid "Unrecognized option '%s'."
-msgstr "Nierozpoznana opcja: %s\n"
+msgstr "Nierozpoznana opcja %s."
 
 #: src/wmapp.cc:1567
 msgid "Confirm Logout"
@@ -1423,19 +1445,19 @@ msgstr ""
 "Kontynuować?"
 
 #: src/wmconfig.cc:39
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load theme %s"
-msgstr "Błąd otwarcia %s: %s"
+msgstr "Nie udało się wczytać motywu %s"
 
 #: src/wmconfig.cc:102
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown value '%s' for option '%s'."
-msgstr "Nieznana akcja: \"%s\""
+msgstr "Nieznana wartość %s dla opcji %s."
 
 #: src/wmconfig.cc:110
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to create directory %s"
-msgstr "Nie można utworzyć procesu potomnego: %s"
+msgstr "Nie można utworzyć katalogu %s"
 
 #: src/wmconfig.cc:137
 #, c-format
@@ -1443,14 +1465,13 @@ msgid "Unable to write to %s"
 msgstr "Nie można zapisać w %s"
 
 #: src/wmconfig.cc:164
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to rename %s to %s"
-msgstr "Błąd otwarcia %s: %s"
+msgstr "Nie można zmienić nazwy %s na %s"
 
 #: src/wmdialog.cc:87
-#, fuzzy
 msgid "Loc_k Workstation"
-msgstr "Zablokuj stano_wisko"
+msgstr "Zablo_kuj stację roboczą"
 
 #: src/wmdialog.cc:89 src/ymsgbox.cc:44
 msgid "_Cancel"
@@ -1504,52 +1525,52 @@ msgid "Unknown window option: %s"
 msgstr "Nieznana opcja okna: %s"
 
 #: src/wmoption.cc:333
-#, fuzzy, c-format
+#, c-format
 msgid "Syntax error in window options on line %d of %s"
-msgstr "Błąd składni w opcjach okna"
+msgstr "Błąd składni w opcjach okna w wierszu %d pliku %s"
 
 #: src/wmprog.cc:183
 msgid "Missing command argument"
 msgstr "Polecenie wymaga podania argumentu"
 
 #: src/wmprog.cc:201
-#, fuzzy, c-format
+#, c-format
 msgid "Bad argument %d to command '%s'"
-msgstr "Nieprawidłowy argument %s dla %s"
+msgstr "Nieprawidłowy argument %d do polecenia %s"
 
 #: src/wmprog.cc:342
 msgid "Missing filename argument to include statement"
 msgstr "Brak argumentu filename w celu uwzględnienia instrukcji"
 
 #: src/wmprog.cc:408
-#, fuzzy, c-format
+#, c-format
 msgid "Error at %s '%s'"
-msgstr "Błąd przy kluczu %s"
+msgstr "Błąd w %s %s"
 
 #: src/wmprog.cc:465
-#, fuzzy, c-format
+#, c-format
 msgid "Unexepected menu keyword: '%s'"
-msgstr "Nieoczekiwane słowo kluczowe: %s"
+msgstr "Nieoczekiwane słowo kluczowe menu: %s"
 
 #: src/wmprog.cc:509
-#, fuzzy, c-format
+#, c-format
 msgid "Error at menuprog '%s'"
-msgstr "Błąd w prog %s"
+msgstr "Błąd w menuprog %s"
 
 #: src/wmprog.cc:548
-#, fuzzy, c-format
+#, c-format
 msgid "Error at %s: '%s'"
-msgstr "Błąd przy kluczu %s"
+msgstr "Błąd w %s: %s"
 
 #: src/wmprog.cc:571
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown keyword '%s'"
-msgstr "Nieznana akcja: \"%s\""
+msgstr "Nieznane słowo kluczowe: %s"
 
 #: src/wmprog.cc:596
-#, fuzzy, c-format
+#, c-format
 msgid "Error at keyword '%s' for %s"
-msgstr "Błąd przy kluczu %s"
+msgstr "Błąd w słowie kluczowym %s dla %s"
 
 #: src/wmprog.cc:612
 #, c-format
@@ -1566,23 +1587,20 @@ msgid "'%s' produces no output"
 msgstr "%s nie generuje wyniku"
 
 #: src/wmprog.cc:892
-#, fuzzy
 msgid "_Click to focus"
-msgstr "W_ciśnij by zaznaczyć"
+msgstr "_Kliknij, aby ustawić fokus"
 
 #: src/wmprog.cc:893
-#, fuzzy
 msgid "_Explicit focus"
-msgstr "W_ciśnij by zaznaczyć"
+msgstr "Fokus j_awny"
 
 #: src/wmprog.cc:894
 msgid "_Sloppy mouse focus"
 msgstr "_Swobodny fokus wskaźnika myszki"
 
 #: src/wmprog.cc:895
-#, fuzzy
 msgid "S_trict mouse focus"
-msgstr "W_ciśnij by zaznaczyć"
+msgstr "_Ograniczony fokus myszki"
 
 #: src/wmprog.cc:896
 msgid "_Quiet sloppy focus"
@@ -1793,9 +1811,10 @@ msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
 msgstr "BUG? Nieoczekiwany koniec pliku XPM ale Imlib mógł przetworzyć \"%s\""
 
 #: src/ycursor.cc:218
-#, fuzzy, c-format
+#, c-format
 msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
-msgstr "BUG? Nieoczekiwany znak ale Imlib mógł przetworzyć \"%s\""
+msgstr ""
+"USTERKA? Nieoczekiwany znak, ale program Imlib zdołał przeanalizować plik %s"
 
 #: src/yfontcore.cc:71 src/yfontxft.cc:176
 #, c-format
@@ -1846,9 +1865,8 @@ msgid "Paste _Selection"
 msgstr "Wklej wybór"
 
 #: src/yinput.cc:44
-#, fuzzy
 msgid "Ctrl+P"
-msgstr "Ctrl+Q"
+msgstr "Ctrl+P"
 
 #: src/yinput.cc:47
 msgid "Select _All"
@@ -1859,11 +1877,10 @@ msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
 #: src/ylocale.cc:46
-#, fuzzy
 msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
 msgstr ""
-"Locale nieobsługiwane przez bibliotekę C. Przywrócenie\n"
-"ustawień lokalnych \"C\"."
+"Ustawienia regionalne nieobsługiwane przez bibliotekę C lub Xlib. \n"
+"Przywrócenie ustawień regionalnych C."
 
 #: src/ylocale.cc:72
 msgid ""
@@ -1887,9 +1904,9 @@ msgid "_OK"
 msgstr "_OK"
 
 #: src/ypaths.cc:95
-#, fuzzy, c-format
+#, c-format
 msgid "Out of memory for image %s"
-msgstr "Brak pamięci dla obrazka \"%s\""
+msgstr "Brak pamięci dla obrazu %s"
 
 #: src/ypaths.cc:98
 #, c-format
@@ -1897,9 +1914,9 @@ msgid "Image not readable: %s"
 msgstr "Nie można odczytać obrazu: %s"
 
 #: src/ypaths.cc:121
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find image %s"
-msgstr "Nie można znaleźć obrazka %s"
+msgstr "Nie udało się znaleźć obrazu %s"
 
 #: src/ysmapp.cc:98
 msgid "$USER or $LOGNAME not set?"
