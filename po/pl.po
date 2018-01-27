@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: 1.2.15\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-01-16 16:56-0700\n"
-"PO-Revision-Date: 2018-01-25 14:05+0000\n"
+"PO-Revision-Date: 2018-01-27 12:04+0000\n"
 "Last-Translator: Ewelina Michalowska <ewelina.michalowska@stgambit.com>\n"
 "Language-Team: Polish "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/pl/>\n"
@@ -62,9 +62,9 @@ msgstr ""
 "softirq = %llu, steal = %llu (h = %i)\n"
 
 #: src/acpustatus.cc:261
-#, fuzzy, c-format
+#, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
-msgstr "Obciążenie procesora: %3.2f %3.2f %3.2f, %u"
+msgstr "Obciążenie procesora %s: %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:266
 #, c-format
@@ -107,9 +107,8 @@ msgid "CPU"
 msgstr "Procesor"
 
 #: src/acpustatus.cc:317
-#, fuzzy
 msgid "Load: "
-msgstr "Obciążenie procesora: "
+msgstr "Obciążenie: "
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
@@ -339,9 +338,8 @@ msgid "Support"
 msgstr "Wsparcie"
 
 #: src/icehelp.cc:1228
-#, fuzzy
 msgid "Theme Howto"
-msgstr "Autor motywu:"
+msgstr "Poradnik motywu"
 
 #: src/icehelp.cc:1230
 msgid "Website"
@@ -352,9 +350,8 @@ msgid "Github"
 msgstr "Github"
 
 #: src/icehelp.cc:1934
-#, fuzzy
 msgid "Unsupported protocol."
-msgstr "Nieobsługiwany interfejs: %s."
+msgstr "Nieobsługiwany protokół."
 
 #: src/icehelp.cc:1959
 #, c-format
