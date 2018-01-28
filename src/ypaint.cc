@@ -582,43 +582,6 @@ void Graphics::drawStringMultiline(int x, int y, const ustring &str) {
     return drawStringMultiline(x, y, cs.c_str());
 }
 
-#if 0
-struct YRotated {
-    struct R90 {
-        static int xOffset(YFont const * font) { return -font->descent(); }
-        static int yOffset(YFont const * /*font*/) { return 0; }
-
-        template <class T>
-            static T width(T const & /*w*/, T const & h) { return h; }
-        template <class T>
-            static T height(T const & w, T const & /*h*/) { return w; }
-
-
-        static void rotate(XImage * src, XImage * dst) {
-            for (int sy = src->height - 1, dx = 0; sy >= 0; --sy, ++dx)
-                for (int sx = src->width - 1, &dy = sx; sx >= 0; --sx)
-                    XPutPixel(dst, dx, dy, XGetPixel(src, sx, sy));
-        }
-    };
-
-    struct R270 {
-        static int xOffset(YFont const * font) { return -font->descent(); }
-        static int yOffset(YFont const * /*font*/) { return 0; }
-
-        template <class T>
-            static T width(T const & /*w*/, T const & h) { return h; }
-        template <class T>
-            static T height(T const & w, T const & /*h*/) { return w; }
-
-        static void rotate(XImage * src, XImage * dst) {
-            for (int sy = src->height - 1, &dx = sy; sy >= 0; --sy)
-                for (int sx = src->width - 1, dy = 0; sx >= 0; --sx, ++dy)
-                    XPutPixel(dst, dx, dy, XGetPixel(src, sx, sy));
-        }
-    };
-};
-#endif
-
 /******************************************************************************/
 
 void Graphics::fillRect(int x, int y, unsigned width, unsigned height) {
