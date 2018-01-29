@@ -387,7 +387,7 @@ bool YMenu::handleKey(const XKeyEvent &key) {
 void YMenu::handleButton(const XButtonEvent &button) {
     if (button.button == Button5) {
         if (button.type == ButtonPress && itemCount() > 0) {
-            if (button.x_root >= x() && button.x_root < (int)(x() + width())) {
+            if (inrange(button.x_root, x(), x() + int(width()) - 1)) {
                 const int itemHeight = height() / itemCount();
                 const int stepSize = max(menuFont->height(), itemHeight);
                 hideSubmenu();
@@ -398,11 +398,13 @@ void YMenu::handleButton(const XButtonEvent &button) {
                 if (menuMouseTracking)
                     trackMotion(clamp(button.x_root, x() + 2, x() + (int)width() - 3),
                                 button.y_root, button.state, true);
+                focusItem(findItem(button.x_root - x(),
+                                   button.y_root - y()));
             }
         }
     } else if (button.button == Button4) {
         if (button.type == ButtonPress && itemCount() > 0) {
-            if (button.x_root >= x() && button.x_root < (int)(x() + width())) {
+            if (inrange(button.x_root, x(), x() + int(width()) - 1)) {
                 const int itemHeight = height() / itemCount();
                 const int stepSize = max(menuFont->height(), itemHeight);
                 hideSubmenu();
@@ -413,6 +415,8 @@ void YMenu::handleButton(const XButtonEvent &button) {
                 if (menuMouseTracking)
                     trackMotion(clamp(button.x_root, x() + 2, x() + (int)width() - 3),
                                 button.y_root, button.state, true);
+                focusItem(findItem(button.x_root - x(),
+                                   button.y_root - y()));
             }
         }
     } else if (button.button) {
