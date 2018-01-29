@@ -372,31 +372,85 @@ ref<YImage> YXImage::loadjpg(upath filename)
     jpeg_create_decompress(&cinfo);
     jpeg_stdio_src(&cinfo, infile);
     (void) jpeg_read_header(&cinfo, TRUE);
+    switch (cinfo.out_color_space) {
+        case JCS_RGB:
+        case JCS_EXT_RGBA:
+        case JCS_GRAYSCALE:
+            break;
+        default:
+            warn("JPEG color space %d is not yet supported; please report this",
+                    cinfo.out_color_space);
+            jpeg_destroy_decompress(&cinfo);
+            fclose(infile);
+            return null;
+    }
     (void) jpeg_start_decompress(&cinfo);
     row_stride = cinfo.output_width * cinfo.output_components;
     buffer = (*cinfo.mem->alloc_sarray)
                 ((j_common_ptr) &cinfo, JPOOL_IMAGE, row_stride, 1);
 
-    int width = int(cinfo.output_width);
-    int height = int(cinfo.output_height);
+    const int width = int(cinfo.output_width);
+    const int height = int(cinfo.output_height);
     XImage* ximage = createImage(width, height, 32U);
     if (ximage) {
+        const bool bigendian = ximage->byte_order == MSBFirst;
+        const int colorspace = cinfo.out_color_space;
+        const int bpp = cinfo.num_components;
+
         for (int line; (line = int(cinfo.output_scanline)) < height; ) {
             (void) jpeg_read_scanlines(&cinfo, buffer, 1);
             unsigned char* buf = (unsigned char *) buffer[0];
             unsigned char* dst = (unsigned char *) ximage->data
                                + line * ximage->bytes_per_line;
-            for (int i = 0; i < width; ++i, buf += 3, dst += 4) {
-                if (ximage->byte_order == MSBFirst) {
-                    dst[0] = 0xFF;
-                    dst[1] = buf[0];
-                    dst[2] = buf[1];
-                    dst[3] = buf[2];
-                } else {
-                    dst[3] = 0xFF;
-                    dst[2] = buf[0];
-                    dst[1] = buf[1];
-                    dst[0] = buf[2];
+            if (bigendian) {
+                if (colorspace == JCS_RGB) {
+                    for (int i = 0; i < width; ++i, buf += bpp, dst += 4) {
+                        dst[0] = 0xFF;
+                        dst[1] = buf[0];
+                        dst[2] = buf[1];
+                        dst[3] = buf[2];
+                    }
+                }
+                else if (colorspace == JCS_EXT_RGBA) {
+                    for (int i = 0; i < width; ++i, buf += bpp, dst += 4) {
+                        dst[0] = buf[3];
+                        dst[1] = buf[0];
+                        dst[2] = buf[1];
+                        dst[3] = buf[2];
+                    }
+                }
+                else if (colorspace == JCS_GRAYSCALE) {
+                    for (int i = 0; i < width; ++i, buf += bpp, dst += 4) {
+                        dst[0] = 0xFF;
+                        dst[1] = buf[0];
+                        dst[2] = buf[0];
+                        dst[3] = buf[0];
+                    }
+                }
+            } else {
+                if (colorspace == JCS_RGB) {
+                    for (int i = 0; i < width; ++i, buf += bpp, dst += 4) {
+                        dst[3] = 0xFF;
+                        dst[2] = buf[0];
+                        dst[1] = buf[1];
+                        dst[0] = buf[2];
+                    }
+                }
+                else if (colorspace == JCS_EXT_RGBA) {
+                    for (int i = 0; i < width; ++i, buf += bpp, dst += 4) {
+                        dst[3] = buf[3];
+                        dst[2] = buf[0];
+                        dst[1] = buf[1];
+                        dst[0] = buf[2];
+                    }
+                }
+                else if (colorspace == JCS_GRAYSCALE) {
+                    for (int i = 0; i < width; ++i, buf += bpp, dst += 4) {
+                        dst[3] = 0xFF;
+                        dst[2] = buf[0];
+                        dst[1] = buf[0];
+                        dst[0] = buf[0];
+                    }
                 }
             }
         }
