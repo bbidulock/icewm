@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.15pre3\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-01-16 16:56-0700\n"
-"PO-Revision-Date: 2017-12-03 02:02+0000\n"
-"Last-Translator: Antoine Belvire <antoine.belvire@laposte.net>\n"
-"Language-Team: French <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/fr/>\n"
+"PO-Revision-Date: 2018-01-29 13:02+0000\n"
+"Last-Translator: Christine Gabriel <christine@stoquart.com>\n"
+"Language-Team: French "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.17.1\n"
+"X-Generator: Weblate 2.18\n"
 
 #: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:681 src/aapm.cc:806
 msgid " - Power"
@@ -42,7 +42,7 @@ msgstr " - Plein"
 #: src/aapm.cc:999
 #, c-format
 msgid "power:\t%s"
-msgstr ""
+msgstr "alimentation :\t%s"
 
 #: src/acpustatus.cc:196
 #, c-format
@@ -315,45 +315,40 @@ msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
 #: src/icehelp.cc:1216
-#, fuzzy
 msgid "Icewm(1)"
-msgstr "_Icewm(1)"
+msgstr "Icewm(1)"
 
 #: src/icehelp.cc:1218
-#, fuzzy
 msgid "Icewmbg(1)"
-msgstr "Icewm_Bg(1)"
+msgstr "Icewmbg(1)"
 
 #: src/icehelp.cc:1220
-#, fuzzy
 msgid "Icesound(1)"
-msgstr "Ice_Sound(1)"
+msgstr "Icesound(1)"
 
 #: src/icehelp.cc:1222
 msgid "FAQ"
-msgstr ""
+msgstr "FAQ"
 
 #: src/icehelp.cc:1224
-#, fuzzy
 msgid "Manual"
-msgstr "_Manuel"
+msgstr "Manuel"
 
 #: src/icehelp.cc:1226
 msgid "Support"
-msgstr ""
+msgstr "Support"
 
 #: src/icehelp.cc:1228
-#, fuzzy
 msgid "Theme Howto"
-msgstr "Auteur du thème :"
+msgstr "Thème - Procédure"
 
 #: src/icehelp.cc:1230
 msgid "Website"
-msgstr ""
+msgstr "Site Web"
 
 #: src/icehelp.cc:1232
 msgid "Github"
-msgstr ""
+msgstr "Github"
 
 #: src/icehelp.cc:1934
 msgid "Unsupported protocol."
@@ -379,7 +374,7 @@ msgstr "Échec de la création d'une fichier temporaire"
 #: src/icehelp.cc:2108
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
-msgstr ""
+msgstr "Échec de l'exécution du système  (%s) (%d)"
 
 #: src/icehelp.cc:2131
 #, c-format
@@ -431,6 +426,46 @@ msgid ""
 "%s\n"
 "\n"
 msgstr ""
+"Syntaxe : %s [OPTIONS] [ NOM_FICHIER | URL ]\n"
+"\n"
+"IceHelp est un navigateur HTML très simple pour le gestionnaire de fenêtres "
+"IceWM.\n"
+"Il peut afficher un document HTML à partir d'un fichier ou parcourir un site "
+"Web.\n"
+"Il consigne les pages visitées dans un historique qui peut être parcouru\n"
+"à l'aide de combinaisons de touches et d'un menu contextuel (clic avec le "
+"bouton droit).\n"
+"Il ne prend pas en charge le rendu d'images ni JavaScript.\n"
+"Si aucun fichier ni aucune URL ne sont spécifiés, il affiche le manuel "
+"IceWM\n"
+"à partir de %s.\n"
+"\n"
+"Options :\n"
+"  -d, --display=NAME  Nom du serveur X à utiliser.\n"
+"  --sync              Synchronise les commandes X11.\n"
+"\n"
+"  -B                  Affiche la page de manuel icewmbg de IceWM.\n"
+"  -b, --bugs          Affiche les rapports de bogue de IceWM (initialement)."
+"\n"
+"  -f, --faq           Affiche la FAQ et les procédures IceWM.\n"
+"  -g                  Affiche le site Web Github de IceWM.\n"
+"  -i, --icewm         Affiche la page de manuel icewm de IceWM.\n"
+"  -m, --manual        Affiche le manuel IceWM (par défaut).\n"
+"  -s                  Affiche la page de manuel icesound de IceWM.\n"
+"  -t, --theme         Affiche la procédure relative aux thèmes IceWM.\n"
+"  -w, --website       Affiche le site Web IceWM.\n"
+"\n"
+"  -V, --version       Imprime les informations sur la version et ferme la "
+"fenêtre.\n"
+"  -h, --help          Imprime cet écran de syntaxe et ferme la fenêtre.\n"
+"\n"
+"Variables d'environnement :\n"
+"  DISPLAY=NAME        Nom du serveur X à utiliser.\n"
+"\n"
+"Pour signaler des bogues, des demandes de support ou des commentaires, "
+"visitez :\n"
+"%s\n"
+"\n"
 
 #: src/icehelp.cc:2257
 #, c-format
@@ -552,6 +587,58 @@ msgid ""
 "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
 "\n"
 msgstr ""
+"Syntaxe : %s [OPTIONS] ACTIONS\n"
+"\n"
+"Options :\n"
+"  -display DISPLAY            Établit une connexion avec le serveur X "
+"spécifié par DISPLAY.\n"
+"                              Par défaut : $DISPLAY ou :0.0 si non défini.\n"
+"  -window WINDOW_ID           Spécifie la fenêtre à manipuler. Des "
+"identificateurs spéciaux\n"
+"                              sont « root » pour la fenêtre racine et\n"
+"                              « focus » pour la fenêtre actuellement mise en "
+"avant.\n"
+"  -class WM_CLASS             Classe de gestion de la ou des fenêtres à\n"
+"                              manipuler. Si WM_CLASS contient un point, "
+"seules les\n"
+"                              fenêtres comportant exactement la même "
+"propriété WM_CLASS\n"
+"                              correspondent. En l'absence de point, les "
+"fenêtres de la\n"
+"                              même classe et celles de la même instance\n"
+"                              (autrement dit « -name ») sont sélectionnées.\n"
+"\n"
+"Actions :\n"
+"  setIconTitle   TITLE        Définit le titre de l'icône.\n"
+"  setWindowTitle TITLE        Définit le titre de la fenêtre.\n"
+"  setGeometry    geometry     Définit la géométrie de la fenêtre.\n"
+"  setState       MASK STATE   Définit l'état de la fenêtre GNOME sur STATE.\n"
+"                              Seuls les bits sélectionnés par MASK sont "
+"affectés.\n"
+"                              STATE et MASK sont des expressions de\n"
+"                              l'« état de la fenêtre GNOME » du domaine.\n"
+"  toggleState    STATE        Active/désactive les bits d'état de la fenêtre "
+"GNOME spécifiés\n"
+"                              par l'expression STATE.\n"
+"  setHints       HINTS        Définit les astuces de la fenêtre GNOME sur "
+"HINTS.\n"
+"  setLayer       LAYER        Déplace la fenêtre vers une autre couche de "
+"fenêtre GNOME.\n"
+"  setWorkspace   WORKSPACE    Déplace la fenêtre vers un autre espace de "
+"travail. Sélectionnez\n"
+"                              la fenêtre racine pour changer l'espace de "
+"travail actuel.\n"
+"  listWorkspaces              Répertorie les noms de tous les espaces de "
+"travail.\n"
+"  setTrayOption  TRAYOPTION   Définit l'astuce de l'option de barre d'état "
+"de IceWM.\n"
+"\n"
+"Expressions :\n"
+"  Les expressions correspondent à une liste de symboles d'un domaine "
+"concaténé avec + ou | :\n"
+"\n"
+"  EXPRESSION ::= SYMBOLE | EXPRESSION ( `+' | `|' ) SYMBOLE\n"
+"\n"
 
 #: src/icesh.cc:607
 msgid "GNOME window state"
@@ -620,6 +707,15 @@ msgid ""
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
+"  -c, --config=FILE   Permet à IceWM de charger les préférences à partir du "
+"fichier FILE.\n"
+"  -t, --theme=FILE    Permet à IceWM de charger le thème à partir de FILE.\n"
+"\n"
+"  -d, --display=NAME  Utilise NAME pour se connecter au serveur X.\n"
+"  --sync              Synchronises la communication avec le serveur X11.\n"
+"\n"
+"  -n, --notray        Ne démarre pas icewmtray.\n"
+"  -s, --sound         Lance également icesound.\n"
 
 #: src/icesm.cc:113
 #, c-format
@@ -656,17 +752,16 @@ msgstr "Impossible de synchroniser OSS"
 
 #: src/icesound.cc:365
 msgid "OSS write failed"
-msgstr ""
+msgstr "Échec de l'écriture OSS"
 
 #: src/icesound.cc:369
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
-msgstr ""
+msgstr "Écriture OSS incomplète (%d/%d)"
 
 #: src/icesound.cc:376
-#, fuzzy
 msgid "Could not post OSS"
-msgstr "Impossible de charger le jeu de police \"%s\"."
+msgstr "Impossible de publier OSS"
 
 #: src/icesound.cc:405
 #, c-format
@@ -679,7 +774,7 @@ msgstr "Impossible de définir la stéréo OSS"
 
 #: src/icesound.cc:415
 msgid "Could not reset OSS DSP"
-msgstr ""
+msgstr "Impossible de réinitialiser OSS DSP"
 
 #: src/icesound.cc:420
 msgid "Could not set OSS format"
