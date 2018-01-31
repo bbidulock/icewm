@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.35\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-01-16 16:56-0700\n"
-"PO-Revision-Date: 2018-01-31 05:03+0000\n"
+"PO-Revision-Date: 2018-01-31 10:10+0000\n"
 "Last-Translator: Hwajin Kim <hwajin.kim@e4net.net>\n"
 "Language-Team: Korean "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/ko/>\n"
@@ -746,15 +746,15 @@ msgstr "OSS 장치%s을(를) 열 수 없음"
 
 #: src/icesound.cc:410
 msgid "Could not set OSS stereo"
-msgstr "OSS 스테레오를 설정할 수 없습니다."
+msgstr "OSS 스테레오를 설정할 수 없음"
 
 #: src/icesound.cc:415
 msgid "Could not reset OSS DSP"
-msgstr "OSS DSP를 재설정할 수 없습니다."
+msgstr "OSS DSP를 재설정할 수 없음"
 
 #: src/icesound.cc:420
 msgid "Could not set OSS format"
-msgstr "OSS 형식을 설정할 수 없습니다."
+msgstr "OSS 형식을 설정할 수 없음"
 
 #: src/icesound.cc:493
 #, c-format
@@ -800,7 +800,7 @@ msgid "Unrecognized argument: %s\n"
 msgstr "알아볼 수 없는 인수: %s\n"
 
 #: src/icesound.cc:836
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
 "\n"
@@ -853,38 +853,55 @@ msgid ""
 "  3    Subsystems error (ie cannot connect to server).\n"
 "\n"
 msgstr ""
-"사용법: %s [옵션]...\n"
+"사용법: %s [OPTION]...\n"
 "\n"
-"IceWM 으로 GUI 이벤트가 생겼을대 음향 파일을 재생합니다.\n"
+"IceWM에 의해 발생한 GUI 이벤트의 오디오 파일을 재생합니다.\n"
+"현재 구성된 사운드 인터페이스는 %s 2입니다.\n"
+"Icesound에서 첫 번째로 사용할 수 있는 옵션을 선택합니다.\n"
 "\n"
 "옵션:\n"
 "\n"
-"-d, --display=DISPLAY         IceWM 이 사용하는 디스플레이 (기본값: "
-"$DISPLAY).\n"
-"-s, --sample-dir=DIR          음향 파일이 있는 디렉토리를 지정 (ie ~/.icewm/"
-"sounds).\n"
-"-i, --interface=TARGET        OSS, YIFF, ESD, ALSA 중 소리를 보낼 인터페이스"
-"(1개)를 지정\n"
-"-D, --device=DEVICE           (ALSA & OSS 전용) 사용할 장치를 지정 (OSS 기"
-"본: /dev/dsp; ALSA:기본).\n"
-"-S, --server=ADDR:PORT        (ESD와 YIFF) 서버 주소와 포트 번호를 지정 (ESD"
-"용 기본값은 localhost:16001 그리고 YIFF는 localhost:9433).\n"
-"-m, --audio-mode[=MODE]       (YIFF 전용) 오디오 모드를 지정 (목록을 얻기 위"
-"해 비워 둘것).\n"
-"--audio-mode-auto             (YIFF 전용) 샘플 오디오를 최적으로 맞추기 위해 "
-"오디오 모드를 실시간으로 바꿈 (다른 Y 클라이언트와 문제를 일으킬 수 있으므"
-"로, --audio-mode 로 강제 변경).\n"
+" -d, --display=DISPLAY   IceWM이 사용하는 X11 디스플레이입니다(기본값: $DISPLAY).\n"
 "\n"
-"-v, --verbose                 말이 많도록 (기본으로 각 소리 이벤트를 출력).\n"
-"-V, --version                 출시 정보를 출력.\n"
-"-h, --help                    도움말을 출력.\n"
+" -s, --sample-dir=DIR    사운드 파일이 포함된 디렉토리를 지정합니다.\n"
+"                         기본값은 $HOME/.config/icewm/sounds입니다.\n"
 "\n"
-"Return 값:\n"
+" -i, --interface=LIST    오디오 출력 인터페이스를 지정합니다. %s에서 하나 이상을 선택합니다.\n"
+"                         하나 이상일 경우 쉼표로 구분합니다.\n"
 "\n"
-"0     성공.\n"
-"1     일반적 오류.\n"
-"2     명령행 오류.\n"
-"3     Subsystems 오류 (서버 연결 못함).\n"
+" -D, --device=DEVICE     기본 장치만 이전 버전과 호환됩니다.\n"
+"                         -A/-O/-S 옵션 중 하나를 권장하십시오.\n"
+"\n"
+" -O, --oss=DEVICE        OSS 장치를 지정합니다(기본값: \"%s 4\").\n"
+"\n"
+" -A, --alsa=DEVICE       ALSA 장치를 지정합니다(기본값: \"%s 5\").\n"
+"\n"
+" -S, --server=ADDR:PORT  ESD 서버 주소와 포트 번호를 지정합니다.\n"
+"                         ESD의 경우 기본값은 \"localhost:16001\"입니다.\n"
+"\n"
+" -z, --snooze=millisecs  사운드 이벤트(밀리초 단위) 사이의 스누즈 간격을 지정합니다.\n"
+"                         기본값은 500밀리초입니다.\n"
+"\n"
+" -p, --play=sound        지정된 사운드(이름 또는 번호)를 재생하고 종료합니다.\n"
+"\n"
+" -l, --list-files        사용할 수 있는 사운드 파일 경로를 나열하고 종료합니다.\n"
+"\n"
+"     --list-sounds       지원되는 사운드 파일 이름을 나열하고 종료합니다.\n"
+"\n"
+"     --list-interfaces   지원되는 오디오 인터페이스를 나열하고 종료합니다.\n"
+"\n"
+" -v, --verbose           자세히 표시하고 각 사운드 이벤트를 출력합니다.\n"
+"\n"
+" -V, --version           버전 정보를 인쇄하고 종료합니다.\n"
+"\n"
+" -h, --help              도움말 화면을 인쇄하고 종료합니다.\n"
+"\n"
+"반환 값:\n"
+"\n"
+"  0     성공.\n"
+"  1     일반 오류.\n"
+"  2     명령 줄 오류.\n"
+"  3     하위 시스템 오류(예: 서버에 연결할 수 없음).\n"
 "\n"
 
 #: src/icesound.cc:930
@@ -894,17 +911,17 @@ msgstr "%s에 대한 오디오 없음"
 
 #: src/icesound.cc:1007
 msgid "Could not get GUI event property"
-msgstr "GUI 이벤트 속성을 가져올 수 없습니다."
+msgstr "GUI 이벤트 속성을 가져올 수 없음"
 
 #: src/icesound.cc:1011
 #, c-format
 msgid "Received invalid GUI event %d"
-msgstr "잘못된 GUI 이벤트 %d을(를) 수신했습니다."
+msgstr "잘못된 GUI 이벤트 %d을(를) 수신함"
 
 #: src/icesound.cc:1015
 #, c-format
 msgid "Received GUI event %s"
-msgstr "GUI 이벤트 %s을(를) 수신했습니다."
+msgstr "GUI 이벤트 %s을(를) 수신함"
 
 #: src/icesound.cc:1029
 #, c-format
@@ -927,14 +944,14 @@ msgid "Using %s audio."
 msgstr "%s 오디오를 사용하는 중입니다."
 
 #: src/icesound.cc:1086
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to connect to audio interfaces %s."
-msgstr "%s를 여는 데 실패: %s"
+msgstr "오디오 인터페이스 %s에 연결하지 못했습니다."
 
 #: src/icesound.cc:1098
-#, fuzzy, c-format
+#, c-format
 msgid "Received signal %s: Terminating..."
-msgstr "%d 신호 받음: 종료..."
+msgstr "신호 %s을(를) 수신: 종료 중..."
 
 #: src/icetray.cc:246
 msgid ""
@@ -977,12 +994,11 @@ msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
 #: src/icewmbg.cc:77
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load image '%s'."
-msgstr "%s를 여는 데 실패: %s"
+msgstr "이미지 '%s'을(를) 로드하지 못했습니다."
 
 #: src/icewmbg.cc:707
-#, fuzzy
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1028,20 +1044,49 @@ msgid ""
 " center:0 scaled:1 = fill both dimensions and keep aspect ratio\n"
 "\n"
 msgstr ""
-"사용법: icewmbg [ -r | -q ]\n"
-" -r  icewmbg 다시 시작\n"
-" -q  icewmbg 끝내기\n"
-"설정 파일에 따라 바탕화면 배경을 불러옴\n"
-" DesktopBackgroundCenter  - 바탕화면 중앙에 출력\n"
-" DesktopBackgroundScaled  - 바탕화면 크기에 맞춰 출력\n"
-" SupportSemitransparency  - 반투명 터미널 지원\n"
-" DesktopBackgroundColor   - 바탕화면 배경 색\n"
-" DesktopBackgroundImage   - 바탕화면 배경 이미지\n"
-" DesktopTransparencyColor - 반투명 창에 입힐 색\n"
-" DesktopTransparencyImage - 반투명 창에 입힐 이미지\n"
+"사용법 : icewmbg [옵션]\n"
+"값을 여러 개 지정할 수 있는 경우 쉼표로 구분됩니다.\n"
+"image가 디렉토리이면 해당 디렉토리의 모든 이미지가 사용됩니다.\n"
 "\n"
-" center:0 scaled:0 = 바둑판형\n"
-" center:1 scaled:1 = 가로세로비 유지형\n"
+"옵션 :\n"
+"  -p, --replace        기존 icewmbg를 바꿉니다.\n"
+"  -q, --quit           실행중인 icewmbg에 종료할 것을 지시합니다.\n"
+"  -r, --restart        실행중인 icewmbg에 다시 시작하도록 지시합니다.\n"
+"\n"
+"  -c, --config=FILE    FILE 환경 설정을 로드합니다.\n"
+"  -t, --theme=NAME     이름이 NAME인 테마를 로드합니다.\n"
+"\n"
+"  -i, --image=FILE(S)  FILE(S)에서 배경 이미지를 불러옵니다.\n"
+"  -k, --color=NAME(S)  NAME(S)에서 배경색을 사용합니다.\n"
+"\n"
+"  -s, --semis=FILE(S)  FILE(S)에서 투명도 이미지를 로드합니다.\n"
+"  -x, --trans=NAME(S)  NAME(S)에서 투명 색을 사용합니다.\n"
+"\n"
+"  -e, --center=0/1     센터링 배경을 비활성화/활성화합니다.\n"
+"  -a, --scaled=0/1     크기 조정 배경을 비활성화/활성화합니다.\n"
+"  -m, --multi=0/1      멀티 헤드 배경을 비활성화/활성화합니다.\n"
+"\n"
+"  --display=NAME       NAME을 사용하여 X 서버에 연결합니다.\n"
+"  --sync               X11 서버와 통신을 동기화합니다.\n"
+"\n"
+"  -h, --help           이 사용 화면을 인쇄하고 종료합니다.\n"
+"  -V, --version        버전 정보를 인쇄하고 종료합니다.\n"
+"\n"
+"기본 설정 파일에 따라 데스크탑 배경을 로드합니다.\n"
+" DesktopBackgroundCenter  - 바탕 화면 배경 중앙에 표시\n"
+" DesktopBackgroundScaled  - 바탕 화면 배율 표시\n"
+" DesktopBackgroundColor   - 바탕 화면 배경색\n"
+" DesktopBackgroundImage   - 바탕 화면 배경 이미지\n"
+" SupportSemitransparency  - 반투명 터미널 지원\n"
+" DesktopTransparencyColor - 반투명 배경색\n"
+" DesktopTransparencyImage - 반투명 배경 이미지\n"
+" DesktopBackgroundMultihead - 모든 모니터에 대한 배경 정보\n"
+"\n"
+" 가운데: 0 배율: 0 = 바둑판형\n"
+" 가운데: 1 눈금: 0 = 중심\n"
+" 가운데: 1 축척: 1 = 1차원 채우기 및 가로세로비 유지형\n"
+" 가운데: 0 배율: 1 = 2차원 채우기 및 가로세로비 유지형\n"
+"\n"
 
 #: src/icewmbg.cc:754
 msgid "Please note that not all options are currently configured.\n"
@@ -1109,7 +1154,6 @@ msgid "Theme Author:"
 msgstr "테마 만든이:"
 
 #: src/wmabout.cc:40
-#, fuzzy
 msgid "CodeSet:"
 msgstr "CodeSet:"
 
@@ -1122,9 +1166,8 @@ msgid "icewm - About"
 msgstr "icewm에 관하여"
 
 #: src/wmapp.cc:105
-#, fuzzy
 msgid "A window manager is already running, use --replace to replace it"
-msgstr "다른 창 관리자 이미 실행 중, 나감..."
+msgstr "창 관리자가 이미 실행 중입니다. --replace를 사용하여 이 관리자를 바꿉니다."
 
 #: src/wmapp.cc:123
 #, c-format
@@ -1324,7 +1367,7 @@ msgstr ""
 "  --postpreferences   모든 처리 후 기본 설정을 인쇄합니다.\n"
 
 #: src/wmapp.cc:1349
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
 "Starts the IceWM window manager.\n"
@@ -1354,30 +1397,33 @@ msgid ""
 "%s\n"
 "\n"
 msgstr ""
-"사용법: %s [옵션]\n"
-"IceWM 창 관리자를 시작한다.\n"
+"사용 : %s [옵션]\n"
+"IceWM 창 관리자를 시작합니다.\n"
 "\n"
-"옵션:\n"
-"  --display=NAME      NAME의 X 서버를 사용.\n"
-"%s  --sync              X11 명령어들을 동기화.\n"
+"옵션 :\n"
+"   -d, --display=NAME  사용할 X 서버의 NAME입니다.\n"
+"%s --sync              X11 명령을 동기화합니다.\n"
+"%s\n"
+"   -V, --version       버전 정보를 인쇄하고 종료합니다.\n"
+"   -h, --help          이 사용 화면을 인쇄하고 종료합니다.\n"
+"%s\n"
+"   --replace           기존 창 관리자를 바꿉니다.\n"
+"   -r, --restart       실행중인 icewm에게 다시 시작하도록 지시합니다.\n"
 "\n"
-"  -c, --config=FILE   FILE에서 설정 값들을 읽음.\n"
-"  -t, --theme=FILE    FILE에서 테마 설정을 읽음.\n"
-"  -n, --no-configure  preferences 파일 무시.\n"
-"\n"
-"  -v, --version       버전 정보를 보이고 나감.\n"
-"  -h, --help          이 사용법 화면을 보이고 나감.\n"
-"%s  --replace           기존의 창 관리자를 교체한다.\n"
-"  --restart           이것은 사용하지 마라: 내부적 flag.\n"
+"   --configured        컴파일 시간 설정을 인쇄합니다.\n"
+"   --directories       구성 디렉토리를 인쇄합니다.\n"
+"   -l, --list-themes    사용 가능한 모든 테마 목록을 인쇄합니다.\n"
 "\n"
 "환경 변수:\n"
-"  ICEWM_PRIVCFG=PATH  사용자 개인 설정 파일들이 있는 디렉토리,\n"
-"                      기본값으로 \"$HOME/.icewm/\".\n"
-"  DISPLAY=NAME        사용할 X 서버의 이름, 기본값으로 Xlib에 의존.\n"
-"  MAIL=URL            사용자의 우편함의 위치. schema가 빠졌을 때\n"
-"                      로컬 \"file\" schema가 가정됨.\n"
+"   ICEWM_PRIVCFG=PATH  기본적으로 존재하거나, \"$HOME/.icewm\"에 있는 경우,\n"
+"                       사용자 구성 파일 용 디렉토리,\n"
+"                       \"$XDG_CONFIG_HOME/icewm\"입니다.\n"
+"   DISPLAY=NAME        사용할 X 서버의 이름입니다.\n"
+"   MAIL=URL            편지함의 위치입니다.\n"
 "\n"
-"버그 보고, 지원 요청, 의견 따위는 http://www.icewm.org/ 방문\n"
+"버그, 지원 요청 및 의견을 보고하려면 다음 사이트를 방문하십시오.\n"
+"%s\n"
+"\n"
 
 #: src/wmapp.cc:1410
 #, c-format
@@ -1385,14 +1431,14 @@ msgid "%s configuration directories:\n"
 msgstr "%s 구성 디렉터리:\n"
 
 #: src/wmapp.cc:1489
-#, fuzzy, c-format
+#, c-format
 msgid "%s configured options:%s\n"
-msgstr "알아볼 수 없는 옵션: %s\n"
+msgstr "%s 구성된 옵션: %s\n"
 
 #: src/wmapp.cc:1536
-#, fuzzy, c-format
+#, c-format
 msgid "Unrecognized option '%s'."
-msgstr "알아볼 수 없는 옵션: %s\n"
+msgstr "알아볼 수 없는 옵션: '%s'"
 
 #: src/wmapp.cc:1567
 msgid "Confirm Logout"
@@ -1407,19 +1453,19 @@ msgstr ""
 "종료할까요?"
 
 #: src/wmconfig.cc:39
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load theme %s"
-msgstr "%s를 여는 데 실패: %s"
+msgstr "테마 %s을(를) 로드하지 못함"
 
 #: src/wmconfig.cc:102
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown value '%s' for option '%s'."
-msgstr "알 수 없는 동작: `%s'"
+msgstr "'%s' 옵션에 대한 알 수 없는 값 '%s'"
 
 #: src/wmconfig.cc:110
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to create directory %s"
-msgstr "자식 프로세스 만들기 실패: %s"
+msgstr "디렉토리 %s을(를) 만들 수 없음"
 
 #: src/wmconfig.cc:137
 #, c-format
@@ -1427,9 +1473,9 @@ msgid "Unable to write to %s"
 msgstr "%s에 쓸 수 없음"
 
 #: src/wmconfig.cc:164
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to rename %s to %s"
-msgstr "%s를 여는 데 실패: %s"
+msgstr "이름을 %s에서 %s(으)로 바꿀 수 없음"
 
 #: src/wmdialog.cc:87
 msgid "Loc_k Workstation"
@@ -1487,52 +1533,52 @@ msgid "Unknown window option: %s"
 msgstr "알 수 없는 창 옵션: %s"
 
 #: src/wmoption.cc:333
-#, fuzzy, c-format
+#, c-format
 msgid "Syntax error in window options on line %d of %s"
-msgstr "창 옵션에서 문법 오류"
+msgstr "%d 라인(%s)에 있는 창 옵션 구문 오류"
 
 #: src/wmprog.cc:183
 msgid "Missing command argument"
 msgstr "명령어 인수 빠짐"
 
 #: src/wmprog.cc:201
-#, fuzzy, c-format
+#, c-format
 msgid "Bad argument %d to command '%s'"
-msgstr "인수 틀림: %s for %s"
+msgstr "잘못된 인수 %d('%s' 명령에서)"
 
 #: src/wmprog.cc:342
 msgid "Missing filename argument to include statement"
 msgstr "Include 문에 filename 인수가 없습니다."
 
 #: src/wmprog.cc:408
-#, fuzzy, c-format
+#, c-format
 msgid "Error at %s '%s'"
-msgstr "%s 키에서 오류"
+msgstr "%s '%s'에서 오류"
 
 #: src/wmprog.cc:465
-#, fuzzy, c-format
+#, c-format
 msgid "Unexepected menu keyword: '%s'"
-msgstr "예상하지 못한 키워드: %s"
+msgstr "예기치 않은 메뉴 키워드: '%s'"
 
 #: src/wmprog.cc:509
-#, fuzzy, c-format
+#, c-format
 msgid "Error at menuprog '%s'"
-msgstr "%s 프로그램에서 오류"
+msgstr "'%s' 메뉴 프로그램에서 오류"
 
 #: src/wmprog.cc:548
-#, fuzzy, c-format
+#, c-format
 msgid "Error at %s: '%s'"
-msgstr "%s 키에서 오류"
+msgstr "%s에서 오류: '%s'"
 
 #: src/wmprog.cc:571
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown keyword '%s'"
-msgstr "알 수 없는 동작: `%s'"
+msgstr "알 수 없는 키워드: '%s'"
 
 #: src/wmprog.cc:596
-#, fuzzy, c-format
+#, c-format
 msgid "Error at keyword '%s' for %s"
-msgstr "%s 키에서 오류"
+msgstr "'%s' 키워드(%s에 대한)에서 오류"
 
 #: src/wmprog.cc:612
 #, c-format
@@ -1550,26 +1596,23 @@ msgstr "'%s'은(는) 출력이 없습니다."
 
 #: src/wmprog.cc:892
 msgid "_Click to focus"
-msgstr "클릭에 의한 초점(_C)"
+msgstr "클릭에 의한 포커스(_C)"
 
 #: src/wmprog.cc:893
-#, fuzzy
 msgid "_Explicit focus"
-msgstr "클릭에 의한 초점(_C)"
+msgstr "명확한 포커스(_E)"
 
 #: src/wmprog.cc:894
 msgid "_Sloppy mouse focus"
-msgstr "마우스에 따른 초점(_S)"
+msgstr "슬로피 마우스 포커스(_S)"
 
 #: src/wmprog.cc:895
-#, fuzzy
 msgid "S_trict mouse focus"
-msgstr "마우스에 따른 초점(_S)"
+msgstr "엄격한 마우스 포커스(_S)"
 
 #: src/wmprog.cc:896
-#, fuzzy
 msgid "_Quiet sloppy focus"
-msgstr "마우스에 따른 초점(_S)"
+msgstr "조용한 슬로피 포커스(_Q)"
 
 #: src/wmprog.cc:897
 msgid "Custo_m"
@@ -1777,9 +1820,9 @@ msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
 msgstr "버그? XPM 파일 갑자기 끝났으나 Imlib는 \"%s\"를 해석할 수 있었음"
 
 #: src/ycursor.cc:218
-#, fuzzy, c-format
+#, c-format
 msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
-msgstr "버그? 예상하지 못한 글자 그러나 Imlib는 \"%s\"를 해석할 수 있었음"
+msgstr "버그? 예상하지 못한 문자이지만 Imlib는 \"%s\"을(를) 해석할 수 있었음"
 
 #: src/yfontcore.cc:71 src/yfontxft.cc:176
 #, c-format
@@ -1830,9 +1873,8 @@ msgid "Paste _Selection"
 msgstr "선택 내용 붙이기(_S)"
 
 #: src/yinput.cc:44
-#, fuzzy
 msgid "Ctrl+P"
-msgstr "Ctrl+Q"
+msgstr "Ctrl+P"
 
 #: src/yinput.cc:47
 msgid "Select _All"
@@ -1843,9 +1885,8 @@ msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
 #: src/ylocale.cc:46
-#, fuzzy
 msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
-msgstr "C 라이브러리가 지원하지 않는 로케일. 'C' 로케일로 바꿈."
+msgstr "C 라이브러리 또는 Xlib가 지원하지 않는 로케일입니다. 'C' 로케일로 폴링합니다."
 
 #: src/ylocale.cc:72
 msgid ""
