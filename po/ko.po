@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.35\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-01-16 16:56-0700\n"
-"PO-Revision-Date: 2018-01-30 17:04+0000\n"
+"PO-Revision-Date: 2018-01-31 05:03+0000\n"
 "Last-Translator: Hwajin Kim <hwajin.kim@e4net.net>\n"
 "Language-Team: Korean "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/ko/>\n"
@@ -46,7 +46,7 @@ msgid "power:\t%s"
 msgstr "전원:\t%s"
 
 #: src/acpustatus.cc:196
-#, c-format, fuzzy
+#, c-format
 msgid ""
 "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 "intr = %llu, softirq = %llu, steal = %llu\n"
@@ -64,9 +64,9 @@ msgstr ""
 "softirq = %llu, steal = %llu (h = %i)\n"
 
 #: src/acpustatus.cc:261
-#, fuzzy, c-format
+#, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
-msgstr "CPU 사용: %3.2f %3.2f %3.2f, %u"
+msgstr "CPU %s 로드: %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:266
 #, c-format
@@ -105,24 +105,21 @@ msgstr ""
 "CPU 속도: %.3fGHz"
 
 #: src/acpustatus.cc:317
-#, fuzzy
 msgid "CPU"
 msgstr "CPU"
 
 #: src/acpustatus.cc:317
-#, fuzzy
 msgid "Load: "
-msgstr "CPU 사용량: "
+msgstr "로드: "
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
 #: src/acpustatus.cc:384
-#, fuzzy
 msgid "°C"
 msgstr "°C"
 
 #: src/acpustatus.cc:670
-#, c-format, fuzzy
+#, c-format
 msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 msgstr "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 
@@ -156,17 +153,14 @@ msgid "%ld mail messages."
 msgstr "%ld 메일 메시지."
 
 #: src/amemstatus.cc:127
-#, fuzzy
 msgid "GB"
 msgstr "GB"
 
 #: src/amemstatus.cc:131
-#, fuzzy
 msgid "MB"
 msgstr "MB"
 
 #: src/amemstatus.cc:135
-#, fuzzy
 msgid "kB"
 msgstr "kB"
 
@@ -294,7 +288,6 @@ msgid "Forward"
 msgstr "앞으로"
 
 #: src/icehelp.cc:1201
-#, fuzzy
 msgid "Alt+Right"
 msgstr "Alt+Right"
 
@@ -323,22 +316,18 @@ msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
 #: src/icehelp.cc:1216
-#, fuzzy
 msgid "Icewm(1)"
 msgstr "Icewm(1)"
 
 #: src/icehelp.cc:1218
-#, fuzzy
 msgid "Icewmbg(1)"
 msgstr "Icewmbg(1)"
 
 #: src/icehelp.cc:1220
-#, fuzzy
 msgid "Icesound(1)"
 msgstr "Icesound(1)"
 
 #: src/icehelp.cc:1222
-#, fuzzy
 msgid "FAQ"
 msgstr "FAQ"
 
@@ -351,9 +340,8 @@ msgid "Support"
 msgstr "지원"
 
 #: src/icehelp.cc:1228
-#, fuzzy
 msgid "Theme Howto"
-msgstr "테마 만든이:"
+msgstr "테마 만드는 방법"
 
 #: src/icehelp.cc:1230
 msgid "Website"
@@ -364,9 +352,8 @@ msgid "Github"
 msgstr "Github"
 
 #: src/icehelp.cc:1934
-#, fuzzy
 msgid "Unsupported protocol."
-msgstr "%s: 인터페이스 지원 안 됨."
+msgstr "프로토콜 지원 안 됨."
 
 #: src/icehelp.cc:1959
 #, c-format
@@ -382,9 +369,8 @@ msgid "Failed to open file for reading."
 msgstr "읽기 위해 파일을 열지 못했습니다."
 
 #: src/icehelp.cc:2016
-#, fuzzy
 msgid "Failed to create a temporary file"
-msgstr "이름없는 파이프 만들기 실패: %s"
+msgstr "임시 파일 만들기 실패"
 
 #: src/icehelp.cc:2108
 #, c-format
@@ -392,9 +378,9 @@ msgid "Failed to execute system(%s) (%d)"
 msgstr "시스템을 실행하지 못했습니다(%s)(%d)."
 
 #: src/icehelp.cc:2131
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to decompress %s"
-msgstr "%s를 여는 데 실패: %s"
+msgstr "%s를 압축을 푸는 데 실패"
 
 #: src/icehelp.cc:2139
 msgid "Could not locate curl or wget in PATH"
@@ -476,9 +462,9 @@ msgstr ""
 "\n"
 
 #: src/icehelp.cc:2257
-#, fuzzy, c-format
+#, c-format
 msgid "Ignoring option '%s'"
-msgstr "알 수 없는 동작: `%s'"
+msgstr "옵션 '%s' 무시"
 
 #: src/icelist.cc:80
 msgid "List View"
@@ -541,9 +527,9 @@ msgid "Invalid workspace name: `%s'"
 msgstr "잘못된 작업공간 이름: `%s'"
 
 #: src/icesh.cc:434
-#, fuzzy, c-format
+#, c-format
 msgid "Workspace out of range: %ld"
-msgstr "범위 밖의 작업공간: %d"
+msgstr "범위 밖의 작업공간: %ld"
 
 #: src/icesh.cc:568
 #, c-format
@@ -708,9 +694,9 @@ msgstr ""
 "  -s, --sound         icesound도 시작합니다.\n"
 
 #: src/icesm.cc:113
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown option '%s'"
-msgstr "알 수 없는 동작: `%s'"
+msgstr "알 수 없는 옵션 '%s'"
 
 #: src/icesm.cc:298
 #, c-format
@@ -750,14 +736,13 @@ msgid "OSS incomplete write (%d/%d)"
 msgstr "OSS 완료되지 않은 쓰기(%d/%d)"
 
 #: src/icesound.cc:376
-#, fuzzy
 msgid "Could not post OSS"
-msgstr "\"%s\" 폰트셋 읽지 못함."
+msgstr "OSS를 게시할 수 없음"
 
 #: src/icesound.cc:405
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open OSS device %s"
-msgstr "%s 이미지를 찾을 수 없음"
+msgstr "OSS 장치%s을(를) 열 수 없음"
 
 #: src/icesound.cc:410
 msgid "Could not set OSS stereo"
@@ -791,9 +776,9 @@ msgid "Sample <%d> uploaded as `%s:%s'"
 msgstr "샘플 <%d>를 `%s:%s'로 업로드"
 
 #: src/icesound.cc:576
-#, fuzzy, c-format
+#, c-format
 msgid "Playing sample #%d: %d"
-msgstr "샘플 #%d 연주"
+msgstr "샘플 #%d 연주: %d"
 
 #: src/icesound.cc:651
 #, c-format
