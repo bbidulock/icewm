@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-01-16 16:56-0700\n"
-"PO-Revision-Date: 2018-02-01 09:23+0000\n"
+"PO-Revision-Date: 2018-02-01 12:01+0000\n"
 "Last-Translator: Emily Dong <Emily.Dong@excel-gits.com>\n"
 "Language-Team: Chinese (Taiwan) "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/zh_TW/>\n"
@@ -51,8 +51,8 @@ msgid ""
 "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 "intr = %llu, softirq = %llu, steal = %llu\n"
 msgstr ""
-"stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
-"intr = %llu, softirq = %llu, steal = %llu\n"
+"統計資料：user = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, intr ="
+" %llu, softirq = %llu, steal = %llu\n"
 
 #: src/acpustatus.cc:201
 #, c-format
@@ -60,8 +60,8 @@ msgid ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 "softirq = %llu, steal = %llu (h = %i)\n"
 msgstr ""
-"bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
-"softirq = %llu, steal = %llu (h = %i)\n"
+"列：user = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, softirq ="
+" %llu, steal = %llu (h = %i)\n"
 
 #: src/acpustatus.cc:261
 #, c-format
@@ -768,7 +768,7 @@ msgstr "<無>"
 #: src/icesound.cc:512
 #, c-format
 msgid "Error <%d> while uploading `%s:%s'"
-msgstr "在上傳「%2$s:%3$s」時發生錯誤 <%1$d>"
+msgstr "在上傳「%s:%s」時發生錯誤 <%d>"
 
 #: src/icesound.cc:518
 #, c-format
