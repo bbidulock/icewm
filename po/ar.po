@@ -8,17 +8,17 @@ msgstr ""
 "Project-Id-Version: icewm 1.3.12.52\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-01-16 16:56-0700\n"
-"PO-Revision-Date: 2017-05-06 10:55+0000\n"
-"Last-Translator: mohammad alhargan <malham1@gmail.com>\n"
-"Language-Team: Arabic <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
-"branch/ar/>\n"
+"PO-Revision-Date: 2018-02-03 11:00+0000\n"
+"Last-Translator: George Yacoub <george.yacoub@arabize.com>\n"
+"Language-Team: Arabic "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/ar/>\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 2.6\n"
+"X-Generator: Weblate 2.18\n"
 
 #: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:681 src/aapm.cc:806
 msgid " - Power"
@@ -43,7 +43,7 @@ msgstr " - مشحون"
 #: src/aapm.cc:999
 #, c-format
 msgid "power:\t%s"
-msgstr ""
+msgstr "الطاقة:\t%s"
 
 #: src/acpustatus.cc:196
 #, c-format
@@ -336,9 +336,8 @@ msgid "Support"
 msgstr ""
 
 #: src/icehelp.cc:1228
-#, fuzzy
 msgid "Theme Howto"
-msgstr "مالك السمة:"
+msgstr "نسق Howto"
 
 #: src/icehelp.cc:1230
 msgid "Website"
@@ -349,9 +348,8 @@ msgid "Github"
 msgstr ""
 
 #: src/icehelp.cc:1934
-#, fuzzy
 msgid "Unsupported protocol."
-msgstr "واجهة غير مدعومة: %s."
+msgstr "بروتوكول غير مدعوم."
 
 #: src/icehelp.cc:1959
 #, c-format
@@ -376,9 +374,9 @@ msgid "Failed to execute system(%s) (%d)"
 msgstr ""
 
 #: src/icehelp.cc:2131
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to decompress %s"
-msgstr "لا يمكن العثور على الصورة %s"
+msgstr "فشل إلغاء ضغط الصورة %s"
 
 #: src/icehelp.cc:2139
 msgid "Could not locate curl or wget in PATH"
@@ -427,9 +425,9 @@ msgid ""
 msgstr ""
 
 #: src/icehelp.cc:2257
-#, fuzzy, c-format
+#, c-format
 msgid "Ignoring option '%s'"
-msgstr "إجراء غير معروف: `%s'"
+msgstr "تجاهل الخيار: `%s'"
 
 #: src/icelist.cc:80
 msgid "List View"
@@ -614,9 +612,9 @@ msgid ""
 msgstr ""
 
 #: src/icesm.cc:113
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown option '%s'"
-msgstr "إجراء غير معروف: `%s'"
+msgstr "خيار غير معروف: `%s'"
 
 #: src/icesm.cc:298
 #, c-format
@@ -656,14 +654,13 @@ msgid "OSS incomplete write (%d/%d)"
 msgstr ""
 
 #: src/icesound.cc:376
-#, fuzzy
 msgid "Could not post OSS"
-msgstr "غير قادر على تحميل مجموعة الخط %s."
+msgstr "تعذر نشر OSS"
 
 #: src/icesound.cc:405
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open OSS device %s"
-msgstr "لا يمكن العثور على الصورة %s"
+msgstr "لا يمكن فتح جهاز OSS %s"
 
 #: src/icesound.cc:410
 msgid "Could not set OSS stereo"
@@ -697,9 +694,9 @@ msgid "Sample <%d> uploaded as `%s:%s'"
 msgstr "نموذج <%d> رفع ك `%s:%s'"
 
 #: src/icesound.cc:576
-#, fuzzy, c-format
+#, c-format
 msgid "Playing sample #%d: %d"
-msgstr "عرض نموذج #%d"
+msgstr "تشغيل نموذج #%d: %d"
 
 #: src/icesound.cc:651
 #, c-format
@@ -820,9 +817,9 @@ msgid "Failed to connect to audio interfaces %s."
 msgstr ""
 
 #: src/icesound.cc:1098
-#, fuzzy, c-format
+#, c-format
 msgid "Received signal %s: Terminating..."
-msgstr "تلقي إشارة %d: إنهاء..."
+msgstr "تم تلقي الإشارة %s: جارٍ الإنهاء..."
 
 #: src/icetray.cc:246
 msgid ""
@@ -859,9 +856,9 @@ msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
 #: src/icewmbg.cc:77
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load image '%s'."
-msgstr "لا يمكن العثور على الصورة %s"
+msgstr "فشل تحميل الصورة '%s'."
 
 #: src/icewmbg.cc:707
 msgid ""
@@ -981,9 +978,8 @@ msgid "icewm - About"
 msgstr "icewm - حول"
 
 #: src/wmapp.cc:105
-#, fuzzy
 msgid "A window manager is already running, use --replace to replace it"
-msgstr "مدير نوافذ آخر قيد التشغيل بالفعل، خروج..."
+msgstr "مدير نوافذ آخر قيد التشغيل بالفعل، استخدم  --استبدال لتبديله"
 
 #: src/wmapp.cc:123
 #, c-format
@@ -1219,14 +1215,14 @@ msgid "%s configuration directories:\n"
 msgstr ""
 
 #: src/wmapp.cc:1489
-#, fuzzy, c-format
+#, c-format
 msgid "%s configured options:%s\n"
-msgstr "خيارات غير مقبولة: %s\n"
+msgstr "%s خيارات تمت إعدادها:%s\n"
 
 #: src/wmapp.cc:1536
-#, fuzzy, c-format
+#, c-format
 msgid "Unrecognized option '%s'."
-msgstr "خيارات غير مقبولة: %s\n"
+msgstr "خيارا غير معروف '%s'."
 
 #: src/wmapp.cc:1567
 msgid "Confirm Logout"
@@ -1246,9 +1242,9 @@ msgid "Failed to load theme %s"
 msgstr ""
 
 #: src/wmconfig.cc:102
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown value '%s' for option '%s'."
-msgstr "إجراء غير معروف: `%s'"
+msgstr "قيمة غير معروفة '%s' للخيار '%s'."
 
 #: src/wmconfig.cc:110
 #, c-format
@@ -1261,9 +1257,9 @@ msgid "Unable to write to %s"
 msgstr ""
 
 #: src/wmconfig.cc:164
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to rename %s to %s"
-msgstr "مفتاح غير معروف %s في %s"
+msgstr "تعذرت إعادة تسمية %s إلى %s"
 
 #: src/wmdialog.cc:87
 msgid "Loc_k Workstation"
@@ -1321,32 +1317,32 @@ msgid "Unknown window option: %s"
 msgstr "خيارات النوافذ غير معروفة: %s"
 
 #: src/wmoption.cc:333
-#, fuzzy, c-format
+#, c-format
 msgid "Syntax error in window options on line %d of %s"
-msgstr "خطأ في خيارات النوافذ"
+msgstr "خطأ بناء جملة في في خيارات النوافذ في السطر %d 1 الخاص بـ %s 2"
 
 #: src/wmprog.cc:183
 msgid "Missing command argument"
 msgstr "أمر الحجج مفقود"
 
 #: src/wmprog.cc:201
-#, fuzzy, c-format
+#, c-format
 msgid "Bad argument %d to command '%s'"
-msgstr "حجج سيئة: %s من أجل %s"
+msgstr "وسيطة غير صالحة %d للأمر '%s'"
 
 #: src/wmprog.cc:342
 msgid "Missing filename argument to include statement"
 msgstr ""
 
 #: src/wmprog.cc:408
-#, fuzzy, c-format
+#, c-format
 msgid "Error at %s '%s'"
-msgstr "خطأ في المفتاح %s"
+msgstr "خطأ في %s '%s'"
 
 #: src/wmprog.cc:465
-#, fuzzy, c-format
+#, c-format
 msgid "Unexepected menu keyword: '%s'"
-msgstr "كلمة غير متوقعة: %s"
+msgstr "كلمة أساس قائمة غير متوقعة: %s"
 
 #: src/wmprog.cc:509
 #, fuzzy, c-format
@@ -1354,19 +1350,19 @@ msgid "Error at menuprog '%s'"
 msgstr "خطأ في المفتاح %s"
 
 #: src/wmprog.cc:548
-#, fuzzy, c-format
+#, c-format
 msgid "Error at %s: '%s'"
-msgstr "خطأ في المفتاح %s"
+msgstr "خطأ في %s: '%s'"
 
 #: src/wmprog.cc:571
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown keyword '%s'"
-msgstr "إجراء غير معروف: `%s'"
+msgstr "كلمة أساس غير معروفة: `%s'"
 
 #: src/wmprog.cc:596
-#, fuzzy, c-format
+#, c-format
 msgid "Error at keyword '%s' for %s"
-msgstr "خطأ في المفتاح %s"
+msgstr "خطأ في كلمة أساس '%s' لـ %s"
 
 #: src/wmprog.cc:612
 #, c-format
@@ -1385,39 +1381,37 @@ msgid "_Click to focus"
 msgstr "انقر للتكبير"
 
 #: src/wmprog.cc:893
-#, fuzzy
 msgid "_Explicit focus"
-msgstr "انقر للتكبير"
+msgstr "تركيز _صريح"
 
 #: src/wmprog.cc:894
 msgid "_Sloppy mouse focus"
 msgstr "تركيز فأرة سيئ"
 
 #: src/wmprog.cc:895
-#, fuzzy
 msgid "S_trict mouse focus"
-msgstr "تركيز فأرة سيئ"
+msgstr "تركيز فأرة د_قيق"
 
 #: src/wmprog.cc:896
-#, fuzzy
 msgid "_Quiet sloppy focus"
-msgstr "تركيز فأرة سيئ"
+msgstr "تركيز فأرة _سيئ"
 
 #: src/wmprog.cc:897
 msgid "Custo_m"
-msgstr "تخصيص"
+msgstr "تخصي_ص"
 
 #: src/wmprog.cc:919
 msgid "_Manual"
-msgstr ""
+msgstr "يدو_ي"
 
 #: src/wmprog.cc:920
 msgid "_Icewm(1)"
-msgstr ""
+msgstr "_Icewm(1)"
 
 #: src/wmprog.cc:921
+#, fuzzy
 msgid "Icewm_Bg(1)"
-msgstr ""
+msgstr "Icewm_Bg(1)"
 
 #: src/wmprog.cc:922
 msgid "Ice_Sound(1)"
