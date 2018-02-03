@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.7\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-01-16 16:56-0700\n"
-"PO-Revision-Date: 2018-02-02 13:03+0000\n"
+"PO-Revision-Date: 2018-02-03 22:03+0000\n"
 "Last-Translator: Robert Taisz <robert.taisz@emerald.hu>\n"
 "Language-Team: Hungarian "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/hu/>\n"
@@ -391,7 +391,7 @@ msgstr "Az elérési út nem hivatkozik fájlra."
 
 #: src/icehelp.cc:1987
 msgid "Failed to open file for reading."
-msgstr ""
+msgstr "Nem sikerült megnyitni a fájlt olvasáshoz."
 
 #: src/icehelp.cc:2016
 msgid "Failed to create a temporary file"
@@ -400,7 +400,7 @@ msgstr "Nem sikerült létrehozni egy ideiglenes fájlt"
 #: src/icehelp.cc:2108
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
-msgstr ""
+msgstr "Nem sikerült végrehajtani a rendszerparancsot (%s) (%d)"
 
 #: src/icehelp.cc:2131
 #, c-format
@@ -409,11 +409,11 @@ msgstr "Nem sikerült a(z) %s kibontása"
 
 #: src/icehelp.cc:2139
 msgid "Could not locate curl or wget in PATH"
-msgstr ""
+msgstr "Nem sikerült megtalálni a curl vagy a wget programot a PATH változóban"
 
 #: src/icehelp.cc:2143
 msgid "Unsafe characters in URL"
-msgstr ""
+msgstr "Az URL nem biztonságos karaktereket tartalmaz"
 
 #: src/icehelp.cc:2180
 #, c-format
@@ -723,12 +723,12 @@ msgstr "Ismeretlen beállítás: '%s 1'"
 #: src/icesm.cc:298
 #, c-format
 msgid "%s exited with status %d."
-msgstr ""
+msgstr "A(z) %s kilépett a következő állapottal: %d."
 
 #: src/icesm.cc:304
 #, c-format
 msgid "%s was killed by signal %d."
-msgstr ""
+msgstr "A(z) %s programot leállította a(z) %d jel."
 
 #: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
 #, c-format
@@ -738,24 +738,24 @@ msgstr "%d (%s) minta lejátszása"
 #: src/icesound.cc:337
 #, c-format
 msgid "%s: Invalid number of channels"
-msgstr ""
+msgstr "%s: A csatornák száma érvénytelen"
 
 #: src/icesound.cc:343 src/icesound.cc:348
 msgid "Could not set OSS channels"
-msgstr ""
+msgstr "Nem sikerült beállítani az OSS-csatornákat"
 
 #: src/icesound.cc:353 src/icesound.cc:381
 msgid "Could not sync OSS"
-msgstr ""
+msgstr "Nem sikerült az OSS szinkronizálása"
 
 #: src/icesound.cc:365
 msgid "OSS write failed"
-msgstr ""
+msgstr "Nem sikerült az OSS írása"
 
 #: src/icesound.cc:369
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
-msgstr ""
+msgstr "Nem teljes írás az OSS-en (%d/%d)"
 
 # ../src/ypaint.cc:262
 #: src/icesound.cc:376
@@ -770,15 +770,15 @@ msgstr "Nem sikerült megnyitni a(z) %s OSS-eszközt"
 
 #: src/icesound.cc:410
 msgid "Could not set OSS stereo"
-msgstr ""
+msgstr "Nem sikerült a sztereó OSS beállítása"
 
 #: src/icesound.cc:415
 msgid "Could not reset OSS DSP"
-msgstr ""
+msgstr "Nem sikerült az OSS DSP visszaállítása"
 
 #: src/icesound.cc:420
 msgid "Could not set OSS format"
-msgstr ""
+msgstr "Nem sikerült az OSS formátum beállítása"
 
 #: src/icesound.cc:493
 #, c-format
@@ -809,11 +809,11 @@ msgstr "#%d minta lejátszása: %d"
 #: src/icesound.cc:651
 #, c-format
 msgid "ao_open_live failed with %d"
-msgstr ""
+msgstr "Nem sikerült az ao_open_live végrehajtása, hiba: %d"
 
 #: src/icesound.cc:662
 msgid "ao_play failed"
-msgstr ""
+msgstr "Nem sikerült az ao_play végrehajtása"
 
 # ../src/wmoption.cc:209
 #: src/icesound.cc:824
@@ -884,26 +884,26 @@ msgstr ""
 #: src/icesound.cc:930
 #, c-format
 msgid "No audio for %s"
-msgstr ""
+msgstr "%s - nincs hang"
 
 #: src/icesound.cc:1007
 msgid "Could not get GUI event property"
-msgstr ""
+msgstr "Nem sikerült lekérni a GUI-esemény tulajdonságát"
 
 #: src/icesound.cc:1011
 #, c-format
 msgid "Received invalid GUI event %d"
-msgstr ""
+msgstr "A fogadott GUI-esemény érvénytelen: %d"
 
 #: src/icesound.cc:1015
 #, c-format
 msgid "Received GUI event %s"
-msgstr ""
+msgstr "Fogadott GUI-esemény: %s"
 
 #: src/icesound.cc:1029
 #, c-format
 msgid "Too quick; ignoring %s."
-msgstr ""
+msgstr "Túl gyors, a(z) %s figyelmen kívül hagyva."
 
 #: src/icesound.cc:1033
 #, c-format
@@ -918,7 +918,7 @@ msgstr "Nem támogatott %s eszköz."
 #: src/icesound.cc:1082
 #, c-format
 msgid "Using %s audio."
-msgstr ""
+msgstr "%s hang használata."
 
 #: src/icesound.cc:1086
 #, c-format
@@ -1024,11 +1024,11 @@ msgstr ""
 
 #: src/icewmbg.cc:754
 msgid "Please note that not all options are currently configured.\n"
-msgstr ""
+msgstr "Vegye figyelembe, hogy nincs megadva az összes beállítás.\n"
 
 #: src/icewmbg.cc:900
 msgid "Cannot start, because another icewmbg is still running."
-msgstr ""
+msgstr "Nem lehet elindítani, mert egy másik icewmbg még fut."
 
 # ../src/icewmhint.cc:47
 #: src/icewmhint.cc:41
@@ -1112,15 +1112,15 @@ msgstr ""
 #: src/wmapp.cc:123
 #, c-format
 msgid "Failed to become the owner of the %s selection"
-msgstr ""
+msgstr "Nem sikerült a(z) %s választás tulajdonosakénti beállítás"
 
 #: src/wmapp.cc:127
 msgid "Waiting to replace the old window manager"
-msgstr ""
+msgstr "Várakozás a régi ablakkezelő lecserélésére"
 
 #: src/wmapp.cc:132
 msgid "done."
-msgstr ""
+msgstr "Kész."
 
 # ../src/wmapp.cc:177
 #: src/wmapp.cc:418
@@ -1160,7 +1160,7 @@ msgstr "_Kikapcsolás"
 
 #: src/wmapp.cc:537 src/wmdialog.cc:88
 msgid "_Suspend"
-msgstr ""
+msgstr "_Felfüggesztés"
 
 # ../src/wmapp.cc:468
 #: src/wmapp.cc:542
@@ -1313,7 +1313,7 @@ msgstr ""
 
 #: src/wmapp.cc:819
 msgid "Kill IceWM, replace with Xterm"
-msgstr ""
+msgstr "IceWM leállítása, lecserélés az Xtermre"
 
 #: src/wmapp.cc:1330
 msgid ""
@@ -1370,7 +1370,7 @@ msgstr ""
 #: src/wmapp.cc:1410
 #, c-format
 msgid "%s configuration directories:\n"
-msgstr ""
+msgstr "%s konfigurációs könyvtárai:\n"
 
 # ../src/wmoption.cc:209
 #: src/wmapp.cc:1489
@@ -1417,7 +1417,7 @@ msgstr "Nem sikerült a könyvtár létrehozása: %s"
 #: src/wmconfig.cc:137
 #, c-format
 msgid "Unable to write to %s"
-msgstr ""
+msgstr "Nem lehet írni a következőre: %s"
 
 #: src/wmconfig.cc:164
 #, c-format
@@ -1511,7 +1511,7 @@ msgstr "A(z) %d argumentum nem megfelelő a(z) '%s' parancsnál"
 
 #: src/wmprog.cc:342
 msgid "Missing filename argument to include statement"
-msgstr ""
+msgstr "Hiányzik a filename argumentum az utasítás felvételéhez"
 
 # ../src/wmprog.cc:349
 #: src/wmprog.cc:408
@@ -1558,39 +1558,39 @@ msgstr ""
 #: src/wmprog.cc:744
 #, c-format
 msgid "'%s' produces no output"
-msgstr ""
+msgstr "A(z) '%s' nem hoz létre kimenetet"
 
 #: src/wmprog.cc:892
 msgid "_Click to focus"
-msgstr ""
+msgstr "_Kattintson a fókuszáláshoz"
 
 #: src/wmprog.cc:893
 msgid "_Explicit focus"
-msgstr ""
+msgstr "_Explicit fókusz"
 
 #: src/wmprog.cc:894
 msgid "_Sloppy mouse focus"
-msgstr ""
+msgstr "_Pontatlan egérmutatós fókusz"
 
 #: src/wmprog.cc:895
 msgid "S_trict mouse focus"
-msgstr ""
+msgstr "P_ontos egérmutatós fókusz"
 
 #: src/wmprog.cc:896
 msgid "_Quiet sloppy focus"
-msgstr ""
+msgstr "_Egyszerű pontatlan fókusz"
 
 #: src/wmprog.cc:897
 msgid "Custo_m"
-msgstr ""
+msgstr "Egyé_ni"
 
 #: src/wmprog.cc:919
 msgid "_Manual"
-msgstr ""
+msgstr "_Kézi"
 
 #: src/wmprog.cc:920
 msgid "_Icewm(1)"
-msgstr ""
+msgstr "_Icewm(1)"
 
 #: src/wmprog.cc:921
 msgid "Icewm_Bg(1)"
@@ -1768,7 +1768,7 @@ msgstr "%lu. Munkaterület %-.32s"
 #: src/yapp.cc:276
 #, c-format
 msgid "%s: select failed"
-msgstr ""
+msgstr "%s: nem sikerült a kiválasztás"
 
 # ../src/wmconfig.cc:248
 #: src/yconfig.cc:139
@@ -1946,7 +1946,7 @@ msgstr "Elfogyott a memória a következő képhez: %s"
 #: src/ypaths.cc:98
 #, c-format
 msgid "Image not readable: %s"
-msgstr ""
+msgstr "A kép nem olvasható: %s"
 
 # ../src/icons.cc:220
 #: src/ypaths.cc:121
