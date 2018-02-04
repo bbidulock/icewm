@@ -18,14 +18,6 @@ if(NOT HTMLDIR)
 endif()
 
 #
-# The destination directory for manpages.
-#
-if(NOT MANDIR)
-    set(MANDIR "${DATADIR}/man")
-endif()
-set(MAN1DIR "${MANDIR}/man1")
-
-#
 # Detect AsciiDoc convertor to HTML.
 #
 if(NOT ASCIIDOC)
