@@ -869,7 +869,7 @@ void YFrameWindow::startMoveSize(int x, int y,
     int sx[] = { -1, 0, 1, 1, 1, 0, -1, -1, };
     int sy[] = { -1, -1, -1, 0, 1, 1, 1, 0, };
 
-    if (inrange(direction, 0, int ACOUNT(sx))) {
+    if (inrange(direction, 0, int ACOUNT(sx) - 1)) {
         MSG(("move size %d %d direction %d", x, y, direction));
         startMoveSize(false, true, sx[direction], sy[direction], x, y);
     }
