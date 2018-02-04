@@ -537,12 +537,12 @@ ref<YPixmap> Background::renderBackground(ref<YPixmap> back, YColor* color) {
             scaled = back;
         }
         g.drawPixmap(scaled,
-                     max(0U, (bw - width) / 2),
-                     max(0U, (bh - height) / 2),
+                     max(0, int(bw - width) / 2),
+                     max(0, int(bh - height) / 2),
                      min(width, bw),
                      min(height, bh),
-                     max(x, x + (int)(width - bw) / 2),
-                     max(y, y + (int)(height - bh) / 2));
+                     max(x, x + int(width - bw) / 2),
+                     max(y, y + int(height - bh) / 2));
     }
     back = cBack;
 
