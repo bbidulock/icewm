@@ -18,6 +18,21 @@
 #include <setjmp.h>
 #endif
 
+struct Verbose {
+    const bool verbose;
+    Verbose() : verbose(init()) { }
+    bool init() const {
+        if (getenv("DEBUG_YXIMAGE"))
+            return true;
+        mstring home(getenv("HOME"));
+        upath file(home + "/.icewm/debug_yximage");
+        return file.fileExists();
+    }
+    operator bool() const { return verbose; }
+};
+
+static Verbose verbose;
+
 class YXImage: public YImage {
 public:
     YXImage(XImage *ximage, bool bitmap = false) :
@@ -782,6 +797,8 @@ ref<YImage> YImage::createFromPixmapAndMask(Pixmap pixmap, Pixmap mask,
         tlog("could not get gometry of pixmap 0x%lx\n", pixmap);
         return image;
     }
+
+    if (verbose)
     tlog("creating YXImage from pixmap 0x%lx mask 0x%lx, %ux%ux%u+%d+%d\n", pixmap, mask, w, h, d, x, y);
     if (width != w || height != h) {
         tlog("pixmap 0x%lx: width=%u, w=%u, height=%u, h=%u\n", pixmap, width, w, height, h);
@@ -1021,15 +1038,19 @@ void YXImage::composite(Graphics& g, int x, int y,
     bool bitmap = isBitmap();
     unsigned long fg = g.color() ? g.color()->pixel() & 0x00FFFFFF : 0;
     unsigned long bg = 0x00000000; /* for now */
+
+    if (verbose)
     tlog("compositing %ux%u+%d+%d of %ux%ux%u onto drawable 0x%lx at +%d+%d\n", w, h, x, y, wi, hi, di, g.drawable(), dx, dy);
     Window root;
     int _x, _y;
     unsigned _w, _h, _b, _d;
 
     if (XGetGeometry(xapp->display(), g.drawable(), &root, &_x, &_y, &_w, &_h, &_b, &_d))
+        if (verbose)
         tlog("drawable 0x%lx has geometry %ux%ux%u+%d+%d\n", g.drawable(), _w, _h, _d, _x, _y);
     if (g.xorigin() > dx) {
         if ((int) w <= g.xorigin() - dx) {
+            if (verbose)
             tlog("ERROR: coordinates out of bounds\n");
             return;
         }
@@ -1039,6 +1060,7 @@ void YXImage::composite(Graphics& g, int x, int y,
     }
     if (g.yorigin() > dy) {
         if ((int) h <= g.xorigin() - dx) {
+            if (verbose)
             tlog("ERROR: coordinates out of bounds\n");
             return;
         }
@@ -1048,6 +1070,7 @@ void YXImage::composite(Graphics& g, int x, int y,
     }
     if ((int) (dx + w) > (int) (g.xorigin() + g.rwidth())) {
         if ((int) (g.xorigin() + g.rwidth()) <= dx) {
+            if (verbose)
             tlog("ERROR: coordinates out of bounds\n");
             return;
         }
@@ -1055,22 +1078,27 @@ void YXImage::composite(Graphics& g, int x, int y,
     }
     if ((int) (dy + h) > (int) (g.yorigin() + g.rheight())) {
         if ((int) (g.yorigin() + g.rheight()) <= dy) {
+            if (verbose)
             tlog("ERROR: coordinates out of bounds\n");
             return;
         }
         h = g.yorigin() + g.rheight() - dy;
     }
     if (w <= 0 || h <= 0) {
+        if (verbose)
         tlog("ERROR: coordinates out of bounds\n");
         return;
     }
     if (!hasAlpha()) {
+        if (verbose)
         tlog("simply putting %ux%u+0+0 of ximage %ux%ux%u onto drawable %ux%ux%u at +%d+%d\n",
               w, h, wi, hi, di, _w, _h, _d, dx-g.xorigin(), dy-g.yorigin());
         // tlog("next request %lu at %s: +%d : %s()\n", NextRequest(xapp->display()), __FILE__, __LINE__, __func__);
         XPutImage(xapp->display(), g.drawable(), g.handleX(), fImage,  0, 0, dx - g.xorigin(), dy - g.yorigin(), w, h);
         return;
     }
+
+    if (verbose)
     tlog("getting image %ux%u+%d+%d from drawable %ux%ux%u\n", w, h, dx-g.xorigin(), dy-g.yorigin(), _w, _h, _d);
     // tlog("next request %lu at %s: +%d : %s()\n", NextRequest(xapp->display()), __FILE__, __LINE__, __func__);
     xback = XGetImage(xapp->display(), g.drawable(), dx - g.xorigin(), dy - g.yorigin(), w, h, AllPlanes, ZPixmap);
@@ -1118,6 +1146,8 @@ void YXImage::composite(Graphics& g, int x, int y,
             XPutPixel(xback, i, j, pixel);
         }
     }
+
+    if (verbose)
     tlog("putting %ux%u+0+0 of ximage %ux%ux%u on drawable %ux%ux%u at +%d+%d\n",
           w, h, xback->width, xback->height, xback->depth, _w, _h, _d, dx-g.xorigin(), dy-g.yorigin());
     // tlog("next request %lu at %s: +%d : %s()\n", NextRequest(xapp->display()), __FILE__, __LINE__, __func__);
