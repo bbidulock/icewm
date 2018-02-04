@@ -213,10 +213,6 @@ Graphics::Graphics(YWindow & window,
 {
     rWidth = window.width();
     rHeight = window.height();
-    if (rWidth == 3) {
-        tlog("graphics created for drawable 0x%lx with width == 3\n", fDrawable);
-        show_backtrace();
-    }
     rDepth = (window.depth() ? window.depth() : xapp->depth());
     gc = XCreateGC(display(), drawable(), vmask, gcv);
 #ifdef CONFIG_XFREETYPE
@@ -231,10 +227,6 @@ Graphics::Graphics(YWindow & window):
  {
     rWidth = window.width();
     rHeight = window.height();
-    if (rWidth == 3) {
-        tlog("graphics created for drawable 0x%lx with width == 3\n", fDrawable);
-        show_backtrace();
-    }
     rDepth = (window.depth() ? window.depth() : xapp->depth());
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(display(), drawable(), GCGraphicsExposures, &gcv);
@@ -250,10 +242,6 @@ Graphics::Graphics(ref<YPixmap> pixmap, int x_org, int y_org):
  {
     rWidth = pixmap->width();
     rHeight = pixmap->height();
-    if (rWidth == 3) {
-        tlog("graphics created for drawable 0x%lx with width == 3\n", fDrawable);
-        show_backtrace();
-    }
     rDepth = pixmap->depth();
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(display(), drawable(), GCGraphicsExposures, &gcv);
@@ -269,10 +257,6 @@ Graphics::Graphics(Drawable drawable, unsigned w, unsigned h, unsigned depth,
     xOrigin(0), yOrigin(0),
     rWidth(w), rHeight(h), rDepth(depth)
 {
-    if (rWidth == 3) {
-        tlog("graphics created for drawable 0x%lx with width == 3\n", fDrawable);
-        show_backtrace();
-    }
     gc = XCreateGC(display(), drawable, vmask, gcv);
 #ifdef CONFIG_XFREETYPE
     fXftDraw = 0;
@@ -285,10 +269,6 @@ Graphics::Graphics(Drawable drawable, unsigned w, unsigned h, unsigned depth):
     xOrigin(0), yOrigin(0),
     rWidth(w), rHeight(h), rDepth(depth)
 {
-    if (rWidth == 3) {
-        tlog("graphics created for drawable 0x%lx with width == 3\n", fDrawable);
-        show_backtrace();
-    }
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(display(), drawable, GCGraphicsExposures, &gcv);
 #ifdef CONFIG_XFREETYPE

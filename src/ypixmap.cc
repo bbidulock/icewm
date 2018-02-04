@@ -4,12 +4,7 @@
 #include "yxapp.h"
 
 static Pixmap createPixmap(int w, int h, int depth) {
-    Pixmap pixmap = XCreatePixmap(xapp->display(), desktop->handle(), w, h, depth);
-    if (w == 3) {
-            tlog("created pixmap 0x%lx with width of 3 pixels\n", pixmap);
-            show_backtrace();
-    }
-    return pixmap;
+    return XCreatePixmap(xapp->display(), desktop->handle(), w, h, depth);
 }
 
 #if 0

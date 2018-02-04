@@ -832,15 +832,32 @@ bool testOnce(const char* file, const int line) {
 }
 
 void show_backtrace(const int limit) {
-    void *buffer[32];
-    int nptr;
-    char **strings;
-    int i;
+#if defined(HAVE_BACKTRACE_SYMBOLS_FD) && defined(HAVE_EXECINFO_H)
+    const int asize = Elvis(limit, 20);
+    void *array[asize];
+    const int count = backtrace(array, asize);
+    const char tool[] = "/usr/bin/addr2line";
+    const char* path = program_invocation_name;
 
-    tlog("backtrace:\n");
-    if ((nptr = backtrace(buffer, 32)) && (strings = backtrace_symbols(buffer, nptr)))
-        for (i = 0; i < nptr; i++)
-            fprintf(stderr, "\t%s\n", strings[i]);
+    fprintf(stderr, "backtrace:\n"); fflush(stderr);
+
+    int status(1);
+    if (path && access(path, R_OK) == 0 && access(tool, X_OK) == 0) {
+        const size_t bufsize(1234);
+        char buf[bufsize];
+        snprintf(buf, bufsize, "%s -C -f -p -s -e '%s'", tool, path);
+        size_t len = strlen(buf);
+        for (int i = 0; i < count && len + 21 < bufsize; ++i) {
+            snprintf(buf + len, bufsize - len, " %p", array[i]);
+            len += strlen(buf + len);
+        }
+        status = system(buf);
+    }
+    if (status) {
+        backtrace_symbols_fd(array, count, 2);
+    }
+    fprintf(stderr, "end\n");
+#endif
 }
 
 /* read from file descriptor and zero terminate buffer. */
