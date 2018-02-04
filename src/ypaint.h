@@ -135,13 +135,6 @@ public:
                   const int dx, const int dy);
     void copyDrawable(const Drawable d, const int x, const int y,
                       const unsigned w, const unsigned h, const int dx, const int dy);
-#if 0
-    void copyImage(XImage * im, const int x, const int y,
-                   const unsigned w, const int unsigned, const int dx, const int dy);
-    void copyImage(XImage * im, const int x, const int y) {
-        copyImage(im, 0, 0, im->width, im->height, x, y);
-    }
-#endif
     void copyPixmap(ref<YPixmap> p, const int x, const int y,
                      const unsigned w, const unsigned h, const int dx, const int dy);
 

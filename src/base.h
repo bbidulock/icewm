@@ -87,52 +87,7 @@ char *newstr(char const *str, char const *delim);
 char *cstrJoin(char const *str, ...);
 
 char* demangle(const char* str);
-
-#if 0
-/*
- * Convert unsigned to string
- */
-template <class T>
-inline char * utoa(T u, char * s, unsigned const len) {
-    if (len > DECIMAL_DIGIT_COUNT(T)) {
-        *(s += DECIMAL_DIGIT_COUNT(u) + 1) = '\0';
-        do { *--s = '0' + u % 10; } while (u /= 10);
-        return s;
-    } else
-        return 0;
-}
-
-template <class T>
-static char const * utoa(T u) {
-    static char s[DECIMAL_DIGIT_COUNT(int) + 1];
-    return utoa(u, s, sizeof(s));
-}
-
-/*
- * Convert signed to string
- */
-template <class T>
-inline char * itoa(T i, char * s, unsigned const len, bool sign = false) {
-    if (len > DECIMAL_DIGIT_COUNT(T) + 1) {
-        if (i < 0) {
-            s = utoa(-i, s, len);
-            *--s = '-';
-        } else {
-            s = utoa(i, s, len);
-            if (sign) *--s = '+';
-        }
-
-        return s;
-    } else
-        return 0;
-}
-
-template <class T>
-static char const * itoa(T i, bool sign = false) {
-    static char s[DECIMAL_DIGIT_COUNT(int) + 2];
-    return itoa(i, s, sizeof(s), sign);
-}
-#endif
+unsigned long strhash(const char* str);
 
 /*** Message Functions ********************************************************/
 
@@ -200,6 +155,11 @@ inline char const * niceUnit(T & val, char const * const units[],
 
     return uname;
 }
+
+// be true just once: only the first evaluation
+#define ONCE    testOnce(__FILE__, __LINE__)
+
+bool testOnce(const char* file, const int line);
 
 /*** Bit Operations ***********************************************************/
 

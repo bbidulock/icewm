@@ -175,23 +175,25 @@ void YMenu::focusItem(int itemNo) {
         selectedItem = itemNo;
 
         int dx, dy;
-        unsigned dw, dh;
-        desktop->getScreenGeometry(&dx, &dy, &dw, &dh, getXiScreen());
+        unsigned uw, uh;
+        desktop->getScreenGeometry(&dx, &dy, &uw, &uh, getXiScreen());
+        const int dw = int(uw), dh = int(uh);
 
         if (selectedItem != -1) {
             if (x() < dx || y() < dy ||
-                x() + width() > dx + dw ||
-                y() + height() > dy + dh)
+                x() + int(width()) > dx + dw ||
+                y() + int(height()) > dy + dh)
             {
                 int ix, iy;
-                unsigned ih;
+                unsigned uh;
+
+                findItemPos(selectedItem, ix, iy, uh);
+                const int ih = int(uh);
+
                 int ny = y();
-
-                findItemPos(selectedItem, ix, iy, ih);
-
-                if (y() + iy + ih > dy + dh)
+                if (ny + iy + ih > dy + dh)
                     ny = dx + dh - ih - iy;
-                else if (y() + iy < dy)
+                else if (ny + iy < dy)
                     ny = -iy;
                 setPosition(x(), ny);
             }
@@ -218,8 +220,8 @@ void YMenu::activateSubMenu(int item, bool byMouse) {
             YRect rect(x(), y(), width(), height());
             sub->setActionListener(getActionListener());
             sub->popup(0, this, 0,
-                       x() + width() - r, y() + yp - t,
-                       width() - r - l, -1,
+                       x() + int(width()) - r, y() + yp - t,
+                       int(width()) - r - l, -1,
                        getXiScreen(),
                        YPopupWindow::pfCanFlipHorizontal |
                        (popupFlags() & YPopupWindow::pfFlipHorizontal) |
@@ -331,6 +333,30 @@ bool YMenu::handleKey(const XKeyEvent &key) {
                     focusItem(findActiveItem(selectedItem, -1));
                 else if (k == XK_Down || k == XK_KP_Down)
                     focusItem(findActiveItem(selectedItem, 1));
+                else if (k == XK_Page_Up || k == XK_KP_Page_Up) {
+                    int item = selectedItem;
+                    while (0 < item && selectedItem < item + 10) {
+                        int found = findActiveItem(item, -1);
+                        if (0 <= found && found < item)
+                            item = found;
+                        else
+                            break;
+                    }
+                    if (inrange(item, 0, selectedItem - 1))
+                        focusItem(item);
+                }
+                else if (k == XK_Page_Down || k == XK_KP_Page_Down) {
+                    int item = selectedItem;
+                    while (item + 1 < itemCount() && item < selectedItem + 10) {
+                        int found = findActiveItem(item, +1);
+                        if (found < itemCount() && item < found)
+                            item = found;
+                        else
+                            break;
+                    }
+                    if (inrange(item, selectedItem + 1, itemCount() - 1))
+                        focusItem(item);
+                }
                 else if (k == XK_Home || k == XK_KP_Home)
                     focusItem(findActiveItem(itemCount() - 1, 1));
                 else if (k == XK_End || k == XK_KP_End)
@@ -346,10 +372,9 @@ bool YMenu::handleKey(const XKeyEvent &key) {
                         activateItem(key.state, false);
                         return true;
                     }
-                } else if ((k < 256) && ((m & ~ShiftMask) == 0)) {
+                } else if (k < 256) {
                     if (findHotItem(ASCII::toUpper((char)k)) == 1) {
-                        if (!(m & ShiftMask))
-                            activateItem(key.state, false);
+                        activateItem(key.state, false);
                     }
                     return true;
                 }
@@ -361,31 +386,37 @@ bool YMenu::handleKey(const XKeyEvent &key) {
 
 void YMenu::handleButton(const XButtonEvent &button) {
     if (button.button == Button5) {
-        if (button.type == ButtonPress) {
-            if (button.x_root >= x() && button.x_root < (int)(x() + width())) {
+        if (button.type == ButtonPress && itemCount() > 0) {
+            if (inrange(button.x_root, x(), x() + int(width()) - 1)) {
+                const int itemHeight = height() / itemCount();
+                const int stepSize = max(menuFont->height(), itemHeight);
                 hideSubmenu();
                 setPosition(x(), clamp(y() - (int)(button.state & ShiftMask ?
-                                                   menuFont->height() * 5/2 :
-                                                   menuFont->height()),
+                                                   3 * stepSize : stepSize),
                                        button.y_root - (int)height() + 1,
                                        button.y_root));
                 if (menuMouseTracking)
                     trackMotion(clamp(button.x_root, x() + 2, x() + (int)width() - 3),
                                 button.y_root, button.state, true);
+                focusItem(findItem(button.x_root - x(),
+                                   button.y_root - y()));
             }
         }
     } else if (button.button == Button4) {
-        if (button.type == ButtonPress) {
-            if (button.x_root >= x() && button.x_root < (int)(x() + width())) {
+        if (button.type == ButtonPress && itemCount() > 0) {
+            if (inrange(button.x_root, x(), x() + int(width()) - 1)) {
+                const int itemHeight = height() / itemCount();
+                const int stepSize = max(menuFont->height(), itemHeight);
                 hideSubmenu();
                 setPosition(x(), clamp(y() + (int)(button.state & ShiftMask ?
-                                                   menuFont->height() * 5/2 :
-                                                   menuFont->height()),
+                                                   3 * stepSize : stepSize),
                                        button.y_root - (int)height() + 1,
                                        button.y_root));
                 if (menuMouseTracking)
                     trackMotion(clamp(button.x_root, x() + 2, x() + (int)width() - 3),
                                 button.y_root, button.state, true);
+                focusItem(findItem(button.x_root - x(),
+                                   button.y_root - y()));
             }
         }
     } else if (button.button) {
@@ -464,11 +495,16 @@ void YMenu::handleMotion(const XMotionEvent &motion) {
             int const fh(menuFont->height());
 
             int dx, dy;
-            unsigned dw, dh;
-            desktop->getScreenGeometry(&dx, &dy, &dw, &dh, getXiScreen());
+            unsigned uw, uh;
+            desktop->getScreenGeometry(&dx, &dy, &uw, &uh, getXiScreen());
+            const int dw = int(uw), dh = int(uh);
 
-            int const sx(motion.x_root < fh ? +fh : motion.x_root >= (int) ((dx + dw - fh - 1) ? -fh : 0)),
-                      sy(motion.y_root < fh ? +fh : motion.y_root >= (int) ((dy + dh - fh - 1) ? -fh : 0));
+            int const sx(motion.x_root < fh ? +fh :
+                         motion.x_root >= (dx + dw - fh - 1) ? -fh :
+                         0),
+                      sy(motion.y_root < fh ? +fh :
+                         motion.y_root >= (dy + dh - fh - 1) ? -fh :
+                         0);
 
             if (motion.y_root >= y() && motion.y_root < (y() + (int) height()) &&
                 motion.x_root >= x() && motion.x_root < (x() + (int) width()))
@@ -574,12 +610,13 @@ bool YMenu::handleAutoScroll(const XMotionEvent & /*mouse*/) {
     int py = y();
 
     int dx, dy;
-    unsigned dw, dh;
-    desktop->getScreenGeometry(&dx, &dy, &dw, &dh, getXiScreen());
+    unsigned uw, uh;
+    desktop->getScreenGeometry(&dx, &dy, &uw, &uh, getXiScreen());
+    const int dw = int(uw), dh = int(uh);
 
     if (fAutoScrollDeltaX != 0) {
         if (fAutoScrollDeltaX < 0) {
-            if (px + width() > dx + dw)
+            if (px + int(width()) > dx + dw)
                 px += fAutoScrollDeltaX + 1;
         } else {
             if (px < dx)
@@ -588,7 +625,7 @@ bool YMenu::handleAutoScroll(const XMotionEvent & /*mouse*/) {
     }
     if (fAutoScrollDeltaY != 0) {
         if (fAutoScrollDeltaY < 0) {
-            if (py + height() > dy + dh)
+            if (py + int(height()) > dy + dh)
                 py += fAutoScrollDeltaY + 1;
         } else {
             if (py < dy)
@@ -754,10 +791,10 @@ void YMenu::getOffsets(int &left, int &top, int &right, int &bottom) {
 }
 
 void YMenu::getArea(int &x, int &y, unsigned &w, unsigned &h) {
-    int r = w, b = h;
-    getOffsets(x, y, r, b);
-    w = width() - 1 - x - r;
-    h = height() - 1 - y - b;
+    int right = 0, bottom = 0;
+    getOffsets(x, y, right, bottom);
+    w = int(width()) - 1 - x - right;
+    h = int(height()) - 1 - y - bottom;
 }
 
 int YMenu::findItemPos(int itemNo, int &x, int &y, unsigned &ih) {
@@ -786,26 +823,24 @@ int YMenu::findItem(int mx, int my) {
     unsigned w, h;
 
     getArea(x, y, w, h);
-    for (int i = 0; i < itemCount(); i++) {
+    for (int i = 0; i < itemCount(); i++, y += int(h)) {
         int top, bottom, pad;
 
         h = fItems[i]->queryHeight(top, bottom, pad);
 
-        if (my >= y && my < y + (int) h && mx > 0 && mx < int(width()) - 1) {
+        if (inrange(my, y, y + int(h)) && inrange(mx, 1, int(width()) - 1)) {
             if (!fItems[i]->isSeparator())
                 return i;
             else
                 return -1;
         }
-
-        y += h;
     }
 
     return -1;
 }
 
 void YMenu::sizePopup(int hspace) {
-    unsigned width, height;
+    int width, height;
     int maxName(0);
     int maxParam(0);
     int maxIcon(16);
@@ -815,8 +850,9 @@ void YMenu::sizePopup(int hspace) {
 
     getOffsets(l, t, r, b);
     int dx, dy;
-    unsigned dw, dh;
-    desktop->getScreenGeometry(&dx, &dy, &dw, &dh, getXiScreen());
+    unsigned uw, uh;
+    desktop->getScreenGeometry(&dx, &dy, &uw, &uh, getXiScreen());
+    int dw = int(uw);
 
     width = l;
     height = t;
@@ -824,8 +860,9 @@ void YMenu::sizePopup(int hspace) {
     for (int i = 0; i < itemCount(); i++) {
         const YMenuItem *mitem = getItem(i);
 
-        int ih, top, bottom, pad;
-        height+= (ih = mitem->queryHeight(top, bottom, pad));
+        int top, bottom, pad;
+        int ih = mitem->queryHeight(top, bottom, pad);
+        height += ih;
 
         if (pad > padx) padx = pad;
         if (top > left) left = top;
@@ -850,14 +887,16 @@ void YMenu::sizePopup(int hspace) {
     width = paramPos + maxParam + 4 + r + 10;
     height += b;
 
-    if (menubackPixbuf != null
-        && !(fGradient != null &&
-             fGradient->width() == width &&
-             fGradient->height() == height)) {
-        fGradient = menubackPixbuf->scale(width, height);
+    if (menubackPixbuf != null) {
+        if (fGradient == null ||
+            int(fGradient->width()) != width ||
+            int(fGradient->height()) != height)
+        {
+            fGradient = menubackPixbuf->scale(width, height);
+        }
     }
 
-    setSize(width, height);
+    setSize(unsigned(width), unsigned(height));
 }
 
 void YMenu::repaintItem(int item) {
