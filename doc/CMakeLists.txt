@@ -18,6 +18,14 @@ if(NOT HTMLDIR)
 endif()
 
 #
+# The destination directory for manpages.
+#
+if(NOT MANDIR)
+    set(MANDIR "${DATADIR}/man")
+endif()
+set(MAN1DIR "${MANDIR}/man1")
+
+#
 # Detect AsciiDoc convertor to HTML.
 #
 if(NOT ASCIIDOC)
@@ -29,6 +37,30 @@ if((ASCIIDOC) AND (NOT ASCIIDOC_BACKEND))
     elseif(ASCIIDOC MATCHES asciidoc$)
         set(ASCIIDOC_BACKEND "--backend=html4")
     endif()
+endif()
+
+#
+# Convert AsciiDoc pages to HTML.
+#
+if((ASCIIDOC) AND (ASCIIDOC_BACKEND))
+    set(HTML_OUTPUT_FILES)
+    foreach(adoc ${ADOC_NAMES})
+        string(REGEX REPLACE "\\.adoc$" ".html" htm "${adoc}")
+        set(txt "${CMAKE_SOURCE_DIR}/doc/${adoc}")
+        set(out "${CMAKE_BINARY_DIR}/${htm}")
+        ADD_CUSTOM_COMMAND(OUTPUT "${out}"
+            COMMAND "${ASCIIDOC}" "${ASCIIDOC_BACKEND}" -o "${out}" "${txt}"
+            DEPENDS "${txt}"
+            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+            )
+        list(APPEND HTML_OUTPUT_FILES "${out}")
+    endforeach()
+    ADD_CUSTOM_TARGET(build_html_docs ALL DEPENDS ${HTML_OUTPUT_FILES})
+else()
+    message(WARNING "asciidoctor or its backend not found.\n"
+            "NOT regenerating HTML documentation.\n"
+            "To rebuild install asciidoctor or asciidoc.")
+    FILE(GLOB HTML_OUTPUT_FILES *.html)
 endif()
 
 #
