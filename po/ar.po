@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.3.12.52\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-02-03 20:04-0700\n"
-"PO-Revision-Date: 2018-02-03 11:00+0000\n"
+"PO-Revision-Date: 2018-02-04 17:00+0000\n"
 "Last-Translator: George Yacoub <george.yacoub@arabize.com>\n"
-"Language-Team: Arabic <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/ar/>\n"
+"Language-Team: Arabic "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/ar/>\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,6 +51,8 @@ msgid ""
 "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 "intr = %llu, softirq = %llu, steal = %llu\n"
 msgstr ""
+"الحالة:\tالمستخدم = %llu، nice = %llu، sys = %llu، idle = %llu، iowait = "
+"%llu، intr = %llu, softirq = %llu،  steal = %llu\n"
 
 #: src/acpustatus.cc:201
 #, c-format
@@ -58,6 +60,8 @@ msgid ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 "softirq = %llu, steal = %llu (h = %i)\n"
 msgstr ""
+"أشرطة:\tالمستخدم = %llu، nice = %llu، sys = %llu، iowait = %llu، intr = %llu،"
+" softirq = %llu، steal = %llu (h = %i)\n"
 
 #: src/acpustatus.cc:261
 #, c-format
@@ -150,39 +154,39 @@ msgstr "%ld رسالة معرف البريد."
 
 #: src/amemstatus.cc:127
 msgid "GB"
-msgstr ""
+msgstr "جيجا بايت"
 
 #: src/amemstatus.cc:131
 msgid "MB"
-msgstr ""
+msgstr "ميجا بايت"
 
 #: src/amemstatus.cc:135
 msgid "kB"
-msgstr ""
+msgstr "كيلو بايت"
 
 #: src/amemstatus.cc:139
 msgid "bytes"
-msgstr ""
+msgstr "وحدات بايت"
 
 #: src/amemstatus.cc:163
 msgid "Memory Total: "
-msgstr ""
+msgstr "إجمالي الذاكرة: "
 
 #: src/amemstatus.cc:164
 msgid "Free: "
-msgstr ""
+msgstr "المساحة المتوفرة: "
 
 #: src/amemstatus.cc:165
 msgid "Cached: "
-msgstr ""
+msgstr "المساحة المخزنة مؤقتًا: "
 
 #: src/amemstatus.cc:166
 msgid "Buffers: "
-msgstr ""
+msgstr "الذاكرات الوسيطة: "
 
 #: src/amemstatus.cc:167
 msgid "User: "
-msgstr ""
+msgstr "المستخدم: "
 
 #: src/apppstatus.cc:198
 #, c-format
@@ -312,28 +316,29 @@ msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
 #: src/icehelp.cc:1216
+#, fuzzy
 msgid "Icewm(1)"
-msgstr ""
+msgstr "Icewm(1)"
 
 #: src/icehelp.cc:1218
 msgid "Icewmbg(1)"
-msgstr ""
+msgstr "Icewmbg(1)"
 
 #: src/icehelp.cc:1220
 msgid "Icesound(1)"
-msgstr ""
+msgstr "Icesound(1)"
 
 #: src/icehelp.cc:1222
 msgid "FAQ"
-msgstr ""
+msgstr "الأسئلة والإجابات المتداولة"
 
 #: src/icehelp.cc:1224
 msgid "Manual"
-msgstr ""
+msgstr "يدوي"
 
 #: src/icehelp.cc:1226
 msgid "Support"
-msgstr ""
+msgstr "دعم"
 
 #: src/icehelp.cc:1228
 msgid "Theme Howto"
@@ -341,11 +346,11 @@ msgstr "نسق Howto"
 
 #: src/icehelp.cc:1230
 msgid "Website"
-msgstr ""
+msgstr "موقع ويب"
 
 #: src/icehelp.cc:1232
 msgid "Github"
-msgstr ""
+msgstr "Github"
 
 #: src/icehelp.cc:1934
 msgid "Unsupported protocol."
@@ -358,20 +363,20 @@ msgstr "مسار غير صالح: %s\n"
 
 #: src/icehelp.cc:1982
 msgid "Path does not refer to a file."
-msgstr ""
+msgstr "لا يشير المسار إلى ملف."
 
 #: src/icehelp.cc:1987
 msgid "Failed to open file for reading."
-msgstr ""
+msgstr "فشل فتح الملف للقراءة."
 
 #: src/icehelp.cc:2016
 msgid "Failed to create a temporary file"
-msgstr ""
+msgstr "فشل إنشاء ملف مؤقت"
 
 #: src/icehelp.cc:2108
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
-msgstr ""
+msgstr "فشل تنفيذ النظام (%s) (%d)"
 
 #: src/icehelp.cc:2131
 #, c-format
@@ -380,11 +385,11 @@ msgstr "فشل إلغاء ضغط الصورة %s"
 
 #: src/icehelp.cc:2139
 msgid "Could not locate curl or wget in PATH"
-msgstr ""
+msgstr "تعذر تحديد مسار curl أو wget في PATH"
 
 #: src/icehelp.cc:2143
 msgid "Unsafe characters in URL"
-msgstr ""
+msgstr "هناك أحرف غير آمنة في URL"
 
 #: src/icehelp.cc:2180
 #, c-format
@@ -423,6 +428,41 @@ msgid ""
 "%s\n"
 "\n"
 msgstr ""
+"Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
+"\n"
+"IceHelp عبارة عن مستعرض بتنسيق HTML لمدير نوافذ IceWM بسيط للغاية.\n"
+"يمكنه عرض مستند بتنسيق HTML من ملف أو استعراض موقع ويب.\n"
+"كما يمكنه تذكر الصفحات التي تمت زيارتها في سجل، والذي يمكن التنقل من خلاله \n"
+"بواسطة ارتباطات مفاتيح وقائمة سياق (نقر بزر الماوس الأيمن).\n"
+"إنه لا يدعم عرض الصور ولا JavaScript.\n"
+"في حالة عدم تحديد أي ملف أو URL، سيقوم بعرض دليل IceWM من %s.\n"
+"\n"
+"\n"
+"الخيارات:\n"
+"  -d، --عرض=NAME اسم خادم X المطلوب استخدامه.\n"
+"  --مزامنة              مزامنة أوامر X11.\n"
+"\n"
+"\n"
+"-B                  عرض صفحة دليل IceWM icewmbg.\n"
+"-  b، --أخطاء          عرض تقارير أخطاء IceWM (بشكل مبدئي).\n"
+"F، --الأسئلة المتداولة           عرض الأسئلة المتداولة حول IceWM  والإجابة "
+"عليها.\n"
+"-  g                  عرض موقع ويب IceWM Github.\n"
+"-  i، --         عرض صفحة دليل IceWM icewm.\n"
+"-  m، --دليل        عرض دليل IceWM (افتراضي).\n"
+"-  s                  عرض صفحة دليل IceWM icesound.\n"
+"-  t، --سمة         عرض سمات IceWM والإرشادات التوضيحية الخاصة بها.\n"
+"- W  -موقع ويب       عرض موقع ويب IceWM.\n"
+"\n"
+"\n"
+"    -V، --إصدار      يقوم بطباعة معلومات الإصدار ومساحات التخصيص\n"
+"  -h --مساعدة          يقوم بطباعة شاشة الاستخدام هذه ومساحات التخصيص.\n"
+"\n"
+"متغيرات البيئة:\n"
+"  DISPLAY=NAME        اسم خادم X المطلوب استخدامه.\n"
+"للإبلاغ عن أخطاء وطلبات الدعم والتعليقات، الرجاء زيارة :\n"
+"%s\n"
+"\n"
 
 #: src/icehelp.cc:2257
 #, c-format
@@ -544,6 +584,43 @@ msgid ""
 "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
 "\n"
 msgstr ""
+"الاستخدام: %s [OPTIONS] ACTIONS\n"
+"\n"
+"الخيارات:\n"
+"  -عرض DISPLAY            يتصل بخادم X  المحدد بواسطة DISPLAY.\n"
+"                              الافتراضي: $DISPLAY أو :0.0 عند عدم التعيين.\n"
+"  -النافذة WINDOW_ID           يحدد النافذة المطلوب معالجتها. المعرفان\n"
+"الخاصان هما `جذر` جذر النافذة و`تركيز` النافذة التي يتم التركيز عليها حاليً"
+"ا. إذا كان WM_CLASS به فترة، لا تتطابق سوى \n"
+"النوافذ التي لها نفس خاصية WM_CLASS بالضبط. أما في حالة عدم وجود فترة، يتم "
+"تحديد نفس الفئة ونوافذ نفس النسخة (aka. `-name').\n"
+"\n"
+"\n"
+"الإجراءات:\n"
+"  setIconTitle   TITLE        تعيين عنوان الأيقونة.\n"
+"  setWindowTitle TITLE        تعيين عنوان النافذة.\n"
+"  setGeometry    geometry     تعيين هندسة النافذة\n"
+"  setState       MASK STATE   تعيين حالة نافذة GNOME إلى STATE.\n"
+"                              يتم التأثير على وحدات البايت المحددة فقط "
+"بواسطة MASK.\n"
+"STATE وmask هما تعبيران للمجال \n"
+"‘حالة نافذة GNOME’\n"
+"\n"
+"  toggleState    STATE        تبديل وحدات بت نافذة GNOME بواسطة\n"
+"                              التعبير STATE.\n"
+"\n"
+"  setHints       HINTS        تعيين تلميحات نافذة GNOME إلى HINTS.\n"
+"  setLayer       LAYER        نقل النافذة إلة طبقة نافذة GNOME أخرى.\n"
+"  setWorkspace   WORKSPACE    نقل النافذة إلى مساحة عمل أخرى. حدد\n"
+"                              النافذة الجذر لتغيير مساحة العمل الحالية.\n"
+"  listWorkspaces              سرد أسماء كل مساحات العمل.\n"
+"  setTrayOption  TRAYOPTION   تعيين تلميح خيار درج IceWM.\n"
+"\n"
+"التعبيرات:\n"
+"التعبيرات هي عبارة عن قائمة لمجال واحد متصل بواسطة `+' أو `|':\n"
+"\n"
+"  التعبير ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
+"\n"
 
 #: src/icesh.cc:607
 msgid "GNOME window state"
@@ -610,6 +687,14 @@ msgid ""
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
+"  -c، --config=FILE   يتيح تحميل IceWM  لتفضيلات من FILE.\n"
+"  -t, --theme=FILE    يتيح تحميل IceWM للسمة من FILE.\n"
+"\n"
+"  -d، --display=NAME  استخدام NAME للاتصال بخادم X.\n"
+"  --مزامنة              مزامنة الاتصال بخادم X11.\n"
+"\n"
+"  -n, --notray        لا تقم ببدء تشغيل icewmtray.\n"
+"  -s، --sound         بدء تشغيل icesound أيضًا.\n"
 
 #: src/icesm.cc:113
 #, c-format
@@ -619,12 +704,12 @@ msgstr "خيار غير معروف: `%s'"
 #: src/icesm.cc:298
 #, c-format
 msgid "%s exited with status %d."
-msgstr ""
+msgstr "انتهى %s بالحالة %d."
 
 #: src/icesm.cc:304
 #, c-format
 msgid "%s was killed by signal %d."
-msgstr ""
+msgstr "تم إنهاء %s بواسطة الإشارة %d."
 
 #: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
 #, c-format
@@ -634,24 +719,24 @@ msgstr "عرض نموذج #%d (%s)"
 #: src/icesound.cc:337
 #, c-format
 msgid "%s: Invalid number of channels"
-msgstr ""
+msgstr "%s: عدد الأحرف غير صالح"
 
 #: src/icesound.cc:343 src/icesound.cc:348
 msgid "Could not set OSS channels"
-msgstr ""
+msgstr "تعذر تعيين قنوات OSS"
 
 #: src/icesound.cc:353 src/icesound.cc:381
 msgid "Could not sync OSS"
-msgstr ""
+msgstr "تعذرت مزامنة OSS"
 
 #: src/icesound.cc:365
 msgid "OSS write failed"
-msgstr ""
+msgstr "فشلت كتابة OSS"
 
 #: src/icesound.cc:369
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
-msgstr ""
+msgstr "كتابة OSS غير مكتملة (%d/%d)"
 
 #: src/icesound.cc:376
 msgid "Could not post OSS"
@@ -664,15 +749,15 @@ msgstr "لا يمكن فتح جهاز OSS %s"
 
 #: src/icesound.cc:410
 msgid "Could not set OSS stereo"
-msgstr ""
+msgstr "تعذر تعيين نظام OSS الصوتي"
 
 #: src/icesound.cc:415
 msgid "Could not reset OSS DSP"
-msgstr ""
+msgstr "تعذرت إعادة تعيين OSS DSP"
 
 #: src/icesound.cc:420
 msgid "Could not set OSS format"
-msgstr ""
+msgstr "تعذر تعيين تنسيق OSS"
 
 #: src/icesound.cc:493
 #, c-format
@@ -701,7 +786,7 @@ msgstr "تشغيل نموذج #%d: %d"
 #: src/icesound.cc:651
 #, c-format
 msgid "ao_open_live failed with %d"
-msgstr ""
+msgstr "فشل ao_open_live مع وجود %d 1"
 
 #: src/icesound.cc:662
 msgid "ao_play failed"
