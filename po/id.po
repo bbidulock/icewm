@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2018-01-16 16:56-0700\n"
+"POT-Creation-Date: 2018-02-03 20:04-0700\n"
 "PO-Revision-Date: 2017-11-03 14:12+0700\n"
 "Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian <https://l10n.opensuse.org/projects/icewm/"
@@ -1066,11 +1066,11 @@ msgstr "Penggunaan: icewmhint [class.instance] opsi argumen\n"
 msgid "Out of memory (len=%d)."
 msgstr "Kehabisan memori (len=%d)."
 
-#: src/misc.cc:439 src/misc.cc:451
+#: src/misc.cc:440 src/misc.cc:452
 msgid "Warning: "
 msgstr "Peringatan: "
 
-#: src/misc.cc:720
+#: src/misc.cc:728
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"

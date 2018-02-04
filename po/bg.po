@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.10\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2018-01-16 16:56-0700\n"
+"POT-Creation-Date: 2018-02-03 20:04-0700\n"
 "PO-Revision-Date: 2017-02-26 21:51+0000\n"
 "Last-Translator: Shyukri Shyukriev <shshyukriev@suse.com>\n"
 "Language-Team: Bulgarian <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -1020,11 +1020,11 @@ msgstr "Употреба: icewmhint [class.instance] option arg\n"
 msgid "Out of memory (len=%d)."
 msgstr "Недостатъчна памет (len=%d)."
 
-#: src/misc.cc:439 src/misc.cc:451
+#: src/misc.cc:440 src/misc.cc:452
 msgid "Warning: "
 msgstr "Предупреждение: "
 
-#: src/misc.cc:720
+#: src/misc.cc:728
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"

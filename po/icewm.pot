@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: icewm 1.4.2.1066\n"
+"Project-Id-Version: icewm 1.4.2.1114\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2018-01-16 16:56-0700\n"
+"POT-Creation-Date: 2018-02-03 20:04-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -906,11 +906,11 @@ msgstr ""
 msgid "Out of memory (len=%d)."
 msgstr ""
 
-#: src/misc.cc:439 src/misc.cc:451
+#: src/misc.cc:440 src/misc.cc:452
 msgid "Warning: "
 msgstr ""
 
-#: src/misc.cc:720
+#: src/misc.cc:728
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"

@@ -11,11 +11,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2018-01-16 16:56-0700\n"
+"POT-Creation-Date: 2018-02-03 20:04-0700\n"
 "PO-Revision-Date: 2018-01-23 12:01+0000\n"
 "Last-Translator: Grace Yu <grace.yu@excel-gits.com>\n"
-"Language-Team: Chinese (China) "
-"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/zh_CN/>\n"
+"Language-Team: Chinese (China) <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/zh_CN/>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1104,11 +1104,11 @@ msgstr "用法：icewmhint [class.instance] option arg\n"
 msgid "Out of memory (len=%d)."
 msgstr "内存不足（len=%d）。"
 
-#: src/misc.cc:439 src/misc.cc:451
+#: src/misc.cc:440 src/misc.cc:452
 msgid "Warning: "
 msgstr "警告： "
 
-#: src/misc.cc:720
+#: src/misc.cc:728
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
