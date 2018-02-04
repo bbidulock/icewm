@@ -2,6 +2,7 @@
 #include "base.h"
 #include "intl.h"
 #include "yapp.h"
+#include "ytimer.h"
 #include "sysdep.h"
 #include "appnames.h"
 #ifdef HAVE_WORDEXP
@@ -122,11 +123,12 @@ public:
     SessionManager(int *argc, char ***argv): YApplication(argc, argv) {
         options(argc, argv);
         startup_phase = 0;
-        logout = false;
         wm_pid = -1;
         tray_pid = -1;
         sound_pid = -1;
         bg_pid = -1;
+        crashtime = zerotime();
+
         catchSignal(SIGCHLD);
         catchSignal(SIGTERM);
         catchSignal(SIGINT);
@@ -284,6 +286,8 @@ private:
                     tray_pid = -1;
                     checkTrayExitStatus(status);
                 }
+                else if (pid == sound_pid)
+                    sound_pid = -1;
                 else if (pid == bg_pid)
                     bg_pid = -1;
             }
@@ -298,13 +302,110 @@ private:
                 tlog(_("%s exited with status %d."),
                         ICEWMEXE, WEXITSTATUS(status));
             }
-            this->exit(0);
+            this->exit(WEXITSTATUS(status));
         }
         else if (WIFSIGNALED(status)) {
             tlog(_("%s was killed by signal %d."),
                     ICEWMEXE, WTERMSIG(status));
+            if (isCoreSignal(WTERMSIG(status))) {
+                if (crashtime == zerotime()) {
+                    crashtime = monotime();
+                }
+                else {
+                    timeval previous = crashtime;
+                    crashtime = monotime();
+                    double delta = toDouble(crashtime - previous);
+                    if (inrange(delta, 0.00001, 10.0)) {
+                        if (enquireRestart() == false) {
+                            return;
+                        }
+                    }
+                }
+            }
             runWM();
         }
+    }
+
+    bool isCoreSignal(int signo) {
+        switch (signo) {
+            case SIGILL:
+            case SIGBUS:
+            case SIGFPE:
+            case SIGSEGV:
+            case SIGABRT: return true;
+        }
+        return false;
+    }
+
+    bool enquireRestart() {
+        const char message[] =
+            " IceWM crashed for the second time in 10 seconds. \n"
+            " Do you wish to:\n\n"
+            "\t1: Restart IceWM?\n"
+            "\t2: Abort this session?\n"
+            ;
+        const char title[] = "IceWM crash response";
+        const char xmes[] = "/usr/bin/xmessage";
+        const char kdia[] = "/usr/bin/kdialog";
+        const char zeni[] = "/usr/bin/zenity";
+        const size_t commandSize(1234);
+        char command[commandSize] = "";
+        const int timeout = 123;
+        if (upath(xmes).isExecutable()) {
+            snprintf(command, commandSize,
+                     "%s "
+                     " -buttons Restart,Abort "
+                     " -default Restart "
+                     " -font 10x20 "
+                     " -background black "
+                     " -bordercolor orange "
+                     " -foreground yellow "
+                     " -center "
+                     " -timeout %d "
+                     " -title '%s' "
+                     " '\n%s\n' ",
+                     xmes, timeout, title, message);
+        }
+        else if (upath(kdia).isExecutable()) {
+            snprintf(command, commandSize,
+                     "%s "
+                     " --yes-label Restart "
+                     " --no-label Abort "
+                     " --title '%s' "
+                     " --warningyesno "
+                     " '\n%s\n' ",
+                     kdia, title, message);
+        }
+        else if (upath(zeni).isExecutable()) {
+            snprintf(command, commandSize,
+                     "%s "
+                     " --question "
+                     " --ok-label Restart "
+                     " --cancel-label Abort "
+                     " --timeout %d "
+                     " --title '%s' "
+                     " --height 200 "
+                     " --text "
+                     " '%s' ",
+                     zeni, timeout, title, message);
+        }
+        if (command[0] == '/') {
+            int status = system(command);
+            if (WIFEXITED(status)) {
+                switch (WEXITSTATUS(status)) {
+                    case 0:
+                    case 5:
+                    case 101: return true;
+
+                    case 1:
+                    case 102: this->exit(1); return false;
+                }
+            }
+            char *sp = strchr(command, ' ');
+            if (sp) *sp = '\0';
+            warn("Could not execute '%s': status %d.", command, status);
+        }
+        return true;
     }
 
     void checkTrayExitStatus(int status) {
@@ -331,7 +432,7 @@ private:
     int tray_pid;
     int sound_pid;
     int bg_pid;
-    bool logout;
+    timeval crashtime;
 };
 
 int main(int argc, char **argv) {
@@ -343,14 +444,15 @@ int main(int argc, char **argv) {
     xapp.runIcesound();
     xapp.runWM();
 
-    xapp.mainLoop();
+    int status = xapp.mainLoop();
 
     xapp.runScript("shutdown");
     xapp.runIcewmtray(true);
     xapp.runWM(true);
     xapp.runIcewmbg(true);
     xapp.runIcesound(true);
-    return 0;
+
+    return status;
 }
 
 // vim: set sw=4 ts=4 et:
