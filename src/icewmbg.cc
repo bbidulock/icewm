@@ -187,6 +187,7 @@ private:
     int activeWorkspace;
     unsigned desktopWidth, desktopHeight;
     ref<YPixmap> currentBackgroundPixmap;
+    ref<YPixmap> currentTransparencyPixmap;
     YColor* currentBackgroundColor;
 
     Atom _XA_XROOTPMAP_ID;
@@ -583,12 +584,14 @@ void Background::changeBackground(bool force) {
             ref<YPixmap> trans = getTransparencyPixmap();
             bool samePixmap = trans == backgroundPixmap;
             bool sameColor = *tColor == *backgroundColor;
-            ref<YPixmap> root =
+            currentTransparencyPixmap =
                 trans == null || (samePixmap && sameColor) ? back :
                 renderBackground(trans, tColor);
 
             unsigned long tPixel(tColor->pixel());
-            Pixmap tPixmap(root != null ? root->pixmap() : bPixmap);
+            Pixmap tPixmap(currentTransparencyPixmap != null
+                           ? currentTransparencyPixmap->pixmap()
+                           : bPixmap);
 
             changeProperty(_XA_XROOTPMAP_ID, XA_PIXMAP,
                            (unsigned char *) &tPixmap);
@@ -751,8 +754,6 @@ static const char* get_help_text() {
 
 static void print_help_xit() {
     fputs(get_help_text(), stdout);
-    fputs(_("Please note that not all options are currently configured.\n"),
-            stdout);
     exit(0);
 }
 
