@@ -197,6 +197,10 @@ void YFrameWindow::layoutShape() {
 
             Pixmap shape = XCreatePixmap(xapp->display(), desktop->handle(),
                                          width(), height(), 1);
+            if (width() == 3) {
+                tlog("created pixmap 0x%lx with width of 3 pixels\n", shape);
+                show_backtrace();
+            }
             Graphics g(shape, width(), height(), 1);
 
             g.setColorPixel(1);

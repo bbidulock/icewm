@@ -356,6 +356,10 @@ void YWindow::create() {
             zh = 1;
             flags |= wfNullSize;
         }
+        if (zw == 3) {
+            tlog("creating window %dx%dx%d+%d+%d\n", zw, zh, fDepth, x(), y());
+            show_backtrace();
+        }
         fHandle = XCreateWindow(xapp->display(),
                                 parent()->handle(),
                                 x(), y(), zw, zh,
@@ -1064,10 +1068,15 @@ void YWindow::setGeometry(const YRect &r) {
         fHeight = r.height();
 
         if (flags & wfCreated) {
-            if (!nullGeometry())
+            if (!nullGeometry()) {
                 XMoveResizeWindow(xapp->display(),
                                   fHandle,
                                   fX, fY, fWidth, fHeight);
+                if (fWidth == 3) {
+                    tlog("resizing window %dx%d+%d+%d\n", fWidth, fHeight, fX, fY);
+                    show_backtrace();
+                }
+            }
         }
 
         configure(geometry());
@@ -1092,8 +1101,13 @@ void YWindow::setSize(unsigned width, unsigned height) {
         fHeight = height;
 
         if (flags & wfCreated)
-            if (!nullGeometry())
+            if (!nullGeometry()) {
                 XResizeWindow(xapp->display(), fHandle, fWidth, fHeight);
+                if (fWidth == 3) {
+                    tlog("resizing window %dx%d\n", fWidth, fHeight);
+                    show_backtrace();
+                }
+            }
 
         configure(geometry());
     }

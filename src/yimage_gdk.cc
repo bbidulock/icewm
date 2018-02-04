@@ -194,6 +194,10 @@ ref<YPixmap> YImageGDK::renderToPixmap(unsigned depth) {
 
             pixmap = XCreatePixmap(xapp->display(), xapp->root(),
                                    width, height, depth);
+            if (width == 3) {
+                    tlog("created pixmap 0x%lx with width of 3 pixels\n", pixmap);
+                    show_backtrace();
+            }
             GC gc = XCreateGC(xapp->display(), pixmap, None, None);
             XPutImage(xapp->display(), pixmap, gc, image,
                       0, 0, 0, 0, width, height);

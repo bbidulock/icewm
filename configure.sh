@@ -26,6 +26,7 @@ case "`uname -m`" in
 esac
 
 ./configure \
+	--enable-debug \
 	--enable-maintainer-mode \
 	--enable-dependency-tracking \
 	--prefix=/usr \

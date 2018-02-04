@@ -852,6 +852,10 @@ ref <YPixmap> YXImage::renderToPixmap(unsigned depth)
 
         // tlog("next request %lu at %s: +%d : %s()\n", NextRequest(xapp->display()), __FILE__, __LINE__, __func__);
         draw = XCreatePixmap(xapp->display(), xapp->root(), xdraw->width, xdraw->height, xdraw->depth);
+        if (xdraw->width == 3) {
+            tlog("created pixmap 0x%lx with width of 3 pixels\n", draw);
+            show_backtrace();
+        }
         if (!draw) {
             tlog("ERROR: could not create pixmap %ux%ux%u\n", xdraw->width, xdraw->height, xdraw->depth);
             goto error;
@@ -947,11 +951,16 @@ void YXImage::composite(Graphics& g, int x, int y,
     int _x, _y;
     unsigned _w, _h, _b, _d;
 
-    if (XGetGeometry(xapp->display(), g.drawable(), &root, &_x, &_y, &_w, &_h, &_b, &_d))
+    if (XGetGeometry(xapp->display(), g.drawable(), &root, &_x, &_y, &_w, &_h, &_b, &_d)) {
         tlog("drawable 0x%lx has geometry %ux%ux%u+%d+%d\n", g.drawable(), _w, _h, _d, _x, _y);
+        tlog("graphics 0x%lx has geometry %ux%ux%u+%d+%d\n", g.drawable(), g.rwidth(), g.rheight(), g.rdepth(), g.xorigin(), g.yorigin());
+    }
     if (g.xorigin() > dx) {
         if ((int) w <= g.xorigin() - dx) {
             tlog("ERROR: coordinates out of bounds\n");
+#if defined(DEBUG) || defined(PRECON)
+            show_backtrace();
+#endif
             return;
         }
         w -= g.xorigin() - dx;
@@ -961,6 +970,9 @@ void YXImage::composite(Graphics& g, int x, int y,
     if (g.yorigin() > dy) {
         if ((int) h <= g.xorigin() - dx) {
             tlog("ERROR: coordinates out of bounds\n");
+#if defined(DEBUG) || defined(PRECON)
+            show_backtrace();
+#endif
             return;
         }
         h -= g.yorigin() - dy;
@@ -970,6 +982,9 @@ void YXImage::composite(Graphics& g, int x, int y,
     if ((int) (dx + w) > (int) (g.xorigin() + g.rwidth())) {
         if ((int) (g.xorigin() + g.rwidth()) <= dx) {
             tlog("ERROR: coordinates out of bounds\n");
+#if defined(DEBUG) || defined(PRECON)
+            show_backtrace();
+#endif
             return;
         }
         w = g.xorigin() + g.rwidth() - dx;
@@ -977,12 +992,18 @@ void YXImage::composite(Graphics& g, int x, int y,
     if ((int) (dy + h) > (int) (g.yorigin() + g.rheight())) {
         if ((int) (g.yorigin() + g.rheight()) <= dy) {
             tlog("ERROR: coordinates out of bounds\n");
+#if defined(DEBUG) || defined(PRECON)
+            show_backtrace();
+#endif
             return;
         }
         h = g.yorigin() + g.rheight() - dy;
     }
     if (w <= 0 || h <= 0) {
         tlog("ERROR: coordinates out of bounds\n");
+#if defined(DEBUG) || defined(PRECON)
+            show_backtrace();
+#endif
         return;
     }
     if (!hasAlpha()) {
@@ -999,10 +1020,10 @@ void YXImage::composite(Graphics& g, int x, int y,
         tlog("ERROR: could not get backing image\n");
         return;
     }
-    // tlog("got ximage %ux%ux%u\n", xback->width, xback->height, xback->depth);
+    tlog("got ximage %ux%ux%u\n", xback->width, xback->height, xback->depth);
 
-    // tlog("compositing %ux%u+%d+%d of %ux%ux%u onto %ux%ux%u\n",
-    //         w, h, x, y, fImage->width, fImage->height, fImage->depth, xback->width, xback->height, xback->depth);
+    tlog("compositing %ux%u+%d+%d of %ux%ux%u onto %ux%ux%u\n",
+            w, h, x, y, fImage->width, fImage->height, fImage->depth, xback->width, xback->height, xback->depth);
     for (unsigned j = 0; j < h; j++) {
         if ((int)j + y < 0 || (int)j + y > (int)hi) {
             tlog("ERROR: point y = %u is out of bounds\n", j);

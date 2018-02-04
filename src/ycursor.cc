@@ -267,7 +267,12 @@ public:
 };
 
 static Pixmap createMask(int w, int h) {
-    return XCreatePixmap(xapp->display(), desktop->handle(), w, h, 1);
+    Pixmap pixmap = XCreatePixmap(xapp->display(), desktop->handle(), w, h, 1);
+    if (w == 3) {
+            tlog("created pixmap 0x%lx with width of 3 pixels\n", pixmap);
+            show_backtrace();
+    }
+    return pixmap;
 }
 
 Cursor MyCursorLoader::load(upath path) {
