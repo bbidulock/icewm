@@ -9,11 +9,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.7\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2018-01-16 16:56-0700\n"
+"POT-Creation-Date: 2018-02-03 20:04-0700\n"
 "PO-Revision-Date: 2018-02-03 22:03+0000\n"
 "Last-Translator: Robert Taisz <robert.taisz@emerald.hu>\n"
-"Language-Team: Hungarian "
-"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/hu/>\n"
+"Language-Team: Hungarian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/hu/>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,8 +55,8 @@ msgid ""
 "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 "intr = %llu, softirq = %llu, steal = %llu\n"
 msgstr ""
-"Statisztika:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %"
-"llu, intr = %llu, softirq = %llu, steal = %llu\n"
+"Statisztika:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = "
+"%llu, intr = %llu, softirq = %llu, steal = %llu\n"
 
 #: src/acpustatus.cc:201
 #, c-format
@@ -536,7 +536,7 @@ msgstr "Érvénytelen munkaterület név: \"%s\""
 #: src/icesh.cc:434
 #, c-format
 msgid "Workspace out of range: %ld"
-msgstr "Tartományon kívüli munkaterület: %l"
+msgstr "Tartományon kívüli munkaterület: %ld"
 
 #: src/icesh.cc:568
 #, c-format
@@ -603,8 +603,8 @@ msgstr ""
 "  -class WM_CLASS             A kezelendő ablakok ablakkezelő-osztálya. Ha "
 "a\n"
 "    \t    \t    \t      WM_CLASS tartalmaz pontot, csak azok az ablakok\n"
-"    \t    \t              számítanak, amelyeknek pontosan ugyanaz a WM_CLASS "
-"\n"
+"    \t    \t              számítanak, amelyeknek pontosan ugyanaz a "
+"WM_CLASS \n"
 "\t\t\t      tulajdonságuk. Ha nincs pont, az azonos osztályba és az\n"
 "\t\t\t      azonos példányhoz (azaz `-name') tartozó ablakok lesznek\n"
 "\t\t\t      kiválasztva.\n"
@@ -629,8 +629,8 @@ msgstr ""
 "  \t\t\t      a gyökérszint ablakát az aktuális munkaterület "
 "megváltoztatásához.\n"
 "  listWorkspaces   \t      Felsorolja az összes munkaterület nevét.\n"
-"  setTrayOption TRAYOPTION    Az IceWM tálcabeállítási súgójának beállítása."
-"\n"
+"  setTrayOption TRAYOPTION    Az IceWM tálcabeállítási súgójának "
+"beállítása.\n"
 "\n"
 "Kifejezések:\n"
 "  A kifejezések egy tartomány szimbólumainak `+' vagy `|' karakterrel "
@@ -1042,11 +1042,11 @@ msgid "Out of memory (len=%d)."
 msgstr "Elfogyott a memória (hossz=%d)."
 
 # ../src/misc.cc:275
-#: src/misc.cc:439 src/misc.cc:451
+#: src/misc.cc:440 src/misc.cc:452
 msgid "Warning: "
 msgstr "Figyelmeztetés: "
 
-#: src/misc.cc:720
+#: src/misc.cc:728
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1924,7 +1924,8 @@ msgstr ""
 #: src/ylocale.cc:104 src/ylocale.cc:111
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
-msgstr "Az iconv nem biztosít (elegendő) %s elemet a(z) %s konverterek számára."
+msgstr ""
+"Az iconv nem biztosít (elegendő) %s elemet a(z) %s konverterek számára."
 
 # ../src/amailbox.cc:71
 #: src/ylocale.cc:165
