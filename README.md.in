@@ -73,10 +73,15 @@ Prerequisites
 Building from tarball requires:
 
  - gcc or clang (_for compiling_)
+ - libtool (_for compiling_)
+ - libx11 (_for X11 include files_)
+ - libxext (_for Xext include files_)
+ - libfontconfig (_for font rendering_)
  - libxft (_for font rendering_)
  - libxinerama (_for XINERAMA support_)
  - gdk-pixbuf2 (_for pixmap rendering_)
  - libxrandr (_for XRANDR support_)
+ - libxrender (_for XRENDER support_)
  - libsndfile (_for sound support_)
  - libsm (_for X11R6 session management_)
  - fribidi (_for i18n text rendering_)
@@ -85,6 +90,7 @@ Building from git also requires:
 
  - git (_for cloning the git repository and updating changelogs_)
  - autoconf/automake or cmake toolchain (_for build scripts_)
+ - autopoint and gettext (_for translations_)
  - xorg-mkfontdir (_for installing themes_)
  - perl (_for generation of manual pages_)
  - asciidoctor or asciidoc (_for creating html documentation_)
