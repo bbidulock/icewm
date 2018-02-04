@@ -53,6 +53,7 @@ add_subdirectory(src)
 add_subdirectory(po)
 add_subdirectory(lib)
 add_subdirectory(doc)
+add_subdirectory(man)
 
 install(FILES icewm-set-gnomewm contrib/icewm-menu-xrandr DESTINATION ${BINDIR} PERMISSIONS WORLD_EXECUTE OWNER_EXECUTE GROUP_EXECUTE WORLD_READ OWNER_READ OWNER_WRITE GROUP_READ)
 
