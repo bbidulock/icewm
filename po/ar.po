@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.3.12.52\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-02-03 20:04-0700\n"
-"PO-Revision-Date: 2018-02-04 17:00+0000\n"
+"PO-Revision-Date: 2018-02-05 07:00+0000\n"
 "Last-Translator: George Yacoub <george.yacoub@arabize.com>\n"
 "Language-Team: Arabic "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/ar/>\n"
@@ -316,7 +316,6 @@ msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
 #: src/icehelp.cc:1216
-#, fuzzy
 msgid "Icewm(1)"
 msgstr "Icewm(1)"
 
@@ -530,9 +529,9 @@ msgid "Invalid workspace name: `%s'"
 msgstr "اسم مساحة العمل غير صالح: `%s'"
 
 #: src/icesh.cc:434
-#, fuzzy, c-format
+#, c-format
 msgid "Workspace out of range: %ld"
-msgstr "مساحة العمل خارج النطاق: %d"
+msgstr "مساحة العمل خارج النطاق: %ld"
 
 #: src/icesh.cc:568
 #, c-format
@@ -790,7 +789,7 @@ msgstr "فشل ao_open_live مع وجود %d 1"
 
 #: src/icesound.cc:662
 msgid "ao_play failed"
-msgstr ""
+msgstr "فشل ao_play"
 
 #: src/icesound.cc:824
 #, c-format
@@ -856,30 +855,85 @@ msgid ""
 "  3    Subsystems error (ie cannot connect to server).\n"
 "\n"
 msgstr ""
+"الاستخدام: %s [OPTION]...\n"
+"\n"
+"تشغيل ملفات الصوت في أحداث واجهة المستخدم الرسومية التي تم إنشاؤها بواسطة "
+"IceWM.\n"
+"واجهات الصوت التي تم إعدادها حاليًا هي: %s.\n"
+"سيختار Icesound أولى هذه الواجهات القابلة للاستخدام.\n"
+"\n"
+"\n"
+"الخيارات:\n"
+"\n"
+" -d، display=DISPLAY...عرض X11 المستخدم بواسطة IceWM (القيمة الافتراضية: "
+"$DISPLAY).\n"
+"\n"
+"-\tS، -- sample-dir=DIR...تحديد دليل بملفات الصوت.\n"
+"                         الافتراضي هو $HOME/.config/icewm/sounds.\n"
+"\n"
+" -i، --interface=LIST    تحديد واجهات إخراج الصوت. واحدة أو أكثر من:\n"
+"                         %sمفصولة بفاصلات.\n"
+"\n"
+"\n"
+" -D، --device=DEVICE     توافق الإصدارات السابقة فقط: الجهاز الافتراضي. \n"
+"                         الرجاء تفضيل أحد الخيارات -A/-O/-S.\n"
+"\n"
+"O، --oss=DEVICE        تحديد جهاز OSS (الافتراضي \"%s\").\n"
+"\n"
+"A، --alsa=DEVICE       تحديد جهاز ALSA (الافتراضي: \"%s\").\n"
+"\n"
+"S، --server=ADDR:PORT تحديد عنوان خادم ورقم منفذ ESD.\n"
+"                         بالنسبة لبرنامج ESD، الخيار الافتراضي هو \""
+"localhost:16001\".\n"
+"\n"
+"Z، --snooze=millisecs  تحديد فاصل التأجيل بين أحداث الصوت\n"
+"                         بالميليثانية. القيمة الافتراضية هي 500 ميليثانية.\n"
+"\n"
+" -p، --play=sound        تشغيل الصوت المحدد (الاسم والرقم) ومساحات التخصيص.\n"
+"\n"
+"L، --list-files        سرد مسارات ملفات الصوت المتوفرة مساحات التخصيص.\n"
+"\n"
+"    --list-sounds       سرد أسماء ملفات الصوت المتوفرة ومساحات التخصيص.\n"
+"\n"
+"     --list-interfaces   سرد واجهات الصوت المدعومة ومساحات التخصيص.\n"
+"\n"
+" -v، --verbose           تعيين على وضع verbose وطباعة كل حدث صوت.\n"
+"\n"
+"     --list-interfaces   سرد واجهات الصوت المدعومة ومساحات التخصيص.\n"
+"\n"
+" -h، --help              طباعة شاشة التعليمات هذه ومساحات التخصيص.\n"
+"\n"
+"القيم الناتجة:\n"
+"\n"
+"  0    نجاح.\n"
+"  1    خطأ عام.\n"
+"  2    خطأ في سطر الأوامر.\n"
+"  3    خطأ في الأنظمة الفرعية (مثال لا يمكن الاتصال بالخادم).\n"
+"\n"
 
 #: src/icesound.cc:930
 #, c-format
 msgid "No audio for %s"
-msgstr ""
+msgstr "لا يوجد صوت لـ %s"
 
 #: src/icesound.cc:1007
 msgid "Could not get GUI event property"
-msgstr ""
+msgstr "تعذر استدعاء خاصية حدث واجهة مستخدم رسومية"
 
 #: src/icesound.cc:1011
 #, c-format
 msgid "Received invalid GUI event %d"
-msgstr ""
+msgstr "تم تلقي حدث واجهة مستخدم رسومية غير صالح %d"
 
 #: src/icesound.cc:1015
 #, c-format
 msgid "Received GUI event %s"
-msgstr ""
+msgstr "تم تلقي حدث واجهة المستخدم الرسومية %s"
 
 #: src/icesound.cc:1029
 #, c-format
 msgid "Too quick; ignoring %s."
-msgstr ""
+msgstr "سريع جدًا؛ جارٍ تجاهل %s."
 
 #: src/icesound.cc:1033
 #, c-format
@@ -894,12 +948,12 @@ msgstr "واجهة غير مدعومة: %s."
 #: src/icesound.cc:1082
 #, c-format
 msgid "Using %s audio."
-msgstr ""
+msgstr "جارٍ استخدام الصوت %s."
 
 #: src/icesound.cc:1086
 #, c-format
 msgid "Failed to connect to audio interfaces %s."
-msgstr ""
+msgstr "فشل الاتصال بواجهات الصوت %s."
 
 #: src/icesound.cc:1098
 #, c-format
@@ -915,10 +969,16 @@ msgid ""
 "  -c, --config=FILE   Load preferences from FILE.\n"
 "  -t, --theme=FILE    Load the theme from FILE.\n"
 msgstr ""
+"  -n، --notify        الإبلاغ عن العملية الرئيسية عن طريق إرسال إشارة USR1.\n"
+"  --display=NAME      استخدام NAME للاتصال بخادم X.\n"
+"  --sync              مزامنة الاتصال بخادم X11.\n"
+"\n"
+"  -c، --config=FILE   تحميل تفضيلات من FILE.\n"
+"  -t، --theme=FILE    تحميل السمة من FILE.\n"
 
 #: src/iceview.cc:68
 msgid "Hex View"
-msgstr ""
+msgstr "عرض سداسي"
 
 #: src/iceview.cc:68
 msgid "Ctrl+H"
@@ -994,11 +1054,11 @@ msgstr ""
 
 #: src/icewmbg.cc:754
 msgid "Please note that not all options are currently configured.\n"
-msgstr ""
+msgstr "الرجاء ملاحظة أنه لم يتم إعداد كل الخيارات حاليًا.\n"
 
 #: src/icewmbg.cc:900
 msgid "Cannot start, because another icewmbg is still running."
-msgstr ""
+msgstr "لا يمكن البدء، لأنه هناك icewmbg آخر لا يزال قيد التشغيل."
 
 #: src/icewmhint.cc:41
 msgid "Usage: icewmhint [class.instance] option arg\n"
@@ -1069,15 +1129,15 @@ msgstr "مدير نوافذ آخر قيد التشغيل بالفعل، استخ
 #: src/wmapp.cc:123
 #, c-format
 msgid "Failed to become the owner of the %s selection"
-msgstr ""
+msgstr "فشل أن يصبح مالك تحديد %s"
 
 #: src/wmapp.cc:127
 msgid "Waiting to replace the old window manager"
-msgstr ""
+msgstr "في انتظار استبدال مدير النوافذ القديم"
 
 #: src/wmapp.cc:132
 msgid "done."
-msgstr ""
+msgstr "تم."
 
 #: src/wmapp.cc:418
 msgid "Unable to get current font path."
@@ -1109,7 +1169,7 @@ msgstr "إغلاق"
 
 #: src/wmapp.cc:537 src/wmdialog.cc:88
 msgid "_Suspend"
-msgstr ""
+msgstr "_توقف مؤقت"
 
 #: src/wmapp.cc:542
 msgid "Restart _Icewm"
@@ -1234,7 +1294,7 @@ msgstr ""
 
 #: src/wmapp.cc:819
 msgid "Kill IceWM, replace with Xterm"
-msgstr ""
+msgstr "إنهاء IceWM، قم باستبداله بـ Xterm"
 
 #: src/wmapp.cc:1330
 msgid ""
@@ -1261,6 +1321,10 @@ msgid ""
 "  -t, --theme=FILE    Load theme from FILE.\n"
 "  --postpreferences   Print preferences after all processing.\n"
 msgstr ""
+"\n"
+"  -c، --config=FILE   تحميل التفضيلات من FILE.\n"
+"  -t، --theme=FILE    تحميل السمة من FILE.\n"
+"  --postpreferences   طباعة التفضيلات بعد كل عمليات المعالجة.\n"
 
 #: src/wmapp.cc:1349
 #, c-format
@@ -1297,7 +1361,7 @@ msgstr ""
 #: src/wmapp.cc:1410
 #, c-format
 msgid "%s configuration directories:\n"
-msgstr ""
+msgstr "دلائل إعداد %s:\n"
 
 #: src/wmapp.cc:1489
 #, c-format
@@ -1324,7 +1388,7 @@ msgstr ""
 #: src/wmconfig.cc:39
 #, c-format
 msgid "Failed to load theme %s"
-msgstr ""
+msgstr "فشل تحميل السمة %s"
 
 #: src/wmconfig.cc:102
 #, c-format
@@ -1334,12 +1398,12 @@ msgstr "قيمة غير معروفة '%s' للخيار '%s'."
 #: src/wmconfig.cc:110
 #, c-format
 msgid "Unable to create directory %s"
-msgstr ""
+msgstr "تعذر إنشاء الدليل %s"
 
 #: src/wmconfig.cc:137
 #, c-format
 msgid "Unable to write to %s"
-msgstr ""
+msgstr "تعذرت الكتابة إلى %s"
 
 #: src/wmconfig.cc:164
 #, c-format
@@ -1417,7 +1481,7 @@ msgstr "وسيطة غير صالحة %d للأمر '%s'"
 
 #: src/wmprog.cc:342
 msgid "Missing filename argument to include statement"
-msgstr ""
+msgstr "وسيطة اسم الملف لتضمين العبارة غير موجودة"
 
 #: src/wmprog.cc:408
 #, c-format
@@ -1430,9 +1494,9 @@ msgid "Unexepected menu keyword: '%s'"
 msgstr "كلمة أساس قائمة غير متوقعة: %s"
 
 #: src/wmprog.cc:509
-#, fuzzy, c-format
+#, c-format
 msgid "Error at menuprog '%s'"
-msgstr "خطأ في المفتاح %s"
+msgstr "خطأ في menuprog %s"
 
 #: src/wmprog.cc:548
 #, c-format
@@ -1455,11 +1519,13 @@ msgid ""
 "Unknown keyword for a non-container: '%s'.\n"
 "Expected either 'key' or 'runonce' here.\n"
 msgstr ""
+"كلمة أساسية غير معروفة لغير الحاوية: '%s'.\n"
+"من المتوقع أن يكون 'key' أو 'runonce' هننا.\n"
 
 #: src/wmprog.cc:744
 #, c-format
 msgid "'%s' produces no output"
-msgstr ""
+msgstr "لم يصدر عن '%s' أية مخرجات"
 
 #: src/wmprog.cc:892
 msgid "_Click to focus"
@@ -1494,13 +1560,13 @@ msgid "_Icewm(1)"
 msgstr "_Icewm(1)"
 
 #: src/wmprog.cc:921
-#, fuzzy
 msgid "Icewm_Bg(1)"
 msgstr "Icewm_Bg(1)"
 
 #: src/wmprog.cc:922
+#, fuzzy
 msgid "Ice_Sound(1)"
-msgstr ""
+msgstr "Ice_Sound(1)"
 
 #: src/wmprog.cc:984
 msgid "Programs"
@@ -1639,7 +1705,7 @@ msgstr "%lu. مساحة العمل %-.32s"
 #: src/yapp.cc:276
 #, c-format
 msgid "%s: select failed"
-msgstr ""
+msgstr "%s: فشل التحديد"
 
 #: src/yconfig.cc:139
 #, c-format
@@ -1742,7 +1808,7 @@ msgstr "لصق التحديد"
 #: src/yinput.cc:44
 #, fuzzy
 msgid "Ctrl+P"
-msgstr "Ctrl+Q"
+msgstr "Ctrl+P"
 
 #: src/yinput.cc:47
 msgid "Select _All"
@@ -1753,9 +1819,10 @@ msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
 #: src/ylocale.cc:46
-#, fuzzy
 msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
-msgstr "اللغة غير معتمدة من قبل مكتبة C. يتم التراجع إلى 'C' اللغة'."
+msgstr ""
+"اللغة غير معتمدة من قبل مكتبة C أو Xlib. يتم التراجع إلى الإعدادات المحلية "
+"'C'."
 
 #: src/ylocale.cc:72
 msgid ""
