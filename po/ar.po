@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.3.12.52\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-02-03 20:04-0700\n"
-"PO-Revision-Date: 2018-02-05 08:02+0000\n"
+"PO-Revision-Date: 2018-02-05 11:00+0000\n"
 "Last-Translator: George Yacoub <george.yacoub@arabize.com>\n"
 "Language-Team: Arabic "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/ar/>\n"
@@ -333,7 +333,7 @@ msgstr "الأسئلة والإجابات المتداولة"
 
 #: src/icehelp.cc:1224
 msgid "Manual"
-msgstr "يدوي"
+msgstr "دليل"
 
 #: src/icehelp.cc:1226
 msgid "Support"
@@ -341,7 +341,7 @@ msgstr "دعم"
 
 #: src/icehelp.cc:1228
 msgid "Theme Howto"
-msgstr "نسق Howto"
+msgstr "الإرشادات التوضيحية للسمة"
 
 #: src/icehelp.cc:1230
 msgid "Website"
@@ -427,7 +427,7 @@ msgid ""
 "%s\n"
 "\n"
 msgstr ""
-"Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
+"الاستخدام: %s [OPTIONS] [ FILENAME | URL ]\n"
 "\n"
 "IceHelp عبارة عن مستعرض بتنسيق HTML لمدير نوافذ IceWM بسيط للغاية.\n"
 "يمكنه عرض مستند بتنسيق HTML من ملف أو استعراض موقع ويب.\n"
@@ -438,24 +438,23 @@ msgstr ""
 "\n"
 "\n"
 "الخيارات:\n"
-"  -d، --عرض=NAME اسم خادم X المطلوب استخدامه.\n"
-"  --مزامنة              مزامنة أوامر X11.\n"
+"  -d، --display=NAME اسم خادم X المطلوب استخدامه.\n"
+"  --sync              مزامنة أوامر X11.\n"
 "\n"
 "\n"
 "-B                  عرض صفحة دليل IceWM icewmbg.\n"
-"-  b، --أخطاء          عرض تقارير أخطاء IceWM (بشكل مبدئي).\n"
-"F، --الأسئلة المتداولة           عرض الأسئلة المتداولة حول IceWM  والإجابة "
-"عليها.\n"
+"-  b، --bugs          عرض تقارير أخطاء IceWM (بشكل مبدئي).\n"
+"F، --faq           عرض الأسئلة المتداولة حول IceWM  والإجابة عليها.\n"
 "-  g                  عرض موقع ويب IceWM Github.\n"
-"-  i، --         عرض صفحة دليل IceWM icewm.\n"
-"-  m، --دليل        عرض دليل IceWM (افتراضي).\n"
+"-  i، --icewm        عرض صفحة دليل IceWM icewm.\n"
+"-  m، --manual        عرض دليل IceWM (افتراضي).\n"
 "-  s                  عرض صفحة دليل IceWM icesound.\n"
-"-  t، --سمة         عرض سمات IceWM والإرشادات التوضيحية الخاصة بها.\n"
-"- W  -موقع ويب       عرض موقع ويب IceWM.\n"
+"-  t، --theme         عرض سمات IceWM والإرشادات التوضيحية الخاصة بها.\n"
+"- W  -website       عرض موقع ويب IceWM.\n"
 "\n"
 "\n"
-"    -V، --إصدار      يقوم بطباعة معلومات الإصدار ومساحات التخصيص\n"
-"  -h --مساعدة          يقوم بطباعة شاشة الاستخدام هذه ومساحات التخصيص.\n"
+"    -V، --version       يقوم بطباعة معلومات الإصدار ومساحات التخصيص\n"
+"  -h --help          يقوم بطباعة شاشة الاستخدام هذه ومساحات التخصيص.\n"
 "\n"
 "متغيرات البيئة:\n"
 "  DISPLAY=NAME        اسم خادم X المطلوب استخدامه.\n"
@@ -589,7 +588,7 @@ msgstr ""
 "  -عرض DISPLAY            يتصل بخادم X  المحدد بواسطة DISPLAY.\n"
 "                              الافتراضي: $DISPLAY أو :0.0 عند عدم التعيين.\n"
 "  -النافذة WINDOW_ID           يحدد النافذة المطلوب معالجتها. المعرفان\n"
-"الخاصان هما `جذر` جذر النافذة و`تركيز` النافذة التي يتم التركيز عليها حاليً"
+"الخاصان هما `root` جذر النافذة و`focus` النافذة التي يتم التركيز عليها حاليً"
 "ا. إذا كان WM_CLASS به فترة، لا تتطابق سوى \n"
 "النوافذ التي لها نفس خاصية WM_CLASS بالضبط. أما في حالة عدم وجود فترة، يتم "
 "تحديد نفس الفئة ونوافذ نفس النسخة (aka. `-name').\n"
@@ -639,7 +638,7 @@ msgstr "صينية خيارات IceWM"
 
 #: src/icesh.cc:615
 msgid "Usage error: "
-msgstr "خطأ إستخدام "
+msgstr "خطأ الاستخدام: "
 
 #: src/icesh.cc:695
 #, c-format
@@ -653,12 +652,12 @@ msgstr "لم تحدد أي إجراءات."
 #: src/icesh.cc:708 src/icesound.cc:945 src/icewmhint.cc:88 src/yxapp.cc:944
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
-msgstr "لا يمكن فتح العرض: %s. يجب تشغيل X وتعيين $العرض set."
+msgstr "لا يمكن فتح العرض: %s. يجب تشغيل X وتعيين $DISPLAY."
 
 #: src/icesh.cc:748
 #, c-format
 msgid "Invalid window identifier: `%s'"
-msgstr "مُعرف النوافذ خاطئ: `%s'"
+msgstr "مُعرف نافذة خاطئ: `%s'"
 
 #: src/icesh.cc:901
 #, c-format
@@ -690,7 +689,7 @@ msgstr ""
 "  -t, --theme=FILE    يتيح تحميل IceWM للسمة من FILE.\n"
 "\n"
 "  -d، --display=NAME  استخدام NAME للاتصال بخادم X.\n"
-"  --مزامنة              مزامنة الاتصال بخادم X11.\n"
+"  --sync              مزامنة الاتصال بخادم X11.\n"
 "\n"
 "  -n, --notray        لا تقم ببدء تشغيل icewmtray.\n"
 "  -s، --sound         بدء تشغيل icesound أيضًا.\n"
@@ -713,12 +712,12 @@ msgstr "تم إنهاء %s بواسطة الإشارة %d."
 #: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
 #, c-format
 msgid "Playing sample #%d (%s)"
-msgstr "عرض نموذج #%d (%s)"
+msgstr "تشغيل نموذج #%d (%s)"
 
 #: src/icesound.cc:337
 #, c-format
 msgid "%s: Invalid number of channels"
-msgstr "%s: عدد الأحرف غير صالح"
+msgstr "%s: عدد القنوات غير صالح"
 
 #: src/icesound.cc:343 src/icesound.cc:348
 msgid "Could not set OSS channels"
@@ -770,7 +769,7 @@ msgstr "<لا شيئ>"
 #: src/icesound.cc:512
 #, c-format
 msgid "Error <%d> while uploading `%s:%s'"
-msgstr "خطأ <%d> أثناء رفع `%s:%s'"
+msgstr "خطأ <%d> أثناء تحميل `%s:%s'"
 
 #: src/icesound.cc:518
 #, c-format
@@ -785,7 +784,7 @@ msgstr "تشغيل نموذج #%d: %d"
 #: src/icesound.cc:651
 #, c-format
 msgid "ao_open_live failed with %d"
-msgstr "فشل ao_open_live مع وجود %d 1"
+msgstr "فشل ao_open_live بسبب %d 1"
 
 #: src/icesound.cc:662
 msgid "ao_play failed"
@@ -994,7 +993,7 @@ msgstr "Ctrl+T"
 
 #: src/iceview.cc:70
 msgid "Wrap Lines"
-msgstr "التفاف اخطوط"
+msgstr "التفاف الخطوط"
 
 #: src/iceview.cc:70
 msgid "Ctrl+W"
@@ -1101,11 +1100,11 @@ msgstr "الرجاء ملاحظة أنه لم يتم إعداد كل الخيا�
 
 #: src/icewmbg.cc:900
 msgid "Cannot start, because another icewmbg is still running."
-msgstr "لا يمكن البدء، لأنه هناك icewmbg آخر لا يزال قيد التشغيل."
+msgstr "لا يمكن البدء، لأنه هنناك icewmbg آخر لا يزال قيد التشغيل."
 
 #: src/icewmhint.cc:41
 msgid "Usage: icewmhint [class.instance] option arg\n"
-msgstr "استخدام: icewmhint [class.instance] إعدادات arg\n"
+msgstr "استخدام: وسيطة خيار icewmhint [class.instance]\n"
 
 #: src/icewmhint.cc:77
 #, c-format
@@ -1150,7 +1149,7 @@ msgstr "(C)"
 
 #: src/wmabout.cc:34
 msgid "Theme:"
-msgstr "سمه:"
+msgstr "السمة:"
 
 #: src/wmabout.cc:35
 msgid "Theme Description:"
@@ -1191,7 +1190,7 @@ msgstr "تم."
 
 #: src/wmapp.cc:418
 msgid "Unable to get current font path."
-msgstr "لا يمكن الوصول لمسار الخط."
+msgstr "لا يمكن الوصول لمسار الخط الحالي."
 
 #: src/wmapp.cc:445
 msgid "Unexpected format of ICEWM_FONT_PATH property"
@@ -1215,7 +1214,7 @@ msgstr "إعادة تشغيل"
 
 #: src/wmapp.cc:535 src/wmdialog.cc:92
 msgid "Shut_down"
-msgstr "إغلاق"
+msgstr "إ_غلاق"
 
 #: src/wmapp.cc:537 src/wmdialog.cc:88
 msgid "_Suspend"
@@ -1231,7 +1230,7 @@ msgstr "إعادة تشغيل _Xterm"
 
 #: src/wmapp.cc:557
 msgid "_Menu"
-msgstr "قائمة"
+msgstr "_قائمة"
 
 #: src/wmapp.cc:558
 msgid "_Above Dock"
@@ -1448,7 +1447,7 @@ msgstr "%s خيارات تمت إعدادها:%s\n"
 #: src/wmapp.cc:1536
 #, c-format
 msgid "Unrecognized option '%s'."
-msgstr "خيارا غير معروف '%s'."
+msgstr "خيار غير معروف '%s'."
 
 #: src/wmapp.cc:1567
 msgid "Confirm Logout"
@@ -1511,7 +1510,7 @@ msgstr "حول"
 
 #: src/wmframe.cc:1425
 msgid "Kill Client: "
-msgstr "اقتل العميل "
+msgstr "إنهاء العميل: "
 
 #: src/wmframe.cc:1432
 msgid ""
