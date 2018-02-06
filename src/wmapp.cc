@@ -1215,6 +1215,9 @@ YWMApp::~YWMApp() {
 
     WPixRes::freePixmaps();
 
+    extern void freeTitleColorsFonts();
+    freeTitleColorsFonts();
+
     //!!!XFreeGC(display(), outlineGC); lazy init in movesize.cc
     //!!!XFreeGC(display(), clipPixmapGC); in ypaint.cc
 

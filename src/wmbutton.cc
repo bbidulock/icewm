@@ -4,13 +4,10 @@
  * Copyright (C) 1997-2001 Marko Macek
  */
 #include "config.h"
-
-#include "wmbutton.h"
-
 #include "wmframe.h"
+#include "wmbutton.h"
 #include "wmtitle.h"
 #include "yxapp.h"
-#include "yicon.h"
 #include "yprefs.h"
 #include "prefs.h"
 #include "wpixmaps.h"
@@ -18,9 +15,9 @@
 static YColor *titleButtonBg = 0;
 static YColor *titleButtonFg = 0;
 
-//!!! get rid of this
-extern YColor *activeTitleBarBg;
-extern YColor *inactiveTitleBarBg;
+inline YColor* YFrameButton::background(bool active) {
+    return YFrameTitleBar::background(active);
+}
 
 YFrameButton::YFrameButton(YWindow *parent,
                            bool right,
@@ -134,8 +131,7 @@ ref<YPixmap> YFrameButton::getPixmap(int pn) const {
 
 void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
     int xPos = 1, yPos = 1;
-    int pn = LOOK(lookPixmap | lookMetal | lookGtk | lookFlat)
-        && getFrame()->focused() ? 1 : 0;
+    int pn = LOOK(lookPixmap | lookMetal | lookGtk | lookFlat) && focused();
     const bool armed(isArmed());
 
     g.setColor(titleButtonBg);
@@ -167,7 +163,7 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
         g.fillRect(0, 0, width(), height());
 
         if (armed) {
-            g.setColor(activeTitleBarBg);
+            g.setColor(background(true));
             g.fillRect(1, 1, width() - 2, height() - 2);
         }
 
@@ -227,9 +223,7 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
         g.fillRect(0, 0, width(), height());
         if (fAction == actionNull) {
             if (!armed) {
-                YColor * bg(getFrame()->focused() ? activeTitleBarBg
-                            : inactiveTitleBarBg);
-                g.setColor(bg);
+                g.setColor(background(focused()));
             }
             if (icon != null && showFrameIcon) {
                 icon->draw(g,
@@ -257,9 +251,9 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
             // the over or armed color and paint it.
            g.fillRect(0, 0, width(), height());
            if (armed)
-               g.setColor(activeTitleBarBg->darker());
+               g.setColor(background(true)->darker());
            else if (rolloverTitleButtons && fOver)
-               g.setColor(activeTitleBarBg->brighter());
+               g.setColor(background(true)->brighter());
            g.fillRect(1, 1, width()-2, height()-3);
            if (pixmap != null) {
                int x(((int)width()  - (int)pixmap->width())  / 2);

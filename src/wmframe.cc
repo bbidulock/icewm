@@ -13,6 +13,7 @@
 #include "atray.h"
 #include "wmcontainer.h"
 #include "wmtitle.h"
+#include "wmbutton.h"
 #include "wmminiicon.h"
 #include "wmswitch.h"
 #include "wmtaskbar.h"

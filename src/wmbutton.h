@@ -25,6 +25,10 @@ public:
     bool onRight() const { return fRight; }
 
 private:
+    static YColor* background(bool active);
+
+    bool focused() const { return getFrame()->focused(); }
+
     YFrameWindow *fFrame;
     bool fRight;
     YAction fAction;

@@ -1,9 +1,7 @@
 #ifndef __WMTITLE_H
 #define __WMTITLE_H
 
-#include "ywindow.h"
-#include "wmbutton.h"
-
+class YFrameButton;
 class YFrameWindow;
 
 class YFrameTitleBar: public YWindow {
@@ -37,11 +35,14 @@ public:
     void layoutButtons();
     void raiseButtons();
 
+    static YColor* background(bool active);
+
 private:
     static void initTitleColorsFonts();
 
-    unsigned decors();
-    int titleLen();
+    unsigned decors() const { return getFrame()->frameDecors(); }
+    bool focused() const { return getFrame()->focused(); }
+    int titleLen() const;
 
     YFrameButton* getButton(char c);
     void positionButton(YFrameButton *b, int &xPos, bool onRight);
