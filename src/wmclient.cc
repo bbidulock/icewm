@@ -17,12 +17,16 @@
 extern XContext frameContext;
 extern XContext clientContext;
 
-YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win): YWindow(parent, win), fWindowTitle(null), fIconTitle(null), fWMWindowRole(null), fWindowRole(null) {
+YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win):
+    YWindow(parent, win),
+    fWindowTitle(),
+    fIconTitle(),
+    fWMWindowRole(),
+    fWindowRole()
+{
     fFrame = frame;
     fBorder = 0;
     fProtocols = 0;
-    fWindowTitle = null;
-    fIconTitle = null;
     fColormap = None;
     fShaped = false;
     fPinging = false;
@@ -37,8 +41,6 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win): YW
     fClassHint = XAllocClassHint();
     fTransientFor = 0;
     fClientLeader = None;
-    fWindowRole = null;
-    fWMWindowRole = null;
     fMwmHints = 0;
 
     getPropertiesList();
@@ -85,8 +87,6 @@ YFrameClient::~YFrameClient() {
     }
     if (fHints) { XFree(fHints); fHints = 0; }
     if (fMwmHints) { XFree(fMwmHints); fMwmHints = 0; }
-    fWMWindowRole = null;
-    fWindowRole = null;
 
     if (fPingTimer) {
         delete fPingTimer;
