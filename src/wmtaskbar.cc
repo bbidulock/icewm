@@ -230,6 +230,7 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
 
     getPropertiesList();
     getWMHints();
+    getClassHint();
     fIsMapped = true;
 }
 
