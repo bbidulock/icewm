@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.23\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-02-03 20:04-0700\n"
-"PO-Revision-Date: 2018-01-29 15:52+0000\n"
+"PO-Revision-Date: 2018-02-08 21:06+0000\n"
 "Last-Translator: Eva van Rein <vistatec@globaltextware.nl>\n"
-"Language-Team: Dutch <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/nl/>\n"
+"Language-Team: Dutch "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -124,21 +124,21 @@ msgstr "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 #: src/amailbox.cc:67
 #, c-format
 msgid "Invalid mailbox protocol: \"%s\""
-msgstr "Onbekend E-mail protocol: »%s«"
+msgstr "Ongeldig postvakprotocol: »%s«"
 
 #: src/amailbox.cc:69
 #, c-format
 msgid "Invalid mailbox path: \"%s\""
-msgstr "Ongeldig mailbox pad: »%s«"
+msgstr "Ongeldig postvakpad: »%s«"
 
 #: src/amailbox.cc:331
 #, c-format
 msgid "Using MailBox \"%s\"\n"
-msgstr "Gebruikt postbus: »%s«\n"
+msgstr "Gebruikt postvak: »%s«\n"
 
 #: src/amailbox.cc:438
 msgid "Error checking mailbox."
-msgstr "Probleem bij het controleren van de postbus."
+msgstr "Probleem bij het controleren van het postvak."
 
 #: src/amailbox.cc:444
 #, c-format
@@ -207,7 +207,7 @@ msgid ""
 "  Caller id:\t"
 msgstr ""
 "\n"
-"  Beller id:\t"
+"  Beller-ID:\t"
 
 #: src/aworkspaces.cc:315 src/wmstatus.cc:173
 msgid "Workspace: "
@@ -239,7 +239,7 @@ msgstr "Onderwijs"
 
 #: src/fdomenu.cc:85
 msgid "Games"
-msgstr "Spellen"
+msgstr "Games"
 
 #: src/fdomenu.cc:86
 msgid "Graphics"
@@ -441,16 +441,16 @@ msgstr ""
 "\n"
 "Opties:\n"
 "  -d, --display=NAME  NAAM van de X-serverdie wordt.\n"
-"  --sync              Synchronize X11 commands.\n"
+"  --sync              Synchroniseer X11-opdrachten.\n"
 "\n"
 "  -B                  Weergeeft de manual page van IceWM icewmbg.\n"
 "  -b, --bugs          Weergeeft de IceWM-bugreports (op primitieve wijze).\n"
-"  -f, --faq           Weergeeft de IceWM FAQ (veelgestelde vragen) en "
-"HOWTO.\n"
+"  -f, --faq           Weergeeft de IceWM FAQ (veelgestelde vragen) en HOWTO."
+"\n"
 "  -g                  Weergeeft de IceWM Github-website.\n"
-"  -i, --icewm         Weergeeft de manual page van IceWM icewm.\n"
+"  -i, --icewm         Weergeeft de man-pagina van IceWM icewm.\n"
 "  -m, --manual        Weergeeft de IceWM Manual (standaard).\n"
-"  -s                  Weergeeft de manual page van IceWM icesound.\n"
+"  -s                  Weergeeft de man-pagina van IceWM icesound.\n"
 "  -t, --thema         Weergeeft de HOWTO IceWM-thema's.\n"
 "  -w, --website       Weergeeft de IceWM-website.\n"
 "\n"

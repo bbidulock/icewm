@@ -294,8 +294,8 @@ void YWindow::readAttributes() {
         flags &= ~wfVisible;
 }
 
-void YWindow::create() {
-    if (flags & wfCreated) return;
+Window YWindow::create() {
+    if (flags & wfCreated) return fHandle;
 
     if (fHandle == None) {
         XSetWindowAttributes attributes;
@@ -404,6 +404,7 @@ void YWindow::create() {
     }
     XSaveContext(xapp->display(), fHandle, windowContext, (XPointer)this);
     flags |= wfCreated;
+    return fHandle;
 }
 
 void YWindow::destroy() {
@@ -454,13 +455,6 @@ void YWindow::reparent(YWindow *parent, int x, int y) {
                     x, y);
     fX = x;
     fY = y;
-}
-
-Window YWindow::handle() {
-    if (!(flags & wfCreated))
-        create();
-
-    return fHandle;
 }
 
 void YWindow::show() {

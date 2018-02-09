@@ -128,7 +128,7 @@ public:
     void captureEvents();
     void releaseEvents();
 
-    Window handle();
+    Window handle() { return (flags & wfCreated) ? fHandle : create(); }
     YWindow *parent() const { return fParentWindow; }
     YWindow *window() { return this; }
 
@@ -236,7 +236,7 @@ private:
         wfFocused   = 1 << 6
     };
 
-    void create();
+    Window create();
     void destroy();
 
     void insertWindow();
