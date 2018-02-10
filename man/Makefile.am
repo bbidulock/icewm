@@ -15,7 +15,8 @@ doc_DATA = $(icewm_man1_htmls)
 
 extra_man1_files = \
 	icesound.man \
-	icewm-menu-fdo.man
+	icewm-menu-fdo.man \
+	icewm-menu-xrandr.man
 
 extra_man1_htmls = $(extra_man1_files:%.man=%.1.html)
 
@@ -64,6 +65,7 @@ EXTRA_DIST = \
 	icewmhint.pod \
 	icewm-keys.pod \
 	icewm-menu-fdo.pod \
+	icewm-menu-xrandr.pod \
 	icewm-menu.pod \
 	icewm.pod \
 	icewm-preferences.pod \

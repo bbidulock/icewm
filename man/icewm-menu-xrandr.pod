@@ -1,0 +1,58 @@
+=pod
+
+=head1 NAME
+
+ icewm-menu-xrandr - IceWM menu provider for multi-monitor setup shortcuts
+
+=head1 SYNOPSIS
+
+B<icewm-menu-xrandr>
+
+=head1 DESCRIPTION
+
+B<icewm-menu-xrandr> is a helper to manage multi-screen configurations
+in a semi-automated way. It is a regular icewm menu generator which dynamically
+detects the available xrandr screens (i.e. connected monitors) and
+creates menu entries that call the xrandr command to setup this
+configuration.
+
+Optionally, the contents of the generated configurations can be accessed
+on-the-fly as a "quick-switch" menu which is accessible by Super-P key
+binding of B<icewm>.
+
+=head1 OPTIONS
+
+B<icewm-menu-xrandr> does not support any options.
+
+=head1 ENVIRONMENT
+
+=head1 CAVEATS
+
+The quick-switch menu is only accessible when B<icewm-menu-xrandr> program
+is registered as special binding of type B<switchkey> in
+L<icewm-keys(5)> configuration.
+
+=head1 SEE ALSO
+
+L<icewm(1)>,
+L<xrandr(1)>.
+
+=head1 BUGS
+
+B<icewm-menu-xrandr> had no known bugs at the time of release.  Please report bugs
+for current versions to the source code repository at
+L<https://github.com/bbidulock/icewm/issues>.
+
+=head1 AUTHOR
+
+Eduard Bloch L<mailto:edi@gmx.de>.
+
+=head1 LICENSE
+
+B<icewm-menu-xrandr> is licensed under the Simplified BSD License.
+B<IceWM> is licensed under the GNU Library General Public License.
+See the F<COPYING> file in the distribution.
+
+=cut
+
+# vim: set sw=4 tw=72 nocin spell spelllang=en_ca:

@@ -39,6 +39,7 @@ set(extra_man1_files
 	icehelp.man
 	icesound.man
 	icewm-menu-fdo.man
+	icewm-menu-xrandr.man
   )
 
 set(icewm_man5_files
