@@ -2,13 +2,16 @@
 
 =head1 NAME
 
- icewm-set-gnomewm - 
+ icewm-set-gnomewm - modify GNOME settings to use IceWM 
 
 =head1 SYNOPSIS
 
 B<icewm-set-gnomewm> [I<OPTIONS>]
 
 =head1 DESCRIPTION
+
+B<icewm-set-gnomewm> is a helper script which instruments GNOME to
+replace its own WM with icewm.
 
 =head1 OPTIONS
 
@@ -23,10 +26,6 @@ Print a brief usage statement to F<stdout> and exit.
 =item B<-V>, B<--version>
 
 Print the program version to F<stdout> and exit.
-
-=item B<-C>, B<--copying>
-
-Print copying permissions to F<stdout> for the program and exit.
 
 =back
 

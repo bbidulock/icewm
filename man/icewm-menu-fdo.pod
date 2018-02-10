@@ -2,16 +2,17 @@
 
 =head1 NAME
 
- icewm-menu-fdo - 
+ icewm-menu-fdo - menu generator for .desktop files
 
 =head1 SYNOPSIS
 
 B<icewm-menu-fdo> [I<FILENAME>]
- B<icewm-menu-fdo> {B<-h>|B<--help>}
- B<icewm-menu-fdo> {B<-V>|B<--version>}
- B<icewm-menu-fdo> {B<-C>|B<--copying>}
 
 =head1 DESCRIPTION
+
+B<icewm-menu-fdo> introduces the XDG menu descriptors (aka
+FreeDesktop.Org F<.desktop> files) to the menus of B<IceWM> window
+manager.
 
 =head1 ARGUMENTS
 
@@ -20,40 +21,16 @@ B<icewm-menu-fdo> [I<FILENAME>]
 =item [I<FILENAME>]
 
 When provided with the optional I<FILENAME> argument that is the name
-and location of a F<.desktop> file, B<icewm-menu-fdo> will open an
+and location of a F<.desktop> file, B<icewm-menu-fdo> will open it and
 launch the application using the C<Exec> line from the desktop file.
 
 =back
 
 =head1 OPTIONS
 
-B<icewm-menu-fdo> recognizes the following options:
-
-=head2 COMMAND OPTIONS
-
-Command options are mutually exclusive.  Only one command option can be
-specified per invocation.  If no command option is specified, argument
-parsing and processing is performed.
-
-=over
-
-=item B<-h>, B<--help>
-
-Print a brief usage statement to F<stdout> and exit.
-
-=item B<-V>, B<--version>
-
-Print the program version to F<stdout> and exit.
-
-=item B<-C>, B<--copying>
-
-Print copying permissions to F<stdout> for the program and exit.
-
-=back
-
-=head2 GENERAL OPTIONS
-
-B<icewm-menu-fdo> does not recognize any general options.
+This program doesn't use command line options. In future, it might
+support the pass-through of arguments to the command run from F<.desktop>
+file's C<Exec> line.
 
 =head1 USAGE
 
@@ -61,6 +38,8 @@ This utility is not normally used directly, but is used as the
 executable in a B<menuprog> entry in a menu.
 
 =head1 ENVIRONMENT
+
+B<XDG_DATA_HOME> or B<XDG_DATA_DIRS> are considered as suggested by XDG Base Directory Specification.
 
 =head1 CONFORMING TO
 
