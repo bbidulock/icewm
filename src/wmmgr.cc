@@ -2865,51 +2865,30 @@ void YWindowManager::handleProperty(const XPropertyEvent &property) {
                                &type, &format, &nitems, &lbytes,
                                &propdata) == Success && propdata)
         {
-            char *p = (char *)propdata;
-            char *e = (char *)propdata + nitems;
-
-            while (p < e) {
-                char *clsin;
-                char *option;
-                char *arg;
-
-                clsin = p;
-                while (p < e && *p) p++;
-                if (p == e)
-                    break;
-                p++;
-
-                option = p;
-                while (p < e && *p) p++;
-                if (p == e)
-                    break;
-                p++;
-
-                arg = p;
-                while (p < e && *p) p++;
-                if (p == e)
-                    break;
-                p++;
-
-                if (p != e)
-                    break;
-
-                if (hintOptions == 0)
-                    hintOptions = new WindowOptions();
-                if (hintOptions != 0)
-                    hintOptions->setWinOption(clsin, option, arg);
+            for (unsigned i = 0; i + 3 < nitems; ) {
+                const char* s[3] = { 0, 0, 0, };
+                for (int k = 0; k < 3 && i < nitems; ++k) {
+                    s[k] = i + (const char *) propdata;
+                    while (i < nitems && propdata[i++]);
+                }
+                if (s[0] && s[1] && s[2] && propdata[i - 1] == 0) {
+                    if (hintOptions == 0)
+                        hintOptions = new WindowOptions();
+                    if (hintOptions != 0)
+                        hintOptions->setWinOption(s[0], s[1], s[2]);
+                }
             }
             XFree(propdata);
         }
     }
-    if (property.atom == _XA_NET_DESKTOP_NAMES) {
+    else if (property.atom == _XA_NET_DESKTOP_NAMES) {
         MSG(("change: net desktop names"));
         readDesktopNames();
     }
-    if (property.atom == _XA_NET_DESKTOP_LAYOUT) {
+    else if (property.atom == _XA_NET_DESKTOP_LAYOUT) {
         readDesktopLayout();
     }
-    if (property.atom == _XA_WIN_WORKSPACE_NAMES) {
+    else if (property.atom == _XA_WIN_WORKSPACE_NAMES) {
         MSG(("change: win workspace names"));
         readDesktopNames();
     }

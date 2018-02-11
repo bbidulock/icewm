@@ -1,7 +1,6 @@
 #ifndef __WMOPTION_H
 #define __WMOPTION_H
 
-#include <X11/Xproto.h>
 #include "upath.h"
 #include "yarray.h"
 #include "ypointer.h"
@@ -30,6 +29,8 @@ public:
     void mergeWindowOption(WindowOption &cm,
                            ustring a_class_instance,
                            bool remove);
+
+    int getCount() const { return fWinOptions.getCount(); }
 
 private:
     YObjectArray<WindowOption> fWinOptions;
