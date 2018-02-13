@@ -2194,12 +2194,10 @@ void YFrameClient::getPropertiesList() {
 }
 
 void YFrameClient::configure(const YRect &r) {
-    (void)r;
-    MSG(("client geometry %d:%d-%dx%d",
-         r.x(),
-         r.y(),
-         r.width(),
-         r.height()));
+    MSG(("client geometry %d:%d-%dx%d", r.x(), r.y(), r.width(), r.height()));
+    if (r.x() < 0 || r.y() < 0) {
+        XMoveWindow(xapp->display(), handle(), max(0, r.x()), max(0, r.y()));
+    }
 }
 
 
