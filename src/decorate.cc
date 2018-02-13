@@ -401,15 +401,13 @@ void YFrameWindow::layoutResizeIndicators() {
 
 void YFrameWindow::layoutClient() {
     if (!isRollup() && !isIconic()) {
-        //int x = this->x() + borderX();
-        //int y = this->y() + borderY();
-        int w = this->width() - 2 * borderX();
-        int h = this->height() - 2 * borderY() - titleY();
+        int x = borderX();
+        int y = borderY();
+        int title = titleY();
+        int w = this->width() - 2 * x;
+        int h = this->height() - 2 * y - title;
 
-
-
-        fClientContainer->setGeometry(
-            YRect(borderX(), borderY() + titleY(), w, h));
+        fClientContainer->setGeometry(YRect(x, y + title, w, h));
         fClient->setGeometry(YRect(0, 0, w, h));
     }
 }
@@ -498,7 +496,7 @@ int YFrameWindow::borderX() const {
 
 int YFrameWindow::borderXN() const {
     return
-        ((frameDecors() & fdBorder) && (hideBordersMaximized ? !isMaximized() : true))
+        ((frameDecors() & fdBorder) && !(hideBordersMaximized && isMaximized()))
         ? ((frameDecors() & fdResize) ? wsBorderX : wsDlgBorderX)
         : 0;
 }
@@ -510,7 +508,7 @@ int YFrameWindow::borderY() const {
 
 int YFrameWindow::borderYN() const {
     return
-        ((frameDecors() & fdBorder) && (hideBordersMaximized ? !isMaximized() : true))
+        ((frameDecors() & fdBorder) && !(hideBordersMaximized && isMaximized()))
         ? ((frameDecors() & fdResize) ? wsBorderY : wsDlgBorderY)
         : 0;
 }
