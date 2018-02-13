@@ -357,10 +357,8 @@ static void init()
         setlocale (LC_ALL, "");
 #endif
 
-#ifdef ENABLE_NLS
     bindtextdomain(PACKAGE, LOCDIR);
     textdomain(PACKAGE);
-#endif
 
     for (tListMeta *p=menuinfo; p < menuinfo+ACOUNT(menuinfo); ++p)
     {

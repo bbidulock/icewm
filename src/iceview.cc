@@ -619,10 +619,8 @@ private:
 int main(int argc, char **argv) {
     YLocale locale;
 
-#ifdef ENABLE_NLS
     bindtextdomain(PACKAGE, LOCDIR);
     textdomain(PACKAGE);
-#endif
 
     YXApplication app(&argc, &argv);
 

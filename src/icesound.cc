@@ -1132,10 +1132,10 @@ void IceSound::playOnce(char* value) {
 }
 
 int main(int argc, char *argv[]) {
-#ifdef ENABLE_NLS
+
     bindtextdomain(PACKAGE, LOCDIR);
     textdomain(PACKAGE);
-#endif
+
     ApplicationName = my_basename(argv[0]);
     return IceSound(argc, argv).run();
 }

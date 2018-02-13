@@ -629,10 +629,8 @@ static void usageError(char const *msg, ...) {
 int main(int argc, char **argv) {
 #ifdef CONFIG_I18N
     setlocale(LC_ALL, "");
-#ifdef ENABLE_NLS
     bindtextdomain(PACKAGE, LOCDIR);
     textdomain(PACKAGE);
-#endif
 #endif
 
     ApplicationName = my_basename(*argv);

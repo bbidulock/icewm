@@ -58,10 +58,8 @@ private:
 
 int main(int argc, char **argv) {
 
-#ifdef ENABLE_NLS
     bindtextdomain(PACKAGE, LOCDIR);
     textdomain(PACKAGE);
-#endif
 
     YApplication app(&argc, &argv);
     ::app = &app;

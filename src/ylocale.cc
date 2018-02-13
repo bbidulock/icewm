@@ -116,10 +116,8 @@ YLocale::YLocale(char const * localeName) {
     delete[] localeCharsets[0];
 #endif
 
-#ifdef ENABLE_NLS
     bindtextdomain(PACKAGE, LOCDIR);
     textdomain(PACKAGE);
-#endif
 }
 
 YLocale::~YLocale() {

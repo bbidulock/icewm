@@ -73,10 +73,8 @@ static void setHint(const char* clsin, const char* option, const char* arg) {
 
 int main(int argc, char **argv) {
 
-#ifdef ENABLE_NLS
     bindtextdomain(PACKAGE, LOCDIR);
     textdomain(PACKAGE);
-#endif
 
     int k = 1;
     for (char** arg = argv + 1; k < argc && **arg == '-'; k = ++arg - argv) {
