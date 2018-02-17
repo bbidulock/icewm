@@ -240,6 +240,7 @@ TaskBar::~TaskBar() {
     delete fClock; fClock = 0;
     for (MailBoxStatus ** m(fMailBoxStatus); m && *m; ++m) delete *m;
     delete[] fMailBoxStatus; fMailBoxStatus = 0;
+    delete fMEMStatus; fMEMStatus = 0;
     delete fWinList; fWinList = 0;
     delete fApplications; fApplications = 0;
     delete fObjectBar; fObjectBar = 0;
