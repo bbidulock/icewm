@@ -667,7 +667,7 @@ void YFrameTitleBar::renderShape(Pixmap shape) {
                             g.copyDrawable(pixmap->mask(), 0, 0,
                                            b->width(),
                                            b->height(),
-                                           onRight + b->x(),
+                                           x() + b->x(),
                                            y() + b->y());
                         }
                     }
