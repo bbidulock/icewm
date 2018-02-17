@@ -14,12 +14,6 @@
 #define OVERRIDE override
 #endif
 
-/*** Atomar Data Types ********************************************************/
-
-#ifdef NEED_BOOL
-typedef  { false = 0, true = 1 } bool;
-#endif
-
 /*** Essential Arithmetic Functions *******************************************/
 
 /*
@@ -249,12 +243,29 @@ char* load_text_file(const char *filename);
 
 #include "debug.h"
 
+void logAny(const union _XEvent& xev);
 void logButton(const union _XEvent& xev);
+void logClientMessage(const union _XEvent& xev);
+void logColormap(const union _XEvent& xev);
+void logConfigureNotify(const union _XEvent& xev);
+void logConfigureRequest(const union _XEvent& xev);
+void logCreate(const union _XEvent& xev);
 void logCrossing(const union _XEvent& xev);
+void logDestroy(const union _XEvent& xev);
+void logExpose(const union _XEvent& xev);
 void logFocus(const union _XEvent& xev);
+void logGravity(const union _XEvent& xev);
+void logKey(const union _XEvent& xev);
+void logMapRequest(const union _XEvent& xev);
+void logMapNotify(const union _XEvent& xev);
+void logUnmap(const union _XEvent& xev);
 void logMotion(const union _XEvent& xev);
+void logProperty(const union _XEvent& xev);
+void logReparent(const union _XEvent& xev);
 void logShape(const union _XEvent& xev);
+void logVisibility(const union _XEvent& xev);
 void logEvent(const union _XEvent& xev);
+
 void setLogEvent(int evtype, bool enable);
 bool toggleLogEvents();
 const char* eventName(int eventType);
