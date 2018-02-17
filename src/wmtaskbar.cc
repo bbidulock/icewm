@@ -319,7 +319,8 @@ void TaskBar::initApplets() {
         CPUStatus::GetCPUStatus(smActionListener, this, fCPUStatus, cpuCombine);
 #endif
 
-    fNetStatus.init(new NetStatusControl(app, smActionListener, this, this));
+    if(taskBarShowNetStatus)
+        fNetStatus.init(new NetStatusControl(app, smActionListener, this, this));
     if (taskBarShowClock) {
         fClock = new YClock(smActionListener, this);
         fClock->setTitle("IceClock");
@@ -529,11 +530,13 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
     nw = LayoutInfo( fMEMStatus, false, 1, true, 2, 2, false );
     wlist.append(nw);
 #endif
-
-    YVec<NetStatus*>::iterator it = fNetStatus->getIterator();
-    while (it.hasNext()) {
-        nw = LayoutInfo( it.next(), false, 1, false, 2, 2, false );
-        wlist.append(nw);
+    if(taskBarShowNetStatus) {
+        YVec<NetStatus*>::iterator it = fNetStatus->getIterator();
+        while (it.hasNext())
+        {
+            nw = LayoutInfo(it.next(), false, 1, false, 2, 2, false);
+            wlist.append(nw);
+        }
     }
     nw = LayoutInfo( fApm, false, 1, true, 0, 2, false );
     wlist.append(nw);
