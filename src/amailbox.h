@@ -93,7 +93,7 @@ private:
     mstring fMailBox;
     MailBoxState fState;
     MailCheck check;
-    YTimer *fMailboxCheckTimer;
+    lazy<YTimer> fMailboxCheckTimer;
     YSMListener *smActionListener;
     IApp *app;
 };

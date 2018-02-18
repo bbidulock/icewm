@@ -46,17 +46,11 @@
 
 #include "intl.h"
 
-YTimer *WorkspaceButton::fRaiseTimer(NULL);
+lazy<YTimer> WorkspaceButton::fRaiseTimer;
 
 TaskBar *taskBar = 0;
 
-static YColor* taskBarBg = 0;
-YColor* getTaskBarBg() {
-    if (taskBarBg == 0) {
-        taskBarBg = new YColor(clrDefaultTaskBar);
-    }
-    return taskBarBg;
-}
+YColorName taskBarBg(&clrDefaultTaskBar);
 
 static void initPixmaps() {
     if (taskbarStartImage == null || !taskbarStartImage->valid())
@@ -71,19 +65,11 @@ EdgeTrigger::EdgeTrigger(TaskBar *owner) {
 
     fTaskBar = owner;
 
-    fAutoHideTimer = new YTimer(autoShowDelay);
-    if (fAutoHideTimer) {
-        fAutoHideTimer->setTimerListener(this);
-    }
+    fAutoHideTimer->setTimer(autoShowDelay, this, false);
     fDoShow = false;
 }
 
 EdgeTrigger::~EdgeTrigger() {
-    if (fAutoHideTimer) {
-        fAutoHideTimer->stopTimer();
-        fAutoHideTimer->setTimerListener(0);
-        delete fAutoHideTimer; fAutoHideTimer = 0;
-    }
 }
 
 void EdgeTrigger::startHide() {
@@ -157,7 +143,7 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     fShowDesktop = 0;
 
     ///setToplevel(true);
-    setBackground(getTaskBarBg()->pixel());
+    setBackground(taskBarBg.pixel());
     if (taskbackPixmap != null)
         setBackgroundPixmap(taskbackPixmap->pixmap());
 
@@ -259,7 +245,6 @@ TaskBar::~TaskBar() {
     delete fCollapseButton; fCollapseButton = 0;
     delete fShowDesktop; fShowDesktop = 0;
     delete taskBarMenu; taskBarMenu = 0;
-    delete taskBarBg; taskBarBg = 0;
     taskBar = 0;
     MSG(("taskBar delete"));
 }
@@ -319,7 +304,7 @@ void TaskBar::initApplets() {
         CPUStatus::GetCPUStatus(smActionListener, this, fCPUStatus, cpuCombine);
 #endif
 
-    if(taskBarShowNetStatus)
+    if (taskBarShowNetStatus)
         fNetStatus.init(new NetStatusControl(app, smActionListener, this, this));
     if (taskBarShowClock) {
         fClock = new YClock(smActionListener, this);
@@ -530,7 +515,8 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
     nw = LayoutInfo( fMEMStatus, false, 1, true, 2, 2, false );
     wlist.append(nw);
 #endif
-    if(taskBarShowNetStatus) {
+
+    if (taskBarShowNetStatus) {
         YVec<NetStatus*>::iterator it = fNetStatus->getIterator();
         while (it.hasNext())
         {
@@ -810,7 +796,7 @@ void TaskBar::paint(Graphics &g, const YRect &/*r*/) {
         fGradient = taskbackPixbuf->scale(width(), gradientHeight);
     }
 
-    g.setColor(getTaskBarBg());
+    g.setColor(taskBarBg);
     //g.draw3DRect(0, 0, width() - 1, height() - 1, true);
 
     // When TaskBarDoubleHeight=1 this draws the upper half.
@@ -824,10 +810,10 @@ void TaskBar::paint(Graphics &g, const YRect &/*r*/) {
         g.fillRect(0, y, width(), height() - 1);
         if (!taskBarAtTop) {
             y++;
-            g.setColor(getTaskBarBg()->brighter());
+            g.setColor(taskBarBg->brighter());
             g.drawLine(0, 0, width(), 0);
         } else {
-            g.setColor(getTaskBarBg()->darker());
+            g.setColor(taskBarBg->darker());
             g.drawLine(0, height() - 1, width(), height() - 1);
         }
     }

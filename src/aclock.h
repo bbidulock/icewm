@@ -22,7 +22,7 @@ public:
     virtual bool handleTimer(YTimer *t);
 
 private:
-    YTimer *clockTimer;
+    lazy<YTimer> clockTimer;
     bool clockUTC;
     bool toolTipUTC;
     int transparent;
@@ -32,8 +32,8 @@ private:
     int calcWidth(const char *s, int count);
     bool hasTransparency();
 
-    YColor *clockBg;
-    YColor *clockFg;
+    YColorName clockBg;
+    YColorName clockFg;
     ref<YFont> clockFont;
 };
 #endif

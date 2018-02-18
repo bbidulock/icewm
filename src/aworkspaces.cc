@@ -14,11 +14,13 @@
 #include "intl.h"
 #include <math.h>
 
-YColor * WorkspaceButton::normalButtonBg(NULL);
-YColor * WorkspaceButton::normalButtonFg(NULL);
+YColorName WorkspaceButton::normalButtonBg(&clrWorkspaceNormalButton);
+YColorName WorkspaceButton::normalBackupBg(&clrNormalButton);
+YColorName WorkspaceButton::normalButtonFg(&clrWorkspaceNormalButtonText);
 
-YColor * WorkspaceButton::activeButtonBg(NULL);
-YColor * WorkspaceButton::activeButtonFg(NULL);
+YColorName WorkspaceButton::activeButtonBg(&clrWorkspaceActiveButton);
+YColorName WorkspaceButton::activeBackupBg(&clrActiveButton);
+YColorName WorkspaceButton::activeButtonFg(&clrWorkspaceActiveButtonText);
 
 ref<YFont> WorkspaceButton::normalButtonFont;
 ref<YFont> WorkspaceButton::activeButtonFont;
@@ -54,20 +56,13 @@ void WorkspaceButton::handleClick(const XButtonEvent &up, int /*count*/) {
 }
 
 void WorkspaceButton::handleDNDEnter() {
-    if (fRaiseTimer == 0)
-        fRaiseTimer = new YTimer(autoRaiseDelay);
-    if (fRaiseTimer) {
-        fRaiseTimer->setTimerListener(this);
-        fRaiseTimer->startTimer();
-    }
+    fRaiseTimer->setTimer(autoRaiseDelay, this, true);
     repaint();
 }
 
 void WorkspaceButton::handleDNDLeave() {
-    if (fRaiseTimer && fRaiseTimer->getTimerListener() == this) {
-        fRaiseTimer->stopTimer();
-        fRaiseTimer->setTimerListener(0);
-    }
+    if (fRaiseTimer)
+        fRaiseTimer->disableTimerListener(this);
     repaint();
 }
 
@@ -270,34 +265,18 @@ ref<YFont> WorkspaceButton::getFont() {
         : YButton::getFont();
 }
 
-YColor * WorkspaceButton::getColor() {
+YColor WorkspaceButton::getColor() {
     return isPressed()
-        ? *clrWorkspaceActiveButtonText
-        ? activeButtonFg
-        ? activeButtonFg
-        : activeButtonFg = new YColor(clrWorkspaceActiveButtonText)
-        : YButton::getColor()
-        : *clrWorkspaceNormalButtonText
-        ? normalButtonFg
-        ? normalButtonFg
-        : normalButtonFg = new YColor(clrWorkspaceNormalButtonText)
-        : YButton::getColor();
+        ? activeButtonFg ? activeButtonFg : YButton::getColor()
+        : normalButtonFg ? normalButtonFg : YButton::getColor();
 }
 
 YSurface WorkspaceButton::getSurface() {
-    if (activeButtonBg == 0)
-        activeButtonBg =
-            new YColor(*clrWorkspaceActiveButton
-                       ? clrWorkspaceActiveButton : clrActiveButton);
-    if (normalButtonBg == 0)
-        normalButtonBg =
-            new YColor(*clrWorkspaceNormalButton
-                       ? clrWorkspaceNormalButton : clrNormalButton);
-
-    return (isPressed() ? YSurface(activeButtonBg,
+    return (isPressed()
+            ? YSurface(activeButtonBg ? activeButtonBg : activeBackupBg,
                                    workspacebuttonactivePixmap,
                                    workspacebuttonactivePixbuf)
-            : YSurface(normalButtonBg,
+            : YSurface(normalButtonBg ? normalButtonBg : normalBackupBg,
                        workspacebuttonPixmap,
                        workspacebuttonPixbuf));
 }
@@ -344,13 +323,13 @@ void WorkspaceButton::paint(Graphics &g, const YRect &/*r*/) {
         double sf = (double) desktop->width() / w;
 
         ref<YIcon> icon;
-        YColor *colors[] = {
+        YColor colors[] = {
             surface.color,
-            surface.color->brighter(),
-            surface.color->darker(),
+            surface.color.brighter(),
+            surface.color.darker(),
             getColor(),
-            NULL, // getColor()->brighter(),
-            getColor()->darker()
+            YColor(), // getColor().brighter(),
+            getColor().darker()
         };
 
         for (YFrameWindow *yfw = manager->bottomLayer(WinLayerBelow);

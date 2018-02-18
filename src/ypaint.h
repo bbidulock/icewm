@@ -1,7 +1,6 @@
 #ifndef __YPAINT_H
 #define __YPAINT_H
 
-#include "ref.h"
 #include "ypixmap.h"
 #include "yimage.h"
 #include "mstring.h"
@@ -15,16 +14,9 @@
 #include <X11/extensions/Xrandr.h>
 #endif
 
-#ifdef CONFIG_XFREETYPE //------------------------------------------------------
-#include <ft2build.h>
-#include <X11/Xft/Xft.h>
-#define INIT_XFREETYPE(Member, Value) , Member(Value)
-#else
-#define INIT_XFREETYPE(Member, Value)
-#endif // CONFIG_XFREETYPE -----------------------------------------------------
+#include "ycolor.h"
 
 class YWindow;
-class YIcon;
 
 enum YDirection {
     Up, Left, Down, Right
@@ -32,52 +24,6 @@ enum YDirection {
 
 /******************************************************************************/
 /******************************************************************************/
-
-class YColor {
-public:
-    YColor(unsigned short red, unsigned short green, unsigned short blue);
-    YColor(unsigned long pixel);
-    YColor(char const * clr);
-    ~YColor();
-
-    unsigned long pixel() const { return fPixel; }
-
-    YColor * darker();
-    YColor * brighter();
-
-    static YColor * black;
-    static YColor * white;
-
-    bool operator==(const YColor& c) const {
-        return fRed == c.fRed && fGreen == c.fGreen && fBlue == c.fBlue;
-    }
-    bool operator!=(const YColor& c) const {
-        return !(*this == c);
-    }
-
-#ifdef CONFIG_XFREETYPE
-    operator XftColor*() { return xftColor ? xftColor : allocXft(); }
-private:
-    XftColor* allocXft();
-#endif
-
-private:
-    YColor(const YColor&);
-    YColor& operator=(const YColor&);
-
-    void alloc();
-
-    unsigned long fPixel;
-    unsigned short fRed;
-    unsigned short fGreen;
-    unsigned short fBlue;
-    YColor * fDarker; //!!! remove this (needs color caching...)
-    YColor * fBrighter; //!!! removethis
-
-#ifdef CONFIG_XFREETYPE
-    XftColor * xftColor;
-#endif
-};
 
 struct YDimension {
     YDimension(unsigned w, unsigned h): w(w), h(h) {}
@@ -113,11 +59,11 @@ public:
 /******************************************************************************/
 
 struct YSurface {
-    YSurface(class YColor * color, ref<YPixmap> pixmap,
+    YSurface(YColor color, ref<YPixmap> pixmap,
              ref<YImage> gradient):
     color(color), pixmap(pixmap), gradient(gradient) {}
 
-    class YColor * color;
+    YColor color;
     ref<YPixmap> pixmap;
     ref<YImage> gradient;
 };
@@ -172,7 +118,7 @@ public:
     void fillPolygon(XPoint * points, int const n, int const shape,
                      int const mode);
     void fillArc(int x, int y, unsigned width, unsigned height, int a1, int a2);
-    void setColor(YColor * aColor);
+    void setColor(YColor aColor);
     void setColorPixel(unsigned long pixel);
     void setFont(ref<YFont> aFont);
     void setThinLines(void) { setLineWidth(0); }
@@ -212,10 +158,10 @@ public:
     Drawable drawable() const { return fDrawable; }
     GC handleX() const { return gc; }
 #ifdef CONFIG_XFREETYPE
-    XftDraw *handleXft();
+    struct _XftDraw* handleXft();
 #endif
 
-    YColor * color() const { return fColor; }
+    YColor   color() const { return fColor; }
     ref<YFont> font() const { return fFont; }
     int function() const;
     int xorigin() const { return xOrigin; }
@@ -231,10 +177,10 @@ private:
     Drawable fDrawable;
     GC gc;
 #ifdef CONFIG_XFREETYPE
-    XftDraw* fXftDraw;
+    struct _XftDraw* fXftDraw;
 #endif
 
-    YColor * fColor;
+    YColor   fColor;
     ref<YFont> fFont;
     int xOrigin, yOrigin;
     unsigned rWidth, rHeight, rDepth;

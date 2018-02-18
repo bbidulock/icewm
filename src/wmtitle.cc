@@ -14,54 +14,29 @@
 #include "prefs.h"
 #include "intl.h"
 
-static bool titleColorsFontsInited;
 static ref<YFont> titleFont;
 
-static YColor* titleBarBackground[2];
-static YColor* titleBarForeground[2];
-static YColor* titleBarShadowText[2];
+static YColorName titleBarBackground[2] = {
+    &clrInactiveTitleBar, &clrActiveTitleBar
+};
+static YColorName titleBarForeground[2] = {
+    &clrInactiveTitleBarText, &clrActiveTitleBarText
+};
+static YColorName titleBarShadowText[2] = {
+    &clrInactiveTitleBarShadow, &clrActiveTitleBarShadow
+};
 
 void YFrameTitleBar::initTitleColorsFonts() {
-    if (titleColorsFontsInited == false) {
+    if (titleFont == null) {
         titleFont = YFont::getFont(XFA(titleFontName));
-
-        titleBarBackground[0] = new YColor(clrInactiveTitleBar);
-        titleBarBackground[1] = new YColor(clrActiveTitleBar);
-
-        titleBarForeground[0] = new YColor(clrInactiveTitleBarText);
-        titleBarForeground[1] = new YColor(clrActiveTitleBarText);
-
-        if (*clrInactiveTitleBarShadow)
-            titleBarShadowText[0] = new YColor(clrInactiveTitleBarShadow);
-        if (*clrActiveTitleBarShadow)
-            titleBarShadowText[1] = new YColor(clrActiveTitleBarShadow);
-
-        titleColorsFontsInited = true;
     }
 }
 
 void freeTitleColorsFonts() {
-    if (titleColorsFontsInited) {
-        const int N = 3;
-        YColor** colors[N] = {
-            titleBarBackground,
-            titleBarForeground,
-            titleBarShadowText,
-        };
-        for (int i = 0, k = 0; i < N; i += k, k = !k) {
-            if (colors[i][k]) {
-                delete colors[i][k];
-                colors[i][k] = 0;
-            }
-        }
-        titleFont = null;
-        titleColorsFontsInited = false;
-    }
+    titleFont = null;
 }
 
-YColor* YFrameTitleBar::background(bool active) {
-    if (titleColorsFontsInited == false)
-        initTitleColorsFonts();
+YColor YFrameTitleBar::background(bool active) {
     return titleBarBackground[active];
 }
 
@@ -439,9 +414,8 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
     if (getFrame()->client() == NULL || visible() == false)
         return;
 
-    YColor *bg = titleBarBackground[focused()];
-    YColor *fg = titleBarForeground[focused()];
-    YColor *st = titleBarShadowText[focused()];
+    YColor bg = titleBarBackground[focused()];
+    YColor fg = titleBarForeground[focused()];
 
     int onLeft(0);
     int onRight((int) width());
@@ -494,7 +468,7 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
             int y2 = int(height()) - 1;
 
             g.fillRect(0, y, width(), height() - 1);
-            g.setColor(focused() ? fg->darker() : bg->darker());
+            g.setColor(focused() ? fg.darker() : bg.darker());
             g.drawLine(0, y2, width(), y2);
         }
         break;
@@ -606,15 +580,13 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
 
         break;
     }
-    default:
-        break;
     }
 
     if (title != null && tlen) {
         stringOffset += titleBarHorzOffset;
 
-        if (st) {
-            g.setColor(st);
+        if (titleBarShadowText[focused()]) {
+            g.setColor(titleBarShadowText[focused()]);
             g.drawStringEllipsis(stringOffset + 1, yPos + 1, title, tlen);
         }
 

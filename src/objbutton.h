@@ -20,15 +20,15 @@ public:
 
     virtual void actionPerformed(YAction action, unsigned int modifiers);
     virtual ref<YFont> getFont();
-    virtual YColor * getColor();
+    virtual YColor   getColor();
     virtual YSurface getSurface();
 
 private:
     osmart<DObject> fObject;
 
     static ref<YFont> font;
-    static YColor *bgColor;
-    static YColor *fgColor;
+    static YColorName bgColor;
+    static YColorName fgColor;
 };
 
 #endif

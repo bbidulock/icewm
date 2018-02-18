@@ -1,9 +1,10 @@
 #ifndef __OBJ_H
 #define __OBJ_H
 
-#include "ypaint.h"
+#include "mstring.h"
 
 class IApp;
+class YIcon;
 
 class DObject {
 public:

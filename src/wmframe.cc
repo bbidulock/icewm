@@ -25,11 +25,11 @@
 
 #include "intl.h"
 
-static YColor *activeBorderBg = 0;
-static YColor *inactiveBorderBg = 0;
+       YColorName activeBorderBg(&clrActiveBorder);
+static YColorName inactiveBorderBg(&clrInactiveBorder);
 
-YTimer *YFrameWindow::fAutoRaiseTimer = 0;
-YTimer *YFrameWindow::fDelayFocusTimer = 0;
+lazy<YTimer> YFrameWindow::fAutoRaiseTimer;
+lazy<YTimer> YFrameWindow::fDelayFocusTimer;
 
 extern XContext windowContext;
 extern XContext frameContext;
@@ -41,11 +41,6 @@ YFrameWindow::YFrameWindow(
     : YWindow(parent, 0, depth, visual)
 {
     this->wmActionListener = wmActionListener;
-
-    if (activeBorderBg == 0)
-        activeBorderBg = new YColor(clrActiveBorder);
-    if (inactiveBorderBg == 0)
-        inactiveBorderBg = new YColor(clrInactiveBorder);
 
     fShapeWidth = -1;
     fShapeHeight = -1;
@@ -144,14 +139,10 @@ YFrameWindow::~YFrameWindow() {
         wmapp->signalGuiEvent(geDialogClosed);
     else
         wmapp->signalGuiEvent(geWindowClosed);
-    if (fAutoRaiseTimer && fAutoRaiseTimer->getTimerListener() == this) {
-        fAutoRaiseTimer->stopTimer();
-        fAutoRaiseTimer->setTimerListener(0);
-    }
-    if (fDelayFocusTimer && fDelayFocusTimer->getTimerListener() == this) {
-        fDelayFocusTimer->stopTimer();
-        fDelayFocusTimer->setTimerListener(0);
-    }
+    if (fDelayFocusTimer)
+        fDelayFocusTimer->disableTimerListener(this);
+    if (fAutoRaiseTimer)
+        fAutoRaiseTimer->disableTimerListener(this);
     if (movingWindow || sizingWindow)
         endMoveSize();
     if (fPopupActive)
@@ -857,27 +848,15 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
             if (!delayPointerFocus)
                 focus(false);
             else {
-                if (fDelayFocusTimer == 0)
-                    fDelayFocusTimer = new YTimer(pointerFocusDelay);
-                if (fDelayFocusTimer) {
-                    fDelayFocusTimer->setTimerListener(this);
-                    fDelayFocusTimer->startTimer();
-                }
+                fDelayFocusTimer->setTimer(pointerFocusDelay, this, true);
             }
         } else {
             if (fDelayFocusTimer) {
                 fDelayFocusTimer->stopTimer();
-                fDelayFocusTimer->setTimerListener(0);
             }
         }
         if (autoRaise) {
-            if (fAutoRaiseTimer == 0) {
-                fAutoRaiseTimer = new YTimer(autoRaiseDelay);
-            }
-            if (fAutoRaiseTimer) {
-                fAutoRaiseTimer->setTimerListener(this);
-                fAutoRaiseTimer->startTimer();
-            }
+            fAutoRaiseTimer->setTimer(autoRaiseDelay, this, true);
         }
     } else if (crossing.type == LeaveNotify &&
                fFocused &&
@@ -890,15 +869,10 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
         if (crossing.detail != NotifyInferior &&
             crossing.mode == NotifyNormal)
         {
-            if (fDelayFocusTimer && fDelayFocusTimer->getTimerListener() == this) {
-                fDelayFocusTimer->stopTimer();
-                fDelayFocusTimer->setTimerListener(0);
-            }
-            if (autoRaise) {
-                if (fAutoRaiseTimer && fAutoRaiseTimer->getTimerListener() == this) {
-                    fAutoRaiseTimer->stopTimer();
-                    fAutoRaiseTimer->setTimerListener(0);
-                }
+            if (fDelayFocusTimer)
+                fDelayFocusTimer->disableTimerListener(this);
+            if (autoRaise && fAutoRaiseTimer) {
+                fAutoRaiseTimer->disableTimerListener(this);
             }
         }
     }
@@ -1515,11 +1489,9 @@ void YFrameWindow::updateFocusOnMap(bool& doActivate) {
 
     if (fDelayFocusTimer) {
         fDelayFocusTimer->stopTimer();
-        fDelayFocusTimer->setTimerListener(0);
     }
     if (fAutoRaiseTimer) {
         fAutoRaiseTimer->stopTimer();
-        fAutoRaiseTimer->setTimerListener(0);
     }
 
     if (avoidFocus())
@@ -1635,8 +1607,6 @@ MiniIcon *YFrameWindow::getMiniIcon() {
 }
 
 void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
-    YColor *bg;
-
     if (g.rdepth() != depth()) {
         tlog("YFrameWindow::%s: attempt to use gc of depth %d on window 0x%lx of depth %d\n",
                 __func__, g.rdepth(), handle(), depth());
@@ -1645,12 +1615,9 @@ void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
     if (!(frameDecors() & (fdResize | fdBorder)))
         return ;
 
-    if (focused())
-        bg = activeBorderBg;
-    else
-        bg = inactiveBorderBg;
-
+    YColor bg = focused() ? activeBorderBg : inactiveBorderBg;
     g.setColor(bg);
+
     switch (wmLook) {
     case lookWin95:
     case lookWarp4:
@@ -1671,16 +1638,12 @@ void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
         g.fillRect((width() - 1) - (borderX() - 2), 1, borderX() - 2, height() - 2);
 
         if (wmLook == lookMotif && canSize()) {
-            YColor *b(bg->brighter());
-            YColor *d(bg->darker());
-
-
-            g.setColor(d);
+            g.setColor(bg.darker());
             g.drawLine(wsCornerX - 1, 0, wsCornerX - 1, height() - 1);
             g.drawLine(width() - wsCornerX - 1, 0, width() - wsCornerX - 1, height() - 1);
             g.drawLine(0, wsCornerY - 1, width(),wsCornerY - 1);
             g.drawLine(0, height() - wsCornerY - 1, width(), height() - wsCornerY - 1);
-            g.setColor(b);
+            g.setColor(bg.brighter());
             g.drawLine(wsCornerX, 0, wsCornerX, height() - 1);
             g.drawLine(width() - wsCornerX, 0, width() - wsCornerX, height() - 1);
             g.drawLine(0, wsCornerY, width(), wsCornerY);
@@ -1771,8 +1734,6 @@ void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
                 g.drawBorderW(0, 0, width() - 1, height() - 1, true);
             }
         }
-        break;
-    default:
         break;
     }
 }
@@ -2657,14 +2618,10 @@ void YFrameWindow::updateState() {
         client()->hide();
     }
     if (!show_frame) {
-        if (fDelayFocusTimer && fDelayFocusTimer->getTimerListener() == this) {
-            fDelayFocusTimer->stopTimer();
-            fDelayFocusTimer->setTimerListener(0);
-        }
-        if (fAutoRaiseTimer && fAutoRaiseTimer->getTimerListener() == this) {
-            fAutoRaiseTimer->stopTimer();
-            fAutoRaiseTimer->setTimerListener(0);
-        }
+        if (fDelayFocusTimer)
+            fDelayFocusTimer->disableTimerListener(this);
+        if (fAutoRaiseTimer)
+            fAutoRaiseTimer->disableTimerListener(this);
     }
 }
 

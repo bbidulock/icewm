@@ -2,10 +2,10 @@
 #define __SWITCH_H
 
 #include "ymenu.h"
-#include "ypointer.h"
 
 class YFrameWindow;
 class YWindowManager;
+class YIcon;
 
 // XXX: this only exists because there are no lambda functions
 class IClosablePopup
@@ -70,11 +70,11 @@ private:
 
     ref<YImage> fGradient;
 
-    osmart<YColor> switchFg;
-    osmart<YColor> switchBg;
-    osmart<YColor> switchHl;
-    osmart<YColor> switchMbg;
-    osmart<YColor> switchMfg;
+    YColorName switchFg;
+    YColorName switchBg;
+    YColorName switchHl;
+    YColorName switchMbg;
+    YColorName switchMfg;
     ref<YFont> switchFont;
 
     int modsDown;

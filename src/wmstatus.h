@@ -2,6 +2,7 @@
 #define __WMSTATUS_H
 
 #include "ywindow.h"
+#include "ytimer.h"
 
 class YFrameWindow;
 
@@ -18,8 +19,8 @@ public:
     virtual ustring getStatus() = 0;
 
 protected:
-    static YColor *statusFg;
-    static YColor *statusBg;
+    static YColorName statusFg;
+    static YColorName statusBg;
     static ref<YFont> statusFont;
 };
 
@@ -37,7 +38,7 @@ private:
     int fX, fY, fW, fH;
 };
 
-class WorkspaceStatus: public YWindowManagerStatus {
+class WorkspaceStatus: public YWindowManagerStatus, public YTimerListener {
 public:
     static WorkspaceStatus * createInstance(YWindow *aParent);
     virtual ~WorkspaceStatus();
@@ -45,15 +46,13 @@ public:
     virtual ustring getStatus();
     void begin(long workspace);
     virtual void setStatus(long workspace);
+    virtual bool handleTimer(YTimer *timer);
 private:
-    WorkspaceStatus(YWindow *aParent, const ustring& templateString);
+    WorkspaceStatus(YWindow *aParent, ustring templateString);
     static ustring getStatus(const char* name);
 
     long workspace;
-    class YTimer *timer;
-
-    class Timeout;
-    Timeout *timeout;
+    YTimer timer;
 };
 
 extern MoveSizeStatus *statusMoveSize;

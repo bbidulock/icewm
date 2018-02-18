@@ -17,7 +17,7 @@ public:
 
     virtual void actionPerformed(YAction button, unsigned int modifiers);
     virtual ref<YFont> getFont();
-    virtual YColor * getColor();
+    virtual YColor   getColor();
     virtual YSurface getSurface();
 
     void updateName();
@@ -26,14 +26,16 @@ public:
 private:
     virtual void paint(Graphics &g, const YRect &r);
 
-    static YTimer *fRaiseTimer;
+    static lazy<YTimer> fRaiseTimer;
     long fWorkspace;
 
-    static YColor * normalButtonBg;
-    static YColor * normalButtonFg;
+    static YColorName normalButtonBg;
+    static YColorName normalBackupBg;
+    static YColorName normalButtonFg;
 
-    static YColor * activeButtonBg;
-    static YColor * activeButtonFg;
+    static YColorName activeButtonBg;
+    static YColorName activeBackupBg;
+    static YColorName activeButtonFg;
 
     static ref<YFont> normalButtonFont;
     static ref<YFont> activeButtonFont;

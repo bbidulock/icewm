@@ -5,6 +5,7 @@
 #include "yaction.h"
 
 class YMenu;
+class YIcon;
 
 class YButton: public YWindow {
 public:
@@ -47,7 +48,7 @@ public:
 
     virtual void actionPerformed(YAction action, unsigned int modifiers);
     virtual ref<YFont> getFont();
-    virtual YColor * getColor();
+    virtual YColor   getColor();
     virtual YSurface getSurface();
 
     void setEnabled(bool enabled);
@@ -79,12 +80,14 @@ private:
     void popup(bool mouseDown);
     void popdown();
 
-    static YColor *normalButtonBg;
-    static YColor *normalButtonFg;
+protected:
+    static YColorName normalButtonBg;
+    static YColorName normalButtonFg;
 
-    static YColor *activeButtonBg;
-    static YColor *activeButtonFg;
+    static YColorName activeButtonBg;
+    static YColorName activeButtonFg;
 
+private:
     static ref<YFont> normalButtonFont;
     static ref<YFont> activeButtonFont;
 };

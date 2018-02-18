@@ -101,7 +101,7 @@ private:
     void freeItems();
     void updateItems();
 
-    YColor *bg, *fg;
+    YColorName bg, fg;
     ref<YFont> font;
     int fontWidth, fontHeight;
 };
@@ -183,11 +183,13 @@ void YIconView::updateItems() {
     }
 }
 
-YIconView::YIconView(YScrollView *view, YWindow *aParent): YWindow(aParent) {
+YIconView::YIconView(YScrollView *view, YWindow *aParent):
+    YWindow(aParent),
+    bg("rgb:CC/CC/CC"),
+    fg(YColor::black)
+{
     fView = view;
 
-    bg = new YColor("rgb:CC/CC/CC");
-    fg = YColor::black; //new YColor("rgb:00/00/00");
     font = YFont::getFont("-b&h-lucida-medium-r-*-*-*-120-*-*-*-*-*-*", "monospace:size=10");
     fontWidth = font->textWidth("M");
     fontHeight = font->height();
@@ -276,8 +278,8 @@ bool YIconView::layout() {
         cx += aw;
         thisLine++;
 
-        if (cx > conWidth)
-            conWidth = cx;
+        if (cx > int(conWidth))
+            conWidth = unsigned(cx);
         icon = icon->getNext();
         conHeight = cy + ah;
     }

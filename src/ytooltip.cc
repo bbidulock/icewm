@@ -14,8 +14,8 @@
 #include <string.h>
 
 YToolTipWindow::YToolTipWindow(ustring text) :
-    toolTipBg(clrToolTip),
-    toolTipFg(clrToolTipText),
+    toolTipBg(&clrToolTip),
+    toolTipFg(&clrToolTipText),
     toolTipFont(YFont::getFont(XFA(toolTipFontName)))
 {
     setStyle(wsToolTip | wsOverrideRedirect);
@@ -28,14 +28,14 @@ YToolTip::YToolTip() :
 }
 
 void YToolTipWindow::paint(Graphics &g, const YRect &/*r*/) {
-    g.setColor(&toolTipBg);
+    g.setColor(toolTipBg);
     g.fillRect(0, 0, width(), height());
     g.setColor(YColor::black);
     g.drawRect(0, 0, width() - 1, height() - 1);
     if (fText != null) {
         int y = toolTipFont->ascent() + 2;
         g.setFont(toolTipFont);
-        g.setColor(&toolTipFg);
+        g.setColor(toolTipFg);
         g.drawStringMultiline(3, y, fText);
     }
 }
@@ -95,12 +95,12 @@ void YToolTip::display() {
     window()->raise();
     window()->show();
     if (ToolTipTime)
-        fTimer = new YTimer(ToolTipTime, this, true);
+        fTimer->setTimer(ToolTipTime, this, true);
 }
 
 void YToolTip::hide() {
     fWindow = 0;
-    fTimer = 0;
+    fTimer = null;
 }
 
 void YToolTip::locate(YWindow *w, const XCrossingEvent &/*crossing*/) {

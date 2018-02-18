@@ -6,6 +6,7 @@
 #include "yscrollview.h"
 
 class YScrollView;
+class YIcon;
 
 class YListItem {
 public:

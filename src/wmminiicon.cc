@@ -17,24 +17,16 @@
 #include <string.h>
 
 static ref<YFont> minimizedWindowFont;
-static YColor *normalMinimizedWindowBg = 0;
-static YColor *normalMinimizedWindowFg = 0;
-static YColor *activeMinimizedWindowBg = 0;
-static YColor *activeMinimizedWindowFg = 0;
+static YColorName normalMinimizedWindowBg(&clrNormalMinimizedWindow);
+static YColorName normalMinimizedWindowFg(&clrNormalMinimizedWindowText);
+static YColorName activeMinimizedWindowBg(&clrActiveMinimizedWindow);
+static YColorName activeMinimizedWindowFg(&clrActiveMinimizedWindowText);
 
 MiniIcon::MiniIcon(YWindow *aParent, YFrameWindow *frame):
     YWindow(desktop) {
     reparent(aParent, 0, 0);
     if (minimizedWindowFont == null)
         minimizedWindowFont = YFont::getFont(XFA(minimizedWindowFontName));
-    if (normalMinimizedWindowBg == 0)
-        normalMinimizedWindowBg = new YColor(clrNormalMinimizedWindow);
-    if (normalMinimizedWindowFg == 0)
-        normalMinimizedWindowFg = new YColor(clrNormalMinimizedWindowText);
-    if (activeMinimizedWindowBg == 0)
-        activeMinimizedWindowBg = new YColor(clrActiveMinimizedWindow);
-    if (activeMinimizedWindowFg == 0)
-        activeMinimizedWindowFg = new YColor(clrActiveMinimizedWindowText);
 
     fFrame = frame;
     selected = 0;
@@ -46,8 +38,8 @@ MiniIcon::~MiniIcon() {
 
 void MiniIcon::paint(Graphics &g, const YRect &/*r*/) {
     bool focused = getFrame()->focused();
-    YColor *bg = focused ? activeMinimizedWindowBg : normalMinimizedWindowBg;
-    YColor *fg = focused ? activeMinimizedWindowFg : normalMinimizedWindowFg;
+    YColor bg = focused ? activeMinimizedWindowBg : normalMinimizedWindowBg;
+    YColor fg = focused ? activeMinimizedWindowFg : normalMinimizedWindowFg;
     int tx = 2;
     int x, y, w, h;
 
@@ -60,13 +52,13 @@ void MiniIcon::paint(Graphics &g, const YRect &/*r*/) {
     h = height() - 6;
 
     if (selected == 2) {
-        g.setColor(bg->darker());
+        g.setColor(bg.darker());
         g.draw3DRect(x, y, w, h, false);
         g.fillRect(x + 1, y + 1, w - 1, h - 1);
     } else {
-        g.setColor(bg->brighter());
+        g.setColor(bg.brighter());
         g.drawRect(x + 1, y + 1, w, h);
-        g.setColor(bg->darker());
+        g.setColor(bg.darker());
         g.drawRect(x, y, w, h);
         g.setColor(bg);
         g.fillRect(x + 2, y + 2, w - 2, h - 2);

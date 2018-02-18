@@ -61,7 +61,7 @@ ustring fetchTitle(Window win) {
 
 struct DockRequest {
     Window window;
-    osmart<YTimer> timer;
+    lazy<YTimer> timer;
     DockRequest(Window w, YTimer* t) : window(w), timer(t) { }
 };
 
@@ -76,7 +76,7 @@ private:
     YAtom _NET_SYSTEM_TRAY_MESSAGE_DATA;
     YAtom _NET_SYSTEM_TRAY_S0;
     YXTray *fTray;
-    osmart<YTimer> fUpdateTimer;
+    lazy<YTimer> fUpdateTimer;
     YObjectArray<DockRequest> fDockRequests;
     mstring toolTip;
 
@@ -211,7 +211,7 @@ void YXTrayProxy::updateToolTip() {
             setToolTip(null);
         }
         if (fUpdateTimer)
-            fUpdateTimer = NULL;
+            fUpdateTimer = null;
         return;
     }
 
@@ -235,11 +235,8 @@ void YXTrayProxy::updateToolTip() {
     if (toolTip != newTip) {
         toolTip = newTip;
         setToolTip(newTip);
-        if (fUpdateTimer == NULL) {
-            const long timerInterval = 500L;
-            fUpdateTimer = new YTimer(timerInterval);
-            fUpdateTimer->setTimerListener(this);
-        }
+        if ( ! fUpdateTimer)
+            fUpdateTimer->setTimer(500L, this, false);
     }
     if (false == fUpdateTimer->isRunning()) {
         fUpdateTimer->startTimer();
@@ -542,7 +539,7 @@ void YXTray::detachTray() {
 void YXTray::paint(Graphics &g, const YRect &/*r*/) {
     if (!fDrawBevel)
         return;
-    g.setColor(getTaskBarBg());
+    g.setColor(taskBarBg);
     if (trayDrawBevel && fDocked.getCount())
         g.draw3DRect(0, 0, width() - 1, height() - 1, false);
 }

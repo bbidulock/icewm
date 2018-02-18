@@ -31,7 +31,6 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win):
     fShaped = false;
     fPinging = false;
     fPingTime = 0;
-    fPingTimer = 0;
     fHints = 0;
     fWinHints = 0;
     fSavedFrameState = InvalidFrameState;
@@ -87,11 +86,6 @@ YFrameClient::~YFrameClient() {
     }
     if (fHints) { XFree(fHints); fHints = 0; }
     if (fMwmHints) { XFree(fMwmHints); fMwmHints = 0; }
-
-    if (fPingTimer) {
-        delete fPingTimer;
-        fPingTimer = 0;
-    }
 }
 
 void YFrameClient::getProtocols(bool force) {
@@ -360,7 +354,7 @@ bool YFrameClient::sendPing() {
         xapp->send(xev, handle(), NoEventMask);
         fPinging = true;
         fPingTime = xev.data.l[1];
-        fPingTimer = new YTimer(3000L, this, true);
+        fPingTimer->setTimer(3000L, this, true);
         sent = true;
     }
     return sent;
@@ -371,8 +365,7 @@ bool YFrameClient::handleTimer(YTimer* timer) {
         return false;
     }
 
-    delete fPingTimer;
-    fPingTimer = 0;
+    fPingTimer = null;
     fPinging = false;
 
     if (destroyed() || getFrame() == 0) {
@@ -434,8 +427,7 @@ void YFrameClient::recvPing(const XClientMessageEvent &message) {
     {
         fPinging = false;
         fPingTime = xapp->getEventTime("recvPing");
-        delete fPingTimer;
-        fPingTimer = 0;
+        fPingTimer = null;
     }
 }
 

@@ -28,10 +28,10 @@ YInputLine::YInputLine(YWindow *parent):
     fSelecting(false),
     fBlinkTime(333),
     inputFont(YFont::getFont(XFA(inputFontName))),
-    inputBg(new YColor(clrInput)),
-    inputFg(new YColor(clrInputText)),
-    inputSelectionBg(new YColor(clrInputSelection)),
-    inputSelectionFg(new YColor(clrInputSelectionText)),
+    inputBg(&clrInput),
+    inputFg(&clrInputText),
+    inputSelectionBg(&clrInputSelection),
+    inputSelectionFg(&clrInputSelectionText),
     inputMenu(new YMenu())
 {
     inputMenu->setActionListener(this);
@@ -433,12 +433,12 @@ void YInputLine::handleFocus(const XFocusChangeEvent &focus) {
     {
         fHasFocus = true;
         selectAll();
-        cursorBlinkTimer = new YTimer(fBlinkTime, this, true);
+        cursorBlinkTimer->setTimer(fBlinkTime, this, true);
     }
     else if (focus.type == FocusOut/* && fHasFocus == true*/) {
         fHasFocus = false;
         repaint();
-        cursorBlinkTimer = 0;
+        cursorBlinkTimer = null;
     }
 }
 

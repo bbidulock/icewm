@@ -38,7 +38,7 @@ private:
     ClientData *fFrame;
     bool fShown;
     int selected;
-    osmart<YTimer> fRaiseTimer;
+    lazy<YTimer> fRaiseTimer;
 
     static ref<YImage> taskMinimizedGradient;
     static ref<YImage> taskActiveGradient;

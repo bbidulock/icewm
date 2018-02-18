@@ -236,10 +236,10 @@ public:
         list->setGeometry(YRect(0, TH, r.width(), r.height() - TH));
     }
 private:
-    YColor *titleBg;
-    YColor *titleFg;
+    YColorName titleBg;
+    YColorName titleFg;
+    YColorName bg;
 
-    YColor *bg;
     char *title;
     int dragY;
     ObjectList *list;
@@ -271,11 +271,13 @@ public:
 };
 
 
-Pane::Pane(const char *atitle, const char *path, Panes *aParent): YWindow(aParent) {
+Pane::Pane(const char *atitle, const char *path, Panes *aParent):
+    YWindow(aParent),
+    titleBg("#6666CC"),
+    titleFg("#FFFFFF"),
+    bg("#CCCCCC")
+{
     title = strdup(atitle);
-    titleBg = new YColor("#6666CC");
-    titleFg = YColor::white;
-    bg = new YColor("#CCCCCC");
     list = new ObjectList(path, this);
     list->show();
     owner = aParent;

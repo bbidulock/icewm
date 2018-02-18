@@ -64,11 +64,11 @@ private:
     const short fBlinkTime;
 
     ref<YFont> inputFont;
-    osmart<YColor> inputBg;
-    osmart<YColor> inputFg;
-    osmart<YColor> inputSelectionBg;
-    osmart<YColor> inputSelectionFg;
-    osmart<YTimer> cursorBlinkTimer;
+    YColorName inputBg;
+    YColorName inputFg;
+    YColorName inputSelectionBg;
+    YColorName inputSelectionFg;
+    lazy<YTimer> cursorBlinkTimer;
     osmart<YMenu> inputMenu;
 
     YAction actionCut;

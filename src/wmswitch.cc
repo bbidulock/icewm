@@ -223,10 +223,10 @@ SwitchWindow::SwitchWindow(YWindow *parent, ISwitchItems *items,
                            bool verticalStyle):
     YPopupWindow(parent),
     fGradient(null),
-    switchFg(new YColor(clrQuickSwitchText)),
-    switchBg(new YColor(clrQuickSwitch)),
-    switchHl(clrQuickSwitchActive ? new YColor(clrQuickSwitchActive) : 0),
-    switchMfg(new YColor(clrActiveTitleBarText)),
+    switchFg(&clrQuickSwitchText),
+    switchBg(&clrQuickSwitch),
+    switchHl(&clrQuickSwitchActive),
+    switchMfg(&clrActiveTitleBarText),
     switchFont(YFont::getFont(XFA(switchFontName)))
 {
     zItems = items ? items : new WindowItemsCtrlr;
@@ -235,11 +235,11 @@ SwitchWindow::SwitchWindow(YWindow *parent, ISwitchItems *items,
     // I prefer clrNormalMenu but some themes use inverted settings where
     // clrNormalMenu is the same as clrQuickSwitch
     if (clrQuickSwitchActive)
-        switchMbg = new YColor(clrQuickSwitchActive);
+        switchMbg = &clrQuickSwitchActive;
     else if (!strcmp(clrNormalMenu, clrQuickSwitch))
-        switchMbg = new YColor(clrActiveMenuItem);
+        switchMbg = &clrActiveMenuItem;
     else
-        switchMbg = new YColor(clrNormalMenu);
+        switchMbg = &clrNormalMenu;
 
     modsDown = 0;
     isUp = false;

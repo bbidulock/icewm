@@ -71,7 +71,7 @@ private:
     int fDelta;
     bool fVert;
 
-    static YTimer *fEdgeSwitchTimer;
+    static lazy<YTimer> fEdgeSwitchTimer;
 };
 
 class YProxyWindow: public YWindow {

@@ -31,8 +31,8 @@ private:
                                          const char *needle);
 
     unsigned long long int **samples;
-    YColor *color[MEM_STATES];
-    YTimer *fUpdateTimer;
+    YColorName color[MEM_STATES];
+    lazy<YTimer> fUpdateTimer;
 };
 #endif
 

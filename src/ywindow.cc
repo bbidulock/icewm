@@ -49,53 +49,43 @@ public:
     YWindow *getWindow() const { return fWindow; }
     bool isScrolling() const { return fScrolling; }
 private:
-    YTimer *fAutoScrollTimer;
-    XMotionEvent *fMotion;
+    YTimer fAutoScrollTimer;
+    XMotionEvent fMotion;
     YWindow *fWindow;
     bool fScrolling;
 };
 
 
-YAutoScroll::YAutoScroll() {
+YAutoScroll::YAutoScroll() :
+    fAutoScrollTimer(autoScrollDelay, this, false)
+{
     fWindow = 0;
-    fAutoScrollTimer = 0;
     fScrolling = false;
-    fMotion = new XMotionEvent;
 }
 
 YAutoScroll::~YAutoScroll() {
-    delete fAutoScrollTimer; fAutoScrollTimer = 0;
-    delete fMotion; fMotion = 0;
 }
 
 bool YAutoScroll::handleTimer(YTimer *timer) {
-    if (timer == fAutoScrollTimer && fWindow) {
-        fAutoScrollTimer->setInterval(autoScrollDelay);
-        return fWindow->handleAutoScroll(*fMotion);
+    if (fWindow) {
+        return fWindow->handleAutoScroll(fMotion);
     }
     return false;
 }
 
 void YAutoScroll::autoScroll(YWindow *w, bool autoScroll, const XMotionEvent *motion) {
-    if (motion && fMotion)
-        *fMotion = *motion;
+    if (motion)
+        fMotion = *motion;
     else
         w = 0;
     fWindow = w;
     if (w == 0)
         autoScroll = false;
     fScrolling = autoScroll;
-    if (autoScroll && fAutoScrollTimer == 0) {
-        fAutoScrollTimer = new YTimer(autoScrollStartDelay);
-        fAutoScrollTimer->setTimerListener(this);
-    }
-    if (fAutoScrollTimer) {
-        if (autoScroll) {
-            if (!fAutoScrollTimer->isRunning()) {
-                fAutoScrollTimer->startTimer(autoScrollStartDelay);
-            }
-        } else
-            fAutoScrollTimer->stopTimer();
+    if (autoScroll) {
+        fAutoScrollTimer.startTimer();
+    } else {
+        fAutoScrollTimer.stopTimer();
     }
 }
 
@@ -168,10 +158,8 @@ YWindow::~YWindow() {
     }
     if (fToolTip) {
         fToolTip->hide();
-        if (fToolTipTimer && fToolTipTimer->getTimerListener() == fToolTip) {
-            fToolTipTimer->stopTimer();
-            fToolTipTimer->setTimerListener(0);
-        }
+        if (fToolTipTimer)
+            fToolTipTimer->disableTimerListener(fToolTip);
         delete fToolTip; fToolTip = 0;
     }
     if (fClickWindow == this)
@@ -835,10 +823,8 @@ bool YWindow::handleKey(const XKeyEvent &key) {
 void YWindow::handleButton(const XButtonEvent &button) {
     if (fToolTip) {
         fToolTip->hide();
-        if (fToolTipTimer && fToolTipTimer->getTimerListener() == fToolTip) {
-            fToolTipTimer->stopTimer();
-            fToolTipTimer->setTimerListener(0);
-        }
+        if (fToolTipTimer)
+            fToolTipTimer->disableTimerListener(fToolTip);
     }
 
     int const dx(abs(button.x_root - fClickEvent.x_root));
@@ -918,7 +904,7 @@ void YWindow::handleMotion(const XMotionEvent &motion) {
     }
 }
 
-YTimer *YWindow::fToolTipTimer = 0;
+lazy<YTimer> YWindow::fToolTipTimer;
 
 void YWindow::setToolTip(const ustring &tip) {
     if (fToolTip) {
@@ -945,21 +931,13 @@ void YWindow::updateToolTip() {
 void YWindow::handleCrossing(const XCrossingEvent &crossing) {
     if (fToolTip) {
         if (crossing.type == EnterNotify && crossing.mode == NotifyNormal) {
-            if (fToolTipTimer == 0)
-                fToolTipTimer = new YTimer(ToolTipDelay);
-            if (fToolTipTimer) {
-                fToolTipTimer->setTimerListener(fToolTip);
-                fToolTipTimer->startTimer();
-                updateToolTip();
-                if (fToolTip)
-                    fToolTip->locate(this, crossing);
-            }
+            fToolTipTimer->setTimer(ToolTipDelay, fToolTip, true);
+            updateToolTip();
+            fToolTip->locate(this, crossing);
         } else if (crossing.type == LeaveNotify) {
             fToolTip->hide();
-            if (fToolTipTimer && fToolTipTimer->getTimerListener() == fToolTip) {
-                fToolTipTimer->stopTimer();
-                fToolTipTimer->setTimerListener(0);
-            }
+            if (fToolTipTimer)
+                fToolTipTimer->disableTimerListener(fToolTip);
         }
     }
 }

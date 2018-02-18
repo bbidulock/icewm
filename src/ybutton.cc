@@ -21,11 +21,11 @@
 
 #include "intl.h"
 
-YColor *YButton::normalButtonBg = 0;
-YColor *YButton::normalButtonFg = 0;
+YColorName YButton::normalButtonBg(&clrNormalButton);
+YColorName YButton::normalButtonFg(&clrNormalButtonText);
 
-YColor *YButton::activeButtonBg = 0;
-YColor *YButton::activeButtonFg = 0;
+YColorName YButton::activeButtonBg(&clrActiveButton);
+YColorName YButton::activeButtonFg(&clrActiveButtonText);
 
 ref<YFont> YButton::normalButtonFont;
 ref<YFont> YButton::activeButtonFont;
@@ -50,14 +50,6 @@ YButton::YButton(YWindow *parent, YAction action, YMenu *popup) :
         normalButtonFont = YFont::getFont(XFA(normalButtonFontName));
     if (activeButtonFont == null)
         activeButtonFont = YFont::getFont(XFA(activeButtonFontName));
-    if (normalButtonBg == 0)
-        normalButtonBg = new YColor(clrNormalButton);
-    if (normalButtonFg == 0)
-        normalButtonFg = new YColor(clrNormalButtonText);
-    if (activeButtonBg == 0)
-        activeButtonBg = new YColor(clrActiveButton);
-    if (activeButtonFg == 0)
-        activeButtonFg = new YColor(clrActiveButtonText);
 }
 
 YButton::~YButton() {
@@ -97,7 +89,7 @@ void YButton::paint(Graphics &g, int const d, const YRect &r) {
         if (!fEnabled) {
             g.setColor(YColor::white);
             g.drawChars(fText, d + p + 1, yp + 1);
-            g.setColor(YColor::white->darker()->darker());
+            g.setColor(YColor::white->darker().darker());
             g.drawChars(fText, d + p, yp);
         } else {
             g.drawChars(fText, d + p, yp);
@@ -448,7 +440,7 @@ ref<YFont> YButton::getFont() {
     return (fPressed ? activeButtonFont : normalButtonFont);
 }
 
-YColor * YButton::getColor() {
+YColor YButton::getColor() {
     return (fPressed ? activeButtonFg : normalButtonFg);
 }
 

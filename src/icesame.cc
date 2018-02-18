@@ -36,14 +36,14 @@ public:
         score = 0;
         scoreLabel = new YLabel("0", this);
 
-        c[0][0] = new YColor("rgb:00/00/00");
-        c[0][1] = 0; //new YColor("rgb:00/00/00");
-        c[1][0] = new YColor("rgb:FF/00/00");
-        c[1][1] = new YColor("rgb:80/00/00");
-        c[2][0] = new YColor("rgb:FF/FF/00");
-        c[2][1] = new YColor("rgb:80/80/00");
-        c[3][0] = new YColor("rgb:00/00/FF");
-        c[3][1] = new YColor("rgb:00/00/80");
+        c[0][0] = "rgb:00/00/00";
+        c[0][1] = "rgb:00/00/00";
+        c[1][0] = "rgb:FF/00/00";
+        c[1][1] = "rgb:80/00/00";
+        c[2][0] = "rgb:FF/FF/00";
+        c[2][1] = "rgb:80/80/00";
+        c[3][0] = "rgb:00/00/FF";
+        c[3][1] = "rgb:00/00/80";
 
         setStyle(wsPointerMotion);
         setSize(XSIZE * XCOUNT, YSIZE * YCOUNT + scoreLabel->height());
@@ -280,7 +280,7 @@ private:
     int restartField[XCOUNT][YCOUNT];
     bool canUndo;
     int score, undoScore;
-    YColor *c[NCOLOR][2];
+    YColorName c[NCOLOR][2];
     YMenu *menu;
     YLabel *scoreLabel;
     YAction actionUndo, actionNew, actionRestart, actionClose;

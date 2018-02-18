@@ -6,10 +6,7 @@
 #include "config.h"
 
 #include "yfull.h"
-#include "atray.h"
 #include "wmapp.h"
-#include "wmaction.h"
-#include "wmmgr.h"
 #include "wmframe.h"
 #include "wmprog.h"
 #include "wmswitch.h"
@@ -20,28 +17,19 @@
 #include "wmwinmenu.h"
 #include "wmwinlist.h"
 #include "wmtaskbar.h"
-#include "wmclient.h"
-#include "ymenuitem.h"
 #include "wmsession.h"
 #include "wpixres.h"
-#include "browse.h"
-#include "objmenu.h"
-#include "objbutton.h"
-#include "aworkspaces.h"
-#include "themes.h"
 #include "sysdep.h"
-#include "prefs.h"
-#include "yimage.h"
 #include "ylocale.h"
-#include "yrect.h"
 #include "yprefs.h"
-#include "yicon.h"
 #include "prefs.h"
-#include "upath.h"
 #include "udir.h"
 #include "appnames.h"
-#include "ypointer.h"
 #include "ypaths.h"
+#ifdef CONFIG_XFREETYPE
+#include <ft2build.h>
+#include <X11/Xft/Xft.h>
+#endif
 #include "intl.h"
 
 char const *ApplicationName("IceWM");
@@ -1555,8 +1543,8 @@ int main(int argc, char **argv) {
     unregisterProtocols();
     YIcon::freeIcons();
     WMConfig::freeConfiguration();
-    delete defOptions; defOptions = 0;
-    delete hintOptions; hintOptions = 0;
+    defOptions = null;
+    hintOptions = null;
     return rc;
 }
 

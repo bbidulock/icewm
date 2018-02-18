@@ -210,7 +210,7 @@ private:
     bool fShaped;
     bool fPinging;
     long fPingTime;
-    YTimer* fPingTimer;
+    lazy<YTimer> fPingTimer;
     long fWinHints;
 
     ustring fWindowTitle;

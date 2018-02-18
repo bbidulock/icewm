@@ -7,18 +7,16 @@
  * !!! this should be external module (replacable for POP,IMAP,...)
  */
 #include "config.h"
-#include "intl.h"
-#include "ylib.h"
 #include "amailbox.h"
 #include "sysdep.h"
-#include "base.h"
 #include "prefs.h"
 #include "wmapp.h"
 #include "wpixmaps.h"
 #include <sys/socket.h>
 #include <netdb.h>
+#include "intl.h"
 
-extern YColor* getTaskBarBg();
+extern YColorName taskBarBg;
 
 MailCheck::MailCheck(MailBoxStatus *mbx):
     state(IDLE), fMbx(mbx), fLastSize(-1), fLastCount(-1),
@@ -324,29 +322,19 @@ YWindow(aParent), fMailBox(mailbox), check(this)
     this->smActionListener = smActionListener;
 
     setSize(16, 16);
-    fMailboxCheckTimer = 0;
     fState = mbxNoMail;
     if (fMailBox != null) {
         cstring cs(fMailBox);
         MSG((_("Using MailBox \"%s\"\n"), cs.c_str()));
         check.setURL(fMailBox);
 
-        fMailboxCheckTimer = new YTimer(mailCheckDelay * 1000);
-        if (fMailboxCheckTimer) {
-            fMailboxCheckTimer->setTimerListener(this);
-            fMailboxCheckTimer->startTimer();
-        }
+        fMailboxCheckTimer->setTimer(mailCheckDelay * 1000, this, true);
         checkMail();
     }
     setTitle("MailBox");
 }
 
 MailBoxStatus::~MailBoxStatus() {
-    if (fMailboxCheckTimer) {
-        fMailboxCheckTimer->stopTimer();
-        fMailboxCheckTimer->setTimerListener(0);
-    }
-    delete fMailboxCheckTimer; fMailboxCheckTimer = 0;
 }
 
 void MailBoxStatus::paint(Graphics &g, const YRect &/*r*/) {
@@ -379,7 +367,7 @@ void MailBoxStatus::paint(Graphics &g, const YRect &/*r*/) {
                 g.fillPixmap(taskbackPixmap, 0, 0,
                              width(), height(), this->x(), this->y());
         else {
-            g.setColor(getTaskBarBg());
+            g.setColor(taskBarBg);
             g.fillRect(0, 0, width(), height());
         }
     }

@@ -15,6 +15,7 @@ const char *ApplicationName = "testmenus";
 YMenu *logoutMenu(NULL);
 YWMApp *wmapp(NULL);
 YMenu *windowListMenu(NULL);
+YWindowManager *manager;
 
 void YWMApp::restartClient(const char *path, char *const *args) {
 }

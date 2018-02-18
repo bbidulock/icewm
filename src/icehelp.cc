@@ -1132,7 +1132,7 @@ private:
 
     FontRef font;
     int fontFlag, fontSize;
-    YColor *bg, *normalFg, *linkFg, *hrFg, *testBg;
+    YColorName bg, normalFg, linkFg, hrFg, testBg;
 
     YScrollView *fScrollView;
     YScrollBar *fVerticalScroll;
@@ -1176,7 +1176,13 @@ private:
 };
 
 HTextView::HTextView(HTListener *fL, YScrollView *v, YWindow *parent):
-    YWindow(parent), fRoot(NULL), fScrollView(v), listener(fL) {
+    YWindow(parent), fRoot(NULL),
+    bg("rgb:CC/CC/CC"),
+    normalFg("rgb:00/00/00"),
+    linkFg("rgb:00/00/CC"),
+    hrFg("rgb:80/80/80"),
+    testBg("rgb:40/40/40"),
+    fScrollView(v), listener(fL) {
 
     fVerticalScroll = fScrollView->getVerticalScrollBar();
     fVerticalScroll->setScrollBarListener(this);
@@ -1187,12 +1193,6 @@ HTextView::HTextView(HTListener *fL, YScrollView *v, YWindow *parent):
     fontFlag = 0;
     fontSize = 0;
     flagFont(0);
-
-    normalFg = new YColor("rgb:00/00/00");
-    hrFg = new YColor("rgb:80/80/80");
-    linkFg = new YColor("rgb:00/00/CC");
-    bg = new YColor("rgb:CC/CC/CC");
-    testBg = new YColor("rgb:40/40/40");
 
     menu = new YMenu();
     menu->setActionListener(this);

@@ -24,33 +24,28 @@ inline char const * strTimeFmt(struct tm const & t) {
     return AppletClockTimeFmt;
 }
 
-YClock::YClock(YSMListener *smActionListener, YWindow *aParent): YWindow(aParent) {
-    this->smActionListener = smActionListener;
-    clockBg = *clrClock ? new YColor(clrClock) : 0;
-    clockFg = new YColor(clrClockText);
-    clockFont = YFont::getFont(XFA(clockFontName));
-
-    clockUTC = false;
-    toolTipUTC = false;
-    transparent = -1;
+YClock::YClock(YSMListener *smActionListener, YWindow *aParent):
+    YWindow(aParent),
+    clockUTC(false),
+    toolTipUTC(false),
+    transparent(-1),
+    smActionListener(smActionListener),
+    clockBg(&clrClock),
+    clockFg(&clrClockText),
+    clockFont(YFont::getFont(XFA(clockFontName)))
+{
 
     if (prettyClock && ledPixSpace != null && ledPixSpace->width() == 1)
         ledPixSpace = ledPixSpace->scale(5, ledPixSpace->height());
 
-    clockTimer = new YTimer(1000);
     clockTimer->setFixed();
-    clockTimer->setTimerListener(this);
-    clockTimer->startTimer();
+    clockTimer->setTimer(1000, this, true);
     autoSize();
     updateToolTip();
     setDND(true);
 }
 
 YClock::~YClock() {
-    delete clockTimer; clockTimer = 0;
-    delete clockBg; clockBg = 0;
-    delete clockFg; clockFg = 0;
-    clockFont = null;
 }
 
 void YClock::autoSize() {
@@ -184,7 +179,7 @@ void YClock::paint(Graphics &g, const YRect &/*r*/) {
                          width(), height(), this->x(), this->y());
         }
         else {
-            g.setColor(getTaskBarBg());
+            g.setColor(taskBarBg);
             g.fillRect(0, 0, width(), height());
         }
     }

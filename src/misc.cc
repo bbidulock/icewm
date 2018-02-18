@@ -918,7 +918,7 @@ int read_file(const char *filename, char *buf, size_t buflen) {
 char* load_fd(int fd) {
     struct stat st;
     if (fstat(fd, &st) == 0) {
-        if (S_ISREG(st.st_mode)) {
+        if (S_ISREG(st.st_mode) && st.st_size > 0) {
             char* buf = new char[st.st_size + 1];
             if (buf) {
                 int len = read_fd(fd, buf, st.st_size + 1);
@@ -929,7 +929,7 @@ char* load_fd(int fd) {
             }
         } else {
             size_t offset = 0;
-            size_t bufsiz = 4096;
+            size_t bufsiz = 1024;
             char* buf = new char[bufsiz + 1];
             while (buf) {
                 int len = read_fd(fd, buf + offset, bufsiz + 1 - offset);

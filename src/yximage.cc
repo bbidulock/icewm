@@ -1036,7 +1036,7 @@ void YXImage::composite(Graphics& g, int x, int y,
     unsigned hi = fImage->height;
     unsigned di = fImage->depth;
     bool bitmap = isBitmap();
-    unsigned long fg = g.color() ? g.color()->pixel() & 0x00FFFFFF : 0;
+    unsigned long fg = g.color() ? g.color().pixel() & 0x00FFFFFF : 0;
     unsigned long bg = 0x00000000; /* for now */
 
     if (verbose)

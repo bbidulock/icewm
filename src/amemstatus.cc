@@ -26,21 +26,13 @@ MEMStatus::MEMStatus(YWindow *aParent): YWindow(aParent) {
     for (int a(0); a < taskBarMEMSamples; a++)
         samples[a] = new unsigned long long[MEM_STATES];
 
-    fUpdateTimer = new YTimer(taskBarMEMDelay);
-    if (fUpdateTimer) {
-        fUpdateTimer->setTimerListener(this);
-        fUpdateTimer->startTimer();
-    }
+    fUpdateTimer->setTimer(taskBarMEMDelay, this, true);
 
-    for (int j(0); j < MEM_STATES; j++)
-    {
-        color[j] = NULL;
-    }
-    color[MEM_USER] = new YColor(clrMemUser);
-    color[MEM_BUFFERS] = new YColor(clrMemBuffers);
-    color[MEM_CACHED] = new YColor(clrMemCached);
+    color[MEM_USER] = &clrMemUser;
+    color[MEM_BUFFERS] = &clrMemBuffers;
+    color[MEM_CACHED] = &clrMemCached;
     if (*clrMemFree) {
-        color[MEM_FREE] = new YColor(clrMemFree);
+        color[MEM_FREE] = &clrMemFree;
     }
     for (int i = 0; i < taskBarMEMSamples; i++) {
         for (int j=0; j < MEM_STATES; j++)
@@ -54,14 +46,10 @@ MEMStatus::MEMStatus(YWindow *aParent): YWindow(aParent) {
 }
 
 MEMStatus::~MEMStatus() {
-    delete fUpdateTimer;
     for (int a(0); a < taskBarMEMSamples; a++) {
         delete samples[a]; samples[a] = 0;
     }
     delete samples; samples = 0;
-    for (int j(0); j < MEM_STATES; j++) {
-        delete color[j]; color[j] = 0;
-    }
 }
 
 void MEMStatus::paint(Graphics &g, const YRect &/*r*/) {

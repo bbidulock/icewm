@@ -14,28 +14,15 @@
 #include "yprefs.h"
 #include "prefs.h"
 
-YColor *scrollBarBg(NULL);
-static YColor *scrollBarSlider(NULL);
-static YColor *scrollBarButton(NULL);
-static YColor *scrollBarActiveArrow(NULL);
-static YColor *scrollBarInactiveArrow(NULL);
-static bool didInit = false;
+static YColorName scrollBarBg(&clrScrollBar);
+static YColorName scrollBarSlider(&clrScrollBarSlider);
+static YColorName scrollBarButton(&clrScrollBarButton);
+static YColorName scrollBarActiveArrow(&clrScrollBarArrow);
+static YColorName scrollBarInactiveArrow(&clrScrollBarInactive);
 
-YTimer *YScrollBar::fScrollTimer = 0;
-
-static void initColors() {
-    if (didInit)
-        return ;
-    scrollBarBg = new YColor(clrScrollBar);
-    scrollBarSlider= new YColor(clrScrollBarSlider);
-    scrollBarButton= new YColor(clrScrollBarButton);
-    scrollBarActiveArrow = new YColor(clrScrollBarArrow);
-    scrollBarInactiveArrow = new YColor(clrScrollBarInactive);
-    didInit = true;
-}
+lazy<YTimer> YScrollBar::fScrollTimer;
 
 YScrollBar::YScrollBar(YWindow *aParent): YWindow(aParent) {
-    if (!didInit) initColors();
     fOrientation = Vertical;
     fMinimum = fMaximum = fValue = fVisibleAmount = 0;
     fUnitIncrement = fBlockIncrement = 1;
@@ -48,7 +35,6 @@ YScrollBar::YScrollBar(YWindow *aParent): YWindow(aParent) {
 YScrollBar::YScrollBar(Orientation anOrientation, YWindow *aParent):
 YWindow(aParent)
 {
-    if (!didInit) initColors();
     fOrientation = anOrientation;
 
     fMinimum = fMaximum = fValue = fVisibleAmount = 0;
@@ -62,7 +48,6 @@ YScrollBar::YScrollBar(Orientation anOrientation,
                        int aValue, int aVisibleAmount, int aMin, int aMax,
                        YWindow *aParent): YWindow(aParent)
 {
-    if (!didInit) initColors();
     fOrientation = anOrientation;
     fMinimum = aMin;
     fMaximum = aMax;
@@ -75,8 +60,8 @@ YScrollBar::YScrollBar(Orientation anOrientation,
 }
 
 YScrollBar::~YScrollBar() {
-    if (fScrollTimer && fScrollTimer->getTimerListener() == this)
-        fScrollTimer->setTimerListener(0);
+    if (fScrollTimer)
+        fScrollTimer->disableTimerListener(this);
 }
 
 void YScrollBar::setOrientation(Orientation anOrientation) {
@@ -605,20 +590,12 @@ void YScrollBar::handleButton(const XButtonEvent &button) {
     if (button.type == ButtonPress) {
         fScrollTo = getOp(button.x, button.y);
         doScroll();
-        if (fScrollTimer == 0)
-            fScrollTimer = new YTimer(scrollBarStartDelay);
-        if (fScrollTimer) {
-            fScrollTimer->setInterval(scrollBarStartDelay);
-            fScrollTimer->setTimerListener(this);
-            fScrollTimer->startTimer();
-        }
+        fScrollTimer->setTimer(scrollBarStartDelay, this, true);
         repaint();
     } else if (button.type == ButtonRelease) {
         fScrollTo = goNone;
-        if (fScrollTimer && fScrollTimer->getTimerListener() == this) {
-            fScrollTimer->setTimerListener(0);
-            fScrollTimer->stopTimer();
-        }
+        if (fScrollTimer)
+            fScrollTimer->disableTimerListener(this);
         repaint();
     }
 }
@@ -857,31 +834,21 @@ YScrollBar::ScrollOp YScrollBar::getOp(int x, int y) {
 void YScrollBar::handleDNDEnter() {
     fScrollTo = goNone;
     fDNDScroll = true;
-    if (fScrollTimer && fScrollTimer->getTimerListener() == this) {
-        fScrollTimer->setTimerListener(0);
-        fScrollTimer->stopTimer();
-    }
+    if (fScrollTimer)
+        fScrollTimer->disableTimerListener(this);
 }
 
 void YScrollBar::handleDNDLeave() {
     fScrollTo = goNone;
     fDNDScroll = false;
     repaint();
-    if (fScrollTimer && fScrollTimer->getTimerListener() == this) {
-        fScrollTimer->setTimerListener(0);
-        fScrollTimer->stopTimer();
-    }
+    if (fScrollTimer)
+        fScrollTimer->disableTimerListener(this);
 }
 
 void YScrollBar::handleDNDPosition(int x, int y) {
     fScrollTo = getOp(x, y);
-    if (fScrollTimer == 0)
-        fScrollTimer = new YTimer(scrollBarStartDelay);
-    if (fScrollTimer) {
-        fScrollTimer->setInterval(scrollBarStartDelay);
-        fScrollTimer->setTimerListener(this);
-        fScrollTimer->startTimer();
-    }
+    fScrollTimer->setTimer(scrollBarStartDelay, this, true);
     repaint();
 }
 

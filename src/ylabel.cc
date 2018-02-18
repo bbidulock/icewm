@@ -10,8 +10,8 @@
 #include "base.h"
 #include "prefs.h"
 
-YColor *YLabel::labelFg = 0;
-YColor *YLabel::labelBg = 0;
+YColorName YLabel::labelFg(&clrLabelText);
+YColorName YLabel::labelBg(&clrLabel);
 ref<YFont> YLabel::labelFont;
 
 YLabel::YLabel(const ustring &label, YWindow *parent):
@@ -21,10 +21,6 @@ YLabel::YLabel(const ustring &label, YWindow *parent):
 
     if (labelFont == null)
         labelFont = YFont::getFont(XFA(labelFontName));
-    if (labelBg == 0)
-        labelBg = new YColor(clrLabel);
-    if (labelFg == 0)
-        labelFg = new YColor(clrLabelText);
 
     autoSize();
 }

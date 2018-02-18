@@ -17,8 +17,8 @@ public:
 private:
     ustring fText;
 
-    YColor toolTipBg;
-    YColor toolTipFg;
+    YColorName toolTipBg;
+    YColorName toolTipFg;
     ref<YFont> toolTipFont;
 };
 
@@ -42,7 +42,7 @@ private:
     ustring fText;
     YWindow* fLocate;
     osmart<YToolTipWindow> fWindow;
-    osmart<YTimer> fTimer;
+    lazy<YTimer> fTimer;
 };
 #endif
 

@@ -77,7 +77,7 @@ private:
     ref<YImage> fGradient;
 
     static YMenu *fPointedMenu;
-    static YTimer *fMenuTimer;
+    static lazy<YTimer> fMenuTimer;
     int fTimerX, fTimerY;
     int fTimerSubmenuItem;
     static int fAutoScrollDeltaX, fAutoScrollDeltaY;

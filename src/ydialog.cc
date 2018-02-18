@@ -12,15 +12,12 @@
 #include "yxapp.h"
 #include "prefs.h"
 
-static YColor *dialogBg = 0;
+static YColorName dialogBg(&clrDialog);
 
 YDialog::YDialog(YWindow *owner):
     YFrameClient(0, 0),
     fGradient(null)
 {
-    if (dialogBg == 0)
-        dialogBg = new YColor(clrDialog);
-
     fOwner = owner;
 }
 

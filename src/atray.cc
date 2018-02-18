@@ -23,14 +23,14 @@
 #include "wpixmaps.h"
 #include "yrect.h"
 
-static YColor *normalTrayAppFg = 0;
-static YColor *normalTrayAppBg = 0;
-static YColor *activeTrayAppFg = 0;
-static YColor *activeTrayAppBg = 0;
-static YColor *minimizedTrayAppFg = 0;
-static YColor *minimizedTrayAppBg = 0;
-static YColor *invisibleTrayAppFg = 0;
-static YColor *invisibleTrayAppBg = 0;
+static YColorName normalTrayAppFg(&clrNormalTaskBarAppText);
+static YColorName normalTrayAppBg(&clrNormalTaskBarApp);
+static YColorName activeTrayAppFg(&clrActiveTaskBarAppText);
+static YColorName activeTrayAppBg(&clrActiveTaskBarApp);
+static YColorName minimizedTrayAppFg(&clrMinimizedTaskBarAppText);
+static YColorName minimizedTrayAppBg(&clrNormalTaskBarApp);
+static YColorName invisibleTrayAppFg(&clrInvisibleTaskBarAppText);
+static YColorName invisibleTrayAppBg(&clrNormalTaskBarApp);
 static ref<YFont> normalTrayFont;
 static ref<YFont> activeTrayFont;
 
@@ -39,18 +39,11 @@ ref<YImage> TrayApp::taskActiveGradient;
 ref<YImage> TrayApp::taskNormalGradient;
 
 TrayApp::TrayApp(ClientData *frame, YWindow *aParent): YWindow(aParent) {
-    if (normalTrayAppFg == 0) {
-        normalTrayAppBg = new YColor(clrNormalTaskBarApp);
-        normalTrayAppFg = new YColor(clrNormalTaskBarAppText);
-        activeTrayAppBg = new YColor(clrActiveTaskBarApp);
-        activeTrayAppFg = new YColor(clrActiveTaskBarAppText);
-        minimizedTrayAppBg = new YColor(clrNormalTaskBarApp);
-        minimizedTrayAppFg = new YColor(clrMinimizedTaskBarAppText);
-        invisibleTrayAppBg = new YColor(clrNormalTaskBarApp);
-        invisibleTrayAppFg = new YColor(clrInvisibleTaskBarAppText);
+    if (normalTrayFont == null)
         normalTrayFont = YFont::getFont(XFA(normalTaskBarFontName));
+    if (activeTrayFont == null)
         activeTrayFont = YFont::getFont(XFA(activeTaskBarFontName));
-    }
+
     fFrame = frame;
     selected = 0;
     fShown = true;
@@ -73,7 +66,7 @@ void TrayApp::setShown(bool ashow) {
 }
 
 void TrayApp::paint(Graphics &g, const YRect &/*r*/) {
-    YColor *bg;
+    YColor bg;
     ref<YPixmap> bgPix;
     ref<YImage> bgGrad;
 
@@ -193,11 +186,7 @@ void TrayApp::handleClick(const XButtonEvent &up, int /*count*/) {
 }
 
 void TrayApp::handleDNDEnter() {
-    if (fRaiseTimer) {
-        fRaiseTimer->startTimer();
-    }
-    else
-        fRaiseTimer = new YTimer(autoRaiseDelay, this, true);
+    fRaiseTimer->setTimer(autoRaiseDelay, this, true);
 
     selected = 3;
     repaint();
@@ -205,7 +194,7 @@ void TrayApp::handleDNDEnter() {
 
 void TrayApp::handleDNDLeave() {
     if (fRaiseTimer)
-        fRaiseTimer = 0;
+        fRaiseTimer = null;
 
     selected = 0;
     repaint();
@@ -213,7 +202,7 @@ void TrayApp::handleDNDLeave() {
 
 bool TrayApp::handleTimer(YTimer *t) {
     if (t == fRaiseTimer) {
-        fRaiseTimer = 0;
+        fRaiseTimer = null;
         getFrame()->wmRaise();
     }
     return false;
@@ -308,7 +297,7 @@ void TrayPane::paint(Graphics &g, const YRect &/*r*/) {
     int const w(width());
     int const h(height());
 
-    g.setColor(getTaskBarBg());
+    g.setColor(taskBarBg);
 
     ref<YImage> gradient(parent() ? parent()->getGradient() : null);
 

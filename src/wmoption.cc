@@ -10,8 +10,8 @@
 #include "intl.h"
 #include <ctype.h>
 
-WindowOptions *defOptions;
-WindowOptions *hintOptions;
+lazy<WindowOptions> defOptions;
+lazy<WindowOptions> hintOptions;
 
 WindowOption::WindowOption(ustring n_class_instance):
     w_class_instance(n_class_instance),
@@ -366,9 +366,6 @@ static char *parseWinOptions(char *data, const char* filename) {
 
         bool lastline(*p == '\0');
         *p = '\0';
-
-        if (defOptions == 0)
-            defOptions = new WindowOptions();
 
         defOptions->setWinOption(class_instance, opt, word);
 

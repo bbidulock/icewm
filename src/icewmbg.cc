@@ -166,13 +166,13 @@ private:
     }
 
     typedef YObjectArray<mstring> Strings;
-    typedef YObjectArray<YColor> YColors;
+    typedef YArray<YColor> YColors;
 
-    ref<YPixmap> renderBackground(ref<YPixmap> back, YColor* color);
+    ref<YPixmap> renderBackground(ref<YPixmap> back, YColor color);
     ref<YPixmap> getBackgroundPixmap();
-    YColor* getBackgroundColor();
+    YColor getBackgroundColor();
     ref<YPixmap> getTransparencyPixmap();
-    YColor* getTransparencyColor();
+    YColor getTransparencyColor();
     Atom atom(const char* name) const;
     static Window window() { return desktop->handle(); }
 
@@ -188,7 +188,7 @@ private:
     unsigned desktopWidth, desktopHeight;
     ref<YPixmap> currentBackgroundPixmap;
     ref<YPixmap> currentTransparencyPixmap;
-    YColor* currentBackgroundColor;
+    YColor currentBackgroundColor;
 
     Atom _XA_XROOTPMAP_ID;
     Atom _XA_XROOTCOLOR_PIXEL;
@@ -207,7 +207,7 @@ Background::Background(int *argc, char ***argv, bool verb):
     activeWorkspace(0),
     desktopWidth(desktop->width()),
     desktopHeight(desktop->height()),
-    currentBackgroundColor(0),
+    currentBackgroundColor(),
     _XA_XROOTPMAP_ID(atom("_XROOTPMAP_ID")),
     _XA_XROOTCOLOR_PIXEL(atom("_XROOTCOLOR_PIXEL")),
     _XA_NET_CURRENT_DESKTOP(atom("_NET_CURRENT_DESKTOP")),
@@ -289,7 +289,7 @@ void Background::add(const char* name, const char* value, bool append) {
             clearBackgroundColors();
         }
         if (backgroundColors.getCount() < MAX_WORKSPACES) {
-            backgroundColors.append(new YColor(value));
+            backgroundColors.append(YColor(value));
         }
     }
     else if (0 == strcmp(name, "DesktopTransparencyImage")) {
@@ -320,7 +320,7 @@ void Background::add(const char* name, const char* value, bool append) {
             clearTransparencyColors();
         }
         if (transparencyColors.getCount() < MAX_WORKSPACES) {
-            transparencyColors.append(new YColor(value));
+            transparencyColors.append(YColor(value));
         }
     }
     else {
@@ -360,16 +360,11 @@ ref<YPixmap> Background::getBackgroundPixmap() {
     return pixmap;
 }
 
-YColor* Background::getBackgroundColor() {
-    YColor* color(0);
+YColor Background::getBackgroundColor() {
     int count = backgroundColors.getCount();
-    if (count > 0) {
-        color = backgroundColors[activeWorkspace % count];
-    }
-    if (color == 0) {
-        color = YColor::black;
-    }
-    return color;
+    return count > 0
+        ? backgroundColors[activeWorkspace % count]
+        : YColor::black;
 }
 
 ref<YPixmap> Background::getTransparencyPixmap() {
@@ -386,16 +381,11 @@ ref<YPixmap> Background::getTransparencyPixmap() {
     return pixmap;
 }
 
-YColor* Background::getTransparencyColor() {
-    YColor* color(0);
+YColor Background::getTransparencyColor() {
     int count = transparencyColors.getCount();
-    if (count > 0) {
-        color = transparencyColors[activeWorkspace % count];
-    }
-    if (color == 0) {
-        color = getBackgroundColor();
-    }
-    return color;
+    return count > 0
+        ? transparencyColors[activeWorkspace % count]
+        : getBackgroundColor();
 }
 
 void Background::update(bool force) {
@@ -444,7 +434,7 @@ int Background::getWorkspace() const {
     return getLongProperty(_XA_NET_CURRENT_DESKTOP);
 }
 
-ref<YPixmap> Background::renderBackground(ref<YPixmap> back, YColor* color) {
+ref<YPixmap> Background::renderBackground(ref<YPixmap> back, YColor color) {
     if (verbose) tlog("rendering...");
     unsigned width = desktopWidth;
     unsigned height = desktopHeight;
@@ -552,14 +542,14 @@ ref<YPixmap> Background::renderBackground(ref<YPixmap> back, YColor* color) {
 
 void Background::changeBackground(bool force) {
     ref<YPixmap> backgroundPixmap = getBackgroundPixmap();
-    YColor* backgroundColor(getBackgroundColor());
+    YColor backgroundColor(getBackgroundColor());
     if (force == false) {
         if (backgroundPixmap == currentBackgroundPixmap &&
             backgroundColor == currentBackgroundColor) {
             return;
         }
     }
-    unsigned long const bPixel(backgroundColor->pixel());
+    unsigned long const bPixel(backgroundColor.pixel());
     bool handleBackground(false);
     Pixmap bPixmap(None);
     ref<YPixmap> back = renderBackground(backgroundPixmap, backgroundColor);
@@ -580,15 +570,15 @@ void Background::changeBackground(bool force) {
             _XA_XROOTPMAP_ID &&
             _XA_XROOTCOLOR_PIXEL)
         {
-            YColor* tColor(getTransparencyColor());
+            YColor tColor(getTransparencyColor());
             ref<YPixmap> trans = getTransparencyPixmap();
             bool samePixmap = trans == backgroundPixmap;
-            bool sameColor = *tColor == *backgroundColor;
+            bool sameColor = tColor == backgroundColor;
             currentTransparencyPixmap =
                 trans == null || (samePixmap && sameColor) ? back :
                 renderBackground(trans, tColor);
 
-            unsigned long tPixel(tColor->pixel());
+            unsigned long tPixel(tColor.pixel());
             Pixmap tPixmap(currentTransparencyPixmap != null
                            ? currentTransparencyPixmap->pixmap()
                            : bPixmap);

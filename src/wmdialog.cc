@@ -66,14 +66,11 @@ bool canShutdown(bool reboot) {
 #define VERT 10
 #define MIDV 6
 
-static YColor *cadBg = 0;
+static YColorName cadBg(&clrDialog);
 
 CtrlAltDelete::CtrlAltDelete(IApp *app, YWindow *parent): YWindow(parent) {
     this->app = app;
     unsigned w = 0, h = 0;
-
-    if (cadBg == 0)
-        cadBg = new YColor(clrDialog);
 
     setStyle(wsOverrideRedirect);
     setPointer(YXApplication::leftPointer);

@@ -283,7 +283,7 @@ private:
     static int fClickDrag;
     static unsigned fClickButton;
     static unsigned fClickButtonDown;
-    static YTimer *fToolTipTimer;
+    static lazy<YTimer> fToolTipTimer;
     static unsigned long lastEnterNotifySerial;
     static void updateEnterNotifySerial(const XEvent& event);
 

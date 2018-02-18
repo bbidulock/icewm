@@ -135,7 +135,6 @@ private:
     void initModifiers();
     static void initAtoms();
     static void initPointers();
-    static void initColors();
 };
 
 extern YXApplication *xapp;

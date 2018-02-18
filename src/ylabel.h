@@ -17,8 +17,8 @@ private:
 
     void autoSize();
 
-    static YColor *labelFg;
-    static YColor *labelBg;
+    static YColorName labelFg;
+    static YColorName labelBg;
     static ref<YFont> labelFont;
 };
 

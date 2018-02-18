@@ -4,17 +4,11 @@
  * Copyright (C) 1997-2001 Marko Macek
  */
 #include "config.h"
-
 #include "yscrollview.h"
-
-#include "ylistbox.h"
 #include "yscrollbar.h"
-#include "yrect.h"
-
-#include "yapp.h"
 #include "prefs.h"
 
-extern YColor *scrollBarBg;
+static YColorName scrollBarBg(&clrScrollBar);
 
 
 YScrollView::YScrollView(YWindow *aParent): YWindow(aParent) {

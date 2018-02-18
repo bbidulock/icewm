@@ -38,7 +38,7 @@ public:
     inline bool hasBatteries() { return batteryNum; }
 
 private:
-    YTimer *apmTimer;
+    lazy<YTimer> apmTimer;
 
     ref<YPixmap> getPixmap(char ch);
     int calcInitialWidth();
@@ -51,13 +51,13 @@ private:
     bool ignore_directory_bat_entry(const char* name);
     bool ignore_directory_ac_entry(const char* name);
 
-    YColor *apmBg;
-    YColor *apmFg;
+    YColorName apmBg;
+    YColorName apmFg;
     ref<YFont> apmFont;
 
-    YColor *apmColorOnLine;
-    YColor *apmColorBattery;
-    YColor *apmColorGraphBg;
+    YColorName apmColorOnLine;
+    YColorName apmColorBattery;
+    YColorName apmColorGraphBg;
 
     // inspection mode: legacy APM, legacy ACPI (procfs), PMU (Mac), ACPI (sysfs)
     enum { APM, ACPI, PMU, SYSFS } mode;

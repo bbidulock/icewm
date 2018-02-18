@@ -41,13 +41,13 @@ private:
     int fCpuID;
     unsigned long long **cpu;
     unsigned long long last_cpu[IWM_STATES];
-    YColor *color[IWM_STATES];
-    YTimer *fUpdateTimer;
+    YColorName color[IWM_STATES];
+    lazy<YTimer> fUpdateTimer;
     YSMListener *smActionListener;
     bool ShowRamUsage, ShowSwapUsage, ShowAcpiTemp, ShowCpuFreq,
          ShowAcpiTempInGraph;
 
-    YColor *tempColor;
+    YColorName tempColor;
     static ref<YFont> tempFont;
     static void getCPUStatusCombined(YSMListener *smActionListener, YWindow *aParent, CPUStatus **&fCPUStatus);
     static void getCPUStatus(YSMListener *smActionListener, YWindow *aParent, CPUStatus **&fCPUStatus, unsigned ncpus);

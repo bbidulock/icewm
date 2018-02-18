@@ -4,18 +4,12 @@
  * Copyright (C) 1997-2002 Marko Macek
  */
 #include "config.h"
-#include "ylib.h"
 #include "ypaint.h"
-
 #include "yxapp.h"
-#include "sysdep.h"
-#include "ystring.h"
 #include "yprefs.h"
-#include "prefs.h"
-#include "stdio.h"
-#include "yicon.h"
-
 #include "intl.h"
+#include <ctype.h>
+
 #ifdef CONFIG_XFREETYPE
 #include <X11/Xft/Xft.h>
 #endif
@@ -32,183 +26,10 @@ static inline Visual*  visual()   { return xapp->visual(); }
 
 /******************************************************************************/
 
-/******************************************************************************/
-
-YColor::YColor(unsigned short red, unsigned short green, unsigned short blue):
-    fRed(red), fGreen(green), fBlue(blue),
-    fDarker(NULL), fBrighter(NULL)
-    INIT_XFREETYPE(xftColor, NULL) {
-    alloc();
-}
-
-YColor::YColor(unsigned long pixel):
-    fDarker(NULL), fBrighter(NULL)
-    INIT_XFREETYPE(xftColor, NULL) {
-
-    XColor color;
-    color.pixel = pixel;
-    XQueryColor(display(), colormap(), &color);
-
-    fRed = color.red;
-    fGreen = color.green;
-    fBlue = color.blue;
-
-    alloc();
-}
-
-YColor::YColor(const char *clr):
-    fDarker(NULL), fBrighter(NULL)
-    INIT_XFREETYPE(xftColor, NULL) {
-
-    XColor color;
-    XParseColor(display(), colormap(),
-                clr ? clr : "rgb:00/00/00", &color);
-
-    fRed = color.red;
-    fGreen = color.green;
-    fBlue = color.blue;
-
-    alloc();
-}
-
-YColor::~YColor() {
-    delete fDarker; fDarker = 0;
-    delete fBrighter; fBrighter = 0;
-
-#ifdef CONFIG_XFREETYPE
-    if (xftColor) {
-        if (display()) XftColorFree (display(), visual(), colormap(), xftColor);
-        delete xftColor;
-    }
-#endif
-}
-
-#ifdef CONFIG_XFREETYPE
-XftColor* YColor::allocXft() {
-    xftColor = new XftColor;
-    XRenderColor color = { fRed, fGreen, fBlue, 0xffff };
-    XftColorAllocValue(display(), visual(), colormap(), &color, xftColor);
-    return xftColor;
-}
-#endif
-
-void YColor::alloc() {
-    XColor color;
-
-    color.red = fRed;
-    color.green = fGreen;
-    color.blue = fBlue;
-    color.flags = DoRed | DoGreen | DoBlue;
-    Visual *visual = ::visual();
-
-    if (visual->c_class == TrueColor) {
-        int padding, unused;
-        int depth = visual->bits_per_rgb;
-
-        int red_shift = lowbit(visual->red_mask);
-        int red_prec = highbit(visual->red_mask) - red_shift + 1;
-        int green_shift = lowbit(visual->green_mask);
-        int green_prec = highbit(visual->green_mask) - green_shift + 1;
-        int blue_shift = lowbit(visual->blue_mask);
-        int blue_prec = highbit(visual->blue_mask) - blue_shift + 1;
-
-        /* Shifting by >= width-of-type isn't defined in C */
-        if (depth >= 32)
-            padding = 0;
-        else
-            padding = ((~(unsigned int)0)) << depth;
-
-        unused = ~ (visual->red_mask | visual->green_mask | visual->blue_mask | padding);
-
-        color.pixel = (unused +
-                       ((color.red >> (16 - red_prec)) << red_shift) +
-                       ((color.green >> (16 - green_prec)) << green_shift) +
-                       ((color.blue >> (16 - blue_prec)) << blue_shift));
-
-    } else if (Success == XAllocColor(display(), colormap(), &color))
-    {
-        int j, ncells;
-        double d = 65536. * 65536. * 24;
-        XColor clr;
-        unsigned long pix;
-        long d_red, d_green, d_blue;
-        double u_red, u_green, u_blue;
-
-        pix = 0xFFFFFFFF;
-        ncells = DisplayCells(display(), xapp->screen());
-        for (j = 0; j < ncells; j++) {
-            clr.pixel = j;
-            XQueryColor(display(), colormap(), &clr);
-
-            d_red   = color.red   - clr.red;
-            d_green = color.green - clr.green;
-            d_blue  = color.blue  - clr.blue;
-
-            u_red   = 3UL * (d_red   * d_red);
-            u_green = 4UL * (d_green * d_green);
-            u_blue  = 2UL * (d_blue  * d_blue);
-
-            double d1 = u_red + u_blue + u_green;
-
-            if (pix == 0xFFFFFFFF || d1 < d) {
-                pix = j;
-                d = d1;
-            }
-        }
-        if (pix != 0xFFFFFFFF) {
-            clr.pixel = pix;
-            XQueryColor(display(), colormap(), &clr);
-            /*DBG(("color=%04X:%04X:%04X, match=%04X:%04X:%04X\n",
-                   color.red, color.blue, color.green,
-                   clr.red, clr.blue, clr.green));*/
-            color = clr;
-        }
-        if (XAllocColor(display(), colormap(), &color) == 0) {
-            if (color.red + color.green + color.blue >= 32768)
-                color.pixel = xapp->white();
-            else
-                color.pixel = xapp->black();
-        }
-    }
-    fRed = color.red;
-    fGreen = color.green;
-    fBlue = color.blue;
-    fPixel = color.pixel;
-}
-
-YColor *YColor::darker() { // !!! fix
-    if (fDarker == 0) {
-        unsigned short red, blue, green;
-
-        red = ((unsigned int)fRed) * 2 / 3;
-        blue = ((unsigned int)fBlue) * 2 / 3;
-        green = ((unsigned int)fGreen) * 2 / 3;
-        fDarker = new YColor(red, green, blue);
-    }
-    return fDarker;
-}
-
-YColor *YColor::brighter() { // !!! fix
-    if (fBrighter == 0) {
-        unsigned short red, blue, green;
-
-        red = min (((unsigned) fRed) * 4 / 3, 0xFFFFU);
-        blue = min (((unsigned) fBlue) * 4 / 3, 0xFFFFU);
-        green = min (((unsigned) fGreen) * 4 / 3, 0xFFFFU);
-
-        fBrighter = new YColor(red, green, blue);
-    }
-    return fBrighter;
-}
-
-/******************************************************************************/
-
-/******************************************************************************/
-
 Graphics::Graphics(YWindow & window,
                    unsigned long vmask, XGCValues * gcv):
     fDrawable(window.handle()),
-    fColor(NULL), fFont(null),
+    fColor(), fFont(null),
     xOrigin(0), yOrigin(0)
 {
     rWidth = window.width();
@@ -222,7 +43,7 @@ Graphics::Graphics(YWindow & window,
 
 Graphics::Graphics(YWindow & window):
     fDrawable(window.handle()),
-    fColor(NULL), fFont(null),
+    fColor(), fFont(null),
     xOrigin(0), yOrigin(0)
  {
     rWidth = window.width();
@@ -237,7 +58,7 @@ Graphics::Graphics(YWindow & window):
 
 Graphics::Graphics(ref<YPixmap> pixmap, int x_org, int y_org):
     fDrawable(pixmap->pixmap()),
-    fColor(NULL), fFont(null),
+    fColor(), fFont(null),
     xOrigin(x_org), yOrigin(y_org)
  {
     rWidth = pixmap->width();
@@ -253,7 +74,7 @@ Graphics::Graphics(ref<YPixmap> pixmap, int x_org, int y_org):
 Graphics::Graphics(Drawable drawable, unsigned w, unsigned h, unsigned depth,
                    unsigned long vmask, XGCValues * gcv):
     fDrawable(drawable),
-    fColor(NULL), fFont(null),
+    fColor(), fFont(null),
     xOrigin(0), yOrigin(0),
     rWidth(w), rHeight(h), rDepth(depth)
 {
@@ -265,7 +86,7 @@ Graphics::Graphics(Drawable drawable, unsigned w, unsigned h, unsigned depth,
 
 Graphics::Graphics(Drawable drawable, unsigned w, unsigned h, unsigned depth):
     fDrawable(drawable),
-    fColor(NULL), fFont(null),
+    fColor(), fFont(null),
     xOrigin(0), yOrigin(0),
     rWidth(w), rHeight(h), rDepth(depth)
 {
@@ -292,7 +113,7 @@ Graphics::~Graphics() {
 XftDraw* Graphics::handleXft() {
     if (fXftDraw == 0) {
         fXftDraw = XftDrawCreate(display(), drawable(),
-                    visual(), xapp->colormap());
+                    visual(), colormap());
     }
     return fXftDraw;
 }
@@ -624,12 +445,9 @@ void Graphics::fillArc(int x, int y, unsigned width, unsigned height, int a1, in
 
 /******************************************************************************/
 
-void Graphics::setColor(YColor * aColor) {
+void Graphics::setColor(YColor aColor) {
     fColor = aColor;
-    unsigned long pixel = fColor->pixel();
-    if (rdepth() == 32)
-        pixel |= 0xff000000;
-    XSetForeground(display(), gc, pixel);
+    setColorPixel(fColor.pixel());
 }
 
 void Graphics::setColorPixel(unsigned long pixel) {
@@ -776,11 +594,11 @@ void Graphics::compositeImage(ref<YImage> img, int const sx, int const sy, unsig
 /******************************************************************************/
 
 void Graphics::draw3DRect(int x, int y, unsigned w, unsigned h, bool raised) {
-    YColor *back(color());
-    YColor *bright(back->brighter());
-    YColor *dark(back->darker());
-    YColor *t(raised ? bright : dark);
-    YColor *b(raised ? dark : bright);
+    YColor back(color());
+    YColor bright(back.brighter());
+    YColor dark(back.darker());
+    YColor t(raised ? bright : dark);
+    YColor b(raised ? dark : bright);
 
     setColor(t);
     drawLine(x, y, x + w, y);
@@ -794,9 +612,9 @@ void Graphics::draw3DRect(int x, int y, unsigned w, unsigned h, bool raised) {
 }
 
 void Graphics::drawBorderW(int x, int y, unsigned w, unsigned h, bool raised) {
-    YColor *back(color());
-    YColor *bright(back->brighter());
-    YColor *dark(back->darker());
+    YColor back(color());
+    YColor bright(back.brighter());
+    YColor dark(back.darker());
 
     if (raised) {
         setColor(bright);
@@ -825,9 +643,9 @@ void Graphics::drawBorderW(int x, int y, unsigned w, unsigned h, bool raised) {
 // doesn't move... needs two pixels on all sides for up and down
 // position.
 void Graphics::drawBorderM(int x, int y, unsigned w, unsigned h, bool raised) {
-    YColor *back(color());
-    YColor *bright(back->brighter());
-    YColor *dark(back->darker());
+    YColor back(color());
+    YColor bright(back.brighter());
+    YColor dark(back.darker());
 
     if (raised) {
         setColor(bright);
@@ -870,9 +688,9 @@ void Graphics::drawBorderM(int x, int y, unsigned w, unsigned h, bool raised) {
 }
 
 void Graphics::drawBorderG(int x, int y, unsigned w, unsigned h, bool raised) {
-    YColor *back(color());
-    YColor *bright(back->brighter());
-    YColor *dark(back->darker());
+    YColor back(color());
+    YColor bright(back.brighter());
+    YColor dark(back.darker());
 
     if (raised) {
         setColor(bright);
@@ -936,11 +754,11 @@ void Graphics::repHorz(Drawable d, unsigned pw, unsigned ph, int x, int y, unsig
     if (d == None)
         return;
 #if 1
-    XSetTile(xapp->display(), gc, d);
-    XSetTSOrigin(xapp->display(), gc, x - xOrigin, y - yOrigin);
-    XSetFillStyle(xapp->display(), gc, FillTiled);
-    XFillRectangle(xapp->display(), drawable(), gc, x - xOrigin, y - yOrigin, w, ph);
-    XSetFillStyle(xapp->display(), gc, FillSolid);
+    XSetTile(display(), gc, d);
+    XSetTSOrigin(display(), gc, x - xOrigin, y - yOrigin);
+    XSetFillStyle(display(), gc, FillTiled);
+    XFillRectangle(display(), drawable(), gc, x - xOrigin, y - yOrigin, w, ph);
+    XSetFillStyle(display(), gc, FillSolid);
 #else
     while (w > 0) {
         XCopyArea(display(), d, drawable(), gc, 0, 0, min(w, pw), ph, x - xOrigin, y - yOrigin);
@@ -954,11 +772,11 @@ void Graphics::repVert(Drawable d, unsigned pw, unsigned ph, int x, int y, unsig
     if (d == None)
         return;
 #if 1
-    XSetTile(xapp->display(), gc, d);
-    XSetTSOrigin(xapp->display(), gc, x - xOrigin, y - yOrigin);
-    XSetFillStyle(xapp->display(), gc, FillTiled);
-    XFillRectangle(xapp->display(), drawable(), gc, x - xOrigin, y - yOrigin, pw, h);
-    XSetFillStyle(xapp->display(), gc, FillSolid);
+    XSetTile(display(), gc, d);
+    XSetTSOrigin(display(), gc, x - xOrigin, y - yOrigin);
+    XSetFillStyle(display(), gc, FillTiled);
+    XFillRectangle(display(), drawable(), gc, x - xOrigin, y - yOrigin, pw, h);
+    XSetFillStyle(display(), gc, FillSolid);
 #else
     while (h > 0) {
         XCopyArea(display(), d, drawable(), gc, 0, 0, pw, min(h, ph), x - xOrigin, y - yOrigin);
@@ -1063,12 +881,11 @@ void Graphics::drawGradient(ref<YImage> gradient,
 void Graphics::drawArrow(YDirection direction, int x, int y, unsigned size,
                          bool pressed)
 {
-    YColor *nc(color());
-    YColor *oca = pressed ? nc->darker() : nc->brighter(),
-        *ica = pressed ? YColor::black : nc,
-        *ocb = pressed ? wmLook == lookGtk ? nc : nc->brighter()
-        : nc->darker(),
-        *icb = pressed ? nc->brighter() : YColor::black;
+    YColor nc(color());
+    YColor oca = pressed ? nc.darker() : nc.brighter(),
+        ica = pressed ? YColor::black : nc,
+        ocb = pressed ? wmLook == lookGtk ? nc : nc.brighter() : nc.darker(),
+        icb = pressed ? nc.brighter() : YColor::black;
 
     XPoint points[3];
 

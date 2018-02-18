@@ -12,39 +12,31 @@
 #include "wpixmaps.h"
 #include "yrect.h"
 
-static YColor *normalTaskBarAppFg = 0;
-static YColor *normalTaskBarAppBg = 0;
-static YColor *activeTaskBarAppFg = 0;
-static YColor *activeTaskBarAppBg = 0;
-static YColor *minimizedTaskBarAppFg = 0;
-static YColor *minimizedTaskBarAppBg = 0;
-static YColor *invisibleTaskBarAppFg = 0;
-static YColor *invisibleTaskBarAppBg = 0;
+static YColorName normalTaskBarAppFg(&clrNormalTaskBarAppText);
+static YColorName normalTaskBarAppBg(&clrNormalTaskBarApp);
+static YColorName activeTaskBarAppFg(&clrActiveTaskBarAppText);
+static YColorName activeTaskBarAppBg(&clrActiveTaskBarApp);
+static YColorName minimizedTaskBarAppFg(&clrMinimizedTaskBarAppText);
+static YColorName minimizedTaskBarAppBg(&clrMinimizedTaskBarApp);
+static YColorName invisibleTaskBarAppFg(&clrInvisibleTaskBarAppText);
+static YColorName invisibleTaskBarAppBg(&clrInvisibleTaskBarApp);
 static ref<YFont> normalTaskBarFont;
 static ref<YFont> activeTaskBarFont;
 
-YTimer *TaskBarApp::fRaiseTimer = 0;
+lazy<YTimer> TaskBarApp::fRaiseTimer;
 
 TaskBarApp::TaskBarApp(ClientData *frame, TaskPane *taskPane, YWindow *aParent): YWindow(aParent) {
-    if (normalTaskBarAppFg == 0) {
-        normalTaskBarAppBg = new YColor(clrNormalTaskBarApp);
-        normalTaskBarAppFg = new YColor(clrNormalTaskBarAppText);
-        activeTaskBarAppBg = new YColor(clrActiveTaskBarApp);
-        activeTaskBarAppFg = new YColor(clrActiveTaskBarAppText);
-        minimizedTaskBarAppBg = new YColor(clrMinimizedTaskBarApp);
-        minimizedTaskBarAppFg = new YColor(clrMinimizedTaskBarAppText);
-        invisibleTaskBarAppBg = new YColor(clrInvisibleTaskBarApp);
-        invisibleTaskBarAppFg = new YColor(clrInvisibleTaskBarAppText);
+    if (normalTaskBarFont == null)
         normalTaskBarFont = YFont::getFont(XFA(normalTaskBarFontName));
+    if (activeTaskBarFont == null)
         activeTaskBarFont = YFont::getFont(XFA(activeTaskBarFontName));
-    }
+
     fTaskPane = taskPane;
     fFrame = frame;
     selected = 0;
     fShown = true;
     fFlashing = false;
     fFlashOn = false;
-    fFlashTimer = 0;
     fFlashStart = zerotime();
     setToolTip(frame->getTitle());
     //setDND(true);
@@ -54,11 +46,8 @@ TaskBarApp::~TaskBarApp() {
     if (fTaskPane->dragging() == this)
         fTaskPane->endDrag();
 
-    if (fRaiseTimer && fRaiseTimer->getTimerListener() == this) {
-        fRaiseTimer->stopTimer();
-        fRaiseTimer->setTimerListener(0);
-    }
-    delete fFlashTimer; fFlashTimer = 0;
+    if (fRaiseTimer)
+        fRaiseTimer->disableTimerListener(this);
 }
 
 bool TaskBarApp::isFocusTraversable() {
@@ -78,12 +67,7 @@ void TaskBarApp::setFlash(bool flashing) {
         if (fFlashing && focusRequestFlashInterval > 0) {
             fFlashOn = true;
             fFlashStart = monotime();
-            if (fFlashTimer == 0)
-                fFlashTimer = new YTimer(focusRequestFlashInterval);
-            if (fFlashTimer) {
-                fFlashTimer->setTimerListener(this);
-                fFlashTimer->startTimer();
-            }
+            fFlashTimer->setTimer(focusRequestFlashInterval, this, true);
         } else {
             //fFlashTimer->stopTimer();
         }
@@ -91,7 +75,7 @@ void TaskBarApp::setFlash(bool flashing) {
 }
 
 void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
-    YColor *bg, *fg;
+    YColor bg, fg;
     ref<YPixmap> bgPix;
     ref<YImage> bgGrad;
 
@@ -295,21 +279,14 @@ void TaskBarApp::handleClick(const XButtonEvent &up, int /*count*/) {
 }
 
 void TaskBarApp::handleDNDEnter() {
-    if (fRaiseTimer == 0)
-        fRaiseTimer = new YTimer(autoRaiseDelay);
-    if (fRaiseTimer) {
-        fRaiseTimer->setTimerListener(this);
-        fRaiseTimer->startTimer();
-    }
+    fRaiseTimer->setTimer(autoRaiseDelay, this, true);
     selected = 3;
     repaint();
 }
 
 void TaskBarApp::handleDNDLeave() {
-    if (fRaiseTimer && fRaiseTimer->getTimerListener() == this) {
-        fRaiseTimer->stopTimer();
-        fRaiseTimer->setTimerListener(0);
-    }
+    if (fRaiseTimer)
+        fRaiseTimer->disableTimerListener(this);
     selected = 0;
     repaint();
 }
@@ -437,7 +414,7 @@ void TaskPane::handleClick(const XButtonEvent &up, int count) {
 }
 
 void TaskPane::paint(Graphics &g, const YRect &/*r*/) {
-    g.setColor(getTaskBarBg());
+    g.setColor(taskBarBg);
     //g.draw3DRect(0, 0, width() - 1, height() - 1, true);
 
     // When TaskBarDoubleHeight=1 this draws the lower half.

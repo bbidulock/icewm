@@ -39,8 +39,8 @@ private:
     bool fFlashOn;
     timeval fFlashStart;
     int selected;
-    YTimer *fFlashTimer;
-    static YTimer *fRaiseTimer;
+    lazy<YTimer> fFlashTimer;
+    static lazy<YTimer> fRaiseTimer;
 };
 
 class TaskPane: public YWindow {

@@ -21,10 +21,10 @@
 #include <string.h>
 
 static ref<YFont> listBoxFont;
-static YColor *listBoxBg = 0;
-static YColor *listBoxFg = 0;
-static YColor *listBoxSelBg = 0;
-static YColor *listBoxSelFg = 0;
+static YColorName listBoxBg(&clrListBox);
+static YColorName listBoxFg(&clrListBoxText);
+static YColorName listBoxSelBg(&clrListBoxSelected);
+static YColorName listBoxSelFg(&clrListBoxSelectedText);
 
 int YListBox::fAutoScrollDelta = 0;
 
@@ -74,14 +74,6 @@ YListBox::YListBox(YScrollView *view, YWindow *aParent):
 {
     if (listBoxFont == null)
         listBoxFont = YFont::getFont(XFA(listBoxFontName));
-    if (listBoxBg == 0)
-        listBoxBg = new YColor(clrListBox);
-    if (listBoxFg == 0)
-        listBoxFg = new YColor(clrListBoxText);
-    if (listBoxSelBg == 0)
-        listBoxSelBg = new YColor(clrListBoxSelected);
-    if (listBoxSelFg == 0)
-        listBoxSelFg = new YColor(clrListBoxSelectedText);
     setBitGravity(NorthWestGravity);
     fView = view;
     if (fView) {

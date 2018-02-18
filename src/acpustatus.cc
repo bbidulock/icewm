@@ -71,26 +71,21 @@ CPUStatus::CPUStatus(YSMListener *smActionListener, YWindow *aParent, int cpuid)
     }
     memset(last_cpu, 0, sizeof(last_cpu));
 
-    fUpdateTimer = new YTimer(taskBarCPUDelay);
-    if (fUpdateTimer) {
-        fUpdateTimer->setTimerListener(this);
-        fUpdateTimer->startTimer();
-    }
+    fUpdateTimer->setTimer(taskBarCPUDelay, this, true);
 
     if (tempFont == null)
         tempFont = YFont::getFont(XFA(tempFontName));
 
-    tempColor = new YColor(clrCpuTemp);
+    tempColor = &clrCpuTemp;
 
-    color[IWM_USER] = new YColor(clrCpuUser);
-    color[IWM_NICE] = new YColor(clrCpuNice);
-    color[IWM_SYS]  = new YColor(clrCpuSys);
-    color[IWM_INTR] = new YColor(clrCpuIntr);
-    color[IWM_IOWAIT] = new YColor(clrCpuIoWait);
-    color[IWM_SOFTIRQ] = new YColor(clrCpuSoftIrq);
-    color[IWM_IDLE] = *clrCpuIdle
-        ? new YColor(clrCpuIdle) : NULL;
-    color[IWM_STEAL] = new YColor(clrCpuSteal);
+    color[IWM_USER] = &clrCpuUser;
+    color[IWM_NICE] = &clrCpuNice;
+    color[IWM_SYS]  = &clrCpuSys;
+    color[IWM_INTR] = &clrCpuIntr;
+    color[IWM_IOWAIT] = &clrCpuIoWait;
+    color[IWM_SOFTIRQ] = &clrCpuSoftIrq;
+    color[IWM_IDLE] = &clrCpuIdle;
+    color[IWM_STEAL] = &clrCpuSteal;
     setSize(taskBarCPUSamples, taskBarGraphHeight);
     ShowRamUsage = cpustatusShowRamUsage;
     ShowSwapUsage = cpustatusShowSwapUsage;
@@ -110,16 +105,6 @@ CPUStatus::~CPUStatus() {
         delete[] cpu[a]; cpu[a] = 0;
     }
     delete[] cpu; cpu = 0;
-    delete color[IWM_USER]; color[IWM_USER] = 0;
-    delete color[IWM_NICE]; color[IWM_NICE] = 0;
-    delete color[IWM_SYS];  color[IWM_SYS]  = 0;
-    delete color[IWM_IDLE]; color[IWM_IDLE] = 0;
-    delete color[IWM_INTR]; color[IWM_INTR] = 0;
-    delete color[IWM_IOWAIT]; color[IWM_IOWAIT] = 0;
-    delete color[IWM_SOFTIRQ]; color[IWM_SOFTIRQ] = 0;
-    delete color[IWM_STEAL]; color[IWM_STEAL] = 0;
-    delete tempColor; tempColor = 0;
-    delete fUpdateTimer; fUpdateTimer = 0;
 }
 
 void CPUStatus::paint(Graphics &g, const YRect &/*r*/) {
@@ -419,26 +404,22 @@ void CPUStatus::getStatus() {
     if (fCpuID >= 0)
         snprintf(cpuname, sizeof(cpuname), "cpu%d", fCpuID);
 
-    FILE *fd = fopen("/proc/stat", "r");
+    fileptr fd(fopen("/proc/stat", "r"));
     if (fd == NULL)
-    {
-        fclose(fd);
         return;
-    }
 
     /* find the line that starts with `cpuname` */
     do {
         if (!fgets(buf, sizeof(buf) - 1, fd)) {
-            fclose(fd);
             return;
         }
         tok = strtok_r(buf, " \t", &p);
         if (!tok) {
-            fclose(fd);
             return;
         }
     } while (strcmp(tok, cpuname));
-    fclose(fd);
+    fd.close();
+
     s = sscanf(p, "%llu %llu %llu %llu %llu %llu %llu %llu",
                &cur[IWM_USER],    &cur[IWM_NICE],
                &cur[IWM_SYS],     &cur[IWM_IDLE],

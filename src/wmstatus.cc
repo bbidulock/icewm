@@ -21,8 +21,8 @@
 #include <stdio.h>
 #include <string.h>
 
-YColor *YWindowManagerStatus::statusFg = 0;
-YColor *YWindowManagerStatus::statusBg = 0;
+YColorName YWindowManagerStatus::statusFg(&clrMoveSizeStatusText);
+YColorName YWindowManagerStatus::statusBg(&clrMoveSizeStatus);
 
 ref<YFont> YWindowManagerStatus::statusFont;
 
@@ -36,10 +36,6 @@ YWindowManagerStatus::YWindowManagerStatus(YWindow *aParent,
                 const ustring &sampleString)
     : YWindow(aParent)
 {
-    if (statusBg == 0)
-        statusBg = new YColor(clrMoveSizeStatus);
-    if (statusFg == 0)
-        statusFg = new YColor(clrMoveSizeStatusText);
     if (statusFont == null)
         statusFont = YFont::getFont(XFA(statusFontName));
 
@@ -143,26 +139,19 @@ void MoveSizeStatus::setStatus(YFrameWindow *frame) {
 /******************************************************************************/
 /******************************************************************************/
 
-class WorkspaceStatus::Timeout: public YTimerListener {
-public:
-    virtual bool handleTimer(YTimer */*timer*/) {
-        statusWorkspace->end();
-        return false;
-    }
+bool WorkspaceStatus::handleTimer(YTimer *t) {
+    statusWorkspace->end();
+    return false;
 };
 
-/******************************************************************************/
-
-WorkspaceStatus::WorkspaceStatus(YWindow *aParent, const ustring& templateString)
-  : YWindowManagerStatus(aParent, templateString), workspace(0), timer(0), timeout(0) {
+WorkspaceStatus::WorkspaceStatus(YWindow *aParent, ustring templateString) :
+    YWindowManagerStatus(aParent, templateString), workspace(0),
+    timer(workspaceStatusTime, this, false)
+{
 // !!! read timeout from preferences
-    timer = new YTimer(workspaceStatusTime);
-    timer->setTimerListener(timeout = new Timeout());
 }
 
 WorkspaceStatus::~WorkspaceStatus() {
-    delete timer;
-    delete timeout;
 }
 
 ustring WorkspaceStatus::getStatus() {
@@ -182,10 +171,8 @@ void WorkspaceStatus::setStatus(long workspace) {
     this->workspace = workspace;
     repaintSync();
 
-    if (timer->isRunning())
-        timer->stopTimer();
-
-    timer->startTimer();
+    timer.stopTimer();
+    timer.startTimer();
 }
 
 WorkspaceStatus * WorkspaceStatus::createInstance(YWindow *aParent) {

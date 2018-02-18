@@ -49,7 +49,7 @@ public:
     virtual bool handleTimer(YTimer *t);
 private:
     TaskBar *fTaskBar;
-    YTimer *fAutoHideTimer;
+    lazy<YTimer> fAutoHideTimer;
     bool fDoShow;
 };
 
@@ -181,7 +181,7 @@ private:
 
 extern TaskBar *taskBar; // !!! get rid of this
 
-class YColor* getTaskBarBg();
+extern YColorName taskBarBg;
 
 #endif
 

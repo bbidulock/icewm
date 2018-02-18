@@ -63,10 +63,9 @@ NetStatus::NetStatus(
     for (int i = 0; i < taskBarNetSamples; i++)
         ppp_in[i] = ppp_out[i] = 0;
 
-    color[0] = new YColor(clrNetReceive);
-    color[1] = new YColor(clrNetSend);
-    color[2] = *clrNetIdle
-        ? new YColor(clrNetIdle) : NULL;
+    color[0] = &clrNetReceive;
+    color[1] = &clrNetSend;
+    color[2] = &clrNetIdle;
 
     setSize(taskBarNetSamples, taskBarGraphHeight);
 
@@ -92,9 +91,6 @@ NetStatus::NetStatus(
 }
 
 NetStatus::~NetStatus() {
-    delete color[0];
-    delete color[1];
-    delete color[2];
     delete[] ppp_in;
     delete[] ppp_out;
 }
@@ -630,7 +626,6 @@ void NetStatus::getCurrent(long *in, long *out, const void* sharedData) {
 }
 
 NetStatusControl::~NetStatusControl() {
-    delete fUpdateTimer;
     for (NetStatus **p = fNetStatus.data; p<fNetStatus.data+fNetStatus.size;++p)
         delete *p;
 }
@@ -646,7 +641,8 @@ void NetStatusControl::fetchSystemData() {
         cachedStats.size += fread(cachedStats.data + cachedStats.size,
                 sizeof(char), cachedStats.remainingCapa(), fp);
     }
-    while (fclose(fp)) {}
+    fclose(fp);
+
     cachedStats.add(0); // zero terminated, for sure
     cachedStatsIdx.size = 0;
     // XXX: check performance! This is written for easier understanding.
@@ -712,12 +708,7 @@ NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
     }
 #endif
 
-    fUpdateTimer = new YTimer(0);
-    if (fUpdateTimer) {
-        fUpdateTimer->setInterval(taskBarNetDelay);
-        fUpdateTimer->setTimerListener(this);
-        fUpdateTimer->startTimer();
-    }
+    fUpdateTimer->setTimer(taskBarNetDelay, this, true);
 }
 
 

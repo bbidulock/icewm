@@ -35,7 +35,7 @@ public:
     void layoutButtons();
     void raiseButtons();
 
-    static YColor* background(bool active);
+    static YColor background(bool active);
 
 private:
     static void initTitleColorsFonts();

@@ -4,9 +4,12 @@
 
 #include "ystring.h"
 #include "ypaint.h"
+#include "ypointer.h"
 #include "yxapp.h"
 #include "intl.h"
 #include <stdio.h>
+#include <ft2build.h>
+#include <X11/Xft/Xft.h>
 
 #ifdef CONFIG_FRIBIDI
         // remove deprecated warnings for now...
@@ -71,65 +74,44 @@ public:
     #define XftDrawString XftDrawString8
 #endif
 
-#if 0
-    void drawRect(Graphics &g, XftColor * color, int x, int y, unsigned w, unsigned h) {
-        XftDrawRect(fDraw, color, x - xOrigin, y - yOrigin, w, h);
-    }
-#endif
-
     static void drawString(Graphics &g, XftFont * font, int x, int y,
                            char_t * str, size_t len)
     {
-        XftColor *c = *g.color();
-
 #ifdef CONFIG_FRIBIDI
+        const size_t bufsize = 256;
+        char_t buf[bufsize];
+        char_t *vis_str = buf;
+        asmart<char_t> big;
 
-#define STATIS_STRING_SIZE      256
+        if (len >= bufsize) {
+            big = new char_t[len+1];
+            if (big == 0)
+                return;
+            vis_str = big;
+        }
 
-                // Based around upstream (1.3.2) patch with some optimization
-                //   on my end. (reduce unnecessary memory allocation)
-                // - Gilboa
+        FriBidiCharType pbase_dir = FRIBIDI_TYPE_N;
 
-                char_t static_str[STATIS_STRING_SIZE];
-                char_t *vis_str = static_str;
-
-                if (len >= STATIS_STRING_SIZE)
-                {
-                        vis_str = new char_t[len+1];
-                        if (!vis_str)
-                                return;
-                }
-
-                FriBidiCharType pbase_dir = FRIBIDI_TYPE_N;
-    if (fribidi_log2vis(str, len, &pbase_dir, //input
-                vis_str, // output
-                NULL, NULL, NULL // "statistics" that we don't need
-                ))
-    {
-        str = vis_str;
-    }
+        if (fribidi_log2vis(str, len, &pbase_dir, //input
+                            vis_str, // output
+                            NULL, NULL, NULL // "statistics" that we don't need
+                            ))
+        {
+            str = vis_str;
+        }
 #endif
 
-        XftDrawString(g.handleXft(), c, font,
+        XftDrawString(g.handleXft(), g.color().xftColor(), font,
                       x - g.xorigin(),
                       y - g.yorigin(),
                       str, len);
-
-#ifdef CONFIG_FRIBIDI
-
-                if (vis_str != static_str)
-                        delete[] str;
-
-#endif
-
     }
 
     static void textExtents(XftFont * font, char_t * str, size_t len,
                             XGlyphInfo & extends) {
-        XftTextExtents(xapp->display (), font, str, len, &extends);
+        XftTextExtents(xapp->display(), font, str, len, &extends);
     }
 
-       //    XftDraw * handle() const { return fDraw; }
 };
 
 /******************************************************************************/
@@ -340,8 +322,10 @@ ref<YFont> getXftFontXlfd(ustring name, bool antialias) {
     if (font == null || !font->valid()) {
         msg("failed to load font '%s', trying fallback", cstring(name).c_str());
         font.init(new YXftFont("sans-serif:size=12", false, antialias));
-        if (font == null || !font->valid())
+        if (font == null || !font->valid()) {
             msg("Could not load fallback Xft font.");
+            return null;
+        }
     }
     return font;
 }
@@ -351,8 +335,10 @@ ref<YFont> getXftFont(ustring name, bool antialias) {
     if (font == null || !font->valid()) {
         msg("failed to load font '%s', trying fallback", cstring(name).c_str());
         font.init(new YXftFont("sans-serif:size=12", false, antialias));
-        if (font == null || !font->valid())
+        if (font == null || !font->valid()) {
             msg("Could not load fallback Xft font.");
+            return null;
+        }
     }
     return font;
 }

@@ -13,7 +13,6 @@
 #include "config.h"
 #include "aapm.h"
 
-#include "ylib.h"
 #include "sysdep.h"
 #include "wpixmaps.h"
 #include "prefs.h"
@@ -40,7 +39,7 @@
 
 #include <math.h>
 
-extern YColor* getTaskBarBg();
+extern YColorName taskBarBg;
 
 #define AC_UNKNOWN      0
 #define AC_ONLINE       1
@@ -55,6 +54,7 @@ extern YColor* getTaskBarBg();
 #define BAT_FULL        3
 
 #define SYS_STR_SIZE    64
+#define APM_LINE_LEN    80
 
 void YApm::ApmStr(char *s, bool Tool) {
 #if (defined(__FreeBSD__) || defined(__FreeBSD_kernel__)) && defined(i386)
@@ -62,7 +62,7 @@ void YApm::ApmStr(char *s, bool Tool) {
 #elif defined __NetBSD__
     struct apm_power_info ai;
 #else
-    char buf[80];
+    char buf[APM_LINE_LEN];
 #endif
     int len, i, fd = open(APMDEV, O_RDONLY);
     char driver[16];
@@ -214,7 +214,7 @@ void YApm::AcpiStr(char *s, bool Tool) {
     //the file in /proc/acpi will contain unexpected values
     int ACstatus = -1;
 #if !defined(__FreeBSD__) && !defined(__FreeBSD_kernel__)
-    char buf2[80];
+    char buf2[APM_LINE_LEN];
     if (acpiACName && acpiACName[0] != 0) {
         strcat3(buf, "/proc/acpi/ac_adapter/", acpiACName, "/state", sizeof(buf));
         FILE* fd = fopen(buf, "r");
@@ -696,9 +696,9 @@ void YApm::PmuStr(char *s, const bool tool_tip)
       return;
    }
 
-   char line[80];
+   char line[APM_LINE_LEN];
    int power_present(0);
-   while ( fgets(line, ACOUNT(line), fd) != NULL )
+   while ( fgets(line, APM_LINE_LEN, fd) != NULL )
    {
       if (strncmp("AC Power", line, strlen("AC Power")) == 0) {
          sscanf(strchr(line, ':')+2, "%d", &power_present);
@@ -712,8 +712,8 @@ void YApm::PmuStr(char *s, const bool tool_tip)
 
    char* s_end = s;
    for (int i=0; i < batteryNum; ++i) {
-      char file_name[30];
-      snprintf(file_name, ACOUNT(file_name), "/proc/pmu/battery_%d", i);
+      char file_name[SYS_STR_SIZE];
+      snprintf(file_name, SYS_STR_SIZE, "/proc/pmu/battery_%d", i);
       fd = fopen(file_name, "r");
       if (fd == NULL) {
          strlcpy(s_end, "Err", SYS_STR_SIZE - (s_end - s));
@@ -811,8 +811,11 @@ void YApm::PmuStr(char *s, const bool tool_tip)
 
 YApm::YApm(YWindow *aParent, bool autodetect):
     YWindow(aParent), YTimerListener(),
-    apmTimer(0), apmBg(0), apmFg(0), apmFont(null),
-    apmColorOnLine(0), apmColorBattery(0), apmColorGraphBg(0),
+    apmTimer(0), apmBg(&clrApm), apmFg(&clrApmText),
+    apmFont(YFont::getFont(XFA(apmFontName))),
+    apmColorOnLine(&clrApmLine),
+    apmColorBattery(&clrApmBat),
+    apmColorGraphBg(&clrApmGraphBg),
     mode(APM), batteryNum(0), acpiACName(0), fCurrentState(0),
     acIsOnLine(false), energyNow(0), energyFull(0)
 {
@@ -880,8 +883,8 @@ YApm::YApm(YWindow *aParent, bool autodetect):
 #endif
     else if ( (pmu_info = fopen("/proc/pmu/info", "r")) != NULL) {
        mode = PMU;
-       char line[80];
-       while ( fgets(line, 80, pmu_info) != NULL )
+       char line[APM_LINE_LEN];
+       while ( fgets(line, APM_LINE_LEN, pmu_info) != NULL )
          if (strncmp("Battery count", line, strlen("Battery count")) == 0)
            sscanf(strchr(line, ':')+2, "%d", &batteryNum);
 
@@ -895,19 +898,9 @@ YApm::YApm(YWindow *aParent, bool autodetect):
     if (autodetect && 0 == batteryNum)
         return;
 
-    if (apmBg == 0 && *clrApm) apmBg = new YColor(clrApm);
-    if (apmFg == 0) apmFg = new YColor(clrApmText);
-    if (apmFont == null) apmFont = YFont::getFont(XFA(apmFontName));
-
-    if (apmColorOnLine  == 0) apmColorOnLine  = new YColor(clrApmLine);
-    if (apmColorBattery == 0) apmColorBattery = new YColor(clrApmBat);
-    if (apmColorGraphBg == 0) apmColorGraphBg = new YColor(clrApmGraphBg);
-
     updateState();
 
-    apmTimer = new YTimer(1000 * batteryPollingPeriod);
-    apmTimer->setTimerListener(this);
-    apmTimer->startTimer();
+    apmTimer->setTimer(1000 * batteryPollingPeriod, this, true);
 
     if (taskBarShowApmGraph)
        setSize(taskBarApmGraphWidth, taskBarGraphHeight);
@@ -918,7 +911,6 @@ YApm::YApm(YWindow *aParent, bool autodetect):
 }
 
 YApm::~YApm() {
-    delete apmTimer; apmTimer = 0;
     if (ACPI == mode || mode == SYSFS) {
         for (int i = batteryNum; --i >= 0; --batteryNum) {
             delete acpiBatteries[i]; acpiBatteries[i] = 0;
@@ -926,12 +918,6 @@ YApm::~YApm() {
         delete[] acpiACName; acpiACName = 0;
     }
     delete[] fCurrentState; fCurrentState = 0;
-    delete apmBg; apmBg = 0;
-    delete apmFg; apmFg = 0;
-    apmFont = null;
-    delete apmColorOnLine; apmColorOnLine = 0;
-    delete apmColorBattery; apmColorBattery = 0;
-    delete apmColorGraphBg; apmColorGraphBg = 0;
 }
 
 void YApm::updateToolTip() {
@@ -956,7 +942,7 @@ void YApm::updateToolTip() {
 }
 
 int YApm::calcInitialWidth() {
-    char buf[80] = { 0 };
+    char buf[APM_LINE_LEN] = { 0 };
     int i;
     int n = 0;
 
@@ -1023,7 +1009,7 @@ void YApm::paint(Graphics &g, const YRect &/*r*/) {
                      this->x(), this->y());
     }
     else {
-        g.setColor(getTaskBarBg());
+        g.setColor(taskBarBg);
         g.fillRect(0, 0, width(), height());
     }
 

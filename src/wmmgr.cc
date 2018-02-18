@@ -2872,10 +2872,7 @@ void YWindowManager::handleProperty(const XPropertyEvent &property) {
                     while (i < nitems && propdata[i++]);
                 }
                 if (s[0] && s[1] && s[2] && propdata[i - 1] == 0) {
-                    if (hintOptions == 0)
-                        hintOptions = new WindowOptions();
-                    if (hintOptions != 0)
-                        hintOptions->setWinOption(s[0], s[1], s[2]);
+                    hintOptions->setWinOption(s[0], s[1], s[2]);
                 }
             }
             XFree(propdata);
@@ -3274,7 +3271,7 @@ void YWindowManager::exitAfterLastClient(bool shuttingDown) {
     checkLogout();
 }
 
-YTimer *EdgeSwitch::fEdgeSwitchTimer(NULL);
+lazy<YTimer> EdgeSwitch::fEdgeSwitchTimer;
 
 EdgeSwitch::EdgeSwitch(YWindowManager *manager, int delta, bool vertical):
     YWindow(manager),
@@ -3292,26 +3289,17 @@ EdgeSwitch::EdgeSwitch(YWindowManager *manager, int delta, bool vertical):
 
 EdgeSwitch::~EdgeSwitch() {
     if (fEdgeSwitchTimer && fEdgeSwitchTimer->getTimerListener() == this) {
-        fEdgeSwitchTimer->stopTimer();
-        fEdgeSwitchTimer->setTimerListener(NULL);
-        delete fEdgeSwitchTimer;
-        fEdgeSwitchTimer = NULL;
+        fEdgeSwitchTimer = null;
     }
 }
 
 void EdgeSwitch::handleCrossing(const XCrossingEvent &crossing) {
     if (crossing.type == EnterNotify && crossing.mode == NotifyNormal) {
-        if (!fEdgeSwitchTimer)
-            fEdgeSwitchTimer = new YTimer(edgeSwitchDelay);
-        if (fEdgeSwitchTimer) {
-            fEdgeSwitchTimer->setTimerListener(this);
-            fEdgeSwitchTimer->startTimer();
-            setPointer(fCursor);
-        }
+        fEdgeSwitchTimer->setTimer(edgeSwitchDelay, this, true);
+        setPointer(fCursor);
     } else if (crossing.type == LeaveNotify && crossing.mode == NotifyNormal) {
         if (fEdgeSwitchTimer && fEdgeSwitchTimer->getTimerListener() == this) {
-            fEdgeSwitchTimer->stopTimer();
-            fEdgeSwitchTimer->setTimerListener(NULL);
+            fEdgeSwitchTimer = null;
             setPointer(YXApplication::leftPointer);
         }
     }

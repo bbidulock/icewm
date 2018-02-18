@@ -4,24 +4,15 @@
  * Copyright (C) 1997-2002 Marko Macek
  */
 #include "config.h"
-
-#include "yfull.h"
-#include "ykey.h"
 #include "wmframe.h"
-
-#include "wmclient.h"
 #include "wmstatus.h"
-#include "yxapp.h"
 #include "wmapp.h"
-#include "yrect.h"
 #include "prefs.h"
-
-#include "intl.h"
-
 #include "wmtaskbar.h"
 #include "aworkspaces.h"
+#include "intl.h"
 
-#include <stdio.h>
+extern YColorName activeBorderBg;
 
 void YFrameWindow::snapTo(int &wx, int &wy,
                           int rx1, int ry1, int rx2, int ry2,
@@ -186,23 +177,18 @@ void YFrameWindow::drawMoveSizeFX(int x, int y, int w, int h, bool) {
 
     int const bw((wsBorderX + wsBorderY) / 2);
     int const bo((wsBorderX + wsBorderY) / 4);
-    static Graphics * gc(NULL);
 
-    if (gc == NULL) {
-        XGCValues gcv;
+    XGCValues gcv;
 
-        gcv.foreground = YColor(clrActiveBorder).pixel();
-        gcv.function = GXxor;
-        gcv.graphics_exposures = False;
-        gcv.line_width = bw;
-        gcv.subwindow_mode = IncludeInferiors;
+    gcv.foreground = activeBorderBg.pixel();
+    gcv.function = GXxor;
+    gcv.graphics_exposures = False;
+    gcv.line_width = bw;
+    gcv.subwindow_mode = IncludeInferiors;
 
-        gc = new Graphics(*desktop, GCForeground | GCFunction |
-                                    GCGraphicsExposures | GCLineWidth |
-                                    GCSubwindowMode, &gcv);
-    }
-
-    gc->drawRect(x + bo, y + bo, w - bw, h - bw);
+    Graphics g(*desktop, GCForeground | GCFunction | GCGraphicsExposures |
+                         GCLineWidth | GCSubwindowMode, &gcv);
+    g.drawRect(x + bo, y + bo, w - bw, h - bw);
 }
 
 int YFrameWindow::handleMoveKeys(const XKeyEvent &key, int &newX, int &newY) {

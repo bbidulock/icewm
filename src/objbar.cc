@@ -16,8 +16,8 @@
 #include "yicon.h"
 
 ref<YFont> ObjectButton::font;
-YColor * ObjectButton::bgColor(NULL);
-YColor * ObjectButton::fgColor(NULL);
+YColorName ObjectButton::bgColor(&clrToolButton);
+YColorName ObjectButton::fgColor(&clrToolButtonText);
 
 ObjectBar::ObjectBar(YWindow *parent): YWindow(parent) {
     setSize(1, 1);
@@ -58,7 +58,7 @@ void ObjectBar::paint(Graphics &g, const YRect &/*r*/) {
     if (taskbackPixmap != null)
         g.fillPixmap(taskbackPixmap, 0, 0, width(), height());
     else {
-        g.setColor(getTaskBarBg());
+        g.setColor(taskBarBg);
         g.fillRect(0, 0, width(), height());
     }
 }
@@ -101,17 +101,13 @@ ref<YFont> ObjectButton::getFont() {
          : YButton::getFont());
 }
 
-YColor * ObjectButton::getColor() {
-    return *clrToolButtonText
-        ? fgColor ? fgColor : fgColor = new YColor(clrToolButtonText)
-        : YButton::getColor();
+YColor ObjectButton::getColor() {
+    return fgColor ? fgColor : YButton::getColor();
 }
 
 YSurface ObjectButton::getSurface() {
-    if (bgColor == 0)
-        bgColor = new YColor(*clrToolButton ? clrToolButton : clrNormalButton);
-
-    return YSurface(bgColor, toolbuttonPixmap, toolbuttonPixbuf);
+    return YSurface(bgColor ? bgColor : YButton::normalButtonBg,
+                    toolbuttonPixmap, toolbuttonPixbuf);
 }
 
 void ObjectButton::actionPerformed(YAction action, unsigned modifiers) {

@@ -202,6 +202,15 @@ static void test_mstring()
     expect(u, "cdef");
     u = mstring((char *) NULL, (char *) NULL, (char *) NULL);
     expect(u, "");
+
+    u = mstring("#ffff").match("#fffff");
+    expect(u, null);
+    u = mstring("#fffff").match("#fffff");
+    expect(u, "#fffff");
+    u = mstring("f#ffffff").match("#fffff");
+    expect(u, "#fffff");
+    u = mstring("f#ffffff").match("#f{5}");
+    expect(u, "#fffff");
 }
 
 static void test_upath()

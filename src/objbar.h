@@ -24,7 +24,6 @@ public:
 
 private:
     YObjectArray<YButton> objects;
-    static YColor *bgColor;
 };
 
 #endif

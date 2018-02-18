@@ -42,8 +42,8 @@ private:
     static void combineOptions(WindowOption &cm, WindowOption &n);
 };
 
-extern WindowOptions *defOptions;
-extern WindowOptions *hintOptions;
+extern lazy<WindowOptions> defOptions;
+extern lazy<WindowOptions> hintOptions;
 
 void loadWinOptions(upath optFile);
 

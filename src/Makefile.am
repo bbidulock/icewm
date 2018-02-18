@@ -106,6 +106,8 @@ libice_la_SOURCES = \
 	ylist.h \
 	ywindow.cc \
 	ywindow.h \
+	ycolor.cc \
+	ycolor.h \
 	ypaint.cc \
 	ypaint.h \
 	ypopup.cc \

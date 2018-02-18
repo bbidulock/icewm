@@ -12,10 +12,10 @@
 #include "prefs.h"
 #include "wpixmaps.h"
 
-static YColor *titleButtonBg = 0;
-static YColor *titleButtonFg = 0;
+static YColorName titleButtonBg(&clrNormalTitleButton);
+static YColorName titleButtonFg(&clrNormalTitleButtonText);
 
-inline YColor* YFrameButton::background(bool active) {
+inline YColor YFrameButton::background(bool active) {
     return YFrameTitleBar::background(active);
 }
 
@@ -34,11 +34,6 @@ YFrameButton::YFrameButton(YWindow *parent,
         setWinGravity(NorthEastGravity);
 
     reparent(parent, 0, 0);
-
-    if (titleButtonBg == 0)
-        titleButtonBg = new YColor(clrNormalTitleButton);
-    if (titleButtonFg == 0)
-        titleButtonFg = new YColor(clrNormalTitleButtonText);
 
     if (fAction == actionNull)
         setPopup(frame->windowMenu());
@@ -251,9 +246,9 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
             // the over or armed color and paint it.
            g.fillRect(0, 0, width(), height());
            if (armed)
-               g.setColor(background(true)->darker());
+               g.setColor(background(true).darker());
            else if (rolloverTitleButtons && fOver)
-               g.setColor(background(true)->brighter());
+               g.setColor(background(true).brighter());
            g.fillRect(1, 1, width()-2, height()-3);
            if (pixmap != null) {
                int x(((int)width()  - (int)pixmap->width())  / 2);

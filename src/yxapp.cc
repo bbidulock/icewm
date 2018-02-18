@@ -1,14 +1,9 @@
 #include "config.h"
 #include "yxapp.h"
 #include "yfull.h"
-#include "wmprog.h"
-#include "yaction.h"
 #include "ymenu.h"
 #include "wmmgr.h"
 #include "MwmUtil.h"
-#include "prefs.h"
-#include "yprefs.h"
-#include "yconfig.h"
 #include "ypointer.h"
 
 #ifdef CONFIG_RENDER
@@ -189,9 +184,6 @@ Atom XA_XdndLeave;
 Atom XA_XdndPosition;
 Atom XA_XdndProxy;
 Atom XA_XdndStatus;
-
-YColor *YColor::black(NULL);
-YColor *YColor::white(NULL);
 
 #ifdef CONFIG_RENDER
 int renderSupported;
@@ -489,11 +481,6 @@ void YXApplication::initPointers() {
     leftPointer  = l->load("left.xpm",  XC_left_ptr);
     rightPointer = l->load("right.xpm", XC_right_ptr);
     movePointer  = l->load("move.xpm",  XC_fleur);
-}
-
-void YXApplication::initColors() {
-    YColor::black = new YColor("rgb:00/00/00");
-    YColor::white = new YColor("rgb:FF/FF/FF");
 }
 
 void YXApplication::initModifiers() {
@@ -984,7 +971,6 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
     initAtoms();
     initModifiers();
     initPointers();
-    initColors();
     initExtensions();
 }
 
@@ -1024,8 +1010,6 @@ void YXApplication::initExtensions() {
 YXApplication::~YXApplication() {
     xfd.unregisterPoll();
     XCloseDisplay(display());
-    delete YColor::white; YColor::white = 0;
-    delete YColor::black; YColor::black = 0;
     xapp = 0;
 }
 

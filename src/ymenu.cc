@@ -22,12 +22,12 @@
 
 #include <string.h>
 
-YColor *menuBg = 0;
-YColor *menuItemFg = 0;
-YColor *activeMenuItemBg = 0;
-YColor *activeMenuItemFg = 0;
-YColor *disabledMenuItemFg = 0;
-YColor *disabledMenuItemSt = 0;
+YColorName menuBg(&clrNormalMenu);
+YColorName menuItemFg(&clrNormalMenuItemText);
+YColorName activeMenuItemBg(&clrActiveMenuItem);
+YColorName activeMenuItemFg(&clrActiveMenuItemText);
+YColorName disabledMenuItemFg(&clrDisabledMenuItemText);
+YColorName disabledMenuItemSt(&clrDisabledMenuItemShadow);
 
 ref<YFont> menuFont;
 
@@ -60,7 +60,7 @@ void YMenu::finishPopup(YMenuItem *item, YAction action,
         item->actionPerformed(cmd, action, modifiers);
 }
 
-YTimer *YMenu::fMenuTimer = 0;
+lazy<YTimer> YMenu::fMenuTimer;
 
 YMenu::YMenu(YWindow *parent):
     YPopupWindow(parent),
@@ -68,20 +68,6 @@ YMenu::YMenu(YWindow *parent):
 {
     if (menuFont == null)
         menuFont = YFont::getFont(XFA(menuFontName));
-    if (menuBg == 0)
-        menuBg = new YColor(clrNormalMenu);
-    if (menuItemFg == 0)
-        menuItemFg = new YColor(clrNormalMenuItemText);
-    if (*clrActiveMenuItem && activeMenuItemBg == 0)
-        activeMenuItemBg = new YColor(clrActiveMenuItem);
-    if (activeMenuItemFg == 0)
-        activeMenuItemFg = new YColor(clrActiveMenuItemText);
-    if (disabledMenuItemFg == 0)
-        disabledMenuItemFg = new YColor(clrDisabledMenuItemText);
-    if (disabledMenuItemSt == 0)
-        disabledMenuItemSt = *clrDisabledMenuItemShadow
-                           ? new YColor(clrDisabledMenuItemShadow)
-                           : menuBg->brighter();
 
     paintedItem = selectedItem = -1;
     submenuItem = -1;
@@ -97,10 +83,8 @@ YMenu::YMenu(YWindow *parent):
 }
 
 YMenu::~YMenu() {
-    if (fMenuTimer && fMenuTimer->getTimerListener() == this) {
-        fMenuTimer->setTimerListener(0);
-        fMenuTimer->stopTimer();
-    }
+    if (fMenuTimer)
+        fMenuTimer->disableTimerListener(this);
     hideSubmenu();
     fGradient = null;
 }
@@ -120,10 +104,8 @@ void YMenu::deactivatePopup() {
     hideSubmenu();
     if (fPointedMenu == this)
         fPointedMenu = 0;
-    if (fMenuTimer && fMenuTimer->getTimerListener() == this) {
-        fMenuTimer->setTimerListener(0);
-        fMenuTimer->stopTimer();
-    }
+    if (fMenuTimer)
+        fMenuTimer->disableTimerListener(this);
 }
 
 void YMenu::donePopup(YPopupWindow *popup) {
@@ -521,10 +503,9 @@ void YMenu::trackMotion(const int x_root, const int y_root,
 {
     int selItem = findItem(x_root - x(), y_root - y());
     if (fMenuTimer &&
-        fMenuTimer->getTimerListener() == this &&
         (selItem != fTimerSubmenuItem)) /// ok?
     {
-        fMenuTimer->stopTimer();
+        fMenuTimer->disableTimerListener(this);
     }
     if (selItem != -1) {
         focusItem(selItem);
@@ -559,28 +540,11 @@ void YMenu::trackMotion(const int x_root, const int y_root,
                     canFast = false;
             }
 
-            if (fMenuTimer == 0)
-                fMenuTimer = new YTimer();
-            if (!fMenuTimer)
-                return;
-            fMenuTimer->setTimerListener(this);
             fTimerX = x_root;
             fTimerY = y_root;
             fTimerSubmenuItem = submenu ? selectedItem : -1;
-            if (canFast) {
-                fMenuTimer->setInterval(MenuActivateDelay);
-//                if (selectedItem != -1 &&
-//                    getItem(selectedItem)->getSubmenu() != 0 &&
-//                    submenu)
-//                {
-//                    activatedX = x_root;
-//                    activatedY = y_root;
-//                }
-            } else
-                fMenuTimer->setInterval(SubmenuActivateDelay);
-            fMenuTimer->setTimerListener(this);
-            if (!fMenuTimer->isRunning())
-                fMenuTimer->startTimer();
+            long delay = canFast ? MenuActivateDelay : SubmenuActivateDelay;
+            fMenuTimer->setTimer(delay, this, true);
         }
     }
 }
@@ -1052,7 +1016,7 @@ void YMenu::paintItem(Graphics &g, const int i, const int l, const int t, const 
                                      width() - r - l - 3, eh - 3, raised);
                 }
 
-                YColor *fg(mitem->isEnabled() ? active ? activeMenuItemFg
+                YColor fg(mitem->isEnabled() ? active ? activeMenuItemFg
                            : menuItemFg
                            : disabledMenuItemFg);
                 g.setColor(fg);
@@ -1093,7 +1057,8 @@ void YMenu::paintItem(Graphics &g, const int i, const int l, const int t, const 
                         namePos;
 
                     if (!mitem->isEnabled()) {
-                        g.setColor(disabledMenuItemSt);
+                        g.setColor(disabledMenuItemSt ? disabledMenuItemSt :
+                                   menuBg->brighter());
                         g.drawStringEllipsis(1 + delta + namePos, 1 + baseLine,
                                              name, maxWidth);
 
@@ -1111,7 +1076,8 @@ void YMenu::paintItem(Graphics &g, const int i, const int l, const int t, const 
 
                 if (param != null) {
                     if (!mitem->isEnabled()) {
-                        g.setColor(disabledMenuItemSt);
+                        g.setColor(disabledMenuItemSt ? disabledMenuItemSt :
+                                   menuBg->brighter());
                         g.drawChars(param,
                                     paramPos + delta + 1,
                                     baseLine + 1);

@@ -28,7 +28,11 @@ class TextView: public YWindow,
     public YScrollBarListener, public YScrollable, public YActionListener
 {
 public:
-    TextView(YScrollView *v, YWindow *parent): YWindow(parent) {
+    TextView(YScrollView *v, YWindow *parent):
+        YWindow(parent),
+        bg("rgb:C0/C0/C0"),
+        fg(YColor::black)
+    {
         expandTabs = true;
         hexView = false;
         wrapLines = true;
@@ -55,8 +59,6 @@ public:
         fWidth = 0;
         fHeight = 0;
 
-        bg = new YColor("rgb:C0/C0/C0");
-        fg = YColor::black; //new YColor("rgb:00/00/00");
         font = YFont::getFont("-adobe-courier-medium-r-*-*-*-100-*-*-*-*-*-*", "monospace:size=10");
         fontWidth = font->textWidth("M");
         fontHeight = font->height();
@@ -474,9 +476,9 @@ public:
 
     virtual void configure(const YRect &r) {
         YWindow::configure(r);
-        if (fWidth != r.width() || fHeight != r.height()) {
-            fWidth = r.width();
-            fHeight = r.height();
+        if (fWidth != int(r.width()) || fHeight != int(r.height())) {
+            fWidth = int(r.width());
+            fHeight = int(r.height());
             if (wrapLines) {
                 int nw = lineWCount;
                 findWLines(r.width() / fontWidth);
@@ -505,7 +507,7 @@ private:
     int fontWidth, fontHeight;
     int wrapWidth;
 
-    YColor *bg, *fg;
+    YColorName bg, fg;
     ref<YFont> font;
     YScrollView *view;
     YScrollBar *fVerticalScroll;
@@ -555,10 +557,10 @@ public:
 
         printf("x:y = %d:%d\n", view->contentWidth(), view->contentHeight());
 
-        if (view->contentWidth() < x)
-            x = view->contentWidth();
-        if (view->contentHeight() < y)
-            y = view->contentHeight();
+        if (int(view->contentWidth()) < x)
+            x = int(view->contentWidth());
+        if (int(view->contentHeight()) < y)
+            y = int(view->contentHeight());
 
         if (x < 200)
             x = 200;

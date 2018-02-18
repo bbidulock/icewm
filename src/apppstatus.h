@@ -29,7 +29,7 @@ public:
     ~NetStatus();
 private:
     IAppletContainer *fTaskBar;
-    YColor *color[3];
+    YColorName color[3];
     YSMListener *smActionListener;
     IApp *app;
     friend class NetStatusControl;
@@ -64,7 +64,7 @@ private:
 };
 
 class NetStatusControl : public YTimerListener, public refcounted {
-    YTimer* fUpdateTimer;
+    lazy<YTimer> fUpdateTimer;
     //YSortedMap<ustring,NetStatus*> fNetStatus;
     YVec<NetStatus*> fNetStatus;
 

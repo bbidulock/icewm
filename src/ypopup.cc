@@ -4,10 +4,8 @@
  * Copyright (C) 1997-2002 Marko Macek
  */
 #include "config.h"
-#include "ykey.h"
-#include "ymenu.h"
-#include "yrect.h"
-
+#include "ypopup.h"
+#include "base.h"
 #include "yxapp.h"
 #include "yprefs.h"
 

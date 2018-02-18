@@ -474,8 +474,8 @@ private:
     YFrameWindow *fNextTransient;
     YActionListener *wmActionListener;
 
-    static YTimer *fAutoRaiseTimer;
-    static YTimer *fDelayFocusTimer;
+    static lazy<YTimer> fAutoRaiseTimer;
+    static lazy<YTimer> fDelayFocusTimer;
 
     int fWinWorkspace;
     long fWinRequestedLayer;
