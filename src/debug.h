@@ -7,9 +7,11 @@ extern bool debug_z;
 
 #define DBG if (debug)
 #define MSG(x) DBG tlog x
+#define TLOG(x) tlog x
 #else
 #define DBG if (0)
 #define MSG(x)
+#define TLOG(x)
 #endif
 
 #if defined(DEBUG) || defined(PRECON)
