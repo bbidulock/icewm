@@ -44,6 +44,7 @@ public:
     int stat(struct stat *st) const;
     int remove() const;
     int renameAs(const pstring& dest) const;
+    off_t fileSize() const;
 
     upath& operator=(const upath& p) {
         fPath = p.fPath;
@@ -77,6 +78,16 @@ private:
 
     static const pstring slash;
     static const upath rootPath;
+};
+
+class fileptr {
+    FILE* fp;
+public:
+    fileptr(FILE* fp) : fp(fp) { }
+    ~fileptr() { close(); }
+    void close() { if (fp) { fclose(fp); fp = 0; } }
+    fileptr& operator=(FILE* ptr) { close(); fp = ptr; return *this; }
+    operator FILE*() { return fp; }
 };
 
 #endif

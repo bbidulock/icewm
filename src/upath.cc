@@ -92,6 +92,11 @@ bool upath::fileExists() const {
     return stat(&sb) == 0 && S_ISREG(sb.st_mode);
 }
 
+off_t upath::fileSize() const {
+    struct stat sb;
+    return stat(&sb) == 0 ? sb.st_size : (off_t) -1;
+}
+
 bool upath::dirExists() const {
     struct stat sb;
     return stat(&sb) == 0 && S_ISDIR(sb.st_mode);
