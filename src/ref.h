@@ -30,7 +30,7 @@ public:
     }
 
     ref(): ptr(0) {}
-    ref(class null_ref &): ptr(0) {}
+    ref(null_ref &): ptr(0) {}
     explicit ref(T *r) : ptr(r) { if (ptr) __ref(); }
     ref(const ref<T> &p): ptr(p.ptr) { if (ptr) __ref(); }
     template<class T2>
@@ -69,10 +69,10 @@ public:
     }
     bool operator==(const ref<T> &r) const { return ptr == r.ptr; }
     bool operator!=(const ref<T> &r) const { return ptr != r.ptr; }
-    bool operator==(const class null_ref &) const { return ptr == 0; }
-    bool operator!=(const class null_ref &) const { return ptr != 0; }
+    bool operator==(null_ref &) const { return ptr == 0; }
+    bool operator!=(null_ref &) const { return ptr != 0; }
 
-    ref<T>& operator=(const class null_ref &) {
+    ref<T>& operator=(null_ref &) {
         if (ptr)
             __unref();
         ptr = 0;
@@ -80,6 +80,39 @@ public:
     }
     T *_ptr() const { return ptr; }
 };
+
+template<class T>
+class lazy {
+public:
+    lazy() : ptr(0) {}
+    explicit lazy(T* p) : ptr(p) {}
+
+    operator T*() { return ptr ? ptr : ptr = new T; }
+    operator bool() { return ptr != 0; }
+    T* operator->() { return *this; }
+    T& operator*() { return **this; }
+    T** operator&() { return &ptr; }
+    T* _ptr() const { return ptr; }
+    bool operator==(const T* q) const { return q == ptr; }
+    bool operator!=(const T* q) const { return q != ptr; }
+
+    void operator=(null_ref &) { if (ptr) { delete ptr; ptr = 0; } }
+    ~lazy() { *this = null; }
+
+private:
+    T* ptr;
+
+    // undefined
+    lazy(const lazy<T>&);
+    void operator=(const lazy<T>&);
+    operator int();
+    operator void*();
+};
+
+template<class T>
+bool operator==(T* q, lazy<T>& p) { return q == p._ptr(); }
+template<class T>
+bool operator!=(T* q, lazy<T>& p) { return q != p._ptr(); }
 
 #endif
 
