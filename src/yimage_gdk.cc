@@ -4,6 +4,7 @@
 
 #include "yimage.h"
 #include "yxapp.h"
+#include <stdlib.h>
 
 extern "C" {
 #include <gdk-pixbuf-xlib/gdk-pixbuf-xlib.h>
@@ -40,6 +41,27 @@ ref<YImage> YImage::load(upath filename) {
         image.init(new YImageGDK(gdk_pixbuf_get_width(pixbuf),
                                  gdk_pixbuf_get_height(pixbuf),
                                  pixbuf));
+        return image;
+    }
+
+    // support themes with indirect XPM images, like OnyX:
+    const int lim = 64;
+    for (int k = 9; --k > 0 && inrange(int(filename.fileSize()), 5, lim); ) {
+        fileptr fp(filename.fopen("r"));
+        if (fp == 0)
+            break;
+
+        char buf[lim];
+        if (fgets(buf, lim, fp) == 0)
+            break;
+
+        mstring match(mstring(buf).match("^[a-z][-_a-z0-9]*\\.xpm$", "i"));
+        if (match == null)
+            break;
+
+        filename = filename.parent().relative(match);
+        if (filename.fileSize() > lim)
+            return load(filename);
     }
     return image;
 }
