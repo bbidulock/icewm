@@ -50,16 +50,8 @@ public:
     mstring(const char *str1, const char *str2, const char *str3);
     mstring(const char *str, size_t len);
 
-    mstring(const class null_ref &):
-        fStr(0),
-        fOffset(0),
-        fCount(0)
-    {}
-    mstring():
-        fStr(0),
-        fOffset(0),
-        fCount(0)
-    {}
+    mstring(null_ref &): fStr(0), fOffset(0), fCount(0) { }
+    mstring():           fStr(0), fOffset(0), fCount(0) { }
 
     mstring(const mstring &r):
         fStr(r.fStr),
@@ -82,14 +74,15 @@ public:
     bool operator!=(const char *rv) const { return !equals(rv); }
     bool operator==(const mstring &rv) const { return equals(rv); }
     bool operator!=(const mstring &rv) const { return !equals(rv); }
-    bool operator==(const class null_ref &) const { return fStr == 0; }
-    bool operator!=(const class null_ref &) const { return fStr != 0; }
+    bool operator==(null_ref &) const { return fStr == 0; }
+    bool operator!=(null_ref &) const { return fStr != 0; }
 //    bool operator==(const char *rv, size_t len) const { return equals(rv, len); }
 //    bool operator!=(const char *rv, size_t len) const { return !equals(rv, len); }
 
-    mstring& operator=(const class null_ref &);
+    mstring& operator=(null_ref &);
     mstring substring(size_t pos) const;
     mstring substring(size_t pos, size_t len) const;
+    mstring match(const char* regex, const char* flags = 0);
 
     int operator[](int pos) const { return charAt(pos); }
     int charAt(int pos) const;

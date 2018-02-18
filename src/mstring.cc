@@ -9,6 +9,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <regex.h>
 #include "base.h"
 #include "ascii.h"
 
@@ -106,8 +107,7 @@ mstring mstring::operator+(const mstring& rv) const {
 }
 
 mstring& mstring::operator+=(const mstring& rv) {
-    *this = *this + rv;
-    return *this;
+    return *this = *this + rv;
 }
 
 mstring& mstring::operator=(const mstring& rv) {
@@ -121,7 +121,7 @@ mstring& mstring::operator=(const mstring& rv) {
     return *this;
 }
 
-mstring& mstring::operator=(const class null_ref &) {
+mstring& mstring::operator=(null_ref &) {
     if (fStr) {
         release();
         fStr = 0;
@@ -378,6 +378,37 @@ void mstring::normalize()
             acquire();
         }
     }
+}
+
+mstring mstring::match(const char* regex, const char* flags) {
+    int compFlags = REG_EXTENDED;
+    int execFlags = 0;
+    for (int i = 0; flags && flags[i]; ++i) {
+        switch (flags[i]) {
+            case 'i': compFlags |= REG_ICASE; break;
+            case 'n': compFlags |= REG_NEWLINE; break;
+            case 'B': execFlags |= REG_NOTBOL; break;
+            case 'E': execFlags |= REG_NOTEOL; break;
+        }
+    }
+
+    regex_t preg;
+    int comp = regcomp(&preg, regex, compFlags);
+    if (comp) {
+        if (testOnce(regex, __LINE__)) {
+            char rbuf[123] = "";
+            regerror(comp, &preg, rbuf, sizeof rbuf);
+            warn("match regcomp: %s", rbuf);
+        }
+        return null;
+    }
+
+    regmatch_t pos;
+    int exec = regexec(&preg, data(), 1, &pos, execFlags);
+    if (exec)
+        return null;
+
+    return mstring(data() + pos.rm_so, size_t(pos.rm_eo - pos.rm_so));
 }
 
 cstring::cstring(const mstring &s): str(s) {
