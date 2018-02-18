@@ -178,4 +178,12 @@ void YTimer::disableTimerListener(YTimerListener *listener) {
     }
 }
 
+void YTimer::setTimer(long interval, YTimerListener *listener, bool start) {
+    stopTimer();
+    setInterval(interval);
+    setTimerListener(listener);
+    if (start)
+        startTimer();
+}
+
 // vim: set sw=4 ts=4 et:
