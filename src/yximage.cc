@@ -2,6 +2,7 @@
 
 #if defined CONFIG_XPM
 
+#include <stdlib.h>
 #include <math.h>
 #include <errno.h>
 #include "yimage.h"
@@ -22,11 +23,14 @@ struct Verbose {
     const bool verbose;
     Verbose() : verbose(init()) { }
     bool init() const {
+#ifdef __OpenBSD__
+        return false;
+#else
         if (getenv("DEBUG_YXIMAGE"))
             return true;
-        mstring home(getenv("HOME"));
-        upath file(home + "/.icewm/debug_yximage");
+        upath file(YApplication::getHomeDir().child(".icewm/debug_yximage"));
         return file.fileExists();
+#endif
     }
     operator bool() const { return verbose; }
 };

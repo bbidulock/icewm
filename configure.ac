@@ -351,7 +351,7 @@ else
 	IMAGE_LIBS="$LIBPNG_LIBS $IMAGE_LIBS"
 	AC_DEFINE([CONFIG_LIBPNG],[1],[Define to enable libpng rendering.])
 	image_library="$image_library libpng"])
-    PKG_CHECK_MODULES([LIBJPEG],[libjpeg >= 1.0],[
+    PKG_CHECK_MODULES([LIBJPEG],[libjpeg],[
         IMAGE_CFLAGS="$LIBJPEG_CFLAGS $IMAGE_CFLAGS"
         IMAGE_LIBS="$LIBJPEG_LIBS $IMAGE_LIBS"
         AC_DEFINE([CONFIG_LIBJPEG],[1],[Define to enable libjpeg rendering.])
