@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.23\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-02-03 20:04-0700\n"
-"PO-Revision-Date: 2018-02-08 21:06+0000\n"
-"Last-Translator: Eva van Rein <vistatec@globaltextware.nl>\n"
+"PO-Revision-Date: 2018-02-22 01:01+0000\n"
+"Last-Translator: anonymous <>\n"
 "Language-Team: Dutch "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/nl/>\n"
 "Language: nl\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:681 src/aapm.cc:806
 msgid " - Power"
-msgstr " - Voeding"
+msgstr " - Vermogen"
 
 #: src/aapm.cc:179 src/aapm.cc:462 src/aapm.cc:684
 msgid "P"
