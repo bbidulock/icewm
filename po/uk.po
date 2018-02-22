@@ -3,17 +3,17 @@ msgstr ""
 "Project-Id-Version: IceWM 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-02-03 20:04-0700\n"
-"PO-Revision-Date: 2017-06-22 15:25+0000\n"
+"PO-Revision-Date: 2018-02-22 22:07+0000\n"
 "Last-Translator: Andriy Bandura <andriykopanytsia@gmail.com>\n"
-"Language-Team: Ukrainian <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
-"branch/uk/>\n"
+"Language-Team: Ukrainian "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.13.1\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 2.18\n"
 
 #: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:681 src/aapm.cc:806
 msgid " - Power"
@@ -38,7 +38,7 @@ msgstr " - Повний"
 #: src/aapm.cc:999
 #, c-format
 msgid "power:\t%s"
-msgstr ""
+msgstr "потужність:\t%s"
 
 #: src/acpustatus.cc:196
 #, c-format
@@ -149,40 +149,39 @@ msgstr "%ld поштових повідомлень."
 
 #: src/amemstatus.cc:127
 msgid "GB"
-msgstr ""
+msgstr "ГБ"
 
 #: src/amemstatus.cc:131
-#, fuzzy
 msgid "MB"
-msgstr "М"
+msgstr "МБ"
 
 #: src/amemstatus.cc:135
 msgid "kB"
-msgstr ""
+msgstr "кБ"
 
 #: src/amemstatus.cc:139
 msgid "bytes"
-msgstr ""
+msgstr "байтів"
 
 #: src/amemstatus.cc:163
 msgid "Memory Total: "
-msgstr ""
+msgstr "Всього пам'яті: "
 
 #: src/amemstatus.cc:164
 msgid "Free: "
-msgstr ""
+msgstr "Вільно: "
 
 #: src/amemstatus.cc:165
 msgid "Cached: "
-msgstr ""
+msgstr "Кешовано: "
 
 #: src/amemstatus.cc:166
 msgid "Buffers: "
-msgstr ""
+msgstr "Буфери: "
 
 #: src/amemstatus.cc:167
 msgid "User: "
-msgstr ""
+msgstr "Користувач: "
 
 #: src/apppstatus.cc:198
 #, c-format
@@ -313,45 +312,43 @@ msgstr "Ctrl+Q"
 
 #: src/icehelp.cc:1216
 msgid "Icewm(1)"
-msgstr ""
+msgstr "Icewm(1)"
 
 #: src/icehelp.cc:1218
 msgid "Icewmbg(1)"
-msgstr ""
+msgstr "Icewmbg(1)"
 
 #: src/icehelp.cc:1220
 msgid "Icesound(1)"
-msgstr ""
+msgstr "Icesound(1)"
 
 #: src/icehelp.cc:1222
 msgid "FAQ"
-msgstr ""
+msgstr "ЧАП"
 
 #: src/icehelp.cc:1224
 msgid "Manual"
-msgstr ""
+msgstr "Посібник"
 
 #: src/icehelp.cc:1226
 msgid "Support"
-msgstr ""
+msgstr "Підтримка"
 
 #: src/icehelp.cc:1228
-#, fuzzy
 msgid "Theme Howto"
-msgstr "Автор теми:"
+msgstr "Вказівки з теми"
 
 #: src/icehelp.cc:1230
 msgid "Website"
-msgstr ""
+msgstr "Веб-сайт"
 
 #: src/icehelp.cc:1232
 msgid "Github"
-msgstr ""
+msgstr "Github"
 
 #: src/icehelp.cc:1934
-#, fuzzy
 msgid "Unsupported protocol."
-msgstr "Інтерфейс %s не підтримується."
+msgstr "Протокол не підтримується."
 
 #: src/icehelp.cc:1959
 #, c-format
@@ -360,34 +357,33 @@ msgstr "Невірний шлях: %s\n"
 
 #: src/icehelp.cc:1982
 msgid "Path does not refer to a file."
-msgstr ""
+msgstr "Шлях не вказує на файл."
 
 #: src/icehelp.cc:1987
 msgid "Failed to open file for reading."
-msgstr ""
+msgstr "Не вдалося відкрити файл для читання."
 
 #: src/icehelp.cc:2016
-#, fuzzy
 msgid "Failed to create a temporary file"
-msgstr "Не вдалося створити теку %s"
+msgstr "Помилка створення тимчасового файлу %s"
 
 #: src/icehelp.cc:2108
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
-msgstr ""
+msgstr "Не вдалося запустити систему(%s) (%d)"
 
 #: src/icehelp.cc:2131
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to decompress %s"
-msgstr "Помилка завантаження теми %s"
+msgstr "Не вдалося розпакувати %s"
 
 #: src/icehelp.cc:2139
 msgid "Could not locate curl or wget in PATH"
-msgstr ""
+msgstr "'curl' чи 'wget' в PATH не знайдені"
 
 #: src/icehelp.cc:2143
 msgid "Unsafe characters in URL"
-msgstr ""
+msgstr "Небезпечні знаки в посиланні"
 
 #: src/icehelp.cc:2180
 #, c-format
@@ -428,7 +424,7 @@ msgid ""
 msgstr ""
 
 #: src/icehelp.cc:2257
-#, fuzzy, c-format
+#, c-format
 msgid "Ignoring option '%s'"
 msgstr "Невідомий параметр '%s'"
 
@@ -674,12 +670,12 @@ msgstr "Невідомий параметр '%s'"
 #: src/icesm.cc:298
 #, c-format
 msgid "%s exited with status %d."
-msgstr ""
+msgstr "%s завершилася з кодом %d."
 
 #: src/icesm.cc:304
 #, c-format
 msgid "%s was killed by signal %d."
-msgstr ""
+msgstr "%s був знищений через сигнал %d."
 
 #: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
 #, c-format
@@ -689,46 +685,45 @@ msgstr "Граю зразок #%d (%s)"
 #: src/icesound.cc:337
 #, c-format
 msgid "%s: Invalid number of channels"
-msgstr ""
+msgstr "%s: неправильне число каналів"
 
 #: src/icesound.cc:343 src/icesound.cc:348
 msgid "Could not set OSS channels"
-msgstr ""
+msgstr "Не вдалося задати канали OSS"
 
 #: src/icesound.cc:353 src/icesound.cc:381
 msgid "Could not sync OSS"
-msgstr ""
+msgstr "Не вдалося синхронізувати OSS"
 
 #: src/icesound.cc:365
 msgid "OSS write failed"
-msgstr ""
+msgstr "Збій запису OSS"
 
 #: src/icesound.cc:369
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
-msgstr ""
+msgstr "Неповний запис OSS (%d/%d)"
 
 #: src/icesound.cc:376
-#, fuzzy
 msgid "Could not post OSS"
-msgstr "Не можу завантажити набір шрифтів \"%s\"."
+msgstr "Не вдалося опублікувати OSS"
 
 #: src/icesound.cc:405
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open OSS device %s"
-msgstr "Не можу знайти малюнок %s"
+msgstr "Не вдалося відкрити пристрій OSS %s"
 
 #: src/icesound.cc:410
 msgid "Could not set OSS stereo"
-msgstr ""
+msgstr "Не вдалося налаштувати стерео OSS"
 
 #: src/icesound.cc:415
 msgid "Could not reset OSS DSP"
-msgstr ""
+msgstr "Не вдалося відновити DSP OSS"
 
 #: src/icesound.cc:420
 msgid "Could not set OSS format"
-msgstr ""
+msgstr "Не вдалося задати формат OSS"
 
 #: src/icesound.cc:493
 #, c-format
@@ -750,18 +745,18 @@ msgid "Sample <%d> uploaded as `%s:%s'"
 msgstr "Звук <%d> завантажений як `%s:%s'"
 
 #: src/icesound.cc:576
-#, fuzzy, c-format
+#, c-format
 msgid "Playing sample #%d: %d"
-msgstr "Граю зразок #%d"
+msgstr "Відтворення взірця #%d: %d"
 
 #: src/icesound.cc:651
 #, c-format
 msgid "ao_open_live failed with %d"
-msgstr ""
+msgstr "Збій ao_open_live із %d"
 
 #: src/icesound.cc:662
 msgid "ao_play failed"
-msgstr ""
+msgstr "Збій ao_play"
 
 #: src/icesound.cc:824
 #, c-format
@@ -874,26 +869,26 @@ msgstr ""
 #: src/icesound.cc:930
 #, c-format
 msgid "No audio for %s"
-msgstr ""
+msgstr "Відсутній звук для %s"
 
 #: src/icesound.cc:1007
 msgid "Could not get GUI event property"
-msgstr ""
+msgstr "Не вдалося отримати властивості подій GUI"
 
 #: src/icesound.cc:1011
 #, c-format
 msgid "Received invalid GUI event %d"
-msgstr ""
+msgstr "Отримано недійсну подію GUI %d"
 
 #: src/icesound.cc:1015
 #, c-format
 msgid "Received GUI event %s"
-msgstr ""
+msgstr "Отримано подію GUI %s"
 
 #: src/icesound.cc:1029
 #, c-format
 msgid "Too quick; ignoring %s."
-msgstr ""
+msgstr "Занадто швидко; %s буде проігноровано."
 
 #: src/icesound.cc:1033
 #, c-format
@@ -908,17 +903,17 @@ msgstr "Інтерфейс %s не підтримується."
 #: src/icesound.cc:1082
 #, c-format
 msgid "Using %s audio."
-msgstr ""
+msgstr "Використовується звук %s."
 
 #: src/icesound.cc:1086
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to connect to audio interfaces %s."
-msgstr "Помилка завантаження теми %s"
+msgstr "Помилка з'єднання з пристроєм виведення звуку %s."
 
 #: src/icesound.cc:1098
-#, fuzzy, c-format
+#, c-format
 msgid "Received signal %s: Terminating..."
-msgstr "Отриманий сигнал %d: Переривання праці..."
+msgstr "Отримано сигнал %s: перериваємо роботу..."
 
 #: src/icetray.cc:246
 #, fuzzy
@@ -963,9 +958,9 @@ msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
 #: src/icewmbg.cc:77
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load image '%s'."
-msgstr "Помилка завантаження теми %s"
+msgstr "Помилка завантаження зображення %s."
 
 #: src/icewmbg.cc:707
 #, fuzzy
@@ -1043,11 +1038,11 @@ msgstr ""
 
 #: src/icewmbg.cc:754
 msgid "Please note that not all options are currently configured.\n"
-msgstr ""
+msgstr "Зверніть увагу, що наразі налаштовані не всі параметри.\n"
 
 #: src/icewmbg.cc:900
 msgid "Cannot start, because another icewmbg is still running."
-msgstr ""
+msgstr "Помилка запуску, інший процес icewmbg вже запущений."
 
 #: src/icewmhint.cc:41
 msgid "Usage: icewmhint [class.instance] option arg\n"
@@ -1118,22 +1113,22 @@ msgid "icewm - About"
 msgstr "Про IceWM"
 
 #: src/wmapp.cc:105
-#, fuzzy
 msgid "A window manager is already running, use --replace to replace it"
-msgstr "Віконний менеджер вже запущений, виходжу..."
+msgstr ""
+"Віконний менеджер вже запущений, щоб замінити його, використовуйте --replace"
 
 #: src/wmapp.cc:123
 #, c-format
 msgid "Failed to become the owner of the %s selection"
-msgstr ""
+msgstr "Не вдалося стати власником вибраного об'єкта %s"
 
 #: src/wmapp.cc:127
 msgid "Waiting to replace the old window manager"
-msgstr ""
+msgstr "Очікування заміни старого віконного менеджера"
 
 #: src/wmapp.cc:132
 msgid "done."
-msgstr ""
+msgstr "зроблено."
 
 #: src/wmapp.cc:418
 msgid "Unable to get current font path."
@@ -1165,7 +1160,7 @@ msgstr "Ви_мкнути комп'ютер"
 
 #: src/wmapp.cc:537 src/wmdialog.cc:88
 msgid "_Suspend"
-msgstr ""
+msgstr "_Призупити"
 
 #: src/wmapp.cc:542
 msgid "Restart _Icewm"
@@ -1290,7 +1285,7 @@ msgstr ""
 
 #: src/wmapp.cc:819
 msgid "Kill IceWM, replace with Xterm"
-msgstr ""
+msgstr "Зупинити IceWM, замінити на Xterm"
 
 #: src/wmapp.cc:1330
 msgid ""
@@ -1395,9 +1390,9 @@ msgid "%s configured options:%s\n"
 msgstr "%s налаштовані параметри:%s\n"
 
 #: src/wmapp.cc:1536
-#, fuzzy, c-format
+#, c-format
 msgid "Unrecognized option '%s'."
-msgstr "Невідома опція: %s\n"
+msgstr "Нерозпізнаний параметр: %s."
 
 #: src/wmapp.cc:1567
 msgid "Confirm Logout"
@@ -1492,9 +1487,9 @@ msgid "Unknown window option: %s"
 msgstr "Невідома опція вікна: %s"
 
 #: src/wmoption.cc:333
-#, fuzzy, c-format
+#, c-format
 msgid "Syntax error in window options on line %d of %s"
-msgstr "Синтаксична помилка у опціях вікна"
+msgstr "Синтаксична помилка у параметрах вікна в рядку %d із %s"
 
 #: src/wmprog.cc:183
 msgid "Missing command argument"
@@ -1558,9 +1553,8 @@ msgid "_Click to focus"
 msgstr "_Клацання по фокусу"
 
 #: src/wmprog.cc:893
-#, fuzzy
 msgid "_Explicit focus"
-msgstr "_Клацання по фокусу"
+msgstr "_Явний фокус"
 
 #: src/wmprog.cc:894
 msgid "_Sloppy mouse focus"
