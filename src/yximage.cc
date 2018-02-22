@@ -1,5 +1,10 @@
 #include "config.h"
 
+// this has to be come before X11 headers or libpng checks will get mad WRT setjmp version
+#ifdef CONFIG_LIBPNG
+#include <png.h>
+#endif
+
 #if defined CONFIG_XPM
 
 #include <stdlib.h>
@@ -11,9 +16,6 @@
 
 #include <X11/xpm.h>
 
-#ifdef CONFIG_LIBPNG
-#include <png.h>
-#endif
 #ifdef CONFIG_LIBJPEG
 #include <jpeglib.h>
 #include <setjmp.h>
