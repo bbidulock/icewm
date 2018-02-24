@@ -198,8 +198,8 @@ XIV(int, taskBarNetDelay,                       500)
 XSV(const char *, cpuCommand,                   "xterm -name top -title Process\\ Status -e top")
 XSV(const char *, cpuClassHint,                 "top.XTerm")
 XIV(bool, cpuCombine,                           true)
-XSV(const char *, netCommand,                   "xterm -name netstat -title 'Network Status' -e netstat -c")
-XSV(const char *, netClassHint,                 "netstat.XTerm")
+XSV(const char *, netCommand,                   "xterm -name 'socket statistics' -title 'Socket Statistics' -hold -e ss")
+XSV(const char *, netClassHint,                 "ss.XTerm")
 #ifdef __linux__
 // use sysfs to build the interface list
 XSV(const char *, netDevice,                    "e* w*")
