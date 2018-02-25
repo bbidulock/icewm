@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: Icewm 1.2.0-beta1\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-02-03 20:04-0700\n"
-"PO-Revision-Date: 2016-11-04 09:31+0000\n"
-"Last-Translator: Joakim Ganse <joakim.ganse@b-iq.se>\n"
-"Language-Team: Swedish <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
-"branch/sv/>\n"
+"PO-Revision-Date: 2018-02-26 02:07+0000\n"
+"Last-Translator: Ruta Reknere <ruta.reknere@nordtext.com>\n"
+"Language-Team: Swedish "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.6\n"
+"X-Generator: Weblate 2.18\n"
 
 #: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:681 src/aapm.cc:806
 msgid " - Power"
@@ -42,7 +42,7 @@ msgstr " - Full"
 #: src/aapm.cc:999
 #, c-format
 msgid "power:\t%s"
-msgstr ""
+msgstr "ström:\t%s"
 
 #: src/acpustatus.cc:196
 #, c-format
@@ -50,6 +50,8 @@ msgid ""
 "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 "intr = %llu, softirq = %llu, steal = %llu\n"
 msgstr ""
+"stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
+"intr = %llu, softirq = %llu, steal = %llu\n"
 
 #: src/acpustatus.cc:201
 #, c-format
@@ -57,11 +59,13 @@ msgid ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 "softirq = %llu, steal = %llu (h = %i)\n"
 msgstr ""
+"bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
+"softirq = %llu, steal = %llu (h = %i)\n"
 
 #: src/acpustatus.cc:261
-#, fuzzy, c-format
+#, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
-msgstr "Processorbelastning: %3.2f %3.2f %3.2f, %u"
+msgstr "Processorbelastning %s: %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:266
 #, c-format
@@ -105,23 +109,22 @@ msgstr ""
 
 #: src/acpustatus.cc:317
 msgid "CPU"
-msgstr ""
+msgstr "Processor"
 
 #: src/acpustatus.cc:317
-#, fuzzy
 msgid "Load: "
-msgstr "CPU last: "
+msgstr "Belastning: "
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
 #: src/acpustatus.cc:384
 msgid "°C"
-msgstr ""
+msgstr "°C"
 
 #: src/acpustatus.cc:670
 #, c-format
 msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
-msgstr ""
+msgstr "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 
 #: src/amailbox.cc:67
 #, c-format
@@ -154,40 +157,39 @@ msgstr "%ld meddelanden."
 
 #: src/amemstatus.cc:127
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: src/amemstatus.cc:131
-#, fuzzy
 msgid "MB"
-msgstr "L"
+msgstr "MB"
 
 #: src/amemstatus.cc:135
 msgid "kB"
-msgstr ""
+msgstr "kB"
 
 #: src/amemstatus.cc:139
 msgid "bytes"
-msgstr ""
+msgstr "byte"
 
 #: src/amemstatus.cc:163
 msgid "Memory Total: "
-msgstr ""
+msgstr "Sammanlagt minne: "
 
 #: src/amemstatus.cc:164
 msgid "Free: "
-msgstr ""
+msgstr "Tillgängligt: "
 
 #: src/amemstatus.cc:165
 msgid "Cached: "
-msgstr ""
+msgstr "Cachelagrat: "
 
 #: src/amemstatus.cc:166
 msgid "Buffers: "
-msgstr ""
+msgstr "Buffrar: "
 
 #: src/amemstatus.cc:167
 msgid "User: "
-msgstr ""
+msgstr "Användare: "
 
 #: src/apppstatus.cc:198
 #, c-format
@@ -218,7 +220,7 @@ msgstr "Arbetsyta: "
 
 #: src/fdomenu.cc:79
 msgid "Accessibility"
-msgstr ""
+msgstr "Tillgänglighet"
 
 #: src/fdomenu.cc:80
 msgid "Settings"
@@ -318,45 +320,43 @@ msgstr "Qtrl+Q"
 
 #: src/icehelp.cc:1216
 msgid "Icewm(1)"
-msgstr ""
+msgstr "Icewm(1)"
 
 #: src/icehelp.cc:1218
 msgid "Icewmbg(1)"
-msgstr ""
+msgstr "Icewmbg(1)"
 
 #: src/icehelp.cc:1220
 msgid "Icesound(1)"
-msgstr ""
+msgstr "Icesound(1)"
 
 #: src/icehelp.cc:1222
 msgid "FAQ"
-msgstr ""
+msgstr "FAQ"
 
 #: src/icehelp.cc:1224
 msgid "Manual"
-msgstr ""
+msgstr "Manual"
 
 #: src/icehelp.cc:1226
 msgid "Support"
-msgstr ""
+msgstr "Support"
 
 #: src/icehelp.cc:1228
-#, fuzzy
 msgid "Theme Howto"
-msgstr "Temaförfattare:"
+msgstr "Temainstruktion"
 
 #: src/icehelp.cc:1230
 msgid "Website"
-msgstr ""
+msgstr "webbplats"
 
 #: src/icehelp.cc:1232
 msgid "Github"
-msgstr ""
+msgstr "Github"
 
 #: src/icehelp.cc:1934
-#, fuzzy
 msgid "Unsupported protocol."
-msgstr "Stöder inte gränssnitt: %s."
+msgstr "Protokoll stöds inte."
 
 #: src/icehelp.cc:1959
 #, c-format
@@ -365,33 +365,33 @@ msgstr "Felaktig sökväg: %s\n"
 
 #: src/icehelp.cc:1982
 msgid "Path does not refer to a file."
-msgstr ""
+msgstr "Sökvägen hänvisar inte till någon fil."
 
 #: src/icehelp.cc:1987
 msgid "Failed to open file for reading."
-msgstr ""
+msgstr "Kunde inte öppna fil för läsning."
 
 #: src/icehelp.cc:2016
 msgid "Failed to create a temporary file"
-msgstr ""
+msgstr "Kunde inte skapa temporär fil"
 
 #: src/icehelp.cc:2108
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
-msgstr ""
+msgstr "Kunde inte starta system (%s) (%d)"
 
 #: src/icehelp.cc:2131
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to decompress %s"
-msgstr "Kunde inte hitta bild %s"
+msgstr "Kunde inte packa upp %s"
 
 #: src/icehelp.cc:2139
 msgid "Could not locate curl or wget in PATH"
-msgstr ""
+msgstr "Kunde inte hitta curl eller wget i PATH"
 
 #: src/icehelp.cc:2143
 msgid "Unsafe characters in URL"
-msgstr ""
+msgstr "Osäkra tecken i URL"
 
 #: src/icehelp.cc:2180
 #, c-format
@@ -430,6 +430,40 @@ msgid ""
 "%s\n"
 "\n"
 msgstr ""
+"Användning: %s [ALTERNATIV] [ FILNAMN | URL ]\n"
+"\n"
+"IceHelp är en väldigt enkel HTML-webbläsare för fönsterhanteraren IceWM.\n"
+"Den kan visa ett HTML-dokument från en fil eller bläddra igenom en webbsida."
+"\n"
+"Den minns besökta sidor i en historik som går att navigera\n"
+"med kortkommandon och en kontextmeny (högerklick med musen).\n"
+"Det stöder varken bilder eller JavaScript.\n"
+"Om ingen fil eller URL anges kommer den att visa IceWM-manualen\n"
+"från %s.\n"
+"\n"
+"Alternativ:\n"
+"  -d, --display=NAME  NAMNET på X servern som ska användas.\n"
+"  --sync              Synkronisera X11-kommandon.\n"
+"\n"
+"  -B                  Visa manualsida för IceWM icewmbg.\n"
+"  -b, --bugs          Visa felrapporter för IceWM (primitivt).\n"
+"  -f, --faq           Visa FAQ och instruktion för IceWM.\n"
+"  -g                  Visa webbplatsen för IceWM Github.\n"
+"  -i, --icewm         Visa manualsidan för IceWM icewm.\n"
+"  -m, --manual        Visa manual för IceWM (förinställt).\n"
+"  -s                  Visa manualsida för IceWM icesound.\n"
+"  -t, --theme         Visa temainstruktioner för IceWM.\n"
+"  -w, --website       Visa webbplats för IceWM.\n"
+"\n"
+"  -V, --version       Skriver ut versioninformation och avslutar.\n"
+"  -h, --help          Skriver ut denna användarskärm och avslutar.\n"
+"\n"
+"Miljövariabler:\n"
+"  DISPLAY=NAME        Namnet på X servern som ska användas.\n"
+"\n"
+"För att rapportera fel, begära support eller kommentera besöker du:\n"
+"%s\n"
+"\n"
 
 #: src/icehelp.cc:2257
 #, fuzzy, c-format
