@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Icewm 1.2.0-beta1\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-02-03 20:04-0700\n"
-"PO-Revision-Date: 2018-02-26 02:07+0000\n"
+"PO-Revision-Date: 2018-02-27 02:06+0000\n"
 "Last-Translator: Ruta Reknere <ruta.reknere@nordtext.com>\n"
 "Language-Team: Swedish "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/sv/>\n"
@@ -466,9 +466,9 @@ msgstr ""
 "\n"
 
 #: src/icehelp.cc:2257
-#, fuzzy, c-format
+#, c-format
 msgid "Ignoring option '%s'"
-msgstr "Okänd åtgärd: \"%s\""
+msgstr "Ignorerar alternativ ’%s’"
 
 #: src/icelist.cc:80
 msgid "List View"
@@ -531,12 +531,12 @@ msgid "Invalid workspace name: `%s'"
 msgstr "Ogiltigt namn på arbetsyta: \"%s\""
 
 #: src/icesh.cc:434
-#, fuzzy, c-format
+#, c-format
 msgid "Workspace out of range: %ld"
-msgstr "Arbetsyta utanför området: %d"
+msgstr "Arbetsyta utanför området: %ld"
 
 #: src/icesh.cc:568
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTIONS] ACTIONS\n"
 "\n"
@@ -585,9 +585,9 @@ msgid ""
 "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
 "\n"
 msgstr ""
-"Usage: %s [Val] ÅTGÄRDER\n"
+"Användning: %s [ALTERNATIV] ÅTGÄRDER\n"
 "\n"
-"Options:\n"
+"Alternativ:\n"
 "  -display DISPLAY            Ansluter till X-servern som anges av DISPLAY.\n"
 "                              Standard: $ DISPLAY eller: 0,0 när inte satt.\n"
 "  -window WINDOW_ID           Anger fönstret att förändra. Särskild\n"
@@ -604,7 +604,7 @@ msgstr ""
 "                              med samma klass och instans (Dvs. '-name \") "
 "att väljas.\n"
 "\n"
-"Actions:\n"
+"Åtgärder:\n"
 "  setIconTitle   TITLE        Anger titel för ikonen.\n"
 "  setWindowTitle TITLE        Anger titel för fönstret.\n"
 "  setGeometry    geometry     Anger fönstergeometri\n"
@@ -625,7 +625,7 @@ msgstr ""
 "  listWorkspaces              Listar namnen på alla arbetsytor.\n"
 "  setTrayOption  TRAYOPTION   Ange ledtråd för IceWM lådval.\n"
 "\n"
-"Expressions:\n"
+"Uttryck:\n"
 "  Uttryck är en lista med symboler för en domän sammanlänkade av '+' eller "
 "'|':\n"
 "\n"
@@ -697,21 +697,29 @@ msgid ""
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
+"  -c, --config=FILE   Låt IceWM ladda inställningar från FILE.\n"
+"  -t, --theme=FILE    Låt IceWM ladda temat från FILE.\n"
+"\n"
+"  -d, --display=NAME  Använd NAME för att ansluta till X-servern.\n"
+"  --sync              Synkronisera kommunikation med X11-servern.\n"
+"\n"
+"  -n, --notray        Starta inte icewmtray.\n"
+"  -s, --sound         Starta även icesound.\n"
 
 #: src/icesm.cc:113
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown option '%s'"
-msgstr "Okänd åtgärd: \"%s\""
+msgstr "Okänt alternativ ’%s’"
 
 #: src/icesm.cc:298
 #, c-format
 msgid "%s exited with status %d."
-msgstr ""
+msgstr "%s avslutade med status %d."
 
 #: src/icesm.cc:304
 #, c-format
 msgid "%s was killed by signal %d."
-msgstr ""
+msgstr "%s dödades med signal %d."
 
 #: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
 #, c-format
@@ -721,46 +729,45 @@ msgstr "Spelar ljud #%d (%s)"
 #: src/icesound.cc:337
 #, c-format
 msgid "%s: Invalid number of channels"
-msgstr ""
+msgstr "%s: Ogiltigt antal kanaler"
 
 #: src/icesound.cc:343 src/icesound.cc:348
 msgid "Could not set OSS channels"
-msgstr ""
+msgstr "Kunde inte ange OSS-kanaler"
 
 #: src/icesound.cc:353 src/icesound.cc:381
 msgid "Could not sync OSS"
-msgstr ""
+msgstr "Kunde inte synkronisera OSS"
 
 #: src/icesound.cc:365
 msgid "OSS write failed"
-msgstr ""
+msgstr "OSS-skrivning misslyckades"
 
 #: src/icesound.cc:369
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
-msgstr ""
+msgstr "OSS ofullständig skrivning (%d/%d)"
 
 #: src/icesound.cc:376
-#, fuzzy
 msgid "Could not post OSS"
-msgstr "Kunde inte läsa in typsnittsuppsättning \"%s\"."
+msgstr "Kunde inte publicera OSS"
 
 #: src/icesound.cc:405
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open OSS device %s"
-msgstr "Kunde inte hitta bild %s"
+msgstr "Kunde inte öppna OSS-enhet %s"
 
 #: src/icesound.cc:410
 msgid "Could not set OSS stereo"
-msgstr ""
+msgstr "Kunde inte ange OSS-stereo"
 
 #: src/icesound.cc:415
 msgid "Could not reset OSS DSP"
-msgstr ""
+msgstr "Kunde inte nollställa OSS DSP"
 
 #: src/icesound.cc:420
 msgid "Could not set OSS format"
-msgstr ""
+msgstr "Kunde inte ange OSS-format"
 
 #: src/icesound.cc:493
 #, c-format
@@ -782,23 +789,23 @@ msgid "Sample <%d> uploaded as `%s:%s'"
 msgstr "Ljud <%d> lämnades som \"%s:%s\""
 
 #: src/icesound.cc:576
-#, fuzzy, c-format
+#, c-format
 msgid "Playing sample #%d: %d"
-msgstr "Spelar ljud #%d"
+msgstr "Spelar ljud #%d: %d"
 
 #: src/icesound.cc:651
 #, c-format
 msgid "ao_open_live failed with %d"
-msgstr ""
+msgstr "ao_open_live misslyckades med %d"
 
 #: src/icesound.cc:662
 msgid "ao_play failed"
-msgstr ""
+msgstr "ao_play misslyckades"
 
 #: src/icesound.cc:824
 #, c-format
 msgid "Unrecognized option: %s\n"
-msgstr "Okänd flagga: %s\n"
+msgstr "Okänt alternativ: %s\n"
 
 #: src/icesound.cc:827 src/icesound.cc:1130
 #, c-format
@@ -898,26 +905,26 @@ msgstr ""
 #: src/icesound.cc:930
 #, c-format
 msgid "No audio for %s"
-msgstr ""
+msgstr "Inget ljud till %s"
 
 #: src/icesound.cc:1007
 msgid "Could not get GUI event property"
-msgstr ""
+msgstr "Kunde inte få egenskap för GUI-händelse"
 
 #: src/icesound.cc:1011
 #, c-format
 msgid "Received invalid GUI event %d"
-msgstr ""
+msgstr "Mottog ogiltig GUI-händelse %d"
 
 #: src/icesound.cc:1015
 #, c-format
 msgid "Received GUI event %s"
-msgstr ""
+msgstr "Mottog GUI-händelse %s"
 
 #: src/icesound.cc:1029
 #, c-format
 msgid "Too quick; ignoring %s."
-msgstr ""
+msgstr "För snabbt; ignorerar %s."
 
 #: src/icesound.cc:1033
 #, c-format
@@ -932,17 +939,17 @@ msgstr "Stöder inte gränssnitt: %s."
 #: src/icesound.cc:1082
 #, c-format
 msgid "Using %s audio."
-msgstr ""
+msgstr "Använder %s ljud."
 
 #: src/icesound.cc:1086
 #, c-format
 msgid "Failed to connect to audio interfaces %s."
-msgstr ""
+msgstr "Kunde inte ansluta till ljudgränssnitt %s."
 
 #: src/icesound.cc:1098
-#, fuzzy, c-format
+#, c-format
 msgid "Received signal %s: Terminating..."
-msgstr "Mottog signal %d: Avslutar ..."
+msgstr "Mottog signal %s: Avslutar ..."
 
 #: src/icetray.cc:246
 msgid ""
@@ -953,6 +960,12 @@ msgid ""
 "  -c, --config=FILE   Load preferences from FILE.\n"
 "  -t, --theme=FILE    Load the theme from FILE.\n"
 msgstr ""
+"  -n, --notify        Meddela föräldraprocess genom att skicka signal USR1.\n"
+"  --display=NAME      Använd NAME för att ansluta till X-servern.\n"
+"  --sync              Synkronisera kommunikation med X11-server.\n"
+"\n"
+"  -c, --config=FILE   Ladda inställningar från FILE.\n"
+"  -t, --theme=FILE    Ladda tema från FILE.\n"
 
 #: src/iceview.cc:68
 msgid "Hex View"
@@ -979,12 +992,11 @@ msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
 #: src/icewmbg.cc:77
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load image '%s'."
-msgstr "Kunde inte hitta bild %s"
+msgstr "Kunde inte ladda bild ’%s’."
 
 #: src/icewmbg.cc:707
-#, fuzzy
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1030,30 +1042,57 @@ msgid ""
 " center:0 scaled:1 = fill both dimensions and keep aspect ratio\n"
 "\n"
 msgstr ""
-"Användning: icewmbg [ -r | -q ]\n"
-" -r  Starta om icewmbg\n"
-" -q  Avsluta icewmbg\n"
-"Ladda skrivbordets bakgrund enligt inställningsfilen\n"
-" DesktopBackgroundCenter  - Visa bakgrunden centrerad\n"
-" DesktopBackgroundScaled  - Skala bakgrundsbilden\n"
-" SupportSemitransparency  - Stöd för delvis genomskinliga terminalfönster\n"
-" DesktopBackgroundColor   - Bakgrundsfärg\n"
-" DesktopBackgroundImage   - Bakgrundsbild\n"
-" DesktopTransparencyColor - Färg att använda för delvis genomskinliga "
-"fönster\n"
-" DesktopTransparencyImage - Bild att använda för delvis genomskinliga "
-"fönster\n"
+"Användning: icewmbg [OPTIONS]\n"
+"Där flera värden kan anges skiljs de åt med kommatecken.\n"
+"När bilden är en mapp används alla bilder från den mappen.\n"
+"\n"
+"Väljare:\n"
+"  -p, --replace        Ersätt en befintlig icewmbg.\n"
+"  -q, --quit           Säg till körande icewmbg att sluta.\n"
+"  -r, --restart        Säg till körande icewmbg att starta om.\n"
+"\n"
+"  -c, --config=FILE    Ladda inställningar från FILE.\n"
+"  -t, --theme=NAME     Ladda tema med namnet NAME.\n"
+"\n"
+"  -i, --image=FILE(S)  Ladda bakgrundsbild(er) från FILE(S).\n"
+"  -k, --color=NAME(S)  Använd bakgrundsfärg(er) från NAME(S).\n"
+"\n"
+"  -s, --semis=FILE(S)  Ladda transparent(a) bild(er) från FILE(S).\n"
+"  -x, --trans=NAME(S)  Använd transparent(a) bild(er) från NAME(S).\n"
+"\n"
+"  -e, --center=0/1     Avaktivera/Aktivera centrering av bakgrund.\n"
+"  -a, --scaled=0/1     Avaktivera/Aktivera skalning av bakgrund.\n"
+"  -m, --multi=0/1      Avaktivera/Aktivera multiskärmbakgrund.\n"
+"\n"
+"  --display=NAME       Använd NAME för att ansluta till X-servern.\n"
+"  --sync               Synkronisera kommunikation med X11-server.\n"
+"\n"
+"  -h, --help           Skriv ut den här användningsskärmen och avsluta.\n"
+"  -V, --version        Skriver ut versionsuppgifter och avslutar.\n"
+"\n"
+"Laddar skrivbordsbakgrund enligt inställningsfilen:\n"
+" DesktopBackgroundCenter  - Visa skrivbordsbakgrund centrerad\n"
+" DesktopBackgroundScaled  - Visa skrivbordsbakgrund skalad\n"
+" DesktopBackgroundColor   - Färg(er) på skrivbordsbakgrund\n"
+" DesktopBackgroundImage   - Bild(er) på skrivbordsbakgrund\n"
+" SupportSemitransparency  - Support för halvtransparenta terminaler\n"
+" DesktopTransparencyColor - Halvtransparent(a) bakgrundsfärg(er)\n"
+" DesktopTransparencyImage - Halvtransparent(a) bakgrundsbild(er)\n"
+" DesktopBackgroundMultihead - En bakgrund för alla bildskärmar\n"
 "\n"
 " center:0 scaled:0 = sida vid sida\n"
-" center:1 scaled:1 = behåll bildformatet\n"
+" center:1 scaled:0 = centrerad\n"
+" center:1 scaled:1 = fyll en dimension och bevara bildformat\n"
+" center:0 scaled:1 = fyll båda dimensioner och bevara bildformat\n"
+"\n"
 
 #: src/icewmbg.cc:754
 msgid "Please note that not all options are currently configured.\n"
-msgstr ""
+msgstr "Observera att inte alla alternativ är inställda för närvarande.\n"
 
 #: src/icewmbg.cc:900
 msgid "Cannot start, because another icewmbg is still running."
-msgstr ""
+msgstr "Kan inte starta eftersom en annan icewmbg fortfarande körs."
 
 #: src/icewmhint.cc:41
 msgid "Usage: icewmhint [class.instance] option arg\n"
@@ -1079,6 +1118,13 @@ msgid ""
 "  -h, --help          Prints this usage screen and exits.\n"
 "\n"
 msgstr ""
+"Användning: %s [OPTIONS]\n"
+"Väljare:\n"
+"%s\n"
+"  -C, --copying       Skriver ut licensinformation och avslutar.\n"
+"  -V, --version       Skriver ut versionsinformation och avslutar.\n"
+"  -h, --help          Skriver ut denna användningsskärm och avslutar.\n"
+"\n"
 
 #: src/movesize.cc:890
 #, c-format
@@ -1118,22 +1164,21 @@ msgid "icewm - About"
 msgstr "icewm - Om"
 
 #: src/wmapp.cc:105
-#, fuzzy
 msgid "A window manager is already running, use --replace to replace it"
-msgstr "En annan fönsterhanterare körs redan, avslutar ..."
+msgstr "En fönsterhanterare körs redan, använd --replace för att ersätta den"
 
 #: src/wmapp.cc:123
 #, c-format
 msgid "Failed to become the owner of the %s selection"
-msgstr ""
+msgstr "Kunde inte bli ägare till valet %s"
 
 #: src/wmapp.cc:127
 msgid "Waiting to replace the old window manager"
-msgstr ""
+msgstr "Väntar på att få ersätta den gamla fönsterhanteraren"
 
 #: src/wmapp.cc:132
 msgid "done."
-msgstr ""
+msgstr "klart."
 
 #: src/wmapp.cc:418
 msgid "Unable to get current font path."
@@ -1165,7 +1210,7 @@ msgstr "Stäng a_v"
 
 #: src/wmapp.cc:537 src/wmdialog.cc:88
 msgid "_Suspend"
-msgstr ""
+msgstr "_Viloläge"
 
 #: src/wmapp.cc:542
 msgid "Restart _Icewm"
@@ -1290,12 +1335,14 @@ msgstr ""
 
 #: src/wmapp.cc:819
 msgid "Kill IceWM, replace with Xterm"
-msgstr ""
+msgstr "Döda IceWM, ersätt med Xterm"
 
 #: src/wmapp.cc:1330
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
+"  --client-id=ID      Klient-ID som ska användas vid kontakt med "
+"sessionshanteraren.\n"
 
 #: src/wmapp.cc:1336
 msgid ""
