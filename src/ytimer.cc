@@ -95,11 +95,11 @@ YTimer::YTimer(long ms) :
     }
 }
 
-YTimer::YTimer(long ms, YTimerListener* listener, bool start) :
+YTimer::YTimer(long ms, YTimerListener* listener, bool start, bool fixed) :
     fListener(listener),
     fInterval(max(0L, ms)),
     fRunning(false),
-    fFixed(false)
+    fFixed(fixed)
 {
     if (start)
         startTimer();
