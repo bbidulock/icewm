@@ -50,11 +50,9 @@ bool TrayMessage::append(const char* data, long size) {
 }
 
 ustring fetchTitle(Window win) {
-    char* name(0);
+    xsmart<char> name;
     if (win && XFetchName(xapp->display(), win, &name) && name) {
-        ustring title(name);
-        XFree(name);
-        return title;
+        return ustring(name);
     }
     return null;
 }
@@ -268,7 +266,7 @@ void YXTrayProxy::requestDock(Window dockRequest) {
           dockRequest, cstring(fetchTitle(dockRequest)).c_str()));
 
     long delay = 80L + 25L * fDockRequests.getCount();
-    YTimer* tm = new YTimer(delay, this, true);
+    YTimer* tm = new YTimer(delay, this, true, true);
     fDockRequests.append(new DockRequest(dockRequest, tm));
 }
 
@@ -356,6 +354,7 @@ YXTrayEmbedder::YXTrayEmbedder(YXTray *tray, Window win):
 
     fDocked->setParentRelative();
     fVisible = true;
+    fRepaint = fetchTitle(win) == "XXkb"; // issue #235
     fDocked->show();
 }
 
@@ -391,6 +390,10 @@ void YXTrayEmbedder::handleClientMap(Window win) {
 }
 
 void YXTrayEmbedder::paint(Graphics &g, const YRect &/*r*/) {
+    if (fRepaint) {
+        g.setColor(taskBarBg);
+        g.fillRect(0, 0, width(), height());
+    }
 }
 
 void YXTrayEmbedder::configure(const YRect &r) {

@@ -37,6 +37,7 @@ public:
     YXEmbedClient *client() { return fDocked; }
 
     bool fVisible;
+    bool fRepaint;
 
 private:
     virtual Window getHandle() { return YWindow::handle(); }
