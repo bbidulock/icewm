@@ -346,7 +346,7 @@ else
 	IMAGE_LIBS="$XPM_LIBS"
 	AC_DEFINE([CONFIG_XPM],[1],[Define to enable libxpm rendering.])
 	image_library=libxpm])
-    PKG_CHECK_MODULES([LIBPNG],[libpng >= 1.6],[
+    PKG_CHECK_MODULES([LIBPNG],[libpng >= 1.2],[
 	IMAGE_CFLAGS="$LIBPNG_CFLAGS $IMAGE_CFLAGS"
 	IMAGE_LIBS="$LIBPNG_LIBS $IMAGE_LIBS"
 	AC_DEFINE([CONFIG_LIBPNG],[1],[Define to enable libpng rendering.])
@@ -399,6 +399,13 @@ AC_DEFINE_UNQUOTED([DOCDIR],["${DOCDIR}"],
 ICE_EXPAND([LOCDIR],[${localedir}])
 AC_DEFINE_UNQUOTED([LOCDIR],["${LOCDIR}"],
 	[Define to locale directory.])
+
+AC_ARG_WITH([theme],
+    AC_HELP_STRING([--with-theme=NAME],[Default theme.
+                    [default="default/default.theme"]]),,
+                    with_theme="default/default.theme")
+AC_DEFINE_UNQUOTED([CONFIG_DEFAULT_THEME],
+                   "${with_theme}",[Name of default theme])
 
 AC_DEFINE_UNQUOTED([HOSTOS],["${host_os}"],
 	[Define to the host operating system.])

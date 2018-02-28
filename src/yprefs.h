@@ -38,7 +38,6 @@ XSV(const char *, iconPath,                     "/usr/local/share/icons/hicolor:
 XSV(const char *, iconPath,                     0)
 #endif
 
-#define CONFIG_DEFAULT_THEME "default/default.theme"
 XSV(const char *, themeName,                    CONFIG_DEFAULT_THEME)
 XSV(const char *, xineramaPrimaryScreenName,    0)
 
