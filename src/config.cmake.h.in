@@ -119,4 +119,6 @@
 #cmakedefine CONFIG_FRIBIDI 1
 #cmakedefine DEBUG 1
 
+#define CONFIG_DEFAULT_THEME "@CONFIG_DEFAULT_THEME@"
+
 #endif // __CONFIG_H__

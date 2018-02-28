@@ -73,6 +73,7 @@ option(CONFIG_SESSION "Define to enable X session management" on)
 option(ENABLE_NLS "Enable Native Language Support" on)
 option(ENABLE_LTO "Enable Link Time Optimization" off)
 
+SET(CONFIG_DEFAULT_THEME "default/default.theme" CACHE STRING "Name of default theme")
 SET(CONFIG_UNICODE_SET "" CACHE STRING "Your iconv unicode set in machine endian encoding (e.g. WCHAR_T, UCS-4-INTERNAL, UCS-4LE, UCS-4BE)")
 # turn off when empty, see config.h template for details
 IF("" STREQUAL "${CONFIG_UNICODE_SET}")
@@ -367,7 +368,6 @@ if(CONFIG_FDO_MENUS)
 endif()
 
 option(DEBUG "Define if you want to debug IceWM" off)
-
 
 #######################################
 # some extra sugar where available    #
