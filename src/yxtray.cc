@@ -389,10 +389,18 @@ void YXTrayEmbedder::handleClientMap(Window win) {
     fTray->showClient(win, true);
 }
 
-void YXTrayEmbedder::paint(Graphics &g, const YRect &/*r*/) {
+void YXTrayEmbedder::paint(Graphics &g, const YRect& r) {
     if (fRepaint) {
-        g.setColor(taskBarBg);
-        g.fillRect(0, 0, width(), height());
+        extern ref<YPixmap> taskbackPixmap;
+        if (taskbackPixmap != null) {
+            g.fillPixmap(taskbackPixmap,
+                         r.x(), r.y(), r.width(), r.height(),
+                         x() + r.x(), y() + r.y());
+        }
+        else {
+            g.setColor(taskBarBg);
+            g.fillRect(r.x(), r.y(), r.width(), r.height());
+        }
     }
 }
 
