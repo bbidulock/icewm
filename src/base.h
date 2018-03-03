@@ -271,7 +271,7 @@ bool toggleLogEvents();
 const char* eventName(int eventType);
 
 inline int intersection(int s1, int e1, int s2, int e2) {
-    return max(0, 1 + min(e1, e2) - max(s1, s2));
+    return max(0, min(e1, e2) - max(s1, s2));
 }
 
 #endif

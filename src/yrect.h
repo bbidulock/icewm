@@ -35,12 +35,16 @@ public:
         setRect(mx, my, w - mx, h - my);
     }
 
-    YRect intersect(const YRect& r) {
+    YRect intersect(const YRect& r) const {
         int x = max(xx, r.xx), w = int(min(xx + ww, r.xx + r.ww));
         int y = max(yy, r.yy), h = int(min(yy + hh, r.yy + r.hh));
         if (x < w && y < h)
             return YRect(x, y, unsigned(w - x), unsigned(h - y));
         return YRect();
+    }
+
+    unsigned overlap(const YRect& r) const {
+        return intersect(r).pixels();
     }
 
 private:

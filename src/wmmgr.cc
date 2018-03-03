@@ -1107,6 +1107,7 @@ static int addco(int *v, int &n, int c) {
 int YWindowManager::calcCoverage(bool down, YFrameWindow *frame1, int x, int y, int w, int h) {
     int cover = 0;
     int factor = down ? 2 : 1; // try harder not to cover top windows
+    const YRect rect(x, y, w, h);
 
     YFrameWindow *frame = 0;
 
@@ -1122,9 +1123,7 @@ int YWindowManager::calcCoverage(bool down, YFrameWindow *frame1, int x, int y, 
         if (!f->isAllWorkspaces() && f->getWorkspace() != frame1->getWorkspace())
             continue;
 
-        cover +=
-            intersection(f->x(), f->x() + f->width(), x, x + w) *
-            intersection(f->y(), f->y() + f->height(), y, y + h) * factor;
+        cover += rect.overlap(f->geometry()) * factor;
 
         if (factor > 1)
             factor /= 2;
