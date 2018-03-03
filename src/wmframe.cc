@@ -2038,6 +2038,9 @@ void YFrameWindow::getWindowOptions(WindowOptions *list, WindowOption &opt,
         if (name != null) {
             ustring klass_instance(h->res_class, ".", h->res_name);
             list->mergeWindowOption(opt, klass_instance, remove);
+
+            ustring name_klass(h->res_name, ".", h->res_class);
+            list->mergeWindowOption(opt, name_klass, remove);
         }
         list->mergeWindowOption(opt, klass, remove);
     }
