@@ -190,7 +190,8 @@ public:
     ustring getClientId(Window leader);
     void getPropertiesList();
 
-    void configure(const YRect &/*r*/);
+    virtual void configure(const YRect &rect);
+    virtual void handleGravityNotify(const XGravityEvent &gravity);
 
     bool isKdeTrayWindow() { return prop.kde_net_wm_system_tray_window_for; }
 

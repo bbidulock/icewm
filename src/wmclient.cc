@@ -2186,11 +2186,19 @@ void YFrameClient::getPropertiesList() {
 }
 
 void YFrameClient::configure(const YRect &r) {
-    MSG(("client geometry %d:%d-%dx%d", r.x(), r.y(), r.width(), r.height()));
-    if (r.x() < 0 || r.y() < 0) {
-        XMoveWindow(xapp->display(), handle(), max(0, r.x()), max(0, r.y()));
-    }
+    (void)r;
+    MSG(("client geometry %+d%+d %dx%d", r.x(), r.y(), r.width(), r.height()));
 }
 
+void YFrameClient::handleGravityNotify(const XGravityEvent &gravity) {
+    int ox = x(), oy = y();
+    YWindow::handleGravityNotify(gravity);
+    if ((gravity.x < 0 || gravity.y < 0) && ox >= 0 && oy >= 0) {
+        int nx = max(0, x()), ny = max(0, y());
+        MSG(("gravity notify %+d%+d -> %+d%+d -> %+d%+d",
+                    ox, oy, gravity.x, gravity.y, nx, ny));
+        XMoveWindow(xapp->display(), handle(), nx, ny);
+    }
+}
 
 // vim: set sw=4 ts=4 et:
