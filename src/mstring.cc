@@ -405,6 +405,9 @@ mstring mstring::match(const char* regex, const char* flags) {
 
     regmatch_t pos;
     int exec = regexec(&preg, data(), 1, &pos, execFlags);
+
+    regfree(&preg);
+
     if (exec)
         return null;
 
