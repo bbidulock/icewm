@@ -317,7 +317,7 @@ ustring guessIconNameFromExe(const char* exe)
         fullname = upath(buf, linkLen);
     }
     // crop to the generic name
-    ustring s(fullname.string().m_str());
+    ustring s(fullname);
     int spos = s.lastIndexOf('/');
     if (spos >= 0)
         s = s.remove(0, spos + 1);

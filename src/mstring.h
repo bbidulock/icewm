@@ -145,6 +145,8 @@ public:
     }
     const mstring& m_str() const { return str; }
     operator const mstring&() const { return str; }
+    bool operator==(const char* cstr) const { return str == cstr; }
+    bool operator!=(const char* cstr) const { return str != cstr; }
     bool operator==(const null_ref &) const { return str == null; }
     bool operator!=(const null_ref &) const { return str != null; }
     bool operator==(const cstring& c) const { return str == c.str; }

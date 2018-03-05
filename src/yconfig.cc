@@ -13,7 +13,7 @@
 #include "ascii.h"
 #include "argument.h"
 
-upath findPath(ustring path, int mode, upath name, bool /*path_relative*/) {
+upath findPath(ustring path, int mode, upath name) {
     if (name.isAbsolute()) { // check for root in XFreeOS/2
         if (name.fileExists() && name.access(mode) == 0)
             return name;
@@ -29,17 +29,6 @@ upath findPath(ustring path, int mode, upath name, bool /*path_relative*/) {
             upath prog = upath(s).relative(name);
             if (prog.access(mode) == 0)
                 return prog;
-
-#if 0
-            if (!(mode & X_OK) &&
-                !prog.path().endsWith(".xpm") &&
-                !prog.path().endsWith(".png"))
-            {
-                upath prog_png = prog.addExtension(".png");
-                if (prog_png.access(mode) == 0)
-                    return prog_png;
-            }
-#endif
         }
     }
     return null;

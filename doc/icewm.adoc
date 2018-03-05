@@ -385,7 +385,7 @@ The following settings can be set to value 1 (enabled) or value 0 (disabled).
 +TaskBarShowAPMAuto = 1+:: Enable TaskBarShowAPMStatus if a battery is present.
 +TaskBarShowAPMTime = 1+:: Show APM status on task bar in time-format.
 +TaskBarShowAPMGraph = 1+:: Show APM status in graph mode.
-+TaskBarShowMailboxStatus = 1+:: Display status of mailbox (determined by `$MAIL` environment variable).
++TaskBarShowMailboxStatus = 1+:: Display status of mailbox (see 'Mailbox' below).
 +TaskBarMailboxStatusBeepOnNewMail = 0+:: Beep when new mail arrives.
 +TaskBarMailboxStatusCountMessages = 0+:: Display mail message count as tooltip.
 +TaskBarShowWorkspaces = 1+:: Show workspace switching buttons on task bar.
@@ -420,22 +420,6 @@ The following settings can be set to value 1 (enabled) or value 0 (disabled).
 +TaskBarLaunchOnSingleClick = 1+:: Execute taskbar applet commands (like MailCommand,     ClockCommand,   ...) on single click.
 +EnableAddressBar = 1+:: Enable address bar functionality in taskbar.
 +ShowAddressBar = 1+:: Show address bar in task bar.
-+MailBoxPath = ""+::
-  Path to a mbox file. Remote mail boxes are accessed by
-  specifying an URL using the Common Internet Scheme Syntax (RFC 1738):
-    `scheme://[user[:password]@]server[:port][/path]`.
-  Supported schemes are `pop3`, `imap` and `file`. When the scheme is
-  omitted `file://` is prepended silently. IMAP subfolders can be access by
-  using the  path component.
-  Reserved characters like _slash_, _at_ and _colon_
-  can be specified using escape sequences with a
-  hexadecimal encoding like %2f for the slash
-  or %40 for the at sign.  For example:
-
-    file:///var/spool/mail/captnmark
-    pop3://markus:%2f%40%3a@maol.ch/
-    imap://mathias@localhost/INBOX.Maillisten.icewm-user
-
 +TimeFormat = "%X"+:: format for the taskbar clock (time) (see strftime(3) manpage).
 +TimeFormatAlt = ""+:: Alternate Clock Time format (e.g. for blinking effects).
 +DateFormat = "%c"+:: format for the taskbar clock tooltip (date+time) (see strftime(3) manpage).
@@ -448,6 +432,65 @@ The following settings can be set to value 1 (enabled) or value 0 (disabled).
 +TaskBarApmGraphWidth = 10+:: Width of APM Monitor.
 +TaskBarGraphHeight = 20+:: Height of taskbar monitoring applets.
 +XineramaPrimaryScreen = 0+:: Primary screen for xinerama (taskbar, ...).
+
+=== Mailbox Monitoring (updated 2018-03-04)
+
++MailBoxPath = ""+::
+  This may contain a list of mailbox specifications.
+  Mailboxes are separated by a space.
+  If `TaskBarShowMailboxStatus` is enabled then
+  IceWM will monitor each mailbox for status changes
+  each `MailCheckDelay` seconds.
+  For each mailbox IceWM will show an icon on the taskbar.
+  The icon shows if there is mail, if there is unread mail,
+  or if there is new mail.
+  Hovering the mouse pointer over an icon shows the number of
+  messages in this mailbox and also the number unread mails.
+  A mailbox can be the path to a file in conventional _mbox_ format.
+  If the path points to a directory then _Maildir_ format is assumed.
+  Remote mail boxes are specified by an URL
+  using the Common Internet Scheme Syntax (RFC 1738):
++
+    scheme://user:password@server[:port][/path]
+::
+  Supported schemes are `pop3`, `pop3s`, `imap`, `imaps` and `file`.
+  The `pop3s` and `imaps` schemes depend on the presence
+  of the `openssl` command for `TLS/SSL` encryption.
+  This is also the case if `port` is either
+  `993` for imap or `995` for pop3.
+  When the scheme is omitted then `file` is assumed.
+  IMAP subfolders can be given by the path component.
+  Reserved characters like _slash_, _at_ and _colon_
+  can be specified using escape sequences with a
+  hexadecimal encoding like `%2f` for the slash
+  or `%40` for the at sign.  For example:
++
+    file:///var/spool/mail/captnmark
+    file:///home/captnmark/Maildir/
+    pop3://markus:%2f%40%3a@maol.ch/
+    pop3s://markus:password@pop.gmail.com/
+    imap://mathias@localhost/INBOX.Maillisten.icewm-user
+    imaps://mathias:password@imap.gmail.com/INBOX
+::
+  To help solve network protocol errors for pop3 and imap
+  set the environment variable `ICEWM_MAILCHECK_TRACE`.
+  IceWM will then log communication details for POP3 and IMAP mailboxes.
+  Just set `export ICEWM_MAILCHECK_TRACE=1` before executing icewm,
+  or set this in the `env` configuration file.
+::
+  Note that for IceWM to access Gmail you must first configure
+  your Gmail account to enable POP3 or IMAP access.
+  To allow non-Gmail applications like IceWM to use it see the
+  Gmail help site for "Let less secure apps use your account".
+  Also set secure file permissions on your IceWM preferences file 
+  and the directory which contains it.
+  It is unwise to store a password on file ever.
+  Consider a wallet extension for IceWM.
+  The following Perl snippet demonstrates how to
+  hex encode a password like `!p@a%s&s~`:
++
+    $ perl -e 'foreach(split("", $ARGV[0])) { printf "%%%02x", ord($_); }; print "\n";' '!p@a%s&s~'
+    %21%40%23%24%25%5e%26%2a%7e
 
 === Menus
 
@@ -553,8 +596,8 @@ WinMenuItems=rmsnxc            #MS-Windows menu
 == Theme Settings
 
 This section shows settings that can be set in theme files. They can also be set in
-'preferences' file but themes will override the values set there. To override the
-theme values the settings should be set in 'prefoverride' file.
+`preferences` file but themes will override the values set there. To override the
+theme values the settings should be set in `prefoverride` file.
 Default values are shown following the equal sign.
 
 === Borders
@@ -610,7 +653,7 @@ The following settings can be set to a string value.
 +InputFontName = "-*-monospace-medium-r-*-*-*-140-*-*-*-*-*-*"+:: Name of the input field font.
 +LabelFontName = "-*-sans-medium-r-*-*-*-140-*-*-*-*-*-*"+:: Name of the label font.
 
-New in 1.2.14: when IceWM is configured with '--enable-xfreetype', only the settings with "Xft" suffix will be used. They specifiy the font name in fontconfig format:
+New in 1.2.14: when IceWM is configured with `--enable-xfreetype`, only the settings with "Xft" suffix will be used. They specifiy the font name in fontconfig format:
 
 ....
 MenuFontNameXft="sans-serif:size=12:bold"

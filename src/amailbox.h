@@ -18,7 +18,14 @@ class IApp;
 
 class MailCheck: public YSocketListener {
 public:
-    enum {
+    enum ProtocolPort {
+        POP3_PORT = 110,
+        IMAP_PORT = 143,
+        IMAP_SSL  = 993,
+        POP3_SSL  = 995,
+    };
+
+    enum ProtocolState {
         IDLE,
         CONNECTING,
         WAIT_READY,
@@ -31,7 +38,8 @@ public:
         SUCCESS
     } state;
 
-    enum {
+    enum ProtocolKind {
+        NOPROTOCOL,
         LOCALFILE,
         POP3,
         IMAP
@@ -42,17 +50,30 @@ public:
 
     void setURL(ustring url);
     void startCheck();
+    void startSSL();
+    cstring inbox();
+    int portNumber();
+    void setState(ProtocolState newState);
 
     virtual void socketConnected();
     virtual void socketError(int err);
     virtual void socketDataRead(char *buf, int len);
+
+    void parsePop3();
+    void parseImap();
+
+    int write(const char* buf, int len = 0);
+    int write(const cstring& str);
     void error();
+    void release();
+    bool ssl() const;
+    bool net() const;
 
 private:
     YSocket sk;
     char bf[512];
     unsigned int got;
-    ref<YURL> fURL;
+    YURL fURL;
     MailBoxStatus *fMbx;
     long fLastSize;
     long fLastCount;
@@ -62,9 +83,14 @@ private:
     long fCurUnseen;
     long fLastCountSize;
     time_t fLastCountTime;
-    sockaddr_in server_addr;
+    sockaddr_in fAddr;
+    int fPort;
+    int fPid;
+    bool fTrace;
 
     void countMessages();
+    const char* s(ProtocolState t);
+    void escape(const char* buf, int len, char* tmp, int siz);
 };
 
 class MailBoxStatus: public YWindow, public YTimerListener {
@@ -85,7 +111,7 @@ public:
     virtual void handleCrossing(const XCrossingEvent &crossing);
 
     void checkMail();
-    void mailChecked(MailBoxState mst, long count);
+    void mailChecked(MailBoxState mst, long count, long unread);
     void newMailArrived();
 
     virtual bool handleTimer(YTimer *t);

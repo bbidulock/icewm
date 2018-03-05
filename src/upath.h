@@ -12,6 +12,7 @@ class upath {
 public:
     upath(const class null_ref &): fPath(null) {}
     upath(const pstring& path): fPath(path) {}
+    upath(const cstring& path): fPath(path.m_str()) {}
     upath(const char *path): fPath(path) {}
     upath(const char *path, int len): fPath(path, len) {}
     upath(const upath& path): fPath(path.fPath) {}
@@ -89,6 +90,8 @@ public:
     fileptr& operator=(FILE* ptr) { close(); fp = ptr; return *this; }
     operator FILE*() { return fp; }
 };
+
+upath findPath(ustring path, int mode, upath name);
 
 #endif
 

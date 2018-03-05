@@ -21,67 +21,60 @@
  * An URL decoder
  ******************************************************************************/
 
-YURL::YURL():
-    fScheme(null), fUser(null), fPassword(null),
-    fHost(null), fPort(null), fPath(null) {
+YURL::YURL() {
 }
 
-YURL::YURL(ustring url, bool expectInetScheme):
-    fScheme(null), fUser(null), fPassword(null),
-    fHost(null), fPort(null), fPath(null) {
-    assign(url, expectInetScheme);
+YURL::YURL(ustring url) {
+    *this = url;
 }
 
-YURL::~YURL() {
-}
+void YURL::operator=(ustring url) {
+    scheme = null;
+    user = null;
+    pass = null;
+    host = null;
+    port = null;
+    path = null;
 
-void YURL::assign(ustring url, bool expectInetScheme) {
-    fScheme = null;
-    fUser = null;
-    fPassword = null;
-    fHost = null;
-    fPort = null;
-    fPath = null;
-    ustring rest(url);
+    if (url[0] == '/') {
+        scheme = "file";
+        path = url;
+        return;
+    }
 
-    int i = rest.indexOf(':');
-    if (i != -1) {
-        fScheme = rest.substring(0, i);
-        rest = rest.substring(i + 1);
+    // parse scheme://[user[:password]@]server[:port][/path]
+    int sep = url.find("://");
+    if (sep >= 0) {
+        scheme = url.substring(0, sep);
+        ustring rest(url.substring(sep + 3));
 
-        if (rest.length() > 2 &&
-            rest.charAt(0) == '/' && rest.charAt(1) == '/')
-        {
-            rest = rest.substring(2);
+        int sl = rest.indexOf('/');
+        if (sl >= 0) {
+            path = unescape(rest.substring(sl));
+            rest = rest.substring(0, sl);
+        }
+        if (sl) {
+            int at = rest.indexOf('@');
+            if (at >= 0) {
+                ustring login(rest.substring(0, at));
+                rest = rest.substring(at + 1);
 
-            i = rest.indexOf('/');
-            if (i != -1) {
-                fPath = rest.substring(i);
-                fPath = unescape(fPath);
-                fHost = rest.substring(0, i);
-            } else {
-                fHost = rest;
-            }
-
-            i = fHost.indexOf('@'); // ???last
-
-            if (i != -1) {
-                fUser = fHost.substring(0, i);
-                fHost = fHost.substring(i + 1);
-
-                i = fUser.indexOf(':');
-                if (i != -1) {
-                    fPassword = fUser.substring(i + 1);
-                    fUser = fUser.substring(0, i);
-
-                    fPassword = unescape(fPassword);
+                int col = login.indexOf(':');
+                if (col >= 0) {
+                    pass = unescape(login.substring(col + 1));
+                    user = unescape(login.substring(0, col));
                 }
-                fUser = unescape(fUser);
+                else user = unescape(login);
             }
-            fHost = unescape(fHost);
-        } else if (expectInetScheme)
-            warn(_("\"%s\" doesn't describe a common internet scheme"), cstring(url).c_str());
 
+            int col = rest.indexOf(':');
+            if (col >= 0) {
+                port = rest.substring(col + 1);
+                host = unescape(rest.substring(0, col));
+            }
+            else
+                host = unescape(rest);
+        }
     } else {
         warn(_("\"%s\" contains no scheme description"), cstring(url).c_str());
     }
