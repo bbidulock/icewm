@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-03-06 05:13+0100\n"
-"PO-Revision-Date: 2018-03-06 06:41+0000\n"
+"PO-Revision-Date: 2018-03-06 09:03+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
 "Language-Team: Japanese "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/ja/>\n"
@@ -1170,7 +1170,7 @@ msgstr "既に icewmbg が動作しているため、新しく起動すること
 
 #: src/icewmhint.cc:23
 msgid "Usage: icewmhint class.instance option arg\n"
-msgstr "使用方法: icewmhint class.instance オプションパラメータ\n"
+msgstr "使用方法: icewmhint クラス.インスタンス オプションパラメータ\n"
 
 #: src/icewmhint.cc:57
 #, c-format
