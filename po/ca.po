@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-03-06 05:13+0100\n"
-"PO-Revision-Date: 2017-12-11 12:00+0000\n"
+"PO-Revision-Date: 2018-03-06 09:54+0000\n"
 "Last-Translator: David Medina <medipas@gmail.com>\n"
-"Language-Team: Catalan <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/ca/>\n"
+"Language-Team: Catalan "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8 bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.17.1\n"
+"X-Generator: Weblate 2.18\n"
 
 #: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:681 src/aapm.cc:806
 msgid " - Power"
@@ -134,31 +134,31 @@ msgstr "Camí de la bústia no vàlid: \"%s\""
 #: src/amailbox.cc:105
 #, c-format
 msgid "DNS name lookup failed for %s"
-msgstr ""
+msgstr "La cerca del nom de DNS ha fallat per a %s."
 
 #: src/amailbox.cc:111
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid mailbox port: \"%s\""
-msgstr "Camí de la bústia no vàlid: \"%s\""
+msgstr "Port de la bústia no vàlid: \"%s\""
 
 #: src/amailbox.cc:251
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to %s: %s"
-msgstr "No es pot connectar al servidor YIFF: %s"
+msgstr "No s'ha pogut connectar a %s: %s"
 
 #: src/amailbox.cc:266
 #, c-format
 msgid "Failed to find %s command"
-msgstr ""
+msgstr "Ha fallat trobar l'ordre %s."
 
 #: src/amailbox.cc:295
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to execute %s"
-msgstr "Ha fallat executar el sistema (%s) (%d)"
+msgstr "Ha fallat executar %s."
 
 #: src/amailbox.cc:374
 msgid "Write to socket failed"
-msgstr ""
+msgstr "Ha fallat l'escriptura al sòcol."
 
 #: src/amailbox.cc:612
 #, c-format
@@ -170,14 +170,14 @@ msgid "Error checking mailbox."
 msgstr "Error en comprovar la bústia."
 
 #: src/amailbox.cc:721
-#, fuzzy, c-format
+#, c-format
 msgid "%ld mail message, %ld unread."
-msgstr "%ld missatge de correu."
+msgstr "%ld missatges de correu, %ld per llegir."
 
 #: src/amailbox.cc:722
-#, fuzzy, c-format
+#, c-format
 msgid "%ld mail messages, %ld unread."
-msgstr "%ld missatges de correu."
+msgstr "%ld missatges de correu, %ld per llegir."
 
 #: src/amailbox.cc:728
 #, c-format
@@ -732,7 +732,6 @@ msgid "Socket error: %d"
 msgstr "Error de sòcol: %d"
 
 #: src/icesm.cc:57
-#, fuzzy
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -744,13 +743,14 @@ msgid ""
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
-"  -c, --config=FILE   Permet que l'IceWM carregui preferències des d'un "
-"FITXER.\n"
-"  -t, --theme=FILE    Permet que l'IceWM carregui el tema des d'un FITXER.\n"
+"  -c, --config=FILE   Permet que l'IceWM carregui preferències des de FITXER."
+"\n"
+"  -t, --theme=FILE    Permet que l'IceWM carregui el tema des del FITXER.\n"
 "\n"
 "  -d, --display=NAME      Usa el NOM per connectar al servidor X.\n"
 "  --sync              Sincronitza la comunicació amb el servidor X11.\n"
 "\n"
+"  -i, --icewm=FILE    Usa FITXER com a gestor de finestres de l'IceWM.\n"
 "  -n, --notray        No iniciïs l'icewmtray.\n"
 "  -s, --sound         Inicia també l'icesound.\n"
 
@@ -1164,7 +1164,6 @@ msgid "Cannot start, because another icewmbg is still running."
 msgstr "No es pot iniciar, perquè encara s'executa un altre icewmbg."
 
 #: src/icewmhint.cc:23
-#, fuzzy
 msgid "Usage: icewmhint class.instance option arg\n"
 msgstr "Sintaxi: icewmhint [class.instance] opció arg\n"
 
