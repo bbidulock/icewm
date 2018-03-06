@@ -9,16 +9,16 @@ msgstr ""
 "Project-Id-Version: icewm-1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-03-06 05:13+0100\n"
-"PO-Revision-Date: 2018-01-03 20:15+0000\n"
+"PO-Revision-Date: 2018-03-06 09:15+0000\n"
 "Last-Translator: Aleš Kastner <alkas@volny.cz>\n"
-"Language-Team: Czech <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/cs/>\n"
+"Language-Team: Czech "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 2.17.1\n"
+"X-Generator: Weblate 2.18\n"
 
 #: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:681 src/aapm.cc:806
 msgid " - Power"
@@ -137,31 +137,31 @@ msgstr "Neplatná cesta k mailboxu: „%s“"
 #: src/amailbox.cc:105
 #, c-format
 msgid "DNS name lookup failed for %s"
-msgstr ""
+msgstr "Vyhledání názvu DNS selhalo kvůli %s"
 
 #: src/amailbox.cc:111
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid mailbox port: \"%s\""
-msgstr "Neplatná cesta k mailboxu: „%s“"
+msgstr "Neplatný port mailboxu: „%s“"
 
 #: src/amailbox.cc:251
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to %s: %s"
-msgstr "Nelze se spojit se serverem YIFF: %s"
+msgstr "Nelze se spojit se %s: %s"
 
 #: src/amailbox.cc:266
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to find %s command"
-msgstr "Selhalo spuštění %s: %s"
+msgstr "Nelze najít příkaz %s"
 
 #: src/amailbox.cc:295
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to execute %s"
-msgstr "Selhalo spuštění systému (%s) (%d)"
+msgstr "Selhalo spuštění %s"
 
 #: src/amailbox.cc:374
 msgid "Write to socket failed"
-msgstr ""
+msgstr "Zápis na soket selhal"
 
 #: src/amailbox.cc:612
 #, c-format
@@ -173,14 +173,14 @@ msgid "Error checking mailbox."
 msgstr "Chyba ověření stavu mailboxu."
 
 #: src/amailbox.cc:721
-#, fuzzy, c-format
+#, c-format
 msgid "%ld mail message, %ld unread."
-msgstr "%ld poštovní zpráva."
+msgstr "%ld poštovní zpráva, %ld nepřečtena."
 
 #: src/amailbox.cc:722
-#, fuzzy, c-format
+#, c-format
 msgid "%ld mail messages, %ld unread."
-msgstr "%ld poštovních zpráv."
+msgstr "%ld poštovních zpráv, %ld nepřečteno."
 
 #: src/amailbox.cc:728
 #, c-format
@@ -719,7 +719,6 @@ msgid "Socket error: %d"
 msgstr "Chyba socketu: %d"
 
 #: src/icesm.cc:57
-#, fuzzy
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -737,8 +736,9 @@ msgstr ""
 "  -d, --display=NÁZEV      Použije NÁZEV pro připojení k X-serveru.\n"
 "  --sync              Synchronizuje komunikaci se serverem X11.\n"
 "\n"
+"  -i, --icewm=SOUBOR    Použije SOUBOR jako správce okna IceWM.↵\n"
 "  -n, --notray        Nespouštět icewmtray.\n"
-"  -s, --sound         Také spustit icesound.\n"
+"  -s, --sound         Spustit také icesound.\n"
 
 #: src/icesm.cc:120
 #, c-format
@@ -1148,9 +1148,8 @@ msgid "Cannot start, because another icewmbg is still running."
 msgstr "Spuštění selhalo, protože jiný icewmbg ještě běží."
 
 #: src/icewmhint.cc:23
-#, fuzzy
 msgid "Usage: icewmhint class.instance option arg\n"
-msgstr "Použití: icewmhint [třída.instance] přepínač argument\n"
+msgstr "Použití: icewmhint třída.instance přepínač argument\n"
 
 #: src/icewmhint.cc:57
 #, c-format
