@@ -122,27 +122,38 @@ void MailCheck::countMessages() {
     if (fd != -1) {
         const int size = 4096;
         char buf[size + 16];
-        int len;
         bool newl = true;
         bool head = true;
         bool seen = false;
 
-        while ((len = read(fd, buf, size)) > 0) {
+        for (int len, keep = 0; (len = read(fd, buf + keep, size)) > 0; ) {
+            len += keep;
+            keep = 0;
+            buf[len] = '\0';
+
             for (char *ptr = buf, *end = buf + len; ptr < end; ++ptr) {
                 if (newl) {
                     if (*ptr == 'F') {
+                        char* from = ptr;
                         if (*++ptr == 'r' &&
                             *++ptr == 'o' &&
                             *++ptr == 'm' &&
-                            *++ptr == ' ')
+                            *++ptr == ' ' &&
+                            ptr < end)
                         {
                             head = true;
                             seen = false;
                             ++mails;
                         }
+                        else if (ptr >= end) {
+                            keep = end - from;
+                            memmove(buf, from, keep + 1);
+                            break;
+                        }
                     }
                     else if (head) {
                         if (*ptr == 'S' && seen == false) {
+                            char* from = ptr;
                             if (*++ptr == 't' &&
                                 *++ptr == 'a' &&
                                 *++ptr == 't' &&
@@ -150,10 +161,16 @@ void MailCheck::countMessages() {
                                 *++ptr == 's' &&
                                 *++ptr == ':' &&
                                 *++ptr == ' ' &&
-                                *++ptr == 'R')
+                                *++ptr == 'R' &&
+                                ptr < end)
                             {
                                 seen = true;
                                 ++mread;
+                            }
+                            else if (ptr >= end) {
+                                keep = end - from;
+                                memmove(buf, from, keep + 1);
+                                break;
                             }
                         }
                         else if (*ptr == '\n') {
