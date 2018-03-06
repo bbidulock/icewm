@@ -17,6 +17,7 @@ XSV(const char *, clrDefaultTaskBar, "rgb:C0/C0/C0")
 XIV(bool,         trayDrawBevel,     false)
 
 YColorName taskBarBg(&clrDefaultTaskBar);
+ref<YPixmap> taskbackPixmap;
 
 #ifdef CONFIG_EXTERNAL_TRAY
 class SysTray: public YWindow, public YXTrayNotifier {
@@ -140,6 +141,7 @@ void SysTrayApp::loadConfig() {
             upath("themes").child(themeName));
     }
     YConfig::findLoadConfigFile(this, tray_prefs, "prefoverride");
+    taskbackPixmap = YResourcePaths::loadPixmapFile(file);
 }
 
 SysTrayApp::~SysTrayApp() {
