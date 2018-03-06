@@ -10,10 +10,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.7\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-03-06 05:13+0100\n"
-"PO-Revision-Date: 2018-02-04 21:31+0000\n"
+"PO-Revision-Date: 2018-03-06 10:35+0000\n"
 "Last-Translator: Robert Taisz <robert.taisz@emerald.hu>\n"
-"Language-Team: Hungarian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/hu/>\n"
+"Language-Team: Hungarian "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/hu/>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -143,32 +143,32 @@ msgstr "Érvénytelen levelesláda elérési útvonal: \"%s\""
 #: src/amailbox.cc:105
 #, c-format
 msgid "DNS name lookup failed for %s"
-msgstr ""
+msgstr "Nem sikerült a(z) %s DNS-névkeresése"
 
 # ../src/amailbox.cc:71
 #: src/amailbox.cc:111
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid mailbox port: \"%s\""
-msgstr "Érvénytelen levelesláda elérési útvonal: \"%s\""
+msgstr "Érvénytelen a levelesláda portja: \"%s\""
 
 #: src/amailbox.cc:251
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to %s: %s"
-msgstr "Sikertelen kapcsolódás a YIFF kiszolgálóhoz: %s"
+msgstr "Sikertelen kapcsolódás: %s, %s"
 
 #: src/amailbox.cc:266
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to find %s command"
-msgstr "%s végrehajtása sikertelen: %s"
+msgstr "A(z) %s parancs nem található"
 
 #: src/amailbox.cc:295
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to execute %s"
-msgstr "Nem sikerült végrehajtani a rendszerparancsot (%s) (%d)"
+msgstr "Nem sikerült a(z) %s végrehajtása"
 
 #: src/amailbox.cc:374
 msgid "Write to socket failed"
-msgstr ""
+msgstr "Nem sikerült írni a szoftvercsatornába"
 
 # ../src/amailbox.cc:303
 #: src/amailbox.cc:612
@@ -183,15 +183,15 @@ msgstr "Hiba történt a postafiók ellenőrzésekor."
 
 # ../src/amailbox.cc:408
 #: src/amailbox.cc:721
-#, fuzzy, c-format
+#, c-format
 msgid "%ld mail message, %ld unread."
-msgstr "%ld üzenet."
+msgstr "%ld üzenet, %ld olvasatlan."
 
 # ../src/amailbox.cc:409
 #: src/amailbox.cc:722
-#, fuzzy, c-format
+#, c-format
 msgid "%ld mail messages, %ld unread."
-msgstr "%ld üzenet."
+msgstr "%ld üzenet, %ld olvasatlan."
 
 # ../src/amailbox.cc:408
 #: src/amailbox.cc:728
@@ -783,7 +783,6 @@ msgid "Socket error: %d"
 msgstr "Socket hiba: %d"
 
 #: src/icesm.cc:57
-#, fuzzy
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -798,13 +797,14 @@ msgstr ""
 "  -c, --config=FÁJL   Az IceWM tölti be a beállításokat a FÁJL-ból.\n"
 "  -t, --theme=FÁJL    Az IceWM tölti be a sémát a FÁJL-ból.\n"
 "\n"
-"  -d, --display=NÉV  A NÉV használata az X-kiszolgálóhoz való "
-"csatlakozáshoz.\n"
+"  -d, --display=NÉV  A NÉV használata az X-kiszolgálóhoz való csatlakozáshoz."
+"\n"
 "  --sync              Az X11 kiszolgálóval folytatott kommunikáció "
 "szinkronizálása.\n"
 "\n"
+"  -i, --icewm=FÁJL    A FÁJL használata IceWM ablakkezelőként.\n"
 "  -n, --notray        Ne indítsa el az icewmtray programot.\n"
-"  -s, --sound         Indítsa le az icesound programot is.\n"
+"  -s, --sound         Indítsa el az icesound programot is.\n"
 
 # ../src/wmoption.cc:209
 #: src/icesm.cc:120
@@ -1232,9 +1232,8 @@ msgstr "Nem lehet elindítani, mert egy másik icewmbg még fut."
 
 # ../src/icewmhint.cc:47
 #: src/icewmhint.cc:23
-#, fuzzy
 msgid "Usage: icewmhint class.instance option arg\n"
-msgstr "Használat: icewmhint [osztály.példány] opció argumentum\n"
+msgstr "Használat: icewmhint osztály.példány kapcsoló argumentum\n"
 
 # ../src/icewmhint.cc:63 ../src/ypaint.cc:238
 #: src/icewmhint.cc:57
