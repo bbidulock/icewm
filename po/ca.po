@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-03-06 05:13+0100\n"
-"PO-Revision-Date: 2018-03-06 09:54+0000\n"
+"PO-Revision-Date: 2018-03-06 13:01+0000\n"
 "Last-Translator: David Medina <medipas@gmail.com>\n"
 "Language-Team: Catalan "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/ca/>\n"
@@ -1036,8 +1036,8 @@ msgstr ""
 "  --display=NAME      Usa el NOM per connectar al servidor X.\n"
 "  --sync              Sincronitza la  comunicació amb el servidor X11.\n"
 "\n"
-"  -c, --config=FILE   Carrega preferències des d'un FITXER.\n"
-"  -t, --theme=FILE    Carrega el tema des d'un FITXER.\n"
+"  -c, --config=FILE   Carrega preferències des de FITXER.\n"
+"  -t, --theme=FILE    Carrega el tema des de FITXER.\n"
 
 #: src/iceview.cc:70
 msgid "Hex View"
@@ -1124,13 +1124,13 @@ msgstr ""
 "  -q, --quit           Digues a l'icewmbg en execució que surti.\n"
 "  -r, --restart        Digues a l'icewmbg en execució que es reiniciï.\n"
 "\n"
-"  -c, --config=FILE   Carrega preferències des d'un FITXER.\n"
+"  -c, --config=FILE   Carrega preferències des de FITXER.\n"
 "  -t, --theme=NAME     Carrega el tema amb el nom NOM.\n"
 "\n"
-"  -i, --image=FILE(S)  Carrega les imatges de fons des de FITXERS.\n"
+"  -i, --image=FILE(S)  Carrega les imatges de fons des de FITXER.\n"
 "  -k, --color=NAME(S)  Usa color(s) de fons des de NOM(S).\n"
 "\n"
-"  -s, --semis=FILE(S)  Carrega imatge(s) transparent(s) des de FITXERS.\n"
+"  -s, --semis=FILE(S)  Carrega imatge(s) transparent(s) des de FITXER.\n"
 "  -x, --trans=NAME(S)  Usa color(s) de transparència des de NOMS.\n"
 "\n"
 "  -e, --center=0/1     Inhabilita / habilita centrar el fons.\n"
@@ -1165,7 +1165,7 @@ msgstr "No es pot iniciar, perquè encara s'executa un altre icewmbg."
 
 #: src/icewmhint.cc:23
 msgid "Usage: icewmhint class.instance option arg\n"
-msgstr "Sintaxi: icewmhint [class.instance] opció arg\n"
+msgstr "Usage: icewmhint classe.instància opció arg\n"
 
 #: src/icewmhint.cc:57
 #, c-format
@@ -1432,8 +1432,8 @@ msgid ""
 "  --postpreferences   Print preferences after all processing.\n"
 msgstr ""
 "\n"
-"  -c, --config=FILE   Carrega preferències des d'un FITXER.\n"
-"  -t, --theme=FILE    Carrega el tema des d'un FITXER.\n"
+"  -c, --config=FILE   Carrega preferències des de FITXER.\n"
+"  -t, --theme=FILE    Carrega el tema des de FITXER.\n"
 "  --postpreferences   Imprimeix les preferències després de tot el "
 "processament.\n"
 
@@ -1620,7 +1620,7 @@ msgstr "Argument erroni, \"%d\", per a l'ordre \"%s\"."
 
 #: src/wmprog.cc:342
 msgid "Missing filename argument to include statement"
-msgstr "Falta l'argument del nom de fitxer a la sentència d'inclusió"
+msgstr "Falta l'argument del nom de fitxer per incloure el comunicat"
 
 #: src/wmprog.cc:408
 #, c-format
