@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.15pre3\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-03-06 05:13+0100\n"
-"PO-Revision-Date: 2018-01-29 16:38+0000\n"
+"PO-Revision-Date: 2018-03-06 13:26+0000\n"
 "Last-Translator: Christine Gabriel <christine@stoquart.com>\n"
-"Language-Team: French <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/fr/>\n"
+"Language-Team: French "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -135,31 +135,31 @@ msgstr "Chemin de boîte à lettre incorrect : %s"
 #: src/amailbox.cc:105
 #, c-format
 msgid "DNS name lookup failed for %s"
-msgstr ""
+msgstr "La recherche de nom DNS a échoué pour %s"
 
 #: src/amailbox.cc:111
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid mailbox port: \"%s\""
-msgstr "Chemin de boîte à lettre incorrect : %s"
+msgstr "Port de boîte aux lettres incorrect : %s"
 
 #: src/amailbox.cc:251
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to %s: %s"
-msgstr "Échec de connexion au server YIFF: %s"
+msgstr "Échec de la connexion à %s : %s"
 
 #: src/amailbox.cc:266
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to find %s command"
-msgstr "Échec d'exécution de %s : %s"
+msgstr "Commande %s introuvable"
 
 #: src/amailbox.cc:295
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to execute %s"
-msgstr "Échec de l'exécution du système  (%s) (%d)"
+msgstr "Échec de l'exécution de %s"
 
 #: src/amailbox.cc:374
 msgid "Write to socket failed"
-msgstr ""
+msgstr "Échec de l'écriture dans le socket"
 
 #: src/amailbox.cc:612
 #, c-format
@@ -171,14 +171,14 @@ msgid "Error checking mailbox."
 msgstr "Échec de vérification de la boîte à lettre."
 
 #: src/amailbox.cc:721
-#, fuzzy, c-format
+#, c-format
 msgid "%ld mail message, %ld unread."
-msgstr "%ld message."
+msgstr "%ld message(s) électronique(s), %ld non lu(s)."
 
 #: src/amailbox.cc:722
-#, fuzzy, c-format
+#, c-format
 msgid "%ld mail messages, %ld unread."
-msgstr "%ld messages."
+msgstr "%ld messages électroniques, %ld non lu(s)."
 
 #: src/amailbox.cc:728
 #, c-format
@@ -736,7 +736,6 @@ msgid "Socket error: %d"
 msgstr "Erreur de socket : %d"
 
 #: src/icesm.cc:57
-#, fuzzy
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -748,13 +747,15 @@ msgid ""
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
-"  -c, --config=FILE   Permet à IceWM de charger les préférences à partir du "
-"fichier FILE.\n"
+"  -c, --config=FILE   Permet à IceWM de charger les préférences à partir de "
+"FILE.\n"
 "  -t, --theme=FILE    Permet à IceWM de charger le thème à partir de FILE.\n"
 "\n"
 "  -d, --display=NAME  Utilise NAME pour se connecter au serveur X.\n"
-"  --sync              Synchronises la communication avec le serveur X11.\n"
+"  --sync              Synchronise la communication avec le serveur X11.\n"
 "\n"
+" -i, --icewm=FILE    Utilise FILE en tant que gestionnaire des fenêtres "
+"IceWM.\n"
 "  -n, --notray        Ne démarre pas icewmtray.\n"
 "  -s, --sound         Lance également icesound.\n"
 
@@ -1190,9 +1191,8 @@ msgstr ""
 "d'exécution."
 
 #: src/icewmhint.cc:23
-#, fuzzy
 msgid "Usage: icewmhint class.instance option arg\n"
-msgstr "Utilisation : icewmhint [classe.instance] option paramètre\n"
+msgstr "Syntaxe : icewmhint class.instance option arg\n"
 
 #: src/icewmhint.cc:57
 #, c-format
