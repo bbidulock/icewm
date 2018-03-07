@@ -2,7 +2,7 @@
  *  IceSH - A command line window manager
  *  Copyright (C) 2001 Mathias Hasselmann
  *
- *  Based on Mark´s testwinhints.cc.
+ *  Based on Marko's testwinhints.cc.
  *  Inspired by MJ Ray's WindowC
  *
  *  Release under terms of the GNU Library General Public License
@@ -398,7 +398,7 @@ struct WorkspaceInfo {
             fStatus = fCount;
     }
 
-    int parseWorkspaceName(char const * name);
+    bool parseWorkspaceName(char const* name, long* workspace);
 
     long count();
     operator int() const { return fStatus; }
@@ -412,31 +412,33 @@ long WorkspaceInfo::count() {
     return (Success == fCount ? fCount.data<long>(0) : 0);
 }
 
-int WorkspaceInfo::parseWorkspaceName(char const * name) {
-    long workspace(WinWorkspaceInvalid);
+bool WorkspaceInfo::parseWorkspaceName(char const* name, long* workspace) {
+    *workspace = WinWorkspaceInvalid;
 
     if (Success == fStatus) {
-        for (int n(0); n < fNames.count() &&
-             WinWorkspaceInvalid == workspace; ++n)
-            if (!strcmp(name, fNames.item(n))) workspace = n;
+        for (int i = 0; i < fNames.count(); ++i)
+            if (0 == strcmp(name, fNames.item(i)))
+                return *workspace = i, true;
 
-        if (WinWorkspaceInvalid == workspace) {
-            char *endptr;
-            workspace = strtol(name, &endptr, 0);
+        if (0 == strcmp(name, "0xFFFFFFFF") ||
+            0 == strcmp(name, "All"))
+            return *workspace = 0xFFFFFFFF, true;
 
-            if (NULL == endptr || '\0' != *endptr) {
-                msg(_("Invalid workspace name: `%s'"), name);
-                return WinWorkspaceInvalid;
-            }
+        char* endptr(0);
+        *workspace = strtol(name, &endptr, 0);
+
+        if (0 == endptr || '\0' != *endptr) {
+            msg(_("Invalid workspace name: `%s'"), name);
+            return *workspace = WinWorkspaceInvalid, false;
         }
 
-        if (workspace > count()) {
-            msg(_("Workspace out of range: %ld"), workspace);
-            return WinWorkspaceInvalid;
+        if (*workspace < 0 || *workspace >= count()) {
+            msg(_("Workspace out of range: %ld"), *workspace);
+            return *workspace = WinWorkspaceInvalid, false;
         }
     }
 
-    return workspace;
+    return *workspace != WinWorkspaceInvalid;
 }
 
 Status setWorkspace(Window window, long workspace) {
@@ -569,12 +571,12 @@ static void printUsage() {
 Usage: %s [OPTIONS] ACTIONS\n\
 \n\
 Options:\n\
-  -display DISPLAY            Connects to the X server specified by DISPLAY.\n\
+  -d, -display DISPLAY        Connects to the X server specified by DISPLAY.\n\
                               Default: $DISPLAY or :0.0 when not set.\n\
-  -window WINDOW_ID           Specifies the window to manipulate. Special\n\
+  -w, -window WINDOW_ID       Specifies the window to manipulate. Special\n\
                               identifiers are `root' for the root window and\n\
                               `focus' for the currently focused window.\n\
-  -class WM_CLASS             Window management class of the window(s) to\n\
+  -c, -class WM_CLASS         Window management class of the window(s) to\n\
                               manipulate. If WM_CLASS contains a period, only\n\
                               windows with exactly the same WM_CLASS property\n\
                               are matched. If there is no period, windows of\n\
@@ -626,6 +628,11 @@ static void usageError(char const *msg, ...) {
 /******************************************************************************/
 /******************************************************************************/
 
+static bool isOptArg(const char* arg, const char* opt, const char* val) {
+    const char buf[3] = { opt[0], opt[1], '\0', };
+    return (strpcmp(arg, opt) == 0 || strcmp(arg, buf) == 0) && val != 0;
+}
+
 int main(int argc, char **argv) {
 #ifdef CONFIG_I18N
     setlocale(LC_ALL, "");
@@ -653,6 +660,9 @@ int main(int argc, char **argv) {
             printUsage();
             THROW(0);
         }
+        else if (is_copying_switch(arg)) {
+            print_copying_exit();
+        }
         else if (arg[1] == '-') {
             ++arg;
         }
@@ -660,11 +670,11 @@ int main(int argc, char **argv) {
         size_t sep(strcspn(arg, "=:"));
         char *val(arg[sep] ? arg + sep + 1 : *++argp);
 
-        if (!(strpcmp(arg, "-display") || val == NULL)) {
+        if (isOptArg(arg, "-display", val)) {
             dpyname = val;
-        } else if (!(strpcmp(arg, "-window") || val == NULL)) {
+        } else if (isOptArg(arg, "-window", val)) {
             winname = val;
-        } else if (!(strpcmp(arg, "-class") || val == NULL)) {
+        } else if (isOptArg(arg, "-class", val)) {
             wmname = val;
             char *p = val;
             char *d = val;
@@ -887,15 +897,16 @@ int main(int argc, char **argv) {
         } else if (!strcmp(action, "setWorkspace")) {
             CHECK_ARGUMENT_COUNT (1)
 
-                const long workspace(WorkspaceInfo(root).
-                                         parseWorkspaceName(*argp++));
-            if (WinWorkspaceInvalid == workspace) THROW(1);
+            long workspace;
+            if ( ! WorkspaceInfo(root).parseWorkspaceName(*argp++, &workspace))
+                THROW(1);
 
             MSG(("setWorkspace: %ld", workspace));
             FOREACH_WINDOW(window) setWorkspace(*window, workspace);
         } else if (!strcmp(action, "listWorkspaces")) {
             YTextProperty workspaceNames(root, ATOM_WIN_WORKSPACE_NAMES);
             for (int n(0); n < workspaceNames.count(); ++n)
+                if (n + 1 < workspaceNames.count() || workspaceNames.item(n)[0])
                 printf(_("workspace #%d: `%s'\n"), n, workspaceNames.item(n));
         } else if (!strcmp(action, "setLayer")) {
             CHECK_ARGUMENT_COUNT (1)
