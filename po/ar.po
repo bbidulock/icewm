@@ -174,12 +174,12 @@ msgstr "خطأ فحص البريد."
 #: src/amailbox.cc:721
 #, c-format
 msgid "%ld mail message, %ld unread."
-msgstr "%l رسالة بريد إلكتروني، %l رسالة غير مقروءة."
+msgstr "%ld رسالة بريد إلكتروني، %ld رسالة غير مقروءة."
 
 #: src/amailbox.cc:722
 #, c-format
 msgid "%ld mail messages, %ld unread."
-msgstr "%l من رسائل البريد الإلكتروني، %l من الرسائل غير المقروءة."
+msgstr "%ld من رسائل البريد الإلكتروني، %ld من الرسائل غير المقروءة."
 
 #: src/amailbox.cc:728
 #, c-format
