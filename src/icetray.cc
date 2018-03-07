@@ -7,6 +7,7 @@
 #include "base.h"
 #include "debug.h"
 #include "sysdep.h"
+#include "ypaths.h"
 #include "yprefs.h"
 #include "yconfig.h"
 #include "ypointer.h"
@@ -70,24 +71,18 @@ private:
 };
 
 static int handler(Display *display, XErrorEvent *xev) {
-    DBG {
+    XDBG {
         char message[80], req[80], number[80];
 
-        sprintf(number, "%d", xev->request_code);
-        XGetErrorDatabaseText(display,
-                              "XRequest",
-                              number, "",
-                              req, sizeof(req));
-        if (!req[0])
-            sprintf(req, "[request_code=%d]", xev->request_code);
+        snprintf(number, sizeof number, "%d", xev->request_code);
+        XGetErrorDatabaseText(display, "XRequest", number, "", req, sizeof req);
+        if (req[0] == 0)
+            snprintf(req, sizeof req, "[request_code=%d]", xev->request_code);
 
-        if (XGetErrorText(display,
-                          xev->error_code,
-                          message, sizeof(message)) !=
-                          Success)
+        if (XGetErrorText(display, xev->error_code, message, sizeof message))
             *message = '\0';
 
-        warn("X error %s(0x%lX): %s", req, xev->resourceid, message);
+        tlog("X error %s(0x%lX): %s", req, xev->resourceid, message);
     }
     return 0;
 }
@@ -141,7 +136,7 @@ void SysTrayApp::loadConfig() {
             upath("themes").child(themeName));
     }
     YConfig::findLoadConfigFile(this, tray_prefs, "prefoverride");
-    taskbackPixmap = YResourcePaths::loadPixmapFile(file);
+    taskbackPixmap = YResourcePaths::loadPixmapFile("taskbarbg.xpm");
 }
 
 SysTrayApp::~SysTrayApp() {
