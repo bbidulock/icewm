@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.4.2.1038\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2018-03-06 05:13+0100\n"
+"POT-Creation-Date: 2018-03-08 09:12-0700\n"
 "PO-Revision-Date: 2018-03-07 18:55+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
-"Language-Team: Danish "
-"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/da/>\n"
+"Language-Team: Danish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -142,50 +142,50 @@ msgstr "DNS-navneopslag mislykkedes for %s"
 msgid "Invalid mailbox port: \"%s\""
 msgstr "Ugyldig postkasseport: \"%s\""
 
-#: src/amailbox.cc:251
+#: src/amailbox.cc:268
 #, c-format
 msgid "Could not connect to %s: %s"
 msgstr "Kan ikke oprette forbindelse til %s: %s"
 
-#: src/amailbox.cc:266
+#: src/amailbox.cc:283
 #, c-format
 msgid "Failed to find %s command"
 msgstr "Kunne ikke finde %s-kommandoen"
 
-#: src/amailbox.cc:295
+#: src/amailbox.cc:312
 #, c-format
 msgid "Failed to execute %s"
 msgstr "Kunne ikke eksekvere %s"
 
-#: src/amailbox.cc:374
+#: src/amailbox.cc:391
 msgid "Write to socket failed"
 msgstr "Skrivning til sokkel mislykkedes"
 
-#: src/amailbox.cc:612
+#: src/amailbox.cc:629
 #, c-format
 msgid "Using MailBox \"%s\"\n"
 msgstr "Bruger postkasse \"%s\"\n"
 
-#: src/amailbox.cc:715
+#: src/amailbox.cc:732
 msgid "Error checking mailbox."
 msgstr "Fejl under kontrol af postkasse."
 
-#: src/amailbox.cc:721
+#: src/amailbox.cc:738
 #, c-format
 msgid "%ld mail message, %ld unread."
 msgstr "%ld postbesked, %ld ulæst."
 
-#: src/amailbox.cc:722
+#: src/amailbox.cc:739
 #, c-format
 msgid "%ld mail messages, %ld unread."
 msgstr "%ld postbeskeder, %ld ulæst."
 
-#: src/amailbox.cc:728
+#: src/amailbox.cc:745
 #, c-format
 msgid "%ld mail message."
 msgstr "%ld postbesked."
 
-#: src/amailbox.cc:729
+#: src/amailbox.cc:746
 #, c-format
 msgid "%ld mail messages."
 msgstr "%ld postbeskeder."
@@ -562,30 +562,83 @@ msgstr "Ugyldigt udtryk: \"%s\""
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Navngivne symboler af domænet \"%s\" (numerisk område: %ld-%ld):\n"
 
-#: src/icesh.cc:428
+#: src/icesh.cc:431
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Ugyldigt arbejdsområdenavn: \"%s\""
 
-#: src/icesh.cc:434
+#: src/icesh.cc:436
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Arbejdsområde udenfor område: %ld"
 
-#: src/icesh.cc:568
-#, c-format
+#: src/icesh.cc:570
+#, fuzzy, c-format
+#| msgid ""
+#| "Usage: %s [OPTIONS] ACTIONS\n"
+#| "\n"
+#| "Options:\n"
+#| "  -display DISPLAY            Connects to the X server specified by "
+#| "DISPLAY.\n"
+#| "                              Default: $DISPLAY or :0.0 when not set.\n"
+#| "  -window WINDOW_ID           Specifies the window to manipulate. "
+#| "Special\n"
+#| "                              identifiers are `root' for the root window "
+#| "and\n"
+#| "                              `focus' for the currently focused window.\n"
+#| "  -class WM_CLASS             Window management class of the window(s) "
+#| "to\n"
+#| "                              manipulate. If WM_CLASS contains a period, "
+#| "only\n"
+#| "                              windows with exactly the same WM_CLASS "
+#| "property\n"
+#| "                              are matched. If there is no period, windows "
+#| "of\n"
+#| "                              the same class and windows of the same "
+#| "instance\n"
+#| "                              (aka. `-name') are selected.\n"
+#| "\n"
+#| "Actions:\n"
+#| "  setIconTitle   TITLE        Set the icon title.\n"
+#| "  setWindowTitle TITLE        Set the window title.\n"
+#| "  setGeometry    geometry     Set the window geometry\n"
+#| "  setState       MASK STATE   Set the GNOME window state to STATE.\n"
+#| "                              Only the bits selected by MASK are "
+#| "affected.\n"
+#| "                              STATE and MASK are expressions of the "
+#| "domain\n"
+#| "                              `GNOME window state'.\n"
+#| "  toggleState    STATE        Toggle the GNOME window state bits "
+#| "specified by\n"
+#| "                              the STATE expression.\n"
+#| "  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
+#| "  setLayer       LAYER        Moves the window to another GNOME window "
+#| "layer.\n"
+#| "  setWorkspace   WORKSPACE    Moves the window to another workspace. "
+#| "Select\n"
+#| "                              the root window to change the current "
+#| "workspace.\n"
+#| "  listWorkspaces              Lists the names of all workspaces.\n"
+#| "  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
+#| "\n"
+#| "Expressions:\n"
+#| "  Expressions are list of symbols of one domain concatenated by `+' or "
+#| "`|':\n"
+#| "\n"
+#| "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
+#| "\n"
 msgid ""
 "Usage: %s [OPTIONS] ACTIONS\n"
 "\n"
 "Options:\n"
-"  -display DISPLAY            Connects to the X server specified by "
+"  -d, -display DISPLAY        Connects to the X server specified by "
 "DISPLAY.\n"
 "                              Default: $DISPLAY or :0.0 when not set.\n"
-"  -window WINDOW_ID           Specifies the window to manipulate. Special\n"
+"  -w, -window WINDOW_ID       Specifies the window to manipulate. Special\n"
 "                              identifiers are `root' for the root window "
 "and\n"
 "                              `focus' for the currently focused window.\n"
-"  -class WM_CLASS             Window management class of the window(s) to\n"
+"  -c, -class WM_CLASS         Window management class of the window(s) to\n"
 "                              manipulate. If WM_CLASS contains a period, "
 "only\n"
 "                              windows with exactly the same WM_CLASS "
@@ -668,51 +721,51 @@ msgstr ""
 "  UDTRYK ::= SYMBOL | UDTRYK ( \"+\" | \"|\" ) SYMBOL\n"
 "\n"
 
-#: src/icesh.cc:607
+#: src/icesh.cc:609
 msgid "GNOME window state"
 msgstr "GNOME vinduestilstand"
 
-#: src/icesh.cc:608
+#: src/icesh.cc:610
 msgid "GNOME window hint"
 msgstr "GNOME vinduesfif"
 
-#: src/icesh.cc:609
+#: src/icesh.cc:611
 msgid "GNOME window layer"
 msgstr "GNOME vindueslag"
 
-#: src/icesh.cc:610
+#: src/icesh.cc:612
 msgid "IceWM tray option"
 msgstr "IceWM-bakketilvalg"
 
-#: src/icesh.cc:615
+#: src/icesh.cc:617
 msgid "Usage error: "
 msgstr "Anvendelsesfejl: "
 
-#: src/icesh.cc:693
+#: src/icesh.cc:703
 #, c-format
 msgid "Invalid argument: `%s'."
 msgstr "Ugyldigt argument: \"%s\"."
 
-#: src/icesh.cc:699
+#: src/icesh.cc:709
 msgid "No actions specified."
 msgstr "Ingen handlinger anført."
 
-#: src/icesh.cc:706 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:931
+#: src/icesh.cc:716 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:931
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "Kan ikke åbne skærm: %s. X skal køre og $DISPLAY sat."
 
-#: src/icesh.cc:746
+#: src/icesh.cc:756
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Ugyldig vinduesidentifikator: \"%s\""
 
-#: src/icesh.cc:899
+#: src/icesh.cc:910
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "arbejdsområde nr. %d: \"%s\"\n"
 
-#: src/icesh.cc:917
+#: src/icesh.cc:928
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Ukendt handling: \"%s\""
@@ -723,6 +776,17 @@ msgid "Socket error: %d"
 msgstr "Sokkelfejl: %d"
 
 #: src/icesm.cc:57
+#, fuzzy
+#| msgid ""
+#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
+#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
+#| "\n"
+#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
+#| "  --sync              Synchronize communication with X11 server.\n"
+#| "\n"
+#| "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
+#| "  -n, --notray        Do not start icewmtray.\n"
+#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -730,7 +794,6 @@ msgid ""
 "  -d, --display=NAME  Use NAME to connect to the X server.\n"
 "  --sync              Synchronize communication with X11 server.\n"
 "\n"
-"  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
@@ -744,17 +807,17 @@ msgstr ""
 "  -n, --notray        Start ikke icewmtray.\n"
 "  -s, --sound         Start også icesound.\n"
 
-#: src/icesm.cc:120
+#: src/icesm.cc:114
 #, c-format
 msgid "Unknown option '%s'"
 msgstr "Ukendt tilvalg \"%s\""
 
-#: src/icesm.cc:308
+#: src/icesm.cc:302
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s afsluttede med status %d."
 
-#: src/icesm.cc:314
+#: src/icesm.cc:308
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s blev dræbt med signal %d."
@@ -1006,7 +1069,7 @@ msgstr "Kunne ikke oprette forbindelse til lydgrænseflader %s."
 msgid "Received signal %s: Terminating..."
 msgstr "Modtog signal %s: Afslutter..."
 
-#: src/icetray.cc:234
+#: src/icetray.cc:231
 msgid ""
 "  -n, --notify        Notify parent process by sending signal USR1.\n"
 "  --display=NAME      Use NAME to connect to the X server.\n"

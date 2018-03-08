@@ -8,11 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm-1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2018-03-06 05:13+0100\n"
+"POT-Creation-Date: 2018-03-08 09:12-0700\n"
 "PO-Revision-Date: 2018-03-06 09:15+0000\n"
 "Last-Translator: Aleš Kastner <alkas@volny.cz>\n"
-"Language-Team: Czech "
-"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/cs/>\n"
+"Language-Team: Czech <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -144,50 +144,50 @@ msgstr "Vyhledání názvu DNS selhalo kvůli %s"
 msgid "Invalid mailbox port: \"%s\""
 msgstr "Neplatný port mailboxu: „%s“"
 
-#: src/amailbox.cc:251
+#: src/amailbox.cc:268
 #, c-format
 msgid "Could not connect to %s: %s"
 msgstr "Nelze se spojit se %s: %s"
 
-#: src/amailbox.cc:266
+#: src/amailbox.cc:283
 #, c-format
 msgid "Failed to find %s command"
 msgstr "Nelze najít příkaz %s"
 
-#: src/amailbox.cc:295
+#: src/amailbox.cc:312
 #, c-format
 msgid "Failed to execute %s"
 msgstr "Selhalo spuštění %s"
 
-#: src/amailbox.cc:374
+#: src/amailbox.cc:391
 msgid "Write to socket failed"
 msgstr "Zápis na soket selhal"
 
-#: src/amailbox.cc:612
+#: src/amailbox.cc:629
 #, c-format
 msgid "Using MailBox \"%s\"\n"
 msgstr "Používám MailBox: „%s“\n"
 
-#: src/amailbox.cc:715
+#: src/amailbox.cc:732
 msgid "Error checking mailbox."
 msgstr "Chyba ověření stavu mailboxu."
 
-#: src/amailbox.cc:721
+#: src/amailbox.cc:738
 #, c-format
 msgid "%ld mail message, %ld unread."
 msgstr "%ld poštovní zpráva, %ld nepřečtena."
 
-#: src/amailbox.cc:722
+#: src/amailbox.cc:739
 #, c-format
 msgid "%ld mail messages, %ld unread."
 msgstr "%ld poštovních zpráv, %ld nepřečteno."
 
-#: src/amailbox.cc:728
+#: src/amailbox.cc:745
 #, c-format
 msgid "%ld mail message."
 msgstr "%ld poštovní zpráva."
 
-#: src/amailbox.cc:729
+#: src/amailbox.cc:746
 #, c-format
 msgid "%ld mail messages."
 msgstr "%ld poštovních zpráv."
@@ -560,30 +560,83 @@ msgstr "Neplatný výraz: `%s'"
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Pojmenované znaky domény „%s“ (číselný rozsah: %ld-%ld):\n"
 
-#: src/icesh.cc:428
+#: src/icesh.cc:431
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Neplatné jméno plochy: „%s“"
 
-#: src/icesh.cc:434
+#: src/icesh.cc:436
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Pracovní prostor je mimo rozsah: %ld"
 
-#: src/icesh.cc:568
-#, c-format
+#: src/icesh.cc:570
+#, fuzzy, c-format
+#| msgid ""
+#| "Usage: %s [OPTIONS] ACTIONS\n"
+#| "\n"
+#| "Options:\n"
+#| "  -display DISPLAY            Connects to the X server specified by "
+#| "DISPLAY.\n"
+#| "                              Default: $DISPLAY or :0.0 when not set.\n"
+#| "  -window WINDOW_ID           Specifies the window to manipulate. "
+#| "Special\n"
+#| "                              identifiers are `root' for the root window "
+#| "and\n"
+#| "                              `focus' for the currently focused window.\n"
+#| "  -class WM_CLASS             Window management class of the window(s) "
+#| "to\n"
+#| "                              manipulate. If WM_CLASS contains a period, "
+#| "only\n"
+#| "                              windows with exactly the same WM_CLASS "
+#| "property\n"
+#| "                              are matched. If there is no period, windows "
+#| "of\n"
+#| "                              the same class and windows of the same "
+#| "instance\n"
+#| "                              (aka. `-name') are selected.\n"
+#| "\n"
+#| "Actions:\n"
+#| "  setIconTitle   TITLE        Set the icon title.\n"
+#| "  setWindowTitle TITLE        Set the window title.\n"
+#| "  setGeometry    geometry     Set the window geometry\n"
+#| "  setState       MASK STATE   Set the GNOME window state to STATE.\n"
+#| "                              Only the bits selected by MASK are "
+#| "affected.\n"
+#| "                              STATE and MASK are expressions of the "
+#| "domain\n"
+#| "                              `GNOME window state'.\n"
+#| "  toggleState    STATE        Toggle the GNOME window state bits "
+#| "specified by\n"
+#| "                              the STATE expression.\n"
+#| "  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
+#| "  setLayer       LAYER        Moves the window to another GNOME window "
+#| "layer.\n"
+#| "  setWorkspace   WORKSPACE    Moves the window to another workspace. "
+#| "Select\n"
+#| "                              the root window to change the current "
+#| "workspace.\n"
+#| "  listWorkspaces              Lists the names of all workspaces.\n"
+#| "  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
+#| "\n"
+#| "Expressions:\n"
+#| "  Expressions are list of symbols of one domain concatenated by `+' or "
+#| "`|':\n"
+#| "\n"
+#| "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
+#| "\n"
 msgid ""
 "Usage: %s [OPTIONS] ACTIONS\n"
 "\n"
 "Options:\n"
-"  -display DISPLAY            Connects to the X server specified by "
+"  -d, -display DISPLAY        Connects to the X server specified by "
 "DISPLAY.\n"
 "                              Default: $DISPLAY or :0.0 when not set.\n"
-"  -window WINDOW_ID           Specifies the window to manipulate. Special\n"
+"  -w, -window WINDOW_ID       Specifies the window to manipulate. Special\n"
 "                              identifiers are `root' for the root window "
 "and\n"
 "                              `focus' for the currently focused window.\n"
-"  -class WM_CLASS             Window management class of the window(s) to\n"
+"  -c, -class WM_CLASS         Window management class of the window(s) to\n"
 "                              manipulate. If WM_CLASS contains a period, "
 "only\n"
 "                              windows with exactly the same WM_CLASS "
@@ -662,53 +715,53 @@ msgstr ""
 "  VÝRAZ ::= SYMBOL | VÝRAZ ( „+“ | „|“ ) SYMBOL\n"
 "\n"
 
-#: src/icesh.cc:607
+#: src/icesh.cc:609
 msgid "GNOME window state"
 msgstr "GNOME stav okna"
 
-#: src/icesh.cc:608
+#: src/icesh.cc:610
 msgid "GNOME window hint"
 msgstr "GNOME nápověda okna"
 
-#: src/icesh.cc:609
+#: src/icesh.cc:611
 msgid "GNOME window layer"
 msgstr "GNOME hladina okna"
 
-#: src/icesh.cc:610
+#: src/icesh.cc:612
 msgid "IceWM tray option"
 msgstr "Přepínače IceWM tray"
 
-#: src/icesh.cc:615
+#: src/icesh.cc:617
 msgid "Usage error: "
 msgstr "Chyba použití: "
 
-#: src/icesh.cc:693
+#: src/icesh.cc:703
 #, c-format
 msgid "Invalid argument: `%s'."
 msgstr "Neplatný argument: „%s“."
 
-#: src/icesh.cc:699
+#: src/icesh.cc:709
 msgid "No actions specified."
 msgstr "Nebyla zadána žádná akce."
 
-#: src/icesh.cc:706 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:931
+#: src/icesh.cc:716 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:931
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "Nelze otevřít displej: %s. Server X musí být spuštěn a proměnná $DISPLAY "
 "nastavena."
 
-#: src/icesh.cc:746
+#: src/icesh.cc:756
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Neplatné označení okna: „%s“"
 
-#: src/icesh.cc:899
+#: src/icesh.cc:910
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "pracovní plocha #%d: „%s“\n"
 
-#: src/icesh.cc:917
+#: src/icesh.cc:928
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Neznámá akce: „%s“"
@@ -719,6 +772,17 @@ msgid "Socket error: %d"
 msgstr "Chyba socketu: %d"
 
 #: src/icesm.cc:57
+#, fuzzy
+#| msgid ""
+#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
+#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
+#| "\n"
+#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
+#| "  --sync              Synchronize communication with X11 server.\n"
+#| "\n"
+#| "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
+#| "  -n, --notray        Do not start icewmtray.\n"
+#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -726,7 +790,6 @@ msgid ""
 "  -d, --display=NAME  Use NAME to connect to the X server.\n"
 "  --sync              Synchronize communication with X11 server.\n"
 "\n"
-"  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
@@ -740,17 +803,17 @@ msgstr ""
 "  -n, --notray        Nespouštět icewmtray.\n"
 "  -s, --sound         Spustit také icesound.\n"
 
-#: src/icesm.cc:120
+#: src/icesm.cc:114
 #, c-format
 msgid "Unknown option '%s'"
 msgstr "Neznámá volba: '%s'"
 
-#: src/icesm.cc:308
+#: src/icesm.cc:302
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s skončil se stavem %d."
 
-#: src/icesm.cc:314
+#: src/icesm.cc:308
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s byl zabit signálem %d."
@@ -1008,7 +1071,7 @@ msgstr "Selhalo připojení ke zvukovému zařízení %s."
 msgid "Received signal %s: Terminating..."
 msgstr "Přijat signál %s: Končím…"
 
-#: src/icetray.cc:234
+#: src/icetray.cc:231
 msgid ""
 "  -n, --notify        Notify parent process by sending signal USR1.\n"
 "  --display=NAME      Use NAME to connect to the X server.\n"

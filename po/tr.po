@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.12\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2018-03-06 05:13+0100\n"
+"POT-Creation-Date: 2018-03-08 09:12-0700\n"
 "PO-Revision-Date: 2004-01-21 9:30+0200\n"
 "Last-Translator: Coşku Erdem\n"
 "Language-Team: Turkish\n"
@@ -127,50 +127,50 @@ msgstr ""
 msgid "Invalid mailbox port: \"%s\""
 msgstr "Hatalı posta kutusu yolu: «%s»"
 
-#: src/amailbox.cc:251
+#: src/amailbox.cc:268
 #, fuzzy, c-format
 msgid "Could not connect to %s: %s"
 msgstr "YIFF sunucusuna bağlanılamıyor: %s"
 
-#: src/amailbox.cc:266
+#: src/amailbox.cc:283
 #, fuzzy, c-format
 msgid "Failed to find %s command"
 msgstr "%s çalıştırılamadı: %s"
 
-#: src/amailbox.cc:295
+#: src/amailbox.cc:312
 #, fuzzy, c-format
 msgid "Failed to execute %s"
 msgstr "%s açılamadı: %s"
 
-#: src/amailbox.cc:374
+#: src/amailbox.cc:391
 msgid "Write to socket failed"
 msgstr ""
 
-#: src/amailbox.cc:612
+#: src/amailbox.cc:629
 #, c-format
 msgid "Using MailBox \"%s\"\n"
 msgstr "Kullanılan Posta Kutusu, «%s»\n"
 
-#: src/amailbox.cc:715
+#: src/amailbox.cc:732
 msgid "Error checking mailbox."
 msgstr "Posta kutusu okunurken hata oluştu."
 
-#: src/amailbox.cc:721
+#: src/amailbox.cc:738
 #, fuzzy, c-format
 msgid "%ld mail message, %ld unread."
 msgstr "%ld posta mesajı."
 
-#: src/amailbox.cc:722
+#: src/amailbox.cc:739
 #, fuzzy, c-format
 msgid "%ld mail messages, %ld unread."
 msgstr "%ld posta mesajı."
 
-#: src/amailbox.cc:728
+#: src/amailbox.cc:745
 #, c-format
 msgid "%ld mail message."
 msgstr "%ld posta mesajı."
 
-#: src/amailbox.cc:729
+#: src/amailbox.cc:746
 #, c-format
 msgid "%ld mail messages."
 msgstr "%ld posta mesajı."
@@ -514,30 +514,30 @@ msgstr "Hatalı ifade: «%s»"
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Domain'in adlandırılmış sembolleri  «%s» (numerik aralık %ld-%ld):\n"
 
-#: src/icesh.cc:428
+#: src/icesh.cc:431
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Hatalı çalışma alanı adı: «%s»"
 
-#: src/icesh.cc:434
+#: src/icesh.cc:436
 #, fuzzy, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Çalışma alanı limit dışında: %d"
 
-#: src/icesh.cc:568
+#: src/icesh.cc:570
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS] ACTIONS\n"
 "\n"
 "Options:\n"
-"  -display DISPLAY            Connects to the X server specified by "
+"  -d, -display DISPLAY        Connects to the X server specified by "
 "DISPLAY.\n"
 "                              Default: $DISPLAY or :0.0 when not set.\n"
-"  -window WINDOW_ID           Specifies the window to manipulate. Special\n"
+"  -w, -window WINDOW_ID       Specifies the window to manipulate. Special\n"
 "                              identifiers are `root' for the root window "
 "and\n"
 "                              `focus' for the currently focused window.\n"
-"  -class WM_CLASS             Window management class of the window(s) to\n"
+"  -c, -class WM_CLASS         Window management class of the window(s) to\n"
 "                              manipulate. If WM_CLASS contains a period, "
 "only\n"
 "                              windows with exactly the same WM_CLASS "
@@ -616,51 +616,51 @@ msgstr ""
 "  ESPRESSION ::= SYMBOL | ESPRESSION ( «+» | «|» ) SYMBOL\n"
 "\n"
 
-#: src/icesh.cc:607
+#: src/icesh.cc:609
 msgid "GNOME window state"
 msgstr "GNOME pencere durumu"
 
-#: src/icesh.cc:608
+#: src/icesh.cc:610
 msgid "GNOME window hint"
 msgstr "GNOME pencere ipucu"
 
-#: src/icesh.cc:609
+#: src/icesh.cc:611
 msgid "GNOME window layer"
 msgstr "GNOME pencere katmanı"
 
-#: src/icesh.cc:610
+#: src/icesh.cc:612
 msgid "IceWM tray option"
 msgstr "IceWM tray seçeneği"
 
-#: src/icesh.cc:615
+#: src/icesh.cc:617
 msgid "Usage error: "
 msgstr "Kullanım Hatası: "
 
-#: src/icesh.cc:693
+#: src/icesh.cc:703
 #, c-format
 msgid "Invalid argument: `%s'."
 msgstr "Hatalı argüman: «%s»."
 
-#: src/icesh.cc:699
+#: src/icesh.cc:709
 msgid "No actions specified."
 msgstr "İşlem belirtilmedi."
 
-#: src/icesh.cc:706 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:931
+#: src/icesh.cc:716 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:931
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "Display açılamıyor: %s. X çalışıyor ve $DISPLAY ayarlanmış olmalı"
 
-#: src/icesh.cc:746
+#: src/icesh.cc:756
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Hatalı pencere belirteci: «%s»"
 
-#: src/icesh.cc:899
+#: src/icesh.cc:910
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "çalışma alanı #%d: «%s»\n"
 
-#: src/icesh.cc:917
+#: src/icesh.cc:928
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Bilinmeyen işlem: «%s»"
@@ -678,22 +678,21 @@ msgid ""
 "  -d, --display=NAME  Use NAME to connect to the X server.\n"
 "  --sync              Synchronize communication with X11 server.\n"
 "\n"
-"  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
 
-#: src/icesm.cc:120
+#: src/icesm.cc:114
 #, fuzzy, c-format
 msgid "Unknown option '%s'"
 msgstr "Bilinmeyen işlem: «%s»"
 
-#: src/icesm.cc:308
+#: src/icesm.cc:302
 #, c-format
 msgid "%s exited with status %d."
 msgstr ""
 
-#: src/icesm.cc:314
+#: src/icesm.cc:308
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr ""
@@ -928,7 +927,7 @@ msgstr "%s açılamadı: %s"
 msgid "Received signal %s: Terminating..."
 msgstr "Alınan sinyal %d: öldürülüyor..."
 
-#: src/icetray.cc:234
+#: src/icetray.cc:231
 msgid ""
 "  -n, --notify        Notify parent process by sending signal USR1.\n"
 "  --display=NAME      Use NAME to connect to the X server.\n"
