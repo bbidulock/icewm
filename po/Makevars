@@ -57,7 +57,7 @@ USE_MSGCTXT = no
 # Useful options are in particular:
 #   --previous            to keep previous msgids of translated messages,
 #   --quiet               to reduce the verbosity.
-MSGMERGE_OPTIONS =
+MSGMERGE_OPTIONS = --previous
 
 # This tells whether or not to regenerate a PO file when $(DOMAIN).pot
 # has changed.  Possible values are "yes" and "no".  Set this to no if
