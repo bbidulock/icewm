@@ -12,10 +12,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-03-08 09:12-0700\n"
-"PO-Revision-Date: 2018-01-23 12:01+0000\n"
-"Last-Translator: Grace Yu <grace.yu@excel-gits.com>\n"
-"Language-Team: Chinese (China) <https://l10n.opensuse.org/projects/icewm/"
-"icewm-1-4-branch/zh_CN/>\n"
+"PO-Revision-Date: 2018-03-10 20:01+0000\n"
+"Last-Translator: Dingzhong Chen <wsxy162@gmail.com>\n"
+"Language-Team: Chinese (China) "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/zh_CN/>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -139,31 +139,31 @@ msgstr "信箱路径无效： \"%s\""
 #: src/amailbox.cc:105
 #, c-format
 msgid "DNS name lookup failed for %s"
-msgstr ""
+msgstr "查找 %s 的 DNS 名称失败"
 
 #: src/amailbox.cc:111
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid mailbox port: \"%s\""
-msgstr "信箱路径无效： \"%s\""
+msgstr "邮箱端口无效： \"%s\""
 
 #: src/amailbox.cc:268
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to %s: %s"
-msgstr "不能连接 YIFF 服务器：%s"
+msgstr "无法连接到 %s：%s"
 
 #: src/amailbox.cc:283
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to find %s command"
-msgstr "运行 %s 失败: %s"
+msgstr "查找 %s 命令失败"
 
 #: src/amailbox.cc:312
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to execute %s"
-msgstr "执行系统 (%s) (%d) 失败"
+msgstr "执行 %s 失败"
 
 #: src/amailbox.cc:391
 msgid "Write to socket failed"
-msgstr ""
+msgstr "写入到套接字失败"
 
 #: src/amailbox.cc:629
 #, c-format
@@ -175,14 +175,14 @@ msgid "Error checking mailbox."
 msgstr "检查信箱时发生错误。"
 
 #: src/amailbox.cc:738
-#, fuzzy, c-format
+#, c-format
 msgid "%ld mail message, %ld unread."
-msgstr "%ld 封邮件。"
+msgstr "%ld 封邮件信息，%ld 封未读。"
 
 #: src/amailbox.cc:739
-#, fuzzy, c-format
+#, c-format
 msgid "%ld mail messages, %ld unread."
-msgstr "%ld 封邮件。"
+msgstr "%ld 封又见信息，%ld 封未读。"
 
 #: src/amailbox.cc:745
 #, c-format
@@ -678,12 +678,12 @@ msgstr ""
 "用法： %s [选项] 行为\n"
 "\n"
 "选项：\n"
-"  -display DISPLAY            连接到以DISPLAY指定的 X server 。\n"
+"  -d, -display DISPLAY        连接到以DISPLAY指定的 X server 。\n"
 "                              当没有设置时的 缺省值： $DISPLAY 或者 :0.0 。\n"
-"  -window WINDOW_ID           指定要使用的窗口。 特别的\n"
+"  -w, -window WINDOW_ID       指定要使用的窗口。 特别的\n"
 "                              root 的标识符为 ‘root’ 窗口和\n"
 "                              当前聚焦窗口为‘focus' 。\n"
-"  -class WM_CLASS             指定要使用的窗口类。如果 WM_CLASS 包含\n"
+"  -c, -class WM_CLASS         指定要使用的窗口类。如果 WM_CLASS 包含\n"
 "                              \".\"，那么只管理那些 WM_CLASS 属性完全一致\n"
 "                              的窗口。如果不包含\".\"，则属于相同类和属于\n"
 "                              相同进程(又称为 `-name')的窗口都会被被选取。\n"
@@ -765,7 +765,6 @@ msgid "Socket error: %d"
 msgstr "socket 错误：%d"
 
 #: src/icesm.cc:57
-#, fuzzy
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -777,7 +776,7 @@ msgid ""
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
 "  -c, --config=FILE   从 FILE 加载 IceWM 配置选项。\n"
-"  -t, --theme=FILE   从 FILE 加载 IceWM 主题。\n"
+"  -t, --theme=FILE    从 FILE 加载 IceWM 主题。\n"
 "\n"
 "  -d, --display=NAME  使用 NAME 连接 X 服务器。\n"
 "  --sync              与 X11 服务器同步通信信息。\n"
@@ -1185,9 +1184,8 @@ msgid "Cannot start, because another icewmbg is still running."
 msgstr "无法启动，因为其他 icewmbg 仍在运行。"
 
 #: src/icewmhint.cc:23
-#, fuzzy
 msgid "Usage: icewmhint class.instance option arg\n"
-msgstr "用法：icewmhint [class.instance] option arg\n"
+msgstr "用法：icewmhint class.instance option arg\n"
 
 #: src/icewmhint.cc:57
 #, c-format
