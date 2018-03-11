@@ -33,6 +33,7 @@ public:
 
     void setShown(bool show);
     bool getShown() const { return fShown; }
+    int getOrder() const;
 
 private:
     ClientData *fFrame;

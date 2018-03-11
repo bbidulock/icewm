@@ -59,6 +59,10 @@ bool TrayApp::isFocusTraversable() {
     return true;
 }
 
+int TrayApp::getOrder() const {
+    return fFrame->getTrayOrder();
+}
+
 void TrayApp::setShown(bool ashow) {
     if (ashow != fShown) {
         fShown = ashow;
@@ -220,7 +224,10 @@ TrayApp *TrayPane::addApp(YFrameWindow *frame) {
     TrayApp *tapp = new TrayApp(frame, this);
 
     if (tapp != 0) {
-        fApps.append(tapp);
+        IterType it = fApps.reverseIterator();
+        while (++it && it->getOrder() > tapp->getOrder());
+        (--it).insert(tapp);
+
         tapp->show();
 
         if (!(frame->visibleOn(manager->activeWorkspace()) ||

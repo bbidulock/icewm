@@ -34,6 +34,7 @@ public:
     virtual void wmLower() = 0;
     virtual void wmMinimize() = 0;
     virtual int getWorkspace() const = 0;
+    virtual int getTrayOrder() const = 0;
     virtual bool isSticky() const = 0;
     virtual bool isAllWorkspaces() const = 0;
     virtual void wmOccupyWorkspace(int workspace) = 0;

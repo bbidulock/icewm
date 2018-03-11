@@ -1037,7 +1037,7 @@ void TaskBar::setWorkspaceActive(long workspace, int active) {
 
 bool TaskBar::windowTrayRequestDock(Window w) {
     if (fDesktopTray) {
-        fDesktopTray->trayRequestDock(w);
+        fDesktopTray->trayRequestDock(w, "SystemTray");
         return true;
     }
     return false;

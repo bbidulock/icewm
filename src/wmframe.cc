@@ -122,6 +122,7 @@ YFrameWindow::YFrameWindow(
     fWinTrayOption = WinTrayIgnore;
     fWinState = 0;
     fWinOptionMask = ~0;
+    fTrayOrder = 0;
 
     fClientContainer = new YClientContainer(this, this);
     fClientContainer->show();
@@ -2072,6 +2073,7 @@ void YFrameWindow::getDefaultOptions(bool &requestFocus) {
         setRequestedLayer(wo.layer);
     if (wo.tray != (long)WinTrayInvalid && wo.tray < WinTrayOptionCount)
         setTrayOption(wo.tray);
+    fTrayOrder = wo.order;
 }
 
 ref<YIcon> newClientIcon(int count, int reclen, long * elem) {

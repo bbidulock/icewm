@@ -16,6 +16,7 @@ struct WindowOption {
     int workspace;
     int layer;
     int tray;
+    int order;
     int gflags;
     int gx, gy;
     unsigned gw, gh;

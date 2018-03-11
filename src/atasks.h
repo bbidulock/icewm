@@ -2,11 +2,12 @@
 #define ATASKS_H_
 
 #include "ywindow.h"
-#include "wmclient.h"
+#include "ytimer.h"
 
 class TaskPane;
 class TaskBarApp;
 class IAppletContainer;
+class ClientData;
 
 class TaskBarApp: public YWindow, public YTimerListener {
 public:
@@ -29,6 +30,7 @@ public:
     void setShown(bool show);
     bool getShown() const { return fShown || fFlashing; }
 
+    int getOrder() const;
     void setFlash(bool urgent);
 
 private:

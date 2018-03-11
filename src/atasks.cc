@@ -54,6 +54,10 @@ bool TaskBarApp::isFocusTraversable() {
     return true;
 }
 
+int TaskBarApp::getOrder() const {
+    return fFrame->getTrayOrder();
+}
+
 void TaskBarApp::setShown(bool ashow) {
     if (ashow != fShown) {
         fShown = ashow;
@@ -333,7 +337,9 @@ TaskPane::~TaskPane() {
 }
 
 void TaskPane::insert(TaskBarApp *tapp) {
-    fApps.append(tapp);
+    IterType it = fApps.reverseIterator();
+    while (++it && it->getOrder() > tapp->getOrder());
+    (--it).insert(tapp);
 }
 
 void TaskPane::remove(TaskBarApp *tapp) {
