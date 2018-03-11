@@ -113,6 +113,8 @@ public:
     virtual ~YTextProperty() {
         if (NULL != fList)
             XFreeStringList(fList);
+        if (fStatus == Success && fProperty.value)
+            XFree(fProperty.value);
     }
 
     char * item(unsigned index);
