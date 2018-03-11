@@ -444,6 +444,10 @@ public:
             array->remove(where());
         return *this;
     }
+    IterType& insert(DataType& elem) {
+        array->insert(where(), elem);
+        return *this;
+    }
 };
 
 template<class DataType>
