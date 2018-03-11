@@ -47,6 +47,13 @@ public:
         return intersect(r).pixels();
     }
 
+    bool operator==(YRect const& r) const {
+        return xx == r.xx && yy == r.yy && ww == r.ww && hh == r.hh;
+    }
+    bool operator!=(YRect const& r) const {
+        return !(*this == r);
+    }
+
 private:
     int xx, yy;
     unsigned ww, hh;
