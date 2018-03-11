@@ -47,9 +47,11 @@ MEMStatus::MEMStatus(YWindow *aParent): YWindow(aParent) {
 
 MEMStatus::~MEMStatus() {
     for (int a(0); a < taskBarMEMSamples; a++) {
-        delete samples[a]; samples[a] = 0;
+        delete [] samples[a];
+        samples[a] = NULL;
     }
-    delete samples; samples = 0;
+    delete [] samples;
+    samples = NULL;
 }
 
 void MEMStatus::paint(Graphics &g, const YRect &/*r*/) {
