@@ -143,7 +143,7 @@ void YColor::alloc(const char* name) {
 
         if (testOnce(name, __LINE__))
             msg(_("Could not parse color \"%s\""), name);
-        
+
         if (strncmp(name, "rgb:rgb:", 8) == 0)
             return alloc(name + 4);
 
