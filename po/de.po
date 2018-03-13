@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-03-08 09:12-0700\n"
-"PO-Revision-Date: 2018-01-23 07:04+0000\n"
+"PO-Revision-Date: 2018-03-13 14:50+0000\n"
 "Last-Translator: Franziska Weinberger <f.weinberger@gemino.de>\n"
-"Language-Team: German <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/de/>\n"
+"Language-Team: German "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -136,31 +136,31 @@ msgstr "Ungültiger Mailbox-Pfad: \"%s\""
 #: src/amailbox.cc:105
 #, c-format
 msgid "DNS name lookup failed for %s"
-msgstr ""
+msgstr "DNS-Namenssuche fehlgeschlagen für %s"
 
 #: src/amailbox.cc:111
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid mailbox port: \"%s\""
-msgstr "Ungültiger Mailbox-Pfad: \"%s\""
+msgstr "Ungültiger Port für Postfach: \"%s\""
 
 #: src/amailbox.cc:268
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to %s: %s"
-msgstr "Kann keine Verbindung zum YIFF-Server herstellen: %s"
+msgstr "Keine Verbindung möglich zu %s: %s"
 
 #: src/amailbox.cc:283
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to find %s command"
-msgstr "Fehlschlag bei Ausführung von %s: %s"
+msgstr "Kommando %s kann nicht gefunden werden"
 
 #: src/amailbox.cc:312
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to execute %s"
-msgstr "Fehlerhafte Ausführung von system(%s) (%d)"
+msgstr "Fehler beim Ausführen von %s"
 
 #: src/amailbox.cc:391
 msgid "Write to socket failed"
-msgstr ""
+msgstr "Schreiben in Socket fehlgeschlagen"
 
 #: src/amailbox.cc:629
 #, c-format
@@ -172,14 +172,14 @@ msgid "Error checking mailbox."
 msgstr "Fehler beim Prüfen des Postfachs."
 
 #: src/amailbox.cc:738
-#, fuzzy, c-format
+#, c-format
 msgid "%ld mail message, %ld unread."
-msgstr "%ld E-Mail-Nachricht."
+msgstr "%ld E-Mail-Nachricht, %ld ungelesen."
 
 #: src/amailbox.cc:739
-#, fuzzy, c-format
+#, c-format
 msgid "%ld mail messages, %ld unread."
-msgstr "%ld E-Mail-Nachrichten."
+msgstr "%ld E-Mail-Nachrichten, %ld ungelesen."
 
 #: src/amailbox.cc:745
 #, c-format
@@ -576,60 +576,7 @@ msgid "Workspace out of range: %ld"
 msgstr "Arbeitsbereich außerhalb des Wertebereichs: %ld"
 
 #: src/icesh.cc:570
-#, fuzzy, c-format
-#| msgid ""
-#| "Usage: %s [OPTIONS] ACTIONS\n"
-#| "\n"
-#| "Options:\n"
-#| "  -display DISPLAY            Connects to the X server specified by "
-#| "DISPLAY.\n"
-#| "                              Default: $DISPLAY or :0.0 when not set.\n"
-#| "  -window WINDOW_ID           Specifies the window to manipulate. "
-#| "Special\n"
-#| "                              identifiers are `root' for the root window "
-#| "and\n"
-#| "                              `focus' for the currently focused window.\n"
-#| "  -class WM_CLASS             Window management class of the window(s) "
-#| "to\n"
-#| "                              manipulate. If WM_CLASS contains a period, "
-#| "only\n"
-#| "                              windows with exactly the same WM_CLASS "
-#| "property\n"
-#| "                              are matched. If there is no period, windows "
-#| "of\n"
-#| "                              the same class and windows of the same "
-#| "instance\n"
-#| "                              (aka. `-name') are selected.\n"
-#| "\n"
-#| "Actions:\n"
-#| "  setIconTitle   TITLE        Set the icon title.\n"
-#| "  setWindowTitle TITLE        Set the window title.\n"
-#| "  setGeometry    geometry     Set the window geometry\n"
-#| "  setState       MASK STATE   Set the GNOME window state to STATE.\n"
-#| "                              Only the bits selected by MASK are "
-#| "affected.\n"
-#| "                              STATE and MASK are expressions of the "
-#| "domain\n"
-#| "                              `GNOME window state'.\n"
-#| "  toggleState    STATE        Toggle the GNOME window state bits "
-#| "specified by\n"
-#| "                              the STATE expression.\n"
-#| "  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
-#| "  setLayer       LAYER        Moves the window to another GNOME window "
-#| "layer.\n"
-#| "  setWorkspace   WORKSPACE    Moves the window to another workspace. "
-#| "Select\n"
-#| "                              the root window to change the current "
-#| "workspace.\n"
-#| "  listWorkspaces              Lists the names of all workspaces.\n"
-#| "  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
-#| "\n"
-#| "Expressions:\n"
-#| "  Expressions are list of symbols of one domain concatenated by `+' or "
-#| "`|':\n"
-#| "\n"
-#| "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
-#| "\n"
+#, c-format
 msgid ""
 "Usage: %s [OPTIONS] ACTIONS\n"
 "\n"
@@ -681,13 +628,14 @@ msgstr ""
 "Syntax: %s [OPTIONEN] AKTIONEN\n"
 "\n"
 "Optionen:\n"
-"  -display DISPLAY            Mit dem durch DISPLAY beschriebenen X-Server\n"
-"                              verbinden. Vorgabe: $DISPLAY oder :0.0, falls\n"
+"  -d, -display DISPLAY            Mit dem durch DISPLAY beschriebenen X-"
+"Server\n"
+"                              verbinden. Vorgabe: $DISPLAY oder :0.0, falls "
 "nicht gesetzt.\n"
-"  -window FENSTER_ID          Das zu beeinflussende Fenster. Besondere\n"
+"  -w, -window FENSTER_ID          Das zu beeinflussende Fenster. Besondere\n"
 "                              Bezeichner sind »root« für den Desktop und\n"
 "                              »focus« für das momentan aktive Fenster.\n"
-"  -class WM_CLASS             Fenstermanagement-Klasse der/des zu\n"
+"  -c, -class WM_CLASS             Fenstermanagement-Klasse der/des zu\n"
 "                              manipulierenden Fenster/s. Wenn WM_CLASS "
 "einen\n"
 "                              Punkt enthält, dann sind dadurch nur Fenster\n"
@@ -707,11 +655,11 @@ msgstr ""
 "  toggleState ZUSTAND         Wechselt die durch den Ausdruck ZUSTAND\n"
 "                              beschriebenen GNOME-Fensterzustandbits.\n"
 "  setHints HINWEIS            Legt den GNOME-Fensterhinweis fest.\n"
-"  setLayer EBENE              Legt das Fenster auf eine andere GNOME-\n"
+"  setLayer EBENE              Legt das Fenster auf eine andere GNOME-"
 "Fensterebene.\n"
 "  setWorkspace ARBEITSBEREICH Legt das Fenster auf einen anderen\n"
 "                              Arbeitsbereich. Wählen Sie das »root«-\n"
-"                              Fensters, um den momentanen Arbeitsbereich zu\n"
+"                              Fenster, um den momentanen Arbeitsbereich zu\n"
 "                              ändern.\n"
 "  listWorkspaces              Zeigt eine Liste aller Arbeitsbereiche.\n"
 "  setTrayOption TRAYOPTION    Legt den IceWM-Trayoption-Hinweis fest.\n"
@@ -780,7 +728,6 @@ msgid "Socket error: %d"
 msgstr "Socketfehler: %d"
 
 #: src/icesm.cc:57
-#, fuzzy
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -792,11 +739,11 @@ msgid ""
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
 "  -c, --config=DATEI   Lässt IceWM Prioritäten aus DATEI laden.\n"
-"  -t, --theme=DATEI    Lässt IceWM  das Theme aus DATEI laden.\n"
+"  -t, --theme=DATEI    Lässt IceWM  das Thema aus DATEI laden.\n"
 "\n"
 "  -d, --display=NAME      Verwendet NAME zur Verbindung mit dem X-Server.\n"
-"  --sync              Synchronisierung der Kommunikation mit dem X11-"
-"Server.\n"
+"  --sync              Synchronisierung der Kommunikation mit dem X11-Server."
+"\n"
 "\n"
 "  -n, --notray        Nicht icewmtray starten.\n"
 "  -s, --sound         Auch icesound starten.\n"
@@ -1219,9 +1166,8 @@ msgid "Cannot start, because another icewmbg is still running."
 msgstr "Kann nicht starten, weil ein anderes icewmbg schon läuft."
 
 #: src/icewmhint.cc:23
-#, fuzzy
 msgid "Usage: icewmhint class.instance option arg\n"
-msgstr "Verwendung: icewmhint [klasse.instanz] option argument\n"
+msgstr "Verwendung: icewmhint Klasse.Instanz Option Argument\n"
 
 #: src/icewmhint.cc:57
 #, c-format
