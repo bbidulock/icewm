@@ -341,9 +341,6 @@ void YFrameWindow::layoutResizeIndicators() {
             XMapWindow(xapp->display(), topRight);
             XMapWindow(xapp->display(), bottomLeft);
             XMapWindow(xapp->display(), bottomRight);
-
-            XMapWindow(xapp->display(), topLeftSide);
-            XMapWindow(xapp->display(), topRightSide);
         }
     } else {
         if (indicatorsVisible) {
@@ -358,9 +355,6 @@ void YFrameWindow::layoutResizeIndicators() {
             XUnmapWindow(xapp->display(), topRight);
             XUnmapWindow(xapp->display(), bottomLeft);
             XUnmapWindow(xapp->display(), bottomRight);
-
-            XUnmapWindow(xapp->display(), topLeftSide);
-            XUnmapWindow(xapp->display(), topRightSide);
         }
     }
     if (!indicatorsVisible)
@@ -392,11 +386,6 @@ void YFrameWindow::layoutResizeIndicators() {
                       0, hh - yy, xx, yy);
     XMoveResizeWindow(xapp->display(), bottomRight,
                       ww - xx, hh - yy, xx, yy);
-
-    XMoveResizeWindow(xapp->display(), topLeftSide,
-                      0, 0, bx, yy);
-    XMoveResizeWindow(xapp->display(), topRightSide,
-                      ww - bx, 0, bx, yy);
 }
 
 void YFrameWindow::layoutClient() {
