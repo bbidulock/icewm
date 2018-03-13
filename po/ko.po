@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.35\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-03-08 09:12-0700\n"
-"PO-Revision-Date: 2018-01-31 10:10+0000\n"
+"PO-Revision-Date: 2018-03-13 06:07+0000\n"
 "Last-Translator: Hwajin Kim <hwajin.kim@e4net.net>\n"
-"Language-Team: Korean <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/ko/>\n"
+"Language-Team: Korean "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/ko/>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -136,31 +136,31 @@ msgstr "잘못된 우편함 경로: \"%s\""
 #: src/amailbox.cc:105
 #, c-format
 msgid "DNS name lookup failed for %s"
-msgstr ""
+msgstr "%s에 대한 DNS 이름 조회 실패"
 
 #: src/amailbox.cc:111
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid mailbox port: \"%s\""
-msgstr "잘못된 우편함 경로: \"%s\""
+msgstr "잘못된 우편함 포트: \"%s\""
 
 #: src/amailbox.cc:268
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to %s: %s"
-msgstr "%s: YIFF 서버로 연결 못함"
+msgstr "%s에 연결할 수 없음: %s"
 
 #: src/amailbox.cc:283
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to find %s command"
-msgstr "%s 실행 실패: %s"
+msgstr "%s 명령을 찾을 수 없음"
 
 #: src/amailbox.cc:312
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to execute %s"
-msgstr "시스템을 실행하지 못했습니다(%s)(%d)."
+msgstr "%s을(를) 실행하지 못함"
 
 #: src/amailbox.cc:391
 msgid "Write to socket failed"
-msgstr ""
+msgstr "소켓에 기록 실패"
 
 #: src/amailbox.cc:629
 #, c-format
@@ -172,14 +172,14 @@ msgid "Error checking mailbox."
 msgstr "우편함 점검 오류."
 
 #: src/amailbox.cc:738
-#, fuzzy, c-format
+#, c-format
 msgid "%ld mail message, %ld unread."
-msgstr "%ld 메일 메시지."
+msgstr "메일 메시지 %ld개, 읽지 않은 메시지 %ld개."
 
 #: src/amailbox.cc:739
-#, fuzzy, c-format
+#, c-format
 msgid "%ld mail messages, %ld unread."
-msgstr "%ld 메일 메시지."
+msgstr "메일 메시지 %ld개, 읽지 않은 메시지 %ld개."
 
 #: src/amailbox.cc:745
 #, c-format
@@ -572,60 +572,7 @@ msgid "Workspace out of range: %ld"
 msgstr "범위 밖의 작업공간: %ld"
 
 #: src/icesh.cc:570
-#, fuzzy, c-format
-#| msgid ""
-#| "Usage: %s [OPTIONS] ACTIONS\n"
-#| "\n"
-#| "Options:\n"
-#| "  -display DISPLAY            Connects to the X server specified by "
-#| "DISPLAY.\n"
-#| "                              Default: $DISPLAY or :0.0 when not set.\n"
-#| "  -window WINDOW_ID           Specifies the window to manipulate. "
-#| "Special\n"
-#| "                              identifiers are `root' for the root window "
-#| "and\n"
-#| "                              `focus' for the currently focused window.\n"
-#| "  -class WM_CLASS             Window management class of the window(s) "
-#| "to\n"
-#| "                              manipulate. If WM_CLASS contains a period, "
-#| "only\n"
-#| "                              windows with exactly the same WM_CLASS "
-#| "property\n"
-#| "                              are matched. If there is no period, windows "
-#| "of\n"
-#| "                              the same class and windows of the same "
-#| "instance\n"
-#| "                              (aka. `-name') are selected.\n"
-#| "\n"
-#| "Actions:\n"
-#| "  setIconTitle   TITLE        Set the icon title.\n"
-#| "  setWindowTitle TITLE        Set the window title.\n"
-#| "  setGeometry    geometry     Set the window geometry\n"
-#| "  setState       MASK STATE   Set the GNOME window state to STATE.\n"
-#| "                              Only the bits selected by MASK are "
-#| "affected.\n"
-#| "                              STATE and MASK are expressions of the "
-#| "domain\n"
-#| "                              `GNOME window state'.\n"
-#| "  toggleState    STATE        Toggle the GNOME window state bits "
-#| "specified by\n"
-#| "                              the STATE expression.\n"
-#| "  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
-#| "  setLayer       LAYER        Moves the window to another GNOME window "
-#| "layer.\n"
-#| "  setWorkspace   WORKSPACE    Moves the window to another workspace. "
-#| "Select\n"
-#| "                              the root window to change the current "
-#| "workspace.\n"
-#| "  listWorkspaces              Lists the names of all workspaces.\n"
-#| "  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
-#| "\n"
-#| "Expressions:\n"
-#| "  Expressions are list of symbols of one domain concatenated by `+' or "
-#| "`|':\n"
-#| "\n"
-#| "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
-#| "\n"
+#, c-format
 msgid ""
 "Usage: %s [OPTIONS] ACTIONS\n"
 "\n"
@@ -678,7 +625,7 @@ msgstr ""
 "\n"
 "옵션:\n"
 "  -display DISPLAY            DISPLAY로 지정한 X 서버로 연결.\n"
-"                              기본값: $DISPLAY 혹은 정하지 않았을 때 :0.0\n"
+"                              기본값: $DISPLAY 혹은 정하지 않았을 때: 0.0\n"
 "  -window WINDOW_ID           조작할 창을 지정한다. 특별한 식별명으론\n"
 "                              루트 창에 대한 `root'가 있다. 그리고\n"
 "                              현재 초점이 있는 창에 대한 `focus'가 있다.\n"
@@ -767,7 +714,6 @@ msgid "Socket error: %d"
 msgstr "소켓 오류: %d"
 
 #: src/icesm.cc:57
-#, fuzzy
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -1192,9 +1138,8 @@ msgid "Cannot start, because another icewmbg is still running."
 msgstr "다른 icewmbg가 여전히 실행 중이므로 시작할 수 없습니다."
 
 #: src/icewmhint.cc:23
-#, fuzzy
 msgid "Usage: icewmhint class.instance option arg\n"
-msgstr "사용법: icewmhint [class.instance] option arg\n"
+msgstr "사용법: icewmhint class.instance option arg\n"
 
 #: src/icewmhint.cc:57
 #, c-format
