@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-03-08 09:12-0700\n"
-"PO-Revision-Date: 2018-03-13 14:50+0000\n"
+"PO-Revision-Date: 2018-03-13 17:02+0000\n"
 "Last-Translator: Franziska Weinberger <f.weinberger@gemino.de>\n"
 "Language-Team: German "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/de/>\n"
@@ -141,7 +141,7 @@ msgstr "DNS-Namenssuche fehlgeschlagen für %s"
 #: src/amailbox.cc:111
 #, c-format
 msgid "Invalid mailbox port: \"%s\""
-msgstr "Ungültiger Port für Postfach: \"%s\""
+msgstr "Ungültiger Mailbox-Port: \"%s\""
 
 #: src/amailbox.cc:268
 #, c-format
@@ -739,7 +739,7 @@ msgid ""
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
 "  -c, --config=DATEI   Lässt IceWM Prioritäten aus DATEI laden.\n"
-"  -t, --theme=DATEI    Lässt IceWM  das Thema aus DATEI laden.\n"
+"  -t, --theme=DATEI    Lässt IceWM das Thema aus DATEI laden.\n"
 "\n"
 "  -d, --display=NAME      Verwendet NAME zur Verbindung mit dem X-Server.\n"
 "  --sync              Synchronisierung der Kommunikation mit dem X11-Server."
