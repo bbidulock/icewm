@@ -777,10 +777,6 @@ void YWindow::handleConfigure(const XConfigureEvent &configure) {
 void YWindow::handleGravityNotify(const XGravityEvent& gravity) {
     if (gravity.window == handle()) {
         if (gravity.x != fX || gravity.y != fY) {
-            fX = gravity.x;
-            fY = gravity.y;
-
-            this->configure(geometry());
         }
     }
 }
