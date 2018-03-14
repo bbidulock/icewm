@@ -174,12 +174,12 @@ msgstr "在檢查信箱時發生錯誤。"
 #: src/amailbox.cc:738
 #, c-format
 msgid "%ld mail message, %ld unread."
-msgstr "%l 封郵件，%l 封未讀。"
+msgstr "%ld 封郵件，%ld 封未讀。"
 
 #: src/amailbox.cc:739
 #, c-format
 msgid "%ld mail messages, %ld unread."
-msgstr "%l 封郵件，%l 封未讀。"
+msgstr "%ld 封郵件，%ld 封未讀。"
 
 #: src/amailbox.cc:745
 #, c-format
