@@ -1568,10 +1568,8 @@ bool YFrameClient::getNetWMStateHint(long *mask, long *state) {
             for (unsigned long i = 0; i < count; i++) {
                 // can start hidden
                 if (s[i] == _XA_NET_WM_STATE_HIDDEN) {
-                    if (manager->wmState() != YWindowManager::wmSTARTUP) {
-                        (*state) |= WinStateHidden;
-                        (*mask) |= WinStateHidden;
-                    }
+                    (*state) |= WinStateMinimized;
+                    (*mask) |= WinStateMinimized;
                 } else
                 if (s[i] == _XA_NET_WM_STATE_FOCUSED) {
                     if (manager->wmState() == YWindowManager::wmSTARTUP) {
