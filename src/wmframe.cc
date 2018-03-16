@@ -446,26 +446,6 @@ Window YFrameWindow::createPointerWindow(Cursor cursor, Window parent) {
                          valuemask, &attributes);
 }
 
-/*
- The titlebar()->raiseButtons() fixes up 
- the UL and UR coners when there is a 
- titlebar and the container->raise
- the LL and LR corners when there is a
- titlebar all 4 corners when there is no
- titlebar.
- If there are no buttons on the title bar
- there may be issues.
----+-----------------------------------+---
-|UL|                                   |UR|
-+--+-----------------------------------+--+
-|                                         |
-|                                         |
-|                                         |
-+--+                                   +--+
-|LL|                                   |LR|
----+---------------------------------------
-*/
-
 // create 8 resize pointer indicator windows
 void YFrameWindow::createPointerWindows() {
 
@@ -474,14 +454,15 @@ void YFrameWindow::createPointerWindows() {
     // The following solution positions the corner resize
     // handles between the titlebar and the titlebar buttons.
     const Window frameWin = handle();
+    const Window titleWin = titlebar() ? titlebar()->handle() : frameWin;
 
     topSide = createPointerWindow(YWMApp::sizeTopPointer, frameWin);
     leftSide = createPointerWindow(YWMApp::sizeLeftPointer, frameWin);
     rightSide = createPointerWindow(YWMApp::sizeRightPointer, frameWin);
     bottomSide = createPointerWindow(YWMApp::sizeBottomPointer, frameWin);
 
-    topLeft = createPointerWindow(YWMApp::sizeTopLeftPointer, frameWin);
-    topRight = createPointerWindow(YWMApp::sizeTopRightPointer, frameWin);
+    topLeft = createPointerWindow(YWMApp::sizeTopLeftPointer, titleWin);
+    topRight = createPointerWindow(YWMApp::sizeTopRightPointer, titleWin);
     bottomLeft = createPointerWindow(YWMApp::sizeBottomLeftPointer, frameWin);
     bottomRight = createPointerWindow(YWMApp::sizeBottomRightPointer, frameWin);
 
@@ -493,7 +474,9 @@ void YFrameWindow::createPointerWindows() {
     if (titlebar()) {
         titlebar()->raiseButtons();
     }
-    container()->raise();		// raise the content above the corners
+    XRaiseWindow(xapp->display(), topSide);
+    XStoreName(xapp->display(), topSide, "topSide");
+    container()->raise();
 }
 
 void YFrameWindow::grabKeys() {
