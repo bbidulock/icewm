@@ -336,7 +336,7 @@ public:
         wtUtility
     };
 
-    void setWindowType(enum WindowType winType);
+    void setWindowType(enum WindowType winType) { fWindowType = winType; }
     bool isTypeDock(void) { return (fWindowType == wtDock); }
 
     int getWorkspace() const { return fWinWorkspace; }

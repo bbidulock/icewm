@@ -2064,14 +2064,14 @@ void YFrameWindow::getDefaultOptions(bool &requestFocus) {
     if (wo.icon && wo.icon[0]) {
         fFrameIcon = YIcon::getIcon(wo.icon);
     }
-    if (inrange(wo.workspace, 0, int(workspaceCount) - 1)) {
+    if (wo.workspace != WinWorkspaceInvalid && wo.workspace < workspaceCount) {
         setWorkspace(wo.workspace);
         if (wo.workspace != manager->activeWorkspace())
             requestFocus = false;
     }
-    if (inrange(wo.layer, 0, int(WinLayerCount) - 1))
+    if (wo.layer != (long)WinLayerInvalid && wo.layer < WinLayerCount)
         setRequestedLayer(wo.layer);
-    if (inrange(wo.tray, 0, WinTrayOptionCount - 1))
+    if (wo.tray != (long)WinTrayInvalid && wo.tray < WinTrayOptionCount)
         setTrayOption(wo.tray);
     fTrayOrder = wo.order;
 }
@@ -2461,7 +2461,19 @@ YFrameWindow *YFrameWindow::mainOwner() {
     return f;
 }
 
-void YFrameWindow::setWindowType(enum WindowType winType) {
+
+void YFrameWindow::setRequestedLayer(long layer) {
+    if (layer >= WinLayerCount || layer < 0)
+        return ;
+
+    if (layer != fWinRequestedLayer) {
+        fWinRequestedLayer = layer;
+        updateLayer();
+    }
+}
+
+void YFrameWindow::updateLayer(bool restack) {
+    long oldLayer = fWinActiveLayer;
     long newLayer;
 
     newLayer = fWinRequestedLayer;
@@ -2505,23 +2517,6 @@ void YFrameWindow::setWindowType(enum WindowType winType) {
     case wtUtility:
         break;
     }
-    fWindowType = winType;
-    if (newLayer != fWinRequestedLayer) {
-        setRequestedLayer(newLayer);
-    }
-}
-
-void YFrameWindow::setRequestedLayer(long layer) {
-    if (fWinRequestedLayer != layer && inrange(layer, 0L, WinLayerCount - 1L)) {
-        fWinRequestedLayer = layer;
-        updateLayer();
-    }
-}
-
-void YFrameWindow::updateLayer(bool restack) {
-    long oldLayer = fWinActiveLayer;
-    long newLayer = fWinRequestedLayer;
-
     if (getState() & WinStateBelow)
         newLayer = WinLayerBelow;
     if (getState() & WinStateAbove)
@@ -2530,14 +2525,14 @@ void YFrameWindow::updateLayer(bool restack) {
         if (newLayer < fOwner->getActiveLayer())
             newLayer = fOwner->getActiveLayer();
     }
-    for (YFrameWindow *f = manager->getFocus(); f; f = f->owner()) {
-        if (f == this &&
-            isFullscreen() &&
-            manager->fullscreenEnabled() &&
-            !canRaise())
-        {
-            newLayer = WinLayerFullscreen;
-            break;
+    {
+        YFrameWindow *focus = manager->getFocus();
+        while (focus) {
+            if (focus == this && isFullscreen() && manager->fullscreenEnabled() && !canRaise()) {
+                newLayer = WinLayerFullscreen;
+                break;
+            }
+            focus = focus->owner();
         }
     }
 
@@ -2553,8 +2548,10 @@ void YFrameWindow::updateLayer(bool restack) {
            (getActiveLayer() == WinLayerDock || oldLayer == WinLayerDock))
             manager->updateWorkArea();
 
-        for (YFrameWindow *w = transient(); w; w = w->nextTransient()) {
+        YFrameWindow *w = transient();
+        while (w) {
             w->updateLayer(false);
+            w = w->nextTransient();
         }
 
         if (restack)
