@@ -7,29 +7,20 @@
 
 #define NEED_TIME_H
 
-#include "objmenu.h"
 #include "wmprog.h"
-#include "wmoption.h"
-#include "wmaction.h"
-#include "wmconfig.h"
-#include "ybutton.h"
-#include "objbutton.h"
-#include "objbar.h"
 #include "prefs.h"
 #include "wmapp.h"
 #include "sysdep.h"
-#include "base.h"
 #include "wmmgr.h"
-#include "ymenuitem.h"
 #include "themes.h"
 #include "browse.h"
-#include "wmtaskbar.h"
-#include "ypaths.h"
-#include "intl.h"
 #include "appnames.h"
 #include "ascii.h"
 #include "argument.h"
 #include "wmswitch.h"
+#include "ypointer.h"
+#include <regex.h>
+#include "intl.h"
 
 DObjectMenuItem::DObjectMenuItem(DObject *object):
     YMenuItem(object->getName(), -3, null, YAction(), 0)
@@ -905,6 +896,252 @@ FocusMenu::FocusMenu() {
     }
 }
 
+extern cfoption icewm_preferences[];
+
+class PrefsMenu: public YMenu, private YActionListener {
+private:
+    const int count;
+    const YAction actionSaveMod;
+    static YArray<int> mods;
+
+public:
+    PrefsMenu() :
+        count(countPrefs())
+    {
+        YMenu *fo, *qs, *tb, *sh, *al, *mz, *ke, *ks, *kw, *sc;
+        YMenuItem *item;
+
+        addSubmenu("_Focus", -2, fo = new YMenu, "focus");
+        addSubmenu("_QuickSwitch", -2, qs = new YMenu, "pref");
+        addSubmenu("_TaskBar", -2, tb = new YMenu, "pref");
+        addSubmenu("_Show", -2, sh = new YMenu, "pref");
+        addSubmenu("_A... - L...", -2, al = new YMenu, "pref");
+        addSubmenu("_M... - Z...", -2, mz = new YMenu, "pref");
+        addSubmenu("_KeyWin", -2, ke = new YMenu, "key");
+        addSubmenu("Key_Sys", -2, ks = new YMenu, "key");
+        addSubmenu("KeySys_Workspace", -2, kw = new YMenu, "key");
+        addSubmenu("S_calar", -2, sc = new YMenu, "key");
+
+        int index[count];
+        for (int i = 0; i < count; ++i) {
+            index[i] = i;
+        }
+        qsort(index, count, sizeof(int), sortPrefs);
+
+        for (int k = 0; k < count; ++k) {
+            cfoption* o = &icewm_preferences[index[k]];
+            if (o->type == cfoption::CF_BOOL) {
+                YMenu* m = 0 == strncmp(o->name, "Task", 4) ? tb :
+                           0 == strncmp(o->name, "Quic", 4) ? qs :
+                           0 == strncmp(o->name, "Show", 4) ||
+                           0 == strncmp(o->name, "Page", 4) ? sh :
+                           0 != strstr(o->name, "Focus") ? fo :
+                           o->name[0] <= 'L' ? al : mz;
+                item = m->addItem(o->name, -2, "", EAction(index[k] + 1));
+                if (*o->v.bool_value) {
+                    item->setChecked(true);
+                }
+            }
+            else if (o->type == cfoption::CF_KEY) {
+                const char* key = o->v.k.key_value->name;
+                if (0 == strncmp(o->name, "KeySysWork", 10)) {
+                    kw->addItem(o->name, -2, key, actionNull);
+                } else if (0 == strncmp(o->name, "KeySys", 6)) {
+                    ks->addItem(o->name, -2, key, actionNull);
+                } else {
+                    ke->addItem(o->name, -2, key, actionNull);
+                }
+            }
+            else if (o->type == cfoption::CF_INT) {
+                int val = *o->v.i.int_value;
+                sc->addItem(o->name, -2, mstring(val), actionNull);
+            }
+        }
+
+        addSeparator();
+        addItem("Save Modifications", -2, null, actionSaveMod, "save");
+        setActionListener(this);
+    }
+
+    virtual void actionPerformed(YAction action, unsigned int modifiers) {
+        if (action == actionSaveMod)
+            return saveModified();
+
+        const int i = action.ident() - 1;
+        cfoption* o = i + icewm_preferences;
+        if (inrange(i, 0, count - 1) && o->type == cfoption::CF_BOOL) {
+            *o->v.bool_value ^= true;
+            msg("%s = %d", o->name, *o->v.bool_value);
+            int k = find(mods, i);
+            return k >= 0 ? mods.remove(k) : mods.append(i);
+        }
+    }
+
+    static int countPrefs() {
+        for (int k = 0; ; ++k)
+            if (icewm_preferences[k].type == cfoption::CF_NONE)
+                return k;
+    }
+
+    static int sortPrefs(const void* p1, const void* p2) {
+        const int i1 = *(const int *)p1;
+        const int i2 = *(const int *)p2;
+        cfoption* o1 = i1 + icewm_preferences;
+        cfoption* o2 = i2 + icewm_preferences;
+        if (o1->type == cfoption::CF_KEY &&
+            o2->type == cfoption::CF_KEY &&
+            0 == strncmp(o1->name, "KeySysWork", 10) &&
+            0 == strncmp(o2->name, "KeySysWork", 10))
+            return i1 - i2;
+        return strcmp(o1->name, o2->name);
+    }
+
+    static void saveModified() {
+        const int n = mods.getCount();
+        if (n < 1)
+            return;
+        qsort(&*mods, n, sizeof(int), sortPrefs);
+        upath path(wmapp->findConfigFile("preferences"));
+        csmart text(load_text_file(path.string()));
+        if (text == 0)
+            (text = new char[1])[0] = 0;
+        size_t tlen = strlen(text);
+        for (int k = 0; k < n; ++k) {
+            const int i = mods[k];
+            cfoption* o = i + icewm_preferences;
+            if (updateOption(o, text))
+                continue;
+            if (insertOption(o, text))
+                continue;
+            csmart c(retrieveComment(o));
+            char buf[99];
+            snprintf(buf, sizeof buf, "%s=%d # 0/1\n",
+                     o->name, *o->v.bool_value);
+            size_t clen = c ? strlen(c) : 0;
+            size_t blen = strlen(buf);
+            size_t size = 1 + tlen + clen + blen;
+            char* u = new char[size];
+            memcpy(u, text, tlen);
+            memcpy(u + tlen, c, clen);
+            memcpy(u + tlen + clen, buf, blen + 1);
+            text = u;
+            tlen += clen + blen;
+        }
+        writePrefs(path, text, tlen);
+    }
+
+    static bool updateOption(cfoption* o, char* text) {
+        char buf[99];
+        snprintf(buf, sizeof buf, "^[ \t]*%s[ \t]*=[ \t]*[!-~]", o->name);
+        regex_t pat = {};
+        int c = regcomp(&pat, buf, REG_EXTENDED | REG_NEWLINE);
+        if (c) {
+            char err[99] = "";
+            regerror(c, &pat, err, sizeof err);
+            warn("regcomp save mod %s: %s", buf, err);
+            return true;
+        }
+        char* s = text;
+        regmatch_t m = {};
+        while (0 == regexec(&pat, s, 1, &m, 0)) {
+            s += m.rm_eo;
+            s[-1] = '0' + *o->v.bool_value;
+            s = replaceComment(s, "# 0/1");
+        }
+        regfree(&pat);
+        return s > text;
+    }
+
+    static char* replaceComment(char* start, const char* comment) {
+        char* s = start;
+
+        if (*s && *s != '\n' && *s != '#' && *comment != ' ')
+            *s++ = ' ';
+        for (const char* c = comment; *s && *s != '\n' && *c; ++c)
+            *s++ = *c;
+        while (*s && *s != '\n')
+            *s++ = ' ';
+
+        return s;
+    }
+
+    static bool insertOption(cfoption* o, char* text) {
+        char buf[99];
+        snprintf(buf, sizeof buf, "^#+[ \t]*%s[ \t]*=[ \t]*[!-~]", o->name);
+        regex_t pat = {};
+        int c = regcomp(&pat, buf, REG_EXTENDED | REG_NEWLINE);
+        if (c) {
+            char err[99] = "";
+            regerror(c, &pat, err, sizeof err);
+            warn("regcomp save mod %s: %s", buf, err);
+            return true;
+        }
+        regmatch_t m = {};
+        c = regexec(&pat, text, 1, &m, 0);
+        regfree(&pat);
+        if (c == 0) {
+            char* s = text + m.rm_so;
+            snprintf(buf, sizeof buf, "%s=%d", o->name, *o->v.bool_value);
+            size_t blen = strlen(buf);
+            memcpy(s, buf, blen);
+            s += blen;
+            s = replaceComment(s, "# 0/1");
+        }
+        return c == 0;
+    }
+
+    static char* retrieveComment(cfoption* o) {
+        static const char path[] = LIBDIR "/preferences";
+        char* res = 0;
+        csmart text(load_text_file(path));
+        if (text) {
+            char buf[99];
+            snprintf(buf, sizeof buf,
+                     "(\n(#  .*\n)*)#+[ \t]*%s[ \t]*=[ \t]*[!-~]",
+                     o->name);
+            regex_t pat = {};
+            int c = regcomp(&pat, buf, REG_EXTENDED | REG_NEWLINE);
+            if (c == 0) {
+                regmatch_t m[2] = {};
+                c = regexec(&pat, text, 2, m, 0);
+                regfree(&pat);
+                if (c == 0) {
+                    int len = m[1].rm_eo - m[1].rm_so;
+                    res = newstr(text + m[1].rm_so, len);
+                }
+            } else {
+                char err[99] = "";
+                regerror(c, &pat, err, sizeof err);
+                warn("regcomp save mod %s: %s", buf, err);
+            }
+        }
+        return res ? res : newstr("\n");
+    }
+
+    static void writePrefs(const upath dest, const char* text, size_t tlen) {
+        const upath temp(dest.path() + ".tmp");
+        int fd = temp.open(O_CREAT | O_WRONLY | O_TRUNC, 0600);
+        if (fd == -1) {
+            fail("Failed to open %s for writing", temp.string().c_str());
+        } else {
+            ssize_t w = write(fd, text, tlen);
+            if (size_t(w) != tlen)
+                fail("Failed to write to %s", temp.string().c_str());
+            close(fd);
+            if (size_t(w) == tlen) {
+                if (temp.renameAs(dest))
+                    fail("Failed to rename %s to %s",
+                         temp.string().c_str(),
+                         dest.string().c_str());
+                else
+                    mods.clear();
+            }
+        }
+    }
+};
+
+YArray<int> PrefsMenu::mods;
+
 HelpMenu::HelpMenu(
     IApp *app,
     YSMListener *smActionListener,
@@ -1022,6 +1259,8 @@ void StartMenu::refresh() {
             settings->addSubmenu(_("_Focus"), -2, focus, "focus");
         }
 
+        PrefsMenu *prefs = new PrefsMenu();
+        settings->addSubmenu(_("_Preferences"), -2, prefs, "pref");
 
         if (showThemesMenu) {
             YMenu *themes = new ThemesMenu(app, smActionListener, wmActionListener);

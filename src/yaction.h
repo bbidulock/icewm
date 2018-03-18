@@ -29,6 +29,7 @@ public:
     bool operator!=(EAction rhs) const {
         return id != rhs;
     }
+    int ident() const { return id; }
 
 private:
     int id;

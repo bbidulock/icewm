@@ -49,6 +49,8 @@ nobase_dist_pkgdata_DATA = \
 	icons/java_16x16.xpm \
 	icons/java_32x32.xpm \
 	icons/kde_16x16.xpm \
+	icons/key_16x16.png \
+	icons/key_32x32.png \
 	icons/koules_16x16.xpm \
 	icons/koules_32x32.xpm \
 	icons/lock_16x16.xpm \
@@ -62,6 +64,8 @@ nobase_dist_pkgdata_DATA = \
 	icons/netscape_32x32.xpm \
 	icons/pdf_16x16.xpm \
 	icons/pdf_32x32.xpm \
+	icons/pref_16x16.png \
+	icons/pref_32x32.png \
 	icons/programs_16x16.xpm \
 	icons/programs_32x32.xpm \
 	icons/reboot_16x16.xpm \
@@ -70,6 +74,8 @@ nobase_dist_pkgdata_DATA = \
 	icons/restart_32x32.xpm \
 	icons/run_16x16.xpm \
 	icons/run_32x32.xpm \
+	icons/save_16x16.png \
+	icons/save_32x32.png \
 	icons/settings_16x16.xpm \
 	icons/settings_32x32.xpm \
 	icons/shutdown_16x16.xpm \
