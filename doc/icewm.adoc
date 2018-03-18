@@ -49,7 +49,13 @@ This program should be started before `icewm`.
 This is the preferred program to start IceWM.
 * *icewm-menu-fdo* -
 This generates IceWM program menus from FreeDesktop `.desktop` files.
-* *icewmhint* - Set IceWM hints by window class and instance.
+* *icewmhint* - Is a simple utility for passing IceWM hints to IceWM
+by window class and instance.
+Icewmhint uses a special property, '"_ICEWM_WINOPHINT"',
+on the root window to pass special hints to IceWM.
+* *icehelp* - Is used by icewm to display the 'IceWM manual' and the manpages.
+See the output of `icehelp --help` for details.
+* *icesh* - Could be used to manage IceWM internals from the command line.
 
 === Starting icewm
 
@@ -107,7 +113,10 @@ gnome-terminal --geometry 80x25+217+235 &
 xscreensaver &
 ....
 
-Hint: this feature is meant for easy desktop initialization
+On termination the `shutdown` script will be run first,
+then `icewm-session` will terminate icewm and icewmbg.
+
+Hint: `icewm-session` is meant for easy desktop initialization
 and it is part of IceWM due to popular demand.
 For more sophisticated session management
 one could use a real session manager.
@@ -197,8 +206,18 @@ The Alt key is assumed to be the key defined as the Mod1 modifier.
 `Alt+F5`:: Restore the window state if maximized or minimized/hidden.
 `Alt+F6`:: Focus to next window.
 `Alt+Shift+F6`:: Focus to previous window.
-`Alt+F7`:: Move the window.
-`Alt+F8`:: Resize the window.
+`Alt+F7`:: Starts movement of the active window.
+Move the window either by the mouse or by the arrow keys.
+The arrow keys can be accelerated four times by the Shift key
+or sixteen times by the Control key.
+Press the left button or the Enter key when done.
+To cancel press Escape.
+`Alt+F8`:: Starts resizing of the active window.
+Resize the window either by the mouse or by the arrow keys.
+The arrow keys can be accelerated four times by the Shift key
+or sixteen times by the Control key.
+Press the left button or the Enter key when done.
+To cancel press Escape.
 `Alt+F9`:: Minimize the window to taskbar.
 `Alt+F10`:: Maximize the window.
 `Alt+Shift+F10`:: Maximize the window vertically (toggle).
@@ -218,7 +237,18 @@ The Alt key is assumed to be the key defined as the Mod1 modifier.
 `Ctrl+Alt+Shift+RightArrow`:: Move the focused window to the next workspace and activate it.
 `Ctrl+Alt+Shift+DownArrow`:: Move the focused window to the previously active workspace and activate it.
 `Ctrl+Alt+Delete`:: displays the session dialog.
-`Ctrl+Alt+Space`:: Activate the internal taskbar command line for starting applications. (Ctrl+Enter to run in a terminal window)
+`Ctrl+Alt+Space`:: Activate the AddressBar.
+This is a command line in the taskbar where a shell command can be typed.
+Pressing the Enter key will execute the command.
+If *AddressBarCommand* was configured it will be used
+to execute the command otherwise `/bin/sh` is used.
+If the *Control* key was also pressed then the command
+is executed in a terminal as given by *TerminalCommand*.
+The address bar maintains a history which is
+navigable by the Up and Down keys.
+A rich set of editing operations is supported,
+including cut-/copy-/paste-operations
+and file completion using *Tab* or *Ctrl-I*.
 
 == The Resource Path
 
@@ -249,6 +279,8 @@ and then modify as you like.
 
 To customize the default themes, create the `$HOME/.icewm/themes` directory
 and copy all the theme files there and then modify as necessary.
+Each theme has its own subdirectory.
+Themes can be downloaded from https://www.box-look.org/.
 
 == Configuration Files
 
@@ -337,6 +369,7 @@ and the right one will display the window list.
 +SmartPlacement = 1+:: Smart window placement (minimal overlap).
 +IgnoreNoFocusHint = 0+:: Ignore no-accept-focus hint set by some windows.
 +MenuMouseTracking = 0+:: If enabled, menus will track the mouse even when no mouse button is pressed.
++ClientWindowMouseActions = 1+:: Allow mouse actions on client windows.
 +SnapMove = 1+:: Snap to nearest screen edge/window when moving windows.
 +SnapDistance = 8+:: Distance in pixels before windows snap together
 +ArrangeWindowsOnScreenSizeChange = 1+:: Automatically arrange windows when screen size changes.
@@ -347,6 +380,34 @@ limits. Setting it to 10000 makes the resistance infinite.
 +AllowFullscreen = 1+:: Allow to switch a window to fullscreen.
 +FullscreenUseAllMonitors = 0+:: Span over all available screens if window goes into fullscreen.
 +NetWorkAreaBehaviour = 0+:: NET_WORKAREA behaviour: 0 (single/multimonitor with STRUT information, like metacity), 1 (always full desktop), 2 (singlemonitor with STRUT, multimonitor without STRUT).
++ConfirmLogout = 1+:: Confirm Logout.
++MultiByte = 1+:: Overrides automatic multiple byte detection.
++ShapesProtectClientWindow = 1+:: Don't cut client windows by shapes set trough frame corner pixmap.
++DoubleBuffer = 1+:: Use double buffering when redrawing the display.
++XRRDisable = 0+:: Disable use of new XRANDR API for dual head (nvidia workaround)
++PreferFreetypeFonts = 1+:: Favor *Xft fonts over core X11 fonts where possible.
++IconPath = /usr/share/icons/hicolor:/usr/share/icons:/usr/share/pixmaps+:: Icon search path (colon separated)
++MailCommand = xterm -name mutt -e mutt+:: Command to run on mailbox.
++MailClassHint = mutt.XTerm+:: WM_CLASS to allow runonce for MailCommand.
++NewMailCommand =+:: Command to run when new mail arrives.
++LockCommand =+:: Command to lock display/screensaver.
++ClockCommand = xclock -name icewm -title Clock+:: Command to run on clock.
++ClockClassHint = icewm.XClock+:: WM_CLASS to allow runonce for ClockCommand.
++RunCommand =+:: Command to select and run a program.
++OpenCommand =+:: Command to run to open a file.
++TerminalCommand = xterm+:: Terminal emulator must accept -e option.
++LogoutCommand =+:: Command to start logout.
++LogoutCancelCommand =+:: Command to cancel logout.
++ShutdownCommand =+:: Command to shutdown the system.
++RebootCommand =+:: Command to reboot the system.
++SuspendCommand =+:: Command to send the system to standby mode.
++CPUStatusCommand =+:: Command to run on CPU status.
++CPUStatusClassHint = top.XTerm+:: WM_CLASS to allow runonce for CPUStatusCommand.
++CPUStatusCombine = 1+:: Combine all CPUs to one.
++NetStatusCommand =+:: Command to run on Net status.
++NetStatusClassHint = netstat.XTerm+:: WM_CLASS to allow runonce for NetStatusCommand.
++AddressBarCommand =+:: Command to run for address bar entries.
++XRRPrimaryScreenName =+:: screen/output name of the primary screen.
 
 ==== Quick Switch List
 
@@ -394,6 +455,7 @@ The following settings can be set to value 1 (enabled) or value 0 (disabled).
 +ShowEllipsis = 0+:: Show Ellipsis in taskbar items.
 +TaskBarShowTray = 1+:: Show windows in the tray.
 +TrayShowAllWindows = 1+:: Show windows from all workspaces on tray.
++TaskBarEnableSystemTray = 1+:: Enable the system tray in the taskbar.
 +TaskBarShowTransientWindows = 1+:: Show transient (dialogs, ...) windows on task bar.
 +TaskBarShowAllWindows = 0+:: Show windows from all workspaces on task bar.
 +TaskBarShowWindowIcons = 1+:: Show icons of windows on the task bar.
@@ -404,6 +466,7 @@ The following settings can be set to value 1 (enabled) or value 0 (disabled).
 +CPUStatusShowSwapUsage = 1+:: Show swap usage in CPU status tool tip.
 +CPUStatusShowAcpiTemp = 1+:: Show ACPI temperature in CPU status tool tip.
 +CPUStatusShowAcpiTempInGraph = 0+:: Show ACPI temperature in CPU graph.
++AcpiIgnoreBatteries =+:: List of battery names ignore.
 +CPUStatusShowCpuFreq = 1+:: Show CPU frequency in CPU status tool tip.
 +TaskBarShowMEMStatus = 1+:: Show memory usage status on task bar (Linux only).
 +TaskBarShowNetStatus = 1+:: Show network status on task bar (Linux only).
@@ -412,7 +475,11 @@ The following settings can be set to value 1 (enabled) or value 0 (disabled).
 +TaskBarDoubleHeight = 0+:: Double height task bar
 +TaskBarWorkspacesLeft = 1+:: Place workspace pager on left, not right.
 +TaskBarWorkspacesTop = 0+:: Place workspace pager on top row when using dual-height taskbar.
-+PagerShowPreview = 0+:: Show a mini desktop preview on each workspace button.
++PagerShowPreview = 1+:: Show a mini desktop preview on each workspace button.
+By pressing the middle mouse button the 'window list' is shown.
+The right button activates the 'window list menu'.
+By using the scroll wheel over the 'workspace list' one can quickly
+cycle over all workspaces.
 +PagerShowWindowIcons = 1+:: Draw window icons inside large enough preview windows on pager (if PagerShowPreview=1).
 +PagerShowMinimized = 1+:: Draw even minimized windows as unfilled rectangles (if PagerShowPreview=1).
 +PagerShowBorders = 1+:: Draw border around workspace buttons (if PagerShowPreview=1).
@@ -482,7 +549,7 @@ The following settings can be set to value 1 (enabled) or value 0 (disabled).
   your Gmail account to enable POP3 or IMAP access.
   To allow non-Gmail applications like IceWM to use it see the
   Gmail help site for "Let less secure apps use your account".
-  Also set secure file permissions on your IceWM preferences file 
+  Also set secure file permissions on your IceWM preferences file
   and the directory which contains it.
   It is unwise to store a password on file ever.
   Consider a wallet extension for IceWM.
@@ -545,6 +612,7 @@ The following settings can be set to value 1 (enabled) or value 0 (disabled).
 +DesktopMenuButton = 3+:: Desktop mouse-button click to show the root menu.
 +TitleBarMaximizeButton = 1+:: TitleBar mouse-button double click to maximize the window.
 +TitleBarRollupButton = 2+:: TitleBar mouse-button double click to rollup the window.
++RolloverButtonsSupported = 0+:: Does it support the 'O' title bar button images (for mouse rollover)
 
 === Workspaces
 
@@ -600,6 +668,10 @@ This section shows settings that can be set in theme files. They can also be set
 theme values the settings should be set in `prefoverride` file.
 Default values are shown following the equal sign.
 
++ThemeAuthor =+:: Theme author, e-mail address, credits.
++ThemeDescription =+:: Description of the theme, credits.
++Gradients =+:: List of gradient pixmaps in the current theme.
+
 === Borders
 
 The following settings can be set to a numeric value.
@@ -614,6 +686,9 @@ The following settings can be set to a numeric value.
 +TitleBarJustify = 0+:: Justification of the window title.
 +TitleBarHorzOffset = 0+:: Horizontal offset for the window title text.
 +TitleBarVertOffset = 0+:: Vertical offset for the window title text.
++TitleBarCentered = 0+:: Draw window title centered (obsoleted by TitleBarJustify)
++TitleBarJoinLeft = 0+:: Join title*S and title*T
++TitleBarJoinRight = 0+:: Join title*T and title*B
 +ScrollBarX = 16+:: Scrollbar width.
 +ScrollBarY = 16+:: Scrollbar (button) height.
 +MenuIconSize = 16+:: Menu icon size.
@@ -625,6 +700,7 @@ The following settings can be set to a numeric value.
 +QuickSwitchIconMargin = 4+:: Vertical margin in the quickswitch window.
 +QuickSwitchIconBorder = 2+:: Distance between the active icon and it's border.
 +QuickSwitchSeparatorSize = 6+:: Height of the separator between (all reachable) icons and text, 0 to avoid it.
++ShowMenuButtonIcon = 1+:: Show application icon over menu button.
 +TitleButtonsLeft = "s"+:: Titlebar buttons from left to right (x=close, m=max, i=min, h=hide, r=rollup, s=sysmenu, d=depth).
 +TitleButtonsRight = "xmir"+:: Titlebar buttons from right to left (x=close, m=max, i=min, h=hide, r=rollup, s=sysmenu, d=depth).
 +TitleButtonsSupported = "xmis"+:: Titlebar buttons supported by theme (x,m,i,r,h,s,d).
@@ -767,6 +843,7 @@ MenuFontNameXft="sans-serif:size=12:bold"
 +ColorNetSend = "rgb:FF/FF/00"+:: Outgoing load on the network monitor.
 +ColorNetReceive = "rgb:FF/00/FF"+:: Incoming load on the network monitor.
 +ColorNetIdle = "rgb:00/00/00"+:: Idle (non) load on the network monitor, leave empty to force transparency.
++ColorApmBattery = rgb:FF/FF/00+:: Color of APM monitor in battery mode.
 
 === Desktop Background
 
@@ -826,9 +903,9 @@ runonce "title" icon_name "res_name.res_class" program_executable options
 runonce "title" icon_name "res_name" program_executable options
 runonce "title" icon_name ".res_class" program_executable options
 ....
-The class hint can be figured out by running
+The class hint of an application window can be figured out by running
 ....
-$ xprop | grep WM_CLASS
+$ xprop WM_CLASS
 ....
 
 Submenus can be added using the following syntax:
@@ -851,9 +928,10 @@ configured in the `keys` file.  The syntax of this file is like:
 For example:
 ....
 key  "Alt+Ctrl+t"  xterm -rv
+key "Ctrl+Shift+r" icewm --restart
 ....
 
-== Window Options (updated 2017-11-18)
+== Window Options (updated 2018-03-04)
 
 The *winoptions* file is used to configure settings
 for individual application windows.
@@ -930,7 +1008,7 @@ _Exclusive_::: Add an icon the the tray. Never create a task pane button.
 +order: 0+:: The sorting order of task buttons and tray icons.
 The default value is zero. Increasing positive values go farther right,
 while decreasing negative values go farther left.
-The order option applies to taskbar, tray and system tray.
+The order option applies to the task pane, the tray pane and the system tray.
 +allWorkspaces: 0+:: If set to 1, window will be visible on all workspaces.
 +appTakesFocus: 0+:: if set to 1, IceWM will assume the window supports the WM_TAKE_FOCUS protocol even if the window did not advertise that it does.
 +dBorder: 1+:: If set to 0, window will not have a border.
@@ -988,9 +1066,10 @@ It would be nice to have a feature from OS/2 that varies the icon size
 with screen resolution (16x16 and 32x32 icons are quite small on 4000x4000
 screens ;-)
 
-=== Imlib
-When compiled with the Imlib image library all of Imlib's image formats
-(bmp, jpeg, ppm, tiff, gif, png, ps, xpm on my machine) are supported.
+=== GDK-Pixbuf
+
+When icewm was configured with the `--enable-gdk-pixbuf` option
+all of GdkPixbuf's image formats are supported.
 Use them by specifying the full filename or an absolute path:
 
 +ICON.bmp+:: A PPM icon in your IconPath.
@@ -1055,6 +1134,17 @@ has a very large number of themes which were created by users of IceWM.
 +--configured+::        Print the compile time configuration.
 +--directories+::       Print the configuration directories.
 +-l, --list-themes+::   Print a list of all available themes.
+
+The restart option can be used to reload the IceWM configuration
+after modifications. It is the preferred way to restart IceWM
+from the command line or in scripts.
+To load a different theme from the command line,
+combine this with the `--theme=NAME` option like:
+
+    icewm -r -t CrystalBlue
+
+The theme name will then be saved to the 'theme'
+configuration file, before restarting IceWM.
 
 == Glossary
 
