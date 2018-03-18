@@ -31,6 +31,7 @@
 
 #include "base.h"
 #include "WinMgr.h"
+#include "wmaction.h"
 
 #if 1
 #define THROW(Result) { rc = (Result); goto exceptionHandler; }
@@ -180,6 +181,7 @@ Atom ATOM_WIN_STATE;
 Atom ATOM_WIN_HINTS;
 Atom ATOM_WIN_LAYER;
 Atom ATOM_WIN_TRAY;
+Atom ATOM_ICE_ACTION;
 
 /******************************************************************************/
 /******************************************************************************/
@@ -457,6 +459,37 @@ Status setWorkspace(Window window, long workspace) {
     return XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
 }
 
+bool icewmAction(const char* str) {
+    WMAction action = WMAction(0);
+    static const struct { const char *s; WMAction a; } sa[] = {
+        { "logout",     ICEWM_ACTION_LOGOUT },
+        { "cancel",     ICEWM_ACTION_CANCEL_LOGOUT },
+        { "reboot",     ICEWM_ACTION_REBOOT },
+        { "shutdown",   ICEWM_ACTION_SHUTDOWN },
+        { "about",      ICEWM_ACTION_ABOUT },
+        { "windowlist", ICEWM_ACTION_WINDOWLIST },
+        { "restart",    ICEWM_ACTION_RESTARTWM },
+        { "suspend",    ICEWM_ACTION_SUSPEND },
+    };
+    for (int i = 0; i < int ACOUNT(sa) && !action; ++i)
+        if (0 == strcmp(str, sa[i].s))
+            action = sa[i].a;
+    if (!action)
+        return false;
+
+    XClientMessageEvent xev = {};
+    xev.type = ClientMessage;
+    xev.window = root;
+    xev.message_type = ATOM_ICE_ACTION;
+    xev.format = 32;
+    xev.data.l[0] = CurrentTime;
+    xev.data.l[1] = action;
+
+    XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
+    XSync(display, False);
+    return true;
+}
+
 /******************************************************************************/
 
 Status setLayer(Window window, long layer) {
@@ -601,6 +634,14 @@ Actions:\n\
                               the root window to change the current workspace.\n\
   listWorkspaces              Lists the names of all workspaces.\n\
   setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n\
+  logout                      Tell IceWM to logout.\n\
+  reboot                      Tell IceWM to reboot.\n\
+  shutdown                    Tell IceWM to shutdown.\n\
+  cancel                      Tell IceWM to cancel the logout/reboot/shutdown.\n\
+  about                       Tell IceWM to show the about window.\n\
+  windowlist                  Tell IceWM to show the window list.\n\
+  restart                     Tell IceWM to restart.\n\
+  suspend                     Tell IceWM to suspend.\n\
 \n\
 Expressions:\n\
   Expressions are list of symbols of one domain concatenated by `+' or `|':\n\
@@ -720,7 +761,7 @@ int main(int argc, char **argv) {
         THROW(3);
     }
 
-    root = RootWindow(display, DefaultScreen(display));
+    root = DefaultRootWindow(display);
 
     ATOM_WM_STATE = XInternAtom(display, "WM_STATE", False);
     ATOM_WIN_WORKSPACE = XInternAtom(display, XA_WIN_WORKSPACE, False);
@@ -730,6 +771,7 @@ int main(int argc, char **argv) {
     ATOM_WIN_HINTS = XInternAtom(display, XA_WIN_HINTS, False);
     ATOM_WIN_LAYER = XInternAtom(display, XA_WIN_LAYER, False);
     ATOM_WIN_TRAY = XInternAtom(display, XA_WIN_TRAY, False);
+    ATOM_ICE_ACTION = XInternAtom(display, "_ICEWM_ACTION", False);
 
     /******************************************************************************/
 
@@ -926,6 +968,7 @@ int main(int argc, char **argv) {
 
                 MSG(("setTrayOption: %d", trayopt));
             FOREACH_WINDOW(window) setTrayHint(*window, trayopt);
+        } else if (icewmAction(action)) {
         } else {
             msg(_("Unknown action: `%s'"), action);
             THROW(1);

@@ -32,9 +32,7 @@ public:
     Node* front() const { return head; }
     Node* back() const { return tail; }
     int   count() const { return size; }
-    bool  empty() const { return count() == 0; }
-    bool  nonempty() const { return count() > 0; }
-    operator bool() const { return nonempty(); }
+    operator bool() const { return 0 < count(); }
 
     void prepend(Node* node) {
         PRECONDITION(node->zero());

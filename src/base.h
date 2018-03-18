@@ -83,6 +83,9 @@ char *cstrJoin(char const *str, ...);
 char* demangle(const char* str);
 unsigned long strhash(const char* str);
 
+inline bool nonempty(const char* s) { return s && *s; }
+inline bool isEmpty(const char* s) { return !(s && *s); }
+
 /*** Message Functions ********************************************************/
 
 void die(int exitcode, char const *msg, ...) __attribute__((format(printf, 2, 3) ));

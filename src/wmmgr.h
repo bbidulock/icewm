@@ -3,6 +3,7 @@
 
 #include "WinMgr.h"
 #include "ylist.h"
+#include "yaction.h"
 
 #define MAXWORKSPACES     20
 
@@ -263,7 +264,7 @@ public:
     void updateFullscreenLayerEnable(bool enable);
     int getScreen();
 
-    static void doWMAction(long action);
+    static void doWMAction(WMAction action);
     void lockFocus() {
         //MSG(("lockFocus %d", lockFocusCount));
         lockFocusCount++;
