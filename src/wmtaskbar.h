@@ -137,7 +137,8 @@ private:
     YButton *fCollapseButton;
     TrayPane *fWindowTray;
     YClock *fClock;
-    MailBoxStatus **fMailBoxStatus;
+    YObjectArray<MailBoxStatus> fMailBoxStatus;
+    typedef YObjectArray<MailBoxStatus>::IterType MailBoxIter;
     MEMStatus *fMEMStatus;
     CPUStatus **fCPUStatus;
     YApm *fApm;

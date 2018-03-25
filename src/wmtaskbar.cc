@@ -224,8 +224,6 @@ TaskBar::~TaskBar() {
     detachDesktopTray();
     delete fEdgeTrigger; fEdgeTrigger = 0;
     delete fClock; fClock = 0;
-    for (MailBoxStatus ** m(fMailBoxStatus); m && *m; ++m) delete *m;
-    delete[] fMailBoxStatus; fMailBoxStatus = 0;
 #ifdef MEM_STATES
     delete fMEMStatus; fMEMStatus = 0;
 #endif
@@ -273,9 +271,9 @@ void TaskBar::initMenu() {
         YMenu *helpMenu; // !!!
 
         helpMenu = new YMenu();
-        helpMenu->addItem(_("_License"), -2, "", actionLicense);
+        helpMenu->addItem(_("_License"), -2, null, actionLicense);
         helpMenu->addSeparator();
-        helpMenu->addItem(_("_About"), -2, "", actionAbout);
+        helpMenu->addItem(_("_About"), -2, null, actionAbout);
 #endif
 
         taskBarMenu->addItem(_("_About"), -2, actionAbout, 0);
@@ -284,7 +282,7 @@ void TaskBar::initMenu() {
             if (showLogoutSubMenu)
                 taskBarMenu->addItem(_("_Logout..."), -2, actionLogout, logoutMenu);
             else
-                taskBarMenu->addItem(_("_Logout..."), -2, "", actionLogout);
+                taskBarMenu->addItem(_("_Logout..."), -2, null, actionLogout);
         }
     }
 
@@ -347,45 +345,43 @@ void TaskBar::initApplets() {
     } else
         fCollapseButton = 0;
 
-    fMailBoxStatus = 0;
-
     if (taskBarShowMailboxStatus) {
-        char const *envMail = getenv("MAIL");
-        char const *mailboxList(mailBoxPath ? mailBoxPath : envMail);
-        unsigned cnt = 0;
-
-        mstring mailboxes(mailboxList);
-        mstring s(null), r(null);
-
-        for (s = mailboxes; s.splitall(' ', &s, &r); s = r)
-            if (s.nonempty())
-                cnt++;
-
-        if (cnt) {
-            fMailBoxStatus = new MailBoxStatus*[cnt + 1];
-            fMailBoxStatus[cnt--] = NULL;
-
-            for (s = mailboxes; s.splitall(' ', &s, &r); s = r)
-            {
-                if (s.isEmpty())
-                    continue;
-
-                fMailBoxStatus[cnt] = new MailBoxStatus(app, smActionListener, s, this);
-                if (cnt) cnt--; // more complicated than needed, to make UBSan happy
+        MailBoxStatus* box;
+        const char* env;
+        if (mailBoxPath) {
+            for (mstring s(mailBoxPath), r; s.splitall(' ', &s, &r); s = r) {
+                if (0 <= s.indexOf('/')) {
+                    box = new MailBoxStatus(app, smActionListener, s, this);
+                    fMailBoxStatus.append(box);
+                }
             }
-        } else if (envMail) {
-            fMailBoxStatus = new MailBoxStatus*[2];
-            fMailBoxStatus[0] = new MailBoxStatus(app, smActionListener, envMail, this);
-            fMailBoxStatus[1] = NULL;
-        } else if (getlogin()) {
-            upath mbox(mstring("/var/spool/mail/", getlogin()));
-            if (mbox.isReadable()) {
-                fMailBoxStatus = new MailBoxStatus*[2];
-                fMailBoxStatus[0] = new MailBoxStatus(app, smActionListener, mbox, this);
-                fMailBoxStatus[1] = NULL;
+        }
+        if (fMailBoxStatus.getCount() == 0 && (env = getenv("MAILPATH")) != 0) {
+            for (mstring s(env), r; s.splitall(':', &s, &r); s = r) {
+                if (0 <= s.indexOf('/')) {
+                    box = new MailBoxStatus(app, smActionListener, s, this);
+                    fMailBoxStatus.append(box);
+                }
+            }
+        }
+        if (fMailBoxStatus.getCount() == 0 && (env = getenv("MAIL")) != 0) {
+            mstring s(env);
+            if (0 <= s.indexOf('/')) {
+                box = new MailBoxStatus(app, smActionListener, s, this);
+                fMailBoxStatus.append(box);
+            }
+        }
+        if (fMailBoxStatus.getCount() == 0 &&
+            ((env = getenv("LOGNAME")) != 0 || (env = getlogin()) != 0))
+        {
+            upath s(mstring("/var/spool/mail/", env));
+            if (s.isReadable()) {
+                box = new MailBoxStatus(app, smActionListener, s, this);
+                fMailBoxStatus.append(box);
             }
         }
     }
+
     if (taskBarShowStartMenu) {
         fApplications = new ObjectButton(this, rootMenu);
         fApplications->setActionListener(this);
@@ -501,7 +497,7 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
     wlist.append(nw);
     nw = LayoutInfo( fClock, false, 1, true, 2, 2, false );
     wlist.append(nw);
-    for (MailBoxStatus ** m(fMailBoxStatus); m && *m; ++m) {
+    for (MailBoxIter m = fMailBoxStatus.reverseIterator(); ++m; ) {
         nw = LayoutInfo( *m, false, 1, true, 1, 1, false );
         wlist.append(nw);
     }

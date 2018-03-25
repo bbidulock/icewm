@@ -6,12 +6,6 @@
 #include "ysocket.h"
 #include "yurl.h"
 
-#include <sys/types.h>
-#ifdef __FreeBSD__
-#include <db.h>
-#endif
-#include <netinet/in.h>
-
 class MailBoxStatus;
 class YSMListener;
 class IApp;
@@ -45,10 +39,9 @@ public:
         IMAP
     } protocol;
 
-    MailCheck(MailBoxStatus *mbx);
+    MailCheck(mstring url, MailBoxStatus *mbx);
     virtual ~MailCheck();
 
-    void setURL(ustring url);
     void startCheck();
     void startSSL();
     cstring inbox();
@@ -64,10 +57,13 @@ public:
 
     int write(const char* buf, int len = 0);
     int write(const cstring& str);
-    void error();
+    void error(mstring str);
     void release();
     bool ssl() const;
     bool net() const;
+    int inst() const { return fInst; }
+    void reason(mstring str) { fReason = str; }
+    mstring reason() const { return fReason; }
 
 private:
     YSocket sk;
@@ -83,11 +79,15 @@ private:
     long fCurUnseen;
     long fLastCountSize;
     time_t fLastCountTime;
-    sockaddr_in fAddr;
+    struct addrinfo* fAddr;
     int fPort;
     int fPid;
+    int fInst;
     bool fTrace;
+    mstring fReason;
+    static int fInstanceCounter;
 
+    void resolve();
     void countMessages();
     const char* s(ProtocolState t);
     void escape(const char* buf, int len, char* tmp, int siz);
@@ -103,7 +103,8 @@ public:
         mbxError
     };
 
-    MailBoxStatus(IApp *app, YSMListener *smActionListener, mstring mailBox, YWindow *aParent = 0);
+    MailBoxStatus(IApp *app, YSMListener *smActionListener,
+                  mstring mailBox, YWindow *aParent);
     virtual ~MailBoxStatus();
 
     virtual void paint(Graphics &g, const YRect &r);
@@ -116,7 +117,6 @@ public:
 
     virtual bool handleTimer(YTimer *t);
 private:
-    mstring fMailBox;
     MailBoxState fState;
     MailCheck check;
     lazy<YTimer> fMailboxCheckTimer;

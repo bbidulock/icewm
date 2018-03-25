@@ -13,15 +13,26 @@
 #include "wmapp.h"
 #include "wpixmaps.h"
 #include "udir.h"
+#include <sys/types.h>
 #include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 #include <netdb.h>
+#ifdef __FreeBSD__
+#include <db.h>
+#endif
 #include "intl.h"
 
 extern YColorName taskBarBg;
 
-MailCheck::MailCheck(MailBoxStatus *mbx):
+int MailCheck::fInstanceCounter;
+
+MailCheck::MailCheck(mstring url, MailBoxStatus *mbx):
     state(IDLE),
     protocol(NOPROTOCOL),
+    bf{},
+    got(0),
+    fURL(url),
     fMbx(mbx),
     fLastSize(-1),
     fLastCount(-1),
@@ -31,15 +42,36 @@ MailCheck::MailCheck(MailBoxStatus *mbx):
     fCurUnseen(0),
     fLastCountSize(-1),
     fLastCountTime(0),
+    fAddr(0),
     fPort(0),
     fPid(0),
+    fInst(++fInstanceCounter),
     fTrace(getenv("ICEWM_MAILCHECK_TRACE") != 0)
 {
     sk.setListener(this);
+
+    if (fURL.scheme == "file")
+        protocol = LOCALFILE;
+    else if (fURL.scheme == "pop3" || fURL.scheme == "pop3s")
+        protocol = POP3;
+    else if (fURL.scheme == "imap" || fURL.scheme == "imaps")
+        protocol = IMAP;
+    else if (fURL.scheme != null)
+        warn(_("Invalid mailbox protocol: \"%s\""), fURL.scheme.c_str());
+    else
+        warn(_("Invalid mailbox path: \"%s\""), cstring(url).c_str());
+
+    if (net()) {
+        resolve();
+    }
 }
 
 MailCheck::~MailCheck() {
     release();
+    if (fAddr) {
+        freeaddrinfo(fAddr);
+        fAddr = 0;
+    }
 }
 
 bool MailCheck::ssl() const {
@@ -51,7 +83,7 @@ bool MailCheck::net() const {
 }
 
 int MailCheck::portNumber() {
-    if (fURL.port != null) {
+    if (fURL.port.length()) {
         int port = atoi(fURL.port);
         if (port > 0)
             return port;
@@ -68,49 +100,54 @@ int MailCheck::portNumber() {
 
 void MailCheck::setState(ProtocolState newState) {
     if (state != ERROR || newState == IDLE || newState == CONNECTING) {
-        if (fTrace) tlog(" state %s -> %s ", s(state), s(newState));
+        if (fTrace) tlog("(%d) state %s -> %s ", fInst, s(state), s(newState));
         state = newState;
     }
 }
 
-void MailCheck::setURL(ustring url) {
-    fURL = url;
+void MailCheck::resolve() {
+    setState(IDLE);
 
-    protocol = NOPROTOCOL;
-    if (fURL.scheme == "file")
-        protocol = LOCALFILE;
-    else if (fURL.scheme == "pop3" || fURL.scheme == "pop3s")
-        protocol = POP3;
-    else if (fURL.scheme == "imap" || fURL.scheme == "imaps")
-        protocol = IMAP;
-    else if (fURL.scheme != null)
-        warn(_("Invalid mailbox protocol: \"%s\""), fURL.scheme.c_str());
-    else
-        warn(_("Invalid mailbox path: \"%s\""), cstring(url).c_str());
+    fPort = portNumber();
+    if (inrange(fPort, 1, USHRT_MAX)) {
+        if (ssl()) return; // fAddr is unnecessary for SSL
 
-    if (net()) {
-        setState(IDLE);
-        memset(&fAddr, 0, sizeof(fAddr));
-
-        fPort = portNumber();
-        if (inrange(fPort, 1, USHRT_MAX)) {
-            fAddr.sin_family = AF_INET;
-            fAddr.sin_port = htons((unsigned short)fPort);
-            if (fURL.host != null) { /// !!! fix, need nonblocking resolve
-                hostent* host = gethostbyname(fURL.host);
-                if (host)
-                    memcpy(&fAddr.sin_addr, host->h_addr_list[0],
-                           sizeof(fAddr.sin_addr));
-                else {
-                    warn(_("DNS name lookup failed for %s"), fURL.host.c_str());
-                    setState(ERROR);
-                }
-            } else
-                fAddr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-        } else {
-            warn(_("Invalid mailbox port: \"%s\""), fURL.port.c_str());
+        addrinfo hints = {};
+        hints.ai_flags = AI_NUMERICSERV | AI_ADDRCONFIG;
+        hints.ai_family = AF_UNSPEC;
+        hints.ai_socktype = SOCK_STREAM;
+        in6_addr addr;
+        if (inet_pton(AF_INET, fURL.host, &addr) == 1) {
+            hints.ai_family = AF_INET;
+            hints.ai_flags |= AI_NUMERICHOST;
+        }
+        else if (inet_pton(AF_INET6, fURL.host, &addr) == 1) {
+            hints.ai_family = AF_INET6;
+            hints.ai_flags |= AI_NUMERICHOST;
+        }
+        int rc = getaddrinfo(fURL.host, cstring(fPort), &hints, &fAddr);
+        if (rc) {
+            snprintf(bf, sizeof bf,
+                     _("DNS name lookup failed for %s"),
+                     fURL.host.c_str());
+            warn("%s: %s", bf, gai_strerror(rc));
+            snprintf(bf + strlen(bf), sizeof bf - strlen(bf),
+                     "\n%s", gai_strerror(rc));
+            reason(bf);
             setState(ERROR);
         }
+        for (addrinfo* rp = fAddr; rp && fTrace; rp = rp->ai_next) {
+            getnameinfo(rp->ai_addr, rp->ai_addrlen, bf, 64,
+                        bf + 64, 64, NI_NUMERICHOST | NI_NUMERICSERV);
+            tlog("(%d) af %d: so %d: pr %d: %s: %s.", fInst,
+                 rp->ai_family, rp->ai_socktype, rp->ai_protocol, bf, bf + 64);
+        }
+    } else {
+        snprintf(bf, sizeof bf,
+                 _("Invalid mailbox port: \"%s\""), fURL.port.c_str());
+        warn("%s", bf);
+        reason(bf);
+        setState(ERROR);
     }
 }
 
@@ -255,29 +292,31 @@ void MailCheck::startCheck() {
     }
     else if (net()) {
         if (ssl()) {
-            if (fTrace) tlog("starting SSL");
+            if (fTrace) tlog("(%d) starting SSL", fInst);
             startSSL();
         }
-        else if (sk.connect((sockaddr *) &fAddr, sizeof(fAddr)) == 0) {
-            if (fTrace) tlog("connected non-SSL");
+        else if (sk.connect(fAddr->ai_addr, fAddr->ai_addrlen) == 0) {
+            if (fTrace) tlog("(%d) connected non-SSL", fInst);
             setState(CONNECTING);
             got = 0;
         } else {
             int e = errno;
+            snprintf(bf, sizeof bf,
+                     _("Could not connect to %s: %s"),
+                     fURL.host.c_str(), strerror(e));
             if (fTrace || testOnce(fURL.host, fPort))
-                warn(_("Could not connect to %s: %s"),
-                        fURL.host.c_str(), strerror(e));
-            error();
+                warn("%s", bf);
+            error(bf);
         }
     }
     else if (state != ERROR) {
-        error();
+        error("Invalid protocol");
     }
 }
 
 void MailCheck::startSSL() {
     const char file[] = "openssl";
-    upath path = findPath(getenv("PATH"), X_OK, file);
+    cstring path(findPath(getenv("PATH"), X_OK, file));
     if (path == null) {
         if (ONCE)
             warn(_("Failed to find %s command"), file);
@@ -301,15 +340,13 @@ void MailCheck::startSSL() {
                 close(other);
             dup2(open("/dev/null", O_WRONLY), 2);
 
-            char num[32];
-            snprintf(num, sizeof num, "%d", fPort);
-            cstring hostnamePort(mstring(fURL.host, ":", num));
+            cstring hostnamePort(mstring(fURL.host, ":", cstring(fPort)));
             const char* args[] = {
                 file, "s_client", "-quiet", "-no_ign_eof",
                 "-connect", hostnamePort, 0
             };
-            execv(cstring(path), (char* const*) args);
-            fail(_("Failed to execute %s"), cstring(path).c_str());
+            execv(path, (char* const*) args);
+            fail(_("Failed to execute %s"), path.c_str());
             _exit(1);
         }
         else {
@@ -339,17 +376,21 @@ void MailCheck::release() {
 }
 
 void MailCheck::socketError(int err) {
-    if (fTrace) tlog("socketError %d in state %s", err, s(state));
+    if (fTrace) tlog("(%d) socketError %d in state %s", fInst, err, s(state));
     if (err == 0 && (state == SUCCESS || state == WAIT_QUIT)) {
         release();
         setState(IDLE);
     }
+    else if (err) {
+        error(mstring("Socket read error: ") + strerror(err));
+    }
     else {
-        error();
+        error(mstring("Connection terminated in ") + s(state));
     }
 }
 
-void MailCheck::error() {
+void MailCheck::error(mstring str) {
+    reason(str);
     release();
     setState(ERROR);
     fMbx->mailChecked(MailBoxStatus::mbxError, -1, -1);
@@ -384,12 +425,14 @@ int MailCheck::write(const char *buf, int len) {
     if (fTrace) {
         char tmp[99] = "";
         escape(buf, len, tmp, 99);
-        tlog(" write '%s'.", tmp);
+        tlog("(%d) write '%s'.", fInst, tmp);
     }
     int n = sk.write(buf, len);
     if (n != len) {
-        fail(_("Write to socket failed"));
-        error();
+        snprintf(bf, sizeof bf,
+                 _("Write to socket failed: %s"), strerror(errno));
+        warn("%s", bf);
+        error(bf);
     }
     return n;
 }
@@ -402,7 +445,7 @@ void MailCheck::socketDataRead(char *buf, int len) {
     if (fTrace) {
         char tmp[567] = "";
         escape(buf, len, tmp, 567);
-        tlog("got %d state=%s: '%s'.", len, s(state), tmp);
+        tlog("(%d) got %d state=%s: '%s'.", fInst, len, s(state), tmp);
     }
 
     got += len;
@@ -433,7 +476,7 @@ void MailCheck::socketDataRead(char *buf, int len) {
                 sk.read(bf + got, sizeof(bf) - got);
             }
             else {
-                error();
+                error("Line too long");
             }
             return ;
         }
@@ -458,26 +501,26 @@ void MailCheck::socketDataRead(char *buf, int len) {
 
 void MailCheck::parsePop3() {
     if (strncmp(bf, "+OK", 3) != 0) {
-        if (fTrace) tlog("pop3: not +OK: '%s'.", bf);
-        return error();
+        if (fTrace) tlog("(%d) pop3: not +OK: '%s'.", fInst, bf);
+        return error(mstring("POP3 error in state ") + s(state));
     }
     else if (state == WAIT_READY) {
-        if (fTrace) tlog("pop3: ready");
+        if (fTrace) tlog("(%d) pop3: ready", fInst);
         write("USER " + fURL.user + "\r\n");
         setState(WAIT_USER);
     }
     else if (state == WAIT_USER) {
-        if (fTrace) tlog("pop3: login");
+        if (fTrace) tlog("(%d) pop3: login", fInst);
         write("PASS " + fURL.pass + "\r\n");
         setState(WAIT_PASS);
     }
     else if (state == WAIT_PASS) {
-        if (fTrace) tlog("pop3: stat");
+        if (fTrace) tlog("(%d) pop3: stat", fInst);
         write("STAT\r\n");
         setState(WAIT_STAT);
     }
     else if (state == WAIT_STAT) {
-        if (fTrace) tlog("pop3: quit");
+        if (fTrace) tlog("(%d) pop3: quit", fInst);
         if (sscanf(bf, "+OK %ld %ld", &fCurCount, &fCurSize) != 2
                 || fCurCount < 0 || fCurSize < 0) {
             fCurCount = 0;
@@ -499,7 +542,8 @@ void MailCheck::parsePop3() {
         release();
     }
     else {
-        if (fTrace) tlog("pop3: invalid state %s: '%s'.", s(state), bf);
+        if (fTrace) tlog("(%d) pop3: invalid state %s: '%s'.",
+                         fInst, s(state), bf);
     }
 }
 
@@ -515,28 +559,28 @@ void MailCheck::parseImap() {
         }
         else okay = (0 == strcmp(reply, "OK"));
     }
-    if (fTrace) tlog("state %s, seqnr %d, reply '%s', for buf '%s'.",
-                    s(state), seqnr, reply, bf);
+    if (fTrace) tlog("(%d) state %s, seqnr %d, reply '%s', for buf '%s'.",
+                     fInst, s(state), seqnr, reply, bf);
 
     if (state == WAIT_READY) {
         if (0 == strncmp(bf, "* OK", 4)) {
-            if (fTrace) tlog("imap: login");
+            if (fTrace) tlog("(%d) imap: login", fInst);
             write("0001 LOGIN " + fURL.user + " " + fURL.pass + "\r\n");
             setState(WAIT_USER);
         }
         else if (bf[0] == '*') {
-            if (fTrace) tlog("imap: invalid greeting: '%s'.", bf);
-            error();
+            if (fTrace) tlog("(%d) imap: invalid greeting: '%s'.", fInst, bf);
+            error("Invalid IMAP greeting");
         }
         return ;
     }
     else if (state == WAIT_USER) {
         if (seqnr == 1 && okay) {
-            if (fTrace) tlog("imap: status");
+            if (fTrace) tlog("(%d) imap: status", fInst);
             write("0002 STATUS " + inbox() + " (MESSAGES)\r\n");
             setState(WAIT_STAT);
         }
-        else if (seqnr) return error();
+        else if (seqnr) return error("Invalid LOGIN response");
     }
     else if (state == WAIT_STAT) {
         if (bf[0] == '*') {
@@ -548,11 +592,11 @@ void MailCheck::parseImap() {
             fCurUnseen = -1;
         }
         else if (seqnr == 2 && okay) {
-            if (fTrace) tlog("imap: unseen");
+            if (fTrace) tlog("(%d) imap: unseen", fInst);
             write("0003 STATUS " + inbox() + " (UNSEEN)\r\n");
             setState(WAIT_UNSEEN);
         }
-        else if (seqnr) return error();
+        else if (seqnr) return error("Invalid MESSAGES response");
     }
     else if (state == WAIT_UNSEEN) {
         if (bf[0] == '*') {
@@ -563,20 +607,23 @@ void MailCheck::parseImap() {
             }
         }
         else if (seqnr == 3 && okay) {
-            if (fTrace) tlog("imap: logout");
+            if (fTrace) tlog("(%d) imap: logout", fInst);
             const char logout[] = "0004 LOGOUT\r\n";
             write(logout, sizeof(logout) - 1);
             setState(WAIT_QUIT);
         }
-        else if (seqnr) return error();
+        else if (seqnr) return error("Invalid UNSEEN response");
     }
     else if (state == WAIT_QUIT) {
         if (seqnr == 4 && okay) {
-            if (fTrace) tlog("imap: done");
+            if (fTrace) tlog("(%d) imap: done", fInst);
             release();
             setState(SUCCESS);
             if (fCurCount == 0)
                 fMbx->mailChecked(MailBoxStatus::mbxNoMail,
+                                  fCurCount, fCurUnseen);
+            else if (fCurUnseen > fLastUnseen && fLastUnseen >= 0)
+                fMbx->mailChecked(MailBoxStatus::mbxHasNewMail,
                                   fCurCount, fCurUnseen);
             // A.Galanin: 'has unseen' flag has priority higher than 'has new' flag
             else if (fCurUnseen != 0)
@@ -591,11 +638,12 @@ void MailCheck::parseImap() {
             fLastUnseen = fCurUnseen;
             fLastCount = fCurCount;
         }
-        else if (seqnr) return error();
+        else if (seqnr) return error("Invalid LOGOUT response");
     }
     else {
-        if (fTrace) tlog("imap: invalid state %s: '%s'.", s(state), bf);
-        return error();
+        if (fTrace) tlog("(%d) imap: invalid state %s: '%s'.",
+                         fInst, s(state), bf);
+        return error("Invalid IMAP state");
     }
 }
 
@@ -618,16 +666,15 @@ const char* MailCheck::s(ProtocolState p) {
 MailBoxStatus::MailBoxStatus(IApp *app, YSMListener *smActionListener,
                              mstring mailbox, YWindow *aParent):
     YWindow(aParent),
-    fMailBox(mailbox),
-    check(this),
+    fState(mbxNoMail),
+    check(mailbox, this),
     smActionListener(smActionListener),
     app(app)
 {
     setSize(16, 16);
-    fState = mbxNoMail;
-    if (fMailBox != null) {
-        MSG((_("Using MailBox \"%s\"\n"), cstring(fMailBox).c_str()));
-        check.setURL(fMailBox);
+    setTitle("MailBox");
+    if (mailbox != null) {
+        MSG((_("Using MailBox \"%s\"\n"), cstring(mailBox).c_str()));
         checkMail();
         if (mailCheckDelay > 0) {
             // caution creating too many openssl processes hogging the cpu
@@ -637,7 +684,6 @@ MailBoxStatus::MailBoxStatus(IApp *app, YSMListener *smActionListener,
             fMailboxCheckTimer->setTimer(delay * 1000L, this, true);
         }
     }
-    setTitle("MailBox");
 }
 
 MailBoxStatus::~MailBoxStatus() {
@@ -658,7 +704,7 @@ void MailBoxStatus::paint(Graphics &g, const YRect &/*r*/) {
     case mbxNoMail:
         pixmap = noMailPixmap;
         break;
-    default:
+    case mbxError:
         pixmap = errMailPixmap;
         break;
     }
@@ -729,22 +775,23 @@ void MailBoxStatus::mailChecked(MailBoxState mst, long count, long unread) {
             newMailArrived();
     }
     if (fState == mbxError)
-        setToolTip(_("Error checking mailbox."));
+        setToolTip(_("Error checking mailbox.")
+                   + ("\n" + check.reason()));
     else {
         char s[128] = "";
         if (count >= 1 && unread >= 0) {
             snprintf(s, sizeof s,
-                    count == 1 ?
-                    _("%ld mail message, %ld unread.") :
-                    _("%ld mail messages, %ld unread."),
-                    count, unread);
+                     count == 1 ?
+                     _("%ld mail message, %ld unread.") :
+                     _("%ld mail messages, %ld unread."),
+                     count, unread);
         }
         else {
             snprintf(s, sizeof s,
-                    count == 1 ?
-                    _("%ld mail message.") :
-                    _("%ld mail messages."), // too hard to do properly
-                    count);
+                     count == 1 ?
+                     _("%ld mail message.") :
+                     _("%ld mail messages."),
+                     count);
         }
         setToolTip(s);
     }
@@ -753,8 +800,12 @@ void MailBoxStatus::mailChecked(MailBoxState mst, long count, long unread) {
 void MailBoxStatus::newMailArrived() {
     if (beepOnNewMail)
         xapp->alert();
-    if (newMailCommand && newMailCommand[0])
+    if (nonempty(newMailCommand)) {
+        const char name[] = "ICEWM_MAILBOX";
+        setenv(name, cstring(check.inst()), true);
         app->runCommand(newMailCommand);
+        unsetenv(name);
+    }
 }
 
 bool MailBoxStatus::handleTimer(YTimer *t) {

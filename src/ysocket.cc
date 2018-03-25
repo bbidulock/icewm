@@ -20,6 +20,12 @@
 #include <fcntl.h>
 #include <stdio.h>
 
+static const int sockStreamFlags = SOCK_STREAM
+#if defined(__linux__) && defined(SOCK_NONBLOCK) && defined(SOCK_CLOEXEC)
+                                 | SOCK_NONBLOCK | SOCK_CLOEXEC
+#endif
+                                 ;
+
 YSocket::YSocket() {
     fListener = 0;
     rdbuf = 0;
@@ -40,18 +46,22 @@ int YSocket::socket() const {
 int YSocket::connect(struct sockaddr *server_addr, int addrlen) {
     close();
 
-    int fd = ::socket(AF_INET, SOCK_STREAM, 0);
-    if (fd == -1)
-        return -1;
-
-    if (fcntl(fd, F_SETFL, O_NONBLOCK) == -1) {
-        ::close(fd);
+    int domain = server_addr->sa_family;
+    if (domain != AF_INET && domain != AF_INET6) {
+        errno = EAFNOSUPPORT;
         return -1;
     }
 
-    if (fcntl(fd, F_SETFD, FD_CLOEXEC) == -1) {
-        ::close(fd);
+    int fd = ::socket(domain, sockStreamFlags, 0);
+    if (fd == -1)
         return -1;
+
+    if (sockStreamFlags == SOCK_STREAM) {
+        if (fcntl(fd, F_SETFL, O_NONBLOCK) == -1 ||
+            fcntl(fd, F_SETFD, FD_CLOEXEC) == -1) {
+            ::close(fd);
+            return -1;
+        }
     }
 
     MSG(("connecting."));
@@ -79,21 +89,19 @@ int YSocket::connect(struct sockaddr *server_addr, int addrlen) {
 }
 
 int YSocket::socketpair(int *otherfd) {
-    int fds[2] = { 0, 0 };
-    *otherfd = -1;
     close();
-    int rc = ::socketpair(AF_UNIX, SOCK_STREAM, PF_UNIX, fds);
-    if (rc != -1) {
-        if (fcntl(fds[0], F_SETFL, O_NONBLOCK) == -1) {
-            ::close(fds[0]);
-            ::close(fds[1]);
-            return -1;
-        }
+    *otherfd = -1;
 
-        if (fcntl(fds[0], F_SETFD, FD_CLOEXEC) == -1) {
-            ::close(fds[0]);
-            ::close(fds[1]);
-            return -1;
+    int fds[2] = { 0, 0 };
+    int rc = ::socketpair(AF_UNIX, sockStreamFlags, PF_UNIX, fds);
+    if (rc >= 0) {
+        if (sockStreamFlags == SOCK_STREAM) {
+            if (fcntl(fds[0], F_SETFL, O_NONBLOCK) == -1 ||
+                fcntl(fds[0], F_SETFD, FD_CLOEXEC) == -1) {
+                ::close(fds[0]);
+                ::close(fds[1]);
+                return -1;
+            }
         }
 
         fFd = fds[0];
@@ -166,7 +174,7 @@ void YSocket::notifyRead() {
                 }
             } else {
                 if (fListener)
-                    fListener->socketError(-errno);
+                    fListener->socketError(errno);
             }
         }
         else {
@@ -210,17 +218,11 @@ void YSocket::notifyWrite() {
 }
 
 bool YSocket::forRead() {
-    if (reading)
-        return true;
-    else
-        return false;
+    return reading;
 }
 
 bool YSocket::forWrite() {
-    if (connecting)
-        return true;
-    else
-        return false;
+    return connecting;
 }
 
 // vim: set sw=4 ts=4 et:

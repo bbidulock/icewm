@@ -81,7 +81,7 @@ void YURL::operator=(ustring url) {
 }
 
 ustring YURL::unescape(ustring str) {
-    if (str != null) {
+    if (0 <= str.indexOf('%')) {
         csmart nstr(new char[str.length()]);
         if (nstr == 0)
             return null;
