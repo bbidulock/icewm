@@ -105,12 +105,8 @@ Configuring IceWM
 
 Documentation for configuring the window manager can be obtained from [IceWM
 Website][14] or from the [online manual][16].
-
-Unfortunately the documentation is for version 1.2.27 and is incomplete
-at that; however, it is for the most part usable.
-The good news is that the
-[__icewm__(1)][27], [__icewmbg__(1)][23] and [__icesound__(1)][22]
-manual pages for version @VERSION@ are complete and fully up-to-date.
+Since version 1.4.3 a complete and up-to-date set of manual pages is provided.
+Use [__icewm__(1)][27] as a starting point.
 
 
 Included Utilities
