@@ -162,6 +162,22 @@ bool CtrlAltDelete::handleKey(const XKeyEvent &key) {
             deactivate();
             return true;
         }
+        if ((k == XK_Left || k == XK_KP_Left) && m == 0) {
+            prevFocus();
+            return true;
+        }
+        if ((k == XK_Right || k == XK_KP_Right) && m == 0) {
+            nextFocus();
+            return true;
+        }
+        if ((k == XK_Down || k == XK_KP_Down) && m == 0) {
+            nextFocus(); nextFocus(); nextFocus();
+            return true;
+        }
+        if ((k == XK_Up || k == XK_KP_Up) && m == 0) {
+            prevFocus(); prevFocus(); prevFocus();
+            return true;
+        }
     }
     return YWindow::handleKey(key);
 }
