@@ -632,6 +632,7 @@ Actions:\n\
   setLayer       LAYER        Moves the window to another GNOME window layer.\n\
   setWorkspace   WORKSPACE    Moves the window to another workspace. Select\n\
                               the root window to change the current workspace.\n\
+                              Select 0xFFFFFFFF or \"All\" for all workspaces.\n\
   listWorkspaces              Lists the names of all workspaces.\n\
   setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n\
   logout                      Tell IceWM to logout.\n\
