@@ -140,16 +140,12 @@ static char *setOption(cfoption *options, char *name, const char *arg, bool appe
     for (a = 0; options[a].type != cfoption::CF_NONE; a++) {
         if (strcmp(name, options[a].name) != 0)
             continue;
-        if (options[a].notify) {
-            options[a].notify(name, arg, append);
-            return rest;
-        }
 
         switch (options[a].type) {
         case cfoption::CF_BOOL:
-            if (options[a].v.bool_value) {
+            if (options[a].v.b.bool_value) {
                 if ((arg[0] == '1' || arg[0] == '0') && arg[1] == 0) {
-                    *(options[a].v.bool_value) = (arg[0] == '1') ? true : false;
+                    *(options[a].v.b.bool_value) = (arg[0] == '1');
                 } else {
                     msg(_("Bad argument: %s for %s"), arg, name);
                     return rest;
@@ -205,6 +201,9 @@ static char *setOption(cfoption *options, char *name, const char *arg, bool appe
                 return rest;
             }
             break;
+        case cfoption::CF_FUNC:
+            options[a].fun()(name, arg, append);
+            return rest;
         case cfoption::CF_NONE:
             break;
         }
@@ -282,12 +281,13 @@ bool YConfig::loadConfigFile(cfoption *options, upath fileName) {
 }
 
 void YConfig::freeConfig(cfoption *options) {
-    for (unsigned int a = 0; options[a].type != cfoption::CF_NONE; a++) {
-        if (!options[a].v.s.initial) {
-            if (options[a].v.s.string_value) {
-                delete[] (char *)*options[a].v.s.string_value;
-                *options[a].v.s.string_value = 0;
-            }
+    for (cfoption* o = options; o->type != cfoption::CF_NONE; ++o) {
+        if (o->type == cfoption::CF_STR &&
+            !o->v.s.initial &&
+            *o->v.s.string_value)
+        {
+            delete[] (char *)*o->v.s.string_value;
+            *o->v.s.string_value = 0;
         }
     }
 }

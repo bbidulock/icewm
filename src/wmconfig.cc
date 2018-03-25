@@ -171,15 +171,9 @@ int WMConfig::setDefault(const char *basename, const char *content) {
 
 static void print_options(cfoption *options) {
     for (int i = 0; options[i].type != cfoption::CF_NONE; ++i) {
-        if (options[i].notify) {
-            if (0 == strcmp("Look", options[i].name)) {
-                printf("%s=%s\n", "Look", getLookName(wmLook));
-            }
-            continue;
-        }
         switch (options[i].type) {
         case cfoption::CF_BOOL:
-            printf("%s=%d\n", options[i].name, *options[i].v.bool_value);
+            printf("%s=%d\n", options[i].name, options[i].boolval());
             break;
         case cfoption::CF_INT:
             printf("%s=%d\n", options[i].name, *options[i].v.i.int_value);
@@ -188,13 +182,15 @@ static void print_options(cfoption *options) {
             printf("%s=%u\n", options[i].name, *options[i].v.u.uint_value);
             break;
         case cfoption::CF_STR:
-            printf("%s=\"%s\"\n", options[i].name,
-                    options[i].v.s.string_value && *options[i].v.s.string_value
-                    ? *options[i].v.s.string_value : "");
+            printf("%s=\"%s\"\n", options[i].name, Elvis(options[i].str(), ""));
             break;
         case cfoption::CF_KEY:
-            printf("%s=\"%s\"\n", options[i].name,
-                    options[i].v.k.key_value->name);
+            printf("%s=\"%s\"\n", options[i].name, options[i].key()->name);
+            break;
+        case cfoption::CF_FUNC:
+            if (0 == strcmp("Look", options[i].name)) {
+                printf("%s=%s\n", "Look", getLookName(wmLook));
+            }
             break;
         case cfoption::CF_NONE:
             break;

@@ -888,7 +888,7 @@ FocusMenu::FocusMenu() {
         { FocusCustom, _("Custo_m"), actionFocusCustom },
     };
     for (size_t k = 0; k < ACOUNT(foci); ++k) {
-        YMenuItem *item = addItem(foci[k].name, -2, "", foci[k].action);
+        YMenuItem *item = addItem(foci[k].name, -2, null, foci[k].action);
         if (focusMode == foci[k].mode) {
             item->setEnabled(false);
             item->setChecked(true);
@@ -937,8 +937,8 @@ public:
                            0 == strncmp(o->name, "Page", 4) ? sh :
                            0 != strstr(o->name, "Focus") ? fo :
                            o->name[0] <= 'L' ? al : mz;
-                item = m->addItem(o->name, -2, "", EAction(index[k] + 1));
-                if (*o->v.bool_value) {
+                item = m->addItem(o->name, -2, null, EAction(index[k] + 1));
+                if (o->boolval()) {
                     item->setChecked(true);
                 }
             }
@@ -970,8 +970,8 @@ public:
         const int i = action.ident() - 1;
         cfoption* o = i + icewm_preferences;
         if (inrange(i, 0, count - 1) && o->type == cfoption::CF_BOOL) {
-            *o->v.bool_value ^= true;
-            msg("%s = %d", o->name, *o->v.bool_value);
+            *o->v.b.bool_value ^= true;
+            msg("%s = %d", o->name, o->boolval());
             int k = find(mods, i);
             return k >= 0 ? mods.remove(k) : mods.append(i);
         }
@@ -1016,7 +1016,7 @@ public:
             csmart c(retrieveComment(o));
             char buf[99];
             snprintf(buf, sizeof buf, "%s=%d # 0/1\n",
-                     o->name, *o->v.bool_value);
+                     o->name, o->boolval());
             size_t clen = c ? strlen(c) : 0;
             size_t blen = strlen(buf);
             size_t size = 1 + tlen + clen + blen;
@@ -1045,7 +1045,7 @@ public:
         regmatch_t m = {};
         while (0 == regexec(&pat, s, 1, &m, 0)) {
             s += m.rm_eo;
-            s[-1] = '0' + *o->v.bool_value;
+            s[-1] = '0' + o->boolval();
             s = replaceComment(s, "# 0/1");
         }
         regfree(&pat);
@@ -1081,7 +1081,7 @@ public:
         regfree(&pat);
         if (c == 0) {
             char* s = text + m.rm_so;
-            snprintf(buf, sizeof buf, "%s=%d", o->name, *o->v.bool_value);
+            snprintf(buf, sizeof buf, "%s=%d", o->name, o->boolval());
             size_t blen = strlen(buf);
             memcpy(s, buf, blen);
             s += blen;
@@ -1223,7 +1223,7 @@ void StartMenu::refresh() {
 
     if (showRun) {
         if (runDlgCommand && runDlgCommand[0])
-            addItem(_("_Run..."), -2, "", actionRun, "run");
+            addItem(_("_Run..."), -2, null, actionRun, "run");
     }
 
     if (itemCount() != oldItemCount) addSeparator();
