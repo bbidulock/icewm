@@ -1443,6 +1443,9 @@ static void print_configured(const char *argv0) {
 #ifdef CONFIG_XPM
     " libxpm"
 #endif
+#ifdef LOGEVENTS
+    " logevents"
+#endif
 #ifdef ENABLE_NLS
     " nls"
 #endif

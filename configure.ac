@@ -421,6 +421,12 @@ if test x$enable_debug = xyes ; then
     CXXFLAGS="$CXXFLAGS -g -DDEBUG"
     features="$features debugging-symbols"
 fi
+AC_ARG_ENABLE([logevents],
+    AC_HELP_STRING([--enable-logevents],[Support logging of X11 events.]))
+if test x$enable_logevents = xyes ; then
+    AC_DEFINE([LOGEVENTS],[1],[Define to enable X11 event logging support.])
+    features="$features logevents"
+fi
 
 CORE_LIBS="$CORE_LIBS -lm"
 
