@@ -1121,7 +1121,12 @@ void YFrameWindow::actionPerformed(YAction action, unsigned int modifiers) {
     } else {
         for (int l(0); l < WinLayerCount; l++) {
             if (action == layerActionSet[l]) {
+                bool isFull = isFullscreen() && manager->fullscreenEnabled();
+                if (isFull)
+                    manager->setFullscreenEnabled(false);
                 wmSetLayer(l);
+                if (isFull)
+                    manager->setFullscreenEnabled(true);
                 return ;
             }
         }
@@ -2525,10 +2530,10 @@ void YFrameWindow::updateLayer(bool restack) {
         if (newLayer < fOwner->getActiveLayer())
             newLayer = fOwner->getActiveLayer();
     }
-    {
+    if (isFullscreen() && manager->fullscreenEnabled() && !canRaise()) {
         YFrameWindow *focus = manager->getFocus();
         while (focus) {
-            if (focus == this && isFullscreen() && manager->fullscreenEnabled() && !canRaise()) {
+            if (focus == this) {
                 newLayer = WinLayerFullscreen;
                 break;
             }

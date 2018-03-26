@@ -279,6 +279,7 @@ public:
 
     WMState wmState() const { return fWmState; }
     bool fullscreenEnabled() { return fFullscreenEnabled; }
+    void setFullscreenEnabled(bool enable) { fFullscreenEnabled = enable; }
     const UserTime& lastUserTime() const { return fLastUserTime; }
 
     struct DesktopLayout {
