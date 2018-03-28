@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.23\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-03-28 01:43-0600\n"
-"PO-Revision-Date: 2018-03-28 08:13+0000\n"
+"PO-Revision-Date: 2018-03-28 11:01+0000\n"
 "Last-Translator: Freek de Kruijf <freek@opensuse.org>\n"
 "Language-Team: Dutch "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/nl/>\n"
@@ -251,7 +251,7 @@ msgstr ""
 
 #: src/aworkspaces.cc:294 src/wmstatus.cc:162
 msgid "Workspace: "
-msgstr "Werkplaats: "
+msgstr "Werkruimte: "
 
 #: src/fdomenu.cc:79
 msgid "Accessibility"
@@ -567,7 +567,7 @@ msgstr "Genoemde symbolen van het domein »%s« (Bereik: %ld-%ld):\n"
 #: src/icesh.cc:435
 #, c-format
 msgid "Invalid workspace name: `%s'"
-msgstr "Ongeldig werkplaatsnummer: »%s«"
+msgstr "Ongeldig werkruimtenummer: »%s«"
 
 #: src/icesh.cc:440
 #, c-format
@@ -670,7 +670,7 @@ msgstr ""
 "  toggleState TOESTAND        Zet de Gnome venster instelling naar TOESTAND\n"
 "  setHints OMSCHRIJVING       Zet de Gnome vensteromschrijving.\n"
 "  setLayer DESK               Plaatst het venster op een andere desktop.\n"
-"  setWorkspace WERKPLAATS     Plaatst het venster op een andere werkruimte.\n"
+"  setWorkspace WERKRUIMTE    Plaatst het venster op een andere werkruimte.\n"
 "                              Bij de keuze voor een andere werkruimte wordt "
 "de\n"
 "                              huidige werkruimte gewisseld.\n"
@@ -741,7 +741,7 @@ msgstr "Ongeldige venster identificatie: »%s«"
 #: src/icesh.cc:955
 #, c-format
 msgid "workspace #%d: `%s'\n"
-msgstr "Werkplaats #%d: »%s«\n"
+msgstr "Werkruimte #%d: »%s«\n"
 
 #: src/icesh.cc:974
 #, c-format
@@ -1393,11 +1393,11 @@ msgstr "Verschuiven naa_r"
 
 #: src/wmapp.cc:605
 msgid "Occupy _All"
-msgstr "Op _alle werkplaatsen"
+msgstr "In _alle werkruimten"
 
 #: src/wmapp.cc:611
 msgid "Limit _Workarea"
-msgstr "_Beperkte werkplaats"
+msgstr "_Beperk werkruimte"
 
 #: src/wmapp.cc:615
 msgid "Tray _icon"
@@ -1840,7 +1840,7 @@ msgstr "Stijgen/Dalen"
 
 #: src/wmwinlist.cc:59
 msgid "All Workspaces"
-msgstr "Alle werkplaatsen"
+msgstr "Alle werkruimten"
 
 #: src/wmwinlist.cc:290
 msgid "Del"
@@ -1869,7 +1869,7 @@ msgstr "Window lijst"
 #: src/wmwinmenu.cc:122
 #, c-format
 msgid "%lu. Workspace %-.32s"
-msgstr "%lu. Werkplaats %-.32s"
+msgstr "%lu. Werkruimte %-.32s"
 
 #: src/yapp.cc:276
 #, c-format
