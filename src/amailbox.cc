@@ -772,7 +772,7 @@ void MailBoxStatus::mailChecked(MailBoxState mst, long count, long unread) {
         fState = mst;
         repaint();
         if (fState == mbxHasNewMail)
-            newMailArrived();
+            newMailArrived(count, unread);
     }
     if (fState == mbxError)
         setToolTip(_("Error checking mailbox.")
@@ -797,14 +797,21 @@ void MailBoxStatus::mailChecked(MailBoxState mst, long count, long unread) {
     }
 }
 
-void MailBoxStatus::newMailArrived() {
+void MailBoxStatus::newMailArrived(long count, long unread) {
     if (beepOnNewMail)
         xapp->alert();
     if (nonempty(newMailCommand)) {
-        const char name[] = "ICEWM_MAILBOX";
-        setenv(name, cstring(check.inst()), true);
+        const int size = 3;
+        struct { const char* name; cstring value; } envs[size] = {
+            { "ICEWM_MAILBOX", cstring(check.inst()), },
+            { "ICEWM_COUNT",   cstring(count), },
+            { "ICEWM_UNREAD",  cstring(unread), },
+        };
+        for (int i = 0; i < size; ++i)
+            setenv(envs[i].name, envs[i].value, True);
         app->runCommand(newMailCommand);
-        unsetenv(name);
+        for (int i = 0; i < size; ++i)
+            unsetenv(envs[i].name);
     }
 }
 

@@ -113,7 +113,7 @@ public:
 
     void checkMail();
     void mailChecked(MailBoxState mst, long count, long unread);
-    void newMailArrived();
+    void newMailArrived(long count, long unread);
 
     virtual bool handleTimer(YTimer *t);
 private:
