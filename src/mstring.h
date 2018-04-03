@@ -64,6 +64,7 @@ public:
     ~mstring();
 
     size_t length() const { return fCount; }
+    size_t offset() const { return fOffset; }
     bool isEmpty() const { return 0 == fCount; }
     bool nonempty() const { return 0 < fCount; }
 
