@@ -60,6 +60,7 @@ private:
         "  -d, --display=NAME  Use NAME to connect to the X server.\n"
         "  --sync              Synchronize communication with X11 server.\n"
         "\n"
+        "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
         "  -n, --notray        Do not start icewmtray.\n"
         "  -s, --sound         Also start icesound.\n"
         );
@@ -68,6 +69,7 @@ private:
     const char *displayArg;
     const char *configArg;
     const char *themeArg;
+    const char *icewmExe;
     bool syncArg;
     bool notrayArg;
     bool soundArg;
@@ -78,6 +80,7 @@ private:
         displayArg = 0;
         configArg = 0;
         themeArg = 0;
+        icewmExe = ICEWMEXE;
         syncArg = false;
         notrayArg = NOTRAY;
         soundArg = false;
@@ -94,6 +97,9 @@ private:
                 }
                 else if (GetArgument(value, "t", "theme", arg, *argv+*argc)) {
                     themeArg = value;
+                }
+                else if (GetArgument(value, "i", "icewm", arg, *argv+*argc)) {
+                    icewmExe = value;
                 }
                 else if (is_long_switch(*arg, "sync")) {
                     syncArg = true;
@@ -250,7 +256,7 @@ public:
     }
 
     void runWM(bool quit = false) {
-        const char *args[12] = { ICEWMEXE, "--notify", 0 };
+        const char *args[12] = { icewmExe, "--notify", 0 };
         if (quit) {
             if (wm_pid != -1) {
                 kill(wm_pid, SIGTERM);
@@ -300,13 +306,13 @@ private:
         if (WIFEXITED(status)) {
             if (WEXITSTATUS(status)) {
                 tlog(_("%s exited with status %d."),
-                        ICEWMEXE, WEXITSTATUS(status));
+                        icewmExe, WEXITSTATUS(status));
             }
             this->exit(WEXITSTATUS(status));
         }
         else if (WIFSIGNALED(status)) {
             tlog(_("%s was killed by signal %d."),
-                    ICEWMEXE, WTERMSIG(status));
+                    icewmExe, WTERMSIG(status));
             if (isCoreSignal(WTERMSIG(status))) {
                 if (crashtime == zerotime()) {
                     crashtime = monotime();
@@ -338,13 +344,13 @@ private:
     }
 
     bool enquireRestart() {
-        const char message[] =
+        const char* message = _(
             " IceWM crashed for the second time in 10 seconds. \n"
             " Do you wish to:\n\n"
             "\t1: Restart IceWM?\n"
             "\t2: Abort this session?\n"
-            ;
-        const char title[] = "IceWM crash response";
+            );
+        const char* title = _("IceWM crash response");
         const char xmes[] = "/usr/bin/xmessage";
         const char kdia[] = "/usr/bin/kdialog";
         const char zeni[] = "/usr/bin/zenity";
