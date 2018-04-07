@@ -8,11 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2018-03-28 01:43-0600\n"
+"POT-Creation-Date: 2018-04-07 14:35+0200\n"
 "PO-Revision-Date: 2018-03-29 05:39+0000\n"
 "Last-Translator: Grace Yu <grace.yu@excel-gits.com>\n"
-"Language-Team: Chinese (Taiwan) "
-"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/zh_TW/>\n"
+"Language-Team: Chinese (Taiwan) <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/zh_TW/>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -636,11 +636,15 @@ msgstr ""
 "選項：\n"
 "  -d、-display DISPLAY            連接到 DISPLAY 所指定的 X 伺服器。\n"
 "                              預設值：$DISPLAY 或是 :0.0 (未指定時)\n"
-"  -w、-window WINDOW_ID           指定要操作的視窗。特殊識別字「root」用於 root 視\n"
+"  -w、-window WINDOW_ID           指定要操作的視窗。特殊識別字「root」用於 "
+"root 視\n"
 "                              窗；而「focus」用於當前的焦點視窗。\n"
-"  -c、-class WM_CLASS             指定要操作的視窗的視窗管理類別。如果 WM_CLASS 包\n"
-"                              含了小數點，那只會套用於完全符合 WM_CLASS 資訊的\n"
-"                              視窗。但如果沒有小數點，那麼會套用於相同類別以及\n"
+"  -c、-class WM_CLASS             指定要操作的視窗的視窗管理類別。如果 "
+"WM_CLASS 包\n"
+"                              含了小數點，那只會套用於完全符合 WM_CLASS 資訊"
+"的\n"
+"                              視窗。但如果沒有小數點，那麼會套用於相同類別以"
+"及\n"
 "                              具有相同實體 (亦即「-name」) 的視窗。\n"
 "\n"
 "動作：\n"
@@ -649,7 +653,8 @@ msgstr ""
 "  setGeometry    geometry     設定視窗位置大小。\n"
 "  setState       MASK STATE   設定 GNOME 視窗狀態為 STATE。\n"
 "                              只會作用於由 MASK 所指定的位元。\n"
-"                              STATE 與 MASK 都是「GNOME 視窗狀態」領域中的表示\n"
+"                              STATE 與 MASK 都是「GNOME 視窗狀態」領域中的表"
+"示\n"
 "                              式。\n"
 "  toggleState    STATE        切換由 STATE 所指定的 GNOME 視窗狀態。\n"
 "  setHints       HINTS        設定 GNOME 的視窗提示為 HINTS。\n"
@@ -729,6 +734,16 @@ msgid "Socket error: %d"
 msgstr "Socket 錯誤：%d"
 
 #: src/icesm.cc:57
+#, fuzzy
+#| msgid ""
+#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
+#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
+#| "\n"
+#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
+#| "  --sync              Synchronize communication with X11 server.\n"
+#| "\n"
+#| "  -n, --notray        Do not start icewmtray.\n"
+#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -736,6 +751,7 @@ msgid ""
 "  -d, --display=NAME  Use NAME to connect to the X server.\n"
 "  --sync              Synchronize communication with X11 server.\n"
 "\n"
+"  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
@@ -748,20 +764,35 @@ msgstr ""
 "  -n、--notray        不啟動 icewmtray。\n"
 "  -s、--sound         同時啟動 icesound。\n"
 
-#: src/icesm.cc:114
+#: src/icesm.cc:120
 #, c-format
 msgid "Unknown option '%s'"
 msgstr "未知選項「%s」"
 
-#: src/icesm.cc:302
+#: src/icesm.cc:308
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s 已離開，狀態為 %d。"
 
-#: src/icesm.cc:308
+#: src/icesm.cc:314
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s 被訊號 %d 強行中止。"
+
+#: src/icesm.cc:348
+msgid ""
+" IceWM crashed for the second time in 10 seconds. \n"
+" Do you wish to:\n"
+"\n"
+"\t1: Restart IceWM?\n"
+"\t2: Abort this session?\n"
+msgstr ""
+
+#: src/icesm.cc:353
+#, fuzzy
+#| msgid "IceWM tray option"
+msgid "IceWM crash response"
+msgstr "IceWM 系統列選項"
 
 #: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
 #, c-format
@@ -1534,7 +1565,7 @@ msgstr "鎖定工作站(_K)"
 msgid "_Cancel"
 msgstr "取消(_C)"
 
-#: src/wmdialog.cc:76 src/wmprog.cc:1279 src/wmprog.cc:1281
+#: src/wmdialog.cc:76 src/wmprog.cc:1283 src/wmprog.cc:1285
 #: src/wmtaskbar.cc:283 src/wmtaskbar.cc:285
 msgid "_Logout..."
 msgstr "登出(_L)..."
@@ -1543,7 +1574,7 @@ msgstr "登出(_L)..."
 msgid "_Restart icewm"
 msgstr "重新啟動 icewm(_R)"
 
-#: src/wmdialog.cc:81 src/wmprog.cc:1242 src/wmtaskbar.cc:276
+#: src/wmdialog.cc:81 src/wmprog.cc:1244 src/wmtaskbar.cc:276
 #: src/wmtaskbar.cc:279
 msgid "_About"
 msgstr "關於(_A)"
@@ -1695,23 +1726,23 @@ msgstr "執行(_R)..."
 msgid "_Windows"
 msgstr "視窗(_W)"
 
-#: src/wmprog.cc:1248
+#: src/wmprog.cc:1250
 msgid "_Help"
 msgstr "求助(_H)"
 
-#: src/wmprog.cc:1259
+#: src/wmprog.cc:1261
 msgid "_Focus"
 msgstr "焦點(_F)"
 
-#: src/wmprog.cc:1263
+#: src/wmprog.cc:1266
 msgid "_Preferences"
 msgstr "優先設定(_P)"
 
-#: src/wmprog.cc:1268
+#: src/wmprog.cc:1272
 msgid "_Themes"
 msgstr "主題(_T)"
 
-#: src/wmprog.cc:1273
+#: src/wmprog.cc:1277
 msgid "Se_ttings"
 msgstr "設定(_T)"
 
@@ -1978,10 +2009,21 @@ msgstr "找不到圖案 %s"
 msgid "$USER or $LOGNAME not set?"
 msgstr "$USER 或 $LOGNAME 未設定？"
 
-#: src/yurl.cc:79
+#: src/yurl.cc:146
+#, fuzzy, c-format
+#| msgid "Failed to decompress %s"
+msgid "Failed to parse URL \"%s\"."
+msgstr "解壓縮 %s 失敗"
+
+#: src/yurl.cc:162
 #, c-format
-msgid "\"%s\" contains no scheme description"
-msgstr "「%s」沒有包含方案描述"
+msgid "Incomplete hex escape in URL at position %d."
+msgstr ""
+
+#: src/yurl.cc:169
+#, c-format
+msgid "Invalid hex escape in URL at position %d."
+msgstr ""
 
 #: src/yxapp.cc:891
 msgid ""
@@ -1990,6 +2032,9 @@ msgid ""
 msgstr ""
 "  -d、--display=NAME  要使用的 X 伺服器名稱。\n"
 "  --sync              同步 X11 指令。\n"
+
+#~ msgid "\"%s\" contains no scheme description"
+#~ msgstr "「%s」沒有包含方案描述"
 
 #~ msgid "Please note that not all options are currently configured.\n"
 #~ msgstr "請注意，目前並未設定所有選項。\n"

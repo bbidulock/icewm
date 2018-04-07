@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2018-03-28 01:43-0600\n"
+"POT-Creation-Date: 2018-04-07 14:35+0200\n"
 "PO-Revision-Date: 2018-04-04 15:42+0000\n"
 "Last-Translator: David Medina <medipas@gmail.com>\n"
-"Language-Team: Catalan "
-"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/ca/>\n"
+"Language-Team: Catalan <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -758,6 +758,16 @@ msgid "Socket error: %d"
 msgstr "Error de sòcol: %d"
 
 #: src/icesm.cc:57
+#, fuzzy
+#| msgid ""
+#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
+#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
+#| "\n"
+#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
+#| "  --sync              Synchronize communication with X11 server.\n"
+#| "\n"
+#| "  -n, --notray        Do not start icewmtray.\n"
+#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -765,6 +775,7 @@ msgid ""
 "  -d, --display=NAME  Use NAME to connect to the X server.\n"
 "  --sync              Synchronize communication with X11 server.\n"
 "\n"
+"  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
@@ -778,20 +789,35 @@ msgstr ""
 "  -n, --notray        No iniciïs l'icewmtray.\n"
 "  -s, --sound         Inicia també l'icesound.\n"
 
-#: src/icesm.cc:114
+#: src/icesm.cc:120
 #, c-format
 msgid "Unknown option '%s'"
 msgstr "Opció desconeguda: \"%s\""
 
-#: src/icesm.cc:302
+#: src/icesm.cc:308
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s ha sortit amb l'estat %d."
 
-#: src/icesm.cc:308
+#: src/icesm.cc:314
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s ha estat matat pel senyal %d."
+
+#: src/icesm.cc:348
+msgid ""
+" IceWM crashed for the second time in 10 seconds. \n"
+" Do you wish to:\n"
+"\n"
+"\t1: Restart IceWM?\n"
+"\t2: Abort this session?\n"
+msgstr ""
+
+#: src/icesm.cc:353
+#, fuzzy
+#| msgid "IceWM tray option"
+msgid "IceWM crash response"
+msgstr "Opció de la safata de l'IceWM"
 
 #: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
 #, c-format
@@ -1581,7 +1607,7 @@ msgstr "Bloque_ja l'estació de treball"
 msgid "_Cancel"
 msgstr "_Cancel·la"
 
-#: src/wmdialog.cc:76 src/wmprog.cc:1279 src/wmprog.cc:1281
+#: src/wmdialog.cc:76 src/wmprog.cc:1283 src/wmprog.cc:1285
 #: src/wmtaskbar.cc:283 src/wmtaskbar.cc:285
 msgid "_Logout..."
 msgstr "_Surt..."
@@ -1590,7 +1616,7 @@ msgstr "_Surt..."
 msgid "_Restart icewm"
 msgstr "_Reinicia l'icewm"
 
-#: src/wmdialog.cc:81 src/wmprog.cc:1242 src/wmtaskbar.cc:276
+#: src/wmdialog.cc:81 src/wmprog.cc:1244 src/wmtaskbar.cc:276
 #: src/wmtaskbar.cc:279
 msgid "_About"
 msgstr "_Quant a"
@@ -1742,23 +1768,23 @@ msgstr "_Executa..."
 msgid "_Windows"
 msgstr "_Finestres"
 
-#: src/wmprog.cc:1248
+#: src/wmprog.cc:1250
 msgid "_Help"
 msgstr "_Ajuda"
 
-#: src/wmprog.cc:1259
+#: src/wmprog.cc:1261
 msgid "_Focus"
 msgstr "_Focus"
 
-#: src/wmprog.cc:1263
+#: src/wmprog.cc:1266
 msgid "_Preferences"
 msgstr "_Preferències"
 
-#: src/wmprog.cc:1268
+#: src/wmprog.cc:1272
 msgid "_Themes"
 msgstr "_Temes"
 
-#: src/wmprog.cc:1273
+#: src/wmprog.cc:1277
 msgid "Se_ttings"
 msgstr "Paràme_tres"
 
@@ -2029,10 +2055,21 @@ msgstr "No s'ha pogut trobar la imatge %s"
 msgid "$USER or $LOGNAME not set?"
 msgstr "¿$USUARI o $NOMD'ENTRADA no configurat?"
 
-#: src/yurl.cc:79
+#: src/yurl.cc:146
+#, fuzzy, c-format
+#| msgid "Failed to decompress %s"
+msgid "Failed to parse URL \"%s\"."
+msgstr "Ha fallat descomprimir %s"
+
+#: src/yurl.cc:162
 #, c-format
-msgid "\"%s\" contains no scheme description"
-msgstr "\"%s\"no conté cap descripció d'esquema"
+msgid "Incomplete hex escape in URL at position %d."
+msgstr ""
+
+#: src/yurl.cc:169
+#, c-format
+msgid "Invalid hex escape in URL at position %d."
+msgstr ""
 
 #: src/yxapp.cc:891
 msgid ""
@@ -2041,6 +2078,9 @@ msgid ""
 msgstr ""
 "  -d, --display=NAME      Nom del servidor X per usar.\n"
 "  --sync              Sincronitza les ordres d'X11.\n"
+
+#~ msgid "\"%s\" contains no scheme description"
+#~ msgstr "\"%s\"no conté cap descripció d'esquema"
 
 #~ msgid "Please note that not all options are currently configured.\n"
 #~ msgstr ""

@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2018-03-28 01:43-0600\n"
+"POT-Creation-Date: 2018-04-07 14:35+0200\n"
 "PO-Revision-Date: 2018-03-28 08:08+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
-"Language-Team: Japanese "
-"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/ja/>\n"
+"Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -637,15 +637,24 @@ msgstr ""
 "使用方法: %s [オプション] アクション\n"
 "\n"
 "オプション:\n"
-"  -d, -display DISPLAY            DISPLAY で指定した X サーバのディスプレイに接続します。\n"
-"                              既定値: $DISPLAY または :0.0 ($DISPLAY が未設定の場合)\n"
-"  -w, -window WINDOW_ID            操作対象のウインドウを指定します。特殊キーワード `root'\n"
-"                              を指定するとルートウインドウを、 `focus' を指定すると\n"
-"                              現在フォーカスされているウインドウを対象とします。\n"
-"  -c, -class WM_CLASS            操作するウインドウのウインドウ管理クラスを指定します。\n"
-"                              WM_CLASS にピリオド (.) が含まれている場合、指定した\n"
-"                              クラスに厳密に一致するものを指定したものと見なします。\n"
-"                              ピリオドがない場合、同じクラスかつ同じインスタンス\n"
+"  -d, -display DISPLAY            DISPLAY で指定した X サーバのディスプレイに"
+"接続します。\n"
+"                              既定値: $DISPLAY または :0.0 ($DISPLAY が未設定"
+"の場合)\n"
+"  -w, -window WINDOW_ID            操作対象のウインドウを指定します。特殊キー"
+"ワード `root'\n"
+"                              を指定するとルートウインドウを、 `focus' を指定"
+"すると\n"
+"                              現在フォーカスされているウインドウを対象としま"
+"す。\n"
+"  -c, -class WM_CLASS            操作するウインドウのウインドウ管理クラスを指"
+"定します。\n"
+"                              WM_CLASS にピリオド (.) が含まれている場合、指"
+"定した\n"
+"                              クラスに厳密に一致するものを指定したものと見な"
+"します。\n"
+"                              ピリオドがない場合、同じクラスかつ同じインスタ"
+"ンス\n"
 "                              (別名: `-name') のウインドウを選択します。\n"
 "\n"
 "アクション:\n"
@@ -654,29 +663,43 @@ msgstr ""
 "  setGeometry    geometry     ウインドウのジオメトリを設定します。\n"
 "  setState       MASK STATE   GNOME のウインドウ状態を STATE に設定します。\n"
 "                              MASK で選択したビットのみを設定します。\n"
-"                              STATE と MASK は、領域 `GNOME window state' の表現で\n"
+"                              STATE と MASK は、領域 `GNOME window state' の"
+"表現で\n"
 "                              指定します。\n"
 "  toggleState    STATE        STATE の表現で指定した GNOME の状態ビットを\n"
 "                              切り替えます。\n"
-"  setHints       HINTS        GNOME のウインドウヒントを HINTS に設定します。\n"
-"  setLayer       LAYER        ウインドウを他の GNOME ウインドウレイヤに移動します。\n"
-"  setWorkspace   WORKSPACE    ウインドウを他のワークスペースに移動します。現在の\n"
-"                              ワークスペースを変更したい場合は、ルートウインドウを\n"
-"                              選択してください。全てのワークスペースに設定したい場合は、 \n"
-"                               0xFFFFFFFF または \"All\" を指定してください。\n"
+"  setHints       HINTS        GNOME のウインドウヒントを HINTS に設定しま"
+"す。\n"
+"  setLayer       LAYER        ウインドウを他の GNOME ウインドウレイヤに移動し"
+"ます。\n"
+"  setWorkspace   WORKSPACE    ウインドウを他のワークスペースに移動します。現"
+"在の\n"
+"                              ワークスペースを変更したい場合は、ルートウイン"
+"ドウを\n"
+"                              選択してください。全てのワークスペースに設定し"
+"たい場合は、 \n"
+"                               0xFFFFFFFF または \"All\" を指定してくださ"
+"い。\n"
 "  listWorkspaces              全てのワークスペースの名前を一覧表示します。\n"
 "  setTrayOption  TRAYOPTION   IceWM トレイオプションのヒントを設定します。\n"
-"  logout                      IceWM に対して、ログアウトするように依頼します。\n"
+"  logout                      IceWM に対して、ログアウトするように依頼しま"
+"す。\n"
 "  reboot                      IceWM に対して、再起動するように依頼します。\n"
-"  shutdown                    IceWM に対して、シャットダウンするように依頼します。\n"
-"  cancel                      IceWM に対して、ログアウト／再起動／シャットダウンをキャンセルするように依頼します。\n"
-"  about                       IceWM に対して、バージョン情報を表示するように依頼します。\n"
-"  windowlist                  IceWM に対して、ウインドウ一覧を表示するように依頼します。\n"
+"  shutdown                    IceWM に対して、シャットダウンするように依頼し"
+"ます。\n"
+"  cancel                      IceWM に対して、ログアウト／再起動／シャットダ"
+"ウンをキャンセルするように依頼します。\n"
+"  about                       IceWM に対して、バージョン情報を表示するように"
+"依頼します。\n"
+"  windowlist                  IceWM に対して、ウインドウ一覧を表示するように"
+"依頼します。\n"
 "  restart                     IceWM に対して、再開するように依頼します。\n"
-"  suspend                     IceWM に対して、サスペンドするように依頼します。\n"
+"  suspend                     IceWM に対して、サスペンドするように依頼しま"
+"す。\n"
 "\n"
 "表現:\n"
-"  表現は、ある 1 つのドメインに対するシンボルリストを `+' または `|' で区切って指定します:\n"
+"  表現は、ある 1 つのドメインに対するシンボルリストを `+' または `|' で区切っ"
+"て指定します:\n"
 "\n"
 "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
 "\n"
@@ -738,6 +761,16 @@ msgid "Socket error: %d"
 msgstr "ソケットエラー: %d"
 
 #: src/icesm.cc:57
+#, fuzzy
+#| msgid ""
+#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
+#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
+#| "\n"
+#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
+#| "  --sync              Synchronize communication with X11 server.\n"
+#| "\n"
+#| "  -n, --notray        Do not start icewmtray.\n"
+#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -745,6 +778,7 @@ msgid ""
 "  -d, --display=NAME  Use NAME to connect to the X server.\n"
 "  --sync              Synchronize communication with X11 server.\n"
 "\n"
+"  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
@@ -759,20 +793,35 @@ msgstr ""
 "  -n, --notray        icewmtray を起動しないようにします。\n"
 "  -s, --sound         icesound も併せて起動するようにします。\n"
 
-#: src/icesm.cc:114
+#: src/icesm.cc:120
 #, c-format
 msgid "Unknown option '%s'"
 msgstr "不明なオプションです: `%s'"
 
-#: src/icesm.cc:302
+#: src/icesm.cc:308
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s はステータスコード %d で終了しました。"
 
-#: src/icesm.cc:308
+#: src/icesm.cc:314
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s はシグナル %d で終了しました。"
+
+#: src/icesm.cc:348
+msgid ""
+" IceWM crashed for the second time in 10 seconds. \n"
+" Do you wish to:\n"
+"\n"
+"\t1: Restart IceWM?\n"
+"\t2: Abort this session?\n"
+msgstr ""
+
+#: src/icesm.cc:353
+#, fuzzy
+#| msgid "IceWM tray option"
+msgid "IceWM crash response"
+msgstr "IceWM トレイアイコン"
 
 #: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
 #, c-format
@@ -1569,7 +1618,7 @@ msgstr "ワークステーションをロック (_K)"
 msgid "_Cancel"
 msgstr "キャンセル (_C)"
 
-#: src/wmdialog.cc:76 src/wmprog.cc:1279 src/wmprog.cc:1281
+#: src/wmdialog.cc:76 src/wmprog.cc:1283 src/wmprog.cc:1285
 #: src/wmtaskbar.cc:283 src/wmtaskbar.cc:285
 msgid "_Logout..."
 msgstr "ログアウト (_L)..."
@@ -1578,7 +1627,7 @@ msgstr "ログアウト (_L)..."
 msgid "_Restart icewm"
 msgstr "icewm を再起動 (_R)"
 
-#: src/wmdialog.cc:81 src/wmprog.cc:1242 src/wmtaskbar.cc:276
+#: src/wmdialog.cc:81 src/wmprog.cc:1244 src/wmtaskbar.cc:276
 #: src/wmtaskbar.cc:279
 msgid "_About"
 msgstr "情報 (_A)"
@@ -1730,23 +1779,23 @@ msgstr "実行 (_R)..."
 msgid "_Windows"
 msgstr "ウインドウ一覧 (_W)"
 
-#: src/wmprog.cc:1248
+#: src/wmprog.cc:1250
 msgid "_Help"
 msgstr "ヘルプ (_H)"
 
-#: src/wmprog.cc:1259
+#: src/wmprog.cc:1261
 msgid "_Focus"
 msgstr "フォーカス (_F)"
 
-#: src/wmprog.cc:1263
+#: src/wmprog.cc:1266
 msgid "_Preferences"
 msgstr "設定 (_P)"
 
-#: src/wmprog.cc:1268
+#: src/wmprog.cc:1272
 msgid "_Themes"
 msgstr "テーマ (_T)"
 
-#: src/wmprog.cc:1273
+#: src/wmprog.cc:1277
 msgid "Se_ttings"
 msgstr "設定 (_T)"
 
@@ -2025,10 +2074,21 @@ msgstr "画像 %s が見つかりません"
 msgid "$USER or $LOGNAME not set?"
 msgstr "$USER または $LOGNAME がセットされていないようです？"
 
-#: src/yurl.cc:79
+#: src/yurl.cc:146
+#, fuzzy, c-format
+#| msgid "Failed to decompress %s"
+msgid "Failed to parse URL \"%s\"."
+msgstr "%s の展開に失敗しました"
+
+#: src/yurl.cc:162
 #, c-format
-msgid "\"%s\" contains no scheme description"
-msgstr "\"%s\" にはスキームの指定がありません"
+msgid "Incomplete hex escape in URL at position %d."
+msgstr ""
+
+#: src/yurl.cc:169
+#, c-format
+msgid "Invalid hex escape in URL at position %d."
+msgstr ""
 
 #: src/yxapp.cc:891
 msgid ""
@@ -2037,6 +2097,9 @@ msgid ""
 msgstr ""
 "  -d, --display=NAME  使用する X サーバを指定します。\n"
 "  --sync              X11 コマンドを同期させます。\n"
+
+#~ msgid "\"%s\" contains no scheme description"
+#~ msgstr "\"%s\" にはスキームの指定がありません"
 
 #~ msgid "Please note that not all options are currently configured.\n"
 #~ msgstr ""

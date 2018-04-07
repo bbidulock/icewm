@@ -11,11 +11,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2018-03-28 01:43-0600\n"
+"POT-Creation-Date: 2018-04-07 14:35+0200\n"
 "PO-Revision-Date: 2018-03-29 08:01+0000\n"
 "Last-Translator: Emily Dong <Emily.Dong@excel-gits.com>\n"
-"Language-Team: Chinese (China) "
-"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/zh_CN/>\n"
+"Language-Team: Chinese (China) <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/zh_CN/>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -641,7 +641,8 @@ msgstr ""
 "                              未设置时，采用缺省值：$DISPLAY 或者 :0.0。\n"
 "  -w、-window WINDOW_ID       指定要使用的窗口。根窗口的特殊\n"
 "                              标识符为“root”，当前聚焦窗口为“focus”。\n"
-"  -c、-class WM_CLASS         指定要使用的窗口的窗口管理类。如果 WM_CLASS 包含\n"
+"  -c、-class WM_CLASS         指定要使用的窗口的窗口管理类。如果 WM_CLASS 包"
+"含\n"
 "                              句点，那么只管理那些 WM_CLASS 属性完全一致\n"
 "                              的窗口。如果不包含句点，则属于相同类和属于\n"
 "                              相同进程（又称为“-name”）的窗口都会被被选取。\n"
@@ -653,8 +654,8 @@ msgstr ""
 "                              只有由 MASK 选择的位才受影响。\n"
 "                              STATE 和 MASK 是范围的表达式。\n"
 "                              “GNOME 窗口状态”。\n"
-"  toggleState STATE           切换STATE 表达式指定的 GNOME 窗口状态位。                   "
-"\n"
+"  toggleState STATE           切换STATE 表达式指定的 GNOME 窗口状态"
+"位。                   \n"
 "  setHints HINTS              将 GNOME 窗口提示设置为 HINTS。\n"
 "  setLayer LAYER              将窗口移动到另一个 GNOME 窗口层。\n"
 "  setWorkspace WORKSPACE      将窗口移动到另一个工作区。选择\n"
@@ -732,6 +733,16 @@ msgid "Socket error: %d"
 msgstr "socket 错误：%d"
 
 #: src/icesm.cc:57
+#, fuzzy
+#| msgid ""
+#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
+#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
+#| "\n"
+#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
+#| "  --sync              Synchronize communication with X11 server.\n"
+#| "\n"
+#| "  -n, --notray        Do not start icewmtray.\n"
+#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -739,6 +750,7 @@ msgid ""
 "  -d, --display=NAME  Use NAME to connect to the X server.\n"
 "  --sync              Synchronize communication with X11 server.\n"
 "\n"
+"  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
@@ -751,20 +763,35 @@ msgstr ""
 "  -n, --notray        不启动 icewmtray。\n"
 "  -s, --sound         同时启动 icesound。\n"
 
-#: src/icesm.cc:114
+#: src/icesm.cc:120
 #, c-format
 msgid "Unknown option '%s'"
 msgstr "未知选项：‘%s'"
 
-#: src/icesm.cc:302
+#: src/icesm.cc:308
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s 以状态 %d 退出。"
 
-#: src/icesm.cc:308
+#: src/icesm.cc:314
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s 由信号 %d 杀掉。"
+
+#: src/icesm.cc:348
+msgid ""
+" IceWM crashed for the second time in 10 seconds. \n"
+" Do you wish to:\n"
+"\n"
+"\t1: Restart IceWM?\n"
+"\t2: Abort this session?\n"
+msgstr ""
+
+#: src/icesm.cc:353
+#, fuzzy
+#| msgid "IceWM tray option"
+msgid "IceWM crash response"
+msgstr "IceWM 托盘选项"
 
 #: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
 #, c-format
@@ -1539,7 +1566,7 @@ msgstr "锁定工作站(_k)"
 msgid "_Cancel"
 msgstr "取消(_C)"
 
-#: src/wmdialog.cc:76 src/wmprog.cc:1279 src/wmprog.cc:1281
+#: src/wmdialog.cc:76 src/wmprog.cc:1283 src/wmprog.cc:1285
 #: src/wmtaskbar.cc:283 src/wmtaskbar.cc:285
 msgid "_Logout..."
 msgstr "退出(_L)..."
@@ -1548,7 +1575,7 @@ msgstr "退出(_L)..."
 msgid "_Restart icewm"
 msgstr "重启 icewm(_R)"
 
-#: src/wmdialog.cc:81 src/wmprog.cc:1242 src/wmtaskbar.cc:276
+#: src/wmdialog.cc:81 src/wmprog.cc:1244 src/wmtaskbar.cc:276
 #: src/wmtaskbar.cc:279
 msgid "_About"
 msgstr "关于(_A)"
@@ -1700,23 +1727,23 @@ msgstr "运行(_r)…"
 msgid "_Windows"
 msgstr "窗口(_W)"
 
-#: src/wmprog.cc:1248
+#: src/wmprog.cc:1250
 msgid "_Help"
 msgstr "帮助(_H)"
 
-#: src/wmprog.cc:1259
+#: src/wmprog.cc:1261
 msgid "_Focus"
 msgstr "聚焦(_F)"
 
-#: src/wmprog.cc:1263
+#: src/wmprog.cc:1266
 msgid "_Preferences"
 msgstr "配置选项(_P)"
 
-#: src/wmprog.cc:1268
+#: src/wmprog.cc:1272
 msgid "_Themes"
 msgstr "主题(_T)"
 
-#: src/wmprog.cc:1273
+#: src/wmprog.cc:1277
 msgid "Se_ttings"
 msgstr "设置(_t)"
 
@@ -1983,10 +2010,21 @@ msgstr "无法找到图片 %s"
 msgid "$USER or $LOGNAME not set?"
 msgstr "还没设置 $USER 或 $LOGNAME？"
 
-#: src/yurl.cc:79
+#: src/yurl.cc:146
+#, fuzzy, c-format
+#| msgid "Failed to decompress %s"
+msgid "Failed to parse URL \"%s\"."
+msgstr "解压缩 %s 失败"
+
+#: src/yurl.cc:162
 #, c-format
-msgid "\"%s\" contains no scheme description"
-msgstr "“%s”包含没有方案的描述"
+msgid "Incomplete hex escape in URL at position %d."
+msgstr ""
+
+#: src/yurl.cc:169
+#, c-format
+msgid "Invalid hex escape in URL at position %d."
+msgstr ""
 
 #: src/yxapp.cc:891
 msgid ""
@@ -1995,6 +2033,9 @@ msgid ""
 msgstr ""
 "  -d, --display=NAME  使用名为 NAME 的 X 服务器。\n"
 "  --sync              同步 X11 命令。\n"
+
+#~ msgid "\"%s\" contains no scheme description"
+#~ msgstr "“%s”包含没有方案的描述"
 
 #~ msgid "Please note that not all options are currently configured.\n"
 #~ msgstr "请注意并非全部选项都已设置。\n"

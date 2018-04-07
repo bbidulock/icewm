@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Marko Macek <Marko.Macek@gmx.net>
-# This file is distributed under the same license as the icewm package.
+# This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: icewm 1.4.2.1271\n"
+"Project-Id-Version: icewm 1.4.2.1301\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2018-03-28 01:43-0600\n"
+"POT-Creation-Date: 2018-04-07 14:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -640,23 +640,37 @@ msgid ""
 "  -d, --display=NAME  Use NAME to connect to the X server.\n"
 "  --sync              Synchronize communication with X11 server.\n"
 "\n"
+"  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
 
-#: src/icesm.cc:114
+#: src/icesm.cc:120
 #, c-format
 msgid "Unknown option '%s'"
 msgstr ""
 
-#: src/icesm.cc:302
+#: src/icesm.cc:308
 #, c-format
 msgid "%s exited with status %d."
 msgstr ""
 
-#: src/icesm.cc:308
+#: src/icesm.cc:314
 #, c-format
 msgid "%s was killed by signal %d."
+msgstr ""
+
+#: src/icesm.cc:348
+msgid ""
+" IceWM crashed for the second time in 10 seconds. \n"
+" Do you wish to:\n"
+"\n"
+"\t1: Restart IceWM?\n"
+"\t2: Abort this session?\n"
+msgstr ""
+
+#: src/icesm.cc:353
+msgid "IceWM crash response"
 msgstr ""
 
 #: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
@@ -1288,7 +1302,7 @@ msgstr ""
 msgid "_Cancel"
 msgstr ""
 
-#: src/wmdialog.cc:76 src/wmprog.cc:1279 src/wmprog.cc:1281
+#: src/wmdialog.cc:76 src/wmprog.cc:1283 src/wmprog.cc:1285
 #: src/wmtaskbar.cc:283 src/wmtaskbar.cc:285
 msgid "_Logout..."
 msgstr ""
@@ -1297,7 +1311,7 @@ msgstr ""
 msgid "_Restart icewm"
 msgstr ""
 
-#: src/wmdialog.cc:81 src/wmprog.cc:1242 src/wmtaskbar.cc:276
+#: src/wmdialog.cc:81 src/wmprog.cc:1244 src/wmtaskbar.cc:276
 #: src/wmtaskbar.cc:279
 msgid "_About"
 msgstr ""
@@ -1445,23 +1459,23 @@ msgstr ""
 msgid "_Windows"
 msgstr ""
 
-#: src/wmprog.cc:1248
+#: src/wmprog.cc:1250
 msgid "_Help"
 msgstr ""
 
-#: src/wmprog.cc:1259
+#: src/wmprog.cc:1261
 msgid "_Focus"
 msgstr ""
 
-#: src/wmprog.cc:1263
+#: src/wmprog.cc:1266
 msgid "_Preferences"
 msgstr ""
 
-#: src/wmprog.cc:1268
+#: src/wmprog.cc:1272
 msgid "_Themes"
 msgstr ""
 
-#: src/wmprog.cc:1273
+#: src/wmprog.cc:1277
 msgid "Se_ttings"
 msgstr ""
 
@@ -1728,9 +1742,19 @@ msgstr ""
 msgid "$USER or $LOGNAME not set?"
 msgstr ""
 
-#: src/yurl.cc:79
+#: src/yurl.cc:146
 #, c-format
-msgid "\"%s\" contains no scheme description"
+msgid "Failed to parse URL \"%s\"."
+msgstr ""
+
+#: src/yurl.cc:162
+#, c-format
+msgid "Incomplete hex escape in URL at position %d."
+msgstr ""
+
+#: src/yurl.cc:169
+#, c-format
+msgid "Invalid hex escape in URL at position %d."
 msgstr ""
 
 #: src/yxapp.cc:891

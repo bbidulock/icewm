@@ -8,11 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.35\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2018-03-28 01:43-0600\n"
+"POT-Creation-Date: 2018-04-07 14:35+0200\n"
 "PO-Revision-Date: 2018-04-04 08:03+0000\n"
 "Last-Translator: Hwajin Kim <hwajin.kim@e4net.net>\n"
-"Language-Team: Korean "
-"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/ko/>\n"
+"Language-Team: Korean <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/ko/>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -662,13 +662,15 @@ msgstr ""
 "  setLayer       LAYER        창을 다른 GNOME 창 레이어로 옮긴다.\n"
 "  setWorkspace   WORKSPACE    창을 다른 작업공간으로 옮긴다. 현재\n"
 "                              작업공간을 바꾸기 위해선 루트 창을 선택한다.\n"
-"                              모든 작업공간에 대해 0xFFFFFFFF 또는 \"모두\"를 선택한다.\n"
+"                              모든 작업공간에 대해 0xFFFFFFFF 또는 \"모두"
+"\"를 선택한다.\n"
 "  listWorkspaces              모든 작업공간의 이름을 나열한다.\n"
 "  setTrayOption  TRAYOPTION   IceWM 트레이 옵션 힌트를 설정한다.\n"
 "  logout                      IceWM에 로그아웃하라고 말한다.\n"
 "  reboot                      IceWM에 재부팅하라고 말한다.\n"
 "  shutdown                    IceWM에 종료하라고 말한다.\n"
-"  cancel                      IceWM에 로그아웃/재부팅/종료를 취소하라고 말한다.\n"
+"  cancel                      IceWM에 로그아웃/재부팅/종료를 취소하라고 말한"
+"다.\n"
 "  about                        IceWM에 창에 대해 표시하라고 말한다.\n"
 "  windowlist                  IceWM에 창 목록을 표시하라고 말한다.\n"
 "  restart                     IceWM에 다시 시작하라고 말한다.\n"
@@ -735,6 +737,16 @@ msgid "Socket error: %d"
 msgstr "소켓 오류: %d"
 
 #: src/icesm.cc:57
+#, fuzzy
+#| msgid ""
+#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
+#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
+#| "\n"
+#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
+#| "  --sync              Synchronize communication with X11 server.\n"
+#| "\n"
+#| "  -n, --notray        Do not start icewmtray.\n"
+#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -742,6 +754,7 @@ msgid ""
 "  -d, --display=NAME  Use NAME to connect to the X server.\n"
 "  --sync              Synchronize communication with X11 server.\n"
 "\n"
+"  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
@@ -754,20 +767,35 @@ msgstr ""
 "  -n, --notray        icewmtray를 시작하지 않습니다.\n"
 "  -s, --sound         icesound도 시작합니다.\n"
 
-#: src/icesm.cc:114
+#: src/icesm.cc:120
 #, c-format
 msgid "Unknown option '%s'"
 msgstr "알 수 없는 옵션 '%s'"
 
-#: src/icesm.cc:302
+#: src/icesm.cc:308
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s이(가) 상태 %d(으)로 종료되었습니다."
 
-#: src/icesm.cc:308
+#: src/icesm.cc:314
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s이(가) 신호 %d에 의해 종료되었습니다."
+
+#: src/icesm.cc:348
+msgid ""
+" IceWM crashed for the second time in 10 seconds. \n"
+" Do you wish to:\n"
+"\n"
+"\t1: Restart IceWM?\n"
+"\t2: Abort this session?\n"
+msgstr ""
+
+#: src/icesm.cc:353
+#, fuzzy
+#| msgid "IceWM tray option"
+msgid "IceWM crash response"
+msgstr "IceWM 트레이 옵션"
 
 #: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
 #, c-format
@@ -1549,7 +1577,7 @@ msgstr "작업공간 잠금(_k)"
 msgid "_Cancel"
 msgstr "취소(_C)"
 
-#: src/wmdialog.cc:76 src/wmprog.cc:1279 src/wmprog.cc:1281
+#: src/wmdialog.cc:76 src/wmprog.cc:1283 src/wmprog.cc:1285
 #: src/wmtaskbar.cc:283 src/wmtaskbar.cc:285
 msgid "_Logout..."
 msgstr "로그아웃(_L)..."
@@ -1558,7 +1586,7 @@ msgstr "로그아웃(_L)..."
 msgid "_Restart icewm"
 msgstr "icewm 다시 시작(_R)"
 
-#: src/wmdialog.cc:81 src/wmprog.cc:1242 src/wmtaskbar.cc:276
+#: src/wmdialog.cc:81 src/wmprog.cc:1244 src/wmtaskbar.cc:276
 #: src/wmtaskbar.cc:279
 msgid "_About"
 msgstr "정보(_A)"
@@ -1710,23 +1738,23 @@ msgstr "실행(_R)..."
 msgid "_Windows"
 msgstr "창(_W)"
 
-#: src/wmprog.cc:1248
+#: src/wmprog.cc:1250
 msgid "_Help"
 msgstr "도움말(_H)"
 
-#: src/wmprog.cc:1259
+#: src/wmprog.cc:1261
 msgid "_Focus"
 msgstr "초점(_F)"
 
-#: src/wmprog.cc:1263
+#: src/wmprog.cc:1266
 msgid "_Preferences"
 msgstr "_기본 설정"
 
-#: src/wmprog.cc:1268
+#: src/wmprog.cc:1272
 msgid "_Themes"
 msgstr "모양새(_T)"
 
-#: src/wmprog.cc:1273
+#: src/wmprog.cc:1277
 msgid "Se_ttings"
 msgstr "설정(_T)"
 
@@ -1995,10 +2023,21 @@ msgstr "%s 이미지를 찾을 수 없음"
 msgid "$USER or $LOGNAME not set?"
 msgstr "$USER 또는 $LOGNAME 정해지지 않음?"
 
-#: src/yurl.cc:79
+#: src/yurl.cc:146
+#, fuzzy, c-format
+#| msgid "Failed to decompress %s"
+msgid "Failed to parse URL \"%s\"."
+msgstr "%s를 압축을 푸는 데 실패"
+
+#: src/yurl.cc:162
 #, c-format
-msgid "\"%s\" contains no scheme description"
-msgstr "\"%s\"는 체계 기술서를 포함하지 않음"
+msgid "Incomplete hex escape in URL at position %d."
+msgstr ""
+
+#: src/yurl.cc:169
+#, c-format
+msgid "Invalid hex escape in URL at position %d."
+msgstr ""
 
 #: src/yxapp.cc:891
 msgid ""
@@ -2007,6 +2046,9 @@ msgid ""
 msgstr ""
 "  -d, --display=NAME  사용할 X 서버의 이름입니다.\n"
 "  --sync              X11 명령을 동기화합니다.\n"
+
+#~ msgid "\"%s\" contains no scheme description"
+#~ msgstr "\"%s\"는 체계 기술서를 포함하지 않음"
 
 #~ msgid "Please note that not all options are currently configured.\n"
 #~ msgstr "일부 옵션이 현재 구성되지 않았습니다.\n"

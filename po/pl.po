@@ -5,11 +5,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.2.15\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2018-03-28 01:43-0600\n"
+"POT-Creation-Date: 2018-04-07 14:35+0200\n"
 "PO-Revision-Date: 2018-03-28 15:08+0000\n"
 "Last-Translator: Ewelina Michalowska <ewelina.michalowska@stgambit.com>\n"
-"Language-Team: Polish "
-"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/pl/>\n"
+"Language-Team: Polish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -640,8 +640,8 @@ msgstr ""
 "\n"
 "Opcje:\n"
 "  -d, -display WYŚWIETLACZ    Nawiązuje połączenie z serwerem X określonym \n"
-"                              przez zmienną WYŚWIETLACZ. Domyślnie: $"
-"DISPLAY\n"
+"                              przez zmienną WYŚWIETLACZ. Domyślnie: "
+"$DISPLAY\n"
 "                              0.0 jeśli nie ustawiono.\n"
 "  -w, -window ID_OKNA         Określa okno do manipulowania.\n"
 "                              Specjalne identyfikatory to root dla głównego "
@@ -678,8 +678,8 @@ msgstr ""
 "  shutdown                    Polecenie zamknięcia dla IceWM.\n"
 "  cancel                      Polecenie anulowania logowania/rozruchu/"
 "zamknięcia dla IceWM.\n"
-"  about                       Polecenie pokazania okna informacji dla IceWM."
-"\n"
+"  about                       Polecenie pokazania okna informacji dla "
+"IceWM.\n"
 "  windowlist                  Polecenie pokazania listy okien dla IceWM.\n"
 "  restart                     Polecenie ponownego uruchomienia dla IceWM.\n"
 "  suspend                     Polecenie zawieszenia dla IceWM.\n"
@@ -747,6 +747,16 @@ msgid "Socket error: %d"
 msgstr "Błąd gniazdka: %d"
 
 #: src/icesm.cc:57
+#, fuzzy
+#| msgid ""
+#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
+#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
+#| "\n"
+#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
+#| "  --sync              Synchronize communication with X11 server.\n"
+#| "\n"
+#| "  -n, --notray        Do not start icewmtray.\n"
+#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -754,6 +764,7 @@ msgid ""
 "  -d, --display=NAME  Use NAME to connect to the X server.\n"
 "  --sync              Synchronize communication with X11 server.\n"
 "\n"
+"  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
@@ -768,20 +779,35 @@ msgstr ""
 "  -n, --notray        Wyłączenie uruchamiania programu icewmtray.\n"
 "  -s, --sound         Uruchomienie programu icesound.\n"
 
-#: src/icesm.cc:114
+#: src/icesm.cc:120
 #, c-format
 msgid "Unknown option '%s'"
 msgstr "Nieznana opcja: %s"
 
-#: src/icesm.cc:302
+#: src/icesm.cc:308
 #, c-format
 msgid "%s exited with status %d."
 msgstr "Program %s zakończył działanie ze stanem %d."
 
-#: src/icesm.cc:308
+#: src/icesm.cc:314
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "Działanie programu %s zostało przerwane przez sygnał %d."
+
+#: src/icesm.cc:348
+msgid ""
+" IceWM crashed for the second time in 10 seconds. \n"
+" Do you wish to:\n"
+"\n"
+"\t1: Restart IceWM?\n"
+"\t2: Abort this session?\n"
+msgstr ""
+
+#: src/icesm.cc:353
+#, fuzzy
+#| msgid "IceWM tray option"
+msgid "IceWM crash response"
+msgstr "Opcje zasobnika IceWM"
 
 #: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
 #, c-format
@@ -1581,7 +1607,7 @@ msgstr "Zablo_kuj stację roboczą"
 msgid "_Cancel"
 msgstr "Anuluj"
 
-#: src/wmdialog.cc:76 src/wmprog.cc:1279 src/wmprog.cc:1281
+#: src/wmdialog.cc:76 src/wmprog.cc:1283 src/wmprog.cc:1285
 #: src/wmtaskbar.cc:283 src/wmtaskbar.cc:285
 msgid "_Logout..."
 msgstr "Wy_loguj..."
@@ -1590,7 +1616,7 @@ msgstr "Wy_loguj..."
 msgid "_Restart icewm"
 msgstr "U_ruchom ponownie IceWM"
 
-#: src/wmdialog.cc:81 src/wmprog.cc:1242 src/wmtaskbar.cc:276
+#: src/wmdialog.cc:81 src/wmprog.cc:1244 src/wmtaskbar.cc:276
 #: src/wmtaskbar.cc:279
 msgid "_About"
 msgstr "Inform_acje"
@@ -1742,23 +1768,23 @@ msgstr "U_ruchom..."
 msgid "_Windows"
 msgstr "Okna"
 
-#: src/wmprog.cc:1248
+#: src/wmprog.cc:1250
 msgid "_Help"
 msgstr "Pomoc"
 
-#: src/wmprog.cc:1259
+#: src/wmprog.cc:1261
 msgid "_Focus"
 msgstr "_Fokus"
 
-#: src/wmprog.cc:1263
+#: src/wmprog.cc:1266
 msgid "_Preferences"
 msgstr "_Preferencje"
 
-#: src/wmprog.cc:1268
+#: src/wmprog.cc:1272
 msgid "_Themes"
 msgstr "Mo_tywy"
 
-#: src/wmprog.cc:1273
+#: src/wmprog.cc:1277
 msgid "Se_ttings"
 msgstr "Us_tawienia"
 
@@ -2030,10 +2056,21 @@ msgstr "Nie udało się znaleźć obrazu %s"
 msgid "$USER or $LOGNAME not set?"
 msgstr "Nie ustawiono zmiennych $USER lub $LOGNAME?"
 
-#: src/yurl.cc:79
+#: src/yurl.cc:146
+#, fuzzy, c-format
+#| msgid "Failed to decompress %s"
+msgid "Failed to parse URL \"%s\"."
+msgstr "Nie udało się zdekompresować pliku %s"
+
+#: src/yurl.cc:162
 #, c-format
-msgid "\"%s\" contains no scheme description"
-msgstr "\"%s\" nie zawiera opisu schematu"
+msgid "Incomplete hex escape in URL at position %d."
+msgstr ""
+
+#: src/yurl.cc:169
+#, c-format
+msgid "Invalid hex escape in URL at position %d."
+msgstr ""
 
 #: src/yxapp.cc:891
 msgid ""
@@ -2042,6 +2079,9 @@ msgid ""
 msgstr ""
 "  -d, --display=NAZWA  NAZWA używanego serwera X.\n"
 "  --sync              Synchronizacja poleceń X11.\n"
+
+#~ msgid "\"%s\" contains no scheme description"
+#~ msgstr "\"%s\" nie zawiera opisu schematu"
 
 #~ msgid "Please note that not all options are currently configured.\n"
 #~ msgstr "Uwaga! Nie wszystkie opcje są aktualnie skonfigurowane.\n"

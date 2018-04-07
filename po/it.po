@@ -10,11 +10,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.31\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2018-03-28 01:43-0600\n"
+"POT-Creation-Date: 2018-04-07 14:35+0200\n"
 "PO-Revision-Date: 2018-04-03 05:58+0000\n"
 "Last-Translator: Davide Aiello <davidea@novilinguists.com>\n"
-"Language-Team: Italian "
-"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/it/>\n"
+"Language-Team: Italian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -667,8 +667,8 @@ msgstr ""
 "  setGeometry    geometria    Imposta la geometria della finestra\n"
 "  setState MASC STATO         Imposta lo stato della finestra di GNOME a "
 "STATO.\n"
-"                              Solo i bit selezionati da MASC sono modificati."
-"\n"
+"                              Solo i bit selezionati da MASC sono "
+"modificati.\n"
 "                              STATO e MASC sono espressioni del dominio\n"
 "                              'stato della finestra di GNOME'.\n"
 "  toggleState STATO           Commuta i bit di stato della finestra di "
@@ -763,6 +763,16 @@ msgid "Socket error: %d"
 msgstr "Errore socket: %d"
 
 #: src/icesm.cc:57
+#, fuzzy
+#| msgid ""
+#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
+#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
+#| "\n"
+#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
+#| "  --sync              Synchronize communication with X11 server.\n"
+#| "\n"
+#| "  -n, --notray        Do not start icewmtray.\n"
+#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -770,6 +780,7 @@ msgid ""
 "  -d, --display=NAME  Use NAME to connect to the X server.\n"
 "  --sync              Synchronize communication with X11 server.\n"
 "\n"
+"  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
@@ -782,20 +793,35 @@ msgstr ""
 "  -n, --notray        Non avviare icewmtray.\n"
 "  -s, --sound         Avvia anche icesound.\n"
 
-#: src/icesm.cc:114
+#: src/icesm.cc:120
 #, c-format
 msgid "Unknown option '%s'"
 msgstr "Opzione sconosciuta '%s'"
 
-#: src/icesm.cc:302
+#: src/icesm.cc:308
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s è terminato con stato %d."
 
-#: src/icesm.cc:308
+#: src/icesm.cc:314
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s è stato terminato dal segnale %d."
+
+#: src/icesm.cc:348
+msgid ""
+" IceWM crashed for the second time in 10 seconds. \n"
+" Do you wish to:\n"
+"\n"
+"\t1: Restart IceWM?\n"
+"\t2: Abort this session?\n"
+msgstr ""
+
+#: src/icesm.cc:353
+#, fuzzy
+#| msgid "IceWM tray option"
+msgid "IceWM crash response"
+msgstr "Opzione vassoio di IceWM"
 
 #: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
 #, c-format
@@ -1590,7 +1616,7 @@ msgstr "_Blocca postazione di lavoro"
 msgid "_Cancel"
 msgstr "_Annulla"
 
-#: src/wmdialog.cc:76 src/wmprog.cc:1279 src/wmprog.cc:1281
+#: src/wmdialog.cc:76 src/wmprog.cc:1283 src/wmprog.cc:1285
 #: src/wmtaskbar.cc:283 src/wmtaskbar.cc:285
 msgid "_Logout..."
 msgstr "_Esci..."
@@ -1599,7 +1625,7 @@ msgstr "_Esci..."
 msgid "_Restart icewm"
 msgstr "_Riavvia icewm"
 
-#: src/wmdialog.cc:81 src/wmprog.cc:1242 src/wmtaskbar.cc:276
+#: src/wmdialog.cc:81 src/wmprog.cc:1244 src/wmtaskbar.cc:276
 #: src/wmtaskbar.cc:279
 msgid "_About"
 msgstr "_Informazioni"
@@ -1751,23 +1777,23 @@ msgstr "_Esegui..."
 msgid "_Windows"
 msgstr "_Finestre"
 
-#: src/wmprog.cc:1248
+#: src/wmprog.cc:1250
 msgid "_Help"
 msgstr "_Aiuto"
 
-#: src/wmprog.cc:1259
+#: src/wmprog.cc:1261
 msgid "_Focus"
 msgstr "_Focus"
 
-#: src/wmprog.cc:1263
+#: src/wmprog.cc:1266
 msgid "_Preferences"
 msgstr "_Preferenze"
 
-#: src/wmprog.cc:1268
+#: src/wmprog.cc:1272
 msgid "_Themes"
 msgstr "_Temi"
 
-#: src/wmprog.cc:1273
+#: src/wmprog.cc:1277
 msgid "Se_ttings"
 msgstr "Impos_tazioni"
 
@@ -2042,10 +2068,21 @@ msgstr "Impossibile trovare l'immagine %s"
 msgid "$USER or $LOGNAME not set?"
 msgstr "$USER o $LOGNAME non impostati?"
 
-#: src/yurl.cc:79
+#: src/yurl.cc:146
+#, fuzzy, c-format
+#| msgid "Failed to decompress %s"
+msgid "Failed to parse URL \"%s\"."
+msgstr "Impossibile decomprimere %s"
+
+#: src/yurl.cc:162
 #, c-format
-msgid "\"%s\" contains no scheme description"
-msgstr "\"%s\" non contiene alcuna descrizione dello schema"
+msgid "Incomplete hex escape in URL at position %d."
+msgstr ""
+
+#: src/yurl.cc:169
+#, c-format
+msgid "Invalid hex escape in URL at position %d."
+msgstr ""
 
 #: src/yxapp.cc:891
 msgid ""
@@ -2054,6 +2091,9 @@ msgid ""
 msgstr ""
 "  -d, --display=NOME  NOME del server X da usare.\n"
 "  --sync              Sincronizza i comandi X11.\n"
+
+#~ msgid "\"%s\" contains no scheme description"
+#~ msgstr "\"%s\" non contiene alcuna descrizione dello schema"
 
 #~ msgid "Please note that not all options are currently configured.\n"
 #~ msgstr "Si noti che non tutte le opzioni sono attualmente configurate.\n"
