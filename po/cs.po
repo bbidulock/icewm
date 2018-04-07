@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: icewm-1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-04-07 14:35+0200\n"
-"PO-Revision-Date: 2018-03-28 15:54+0000\n"
+"PO-Revision-Date: 2018-04-07 17:31+0000\n"
 "Last-Translator: Aleš Kastner <alkas@volny.cz>\n"
-"Language-Team: Czech <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/cs/>\n"
+"Language-Team: Czech "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -741,16 +741,6 @@ msgid "Socket error: %d"
 msgstr "Chyba socketu: %d"
 
 #: src/icesm.cc:57
-#, fuzzy
-#| msgid ""
-#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-#| "\n"
-#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
-#| "  --sync              Synchronize communication with X11 server.\n"
-#| "\n"
-#| "  -n, --notray        Do not start icewmtray.\n"
-#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -768,6 +758,7 @@ msgstr ""
 "  -d, --display=NÁZEV      Použije NÁZEV pro připojení k X-serveru.\n"
 "  --sync              Synchronizuje komunikaci se serverem X11.\n"
 "\n"
+"  -i, --icewm=SOUBOR    Použije SOUBOR jako správce oken IceWM.\n"
 "  -n, --notray        Nespouštět icewmtray.\n"
 "  -s, --sound         Spustit také icesound.\n"
 
@@ -794,12 +785,15 @@ msgid ""
 "\t1: Restart IceWM?\n"
 "\t2: Abort this session?\n"
 msgstr ""
+" IceWM havaroval během 10 sekund již podruhé. \n"
+" Přejete si:\n"
+"\n"
+"\t1: Restartovat IceWM?\n"
+"\t2: Přerušit a ukončit toto sezení?\n"
 
 #: src/icesm.cc:353
-#, fuzzy
-#| msgid "IceWM tray option"
 msgid "IceWM crash response"
-msgstr "Přepínače IceWM tray"
+msgstr "Havarijní odpověď IceWM"
 
 #: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
 #, c-format
@@ -2035,20 +2029,19 @@ msgid "$USER or $LOGNAME not set?"
 msgstr "$USER nebo $LOGNAME není nastavena?"
 
 #: src/yurl.cc:146
-#, fuzzy, c-format
-#| msgid "Failed to decompress %s"
+#, c-format
 msgid "Failed to parse URL \"%s\"."
-msgstr "Selhalo rozbalení %s"
+msgstr "Selhala analýza URL \"%s\"."
 
 #: src/yurl.cc:162
 #, c-format
 msgid "Incomplete hex escape in URL at position %d."
-msgstr ""
+msgstr "Neukončená hexadecimální část URL na pozici %d."
 
 #: src/yurl.cc:169
 #, c-format
 msgid "Invalid hex escape in URL at position %d."
-msgstr ""
+msgstr "Nesprávná hexadecimální část URL na pozici %d."
 
 #: src/yxapp.cc:891
 msgid ""
