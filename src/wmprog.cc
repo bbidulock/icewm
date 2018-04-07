@@ -1232,6 +1232,8 @@ void StartMenu::refresh() {
 
     if ( (!showTaskBar && showAbout) ||
         showHelp ||
+        showFocusModeMenu ||
+        showThemesMenu ||
         showSettingsMenu
     )
     if (showWindowList)
@@ -1248,7 +1250,7 @@ void StartMenu::refresh() {
             addSubmenu(_("_Help"), -2, helpMenu, "help");
     }
 
-    if (showSettingsMenu) {
+    if (showSettingsMenu || showFocusModeMenu || showThemesMenu) {
         // When we have only 2 entries (focus + themes) then
         // it doesn't make sense to create a whole new YMenu.
         // Therefore we will reuse 'this' as value for settings.
@@ -1259,8 +1261,10 @@ void StartMenu::refresh() {
             settings->addSubmenu(_("_Focus"), -2, focus, "focus");
         }
 
-        PrefsMenu *prefs = new PrefsMenu();
-        settings->addSubmenu(_("_Preferences"), -2, prefs, "pref");
+        if (showSettingsMenu) {
+            PrefsMenu *prefs = new PrefsMenu();
+            settings->addSubmenu(_("_Preferences"), -2, prefs, "pref");
+        }
 
         if (showThemesMenu) {
             YMenu *themes = new ThemesMenu(app, smActionListener, wmActionListener);
