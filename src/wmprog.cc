@@ -908,7 +908,7 @@ public:
     PrefsMenu() :
         count(countPrefs())
     {
-        YMenu *fo, *qs, *tb, *sh, *al, *mz, *ke, *ks, *kw, *sc;
+        YMenu *fo, *qs, *tb, *sh, *al, *mz, *ke, *ks, *kw, *sc, *st;
         YMenuItem *item;
 
         addSubmenu("_Focus", -2, fo = new YMenu, "focus");
@@ -918,9 +918,10 @@ public:
         addSubmenu("_A... - L...", -2, al = new YMenu, "pref");
         addSubmenu("_M... - Z...", -2, mz = new YMenu, "pref");
         addSubmenu("_KeyWin", -2, ke = new YMenu, "key");
-        addSubmenu("Key_Sys", -2, ks = new YMenu, "key");
+        addSubmenu("K_eySys", -2, ks = new YMenu, "key");
         addSubmenu("KeySys_Workspace", -2, kw = new YMenu, "key");
         addSubmenu("S_calar", -2, sc = new YMenu, "key");
+        addSubmenu("St_ring", -2, st = new YMenu, "key");
 
         int index[count];
         for (int i = 0; i < count; ++i) {
@@ -943,7 +944,7 @@ public:
                 }
             }
             else if (o->type == cfoption::CF_KEY) {
-                const char* key = o->v.k.key_value->name;
+                const char* key = o->key()->name;
                 if (0 == strncmp(o->name, "KeySysWork", 10)) {
                     kw->addItem(o->name, -2, key, actionNull);
                 } else if (0 == strncmp(o->name, "KeySys", 6)) {
@@ -953,8 +954,20 @@ public:
                 }
             }
             else if (o->type == cfoption::CF_INT) {
-                int val = *o->v.i.int_value;
+                int val = o->intval();
                 sc->addItem(o->name, -2, mstring(val), actionNull);
+            }
+            else if (o->type == cfoption::CF_STR) {
+                const char* str = o->str();
+                if (str) {
+                    char val[40];
+                    size_t len = strlcpy(val, str, sizeof val);
+                    if (len >= sizeof val)
+                        strlcpy(val + sizeof val - 4, "...", 4);
+                    if ((str = strstr(val, "://")) != 0 && strlen(str) > 6)
+                        strlcpy(val + (str - val) + 3, "...", 4);
+                    st->addItem(o->name, -2, val, actionNull);
+                }
             }
         }
 
@@ -968,12 +981,14 @@ public:
             return saveModified();
 
         const int i = action.ident() - 1;
-        cfoption* o = i + icewm_preferences;
-        if (inrange(i, 0, count - 1) && o->type == cfoption::CF_BOOL) {
-            *o->v.b.bool_value ^= true;
-            msg("%s = %d", o->name, o->boolval());
-            int k = find(mods, i);
-            return k >= 0 ? mods.remove(k) : mods.append(i);
+        if (inrange(i, 0, count - 1)) {
+            cfoption* o = i + icewm_preferences;
+            if (o->type == cfoption::CF_BOOL) {
+                *o->v.b.bool_value ^= true;
+                msg("%s = %d", o->name, o->boolval());
+                int k = find(mods, i);
+                return k >= 0 ? mods.remove(k) : mods.append(i);
+            }
         }
     }
 
