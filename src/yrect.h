@@ -47,6 +47,10 @@ public:
         return intersect(r).pixels();
     }
 
+    bool contains(const YRect& r) const {
+        return overlap(r) == r.pixels();
+    }
+
     bool operator==(YRect const& r) const {
         return xx == r.xx && yy == r.yy && ww == r.ww && hh == r.hh;
     }
