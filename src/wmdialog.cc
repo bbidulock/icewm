@@ -25,7 +25,7 @@ bool couldRunCommand(const char *cmd) {
     if (isEmpty(cmd))
         return false;
     // else-case. Defined, but check whether it's executable first
-    csmart copy(strdup(cmd));
+    csmart copy(newstr(cmd));
     char *save = 0;
     char *tokn = strtok_r(copy, " \t\n", &save);
     return tokn && findPath(getenv("PATH"), X_OK, tokn) != null;
