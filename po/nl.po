@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.23\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-04-07 14:35+0200\n"
-"PO-Revision-Date: 2018-03-28 11:01+0000\n"
+"PO-Revision-Date: 2018-04-09 08:12+0000\n"
 "Last-Translator: Freek de Kruijf <freek@opensuse.org>\n"
-"Language-Team: Dutch <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/nl/>\n"
+"Language-Team: Dutch "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -754,16 +754,6 @@ msgid "Socket error: %d"
 msgstr "Sokjes fout ;-): %d"
 
 #: src/icesm.cc:57
-#, fuzzy
-#| msgid ""
-#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-#| "\n"
-#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
-#| "  --sync              Synchronize communication with X11 server.\n"
-#| "\n"
-#| "  -n, --notray        Do not start icewmtray.\n"
-#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -781,6 +771,7 @@ msgstr ""
 "  --display=NAAM      NAAM gebruiken om te verbinden met de X-server.\n"
 "  --sync              Synchroniseer communicatie met de X11-server.\n"
 "\n"
+"  -i, --icewm=FILE    Gebruik FILE als de IceWM windowmanager.\n"
 "  -n, --notray        Start icewmtray niet op.\n"
 "  -s, --sound         Start ook icesound.\n"
 
@@ -807,12 +798,15 @@ msgid ""
 "\t1: Restart IceWM?\n"
 "\t2: Abort this session?\n"
 msgstr ""
+" IceWM is voor de tweede keer in 10 seconden gecrasht. \n"
+" Wilt u:\n"
+"\n"
+"\t1: IceWM opnieuw starten?\n"
+"\t2: Deze sessie afbreken?\n"
 
 #: src/icesm.cc:353
-#, fuzzy
-#| msgid "IceWM tray option"
 msgid "IceWM crash response"
-msgstr "IceWM tray optie"
+msgstr "Reactie van IceWM op crash"
 
 #: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
 #, c-format
@@ -2059,20 +2053,19 @@ msgid "$USER or $LOGNAME not set?"
 msgstr "Zijn de variabelen $USER of $LOGNAME gezet?"
 
 #: src/yurl.cc:146
-#, fuzzy, c-format
-#| msgid "Failed to decompress %s"
+#, c-format
 msgid "Failed to parse URL \"%s\"."
-msgstr "Decomprimeren van %s is mislukt"
+msgstr "Analyseren van URL \"%s\" is mislukt."
 
 #: src/yurl.cc:162
 #, c-format
 msgid "Incomplete hex escape in URL at position %d."
-msgstr ""
+msgstr "Onvolledige hex-escape in URL op positie %d."
 
 #: src/yurl.cc:169
 #, c-format
 msgid "Invalid hex escape in URL at position %d."
-msgstr ""
+msgstr "Onvolledige hex-escape in URL op positie %d."
 
 #: src/yxapp.cc:891
 msgid ""
