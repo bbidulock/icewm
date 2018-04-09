@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-04-07 14:35+0200\n"
-"PO-Revision-Date: 2018-04-04 15:42+0000\n"
+"PO-Revision-Date: 2018-04-09 14:38+0000\n"
 "Last-Translator: David Medina <medipas@gmail.com>\n"
-"Language-Team: Catalan <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/ca/>\n"
+"Language-Team: Catalan "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -758,16 +758,6 @@ msgid "Socket error: %d"
 msgstr "Error de sòcol: %d"
 
 #: src/icesm.cc:57
-#, fuzzy
-#| msgid ""
-#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-#| "\n"
-#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
-#| "  --sync              Synchronize communication with X11 server.\n"
-#| "\n"
-#| "  -n, --notray        Do not start icewmtray.\n"
-#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -786,6 +776,8 @@ msgstr ""
 "  -d, --display=NAME      Usa el NOM per connectar al servidor X.\n"
 "  --sync              Sincronitza la comunicació amb el servidor X11.\n"
 "\n"
+"\n"
+"  -i, --icewm=FILE    Usa el FITXER com a gestor de finestres de l'IceWM.\n"
 "  -n, --notray        No iniciïs l'icewmtray.\n"
 "  -s, --sound         Inicia també l'icesound.\n"
 
@@ -812,12 +804,15 @@ msgid ""
 "\t1: Restart IceWM?\n"
 "\t2: Abort this session?\n"
 msgstr ""
+" L'IceWM ha fallat un segon cop durant 10 segons. \n"
+" Què voleu que faci?\n"
+"\n"
+"\t1: Reiniciar l'IceWM?\n"
+"\t2: Avortar aquesta sessió?\n"
 
 #: src/icesm.cc:353
-#, fuzzy
-#| msgid "IceWM tray option"
 msgid "IceWM crash response"
-msgstr "Opció de la safata de l'IceWM"
+msgstr "Resposta de fallada de l'IceWM"
 
 #: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
 #, c-format
@@ -2056,20 +2051,19 @@ msgid "$USER or $LOGNAME not set?"
 msgstr "¿$USUARI o $NOMD'ENTRADA no configurat?"
 
 #: src/yurl.cc:146
-#, fuzzy, c-format
-#| msgid "Failed to decompress %s"
+#, c-format
 msgid "Failed to parse URL \"%s\"."
-msgstr "Ha fallat descomprimir %s"
+msgstr "Ha fallat analitzar l'URL \"%s\"."
 
 #: src/yurl.cc:162
 #, c-format
 msgid "Incomplete hex escape in URL at position %d."
-msgstr ""
+msgstr "Escapament hex incomplet dins l'URL a la posició %d."
 
 #: src/yurl.cc:169
 #, c-format
 msgid "Invalid hex escape in URL at position %d."
-msgstr ""
+msgstr "Escapament hex no vàlid dins l'URL a la posició %d."
 
 #: src/yxapp.cc:891
 msgid ""
