@@ -8,17 +8,20 @@ msgstr ""
 "Project-Id-Version: icewm 1.4.2.1301\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-04-07 14:35+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2018-04-09 20:04+0000\n"
+"Last-Translator: Anshul Panwar <caspian7pena@gmail.com>\n"
+"Language-Team: Hindi "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/hi/>\n"
 "Language: hi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.18\n"
 
 #: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:681 src/aapm.cc:806
 msgid " - Power"
-msgstr ""
+msgstr " -पॉवर"
 
 #: src/aapm.cc:179 src/aapm.cc:462 src/aapm.cc:684
 msgid "P"
@@ -26,7 +29,7 @@ msgstr ""
 
 #: src/aapm.cc:183 src/aapm.cc:436 src/aapm.cc:664 src/aapm.cc:774
 msgid " - Charging"
-msgstr ""
+msgstr " -चार्ज हो रहा है"
 
 #: src/aapm.cc:185 src/aapm.cc:438 src/aapm.cc:666
 msgid "C"
