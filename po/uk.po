@@ -3,16 +3,16 @@ msgstr ""
 "Project-Id-Version: IceWM 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-04-07 14:35+0200\n"
-"PO-Revision-Date: 2018-02-23 12:15+0000\n"
+"PO-Revision-Date: 2018-04-14 08:08+0000\n"
 "Last-Translator: Andriy Bandura <andriykopanytsia@gmail.com>\n"
-"Language-Team: Ukrainian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/uk/>\n"
+"Language-Team: Ukrainian "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.18\n"
 
 #: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:681 src/aapm.cc:806
@@ -131,32 +131,32 @@ msgstr "Невірний до шлях до поштової скриньки: \
 #: src/amailbox.cc:131
 #, c-format
 msgid "DNS name lookup failed for %s"
-msgstr ""
+msgstr "Не вдалося знайти ім'я DNS: %s"
 
 #: src/amailbox.cc:147
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid mailbox port: \"%s\""
-msgstr "Невірний до шлях до поштової скриньки: \"%s\""
+msgstr "Невірний порт поштової скриньки: \"%s\""
 
 #: src/amailbox.cc:305
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to %s: %s"
-msgstr "Не вдалося з'єднатися з сервером звуку YIFF: %s"
+msgstr "Не вдалося з'єднатися з %s: %s"
 
 #: src/amailbox.cc:322
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to find %s command"
-msgstr "Помилка запису файлу історії %s: %s"
+msgstr "Не вдалося знайти команду %s"
 
 #: src/amailbox.cc:349
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to execute %s"
-msgstr "Не вдалося запустити систему(%s) (%d)"
+msgstr "Не вдалося виконати команду %s"
 
 #: src/amailbox.cc:433
 #, c-format
 msgid "Write to socket failed: %s"
-msgstr ""
+msgstr "Не вдалося записати дані у сокет: %s"
 
 #: src/amailbox.cc:677
 #, c-format
@@ -168,14 +168,14 @@ msgid "Error checking mailbox."
 msgstr "Помилка перевірки поштової скриньки."
 
 #: src/amailbox.cc:785
-#, fuzzy, c-format
+#, c-format
 msgid "%ld mail message, %ld unread."
-msgstr "%ld поштове повідомлення."
+msgstr "%ld поштове повідомлення,  непрочитаних: %ld."
 
 #: src/amailbox.cc:786
-#, fuzzy, c-format
+#, c-format
 msgid "%ld mail messages, %ld unread."
-msgstr "%ld поштових повідомлень."
+msgstr "%ld поштових повідомлень, %ld непрочитаних."
 
 #: src/amailbox.cc:792
 #, c-format
