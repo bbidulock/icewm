@@ -130,6 +130,7 @@ if test x$cross_compling != xyes ; then :; AC_FUNC_MALLOC fi
 if test x$cross_compling != xyes ; then :; AC_FUNC_REALLOC fi
 AC_CHECK_FUNCS([abort backtrace_symbols_fd basename dup2])
 AC_CHECK_FUNCS([gethostbyname gethostname gettimeofday])
+AC_CHECK_FUNCS([if_nametoindex if_indextoname])
 AC_CHECK_FUNCS([mblen memchr memmove memset mkdir nl_langinfo])
 AC_CHECK_FUNCS([select setlocale socket])
 AC_CHECK_FUNCS([strcasecmp strchr strcspn strdup strerror strncasecmp])
@@ -355,7 +356,12 @@ else
         IMAGE_CFLAGS="$LIBJPEG_CFLAGS $IMAGE_CFLAGS"
         IMAGE_LIBS="$LIBJPEG_LIBS $IMAGE_LIBS"
         AC_DEFINE([CONFIG_LIBJPEG],[1],[Define to enable libjpeg rendering.])
-        image_library="$image_library libjpeg"])
+        image_library="$image_library libjpeg"],
+        [if test -f /usr/include/jpeglib.h &&
+            test -x /usr/lib64/libjpeg.so ; then
+            IMAGE_LIBS="-ljpeg $IMAGE_LIBS"
+            AC_DEFINE([CONFIG_LIBJPEG],[1],[Define to enable libjpeg rendering.])
+        fi])
 fi
 AC_SUBST([IMAGE_CFLAGS])
 AC_SUBST([IMAGE_LIBS])
