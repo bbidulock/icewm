@@ -97,30 +97,35 @@ struct cfoption {
     } v;
 
     cfoption(const char* n, bool* b, const char* d)
-        : type(CF_BOOL), name(n), description(d), v{} {
-        v.b = { b, };
+        : type(CF_BOOL), name(n), description(d) {
+        v.b.bool_value = b;
     }
     cfoption(const char* n, int* i, int m, int M, const char* d)
         : type(CF_INT), name(n), description(d) {
-        v.i = { i, m, M, };
+        v.i.int_value = i;
+        v.i.min = m;
+        v.i.max = M;
     }
     cfoption(const char* n, unsigned* u, unsigned m, unsigned M, const char* d)
         : type(CF_UINT), name(n), description(d) {
-        v.u = { u, m, M, };
+        v.u.uint_value = u;
+        v.u.min = m;
+        v.u.max = M;
     }
     cfoption(const char* n, const char** s, const char* d)
-        : type(CF_STR), name(n), description(d), v{} {
-        v.s = { s, true, };
+        : type(CF_STR), name(n), description(d) {
+        v.s.string_value = s;
+        v.s.initial = true;
     }
     cfoption(const char* n, WMKey* k, const char* d)
-        : type(CF_KEY), name(n), description(d), v{} {
-        v.k = { k, };
+        : type(CF_KEY), name(n), description(d) {
+        v.k.key_value = k;
     }
     cfoption(const char* n, notifyfun f, const char* d)
-        : type(CF_FUNC), name(n), description(d), v{} {
-        v.f = { f, };
+        : type(CF_FUNC), name(n), description(d) {
+        v.f.notify = f;
     }
-    cfoption() : type(CF_NONE), name(0), description(0), v{} { }
+    cfoption() : type(CF_NONE), name(0), description(0) { }
     bool boolval() { return *v.b.bool_value; }
     int intval() { return *v.i.int_value; }
     unsigned uintval() { return *v.u.uint_value; }

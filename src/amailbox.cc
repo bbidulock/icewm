@@ -30,7 +30,6 @@ int MailCheck::fInstanceCounter;
 MailCheck::MailCheck(mstring url, MailBoxStatus *mbx):
     state(IDLE),
     protocol(NOPROTOCOL),
-    bf{},
     got(0),
     fURL(url),
     fMbx(mbx),
@@ -48,6 +47,7 @@ MailCheck::MailCheck(mstring url, MailBoxStatus *mbx):
     fInst(++fInstanceCounter),
     fTrace(getenv("ICEWM_MAILCHECK_TRACE") != 0)
 {
+    bf[0] = '\0';
     sk.setListener(this);
 
     if (fURL.scheme == "file")
