@@ -515,10 +515,10 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
 #endif
 
     if (taskBarShowNetStatus) {
-        YVec<NetStatus*>::iterator it = fNetStatus->getIterator();
-        while (it.hasNext())
+        NetStatusControl::IterType it = fNetStatus->getIterator();
+        while (++it)
         {
-            nw = LayoutInfo(it.next(), false, 1, false, 2, 2, false);
+            nw = LayoutInfo(*it, false, 1, false, 2, 2, false);
             wlist.append(nw);
         }
     }

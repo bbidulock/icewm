@@ -63,6 +63,14 @@ inline T non_zero(T x) {
     return Elvis(x, (T) 1);
 }
 
+template <class L, class R>
+class pair {
+public:
+    L left;
+    R right;
+    pair(const L& l, const R& r) : left(l), right(r) { }
+};
+
 /*** String Functions *********************************************************/
 
 /* Prefer this as a safer alternative over strcpy. Return strlen(from). */

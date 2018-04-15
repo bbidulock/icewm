@@ -200,12 +200,11 @@ XSV(const char *, cpuClassHint,                 "top.XTerm")
 XIV(bool, cpuCombine,                           true)
 XSV(const char *, netCommand,                   "xterm -name netstat -title 'Network Status' -e netstat -c")
 XSV(const char *, netClassHint,                 "netstat.XTerm")
-#ifdef __linux__
-// use sysfs to build the interface list
-XSV(const char *, netDevice,                    "e* w*")
-#else
-XSV(const char *, netDevice,                    "eth0 wlan0")
+XSV(const char *, netDevice,                    "[ew]*"
+#ifdef __OpenBSD__
+                                                " vio*"
 #endif
+   )
 XSV(const char *, addressBarCommand,            0)
 #ifdef CONFIG_I18N
 XSV(const char *, fmtTime,                      "%X")
