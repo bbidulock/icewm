@@ -314,7 +314,7 @@ bool NetIsdnDevice::isUp() {
     int bflags = 0;
 
     for (char* p = str; p && *p && p[1]; p = strchr(p, '\n')) {
-        p += strcspn(p, " \n");
+        p += strspn(p, " \n");
         if (strncmp(p, "flags:", 6) == 0) {
             sscanf(p, "%s %s %s %s %s", val[0], val[1], val[2], val[3], val[4]);
             for (int i = 0; i < 4; i++) {
@@ -571,7 +571,7 @@ NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
             continue;
         cstring devStr(devName);
 
-        if (strcspn(devStr, "*?[]\\.") < strlen(devStr)) {
+        if (strpbrk(devStr, "*?[]\\.")) {
             if (interfaces.getCount() == 0)
                 getInterfaces(interfaces);
             MStringArray::IterType iter = interfaces.iterator();
@@ -581,7 +581,7 @@ NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
                     IterType have = getIterator();
                     while (++have && have->name() != cstr);
                     if (have == false)
-                        fNetStatus.append(createNetStatus(cstr));
+                        createNetStatus(cstr);
                 }
             }
             patterns.append(devName);
@@ -589,7 +589,7 @@ NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
         else {
             unsigned index = if_nametoindex(devStr);
             if (1 <= index)
-                fNetStatus.append(createNetStatus(devStr));
+                createNetStatus(devStr);
             else
                 patterns.append(devName);
         }
@@ -599,7 +599,10 @@ NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
 }
 
 NetStatus* NetStatusControl::createNetStatus(cstring netdev) {
-    return new NetStatus(app, smActionListener, netdev, taskBar, aParent);
+    NetStatus* status = new NetStatus(app, smActionListener,
+                                      netdev, taskBar, aParent);
+    fNetStatus.append(status);
+    return status;
 }
 
 void NetStatusControl::getInterfaces(MStringArray& names)
@@ -657,15 +660,16 @@ void NetStatusControl::linuxUpdate() {
         MStringArray::IterType pat = patterns.iterator();
         while (++pat && fnmatch(cstring(*pat), name, 0));
         if (pat) {
-            NetStatus* pn = createNetStatus(name);
-            fNetStatus.append(pn);
-            pn->timedUpdate(data);
+            createNetStatus(name)->timedUpdate(data);
         }
     }
     // mark disappeared devices as down without additional ioctls
     for (int i = 0; i < count; ++i)
         if (covered[i] == false)
             fNetStatus[i]->timedUpdate(0, true);
+
+    devStats.clear();
+    devicesText = 0;
 }
 #endif
 
