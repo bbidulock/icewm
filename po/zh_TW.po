@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-04-07 14:35+0200\n"
-"PO-Revision-Date: 2018-03-29 05:39+0000\n"
+"PO-Revision-Date: 2018-04-17 02:46+0000\n"
 "Last-Translator: Grace Yu <grace.yu@excel-gits.com>\n"
-"Language-Team: Chinese (Taiwan) <https://l10n.opensuse.org/projects/icewm/"
-"icewm-1-4-branch/zh_TW/>\n"
+"Language-Team: Chinese (Taiwan) "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/zh_TW/>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -734,16 +734,6 @@ msgid "Socket error: %d"
 msgstr "Socket 錯誤：%d"
 
 #: src/icesm.cc:57
-#, fuzzy
-#| msgid ""
-#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-#| "\n"
-#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
-#| "  --sync              Synchronize communication with X11 server.\n"
-#| "\n"
-#| "  -n, --notray        Do not start icewmtray.\n"
-#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -761,6 +751,7 @@ msgstr ""
 "  -d、--display=NAME  使用 NAME 連接 X 伺服器。\n"
 "  --sync              與 X11 伺服器同步通訊資訊。\n"
 "\n"
+"  -i、--icewm=FILE    使用 FILE 做為 IceWM 視窗管理程式。  \n"
 "  -n、--notray        不啟動 icewmtray。\n"
 "  -s、--sound         同時啟動 icesound。\n"
 
@@ -787,12 +778,15 @@ msgid ""
 "\t1: Restart IceWM?\n"
 "\t2: Abort this session?\n"
 msgstr ""
+" IceWM 在 10 秒內已是第二次當機。 \n"
+" 您是否要：\n"
+"\n"
+"\t1: 重新啟動 IceWM？\n"
+"\t2: 中止此工作階段？\n"
 
 #: src/icesm.cc:353
-#, fuzzy
-#| msgid "IceWM tray option"
 msgid "IceWM crash response"
-msgstr "IceWM 系統列選項"
+msgstr "IceWM 當機回應"
 
 #: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
 #, c-format
@@ -2010,20 +2004,19 @@ msgid "$USER or $LOGNAME not set?"
 msgstr "$USER 或 $LOGNAME 未設定？"
 
 #: src/yurl.cc:146
-#, fuzzy, c-format
-#| msgid "Failed to decompress %s"
+#, c-format
 msgid "Failed to parse URL \"%s\"."
-msgstr "解壓縮 %s 失敗"
+msgstr "剖析 URL「%s」失敗。"
 
 #: src/yurl.cc:162
 #, c-format
 msgid "Incomplete hex escape in URL at position %d."
-msgstr ""
+msgstr "位於 %d 處的 URL 中存在不完整的十六進位逸出字元。"
 
 #: src/yurl.cc:169
 #, c-format
 msgid "Invalid hex escape in URL at position %d."
-msgstr ""
+msgstr "位於 %d 處的 URL 中存在無效的十六進位逸出字元。"
 
 #: src/yxapp.cc:891
 msgid ""
