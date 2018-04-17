@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.35\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-04-07 14:35+0200\n"
-"PO-Revision-Date: 2018-04-04 08:03+0000\n"
+"PO-Revision-Date: 2018-04-17 05:02+0000\n"
 "Last-Translator: Hwajin Kim <hwajin.kim@e4net.net>\n"
-"Language-Team: Korean <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/ko/>\n"
+"Language-Team: Korean "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/ko/>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -737,16 +737,6 @@ msgid "Socket error: %d"
 msgstr "소켓 오류: %d"
 
 #: src/icesm.cc:57
-#, fuzzy
-#| msgid ""
-#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-#| "\n"
-#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
-#| "  --sync              Synchronize communication with X11 server.\n"
-#| "\n"
-#| "  -n, --notray        Do not start icewmtray.\n"
-#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -764,6 +754,7 @@ msgstr ""
 "  -d, --display=NAME  NAME을 사용하여 X 서버에 연결합니다.\n"
 "  --sync              X11 서버와의 통신을 동기화합니다.\n"
 "\n"
+"  -i, --icewm=FILE    IceWM 창 관리자로 파일을 사용합니다.\n"
 "  -n, --notray        icewmtray를 시작하지 않습니다.\n"
 "  -s, --sound         icesound도 시작합니다.\n"
 
@@ -790,12 +781,15 @@ msgid ""
 "\t1: Restart IceWM?\n"
 "\t2: Abort this session?\n"
 msgstr ""
+" IceWM이 10초 동안 2번 중지되었습니다.\n"
+" 수행할 작업:\n"
+"\n"
+"\t1: IceWM을 다시 시작하시겠습니까?\n"
+"\t2: 이 세션을 중단하시겠습니까?\n"
 
 #: src/icesm.cc:353
-#, fuzzy
-#| msgid "IceWM tray option"
 msgid "IceWM crash response"
-msgstr "IceWM 트레이 옵션"
+msgstr "IceWM 충돌 응답"
 
 #: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
 #, c-format
@@ -2024,20 +2018,19 @@ msgid "$USER or $LOGNAME not set?"
 msgstr "$USER 또는 $LOGNAME 정해지지 않음?"
 
 #: src/yurl.cc:146
-#, fuzzy, c-format
-#| msgid "Failed to decompress %s"
+#, c-format
 msgid "Failed to parse URL \"%s\"."
-msgstr "%s를 압축을 푸는 데 실패"
+msgstr "\"%s\" URL을 구문 분석하지 못했습니다."
 
 #: src/yurl.cc:162
 #, c-format
 msgid "Incomplete hex escape in URL at position %d."
-msgstr ""
+msgstr "%d번째 위치의 URL에서 16진수 이스케이프가 불완전합니다."
 
 #: src/yurl.cc:169
 #, c-format
 msgid "Invalid hex escape in URL at position %d."
-msgstr ""
+msgstr "%d번째 위치의 URL에서 16진수 이스케이프가 잘못되었습니다."
 
 #: src/yxapp.cc:891
 msgid ""
