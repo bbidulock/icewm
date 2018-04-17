@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.15pre3\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-04-07 14:35+0200\n"
-"PO-Revision-Date: 2018-03-28 10:24+0000\n"
+"PO-Revision-Date: 2018-04-17 13:37+0000\n"
 "Last-Translator: Christine Gabriel <christine@stoquart.com>\n"
-"Language-Team: French <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/fr/>\n"
+"Language-Team: French "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -761,16 +761,6 @@ msgid "Socket error: %d"
 msgstr "Erreur de socket : %d"
 
 #: src/icesm.cc:57
-#, fuzzy
-#| msgid ""
-#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-#| "\n"
-#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
-#| "  --sync              Synchronize communication with X11 server.\n"
-#| "\n"
-#| "  -n, --notray        Do not start icewmtray.\n"
-#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -789,6 +779,7 @@ msgstr ""
 "  -d, --display=NAME  Utilise NAME pour se connecter au serveur X.\n"
 "  --sync              Synchronise la communication avec le serveur X11.\n"
 "\n"
+"  -i, --icewm=FILE    Utilse FILE comme gestionnaire de fenêtres IceWM.\n"
 "  -n, --notray        Ne démarre pas icewmtray.\n"
 "  -s, --sound         Lance également icesound.\n"
 
@@ -815,12 +806,15 @@ msgid ""
 "\t1: Restart IceWM?\n"
 "\t2: Abort this session?\n"
 msgstr ""
+" IceWM s'est arrêté brutalement pour la deuxième fois en 10 secondes. \n"
+" Voulez-vous :\n"
+"\n"
+"\t1 : Redémarrer IceWM ?\n"
+"\t2 : Abandonner cette session ?\n"
 
 #: src/icesm.cc:353
-#, fuzzy
-#| msgid "IceWM tray option"
 msgid "IceWM crash response"
-msgstr "Option du \"tray\" IceWM"
+msgstr "Réponse en cas d'arrêt brutal d'IceWM"
 
 #: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
 #, c-format
@@ -2093,20 +2087,21 @@ msgid "$USER or $LOGNAME not set?"
 msgstr "Variables d'environnement $USER/$LOGNAME non initialisées ?"
 
 #: src/yurl.cc:146
-#, fuzzy, c-format
-#| msgid "Failed to decompress %s"
+#, c-format
 msgid "Failed to parse URL \"%s\"."
-msgstr "Échec de la décompression de %s"
+msgstr "Échec de l'analyse de l'URL %s."
 
 #: src/yurl.cc:162
 #, c-format
 msgid "Incomplete hex escape in URL at position %d."
 msgstr ""
+"Séquence d'échappement hexadécimale incomplète dans l'URL à la position %d."
 
 #: src/yurl.cc:169
 #, c-format
 msgid "Invalid hex escape in URL at position %d."
 msgstr ""
+"Séquence d'échappement hexadécimale non valide dans l'URL à la position %d."
 
 #: src/yxapp.cc:891
 msgid ""
