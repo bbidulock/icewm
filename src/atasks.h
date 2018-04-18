@@ -25,6 +25,7 @@ public:
     virtual bool handleTimer(YTimer *t);
     virtual void handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion);
 
+    void activate() const;
     ClientData *getFrame() const { return fFrame; }
 
     void setShown(bool show);
@@ -53,6 +54,10 @@ public:
     void insert(TaskBarApp *tapp);
     void remove(TaskBarApp *tapp);
     TaskBarApp *addApp(YFrameWindow *frame);
+    TaskBarApp *findApp(YFrameWindow *frame);
+    TaskBarApp *getActive();
+    TaskBarApp *predecessor(TaskBarApp *tapp);
+    TaskBarApp *successor(TaskBarApp *tapp);
     void removeApp(YFrameWindow *frame);
 
     void relayout() { fNeedRelayout = true; }
