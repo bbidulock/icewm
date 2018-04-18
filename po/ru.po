@@ -15,16 +15,16 @@ msgstr ""
 "Project-Id-Version: IceWM 1.4.2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-04-07 14:35+0200\n"
-"PO-Revision-Date: 2018-04-02 23:18+0000\n"
+"PO-Revision-Date: 2018-04-18 13:10+0000\n"
 "Last-Translator: Nikita Maynagashev <maynagashev@palex.ru>\n"
-"Language-Team: Russian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/ru/>\n"
+"Language-Team: Russian "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.18\n"
 "X-Language: ru_RU\n"
 "X-Source-Language: C\n"
@@ -763,16 +763,6 @@ msgid "Socket error: %d"
 msgstr "Ошибка socket-а: %d"
 
 #: src/icesm.cc:57
-#, fuzzy
-#| msgid ""
-#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-#| "\n"
-#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
-#| "  --sync              Synchronize communication with X11 server.\n"
-#| "\n"
-#| "  -n, --notray        Do not start icewmtray.\n"
-#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -790,6 +780,7 @@ msgstr ""
 "  -d, --display=NAME  Подключение к серверу X по имени NAME.\n"
 "  --sync              Синхронизация обмена данными с сервером X11.\n"
 "\n"
+"  -i, --icewm=FILE    Использовать FILE в качестве менеджера окон IceWM.\n"
 "  -n, --notray        Не запускать icewmtray.\n"
 "  -s, --sound         Также запустить icesound.\n"
 
@@ -816,12 +807,15 @@ msgid ""
 "\t1: Restart IceWM?\n"
 "\t2: Abort this session?\n"
 msgstr ""
+" Сбой IceWM во второй раз за 10 секунд. \n"
+" Выберите действие:\n"
+"\n"
+"\t1: Перезапустить IceWM\n"
+"\t2: Прервать этот сеанс?\n"
 
 #: src/icesm.cc:353
-#, fuzzy
-#| msgid "IceWM tray option"
 msgid "IceWM crash response"
-msgstr "Опция панели задач IceWM"
+msgstr "Ответ на сбой IceWM"
 
 #: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
 #, c-format
@@ -2056,20 +2050,19 @@ msgid "$USER or $LOGNAME not set?"
 msgstr "Не установлены переменные $USER и $LOGNAME?"
 
 #: src/yurl.cc:146
-#, fuzzy, c-format
-#| msgid "Failed to decompress %s"
+#, c-format
 msgid "Failed to parse URL \"%s\"."
-msgstr "Ошибка распаковки %s"
+msgstr "Не удалось проанализировать URL \"%s\"."
 
 #: src/yurl.cc:162
 #, c-format
 msgid "Incomplete hex escape in URL at position %d."
-msgstr ""
+msgstr "Неполный шестнадцатеричный управляющий символ в URL в позиции %d."
 
 #: src/yurl.cc:169
 #, c-format
 msgid "Invalid hex escape in URL at position %d."
-msgstr ""
+msgstr "Недопустимый шестнадцатеричный управляющий символ в URL в позиции %d."
 
 #: src/yxapp.cc:891
 msgid ""
