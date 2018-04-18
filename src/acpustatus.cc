@@ -248,13 +248,14 @@ void CPUStatus::updateToolTip() {
         ___checkspace;
         if (ShowRamUsage) {
 #define MBnorm(x) ((float)x * (float)sys.mem_unit / 1048576.0f)
-            more=snprintf(pos, rest, _("\nRam (free): %5.2f (%.2f) M"),
-                    MBnorm(sys.totalram), MBnorm(sys.freeram));
+#define GBnorm(x) ((double)x * (double)sys.mem_unit / 1073741824.0)
+            more=snprintf(pos, rest, _("\nRam (free): %5.3f (%.3f) G"),
+                    GBnorm(sys.totalram), GBnorm(sys.freeram));
             ___checkspace;
         }
         if (ShowSwapUsage) {
-            more=snprintf(pos, rest, _("\nSwap (free): %.2f (%.2f) M"),
-                    MBnorm(sys.totalswap), MBnorm(sys.freeswap));
+            more=snprintf(pos, rest, _("\nSwap (free): %.3f (%.3f) G"),
+                    GBnorm(sys.totalswap), GBnorm(sys.freeswap));
             ___checkspace;
         }
         if (ShowAcpiTemp) {
