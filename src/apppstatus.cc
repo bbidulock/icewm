@@ -574,7 +574,7 @@ NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
         if (strpbrk(devStr, "*?[]\\.")) {
             if (interfaces.getCount() == 0)
                 getInterfaces(interfaces);
-            MStringArray::IterType iter = interfaces.iterator();
+            MStringArray::IterType iter = interfaces.reverseIterator();
             while (++iter) {
                 cstring cstr(*iter);
                 if (fnmatch(devStr, cstr, 0) == 0) {
