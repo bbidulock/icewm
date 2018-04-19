@@ -2,6 +2,7 @@
 
 #include "ylib.h"
 #include "atasks.h"
+#include "atray.h"
 #include "wmtaskbar.h"
 #include "yprefs.h"
 #include "prefs.h"
@@ -463,6 +464,8 @@ void TaskPane::handleClick(const XButtonEvent &up, int count) {
         TaskBarApp* app = getActive();
         if (app)
             app->handleClick(up, count);
+        else
+            fTaskBar->windowTrayPane()->handleClick(up, count);
     }
 }
 

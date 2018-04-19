@@ -28,6 +28,7 @@ class IAppletContainer {
 public:
     virtual void relayout() = 0;
     virtual void contextMenu(int x_root, int y_root) = 0;
+    virtual TrayPane* windowTrayPane() const = 0;
 protected:
     virtual ~IAppletContainer() {}
 };

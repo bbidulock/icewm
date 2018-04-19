@@ -12,11 +12,12 @@
 #include "ypointer.h"
 #include "ytimer.h"
 
+class TrayPane;
 class ClientData;
 
 class TrayApp: public YWindow, public YTimerListener {
 public:
-    TrayApp(ClientData *frame, YWindow *aParent);
+    TrayApp(ClientData *frame, TrayPane *trayPane, YWindow *aParent);
     virtual ~TrayApp();
 
     virtual bool isFocusTraversable();
@@ -29,6 +30,7 @@ public:
     virtual void handleDNDLeave();
     virtual bool handleTimer(YTimer *t);
 
+    void activate() const;
     ClientData *getFrame() const { return fFrame; }
 
     void setShown(bool show);
@@ -37,6 +39,7 @@ public:
 
 private:
     ClientData *fFrame;
+    TrayPane *fTrayPane;
     bool fShown;
     int selected;
     lazy<YTimer> fRaiseTimer;
@@ -54,6 +57,10 @@ public:
     ~TrayPane();
 
     TrayApp *addApp(YFrameWindow *frame);
+    TrayApp *findApp(YFrameWindow *frame);
+    TrayApp *getActive();
+    TrayApp *predecessor(TrayApp *tapp);
+    TrayApp *successor(TrayApp *tapp);
     void removeApp(YFrameWindow *frame);
     int getRequiredWidth();
 
