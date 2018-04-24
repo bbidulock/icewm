@@ -126,9 +126,9 @@ private:
     void fetchSystemData();
     void linuxUpdate();
 #endif
-    MStringArray patterns;
+    YStringArray patterns;
     NetStatus* createNetStatus(cstring netdev);
-    void getInterfaces(MStringArray& interfaces);
+    void getInterfaces(YStringArray& interfaces);
 
 public:
     NetStatusControl(IApp *app, YSMListener *smActionListener, IAppletContainer *taskBar, YWindow *aParent);

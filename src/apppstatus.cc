@@ -564,7 +564,7 @@ NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
     taskBar(taskBar),
     aParent(aParent)
 {
-    MStringArray interfaces;
+    YStringArray interfaces;
     mstring devName, devList(netDevice);
     while (devList.splitall(' ', &devName, &devList)) {
         if (devName.isEmpty())
@@ -574,24 +574,23 @@ NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
         if (strpbrk(devStr, "*?[]\\.")) {
             if (interfaces.getCount() == 0)
                 getInterfaces(interfaces);
-            MStringArray::IterType iter = interfaces.reverseIterator();
+            YStringArray::IterType iter = interfaces.reverseIterator();
             while (++iter) {
-                cstring cstr(*iter);
-                if (fnmatch(devStr, cstr, 0) == 0) {
+                if (fnmatch(devStr, iter, 0) == 0) {
                     IterType have = getIterator();
-                    while (++have && have->name() != cstr);
+                    while (++have && have->name() != iter);
                     if (have == false)
-                        createNetStatus(cstr);
+                        createNetStatus(*iter);
                 }
             }
-            patterns.append(devName);
+            patterns.append(devStr);
         }
         else {
             unsigned index = if_nametoindex(devStr);
             if (1 <= index)
                 createNetStatus(devStr);
             else
-                patterns.append(devName);
+                patterns.append(devStr);
         }
     }
 
@@ -605,15 +604,14 @@ NetStatus* NetStatusControl::createNetStatus(cstring netdev) {
     return status;
 }
 
-void NetStatusControl::getInterfaces(MStringArray& names)
+void NetStatusControl::getInterfaces(YStringArray& names)
 {
     names.clear();
     char name[IF_NAMESIZE];
     unsigned const stop(99);
     for (unsigned index = 1; index < stop; ++index) {
         if (if_indextoname(index, name)) {
-            mstring mstr(name);
-            names.append(mstr);
+            names.append(name);
         } else {
             break;
         }
@@ -640,29 +638,36 @@ void NetStatusControl::linuxUpdate() {
     fetchSystemData();
 
     int const count(fNetStatus.getCount());
-    bool covered[count] = {};
+    bool covered[count];
+    for (int i = 0; i < count; ++i)
+        covered[i] = false;
 
     for (IterStats stat = devStats.iterator(); ++stat; ) {
         const char* name = (*stat).left;
         const char* data = (*stat).right;
         IterType iter = getIterator();
         while (++iter && iter->name() != name);
-        if (iter && iter.where() < count) {
-            iter->timedUpdate(data);
-            covered[iter.where()] = true;
-            continue;
+        if (iter) {
+            if (iter.where() < count) {
+                if (covered[iter.where()] == false) {
+                    iter->timedUpdate(data);
+                    covered[iter.where()] = true;
+                }
+            }
         }
-
-        // oh, we got a new device? allowed?
-        // XXX: this still wastes some cpu cycles
-        // for repeated fnmatch on forbidden devices.
-        // Maybe tackle this with a list of checksums?
-        MStringArray::IterType pat = patterns.iterator();
-        while (++pat && fnmatch(cstring(*pat), name, 0));
-        if (pat) {
-            createNetStatus(name)->timedUpdate(data);
+        else {
+            // oh, we got a new device? allowed?
+            // XXX: this still wastes some cpu cycles
+            // for repeated fnmatch on forbidden devices.
+            // Maybe tackle this with a list of checksums?
+            YStringArray::IterType pat = patterns.iterator();
+            while (++pat && fnmatch(pat, name, 0));
+            if (pat) {
+                createNetStatus(name)->timedUpdate(data);
+            }
         }
     }
+
     // mark disappeared devices as down without additional ioctls
     for (int i = 0; i < count; ++i)
         if (covered[i] == false)
