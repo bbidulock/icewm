@@ -988,7 +988,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
             WMConfig::setDefault("theme", cstring(themeContent));
         }
         YWindowManager::doWMAction(ICEWM_ACTION_RESTARTWM);
-        XFlush(xapp->display());
+        XSync(xapp->display(), False);
         ::exit(0);
     }
 
