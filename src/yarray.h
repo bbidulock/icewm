@@ -36,6 +36,7 @@ public:
     explicit YBaseArray(SizeType elementSize):
         fElementSize(elementSize), fCapacity(0), fCount(0), fElements(0) {}
     YBaseArray(YBaseArray &other);
+    YBaseArray(const YBaseArray& other);
     virtual ~YBaseArray() { clear(); }
 
     void append(const void *item);
@@ -47,6 +48,7 @@ public:
     SizeType getCapacity() const { return fCapacity; }
     SizeType getCount() const { return fCount; }
     bool isEmpty() const { return 0 == getCount(); }
+    bool nonempty() const { return 0 < getCount(); }
 
     void setCapacity(SizeType nCapacity);
 
@@ -90,7 +92,6 @@ public:
 
 
 private:
-    YBaseArray(const YBaseArray &); // not implemented
     void operator=(const YBaseArray&); // not implemented
 
     const SizeType fElementSize;
@@ -109,7 +110,10 @@ public:
 
     YArray(): YBaseArray(sizeof(DataType)) {}
     YArray(YArray &other): YBaseArray((YBaseArray&)other) {}
-    explicit YArray(SizeType capacity) { setCapacity(capacity); }
+    YArray(const YArray& other): YBaseArray((const YBaseArray&)other) {}
+    explicit YArray(SizeType capacity): YBaseArray(sizeof(DataType)) {
+        setCapacity(capacity);
+    }
 
     void append(const DataType &item) {
         YBaseArray::append(&item);
@@ -165,6 +169,7 @@ public:
     using BaseType::getCount;
     using BaseType::getItem;
 
+    YObjectArray() {}
     virtual ~YObjectArray() {
         clear();
     }
@@ -187,6 +192,10 @@ public:
             delete getItem(--n);
         BaseType::shrink(reducedCount);
     }
+
+private:
+    YObjectArray(const YObjectArray&);
+    YObjectArray& operator=(const YObjectArray&);
 };
 
 template <class DataType>
@@ -194,6 +203,11 @@ class YRefArray: public YBaseArray {
 public:
     YRefArray(): YBaseArray(sizeof(ref<DataType>)) {}
     ~YRefArray() { clear(); }
+
+    YRefArray(const YRefArray& other): YBaseArray(other) {
+        for (SizeType i = 0; i < getCount(); ++i)
+            getItemPtr(i)->__ref();
+    }
 
     void append(ref<DataType> item) {
         item.__ref();
@@ -248,9 +262,8 @@ public:
     YStringArray(YStringArray &other): BaseType((BaseType&)other) { }
     YStringArray(const YStringArray &other);
 
-    explicit YStringArray(SizeType capacity = 0) {
-        setCapacity(capacity);
-    }
+    YStringArray() { }
+    explicit YStringArray(SizeType capacity) : YArray(capacity) { }
 
     virtual ~YStringArray() {
         clear();
@@ -266,13 +279,10 @@ public:
     }
 
     const char *getString(const SizeType index) const {
-        return *(const char **) YBaseArray::getItem(index);
+        return *getItemPtr(index);
     }
     const char *operator[](const SizeType index) const {
         return getString(index);
-    }
-    const char *operator*() const {
-        return getString(0);
     }
 
     virtual void remove(const SizeType index);
@@ -327,6 +337,27 @@ public:
 #ifdef __MSTRING_H
 class MStringArray: public YArray<mstring> {
 public:
+    typedef YArray<mstring> BaseType;
+    typedef BaseType::IterType IterType;
+
+    MStringArray() { }
+    MStringArray(MStringArray& other) : YArray<mstring>((BaseType&)other) { }
+
+    MStringArray(const MStringArray& other) :
+        YArray<mstring>((const BaseType&)other)
+    {
+        for (SizeType i = 0; i < getCount(); ++i)
+            getItemPtr(i)->acquire();
+    }
+
+    MStringArray(const YStringArray& other): YArray<mstring>(other.getCount())
+    {
+        for (SizeType i = 0; i < getCount(); ++i) {
+            mstring copy(other[i]);
+            append(copy);
+        }
+    }
+
     virtual ~MStringArray() { clear(); }
 
     void append(mstring& item) {
@@ -370,6 +401,131 @@ private:
     }
 };
 #endif  /*__MSTRING_H*/
+
+/*******************************************************************************
+ * An associative array
+ ******************************************************************************/
+
+template <class DataType>
+class YAssoc {
+public:
+    unsigned long hash;
+    const char* key;
+    DataType value;
+
+    YAssoc(unsigned long h, const char* k, DataType& v) :
+        hash(h), key(k), value(v) { }
+    YAssoc(unsigned long h, const char* k) :
+        hash(h), key(k), value(0) { }
+
+    DataType& operator=(DataType& v) { value = v; }
+    DataType& operator=(const DataType& v) { value = v; }
+
+    int compare(unsigned long hash2, const char* key2) const {
+        return hash < hash2 ? -1 :
+               hash > hash2 ? +1 :
+               key == key2 ? 0 :
+               key == 0 && key2 != 0 ? -1 :
+               key != 0 && key2 == 0 ? +1 :
+               strcmp(key, key2);
+    }
+
+    operator DataType() const { return value; }
+    DataType operator->() const { return value; }
+};
+
+template <class DataType>
+class YAssocArray : private YArray<YAssoc<DataType> > {
+public:
+    typedef YAssoc<DataType> AssocType;
+    typedef YArray<AssocType> BaseType;
+    typedef YArray<const char*> KeysType;
+    typedef typename BaseType::SizeType SizeType;
+    using BaseType::getCount;
+    using BaseType::getItem;
+    using BaseType::npos;
+    using BaseType::IterType;
+    using BaseType::iterator;
+    using BaseType::reverseIterator;
+
+    YAssocArray() : BaseType() { }
+    explicit YAssocArray(SizeType capacity) : BaseType(capacity) { }
+
+    bool has(const char* key) const {
+        return find(key) != npos;
+    }
+
+    SizeType find(const char* key) const {
+        SizeType index;
+        return find(key, &index) ? index : npos;
+    }
+
+    bool find(const char* key, SizeType* index) const {
+        return find(strhash(key), key, index);
+    }
+
+    bool find(unsigned long hash, const char* key, SizeType* index) const {
+        SizeType lo = 0, hi = getCount();
+        while (lo < hi) {
+            SizeType pv = (lo + hi) / 2;
+            int cmp = getItem(pv).compare(hash, key);
+            if (cmp < 0)
+                hi = pv;
+            else if (cmp > 0)
+                lo = pv + 1;
+            else
+                return *index = pv, true;
+        }
+        return *index = lo, false;
+    }
+
+    const AssocType& operator[](SizeType index) const {
+        return getItem(index);
+    }
+
+    AssocType& operator[](SizeType index) {
+        return getItem(index);
+    }
+
+    DataType& operator[](const char* key) {
+        unsigned long hash = strhash(key);
+        SizeType index;
+        if (find(hash, key, &index) == false) {
+            AssocType assoc(hash, newstr(key));
+            BaseType::insert(index, assoc);
+        }
+        return getItem(index).value;
+    }
+
+    void keys(KeysType& keys) {
+        keys.clear();
+        keys.setCapacity(getCount());
+        for (SizeType i = 0; i < getCount(); ++i)
+            keys.append(getItem(i).key);
+    }
+
+    virtual void remove(const SizeType index) {
+        if (index < getCount()) {
+            delete[] getItem(index).key;
+            BaseType::remove(index);
+        }
+    }
+
+    void remove(const char* key) {
+        SizeType index = find(key);
+        if (index >= 0) remove(index);
+    }
+
+    virtual void clear() {
+        for (SizeType i = 0; i < getCount(); ++i)
+            delete[] getItem(i).key;
+        BaseType::clear();
+    }
+
+    virtual ~YAssocArray() {
+        clear();
+    }
+};
 
 /*******************************************************************************
  * An array iterator
@@ -470,7 +626,7 @@ int find(YArray<DataType>& array, DataType& data) {
 
 template<class DataType>
 int find(const YArray<DataType>& array, const DataType& data) {
-    for (int i = 0; i < array.getCount(); ++i)
+    for (YBaseArray::SizeType i = 0; i < array.getCount(); ++i)
         if (array[i] == data) return i;
     return -1;
 }

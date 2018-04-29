@@ -13,6 +13,7 @@
  *  - introduced YStringArray
  */
 
+#include "mstring.h"
 #include "yarray.h"
 #include <string.h>
 #include <assert.h>
@@ -23,6 +24,15 @@ YBaseArray::YBaseArray(YBaseArray &other):
     fCount(other.fCount),
     fElements(other.fElements) {
     other.release();
+}
+
+YBaseArray::YBaseArray(const YBaseArray& other):
+    fElementSize(other.fElementSize),
+    fCapacity(other.fCount),
+    fCount(other.fCount),
+    fElements(new StorageType[fCapacity * fElementSize])
+{
+    memcpy(fElements, other.fElements, fCount * fElementSize);
 }
 
 void YBaseArray::setCapacity(SizeType nCapacity) {
@@ -103,8 +113,10 @@ void YBaseArray::shrink(const SizeType reducedCount) {
 }
 
 void YBaseArray::clear() {
-    delete[] fElements;
-    release();
+    if (fElements) {
+        delete[] fElements;
+        release();
+    }
 }
 
 void YBaseArray::release() {
@@ -120,9 +132,17 @@ void YBaseArray::swap(YBaseArray& other) {
     ::swap(fElements, other.fElements);
 }
 
-YStringArray::YStringArray(const YStringArray &other) : YArray<const char*>() {
-    setCapacity(other.getCount());
+void YBaseArray::operator=(const YBaseArray& other) {
+    if (this != &other) {
+        clear();
+        setCapacity(other.getCount());
+        memcpy(fElements, other.fElements, fCount * fElementSize);
+    }
+}
 
+YStringArray::YStringArray(const YStringArray &other) :
+    YArray<const char*>(other.getCount())
+{
     for (SizeType i = 0; i < other.getCount(); ++i)
         append(other.getString(i));
 }
