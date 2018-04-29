@@ -79,6 +79,7 @@ Building from tarball requires:
  - libsndfile (_for sound support_)
  - libsm (_for X11R6 session management_)
  - fribidi (_for i18n text rendering_)
+ - libglib (_for icewm-menu-fdo menu generator_)
 
 Building from git also requires:
 
