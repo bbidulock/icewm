@@ -47,7 +47,14 @@ private:
     bool ShowRamUsage, ShowSwapUsage, ShowAcpiTemp, ShowCpuFreq,
          ShowAcpiTempInGraph;
 
+    Drawable pixmap;
     YColorName tempColor;
+
+    void picture();
+    void fill(Graphics& g);
+    void draw(Graphics& g);
+    void temperature(Graphics& g);
+
     static ref<YFont> tempFont;
     static void getCPUStatusCombined(YSMListener *smActionListener, YWindow *aParent, CPUStatus **&fCPUStatus);
     static void getCPUStatus(YSMListener *smActionListener, YWindow *aParent, CPUStatus **&fCPUStatus, unsigned ncpus);

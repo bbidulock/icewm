@@ -30,10 +30,14 @@ YClock::YClock(YSMListener *smActionListener, YWindow *aParent):
     toolTipUTC(false),
     transparent(-1),
     smActionListener(smActionListener),
+    negativePosition(INT_MAX),
+    clockPixmap(None),
     clockBg(&clrClock),
     clockFg(&clrClockText),
     clockFont(YFont::getFont(XFA(clockFontName)))
 {
+    memset(positions, 0, sizeof positions);
+    memset(previous, 0, sizeof previous);
 
     if (prettyClock && ledPixSpace != null && ledPixSpace->width() == 1)
         ledPixSpace = ledPixSpace->scale(5, ledPixSpace->height());
@@ -46,16 +50,23 @@ YClock::YClock(YSMListener *smActionListener, YWindow *aParent):
 }
 
 YClock::~YClock() {
+    if (clockPixmap)
+        XFreePixmap(xapp->display(), clockPixmap);
 }
 
 void YClock::autoSize() {
-    char s[64];
+    char s[TimeSize];
     time_t newTime = time(NULL);
     struct tm t = *localtime(&newTime);
     int maxMonth = -1;
     int maxWidth = -1;
 
-    t.tm_hour = 12;
+    t.tm_sec = 59;
+    t.tm_min = 48;
+    t.tm_hour = 23;
+    t.tm_mday = 25;
+    t.tm_wday = 0;
+
     for (int m = 0; m < 12 ; m++) {
         int len, w;
 
@@ -69,6 +80,7 @@ void YClock::autoSize() {
         }
     }
     t.tm_mon = maxMonth;
+
     for (int dw = 0; dw <= 6; dw++) {
         int len, w;
 
@@ -80,8 +92,10 @@ void YClock::autoSize() {
             maxWidth = w;
         }
     }
+
     if (!prettyClock)
         maxWidth += 4;
+
     setSize(maxWidth, taskBarGraphHeight);
 }
 
@@ -101,7 +115,7 @@ void YClock::handleButton(const XButtonEvent &button) {
 }
 
 void YClock::updateToolTip() {
-    char s[128];
+    char s[DateSize];
     time_t newTime = time(NULL);
     struct tm *t;
 
@@ -146,11 +160,29 @@ void YClock::handleClick(const XButtonEvent &up, int count) {
 }
 
 void YClock::paint(Graphics &g, const YRect &/*r*/) {
-    int x = width();
-    char s[64];
+    picture();
+    g.copyDrawable(clockPixmap, 0, 0, width(), height(), 0, 0);
+}
+
+void YClock::picture() {
+    bool create = (clockPixmap == None);
+    if (create)
+        clockPixmap = XCreatePixmap(xapp->display(), handle(),
+                                    width(), height(), depth());
+
+    Graphics G(clockPixmap, width(), height(), depth());
+
+    if (create)
+        fill(G);
+
+    draw(G);
+}
+
+void YClock::draw(Graphics& g) {
+    char s[TimeSize];
     time_t newTime = time(NULL);
     struct tm *t;
-    int len, i;
+    int len;
 
     if (clockUTC)
         t = gmtime(&newTime);
@@ -164,9 +196,22 @@ void YClock::paint(Graphics &g, const YRect &/*r*/) {
 #endif
         len = strftime(s, sizeof(s), strTimeFmt(*t), t);
 
+    if (prettyClock)
+        paintPretty(g, s, len);
+    else
+        paintPlain(g, s, len);
 
-    //clean backgroung first, so that it is possible
-    //to use transparent lcd pixmaps
+    clockTimer->startTimer();
+}
+
+void YClock::fill(Graphics& g)
+{
+    if (!prettyClock && clockBg) {
+        g.setColor(clockBg);
+        g.fillRect(0, 0, width(), height());
+        return;
+    }
+
     if (hasTransparency()) {
         ref<YImage> gradient(parent()->getGradient());
 
@@ -183,37 +228,84 @@ void YClock::paint(Graphics &g, const YRect &/*r*/) {
             g.fillRect(0, 0, width(), height());
         }
     }
+}
 
+void YClock::fill(Graphics& g, int x, int y, int w, int h)
+{
+    if (!prettyClock && clockBg) {
+        g.setColor(clockBg);
+        g.fillRect(x, y, w, h);
+    }
+    else {
+        ref<YImage> gradient(parent()->getGradient());
+
+        if (gradient != null)
+            g.drawImage(gradient, this->x() + x, this->y() + y,
+                         w, h, x, y);
+        else
+        if (taskbackPixmap != null) {
+            g.fillPixmap(taskbackPixmap, x, y,
+                         w, h, this->x() + x, this->y() + y);
+        }
+        else if (clockBg) {
+            g.setColor(clockBg);
+            g.fillRect(x, y, w, h);
+        }
+        else {
+            g.setColor(taskBarBg);
+            g.fillRect(x, y, w, h);
+        }
+    }
+}
+
+void YClock::paintPretty(Graphics& g, const char* s, int len) {
     if (prettyClock) {
-        for (i = len - 1; x >= 0; i--) {
+        bool const mustFill = hasTransparency();
+        int x = width();
+
+        for (int i = len - 1; x >= 0; i--) {
             ref<YPixmap> p;
             if (i >= 0)
                 p = getPixmap(s[i]);
             else
                 p = ledPixSpace;
-            if (p != null) {
+            if (p != null)
                 x -= p->width();
+
+            if (i >= 0) {
+                if (positions[i] == x && previous[i] == s[i])
+                    continue;
+                else positions[i] = x, previous[i] = s[i];
+            }
+            else if (i == -1) {
+                if (negativePosition == x)
+                    break;
+                else negativePosition = x;
+            }
+
+            if (p != null) {
+                if (mustFill)
+                    fill(g, x, 0, p->width(), height());
+
                 g.drawPixmap(p, x, 0);
             } else if (i < 0) {
-                g.setColor(clockBg);
-                g.fillRect(0, 0, x, height());
+                fill(g, 0, 0, x, height());
                 break;
             }
         }
-    } else {
+    }
+}
+
+void YClock::paintPlain(Graphics& g, const char* s, int len) {
+    fill(g);
+    if (!prettyClock) {
         int y =  (height() - 1 - clockFont->height()) / 2
             + clockFont->ascent();
-
-        if (clockBg) {
-            g.setColor(clockBg);
-            g.fillRect(0, 0, width(), height());
-        }
 
         g.setColor(clockFg);
         g.setFont(clockFont);
         g.drawChars(s, 0, len, 2, y);
     }
-    clockTimer->startTimer();
 }
 
 bool YClock::handleTimer(YTimer *t) {

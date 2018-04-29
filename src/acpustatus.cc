@@ -76,6 +76,7 @@ CPUStatus::CPUStatus(YSMListener *smActionListener, YWindow *aParent, int cpuid)
     if (tempFont == null)
         tempFont = YFont::getFont(XFA(tempFontName));
 
+    pixmap = None;
     tempColor = &clrCpuTemp;
 
     color[IWM_USER] = &clrCpuUser;
@@ -105,12 +106,54 @@ CPUStatus::~CPUStatus() {
         delete[] cpu[a]; cpu[a] = 0;
     }
     delete[] cpu; cpu = 0;
+
+    if (pixmap)
+        XFreePixmap(xapp->display(), pixmap);
 }
 
 void CPUStatus::paint(Graphics &g, const YRect &/*r*/) {
-    int h = height();
+    picture();
+    g.copyDrawable(pixmap, 0, 0, width(), height(), 0, 0);
+    temperature(g);
+}
 
-    for (int i(0); i < taskBarCPUSamples; i++) {
+void CPUStatus::picture() {
+    bool create = (pixmap == None);
+    if (create)
+        pixmap = XCreatePixmap(xapp->display(), handle(),
+                               width(), height(), depth());
+
+    Graphics G(pixmap, width(), height(), depth());
+
+    if (create)
+        fill(G);
+
+    draw(G);
+}
+
+void CPUStatus::fill(Graphics& g) {
+    if (color[IWM_IDLE]) {
+        g.setColor(color[IWM_IDLE]);
+        g.fillRect(0, 0, width(), height());
+    } else {
+        ref<YImage> gradient(parent()->getGradient());
+
+        if (gradient != null)
+            g.drawImage(gradient,
+                        x(), y(), width(), height(), 0, 0);
+        else
+            if (taskbackPixmap != null)
+                g.fillPixmap(taskbackPixmap,
+                             0, 0, width(), height(), x(), y());
+    }
+}
+
+void CPUStatus::draw(Graphics& g) {
+    int h = height();
+    int first = taskBarCPUSamples - 1;
+    g.copyArea(1, 0, first, h, 0, 0);
+
+    for (int i = first; i < taskBarCPUSamples; i++) {
         unsigned long long
             user    = cpu[i][IWM_USER],
             nice    = cpu[i][IWM_NICE],
@@ -205,7 +248,10 @@ void CPUStatus::paint(Graphics &g, const YRect &/*r*/) {
             }
         }
     }
+}
 
+void CPUStatus::temperature(Graphics& g) {
+    int h = height();
     if (ShowAcpiTempInGraph) {
         char test[10];
         getAcpiTemp(test, sizeof(test));

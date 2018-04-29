@@ -33,6 +33,12 @@ private:
     unsigned long long int **samples;
     YColorName color[MEM_STATES];
     lazy<YTimer> fUpdateTimer;
+
+    void picture();
+    void fill(Graphics& g);
+    void draw(Graphics& g);
+
+    Drawable pixmap;
 };
 #endif
 

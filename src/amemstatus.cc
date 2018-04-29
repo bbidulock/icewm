@@ -20,7 +20,10 @@
 
 extern ref<YPixmap> taskbackPixmap;
 
-MEMStatus::MEMStatus(YWindow *aParent): YWindow(aParent) {
+MEMStatus::MEMStatus(YWindow *aParent):
+    YWindow(aParent),
+    pixmap(None)
+{
     samples = new unsigned long long *[taskBarMEMSamples];
 
     for (int a(0); a < taskBarMEMSamples; a++)
@@ -52,20 +55,60 @@ MEMStatus::~MEMStatus() {
     }
     delete [] samples;
     samples = NULL;
+
+    if (pixmap)
+        XFreePixmap(xapp->display(), pixmap);
 }
 
 void MEMStatus::paint(Graphics &g, const YRect &/*r*/) {
-    int h = height();
+    picture();
+    g.copyDrawable(pixmap, 0, 0, width(), height(), 0, 0);
+}
 
-    for (int i(0); i < taskBarMEMSamples; i++) {
+void MEMStatus::picture() {
+    bool create = (pixmap == None);
+    if (create)
+        pixmap = XCreatePixmap(xapp->display(), handle(),
+                               width(), height(), depth());
+
+    Graphics G(pixmap, width(), height(), depth());
+
+    if (create)
+        fill(G);
+
+    draw(G);
+}
+
+void MEMStatus::fill(Graphics& g) {
+    if (color[MEM_FREE]) {
+        g.setColor(color[MEM_FREE]);
+        g.fillRect(0, 0, width(), height());
+    } else {
+        ref<YImage> gradient(parent()->getGradient());
+
+        if (gradient != null)
+            g.drawImage(gradient,
+                        x(), y(), width(), height(), 0, 0);
+        else
+            if (taskbackPixmap != null)
+                g.fillPixmap(taskbackPixmap,
+                             0, 0, width(), height(), x(), y());
+    }
+}
+
+void MEMStatus::draw(Graphics& g) {
+    int h = height();
+    int first = taskBarMEMSamples - 1;
+    g.copyArea(1, 0, first, h, 0, 0);
+
+    for (int i = first; i < taskBarMEMSamples; i++) {
         unsigned long long total = 0;
-        int j;
-        for (j = 0; j < MEM_STATES; j++) {
+        for (int j = 0; j < MEM_STATES; j++) {
             total += samples[i][j];
         }
 
         int y = h;
-        for (j = 0; j < MEM_STATES; j++) {
+        for (int j = 0; j < MEM_STATES; j++) {
             int bar;
             if (j == MEM_STATES-1) {
                 bar = y;

@@ -22,6 +22,11 @@ public:
     virtual bool handleTimer(YTimer *t);
 
 private:
+    enum {
+        TimeSize = 64,
+        DateSize = 128,
+    };
+
     lazy<YTimer> clockTimer;
     bool clockUTC;
     bool toolTipUTC;
@@ -31,7 +36,17 @@ private:
     ref<YPixmap> getPixmap(char ch);
     int calcWidth(const char *s, int count);
     bool hasTransparency();
+    void picture();
+    void draw(Graphics& g);
+    void fill(Graphics& g);
+    void fill(Graphics& g, int x, int y, int w, int h);
+    void paintPretty(Graphics& g, const char* s, int len);
+    void paintPlain(Graphics& g, const char* s, int len);
 
+    int negativePosition;
+    int positions[TimeSize];
+    char previous[TimeSize];
+    Drawable clockPixmap;
     YColorName clockBg;
     YColorName clockFg;
     ref<YFont> clockFont;
