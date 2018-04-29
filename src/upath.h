@@ -46,6 +46,7 @@ public:
     int remove() const;
     int renameAs(const pstring& dest) const;
     off_t fileSize() const;
+    bool glob(const char* pattern, class YStringArray& list) const;
 
     upath& operator=(const upath& p) {
         fPath = p.fPath;

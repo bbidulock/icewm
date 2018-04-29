@@ -158,5 +158,26 @@ bool upath::equals(const upath &s) const {
         return path() == null && s.path() == null;
 }
 
+#include <glob.h>
+#include "yarray.h"
+
+bool upath::glob(const char* pattern, class YStringArray& list) const {
+    bool okay = false;
+    glob_t gl = {};
+    if (0 == ::glob(pattern, 0, 0, &gl)) {
+        double limit = 1e6;
+        if (gl.gl_pathc < limit) {
+            int count = int(gl.gl_pathc);
+            list.clear();
+            list.setCapacity(count);
+            for (int i = 0; i < count; ++i) {
+                list.append(gl.gl_pathv[i]);
+            }
+            okay = true;
+        }
+        globfree(&gl);
+    }
+    return okay;
+}
 
 // vim: set sw=4 ts=4 et:
