@@ -91,7 +91,7 @@ void cdir::rewind() {
 }
 
 adir::adir(const char* path)
-    : fPath(path), fName(0), fString(0), fCount(0), fLast(-1)
+    : fPath(path), fLast(-1)
 {
     if (path) {
         open();
@@ -99,13 +99,8 @@ adir::adir(const char* path)
 }
 
 void adir::close() {
-    if (fName) {
-        delete[] fString;
-        delete[] fName;
-        fName = 0;
-        fCount = 0;
-        fLast = -1;
-    }
+    fName.clear();
+    fLast = -1;
 }
 
 bool adir::open(const char* path) {
@@ -122,39 +117,23 @@ bool adir::open() {
     if (fPath) {
         DirPtr dirp(fPath);
         if (dirp) {
-            unsigned int count = 0;
-            size_t size = 0;
-            for (; dirp.next(); ++count) {
-                size += dirp.size();
-            }
-            fName = new char*[count+10];
-            fString = new char[size+100];
-            fName[0] = fString;
-            fName[0][0] = 0;
-            fCount = 0;
-            size_t offset = 0;
-            for (dirp.rewind(); dirp.next() && fCount < count; ) {
-                size_t len = dirp.size();
-                if (offset + len <= size) {
-                    fName[fCount] = fString + offset;
-                    memcpy(fName[fCount], dirp.name(), len);
-                    offset += len;
-                    ++fCount;
-                }
+            while (dirp.next()) {
+                fName.append(dirp.name());
             }
             fLast = -1;
-            qsort(fName, fCount, sizeof(*fName), compare_strings);
+            if (1 < count())
+                qsort(&*fName, count(), sizeof(*fName), compare_strings);
         }
     }
     return isOpen();
 }
 
 bool adir::next() {
-    return fName && 1 + fLast < fCount && ++fLast != unsigned(-1);
+    return 1 + fLast < count() && ++fLast >= 0;
 }
 
 const char* adir::entry() const {
-    if (fName && fLast != unsigned(-1) && fLast < fCount) {
+    if (fLast >= 0 && fLast < count()) {
         return fName[fLast];
     }
     return 0;
@@ -228,7 +207,7 @@ sdir::sdir(const upath& path)
 }
 
 void sdir::close() {
-    fName.reset();
+    fName.clear();
     fLast = -1;
 }
 
@@ -249,10 +228,12 @@ bool sdir::open() {
     if (fPath.nonempty()) {
         DirPtr dirp(fPath);
         if (dirp) {
-            fName.preserve(4);
-            while (dirp.next())
-                fName.add(dirp.name());
-            qsort(fName.data, fName.size, sizeof(fName[0]), compare_ustrings);
+            while (dirp.next()) {
+                mstring copy(dirp.name());
+                fName.append(copy);
+            }
+            if (1 < count())
+                qsort(&*fName, count(), sizeof(fName[0]), compare_ustrings);
         }
         fLast = -1;
     }
@@ -260,7 +241,7 @@ bool sdir::open() {
 }
 
 bool sdir::next() {
-    return fName.data && 1 + fLast < fName.size && ++fLast != unsigned(-1);
+    return 1 + fLast < count() && ++fLast >= 0;
 }
 
 const ustring& sdir::entry() const {
