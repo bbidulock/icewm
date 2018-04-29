@@ -518,8 +518,10 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
         NetStatusControl::IterType it = fNetStatus->getIterator();
         while (++it)
         {
-            nw = LayoutInfo(*it, false, 1, false, 2, 2, false);
-            wlist.append(nw);
+            if (*it != 0) {
+                nw = LayoutInfo(*it, false, 1, false, 2, 2, false);
+                wlist.append(nw);
+            }
         }
     }
     nw = LayoutInfo( fApm, false, 1, true, 0, 2, false );

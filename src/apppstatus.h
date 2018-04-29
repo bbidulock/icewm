@@ -88,6 +88,9 @@ private:
     timeval start_time;
     timeval prev_time;
 
+    Drawable pixmap;
+    long oldMaxBytes;
+
     bool wasUp;               // previous link status
     bool useIsdn;             // netdevice is an IsdnDevice
     cstring const fDevName;   // name of the device
@@ -103,13 +106,25 @@ private:
     // methods overridden from superclasses
     virtual void handleClick(const XButtonEvent &up, int count) OVERRIDE;
     virtual void paint(Graphics & g, const YRect &r) OVERRIDE;
+
+    void picture();
+    void fill(Graphics& g);
+    void draw(Graphics& g);
 };
+
+#ifdef __linux__
+class netpair : public pair<const char *, const char *> {
+public:
+    netpair(const char* name, const char* data) : pair(name, data) { }
+    const char* name() const { return left; }
+    const char* data() const { return right; }
+};
+#endif
 
 class NetStatusControl : public YTimerListener, public refcounted {
 private:
     lazy<YTimer> fUpdateTimer;
-    //YSortedMap<ustring,NetStatus*> fNetStatus;
-    YObjectArray<NetStatus> fNetStatus;
+    YAssocArray<NetStatus*> fNetStatus;
 
     IApp* app;
     YSMListener* smActionListener;
@@ -119,7 +134,6 @@ private:
 #ifdef __linux__
     // preprocessed data from procfs with offset table (name, values, name, vaues, ...)
     csmart devicesText;
-    typedef pair<const char *, const char *> netpair;
     YArray<netpair> devStats;
     typedef YArray<netpair>::IterType IterStats;
 
@@ -134,7 +148,7 @@ public:
     NetStatusControl(IApp *app, YSMListener *smActionListener, IAppletContainer *taskBar, YWindow *aParent);
     ~NetStatusControl();
 
-    typedef YObjectArray<NetStatus>::IterType IterType;
+    typedef YAssocArray<NetStatus*>::IterType IterType;
     IterType getIterator() { return fNetStatus.iterator(); }
 
     // subclassing method overrides

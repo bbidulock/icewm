@@ -57,6 +57,8 @@ NetStatus::NetStatus(
     offset_obytes(0),
     start_time(monotime()),
     prev_time(start_time),
+    pixmap(None),
+    oldMaxBytes(None),
     wasUp(false),
     useIsdn(netdev.m_str().startsWith("ippp")),
     fDevName(netdev),
@@ -95,6 +97,9 @@ NetStatus::NetStatus(
 NetStatus::~NetStatus() {
     delete[] ppp_in;
     delete[] ppp_out;
+
+    if (pixmap)
+        XFreePixmap(xapp->display(), pixmap);
 }
 
 void NetStatus::updateVisible(bool aVisible) {
@@ -228,6 +233,42 @@ void NetStatus::handleClick(const XButtonEvent &up, int count) {
 }
 
 void NetStatus::paint(Graphics &g, const YRect &/*r*/) {
+    picture();
+    g.copyDrawable(pixmap, 0, 0, width(), height(), 0, 0);
+}
+
+void NetStatus::picture() {
+    bool create = (pixmap == None);
+    if (create)
+        pixmap = XCreatePixmap(xapp->display(), handle(),
+                               width(), height(), depth());
+
+    Graphics G(pixmap, width(), height(), depth());
+
+    if (create)
+        fill(G);
+
+    draw(G);
+}
+
+void NetStatus::fill(Graphics& g) {
+    if (color[2]) {
+        g.setColor(color[2]);
+        g.fillRect(0, 0, width(), height());
+    } else {
+        ref<YImage> gradient(parent()->getGradient());
+
+        if (gradient != null)
+            g.drawImage(gradient,
+                        x(), y(), width(), height(), 0, 0);
+        else
+            if (taskbackPixmap != null)
+                g.fillPixmap(taskbackPixmap,
+                             0, 0, width(), height(), x(), y());
+    }
+}
+
+void NetStatus::draw(Graphics &g) {
     long h = height();
 
     long b_in_max = 0;
@@ -243,9 +284,13 @@ void NetStatus::paint(Graphics &g, const YRect &/*r*/) {
     }
 
     long maxBytes = max(b_in_max + b_out_max, 1024L);
+    int first = maxBytes == oldMaxBytes ? taskBarNetSamples - 1 : 0;
+    if (first)
+        g.copyArea(1, 0, first, h, 0, 0);
+    oldMaxBytes = maxBytes;
 
     ///!!! this should really be unified with acpustatus.cc
-    for (int i = 0; i < taskBarNetSamples; i++) {
+    for (int i = first; i < taskBarNetSamples; i++) {
         if (1 /* ppp_in[i] > 0 || ppp_out[i] > 0 */) {
             long round = maxBytes / h / 2;
             int inbar, outbar;
@@ -533,6 +578,12 @@ void NetStatus::getCurrent(long *in, long *out, const void* sharedData) {
 }
 
 NetStatusControl::~NetStatusControl() {
+    for (int i = 0; i < fNetStatus.getCount(); ++i) {
+        NetStatus* status = 0;
+        swap(status, fNetStatus[i].value);
+        if (status)
+            delete status;
+    }
 }
 
 #ifdef __linux__
@@ -572,15 +623,14 @@ NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
         cstring devStr(devName);
 
         if (strpbrk(devStr, "*?[]\\.")) {
-            if (interfaces.getCount() == 0)
+            if (interfaces.isEmpty())
                 getInterfaces(interfaces);
             YStringArray::IterType iter = interfaces.reverseIterator();
             while (++iter) {
+                if (fNetStatus.has(iter))
+                    continue;
                 if (fnmatch(devStr, iter, 0) == 0) {
-                    IterType have = getIterator();
-                    while (++have && have->name() != iter);
-                    if (have == false)
-                        createNetStatus(*iter);
+                    createNetStatus(*iter);
                 }
             }
             patterns.append(devStr);
@@ -598,9 +648,10 @@ NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
 }
 
 NetStatus* NetStatusControl::createNetStatus(cstring netdev) {
-    NetStatus* status = new NetStatus(app, smActionListener,
-                                      netdev, taskBar, aParent);
-    fNetStatus.append(status);
+    NetStatus*& status = fNetStatus[netdev];
+    if (status == 0)
+        status = new NetStatus(app, smActionListener,
+                               netdev, taskBar, aParent);
     return status;
 }
 
@@ -627,7 +678,8 @@ bool NetStatusControl::handleTimer(YTimer *t)
     linuxUpdate();
 #else
     for (IterType iter = getIterator(); ++iter; )
-        iter->timedUpdate(0);
+        if (*iter != 0)
+            iter->timedUpdate(0);
 #endif
 
     return true;
@@ -640,38 +692,42 @@ void NetStatusControl::linuxUpdate() {
     int const count(fNetStatus.getCount());
     bool covered[count];
     for (int i = 0; i < count; ++i)
-        covered[i] = false;
+        covered[i] = fNetStatus[i] == 0;
+
+    YArray<netpair> pending;
 
     for (IterStats stat = devStats.iterator(); ++stat; ) {
-        const char* name = (*stat).left;
-        const char* data = (*stat).right;
-        IterType iter = getIterator();
-        while (++iter && iter->name() != name);
-        if (iter) {
-            if (iter.where() < count) {
-                if (covered[iter.where()] == false) {
-                    iter->timedUpdate(data);
-                    covered[iter.where()] = true;
+        int index;
+        if (fNetStatus.find((*stat).name(), &index)) {
+            if (index < count && fNetStatus[index]) {
+                if (covered[index] == false) {
+                    fNetStatus[index]->timedUpdate((*stat).data());
+                    covered[index] = true;
                 }
             }
         }
         else {
             // oh, we got a new device? allowed?
-            // XXX: this still wastes some cpu cycles
-            // for repeated fnmatch on forbidden devices.
-            // Maybe tackle this with a list of checksums?
-            YStringArray::IterType pat = patterns.iterator();
-            while (++pat && fnmatch(pat, name, 0));
-            if (pat) {
-                createNetStatus(name)->timedUpdate(data);
-            }
+            pending.append(stat);
         }
     }
 
     // mark disappeared devices as down without additional ioctls
     for (int i = 0; i < count; ++i)
-        if (covered[i] == false)
+        if (covered[i] == false && fNetStatus[i])
             fNetStatus[i]->timedUpdate(0, true);
+
+    for (int i = 0; i < pending.getCount(); ++i) {
+        const netpair stat = pending[i];
+        YStringArray::IterType pat = patterns.iterator();
+        while (++pat && fnmatch(pat, stat.name(), 0));
+        if (pat) {
+            createNetStatus(stat.name())->timedUpdate(stat.data());
+        } else {
+            // ignore this device
+            fNetStatus[stat.name()] = 0;
+        }
+    }
 
     devStats.clear();
     devicesText = 0;
