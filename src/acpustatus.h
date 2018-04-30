@@ -24,9 +24,9 @@ public:
     virtual ~CPUStatus();
 
     virtual void paint(Graphics &g, const YRect &r);
-
+    virtual void handleExpose(const XExposeEvent &expose);
     virtual bool handleTimer(YTimer *t);
-
+    virtual void handleVisibility(const XVisibilityEvent& visib);
     virtual void handleClick(const XButtonEvent &up, int count);
 
     void updateStatus();
@@ -39,6 +39,8 @@ public:
 
 private:
     int fCpuID;
+    int statusUpdateCount;
+    bool isVisible;
     unsigned long long **cpu;
     unsigned long long last_cpu[IWM_STATES];
     YColorName color[IWM_STATES];

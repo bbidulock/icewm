@@ -90,6 +90,8 @@ private:
 
     Drawable pixmap;
     long oldMaxBytes;
+    int statusUpdateCount;
+    bool isVisible;
 
     bool wasUp;               // previous link status
     bool useIsdn;             // netdevice is an IsdnDevice
@@ -105,6 +107,8 @@ private:
 
     // methods overridden from superclasses
     virtual void handleClick(const XButtonEvent &up, int count) OVERRIDE;
+    virtual void handleExpose(const XExposeEvent &expose);
+    virtual void handleVisibility(const XVisibilityEvent& visib);
     virtual void paint(Graphics & g, const YRect &r) OVERRIDE;
 
     void picture();

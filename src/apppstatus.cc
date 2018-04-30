@@ -59,6 +59,8 @@ NetStatus::NetStatus(
     prev_time(start_time),
     pixmap(None),
     oldMaxBytes(None),
+    statusUpdateCount(0),
+    isVisible(false),
     wasUp(false),
     useIsdn(netdev.m_str().startsWith("ippp")),
     fDevName(netdev),
@@ -83,6 +85,7 @@ NetStatus::NetStatus(
     color[1] = &clrNetSend;
     color[2] = &clrNetIdle;
 
+    addEventMask(VisibilityChangeMask);
     setSize(taskBarNetSamples, taskBarGraphHeight);
 
     getCurrent(0, 0, 0);
@@ -111,6 +114,7 @@ void NetStatus::updateVisible(bool aVisible) {
 
         fTaskBar->relayout();
     }
+    isVisible = min(isVisible, aVisible);
 }
 
 void NetStatus::timedUpdate(const void* sharedData, bool forceDown) {
@@ -232,9 +236,17 @@ void NetStatus::handleClick(const XButtonEvent &up, int count) {
     }
 }
 
-void NetStatus::paint(Graphics &g, const YRect &/*r*/) {
+void NetStatus::handleVisibility(const XVisibilityEvent& visib) {
+    isVisible = inrange(visib.state, 0, 1);
+}
+
+void NetStatus::handleExpose(const XExposeEvent& e) {
+    paint(getGraphics(), YRect(e.x, e.y, e.width, e.height));
+}
+
+void NetStatus::paint(Graphics &g, const YRect& r) {
     picture();
-    g.copyDrawable(pixmap, 0, 0, width(), height(), 0, 0);
+    g.copyDrawable(pixmap, r.x(), r.y(), r.width(), r.height(), r.x(), r.y());
 }
 
 void NetStatus::picture() {
@@ -248,7 +260,8 @@ void NetStatus::picture() {
     if (create)
         fill(G);
 
-    draw(G);
+    if (statusUpdateCount)
+        draw(G);
 }
 
 void NetStatus::fill(Graphics& g) {
@@ -284,9 +297,11 @@ void NetStatus::draw(Graphics &g) {
     }
 
     long maxBytes = max(b_in_max + b_out_max, 1024L);
-    int first = maxBytes == oldMaxBytes ? taskBarNetSamples - 1 : 0;
-    if (first)
-        g.copyArea(1, 0, first, h, 0, 0);
+    int first = (maxBytes != oldMaxBytes) ? 0 :
+                max(0, taskBarNetSamples - statusUpdateCount);
+    if (0 < first && first < taskBarNetSamples)
+        g.copyArea(taskBarNetSamples - first, 0, first, h, 0, 0);
+    statusUpdateCount = 0;
     oldMaxBytes = maxBytes;
 
     ///!!! this should really be unified with acpustatus.cc
@@ -466,7 +481,10 @@ void NetStatus::updateStatus(const void* sharedData) {
     if (!wasUp)
         ppp_in[last] = ppp_out[last] = 0;
 
-    repaint();
+    ++statusUpdateCount;
+
+    if (isVisible)
+        paint(getGraphics(), YRect(0, 0, width(), height()));
 }
 
 

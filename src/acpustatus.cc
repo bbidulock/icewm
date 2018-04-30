@@ -62,6 +62,8 @@ ref<YFont> CPUStatus::tempFont;
 CPUStatus::CPUStatus(YSMListener *smActionListener, YWindow *aParent, int cpuid) : YWindow(aParent)
 {
     fCpuID = cpuid;
+    statusUpdateCount = 0;
+    isVisible = false;
     this->smActionListener = smActionListener;
     cpu = new unsigned long long *[taskBarCPUSamples];
     for (int a(0); a < taskBarCPUSamples; a++) {
@@ -72,7 +74,7 @@ CPUStatus::CPUStatus(YSMListener *smActionListener, YWindow *aParent, int cpuid)
     memset(last_cpu, 0, sizeof(last_cpu));
 
     fUpdateTimer->setTimer(taskBarCPUDelay, this, true);
-
+    addEventMask(VisibilityChangeMask);
     if (tempFont == null)
         tempFont = YFont::getFont(XFA(tempFontName));
 
@@ -111,9 +113,17 @@ CPUStatus::~CPUStatus() {
         XFreePixmap(xapp->display(), pixmap);
 }
 
-void CPUStatus::paint(Graphics &g, const YRect &/*r*/) {
+void CPUStatus::handleVisibility(const XVisibilityEvent& visib) {
+    isVisible = inrange(visib.state, 0, 1);
+}
+
+void CPUStatus::handleExpose(const XExposeEvent& e) {
+    paint(getGraphics(), YRect(e.x, e.y, e.width, e.height));
+}
+
+void CPUStatus::paint(Graphics &g, const YRect& r) {
     picture();
-    g.copyDrawable(pixmap, 0, 0, width(), height(), 0, 0);
+    g.copyDrawable(pixmap, r.x(), r.y(), r.width(), r.height(), r.x(), r.y());
     temperature(g);
 }
 
@@ -128,7 +138,8 @@ void CPUStatus::picture() {
     if (create)
         fill(G);
 
-    draw(G);
+    if (statusUpdateCount)
+        draw(G);
 }
 
 void CPUStatus::fill(Graphics& g) {
@@ -150,8 +161,10 @@ void CPUStatus::fill(Graphics& g) {
 
 void CPUStatus::draw(Graphics& g) {
     int h = height();
-    int first = taskBarCPUSamples - 1;
-    g.copyArea(1, 0, first, h, 0, 0);
+    int first = max(0, taskBarCPUSamples - statusUpdateCount);
+    if (0 < first && first < taskBarCPUSamples)
+        g.copyArea(taskBarCPUSamples - first, 0, first, h, 0, 0);
+    statusUpdateCount = 0;
 
     for (int i = first; i < taskBarCPUSamples; i++) {
         unsigned long long
@@ -364,8 +377,9 @@ void CPUStatus::handleClick(const XButtonEvent &up, int count) {
 void CPUStatus::updateStatus() {
     for (int i(1); i < taskBarCPUSamples; i++)
         memcpy(cpu[i - 1], cpu[i], IWM_STATES * sizeof(cpu[0][0]));
-    getStatus(),
-    repaint();
+    getStatus();
+    if (isVisible)
+        paint(getGraphics(), YRect(0, 0, width(), height()));
 }
 
 int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
@@ -705,6 +719,8 @@ void CPUStatus::getStatus() {
         cpu[taskBarCPUSamples - 1][IWM_INTR],
         cpu[taskBarCPUSamples - 1][IWM_SOFTIRQ],
         cpu[taskBarCPUSamples - 1][IWM_STEAL]));
+
+    ++statusUpdateCount;
 }
 
 void CPUStatus::GetCPUStatus(YSMListener *smActionListener, YWindow *aParent, CPUStatus **&fCPUStatus, bool combine) {

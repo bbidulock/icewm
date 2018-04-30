@@ -16,7 +16,8 @@ public:
     virtual ~MEMStatus();
 
     virtual void paint(Graphics &g, const YRect &r);
-
+    virtual void handleExpose(const XExposeEvent &expose);
+    virtual void handleVisibility(const XVisibilityEvent& visib);
     virtual bool handleTimer(YTimer *t);
 
     void updateStatus();
@@ -39,6 +40,8 @@ private:
     void draw(Graphics& g);
 
     Drawable pixmap;
+    int statusUpdateCount;
+    bool isVisible;
 };
 #endif
 

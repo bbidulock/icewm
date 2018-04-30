@@ -28,6 +28,8 @@ YClock::YClock(YSMListener *smActionListener, YWindow *aParent):
     YWindow(aParent),
     clockUTC(false),
     toolTipUTC(false),
+    isVisible(false),
+    clockTicked(true),
     transparent(-1),
     smActionListener(smActionListener),
     negativePosition(INT_MAX),
@@ -44,6 +46,8 @@ YClock::YClock(YSMListener *smActionListener, YWindow *aParent):
 
     clockTimer->setFixed();
     clockTimer->setTimer(1000, this, true);
+
+    addEventMask(VisibilityChangeMask);
     autoSize();
     updateToolTip();
     setDND(true);
@@ -106,7 +110,7 @@ void YClock::handleButton(const XButtonEvent &button) {
             repaint();
         }
     } else if (button.type == ButtonRelease) {
-        if (button.button == 1) {
+        if (button.button == 1 && clockUTC) {
             clockUTC = false;
             repaint();
         }
@@ -159,9 +163,22 @@ void YClock::handleClick(const XButtonEvent &up, int count) {
     }
 }
 
-void YClock::paint(Graphics &g, const YRect &/*r*/) {
+void YClock::handleVisibility(const XVisibilityEvent& visib) {
+    isVisible = inrange(visib.state, 0, 1);
+}
+
+void YClock::handleExpose(const XExposeEvent& e) {
+    paint(getGraphics(), YRect(e.x, e.y, e.width, e.height));
+}
+
+void YClock::repaint() {
+    if (isVisible)
+        paint(getGraphics(), YRect(0, 0, width(), height()));
+}
+
+void YClock::paint(Graphics &g, const YRect& r) {
     picture();
-    g.copyDrawable(clockPixmap, 0, 0, width(), height(), 0, 0);
+    g.copyDrawable(clockPixmap, r.x(), r.y(), width(), height(), r.x(), r.y());
 }
 
 void YClock::picture() {
@@ -175,7 +192,10 @@ void YClock::picture() {
     if (create)
         fill(G);
 
-    draw(G);
+    if (clockTicked) {
+        clockTicked = false;
+        draw(G);
+    }
 }
 
 void YClock::draw(Graphics& g) {
@@ -313,6 +333,7 @@ bool YClock::handleTimer(YTimer *t) {
         return false;
     if (toolTipVisible())
         updateToolTip();
+    clockTicked = true;
     repaint();
     return true;
 }

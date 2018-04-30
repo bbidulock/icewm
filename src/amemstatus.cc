@@ -22,7 +22,9 @@ extern ref<YPixmap> taskbackPixmap;
 
 MEMStatus::MEMStatus(YWindow *aParent):
     YWindow(aParent),
-    pixmap(None)
+    pixmap(None),
+    statusUpdateCount(0),
+    isVisible(false)
 {
     samples = new unsigned long long *[taskBarMEMSamples];
 
@@ -42,6 +44,7 @@ MEMStatus::MEMStatus(YWindow *aParent):
             samples[i][j]=0;
         samples[i][MEM_FREE] = 1;
     }
+    addEventMask(VisibilityChangeMask);
     setSize(taskBarMEMSamples, taskBarGraphHeight);
     getStatus();
     updateStatus();
@@ -60,9 +63,17 @@ MEMStatus::~MEMStatus() {
         XFreePixmap(xapp->display(), pixmap);
 }
 
-void MEMStatus::paint(Graphics &g, const YRect &/*r*/) {
+void MEMStatus::handleVisibility(const XVisibilityEvent& visib) {
+    isVisible = inrange(visib.state, 0, 1);
+}
+
+void MEMStatus::handleExpose(const XExposeEvent& e) {
+    paint(getGraphics(), YRect(e.x, e.y, e.width, e.height));
+}
+
+void MEMStatus::paint(Graphics &g, const YRect& r) {
     picture();
-    g.copyDrawable(pixmap, 0, 0, width(), height(), 0, 0);
+    g.copyDrawable(pixmap, r.x(), r.y(), r.width(), r.height(), r.x(), r.y());
 }
 
 void MEMStatus::picture() {
@@ -76,7 +87,8 @@ void MEMStatus::picture() {
     if (create)
         fill(G);
 
-    draw(G);
+    if (statusUpdateCount)
+        draw(G);
 }
 
 void MEMStatus::fill(Graphics& g) {
@@ -98,8 +110,10 @@ void MEMStatus::fill(Graphics& g) {
 
 void MEMStatus::draw(Graphics& g) {
     int h = height();
-    int first = taskBarMEMSamples - 1;
-    g.copyArea(1, 0, first, h, 0, 0);
+    int first = max(0, taskBarMEMSamples - statusUpdateCount);
+    if (0 < first && first < taskBarMEMSamples)
+        g.copyArea(taskBarMEMSamples - first, 0, first, h, 0, 0);
+    statusUpdateCount = 0;
 
     for (int i = first; i < taskBarMEMSamples; i++) {
         unsigned long long total = 0;
@@ -209,8 +223,9 @@ void MEMStatus::updateStatus() {
             samples[i-1][j] = samples[i][j];
         }
     }
-    getStatus(),
-    repaint();
+    getStatus();
+    if (isVisible)
+        paint(getGraphics(), YRect(0, 0, width(), height()));
 }
 
 unsigned long long MEMStatus::parseField(const char *buf, size_t bufLen,
@@ -281,6 +296,8 @@ void MEMStatus::getStatus() {
     }
     cur[MEM_USER] = user;
 #endif // USE_PROC_MEMINFO
+
+    ++statusUpdateCount;
 }
 #endif
 

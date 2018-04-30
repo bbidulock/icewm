@@ -16,6 +16,8 @@ public:
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleCrossing(const XCrossingEvent &crossing);
     virtual void handleClick(const XButtonEvent &up, int count);
+    virtual void handleExpose(const XExposeEvent &expose);
+    virtual void handleVisibility(const XVisibilityEvent& visib);
     virtual void paint(Graphics &g, const YRect &r);
 
     virtual void updateToolTip();
@@ -30,12 +32,15 @@ private:
     lazy<YTimer> clockTimer;
     bool clockUTC;
     bool toolTipUTC;
+    bool isVisible;
+    bool clockTicked;
     int transparent;
     YSMListener *smActionListener;
 
     ref<YPixmap> getPixmap(char ch);
     int calcWidth(const char *s, int count);
     bool hasTransparency();
+    void repaint();
     void picture();
     void draw(Graphics& g);
     void fill(Graphics& g);
