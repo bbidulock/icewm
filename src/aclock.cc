@@ -178,7 +178,7 @@ void YClock::repaint() {
 
 void YClock::paint(Graphics &g, const YRect& r) {
     picture();
-    g.copyDrawable(clockPixmap, r.x(), r.y(), width(), height(), r.x(), r.y());
+    g.copyDrawable(clockPixmap, r.x(), r.y(), r.width(), r.height(), r.x(), r.y());
 }
 
 void YClock::picture() {
