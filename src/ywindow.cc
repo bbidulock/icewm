@@ -225,6 +225,14 @@ void YWindow::setStyle(unsigned aStyle) {
     }
 }
 
+void YWindow::addEventMask(long mask) {
+    if (hasbits(fEventMask, mask) == false) {
+        fEventMask |= mask;
+        if (flags & wfCreated)
+            XSelectInput(xapp->display(), fHandle, fEventMask);
+    }
+}
+
 Graphics &YWindow::getGraphics() {
     return *(NULL == fGraphics ? fGraphics = new Graphics(*this) : fGraphics);
 }
@@ -655,6 +663,10 @@ void YWindow::handleEvent(const XEvent &event) {
         updateEnterNotifySerial(event);
         break;
 
+    case VisibilityNotify:
+        handleVisibility(event.xvisibility);
+        break;
+
     default:
 #ifdef CONFIG_SHAPE
         if (shapesSupported && event.type == (shapeEventBase + ShapeNotify)) {
@@ -967,8 +979,10 @@ void YWindow::handleClientMessage(const XClientMessageEvent &message) {
     }
 }
 
+void YWindow::handleVisibility(const XVisibilityEvent& visibility) {
+}
+
 #if 0
-    virtual void handleVisibility(const XVisibilityEvent &visibility);
     virtual void handleCreateWindow(const XCreateWindowEvent &createWindow);
 #endif
 

@@ -35,6 +35,7 @@ public:
     void setStyle(unsigned aStyle);
     unsigned getStyle() const { return fStyle; }
     long getEventMask() const { return fEventMask; }
+    void addEventMask(long mask);
 
     void setVisible(bool enable);
     void show();
@@ -83,12 +84,12 @@ public:
     virtual void handleSelectionClear(const XSelectionClearEvent &clear);
     virtual void handleSelectionRequest(const XSelectionRequestEvent &request);
     virtual void handleSelection(const XSelectionEvent &selection);
-#if 0
     virtual void handleVisibility(const XVisibilityEvent &visibility);
+#if 0
     virtual void handleCreateWindow(const XCreateWindowEvent &createWindow);
 #endif
     virtual void handleGravityNotify(const XGravityEvent &gravity);
-    void handleMapNotify(const XMapEvent &map);
+    virtual void handleMapNotify(const XMapEvent &map);
     virtual void handleUnmapNotify(const XUnmapEvent &unmap);
     virtual void handleUnmap(const XUnmapEvent &unmap);
     virtual void handleDestroyWindow(const XDestroyWindowEvent &destroyWindow);
