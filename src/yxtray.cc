@@ -280,6 +280,11 @@ void YXTrayProxy::requestDock(Window win) {
         return;
     }
 
+    if (title == "claws-mail") {    // #241
+        fTray->trayRequestDock(win, title);
+        return;
+    }
+
     long delay = 80L + 25L * fDockRequests.getCount();
     YTimer* tm = new YTimer(delay, this, true, true);
     fDockRequests.append(new DockRequest(win, tm, title));
