@@ -90,6 +90,7 @@ public:
 private:
     static void getScaleSize(unsigned& w, unsigned& h);
     Window getLeader(Window win);
+    void trayUpdateGeometry(unsigned w, unsigned h, bool visible);
 
     YXTrayProxy *fTrayProxy;
     typedef YObjectArray<YXTrayEmbedder> DockedType;

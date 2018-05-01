@@ -280,15 +280,13 @@ void YXTrayProxy::requestDock(Window win) {
         return;
     }
 
-    if (true || title == "claws-mail") {    // #241 #265
-        fTray->trayRequestDock(win, title);
-        return;
-    }
-    else {
+    fTray->trayRequestDock(win, title);
+
+    /*
     long delay = 80L + 25L * fDockRequests.getCount();
     YTimer* tm = new YTimer(delay, this, true, true);
     fDockRequests.append(new DockRequest(win, tm, title));
-    }
+    */
 }
 
 cstring YXTrayProxy::fetchTitle(Window win) {
@@ -561,6 +559,10 @@ void YXTray::trayRequestDock(Window win, cstring title) {
 
     iter.insert(embed);
     updateTrayWindows();
+
+    unsigned w = max(width(), 2U * fDrawBevel) + ww;
+    unsigned h = max(height(), hh + fDrawBevel);
+    trayUpdateGeometry(w, h, true);
     relayout(true);
 }
 
@@ -706,19 +708,8 @@ void YXTray::relayout(bool enforced) {
         if (w < 4)
             w = 0;
     }
-    if (countVisible == 0) {
-        hide();
-        w = 0;
-    }
-    MSG(("relayout %d %d : %d %d", w, h, width(), height()));
-    if (w != width() || h != height()) {
-        fGeometry.setRect(x() + int(width()) - int(w), y(), w, h);
-        setGeometry(fGeometry);
-        if (countVisible)
-            show();
-        if (fNotifier)
-            fNotifier->trayChanged();
-    }
+    trayUpdateGeometry(w, h, countVisible > 0);
+
     for (IterType ec = fDocked.iterator(); ++ec; ) {
         if (ec->fVisible)
             ec->show();
@@ -726,6 +717,22 @@ void YXTray::relayout(bool enforced) {
 
     MSG(("clients %d width: %d, visible %s",
          fDocked.getCount(), width(), boolstr(visible())));
+}
+
+void YXTray::trayUpdateGeometry(unsigned w, unsigned h, bool visible) {
+    if (visible == false) {
+        hide();
+        w = 0;
+    }
+    MSG(("relayout %d %d : %d %d", w, h, width(), height()));
+    if (w != width() || h != height()) {
+        fGeometry.setRect(x() + int(width()) - int(w), y(), w, h);
+        setGeometry(fGeometry);
+        if (visible)
+            show();
+        if (fNotifier)
+            fNotifier->trayChanged();
+    }
 }
 
 bool YXTray::kdeRequestDock(Window win) {
