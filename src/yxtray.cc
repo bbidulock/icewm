@@ -280,14 +280,15 @@ void YXTrayProxy::requestDock(Window win) {
         return;
     }
 
-    if (title == "claws-mail") {    // #241
+    if (true || title == "claws-mail") {    // #241 #265
         fTray->trayRequestDock(win, title);
         return;
     }
-
+    else {
     long delay = 80L + 25L * fDockRequests.getCount();
     YTimer* tm = new YTimer(delay, this, true, true);
     fDockRequests.append(new DockRequest(win, tm, title));
+    }
 }
 
 cstring YXTrayProxy::fetchTitle(Window win) {
