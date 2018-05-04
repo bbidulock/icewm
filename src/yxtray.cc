@@ -83,12 +83,12 @@ private:
     YAtom _NET_WM_NAME;
     YXTray *fTray;
     lazy<YTimer> fUpdateTimer;
-    YObjectArray<DockRequest> fDockRequests;
     typedef YObjectArray<DockRequest>::IterType DockIter;
     mstring toolTip;
 
     void requestDock(Window win);
     cstring fetchTitle(Window win);
+    bool enableBackingStore(Window win);
 
     typedef YObjectArray<TrayMessage> MessageListType;
     typedef MessageListType::IterType IterType;
@@ -253,22 +253,26 @@ void YXTrayProxy::updateToolTip() {
 }
 
 bool YXTrayProxy::handleTimer(YTimer *timer) {
-    MSG(("YXTrayProxy::handleTimer %s %d %ld", boolstr(timer == fUpdateTimer),
-                             fDockRequests.getCount(), timer->getInterval()));
+    MSG(("YXTrayProxy::handleTimer %s %ld",
+        boolstr(timer == fUpdateTimer), timer->getInterval()));
 
     if (timer == fUpdateTimer) {
         updateToolTip();
         return false;
     }
 
-    DockIter dock = fDockRequests.iterator();
-    while (++dock && timer != dock->timer);
-    if (dock) {
-        fTray->trayRequestDock(dock->window, dock->title);
-        dock.remove();
-    }
-
     return false;
+}
+
+bool YXTrayProxy::enableBackingStore(Window win) {
+    XWindowAttributes attr;
+    bool okay = XGetWindowAttributes(xapp->display(), win, &attr);
+    if (okay && attr.backing_store == NotUseful) {
+        XSetWindowAttributes xswa;
+        xswa.backing_store = WhenMapped;
+        XChangeWindowAttributes(xapp->display(), win, CWBackingStore, &xswa);
+    }
+    return okay;
 }
 
 void YXTrayProxy::requestDock(Window win) {
@@ -280,13 +284,16 @@ void YXTrayProxy::requestDock(Window win) {
         return;
     }
 
-    fTray->trayRequestDock(win, title);
-
     /*
-    long delay = 80L + 25L * fDockRequests.getCount();
-    YTimer* tm = new YTimer(delay, this, true, true);
-    fDockRequests.append(new DockRequest(win, tm, title));
-    */
+     * Some tray apps (GTK) sometimes fail to respond to expose events.
+     * As an experiment, enable backing store for icons to mitigate that.
+     */
+    if (enableBackingStore(win) == false) {
+        MSG(("Cannot get attributes for dock window 0x%08lX", win));
+        return;
+    }
+
+    fTray->trayRequestDock(win, title);
 }
 
 cstring YXTrayProxy::fetchTitle(Window win) {
