@@ -23,7 +23,7 @@ YToolTipWindow::YToolTipWindow(ustring text) :
     toolTipFg(&clrToolTipText),
     toolTipFont(YFont::getFont(XFA(toolTipFontName)))
 {
-    setStyle(wsToolTip | wsOverrideRedirect);
+    setStyle(wsToolTip | wsOverrideRedirect | wsSaveUnder);
     setText(text);
 }
 

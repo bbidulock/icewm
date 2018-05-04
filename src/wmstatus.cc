@@ -45,7 +45,7 @@ YWindowManagerStatus::YWindowManagerStatus(YWindow *aParent,
     setGeometry(YRect((manager->width() - sW) / 2,
                       (manager->height() - sH) - 8, // / 2,
                       sW + 2, sH + 4));
-    setStyle(wsOverrideRedirect);
+    setStyle(wsOverrideRedirect | wsSaveUnder);
 }
 
 YWindowManagerStatus::~YWindowManagerStatus() {
