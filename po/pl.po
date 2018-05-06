@@ -5,11 +5,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.2.15\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2018-04-07 14:35+0200\n"
+"POT-Creation-Date: 2018-05-06 21:11+0200\n"
 "PO-Revision-Date: 2018-04-19 09:26+0000\n"
 "Last-Translator: Ewelina Michalowska <ewelina.michalowska@stgambit.com>\n"
-"Language-Team: Polish "
-"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/pl/>\n"
+"Language-Team: Polish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,7 +43,20 @@ msgstr " - Pełny"
 msgid "power:\t%s"
 msgstr "zasilanie:\t%s"
 
-#: src/acpustatus.cc:181
+#: src/aclock.cc:173
+msgid "Clock"
+msgstr ""
+
+#: src/aclock.cc:174 src/acpustatus.cc:818 src/amailbox.cc:907
+#: src/amemstatus.cc:286
+msgid "_Disable"
+msgstr ""
+
+#: src/aclock.cc:175
+msgid "_UTC"
+msgstr ""
+
+#: src/acpustatus.cc:236
 #, c-format
 msgid ""
 "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
@@ -52,7 +65,7 @@ msgstr ""
 "statystyki:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = "
 "%llu, intr = %llu, softirq = %llu, steal = %llu\n"
 
-#: src/acpustatus.cc:186
+#: src/acpustatus.cc:241
 #, c-format
 msgid ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
@@ -61,30 +74,36 @@ msgstr ""
 "słupki:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 "softirq = %llu, steal = %llu (h = %i)\n"
 
-#: src/acpustatus.cc:246
+#: src/acpustatus.cc:306
 #, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "Obciążenie procesora %s: %3.2f %3.2f %3.2f, %u"
 
-#: src/acpustatus.cc:251
-#, c-format
+#: src/acpustatus.cc:312
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| "Ram (free): %5.2f (%.2f) M"
 msgid ""
 "\n"
-"Ram (free): %5.2f (%.2f) M"
+"Ram (free): %5.3f (%.3f) G"
 msgstr ""
 "\n"
 "Ram (wolny): %5.2f (%.2f) M"
 
-#: src/acpustatus.cc:256
-#, c-format
+#: src/acpustatus.cc:317
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| "Swap (free): %.2f (%.2f) M"
 msgid ""
 "\n"
-"Swap (free): %.2f (%.2f) M"
+"Swap (free): %.3f (%.3f) G"
 msgstr ""
 "\n"
 "Pamięć wymiany (wolna): %.2f (%.2f) M"
 
-#: src/acpustatus.cc:262
+#: src/acpustatus.cc:323
 #, c-format
 msgid ""
 "\n"
@@ -93,7 +112,7 @@ msgstr ""
 "\n"
 "Temperatura ACPI: "
 
-#: src/acpustatus.cc:281
+#: src/acpustatus.cc:342
 #, c-format
 msgid ""
 "\n"
@@ -102,131 +121,152 @@ msgstr ""
 "\n"
 "Częstotliwość procesora: %.3f GHz"
 
-#: src/acpustatus.cc:302
+#: src/acpustatus.cc:363 src/acpustatus.cc:814
 msgid "CPU"
 msgstr "Procesor"
 
-#: src/acpustatus.cc:302
+#: src/acpustatus.cc:363
 msgid "Load: "
 msgstr "Obciążenie: "
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/acpustatus.cc:369
+#: src/acpustatus.cc:434
 msgid "°C"
 msgstr "°C"
 
-#: src/acpustatus.cc:651
+#: src/acpustatus.cc:728
 #, c-format
 msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 msgstr "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 
-#: src/amailbox.cc:60
+#: src/acpustatus.cc:815
+#, c-format
+msgid "CPU%d"
+msgstr ""
+
+#: src/acpustatus.cc:820
+msgid "_Combine"
+msgstr ""
+
+#: src/acpustatus.cc:822
+msgid "_Separate"
+msgstr ""
+
+#: src/amailbox.cc:62
 #, c-format
 msgid "Invalid mailbox protocol: \"%s\""
 msgstr "Nieprawidłowy protokół poczty: \"%s\""
 
-#: src/amailbox.cc:62
+#: src/amailbox.cc:64
 #, c-format
 msgid "Invalid mailbox path: \"%s\""
 msgstr "Nieprawidłowa ścieżka do poczty: \"%s\""
 
-#: src/amailbox.cc:131
+#: src/amailbox.cc:133
 #, c-format
 msgid "DNS name lookup failed for %s"
 msgstr "Wyszukiwanie nazwy DNS dla %s nie powiodło się"
 
-#: src/amailbox.cc:147
+#: src/amailbox.cc:149
 #, c-format
 msgid "Invalid mailbox port: \"%s\""
 msgstr "Nieprawidłowy port skrzynki pocztowej: %s"
 
-#: src/amailbox.cc:305
+#: src/amailbox.cc:307
 #, c-format
 msgid "Could not connect to %s: %s"
 msgstr "Nie można się połączyć z %s: %s"
 
-#: src/amailbox.cc:322
+#: src/amailbox.cc:324
 #, c-format
 msgid "Failed to find %s command"
 msgstr "Nie można znaleźć polecenia %s"
 
-#: src/amailbox.cc:349
+#: src/amailbox.cc:351
 #, c-format
 msgid "Failed to execute %s"
 msgstr "Nie można wykonać %s"
 
-#: src/amailbox.cc:433
+#: src/amailbox.cc:435
 #, c-format
 msgid "Write to socket failed: %s"
 msgstr "Zapisywanie do gniazda nie powiodło się: %s"
 
-#: src/amailbox.cc:677
+#: src/amailbox.cc:678
 #, c-format
 msgid "Using MailBox \"%s\"\n"
 msgstr "Używana skrzynka: \"%s\"\n"
 
-#: src/amailbox.cc:778
+#: src/amailbox.cc:785
 msgid "Error checking mailbox."
 msgstr "Błąd podczas sprawdzania poczty."
 
-#: src/amailbox.cc:785
+#: src/amailbox.cc:792
 #, c-format
 msgid "%ld mail message, %ld unread."
 msgstr "Wiadomości pocztowe: %ld, nieprzeczytane: %ld."
 
-#: src/amailbox.cc:786
+#: src/amailbox.cc:793
 #, c-format
 msgid "%ld mail messages, %ld unread."
 msgstr "Wiadomości pocztowe: %ld, nieprzeczytane: %ld."
 
-#: src/amailbox.cc:792
+#: src/amailbox.cc:799
 #, c-format
 msgid "%ld mail message."
 msgstr "%ld wiadomości."
 
-#: src/amailbox.cc:793
+#: src/amailbox.cc:800
 #, c-format
 msgid "%ld mail messages."
 msgstr "%ld wiadomości."
 
-#: src/amemstatus.cc:117
+#: src/amailbox.cc:906
+msgid "MAIL"
+msgstr ""
+
+#: src/amemstatus.cc:166
 msgid "GB"
 msgstr "GB"
 
-#: src/amemstatus.cc:121
+#: src/amemstatus.cc:170
 msgid "MB"
 msgstr "MB"
 
-#: src/amemstatus.cc:125
+#: src/amemstatus.cc:174
 msgid "kB"
 msgstr "kB"
 
-#: src/amemstatus.cc:129
+#: src/amemstatus.cc:178
 msgid "bytes"
 msgstr "bajty"
 
-#: src/amemstatus.cc:153
+#: src/amemstatus.cc:198
 msgid "Memory Total: "
 msgstr "Łączna pamięć: "
 
-#: src/amemstatus.cc:154
+#: src/amemstatus.cc:199
 msgid "Free: "
 msgstr "Wolne: "
 
-#: src/amemstatus.cc:155
+#: src/amemstatus.cc:200
 msgid "Cached: "
 msgstr "Buforowane: "
 
-#: src/amemstatus.cc:156
+#: src/amemstatus.cc:201
 msgid "Buffers: "
 msgstr "Bufory: "
 
-#: src/amemstatus.cc:157
+#: src/amemstatus.cc:202
 msgid "User: "
 msgstr "Użytkownik: "
 
-#: src/apppstatus.cc:194
+#: src/amemstatus.cc:285
+msgid "MEM"
+msgstr ""
+
+#: src/apppstatus.cc:202
 #, c-format
 msgid ""
 "Interface %s:\n"
@@ -241,13 +281,17 @@ msgstr ""
 "  Przesłano (we/wy):\t%lli %s/%lli %s\n"
 "  Czas połączenia:\t%ld:%02ld:%02ld%s%s"
 
-#: src/apppstatus.cc:206
+#: src/apppstatus.cc:214
 msgid ""
 "\n"
 "  Caller id:\t"
 msgstr ""
 "\n"
 "  ID dzwoniącego:\t"
+
+#: src/apppstatus.cc:731
+msgid "NET"
+msgstr ""
 
 #: src/aworkspaces.cc:294 src/wmstatus.cc:162
 msgid "Workspace: "
@@ -1433,11 +1477,11 @@ msgstr "Zam_knij klienta"
 msgid "_Window list"
 msgstr "Lista okien"
 
-#: src/wmapp.cc:638
+#: src/wmapp.cc:639
 msgid "Another window manager already running, exiting..."
 msgstr "Inny menadżer okien jest już uruchomiony, kończenie pracy..."
 
-#: src/wmapp.cc:723
+#: src/wmapp.cc:724
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1446,18 +1490,18 @@ msgstr ""
 "Nie można ponownie uruchomić: %s\n"
 "Czy $PATH wskazuje na %s?"
 
-#: src/wmapp.cc:804
+#: src/wmapp.cc:805
 msgid "Kill IceWM, replace with Xterm"
 msgstr "Zakończ działanie menedżera IceWM, zastąp przez Xterm"
 
-#: src/wmapp.cc:1318
+#: src/wmapp.cc:1319
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      Identyfikator klienta używany do kontaktu z menedżerem "
 "sesji.\n"
 
-#: src/wmapp.cc:1324
+#: src/wmapp.cc:1325
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1468,7 +1512,7 @@ msgstr ""
 "  --debug-z           Wyświetlenie komunikatów debugowania dotyczących "
 "układania okien.\n"
 
-#: src/wmapp.cc:1332
+#: src/wmapp.cc:1333
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1481,7 +1525,7 @@ msgstr ""
 "  --postpreferences   Wyświetlenie preferencji po zakończeniu "
 "przetwarzania.\n"
 
-#: src/wmapp.cc:1337
+#: src/wmapp.cc:1338
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1541,26 +1585,26 @@ msgstr ""
 "↵\n"
 "\n"
 
-#: src/wmapp.cc:1398
+#: src/wmapp.cc:1399
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "Katalogi konfiguracji %s:\n"
 
-#: src/wmapp.cc:1480
+#: src/wmapp.cc:1481
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "Skonfigurowane opcje %s: %s\n"
 
-#: src/wmapp.cc:1527
+#: src/wmapp.cc:1528
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Nierozpoznana opcja %s."
 
-#: src/wmapp.cc:1559
+#: src/wmapp.cc:1560
 msgid "Confirm Logout"
 msgstr "Potwierdź wyjście"
 
-#: src/wmapp.cc:1560
+#: src/wmapp.cc:1561
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1601,8 +1645,8 @@ msgstr "Zablo_kuj stację roboczą"
 msgid "_Cancel"
 msgstr "Anuluj"
 
-#: src/wmdialog.cc:76 src/wmprog.cc:1283 src/wmprog.cc:1285
-#: src/wmtaskbar.cc:283 src/wmtaskbar.cc:285
+#: src/wmdialog.cc:76 src/wmprog.cc:792 src/wmprog.cc:794 src/wmtaskbar.cc:280
+#: src/wmtaskbar.cc:282
 msgid "_Logout..."
 msgstr "Wy_loguj..."
 
@@ -1610,8 +1654,8 @@ msgstr "Wy_loguj..."
 msgid "_Restart icewm"
 msgstr "U_ruchom ponownie IceWM"
 
-#: src/wmdialog.cc:81 src/wmprog.cc:1244 src/wmtaskbar.cc:276
-#: src/wmtaskbar.cc:279
+#: src/wmdialog.cc:81 src/wmprog.cc:753 src/wmtaskbar.cc:273
+#: src/wmtaskbar.cc:276
 msgid "_About"
 msgstr "Inform_acje"
 
@@ -1653,132 +1697,75 @@ msgstr "Nieznana opcja okna: %s"
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Błąd składni w opcjach okna w wierszu %d pliku %s"
 
-#: src/wmprog.cc:174
-msgid "Missing command argument"
-msgstr "Polecenie wymaga podania argumentu"
-
-#: src/wmprog.cc:192
-#, c-format
-msgid "Bad argument %d to command '%s'"
-msgstr "Nieprawidłowy argument %d do polecenia %s"
-
-#: src/wmprog.cc:333
-msgid "Missing filename argument to include statement"
-msgstr "Brak argumentu filename w celu uwzględnienia instrukcji"
-
-#: src/wmprog.cc:399
-#, c-format
-msgid "Error at %s '%s'"
-msgstr "Błąd w %s %s"
-
-#: src/wmprog.cc:456
-#, c-format
-msgid "Unexepected menu keyword: '%s'"
-msgstr "Nieoczekiwane słowo kluczowe menu: %s"
-
-#: src/wmprog.cc:500
-#, c-format
-msgid "Error at menuprog '%s'"
-msgstr "Błąd w menuprog %s"
-
-#: src/wmprog.cc:539
-#, c-format
-msgid "Error at %s: '%s'"
-msgstr "Błąd w %s: %s"
-
-#: src/wmprog.cc:562
-#, c-format
-msgid "Unknown keyword '%s'"
-msgstr "Nieznane słowo kluczowe: %s"
-
-#: src/wmprog.cc:587
-#, c-format
-msgid "Error at keyword '%s' for %s"
-msgstr "Błąd w słowie kluczowym %s dla %s"
-
-#: src/wmprog.cc:603
-#, c-format
-msgid ""
-"Unknown keyword for a non-container: '%s'.\n"
-"Expected either 'key' or 'runonce' here.\n"
-msgstr ""
-"Nieznane słowo kluczowe dla elementu niebędącego kontenerem: %s.\n"
-"Oczekiwano key lub runonce.\n"
-
-#: src/wmprog.cc:735
-#, c-format
-msgid "'%s' produces no output"
-msgstr "%s nie generuje wyniku"
-
-#: src/wmprog.cc:883
+#: src/wmprog.cc:377
 msgid "_Click to focus"
 msgstr "_Kliknij, aby ustawić fokus"
 
-#: src/wmprog.cc:884
+#: src/wmprog.cc:378
 msgid "_Explicit focus"
 msgstr "Fokus j_awny"
 
-#: src/wmprog.cc:885
+#: src/wmprog.cc:379
 msgid "_Sloppy mouse focus"
 msgstr "_Swobodny fokus wskaźnika myszki"
 
-#: src/wmprog.cc:886
+#: src/wmprog.cc:380
 msgid "S_trict mouse focus"
 msgstr "_Ograniczony fokus myszki"
 
-#: src/wmprog.cc:887
+#: src/wmprog.cc:381
 msgid "_Quiet sloppy focus"
 msgstr "_Cichy swobodny fokus"
 
-#: src/wmprog.cc:888
+#: src/wmprog.cc:382
 msgid "Custo_m"
 msgstr "Niestandardowy"
 
-#: src/wmprog.cc:1156
+#: src/wmprog.cc:665
 msgid "_Manual"
 msgstr "_Ręcznie"
 
-#: src/wmprog.cc:1157
+#: src/wmprog.cc:666
 msgid "_Icewm(1)"
 msgstr "_Icewm(1)"
 
-#: src/wmprog.cc:1158
+#: src/wmprog.cc:667
 msgid "Icewm_Bg(1)"
 msgstr "Icewm_Bg(1)"
 
-#: src/wmprog.cc:1159
+#: src/wmprog.cc:668
 msgid "Ice_Sound(1)"
 msgstr "Ice_Sound(1)"
 
-#: src/wmprog.cc:1221
+#: src/wmprog.cc:730
 msgid "Programs"
 msgstr "Programy"
 
-#: src/wmprog.cc:1226
+#: src/wmprog.cc:735
 msgid "_Run..."
 msgstr "U_ruchom..."
 
-#: src/wmprog.cc:1231 src/wmtaskbar.cc:266
+#: src/wmprog.cc:740 src/wmtaskbar.cc:263
 msgid "_Windows"
 msgstr "Okna"
 
-#: src/wmprog.cc:1250
+#: src/wmprog.cc:759
 msgid "_Help"
 msgstr "Pomoc"
 
-#: src/wmprog.cc:1261
+#: src/wmprog.cc:770
 msgid "_Focus"
 msgstr "_Fokus"
 
-#: src/wmprog.cc:1266
+#: src/wmprog.cc:775
 msgid "_Preferences"
 msgstr "_Preferencje"
 
-#: src/wmprog.cc:1272
+#: src/wmprog.cc:781
 msgid "_Themes"
 msgstr "Mo_tywy"
 
-#: src/wmprog.cc:1277
+#: src/wmprog.cc:786
 msgid "Se_ttings"
 msgstr "Us_tawienia"
 
@@ -1791,55 +1778,55 @@ msgstr "Menedżer sesji: nieznany wiersz %s"
 msgid "Task Bar"
 msgstr "Pasek zadań"
 
-#: src/wmtaskbar.cc:256 src/wmwinlist.cc:305 src/wmwinlist.cc:318
+#: src/wmtaskbar.cc:253 src/wmwinlist.cc:305 src/wmwinlist.cc:318
 msgid "Tile _Vertically"
 msgstr "Wyłóż Poziomo"
 
-#: src/wmtaskbar.cc:257 src/wmwinlist.cc:306 src/wmwinlist.cc:319
+#: src/wmtaskbar.cc:254 src/wmwinlist.cc:306 src/wmwinlist.cc:319
 msgid "T_ile Horizontally"
 msgstr "Wyłóż P_ionowo"
 
-#: src/wmtaskbar.cc:258 src/wmwinlist.cc:307 src/wmwinlist.cc:320
+#: src/wmtaskbar.cc:255 src/wmwinlist.cc:307 src/wmwinlist.cc:320
 msgid "Ca_scade"
 msgstr "Ka_skada"
 
-#: src/wmtaskbar.cc:259 src/wmwinlist.cc:308 src/wmwinlist.cc:321
+#: src/wmtaskbar.cc:256 src/wmwinlist.cc:308 src/wmwinlist.cc:321
 msgid "_Arrange"
 msgstr "Rozmieść"
 
-#: src/wmtaskbar.cc:260 src/wmwinlist.cc:310 src/wmwinlist.cc:322
+#: src/wmtaskbar.cc:257 src/wmwinlist.cc:310 src/wmwinlist.cc:322
 msgid "_Minimize All"
 msgstr "_Minimalizuj wszystkie"
 
-#: src/wmtaskbar.cc:261 src/wmwinlist.cc:311 src/wmwinlist.cc:323
+#: src/wmtaskbar.cc:258 src/wmwinlist.cc:311 src/wmwinlist.cc:323
 msgid "_Hide All"
 msgstr "Sc_howaj wszystkie"
 
-#: src/wmtaskbar.cc:262 src/wmwinlist.cc:312 src/wmwinlist.cc:324
+#: src/wmtaskbar.cc:259 src/wmwinlist.cc:312 src/wmwinlist.cc:324
 msgid "_Undo"
 msgstr "Cofnij"
 
-#: src/wmtaskbar.cc:264
+#: src/wmtaskbar.cc:261
 msgid "Arrange _Icons"
 msgstr "Rozmieść ikony"
 
-#: src/wmtaskbar.cc:268
+#: src/wmtaskbar.cc:265
 msgid "_Refresh"
 msgstr "Odśwież"
 
-#: src/wmtaskbar.cc:274
+#: src/wmtaskbar.cc:271
 msgid "_License"
 msgstr "_Licencja"
 
-#: src/wmtaskbar.cc:389
+#: src/wmtaskbar.cc:352
 msgid "Favorite applications"
 msgstr "Ulubione programy"
 
-#: src/wmtaskbar.cc:406
+#: src/wmtaskbar.cc:370
 msgid "Window list menu"
 msgstr "Menu listy okien"
 
-#: src/wmtaskbar.cc:415
+#: src/wmtaskbar.cc:379
 msgid "Show Desktop"
 msgstr "Pokaż biurko"
 
@@ -2072,6 +2059,43 @@ msgid ""
 msgstr ""
 "  -d, --display=NAZWA  NAZWA używanego serwera X.\n"
 "  --sync              Synchronizacja poleceń X11.\n"
+
+#~ msgid "Missing command argument"
+#~ msgstr "Polecenie wymaga podania argumentu"
+
+#~ msgid "Bad argument %d to command '%s'"
+#~ msgstr "Nieprawidłowy argument %d do polecenia %s"
+
+#~ msgid "Missing filename argument to include statement"
+#~ msgstr "Brak argumentu filename w celu uwzględnienia instrukcji"
+
+#~ msgid "Error at %s '%s'"
+#~ msgstr "Błąd w %s %s"
+
+#~ msgid "Unexepected menu keyword: '%s'"
+#~ msgstr "Nieoczekiwane słowo kluczowe menu: %s"
+
+#~ msgid "Error at menuprog '%s'"
+#~ msgstr "Błąd w menuprog %s"
+
+#~ msgid "Error at %s: '%s'"
+#~ msgstr "Błąd w %s: %s"
+
+#~ msgid "Unknown keyword '%s'"
+#~ msgstr "Nieznane słowo kluczowe: %s"
+
+#~ msgid "Error at keyword '%s' for %s"
+#~ msgstr "Błąd w słowie kluczowym %s dla %s"
+
+#~ msgid ""
+#~ "Unknown keyword for a non-container: '%s'.\n"
+#~ "Expected either 'key' or 'runonce' here.\n"
+#~ msgstr ""
+#~ "Nieznane słowo kluczowe dla elementu niebędącego kontenerem: %s.\n"
+#~ "Oczekiwano key lub runonce.\n"
+
+#~ msgid "'%s' produces no output"
+#~ msgstr "%s nie generuje wyniku"
 
 #~ msgid "\"%s\" contains no scheme description"
 #~ msgstr "\"%s\" nie zawiera opisu schematu"

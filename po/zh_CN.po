@@ -11,11 +11,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2018-04-07 14:35+0200\n"
+"POT-Creation-Date: 2018-05-06 21:11+0200\n"
 "PO-Revision-Date: 2018-04-17 02:17+0000\n"
 "Last-Translator: Emily Dong <Emily.Dong@excel-gits.com>\n"
-"Language-Team: Chinese (China) "
-"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/zh_CN/>\n"
+"Language-Team: Chinese (China) <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/zh_CN/>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,7 +48,20 @@ msgstr " - 已充满"
 msgid "power:\t%s"
 msgstr "电量：%s"
 
-#: src/acpustatus.cc:181
+#: src/aclock.cc:173
+msgid "Clock"
+msgstr ""
+
+#: src/aclock.cc:174 src/acpustatus.cc:818 src/amailbox.cc:907
+#: src/amemstatus.cc:286
+msgid "_Disable"
+msgstr ""
+
+#: src/aclock.cc:175
+msgid "_UTC"
+msgstr ""
+
+#: src/acpustatus.cc:236
 #, c-format
 msgid ""
 "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
@@ -57,7 +70,7 @@ msgstr ""
 "状态：\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 "intr = %llu, softirq = %llu, steal = %llu\n"
 
-#: src/acpustatus.cc:186
+#: src/acpustatus.cc:241
 #, c-format
 msgid ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
@@ -66,30 +79,36 @@ msgstr ""
 "bars:\t user = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 "softirq = %llu, steal = %llu (h = %i)\n"
 
-#: src/acpustatus.cc:246
+#: src/acpustatus.cc:306
 #, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "CPU %s 负载：%3.2f %3.2f %3.2f, %u"
 
-#: src/acpustatus.cc:251
-#, c-format
+#: src/acpustatus.cc:312
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| "Ram (free): %5.2f (%.2f) M"
 msgid ""
 "\n"
-"Ram (free): %5.2f (%.2f) M"
+"Ram (free): %5.3f (%.3f) G"
 msgstr ""
 "\n"
 "Ram （空闲）： %5.2f (%.2f) M"
 
-#: src/acpustatus.cc:256
-#, c-format
+#: src/acpustatus.cc:317
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| "Swap (free): %.2f (%.2f) M"
 msgid ""
 "\n"
-"Swap (free): %.2f (%.2f) M"
+"Swap (free): %.3f (%.3f) G"
 msgstr ""
 "\n"
 "Swap （空闲）： %.2f (%.2f) M"
 
-#: src/acpustatus.cc:262
+#: src/acpustatus.cc:323
 #, c-format
 msgid ""
 "\n"
@@ -98,7 +117,7 @@ msgstr ""
 "\n"
 "ACPI Temp： "
 
-#: src/acpustatus.cc:281
+#: src/acpustatus.cc:342
 #, c-format
 msgid ""
 "\n"
@@ -107,131 +126,152 @@ msgstr ""
 "\n"
 "CPU 频率： %.3fGHz"
 
-#: src/acpustatus.cc:302
+#: src/acpustatus.cc:363 src/acpustatus.cc:814
 msgid "CPU"
 msgstr "CPU"
 
-#: src/acpustatus.cc:302
+#: src/acpustatus.cc:363
 msgid "Load: "
 msgstr "负载： "
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/acpustatus.cc:369
+#: src/acpustatus.cc:434
 msgid "°C"
 msgstr "°C"
 
-#: src/acpustatus.cc:651
+#: src/acpustatus.cc:728
 #, c-format
 msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 msgstr "%s：%llu %llu %llu %llu %llu %llu %llu %llu"
 
-#: src/amailbox.cc:60
+#: src/acpustatus.cc:815
+#, c-format
+msgid "CPU%d"
+msgstr ""
+
+#: src/acpustatus.cc:820
+msgid "_Combine"
+msgstr ""
+
+#: src/acpustatus.cc:822
+msgid "_Separate"
+msgstr ""
+
+#: src/amailbox.cc:62
 #, c-format
 msgid "Invalid mailbox protocol: \"%s\""
 msgstr "信箱协议无效：\"%s\""
 
-#: src/amailbox.cc:62
+#: src/amailbox.cc:64
 #, c-format
 msgid "Invalid mailbox path: \"%s\""
 msgstr "信箱路径无效： \"%s\""
 
-#: src/amailbox.cc:131
+#: src/amailbox.cc:133
 #, c-format
 msgid "DNS name lookup failed for %s"
 msgstr "查找 %s 的 DNS 名称失败"
 
-#: src/amailbox.cc:147
+#: src/amailbox.cc:149
 #, c-format
 msgid "Invalid mailbox port: \"%s\""
 msgstr "邮箱端口无效： \"%s\""
 
-#: src/amailbox.cc:305
+#: src/amailbox.cc:307
 #, c-format
 msgid "Could not connect to %s: %s"
 msgstr "无法连接到 %s：%s"
 
-#: src/amailbox.cc:322
+#: src/amailbox.cc:324
 #, c-format
 msgid "Failed to find %s command"
 msgstr "查找 %s 命令失败"
 
-#: src/amailbox.cc:349
+#: src/amailbox.cc:351
 #, c-format
 msgid "Failed to execute %s"
 msgstr "执行 %s 失败"
 
-#: src/amailbox.cc:433
+#: src/amailbox.cc:435
 #, c-format
 msgid "Write to socket failed: %s"
 msgstr "写入到套接字失败：%s"
 
-#: src/amailbox.cc:677
+#: src/amailbox.cc:678
 #, c-format
 msgid "Using MailBox \"%s\"\n"
 msgstr "使用信箱 \"%s\"\n"
 
-#: src/amailbox.cc:778
+#: src/amailbox.cc:785
 msgid "Error checking mailbox."
 msgstr "检查信箱时发生错误。"
 
-#: src/amailbox.cc:785
+#: src/amailbox.cc:792
 #, c-format
 msgid "%ld mail message, %ld unread."
 msgstr "%ld 封邮件信息，%ld 封未读。"
 
-#: src/amailbox.cc:786
+#: src/amailbox.cc:793
 #, c-format
 msgid "%ld mail messages, %ld unread."
 msgstr "%ld 封又见信息，%ld 封未读。"
 
-#: src/amailbox.cc:792
+#: src/amailbox.cc:799
 #, c-format
 msgid "%ld mail message."
 msgstr "%ld 封邮件。"
 
-#: src/amailbox.cc:793
+#: src/amailbox.cc:800
 #, c-format
 msgid "%ld mail messages."
 msgstr "%ld 封邮件。"
 
-#: src/amemstatus.cc:117
+#: src/amailbox.cc:906
+msgid "MAIL"
+msgstr ""
+
+#: src/amemstatus.cc:166
 msgid "GB"
 msgstr "GB"
 
-#: src/amemstatus.cc:121
+#: src/amemstatus.cc:170
 msgid "MB"
 msgstr "MB"
 
-#: src/amemstatus.cc:125
+#: src/amemstatus.cc:174
 msgid "kB"
 msgstr "kB"
 
-#: src/amemstatus.cc:129
+#: src/amemstatus.cc:178
 msgid "bytes"
 msgstr "字节"
 
-#: src/amemstatus.cc:153
+#: src/amemstatus.cc:198
 msgid "Memory Total: "
 msgstr "总内存： "
 
-#: src/amemstatus.cc:154
+#: src/amemstatus.cc:199
 msgid "Free: "
 msgstr "可用： "
 
-#: src/amemstatus.cc:155
+#: src/amemstatus.cc:200
 msgid "Cached: "
 msgstr "已缓存： "
 
-#: src/amemstatus.cc:156
+#: src/amemstatus.cc:201
 msgid "Buffers: "
 msgstr "缓冲区： "
 
-#: src/amemstatus.cc:157
+#: src/amemstatus.cc:202
 msgid "User: "
 msgstr "用户： "
 
-#: src/apppstatus.cc:194
+#: src/amemstatus.cc:285
+msgid "MEM"
+msgstr ""
+
+#: src/apppstatus.cc:202
 #, c-format
 msgid ""
 "Interface %s:\n"
@@ -246,13 +286,17 @@ msgstr ""
 "  已传输 (进/出)：\t%lli %s/%lli %s\n"
 "  在线时间：\t%ld:%02ld:%02ld%s%s"
 
-#: src/apppstatus.cc:206
+#: src/apppstatus.cc:214
 msgid ""
 "\n"
 "  Caller id:\t"
 msgstr ""
 "\n"
 "  调用源 ID:\t"
+
+#: src/apppstatus.cc:731
+msgid "NET"
+msgstr ""
 
 #: src/aworkspaces.cc:294 src/wmstatus.cc:162
 msgid "Workspace: "
@@ -1397,11 +1441,11 @@ msgstr "杀死客户程序(_K)"
 msgid "_Window list"
 msgstr "窗口列表(_W)"
 
-#: src/wmapp.cc:638
+#: src/wmapp.cc:639
 msgid "Another window manager already running, exiting..."
 msgstr "另外的 窗口管理器 已经在运行，退出..."
 
-#: src/wmapp.cc:723
+#: src/wmapp.cc:724
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1410,16 +1454,16 @@ msgstr ""
 "无法重新启动：%s\n"
 "%s 在路径 $PATH 中吗？"
 
-#: src/wmapp.cc:804
+#: src/wmapp.cc:805
 msgid "Kill IceWM, replace with Xterm"
 msgstr "杀掉 IceWM，替换为 Xterm"
 
-#: src/wmapp.cc:1318
+#: src/wmapp.cc:1319
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr "  --client-id=ID      与会话管理器通信时使用客户端 ID\n"
 
-#: src/wmapp.cc:1324
+#: src/wmapp.cc:1325
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1429,7 +1473,7 @@ msgstr ""
 "  --debug             打印通用调试信息。\n"
 "  --debug-z           窗口层叠时打印调试信息。\n"
 
-#: src/wmapp.cc:1332
+#: src/wmapp.cc:1333
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1441,7 +1485,7 @@ msgstr ""
 "  -t, --theme=FILE    从 FILE 中加载主题。\n"
 "  --postpreferences   所有处理过程结束后打印配置选项。\n"
 
-#: src/wmapp.cc:1337
+#: src/wmapp.cc:1338
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1500,26 +1544,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1398
+#: src/wmapp.cc:1399
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s 配置选项目录：\n"
 
-#: src/wmapp.cc:1480
+#: src/wmapp.cc:1481
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s 配置选项：%s\n"
 
-#: src/wmapp.cc:1527
+#: src/wmapp.cc:1528
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "无法识别的选项：'%s'。"
 
-#: src/wmapp.cc:1559
+#: src/wmapp.cc:1560
 msgid "Confirm Logout"
 msgstr "确认退出"
 
-#: src/wmapp.cc:1560
+#: src/wmapp.cc:1561
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1560,8 +1604,8 @@ msgstr "锁定工作站(_k)"
 msgid "_Cancel"
 msgstr "取消(_C)"
 
-#: src/wmdialog.cc:76 src/wmprog.cc:1283 src/wmprog.cc:1285
-#: src/wmtaskbar.cc:283 src/wmtaskbar.cc:285
+#: src/wmdialog.cc:76 src/wmprog.cc:792 src/wmprog.cc:794 src/wmtaskbar.cc:280
+#: src/wmtaskbar.cc:282
 msgid "_Logout..."
 msgstr "退出(_L)..."
 
@@ -1569,8 +1613,8 @@ msgstr "退出(_L)..."
 msgid "_Restart icewm"
 msgstr "重启 icewm(_R)"
 
-#: src/wmdialog.cc:81 src/wmprog.cc:1244 src/wmtaskbar.cc:276
-#: src/wmtaskbar.cc:279
+#: src/wmdialog.cc:81 src/wmprog.cc:753 src/wmtaskbar.cc:273
+#: src/wmtaskbar.cc:276
 msgid "_About"
 msgstr "关于(_A)"
 
@@ -1612,132 +1656,75 @@ msgstr "未知窗口选项：%s"
 msgid "Syntax error in window options on line %d of %s"
 msgstr "第 %d 行 (%s) 的窗口选项中存在语法错误"
 
-#: src/wmprog.cc:174
-msgid "Missing command argument"
-msgstr "丢失命令参数"
-
-#: src/wmprog.cc:192
-#, c-format
-msgid "Bad argument %d to command '%s'"
-msgstr "错误的参数 %d 传给命令“%s”"
-
-#: src/wmprog.cc:333
-msgid "Missing filename argument to include statement"
-msgstr "包含的声明中缺少文件名参数"
-
-#: src/wmprog.cc:399
-#, c-format
-msgid "Error at %s '%s'"
-msgstr "%s 错误 '%s'"
-
-#: src/wmprog.cc:456
-#, c-format
-msgid "Unexepected menu keyword: '%s'"
-msgstr "未期望的菜单关键词：'%s'"
-
-#: src/wmprog.cc:500
-#, c-format
-msgid "Error at menuprog '%s'"
-msgstr "menuprog '%s' 错误"
-
-#: src/wmprog.cc:539
-#, c-format
-msgid "Error at %s: '%s'"
-msgstr "%s 错误：'%s'"
-
-#: src/wmprog.cc:562
-#, c-format
-msgid "Unknown keyword '%s'"
-msgstr "未知关键字：`%s'"
-
-#: src/wmprog.cc:587
-#, c-format
-msgid "Error at keyword '%s' for %s"
-msgstr "%s 的关键字 '%s' 错误"
-
-#: src/wmprog.cc:603
-#, c-format
-msgid ""
-"Unknown keyword for a non-container: '%s'.\n"
-"Expected either 'key' or 'runonce' here.\n"
-msgstr ""
-"未知的非容器 '%s' 关键字。\n"
-"此处需要 关键字 'key' 或 'runonce'。\n"
-
-#: src/wmprog.cc:735
-#, c-format
-msgid "'%s' produces no output"
-msgstr "'%s' 无输出"
-
-#: src/wmprog.cc:883
+#: src/wmprog.cc:377
 msgid "_Click to focus"
 msgstr "点击聚焦(_C)"
 
-#: src/wmprog.cc:884
+#: src/wmprog.cc:378
 msgid "_Explicit focus"
 msgstr "精确聚焦(_e)"
 
-#: src/wmprog.cc:885
+#: src/wmprog.cc:379
 msgid "_Sloppy mouse focus"
 msgstr "粗略的鼠标聚焦(_s)"
 
-#: src/wmprog.cc:886
+#: src/wmprog.cc:380
 msgid "S_trict mouse focus"
 msgstr "点击聚焦(_s)"
 
-#: src/wmprog.cc:887
+#: src/wmprog.cc:381
 msgid "_Quiet sloppy focus"
 msgstr "安静粗略聚焦(_q)"
 
-#: src/wmprog.cc:888
+#: src/wmprog.cc:382
 msgid "Custo_m"
 msgstr "自定义(_m)"
 
-#: src/wmprog.cc:1156
+#: src/wmprog.cc:665
 msgid "_Manual"
 msgstr "手册(_m)"
 
-#: src/wmprog.cc:1157
+#: src/wmprog.cc:666
 msgid "_Icewm(1)"
 msgstr "_Icewm(1)"
 
-#: src/wmprog.cc:1158
+#: src/wmprog.cc:667
 msgid "Icewm_Bg(1)"
 msgstr "Icewm_Bg(1)"
 
-#: src/wmprog.cc:1159
+#: src/wmprog.cc:668
 msgid "Ice_Sound(1)"
 msgstr "Ice_Sound(1)"
 
-#: src/wmprog.cc:1221
+#: src/wmprog.cc:730
 msgid "Programs"
 msgstr "程序"
 
-#: src/wmprog.cc:1226
+#: src/wmprog.cc:735
 msgid "_Run..."
 msgstr "运行(_r)…"
 
-#: src/wmprog.cc:1231 src/wmtaskbar.cc:266
+#: src/wmprog.cc:740 src/wmtaskbar.cc:263
 msgid "_Windows"
 msgstr "窗口(_W)"
 
-#: src/wmprog.cc:1250
+#: src/wmprog.cc:759
 msgid "_Help"
 msgstr "帮助(_H)"
 
-#: src/wmprog.cc:1261
+#: src/wmprog.cc:770
 msgid "_Focus"
 msgstr "聚焦(_F)"
 
-#: src/wmprog.cc:1266
+#: src/wmprog.cc:775
 msgid "_Preferences"
 msgstr "配置选项(_P)"
 
-#: src/wmprog.cc:1272
+#: src/wmprog.cc:781
 msgid "_Themes"
 msgstr "主题(_T)"
 
-#: src/wmprog.cc:1277
+#: src/wmprog.cc:786
 msgid "Se_ttings"
 msgstr "设置(_t)"
 
@@ -1750,55 +1737,55 @@ msgstr "会话管理者：未知行 %s"
 msgid "Task Bar"
 msgstr "任务栏"
 
-#: src/wmtaskbar.cc:256 src/wmwinlist.cc:305 src/wmwinlist.cc:318
+#: src/wmtaskbar.cc:253 src/wmwinlist.cc:305 src/wmwinlist.cc:318
 msgid "Tile _Vertically"
 msgstr "垂直平铺(_V)"
 
-#: src/wmtaskbar.cc:257 src/wmwinlist.cc:306 src/wmwinlist.cc:319
+#: src/wmtaskbar.cc:254 src/wmwinlist.cc:306 src/wmwinlist.cc:319
 msgid "T_ile Horizontally"
 msgstr "水平平铺(_I)"
 
-#: src/wmtaskbar.cc:258 src/wmwinlist.cc:307 src/wmwinlist.cc:320
+#: src/wmtaskbar.cc:255 src/wmwinlist.cc:307 src/wmwinlist.cc:320
 msgid "Ca_scade"
 msgstr "层叠(_S)"
 
-#: src/wmtaskbar.cc:259 src/wmwinlist.cc:308 src/wmwinlist.cc:321
+#: src/wmtaskbar.cc:256 src/wmwinlist.cc:308 src/wmwinlist.cc:321
 msgid "_Arrange"
 msgstr "排列(_A)"
 
-#: src/wmtaskbar.cc:260 src/wmwinlist.cc:310 src/wmwinlist.cc:322
+#: src/wmtaskbar.cc:257 src/wmwinlist.cc:310 src/wmwinlist.cc:322
 msgid "_Minimize All"
 msgstr "全部最小化(_M)"
 
-#: src/wmtaskbar.cc:261 src/wmwinlist.cc:311 src/wmwinlist.cc:323
+#: src/wmtaskbar.cc:258 src/wmwinlist.cc:311 src/wmwinlist.cc:323
 msgid "_Hide All"
 msgstr "全部隐藏(_H)"
 
-#: src/wmtaskbar.cc:262 src/wmwinlist.cc:312 src/wmwinlist.cc:324
+#: src/wmtaskbar.cc:259 src/wmwinlist.cc:312 src/wmwinlist.cc:324
 msgid "_Undo"
 msgstr "撤消(_U)"
 
-#: src/wmtaskbar.cc:264
+#: src/wmtaskbar.cc:261
 msgid "Arrange _Icons"
 msgstr "排列图标(_I)"
 
-#: src/wmtaskbar.cc:268
+#: src/wmtaskbar.cc:265
 msgid "_Refresh"
 msgstr "刷新(_R)"
 
-#: src/wmtaskbar.cc:274
+#: src/wmtaskbar.cc:271
 msgid "_License"
 msgstr "许可(_L)"
 
-#: src/wmtaskbar.cc:389
+#: src/wmtaskbar.cc:352
 msgid "Favorite applications"
 msgstr "喜欢的应用程序"
 
-#: src/wmtaskbar.cc:406
+#: src/wmtaskbar.cc:370
 msgid "Window list menu"
 msgstr "窗口列表菜单"
 
-#: src/wmtaskbar.cc:415
+#: src/wmtaskbar.cc:379
 msgid "Show Desktop"
 msgstr "显示桌面"
 
@@ -2026,6 +2013,43 @@ msgid ""
 msgstr ""
 "  -d, --display=NAME  使用名为 NAME 的 X 服务器。\n"
 "  --sync              同步 X11 命令。\n"
+
+#~ msgid "Missing command argument"
+#~ msgstr "丢失命令参数"
+
+#~ msgid "Bad argument %d to command '%s'"
+#~ msgstr "错误的参数 %d 传给命令“%s”"
+
+#~ msgid "Missing filename argument to include statement"
+#~ msgstr "包含的声明中缺少文件名参数"
+
+#~ msgid "Error at %s '%s'"
+#~ msgstr "%s 错误 '%s'"
+
+#~ msgid "Unexepected menu keyword: '%s'"
+#~ msgstr "未期望的菜单关键词：'%s'"
+
+#~ msgid "Error at menuprog '%s'"
+#~ msgstr "menuprog '%s' 错误"
+
+#~ msgid "Error at %s: '%s'"
+#~ msgstr "%s 错误：'%s'"
+
+#~ msgid "Unknown keyword '%s'"
+#~ msgstr "未知关键字：`%s'"
+
+#~ msgid "Error at keyword '%s' for %s"
+#~ msgstr "%s 的关键字 '%s' 错误"
+
+#~ msgid ""
+#~ "Unknown keyword for a non-container: '%s'.\n"
+#~ "Expected either 'key' or 'runonce' here.\n"
+#~ msgstr ""
+#~ "未知的非容器 '%s' 关键字。\n"
+#~ "此处需要 关键字 'key' 或 'runonce'。\n"
+
+#~ msgid "'%s' produces no output"
+#~ msgstr "'%s' 无输出"
 
 #~ msgid "\"%s\" contains no scheme description"
 #~ msgstr "“%s”包含没有方案的描述"

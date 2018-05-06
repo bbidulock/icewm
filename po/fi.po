@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.14\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2018-04-07 14:35+0200\n"
+"POT-Creation-Date: 2018-05-06 21:11+0200\n"
 "PO-Revision-Date: 2004-06-16 02:44+0200\n"
 "Last-Translator: Taisto Kuikka <69319@batman.jypoly.fi>\n"
 "Language-Team: Finnish <fi@li.org>\n"
@@ -42,179 +42,213 @@ msgstr ""
 msgid "power:\t%s"
 msgstr ""
 
-#: src/acpustatus.cc:181
+#: src/aclock.cc:173
+msgid "Clock"
+msgstr ""
+
+#: src/aclock.cc:174 src/acpustatus.cc:818 src/amailbox.cc:907
+#: src/amemstatus.cc:286
+msgid "_Disable"
+msgstr ""
+
+#: src/aclock.cc:175
+msgid "_UTC"
+msgstr ""
+
+#: src/acpustatus.cc:236
 #, c-format
 msgid ""
 "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 "intr = %llu, softirq = %llu, steal = %llu\n"
 msgstr ""
 
-#: src/acpustatus.cc:186
+#: src/acpustatus.cc:241
 #, c-format
 msgid ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 "softirq = %llu, steal = %llu (h = %i)\n"
 msgstr ""
 
-#: src/acpustatus.cc:246
+#: src/acpustatus.cc:306
 #, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr ""
 
-#: src/acpustatus.cc:251
+#: src/acpustatus.cc:312
 #, c-format
 msgid ""
 "\n"
-"Ram (free): %5.2f (%.2f) M"
+"Ram (free): %5.3f (%.3f) G"
 msgstr ""
 
-#: src/acpustatus.cc:256
+#: src/acpustatus.cc:317
 #, c-format
 msgid ""
 "\n"
-"Swap (free): %.2f (%.2f) M"
+"Swap (free): %.3f (%.3f) G"
 msgstr ""
 
-#: src/acpustatus.cc:262
+#: src/acpustatus.cc:323
 #, c-format
 msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
 
-#: src/acpustatus.cc:281
+#: src/acpustatus.cc:342
 #, c-format
 msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
 
-#: src/acpustatus.cc:302
+#: src/acpustatus.cc:363 src/acpustatus.cc:814
 msgid "CPU"
 msgstr ""
 
-#: src/acpustatus.cc:302
+#: src/acpustatus.cc:363
 #, fuzzy
 msgid "Load: "
 msgstr "Prosessorikuorma: "
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/acpustatus.cc:369
+#: src/acpustatus.cc:434
 msgid "°C"
 msgstr ""
 
-#: src/acpustatus.cc:651
+#: src/acpustatus.cc:728
 #, c-format
 msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 msgstr ""
 
-#: src/amailbox.cc:60
+#: src/acpustatus.cc:815
+#, c-format
+msgid "CPU%d"
+msgstr ""
+
+#: src/acpustatus.cc:820
+msgid "_Combine"
+msgstr ""
+
+#: src/acpustatus.cc:822
+msgid "_Separate"
+msgstr ""
+
+#: src/amailbox.cc:62
 #, c-format
 msgid "Invalid mailbox protocol: \"%s\""
 msgstr "Virheellinen postilaatikkoprotokolla: \"%s\""
 
-#: src/amailbox.cc:62
+#: src/amailbox.cc:64
 #, c-format
 msgid "Invalid mailbox path: \"%s\""
 msgstr "Virheellinen postilaatikon polku: \"%s\""
 
-#: src/amailbox.cc:131
+#: src/amailbox.cc:133
 #, c-format
 msgid "DNS name lookup failed for %s"
 msgstr ""
 
-#: src/amailbox.cc:147
+#: src/amailbox.cc:149
 #, fuzzy, c-format
 msgid "Invalid mailbox port: \"%s\""
 msgstr "Virheellinen postilaatikon polku: \"%s\""
 
-#: src/amailbox.cc:305
+#: src/amailbox.cc:307
 #, fuzzy, c-format
 msgid "Could not connect to %s: %s"
 msgstr "YIFF-palvelimeen ei voitu yhdistää: %s"
 
-#: src/amailbox.cc:322
+#: src/amailbox.cc:324
 #, fuzzy, c-format
 msgid "Failed to find %s command"
 msgstr "%s suorittaminen epäonnistui: %s"
 
-#: src/amailbox.cc:349
+#: src/amailbox.cc:351
 #, fuzzy, c-format
 msgid "Failed to execute %s"
 msgstr "%s avaaminen epäonnistui: %s"
 
-#: src/amailbox.cc:433
+#: src/amailbox.cc:435
 #, c-format
 msgid "Write to socket failed: %s"
 msgstr ""
 
-#: src/amailbox.cc:677
+#: src/amailbox.cc:678
 #, c-format
 msgid "Using MailBox \"%s\"\n"
 msgstr "Käytetään postilaatikkoa \"%s\"\n"
 
-#: src/amailbox.cc:778
+#: src/amailbox.cc:785
 msgid "Error checking mailbox."
 msgstr "Virhe postilaatikon tarkistuksessa."
 
-#: src/amailbox.cc:785
+#: src/amailbox.cc:792
 #, fuzzy, c-format
 msgid "%ld mail message, %ld unread."
 msgstr "%ld viesti."
 
-#: src/amailbox.cc:786
+#: src/amailbox.cc:793
 #, fuzzy, c-format
 msgid "%ld mail messages, %ld unread."
 msgstr "%ld viestiä."
 
-#: src/amailbox.cc:792
+#: src/amailbox.cc:799
 #, c-format
 msgid "%ld mail message."
 msgstr "%ld viesti."
 
-#: src/amailbox.cc:793
+#: src/amailbox.cc:800
 #, c-format
 msgid "%ld mail messages."
 msgstr "%ld viestiä."
 
-#: src/amemstatus.cc:117
+#: src/amailbox.cc:906
+msgid "MAIL"
+msgstr ""
+
+#: src/amemstatus.cc:166
 msgid "GB"
 msgstr ""
 
-#: src/amemstatus.cc:121
+#: src/amemstatus.cc:170
 msgid "MB"
 msgstr ""
 
-#: src/amemstatus.cc:125
+#: src/amemstatus.cc:174
 msgid "kB"
 msgstr ""
 
-#: src/amemstatus.cc:129
+#: src/amemstatus.cc:178
 msgid "bytes"
 msgstr ""
 
-#: src/amemstatus.cc:153
+#: src/amemstatus.cc:198
 msgid "Memory Total: "
 msgstr ""
 
-#: src/amemstatus.cc:154
+#: src/amemstatus.cc:199
 msgid "Free: "
 msgstr ""
 
-#: src/amemstatus.cc:155
+#: src/amemstatus.cc:200
 msgid "Cached: "
 msgstr ""
 
-#: src/amemstatus.cc:156
+#: src/amemstatus.cc:201
 msgid "Buffers: "
 msgstr ""
 
-#: src/amemstatus.cc:157
+#: src/amemstatus.cc:202
 msgid "User: "
 msgstr ""
 
-#: src/apppstatus.cc:194
+#: src/amemstatus.cc:285
+msgid "MEM"
+msgstr ""
+
+#: src/apppstatus.cc:202
 #, fuzzy, c-format
 msgid ""
 "Interface %s:\n"
@@ -229,13 +263,17 @@ msgstr ""
 "  Siirretty datamäärä (sisään/ulos):\t%lli %s/%lli %s\n"
 "  Yhteysaika:\t%ld:%02ld:%02ld%s%s"
 
-#: src/apppstatus.cc:206
+#: src/apppstatus.cc:214
 msgid ""
 "\n"
 "  Caller id:\t"
 msgstr ""
 "\n"
 "  Soittajan ID:\t"
+
+#: src/apppstatus.cc:731
+msgid "NET"
+msgstr ""
 
 #: src/aworkspaces.cc:294 src/wmstatus.cc:162
 msgid "Workspace: "
@@ -1282,11 +1320,11 @@ msgstr "_Tapa asiakasohjelma"
 msgid "_Window list"
 msgstr "_Ikkunaluettelo"
 
-#: src/wmapp.cc:638
+#: src/wmapp.cc:639
 msgid "Another window manager already running, exiting..."
 msgstr "Toinen ikkunamangeri on jo käynnissä, poistutaan..."
 
-#: src/wmapp.cc:723
+#: src/wmapp.cc:724
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1295,23 +1333,23 @@ msgstr ""
 "Ei voitu uudelleenkäynnistää: %s\n"
 "Johtaako $PATH-määritys kohteeseen %s?"
 
-#: src/wmapp.cc:804
+#: src/wmapp.cc:805
 msgid "Kill IceWM, replace with Xterm"
 msgstr ""
 
-#: src/wmapp.cc:1318
+#: src/wmapp.cc:1319
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 
-#: src/wmapp.cc:1324
+#: src/wmapp.cc:1325
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
 "  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
 
-#: src/wmapp.cc:1332
+#: src/wmapp.cc:1333
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1319,7 +1357,7 @@ msgid ""
 "  --postpreferences   Print preferences after all processing.\n"
 msgstr ""
 
-#: src/wmapp.cc:1337
+#: src/wmapp.cc:1338
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1379,26 +1417,26 @@ msgstr ""
 "kaipaat\n"
 "apua tai jos haluat vain antaa kommenttisi.\n"
 
-#: src/wmapp.cc:1398
+#: src/wmapp.cc:1399
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr ""
 
-#: src/wmapp.cc:1480
+#: src/wmapp.cc:1481
 #, fuzzy, c-format
 msgid "%s configured options:%s\n"
 msgstr "Tuntematon optio: %s\n"
 
-#: src/wmapp.cc:1527
+#: src/wmapp.cc:1528
 #, fuzzy, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Tuntematon optio: %s\n"
 
-#: src/wmapp.cc:1559
+#: src/wmapp.cc:1560
 msgid "Confirm Logout"
 msgstr "Varmista uloskirjautuminen"
 
-#: src/wmapp.cc:1560
+#: src/wmapp.cc:1561
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1440,8 +1478,8 @@ msgstr "_Lukitse työasema"
 msgid "_Cancel"
 msgstr "_Peruuta"
 
-#: src/wmdialog.cc:76 src/wmprog.cc:1283 src/wmprog.cc:1285
-#: src/wmtaskbar.cc:283 src/wmtaskbar.cc:285
+#: src/wmdialog.cc:76 src/wmprog.cc:792 src/wmprog.cc:794 src/wmtaskbar.cc:280
+#: src/wmtaskbar.cc:282
 msgid "_Logout..."
 msgstr "_Kirjaudu ulos..."
 
@@ -1449,8 +1487,8 @@ msgstr "_Kirjaudu ulos..."
 msgid "_Restart icewm"
 msgstr "Uudelleenkäynnistä _IceWM"
 
-#: src/wmdialog.cc:81 src/wmprog.cc:1244 src/wmtaskbar.cc:276
-#: src/wmtaskbar.cc:279
+#: src/wmdialog.cc:81 src/wmprog.cc:753 src/wmtaskbar.cc:273
+#: src/wmtaskbar.cc:276
 msgid "_About"
 msgstr "_Tietoja"
 
@@ -1492,130 +1530,75 @@ msgstr "Tuntematon ikkunatoiminto: %s"
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Kielioppivirhe ikkunaoptioissa"
 
-#: src/wmprog.cc:174
-msgid "Missing command argument"
-msgstr "Puuttuva komentoargumentti"
-
-#: src/wmprog.cc:192
-#, fuzzy, c-format
-msgid "Bad argument %d to command '%s'"
-msgstr "Virheellinen argumentti: %s %s:lle"
-
-#: src/wmprog.cc:333
-msgid "Missing filename argument to include statement"
-msgstr ""
-
-#: src/wmprog.cc:399
-#, fuzzy, c-format
-msgid "Error at %s '%s'"
-msgstr "Virhe avaimessa %s"
-
-#: src/wmprog.cc:456
-#, fuzzy, c-format
-msgid "Unexepected menu keyword: '%s'"
-msgstr "Odottamaton avainsana: %s"
-
-#: src/wmprog.cc:500
-#, fuzzy, c-format
-msgid "Error at menuprog '%s'"
-msgstr "Virhe ohjelmassa %s"
-
-#: src/wmprog.cc:539
-#, fuzzy, c-format
-msgid "Error at %s: '%s'"
-msgstr "Virhe avaimessa %s"
-
-#: src/wmprog.cc:562
-#, fuzzy, c-format
-msgid "Unknown keyword '%s'"
-msgstr "Tuntematon toiminto: `%s'"
-
-#: src/wmprog.cc:587
-#, fuzzy, c-format
-msgid "Error at keyword '%s' for %s"
-msgstr "Virhe avaimessa %s"
-
-#: src/wmprog.cc:603
-#, c-format
-msgid ""
-"Unknown keyword for a non-container: '%s'.\n"
-"Expected either 'key' or 'runonce' here.\n"
-msgstr ""
-
-#: src/wmprog.cc:735
-#, c-format
-msgid "'%s' produces no output"
-msgstr ""
-
-#: src/wmprog.cc:883
+#: src/wmprog.cc:377
 msgid "_Click to focus"
 msgstr ""
 
-#: src/wmprog.cc:884
+#: src/wmprog.cc:378
 msgid "_Explicit focus"
 msgstr ""
 
-#: src/wmprog.cc:885
+#: src/wmprog.cc:379
 msgid "_Sloppy mouse focus"
 msgstr ""
 
-#: src/wmprog.cc:886
+#: src/wmprog.cc:380
 msgid "S_trict mouse focus"
 msgstr ""
 
-#: src/wmprog.cc:887
+#: src/wmprog.cc:381
 msgid "_Quiet sloppy focus"
 msgstr ""
 
-#: src/wmprog.cc:888
+#: src/wmprog.cc:382
 msgid "Custo_m"
 msgstr ""
 
-#: src/wmprog.cc:1156
+#: src/wmprog.cc:665
 msgid "_Manual"
 msgstr ""
 
-#: src/wmprog.cc:1157
+#: src/wmprog.cc:666
 msgid "_Icewm(1)"
 msgstr ""
 
-#: src/wmprog.cc:1158
+#: src/wmprog.cc:667
 msgid "Icewm_Bg(1)"
 msgstr ""
 
-#: src/wmprog.cc:1159
+#: src/wmprog.cc:668
 msgid "Ice_Sound(1)"
 msgstr ""
 
-#: src/wmprog.cc:1221
+#: src/wmprog.cc:730
 msgid "Programs"
 msgstr "Ohjelmat"
 
-#: src/wmprog.cc:1226
+#: src/wmprog.cc:735
 msgid "_Run..."
 msgstr "_Suorita"
 
-#: src/wmprog.cc:1231 src/wmtaskbar.cc:266
+#: src/wmprog.cc:740 src/wmtaskbar.cc:263
 msgid "_Windows"
 msgstr "_Ikkunat"
 
-#: src/wmprog.cc:1250
+#: src/wmprog.cc:759
 msgid "_Help"
 msgstr "O_hje"
 
-#: src/wmprog.cc:1261
+#: src/wmprog.cc:770
 msgid "_Focus"
 msgstr ""
 
-#: src/wmprog.cc:1266
+#: src/wmprog.cc:775
 msgid "_Preferences"
 msgstr ""
 
-#: src/wmprog.cc:1272
+#: src/wmprog.cc:781
 msgid "_Themes"
 msgstr "_Teemat"
 
-#: src/wmprog.cc:1277
+#: src/wmprog.cc:786
 msgid "Se_ttings"
 msgstr ""
 
@@ -1628,55 +1611,55 @@ msgstr "Istuntomanageri: Tuntematon rivi %s"
 msgid "Task Bar"
 msgstr "Tehtäväpalkki"
 
-#: src/wmtaskbar.cc:256 src/wmwinlist.cc:305 src/wmwinlist.cc:318
+#: src/wmtaskbar.cc:253 src/wmwinlist.cc:305 src/wmwinlist.cc:318
 msgid "Tile _Vertically"
 msgstr "Lomita _vertikaalisesti"
 
-#: src/wmtaskbar.cc:257 src/wmwinlist.cc:306 src/wmwinlist.cc:319
+#: src/wmtaskbar.cc:254 src/wmwinlist.cc:306 src/wmwinlist.cc:319
 msgid "T_ile Horizontally"
 msgstr "Lomita _horisontaalisesti"
 
-#: src/wmtaskbar.cc:258 src/wmwinlist.cc:307 src/wmwinlist.cc:320
+#: src/wmtaskbar.cc:255 src/wmwinlist.cc:307 src/wmwinlist.cc:320
 msgid "Ca_scade"
 msgstr "Pu_dota"
 
-#: src/wmtaskbar.cc:259 src/wmwinlist.cc:308 src/wmwinlist.cc:321
+#: src/wmtaskbar.cc:256 src/wmwinlist.cc:308 src/wmwinlist.cc:321
 msgid "_Arrange"
 msgstr "_Järjestä"
 
-#: src/wmtaskbar.cc:260 src/wmwinlist.cc:310 src/wmwinlist.cc:322
+#: src/wmtaskbar.cc:257 src/wmwinlist.cc:310 src/wmwinlist.cc:322
 msgid "_Minimize All"
 msgstr "_Pienennä kaikki"
 
-#: src/wmtaskbar.cc:261 src/wmwinlist.cc:311 src/wmwinlist.cc:323
+#: src/wmtaskbar.cc:258 src/wmwinlist.cc:311 src/wmwinlist.cc:323
 msgid "_Hide All"
 msgstr "P_iilota kaikki"
 
-#: src/wmtaskbar.cc:262 src/wmwinlist.cc:312 src/wmwinlist.cc:324
+#: src/wmtaskbar.cc:259 src/wmwinlist.cc:312 src/wmwinlist.cc:324
 msgid "_Undo"
 msgstr "Per_u"
 
-#: src/wmtaskbar.cc:264
+#: src/wmtaskbar.cc:261
 msgid "Arrange _Icons"
 msgstr "Järjestä _kuvakkeet"
 
-#: src/wmtaskbar.cc:268
+#: src/wmtaskbar.cc:265
 msgid "_Refresh"
 msgstr "_Päivitä"
 
-#: src/wmtaskbar.cc:274
+#: src/wmtaskbar.cc:271
 msgid "_License"
 msgstr "_Lisenssi"
 
-#: src/wmtaskbar.cc:389
+#: src/wmtaskbar.cc:352
 msgid "Favorite applications"
 msgstr "Sovellukset"
 
-#: src/wmtaskbar.cc:406
+#: src/wmtaskbar.cc:370
 msgid "Window list menu"
 msgstr "Ikkunalista"
 
-#: src/wmtaskbar.cc:415
+#: src/wmtaskbar.cc:379
 msgid "Show Desktop"
 msgstr "Näytä työpöytä"
 
@@ -1911,6 +1894,37 @@ msgid ""
 "  -d, --display=NAME  NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"
 msgstr ""
+
+#~ msgid "Missing command argument"
+#~ msgstr "Puuttuva komentoargumentti"
+
+#, fuzzy
+#~ msgid "Bad argument %d to command '%s'"
+#~ msgstr "Virheellinen argumentti: %s %s:lle"
+
+#, fuzzy
+#~ msgid "Error at %s '%s'"
+#~ msgstr "Virhe avaimessa %s"
+
+#, fuzzy
+#~ msgid "Unexepected menu keyword: '%s'"
+#~ msgstr "Odottamaton avainsana: %s"
+
+#, fuzzy
+#~ msgid "Error at menuprog '%s'"
+#~ msgstr "Virhe ohjelmassa %s"
+
+#, fuzzy
+#~ msgid "Error at %s: '%s'"
+#~ msgstr "Virhe avaimessa %s"
+
+#, fuzzy
+#~ msgid "Unknown keyword '%s'"
+#~ msgstr "Tuntematon toiminto: `%s'"
+
+#, fuzzy
+#~ msgid "Error at keyword '%s' for %s"
+#~ msgstr "Virhe avaimessa %s"
 
 #~ msgid "\"%s\" contains no scheme description"
 #~ msgstr "\"%s\" ei sisällä resurssikuvausta"
