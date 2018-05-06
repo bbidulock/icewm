@@ -6,7 +6,6 @@ v1.4.2, 2017 November 18
 :toclevels: 2
 
 This document is the manual for the *IceWM* X11 window manager.
-It is still incomplete.
 The IceWM manpages provide additional documentation.
 IceWM and its documentation are covered by a GNU LGPL license,
 which is included in the distribution.
@@ -864,17 +863,41 @@ DesktopBackgroundImage to an empty value ("").
 
 +TaskBarClockLeds = 1+:: Display clock using LCD style pixmaps.
 
-== Menus and Toolbar
+== Menus and Toolbar (updated 2018-05-06)
 
 === menu
 
-Within the menu configuration file you can configure
+Within the `menu` configuration file you can configure
 which programs are to appear in the root/start menu.
+
+Submenus can be created with:
+....
+menu "title" icon_name {
+# contained items
+}
+separator
+menufile "title" icon_name filename
+menuprog "title" icon_name program arguments
+menuprogreload "title" icon_name timeout program arguments
+include filename
+includeprog program arguments
+....
+
+Menus can be populated with submenus and with program entries
+as explained below for the `program` configuration file.
+Comments start with a +#+-sign.
+
+The `menufile` directive creates a submenu with a title and an icon,
+while `menuprog` and `menuprogreload` create a submenu with entries from
+the output of `program arguments` where the timeout of `menuprogreload`
+says to reload the submenu after the timeout expires.
+The `include` statement loads more configuration from the given filename,
+while `includeprog` runs `program arguments` to parse the output.
 
 === toolbar
 
-The Toolbar configuration file is used to put programs as buttons
-on the taskbar.
+The `toolbar` configuration file is used to put programs as buttons
+on the taskbar. It uses the same syntax as the `menu` file.
 
 === programs
 
@@ -908,12 +931,7 @@ The class hint of an application window can be figured out by running
 $ xprop WM_CLASS
 ....
 
-Submenus can be added using the following syntax:
-....
-menu "title" icon_name {
-# contained items
-}
-....
+Submenus can be added using the same keywords as the `menu` configuration file.
 
 Only double quotes are interpreted by IceWM. IceWM doesn't run the shell
 automatically, so you may have to do that.
@@ -929,6 +947,7 @@ For example:
 ....
 key  "Alt+Ctrl+t"  xterm -rv
 key "Ctrl+Shift+r" icewm --restart
+runonce "Alt+F12"  "res_name.res_class" program_executable options
 ....
 
 == Window Options (updated 2018-03-04)
