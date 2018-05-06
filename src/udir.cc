@@ -108,10 +108,6 @@ bool adir::open(const char* path) {
     return open();
 }
 
-static int compare_strings(const void *p1, const void *p2) {
-    return strcoll(*(char *const *)p1, *(char *const *)p2);
-}
-
 bool adir::open() {
     close();
     if (fPath) {
@@ -120,10 +116,9 @@ bool adir::open() {
             while (dirp.next()) {
                 fName.append(dirp.name());
             }
-            fLast = -1;
-            if (1 < count())
-                qsort(&*fName, count(), sizeof(*fName), compare_strings);
+            fName.sort();
         }
+        fLast = -1;
     }
     return isOpen();
 }
@@ -216,13 +211,6 @@ bool sdir::open(const upath& path) {
     return open();
 }
 
-static int compare_ustrings(const void *p1, const void *p2)
-{
-    const ustring *u1 = (const ustring *) p1;
-    const ustring *u2 = (const ustring *) p2;
-    return u1->collate(*u2);
-}
-
 bool sdir::open() {
     close();
     if (fPath.nonempty()) {
@@ -232,8 +220,7 @@ bool sdir::open() {
                 mstring copy(dirp.name());
                 fName.append(copy);
             }
-            if (1 < count())
-                qsort(&*fName, count(), sizeof(fName[0]), compare_ustrings);
+            fName.sort();
         }
         fLast = -1;
     }

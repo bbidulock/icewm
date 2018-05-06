@@ -16,6 +16,7 @@
 #include "mstring.h"
 #include "yarray.h"
 #include <string.h>
+#include <stdlib.h>
 #include <assert.h>
 
 YBaseArray::YBaseArray(YBaseArray &other):
@@ -176,6 +177,15 @@ void YStringArray::shrink(int reducedSize) {
     BaseType::shrink(reducedSize);
 }
 
+static int ystring_compare(const void *p1, const void *p2) {
+    return strcoll(*(char *const *)p1, *(char *const *)p2);
+}
+
+void YStringArray::sort() {
+    if (1 < getCount())
+        qsort(getItemPtr(0), getCount(), sizeof(char *), ystring_compare);
+}
+
 char * const *YStringArray::getCArray() const {
     return (char * const*) getBegin();
 }
@@ -184,6 +194,18 @@ char **YStringArray::release() {
     char **strings = (char **) getBegin();
     YBaseArray::release();
     return strings;
+}
+
+static int mstring_compare(const void *p1, const void *p2)
+{
+    const mstring *s1 = (const mstring *) p1;
+    const mstring *s2 = (const mstring *) p2;
+    return s1->collate(*s2);
+}
+
+void MStringArray::sort() {
+    if (1 < getCount())
+        qsort(getItemPtr(0), getCount(), sizeof(mstring), mstring_compare);
 }
 
 // vim: set sw=4 ts=4 et:

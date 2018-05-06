@@ -147,6 +147,9 @@ public:
     DataType &operator*() {
         return getItem(0);
     }
+    YArray<DataType>& operator+=(const DataType& item) {
+        append(item); return *this;
+    }
     void swap(const SizeType index1, const SizeType index2) {
         ::swap(getItem(index1), getItem(index2));
     }
@@ -191,6 +194,10 @@ public:
         for (SizeType n = getCount(); n > reducedCount; )
             delete getItem(--n);
         BaseType::shrink(reducedCount);
+    }
+
+    YObjectArray<DataType>& operator+=(DataType* item) {
+        BaseType::append(item); return *this;
     }
 
 private:
@@ -284,12 +291,17 @@ public:
     const char *operator[](const SizeType index) const {
         return getString(index);
     }
+    YStringArray& operator+=(const char* item) {
+        append(item); return *this;
+    }
 
     virtual void remove(const SizeType index);
     virtual void clear();
     virtual void shrink(int reducedSize);
 
     virtual SizeType find(const char *str);
+
+    void sort();
 
     char *const *getCArray() const;
     char **release();
@@ -375,6 +387,9 @@ public:
     mstring& operator[](const SizeType index) const {
         return getItem(index);
     }
+    MStringArray& operator+=(mstring& item) {
+        append(item); return *this;
+    }
 
     virtual void remove(const SizeType index) {
         if (index < getCount()) {
@@ -394,6 +409,8 @@ public:
             getItemPtr(--n)->release();
         YBaseArray::shrink(reducedCount);
     }
+
+    void sort();
 
 private:
     mstring* getItemPtr(const SizeType index) const {
@@ -528,6 +545,65 @@ public:
 };
 
 /*******************************************************************************
+ * A fixed multi-dimension array
+ ******************************************************************************/
+
+template <class DataType>
+class YMulti {
+private:
+    typedef DataType* BaseType;
+    BaseType* base;
+    DataType* data;
+    int rows, cols;
+
+public:
+    YMulti(int rows, int cols) :
+        base(new BaseType[rows]),
+        data(new DataType[rows * cols]),
+        rows(rows), cols(cols)
+    {
+        for (int i = 0; i < rows; ++i)
+            base[i] = data + i * cols;
+    }
+    ~YMulti() {
+        delete[] base;
+        delete[] data;
+    }
+
+    BaseType operator[](int index) const {
+        return base[index];
+    }
+
+    void clear() const {
+        memset(data, 0, sizeof(DataType) * rows * cols);
+    }
+
+    void clear(int index) const {
+        memset(base[index], 0, sizeof(DataType) * cols);
+    }
+
+    int compare(int left, int right) const {
+        int i = -1;
+        while (++i < cols && base[left][i] == base[right][i]);
+        return i < cols ? base[left][i] < base[right][i] ? -1 : +1 : 0;
+    }
+
+    void copyTo(int from, int dest) const {
+        memcpy(base[dest], base[from], sizeof(DataType) * cols);
+    }
+
+    void copyFrom(int dest, BaseType from) const {
+        memcpy(base[dest], from, sizeof(DataType) * cols);
+    }
+
+    DataType sum(int row) const {
+        DataType *ptr(base[row]), *end(ptr + cols), total(*ptr);
+        while (++ptr < end) total += *ptr;
+        return total;
+    }
+};
+
+/*******************************************************************************
  * An array iterator
  ******************************************************************************/
 
@@ -632,10 +708,11 @@ int find(const YArray<DataType>& array, const DataType& data) {
 }
 
 template<class DataType>
-void findRemove(YArray<DataType>& array, DataType& data) {
+bool findRemove(YArray<DataType>& array, DataType& data) {
     int k = find(array, data);
     if (k >= 0)
         array.remove(k);
+    return k >= 0;
 }
 #endif
 
