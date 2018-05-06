@@ -59,6 +59,9 @@ YButton::~YButton() {
             removeAccelerator(hotKey, xapp->AltMask, this);
     }
     popdown();
+    if (fPopup && fPopup->isShared() == false) {
+        delete fPopup;
+    }
 }
 
 void YButton::paint(Graphics &g, int const d, const YRect &r) {

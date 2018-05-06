@@ -3,12 +3,25 @@
 
 #include "ywindow.h"
 #include "ytimer.h"
+#include "ypointer.h"
 #include "ysocket.h"
 #include "yurl.h"
+#include "yaction.h"
 
+class IAppletContainer;
+class MailBoxControl;
 class MailBoxStatus;
 class YSMListener;
 class IApp;
+class YMenu;
+
+class MailHandler {
+public:
+    virtual ~MailHandler() { }
+    virtual void runCommandOnce(const char *resource, const char *cmdline) = 0;
+    virtual void runCommand(const char *cmdline) = 0;
+    virtual void handleClick(const XButtonEvent &up, MailBoxStatus *client) = 0;
+};
 
 class MailCheck: public YSocketListener {
 public:
@@ -64,6 +77,7 @@ public:
     int inst() const { return fInst; }
     void reason(mstring str) { fReason = str; }
     mstring reason() const { return fReason; }
+    const YURL& url() const { return fURL; }
 
 private:
     YSocket sk;
@@ -103,7 +117,7 @@ public:
         mbxError
     };
 
-    MailBoxStatus(IApp *app, YSMListener *smActionListener,
+    MailBoxStatus(MailHandler *handler,
                   mstring mailBox, YWindow *aParent);
     virtual ~MailBoxStatus();
 
@@ -120,9 +134,39 @@ private:
     MailBoxState fState;
     MailCheck check;
     lazy<YTimer> fMailboxCheckTimer;
-    YSMListener *smActionListener;
-    IApp *app;
+    MailHandler *fHandler;
 };
+
+class MailBoxControl : public MailHandler, private YActionListener {
+public:
+    MailBoxControl(IApp *app, YSMListener *smActionListener,
+                   IAppletContainer *taskBar, YWindow *aParent);
+    ~MailBoxControl();
+
+private:
+    void populate();
+    void createStatus(mstring mailBox);
+
+    virtual void actionPerformed(YAction button, unsigned int modifiers);
+    virtual void handleClick(const XButtonEvent &up, MailBoxStatus *client);
+    virtual void runCommandOnce(const char *resource, const char *cmdline);
+    virtual void runCommand(const char *cmdline);
+
+    typedef YObjectArray<MailBoxStatus> ArrayType;
+    ArrayType fMailBoxStatus;
+
+public:
+    IApp *app;
+    YSMListener *smActionListener;
+    IAppletContainer *taskBar;
+    YWindow *aParent;
+    osmart<YMenu> fMenu;
+    MailBoxStatus *fMenuClient;
+
+    typedef ArrayType::IterType IterType;
+    IterType iterator() { return fMailBoxStatus.reverseIterator(); }
+};
+
 #endif
 
 extern ref<YPixmap> noMailPixmap;

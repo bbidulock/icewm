@@ -3,16 +3,23 @@
 
 #include "ywindow.h"
 #include "ytimer.h"
+#include "ypointer.h"
+#include "yaction.h"
 
+class IAppletContainer;
 class YSMListener;
+class YMenu;
 
-class YClock: public YWindow, public YTimerListener {
+class YClock: public YWindow, private YTimerListener, private YActionListener {
 public:
-    YClock(YSMListener *smActionListener, YWindow *aParent = 0);
+    YClock(YSMListener *smActionListener, IAppletContainer* iapp, YWindow *aParent);
     virtual ~YClock();
 
+private:
     void autoSize();
+    char const * strTimeFmt(struct tm const & t);
 
+    virtual void actionPerformed(YAction action, unsigned int modifiers);
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleCrossing(const XCrossingEvent &crossing);
     virtual void handleClick(const XButtonEvent &up, int count);
@@ -23,7 +30,6 @@ public:
     virtual void updateToolTip();
     virtual bool handleTimer(YTimer *t);
 
-private:
     enum {
         TimeSize = 64,
         DateSize = 128,
@@ -36,17 +42,19 @@ private:
     bool clockTicked;
     int transparent;
     YSMListener *smActionListener;
+    IAppletContainer* iapp;
+    osmart<YMenu> fMenu;
 
     ref<YPixmap> getPixmap(char ch);
     int calcWidth(const char *s, int count);
     bool hasTransparency();
     void repaint();
-    void picture();
-    void draw(Graphics& g);
+    bool picture();
+    bool draw(Graphics& g);
     void fill(Graphics& g);
     void fill(Graphics& g, int x, int y, int w, int h);
-    void paintPretty(Graphics& g, const char* s, int len);
-    void paintPlain(Graphics& g, const char* s, int len);
+    bool paintPretty(Graphics& g, const char* s, int len);
+    bool paintPlain(Graphics& g, const char* s, int len);
 
     int negativePosition;
     int positions[TimeSize];

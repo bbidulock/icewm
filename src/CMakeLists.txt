@@ -431,7 +431,7 @@ SET(ICEWM_SRCS ${ICE_COMMON_SRCS} ${ITK_SRCS}
     wmwinmenu.cc wmdialog.cc wmabout.cc wmswitch.cc wmstatus.cc
     wmoption.cc wmcontainer.cc wmclient.cc wmmgr.cc
     wmapp.cc wmframe.cc wmminiicon.cc wmtitle.cc wpixres.cc
-    movesize.cc themes.cc decorate.cc browse.cc wmprog.cc atasks.cc
+    movesize.cc themes.cc decorate.cc browse.cc wmmenu.cc wmprog.cc atasks.cc
     aworkspaces.cc amailbox.cc aclock.cc acpustatus.cc apppstatus.cc
     aaddressbar.cc objbar.cc aapm.cc atray.cc ysmapp.cc yxtray.cc yurl.cc
     globit.cc amemstatus.cc)

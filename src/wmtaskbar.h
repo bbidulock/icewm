@@ -8,12 +8,14 @@
 #include "wmclient.h"
 #include "yxtray.h"
 #include "base.h"
+#include "ypointer.h"
 
 class ObjectBar;
 class MEMStatus;
-class CPUStatus;
+class CPUStatusControl;
 class NetStatusControl;
 class AddressBar;
+class MailBoxControl;
 class MailBoxStatus;
 class YClock;
 class YApm;
@@ -138,10 +140,9 @@ private:
     YButton *fCollapseButton;
     TrayPane *fWindowTray;
     YClock *fClock;
-    YObjectArray<MailBoxStatus> fMailBoxStatus;
-    typedef YObjectArray<MailBoxStatus>::IterType MailBoxIter;
+    MailBoxControl *fMailBoxStatus;
     MEMStatus *fMEMStatus;
-    CPUStatus **fCPUStatus;
+    CPUStatusControl *fCPUStatus;
     YApm *fApm;
     ref<NetStatusControl> fNetStatus;
 

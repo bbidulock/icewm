@@ -224,6 +224,7 @@ TaskBar::~TaskBar() {
     detachDesktopTray();
     delete fEdgeTrigger; fEdgeTrigger = 0;
     delete fClock; fClock = 0;
+    delete fMailBoxStatus; fMailBoxStatus = 0;
 #ifdef MEM_STATES
     delete fMEMStatus; fMEMStatus = 0;
 #endif
@@ -233,11 +234,7 @@ TaskBar::~TaskBar() {
     delete fWorkspaces; fWorkspaces = 0;
     delete fApm; fApm = 0;
 #ifdef IWM_STATES
-    if (fCPUStatus) {
-        for (int i = 0; fCPUStatus[i]; ++i)
-            delete fCPUStatus[i];
-        delete[] fCPUStatus; fCPUStatus = 0;
-    }
+    delete fCPUStatus; fCPUStatus = 0;
 #endif
     delete fAddressBar; fAddressBar = 0;
     delete fTasks; fTasks = 0;
@@ -290,26 +287,24 @@ void TaskBar::initMenu() {
 
 void TaskBar::initApplets() {
 #ifdef MEM_STATES
-    if (taskBarShowMEMStatus) {
-        fMEMStatus = new MEMStatus(this);
-        fMEMStatus->setTitle("MEMStatus");
-    }
+    if (taskBarShowMEMStatus)
+        fMEMStatus = new MEMStatus(this, this);
     else
         fMEMStatus = 0;
 #endif
 
 #ifdef IWM_STATES
-    fCPUStatus = 0;
     if (taskBarShowCPUStatus)
-        CPUStatus::GetCPUStatus(smActionListener, this, fCPUStatus, cpuCombine);
+        fCPUStatus = new CPUStatusControl(smActionListener, this, this);
+    else
+        fCPUStatus = 0;
 #endif
 
     if (taskBarShowNetStatus)
         fNetStatus.init(new NetStatusControl(app, smActionListener, this, this));
-    if (taskBarShowClock) {
-        fClock = new YClock(smActionListener, this);
-        fClock->setTitle("IceClock");
-    } else
+    if (taskBarShowClock)
+        fClock = new YClock(smActionListener, this, this);
+    else
         fClock = 0;
 
     if (taskBarShowApm && (access(APMDEV, 0) == 0 ||
@@ -346,41 +341,9 @@ void TaskBar::initApplets() {
         fCollapseButton = 0;
 
     if (taskBarShowMailboxStatus) {
-        MailBoxStatus* box;
-        const char* env;
-        if (mailBoxPath) {
-            for (mstring s(mailBoxPath), r; s.splitall(' ', &s, &r); s = r) {
-                if (0 <= s.indexOf('/')) {
-                    box = new MailBoxStatus(app, smActionListener, s, this);
-                    fMailBoxStatus.append(box);
-                }
-            }
-        }
-        if (fMailBoxStatus.getCount() == 0 && (env = getenv("MAILPATH")) != 0) {
-            for (mstring s(env), r; s.splitall(':', &s, &r); s = r) {
-                if (0 <= s.indexOf('/')) {
-                    box = new MailBoxStatus(app, smActionListener, s, this);
-                    fMailBoxStatus.append(box);
-                }
-            }
-        }
-        if (fMailBoxStatus.getCount() == 0 && (env = getenv("MAIL")) != 0) {
-            mstring s(env);
-            if (0 <= s.indexOf('/')) {
-                box = new MailBoxStatus(app, smActionListener, s, this);
-                fMailBoxStatus.append(box);
-            }
-        }
-        if (fMailBoxStatus.getCount() == 0 &&
-            ((env = getenv("LOGNAME")) != 0 || (env = getlogin()) != 0))
-        {
-            upath s(mstring("/var/spool/mail/", env));
-            if (s.isReadable()) {
-                box = new MailBoxStatus(app, smActionListener, s, this);
-                fMailBoxStatus.append(box);
-            }
-        }
-    }
+        fMailBoxStatus = new MailBoxControl(app, smActionListener, this, this);
+    } else
+        fMailBoxStatus = 0;
 
     if (taskBarShowStartMenu) {
         fApplications = new ObjectButton(this, rootMenu);
@@ -395,7 +358,8 @@ void TaskBar::initApplets() {
     if (fObjectBar) {
         upath t = app->findConfigFile("toolbar");
         if (t != null) {
-            loadMenus(app, smActionListener, wmActionListener, t, fObjectBar);
+            MenuLoader(app, smActionListener, wmActionListener)
+            .loadMenus(t, fObjectBar);
         }
         fObjectBar->setTitle("IceToolbar");
     }
@@ -495,22 +459,26 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
 
     nw = LayoutInfo( fCollapseButton, false, 0, true, 0, 2, true );
     wlist.append(nw);
-    nw = LayoutInfo( fClock, false, 1, true, 2, 2, false );
+    nw = LayoutInfo( fClock, false, 1, false, 2, 2, false );
     wlist.append(nw);
-    for (MailBoxIter m = fMailBoxStatus.reverseIterator(); ++m; ) {
+    for (MailBoxControl::IterType m = fMailBoxStatus->iterator(); ++m; ) {
         nw = LayoutInfo( *m, false, 1, true, 1, 1, false );
         wlist.append(nw);
     }
 
 #ifdef IWM_STATES
-    for (CPUStatus ** c(fCPUStatus); c && *c; ++c) {
-        nw = LayoutInfo( *c, false, 1, true, 2, 2, false );
-        wlist.append(nw);
+    if (taskBarShowCPUStatus) {
+        CPUStatusControl::IterType it = fCPUStatus->getIterator();
+        while (++it)
+        {
+            nw = LayoutInfo(*it, false, 1, true, 2, 2, false );
+            wlist.append(nw);
+        }
     }
 #endif
 
 #ifdef MEM_STATES
-    nw = LayoutInfo( fMEMStatus, false, 1, true, 2, 2, false );
+    nw = LayoutInfo( fMEMStatus, false, 1, false, 2, 2, false );
     wlist.append(nw);
 #endif
 

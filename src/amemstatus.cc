@@ -9,39 +9,37 @@
 #include "ylib.h"
 #include "wmapp.h"
 #include "amemstatus.h"
+#include "wmtaskbar.h"
+#include "ymenuitem.h"
 #include "sysdep.h"
 #include "default.h"
 #include "ytimer.h"
 #include "intl.h"
 
-#if defined(__linux__)
+#if MEM_STATES
 
 #define USE_PROC_MEMINFO
 
 extern ref<YPixmap> taskbackPixmap;
 
-MEMStatus::MEMStatus(YWindow *aParent):
+MEMStatus::MEMStatus(IAppletContainer* taskBar, YWindow *aParent):
     YWindow(aParent),
+    samples(taskBarMEMSamples, MEM_STATES),
     pixmap(None),
     statusUpdateCount(0),
-    isVisible(false)
+    unchanged(taskBarMEMSamples),
+    isVisible(false),
+    taskBar(taskBar)
 {
-    samples = new unsigned long long *[taskBarMEMSamples];
-
-    for (int a(0); a < taskBarMEMSamples; a++)
-        samples[a] = new unsigned long long[MEM_STATES];
-
     fUpdateTimer->setTimer(taskBarMEMDelay, this, true);
 
     color[MEM_USER] = &clrMemUser;
     color[MEM_BUFFERS] = &clrMemBuffers;
     color[MEM_CACHED] = &clrMemCached;
-    if (*clrMemFree) {
-        color[MEM_FREE] = &clrMemFree;
-    }
+    color[MEM_FREE] = &clrMemFree;
+
+    samples.clear();
     for (int i = 0; i < taskBarMEMSamples; i++) {
-        for (int j=0; j < MEM_STATES; j++)
-            samples[i][j]=0;
         samples[i][MEM_FREE] = 1;
     }
     addEventMask(VisibilityChangeMask);
@@ -49,16 +47,11 @@ MEMStatus::MEMStatus(YWindow *aParent):
     getStatus();
     updateStatus();
     updateToolTip();
+    setTitle("MEM");
+    show();
 }
 
 MEMStatus::~MEMStatus() {
-    for (int a(0); a < taskBarMEMSamples; a++) {
-        delete [] samples[a];
-        samples[a] = NULL;
-    }
-    delete [] samples;
-    samples = NULL;
-
     if (pixmap)
         XFreePixmap(xapp->display(), pixmap);
 }
@@ -68,15 +61,15 @@ void MEMStatus::handleVisibility(const XVisibilityEvent& visib) {
 }
 
 void MEMStatus::handleExpose(const XExposeEvent& e) {
-    paint(getGraphics(), YRect(e.x, e.y, e.width, e.height));
+    if (pixmap || picture())
+        paint(getGraphics(), YRect(e.x, e.y, e.width, e.height));
 }
 
 void MEMStatus::paint(Graphics &g, const YRect& r) {
-    picture();
     g.copyDrawable(pixmap, r.x(), r.y(), r.width(), r.height(), r.x(), r.y());
 }
 
-void MEMStatus::picture() {
+bool MEMStatus::picture() {
     bool create = (pixmap == None);
     if (create)
         pixmap = XCreatePixmap(xapp->display(), handle(),
@@ -87,8 +80,8 @@ void MEMStatus::picture() {
     if (create)
         fill(G);
 
-    if (statusUpdateCount)
-        draw(G);
+    return (statusUpdateCount && unchanged < taskBarMEMSamples)
+        ? draw(G), true : create;
 }
 
 void MEMStatus::fill(Graphics& g) {
@@ -113,13 +106,12 @@ void MEMStatus::draw(Graphics& g) {
     int first = max(0, taskBarMEMSamples - statusUpdateCount);
     if (0 < first && first < taskBarMEMSamples)
         g.copyArea(taskBarMEMSamples - first, 0, first, h, 0, 0);
+    const int limit = (statusUpdateCount <= (1 + unchanged) / 2)
+                    ? taskBarMEMSamples - statusUpdateCount : taskBarMEMSamples;
     statusUpdateCount = 0;
 
-    for (int i = first; i < taskBarMEMSamples; i++) {
-        unsigned long long total = 0;
-        for (int j = 0; j < MEM_STATES; j++) {
-            total += samples[i][j];
-        }
+    for (int i = first; i < limit; i++) {
+        membytes total = samples.sum(i);
 
         int y = h;
         for (int j = 0; j < MEM_STATES; j++) {
@@ -189,12 +181,8 @@ void MEMStatus::printAmount(char *out, size_t outSize,
 }
 
 void MEMStatus::updateToolTip() {
-    unsigned long long *cur=samples[taskBarMEMSamples-1];
-
-    unsigned long long total = 0;
-    for (int j(0); j < MEM_STATES; j++) {
-        total += cur[j];
-    }
+    membytes* cur = samples[taskBarMEMSamples-1];
+    membytes total = samples.sum(taskBarMEMSamples-1);
 
     char totalStr[64];
     printAmount(totalStr, sizeof(totalStr), total);
@@ -219,12 +207,10 @@ void MEMStatus::updateToolTip() {
 
 void MEMStatus::updateStatus() {
     for (int i(1); i < taskBarMEMSamples; i++) {
-        for (int j(0); j < MEM_STATES ; j++) {
-            samples[i-1][j] = samples[i][j];
-        }
+        samples.copyTo(i, i - 1);
     }
     getStatus();
-    if (isVisible)
+    if (isVisible && picture())
         paint(getGraphics(), YRect(0, 0, width(), height()));
 }
 
@@ -232,15 +218,10 @@ unsigned long long MEMStatus::parseField(const char *buf, size_t bufLen,
                                          const char *needle) {
 #ifdef USE_PROC_MEMINFO
     ptrdiff_t needleLen = strlen(needle);
-    const char *end = buf + bufLen;
-    while (buf < end) {
-        const char *nl = (const char *)memchr(buf, '\n', end-buf);
-        if (nl == 0)
-            break;
-
-        if (nl-buf > needleLen && memcmp(buf, needle, needleLen) == 0) {
+    for (const char* str(buf); str && (str = strstr(str, needle)) != 0; ) {
+        if (str == buf || str[-1] == '\n') {
             char *endptr = NULL;
-            unsigned long long result = strtoull(buf+needleLen, &endptr, 10);
+            membytes result = strtoull(str+needleLen, &endptr, 10);
 
             while (*endptr != 0 && *endptr == ' ')
                 endptr++;
@@ -254,51 +235,62 @@ unsigned long long MEMStatus::parseField(const char *buf, size_t bufLen,
             }
             return result;
         }
-
-        buf = nl+1;
+        str = strchr(str + needleLen, '\n');
     }
 #endif /*USE_PROC_MEMINFO*/
     return 0;
 }
 
 void MEMStatus::getStatus() {
-    unsigned long long *cur=samples[taskBarMEMSamples-1];
-    int j;
-    for (j = 0; j < MEM_STATES; j++) {
-        cur[j] = 0;
-    }
+    membytes *cur = samples[taskBarMEMSamples-1];
+    samples.clear(taskBarMEMSamples-1);
     cur[MEM_FREE] = 1;
 
 #ifdef USE_PROC_MEMINFO
-    int fd = open("/proc/meminfo", O_RDONLY);
-    if (fd == -1)
-        return;
-
     char buf[4096];
-    ssize_t len = read(fd, buf, sizeof(buf)-1);
-    close(fd);
-    if (len < 0) {
-        return;
+    int len = read_file("/proc/meminfo", buf, sizeof buf);
+    if (len > 0) {
+        cur[MEM_BUFFERS] = parseField(buf, len, "Buffers:");
+        cur[MEM_CACHED] = parseField(buf, len, "Cached:");
+        cur[MEM_FREE] = parseField(buf, len, "MemFree:");
+
+        membytes total = max(1ULL, parseField(buf, len, "MemTotal:"));
+
+        membytes user = total;
+        for (int j = 0; j < MEM_STATES; j++) {
+            user -= cur[j];
+        }
+        cur[MEM_USER] = user;
     }
-    buf[len] = '\0';
-
-    cur[MEM_BUFFERS] = parseField(buf, len, "Buffers:");
-    cur[MEM_CACHED] = parseField(buf, len, "Cached:");
-    cur[MEM_FREE] = parseField(buf, len, "MemFree:");
-
-    unsigned long long total = parseField(buf, len, "MemTotal:");
-    if (total < 1)
-        total = 1;
-
-    unsigned long long user = total;
-    for (j = 0; j < MEM_STATES; j++) {
-        user -= cur[j];
-    }
-    cur[MEM_USER] = user;
 #endif // USE_PROC_MEMINFO
 
     ++statusUpdateCount;
+    int last = taskBarMEMSamples - 1;
+    bool same = 0 < last && 0 == samples.compare(last, last - 1);
+    unchanged = same ? 1 + unchanged : 0;
 }
+
+void MEMStatus::actionPerformed(YAction action, unsigned int modifiers) {
+    if (action == actionClose) {
+        hide();
+        taskBar->relayout();
+    }
+    fMenu = 0;
+}
+
+void MEMStatus::handleClick(const XButtonEvent &up, int count) {
+    if (up.button == Button3) {
+        fMenu = new YMenu();
+        fMenu->setActionListener(this);
+        fMenu->addItem(_("MEM"), -2, null, actionNull)->setEnabled(false);
+        fMenu->addItem(_("_Disable"), -2, null, actionClose);
+        fMenu->popup(0, 0, 0, up.x_root, up.y_root,
+                     YPopupWindow::pfCanFlipVertical |
+                     YPopupWindow::pfCanFlipHorizontal |
+                     YPopupWindow::pfPopupMenu);
+    }
+}
+
 #endif
 
 // vim: set sw=4 ts=4 et:

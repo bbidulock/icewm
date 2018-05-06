@@ -15,16 +15,18 @@
 #include "wpixmaps.h"
 #include "wmapp.h"
 #include "prefs.h"
+#include "ymenuitem.h"
+#include "intl.h"
 
 static char const *AppletClockTimeFmt = "%T";
 
-inline char const * strTimeFmt(struct tm const & t) {
+char const * YClock::strTimeFmt(struct tm const & t) {
     if ((ledPixColon == null) || (! prettyClock) || strcmp(fmtTime, "%X"))
         return (fmtTimeAlt && (t.tm_sec & 1) ? fmtTimeAlt : fmtTime);
     return AppletClockTimeFmt;
 }
 
-YClock::YClock(YSMListener *smActionListener, YWindow *aParent):
+YClock::YClock(YSMListener *smActionListener, IAppletContainer* iapp, YWindow *aParent):
     YWindow(aParent),
     clockUTC(false),
     toolTipUTC(false),
@@ -32,6 +34,8 @@ YClock::YClock(YSMListener *smActionListener, YWindow *aParent):
     clockTicked(true),
     transparent(-1),
     smActionListener(smActionListener),
+    iapp(iapp),
+    fMenu(0),
     negativePosition(INT_MAX),
     clockPixmap(None),
     clockBg(&clrClock),
@@ -51,6 +55,8 @@ YClock::YClock(YSMListener *smActionListener, YWindow *aParent):
     autoSize();
     updateToolTip();
     setDND(true);
+    setTitle("Clock");
+    show();
 }
 
 YClock::~YClock() {
@@ -161,6 +167,28 @@ void YClock::handleClick(const XButtonEvent &up, int count) {
             countEvents = !countEvents;
 #endif
     }
+    else if (up.button == Button3) {
+        fMenu = new YMenu();
+        fMenu->setActionListener(this);
+        fMenu->addItem(_("Clock"), -2, null, actionNull)->setEnabled(false);
+        fMenu->addItem(_("_Disable"), -2, null, actionClose);
+        fMenu->addItem(_("_UTC"), -2, null, actionDepth)->setChecked(clockUTC);
+        fMenu->popup(0, 0, 0, up.x_root, up.y_root,
+                     YPopupWindow::pfCanFlipVertical |
+                     YPopupWindow::pfCanFlipHorizontal |
+                     YPopupWindow::pfPopupMenu);
+    }
+}
+
+void YClock::actionPerformed(YAction action, unsigned int modifiers) {
+    if (action == actionClose) {
+        hide();
+        iapp->relayout();
+    }
+    else if (action == actionDepth) {
+        clockUTC ^= true;
+        repaint();
+    }
 }
 
 void YClock::handleVisibility(const XVisibilityEvent& visib) {
@@ -168,20 +196,20 @@ void YClock::handleVisibility(const XVisibilityEvent& visib) {
 }
 
 void YClock::handleExpose(const XExposeEvent& e) {
-    paint(getGraphics(), YRect(e.x, e.y, e.width, e.height));
+    if (clockPixmap || picture())
+        paint(getGraphics(), YRect(e.x, e.y, e.width, e.height));
 }
 
 void YClock::repaint() {
-    if (isVisible)
+    if (isVisible && picture())
         paint(getGraphics(), YRect(0, 0, width(), height()));
 }
 
 void YClock::paint(Graphics &g, const YRect& r) {
-    picture();
     g.copyDrawable(clockPixmap, r.x(), r.y(), r.width(), r.height(), r.x(), r.y());
 }
 
-void YClock::picture() {
+bool YClock::picture() {
     bool create = (clockPixmap == None);
     if (create)
         clockPixmap = XCreatePixmap(xapp->display(), handle(),
@@ -192,17 +220,20 @@ void YClock::picture() {
     if (create)
         fill(G);
 
-    if (clockTicked) {
-        clockTicked = false;
-        draw(G);
-    }
+    return clockTicked
+         ? clockTicked = false, draw(G), true
+         : create;
 }
 
-void YClock::draw(Graphics& g) {
+bool YClock::draw(Graphics& g) {
     char s[TimeSize];
-    time_t newTime = time(NULL);
+    timeval walltm = walltime();
+    long nextChime = 1000L - walltm.tv_usec / 1000L;
+    time_t newTime = walltm.tv_sec;
     struct tm *t;
     int len;
+
+    clockTimer->setTimer(nextChime, this, true);
 
     if (clockUTC)
         t = gmtime(&newTime);
@@ -216,12 +247,9 @@ void YClock::draw(Graphics& g) {
 #endif
         len = strftime(s, sizeof(s), strTimeFmt(*t), t);
 
-    if (prettyClock)
-        paintPretty(g, s, len);
-    else
-        paintPlain(g, s, len);
-
-    clockTimer->startTimer();
+    return prettyClock
+         ? paintPretty(g, s, len)
+         : paintPlain(g, s, len);
 }
 
 void YClock::fill(Graphics& g)
@@ -278,7 +306,8 @@ void YClock::fill(Graphics& g, int x, int y, int w, int h)
     }
 }
 
-void YClock::paintPretty(Graphics& g, const char* s, int len) {
+bool YClock::paintPretty(Graphics& g, const char* s, int len) {
+    bool paint = false;
     if (prettyClock) {
         bool const mustFill = hasTransparency();
         int x = width();
@@ -312,11 +341,13 @@ void YClock::paintPretty(Graphics& g, const char* s, int len) {
                 fill(g, 0, 0, x, height());
                 break;
             }
+            paint = true;
         }
     }
+    return paint;
 }
 
-void YClock::paintPlain(Graphics& g, const char* s, int len) {
+bool YClock::paintPlain(Graphics& g, const char* s, int len) {
     fill(g);
     if (!prettyClock) {
         int y =  (height() - 1 - clockFont->height()) / 2
@@ -326,6 +357,7 @@ void YClock::paintPlain(Graphics& g, const char* s, int len) {
         g.setFont(clockFont);
         g.drawChars(s, 0, len, 2, y);
     }
+    return true;
 }
 
 bool YClock::handleTimer(YTimer *t) {

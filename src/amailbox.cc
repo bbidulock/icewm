@@ -21,6 +21,8 @@
 #ifdef __FreeBSD__
 #include <db.h>
 #endif
+#include "ymenuitem.h"
+#include "wmtaskbar.h"
 #include "intl.h"
 
 extern YColorName taskBarBg;
@@ -663,13 +665,12 @@ const char* MailCheck::s(ProtocolState p) {
     return 0;
 }
 
-MailBoxStatus::MailBoxStatus(IApp *app, YSMListener *smActionListener,
+MailBoxStatus::MailBoxStatus(MailHandler* handler,
                              mstring mailbox, YWindow *aParent):
     YWindow(aParent),
     fState(mbxNoMail),
     check(mailbox, this),
-    smActionListener(smActionListener),
-    app(app)
+    fHandler(handler)
 {
     setSize(16, 16);
     setTitle("MailBox");
@@ -733,7 +734,9 @@ void MailBoxStatus::handleClick(const XButtonEvent &up, int count) {
         checkMail();
     else if (mailCommand && mailCommand[0] && up.button == 1 &&
              (taskBarLaunchOnSingleClick ? count == 1 : !(count % 2)))
-        smActionListener->runCommandOnce(mailClassHint, mailCommand);
+        fHandler->runCommandOnce(mailClassHint, mailCommand);
+    else if (up.button == 3)
+        fHandler->handleClick(up, this);
 }
 
 void MailBoxStatus::handleCrossing(const XCrossingEvent &crossing) {
@@ -774,8 +777,12 @@ void MailBoxStatus::mailChecked(MailBoxState mst, long count, long unread) {
         if (fState == mbxHasNewMail)
             newMailArrived(count, unread);
     }
+    cstring header(check.url().host.length()
+                   ? check.url().user + "@" + check.url().host + "\n"
+                   : check.url().path + "\n");
     if (fState == mbxError)
-        setToolTip(_("Error checking mailbox.")
+        setToolTip(header
+                   + _("Error checking mailbox.")
                    + ("\n" + check.reason()));
     else {
         char s[128] = "";
@@ -793,7 +800,7 @@ void MailBoxStatus::mailChecked(MailBoxState mst, long count, long unread) {
                      _("%ld mail messages."),
                      count);
         }
-        setToolTip(s);
+        setToolTip(header + s);
     }
 }
 
@@ -809,7 +816,7 @@ void MailBoxStatus::newMailArrived(long count, long unread) {
         };
         for (int i = 0; i < size; ++i)
             setenv(envs[i].name, envs[i].value, True);
-        app->runCommand(newMailCommand);
+        fHandler->runCommand(newMailCommand);
         for (int i = 0; i < size; ++i)
             unsetenv(envs[i].name);
     }
@@ -821,6 +828,100 @@ bool MailBoxStatus::handleTimer(YTimer *t) {
         return true;
     }
     return false;
+}
+
+MailBoxControl::MailBoxControl(IApp *app, YSMListener *smActionListener,
+                               IAppletContainer *taskBar, YWindow *aParent):
+    app(app),
+    smActionListener(smActionListener),
+    taskBar(taskBar),
+    aParent(aParent),
+    fMenuClient(0)
+{
+    populate();
+}
+
+MailBoxControl::~MailBoxControl()
+{
+}
+
+void MailBoxControl::populate()
+{
+    const char* env;
+    if (mailBoxPath) {
+        for (mstring s(mailBoxPath), r; s.splitall(' ', &s, &r); s = r) {
+            if (0 <= s.indexOf('/')) {
+                createStatus(s);
+            }
+        }
+    }
+    if (fMailBoxStatus.getCount() == 0 && (env = getenv("MAILPATH")) != 0) {
+        for (mstring s(env), r; s.splitall(':', &s, &r); s = r) {
+            if (0 <= s.indexOf('/')) {
+                createStatus(s);
+            }
+        }
+    }
+    if (fMailBoxStatus.getCount() == 0 && (env = getenv("MAIL")) != 0) {
+        mstring s(env);
+        if (0 <= s.indexOf('/')) {
+            createStatus(s);
+        }
+    }
+    if (fMailBoxStatus.getCount() == 0 &&
+        ((env = getenv("LOGNAME")) != 0 || (env = getlogin()) != 0))
+    {
+        const char* varmail[] = { "/var/spool/mail/", "/var/mail/", };
+        for (int i = 0; i < int ACOUNT(varmail); ++i) {
+            upath s(mstring(varmail[i], env));
+            if (s.isReadable()) {
+                createStatus(s);
+                break;
+            }
+        }
+    }
+}
+
+void MailBoxControl::createStatus(mstring mailBox)
+{
+    MailBoxStatus* box = new MailBoxStatus(this, mailBox, aParent);
+    fMailBoxStatus += box;
+}
+
+void MailBoxControl::runCommandOnce(const char *resource, const char *cmdline)
+{
+    smActionListener->runCommandOnce(resource, cmdline);
+}
+
+void MailBoxControl::runCommand(const char *cmdline)
+{
+    app->runCommand(cmdline);
+}
+
+void MailBoxControl::handleClick(const XButtonEvent &up, MailBoxStatus *client)
+{
+    if (up.button == Button3) {
+        fMenu = new YMenu;
+        fMenu->setActionListener(this);
+        fMenu->addItem(_("MAIL"), -2, null, actionNull)->setEnabled(false);
+        fMenu->addItem(_("_Disable"), -2, null, actionClose);
+        fMenuClient = client;
+        fMenu->popup(0, 0, 0, up.x_root, up.y_root,
+                     YPopupWindow::pfCanFlipVertical |
+                     YPopupWindow::pfCanFlipHorizontal |
+                     YPopupWindow::pfPopupMenu);
+    }
+}
+
+void MailBoxControl::actionPerformed(YAction action, unsigned int modifiers)
+{
+    if (action == actionClose) {
+        if (findRemove(fMailBoxStatus, fMenuClient)) {
+            taskBar->relayout();
+        }
+    }
+    fMenu = 0;
+    fMenuClient = 0;
 }
 
 // vim: set sw=4 ts=4 et:

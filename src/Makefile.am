@@ -272,6 +272,7 @@ icewm_SOURCES = \
 	decorate.cc \
 	browse.cc \
 	browse.h \
+	wmmenu.cc \
 	wmprog.cc \
 	wmprog.h \
 	atasks.cc \
@@ -504,6 +505,7 @@ testmenus_SOURCES = \
 	themable.h \
 	default.h \
 	prefs.h \
+	wmmenu.cc \
 	wmprog.cc \
 	wmprog.h \
 	wmaction.h \

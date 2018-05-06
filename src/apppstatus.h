@@ -24,6 +24,14 @@ class NetStatusControl;
 
 typedef unsigned long long netbytes;
 
+class NetStatusHandler {
+public:
+    virtual ~NetStatusHandler() { }
+    virtual void relayout() = 0;
+    virtual void runCommandOnce(const char *resource, const char *cmdline) = 0;
+    virtual void handleClick(const XButtonEvent &up, cstring netdev) = 0;
+};
+
 class NetDevice {
 public:
     NetDevice(cstring netdev) : fDevName(netdev) {}
@@ -67,17 +75,15 @@ public:
 
 class NetStatus: public YWindow {
 public:
-    NetStatus(IApp *app, YSMListener *smActionListener, cstring netdev, IAppletContainer *taskBar, YWindow *aParent = 0);
+    NetStatus(cstring netdev, NetStatusHandler* handler, YWindow *aParent = 0);
     ~NetStatus();
 
     cstring name() const { return fDevName; }
     void timedUpdate(const void* sharedData, bool forceDown = false);
 
 private:
-    IAppletContainer *fTaskBar;
+    NetStatusHandler* fHandler;
     YColorName color[3];
-    YSMListener *smActionListener;
-    IApp *app;
 
     long *ppp_in; /* long could be really enough for rate in B/s */
     long *ppp_out;
@@ -91,6 +97,7 @@ private:
     Drawable pixmap;
     long oldMaxBytes;
     int statusUpdateCount;
+    int unchanged;
     bool isVisible;
 
     bool wasUp;               // previous link status
@@ -103,7 +110,7 @@ private:
     bool isUp() const { return fDevice && fDevice->isUp(); }
     void getCurrent(long *in, long *out, const void* sharedData);
     void updateStatus(const void* sharedData);
-    void updateToolTip();
+    virtual void updateToolTip();
 
     // methods overridden from superclasses
     virtual void handleClick(const XButtonEvent &up, int count) OVERRIDE;
@@ -111,7 +118,7 @@ private:
     virtual void handleVisibility(const XVisibilityEvent& visib);
     virtual void paint(Graphics & g, const YRect &r) OVERRIDE;
 
-    void picture();
+    bool picture();
     void fill(Graphics& g);
     void draw(Graphics& g);
 };
@@ -125,7 +132,12 @@ public:
 };
 #endif
 
-class NetStatusControl : public YTimerListener, public refcounted {
+class NetStatusControl :
+    private YTimerListener,
+    private YActionListener,
+    private NetStatusHandler,
+    public refcounted
+{
 private:
     lazy<YTimer> fUpdateTimer;
     YAssocArray<NetStatus*> fNetStatus;
@@ -134,6 +146,7 @@ private:
     YSMListener* smActionListener;
     IAppletContainer* taskBar;
     YWindow* aParent;
+    osmart<YMenu> fMenu;
 
 #ifdef __linux__
     // preprocessed data from procfs with offset table (name, values, name, vaues, ...)
@@ -145,6 +158,8 @@ private:
     void linuxUpdate();
 #endif
     YStringArray patterns;
+    YStringArray interfaces;
+
     NetStatus* createNetStatus(cstring netdev);
     void getInterfaces(YStringArray& interfaces);
 
@@ -157,6 +172,10 @@ public:
 
     // subclassing method overrides
     virtual bool handleTimer(YTimer *t) OVERRIDE;
+    virtual void handleClick(const XButtonEvent &up, cstring netdev);
+    virtual void runCommandOnce(const char *resource, const char *cmdline);
+    virtual void actionPerformed(YAction, unsigned int);
+    virtual void relayout();
 };
 
 #endif

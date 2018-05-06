@@ -627,6 +627,7 @@ static void initMenus(
 
     rootMenu = new StartMenu(app, smActionListener, wmActionListener, "menu");
     rootMenu->setActionListener(wmapp);
+    rootMenu->setShared(true);
 }
 
 int handler(Display *display, XErrorEvent *xev) {
@@ -1052,7 +1053,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     catchSignal(SIGUSR2);
 
     loadWinOptions(findConfigFile("winoptions"));
-    loadMenus(this, this, this, findConfigFile("keys"), 0);
+    MenuLoader(this, this, this).loadMenus(findConfigFile("keys"), 0);
 
     XSetErrorHandler(handler);
 

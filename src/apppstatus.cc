@@ -21,6 +21,7 @@
 #include "wmapp.h"
 #include "prefs.h"
 #include "sysdep.h"
+#include "ymenuitem.h"
 #include "intl.h"
 
 #include <sys/ioctl.h>
@@ -36,15 +37,11 @@
 extern ref<YPixmap> taskbackPixmap;
 
 NetStatus::NetStatus(
-    IApp *app,
-    YSMListener *smActionListener,
     cstring netdev,
-    IAppletContainer *taskBar,
+    NetStatusHandler* handler,
     YWindow *aParent):
     YWindow(aParent),
-    fTaskBar(taskBar),
-    smActionListener(smActionListener),
-    app(app),
+    fHandler(handler),
     ppp_in(new long[taskBarNetSamples]),
     ppp_out(new long[taskBarNetSamples]),
     prev_ibytes(0),
@@ -60,6 +57,7 @@ NetStatus::NetStatus(
     pixmap(None),
     oldMaxBytes(None),
     statusUpdateCount(0),
+    unchanged(taskBarNetSamples),
     isVisible(false),
     wasUp(false),
     useIsdn(netdev.m_str().startsWith("ippp")),
@@ -112,7 +110,7 @@ void NetStatus::updateVisible(bool aVisible) {
         else
             hide();
 
-        fTaskBar->relayout();
+        fHandler->relayout();
     }
     isVisible = min(isVisible, aVisible);
 }
@@ -230,9 +228,12 @@ void NetStatus::handleClick(const XButtonEvent &up, int count) {
                 start_obytes = cur_obytes;
             } else {
                 if (netCommand && netCommand[0])
-                    smActionListener->runCommandOnce(netClassHint, netCommand);
+                    fHandler->runCommandOnce(netClassHint, netCommand);
             }
         }
+    }
+    else if (up.button == Button3) {
+        fHandler->handleClick(up, name());
     }
 }
 
@@ -245,11 +246,11 @@ void NetStatus::handleExpose(const XExposeEvent& e) {
 }
 
 void NetStatus::paint(Graphics &g, const YRect& r) {
-    picture();
-    g.copyDrawable(pixmap, r.x(), r.y(), r.width(), r.height(), r.x(), r.y());
+    if (pixmap || picture())
+        g.copyDrawable(pixmap, r.x(), r.y(), r.width(), r.height(), r.x(), r.y());
 }
 
-void NetStatus::picture() {
+bool NetStatus::picture() {
     bool create = (pixmap == None);
     if (create)
         pixmap = XCreatePixmap(xapp->display(), handle(),
@@ -260,8 +261,8 @@ void NetStatus::picture() {
     if (create)
         fill(G);
 
-    if (statusUpdateCount)
-        draw(G);
+    return (statusUpdateCount && unchanged < taskBarNetSamples)
+        ? draw(G), true : create;
 }
 
 void NetStatus::fill(Graphics& g) {
@@ -301,11 +302,12 @@ void NetStatus::draw(Graphics &g) {
                 max(0, taskBarNetSamples - statusUpdateCount);
     if (0 < first && first < taskBarNetSamples)
         g.copyArea(taskBarNetSamples - first, 0, first, h, 0, 0);
+    const int limit = (first && statusUpdateCount <= (1 + unchanged) / 2)
+                    ? taskBarNetSamples - statusUpdateCount : taskBarNetSamples;
     statusUpdateCount = 0;
     oldMaxBytes = maxBytes;
 
-    ///!!! this should really be unified with acpustatus.cc
-    for (int i = first; i < taskBarNetSamples; i++) {
+    for (int i = first; i < limit; i++) {
         if (1 /* ppp_in[i] > 0 || ppp_out[i] > 0 */) {
             long round = maxBytes / h / 2;
             int inbar, outbar;
@@ -483,7 +485,12 @@ void NetStatus::updateStatus(const void* sharedData) {
 
     ++statusUpdateCount;
 
-    if (isVisible)
+    bool same = (0 < last &&
+                 ppp_in[last] == ppp_in[last - 1] &&
+                 ppp_out[last] == ppp_out[last - 1]);
+    unchanged = same ? 1 + unchanged : 0;
+
+    if (isVisible && picture())
         paint(getGraphics(), YRect(0, 0, width(), height()));
 }
 
@@ -633,7 +640,6 @@ NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
     taskBar(taskBar),
     aParent(aParent)
 {
-    YStringArray interfaces;
     mstring devName, devList(netDevice);
     while (devList.splitall(' ', &devName, &devList)) {
         if (devName.isEmpty())
@@ -661,6 +667,7 @@ NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
                 patterns.append(devStr);
         }
     }
+    interfaces.clear();
 
     fUpdateTimer->setTimer(taskBarNetDelay, this, true);
 }
@@ -668,8 +675,7 @@ NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
 NetStatus* NetStatusControl::createNetStatus(cstring netdev) {
     NetStatus*& status = fNetStatus[netdev];
     if (status == 0)
-        status = new NetStatus(app, smActionListener,
-                               netdev, taskBar, aParent);
+        status = new NetStatus(netdev, this, aParent);
     return status;
 }
 
@@ -685,6 +691,7 @@ void NetStatusControl::getInterfaces(YStringArray& names)
             break;
         }
     }
+    names.sort();
 }
 
 bool NetStatusControl::handleTimer(YTimer *t)
@@ -701,6 +708,58 @@ bool NetStatusControl::handleTimer(YTimer *t)
 #endif
 
     return true;
+}
+
+void NetStatusControl::runCommandOnce(const char *resource, const char *cmdline)
+{
+    smActionListener->runCommandOnce(resource, cmdline);
+}
+
+void NetStatusControl::relayout()
+{
+    taskBar->relayout();
+}
+
+void NetStatusControl::handleClick(const XButtonEvent &up, cstring netdev)
+{
+    if (up.button == Button3) {
+        interfaces.clear();
+        getInterfaces(interfaces);
+
+        fMenu = new YMenu();
+        fMenu->setActionListener(this);
+        fMenu->addItem(_("NET"), -2, null, actionNull)->setEnabled(false);
+        YStringArray::IterType iter = interfaces.iterator();
+        while (++iter) {
+            bool has(fNetStatus[*iter] && fNetStatus[*iter]->visible());
+            YAction act(EAction(has + 2 * (300 + iter.where())));
+            fMenu->addItem(*iter, -2, null, act)->setChecked(has);
+        }
+        fMenu->popup(0, 0, 0, up.x_root, up.y_root,
+                     YPopupWindow::pfCanFlipVertical |
+                     YPopupWindow::pfCanFlipHorizontal |
+                     YPopupWindow::pfPopupMenu);
+    }
+}
+
+void NetStatusControl::actionPerformed(YAction action, unsigned int modifiers) {
+    bool hide(hasbit(action.ident(), true));
+    int index(action.ident() / 2 - 300);
+    if (inrange(index, 0, interfaces.getCount() - 1)) {
+        const char* name = interfaces[index];
+        if (hide) {
+            if (fNetStatus.has(name) && fNetStatus[name]->visible()) {
+                fNetStatus[name]->hide();
+                relayout();
+            }
+        }
+        else {
+            createNetStatus(name)->show();
+            relayout();
+        }
+    }
+    fMenu = 0;
+    interfaces.clear();
 }
 
 #ifdef __linux__
