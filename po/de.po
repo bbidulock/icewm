@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-05-06 21:11+0200\n"
-"PO-Revision-Date: 2018-04-08 13:24+0000\n"
+"PO-Revision-Date: 2018-05-07 11:07+0000\n"
 "Last-Translator: Sarah Kriesch <ada.lovelace@gmx.de>\n"
-"Language-Team: German <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/de/>\n"
+"Language-Team: German "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,16 +47,16 @@ msgstr "Energie:\t%s"
 
 #: src/aclock.cc:173
 msgid "Clock"
-msgstr ""
+msgstr "Uhr"
 
 #: src/aclock.cc:174 src/acpustatus.cc:818 src/amailbox.cc:907
 #: src/amemstatus.cc:286
 msgid "_Disable"
-msgstr ""
+msgstr "_Deaktivieren"
 
 #: src/aclock.cc:175
 msgid "_UTC"
-msgstr ""
+msgstr "_UTC"
 
 #: src/acpustatus.cc:236
 #, c-format
@@ -82,28 +82,22 @@ msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "CPU %s Auslastung: %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:312
-#, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| "Ram (free): %5.2f (%.2f) M"
+#, c-format
 msgid ""
 "\n"
 "Ram (free): %5.3f (%.3f) G"
 msgstr ""
 "\n"
-"RAM (frei):\t%5.2f (%.2f) MiB"
+"RAM (frei):\t%5.3f (%.3f) G"
 
 #: src/acpustatus.cc:317
-#, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| "Swap (free): %.2f (%.2f) M"
+#, c-format
 msgid ""
 "\n"
 "Swap (free): %.3f (%.3f) G"
 msgstr ""
 "\n"
-"Swap (frei):\t%.2f (%.2f) MiB"
+"Swap (frei):\t%.3f (%.3f) G"
 
 #: src/acpustatus.cc:323
 #, c-format
@@ -145,15 +139,15 @@ msgstr "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 #: src/acpustatus.cc:815
 #, c-format
 msgid "CPU%d"
-msgstr ""
+msgstr "CPU%d"
 
 #: src/acpustatus.cc:820
 msgid "_Combine"
-msgstr ""
+msgstr "_Kombinieren"
 
 #: src/acpustatus.cc:822
 msgid "_Separate"
-msgstr ""
+msgstr "_Aufteilen"
 
 #: src/amailbox.cc:62
 #, c-format
@@ -226,7 +220,7 @@ msgstr "%ld E-Mail-Nachrichten."
 
 #: src/amailbox.cc:906
 msgid "MAIL"
-msgstr ""
+msgstr "MAIL"
 
 #: src/amemstatus.cc:166
 msgid "GB"
@@ -266,7 +260,7 @@ msgstr "Benutzer: "
 
 #: src/amemstatus.cc:285
 msgid "MEM"
-msgstr ""
+msgstr "SPEICHER"
 
 #: src/apppstatus.cc:202
 #, c-format
@@ -293,7 +287,7 @@ msgstr ""
 
 #: src/apppstatus.cc:731
 msgid "NET"
-msgstr ""
+msgstr "NETZ"
 
 #: src/aworkspaces.cc:294 src/wmstatus.cc:162
 msgid "Workspace: "
