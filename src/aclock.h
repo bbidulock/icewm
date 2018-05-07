@@ -24,6 +24,8 @@ private:
     virtual void handleCrossing(const XCrossingEvent &crossing);
     virtual void handleClick(const XButtonEvent &up, int count);
     virtual void handleExpose(const XExposeEvent &expose);
+    virtual void handleMapNotify(const XMapEvent &map);
+    virtual void handleUnmapNotify(const XUnmapEvent &map);
     virtual void handleVisibility(const XVisibilityEvent& visib);
     virtual void paint(Graphics &g, const YRect &r);
 
@@ -38,8 +40,10 @@ private:
     lazy<YTimer> clockTimer;
     bool clockUTC;
     bool toolTipUTC;
+    bool isMapped;
     bool isVisible;
     bool clockTicked;
+    unsigned paintCount;
     int transparent;
     YSMListener *smActionListener;
     IAppletContainer* iapp;

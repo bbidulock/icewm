@@ -30,8 +30,10 @@ YClock::YClock(YSMListener *smActionListener, IAppletContainer* iapp, YWindow *a
     YWindow(aParent),
     clockUTC(false),
     toolTipUTC(false),
+    isMapped(false),
     isVisible(false),
     clockTicked(true),
+    paintCount(0),
     transparent(-1),
     smActionListener(smActionListener),
     iapp(iapp),
@@ -51,7 +53,7 @@ YClock::YClock(YSMListener *smActionListener, IAppletContainer* iapp, YWindow *a
     clockTimer->setFixed();
     clockTimer->setTimer(1000, this, true);
 
-    addEventMask(VisibilityChangeMask);
+    addEventMask(VisibilityChangeMask | StructureNotifyMask);
     autoSize();
     updateToolTip();
     setDND(true);
@@ -191,6 +193,14 @@ void YClock::actionPerformed(YAction action, unsigned int modifiers) {
     }
 }
 
+void YClock::handleMapNotify(const XMapEvent &) {
+    isMapped = true;
+}
+
+void YClock::handleUnmapNotify(const XUnmapEvent &xunmap) {
+    isMapped = false;
+}
+
 void YClock::handleVisibility(const XVisibilityEvent& visib) {
     isVisible = inrange(visib.state, 0, 1);
 }
@@ -201,7 +211,7 @@ void YClock::handleExpose(const XExposeEvent& e) {
 }
 
 void YClock::repaint() {
-    if (isVisible && picture())
+    if (isMapped && isVisible && picture())
         paint(getGraphics(), YRect(0, 0, width(), height()));
 }
 
@@ -312,6 +322,7 @@ bool YClock::paintPretty(Graphics& g, const char* s, int len) {
         bool const mustFill = hasTransparency();
         int x = width();
 
+        ++paintCount;
         for (int i = len - 1; x >= 0; i--) {
             ref<YPixmap> p;
             if (i >= 0)
@@ -321,7 +332,10 @@ bool YClock::paintPretty(Graphics& g, const char* s, int len) {
             if (p != null)
                 x -= p->width();
 
-            if (i >= 0) {
+            if (paintCount <= 1) {
+                // evade bug
+            }
+            else if (i >= 0) {
                 if (positions[i] == x && previous[i] == s[i])
                     continue;
                 else positions[i] = x, previous[i] = s[i];
