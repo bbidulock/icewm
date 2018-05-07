@@ -461,9 +461,11 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
     wlist.append(nw);
     nw = LayoutInfo( fClock, false, 1, false, 2, 2, false );
     wlist.append(nw);
-    for (MailBoxControl::IterType m = fMailBoxStatus->iterator(); ++m; ) {
-        nw = LayoutInfo( *m, false, 1, true, 1, 1, false );
-        wlist.append(nw);
+    if (taskBarShowMailboxStatus) {
+        for (MailBoxControl::IterType m = fMailBoxStatus->iterator(); ++m; ) {
+            nw = LayoutInfo( *m, false, 1, true, 1, 1, false );
+            wlist.append(nw);
+        }
     }
 
 #ifdef IWM_STATES
