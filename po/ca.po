@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-05-06 21:11+0200\n"
-"PO-Revision-Date: 2018-05-07 15:22+0000\n"
+"PO-Revision-Date: 2018-05-07 18:00+0000\n"
 "Last-Translator: David Medina <medipas@gmail.com>\n"
 "Language-Team: Catalan "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/ca/>\n"
@@ -71,8 +71,8 @@ msgid ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 "softirq = %llu, steal = %llu (h = %i)\n"
 msgstr ""
-"barress:\tusuari = %llu, nice = %llu, sys = %llu, e/s.espera = %llu, intr = "
-"%llu, softirq = %llu, steal = %llu (h = %i)\n"
+"barres:\tusuari = %llu, nice = %llu, sys = %llu, e/s.espera = %llu, intr = %"
+"llu, softirq = %llu, steal = %llu (h = %i)\n"
 
 #: src/acpustatus.cc:306
 #, c-format
@@ -155,7 +155,7 @@ msgstr "Protocol de bústia no vàlid: \"%s\""
 #: src/amailbox.cc:64
 #, c-format
 msgid "Invalid mailbox path: \"%s\""
-msgstr "Camí de la bústia no vàlid: \"%s\""
+msgstr "Camí de bústia no vàlid: \"%s\""
 
 #: src/amailbox.cc:133
 #, c-format
@@ -165,7 +165,7 @@ msgstr "La cerca del nom de DNS ha fallat per a %s."
 #: src/amailbox.cc:149
 #, c-format
 msgid "Invalid mailbox port: \"%s\""
-msgstr "Port de la bústia no vàlid: \"%s\""
+msgstr "Port de bústia no vàlid: \"%s\""
 
 #: src/amailbox.cc:307
 #, c-format
@@ -745,7 +745,7 @@ msgstr "Estat de la finestra del GNOME"
 
 #: src/icesh.cc:654
 msgid "GNOME window hint"
-msgstr "Suggeriment de la finestra del GNOME"
+msgstr "Suggeriment de finestra del GNOME"
 
 #: src/icesh.cc:655
 msgid "GNOME window layer"
@@ -766,7 +766,7 @@ msgstr "Argument no vàlid: \"%s\"."
 
 #: src/icesh.cc:753
 msgid "No actions specified."
-msgstr "Cap acció especificada."
+msgstr "No s'ha especificat cap acció."
 
 #: src/icesh.cc:760 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:931
 #, c-format
@@ -868,7 +868,7 @@ msgstr "No s'han pogut establir canals OSS"
 
 #: src/icesound.cc:353 src/icesound.cc:381
 msgid "Could not sync OSS"
-msgstr "No s'ha pogut sincronitzar OSS"
+msgstr "No s'ha pogut sincronitzar l'OSS"
 
 #: src/icesound.cc:365
 msgid "OSS write failed"
@@ -881,16 +881,16 @@ msgstr "Escriptura d'OSS incompleta (%d/%d)"
 
 #: src/icesound.cc:376
 msgid "Could not post OSS"
-msgstr "No s'ha pogut enviar OSS"
+msgstr "No s'ha pogut enviar l'OSS"
 
 #: src/icesound.cc:405
 #, c-format
 msgid "Could not open OSS device %s"
-msgstr "No s'ha pogut obrir el dispositiu OSS %s"
+msgstr "No s'ha pogut obrir el dispositiu d'OSS %s"
 
 #: src/icesound.cc:410
 msgid "Could not set OSS stereo"
-msgstr "No s'ha pogut establir OSS estèreo"
+msgstr "No s'ha pogut establir l'OSS estèreo"
 
 #: src/icesound.cc:415
 msgid "Could not reset OSS DSP"
@@ -1835,7 +1835,7 @@ msgstr "Amaga"
 
 #: src/wmtitle.cc:141
 msgid "Raise/Lower"
-msgstr "Eleva/Abaixa"
+msgstr "Eleva / Abaixa"
 
 #: src/wmwinlist.cc:59
 msgid "All Workspaces"
