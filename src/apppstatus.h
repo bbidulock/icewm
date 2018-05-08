@@ -73,7 +73,7 @@ public:
     virtual void getCurrent(netbytes *in, netbytes *out, const void* sharedData);
 };
 
-class NetStatus: public YWindow {
+class NetStatus: public IApplet {
 public:
     NetStatus(cstring netdev, NetStatusHandler* handler, YWindow *aParent = 0);
     ~NetStatus();
@@ -94,11 +94,9 @@ private:
     timeval start_time;
     timeval prev_time;
 
-    Drawable pixmap;
     long oldMaxBytes;
     int statusUpdateCount;
     int unchanged;
-    bool isVisible;
 
     bool wasUp;               // previous link status
     bool useIsdn;             // netdevice is an IsdnDevice
@@ -114,9 +112,6 @@ private:
 
     // methods overridden from superclasses
     virtual void handleClick(const XButtonEvent &up, int count) OVERRIDE;
-    virtual void handleExpose(const XExposeEvent &expose);
-    virtual void handleVisibility(const XVisibilityEvent& visib);
-    virtual void paint(Graphics & g, const YRect &r) OVERRIDE;
 
     bool picture();
     void fill(Graphics& g);

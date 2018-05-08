@@ -24,15 +24,13 @@ public:
     virtual void runCommandOnce(const char *resource, const char *cmdline) = 0;
 };
 
-class CPUStatus: public YWindow, private YTimerListener {
+class CPUStatus: public IApplet, private YTimerListener {
 public:
     CPUStatus(YWindow *aParent, CPUStatusHandler *aHandler, int cpuid = -1);
     virtual ~CPUStatus();
 
     virtual void paint(Graphics &g, const YRect &r);
-    virtual void handleExpose(const XExposeEvent &expose);
     virtual bool handleTimer(YTimer *t);
-    virtual void handleVisibility(const XVisibilityEvent& visib);
     virtual void handleClick(const XButtonEvent &up, int count);
 
     void updateStatus();
@@ -47,7 +45,6 @@ private:
     int fCpuID;
     int statusUpdateCount;
     int unchanged;
-    bool isVisible;
     YMulti<cpubytes> cpu;
     cpubytes last_cpu[IWM_STATES];
     YColorName color[IWM_STATES];
@@ -56,7 +53,6 @@ private:
     bool ShowRamUsage, ShowSwapUsage, ShowAcpiTemp, ShowCpuFreq,
          ShowAcpiTempInGraph;
 
-    Drawable pixmap;
     YColorName tempColor;
 
     bool picture();

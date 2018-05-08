@@ -18,7 +18,8 @@
 #include "config.h"
 #include "ylib.h"
 #include "wmapp.h"
-#include "wmtaskbar.h"
+#include "applet.h"
+#include "ypointer.h"
 #include "acpustatus.h"
 #include "sysdep.h"
 #include "default.h"
@@ -63,11 +64,10 @@ extern ref<YPixmap> taskbackPixmap;
 ref<YFont> CPUStatus::tempFont;
 
 CPUStatus::CPUStatus(YWindow *aParent, CPUStatusHandler *aHandler, int cpuid) :
-    YWindow(aParent),
+    IApplet(aParent),
     fCpuID(cpuid),
     statusUpdateCount(0),
     unchanged(taskBarCPUSamples),
-    isVisible(false),
     cpu(taskBarCPUSamples, IWM_STATES),
     fHandler(aHandler)
 {
@@ -78,9 +78,7 @@ CPUStatus::CPUStatus(YWindow *aParent, CPUStatusHandler *aHandler, int cpuid) :
     memset(last_cpu, 0, sizeof(last_cpu));
 
     fUpdateTimer->setTimer(taskBarCPUDelay, this, true);
-    addEventMask(VisibilityChangeMask);
 
-    pixmap = None;
     tempColor = &clrCpuTemp;
 
     color[IWM_USER] = &clrCpuUser;
@@ -106,37 +104,23 @@ CPUStatus::CPUStatus(YWindow *aParent, CPUStatusHandler *aHandler, int cpuid) :
 }
 
 CPUStatus::~CPUStatus() {
-    if (pixmap)
-        XFreePixmap(xapp->display(), pixmap);
-}
-
-void CPUStatus::handleVisibility(const XVisibilityEvent& visib) {
-    isVisible = inrange(visib.state, 0, 1);
-}
-
-void CPUStatus::handleExpose(const XExposeEvent& e) {
-    if (pixmap || picture())
-        paint(getGraphics(), YRect(e.x, e.y, e.width, e.height));
 }
 
 void CPUStatus::paint(Graphics &g, const YRect& r) {
-    g.copyDrawable(pixmap, r.x(), r.y(), r.width(), r.height(), r.x(), r.y());
+    IApplet::paint(g, r);
     temperature(g);
 }
 
 bool CPUStatus::picture() {
-    bool create = (pixmap == None);
-    if (create)
-        pixmap = XCreatePixmap(xapp->display(), handle(),
-                               width(), height(), depth());
+    bool create = (hasPixmap() == None);
 
-    Graphics G(pixmap, width(), height(), depth());
+    Graphics G(getPixmap(), width(), height(), depth());
 
     if (create)
         fill(G);
 
     return (statusUpdateCount && unchanged < taskBarCPUSamples)
-         ? draw(G), true : create;
+         ? draw(G), true : (create || ShowAcpiTempInGraph);
 }
 
 void CPUStatus::fill(Graphics& g) {
@@ -382,8 +366,7 @@ void CPUStatus::updateStatus() {
     for (int i(1); i < taskBarCPUSamples; i++)
         cpu.copyTo(i, i - 1);
     getStatus();
-    if (isVisible && (picture() || ShowAcpiTempInGraph))
-        paint(getGraphics(), YRect(0, 0, width(), height()));
+    repaint();
 }
 
 int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
@@ -392,24 +375,11 @@ int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
     char buf[64];
 
     memset(tempbuf, 0, buflen);
-    cdir dir("/proc/acpi/thermal_zone");
-    if (dir.isOpen()) {
+    cdir dir;
+    if (dir.open("/sys/class/thermal")) {
         while (dir.next()) {
-            int len, seglen = 7;
-            snprintf(namebuf, sizeof namebuf,
-                    "/proc/acpi/thermal_zone/%s/temperature", dir.entry());
-            len = read_file(namebuf, buf, sizeof(buf));
-            if (len > seglen) {
-                if (retbuflen + seglen >= buflen) {
-                    break;
-                }
-                retbuflen += seglen;
-                strncat(tempbuf, buf + len - seglen, seglen);
-            }
-        }
-    }
-    else if (dir.open("/sys/class/thermal")) {
-        while (dir.next()) {
+            if (strncmp(dir.entry(), "thermal", 7))
+                continue;
             int len;
 
             snprintf(namebuf, sizeof namebuf,
@@ -435,6 +405,21 @@ int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
             int i = -1;
             while (T[++i]) tempbuf[retbuflen++] = T[i];
             tempbuf[retbuflen] = '\0';
+        }
+    }
+    else if (dir.open("/proc/acpi/thermal_zone")) {
+        while (dir.next()) {
+            int len, seglen = 7;
+            snprintf(namebuf, sizeof namebuf,
+                    "/proc/acpi/thermal_zone/%s/temperature", dir.entry());
+            len = read_file(namebuf, buf, sizeof(buf));
+            if (len > seglen) {
+                if (retbuflen + seglen >= buflen) {
+                    break;
+                }
+                retbuflen += seglen;
+                strncat(tempbuf, buf + len - seglen, seglen);
+            }
         }
     }
     return retbuflen;

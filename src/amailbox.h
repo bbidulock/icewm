@@ -128,13 +128,20 @@ public:
     void checkMail();
     void mailChecked(MailBoxState mst, long count, long unread);
     void newMailArrived(long count, long unread);
+    void suspend(bool suspend);
+    bool suspended() const { return fSuspended; }
 
     virtual bool handleTimer(YTimer *t);
+    virtual void updateToolTip();
+
 private:
     MailBoxState fState;
     MailCheck check;
     lazy<YTimer> fMailboxCheckTimer;
     MailHandler *fHandler;
+    long fCount;
+    long fUnread;
+    bool fSuspended;
 };
 
 class MailBoxControl : public MailHandler, private YActionListener {

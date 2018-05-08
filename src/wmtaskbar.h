@@ -9,6 +9,7 @@
 #include "yxtray.h"
 #include "base.h"
 #include "ypointer.h"
+#include "applet.h"
 
 class ObjectBar;
 class MEMStatus;
@@ -25,15 +26,6 @@ class WorkspacesPane;
 class YXTray;
 class YSMListener;
 class IApp;
-
-class IAppletContainer {
-public:
-    virtual void relayout() = 0;
-    virtual void contextMenu(int x_root, int y_root) = 0;
-    virtual TrayPane* windowTrayPane() const = 0;
-protected:
-    virtual ~IAppletContainer() {}
-};
 
 class TaskBar;
 

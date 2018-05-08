@@ -15,8 +15,9 @@
 #include "config.h"
 
 #include "atray.h"
-#include "wmtaskbar.h"
+#include "applet.h"
 #include "yprefs.h"
+#include "yxapp.h"
 #include "prefs.h"
 #include "wmframe.h"
 #include "wmwinlist.h"

@@ -287,6 +287,8 @@ icewm_SOURCES = \
 	acpustatus.h \
 	amemstatus.cc \
 	amemstatus.h \
+	applet.cc \
+	applet.h \
 	apppstatus.cc \
 	apppstatus.h \
 	aaddressbar.cc \

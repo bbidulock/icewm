@@ -434,7 +434,7 @@ SET(ICEWM_SRCS ${ICE_COMMON_SRCS} ${ITK_SRCS}
     movesize.cc themes.cc decorate.cc browse.cc wmmenu.cc wmprog.cc atasks.cc
     aworkspaces.cc amailbox.cc aclock.cc acpustatus.cc apppstatus.cc
     aaddressbar.cc objbar.cc aapm.cc atray.cc ysmapp.cc yxtray.cc yurl.cc
-    globit.cc amemstatus.cc)
+    globit.cc amemstatus.cc applet.cc)
 
 
 ADD_EXECUTABLE(icewm${EXEEXT} ${ICEWM_SRCS})

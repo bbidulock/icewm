@@ -22,7 +22,7 @@
 #include <db.h>
 #endif
 #include "ymenuitem.h"
-#include "wmtaskbar.h"
+#include "applet.h"
 #include "intl.h"
 
 extern YColorName taskBarBg;
@@ -670,7 +670,9 @@ MailBoxStatus::MailBoxStatus(MailHandler* handler,
     YWindow(aParent),
     fState(mbxNoMail),
     check(mailbox, this),
-    fHandler(handler)
+    fHandler(handler),
+    fUnread(0),
+    fSuspended(false)
 {
     setSize(16, 16);
     setTitle("MailBox");
@@ -769,6 +771,10 @@ void MailBoxStatus::checkMail() {
 }
 
 void MailBoxStatus::mailChecked(MailBoxState mst, long count, long unread) {
+
+    fCount = count;
+    fUnread = unread;
+
     if (mst != mbxError && fMailboxCheckTimer && mailCheckDelay > 0)
         fMailboxCheckTimer->startTimer();
     if (mst != fState) {
@@ -777,31 +783,39 @@ void MailBoxStatus::mailChecked(MailBoxState mst, long count, long unread) {
         if (fState == mbxHasNewMail)
             newMailArrived(count, unread);
     }
+    updateToolTip();
+}
+
+void MailBoxStatus::updateToolTip() {
     cstring header(check.url().host.length()
                    ? check.url().user + "@" + check.url().host + "\n"
                    : check.url().path + "\n");
+    if (suspended())
+        header = header + _("Suspended") + "\n";
+
     if (fState == mbxError)
-        setToolTip(header
+        header = header
                    + _("Error checking mailbox.")
-                   + ("\n" + check.reason()));
-    else {
+                   + ("\n" + check.reason());
+    else if (fCount >= 0) {
         char s[128] = "";
-        if (count >= 1 && unread >= 0) {
+        if (fCount >= 1 && fUnread >= 0) {
             snprintf(s, sizeof s,
-                     count == 1 ?
+                     fCount == 1 ?
                      _("%ld mail message, %ld unread.") :
                      _("%ld mail messages, %ld unread."),
-                     count, unread);
+                     fCount, fUnread);
         }
         else {
             snprintf(s, sizeof s,
-                     count == 1 ?
+                     fCount == 1 ?
                      _("%ld mail message.") :
                      _("%ld mail messages."),
-                     count);
+                     fCount);
         }
-        setToolTip(header + s);
+        header = header + s;
     }
+    setToolTip(header);
 }
 
 void MailBoxStatus::newMailArrived(long count, long unread) {
@@ -823,11 +837,26 @@ void MailBoxStatus::newMailArrived(long count, long unread) {
 }
 
 bool MailBoxStatus::handleTimer(YTimer *t) {
-    if (t == fMailboxCheckTimer) {
+    if (t == fMailboxCheckTimer && suspended() == false) {
         checkMail();
         return true;
     }
     return false;
+}
+
+void MailBoxStatus::suspend(bool suspend) {
+    if (fSuspended != suspend) {
+        fSuspended = suspend;
+        if (suspend) {
+            fMailboxCheckTimer->stopTimer();
+            if (fState != mbxNoMail) {
+                fState = mbxNoMail;
+                repaint();
+            }
+        } else {
+            fMailboxCheckTimer->runTimer();
+        }
+    }
 }
 
 MailBoxControl::MailBoxControl(IApp *app, YSMListener *smActionListener,
@@ -904,7 +933,10 @@ void MailBoxControl::handleClick(const XButtonEvent &up, MailBoxStatus *client)
         fMenu = new YMenu;
         fMenu->setActionListener(this);
         fMenu->addItem(_("MAIL"), -2, null, actionNull)->setEnabled(false);
+        fMenu->addItem(_("_Check"), -2, null, actionRun);
         fMenu->addItem(_("_Disable"), -2, null, actionClose);
+        fMenu->addItem(_("_Suspend"), -2, null, actionSuspend)
+             ->setChecked(client->suspended());
         fMenuClient = client;
         fMenu->popup(0, 0, 0, up.x_root, up.y_root,
                      YPopupWindow::pfCanFlipVertical |
@@ -919,6 +951,12 @@ void MailBoxControl::actionPerformed(YAction action, unsigned int modifiers)
         if (findRemove(fMailBoxStatus, fMenuClient)) {
             taskBar->relayout();
         }
+    }
+    else if (action == actionRun) {
+        fMenuClient->checkMail();
+    }
+    else if (action == actionSuspend) {
+        fMenuClient->suspend(fMenuClient->suspended() ^ true);
     }
     fMenu = 0;
     fMenuClient = 0;

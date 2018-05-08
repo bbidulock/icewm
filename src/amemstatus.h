@@ -14,16 +14,13 @@
 
 class IAppletContainer;
 
-class MEMStatus: public YWindow, private YTimerListener, private YActionListener {
+class MEMStatus: public IApplet, private YTimerListener, private YActionListener {
 public:
     MEMStatus(IAppletContainer* taskBar, YWindow *aParent);
     virtual ~MEMStatus();
 
-    virtual void paint(Graphics &g, const YRect &r);
     virtual void actionPerformed(YAction action, unsigned int modifiers);
     virtual void handleClick(const XButtonEvent &up, int count);
-    virtual void handleExpose(const XExposeEvent &expose);
-    virtual void handleVisibility(const XVisibilityEvent& visib);
     virtual bool handleTimer(YTimer *t);
 
     void updateStatus();
@@ -46,10 +43,8 @@ private:
     void fill(Graphics& g);
     void draw(Graphics& g);
 
-    Drawable pixmap;
     int statusUpdateCount;
     int unchanged;
-    bool isVisible;
     osmart<YMenu> fMenu;
     IAppletContainer* taskBar;
 };

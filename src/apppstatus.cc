@@ -40,7 +40,7 @@ NetStatus::NetStatus(
     cstring netdev,
     NetStatusHandler* handler,
     YWindow *aParent):
-    YWindow(aParent),
+    IApplet(aParent),
     fHandler(handler),
     ppp_in(new long[taskBarNetSamples]),
     ppp_out(new long[taskBarNetSamples]),
@@ -54,11 +54,9 @@ NetStatus::NetStatus(
     offset_obytes(0),
     start_time(monotime()),
     prev_time(start_time),
-    pixmap(None),
     oldMaxBytes(None),
     statusUpdateCount(0),
     unchanged(taskBarNetSamples),
-    isVisible(false),
     wasUp(false),
     useIsdn(netdev.m_str().startsWith("ippp")),
     fDevName(netdev),
@@ -83,7 +81,6 @@ NetStatus::NetStatus(
     color[1] = &clrNetSend;
     color[2] = &clrNetIdle;
 
-    addEventMask(VisibilityChangeMask);
     setSize(taskBarNetSamples, taskBarGraphHeight);
 
     getCurrent(0, 0, 0);
@@ -98,9 +95,6 @@ NetStatus::NetStatus(
 NetStatus::~NetStatus() {
     delete[] ppp_in;
     delete[] ppp_out;
-
-    if (pixmap)
-        XFreePixmap(xapp->display(), pixmap);
 }
 
 void NetStatus::updateVisible(bool aVisible) {
@@ -237,26 +231,10 @@ void NetStatus::handleClick(const XButtonEvent &up, int count) {
     }
 }
 
-void NetStatus::handleVisibility(const XVisibilityEvent& visib) {
-    isVisible = inrange(visib.state, 0, 1);
-}
-
-void NetStatus::handleExpose(const XExposeEvent& e) {
-    paint(getGraphics(), YRect(e.x, e.y, e.width, e.height));
-}
-
-void NetStatus::paint(Graphics &g, const YRect& r) {
-    if (pixmap || picture())
-        g.copyDrawable(pixmap, r.x(), r.y(), r.width(), r.height(), r.x(), r.y());
-}
-
 bool NetStatus::picture() {
-    bool create = (pixmap == None);
-    if (create)
-        pixmap = XCreatePixmap(xapp->display(), handle(),
-                               width(), height(), depth());
+    bool create = (hasPixmap() == false);
 
-    Graphics G(pixmap, width(), height(), depth());
+    Graphics G(getPixmap(), width(), height(), depth());
 
     if (create)
         fill(G);
@@ -490,8 +468,7 @@ void NetStatus::updateStatus(const void* sharedData) {
                  ppp_out[last] == ppp_out[last - 1]);
     unchanged = same ? 1 + unchanged : 0;
 
-    if (isVisible && picture())
-        paint(getGraphics(), YRect(0, 0, width(), height()));
+    repaint();
 }
 
 
@@ -682,15 +659,16 @@ NetStatus* NetStatusControl::createNetStatus(cstring netdev) {
 void NetStatusControl::getInterfaces(YStringArray& names)
 {
     names.clear();
-    char name[IF_NAMESIZE];
     unsigned const stop(99);
-    for (unsigned index = 1; index < stop; ++index) {
-        if (if_indextoname(index, name)) {
-            names.append(name);
-        } else {
-            break;
-        }
-    }
+
+    struct if_nameindex* ifs = if_nameindex(), *i = ifs;
+    for (; i && i->if_index && i->if_name && i - ifs < stop; ++i)
+        names.append(i->if_name);
+    if (ifs)
+        if_freenameindex(ifs);
+    else
+        fail("if_nameindex");
+
     names.sort();
 }
 

@@ -8,8 +8,8 @@
 #include "config.h"
 #include "ylib.h"
 #include "wmapp.h"
+#include "applet.h"
 #include "amemstatus.h"
-#include "wmtaskbar.h"
 #include "ymenuitem.h"
 #include "sysdep.h"
 #include "default.h"
@@ -23,12 +23,10 @@
 extern ref<YPixmap> taskbackPixmap;
 
 MEMStatus::MEMStatus(IAppletContainer* taskBar, YWindow *aParent):
-    YWindow(aParent),
+    IApplet(aParent),
     samples(taskBarMEMSamples, MEM_STATES),
-    pixmap(None),
     statusUpdateCount(0),
     unchanged(taskBarMEMSamples),
-    isVisible(false),
     taskBar(taskBar)
 {
     fUpdateTimer->setTimer(taskBarMEMDelay, this, true);
@@ -42,7 +40,6 @@ MEMStatus::MEMStatus(IAppletContainer* taskBar, YWindow *aParent):
     for (int i = 0; i < taskBarMEMSamples; i++) {
         samples[i][MEM_FREE] = 1;
     }
-    addEventMask(VisibilityChangeMask);
     setSize(taskBarMEMSamples, taskBarGraphHeight);
     getStatus();
     updateStatus();
@@ -52,30 +49,12 @@ MEMStatus::MEMStatus(IAppletContainer* taskBar, YWindow *aParent):
 }
 
 MEMStatus::~MEMStatus() {
-    if (pixmap)
-        XFreePixmap(xapp->display(), pixmap);
-}
-
-void MEMStatus::handleVisibility(const XVisibilityEvent& visib) {
-    isVisible = inrange(visib.state, 0, 1);
-}
-
-void MEMStatus::handleExpose(const XExposeEvent& e) {
-    if (pixmap || picture())
-        paint(getGraphics(), YRect(e.x, e.y, e.width, e.height));
-}
-
-void MEMStatus::paint(Graphics &g, const YRect& r) {
-    g.copyDrawable(pixmap, r.x(), r.y(), r.width(), r.height(), r.x(), r.y());
 }
 
 bool MEMStatus::picture() {
-    bool create = (pixmap == None);
-    if (create)
-        pixmap = XCreatePixmap(xapp->display(), handle(),
-                               width(), height(), depth());
+    bool create = (hasPixmap() == false);
 
-    Graphics G(pixmap, width(), height(), depth());
+    Graphics G(getPixmap(), width(), height(), depth());
 
     if (create)
         fill(G);
@@ -210,8 +189,7 @@ void MEMStatus::updateStatus() {
         samples.copyTo(i, i - 1);
     }
     getStatus();
-    if (isVisible && picture())
-        paint(getGraphics(), YRect(0, 0, width(), height()));
+    repaint();
 }
 
 unsigned long long MEMStatus::parseField(const char *buf, size_t bufLen,
