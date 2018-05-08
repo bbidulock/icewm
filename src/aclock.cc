@@ -188,6 +188,9 @@ void YClock::changeTimeFormat(const char* format) {
     fTimeFormat = format;
     autoSize();
     freePixmap();
+    memset(positions, 0, sizeof positions);
+    memset(previous, 0, sizeof previous);
+    negativePosition = INT_MAX;
     clockTicked = true;
     repaint();
     iapp->relayout();
