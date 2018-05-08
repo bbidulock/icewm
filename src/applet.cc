@@ -13,8 +13,15 @@ IApplet::IApplet(YWindow *parent) :
 
 IApplet::~IApplet()
 {
-    if (fPixmap)
+    freePixmap();
+}
+
+void IApplet::freePixmap()
+{
+    if (fPixmap) {
         XFreePixmap(xapp->display(), fPixmap);
+        fPixmap = None;
+    }
 }
 
 void IApplet::handleExpose(const XExposeEvent &e)

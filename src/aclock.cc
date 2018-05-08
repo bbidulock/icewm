@@ -187,6 +187,7 @@ void YClock::handleClick(const XButtonEvent &up, int count) {
 void YClock::changeTimeFormat(const char* format) {
     fTimeFormat = format;
     autoSize();
+    freePixmap();
     clockTicked = true;
     repaint();
     iapp->relayout();

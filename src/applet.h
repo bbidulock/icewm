@@ -26,6 +26,7 @@ public:
     virtual bool picture();
 
 protected:
+    void freePixmap();
     Drawable getPixmap();
     bool hasPixmap() const { return fPixmap != None; }
 
