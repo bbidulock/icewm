@@ -461,7 +461,7 @@ public:
     using BaseType::getCount;
     using BaseType::getItem;
     using BaseType::npos;
-    using BaseType::IterType;
+    using typename BaseType::IterType;
     using BaseType::iterator;
     using BaseType::reverseIterator;
 

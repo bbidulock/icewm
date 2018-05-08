@@ -41,7 +41,6 @@ private:
     int exec;
 public:
     Pattern(const char* re) :
-        pat{},
         comp(regcomp(&pat, re, REG_EXTENDED | REG_NEWLINE)),
         exec(0)
     {
