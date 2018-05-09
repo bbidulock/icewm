@@ -126,21 +126,33 @@ bool EdgeTrigger::handleTimer(YTimer *t) {
 
 TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener, YSMListener *smActionListener):
     YFrameClient(aParent, 0),
-    fGradient(null)
+    fTasks(0),
+    fCollapseButton(0),
+    fWindowTray(0),
+    fMailBoxStatus(0),
+    fMEMStatus(0),
+    fCPUStatus(0),
+    fApm(0),
+    fObjectBar(0),
+    fApplications(0),
+    fWinList(0),
+    fShowDesktop(0),
+    fAddressBar(0),
+    fWorkspaces(0),
+    fDesktopTray(0),
+    wmActionListener(wmActionListener),
+    smActionListener(smActionListener),
+    app(app),
+    fIsHidden(taskBarAutoHide),
+    fFullscreen(false),
+    fIsCollapsed(false),
+    fIsMapped(false),
+    fMenuShown(false),
+    taskBarMenu(0),
+    fNeedRelayout(false),
+    fEdgeTrigger(0)
 {
     taskBar = this;
-
-    this->app = app;
-    this->wmActionListener = wmActionListener;
-    this->smActionListener = smActionListener;
-    fIsMapped = false;
-    fIsHidden = taskBarAutoHide;
-    fIsCollapsed = false;
-    fFullscreen = false;
-    fMenuShown = false;
-    fNeedRelayout = false;
-    fAddressBar = 0;
-    fShowDesktop = 0;
 
     ///setToplevel(true);
     setBackground(taskBarBg.pixel());
@@ -414,7 +426,8 @@ void TaskBar::initApplets() {
                                   this, trayDrawBevel);
         fDesktopTray->setTitle("SystemTray");
         fDesktopTray->relayout();
-    }
+    } else
+        fDesktopTray = 0;
 }
 
 void TaskBar::trayChanged() {
