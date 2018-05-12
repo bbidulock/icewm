@@ -70,6 +70,7 @@ option(CONFIG_I18N "Define to enable internationalization" on)
 option(CONFIG_RENDER "Define to enable XRENDER extension" on)
 option(CONFIG_XRANDR "Define to enable XRANDR extension" on)
 option(CONFIG_SESSION "Define to enable X session management" on)
+option(CONFIG_EXTERNAL_TRAY "Define to build tray support in standalone executable" off)
 option(ENABLE_NLS "Enable Native Language Support" on)
 option(ENABLE_LTO "Enable Link Time Optimization" off)
 
@@ -482,10 +483,11 @@ SET_TARGET_PROPERTIES(icehelp${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMM
 TARGET_LINK_LIBRARIES(icehelp${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${fribidi_LDFLAGS} ${xrandr_LDFLAGS} ${icewm_img_libs} ${xinerama_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 INSTALL(TARGETS icehelp${EXEEXT} DESTINATION ${BINDIR})
 
-# TBD. Internal tray is better, this is probably not needed anymore.
-#ADD_EXECUTABLE(icewmtray${EXEEXT} icetray.cc ref.cc wmconfig.cc yxtray.cc ${ICE_COMMON_SRCS})
-#SET_TARGET_PROPERTIES(icewmtray${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
-#TARGET_LINK_LIBRARIES(icewmtray${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${xinerama_LDFLAGS} ${nls_LIBS} ${icewm_img_libs} ${EXTRA_LIBS})
+IF(CONFIG_EXTERNAL_TRAY)
+ADD_EXECUTABLE(icewmtray${EXEEXT} icetray.cc ref.cc wmconfig.cc yxtray.cc wmoption.cc ${ICE_COMMON_SRCS})
+SET_TARGET_PROPERTIES(icewmtray${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
+TARGET_LINK_LIBRARIES(icewmtray${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${xinerama_LDFLAGS} ${nls_LIBS} ${icewm_img_libs} ${EXTRA_LIBS})
+ENDIF()
 
 INSTALL(TARGETS icewm${EXEEXT} icesh${EXEEXT} icewm-session${EXEEXT} icewmhint${EXEEXT} icewmbg${EXEEXT} DESTINATION ${BINDIR})
 
@@ -514,6 +516,7 @@ foreach (_variableName
         CONFIG_XFREETYPE
         CONFIG_COREFONTS
         CONFIG_FRIBIDI
+        CONFIG_EXTERNAL_TRAY
         XINERAMA
         ENABLE_LTO
         ENABLE_ALSA

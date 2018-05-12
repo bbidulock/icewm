@@ -677,7 +677,7 @@ MailBoxStatus::MailBoxStatus(MailHandler* handler,
     setSize(16, 16);
     setTitle("MailBox");
     if (mailbox != null) {
-        MSG((_("Using MailBox \"%s\"\n"), cstring(mailBox).c_str()));
+        MSG((_("Using MailBox \"%s\"\n"), cstring(mailbox).c_str()));
         checkMail();
         if (mailCheckDelay > 0) {
             // caution creating too many openssl processes hogging the cpu

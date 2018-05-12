@@ -111,6 +111,7 @@
 #cmakedefine CONFIG_XRANDR 1
 #cmakedefine CONFIG_XFREETYPE @CONFIG_XFREETYPE_VALUE@
 #cmakedefine CONFIG_COREFONTS 1
+#cmakedefine CONFIG_EXTERNAL_TRAY 1
 #cmakedefine ENABLE_ALSA 1
 #cmakedefine ENABLE_AO 1
 #cmakedefine ENABLE_ESD 1
