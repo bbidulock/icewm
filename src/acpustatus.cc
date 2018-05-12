@@ -710,8 +710,7 @@ void CPUStatus::getStatus() {
 
     getStatusPlatform();
 
-    MSG((_("%s: %llu %llu %llu %llu %llu %llu %llu %llu"),
-        cpuname,
+    MSG((_("CPU: %llu %llu %llu %llu %llu %llu %llu %llu"),
         cpu[taskBarCPUSamples - 1][IWM_USER],
         cpu[taskBarCPUSamples - 1][IWM_NICE],
         cpu[taskBarCPUSamples - 1][IWM_SYS],
