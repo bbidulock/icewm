@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.35\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-05-06 21:11+0200\n"
-"PO-Revision-Date: 2018-04-17 05:02+0000\n"
+"PO-Revision-Date: 2018-05-14 05:54+0000\n"
 "Last-Translator: Hwajin Kim <hwajin.kim@e4net.net>\n"
-"Language-Team: Korean <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/ko/>\n"
+"Language-Team: Korean "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/ko/>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,16 +47,16 @@ msgstr "전원:\t%s"
 
 #: src/aclock.cc:173
 msgid "Clock"
-msgstr ""
+msgstr "시계"
 
 #: src/aclock.cc:174 src/acpustatus.cc:818 src/amailbox.cc:907
 #: src/amemstatus.cc:286
 msgid "_Disable"
-msgstr ""
+msgstr "_Disable"
 
 #: src/aclock.cc:175
 msgid "_UTC"
-msgstr ""
+msgstr "_UTC"
 
 #: src/acpustatus.cc:236
 #, c-format
@@ -82,28 +82,22 @@ msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "CPU %s 로드: %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:312
-#, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| "Ram (free): %5.2f (%.2f) M"
+#, c-format
 msgid ""
 "\n"
 "Ram (free): %5.3f (%.3f) G"
 msgstr ""
 "\n"
-"램 (여유): %5.2f (%.2f) M"
+"램(여유): %5.3f(%.3f)G"
 
 #: src/acpustatus.cc:317
-#, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| "Swap (free): %.2f (%.2f) M"
+#, c-format
 msgid ""
 "\n"
 "Swap (free): %.3f (%.3f) G"
 msgstr ""
 "\n"
-"스왑 (여유): %.2f (%.2f) M"
+"스왑(여유): %.3f(%.3f)G"
 
 #: src/acpustatus.cc:323
 #, c-format
@@ -145,15 +139,15 @@ msgstr "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 #: src/acpustatus.cc:815
 #, c-format
 msgid "CPU%d"
-msgstr ""
+msgstr "CPU%d"
 
 #: src/acpustatus.cc:820
 msgid "_Combine"
-msgstr ""
+msgstr "_Combine"
 
 #: src/acpustatus.cc:822
 msgid "_Separate"
-msgstr ""
+msgstr "_Separate"
 
 #: src/amailbox.cc:62
 #, c-format
@@ -226,7 +220,7 @@ msgstr "%ld 메일 메시지."
 
 #: src/amailbox.cc:906
 msgid "MAIL"
-msgstr ""
+msgstr "MAIL"
 
 #: src/amemstatus.cc:166
 msgid "GB"
@@ -266,7 +260,7 @@ msgstr "사용자: "
 
 #: src/amemstatus.cc:285
 msgid "MEM"
-msgstr ""
+msgstr "MEM"
 
 #: src/apppstatus.cc:202
 #, c-format
@@ -293,7 +287,7 @@ msgstr ""
 
 #: src/apppstatus.cc:731
 msgid "NET"
-msgstr ""
+msgstr "NET"
 
 #: src/aworkspaces.cc:294 src/wmstatus.cc:162
 msgid "Workspace: "
