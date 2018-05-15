@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-05-06 21:11+0200\n"
-"PO-Revision-Date: 2018-04-12 23:18+0000\n"
-"Last-Translator: Juan Sarria <juansarriam@gmail.com>\n"
-"Language-Team: Spanish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/es/>\n"
+"PO-Revision-Date: 2018-05-15 22:06+0000\n"
+"Last-Translator: jc sl <trcs@gmx.com>\n"
+"Language-Team: Spanish "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,7 +46,7 @@ msgstr "energía:\t%s"
 
 #: src/aclock.cc:173
 msgid "Clock"
-msgstr ""
+msgstr "Reloj"
 
 #: src/aclock.cc:174 src/acpustatus.cc:818 src/amailbox.cc:907
 #: src/amemstatus.cc:286
@@ -81,28 +81,22 @@ msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "CPU %s Carga: %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:312
-#, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| "Ram (free): %5.2f (%.2f) M"
+#, c-format
 msgid ""
 "\n"
 "Ram (free): %5.3f (%.3f) G"
 msgstr ""
 "\n"
-"RAM (libre): %5.2f (%.2f) M"
+"RAM (libre): %5.3f (%.3f) G"
 
 #: src/acpustatus.cc:317
-#, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| "Swap (free): %.2f (%.2f) M"
+#, c-format
 msgid ""
 "\n"
 "Swap (free): %.3f (%.3f) G"
 msgstr ""
 "\n"
-"Swap (libre): %.2f (%.2f) M"
+"Swap (libre): %.3f (%.3f) G"
 
 #: src/acpustatus.cc:323
 #, c-format
@@ -144,7 +138,7 @@ msgstr "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 #: src/acpustatus.cc:815
 #, c-format
 msgid "CPU%d"
-msgstr ""
+msgstr "CPU%d"
 
 #: src/acpustatus.cc:820
 msgid "_Combine"
