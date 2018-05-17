@@ -66,7 +66,6 @@ Building from tarball requires:
  - gcc or clang (_for compiling_)
  - libxft (_for font rendering_)
  - libxinerama (_for XINERAMA support_)
- - gdk-pixbuf2 (_for pixmap rendering_)
  - libxpm (_for reading XPM icons_)
  - libjpeg (_for reading JPEG images_)
  - libpng (_for reading PNG images_)
