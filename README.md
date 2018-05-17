@@ -104,8 +104,7 @@ Third-party Utilities
 ---------------------
 
 Unspecified keyboard shortcuts can be handled with the `bbkeys(1)` utility
-available from [sourceforge][16].  For additional utilities see the [IceWM
-FAQ][14].
+available from [GitHub][16].  For additional utilities see the [IceWM FAQ][14].
 
 
 Bug Reports
@@ -164,7 +163,7 @@ translations.  If you have difficulties using the tools, just send me the update
 [13]: http://www.icewm.org/
 [14]: http://www.icewm.org/FAQ/IceWM-FAQ-11.html
 [15]: https://github.com/bbidulock/icewm/blob/1.4.2/doc/icewm.adoc
-[16]: http://bbkeys.sourceforge.net/
+[16]: https://github.com/bbidulock/bbkeys/
 [17]: https://github.com/bbidulock/icewm/blob/1.4.2/lib/icewm.desktop
 [18]: https://github.com/bbidulock/icewm/blob/1.4.2/lib/icewm-session.desktop
 [19]: https://github.com/bbidulock/icewm/blob/1.4.2/INSTALL-cmakebuild.md
