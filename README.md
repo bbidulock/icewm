@@ -3,7 +3,7 @@
 Ice Window Manager (IceWM)
 ==========================
 
-This is a fork of the IceWM CVS on [sourceforge][13].  It includes all changes
+This is a fork of the IceWM CVS on [sourceforge][12].  It includes all changes
 from the `icewm-1-3-BRANCH` branch, greatly enhanced EWMH/ICCCM compliance, as
 well as patches collected from Arch Linux, Debian, pld-linux, the IceWM bug
 list, and various other GitHub forks.
@@ -45,7 +45,7 @@ would like to customize the installation, use the command:
     ./configure --help
 
 Please see the [INSTALL][3] file for more detailed installation instructions.
-An alternative way to build IceWM using CMake is [documented here][20].
+An alternative way to build IceWM using CMake is [documented here][19].
 The [ChangeLog][4] file contains a detailed history of implementation changes.
 The [COMPLIANCE][5] file lists the current state of EWMH/ICCCM compliance.  The
 [NEWS][6] file has release notes and history of user visible changes of the
@@ -77,7 +77,7 @@ Configuring IceWM
 -----------------
 
 Documentation for configuring the window manager can be obtained from [IceWM
-Website][14] or from the [online manual][16].
+Website][13] or from the [online manual][15].
 
 Unfortunately the documentation is for version 1.2.27 and is incomplete
 at that; however, it is for the most part usable.
@@ -104,45 +104,8 @@ Third-party Utilities
 ---------------------
 
 Unspecified keyboard shortcuts can be handled with the `bbkeys(1)` utility
-available from [sourceforge][17].  For additional utilities see the [IceWM
-FAQ][15].
-
-
-wm-session
-----------
-
-`/proc/wm-session` is used to register the process id of an application able to
-free resources smoothly when the kernel decides that memory resource have
-reached a critical limit. The registered application is notified of this
-situation by the signal `SIGUSR1`.
-
-On full featured desktop machines it would make sense to use the session
-manager for this purpose. On X window PDAs which have limited memory resources
-it makes sense to let the window manager send `WM_DELETE_WINDOW` message to the
-last recently used application.
-
-
-__Requirements to use this feature in IceWM:__
-
-  - A patched kernel, a patch for Linux 2.4.3 is available in the contrib
-    file module.
-
-  - A patched X server assigning the clients process id to each newly
-    mapped window. Alternatively you can preload the preice library
-    available in the contrib file module.
-
-  - `$ export LD_PRELOAD=$PATH_TO/libpreice.so`
-
-  - IceWM configured to have wm-session support
-    (./configure --enable-wm-session ...)
-
-The contrib file module of IceWM is located on [sourceforge][12].
-
-
-> `/proc/wm-session` was developed by:
->
-> Chester Kuo <chester@linux.org.tw> and
-> Mathias Hasselman <mathias.hasselman@gmx.de>.
+available from [sourceforge][16].  For additional utilities see the [IceWM
+FAQ][14].
 
 
 Bug Reports
@@ -181,7 +144,7 @@ Translations
 
 You can provide translations by patching `.po` files and issuing pull requests,
 or you can use the [openSUSE weblate tool][11].  There are two XDG files,
-[icewm.desktop][18] and [icewm-session.desktop][19] than may need manual
+[icewm.desktop][17] and [icewm-session.desktop][18] than may need manual
 translations.  If you have difficulties using the tools, just send me the updated
 `.po` file or a patch to apply.
 
@@ -197,14 +160,13 @@ translations.  If you have difficulties using the tools, just send me the update
 [9]: https://github.com/bbidulock/icewm/blob/1.4.2/BUGS
 [10]: https://github.com/
 [11]: http://l10n.opensuse.org/
-[12]: http://sf.net/project/showfiles.php?group_id=31&release_id=31119
-[13]: http://icewm.sourceforge.net/
-[14]: http://www.icewm.org/
-[15]: http://www.icewm.org/FAQ/IceWM-FAQ-11.html
-[16]: https://github.com/bbidulock/icewm/blob/1.4.2/doc/icewm.adoc
-[17]: http://bbkeys.sourceforge.net/
-[18]: https://github.com/bbidulock/icewm/blob/1.4.2/lib/icewm.desktop
-[19]: https://github.com/bbidulock/icewm/blob/1.4.2/lib/icewm-session.desktop
-[20]: https://github.com/bbidulock/icewm/blob/1.4.2/INSTALL-cmakebuild.md
+[12]: http://icewm.sourceforge.net/
+[13]: http://www.icewm.org/
+[14]: http://www.icewm.org/FAQ/IceWM-FAQ-11.html
+[15]: https://github.com/bbidulock/icewm/blob/1.4.2/doc/icewm.adoc
+[16]: http://bbkeys.sourceforge.net/
+[17]: https://github.com/bbidulock/icewm/blob/1.4.2/lib/icewm.desktop
+[18]: https://github.com/bbidulock/icewm/blob/1.4.2/lib/icewm-session.desktop
+[19]: https://github.com/bbidulock/icewm/blob/1.4.2/INSTALL-cmakebuild.md
 
 [ vim: set ft=markdown sw=4 tw=80 nocin nosi fo+=tcqlorn: ]: #
