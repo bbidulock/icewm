@@ -76,7 +76,6 @@ Building from git also requires:
  - git (_for cloning the git repository and updating changelogs_)
  - complete autoconf or cmake toolchain (_for build scripts_)
  - asciidoctor or asciidoc (_for creating html documentation_)
- - markdown (_for building release package_)
 
 
 Configuring IceWM
