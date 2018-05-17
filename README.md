@@ -35,10 +35,7 @@ following commands:
     $> git clone http://github.com/bbidulock/icewm.git
     $> cd icewm
     $> ./autogen.sh
-    $> ./configure --prefix=/usr --sysconfdir=/etc \
-       --enable-shaped-decorations --enable-gradients \
-       --enable-guievents --with-icesound=ALSA,OSS \
-       --disable-menus-gnome2 --enable-silent-rules
+    $> ./configure --prefix=/usr --sysconfdir=/etc
     $> make V=0
     $> sudo make DESTDIR="$pkgdir" install
 

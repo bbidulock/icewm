@@ -44,9 +44,7 @@ following commands:
     $> git clone https://github.com/bbidulock/@PACKAGE@.git
     $> cd @PACKAGE@
     $> ./autogen.sh
-    $> ./configure \
-       --with-icesound=ALSA,OSS \
-       --disable-menus-gnome2
+    $> ./configure 
     $> make
     $> make DESTDIR="$pkgdir" install
 
