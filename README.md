@@ -63,17 +63,17 @@ Prerequisites
 
 Building from tarball requires:
 
- - gcc or clang (_for compiling_)
- - libxft (_for font rendering_)
- - libxinerama (_for XINERAMA support_)
- - libxpm (_for reading XPM icons_)
- - libjpeg (_for reading JPEG images_)
- - libxrandr (_for XRANDR support_)
+ - gcc or clang
+ - libxft
+ - libxinerama
+ - libxpm
+ - libjpeg
+ - libxrandr
 
 Building from git also requires:
 
- - complete autoconf or cmake toolchain (_for build scripts_)
- - asciidoctor or asciidoc (_for creating html documentation_)
+ - complete autoconf or cmake toolchain
+ - asciidoctor or asciidoc
 
 
 Configuring IceWM
