@@ -36,7 +36,7 @@ following commands:
     $> cd icewm
     $> ./autogen.sh
     $> ./configure --prefix=/usr --sysconfdir=/etc
-    $> make V=0
+    $> make
     $> sudo make DESTDIR="$pkgdir" install
 
 This will configure, compile and install IceWM the quickest.  For those who
