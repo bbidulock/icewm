@@ -69,7 +69,6 @@ Building from tarball requires:
  - libxpm (_for reading XPM icons_)
  - libjpeg (_for reading JPEG images_)
  - libxrandr (_for XRANDR support_)
- - libxrender (_for XRENDER support_)
  - libsndfile (_for sound support_)
  - libsm (_for X11R6 session management_)
  - fribidi (_for i18n text rendering_)
