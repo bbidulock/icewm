@@ -68,7 +68,6 @@ Building from tarball requires:
  - libxinerama (_for XINERAMA support_)
  - libxpm (_for reading XPM icons_)
  - libjpeg (_for reading JPEG images_)
- - libpng (_for reading PNG images_)
  - libxrandr (_for XRANDR support_)
  - libxrender (_for XRENDER support_)
  - libsndfile (_for sound support_)
