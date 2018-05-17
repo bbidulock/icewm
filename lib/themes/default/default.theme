@@ -10,8 +10,8 @@ TitleButtonsLeft="sd"
 TitleButtonsRight="xmirh"
 TitleButtonsSupported="sxmihrd"
 
-BorderSizeX=6
-BorderSizeY=6
+BorderSizeX=5
+BorderSizeY=5
 CornerSizeX=16
 CornerSizeY=16
 DlgBorderSizeX=2
