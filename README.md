@@ -64,7 +64,6 @@ Prerequisites
 Building from tarball requires:
 
  - gcc or clang (_for compiling_)
- - libxext (_for Xext include files_)
  - libfontconfig (_for font rendering_)
  - libxft (_for font rendering_)
  - libxinerama (_for XINERAMA support_)
