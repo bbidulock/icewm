@@ -9,7 +9,7 @@ static char *closeA0[] = {
 "b c #656565",
 "c c #9a9a9a",
 /* pixels */
-"aaaaaaaaaaaaaaaaaaaaaaaaaaab",
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaa",
 "aaaaaaaaaaaaaaaaaaaaaaaaaaaa",
 "aaaaaaaaaaaaaaaaaaaaaaaaaaaa",
 "aaaaaaaaa..............aaaaa",
@@ -30,7 +30,7 @@ static char *closeA0[] = {
 "aaaaaaaaaaaaaaaaaaaaaaaaaaaa",
 "aaaaaaaaaaaaaaaaaaaaaaaaaaaa",
 "bbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-"aaaaaaaaaaaaaaaaaaaaaaaaaaab",
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaa",
 "aaaaaaaaaaaaaaaaaaaaaaaaaaaa",
 "aaaaaaaaaaaaaaaaaaaaaaaaaaaa",
 "aaaaaaaaa..............aaaaa",
