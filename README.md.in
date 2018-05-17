@@ -79,7 +79,6 @@ Building from tarball requires:
  - libjpeg (_for reading JPEG images_)
  - libxrandr (_for XRANDR support_)
  - libsndfile (_for sound support_)
- - fribidi (_for i18n text rendering_)
  - libglib (_for icewm-menu-fdo menu generator_)
 
 Building from git also requires:
