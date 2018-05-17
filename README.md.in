@@ -86,7 +86,6 @@ Building from git also requires:
  - autoconf/automake or cmake toolchain (_for build scripts_)
  - autopoint and gettext (_for translations_)
  - xorg-mkfontdir (_for installing themes_)
- - perl (_for generation of manual pages_)
  - asciidoctor or asciidoc (_for creating html documentation_)
  - markdown (_for building release package_)
 
