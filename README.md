@@ -104,8 +104,12 @@ Third-party Utilities
 ---------------------
 
 Unspecified keyboard shortcuts can be handled with the `bbkeys(1)` utility
-available from [GitHub][16].  For additional utilities see the [IceWM FAQ][14].
+available from [GitHub][16].
 
+XDG compliant menus may be generated using the `xde-menu(1)` utility
+available from [GitHub][20].
+
+For additional utilities see the [IceWM FAQ][14].
 
 Bug Reports
 -----------
@@ -167,5 +171,6 @@ translations.  If you have difficulties using the tools, just send me the update
 [17]: https://github.com/bbidulock/icewm/blob/1.4.2/lib/icewm.desktop
 [18]: https://github.com/bbidulock/icewm/blob/1.4.2/lib/icewm-session.desktop
 [19]: https://github.com/bbidulock/icewm/blob/1.4.2/INSTALL-cmakebuild.md
+[20]: https://github.com/bbidulock/xde-menu/
 
 [ vim: set ft=markdown sw=4 tw=80 nocin nosi fo+=tcqlorn: ]: #

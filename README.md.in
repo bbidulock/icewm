@@ -89,7 +89,7 @@ Configuring IceWM
 Documentation for configuring the window manager can be obtained from [IceWM
 Website][13] or from the [online manual][15].
 Since version 1.4.3 a complete and up-to-date set of manual pages is provided.
-Use [__icewm__(1)][25] as a starting point.
+Use [__icewm__(1)][26] as a starting point.
 
 
 Included Utilities
@@ -97,21 +97,26 @@ Included Utilities
 
 Currently, the only included utilities are:
 
- - [__icewmbg__(1)][21] (_a background setting program_),
- - [__icewmtray__(1)][27] (_a system tray for the IceWM taskbar_), and,
- - [__icewm-session__(1)][26] (_a program to launch the window manager, icewmbg and
+ - [__icewmbg__(1)][22] (_a background setting program_),
+ - [__icewmtray__(1)][28] (_a system tray for the IceWM taskbar_), and,
+ - [__icewm-session__(1)][27] (_a program to launch the window manager, icewmbg and
    icewmtray in an orderly fashion_),
- - [__icewm-menu-fdo__(1)][23] (_a utility to genenerate XDG menus_),
- - [__icewm-menu-gnome2__(1)][24] (_a utility to generate GNOME menus_),
- - [__icewmhint__(1)][22] (_a utility to set IceWM-specific window options hint_).
- - [__icesound__(1)][20] (_play audio files when interesting GUI events happen_).
+ - [__icewm-menu-fdo__(1)][24] (_a utility to genenerate XDG menus_),
+ - [__icewm-menu-gnome2__(1)][25] (_a utility to generate GNOME menus_),
+ - [__icewmhint__(1)][23] (_a utility to set IceWM-specific window options hint_).
+ - [__icesound__(1)][21] (_play audio files when interesting GUI events happen_).
 
 
 Third-party Utilities
 ---------------------
 
 Unspecified keyboard shortcuts can be handled with the __bbkeys__(1) utility
-available from [GitHub][16].  For additional utilities see the [IceWM FAQ][14].
+available from [GitHub][16].
+
+XDG compliant menus may be generated using the __xde-menu__(1) utility
+available from [GitHub][20].
+
+For additional utilities see the [IceWM FAQ][14].
 
 
 Bug Reports
@@ -174,13 +179,14 @@ translations.  If you have difficulties using the tools, just send me the update
 [17]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/lib/icewm.desktop
 [18]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/lib/icewm-session.desktop
 [19]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/INSTALL-cmakebuild.md
-[20]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icesound.pod
-[21]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewmbg.pod
-[22]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewmhint.pod
-[23]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewm-menu-fdo.pod
-[24]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewm-menu-gnome2.pod
-[25]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewm.pod
-[26]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewm-session.pod
-[27]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewmtray.pod
+[20]: https://github.com/bbidulock/xde-menu/
+[21]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icesound.pod
+[22]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewmbg.pod
+[23]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewmhint.pod
+[24]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewm-menu-fdo.pod
+[25]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewm-menu-gnome2.pod
+[26]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewm.pod
+[27]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewm-session.pod
+[28]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewmtray.pod
 
 [ vim: set ft=markdown sw=4 tw=80 nocin nosi fo+=tcqlorn spell: ]: #
