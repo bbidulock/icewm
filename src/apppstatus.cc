@@ -12,31 +12,22 @@
 //
 // //////////////////////////////////////////////////////////////////////////
 
-#define NEED_TIME_H
-
 #include "config.h"
-#include "ylib.h"
-#include "sysdep.h"
-
 #include "wmtaskbar.h"
 #include "apppstatus.h"
 
-#include "wmapp.h"
-
-#include "udir.h"
-#include "ycollections.h"
-
 #ifdef HAVE_NET_STATUS
 
+#include "wmapp.h"
 #include "prefs.h"
+#include "sysdep.h"
+#include "ymenuitem.h"
 #include "intl.h"
+
 #include <sys/ioctl.h>
 #include <sys/socket.h>
 #include <net/if.h>
-
-#ifdef __linux__
 #include <fnmatch.h>
-#endif
 
 #if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
 #include <sys/sysctl.h>
@@ -46,20 +37,43 @@
 extern ref<YPixmap> taskbackPixmap;
 
 NetStatus::NetStatus(
-    IApp *app,
-    YSMListener *smActionListener,
-    mstring netdev,
-    IAppletContainer *taskBar,
+    cstring netdev,
+    NetStatusHandler* handler,
     YWindow *aParent):
-    YWindow(aParent), fNetDev(netdev)
+    IApplet(aParent),
+    fHandler(handler),
+    ppp_in(new long[taskBarNetSamples]),
+    ppp_out(new long[taskBarNetSamples]),
+    prev_ibytes(0),
+    start_ibytes(0),
+    cur_ibytes(0),
+    offset_ibytes(0),
+    prev_obytes(0),
+    start_obytes(0),
+    cur_obytes(0),
+    offset_obytes(0),
+    start_time(monotime()),
+    prev_time(start_time),
+    oldMaxBytes(None),
+    statusUpdateCount(0),
+    unchanged(taskBarNetSamples),
+    wasUp(false),
+    useIsdn(netdev.m_str().startsWith("ippp")),
+    fDevName(netdev),
+    fDevice(
+#if defined(__linux__)
+            useIsdn
+                ? (NetDevice *) new NetIsdnDevice(netdev)
+                : (NetDevice *) new NetLinuxDevice(netdev)
+#elif defined(__FreeBSD__)
+            new NetFreeDevice(netdev)
+#elif defined(__OpenBSD__) || defined(__NetBSD__)
+            new NetOpenDevice(netdev)
+#else
+            0
+#endif
+            )
 {
-    this->app = app;
-    this->smActionListener = smActionListener;
-    fTaskBar = taskBar;
-    ppp_in = new long[taskBarNetSamples];
-    ppp_out = new long[taskBarNetSamples];
-
-    // clear out the data
     for (int i = 0; i < taskBarNetSamples; i++)
         ppp_in[i] = ppp_out[i] = 0;
 
@@ -69,32 +83,19 @@ NetStatus::NetStatus(
 
     setSize(taskBarNetSamples, taskBarGraphHeight);
 
-    prev_ibytes = prev_obytes = offset_ibytes = offset_obytes = 0;
-    prev_time = monotime();
-    // set prev values for first updateStatus
-
     getCurrent(0, 0, 0);
-    wasUp = true;
-
-    // test for isdn-device
-    useIsdn = fNetDev.startsWith("ippp");
-    // unset phoneNumber
-    phoneNumber[0] = 0;
-
     updateStatus(0);
-    start_time = time(NULL);
-    start_ibytes = cur_ibytes;
-    start_obytes = cur_obytes;
-    updateToolTip();
-    updateVisible(true);
-    setTitle(cstring("NET-"+netdev));
+    if (isUp()) {
+        updateVisible(true);
+        updateToolTip();
+    }
+    setTitle(cstring("NET-" + netdev));
 }
 
 NetStatus::~NetStatus() {
     delete[] ppp_in;
     delete[] ppp_out;
 }
-
 
 void NetStatus::updateVisible(bool aVisible) {
     if (visible() != aVisible) {
@@ -103,11 +104,12 @@ void NetStatus::updateVisible(bool aVisible) {
         else
             hide();
 
-        fTaskBar->relayout();
+        fHandler->relayout();
     }
+    isVisible = min(isVisible, aVisible);
 }
 
-void NetStatus::handleTimer(const void* sharedData, bool forceDown) {
+void NetStatus::timedUpdate(const void* sharedData, bool forceDown) {
 
     bool up = !forceDown && isUp();
 
@@ -116,7 +118,7 @@ void NetStatus::handleTimer(const void* sharedData, bool forceDown) {
             for (int i = 0; i < taskBarNetSamples; i++)
                 ppp_in[i] = ppp_out[i] = 0;
 
-            start_time = time(NULL);
+            start_time = monotime();
             cur_ibytes = 0;
             cur_obytes = 0;
 
@@ -127,7 +129,7 @@ void NetStatus::handleTimer(const void* sharedData, bool forceDown) {
         }
         updateStatus(sharedData);
 
-        if (toolTipVisible())
+        if (toolTipVisible() || !wasUp)
             updateToolTip();
     }
     else // link is down
@@ -139,13 +141,12 @@ void NetStatus::handleTimer(const void* sharedData, bool forceDown) {
 
 void NetStatus::updateToolTip() {
     char status[400];
-    cstring netdev(fNetDev);
 
     if (isUp()) {
         char const * const sizeUnits[] = { "B", "KiB", "MiB", "GiB", "TiB", NULL };
         char const * const rateUnits[] = { "B/s", "kB/s", "MB/s", NULL };
 
-        long const t(time(NULL) - start_time);
+        long const period(long(toDouble(monotime() - start_time)));
 
 /*      long long vi(cur_ibytes - start_ibytes);
         long long vo(cur_obytes - start_obytes); */
@@ -183,6 +184,7 @@ void NetStatus::updateToolTip() {
         const char * const caoUnit(niceUnit(cao, rateUnits));
         const char * const caiUnit(niceUnit(cai, rateUnits));
 
+        const char* phoneNumber = fDevice->getPhoneNumber();
         snprintf(status, sizeof status,
            /*   _("Interface %s:\n"
                   "  Current rate (in/out):\t%li %s/%li %s\n"
@@ -197,15 +199,15 @@ void NetStatus::updateToolTip() {
                   "  Transferred (in/out):\t%lli %s/%lli %s\n"
                   "  Online time:\t%ld:%02ld:%02ld"
                   "%s%s"),
-                netdev.c_str(),
+                fDevName.c_str(),
                 ci, ciUnit, co, coUnit,
                 cai, caiUnit, cao, caoUnit,
 /*              ai, aiUnit, ao, aoUnit, */
                 vi, viUnit, vo, voUnit,
-                t / 3600, t / 60 % 60, t % 60,
+                period / 3600, period / 60 % 60, period % 60,
                 *phoneNumber ? _("\n  Caller id:\t") : "", phoneNumber);
     } else {
-        snprintf(status, sizeof status, "%.50s:", netdev.c_str());
+        snprintf(status, sizeof status, "%.50s:", fDevName.c_str());
     }
 
     setToolTip(status);
@@ -215,18 +217,50 @@ void NetStatus::handleClick(const XButtonEvent &up, int count) {
     if (up.button == 1) {
         if (taskBarLaunchOnSingleClick ? count == 1 : !(count % 2)) {
             if (up.state & ControlMask) {
-                start_time = time(NULL);
+                start_time = monotime();
                 start_ibytes = cur_ibytes;
                 start_obytes = cur_obytes;
             } else {
                 if (netCommand && netCommand[0])
-                    smActionListener->runCommandOnce(netClassHint, netCommand);
+                    fHandler->runCommandOnce(netClassHint, netCommand);
             }
         }
     }
+    else if (up.button == Button3) {
+        fHandler->handleClick(up, name());
+    }
 }
 
-void NetStatus::paint(Graphics &g, const YRect &/*r*/) {
+bool NetStatus::picture() {
+    bool create = (hasPixmap() == false);
+
+    Graphics G(getPixmap(), width(), height(), depth());
+
+    if (create)
+        fill(G);
+
+    return (statusUpdateCount && unchanged < taskBarNetSamples)
+        ? draw(G), true : create;
+}
+
+void NetStatus::fill(Graphics& g) {
+    if (color[2]) {
+        g.setColor(color[2]);
+        g.fillRect(0, 0, width(), height());
+    } else {
+        ref<YImage> gradient(parent()->getGradient());
+
+        if (gradient != null)
+            g.drawImage(gradient,
+                        x(), y(), width(), height(), 0, 0);
+        else
+            if (taskbackPixmap != null)
+                g.fillPixmap(taskbackPixmap,
+                             0, 0, width(), height(), x(), y());
+    }
+}
+
+void NetStatus::draw(Graphics &g) {
     long h = height();
 
     long b_in_max = 0;
@@ -241,11 +275,17 @@ void NetStatus::paint(Graphics &g, const YRect &/*r*/) {
             b_out_max = out;
     }
 
-    long maxBytes = b_in_max + b_out_max;
-    if (maxBytes < 1024)
-        maxBytes = 1024;
-    ///!!! this should really be unified with acpustatus.cc
-    for (int i = 0; i < taskBarNetSamples; i++) {
+    long maxBytes = max(b_in_max + b_out_max, 1024L);
+    int first = (maxBytes != oldMaxBytes) ? 0 :
+                max(0, taskBarNetSamples - statusUpdateCount);
+    if (0 < first && first < taskBarNetSamples)
+        g.copyArea(taskBarNetSamples - first, 0, first, h, 0, 0);
+    const int limit = (first && statusUpdateCount <= (1 + unchanged) / 2)
+                    ? taskBarNetSamples - statusUpdateCount : taskBarNetSamples;
+    statusUpdateCount = 0;
+    oldMaxBytes = maxBytes;
+
+    for (int i = first; i < limit; i++) {
         if (1 /* ppp_in[i] > 0 || ppp_out[i] > 0 */) {
             long round = maxBytes / h / 2;
             int inbar, outbar;
@@ -306,107 +346,62 @@ void NetStatus::paint(Graphics &g, const YRect &/*r*/) {
  *
  * Need read-access on /dev/isdninfo.
  */
-bool NetStatus::isUpIsdn() {
 #ifdef __linux__
-    char str[2048];
+bool NetIsdnDevice::isUp() {
+    csmart str(load_text_file("/dev/isdninfo"));
     char val[5][32];
-    char *p = str;
-    int busage;
-    int bflags;
-    long long len, i;
-    int f = open("/dev/isdninfo", O_RDONLY);
+    int busage = 0;
+    int bflags = 0;
 
-    if (f < 0)
-        return false;
-
-    len = read(f, str, 2047);
-
-    close(f);
-
-    if (len <=0)
-        return false;
-
-    str[len]='\0';
-
-    bflags=0;
-    busage=0;
-
-    //msg("dbs: len is %d", len);
-
-    while ( true ) {
-        if (strncmp(p, "flags:", 6)==0) {
+    for (char* p = str; p && *p && p[1]; p = strchr(p, '\n')) {
+        p += strspn(p, " \n");
+        if (strncmp(p, "flags:", 6) == 0) {
             sscanf(p, "%s %s %s %s %s", val[0], val[1], val[2], val[3], val[4]);
-            for (i = 0 ; i < 4; i++) {
-                if (strcmp(val[i+1],"0") != 0)
-                    bflags|=1<<i;
+            for (int i = 0; i < 4; i++) {
+                if (strcmp(val[i+1], "0") != 0)
+                    bflags |= (1 << i);
             }
         }
-        else if (strncmp(p, "usage:", 6)==0) {
+        else if (strncmp(p, "usage:", 6) == 0) {
             sscanf(p, "%s %s %s %s %s", val[0], val[1], val[2], val[3], val[4]);
-            for (i = 0 ; i < 4; i++) {
-                if (strcmp(val[i+1],"0") != 0)
-                    busage|=1<<i;
+            for (int i = 0; i < 4; i++) {
+                if (strcmp(val[i+1], "0") != 0)
+                    busage |= (1 << i);
             }
         }
-        else if (strncmp(p, "phone:", 6)== 0) {
+        else if (strncmp(p, "phone:", 6) == 0) {
             sscanf(p, "%s %s %s %s %s", val[0], val[1], val[2], val[3], val[4]);
-            for (i = 0; i < 4; i++) {
+            for (int i = 0; i < 4; i++) {
                 if (strncmp(val[i+1], "?", 1) != 0)
-                    strlcpy(phoneNumber, val[i+1], sizeof phoneNumber);
+                    strlcpy(phoneNumber, val[i + 1], sizeof phoneNumber);
             }
         }
-
-        do { // find next line
-            p++;
-        } while ((*p != '\0') &&
-                (*p != '\n'));
-
-        if (     *p == '\0' ||
-            *(p+1) == '\0')
-            break;
-
-        p++; // skip '\n'
     }
 
     //msg("dbs: flags %d usage %d", bflags, busage);
 
-    if (bflags != 0 && busage != 0)
-        return true; // one or more ISDN-Links active
-    else
-        return false;
-#else
-    return false;
-#endif // ifdef __linux__
+    return bflags && busage;
 }
-
-bool NetStatus::isUp() {
-#ifdef __linux__
-    if (useIsdn)
-        return isUpIsdn();
-#endif
+#endif // ifdef __linux__
 
 #if defined (__NetBSD__) || defined (__OpenBSD__)
-    struct ifreq ifr;
-
-    if (fNetDev == null)
-        return false;
-
+bool NetOpenDevice::isUp() {
+    bool up = false;
     int s = socket(AF_INET, SOCK_DGRAM, 0);
-
     if (s != -1) {
-        cstring cs(fNetDev);
-        strncpy(ifr.ifr_name, cs.c_str(), sizeof(ifr.ifr_name));
+        struct ifreq ifr;
+        strlcpy(ifr.ifr_name, fDevName, IFNAMSIZ);
         if (ioctl(s, SIOCGIFFLAGS, (caddr_t)&ifr) != -1) {
-            if (ifr.ifr_flags & IFF_UP) {
-                close(s);
-                return true;
-            }
+            up = (ifr.ifr_flags & IFF_UP);
         }
         close(s);
     }
-    return false;
-#else
+    return up;
+}
+#endif
+
 #if defined (__FreeBSD__)
+bool NetFreeDevice::isUp() {
     struct ifmibdata ifmd;
     size_t ifmd_size = sizeof ifmd;
     int nr_network_devs;
@@ -429,56 +424,28 @@ bool NetStatus::isUp() {
                 printf("%s@%d: %s\n", __FILE__, __LINE__, strerror(errno));
                 continue;
             }
-            cstring cs(fNetDev);
-            if (strncmp(ifmd.ifmd_name, cs.c_str(), cs.c_str_len()) == 0) {
+            if (fDevName == ifmd.ifmd_name) {
                 return (ifmd.ifmd_flags & IFF_UP);
             }
         }
     }
     return false;
-#else
-    if (fNetDev == null)
-        return false;
+}
+#endif
 
+#ifdef __linux__
+bool NetLinuxDevice::isUp() {
     int s = socket(PF_INET, SOCK_STREAM, 0);
     if (s == -1)
         return false;
 
-#if BROWSE_SIOCGIFCONF_LIST
-    char buffer[32 * sizeof(struct ifreq)];
-    struct ifconf ifc;
-    struct ifreq *ifr;
-    long long len;
-    ifc.ifc_len = sizeof(buffer);
-    ifc.ifc_buf = buffer;
-    if (ioctl(s, SIOCGIFCONF, &ifc) < 0) {
-        close(s);
-        return false;
-    }
-    len = ifc.ifc_len;
-    ifr = ifc.ifc_req;
-    while (len > 0) {
-        if (fNetDev.equals(ifr->ifr_name)) {
-            close(s);
-            return true;
-        }
-        len -= sizeof(struct ifreq);
-        ifr++;
-    }
-
-#else
     struct ifreq ifr;
-    fNetDev.copyTo(ifr.ifr_name, IFNAMSIZ);
-    bool bUp = (ioctl(s, SIOCGIFFLAGS, &ifr) >= 0 && (ifr.ifr_flags & IFF_UP));
+    strlcpy(ifr.ifr_name, fDevName, IFNAMSIZ);
+    bool up = (ioctl(s, SIOCGIFFLAGS, &ifr) >= 0 && (ifr.ifr_flags & IFF_UP));
     close(s);
-    return bUp;
-#endif
-
-    close(s);
-    return false;
-#endif
-#endif
+    return up;
 }
+#endif
 
 void NetStatus::updateStatus(const void* sharedData) {
     int last = taskBarNetSamples - 1;
@@ -494,53 +461,37 @@ void NetStatus::updateStatus(const void* sharedData) {
     if (!wasUp)
         ppp_in[last] = ppp_out[last] = 0;
 
+    ++statusUpdateCount;
+
+    bool same = (0 < last &&
+                 ppp_in[last] == ppp_in[last - 1] &&
+                 ppp_out[last] == ppp_out[last - 1]);
+    unchanged = same ? 1 + unchanged : 0;
+
     repaint();
 }
 
 
-void NetStatus::getCurrent(long *in, long *out, const void* sharedData) {
-#if 0
-    struct ifpppstatsreq req; // from <net/if_ppp.h> in the linux world
-
-    memset(&req, 0, sizeof(req));
-
 #ifdef __linux__
-#undef ifr_name
-#define ifr_name ifr__name
-
-    req.stats_ptr = (caddr_t) &req.stats;
-
-#endif // __linux__
-
-    sprintf(req.ifr_name, PPP_DEVICE);
-
-    if (ioctl(s, SIOCGPPPSTATS, &req) != 0) {
-        if (errno == ENOTTY) {
-            //perror("ioctl");
-        }
-        else { // just not connected?
-            //perror("?? ioctl?");
-            return;
-        }
-    }
-
-#endif
-
-    cur_ibytes = 0;
-    cur_obytes = 0;
-
-#ifdef __linux__
+void NetLinuxDevice::getCurrent(netbytes *in, netbytes *out, const void* sharedData) {
+#if defined(__FreeBSD_kernel__)
+    NetFreeDevice(fDevName).getCurrent(in, out, sharedData);
+#else
     const char *p = (const char*) sharedData;
     if (p)
-        sscanf(p, "%llu %*d %*d %*d %*d %*d %*d %*d %llu", &cur_ibytes, &cur_obytes);
+        sscanf(p, "%llu %*d %*d %*d %*d %*d %*d %*d %llu", in, out);
 
+#endif
+}
 #endif //__linux__
+
 #if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
+void NetFreeDevice::getCurrent(netbytes *in, netbytes *out, const void* sharedData) {
     // FreeBSD code by Ronald Klop <ronald@cs.vu.nl>
     struct ifmibdata ifmd;
-    size_t ifmd_size=sizeof ifmd;
+    size_t ifmd_size = sizeof ifmd;
     int nr_network_devs;
-    size_t int_size=sizeof nr_network_devs;
+    size_t int_size = sizeof nr_network_devs;
     int name[6];
     name[0] = CTL_NET;
     name[1] = PF_LINK;
@@ -548,56 +499,59 @@ void NetStatus::getCurrent(long *in, long *out, const void* sharedData) {
     name[3] = IFMIB_IFDATA;
     name[5] = IFDATA_GENERAL;
 
-    if (sysctlbyname("net.link.generic.system.ifcount",&nr_network_devs,
-                    &int_size,(void*)0,0) == -1) {
-        printf("%s@%d: %s\n",__FILE__,__LINE__,strerror(errno));
+    if (sysctlbyname("net.link.generic.system.ifcount", &nr_network_devs,
+                    &int_size, (void*)0, 0) == -1) {
+        printf("%s@%d: %s\n", __FILE__, __LINE__, strerror(errno));
     } else {
-        for (int i=1;i<=nr_network_devs;i++) {
+        for (int i = 1; i <= nr_network_devs; i++) {
             name[4] = i; /* row of the ifmib table */
 
             if (sysctl(name, 6, &ifmd, &ifmd_size, (void *)0, 0) == -1) {
-                warn("%s@%d: %s\n",__FILE__,__LINE__,strerror(errno));
+                warn("%s@%d: %s\n", __FILE__, __LINE__, strerror(errno));
                 continue;
             }
-            if (mstring(ifmd.ifmd_name).compareTo(fNetDev) == 0) {
-                cur_ibytes = ifmd.ifmd_data.ifi_ibytes;
-                cur_obytes = ifmd.ifmd_data.ifi_obytes;
+            if (ifmd.ifmd_name == fDevName) {
+                *in = ifmd.ifmd_data.ifi_ibytes;
+                *out = ifmd.ifmd_data.ifi_obytes;
                 break;
             }
         }
     }
+}
 #endif //FreeBSD
-#ifdef __NetBSD__
-    struct ifdatareq ifdr;
-    struct if_data * const ifi = &ifdr.ifdr_data;
+
+#if defined(__OpenBSD__) || defined(__NetBSD__)
+void NetOpenDevice::getCurrent(netbytes *in, netbytes *out, const void* sharedData) {
     int s;
 
     s = socket(AF_INET, SOCK_DGRAM, 0);
     if (s != -1) {
-        fNetDev.copyTo(ifdr.ifdr_name, sizeof(ifdr.ifdr_name));
-        if (ioctl(s, SIOCGIFDATA, &ifdr) != -1) {
-            cur_ibytes = ifi->ifi_ibytes;
-            cur_obytes = ifi->ifi_obytes;
-        }
-        close(s);
-    }
-#endif //__NetBSD__
 #ifdef __OpenBSD__
-    struct ifreq ifdr;
-    struct if_data ifi;
-    int s;
-
-    s = socket(AF_INET, SOCK_DGRAM, 0);
-    if (s != -1) {
-        fNetDev.copyTo(ifdr.ifr_name, sizeof(ifdr.ifr_name));
+        struct ifreq ifdr;
+        struct if_data ifi;
+        strlcpy(ifdr.ifr_name, fDevName, IFNAMSIZ);
         ifdr.ifr_data = (caddr_t) &ifi;
+#endif
+#ifdef __NetBSD__
+        struct ifdatareq ifdr;
+        struct if_data& ifi = &ifdr.ifdr_data;
+        strlcpy(ifdr.ifdr_name, fDevName, IFNAMSIZ);
+#endif
         if (ioctl(s, SIOCGIFDATA, &ifdr) != -1) {
-            cur_ibytes = ifi.ifi_ibytes;
-            cur_obytes = ifi.ifi_obytes;
+            *in = ifi.ifi_ibytes;
+            *out = ifi.ifi_obytes;
         }
         close(s);
     }
+}
 #endif //__OpenBSD__
+
+void NetStatus::getCurrent(long *in, long *out, const void* sharedData) {
+    cur_ibytes = 0;
+    cur_obytes = 0;
+
+    fDevice->getCurrent(&cur_ibytes, &cur_obytes, sharedData);
+
     // correct the values and look for overflows
     //msg("w/o corrections: ibytes: %lld, prev_ibytes; %lld, offset: %lld", cur_ibytes, prev_ibytes, offset_ibytes);
 
@@ -615,7 +569,7 @@ void NetStatus::getCurrent(long *in, long *out, const void* sharedData) {
     timeval curr_time = monotime();
     double delta_t = max(0.001, toDouble(curr_time - prev_time));
 
-    if (in) {
+    if (in && out) {
         *in  = (long) ((cur_ibytes - prev_ibytes) / delta_t);
         *out = (long) ((cur_obytes - prev_obytes) / delta_t);
     }
@@ -626,146 +580,214 @@ void NetStatus::getCurrent(long *in, long *out, const void* sharedData) {
 }
 
 NetStatusControl::~NetStatusControl() {
-    for (NetStatus **p = fNetStatus.data; p<fNetStatus.data+fNetStatus.size;++p)
-        delete *p;
+    for (int i = 0; i < fNetStatus.getCount(); ++i) {
+        NetStatus* status = 0;
+        swap(status, fNetStatus[i].value);
+        if (status)
+            delete status;
+    }
 }
 
 #ifdef __linux__
 void NetStatusControl::fetchSystemData() {
-    cachedStats.size = cachedStatsIdx.size = 0;
-    FILE *fp = fopen("/proc/net/dev", "r");
-    if (!fp)
+    devStats.clear();
+    devicesText = load_text_file("/proc/net/dev");
+    if (devicesText == 0)
         return;
-    while (!feof(fp) && !ferror(fp)) {
-        cachedStats.preserve(cachedStats.size + 1000);
-        cachedStats.size += fread(cachedStats.data + cachedStats.size,
-                sizeof(char), cachedStats.remainingCapa(), fp);
-    }
-    fclose(fp);
 
-    cachedStats.add(0); // zero terminated, for sure
-    cachedStatsIdx.size = 0;
-    // XXX: check performance! This is written for easier understanding.
-    // But if strchr is a fast compiler builtin then it might be faster to strchr for ':' and then look back for space or newline...
-    char *pStart = cachedStats.data, *pEnd = cachedStats.data + cachedStats.size;
-    enum tProcState { start, name, goeol };
-    tProcState state = start;
-    for (char *p = pStart;p<pEnd;++p) {
-        switch(state)
-        {
-        case start:
-            if (*p == ' ') continue;
-            cachedStatsIdx.add(p);
-            state = name;
-            break;
-        case name:
-            // header junk?
-            if (*p == '|') state = goeol, cachedStatsIdx.size--;
-            else if (*p == ':')
-            {
-                state = goeol;
-                cachedStatsIdx.add(p+1);
-                *p = 0;
-            }
-            break;
-        case goeol:
-            if (*p == '\n') *p = 0, state = start;
-            break;
+    for (char* p = devicesText; (p = strchr(p, '\n')) != 0; ) {
+        *p = 0;
+        while (*++p == ' ');
+        char* name = p;
+        p += strcspn(p, " :|\n");
+        if (*p == ':') {
+            *p = 0;
+            while (*++p && *p == ' ');
+            if (*p && *p != '\n')
+                devStats.append(netpair(name, p));
         }
     }
 }
 #endif
 
 NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
-        IAppletContainer* taskBar, YWindow* aParent) : fUpdateTimer(0) {
-
-    this->app = app;
-    this->smActionListener = smActionListener;
-    this->taskBar = taskBar;
-    this->aParent = aParent;
-
-#ifdef HAVE_NET_STATUS
-#ifdef __linux__
-    fetchSystemData();
-#endif
-
+        IAppletContainer* taskBar, YWindow* aParent) :
+    app(app),
+    smActionListener(smActionListener),
+    taskBar(taskBar),
+    aParent(aParent)
+{
     mstring devName, devList(netDevice);
     while (devList.splitall(' ', &devName, &devList)) {
-        if (!devName.nonempty())
+        if (devName.isEmpty())
             continue;
-        // find that device in the list of valid not;
-        // if not, consider it a match pattern and try adding later;
-        // for non-linux, add them always
-#ifdef __linux__
-        bool found=false;
-        for (unsigned i=0; !found && i<cachedStatsIdx.size; i+=2)
-            found = devName.equals(cachedStatsIdx[i]);
-        if (!found)
-            matchPatterns.add(devName);
-        else
-#endif
-        fNetStatus.add(new NetStatus(app, smActionListener, devName, taskBar, aParent));
+        cstring devStr(devName);
+
+        if (strpbrk(devStr, "*?[]\\.")) {
+            if (interfaces.isEmpty())
+                getInterfaces(interfaces);
+            YStringArray::IterType iter = interfaces.reverseIterator();
+            while (++iter) {
+                if (fNetStatus.has(iter))
+                    continue;
+                if (fnmatch(devStr, iter, 0) == 0) {
+                    createNetStatus(*iter);
+                }
+            }
+            patterns.append(devStr);
+        }
+        else {
+            unsigned index = if_nametoindex(devStr);
+            if (1 <= index)
+                createNetStatus(devStr);
+            else
+                patterns.append(devStr);
+        }
     }
-#endif
+    interfaces.clear();
 
     fUpdateTimer->setTimer(taskBarNetDelay, this, true);
 }
 
+NetStatus* NetStatusControl::createNetStatus(cstring netdev) {
+    NetStatus*& status = fNetStatus[netdev];
+    if (status == 0)
+        status = new NetStatus(netdev, this, aParent);
+    return status;
+}
+
+void NetStatusControl::getInterfaces(YStringArray& names)
+{
+    names.clear();
+    unsigned const stop(99);
+
+    struct if_nameindex* ifs = if_nameindex(), *i = ifs;
+    for (; i && i->if_index && i->if_name && i - ifs < stop; ++i)
+        names.append(i->if_name);
+    if (ifs)
+        if_freenameindex(ifs);
+    else
+        fail("if_nameindex");
+
+    names.sort();
+}
 
 bool NetStatusControl::handleTimer(YTimer *t)
 {
-        if (t != fUpdateTimer)
-                return false;
+    if (t != fUpdateTimer)
+        return false;
 
 #ifdef __linux__
-        fetchSystemData();
-
-        // hardcopy of existing monitors to check the remaining ones faster
-        covered.preserve(fNetStatus.size);
-        covered.size = fNetStatus.size;
-        memcpy(covered.data, fNetStatus.data, sizeof(covered[0]) * fNetStatus.size);
-
-        for (unsigned i=0; i<cachedStatsIdx.size; i+=2)
-        {
-            //mstring devName(cachedStatsIdx[i], cachedStatsIdx[i+1]-cachedStatsIdx[i]);
-            bool handled=false;
-            for (unsigned j = 0; j<fNetStatus.size; ++j)
-            {
-            if (fNetStatus[j]->fNetDev != cachedStatsIdx[i])
-                continue;
-            fNetStatus[j]->handleTimer(cachedStatsIdx[i + 1], false);
-            handled = true;
-            covered[j] = 0;
-            break;
-        }
-        if (handled)
-            continue;
-
-        // oh, we got a new device? allowed?
-        // XXX: this still wastes some cpu cycles for repeated fnmatch on forbidden devices.
-        // Maybe tackle this with a list of checksums?
-        for (mstring* p = matchPatterns.data;
-                p < matchPatterns.data + matchPatterns.size; ++p) {
-            if (fnmatch(cstring(*p), cachedStatsIdx[i], 0))
-                continue;
-            NetStatus *pn = new NetStatus(app, smActionListener, cachedStatsIdx[i],
-                            taskBar, aParent);
-            fNetStatus.add(pn);
-            pn->handleTimer(cachedStatsIdx[i + 1], false);
-            break;
-        }
-        }
-        // mark disappeared devices as down without additional ioctls
-        for (NetStatus** p = covered.data; p && p < covered.data + covered.size; ++p)
-            if (*p)
-                (**p).handleTimer(0, true);
-
+    linuxUpdate();
 #else
-        for (NetStatus** p=fNetStatus.data; p<fNetStatus.data+fNetStatus.size; ++p)
-            (*p)->handleTimer(0, false);
+    for (IterType iter = getIterator(); ++iter; )
+        if (*iter != 0)
+            iter->timedUpdate(0);
 #endif
-        return true;
+
+    return true;
 }
+
+void NetStatusControl::runCommandOnce(const char *resource, const char *cmdline)
+{
+    smActionListener->runCommandOnce(resource, cmdline);
+}
+
+void NetStatusControl::relayout()
+{
+    taskBar->relayout();
+}
+
+void NetStatusControl::handleClick(const XButtonEvent &up, cstring netdev)
+{
+    if (up.button == Button3) {
+        interfaces.clear();
+        getInterfaces(interfaces);
+
+        fMenu = new YMenu();
+        fMenu->setActionListener(this);
+        fMenu->addItem(_("NET"), -2, null, actionNull)->setEnabled(false);
+        YStringArray::IterType iter = interfaces.iterator();
+        while (++iter) {
+            bool has(fNetStatus[*iter] && fNetStatus[*iter]->visible());
+            YAction act(EAction(has + 2 * (300 + iter.where())));
+            fMenu->addItem(*iter, -2, null, act)->setChecked(has);
+        }
+        fMenu->popup(0, 0, 0, up.x_root, up.y_root,
+                     YPopupWindow::pfCanFlipVertical |
+                     YPopupWindow::pfCanFlipHorizontal |
+                     YPopupWindow::pfPopupMenu);
+    }
+}
+
+void NetStatusControl::actionPerformed(YAction action, unsigned int modifiers) {
+    bool hide(hasbit(action.ident(), true));
+    int index(action.ident() / 2 - 300);
+    if (inrange(index, 0, interfaces.getCount() - 1)) {
+        const char* name = interfaces[index];
+        if (hide) {
+            if (fNetStatus.has(name) && fNetStatus[name]->visible()) {
+                fNetStatus[name]->hide();
+                relayout();
+            }
+        }
+        else {
+            createNetStatus(name)->show();
+            relayout();
+        }
+    }
+    fMenu = 0;
+    interfaces.clear();
+}
+
+#ifdef __linux__
+void NetStatusControl::linuxUpdate() {
+    fetchSystemData();
+
+    int const count(fNetStatus.getCount());
+    bool covered[count];
+    for (int i = 0; i < count; ++i)
+        covered[i] = fNetStatus[i] == 0;
+
+    YArray<netpair> pending;
+
+    for (IterStats stat = devStats.iterator(); ++stat; ) {
+        int index;
+        if (fNetStatus.find((*stat).name(), &index)) {
+            if (index < count && fNetStatus[index]) {
+                if (covered[index] == false) {
+                    fNetStatus[index]->timedUpdate((*stat).data());
+                    covered[index] = true;
+                }
+            }
+        }
+        else {
+            // oh, we got a new device? allowed?
+            pending.append(stat);
+        }
+    }
+
+    // mark disappeared devices as down without additional ioctls
+    for (int i = 0; i < count; ++i)
+        if (covered[i] == false && fNetStatus[i])
+            fNetStatus[i]->timedUpdate(0, true);
+
+    for (int i = 0; i < pending.getCount(); ++i) {
+        const netpair stat = pending[i];
+        YStringArray::IterType pat = patterns.iterator();
+        while (++pat && fnmatch(pat, stat.name(), 0));
+        if (pat) {
+            createNetStatus(stat.name())->timedUpdate(stat.data());
+        } else {
+            // ignore this device
+            fNetStatus[stat.name()] = 0;
+        }
+    }
+
+    devStats.clear();
+    devicesText = 0;
+}
+#endif
 
 #endif // HAVE_NET_STATUS
 

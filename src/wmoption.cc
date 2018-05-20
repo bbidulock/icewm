@@ -22,6 +22,7 @@ WindowOption::WindowOption(ustring n_class_instance):
     workspace(WinWorkspaceInvalid),
     layer(WinLayerInvalid),
     tray(WinTrayInvalid),
+    order(0),
     gflags(0), gx(0), gy(0), gw(0), gh(0)
 {
 }
@@ -80,6 +81,8 @@ void WindowOptions::setWinOption(ustring n_class_instance,
         op->workspace = inrange(workspace, 0, MAXWORKSPACES - 1)
                       ? workspace
                       : WinWorkspaceInvalid;
+    } else if (strcmp(opt, "order") == 0) {
+        op->order = atoi(arg);
     } else if (strcmp(opt, "geometry") == 0) {
         int rx, ry;
         unsigned int rw, rh;
@@ -273,6 +276,8 @@ void WindowOptions::combineOptions(WindowOption &cm, WindowOption &n) {
         cm.layer = n.layer;
     if (n.tray != (long)WinTrayInvalid)
         cm.tray = n.tray;
+    if (n.order)
+        cm.order = n.order;
     if ((n.gflags & XValue) && !(cm.gflags & XValue)) {
         cm.gx = n.gx;
         cm.gflags |= XValue;

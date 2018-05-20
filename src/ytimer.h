@@ -53,7 +53,7 @@ protected:
 class YTimer {
 public:
     YTimer(long ms = 0L);
-    YTimer(long ms, YTimerListener *listener, bool start);
+    YTimer(long ms, YTimerListener *listener, bool start, bool fixed = false);
     ~YTimer();
 
     void setTimerListener(YTimerListener *listener) { fListener = listener; }

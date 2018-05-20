@@ -164,8 +164,10 @@ public:
     csmart(const csmart& copy)
         : super(copy) {}
 
-    void operator=(const csmart& some) { super::copy(some); }
-    void operator=(char *some) { super::data(some, adispose); }
+    csmart& operator=(const csmart& some) { super::copy(some); return *this; }
+    csmart& operator=(char *some) { super::data(some, adispose); return *this; }
+
+    char** operator&() { return super::address(); }
 };
 
 // for malloc data

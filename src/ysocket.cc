@@ -4,10 +4,8 @@
  * Copyright (C) 2002 Marko Macek
  */
 #include "config.h"
-#include "base.h"
 #include "ysocket.h"
 #include "yapp.h"
-#include "debug.h"
 
 #include <sys/types.h>
 #ifdef __FreeBSD__
@@ -22,6 +20,12 @@
 #include <fcntl.h>
 #include <stdio.h>
 
+static const int sockStreamFlags = SOCK_STREAM
+#if defined(__linux__) && defined(SOCK_NONBLOCK) && defined(SOCK_CLOEXEC)
+                                 | SOCK_NONBLOCK | SOCK_CLOEXEC
+#endif
+                                 ;
+
 YSocket::YSocket() {
     fListener = 0;
     rdbuf = 0;
@@ -32,35 +36,32 @@ YSocket::YSocket() {
 }
 
 YSocket::~YSocket() {
-    if (registered) {
-        registered = false;
-        mainLoop->unregisterPoll(this);
-    }
-    if (fFd != -1) {
-        ::close(fFd);
-        fFd = -1;
-    }
+    close();
+}
+
+int YSocket::socket() const {
+    return fd();
 }
 
 int YSocket::connect(struct sockaddr *server_addr, int addrlen) {
-    int fd;
+    close();
 
-    if (this->fFd != -1) {
-         ::close(this->fFd);
-         this->fFd = -1;
+    int domain = server_addr->sa_family;
+    if (domain != AF_INET && domain != AF_INET6) {
+        errno = EAFNOSUPPORT;
+        return -1;
     }
-    fd = socket(PF_INET, SOCK_STREAM, 0);
+
+    int fd = ::socket(domain, sockStreamFlags, 0);
     if (fd == -1)
-        return -errno;
+        return -1;
 
-    if (fcntl(fd, F_SETFL, O_NONBLOCK) == -1) {
-        ::close(fd);
-        return -errno;
-    }
-
-    if (fcntl(fd, F_SETFD, FD_CLOEXEC) == -1) {
-        ::close(fd);
-        return -errno;
+    if (sockStreamFlags == SOCK_STREAM) {
+        if (fcntl(fd, F_SETFL, O_NONBLOCK) == -1 ||
+            fcntl(fd, F_SETFD, FD_CLOEXEC) == -1) {
+            ::close(fd);
+            return -1;
+        }
     }
 
     MSG(("connecting."));
@@ -68,7 +69,7 @@ int YSocket::connect(struct sockaddr *server_addr, int addrlen) {
         if (errno == EINPROGRESS) {
             MSG(("in progress"));
             connecting = true;
-            this->fFd = fd;
+            fFd = fd;
             if (!registered) {
                 registered = true;
                 mainLoop->registerPoll(this);
@@ -77,9 +78,9 @@ int YSocket::connect(struct sockaddr *server_addr, int addrlen) {
         }
         MSG(("error"));
         ::close(fd);
-        return -errno;
+        return -1;
     }
-    this->fFd = fd;
+    fFd = fd;
 
     if (fListener)
         fListener->socketConnected();
@@ -88,32 +89,23 @@ int YSocket::connect(struct sockaddr *server_addr, int addrlen) {
 }
 
 int YSocket::socketpair(int *otherfd) {
-    int fds[2] = { 0, 0 };
+    close();
     *otherfd = -1;
-    if (registered) {
-        registered = false;
-        mainLoop->unregisterPoll(this);
-    }
-    if (this->fFd != -1) {
-        ::close(this->fFd);
-        this->fFd = -1;
-    }
-    int rc = ::socketpair(AF_UNIX, SOCK_STREAM, PF_UNIX, fds);
-    if (rc != -1) {
-        this->fFd = fds[0];
+
+    int fds[2] = { 0, 0 };
+    int rc = ::socketpair(AF_UNIX, sockStreamFlags, PF_UNIX, fds);
+    if (rc >= 0) {
+        if (sockStreamFlags == SOCK_STREAM) {
+            if (fcntl(fds[0], F_SETFL, O_NONBLOCK) == -1 ||
+                fcntl(fds[0], F_SETFD, FD_CLOEXEC) == -1) {
+                ::close(fds[0]);
+                ::close(fds[1]);
+                return -1;
+            }
+        }
+
+        fFd = fds[0];
         *otherfd = fds[1];
-
-        if (fcntl(this->fFd, F_SETFL, O_NONBLOCK) == -1) {
-            ::close(this->fFd);
-            ::close(*otherfd);
-            return -errno;
-        }
-
-        if (fcntl(this->fFd, F_SETFD, FD_CLOEXEC) == -1) {
-            ::close(this->fFd);
-            ::close(*otherfd);
-            return -errno;
-        }
 
         registered = true;
         mainLoop->registerPoll(this);
@@ -121,17 +113,15 @@ int YSocket::socketpair(int *otherfd) {
     return rc;
 }
 
-int YSocket::close() {
+void YSocket::close() {
     if (registered) {
         registered = false;
         mainLoop->unregisterPoll(this);
     }
-    if (fFd == -1)
-        return -EINVAL;
-    if (::close(fFd) == -1)
-        return -errno;
-    fFd = -1;
-    return 0;
+    if (fFd != -1) {
+        ::close(fFd);
+        fFd = -1;
+    }
 }
 
 int YSocket::read(char *buf, int len) {
@@ -146,15 +136,21 @@ int YSocket::read(char *buf, int len) {
 }
 
 int YSocket::write(const char *buf, int len) {
-    int rc;
+    do {
+        int rc = ::write(fFd, (const void *)buf, len);
+        if (rc >= 0)
+            return rc;
+    } while (errno == EINTR);
+    return -1;
+}
 
-    // must loop !!!
+int YSocket::write(const cstring& str) {
+    return write(str, str.length());
+}
 
-    rc = ::write(fFd, (const void *)buf, len);
-    if (rc == -1)
-        return -errno;
-    else
-        return rc;
+void YSocket::shutdown() {
+    if (fd() > 0)
+        ::shutdown(fd(), SHUT_RDWR);
 }
 
 void YSocket::notifyRead() {
@@ -164,15 +160,12 @@ void YSocket::notifyRead() {
             registered = false;
             mainLoop->unregisterPoll(this);
         }
-        int rc;
-
-        rc = ::read(fFd, rdbuf, rdbuflen);
-
+        int rc = ::read(fFd, rdbuf, rdbuflen);
         if (rc == 0) {
             if (fListener)
                 fListener->socketError(0);
-            return ;
-        } else if (rc == -1) {
+        }
+        else if (rc == -1) {
             if (errno == EAGAIN || errno == EWOULDBLOCK) {
                 reading = true;
                 if (!registered) {
@@ -181,12 +174,13 @@ void YSocket::notifyRead() {
                 }
             } else {
                 if (fListener)
-                    fListener->socketError(-errno);
+                    fListener->socketError(errno);
             }
-            return ;
         }
-        if (fListener)
-            fListener->socketDataRead(rdbuf, rc);
+        else {
+            if (fListener)
+                fListener->socketDataRead(rdbuf, rc);
+        }
     }
 }
 
@@ -224,17 +218,11 @@ void YSocket::notifyWrite() {
 }
 
 bool YSocket::forRead() {
-    if (reading)
-        return true;
-    else
-        return false;
+    return reading;
 }
 
 bool YSocket::forWrite() {
-    if (connecting)
-        return true;
-    else
-        return false;
+    return connecting;
 }
 
 // vim: set sw=4 ts=4 et:

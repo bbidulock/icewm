@@ -70,9 +70,11 @@ option(CONFIG_I18N "Define to enable internationalization" on)
 option(CONFIG_RENDER "Define to enable XRENDER extension" on)
 option(CONFIG_XRANDR "Define to enable XRANDR extension" on)
 option(CONFIG_SESSION "Define to enable X session management" on)
+option(CONFIG_EXTERNAL_TRAY "Define to build tray support in standalone executable" off)
 option(ENABLE_NLS "Enable Native Language Support" on)
 option(ENABLE_LTO "Enable Link Time Optimization" off)
 
+SET(CONFIG_DEFAULT_THEME "default/default.theme" CACHE STRING "Name of default theme")
 SET(CONFIG_UNICODE_SET "" CACHE STRING "Your iconv unicode set in machine endian encoding (e.g. WCHAR_T, UCS-4-INTERNAL, UCS-4LE, UCS-4BE)")
 # turn off when empty, see config.h template for details
 IF("" STREQUAL "${CONFIG_UNICODE_SET}")
@@ -227,6 +229,14 @@ if(CONFIG_LIBPNG)
     LIST(APPEND icewm_img_libs ${libpng_LDFLAGS})
 endif()
 
+if(CONFIG_LIBJPEG)
+    pkg_check_modules(libjpeg libjpeg)
+    if(NOT libjpeg_FOUND)
+        message(FATAL_ERROR "JPEG image loader selected but libjpeg dev files not found.")
+    endif()
+    LIST(APPEND icewm_img_libs ${libjpeg_LDFLAGS})
+endif()
+
 IF(CONFIG_SESSION)
     LIST(APPEND sm_LIBS SM)
     LIST(APPEND sm_LIBS ICE)
@@ -360,7 +370,6 @@ endif()
 
 option(DEBUG "Define if you want to debug IceWM" off)
 
-
 #######################################
 # some extra sugar where available    #
 #######################################
@@ -423,11 +432,12 @@ SET(ICEWM_SRCS ${ICE_COMMON_SRCS} ${ITK_SRCS}
     wmwinmenu.cc wmdialog.cc wmabout.cc wmswitch.cc wmstatus.cc
     wmoption.cc wmcontainer.cc wmclient.cc wmmgr.cc
     wmapp.cc wmframe.cc wmminiicon.cc wmtitle.cc wpixres.cc
-    movesize.cc themes.cc decorate.cc browse.cc wmprog.cc atasks.cc
+    movesize.cc themes.cc decorate.cc browse.cc wmmenu.cc wmprog.cc atasks.cc
     aworkspaces.cc amailbox.cc aclock.cc acpustatus.cc apppstatus.cc
     aaddressbar.cc objbar.cc aapm.cc atray.cc ysmapp.cc yxtray.cc yurl.cc
-    globit.cc amemstatus.cc)
+    globit.cc amemstatus.cc applet.cc)
 
+SET(MISC_SRCS misc.cc yarray.cc mstring.cc ref.cc)
 
 ADD_EXECUTABLE(icewm${EXEEXT} ${ICEWM_SRCS})
 set(icewm_pc_flags "${fontconfig_CFLAGS} ${x11_CFLAGS} ${xext_CFLAGS} ${libpng_CFLAGS} ${libxpm_CFLAGS} ${pixbuf_CFLAGS} ${xft_CFLAGS} ${xrandr_CFLAGS} ${xrender_CFLAGS} ${xinerama_CFLAGS} ${fribidi_CFLAGS}")
@@ -435,11 +445,11 @@ SET_TARGET_PROPERTIES(icewm${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON
 list(APPEND icewm_libs ${sm_LIBS} ${nls_LIBS} ${fontconfig_LDFLAGS} ${fribidi_LDFLAGS} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${xinerama_LDFLAGS} ${EXTRA_LIBS})
 TARGET_LINK_LIBRARIES(icewm${EXEEXT} ${icewm_libs} ${icewm_img_libs})
 
-ADD_EXECUTABLE(genpref${EXEEXT} genpref.cc misc.cc yarray.cc)
+ADD_EXECUTABLE(genpref${EXEEXT} genpref.cc ${MISC_SRCS})
 TARGET_LINK_LIBRARIES(genpref${EXEEXT} ${EXTRA_LIBS})
 
 IF(CONFIG_FDO_MENUS)
-    ADD_EXECUTABLE(icewm-menu-fdo${EXEEXT} fdomenu.cc misc.cc yarray.cc)
+    ADD_EXECUTABLE(icewm-menu-fdo${EXEEXT} fdomenu.cc ${MISC_SRCS})
     SET_TARGET_PROPERTIES(icewm-menu-fdo${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${gio_CFLAGS}")
     TARGET_LINK_LIBRARIES(icewm-menu-fdo${EXEEXT} ${gio_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
     INSTALL(TARGETS icewm-menu-fdo${EXEEXT} DESTINATION ${BINDIR})
@@ -449,7 +459,7 @@ ADD_EXECUTABLE(icewm-session${EXEEXT} icesm.cc yapp.cc misc.cc mstring.cc upath.
 SET_TARGET_PROPERTIES(icewm-session${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON}")
 TARGET_LINK_LIBRARIES(icewm-session${EXEEXT} ${nls_LIBS} ${EXTRA_LIBS})
 
-ADD_EXECUTABLE(icewmhint${EXEEXT} icewmhint.cc misc.cc yarray.cc)
+ADD_EXECUTABLE(icewmhint${EXEEXT} icewmhint.cc ${MISC_SRCS})
 SET_TARGET_PROPERTIES(icewmhint${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
 TARGET_LINK_LIBRARIES(icewmhint${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 
@@ -473,10 +483,11 @@ SET_TARGET_PROPERTIES(icehelp${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMM
 TARGET_LINK_LIBRARIES(icehelp${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${fribidi_LDFLAGS} ${xrandr_LDFLAGS} ${icewm_img_libs} ${xinerama_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 INSTALL(TARGETS icehelp${EXEEXT} DESTINATION ${BINDIR})
 
-# TBD. Internal tray is better, this is probably not needed anymore.
-#ADD_EXECUTABLE(icewmtray${EXEEXT} icetray.cc ref.cc wmconfig.cc yxtray.cc ${ICE_COMMON_SRCS})
-#SET_TARGET_PROPERTIES(icewmtray${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
-#TARGET_LINK_LIBRARIES(icewmtray${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${xinerama_LDFLAGS} ${nls_LIBS} ${icewm_img_libs} ${EXTRA_LIBS})
+IF(CONFIG_EXTERNAL_TRAY)
+ADD_EXECUTABLE(icewmtray${EXEEXT} icetray.cc ref.cc wmconfig.cc yxtray.cc wmoption.cc ${ICE_COMMON_SRCS})
+SET_TARGET_PROPERTIES(icewmtray${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
+TARGET_LINK_LIBRARIES(icewmtray${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${xinerama_LDFLAGS} ${nls_LIBS} ${icewm_img_libs} ${EXTRA_LIBS})
+ENDIF()
 
 INSTALL(TARGETS icewm${EXEEXT} icesh${EXEEXT} icewm-session${EXEEXT} icewmhint${EXEEXT} icewmbg${EXEEXT} DESTINATION ${BINDIR})
 
@@ -505,6 +516,7 @@ foreach (_variableName
         CONFIG_XFREETYPE
         CONFIG_COREFONTS
         CONFIG_FRIBIDI
+        CONFIG_EXTERNAL_TRAY
         XINERAMA
         ENABLE_LTO
         ENABLE_ALSA

@@ -159,7 +159,6 @@ libitk_la_SOURCES = \
 	yaction.h \
 	yinputline.h \
 	ylib.h \
-	ypoint.h \
 	yrect.h \
 	ykey.h \
 	yfull.h \
@@ -227,7 +226,6 @@ icewm_SOURCES = \
 	binascii.h \
 	yurl.cc \
 	yurl.h \
-	ypoint.h \
 	yrect.h \
 	wmsession.cc \
 	wmsession.h \
@@ -274,6 +272,7 @@ icewm_SOURCES = \
 	decorate.cc \
 	browse.cc \
 	browse.h \
+	wmmenu.cc \
 	wmprog.cc \
 	wmprog.h \
 	atasks.cc \
@@ -288,6 +287,8 @@ icewm_SOURCES = \
 	acpustatus.h \
 	amemstatus.cc \
 	amemstatus.h \
+	applet.cc \
+	applet.h \
 	apppstatus.cc \
 	apppstatus.h \
 	aaddressbar.cc \
@@ -310,7 +311,6 @@ icesh_SOURCES = \
 	sysdep.h \
 	base.h \
 	WinMgr.h \
-	ylib.h \
 	icesh.cc
 icesh_LDADD = libice.la $(CORE_LIBS) @LIBINTL@
 
@@ -321,28 +321,28 @@ icewm_session_SOURCES = \
 	intl.h \
 	sysdep.h \
 	yapp.h \
+	ytimer.h \
 	icesm.cc
 icewm_session_LDADD = libice.la @LIBINTL@
 
 icewmhint_SOURCES = \
 	intl.h \
 	debug.h \
-	sysdep.h \
 	base.h \
-	guievent.h \
 	icewmhint.cc
 icewmhint_LDADD = libice.la $(CORE_LIBS) @LIBINTL@
 
 icewmbg_SOURCES = \
 	intl.h \
 	debug.h \
-	sysdep.h \
 	base.h \
 	themable.h \
 	default.h \
-	WinMgr.h \
 	ykey.h \
 	yfull.h \
+	yxapp.h \
+	yprefs.h \
+	ypaths.h \
 	icewmbg.cc \
 	icewmbg_prefs.h
 icewmbg_LDADD = libice.la $(IMAGE_LIBS) $(CORE_LIBS) @LIBINTL@
@@ -352,7 +352,6 @@ icesound_SOURCES = \
 	debug.h \
 	guievent.h \
 	intl.h \
-	sysdep.h \
 	upath.h \
 	ypointer.h \
 	ytimer.h \
@@ -377,7 +376,6 @@ icehelp_SOURCES = \
 	prefs.h \
 	yaction.h \
 	ylib.h \
-	ypoint.h \
 	yrect.h \
 	icehelp.cc
 icehelp_LDADD = libitk.la libice.la $(IMAGE_LIBS) $(CORE_LIBS) @LIBINTL@
@@ -417,6 +415,8 @@ icewmtray_SOURCES = \
 	prefs.h \
 	yxtray.cc \
 	yxtray.h \
+	wmoption.cc \
+	wmoption.h \
 	ylib.h \
 	icetray.cc
 icewmtray_LDADD = libitk.la libice.la $(IMAGE_LIBS) $(CORE_LIBS)
@@ -428,7 +428,6 @@ icesame_SOURCES = \
 	base.h \
 	MwmUtil.h \
 	yaction.h \
-	ypoint.h \
 	yrect.h \
 	ykey.h \
 	yfull.h \
@@ -442,7 +441,6 @@ icelist_SOURCES = \
 	base.h \
 	yaction.h \
 	yinputline.h \
-	ypoint.h \
 	yrect.h \
 	ykey.h \
 	yfull.h \
@@ -460,7 +458,6 @@ iceview_SOURCES = \
 	prefs.h \
 	yaction.h \
 	ylib.h \
-	ypoint.h \
 	yrect.h \
 	iceview.cc
 iceview_LDADD = libitk.la libice.la $(IMAGE_LIBS) $(CORE_LIBS)
@@ -472,7 +469,6 @@ iceicon_SOURCES = \
 	base.h \
 	yaction.h \
 	ylib.h \
-	ypoint.h \
 	yrect.h \
 	iceicon.cc
 iceicon_LDADD = libitk.la libice.la $(IMAGE_LIBS) $(CORE_LIBS)
@@ -511,6 +507,7 @@ testmenus_SOURCES = \
 	themable.h \
 	default.h \
 	prefs.h \
+	wmmenu.cc \
 	wmprog.cc \
 	wmprog.h \
 	wmaction.h \

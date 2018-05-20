@@ -15,43 +15,83 @@
 
 class YSMListener;
 
-class CPUStatus: public YWindow, public YTimerListener {
+typedef unsigned long long cpubytes;
+
+class CPUStatusHandler {
 public:
-    CPUStatus(
-        YSMListener *smActionListener = 0,
-        YWindow *aParent = 0,
-        int cpuid = -1);
+    virtual ~CPUStatusHandler() { }
+    virtual void handleClick(const XButtonEvent &up, int cpuid) = 0;
+    virtual void runCommandOnce(const char *resource, const char *cmdline) = 0;
+};
+
+class CPUStatus: public IApplet, private YTimerListener {
+public:
+    CPUStatus(YWindow *aParent, CPUStatusHandler *aHandler, int cpuid = -1);
     virtual ~CPUStatus();
 
     virtual void paint(Graphics &g, const YRect &r);
-
     virtual bool handleTimer(YTimer *t);
-
     virtual void handleClick(const XButtonEvent &up, int count);
 
     void updateStatus();
     void getStatus();
+    void getStatusPlatform();
     int getAcpiTemp(char* tempbuf, int buflen);
     float getCpuFreq(unsigned int cpu);
-    void updateToolTip();
-
-    static void GetCPUStatus(YSMListener *smActionListener, YWindow *aParent, CPUStatus **&fCPUStatus, bool combine);
+    int getCpuID() const { return fCpuID; }
+    virtual void updateToolTip();
 
 private:
     int fCpuID;
-    unsigned long long **cpu;
-    unsigned long long last_cpu[IWM_STATES];
+    int statusUpdateCount;
+    int unchanged;
+    YMulti<cpubytes> cpu;
+    cpubytes last_cpu[IWM_STATES];
     YColorName color[IWM_STATES];
     lazy<YTimer> fUpdateTimer;
-    YSMListener *smActionListener;
+    CPUStatusHandler *fHandler;
     bool ShowRamUsage, ShowSwapUsage, ShowAcpiTemp, ShowCpuFreq,
          ShowAcpiTempInGraph;
 
     YColorName tempColor;
+
+    bool picture();
+    void fill(Graphics& g);
+    void draw(Graphics& g);
+    void temperature(Graphics& g);
+
     static ref<YFont> tempFont;
-    static void getCPUStatusCombined(YSMListener *smActionListener, YWindow *aParent, CPUStatus **&fCPUStatus);
-    static void getCPUStatus(YSMListener *smActionListener, YWindow *aParent, CPUStatus **&fCPUStatus, unsigned ncpus);
 };
+
+class CPUStatusControl : private CPUStatusHandler, public YActionListener
+{
+public:
+    typedef YObjectArray<CPUStatus> ArrayType;
+    typedef ArrayType::IterType IterType;
+
+    CPUStatusControl(YSMListener *smActionListener, IAppletContainer *iapp, YWindow *aParent);
+    virtual ~CPUStatusControl() { }
+
+    IterType getIterator() { return fCPUStatus.iterator(); }
+
+private:
+    void GetCPUStatus(bool combine);
+    void getCPUStatusCombined();
+    void getCPUStatus(unsigned ncpus);
+    CPUStatus* createStatus(unsigned cpu = -1);
+
+    virtual void actionPerformed(YAction action, unsigned int modifiers);
+    virtual void handleClick(const XButtonEvent &up, int cpu);
+    virtual void runCommandOnce(const char *resource, const char *cmdline);
+
+    YSMListener *smActionListener;
+    IAppletContainer *iapp;
+    YWindow *aParent;
+    ArrayType fCPUStatus;
+    osmart<YMenu> fMenu;
+    int fMenuCPU;
+};
+
 #endif
 
 #endif

@@ -13,8 +13,10 @@
  *  - introduced YStringArray
  */
 
+#include "mstring.h"
 #include "yarray.h"
 #include <string.h>
+#include <stdlib.h>
 #include <assert.h>
 
 YBaseArray::YBaseArray(YBaseArray &other):
@@ -23,6 +25,15 @@ YBaseArray::YBaseArray(YBaseArray &other):
     fCount(other.fCount),
     fElements(other.fElements) {
     other.release();
+}
+
+YBaseArray::YBaseArray(const YBaseArray& other):
+    fElementSize(other.fElementSize),
+    fCapacity(other.fCount),
+    fCount(other.fCount),
+    fElements(new StorageType[fCapacity * fElementSize])
+{
+    memcpy(fElements, other.fElements, fCount * fElementSize);
 }
 
 void YBaseArray::setCapacity(SizeType nCapacity) {
@@ -103,8 +114,10 @@ void YBaseArray::shrink(const SizeType reducedCount) {
 }
 
 void YBaseArray::clear() {
-    delete[] fElements;
-    release();
+    if (fElements) {
+        delete[] fElements;
+        release();
+    }
 }
 
 void YBaseArray::release() {
@@ -120,9 +133,17 @@ void YBaseArray::swap(YBaseArray& other) {
     ::swap(fElements, other.fElements);
 }
 
-YStringArray::YStringArray(const YStringArray &other) : YArray<const char*>() {
-    setCapacity(other.getCount());
+void YBaseArray::operator=(const YBaseArray& other) {
+    if (this != &other) {
+        clear();
+        setCapacity(other.getCount());
+        memcpy(fElements, other.fElements, fCount * fElementSize);
+    }
+}
 
+YStringArray::YStringArray(const YStringArray &other) :
+    YArray<const char*>(other.getCount())
+{
     for (SizeType i = 0; i < other.getCount(); ++i)
         append(other.getString(i));
 }
@@ -156,6 +177,15 @@ void YStringArray::shrink(int reducedSize) {
     BaseType::shrink(reducedSize);
 }
 
+static int ystring_compare(const void *p1, const void *p2) {
+    return strcoll(*(char *const *)p1, *(char *const *)p2);
+}
+
+void YStringArray::sort() {
+    if (1 < getCount())
+        qsort(getItemPtr(0), getCount(), sizeof(char *), ystring_compare);
+}
+
 char * const *YStringArray::getCArray() const {
     return (char * const*) getBegin();
 }
@@ -164,6 +194,18 @@ char **YStringArray::release() {
     char **strings = (char **) getBegin();
     YBaseArray::release();
     return strings;
+}
+
+static int mstring_compare(const void *p1, const void *p2)
+{
+    const mstring *s1 = (const mstring *) p1;
+    const mstring *s2 = (const mstring *) p2;
+    return s1->collate(*s2);
+}
+
+void MStringArray::sort() {
+    if (1 < getCount())
+        qsort(getItemPtr(0), getCount(), sizeof(mstring), mstring_compare);
 }
 
 // vim: set sw=4 ts=4 et:

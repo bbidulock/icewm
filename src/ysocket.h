@@ -3,6 +3,9 @@
 
 #include "ypoll.h"
 
+class cstring;
+class mstring;
+
 class YSocketListener {
 public:
     virtual void socketConnected() = 0;
@@ -19,12 +22,16 @@ public:
 
     int connect(struct sockaddr *server_addr, int addrlen);
     int socketpair(int *otherfd);
-    int close();
+    int socket() const;
+    void close();
 
     int read(char *buf, int len);
     int write(const char *buf, int len);
+    int write(const cstring& str);
+    void shutdown();
 
     void setListener(YSocketListener *l) { fListener = l; }
+
 private:
     YSocketListener *fListener;
 
@@ -34,8 +41,6 @@ private:
 
     char *rdbuf;
     int rdbuflen;
-
-    friend class YApplication;
 
     virtual void notifyRead();
     virtual void notifyWrite();

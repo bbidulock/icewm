@@ -22,7 +22,7 @@ protected:
 
 class YXTrayEmbedder: public YWindow, public YXEmbed {
 public:
-    YXTrayEmbedder(YXTray *tray, Window win);
+    YXTrayEmbedder(YXTray *tray, Window win, Window leader, cstring title);
     ~YXTrayEmbedder();
     virtual void paint(Graphics &g, const YRect &r);
     virtual void handleConfigureRequest(const XConfigureRequestEvent &configureRequest);
@@ -33,8 +33,11 @@ public:
     virtual void configure(const YRect &r);
     void detach();
 
-    Window client_handle() { return fDocked->handle(); }
-    YXEmbedClient *client() { return fDocked; }
+    Window client_handle() const { return fClient->handle(); }
+    YXEmbedClient *client() const { return fClient; }
+    Window leader() const { return fLeader; }
+    cstring title() const { return fTitle; }
+    int order() const { return fOrder; }
 
     bool fVisible;
 
@@ -43,8 +46,20 @@ private:
     virtual unsigned getWidth() { return YWindow::width(); }
     virtual unsigned getHeight() { return YWindow::height(); }
 
-    YXTray *fTray;
-    YXEmbedClient *fDocked;
+    YXTray *const fTray;
+    YXEmbedClient *const fClient;
+    const Window fLeader;
+    const cstring fTitle;
+    const bool fRepaint;
+    const int fOrder;
+};
+
+struct Lock {
+    bool *const lock;
+    const bool orig;
+    Lock(bool* l) : lock(l), orig(*l) { *lock = true; }
+    ~Lock() { *lock = orig; }
+    bool locked() const { return orig && *lock; }
 };
 
 class YXTray: public YWindow {
@@ -59,24 +74,34 @@ public:
     virtual void handleConfigureRequest(const XConfigureRequestEvent &configureRequest);
 
     void backgroundChanged();
-    void relayout();
+    void relayout(bool enforce = false);
     int countClients() const { return fDocked.getCount(); }
 
-    void trayRequestDock(Window win);
+    void trayRequestDock(Window win, cstring title);
     void detachTray();
+    void updateTrayWindows();
+    void regainTrayWindows();
 
     void showClient(Window win, bool show);
     bool kdeRequestDock(Window win);
 
     bool destroyedClient(Window win);
+
 private:
     static void getScaleSize(unsigned& w, unsigned& h);
+    Window getLeader(Window win);
+    void trayUpdateGeometry(unsigned w, unsigned h, bool visible);
 
     YXTrayProxy *fTrayProxy;
     typedef YObjectArray<YXTrayEmbedder> DockedType;
     typedef DockedType::IterType IterType;
     DockedType fDocked;
     YXTrayNotifier *fNotifier;
+    YArray<Window> fRegained;
+    YRect fGeometry;
+    YAtom NET_TRAY_WINDOWS;
+    YAtom WM_CLIENT_LEADER;
+    bool fLocked;
     bool fRunProxy;
     bool fDrawBevel;
 };

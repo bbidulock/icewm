@@ -2,7 +2,7 @@
 #define __UDIR_H
 
 #include "upath.h"
-#include "ycollections.h"
+#include "yarray.h"
 
 // unsorted directory for const C-style strings.
 class cdir {
@@ -38,24 +38,23 @@ public:
     void close();
     const char* path() const { return fPath; }
     const char* entry() const;
-    operator bool() const { return isOpen() && fLast < fCount; }
+    operator bool() const { return isOpen() && fLast < count(); }
 
     bool open(const char* path);
     bool open();
-    bool isOpen() const { return fName != 0 && fString != 0; }
+    bool isOpen() const { return count(); }
     bool next();
     bool nextExt(const char *extension);
     void rewind() { fLast = -1; }
-    int count() const { return fCount; }
+    int count() const { return fName.getCount(); }
 
 private:
     adir(const adir&);  // unavailable
     adir& operator=(const adir&);  // unavailable
 
     const char* fPath;
-    char** fName;
-    char* fString;
-    unsigned int fCount, fLast;
+    YStringArray fName;
+    int fLast;
 };
 
 // upath directory returns ustrings.
@@ -91,23 +90,23 @@ public:
     void close();
     const upath& path() const { return fPath; }
     const ustring& entry() const;
-    operator bool() const { return isOpen() && fLast < fName.size; }
+    operator bool() const { return isOpen() && fLast < count(); }
 
     bool open(const upath& path);
     bool open();
-    bool isOpen() const { return fName.data; }
+    bool isOpen() const { return fPath.nonempty() && count(); }
     bool next();
     bool nextExt(const ustring& extension);
     void rewind() { fLast = -1; }
-    int count() const { return fName.size; }
+    int count() const { return fName.getCount(); }
 
 private:
     sdir(const sdir&);  // unavailable
     sdir& operator=(const sdir&);  // unavailable
 
     upath fPath;
-    YVec<ustring> fName;
-    unsigned int fLast;
+    MStringArray fName;
+    int fLast;
 };
 
 #endif

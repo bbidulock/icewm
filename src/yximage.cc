@@ -298,8 +298,8 @@ ref<YImage> YXImage::loadpng(upath filename)
         else
             channels = 0;
         row_bytes = png_get_rowbytes(png_ptr, info_ptr);
-        png_pixels = (typeof(png_pixels))calloc(row_bytes * height, sizeof(*png_pixels));
-        row_pointers = (typeof(row_pointers))calloc(height, sizeof(*row_pointers));
+        png_pixels = (volatile png_byte *)calloc(row_bytes * height, sizeof(*png_pixels));
+        row_pointers = (volatile png_byte **)calloc(height, sizeof(*row_pointers));
         for (i = 0; i < height; i++)
             row_pointers[i] = png_pixels + i * row_bytes;
         png_read_image(png_ptr, (png_byte **)row_pointers);
@@ -308,9 +308,9 @@ ref<YImage> YXImage::loadpng(upath filename)
         if (ximage == 0) {
             goto pngerr;
         } else {
-            png_byte *p, *nv_png_pixels = (typeof(nv_png_pixels)) png_pixels;
+            png_byte *p, *nv_png_pixels = (png_byte *) png_pixels;
             unsigned long pixel, A = 0, R = 0, G = 0, B = 0;
-            XImage *nv_ximage = (typeof(nv_ximage)) ximage;
+            XImage *nv_ximage = (XImage *) ximage;
 
             for (p = nv_png_pixels, j = 0; j < height; j++) {
                 for (i = 0; i < width; i++, p += channels) {
@@ -508,15 +508,15 @@ ref<YImage> YXImage::upscale(unsigned nw, unsigned nh)
             goto error;
         }
         // tlog("created upscale ximage at %ux%ux%u\n", ximage->width, ximage->height, ximage->depth);
-        if (!(chanls = (typeof(chanls))calloc(ximage->bytes_per_line * ximage->height, 4 * sizeof(*chanls)))) {
+        if (!(chanls = (double *)calloc(ximage->bytes_per_line * ximage->height, 4 * sizeof(*chanls)))) {
             tlog("ERROR: could not allocate working arrays\n");
             goto error;
         }
-        if (!(counts = (typeof(counts))calloc(ximage->bytes_per_line * ximage->height, sizeof(*counts)))) {
+        if (!(counts = (double *)calloc(ximage->bytes_per_line * ximage->height, sizeof(*counts)))) {
             tlog("ERROR: could not allocate working arrays\n");
             goto error;
         }
-        if (!(colors = (typeof(colors))calloc(ximage->bytes_per_line * ximage->height, sizeof(*colors)))) {
+        if (!(colors = (double *)calloc(ximage->bytes_per_line * ximage->height, sizeof(*colors)))) {
             tlog("ERROR: could not allocate working arrays\n");
             goto error;
         }

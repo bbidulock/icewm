@@ -278,6 +278,8 @@ int YApplication::mainLoop() {
             for (iPoll = polls.reverseIterator(); ++iPoll; ) {
                 if (iPoll->fd() >= 0 && FD_ISSET(iPoll->fd(), &read_fds)) {
                     iPoll->notifyRead();
+                    if (iPoll.isValid() == false)
+                        continue;
                 }
                 if (iPoll->fd() >= 0 && FD_ISSET(iPoll->fd(), &write_fds)) {
                     iPoll->notifyWrite();

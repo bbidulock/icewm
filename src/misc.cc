@@ -625,7 +625,7 @@ char *newstr(char const *str, char const *delim) {
 char *newstr(char const *str, int len) {
     char *s(NULL);
 
-    if (str != NULL && (s = new char[len + 1]) != NULL) {
+    if (str != NULL && len >= 0 && (s = new char[len + 1]) != NULL) {
         memcpy(s, str, len);
         s[len] = '\0';
     }

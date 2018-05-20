@@ -12,9 +12,6 @@
 #include "yarray.h"
 #include "upath.h"
 
-upath findPath(ustring path, int mode, upath name,
-               bool path_relative = false);
-
 class YResourcePaths: public refcounted {
 public:
     static ref<YResourcePaths> subdirs(upath subdir, bool themeOnly = false);

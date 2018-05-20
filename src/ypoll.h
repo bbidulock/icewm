@@ -15,9 +15,8 @@ public:
     void unregisterPoll();
 
     int fd() const { return fFd; }
-protected:
-    friend class YApplication;
 
+protected:
     int fFd;
     YPollBase *fPrev;
     YPollBase *fNext;

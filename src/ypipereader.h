@@ -18,11 +18,11 @@ public:
 
     int spawnvp(const char *prog, char **args);
     int read(char *buf, int len);
+    void pipeClose();
 
     void setListener(YPipeListener *l) { fListener = l; }
-private:
-    friend class YApplication;
 
+private:
     YPipeListener *fListener;
     char *rdbuf;
     int rdbuflen;

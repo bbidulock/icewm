@@ -8,11 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2018-02-03 20:04-0700\n"
-"PO-Revision-Date: 2018-02-01 12:01+0000\n"
-"Last-Translator: Emily Dong <Emily.Dong@excel-gits.com>\n"
-"Language-Team: Chinese (Taiwan) <https://l10n.opensuse.org/projects/icewm/"
-"icewm-1-4-branch/zh_TW/>\n"
+"POT-Creation-Date: 2018-05-06 21:11+0200\n"
+"PO-Revision-Date: 2018-05-14 07:33+0000\n"
+"Last-Translator: Grace Yu <grace.yu@excel-gits.com>\n"
+"Language-Team: Chinese (Taiwan) "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/zh_TW/>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,12 +40,25 @@ msgstr "C"
 msgid " - Full"
 msgstr " - 電池已滿"
 
-#: src/aapm.cc:999
+#: src/aapm.cc:985
 #, c-format
 msgid "power:\t%s"
 msgstr "電量︰\t%s"
 
-#: src/acpustatus.cc:196
+#: src/aclock.cc:173
+msgid "Clock"
+msgstr "時鐘"
+
+#: src/aclock.cc:174 src/acpustatus.cc:818 src/amailbox.cc:907
+#: src/amemstatus.cc:286
+msgid "_Disable"
+msgstr "停用(_D)"
+
+#: src/aclock.cc:175
+msgid "_UTC"
+msgstr "UTC(_U)"
+
+#: src/acpustatus.cc:236
 #, c-format
 msgid ""
 "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
@@ -54,7 +67,7 @@ msgstr ""
 "統計資料：user = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 "intr = %llu, softirq = %llu, steal = %llu\n"
 
-#: src/acpustatus.cc:201
+#: src/acpustatus.cc:241
 #, c-format
 msgid ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
@@ -63,30 +76,30 @@ msgstr ""
 "列：user = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 "softirq = %llu, steal = %llu (h = %i)\n"
 
-#: src/acpustatus.cc:261
+#: src/acpustatus.cc:306
 #, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "CPU %s 負載：%3.2f %3.2f %3.2f, %u"
 
-#: src/acpustatus.cc:266
+#: src/acpustatus.cc:312
 #, c-format
 msgid ""
 "\n"
-"Ram (free): %5.2f (%.2f) M"
+"Ram (free): %5.3f (%.3f) G"
 msgstr ""
 "\n"
-"記憶體（可用）：%5.2f (%.2f) M"
+"RAM (可用)：%5.3f (%.3f) G"
 
-#: src/acpustatus.cc:271
+#: src/acpustatus.cc:317
 #, c-format
 msgid ""
 "\n"
-"Swap (free): %.2f (%.2f) M"
+"Swap (free): %.3f (%.3f) G"
 msgstr ""
 "\n"
-"Swap（可用）：%.2f (%.2f) M"
+"Swap (可用)：%.3f (%.3f) G"
 
-#: src/acpustatus.cc:277
+#: src/acpustatus.cc:323
 #, c-format
 msgid ""
 "\n"
@@ -95,7 +108,7 @@ msgstr ""
 "\n"
 "ACPI 溫度："
 
-#: src/acpustatus.cc:296
+#: src/acpustatus.cc:342
 #, c-format
 msgid ""
 "\n"
@@ -104,91 +117,152 @@ msgstr ""
 "\n"
 "CPU 頻率：%.3fGHz"
 
-#: src/acpustatus.cc:317
+#: src/acpustatus.cc:363 src/acpustatus.cc:814
 msgid "CPU"
 msgstr "CPU"
 
-#: src/acpustatus.cc:317
+#: src/acpustatus.cc:363
 msgid "Load: "
 msgstr "負載："
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/acpustatus.cc:384
+#: src/acpustatus.cc:434
 msgid "°C"
 msgstr "°C"
 
-#: src/acpustatus.cc:670
+#: src/acpustatus.cc:728
 #, c-format
 msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 msgstr "%s：%llu %llu %llu %llu %llu %llu %llu %llu"
 
-#: src/amailbox.cc:67
+#: src/acpustatus.cc:815
+#, c-format
+msgid "CPU%d"
+msgstr "CPU%d"
+
+#: src/acpustatus.cc:820
+msgid "_Combine"
+msgstr "合併(_C)"
+
+#: src/acpustatus.cc:822
+msgid "_Separate"
+msgstr "獨立(_S)"
+
+#: src/amailbox.cc:62
 #, c-format
 msgid "Invalid mailbox protocol: \"%s\""
 msgstr "無效的信箱協定：「%s」"
 
-#: src/amailbox.cc:69
+#: src/amailbox.cc:64
 #, c-format
 msgid "Invalid mailbox path: \"%s\""
 msgstr "無效的信箱路徑：「%s」"
 
-#: src/amailbox.cc:331
+#: src/amailbox.cc:133
+#, c-format
+msgid "DNS name lookup failed for %s"
+msgstr "查閱 %s 的 DNS 名稱失敗"
+
+#: src/amailbox.cc:149
+#, c-format
+msgid "Invalid mailbox port: \"%s\""
+msgstr "無效的信箱連接埠：「%s」"
+
+#: src/amailbox.cc:307
+#, c-format
+msgid "Could not connect to %s: %s"
+msgstr "無法連接到 %s：%s"
+
+#: src/amailbox.cc:324
+#, c-format
+msgid "Failed to find %s command"
+msgstr "尋找 %s 指令失敗"
+
+#: src/amailbox.cc:351
+#, c-format
+msgid "Failed to execute %s"
+msgstr "執行 %s 失敗"
+
+#: src/amailbox.cc:435
+#, c-format
+msgid "Write to socket failed: %s"
+msgstr "寫入通訊端失敗：%s"
+
+#: src/amailbox.cc:678
 #, c-format
 msgid "Using MailBox \"%s\"\n"
 msgstr "使用信箱「%s」\n"
 
-#: src/amailbox.cc:438
+#: src/amailbox.cc:785
 msgid "Error checking mailbox."
 msgstr "在檢查信箱時發生錯誤。"
 
-#: src/amailbox.cc:444
+#: src/amailbox.cc:792
+#, c-format
+msgid "%ld mail message, %ld unread."
+msgstr "%ld 封郵件，%ld 封未讀。"
+
+#: src/amailbox.cc:793
+#, c-format
+msgid "%ld mail messages, %ld unread."
+msgstr "%ld 封郵件，%ld 封未讀。"
+
+#: src/amailbox.cc:799
 #, c-format
 msgid "%ld mail message."
 msgstr "%ld 封郵件。"
 
-#: src/amailbox.cc:445
+#: src/amailbox.cc:800
 #, c-format
 msgid "%ld mail messages."
 msgstr "%ld 封郵件。"
 
-#: src/amemstatus.cc:127
+#: src/amailbox.cc:906
+msgid "MAIL"
+msgstr "郵件"
+
+#: src/amemstatus.cc:166
 msgid "GB"
 msgstr "GB"
 
-#: src/amemstatus.cc:131
+#: src/amemstatus.cc:170
 msgid "MB"
 msgstr "MB"
 
-#: src/amemstatus.cc:135
+#: src/amemstatus.cc:174
 msgid "kB"
 msgstr "kB"
 
-#: src/amemstatus.cc:139
+#: src/amemstatus.cc:178
 msgid "bytes"
 msgstr "位元組"
 
-#: src/amemstatus.cc:163
+#: src/amemstatus.cc:198
 msgid "Memory Total: "
 msgstr "記憶體總計︰ "
 
-#: src/amemstatus.cc:164
+#: src/amemstatus.cc:199
 msgid "Free: "
 msgstr "可用︰ "
 
-#: src/amemstatus.cc:165
+#: src/amemstatus.cc:200
 msgid "Cached: "
 msgstr "已快取︰ "
 
-#: src/amemstatus.cc:166
+#: src/amemstatus.cc:201
 msgid "Buffers: "
 msgstr "緩衝區︰ "
 
-#: src/amemstatus.cc:167
+#: src/amemstatus.cc:202
 msgid "User: "
 msgstr "使用者︰ "
 
-#: src/apppstatus.cc:198
+#: src/amemstatus.cc:285
+msgid "MEM"
+msgstr "MEM"
+
+#: src/apppstatus.cc:202
 #, c-format
 msgid ""
 "Interface %s:\n"
@@ -203,7 +277,7 @@ msgstr ""
 "  已 傳 送（入/出）：\t%lli %s/%lli %s\n"
 "  上線時間：\t%ld：%02ld：%02ld%s%s"
 
-#: src/apppstatus.cc:210
+#: src/apppstatus.cc:214
 msgid ""
 "\n"
 "  Caller id:\t"
@@ -211,7 +285,11 @@ msgstr ""
 "\n"
 "  執行者 id：\t"
 
-#: src/aworkspaces.cc:315 src/wmstatus.cc:173
+#: src/apppstatus.cc:731
+msgid "NET"
+msgstr "NET"
+
+#: src/aworkspaces.cc:294 src/wmstatus.cc:162
 msgid "Workspace: "
 msgstr "工作區："
 
@@ -307,11 +385,11 @@ msgstr "內容"
 msgid "Index"
 msgstr "索引"
 
-#: src/icehelp.cc:1211 src/icesame.cc:62 src/iceview.cc:72 src/wmtitle.cc:108
+#: src/icehelp.cc:1211 src/icesame.cc:62 src/iceview.cc:74 src/wmtitle.cc:99
 msgid "Close"
 msgstr "關閉"
 
-#: src/icehelp.cc:1211 src/icesame.cc:62 src/iceview.cc:72
+#: src/icehelp.cc:1211 src/icesame.cc:62 src/iceview.cc:74
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
@@ -505,45 +583,45 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "Same 遊戲"
 
-#: src/icesh.cc:187
+#: src/icesh.cc:191
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "動作「%s」需要至少 %d 個引數。"
 
-#: src/icesh.cc:194
+#: src/icesh.cc:198
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "表示式無效：「%s」"
 
-#: src/icesh.cc:315
+#: src/icesh.cc:319
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "網域「%s」的命名符號（數值範圍：%ld-%ld）：\n"
 
-#: src/icesh.cc:428
+#: src/icesh.cc:435
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "無效的工作區名稱：「%s」"
 
-#: src/icesh.cc:434
+#: src/icesh.cc:440
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "工作區超出範圍︰%ld"
 
-#: src/icesh.cc:568
+#: src/icesh.cc:605
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] ACTIONS\n"
 "\n"
 "Options:\n"
-"  -display DISPLAY            Connects to the X server specified by "
+"  -d, -display DISPLAY        Connects to the X server specified by "
 "DISPLAY.\n"
 "                              Default: $DISPLAY or :0.0 when not set.\n"
-"  -window WINDOW_ID           Specifies the window to manipulate. Special\n"
+"  -w, -window WINDOW_ID       Specifies the window to manipulate. Special\n"
 "                              identifiers are `root' for the root window "
 "and\n"
 "                              `focus' for the currently focused window.\n"
-"  -class WM_CLASS             Window management class of the window(s) to\n"
+"  -c, -class WM_CLASS         Window management class of the window(s) to\n"
 "                              manipulate. If WM_CLASS contains a period, "
 "only\n"
 "                              windows with exactly the same WM_CLASS "
@@ -571,8 +649,19 @@ msgid ""
 "  setWorkspace   WORKSPACE    Moves the window to another workspace. Select\n"
 "                              the root window to change the current "
 "workspace.\n"
+"                              Select 0xFFFFFFFF or \"All\" for all "
+"workspaces.\n"
 "  listWorkspaces              Lists the names of all workspaces.\n"
 "  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
+"  logout                      Tell IceWM to logout.\n"
+"  reboot                      Tell IceWM to reboot.\n"
+"  shutdown                    Tell IceWM to shutdown.\n"
+"  cancel                      Tell IceWM to cancel the logout/reboot/"
+"shutdown.\n"
+"  about                       Tell IceWM to show the about window.\n"
+"  windowlist                  Tell IceWM to show the window list.\n"
+"  restart                     Tell IceWM to restart.\n"
+"  suspend                     Tell IceWM to suspend.\n"
 "\n"
 "Expressions:\n"
 "  Expressions are list of symbols of one domain concatenated by `+' or `|':\n"
@@ -582,21 +671,21 @@ msgid ""
 msgstr ""
 "用法：%s [選項] 動作\n"
 "\n"
-"選項:\n"
-"  -display DISPLAY            連結到 DISPLAY 所指定的 X 伺服器。\n"
-"                              預設值: $DISPLAY 或是 :0.0（未指定時）\n"
-"  -window WINDOW_ID           指定要操作的視窗。特殊識別字 'root' 用於 root "
-"視\n"
-"                              窗；而 'focus' 用於當前的焦點視窗。\n"
-"  -class WM_CLASS             指定要操作的視窗的視窗管理類別。如果 WM_CLASS "
-"包\n"
+"選項：\n"
+"  -d、-display DISPLAY            連接到 DISPLAY 所指定的 X 伺服器。\n"
+"                              預設值：$DISPLAY 或是 :0.0 (未指定時)\n"
+"  -w、-window WINDOW_ID           指定要操作的視窗。特殊識別字「root」用於 "
+"root 視\n"
+"                              窗；而「focus」用於當前的焦點視窗。\n"
+"  -c、-class WM_CLASS             指定要操作的視窗的視窗管理類別。如果 "
+"WM_CLASS 包\n"
 "                              含了小數點，那只會套用於完全符合 WM_CLASS 資訊"
 "的\n"
 "                              視窗。但如果沒有小數點，那麼會套用於相同類別以"
 "及\n"
-"                              具有相同實體（亦即 '-name'）的視窗。\n"
+"                              具有相同實體 (亦即「-name」) 的視窗。\n"
 "\n"
-"動作:\n"
+"動作：\n"
 "  setIconTitle   TITLE        設定圖示標題。\n"
 "  setWindowTitle TITLE        設定視窗標題。\n"
 "  setGeometry    geometry     設定視窗位置大小。\n"
@@ -610,60 +699,69 @@ msgstr ""
 "  setLayer       LAYER        移動視窗到其他的 GNOME 視窗層次。\n"
 "  setWorkspace   WORKSPACE    移動視窗到其他的工作區。\n"
 "                              選取 root 視窗以變更目前的工作區。\n"
+"                              選取 0xFFFFFFFF 或「All」指定所有工作區。\n"
 "  listWorkspaces              列出所有工作區的名稱。\n"
 "  setTrayOption  TRAYOPTION   設定 IceWM 系統列的選項提示。\n"
+"  logout                      指示 IceWM 登出。\n"
+"  reboot                      指示 IceWM 重新開機。\n"
+"  shutdown                    指示 IceWM 關閉。\n"
+"  cancel                      指示 IceWM 取消登出/重新開機/關閉。\n"
+"  about                       指示 IceWM 顯示「關於」視窗。\n"
+"  windowlist                  指示 IceWM 顯示視窗清單。\n"
+"  restart                     指示 IceWM 重新啟動。\n"
+"  suspend                     指示 IceWM 暫停。\n"
 "\n"
-"表示式:\n"
-"  表示式是一串單一領域符號的列表，彼此由 '+' 或 '-' 所連接:\n"
+"表示式：\n"
+"  表示式是一串單一領域符號的列表，彼此由 '+' 或 '-' 所連接：\n"
 "\n"
 "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
 "\n"
 
-#: src/icesh.cc:607
+#: src/icesh.cc:653
 msgid "GNOME window state"
 msgstr "GNOME 視窗狀態"
 
-#: src/icesh.cc:608
+#: src/icesh.cc:654
 msgid "GNOME window hint"
 msgstr "GNOME 視窗提示"
 
-#: src/icesh.cc:609
+#: src/icesh.cc:655
 msgid "GNOME window layer"
 msgstr "GNOME 視窗層次"
 
-#: src/icesh.cc:610
+#: src/icesh.cc:656
 msgid "IceWM tray option"
 msgstr "IceWM 系統列選項"
 
-#: src/icesh.cc:615
+#: src/icesh.cc:661
 msgid "Usage error: "
 msgstr "用法錯誤："
 
-#: src/icesh.cc:695
+#: src/icesh.cc:747
 #, c-format
 msgid "Invalid argument: `%s'."
 msgstr "引數無效：「%s」。"
 
-#: src/icesh.cc:701
+#: src/icesh.cc:753
 msgid "No actions specified."
 msgstr "未指定動作。"
 
-#: src/icesh.cc:708 src/icesound.cc:945 src/icewmhint.cc:88 src/yxapp.cc:944
+#: src/icesh.cc:760 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:931
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "無法開啟顯示：%s。X 必須正在執行且需設定 $DISPLAY。"
 
-#: src/icesh.cc:748
+#: src/icesh.cc:801
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "無效的視窗識別碼：「%s」"
 
-#: src/icesh.cc:901
+#: src/icesh.cc:955
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "工作區 #%d：「%s」\n"
 
-#: src/icesh.cc:919
+#: src/icesh.cc:974
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "未知動作：「%s」"
@@ -673,7 +771,7 @@ msgstr "未知動作：「%s」"
 msgid "Socket error: %d"
 msgstr "Socket 錯誤：%d"
 
-#: src/icesm.cc:56
+#: src/icesm.cc:57
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -681,32 +779,52 @@ msgid ""
 "  -d, --display=NAME  Use NAME to connect to the X server.\n"
 "  --sync              Synchronize communication with X11 server.\n"
 "\n"
+"  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
-"  -c、--config=FILE   從 FILE 載入 IceWM 優先設定。\n"
-"  -t、--theme=FILE   從 FILE 載入 IceWM 主題。\n"
+"  -c、--config=FILE   IceWM 將從 FILE 載入優先設定。\n"
+"  -t、--theme=FILE   IceWM 將從 FILE 載入主題。\n"
 "\n"
 "  -d、--display=NAME  使用 NAME 連接 X 伺服器。\n"
 "  --sync              與 X11 伺服器同步通訊資訊。\n"
 "\n"
+"  -i、--icewm=FILE    使用 FILE 做為 IceWM 視窗管理程式。  \n"
 "  -n、--notray        不啟動 icewmtray。\n"
 "  -s、--sound         同時啟動 icesound。\n"
 
-#: src/icesm.cc:113
+#: src/icesm.cc:120
 #, c-format
 msgid "Unknown option '%s'"
 msgstr "未知選項「%s」"
 
-#: src/icesm.cc:298
+#: src/icesm.cc:308
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s 已離開，狀態為 %d。"
 
-#: src/icesm.cc:304
+#: src/icesm.cc:314
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s 被訊號 %d 強行中止。"
+
+#: src/icesm.cc:348
+msgid ""
+" IceWM crashed for the second time in 10 seconds. \n"
+" Do you wish to:\n"
+"\n"
+"\t1: Restart IceWM?\n"
+"\t2: Abort this session?\n"
+msgstr ""
+" IceWM 在 10 秒內已是第二次當機。 \n"
+" 您是否要：\n"
+"\n"
+"\t1: 重新啟動 IceWM？\n"
+"\t2: 中止此工作階段？\n"
+
+#: src/icesm.cc:353
+msgid "IceWM crash response"
+msgstr "IceWM 當機回應"
 
 #: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
 #, c-format
@@ -761,7 +879,7 @@ msgstr "無法設定 OSS 格式"
 msgid "Can't connect to ESound daemon: %s"
 msgstr "無法連線到 ESound 服務程式：%s"
 
-#: src/icesound.cc:494 src/icewmhint.cc:90 src/yxapp.cc:945
+#: src/icesound.cc:494 src/icewmhint.cc:38 src/yxapp.cc:932
 msgid "<none>"
 msgstr "<無>"
 
@@ -951,7 +1069,7 @@ msgstr "連接至音效介面 %s 失敗。"
 msgid "Received signal %s: Terminating..."
 msgstr "接收到訊號 %s︰正在中止..."
 
-#: src/icetray.cc:246
+#: src/icetray.cc:231
 msgid ""
 "  -n, --notify        Notify parent process by sending signal USR1.\n"
 "  --display=NAME      Use NAME to connect to the X server.\n"
@@ -967,27 +1085,27 @@ msgstr ""
 "  -c、--config=FILE   從 FILE 中載入優先設定。\n"
 "  -t、--theme=FILE    從 FILE 中載入主題。\n"
 
-#: src/iceview.cc:68
+#: src/iceview.cc:70
 msgid "Hex View"
 msgstr "16 進位檢視"
 
-#: src/iceview.cc:68
+#: src/iceview.cc:70
 msgid "Ctrl+H"
 msgstr "Ctrl+H"
 
-#: src/iceview.cc:69
+#: src/iceview.cc:71
 msgid "Expand Tabs"
 msgstr "展開 Tab"
 
-#: src/iceview.cc:69
+#: src/iceview.cc:71
 msgid "Ctrl+T"
 msgstr "Ctrl+T"
 
-#: src/iceview.cc:70
+#: src/iceview.cc:72
 msgid "Wrap Lines"
 msgstr "換列"
 
-#: src/iceview.cc:70
+#: src/iceview.cc:72
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
@@ -996,7 +1114,7 @@ msgstr "Ctrl+W"
 msgid "Failed to load image '%s'."
 msgstr "載入影像「%s」失敗。"
 
-#: src/icewmbg.cc:707
+#: src/icewmbg.cc:700
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1086,28 +1204,24 @@ msgstr ""
 " center:1 scaled:1 = 沿兩個方向填充並保持長寬比率\n"
 "\n"
 
-#: src/icewmbg.cc:754
-msgid "Please note that not all options are currently configured.\n"
-msgstr "請注意，目前並未設定所有選項。\n"
-
-#: src/icewmbg.cc:900
+#: src/icewmbg.cc:891
 msgid "Cannot start, because another icewmbg is still running."
 msgstr "無法啟動，因為另一個 icewmbg 仍在執行中。"
 
-#: src/icewmhint.cc:41
-msgid "Usage: icewmhint [class.instance] option arg\n"
-msgstr "用法：icewmhint [類別.實體] 選項 引數\n"
+#: src/icewmhint.cc:23
+msgid "Usage: icewmhint class.instance option arg\n"
+msgstr "用法：icewmhint 類別.實體 選項 引數\n"
 
-#: src/icewmhint.cc:77
+#: src/icewmhint.cc:57
 #, c-format
 msgid "Out of memory (len=%d)."
 msgstr "記憶體不足（長度＝%d）。"
 
-#: src/misc.cc:440 src/misc.cc:452
+#: src/misc.cc:466 src/misc.cc:478
 msgid "Warning: "
 msgstr "警告："
 
-#: src/misc.cc:728
+#: src/misc.cc:754
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1126,7 +1240,7 @@ msgstr ""
 "  -h、--help          列印此用法螢幕並離開。\n"
 "\n"
 
-#: src/movesize.cc:890
+#: src/movesize.cc:876
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "在要求移動/改變大小時方向未知：%d"
@@ -1163,168 +1277,168 @@ msgstr "語言："
 msgid "icewm - About"
 msgstr "icewm - 關於"
 
-#: src/wmapp.cc:105
+#: src/wmapp.cc:93
 msgid "A window manager is already running, use --replace to replace it"
 msgstr "已有另一個視窗管理程式正在執行，使用 --replace 可取代它"
 
-#: src/wmapp.cc:123
+#: src/wmapp.cc:111
 #, c-format
 msgid "Failed to become the owner of the %s selection"
 msgstr "無法成為 %s 選擇的擁有者"
 
-#: src/wmapp.cc:127
+#: src/wmapp.cc:115
 msgid "Waiting to replace the old window manager"
 msgstr "正在等待取代先前的視窗管理程式"
 
-#: src/wmapp.cc:132
+#: src/wmapp.cc:120
 msgid "done."
 msgstr "完成。"
 
-#: src/wmapp.cc:418
+#: src/wmapp.cc:406
 msgid "Unable to get current font path."
 msgstr "無法取得目前字型路徑。"
 
-#: src/wmapp.cc:445
+#: src/wmapp.cc:433
 msgid "Unexpected format of ICEWM_FONT_PATH property"
 msgstr "非預期格式的 ICEWM_FONT_PATH 特性"
 
-#: src/wmapp.cc:523
+#: src/wmapp.cc:511
 msgid "_Logout"
 msgstr "登出(_L)"
 
-#: src/wmapp.cc:524
+#: src/wmapp.cc:512
 msgid "_Cancel logout"
 msgstr "取消登出(_C)"
 
-#: src/wmapp.cc:531
+#: src/wmapp.cc:517
 msgid "Lock _Workstation"
 msgstr "鎖定工作站(_W)"
 
-#: src/wmapp.cc:533 src/wmdialog.cc:91
+#: src/wmapp.cc:519 src/wmdialog.cc:77
 msgid "Re_boot"
 msgstr "重開機(_B)"
 
-#: src/wmapp.cc:535 src/wmdialog.cc:92
+#: src/wmapp.cc:521 src/wmdialog.cc:78
 msgid "Shut_down"
 msgstr "關機(_D)"
 
-#: src/wmapp.cc:537 src/wmdialog.cc:88
+#: src/wmapp.cc:523 src/wmdialog.cc:74
 msgid "_Suspend"
 msgstr "暫停(_S)"
 
-#: src/wmapp.cc:542
+#: src/wmapp.cc:528
 msgid "Restart _Icewm"
 msgstr "重新啟動 _Icewm"
 
-#: src/wmapp.cc:544
+#: src/wmapp.cc:530
 msgid "Restart _Xterm"
 msgstr "重新啟動 _Xterm"
 
-#: src/wmapp.cc:557
+#: src/wmapp.cc:543
 msgid "_Menu"
 msgstr "選單(_M)"
 
-#: src/wmapp.cc:558
+#: src/wmapp.cc:544
 msgid "_Above Dock"
 msgstr "停靠區之上(_A)"
 
-#: src/wmapp.cc:559
+#: src/wmapp.cc:545
 msgid "_Dock"
 msgstr "停靠區(_D)"
 
-#: src/wmapp.cc:560
+#: src/wmapp.cc:546
 msgid "_OnTop"
 msgstr "上層(_O)"
 
-#: src/wmapp.cc:561
+#: src/wmapp.cc:547
 msgid "_Normal"
 msgstr "正常(_N)"
 
-#: src/wmapp.cc:562
+#: src/wmapp.cc:548
 msgid "_Below"
 msgstr "下層(_B)"
 
-#: src/wmapp.cc:563
+#: src/wmapp.cc:549
 msgid "D_esktop"
 msgstr "桌面(_E)"
 
-#: src/wmapp.cc:588
+#: src/wmapp.cc:574
 msgid "_Restore"
 msgstr "還原(_R)"
 
-#: src/wmapp.cc:590
+#: src/wmapp.cc:576
 msgid "_Move"
 msgstr "移動(_M)"
 
-#: src/wmapp.cc:592
+#: src/wmapp.cc:578
 msgid "_Size"
 msgstr "大小(_S)"
 
-#: src/wmapp.cc:594
+#: src/wmapp.cc:580
 msgid "Mi_nimize"
 msgstr "縮小(_N)"
 
-#: src/wmapp.cc:596
+#: src/wmapp.cc:582
 msgid "Ma_ximize"
 msgstr "放大(_X)"
 
-#: src/wmapp.cc:598
+#: src/wmapp.cc:584
 msgid "_Fullscreen"
 msgstr "全螢幕(_F)"
 
-#: src/wmapp.cc:601 src/wmwinlist.cc:301
+#: src/wmapp.cc:587 src/wmwinlist.cc:301
 msgid "_Hide"
 msgstr "隱藏(_H)"
 
-#: src/wmapp.cc:603
+#: src/wmapp.cc:589
 msgid "Roll_up"
 msgstr "向上循環(_U)"
 
-#: src/wmapp.cc:610
+#: src/wmapp.cc:596
 msgid "R_aise"
 msgstr "提升(_A)"
 
-#: src/wmapp.cc:612
+#: src/wmapp.cc:598
 msgid "_Lower"
 msgstr "降低(_L)"
 
-#: src/wmapp.cc:614
+#: src/wmapp.cc:600
 msgid "La_yer"
 msgstr "層次(_Y)"
 
-#: src/wmapp.cc:618 src/wmwinlist.cc:303
+#: src/wmapp.cc:604 src/wmwinlist.cc:303
 msgid "Move _To"
 msgstr "移至(_T)"
 
-#: src/wmapp.cc:619
+#: src/wmapp.cc:605
 msgid "Occupy _All"
 msgstr "全部佔據(_A)"
 
-#: src/wmapp.cc:625
+#: src/wmapp.cc:611
 msgid "Limit _Workarea"
 msgstr "限制工作區域(_W)"
 
-#: src/wmapp.cc:629
+#: src/wmapp.cc:615
 msgid "Tray _icon"
 msgstr "系統列圖示(_I)"
 
-#: src/wmapp.cc:634 src/wmwinlist.cc:290 src/wmwinlist.cc:314
+#: src/wmapp.cc:620 src/wmwinlist.cc:290 src/wmwinlist.cc:314
 msgid "_Close"
 msgstr "關閉(_C)"
 
-#: src/wmapp.cc:636 src/wmwinlist.cc:292
+#: src/wmapp.cc:622 src/wmwinlist.cc:292
 msgid "_Kill Client"
 msgstr "砍掉客戶端(_K)"
 
-#: src/wmapp.cc:639 src/wmdialog.cc:93 src/wmwinmenu.cc:131
+#: src/wmapp.cc:625 src/wmdialog.cc:79 src/wmwinmenu.cc:131
 msgid "_Window list"
 msgstr "視窗清單(_W)"
 
-#: src/wmapp.cc:652
+#: src/wmapp.cc:639
 msgid "Another window manager already running, exiting..."
 msgstr "已有另一個視窗管理程式正在執行，離開中..."
 
-#: src/wmapp.cc:737
+#: src/wmapp.cc:724
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1333,16 +1447,16 @@ msgstr ""
 "無法重新啟動：%s\n"
 "$PATH 是否指向 %s？"
 
-#: src/wmapp.cc:819
+#: src/wmapp.cc:805
 msgid "Kill IceWM, replace with Xterm"
 msgstr "強行中止 IceWM，以 Xterm 取代"
 
-#: src/wmapp.cc:1330
+#: src/wmapp.cc:1319
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr "  --client-id=ID      聯絡工作階段管理程式時要使用的用戶端 ID。\n"
 
-#: src/wmapp.cc:1336
+#: src/wmapp.cc:1325
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1352,7 +1466,7 @@ msgstr ""
 "  --debug             列印一般除錯訊息。\n"
 "  --debug-z           列印有關視窗堆疊的除錯訊息。\n"
 
-#: src/wmapp.cc:1344
+#: src/wmapp.cc:1333
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1364,7 +1478,7 @@ msgstr ""
 "  -t、--theme=FILE    從 FILE 中載入主題。\n"
 "  --postpreferences   所有程序結束後列印優先設定。\n"
 
-#: src/wmapp.cc:1349
+#: src/wmapp.cc:1338
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1423,26 +1537,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1410
+#: src/wmapp.cc:1399
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s 組態目錄︰\n"
 
-#: src/wmapp.cc:1489
+#: src/wmapp.cc:1481
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s 設定的選項：%s\n"
 
-#: src/wmapp.cc:1536
+#: src/wmapp.cc:1528
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "無法識別選項「%s」。"
 
-#: src/wmapp.cc:1567
+#: src/wmapp.cc:1560
 msgid "Confirm Logout"
 msgstr "確定登出"
 
-#: src/wmapp.cc:1568
+#: src/wmapp.cc:1561
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1450,58 +1564,58 @@ msgstr ""
 "登出會關閉所有進行中的應用程式。\n"
 "要繼續？"
 
-#: src/wmconfig.cc:39
+#: src/wmconfig.cc:40
 #, c-format
 msgid "Failed to load theme %s"
 msgstr "載入主題 %s 失敗"
 
-#: src/wmconfig.cc:102
+#: src/wmconfig.cc:103
 #, c-format
 msgid "Unknown value '%s' for option '%s'."
 msgstr "未知值「%s」(對於選項「%s」)。"
 
-#: src/wmconfig.cc:110
+#: src/wmconfig.cc:111
 #, c-format
 msgid "Unable to create directory %s"
 msgstr "無法建立目錄 %s"
 
-#: src/wmconfig.cc:137
+#: src/wmconfig.cc:138
 #, c-format
 msgid "Unable to write to %s"
 msgstr "無法寫入 %s"
 
-#: src/wmconfig.cc:164
+#: src/wmconfig.cc:165
 #, c-format
 msgid "Unable to rename %s to %s"
 msgstr "無法將 %s 重新命名為 %s"
 
-#: src/wmdialog.cc:87
+#: src/wmdialog.cc:73
 msgid "Loc_k Workstation"
 msgstr "鎖定工作站(_K)"
 
-#: src/wmdialog.cc:89 src/ymsgbox.cc:44
+#: src/wmdialog.cc:75 src/ymsgbox.cc:44
 msgid "_Cancel"
 msgstr "取消(_C)"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:1040 src/wmprog.cc:1042
-#: src/wmtaskbar.cc:296 src/wmtaskbar.cc:298
+#: src/wmdialog.cc:76 src/wmprog.cc:792 src/wmprog.cc:794 src/wmtaskbar.cc:280
+#: src/wmtaskbar.cc:282
 msgid "_Logout..."
 msgstr "登出(_L)..."
 
-#: src/wmdialog.cc:94
+#: src/wmdialog.cc:80
 msgid "_Restart icewm"
 msgstr "重新啟動 icewm(_R)"
 
-#: src/wmdialog.cc:95 src/wmprog.cc:1005 src/wmtaskbar.cc:289
-#: src/wmtaskbar.cc:292
+#: src/wmdialog.cc:81 src/wmprog.cc:753 src/wmtaskbar.cc:273
+#: src/wmtaskbar.cc:276
 msgid "_About"
 msgstr "關於(_A)"
 
-#: src/wmframe.cc:1425
+#: src/wmframe.cc:1406
 msgid "Kill Client: "
 msgstr "砍掉客戶端："
 
-#: src/wmframe.cc:1432
+#: src/wmframe.cc:1413
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1509,154 +1623,101 @@ msgstr ""
 "【警告】！當這個客戶端程式被砍掉時，將會失去所有未儲存的變更。\n"
 "您希望繼續進行嗎？"
 
-#: src/wmframe.cc:3028
+#: src/wmframe.cc:2996
 msgid "Restore"
 msgstr "還原"
 
-#: src/wmframe.cc:3031 src/wmtitle.cc:78
+#: src/wmframe.cc:2999 src/wmtitle.cc:69
 msgid "Maximize"
 msgstr "放到最大"
 
-#: src/wmframe.cc:3061
+#: src/wmframe.cc:3029
 msgid "Rolldown"
 msgstr "向下循環"
 
-#: src/wmframe.cc:3063 src/wmtitle.cc:136
+#: src/wmframe.cc:3031 src/wmtitle.cc:127
 msgid "Rollup"
 msgstr "向上循環"
 
-#: src/wmoption.cc:225
+#: src/wmoption.cc:228
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "未知視窗選項：%s"
 
-#: src/wmoption.cc:333
+#: src/wmoption.cc:338
 #, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "第 %d 行 (%s) 中的視窗選項語法有誤"
 
-#: src/wmprog.cc:183
-msgid "Missing command argument"
-msgstr "命令引數不足"
-
-#: src/wmprog.cc:201
-#, c-format
-msgid "Bad argument %d to command '%s'"
-msgstr "錯誤的引數 %d 傳遞給指令「%s」"
-
-#: src/wmprog.cc:342
-msgid "Missing filename argument to include statement"
-msgstr "包含的陳述中缺少檔案名稱引數"
-
-#: src/wmprog.cc:408
-#, c-format
-msgid "Error at %s '%s'"
-msgstr "%s 錯誤「%s」"
-
-#: src/wmprog.cc:465
-#, c-format
-msgid "Unexepected menu keyword: '%s'"
-msgstr "非預期的功能表關鍵字：「%s」"
-
-#: src/wmprog.cc:509
-#, c-format
-msgid "Error at menuprog '%s'"
-msgstr "menuprog「%s」出錯"
-
-#: src/wmprog.cc:548
-#, c-format
-msgid "Error at %s: '%s'"
-msgstr "%s 有誤：「%s」"
-
-#: src/wmprog.cc:571
-#, c-format
-msgid "Unknown keyword '%s'"
-msgstr "未知關鍵字「%s」"
-
-#: src/wmprog.cc:596
-#, c-format
-msgid "Error at keyword '%s' for %s"
-msgstr "關鍵字「%s」(%s) 有誤"
-
-#: src/wmprog.cc:612
-#, c-format
-msgid ""
-"Unknown keyword for a non-container: '%s'.\n"
-"Expected either 'key' or 'runonce' here.\n"
-msgstr ""
-"未知的非容器關鍵字：「%s」。\n"
-"此處需要「key」或「runonce」。\n"
-
-#: src/wmprog.cc:744
-#, c-format
-msgid "'%s' produces no output"
-msgstr "「%s」未產生任何輸出"
-
-#: src/wmprog.cc:892
+#: src/wmprog.cc:377
 msgid "_Click to focus"
 msgstr "點擊以取得焦點(_C)"
 
-#: src/wmprog.cc:893
+#: src/wmprog.cc:378
 msgid "_Explicit focus"
 msgstr "顯性焦點(_E)"
 
-#: src/wmprog.cc:894
+#: src/wmprog.cc:379
 msgid "_Sloppy mouse focus"
 msgstr "粗略的滑鼠焦點(_S)"
 
-#: src/wmprog.cc:895
+#: src/wmprog.cc:380
 msgid "S_trict mouse focus"
 msgstr "精確滑鼠焦點(_T)"
 
-#: src/wmprog.cc:896
+#: src/wmprog.cc:381
 msgid "_Quiet sloppy focus"
 msgstr "安靜的粗略焦點(_Q)"
 
-#: src/wmprog.cc:897
+#: src/wmprog.cc:382
 msgid "Custo_m"
 msgstr "自訂(_M)"
 
-#: src/wmprog.cc:919
+#: src/wmprog.cc:665
 msgid "_Manual"
 msgstr "手動(_M)"
 
-#: src/wmprog.cc:920
+#: src/wmprog.cc:666
 msgid "_Icewm(1)"
 msgstr "_Icewm(1)"
 
-#: src/wmprog.cc:921
+#: src/wmprog.cc:667
 msgid "Icewm_Bg(1)"
 msgstr "Icewm_Bg(1)"
 
-#: src/wmprog.cc:922
+#: src/wmprog.cc:668
 msgid "Ice_Sound(1)"
 msgstr "Ice_Sound(1)"
 
-#: src/wmprog.cc:984
+#: src/wmprog.cc:730
 msgid "Programs"
 msgstr "程式"
 
-#: src/wmprog.cc:989
+#: src/wmprog.cc:735
 msgid "_Run..."
 msgstr "執行(_R)..."
 
-#: src/wmprog.cc:994 src/wmtaskbar.cc:279
+#: src/wmprog.cc:740 src/wmtaskbar.cc:263
 msgid "_Windows"
 msgstr "視窗(_W)"
 
-#: src/wmprog.cc:1011
+#: src/wmprog.cc:759
 msgid "_Help"
 msgstr "求助(_H)"
 
-#: src/wmprog.cc:1022
+#: src/wmprog.cc:770
 msgid "_Focus"
 msgstr "焦點(_F)"
 
-#: src/wmprog.cc:1029
+#: src/wmprog.cc:775
+msgid "_Preferences"
+msgstr "優先設定(_P)"
+
+#: src/wmprog.cc:781
 msgid "_Themes"
 msgstr "主題(_T)"
 
-#: src/wmprog.cc:1034
+#: src/wmprog.cc:786
 msgid "Se_ttings"
 msgstr "設定(_T)"
 
@@ -1665,71 +1726,71 @@ msgstr "設定(_T)"
 msgid "Session Manager: Unknown line %s"
 msgstr "作業階段管理程式：未知的列 %s"
 
-#: src/wmtaskbar.cc:167 src/wmtaskbar.cc:168
+#: src/wmtaskbar.cc:153 src/wmtaskbar.cc:154
 msgid "Task Bar"
 msgstr "工作列"
 
-#: src/wmtaskbar.cc:269 src/wmwinlist.cc:305 src/wmwinlist.cc:318
+#: src/wmtaskbar.cc:253 src/wmwinlist.cc:305 src/wmwinlist.cc:318
 msgid "Tile _Vertically"
 msgstr "垂直並排(_V)"
 
-#: src/wmtaskbar.cc:270 src/wmwinlist.cc:306 src/wmwinlist.cc:319
+#: src/wmtaskbar.cc:254 src/wmwinlist.cc:306 src/wmwinlist.cc:319
 msgid "T_ile Horizontally"
 msgstr "水平並排(_I)"
 
-#: src/wmtaskbar.cc:271 src/wmwinlist.cc:307 src/wmwinlist.cc:320
+#: src/wmtaskbar.cc:255 src/wmwinlist.cc:307 src/wmwinlist.cc:320
 msgid "Ca_scade"
 msgstr "階狀(_S)"
 
-#: src/wmtaskbar.cc:272 src/wmwinlist.cc:308 src/wmwinlist.cc:321
+#: src/wmtaskbar.cc:256 src/wmwinlist.cc:308 src/wmwinlist.cc:321
 msgid "_Arrange"
 msgstr "排列(_A)"
 
-#: src/wmtaskbar.cc:273 src/wmwinlist.cc:310 src/wmwinlist.cc:322
+#: src/wmtaskbar.cc:257 src/wmwinlist.cc:310 src/wmwinlist.cc:322
 msgid "_Minimize All"
 msgstr "全部縮到最小(_M)"
 
-#: src/wmtaskbar.cc:274 src/wmwinlist.cc:311 src/wmwinlist.cc:323
+#: src/wmtaskbar.cc:258 src/wmwinlist.cc:311 src/wmwinlist.cc:323
 msgid "_Hide All"
 msgstr "全部隱藏(_H)"
 
-#: src/wmtaskbar.cc:275 src/wmwinlist.cc:312 src/wmwinlist.cc:324
+#: src/wmtaskbar.cc:259 src/wmwinlist.cc:312 src/wmwinlist.cc:324
 msgid "_Undo"
 msgstr "復原(_U)"
 
-#: src/wmtaskbar.cc:277
+#: src/wmtaskbar.cc:261
 msgid "Arrange _Icons"
 msgstr "排列圖示(_I)"
 
-#: src/wmtaskbar.cc:281
+#: src/wmtaskbar.cc:265
 msgid "_Refresh"
 msgstr "重新整理(_R)"
 
-#: src/wmtaskbar.cc:287
+#: src/wmtaskbar.cc:271
 msgid "_License"
 msgstr "授權(_L)"
 
-#: src/wmtaskbar.cc:403
+#: src/wmtaskbar.cc:352
 msgid "Favorite applications"
 msgstr "喜愛的應用程式"
 
-#: src/wmtaskbar.cc:420
+#: src/wmtaskbar.cc:370
 msgid "Window list menu"
 msgstr "視窗列表選單"
 
-#: src/wmtaskbar.cc:429
+#: src/wmtaskbar.cc:379
 msgid "Show Desktop"
 msgstr "顯示桌面"
 
-#: src/wmtitle.cc:94
+#: src/wmtitle.cc:85
 msgid "Minimize"
 msgstr "縮到最小"
 
-#: src/wmtitle.cc:122
+#: src/wmtitle.cc:113
 msgid "Hide"
 msgstr "隱藏"
 
-#: src/wmtitle.cc:150
+#: src/wmtitle.cc:141
 msgid "Raise/Lower"
 msgstr "提升/降低"
 
@@ -1771,17 +1832,17 @@ msgstr "%lu。工作區 %-.32s"
 msgid "%s: select failed"
 msgstr "%s：選取失敗"
 
-#: src/yconfig.cc:139
+#: src/yconfig.cc:128
 #, c-format
 msgid "Unknown key name %s in %s"
 msgstr "未知的按鍵名稱 %s / %s"
 
-#: src/yconfig.cc:165 src/yconfig.cc:178 src/yconfig.cc:191
+#: src/yconfig.cc:150 src/yconfig.cc:163 src/yconfig.cc:176
 #, c-format
 msgid "Bad argument: %s for %s"
 msgstr "不當的引數：%s 對於 %s"
 
-#: src/yconfig.cc:224
+#: src/yconfig.cc:212
 #, c-format
 msgid "Bad option: %s"
 msgstr "不當的選項：%s"
@@ -1821,12 +1882,12 @@ msgstr "程式臭蟲？XPM 檔案非預期結束，但是 Imlib 之前可以解�
 msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
 msgstr "程式臭蟲？非預期字元，但是 Imlib 之前可以解析「%s」"
 
-#: src/yfontcore.cc:71 src/yfontxft.cc:176
+#: src/yfontcore.cc:71 src/yfontxft.cc:158
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "無法載入字型「%s」。"
 
-#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:199
+#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:181
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr "載入後備字型 \"%s\" 失敗。"
@@ -1895,7 +1956,7 @@ msgstr "判別目前語系的字碼集時失敗。假定為 ISO-8859-1。\n"
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv 不（完全）支援 %s 到 %s 的轉換器。"
 
-#: src/ylocale.cc:165
+#: src/ylocale.cc:163
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "無效的多位元字串「%s」：%s"
@@ -1923,23 +1984,74 @@ msgstr "找不到圖案 %s"
 msgid "$USER or $LOGNAME not set?"
 msgstr "$USER 或 $LOGNAME 未設定？"
 
-#: src/yurl.cc:83
+#: src/yurl.cc:146
 #, c-format
-msgid "\"%s\" doesn't describe a common internet scheme"
-msgstr "「%s」並未描述一般網際網路方案"
+msgid "Failed to parse URL \"%s\"."
+msgstr "剖析 URL「%s」失敗。"
 
-#: src/yurl.cc:86
+#: src/yurl.cc:162
 #, c-format
-msgid "\"%s\" contains no scheme description"
-msgstr "「%s」沒有包含方案描述"
+msgid "Incomplete hex escape in URL at position %d."
+msgstr "位於 %d 處的 URL 中存在不完整的十六進位逸出字元。"
 
-#: src/yxapp.cc:904
+#: src/yurl.cc:169
+#, c-format
+msgid "Invalid hex escape in URL at position %d."
+msgstr "位於 %d 處的 URL 中存在無效的十六進位逸出字元。"
+
+#: src/yxapp.cc:891
 msgid ""
 "  -d, --display=NAME  NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"
 msgstr ""
 "  -d、--display=NAME  要使用的 X 伺服器名稱。\n"
 "  --sync              同步 X11 指令。\n"
+
+#~ msgid "Missing command argument"
+#~ msgstr "命令引數不足"
+
+#~ msgid "Bad argument %d to command '%s'"
+#~ msgstr "錯誤的引數 %d 傳遞給指令「%s」"
+
+#~ msgid "Missing filename argument to include statement"
+#~ msgstr "包含的陳述中缺少檔案名稱引數"
+
+#~ msgid "Error at %s '%s'"
+#~ msgstr "%s 錯誤「%s」"
+
+#~ msgid "Unexepected menu keyword: '%s'"
+#~ msgstr "非預期的功能表關鍵字：「%s」"
+
+#~ msgid "Error at menuprog '%s'"
+#~ msgstr "menuprog「%s」出錯"
+
+#~ msgid "Error at %s: '%s'"
+#~ msgstr "%s 有誤：「%s」"
+
+#~ msgid "Unknown keyword '%s'"
+#~ msgstr "未知關鍵字「%s」"
+
+#~ msgid "Error at keyword '%s' for %s"
+#~ msgstr "關鍵字「%s」(%s) 有誤"
+
+#~ msgid ""
+#~ "Unknown keyword for a non-container: '%s'.\n"
+#~ "Expected either 'key' or 'runonce' here.\n"
+#~ msgstr ""
+#~ "未知的非容器關鍵字：「%s」。\n"
+#~ "此處需要「key」或「runonce」。\n"
+
+#~ msgid "'%s' produces no output"
+#~ msgstr "「%s」未產生任何輸出"
+
+#~ msgid "\"%s\" contains no scheme description"
+#~ msgstr "「%s」沒有包含方案描述"
+
+#~ msgid "Please note that not all options are currently configured.\n"
+#~ msgstr "請注意，目前並未設定所有選項。\n"
+
+#~ msgid "\"%s\" doesn't describe a common internet scheme"
+#~ msgstr "「%s」並未描述一般網際網路方案"
 
 #~ msgid "Out of memory for pixmap \"%s\""
 #~ msgstr "像素圖 \"%s\" 的記憶體不足"
@@ -1962,15 +2074,8 @@ msgstr ""
 #~ "非常簡單的 HTML 瀏覽器，用來顯示由檔案名稱所指定的文件。\n"
 #~ "\n"
 
-#, fuzzy
-#~ msgid "failed to set %s owner"
-#~ msgstr "執行 %s 時失敗：%s"
-
 #~ msgid "No such device: %s"
 #~ msgstr "沒有此一裝置：%s"
-
-#~ msgid "Can't connect to YIFF server: %s"
-#~ msgstr "無法連結到 YIFF 伺服器：%s"
 
 #~ msgid "Can't change to audio mode `%s'."
 #~ msgstr "無法變更至音效模式「%s」。"

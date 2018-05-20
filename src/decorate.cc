@@ -67,34 +67,38 @@ void YFrameWindow::updateMenu() {
     if ((item = windowMenu->findSubmenu(moveMenu)))
         item->setEnabled(!isAllWorkspaces());
 
+    moveMenu->setActionListener(this);
     for (int i(0); i < moveMenu->itemCount(); i++) {
         item = moveMenu->getItem(i);
-        for (int w(0); w < workspaceCount; w++)
-            if (item && item->getAction() == workspaceActionMoveTo[w])
-                item->setEnabled(w != getWorkspace());
+        if (item && item->getAction() == workspaceActionMoveTo[i]) {
+            bool const e(i == getWorkspace());
+            item->setEnabled(!e);
+            item->setChecked(e);
+        }
     }
 
+    layerMenu->setActionListener(this);
+    int layer = WinLayerCount - 1;
     for (int j(0); j < layerMenu->itemCount(); j++) {
         item = layerMenu->getItem(j);
-        for (int layer(0); layer < WinLayerCount; layer++)
-            if (item && item->getAction() == layerActionSet[layer]) {
-                bool const e(layer == getActiveLayer());
-                item->setEnabled(!e);
-                item->setChecked(e);
-            }
+        YAction action = item->getAction();
+        while (action < layerActionSet[layer] && 0 < layer) {
+            --layer;
+        }
+        if (action == layerActionSet[layer]) {
+            bool const e(layer == getActiveLayer());
+            item->setEnabled(!e);
+            item->setChecked(e);
+        }
     }
 
-///    if (trayMenu) {
-        for (int k = 0; k < windowMenu->itemCount(); k++) {
-            item = windowMenu->getItem(k);
-            if (item->getAction() == actionToggleTray) {
-                bool enabled = false == (frameOptions() & foIgnoreTaskBar);
-                bool checked = enabled && (getTrayOption() != WinTrayIgnore);
-                item->setChecked(checked);
-                item->setEnabled(enabled);
-            }
-        }
-///    }
+    if ((item = windowMenu->findAction(actionToggleTray))) {
+        bool enabled = false == (frameOptions() & foIgnoreTaskBar);
+        bool checked = enabled && (getTrayOption() != WinTrayIgnore);
+        item->setChecked(checked);
+        item->setEnabled(enabled);
+    }
+
 #if 0
     if (trayMenu) for (int k(0); k < trayMenu->itemCount(); k++) {
         item = trayMenu->getItem(k);

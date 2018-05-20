@@ -200,7 +200,8 @@ void YMenu::activateSubMenu(int item, bool byMouse) {
             getOffsets(l, t, r, b);
             findItemPos(item, xp, yp, ih);
             YRect rect(x(), y(), width(), height());
-            sub->setActionListener(getActionListener());
+            if (sub->getActionListener() == 0)
+                sub->setActionListener(getActionListener());
             sub->popup(0, this, 0,
                        x() + int(width()) - r, y() + yp - t,
                        int(width()) - r - l, -1,
@@ -242,14 +243,15 @@ int YMenu::findActiveItem(int cur, int direction) {
 
 int YMenu::activateItem(int modifiers, bool byMouse) {
     PRECONDITION(selectedItem != -1);
-    if (getItem(selectedItem)->isEnabled()) {
-        if (getItem(selectedItem)->getAction() == actionNull &&
-            getItem(selectedItem)->getSubmenu() != 0)
-        {
+
+    YMenuItem *item = getItem(selectedItem);
+    if (item->isEnabled()) {
+        if (item->getAction() != actionNull) {
+            finishPopup(item, item->getAction(), modifiers);
+        }
+        else if (item->getSubmenu() != 0) {
             focusItem(selectedItem);
             activateSubMenu(selectedItem, byMouse);
-        } else if (getItem(selectedItem)->getAction() != actionNull) {
-            finishPopup(getItem(selectedItem), getItem(selectedItem)->getAction(), modifiers);
         }
     } else {
         return -1;

@@ -88,7 +88,7 @@ void YMsgBox::autoSize() {
     unsigned const hh(max(fButtonOK ? fButtonOK->height() : 0,
                           fButtonCancel ? fButtonCancel->height() : 0));
     unsigned const ww(max(fButtonOK ? fButtonOK->width() : 0,
-                          fButtonCancel ? fButtonCancel->width() : 0) + 3);
+                          fButtonCancel ? fButtonCancel->width() : 3));
 
     if (fButtonOK) {
         fButtonOK->setSize(ww, hh);
@@ -129,11 +129,17 @@ void YMsgBox::actionPerformed(YAction action, unsigned int /*modifiers*/) {
         else if (fButtonCancel && action == *fButtonCancel) {
             fListener->handleMsgBox(this, mbCancel);
         }
+        else TLOG(("unknown action %d for msgbox", action.ident()));
     }
 }
 
 void YMsgBox::handleClose() {
-    fListener->handleMsgBox(this, 0);
+    if (fListener)
+        fListener->handleMsgBox(this, 0);
+    else {
+        manager->unmanageClient(handle());
+        manager->focusTopWindow();
+    }
 }
 
 void YMsgBox::handleFocus(const XFocusChangeEvent &/*focus*/) {

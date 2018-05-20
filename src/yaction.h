@@ -29,6 +29,13 @@ public:
     bool operator!=(EAction rhs) const {
         return id != rhs;
     }
+    bool operator<(const YAction& rhs) const {
+        return id < rhs.id;
+    }
+    bool operator>(const YAction& rhs) const {
+        return id > rhs.id;
+    }
+    int ident() const { return id; }
 
 private:
     int id;

@@ -6,17 +6,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2018-02-03 20:04-0700\n"
-"PO-Revision-Date: 2017-12-11 12:00+0000\n"
+"POT-Creation-Date: 2018-05-06 21:11+0200\n"
+"PO-Revision-Date: 2018-05-07 18:00+0000\n"
 "Last-Translator: David Medina <medipas@gmail.com>\n"
-"Language-Team: Catalan <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/ca/>\n"
+"Language-Team: Catalan "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8 bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.17.1\n"
+"X-Generator: Weblate 2.18\n"
 
 #: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:681 src/aapm.cc:806
 msgid " - Power"
@@ -38,12 +38,25 @@ msgstr "C"
 msgid " - Full"
 msgstr " - Plena"
 
-#: src/aapm.cc:999
+#: src/aapm.cc:985
 #, c-format
 msgid "power:\t%s"
 msgstr "energia:\t%s"
 
-#: src/acpustatus.cc:196
+#: src/aclock.cc:173
+msgid "Clock"
+msgstr "Rellotge"
+
+#: src/aclock.cc:174 src/acpustatus.cc:818 src/amailbox.cc:907
+#: src/amemstatus.cc:286
+msgid "_Disable"
+msgstr "Inha_bilita"
+
+#: src/aclock.cc:175
+msgid "_UTC"
+msgstr "_UTC"
+
+#: src/acpustatus.cc:236
 #, c-format
 msgid ""
 "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
@@ -52,39 +65,39 @@ msgstr ""
 "estadística:\tusuari = %llu, nice = %llu, sys = %llu, inactiu = %llu, e/s."
 "espera = %llu, intr = %llu, softirq = %llu, steal = %llu\n"
 
-#: src/acpustatus.cc:201
+#: src/acpustatus.cc:241
 #, c-format
 msgid ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 "softirq = %llu, steal = %llu (h = %i)\n"
 msgstr ""
-"barress:\tusuari = %llu, nice = %llu, sys = %llu, e/s.espera = %llu, intr = "
-"%llu, softirq = %llu, steal = %llu (h = %i)\n"
+"barres:\tusuari = %llu, nice = %llu, sys = %llu, e/s.espera = %llu, intr = %"
+"llu, softirq = %llu, steal = %llu (h = %i)\n"
 
-#: src/acpustatus.cc:261
+#: src/acpustatus.cc:306
 #, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "Càrrega de la CPU %s: %3.2f %3.2f %3.2f, %u"
 
-#: src/acpustatus.cc:266
+#: src/acpustatus.cc:312
 #, c-format
 msgid ""
 "\n"
-"Ram (free): %5.2f (%.2f) M"
+"Ram (free): %5.3f (%.3f) G"
 msgstr ""
 "\n"
-"Ram (lliure): %5.2f (%.2f) M"
+"Ram (lliure): %5.3f (%.3f) G"
 
-#: src/acpustatus.cc:271
+#: src/acpustatus.cc:317
 #, c-format
 msgid ""
 "\n"
-"Swap (free): %.2f (%.2f) M"
+"Swap (free): %.3f (%.3f) G"
 msgstr ""
 "\n"
-"Intercanvi (lliure): %.2f (%.2f) M"
+"Intercanvi (lliure): %.3f (%.3f) G"
 
-#: src/acpustatus.cc:277
+#: src/acpustatus.cc:323
 #, c-format
 msgid ""
 "\n"
@@ -93,7 +106,7 @@ msgstr ""
 "\n"
 "Temp. ACPI: "
 
-#: src/acpustatus.cc:296
+#: src/acpustatus.cc:342
 #, c-format
 msgid ""
 "\n"
@@ -102,91 +115,152 @@ msgstr ""
 "\n"
 "Freq. CPU: %.3fGHz"
 
-#: src/acpustatus.cc:317
+#: src/acpustatus.cc:363 src/acpustatus.cc:814
 msgid "CPU"
 msgstr "CPU"
 
-#: src/acpustatus.cc:317
+#: src/acpustatus.cc:363
 msgid "Load: "
 msgstr "Càrrega: "
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/acpustatus.cc:384
+#: src/acpustatus.cc:434
 msgid "°C"
 msgstr "°C"
 
-#: src/acpustatus.cc:670
+#: src/acpustatus.cc:728
 #, c-format
 msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 msgstr "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 
-#: src/amailbox.cc:67
+#: src/acpustatus.cc:815
+#, c-format
+msgid "CPU%d"
+msgstr "CPU %d"
+
+#: src/acpustatus.cc:820
+msgid "_Combine"
+msgstr "_Combina"
+
+#: src/acpustatus.cc:822
+msgid "_Separate"
+msgstr "_Separa"
+
+#: src/amailbox.cc:62
 #, c-format
 msgid "Invalid mailbox protocol: \"%s\""
 msgstr "Protocol de bústia no vàlid: \"%s\""
 
-#: src/amailbox.cc:69
+#: src/amailbox.cc:64
 #, c-format
 msgid "Invalid mailbox path: \"%s\""
-msgstr "Camí de la bústia no vàlid: \"%s\""
+msgstr "Camí de bústia no vàlid: \"%s\""
 
-#: src/amailbox.cc:331
+#: src/amailbox.cc:133
+#, c-format
+msgid "DNS name lookup failed for %s"
+msgstr "La cerca del nom de DNS ha fallat per a %s."
+
+#: src/amailbox.cc:149
+#, c-format
+msgid "Invalid mailbox port: \"%s\""
+msgstr "Port de bústia no vàlid: \"%s\""
+
+#: src/amailbox.cc:307
+#, c-format
+msgid "Could not connect to %s: %s"
+msgstr "No s'ha pogut connectar a %s: %s"
+
+#: src/amailbox.cc:324
+#, c-format
+msgid "Failed to find %s command"
+msgstr "Ha fallat trobar l'ordre %s."
+
+#: src/amailbox.cc:351
+#, c-format
+msgid "Failed to execute %s"
+msgstr "Ha fallat executar %s."
+
+#: src/amailbox.cc:435
+#, c-format
+msgid "Write to socket failed: %s"
+msgstr "Ha fallat l'escriptura al sòcol: %s"
+
+#: src/amailbox.cc:678
 #, c-format
 msgid "Using MailBox \"%s\"\n"
 msgstr "Ús de la bústia \"%s\"\n"
 
-#: src/amailbox.cc:438
+#: src/amailbox.cc:785
 msgid "Error checking mailbox."
 msgstr "Error en comprovar la bústia."
 
-#: src/amailbox.cc:444
+#: src/amailbox.cc:792
+#, c-format
+msgid "%ld mail message, %ld unread."
+msgstr "%ld missatges de correu, %ld per llegir."
+
+#: src/amailbox.cc:793
+#, c-format
+msgid "%ld mail messages, %ld unread."
+msgstr "%ld missatges de correu, %ld per llegir."
+
+#: src/amailbox.cc:799
 #, c-format
 msgid "%ld mail message."
 msgstr "%ld missatge de correu."
 
-#: src/amailbox.cc:445
+#: src/amailbox.cc:800
 #, c-format
 msgid "%ld mail messages."
 msgstr "%ld missatges de correu."
 
-#: src/amemstatus.cc:127
+#: src/amailbox.cc:906
+msgid "MAIL"
+msgstr "CORREU"
+
+#: src/amemstatus.cc:166
 msgid "GB"
 msgstr "GB"
 
-#: src/amemstatus.cc:131
+#: src/amemstatus.cc:170
 msgid "MB"
 msgstr "MB"
 
-#: src/amemstatus.cc:135
+#: src/amemstatus.cc:174
 msgid "kB"
 msgstr "kB"
 
-#: src/amemstatus.cc:139
+#: src/amemstatus.cc:178
 msgid "bytes"
 msgstr "bytes"
 
-#: src/amemstatus.cc:163
+#: src/amemstatus.cc:198
 msgid "Memory Total: "
 msgstr "Memòria total: "
 
-#: src/amemstatus.cc:164
+#: src/amemstatus.cc:199
 msgid "Free: "
 msgstr "Lliure: "
 
-#: src/amemstatus.cc:165
+#: src/amemstatus.cc:200
 msgid "Cached: "
 msgstr "A la cau: "
 
-#: src/amemstatus.cc:166
+#: src/amemstatus.cc:201
 msgid "Buffers: "
 msgstr "Memòries intermèdies: "
 
-#: src/amemstatus.cc:167
+#: src/amemstatus.cc:202
 msgid "User: "
 msgstr "Usuari: "
 
-#: src/apppstatus.cc:198
+#: src/amemstatus.cc:285
+msgid "MEM"
+msgstr "MEM"
+
+#: src/apppstatus.cc:202
 #, c-format
 msgid ""
 "Interface %s:\n"
@@ -201,7 +275,7 @@ msgstr ""
 " Transferit (entrada/sortida): %lli %s/%lli %s\n"
 " Temps en línia:        %ld:%02ld:%02ld%s%s"
 
-#: src/apppstatus.cc:210
+#: src/apppstatus.cc:214
 msgid ""
 "\n"
 "  Caller id:\t"
@@ -209,7 +283,11 @@ msgstr ""
 "\n"
 "  Identificació de trucada:\t"
 
-#: src/aworkspaces.cc:315 src/wmstatus.cc:173
+#: src/apppstatus.cc:731
+msgid "NET"
+msgstr "XARXA"
+
+#: src/aworkspaces.cc:294 src/wmstatus.cc:162
 msgid "Workspace: "
 msgstr "Espai de treball: "
 
@@ -305,11 +383,11 @@ msgstr "Continguts"
 msgid "Index"
 msgstr "Índex"
 
-#: src/icehelp.cc:1211 src/icesame.cc:62 src/iceview.cc:72 src/wmtitle.cc:108
+#: src/icehelp.cc:1211 src/icesame.cc:62 src/iceview.cc:74 src/wmtitle.cc:99
 msgid "Close"
 msgstr "Tanca"
 
-#: src/icehelp.cc:1211 src/icesame.cc:62 src/iceview.cc:72
+#: src/icehelp.cc:1211 src/icesame.cc:62 src/iceview.cc:74
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
@@ -507,45 +585,45 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "El mateix joc"
 
-#: src/icesh.cc:187
+#: src/icesh.cc:191
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "L'acció \"%s\" necessita com a mínim %d arguments."
 
-#: src/icesh.cc:194
+#: src/icesh.cc:198
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Expressió no vàlida: \"%s\""
 
-#: src/icesh.cc:315
+#: src/icesh.cc:319
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Símbols anomenats del domini \"%s\" (abast numèric: %ld-%ld):\n"
 
-#: src/icesh.cc:428
+#: src/icesh.cc:435
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Nom d'escriptori no vàlid: %s"
 
-#: src/icesh.cc:434
+#: src/icesh.cc:440
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Escriptori fora de l'abast: %ld"
 
-#: src/icesh.cc:568
+#: src/icesh.cc:605
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] ACTIONS\n"
 "\n"
 "Options:\n"
-"  -display DISPLAY            Connects to the X server specified by "
+"  -d, -display DISPLAY        Connects to the X server specified by "
 "DISPLAY.\n"
 "                              Default: $DISPLAY or :0.0 when not set.\n"
-"  -window WINDOW_ID           Specifies the window to manipulate. Special\n"
+"  -w, -window WINDOW_ID       Specifies the window to manipulate. Special\n"
 "                              identifiers are `root' for the root window "
 "and\n"
 "                              `focus' for the currently focused window.\n"
-"  -class WM_CLASS             Window management class of the window(s) to\n"
+"  -c, -class WM_CLASS         Window management class of the window(s) to\n"
 "                              manipulate. If WM_CLASS contains a period, "
 "only\n"
 "                              windows with exactly the same WM_CLASS "
@@ -573,8 +651,19 @@ msgid ""
 "  setWorkspace   WORKSPACE    Moves the window to another workspace. Select\n"
 "                              the root window to change the current "
 "workspace.\n"
+"                              Select 0xFFFFFFFF or \"All\" for all "
+"workspaces.\n"
 "  listWorkspaces              Lists the names of all workspaces.\n"
 "  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
+"  logout                      Tell IceWM to logout.\n"
+"  reboot                      Tell IceWM to reboot.\n"
+"  shutdown                    Tell IceWM to shutdown.\n"
+"  cancel                      Tell IceWM to cancel the logout/reboot/"
+"shutdown.\n"
+"  about                       Tell IceWM to show the about window.\n"
+"  windowlist                  Tell IceWM to show the window list.\n"
+"  restart                     Tell IceWM to restart.\n"
+"  suspend                     Tell IceWM to suspend.\n"
 "\n"
 "Expressions:\n"
 "  Expressions are list of symbols of one domain concatenated by `+' or `|':\n"
@@ -585,17 +674,17 @@ msgstr ""
 "Ús: %s [OPCIONS] ACCIONS\n"
 "\n"
 "Opcions:\n"
-"  -display DISPLAY            Connecta al servidor X especificat per "
+"    -d, -display DISPLAY        Connecta al servidor X especificat per "
 "DISPLAY.\n"
 "                              Per defecte: $DISPLAY o :0.0 quan no estigui "
 "establert.\n"
-"  -window WINDOW_ID           Especifica la finestra a manipular. Els "
+"  -w, -window WINDOW_ID           Especifica la finestra a manipular. Els "
 "indentificadors\n"
 "                              especials són \"root\" per a la finestra "
 "d'arrel i \n"
-"                              `focus' per a la finestra actual amb el "
+"                              \"focus\" per a la finestra actual amb el "
 "focus.\n"
-"  -class WM_CLASS             Gestió de classe de les finestres a\n"
+"  -c, -class WM_CLASS              Gestió de classe de les finestres a\n"
 "                              manipular. Si WM_CLASS conté un punt (period), "
 "només\n"
 "                              les finestres amb la mateixa exacta propietat "
@@ -625,9 +714,23 @@ msgstr ""
 "Seleccioneu\n"
 "                              la finestra d'arrel per canviar l'espai de "
 "treball actual.\n"
+"                                Seleccioneu 0xFFFFFFFF o \"Tot\" per a tots "
+"els espais de treball.\n"
 "  listWorkspaces              Llista els noms dels espais de treball.\n"
-"  setTrayOption  TRAYOPTION   Estableix l'opció de suggeriment de la safata "
+"  setTrayOption  TRAYOPTION   Estableix l'opció de suggeriments de la safata "
 "de l'IceWM.\n"
+"  logout                      Indica a l'IceWM de sortir de la sessió.\n"
+"  reboot                      Indica a l'IceWM de reinciar.\n"
+"  shutdown                    Indica a l'IceWM d'aturar.\n"
+"  cancel                      Indica a l'IceWM de cancel·lar la sortida, el "
+"reinici o l'aturada.\n"
+"  about                       Indica a l'IceWM de mostrar la finestra "
+"d'informació.\n"
+"  windowlist                  Indica a l'IceWM de mostrar la llista de "
+"finestres.\n"
+"  restart                     Indica a l'IceWM de reiniciar.\n"
+"  suspend                     Indica a l'IceWM de suspendre.\n"
+"\n"
 "\n"
 "Expressions:\n"
 "  Les expressions són llistes de símbols d'un domini encadenats amb \"+\" o "
@@ -636,53 +739,53 @@ msgstr ""
 "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
 "\n"
 
-#: src/icesh.cc:607
+#: src/icesh.cc:653
 msgid "GNOME window state"
 msgstr "Estat de la finestra del GNOME"
 
-#: src/icesh.cc:608
+#: src/icesh.cc:654
 msgid "GNOME window hint"
-msgstr "Suggeriment de la finestra del GNOME"
+msgstr "Suggeriment de finestra del GNOME"
 
-#: src/icesh.cc:609
+#: src/icesh.cc:655
 msgid "GNOME window layer"
 msgstr "Capa de finestra del GNOME"
 
-#: src/icesh.cc:610
+#: src/icesh.cc:656
 msgid "IceWM tray option"
 msgstr "Opció de la safata de l'IceWM"
 
-#: src/icesh.cc:615
+#: src/icesh.cc:661
 msgid "Usage error: "
 msgstr "Error d'ús: "
 
-#: src/icesh.cc:695
+#: src/icesh.cc:747
 #, c-format
 msgid "Invalid argument: `%s'."
 msgstr "Argument no vàlid: \"%s\"."
 
-#: src/icesh.cc:701
+#: src/icesh.cc:753
 msgid "No actions specified."
-msgstr "Cap acció especificada."
+msgstr "No s'ha especificat cap acció."
 
-#: src/icesh.cc:708 src/icesound.cc:945 src/icewmhint.cc:88 src/yxapp.cc:944
+#: src/icesh.cc:760 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:931
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "No es pot obrir la pantalla: %s. X ha d'estar funcionant i $DISPLAY "
 "configurat."
 
-#: src/icesh.cc:748
+#: src/icesh.cc:801
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Identificador de finestra no vàlid: \"%s\""
 
-#: src/icesh.cc:901
+#: src/icesh.cc:955
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "Escriptori #%d: \"%s\"\n"
 
-#: src/icesh.cc:919
+#: src/icesh.cc:974
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Acció desconeguda: \"%s\""
@@ -692,7 +795,7 @@ msgstr "Acció desconeguda: \"%s\""
 msgid "Socket error: %d"
 msgstr "Error de sòcol: %d"
 
-#: src/icesm.cc:56
+#: src/icesm.cc:57
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -700,33 +803,54 @@ msgid ""
 "  -d, --display=NAME  Use NAME to connect to the X server.\n"
 "  --sync              Synchronize communication with X11 server.\n"
 "\n"
+"  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
-"  -c, --config=FILE   Permet que l'IceWM carregui preferències des d'un "
+"  -c, --config=FILE   Permet que l'IceWM carregui preferències des del "
 "FITXER.\n"
-"  -t, --theme=FILE    Permet que l'IceWM carregui el tema des d'un FITXER.\n"
+"  -t, --theme=FILE    Permet que l'IceWM carregui el tema des del FITXER.\n"
 "\n"
 "  -d, --display=NAME      Usa el NOM per connectar al servidor X.\n"
 "  --sync              Sincronitza la comunicació amb el servidor X11.\n"
 "\n"
+"\n"
+"  -i, --icewm=FILE    Usa el FITXER com a gestor de finestres de l'IceWM.\n"
 "  -n, --notray        No iniciïs l'icewmtray.\n"
 "  -s, --sound         Inicia també l'icesound.\n"
 
-#: src/icesm.cc:113
+#: src/icesm.cc:120
 #, c-format
 msgid "Unknown option '%s'"
 msgstr "Opció desconeguda: \"%s\""
 
-#: src/icesm.cc:298
+#: src/icesm.cc:308
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s ha sortit amb l'estat %d."
 
-#: src/icesm.cc:304
+#: src/icesm.cc:314
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s ha estat matat pel senyal %d."
+
+#: src/icesm.cc:348
+msgid ""
+" IceWM crashed for the second time in 10 seconds. \n"
+" Do you wish to:\n"
+"\n"
+"\t1: Restart IceWM?\n"
+"\t2: Abort this session?\n"
+msgstr ""
+" L'IceWM ha fallat un segon cop durant 10 segons. \n"
+" Què voleu que faci?\n"
+"\n"
+"\t1: Reiniciar l'IceWM?\n"
+"\t2: Avortar aquesta sessió?\n"
+
+#: src/icesm.cc:353
+msgid "IceWM crash response"
+msgstr "Resposta de fallada de l'IceWM"
 
 #: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
 #, c-format
@@ -744,7 +868,7 @@ msgstr "No s'han pogut establir canals OSS"
 
 #: src/icesound.cc:353 src/icesound.cc:381
 msgid "Could not sync OSS"
-msgstr "No s'ha pogut sincronitzar OSS"
+msgstr "No s'ha pogut sincronitzar l'OSS"
 
 #: src/icesound.cc:365
 msgid "OSS write failed"
@@ -757,16 +881,16 @@ msgstr "Escriptura d'OSS incompleta (%d/%d)"
 
 #: src/icesound.cc:376
 msgid "Could not post OSS"
-msgstr "No s'ha pogut enviar OSS"
+msgstr "No s'ha pogut enviar l'OSS"
 
 #: src/icesound.cc:405
 #, c-format
 msgid "Could not open OSS device %s"
-msgstr "No s'ha pogut obrir el dispositiu OSS %s"
+msgstr "No s'ha pogut obrir el dispositiu d'OSS %s"
 
 #: src/icesound.cc:410
 msgid "Could not set OSS stereo"
-msgstr "No s'ha pogut establir OSS estèreo"
+msgstr "No s'ha pogut establir l'OSS estèreo"
 
 #: src/icesound.cc:415
 msgid "Could not reset OSS DSP"
@@ -781,7 +905,7 @@ msgstr "No s'ha pogut establir el format d'OSS"
 msgid "Can't connect to ESound daemon: %s"
 msgstr "No es pot connectar al dimoni Esound: %s"
 
-#: src/icesound.cc:494 src/icewmhint.cc:90 src/yxapp.cc:945
+#: src/icesound.cc:494 src/icewmhint.cc:38 src/yxapp.cc:932
 msgid "<none>"
 msgstr "<cap>"
 
@@ -930,7 +1054,7 @@ msgstr ""
 "0     Èxit.\n"
 "1     Error general.\n"
 "2     Error de línia d'ordres.\n"
-"3     Error de subsistemes (p. e. no es pot connectar amb el servidor).\n"
+"3     Error de subsistemes (p. e., no es pot connectar amb el servidor).\n"
 "\n"
 
 #: src/icesound.cc:930
@@ -970,7 +1094,7 @@ msgstr "Interfície no admesa: %s."
 #: src/icesound.cc:1082
 #, c-format
 msgid "Using %s audio."
-msgstr "S'usa àudio %s."
+msgstr "S'usa l'àudio %s."
 
 #: src/icesound.cc:1086
 #, c-format
@@ -982,7 +1106,7 @@ msgstr "Ha fallat connectar amb les interfícies d'àudio %s."
 msgid "Received signal %s: Terminating..."
 msgstr "Senyal %s rebut: acabant..."
 
-#: src/icetray.cc:246
+#: src/icetray.cc:231
 msgid ""
 "  -n, --notify        Notify parent process by sending signal USR1.\n"
 "  --display=NAME      Use NAME to connect to the X server.\n"
@@ -995,30 +1119,30 @@ msgstr ""
 "  --display=NAME      Usa el NOM per connectar al servidor X.\n"
 "  --sync              Sincronitza la  comunicació amb el servidor X11.\n"
 "\n"
-"  -c, --config=FILE   Carrega preferències des d'un FITXER.\n"
-"  -t, --theme=FILE    Carrega el tema des d'un FITXER.\n"
+"  -c, --config=FILE   Carrega preferències des del FITXER.\n"
+"  -t, --theme=FILE    Carrega el tema des del FITXER.\n"
 
-#: src/iceview.cc:68
+#: src/iceview.cc:70
 msgid "Hex View"
 msgstr "Vista Hex"
 
-#: src/iceview.cc:68
+#: src/iceview.cc:70
 msgid "Ctrl+H"
 msgstr "Ctrl+H"
 
-#: src/iceview.cc:69
+#: src/iceview.cc:71
 msgid "Expand Tabs"
 msgstr "Expandeix les pestanyes"
 
-#: src/iceview.cc:69
+#: src/iceview.cc:71
 msgid "Ctrl+T"
 msgstr "Ctrl+T"
 
-#: src/iceview.cc:70
+#: src/iceview.cc:72
 msgid "Wrap Lines"
 msgstr "Ajusta les línies"
 
-#: src/iceview.cc:70
+#: src/iceview.cc:72
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
@@ -1027,7 +1151,7 @@ msgstr "Ctrl+W"
 msgid "Failed to load image '%s'."
 msgstr "Ha fallat carregar la imatge \"%s\"."
 
-#: src/icewmbg.cc:707
+#: src/icewmbg.cc:700
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1083,14 +1207,14 @@ msgstr ""
 "  -q, --quit           Digues a l'icewmbg en execució que surti.\n"
 "  -r, --restart        Digues a l'icewmbg en execució que es reiniciï.\n"
 "\n"
-"  -c, --config=FILE   Carrega preferències des d'un FITXER.\n"
+"  -c, --config=FILE   Carrega preferències des del FITXER.\n"
 "  -t, --theme=NAME     Carrega el tema amb el nom NOM.\n"
 "\n"
-"  -i, --image=FILE(S)  Carrega les imatges de fons des de FITXERS.\n"
+"  -i, --image=FILE(S)  Carrega les imatges de fons des del FITXER.\n"
 "  -k, --color=NAME(S)  Usa color(s) de fons des de NOM(S).\n"
 "\n"
-"  -s, --semis=FILE(S)  Carrega imatge(s) transparent(s) des de FITXERS.\n"
-"  -x, --trans=NAME(S)  Usa color(s) de transparència des de NOMS.\n"
+"  -s, --semis=FILE(S)  Carrega imatge(s) transparent(s) des del FITXER.\n"
+"  -x, --trans=NAME(S)  Usa color(s) de transparència des de NOM(S).\n"
 "\n"
 "  -e, --center=0/1     Inhabilita / habilita centrar el fons.\n"
 "  -a, --scaled=0/1     Inhabilita / habilita escalar el fons.\n"
@@ -1118,29 +1242,24 @@ msgstr ""
 " center:0 scaled:1 = omple ambdues dimensions i mantén la ràtio d'aspecte\n"
 "\n"
 
-#: src/icewmbg.cc:754
-msgid "Please note that not all options are currently configured.\n"
-msgstr ""
-"Si us plau, tingueu en compte que no totes les opcions estan configurades.\n"
-
-#: src/icewmbg.cc:900
+#: src/icewmbg.cc:891
 msgid "Cannot start, because another icewmbg is still running."
 msgstr "No es pot iniciar, perquè encara s'executa un altre icewmbg."
 
-#: src/icewmhint.cc:41
-msgid "Usage: icewmhint [class.instance] option arg\n"
-msgstr "Sintaxi: icewmhint [class.instance] opció arg\n"
+#: src/icewmhint.cc:23
+msgid "Usage: icewmhint class.instance option arg\n"
+msgstr "Usage: icewmhint classe.instància opció arg\n"
 
-#: src/icewmhint.cc:77
+#: src/icewmhint.cc:57
 #, c-format
 msgid "Out of memory (len=%d)."
 msgstr "Sense memòria (len=%d)."
 
-#: src/misc.cc:440 src/misc.cc:452
+#: src/misc.cc:466 src/misc.cc:478
 msgid "Warning: "
 msgstr "Atenció: "
 
-#: src/misc.cc:728
+#: src/misc.cc:754
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1159,7 +1278,7 @@ msgstr ""
 "  -h, --help          Imprimeix aquesta pantalla d'ajuda i surt.\n"
 "\n"
 
-#: src/movesize.cc:890
+#: src/movesize.cc:876
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Indicació desconeguda a la petició de mou/redimensiona: %d"
@@ -1196,168 +1315,168 @@ msgstr "Llengua:"
 msgid "icewm - About"
 msgstr "icewm - Quant a"
 
-#: src/wmapp.cc:105
+#: src/wmapp.cc:93
 msgid "A window manager is already running, use --replace to replace it"
 msgstr "Ja s'executa un gestor de finestres. Useu --replace per reemplaçar-lo."
 
-#: src/wmapp.cc:123
+#: src/wmapp.cc:111
 #, c-format
 msgid "Failed to become the owner of the %s selection"
 msgstr "Ha fallat esdevenir el propietari de la selecció %s"
 
-#: src/wmapp.cc:127
+#: src/wmapp.cc:115
 msgid "Waiting to replace the old window manager"
 msgstr "S'espera per reemplaçar el gestor de finestres anterior."
 
-#: src/wmapp.cc:132
+#: src/wmapp.cc:120
 msgid "done."
 msgstr "fet."
 
-#: src/wmapp.cc:418
+#: src/wmapp.cc:406
 msgid "Unable to get current font path."
 msgstr "No s'ha pogut accedir al camí de les lletres."
 
-#: src/wmapp.cc:445
+#: src/wmapp.cc:433
 msgid "Unexpected format of ICEWM_FONT_PATH property"
 msgstr "Format no esperat a les propietats d'ICEWM_FONT_PATH"
 
-#: src/wmapp.cc:523
+#: src/wmapp.cc:511
 msgid "_Logout"
 msgstr "_Surt"
 
-#: src/wmapp.cc:524
+#: src/wmapp.cc:512
 msgid "_Cancel logout"
 msgstr "_Cancel·la la sortida"
 
-#: src/wmapp.cc:531
+#: src/wmapp.cc:517
 msgid "Lock _Workstation"
 msgstr "Bloque_ja l'estació de treball"
 
-#: src/wmapp.cc:533 src/wmdialog.cc:91
+#: src/wmapp.cc:519 src/wmdialog.cc:77
 msgid "Re_boot"
 msgstr "_Reinicia"
 
-#: src/wmapp.cc:535 src/wmdialog.cc:92
+#: src/wmapp.cc:521 src/wmdialog.cc:78
 msgid "Shut_down"
 msgstr "At_ura"
 
-#: src/wmapp.cc:537 src/wmdialog.cc:88
+#: src/wmapp.cc:523 src/wmdialog.cc:74
 msgid "_Suspend"
 msgstr "_Suspèn"
 
-#: src/wmapp.cc:542
+#: src/wmapp.cc:528
 msgid "Restart _Icewm"
 msgstr "Reinicia l'_Icewm"
 
-#: src/wmapp.cc:544
+#: src/wmapp.cc:530
 msgid "Restart _Xterm"
 msgstr "Reinicia l'_Xterm"
 
-#: src/wmapp.cc:557
+#: src/wmapp.cc:543
 msgid "_Menu"
 msgstr "_Menú"
 
-#: src/wmapp.cc:558
+#: src/wmapp.cc:544
 msgid "_Above Dock"
 msgstr "_Acoblador de dalt"
 
-#: src/wmapp.cc:559
+#: src/wmapp.cc:545
 msgid "_Dock"
 msgstr "Acobla_dor"
 
-#: src/wmapp.cc:560
+#: src/wmapp.cc:546
 msgid "_OnTop"
 msgstr "A da_lt"
 
-#: src/wmapp.cc:561
+#: src/wmapp.cc:547
 msgid "_Normal"
 msgstr "_Normal"
 
-#: src/wmapp.cc:562
+#: src/wmapp.cc:548
 msgid "_Below"
 msgstr "A bai_x"
 
-#: src/wmapp.cc:563
+#: src/wmapp.cc:549
 msgid "D_esktop"
 msgstr "_Escriptori"
 
-#: src/wmapp.cc:588
+#: src/wmapp.cc:574
 msgid "_Restore"
 msgstr "_Restaura"
 
-#: src/wmapp.cc:590
+#: src/wmapp.cc:576
 msgid "_Move"
 msgstr "_Mou"
 
-#: src/wmapp.cc:592
+#: src/wmapp.cc:578
 msgid "_Size"
 msgstr "M_ida"
 
-#: src/wmapp.cc:594
+#: src/wmapp.cc:580
 msgid "Mi_nimize"
 msgstr "Mi_nimitza"
 
-#: src/wmapp.cc:596
+#: src/wmapp.cc:582
 msgid "Ma_ximize"
 msgstr "Ma_ximitza"
 
-#: src/wmapp.cc:598
+#: src/wmapp.cc:584
 msgid "_Fullscreen"
 msgstr "_Pantalla completa"
 
-#: src/wmapp.cc:601 src/wmwinlist.cc:301
+#: src/wmapp.cc:587 src/wmwinlist.cc:301
 msgid "_Hide"
 msgstr "Ama_ga"
 
-#: src/wmapp.cc:603
+#: src/wmapp.cc:589
 msgid "Roll_up"
 msgstr "Enr_otlla"
 
-#: src/wmapp.cc:610
+#: src/wmapp.cc:596
 msgid "R_aise"
 msgstr "_Eleva"
 
-#: src/wmapp.cc:612
+#: src/wmapp.cc:598
 msgid "_Lower"
 msgstr "Més _baix"
 
-#: src/wmapp.cc:614
+#: src/wmapp.cc:600
 msgid "La_yer"
 msgstr "_Capa"
 
-#: src/wmapp.cc:618 src/wmwinlist.cc:303
+#: src/wmapp.cc:604 src/wmwinlist.cc:303
 msgid "Move _To"
 msgstr "Mo_u a"
 
-#: src/wmapp.cc:619
+#: src/wmapp.cc:605
 msgid "Occupy _All"
 msgstr "Ocupa-ho _tot"
 
-#: src/wmapp.cc:625
+#: src/wmapp.cc:611
 msgid "Limit _Workarea"
 msgstr "Límit de l'àrea de tre_ball"
 
-#: src/wmapp.cc:629
+#: src/wmapp.cc:615
 msgid "Tray _icon"
 msgstr "_Icona de la safata"
 
-#: src/wmapp.cc:634 src/wmwinlist.cc:290 src/wmwinlist.cc:314
+#: src/wmapp.cc:620 src/wmwinlist.cc:290 src/wmwinlist.cc:314
 msgid "_Close"
 msgstr "_Tanca"
 
-#: src/wmapp.cc:636 src/wmwinlist.cc:292
+#: src/wmapp.cc:622 src/wmwinlist.cc:292
 msgid "_Kill Client"
 msgstr "_Mata el client"
 
-#: src/wmapp.cc:639 src/wmdialog.cc:93 src/wmwinmenu.cc:131
+#: src/wmapp.cc:625 src/wmdialog.cc:79 src/wmwinmenu.cc:131
 msgid "_Window list"
 msgstr "Llista de _finestres"
 
-#: src/wmapp.cc:652
+#: src/wmapp.cc:639
 msgid "Another window manager already running, exiting..."
 msgstr "Un altre gestor de finestres està en ús, sortint..."
 
-#: src/wmapp.cc:737
+#: src/wmapp.cc:724
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1366,18 +1485,18 @@ msgstr ""
 "No s'a pogut reiniciar: %s\n"
 "Apunta $PATH a %s?"
 
-#: src/wmapp.cc:819
+#: src/wmapp.cc:805
 msgid "Kill IceWM, replace with Xterm"
 msgstr "Mata l'IceWM, reemplaça'l per l'Xterm"
 
-#: src/wmapp.cc:1330
+#: src/wmapp.cc:1319
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      Id de client per usar quan es contacti amb el gestor "
 "de sessions.\n"
 
-#: src/wmapp.cc:1336
+#: src/wmapp.cc:1325
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1388,7 +1507,7 @@ msgstr ""
 "  --debug-z           Imprimeix els missatges de depuració sobre l'apilament "
 "de finestres.\n"
 
-#: src/wmapp.cc:1344
+#: src/wmapp.cc:1333
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1396,12 +1515,12 @@ msgid ""
 "  --postpreferences   Print preferences after all processing.\n"
 msgstr ""
 "\n"
-"  -c, --config=FILE   Carrega preferències des d'un FITXER.\n"
-"  -t, --theme=FILE    Carrega el tema des d'un FITXER.\n"
+"  -c, --config=FILE   Carrega preferències des del FITXER.\n"
+"  -t, --theme=FILE    Carrega el tema des del FITXER.\n"
 "  --postpreferences   Imprimeix les preferències després de tot el "
 "processament.\n"
 
-#: src/wmapp.cc:1349
+#: src/wmapp.cc:1338
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1461,26 +1580,26 @@ msgstr ""
 "%s.\n"
 "\n"
 
-#: src/wmapp.cc:1410
+#: src/wmapp.cc:1399
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s directoris de configuració:\n"
 
-#: src/wmapp.cc:1489
+#: src/wmapp.cc:1481
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s opcions configurades:%s\n"
 
-#: src/wmapp.cc:1536
+#: src/wmapp.cc:1528
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Opció no reconeguda: \"%s\"."
 
-#: src/wmapp.cc:1567
+#: src/wmapp.cc:1560
 msgid "Confirm Logout"
 msgstr "Confirmació de la sortida"
 
-#: src/wmapp.cc:1568
+#: src/wmapp.cc:1561
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1488,58 +1607,58 @@ msgstr ""
 "Sortir tancarà totes les aplicacions actives.\n"
 "Voleu continuar?"
 
-#: src/wmconfig.cc:39
+#: src/wmconfig.cc:40
 #, c-format
 msgid "Failed to load theme %s"
 msgstr "Ha fallat carregar el tema %s"
 
-#: src/wmconfig.cc:102
+#: src/wmconfig.cc:103
 #, c-format
 msgid "Unknown value '%s' for option '%s'."
 msgstr "Valor desconegut, \"%s\", per a l'opció \"%s\"."
 
-#: src/wmconfig.cc:110
+#: src/wmconfig.cc:111
 #, c-format
 msgid "Unable to create directory %s"
 msgstr "No es pot crear el directori %s"
 
-#: src/wmconfig.cc:137
+#: src/wmconfig.cc:138
 #, c-format
 msgid "Unable to write to %s"
 msgstr "No es pot escriure a %s"
 
-#: src/wmconfig.cc:164
+#: src/wmconfig.cc:165
 #, c-format
 msgid "Unable to rename %s to %s"
 msgstr "No es pot canviar el nom \"%s\" a \"%s\""
 
-#: src/wmdialog.cc:87
+#: src/wmdialog.cc:73
 msgid "Loc_k Workstation"
 msgstr "Bloque_ja l'estació de treball"
 
-#: src/wmdialog.cc:89 src/ymsgbox.cc:44
+#: src/wmdialog.cc:75 src/ymsgbox.cc:44
 msgid "_Cancel"
 msgstr "_Cancel·la"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:1040 src/wmprog.cc:1042
-#: src/wmtaskbar.cc:296 src/wmtaskbar.cc:298
+#: src/wmdialog.cc:76 src/wmprog.cc:792 src/wmprog.cc:794 src/wmtaskbar.cc:280
+#: src/wmtaskbar.cc:282
 msgid "_Logout..."
 msgstr "_Surt..."
 
-#: src/wmdialog.cc:94
+#: src/wmdialog.cc:80
 msgid "_Restart icewm"
 msgstr "_Reinicia l'icewm"
 
-#: src/wmdialog.cc:95 src/wmprog.cc:1005 src/wmtaskbar.cc:289
-#: src/wmtaskbar.cc:292
+#: src/wmdialog.cc:81 src/wmprog.cc:753 src/wmtaskbar.cc:273
+#: src/wmtaskbar.cc:276
 msgid "_About"
 msgstr "_Quant a"
 
-#: src/wmframe.cc:1425
+#: src/wmframe.cc:1406
 msgid "Kill Client: "
 msgstr "Mata el client: "
 
-#: src/wmframe.cc:1432
+#: src/wmframe.cc:1413
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1547,154 +1666,101 @@ msgstr ""
 "ATENCIÓ! Tots els canvis no desats es perdran en\n"
 "matar el client. Encara voleu continuar?"
 
-#: src/wmframe.cc:3028
+#: src/wmframe.cc:2996
 msgid "Restore"
 msgstr "Restaura"
 
-#: src/wmframe.cc:3031 src/wmtitle.cc:78
+#: src/wmframe.cc:2999 src/wmtitle.cc:69
 msgid "Maximize"
 msgstr "Maximitza"
 
-#: src/wmframe.cc:3061
+#: src/wmframe.cc:3029
 msgid "Rolldown"
 msgstr "Desenrotlla"
 
-#: src/wmframe.cc:3063 src/wmtitle.cc:136
+#: src/wmframe.cc:3031 src/wmtitle.cc:127
 msgid "Rollup"
 msgstr "Enrotlla"
 
-#: src/wmoption.cc:225
+#: src/wmoption.cc:228
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Opció de finestra desconeguda: %s"
 
-#: src/wmoption.cc:333
+#: src/wmoption.cc:338
 #, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Error de sintaxi de les opcions de finestra a la línia %d de %s."
 
-#: src/wmprog.cc:183
-msgid "Missing command argument"
-msgstr "Falta l'argument de l'ordre"
-
-#: src/wmprog.cc:201
-#, c-format
-msgid "Bad argument %d to command '%s'"
-msgstr "Argument erroni, \"%d\", per a l'ordre \"%s\"."
-
-#: src/wmprog.cc:342
-msgid "Missing filename argument to include statement"
-msgstr "Falta l'argument del nom de fitxer a la sentència d'inclusió"
-
-#: src/wmprog.cc:408
-#, c-format
-msgid "Error at %s '%s'"
-msgstr "Error a %s \"%s\""
-
-#: src/wmprog.cc:465
-#, c-format
-msgid "Unexepected menu keyword: '%s'"
-msgstr "Paraula clau de menú no esperada: %s"
-
-#: src/wmprog.cc:509
-#, c-format
-msgid "Error at menuprog '%s'"
-msgstr "Error a menuprog \"%s\""
-
-#: src/wmprog.cc:548
-#, c-format
-msgid "Error at %s: '%s'"
-msgstr "Error a %s: \"%s\""
-
-#: src/wmprog.cc:571
-#, c-format
-msgid "Unknown keyword '%s'"
-msgstr "Paraula clau desconeguda: \"%s\""
-
-#: src/wmprog.cc:596
-#, c-format
-msgid "Error at keyword '%s' for %s"
-msgstr "Error a la paraula clau \"%s\" per a %s"
-
-#: src/wmprog.cc:612
-#, c-format
-msgid ""
-"Unknown keyword for a non-container: '%s'.\n"
-"Expected either 'key' or 'runonce' here.\n"
-msgstr ""
-"Paraula clau desconeguda per a un no-contenidor: \"%s\"\n"
-"Aquí s'esperava o bé \"key\" o bé \"runonce\".\n"
-
-#: src/wmprog.cc:744
-#, c-format
-msgid "'%s' produces no output"
-msgstr "\"%s\" no produeix cap sortida"
-
-#: src/wmprog.cc:892
+#: src/wmprog.cc:377
 msgid "_Click to focus"
 msgstr "_Cliqueu-hi per focalitzar-ho"
 
-#: src/wmprog.cc:893
+#: src/wmprog.cc:378
 msgid "_Explicit focus"
 msgstr "Focus _explícit"
 
-#: src/wmprog.cc:894
+#: src/wmprog.cc:379
 msgid "_Sloppy mouse focus"
 msgstr "_Focus del ratolí descurat"
 
-#: src/wmprog.cc:895
+#: src/wmprog.cc:380
 msgid "S_trict mouse focus"
 msgstr "Focus del ratolí es_tricte"
 
-#: src/wmprog.cc:896
+#: src/wmprog.cc:381
 msgid "_Quiet sloppy focus"
 msgstr "Focus _tènue silenciós"
 
-#: src/wmprog.cc:897
+#: src/wmprog.cc:382
 msgid "Custo_m"
 msgstr "_Personalitzat"
 
-#: src/wmprog.cc:919
+#: src/wmprog.cc:665
 msgid "_Manual"
 msgstr "_Manual"
 
-#: src/wmprog.cc:920
+#: src/wmprog.cc:666
 msgid "_Icewm(1)"
 msgstr "_Icewm(1)"
 
-#: src/wmprog.cc:921
+#: src/wmprog.cc:667
 msgid "Icewm_Bg(1)"
 msgstr "Icewm_Bg(1)"
 
-#: src/wmprog.cc:922
+#: src/wmprog.cc:668
 msgid "Ice_Sound(1)"
 msgstr "Ice_Sound(1)"
 
-#: src/wmprog.cc:984
+#: src/wmprog.cc:730
 msgid "Programs"
 msgstr "Programes"
 
-#: src/wmprog.cc:989
+#: src/wmprog.cc:735
 msgid "_Run..."
 msgstr "_Executa..."
 
-#: src/wmprog.cc:994 src/wmtaskbar.cc:279
+#: src/wmprog.cc:740 src/wmtaskbar.cc:263
 msgid "_Windows"
 msgstr "_Finestres"
 
-#: src/wmprog.cc:1011
+#: src/wmprog.cc:759
 msgid "_Help"
 msgstr "_Ajuda"
 
-#: src/wmprog.cc:1022
+#: src/wmprog.cc:770
 msgid "_Focus"
 msgstr "_Focus"
 
-#: src/wmprog.cc:1029
+#: src/wmprog.cc:775
+msgid "_Preferences"
+msgstr "_Preferències"
+
+#: src/wmprog.cc:781
 msgid "_Themes"
 msgstr "_Temes"
 
-#: src/wmprog.cc:1034
+#: src/wmprog.cc:786
 msgid "Se_ttings"
 msgstr "Paràme_tres"
 
@@ -1703,73 +1769,73 @@ msgstr "Paràme_tres"
 msgid "Session Manager: Unknown line %s"
 msgstr "Gestor de sessions: línia desconeguda: %s"
 
-#: src/wmtaskbar.cc:167 src/wmtaskbar.cc:168
+#: src/wmtaskbar.cc:153 src/wmtaskbar.cc:154
 msgid "Task Bar"
 msgstr "Barra de tasques"
 
-#: src/wmtaskbar.cc:269 src/wmwinlist.cc:305 src/wmwinlist.cc:318
+#: src/wmtaskbar.cc:253 src/wmwinlist.cc:305 src/wmwinlist.cc:318
 msgid "Tile _Vertically"
 msgstr "Mosaic _vertical"
 
-#: src/wmtaskbar.cc:270 src/wmwinlist.cc:306 src/wmwinlist.cc:319
+#: src/wmtaskbar.cc:254 src/wmwinlist.cc:306 src/wmwinlist.cc:319
 msgid "T_ile Horizontally"
 msgstr "Mosaic _horitzontal"
 
-#: src/wmtaskbar.cc:271 src/wmwinlist.cc:307 src/wmwinlist.cc:320
+#: src/wmtaskbar.cc:255 src/wmwinlist.cc:307 src/wmwinlist.cc:320
 msgid "Ca_scade"
 msgstr "Ca_scada"
 
-#: src/wmtaskbar.cc:272 src/wmwinlist.cc:308 src/wmwinlist.cc:321
+#: src/wmtaskbar.cc:256 src/wmwinlist.cc:308 src/wmwinlist.cc:321
 msgid "_Arrange"
 msgstr "_Organitza"
 
-#: src/wmtaskbar.cc:273 src/wmwinlist.cc:310 src/wmwinlist.cc:322
+#: src/wmtaskbar.cc:257 src/wmwinlist.cc:310 src/wmwinlist.cc:322
 msgid "_Minimize All"
 msgstr "_Minimitza-ho tot"
 
-#: src/wmtaskbar.cc:274 src/wmwinlist.cc:311 src/wmwinlist.cc:323
+#: src/wmtaskbar.cc:258 src/wmwinlist.cc:311 src/wmwinlist.cc:323
 msgid "_Hide All"
 msgstr "_Amaga-ho tot"
 
-#: src/wmtaskbar.cc:275 src/wmwinlist.cc:312 src/wmwinlist.cc:324
+#: src/wmtaskbar.cc:259 src/wmwinlist.cc:312 src/wmwinlist.cc:324
 msgid "_Undo"
 msgstr "_Desfés"
 
-#: src/wmtaskbar.cc:277
+#: src/wmtaskbar.cc:261
 msgid "Arrange _Icons"
 msgstr "Organitza les _icones"
 
-#: src/wmtaskbar.cc:281
+#: src/wmtaskbar.cc:265
 msgid "_Refresh"
 msgstr "_Refresca"
 
-#: src/wmtaskbar.cc:287
+#: src/wmtaskbar.cc:271
 msgid "_License"
 msgstr "_Llicència"
 
-#: src/wmtaskbar.cc:403
+#: src/wmtaskbar.cc:352
 msgid "Favorite applications"
 msgstr "Aplicacions preferides"
 
-#: src/wmtaskbar.cc:420
+#: src/wmtaskbar.cc:370
 msgid "Window list menu"
 msgstr "Menú de llista de finestres"
 
-#: src/wmtaskbar.cc:429
+#: src/wmtaskbar.cc:379
 msgid "Show Desktop"
 msgstr "Mostra l'escriptori"
 
-#: src/wmtitle.cc:94
+#: src/wmtitle.cc:85
 msgid "Minimize"
 msgstr "Minimitza"
 
-#: src/wmtitle.cc:122
+#: src/wmtitle.cc:113
 msgid "Hide"
 msgstr "Amaga"
 
-#: src/wmtitle.cc:150
+#: src/wmtitle.cc:141
 msgid "Raise/Lower"
-msgstr "Eleva/Abaixa"
+msgstr "Eleva / Abaixa"
 
 #: src/wmwinlist.cc:59
 msgid "All Workspaces"
@@ -1809,17 +1875,17 @@ msgstr "%lu. Espai de treball %-.32s"
 msgid "%s: select failed"
 msgstr "%s: ha fallat la selecció"
 
-#: src/yconfig.cc:139
+#: src/yconfig.cc:128
 #, c-format
 msgid "Unknown key name %s in %s"
 msgstr "Nom clau %s desconegut a %s"
 
-#: src/yconfig.cc:165 src/yconfig.cc:178 src/yconfig.cc:191
+#: src/yconfig.cc:150 src/yconfig.cc:163 src/yconfig.cc:176
 #, c-format
 msgid "Bad argument: %s for %s"
 msgstr "Argument erroni: %s per a %s"
 
-#: src/yconfig.cc:224
+#: src/yconfig.cc:212
 #, c-format
 msgid "Bad option: %s"
 msgstr "Opció errònia: %s"
@@ -1860,12 +1926,12 @@ msgstr ""
 msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
 msgstr "ERROR? Caràcter imprevist, però Imlib ha pogut analitzar \"%s\""
 
-#: src/yfontcore.cc:71 src/yfontxft.cc:176
+#: src/yfontcore.cc:71 src/yfontxft.cc:158
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "No s'ha pogut carregar la lletra \"%s\"."
 
-#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:199
+#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:181
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr "Ha fallat la càrrega de la lletra \"%s\"."
@@ -1937,7 +2003,7 @@ msgstr ""
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv no proporciona %s (suficients) a convertidors %s."
 
-#: src/ylocale.cc:165
+#: src/ylocale.cc:163
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Cadena multibyte no vàlida \"%s\": %s"
@@ -1965,23 +2031,76 @@ msgstr "No s'ha pogut trobar la imatge %s"
 msgid "$USER or $LOGNAME not set?"
 msgstr "¿$USUARI o $NOMD'ENTRADA no configurat?"
 
-#: src/yurl.cc:83
+#: src/yurl.cc:146
 #, c-format
-msgid "\"%s\" doesn't describe a common internet scheme"
-msgstr "\"%s\" no descriu un esquema comú d'Internet"
+msgid "Failed to parse URL \"%s\"."
+msgstr "Ha fallat analitzar l'URL \"%s\"."
 
-#: src/yurl.cc:86
+#: src/yurl.cc:162
 #, c-format
-msgid "\"%s\" contains no scheme description"
-msgstr "\"%s\"no conté cap descripció d'esquema"
+msgid "Incomplete hex escape in URL at position %d."
+msgstr "Escapament hex incomplet dins l'URL a la posició %d."
 
-#: src/yxapp.cc:904
+#: src/yurl.cc:169
+#, c-format
+msgid "Invalid hex escape in URL at position %d."
+msgstr "Escapament hex no vàlid dins l'URL a la posició %d."
+
+#: src/yxapp.cc:891
 msgid ""
 "  -d, --display=NAME  NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"
 msgstr ""
 "  -d, --display=NAME      Nom del servidor X per usar.\n"
 "  --sync              Sincronitza les ordres d'X11.\n"
+
+#~ msgid "Missing command argument"
+#~ msgstr "Falta l'argument de l'ordre"
+
+#~ msgid "Bad argument %d to command '%s'"
+#~ msgstr "Argument erroni, \"%d\", per a l'ordre \"%s\"."
+
+#~ msgid "Missing filename argument to include statement"
+#~ msgstr "Falta l'argument del nom de fitxer per incloure el comunicat"
+
+#~ msgid "Error at %s '%s'"
+#~ msgstr "Error a %s \"%s\""
+
+#~ msgid "Unexepected menu keyword: '%s'"
+#~ msgstr "Paraula clau de menú no esperada: %s"
+
+#~ msgid "Error at menuprog '%s'"
+#~ msgstr "Error a menuprog \"%s\""
+
+#~ msgid "Error at %s: '%s'"
+#~ msgstr "Error a %s: \"%s\""
+
+#~ msgid "Unknown keyword '%s'"
+#~ msgstr "Paraula clau desconeguda: \"%s\""
+
+#~ msgid "Error at keyword '%s' for %s"
+#~ msgstr "Error a la paraula clau \"%s\" per a %s"
+
+#~ msgid ""
+#~ "Unknown keyword for a non-container: '%s'.\n"
+#~ "Expected either 'key' or 'runonce' here.\n"
+#~ msgstr ""
+#~ "Paraula clau desconeguda per a un no-contenidor: \"%s\"\n"
+#~ "Aquí s'esperava o bé \"key\" o bé \"runonce\".\n"
+
+#~ msgid "'%s' produces no output"
+#~ msgstr "\"%s\" no produeix cap sortida"
+
+#~ msgid "\"%s\" contains no scheme description"
+#~ msgstr "\"%s\"no conté cap descripció d'esquema"
+
+#~ msgid "Please note that not all options are currently configured.\n"
+#~ msgstr ""
+#~ "Si us plau, tingueu en compte que no totes les opcions estan "
+#~ "configurades.\n"
+
+#~ msgid "\"%s\" doesn't describe a common internet scheme"
+#~ msgstr "\"%s\" no descriu un esquema comú d'Internet"
 
 #~ msgid "Out of memory for pixmap \"%s\""
 #~ msgstr "Sense memòria per al mapa de píxels \"%s\""
@@ -2007,9 +2126,6 @@ msgstr ""
 
 #~ msgid "No such device: %s"
 #~ msgstr "No hi ha tal dispositiu: %s"
-
-#~ msgid "Can't connect to YIFF server: %s"
-#~ msgstr "No es pot connectar al servidor YIFF: %s"
 
 #~ msgid "Can't change to audio mode `%s'."
 #~ msgstr "No es pot canviar al mode d'àudio %s."

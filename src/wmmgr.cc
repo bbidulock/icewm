@@ -774,7 +774,8 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
     }
     if (message.message_type == _XA_ICEWM_ACTION) {
         MSG(("ClientMessage: _ICEWM_ACTION => %ld", message.data.l[1]));
-        switch (message.data.l[1]) {
+        WMAction action = WMAction(message.data.l[1]);
+        switch (action) {
         case ICEWM_ACTION_LOGOUT:
         case ICEWM_ACTION_CANCEL_LOGOUT:
         case ICEWM_ACTION_SHUTDOWN:
@@ -783,7 +784,7 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
         case ICEWM_ACTION_RESTARTWM:
         case ICEWM_ACTION_WINDOWLIST:
         case ICEWM_ACTION_ABOUT:
-            smActionListener->handleSMAction(message.data.l[1]);
+            smActionListener->handleSMAction(action);
             break;
         }
     }
@@ -1107,6 +1108,7 @@ static int addco(int *v, int &n, int c) {
 int YWindowManager::calcCoverage(bool down, YFrameWindow *frame1, int x, int y, int w, int h) {
     int cover = 0;
     int factor = down ? 2 : 1; // try harder not to cover top windows
+    const YRect rect(x, y, w, h);
 
     YFrameWindow *frame = 0;
 
@@ -1122,9 +1124,7 @@ int YWindowManager::calcCoverage(bool down, YFrameWindow *frame1, int x, int y, 
         if (!f->isAllWorkspaces() && f->getWorkspace() != frame1->getWorkspace())
             continue;
 
-        cover +=
-            intersection(f->x(), f->x() + f->width(), x, x + w) *
-            intersection(f->y(), f->y() + f->height(), y, y + h) * factor;
+        cover += rect.overlap(f->geometry()) * factor;
 
         if (factor > 1)
             factor /= 2;
@@ -2970,13 +2970,13 @@ void YWindowManager::checkLogout() {
     if (fShuttingDown && !haveClients()) {
         fShuttingDown = false; /* Only run the command once */
 
-        if (rebootOrShutdown == 1 && rebootCommand && rebootCommand[0]) {
+        if (rebootOrShutdown == Reboot && nonempty(rebootCommand)) {
             msg("reboot... (%s)", rebootCommand);
             execAfterFork(rebootCommand);
-        } else if (rebootOrShutdown == 2 && shutdownCommand && shutdownCommand[0]) {
+        } else if (rebootOrShutdown == Shutdown && nonempty(shutdownCommand)) {
             msg("shutdown ... (%s)", shutdownCommand);
             execAfterFork(shutdownCommand);
-        } else
+        } else if (rebootOrShutdown == Logout)
             app->exit(0);
     }
 }
@@ -3379,7 +3379,7 @@ int YWindowManager::getScreen() {
     return 0;
 }
 
-void YWindowManager::doWMAction(long action) {
+void YWindowManager::doWMAction(WMAction action) {
     XClientMessageEvent xev;
     memset(&xev, 0, sizeof(xev));
 

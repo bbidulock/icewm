@@ -30,12 +30,14 @@ XIV(int, ToolTipTime,                           0)
 ///#warning "move this one back to WM"
 XIV(bool, grabRootWindow,                       true)
 
-#if defined(__linux__) || defined(__FreeBSD__)
+#if defined(__linux__)
 XSV(const char *, iconPath,                     "/usr/share/icons/hicolor:/usr/share/icons:/usr/share/pixmaps")
+#elif defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__NetBSD__)
+XSV(const char *, iconPath,                     "/usr/local/share/icons/hicolor:/usr/local/share/icons:/usr/local/share/pixmaps")
 #else
 XSV(const char *, iconPath,                     0)
 #endif
-#define CONFIG_DEFAULT_THEME "default/default.theme"
+
 XSV(const char *, themeName,                    CONFIG_DEFAULT_THEME)
 XSV(const char *, xineramaPrimaryScreenName,    0)
 

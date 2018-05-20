@@ -34,6 +34,7 @@ public:
     virtual void wmLower() = 0;
     virtual void wmMinimize() = 0;
     virtual int getWorkspace() const = 0;
+    virtual int getTrayOrder() const = 0;
     virtual bool isSticky() const = 0;
     virtual bool isAllWorkspaces() const = 0;
     virtual void wmOccupyWorkspace(int workspace) = 0;
@@ -190,7 +191,8 @@ public:
     ustring getClientId(Window leader);
     void getPropertiesList();
 
-    void configure(const YRect &/*r*/);
+    virtual void configure(const YRect &rect);
+    virtual void handleGravityNotify(const XGravityEvent &gravity);
 
     bool isKdeTrayWindow() { return prop.kde_net_wm_system_tray_window_for; }
 

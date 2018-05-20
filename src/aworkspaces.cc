@@ -2,7 +2,7 @@
 
 #include "ylib.h"
 #include "aworkspaces.h"
-#include "wmtaskbar.h"
+#include "applet.h"
 #include "prefs.h"
 #include "wmmgr.h"
 #include "wmapp.h"

@@ -12,6 +12,7 @@ class upath {
 public:
     upath(const class null_ref &): fPath(null) {}
     upath(const pstring& path): fPath(path) {}
+    upath(const cstring& path): fPath(path.m_str()) {}
     upath(const char *path): fPath(path) {}
     upath(const char *path, int len): fPath(path, len) {}
     upath(const upath& path): fPath(path.fPath) {}
@@ -45,6 +46,7 @@ public:
     int remove() const;
     int renameAs(const pstring& dest) const;
     off_t fileSize() const;
+    bool glob(const char* pattern, class YStringArray& list) const;
 
     upath& operator=(const upath& p) {
         fPath = p.fPath;
@@ -89,6 +91,8 @@ public:
     fileptr& operator=(FILE* ptr) { close(); fp = ptr; return *this; }
     operator FILE*() { return fp; }
 };
+
+upath findPath(ustring path, int mode, upath name);
 
 #endif
 

@@ -59,6 +59,9 @@ YButton::~YButton() {
             removeAccelerator(hotKey, xapp->AltMask, this);
     }
     popdown();
+    if (fPopup && fPopup->isShared() == false) {
+        delete fPopup;
+    }
 }
 
 void YButton::paint(Graphics &g, int const d, const YRect &r) {
@@ -224,10 +227,11 @@ bool YButton::handleKey(const XKeyEvent &key) {
                     bool wasArmed = fArmed;
 
                     // !!! is this guaranteed to work? (skip autorepeated keys)
-                    XEvent xev;
+                    XEvent xev = {};
 
-                    XCheckTypedWindowEvent(xapp->display(), handle(), KeyPress, &xev);
-                    if (xev.type == KeyPress &&
+                    if (XCheckTypedWindowEvent(xapp->display(), handle(),
+                                               KeyPress, &xev) &&
+                        xev.type == KeyPress &&
                         xev.xkey.time == key.time &&
                         xev.xkey.keycode == key.keycode &&
                         xev.xkey.state == key.state)

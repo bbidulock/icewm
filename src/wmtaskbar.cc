@@ -126,21 +126,33 @@ bool EdgeTrigger::handleTimer(YTimer *t) {
 
 TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener, YSMListener *smActionListener):
     YFrameClient(aParent, 0),
-    fGradient(null)
+    fTasks(0),
+    fCollapseButton(0),
+    fWindowTray(0),
+    fMailBoxStatus(0),
+    fMEMStatus(0),
+    fCPUStatus(0),
+    fApm(0),
+    fObjectBar(0),
+    fApplications(0),
+    fWinList(0),
+    fShowDesktop(0),
+    fAddressBar(0),
+    fWorkspaces(0),
+    fDesktopTray(0),
+    wmActionListener(wmActionListener),
+    smActionListener(smActionListener),
+    app(app),
+    fIsHidden(taskBarAutoHide),
+    fFullscreen(false),
+    fIsCollapsed(false),
+    fIsMapped(false),
+    fMenuShown(false),
+    taskBarMenu(0),
+    fNeedRelayout(false),
+    fEdgeTrigger(0)
 {
     taskBar = this;
-
-    this->app = app;
-    this->wmActionListener = wmActionListener;
-    this->smActionListener = smActionListener;
-    fIsMapped = false;
-    fIsHidden = taskBarAutoHide;
-    fIsCollapsed = false;
-    fFullscreen = false;
-    fMenuShown = false;
-    fNeedRelayout = false;
-    fAddressBar = 0;
-    fShowDesktop = 0;
 
     ///setToplevel(true);
     setBackground(taskBarBg.pixel());
@@ -224,8 +236,7 @@ TaskBar::~TaskBar() {
     detachDesktopTray();
     delete fEdgeTrigger; fEdgeTrigger = 0;
     delete fClock; fClock = 0;
-    for (MailBoxStatus ** m(fMailBoxStatus); m && *m; ++m) delete *m;
-    delete[] fMailBoxStatus; fMailBoxStatus = 0;
+    delete fMailBoxStatus; fMailBoxStatus = 0;
 #ifdef MEM_STATES
     delete fMEMStatus; fMEMStatus = 0;
 #endif
@@ -235,11 +246,7 @@ TaskBar::~TaskBar() {
     delete fWorkspaces; fWorkspaces = 0;
     delete fApm; fApm = 0;
 #ifdef IWM_STATES
-    if (fCPUStatus) {
-        for (int i = 0; fCPUStatus[i]; ++i)
-            delete fCPUStatus[i];
-        delete[] fCPUStatus; fCPUStatus = 0;
-    }
+    delete fCPUStatus; fCPUStatus = 0;
 #endif
     delete fAddressBar; fAddressBar = 0;
     delete fTasks; fTasks = 0;
@@ -273,9 +280,9 @@ void TaskBar::initMenu() {
         YMenu *helpMenu; // !!!
 
         helpMenu = new YMenu();
-        helpMenu->addItem(_("_License"), -2, "", actionLicense);
+        helpMenu->addItem(_("_License"), -2, null, actionLicense);
         helpMenu->addSeparator();
-        helpMenu->addItem(_("_About"), -2, "", actionAbout);
+        helpMenu->addItem(_("_About"), -2, null, actionAbout);
 #endif
 
         taskBarMenu->addItem(_("_About"), -2, actionAbout, 0);
@@ -284,7 +291,7 @@ void TaskBar::initMenu() {
             if (showLogoutSubMenu)
                 taskBarMenu->addItem(_("_Logout..."), -2, actionLogout, logoutMenu);
             else
-                taskBarMenu->addItem(_("_Logout..."), -2, "", actionLogout);
+                taskBarMenu->addItem(_("_Logout..."), -2, null, actionLogout);
         }
     }
 
@@ -292,26 +299,24 @@ void TaskBar::initMenu() {
 
 void TaskBar::initApplets() {
 #ifdef MEM_STATES
-    if (taskBarShowMEMStatus) {
-        fMEMStatus = new MEMStatus(this);
-        fMEMStatus->setTitle("MEMStatus");
-    }
+    if (taskBarShowMEMStatus)
+        fMEMStatus = new MEMStatus(this, this);
     else
         fMEMStatus = 0;
 #endif
 
 #ifdef IWM_STATES
-    fCPUStatus = 0;
     if (taskBarShowCPUStatus)
-        CPUStatus::GetCPUStatus(smActionListener, this, fCPUStatus, cpuCombine);
+        fCPUStatus = new CPUStatusControl(smActionListener, this, this);
+    else
+        fCPUStatus = 0;
 #endif
 
     if (taskBarShowNetStatus)
         fNetStatus.init(new NetStatusControl(app, smActionListener, this, this));
-    if (taskBarShowClock) {
-        fClock = new YClock(smActionListener, this);
-        fClock->setTitle("IceClock");
-    } else
+    if (taskBarShowClock)
+        fClock = new YClock(smActionListener, this, this);
+    else
         fClock = 0;
 
     if (taskBarShowApm && (access(APMDEV, 0) == 0 ||
@@ -347,45 +352,11 @@ void TaskBar::initApplets() {
     } else
         fCollapseButton = 0;
 
-    fMailBoxStatus = 0;
-
     if (taskBarShowMailboxStatus) {
-        char const *envMail = getenv("MAIL");
-        char const *mailboxList(mailBoxPath ? mailBoxPath : envMail);
-        unsigned cnt = 0;
+        fMailBoxStatus = new MailBoxControl(app, smActionListener, this, this);
+    } else
+        fMailBoxStatus = 0;
 
-        mstring mailboxes(mailboxList);
-        mstring s(null), r(null);
-
-        for (s = mailboxes; s.splitall(' ', &s, &r); s = r)
-            if (s.nonempty())
-                cnt++;
-
-        if (cnt) {
-            fMailBoxStatus = new MailBoxStatus*[cnt + 1];
-            fMailBoxStatus[cnt--] = NULL;
-
-            for (s = mailboxes; s.splitall(' ', &s, &r); s = r)
-            {
-                if (s.isEmpty())
-                    continue;
-
-                fMailBoxStatus[cnt] = new MailBoxStatus(app, smActionListener, s, this);
-                if (cnt) cnt--; // more complicated than needed, to make UBSan happy
-            }
-        } else if (envMail) {
-            fMailBoxStatus = new MailBoxStatus*[2];
-            fMailBoxStatus[0] = new MailBoxStatus(app, smActionListener, envMail, this);
-            fMailBoxStatus[1] = NULL;
-        } else if (getlogin()) {
-            upath mbox(mstring("/var/spool/mail/", getlogin()));
-            if (mbox.isReadable()) {
-                fMailBoxStatus = new MailBoxStatus*[2];
-                fMailBoxStatus[0] = new MailBoxStatus(app, smActionListener, mbox, this);
-                fMailBoxStatus[1] = NULL;
-            }
-        }
-    }
     if (taskBarShowStartMenu) {
         fApplications = new ObjectButton(this, rootMenu);
         fApplications->setActionListener(this);
@@ -399,7 +370,8 @@ void TaskBar::initApplets() {
     if (fObjectBar) {
         upath t = app->findConfigFile("toolbar");
         if (t != null) {
-            loadMenus(app, smActionListener, wmActionListener, t, fObjectBar);
+            MenuLoader(app, smActionListener, wmActionListener)
+            .loadMenus(t, fObjectBar);
         }
         fObjectBar->setTitle("IceToolbar");
     }
@@ -454,7 +426,8 @@ void TaskBar::initApplets() {
                                   this, trayDrawBevel);
         fDesktopTray->setTitle("SystemTray");
         fDesktopTray->relayout();
-    }
+    } else
+        fDesktopTray = 0;
 }
 
 void TaskBar::trayChanged() {
@@ -499,31 +472,39 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
 
     nw = LayoutInfo( fCollapseButton, false, 0, true, 0, 2, true );
     wlist.append(nw);
-    nw = LayoutInfo( fClock, false, 1, true, 2, 2, false );
+    nw = LayoutInfo( fClock, false, 1, false, 2, 2, false );
     wlist.append(nw);
-    for (MailBoxStatus ** m(fMailBoxStatus); m && *m; ++m) {
-        nw = LayoutInfo( *m, false, 1, true, 1, 1, false );
-        wlist.append(nw);
+    if (taskBarShowMailboxStatus) {
+        for (MailBoxControl::IterType m = fMailBoxStatus->iterator(); ++m; ) {
+            nw = LayoutInfo( *m, false, 1, true, 1, 1, false );
+            wlist.append(nw);
+        }
     }
 
 #ifdef IWM_STATES
-    for (CPUStatus ** c(fCPUStatus); c && *c; ++c) {
-        nw = LayoutInfo( *c, false, 1, true, 2, 2, false );
-        wlist.append(nw);
+    if (taskBarShowCPUStatus) {
+        CPUStatusControl::IterType it = fCPUStatus->getIterator();
+        while (++it)
+        {
+            nw = LayoutInfo(*it, false, 1, true, 2, 2, false );
+            wlist.append(nw);
+        }
     }
 #endif
 
 #ifdef MEM_STATES
-    nw = LayoutInfo( fMEMStatus, false, 1, true, 2, 2, false );
+    nw = LayoutInfo( fMEMStatus, false, 1, false, 2, 2, false );
     wlist.append(nw);
 #endif
 
     if (taskBarShowNetStatus) {
-        YVec<NetStatus*>::iterator it = fNetStatus->getIterator();
-        while (it.hasNext())
+        NetStatusControl::IterType it = fNetStatus->getIterator();
+        while (++it)
         {
-            nw = LayoutInfo(it.next(), false, 1, false, 2, 2, false);
-            wlist.append(nw);
+            if (*it != 0) {
+                nw = LayoutInfo(*it, false, 1, false, 2, 2, false);
+                wlist.append(nw);
+            }
         }
     }
     nw = LayoutInfo( fApm, false, 1, true, 0, 2, false );
@@ -1037,7 +1018,7 @@ void TaskBar::setWorkspaceActive(long workspace, int active) {
 
 bool TaskBar::windowTrayRequestDock(Window w) {
     if (fDesktopTray) {
-        fDesktopTray->trayRequestDock(w);
+        fDesktopTray->trayRequestDock(w, "SystemTray");
         return true;
     }
     return false;

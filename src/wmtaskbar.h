@@ -8,12 +8,15 @@
 #include "wmclient.h"
 #include "yxtray.h"
 #include "base.h"
+#include "ypointer.h"
+#include "applet.h"
 
 class ObjectBar;
 class MEMStatus;
-class CPUStatus;
+class CPUStatusControl;
 class NetStatusControl;
 class AddressBar;
+class MailBoxControl;
 class MailBoxStatus;
 class YClock;
 class YApm;
@@ -23,14 +26,6 @@ class WorkspacesPane;
 class YXTray;
 class YSMListener;
 class IApp;
-
-class IAppletContainer {
-public:
-    virtual void relayout() = 0;
-    virtual void contextMenu(int x_root, int y_root) = 0;
-protected:
-    virtual ~IAppletContainer() {}
-};
 
 class TaskBar;
 
@@ -137,9 +132,9 @@ private:
     YButton *fCollapseButton;
     TrayPane *fWindowTray;
     YClock *fClock;
-    MailBoxStatus **fMailBoxStatus;
+    MailBoxControl *fMailBoxStatus;
     MEMStatus *fMEMStatus;
-    CPUStatus **fCPUStatus;
+    CPUStatusControl *fCPUStatus;
     YApm *fApm;
     ref<NetStatusControl> fNetStatus;
 

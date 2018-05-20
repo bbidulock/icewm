@@ -2,7 +2,7 @@
  *  IceSH - A command line window manager
  *  Copyright (C) 2001 Mathias Hasselmann
  *
- *  Based on Mark´s testwinhints.cc.
+ *  Based on Marko's testwinhints.cc.
  *  Inspired by MJ Ray's WindowC
  *
  *  Release under terms of the GNU Library General Public License
@@ -31,6 +31,7 @@
 
 #include "base.h"
 #include "WinMgr.h"
+#include "wmaction.h"
 
 #if 1
 #define THROW(Result) { rc = (Result); goto exceptionHandler; }
@@ -113,6 +114,8 @@ public:
     virtual ~YTextProperty() {
         if (NULL != fList)
             XFreeStringList(fList);
+        if (fStatus == Success && fProperty.value)
+            XFree(fProperty.value);
     }
 
     char * item(unsigned index);
@@ -178,6 +181,7 @@ Atom ATOM_WIN_STATE;
 Atom ATOM_WIN_HINTS;
 Atom ATOM_WIN_LAYER;
 Atom ATOM_WIN_TRAY;
+Atom ATOM_ICE_ACTION;
 
 /******************************************************************************/
 /******************************************************************************/
@@ -398,7 +402,7 @@ struct WorkspaceInfo {
             fStatus = fCount;
     }
 
-    int parseWorkspaceName(char const * name);
+    bool parseWorkspaceName(char const* name, long* workspace);
 
     long count();
     operator int() const { return fStatus; }
@@ -412,31 +416,33 @@ long WorkspaceInfo::count() {
     return (Success == fCount ? fCount.data<long>(0) : 0);
 }
 
-int WorkspaceInfo::parseWorkspaceName(char const * name) {
-    long workspace(WinWorkspaceInvalid);
+bool WorkspaceInfo::parseWorkspaceName(char const* name, long* workspace) {
+    *workspace = WinWorkspaceInvalid;
 
     if (Success == fStatus) {
-        for (int n(0); n < fNames.count() &&
-             WinWorkspaceInvalid == workspace; ++n)
-            if (!strcmp(name, fNames.item(n))) workspace = n;
+        for (int i = 0; i < fNames.count(); ++i)
+            if (0 == strcmp(name, fNames.item(i)))
+                return *workspace = i, true;
 
-        if (WinWorkspaceInvalid == workspace) {
-            char *endptr;
-            workspace = strtol(name, &endptr, 0);
+        if (0 == strcmp(name, "0xFFFFFFFF") ||
+            0 == strcmp(name, "All"))
+            return *workspace = 0xFFFFFFFF, true;
 
-            if (NULL == endptr || '\0' != *endptr) {
-                msg(_("Invalid workspace name: `%s'"), name);
-                return WinWorkspaceInvalid;
-            }
+        char* endptr(0);
+        *workspace = strtol(name, &endptr, 0);
+
+        if (0 == endptr || '\0' != *endptr) {
+            msg(_("Invalid workspace name: `%s'"), name);
+            return *workspace = WinWorkspaceInvalid, false;
         }
 
-        if (workspace > count()) {
-            msg(_("Workspace out of range: %ld"), workspace);
-            return WinWorkspaceInvalid;
+        if (*workspace < 0 || *workspace >= count()) {
+            msg(_("Workspace out of range: %ld"), *workspace);
+            return *workspace = WinWorkspaceInvalid, false;
         }
     }
 
-    return workspace;
+    return *workspace != WinWorkspaceInvalid;
 }
 
 Status setWorkspace(Window window, long workspace) {
@@ -451,6 +457,37 @@ Status setWorkspace(Window window, long workspace) {
     xev.data.l[1] = CurrentTime;
 
     return XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
+}
+
+bool icewmAction(const char* str) {
+    WMAction action = WMAction(0);
+    static const struct { const char *s; WMAction a; } sa[] = {
+        { "logout",     ICEWM_ACTION_LOGOUT },
+        { "cancel",     ICEWM_ACTION_CANCEL_LOGOUT },
+        { "reboot",     ICEWM_ACTION_REBOOT },
+        { "shutdown",   ICEWM_ACTION_SHUTDOWN },
+        { "about",      ICEWM_ACTION_ABOUT },
+        { "windowlist", ICEWM_ACTION_WINDOWLIST },
+        { "restart",    ICEWM_ACTION_RESTARTWM },
+        { "suspend",    ICEWM_ACTION_SUSPEND },
+    };
+    for (int i = 0; i < int ACOUNT(sa) && !action; ++i)
+        if (0 == strcmp(str, sa[i].s))
+            action = sa[i].a;
+    if (!action)
+        return false;
+
+    XClientMessageEvent xev = {};
+    xev.type = ClientMessage;
+    xev.window = root;
+    xev.message_type = ATOM_ICE_ACTION;
+    xev.format = 32;
+    xev.data.l[0] = CurrentTime;
+    xev.data.l[1] = action;
+
+    XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
+    XSync(display, False);
+    return true;
 }
 
 /******************************************************************************/
@@ -569,12 +606,12 @@ static void printUsage() {
 Usage: %s [OPTIONS] ACTIONS\n\
 \n\
 Options:\n\
-  -display DISPLAY            Connects to the X server specified by DISPLAY.\n\
+  -d, -display DISPLAY        Connects to the X server specified by DISPLAY.\n\
                               Default: $DISPLAY or :0.0 when not set.\n\
-  -window WINDOW_ID           Specifies the window to manipulate. Special\n\
+  -w, -window WINDOW_ID       Specifies the window to manipulate. Special\n\
                               identifiers are `root' for the root window and\n\
                               `focus' for the currently focused window.\n\
-  -class WM_CLASS             Window management class of the window(s) to\n\
+  -c, -class WM_CLASS         Window management class of the window(s) to\n\
                               manipulate. If WM_CLASS contains a period, only\n\
                               windows with exactly the same WM_CLASS property\n\
                               are matched. If there is no period, windows of\n\
@@ -595,8 +632,17 @@ Actions:\n\
   setLayer       LAYER        Moves the window to another GNOME window layer.\n\
   setWorkspace   WORKSPACE    Moves the window to another workspace. Select\n\
                               the root window to change the current workspace.\n\
+                              Select 0xFFFFFFFF or \"All\" for all workspaces.\n\
   listWorkspaces              Lists the names of all workspaces.\n\
   setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n\
+  logout                      Tell IceWM to logout.\n\
+  reboot                      Tell IceWM to reboot.\n\
+  shutdown                    Tell IceWM to shutdown.\n\
+  cancel                      Tell IceWM to cancel the logout/reboot/shutdown.\n\
+  about                       Tell IceWM to show the about window.\n\
+  windowlist                  Tell IceWM to show the window list.\n\
+  restart                     Tell IceWM to restart.\n\
+  suspend                     Tell IceWM to suspend.\n\
 \n\
 Expressions:\n\
   Expressions are list of symbols of one domain concatenated by `+' or `|':\n\
@@ -626,6 +672,11 @@ static void usageError(char const *msg, ...) {
 /******************************************************************************/
 /******************************************************************************/
 
+static bool isOptArg(const char* arg, const char* opt, const char* val) {
+    const char buf[3] = { opt[0], opt[1], '\0', };
+    return (strpcmp(arg, opt) == 0 || strcmp(arg, buf) == 0) && val != 0;
+}
+
 int main(int argc, char **argv) {
 #ifdef CONFIG_I18N
     setlocale(LC_ALL, "");
@@ -653,6 +704,9 @@ int main(int argc, char **argv) {
             printUsage();
             THROW(0);
         }
+        else if (is_copying_switch(arg)) {
+            print_copying_exit();
+        }
         else if (arg[1] == '-') {
             ++arg;
         }
@@ -660,11 +714,11 @@ int main(int argc, char **argv) {
         size_t sep(strcspn(arg, "=:"));
         char *val(arg[sep] ? arg + sep + 1 : *++argp);
 
-        if (!(strpcmp(arg, "-display") || val == NULL)) {
+        if (isOptArg(arg, "-display", val)) {
             dpyname = val;
-        } else if (!(strpcmp(arg, "-window") || val == NULL)) {
+        } else if (isOptArg(arg, "-window", val)) {
             winname = val;
-        } else if (!(strpcmp(arg, "-class") || val == NULL)) {
+        } else if (isOptArg(arg, "-class", val)) {
             wmname = val;
             char *p = val;
             char *d = val;
@@ -708,7 +762,7 @@ int main(int argc, char **argv) {
         THROW(3);
     }
 
-    root = RootWindow(display, DefaultScreen(display));
+    root = DefaultRootWindow(display);
 
     ATOM_WM_STATE = XInternAtom(display, "WM_STATE", False);
     ATOM_WIN_WORKSPACE = XInternAtom(display, XA_WIN_WORKSPACE, False);
@@ -718,6 +772,7 @@ int main(int argc, char **argv) {
     ATOM_WIN_HINTS = XInternAtom(display, XA_WIN_HINTS, False);
     ATOM_WIN_LAYER = XInternAtom(display, XA_WIN_LAYER, False);
     ATOM_WIN_TRAY = XInternAtom(display, XA_WIN_TRAY, False);
+    ATOM_ICE_ACTION = XInternAtom(display, "_ICEWM_ACTION", False);
 
     /******************************************************************************/
 
@@ -887,15 +942,16 @@ int main(int argc, char **argv) {
         } else if (!strcmp(action, "setWorkspace")) {
             CHECK_ARGUMENT_COUNT (1)
 
-                const long workspace(WorkspaceInfo(root).
-                                         parseWorkspaceName(*argp++));
-            if (WinWorkspaceInvalid == workspace) THROW(1);
+            long workspace;
+            if ( ! WorkspaceInfo(root).parseWorkspaceName(*argp++, &workspace))
+                THROW(1);
 
             MSG(("setWorkspace: %ld", workspace));
             FOREACH_WINDOW(window) setWorkspace(*window, workspace);
         } else if (!strcmp(action, "listWorkspaces")) {
             YTextProperty workspaceNames(root, ATOM_WIN_WORKSPACE_NAMES);
             for (int n(0); n < workspaceNames.count(); ++n)
+                if (n + 1 < workspaceNames.count() || workspaceNames.item(n)[0])
                 printf(_("workspace #%d: `%s'\n"), n, workspaceNames.item(n));
         } else if (!strcmp(action, "setLayer")) {
             CHECK_ARGUMENT_COUNT (1)
@@ -913,6 +969,7 @@ int main(int argc, char **argv) {
 
                 MSG(("setTrayOption: %d", trayopt));
             FOREACH_WINDOW(window) setTrayHint(*window, trayopt);
+        } else if (icewmAction(action)) {
         } else {
             msg(_("Unknown action: `%s'"), action);
             THROW(1);

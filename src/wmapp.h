@@ -24,7 +24,7 @@ enum FocusModels {
 
 class YSMListener {
 public:
-    virtual void handleSMAction(int message) = 0;
+    virtual void handleSMAction(WMAction message) = 0;
     virtual void restartClient(const char *path, char *const *args) = 0;
     virtual void runOnce(const char *resource, const char *path, char *const *args) = 0;
     virtual void runCommandOnce(const char *resource, const char *cmdline) = 0;
@@ -50,9 +50,9 @@ public:
     virtual void actionPerformed(YAction action, unsigned int modifiers);
 
     virtual void handleMsgBox(YMsgBox *msgbox, int operation);
-    virtual void handleSMAction(int message);
+    virtual void handleSMAction(WMAction message);
 
-    void doLogout();
+    void doLogout(RebootShutdown reboot);
     void logout();
     void cancelLogout();
 
@@ -134,7 +134,7 @@ extern ObjectMenu *rootMenu;
 
 class KProgram;
 extern YObjectArray<KProgram> keyProgs;
-extern int rebootOrShutdown;
+extern RebootShutdown rebootOrShutdown;
 
 #endif
 

@@ -15,8 +15,9 @@
 #include "config.h"
 
 #include "atray.h"
-#include "wmtaskbar.h"
+#include "applet.h"
 #include "yprefs.h"
+#include "yxapp.h"
 #include "prefs.h"
 #include "wmframe.h"
 #include "wmwinlist.h"
@@ -38,13 +39,16 @@ ref<YImage> TrayApp::taskMinimizedGradient;
 ref<YImage> TrayApp::taskActiveGradient;
 ref<YImage> TrayApp::taskNormalGradient;
 
-TrayApp::TrayApp(ClientData *frame, YWindow *aParent): YWindow(aParent) {
+TrayApp::TrayApp(ClientData *frame, TrayPane *trayPane, YWindow *aParent):
+    YWindow(aParent)
+{
     if (normalTrayFont == null)
         normalTrayFont = YFont::getFont(XFA(normalTaskBarFontName));
     if (activeTrayFont == null)
         activeTrayFont = YFont::getFont(XFA(activeTaskBarFontName));
 
     fFrame = frame;
+    fTrayPane = trayPane;
     selected = 0;
     fShown = true;
     setToolTip(frame->getTitle());
@@ -55,8 +59,16 @@ TrayApp::TrayApp(ClientData *frame, YWindow *aParent): YWindow(aParent) {
 TrayApp::~TrayApp() {
 }
 
+void TrayApp::activate() const {
+    getFrame()->activateWindow(true);
+}
+
 bool TrayApp::isFocusTraversable() {
     return true;
+}
+
+int TrayApp::getOrder() const {
+    return fFrame->getTrayOrder();
 }
 
 void TrayApp::setShown(bool ashow) {
@@ -144,7 +156,7 @@ void TrayApp::handleButton(const XButtonEvent &button) {
                     else {
                         if (button.state & ShiftMask)
                             getFrame()->wmOccupyOnlyWorkspace(manager->activeWorkspace());
-                        getFrame()->activateWindow(true);
+                        activate();
                     }
                 } else if (button.button == 2) {
                     if (getFrame()->visibleNow() &&
@@ -153,7 +165,7 @@ void TrayApp::handleButton(const XButtonEvent &button) {
                     else {
                         if (button.state & ShiftMask)
                             getFrame()->wmOccupyWorkspace(manager->activeWorkspace());
-                        getFrame()->activateWindow(true);
+                        activate();
                     }
                 }
             }
@@ -182,6 +194,18 @@ void TrayApp::handleClick(const XButtonEvent &up, int /*count*/) {
                                     YPopupWindow::pfCanFlipVertical |
                                     YPopupWindow::pfCanFlipHorizontal |
                                     YPopupWindow::pfPopupMenu);
+    }
+    else if (up.button == Button4) {
+        TrayApp* act = fTrayPane->getActive();
+        TrayApp* app = Elvis(fTrayPane->predecessor(act), this);
+        if (app != act)
+            app->activate();
+    }
+    else if (up.button == Button5) {
+        TrayApp* act = fTrayPane->getActive();
+        TrayApp* app = Elvis(fTrayPane->successor(act), this);
+        if (app != act)
+            app->activate();
     }
 }
 
@@ -216,16 +240,57 @@ TrayPane::TrayPane(IAppletContainer *taskBar, YWindow *parent): YWindow(parent) 
 TrayPane::~TrayPane() {
 }
 
+TrayApp* TrayPane::predecessor(TrayApp *tapp) {
+    const int count = fApps.getCount();
+    const int found = find(fApps, tapp);
+    if (found >= 0) {
+        for (int i = count - 1; 1 <= i; --i) {
+            int k = (found + i) % count;
+            if (fApps[k]->getShown()) {
+                return fApps[k];
+            }
+        }
+    }
+    return 0;
+}
+
+TrayApp* TrayPane::successor(TrayApp *tapp) {
+    const int count = fApps.getCount();
+    const int found = find(fApps, tapp);
+    if (found >= 0) {
+        for (int i = 1; i < count; ++i) {
+            int k = (found + i) % count;
+            if (fApps[k]->getShown()) {
+                return fApps[k];
+            }
+        }
+    }
+    return 0;
+}
+
+TrayApp* TrayPane::findApp(YFrameWindow *frame) {
+    IterType iter = fApps.iterator();
+    while (++iter && iter->getFrame() != frame);
+    return iter ? *iter : 0;
+}
+
+TrayApp* TrayPane::getActive() {
+    return findApp(manager->getFocus());
+}
+
 TrayApp *TrayPane::addApp(YFrameWindow *frame) {
-    TrayApp *tapp = new TrayApp(frame, this);
+    TrayApp *tapp = new TrayApp(frame, this, this);
 
     if (tapp != 0) {
-        fApps.append(tapp);
+        IterType it = fApps.reverseIterator();
+        while (++it && it->getOrder() > tapp->getOrder());
+        (--it).insert(tapp);
+
         tapp->show();
 
         if (!(frame->visibleOn(manager->activeWorkspace()) ||
               trayShowAllWindows))
-            tapp->setShown(0);
+            tapp->setShown(false);
 
         relayout();
     }
@@ -290,6 +355,11 @@ void TrayPane::relayoutNow() {
 void TrayPane::handleClick(const XButtonEvent &up, int count) {
     if (up.button == 3 && count == 1 && IS_BUTTON(up.state, Button3Mask)) {
         fTaskBar->contextMenu(up.x_root, up.y_root);
+    }
+    else if (up.button == Button4 || up.button == Button5) {
+        TrayApp* app = getActive();
+        if (app)
+            app->handleClick(up, count);
     }
 }
 

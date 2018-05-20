@@ -3,16 +3,22 @@
 
 class YAction;
 
-#define ICEWM_ACTION_NOP 0
-//#define ICEWM_ACTION_PING 1
-#define ICEWM_ACTION_LOGOUT 2
-#define ICEWM_ACTION_CANCEL_LOGOUT 3
-#define ICEWM_ACTION_REBOOT 4
-#define ICEWM_ACTION_SHUTDOWN 5
-#define ICEWM_ACTION_ABOUT 6
-#define ICEWM_ACTION_WINDOWLIST 7
-#define ICEWM_ACTION_RESTARTWM 8
-#define ICEWM_ACTION_SUSPEND 9
+enum WMAction {
+    ICEWM_ACTION_LOGOUT = 2,
+    ICEWM_ACTION_CANCEL_LOGOUT = 3,
+    ICEWM_ACTION_REBOOT = 4,
+    ICEWM_ACTION_SHUTDOWN = 5,
+    ICEWM_ACTION_ABOUT = 6,
+    ICEWM_ACTION_WINDOWLIST = 7,
+    ICEWM_ACTION_RESTARTWM = 8,
+    ICEWM_ACTION_SUSPEND = 9,
+};
+
+enum RebootShutdown {
+    Logout = 0,
+    Reboot = 1,
+    Shutdown = 2,
+};
 
 enum EAction {
     actionNull               = 0,
@@ -71,7 +77,7 @@ enum EAction {
     actionFocusCustom        = 193,
 };
 
-bool canShutdown(bool reboot);
+bool canShutdown(RebootShutdown reboot);
 bool canLock();
 /**
  * Basic check whether a shell command could possibly be run.

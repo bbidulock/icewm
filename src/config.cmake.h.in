@@ -99,6 +99,7 @@
 #cmakedefine CONFIG_XPM 1
 #cmakedefine CONFIG_IMLIB  1
 #cmakedefine CONFIG_LIBPNG  1
+#cmakedefine CONFIG_LIBJPEG  1
 #cmakedefine CONFIG_GDK_PIXBUF_XLIB 1
 #cmakedefine CONFIG_I18N 1
 #cmakedefine ENABLE_NLS 1
@@ -110,6 +111,7 @@
 #cmakedefine CONFIG_XRANDR 1
 #cmakedefine CONFIG_XFREETYPE @CONFIG_XFREETYPE_VALUE@
 #cmakedefine CONFIG_COREFONTS 1
+#cmakedefine CONFIG_EXTERNAL_TRAY 1
 #cmakedefine ENABLE_ALSA 1
 #cmakedefine ENABLE_AO 1
 #cmakedefine ENABLE_ESD 1
@@ -117,5 +119,7 @@
 #cmakedefine XINERAMA 1
 #cmakedefine CONFIG_FRIBIDI 1
 #cmakedefine DEBUG 1
+
+#define CONFIG_DEFAULT_THEME "@CONFIG_DEFAULT_THEME@"
 
 #endif // __CONFIG_H__

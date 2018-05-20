@@ -13,12 +13,17 @@
 
 #include <string.h>
 
+enum ToolTipMargins {
+    TTXMargin = 5,
+    TTYMargin = 3,
+};
+
 YToolTipWindow::YToolTipWindow(ustring text) :
     toolTipBg(&clrToolTip),
     toolTipFg(&clrToolTipText),
     toolTipFont(YFont::getFont(XFA(toolTipFontName)))
 {
-    setStyle(wsToolTip | wsOverrideRedirect);
+    setStyle(wsToolTip | wsOverrideRedirect | wsSaveUnder);
     setText(text);
 }
 
@@ -33,10 +38,10 @@ void YToolTipWindow::paint(Graphics &g, const YRect &/*r*/) {
     g.setColor(YColor::black);
     g.drawRect(0, 0, width() - 1, height() - 1);
     if (fText != null) {
-        int y = toolTipFont->ascent() + 2;
+        int y = toolTipFont->ascent() + TTYMargin;
         g.setFont(toolTipFont);
         g.setColor(toolTipFg);
-        g.drawStringMultiline(3, y, fText);
+        g.drawStringMultiline(TTXMargin, y, fText);
     }
 }
 
@@ -59,7 +64,7 @@ void YToolTipWindow::setText(const ustring &tip) {
     fText = tip;
     if (fText != null) {
         YDimension const size(toolTipFont->multilineAlloc(fText));
-        setSize(size.w + 6, size.h + 7);
+        setSize(size.w + 2 * TTXMargin, size.h + 3 + 2 * TTYMargin);
 
         //!!! merge with below code in locate
         int x = this->x();

@@ -70,8 +70,6 @@ private:
     int fExitCode;
     int fExitApp;
 
-    friend class YSocket;
-
     bool getTimeout(struct timeval *timeout);
     void handleTimeouts();
     void decreaseTimeouts(struct timeval difftime);

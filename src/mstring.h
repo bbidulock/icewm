@@ -49,6 +49,7 @@ public:
     mstring(const char *str1, const char *str2);
     mstring(const char *str1, const char *str2, const char *str3);
     mstring(const char *str, size_t len);
+    explicit mstring(long);
 
     mstring(null_ref &): fStr(0), fOffset(0), fCount(0) { }
     mstring():           fStr(0), fOffset(0), fCount(0) { }
@@ -63,6 +64,7 @@ public:
     ~mstring();
 
     size_t length() const { return fCount; }
+    size_t offset() const { return fOffset; }
     bool isEmpty() const { return 0 == fCount; }
     bool nonempty() const { return 0 < fCount; }
 
@@ -137,14 +139,18 @@ public:
     cstring(const mstring &str);
     cstring(const char *cstr) : str(cstr) {}
     cstring(const null_ref &): str() {}
+    explicit cstring(long n): str(n) {}
 
     cstring& operator=(const cstring& cs);
+    cstring operator+(const mstring& rv) const { return cstring(m_str() + rv); }
     operator const char *() const { return c_str(); }
     const char *c_str() const {
         return str.length() > 0 ? str.data() : "";
     }
     const mstring& m_str() const { return str; }
     operator const mstring&() const { return str; }
+    bool operator==(const char* cstr) const { return str == cstr; }
+    bool operator!=(const char* cstr) const { return str != cstr; }
     bool operator==(const null_ref &) const { return str == null; }
     bool operator!=(const null_ref &) const { return str != null; }
     bool operator==(const cstring& c) const { return str == c.str; }

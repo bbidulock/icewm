@@ -8,6 +8,7 @@
 #include "mstring.h"
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <ctype.h>
 #include <regex.h>
 #include "base.h"
@@ -71,6 +72,12 @@ mstring::mstring(const char *str1, const char *str2, const char *str3) {
     memcpy(fStr->fStr + len1 + len2, str3, len3);
     fStr->fStr[fCount] = 0;
     acquire();
+}
+
+mstring::mstring(long n) {
+    char num[24];
+    snprintf(num, sizeof num, "%ld", n);
+    init(num, strlen(num));
 }
 
 void mstring::init(const char *str, size_t len) {
@@ -405,6 +412,9 @@ mstring mstring::match(const char* regex, const char* flags) {
 
     regmatch_t pos;
     int exec = regexec(&preg, data(), 1, &pos, execFlags);
+
+    regfree(&preg);
+
     if (exec)
         return null;
 

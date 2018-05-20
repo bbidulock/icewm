@@ -14,81 +14,140 @@
 #include "intl.h"
 #include "binascii.h"
 #include "ypointer.h"
+#include <sys/types.h>
+#include <regex.h>
 
-#include <string.h>
+class Matches {
+private:
+    ustring const str;
+    int const size;
+    asmart<regmatch_t> const match;
+public:
+    Matches(ustring s, int n) : str(s), size(n), match(new regmatch_t[n]) {}
+    int num() const { return size; }
+    int beg(int i) const { return match[i].rm_so; }
+    int end(int i) const { return match[i].rm_eo; }
+    int len(int i) const { return end(i) - beg(i); }
+    bool has(int i) const { return 0 <= beg(i) && beg(i) <= end(i); }
+    ustring get(int i) const { return str.substring(beg(i), len(i)); }
+    ustring operator[](int i) const { return has(i) ? get(i) : null; }
+    regmatch_t* ptr() const { return match; }
+};
+
+class Pattern {
+private:
+    regex_t pat;
+    int comp;
+    int exec;
+public:
+    Pattern(const char* re) :
+        comp(regcomp(&pat, re, REG_EXTENDED | REG_NEWLINE)),
+        exec(0)
+    {
+        if (comp) {
+            char err[99] = "";
+            regerror(comp, &pat, err, sizeof err);
+            warn("regcomp failed for %s: %s\n", re, err);
+        }
+    }
+    ~Pattern() {
+        if (0 == comp)
+            regfree(&pat);
+    }
+    bool match(const char* str, const Matches& m) {
+        if (0 == comp)
+            exec = regexec(&pat, str, m.num(), m.ptr(), 0);
+        return *this;
+    }
+    operator bool() const { return !(comp | exec); }
+};
 
 /*******************************************************************************
  * An URL decoder
  ******************************************************************************/
 
-YURL::YURL():
-    fScheme(null), fUser(null), fPassword(null),
-    fHost(null), fPort(null), fPath(null) {
+YURL::YURL() {
 }
 
-YURL::YURL(ustring url, bool expectInetScheme):
-    fScheme(null), fUser(null), fPassword(null),
-    fHost(null), fPort(null), fPath(null) {
-    assign(url, expectInetScheme);
+YURL::YURL(ustring url) {
+    *this = url;
 }
 
-YURL::~YURL() {
-}
+void YURL::operator=(ustring url) {
+    scheme = null;
+    user = null;
+    pass = null;
+    host = null;
+    port = null;
+    path = null;
 
-void YURL::assign(ustring url, bool expectInetScheme) {
-    fScheme = null;
-    fUser = null;
-    fPassword = null;
-    fHost = null;
-    fPort = null;
-    fPath = null;
-    ustring rest(url);
+    // parse scheme://[user[:password]@]server[:port][/path]
 
-    int i = rest.indexOf(':');
-    if (i != -1) {
-        fScheme = rest.substring(0, i);
-        rest = rest.substring(i + 1);
+    enum {
+        Path = 1, File = 2, Scheme = 3, User = 5, Pass = 7,
+        Host = 8, Port = 10, Inbox = 11, Count = 12,
+    };
+    const char re[] =
+        // 0:
+        "^"
+        // 1: path
+        "(/.*)"
+        "|"
+        // 2: file
+        "file://(.*)"
+        "|"
+        // 3: scheme
+        "([a-z][a-z0-9]+)"
+        "://"
+        // 4:
+        "("
+        // 5: user
+        "([^:/@]+)"
+        // 6:
+        "(:"
+        // 7: pass
+        "([^:/@]*)"
+        ")?"
+        "@)?"
+        // 8: host
+        "([^:@/]+)"
+        // 9:
+        "(:"
+        // 10: port
+        "([0-9]+|[a-z][a-z0-9]+)"
+        ")?"
+        // 11: inbox
+        "(/.*)?"
+        "$";
 
-        if (rest.length() > 2 &&
-            rest.charAt(0) == '/' && rest.charAt(1) == '/')
-        {
-            rest = rest.substring(2);
+    cstring str(url);
+    Matches mat(str, Count);
+    Pattern rex(re);
 
-            i = rest.indexOf('/');
-            if (i != -1) {
-                fPath = rest.substring(i);
-                fPath = unescape(fPath);
-                fHost = rest.substring(0, i);
-            } else {
-                fHost = rest;
-            }
-
-            i = fHost.indexOf('@'); // ???last
-
-            if (i != -1) {
-                fUser = fHost.substring(0, i);
-                fHost = fHost.substring(i + 1);
-
-                i = fUser.indexOf(':');
-                if (i != -1) {
-                    fPassword = fUser.substring(i + 1);
-                    fUser = fUser.substring(0, i);
-
-                    fPassword = unescape(fPassword);
-                }
-                fUser = unescape(fUser);
-            }
-            fHost = unescape(fHost);
-        } else if (expectInetScheme)
-            warn(_("\"%s\" doesn't describe a common internet scheme"), cstring(url).c_str());
-
+    if (rex.match(str, mat)) {
+        if (mat.has(Path)) {
+            path = mat[Path];
+            scheme = "file";
+        }
+        else if (mat.has(File)) {
+            path = unescape(mat[File]);
+            scheme = "file";
+        }
+        else if (mat.has(Scheme)) {
+            scheme = mat[Scheme];
+            user = unescape(mat[User]);
+            pass = unescape(mat[Pass]);
+            host = unescape(mat[Host]);
+            port = mat[Port];
+            path = unescape(mat[Inbox]);
+        }
     } else {
-        warn(_("\"%s\" contains no scheme description"), cstring(url).c_str());
+        warn(_("Failed to parse URL \"%s\"."), str.c_str());
     }
 }
 
 ustring YURL::unescape(ustring str) {
-    if (str != null) {
+    if (0 <= str.indexOf('%')) {
         csmart nstr(new char[str.length()]);
         if (nstr == 0)
             return null;
@@ -99,11 +158,15 @@ ustring YURL::unescape(ustring str) {
 
             if (c == '%') {
                 if (i + 3 > str.length()) {
+                    warn(_("Incomplete hex escape in URL at position %d."),
+                            int(i + str.offset()));
                     return null;
                 }
                 int a = BinAscii::unhex(str.charAt(i + 1));
                 int b = BinAscii::unhex(str.charAt(i + 2));
                 if (a == -1 || b == -1) {
+                    warn(_("Invalid hex escape in URL at position %d."),
+                            int(i + str.offset()));
                     return null;
                 }
                 i += 2;

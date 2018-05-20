@@ -340,6 +340,7 @@ public:
     bool isTypeDock(void) { return (fWindowType == wtDock); }
 
     int getWorkspace() const { return fWinWorkspace; }
+    int getTrayOrder() const { return fTrayOrder; }
     void setWorkspace(int workspace);
     void setWorkspaceHint(long workspace);
     long getActiveLayer() const { return fWinActiveLayer; }
@@ -435,6 +436,7 @@ private:
         fsWorkspaceHidden = 1 << 4
     } FrameStateFlags;*/
 
+    bool fManaged;
     bool fFocused;
     unsigned fFrameFunctions;
     unsigned fFrameDecors;
@@ -482,9 +484,9 @@ private:
     long fWinActiveLayer;
     long fWinTrayOption;
     long fWinState;
-    bool fManaged;
     long fWinOptionMask;
     long fOldLayer;
+    int fTrayOrder;
 
     int fFullscreenMonitorsTop;
     int fFullscreenMonitorsBottom;
@@ -537,6 +539,7 @@ private:
     void setSize(int, int);
     void setWindowGeometry(const YRect &r) {
         YWindow::setGeometry(r);
+        performLayout();
     }
     friend class MiniIcon;
 };

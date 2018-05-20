@@ -200,12 +200,11 @@ XSV(const char *, cpuClassHint,                 "top.XTerm")
 XIV(bool, cpuCombine,                           true)
 XSV(const char *, netCommand,                   "xterm -name 'socket statistics' -title 'Socket Statistics' -hold -e ss")
 XSV(const char *, netClassHint,                 "ss.XTerm")
-#ifdef __linux__
-// use sysfs to build the interface list
-XSV(const char *, netDevice,                    "e* w*")
-#else
-XSV(const char *, netDevice,                    "eth0 wlan0")
+XSV(const char *, netDevice,                    "[ew]*"
+#ifdef __OpenBSD__
+                                                " vio*"
 #endif
+   )
 XSV(const char *, addressBarCommand,            0)
 #ifdef CONFIG_I18N
 XSV(const char *, fmtTime,                      "%X")
@@ -315,14 +314,14 @@ cfoption icewm_preferences[] = {
     OBV("TaskBarShowWindowIcons",               &taskBarShowWindowIcons,        "Show icons of windows on the task bar"),
     OBV("TaskBarShowStartMenu",                 &taskBarShowStartMenu,          "Show 'Start' menu on task bar"),
     OBV("TaskBarShowWindowListMenu",            &taskBarShowWindowListMenu,     "Show 'window list' menu on task bar"),
-    OBV("TaskBarShowCPUStatus",                 &taskBarShowCPUStatus,          "Show CPU status on task bar (Linux & Solaris)"),
+    OBV("TaskBarShowCPUStatus",                 &taskBarShowCPUStatus,          "Show CPU status on task bar"),
     OBV("CPUStatusShowRamUsage",                &cpustatusShowRamUsage,         "Show RAM usage in CPU status tool tip"),
     OBV("CPUStatusShowSwapUsage",               &cpustatusShowSwapUsage,        "Show swap usage in CPU status tool tip"),
     OBV("CPUStatusShowAcpiTemp",                &cpustatusShowAcpiTemp,         "Show ACPI temperature in CPU status tool tip"),
     OBV("CPUStatusShowAcpiTempInGraph",         &cpustatusShowAcpiTempInGraph,  "Show ACPI temperature in CPU status bar"),
     OBV("CPUStatusShowCpuFreq",                 &cpustatusShowCpuFreq,          "Show CPU frequency in CPU status tool tip"),
     OBV("TaskBarShowMEMStatus",                 &taskBarShowMEMStatus,          "Show memory usage status on task bar (Linux only)"),
-    OBV("TaskBarShowNetStatus",                 &taskBarShowNetStatus,          "Show network status on task bar (Linux only)"),
+    OBV("TaskBarShowNetStatus",                 &taskBarShowNetStatus,          "Show network status on task bar"),
     OBV("TaskBarShowCollapseButton",            &taskBarShowCollapseButton,     "Show a button to collapse the taskbar"),
     OBV("TaskBarDoubleHeight",                  &taskBarDoubleHeight,           "Use double-height task bar"),
     OBV("TaskBarWorkspacesLeft",                &taskBarWorkspacesLeft,         "Place workspace pager on left, not right"),

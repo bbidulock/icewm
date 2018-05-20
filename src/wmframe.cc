@@ -122,6 +122,7 @@ YFrameWindow::YFrameWindow(
     fWinTrayOption = WinTrayIgnore;
     fWinState = 0;
     fWinOptionMask = ~0;
+    fTrayOrder = 0;
 
     fClientContainer = new YClientContainer(this, this);
     fClientContainer->show();
@@ -1120,7 +1121,12 @@ void YFrameWindow::actionPerformed(YAction action, unsigned int modifiers) {
     } else {
         for (int l(0); l < WinLayerCount; l++) {
             if (action == layerActionSet[l]) {
+                bool isFull = isFullscreen() && manager->fullscreenEnabled();
+                if (isFull)
+                    manager->setFullscreenEnabled(false);
                 wmSetLayer(l);
+                if (isFull)
+                    manager->setFullscreenEnabled(true);
                 return ;
             }
         }
@@ -2038,6 +2044,9 @@ void YFrameWindow::getWindowOptions(WindowOptions *list, WindowOption &opt,
         if (name != null) {
             ustring klass_instance(h->res_class, ".", h->res_name);
             list->mergeWindowOption(opt, klass_instance, remove);
+
+            ustring name_klass(h->res_name, ".", h->res_class);
+            list->mergeWindowOption(opt, name_klass, remove);
         }
         list->mergeWindowOption(opt, klass, remove);
     }
@@ -2069,6 +2078,7 @@ void YFrameWindow::getDefaultOptions(bool &requestFocus) {
         setRequestedLayer(wo.layer);
     if (wo.tray != (long)WinTrayInvalid && wo.tray < WinTrayOptionCount)
         setTrayOption(wo.tray);
+    fTrayOrder = wo.order;
 }
 
 ref<YIcon> newClientIcon(int count, int reclen, long * elem) {
@@ -2520,10 +2530,10 @@ void YFrameWindow::updateLayer(bool restack) {
         if (newLayer < fOwner->getActiveLayer())
             newLayer = fOwner->getActiveLayer();
     }
-    {
+    if (isFullscreen() && manager->fullscreenEnabled() && !canRaise()) {
         YFrameWindow *focus = manager->getFocus();
         while (focus) {
-            if (focus == this && isFullscreen() && manager->fullscreenEnabled() && !canRaise()) {
+            if (focus == this) {
                 newLayer = WinLayerFullscreen;
                 break;
             }

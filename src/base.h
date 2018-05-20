@@ -63,6 +63,14 @@ inline T non_zero(T x) {
     return Elvis(x, (T) 1);
 }
 
+template <class L, class R>
+class pair {
+public:
+    L left;
+    R right;
+    pair(const L& l, const R& r) : left(l), right(r) { }
+};
+
 /*** String Functions *********************************************************/
 
 /* Prefer this as a safer alternative over strcpy. Return strlen(from). */
@@ -82,6 +90,9 @@ char *cstrJoin(char const *str, ...);
 
 char* demangle(const char* str);
 unsigned long strhash(const char* str);
+
+inline bool nonempty(const char* s) { return s && *s; }
+inline bool isEmpty(const char* s) { return !(s && *s); }
 
 /*** Message Functions ********************************************************/
 
@@ -271,7 +282,7 @@ bool toggleLogEvents();
 const char* eventName(int eventType);
 
 inline int intersection(int s1, int e1, int s2, int e2) {
-    return max(0, 1 + min(e1, e2) - max(s1, s2));
+    return max(0, min(e1, e2) - max(s1, s2));
 }
 
 #endif

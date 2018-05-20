@@ -29,7 +29,7 @@ void show(cfoption *options) {
         switch (options[i].type) {
         case cfoption::CF_BOOL:
             printf("# %s=%d # 0/1\n",
-                   options[i].name, (*options[i].v.bool_value) ? 1 : 0);
+                   options[i].name, options[i].boolval());
             break;
         case cfoption::CF_INT:
             printf("# %s=%d # [%d-%d]\n",
@@ -42,22 +42,13 @@ void show(cfoption *options) {
                    options[i].v.u.min, options[i].v.u.max);
             break;
         case cfoption::CF_STR:
-            if (options[i].v.s.string_value ||
-                    (options[i].description && *options[i].description)) {
-                printf("# %s=\"%s\"\n",
-                       options[i].name,
-                       (options[i].v.s.string_value) ?
-                       (*options[i].v.s.string_value) ?
-                       (*options[i].v.s.string_value) : ""
-                       : "");
-            }
+            printf("# %s=\"%s\"\n", options[i].name, Elvis(options[i].str(), ""));
             break;
         case cfoption::CF_KEY:
-            {
-                WMKey *key = options[i].v.k.key_value;
-
-                printf("# %s=\"%s\"\n", options[i].name, key->name);
-            }
+            printf("# %s=\"%s\"\n", options[i].name, options[i].key()->name);
+            break;
+        case cfoption::CF_FUNC:
+            printf("# %s=\"\"\n", options[i].name);
             break;
         case cfoption::CF_NONE:
             break;

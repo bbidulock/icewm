@@ -2,7 +2,9 @@
 
 #include "ylib.h"
 #include "atasks.h"
-#include "wmtaskbar.h"
+#include "atray.h"
+#include "applet.h"
+#include "ymenu.h"
 #include "yprefs.h"
 #include "prefs.h"
 #include "yxapp.h"
@@ -50,8 +52,16 @@ TaskBarApp::~TaskBarApp() {
         fRaiseTimer->disableTimerListener(this);
 }
 
+void TaskBarApp::activate() const {
+    getFrame()->activateWindow(true);
+}
+
 bool TaskBarApp::isFocusTraversable() {
     return true;
+}
+
+int TaskBarApp::getOrder() const {
+    return fFrame->getTrayOrder();
 }
 
 void TaskBarApp::setShown(bool ashow) {
@@ -228,12 +238,12 @@ void TaskBarApp::handleButton(const XButtonEvent &button) {
                     else {
                         if (button.state & ShiftMask)
                             getFrame()->wmOccupyOnlyWorkspace(manager->activeWorkspace());
-                        getFrame()->activateWindow(true);
+                        activate();
                     }
                 } else if (button.button == 2) {
                     if (hasbit(button.state, xapp->AltMask)) {
                         if (getFrame()) {
-                            getFrame()->activateWindow(true);
+                            activate();
                             if (manager->getFocus()) {
                                 manager->getFocus()->wmClose();
                                 return;
@@ -246,7 +256,7 @@ void TaskBarApp::handleButton(const XButtonEvent &button) {
                     else {
                         if (button.state & ShiftMask)
                             getFrame()->wmOccupyWorkspace(manager->activeWorkspace());
-                        getFrame()->activateWindow(true);
+                        activate();
                     }
                 }
             }
@@ -275,6 +285,18 @@ void TaskBarApp::handleClick(const XButtonEvent &up, int /*count*/) {
                                     YPopupWindow::pfCanFlipVertical |
                                     YPopupWindow::pfCanFlipHorizontal |
                                     YPopupWindow::pfPopupMenu);
+    }
+    else if (up.button == Button4) {
+        TaskBarApp* act = fTaskPane->getActive();
+        TaskBarApp* app = Elvis(fTaskPane->predecessor(act), this);
+        if (app != act)
+            app->activate();
+    }
+    else if (up.button == Button5) {
+        TaskBarApp* act = fTaskPane->getActive();
+        TaskBarApp* app = Elvis(fTaskPane->successor(act), this);
+        if (app != act)
+            app->activate();
     }
 }
 
@@ -333,39 +355,67 @@ TaskPane::~TaskPane() {
 }
 
 void TaskPane::insert(TaskBarApp *tapp) {
-    fApps.append(tapp);
+    IterType it = fApps.reverseIterator();
+    while (++it && it->getOrder() > tapp->getOrder());
+    (--it).insert(tapp);
 }
 
 void TaskPane::remove(TaskBarApp *tapp) {
     findRemove(fApps, tapp);
 }
 
+TaskBarApp* TaskPane::predecessor(TaskBarApp *tapp) {
+    const int count = fApps.getCount();
+    const int found = find(fApps, tapp);
+    if (found >= 0) {
+        for (int i = count - 1; 1 <= i; --i) {
+            int k = (found + i) % count;
+            if (fApps[k]->getShown()) {
+                return fApps[k];
+            }
+        }
+    }
+    return 0;
+}
+
+TaskBarApp* TaskPane::successor(TaskBarApp *tapp) {
+    const int count = fApps.getCount();
+    const int found = find(fApps, tapp);
+    if (found >= 0) {
+        for (int i = 1; i < count; ++i) {
+            int k = (found + i) % count;
+            if (fApps[k]->getShown()) {
+                return fApps[k];
+            }
+        }
+    }
+    return 0;
+}
+
+TaskBarApp* TaskPane::findApp(YFrameWindow *frame) {
+    IterType task = fApps.iterator();
+    while (++task && task->getFrame() != frame);
+    return task ? *task : 0;
+}
+
+TaskBarApp* TaskPane::getActive() {
+    return findApp(manager->getFocus());
+}
+
 TaskBarApp *TaskPane::addApp(YFrameWindow *frame) {
     TaskBarApp *tapp = new TaskBarApp(frame, this, this);
-
     if (tapp != 0) {
         insert(tapp);
-#if 0
-        tapp->show();
-        if (!frame->visibleOn(manager->activeWorkspace()) &&
-            !taskBarShowAllWindows)
-            tapp->setShown(0);
-        if (frame->owner() != 0 && !taskBarShowTransientWindows)
-            tapp->setShown(0);
-        relayout();
-#endif
     }
     return tapp;
 }
 
 void TaskPane::removeApp(YFrameWindow *frame) {
-    for (IterType task = fApps.iterator(); ++task; ) {
-        if (task->getFrame() == frame) {
-            task->hide();
-            remove(task);
-            relayout();
-            return;
-        }
+    TaskBarApp* task = findApp(frame);
+    if (task) {
+        task->hide();
+        remove(task);
+        relayout();
     }
 }
 
@@ -410,6 +460,13 @@ void TaskPane::relayoutNow() {
 void TaskPane::handleClick(const XButtonEvent &up, int count) {
     if (up.button == 3 && count == 1 && IS_BUTTON(up.state, Button3Mask)) {
         fTaskBar->contextMenu(up.x_root, up.y_root);
+    }
+    else if (up.button == Button4 || up.button == Button5) {
+        TaskBarApp* app = getActive();
+        if (app)
+            app->handleClick(up, count);
+        else
+            fTaskBar->windowTrayPane()->handleClick(up, count);
     }
 }
 

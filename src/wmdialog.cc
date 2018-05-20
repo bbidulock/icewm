@@ -16,43 +16,32 @@
 #include "wmapp.h"
 #include "wmmgr.h"
 #include "yrect.h"
+#include "ypointer.h"
 #include "sysdep.h"
 
 #include "intl.h"
 
 bool couldRunCommand(const char *cmd) {
-    if (cmd == 0 || cmd[0] == 0)
+    if (isEmpty(cmd))
         return false;
     // else-case. Defined, but check whether it's executable first
-    char *copy = strdup(cmd);
-    char *term = strchr(copy, ' ');
-    if (term)
-        *term = 0x0;
-    term = strchr(copy, '\t');
-    if (term)
-        *term = 0x0;
-    upath whereis = findPath(getenv("PATH"), X_OK, copy);
-    if (whereis != null) {
-        free(copy);
-        return true;
-    }
-    free(copy);
-    return false;
+    csmart copy(newstr(cmd));
+    char *save = 0;
+    char *tokn = strtok_r(copy, " \t\n", &save);
+    return tokn && findPath(getenv("PATH"), X_OK, tokn) != null;
 }
 
 bool canLock()
 {
-        return couldRunCommand(lockCommand);
+    return couldRunCommand(lockCommand);
 }
 
-bool canShutdown(bool reboot) {
-    if (!reboot)
-        if (shutdownCommand == 0 || shutdownCommand[0] == 0)
+bool canShutdown(RebootShutdown reboot) {
+    if (reboot == Shutdown && isEmpty(shutdownCommand))
             return false;
-    if (reboot)
-        if (rebootCommand == 0 || rebootCommand[0] == 0)
+    if (reboot == Reboot && isEmpty(rebootCommand))
             return false;
-    if (logoutCommand && logoutCommand[0])
+    if (nonempty(logoutCommand))
         return false;
 #ifdef CONFIG_SESSION
     if (smapp->haveSessionManager())
@@ -91,9 +80,9 @@ CtrlAltDelete::CtrlAltDelete(IApp *app, YWindow *parent): YWindow(parent) {
     restartButton = addButton(_("_Restart icewm"), w, h);
     aboutButton = addButton(_("_About"), w, h);
 
-    if (!canShutdown(true))
+    if (!canShutdown(Reboot))
         rebootButton->setEnabled(false);
-    if (!canShutdown(false))
+    if (!canShutdown(Shutdown))
         shutdownButton->setEnabled(false);
     if (!canLock())
         lockButton->setEnabled(false);
@@ -171,6 +160,22 @@ bool CtrlAltDelete::handleKey(const XKeyEvent &key) {
     if (key.type == KeyPress) {
         if (k == XK_Escape && m == 0) {
             deactivate();
+            return true;
+        }
+        if ((k == XK_Left || k == XK_KP_Left) && m == 0) {
+            prevFocus();
+            return true;
+        }
+        if ((k == XK_Right || k == XK_KP_Right) && m == 0) {
+            nextFocus();
+            return true;
+        }
+        if ((k == XK_Down || k == XK_KP_Down) && m == 0) {
+            nextFocus(); nextFocus(); nextFocus();
+            return true;
+        }
+        if ((k == XK_Up || k == XK_KP_Up) && m == 0) {
+            prevFocus(); prevFocus(); prevFocus();
             return true;
         }
     }

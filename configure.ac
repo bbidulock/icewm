@@ -130,6 +130,7 @@ if test x$cross_compling != xyes ; then :; AC_FUNC_MALLOC fi
 if test x$cross_compling != xyes ; then :; AC_FUNC_REALLOC fi
 AC_CHECK_FUNCS([abort backtrace_symbols_fd basename dup2])
 AC_CHECK_FUNCS([gethostbyname gethostname gettimeofday])
+AC_CHECK_FUNCS([if_nametoindex if_indextoname if_nameindex])
 AC_CHECK_FUNCS([mblen memchr memmove memset mkdir nl_langinfo])
 AC_CHECK_FUNCS([select setlocale socket])
 AC_CHECK_FUNCS([strcasecmp strchr strcspn strdup strerror strncasecmp])
@@ -346,7 +347,7 @@ else
 	IMAGE_LIBS="$XPM_LIBS"
 	AC_DEFINE([CONFIG_XPM],[1],[Define to enable libxpm rendering.])
 	image_library=libxpm])
-    PKG_CHECK_MODULES([LIBPNG],[libpng >= 1.6],[
+    PKG_CHECK_MODULES([LIBPNG],[libpng >= 1.2],[
 	IMAGE_CFLAGS="$LIBPNG_CFLAGS $IMAGE_CFLAGS"
 	IMAGE_LIBS="$LIBPNG_LIBS $IMAGE_LIBS"
 	AC_DEFINE([CONFIG_LIBPNG],[1],[Define to enable libpng rendering.])
@@ -355,7 +356,12 @@ else
         IMAGE_CFLAGS="$LIBJPEG_CFLAGS $IMAGE_CFLAGS"
         IMAGE_LIBS="$LIBJPEG_LIBS $IMAGE_LIBS"
         AC_DEFINE([CONFIG_LIBJPEG],[1],[Define to enable libjpeg rendering.])
-        image_library="$image_library libjpeg"])
+        image_library="$image_library libjpeg"],
+        [if test -f /usr/include/jpeglib.h &&
+            test -x /usr/lib64/libjpeg.so ; then
+            IMAGE_LIBS="-ljpeg $IMAGE_LIBS"
+            AC_DEFINE([CONFIG_LIBJPEG],[1],[Define to enable libjpeg rendering.])
+        fi])
 fi
 AC_SUBST([IMAGE_CFLAGS])
 AC_SUBST([IMAGE_LIBS])
@@ -400,6 +406,13 @@ ICE_EXPAND([LOCDIR],[${localedir}])
 AC_DEFINE_UNQUOTED([LOCDIR],["${LOCDIR}"],
 	[Define to locale directory.])
 
+AC_ARG_WITH([theme],
+    AC_HELP_STRING([--with-theme=NAME],[Default theme.
+                    [default="default/default.theme"]]),,
+                    with_theme="default/default.theme")
+AC_DEFINE_UNQUOTED([CONFIG_DEFAULT_THEME],
+                   "${with_theme}",[Name of default theme])
+
 AC_DEFINE_UNQUOTED([HOSTOS],["${host_os}"],
 	[Define to the host operating system.])
 AC_DEFINE_UNQUOTED([HOSTCPU],["${host_cpu}"],
@@ -413,6 +426,12 @@ if test x$enable_debug = xyes ; then
     AC_DEFINE([DEBUG],[1],[Define if you want to debug IceWM.])
     CXXFLAGS="$CXXFLAGS -g -DDEBUG"
     features="$features debugging-symbols"
+fi
+AC_ARG_ENABLE([logevents],
+    AC_HELP_STRING([--enable-logevents],[Support logging of X11 events.]))
+if test x$enable_logevents = xyes ; then
+    AC_DEFINE([LOGEVENTS],[1],[Define to enable X11 event logging support.])
+    features="$features logevents"
 fi
 
 CORE_LIBS="$CORE_LIBS -lm"

@@ -6,17 +6,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Icewm 1.2.0-beta1\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2018-02-03 20:04-0700\n"
-"PO-Revision-Date: 2016-11-04 09:31+0000\n"
-"Last-Translator: Joakim Ganse <joakim.ganse@b-iq.se>\n"
-"Language-Team: Swedish <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
+"POT-Creation-Date: 2018-05-06 21:11+0200\n"
+"PO-Revision-Date: 2018-04-19 08:28+0000\n"
+"Last-Translator: Martin Devenney <devenneymartin@gmail.com>\n"
+"Language-Team: Swedish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
 "branch/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.6\n"
+"X-Generator: Weblate 2.18\n"
 
 #: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:681 src/aapm.cc:806
 msgid " - Power"
@@ -39,51 +39,74 @@ msgstr "C"
 msgid " - Full"
 msgstr " - Full"
 
-#: src/aapm.cc:999
+#: src/aapm.cc:985
 #, c-format
 msgid "power:\t%s"
+msgstr "ström:\t%s"
+
+#: src/aclock.cc:173
+msgid "Clock"
 msgstr ""
 
-#: src/acpustatus.cc:196
+#: src/aclock.cc:174 src/acpustatus.cc:818 src/amailbox.cc:907
+#: src/amemstatus.cc:286
+msgid "_Disable"
+msgstr ""
+
+#: src/aclock.cc:175
+msgid "_UTC"
+msgstr ""
+
+#: src/acpustatus.cc:236
 #, c-format
 msgid ""
 "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 "intr = %llu, softirq = %llu, steal = %llu\n"
 msgstr ""
+"stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
+"intr = %llu, softirq = %llu, steal = %llu\n"
 
-#: src/acpustatus.cc:201
+#: src/acpustatus.cc:241
 #, c-format
 msgid ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 "softirq = %llu, steal = %llu (h = %i)\n"
 msgstr ""
+"bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
+"softirq = %llu, steal = %llu (h = %i)\n"
 
-#: src/acpustatus.cc:261
-#, fuzzy, c-format
-msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
-msgstr "Processorbelastning: %3.2f %3.2f %3.2f, %u"
-
-#: src/acpustatus.cc:266
+#: src/acpustatus.cc:306
 #, c-format
+msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
+msgstr "Processorbelastning %s: %3.2f %3.2f %3.2f, %u"
+
+#: src/acpustatus.cc:312
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| "Ram (free): %5.2f (%.2f) M"
 msgid ""
 "\n"
-"Ram (free): %5.2f (%.2f) M"
+"Ram (free): %5.3f (%.3f) G"
 msgstr ""
 "\n"
 "↵\n"
 "Ram (fritt): %5.2f (%.2f) M"
 
-#: src/acpustatus.cc:271
-#, c-format
+#: src/acpustatus.cc:317
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| "Swap (free): %.2f (%.2f) M"
 msgid ""
 "\n"
-"Swap (free): %.2f (%.2f) M"
+"Swap (free): %.3f (%.3f) G"
 msgstr ""
 "\n"
 "↵\n"
 "Swap (fritt): %.2f (%.2f) M"
 
-#: src/acpustatus.cc:277
+#: src/acpustatus.cc:323
 #, c-format
 msgid ""
 "\n"
@@ -93,7 +116,7 @@ msgstr ""
 "↵\n"
 "ACPI Temp: "
 
-#: src/acpustatus.cc:296
+#: src/acpustatus.cc:342
 #, c-format
 msgid ""
 "\n"
@@ -103,93 +126,152 @@ msgstr ""
 "↵\n"
 "CPU Freq: %.3fGHz"
 
-#: src/acpustatus.cc:317
+#: src/acpustatus.cc:363 src/acpustatus.cc:814
 msgid "CPU"
-msgstr ""
+msgstr "Processor"
 
-#: src/acpustatus.cc:317
-#, fuzzy
+#: src/acpustatus.cc:363
 msgid "Load: "
-msgstr "CPU last: "
+msgstr "Belastning: "
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/acpustatus.cc:384
+#: src/acpustatus.cc:434
 msgid "°C"
-msgstr ""
+msgstr "°C"
 
-#: src/acpustatus.cc:670
+#: src/acpustatus.cc:728
 #, c-format
 msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
+msgstr "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
+
+#: src/acpustatus.cc:815
+#, c-format
+msgid "CPU%d"
 msgstr ""
 
-#: src/amailbox.cc:67
+#: src/acpustatus.cc:820
+msgid "_Combine"
+msgstr ""
+
+#: src/acpustatus.cc:822
+msgid "_Separate"
+msgstr ""
+
+#: src/amailbox.cc:62
 #, c-format
 msgid "Invalid mailbox protocol: \"%s\""
 msgstr "Felaktigt brevlådeprotokoll: \"%s\""
 
-#: src/amailbox.cc:69
+#: src/amailbox.cc:64
 #, c-format
 msgid "Invalid mailbox path: \"%s\""
 msgstr "Felaktig sökväg till brevlåda: \"%s\""
 
-#: src/amailbox.cc:331
+#: src/amailbox.cc:133
+#, c-format
+msgid "DNS name lookup failed for %s"
+msgstr "DNS-namnsökningen misslyckades för %s"
+
+#: src/amailbox.cc:149
+#, c-format
+msgid "Invalid mailbox port: \"%s\""
+msgstr "Felaktig port för brevlåda: \"%s\""
+
+#: src/amailbox.cc:307
+#, c-format
+msgid "Could not connect to %s: %s"
+msgstr "Kan inte ansluta till %s 1: %s 2"
+
+#: src/amailbox.cc:324
+#, c-format
+msgid "Failed to find %s command"
+msgstr "Det gick inte att hitta kommandot %s"
+
+#: src/amailbox.cc:351
+#, c-format
+msgid "Failed to execute %s"
+msgstr "Det gick inte att köra %s"
+
+#: src/amailbox.cc:435
+#, c-format
+msgid "Write to socket failed: %s"
+msgstr "Det gick inte att skriva till socket: %s"
+
+#: src/amailbox.cc:678
 #, c-format
 msgid "Using MailBox \"%s\"\n"
 msgstr "Använder brevlåda \"%s\"\n"
 
-#: src/amailbox.cc:438
+#: src/amailbox.cc:785
 msgid "Error checking mailbox."
 msgstr "Genomgång av brevlåda misslyckades."
 
-#: src/amailbox.cc:444
+#: src/amailbox.cc:792
+#, c-format
+msgid "%ld mail message, %ld unread."
+msgstr "%ld e-postmeddelande, %ld olästa."
+
+#: src/amailbox.cc:793
+#, c-format
+msgid "%ld mail messages, %ld unread."
+msgstr "%ld e-postmeddelanden, %ld olästa."
+
+#: src/amailbox.cc:799
 #, c-format
 msgid "%ld mail message."
 msgstr "%ld meddelande."
 
-#: src/amailbox.cc:445
+#: src/amailbox.cc:800
 #, c-format
 msgid "%ld mail messages."
 msgstr "%ld meddelanden."
 
-#: src/amemstatus.cc:127
-msgid "GB"
-msgstr ""
-
-#: src/amemstatus.cc:131
-#, fuzzy
-msgid "MB"
-msgstr "L"
-
-#: src/amemstatus.cc:135
-msgid "kB"
-msgstr ""
-
-#: src/amemstatus.cc:139
-msgid "bytes"
-msgstr ""
-
-#: src/amemstatus.cc:163
-msgid "Memory Total: "
-msgstr ""
-
-#: src/amemstatus.cc:164
-msgid "Free: "
-msgstr ""
-
-#: src/amemstatus.cc:165
-msgid "Cached: "
+#: src/amailbox.cc:906
+msgid "MAIL"
 msgstr ""
 
 #: src/amemstatus.cc:166
+msgid "GB"
+msgstr "GB"
+
+#: src/amemstatus.cc:170
+msgid "MB"
+msgstr "MB"
+
+#: src/amemstatus.cc:174
+msgid "kB"
+msgstr "kB"
+
+#: src/amemstatus.cc:178
+msgid "bytes"
+msgstr "byte"
+
+#: src/amemstatus.cc:198
+msgid "Memory Total: "
+msgstr "Sammanlagt minne: "
+
+#: src/amemstatus.cc:199
+msgid "Free: "
+msgstr "Tillgängligt: "
+
+#: src/amemstatus.cc:200
+msgid "Cached: "
+msgstr "Cachelagrat: "
+
+#: src/amemstatus.cc:201
 msgid "Buffers: "
-msgstr ""
+msgstr "Buffrar: "
 
-#: src/amemstatus.cc:167
+#: src/amemstatus.cc:202
 msgid "User: "
+msgstr "Användare: "
+
+#: src/amemstatus.cc:285
+msgid "MEM"
 msgstr ""
 
-#: src/apppstatus.cc:198
+#: src/apppstatus.cc:202
 #, c-format
 msgid ""
 "Interface %s:\n"
@@ -204,7 +286,7 @@ msgstr ""
 "  Överfört (in/ut):    %lli %s/%lli %s\n"
 "  Uppkopplad tid:  %ld:%02ld:%02ld%s%s"
 
-#: src/apppstatus.cc:210
+#: src/apppstatus.cc:214
 msgid ""
 "\n"
 "  Caller id:\t"
@@ -212,13 +294,17 @@ msgstr ""
 "\n"
 "  Inkommande samtal:\t"
 
-#: src/aworkspaces.cc:315 src/wmstatus.cc:173
+#: src/apppstatus.cc:731
+msgid "NET"
+msgstr ""
+
+#: src/aworkspaces.cc:294 src/wmstatus.cc:162
 msgid "Workspace: "
 msgstr "Arbetsyta: "
 
 #: src/fdomenu.cc:79
 msgid "Accessibility"
-msgstr ""
+msgstr "Tillgänglighet"
 
 #: src/fdomenu.cc:80
 msgid "Settings"
@@ -308,55 +394,53 @@ msgstr "Innehåll"
 msgid "Index"
 msgstr "Index"
 
-#: src/icehelp.cc:1211 src/icesame.cc:62 src/iceview.cc:72 src/wmtitle.cc:108
+#: src/icehelp.cc:1211 src/icesame.cc:62 src/iceview.cc:74 src/wmtitle.cc:99
 msgid "Close"
 msgstr "Stäng"
 
-#: src/icehelp.cc:1211 src/icesame.cc:62 src/iceview.cc:72
+#: src/icehelp.cc:1211 src/icesame.cc:62 src/iceview.cc:74
 msgid "Ctrl+Q"
 msgstr "Qtrl+Q"
 
 #: src/icehelp.cc:1216
 msgid "Icewm(1)"
-msgstr ""
+msgstr "Icewm(1)"
 
 #: src/icehelp.cc:1218
 msgid "Icewmbg(1)"
-msgstr ""
+msgstr "Icewmbg(1)"
 
 #: src/icehelp.cc:1220
 msgid "Icesound(1)"
-msgstr ""
+msgstr "Icesound(1)"
 
 #: src/icehelp.cc:1222
 msgid "FAQ"
-msgstr ""
+msgstr "FAQ"
 
 #: src/icehelp.cc:1224
 msgid "Manual"
-msgstr ""
+msgstr "Manual"
 
 #: src/icehelp.cc:1226
 msgid "Support"
-msgstr ""
+msgstr "Support"
 
 #: src/icehelp.cc:1228
-#, fuzzy
 msgid "Theme Howto"
-msgstr "Temaförfattare:"
+msgstr "Temainstruktion"
 
 #: src/icehelp.cc:1230
 msgid "Website"
-msgstr ""
+msgstr "webbplats"
 
 #: src/icehelp.cc:1232
 msgid "Github"
-msgstr ""
+msgstr "Github"
 
 #: src/icehelp.cc:1934
-#, fuzzy
 msgid "Unsupported protocol."
-msgstr "Stöder inte gränssnitt: %s."
+msgstr "Protokoll stöds inte."
 
 #: src/icehelp.cc:1959
 #, c-format
@@ -365,33 +449,33 @@ msgstr "Felaktig sökväg: %s\n"
 
 #: src/icehelp.cc:1982
 msgid "Path does not refer to a file."
-msgstr ""
+msgstr "Sökvägen hänvisar inte till någon fil."
 
 #: src/icehelp.cc:1987
 msgid "Failed to open file for reading."
-msgstr ""
+msgstr "Kunde inte öppna fil för läsning."
 
 #: src/icehelp.cc:2016
 msgid "Failed to create a temporary file"
-msgstr ""
+msgstr "Kunde inte skapa temporär fil"
 
 #: src/icehelp.cc:2108
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
-msgstr ""
+msgstr "Kunde inte starta system (%s) (%d)"
 
 #: src/icehelp.cc:2131
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to decompress %s"
-msgstr "Kunde inte hitta bild %s"
+msgstr "Kunde inte packa upp %s"
 
 #: src/icehelp.cc:2139
 msgid "Could not locate curl or wget in PATH"
-msgstr ""
+msgstr "Kunde inte hitta curl eller wget i PATH"
 
 #: src/icehelp.cc:2143
 msgid "Unsafe characters in URL"
-msgstr ""
+msgstr "Osäkra tecken i URL"
 
 #: src/icehelp.cc:2180
 #, c-format
@@ -430,11 +514,45 @@ msgid ""
 "%s\n"
 "\n"
 msgstr ""
+"Användning: %s [ALTERNATIV] [ FILNAMN | URL ]\n"
+"\n"
+"IceHelp är en väldigt enkel HTML-webbläsare för fönsterhanteraren IceWM.\n"
+"Den kan visa ett HTML-dokument från en fil eller bläddra igenom en "
+"webbsida.\n"
+"Den minns besökta sidor i en historik som går att navigera\n"
+"med kortkommandon och en kontextmeny (högerklick med musen).\n"
+"Det stöder varken bilder eller JavaScript.\n"
+"Om ingen fil eller URL anges kommer den att visa IceWM-manualen\n"
+"från %s.\n"
+"\n"
+"Alternativ:\n"
+"  -d, --display=NAME  NAMNET på X servern som ska användas.\n"
+"  --sync              Synkronisera X11-kommandon.\n"
+"\n"
+"  -B                  Visa manualsida för IceWM icewmbg.\n"
+"  -b, --bugs          Visa felrapporter för IceWM (primitivt).\n"
+"  -f, --faq           Visa FAQ och instruktion för IceWM.\n"
+"  -g                  Visa webbplatsen för IceWM Github.\n"
+"  -i, --icewm         Visa manualsidan för IceWM icewm.\n"
+"  -m, --manual        Visa manual för IceWM (förinställt).\n"
+"  -s                  Visa manualsida för IceWM icesound.\n"
+"  -t, --theme         Visa temainstruktioner för IceWM.\n"
+"  -w, --website       Visa webbplats för IceWM.\n"
+"\n"
+"  -V, --version       Skriver ut versioninformation och avslutar.\n"
+"  -h, --help          Skriver ut denna användarskärm och avslutar.\n"
+"\n"
+"Miljövariabler:\n"
+"  DISPLAY=NAME        Namnet på X servern som ska användas.\n"
+"\n"
+"För att rapportera fel, begära support eller kommentera besöker du:\n"
+"%s\n"
+"\n"
 
 #: src/icehelp.cc:2257
-#, fuzzy, c-format
+#, c-format
 msgid "Ignoring option '%s'"
-msgstr "Okänd åtgärd: \"%s\""
+msgstr "Ignorerar alternativ ’%s’"
 
 #: src/icelist.cc:80
 msgid "List View"
@@ -476,45 +594,45 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "IceSAME"
 
-#: src/icesh.cc:187
+#: src/icesh.cc:191
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Åtgärden \"%s\" kräver minst %d argument."
 
-#: src/icesh.cc:194
+#: src/icesh.cc:198
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Felaktigt uttryck: \"%s\""
 
-#: src/icesh.cc:315
+#: src/icesh.cc:319
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Namngiven symbol i domänen \"%s\" (intervall: %ld-%ld):\n"
 
-#: src/icesh.cc:428
+#: src/icesh.cc:435
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Ogiltigt namn på arbetsyta: \"%s\""
 
-#: src/icesh.cc:434
-#, fuzzy, c-format
+#: src/icesh.cc:440
+#, c-format
 msgid "Workspace out of range: %ld"
-msgstr "Arbetsyta utanför området: %d"
+msgstr "Arbetsyta utanför området: %ld"
 
-#: src/icesh.cc:568
-#, fuzzy, c-format
+#: src/icesh.cc:605
+#, c-format
 msgid ""
 "Usage: %s [OPTIONS] ACTIONS\n"
 "\n"
 "Options:\n"
-"  -display DISPLAY            Connects to the X server specified by "
+"  -d, -display DISPLAY        Connects to the X server specified by "
 "DISPLAY.\n"
 "                              Default: $DISPLAY or :0.0 when not set.\n"
-"  -window WINDOW_ID           Specifies the window to manipulate. Special\n"
+"  -w, -window WINDOW_ID       Specifies the window to manipulate. Special\n"
 "                              identifiers are `root' for the root window "
 "and\n"
 "                              `focus' for the currently focused window.\n"
-"  -class WM_CLASS             Window management class of the window(s) to\n"
+"  -c, -class WM_CLASS         Window management class of the window(s) to\n"
 "                              manipulate. If WM_CLASS contains a period, "
 "only\n"
 "                              windows with exactly the same WM_CLASS "
@@ -542,8 +660,19 @@ msgid ""
 "  setWorkspace   WORKSPACE    Moves the window to another workspace. Select\n"
 "                              the root window to change the current "
 "workspace.\n"
+"                              Select 0xFFFFFFFF or \"All\" for all "
+"workspaces.\n"
 "  listWorkspaces              Lists the names of all workspaces.\n"
 "  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
+"  logout                      Tell IceWM to logout.\n"
+"  reboot                      Tell IceWM to reboot.\n"
+"  shutdown                    Tell IceWM to shutdown.\n"
+"  cancel                      Tell IceWM to cancel the logout/reboot/"
+"shutdown.\n"
+"  about                       Tell IceWM to show the about window.\n"
+"  windowlist                  Tell IceWM to show the window list.\n"
+"  restart                     Tell IceWM to restart.\n"
+"  suspend                     Tell IceWM to suspend.\n"
 "\n"
 "Expressions:\n"
 "  Expressions are list of symbols of one domain concatenated by `+' or `|':\n"
@@ -551,9 +680,9 @@ msgid ""
 "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
 "\n"
 msgstr ""
-"Usage: %s [Val] ÅTGÄRDER\n"
+"Användning: %s [ALTERNATIV] ÅTGÄRDER\n"
 "\n"
-"Options:\n"
+"Alternativ:\n"
 "  -display DISPLAY            Ansluter till X-servern som anges av DISPLAY.\n"
 "                              Standard: $ DISPLAY eller: 0,0 när inte satt.\n"
 "  -window WINDOW_ID           Anger fönstret att förändra. Särskild\n"
@@ -570,7 +699,7 @@ msgstr ""
 "                              med samma klass och instans (Dvs. '-name \") "
 "att väljas.\n"
 "\n"
-"Actions:\n"
+"Åtgärder:\n"
 "  setIconTitle   TITLE        Anger titel för ikonen.\n"
 "  setWindowTitle TITLE        Anger titel för fönstret.\n"
 "  setGeometry    geometry     Anger fönstergeometri\n"
@@ -588,61 +717,72 @@ msgstr ""
 "Välj\n"
 "                              rotfönstret för att förändra den aktuella "
 "arbetsytan.\n"
+"                              Välj 0xFFFFFFFF eller \"All\" för alla "
+"arbetsytor.\n"
 "  listWorkspaces              Listar namnen på alla arbetsytor.\n"
 "  setTrayOption  TRAYOPTION   Ange ledtråd för IceWM lådval.\n"
-"\n"
-"Expressions:\n"
+"  logout                      Instruera IceVM att logga ut.\n"
+"  reboot                      Instruera IceVM att starta om.\n"
+"  shutdown                    Instruera IceVM att stänga av.\n"
+"  cancel                      Instruera IceVM att avbryta inloggning/"
+"avstängning/omstart.\n"
+"  about                       Instruera IceVM att visa "
+"informationsfönstret.\n"
+"  windowlist                  Instruera IceVM att visa fönsterlistan.\n"
+"  restart                     Instruera IceVM att starta om.\n"
+"  suspend                     Instruera IceVM att avvakta.\n"
+"Uttryck:\n"
 "  Uttryck är en lista med symboler för en domän sammanlänkade av '+' eller "
 "'|':\n"
 "\n"
 "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
 "\n"
 
-#: src/icesh.cc:607
+#: src/icesh.cc:653
 msgid "GNOME window state"
 msgstr "GNOME-fönsterläge"
 
-#: src/icesh.cc:608
+#: src/icesh.cc:654
 msgid "GNOME window hint"
 msgstr "GNOME-fönsterinställning"
 
-#: src/icesh.cc:609
+#: src/icesh.cc:655
 msgid "GNOME window layer"
 msgstr "GNOME-fönsterlager"
 
-#: src/icesh.cc:610
+#: src/icesh.cc:656
 msgid "IceWM tray option"
 msgstr "Inställningar för IceWM-programpanelen"
 
-#: src/icesh.cc:615
+#: src/icesh.cc:661
 msgid "Usage error: "
 msgstr "Användningsfel: "
 
-#: src/icesh.cc:695
+#: src/icesh.cc:747
 #, c-format
 msgid "Invalid argument: `%s'."
 msgstr "Felaktigt värde: `%s'."
 
-#: src/icesh.cc:701
+#: src/icesh.cc:753
 msgid "No actions specified."
 msgstr "Ingen åtgärd angiven."
 
-#: src/icesh.cc:708 src/icesound.cc:945 src/icewmhint.cc:88 src/yxapp.cc:944
+#: src/icesh.cc:760 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:931
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "Kan inte öppna bildskärm: %s. X måste vara igång och $DISPLAY satt."
 
-#: src/icesh.cc:748
+#: src/icesh.cc:801
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Felaktig fönsteridentifierare: \"%s\""
 
-#: src/icesh.cc:901
+#: src/icesh.cc:955
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "arbetsyta #%d: `%s'\n"
 
-#: src/icesh.cc:919
+#: src/icesh.cc:974
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Okänd åtgärd: \"%s\""
@@ -652,7 +792,7 @@ msgstr "Okänd åtgärd: \"%s\""
 msgid "Socket error: %d"
 msgstr "Uttagsfel: %d"
 
-#: src/icesm.cc:56
+#: src/icesm.cc:57
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -660,24 +800,51 @@ msgid ""
 "  -d, --display=NAME  Use NAME to connect to the X server.\n"
 "  --sync              Synchronize communication with X11 server.\n"
 "\n"
+"  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
+"  -c, --config=FILE   Låt IceWM ladda inställningar från FILE.\n"
+"  -t, --theme=FILE    Låt IceWM ladda temat från FILE.\n"
+"\n"
+"  -d, --display=NAME  Använd NAME för att ansluta till X-servern.\n"
+"  --sync              Synkronisera kommunikation med X11-servern.\n"
+"\n"
+"  -i, --icewm=FILE    Använd FILE som fönsterhanterare i IceWM.\n"
+"  -n, --notray        Starta inte icewmtray.\n"
+"  -s, --sound         Starta även icesound.\n"
 
-#: src/icesm.cc:113
-#, fuzzy, c-format
+#: src/icesm.cc:120
+#, c-format
 msgid "Unknown option '%s'"
-msgstr "Okänd åtgärd: \"%s\""
+msgstr "Okänt alternativ ’%s’"
 
-#: src/icesm.cc:298
+#: src/icesm.cc:308
 #, c-format
 msgid "%s exited with status %d."
-msgstr ""
+msgstr "%s avslutade med status %d."
 
-#: src/icesm.cc:304
+#: src/icesm.cc:314
 #, c-format
 msgid "%s was killed by signal %d."
+msgstr "%s dödades med signal %d."
+
+#: src/icesm.cc:348
+msgid ""
+" IceWM crashed for the second time in 10 seconds. \n"
+" Do you wish to:\n"
+"\n"
+"\t1: Restart IceWM?\n"
+"\t2: Abort this session?\n"
 msgstr ""
+" IceWM har kraschat för andra gången på 10 sekunder.\n"
+"Vill du:\n"
+"\t1: Starta om IceWM?\n"
+"\t2. Avbryta den här sessionen?\n"
+
+#: src/icesm.cc:353
+msgid "IceWM crash response"
+msgstr "Kraschrespons för IceWM"
 
 #: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
 #, c-format
@@ -687,53 +854,52 @@ msgstr "Spelar ljud #%d (%s)"
 #: src/icesound.cc:337
 #, c-format
 msgid "%s: Invalid number of channels"
-msgstr ""
+msgstr "%s: Ogiltigt antal kanaler"
 
 #: src/icesound.cc:343 src/icesound.cc:348
 msgid "Could not set OSS channels"
-msgstr ""
+msgstr "Kunde inte ange OSS-kanaler"
 
 #: src/icesound.cc:353 src/icesound.cc:381
 msgid "Could not sync OSS"
-msgstr ""
+msgstr "Kunde inte synkronisera OSS"
 
 #: src/icesound.cc:365
 msgid "OSS write failed"
-msgstr ""
+msgstr "OSS-skrivning misslyckades"
 
 #: src/icesound.cc:369
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
-msgstr ""
+msgstr "OSS ofullständig skrivning (%d/%d)"
 
 #: src/icesound.cc:376
-#, fuzzy
 msgid "Could not post OSS"
-msgstr "Kunde inte läsa in typsnittsuppsättning \"%s\"."
+msgstr "Kunde inte publicera OSS"
 
 #: src/icesound.cc:405
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open OSS device %s"
-msgstr "Kunde inte hitta bild %s"
+msgstr "Kunde inte öppna OSS-enhet %s"
 
 #: src/icesound.cc:410
 msgid "Could not set OSS stereo"
-msgstr ""
+msgstr "Kunde inte ange OSS-stereo"
 
 #: src/icesound.cc:415
 msgid "Could not reset OSS DSP"
-msgstr ""
+msgstr "Kunde inte nollställa OSS DSP"
 
 #: src/icesound.cc:420
 msgid "Could not set OSS format"
-msgstr ""
+msgstr "Kunde inte ange OSS-format"
 
 #: src/icesound.cc:493
 #, c-format
 msgid "Can't connect to ESound daemon: %s"
 msgstr "Kan inte ansluta till ESound-demon: %s"
 
-#: src/icesound.cc:494 src/icewmhint.cc:90 src/yxapp.cc:945
+#: src/icesound.cc:494 src/icewmhint.cc:38 src/yxapp.cc:932
 msgid "<none>"
 msgstr "<ingen>"
 
@@ -748,23 +914,23 @@ msgid "Sample <%d> uploaded as `%s:%s'"
 msgstr "Ljud <%d> lämnades som \"%s:%s\""
 
 #: src/icesound.cc:576
-#, fuzzy, c-format
+#, c-format
 msgid "Playing sample #%d: %d"
-msgstr "Spelar ljud #%d"
+msgstr "Spelar ljud #%d: %d"
 
 #: src/icesound.cc:651
 #, c-format
 msgid "ao_open_live failed with %d"
-msgstr ""
+msgstr "ao_open_live misslyckades med %d"
 
 #: src/icesound.cc:662
 msgid "ao_play failed"
-msgstr ""
+msgstr "ao_play misslyckades"
 
 #: src/icesound.cc:824
 #, c-format
 msgid "Unrecognized option: %s\n"
-msgstr "Okänd flagga: %s\n"
+msgstr "Okänt alternativ: %s\n"
 
 #: src/icesound.cc:827 src/icesound.cc:1130
 #, c-format
@@ -772,7 +938,7 @@ msgid "Unrecognized argument: %s\n"
 msgstr "Okänt argument: %s\n"
 
 #: src/icesound.cc:836
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
 "\n"
@@ -825,29 +991,45 @@ msgid ""
 "  3    Subsystems error (ie cannot connect to server).\n"
 "\n"
 msgstr ""
-"Användning: %s [FLAGGOR] …\n"
+"Användning: %s [ALTERNATIV] …\n"
 "\n"
 "Spelar ljudfiler vid grafiska IceWM-händelser.\n"
+"Aktuella konfigurerade ljudgränssnitt: %s 2.\n"
+"Icesound kommer att välja första tillgängliga.\n"
 "\n"
-"Flaggor:\n"
+"Alternativ:\n"
 "\n"
 "-d, --display=BILDSKÄRM    Bildskärm som används av IceWM (förval: "
 "$DISPLAY)\n"
-"-s, --sample-dir=KAT       Anger den katalog som innehåller ljudfilerna\n"
-"                           (dvs ~/.icewm/sounds).\n"
-"-i, --interface=MÅL        Anger målgränssnittet för ljudutdata, en av\n"
-"                           ALSA, OSS, YIFF eller ESD\n"
-"-D --device=ENHET          (ALSA OSS) anger den digitala signalprocessorn\n"
-"                           (förval (ALSA) default (OSS) /dev/dsp)\n"
-"-S, --server=ADRESS:PORT   (ESD och YIFF) anger server och portnummer\n"
-"                           (förval localhost:16001 för ESD och \n"
-"                           localhost:9433 för YIFF)\n"
-"-m, --audio-mode[=LÄGE]    (Endast YIFF) anger ljudläget (lämna blank för\n"
-"                           att få en lista)\n"
-"--audio-mode-auto          (Endast YIFF) Ändrar automatiskt ljudläge till\n"
-"                           det som bäst passar (kan orsaka problem med "
-"andra\n"
-"                           YIFF-klienter, trumfar --audio-mode).\n"
+"-s, --sample-dir=DIR       Anger den katalog som innehåller ljudfilerna\n"
+"                           Standard är $HOME/.config/icewm/sounds..\n"
+" -i, --interface=LIST    Anger ljudgränssnitt. En eller flera av:\n"
+"                         %s 3 kommaseparerade.\n"
+" -D, --device=DEVICE     Endast bakåtkompatibilitet. Standardenhet. \n"
+"                         Välj ett av alternativen -A/-O/-S.\n"
+"\n"
+" -O, --oss=DEVICE        Anger OSS-enhet (standard: \"%s 4\").\n"
+"\n"
+" -A, --alsa=DEVICE       Anger ALSA-enhet (default: \"%s 5\").\n"
+"\n"
+" -S, --server=ADDR:PORT  Anger ESD-serverns adress och portnummer.\n"
+"                         För ESD är standard \"localhost:16001\".\n"
+"\n"
+" -z, --snooze=millisecs  Anger fördröjningsintervallet mellan ljudhändelser\n"
+"                         i millisekunder. Standard är 500 millisekunder.\n"
+"\n"
+" -p, --play=sound        Spelar upp angivet ljud (namn och nummer) och "
+"avslutar.\n"
+"\n"
+" -l, --list-files        Visar en lista över tillgängliga sökvägar för ljud "
+"och avslutar.\n"
+"\n"
+"     --list-sounds       Visar en lista över tillgängliga namn på ljudfiler "
+"och avslutar.\n"
+"\n"
+"     --list-interfaces   Visar en lista över ljudgränssnitt som stöds och "
+"avslutar.\n"
+"\n"
 "-v, --verbose              Var utförlig (skriver alla ljudhändelser till\n"
 "                           standard ut).\n"
 "-V, --version              Skriver versionsinformation och avslutar.\n"
@@ -864,26 +1046,26 @@ msgstr ""
 #: src/icesound.cc:930
 #, c-format
 msgid "No audio for %s"
-msgstr ""
+msgstr "Inget ljud till %s"
 
 #: src/icesound.cc:1007
 msgid "Could not get GUI event property"
-msgstr ""
+msgstr "Kunde inte få egenskap för GUI-händelse"
 
 #: src/icesound.cc:1011
 #, c-format
 msgid "Received invalid GUI event %d"
-msgstr ""
+msgstr "Mottog ogiltig GUI-händelse %d"
 
 #: src/icesound.cc:1015
 #, c-format
 msgid "Received GUI event %s"
-msgstr ""
+msgstr "Mottog GUI-händelse %s"
 
 #: src/icesound.cc:1029
 #, c-format
 msgid "Too quick; ignoring %s."
-msgstr ""
+msgstr "För snabbt; ignorerar %s."
 
 #: src/icesound.cc:1033
 #, c-format
@@ -898,19 +1080,19 @@ msgstr "Stöder inte gränssnitt: %s."
 #: src/icesound.cc:1082
 #, c-format
 msgid "Using %s audio."
-msgstr ""
+msgstr "Använder %s ljud."
 
 #: src/icesound.cc:1086
 #, c-format
 msgid "Failed to connect to audio interfaces %s."
-msgstr ""
+msgstr "Kunde inte ansluta till ljudgränssnitt %s."
 
 #: src/icesound.cc:1098
-#, fuzzy, c-format
+#, c-format
 msgid "Received signal %s: Terminating..."
-msgstr "Mottog signal %d: Avslutar ..."
+msgstr "Mottog signal %s: Avslutar ..."
 
-#: src/icetray.cc:246
+#: src/icetray.cc:231
 msgid ""
 "  -n, --notify        Notify parent process by sending signal USR1.\n"
 "  --display=NAME      Use NAME to connect to the X server.\n"
@@ -919,38 +1101,43 @@ msgid ""
 "  -c, --config=FILE   Load preferences from FILE.\n"
 "  -t, --theme=FILE    Load the theme from FILE.\n"
 msgstr ""
+"  -n, --notify        Meddela föräldraprocess genom att skicka signal USR1.\n"
+"  --display=NAME      Använd NAME för att ansluta till X-servern.\n"
+"  --sync              Synkronisera kommunikation med X11-server.\n"
+"\n"
+"  -c, --config=FILE   Ladda inställningar från FILE.\n"
+"  -t, --theme=FILE    Ladda tema från FILE.\n"
 
-#: src/iceview.cc:68
+#: src/iceview.cc:70
 msgid "Hex View"
 msgstr "Hex-vy"
 
-#: src/iceview.cc:68
+#: src/iceview.cc:70
 msgid "Ctrl+H"
 msgstr "Ctrl+H"
 
-#: src/iceview.cc:69
+#: src/iceview.cc:71
 msgid "Expand Tabs"
 msgstr "Ersätt tabulatortecken med mellanslag"
 
-#: src/iceview.cc:69
+#: src/iceview.cc:71
 msgid "Ctrl+T"
 msgstr "Ctrl+T"
 
-#: src/iceview.cc:70
+#: src/iceview.cc:72
 msgid "Wrap Lines"
 msgstr "Ombryt rader"
 
-#: src/iceview.cc:70
+#: src/iceview.cc:72
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
 #: src/icewmbg.cc:77
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load image '%s'."
-msgstr "Kunde inte hitta bild %s"
+msgstr "Kunde inte ladda bild ’%s’."
 
-#: src/icewmbg.cc:707
-#, fuzzy
+#: src/icewmbg.cc:700
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -996,45 +1183,68 @@ msgid ""
 " center:0 scaled:1 = fill both dimensions and keep aspect ratio\n"
 "\n"
 msgstr ""
-"Användning: icewmbg [ -r | -q ]\n"
-" -r  Starta om icewmbg\n"
-" -q  Avsluta icewmbg\n"
-"Ladda skrivbordets bakgrund enligt inställningsfilen\n"
-" DesktopBackgroundCenter  - Visa bakgrunden centrerad\n"
-" DesktopBackgroundScaled  - Skala bakgrundsbilden\n"
-" SupportSemitransparency  - Stöd för delvis genomskinliga terminalfönster\n"
-" DesktopBackgroundColor   - Bakgrundsfärg\n"
-" DesktopBackgroundImage   - Bakgrundsbild\n"
-" DesktopTransparencyColor - Färg att använda för delvis genomskinliga "
-"fönster\n"
-" DesktopTransparencyImage - Bild att använda för delvis genomskinliga "
-"fönster\n"
+"Användning: icewmbg [OPTIONS]\n"
+"Där flera värden kan anges skiljs de åt med kommatecken.\n"
+"När bilden är en mapp används alla bilder från den mappen.\n"
+"\n"
+"Alternativ:\n"
+"  -p, --replace        Ersätt en befintlig icewmbg.\n"
+"  -q, --quit           Säg till körande icewmbg att sluta.\n"
+"  -r, --restart        Säg till körande icewmbg att starta om.\n"
+"\n"
+"  -c, --config=FILE    Ladda inställningar från FILE.\n"
+"  -t, --theme=NAME     Ladda tema med namnet NAME.\n"
+"\n"
+"  -i, --image=FILE(S)  Ladda bakgrundsbild(er) från FILE(S).\n"
+"  -k, --color=NAME(S)  Använd bakgrundsfärg(er) från NAME(S).\n"
+"\n"
+"  -s, --semis=FILE(S)  Ladda transparent(a) bild(er) från FILE(S).\n"
+"  -x, --trans=NAME(S)  Använd transparent(a) bild(er) från NAME(S).\n"
+"\n"
+"  -e, --center=0/1     Avaktivera/Aktivera centrering av bakgrund.\n"
+"  -a, --scaled=0/1     Avaktivera/Aktivera skalning av bakgrund.\n"
+"  -m, --multi=0/1      Avaktivera/Aktivera multiskärmbakgrund.\n"
+"\n"
+"  --display=NAME       Använd NAME för att ansluta till X-servern.\n"
+"  --sync               Synkronisera kommunikation med X11-server.\n"
+"\n"
+"  -h, --help           Skriv ut den här användningsskärmen och avsluta.\n"
+"  -V, --version        Skriver ut versionsuppgifter och avslutar.\n"
+"\n"
+"Laddar skrivbordsbakgrund enligt inställningsfilen:\n"
+" DesktopBackgroundCenter  - Visa skrivbordsbakgrund centrerad\n"
+" DesktopBackgroundScaled  - Visa skrivbordsbakgrund skalad\n"
+" DesktopBackgroundColor   - Färg(er) på skrivbordsbakgrund\n"
+" DesktopBackgroundImage   - Bild(er) på skrivbordsbakgrund\n"
+" SupportSemitransparency  - Support för halvtransparenta terminaler\n"
+" DesktopTransparencyColor - Halvtransparent(a) bakgrundsfärg(er)\n"
+" DesktopTransparencyImage - Halvtransparent(a) bakgrundsbild(er)\n"
+" DesktopBackgroundMultihead - En bakgrund för alla bildskärmar\n"
 "\n"
 " center:0 scaled:0 = sida vid sida\n"
-" center:1 scaled:1 = behåll bildformatet\n"
+" center:1 scaled:0 = centrerad\n"
+" center:1 scaled:1 = fyll en dimension och bevara bildformat\n"
+" center:0 scaled:1 = fyll båda dimensioner och bevara bildformat\n"
+"\n"
 
-#: src/icewmbg.cc:754
-msgid "Please note that not all options are currently configured.\n"
-msgstr ""
-
-#: src/icewmbg.cc:900
+#: src/icewmbg.cc:891
 msgid "Cannot start, because another icewmbg is still running."
-msgstr ""
+msgstr "Kan inte starta eftersom en annan icewmbg fortfarande körs."
 
-#: src/icewmhint.cc:41
-msgid "Usage: icewmhint [class.instance] option arg\n"
-msgstr "Användning: icewmhint [class.instance] flagga argument\n"
+#: src/icewmhint.cc:23
+msgid "Usage: icewmhint class.instance option arg\n"
+msgstr "Användning: icewmhint class.instance flagga argument\n"
 
-#: src/icewmhint.cc:77
+#: src/icewmhint.cc:57
 #, c-format
 msgid "Out of memory (len=%d)."
 msgstr "Slut på minne (len=%d)."
 
-#: src/misc.cc:440 src/misc.cc:452
+#: src/misc.cc:466 src/misc.cc:478
 msgid "Warning: "
 msgstr "Varning: "
 
-#: src/misc.cc:728
+#: src/misc.cc:754
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1045,8 +1255,15 @@ msgid ""
 "  -h, --help          Prints this usage screen and exits.\n"
 "\n"
 msgstr ""
+"Användning: %s [OPTIONS]\n"
+"Alternativ:\n"
+"%s\n"
+"  -C, --copying       Skriver ut licensinformation och avslutar.\n"
+"  -V, --version       Skriver ut versionsinformation och avslutar.\n"
+"  -h, --help          Skriver ut denna användningsskärm och avslutar.\n"
+"\n"
 
-#: src/movesize.cc:890
+#: src/movesize.cc:876
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Okänd riktning i flytt/förändring: %d"
@@ -1083,169 +1300,168 @@ msgstr "Språk:"
 msgid "icewm - About"
 msgstr "icewm - Om"
 
-#: src/wmapp.cc:105
-#, fuzzy
+#: src/wmapp.cc:93
 msgid "A window manager is already running, use --replace to replace it"
-msgstr "En annan fönsterhanterare körs redan, avslutar ..."
+msgstr "En fönsterhanterare körs redan, använd --replace för att ersätta den"
 
-#: src/wmapp.cc:123
+#: src/wmapp.cc:111
 #, c-format
 msgid "Failed to become the owner of the %s selection"
-msgstr ""
+msgstr "Kunde inte bli ägare till valet %s"
 
-#: src/wmapp.cc:127
+#: src/wmapp.cc:115
 msgid "Waiting to replace the old window manager"
-msgstr ""
+msgstr "Väntar på att få ersätta den gamla fönsterhanteraren"
 
-#: src/wmapp.cc:132
+#: src/wmapp.cc:120
 msgid "done."
-msgstr ""
+msgstr "klart."
 
-#: src/wmapp.cc:418
+#: src/wmapp.cc:406
 msgid "Unable to get current font path."
 msgstr "Kunde inte läsa av nuvarande typsnittsökväg."
 
-#: src/wmapp.cc:445
+#: src/wmapp.cc:433
 msgid "Unexpected format of ICEWM_FONT_PATH property"
 msgstr "Oväntat format på ICEWM_FONT_PATH-egenskapslistan"
 
-#: src/wmapp.cc:523
+#: src/wmapp.cc:511
 msgid "_Logout"
 msgstr "_Avsluta"
 
-#: src/wmapp.cc:524
+#: src/wmapp.cc:512
 msgid "_Cancel logout"
 msgstr "A_vbryt avsluta"
 
-#: src/wmapp.cc:531
+#: src/wmapp.cc:517
 msgid "Lock _Workstation"
 msgstr "_Lås arbetsstationen"
 
-#: src/wmapp.cc:533 src/wmdialog.cc:91
+#: src/wmapp.cc:519 src/wmdialog.cc:77
 msgid "Re_boot"
 msgstr "Starta _om"
 
-#: src/wmapp.cc:535 src/wmdialog.cc:92
+#: src/wmapp.cc:521 src/wmdialog.cc:78
 msgid "Shut_down"
 msgstr "Stäng a_v"
 
-#: src/wmapp.cc:537 src/wmdialog.cc:88
+#: src/wmapp.cc:523 src/wmdialog.cc:74
 msgid "_Suspend"
-msgstr ""
+msgstr "_Viloläge"
 
-#: src/wmapp.cc:542
+#: src/wmapp.cc:528
 msgid "Restart _Icewm"
 msgstr "Starta om _Icewm"
 
-#: src/wmapp.cc:544
+#: src/wmapp.cc:530
 msgid "Restart _Xterm"
 msgstr "Starta om _Xterm"
 
-#: src/wmapp.cc:557
+#: src/wmapp.cc:543
 msgid "_Menu"
 msgstr "_Meny"
 
-#: src/wmapp.cc:558
+#: src/wmapp.cc:544
 msgid "_Above Dock"
 msgstr "_Ovanför docka"
 
-#: src/wmapp.cc:559
+#: src/wmapp.cc:545
 msgid "_Dock"
 msgstr "_Docka"
 
-#: src/wmapp.cc:560
+#: src/wmapp.cc:546
 msgid "_OnTop"
 msgstr "_Överst"
 
-#: src/wmapp.cc:561
+#: src/wmapp.cc:547
 msgid "_Normal"
 msgstr "_Normal"
 
-#: src/wmapp.cc:562
+#: src/wmapp.cc:548
 msgid "_Below"
 msgstr "_Under"
 
-#: src/wmapp.cc:563
+#: src/wmapp.cc:549
 msgid "D_esktop"
 msgstr "Skriv_bord"
 
-#: src/wmapp.cc:588
+#: src/wmapp.cc:574
 msgid "_Restore"
 msgstr "_Återställ"
 
-#: src/wmapp.cc:590
+#: src/wmapp.cc:576
 msgid "_Move"
 msgstr "_Flytta"
 
-#: src/wmapp.cc:592
+#: src/wmapp.cc:578
 msgid "_Size"
 msgstr "_Storlek"
 
-#: src/wmapp.cc:594
+#: src/wmapp.cc:580
 msgid "Mi_nimize"
 msgstr "Mi_nimera"
 
-#: src/wmapp.cc:596
+#: src/wmapp.cc:582
 msgid "Ma_ximize"
 msgstr "Ma_ximera"
 
-#: src/wmapp.cc:598
+#: src/wmapp.cc:584
 msgid "_Fullscreen"
 msgstr "_Helskärm"
 
-#: src/wmapp.cc:601 src/wmwinlist.cc:301
+#: src/wmapp.cc:587 src/wmwinlist.cc:301
 msgid "_Hide"
 msgstr "_Göm"
 
-#: src/wmapp.cc:603
+#: src/wmapp.cc:589
 msgid "Roll_up"
 msgstr "Rulla _ihop"
 
-#: src/wmapp.cc:610
+#: src/wmapp.cc:596
 msgid "R_aise"
 msgstr "_Höj"
 
-#: src/wmapp.cc:612
+#: src/wmapp.cc:598
 msgid "_Lower"
 msgstr "Sän_k"
 
-#: src/wmapp.cc:614
+#: src/wmapp.cc:600
 msgid "La_yer"
 msgstr "_Lager"
 
-#: src/wmapp.cc:618 src/wmwinlist.cc:303
+#: src/wmapp.cc:604 src/wmwinlist.cc:303
 msgid "Move _To"
 msgstr "Flytta _till"
 
-#: src/wmapp.cc:619
+#: src/wmapp.cc:605
 msgid "Occupy _All"
 msgstr "Uppta _alla"
 
-#: src/wmapp.cc:625
+#: src/wmapp.cc:611
 msgid "Limit _Workarea"
 msgstr "_Begränsa arbetsyta"
 
-#: src/wmapp.cc:629
+#: src/wmapp.cc:615
 msgid "Tray _icon"
 msgstr "_Programpanelsikon"
 
-#: src/wmapp.cc:634 src/wmwinlist.cc:290 src/wmwinlist.cc:314
+#: src/wmapp.cc:620 src/wmwinlist.cc:290 src/wmwinlist.cc:314
 msgid "_Close"
 msgstr "St_äng"
 
-#: src/wmapp.cc:636 src/wmwinlist.cc:292
+#: src/wmapp.cc:622 src/wmwinlist.cc:292
 msgid "_Kill Client"
 msgstr "_Döda klient"
 
-#: src/wmapp.cc:639 src/wmdialog.cc:93 src/wmwinmenu.cc:131
+#: src/wmapp.cc:625 src/wmdialog.cc:79 src/wmwinmenu.cc:131
 msgid "_Window list"
 msgstr "F_önsterlista"
 
-#: src/wmapp.cc:652
+#: src/wmapp.cc:639
 msgid "Another window manager already running, exiting..."
 msgstr "En annan fönsterhanterare körs redan, avslutar ..."
 
-#: src/wmapp.cc:737
+#: src/wmapp.cc:724
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1254,31 +1470,40 @@ msgstr ""
 "Kunde inte starta om: %s\n"
 "Finns %s i $PATH?"
 
-#: src/wmapp.cc:819
+#: src/wmapp.cc:805
 msgid "Kill IceWM, replace with Xterm"
-msgstr ""
+msgstr "Döda IceWM, ersätt med Xterm"
 
-#: src/wmapp.cc:1330
+#: src/wmapp.cc:1319
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
+"  --client-id=ID      Klient-ID som ska användas vid kontakt med "
+"sessionshanteraren.\n"
 
-#: src/wmapp.cc:1336
+#: src/wmapp.cc:1325
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
 "  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
+"\n"
+"  --debug             Skriv ut allmänna felsökningsmeddelanden.\n"
+"  --debug-z           Skriv ut felsökningsmeddelanden om fönsterstackning.\n"
 
-#: src/wmapp.cc:1344
+#: src/wmapp.cc:1333
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
 "  -t, --theme=FILE    Load theme from FILE.\n"
 "  --postpreferences   Print preferences after all processing.\n"
 msgstr ""
+"\n"
+"  -c, --config=FILE   Ladda inställningar från FILE.\n"
+"  -t, --theme=FILE    Ladda tema från FILE.\n"
+"  --postpreferences   Skriv ut inställningar efter all bearbetning.\n"
 
-#: src/wmapp.cc:1349
+#: src/wmapp.cc:1338
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1309,86 +1534,113 @@ msgid ""
 "%s\n"
 "\n"
 msgstr ""
+"Användning: %s [VÄLJARE]\n"
+"Startar fönsterhanteraren IceWM.\n"
+"\n"
+"Väljare:\n"
+"  -d, --display=NAME  NAMN på X-servern som ska användas.\n"
+"%s  --sync              Synkroniser X11-kommandon.\n"
+"%s\n"
+"  -V, --version       Skriver ut versionsinformation och avslutar.\n"
+"  -h, --help          Skriver ut denna användningsskärm och avslutar.\n"
+"%s\n"
+"  --replace           Ersätt en befintlig fönsterhanterare.\n"
+"  -r, --restart       Säg till körande icewm att starta om.\n"
+"\n"
+"  --configured        Skriv ut konfigurering för kompileringstid.\n"
+"  --directories       Skriv ut konfigureringskataloger.\n"
+"  -l, --list-themes   Skriv ut lista över alla tillgängliga teman.\n"
+"\n"
+"Miljövariabler:\n"
+"  ICEWM_PRIVCFG=PATH  Katalog för användarkonfigureringsfiler,\n"
+"                      \"$XDG_CONFIG_HOME/icewm\" om den finns, eller\n"
+"                      \"$HOME/.icewm\" som standard.\n"
+"  DISPLAY=NAME        Namn på den X-server som ska användas.\n"
+"  MAIL=URL            Din brevlådas placering.\n"
+"\n"
+"För felrapportering, servicebegäran eller kommentarer, går du till:\n"
+"%s\n"
+"\n"
 
-#: src/wmapp.cc:1410
+#: src/wmapp.cc:1399
 #, c-format
 msgid "%s configuration directories:\n"
-msgstr ""
+msgstr "%s konfigureringskataloger:\n"
 
-#: src/wmapp.cc:1489
-#, fuzzy, c-format
+#: src/wmapp.cc:1481
+#, c-format
 msgid "%s configured options:%s\n"
-msgstr "Okänd flagga: %s\n"
+msgstr "%s konfigurerade väljare:%s\n"
 
-#: src/wmapp.cc:1536
-#, fuzzy, c-format
+#: src/wmapp.cc:1528
+#, c-format
 msgid "Unrecognized option '%s'."
-msgstr "Okänd flagga: %s\n"
+msgstr "Okänd väljare '%s'."
 
-#: src/wmapp.cc:1567
+#: src/wmapp.cc:1560
 msgid "Confirm Logout"
-msgstr "Bekräfta avslutande"
+msgstr "Bekräfta utloggning"
 
-#: src/wmapp.cc:1568
+#: src/wmapp.cc:1561
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
 msgstr ""
-"Avsluta kommer stänga alla aktiva program.\n"
+"Utloggning kommer att stänga alla aktiva program.\n"
 "Fortsätta?"
 
-#: src/wmconfig.cc:39
+#: src/wmconfig.cc:40
 #, c-format
 msgid "Failed to load theme %s"
-msgstr ""
+msgstr "Kunde inte ladda tema %s"
 
-#: src/wmconfig.cc:102
-#, fuzzy, c-format
+#: src/wmconfig.cc:103
+#, c-format
 msgid "Unknown value '%s' for option '%s'."
-msgstr "Okänd åtgärd: \"%s\""
+msgstr "Okänt värde '%s' för alternativ '%s'."
 
-#: src/wmconfig.cc:110
+#: src/wmconfig.cc:111
 #, c-format
 msgid "Unable to create directory %s"
-msgstr ""
+msgstr "Kan inte skapa katalog %s"
 
-#: src/wmconfig.cc:137
+#: src/wmconfig.cc:138
 #, c-format
 msgid "Unable to write to %s"
-msgstr ""
+msgstr "Kan inte skriva till %s"
 
-#: src/wmconfig.cc:164
-#, fuzzy, c-format
+#: src/wmconfig.cc:165
+#, c-format
 msgid "Unable to rename %s to %s"
-msgstr "Felaktigt nyckelnamn %s i %s"
+msgstr "Kan inte byta namn på %s till %s"
 
-#: src/wmdialog.cc:87
+#: src/wmdialog.cc:73
 msgid "Loc_k Workstation"
 msgstr "_Lås arbetsstationen"
 
-#: src/wmdialog.cc:89 src/ymsgbox.cc:44
+#: src/wmdialog.cc:75 src/ymsgbox.cc:44
 msgid "_Cancel"
 msgstr "_Avbryt"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:1040 src/wmprog.cc:1042
-#: src/wmtaskbar.cc:296 src/wmtaskbar.cc:298
+#: src/wmdialog.cc:76 src/wmprog.cc:792 src/wmprog.cc:794 src/wmtaskbar.cc:280
+#: src/wmtaskbar.cc:282
 msgid "_Logout..."
 msgstr "Avsl_uta..."
 
-#: src/wmdialog.cc:94
+#: src/wmdialog.cc:80
 msgid "_Restart icewm"
 msgstr "_Starta om icewm"
 
-#: src/wmdialog.cc:95 src/wmprog.cc:1005 src/wmtaskbar.cc:289
-#: src/wmtaskbar.cc:292
+#: src/wmdialog.cc:81 src/wmprog.cc:753 src/wmtaskbar.cc:273
+#: src/wmtaskbar.cc:276
 msgid "_About"
 msgstr "_Om"
 
-#: src/wmframe.cc:1425
+#: src/wmframe.cc:1406
 msgid "Kill Client: "
 msgstr "Döda klient: "
 
-#: src/wmframe.cc:1432
+#: src/wmframe.cc:1413
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1397,155 +1649,101 @@ msgstr ""
 "att gå förlorade när den här klienten dödas.\n"
 "Vill du fortsätta?"
 
-#: src/wmframe.cc:3028
+#: src/wmframe.cc:2996
 msgid "Restore"
 msgstr "Återställ"
 
-#: src/wmframe.cc:3031 src/wmtitle.cc:78
+#: src/wmframe.cc:2999 src/wmtitle.cc:69
 msgid "Maximize"
 msgstr "Maximera"
 
-#: src/wmframe.cc:3061
+#: src/wmframe.cc:3029
 msgid "Rolldown"
 msgstr "Rulla ut"
 
-#: src/wmframe.cc:3063 src/wmtitle.cc:136
+#: src/wmframe.cc:3031 src/wmtitle.cc:127
 msgid "Rollup"
 msgstr "Rulla ihop"
 
-#: src/wmoption.cc:225
+#: src/wmoption.cc:228
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Okänd fönsterflagga: %s"
 
-#: src/wmoption.cc:333
-#, fuzzy, c-format
+#: src/wmoption.cc:338
+#, c-format
 msgid "Syntax error in window options on line %d of %s"
-msgstr "Syntaxfel i fönsterflaggor"
+msgstr "Syntaxfel i fönsteralternativ på rad %d av %s"
 
-#: src/wmprog.cc:183
-msgid "Missing command argument"
-msgstr "Kommandoargument saknas"
-
-#: src/wmprog.cc:201
-#, fuzzy, c-format
-msgid "Bad argument %d to command '%s'"
-msgstr "Felaktigt argument: %s för %s"
-
-#: src/wmprog.cc:342
-msgid "Missing filename argument to include statement"
-msgstr ""
-
-#: src/wmprog.cc:408
-#, fuzzy, c-format
-msgid "Error at %s '%s'"
-msgstr "Fel vid nyckeln %s"
-
-#: src/wmprog.cc:465
-#, fuzzy, c-format
-msgid "Unexepected menu keyword: '%s'"
-msgstr "Oväntat nyckelord: %s"
-
-#: src/wmprog.cc:509
-#, fuzzy, c-format
-msgid "Error at menuprog '%s'"
-msgstr "Fel vid program %s"
-
-#: src/wmprog.cc:548
-#, fuzzy, c-format
-msgid "Error at %s: '%s'"
-msgstr "Fel vid nyckeln %s"
-
-#: src/wmprog.cc:571
-#, fuzzy, c-format
-msgid "Unknown keyword '%s'"
-msgstr "Okänd åtgärd: \"%s\""
-
-#: src/wmprog.cc:596
-#, fuzzy, c-format
-msgid "Error at keyword '%s' for %s"
-msgstr "Fel vid nyckeln %s"
-
-#: src/wmprog.cc:612
-#, c-format
-msgid ""
-"Unknown keyword for a non-container: '%s'.\n"
-"Expected either 'key' or 'runonce' here.\n"
-msgstr ""
-
-#: src/wmprog.cc:744
-#, c-format
-msgid "'%s' produces no output"
-msgstr ""
-
-#: src/wmprog.cc:892
+#: src/wmprog.cc:377
 msgid "_Click to focus"
 msgstr "_Klicka för fokus"
 
-#: src/wmprog.cc:893
-#, fuzzy
+#: src/wmprog.cc:378
 msgid "_Explicit focus"
-msgstr "_Klicka för fokus"
+msgstr "_Explicit fokus"
 
-#: src/wmprog.cc:894
+#: src/wmprog.cc:379
 msgid "_Sloppy mouse focus"
 msgstr "_Slarvig musfokus"
 
-#: src/wmprog.cc:895
-#, fuzzy
+#: src/wmprog.cc:380
 msgid "S_trict mouse focus"
-msgstr "_Slarvig musfokus"
+msgstr "S_trikt musfokus"
 
-#: src/wmprog.cc:896
-#, fuzzy
+#: src/wmprog.cc:381
 msgid "_Quiet sloppy focus"
-msgstr "_Slarvig musfokus"
+msgstr "_Lugn slarvig fokus"
 
-#: src/wmprog.cc:897
+#: src/wmprog.cc:382
 msgid "Custo_m"
 msgstr "Ege_n"
 
-#: src/wmprog.cc:919
+#: src/wmprog.cc:665
 msgid "_Manual"
-msgstr ""
+msgstr "_Manuell"
 
-#: src/wmprog.cc:920
+#: src/wmprog.cc:666
 msgid "_Icewm(1)"
-msgstr ""
+msgstr "_Icewm(1)"
 
-#: src/wmprog.cc:921
+#: src/wmprog.cc:667
 msgid "Icewm_Bg(1)"
-msgstr ""
+msgstr "Icewm_Bg(1)"
 
-#: src/wmprog.cc:922
+#: src/wmprog.cc:668
 msgid "Ice_Sound(1)"
-msgstr ""
+msgstr "Ice_Sound(1)"
 
-#: src/wmprog.cc:984
+#: src/wmprog.cc:730
 msgid "Programs"
 msgstr "Program"
 
-#: src/wmprog.cc:989
+#: src/wmprog.cc:735
 msgid "_Run..."
 msgstr "_Kör..."
 
-#: src/wmprog.cc:994 src/wmtaskbar.cc:279
+#: src/wmprog.cc:740 src/wmtaskbar.cc:263
 msgid "_Windows"
 msgstr "_Fönster"
 
-#: src/wmprog.cc:1011
+#: src/wmprog.cc:759
 msgid "_Help"
 msgstr "_Hjälp"
 
-#: src/wmprog.cc:1022
+#: src/wmprog.cc:770
 msgid "_Focus"
 msgstr "_Fokus"
 
-#: src/wmprog.cc:1029
+#: src/wmprog.cc:775
+msgid "_Preferences"
+msgstr "_Inställningar"
+
+#: src/wmprog.cc:781
 msgid "_Themes"
 msgstr "_Teman"
 
-#: src/wmprog.cc:1034
+#: src/wmprog.cc:786
 msgid "Se_ttings"
 msgstr "_Inställningar"
 
@@ -1554,71 +1752,71 @@ msgstr "_Inställningar"
 msgid "Session Manager: Unknown line %s"
 msgstr "Sessionshanteraren: Okänd rad %s"
 
-#: src/wmtaskbar.cc:167 src/wmtaskbar.cc:168
+#: src/wmtaskbar.cc:153 src/wmtaskbar.cc:154
 msgid "Task Bar"
 msgstr "Programrad"
 
-#: src/wmtaskbar.cc:269 src/wmwinlist.cc:305 src/wmwinlist.cc:318
+#: src/wmtaskbar.cc:253 src/wmwinlist.cc:305 src/wmwinlist.cc:318
 msgid "Tile _Vertically"
 msgstr "Rada upp _lodrätt"
 
-#: src/wmtaskbar.cc:270 src/wmwinlist.cc:306 src/wmwinlist.cc:319
+#: src/wmtaskbar.cc:254 src/wmwinlist.cc:306 src/wmwinlist.cc:319
 msgid "T_ile Horizontally"
 msgstr "Rada upp _vågrätt"
 
-#: src/wmtaskbar.cc:271 src/wmwinlist.cc:307 src/wmwinlist.cc:320
+#: src/wmtaskbar.cc:255 src/wmwinlist.cc:307 src/wmwinlist.cc:320
 msgid "Ca_scade"
 msgstr "_Kaskad"
 
-#: src/wmtaskbar.cc:272 src/wmwinlist.cc:308 src/wmwinlist.cc:321
+#: src/wmtaskbar.cc:256 src/wmwinlist.cc:308 src/wmwinlist.cc:321
 msgid "_Arrange"
 msgstr "O_rdna"
 
-#: src/wmtaskbar.cc:273 src/wmwinlist.cc:310 src/wmwinlist.cc:322
+#: src/wmtaskbar.cc:257 src/wmwinlist.cc:310 src/wmwinlist.cc:322
 msgid "_Minimize All"
 msgstr "_Minimera alla"
 
-#: src/wmtaskbar.cc:274 src/wmwinlist.cc:311 src/wmwinlist.cc:323
+#: src/wmtaskbar.cc:258 src/wmwinlist.cc:311 src/wmwinlist.cc:323
 msgid "_Hide All"
 msgstr "Göm _alla"
 
-#: src/wmtaskbar.cc:275 src/wmwinlist.cc:312 src/wmwinlist.cc:324
+#: src/wmtaskbar.cc:259 src/wmwinlist.cc:312 src/wmwinlist.cc:324
 msgid "_Undo"
 msgstr "_Ångra"
 
-#: src/wmtaskbar.cc:277
+#: src/wmtaskbar.cc:261
 msgid "Arrange _Icons"
 msgstr "Ordna _Ikoner"
 
-#: src/wmtaskbar.cc:281
+#: src/wmtaskbar.cc:265
 msgid "_Refresh"
 msgstr "_Uppdatera"
 
-#: src/wmtaskbar.cc:287
+#: src/wmtaskbar.cc:271
 msgid "_License"
 msgstr "_Licens"
 
-#: src/wmtaskbar.cc:403
+#: src/wmtaskbar.cc:352
 msgid "Favorite applications"
 msgstr "Favoritprogram"
 
-#: src/wmtaskbar.cc:420
+#: src/wmtaskbar.cc:370
 msgid "Window list menu"
 msgstr "Fönsterlistmeny"
 
-#: src/wmtaskbar.cc:429
+#: src/wmtaskbar.cc:379
 msgid "Show Desktop"
 msgstr "Visa skrivbord"
 
-#: src/wmtitle.cc:94
+#: src/wmtitle.cc:85
 msgid "Minimize"
 msgstr "Minimera"
 
-#: src/wmtitle.cc:122
+#: src/wmtitle.cc:113
 msgid "Hide"
 msgstr "Göm"
 
-#: src/wmtitle.cc:150
+#: src/wmtitle.cc:141
 msgid "Raise/Lower"
 msgstr "Höj/Sänk"
 
@@ -1658,19 +1856,19 @@ msgstr "%lu. Arbetsyta %-.32s"
 #: src/yapp.cc:276
 #, c-format
 msgid "%s: select failed"
-msgstr ""
+msgstr "%s: val misslyckades"
 
-#: src/yconfig.cc:139
+#: src/yconfig.cc:128
 #, c-format
 msgid "Unknown key name %s in %s"
 msgstr "Felaktigt nyckelnamn %s i %s"
 
-#: src/yconfig.cc:165 src/yconfig.cc:178 src/yconfig.cc:191
+#: src/yconfig.cc:150 src/yconfig.cc:163 src/yconfig.cc:176
 #, c-format
 msgid "Bad argument: %s for %s"
 msgstr "Felaktigt argument: %s för %s"
 
-#: src/yconfig.cc:224
+#: src/yconfig.cc:212
 #, c-format
 msgid "Bad option: %s"
 msgstr "Felaktig flagga: %s"
@@ -1706,16 +1904,16 @@ msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
 msgstr "FEL? Oväntat slut på XPM-fil men Imlib kunde ändå tolka \"%s\""
 
 #: src/ycursor.cc:218
-#, fuzzy, c-format
+#, c-format
 msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
 msgstr "FEL? Oväntat tecken men Imlib kunde ändå tolka \"%s\""
 
-#: src/yfontcore.cc:71 src/yfontxft.cc:176
+#: src/yfontcore.cc:71 src/yfontxft.cc:158
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "Kunde inte läsa in typsnitt \"%s\"."
 
-#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:199
+#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:181
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr "Inläsning av reservfont \"%s\" misslyckades."
@@ -1759,9 +1957,8 @@ msgid "Paste _Selection"
 msgstr "Klistra in _markering"
 
 #: src/yinput.cc:44
-#, fuzzy
 msgid "Ctrl+P"
-msgstr "Qtrl+Q"
+msgstr "Qtrl+P"
 
 #: src/yinput.cc:47
 msgid "Select _All"
@@ -1772,24 +1969,24 @@ msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
 #: src/ylocale.cc:46
-#, fuzzy
 msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
 msgstr ""
-"Språkvariant som inte stöds av C-biblioteket. Faller tillbaka till 'C' "
-"locale'."
+"Språkkonventionen stöds inte av C-biblioteket eller Xlib. Faller tillbaka "
+"till språkkonvention 'C'."
 
 #: src/ylocale.cc:72
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
-"Kunde inte avgöra teckenuppsättning för aktuell lokal. Antar ISO-8859-1.\n"
+"Kunde inte avgöra teckenuppsättning för aktuell språkkonvention. Antar "
+"ISO-8859-1.\n"
 
 #: src/ylocale.cc:104 src/ylocale.cc:111
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv tillhandahåller inte (tillräckliga) %s till %s-konverterare."
 
-#: src/ylocale.cc:165
+#: src/ylocale.cc:163
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Ogiltig multibyte-sträng \"%s\": %s"
@@ -1817,21 +2014,74 @@ msgstr "Kunde inte hitta bild %s"
 msgid "$USER or $LOGNAME not set?"
 msgstr "$USER eller $LOGNAME inte satt?"
 
-#: src/yurl.cc:83
+#: src/yurl.cc:146
 #, c-format
-msgid "\"%s\" doesn't describe a common internet scheme"
-msgstr "\"%s\" följer inte det allmänna internetmetodschemat"
+msgid "Failed to parse URL \"%s\"."
+msgstr "Det gick inte att parsa \"%s\"."
 
-#: src/yurl.cc:86
+#: src/yurl.cc:162
 #, c-format
-msgid "\"%s\" contains no scheme description"
-msgstr "\"%s\" innehåller inte någon metodbeskrivning"
+msgid "Incomplete hex escape in URL at position %d."
+msgstr "Ofullständig hexutväg i URL:en vid position %d 1."
 
-#: src/yxapp.cc:904
+#: src/yurl.cc:169
+#, c-format
+msgid "Invalid hex escape in URL at position %d."
+msgstr "Ogiltig hexutväg i URL:en vid position %d1."
+
+#: src/yxapp.cc:891
 msgid ""
 "  -d, --display=NAME  NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"
 msgstr ""
+"  -d, --display=NAME  NAMN på den X-server som ska användas.\n"
+"  --sync              Synkronisera X11-kommandon.\n"
+
+#~ msgid "Missing command argument"
+#~ msgstr "Kommandoargument saknas"
+
+#~ msgid "Bad argument %d to command '%s'"
+#~ msgstr "Felaktigt argument %d för kommando ’%s’"
+
+#~ msgid "Missing filename argument to include statement"
+#~ msgstr "Filnamnsargument saknas för inkluderingssats"
+
+#~ msgid "Error at %s '%s'"
+#~ msgstr "Fel vid %s '%s'"
+
+#~ msgid "Unexepected menu keyword: '%s'"
+#~ msgstr "Oväntat menynyckelord: ’%s’"
+
+#~ msgid "Error at menuprog '%s'"
+#~ msgstr "Fel vid menyprogram ’%s’"
+
+#~ msgid "Error at %s: '%s'"
+#~ msgstr "Fel vid %s: '%s'"
+
+#~ msgid "Unknown keyword '%s'"
+#~ msgstr "Okänt nyckelord '%s'"
+
+#~ msgid "Error at keyword '%s' for %s"
+#~ msgstr "Fel vid nyckelord '%s' for %s"
+
+#~ msgid ""
+#~ "Unknown keyword for a non-container: '%s'.\n"
+#~ "Expected either 'key' or 'runonce' here.\n"
+#~ msgstr ""
+#~ "Okänt nyckelord för en icke-container: '%s'.\n"
+#~ "Här förväntas antingen 'key' eller 'runonce'.\n"
+
+#~ msgid "'%s' produces no output"
+#~ msgstr "'%s' genererar inga utdata"
+
+#~ msgid "\"%s\" contains no scheme description"
+#~ msgstr "\"%s\" innehåller inte någon metodbeskrivning"
+
+#~ msgid "Please note that not all options are currently configured.\n"
+#~ msgstr "Observera att inte alla alternativ är inställda för närvarande.\n"
+
+#~ msgid "\"%s\" doesn't describe a common internet scheme"
+#~ msgstr "\"%s\" följer inte det allmänna internetmetodschemat"
 
 #~ msgid "Out of memory for pixmap \"%s\""
 #~ msgstr "Slut på minne för bild \"%s\""
@@ -1856,9 +2106,6 @@ msgstr ""
 
 #~ msgid "No such device: %s"
 #~ msgstr "Enhet saknas: %s"
-
-#~ msgid "Can't connect to YIFF server: %s"
-#~ msgstr "Kan inte ansluta till YIFF-server: %s"
 
 #~ msgid "Can't change to audio mode `%s'."
 #~ msgstr "Kan inte byta till ljudläge \"%s\"."
