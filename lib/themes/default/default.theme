@@ -10,17 +10,17 @@ TitleButtonsLeft="sd"
 TitleButtonsRight="xmirh"
 TitleButtonsSupported="sxmihrd"
 
-BorderSizeX=6
-BorderSizeY=6
+BorderSizeX=5
+BorderSizeY=5
 CornerSizeX=16
 CornerSizeY=16
 DlgBorderSizeX=2
 DlgBorderSizeY=2
 
 ColorNormalBorder="rgb:A0/A0/A0"
-ColorActiveBorder="rgb:D0/D0/D0"
-ColorActiveTitleBar="rgb:D0/D0/D0"
-ColorNormalTitleBar="rgb:A0/A0/A0"
+ColorActiveBorder="rgb:98/ab/d2"
+ColorActiveTitleBar="rgb:cf/cf/ff"
+ColorNormalTitleBar="rgb:cf/cf/cf"
 ColorNormalButton="rgb:C0/C0/C0"
 ColorNormalTitleBarText="rgb:00/00/00"
 ColorActiveTitleBarText="rgb:00/00/00"
