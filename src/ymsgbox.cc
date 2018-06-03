@@ -129,7 +129,9 @@ void YMsgBox::actionPerformed(YAction action, unsigned int /*modifiers*/) {
         else if (fButtonCancel && action == *fButtonCancel) {
             fListener->handleMsgBox(this, mbCancel);
         }
-        else TLOG(("unknown action %d for msgbox", action.ident()));
+        else {
+            TLOG(("unknown action %d for msgbox", action.ident()));
+        }
     }
 }
 

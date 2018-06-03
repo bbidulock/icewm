@@ -116,6 +116,32 @@ private:
     bool fBitmap;
 };
 
+bool YImage::supportsExtension(const char* imageExtension) {
+    mstring ext(imageExtension + (*imageExtension == '.'));
+    return ext == "xbm"
+        || ext == "xpm"
+#ifdef CONFIG_LIBPNG
+        || ext == "png"
+#endif
+#ifdef CONFIG_LIBJPEG
+        || ext == "jpg"
+        || ext == "jpeg"
+#endif
+        ;
+}
+
+void YImage::imageFormats(class YStringArray* list) {
+    list->clear();
+    list->append("xbm");
+    list->append("xpm");
+#ifdef CONFIG_LIBPNG
+    list->append("png");
+#endif
+#ifdef CONFIG_LIBJPEG
+    list->append("jpeg");
+#endif
+}
+
 ref<YImage> YImage::load(upath filename)
 {
     ref<YImage> image;

@@ -60,19 +60,20 @@ static inline bool isIconFile(const upath& name) {
 }
 
 upath YIcon::findIcon(upath dir, upath base, unsigned size) {
-    char iconName[1024];
-    const size_t iconSize = sizeof iconName;
+    const size_t iconSize = 1024;
+    char iconName[iconSize];
     const cstring cbase(base.string());
     const char* cBaseStr = cbase.c_str();
-    static const char iconExts[][5] = { ".png",
-#if 0
-#if defined(CONFIG_GDK_PIXBUF_XLIB) || defined(CONFIG_LIBSVG)
-            ".svg",
-#endif
-#endif
-            ".xpm"
+    char iconExts[][5] = {
+        ".png",
+        ".svg",
+        ".xpm",
     };
-    static const int numIconExts = (int) ACOUNT(iconExts);
+    int numIconExts = int ACOUNT(iconExts);
+    if (YImage::supportsExtension(iconExts[1]) == false) {
+        memcpy(iconExts[1], iconExts[numIconExts - 1], sizeof(iconExts[1]));
+        numIconExts -= 1;
+    }
 
     upath fullpath(joinPath(dir, base));
     if (isIconFile(fullpath))

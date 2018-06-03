@@ -19,6 +19,9 @@ public:
     static ref<YImage> createFromIconProperty(long *pixels,
                                               unsigned width, unsigned height);
 
+    static bool supportsExtension(const char* imageExtension);
+    static void imageFormats(class YStringArray* list);
+
     unsigned width() const { return fWidth; }
     unsigned height() const { return fHeight; }
     virtual bool valid() const = 0;
