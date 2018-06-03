@@ -31,7 +31,7 @@
 #cmakedefine HAVE_DUP2 1
 #cmakedefine HAVE_GETHOSTBYNAME 1
 #cmakedefine HAVE_GETHOSTNAME 1
-#cmakedefine HAVE_GETLOADAVG 1
+#cmakedefine HAVE_GETLOADAVG2 1
 #cmakedefine HAVE_GETTIMEOFDAY 1
 #cmakedefine HAVE_MBLEN 1
 #cmakedefine HAVE_MEMCHR 1
