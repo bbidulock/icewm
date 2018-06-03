@@ -36,6 +36,23 @@
 
 extern ref<YPixmap> taskbackPixmap;
 
+static NetDevice* getNetDevice(cstring netdev)
+{
+    return
+#if defined(__linux__)
+        netdev.m_str().startsWith("ippp")
+            ? (NetDevice *) new NetIsdnDevice(netdev)
+            : (NetDevice *) new NetLinuxDevice(netdev)
+#elif defined(__FreeBSD__)
+        new NetFreeDevice(netdev)
+#elif defined(__OpenBSD__) || defined(__NetBSD__)
+        new NetOpenDevice(netdev)
+#else
+        0
+#endif
+        ;
+}
+
 NetStatus::NetStatus(
     cstring netdev,
     NetStatusHandler* handler,
@@ -60,19 +77,7 @@ NetStatus::NetStatus(
     wasUp(false),
     useIsdn(netdev.m_str().startsWith("ippp")),
     fDevName(netdev),
-    fDevice(
-#if defined(__linux__)
-            useIsdn
-                ? (NetDevice *) new NetIsdnDevice(netdev)
-                : (NetDevice *) new NetLinuxDevice(netdev)
-#elif defined(__FreeBSD__)
-            new NetFreeDevice(netdev)
-#elif defined(__OpenBSD__) || defined(__NetBSD__)
-            new NetOpenDevice(netdev)
-#else
-            0
-#endif
-            )
+    fDevice(getNetDevice(netdev))
 {
     for (int i = 0; i < taskBarNetSamples; i++)
         ppp_in[i] = ppp_out[i] = 0;
@@ -87,8 +92,8 @@ NetStatus::NetStatus(
     updateStatus(0);
     if (isUp()) {
         updateVisible(true);
-        updateToolTip();
     }
+    updateToolTip();
     setTitle(cstring("NET-" + netdev));
 }
 
@@ -133,8 +138,10 @@ void NetStatus::timedUpdate(const void* sharedData, bool forceDown) {
             updateToolTip();
     }
     else // link is down
-        if (wasUp)
+        if (wasUp) {
             updateVisible(false);
+            updateToolTip();
+        }
 
     wasUp = up;
 }
@@ -207,7 +214,7 @@ void NetStatus::updateToolTip() {
                 period / 3600, period / 60 % 60, period % 60,
                 *phoneNumber ? _("\n  Caller id:\t") : "", phoneNumber);
     } else {
-        snprintf(status, sizeof status, "%.50s:", fDevName.c_str());
+        snprintf(status, sizeof status, "%.50s: down", fDevName.c_str());
     }
 
     setToolTip(status);
@@ -510,7 +517,7 @@ void NetFreeDevice::getCurrent(netbytes *in, netbytes *out, const void* sharedDa
                 warn("%s@%d: %s\n", __FILE__, __LINE__, strerror(errno));
                 continue;
             }
-            if (ifmd.ifmd_name == fDevName) {
+            if (fDevName == ifmd.ifmd_name) {
                 *in = ifmd.ifmd_data.ifi_ibytes;
                 *out = ifmd.ifmd_data.ifi_obytes;
                 break;
@@ -709,9 +716,20 @@ void NetStatusControl::handleClick(const XButtonEvent &up, cstring netdev)
         fMenu->addItem(_("NET"), -2, null, actionNull)->setEnabled(false);
         YStringArray::IterType iter = interfaces.iterator();
         while (++iter) {
-            bool has(fNetStatus[*iter] && fNetStatus[*iter]->visible());
-            YAction act(EAction(has + 2 * (300 + iter.where())));
-            fMenu->addItem(*iter, -2, null, act)->setChecked(has);
+            bool enable = true;
+            bool visible = false;
+            if (fNetStatus.has(*iter) == false || fNetStatus[*iter] == 0) {
+                enable = osmart<NetDevice>(getNetDevice(*iter))->isUp();
+            }
+            else if (fNetStatus[*iter]->visible()) {
+                visible = true;
+                enable = fNetStatus[*iter]->isUp();
+            }
+            YAction act(EAction(visible + 2 * (300 + iter.where())));
+            YMenuItem* item = fMenu->addItem(*iter, -2, null,
+                                             enable ? act : actionNull);
+            item->setChecked(visible);
+            item->setEnabled(enable);
         }
         fMenu->popup(0, 0, 0, up.x_root, up.y_root,
                      YPopupWindow::pfCanFlipVertical |

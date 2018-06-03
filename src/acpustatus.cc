@@ -21,15 +21,18 @@
 #include "applet.h"
 #include "ypointer.h"
 #include "acpustatus.h"
+
+#if IWM_STATES
+
 #include "sysdep.h"
 #include "default.h"
 #include "ascii.h"
 #include "ymenuitem.h"
 
-#if defined(__linux__)
-//#include <linux/kernel.h>
+#if __linux__
 #include <sys/sysinfo.h>
-#endif
+#else
+
 #if defined(sun) && defined(SVR4)
 #include <sys/loadavg.h>
 #endif
@@ -54,10 +57,20 @@
 #ifdef HAVE_SCHED_H
 #include <sched.h>
 #endif
+#ifdef HAVE_SYS_SCHED_H
+#include <sys/sched.h>
+#endif
+#if defined(HW_PHYSMEM) && !defined(HW_PHYSMEM64)
+#define HW_PHYSMEM64 HW_PHYSMEM
+#endif
+#if defined(HW_USERMEM) && !defined(HW_USERMEM64)
+#define HW_USERMEM64 HW_USERMEM
+#endif
+
+#endif /*__linux__*/
+
 #include "udir.h"
 #include "intl.h"
-
-#if defined(__linux__) || defined(HAVE_KSTAT_H) || defined(HAVE_SYSCTL_CP_TIME)
 
 extern ref<YPixmap> taskbackPixmap;
 
@@ -334,20 +347,39 @@ void CPUStatus::updateToolTip() {
         }
         setToolTip(ustring(fmt));
     }
-#elif defined HAVE_GETLOADAVG2
-    char load[sizeof("999.99 999.99 999.99")];
+#elif HAVE_GETLOADAVG2
+    char buf[99];
     double loadavg[3];
     if (getloadavg(loadavg, 3) < 0)
         return;
-    snprintf(load, sizeof(load), "%3.2g %3.2g %3.2g",
+    snprintf(buf, sizeof buf, "%s %s %s %3.2g %3.2g %3.2g",
+             _("CPU"), cpuid, _("Load: "),
             loadavg[0], loadavg[1], loadavg[2]);
-    {
-        char id[10];
-        snprintf(id, sizeof[id], " %d ", cpuid);
-        char *loadmsg = cstrJoin(_("CPU"), id ,_("Load: "), load, NULL);
-        setToolTip(ustring(loadmsg));
-        delete [] loadmsg;
+
+#if HAVE_SYSCTL && defined(HW_PHYSMEM64) && defined(HW_USERMEM64)
+    const int M = 2;
+    int mib[M][2] = { { CTL_HW, HW_PHYSMEM64 }, { CTL_HW, HW_USERMEM64 }, };
+    int64_t data[M] = { 0, 0, };
+    size_t len[M] = { sizeof(data[0]), sizeof(data[1]), };
+
+    for (int i = 0; i < M; ++i)
+        if (sysctl(mib[i], 2, data + i, len + i, NULL, 0) == -1)
+            if (ONCE) tlog("sysctl %d, %d", mib[i][0], mib[i][1]);
+
+    if (data[0] && data[1]) {
+        snprintf(buf + strlen(buf), sizeof buf - strlen(buf),
+                _("\nRam (user): %5.3f (%.3f) G"),
+                (data[0] >> 20) * 1e-3, (data[1] >> 20) * 1e-3);
     }
+#endif
+
+    float freq = getCpuFreq(0);
+    if (freq > 1e6 && strlen(buf) + 20 < sizeof buf) {
+        snprintf(buf + strlen(buf), sizeof buf - strlen(buf),
+                 _("\nCPU Freq: %.3fGHz"), freq * 1e-9);
+    }
+
+    setToolTip(buf);
 #endif
 }
 
@@ -375,6 +407,8 @@ int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
     char buf[64];
 
     memset(tempbuf, 0, buflen);
+
+#if __linux__
     cdir dir;
     if (dir.open("/sys/class/thermal")) {
         while (dir.next()) {
@@ -422,10 +456,14 @@ int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
             }
         }
     }
+#endif
+
     return retbuflen;
 }
 
 float CPUStatus::getCpuFreq(unsigned int cpu) {
+
+#if __linux__
     char buf[16], namebuf[100];
     const char * categories[] = { "cpuinfo", "scaling" };
     for (unsigned i = 0; i < ACOUNT(categories); ++i)
@@ -439,6 +477,20 @@ float CPUStatus::getCpuFreq(unsigned int cpu) {
             return cpufreq;
         }
     }
+
+#elif HAVE_SYSCTL && defined(CTL_HW) && defined(HW_CPUSPEED) /*OpenBSD*/
+    int mib[2] = { CTL_HW, HW_CPUSPEED };
+    int speed = 0;
+    size_t len = sizeof(speed);
+
+    if (sysctl(mib, 2, &speed, &len, NULL, 0) == -1) {
+        if (ONCE) tlog("sysctl hw cpuspeed");
+    }
+    else {
+        return (float) speed * 1e6;
+    }
+#endif
+
     return 0;
 }
 
@@ -498,9 +550,9 @@ void CPUStatus::getStatusPlatform() {
     }
 
     return;
-#endif /* __linux__ */
 
-#ifdef HAVE_KSTAT_H
+#elif HAVE_KSTAT_H
+
 #ifdef HAVE_OLD_KSTAT
 #define ui32 ul
 #endif
@@ -661,9 +713,9 @@ void CPUStatus::getStatusPlatform() {
     cpu[taskBarCPUSamples-1][IWM_IDLE] = cp_pct[CPU_IDLE];
 
     return;
-#endif /* have_kstat_h */
 
-#if defined HAVE_SYSCTL_CP_TIME && defined CP_INTR
+#elif __OpenBSD__ || __NetBSD__ || __FreeBSD__
+
 #if defined __NetBSD__
     typedef u_int64_t cp_time_t;
 #else
@@ -680,20 +732,25 @@ void CPUStatus::getStatusPlatform() {
     cp_time_t cp_time[CPUSTATES];
     size_t len = sizeof( cp_time );
 #if defined HAVE_SYSCTLBYNAME
-    if (sysctlbyname("kern.cp_time", cp_time, &len, NULL, 0) < 0)
+    if (sysctlbyname("kern.cp_time", cp_time, &len, NULL, 0) < 0) {
+        if (ONCE)
+            fail("sysctlbyname kern.cp_time");
         return;
+    }
 #else
-    if (sysctl(mib, 2, cp_time, &len, NULL, 0) < 0)
+    if (sysctl(mib, 2, cp_time, &len, NULL, 0) < 0) {
+        if (ONCE)
+            fail("sysctl kern cp_time");
         return;
+    }
 #endif
 
     unsigned long long cur[IWM_STATES];
     cur[IWM_USER]    = cp_time[CP_USER];
     cur[IWM_NICE]    = cp_time[CP_NICE];
     cur[IWM_SYS]     = cp_time[CP_SYS];
-    cur[IWM_IDLE]    = cp_time[CP_IDLE];
-    cur[IWM_IOWAIT]  = 0;
     cur[IWM_INTR]    = cp_time[CP_INTR];
+    cur[IWM_IOWAIT]  = 0;
     cur[IWM_SOFTIRQ] = 0;
     cur[IWM_IDLE]    = cp_time[CP_IDLE];
     cur[IWM_STEAL]   = 0;
@@ -762,7 +819,8 @@ void CPUStatusControl::GetCPUStatus(bool combine) {
     } else {
         getCPUStatusCombined();
     }
-#elif defined(HAVE_SYSCTL_CP_TIME)
+
+#elif defined(HAVE_SYSCTL) || defined(HAVE_SYSCTLBYNAME)
     getCPUStatusCombined();
 #endif
 }

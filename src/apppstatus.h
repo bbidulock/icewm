@@ -39,6 +39,9 @@ public:
     virtual void getCurrent(netbytes *in, netbytes *out, const void* sharedData) = 0;
     virtual const char* getPhoneNumber() { return ""; }
     virtual ~NetDevice() {}
+
+    cstring name() const { return fDevName; }
+
 protected:
     cstring const fDevName;
 };
@@ -80,6 +83,7 @@ public:
 
     cstring name() const { return fDevName; }
     void timedUpdate(const void* sharedData, bool forceDown = false);
+    bool isUp() const { return fDevice && fDevice->isUp(); }
 
 private:
     NetStatusHandler* fHandler;
@@ -105,7 +109,6 @@ private:
 
     void updateVisible(bool aVisible);
     // methods local to this class
-    bool isUp() const { return fDevice && fDevice->isUp(); }
     void getCurrent(long *in, long *out, const void* sharedData);
     void updateStatus(const void* sharedData);
     virtual void updateToolTip();
