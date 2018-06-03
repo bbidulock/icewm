@@ -159,6 +159,9 @@ public:
     int length()    const { return str.length(); }
 };
 
+inline bool operator==(const char* s, cstring c) { return c == s; }
+inline bool operator!=(const char* s, cstring c) { return c != s; }
+
 inline mstring operator+(const char* s, const mstring& m) {
     return mstring(s) + m;
 }
