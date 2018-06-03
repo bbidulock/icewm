@@ -143,7 +143,9 @@ globit_best(const char *pattern_, char **result)
 	} else if (*pattern == '~') {
 		/* yes, tilde */
 		is_absolute = 2;
+#ifdef GLOB_TILDE
 		glob_flags |= GLOB_TILDE;
+#endif
 		/* any slash in the pattern? */
 		while (*cp && *cp != '/')
 			++cp;
