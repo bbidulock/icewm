@@ -89,7 +89,8 @@ public:
     ~fileptr() { close(); }
     void close() { if (fp) { fclose(fp); fp = 0; } }
     fileptr& operator=(FILE* ptr) { close(); fp = ptr; return *this; }
-    operator FILE*() { return fp; }
+    operator FILE*() const { return fp; }
+    FILE* operator->() const { return fp; }
 };
 
 upath findPath(ustring path, int mode, upath name);
