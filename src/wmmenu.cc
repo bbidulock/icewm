@@ -465,7 +465,7 @@ void MenuLoader::progMenus(
     char *const argv[],
     ObjectContainer *container)
 {
-    FILE *fpt = tmpfile();
+    fileptr fpt(tmpfile());
     if (fpt == 0) {
         fail("tmpfile");
         return;
@@ -499,6 +499,7 @@ void MenuLoader::progMenus(
     }
     else {
         char *buf = load_fd(tfd);
+        fpt.close();
         if (buf && *buf) {
             parseMenus(buf, container);
         }
@@ -507,7 +508,6 @@ void MenuLoader::progMenus(
         }
         delete[] buf;
     }
-    fclose(fpt);
 }
 
 // vim: set sw=4 ts=4 et:
