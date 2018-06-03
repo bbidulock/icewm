@@ -834,6 +834,8 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
     } else if (action == actionAbout) {
         if (aboutDlg == 0)
             aboutDlg = new AboutDlg();
+        else
+            aboutDlg->getFrame()->setWorkspace(manager->activeWorkspace());
         if (aboutDlg)
             aboutDlg->showFocused();
     } else if (action == actionTileVertical ||
