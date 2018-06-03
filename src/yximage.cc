@@ -10,8 +10,11 @@
 #include <stdlib.h>
 #include <math.h>
 #include <errno.h>
+#include <unistd.h>
+#include <regex.h>
 #include "yimage.h"
 #include "yxapp.h"
+#include "ypointer.h"
 #include "intl.h"
 
 #include <X11/xpm.h>
@@ -61,6 +64,8 @@ public:
     static ref<YImage> loadxpm(upath filename);
 #ifdef CONFIG_LIBPNG
     static ref<YImage> loadpng(upath filename);
+    static ref<YImage> loadsvg(upath filename);
+    static upath svg2png();
 #endif
 #ifdef CONFIG_LIBJPEG
     static ref<YImage> loadjpg(upath filename);
@@ -114,7 +119,9 @@ public:
 private:
     XImage *fImage;
     bool fBitmap;
+    static upath svgconverter;
 };
+upath YXImage::svgconverter;
 
 bool YImage::supportsExtension(const char* imageExtension) {
     mstring ext(imageExtension + (*imageExtension == '.'));
@@ -122,6 +129,7 @@ bool YImage::supportsExtension(const char* imageExtension) {
         || ext == "xpm"
 #ifdef CONFIG_LIBPNG
         || ext == "png"
+        || (ext == "svg" && YXImage::svg2png() != null)
 #endif
 #ifdef CONFIG_LIBJPEG
         || ext == "jpg"
@@ -158,6 +166,14 @@ ref<YImage> YImage::load(upath filename)
 #else
         if (ONCE)
             warn(_("Support for PNG images was not enabled"));
+#endif
+    }
+    else if (ext == ".svg") {
+#ifdef CONFIG_LIBPNG
+        image = YXImage::loadsvg(filename);
+#else
+        if (ONCE)
+            warn(_("Support for PNG is required to support SVG"));
 #endif
     }
     else if (ext == ".jpg" || ext == ".jpeg") {
@@ -380,6 +396,116 @@ ref<YImage> YXImage::loadpng(upath filename)
   nofile:
     if (ximage)
         image.init(new YXImage((XImage *)ximage));
+    return image;
+}
+
+upath YXImage::svg2png()
+{
+    if (svgconverter.nonempty() && svgconverter.isExecutable())
+        return svgconverter;
+
+    csmart env(newstr(getenv("PATH")));
+    char* str(env);
+    for (char* tok; (tok = strtok_r(str, ":", &str)) != 0; ) {
+        if (*tok == '/') {
+            const size_t size(1024);
+            char path[size];
+            const char conv[][16] = {
+                "rsvg-convert",
+                "convert",
+                "inkscape",
+            };
+            for (int i = 0; i < int ACOUNT(conv); ++i) {
+                snprintf(path, size, "%s/%s", tok, conv[i]);
+                if (access(path, X_OK) == 0) {
+                    svgconverter = path;
+                    return svgconverter;
+                }
+            }
+        }
+    }
+    return null;
+}
+
+ref<YImage> YXImage::loadsvg(upath filename)
+{
+    ref<YImage> image;
+    unsigned width(0), height(0);
+    cstring filecstr(filename);
+    const char* fileStr(filecstr);
+
+    mstring path(svg2png());
+    if (path == null)
+        return null;
+    cstring pathcstr(path);
+    const char* pathStr(pathcstr);
+
+    if (width == 0) {
+        const char regexp[] = "[^0-9][0-9]{2,3}x[0-9]{2,3}[^0-9]";
+        mstring match(filename.path().match(regexp));
+        if (match.nonempty()) {
+            char ch;
+            sscanf(cstring(match), "%c%ux%u", &ch, &width, &height);
+        }
+    }
+    if (width == 0) {
+        const char regexp[] = "/[0-9]{2,3}/[^/]+$";
+        mstring match(filename.path().match(regexp));
+        if (match.nonempty()) {
+            char ch;
+            sscanf(cstring(match), "%c%u", &ch, &width);
+            height = width;
+        }
+    }
+
+    char temp[1024];
+    snprintf(temp, sizeof temp, "%s/icesvgXXXXXX",
+             Elvis((const char *) getenv("TMPDIR"), "/tmp"));
+    int tfd = mkstemp(temp);
+    if (tfd < 0) {
+        fail("mkstemp(%s)", temp);
+        return null;
+    }
+
+    size_t cmdSize(3210);
+    char cmd[cmdSize] = {};
+    if (path.endsWith("/rsvg-convert")) {
+        if (width && height)
+            snprintf(cmd, cmdSize, "'%s' -w %u -h %u -o '%s' '%s'",
+                     pathStr, width, height, temp, fileStr);
+        else
+            snprintf(cmd, cmdSize, "'%s' -o '%s' '%s'", pathStr, temp, fileStr);
+    }
+    else if (path.endsWith("/convert")) {
+        const char opt[] = "-background transparent";
+        if (width && height)
+            snprintf(cmd, cmdSize, "'%s' %s -size %ux%u! '%s' '%s'",
+                     pathStr, opt, width, height, fileStr, temp);
+        else
+            snprintf(cmd, cmdSize, "'%s' %s '%s' '%s'",
+                     pathStr, opt, fileStr, temp);
+    }
+    else if (path.endsWith("/inkscape")) {
+        const char opt[] = "-y 0";
+        if (width && height)
+            snprintf(cmd, cmdSize, "'%s' %s -z -w %u -h %u -e '%s' '%s' >/dev/null",
+                     pathStr, opt, width, height, temp, fileStr);
+        else
+            snprintf(cmd, cmdSize, "'%s' %s -z -e '%s' '%s' >/dev/null",
+                     pathStr, opt, temp, fileStr);
+    }
+    if (cmd[0] == '/' || cmd[1] == '/') {
+        if (system(cmd) >= 0) {
+            upath tempPath(temp);
+            if (tempPath.fileSize() > 0) {
+                image = loadpng(tempPath);
+            }
+        }
+    }
+
+    close(tfd);
+    unlink(temp);
+
     return image;
 }
 #endif
