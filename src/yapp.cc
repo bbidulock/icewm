@@ -38,6 +38,7 @@ void YApplication::initSignals() {
     fcntl(signalPipe[0], F_SETFD, FD_CLOEXEC);
 #else
     sigemptyset(&signalMask);
+    sigaddset(&signalMask, SIGPIPE);
     sigprocmask(SIG_BLOCK, &signalMask, &oldSignalMask);
 
     if (pipe(signalPipe) != 0)
