@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.4.2.1038\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-05-06 21:11+0200\n"
-"PO-Revision-Date: 2018-03-07 18:55+0000\n"
+"PO-Revision-Date: 2018-06-04 07:23+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
-"Language-Team: Danish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/da/>\n"
+"Language-Team: Danish "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,16 +46,16 @@ msgstr "strøm:\t%s"
 
 #: src/aclock.cc:173
 msgid "Clock"
-msgstr ""
+msgstr "Ur"
 
 #: src/aclock.cc:174 src/acpustatus.cc:818 src/amailbox.cc:907
 #: src/amemstatus.cc:286
 msgid "_Disable"
-msgstr ""
+msgstr "_Deaktivér"
 
 #: src/aclock.cc:175
 msgid "_UTC"
-msgstr ""
+msgstr "_UTC"
 
 #: src/acpustatus.cc:236
 #, c-format
@@ -81,28 +81,22 @@ msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "CPU %s-belastning: %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:312
-#, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| "Ram (free): %5.2f (%.2f) M"
+#, c-format
 msgid ""
 "\n"
 "Ram (free): %5.3f (%.3f) G"
 msgstr ""
 "\n"
-"Ram (ledig): %5.2f (%.2f) M"
+"Ram (ledig): %5.3f (%.3f) G"
 
 #: src/acpustatus.cc:317
-#, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| "Swap (free): %.2f (%.2f) M"
+#, c-format
 msgid ""
 "\n"
 "Swap (free): %.3f (%.3f) G"
 msgstr ""
 "\n"
-"Swap (ledig): %.2f (%.2f) M"
+"Swap (ledig): %.3f (%.3f) G"
 
 #: src/acpustatus.cc:323
 #, c-format
@@ -144,15 +138,15 @@ msgstr "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 #: src/acpustatus.cc:815
 #, c-format
 msgid "CPU%d"
-msgstr ""
+msgstr "CPU%d"
 
 #: src/acpustatus.cc:820
 msgid "_Combine"
-msgstr ""
+msgstr "_Kombiner"
 
 #: src/acpustatus.cc:822
 msgid "_Separate"
-msgstr ""
+msgstr "_Separer"
 
 #: src/amailbox.cc:62
 #, c-format
@@ -190,10 +184,9 @@ msgid "Failed to execute %s"
 msgstr "Kunne ikke eksekvere %s"
 
 #: src/amailbox.cc:435
-#, fuzzy, c-format
-#| msgid "Write to socket failed"
+#, c-format
 msgid "Write to socket failed: %s"
-msgstr "Skrivning til sokkel mislykkedes"
+msgstr "Skrivning til sokkel mislykkedes: %s"
 
 #: src/amailbox.cc:678
 #, c-format
@@ -226,7 +219,7 @@ msgstr "%ld postbeskeder."
 
 #: src/amailbox.cc:906
 msgid "MAIL"
-msgstr ""
+msgstr "POST"
 
 #: src/amemstatus.cc:166
 msgid "GB"
@@ -266,7 +259,7 @@ msgstr "Bruger: "
 
 #: src/amemstatus.cc:285
 msgid "MEM"
-msgstr ""
+msgstr "HUK"
 
 #: src/apppstatus.cc:202
 #, c-format
@@ -293,7 +286,7 @@ msgstr ""
 
 #: src/apppstatus.cc:731
 msgid "NET"
-msgstr ""
+msgstr "NET"
 
 #: src/aworkspaces.cc:294 src/wmstatus.cc:162
 msgid "Workspace: "
@@ -619,60 +612,7 @@ msgid "Workspace out of range: %ld"
 msgstr "Arbejdsområde udenfor område: %ld"
 
 #: src/icesh.cc:605
-#, fuzzy, c-format
-#| msgid ""
-#| "Usage: %s [OPTIONS] ACTIONS\n"
-#| "\n"
-#| "Options:\n"
-#| "  -display DISPLAY            Connects to the X server specified by "
-#| "DISPLAY.\n"
-#| "                              Default: $DISPLAY or :0.0 when not set.\n"
-#| "  -window WINDOW_ID           Specifies the window to manipulate. "
-#| "Special\n"
-#| "                              identifiers are `root' for the root window "
-#| "and\n"
-#| "                              `focus' for the currently focused window.\n"
-#| "  -class WM_CLASS             Window management class of the window(s) "
-#| "to\n"
-#| "                              manipulate. If WM_CLASS contains a period, "
-#| "only\n"
-#| "                              windows with exactly the same WM_CLASS "
-#| "property\n"
-#| "                              are matched. If there is no period, windows "
-#| "of\n"
-#| "                              the same class and windows of the same "
-#| "instance\n"
-#| "                              (aka. `-name') are selected.\n"
-#| "\n"
-#| "Actions:\n"
-#| "  setIconTitle   TITLE        Set the icon title.\n"
-#| "  setWindowTitle TITLE        Set the window title.\n"
-#| "  setGeometry    geometry     Set the window geometry\n"
-#| "  setState       MASK STATE   Set the GNOME window state to STATE.\n"
-#| "                              Only the bits selected by MASK are "
-#| "affected.\n"
-#| "                              STATE and MASK are expressions of the "
-#| "domain\n"
-#| "                              `GNOME window state'.\n"
-#| "  toggleState    STATE        Toggle the GNOME window state bits "
-#| "specified by\n"
-#| "                              the STATE expression.\n"
-#| "  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
-#| "  setLayer       LAYER        Moves the window to another GNOME window "
-#| "layer.\n"
-#| "  setWorkspace   WORKSPACE    Moves the window to another workspace. "
-#| "Select\n"
-#| "                              the root window to change the current "
-#| "workspace.\n"
-#| "  listWorkspaces              Lists the names of all workspaces.\n"
-#| "  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
-#| "\n"
-#| "Expressions:\n"
-#| "  Expressions are list of symbols of one domain concatenated by `+' or "
-#| "`|':\n"
-#| "\n"
-#| "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
-#| "\n"
+#, c-format
 msgid ""
 "Usage: %s [OPTIONS] ACTIONS\n"
 "\n"
@@ -735,14 +675,14 @@ msgstr ""
 "Anvendelse: %s [TILVALG] HANDLINGER\n"
 "\n"
 "Tilvalg:\n"
-"  -display DISPLAY            Opretter forbindelse til X-serveren angivet "
+"  -d, -display DISPLAY        Opretter forbindelse til X-serveren angivet "
 "med DISPLAY.\n"
 "                              Standard: $DISPLAY eller :0.0 når ikke sat.\n"
-"  -window VINDUE_ID           Angiver vinduet som skal manipuleres. "
+"  -w, -window WINDOW_ID       Angiver vinduet som skal manipuleres. "
 "Specielle\n"
 "                              identifikatorer er \"root\" for rodvinduet og\n"
 "                              \"focus\" for det vindue som har fokus.\n"
-"  -class WM_KLASSE            Vindueshåndteringsklasse af vindue(r) som "
+"  -c, -class WM_CLASS         Vindueshåndteringsklasse af vindue(r) som "
 "skal\n"
 "                              manipuleres. Hvis WM_KLASSE indeholder et\n"
 "                              punktum, matches kun vinduer med præcist den\n"
@@ -763,17 +703,27 @@ msgstr ""
 "  toggleState    TILSTAND     Skifter GNOME-vinduestilstandsbits\n"
 "                              angivet med TILSTAND-udtrykket.\n"
 "  setHints       FIF          Sæt GNOME-vinduesfif til FIF.\n"
-"  setLayer       LAG          Flytter vinduet til et andet GNOME-"
-"vindueslag.\n"
-"  setWorkspace   ARBEJDSOMRÅDE   Flytter vinduet til et andet "
-"arbejdsområde.\n"
+"  setLayer       LAG          Flytter vinduet til et andet GNOME-vindueslag."
+"\n"
+"  setWorkspace   ARBEJDSOMRÅDE   Flytter vinduet til et andet arbejdsområde."
+"\n"
 "                              Vælg rodvinduet for at skifte arbejdsområde.\n"
+"                              Vælg 0xFFFFFFFF eller \"All\" for alle "
+"arbejdsområder.\n"
 "  listWorkspaces              Viser navnene på alle arbejdsområderne.\n"
 "  setTrayOption  BAKKETILVALG Sæt IceWM-bakketilvalgstippet.\n"
+"  logout                      IceWM skal logge ud.\n"
+"  reboot                      IceWM skal genstarte.\n"
+"  shutdown                    IceWM skal lukke ned.\n"
+"  cancel                      IceWM skal annullere log ud/genstart/luk ned.\n"
+"  about                       IceWM skal vise om-vinduet.\n"
+"  windowlist                  IceWM skal vise vindueslisten.\n"
+"  restart                     IceWM skal genstarte.\n"
+"  suspend                     IceWM skal suspendere.\n"
 "\n"
 "Udtryk:\n"
-"  Udtryk er liste af symboler af et domæne lagt sammen med \"+\" eller \"|"
-"\":\n"
+"  Udtryk er liste af symboler af et domæne lagt sammen med \"+\" eller \"|\":"
+"\n"
 "\n"
 "  UDTRYK ::= SYMBOL | UDTRYK ( \"+\" | \"|\" ) SYMBOL\n"
 "\n"
@@ -833,17 +783,6 @@ msgid "Socket error: %d"
 msgstr "Sokkelfejl: %d"
 
 #: src/icesm.cc:57
-#, fuzzy
-#| msgid ""
-#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-#| "\n"
-#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
-#| "  --sync              Synchronize communication with X11 server.\n"
-#| "\n"
-#| "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
-#| "  -n, --notray        Do not start icewmtray.\n"
-#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -888,12 +827,15 @@ msgid ""
 "\t1: Restart IceWM?\n"
 "\t2: Abort this session?\n"
 msgstr ""
+" IceWM holdt op med at virke for anden gang indenfor 10 sekunder. \n"
+" Vil du:\n"
+"\n"
+"\t1: Genstarte IceWM?\n"
+"\t2: Afbryde sessionen?\n"
 
 #: src/icesm.cc:353
-#, fuzzy
-#| msgid "IceWM tray option"
 msgid "IceWM crash response"
-msgstr "IceWM-bakketilvalg"
+msgstr "Svar til IceWM-nedbrud"
 
 #: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
 #, c-format
@@ -1793,7 +1735,7 @@ msgstr "_Fokus"
 
 #: src/wmprog.cc:775
 msgid "_Preferences"
-msgstr ""
+msgstr "_Præferencer"
 
 #: src/wmprog.cc:781
 msgid "_Themes"
@@ -2073,20 +2015,19 @@ msgid "$USER or $LOGNAME not set?"
 msgstr "$USER eller $LOGNAME ikke sat?"
 
 #: src/yurl.cc:146
-#, fuzzy, c-format
-#| msgid "Failed to decompress %s"
+#, c-format
 msgid "Failed to parse URL \"%s\"."
-msgstr "Kunne ikke udpakke %s"
+msgstr "Kunne ikke fortolke URL'en \"%s\"."
 
 #: src/yurl.cc:162
 #, c-format
 msgid "Incomplete hex escape in URL at position %d."
-msgstr ""
+msgstr "Ufuldstændig hex-undvigelse i URL på placeringen %d."
 
 #: src/yurl.cc:169
 #, c-format
 msgid "Invalid hex escape in URL at position %d."
-msgstr ""
+msgstr "Ugyldig hex-undvigelse i URL på placeringen %d."
 
 #: src/yxapp.cc:891
 msgid ""
