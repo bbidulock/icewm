@@ -800,7 +800,7 @@ ref<YImage> YImage::createFromPixmapAndMask(Pixmap pixmap, Pixmap mask,
     unsigned w, h, b, d;
 
     if (!XGetGeometry(xapp->display(), pixmap, &root, &x, &y, &w, &h, &b, &d)) {
-        tlog("could not get gometry of pixmap 0x%lx\n", pixmap);
+        tlog("could not get geometry of pixmap 0x%lx\n", pixmap);
         return image;
     }
 
