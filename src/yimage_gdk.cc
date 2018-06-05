@@ -7,7 +7,6 @@
 #include <stdlib.h>
 
 extern "C" {
-#define GDK_PIXBUF_ENABLE_BACKEND 1
 #include <gdk-pixbuf-xlib/gdk-pixbuf-xlib.h>
 }
 
@@ -32,26 +31,6 @@ public:
 private:
     GdkPixbuf *fPixbuf;
 };
-
-bool YImage::supportsExtension(const char* imageExtension) {
-    mstring ext(imageExtension + (*imageExtension == '.'));
-    GSList* formats = gdk_pixbuf_get_formats();
-    for (; formats; formats = formats->next) {
-        GdkPixbufFormat* format = (GdkPixbufFormat *) formats->data;
-        for (gchar** exts = format->extensions; *exts; ++exts)
-            if (ext == *exts) return true;
-    }
-    return false;
-}
-
-void YImage::imageFormats(class YStringArray* list) {
-    GSList* formats = gdk_pixbuf_get_formats();
-    list->clear();
-    for (; formats; formats = formats->next) {
-        GdkPixbufFormat* format = (GdkPixbufFormat *) formats->data;
-        list->append(format->name);
-    }
-}
 
 ref<YImage> YImage::load(upath filename) {
     ref<YImage> image;

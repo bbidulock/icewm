@@ -1355,7 +1355,6 @@ static void print_usage(const char *argv0) {
              "\n"
              "  --configured        Print the compile time configuration.\n"
              "  --directories       Print the configuration directories.\n"
-             "  --iconformats       Print the supported icon image formats.\n"
              "  -l, --list-themes   Print a list of all available themes.\n"
              "\n"
              "Environment variables:\n"
@@ -1486,17 +1485,6 @@ static void print_configured(const char *argv0) {
     exit(0);
 }
 
-static void print_iconformats(const char *argv0) {
-    YStringArray list;
-    YImage::imageFormats(&list);
-
-    printf(_("%s supported icon formats:"), argv0);
-    for (int i = 0; i < list.getCount(); ++i) {
-        printf(" %s", list[i]);
-    }
-    puts("");
-}
-
 int main(int argc, char **argv) {
     YLocale locale;
     bool notify_parent(false);
@@ -1528,8 +1516,6 @@ int main(int argc, char **argv) {
                 print_configured(argv[0]);
             else if (is_long_switch(*arg, "directories"))
                 print_directories(argv[0]);
-            else if (is_long_switch(*arg, "iconformats"))
-                print_iconformats(argv[0]);
             else if (is_switch(*arg, "l", "list-themes"))
                 print_themes_list();
             else if (is_help_switch(*arg))
