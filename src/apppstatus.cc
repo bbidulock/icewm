@@ -57,7 +57,7 @@ NetStatus::NetStatus(
     cstring netdev,
     NetStatusHandler* handler,
     YWindow *aParent):
-    IApplet(aParent),
+    IApplet(this, aParent),
     fHandler(handler),
     ppp_in(new long[taskBarNetSamples]),
     ppp_out(new long[taskBarNetSamples]),

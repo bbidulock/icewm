@@ -77,7 +77,7 @@ extern ref<YPixmap> taskbackPixmap;
 ref<YFont> CPUStatus::tempFont;
 
 CPUStatus::CPUStatus(YWindow *aParent, CPUStatusHandler *aHandler, int cpuid) :
-    IApplet(aParent),
+    IApplet(this, aParent),
     fCpuID(cpuid),
     statusUpdateCount(0),
     unchanged(taskBarCPUSamples),

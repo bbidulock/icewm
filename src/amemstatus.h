@@ -14,7 +14,12 @@
 
 class IAppletContainer;
 
-class MEMStatus: public IApplet, private YTimerListener, private YActionListener {
+class MEMStatus:
+    public IApplet,
+    private Picturer,
+    private YTimerListener,
+    private YActionListener
+{
 public:
     MEMStatus(IAppletContainer* taskBar, YWindow *aParent);
     virtual ~MEMStatus();

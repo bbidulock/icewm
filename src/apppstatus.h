@@ -76,7 +76,7 @@ public:
     virtual void getCurrent(netbytes *in, netbytes *out, const void* sharedData);
 };
 
-class NetStatus: public IApplet {
+class NetStatus: public IApplet, private Picturer {
 public:
     NetStatus(cstring netdev, NetStatusHandler* handler, YWindow *aParent = 0);
     ~NetStatus();

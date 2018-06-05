@@ -29,7 +29,7 @@ char const * YClock::strTimeFmt(struct tm const & t) {
 }
 
 YClock::YClock(YSMListener *smActionListener, IAppletContainer* iapp, YWindow *aParent):
-    IApplet(aParent),
+    IApplet(this, aParent),
     clockUTC(false),
     toolTipUTC(false),
     clockTicked(true),

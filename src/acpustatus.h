@@ -24,7 +24,7 @@ public:
     virtual void runCommandOnce(const char *resource, const char *cmdline) = 0;
 };
 
-class CPUStatus: public IApplet, private YTimerListener {
+class CPUStatus: public IApplet, private Picturer, private YTimerListener {
 public:
     CPUStatus(YWindow *aParent, CPUStatusHandler *aHandler, int cpuid = -1);
     virtual ~CPUStatus();

@@ -2,10 +2,15 @@
 #include "applet.h"
 #include "yxapp.h"
 
-IApplet::IApplet(YWindow *parent) :
+Picturer::~Picturer()
+{
+}
+
+IApplet::IApplet(Picturer *picturer, YWindow *parent) :
     YWindow(parent),
     isVisible(false),
     isMapped(false),
+    fPicturer(picturer),
     fPixmap(None)
 {
     addEventMask(VisibilityChangeMask | StructureNotifyMask);
@@ -26,7 +31,7 @@ void IApplet::freePixmap()
 
 void IApplet::handleExpose(const XExposeEvent &e)
 {
-    if (fPixmap || picture())
+    if (fPixmap || fPicturer->picture())
         paint(getGraphics(), YRect(e.x, e.y, e.width, e.height));
 }
 
@@ -52,14 +57,8 @@ void IApplet::paint(Graphics &g, const YRect& r) {
 
 void IApplet::repaint()
 {
-    if (isMapped && isVisible && picture())
+    if (isMapped && isVisible && fPicturer->picture())
         paint(getGraphics(), YRect(0, 0, width(), height()));
-}
-
-bool IApplet::picture()
-{
-    tlog("IApplet::picture() should probably not have been called?");
-    return false;
 }
 
 Drawable IApplet::getPixmap()
