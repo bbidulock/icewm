@@ -75,6 +75,8 @@ public:
                 data[i] = old[i];
             for (SizeType i=destPos; i < size; ++i)
                 data[i+1] = old[i];
+            delete[] old;
+            capa = size + 1;
         }
         size++;
         return (data[destPos] = element);
