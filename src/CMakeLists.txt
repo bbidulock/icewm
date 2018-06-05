@@ -65,6 +65,7 @@ endif()
 option(CONFIG_LIBPNG "(Experimental) PNGLIB image loader" on)
 option(CONFIG_LIBJPEG "JPEGLIB image loader" on)
 option(CONFIG_GDK_PIXBUF_XLIB "GDK-PIXBUF based image loader" off)
+option(CONFIG_LIBRSVG "(Optional) SVG image loader" off)
 option(CONFIG_XPM "(Optional) XPM image loader" on)
 option(CONFIG_I18N "Define to enable internationalization" on)
 option(CONFIG_RENDER "Define to enable XRENDER extension" on)
@@ -87,6 +88,9 @@ if(CONFIG_GDK_PIXBUF_XLIB AND NOT CONFIG_XPM)
     #ok
     set(CONFIG_LIBPNG off)
     set(CONFIG_LIBJPEG off)
+    if (NOT CONFIG_LIBRSVG)
+        message(WARNING "LIBRSVG is recommended for SVG image support")
+    endif()
 elseif(CONFIG_XPM AND NOT CONFIG_GDK_PIXBUF_XLIB)
     #ok
     if (NOT CONFIG_LIBPNG)
@@ -211,6 +215,14 @@ if(CONFIG_GDK_PIXBUF_XLIB)
         message(FATAL_ERROR "GDX-PIXBUF image loader selected but its dev files were not found.")
     endif()
     LIST(APPEND icewm_img_libs ${pixbuf_LDFLAGS})
+endif()
+
+if (CONFIG_LIBRSVG)
+    pkg_check_modules(librsvg librsvg-2.0)
+    if(NOT librsvg_FOUND)
+        message(FATAL_ERROR "SVG image loader selected but librsvg dev files not found.")
+    endif()
+    LIST(APPEND icewm_img_libs ${librsvg_LDFLAGS})
 endif()
 
 if(CONFIG_XPM)
@@ -517,6 +529,7 @@ foreach (_variableName
         DATADIR LIBDIR LOCDIR DOCDIR CFGDIR ICEHELPIDX
         CONFIG_IMLIB
         CONFIG_GDK_PIXBUF_XLIB
+        CONFIG_LIBRSVG
         CONFIG_XPM
         CONFIG_LIBJPEG
         CONFIG_LIBPNG

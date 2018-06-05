@@ -341,6 +341,11 @@ if test "x$enable_gdk_pixbuf" = xyes ; then
 	IMAGE_LIBS="$PIXBUF_LIBS"
 	AC_DEFINE([CONFIG_GDK_PIXBUF_XLIB],[1],[Define to enable gdk-pixbuf rendering.])
 	image_library=gdk-pixbuf-xlib-2.0])
+    PKG_CHECK_MODULES([LIBRSVG],[librsvg-2.0],[
+	IMAGE_CFLAGS="$LIBRSVG_CFLAGS $IMAGE_CFLAGS"
+	IMAG_LIBS="$LIBRSVG_LIBS $IMAGE_LIBS"
+	AC_DEFINE([CONFIG_LIBRSVG],[1],[Define to enable librsvg rendering.])
+	image_library="$image_library librsvg-2.0"])
 else
     PKG_CHECK_MODULES([XPM],[xpm],[
 	IMAGE_CFLAGS="$XPM_CFLAGS"
