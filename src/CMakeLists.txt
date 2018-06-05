@@ -274,6 +274,8 @@ if(CONFIG_XFREETYPE)
         message(WARNING "xft library (>=2.0) not found, disabling CONFIG_XFREETYPE")
         set(CONFIG_XFREETYPE off)
         set(CONFIG_COREFONTS on)
+    ELSE()
+        set(CONFIG_XFREETYPE_VALUE 2)
     ENDIF()
 else()
     set(CONFIG_COREFONTS on)
@@ -424,18 +426,24 @@ if(CONFIG_COREFONTS)
     list(APPEND ICE_COMMON_SRCS yfontcore.cc)
 endif()
 
-SET(ITK_SRCS ymenu.cc ylabel.cc yscrollview.cc ymenuitem.cc yscrollbar.cc ybutton.cc ylistbox.cc yinput.cc yicon.cc wmconfig.cc ref.cc
-    ydialog.cc ymsgbox.cc)
+SET(ITK_SRCS
+    ymenu.cc ylabel.cc yscrollview.cc ymenuitem.cc
+    yscrollbar.cc ybutton.cc ylistbox.cc yinput.cc
+    globit.cc yicon.cc wmconfig.cc wpixres.cc ref.cc
+    )
 
 SET(ICEWM_SRCS ${ICE_COMMON_SRCS} ${ITK_SRCS}
-    wmbutton.cc wmsession.cc wmwinlist.cc wmtaskbar.cc
-    wmwinmenu.cc wmdialog.cc wmabout.cc wmswitch.cc wmstatus.cc
-    wmoption.cc wmcontainer.cc wmclient.cc wmmgr.cc
-    wmapp.cc wmframe.cc wmminiicon.cc wmtitle.cc wpixres.cc
-    movesize.cc themes.cc decorate.cc browse.cc wmmenu.cc wmprog.cc atasks.cc
-    aworkspaces.cc amailbox.cc aclock.cc acpustatus.cc apppstatus.cc
-    aaddressbar.cc objbar.cc aapm.cc atray.cc ysmapp.cc yxtray.cc yurl.cc
-    globit.cc amemstatus.cc applet.cc)
+    ymsgbox.cc ydialog.cc yurl.cc wmsession.cc
+    wmwinlist.cc wmtaskbar.cc wmwinmenu.cc wmdialog.cc
+    wmabout.cc wmswitch.cc wmstatus.cc wmoption.cc
+    wmcontainer.cc wmclient.cc wmmgr.cc wmapp.cc
+    wmframe.cc wmbutton.cc wmminiicon.cc wmtitle.cc
+    movesize.cc themes.cc decorate.cc browse.cc
+    wmmenu.cc wmprog.cc atasks.cc aworkspaces.cc
+    amailbox.cc aclock.cc acpustatus.cc amemstatus.cc
+    applet.cc apppstatus.cc aaddressbar.cc objbar.cc
+    aapm.cc atray.cc ysmapp.cc yxtray.cc
+    )
 
 SET(MISC_SRCS misc.cc yarray.cc mstring.cc ref.cc)
 
