@@ -387,7 +387,7 @@ void mstring::normalize()
     }
 }
 
-mstring mstring::match(const char* regex, const char* flags) const {
+mstring mstring::match(const char* regex, const char* flags) {
     int compFlags = REG_EXTENDED;
     int execFlags = 0;
     for (int i = 0; flags && flags[i]; ++i) {
