@@ -68,9 +68,14 @@ public:
     {
         if (size >= capa)
             inflate();
-        if (size > destPos)
-            memmove(&data[destPos+1], &data[destPos],
-                    sizeof(element) * (size - destPos));
+        if (size > destPos) {
+            DataType *old = data;
+            data = new DataType[size + 1];
+            for (SizeType i=0; i < destPos; ++i)
+                data[i] = old[i];
+            for (SizeType i=destPos; i < size; ++i)
+                data[i+1] = old[i];
+        }
         size++;
         return (data[destPos] = element);
     }
