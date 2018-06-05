@@ -23,7 +23,7 @@
 extern ref<YPixmap> taskbackPixmap;
 
 MEMStatus::MEMStatus(IAppletContainer* taskBar, YWindow *aParent):
-    IApplet(aParent),
+    IApplet(this, aParent),
     samples(taskBarMEMSamples, MEM_STATES),
     statusUpdateCount(0),
     unchanged(taskBarMEMSamples),

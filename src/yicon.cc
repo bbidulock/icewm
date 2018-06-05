@@ -311,7 +311,7 @@ ref<YIcon> YIcon::getIcon(const char *name) {
         newicon->setCached(true);
         iconCache.insert(-n - 1, newicon);
     }
-    return getIcon(name);
+    return newicon;
 }
 
 void YIcon::freeIcons() {

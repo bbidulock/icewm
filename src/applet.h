@@ -12,9 +12,15 @@ protected:
     virtual ~IAppletContainer() {}
 };
 
+class Picturer {
+public:
+    virtual ~Picturer() = 0;
+    virtual bool picture() = 0;
+};
+
 class IApplet : public YWindow {
 public:
-    IApplet(YWindow *parent);
+    IApplet(Picturer *picturer, YWindow *parent);
     virtual ~IApplet();
 
     virtual void handleExpose(const XExposeEvent &expose);
@@ -23,7 +29,6 @@ public:
     virtual void handleVisibility(const XVisibilityEvent& visib);
     virtual void paint(Graphics &g, const YRect &r);
     virtual void repaint();
-    virtual bool picture();
 
 protected:
     void freePixmap();
@@ -34,6 +39,7 @@ protected:
 
 private:
     bool isMapped;
+    Picturer* fPicturer;
     Drawable fPixmap;
 };
 

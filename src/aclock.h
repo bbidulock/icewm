@@ -11,7 +11,12 @@ class IAppletContainer;
 class YSMListener;
 class YMenu;
 
-class YClock: public IApplet, private YTimerListener, private YActionListener {
+class YClock:
+    public IApplet,
+    private Picturer,
+    private YTimerListener,
+    private YActionListener
+{
 public:
     YClock(YSMListener *smActionListener, IAppletContainer* iapp, YWindow *aParent);
     virtual ~YClock();
