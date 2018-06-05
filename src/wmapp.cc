@@ -1355,6 +1355,7 @@ static void print_usage(const char *argv0) {
              "\n"
              "  --configured        Print the compile time configuration.\n"
              "  --directories       Print the configuration directories.\n"
+             "  --iconformats       Print the supported icon image formats.\n"
              "  -l, --list-themes   Print a list of all available themes.\n"
              "\n"
              "Environment variables:\n"
