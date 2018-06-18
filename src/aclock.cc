@@ -184,6 +184,13 @@ void YClock::handleClick(const XButtonEvent &up, int count) {
     }
 }
 
+void YClock::handleExpose(const XExposeEvent& e) {
+    if (clockTicked)
+        repaint();
+    else
+        IApplet::handleExpose(e);
+}
+
 void YClock::changeTimeFormat(const char* format) {
     fTimeFormat = format;
     autoSize();
