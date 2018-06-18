@@ -1443,6 +1443,9 @@ static void print_configured(const char *argv0) {
 #ifdef CONFIG_LIBPNG
     " libpng"
 #endif
+#ifdef CONFIG_LIBRSVG
+    " librsvg"
+#endif
 #ifdef CONFIG_XPM
     " libxpm"
 #endif
