@@ -33,6 +33,8 @@ public:
 
     int getOrder() const;
     void setFlash(bool urgent);
+    void switchToPrev();
+    void switchToNext();
 
 private:
     ClientData *fFrame;
@@ -77,6 +79,10 @@ public:
                  {parent()->handleDrag(down,motion);}//LXP
     virtual void handleEndDrag(const XButtonEvent &down, const XButtonEvent &up)//LXP
                  {parent()->handleEndDrag(down,up);}//LXP
+    void switchToPrev();
+    void switchToNext();
+    void movePrev();
+    void moveNext();
 private:
     IAppletContainer *fTaskBar;
 

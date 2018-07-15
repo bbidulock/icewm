@@ -28,6 +28,7 @@
 #include "prefs.h"
 #include "yprefs.h"
 #include "yrect.h"
+#include "atasks.h"
 
 XContext frameContext;
 XContext clientContext;
@@ -213,8 +214,13 @@ void YWindowManager::grabKeys() {
     GRAB_WMKEY(gKeySysHideAll);
 
     GRAB_WMKEY(gKeySysShowDesktop);
-    if (taskBar != 0)
+    if (taskBar != 0) {
         GRAB_WMKEY(gKeySysCollapseTaskBar);
+	GRAB_WMKEY(gKeyTaskBarSwitchNext);
+	GRAB_WMKEY(gKeyTaskBarSwitchPrev);
+	GRAB_WMKEY(gKeyTaskBarMoveNext);
+	GRAB_WMKEY(gKeyTaskBarMovePrev);
+    }
 
     {
         YObjectArray<KProgram>::IterType k = keyProgs.iterator();
@@ -505,6 +511,23 @@ bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int /*
         if (taskBar)
             taskBar->handleCollapseButton();
         return true;
+
+    } else if (IS_WMKEY(k, vm, gKeyTaskBarSwitchPrev)) {
+	if (taskBar)
+		taskBar->switchToPrev();
+	return true;
+    } else if (IS_WMKEY(k, vm, gKeyTaskBarSwitchNext)) {
+	if (taskBar)
+		taskBar->switchToNext();
+	return true;
+    } else if (IS_WMKEY(k, vm, gKeyTaskBarMovePrev)) {
+	if (taskBar)
+		taskBar->movePrev();
+	return true;
+    } else if (IS_WMKEY(k, vm, gKeyTaskBarMoveNext)) {
+	if (taskBar)
+		taskBar->moveNext();
+	return true;
     }
     return false;
 }

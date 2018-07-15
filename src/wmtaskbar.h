@@ -111,6 +111,10 @@ public:
     bool autoTimer(bool show);
     void updateFullscreen(bool fullscreen);
     Window edgeTriggerWindow() { return fEdgeTrigger->handle(); }
+    void switchToPrev();
+    void switchToNext();
+    void movePrev();
+    void moveNext();
 
 private:
     void popOut();

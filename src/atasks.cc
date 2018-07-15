@@ -279,6 +279,20 @@ void TaskBarApp::handleCrossing(const XCrossingEvent &crossing) {
     YWindow::handleCrossing(crossing);
 }
 
+void TaskBarApp::switchToPrev() {
+    TaskBarApp* act = fTaskPane->getActive();
+    TaskBarApp* app = Elvis(fTaskPane->predecessor(act), this);
+    if (app != act)
+        app->activate();
+}
+
+void TaskBarApp::switchToNext() {
+    TaskBarApp* act = fTaskPane->getActive();
+    TaskBarApp* app = Elvis(fTaskPane->successor(act), this);
+    if (app != act)
+        app->activate();
+}
+
 void TaskBarApp::handleClick(const XButtonEvent &up, int /*count*/) {
     if (up.button == 3) {
         getFrame()->popupSystemMenu(this, up.x_root, up.y_root,
@@ -286,18 +300,10 @@ void TaskBarApp::handleClick(const XButtonEvent &up, int /*count*/) {
                                     YPopupWindow::pfCanFlipHorizontal |
                                     YPopupWindow::pfPopupMenu);
     }
-    else if (up.button == Button4) {
-        TaskBarApp* act = fTaskPane->getActive();
-        TaskBarApp* app = Elvis(fTaskPane->predecessor(act), this);
-        if (app != act)
-            app->activate();
-    }
-    else if (up.button == Button5) {
-        TaskBarApp* act = fTaskPane->getActive();
-        TaskBarApp* app = Elvis(fTaskPane->successor(act), this);
-        if (app != act)
-            app->activate();
-    }
+    else if (up.button == Button4)
+        switchToPrev();
+    else if (up.button == Button5)
+        switchToNext();
 }
 
 void TaskBarApp::handleDNDEnter() {
@@ -556,6 +562,54 @@ void TaskPane::endDrag() {
         relayout();
         relayoutNow();
     }
+}
+
+void TaskPane::movePrev() {
+    TaskBarApp* act = getActive();
+    if (!act)
+        return;
+    TaskBarApp* other = predecessor(act);
+    if (!other)
+        return;
+    const int other_index = find(fApps, other);
+    const int act_index = find(fApps, act);
+
+    if (other_index < 0 || other_index > act_index)
+        return;
+
+    fApps.swap(other_index, act_index);
+    relayout();
+    relayoutNow();
+}
+
+void TaskPane::moveNext() {
+    TaskBarApp* act = getActive();
+    if (!act)
+        return;
+    TaskBarApp* other = successor(act);
+    if (!other)
+        return;
+    const int other_index = find(fApps, other);
+    const int act_index = find(fApps, act);
+
+    if (act_index < 0 || other_index < act_index)
+        return;
+
+    fApps.swap(other_index, act_index);
+    relayout();
+    relayoutNow();
+}
+
+void TaskPane::switchToPrev() {
+        TaskBarApp* app = getActive();
+        if (app)
+            app->switchToPrev();
+}
+
+void TaskPane::switchToNext() {
+        TaskBarApp* app = getActive();
+        if (app)
+            app->switchToNext();
 }
 
 // vim: set sw=4 ts=4 et:
