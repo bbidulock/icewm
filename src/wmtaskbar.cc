@@ -1026,25 +1026,25 @@ bool TaskBar::windowTrayRequestDock(Window w) {
 
 void TaskBar::switchToPrev()
 {
-	if (taskPane())
-		taskPane()->switchToPrev();
+    if (taskPane())
+        taskPane()->switchToPrev();
 }
 
 void TaskBar::switchToNext()
 {
-	if (taskPane())
-		taskPane()->switchToNext();
+    if (taskPane())
+        taskPane()->switchToNext();
 }
 
 void TaskBar::movePrev()
 {
-	if (taskPane())
-		taskPane()->movePrev();
+    if (taskPane())
+        taskPane()->movePrev();
 }
 
 void TaskBar::moveNext()
 {
-	if (taskPane())
-		taskPane()->moveNext();
+    if (taskPane())
+        taskPane()->moveNext();
 }
 // vim: set sw=4 ts=4 et:

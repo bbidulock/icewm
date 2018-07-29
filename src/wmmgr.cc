@@ -216,10 +216,10 @@ void YWindowManager::grabKeys() {
     GRAB_WMKEY(gKeySysShowDesktop);
     if (taskBar != 0) {
         GRAB_WMKEY(gKeySysCollapseTaskBar);
-	GRAB_WMKEY(gKeyTaskBarSwitchNext);
-	GRAB_WMKEY(gKeyTaskBarSwitchPrev);
-	GRAB_WMKEY(gKeyTaskBarMoveNext);
-	GRAB_WMKEY(gKeyTaskBarMovePrev);
+        GRAB_WMKEY(gKeyTaskBarSwitchNext);
+        GRAB_WMKEY(gKeyTaskBarSwitchPrev);
+        GRAB_WMKEY(gKeyTaskBarMoveNext);
+        GRAB_WMKEY(gKeyTaskBarMovePrev);
     }
 
     {
@@ -513,21 +513,21 @@ bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int /*
         return true;
 
     } else if (IS_WMKEY(k, vm, gKeyTaskBarSwitchPrev)) {
-	if (taskBar)
-		taskBar->switchToPrev();
-	return true;
+        if (taskBar)
+            taskBar->switchToPrev();
+        return true;
     } else if (IS_WMKEY(k, vm, gKeyTaskBarSwitchNext)) {
-	if (taskBar)
-		taskBar->switchToNext();
-	return true;
+        if (taskBar)
+            taskBar->switchToNext();
+        return true;
     } else if (IS_WMKEY(k, vm, gKeyTaskBarMovePrev)) {
-	if (taskBar)
-		taskBar->movePrev();
-	return true;
+        if (taskBar)
+            taskBar->movePrev();
+        return true;
     } else if (IS_WMKEY(k, vm, gKeyTaskBarMoveNext)) {
-	if (taskBar)
-		taskBar->moveNext();
-	return true;
+        if (taskBar)
+            taskBar->moveNext();
+        return true;
     }
     return false;
 }
