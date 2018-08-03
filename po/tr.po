@@ -8,13 +8,16 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.12\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-05-06 21:11+0200\n"
-"PO-Revision-Date: 2004-01-21 9:30+0200\n"
-"Last-Translator: Coşku Erdem\n"
-"Language-Team: Turkish\n"
+"PO-Revision-Date: 2018-08-03 22:07+0000\n"
+"Last-Translator: Ad Soyad <kalemlik100@yandex.com>\n"
+"Language-Team: Turkish "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 2.18\n"
 
 #: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:681 src/aapm.cc:806
 msgid " - Power"
@@ -34,7 +37,7 @@ msgstr "C"
 
 #: src/aapm.cc:440
 msgid " - Full"
-msgstr ""
+msgstr " Tam"
 
 #: src/aapm.cc:985
 #, c-format
@@ -43,16 +46,16 @@ msgstr ""
 
 #: src/aclock.cc:173
 msgid "Clock"
-msgstr ""
+msgstr "Saat"
 
 #: src/aclock.cc:174 src/acpustatus.cc:818 src/amailbox.cc:907
 #: src/amemstatus.cc:286
 msgid "_Disable"
-msgstr ""
+msgstr "_Devre dışı"
 
 #: src/aclock.cc:175
 msgid "_UTC"
-msgstr ""
+msgstr "_UTC"
 
 #: src/acpustatus.cc:236
 #, c-format
