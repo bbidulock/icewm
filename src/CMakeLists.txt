@@ -84,29 +84,6 @@ ELSE()
     MESSAGE(STATUS "Configured custom unicode set: ${CONFIG_UNICODE_SET}.")
 ENDIF()
 
-if(CONFIG_GDK_PIXBUF_XLIB AND NOT CONFIG_XPM)
-    #ok
-    set(CONFIG_LIBPNG off)
-    set(CONFIG_LIBJPEG off)
-    if (NOT CONFIG_LIBRSVG)
-        message(WARNING "LIBRSVG is recommended for SVG image support")
-    endif()
-elseif(CONFIG_XPM AND NOT CONFIG_GDK_PIXBUF_XLIB)
-    #ok
-    if (NOT CONFIG_LIBPNG)
-        message(WARNING "LIBPNG is recommended for PNG image support")
-    endif()
-    if (NOT CONFIG_LIBJPEG)
-        message(WARNING "LIBJPEG is advisable for backgrounds in icewmbg")
-    endif()
-else()
-    MESSAGE(FATAL_ERROR "Possible combination of image loaders are:
-    -DCONFIG_XPM=on -DCONFIG_LIBPNG=on -DCONFIG_GDK_PIXBUF_XLIB=off
-    or
-    -DCONFIG_XPM=off -DCONFIG_LIBPNG=off -DCONFIG_GDK_PIXBUF_XLIB=on
-")
-endif()
-
 # TODO: find some common helper to handle that variables
 if(ENABLE_NLS OR CONFIG_I18N)
     find_library(CONFIG_LIBICONV iconv)
@@ -217,18 +194,55 @@ pkg_check_modules(fontconfig fontconfig)
 pkg_check_modules(xext xext)
 pkg_check_modules(x11 x11)
 
+# XXX: the image loader selection became a big mess but it is hard to revert now
+# It would have been a better idea to use different names for the user-specified
+# options and do the logics here.
+# But for now, this self-adapting code modifies the option variables.
+
+set(HINT_IMG_LOADERS  "Possible combination of image loaders are:
+    -DCONFIG_XPM=on -DCONFIG_LIBPNG=on -DCONFIG_GDK_PIXBUF_XLIB=off
+    or
+    -DCONFIG_XPM=off -DCONFIG_LIBPNG=off -DCONFIG_GDK_PIXBUF_XLIB=on
+")
+# basic user configuration error check
+if(CONFIG_GDK_PIXBUF_XLIB AND NOT CONFIG_XPM)
+    #ok
+    set(CONFIG_LIBPNG off)
+    set(CONFIG_LIBJPEG off)
+    if (NOT CONFIG_LIBRSVG)
+        message(WARNING "CONFIG_LIBRSVG is recommended for SVG image support")
+    endif()
+elseif(CONFIG_XPM AND NOT CONFIG_GDK_PIXBUF_XLIB)
+    #ok
+    if (NOT CONFIG_LIBPNG)
+        message(WARNING "LIBPNG is recommended for PNG image support")
+    endif()
+    if (NOT CONFIG_LIBJPEG)
+        message(WARNING "LIBJPEG is advisable for backgrounds in icewmbg")
+    endif()
+else()
+    MESSAGE(FATAL_ERROR "${HINT_IMG_LOADERS}")
+endif()
+
 if(CONFIG_GDK_PIXBUF_XLIB)
     pkg_check_modules(pixbuf gdk-pixbuf-xlib-2.0)
     if(NOT pixbuf_FOUND)
-        message(FATAL_ERROR "GDX-PIXBUF image loader selected but its dev files were not found.")
+        message(FATAL_ERROR "GDX-PIXBUF image loader selected but its dev files were not found.
+${HINT_IMG_LOADERS}")
     endif()
+    set(CONFIG_XPM off)
+    set(CONFIG_LIBPNG off)
+    set(CONFIG_IMLIB off)
+    set(CONFIG_LIBJPEG off)
     LIST(APPEND icewm_img_libs ${pixbuf_LDFLAGS})
 endif()
 
+# this is a) optional, b) loaded through pixbuf anyway
 if (CONFIG_LIBRSVG)
     pkg_check_modules(librsvg librsvg-2.0)
     if(NOT librsvg_FOUND)
-        message(FATAL_ERROR "SVG image loader selected but librsvg dev files not found.")
+        message(WARNING "SVG image loader selected but librsvg dev files not found. SVG support will be not available.")
+        set(CONFIG_LIBRSVG off)
     endif()
     LIST(APPEND icewm_img_libs ${librsvg_LDFLAGS})
 endif()
@@ -236,7 +250,8 @@ endif()
 if(CONFIG_XPM)
     pkg_check_modules(libxpm xpm)
     if(NOT libxpm_FOUND)
-        message(FATAL_ERROR "XPM image loader selected but libxpm dev files not found.")
+        message(FATAL_ERROR "XPM image loader selected but libxpm dev files not found.
+${HINT_IMG_LOADERS}")
     endif()
     LIST(APPEND icewm_img_libs ${libxpm_LDFLAGS})
 endif()
@@ -244,7 +259,8 @@ endif()
 if(CONFIG_LIBPNG)
     pkg_check_modules(libpng libpng)
     if(NOT libpng_FOUND)
-        message(FATAL_ERROR "PNG image loader selected but libpng dev files not found.")
+        message(FATAL_ERROR "PNG image loader selected but libpng dev files not found.
+${HINT_IMG_LOADERS}")
     endif()
     LIST(APPEND icewm_img_libs ${libpng_LDFLAGS})
 endif()
@@ -252,7 +268,8 @@ endif()
 if(CONFIG_LIBJPEG)
     pkg_check_modules(libjpeg libjpeg)
     if(NOT libjpeg_FOUND)
-        message(FATAL_ERROR "JPEG image loader selected but libjpeg dev files not found.")
+        message(FATAL_ERROR "JPEG image loader selected but libjpeg dev files not found.
+${HINT_IMG_LOADERS}")
     endif()
     LIST(APPEND icewm_img_libs ${libjpeg_LDFLAGS})
 endif()
