@@ -120,11 +120,11 @@ bool lessThan(KeyType left, KeyType right);
 
 /*
  * Very basic implementation of lookup-friendly container.
- * No guarantees WRT non-unique values!
- * Sort order is guaranteed.
+ * No guarantees on uniqueness, it's actually a multimap.
+ * Sort order is guaranteed (although not stable WRT multi-entries)
  * Complexities:
  * Find: O(logN)
- * Add: O(logN) // mind the memmove
+ * Add: O(N+logN)
  * Erase: later...
  */
 template<typename KeyType, typename ValueType>
@@ -137,20 +137,27 @@ private:
     bool binsearch(KeyType key, int& pos) {
         size_t leftPos(0), rightPos(store.size - 1), splitPos(0);
         while (leftPos <= rightPos) {
-            splitPos = leftPos + (rightPos - leftPos) / 2;
+            splitPos = (leftPos + rightPos) / 2;
             // single-stepping due to rounding
             if (lessThan(key, store[splitPos].key))
                 rightPos = splitPos - 1;
             else if (lessThan(store[splitPos].key, key))
                 leftPos = splitPos + 1;
-            else if (key == store[splitPos].key) {
+            else
+            {
                 pos = splitPos;
                 return true;
             }
         }
         pos = splitPos;
-        return false;
-    }
+            return false;
+        }
+
+        inline bool
+        values_equal (size_t v, size_t w) {
+            return !lessThan (store[v].value, store[w].value)
+                    && !lessThan (store[w].value, store[v].value);
+        }
 
 public:
     const ValueType& find(const KeyType& key, const ValueType &notFoundRetValue)
@@ -160,6 +167,36 @@ public:
             return store[pos].value;
         return notFoundRetValue;
     }
+    /**!
+     * @return A range of values if found (pointer to the first matching alement
+     * and the first non-matching after the matches); if not found, returns a
+     * pair of same values (might be invalid pointers).
+     */
+    const YKeyValuePair<kvp*,kvp*> multifind(const KeyType& key)
+    {
+        int pos;
+        YKeyValuePair<kvp*,kvp*> ret(NULL, NULL);
+        if (!binsearch(key, pos))
+            return ret;
+        for(int i=pos;;++i)
+        {
+            if(i==store.size || !values_equal(i, pos))
+            {
+                ret.value = &store[i];
+                break;
+            }
+        }
+        for(int i=pos;;--i)
+        {
+            if(i==0 || !values_equal(i-1, pos))
+            {
+                ret.key = &store[i];
+                break;
+            }
+        }
+        return ret;
+    }
+
     // FIXME: YArrayIterator<kvp> find(KeyType key);
     // FIXME: iterator? Just wrap the one from store?
     inline void add(KeyType key, ValueType value)

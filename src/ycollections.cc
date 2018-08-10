@@ -19,6 +19,18 @@ inline bool lessThan<char const*>(char const* a, char const* b)
     return strcmp(a ? a : "", b ? b : "") < 0;
 }
 
+template <>
+inline bool lessThan<int>(int a, int b)
+{
+    return a<b;
+}
+
+template <>
+inline bool lessThan<long>(long a, long b)
+{
+    return a<b;
+}
+
 template class
 YSortedMap<const char*, int>;
 
