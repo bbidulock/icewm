@@ -50,6 +50,8 @@ tCharVec sys_folders, home_folders;
 tCharVec* sys_home_folders[] = { &sys_folders, &home_folders, 0 };
 tCharVec* home_sys_folders[] = { &home_folders, &sys_folders, 0 };
 
+bool add_sep_before(false), add_sep_after(false), no_sep_others(false);
+
 // for optional bits that are not consuming much and
 // it's OK to leak them, OS will clean up soon enough
 //#define FREEASAP
@@ -112,6 +114,12 @@ void add_menu_entry(const char* pName, tListMeta& tgt, gchar* menuCmd) {
         tgt.store = g_tree_new(cmpUtf8);
     }
     g_tree_replace(tgt.store, g_strdup(pName), menuCmd);
+}
+
+bool checkSuffix(const char* szFilename, const char* szFileSfx)
+{
+    const char* pSfx = strrchr(szFilename, '.');
+    return pSfx && 0 == strcmp(pSfx+1, szFileSfx);
 }
 
 class tDesktopInfo {
@@ -375,10 +383,7 @@ void proc_dir_rec(const char *syspath, unsigned depth,
 
     const gchar *szFilename(NULL);
     while (NULL != (szFilename = g_dir_read_name(pdir))) {
-        if (!szFilename)
-            continue;
-        const char* pSfx = strrchr(szFilename, '.');
-        if (!pSfx || 0 != strcmp(pSfx, szFileSfx))
+        if (!szFilename || !checkSuffix(szFilename, szFileSfx))
             continue;
 
         gchar *szFullName = g_strjoin("/", path, szFilename, NULL);
@@ -413,23 +418,35 @@ static gboolean printKey(const char *key, const char *value, void*) {
     return FALSE;
 }
 
-void print_submenu(const tListMeta& section) {
+bool print_submenu(const tListMeta& section) {
 
     if (!section.store || !g_tree_nnodes(section.store))
-        return;
+        return false;
+    if(add_sep_before) {
+        puts("separator");
+        add_sep_before = false;
+    }
     printf("menu \"%s\" %s {\n", section.title,
             section.icon_path ? section.icon_path : "folder");
     g_tree_foreach(section.store, (GTraverseFunc) printKey, NULL);
     puts("}");
+    return true;
 }
 
 void dump_menu() {
 
+    // sort but optionally leave the last entry (Other) where it is!
+    qsort(menuinfo, ACOUNT(menuinfo) - !no_sep_others, sizeof(menuinfo[0]),
+            tListMeta::cmpTitleUtf8);
+
+    int nUsedSecs = 0;
     for (tListMeta *p = menuinfo; p < menuinfo + ACOUNT(menuinfo); ++p) {
-        if (p == pOthers)
+        if (p == pOthers && !no_sep_others)
             puts("separator");
-        print_submenu(*p);
+        nUsedSecs += print_submenu(*p);
     }
+    if(add_sep_after && nUsedSecs)
+        puts("separator");
 }
 
 bool launch(const char *dfile, const char **argv, int argc) {
@@ -479,8 +496,14 @@ static void init() {
 
 static void help(const char *home, const char *dirs, FILE* out, int xit) {
     g_fprintf(out,
-            "This program doesn't use command line options. It only listens to\n"
-                    "environment variables defined by XDG Base Directory Specification.\n"
+            "USAGE: icewm-menu-fdo OPTIONS\n"
+            "OPTIONS:\n"
+            "--seps  \tPrint separators before and after contents\n"
+            "--sep-after\tPrint separator only after contents\n"
+            "--no-sep-others\tNo separation of the 'Others' menu point\n"
+            "*.desktop\tAny .desktop file to launch the application command from there\n"
+            "This program also listens to "
+                    "environment variables defined by the\nXDG Base Directory Specification:\n"
                     "XDG_DATA_HOME=%s\n"
                     "XDG_DATA_DIRS=%s\n", home, dirs);
     exit(xit);
@@ -495,7 +518,7 @@ void split_folders(const char* path_string, tCharVec& where) {
 void process_apps(const tCharVec& where) {
     for (const gchar* const * p = where.data; p < where.data + where.size;
             ++p) {
-        proc_dir_rec(*p, 0, insert_app_info, "applications", ".desktop");
+        proc_dir_rec(*p, 0, insert_app_info, "applications", "desktop");
     }
 }
 
@@ -506,7 +529,7 @@ void process_folders(const tCharVec& where) {
     for (const gchar* const * p = where.data; p < where.data + where.size;
             ++p) {
         proc_dir_rec(*p, 0, pickup_folder_info, "desktop-directories",
-                ".directory");
+                "directory");
 #if 0
         // need to do anything?
 #warning wasting a few cycles, replace with a counter check and chain second invocation upon success
@@ -552,8 +575,6 @@ void process_folders(const tCharVec& where) {
 int main(int argc, const char **argv) {
     ApplicationName = my_basename(argv[0]);
 
-    init();
-
     const char * usershare = getenv("XDG_DATA_HOME");
     if (!usershare || !*usershare)
         usershare = g_strjoin(NULL, getenv("HOME"), "/.local/share", NULL);
@@ -563,17 +584,39 @@ int main(int argc, const char **argv) {
     if (!sysshare || !*sysshare)
         sysshare = "/usr/local/share:/usr/share";
 
-    if (argc > 1) {
-        if (is_version_switch(argv[1]))
+    for(const char **pArg = argv+1; pArg<argv+argc; ++pArg)
+    {
+        if (is_version_switch(*pArg))
             print_version_exit(VERSION);
-        if (is_help_switch(argv[1]))
+        if (is_help_switch(*pArg))
             help(usershare, sysshare, stdout, EXIT_SUCCESS);
-
-        if (strstr(argv[1], ".desktop") && launch(argv[1], argv + 2, argc - 2))
+        if(is_long_switch(*pArg, "seps"))
+        {
+            add_sep_before = add_sep_after = true;
+            continue;
+        }
+        if(is_long_switch(*pArg, "sep-before"))
+        {
+            add_sep_before = true;
+            continue;
+        }
+        if(is_long_switch(*pArg, "sep-after"))
+        {
+            add_sep_after = true;
+            continue;
+        }
+        if(is_long_switch(*pArg, "no-sep-others"))
+        {
+            no_sep_others = true;
+            continue;
+        }
+        if (checkSuffix(argv[1], "desktop") && launch(argv[1], argv + 2, argc - 2))
             return EXIT_SUCCESS;
-
-        help(usershare, sysshare, stderr, EXIT_FAILURE);
+        else // unknown option?
+            help(usershare, sysshare, stderr, EXIT_FAILURE);
     }
+
+    init();
     split_folders(sysshare, sys_folders);
     split_folders(usershare, home_folders);
 
@@ -581,10 +624,6 @@ int main(int argc, const char **argv) {
     process_apps(home_folders);
     process_folders(sys_folders);
     process_folders(home_folders);
-
-    // sort but leave the last entry (Other) where it is!
-    qsort(menuinfo, ACOUNT(menuinfo) - 1, sizeof(menuinfo[0]),
-            tListMeta::cmpTitleUtf8);
 
     dump_menu();
 
