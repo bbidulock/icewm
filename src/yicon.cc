@@ -84,12 +84,27 @@ upath YIcon::findIcon(upath dir, upath base, unsigned size) {
         }
     }
 
+    // XXX: actually, we should distinguish by purpose (app, category, mimetype, etc.)
+    // For now, check by the same schema hoping that the file name provides uniquie identity information.
+    static const char* xdg_icon_patterns[] = {
+            "/%ux%u/apps/%s",
+            "/%ux%u/categories/%s",
+            0
+    };
+    static const char* xdg_folder_patterns[] = {
+            "/%ux%u/apps",
+            "/%ux%u/categories",
+            0
+    };
+
+
     if (hasImageExtension) {
-        snprintf(iconName, iconSize,
-                "/%ux%u/apps/%s", size, size, cBaseStr);
-        fullpath = dir + iconName;
-        if (isIconFile(fullpath))
-            return fullpath;
+        for (const char **p = xdg_icon_patterns; *p; ++p) {
+            snprintf(iconName, iconSize, *p, size, size, cBaseStr);
+            fullpath = dir + iconName;
+            if (isIconFile(fullpath))
+                return fullpath;
+        }
     }
     else if (base.path().endsWith("/") == false) {
         for (int i = 0; i < numIconExts; ++i) {
@@ -106,14 +121,17 @@ upath YIcon::findIcon(upath dir, upath base, unsigned size) {
                 return fullpath;
         }
 
-        snprintf(iconName, iconSize, "/%ux%u/apps", size, size);
-        upath apps(dir + iconName);
-        if (apps.dirExists()) {
-            for (int i = 0; i < numIconExts; ++i) {
-                snprintf(iconName, iconSize, "/%s%s", cBaseStr, iconExts[i]);
-                fullpath = apps + iconName;
-                if (isIconFile(fullpath))
-                    return fullpath;
+        for (const char **p = xdg_folder_patterns; *p; ++p) {
+            snprintf(iconName, iconSize, *p, size, size);
+            upath apps(dir + iconName);
+            if (apps.dirExists()) {
+                for (int i = 0; i < numIconExts; ++i) {
+                    snprintf(iconName, iconSize, "/%s%s", cBaseStr,
+                            iconExts[i]);
+                    fullpath = apps + iconName;
+                    if (isIconFile(fullpath))
+                        return fullpath;
+                }
             }
         }
     }
