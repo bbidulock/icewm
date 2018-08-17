@@ -195,13 +195,13 @@ void TrayApp::handleClick(const XButtonEvent &up, int /*count*/) {
                                     YPopupWindow::pfCanFlipHorizontal |
                                     YPopupWindow::pfPopupMenu);
     }
-    else if (up.button == Button4) {
+    else if (up.button == Button4 && taskBarUseMouseWheel) {
         TrayApp* act = fTrayPane->getActive();
         TrayApp* app = Elvis(fTrayPane->predecessor(act), this);
         if (app != act)
             app->activate();
     }
-    else if (up.button == Button5) {
+    else if (up.button == Button5 && taskBarUseMouseWheel) {
         TrayApp* act = fTrayPane->getActive();
         TrayApp* app = Elvis(fTrayPane->successor(act), this);
         if (app != act)
@@ -356,7 +356,9 @@ void TrayPane::handleClick(const XButtonEvent &up, int count) {
     if (up.button == 3 && count == 1 && IS_BUTTON(up.state, Button3Mask)) {
         fTaskBar->contextMenu(up.x_root, up.y_root);
     }
-    else if (up.button == Button4 || up.button == Button5) {
+    else if ((up.button == Button4 || up.button == Button5)
+            && taskBarUseMouseWheel)
+    {
         TrayApp* app = getActive();
         if (app)
             app->handleClick(up, count);
