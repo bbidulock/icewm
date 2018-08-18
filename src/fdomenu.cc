@@ -153,7 +153,7 @@ public:
     const char *get_name() {
         if (!pInfo)
             return 0;
-        return g_app_info_get_name(*this);
+        return g_app_info_get_display_name(*this);
     }
 
     char * get_icon_path() {
