@@ -1,16 +1,16 @@
 # translation of icewm-1.2.22.po to slovak
 # Radovan Stas (RadOOne) <radoone@szm.sk>, 2004.
 # Zdenko Podobny <zdpo@mailbox.sk>, 2005.
-# Ferdinand Galko <galko.ferdinand@gmail.com>, 2017.
+# Ferdinand Galko <galko.ferdinand@gmail.com>, 2017, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-08-19 00:32-0600\n"
-"PO-Revision-Date: 2018-05-09 06:43+0000\n"
+"PO-Revision-Date: 2018-08-19 10:49+0000\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
-"Language-Team: Slovak <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/sk/>\n"
+"Language-Team: Slovak "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,11 +45,11 @@ msgstr "napájanie:\t%s"
 
 #: src/aclock.cc:172
 msgid "CLOCK"
-msgstr ""
+msgstr "HODINY"
 
 #: src/aclock.cc:176
 msgid "Date"
-msgstr ""
+msgstr "Dátum"
 
 #: src/aclock.cc:177 src/themes.cc:85
 msgid "Default"
@@ -132,16 +132,13 @@ msgid "Load: "
 msgstr "Zaťaženie: "
 
 #: src/acpustatus.cc:371
-#, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| "Ram (free): %5.3f (%.3f) G"
+#, c-format
 msgid ""
 "\n"
 "Ram (user): %5.3f (%.3f) G"
 msgstr ""
 "\n"
-"Ram (voľné): %5.3f (%.3f) G"
+"Ram (používateľ): %5.3f (%.3f) G"
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
@@ -150,10 +147,9 @@ msgid "°C"
 msgstr "°C"
 
 #: src/acpustatus.cc:770
-#, fuzzy, c-format
-#| msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
+#, c-format
 msgid "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
-msgstr "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
+msgstr "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
 
 #: src/acpustatus.cc:857
 #, c-format
@@ -214,10 +210,8 @@ msgid "Using MailBox \"%s\"\n"
 msgstr "Používam MailBox: \"%s\"\n"
 
 #: src/amailbox.cc:794
-#, fuzzy
-#| msgid "_Suspend"
 msgid "Suspended"
-msgstr "_Pozastaviť"
+msgstr "Pozastavené"
 
 #: src/amailbox.cc:798
 msgid "Error checking mailbox."
@@ -249,7 +243,7 @@ msgstr "MAIL"
 
 #: src/amailbox.cc:936
 msgid "_Check"
-msgstr ""
+msgstr "_Skontrolovať"
 
 #: src/amailbox.cc:938 src/wmapp.cc:523 src/wmdialog.cc:74
 msgid "_Suspend"
@@ -364,15 +358,15 @@ msgstr "Multimédiá"
 
 #: src/fdomenu.cc:96
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 #: src/fdomenu.cc:97
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 #: src/fdomenu.cc:98
 msgid "AudioVideo"
-msgstr ""
+msgstr "AudioVideo"
 
 #: src/fdomenu.cc:99
 msgid "Network"
@@ -384,7 +378,7 @@ msgstr "Kancelária"
 
 #: src/fdomenu.cc:101
 msgid "Science"
-msgstr ""
+msgstr "Veda"
 
 #: src/fdomenu.cc:102
 msgid "System"
@@ -400,7 +394,7 @@ msgstr "Editory"
 
 #: src/fdomenu.cc:105
 msgid "Utility"
-msgstr ""
+msgstr "Nástroj"
 
 #: src/fdomenu.cc:106
 msgid "Other"
