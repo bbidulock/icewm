@@ -11,7 +11,6 @@ prog NEdit nedit nedit
 prog Firefox mozilla firefox
 prog Hexchat xchat hexchat
 prog Gimp gimp gimp
-separator
-menuprog "Desktop Apps" folder icewm-menu-fdo
+includeprog icewm-menu-fdo --sep-before --no-sep-others
 menufile Programs folder programs
 menufile Tool_bar folder toolbar
