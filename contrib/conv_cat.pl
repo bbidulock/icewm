@@ -9,6 +9,7 @@ for(<>)
 {
 	chomp;
 	(my $sec, my $pred) = split(/,/);
+	next if $sec eq "GTK" or $sec eq "Qt" or $sec eq "GNOME" or $sec eq "KDE" or $sec eq "XFCE" or $sec eq "Java" or $sec eq "ConsoleOnly";
 	my $key = $pred;
 	$key=~ s/\W//g;
 	$key = "ANY" if(!$key);
@@ -57,7 +58,8 @@ my @cats = sort(keys %secs);
 for(@cats)
 {
 	my $ptr = "(char**) &$secs{$_}";
-	print "    { NULL,\"$_\", NULL, $ptr}";
+	print "// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.\n";
+	print "    { N_(\"$_\"), \"$_\", NULL, $ptr}";
 	print $_ eq $cats[-1] ? "\n" : ",\n";
 }
 print "};

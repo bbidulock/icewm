@@ -13,7 +13,7 @@ find_program(msgfmt msgfmt)
 
 if(gettext AND xgettext AND msgmerge AND msgfmt)
 	# source files, read-only!
-	FILE(GLOB SRCS "${CMAKE_SOURCE_DIR}/src/*.cc")
+	FILE(GLOB SRCS "${CMAKE_SOURCE_DIR}/src/*.cc" "${CMAKE_SOURCE_DIR}/src/fdomenugen.h")
 	foreach(_src ${SRCS})
 		get_filename_component(_src "${_src}" NAME)
 		LIST(APPEND SRCSRELATIVE "src/${_src}")

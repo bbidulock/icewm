@@ -10,7 +10,6 @@ LPCSTR EducationComputerScienceorScienceComputerScience[] = { "Education", "Comp
 LPCSTR EducationMathorScienceMath[] = { "Education", "Math", "|", "Science", "Math", "|", NULL };
 LPCSTR EducationorScience[] = { "Education", "|", "Science", "|", NULL };
 LPCSTR EducationorScienceorUtility[] = { "Education", "|", "Science", "|", "Utility", "|", NULL };
-LPCSTR GTK[] = { "GTK", "|", NULL };
 LPCSTR Game[] = { "Game", "|", NULL };
 LPCSTR Graphics[] = { "Graphics", "|", NULL };
 LPCSTR Graphics2DGraphics[] = { "Graphics", "2DGraphics", "|", NULL };
@@ -24,7 +23,6 @@ LPCSTR OfficeorDevelopment[] = { "Office", "|", "Development", "|", NULL };
 LPCSTR OfficeorDevelopmentorAudioVideo[] = { "Office", "|", "Development", "|", "AudioVideo", "|", NULL };
 LPCSTR OfficeorNetwork[] = { "Office", "|", "Network", "|", NULL };
 LPCSTR OfficeorTextTools[] = { "Office", "|", "TextTools", "|", NULL };
-LPCSTR QT[] = { "QT", "|", NULL };
 LPCSTR Settings[] = { "Settings", "|", NULL };
 LPCSTR SettingsHardwareSettings[] = { "Settings", "HardwareSettings", "|", NULL };
 LPCSTR SettingsorSystem[] = { "Settings", "|", "System", "|", NULL };
@@ -61,130 +59,241 @@ tListMeta menuinfo[] =
     { N_("Editors"),"Editors", NULL, NULL},
     { N_("Utility"),"Utility", NULL, NULL},
     { N_("Other"), "Other", NULL, NULL },
-    { NULL,"2DGraphics", NULL, (char**) &Graphics},
-    { NULL,"3DGraphics", NULL, (char**) &Graphics},
-    { NULL,"Accessibility", NULL, (char**) &SettingsorUtility},
-    { NULL,"ActionGame", NULL, (char**) &Game},
-    { NULL,"Adult", NULL, (char**) &ANY},
-    { NULL,"AdventureGame", NULL, (char**) &Game},
-    { NULL,"Amusement", NULL, (char**) &ANY},
-    { NULL,"ArcadeGame", NULL, (char**) &Game},
-    { NULL,"Archiving", NULL, (char**) &Utility},
-    { NULL,"Art", NULL, (char**) &EducationorScience},
-    { NULL,"ArtificialIntelligence", NULL, (char**) &EducationorScience},
-    { NULL,"Astronomy", NULL, (char**) &EducationorScience},
-    { NULL,"AudioVideoEditing", NULL, (char**) &AudioorVideoorAudioVideo},
-    { NULL,"Biology", NULL, (char**) &EducationorScience},
-    { NULL,"BlocksGame", NULL, (char**) &Game},
-    { NULL,"BoardGame", NULL, (char**) &Game},
-    { NULL,"Calculator", NULL, (char**) &Utility},
-    { NULL,"Calendar", NULL, (char**) &Office},
-    { NULL,"CardGame", NULL, (char**) &Game},
-    { NULL,"Chart", NULL, (char**) &Office},
-    { NULL,"Chat", NULL, (char**) &Network},
-    { NULL,"Chemistry", NULL, (char**) &EducationorScience},
-    { NULL,"Clock", NULL, (char**) &Utility},
-    { NULL,"Compression", NULL, (char**) &UtilityArchiving},
-    { NULL,"ComputerScience", NULL, (char**) &EducationorScience},
-    { NULL,"ConsoleOnly", NULL, (char**) &ANY},
-    { NULL,"Construction", NULL, (char**) &EducationorScience},
-    { NULL,"ContactManagement", NULL, (char**) &Office},
-    { NULL,"Core", NULL, (char**) &ANY},
-    { NULL,"DataVisualization", NULL, (char**) &EducationorScience},
-    { NULL,"Database", NULL, (char**) &OfficeorDevelopmentorAudioVideo},
-    { NULL,"Debugger", NULL, (char**) &Development},
-    { NULL,"DesktopSettings", NULL, (char**) &Settings},
-    { NULL,"Dialup", NULL, (char**) &Network},
-    { NULL,"Dictionary", NULL, (char**) &OfficeorTextTools},
-    { NULL,"DiscBurning", NULL, (char**) &AudioVideo},
-    { NULL,"Documentation", NULL, (char**) &ANY},
-    { NULL,"Economy", NULL, (char**) &EducationorScience},
-    { NULL,"Electricity", NULL, (char**) &EducationorScience},
-    { NULL,"Electronics", NULL, (char**) &ANY},
-    { NULL,"Email", NULL, (char**) &OfficeorNetwork},
-    { NULL,"Emulator", NULL, (char**) &SystemorGame},
-    { NULL,"Engineering", NULL, (char**) &ANY},
-    { NULL,"Feed", NULL, (char**) &Network},
-    { NULL,"FileManager", NULL, (char**) &SystemFileTools},
-    { NULL,"FileTools", NULL, (char**) &UtilityorSystem},
-    { NULL,"FileTransfer", NULL, (char**) &Network},
-    { NULL,"Filesystem", NULL, (char**) &System},
-    { NULL,"Finance", NULL, (char**) &Office},
-    { NULL,"FlowChart", NULL, (char**) &Office},
-    { NULL,"GNOME", NULL, (char**) &GTK},
-    { NULL,"GTK", NULL, (char**) &ANY},
-    { NULL,"GUIDesigner", NULL, (char**) &Development},
-    { NULL,"Geography", NULL, (char**) &EducationorScience},
-    { NULL,"Geology", NULL, (char**) &EducationorScience},
-    { NULL,"Geoscience", NULL, (char**) &EducationorScience},
-    { NULL,"HamRadio", NULL, (char**) &NetworkorAudio},
-    { NULL,"HardwareSettings", NULL, (char**) &Settings},
-    { NULL,"History", NULL, (char**) &EducationorScience},
-    { NULL,"Humanities", NULL, (char**) &EducationorScience},
-    { NULL,"IDE", NULL, (char**) &Development},
-    { NULL,"IRCClient", NULL, (char**) &Network},
-    { NULL,"ImageProcessing", NULL, (char**) &EducationorScience},
-    { NULL,"InstantMessaging", NULL, (char**) &Network},
-    { NULL,"Java", NULL, (char**) &ANY},
-    { NULL,"KDE", NULL, (char**) &QT},
-    { NULL,"KidsGame", NULL, (char**) &Game},
-    { NULL,"Languages", NULL, (char**) &EducationorScience},
-    { NULL,"Literature", NULL, (char**) &EducationorScience},
-    { NULL,"LogicGame", NULL, (char**) &Game},
-    { NULL,"Maps", NULL, (char**) &EducationorScienceorUtility},
-    { NULL,"Math", NULL, (char**) &EducationorScience},
-    { NULL,"MedicalSoftware", NULL, (char**) &EducationorScience},
-    { NULL,"Midi", NULL, (char**) &AudioVideoAudio},
-    { NULL,"Mixer", NULL, (char**) &AudioVideoAudio},
-    { NULL,"Monitor", NULL, (char**) &SystemorNetwork},
-    { NULL,"Motif", NULL, (char**) &ANY},
-    { NULL,"Music", NULL, (char**) &AudioVideoorEducation},
-    { NULL,"News", NULL, (char**) &Network},
-    { NULL,"NumericalAnalysis", NULL, (char**) &EducationMathorScienceMath},
-    { NULL,"OCR", NULL, (char**) &GraphicsScanning},
-    { NULL,"P2P", NULL, (char**) &Network},
-    { NULL,"PDA", NULL, (char**) &Office},
-    { NULL,"PackageManager", NULL, (char**) &Settings},
-    { NULL,"ParallelComputing", NULL, (char**) &EducationComputerScienceorScienceComputerScience},
-    { NULL,"Photography", NULL, (char**) &GraphicsorOffice},
-    { NULL,"Physics", NULL, (char**) &EducationorScience},
-    { NULL,"Player", NULL, (char**) &AudioorVideoorAudioVideo},
-    { NULL,"Presentation", NULL, (char**) &Office},
-    { NULL,"Printing", NULL, (char**) &SettingsHardwareSettings},
-    { NULL,"Profiling", NULL, (char**) &Development},
-    { NULL,"ProjectManagement", NULL, (char**) &OfficeorDevelopment},
-    { NULL,"Publishing", NULL, (char**) &GraphicsorOffice},
-    { NULL,"Qt", NULL, (char**) &ANY},
-    { NULL,"RasterGraphics", NULL, (char**) &Graphics2DGraphics},
-    { NULL,"Recorder", NULL, (char**) &AudioorVideoorAudioVideo},
-    { NULL,"RemoteAccess", NULL, (char**) &Network},
-    { NULL,"RevisionControl", NULL, (char**) &Development},
-    { NULL,"Robotics", NULL, (char**) &EducationorScience},
-    { NULL,"RolePlaying", NULL, (char**) &Game},
-    { NULL,"Scanning", NULL, (char**) &Graphics},
-    { NULL,"Security", NULL, (char**) &SettingsorSystem},
-    { NULL,"Sequencer", NULL, (char**) &AudioVideoAudio},
-    { NULL,"Shooter", NULL, (char**) &Game},
-    { NULL,"Simulation", NULL, (char**) &Game},
-    { NULL,"Spirituality", NULL, (char**) &EducationorScienceorUtility},
-    { NULL,"Sports", NULL, (char**) &EducationorScience},
-    { NULL,"SportsGame", NULL, (char**) &Game},
-    { NULL,"Spreadsheet", NULL, (char**) &Office},
-    { NULL,"StrategyGame", NULL, (char**) &Game},
-    { NULL,"TV", NULL, (char**) &AudioVideoVideo},
-    { NULL,"Telephony", NULL, (char**) &Network},
-    { NULL,"TelephonyTools", NULL, (char**) &Utility},
-    { NULL,"TerminalEmulator", NULL, (char**) &System},
-    { NULL,"TextEditor", NULL, (char**) &Utility},
-    { NULL,"TextTools", NULL, (char**) &Utility},
-    { NULL,"Translation", NULL, (char**) &Development},
-    { NULL,"Tuner", NULL, (char**) &AudioVideoAudio},
-    { NULL,"VectorGraphics", NULL, (char**) &Graphics2DGraphics},
-    { NULL,"VideoConference", NULL, (char**) &Network},
-    { NULL,"Viewer", NULL, (char**) &GraphicsorOffice},
-    { NULL,"WebBrowser", NULL, (char**) &Network},
-    { NULL,"WebDevelopment", NULL, (char**) &NetworkorDevelopment},
-    { NULL,"WordProcessor", NULL, (char**) &Office},
-    { NULL,"XFCE", NULL, (char**) &GTK}
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("2DGraphics"), "2DGraphics", NULL, (char**) &Graphics},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("3DGraphics"), "3DGraphics", NULL, (char**) &Graphics},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Accessibility"), "Accessibility", NULL, (char**) &SettingsorUtility},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("ActionGame"), "ActionGame", NULL, (char**) &Game},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Adult"), "Adult", NULL, (char**) &ANY},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("AdventureGame"), "AdventureGame", NULL, (char**) &Game},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Amusement"), "Amusement", NULL, (char**) &ANY},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("ArcadeGame"), "ArcadeGame", NULL, (char**) &Game},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Archiving"), "Archiving", NULL, (char**) &Utility},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Art"), "Art", NULL, (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("ArtificialIntelligence"), "ArtificialIntelligence", NULL, (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Astronomy"), "Astronomy", NULL, (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("AudioVideoEditing"), "AudioVideoEditing", NULL, (char**) &AudioorVideoorAudioVideo},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Biology"), "Biology", NULL, (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("BlocksGame"), "BlocksGame", NULL, (char**) &Game},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("BoardGame"), "BoardGame", NULL, (char**) &Game},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Calculator"), "Calculator", NULL, (char**) &Utility},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Calendar"), "Calendar", NULL, (char**) &Office},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("CardGame"), "CardGame", NULL, (char**) &Game},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Chart"), "Chart", NULL, (char**) &Office},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Chat"), "Chat", NULL, (char**) &Network},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Chemistry"), "Chemistry", NULL, (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Clock"), "Clock", NULL, (char**) &Utility},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Compression"), "Compression", NULL, (char**) &UtilityArchiving},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("ComputerScience"), "ComputerScience", NULL, (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Construction"), "Construction", NULL, (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("ContactManagement"), "ContactManagement", NULL, (char**) &Office},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Core"), "Core", NULL, (char**) &ANY},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("DataVisualization"), "DataVisualization", NULL, (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Database"), "Database", NULL, (char**) &OfficeorDevelopmentorAudioVideo},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Debugger"), "Debugger", NULL, (char**) &Development},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("DesktopSettings"), "DesktopSettings", NULL, (char**) &Settings},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Dialup"), "Dialup", NULL, (char**) &Network},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Dictionary"), "Dictionary", NULL, (char**) &OfficeorTextTools},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("DiscBurning"), "DiscBurning", NULL, (char**) &AudioVideo},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Documentation"), "Documentation", NULL, (char**) &ANY},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Economy"), "Economy", NULL, (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Electricity"), "Electricity", NULL, (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Electronics"), "Electronics", NULL, (char**) &ANY},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Email"), "Email", NULL, (char**) &OfficeorNetwork},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Emulator"), "Emulator", NULL, (char**) &SystemorGame},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Engineering"), "Engineering", NULL, (char**) &ANY},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Feed"), "Feed", NULL, (char**) &Network},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("FileManager"), "FileManager", NULL, (char**) &SystemFileTools},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("FileTools"), "FileTools", NULL, (char**) &UtilityorSystem},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("FileTransfer"), "FileTransfer", NULL, (char**) &Network},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Filesystem"), "Filesystem", NULL, (char**) &System},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Finance"), "Finance", NULL, (char**) &Office},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("FlowChart"), "FlowChart", NULL, (char**) &Office},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("GUIDesigner"), "GUIDesigner", NULL, (char**) &Development},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Geography"), "Geography", NULL, (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Geology"), "Geology", NULL, (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Geoscience"), "Geoscience", NULL, (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("HamRadio"), "HamRadio", NULL, (char**) &NetworkorAudio},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("HardwareSettings"), "HardwareSettings", NULL, (char**) &Settings},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("History"), "History", NULL, (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Humanities"), "Humanities", NULL, (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("IDE"), "IDE", NULL, (char**) &Development},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("IRCClient"), "IRCClient", NULL, (char**) &Network},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("ImageProcessing"), "ImageProcessing", NULL, (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("InstantMessaging"), "InstantMessaging", NULL, (char**) &Network},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("KidsGame"), "KidsGame", NULL, (char**) &Game},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Languages"), "Languages", NULL, (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Literature"), "Literature", NULL, (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("LogicGame"), "LogicGame", NULL, (char**) &Game},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Maps"), "Maps", NULL, (char**) &EducationorScienceorUtility},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Math"), "Math", NULL, (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("MedicalSoftware"), "MedicalSoftware", NULL, (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Midi"), "Midi", NULL, (char**) &AudioVideoAudio},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Mixer"), "Mixer", NULL, (char**) &AudioVideoAudio},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Monitor"), "Monitor", NULL, (char**) &SystemorNetwork},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Motif"), "Motif", NULL, (char**) &ANY},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Music"), "Music", NULL, (char**) &AudioVideoorEducation},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("News"), "News", NULL, (char**) &Network},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("NumericalAnalysis"), "NumericalAnalysis", NULL, (char**) &EducationMathorScienceMath},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("OCR"), "OCR", NULL, (char**) &GraphicsScanning},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("P2P"), "P2P", NULL, (char**) &Network},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("PDA"), "PDA", NULL, (char**) &Office},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("PackageManager"), "PackageManager", NULL, (char**) &Settings},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("ParallelComputing"), "ParallelComputing", NULL, (char**) &EducationComputerScienceorScienceComputerScience},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Photography"), "Photography", NULL, (char**) &GraphicsorOffice},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Physics"), "Physics", NULL, (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Player"), "Player", NULL, (char**) &AudioorVideoorAudioVideo},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Presentation"), "Presentation", NULL, (char**) &Office},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Printing"), "Printing", NULL, (char**) &SettingsHardwareSettings},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Profiling"), "Profiling", NULL, (char**) &Development},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("ProjectManagement"), "ProjectManagement", NULL, (char**) &OfficeorDevelopment},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Publishing"), "Publishing", NULL, (char**) &GraphicsorOffice},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("RasterGraphics"), "RasterGraphics", NULL, (char**) &Graphics2DGraphics},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Recorder"), "Recorder", NULL, (char**) &AudioorVideoorAudioVideo},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("RemoteAccess"), "RemoteAccess", NULL, (char**) &Network},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("RevisionControl"), "RevisionControl", NULL, (char**) &Development},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Robotics"), "Robotics", NULL, (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("RolePlaying"), "RolePlaying", NULL, (char**) &Game},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Scanning"), "Scanning", NULL, (char**) &Graphics},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Security"), "Security", NULL, (char**) &SettingsorSystem},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Sequencer"), "Sequencer", NULL, (char**) &AudioVideoAudio},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Shooter"), "Shooter", NULL, (char**) &Game},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Simulation"), "Simulation", NULL, (char**) &Game},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Spirituality"), "Spirituality", NULL, (char**) &EducationorScienceorUtility},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Sports"), "Sports", NULL, (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("SportsGame"), "SportsGame", NULL, (char**) &Game},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Spreadsheet"), "Spreadsheet", NULL, (char**) &Office},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("StrategyGame"), "StrategyGame", NULL, (char**) &Game},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("TV"), "TV", NULL, (char**) &AudioVideoVideo},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Telephony"), "Telephony", NULL, (char**) &Network},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("TelephonyTools"), "TelephonyTools", NULL, (char**) &Utility},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("TerminalEmulator"), "TerminalEmulator", NULL, (char**) &System},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("TextEditor"), "TextEditor", NULL, (char**) &Utility},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("TextTools"), "TextTools", NULL, (char**) &Utility},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Translation"), "Translation", NULL, (char**) &Development},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Tuner"), "Tuner", NULL, (char**) &AudioVideoAudio},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("VectorGraphics"), "VectorGraphics", NULL, (char**) &Graphics2DGraphics},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("VideoConference"), "VideoConference", NULL, (char**) &Network},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("Viewer"), "Viewer", NULL, (char**) &GraphicsorOffice},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("WebBrowser"), "WebBrowser", NULL, (char**) &Network},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("WebDevelopment"), "WebDevelopment", NULL, (char**) &NetworkorDevelopment},
+// TRANSLATORS: This is a menu category name, please add spaces as needed but no quotes or double-quotes.
+    { N_("WordProcessor"), "WordProcessor", NULL, (char**) &Office}
 };
 }

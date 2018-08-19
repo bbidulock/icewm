@@ -277,8 +277,8 @@ public:
 };
 
 /*
- * two relevant columns from https://specifications.freedesktop.org/menu-spec/latest/apas02.html
- * with manual fix of HardwareSettings order
+ * Two relevant columns from https://specifications.freedesktop.org/menu-spec/latest/apas02.html
+ * exported as CSV with , delimiter and with manual fix of HardwareSettings order.
  *
  * Powered by PERL! See contrib/conv_cat.pl
  */
