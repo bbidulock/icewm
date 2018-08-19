@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: icewm-1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-08-19 00:32-0600\n"
-"PO-Revision-Date: 2018-05-07 14:15+0000\n"
+"PO-Revision-Date: 2018-08-19 18:26+0000\n"
 "Last-Translator: Aleš Kastner <alkas@volny.cz>\n"
-"Language-Team: Czech <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/cs/>\n"
+"Language-Team: Czech "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,11 +47,11 @@ msgstr "nabití:\t%s"
 
 #: src/aclock.cc:172
 msgid "CLOCK"
-msgstr ""
+msgstr "HODINY"
 
 #: src/aclock.cc:176
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #: src/aclock.cc:177 src/themes.cc:85
 msgid "Default"
@@ -135,16 +135,13 @@ msgid "Load: "
 msgstr "Vytížení: "
 
 #: src/acpustatus.cc:371
-#, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| "Ram (free): %5.3f (%.3f) G"
+#, c-format
 msgid ""
 "\n"
 "Ram (user): %5.3f (%.3f) G"
 msgstr ""
 "\n"
-"Ram (volná): %5.3f (%.3f) G"
+"Ram (uživatel): %5.3f (%.3f) G"
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
@@ -153,10 +150,9 @@ msgid "°C"
 msgstr "Teplota ve °C"
 
 #: src/acpustatus.cc:770
-#, fuzzy, c-format
-#| msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
+#, c-format
 msgid "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
-msgstr "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
+msgstr "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
 
 #: src/acpustatus.cc:857
 #, c-format
@@ -217,10 +213,8 @@ msgid "Using MailBox \"%s\"\n"
 msgstr "Používám MailBox: „%s“\n"
 
 #: src/amailbox.cc:794
-#, fuzzy
-#| msgid "_Suspend"
 msgid "Suspended"
-msgstr "_Pozastavit"
+msgstr "Pozastaveno"
 
 #: src/amailbox.cc:798
 msgid "Error checking mailbox."
@@ -252,7 +246,7 @@ msgstr "MAIL"
 
 #: src/amailbox.cc:936
 msgid "_Check"
-msgstr ""
+msgstr "_Kontrola"
 
 #: src/amailbox.cc:938 src/wmapp.cc:523 src/wmdialog.cc:74
 msgid "_Suspend"
@@ -367,15 +361,15 @@ msgstr "Multimédia"
 
 #: src/fdomenu.cc:96
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 #: src/fdomenu.cc:97
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 #: src/fdomenu.cc:98
 msgid "AudioVideo"
-msgstr ""
+msgstr "AudioVideo"
 
 #: src/fdomenu.cc:99
 msgid "Network"
@@ -387,7 +381,7 @@ msgstr "Kancelář"
 
 #: src/fdomenu.cc:101
 msgid "Science"
-msgstr ""
+msgstr "Věda"
 
 #: src/fdomenu.cc:102
 msgid "System"
@@ -403,7 +397,7 @@ msgstr "Editory"
 
 #: src/fdomenu.cc:105
 msgid "Utility"
-msgstr ""
+msgstr "Utilita"
 
 #: src/fdomenu.cc:106
 msgid "Other"
