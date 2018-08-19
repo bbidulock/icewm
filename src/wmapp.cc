@@ -1372,7 +1372,7 @@ static void print_usage(const char *argv0) {
              usage_debug,
              PACKAGE_BUGREPORT[0] ? PACKAGE_BUGREPORT :
              PACKAGE_URL[0] ? PACKAGE_URL :
-             "http://www.icewm.org/");
+             "https://ice-wm.github.io/");
     exit(0);
 }
 

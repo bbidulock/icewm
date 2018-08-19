@@ -15,9 +15,9 @@
 #include <strings.h>
 #endif
 
-#define ICEWM_SITE      "http://www.icewm.org/"
-#define ICEWM_FAQ       "http://www.icewm.org/FAQ/"
-#define THEME_HOWTO     "http://www.icewm.org/themes/"
+#define ICEWM_SITE      "https://ice-wm.github.io/"
+#define ICEWM_FAQ       "https://ice-wm.github.io/FAQ/"
+#define THEME_HOWTO     "https://ice-wm.github.io/themes/"
 #define ICEGIT_SITE     "https://github.com/bbidulock/icewm/"
 #define ICEWM_1         DOCDIR "/icewm.1.html"
 #define ICEWMBG_1       DOCDIR "/icewmbg.1.html"

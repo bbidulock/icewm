@@ -22,7 +22,7 @@ can be sent to: Marko.Macek@gmx.net or icewm-user@lists.sourceforge.net
 
 See also [BUGS][9], [TODO][7] and the sites at:
 
-  - http://www.icewm.org/
+  - https://ice-wm.github.io/
   - http://www.sourceforge.net/projects/icewm/
   - http://icewm.sourceforge.net/
 
@@ -59,8 +59,8 @@ translations.  If you have difficulties using the tools, just send me the update
 [11]: http://l10n.opensuse.org/
 [12]: http://sf.net/project/showfiles.php?group_id=31&release_id=31119
 [13]: http://icewm.sourceforge.net/
-[14]: http://www.icewm.org/
-[15]: http://www.icewm.org/FAQ/IceWM-FAQ-11.html
+[14]: https://ice-wm.github.io/
+[15]: https://ice-wm.github.io/FAQ/
 [16]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/doc/icewm.adoc
 [17]: http://bbkeys.sourceforge.net/
 [18]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/lib/icewm.desktop
