@@ -21,6 +21,11 @@
 
 char const *ApplicationName;
 
+#ifndef LPCSTR // mind the MFC
+// easier to read...
+typedef const char* LPCSTR;
+#endif
+
 #include <glib.h>
 #include <gmodule.h>
 #include <glib/gprintf.h>
@@ -43,7 +48,7 @@ typedef auto_raii<gpointer, g_free> auto_gfree;
 typedef auto_raii<gpointer, g_object_unref> auto_gunref;
 
 static int cmpUtf8(const void *p1, const void *p2) {
-    return g_utf8_collate((const char *) p1, (const char *) p2);
+    return g_utf8_collate((LPCSTR ) p1, (LPCSTR ) p2);
 }
 
 class tDesktopInfo;
@@ -55,8 +60,9 @@ tCharVec* home_sys_folders[] = { &home_folders, &sys_folders, 0 };
 bool add_sep_before(false), add_sep_after(false), no_sep_others(false);
 
 struct tListMeta {
-    const char *title, *key, *icon, *parent_sec;
-
+    LPCSTR title, key, icon;
+    LPCSTR const * const parent_sec;
+#if 0
     static int cmpTitleUtf8(const void *a, const void *b) {
         tListMeta *A((tListMeta*) a), *B((tListMeta*) b);
         return cmpUtf8(A->title, B->title);
@@ -71,22 +77,24 @@ struct tListMeta {
         tListMeta **A((tListMeta**) a), **B((tListMeta**) b);
         return strcmp((**A).key, (**B).key);
     }
+#endif
 };
 GHashTable* meta_lookup_data;
 #define lookup_category(key) ((tListMeta*) g_hash_table_lookup(meta_lookup_data, key))
 
 
 struct t_menu_node;
+extern t_menu_node root;
 
 // very basic, avoid vtables!
 struct t_menu_node {
 protected:
     // for leafs -> NULL, otherwise sub-menu contents
     GTree* store;
-    const char *progCmd;
+    LPCSTR progCmd;
 public:
-    tListMeta *meta;
-    t_menu_node(tListMeta* desc): store(0), progCmd(0), meta(desc) {}
+    const tListMeta *meta;
+    t_menu_node(const tListMeta* desc): store(0), progCmd(0), meta(desc) {}
 
     struct t_print_meta {
         int count, level;
@@ -99,7 +107,7 @@ public:
 
     void print(t_print_meta *ctx) {
         if(!meta) return;
-        const char* title = Elvis(meta->title, meta->key);
+        LPCSTR title = Elvis(meta->title, meta->key);
 
         if(!store)
         {
@@ -111,8 +119,9 @@ public:
             return;
         }
 
-        if (!store || !g_tree_nnodes(store))
+        if (!g_tree_nnodes(store))
             return;
+
         // some gimmicks on the top level
         if (ctx->level == 0 && add_sep_before) {
             puts("separator");
@@ -127,7 +136,7 @@ public:
 
         // root level does not have a name, for others open category menu
         if (ctx->level > 0) {
-            printf("menu \"%s\" %s {\n", meta->title,
+            printf("menu \"%s\" %s {\n", title,
                     meta->icon ? meta->icon : "folder");
         }
         ctx->level++;
@@ -135,11 +144,16 @@ public:
         if(ctx->level == 1 && ctx->print_separated)
         {
             puts("separator");
+            no_sep_others = true;
             ctx->print_separated->print(ctx);
         }
         ctx->level--;
         if (ctx->level > 0)
+#ifndef DEBUG
             puts("}");
+#else
+            printf("# end of menu \"%s\"\n}\n", title);
+#endif
     }
 
     /**
@@ -162,7 +176,7 @@ public:
      * Returns a sub-menu which is named by the title (or key) of the provided information.
      * Creates one as needed or finds existing one.
      */
-    t_menu_node* get_subtree(tListMeta* info) {
+    t_menu_node* get_subtree(const tListMeta* info) {
         const char* title = Elvis(info->title, info->key);
         if (store) {
             void* existing = g_tree_lookup(store, title);
@@ -174,51 +188,101 @@ public:
         return tree;
     }
 
+    bool try_add_to_subcat(t_menu_node* pNode, const tListMeta* subCatCandidate, YVec<tListMeta*> &matched_main_cats)
+    {
+        t_menu_node *pTree = &root;
+        bool skipping = false;
+
+        tListMeta* pNewCatInfo = 0;
+        tListMeta** ppLastMainCat = 0;
+
+        for(const char * const *pSubCatName = subCatCandidate->parent_sec;
+                *pSubCatName; ++pSubCatName)
+        {
+            bool store_here = **pSubCatName == '|';
+            if(skipping && store_here)
+            {
+                    skipping = false;
+                    pTree = &root;
+                    continue;
+            }
+            if(store_here)
+            {
+                pTree->get_subtree(subCatCandidate)->add(pNode);
+                // main menu was served, don't come here again
+                *ppLastMainCat = 0;
+            }
+
+            skipping = true;
+            // check main category filter, enter from root for main categories
+
+            for (tListMeta** ppMainCat = matched_main_cats.data;
+                    ppMainCat < matched_main_cats.data + matched_main_cats.size;
+                    ++ppMainCat) {
+                if (!*ppMainCat)
+                    continue;
+
+                // empty filter means ANY
+                if (**pSubCatName == '\0'
+                        || 0 == strcmp(*pSubCatName, (**ppMainCat).key)) {
+                    // the category is enabled!
+                    skipping = false;
+                    pNewCatInfo = *ppMainCat;
+                    ppLastMainCat = ppMainCat;
+                    break;
+                }
+            }
+            if (skipping)
+                continue;
+            // if not on first node, make or find submenues for the comming tokens
+            if(!pNewCatInfo)
+                pNewCatInfo = lookup_category(*pSubCatName);
+            if(!pNewCatInfo)
+                return false; // heh? fantasy category?
+            pTree = pTree->get_subtree(pNewCatInfo);
+        }
+        return false;
+    }
     void add_by_categories(t_menu_node* pNode, gchar **ppCats) {
-        t_menu_node* pSubmenu(0);
+        static YVec<tListMeta*> matched_main_cats, matched_sub_cats;
+        matched_main_cats.size = matched_sub_cats.size = 0;
 
         for (gchar **pCatKey = ppCats; pCatKey && *pCatKey; ++pCatKey) {
             if (!**pCatKey)
                 continue; // empty?
             tListMeta *pResolved = lookup_category(*pCatKey);
-            if (pResolved && !pResolved->parent_sec) {
-                // valid main category
-                pSubmenu = get_subtree(pResolved);
-                pSubmenu->add(pNode);
-            }
+            if (!pResolved) continue;
+            if(!pResolved->parent_sec)
+                matched_main_cats.add(pResolved);
+            else
+                matched_sub_cats.add(pResolved);
         }
-        if (!pSubmenu) // no hit at all?
+        if (matched_main_cats.size == 0)
+            matched_main_cats.add(lookup_category("Other"));
+        for(tListMeta** p=matched_sub_cats.data;
+                p < matched_sub_cats.data + matched_sub_cats.size;
+                ++p)
         {
-            pSubmenu = get_subtree(lookup_category("Other"));
-            pSubmenu->add(pNode);
+            try_add_to_subcat(pNode, *p, matched_main_cats);
+        }
+        for(tListMeta** p=matched_main_cats.data;
+                p < matched_main_cats.data + matched_main_cats.size;
+                ++p)
+        {
+            if(*p == NULL) continue;
+            get_subtree(*p)->add(pNode);
         }
     }
 };
 
-tListMeta menuinfo[] =
-{
-    { N_("Accessibility"),"Accessibility", NULL, NULL},
-    { N_("Settings"),"Settings", NULL, NULL},
-    { N_("Screensavers"),"Screensavers", NULL, NULL},
-    { N_("Accessories"),"Accessories", NULL, NULL},
-    { N_("Development"),"Development", NULL, NULL},
-    { N_("Education"),"Education", NULL, NULL},
-    { N_("Games"),"Games", NULL, NULL},
-    { N_("Graphics"),"Graphics", NULL, NULL},
-    { N_("Multimedia"),"Multimedia", NULL, NULL},
-    { N_("Audio"),"Audio", NULL, NULL},
-    { N_("Video"),"Video", NULL, NULL},
-    { N_("AudioVideo"),"AudioVideo", NULL, NULL},
-    { N_("Network"),"Network", NULL, NULL},
-    { N_("Office"),"Office", NULL, NULL},
-    { N_("Science"),"Science", NULL, NULL},
-    { N_("System"),"System", NULL, NULL},
-    { N_("WINE"),"WINE", NULL, NULL},
-    { N_("Editors"),"Editors", NULL, NULL},
-    { N_("Utility"),"Utility", NULL, NULL},
-    { N_("Other"), "Other", NULL, NULL }
-// XXX: add subsections here
-};
+/*
+ * two relevant columns from https://specifications.freedesktop.org/menu-spec/latest/apas02.html
+ * with manual fix of HardwareSettings order
+ *
+ * Powered by PERL! See contrib/conv_cat.pl
+ */
+
+#include "fdospecgen.h"
 
 bool checkSuffix(const char* szFilename, const char* szFileSfx)
 {
@@ -230,8 +294,8 @@ bool checkSuffix(const char* szFilename, const char* szFileSfx)
 class tDesktopInfo {
 public:
     GDesktopAppInfo *pInfo;
-    const char *d_file;
-    tDesktopInfo(const char *szFileName) : d_file(szFileName)  {
+    LPCSTR d_file;
+    tDesktopInfo(LPCSTR szFileName) : d_file(szFileName)  {
         pInfo = g_desktop_app_info_new_from_filename(szFileName);
         if (!pInfo)
             return;
@@ -256,7 +320,7 @@ public:
         pInfo = 0;
     }
 
-    const char *get_name() const {
+    LPCSTR get_name() const {
         if (!pInfo)
             return 0;
         return g_app_info_get_display_name((GAppInfo*) pInfo);
@@ -292,7 +356,7 @@ struct t_menu_node_app : t_menu_node
             description(no_description) {
         description.icon = Elvis((const char*) dinfo.get_icon_path(), "-");
 
-        const char *cmdraw = g_app_info_get_commandline((GAppInfo*) dinfo.pInfo);
+        LPCSTR cmdraw = g_app_info_get_commandline((GAppInfo*) dinfo.pInfo);
         if (!cmdraw || !*cmdraw)
             return;
 
@@ -382,7 +446,7 @@ void insert_app_info(const char* szDesktopFile) {
     if (!dinfo.pInfo)
         return;
 
-    const char *pCats = g_desktop_app_info_get_categories(dinfo.pInfo);
+    LPCSTR pCats = g_desktop_app_info_get_categories(dinfo.pInfo);
     if (!pCats)
         pCats = "Other";
     if (0 == strncmp(pCats, "X-", 2))
@@ -397,9 +461,9 @@ void insert_app_info(const char* szDesktopFile) {
 
 }
 
-void proc_dir_rec(const char *syspath, unsigned depth,
-        tFuncInsertInfo process_keyfile, const char *szSubfolder,
-        const char *szFileSfx) {
+void proc_dir_rec(LPCSTR syspath, unsigned depth,
+        tFuncInsertInfo process_keyfile, LPCSTR szSubfolder,
+        LPCSTR szFileSfx) {
     gchar *path = g_strjoin("/", syspath, szSubfolder, NULL);
     auto_gfree relmem_path(path);
     GDir *pdir = g_dir_open(path, 0, NULL);
@@ -439,7 +503,7 @@ void proc_dir_rec(const char *syspath, unsigned depth,
     }
 }
 
-bool launch(const char *dfile, const char **argv, int argc) {
+bool launch(LPCSTR dfile, LPCSTR *argv, int argc) {
     GDesktopAppInfo *pInfo = g_desktop_app_info_new_from_filename(dfile);
     if (!pInfo)
         return false;
@@ -474,8 +538,8 @@ static void init() {
 
     meta_lookup_data = g_hash_table_new(g_str_hash, g_str_equal);
 
-    for (unsigned i = 0; i < ACOUNT(menuinfo); ++i) {
-        tListMeta& what = menuinfo[i];
+    for (unsigned i = 0; i < ACOUNT(spec::menuinfo); ++i) {
+        tListMeta& what = spec::menuinfo[i];
 #ifdef ENABLE_NLS
         // internal translations just for the main sections
         if(!what.parent_sec)
@@ -486,7 +550,7 @@ static void init() {
     }
 }
 
-static void help(const char *home, const char *dirs, FILE* out, int xit) {
+static void help(LPCSTR home, LPCSTR dirs, FILE* out, int xit) {
     g_fprintf(out,
             "USAGE: icewm-menu-fdo OPTIONS\n"
             "OPTIONS:\n"
@@ -525,19 +589,19 @@ void load_folder_descriptions(const tCharVec& where) {
     }
 }
 
-int main(int argc, const char **argv) {
+int main(int argc, LPCSTR *argv) {
     ApplicationName = my_basename(argv[0]);
 
-    const char * usershare = getenv("XDG_DATA_HOME");
+    LPCSTR  usershare = getenv("XDG_DATA_HOME");
     if (!usershare || !*usershare)
         usershare = g_strjoin(NULL, getenv("HOME"), "/.local/share", NULL);
 
     // system dirs, either from environment or from static locations
-    const char *sysshare = getenv("XDG_DATA_DIRS");
+    LPCSTR sysshare = getenv("XDG_DATA_DIRS");
     if (!sysshare || !*sysshare)
         sysshare = "/usr/local/share:/usr/share";
 
-    for(const char **pArg = argv+1; pArg<argv+argc; ++pArg)
+    for(LPCSTR *pArg = argv+1; pArg<argv+argc; ++pArg)
     {
         if (is_version_switch(*pArg))
             print_version_exit(VERSION);
