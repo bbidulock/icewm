@@ -8,11 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm-1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2018-05-06 21:11+0200\n"
+"POT-Creation-Date: 2018-08-19 00:32-0600\n"
 "PO-Revision-Date: 2018-05-07 14:15+0000\n"
 "Last-Translator: Aleš Kastner <alkas@volny.cz>\n"
-"Language-Team: Czech "
-"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/cs/>\n"
+"Language-Team: Czech <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,20 +45,28 @@ msgstr " - Plný"
 msgid "power:\t%s"
 msgstr "nabití:\t%s"
 
-#: src/aclock.cc:173
-msgid "Clock"
-msgstr "Hodiny"
+#: src/aclock.cc:172
+msgid "CLOCK"
+msgstr ""
 
-#: src/aclock.cc:174 src/acpustatus.cc:818 src/amailbox.cc:907
-#: src/amemstatus.cc:286
+#: src/aclock.cc:176
+msgid "Date"
+msgstr ""
+
+#: src/aclock.cc:177 src/themes.cc:85
+msgid "Default"
+msgstr "Standardní"
+
+#: src/aclock.cc:178 src/acpustatus.cc:860 src/amailbox.cc:937
+#: src/amemstatus.cc:264
 msgid "_Disable"
 msgstr "_Zakázat"
 
-#: src/aclock.cc:175
+#: src/aclock.cc:179
 msgid "_UTC"
 msgstr "_UTC"
 
-#: src/acpustatus.cc:236
+#: src/acpustatus.cc:233
 #, c-format
 msgid ""
 "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
@@ -67,7 +75,7 @@ msgstr ""
 "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 "intr = %llu, softirq = %llu, steal = %llu\n"
 
-#: src/acpustatus.cc:241
+#: src/acpustatus.cc:238
 #, c-format
 msgid ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
@@ -76,12 +84,12 @@ msgstr ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 "softirq = %llu, steal = %llu (h = %i)\n"
 
-#: src/acpustatus.cc:306
+#: src/acpustatus.cc:303
 #, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "Zátěž CPU %s: %3.2f %3.2f %3.2f, %u"
 
-#: src/acpustatus.cc:312
+#: src/acpustatus.cc:309
 #, c-format
 msgid ""
 "\n"
@@ -90,7 +98,7 @@ msgstr ""
 "\n"
 "Ram (volná): %5.3f (%.3f) G"
 
-#: src/acpustatus.cc:317
+#: src/acpustatus.cc:314
 #, c-format
 msgid ""
 "\n"
@@ -99,7 +107,7 @@ msgstr ""
 "\n"
 "Swap (volný): %.3f (%.3f) G"
 
-#: src/acpustatus.cc:323
+#: src/acpustatus.cc:320
 #, c-format
 msgid ""
 "\n"
@@ -108,7 +116,7 @@ msgstr ""
 "\n"
 "ACPI Teplota: "
 
-#: src/acpustatus.cc:342
+#: src/acpustatus.cc:339 src/acpustatus.cc:379
 #, c-format
 msgid ""
 "\n"
@@ -118,35 +126,48 @@ msgstr ""
 "↵\n"
 "CPU Freq: %.3fGHz"
 
-#: src/acpustatus.cc:363 src/acpustatus.cc:814
+#: src/acpustatus.cc:356 src/acpustatus.cc:856
 msgid "CPU"
 msgstr "CPU"
 
-#: src/acpustatus.cc:363
+#: src/acpustatus.cc:356
 msgid "Load: "
 msgstr "Vytížení: "
 
+#: src/acpustatus.cc:371
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| "Ram (free): %5.3f (%.3f) G"
+msgid ""
+"\n"
+"Ram (user): %5.3f (%.3f) G"
+msgstr ""
+"\n"
+"Ram (volná): %5.3f (%.3f) G"
+
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/acpustatus.cc:434
+#: src/acpustatus.cc:438
 msgid "°C"
 msgstr "Teplota ve °C"
 
-#: src/acpustatus.cc:728
-#, c-format
-msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
+#: src/acpustatus.cc:770
+#, fuzzy, c-format
+#| msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
+msgid "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
 msgstr "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 
-#: src/acpustatus.cc:815
+#: src/acpustatus.cc:857
 #, c-format
 msgid "CPU%d"
 msgstr "CPU%d"
 
-#: src/acpustatus.cc:820
+#: src/acpustatus.cc:862
 msgid "_Combine"
 msgstr "_Kombinovat"
 
-#: src/acpustatus.cc:822
+#: src/acpustatus.cc:864
 msgid "_Separate"
 msgstr "_Oddělit"
 
@@ -190,80 +211,94 @@ msgstr "Selhalo spuštění %s"
 msgid "Write to socket failed: %s"
 msgstr "Zápis na soket selhal: %s"
 
-#: src/amailbox.cc:678
+#: src/amailbox.cc:680
 #, c-format
 msgid "Using MailBox \"%s\"\n"
 msgstr "Používám MailBox: „%s“\n"
 
-#: src/amailbox.cc:785
+#: src/amailbox.cc:794
+#, fuzzy
+#| msgid "_Suspend"
+msgid "Suspended"
+msgstr "_Pozastavit"
+
+#: src/amailbox.cc:798
 msgid "Error checking mailbox."
 msgstr "Chyba ověření stavu mailboxu."
 
-#: src/amailbox.cc:792
+#: src/amailbox.cc:805
 #, c-format
 msgid "%ld mail message, %ld unread."
 msgstr "%ld poštovní zpráva, %ld nepřečtena."
 
-#: src/amailbox.cc:793
+#: src/amailbox.cc:806
 #, c-format
 msgid "%ld mail messages, %ld unread."
 msgstr "%ld poštovních zpráv, %ld nepřečteno."
 
-#: src/amailbox.cc:799
+#: src/amailbox.cc:812
 #, c-format
 msgid "%ld mail message."
 msgstr "%ld poštovní zpráva."
 
-#: src/amailbox.cc:800
+#: src/amailbox.cc:813
 #, c-format
 msgid "%ld mail messages."
 msgstr "%ld poštovních zpráv."
 
-#: src/amailbox.cc:906
+#: src/amailbox.cc:935
 msgid "MAIL"
 msgstr "MAIL"
 
-#: src/amemstatus.cc:166
+#: src/amailbox.cc:936
+msgid "_Check"
+msgstr ""
+
+#: src/amailbox.cc:938 src/wmapp.cc:523 src/wmdialog.cc:74
+msgid "_Suspend"
+msgstr "_Pozastavit"
+
+#: src/amemstatus.cc:145
 msgid "GB"
 msgstr "GB"
 
-#: src/amemstatus.cc:170
+#: src/amemstatus.cc:149
 msgid "MB"
 msgstr "MB"
 
-#: src/amemstatus.cc:174
+#: src/amemstatus.cc:153
 msgid "kB"
 msgstr "kB"
 
-#: src/amemstatus.cc:178
+#: src/amemstatus.cc:157
 msgid "bytes"
 msgstr "bytů"
 
-#: src/amemstatus.cc:198
+#: src/amemstatus.cc:177
 msgid "Memory Total: "
 msgstr "Celkem paměti: "
 
-#: src/amemstatus.cc:199
+#: src/amemstatus.cc:178
 msgid "Free: "
 msgstr "Volno: "
 
-#: src/amemstatus.cc:200
+#: src/amemstatus.cc:179
 msgid "Cached: "
 msgstr "Ve vyrovnávací paměti: "
 
-#: src/amemstatus.cc:201
+#: src/amemstatus.cc:180
 msgid "Buffers: "
 msgstr "Zásobníky: "
 
-#: src/amemstatus.cc:202
+#: src/amemstatus.cc:181
 msgid "User: "
 msgstr "Uživatel: "
 
-#: src/amemstatus.cc:285
+#: src/amemstatus.cc:263
 msgid "MEM"
 msgstr "MEM"
 
-#: src/apppstatus.cc:202
+#: src/apppstatus.cc:203
 #, c-format
 msgid ""
 "Interface %s:\n"
@@ -278,7 +313,7 @@ msgstr ""
 "  Přeneseno (sem/ven):\t%lli %s/%lli %s\n"
 "  Celková doba připojení :\t%ld:%02ld:%02ld%s%s"
 
-#: src/apppstatus.cc:214
+#: src/apppstatus.cc:215
 msgid ""
 "\n"
 "  Caller id:\t"
@@ -286,7 +321,7 @@ msgstr ""
 "\n"
 "  ID volajícího:\t"
 
-#: src/apppstatus.cc:731
+#: src/apppstatus.cc:716
 msgid "NET"
 msgstr "NET"
 
@@ -294,63 +329,83 @@ msgstr "NET"
 msgid "Workspace: "
 msgstr "Pracovní plocha: "
 
-#: src/fdomenu.cc:79
+#: src/fdomenu.cc:87
 msgid "Accessibility"
 msgstr "Dostupnost"
 
-#: src/fdomenu.cc:80
+#: src/fdomenu.cc:88
 msgid "Settings"
 msgstr "Nastavení"
 
-#: src/fdomenu.cc:81
+#: src/fdomenu.cc:89
 msgid "Screensavers"
 msgstr "Šetřiče obrazovky"
 
-#: src/fdomenu.cc:82
+#: src/fdomenu.cc:90
 msgid "Accessories"
 msgstr "Příslušenství"
 
-#: src/fdomenu.cc:83
+#: src/fdomenu.cc:91
 msgid "Development"
 msgstr "Vývoj"
 
-#: src/fdomenu.cc:84
+#: src/fdomenu.cc:92
 msgid "Education"
 msgstr "Vzdělávání"
 
-#: src/fdomenu.cc:85
+#: src/fdomenu.cc:93
 msgid "Games"
 msgstr "Hry"
 
-#: src/fdomenu.cc:86
+#: src/fdomenu.cc:94
 msgid "Graphics"
 msgstr "Grafika"
 
-#: src/fdomenu.cc:87
+#: src/fdomenu.cc:95
 msgid "Multimedia"
 msgstr "Multimédia"
 
-#: src/fdomenu.cc:88
+#: src/fdomenu.cc:96
+msgid "Audio"
+msgstr ""
+
+#: src/fdomenu.cc:97
+msgid "Video"
+msgstr ""
+
+#: src/fdomenu.cc:98
+msgid "AudioVideo"
+msgstr ""
+
+#: src/fdomenu.cc:99
 msgid "Network"
 msgstr "Síť"
 
-#: src/fdomenu.cc:89
+#: src/fdomenu.cc:100
 msgid "Office"
 msgstr "Kancelář"
 
-#: src/fdomenu.cc:90
+#: src/fdomenu.cc:101
+msgid "Science"
+msgstr ""
+
+#: src/fdomenu.cc:102
 msgid "System"
 msgstr "Systém"
 
-#: src/fdomenu.cc:91
+#: src/fdomenu.cc:103
 msgid "WINE"
 msgstr "WINE"
 
-#: src/fdomenu.cc:92
+#: src/fdomenu.cc:104
 msgid "Editors"
 msgstr "Editory"
 
-#: src/fdomenu.cc:93
+#: src/fdomenu.cc:105
+msgid "Utility"
+msgstr ""
+
+#: src/fdomenu.cc:106
 msgid "Other"
 msgstr "Ostatní"
 
@@ -1262,10 +1317,6 @@ msgstr ""
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Neznámý směr při požadavku posunu/změny velikosti: %d"
 
-#: src/themes.cc:85
-msgid "Default"
-msgstr "Standardní"
-
 #: src/wmabout.cc:26 src/wmabout.cc:28
 msgid "(C)"
 msgstr "©"
@@ -1338,10 +1389,6 @@ msgstr "Restartovat _počítač"
 #: src/wmapp.cc:521 src/wmdialog.cc:78
 msgid "Shut_down"
 msgstr "_Vypnout počítač"
-
-#: src/wmapp.cc:523 src/wmdialog.cc:74
-msgid "_Suspend"
-msgstr "_Pozastavit"
 
 #: src/wmapp.cc:528
 msgid "Restart _Icewm"
@@ -1468,14 +1515,14 @@ msgstr ""
 msgid "Kill IceWM, replace with Xterm"
 msgstr "Zabít IceWM, nahradit Xtermem"
 
-#: src/wmapp.cc:1319
+#: src/wmapp.cc:1321
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      ID klienta, který bude použit při kontaktování správce "
 "sezení.\n"
 
-#: src/wmapp.cc:1325
+#: src/wmapp.cc:1327
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1485,7 +1532,7 @@ msgstr ""
 "  --debug             Vypíše všeobecné ladicí zprávy.\n"
 "  --debug-z          Vypíše ladicí zprávy ohledně seskládání oken.\n"
 
-#: src/wmapp.cc:1333
+#: src/wmapp.cc:1335
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1497,7 +1544,7 @@ msgstr ""
 "  -t, --theme=SOUBOR    Načíst téma ze SOUBORu.\n"
 "  --postpreferences   Po zpracování vypsat nastavení.\n"
 
-#: src/wmapp.cc:1338
+#: src/wmapp.cc:1340
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1556,26 +1603,26 @@ msgstr ""
 "%s.\n"
 "\n"
 
-#: src/wmapp.cc:1399
+#: src/wmapp.cc:1401
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s konfigurační adresáře:\n"
 
-#: src/wmapp.cc:1481
+#: src/wmapp.cc:1486
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s zkonfigurované voľby: %s\n"
 
-#: src/wmapp.cc:1528
+#: src/wmapp.cc:1533
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Nerozpoznaná volba '%s'."
 
-#: src/wmapp.cc:1560
+#: src/wmapp.cc:1565
 msgid "Confirm Logout"
 msgstr "Potvrdit odhlášení"
 
-#: src/wmapp.cc:1561
+#: src/wmapp.cc:1566
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1616,8 +1663,8 @@ msgstr "Zamknout pracovní _stanici"
 msgid "_Cancel"
 msgstr "_Zrušit"
 
-#: src/wmdialog.cc:76 src/wmprog.cc:792 src/wmprog.cc:794 src/wmtaskbar.cc:280
-#: src/wmtaskbar.cc:282
+#: src/wmdialog.cc:76 src/wmprog.cc:792 src/wmprog.cc:794 src/wmtaskbar.cc:292
+#: src/wmtaskbar.cc:294
 msgid "_Logout..."
 msgstr "_Odhlášení…"
 
@@ -1625,8 +1672,8 @@ msgstr "_Odhlášení…"
 msgid "_Restart icewm"
 msgstr "Restartovat _icewm"
 
-#: src/wmdialog.cc:81 src/wmprog.cc:753 src/wmtaskbar.cc:273
-#: src/wmtaskbar.cc:276
+#: src/wmdialog.cc:81 src/wmprog.cc:753 src/wmtaskbar.cc:285
+#: src/wmtaskbar.cc:288
 msgid "_About"
 msgstr "O _Aplikaci"
 
@@ -1716,7 +1763,7 @@ msgstr "Programy"
 msgid "_Run..."
 msgstr "_Spustit…"
 
-#: src/wmprog.cc:740 src/wmtaskbar.cc:263
+#: src/wmprog.cc:740 src/wmtaskbar.cc:275
 msgid "_Windows"
 msgstr "_Okna"
 
@@ -1745,59 +1792,59 @@ msgstr "Nas_tavení"
 msgid "Session Manager: Unknown line %s"
 msgstr "Správce relace: Neznámý řádek %s"
 
-#: src/wmtaskbar.cc:153 src/wmtaskbar.cc:154
+#: src/wmtaskbar.cc:165 src/wmtaskbar.cc:166
 msgid "Task Bar"
 msgstr "Panel úloh"
 
-#: src/wmtaskbar.cc:253 src/wmwinlist.cc:305 src/wmwinlist.cc:318
+#: src/wmtaskbar.cc:265 src/wmwinlist.cc:305 src/wmwinlist.cc:318
 msgid "Tile _Vertically"
 msgstr "Uspořádat _svisle"
 
-#: src/wmtaskbar.cc:254 src/wmwinlist.cc:306 src/wmwinlist.cc:319
+#: src/wmtaskbar.cc:266 src/wmwinlist.cc:306 src/wmwinlist.cc:319
 msgid "T_ile Horizontally"
 msgstr "Uspořádat _vodorovně"
 
-#: src/wmtaskbar.cc:255 src/wmwinlist.cc:307 src/wmwinlist.cc:320
+#: src/wmtaskbar.cc:267 src/wmwinlist.cc:307 src/wmwinlist.cc:320
 msgid "Ca_scade"
 msgstr "Uspořádat do _kaskády"
 
-#: src/wmtaskbar.cc:256 src/wmwinlist.cc:308 src/wmwinlist.cc:321
+#: src/wmtaskbar.cc:268 src/wmwinlist.cc:308 src/wmwinlist.cc:321
 msgid "_Arrange"
 msgstr "_Uspořádat"
 
-#: src/wmtaskbar.cc:257 src/wmwinlist.cc:310 src/wmwinlist.cc:322
+#: src/wmtaskbar.cc:269 src/wmwinlist.cc:310 src/wmwinlist.cc:322
 msgid "_Minimize All"
 msgstr "_Minimalizovat vše"
 
-#: src/wmtaskbar.cc:258 src/wmwinlist.cc:311 src/wmwinlist.cc:323
+#: src/wmtaskbar.cc:270 src/wmwinlist.cc:311 src/wmwinlist.cc:323
 msgid "_Hide All"
 msgstr "_Schovat vše"
 
-#: src/wmtaskbar.cc:259 src/wmwinlist.cc:312 src/wmwinlist.cc:324
+#: src/wmtaskbar.cc:271 src/wmwinlist.cc:312 src/wmwinlist.cc:324
 msgid "_Undo"
 msgstr "Vrá_tit"
 
-#: src/wmtaskbar.cc:261
+#: src/wmtaskbar.cc:273
 msgid "Arrange _Icons"
 msgstr "Uspořádat _ikony"
 
-#: src/wmtaskbar.cc:265
+#: src/wmtaskbar.cc:277
 msgid "_Refresh"
 msgstr "_Obnovit"
 
-#: src/wmtaskbar.cc:271
+#: src/wmtaskbar.cc:283
 msgid "_License"
 msgstr "_Licence"
 
-#: src/wmtaskbar.cc:352
+#: src/wmtaskbar.cc:364
 msgid "Favorite applications"
 msgstr "Oblíbené aplikace"
 
-#: src/wmtaskbar.cc:370
+#: src/wmtaskbar.cc:382
 msgid "Window list menu"
 msgstr "Nabídka se seznamem oken"
 
-#: src/wmtaskbar.cc:379
+#: src/wmtaskbar.cc:391
 msgid "Show Desktop"
 msgstr "Zobrazit Plochu"
 
@@ -1846,7 +1893,7 @@ msgstr "Seznam oken"
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Pracovní plocha %-.32s"
 
-#: src/yapp.cc:276
+#: src/yapp.cc:277
 #, c-format
 msgid "%s: select failed"
 msgstr "%s: výběr selhal"
@@ -2009,17 +2056,17 @@ msgstr "Nemohu nalézt obrázek %s"
 msgid "$USER or $LOGNAME not set?"
 msgstr "$USER nebo $LOGNAME není nastavena?"
 
-#: src/yurl.cc:146
+#: src/yurl.cc:145
 #, c-format
 msgid "Failed to parse URL \"%s\"."
 msgstr "Selhala analýza URL \"%s\"."
 
-#: src/yurl.cc:162
+#: src/yurl.cc:161
 #, c-format
 msgid "Incomplete hex escape in URL at position %d."
 msgstr "Neukončená hexadecimální část URL na pozici %d."
 
-#: src/yurl.cc:169
+#: src/yurl.cc:168
 #, c-format
 msgid "Invalid hex escape in URL at position %d."
 msgstr "Nesprávná hexadecimální část URL na pozici %d."
@@ -2031,6 +2078,9 @@ msgid ""
 msgstr ""
 "  -d, --display=NÁZEV      NÁZEV X-serveru, který bude použit.\n"
 "  --sync                      Synchronizuje příkazy X11.\n"
+
+#~ msgid "Clock"
+#~ msgstr "Hodiny"
 
 #~ msgid "Missing command argument"
 #~ msgstr "Schází hodnota příkazu"

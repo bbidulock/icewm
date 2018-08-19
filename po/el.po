@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2018-05-06 21:11+0200\n"
+"POT-Creation-Date: 2018-08-19 00:32-0600\n"
 "PO-Revision-Date: 2017-07-12 13:39+0000\n"
 "Last-Translator: Efstathios Iosifidis <eiosifidis@gmail.com>\n"
 "Language-Team: Greek <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -45,20 +45,28 @@ msgstr " - Πλήρης"
 msgid "power:\t%s"
 msgstr ""
 
-#: src/aclock.cc:173
-msgid "Clock"
+#: src/aclock.cc:172
+msgid "CLOCK"
 msgstr ""
 
-#: src/aclock.cc:174 src/acpustatus.cc:818 src/amailbox.cc:907
-#: src/amemstatus.cc:286
+#: src/aclock.cc:176
+msgid "Date"
+msgstr ""
+
+#: src/aclock.cc:177 src/themes.cc:85
+msgid "Default"
+msgstr "Εξ ορισμού"
+
+#: src/aclock.cc:178 src/acpustatus.cc:860 src/amailbox.cc:937
+#: src/amemstatus.cc:264
 msgid "_Disable"
 msgstr ""
 
-#: src/aclock.cc:175
+#: src/aclock.cc:179
 msgid "_UTC"
 msgstr ""
 
-#: src/acpustatus.cc:236
+#: src/acpustatus.cc:233
 #, c-format
 msgid ""
 "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
@@ -67,7 +75,7 @@ msgstr ""
 "στατ.:\tχρήστης = %llu, προτεραιότητα = %llu, σύστ. = %llu, απραξία = %llu, "
 "io-αναμονή = %llu, intr = %llu, irq-προγράμ. = %llu, κλοπή = %llu\n"
 
-#: src/acpustatus.cc:241
+#: src/acpustatus.cc:238
 #, c-format
 msgid ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
@@ -76,12 +84,12 @@ msgstr ""
 "στήλες:\tχρήστης = %llu, προτεραιότητα = %llu, σύστ. = %llu, io-αναμονή = "
 "%llu, intr = %llu, irq-προγράμ. = %llu, κλοπή = %llu (h = %i)\n"
 
-#: src/acpustatus.cc:306
+#: src/acpustatus.cc:303
 #, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "Φορτίο %s Επεξεργαστή: %3.2f %3.2f %3.2f, %u διεργασίες"
 
-#: src/acpustatus.cc:312
+#: src/acpustatus.cc:309
 #, fuzzy, c-format
 #| msgid ""
 #| "\n"
@@ -93,7 +101,7 @@ msgstr ""
 "\n"
 "Ram (ελεύθερα): %5.2f (%.2f) M"
 
-#: src/acpustatus.cc:317
+#: src/acpustatus.cc:314
 #, fuzzy, c-format
 #| msgid ""
 #| "\n"
@@ -105,7 +113,7 @@ msgstr ""
 "\n"
 "Swap (ελεύθερα): %.2f (%.2f) M"
 
-#: src/acpustatus.cc:323
+#: src/acpustatus.cc:320
 #, c-format
 msgid ""
 "\n"
@@ -114,7 +122,7 @@ msgstr ""
 "\n"
 "ACPI Θερμοκρασία: "
 
-#: src/acpustatus.cc:342
+#: src/acpustatus.cc:339 src/acpustatus.cc:379
 #, c-format
 msgid ""
 "\n"
@@ -123,35 +131,48 @@ msgstr ""
 "\n"
 "Συχνότητα Επεξεργαστή: %.3fGHz"
 
-#: src/acpustatus.cc:363 src/acpustatus.cc:814
+#: src/acpustatus.cc:356 src/acpustatus.cc:856
 msgid "CPU"
 msgstr "Κεν.Μον.Επεξεργαστή"
 
-#: src/acpustatus.cc:363
+#: src/acpustatus.cc:356
 msgid "Load: "
 msgstr "Φορτίο: "
 
+#: src/acpustatus.cc:371
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| "Ram (free): %5.2f (%.2f) M"
+msgid ""
+"\n"
+"Ram (user): %5.3f (%.3f) G"
+msgstr ""
+"\n"
+"Ram (ελεύθερα): %5.2f (%.2f) M"
+
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/acpustatus.cc:434
+#: src/acpustatus.cc:438
 msgid "°C"
 msgstr "°C"
 
-#: src/acpustatus.cc:728
-#, c-format
-msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
+#: src/acpustatus.cc:770
+#, fuzzy, c-format
+#| msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
+msgid "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
 msgstr "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 
-#: src/acpustatus.cc:815
+#: src/acpustatus.cc:857
 #, c-format
 msgid "CPU%d"
 msgstr ""
 
-#: src/acpustatus.cc:820
+#: src/acpustatus.cc:862
 msgid "_Combine"
 msgstr ""
 
-#: src/acpustatus.cc:822
+#: src/acpustatus.cc:864
 msgid "_Separate"
 msgstr ""
 
@@ -195,80 +216,92 @@ msgstr "Αποτυχία ανοίγματος %s: %s"
 msgid "Write to socket failed: %s"
 msgstr ""
 
-#: src/amailbox.cc:678
+#: src/amailbox.cc:680
 #, c-format
 msgid "Using MailBox \"%s\"\n"
 msgstr "Χρησιμοποιούμενο Γραμματοκιβώτιο \"%s\"\n"
 
-#: src/amailbox.cc:785
+#: src/amailbox.cc:794
+msgid "Suspended"
+msgstr ""
+
+#: src/amailbox.cc:798
 msgid "Error checking mailbox."
 msgstr "Σφάλμα κατά τον έλεγχο του γραμματοκιβωτίου."
 
-#: src/amailbox.cc:792
+#: src/amailbox.cc:805
 #, fuzzy, c-format
 msgid "%ld mail message, %ld unread."
 msgstr "%ld μήνυμα αλληλογραφίας."
 
-#: src/amailbox.cc:793
+#: src/amailbox.cc:806
 #, fuzzy, c-format
 msgid "%ld mail messages, %ld unread."
 msgstr "%ld μηνύματα αλληλογραφίας."
 
-#: src/amailbox.cc:799
+#: src/amailbox.cc:812
 #, c-format
 msgid "%ld mail message."
 msgstr "%ld μήνυμα αλληλογραφίας."
 
-#: src/amailbox.cc:800
+#: src/amailbox.cc:813
 #, c-format
 msgid "%ld mail messages."
 msgstr "%ld μηνύματα αλληλογραφίας."
 
-#: src/amailbox.cc:906
+#: src/amailbox.cc:935
 msgid "MAIL"
 msgstr ""
 
-#: src/amemstatus.cc:166
+#: src/amailbox.cc:936
+msgid "_Check"
+msgstr ""
+
+#: src/amailbox.cc:938 src/wmapp.cc:523 src/wmdialog.cc:74
+msgid "_Suspend"
+msgstr ""
+
+#: src/amemstatus.cc:145
 msgid "GB"
 msgstr ""
 
-#: src/amemstatus.cc:170
+#: src/amemstatus.cc:149
 msgid "MB"
 msgstr ""
 
-#: src/amemstatus.cc:174
+#: src/amemstatus.cc:153
 msgid "kB"
 msgstr ""
 
-#: src/amemstatus.cc:178
+#: src/amemstatus.cc:157
 msgid "bytes"
 msgstr ""
 
-#: src/amemstatus.cc:198
+#: src/amemstatus.cc:177
 msgid "Memory Total: "
 msgstr ""
 
-#: src/amemstatus.cc:199
+#: src/amemstatus.cc:178
 msgid "Free: "
 msgstr ""
 
-#: src/amemstatus.cc:200
+#: src/amemstatus.cc:179
 msgid "Cached: "
 msgstr ""
 
-#: src/amemstatus.cc:201
+#: src/amemstatus.cc:180
 msgid "Buffers: "
 msgstr ""
 
-#: src/amemstatus.cc:202
+#: src/amemstatus.cc:181
 msgid "User: "
 msgstr ""
 
-#: src/amemstatus.cc:285
+#: src/amemstatus.cc:263
 msgid "MEM"
 msgstr ""
 
-#: src/apppstatus.cc:202
+#: src/apppstatus.cc:203
 #, c-format
 msgid ""
 "Interface %s:\n"
@@ -283,7 +316,7 @@ msgstr ""
 "  Μεταφέρθηκαν (μέσα/έξω):\t%lli %s/%lli %s\n"
 "  Χρόνος σύνδεσης:\t%ld:%02ld:%02ld%s%s"
 
-#: src/apppstatus.cc:214
+#: src/apppstatus.cc:215
 msgid ""
 "\n"
 "  Caller id:\t"
@@ -291,7 +324,7 @@ msgstr ""
 "\n"
 "  Αριθμός τηλεφώνου καλούντος:\t"
 
-#: src/apppstatus.cc:731
+#: src/apppstatus.cc:716
 msgid "NET"
 msgstr ""
 
@@ -299,63 +332,83 @@ msgstr ""
 msgid "Workspace: "
 msgstr "Επιφάνεια εργασίας: "
 
-#: src/fdomenu.cc:79
+#: src/fdomenu.cc:87
 msgid "Accessibility"
 msgstr "Προσβασιμότητα"
 
-#: src/fdomenu.cc:80
+#: src/fdomenu.cc:88
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: src/fdomenu.cc:81
+#: src/fdomenu.cc:89
 msgid "Screensavers"
 msgstr "Προφυλάξεις οθόνης"
 
-#: src/fdomenu.cc:82
+#: src/fdomenu.cc:90
 msgid "Accessories"
 msgstr "Εργαλεία"
 
-#: src/fdomenu.cc:83
+#: src/fdomenu.cc:91
 msgid "Development"
 msgstr "Ανάπτυξη"
 
-#: src/fdomenu.cc:84
+#: src/fdomenu.cc:92
 msgid "Education"
 msgstr "Εκπαίδευση"
 
-#: src/fdomenu.cc:85
+#: src/fdomenu.cc:93
 msgid "Games"
 msgstr "Παιχνίδια"
 
-#: src/fdomenu.cc:86
+#: src/fdomenu.cc:94
 msgid "Graphics"
 msgstr "Γραφικά"
 
-#: src/fdomenu.cc:87
+#: src/fdomenu.cc:95
 msgid "Multimedia"
 msgstr "Πολυμέσα"
 
-#: src/fdomenu.cc:88
+#: src/fdomenu.cc:96
+msgid "Audio"
+msgstr ""
+
+#: src/fdomenu.cc:97
+msgid "Video"
+msgstr ""
+
+#: src/fdomenu.cc:98
+msgid "AudioVideo"
+msgstr ""
+
+#: src/fdomenu.cc:99
 msgid "Network"
 msgstr "Δίκτυο"
 
-#: src/fdomenu.cc:89
+#: src/fdomenu.cc:100
 msgid "Office"
 msgstr "Γραφείο"
 
-#: src/fdomenu.cc:90
+#: src/fdomenu.cc:101
+msgid "Science"
+msgstr ""
+
+#: src/fdomenu.cc:102
 msgid "System"
 msgstr "Σύστημα"
 
-#: src/fdomenu.cc:91
+#: src/fdomenu.cc:103
 msgid "WINE"
 msgstr "WINE"
 
-#: src/fdomenu.cc:92
+#: src/fdomenu.cc:104
 msgid "Editors"
 msgstr "Επεξεργαστές"
 
-#: src/fdomenu.cc:93
+#: src/fdomenu.cc:105
+msgid "Utility"
+msgstr ""
+
+#: src/fdomenu.cc:106
 msgid "Other"
 msgstr "Άλλα"
 
@@ -1242,10 +1295,6 @@ msgstr ""
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Άγνωστη κατεύθυνση στην αίτηση μετακίνησης/αλλαγής-σχήματος: %d"
 
-#: src/themes.cc:85
-msgid "Default"
-msgstr "Εξ ορισμού"
-
 #: src/wmabout.cc:26 src/wmabout.cc:28
 msgid "(C)"
 msgstr "(C)"
@@ -1319,10 +1368,6 @@ msgstr "Επαν_εκκίνηση"
 #: src/wmapp.cc:521 src/wmdialog.cc:78
 msgid "Shut_down"
 msgstr "_Τερματισμός"
-
-#: src/wmapp.cc:523 src/wmdialog.cc:74
-msgid "_Suspend"
-msgstr ""
 
 #: src/wmapp.cc:528
 msgid "Restart _Icewm"
@@ -1449,14 +1494,14 @@ msgstr ""
 msgid "Kill IceWM, replace with Xterm"
 msgstr ""
 
-#: src/wmapp.cc:1319
+#: src/wmapp.cc:1321
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ΤΑΥΤΟΤΗΤΑ      Ταυτότητα του πελάτη που θα χρησιμοποιηθεί όταν "
 "γίνεται επαφή με το διαχειριστή συνεδρίας.\n"
 
-#: src/wmapp.cc:1325
+#: src/wmapp.cc:1327
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1467,7 +1512,7 @@ msgstr ""
 "  --debug-z              Εκτύπωση μηνυμάτων αποσφαλμάτωσης σχετικά με το "
 "στοίβαγμα των παράθυρων.\n"
 
-#: src/wmapp.cc:1333
+#: src/wmapp.cc:1335
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1475,7 +1520,7 @@ msgid ""
 "  --postpreferences   Print preferences after all processing.\n"
 msgstr ""
 
-#: src/wmapp.cc:1338
+#: src/wmapp.cc:1340
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1537,26 +1582,26 @@ msgstr ""
 "Δες το http://www.icewm.org/ για αναφορά δυσλειτουργιών, για αιτήματα "
 "υποστήριξης, σχόλια...\n"
 
-#: src/wmapp.cc:1399
+#: src/wmapp.cc:1401
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr ""
 
-#: src/wmapp.cc:1481
+#: src/wmapp.cc:1486
 #, fuzzy, c-format
 msgid "%s configured options:%s\n"
 msgstr "Μη αναγνωρισμένη επιλογή: %s\n"
 
-#: src/wmapp.cc:1528
+#: src/wmapp.cc:1533
 #, fuzzy, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Μη αναγνωρισμένη επιλογή: %s\n"
 
-#: src/wmapp.cc:1560
+#: src/wmapp.cc:1565
 msgid "Confirm Logout"
 msgstr "Επιβεβαίωση Αποσύνδεσης"
 
-#: src/wmapp.cc:1561
+#: src/wmapp.cc:1566
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1598,8 +1643,8 @@ msgstr "Κλείδωμα του _Σταθμού Εργασίας"
 msgid "_Cancel"
 msgstr "_Ακύρωση"
 
-#: src/wmdialog.cc:76 src/wmprog.cc:792 src/wmprog.cc:794 src/wmtaskbar.cc:280
-#: src/wmtaskbar.cc:282
+#: src/wmdialog.cc:76 src/wmprog.cc:792 src/wmprog.cc:794 src/wmtaskbar.cc:292
+#: src/wmtaskbar.cc:294
 msgid "_Logout..."
 msgstr "_Αποσύνδεση..."
 
@@ -1607,8 +1652,8 @@ msgstr "_Αποσύνδεση..."
 msgid "_Restart icewm"
 msgstr "_Επανεκκίνηση του icewm"
 
-#: src/wmdialog.cc:81 src/wmprog.cc:753 src/wmtaskbar.cc:273
-#: src/wmtaskbar.cc:276
+#: src/wmdialog.cc:81 src/wmprog.cc:753 src/wmtaskbar.cc:285
+#: src/wmtaskbar.cc:288
 msgid "_About"
 msgstr "_Περί"
 
@@ -1703,7 +1748,7 @@ msgstr "Προγράμματα"
 msgid "_Run..."
 msgstr "_Εκτέλεση..."
 
-#: src/wmprog.cc:740 src/wmtaskbar.cc:263
+#: src/wmprog.cc:740 src/wmtaskbar.cc:275
 msgid "_Windows"
 msgstr "_Παράθυρα"
 
@@ -1732,59 +1777,59 @@ msgstr "Ρυ_θμίσεις"
 msgid "Session Manager: Unknown line %s"
 msgstr "Διαχειριστής Συνεδρίας: Άγνωστη γραμμή %s"
 
-#: src/wmtaskbar.cc:153 src/wmtaskbar.cc:154
+#: src/wmtaskbar.cc:165 src/wmtaskbar.cc:166
 msgid "Task Bar"
 msgstr "Γραμμή Εργασίας"
 
-#: src/wmtaskbar.cc:253 src/wmwinlist.cc:305 src/wmwinlist.cc:318
+#: src/wmtaskbar.cc:265 src/wmwinlist.cc:305 src/wmwinlist.cc:318
 msgid "Tile _Vertically"
 msgstr "Παράλληλη Τοποθέτηση _Κάθετα"
 
-#: src/wmtaskbar.cc:254 src/wmwinlist.cc:306 src/wmwinlist.cc:319
+#: src/wmtaskbar.cc:266 src/wmwinlist.cc:306 src/wmwinlist.cc:319
 msgid "T_ile Horizontally"
 msgstr "Παράλληλη Τοποθέτηση _Οριζόντια"
 
-#: src/wmtaskbar.cc:255 src/wmwinlist.cc:307 src/wmwinlist.cc:320
+#: src/wmtaskbar.cc:267 src/wmwinlist.cc:307 src/wmwinlist.cc:320
 msgid "Ca_scade"
 msgstr "Διαδοχική Επικάλυψη"
 
-#: src/wmtaskbar.cc:256 src/wmwinlist.cc:308 src/wmwinlist.cc:321
+#: src/wmtaskbar.cc:268 src/wmwinlist.cc:308 src/wmwinlist.cc:321
 msgid "_Arrange"
 msgstr "_Παράθεση"
 
-#: src/wmtaskbar.cc:257 src/wmwinlist.cc:310 src/wmwinlist.cc:322
+#: src/wmtaskbar.cc:269 src/wmwinlist.cc:310 src/wmwinlist.cc:322
 msgid "_Minimize All"
 msgstr "_Ελαχιστοποίηση Όλων"
 
-#: src/wmtaskbar.cc:258 src/wmwinlist.cc:311 src/wmwinlist.cc:323
+#: src/wmtaskbar.cc:270 src/wmwinlist.cc:311 src/wmwinlist.cc:323
 msgid "_Hide All"
 msgstr "_Απόκρυψη Όλων"
 
-#: src/wmtaskbar.cc:259 src/wmwinlist.cc:312 src/wmwinlist.cc:324
+#: src/wmtaskbar.cc:271 src/wmwinlist.cc:312 src/wmwinlist.cc:324
 msgid "_Undo"
 msgstr "_Αναίρεση"
 
-#: src/wmtaskbar.cc:261
+#: src/wmtaskbar.cc:273
 msgid "Arrange _Icons"
 msgstr "Παράθεση _Εικονιδίων"
 
-#: src/wmtaskbar.cc:265
+#: src/wmtaskbar.cc:277
 msgid "_Refresh"
 msgstr "_Ανανέωση"
 
-#: src/wmtaskbar.cc:271
+#: src/wmtaskbar.cc:283
 msgid "_License"
 msgstr "_Άδεια χρήσης"
 
-#: src/wmtaskbar.cc:352
+#: src/wmtaskbar.cc:364
 msgid "Favorite applications"
 msgstr "Αγαπημένες εφαρμογές"
 
-#: src/wmtaskbar.cc:370
+#: src/wmtaskbar.cc:382
 msgid "Window list menu"
 msgstr "Κατάλογος κατάστιχου παράθυρων"
 
-#: src/wmtaskbar.cc:379
+#: src/wmtaskbar.cc:391
 msgid "Show Desktop"
 msgstr "Εμφάνιση της Επιφάνεια Εργασίας"
 
@@ -1833,7 +1878,7 @@ msgstr "Κατάστιχο παραθύρων"
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Επιφάνεια εργασίας %-.32s"
 
-#: src/yapp.cc:276
+#: src/yapp.cc:277
 #, c-format
 msgid "%s: select failed"
 msgstr ""
@@ -2004,17 +2049,17 @@ msgstr "Αδυναμία εύρεσης της εικόνας %s"
 msgid "$USER or $LOGNAME not set?"
 msgstr "Μήπως το $USER ή το $LOGNAME δεν έχουν ρυθμιστεί;"
 
-#: src/yurl.cc:146
+#: src/yurl.cc:145
 #, fuzzy, c-format
 msgid "Failed to parse URL \"%s\"."
 msgstr "Αποτυχία ανοίγματος %s: %s"
 
-#: src/yurl.cc:162
+#: src/yurl.cc:161
 #, c-format
 msgid "Incomplete hex escape in URL at position %d."
 msgstr ""
 
-#: src/yurl.cc:169
+#: src/yurl.cc:168
 #, c-format
 msgid "Invalid hex escape in URL at position %d."
 msgstr ""

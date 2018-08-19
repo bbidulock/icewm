@@ -8,11 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.3.4pre2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2018-05-06 21:11+0200\n"
+"POT-Creation-Date: 2018-08-19 00:32-0600\n"
 "PO-Revision-Date: 2018-05-11 16:22+0000\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive68@gmail.com>\n"
-"Language-Team: Portuguese (Brazil) "
-"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/pt_BR/>\n"
+"Language-Team: Portuguese (Brazil) <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/pt_BR/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,20 +46,28 @@ msgstr " - Cheia"
 msgid "power:\t%s"
 msgstr "energia:\t%s"
 
-#: src/aclock.cc:173
-msgid "Clock"
-msgstr "Relógio"
+#: src/aclock.cc:172
+msgid "CLOCK"
+msgstr ""
 
-#: src/aclock.cc:174 src/acpustatus.cc:818 src/amailbox.cc:907
-#: src/amemstatus.cc:286
+#: src/aclock.cc:176
+msgid "Date"
+msgstr ""
+
+#: src/aclock.cc:177 src/themes.cc:85
+msgid "Default"
+msgstr "Padrão"
+
+#: src/aclock.cc:178 src/acpustatus.cc:860 src/amailbox.cc:937
+#: src/amemstatus.cc:264
 msgid "_Disable"
 msgstr "_Desabilitar"
 
-#: src/aclock.cc:175
+#: src/aclock.cc:179
 msgid "_UTC"
 msgstr "_UTC"
 
-#: src/acpustatus.cc:236
+#: src/acpustatus.cc:233
 #, c-format
 msgid ""
 "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
@@ -68,7 +76,7 @@ msgstr ""
 "stat:\tusuário = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 "intr = %llu, softirq = %llu, steal = %llu\n"
 
-#: src/acpustatus.cc:241
+#: src/acpustatus.cc:238
 #, c-format
 msgid ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
@@ -77,12 +85,12 @@ msgstr ""
 "bars:\tusuário = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 "softirq = %llu, steal = %llu (h = %i)\n"
 
-#: src/acpustatus.cc:306
+#: src/acpustatus.cc:303
 #, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "CPU %s carga: %3.2f %3.2f %3.2f, %u"
 
-#: src/acpustatus.cc:312
+#: src/acpustatus.cc:309
 #, c-format
 msgid ""
 "\n"
@@ -91,7 +99,7 @@ msgstr ""
 "\n"
 "Ram (livre): %5.3f (%.3f) G"
 
-#: src/acpustatus.cc:317
+#: src/acpustatus.cc:314
 #, c-format
 msgid ""
 "\n"
@@ -100,7 +108,7 @@ msgstr ""
 "\n"
 "Swap (livre): %.3f (%.3f) G"
 
-#: src/acpustatus.cc:323
+#: src/acpustatus.cc:320
 #, c-format
 msgid ""
 "\n"
@@ -109,7 +117,7 @@ msgstr ""
 "\n"
 "Temp ACPI: "
 
-#: src/acpustatus.cc:342
+#: src/acpustatus.cc:339 src/acpustatus.cc:379
 #, c-format
 msgid ""
 "\n"
@@ -118,35 +126,48 @@ msgstr ""
 "\n"
 "Freq CPU: %.3fGHz"
 
-#: src/acpustatus.cc:363 src/acpustatus.cc:814
+#: src/acpustatus.cc:356 src/acpustatus.cc:856
 msgid "CPU"
 msgstr "CPU"
 
-#: src/acpustatus.cc:363
+#: src/acpustatus.cc:356
 msgid "Load: "
 msgstr "Carga: "
 
+#: src/acpustatus.cc:371
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| "Ram (free): %5.3f (%.3f) G"
+msgid ""
+"\n"
+"Ram (user): %5.3f (%.3f) G"
+msgstr ""
+"\n"
+"Ram (livre): %5.3f (%.3f) G"
+
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/acpustatus.cc:434
+#: src/acpustatus.cc:438
 msgid "°C"
 msgstr "°C"
 
-#: src/acpustatus.cc:728
-#, c-format
-msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
+#: src/acpustatus.cc:770
+#, fuzzy, c-format
+#| msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
+msgid "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
 msgstr "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 
-#: src/acpustatus.cc:815
+#: src/acpustatus.cc:857
 #, c-format
 msgid "CPU%d"
 msgstr "CPU%d"
 
-#: src/acpustatus.cc:820
+#: src/acpustatus.cc:862
 msgid "_Combine"
 msgstr "_Combinar"
 
-#: src/acpustatus.cc:822
+#: src/acpustatus.cc:864
 msgid "_Separate"
 msgstr "_Separar"
 
@@ -190,80 +211,94 @@ msgstr "Falha ao executar %s"
 msgid "Write to socket failed: %s"
 msgstr "Falha ao gravar no socket: %s"
 
-#: src/amailbox.cc:678
+#: src/amailbox.cc:680
 #, c-format
 msgid "Using MailBox \"%s\"\n"
 msgstr "Usando Correio: \"%s\"\n"
 
-#: src/amailbox.cc:785
+#: src/amailbox.cc:794
+#, fuzzy
+#| msgid "_Suspend"
+msgid "Suspended"
+msgstr "_Suspender"
+
+#: src/amailbox.cc:798
 msgid "Error checking mailbox."
 msgstr "Erro ao checar o correio."
 
-#: src/amailbox.cc:792
+#: src/amailbox.cc:805
 #, c-format
 msgid "%ld mail message, %ld unread."
 msgstr "%ld mensagem de correio, %ld não lida."
 
-#: src/amailbox.cc:793
+#: src/amailbox.cc:806
 #, c-format
 msgid "%ld mail messages, %ld unread."
 msgstr "%ld mensagens de correio, %ld não lidas."
 
-#: src/amailbox.cc:799
+#: src/amailbox.cc:812
 #, c-format
 msgid "%ld mail message."
 msgstr "%ld mensagem de correio."
 
-#: src/amailbox.cc:800
+#: src/amailbox.cc:813
 #, c-format
 msgid "%ld mail messages."
 msgstr "%ld mensagens de correio."
 
-#: src/amailbox.cc:906
+#: src/amailbox.cc:935
 msgid "MAIL"
 msgstr "E-MAIL"
 
-#: src/amemstatus.cc:166
+#: src/amailbox.cc:936
+msgid "_Check"
+msgstr ""
+
+#: src/amailbox.cc:938 src/wmapp.cc:523 src/wmdialog.cc:74
+msgid "_Suspend"
+msgstr "_Suspender"
+
+#: src/amemstatus.cc:145
 msgid "GB"
 msgstr "GB"
 
-#: src/amemstatus.cc:170
+#: src/amemstatus.cc:149
 msgid "MB"
 msgstr "MB"
 
-#: src/amemstatus.cc:174
+#: src/amemstatus.cc:153
 msgid "kB"
 msgstr "kB"
 
-#: src/amemstatus.cc:178
+#: src/amemstatus.cc:157
 msgid "bytes"
 msgstr "bytes"
 
-#: src/amemstatus.cc:198
+#: src/amemstatus.cc:177
 msgid "Memory Total: "
 msgstr "Memória total: "
 
-#: src/amemstatus.cc:199
+#: src/amemstatus.cc:178
 msgid "Free: "
 msgstr "Livre: "
 
-#: src/amemstatus.cc:200
+#: src/amemstatus.cc:179
 msgid "Cached: "
 msgstr "Em cache: "
 
-#: src/amemstatus.cc:201
+#: src/amemstatus.cc:180
 msgid "Buffers: "
 msgstr "Buffers: "
 
-#: src/amemstatus.cc:202
+#: src/amemstatus.cc:181
 msgid "User: "
 msgstr "Usuário: "
 
-#: src/amemstatus.cc:285
+#: src/amemstatus.cc:263
 msgid "MEM"
 msgstr "MEMÓRIA"
 
-#: src/apppstatus.cc:202
+#: src/apppstatus.cc:203
 #, c-format
 msgid ""
 "Interface %s:\n"
@@ -278,7 +313,7 @@ msgstr ""
 "  Transferido (entrada/saída):\t%lli %s/%lli %s\n"
 "  Tempo de conexão:\t%ld:%02ld:%02ld%s%s"
 
-#: src/apppstatus.cc:214
+#: src/apppstatus.cc:215
 msgid ""
 "\n"
 "  Caller id:\t"
@@ -286,7 +321,7 @@ msgstr ""
 "\n"
 "  Id chamante:\t"
 
-#: src/apppstatus.cc:731
+#: src/apppstatus.cc:716
 msgid "NET"
 msgstr "REDE"
 
@@ -294,63 +329,83 @@ msgstr "REDE"
 msgid "Workspace: "
 msgstr "Área de trabalho: "
 
-#: src/fdomenu.cc:79
+#: src/fdomenu.cc:87
 msgid "Accessibility"
 msgstr "Acessibilidade"
 
-#: src/fdomenu.cc:80
+#: src/fdomenu.cc:88
 msgid "Settings"
 msgstr "Configuração"
 
-#: src/fdomenu.cc:81
+#: src/fdomenu.cc:89
 msgid "Screensavers"
 msgstr "Protetores de tela"
 
-#: src/fdomenu.cc:82
+#: src/fdomenu.cc:90
 msgid "Accessories"
 msgstr "Acessórios"
 
-#: src/fdomenu.cc:83
+#: src/fdomenu.cc:91
 msgid "Development"
 msgstr "Desenvolvimento"
 
-#: src/fdomenu.cc:84
+#: src/fdomenu.cc:92
 msgid "Education"
 msgstr "Educativo"
 
-#: src/fdomenu.cc:85
+#: src/fdomenu.cc:93
 msgid "Games"
 msgstr "Jogos"
 
-#: src/fdomenu.cc:86
+#: src/fdomenu.cc:94
 msgid "Graphics"
 msgstr "Gráficos"
 
-#: src/fdomenu.cc:87
+#: src/fdomenu.cc:95
 msgid "Multimedia"
 msgstr "Multimídia"
 
-#: src/fdomenu.cc:88
+#: src/fdomenu.cc:96
+msgid "Audio"
+msgstr ""
+
+#: src/fdomenu.cc:97
+msgid "Video"
+msgstr ""
+
+#: src/fdomenu.cc:98
+msgid "AudioVideo"
+msgstr ""
+
+#: src/fdomenu.cc:99
 msgid "Network"
 msgstr "Rede"
 
-#: src/fdomenu.cc:89
+#: src/fdomenu.cc:100
 msgid "Office"
 msgstr "Escritório"
 
-#: src/fdomenu.cc:90
+#: src/fdomenu.cc:101
+msgid "Science"
+msgstr ""
+
+#: src/fdomenu.cc:102
 msgid "System"
 msgstr "Sistema"
 
-#: src/fdomenu.cc:91
+#: src/fdomenu.cc:103
 msgid "WINE"
 msgstr "WINE"
 
-#: src/fdomenu.cc:92
+#: src/fdomenu.cc:104
 msgid "Editors"
 msgstr "Editores"
 
-#: src/fdomenu.cc:93
+#: src/fdomenu.cc:105
+msgid "Utility"
+msgstr ""
+
+#: src/fdomenu.cc:106
 msgid "Other"
 msgstr "Outros"
 
@@ -1277,10 +1332,6 @@ msgstr ""
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Ordem desconhecida no requerimento para mover/redimensionar: %d"
 
-#: src/themes.cc:85
-msgid "Default"
-msgstr "Padrão"
-
 #: src/wmabout.cc:26 src/wmabout.cc:28
 msgid "(C)"
 msgstr "(C)"
@@ -1356,10 +1407,6 @@ msgstr "Rei_niciar"
 #: src/wmapp.cc:521 src/wmdialog.cc:78
 msgid "Shut_down"
 msgstr "Deslig_ar"
-
-#: src/wmapp.cc:523 src/wmdialog.cc:74
-msgid "_Suspend"
-msgstr "_Suspender"
 
 #: src/wmapp.cc:528
 msgid "Restart _Icewm"
@@ -1486,14 +1533,14 @@ msgstr ""
 msgid "Kill IceWM, replace with Xterm"
 msgstr "Matar IceWM, substitui com Xterm"
 
-#: src/wmapp.cc:1319
+#: src/wmapp.cc:1321
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      ID do cliente a usar ao contatar o gerenciador de "
 "sessão.\n"
 
-#: src/wmapp.cc:1325
+#: src/wmapp.cc:1327
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1504,7 +1551,7 @@ msgstr ""
 "  --debug-z           Mostrar mensagens de depuração sobre a pilha das "
 "janelas.\n"
 
-#: src/wmapp.cc:1333
+#: src/wmapp.cc:1335
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1516,7 +1563,7 @@ msgstr ""
 "  -t, --theme=ARQUIVO    Carrega o tema do ARQUIVO.\n"
 "  --postpreferences   Exibe as preferências após todo o processamento.\n"
 
-#: src/wmapp.cc:1338
+#: src/wmapp.cc:1340
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1576,26 +1623,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1399
+#: src/wmapp.cc:1401
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s Diretórios de configuração:\n"
 
-#: src/wmapp.cc:1481
+#: src/wmapp.cc:1486
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s opções configuradas: %s\n"
 
-#: src/wmapp.cc:1528
+#: src/wmapp.cc:1533
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Opção não reconhecida: '%s'."
 
-#: src/wmapp.cc:1560
+#: src/wmapp.cc:1565
 msgid "Confirm Logout"
 msgstr "Confirmar saída"
 
-#: src/wmapp.cc:1561
+#: src/wmapp.cc:1566
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1636,8 +1683,8 @@ msgstr "Blo_quear estação de trabalho"
 msgid "_Cancel"
 msgstr "_Cancelar"
 
-#: src/wmdialog.cc:76 src/wmprog.cc:792 src/wmprog.cc:794 src/wmtaskbar.cc:280
-#: src/wmtaskbar.cc:282
+#: src/wmdialog.cc:76 src/wmprog.cc:792 src/wmprog.cc:794 src/wmtaskbar.cc:292
+#: src/wmtaskbar.cc:294
 msgid "_Logout..."
 msgstr "_Sair..."
 
@@ -1645,8 +1692,8 @@ msgstr "_Sair..."
 msgid "_Restart icewm"
 msgstr "_Reiniciar icewm"
 
-#: src/wmdialog.cc:81 src/wmprog.cc:753 src/wmtaskbar.cc:273
-#: src/wmtaskbar.cc:276
+#: src/wmdialog.cc:81 src/wmprog.cc:753 src/wmtaskbar.cc:285
+#: src/wmtaskbar.cc:288
 msgid "_About"
 msgstr "So_bre"
 
@@ -1736,7 +1783,7 @@ msgstr "Programas"
 msgid "_Run..."
 msgstr "_Executar..."
 
-#: src/wmprog.cc:740 src/wmtaskbar.cc:263
+#: src/wmprog.cc:740 src/wmtaskbar.cc:275
 msgid "_Windows"
 msgstr "_Janelas"
 
@@ -1765,59 +1812,59 @@ msgstr "Con_figuração"
 msgid "Session Manager: Unknown line %s"
 msgstr "Gerenciador de sessão: linha desconhecida %s"
 
-#: src/wmtaskbar.cc:153 src/wmtaskbar.cc:154
+#: src/wmtaskbar.cc:165 src/wmtaskbar.cc:166
 msgid "Task Bar"
 msgstr "Barra de tarefas"
 
-#: src/wmtaskbar.cc:253 src/wmwinlist.cc:305 src/wmwinlist.cc:318
+#: src/wmtaskbar.cc:265 src/wmwinlist.cc:305 src/wmwinlist.cc:318
 msgid "Tile _Vertically"
 msgstr "Agrupar _verticalmente"
 
-#: src/wmtaskbar.cc:254 src/wmwinlist.cc:306 src/wmwinlist.cc:319
+#: src/wmtaskbar.cc:266 src/wmwinlist.cc:306 src/wmwinlist.cc:319
 msgid "T_ile Horizontally"
 msgstr "Agrupar hor_izontalmente"
 
-#: src/wmtaskbar.cc:255 src/wmwinlist.cc:307 src/wmwinlist.cc:320
+#: src/wmtaskbar.cc:267 src/wmwinlist.cc:307 src/wmwinlist.cc:320
 msgid "Ca_scade"
 msgstr "Cas_cata"
 
-#: src/wmtaskbar.cc:256 src/wmwinlist.cc:308 src/wmwinlist.cc:321
+#: src/wmtaskbar.cc:268 src/wmwinlist.cc:308 src/wmwinlist.cc:321
 msgid "_Arrange"
 msgstr "_Organizar"
 
-#: src/wmtaskbar.cc:257 src/wmwinlist.cc:310 src/wmwinlist.cc:322
+#: src/wmtaskbar.cc:269 src/wmwinlist.cc:310 src/wmwinlist.cc:322
 msgid "_Minimize All"
 msgstr "_Minimizar tudo"
 
-#: src/wmtaskbar.cc:258 src/wmwinlist.cc:311 src/wmwinlist.cc:323
+#: src/wmtaskbar.cc:270 src/wmwinlist.cc:311 src/wmwinlist.cc:323
 msgid "_Hide All"
 msgstr "Ocultar _tudo"
 
-#: src/wmtaskbar.cc:259 src/wmwinlist.cc:312 src/wmwinlist.cc:324
+#: src/wmtaskbar.cc:271 src/wmwinlist.cc:312 src/wmwinlist.cc:324
 msgid "_Undo"
 msgstr "_Desfazer"
 
-#: src/wmtaskbar.cc:261
+#: src/wmtaskbar.cc:273
 msgid "Arrange _Icons"
 msgstr "Organizar íco_nes"
 
-#: src/wmtaskbar.cc:265
+#: src/wmtaskbar.cc:277
 msgid "_Refresh"
 msgstr "_Atualizar"
 
-#: src/wmtaskbar.cc:271
+#: src/wmtaskbar.cc:283
 msgid "_License"
 msgstr "_Licença"
 
-#: src/wmtaskbar.cc:352
+#: src/wmtaskbar.cc:364
 msgid "Favorite applications"
 msgstr "Favoritos"
 
-#: src/wmtaskbar.cc:370
+#: src/wmtaskbar.cc:382
 msgid "Window list menu"
 msgstr "Lista de janelas"
 
-#: src/wmtaskbar.cc:379
+#: src/wmtaskbar.cc:391
 msgid "Show Desktop"
 msgstr "Mostrar área de trabalho"
 
@@ -1866,7 +1913,7 @@ msgstr "Lista de janelas"
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Área de trabalho %-.32s"
 
-#: src/yapp.cc:276
+#: src/yapp.cc:277
 #, c-format
 msgid "%s: select failed"
 msgstr "%s: falha na seleção"
@@ -2027,17 +2074,17 @@ msgstr "Não foi possível encontrar a imagem %s"
 msgid "$USER or $LOGNAME not set?"
 msgstr "$USUÁRIO ou $NOMELOG não definidos?"
 
-#: src/yurl.cc:146
+#: src/yurl.cc:145
 #, c-format
 msgid "Failed to parse URL \"%s\"."
 msgstr "Falha ao analisar a URL \"%s\"."
 
-#: src/yurl.cc:162
+#: src/yurl.cc:161
 #, c-format
 msgid "Incomplete hex escape in URL at position %d."
 msgstr "Escape hexadecimal incompleto da URL na posição %d."
 
-#: src/yurl.cc:169
+#: src/yurl.cc:168
 #, c-format
 msgid "Invalid hex escape in URL at position %d."
 msgstr "Escape hexadecimal inválido da URL na posição %d."
@@ -2049,6 +2096,9 @@ msgid ""
 msgstr ""
 "  -d, --display=NOME      NOME do servidor X a usar.\n"
 "  --sync              Sincronizar comandos X11.\n"
+
+#~ msgid "Clock"
+#~ msgstr "Relógio"
 
 #~ msgid "Missing command argument"
 #~ msgstr "Argumento do comando faltando"
