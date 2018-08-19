@@ -215,11 +215,9 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
         }
     }
     else if (wmLook == lookWin95) {
-        g.fillRect(0, 0, width(), height());
         if (fAction == actionNull) {
-            if (!armed) {
-                g.setColor(background(focused()));
-            }
+            g.setColor(background(focused()));
+            g.fillRect(0, 0, width(), height());
             if (icon != null && showFrameIcon) {
                 icon->draw(g,
                            ((int) width() - iconSize) / 2,
@@ -227,6 +225,7 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
                            iconSize);
             }
         } else {
+            g.fillRect(0, 0, width(), height());
             g.drawBorderW(0, 0, width() - 1, height() - 1, !armed);
 
             if (armed)
