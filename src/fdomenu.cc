@@ -22,6 +22,7 @@
 char const *ApplicationName;
 
 #include <glib.h>
+#include <gmodule.h>
 #include <glib/gprintf.h>
 #include <glib/gstdio.h>
 #include <gio/gdesktopappinfo.h>
@@ -45,6 +46,7 @@ static int cmpUtf8(const void *p1, const void *p2) {
     return g_utf8_collate((const char *) p1, (const char *) p2);
 }
 
+class tDesktopInfo;
 typedef YVec<const gchar*> tCharVec;
 tCharVec sys_folders, home_folders;
 tCharVec* sys_home_folders[] = { &sys_folders, &home_folders, 0 };
@@ -52,19 +54,8 @@ tCharVec* home_sys_folders[] = { &home_folders, &sys_folders, 0 };
 
 bool add_sep_before(false), add_sep_after(false), no_sep_others(false);
 
-// for optional bits that are not consuming much and
-// it's OK to leak them, OS will clean up soon enough
-//#define FREEASAP
-#ifdef FREEASAP
-#define opt_g_free(x) g_free(x);
-#else
-#define opt_g_free(x)
-#endif
-
 struct tListMeta {
-    const char *title, *key, *icon_path;
-    bool description_found;
-    GTree* store;
+    const char *title, *key, *icon, *parent_sec;
 
     static int cmpTitleUtf8(const void *a, const void *b) {
         tListMeta *A((tListMeta*) a), *B((tListMeta*) b);
@@ -81,40 +72,153 @@ struct tListMeta {
         return strcmp((**A).key, (**B).key);
     }
 };
+GHashTable* meta_lookup_data;
+#define lookup_category(key) ((tListMeta*) g_hash_table_lookup(meta_lookup_data, key))
+
+
+struct t_menu_node;
+
+// very basic, avoid vtables!
+struct t_menu_node {
+protected:
+    // for leafs -> NULL, otherwise sub-menu contents
+    GTree* store;
+    const char *progCmd;
+public:
+    tListMeta *meta;
+    t_menu_node(tListMeta* desc): store(0), progCmd(0), meta(desc) {}
+
+    struct t_print_meta {
+        int count, level;
+        t_menu_node* print_separated;
+    };
+    static gboolean print_node(gpointer key, gpointer value, gpointer pr_meta) {
+        ((t_menu_node*) value)->print((t_print_meta*) pr_meta);
+        return FALSE;
+    }
+
+    void print(t_print_meta *ctx) {
+        if(!meta) return;
+        const char* title = Elvis(meta->title, meta->key);
+
+        if(!store)
+        {
+            printf("prog \"%s\" %s %s\n",
+                    title,
+                    meta->icon,
+                    progCmd);
+            ctx->count++;
+            return;
+        }
+
+        if (!store || !g_tree_nnodes(store))
+            return;
+        // some gimmicks on the top level
+        if (ctx->level == 0 && add_sep_before) {
+            puts("separator");
+            add_sep_before = false;
+        }
+
+        if (ctx->level == 1 && !no_sep_others
+                && 0 == strcmp(meta->key, "Other")) {
+            ctx->print_separated = this;
+            return;
+        }
+
+        // root level does not have a name, for others open category menu
+        if (ctx->level > 0) {
+            printf("menu \"%s\" %s {\n", meta->title,
+                    meta->icon ? meta->icon : "folder");
+        }
+        ctx->level++;
+        g_tree_foreach(store, print_node, ctx);
+        if(ctx->level == 1 && ctx->print_separated)
+        {
+            puts("separator");
+            ctx->print_separated->print(ctx);
+        }
+        ctx->level--;
+        if (ctx->level > 0)
+            puts("}");
+    }
+
+    /**
+     * Usual print method for the root node
+     */
+    void print() {
+        t_print_meta ctx = {0,0,0};
+        print(&ctx);
+    }
+
+
+    void add(t_menu_node* node) {
+        if (!store)
+            store = g_tree_new(cmpUtf8);
+        //const char* name = node->meta->title ? node->meta->title : node->meta->key;
+        g_tree_replace(store, (gpointer) Elvis(node->meta->title, node->meta->key), (gpointer) node);
+    }
+
+    /**
+     * Returns a sub-menu which is named by the title (or key) of the provided information.
+     * Creates one as needed or finds existing one.
+     */
+    t_menu_node* get_subtree(tListMeta* info) {
+        const char* title = Elvis(info->title, info->key);
+        if (store) {
+            void* existing = g_tree_lookup(store, title);
+            if (existing)
+                return (t_menu_node*) existing;
+        }
+        t_menu_node* tree = new t_menu_node(info);
+        add(tree);
+        return tree;
+    }
+
+    void add_by_categories(t_menu_node* pNode, gchar **ppCats) {
+        t_menu_node* pSubmenu(0);
+
+        for (gchar **pCatKey = ppCats; pCatKey && *pCatKey; ++pCatKey) {
+            if (!**pCatKey)
+                continue; // empty?
+            tListMeta *pResolved = lookup_category(*pCatKey);
+            if (pResolved && !pResolved->parent_sec) {
+                // valid main category
+                pSubmenu = get_subtree(pResolved);
+                pSubmenu->add(pNode);
+            }
+        }
+        if (!pSubmenu) // no hit at all?
+        {
+            pSubmenu = get_subtree(lookup_category("Other"));
+            pSubmenu->add(pNode);
+        }
+    }
+};
 
 tListMeta menuinfo[] =
 {
-    { N_("Accessibility"),"Accessibility", NULL, false,  NULL },
-    { N_("Settings"),"Settings", NULL, false,  NULL },
-    { N_("Screensavers"),"Screensavers", NULL, false,  NULL },
-    { N_("Accessories"),"Accessories", NULL, false,  NULL },
-    { N_("Development"),"Development", NULL, false,  NULL },
-    { N_("Education"),"Education", NULL, false,  NULL },
-    { N_("Games"),"Games", NULL, false,  NULL },
-    { N_("Graphics"),"Graphics", NULL, false,  NULL },
-    { N_("Multimedia"),"Multimedia", NULL, false,  NULL },
-    { N_("Audio"),"Audio", NULL, false,  NULL },
-    { N_("Video"),"Video", NULL, false,  NULL },
-    { N_("AudioVideo"),"AudioVideo", NULL, false,  NULL },
-    { N_("Network"),"Network", NULL, false,  NULL },
-    { N_("Office"),"Office", NULL, false,  NULL },
-    { N_("Science"),"Science", NULL, false,  NULL },
-    { N_("System"),"System", NULL, false,  NULL },
-    { N_("WINE"),"WINE", NULL, false,  NULL },
-    { N_("Editors"),"Editors", NULL, false,  NULL },
-    { N_("Utility"),"Utility", NULL, false,  NULL },
-    { N_("Other"), "Other", NULL, false, NULL }
+    { N_("Accessibility"),"Accessibility", NULL, NULL},
+    { N_("Settings"),"Settings", NULL, NULL},
+    { N_("Screensavers"),"Screensavers", NULL, NULL},
+    { N_("Accessories"),"Accessories", NULL, NULL},
+    { N_("Development"),"Development", NULL, NULL},
+    { N_("Education"),"Education", NULL, NULL},
+    { N_("Games"),"Games", NULL, NULL},
+    { N_("Graphics"),"Graphics", NULL, NULL},
+    { N_("Multimedia"),"Multimedia", NULL, NULL},
+    { N_("Audio"),"Audio", NULL, NULL},
+    { N_("Video"),"Video", NULL, NULL},
+    { N_("AudioVideo"),"AudioVideo", NULL, NULL},
+    { N_("Network"),"Network", NULL, NULL},
+    { N_("Office"),"Office", NULL, NULL},
+    { N_("Science"),"Science", NULL, NULL},
+    { N_("System"),"System", NULL, NULL},
+    { N_("WINE"),"WINE", NULL, NULL},
+    { N_("Editors"),"Editors", NULL, NULL},
+    { N_("Utility"),"Utility", NULL, NULL},
+    { N_("Other"), "Other", NULL, NULL }
+// XXX: add subsections here
 };
-
-tListMeta* menuInfoRefsByCategory[ACOUNT(menuinfo)];
-tListMeta* pOthers = &menuinfo[ACOUNT(menuinfo) - 1];
-
-void add_menu_entry(const char* pName, tListMeta& tgt, gchar* menuCmd) {
-    if (!tgt.store) {
-        tgt.store = g_tree_new(cmpUtf8);
-    }
-    g_tree_replace(tgt.store, g_strdup(pName), menuCmd);
-}
 
 bool checkSuffix(const char* szFilename, const char* szFileSfx)
 {
@@ -122,10 +226,12 @@ bool checkSuffix(const char* szFilename, const char* szFileSfx)
     return pSfx && 0 == strcmp(pSfx+1, szFileSfx);
 }
 
+// for short-living objects describing the information we get from desktop files
 class tDesktopInfo {
 public:
     GDesktopAppInfo *pInfo;
-    tDesktopInfo(const char *szFileName) {
+    const char *d_file;
+    tDesktopInfo(const char *szFileName) : d_file(szFileName)  {
         pInfo = g_desktop_app_info_new_from_filename(szFileName);
         if (!pInfo)
             return;
@@ -150,13 +256,13 @@ public:
         pInfo = 0;
     }
 
-    const char *get_name() {
+    const char *get_name() const {
         if (!pInfo)
             return 0;
-        return g_app_info_get_display_name(*this);
+        return g_app_info_get_display_name((GAppInfo*) pInfo);
     }
 
-    char * get_icon_path() {
+    char * get_icon_path() const {
         GIcon *pIcon = g_app_info_get_icon((GAppInfo*) pInfo);
         auto_gunref free_icon((GObject*) pIcon);
 
@@ -168,80 +274,88 @@ public:
             if (icon_path[0] == '/')
                 return icon_path;
             // err, not owned! auto_gfree free_orig_icon_path(icon_path);
-
-            // this is legacy code, and only partly rewritten
-            // probably not needed anymore since icewm itself is capable of resolving best icon path now
-
-#if 0
-            if (G_IS_THEMED_ICON(pIcon))
-            {
-                static const char *pats[] = {
-#if defined(CONFIG_LIBRSVG)
-                    "%s/icons/hicolor/48x48/apps/%s.svg",
-                    "%s/pixmaps/%s.svg",
-#endif
-#if defined(CONFIG_LIBPNG) || defined(CONFIG_CONFIG_GDK_PIXBUF_XLIB)
-                    "%s/icons/hicolor/48x48/apps/%s.png",
-                    "%s/pixmaps/%s.png",
-#endif
-#if defined(CONFIG_XPM) || defined(CONFIG_CONFIG_GDK_PIXBUF_XLIB)
-                    "%s/pixmaps/%s.xpm",
-#endif
-                    NULL
-                };
-                for(tCharVec* x = home_sys_folders;*x;++x)
-                {
-                    for(auto y = x->data; y < x->data + x->size; ++y) {
-                        for(auto z = pats; *z; ++z) {
-#if 0
-                            char *pathToFile = g_strdup_printf (z, icon_theme_name);
-                            if (g_file_test (pathToFile, G_FILE_TEST_EXISTS)) {
-                                return pathToFile;
-                            } else {
-                                g_free ((pathToFile));
-                            }
-#endif
-                        }
-                    }
-#if 0
-                    YVec<const char*> iconSearchOrder;
-                    iconSearchOrder.add ("/usr/share/icons/hicolor/48x48/apps/%s.png");
-                    iconSearchOrder.add ("/usr/share/pixmaps/%s.png");
-                    iconSearchOrder.add ("/usr/share/pixmaps/%s.xpm");
-
-                    for (const char **oneSearchPath =
-                            iconSearchOrder.data; oneSearchPath <iconSearchOrder.data + iconSearchOrder.size;
-                            ++oneSearchPath) {
-                        char *pathToFile = g_strdup_printf (*oneSearchPath, icon_theme_name);
-                        if (g_file_test (pathToFile, G_FILE_TEST_EXISTS)) {
-                            return pathToFile;
-                        } else {
-                            g_free ((pathToFile));
-                        }
-                    }
-                    return g_strdup ("noicon.png");
-                }
-#endif
-            }
-
-#endif
             return icon_path;
         }
         return 0;
     }
 };
 
-tListMeta* lookup_category(const char *key) {
-    static tListMeta sample = { 0 };
-    static tListMeta *pKey = &sample;
-    sample.key = key;
-    void* ret = bsearch(&pKey, menuInfoRefsByCategory,
-            ACOUNT(menuInfoRefsByCategory), sizeof(menuInfoRefsByCategory[0]),
-            tListMeta::cmpCategoryThroughPtr);
-    if (!ret)
-        return NULL;
-    return *(tListMeta**) ret;
-}
+tListMeta no_description = {0,0,0,0};
+
+t_menu_node root(&no_description);
+
+// variant with local description data
+struct t_menu_node_app : t_menu_node
+{
+    tListMeta description;
+    t_menu_node_app(const tDesktopInfo& dinfo) : t_menu_node(&description),
+            description(no_description) {
+        description.icon = Elvis((const char*) dinfo.get_icon_path(), "-");
+
+        const char *cmdraw = g_app_info_get_commandline((GAppInfo*) dinfo.pInfo);
+        if (!cmdraw || !*cmdraw)
+            return;
+
+        description.title = description.key = Elvis(dinfo.get_name(), "<UNKNOWN>");
+
+        // if the strings contains the exe and then only file/url tags that we wouldn't
+        // set anyway, THEN create a simplified version and use it later (if bSimpleCmd is true)
+        // OR use the original command through a wrapper (if bSimpleCmd is false)
+        bool bUseSimplifiedCmd = true;
+        gchar * cmdMod = g_strdup(cmdraw);
+        gchar *pcut = strpbrk(cmdMod, " \f\n\r\t\v");
+
+        if (pcut) {
+            bool bExpectXchar = false;
+            for (gchar *p = pcut; *p && bUseSimplifiedCmd; ++p) {
+                int c = (unsigned) *p;
+                if (bExpectXchar) {
+                    if (strchr("FfuU", c))
+                        bExpectXchar = false;
+                    else
+                        bUseSimplifiedCmd = false;
+                    continue;
+                } else if (c == '%') {
+                    bExpectXchar = true;
+                    continue;
+                } else {
+                    if (isspace(unsigned(c)))
+                        continue;
+                    else {
+                        if (!strchr(p, '%'))
+                            goto cmdMod_is_good_as_is;
+                        else
+                            bUseSimplifiedCmd = false;
+                    }
+                }
+            }
+
+            if (bExpectXchar)
+                bUseSimplifiedCmd = false;
+            if (bUseSimplifiedCmd)
+                *pcut = '\0';
+            cmdMod_is_good_as_is: ;
+        }
+
+        bool bForTerminal = false;
+    #if GLIB_VERSION_CUR_STABLE >= G_ENCODE_VERSION(2, 36)
+        bForTerminal = g_desktop_app_info_get_boolean(dinfo.pInfo, "Terminal");
+    #else
+        // cannot check terminal property, callback is as safe bet
+        bUseSimplifiedCmd = false;
+    #endif
+
+        if (bUseSimplifiedCmd && !bForTerminal) // best case
+            progCmd = cmdMod;
+    #ifdef XTERMCMD
+        else if (bForTerminal && bUseSimplifiedCmd)
+            pNode->progCmd = g_strjoin(" ", QUOTE(XTERMCMD), "-e", cmdMod, NULL);
+    #endif
+        else
+            // not simple command or needs a terminal started via launcher callback, or both
+            progCmd = g_strdup_printf("%s \"%s\"", ApplicationName, dinfo.d_file);
+    }
+};
 
 typedef void (*tFuncInsertInfo)(const char* szDesktopFile);
 void pickup_folder_info(const char* szDesktopFile) {
@@ -259,9 +373,7 @@ void pickup_folder_info(const char* szDesktopFile) {
     tListMeta* pCat = lookup_category(cat_name);
     if (!pCat)
         return;
-    pCat->description_found = true;
-    // XXX: memory leak?
-    pCat->icon_path = icon_name;
+    pCat->icon = icon_name;
     pCat->title = cat_title;
 }
 
@@ -270,103 +382,17 @@ void insert_app_info(const char* szDesktopFile) {
     if (!dinfo.pInfo)
         return;
 
-    const char *cmdraw = g_app_info_get_commandline(dinfo);
-    if (!cmdraw || !*cmdraw)
-        return;
-
-    // if the strings contains the exe and then only file/url tags that we wouldn't
-    // set anyway, THEN create a simplified version and use it later (if bSimpleCmd is true)
-    // OR use the original command through a wrapper (if bSimpleCmd is false)
-    bool bUseSimplifiedCmd = true;
-    gchar * cmdMod = g_strdup(cmdraw);
-    auto_gfree cmdfree(cmdMod);
-    gchar *pcut = strpbrk(cmdMod, " \f\n\r\t\v");
-
-    if (pcut) {
-        bool bExpectXchar = false;
-        for (gchar *p = pcut; *p && bUseSimplifiedCmd; ++p) {
-            int c = (unsigned) *p;
-            if (bExpectXchar) {
-                if (strchr("FfuU", c))
-                    bExpectXchar = false;
-                else
-                    bUseSimplifiedCmd = false;
-                continue;
-            } else if (c == '%') {
-                bExpectXchar = true;
-                continue;
-            } else {
-                if (isspace(unsigned(c)))
-                    continue;
-                else {
-                    if (!strchr(p, '%'))
-                        goto cmdMod_is_good_as_is;
-                    else
-                        bUseSimplifiedCmd = false;
-                }
-            }
-        }
-
-        if (bExpectXchar)
-            bUseSimplifiedCmd = false;
-        if (bUseSimplifiedCmd)
-            *pcut = '\0';
-        cmdMod_is_good_as_is: ;
-    }
-
-    const char* pName = dinfo.get_name();
-    if (!pName)
-        return;
     const char *pCats = g_desktop_app_info_get_categories(dinfo.pInfo);
     if (!pCats)
         pCats = "Other";
     if (0 == strncmp(pCats, "X-", 2))
         return;
 
-    const char *sicon = "-";
-    auto_gfree free_icon_path(0);
-    gchar* real_path = dinfo.get_icon_path();
-    if (real_path) {
-        free_icon_path.m_p = real_path;
-        sicon = real_path;
-    }
-
-    gchar *menuOutputLine;
-    bool bForTerminal = false;
-#if GLIB_VERSION_CUR_STABLE >= G_ENCODE_VERSION(2, 36)
-    bForTerminal = g_desktop_app_info_get_boolean(dinfo, "Terminal");
-#else
-    // cannot check terminal property, callback is as safe bet
-    bUseSimplifiedCmd = false;
-#endif
-
-    if (bUseSimplifiedCmd && !bForTerminal) // best case
-        menuOutputLine = g_strjoin(" ", sicon, cmdMod, NULL);
-#ifdef XTERMCMD
-    else if (bForTerminal && bUseSimplifiedCmd)
-    menuOutputLine = g_strjoin(" ", sicon, QUOTE(XTERMCMD), "-e", cmdMod, NULL);
-#endif
-    else
-        // not simple command or needs a terminal started via launcher callback, or both
-        menuOutputLine = g_strdup_printf("%s %s \"%s\"", sicon, ApplicationName,
-                szDesktopFile);
-
+    t_menu_node* pNode = new t_menu_node_app(dinfo);
     // Pigeonholing roughly by guessed menu structure
 
     gchar **ppCats = g_strsplit(pCats, ";", -1);
-
-    int n = 0;
-    for (gchar **pCatKey = ppCats; pCatKey && *pCatKey; ++pCatKey) {
-        if (!**pCatKey)
-            continue; // empty?
-        tListMeta *pResolved = lookup_category(*pCatKey);
-        if (!pResolved)
-            continue;
-        add_menu_entry(pName, *pResolved, menuOutputLine);
-        n++;
-    }
-    if (!n) // no hit at all
-        add_menu_entry(pName, *pOthers, menuOutputLine);
+    root.add_by_categories(pNode, ppCats);
     g_strfreev(ppCats);
 
 }
@@ -413,42 +439,6 @@ void proc_dir_rec(const char *syspath, unsigned depth,
     }
 }
 
-static gboolean printKey(const char *key, const char *value, void*) {
-    printf("prog \"%s\" %s\n", key, value);
-    return FALSE;
-}
-
-bool print_submenu(const tListMeta& section) {
-
-    if (!section.store || !g_tree_nnodes(section.store))
-        return false;
-    if(add_sep_before) {
-        puts("separator");
-        add_sep_before = false;
-    }
-    printf("menu \"%s\" %s {\n", section.title,
-            section.icon_path ? section.icon_path : "folder");
-    g_tree_foreach(section.store, (GTraverseFunc) printKey, NULL);
-    puts("}");
-    return true;
-}
-
-void dump_menu() {
-
-    // sort but optionally leave the last entry (Other) where it is!
-    qsort(menuinfo, ACOUNT(menuinfo) - !no_sep_others, sizeof(menuinfo[0]),
-            tListMeta::cmpTitleUtf8);
-
-    int nUsedSecs = 0;
-    for (tListMeta *p = menuinfo; p < menuinfo + ACOUNT(menuinfo); ++p) {
-        if (p == pOthers && !no_sep_others)
-            puts("separator");
-        nUsedSecs += print_submenu(*p);
-    }
-    if(add_sep_after && nUsedSecs)
-        puts("separator");
-}
-
 bool launch(const char *dfile, const char **argv, int argc) {
     GDesktopAppInfo *pInfo = g_desktop_app_info_new_from_filename(dfile);
     if (!pInfo)
@@ -482,16 +472,18 @@ static void init() {
     bindtextdomain(PACKAGE, LOCDIR);
     textdomain(PACKAGE);
 
-    for (unsigned i = 0; i < ACOUNT(menuInfoRefsByCategory); ++i) {
+    meta_lookup_data = g_hash_table_new(g_str_hash, g_str_equal);
+
+    for (unsigned i = 0; i < ACOUNT(menuinfo); ++i) {
         tListMeta& what = menuinfo[i];
 #ifdef ENABLE_NLS
-        what.title = gettext(what.title);
+        // internal translations just for the main sections
+        if(!what.parent_sec)
+            what.title = gettext(what.title);
 #endif
-        menuInfoRefsByCategory[i] = &what;
+        // enforce non-const since we are not destroying that data ever, no key_destroy_func set!
+        g_hash_table_insert(meta_lookup_data, (gpointer) what.key, &what);
     }
-    qsort(menuInfoRefsByCategory, ACOUNT(menuInfoRefsByCategory),
-            sizeof(menuInfoRefsByCategory[0]),
-            tListMeta::cmpCategoryThroughPtr);
 }
 
 static void help(const char *home, const char *dirs, FILE* out, int xit) {
@@ -525,50 +517,11 @@ void process_apps(const tCharVec& where) {
 /**
  * @return True if all categories received description data
  */
-void process_folders(const tCharVec& where) {
+void load_folder_descriptions(const tCharVec& where) {
     for (const gchar* const * p = where.data; p < where.data + where.size;
             ++p) {
         proc_dir_rec(*p, 0, pickup_folder_info, "desktop-directories",
                 "directory");
-#if 0
-        // need to do anything?
-#warning wasting a few cycles, replace with a counter check and chain second invocation upon success
-        for (tListMeta* p=menuinfo; p<menuinfo+ACOUNT(menuinfo); ++p)
-        if(!p->description_found) goto get_more_folder_descriptions;
-        return;
-        get_more_folder_descriptions:
-
-        gchar *folderPath = g_strjoin("/", *p, "desktop-directories", NULL);
-        auto_gfree clean_fpath(folderPath);
-        // if extra data folder does not exist whatsoever, skip it!
-        if (access(folderPath, X_OK))
-        continue;
-
-        bool bStillMissingData = true;
-        for (size_t i = 0; i < ACOUNT(menuinfo); ++i)
-        {
-            if (menuinfo[i].description_found)
-            continue;
-            gchar *deskFilePath = g_strjoin("", folderPath, "/",
-                    menuinfo[i].key, ".desktop", NULL);
-            auto_gfree clean_deskpath(deskFilePath);
-            if (0 == access(deskFilePath, X_OK))
-            {
-                menuinfo[i].description_found = true;
-                tDesktopInfo info(deskFilePath);
-                if (!info.pInfo)
-                continue;
-                bStillMissingData = false;
-                const char *better_name = info.get_name();
-                if (better_name)
-                menuinfo[i].title = better_name;
-                menuinfo[i].icon_path = info.get_icon_path();
-            }
-        }
-        // found all extra descriptions?
-        if (!bStillMissingData)
-        break;
-#endif
     }
 }
 
@@ -620,12 +573,13 @@ int main(int argc, const char **argv) {
     split_folders(sysshare, sys_folders);
     split_folders(usershare, home_folders);
 
+    load_folder_descriptions(sys_folders);
+    load_folder_descriptions(home_folders);
+
     process_apps(sys_folders);
     process_apps(home_folders);
-    process_folders(sys_folders);
-    process_folders(home_folders);
 
-    dump_menu();
+    root.print();
 
     return EXIT_SUCCESS;
 }
