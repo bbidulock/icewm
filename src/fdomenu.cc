@@ -227,6 +227,7 @@ public:
                         || 0 == strcmp(*pSubCatName, (**ppMainCat).key)) {
                     // the category is enabled!
                     skipping = false;
+                    pTree = &root;
                     pNewCatInfo = *ppMainCat;
                     ppLastMainCat = ppMainCat;
                     break;
