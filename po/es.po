@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-08-19 00:32-0600\n"
-"PO-Revision-Date: 2018-05-16 19:56+0000\n"
-"Last-Translator: Juan Sarria <juansarriam@gmail.com>\n"
-"Language-Team: Spanish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/es/>\n"
+"PO-Revision-Date: 2018-08-22 17:38+0000\n"
+"Last-Translator: jc sl <trcs@gmx.com>\n"
+"Language-Team: Spanish "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,11 +46,11 @@ msgstr "energía:\t%s"
 
 #: src/aclock.cc:172
 msgid "CLOCK"
-msgstr ""
+msgstr "RELOJ"
 
 #: src/aclock.cc:176
 msgid "Date"
-msgstr ""
+msgstr "Fecha"
 
 #: src/aclock.cc:177 src/themes.cc:85
 msgid "Default"
@@ -133,16 +133,13 @@ msgid "Load: "
 msgstr "Carga: "
 
 #: src/acpustatus.cc:371
-#, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| "Ram (free): %5.3f (%.3f) G"
+#, c-format
 msgid ""
 "\n"
 "Ram (user): %5.3f (%.3f) G"
 msgstr ""
 "\n"
-"RAM (libre): %5.3f (%.3f) G"
+"RAM (usuario): %5.3f (%.3f) G"
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
@@ -151,10 +148,9 @@ msgid "°C"
 msgstr "°C"
 
 #: src/acpustatus.cc:770
-#, fuzzy, c-format
-#| msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
+#, c-format
 msgid "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
-msgstr "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
+msgstr "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
 
 #: src/acpustatus.cc:857
 #, c-format
@@ -172,12 +168,12 @@ msgstr "_Separar"
 #: src/amailbox.cc:62
 #, c-format
 msgid "Invalid mailbox protocol: \"%s\""
-msgstr "Protocolo de buzón de correo no válido: «%s»"
+msgstr "Protocolo de buzón no válido: «%s»"
 
 #: src/amailbox.cc:64
 #, c-format
 msgid "Invalid mailbox path: \"%s\""
-msgstr "Ruta de buzón de correo no válida: «%s»"
+msgstr "Ruta de buzón no válida: «%s»"
 
 #: src/amailbox.cc:133
 #, c-format
@@ -207,22 +203,20 @@ msgstr "Error al ejecutar %s"
 #: src/amailbox.cc:435
 #, c-format
 msgid "Write to socket failed: %s"
-msgstr "Error al escribir en el zócalo: %s"
+msgstr "Error al escribir en el socket: %s"
 
 #: src/amailbox.cc:680
 #, c-format
 msgid "Using MailBox \"%s\"\n"
-msgstr "Usando buzón de correo «%s»\n"
+msgstr "Usando el buzón «%s»\n"
 
 #: src/amailbox.cc:794
-#, fuzzy
-#| msgid "_Suspend"
 msgid "Suspended"
-msgstr "_Supender"
+msgstr "Suspendido"
 
 #: src/amailbox.cc:798
 msgid "Error checking mailbox."
-msgstr "Error al comprobar el buzón de correo."
+msgstr "Error al comprobar el buzón."
 
 #: src/amailbox.cc:805
 #, c-format
@@ -237,12 +231,12 @@ msgstr "%ld mensajes de correo, %ld sin leer."
 #: src/amailbox.cc:812
 #, c-format
 msgid "%ld mail message."
-msgstr "mensaje de correo %ld."
+msgstr "%ld mensaje de correo."
 
 #: src/amailbox.cc:813
 #, c-format
 msgid "%ld mail messages."
-msgstr "mensajes de correo %ld."
+msgstr "%ld mensajes de correo."
 
 #: src/amailbox.cc:935
 msgid "MAIL"
@@ -250,11 +244,11 @@ msgstr "CORREO"
 
 #: src/amailbox.cc:936
 msgid "_Check"
-msgstr ""
+msgstr "_Comprobar"
 
 #: src/amailbox.cc:938 src/wmapp.cc:523 src/wmdialog.cc:74
 msgid "_Suspend"
-msgstr "_Supender"
+msgstr "_Suspender"
 
 #: src/amemstatus.cc:145
 msgid "GB"
@@ -365,15 +359,15 @@ msgstr "Multimedia"
 
 #: src/fdomenu.cc:96
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 #: src/fdomenu.cc:97
 msgid "Video"
-msgstr ""
+msgstr "Vídeo"
 
 #: src/fdomenu.cc:98
 msgid "AudioVideo"
-msgstr ""
+msgstr "Audio y vídeo"
 
 #: src/fdomenu.cc:99
 msgid "Network"
@@ -385,7 +379,7 @@ msgstr "Oficina"
 
 #: src/fdomenu.cc:101
 msgid "Science"
-msgstr ""
+msgstr "Ciencia"
 
 #: src/fdomenu.cc:102
 msgid "System"
@@ -401,7 +395,7 @@ msgstr "Editores"
 
 #: src/fdomenu.cc:105
 msgid "Utility"
-msgstr ""
+msgstr "Utilidades"
 
 #: src/fdomenu.cc:106
 msgid "Other"
