@@ -111,22 +111,20 @@ public:
 
         if(!store)
         {
-            printf("prog \"%s\" %s %s\n",
-                    title,
-                    meta->icon,
-                    progCmd);
+            if(title && progCmd) {
+                if(ctx->count == 0 && add_sep_before)
+                    puts("separator");
+                printf("prog \"%s\" %s %s\n",
+                        title,
+                        meta->icon,
+                        progCmd);
+            }
             ctx->count++;
             return;
         }
 
         if (!g_tree_nnodes(store))
             return;
-
-        // some gimmicks on the top level
-        if (ctx->level == 0 && add_sep_before) {
-            puts("separator");
-            add_sep_before = false;
-        }
 
         if (ctx->level == 1 && !no_sep_others
                 && 0 == strcmp(meta->key, "Other")) {
@@ -136,6 +134,9 @@ public:
 
         // root level does not have a name, for others open category menu
         if (ctx->level > 0) {
+            if (ctx->count == 0 && add_sep_before)
+                puts("separator");
+            ctx->count++;
             printf("menu \"%s\" %s {\n", title,
                     meta->icon ? meta->icon : "folder");
         }
@@ -154,6 +155,9 @@ public:
 #else
             printf("# end of menu \"%s\"\n}\n", title);
 #endif
+        if(add_sep_after && ctx->level == 0 && ctx->count > 0)
+            puts("separator");
+
     }
 
     /**
@@ -414,7 +418,7 @@ struct t_menu_node_app : t_menu_node
             progCmd = cmdMod;
     #ifdef XTERMCMD
         else if (bForTerminal && bUseSimplifiedCmd)
-            pNode->progCmd = g_strjoin(" ", QUOTE(XTERMCMD), "-e", cmdMod, NULL);
+            progCmd = g_strjoin(" ", QUOTE(XTERMCMD), "-e", cmdMod, NULL);
     #endif
         else
             // not simple command or needs a terminal started via launcher callback, or both
