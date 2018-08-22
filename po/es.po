@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-08-19 00:32-0600\n"
-"PO-Revision-Date: 2018-08-22 17:38+0000\n"
+"PO-Revision-Date: 2018-08-22 21:06+0000\n"
 "Last-Translator: jc sl <trcs@gmx.com>\n"
 "Language-Team: Spanish "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/es/>\n"
@@ -455,7 +455,7 @@ msgstr "Icesound(1)"
 
 #: src/icehelp.cc:1222
 msgid "FAQ"
-msgstr "PP. FF. (Preguntas frecuentes)"
+msgstr "Preguntas frecuentes"
 
 #: src/icehelp.cc:1224
 msgid "Manual"
@@ -488,7 +488,7 @@ msgstr "Ruta no válida: %s\n"
 
 #: src/icehelp.cc:1982
 msgid "Path does not refer to a file."
-msgstr "El parche no hace referencia a un archivo."
+msgstr "La ruta no hace referencia a un archivo."
 
 #: src/icehelp.cc:1987
 msgid "Failed to open file for reading."
@@ -553,29 +553,29 @@ msgid ""
 "%s\n"
 "\n"
 msgstr ""
-"Uso: %s [OPCIONES] [ NOMBREARCHIVO | URL ]\n"
+"Uso: %s [OPCIONES] [ NOMBRE_ARCHIVO | URL ]\n"
 "\n"
 "IceHelp es un navegador HTML muy sencillo para el gestor de ventanas IceWM.\n"
 "Puede mostrar un documento HTML desde un archivo o mostrar un sitio Web.\n"
-"Recuerda las páginas visitadas en un historial en el que se puede bucar\n"
-"por claves y tien un menú de contexto (clic con el botón secundario).\n"
-"No admite procesamiento de imágenes ni JavaScript.\n"
-"Si no se indica ningún archivo ni URL, muestra el manual de IceWM\n"
-"de %s.\n"
+"Recuerda las páginas visitadas en un historial por el que se puede navegar\n"
+"usando atajos de teclado y un menú contextual (clic del botón derecho).\n"
+"No admite ni la representación de imágenes ni JavaScript.\n"
+"Si no se indica un archivo o URL, muestra el manual de IceWM\n"
+"desde %s.\n"
 "\n"
 "Opciones:\n"
 "  -d, --display=NOMBRE  NOMBRE del servidor X que se debe usar.\n"
-"  --sync              Sincroniza los comandos X11.\n"
+"  --sync              Sincroniza los comandos de X11.\n"
 "\n"
-"  -B                   Muestra la página Man de icewmbg de IceWM.\n"
+"  -B                   Muestra el manual de icewmbg de IceWM.\n"
 "  -b, --bugs       Muestra los informes de errores de IceWM (de forma "
 "básica).\n"
-"  -f, --faq           Muestra las preguntas frecuentes y el Howto de IceWM.\n"
+"  -f, --faq           Muestra las preguntas frecuentes y el Cómo de IceWM.\n"
 "  -g                   Muestra el sitio Web de Github de IceWM.\n"
-"  -i, --icewm       Muestra la página Man de icewm de IceWM.\n"
+"  -i, --icewm       Muestra el manual de icewm de IceWM.\n"
 "  -m, --manual   Muestra el manual de IceWM (por defecto).\n"
-"  -s                   Muestra la página Man de icesound IceWM.\n"
-"  -t, --theme      Muestra el Howto de temas de IceWM.\n"
+"  -s                   Muestra el manual de icesound IceWM.\n"
+"  -t, --theme      Muestra el Cómo de temas de IceWM.\n"
 "  -w, --website   Muestra el sitio Web de IceWM.\n"
 "\n"
 "  -V, --version    Muestra información de la versión y sale.\n"
@@ -830,7 +830,7 @@ msgstr "área de trabajo #%d: `%s'\n"
 #: src/icesh.cc:974
 #, c-format
 msgid "Unknown action: `%s'"
-msgstr "Acción desconocida: %s"
+msgstr "Acción desconocida: `%s 1'"
 
 #: src/iceskt.cc:42
 #, c-format
@@ -863,7 +863,7 @@ msgstr ""
 #: src/icesm.cc:120
 #, c-format
 msgid "Unknown option '%s'"
-msgstr "Opción desconocida «%s»"
+msgstr "Opción desconocida '%s'"
 
 #: src/icesm.cc:308
 #, c-format
@@ -884,7 +884,7 @@ msgid ""
 "\t2: Abort this session?\n"
 msgstr ""
 " IceWM se ha detenido por segunda vez en 10 segundos.\n"
-"¿Desea hacer lo siguiente?:\n"
+" ¿Qué quiere hacer?:\n"
 "\n"
 "\t1: Reiniciar IceWM.\n"
 "\t2: Cancelar esta sesión.\n"
@@ -896,7 +896,7 @@ msgstr "Respuesta a detención de IceWM"
 #: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
 #, c-format
 msgid "Playing sample #%d (%s)"
-msgstr "Reproduciendo muestra #%d (%s)"
+msgstr "Reproduciendo la muestra #%d (%s)"
 
 #: src/icesound.cc:337
 #, c-format
@@ -1175,7 +1175,7 @@ msgstr ""
 
 #: src/iceview.cc:70
 msgid "Hex View"
-msgstr "Vista Hex"
+msgstr "Vista hexadecimal"
 
 #: src/iceview.cc:70
 msgid "Ctrl+H"
@@ -1308,7 +1308,7 @@ msgstr "Uso: icewmhint clase.instancia opción arg\n"
 #: src/icewmhint.cc:57
 #, c-format
 msgid "Out of memory (len=%d)."
-msgstr "No queda memoria (len=%d)."
+msgstr "Memoria agotada (len=%d)."
 
 #: src/misc.cc:466 src/misc.cc:478
 msgid "Warning: "
@@ -1369,7 +1369,7 @@ msgstr "Acerca de IceWM"
 #: src/wmapp.cc:93
 msgid "A window manager is already running, use --replace to replace it"
 msgstr ""
-"Ya hay otro gestor de ventanas en ejecución; use --replace para reemplazarlo"
+"Ya hay otro gestor de ventanas en ejecución; use --replace para sustituirlo"
 
 #: src/wmapp.cc:111
 #, c-format
@@ -1394,15 +1394,15 @@ msgstr "Formato inesperado de la propiedad ICEWM_FONT_PATH"
 
 #: src/wmapp.cc:511
 msgid "_Logout"
-msgstr "Cerrar _sesión"
+msgstr "Cerrar la _sesión"
 
 #: src/wmapp.cc:512
 msgid "_Cancel logout"
-msgstr "_Cancelar cerrar"
+msgstr "_Cancelar el cierre"
 
 #: src/wmapp.cc:517
 msgid "Lock _Workstation"
-msgstr "_Bloquear sesión"
+msgstr "_Bloquear la sesión"
 
 #: src/wmapp.cc:519 src/wmdialog.cc:77
 msgid "Re_boot"
@@ -1426,11 +1426,11 @@ msgstr "_Menú"
 
 #: src/wmapp.cc:544
 msgid "_Above Dock"
-msgstr "_Encima de acople"
+msgstr "_Encima de muelle"
 
 #: src/wmapp.cc:545
 msgid "_Dock"
-msgstr "_Acople"
+msgstr "_Muelle"
 
 #: src/wmapp.cc:546
 msgid "_OnTop"
@@ -1502,7 +1502,7 @@ msgstr "Ocupar _todo"
 
 #: src/wmapp.cc:611
 msgid "Limit _Workarea"
-msgstr "_Limitar área de trabajo"
+msgstr "_Limitar el área de trabajo"
 
 #: src/wmapp.cc:615
 msgid "Tray _icon"
@@ -1514,7 +1514,7 @@ msgstr "Ce_rrar"
 
 #: src/wmapp.cc:622 src/wmwinlist.cc:292
 msgid "_Kill Client"
-msgstr "_Matar cliente"
+msgstr "_Matar el cliente"
 
 #: src/wmapp.cc:625 src/wmdialog.cc:79 src/wmwinmenu.cc:131
 msgid "_Window list"
@@ -1530,7 +1530,7 @@ msgid ""
 "Could not restart: %s\n"
 "Does $PATH lead to %s?"
 msgstr ""
-"No se pudo reiniciar:  %s\n"
+"No se ha podido reiniciar: %s\n"
 "¿Conduce $PATH a %s?"
 
 #: src/wmapp.cc:805
@@ -1646,7 +1646,7 @@ msgstr "Opción no reconocida '%s'."
 
 #: src/wmapp.cc:1565
 msgid "Confirm Logout"
-msgstr "Confirmar cerrar sesión"
+msgstr "Confirmar el cierre de sesión"
 
 #: src/wmapp.cc:1566
 msgid ""
@@ -1683,7 +1683,7 @@ msgstr "No se puede cambiar el nombre %s por %s"
 
 #: src/wmdialog.cc:73
 msgid "Loc_k Workstation"
-msgstr "_Bloquear sesión"
+msgstr "_Bloquear la sesión"
 
 #: src/wmdialog.cc:75 src/ymsgbox.cc:44
 msgid "_Cancel"
@@ -1692,7 +1692,7 @@ msgstr "_Cancelar"
 #: src/wmdialog.cc:76 src/wmprog.cc:792 src/wmprog.cc:794 src/wmtaskbar.cc:292
 #: src/wmtaskbar.cc:294
 msgid "_Logout..."
-msgstr "Cerrar _sesión..."
+msgstr "Cerrar la _sesión..."
 
 #: src/wmdialog.cc:80
 msgid "_Restart icewm"
@@ -1705,15 +1705,15 @@ msgstr "_Acerca de"
 
 #: src/wmframe.cc:1406
 msgid "Kill Client: "
-msgstr "Terminar cliente: "
+msgstr "Terminar el cliente: "
 
 #: src/wmframe.cc:1413
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
 msgstr ""
-"¡ATENCIÓN! Todos los cambios no guardados se perderán cuando este cliente "
-"sea terminado. ¿Desea continuar?"
+"¡ATENCIÓN! Todos los cambios no guardados se perderán\n"
+"cuando este cliente sea terminado. ¿Desea continuar?"
 
 #: src/wmframe.cc:2996
 msgid "Restore"
@@ -1751,7 +1751,7 @@ msgstr "Foco _explícito"
 
 #: src/wmprog.cc:379
 msgid "_Sloppy mouse focus"
-msgstr "De_slizar lel ratón para ganr foco"
+msgstr "De_slizar el ratón para ganar el foco"
 
 #: src/wmprog.cc:380
 msgid "S_trict mouse focus"
@@ -1811,7 +1811,7 @@ msgstr "_Temas"
 
 #: src/wmprog.cc:786
 msgid "Se_ttings"
-msgstr "Con_figuraciones"
+msgstr "Con_figuración"
 
 #: src/wmsession.cc:225 src/wmsession.cc:241 src/wmsession.cc:251
 #, c-format
@@ -1927,7 +1927,7 @@ msgstr "%s: ha fallado la selección"
 #: src/yconfig.cc:128
 #, c-format
 msgid "Unknown key name %s in %s"
-msgstr "Nombre clave %s desconocido en %s"
+msgstr "Nombre de clave %s desconocido en %s"
 
 #: src/yconfig.cc:150 src/yconfig.cc:163 src/yconfig.cc:176
 #, c-format
@@ -1947,7 +1947,7 @@ msgstr "Error al cargar pixmap \"%s\": %s"
 #: src/ycursor.cc:126
 #, c-format
 msgid "Loading of pixmap \"%s\" failed"
-msgstr "No se pudo cargar pixmap «%s»"
+msgstr "Error al cargar pixmap \"%s\""
 
 #: src/ycursor.cc:159
 #, c-format
@@ -1977,17 +1977,17 @@ msgstr "¿FALLO? Carácter inesperado, aunque Imlib ha podido analizar «%s»"
 #: src/yfontcore.cc:71 src/yfontxft.cc:158
 #, c-format
 msgid "Could not load font \"%s\"."
-msgstr "No se pudo cargar fuente «%s»."
+msgstr "No se ha podido cargar fuente «%s»."
 
 #: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:181
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
-msgstr "No se pudo cargar el tipo de letra de respalod «%s»."
+msgstr "No se ha podido cargar el tipo de letra de respaldo «%s»."
 
 #: src/yfontcore.cc:114
 #, c-format
 msgid "Could not load fontset \"%s\"."
-msgstr "No se pudo cagar fontset «%s»."
+msgstr "No se ha podido cargar fontset «%s»."
 
 #: src/yfontcore.cc:126
 #, c-format
@@ -2020,7 +2020,7 @@ msgstr "Ctrl+V"
 
 #: src/yinput.cc:44
 msgid "Paste _Selection"
-msgstr "Pegar _selección"
+msgstr "Pegar la _selección"
 
 #: src/yinput.cc:44
 msgid "Ctrl+P"
@@ -2044,8 +2044,8 @@ msgstr ""
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
-"No se pudo determinar el conjunto de códigos del local actual. Suponiendo "
-"ISO-8859-1.\n"
+"No se ha podido determinar el conjunto de códigos de la configuración "
+"regional actual. Se presupone ISO-8859-1.\n"
 
 #: src/ylocale.cc:104 src/ylocale.cc:111
 #, c-format
@@ -2069,12 +2069,12 @@ msgstr "No queda memoria para la imagen %s"
 #: src/ypaths.cc:98
 #, c-format
 msgid "Image not readable: %s"
-msgstr "Imagen no leíble: %s"
+msgstr "Imagen no legible: %s"
 
 #: src/ypaths.cc:121
 #, c-format
 msgid "Could not find image %s"
-msgstr "No se pudo encontrar la imagen %s"
+msgstr "No se ha podido encontrar la imagen %s"
 
 #: src/ysmapp.cc:98
 msgid "$USER or $LOGNAME not set?"
@@ -2083,7 +2083,7 @@ msgstr "¿$USER o $LOGNAME no configurado?"
 #: src/yurl.cc:145
 #, c-format
 msgid "Failed to parse URL \"%s\"."
-msgstr "Error al analizar la URL %s."
+msgstr "Error al analizar el URL \"%s\"."
 
 #: src/yurl.cc:161
 #, c-format
