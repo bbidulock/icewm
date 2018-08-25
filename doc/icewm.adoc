@@ -322,7 +322,7 @@ The following settings can be set to value 1 (enabled) or value 0 (disabled).
 +FocusChangesWorkspace = 0+:: Change to the workspace of newly focused windows.
 +AutoRaise = 0+:: Windows will raise automatically after AutoRaiseDelay when focused.
 +StrongPointerFocus = 0+:: When focus follows mouse always give the focus to
-the window under mouse pointer - Even when no mouse motion has occured. Using this
+the window under mouse pointer - Even when no mouse motion has occurred. Using this
 is not recommended. Please prefer to use just ClickToFocus=0.
 +FocusOnMap = 1+:: Window is focused after being mapped.
 +FocusOnMapTransient = 1+:: Transient window is focused after being mapped.
@@ -474,6 +474,7 @@ The following settings can be set to value 1 (enabled) or value 0 (disabled).
 +TaskBarDoubleHeight = 0+:: Double height task bar
 +TaskBarWorkspacesLeft = 1+:: Place workspace pager on left, not right.
 +TaskBarWorkspacesTop = 0+:: Place workspace pager on top row when using dual-height taskbar.
++TaskBarUseMouseWheel = 1+:: Enable mouse wheel cycling over workspaces and task buttons in taskbar.
 +PagerShowPreview = 1+:: Show a mini desktop preview on each workspace button.
 By pressing the middle mouse button the 'window list' is shown.
 The right button activates the 'window list menu'.
