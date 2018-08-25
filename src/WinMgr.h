@@ -81,7 +81,7 @@
  *
  * Icon Mask can be None if transparency is not required.
  *
- * Icewm currenty needs/uses icons of size 16x16 and 32x32 with default
+ * Icewm currently needs/uses icons of size 16x16 and 32x32 with default
  * depth. Applications are recommended to set several icons sizes
  * (recommended 16x16,32x32,48x48 at least)
  *

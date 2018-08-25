@@ -3,7 +3,7 @@
  *
  * Copyright (C) 1999 Andreas Hinz
  *
- * Mostly derrived from aclock.cc and aclock.h by Marko Macek
+ * Mostly derived from aclock.cc and aclock.h by Marko Macek
  *
  * Apm status
  */

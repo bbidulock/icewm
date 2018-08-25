@@ -841,7 +841,7 @@ flux    - feature: scriptable menus (as found in WindowMaker)
         - bugfix (for binary distribution): determinate the langinfo
           codeset item id on runtime
         - bugfix: remove icons from icon cache when destroyed
-        - bugfix/compatiblity hack: fallback to linux.xpm when provided by
+        - bugfix/compatibility hack: fallback to linux.xpm when provided by
           the current theme
         - bugfix: window menu crashed when tray completely disabled
         - bugfix: tray crashed when compiled without gradient support
@@ -862,7 +862,7 @@ flux    - feature: scriptable menus (as found in WindowMaker)
         - feature: LowerOnClickWhenRaised lower the active window when
           clicked again
         - bugfix: #445264 CenterMaximizedWindows=0 was broken
-	- bugfix: dynamic chaning of client icons
+	- bugfix: dynamic changing of client icons
 	- bugfix: reparenting (aka. swallowing) should work now
 	- bugfix: comments into config examples about discarding of changes
 	- bugfix/feature: massive I18N cleanup: fallback to C locale;
@@ -1586,7 +1586,7 @@ pixmaps (titleAS, titleAP, titleIS, titleIP) to support centering
         - Alt+Tab now includes minimized windows.
         - If any titlebar pixmaps are missing, they will be skipped when
           tiling across the titlebar. If there is only title?B.xpm for the
-          titlebar pixmaps it will be tiled accross the entire titlebar.
+          titlebar pixmaps it will be tiled across the entire titlebar.
 	- New settings: DelayPointerFocus=0,1; PointerFocusDelay=x (ms)
         - Mouse Wheel support (UseMouseWheel=0,1 option)
             Meta/Ctrl+Alt+wheel can be used to switch between windows.
