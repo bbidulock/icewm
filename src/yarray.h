@@ -372,11 +372,11 @@ public:
 
     virtual ~MStringArray() { clear(); }
 
-    void append(mstring& item) {
+    void append(mstring item) {
         item.acquire();
         YBaseArray::append(&item);
     }
-    void insert(const SizeType index, mstring& item) {
+    void insert(const SizeType index, mstring item) {
         item.acquire();
         YBaseArray::insert(index, &item);
     }
