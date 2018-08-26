@@ -46,6 +46,7 @@ YWindowManagerStatus::YWindowManagerStatus(YWindow *aParent,
                       (manager->height() - sH) - 8, // / 2,
                       sW + 2, sH + 4));
     setStyle(wsOverrideRedirect | wsSaveUnder);
+    setTitle("IceStatus");
 }
 
 YWindowManagerStatus::~YWindowManagerStatus() {

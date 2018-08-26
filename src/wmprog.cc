@@ -174,11 +174,10 @@ public:
         menu = new MenuProgMenu(wmapp, wmapp, NULL /* no wmaction handling*/,
                 "switch popup internal menu", prog->fCmd, prog->fArgs);
     }
-    virtual void updateList() OVERRIDE
-            {
+    virtual void updateList() OVERRIDE {
         menu->refresh();
         zTarget = 0;
-            }
+    }
     virtual int getCount() OVERRIDE {
         return menu->itemCount();
     }

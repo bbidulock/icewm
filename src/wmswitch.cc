@@ -247,6 +247,7 @@ SwitchWindow::SwitchWindow(YWindow *parent, ISwitchItems *items,
     //resize(-1);
 
     setStyle(wsSaveUnder | wsOverrideRedirect);
+    setTitle("IceSwitch");
 }
 
 bool SwitchWindow::close() {

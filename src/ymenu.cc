@@ -80,6 +80,8 @@ YMenu::YMenu(YWindow *parent):
     fTimerX = 0;
     fTimerY = 0;
     fTimerSubmenuItem = -1;
+
+    setTitle("IceMenu");
 }
 
 YMenu::~YMenu() {
