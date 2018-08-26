@@ -510,6 +510,12 @@ public:
             return;
         qsort(&*mods, n, sizeof(int), sortPrefs);
         upath path(wmapp->findConfigFile("preferences"));
+        // if that's from system installation, save as delta in user's home
+        if(!path.isWritable()) {
+            path = wmapp->findConfigFile("prefoverride");
+            if(!path.isWritable() && !path.isReadable()) // create new?
+                path = YApplication::getPrivConfDir() + "prefoverride";
+        }
         csmart text(load_text_file(path.string()));
         if (text == 0)
             (text = new char[1])[0] = 0;
