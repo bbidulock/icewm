@@ -39,261 +39,283 @@ namespace spec {
 
 tListMeta menuinfo[] =
 {
-    { N_("Accessibility"),"Accessibility", NULL, NULL},
-    { N_("Settings"),"Settings", NULL, NULL},
-    { N_("Screensavers"),"Screensavers", NULL, NULL},
-    { N_("Accessories"),"Accessories", NULL, NULL},
-    { N_("Development"),"Development", NULL, NULL},
-    { N_("Education"),"Education", NULL, NULL},
-    { N_("Game"),"Game", NULL, NULL},
-    { N_("Graphics"),"Graphics", NULL, NULL},
-    { N_("Multimedia"),"Multimedia", NULL, NULL},
-    { N_("Audio"),"Audio", NULL, NULL},
-    { N_("Video"),"Video", NULL, NULL},
-    { N_("AudioVideo"),"AudioVideo", NULL, NULL},
-    { N_("Network"),"Network", NULL, NULL},
-    { N_("Office"),"Office", NULL, NULL},
-    { N_("Science"),"Science", NULL, NULL},
-    { N_("System"),"System", NULL, NULL},
-    { N_("WINE"),"WINE", NULL, NULL},
-    { N_("Editors"),"Editors", NULL, NULL},
-    { N_("Utility"),"Utility", NULL, NULL},
-    { N_("Other"), "Other", NULL, NULL },
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
-    { N_("2DGraphics"), "2DGraphics", NULL, (char**) &Graphics},
+    { N_("2DGraphics"), "2DGraphics", "folder", (char**) &Graphics},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
-    { N_("3DGraphics"), "3DGraphics", NULL, (char**) &Graphics},
+    { N_("3DGraphics"), "3DGraphics", "folder", (char**) &Graphics},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings or Utility
-    { N_("Accessibility"), "Accessibility", NULL, (char**) &SettingsorUtility},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-    { N_("ActionGame"), "ActionGame", NULL, (char**) &Game},
+    { N_("Accessibility"), "Accessibility", "folder", (char**) &SettingsorUtility},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings or Utility
+    { N_("Accessibility"), "Accessibility", "folder", (char**) &SettingsorUtility},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-    { N_("Adult"), "Adult", NULL, (char**) &ANY},
+    { N_("Accessories"), "Accessories", "folder", NULL},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-    { N_("AdventureGame"), "AdventureGame", NULL, (char**) &Game},
+    { N_("ActionGame"), "ActionGame", "folder", (char**) &Game},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-    { N_("Amusement"), "Amusement", NULL, (char**) &ANY},
+    { N_("Adult"), "Adult", "folder", (char**) &ANY},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-    { N_("ArcadeGame"), "ArcadeGame", NULL, (char**) &Game},
+    { N_("AdventureGame"), "AdventureGame", "folder", (char**) &Game},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+    { N_("Amusement"), "Amusement", "folder", (char**) &ANY},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+    { N_("ArcadeGame"), "ArcadeGame", "folder", (char**) &Game},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
-    { N_("Archiving"), "Archiving", NULL, (char**) &Utility},
+    { N_("Archiving"), "Archiving", "folder", (char**) &Utility},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-    { N_("Art"), "Art", NULL, (char**) &EducationorScience},
+    { N_("Art"), "Art", "folder", (char**) &EducationorScience},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-    { N_("ArtificialIntelligence"), "ArtificialIntelligence", NULL, (char**) &EducationorScience},
+    { N_("ArtificialIntelligence"), "ArtificialIntelligence", "folder", (char**) &EducationorScience},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-    { N_("Astronomy"), "Astronomy", NULL, (char**) &EducationorScience},
+    { N_("Astronomy"), "Astronomy", "folder", (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+    { N_("Audio"), "Audio", "folder", NULL},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+    { N_("AudioVideo"), "AudioVideo", "folder", NULL},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
-    { N_("AudioVideoEditing"), "AudioVideoEditing", NULL, (char**) &AudioorVideoorAudioVideo},
+    { N_("AudioVideoEditing"), "AudioVideoEditing", "folder", (char**) &AudioorVideoorAudioVideo},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-    { N_("Biology"), "Biology", NULL, (char**) &EducationorScience},
+    { N_("Biology"), "Biology", "folder", (char**) &EducationorScience},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-    { N_("BlocksGame"), "BlocksGame", NULL, (char**) &Game},
+    { N_("BlocksGame"), "BlocksGame", "folder", (char**) &Game},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-    { N_("BoardGame"), "BoardGame", NULL, (char**) &Game},
+    { N_("BoardGame"), "BoardGame", "folder", (char**) &Game},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
+    { N_("Building"), "Building", "folder", (char**) &Development},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
-    { N_("Calculator"), "Calculator", NULL, (char**) &Utility},
+    { N_("Calculator"), "Calculator", "folder", (char**) &Utility},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-    { N_("Calendar"), "Calendar", NULL, (char**) &Office},
+    { N_("Calendar"), "Calendar", "folder", (char**) &Office},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-    { N_("CardGame"), "CardGame", NULL, (char**) &Game},
+    { N_("CardGame"), "CardGame", "folder", (char**) &Game},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-    { N_("Chart"), "Chart", NULL, (char**) &Office},
+    { N_("Chart"), "Chart", "folder", (char**) &Office},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-    { N_("Chat"), "Chat", NULL, (char**) &Network},
+    { N_("Chat"), "Chat", "folder", (char**) &Network},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-    { N_("Chemistry"), "Chemistry", NULL, (char**) &EducationorScience},
+    { N_("Chemistry"), "Chemistry", "folder", (char**) &EducationorScience},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
-    { N_("Clock"), "Clock", NULL, (char**) &Utility},
+    { N_("Clock"), "Clock", "folder", (char**) &Utility},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility;Archiving
-    { N_("Compression"), "Compression", NULL, (char**) &UtilityArchiving},
+    { N_("Compression"), "Compression", "folder", (char**) &UtilityArchiving},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-    { N_("ComputerScience"), "ComputerScience", NULL, (char**) &EducationorScience},
+    { N_("ComputerScience"), "ComputerScience", "folder", (char**) &EducationorScience},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-    { N_("Construction"), "Construction", NULL, (char**) &EducationorScience},
+    { N_("Construction"), "Construction", "folder", (char**) &EducationorScience},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-    { N_("ContactManagement"), "ContactManagement", NULL, (char**) &Office},
+    { N_("ContactManagement"), "ContactManagement", "folder", (char**) &Office},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-    { N_("Core"), "Core", NULL, (char**) &ANY},
+    { N_("Core"), "Core", "folder", (char**) &ANY},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-    { N_("DataVisualization"), "DataVisualization", NULL, (char**) &EducationorScience},
+    { N_("DataVisualization"), "DataVisualization", "folder", (char**) &EducationorScience},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or Development or AudioVideo
-    { N_("Database"), "Database", NULL, (char**) &OfficeorDevelopmentorAudioVideo},
+    { N_("Database"), "Database", "folder", (char**) &OfficeorDevelopmentorAudioVideo},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
-    { N_("Debugger"), "Debugger", NULL, (char**) &Development},
+    { N_("Debugger"), "Debugger", "folder", (char**) &Development},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
-    { N_("DesktopSettings"), "DesktopSettings", NULL, (char**) &Settings},
+    { N_("DesktopSettings"), "DesktopSettings", "folder", (char**) &Settings},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+    { N_("Development"), "Development", "folder", NULL},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-    { N_("Dialup"), "Dialup", NULL, (char**) &Network},
+    { N_("Dialup"), "Dialup", "folder", (char**) &Network},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or TextTools
-    { N_("Dictionary"), "Dictionary", NULL, (char**) &OfficeorTextTools},
+    { N_("Dictionary"), "Dictionary", "folder", (char**) &OfficeorTextTools},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo
-    { N_("DiscBurning"), "DiscBurning", NULL, (char**) &AudioVideo},
+    { N_("DiscBurning"), "DiscBurning", "folder", (char**) &AudioVideo},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-    { N_("Documentation"), "Documentation", NULL, (char**) &ANY},
+    { N_("Documentation"), "Documentation", "folder", (char**) &ANY},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-    { N_("Economy"), "Economy", NULL, (char**) &EducationorScience},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-    { N_("Electricity"), "Electricity", NULL, (char**) &EducationorScience},
+    { N_("Economy"), "Economy", "folder", (char**) &EducationorScience},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-    { N_("Electronics"), "Electronics", NULL, (char**) &ANY},
+    { N_("Editors"), "Editors", "folder", NULL},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+    { N_("Education"), "Education", "folder", NULL},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+    { N_("Electricity"), "Electricity", "folder", (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+    { N_("Electronics"), "Electronics", "folder", (char**) &ANY},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or Network
-    { N_("Email"), "Email", NULL, (char**) &OfficeorNetwork},
+    { N_("Email"), "Email", "folder", (char**) &OfficeorNetwork},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System or Game
-    { N_("Emulator"), "Emulator", NULL, (char**) &SystemorGame},
+    { N_("Emulator"), "Emulator", "folder", (char**) &SystemorGame},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-    { N_("Engineering"), "Engineering", NULL, (char**) &ANY},
+    { N_("Engineering"), "Engineering", "folder", (char**) &ANY},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-    { N_("Feed"), "Feed", NULL, (char**) &Network},
+    { N_("Feed"), "Feed", "folder", (char**) &Network},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System;FileTools
-    { N_("FileManager"), "FileManager", NULL, (char**) &SystemFileTools},
+    { N_("FileManager"), "FileManager", "folder", (char**) &SystemFileTools},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility or System
-    { N_("FileTools"), "FileTools", NULL, (char**) &UtilityorSystem},
+    { N_("FileTools"), "FileTools", "folder", (char**) &UtilityorSystem},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-    { N_("FileTransfer"), "FileTransfer", NULL, (char**) &Network},
+    { N_("FileTransfer"), "FileTransfer", "folder", (char**) &Network},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System
-    { N_("Filesystem"), "Filesystem", NULL, (char**) &System},
+    { N_("Filesystem"), "Filesystem", "folder", (char**) &System},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-    { N_("Finance"), "Finance", NULL, (char**) &Office},
+    { N_("Finance"), "Finance", "folder", (char**) &Office},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-    { N_("FlowChart"), "FlowChart", NULL, (char**) &Office},
+    { N_("FlowChart"), "FlowChart", "folder", (char**) &Office},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
-    { N_("GUIDesigner"), "GUIDesigner", NULL, (char**) &Development},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-    { N_("Geography"), "Geography", NULL, (char**) &EducationorScience},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-    { N_("Geology"), "Geology", NULL, (char**) &EducationorScience},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-    { N_("Geoscience"), "Geoscience", NULL, (char**) &EducationorScience},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network or Audio
-    { N_("HamRadio"), "HamRadio", NULL, (char**) &NetworkorAudio},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
-    { N_("HardwareSettings"), "HardwareSettings", NULL, (char**) &Settings},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-    { N_("History"), "History", NULL, (char**) &EducationorScience},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-    { N_("Humanities"), "Humanities", NULL, (char**) &EducationorScience},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
-    { N_("IDE"), "IDE", NULL, (char**) &Development},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-    { N_("IRCClient"), "IRCClient", NULL, (char**) &Network},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-    { N_("ImageProcessing"), "ImageProcessing", NULL, (char**) &EducationorScience},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-    { N_("InstantMessaging"), "InstantMessaging", NULL, (char**) &Network},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-    { N_("KidsGame"), "KidsGame", NULL, (char**) &Game},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-    { N_("Languages"), "Languages", NULL, (char**) &EducationorScience},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-    { N_("Literature"), "Literature", NULL, (char**) &EducationorScience},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-    { N_("LogicGame"), "LogicGame", NULL, (char**) &Game},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science or Utility
-    { N_("Maps"), "Maps", NULL, (char**) &EducationorScienceorUtility},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-    { N_("Math"), "Math", NULL, (char**) &EducationorScience},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-    { N_("MedicalSoftware"), "MedicalSoftware", NULL, (char**) &EducationorScience},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
-    { N_("Midi"), "Midi", NULL, (char**) &AudioVideoAudio},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
-    { N_("Mixer"), "Mixer", NULL, (char**) &AudioVideoAudio},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System or Network
-    { N_("Monitor"), "Monitor", NULL, (char**) &SystemorNetwork},
+    { N_("GUIDesigner"), "GUIDesigner", "folder", (char**) &Development},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-    { N_("Motif"), "Motif", NULL, (char**) &ANY},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo or Education
-    { N_("Music"), "Music", NULL, (char**) &AudioVideoorEducation},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-    { N_("News"), "News", NULL, (char**) &Network},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education;Math or Science;Math
-    { N_("NumericalAnalysis"), "NumericalAnalysis", NULL, (char**) &EducationMathorScienceMath},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;Scanning
-    { N_("OCR"), "OCR", NULL, (char**) &GraphicsScanning},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-    { N_("P2P"), "P2P", NULL, (char**) &Network},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-    { N_("PDA"), "PDA", NULL, (char**) &Office},
+    { N_("Game"), "Game", "folder", NULL},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+    { N_("Geography"), "Geography", "folder", (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+    { N_("Geology"), "Geology", "folder", (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+    { N_("Geoscience"), "Geoscience", "folder", (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+    { N_("Graphics"), "Graphics", "folder", NULL},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network or Audio
+    { N_("HamRadio"), "HamRadio", "folder", (char**) &NetworkorAudio},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
-    { N_("PackageManager"), "PackageManager", NULL, (char**) &Settings},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education;ComputerScience or Science;ComputerScience
-    { N_("ParallelComputing"), "ParallelComputing", NULL, (char**) &EducationComputerScienceorScienceComputerScience},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
-    { N_("Photography"), "Photography", NULL, (char**) &GraphicsorOffice},
+    { N_("HardwareSettings"), "HardwareSettings", "folder", (char**) &Settings},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-    { N_("Physics"), "Physics", NULL, (char**) &EducationorScience},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
-    { N_("Player"), "Player", NULL, (char**) &AudioorVideoorAudioVideo},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-    { N_("Presentation"), "Presentation", NULL, (char**) &Office},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings;HardwareSettings
-    { N_("Printing"), "Printing", NULL, (char**) &SettingsHardwareSettings},
+    { N_("History"), "History", "folder", (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+    { N_("Humanities"), "Humanities", "folder", (char**) &EducationorScience},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
-    { N_("Profiling"), "Profiling", NULL, (char**) &Development},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or Development
-    { N_("ProjectManagement"), "ProjectManagement", NULL, (char**) &OfficeorDevelopment},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
-    { N_("Publishing"), "Publishing", NULL, (char**) &GraphicsorOffice},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;2DGraphics
-    { N_("RasterGraphics"), "RasterGraphics", NULL, (char**) &Graphics2DGraphics},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
-    { N_("Recorder"), "Recorder", NULL, (char**) &AudioorVideoorAudioVideo},
+    { N_("IDE"), "IDE", "folder", (char**) &Development},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-    { N_("RemoteAccess"), "RemoteAccess", NULL, (char**) &Network},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
-    { N_("RevisionControl"), "RevisionControl", NULL, (char**) &Development},
+    { N_("IRCClient"), "IRCClient", "folder", (char**) &Network},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-    { N_("Robotics"), "Robotics", NULL, (char**) &EducationorScience},
+    { N_("ImageProcessing"), "ImageProcessing", "folder", (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+    { N_("InstantMessaging"), "InstantMessaging", "folder", (char**) &Network},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-    { N_("RolePlaying"), "RolePlaying", NULL, (char**) &Game},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
-    { N_("Scanning"), "Scanning", NULL, (char**) &Graphics},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings or System
-    { N_("Security"), "Security", NULL, (char**) &SettingsorSystem},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
-    { N_("Sequencer"), "Sequencer", NULL, (char**) &AudioVideoAudio},
+    { N_("KidsGame"), "KidsGame", "folder", (char**) &Game},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+    { N_("Languages"), "Languages", "folder", (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+    { N_("Literature"), "Literature", "folder", (char**) &EducationorScience},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-    { N_("Shooter"), "Shooter", NULL, (char**) &Game},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-    { N_("Simulation"), "Simulation", NULL, (char**) &Game},
+    { N_("LogicGame"), "LogicGame", "folder", (char**) &Game},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science or Utility
-    { N_("Spirituality"), "Spirituality", NULL, (char**) &EducationorScienceorUtility},
+    { N_("Maps"), "Maps", "folder", (char**) &EducationorScienceorUtility},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-    { N_("Sports"), "Sports", NULL, (char**) &EducationorScience},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-    { N_("SportsGame"), "SportsGame", NULL, (char**) &Game},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-    { N_("Spreadsheet"), "Spreadsheet", NULL, (char**) &Office},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-    { N_("StrategyGame"), "StrategyGame", NULL, (char**) &Game},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Video
-    { N_("TV"), "TV", NULL, (char**) &AudioVideoVideo},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-    { N_("Telephony"), "Telephony", NULL, (char**) &Network},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
-    { N_("TelephonyTools"), "TelephonyTools", NULL, (char**) &Utility},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System
-    { N_("TerminalEmulator"), "TerminalEmulator", NULL, (char**) &System},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
-    { N_("TextEditor"), "TextEditor", NULL, (char**) &Utility},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
-    { N_("TextTools"), "TextTools", NULL, (char**) &Utility},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
-    { N_("Translation"), "Translation", NULL, (char**) &Development},
+    { N_("Math"), "Math", "folder", (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+    { N_("MedicalSoftware"), "MedicalSoftware", "folder", (char**) &EducationorScience},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
-    { N_("Tuner"), "Tuner", NULL, (char**) &AudioVideoAudio},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;2DGraphics
-    { N_("VectorGraphics"), "VectorGraphics", NULL, (char**) &Graphics2DGraphics},
+    { N_("Midi"), "Midi", "folder", (char**) &AudioVideoAudio},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
+    { N_("Mixer"), "Mixer", "folder", (char**) &AudioVideoAudio},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System or Network
+    { N_("Monitor"), "Monitor", "folder", (char**) &SystemorNetwork},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+    { N_("Motif"), "Motif", "folder", (char**) &ANY},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+    { N_("Multimedia"), "Multimedia", "folder", NULL},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo or Education
+    { N_("Music"), "Music", "folder", (char**) &AudioVideoorEducation},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+    { N_("Network"), "Network", "folder", NULL},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-    { N_("VideoConference"), "VideoConference", NULL, (char**) &Network},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
-    { N_("Viewer"), "Viewer", NULL, (char**) &GraphicsorOffice},
+    { N_("News"), "News", "folder", (char**) &Network},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education;Math or Science;Math
+    { N_("NumericalAnalysis"), "NumericalAnalysis", "folder", (char**) &EducationMathorScienceMath},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;Scanning
+    { N_("OCR"), "OCR", "folder", (char**) &GraphicsScanning},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+    { N_("Office"), "Office", "folder", NULL},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+    { N_("Other"), "Other", "folder", NULL},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-    { N_("WebBrowser"), "WebBrowser", NULL, (char**) &Network},
-// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network or Development
-    { N_("WebDevelopment"), "WebDevelopment", NULL, (char**) &NetworkorDevelopment},
+    { N_("P2P"), "P2P", "folder", (char**) &Network},
 // TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-    { N_("WordProcessor"), "WordProcessor", NULL, (char**) &Office}
+    { N_("PDA"), "PDA", "folder", (char**) &Office},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
+    { N_("PackageManager"), "PackageManager", "folder", (char**) &Settings},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education;ComputerScience or Science;ComputerScience
+    { N_("ParallelComputing"), "ParallelComputing", "folder", (char**) &EducationComputerScienceorScienceComputerScience},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
+    { N_("Photography"), "Photography", "folder", (char**) &GraphicsorOffice},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+    { N_("Physics"), "Physics", "folder", (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
+    { N_("Player"), "Player", "folder", (char**) &AudioorVideoorAudioVideo},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
+    { N_("Presentation"), "Presentation", "folder", (char**) &Office},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings;HardwareSettings
+    { N_("Printing"), "Printing", "folder", (char**) &SettingsHardwareSettings},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
+    { N_("Profiling"), "Profiling", "folder", (char**) &Development},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or Development
+    { N_("ProjectManagement"), "ProjectManagement", "folder", (char**) &OfficeorDevelopment},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
+    { N_("Publishing"), "Publishing", "folder", (char**) &GraphicsorOffice},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;2DGraphics
+    { N_("RasterGraphics"), "RasterGraphics", "folder", (char**) &Graphics2DGraphics},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
+    { N_("Recorder"), "Recorder", "folder", (char**) &AudioorVideoorAudioVideo},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+    { N_("RemoteAccess"), "RemoteAccess", "folder", (char**) &Network},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
+    { N_("RevisionControl"), "RevisionControl", "folder", (char**) &Development},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+    { N_("Robotics"), "Robotics", "folder", (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+    { N_("RolePlaying"), "RolePlaying", "folder", (char**) &Game},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
+    { N_("Scanning"), "Scanning", "folder", (char**) &Graphics},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+    { N_("Science"), "Science", "folder", NULL},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+    { N_("Screensavers"), "Screensavers", "folder", NULL},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings or System
+    { N_("Security"), "Security", "folder", (char**) &SettingsorSystem},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
+    { N_("Sequencer"), "Sequencer", "folder", (char**) &AudioVideoAudio},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+    { N_("Settings"), "Settings", "folder", NULL},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+    { N_("Shooter"), "Shooter", "folder", (char**) &Game},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+    { N_("Simulation"), "Simulation", "folder", (char**) &Game},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science or Utility
+    { N_("Spirituality"), "Spirituality", "folder", (char**) &EducationorScienceorUtility},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+    { N_("Sports"), "Sports", "folder", (char**) &EducationorScience},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+    { N_("SportsGame"), "SportsGame", "folder", (char**) &Game},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
+    { N_("Spreadsheet"), "Spreadsheet", "folder", (char**) &Office},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+    { N_("StrategyGame"), "StrategyGame", "folder", (char**) &Game},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+    { N_("System"), "System", "folder", NULL},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Video
+    { N_("TV"), "TV", "folder", (char**) &AudioVideoVideo},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+    { N_("Telephony"), "Telephony", "folder", (char**) &Network},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
+    { N_("TelephonyTools"), "TelephonyTools", "folder", (char**) &Utility},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System
+    { N_("TerminalEmulator"), "TerminalEmulator", "folder", (char**) &System},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
+    { N_("TextEditor"), "TextEditor", "folder", (char**) &Utility},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
+    { N_("TextTools"), "TextTools", "folder", (char**) &Utility},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
+    { N_("Translation"), "Translation", "folder", (char**) &Development},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
+    { N_("Tuner"), "Tuner", "folder", (char**) &AudioVideoAudio},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+    { N_("Utility"), "Utility", "folder", NULL},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;2DGraphics
+    { N_("VectorGraphics"), "VectorGraphics", "folder", (char**) &Graphics2DGraphics},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+    { N_("Video"), "Video", "folder", NULL},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+    { N_("VideoConference"), "VideoConference", "folder", (char**) &Network},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
+    { N_("Viewer"), "Viewer", "folder", (char**) &GraphicsorOffice},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+    { N_("WINE"), "WINE", "folder", NULL},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+    { N_("WebBrowser"), "WebBrowser", "folder", (char**) &Network},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network or Development
+    { N_("WebDevelopment"), "WebDevelopment", "folder", (char**) &NetworkorDevelopment},
+// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
+    { N_("WordProcessor"), "WordProcessor", "folder", (char**) &Office}
 };
 }

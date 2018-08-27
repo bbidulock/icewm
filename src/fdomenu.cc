@@ -137,8 +137,7 @@ public:
             if (ctx->count == 0 && add_sep_before)
                 puts("separator");
             ctx->count++;
-            printf("menu \"%s\" %s {\n", title,
-                    meta->icon ? meta->icon : "folder");
+            printf("menu \"%s\" %s {\n", title, meta->icon);
         }
         ctx->level++;
         g_tree_foreach(store, print_node, ctx);
