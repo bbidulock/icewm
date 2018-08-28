@@ -135,7 +135,7 @@ public:
 private:
     YVec<kvp, int> store;
     bool binsearch(KeyType key, int& pos) {
-        size_t leftPos(0), rightPos(store.size - 1), splitPos(0);
+        int leftPos(0), rightPos(store.size - 1), splitPos(0);
         while (leftPos <= rightPos) {
             splitPos = (leftPos + rightPos) / 2;
             // single-stepping due to rounding
