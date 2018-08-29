@@ -124,18 +124,20 @@ public:
         return null;
     }
 
-
     int moveTarget(bool zdown) OVERRIDE {
-        if (getCount() > 1)
-            zTarget = (zTarget + getCount() + (zdown ? 1 : -1)) % getCount();
-        else
-            zTarget = 0;
+        const int cnt = getCount();
+        return setTarget(cnt < 2 ? 0 : (zTarget + cnt + (zdown ? 1 : -1)) % cnt);
+    }
+    inline virtual int setTarget(int zPosition)
+    {
+        zTarget=zPosition;
         if (inrange(zTarget, 0, getCount() - 1))
             fActiveWindow = zList[zTarget];
         else
             fActiveWindow = 0;
-        return zTarget;
+        return zPosition;
     }
+
 
     WindowItemsCtrlr() :
         zTarget(0), fRoot(manager), fActiveWindow(0), fLastWindow(0)
@@ -174,6 +176,10 @@ public:
         updateList();
         zTarget = 0;
         moveTarget(zdown);
+    }
+
+    void reset() {
+        zTarget = 0;
     }
 
     void cancel() {
@@ -501,13 +507,18 @@ void SwitchWindow::paintHorizontal(Graphics &g) {
     }
 }
 
+inline int SwitchWindow::_getVertialEntryHeight()
+{
+    int ih = 0;
+    //ih = quickSwitchHugeIcon ? YIcon::hugeSize() : YIcon::largeSize();
+    ih = YIcon::largeSize();
+    return ih;
+}
+
 void SwitchWindow::paintVertical(Graphics &g) {
     if (zItems->getActiveItem() >= 0) {
 
-        int ih = 0;
-        //ih = quickSwitchHugeIcon ? YIcon::hugeSize() : YIcon::largeSize();
-        ih = YIcon::largeSize();
-
+        const int ih = _getVertialEntryHeight();
         int pos = quickSwitchVMargin;
         g.setFont(switchFont);
         g.setColor(switchFg);
@@ -685,6 +696,23 @@ bool SwitchWindow::modDown(int mod) {
 }
 
 void SwitchWindow::handleButton(const XButtonEvent &button) {
+    if(button.button == Button1 && button.type == ButtonPress && m_verticalStyle)
+    {
+        // follow the footsteps of the renderer to identify the clicked entry
+        zItems->reset();
+        int pos = quickSwitchVMargin;
+        const int ih = _getVertialEntryHeight();
+        for (int i = 0, zCount=zItems->getCount(); i < zCount; i++) {
+            int posNext = pos + ih + 2* quickSwitchIMargin;
+            if(inrange(button.y, pos, posNext))
+            {
+                zItems->setTarget(i);
+                break;
+            }
+            pos = posNext;
+        }
+        accept();
+    }
     YPopupWindow::handleButton(button);
 }
 

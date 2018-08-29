@@ -192,12 +192,21 @@ public:
         // no further gimmicks
         return zTarget;
     }
+    // move the focused target up or down and return the new focused element
+        virtual int setTarget(int where) OVERRIDE {
+            int count = menu->itemCount();
+            return zTarget = inrange(where, 0, count) ? zTarget : 0;
+        }
+
     /// Show changed focus preview to user
     virtual void displayFocusChange(int idxFocused) OVERRIDE {}
     // set target cursor and implementation specific stuff in the beginning
     virtual void begin(bool zdown) OVERRIDE {
         updateList();
         moveTarget(zdown);
+    }
+    virtual void reset() OVERRIDE {
+        zTarget=0;
     }
     virtual void cancel() OVERRIDE {
     }
