@@ -18,6 +18,7 @@
 #include "yrect.h"
 #include "yicon.h"
 #include "wmwinlist.h"
+#include "yprefs.h"
 
 class WindowItemsCtrlr : public ISwitchItems
 {
@@ -228,6 +229,8 @@ public:
 SwitchWindow::SwitchWindow(YWindow *parent, ISwitchItems *items,
                            bool verticalStyle):
     YPopupWindow(parent),
+    m_verticalStyle(verticalStyle),
+    m_oldMenuMouseTracking(menuMouseTracking),
     fGradient(null),
     switchFg(&clrQuickSwitchText),
     switchBg(&clrQuickSwitch),
@@ -236,7 +239,7 @@ SwitchWindow::SwitchWindow(YWindow *parent, ISwitchItems *items,
     switchFont(YFont::getFont(XFA(switchFontName)))
 {
     zItems = items ? items : new WindowItemsCtrlr;
-    m_verticalStyle = verticalStyle;
+    m_hintedItem = -1;
 
     // I prefer clrNormalMenu but some themes use inverted settings where
     // clrNormalMenu is the same as clrQuickSwitch
@@ -250,9 +253,7 @@ SwitchWindow::SwitchWindow(YWindow *parent, ISwitchItems *items,
     modsDown = 0;
     isUp = false;
 
-    //resize(-1);
-
-    setStyle(wsSaveUnder | wsOverrideRedirect);
+    setStyle(wsSaveUnder | wsOverrideRedirect | wsPointerMotion);
     setTitle("IceSwitch");
 }
 
@@ -260,6 +261,8 @@ bool SwitchWindow::close() {
     if (isUp) {
         cancelPopup();
         isUp = false;
+        menuMouseTracking = m_oldMenuMouseTracking;
+        m_hintedItem = -1;
         return true;
     }
     return false;
@@ -507,36 +510,46 @@ void SwitchWindow::paintHorizontal(Graphics &g) {
     }
 }
 
-inline int SwitchWindow::_getVertialEntryHeight()
-{
-    int ih = 0;
-    //ih = quickSwitchHugeIcon ? YIcon::hugeSize() : YIcon::largeSize();
-    ih = YIcon::largeSize();
-    return ih;
+void SwitchWindow::handleMotion(const XMotionEvent& motion) {
+    int hintId = motion.y / m_outerHeight;
+    if(hintId == m_hintedItem)
+        return;
+    m_hintedItem = hintId;
+    repaint();
 }
 
 void SwitchWindow::paintVertical(Graphics &g) {
-    if (zItems->getActiveItem() >= 0) {
+    int ih = 0;
+    //ih = quickSwitchHugeIcon ? YIcon::hugeSize() : YIcon::largeSize();
+    ih = YIcon::largeSize();
+    m_innerHeight = ih;
+    m_outerHeight = ih + 2* quickSwitchIMargin;
 
-        const int ih = _getVertialEntryHeight();
+    if (zItems->getActiveItem() >= 0) {
         int pos = quickSwitchVMargin;
         g.setFont(switchFont);
         g.setColor(switchFg);
-
+        const int itemWidth = width() - quickSwitchHMargin*2, frameWidth = width()-quickSwitchHMargin;
         for (int i = 0, zCount=zItems->getCount(); i < zCount; i++) {
 
-            g.setColor(switchFg);
+            int posNext = pos + m_outerHeight;
+            bool bHotIndicator = false;
             if (i == zItems->getActiveItem()) {
                 g.setColor(switchMbg);
-                g.fillRect(quickSwitchHMargin, pos + quickSwitchVMargin , width() - quickSwitchHMargin*2, ih + quickSwitchIMargin );
+                g.fillRect(quickSwitchHMargin, pos + quickSwitchVMargin,
+                        itemWidth, m_innerHeight + quickSwitchIMargin );
                 g.setColor(switchMfg);
             }
+            else if(i == m_hintedItem)
+                bHotIndicator = true; // draw it after all others, to be never smashed by other rectangles
+
+            g.setColor(switchFg);
 
             ustring cTitle = zItems->getTitle(i);
 
             if (cTitle != null) {
-                const int x(1+ih + quickSwitchIMargin *2 + quickSwitchHMargin + quickSwitchSepSize);
-                const int y(pos + quickSwitchIMargin +  quickSwitchVMargin + ih/2);
+                const int x(1+m_innerHeight + quickSwitchIMargin *2 + quickSwitchHMargin + quickSwitchSepSize);
+                const int y(pos + quickSwitchIMargin +  quickSwitchVMargin + m_innerHeight/2);
 
                 g.drawChars(cTitle, x, y);
 
@@ -547,13 +560,13 @@ void SwitchWindow::paintVertical(Graphics &g) {
                     // prepaint icons because of too long strings
                     g.setColor( (i == zItems->getActiveItem()) ? switchMfg : switchMbg);
                     g.fillRect(
-                               width() - ih - quickSwitchIMargin *2 - quickSwitchHMargin,
+                               width() - m_innerHeight - quickSwitchIMargin *2 - quickSwitchHMargin,
                                pos + quickSwitchVMargin,
-                               ih + 2 * quickSwitchIMargin,
-                               ih + quickSwitchIMargin);
+                               m_outerHeight,
+                               m_innerHeight + quickSwitchIMargin);
 
                     icon->draw(g,
-                               width() - ih - quickSwitchIMargin - quickSwitchHMargin,
+                               width() - m_innerHeight - quickSwitchIMargin - quickSwitchHMargin,
                                pos + quickSwitchIMargin,
                                YIcon::largeSize());
                 } else {
@@ -563,12 +576,22 @@ void SwitchWindow::paintVertical(Graphics &g) {
                                YIcon::largeSize());
                 }
             }
+            if(bHotIndicator)
+            {
+                g.setColor(switchMbg);
+                g.drawLine(1, pos, frameWidth, pos);
+                g.drawLine(1, posNext, frameWidth, posNext);
+                g.drawLine(1, pos, 1, posNext);
+                g.drawLine(frameWidth, pos, frameWidth, posNext);
+                g.setColor(switchMfg);
+            }
 
-            pos += ih + 2* quickSwitchIMargin;
+            pos = posNext;
+
         }
 
         if (quickSwitchSepSize) {
-            const int ip(ih + 2 * quickSwitchIMargin +
+            const int ip(m_innerHeight + 2 * quickSwitchIMargin +
                          quickSwitchSepSize/2);
             const int x(quickSwitchTextFirst ? width() - ip : ip);
 
@@ -587,6 +610,9 @@ void SwitchWindow::begin(bool zdown, int mods) {
 
     if (close())
         return;
+
+    m_oldMenuMouseTracking = menuMouseTracking;
+    menuMouseTracking = true;
 
     int xiscreen = manager->getScreen();
     zItems->begin(zdown);
@@ -699,18 +725,11 @@ void SwitchWindow::handleButton(const XButtonEvent &button) {
     if(button.button == Button1 && button.type == ButtonPress && m_verticalStyle)
     {
         // follow the footsteps of the renderer to identify the clicked entry
+        const int idx=button.y/m_outerHeight;
+        if(idx >= zItems->getCount())
+            return; // errr
         zItems->reset();
-        int pos = quickSwitchVMargin;
-        const int ih = _getVertialEntryHeight();
-        for (int i = 0, zCount=zItems->getCount(); i < zCount; i++) {
-            int posNext = pos + ih + 2* quickSwitchIMargin;
-            if(inrange(button.y, pos, posNext))
-            {
-                zItems->setTarget(i);
-                break;
-            }
-            pos = posNext;
-        }
+        zItems->setTarget(idx);
         accept();
     }
     YPopupWindow::handleButton(button);
