@@ -65,12 +65,14 @@ public:
 
     virtual bool handleKey(const XKeyEvent &key) OVERRIDE;
     virtual void handleButton(const XButtonEvent &button) OVERRIDE;
-
+    void handleMotion(const XMotionEvent &motion) OVERRIDE;
     void destroyedFrame(YFrameWindow *frame);
 
 private:
     ISwitchItems* zItems;
     bool m_verticalStyle;
+    bool m_oldMenuMouseTracking; // backup of user's config, needs to be enforced temporarily
+    int m_hintedItem, m_innerHeight, m_outerHeight;
 
     ref<YImage> fGradient;
 
@@ -102,7 +104,6 @@ private:
 private: // not-used
     SwitchWindow(const SwitchWindow &);
     SwitchWindow &operator=(const SwitchWindow &);
-    int _getVertialEntryHeight();
 };
 
 #endif
