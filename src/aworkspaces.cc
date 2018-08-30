@@ -47,10 +47,10 @@ void WorkspaceButton::handleClick(const XButtonEvent &up, int /*count*/) {
             manager->popupWindowListMenu(this, up.x_root, up.y_root);
             break;
         case 4:
-            manager->switchToPrevWorkspace(false);
+            if(taskBarUseMouseWheel) manager->switchToPrevWorkspace(false);
             break;
         case 5:
-            manager->switchToNextWorkspace(false);
+            if(taskBarUseMouseWheel) manager->switchToNextWorkspace(false);
             break;
     }
 }
