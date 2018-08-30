@@ -576,6 +576,15 @@ void YFrameWindow::unmanage(bool reparent) {
         else if (gy > 0)
             posY += borderYN() + titleYN() - 2 * client()->getBorder();
 
+        if (gx == 0 && gy == 0) {
+            const XSizeHints* sh = client()->sizeHints();
+            if (sh && (sh->flags & PWinGravity) &&
+                sh->win_gravity == StaticGravity)
+            {
+                posY += titleYN();
+            }
+        }
+
         if (reparent)
             client()->reparent(manager, posX, posY);
 
