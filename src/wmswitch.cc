@@ -300,7 +300,8 @@ void SwitchWindow::resize(int xiscreen) {
 
     int aWidth =
         quickSwitchSmallWindow ?
-        (int) dw * 1/3 : (int) dw * 3/5;
+        (int) dw * 1/3
+        : (quickSwitchVertical ? (int) dw * 2/5 : (int) dw * 3/5);
 
     int tWidth=0;
     if (quickSwitchMaxWidth) {
