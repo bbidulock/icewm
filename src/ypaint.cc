@@ -20,6 +20,8 @@
     do { Drawable B(b),C(c); PRECONDITION(B); PRECONDITION(C); ::XCopyArea(a,B,C,d,e,f,g,h,i,j); } while (0)
 #endif
 
+extern const ustring sEllipsis;
+
 static inline Display* display()  { return xapp->display(); }
 static inline Colormap colormap() { return xapp->colormap(); }
 static inline Visual*  visual()   { return xapp->visual(); }
@@ -260,7 +262,7 @@ void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
         if (!showEllipsis)
             maxW = (maxWidth);
         else
-            maxW = (maxWidth - fFont->textWidth("...", 3));
+            maxW = (maxWidth - fFont->textWidth(sEllipsis));
 
         int l(0), w(0);
         int sl(0), sw(0);
@@ -311,7 +313,7 @@ void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
             drawChars(str, 0, l, x, y);
         if (showEllipsis) {
             if (l < len)
-                drawChars("...", 0, 3, x + w, y);
+                drawChars(sEllipsis, x + w, y);
         }
     }
 }

@@ -14,6 +14,9 @@
 #include "base.h"
 #include "ascii.h"
 
+const char utf8ellipsis[] = { char(0xe2), char(0x80), char(0xa6), 0x0};
+ustring sEllipsis(utf8ellipsis);
+
 MStringData *MStringData::alloc(int length) {
     size_t size = sizeof(MStringData) + (size_t) length + 1;
     MStringData *ud = (MStringData *) malloc(size);
