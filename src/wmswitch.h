@@ -71,8 +71,11 @@ public:
 private:
     ISwitchItems* zItems;
     bool m_verticalStyle;
-    bool m_oldMenuMouseTracking; // backup of user's config, needs to be enforced temporarily
-    int m_hintedItem, m_innerHeight, m_outerHeight;
+    // backup of user's config, needs to be enforced temporarily
+    bool m_oldMenuMouseTracking;
+    int m_hintedItem;
+    // hints for fast identification of the entry under the cursor
+    int m_hintAreaStart, m_hintAreaStep;
 
     ref<YImage> fGradient;
 

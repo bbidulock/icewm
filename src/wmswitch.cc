@@ -20,6 +20,11 @@
 #include "wmwinlist.h"
 #include "yprefs.h"
 
+// for vertical quickswitch, reuse some colors from the menu because those
+// from flat quickswitch often look odd (not enough contrast)
+
+extern YColorName activeMenuItemBg, activeMenuItemFg;
+
 class WindowItemsCtrlr : public ISwitchItems
 {
     int zTarget;
@@ -319,6 +324,7 @@ void SwitchWindow::resize(int xiscreen) {
     int w = aWidth;
     int h = switchFont->height();
     int const mWidth(dw * 6/7);
+    const int vMargins = quickSwitchVMargin*2;
 
     if (quickSwitchVertical) {
         w = aWidth;
@@ -326,12 +332,11 @@ void SwitchWindow::resize(int xiscreen) {
             w = mWidth;
         w += quickSwitchSepSize;
 
-        int step = (YIcon::largeSize() + 2 * quickSwitchIMargin);
-        int maxHeight = (int) dh - YIcon::largeSize();
-        h = zItems->getCount() * step;
-
-        if (h > maxHeight)
-            h= maxHeight - (maxHeight % step);
+        m_hintAreaStep = YIcon::largeSize() + quickSwitchIMargin;
+        m_hintAreaStart = quickSwitchVMargin - quickSwitchIBorder;
+        h = zItems->getCount() * m_hintAreaStep;
+        if (h + vMargins > int(dh))
+            h = (dh - vMargins) % m_hintAreaStep;
     } else {
 
         int iWidth =
@@ -359,7 +364,7 @@ void SwitchWindow::resize(int xiscreen) {
                 h = iHeight;
         }
     }
-    h += quickSwitchVMargin * 2;
+    h += vMargins;
     w += quickSwitchHMargin * 2;
 
     setGeometry(YRect(dx + ((dw - w) >> 1),
@@ -511,7 +516,8 @@ void SwitchWindow::paintHorizontal(Graphics &g) {
 }
 
 void SwitchWindow::handleMotion(const XMotionEvent& motion) {
-    int hintId = motion.y / m_outerHeight;
+    int hintId = (motion.y - m_hintAreaStart) / m_hintAreaStep;
+    //printf("hint id: %d\n", hintId);
     if(hintId == m_hintedItem)
         return;
     m_hintedItem = hintId;
@@ -519,86 +525,62 @@ void SwitchWindow::handleMotion(const XMotionEvent& motion) {
 }
 
 void SwitchWindow::paintVertical(Graphics &g) {
-    int ih = 0;
-    //ih = quickSwitchHugeIcon ? YIcon::hugeSize() : YIcon::largeSize();
-    ih = YIcon::largeSize();
-    m_innerHeight = ih;
-    m_outerHeight = ih + 2* quickSwitchIMargin;
+    // XXX: the active icon magnifier is not supported in vertical mode (yet)
+    const int iconSize = /* quickSwitchHugeIcon ? YIcon::hugeSize() : */ YIcon::largeSize();
 
     if (zItems->getActiveItem() >= 0) {
-        int pos = quickSwitchVMargin;
+        const int maxWid = width() - 2; // reduce due to 3D edge
+        const int contentX = quickSwitchHMargin;
+        const int titleX = quickSwitchTextFirst ? contentX
+                : contentX + iconSize + quickSwitchSepSize;
+        const int itemWidth = maxWid - quickSwitchHMargin*2;
+        const int frameX = contentX - quickSwitchIBorder;
+        const int frameWid = itemWidth + 2 * quickSwitchIBorder;
+        const int frameHght = iconSize + 2*quickSwitchIBorder;
+        const int strWid = itemWidth - iconSize - quickSwitchSepSize - 2*quickSwitchHMargin;
+        const int sepX = quickSwitchTextFirst
+                ? maxWid - iconSize - quickSwitchSepSize/2 - 1
+                        :  contentX + iconSize + quickSwitchSepSize/2 - 1;
+
+        int contentY = quickSwitchVMargin;
+
         g.setFont(switchFont);
         g.setColor(switchFg);
-        const int itemWidth = width() - quickSwitchHMargin*2, frameWidth = width()-quickSwitchHMargin;
         for (int i = 0, zCount=zItems->getCount(); i < zCount; i++) {
-
-            int posNext = pos + m_outerHeight;
-            bool bHotIndicator = false;
             if (i == zItems->getActiveItem()) {
-                g.setColor(switchMbg);
-                g.fillRect(quickSwitchHMargin, pos + quickSwitchVMargin,
-                        itemWidth, m_innerHeight + quickSwitchIMargin );
-                g.setColor(switchMfg);
+                g.setColor(activeMenuItemBg);
+                g.fillRect(frameX, contentY-quickSwitchIBorder, frameWid, frameHght);
+                g.setColor(activeMenuItemFg);
             }
-            else if(i == m_hintedItem)
-                bHotIndicator = true; // draw it after all others, to be never smashed by other rectangles
-
-            g.setColor(switchFg);
+            else
+                g.setColor(switchFg);
 
             ustring cTitle = zItems->getTitle(i);
 
             if (cTitle != null) {
-                const int x(1+m_innerHeight + quickSwitchIMargin *2 + quickSwitchHMargin + quickSwitchSepSize);
-                const int y(pos + quickSwitchIMargin +  quickSwitchVMargin + m_innerHeight/2);
-
-                g.drawChars(cTitle, x, y);
-
+                const int titleY = contentY + (iconSize + g.font()->ascent())/2;
+                g.drawStringEllipsis(titleX, titleY, cstring(cTitle).c_str(), strWid);
             }
             ref<YIcon> icon = zItems->getIcon(i);
             if (icon != null) {
-                if (quickSwitchTextFirst) {
-                    // prepaint icons because of too long strings
-                    g.setColor( (i == zItems->getActiveItem()) ? switchMfg : switchMbg);
-                    g.fillRect(
-                               width() - m_innerHeight - quickSwitchIMargin *2 - quickSwitchHMargin,
-                               pos + quickSwitchVMargin,
-                               m_outerHeight,
-                               m_innerHeight + quickSwitchIMargin);
-
-                    icon->draw(g,
-                               width() - m_innerHeight - quickSwitchIMargin - quickSwitchHMargin,
-                               pos + quickSwitchIMargin,
-                               YIcon::largeSize());
-                } else {
-                    icon->draw(g,
-                               quickSwitchIMargin,
-                               pos + quickSwitchIMargin,
-                               YIcon::largeSize());
-                }
+                int iconX = quickSwitchTextFirst
+                        ? width() - quickSwitchHMargin - iconSize
+                        : contentX;
+                icon->draw(g, iconX, contentY, iconSize);
             }
-            if(bHotIndicator)
+
+            if(i == m_hintedItem && i != zItems->getActiveItem())
             {
                 g.setColor(switchMbg);
-                g.drawLine(1, pos, frameWidth, pos);
-                g.drawLine(1, posNext, frameWidth, posNext);
-                g.drawLine(1, pos, 1, posNext);
-                g.drawLine(frameWidth, pos, frameWidth, posNext);
-                g.setColor(switchMfg);
+                g.drawRect(frameX, contentY-quickSwitchIBorder, frameWid, frameHght);
             }
-
-            pos = posNext;
-
+            contentY += m_hintAreaStep;
         }
-
         if (quickSwitchSepSize) {
-            const int ip(m_innerHeight + 2 * quickSwitchIMargin +
-                         quickSwitchSepSize/2);
-            const int x(quickSwitchTextFirst ? width() - ip : ip);
-
             g.setColor(switchBg->darker());
-            g.drawLine(x + 0, 1, x + 0, height() - 2);
+            g.drawLine(sepX + 0, 1, sepX + 0, height() - 2);
             g.setColor(switchBg->brighter());
-            g.drawLine(x + 1, 1, x + 1, height() - 2);
+            g.drawLine(sepX + 1, 1, sepX + 1, height() - 2);
         }
     }
 }
@@ -722,15 +704,14 @@ bool SwitchWindow::modDown(int mod) {
 }
 
 void SwitchWindow::handleButton(const XButtonEvent &button) {
-    if(button.button == Button1 && button.type == ButtonPress && m_verticalStyle)
-    {
-        // follow the footsteps of the renderer to identify the clicked entry
-        const int idx=button.y/m_outerHeight;
-        if(idx >= zItems->getCount())
-            return; // errr
-        zItems->reset();
-        zItems->setTarget(idx);
-        accept();
+    //printf("got click, hot item: %d\n", m_hintedItem);
+    if (button.button == Button1 && button.type == ButtonPress
+            && m_verticalStyle) {
+        if (m_hintedItem >= 0 && m_hintedItem < zItems->getCount()) {
+            zItems->reset();
+            zItems->setTarget(m_hintedItem);
+            accept();
+        }
     }
     YPopupWindow::handleButton(button);
 }
