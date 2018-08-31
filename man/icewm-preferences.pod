@@ -732,7 +732,7 @@ Screen edge workspace switching delay.
 
 =item B<ScrollBarStartDelay>=500  [0-5000]
 
-Inital scroll bar autoscroll delay.
+Initial scroll bar autoscroll delay.
 
 =item B<ScrollBarDelay>=30  [0-5000]
 
@@ -1300,7 +1300,7 @@ Textcolor in the quick switch window.
 
 =item B<ColorQuickSwitchActive> = ""
 
-Rectangle arround the active icon in the quick switch window.
+Rectangle around the active icon in the quick switch window.
 
 =item B<ColorDefaultTaskBar> = "rgb:C0/C0/C0"
 
