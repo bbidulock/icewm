@@ -399,7 +399,6 @@ FocusMenu::FocusMenu() {
 }
 
 extern cfoption icewm_preferences[];
-extern const ustring sEllipsis;
 
 class PrefsMenu: public YMenu, private YActionListener {
 private:
@@ -418,8 +417,8 @@ public:
         addSubmenu("_QuickSwitch", -2, qs = new YMenu, "pref");
         addSubmenu("_TaskBar", -2, tb = new YMenu, "pref");
         addSubmenu("_Show", -2, sh = new YMenu, "pref");
-        addSubmenu(ustring("_A") + sEllipsis + " - L" + sEllipsis, -2, al = new YMenu, "pref");
-        addSubmenu(ustring("_M") + sEllipsis + " - Z" + sEllipsis, -2, mz = new YMenu, "pref");
+        addSubmenu("_A... - L...", -2, al = new YMenu, "pref");
+        addSubmenu("_M... - Z...", -2, mz = new YMenu, "pref");
         addSubmenu("_KeyWin", -2, ke = new YMenu, "key");
         addSubmenu("K_eySys", -2, ks = new YMenu, "key");
         addSubmenu("KeySys_Workspace", -2, kw = new YMenu, "key");
