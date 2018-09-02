@@ -337,7 +337,7 @@ void SwitchWindow::resize(int xiscreen) {
         m_hintAreaStart = quickSwitchVMargin - quickSwitchIBorder;
         h = zItems->getCount() * m_hintAreaStep;
         if (h + vMargins > int(dh))
-            h = (dh - vMargins) % m_hintAreaStep;
+            h = (unsigned(dh) - vMargins) / m_hintAreaStep * m_hintAreaStep;
     } else {
 
         int iWidth =
@@ -526,7 +526,7 @@ void SwitchWindow::handleMotion(const XMotionEvent& motion) {
 }
 
 void SwitchWindow::paintVertical(Graphics &g) {
-    // XXX: the active icon magnifier is not supported in vertical mode (yet)
+    // NOTE: quickSwitchHugeIcon not supported in vertical mode. Tried that, looks creepy, not nice (04d53238@code7r)
     const int iconSize = /* quickSwitchHugeIcon ? YIcon::hugeSize() : */ YIcon::largeSize();
 
     if (zItems->getActiveItem() >= 0) {
@@ -548,6 +548,8 @@ void SwitchWindow::paintVertical(Graphics &g) {
         g.setFont(switchFont);
         g.setColor(switchFg);
         for (int i = 0, zCount=zItems->getCount(); i < zCount; i++) {
+            if(contentY + frameHght > (int) height())
+                break;
             if (i == zItems->getActiveItem()) {
                 g.setColor(activeMenuItemBg);
                 g.fillRect(frameX, contentY-quickSwitchIBorder, frameWid, frameHght);
