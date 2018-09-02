@@ -337,7 +337,7 @@ void SwitchWindow::resize(int xiscreen) {
         m_hintAreaStart = quickSwitchVMargin - quickSwitchIBorder;
         h = zItems->getCount() * m_hintAreaStep;
         if (h + vMargins > int(dh))
-            h = (dh - vMargins) % m_hintAreaStep;
+            h = (unsigned(dh) - vMargins) / m_hintAreaStep * m_hintAreaStep;
     } else {
 
         int iWidth =
@@ -478,7 +478,8 @@ void SwitchWindow::paintHorizontal(Graphics &g) {
                         ? height() - quickSwitchVMargin - iconSize - quickSwitchIMargin + ds / 2
                         : quickSwitchVMargin + ds + quickSwitchIMargin - ds / 2);
 
-            g.setColor(switchHl ? switchHl : switchBg->brighter());
+            YColor frameColor = switchHl ? switchHl : switchBg->brighter();
+            g.setColor(frameColor);
 
             const int off(max(1 + curIcon - visIcons, 0));
             const int end(off + visIcons);
@@ -486,28 +487,39 @@ void SwitchWindow::paintHorizontal(Graphics &g) {
             int x((width() - min(visIcons, zItems->getCount()) * dx - ds) /  2 +
                   quickSwitchIMargin);
 
+            m_hintAreaStart = x;
+            m_hintAreaStep = dx;
+
             for (int i = 0, zCount = zItems->getCount (); i < zCount; i++) {
                 if (i >= off && i < end) {
-                    ref<YIcon> icon = zItems->getIcon (i);
-                    if (icon != null && i == zItems->getActiveItem ()) {
-                        if (quickSwitchFillSelection)
-                            g.fillRect (x - quickSwitchIBorder,
+                    ref<YIcon> icon = zItems->getIcon(i);
+                    if (icon != null) {
+                        if (i == m_hintedItem && i != zItems->getActiveItem()) {
+                            g.setColor(frameColor.darker());
+                            g.drawRect(x - quickSwitchIBorder,
+                                    y - quickSwitchIBorder - ds / 2,
+                                    iconSize + 2 * quickSwitchIBorder,
+                                    iconSize + 2 * quickSwitchIBorder);
+                            g.setColor(frameColor);
+                        }
+                        if (i == zItems->getActiveItem()) {
+                            if (quickSwitchFillSelection)
+                                g.fillRect(x - quickSwitchIBorder,
                                         y - quickSwitchIBorder - ds / 2,
                                         iconSize + 2 * quickSwitchIBorder,
                                         iconSize + 2 * quickSwitchIBorder);
-                        else
-                            g.drawRect (x - quickSwitchIBorder,
+                            else
+                                g.drawRect(x - quickSwitchIBorder,
                                         y - quickSwitchIBorder - ds / 2,
                                         iconSize + 2 * quickSwitchIBorder,
                                         iconSize + 2 * quickSwitchIBorder);
 
-                        if (icon != null)
-                            icon->draw (g, x, y - ds / 2, iconSize);
-
+                            if (icon != null)
+                                icon->draw(g, x, y - ds / 2, iconSize);
+                        } else {
+                            icon->draw(g, x, y, YIcon::largeSize());
+                        }
                         x += ds;
-                    } else {
-                        if (icon != null)
-                            icon->draw (g, x, y, YIcon::largeSize ());
                     }
                     x += dx;
                 }
@@ -517,7 +529,13 @@ void SwitchWindow::paintHorizontal(Graphics &g) {
 }
 
 void SwitchWindow::handleMotion(const XMotionEvent& motion) {
-    int hintId = (motion.y - m_hintAreaStart) / m_hintAreaStep;
+    int hintId = -1;
+    if(quickSwitchVertical)
+        hintId = (motion.y - m_hintAreaStart) / m_hintAreaStep;
+    else if(quickSwitchAllIcons && !quickSwitchHugeIcon)
+        hintId = (motion.x - m_hintAreaStart) / m_hintAreaStep;
+    else
+        return;
     //printf("hint id: %d\n", hintId);
     if(hintId == m_hintedItem)
         return;
@@ -526,7 +544,7 @@ void SwitchWindow::handleMotion(const XMotionEvent& motion) {
 }
 
 void SwitchWindow::paintVertical(Graphics &g) {
-    // XXX: the active icon magnifier is not supported in vertical mode (yet)
+    // NOTE: quickSwitchHugeIcon not supported in vertical mode. Tried that, looks creepy, not nice (04d53238@code7r)
     const int iconSize = /* quickSwitchHugeIcon ? YIcon::hugeSize() : */ YIcon::largeSize();
 
     if (zItems->getActiveItem() >= 0) {
@@ -548,6 +566,8 @@ void SwitchWindow::paintVertical(Graphics &g) {
         g.setFont(switchFont);
         g.setColor(switchFg);
         for (int i = 0, zCount=zItems->getCount(); i < zCount; i++) {
+            if(contentY + frameHght > (int) height())
+                break;
             if (i == zItems->getActiveItem()) {
                 g.setColor(activeMenuItemBg);
                 g.fillRect(frameX, contentY-quickSwitchIBorder, frameWid, frameHght);
@@ -654,11 +674,12 @@ bool SwitchWindow::handleKey(const XKeyEvent &key) {
 
     if (key.type == KeyPress) {
         if (zItems->isKey(k, vm)) {
+            m_hintedItem = -1;
             int focused = zItems->moveTarget(true);
             displayFocus(focused);
             return true;
         } else if ((IS_WMKEY(k, vm, gKeySysSwitchLast))) {
-            // XXX: what to do with the swich-last key...
+            m_hintedItem = -1;
             int focused = zItems->moveTarget(false);
             displayFocus(focused);
             return true;
@@ -706,8 +727,7 @@ bool SwitchWindow::modDown(int mod) {
 
 void SwitchWindow::handleButton(const XButtonEvent &button) {
     //printf("got click, hot item: %d\n", m_hintedItem);
-    if (button.button == Button1 && button.type == ButtonPress
-            && m_verticalStyle) {
+    if (button.button == Button1 && button.type == ButtonPress) {
         if (m_hintedItem >= 0 && m_hintedItem < zItems->getCount()) {
             zItems->reset();
             zItems->setTarget(m_hintedItem);
