@@ -545,9 +545,7 @@ static void init() {
     for (unsigned i = 0; i < ACOUNT(spec::menuinfo); ++i) {
         tListMeta& what = spec::menuinfo[i];
 #ifdef ENABLE_NLS
-        // internal translations just for the main sections
-        if(!what.parent_sec)
-            what.title = gettext(what.title);
+        what.title = gettext(what.title);
 #endif
         // enforce non-const since we are not destroying that data ever, no key_destroy_func set!
         g_hash_table_insert(meta_lookup_data, (gpointer) what.key, &what);
