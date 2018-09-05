@@ -180,7 +180,7 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
     }
 
     ref<YIcon> icon(getFrame()->getIcon());
-    bool drew_icon = false;
+    bool drew_icon;
 
     if (taskBarShowWindowIcons && icon != null) {
         int iconSize = YIcon::smallSize();
