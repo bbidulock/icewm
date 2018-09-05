@@ -358,7 +358,7 @@ unsigned YIcon::hugeSize() {
     return hugeIconSize;
 }
 
-void YIcon::draw(Graphics &g, int x, int y, int size) {
+bool YIcon::draw(Graphics &g, int x, int y, int size) {
     ref<YImage> image = getScaledIcon(size);
     if (image != null) {
         if (!doubleBuffer) {
@@ -366,7 +366,9 @@ void YIcon::draw(Graphics &g, int x, int y, int size) {
         } else {
             g.compositeImage(image, 0, 0, size, size, x, y);
         }
+        return true;
     }
+    return false;
 }
 
 // vim: set sw=4 ts=4 et:

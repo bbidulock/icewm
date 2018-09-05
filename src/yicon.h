@@ -25,7 +25,7 @@ public:
     static unsigned largeSize();
     static unsigned hugeSize();
 
-    void draw(Graphics &g, int x, int y, int size);
+    bool draw(Graphics &g, int x, int y, int size);
 
 private:
     ref<YImage> fSmall;
