@@ -11,15 +11,16 @@
  *
  *  2015/02/05: Eduard Bloch <edi@gmx.de>
  *  - initial version
+ *  2018/08:
+ *  - overhauled program design and menu construction code, added sub-category handling
  */
 
 #include "config.h"
 #include "base.h"
 #include "sysdep.h"
 #include "intl.h"
-#include "appnames.h" // for QUOTE macro
 
-char const *ApplicationName;
+char const *ApplicationName(0);
 
 #ifndef LPCSTR // mind the MFC
 // easier to read...
@@ -167,11 +168,9 @@ public:
         print(&ctx);
     }
 
-
     void add(t_menu_node* node) {
         if (!store)
             store = g_tree_new(cmpUtf8);
-        //const char* name = node->meta->title ? node->meta->title : node->meta->key;
         g_tree_replace(store, (gpointer) Elvis(node->meta->title, node->meta->key), (gpointer) node);
     }
 
@@ -199,18 +198,15 @@ public:
         tListMeta* pNewCatInfo = 0;
         tListMeta** ppLastMainCat = 0;
 
-        for(const char * const *pSubCatName = subCatCandidate->parent_sec;
-                *pSubCatName; ++pSubCatName)
-        {
+        for (const char * const *pSubCatName = subCatCandidate->parent_sec;
+                *pSubCatName; ++pSubCatName) {
             bool store_here = **pSubCatName == '|';
-            if(skipping && store_here)
-            {
-                    skipping = false;
-                    pTree = &root;
-                    continue;
+            if (skipping && store_here) {
+                skipping = false;
+                pTree = &root;
+                continue;
             }
-            if(store_here)
-            {
+            if (store_here) {
                 pTree->get_subtree(subCatCandidate)->add(pNode);
                 // main menu was served, don't come here again
                 *ppLastMainCat = 0;
@@ -222,6 +218,7 @@ public:
             for (tListMeta** ppMainCat = matched_main_cats.data;
                     ppMainCat < matched_main_cats.data + matched_main_cats.size;
                     ++ppMainCat) {
+
                 if (!*ppMainCat)
                     continue;
 
@@ -263,17 +260,16 @@ public:
         }
         if (matched_main_cats.size == 0)
             matched_main_cats.add(lookup_category("Other"));
-        for(tListMeta** p=matched_sub_cats.data;
-                p < matched_sub_cats.data + matched_sub_cats.size;
-                ++p)
-        {
+        for (tListMeta** p = matched_sub_cats.data;
+                p < matched_sub_cats.data + matched_sub_cats.size; ++p) {
+
             try_add_to_subcat(pNode, *p, matched_main_cats);
         }
-        for(tListMeta** p=matched_main_cats.data;
-                p < matched_main_cats.data + matched_main_cats.size;
-                ++p)
-        {
-            if(*p == NULL) continue;
+        for (tListMeta** p = matched_main_cats.data;
+                p < matched_main_cats.data + matched_main_cats.size; ++p) {
+
+            if (*p == NULL)
+                continue;
             get_subtree(*p)->add(pNode);
         }
     }
@@ -319,10 +315,7 @@ public:
         return pInfo;
     }
 
-    ~tDesktopInfo() {
-//        if (pInfo)            g_object_unref(pInfo);
-        pInfo = 0;
-    }
+    ~tDesktopInfo() { }
 
     LPCSTR get_name() const {
         if (!pInfo)
@@ -594,7 +587,7 @@ void load_folder_descriptions(const tCharVec& where) {
 int main(int argc, LPCSTR *argv) {
     ApplicationName = my_basename(argv[0]);
 
-    LPCSTR  usershare = getenv("XDG_DATA_HOME");
+    LPCSTR usershare = getenv("XDG_DATA_HOME");
     if (!usershare || !*usershare)
         usershare = g_strjoin(NULL, getenv("HOME"), "/.local/share", NULL);
 
@@ -603,36 +596,34 @@ int main(int argc, LPCSTR *argv) {
     if (!sysshare || !*sysshare)
         sysshare = "/usr/local/share:/usr/share";
 
-    for(LPCSTR *pArg = argv+1; pArg<argv+argc; ++pArg)
-    {
+    if (argc == 2 && checkSuffix(argv[1], "desktop")
+            && launch(argv[1], argv + 2, argc - 2)) {
+        return EXIT_SUCCESS;
+    }
+
+    for (LPCSTR *pArg = argv + 1; pArg < argv + argc; ++pArg) {
         if (is_version_switch(*pArg))
             print_version_exit(VERSION);
         if (is_help_switch(*pArg))
             help(usershare, sysshare, stdout, EXIT_SUCCESS);
-        if(is_long_switch(*pArg, "seps"))
-        {
+        if (is_long_switch(*pArg, "seps")) {
             add_sep_before = add_sep_after = true;
             continue;
         }
-        if(is_long_switch(*pArg, "sep-before"))
-        {
+        if (is_long_switch(*pArg, "sep-before")) {
             add_sep_before = true;
             continue;
         }
-        if(is_long_switch(*pArg, "sep-after"))
-        {
+        if (is_long_switch(*pArg, "sep-after")) {
             add_sep_after = true;
             continue;
         }
-        if(is_long_switch(*pArg, "no-sep-others"))
-        {
+        if (is_long_switch(*pArg, "no-sep-others")) {
             no_sep_others = true;
             continue;
         }
-        if (checkSuffix(argv[1], "desktop") && launch(argv[1], argv + 2, argc - 2))
-            return EXIT_SUCCESS;
-        else // unknown option?
-            help(usershare, sysshare, stderr, EXIT_FAILURE);
+        // unknown option?
+        help(usershare, sysshare, stderr, EXIT_FAILURE);
     }
 
     init();
