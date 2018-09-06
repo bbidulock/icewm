@@ -8,11 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm-1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2018-08-27 12:44+0200\n"
+"POT-Creation-Date: 2018-09-06 12:49-0600\n"
 "PO-Revision-Date: 2018-09-02 08:46+0000\n"
 "Last-Translator: Aleš Kastner <alkas@volny.cz>\n"
-"Language-Team: Czech "
-"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/cs/>\n"
+"Language-Team: Czech <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -248,7 +248,7 @@ msgstr "MAIL"
 msgid "_Check"
 msgstr "_Kontrola"
 
-#: src/amailbox.cc:938 src/wmapp.cc:523 src/wmdialog.cc:74
+#: src/amailbox.cc:938
 msgid "_Suspend"
 msgstr "_Pozastavit"
 
@@ -1296,13 +1296,18 @@ msgstr "_Zrušit odhlášení"
 msgid "Lock _Workstation"
 msgstr "Zamknout pracovní _stanici"
 
-#: src/wmapp.cc:519 src/wmdialog.cc:77
+#: src/wmapp.cc:519 src/wmdialog.cc:78
 msgid "Re_boot"
 msgstr "Restartovat _počítač"
 
-#: src/wmapp.cc:521 src/wmdialog.cc:78
+#: src/wmapp.cc:521 src/wmdialog.cc:79
 msgid "Shut_down"
 msgstr "_Vypnout počítač"
+
+#. TRANSLATORS: This means "energy saving mode" or "suspended system". Not "interrupt". Not "hibernate".
+#: src/wmapp.cc:523 src/wmdialog.cc:75
+msgid "_Sleep mode"
+msgstr ""
 
 #: src/wmapp.cc:528
 msgid "Restart _Icewm"
@@ -1408,7 +1413,7 @@ msgstr "_Zavřít"
 msgid "_Kill Client"
 msgstr "_Zabít klienta"
 
-#: src/wmapp.cc:625 src/wmdialog.cc:79 src/wmwinmenu.cc:131
+#: src/wmapp.cc:625 src/wmdialog.cc:80 src/wmwinmenu.cc:131
 msgid "_Window list"
 msgstr "Seznam _oken"
 
@@ -1573,29 +1578,29 @@ msgstr "Nezdařilo se přejmenování %s na %s"
 msgid "Loc_k Workstation"
 msgstr "Zamknout pracovní _stanici"
 
-#: src/wmdialog.cc:75 src/ymsgbox.cc:44
+#: src/wmdialog.cc:76 src/ymsgbox.cc:44
 msgid "_Cancel"
 msgstr "_Zrušit"
 
-#: src/wmdialog.cc:76 src/wmprog.cc:797 src/wmprog.cc:799 src/wmtaskbar.cc:292
+#: src/wmdialog.cc:77 src/wmprog.cc:806 src/wmprog.cc:808 src/wmtaskbar.cc:292
 #: src/wmtaskbar.cc:294
 msgid "_Logout..."
 msgstr "_Odhlášení…"
 
-#: src/wmdialog.cc:80
+#: src/wmdialog.cc:81
 msgid "_Restart icewm"
 msgstr "Restartovat _icewm"
 
-#: src/wmdialog.cc:81 src/wmprog.cc:758 src/wmtaskbar.cc:285
+#: src/wmdialog.cc:82 src/wmprog.cc:767 src/wmtaskbar.cc:285
 #: src/wmtaskbar.cc:288
 msgid "_About"
 msgstr "O _Aplikaci"
 
-#: src/wmframe.cc:1406
+#: src/wmframe.cc:1415
 msgid "Kill Client: "
 msgstr "Zabít Klienta: "
 
-#: src/wmframe.cc:1413
+#: src/wmframe.cc:1422
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1603,19 +1608,19 @@ msgstr ""
 "VAROVÁNÍ! Pokud bude tento klient zabit, budou\n"
 "veškerá neuložená data ztracena. Chcete provézt?"
 
-#: src/wmframe.cc:2996
+#: src/wmframe.cc:3005
 msgid "Restore"
 msgstr "Obnovit"
 
-#: src/wmframe.cc:2999 src/wmtitle.cc:69
+#: src/wmframe.cc:3008 src/wmtitle.cc:69
 msgid "Maximize"
 msgstr "Maximalizovat"
 
-#: src/wmframe.cc:3029
+#: src/wmframe.cc:3038
 msgid "Rolldown"
 msgstr "Rozbalit"
 
-#: src/wmframe.cc:3031 src/wmtitle.cc:127
+#: src/wmframe.cc:3040 src/wmtitle.cc:127
 msgid "Rollup"
 msgstr "S_rolovat"
 
@@ -1629,75 +1634,75 @@ msgstr "Neznámý přepínač okna: %s"
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Syntaktická chyba ve volbách okna, řádek %d z %s"
 
-#: src/wmprog.cc:376
+#: src/wmprog.cc:385
 msgid "_Click to focus"
 msgstr "Vybrat _kliknutím"
 
-#: src/wmprog.cc:377
+#: src/wmprog.cc:386
 msgid "_Explicit focus"
 msgstr "_Explicitní ohnisko (výběr klikem)"
 
-#: src/wmprog.cc:378
+#: src/wmprog.cc:387
 msgid "_Sloppy mouse focus"
 msgstr "_Nepřesné zaměření myši"
 
-#: src/wmprog.cc:379
+#: src/wmprog.cc:388
 msgid "S_trict mouse focus"
 msgstr "P_řesný výběr myší"
 
-#: src/wmprog.cc:380
+#: src/wmprog.cc:389
 msgid "_Quiet sloppy focus"
 msgstr "_Klidný nepřesný výběr"
 
-#: src/wmprog.cc:381
+#: src/wmprog.cc:390
 msgid "Custo_m"
 msgstr "_Uživatelské"
 
-#: src/wmprog.cc:670
+#: src/wmprog.cc:679
 msgid "_Manual"
 msgstr "_Ručně"
 
-#: src/wmprog.cc:671
+#: src/wmprog.cc:680
 msgid "_Icewm(1)"
 msgstr "_Icewm(1)"
 
-#: src/wmprog.cc:672
+#: src/wmprog.cc:681
 msgid "Icewm_Bg(1)"
 msgstr "Icewm_Bg(1)"
 
-#: src/wmprog.cc:673
+#: src/wmprog.cc:682
 msgid "Ice_Sound(1)"
 msgstr "Ice_Sound(1)"
 
-#: src/wmprog.cc:735
+#: src/wmprog.cc:744
 msgid "Programs"
 msgstr "Programy"
 
-#: src/wmprog.cc:740
+#: src/wmprog.cc:749
 msgid "_Run..."
 msgstr "_Spustit…"
 
-#: src/wmprog.cc:745 src/wmtaskbar.cc:275
+#: src/wmprog.cc:754 src/wmtaskbar.cc:275
 msgid "_Windows"
 msgstr "_Okna"
 
-#: src/wmprog.cc:764
+#: src/wmprog.cc:773
 msgid "_Help"
 msgstr "_Nápověda"
 
-#: src/wmprog.cc:775
+#: src/wmprog.cc:784
 msgid "_Focus"
 msgstr "_Výběr aktivního okna"
 
-#: src/wmprog.cc:780
+#: src/wmprog.cc:789
 msgid "_Preferences"
 msgstr "_Preference"
 
-#: src/wmprog.cc:786
+#: src/wmprog.cc:795
 msgid "_Themes"
 msgstr "_Témata"
 
-#: src/wmprog.cc:791
+#: src/wmprog.cc:800
 msgid "Se_ttings"
 msgstr "Nas_tavení"
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.35\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2018-08-27 12:44+0200\n"
+"POT-Creation-Date: 2018-09-06 12:49-0600\n"
 "PO-Revision-Date: 2018-05-14 05:54+0000\n"
 "Last-Translator: Hwajin Kim <hwajin.kim@e4net.net>\n"
 "Language-Team: Korean <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -253,7 +253,7 @@ msgstr "MAIL"
 msgid "_Check"
 msgstr ""
 
-#: src/amailbox.cc:938 src/wmapp.cc:523 src/wmdialog.cc:74
+#: src/amailbox.cc:938
 msgid "_Suspend"
 msgstr "일시 중단(_S)"
 
@@ -1296,13 +1296,18 @@ msgstr "종료 취소(_C)"
 msgid "Lock _Workstation"
 msgstr "화면 잠그기(_W)"
 
-#: src/wmapp.cc:519 src/wmdialog.cc:77
+#: src/wmapp.cc:519 src/wmdialog.cc:78
 msgid "Re_boot"
 msgstr "다시 부팅(_B)"
 
-#: src/wmapp.cc:521 src/wmdialog.cc:78
+#: src/wmapp.cc:521 src/wmdialog.cc:79
 msgid "Shut_down"
 msgstr "끄기(_D)"
+
+#. TRANSLATORS: This means "energy saving mode" or "suspended system". Not "interrupt". Not "hibernate".
+#: src/wmapp.cc:523 src/wmdialog.cc:75
+msgid "_Sleep mode"
+msgstr ""
 
 #: src/wmapp.cc:528
 msgid "Restart _Icewm"
@@ -1408,7 +1413,7 @@ msgstr "닫기(_C)"
 msgid "_Kill Client"
 msgstr "죽이기(_K)"
 
-#: src/wmapp.cc:625 src/wmdialog.cc:79 src/wmwinmenu.cc:131
+#: src/wmapp.cc:625 src/wmdialog.cc:80 src/wmwinmenu.cc:131
 msgid "_Window list"
 msgstr "창 목록(_W)"
 
@@ -1572,29 +1577,29 @@ msgstr "이름을 %s에서 %s(으)로 바꿀 수 없음"
 msgid "Loc_k Workstation"
 msgstr "작업공간 잠금(_k)"
 
-#: src/wmdialog.cc:75 src/ymsgbox.cc:44
+#: src/wmdialog.cc:76 src/ymsgbox.cc:44
 msgid "_Cancel"
 msgstr "취소(_C)"
 
-#: src/wmdialog.cc:76 src/wmprog.cc:797 src/wmprog.cc:799 src/wmtaskbar.cc:292
+#: src/wmdialog.cc:77 src/wmprog.cc:806 src/wmprog.cc:808 src/wmtaskbar.cc:292
 #: src/wmtaskbar.cc:294
 msgid "_Logout..."
 msgstr "로그아웃(_L)..."
 
-#: src/wmdialog.cc:80
+#: src/wmdialog.cc:81
 msgid "_Restart icewm"
 msgstr "icewm 다시 시작(_R)"
 
-#: src/wmdialog.cc:81 src/wmprog.cc:758 src/wmtaskbar.cc:285
+#: src/wmdialog.cc:82 src/wmprog.cc:767 src/wmtaskbar.cc:285
 #: src/wmtaskbar.cc:288
 msgid "_About"
 msgstr "정보(_A)"
 
-#: src/wmframe.cc:1406
+#: src/wmframe.cc:1415
 msgid "Kill Client: "
 msgstr "클라이언트 죽이기: "
 
-#: src/wmframe.cc:1413
+#: src/wmframe.cc:1422
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1602,19 +1607,19 @@ msgstr ""
 "경고! 이 클라이언트를 죽이면 저장되지 않은\n"
 "변경 사항을 모두 잃어버립니다. 계속할까요?"
 
-#: src/wmframe.cc:2996
+#: src/wmframe.cc:3005
 msgid "Restore"
 msgstr "원래 크기로"
 
-#: src/wmframe.cc:2999 src/wmtitle.cc:69
+#: src/wmframe.cc:3008 src/wmtitle.cc:69
 msgid "Maximize"
 msgstr "최대화"
 
-#: src/wmframe.cc:3029
+#: src/wmframe.cc:3038
 msgid "Rolldown"
 msgstr "말아내리기"
 
-#: src/wmframe.cc:3031 src/wmtitle.cc:127
+#: src/wmframe.cc:3040 src/wmtitle.cc:127
 msgid "Rollup"
 msgstr "말아올리기"
 
@@ -1628,75 +1633,75 @@ msgstr "알 수 없는 창 옵션: %s"
 msgid "Syntax error in window options on line %d of %s"
 msgstr "%d 라인(%s)에 있는 창 옵션 구문 오류"
 
-#: src/wmprog.cc:376
+#: src/wmprog.cc:385
 msgid "_Click to focus"
 msgstr "클릭에 의한 포커스(_C)"
 
-#: src/wmprog.cc:377
+#: src/wmprog.cc:386
 msgid "_Explicit focus"
 msgstr "명확한 포커스(_E)"
 
-#: src/wmprog.cc:378
+#: src/wmprog.cc:387
 msgid "_Sloppy mouse focus"
 msgstr "슬로피 마우스 포커스(_S)"
 
-#: src/wmprog.cc:379
+#: src/wmprog.cc:388
 msgid "S_trict mouse focus"
 msgstr "엄격한 마우스 포커스(_S)"
 
-#: src/wmprog.cc:380
+#: src/wmprog.cc:389
 msgid "_Quiet sloppy focus"
 msgstr "조용한 슬로피 포커스(_Q)"
 
-#: src/wmprog.cc:381
+#: src/wmprog.cc:390
 msgid "Custo_m"
 msgstr "사용자 설정대로(_M)"
 
-#: src/wmprog.cc:670
+#: src/wmprog.cc:679
 msgid "_Manual"
 msgstr "매뉴얼(_M)"
 
-#: src/wmprog.cc:671
+#: src/wmprog.cc:680
 msgid "_Icewm(1)"
 msgstr "Icewm(1)(_I)"
 
-#: src/wmprog.cc:672
+#: src/wmprog.cc:681
 msgid "Icewm_Bg(1)"
 msgstr "IcewmBg(1)(_B)"
 
-#: src/wmprog.cc:673
+#: src/wmprog.cc:682
 msgid "Ice_Sound(1)"
 msgstr "IceSound(1)(_S)"
 
-#: src/wmprog.cc:735
+#: src/wmprog.cc:744
 msgid "Programs"
 msgstr "프로그램"
 
-#: src/wmprog.cc:740
+#: src/wmprog.cc:749
 msgid "_Run..."
 msgstr "실행(_R)..."
 
-#: src/wmprog.cc:745 src/wmtaskbar.cc:275
+#: src/wmprog.cc:754 src/wmtaskbar.cc:275
 msgid "_Windows"
 msgstr "창(_W)"
 
-#: src/wmprog.cc:764
+#: src/wmprog.cc:773
 msgid "_Help"
 msgstr "도움말(_H)"
 
-#: src/wmprog.cc:775
+#: src/wmprog.cc:784
 msgid "_Focus"
 msgstr "초점(_F)"
 
-#: src/wmprog.cc:780
+#: src/wmprog.cc:789
 msgid "_Preferences"
 msgstr "_기본 설정"
 
-#: src/wmprog.cc:786
+#: src/wmprog.cc:795
 msgid "_Themes"
 msgstr "모양새(_T)"
 
-#: src/wmprog.cc:791
+#: src/wmprog.cc:800
 msgid "Se_ttings"
 msgstr "설정(_T)"
 
