@@ -520,7 +520,7 @@ static void initMenus(
             if (canShutdown(Shutdown))
                 logoutMenu->addItem(_("Shut_down"), -2, null, actionShutdown, "shutdown");
             if (couldRunCommand(suspendCommand))
-                logoutMenu->addItem(_("_Suspend"), -2, null, actionSuspend, "suspend");
+                logoutMenu->addItem(_("_Sleep mode"), -2, null, actionSuspend, "suspend");
 
             if (logoutMenu->itemCount() != oldItemCount)
                 logoutMenu->addSeparator();

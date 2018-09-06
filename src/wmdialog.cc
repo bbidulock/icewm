@@ -71,7 +71,8 @@ CtrlAltDelete::CtrlAltDelete(IApp *app, YWindow *parent): YWindow(parent) {
      */
 
     lockButton = addButton(_("Loc_k Workstation"), w, h);
-    suspendButton = addButton(_("_Suspend"), w, h);
+    // TRANSLATORS: This means "energy saving mode" or "suspended system". Not "interrupt". Not "hibernate".
+    suspendButton = addButton(_("_Sleep mode"), w, h);
     cancelButton = addButton(_("_Cancel"), w, h);
     logoutButton = addButton(_("_Logout..."), w, h);
     rebootButton = addButton(_("Re_boot"), w, h);
