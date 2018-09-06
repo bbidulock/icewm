@@ -361,6 +361,7 @@ icesound_LDADD = libice.la $(AUDIO_LIBS) $(CORE_LIBS) @LIBINTL@
 icewm_menu_fdo_SOURCES = \
 	sysdep.h \
 	base.h \
+	fdospecgen.h \
 	fdomenu.cc
 icewm_menu_fdo_LDADD = libice.la $(GIO_LIBS)
 
