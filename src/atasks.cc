@@ -180,14 +180,14 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
     }
 
     ref<YIcon> icon(getFrame()->getIcon());
-    bool drew_icon;
+    bool iconDrawn = false;
 
     if (taskBarShowWindowIcons && icon != null) {
         int iconSize = YIcon::smallSize();
 
         int const y((height() - 3 - iconSize -
                      ((wmLook == lookMetal) ? 1 : 0)) / 2);
-        drew_icon = icon->draw(g, p + 1, p + 1 + y, iconSize);
+        iconDrawn = icon->draw(g, p + 1, p + 1 + y, iconSize);
     }
 
     ustring str = getFrame()->getIconTitle();
@@ -204,7 +204,7 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
 
             int iconSize = 0;
             int pad = 1;
-            if (taskBarShowWindowIcons && drew_icon) {
+            if (taskBarShowWindowIcons && iconDrawn) {
                 iconSize = YIcon::smallSize();
                 pad = 3;
             }
