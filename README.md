@@ -128,9 +128,8 @@ can be sent to: Marko.Macek@gmx.net or icewm-user@lists.sourceforge.net
 
 See also [BUGS][9], [TODO][7] and the sites at:
 
-  - https://ice-wm.github.io/
+  - https://ice-wm.org/
   - http://www.sourceforge.net/projects/icewm/
-  - http://icewm.sourceforge.net/
 
 
 Development
@@ -164,8 +163,8 @@ translations.  If you have difficulties using the tools, just send me the update
 [10]: https://github.com/
 [11]: http://l10n.opensuse.org/
 [12]: http://icewm.sourceforge.net/
-[13]: https://ice-wm.github.io/
-[14]: https://ice-wm.github.io/FAQ/
+[13]: https://ice-wm.org/
+[14]: https://ice-wm.org/FAQ/
 [15]: https://github.com/bbidulock/icewm/blob/1.4.2/doc/icewm.adoc
 [16]: https://github.com/bbidulock/bbkeys/
 [17]: https://github.com/bbidulock/icewm/blob/1.4.2/lib/icewm.desktop

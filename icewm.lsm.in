@@ -9,7 +9,7 @@ Maintained-by:  mathias.hasselmann@gmx.de (Mathias Hasselmann)
 Primary-site:   https://github.com/bbidulock/icewm/
                 298 KB icewm-%%VERSION%%.src.tar.bz2
                 383 KB icewm-%%VERSION%%.src.tar.gz
-Home-page:      https://ice-wm.github.io/
+Home-page:      https://ice-wm.org/
 Platforms:      X11, Xpm, c++
 Copying-policy: LGPL
 End

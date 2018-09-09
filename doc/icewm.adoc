@@ -1,7 +1,7 @@
 = IceWM Manual
 Marko Macek <Marko.Macek@gmx.net>
 v1.4.2, 2017 November 18
-:homepage: https://ice-wm.github.io/
+:homepage: https://ice-wm.org/
 :toc:
 :toclevels: 2
 
@@ -25,8 +25,8 @@ A large number of original themes have been created and
 https://www.box-look.org/browse/cat/142/ord/latest/[published by users].
 
 Further information can be found at
-https://ice-wm.github.io/[the original IceWM website],
-which is no longer being updated, and at the
+https://ice-wm.org/[the IceWM website],
+and at the
 https://github.com/bbidulock/icewm/[current site of development],
 which includes the
 https://github.com/bbidulock/icewm/issues/[support requests].
