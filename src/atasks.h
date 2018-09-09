@@ -36,6 +36,8 @@ public:
     void switchToPrev();
     void switchToNext();
 
+    static unsigned maxHeight();
+
 private:
     ClientData *fFrame;
     TaskPane *fTaskPane;
@@ -46,6 +48,13 @@ private:
     int selected;
     lazy<YTimer> fFlashTimer;
     static lazy<YTimer> fRaiseTimer;
+
+    ref<YFont> getFont();
+    static ref<YFont> getNormalFont();
+    static ref<YFont> getActiveFont();
+
+    static ref<YFont> normalTaskBarFont;
+    static ref<YFont> activeTaskBarFont;
 };
 
 class TaskPane: public YWindow {
@@ -62,6 +71,7 @@ public:
     TaskBarApp *successor(TaskBarApp *tapp);
     void removeApp(YFrameWindow *frame);
 
+    static unsigned maxHeight();
     void relayout() { fNeedRelayout = true; }
     void relayoutNow();
 

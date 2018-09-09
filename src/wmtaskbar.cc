@@ -555,8 +555,7 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
     right[0] = w;
     right[1] = w;
     if (taskBarShowWindows && fTasks != 0) {
-        if (h[0] < YIcon::smallSize() + 8)
-            h[0] = YIcon::smallSize() + 8;
+        h[0] = max(h[0], max(YIcon::smallSize() + 8, fTasks->maxHeight()));
     }
 
     for (int i = 0; i < wcount; i++) {

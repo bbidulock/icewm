@@ -22,17 +22,12 @@ static YColorName minimizedTaskBarAppFg(&clrMinimizedTaskBarAppText);
 static YColorName minimizedTaskBarAppBg(&clrMinimizedTaskBarApp);
 static YColorName invisibleTaskBarAppFg(&clrInvisibleTaskBarAppText);
 static YColorName invisibleTaskBarAppBg(&clrInvisibleTaskBarApp);
-static ref<YFont> normalTaskBarFont;
-static ref<YFont> activeTaskBarFont;
+ref<YFont> TaskBarApp::normalTaskBarFont;
+ref<YFont> TaskBarApp::activeTaskBarFont;
 
 lazy<YTimer> TaskBarApp::fRaiseTimer;
 
 TaskBarApp::TaskBarApp(ClientData *frame, TaskPane *taskPane, YWindow *aParent): YWindow(aParent) {
-    if (normalTaskBarFont == null)
-        normalTaskBarFont = YFont::getFont(XFA(normalTaskBarFontName));
-    if (activeTaskBarFont == null)
-        activeTaskBarFont = YFont::getFont(XFA(activeTaskBarFontName));
-
     fTaskPane = taskPane;
     fFrame = frame;
     selected = 0;
@@ -195,9 +190,7 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
         str = getFrame()->getTitle();
 
     if (str != null) {
-        ref<YFont> font =
-            getFrame()->focused() ? activeTaskBarFont : normalTaskBarFont;
-
+        ref<YFont> font = getFont();
         if (font != null) {
             g.setColor(fg);
             g.setFont(font);
@@ -218,6 +211,35 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
             g.drawStringEllipsis(p + tx, p + ty, str, wm);
         }
     }
+}
+
+unsigned TaskBarApp::maxHeight() {
+    unsigned activeHeight =
+        (getActiveFont() != null) ? getActiveFont()->height() : 0;
+    unsigned normalHeight =
+        (getNormalFont() != null) ? getNormalFont()->height() : 0;
+    return 2 + max(activeHeight, normalHeight);
+}
+
+ref<YFont> TaskBarApp::getFont() {
+    ref<YFont> font;
+    if (getFrame()->focused())
+        font = getActiveFont();
+    if (font == null)
+        font = getNormalFont();
+    return font;
+}
+
+ref<YFont> TaskBarApp::getNormalFont() {
+    if (normalTaskBarFont == null)
+        normalTaskBarFont = YFont::getFont(XFA(normalTaskBarFontName));
+    return normalTaskBarFont;
+}
+
+ref<YFont> TaskBarApp::getActiveFont() {
+    if (activeTaskBarFont == null)
+        activeTaskBarFont = YFont::getFont(XFA(activeTaskBarFontName));
+    return activeTaskBarFont;
 }
 
 void TaskBarApp::handleButton(const XButtonEvent &button) {
@@ -494,6 +516,10 @@ void TaskPane::paint(Graphics &g, const YRect &/*r*/) {
         g.fillPixmap(taskbackPixmap, 0, 0, width(), height(), x(), y());
     else
         g.fillRect(0, 0, width(), height());
+}
+
+unsigned TaskPane::maxHeight() {
+    return TaskBarApp::maxHeight();
 }
 
 void TaskPane::handleMotion(const XMotionEvent &motion) {
