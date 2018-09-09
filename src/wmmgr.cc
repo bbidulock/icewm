@@ -1768,7 +1768,7 @@ YFrameWindow *YWindowManager::getLastFocus(bool skipAllWorkspaces, long workspac
         if (!skipAllWorkspaces)
             pass = 1;
         for (; pass < 3; pass++) {
-            YFrameIter w = focusedIterator();
+            YFrameIter w = focusedReverseIterator();
             while (++w) {
 #if 1
                 if ((w->client() && !w->client()->adopted()))
