@@ -1396,7 +1396,7 @@ msgstr ""
 "izpuščena,\n"
 "                      se privzame lokalna schema \"file\".\n"
 "\n"
-"Sporočanje hroščev, zahteve za podporo, komentarji, ... na http://www.icewm."
+"Sporočanje hroščev, zahteve za podporo, komentarji, ... na https://ice-wm."
 "org/\n"
 
 #: src/wmapp.cc:1401

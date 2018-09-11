@@ -1372,7 +1372,7 @@ msgstr ""
 "  MAIL=URL            Posta kutusunun yeri. Şema belirtilmemişse yerel\n"
 "                      «file» şeması kullanılır.\n"
 "\n"
-"Hata raporları, destek talebi ve yorumlar için  http://www.icewm.org/ "
+"Hata raporları, destek talebi ve yorumlar için  https://ice-wm.org/ "
 "adresini ziyaret ediniz...\n"
 
 #: src/wmapp.cc:1401

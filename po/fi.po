@@ -1377,7 +1377,7 @@ msgstr ""
 "pois\n"
 "                          käytetään paikallista \"tiedosto\" metodia.\n"
 "\n"
-"Käy osoitteessa http://www.icewm.org/ kun haluat ilmoittaa virheestä, "
+"Käy osoitteessa https://ice-wm.org/ kun haluat ilmoittaa virheestä, "
 "kaipaat\n"
 "apua tai jos haluat vain antaa kommenttisi.\n"
 

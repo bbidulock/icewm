@@ -829,7 +829,7 @@ msgid ""
 "  MAIL=URL            Location of your mailbox. If the schema is omitted\n"
 "                      the local \"file\" schema is assumed.\n"
 "\n"
-"Visit http://www.icewm.org/ for report bugs, support requests, comments...\n"
+"Visit https://ice-wm.org/ for report bugs, support requests, comments...\n"
 msgstr ""
 
 #: src/wmapp.cc:1747

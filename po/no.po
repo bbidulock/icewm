@@ -1366,7 +1366,7 @@ msgstr ""
 "er\n"
 "                      spesifisert, brukes lokal \"file\"-skjema.\n"
 "\n"
-"Se http://www.icewm.org/ for å rapportere feil, få hjelp, og gi "
+"Se https://ice-wm.org/ for å rapportere feil, få hjelp, og gi "
 "kommentarer.\n"
 "\n"
 

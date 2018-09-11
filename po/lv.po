@@ -1378,7 +1378,7 @@ msgstr ""
 "norādīta,\n"
 "                      tiek pieņemta lokālā \"file\" shēma.\n"
 "\n"
-"Apmeklējiet http://www.icewm.org/, lai ziņotu par kļūdām, prasītu atbalstu "
+"Apmeklējiet https://ice-wm.org/, lai ziņotu par kļūdām, prasītu atbalstu "
 "vai atstātu komentārus...\n"
 
 #: src/wmapp.cc:1401

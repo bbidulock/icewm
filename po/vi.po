@@ -1402,7 +1402,7 @@ msgstr ""
 "  MAIL=URL            Vị trí của hộp thư người dùng. Nếu không đưa ra, thì\n"
 "                      sẽ dùng sơ đồ \"tập tin\" của hệ thống.\n"
 "\n"
-"Để báo cáo lỗi, yêu cầu hỗ trợ, nhận xét,... hãy lên http://www.icewm.org/\n"
+"Để báo cáo lỗi, yêu cầu hỗ trợ, nhận xét,... hãy lên https://ice-wm.org/\n"
 
 #: src/wmapp.cc:1401
 #, c-format
