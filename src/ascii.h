@@ -1,8 +1,8 @@
 #ifndef __ASCII_H
 #define __ASCII_H
 
-class ASCII {
-public:
+namespace ASCII {
+
     template<class T>
     static bool isLower(T c) {
         return c >= 'a' && c <= 'z';
@@ -46,6 +46,28 @@ public:
     template<class T>
     static bool isWhiteSpace(T c) {
         return isSpaceOrTab(c) || c == '\n' || c == '\r';
+    }
+
+    static inline bool isLineEnding(const char* s) {
+        return *s == '\n' || (*s == '\r' && s[1] == '\n');
+    }
+
+    static inline bool isEscapedLineEnding(const char* s) {
+        return *s == '\\' && isLineEnding(s + 1);
+    }
+
+    template<class T>
+    static T* pastSpacesAndTabs(T* s) {
+        while (isSpaceOrTab(*s))
+            ++s;
+        return s;
+    }
+
+    template<class T>
+    static T* pastWhiteSpace(T* s) {
+        while (isWhiteSpace(*s))
+            ++s;
+        return s;
     }
 };
 
