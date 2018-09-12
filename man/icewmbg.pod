@@ -10,7 +10,7 @@ B<icewmbg> [I<OPTIONS>]
 
 =head1 DESCRIPTION
 
-B<icewmbg> can assign a colour or image to the X11 desktop background.
+B<icewmbg> can assign a colour or image to the I<X11> desktop background.
 Many image formats are supported.  Each L<icewm(1)> work space can have
 its own background.
 
@@ -28,6 +28,9 @@ monitors.  When monitors appear/disappear or change their resolution
 B<icewmbg> will adjust.  It supports an option for one large background
 over all monitors.
 
+It will update the C<_ICEWMBG_IMAGE> property of the root window to the
+path of the background image whenever it changes the desktop background.
+
 It should be started before L<icewm(1)>, preferably by the
 L<icewm-session(1)> program.
 
@@ -35,9 +38,16 @@ L<icewm-session(1)> program.
 
 =head2 SPECIFIC OPTIONS
 
-Where multiple values can be given for images or colours they are
-separated by commas.  When I<FILE> is a directory then all images from
-that directory are used in sorted order.
+Where multiple values can be given for images
+or colours they are separated by commas.
+Each such value may be enclosed in double quotes.
+When I<FILE> is a directory then all images
+from that directory are used in sorted order.
+In this case, if I<FILE> starts with an
+exclamation mark then the images from
+this directory are permuted randomly.
+Image file names or directory names may have
+wildcards, see L<glob(7)>, which will be expanded.
 
 =over
 
@@ -56,6 +66,12 @@ L<icewm-session(1)> when L<icewm(1)> exits.
 Tell the running B<icewmbg> to restart itself.  This is useful when a
 background file or directory has changed or when settings in preferences
 files have changed.
+
+=item B<-u>, B<--shuffle>
+
+Shuffle the list of background images randomly.
+This option may be given again whenever the running
+B<icewmbg> should reshuffle its list of background images.
 
 =item B<-c>, B<--config>=I<FILE>
 
@@ -95,10 +111,15 @@ This overrules the C<DesktopBackgroundCenter> preference.
 Disable/Enable scaling background.
 This overrules the C<DesktopBackgroundScaled> preference.
 
-=item B<-m>, B<--multi>={B<0>|B<1>}
+=item B<-m>, B<--multi>={I<0>|I<1>}
 
 Disable/Enable multi-head background.
 This overrules the C<DesktopBackgroundMultihead> preference.
+
+=item B<-y>, B<--cycle>={I<SECONDS>}
+
+Cycle over the list of background images every SECONDS.
+This overrules the C<CycleBackgroundsPeriod> preference.
 
 =item B<--display>=I<DISPLAY>
 
@@ -108,7 +129,7 @@ is read from the environment variable C<DISPLAY>.
 
 =item B<--sync>
 
-Use a slower synchronous mode communication with X11 server.
+Use a slower synchronous mode communication with I<X11> server.
 
 =back
 
@@ -142,10 +163,12 @@ settings read are:
   DesktopBackgroundScaled    - Display desktop background scaled
   DesktopBackgroundColor     - Desktop background color(s)
   DesktopBackgroundImage     - Desktop background image(s)
+  ShuffleBackgroundImages    - Shuffle the list of background images
   SupportSemitransparency    - Support for semitransparent terminals
   DesktopTransparencyColor   - Semitransparency background color(s)
   DesktopTransparencyImage   - Semitransparency background image(s)
   DesktopBackgroundMultihead - One background over all monitors
+  CycleBackgroundsPeriod     - Seconds between cycling over backgrounds
 
 First these settings are read from the F<preferences> file.  Then the
 theme file from the current theme is read, which may overrule the
@@ -158,7 +181,7 @@ F<prefoverride>.  See L<icewm-prefoverride(5)>.
 
 Often a background image has a different width or height than the
 screen.  The settings can specify to centre (C<DesktopBackgroundCenter>)
-or scale (F<DesktopBackgroundScaled>) an image.  Either option is either
+or scale (C<DesktopBackgroundScaled>) an image.  Either option is either
 B<0> (disabled) or B<1> (enabled).  What happens for their combination
 is given by the following table:
 
@@ -166,6 +189,27 @@ is given by the following table:
   center:1 scaled:0 = the background is centered, but not scaled
   center:1 scaled:1 = fill one dimension and keep aspect the ratio
   center:0 scaled:1 = fill both dimensions and keep aspect the ratio
+
+=head1 SIGNALS
+
+B<icewmbg> supports the following signals:
+
+=over
+
+=item B<SIGHUP>
+
+B<icewmbg> will restart itself.
+
+=item B<SIGINT>, B<SIGTERM>
+
+B<icewmbg> will terminate.
+
+=item B<SIGUSR1>
+
+B<icewmbg> will reshuffle the list of background images and
+update the backgrounds of all work spaces.
+
+=back
 
 =head1 SEE ALSO
 

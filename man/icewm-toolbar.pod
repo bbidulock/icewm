@@ -112,7 +112,7 @@ Locations for the toolbar options file are as follows:
 
 =item F</usr/share/icewm/toolbar>
 
-=over
+=back
 
 =head1 SEE ALSO
 

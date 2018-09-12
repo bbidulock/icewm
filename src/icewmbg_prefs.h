@@ -3,17 +3,16 @@
 
 /* Synchronize with MAXWORKSPACES from wmmgr.h */
 #define MAX_WORKSPACES  20
+#define ICEBG_MAX_ARGS  2000
 
 #include "yconfig.h"
 
-XSV(const char *, desktopBackgroundColorstr, "rgb:00/20/40")
-XSV(const char *, desktopBackgroundFilename, 0)
-XSV(const char *, desktopTransparencyColorstr, 0)
-XSV(const char *, desktopTransparencyFilename, 0)
 XIV(bool, scaleBackground, false)
 XIV(bool, centerBackground, false)
 XIV(bool, multiheadBackground, false)
 XIV(bool, supportSemitransparency, true)
+XIV(bool, shuffleBackgroundImages, false)
+XIV(int, cycleBackgroundsPeriod, 0)
 
 void addBgImage(const char *name, const char *value, bool append);
 
@@ -41,6 +40,12 @@ cfoption icewmbg_prefs[] = {
 
     OKF("DesktopTransparencyColor", addBgImage,
         "Color(s) to announce for semitransparent windows"),
+
+    OBV("ShuffleBackgroundImages",  &shuffleBackgroundImages,
+        "Choose a random selection from the list of background images"),
+
+    OIV("CycleBackgroundsPeriod",  &cycleBackgroundsPeriod, 0, INT_MAX,
+        "Seconds between cycling over all background images, default zero is off"),
 
     OK0()
 };

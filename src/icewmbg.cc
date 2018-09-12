@@ -9,6 +9,7 @@
 #include "yxapp.h"
 #include "yprefs.h"
 #include "ypaths.h"
+#include "ytimer.h"
 #include "udir.h"
 #include "intl.h"
 #include "appnames.h"
@@ -78,6 +79,10 @@ public:
         }
         return image;
     }
+    void unload() {
+        pix = null;
+        last = check = 0L;
+    }
 };
 
 class PixCache {
@@ -119,9 +124,14 @@ public:
         pixes.clear();
         paths = null;
     }
+    void unload() {
+        for (int k = pixes.getCount(); --k >= 0; ) {
+            pixes[k]->unload();
+        }
+    }
 };
 
-class Background: public YXApplication {
+class Background: public YXApplication, private YTimerListener {
 public:
     Background(int *argc, char ***argv, bool verbose = false);
     ~Background();
@@ -131,6 +141,8 @@ public:
     void update(bool force = false);
     void sendQuit()    { sendClientMessage(_XA_ICEWMBG_QUIT);    }
     void sendRestart() { sendClientMessage(_XA_ICEWMBG_RESTART); }
+    void sendShuffle() { sendClientMessage(_XA_ICEWMBG_SHUFFLE); }
+    int mainLoop();
 
     void clearBackgroundImages()   { backgroundImages.clear();   }
     void clearBackgroundColors()   { backgroundColors.clear();   }
@@ -143,6 +155,7 @@ public:
 private:
     virtual bool filterEvent(const XEvent& xev);
     virtual void handleSignal(int sig);
+    virtual bool handleTimer(YTimer* timer);
 
     void restart() const;
     void changeBackground(bool force);
@@ -150,7 +163,13 @@ private:
     long* getLongProperties(Atom property, int n) const;
     int getLongProperty(Atom property) const;
     int getWorkspace() const;
+    int getNumberOfDesktops() const;
     void getDesktopGeometry();
+    void reshuffle();
+    void randinit(long seed);
+    void startShuffle();
+    int randmax(int upper);
+    int shuffle(int index);
     int getBgPid() const {
         return getLongProperty(_XA_ICEWMBG_PID);
     }
@@ -164,10 +183,15 @@ private:
     void changeLongProperty(Atom property, unsigned char* data) const {
         changeProperty(property, XA_CARDINAL, data);
     }
+    void changeStringProperty(Atom property, char* data) const {
+        XChangeProperty(display(), window(), property, XA_STRING, 8,
+                        PropModeReplace, (unsigned char *) data, strlen(data));
+    }
 
-    typedef YObjectArray<mstring> Strings;
+    typedef MStringArray Strings;
     typedef YArray<YColor> YColors;
 
+    void addImage(Strings& images, const char* name, bool append);
     ref<YPixmap> renderBackground(ref<YPixmap> back, YColor color);
     ref<YPixmap> getBackgroundPixmap();
     YColor getBackgroundColor();
@@ -179,23 +203,32 @@ private:
 private:
     char** mainArgv;
     bool verbose;
+    bool randInited;
     Strings backgroundImages;
     YColors backgroundColors;
     Strings transparencyImages;
     YColors transparencyColors;
     PixCache cache;
     int activeWorkspace;
+    int cycleOffset;
+    int desktopCount;
     unsigned desktopWidth, desktopHeight;
     ref<YPixmap> currentBackgroundPixmap;
     ref<YPixmap> currentTransparencyPixmap;
     YColor currentBackgroundColor;
+    cstring pixmapName;
+    YArray<int> sequence;
+    lazy<YTimer> cycleTimer;
 
     Atom _XA_XROOTPMAP_ID;
     Atom _XA_XROOTCOLOR_PIXEL;
     Atom _XA_NET_CURRENT_DESKTOP;
     Atom _XA_NET_DESKTOP_GEOMETRY;
+    Atom _XA_NET_NUMBER_OF_DESKTOPS;
     Atom _XA_NET_WORKAREA;
     Atom _XA_ICEWMBG_QUIT;
+    Atom _XA_ICEWMBG_IMAGE;
+    Atom _XA_ICEWMBG_SHUFFLE;
     Atom _XA_ICEWMBG_RESTART;
     Atom _XA_ICEWMBG_PID;
 };
@@ -204,7 +237,10 @@ Background::Background(int *argc, char ***argv, bool verb):
     YXApplication(argc, argv),
     mainArgv(*argv),
     verbose(verb),
+    randInited(false),
     activeWorkspace(0),
+    cycleOffset(0),
+    desktopCount(MAX_WORKSPACES),
     desktopWidth(desktop->width()),
     desktopHeight(desktop->height()),
     currentBackgroundColor(),
@@ -212,8 +248,11 @@ Background::Background(int *argc, char ***argv, bool verb):
     _XA_XROOTCOLOR_PIXEL(atom("_XROOTCOLOR_PIXEL")),
     _XA_NET_CURRENT_DESKTOP(atom("_NET_CURRENT_DESKTOP")),
     _XA_NET_DESKTOP_GEOMETRY(atom("_NET_DESKTOP_GEOMETRY")),
+    _XA_NET_NUMBER_OF_DESKTOPS(atom("_NET_NUMBER_OF_DESKTOPS")),
     _XA_NET_WORKAREA(atom("_NET_WORKAREA")),
     _XA_ICEWMBG_QUIT(atom("_ICEWMBG_QUIT")),
+    _XA_ICEWMBG_IMAGE(atom("_ICEWMBG_IMAGE")),
+    _XA_ICEWMBG_SHUFFLE(atom("_ICEWMBG_SHUFFLE")),
     _XA_ICEWMBG_RESTART(atom("_ICEWMBG_RESTART"))
 {
     char abuf[42];
@@ -221,10 +260,13 @@ Background::Background(int *argc, char ***argv, bool verb):
     _XA_ICEWMBG_PID = atom(abuf);
 
     desktop->setStyle(YWindow::wsDesktopAware);
+    desktopCount = Elvis(getNumberOfDesktops(), desktopCount);
 
+    catchSignal(SIGHUP);
     catchSignal(SIGTERM);
     catchSignal(SIGINT);
     catchSignal(SIGQUIT);
+    catchSignal(SIGUSR1);
     catchSignal(SIGUSR2);
 }
 
@@ -240,6 +282,7 @@ Background::~Background() {
     }
     if (pid == getpid()) {
         deleteProperty(_XA_ICEWMBG_PID);
+        deleteProperty(_XA_ICEWMBG_IMAGE);
     }
     clearBackgroundImages();
     clearBackgroundColors();
@@ -248,13 +291,77 @@ Background::~Background() {
     cache.clear();
 }
 
+int Background::mainLoop() {
+    update();
+    if (0 < cycleBackgroundsPeriod) {
+        cycleTimer->setTimer(cycleBackgroundsPeriod * 1000L, this, true);
+    }
+    return YXApplication::mainLoop();
+}
+
 Atom Background::atom(const char* name) const {
     return XInternAtom(display(), name, False);
 }
 
-static bool hasImageExt(const upath& path) {
-    mstring ext(path.getExtension());
-    return ext.length() == 4 || ext.length() == 5;
+static bool hasImageExt(const char* name) {
+    size_t len = strlen(name);
+    if (len >= 5 && name[len - 4] == '.') {
+        const char* ext = &name[len - 3];
+        if (3 == strspn(ext, "jpngxmJPNGXM"))
+            return true;
+#ifdef CONFIG_LIBRSVG
+        if (0 == strcasecmp(ext, "svg"))
+            return true;
+#endif
+    }
+    else if (len >= 6 && name[len - 5] == '.') {
+        const char* ext = &name[len - 4];
+        if (0 == strcasecmp(ext, "jpeg"))
+            return true;
+    }
+    return false;
+}
+
+void Background::addImage(Strings& images, const char* name, bool append) {
+    if (append == false) {
+        images.clear();
+    }
+    if (images.getCount() < ICEBG_MAX_ARGS) {
+        const bool permute = (name[0] == '!');
+        if (permute || (name[0] == '\\' && name[1] == '!')) {
+            ++name;
+        }
+        upath path(name);
+        bool globbing = path.hasglob();
+        if (globbing == false && path.dirExists()) {
+            path += "*";
+            globbing = true;
+        }
+        if (globbing) {
+            YStringArray list;
+            if (path.glob(list, "/")) {
+                if (permute) {
+                    int k = list.getCount();
+                    randinit(k);
+                    while (0 < --k) {
+                        list.swap(k, randmax(k));
+                    }
+                }
+                YStringArray::IterType iter = list.iterator();
+                while (++iter && images.getCount() < ICEBG_MAX_ARGS) {
+                    if (hasImageExt(*iter)) {
+                        upath image(*iter);
+                        images.append(image);
+                        cache.add(image);
+                    }
+                }
+            }
+        }
+        else if (path.fileExists()) {
+            images.append(name);
+            cache.add(name);
+        }
+    }
 }
 
 void Background::add(const char* name, const char* value, bool append) {
@@ -262,64 +369,24 @@ void Background::add(const char* name, const char* value, bool append) {
         warn("Empty value for '%s'.", name);
     }
     else if (0 == strcmp(name, "DesktopBackgroundImage")) {
-        if (append == false) {
-            clearBackgroundImages();
-        }
-        if (backgroundImages.getCount() < MAX_WORKSPACES) {
-            mstring name(value);
-            upath path(name);
-            if (path.dirExists()) {
-                for (sdir dir(path); dir.next(); ) {
-                    if (backgroundImages.getCount() < MAX_WORKSPACES) {
-                        upath image(path + dir.entry());
-                        if (hasImageExt(image)) {
-                            backgroundImages.append(new mstring(image));
-                            cache.add(image);
-                        }
-                    }
-                }
-            } else {
-                backgroundImages.append(new mstring(name));
-                cache.add(name);
-            }
-        }
+        addImage(backgroundImages, value, append);
     }
     else if (0 == strcmp(name, "DesktopBackgroundColor")) {
         if (append == false) {
             clearBackgroundColors();
         }
-        if (backgroundColors.getCount() < MAX_WORKSPACES) {
+        if (backgroundColors.getCount() < ICEBG_MAX_ARGS) {
             backgroundColors.append(YColor(value));
         }
     }
     else if (0 == strcmp(name, "DesktopTransparencyImage")) {
-        if (append == false) {
-            clearTransparencyImages();
-        }
-        if (transparencyImages.getCount() < MAX_WORKSPACES) {
-            mstring name(value);
-            upath path(name);
-            if (path.dirExists()) {
-                for (sdir dir(path); dir.next(); ) {
-                    if (transparencyImages.getCount() < MAX_WORKSPACES) {
-                        upath image(path + dir.entry());
-                        if (hasImageExt(image)) {
-                            transparencyImages.append(new mstring(image));
-                            cache.add(image);
-                        }
-                    }
-                }
-            } else {
-                transparencyImages.append(new mstring(name));
-                cache.add(name);
-            }
-        }
+        addImage(transparencyImages, value, append);
     }
     else if (0 == strcmp(name, "DesktopTransparencyColor")) {
         if (append == false) {
             clearTransparencyColors();
         }
-        if (transparencyColors.getCount() < MAX_WORKSPACES) {
+        if (transparencyColors.getCount() < ICEBG_MAX_ARGS) {
             transparencyColors.append(YColor(value));
         }
     }
@@ -330,10 +397,18 @@ void Background::add(const char* name, const char* value, bool append) {
 
 void Background::handleSignal(int sig) {
     switch (sig) {
+    case SIGHUP:
+        restart();
+        break;
+
     case SIGINT:
     case SIGTERM:
     case SIGQUIT:
         this->exit(1);
+        break;
+
+    case SIGUSR1:
+        startShuffle();
         break;
 
     case SIGUSR2:
@@ -346,15 +421,23 @@ void Background::handleSignal(int sig) {
     }
 }
 
+bool Background::handleTimer(YTimer* timer) {
+    cycleOffset += desktopCount;
+    update(true);
+    return true;
+}
+
 ref<YPixmap> Background::getBackgroundPixmap() {
     ref<YPixmap> pixmap;
     int count = backgroundImages.getCount();
     if (count > 0 && activeWorkspace >= 0) {
         for (int i = 0; i < count; ++i) {
-            int k = (i + activeWorkspace) % count;
-            pixmap = cache.get(*backgroundImages[k]);
-            if (pixmap != null)
+            int k = shuffle((i + activeWorkspace + cycleOffset) % count);
+            pixmap = cache.get(backgroundImages[k]);
+            if (pixmap != null) {
+                pixmapName = backgroundImages[k];
                 break;
+            }
         }
     }
     return pixmap;
@@ -370,10 +453,11 @@ YColor Background::getBackgroundColor() {
 ref<YPixmap> Background::getTransparencyPixmap() {
     ref<YPixmap> pixmap;
     int count = transparencyImages.getCount();
-    if (count > 0 && activeWorkspace >= 0) {
+    int numbg = backgroundImages.getCount();
+    if (count > 0 && numbg > 0 && activeWorkspace >= 0) {
         for (int i = 0; i < count; ++i) {
-            int k = (i + activeWorkspace) % count;
-            pixmap = cache.get(*transparencyImages[k]);
+            int k = shuffle((i + activeWorkspace + cycleOffset) % numbg) % count;
+            pixmap = cache.get(transparencyImages[k]);
             if (pixmap != null)
                 break;
         }
@@ -386,6 +470,50 @@ YColor Background::getTransparencyColor() {
     return count > 0
         ? transparencyColors[activeWorkspace % count]
         : getBackgroundColor();
+}
+
+void Background::randinit(long seed) {
+    if (randInited == false) {
+        timeval now = walltime();
+        srand(unsigned((seed + getpid()) * now.tv_sec + now.tv_usec));
+        randInited = true;
+    }
+}
+
+int Background::randmax(int upper) {
+    return rand() / (RAND_MAX / (upper + 1) + 1);
+}
+
+void Background::reshuffle() {
+    const int count = backgroundImages.getCount();
+    sequence.getCount() ? sequence.clear() : randinit(count);
+    sequence.setCapacity(count);
+    for (int i = 0; i < count; ++i) {
+        sequence.append(i);
+    }
+    for (int k = count; --k > 0; ) {
+        sequence.swap(k, randmax(k));
+    }
+}
+
+int Background::shuffle(int index) {
+    if (shuffleBackgroundImages) {
+        if (backgroundImages.getCount() != sequence.getCount()) {
+            reshuffle();
+            cache.unload();
+        }
+        return sequence[index];
+    }
+    else {
+        return index;
+    }
+}
+
+void Background::startShuffle() {
+    if (verbose) tlog("shuffle");
+    shuffleBackgroundImages = true;
+    reshuffle();
+    update(true);
 }
 
 void Background::update(bool force) {
@@ -432,6 +560,10 @@ void Background::getDesktopGeometry() {
 
 int Background::getWorkspace() const {
     return getLongProperty(_XA_NET_CURRENT_DESKTOP);
+}
+
+int Background::getNumberOfDesktops() const {
+    return getLongProperty(_XA_NET_NUMBER_OF_DESKTOPS);
 }
 
 ref<YPixmap> Background::renderBackground(ref<YPixmap> back, YColor color) {
@@ -557,11 +689,13 @@ void Background::changeBackground(bool force) {
     if (back != null) {
         bPixmap = back->pixmap();
         XSetWindowBackgroundPixmap(display(), window(), bPixmap);
+        changeStringProperty(_XA_ICEWMBG_IMAGE, (char *) pixmapName.c_str());
         handleBackground = true;
     }
     if (false == handleBackground) {
         XSetWindowBackgroundPixmap(display(), window(), None);
         XSetWindowBackground(display(), window(), bPixel);
+        deleteProperty(_XA_ICEWMBG_IMAGE);
         handleBackground = true;
     }
 
@@ -602,6 +736,7 @@ void Background::changeBackground(bool force) {
 }
 
 void Background::restart() const {
+    if (verbose) tlog("restart");
     if (mainArgv[0][0] == '/' ||
         (strchr(mainArgv[0], '/') != 0 &&
          access(mainArgv[0], X_OK) == 0))
@@ -620,6 +755,9 @@ bool Background::filterEvent(const XEvent &xev) {
     else if (xev.type == PropertyNotify) {
         if (xev.xproperty.atom == _XA_NET_CURRENT_DESKTOP) {
             update();
+        }
+        if (xev.xproperty.atom == _XA_NET_NUMBER_OF_DESKTOPS) {
+            getNumberOfDesktops();
         }
         if (xev.xproperty.atom == _XA_NET_DESKTOP_GEOMETRY) {
             unsigned w = desktopWidth, h = desktopHeight;
@@ -642,12 +780,17 @@ bool Background::filterEvent(const XEvent &xev) {
     else if (xev.type == ClientMessage) {
         if (xev.xclient.message_type == _XA_ICEWMBG_QUIT) {
             if (xev.xclient.data.l[0] != getpid()) {
+                if (verbose) tlog("quit");
                 this->exit(0);
             }
             return true;
         }
         if (xev.xclient.message_type == _XA_ICEWMBG_RESTART) {
             restart();
+            return true;
+        }
+        if (xev.xclient.message_type == _XA_ICEWMBG_SHUFFLE) {
+            startShuffle();
             return true;
         }
     }
@@ -705,6 +848,7 @@ static const char* get_help_text() {
     "  -p, --replace        Replace an existing icewmbg.\n"
     "  -q, --quit           Tell the running icewmbg to quit.\n"
     "  -r, --restart        Tell the running icewmbg to restart itself.\n"
+    "  -u, --shuffle        Shuffle/reshuffle the list of background images.\n"
     "\n"
     "  -c, --config=FILE    Load preferences from FILE.\n"
     "  -t, --theme=NAME     Load the theme with name NAME.\n"
@@ -718,6 +862,7 @@ static const char* get_help_text() {
     "  -e, --center=0/1     Disable/Enable centering background.\n"
     "  -a, --scaled=0/1     Disable/Enable scaling background.\n"
     "  -m, --multi=0/1      Disable/Enable multihead background.\n"
+    "  -y, --cycle=SECONDS  Cycle backgrounds every SECONDS.\n"
     "\n"
     "  --display=NAME       Use NAME to connect to the X server.\n"
     "  --sync               Synchronize communication with X11 server.\n"
@@ -730,10 +875,12 @@ static const char* get_help_text() {
     " DesktopBackgroundScaled  - Display desktop background scaled\n"
     " DesktopBackgroundColor   - Desktop background color(s)\n"
     " DesktopBackgroundImage   - Desktop background image(s)\n"
+    " ShuffleBackgroundImages  - Shuffle the list of background images\n"
     " SupportSemitransparency  - Support for semitransparent terminals\n"
     " DesktopTransparencyColor - Semitransparency background color(s)\n"
     " DesktopTransparencyImage - Semitransparency background image(s)\n"
     " DesktopBackgroundMultihead - One background over all monitors\n"
+    " CycleBackgroundsPeriod   - Seconds between cycling over backgrounds\n"
     "\n"
     " center:0 scaled:0 = tiled\n"
     " center:1 scaled:0 = centered\n"
@@ -786,7 +933,7 @@ static void bgLoadConfig(const char *overrideTheme, const char *configFile)
 static void bgParse(const char* name, const char* value) {
     mstring opt, str(value);
     for (int i = 0; str.splitall(',', &opt, &str); ++i) {
-        if (i + 1 < MAX_WORKSPACES) {
+        if (i + 1 < ICEBG_MAX_ARGS) {
             if ((opt = opt.trim()).nonempty()) {
                 globalBg->add(name, cstring(opt), 0 < i);
             }
@@ -809,6 +956,7 @@ int main(int argc, char **argv) {
     bool sendRestart = false;
     bool sendQuit = false;
     bool replace = false;
+    bool shuffle = false;
     bool verbose = false;
     const char* overrideTheme = 0;
     const char* configFile = 0;
@@ -819,6 +967,8 @@ int main(int argc, char **argv) {
     const char* center = 0;
     const char* scaled = 0;
     const char* multi = 0;
+    const char* cycle = 0;
+    const char* shuffleArg = 0;
 
     for (char **arg = argv + 1; arg < argv + argc; ++arg) {
         if (**arg == '-') {
@@ -831,6 +981,11 @@ int main(int argc, char **argv) {
             }
             else if (is_switch(*arg, "p", "replace")) {
                 replace = true;
+            }
+            else if (is_switch(*arg, "u", "shuffle") &&
+                    (arg + 1 == argv + argc || strcspn(arg[1], "01")))
+            {
+                shuffle = true;
             }
             else if (is_help_switch(*arg)) {
                 print_help_xit();
@@ -868,6 +1023,13 @@ int main(int argc, char **argv) {
             else if (GetArgument(value, "m", "multi", arg, argv + argc)) {
                 multi = value;
             }
+            else if (GetArgument(value, "u", "shuffle", arg, argv + argc)) {
+                shuffleArg = value;
+                testFlag(&shuffle, shuffleArg);
+            }
+            else if (GetArgument(value, "y", "cycle", arg, argv + argc)) {
+                cycle = value;
+            }
         }
     }
 
@@ -888,6 +1050,10 @@ int main(int argc, char **argv) {
     }
 
     if (bg.become(replace) == false) {
+        if (shuffle) {
+            bg.sendShuffle();
+            return 0;
+        }
         warn(_("Cannot start, because another icewmbg is still running."));
         return 1;
     }
@@ -915,8 +1081,15 @@ int main(int argc, char **argv) {
     testFlag(&centerBackground, center);
     testFlag(&scaleBackground, scaled);
     testFlag(&multiheadBackground, multi);
+    shuffleBackgroundImages |= shuffle;
+    if (shuffleArg) {
+        testFlag(&shuffleBackgroundImages, shuffleArg);
+    }
+    if (cycle) {
+        cycleBackgroundsPeriod = atoi(cycle);
+    }
+
     globalBg = NULL;
-    bg.update();
 
     return bg.mainLoop();
 }
