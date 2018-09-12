@@ -161,10 +161,32 @@ bool upath::equals(const upath &s) const {
 #include <glob.h>
 #include "yarray.h"
 
-bool upath::glob(const char* pattern, class YStringArray& list) const {
+bool upath::hasglob(const char* pattern) {
+    const char* s = pattern;
+    while (*s && *s != '*' && *s != '?' && *s != '[')
+        s += 1 + (*s == '\\' && s[1]);
+    return *s != 0;
+}
+
+bool upath::glob(const char* pattern, YStringArray& list, const char* flags) {
     bool okay = false;
+    int flagbits = 0;
+    int (*const errfunc) (const char *epath, int eerrno) = 0;
     glob_t gl = {};
-    if (0 == ::glob(pattern, 0, 0, &gl)) {
+
+    if (flags) {
+        for (int i = 0; flags[i]; ++i) {
+            switch (flags[i]) {
+                case '/': flagbits |= GLOB_MARK; break;
+                case 'C': flagbits |= GLOB_NOCHECK; break;
+                case 'E': flagbits |= GLOB_NOESCAPE; break;
+                case 'S': flagbits |= GLOB_NOSORT; break;
+                default: break;
+            }
+        }
+    }
+
+    if (0 == ::glob(pattern, flagbits, errfunc, &gl)) {
         double limit = 1e6;
         if (gl.gl_pathc < limit) {
             int count = int(gl.gl_pathc);

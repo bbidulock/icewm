@@ -7,6 +7,7 @@
 #endif
 
 typedef mstring pstring;
+class YStringArray;
 
 class upath {
 public:
@@ -46,7 +47,6 @@ public:
     int remove() const;
     int renameAs(const pstring& dest) const;
     off_t fileSize() const;
-    bool glob(const char* pattern, class YStringArray& list) const;
 
     upath& operator=(const upath& p) {
         fPath = p.fPath;
@@ -73,6 +73,15 @@ public:
 
     static const pstring& sep() { return slash; }
     static const upath& root() { return rootPath; }
+
+    static bool hasglob(const char* pattern);
+    static bool glob(const char* pat, YStringArray& list, const char* opt = 0);
+
+    bool hasglob() const { return hasglob(string()); }
+    bool glob(YStringArray& list, const char* opt = 0) const {
+        return glob(string(), list, opt);
+    }
+
 private:
     pstring fPath;
 
