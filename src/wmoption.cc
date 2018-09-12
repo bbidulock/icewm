@@ -360,7 +360,7 @@ static char *parseWinOptions(char *data, const char* filename) {
         end++;
 
         p = end;
-        while (*p == ' ' || *p == '\t')
+        while (ASCII::isSpaceOrTab(*p))
             p++;
 
         word = p;

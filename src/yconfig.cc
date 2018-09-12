@@ -36,7 +36,7 @@ upath findPath(ustring path, int mode, upath name) {
 
 char *YConfig::getArgument(Argument *dest, char *source, bool comma) {
     char *p = source;
-    while (*p && (*p == ' ' || *p == '\t'))
+    while (ASCII::isSpaceOrTab(*p))
         p++;
 
     dest->reset();
@@ -242,6 +242,11 @@ static char *parseOption(cfoption *options, char *str) {
 
     Argument argument;
     for (bool append = false; append == (*p == ',') && *++p; append = true) {
+        if (append) {
+            while (ASCII::isWhiteSpace(*p) || ASCII::isEscapedLineEnding(p))
+                ++p;
+        }
+
         p = YConfig::getArgument(&argument, p, true);
         if (p == 0)
             break;
@@ -250,7 +255,7 @@ static char *parseOption(cfoption *options, char *str) {
         if (p == 0)
             return 0;
 
-        while (*p && (*p == ' ' || *p == '\t'))
+        while (ASCII::isSpaceOrTab(*p))
             p++;
     }
 
@@ -259,7 +264,7 @@ static char *parseOption(cfoption *options, char *str) {
 
 void YConfig::parseConfiguration(cfoption *options, char *data) {
     for (char *p = data; p && *p; ) {
-        while (ASCII::isWhiteSpace(*p) || (*p == '\\' && p[1] == '\n'))
+        while (ASCII::isWhiteSpace(*p) || ASCII::isEscapedLineEnding(p))
             p++;
 
         if (*p == '#') {

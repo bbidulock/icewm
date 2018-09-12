@@ -40,7 +40,7 @@ static char *getCommandArgs(char *source, Argument *command,
     while (*p) {
 
         //push to the next word or line end to get the arg
-        while (*p && (*p == ' ' || *p == '\t'))
+        while (ASCII::isSpaceOrTab(*p))
             p++;
         //stop on EOL
         if (*p == '\n')
