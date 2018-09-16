@@ -22,10 +22,63 @@ display the L<IceWM Manual> and the manual pages.
 
 Specifies the absolute or relative path (relative to the current working
 directory), that specifies the HTML file to browse.
+I<FILENAME> may also be the URL of a website.
 
 =back
 
 =head1 OPTIONS
+
+=head2 SPECIFIC OPTIONS
+
+=over
+
+=item B<--display>=I<DISPLAY>
+
+Use I<DISPLAY> to connect to the X server.
+If this option is missing then I<DISPLAY>
+is read from the environment variable C<DISPLAY>.
+
+=item B<--sync>
+
+Use a slower synchronous mode communication with I<X11> server.
+
+=item B<-B>
+
+Display the IceWM icewmbg manpage.
+
+=item B<-b>, B<--bugs>
+
+Display the IceWM bug reports (primitively).
+
+=item B<-f>, B<--faq>
+
+Display the IceWM FAQ and Howto.
+
+=item B<-g>
+
+Display the IceWM Github website.
+
+=item B<-i>, B<--icewm>
+
+Display the IceWM icewm manpage.
+
+=item B<-m>, B<--manual>
+
+Display the IceWM Manual (default).
+
+=item B<-s>
+
+Display the IceWM icesound manpage.
+
+=item B<-t>, B<--theme>
+
+Display the IceWM themes Howto.
+
+=item B<-w>, B<--website>
+
+Display the IceWM website.
+
+=back
 
 =head2 GENERAL OPTIONS
 

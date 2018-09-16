@@ -17,9 +17,47 @@ support applications.
 
 =head1 OPTIONS
 
+=head2 SPECIFIC OPTIONS
+
+=over
+
+=item B<-c>, B<--config=FILE>
+
+Let IceWM load preferences from I<FILE>.
+
+=item B<-t>, B<--theme=FILE>
+
+Let IceWM load the theme from I<FILE>.
+
+=item B<-i>, B<--icewm=FILE>
+
+Use I<FILE> as the IceWM window manager.
+
+=item B<-n>, B<--notray>
+
+Do not start icewmtray.
+This is only applicable if IceWM was explicitly configured
+to use an external icewmtray process.
+
+=item B<-s>, B<--sound>
+
+Also start icesound.
+
+=back
+
 =head2 GENERAL OPTIONS
 
 =over
+
+=item B<--display>=I<DISPLAY>
+
+Use I<DISPLAY> to connect to the X server.
+If this option is missing then I<DISPLAY>
+is read from the environment variable C<DISPLAY>.
+
+=item B<--sync>
+
+Use a slower synchronous mode communication with I<X11> server.
 
 =item B<-h>, B<--help>
 

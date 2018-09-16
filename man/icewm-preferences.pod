@@ -1577,7 +1577,8 @@ Locations for the F<preferences> file are as follows:
 
 =head1 SEE ALSO
 
-L<icewm(1)>.
+L<icewm(1)>,
+L<icewm-prefoverride(5)>.
 
 =head1 AUTHOR
 

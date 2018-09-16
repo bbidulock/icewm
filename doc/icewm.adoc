@@ -66,7 +66,7 @@ Docklet support, and startup/shutdown script handling), use the
 not a complete Session Manager but it helps to automate the startup.
 
 First make sure that you choose the correct
-http://www.tldp.org/HOWTO/XWindow-User-HOWTO/runningx.html[X startup]
+https://www.tldp.org/HOWTO/XWindow-User-HOWTO/runningx.html[X startup]
 script in your home directory.
 For most distributions either the file `$HOME/.xsession`
 or `$HOME/.xinitrc` is honored by startx and X display managers like KDM.
@@ -1183,23 +1183,24 @@ Gallium, Macek, Hasselmann, Gijsbers, Bidulock and Bloch.
 icehelp(1),
 icesh(1),
 icesound(1),
-icewm-env(1),
-icewm-focus_mode(1),
-icewm-keys(1),
+icewm-env(5),
+icewm-focus_mode(5),
+icewm-keys(5),
 icewm-menu-fdo(1),
-icewm-menu(1),
-icewm-preferences(1),
-icewm-prefoverride(1),
-icewm-programs(1),
+icewm-menu(5),
+icewm-preferences(5),
+icewm-prefoverride(5),
+icewm-programs(5),
 icewm-session(1),
 icewm-set-gnomewm(1),
-icewm-shutdown(1),
-icewm-startup(1),
-icewm-theme(1),
-icewm-toolbar(1),
-icewm-winoptions(1),
+icewm-shutdown(5),
+icewm-startup(5),
+icewm-theme(5),
+icewm-toolbar(5),
+icewm-winoptions(5),
 icewm(1),
 icewmbg(1),
-icewmhint(1).
+icewmhint(1),
+icewmtray(1).
 
 {zwsp}
