@@ -1525,6 +1525,8 @@ int main(int argc, char **argv) {
                 print_usage(my_basename(argv[0]));
             else if (is_version_switch(*arg))
                 print_version_exit(VERSION);
+            else if (is_copying_switch(*arg))
+            { /* handled by Xt */ }
             else if (is_long_switch(*arg, "sync"))
             { /* handled by Xt */ }
             else if (GetArgument(value, "d", "display", arg, argv+argc))
