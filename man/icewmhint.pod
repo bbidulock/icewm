@@ -12,7 +12,7 @@ B<icewmhint> [I<CLASS>B<.>I<INSTANCE>] I<OPTION> I<VALUE>
 
 B<icewmhint> is a simple utility for passing IceWM hints to L<icewm(1)>
 by window class and instance.  Unlike tools that use WMH or EWMH, such
-as L<icesh(1)>, L<wmctl(1)> and L<xdotool(1)>, B<icewmhint> uses a
+as L<icesh(1)>, L<wmctrl(1)> and L<xdotool(1)>, B<icewmhint> uses a
 special property, C<_ICEWM_WINOPHINT>, on the root window to pass
 special hints to L<icewm(1)>.
 

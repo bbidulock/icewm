@@ -58,7 +58,9 @@ is configured with the B<--enable-menus-fdo> option.
 L<Desktop Entry Specification>,
 L<Desktop Menu Specification>,
 L<icewm(1)>,
-L<icewm-preferences(5)>.
+L<icewm-menu(5)>,
+L<icewm-preferences(5)>,
+L<icewm-programs(5)>.
 
 =head1 BUGS
 

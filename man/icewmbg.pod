@@ -43,11 +43,11 @@ or colours they are separated by commas.
 Each such value may be enclosed in double quotes.
 When I<FILE> is a directory then all images
 from that directory are used in sorted order.
-In this case, if I<FILE> starts with an
-exclamation mark then the images from
-this directory are permuted randomly.
-Image file names or directory names may have
-wildcards, see L<glob(7)>, which will be expanded.
+If the value starts with an exclamation mark,
+as in I<!FILE>, then the images from the
+directory I<FILE> are permuted randomly.
+Image file names or directory names may have wildcards,
+which will be expanded according to L<glob(7)>.
 
 =over
 
@@ -116,9 +116,9 @@ This overrules the C<DesktopBackgroundScaled> preference.
 Disable/Enable multi-head background.
 This overrules the C<DesktopBackgroundMultihead> preference.
 
-=item B<-y>, B<--cycle>={I<SECONDS>}
+=item B<-y>, B<--cycle>=I<SECONDS>
 
-Cycle over the list of background images every SECONDS.
+Cycle over the list of background images every I<SECONDS>.
 This overrules the C<CycleBackgroundsPeriod> preference.
 
 =item B<--display>=I<DISPLAY>

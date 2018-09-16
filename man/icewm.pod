@@ -179,7 +179,7 @@ notices that it is to be replaced it will cease operations and typically
 stop execution.  This allows B<icewm> to establish itself as the only
 active window manager.
 
-=item B<--restart>
+=item B<-r>, B<--restart>
 
 Instructs B<icewm> to restart itself, but one should not use this option
 directly. Instead one selects the C<Restart IceWM> button from the menu
@@ -197,7 +197,7 @@ Gives a list of directories where B<icewm> will look for configuration
 data.  This list is printed in the actual order in which B<icewm> uses
 it to search for configuration files.
 
-=item B<--list-themes>
+=item B<-l>, B<--list-themes>
 
 B<icewm> will search all the configuration directories for theme files
 and print a list of all found themes.
@@ -368,7 +368,7 @@ previous window, which will be raised to make it fully visible.
 
 A second important task of a window manager is to place new windows on
 the screen.  By default B<icewm> chooses a placement with minimal
-overlap, but this is determined by the C<SmartPlacement>> option in the
+overlap, but this is determined by the C<SmartPlacement> option in the
 F<preferences> file.  If C<SmartPlacement> is turned off then windows
 are placed in sequence from left to right and top to bottom.  One can
 also turn on C<ManualPlacement>.  Then new windows appear initially in
@@ -868,7 +868,7 @@ See L<icewm-keys(5)>.
 
 A menu of applications; usually customized by the user.  B<icewm>
 provides the L<icewm-menu-fdo(1)> program to generate a default menu.
-Similar programs are L<xdg_menu(1)>, L<mmaker(1)>' (MenuMaker),
+Similar programs are L<xdg_menu(1)>, L<mmaker(1)> (MenuMaker),
 L<xde-menu(1)>, L<xdgmenumaker(1)>.
 
 See L<icewm-menu(5)>.
@@ -1037,26 +1037,28 @@ See the file F<COMPLIANCE> in the distribution for full details.
 
 =head1 SEE ALSO
 
-L<icewmbg(1)>,
-L<icewmtray(1)>,
-L<icewm-session(1)>,
-L<icesh(1)>,
 L<icehelp(1)>,
-L<icewmhint(1)>,
+L<icesh(1)>,
 L<icesound(1)>,
-L<icewm-menu-fdo(1)>,
 L<icewm-env(5)>,
 L<icewm-focus_mode(5)>,
 L<icewm-keys(5)>,
 L<icewm-menu(5)>,
+L<icewm-menu-fdo(1)>,
+L<icewm-menu-xrandr(1)>,
 L<icewm-preferences(5)>,
 L<icewm-prefoverride(5)>,
 L<icewm-programs(5)>,
+L<icewm-session(1)>,
+L<icewm-set-gnomewm(1)>,
+L<icewm-shutdown(5)>,
+L<icewm-startup(5)>,
 L<icewm-theme(5)>,
 L<icewm-toolbar(5)>,
 L<icewm-winoptions(5)>,
-L<icewm-startup(5)>,
-L<icewm-shutdown(5)>,
+L<icewmbg(1)>,
+L<icewmhint(1)>,
+L<icewmtray(1)>,
 L<Xorg(1)>,
 L<Xserver(1)>,
 L<xinit(1)>,

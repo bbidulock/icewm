@@ -3,13 +3,21 @@
 for arg
 do
     case $arg in
-        -h|-?|--help|--?)
-            echo "Usage: $0"
-            echo "Set the Gnome windowmanager to IceWM"
+        -C|--copying)
+            cat <<COPYING
+IceWM is licensed under the GNU Library General Public License.
+See the file COPYING in the distribution for full details.
+
+COPYING
             exit 0
             ;;
         -V|--version)
-            echo "$0 VERSION, Copyrighted."
+            echo "$0 version 1.4.x, Copyrighted."
+            exit 0
+            ;;
+        -h|-\?|--help|--\?)
+            echo "Usage: $0 [-h|-V|-C]"
+            echo "Set the Gnome windowmanager to IceWM"
             exit 0
             ;;
         *)

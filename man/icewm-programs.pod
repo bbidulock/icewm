@@ -219,7 +219,9 @@ Locations for the programs file are as follows:
 
 =head1 SEE ALSO
 
-L<icewm(1)>.
+L<icewm(1)>,
+L<icewm-menu(5)>,
+L<icewm-menu-fdo(1)>.
 
 =head1 AUTHOR
 

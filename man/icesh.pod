@@ -10,7 +10,7 @@
 
 =item B<icesh> [I<OPTIONS>] I<ACTIONS>
 
-=item B<icesh> {B<-h>|B<--help>} [I<OPTIONS>] [I<ACTIONS>]
+=item B<icesh> {B<-h>|B<--help>}
 
 =item B<icesh> {B<-V>|B<--version>}
 
@@ -21,7 +21,7 @@
 =head1 DESCRIPTION
 
 B<icesh> provides commands for use by shell scripts that affect a
-window's state similar to L<wmctl(1)> or L<xdotool(1)>, except more
+window's state similar to L<wmctrl(1)> or L<xdotool(1)>, except more
 limited, specifically for B<icewm(1)>, and limited to affecting GNOME
 WinWM/WMH properties.
 
@@ -37,6 +37,37 @@ argument parsing and processing is performed.
 
 =over
 
+=item B<-display> I<DISPLAY>
+
+Specifies the X11 I<DISPLAY> to use.  When unspecified, defaults to the
+$DISPLAY environment variable.
+
+=item B<-window> I<WINDOW_ID>
+
+Specifies the identifier of the window, I<WINDOW_ID>, for which the
+action applies.
+Special identifiers are B<root> for the root window
+and B<focus> for the currently focused window.
+When no I<WINDOW_ID> or I<WM_CLASS> is specified, a selection crossbar
+is invoked to select the desired window.
+
+=item B<-class> I<WM_CLASS>
+
+Specifies the window manager class, I<WM_CLASS>, for which the action
+applies.
+If I<WM_CLASS> contains a period, only windows with exactly
+the same I<WM_CLASS> property are matched.  If there is no period,
+windows of the same class and windows of the same instance (aka. I<-name>)
+are selected.
+When no I<WINDOW_ID> or I<WM_CLASS> is specified, a selection crossbar
+is invoked to select the desired window.
+
+=back
+
+=head2 GENERAL OPTIONS
+
+=over
+
 =item B<-h>, B<--help>
 
 Print a brief usage statement to F<stdout> and exit.
@@ -48,31 +79,6 @@ Print the program version to F<stdout> and exit.
 =item B<-C>, B<--copying>
 
 Print copying permissions to F<stdout> for the program and exit.
-
-=back
-
-=head2 GENERAL OPTIONS
-
-=over
-
-=item B<-display> I<DISPLAY>
-
-Specifies the X11 I<DISPLAY> to use.  When unspecified, defaults to the
-$DISPLAY environment variable.
-
-=item B<-window> I<WINDOW_ID>
-
-Specifies the identifier of the window, I<WINDOW_ID>, for which the
-action applies.
-When no I<WINDOW_ID> or I<WM_CLASS> is specified, a selection crossbar
-is invoked to select the desired window.
-
-=item B<-class> I<WM_CLASS>
-
-Specifies the window manager class, I<WM_CLASS>, for which the action
-applies.
-When no I<WINDOW_ID> or I<WM_CLASS> is specified, a selection crossbar
-is invoked to select the desired window.
 
 =back
 
@@ -267,8 +273,8 @@ L<https://github.com/bbidulock/icewm/issues>.
 
 B<icesh> is historical and deprecated.  The command originally (and
 still) only supported the GNOME WinWM/WMH specification.  Unlike
-L<wmctl(1)> and L<xdotool(1)>, NetWM/EWMH support was never included.
-Except for the C<setTrayOption> command, L<wmctl(1)> and L<xdotool(1)>
+L<wmctrl(1)> and L<xdotool(1)>, NetWM/EWMH support was never included.
+Except for the C<setTrayOption> command, L<wmctrl(1)> and L<xdotool(1)>
 are quite capable of performing the necessary functions and more.
 
 =head1 AUTHOR

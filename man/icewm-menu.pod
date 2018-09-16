@@ -27,7 +27,7 @@ root menu and start menu.
 
 A menu of applications; usually customized by the user.  B<icewm>
 provides the L<icewm-menu-fdo(1)> program to generate a default menu.
-Similar programs are L<xdg_menu(1)>, L<mmaker(1)>' (MenuMaker),
+Similar programs are L<xdg_menu(1)>, L<mmaker(1)> (MenuMaker),
 L<xde-menu(1)>, L<xdgmenumaker(1)>.
 
 =head1 FORMAT
@@ -165,7 +165,8 @@ Locations for the menu file are as follows:
 
 =head1 SEE ALSO
 
-L<icewm(1)>.
+L<icewm(1)>,
+L<icewm-menu-fdo(1)>.
 
 =head1 AUTHOR
 

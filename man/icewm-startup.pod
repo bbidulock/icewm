@@ -52,7 +52,10 @@ Locations for the toolbar options file are as follows:
 
 =head1 SEE ALSO
 
-L<icewm(1)>.
+L<icewm(1)>,
+L<icewm-env(5)>,
+L<icewm-session(1)>,
+L<icewm-shutdown(5)>.
 
 =head1 AUTHOR
 
