@@ -2013,6 +2013,9 @@ void YFrameWindow::getFrameHints() {
         break;
     }
 
+    if (client()->shaped())
+        fFrameDecors &= ~(fdTitleBar | fdBorder);
+
     WindowOption wo(null);
     getWindowOptions(wo, false);
 
