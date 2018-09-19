@@ -34,6 +34,9 @@ typedef const char* LPCSTR;
 #include <gio/gdesktopappinfo.h>
 #include "ycollections.h"
 
+// program options
+bool add_sep_before(false), add_sep_after(false), no_sep_others(false), no_sub_cats(false);
+
 template<typename T, void TFreeFunc(T)>
 struct auto_raii {
     T m_p;
@@ -58,8 +61,6 @@ tCharVec sys_folders, home_folders;
 tCharVec* sys_home_folders[] = { &sys_folders, &home_folders, 0 };
 tCharVec* home_sys_folders[] = { &home_folders, &sys_folders, 0 };
 
-bool add_sep_before(false), add_sep_after(false), no_sep_others(false);
-
 struct tListMeta {
     LPCSTR title, key, icon;
     LPCSTR const * const parent_sec;
@@ -81,7 +82,14 @@ struct tListMeta {
 #endif
 };
 GHashTable* meta_lookup_data;
-#define lookup_category(key) ((tListMeta*) g_hash_table_lookup(meta_lookup_data, key))
+tListMeta* lookup_category(LPCSTR key)
+{
+    tListMeta* ret = (tListMeta*) g_hash_table_lookup(meta_lookup_data, key);
+    if(ret && ret->title == NULL)
+        ret->title = _(ret->key);
+    return ret;
+}
+
 
 
 struct t_menu_node;
@@ -190,9 +198,14 @@ public:
         return tree;
     }
 
-    bool try_add_to_subcat(t_menu_node* pNode, const tListMeta* subCatCandidate, YVec<tListMeta*> &matched_main_cats)
+    /**
+     * Find and examine the possible subcategory, try to assign it to the particular main category with the proper structure.
+     * When succeeded, blank out the main category pointer in matched_main_cats.
+     */
+    void try_add_to_subcat(t_menu_node* pNode, const tListMeta* subCatCandidate, YVec<tListMeta*> &matched_main_cats)
     {
         t_menu_node *pTree = &root;
+        // skip the rest of the further nesting (cannot fit into any)
         bool skipping = false;
 
         tListMeta* pNewCatInfo = 0;
@@ -200,6 +213,7 @@ public:
 
         for (const char * const *pSubCatName = subCatCandidate->parent_sec;
                 *pSubCatName; ++pSubCatName) {
+            // stop nesting, add to the last visited/created submenu
             bool store_here = **pSubCatName == '|';
             if (skipping && store_here) {
                 skipping = false;
@@ -239,10 +253,9 @@ public:
             if(!pNewCatInfo)
                 pNewCatInfo = lookup_category(*pSubCatName);
             if(!pNewCatInfo)
-                return false; // heh? fantasy category?
+                return; // heh? fantasy category? Let caller handle it
             pTree = pTree->get_subtree(pNewCatInfo);
         }
-        return false;
     }
     void add_by_categories(t_menu_node* pNode, gchar **ppCats) {
         static YVec<tListMeta*> matched_main_cats, matched_sub_cats;
@@ -260,10 +273,12 @@ public:
         }
         if (matched_main_cats.size == 0)
             matched_main_cats.add(lookup_category("Other"));
-        for (tListMeta** p = matched_sub_cats.data;
-                p < matched_sub_cats.data + matched_sub_cats.size; ++p) {
+        if(!no_sub_cats) {
+            for (tListMeta** p = matched_sub_cats.data;
+                    p < matched_sub_cats.data + matched_sub_cats.size; ++p) {
 
-            try_add_to_subcat(pNode, *p, matched_main_cats);
+                try_add_to_subcat(pNode, *p, matched_main_cats);
+            }
         }
         for (tListMeta** p = matched_main_cats.data;
                 p < matched_main_cats.data + matched_main_cats.size; ++p) {
@@ -537,9 +552,8 @@ static void init() {
 
     for (unsigned i = 0; i < ACOUNT(spec::menuinfo); ++i) {
         tListMeta& what = spec::menuinfo[i];
-#ifdef ENABLE_NLS
-        what.title = gettext(what.title);
-#endif
+        if(no_sub_cats && what.parent_sec)
+            continue;
         // enforce non-const since we are not destroying that data ever, no key_destroy_func set!
         g_hash_table_insert(meta_lookup_data, (gpointer) what.key, &what);
     }
@@ -552,6 +566,7 @@ static void help(LPCSTR home, LPCSTR dirs, FILE* out, int xit) {
             "--seps  \tPrint separators before and after contents\n"
             "--sep-after\tPrint separator only after contents\n"
             "--no-sep-others\tNo separation of the 'Others' menu point\n"
+            "--no-sub-cats\tNo additional subcategories, just one level of menues\n"
             "*.desktop\tAny .desktop file to launch the application command from there\n"
             "This program also listens to "
                     "environment variables defined by the\nXDG Base Directory Specification:\n"
@@ -620,6 +635,10 @@ int main(int argc, LPCSTR *argv) {
         }
         if (is_long_switch(*pArg, "no-sep-others")) {
             no_sep_others = true;
+            continue;
+        }
+        if (is_long_switch(*pArg, "no-sub-cats")) {
+            no_sub_cats = true;
             continue;
         }
         // unknown option?
