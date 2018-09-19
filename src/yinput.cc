@@ -687,7 +687,7 @@ void YInputLine::complete() {
             free(res);
             return;
     }
-    if (res_count == 0) { //no match found
+    if (res_count != 1) { //no match found
             return;
     }
     setText(ustring(res, strlen(res)));
