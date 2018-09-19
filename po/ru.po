@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: IceWM 1.4.2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-09-06 12:49-0600\n"
-"PO-Revision-Date: 2018-09-18 21:05+0000\n"
+"PO-Revision-Date: 2018-09-19 11:05+0000\n"
 "Last-Translator: Dmitriy Khanzhin <dmitriy.khanzhin@gmail.com>\n"
 "Language-Team: Russian "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/ru/>\n"
@@ -96,7 +96,7 @@ msgstr ""
 #: src/acpustatus.cc:303
 #, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
-msgstr "Загрузка %s CPU: %3.2f %3.2f %3.2f, %u"
+msgstr "Загрузка CPU%s: %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:309
 #, c-format
@@ -169,11 +169,11 @@ msgstr "CPU%d"
 
 #: src/acpustatus.cc:862
 msgid "_Combine"
-msgstr ""
+msgstr "_Скомбинировать"
 
 #: src/acpustatus.cc:864
 msgid "_Separate"
-msgstr ""
+msgstr "_Разделить"
 
 #: src/amailbox.cc:62
 #, c-format
