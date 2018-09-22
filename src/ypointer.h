@@ -216,6 +216,23 @@ public:
     DataType** operator&() { return super::address(); }
 };
 
+/**
+ * Alternative, very basic RAII helpers that can utilise any cleanup function with common signature.
+ */
+template<typename T, typename R, R TFreeFunc(T)>
+struct auto_raii_any {
+    T p;
+    auto_raii_any(T xp) : p(xp) { }
+    ~auto_raii_any() { if (p) TFreeFunc(p); }
+};
+// A specific version which matches void as return type which is the usual case for disposers
+template<typename T, void TFreeFunc(T)>
+struct auto_raii {
+    T p;
+    auto_raii(T xp) : p(xp) { }
+    ~auto_raii() { if (p) TFreeFunc(p); }
+};
+
 #endif
 
 // vim: set sw=4 ts=4 et:

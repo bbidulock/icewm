@@ -33,21 +33,10 @@ typedef const char* LPCSTR;
 #include <glib/gstdio.h>
 #include <gio/gdesktopappinfo.h>
 #include "ycollections.h"
+#include "ypointer.h"
 
 // program options
 bool add_sep_before(false), add_sep_after(false), no_sep_others(false), no_sub_cats(false);
-
-template<typename T, void TFreeFunc(T)>
-struct auto_raii {
-    T m_p;
-    auto_raii(T xp) :
-            m_p(xp) {
-    }
-    ~auto_raii() {
-        if (m_p)
-            TFreeFunc(m_p);
-    }
-};
 typedef auto_raii<gpointer, g_free> auto_gfree;
 typedef auto_raii<gpointer, g_object_unref> auto_gunref;
 
