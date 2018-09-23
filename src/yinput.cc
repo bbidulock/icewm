@@ -678,19 +678,9 @@ void YInputLine::autoScroll(int delta, const XMotionEvent *motion) {
 }
 
 void YInputLine::complete() {
-    char *res=NULL;
-    int  res_count=0;
-    cstring t(fText);
-
-    res_count = globit_best(t.c_str(), &res);
-    if (res_count == -1) { //error-case
-            free(res);
-            return;
-    }
-    if (res_count != 1) { //no match found
-            return;
-    }
-    setText(ustring(res, strlen(res)));
+    char* res = 0;
+    if (1 == globit_best(cstring(fText), &res))
+        setText(res);
     free(res);
 }
 
