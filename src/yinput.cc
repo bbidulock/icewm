@@ -679,7 +679,7 @@ void YInputLine::autoScroll(int delta, const XMotionEvent *motion) {
 
 void YInputLine::complete() {
     char* res = 0;
-    if (1 == globit_best(cstring(fText), &res))
+    if (1 <= globit_best(cstring(fText), &res))
         setText(res);
     free(res);
 }
