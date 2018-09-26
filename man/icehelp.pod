@@ -12,7 +12,7 @@ B<icehelp> [I<OPTIONS>] I<FILENAME>
 
 B<icehelp> is a very simple HTML browser that displays the document
 specified on the command line.  It is used by L<icewm(1)> internal to
-display the L<IceWM Manual> and the manual pages.
+display the L<IceWM Manual|https://ice-wm.org/manual> and the manual pages.
 
 =head1 ARGUMENTS
 
