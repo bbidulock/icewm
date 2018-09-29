@@ -35,6 +35,8 @@
  * Arguments:
  *    [in] const char *pattern
  *    [out] char **result
+ *    [in] void (*callback)(const void *, const char **, unsigned) -- function to run in case there are multiple results (with count) and user specified parameter (first argument)
+ *    [int] const void* cback_user_parm -- first parameter to callback
  * Return value:
  *    (int) number of matches
  *   + if -1: an error occurred; *result is the error string (or NULL)
@@ -108,7 +110,8 @@ static bool my_glob_pattern_p(const char *pat, int quote)
 /* main function */
 
 int
-globit_best(const char *pattern_, char **result)
+globit_best(const char *pattern_, char **result,
+        void(*callback)(const void *, const char * const *, unsigned cnt), const void* cback_user_parm)
 {
 	char c, *cp, **results = NULL;
 	size_t z, nresults = 0;
@@ -231,6 +234,7 @@ globit_best(const char *pattern_, char **result)
 			*result = globit_escape(glob_block.gl_pathv[0]);
 			break;
 		default:
+		    if(callback) callback(cback_user_parm, glob_block.gl_pathv, i);
 			z = globit_pfxlen(glob_block.gl_pathv, i);
 			if (z == 0) {
 				i = 0;
@@ -288,6 +292,7 @@ globit_best(const char *pattern_, char **result)
 	case 0:
 		goto ok_out;
 	default:
+        if(callback) callback(cback_user_parm, results, i);
 		z = globit_pfxlen(results, i);
 		if (z == 0) {
 			i = 0;

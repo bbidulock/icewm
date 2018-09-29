@@ -55,7 +55,7 @@ YInputLine::~YInputLine() {
 
 void YInputLine::setText(const ustring &text) {
     fText = text;
-    markPos = curPos = leftOfs = 0;
+    markPos = leftOfs = 0;
     curPos = fText.length();
     limit();
     repaint();
@@ -679,8 +679,10 @@ void YInputLine::autoScroll(int delta, const XMotionEvent *motion) {
 
 void YInputLine::complete() {
     char* res = 0;
-    if (1 <= globit_best(cstring(fText), &res))
+    if (1 <= globit_best(cstring(fText), &res, 0, 0))
         setText(res);
+    // FIXME: even for max. prefix the text gets marked like for a full match;
+    // that might be intended or might be a bug in limit() or paint()
     free(res);
 }
 

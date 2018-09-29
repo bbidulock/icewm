@@ -5,7 +5,8 @@
 extern "C" {
 #endif
 
-extern int globit_best(const char *, char **);
+extern int globit_best(const char *, char **,
+        void(*callback)(const void *, const char * const *, unsigned), const void* cback_user_parm);
 
 #ifdef __cplusplus
 }
