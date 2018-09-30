@@ -46,10 +46,21 @@ public:
     }
 };
 
-static void test_failed(const char *u, const char *s, int l)
+static void test_failed(cstring u, const char *s, int l)
 {
     printf("%s: Test failed in %s:%d: u = \"%s\", s = \"%s\"\n",
-            prog, source, l, u, s);
+            prog, source, l,
+            u == null ? "NULL" : u.c_str(),
+            s == 0 ? "NULL" : s);
+    ++failed;
+}
+
+static void test_failed(cstring u, cstring s, int l)
+{
+    printf("%s: Test failed in %s:%d: u = \"%s\", s = \"%s\"\n",
+            prog, source, l,
+            u == null ? "NULL" : u.c_str(),
+            s == null ? "NULL" : s.c_str());
     ++failed;
 }
 
@@ -178,7 +189,7 @@ static void test_mstring()
 
     mstring u = NULL;
     expect(u, "");
-    u = mstring(NULL) + "aha";
+    u = mstring((char *) NULL) + "aha";
     expect(u, "aha");
     u = mstring("aha") + NULL;
     expect(u, "aha");
