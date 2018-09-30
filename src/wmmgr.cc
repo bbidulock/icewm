@@ -155,8 +155,6 @@ void YWindowManager::grabKeys() {
 
     ///if (taskBar && taskBar->addressBar())
         GRAB_WMKEY(gKeySysAddressBar);
-///    if (runDlgCommand && runDlgCommand[0])
-///        GRAB_WMKEY(gKeySysRun);
     if (quickSwitch) {
         GRAB_WMKEY(gKeySysSwitchNext);
         GRAB_WMKEY(gKeySysSwitchLast);
@@ -499,9 +497,6 @@ bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int /*
             taskBar->showAddressBar();
             return true;
         }
-        ///        } else if (IS_WMKEY(k, vm, gKeySysRun)) {
-        ///            if (runDlgCommand && runDlgCommand[0])
-        ///                app->runCommand(runDlgCommand);
     } else if (IS_WMKEY(k, vm, gKeySysShowDesktop)) {
         XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
         wmActionListener->actionPerformed(actionShowDesktop, 0);
