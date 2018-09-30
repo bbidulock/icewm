@@ -68,9 +68,6 @@ YMenu *windowListAllPopup(NULL);
 
 YMenu *logoutMenu(NULL);
 
-static const char* configFile;
-static const char* overrideTheme;
-
 #ifndef XTERMCMD
 #define XTERMCMD xterm
 #endif
@@ -630,7 +627,7 @@ static void initMenus(
     rootMenu->setShared(true);
 }
 
-int handler(Display *display, XErrorEvent *xev) {
+static int handler(Display *display, XErrorEvent *xev) {
 
     if (initializing &&
         xev->request_code == X_ChangeWindowAttributes &&
@@ -981,9 +978,16 @@ void YWMApp::initFocusMode() {
     }
 }
 
-YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
+YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
+                const char *configFile, const char *overrideTheme) :
     YSMApplication(argc, argv, displayName),
-    mainArgv(*argv)
+    mainArgv(*argv),
+    configFile(configFile),
+    fLogoutMsgBox(0),
+    aboutDlg(0),
+    ctrlAltDelete(0),
+    switchWindow(0),
+    managerWindow(None)
 {
     if (restart_wm) {
         if (overrideTheme && *overrideTheme) {
@@ -1011,7 +1015,6 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     }
 
     wmapp = this;
-    managerWindow = None;
 
     WMConfig::loadConfiguration(this, configFile);
     if (themeName != 0) {
@@ -1058,11 +1061,6 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName):
     MenuLoader(this, this, this).loadMenus(findConfigFile("keys"), 0);
 
     XSetErrorHandler(handler);
-
-    fLogoutMsgBox = 0;
-    aboutDlg = 0;
-    ctrlAltDelete = 0;
-    switchWindow = 0;
 
     initAtoms();
     initPointers();
@@ -1491,6 +1489,9 @@ static void print_configured(const char *argv0) {
 int main(int argc, char **argv) {
     YLocale locale;
     bool notify_parent(false);
+    const char* configFile(0);
+    const char* overrideTheme(0);
+
 
     for (char ** arg = argv + 1; arg < argv + argc; ++arg) {
         if (**arg == '-') {
@@ -1536,7 +1537,7 @@ int main(int argc, char **argv) {
         }
     }
 
-    YWMApp app(&argc, &argv);
+    YWMApp app(&argc, &argv, 0, configFile, overrideTheme);
 
     app.signalGuiEvent(geStartup);
     manager->manageClients();

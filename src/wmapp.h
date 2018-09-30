@@ -39,7 +39,8 @@ class YWMApp:
     public YSMListener
 {
 public:
-    YWMApp(int *argc, char ***argv, const char *displayName = 0);
+    YWMApp(int *argc, char ***argv, const char *displayName,
+            const char *configFile, const char *overrideTheme);
     ~YWMApp();
     void signalGuiEvent(GUIEvent ge);
 
@@ -93,9 +94,11 @@ public:
     CtrlAltDelete* getCtrlAltDelete();
     bool hasSwitchWindow() const { return switchWindow != 0; }
     SwitchWindow* getSwitchWindow();
+    const char* getConfigFile() const { return configFile; }
 
 private:
     char** mainArgv;
+    const char* configFile;
 
     // XXX: these pointers are PITA because they can become wild when objects
     // are destroyed independently by manager. What we need is something like std::weak_ptr...
