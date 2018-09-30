@@ -22,7 +22,7 @@ static char *sessionProg;
 upath getsesfile() {
     upath path(YApplication::getPrivConfDir());
     if (false == path.dirExists())
-        path.mkdir(0755);
+        path.mkdir();
     path += mstring("/.session-", newSessionId);
     return path;
 }
