@@ -513,19 +513,50 @@ public:
         return strcmp(o1->name, o2->name);
     }
 
+    static upath defaultPrefs(upath path) {
+        upath conf(YApplication::getConfigDir() + "/preferences");
+        if (conf.fileExists() && path.copyFrom(conf))
+            return path;
+
+        conf = YApplication::getLibDir() + "/preferences";
+        if (conf.fileExists() && path.copyFrom(conf))
+            return path;
+
+        return path;
+    }
+
+    static upath preferencesPath() {
+        const int perm = 0600;
+
+        ustring conf(wmapp->getConfigFile());
+        if (conf != "preferences") {
+            upath path(wmapp->findConfigFile(conf));
+            if (path.isWritable())
+                return path;
+            if (!path.fileExists() && path.testWritable(perm))
+                return defaultPrefs(path);
+        }
+
+        upath priv(YApplication::getPrivConfDir() + "/preferences");
+        if (priv.isWritable())
+            return priv;
+        if (!priv.fileExists() && priv.testWritable(perm))
+            return defaultPrefs(priv);
+
+        return null;
+    }
+
     static void saveModified() {
         const int n = mods.getCount();
         if (n < 1)
             return;
         qsort(&*mods, n, sizeof(int), sortPrefs);
-        upath path(wmapp->findConfigFile("preferences"));
-        // if that's from system installation, save as delta in user's home
-        if(!path.isWritable()) {
-            path = wmapp->findConfigFile("prefoverride");
-            if(!path.isWritable() && !path.isReadable()) // create new?
-                path = YApplication::getPrivConfDir() + "prefoverride";
-        }
-        csmart text(load_text_file(path.string()));
+
+        upath path(preferencesPath());
+        if (path == null)
+            return fail("Could not write preferences");
+
+        csmart text(path.loadText());
         if (text == 0)
             (text = new char[1])[0] = 0;
         size_t tlen = strlen(text);
