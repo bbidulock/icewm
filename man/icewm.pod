@@ -475,6 +475,10 @@ C<KeyWinMaximize> maximizes the active window with borders.
 
 C<KeyWinMaximizeVert> maximizes the active window vertically.
 
+=item C<undefined>
+
+C<KeyWinMaximizeHoriz> maximizes the active window horizontally.
+
 =item C<Alt+F11>
 
 C<KeyWinFullscreen> maximizes the active window without borders.
@@ -530,6 +534,22 @@ C<KeyWinArrangeC> moves the active window to the center of the screen.
 =item C<Shift+Esc>
 
 C<KeySysWinMenu> posts the system window menu.
+
+=item C<Alt+Tab>
+
+C<KeySysSwitchNext>
+
+=item C<Alt+Shift+Tab>
+
+C<KeySysSwitchLast>
+
+=item C<Alt+Esc>
+
+C<KeySysWinNext> give focus to the next window and raise it.
+
+=item C<Alt+Shift+Esc>
+
+C<KeySysWinPrev> give focus to the previous window and raise it.
 
 =item C<Alt+Ctrl+Del>
 
@@ -706,6 +726,28 @@ C<KeySysShowDesktop> unmaps all windows to show the desktop.
 =item C<Alt+Ctrl+h>
 
 C<KeySysCollapseTaskBar> hides the task bar.
+
+=item C<undefined>
+
+C<KeyTaskBarSwitchNext> switches to the next window in the task bar.
+
+=item C<undefined>
+
+C<KeyTaskBarSwitchPrev> switches to the previous window in the task bar.
+
+=item C<undefined>
+
+C<KeyTaskBarMoveNext> moves the task bar button of the current window
+right.
+
+=item C<undefined>
+
+C<KeyTaskBarMovePrev> moves the task bar button of the current window
+left.
+
+=item C<undefined>
+
+C<KeySysWinListMenu> shows the window list menu.
 
 =back
 
