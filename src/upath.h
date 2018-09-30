@@ -47,6 +47,9 @@ public:
     int remove() const;
     int renameAs(const pstring& dest) const;
     off_t fileSize() const;
+    char* loadText() const;
+    bool copyFrom(const upath& from, int mode = 0666) const;
+    bool testWritable(int mode = 0666) const;
 
     upath& operator=(const upath& p) {
         fPath = p.fPath;

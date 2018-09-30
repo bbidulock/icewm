@@ -11,6 +11,9 @@
 #include <sys/stat.h>
 #include <stdio.h>
 #include <fcntl.h>
+#include "base.h"
+#include "yapp.h"
+#include "ypointer.h"
 
 const pstring upath::slash("/");
 const upath upath::rootPath(slash);
@@ -21,14 +24,12 @@ bool upath::isSeparator(int ch) const {
 
 upath upath::parent() const {
     int len = length();
-    while (len > 1 && isSeparator(fPath[len - 1])) {
-        --len;
+    int sep = fPath.lastIndexOf('/');
+    while (0 < sep && 1 + sep == len) {
+        len = sep;
+        sep = fPath.substring(0, len).lastIndexOf('/');
     }
-    for (; len > 0; --len) {
-        if (isSeparator(fPath[len - 1])) {
-            break;
-        }
-    }
+    len = max(0, sep);
     while (len > 1 && isSeparator(fPath[len - 1])) {
         --len;
     }
@@ -36,12 +37,7 @@ upath upath::parent() const {
 }
 
 pstring upath::name() const {
-    int start = length();
-    for (; start > 0; --start) {
-        if (isSeparator(fPath[start - 1])) {
-            break;
-        }
-    }
+    int start = 1 + fPath.lastIndexOf('/');
     return fPath.substring(start, length() - start);
 }
 
@@ -140,6 +136,32 @@ int upath::remove() const {
 
 int upath::renameAs(const pstring& dest) const {
     return ::rename(string(), cstring(dest));
+}
+
+char* upath::loadText() const {
+    cstring file(fPath.startsWith("~/") ?
+                 (YApplication::getHomeDir() + fPath.substring(2)).fPath :
+                 fPath);
+    return ::load_text_file(file);
+}
+
+bool upath::copyFrom(const upath& from, int mode) const {
+    csmart text(loadText());
+    if (text == 0)
+        return false;
+    int fd = open(O_WRONLY | O_CREAT | O_TRUNC, mode);
+    if (fd == -1)
+        return false;
+    size_t len = strlen(text);
+    ssize_t wr = write(fd, text, len);
+    close(fd);
+    return 0 <= wr && size_t(wr) == len;
+}
+
+bool upath::testWritable(int mode) const {
+    int fd = open(O_WRONLY | O_CREAT | O_APPEND, mode);
+    if (0 <= fd) close(fd);
+    return 0 <= fd;
 }
 
 bool upath::hasProtocol() const {
