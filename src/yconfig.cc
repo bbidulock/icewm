@@ -277,7 +277,7 @@ void YConfig::parseConfiguration(cfoption *options, char *data) {
 }
 
 bool YConfig::loadConfigFile(cfoption *options, upath fileName) {
-    char* buf = load_text_file(cstring(fileName));
+    char* buf = fileName.loadText();
     if (buf) {
         parseConfiguration(options, buf);
         delete[] buf;

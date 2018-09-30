@@ -453,7 +453,7 @@ void MenuLoader::loadMenus(upath menufile, ObjectContainer *container)
         return;
 
     MSG(("menufile: %s", menufile.string().c_str()));
-    char *buf = load_text_file(menufile.string());
+    char *buf = menufile.loadText();
     if (buf) {
         parseMenus(buf, container);
         delete[] buf;
