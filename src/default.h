@@ -179,7 +179,7 @@ XSV(const char *, clockCommand,                 "xclock -name icewm -title Clock
 XSV(const char *, clockClassHint,               "icewm.XClock")
 XSV(const char *, runDlgCommand,                0)
 XSV(const char *, openCommand,                  0)
-XSV(const char *, terminalCommand,              "xterm")
+XSV(const char *, terminalCommand,              "xterm -hold")
 XSV(const char *, logoutCommand,                0)
 XSV(const char *, logoutCancelCommand,          0)
 #if defined(__linux__)
@@ -199,8 +199,15 @@ XIV(int, taskBarNetDelay,                       500)
 XSV(const char *, cpuCommand,                   "xterm -name top -title Process\\ Status -e top")
 XSV(const char *, cpuClassHint,                 "top.XTerm")
 XIV(bool, cpuCombine,                           true)
+
+#ifdef __linux__
 XSV(const char *, netCommand,                   "xterm -name 'socket statistics' -title 'Socket Statistics' -hold -e ss")
 XSV(const char *, netClassHint,                 "ss.XTerm")
+#else
+XSV(const char *, netCommand,                   "xterm -name netstat -title 'Network Status' -hold -e netstat -c")
+XSV(const char *, netClassHint,                 "netstat.XTerm")
+#endif
+
 XSV(const char *, netDevice,                    "[ew]*"
 #ifdef __OpenBSD__
                                                 " vio*"
@@ -473,12 +480,11 @@ cfoption icewm_preferences[] = {
     OKV("KeySysWinPrev",                        gKeySysWinPrev,                 ""),
     OKV("KeyTaskBarSwitchNext",                 gKeyTaskBarSwitchNext,          "Switch to the next window in the Task Bar"),
     OKV("KeyTaskBarSwitchPrev",                 gKeyTaskBarSwitchPrev,          "Switch to the previous window in the Task Bar"),
-    OKV("KeyTaskBarMoveNext",			gKeyTaskBarMoveNext,            "Move the Task Bar button of the current window right"),
-    OKV("KeyTaskBarMovePrev",			gKeyTaskBarMovePrev,            "Move the Task Bar button of the current window left"),
+    OKV("KeyTaskBarMoveNext",                   gKeyTaskBarMoveNext,            "Move the Task Bar button of the current window right"),
+    OKV("KeyTaskBarMovePrev",                   gKeyTaskBarMovePrev,            "Move the Task Bar button of the current window left"),
     OKV("KeySysWinMenu",                        gKeySysWinMenu,                 ""),
     OKV("KeySysDialog",                         gKeySysDialog,                  ""),
     OKV("KeySysMenu",                           gKeySysMenu,                    ""),
-///    OKV("KeySysRun",                            gKeySysRun,                     ""),
     OKV("KeySysWindowList",                     gKeySysWindowList,              ""),
     OKV("KeySysWinListMenu",                    gKeySysWinListMenu,             ""),
     OKV("KeySysAddressBar",                     gKeySysAddressBar,              ""),

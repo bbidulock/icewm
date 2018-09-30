@@ -19,6 +19,7 @@ public:
 private:
     void changeLocation(int newLocation);
     bool handleReturn(int mask);
+    bool appendCommand(const char* cmd, class YStringArray& args);
 
     IApp *app;
     MStringArray history;
