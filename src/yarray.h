@@ -295,6 +295,7 @@ public:
         append(item); return *this;
     }
 
+    virtual void replace(const SizeType index, const char *str);
     virtual void remove(const SizeType index);
     virtual void clear();
     virtual void shrink(int reducedSize);

@@ -160,14 +160,25 @@ YStringArray::SizeType YStringArray::find(const char *str) {
 }
 
 void YStringArray::remove(const SizeType index) {
-    if (index < getCount()) {
+    if (inrange(index, 0, getCount() - 1)) {
         delete[] getString(index);
         YBaseArray::remove(index);
     }
 }
 
+void YStringArray::replace(const SizeType index, const char *str) {
+    if (inrange(index, 0, getCount() - 1)) {
+        const char *copy = newstr(str);
+        ::swap(copy, *getItemPtr(index));
+        delete[] copy;
+    }
+    else if (index == getCount())
+        append(str);
+}
+
 void YStringArray::clear() {
-    for (int i = 0; i < getCount(); ++i) delete[] getString(i);
+    for (int i = 0; i < getCount(); ++i)
+        delete[] getString(i);
     YBaseArray::clear();
 }
 
