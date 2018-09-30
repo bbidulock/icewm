@@ -55,8 +55,9 @@ YInputLine::~YInputLine() {
 
 void YInputLine::setText(const ustring &text) {
     fText = text;
-    markPos = leftOfs = 0;
+    leftOfs = 0;
     curPos = fText.length();
+    markPos = curPos;
     limit();
     repaint();
 }
