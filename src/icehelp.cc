@@ -712,6 +712,8 @@ static node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node
                         c = '"';
                     else if (strcmp(entity, "&nbsp") == 0)
                         c = 32+128;
+                    else if (strcmp(entity, "&#160") == 0)
+                        c = 32+128;
                     else if (strcmp(entity, "&#8203") == 0)
                         c = 32+128; // zero width space
                     else if (strcmp(entity, "&#8212") == 0)
