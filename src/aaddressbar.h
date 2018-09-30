@@ -17,7 +17,7 @@ public:
     void hideNow();
 
 private:
-    bool changeLocation(int newLocation);
+    void changeLocation(int newLocation);
     bool handleReturn(int mask);
 
     IApp *app;

@@ -36,12 +36,12 @@ bool AddressBar::handleKey(const XKeyEvent &key) {
         else if (k == XK_Up ||
                 (k == XK_KP_Up && !(key.state & xapp->NumLockMask)))
         {
-            return changeLocation(location - 1);
+            return changeLocation(location - 1), true;
         }
         else if (k == XK_Down ||
                 (k == XK_KP_Down && !(key.state & xapp->NumLockMask)))
         {
-            return changeLocation(location + 1);
+            return changeLocation(location + 1), true;
         }
     }
     return YInputLine::handleKey(key);
@@ -80,17 +80,11 @@ bool AddressBar::handleReturn(int mask) {
     return true;
 }
 
-bool AddressBar::changeLocation(int newLocation) {
-    if (inrange(newLocation, 0, history.getCount())) {
-        location = newLocation;
-        if (location == history.getCount()) {
-            setText(null);
-        }
-        else {
-            setText(history[location]);
-        }
-    }
-    return true;
+void AddressBar::changeLocation(int newLocation) {
+    if (! inrange(newLocation, 0, history.getCount()))
+        return;
+    location = newLocation;
+    setText(location == history.getCount() ? null : history[location], true);
 }
 
 void AddressBar::showNow() {

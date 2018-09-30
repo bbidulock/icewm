@@ -13,7 +13,7 @@ public:
     YInputLine(YWindow *parent = 0);
     virtual ~YInputLine();
 
-    void setText(const ustring &text);
+    void setText(const ustring &text, bool asMarked);
     ustring getText();
 
     virtual void paint(Graphics &g, const YRect &r);
