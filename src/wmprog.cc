@@ -529,7 +529,7 @@ public:
         const int perm = 0600;
 
         ustring conf(wmapp->getConfigFile());
-        if (conf != "preferences") {
+        if (conf.nonempty() && conf != "preferences") {
             upath path(wmapp->findConfigFile(conf));
             if (path.isWritable())
                 return path;
