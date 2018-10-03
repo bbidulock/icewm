@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-09-06 12:49-0600\n"
-"PO-Revision-Date: 2018-09-11 07:30+0000\n"
+"PO-Revision-Date: 2018-10-03 19:00+0000\n"
 "Last-Translator: David Medina <medipas@gmail.com>\n"
 "Language-Team: Catalan "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/ca/>\n"
@@ -567,7 +567,7 @@ msgstr "Expressió no vàlida: \"%s\""
 #: src/icesh.cc:319
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
-msgstr "Símbols anomenats del domini \"%s\" (abast numèric: %ld-%ld):\n"
+msgstr "Símbols anomenats del domini \"%s\" (gamma numèrica: %ld-%ld):\n"
 
 #: src/icesh.cc:435
 #, c-format
