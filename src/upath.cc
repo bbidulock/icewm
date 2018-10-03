@@ -146,7 +146,7 @@ char* upath::loadText() const {
 }
 
 bool upath::copyFrom(const upath& from, int mode) const {
-    csmart text(loadText());
+    csmart text(from.loadText());
     if (text == 0)
         return false;
     int fd = open(O_WRONLY | O_CREAT | O_TRUNC, mode);
