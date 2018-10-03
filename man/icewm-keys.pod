@@ -58,6 +58,11 @@ Where,
 
 The literal string keyword.
 
+=item B<switchkey>
+
+The literal string keyword, used as alternative to C<key> to build
+menu-like quickswitch popups.
+
 =item I<key_combination>
 
 Any combination of keys, separated by plus-sign (C<+>).
@@ -66,8 +71,8 @@ Any combination of keys, separated by plus-sign (C<+>).
 
 I<program> is the name of the executable or full path to the executable
 file that will be run in response to selecting the menu item.  When used
-with the B<menuprog> keyword, the I<program> must print on standard
-output the contents of the menu and is used for dynamic menus.
+with the B<switchkey> keyword, the I<program> must print on standard
+output the contents of the popup like it would be used for dynamic menus.
 
 I<options> is the options and arguments passed to the I<program>
 verbatim.
@@ -108,6 +113,9 @@ Following is the example F<keys> file that ships with L<icewm(1)>:
     key "XF86HomePage" xdg-open about:blank
     key "XF86Search" xdg-open http://www.google.com
     key "XF86Eject" eject
+
+    # display and select monitor setup configurations
+    switchkey "Super+p" icewm-menu-xrandr
 
 =head1 FILES
 
