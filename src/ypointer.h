@@ -189,7 +189,7 @@ public:
     void operator=(const fsmart& some) { super::copy(some); }
     void operator=(DataType *some) { super::data(some, fdispose); }
 
-    char** operator&() { return super::address(); }
+    DataType** operator&() { return super::address(); }
 };
 
 extern "C" {
