@@ -243,11 +243,15 @@ which is running on the current work space.  Each task button shows the
 application icon and the application title.  The active application is
 indicated by a pressed button.  This is the application which has input
 focus.  Pressing another button activates that application: it is
-brought to the foreground and receives input focus.
+brought to the foreground and receives input focus.  Other mouse
+controlled activities on the window buttons are dragging window buttons to
+(temporarily) rearrange the order (with left mouse button) or closing
+the application window (with middle button while pressing and holding C<Alt>).
 
 If there are not many application buttons then a stretch of plain task
 bar is visible.  Clicking on it with the right mouse button gives the
-task bar menu.
+task bar menu.  Even with a full task pane, this menu can be usually
+accessed by right-clicking the bottom right corner of the taskbar.
 
 The I<Tray Applet> shows system tray objects.
 
@@ -363,6 +367,11 @@ C<Alt+Tab> or C<Alt+Shift+Tab> one can cycle through all windows.
 The second keyboard method involves pressing C<Alt+Esc> or
 C<Alt+Shift+Esc>.  Input focus is immediately changed to the next or
 previous window, which will be raised to make it fully visible.
+
+And finally, there is another way which is a hybrid of keyboard and
+mouse control. It involves the C<QuickSwitch> popup explained before,
+after pressing C<Alt+Tab> and while still holding C<Alt> a left click
+on one of the list items causes the activation of the related window.
 
 =head2 WINDOW PLACEMENT
 
@@ -748,6 +757,14 @@ left.
 =item C<undefined>
 
 C<KeySysWinListMenu> shows the window list menu.
+=item C<Alt+Tab>
+
+C<KeySysSwitchNext> opens the C<QuickSwitch> popup (see L<INPUT FOCUS>) and/or moves the selector.
+
+=item C<Alt+Shift+Tab>
+
+C<KeySysSwitchLast> works like C<KeySysSwitchNext> but moving in the opposite direction.
+
 
 =back
 
