@@ -895,7 +895,7 @@ Default local installation settings.
 
 L<icewm-session(1)> loads additional environment variables from the file
 F<env>.  Each line is subjected to POSIX shell expansion by
-L<wordexp(3)>.  Comment lines starting by a hash-sign (C<#>)are ignored.
+L<wordexp(3)>.  Comment lines starting by a hash-sign (C<#>) are ignored.
 L<icewm-session(1)> will load those expanded lines which contain a name,
 followed by an equals sign, followed by the value (which may be empty).
 
@@ -1080,6 +1080,8 @@ sub-directory in the F<themes> directory. A theme contains at least a
 F<default.theme> file, and optionally theme alternatives which are
 additional files which have a F<.theme> file name extension and which
 contain tweaks of the F<default.theme> file.
+How to create a theme is explained in the
+L<IceWM Theme Creation Howto|https://ice-wm.org/themes>.
 
 =back
 
