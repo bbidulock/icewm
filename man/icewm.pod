@@ -788,6 +788,12 @@ shrink it move towards the centre.
 
 C<MouseWinRaise> raises the window under the mouse.
 
+=item C<Ctrl+Alt+Pointer_Button1>
+
+C<MouseWinLower> lowers the window under the mouse.
+If this is equal to C<MouseWinRaise> and the window can be raised
+then C<MouseWinRaise> takes preference over C<MouseWinLower>.
+
 =back
 
 Clicking on the desktop activates a menu.  The middle button shows the

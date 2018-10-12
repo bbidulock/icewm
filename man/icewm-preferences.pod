@@ -85,6 +85,10 @@ Pass focusing click on client area to client.
 
 Change to the workspace of newly focused windows.
 
+=item B<FocusCurrentWorkspace>=0
+
+Move newly focused windows to current workspace.
+
 =item B<FocusOnMap>=1
 
 Focus normal window when initially mapped.
