@@ -622,7 +622,8 @@ NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
     app(app),
     smActionListener(smActionListener),
     taskBar(taskBar),
-    aParent(aParent)
+    aParent(aParent),
+    fPid(0)
 {
     mstring devName, devList(netDevice);
     while (devList.splitall(' ', &devName, &devList)) {
@@ -697,7 +698,7 @@ bool NetStatusControl::handleTimer(YTimer *t)
 
 void NetStatusControl::runCommandOnce(const char *resource, const char *cmdline)
 {
-    smActionListener->runCommandOnce(resource, cmdline);
+    smActionListener->runCommandOnce(resource, cmdline, &fPid);
 }
 
 void NetStatusControl::relayout()

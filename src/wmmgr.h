@@ -115,9 +115,9 @@ public:
     void manageClients();
     void unmanageClients();
 
-    Window findWindow(char const * resource);
+    Window findWindow(char const * resource, int maxdepth);
     Window findWindow(Window root, char const * wmInstance,
-                      char const * wmClass);
+                      char const * wmClass, int maxdepth);
 
     YFrameWindow *findFrame(Window win);
     YFrameClient *findClient(Window win);

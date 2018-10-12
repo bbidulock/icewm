@@ -735,25 +735,63 @@ void YWMApp::restartClient(const char *path, char *const *args) {
     manager->manageClients();
 }
 
-void YWMApp::runOnce(const char *resource, const char *path, char *const *args) {
-    Window win(manager->findWindow(resource));
+long YWMApp::runOnce(const char *resource, const char *path, char *const *args) {
+    long pid = 0;
+    Window win(manager->findWindow(resource, 2));
 
     if (win) {
         YFrameWindow * frame(manager->findFrame(win));
-        if (frame) frame->activateWindow(true);
+        if (frame) {
+            frame->activateWindow(true);
+            frame->client()->getNetWMPid(&pid);
+        }
         else XMapRaised(xapp->display(), win);
     } else
-        runProgram(path, args);
+        pid = runProgram(path, args);
+
+    return pid;
 }
 
-void YWMApp::runCommandOnce(const char *resource, const char *cmdline) {
+void YWMApp::runCommandOnce(const char *resource, const char *cmdline, long *pid) {
+    if (0 < *pid && mapClientByPid(*pid))
+        return;
+
+    if (mapClientByResource(resource, pid))
+        return;
+
 /// TODO #warning calling /bin/sh is considered to be bloat
     char const *const argv[] = { "/bin/sh", "-c", cmdline, NULL };
 
     if (resource)
-        runOnce(resource, argv[0], (char *const *) argv);
+        *pid = runOnce(resource, argv[0], (char *const *) argv);
     else
-        runProgram(argv[0], (char *const *) argv);
+        *pid = runProgram(argv[0], (char *const *) argv);
+}
+
+bool YWMApp::mapClientByPid(long pid) {
+    for (YFrameIter frame = manager->focusedIterator(); ++frame; ) {
+        long tmp = 0;
+        if (frame->client()->getNetWMPid(&tmp) && tmp == pid) {
+            frame->setWorkspace(manager->activeWorkspace());
+            frame->activateWindow(true);
+            return true;
+        }
+    }
+    return false;
+}
+
+bool YWMApp::mapClientByResource(const char* resource, long *pid) {
+    Window win(manager->findWindow(resource, 2));
+    if (win) {
+        YFrameWindow* frame(manager->findFrame(win));
+        if (frame) {
+            frame->setWorkspace(manager->activeWorkspace());
+            frame->activateWindow(true);
+            frame->client()->getNetWMPid(pid);
+            return true;
+        }
+    }
+    return false;
 }
 
 void YWMApp::setFocusMode(int mode) {

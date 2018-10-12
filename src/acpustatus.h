@@ -90,6 +90,7 @@ private:
     ArrayType fCPUStatus;
     osmart<YMenu> fMenu;
     int fMenuCPU;
+    long fPid;
 };
 
 #endif

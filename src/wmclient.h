@@ -151,6 +151,7 @@ public:
     bool getNetWMIcon(int *count, long **elem);
     bool getNetWMStateHint(long *mask, long *state);
     bool getNetWMDesktopHint(long *workspace);
+    bool getNetWMPid(long *pid);
     bool getNetWMStrut(int *left, int *right, int *top, int *bottom);
     bool getNetWMStrutPartial(int *left, int *right, int *top, int *bottom,
             int *left_start_y=0, int *left_end_y=0, int *right_start_y=0, int *right_end_y=0,
@@ -214,6 +215,7 @@ private:
     long fPingTime;
     lazy<YTimer> fPingTimer;
     long fWinHints;
+    long fPid;
 
     ustring fWindowTitle;
     ustring fIconTitle;
@@ -254,6 +256,7 @@ private:
         bool net_wm_user_time : 1;
         bool net_wm_user_time_window : 1;
         bool net_wm_window_opacity : 1;
+        bool net_wm_pid : 1;
         bool mwm_hints : 1;
         bool win_hints : 1;
         bool win_workspace : 1; // no property notify

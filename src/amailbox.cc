@@ -865,7 +865,8 @@ MailBoxControl::MailBoxControl(IApp *app, YSMListener *smActionListener,
     smActionListener(smActionListener),
     taskBar(taskBar),
     aParent(aParent),
-    fMenuClient(0)
+    fMenuClient(0),
+    fPid(0)
 {
     populate();
 }
@@ -919,7 +920,7 @@ void MailBoxControl::createStatus(mstring mailBox)
 
 void MailBoxControl::runCommandOnce(const char *resource, const char *cmdline)
 {
-    smActionListener->runCommandOnce(resource, cmdline);
+    smActionListener->runCommandOnce(resource, cmdline, &fPid);
 }
 
 void MailBoxControl::runCommand(const char *cmdline)

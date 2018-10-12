@@ -50,6 +50,7 @@ private:
     IAppletContainer* iapp;
     osmart<YMenu> fMenu;
     const char* fTimeFormat;
+    long fPid;
 
     void changeTimeFormat(const char* format);
     using IApplet::getPixmap;

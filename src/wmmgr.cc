@@ -832,7 +832,7 @@ void YWindowManager::handleFocus(const XFocusChangeEvent &focus) {
     }
 }
 
-Window YWindowManager::findWindow(const char *resource) {
+Window YWindowManager::findWindow(const char *resource, int maxdepth) {
     char *wmInstance = 0, *wmClass = 0;
 
     char const * dot(resource ? strchr(resource, '.') : 0);
@@ -843,7 +843,7 @@ Window YWindowManager::findWindow(const char *resource) {
     } else if (resource)
         wmInstance = newstr(resource);
 
-    Window win = findWindow(desktop->handle(), wmInstance, wmClass);
+    Window win = findWindow(desktop->handle(), wmInstance, wmClass, 2);
 
     delete[] wmClass;
     delete[] wmInstance;
@@ -852,7 +852,7 @@ Window YWindowManager::findWindow(const char *resource) {
 }
 
 Window YWindowManager::findWindow(Window root, char const * wmInstance,
-                                  char const * wmClass) {
+                                  char const * wmClass, int maxdepth) {
     Window firstMatch = None;
     Window parent, *clients(NULL);
     unsigned nClients;
@@ -876,8 +876,8 @@ Window YWindowManager::findWindow(Window root, char const * wmInstance,
                 XFree(wmclass.res_class);
             }
 
-            if (!firstMatch)
-                firstMatch = findWindow(clients[n], wmInstance, wmClass);
+            if (!firstMatch && maxdepth > 0)
+                firstMatch = findWindow(clients[n], wmInstance, wmClass, maxdepth - 1);
         }
         XFree(clients);
     }

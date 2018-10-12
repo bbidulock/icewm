@@ -169,6 +169,7 @@ public:
     YWindow *aParent;
     osmart<YMenu> fMenu;
     MailBoxStatus *fMenuClient;
+    long fPid;
 
     typedef ArrayType::IterType IterType;
     IterType iterator() { return fMailBoxStatus.reverseIterator(); }

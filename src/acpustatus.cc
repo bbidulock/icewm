@@ -789,7 +789,9 @@ CPUStatusControl::CPUStatusControl(YSMListener *smActionListener,
                                    YWindow *aParent):
     smActionListener(smActionListener),
     iapp(iapp),
-    aParent(aParent)
+    aParent(aParent),
+    fMenuCPU(-1),
+    fPid(0)
 {
     GetCPUStatus(cpuCombine);
 }
@@ -844,7 +846,7 @@ CPUStatus* CPUStatusControl::createStatus(unsigned cpu)
 
 void CPUStatusControl::runCommandOnce(const char *resource, const char *cmdline)
 {
-    smActionListener->runCommandOnce(resource, cmdline);
+    smActionListener->runCommandOnce(resource, cmdline, &fPid);
 }
 
 void CPUStatusControl::handleClick(const XButtonEvent &up, int cpuid) {

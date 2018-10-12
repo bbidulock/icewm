@@ -41,6 +41,7 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win):
     fTransientFor = 0;
     fClientLeader = None;
     fMwmHints = 0;
+    fPid = 0;
 
     getPropertiesList();
 
@@ -380,7 +381,20 @@ bool YFrameClient::handleTimer(YTimer* timer) {
 }
 
 bool YFrameClient::killPid() {
-    bool killed = false;
+    long pid = 0;
+    return getNetWMPid(&pid) && 0 < pid && 0 == kill(pid, SIGTERM);
+}
+
+bool YFrameClient::getNetWMPid(long *pid) {
+    *pid = 0;
+
+    if (!prop.net_wm_pid)
+        return false;
+
+    if (fPid > 0) {
+        *pid = fPid;
+        return true;
+    }
 
     Atom type = 0;
     int format = 0;
@@ -393,7 +407,6 @@ bool YFrameClient::killPid() {
                            &prop) == Success && prop)
     {
         if (type == XA_CARDINAL && format == 32 && nitems == 1) {
-            long pid = *(long *)prop;
             XTextProperty text = {};
             if (XGetWMClientMachine(xapp->display(), handle(), &text)) {
                 char myhost[HOST_NAME_MAX + 1] = {};
@@ -403,8 +416,7 @@ bool YFrameClient::killPid() {
                 if (strncmp(myhost, theirs, len) == 0 &&
                     (theirs[len] == 0 || theirs[len] == '.'))
                 {
-                    kill(pid, SIGTERM);
-                    killed = true;
+                    *pid = fPid = *(long *)prop;
                 }
                 XFree(text.value);
             }
@@ -412,7 +424,7 @@ bool YFrameClient::killPid() {
         XFree(prop);
     }
 
-    return killed;
+    return fPid > 0 && fPid == *pid;
 }
 
 void YFrameClient::recvPing(const XClientMessageEvent &message) {
@@ -657,6 +669,8 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
         } else if (property.atom == _XA_NET_WM_WINDOW_TYPE) {
             // !!! do we do dynamic update? (discuss on wm-spec)
             prop.net_wm_window_type = new_prop;
+        } else if (property.atom == _XA_NET_WM_PID) {
+            prop.net_wm_pid = new_prop;
         } else {
             MSG(("Unknown property changed: %s, window=0x%lX",
                  XGetAtomName(xapp->display(), property.atom), handle()));
@@ -2161,6 +2175,7 @@ void YFrameClient::getPropertiesList() {
             else if (a == _XA_NET_WM_STRUT) HAS(prop.net_wm_strut);
             else if (a == _XA_NET_WM_STRUT_PARTIAL) HAS(prop.net_wm_strut_partial);
             else if (a == _XA_NET_WM_DESKTOP) HAS(prop.net_wm_desktop);
+            else if (a == _XA_NET_WM_PID) HAS(prop.net_wm_pid);
             else if (a == _XA_NET_WM_STATE) HAS(prop.net_wm_state);
             else if (a == _XA_NET_WM_WINDOW_TYPE) HAS(prop.net_wm_window_type);
             else if (a == _XA_NET_STARTUP_ID) HAS(prop.net_startup_id);

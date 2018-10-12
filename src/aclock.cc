@@ -39,6 +39,7 @@ YClock::YClock(YSMListener *smActionListener, IAppletContainer* iapp, YWindow *a
     iapp(iapp),
     fMenu(0),
     fTimeFormat(0),
+    fPid(0),
     negativePosition(INT_MAX),
     clockBg(&clrClock),
     clockFg(&clrClockText),
@@ -159,7 +160,7 @@ void YClock::handleClick(const XButtonEvent &up, int count) {
     if (up.button == 1) {
         if (clockCommand && clockCommand[0] &&
             (taskBarLaunchOnSingleClick ? count == 1 : !(count % 2)))
-            smActionListener->runCommandOnce(clockClassHint, clockCommand);
+            smActionListener->runCommandOnce(clockClassHint, clockCommand, &fPid);
 #ifdef DEBUG
     } else if (up.button == 2) {
         if ((count % 2) == 0)

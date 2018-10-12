@@ -144,6 +144,7 @@ private:
     YSMListener* smActionListener;
     IAppletContainer* taskBar;
     YWindow* aParent;
+    long fPid;
     osmart<YMenu> fMenu;
 
 #ifdef __linux__
