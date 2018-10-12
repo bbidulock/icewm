@@ -298,8 +298,13 @@ YFrameClient(aParent, 0) {
     windowListPopup = new YMenu();
     windowListPopup->setActionListener(list);
     windowListPopup->addItem(_("_Show"), -2, null, actionShow);
-    windowListPopup->addItem(_("_Hide"), -2, null, actionHide);
-    windowListPopup->addItem(_("_Minimize"), -2, null, actionMinimize);
+    windowListPopup->addItem(_("_Hide"), -2, KEY_NAME(gKeyWinHide), actionHide);
+    windowListPopup->addItem(_("_Raise"), -2, KEY_NAME(gKeyWinRaise), actionRaise);
+    windowListPopup->addItem(_("_Lower"), -2, KEY_NAME(gKeyWinLower), actionLower);
+    windowListPopup->addItem(_("Occupy _All"), -2, KEY_NAME(gKeyWinOccupyAll), actionOccupyAllOrCurrent);
+    windowListPopup->addItem(_("_Minimize"), -2, KEY_NAME(gKeyWinMinimize), actionMinimize);
+    windowListPopup->addItem(_("_Maximize"), -2, KEY_NAME(gKeyWinMaximize), actionMaximize);
+    windowListPopup->addSeparator();
     windowListPopup->addSubmenu(_("Move _To"), -2, moveMenu);
     windowListPopup->addSeparator();
     windowListPopup->addItem(_("Tile _Vertically"), -2, KEY_NAME(gKeySysTileVertical), actionTileVertical);
