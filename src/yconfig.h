@@ -62,6 +62,10 @@ struct WMKey {
     unsigned int mod;
     const char *name;
     bool initial;
+
+    bool eq(KeySym k, unsigned m) const { return key == k && mod == m; }
+    bool operator==(const WMKey& o) const { return eq(o.key, o.mod); }
+    bool operator!=(const WMKey& o) const { return !eq(o.key, o.mod); }
 };
 
 #ifdef CFGDESC
