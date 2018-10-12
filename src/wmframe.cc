@@ -749,6 +749,7 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
                         (clickFocus || !strongPointerFocus))
                     {
                         if (focusChangesWorkspace ||
+                            focusCurrentWorkspace ||
                             visibleOn(manager->activeWorkspace()))
                         {
                             activate();
@@ -1515,7 +1516,7 @@ void YFrameWindow::updateFocusOnMap(bool& doActivate) {
     if (frameOptions() & foNoFocusOnMap)
         doActivate = false;
 
-    if (!onCurrentWorkspace && !focusChangesWorkspace)
+    if (!onCurrentWorkspace && !focusChangesWorkspace && !focusCurrentWorkspace)
         doActivate = false;
 
     if (owner() != 0) {
@@ -1602,8 +1603,12 @@ void YFrameWindow::activate(bool canWarp) {
     manager->lockFocus();
     if (fWinState & (WinStateHidden | WinStateMinimized))
         setState(WinStateHidden | WinStateMinimized, 0);
-    if (!visibleOn(manager->activeWorkspace()))
-        manager->activateWorkspace(getWorkspace());
+    if (!visibleOn(manager->activeWorkspace())) {
+        if (focusCurrentWorkspace)
+            setWorkspace(manager->activeWorkspace());
+        else
+            manager->activateWorkspace(getWorkspace());
+    }
 
     manager->unlockFocus();
     focus(canWarp);

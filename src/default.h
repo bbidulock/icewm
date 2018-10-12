@@ -19,6 +19,7 @@ XIV(bool, passFirstClickToClient,               true)
 XIV(bool, focusOnMap,                           true)
 XIV(bool, mapInactiveOnTop,                     true)
 XIV(bool, focusChangesWorkspace,                false)
+XIV(bool, focusCurrentWorkspace,                false)
 XIV(bool, focusOnMapTransient,                  false)
 XIV(bool, focusOnMapTransientActive,            true)
 XIV(bool, focusRootWindow,                      false)
@@ -239,6 +240,7 @@ cfoption icewm_preferences[] = {
     OBV("LowerOnClickWhenRaised",               &lowerOnClickWhenRaised,        "Lower the active window when clicked again"),
     OBV("PassFirstClickToClient",               &passFirstClickToClient,        "Pass focusing click on client area to client"),
     OBV("FocusChangesWorkspace",                &focusChangesWorkspace,         "Change to the workspace of newly focused windows"),
+    OBV("FocusCurrentWorkspace",                &focusCurrentWorkspace,         "Move newly focused windows to current workspace"),
     OBV("FocusOnMap",                           &focusOnMap,                    "Focus normal window when initially mapped"),
     OBV("FocusOnMapTransient",                  &focusOnMapTransient,           "Focus dialog window when initially mapped"),
     OBV("FocusOnMapTransientActive",            &focusOnMapTransientActive,     "Focus dialog window when initially mapped only if parent frame focused"),
