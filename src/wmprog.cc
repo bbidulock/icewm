@@ -474,7 +474,7 @@ public:
         }
 
         addSeparator();
-        addItem("Save Modifications", -2, null, actionSaveMod, "save");
+        addItem(_("Save Modifications"), -2, null, actionSaveMod, "save");
         setActionListener(this);
     }
 
@@ -554,7 +554,7 @@ public:
 
         upath path(preferencesPath());
         if (path == null)
-            return fail("Could not write preferences");
+            return fail(_("Unable to write to %s"), "preferences");
 
         csmart text(path.loadText());
         if (text == 0)
@@ -676,15 +676,15 @@ public:
         const upath temp(dest.path() + ".tmp");
         int fd = temp.open(O_CREAT | O_WRONLY | O_TRUNC, 0600);
         if (fd == -1) {
-            fail("Failed to open %s for writing", temp.string().c_str());
+            fail(_("Unable to write to %s"), temp.string().c_str());
         } else {
             ssize_t w = write(fd, text, tlen);
             if (size_t(w) != tlen)
-                fail("Failed to write to %s", temp.string().c_str());
+                fail(_("Unable to write to %s"), temp.string().c_str());
             close(fd);
             if (size_t(w) == tlen) {
                 if (temp.renameAs(dest))
-                    fail("Failed to rename %s to %s",
+                    fail(_("Unable to rename %s to %s"),
                          temp.string().c_str(),
                          dest.string().c_str());
                 else
