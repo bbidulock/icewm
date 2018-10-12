@@ -52,7 +52,7 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
                 firstClick = true;
         }
     }
-#if 1
+
     if (clientMouseActions) {
         unsigned int k = button.button + XK_Pointer_Button1 - 1;
         unsigned int m = KEY_MODMASK(button.state);
@@ -97,13 +97,21 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
                                           px, py);
             }
             return ;
-        } else if (IS_WMKEY(k, vm, gMouseWinRaise)) {
+        }
+        else if (gMouseWinRaise.eq(k, vm)
+            && (gMouseWinRaise != gMouseWinLower || getFrame()->canRaise()))
+        {
             XAllowEvents(xapp->display(), AsyncPointer, CurrentTime);
             getFrame()->wmRaise();
             return ;
         }
+        else if (gMouseWinLower.eq(k, vm)) {
+            XAllowEvents(xapp->display(), AsyncPointer, CurrentTime);
+            getFrame()->wmLower();
+            return ;
+        }
     }
-#endif
+
     ///!!! do this first?
     if (doActivate)
         getFrame()->activate();
@@ -192,6 +200,8 @@ void YClientContainer::grabActions() {
             grabVButton(gMouseWinSize.key - xkButton0, gMouseWinSize.mod);
         if (inrange(gMouseWinRaise.key, minButton, maxButton))
             grabVButton(gMouseWinRaise.key - xkButton0, gMouseWinRaise.mod);
+        if (inrange(gMouseWinLower.key, minButton, maxButton))
+            grabVButton(gMouseWinLower.key - xkButton0, gMouseWinLower.mod);
     }
 }
 
