@@ -22,14 +22,10 @@
 
 =head1 DESCRIPTION
 
-The F<menu> file is responsible for configuring most of the generated
-items in the L<icewm(1)> root menu and start menu, and is normally
-included in those menus using the B<menufile> keyword.
-
-An automatically generated menu of applications.  This could be used by
-L<wmconfig(1)>, menu or similar programs to give easy access to all the
-desktop applications which are installed on the system.
-See L<icewm-programs(5)>.
+The F<programs> file is an automatically generated menu configuration
+file of installed programs. This file should be automatically generated
+by wmconfig (Redhat), menu (Debian), or icewm-menu-fdo,
+perhaps as part of the login or X startup sequence.
 
 =head1 FORMAT
 
@@ -60,7 +56,7 @@ the program will not be run again.
 Specifies a sub-menu.  The lines that appear between the braces can be
 any menu item described here.
 
-=item B<menufile> [B<">]I<title>[B<">] I<icon> I<filename>, B<separator>
+=item B<menufile> [B<">]I<title>[B<">] I<icon> [B<">]I<filename>[B<">]
 
 Specifies a file from which to collect sub-menu items (lines) and place
 them at this point in the menu.
@@ -69,6 +65,20 @@ them at this point in the menu.
 
 Specifies a program that will print sub-menu items on standard output
 and will be collected and placed in the sub-menu at this point.
+
+=item B<menuprogreload> [B<">]I<title>[B<">] I<icon> I<timeout>
+I<program> I<options>
+
+Similar to B<menuprog>, but after at least I<timeout> seconds
+the menu is regenerated.
+
+=item B<include> [B<">]I<filename>[B<">]
+
+Read additional entries from the file I<filename>
+
+=item B<includeprog> I<program> I<options>
+
+Read additional entries from the output of I<program> I<options>.
 
 =item B<separator>
 
@@ -81,7 +91,7 @@ where,
 =over
 
 =item B<prog>, B<restart>, B<runonce>, B<menu>, B<menufile>,
-B<menuprog>, B<separator>
+B<menuprog>, B<menuprogreload>, B<include>, B<includeprog>, B<separator>
 
 These are literal string keywords.
 

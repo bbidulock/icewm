@@ -266,9 +266,9 @@ The I<CPU Applet> monitors processor utilization.
 
 The I<Mailbox Applet> monitors mailbox status changes.  The location of
 the mailbox is given by the C<MailBoxPath> preferences option or else by
-the C<MAIL> environment variable.  It can be the path of a local mail
-spool file or the specification of a remote POP3 or IMAP location.
-For example:
+the C<MAILPATH> or C<MAIL> environment variables.  It can be the path of
+a local mail spool file or the specification of a remote POP3 or IMAP
+location.  For example:
 
  MailBoxPath="pop3://myname:password@host.com/"
 
@@ -427,6 +427,22 @@ To move an application window to a different work space one can use a
 keyboard shortcut.  Another option is to select the I<Move To> submenu
 in the window menu of the window frame.
 
+=head2 ADDRESS BAR
+
+If B<EnableAddressBar>=1 then B<KeySysAddressBar>=C<Alt+Ctrl+Space>
+activates the address bar in the task bar.
+If B<ShowAddressBar>=1 it is always shown. This is a command line in
+the task bar where a shell command can be typed.
+Pressing C<Enter> will execute the command.
+B<AddressBarCommand>=C</bin/sh> will be used to execute the command.
+On C<Control+Enter> the command is executed in a terminal
+as given by B<TerminalCommand>.
+The address bar maintains a history which is navigable by the I<Up>
+and I<Down> keys.
+It supports file completion using C<Tab> or C<Ctrl+I>.
+A rich set of editing operations is supported,
+including cut-/copy-/paste-operations.
+
 =head2 KEYBOARD SHORTCUTS
 
 B<icewm> supports a large number of hotkeys to activate some behaviour
@@ -543,14 +559,6 @@ C<KeyWinArrangeC> moves the active window to the center of the screen.
 =item C<Shift+Esc>
 
 C<KeySysWinMenu> posts the system window menu.
-
-=item C<Alt+Tab>
-
-C<KeySysSwitchNext>
-
-=item C<Alt+Shift+Tab>
-
-C<KeySysSwitchLast>
 
 =item C<Alt+Esc>
 
@@ -757,14 +765,16 @@ left.
 =item C<undefined>
 
 C<KeySysWinListMenu> shows the window list menu.
+
 =item C<Alt+Tab>
 
-C<KeySysSwitchNext> opens the C<QuickSwitch> popup (see L<INPUT FOCUS>) and/or moves the selector.
+C<KeySysSwitchNext> opens the C<QuickSwitch> popup (see L<INPUT FOCUS>)
+and/or moves the selector in the C<QuickSwitch> popup.
 
 =item C<Alt+Shift+Tab>
 
-C<KeySysSwitchLast> works like C<KeySysSwitchNext> but moving in the opposite direction.
-
+C<KeySysSwitchLast> works like C<KeySysSwitchNext> but moving in the
+opposite direction.
 
 =back
 
@@ -848,7 +858,7 @@ default value is F<$HOME/.icewm>.
 The name of the X11 server.  See L<Xorg(1)> or L<Xserver(1)>.  This
 value can be overridden by the B<--display> option.
 
-=item B<MAIL>
+=item B<MAILPATH>, B<MAIL>
 
 Gives the location of your mailbox.  If the schema is omitted the local
 "file" schema is assumed.  This is used by the mailbox applet in the
