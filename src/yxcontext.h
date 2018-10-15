@@ -28,6 +28,7 @@ private:
 
 public:
     YAnyContext(const char* title = 0, bool verbose = false) :
+        unique(0),
         title(title),
         verbose(verbose)
     {
