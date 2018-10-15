@@ -735,21 +735,16 @@ void YWMApp::restartClient(const char *path, char *const *args) {
     manager->manageClients();
 }
 
-long YWMApp::runOnce(const char *resource, const char *path, char *const *args) {
-    long pid = 0;
-    Window win(manager->findWindow(resource));
+void YWMApp::runOnce(const char *resource, long *pid,
+                     const char *path, char *const *args)
+{
+    if (0 < *pid && mapClientByPid(resource, *pid))
+        return;
 
-    if (win) {
-        YFrameWindow * frame(manager->findFrame(win));
-        if (frame) {
-            frame->activateWindow(true);
-            frame->client()->getNetWMPid(&pid);
-        }
-        else XMapRaised(xapp->display(), win);
-    } else
-        pid = runProgram(path, args);
+    if (mapClientByResource(resource, pid))
+        return;
 
-    return pid;
+    *pid = runProgram(path, args);
 }
 
 void YWMApp::runCommandOnce(const char *resource, const char *cmdline, long *pid) {
@@ -796,8 +791,11 @@ bool YWMApp::mapClientByResource(const char* resource, long *pid) {
             frame->setWorkspace(manager->activeWorkspace());
             frame->activateWindow(true);
             frame->client()->getNetWMPid(pid);
-            return true;
         }
+        else {
+            XMapRaised(xapp->display(), win);
+        }
+        return true;
     }
     return false;
 }

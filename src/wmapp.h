@@ -26,7 +26,8 @@ class YSMListener {
 public:
     virtual void handleSMAction(WMAction message) = 0;
     virtual void restartClient(const char *path, char *const *args) = 0;
-    virtual long runOnce(const char *resource, const char *path, char *const *args) = 0;
+    virtual void runOnce(const char *resource, long *pid,
+                         const char *path, char *const *args) = 0;
     virtual void runCommandOnce(const char *resource, const char *cmdline, long *pid) = 0;
 protected:
     virtual ~YSMListener() {}
@@ -72,7 +73,8 @@ public:
     void initFocusMode();
 
     virtual void restartClient(const char *path, char *const *args);
-    virtual long runOnce(const char *resource, const char *path, char *const *args);
+    virtual void runOnce(const char *resource, long *pid,
+                         const char *path, char *const *args);
     virtual void runCommandOnce(const char *resource, const char *cmdline, long *pid);
     bool mapClientByPid(const char* resource, long pid);
     bool mapClientByResource(const char* resource, long *pid);

@@ -104,6 +104,7 @@ DProgram::DProgram(
     : DObject(app, name, icon),
     fRestart(restart),
     fRes(newstr(wmclass)),
+    fPid(0),
     fCmd(exe),
     fArgs(args)
 {
@@ -121,7 +122,7 @@ void DProgram::open() {
     if (fRestart)
         smActionListener->restartClient(fCmd.string(), fArgs.getCArray());
     else if (fRes)
-        smActionListener->runOnce(fRes, fCmd.string(), fArgs.getCArray());
+        smActionListener->runOnce(fRes, &fPid, fCmd.string(), fArgs.getCArray());
     else
         app->runProgram(fCmd.string(), fArgs.getCArray());
 }

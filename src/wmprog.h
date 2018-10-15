@@ -72,6 +72,7 @@ protected:
 private:
     const bool fRestart;
     const char *fRes;
+    long fPid;
     upath fCmd;
     YStringArray fArgs;
     YSMListener *smActionListener;

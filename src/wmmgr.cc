@@ -851,7 +851,7 @@ Window YWindowManager::findWindow(const char *resource) {
                         break;
                     }
                     else {
-                        clients[i] = w;
+                        continue;
                     }
                 }
                 else if (strncmp(title, "Ice", 3) == 0) {
@@ -885,8 +885,11 @@ Window YWindowManager::findWindow(Window win, char const* resource,
     for (unsigned i = 0; match == None && i < count; ++i) {
         if (matchWindow(clients[i], resource))
             match = clients[i];
-        else if (maxdepth)
+    }
+    if (maxdepth) {
+        for (unsigned i = 0; match == None && i < count; ++i) {
             match = findWindow(clients[i], resource, maxdepth - 1);
+        }
     }
 
     return match;
