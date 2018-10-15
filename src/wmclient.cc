@@ -13,9 +13,7 @@
 #include "wmmgr.h"
 #include "wmapp.h"
 #include "sysdep.h"
-
-extern XContext frameContext;
-extern XContext clientContext;
+#include "yxcontext.h"
 
 YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win):
     YWindow(parent, win),
@@ -65,13 +63,22 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win):
         queryShape();
     }
 #endif
-    XSaveContext(xapp->display(), handle(),
-                 getFrame() ? frameContext : clientContext,
-                 getFrame() ? (XPointer)getFrame() : (XPointer)this);
+    if (getFrame()) {
+        frameContext.save(handle(), getFrame());
+    }
+    else {
+        clientContext.save(handle(), this);
+    }
 }
 
 YFrameClient::~YFrameClient() {
-    XDeleteContext(xapp->display(), handle(), getFrame() ? frameContext : clientContext);
+    if (getFrame()) {
+        frameContext.remove(handle());
+    }
+    else {
+        clientContext.remove(handle());
+    }
+
     if (fSizeHints) { XFree(fSizeHints); fSizeHints = 0; }
     if (fClassHint) {
         if (fClassHint->res_name) {
@@ -445,12 +452,20 @@ void YFrameClient::recvPing(const XClientMessageEvent &message) {
 
 void YFrameClient::setFrame(YFrameWindow *newFrame) {
     if (newFrame != getFrame()) {
-        XDeleteContext(xapp->display(), handle(),
-                       getFrame() ? frameContext : clientContext);
+        if (getFrame()) {
+            frameContext.remove(handle());
+        }
+        else {
+            clientContext.remove(handle());
+        }
+
         fFrame = newFrame;
-        XSaveContext(xapp->display(), handle(),
-                     getFrame() ? frameContext : clientContext,
-                     getFrame() ? (XPointer)getFrame() : (XPointer)this);
+        if (getFrame()) {
+            frameContext.save(handle(), getFrame());
+        }
+        else {
+            clientContext.save(handle(), this);
+        }
     }
 }
 

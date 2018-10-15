@@ -22,6 +22,7 @@
 #include "yrect.h"
 #include "wpixmaps.h"
 #include "aworkspaces.h"
+#include "yxcontext.h"
 
 #include "intl.h"
 
@@ -30,10 +31,6 @@ static YColorName inactiveBorderBg(&clrInactiveBorder);
 
 lazy<YTimer> YFrameWindow::fAutoRaiseTimer;
 lazy<YTimer> YFrameWindow::fDelayFocusTimer;
-
-extern XContext windowContext;
-extern XContext frameContext;
-extern XContext clientContext;
 
 YFrameWindow::YFrameWindow(
     YActionListener *wmActionListener,
@@ -184,10 +181,10 @@ YFrameWindow::~YFrameWindow() {
     if (fClient != 0) {
         if (!fClient->destroyed() && fClient->adopted())
             XRemoveFromSaveSet(xapp->display(), client()->handle());
-        XDeleteContext(xapp->display(), client()->handle(), frameContext);
+        frameContext.remove(client()->handle());
     }
     if (fUserTimeWindow != None) {
-        XDeleteContext(xapp->display(), fUserTimeWindow, windowContext);
+        windowContext.remove(fUserTimeWindow);
     }
 
     if (affectsWorkArea())
@@ -695,17 +692,13 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
     configureClient(cx, cy, cw, ch);
 
     if (configureRequest.value_mask & CWStackMode) {
-        union {
+        struct {
             YFrameWindow *ptr;
-            XPointer xptr;
         } sibling = { 0 };
         XWindowChanges xwc;
 
         if ((configureRequest.value_mask & CWSibling) &&
-            XFindContext(xapp->display(),
-                         configureRequest.above,
-                         clientContext,
-                         &(sibling.xptr)) == 0)
+            frameContext.find(configureRequest.above, &sibling.ptr))
             xwc.sibling = sibling.ptr->handle();
         else
             xwc.sibling = configureRequest.above;
@@ -3298,13 +3291,11 @@ void YFrameWindow::updateNetWMUserTimeWindow() {
     Window window = fUserTimeWindow;
     if (client()->getNetWMUserTimeWindow(window) && window != fUserTimeWindow) {
         if (fUserTimeWindow != None) {
-            XDeleteContext(xapp->display(), fUserTimeWindow,
-                    windowContext);
+            windowContext.remove(fUserTimeWindow);
         }
         fUserTimeWindow = window;
         if (window != None) {
-            XSaveContext(xapp->display(), window,
-                    windowContext, (XPointer)client());
+            windowContext.save(window, client());
             XWindowAttributes wa;
             if (XGetWindowAttributes(xapp->display(), window, &wa))
                 XSelectInput(xapp->display(), window,

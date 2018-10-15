@@ -106,6 +106,9 @@ void WindowListBox::getSelectedWindows(YArray<YFrameWindow *> &frames) {
 }
 
 void WindowListBox::actionPerformed(YAction action, unsigned int modifiers) {
+    bool save = focusCurrentWorkspace;
+    if (save) focusCurrentWorkspace = false;
+
     YArray<YFrameWindow *> frameList;
     getSelectedWindows(frameList);
 
@@ -139,6 +142,8 @@ void WindowListBox::actionPerformed(YAction action, unsigned int modifiers) {
             frameList[i]->actionPerformed(action, modifiers);
         }
     }
+
+    if (save) focusCurrentWorkspace = save;
 }
 
 bool WindowListBox::handleKey(const XKeyEvent &key) {
@@ -297,15 +302,19 @@ YFrameClient(aParent, 0) {
 
     windowListPopup = new YMenu();
     windowListPopup->setActionListener(list);
+    windowListPopup->addItem(_("_Restore"), -2, KEY_NAME(gKeyWinRestore), actionRestore);
+    windowListPopup->addItem(_("Mi_nimize"), -2, KEY_NAME(gKeyWinMinimize), actionMinimize);
+    windowListPopup->addItem(_("Ma_ximize"), -2, KEY_NAME(gKeyWinMaximize), actionMaximize);
+    windowListPopup->addItem(_("_Fullscreen"), -2, KEY_NAME(gKeyWinFullscreen), actionFullscreen);
     windowListPopup->addItem(_("_Show"), -2, null, actionShow);
     windowListPopup->addItem(_("_Hide"), -2, KEY_NAME(gKeyWinHide), actionHide);
+    windowListPopup->addItem(_("Roll_up"), -2, KEY_NAME(gKeyWinRollup), actionRollup);
     windowListPopup->addItem(_("_Raise"), -2, KEY_NAME(gKeyWinRaise), actionRaise);
     windowListPopup->addItem(_("_Lower"), -2, KEY_NAME(gKeyWinLower), actionLower);
-    windowListPopup->addItem(_("Occupy _All"), -2, KEY_NAME(gKeyWinOccupyAll), actionOccupyAllOrCurrent);
-    windowListPopup->addItem(_("_Minimize"), -2, KEY_NAME(gKeyWinMinimize), actionMinimize);
-    windowListPopup->addItem(_("_Maximize"), -2, KEY_NAME(gKeyWinMaximize), actionMaximize);
     windowListPopup->addSeparator();
     windowListPopup->addSubmenu(_("Move _To"), -2, moveMenu);
+    windowListPopup->addItem(_("Occupy _All"), -2, KEY_NAME(gKeyWinOccupyAll), actionOccupyAllOrCurrent);
+    windowListPopup->addItem(_("Tray _icon"), -2, null, actionToggleTray);
     windowListPopup->addSeparator();
     windowListPopup->addItem(_("Tile _Vertically"), -2, KEY_NAME(gKeySysTileVertical), actionTileVertical);
     windowListPopup->addItem(_("T_ile Horizontally"), -2, KEY_NAME(gKeySysTileHorizontal), actionTileHorizontal);

@@ -29,9 +29,10 @@
 #include "yprefs.h"
 #include "yrect.h"
 #include "atasks.h"
+#include "yxcontext.h"
 
-XContext frameContext;
-XContext clientContext;
+YContext<YFrameClient> clientContext("clientContext", false);
+YContext<YFrameWindow> frameContext("framesContext", false);
 
 YAction layerActionSet[WinLayerCount];
 
@@ -75,9 +76,6 @@ YWindowManager::YWindowManager(
         fFocusedWindow[w] = 0;
     fCreatedUpdated = true;
     fLayeredUpdated = true;
-
-    frameContext = XUniqueContext();
-    clientContext = XUniqueContext();
 
     setStyle(wsManager);
     setPointer(YXApplication::leftPointer);
@@ -832,82 +830,113 @@ void YWindowManager::handleFocus(const XFocusChangeEvent &focus) {
     }
 }
 
-Window YWindowManager::findWindow(const char *resource, int maxdepth) {
-    char *wmInstance = 0, *wmClass = 0;
+Window YWindowManager::findWindow(const char *resource) {
+    if (isEmpty(resource))
+        return None;
 
-    char const * dot(resource ? strchr(resource, '.') : 0);
+    Window match = None, root = desktop->handle(), parent, *clients = 0;
+    unsigned count = 0, nonframes = 0;
+    XQueryTree(xapp->display(), root, &root, &parent, &clients, &count);
 
-    if (dot) {
-        wmInstance = (dot != resource ? newstr(resource, dot - resource) : 0);
-        wmClass = newstr(dot + 1);
-    } else if (resource)
-        wmInstance = newstr(resource);
+    for (unsigned i = 0; match == None && i < count; ++i) {
+        YWindow* ywin = windowContext.find(clients[i]);
+        if (ywin) {
+            xsmart<char> title;
+            if (ywin->fetchTitle(&title)) {
+                if (strcmp(title, "Frame") == 0) {
+                    YFrameWindow* frame = (YFrameWindow*) ywin;
+                    Window w = frame->client()->handle();
+                    if (matchWindow(w, resource)) {
+                        match = w;
+                        break;
+                    }
+                    else {
+                        clients[i] = w;
+                    }
+                }
+                else if (strncmp(title, "Ice", 3) == 0) {
+                    continue;
+                }
+            }
+        }
 
-    Window win = findWindow(desktop->handle(), wmInstance, wmClass, 2);
+        swap(clients[i], clients[nonframes]);
+        ++nonframes;
+    }
 
-    delete[] wmClass;
-    delete[] wmInstance;
+    for (unsigned i = 0; match == None && i < nonframes; ++i) {
+        match = matchWindow(clients[i], resource);
+    }
 
-    return win;
+    return match;
 }
 
-Window YWindowManager::findWindow(Window root, char const * wmInstance,
-                                  char const * wmClass, int maxdepth) {
-    Window firstMatch = None;
-    Window parent, *clients(NULL);
-    unsigned nClients;
+Window YWindowManager::findWindow(Window win, char const* resource,
+                                  int maxdepth) {
+    if (isEmpty(resource))
+        return None;
 
-    XQueryTree(xapp->display(), root, &root, &parent, &clients, &nClients);
+    Window match = None, parent, root;
+    xsmart<Window> clients;
+    unsigned count = 0;
 
-    if (clients) {
-        unsigned n;
+    XQueryTree(xapp->display(), win, &root, &parent, &clients, &count);
 
-        for (n = 0; !firstMatch && n < nClients; ++n) {
-            XClassHint wmclass;
-
-            if (XGetClassHint(xapp->display(), clients[n], &wmclass)) {
-                if ((wmInstance == NULL ||
-                    strcmp(wmInstance, wmclass.res_name) == 0) &&
-                    (wmClass == NULL ||
-                    strcmp(wmClass, wmclass.res_class) == 0))
-                    firstMatch = clients[n];
-
-                XFree(wmclass.res_name);
-                XFree(wmclass.res_class);
-            }
-
-            if (!firstMatch && maxdepth > 0)
-                firstMatch = findWindow(clients[n], wmInstance, wmClass, maxdepth - 1);
-        }
-        XFree(clients);
+    for (unsigned i = 0; match == None && i < count; ++i) {
+        if (matchWindow(clients[i], resource))
+            match = clients[i];
+        else if (maxdepth)
+            match = findWindow(clients[i], resource, maxdepth - 1);
     }
-    return firstMatch;
+
+    return match;
+}
+
+bool YWindowManager::matchWindow(Window win, char const* resource) {
+    if (isEmpty(resource))
+        return false;
+
+    bool match = false;
+
+    Atom type = 0;
+    int format = 0;
+    unsigned long nitems = 0;
+    unsigned long more;
+    unsigned char* data = 0;
+    if (XGetWindowProperty(xapp->display(), win,
+                           XA_WM_CLASS, 0L, (long)BUFSIZ, False,
+                           XA_STRING, &type, &format, &nitems,
+                           &more, &data) != Success)
+       return false;
+    if (type != XA_STRING || format != 8 || data == 0)
+       return false;
+
+    char* prop = (char *) data;
+    unsigned long namelen = strlen(prop);
+    if (namelen + 1 < nitems)
+        prop[namelen] = '.';
+
+    char* str = strstr(prop, resource);
+    if (str) {
+        size_t len = strlen(str);
+        if (str == prop) {
+            match = (str[len] == 0 || str[len] == '.');
+        } else {
+            match = (str[0] == '.' && str[len] == 0);
+        }
+    }
+
+    XFree(prop);
+
+    return match;
 }
 
 YFrameWindow *YWindowManager::findFrame(Window win) {
-    union {
-        YFrameWindow *ptr;
-        XPointer xptr;
-    } frame;
-
-    if (XFindContext(xapp->display(), win,
-                     frameContext, &(frame.xptr)) == 0)
-        return frame.ptr;
-    else
-        return 0;
+    return frameContext.find(win);
 }
 
 YFrameClient *YWindowManager::findClient(Window win) {
-    union {
-        YFrameClient *ptr;
-        XPointer xptr;
-    } client;
-
-    if (XFindContext(xapp->display(), win,
-                     clientContext, &(client.xptr)) == 0)
-        return client.ptr;
-    else
-        return 0;
+    return clientContext.find(win);
 }
 
 void YWindowManager::setFocus(YFrameWindow *f, bool canWarp) {

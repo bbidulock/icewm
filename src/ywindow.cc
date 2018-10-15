@@ -17,6 +17,7 @@
 
 #include "ytimer.h"
 #include "ypopup.h"
+#include "yxcontext.h"
 #include <typeinfo>
 
 /******************************************************************************/
@@ -92,7 +93,6 @@ void YAutoScroll::autoScroll(YWindow *w, bool autoScroll, const XMotionEvent *mo
 /******************************************************************************/
 /******************************************************************************/
 
-extern XContext windowContext;
 YAutoScroll *YWindow::fAutoScroll = 0;
 YWindow *YWindow::fClickWindow = 0;
 Time YWindow::fClickTime = 0;
@@ -181,6 +181,10 @@ void YWindow::setWindowFocus() {
 
 void YWindow::setTitle(char const * title) {
     XStoreName(xapp->display(), handle(), title);
+}
+
+bool YWindow::fetchTitle(char** title) {
+    return XFetchName(xapp->display(), handle(), title);
 }
 
 void YWindow::setClassHint(char const * rName, char const * rClass) {
@@ -398,7 +402,7 @@ Window YWindow::create() {
 
         XSelectInput(xapp->display(), fHandle, fEventMask);
     }
-    XSaveContext(xapp->display(), fHandle, windowContext, (XPointer)this);
+    windowContext.save(fHandle, this);
     flags |= wfCreated;
     return fHandle;
 }
@@ -415,7 +419,7 @@ void YWindow::destroy() {
             }
             flags |= wfDestroyed;
         }
-        XDeleteContext(xapp->display(), fHandle, windowContext);
+        windowContext.remove(fHandle);
         fHandle = None;
         flags &= ~wfCreated;
     }
@@ -1478,8 +1482,7 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
         if (XdndDropTarget) {
             YWindow *win;
 
-            if (XFindContext(xapp->display(), XdndDropTarget, windowContext,
-                             (XPointer *)(void *)&win) == 0)
+            if (windowContext.find(XdndDropTarget, &win))
                 win->handleDNDLeave();
             XdndDropTarget = None;
         }
@@ -1520,41 +1523,24 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
 
         if (target != XdndDropTarget) {
             if (XdndDropTarget) {
-                union {
-                    YWindow *ptr;
-                    XPointer xptr;
-                } win;
+                YWindow *ptr = 0;
 
-                if (XFindContext(xapp->display(), XdndDropTarget, windowContext,
-                                 &win.xptr) == 0)
-                    win.ptr->handleDNDLeave();
+                if (windowContext.find(XdndDropTarget, &ptr))
+                    ptr->handleDNDLeave();
             }
             XdndDropTarget = target;
             if (XdndDropTarget) {
-                union {
-                    YWindow *ptr;
-                    XPointer xptr;
-                } win;
+                YWindow *ptr = 0;
 
-                if (XFindContext(xapp->display(), XdndDropTarget, windowContext,
-                                 &win.xptr) == 0)
+                if (windowContext.find(XdndDropTarget, &ptr))
                 {
-                    win.ptr->handleDNDEnter();
-                    pwin = win.ptr;
+                    ptr->handleDNDEnter();
+                    pwin = ptr;
                 }
             }
         }
         if (pwin == 0 && XdndDropTarget) { // !!! optimize this
-            union {
-                YWindow *ptr;
-                XPointer xptr;
-            } win;
-            if (XFindContext(xapp->display(), XdndDropTarget, windowContext,
-                             &win.xptr) == 0)
-            {
-                pwin = win.ptr;
-            } else
-                pwin = 0;
+            windowContext.find(XdndDropTarget, &pwin);
         }
         if (pwin)
             pwin->handleDNDPosition(nx, ny);

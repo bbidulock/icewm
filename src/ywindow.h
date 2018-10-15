@@ -52,6 +52,7 @@ public:
 
     void setWindowFocus();
 
+    bool fetchTitle(char** title);
     void setTitle(char const * title);
     void setClassHint(char const * rName, char const * rClass);
 

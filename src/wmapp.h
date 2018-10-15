@@ -74,7 +74,7 @@ public:
     virtual void restartClient(const char *path, char *const *args);
     virtual long runOnce(const char *resource, const char *path, char *const *args);
     virtual void runCommandOnce(const char *resource, const char *cmdline, long *pid);
-    bool mapClientByPid(long pid);
+    bool mapClientByPid(const char* resource, long pid);
     bool mapClientByResource(const char* resource, long *pid);
 
     static YCursor sizeRightPointer;

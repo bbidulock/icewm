@@ -5,6 +5,7 @@
 #include "wmmgr.h"
 #include "MwmUtil.h"
 #include "ypointer.h"
+#include "yxcontext.h"
 
 #ifdef CONFIG_RENDER
 #include <X11/extensions/Xrender.h>
@@ -17,7 +18,7 @@
 YXApplication *xapp = 0;
 
 YDesktop *desktop = 0;
-XContext windowContext;
+YContext<YWindow> windowContext;
 
 YCursor YXApplication::leftPointer;
 YCursor YXApplication::rightPointer;
@@ -653,18 +654,14 @@ void YXApplication::dispatchEvent(YWindow *win, XEvent &xev) {
 }
 
 void YXApplication::handleGrabEvent(YWindow *winx, XEvent &xev) {
-    union {
+    struct {
         YWindow *ptr;
-        XPointer xptr;
     } win = { winx };
 
     PRECONDITION(win.ptr != 0);
     if (fGrabTree) {
         if (xev.xbutton.subwindow != None) {
-            if (XFindContext(display(),
-                         xev.xbutton.subwindow,
-                         windowContext,
-                             &(win.xptr)) != 0)
+            if ( ! windowContext.find(xev.xbutton.subwindow, &win.ptr))
             {
                 if (xev.type == EnterNotify || xev.type == LeaveNotify)
                     win.ptr = 0;
@@ -672,10 +669,7 @@ void YXApplication::handleGrabEvent(YWindow *winx, XEvent &xev) {
                     win.ptr = fGrabWindow;
             }
         } else {
-            if (XFindContext(display(),
-                             xev.xbutton.window,
-                             windowContext,
-                             &(win.xptr)) != 0)
+            if ( ! windowContext.find(xev.xbutton.window, &win.ptr))
             {
                 if (xev.type == EnterNotify || xev.type == LeaveNotify)
                     win.ptr = 0;
@@ -962,8 +956,6 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
     xapp = this;
     xfd.registerPoll(this, ConnectionNumber(display()));
 
-    windowContext = XUniqueContext();
-
     new YDesktop(0, root());
     extern void image_init();
     image_init();
@@ -1070,16 +1062,11 @@ bool YXApplication::handleIdle() {
 }
 
 void YXApplication::handleWindowEvent(Window xwindow, XEvent &xev) {
-    int rc = 0;
-    union {
+    struct {
         YWindow *ptr;
-        XPointer xptr;
     } window = { 0 };
 
-    if ((rc = XFindContext(display(),
-                           xwindow,
-                           windowContext,
-                           &(window.xptr))) == 0)
+    if (windowContext.find(xwindow, &window.ptr))
     {
         if ((xev.type == KeyPress || xev.type == KeyRelease)
             && window.ptr->toplevel() != 0)

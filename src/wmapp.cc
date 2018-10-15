@@ -737,7 +737,7 @@ void YWMApp::restartClient(const char *path, char *const *args) {
 
 long YWMApp::runOnce(const char *resource, const char *path, char *const *args) {
     long pid = 0;
-    Window win(manager->findWindow(resource, 2));
+    Window win(manager->findWindow(resource));
 
     if (win) {
         YFrameWindow * frame(manager->findFrame(win));
@@ -753,35 +753,43 @@ long YWMApp::runOnce(const char *resource, const char *path, char *const *args) 
 }
 
 void YWMApp::runCommandOnce(const char *resource, const char *cmdline, long *pid) {
-    if (0 < *pid && mapClientByPid(*pid))
+    if (0 < *pid && mapClientByPid(resource, *pid))
         return;
 
     if (mapClientByResource(resource, pid))
         return;
 
-/// TODO #warning calling /bin/sh is considered to be bloat
     char const *const argv[] = { "/bin/sh", "-c", cmdline, NULL };
 
-    if (resource)
-        *pid = runOnce(resource, argv[0], (char *const *) argv);
-    else
-        *pid = runProgram(argv[0], (char *const *) argv);
+    *pid = runProgram(argv[0], (char *const *) argv);
 }
 
-bool YWMApp::mapClientByPid(long pid) {
+bool YWMApp::mapClientByPid(const char* resource, long pid) {
+    if (isEmpty(resource))
+        return false;
+
+    bool found = false;
+
     for (YFrameIter frame = manager->focusedIterator(); ++frame; ) {
         long tmp = 0;
         if (frame->client()->getNetWMPid(&tmp) && tmp == pid) {
-            frame->setWorkspace(manager->activeWorkspace());
-            frame->activateWindow(true);
-            return true;
+            if (manager->matchWindow(frame->client()->handle(), resource)) {
+                frame->setWorkspace(manager->activeWorkspace());
+                frame->activateWindow(true);
+                found = true;
+                break;
+            }
         }
     }
-    return false;
+
+    return found;
 }
 
 bool YWMApp::mapClientByResource(const char* resource, long *pid) {
-    Window win(manager->findWindow(resource, 2));
+    if (isEmpty(resource))
+        return false;
+
+    Window win(manager->findWindow(resource));
     if (win) {
         YFrameWindow* frame(manager->findFrame(win));
         if (frame) {
