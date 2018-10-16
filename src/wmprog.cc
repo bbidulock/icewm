@@ -392,7 +392,7 @@ FocusMenu::FocusMenu() {
     };
     for (size_t k = 0; k < ACOUNT(foci); ++k) {
         YMenuItem *item = addItem(foci[k].name, -2, null, foci[k].action);
-        if (focusMode == foci[k].mode) {
+        if (wmapp->getFocusMode() == foci[k].mode) {
             item->setEnabled(false);
             item->setChecked(true);
         }

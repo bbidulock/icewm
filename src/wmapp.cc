@@ -800,17 +800,13 @@ bool YWMApp::mapClientByResource(const char* resource, long *pid) {
     return false;
 }
 
-void YWMApp::setFocusMode(int mode) {
+void YWMApp::setFocusMode(FocusModels mode) {
     focusMode = mode;
     initFocusMode();
 
     char s[32];
     snprintf(s, sizeof s, "FocusMode=%d\n", mode);
-    if (WMConfig::setDefault("focus_mode", s) == 0) {
-        if (mode == 0) {
-            restartClient(0, 0);
-        }
-    }
+    WMConfig::setDefault("focus_mode", s);
 }
 
 void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
@@ -945,11 +941,30 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
     }
 }
 
+void YWMApp::initFocusCustom() {
+    cfoption focus_prefs[] = {
+        OBV("ClickToFocus",              &clickFocus,                ""),
+        OBV("FocusOnAppRaise",           &focusOnAppRaise,           ""),
+        OBV("RequestFocusOnAppRaise",    &requestFocusOnAppRaise,    ""),
+        OBV("RaiseOnFocus",              &raiseOnFocus,              ""),
+        OBV("FocusOnClickClient",        &focusOnClickClient,        ""),
+        OBV("FocusChangesWorkspace",     &focusChangesWorkspace,     ""),
+        OBV("FocusCurrentWorkspace",     &focusCurrentWorkspace,     ""),
+        OBV("FocusOnMap",                &focusOnMap,                ""),
+        OBV("FocusOnMapTransient",       &focusOnMapTransient,       ""),
+        OBV("FocusOnMapTransientActive", &focusOnMapTransientActive, ""),
+        OK0()
+    };
+
+    YConfig::findLoadConfigFile(this, focus_prefs, configFile);
+    YConfig::findLoadConfigFile(this, focus_prefs, "prefoverride");
+}
+
 void YWMApp::initFocusMode() {
     switch (focusMode) {
 
     case FocusCustom: /* custom */
-        // Need a restart to load from file.
+        initFocusCustom();
         break;
 
     case FocusClick: /* click to focus */
@@ -1031,6 +1046,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
     aboutDlg(0),
     ctrlAltDelete(0),
     switchWindow(0),
+    focusMode(FocusClick),
     managerWindow(None)
 {
     if (restart_wm) {
@@ -1067,6 +1083,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
         WMConfig::loadThemeConfiguration(this, themeName);
     }
     {
+        int focusMode(this->focusMode);
         cfoption focus_prefs[] = {
             OIV("FocusMode", &focusMode, FocusCustom, FocusModelLast,
                 "Focus mode (0=custom, 1=click, 2=sloppy"
@@ -1075,6 +1092,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
         };
 
         YConfig::findLoadConfigFile(this, focus_prefs, "focus_mode");
+        this->focusMode = FocusModels(focusMode);
     }
     WMConfig::loadConfiguration(this, "prefoverride");
     initFocusMode();

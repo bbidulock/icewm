@@ -18,8 +18,7 @@ enum FocusModels {
     FocusExplicit,
     FocusStrict,
     FocusQuiet,
-    FocusModelCount,
-    FocusModelLast = FocusModelCount - 1
+    FocusModelLast = FocusQuiet - 1
 };
 
 class YSMListener {
@@ -69,8 +68,9 @@ public:
     virtual void smDie();
 #endif
 
-    void setFocusMode(int mode);
+    void setFocusMode(FocusModels mode);
     void initFocusMode();
+    void initFocusCustom();
 
     virtual void restartClient(const char *path, char *const *args);
     virtual void runOnce(const char *resource, long *pid,
@@ -99,6 +99,7 @@ public:
     bool hasSwitchWindow() const { return switchWindow != 0; }
     SwitchWindow* getSwitchWindow();
     const char* getConfigFile() const { return configFile; }
+    FocusModels getFocusMode() const { return focusMode; }
 
 private:
     char** mainArgv;
@@ -114,6 +115,7 @@ private:
 
     void runRestart(const char *path, char *const *args);
 
+    FocusModels focusMode;
     Window managerWindow;
 
     static void initAtoms();
