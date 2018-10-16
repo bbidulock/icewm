@@ -22,6 +22,7 @@ public:
     static ref<YPixmap> loadPixmapFile(const upath& file);
     static ref<YImage> loadImageFile(const upath& file);
 
+    void clear() { return fPaths.clear(); }
     int getCount() const { return fPaths.getCount(); }
     const upath& getPath(int index) const { return *fPaths[index]; }
 
