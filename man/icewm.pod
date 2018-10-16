@@ -225,7 +225,7 @@ B<icewm> settings, and the B<icewm> I<Logout> menu.
 The I<Show Desktop> button unmaps all application windows to fully
 uncover the desktop.
 
-The I<Window List> menu button gives access to a menu with a list of
+The I<Window List Menu> button gives access to a menu with a list of
 active windows for the current work space and a list of work spaces
 with sub-menus for their active application windows.
 
