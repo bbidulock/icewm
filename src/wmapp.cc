@@ -1095,7 +1095,8 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
         this->focusMode = FocusModels(focusMode);
     }
     WMConfig::loadConfiguration(this, "prefoverride");
-    initFocusMode();
+    if (focusMode != FocusCustom)
+        initFocusMode();
 
     DEPRECATE(warpPointer == true);
     DEPRECATE(focusRootWindow == true);
