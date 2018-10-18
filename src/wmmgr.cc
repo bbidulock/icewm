@@ -834,7 +834,8 @@ Window YWindowManager::findWindow(const char *resource) {
     if (isEmpty(resource))
         return None;
 
-    Window match = None, root = desktop->handle(), parent, *clients = 0;
+    Window match = None, root = desktop->handle(), parent;
+    xsmart<Window> clients;
     unsigned count = 0, nonframes = 0;
     XQueryTree(xapp->display(), root, &root, &parent, &clients, &count);
 
