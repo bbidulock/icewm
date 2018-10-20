@@ -1528,7 +1528,7 @@ static void print_configured(const char *argv0) {
 #ifdef CONFIG_UNICODE_SET
     " unicodeset"
 #endif
-#ifdef CONFIG_WORDEXP
+#ifdef HAVE_WORDEXP
     " wordexp"
 #endif
 #ifdef CONFIG_XFREETYPE

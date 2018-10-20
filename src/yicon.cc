@@ -12,7 +12,9 @@
 #include "prefs.h"
 #include "yprefs.h"
 #include "ypaths.h"
+#ifdef HAVE_WORDEXP
 #include <wordexp.h>
+#endif
 
 #include "intl.h"
 
@@ -29,6 +31,7 @@ static void initIconPaths() {
         for (char *tok = strtok_r(copy, ":", &save);
             tok != 0; tok = strtok_r(0, ":", &save))
         {
+#ifdef HAVE_WORDEXP
             wordexp_t exp;
             if (wordexp(tok, &exp, WRDE_NOCMD) == 0) {
                 for (unsigned i = 0; i < exp.we_wordc; ++i) {
@@ -41,6 +44,9 @@ static void initIconPaths() {
                 }
                 wordfree(&exp);
             }
+#else
+            iconDirs.append(tok);
+#endif
         }
         delete[] copy;
 
