@@ -18,7 +18,7 @@ enum FocusModels {
     FocusExplicit,
     FocusStrict,
     FocusQuiet,
-    FocusModelLast = FocusQuiet - 1
+    FocusModelLast = FocusQuiet
 };
 
 class YSMListener {
