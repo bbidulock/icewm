@@ -147,7 +147,7 @@ static char *setOption(cfoption *options, char *name, const char *arg, bool appe
                 if ((arg[0] == '1' || arg[0] == '0') && arg[1] == 0) {
                     *(options[a].v.b.bool_value) = (arg[0] == '1');
                 } else {
-                    msg(_("Bad argument: %s for %s"), arg, name);
+                    msg(_("Bad argument: %s for %s [%d,%d]"), arg, name, 0, 1);
                     return rest;
                 }
                 return rest;
@@ -160,7 +160,8 @@ static char *setOption(cfoption *options, char *name, const char *arg, bool appe
                 if (v >= options[a].v.i.min && v <= options[a].v.i.max)
                     *(options[a].v.i.int_value) = v;
                 else {
-                    msg(_("Bad argument: %s for %s"), arg, name);
+                    msg(_("Bad argument: %s for %s [%d,%d]"), arg, name,
+                            options[a].v.i.min, options[a].v.i.max);
                     return rest;
                 }
                 return rest;
@@ -173,7 +174,8 @@ static char *setOption(cfoption *options, char *name, const char *arg, bool appe
                 if (v >= options[a].v.u.min && v <= options[a].v.u.max)
                     *(options[a].v.u.uint_value) = v;
                 else {
-                    msg(_("Bad argument: %s for %s"), arg, name);
+                    msg(_("Bad argument: %s for %s [%d,%d]"), arg, name,
+                            int(options[a].v.u.min), int(options[a].v.u.max));
                     return rest;
                 }
                 return rest;
