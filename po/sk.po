@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-10-20 18:34+0200\n"
-"PO-Revision-Date: 2018-09-08 10:48+0000\n"
+"PO-Revision-Date: 2018-10-22 13:06+0000\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
-"Language-Team: Slovak <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/sk/>\n"
+"Language-Team: Slovak "
+"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1710,10 +1710,8 @@ msgid "Custo_m"
 msgstr "Vlast_né"
 
 #: src/wmprog.cc:478
-#, fuzzy
-#| msgid "Favorite applications"
 msgid "Save Modifications"
-msgstr "Obľúbené aplikácie"
+msgstr "Uložiť zmeny"
 
 #: src/wmprog.cc:711
 msgid "_Manual"
@@ -1857,10 +1855,8 @@ msgid "_Show"
 msgstr "Ukáz_ať"
 
 #: src/wmwinlist.cc:312
-#, fuzzy
-#| msgid "R_aise"
 msgid "_Raise"
-msgstr "Zvýš_iť"
+msgstr "_Zvýšiť"
 
 #: src/wmwinlist.cc:351 src/wmwinlist.cc:352
 msgid "Window list"
