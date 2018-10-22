@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-10-20 18:34+0200\n"
-"PO-Revision-Date: 2018-10-22 15:28+0000\n"
+"PO-Revision-Date: 2018-10-22 18:01+0000\n"
 "Last-Translator: David Medina <medipas@gmail.com>\n"
 "Language-Team: Catalan "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/ca/>\n"
@@ -1409,7 +1409,7 @@ msgstr "Enr_otlla"
 
 #: src/wmapp.cc:593
 msgid "R_aise"
-msgstr "_Eleva"
+msgstr "_Apuja"
 
 #: src/wmapp.cc:595 src/wmwinlist.cc:313
 msgid "_Lower"
@@ -1814,7 +1814,7 @@ msgstr "Amaga"
 
 #: src/wmtitle.cc:141
 msgid "Raise/Lower"
-msgstr "Eleva / Abaixa"
+msgstr "Apuja / Abaixa"
 
 #: src/wmwinlist.cc:59
 msgid "All Workspaces"
@@ -1862,7 +1862,7 @@ msgstr "Nom clau %s desconegut a %s"
 #: src/yconfig.cc:150 src/yconfig.cc:163 src/yconfig.cc:177
 #, c-format
 msgid "Bad argument: %s for %s [%d,%d]"
-msgstr "Argument erroni: %s for %s [%d,%d]"
+msgstr "Argument erroni: %s per a %s [%d,%d]"
 
 #: src/yconfig.cc:214
 #, c-format
