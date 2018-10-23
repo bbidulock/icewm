@@ -457,14 +457,117 @@ static void copyPixmaps() {
     }
 }
 
+class PixmapOffset {
+private:
+    ref<YPixmap>& pixmap;
+    ref<YPixmap>& left;
+    ref<YPixmap>& right;
+
+public:
+    PixmapOffset(ref<YPixmap>& p, ref<YPixmap>& l, ref<YPixmap>& r) :
+        pixmap(p), left(l), right(r) { }
+
+    void split(unsigned offset) {
+        if (pixmap != null && pixmap->width() > 2 * offset) {
+            left = pixmap->subimage(0, 0, offset, pixmap->height());
+            right = pixmap->subimage(pixmap->width() - offset, 0,
+                                     offset, pixmap->height());
+            pixmap = pixmap->subimage(offset, 0,
+                                      pixmap->width() - 2 * offset,
+                                      pixmap->height());
+        }
+    }
+    void reset() {
+        if (left != null)
+            left = null;
+        if (right != null)
+            right = null;
+    }
+};
+
+class PixbufOffset {
+private:
+    ref<YImage>& pixbuf;
+    ref<YImage>& left;
+    ref<YImage>& right;
+
+public:
+    PixbufOffset(ref<YImage>& p, ref<YImage>& l, ref<YImage>& r) :
+        pixbuf(p), left(l), right(r) { }
+
+    void split(unsigned offset) {
+        if (pixbuf != null && pixbuf->width() > 2 * offset) {
+            left = pixbuf->subimage(0, 0, offset, pixbuf->height());
+            right = pixbuf->subimage(int(pixbuf->width() - offset), 0,
+                                     offset, pixbuf->height());
+            pixbuf = pixbuf->subimage(int(offset), 0,
+                                      pixbuf->width() - 2 * offset,
+                                      pixbuf->height());
+        }
+    }
+    void reset() {
+        if (left != null)
+            left = null;
+        if (right != null)
+            right = null;
+    }
+};
+
+static PixmapOffset taskbuttonPixmapOffsets[] = {
+    PixmapOffset(taskbuttonPixmap,
+                 taskbuttonLeftPixmap,
+                 taskbuttonRightPixmap),
+    PixmapOffset(taskbuttonactivePixmap,
+                 taskbuttonactiveLeftPixmap,
+                 taskbuttonactiveRightPixmap),
+    PixmapOffset(taskbuttonminimizedPixmap,
+                 taskbuttonminimizedLeftPixmap,
+                 taskbuttonminimizedRightPixmap),
+};
+
+static PixbufOffset taskbuttonPixbufOffsets[] = {
+    PixbufOffset(taskbuttonPixbuf,
+                 taskbuttonLeftPixbuf,
+                 taskbuttonRightPixbuf),
+    PixbufOffset(taskbuttonactivePixbuf,
+                 taskbuttonactiveLeftPixbuf,
+                 taskbuttonactiveRightPixbuf),
+    PixbufOffset(taskbuttonminimizedPixbuf,
+                 taskbuttonminimizedLeftPixbuf,
+                 taskbuttonminimizedRightPixbuf),
+};
+
+static void initPixmapOffsets() {
+    extern unsigned taskbuttonIconOffset;
+    if (taskbuttonIconOffset) {
+        for (unsigned i = 0; i < ACOUNT(taskbuttonPixmapOffsets); ++i) {
+            taskbuttonPixmapOffsets[i].split(taskbuttonIconOffset);
+        }
+        for (unsigned i = 0; i < ACOUNT(taskbuttonPixbufOffsets); ++i) {
+            taskbuttonPixbufOffsets[i].split(taskbuttonIconOffset);
+        }
+    }
+}
+
+static void freePixmapOffsets() {
+    for (unsigned i = 0; i < ACOUNT(taskbuttonPixmapOffsets); ++i) {
+        taskbuttonPixmapOffsets[i].reset();
+    }
+    for (unsigned i = 0; i < ACOUNT(taskbuttonPixbufOffsets); ++i) {
+        taskbuttonPixbufOffsets[i].reset();
+    }
+}
+
 void WPixRes::initPixmaps() {
     loadPixmapResources();
     copyPixmaps();
     replicatePixmaps();
+    initPixmapOffsets();
 }
 
 void WPixRes::freePixmaps() {
     freePixmapResources();
+    freePixmapOffsets();
 }
 
 // vim: set sw=4 ts=4 et:
