@@ -845,7 +845,7 @@ bool YFrameWindow::canSize(bool horiz, bool vert) {
     return true;
 }
 
-bool YFrameWindow::canMove() {
+bool YFrameWindow::canMove() const {
     return hasbit(frameFunctions(), ffMove);
 }
 

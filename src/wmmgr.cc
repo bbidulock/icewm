@@ -1031,14 +1031,6 @@ void YWindowManager::loseFocus(YFrameWindow *window) {
     focusLastWindow();
 }
 
-void YWindowManager::activate(YFrameWindow *window, bool raise, bool canWarp) {
-    if (window) {
-        if (raise)
-            window->wmRaise();
-        window->activateWindow(canWarp);
-    }
-}
-
 YFrameWindow *YWindowManager::top(long layer) const {
     PRECONDITION(inrange(layer, 0L, WinLayerCount - 1L));
     return fLayers[layer].front();

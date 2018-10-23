@@ -129,9 +129,7 @@ public:
 
     void setFocus(YFrameWindow *f, bool canWarp = false);
     YFrameWindow *getFocus() { return fFocusWin; }
-
     void loseFocus(YFrameWindow *window);
-    void activate(YFrameWindow *frame, bool raise, bool canWarp = false);
 
     void installColormap(Colormap cmap);
     void setColormapWindow(YFrameWindow *frame);

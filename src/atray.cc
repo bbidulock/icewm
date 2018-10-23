@@ -60,7 +60,7 @@ TrayApp::~TrayApp() {
 }
 
 void TrayApp::activate() const {
-    getFrame()->activateWindow(true);
+    getFrame()->activateWindow(true, false);
 }
 
 bool TrayApp::isFocusTraversable() {

@@ -1198,6 +1198,12 @@ void YFrameWindow::wmSize() {
                   0, 0);
 }
 
+bool YFrameWindow::canRestore() const {
+    return hasbit(fWinState,
+            WinStateMaximizedVert | WinStateMaximizedHoriz |
+            WinStateMinimized | WinStateHidden | WinStateRollup);
+}
+
 void YFrameWindow::wmRestore() {
     wmapp->signalGuiEvent(geWindowRestore);
     setState(WinStateMaximizedVert | WinStateMaximizedHoriz |
@@ -1592,12 +1598,12 @@ void YFrameWindow::focus(bool canWarp) {
 #endif
 }
 
-void YFrameWindow::activate(bool canWarp) {
+void YFrameWindow::activate(bool canWarp, bool curWork) {
     manager->lockFocus();
     if (fWinState & (WinStateHidden | WinStateMinimized))
         setState(WinStateHidden | WinStateMinimized, 0);
     if (!visibleOn(manager->activeWorkspace())) {
-        if (focusCurrentWorkspace)
+        if (focusCurrentWorkspace && curWork)
             setWorkspace(manager->activeWorkspace());
         else
             manager->activateWorkspace(getWorkspace());
@@ -1607,10 +1613,10 @@ void YFrameWindow::activate(bool canWarp) {
     focus(canWarp);
 }
 
-void YFrameWindow::activateWindow(bool raise) {
+void YFrameWindow::activateWindow(bool raise, bool curWork) {
     if (raise)
         wmRaise();
-    activate(true);
+    activate(true, curWork);
 }
 
 MiniIcon *YFrameWindow::getMiniIcon() {

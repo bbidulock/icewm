@@ -39,8 +39,8 @@ public:
     void grabKeys();
 
     void focus(bool canWarp = false);
-    void activate(bool canWarp = false);
-    void activateWindow(bool raise);
+    void activate(bool canWarp = false, bool curWork = true);
+    void activateWindow(bool raise, bool curWork = true);
 
     virtual void paint(Graphics &g, const YRect &r);
 
@@ -141,13 +141,14 @@ public:
     void getDefaultOptions(bool &doActivate);
 
     bool canSize(bool boriz = true, bool vert = true);
-    bool canMove();
-    bool canClose();
-    bool canMaximize();
-    bool canMinimize();
-    bool canRollup();
-    bool canHide();
-    bool canLower();
+    bool canMove() const;
+    bool canClose() const;
+    bool canMaximize() const;
+    bool canMinimize() const;
+    bool canRestore() const;
+    bool canRollup() const;
+    bool canHide() const;
+    bool canLower() const;
     bool canRaise();
     bool canFullscreen() { return true; }
     bool overlaps(bool below);
@@ -259,7 +260,7 @@ public:
     long getState() const { return fWinState; }
     void setState(long mask, long state);
 
-    bool isFullscreen() const { return (getState() & WinStateFullscreen) ? true : false; }
+    bool isFullscreen() const { return (getState() & WinStateFullscreen); }
 
     int borderXN() const;
     int borderYN() const;

@@ -192,7 +192,7 @@ public:
         if (fLastWindow) {
             displayFocusChange(fLastWindow);
         } else if (fActiveWindow) {
-            fRoot->activate(fActiveWindow, false, true);
+            fActiveWindow->activateWindow(true, false);
         }
         freeList();
         fLastWindow = fActiveWindow = 0;
@@ -202,14 +202,8 @@ public:
         if (fActiveWindow == 0)
             cancel();
         else {
-            bool save = focusCurrentWorkspace;
-            if (save) focusCurrentWorkspace = false;
-
-            fRoot->activate(fActiveWindow, true, true);
+            fActiveWindow->activateWindow(true, false);
             parent->close();
-            fActiveWindow->wmRaise();
-
-            if (save) focusCurrentWorkspace = save;
         }
         freeList();
         fLastWindow = fActiveWindow = 0;

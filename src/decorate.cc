@@ -20,50 +20,38 @@ void YFrameWindow::updateMenu() {
     windowMenu->setActionListener(this);
     windowMenu->enableCommand(actionNull);
 
-    if (isMaximized())
+    if (isMaximized() || !canMaximize())
         windowMenu->disableCommand(actionMaximize);
-    if (isMinimized())
+    if (isMinimized() || !canMinimize())
         windowMenu->disableCommand(actionMinimize);
-    if (!(isMaximized() || isMinimized() || isHidden()))
+    if (!canRestore())
         windowMenu->disableCommand(actionRestore);
-    if (isMinimized() || isHidden() || isRollup() || !visibleNow())
+    if (isMinimized() || isHidden() || !canSize() || !visibleNow())
         windowMenu->disableCommand(actionSize);
-    if (isMinimized() || isHidden() || !visibleNow())
+    if (isMinimized() || isHidden() || !canMove() || !visibleNow())
         windowMenu->disableCommand(actionMove);
     if (!canLower())
         windowMenu->disableCommand(actionLower);
     if (!canRaise())
         windowMenu->disableCommand(actionRaise);
-
-    unsigned long func = frameFunctions();
-
-    if (!(func & ffMove))
-        windowMenu->disableCommand(actionMove);
-    if (!(func & ffResize))
-        windowMenu->disableCommand(actionSize);
-    if (!(func & ffMinimize))
-        windowMenu->disableCommand(actionMinimize);
-    if (!(func & ffHide))
+    if (!canHide())
         windowMenu->disableCommand(actionHide);
-    if (!(func & ffRollup) || !titlebar() || !titlebar()->visible())
+    if (!canRollup())
         windowMenu->disableCommand(actionRollup);
-    if (!(func & ffMaximize))
-        windowMenu->disableCommand(actionMaximize);
-    if (!(func & ffClose))
+    if (!canClose())
         windowMenu->disableCommand(actionClose);
 
-    YMenuItem *item;
-
-    if ((item = windowMenu->findAction(actionRollup)))
-        item->setChecked(isRollup());
-    if ((item = windowMenu->findAction(actionOccupyAllOrCurrent)))
-        item->setChecked(isAllWorkspaces());
+    windowMenu->checkCommand(actionMinimize, isMinimized());
+    windowMenu->checkCommand(actionMaximize, isMaximized());
+    windowMenu->checkCommand(actionFullscreen, isFullscreen());
+    windowMenu->checkCommand(actionHide, isHidden());
+    windowMenu->checkCommand(actionRollup, isRollup());
+    windowMenu->checkCommand(actionOccupyAllOrCurrent, isAllWorkspaces());
 #if DO_NOT_COVER_OLD
-    if ((item = windowMenu->findAction(actionDoNotCover)))
-        item->setChecked(doNotCover());
+    windowMenu->checkCommand(actionDoNotCover, doNotCover());
 #endif
-    if ((item = windowMenu->findAction(actionFullscreen)))
-        item->setChecked(isFullscreen());
+
+    YMenuItem *item;
     if ((item = windowMenu->findSubmenu(moveMenu)))
         item->setEnabled(!isAllWorkspaces());
 
@@ -416,42 +404,42 @@ void YFrameWindow::layoutClient() {
     }
 }
 
-bool YFrameWindow::canClose() {
+bool YFrameWindow::canClose() const {
     if (frameFunctions() & ffClose)
         return true;
     else
         return false;
 }
 
-bool YFrameWindow::canMaximize() {
+bool YFrameWindow::canMaximize() const {
     if (frameFunctions() & ffMaximize)
         return true;
     else
         return false;
 }
 
-bool YFrameWindow::canMinimize() {
+bool YFrameWindow::canMinimize() const {
     if (frameFunctions() & ffMinimize)
         return true;
     else
         return false;
 }
 
-bool YFrameWindow::canRollup() {
+bool YFrameWindow::canRollup() const {
     if ((frameFunctions() & ffRollup) && titleY() > 0)
         return true;
     else
         return false;
 }
 
-bool YFrameWindow::canHide() {
+bool YFrameWindow::canHide() const {
     if (frameFunctions() & ffHide)
         return true;
     else
         return false;
 }
 
-bool YFrameWindow::canLower() {
+bool YFrameWindow::canLower() const {
     if (this != manager->bottom(getActiveLayer()))
         return true;
     else

@@ -80,7 +80,7 @@ void WindowListBox::activateItem(YListItem *item) {
     WindowListItem *i = (WindowListItem *)item;
     ClientData *f = i->getFrame();
     if (f) {
-        f->activateWindow(true);
+        f->activateWindow(true, false);
         windowList->getFrame()->wmHide();
     } else {
         int w = i->getWorkspace();
@@ -216,11 +216,23 @@ void WindowListBox::handleClick(const XButtonEvent &up, int count) {
 }
 
 void WindowListBox::enableCommands(YMenu *popup) {
-    bool noItems = true;
+    bool selected = false;
+    bool minified = true;
+    bool maxified = true;
+    bool fullscreen = true;
+    bool ishidden = true;
+    bool rolledup = true;
     long workspace = -1;
     bool sameWorkspace = false;
-    bool notHidden = false;
-    bool notMinimized = false;
+    bool restores = false;
+    bool minifies = false;
+    bool maxifies = false;
+    bool showable = false;
+    bool hidable = false;
+    bool rollable = false;
+    bool raiseable = false;
+    bool lowerable = false;
+    bool closable = false;
 
     // enable minimize,hide if appropriate
     // enable workspace selections if appropriate
@@ -229,31 +241,62 @@ void WindowListBox::enableCommands(YMenu *popup) {
     for (YListItem *i = getFirst(); i; i = i->getNext()) {
         if (isSelected(i)) {
             WindowListItem *item = (WindowListItem *)i;
-            if (!item->getFrame()) {
+            ClientData* frame = item->getFrame();
+            if (!frame) {
                 continue;
             }
-            noItems = false;
+            selected = true;
 
-            if (!item->getFrame()->isHidden())
-                notHidden = true;
-            if (!item->getFrame()->isMinimized())
-                notMinimized = true;
+            minified &= frame->isMinimized();
+            maxified &= frame->isMaximized();
+            fullscreen &= frame->isFullscreen();
+            ishidden &= frame->isHidden();
+            rolledup &= frame->isRollup();
 
-            long ws = item->getFrame()->getWorkspace();
+            restores |= (frame->canRestore());
+            minifies |= (frame->canMinimize() && !frame->isMinimized());
+            maxifies |= (frame->canMaximize());
+            showable |= (frame->isMinimized() || frame->isHidden());
+            hidable |= (frame->canHide() && !frame->isHidden());
+            rollable |= (frame->canRollup());
+            raiseable |= (frame->canRaise());
+            lowerable |= (frame->canLower());
+            closable |= (frame->canClose());
+
+            long ws = frame->getWorkspace();
             if (workspace == -1) {
                 workspace = ws;
                 sameWorkspace = true;
             } else if (workspace != ws) {
                 sameWorkspace = false;
             }
-            if (item->getFrame()->isAllWorkspaces())
+            if (frame->isAllWorkspaces())
                 sameWorkspace = false;
         }
     }
-    if (!notHidden)
-        popup->disableCommand(actionHide);
-    if (!notMinimized)
+    popup->checkCommand(actionMinimize, selected && minified);
+    popup->checkCommand(actionMaximize, selected && maxified);
+    popup->checkCommand(actionFullscreen, selected && fullscreen);
+    popup->checkCommand(actionHide, selected && ishidden);
+    popup->checkCommand(actionRollup, selected && rolledup);
+    if (!restores)
+        popup->disableCommand(actionRestore);
+    if (!minifies)
         popup->disableCommand(actionMinimize);
+    if (!maxifies)
+        popup->disableCommand(actionMaximize);
+    if (!showable)
+        popup->disableCommand(actionShow);
+    if (!hidable)
+        popup->disableCommand(actionHide);
+    if (!rollable)
+        popup->disableCommand(actionRollup);
+    if (!raiseable)
+        popup->disableCommand(actionRaise);
+    if (!lowerable)
+        popup->disableCommand(actionLower);
+    if (!closable)
+        popup->disableCommand(actionClose);
 
     moveMenu->enableCommand(actionNull);
     if (sameWorkspace && workspace != -1) {
@@ -264,7 +307,7 @@ void WindowListBox::enableCommands(YMenu *popup) {
                     item->setEnabled(w != workspace);
         }
     }
-    if (noItems) {
+    if (selected == false) {
         moveMenu->disableCommand(actionNull);
         popup->disableCommand(actionNull);
     }

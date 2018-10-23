@@ -37,7 +37,7 @@ public:
             if ((void *)f == fFrame) {
                 if (modifiers & ShiftMask)
                     f->wmOccupyOnlyWorkspace(manager->activeWorkspace());
-                manager->activate(f, true);
+                f->activateWindow(true, false);
                 return ;
             }
             f = f->nextLayer();
