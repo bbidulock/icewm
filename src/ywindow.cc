@@ -146,7 +146,11 @@ YWindow::~YWindow() {
     if (fAutoScroll &&
         fAutoScroll->isScrolling() &&
         fAutoScroll->getWindow() == this)
+    {
         fAutoScroll->autoScroll(0, false, 0);
+        delete fAutoScroll;
+        fAutoScroll = 0;
+    }
     fFocusedWindow = 0;
     removeWindow();
     while (nextWindow() != 0)
