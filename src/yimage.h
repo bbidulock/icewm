@@ -28,6 +28,8 @@ public:
     virtual void draw(Graphics &g, int dx, int dy) = 0;
     virtual void draw(Graphics &g, int x, int y, unsigned w, unsigned h, int dx, int dy) = 0;
     virtual void composite(Graphics &g, int x, int y, unsigned w, unsigned h, int dx, int dy) = 0;
+    virtual ref<YImage> subimage(int x, int y, unsigned w, unsigned h) = 0;
+
 protected:
     YImage(unsigned width, unsigned height) { fWidth = width; fHeight = height; }
     virtual ~YImage() {}

@@ -28,6 +28,8 @@ public:
     virtual void composite(Graphics &g, int x, int y,
                             unsigned w, unsigned h, int dx, int dy);
     virtual bool valid() const { return fPixbuf != 0; }
+    virtual ref<YImage> subimage(int x, int y, unsigned w, unsigned h);
+
 private:
     GdkPixbuf *fPixbuf;
 };
@@ -77,6 +79,15 @@ ref<YImage> YImageGDK::scale(unsigned w, unsigned h) {
     }
 
     return image;
+}
+
+ref<YImage> YImageGDK::subimage(int x, int y, unsigned w, unsigned h) {
+    PRECONDITION(w <= width() && unsigned(x) <= width() - w);
+    PRECONDITION(h <= height() && unsigned(y) <= height() - h);
+
+    GdkPixbuf *pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, w, h);
+    gdk_pixbuf_copy_area(fPixbuf, x, w, int(w), int(h), pixbuf, 0, 0);
+    return ref<YImage>(new YImageGDK(w, h, pixbuf));
 }
 
 ref<YImage> YImage::createFromPixmap(ref<YPixmap> pixmap) {
