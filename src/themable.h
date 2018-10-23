@@ -10,6 +10,7 @@ XIV(bool, prettyClock,                          true)
 #endif
 XIV(bool, rolloverTitleButtons,                 false)
 
+XIV(unsigned, taskbuttonIconOffset,             0)
 XIV(unsigned, trayIconMaxWidth,                 32)
 XIV(unsigned, trayIconMaxHeight,                24)
 XIV(bool, trayDrawBevel,                        false)
@@ -157,6 +158,7 @@ cfoption icewm_themable_preferences[] = {
     OBV("RolloverButtonsSupported",             &rolloverTitleButtons,          "Does it support the 'O' title bar button images (for mouse rollover)"),
     OBV("TaskBarClockLeds",                     &prettyClock,                   "Task bar clock/APM uses nice pixmapped LCD display (but then it doesn't display correctly in many languages anymore, e.g. for Japanese and Korean it works only when a real font is used and not the LEDs"),
 
+    OUV("TaskbuttonIconOffset",                 &taskbuttonIconOffset, 0, 16,   "Width of taskbutton side icons"),
     OUV("TrayIconMaxWidth",                     &trayIconMaxWidth, 16, 128,     "Maximum scaled width of tray icons"),
     OUV("TrayIconMaxHeight",                    &trayIconMaxHeight, 16, 128,    "Maximum scaled height of tray icons"),
     OBV("TrayDrawBevel",                        &trayDrawBevel,                 "Surround the tray with plastic border"),
