@@ -92,6 +92,16 @@ ref<YPixmap> YPixmap::scale(unsigned const w, unsigned const h) {
     return pixmap;
 }
 
+ref<YPixmap> YPixmap::subimage(unsigned x, unsigned y, unsigned w, unsigned h) {
+    PRECONDITION(w <= width() && x <= width() - w);
+    PRECONDITION(h <= height() && y <= height() - h);
+
+    ref<YPixmap> pixmap(YPixmap::create(w, h, depth()));
+    Graphics g(pixmap, 0, 0);
+    g.copyPixmap(ref<YPixmap>(this), x, y, w, h, 0, 0);
+    return pixmap;
+}
+
 ref<YPixmap> YPixmap::create(unsigned w, unsigned h, unsigned depth, bool useMask) {
     ref<YPixmap> n;
 

@@ -30,6 +30,7 @@ public:
     ref<YImage> image();
     Pixmap pixmap32();
     ref<YPixmap> scale(unsigned w, unsigned h);
+    ref<YPixmap> subimage(unsigned x, unsigned y, unsigned w, unsigned h);
 
 private:
     YPixmap(Pixmap pixmap, Pixmap mask,
