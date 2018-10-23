@@ -744,6 +744,12 @@ void YMenu::disableCommand(YAction action) {
             getItem(i)->setEnabled(false);
     }
 
+void YMenu::checkCommand(YAction action, bool check) {
+    for (int i = 0; i < itemCount(); i++)
+        if (action == actionNull || action == getItem(i)->getAction())
+            getItem(i)->setChecked(check);
+}
+
 void YMenu::getOffsets(int &left, int &top, int &right, int &bottom) {
     if (wmLook == lookMetal || wmLook == lookFlat) {
         left = 1;

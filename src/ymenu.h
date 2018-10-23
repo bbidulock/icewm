@@ -48,6 +48,7 @@ public:
 
     void enableCommand(YAction action); // 0 == All
     void disableCommand(YAction action); // 0 == All
+    void checkCommand(YAction action, bool check); // 0 == All
 
     int itemCount() const { return fItems.getCount(); }
     YMenuItem *getItem(int n) const { return fItems[n]; }
