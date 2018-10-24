@@ -84,7 +84,7 @@ public:
     mstring& operator=(null_ref &);
     mstring substring(size_t pos) const;
     mstring substring(size_t pos, size_t len) const;
-    mstring match(const char* regex, const char* flags = 0);
+    mstring match(const char* regex, const char* flags = 0) const;
 
     int operator[](int pos) const { return charAt(pos); }
     int charAt(int pos) const;
