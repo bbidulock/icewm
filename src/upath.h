@@ -29,6 +29,9 @@ public:
     upath child(const char *path) const;
     upath addExtension(const char *ext) const;
     pstring getExtension() const;
+    upath removeExtension() const;
+    upath replaceExtension(const char *ext) const;
+    cstring expand() const;
 
     bool fileExists() const;
     bool dirExists() const;

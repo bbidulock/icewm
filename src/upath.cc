@@ -47,13 +47,13 @@ upath upath::relative(const upath &npath) const {
     else if (isEmpty()) {
         return npath;
     }
-    else if (path().endsWith(slash)) {
-        if (npath.isAbsolute())
+    else if (isSeparator(path()[length() - 1])) {
+        if (isSeparator(npath.path()[0]))
             return upath(path() + npath.path().substring(1));
         else
             return upath(path() + npath.path());
     }
-    else if (npath.isAbsolute())
+    else if (isSeparator(npath.path()[0]))
         return upath(path() + npath.path());
     else
         return upath(path() + slash + npath.path());
@@ -75,8 +75,43 @@ pstring upath::getExtension() const {
     return null;
 }
 
+upath upath::removeExtension() const {
+    return fPath.substring(0, length() - getExtension().length());
+}
+
+upath upath::replaceExtension(const char* ext) const {
+    return removeExtension().addExtension(ext);
+}
+
+cstring upath::expand() const {
+    int c = fPath[0];
+    if (c == '~') {
+        int k = fPath[1];
+        if (k == 0 || isSeparator(k))
+            return (YApplication::getHomeDir() + fPath.substring(2)).fPath;
+    }
+    else if (c == '$') {
+        mstring m(fPath.match("^\\$[_A-Za-z][_A-Za-z0-9]*"));
+        if (m.nonempty()) {
+            const char* e = getenv(cstring(m.substring(1)));
+            if (e && *e && *e != '~' && *e != '$') {
+                return e + fPath.substring(m.length());
+            }
+        }
+    }
+    return fPath;
+}
+
 bool upath::isAbsolute() const {
-    return isSeparator(path()[0]);
+    int c = path()[0];
+    if (isSeparator(c))
+        return true;
+    if (c == '~' || c == '$') {
+        c = expand().m_str()[0];
+        if (isSeparator(c))
+            return true;
+    }
+    return false;
 }
 
 bool upath::isRelative() const {
@@ -139,10 +174,7 @@ int upath::renameAs(const pstring& dest) const {
 }
 
 char* upath::loadText() const {
-    cstring file(fPath.startsWith("~/") ?
-                 (YApplication::getHomeDir() + fPath.substring(2)).fPath :
-                 fPath);
-    return ::load_text_file(file);
+    return ::load_text_file(expand());
 }
 
 bool upath::copyFrom(const upath& from, int mode) const {
