@@ -29,6 +29,7 @@ public:
                             unsigned w, unsigned h, int dx, int dy);
     virtual bool valid() const { return fPixbuf != 0; }
     virtual ref<YImage> subimage(int x, int y, unsigned w, unsigned h);
+    virtual void save(upath filename);
 
 private:
     GdkPixbuf *fPixbuf;
@@ -68,6 +69,16 @@ ref<YImage> YImage::load(upath filename) {
     return image;
 }
 
+void YImageGDK::save(upath filename) {
+    cstring handle(filename.replaceExtension(".png"));
+    GError *gerror = 0;
+    gdk_pixbuf_save(fPixbuf, handle, "png", &gerror, (void *) NULL);
+    if (gerror) {
+        msg("Cannot save YImageGDK %s: %s", handle.c_str(), gerror->message);
+        g_error_free(gerror);
+    }
+}
+
 ref<YImage> YImageGDK::scale(unsigned w, unsigned h) {
     ref<YImage> image;
     GdkPixbuf *pixbuf;
@@ -85,8 +96,12 @@ ref<YImage> YImageGDK::subimage(int x, int y, unsigned w, unsigned h) {
     PRECONDITION(w <= width() && unsigned(x) <= width() - w);
     PRECONDITION(h <= height() && unsigned(y) <= height() - h);
 
-    GdkPixbuf *pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, w, h);
-    gdk_pixbuf_copy_area(fPixbuf, x, w, int(w), int(h), pixbuf, 0, 0);
+    GdkPixbuf* pixbuf = gdk_pixbuf_new(
+                        gdk_pixbuf_get_colorspace(fPixbuf),
+                        gdk_pixbuf_get_has_alpha(fPixbuf),
+                        gdk_pixbuf_get_bits_per_sample(fPixbuf),
+                        w, h);
+    gdk_pixbuf_copy_area(fPixbuf, x, y, int(w), int(h), pixbuf, 0, 0);
     return ref<YImage>(new YImageGDK(w, h, pixbuf));
 }
 
