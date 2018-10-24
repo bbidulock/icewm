@@ -203,7 +203,7 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
                     x += bgLeftG->width();
                     g.drawGradient(bgRightG, w - bgRightG->width(), y,
                                    bgRightG->width(), h);
-                    w -= bgRightG->width();
+                    w -= bgLeftG->width() + bgRightG->width();
                 }
                 g.drawGradient(bgGrad, x, y, w, h);
             }
@@ -222,7 +222,7 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
                     x += bgLeft->width();
                     g.fillPixmap(bgRight, w - bgRight->width(), y,
                                  bgRight->width(), h);
-                    w -= bgRight->width();
+                    w -= bgLeft->width() + bgRight->width();
                 }
                 g.fillPixmap(bgPix, x, y, w, h);
             }
