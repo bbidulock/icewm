@@ -458,12 +458,11 @@ static void copyPixmaps() {
 }
 
 class PixmapOffset {
-private:
+public:
     ref<YPixmap>& pixmap;
     ref<YPixmap>& left;
     ref<YPixmap>& right;
 
-public:
     PixmapOffset(ref<YPixmap>& p, ref<YPixmap>& l, ref<YPixmap>& r) :
         pixmap(p), left(l), right(r) { }
 
@@ -486,12 +485,11 @@ public:
 };
 
 class PixbufOffset {
-private:
+public:
     ref<YImage>& pixbuf;
     ref<YImage>& left;
     ref<YImage>& right;
 
-public:
     PixbufOffset(ref<YImage>& p, ref<YImage>& l, ref<YImage>& r) :
         pixbuf(p), left(l), right(r) { }
 
