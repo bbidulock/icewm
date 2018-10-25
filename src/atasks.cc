@@ -48,7 +48,7 @@ TaskBarApp::~TaskBarApp() {
 }
 
 void TaskBarApp::activate() const {
-    getFrame()->activateWindow(true, false);
+    getFrame()->activateWindow(true, fFlashing);
 }
 
 bool TaskBarApp::isFocusTraversable() {
