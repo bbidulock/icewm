@@ -3,6 +3,7 @@
 #include "upath.h"
 #include "base.h"
 #include "udir.h"
+#include <stdlib.h>
 #include <stdio.h>
 #include <libgen.h>
 #include <unistd.h>
@@ -319,6 +320,15 @@ static void test_upath()
     expect(a.getExtension(), ".q");
     a = "/stu/.vw";
     expect(a.getExtension(), null);
+
+    upath hm("~");
+    expect(hm.expand(), getenv("HOME"));
+    hm = "~/";
+    assert(strlen(hm.expand()), 1 + strlen(getenv("HOME")));
+    hm = "$HOME";
+    expect(hm.expand(), getenv("HOME"));
+    hm = "$HOME/";
+    assert(strlen(hm.expand()), 1 + strlen(getenv("HOME")));
 }
 
 static void test_strlc()
