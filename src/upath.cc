@@ -87,7 +87,7 @@ cstring upath::expand() const {
     int c = fPath[0];
     if (c == '~') {
         int k = fPath[1];
-        if (k == 0 || isSeparator(k))
+        if (k == -1 || isSeparator(k))
             return (YApplication::getHomeDir() + fPath.substring(2)).fPath;
     }
     else if (c == '$') {
