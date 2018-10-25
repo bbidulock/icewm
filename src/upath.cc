@@ -88,7 +88,8 @@ cstring upath::expand() const {
     if (c == '~') {
         int k = fPath[1];
         if (k == -1 || isSeparator(k))
-            return (YApplication::getHomeDir() + fPath.substring(2)).fPath;
+            return (YApplication::getHomeDir() +
+                    fPath.substring(min(2, length()))).fPath;
     }
     else if (c == '$') {
         mstring m(fPath.match("^\\$[_A-Za-z][_A-Za-z0-9]*"));
