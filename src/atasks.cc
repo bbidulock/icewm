@@ -89,6 +89,7 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
     ref<YImage> bgRightG;
 
     int p(0);
+    int left = 0;
     int style = 0;
 
     if (selected == 3)
@@ -200,7 +201,7 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
                 {
                     g.drawGradient(bgLeftG, x, y,
                                    bgLeftG->width(), h);
-                    x += bgLeftG->width();
+                    x += left = bgLeftG->width();
                     g.drawGradient(bgRightG, w - bgRightG->width(), y,
                                    bgRightG->width(), h);
                     w -= bgLeftG->width() + bgRightG->width();
@@ -219,7 +220,7 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
                 {
                     g.fillPixmap(bgLeft, x, y,
                                  bgLeft->width(), h);
-                    x += bgLeft->width();
+                    x += left = bgLeft->width();
                     g.fillPixmap(bgRight, w - bgRight->width(), y,
                                  bgRight->width(), h);
                     w -= bgLeft->width() + bgRight->width();
@@ -240,7 +241,7 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
 
         int const y((height() - 3 - iconSize -
                      ((wmLook == lookMetal) ? 1 : 0)) / 2);
-        iconDrawn = icon->draw(g, p + 1, p + 1 + y, iconSize);
+        iconDrawn = icon->draw(g, p + max(1, left), p + 1 + y, iconSize);
     }
 
     ustring str = getFrame()->getIconTitle();
@@ -254,10 +255,10 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
             g.setFont(font);
 
             int iconSize = 0;
-            int pad = 1;
+            int pad = max(1, left);
             if (taskBarShowWindowIcons && iconDrawn) {
                 iconSize = YIcon::smallSize();
-                pad = 3;
+                pad += 2;
             }
             int const tx = pad + iconSize;
             int const ty = max(2U,
