@@ -62,6 +62,7 @@ int TaskBarApp::getOrder() const {
 void TaskBarApp::setShown(bool ashow) {
     if (ashow != fShown) {
         fShown = ashow;
+        fTaskPane->relayout();
     }
 }
 
@@ -76,6 +77,9 @@ void TaskBarApp::setFlash(bool flashing) {
         } else {
             //fFlashTimer->stopTimer();
         }
+
+        if (fShown == false)
+            fTaskPane->relayout();
     }
 }
 
