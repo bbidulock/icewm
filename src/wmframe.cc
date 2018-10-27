@@ -3209,15 +3209,6 @@ void YFrameWindow::updateTaskBar() {
             if (fTaskBarApp->getShown()) ///!!! optimize
                 fTaskBarApp->repaint();
         }
-#if false
-        /// !!! optimize
-        if (fTaskBarApp) {
-            bool shown = fTaskBarApp->getShown();
-            if (shown != fTaskBarApp->getShown())
-                if (taskBar && taskBar->taskPane())
-                    taskBar->taskPane()->relayout();
-        }
-#endif
        if (taskBar)
            taskBar->relayoutTasks();
     }
