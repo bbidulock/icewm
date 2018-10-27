@@ -948,6 +948,7 @@ void YWMApp::initFocusCustom() {
         OBV("RequestFocusOnAppRaise",    &requestFocusOnAppRaise,    ""),
         OBV("RaiseOnFocus",              &raiseOnFocus,              ""),
         OBV("FocusOnClickClient",        &focusOnClickClient,        ""),
+        OBV("RaiseOnClickClient",        &raiseOnClickClient,        ""),
         OBV("FocusChangesWorkspace",     &focusChangesWorkspace,     ""),
         OBV("FocusCurrentWorkspace",     &focusCurrentWorkspace,     ""),
         OBV("FocusOnMap",                &focusOnMap,                ""),
@@ -969,7 +970,7 @@ void YWMApp::initFocusMode() {
 
     case FocusClick: /* click to focus */
         clickFocus = true;
-        focusOnAppRaise = false;
+        // focusOnAppRaise = false;
         requestFocusOnAppRaise = true;
         raiseOnFocus = true;
         raiseOnClickClient = true;
@@ -982,7 +983,7 @@ void YWMApp::initFocusMode() {
 
     case FocusSloppy:  /* sloppy mouse focus */
         clickFocus = false;
-        focusOnAppRaise = false;
+        // focusOnAppRaise = false;
         requestFocusOnAppRaise = true;
         raiseOnFocus = false;
         raiseOnClickClient = true;
@@ -995,7 +996,7 @@ void YWMApp::initFocusMode() {
 
     case FocusExplicit: /* explicit focus */
         clickFocus = true;
-        focusOnAppRaise = false;
+        // focusOnAppRaise = false;
         requestFocusOnAppRaise = false;
         raiseOnFocus = false;
         raiseOnClickClient = false;
@@ -1008,7 +1009,7 @@ void YWMApp::initFocusMode() {
 
     case FocusStrict:  /* strict mouse focus */
         clickFocus = false;
-        focusOnAppRaise = false;
+        // focusOnAppRaise = false;
         requestFocusOnAppRaise = false;
         raiseOnFocus = true;
         raiseOnClickClient = true;
@@ -1021,7 +1022,7 @@ void YWMApp::initFocusMode() {
 
     case FocusQuiet:  /* quiet sloppy focus */
         clickFocus = false;
-        focusOnAppRaise = false;
+        // focusOnAppRaise = false;
         requestFocusOnAppRaise = false;
         raiseOnFocus = false;
         raiseOnClickClient = true;
