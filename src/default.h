@@ -201,7 +201,7 @@ XSV(const char *, cpuClassHint,                 "top.XTerm")
 XIV(bool, cpuCombine,                           true)
 
 #ifdef __linux__
-XSV(const char *, netCommand,                   "xterm -name 'ss' -title 'Socket Statistics' -hold -e ss")
+XSV(const char *, netCommand,                   "xterm -name 'ss' -title 'Socket Statistics' -hold -e sh -c 'which ss > /dev/null && watch -t ss -putswl || netstat -c'")
 XSV(const char *, netClassHint,                 "ss.XTerm")
 #else
 XSV(const char *, netCommand,                   "xterm -name netstat -title 'Network Status' -hold -e netstat -c")
