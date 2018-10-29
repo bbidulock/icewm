@@ -135,12 +135,12 @@ I<CLASS>B<.>I<INSTANCE>.  All function options have a default value of
 enabled (1) unless overridden by the application.  The Motif-like
 functions are as follows:
 
+    fClose     can be closed:        (default: 1).
+    fHide      can be hidden:        (default: 1).
+    fMaximize  can be maximized:     (default: 1).
+    fMinimize  can be minimized:     (default: 1).
     fMove      can be moved:         (default: 1).
     fResize    can be resized:       (default: 1).
-    fClose     can be closed:        (default: 1).
-    fMinimize  can be minimized:     (default: 1).
-    fMaximize  can be maximized:     (default: 1).
-    fHide      can be hidden:        (default: 1).
     fRollup    can be shaded:        (default: 1).
 
 =head2 DECOR OPTION ARGUMENTS
@@ -150,16 +150,16 @@ I<CLASS>B<.>I<INSTANCE>.  All decor options have a default value of
 enabled (1) unless overridden by the application. The Motif-like
 decorations are as follows:
 
-    dTitleBar  has title bar:        (default: 1).
-    dSysMenu   has window menu:      (default: 1).
     dBorder    has border:           (default: 1).
-    dResize    has resize grips:     (default: 1).
     dClose     has close button:     (default: 1).
-    dMinimize  has minimize button:  (default: 1).
-    dMaximize  has maximize button:  (default: 1).
-    dHide      has hide button:      (default: 1).
-    dRollup    has shade button:     (default: 1).
     dDepth     has depth button:     (default: 1).
+    dHide      has hide button:      (default: 1).
+    dMaximize  has maximize button:  (default: 1).
+    dMinimize  has minimize button:  (default: 1).
+    dResize    has resize grips:     (default: 1).
+    dRollup    has shade button:     (default: 1).
+    dSysMenu   has window menu:      (default: 1).
+    dTitleBar  has title bar:        (default: 1).
 
 =head2 FEATURE OPTION ARGUMENTS
 
@@ -169,26 +169,26 @@ default value of disabled (0) unless overridden by the application.  The
 advanced features are as follows:
 
     allWorkspaces             on all workspaces.
-    ignoreTaskBar             not on task bar.
-    noIgnoreTaskBar           on task bar.
-    ignoreWinList             not on window list.
-    ignoreQuickSwitch         not on quick switch.
-    fullKeys                  provided more keys.
-    noFocusOnAppRaise         no focus on raise.
-    ignoreNoFocusHint         focus even no-input.
-    ignorePositionHint        place automatically.
+    appTakesFocus             let application take focus.
     doNotCover                limits workspace if sticky.
     doNotFocus                do not focus.
-    startFullscreen           start full screen.
-    startMinimized            start minimized.
-    startMaximized            start maximized.
-    startMaximizedVert        start maximized vertical.
-    startMaximizedHorz        start maximized horizontal.
-    nonICCCMconfigureRequest  more configure requests.
     forcedClose               no close dialog.
-    noFocusOnMap              do not focus when mapped.
+    fullKeys                  provided more keys.
+    ignoreNoFocusHint         focus even no-input.
+    ignorePositionHint        place automatically.
+    ignoreQuickSwitch         not on quick switch.
+    ignoreTaskBar             not on task bar.
     ignoreUrgentHint          ignore urgent hints.
-    appTakesFocus             let application take focus.
+    ignoreWinList             not on window list.
+    noFocusOnAppRaise         no focus on raise.
+    noFocusOnMap              do not focus when mapped.
+    noIgnoreTaskBar           on task bar.
+    nonICCCMconfigureRequest  more configure requests.
+    startFullscreen           start full screen.
+    startMaximized            start maximized.
+    startMaximizedHorz        start maximized horizontal.
+    startMaximizedVert        start maximized vertical.
+    startMinimized            start minimized.
 
 =head1 BUGS
 

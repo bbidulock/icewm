@@ -10,15 +10,12 @@ B<icesound> [I<OPTIONS>]
 
 =head1 DESCRIPTION
 
-The L<icewm(1)> window manager can be configured to generate so-called
-GUI events in response to interesting actions, like opening or closing
-of application windows, switching of work space, etc.  GUI events are a
-property of the root window.  L<icewm(1)> changes this property when a
-new GUI event occurs.  Interested applications can listen for changes to
-this property.  GUI events are an optional feature of L<icewm(1)>.  It
-must be explicitly enabled by giving the B<--enable-guievents> option
-during configuration.  There are nearly twenty GUI events defined.  The
-B<--list-sounds> option will show them.
+The L<icewm(1)> window manager generates so-called GUI events in
+response to interesting actions, like opening or closing of application
+windows, switching of work space, etc.  GUI events are a property of the
+X root window.  L<icewm(1)> changes this property whenever a new GUI
+event occurs.  Interested applications can listen for changes to this
+property.  There are nearly twenty GUI events defined.
 
 B<icesound> is an application, which is one of the L<icewm(1)>
 applications, which responds to these GUI events by playing audio files.

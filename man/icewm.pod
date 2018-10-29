@@ -776,6 +776,11 @@ and/or moves the selector in the C<QuickSwitch> popup.
 C<KeySysSwitchLast> works like C<KeySysSwitchNext> but moving in the
 opposite direction.
 
+=item C<Alt+grave>
+
+C<KeySysSwitchClass> is like C<KeySysSwitchNext> but only for windows
+with the same WM_CLASS property as the currently focused window.
+
 =back
 
 =head2 MOUSE BINDINGS
