@@ -6,21 +6,12 @@
  * Window list
  */
 #include "config.h"
-#include "ykey.h"
-#include "ypaint.h"
 #include "wmwinlist.h"
 #include "ymenuitem.h"
-#include "yaction.h"
-
 #include "prefs.h"
-#include "wmaction.h"
-#include "wmclient.h"
 #include "wmframe.h"
-#include "wmmgr.h"
 #include "wmapp.h"
-#include "sysdep.h"
-#include "yrect.h"
-
+#include <assert.h>
 #include "intl.h"
 
 WindowList *windowList = 0;
@@ -395,7 +386,11 @@ YFrameClient(aParent, 0) {
     setIconTitle(_("Window list"));
     setClassHint("windowList", "IceWM");
 
-    setWinHintsHint(WinHintsSkipTaskBar);
+    setWinHintsHint(WinHintsSkipTaskBar |
+                    WinHintsSkipWindowMenu);
+    long winState = WinStateSkipTaskBar |
+                    WinStateSticky;
+    setWinStateHint(winState, winState);
     setWinWorkspaceHint(-1);
     setWinLayerHint(WinLayerAboveDock);
 }
