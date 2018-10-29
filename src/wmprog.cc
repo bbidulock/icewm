@@ -185,6 +185,9 @@ public:
     virtual bool isKey(KeySym k, unsigned int mod) OVERRIDE {
         return k == this->key && mod == this->mod;
     }
+    virtual void setWMClass(char* wmclass) OVERRIDE {
+        if (wmclass) free(wmclass); // unimplemented
+    }
 
     // move the focused target up or down and return the new focused element
     virtual int moveTarget(bool zdown) OVERRIDE {

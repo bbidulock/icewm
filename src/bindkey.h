@@ -40,6 +40,7 @@
 #define defgKeyWinSmartPlace            XK_KP_Begin, kfCtrl+kfAlt+kfShift, "Ctrl+Alt+Shift+KP_5"
 #define defgKeySysSwitchNext            XK_Tab, kfAlt, "Alt+Tab"
 #define defgKeySysSwitchLast            XK_Tab, kfAlt+kfShift, "Alt+Shift+Tab"
+#define defgKeySysSwitchClass           XK_grave, kfAlt, "Alt+grave"
 #define defgKeyTaskBarSwitchNext        0, 0, ""
 #define defgKeyTaskBarSwitchPrev        0, 0, ""
 #define defgKeyTaskBarMoveNext          0, 0, ""
@@ -148,6 +149,7 @@ DEF_WMKEY(gKeyWinSmartPlace);
 DEF_WMKEY(gKeyWinMenu);
 DEF_WMKEY(gKeySysSwitchNext);
 DEF_WMKEY(gKeySysSwitchLast);
+DEF_WMKEY(gKeySysSwitchClass);
 DEF_WMKEY(gKeySysWinNext);
 DEF_WMKEY(gKeySysWinPrev);
 DEF_WMKEY(gKeyTaskBarSwitchNext);

@@ -478,6 +478,7 @@ cfoption icewm_preferences[] = {
     OKV("KeyWinArrangeC",                       gKeyWinArrangeC,                ""),
     OKV("KeySysSwitchNext",                     gKeySysSwitchNext,              ""),
     OKV("KeySysSwitchLast",                     gKeySysSwitchLast,              ""),
+    OKV("KeySysSwitchClass",                    gKeySysSwitchClass,             ""),
     OKV("KeySysWinNext",                        gKeySysWinNext,                 ""),
     OKV("KeySysWinPrev",                        gKeySysWinPrev,                 ""),
     OKV("KeyTaskBarSwitchNext",                 gKeyTaskBarSwitchNext,          "Switch to the next window in the Task Bar"),

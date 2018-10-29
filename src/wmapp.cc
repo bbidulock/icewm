@@ -768,7 +768,7 @@ bool YWMApp::mapClientByPid(const char* resource, long pid) {
     for (YFrameIter frame = manager->focusedIterator(); ++frame; ) {
         long tmp = 0;
         if (frame->client()->getNetWMPid(&tmp) && tmp == pid) {
-            if (manager->matchWindow(frame->client()->handle(), resource)) {
+            if (frame->client()->classHint()->match(resource)) {
                 frame->setWorkspace(manager->activeWorkspace());
                 frame->activateWindow(true);
                 found = true;

@@ -48,6 +48,9 @@ public:
     virtual void destroyedItem(void* framePtr) =0;
 
     virtual bool isKey(KeySym k, unsigned int mod) =0;
+
+    // Filter items by WM_CLASS
+    virtual void setWMClass(char* wmclass) =0;
 };
 
 class SwitchWindow: public YPopupWindow, IClosablePopup {
@@ -58,7 +61,7 @@ public:
 
     virtual void paint(Graphics &g, const YRect &r);
 
-    void begin(bool zdown, int mods);
+    void begin(bool zdown, int mods, char* wmclass = 0);
 
     virtual void activatePopup(int flags);
     virtual void deactivatePopup();

@@ -35,7 +35,6 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win):
     fSavedWinState[0] = 0;
     fSavedWinState[1] = 0;
     fSizeHints = XAllocSizeHints();
-    fClassHint = XAllocClassHint();
     fTransientFor = 0;
     fClientLeader = None;
     fMwmHints = 0;
@@ -80,18 +79,6 @@ YFrameClient::~YFrameClient() {
     }
 
     if (fSizeHints) { XFree(fSizeHints); fSizeHints = 0; }
-    if (fClassHint) {
-        if (fClassHint->res_name) {
-            XFree(fClassHint->res_name);
-            fClassHint->res_name = 0;
-        }
-        if (fClassHint->res_class) {
-            XFree(fClassHint->res_class);
-            fClassHint->res_class = 0;
-        }
-        XFree(fClassHint);
-        fClassHint = 0;
-    }
     if (fHints) { XFree(fHints); fHints = 0; }
     if (fMwmHints) { XFree(fMwmHints); fMwmHints = 0; }
 }
@@ -171,17 +158,8 @@ void YFrameClient::getClassHint() {
     if (!prop.wm_class)
         return;
 
-    if (fClassHint) {
-        if (fClassHint->res_name) {
-            XFree(fClassHint->res_name);
-            fClassHint->res_name = 0;
-        }
-        if (fClassHint->res_class) {
-            XFree(fClassHint->res_class);
-            fClassHint->res_class = 0;
-        }
-        XGetClassHint(xapp->display(), handle(), fClassHint);
-    }
+    fClassHint.reset();
+    XGetClassHint(xapp->display(), handle(), &fClassHint);
 }
 
 void YFrameClient::getTransient() {
@@ -2227,6 +2205,29 @@ void YFrameClient::handleGravityNotify(const XGravityEvent &gravity) {
                     ox, oy, gravity.x, gravity.y, nx, ny));
         XMoveWindow(xapp->display(), handle(), nx, ny);
     }
+}
+
+bool ClassHint::match(const char* resource) const {
+    if (isEmpty(resource))
+        return false;
+    if (*resource != '.') {
+        if (isEmpty(res_name))
+            return false;
+        size_t len(strlen(res_name));
+        if (strncmp(res_name, resource, len))
+            return false;
+        if (resource[len] == 0)
+            return true;
+        if (resource[len] != '.')
+            return false;
+        resource += len;
+    }
+    return 0 == strcmp(1 + resource, res_class ? res_class : "");
+}
+
+char* ClassHint::resource() const {
+    mstring str(res_name, ".", res_class);
+    return str == "." ? 0 : strdup(cstring(str));
 }
 
 // vim: set sw=4 ts=4 et:

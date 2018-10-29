@@ -32,6 +32,7 @@ class WindowItemsCtrlr : public ISwitchItems
     YWindowManager *fRoot;
     YFrameWindow *fActiveWindow;
     YFrameWindow *fLastWindow;
+    char *fWMClass;
 
     void getZList() {
 
@@ -82,6 +83,11 @@ class WindowItemsCtrlr : public ISwitchItems
                     if (workspaceOnly && !w->visibleOn(workspace)) {
                         continue;
                     }
+                }
+
+                if (nonempty(fWMClass)) {
+                    if (w->client()->classHint()->match(fWMClass) == false)
+                        continue;
                 }
 
                 if (w == fRoot->getFocus()) {
@@ -146,12 +152,15 @@ public:
 
 
     WindowItemsCtrlr() :
-        zTarget(0), fRoot(manager), fActiveWindow(0), fLastWindow(0)
+        zTarget(0), fRoot(manager), fActiveWindow(0), fLastWindow(0),
+        fWMClass(0)
     {
     }
 
     ~WindowItemsCtrlr()
     {
+        if (fWMClass)
+            free(fWMClass);
     }
 
     int getActiveItem()
@@ -164,6 +173,12 @@ public:
         if (inrange(idx, 0, getCount() - 1))
             return zList[idx]->client()->windowTitle();
         return null;
+    }
+
+    virtual void setWMClass(char* wmclass) {
+        if (fWMClass)
+            free(fWMClass);
+        fWMClass = wmclass;
     }
 
     void updateList() {
@@ -226,7 +241,8 @@ public:
     }
 
     virtual bool isKey(KeySym k, unsigned int vm) OVERRIDE {
-        return (IS_WMKEY(k, vm, gKeySysSwitchNext));
+        return gKeySysSwitchNext.eq(k, vm) ||
+              (gKeySysSwitchClass.eq(k, vm) && fWMClass != 0);
     }
 };
 
@@ -610,10 +626,11 @@ void SwitchWindow::paintVertical(Graphics &g) {
     }
 }
 
-void SwitchWindow::begin(bool zdown, int mods) {
+void SwitchWindow::begin(bool zdown, int mods, char* wmclass) {
     modsDown = mods & (xapp->AltMask | xapp->MetaMask |
                        xapp->HyperMask | xapp->SuperMask |
                        xapp->ModeSwitchMask | ControlMask);
+    zItems->setWMClass(wmclass);
 
     if (close())
         return;

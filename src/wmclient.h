@@ -16,6 +16,18 @@ class YIcon;
 
 typedef int FrameState;
 
+class ClassHint : public XClassHint {
+public:
+    ClassHint() { res_name = res_class = 0; }
+    ~ClassHint() { reset(); }
+    void reset() {
+        if (res_name) { XFree(res_name); res_name = 0; }
+        if (res_class) { XFree(res_class); res_class = 0; }
+    }
+    bool match(const char* resource) const;
+    char* resource() const;
+};
+
 class ClientData {
 public:
     virtual void setWinListItem(WindowListItem *i) = 0;
@@ -125,7 +137,7 @@ public:
     Window ownerWindow() const { return fTransientFor; }
 
     void getClassHint();
-    XClassHint *classHint() const { return fClassHint; }
+    ClassHint* classHint() { return &fClassHint; }
 
     void getNameHint();
     void getNetWmName();
@@ -217,7 +229,7 @@ private:
     FrameState fSavedFrameState;
     long fSavedWinState[2];
     XSizeHints *fSizeHints;
-    XClassHint *fClassHint;
+    ClassHint fClassHint;
     XWMHints *fHints;
     Colormap fColormap;
     bool fShaped;

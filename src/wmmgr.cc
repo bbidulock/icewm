@@ -156,6 +156,7 @@ void YWindowManager::grabKeys() {
     if (quickSwitch) {
         GRAB_WMKEY(gKeySysSwitchNext);
         GRAB_WMKEY(gKeySysSwitchLast);
+        GRAB_WMKEY(gKeySysSwitchClass);
     }
     GRAB_WMKEY(gKeySysWinNext);
     GRAB_WMKEY(gKeySysWinPrev);
@@ -304,6 +305,12 @@ bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int /*
         } else if (IS_WMKEY(k, vm, gKeySysSwitchLast)) {
             XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
             wmapp->getSwitchWindow()->begin(false, key.state);
+            return true;
+        } else if (gKeySysSwitchClass.eq(k, vm)) {
+            char *prop = frame && frame->client()->adopted()
+                       ? frame->client()->classHint()->resource() : 0;
+            XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
+            wmapp->getSwitchWindow()->begin(true, key.state, prop);
             return true;
         }
     }
@@ -834,39 +841,25 @@ Window YWindowManager::findWindow(const char *resource) {
     if (isEmpty(resource))
         return None;
 
+    for (YFrameIter iter = focusedReverseIterator(); ++iter; ) {
+        YFrameClient* cli(iter->client());
+        if (cli && cli->adopted() && !cli->destroyed()) {
+            if (cli->classHint()->match(resource)) {
+                return cli->handle();
+            }
+        }
+    }
+
     Window match = None, root = desktop->handle(), parent;
     xsmart<Window> clients;
-    unsigned count = 0, nonframes = 0;
+    unsigned count = 0;
     XQueryTree(xapp->display(), root, &root, &parent, &clients, &count);
 
     for (unsigned i = 0; match == None && i < count; ++i) {
         YWindow* ywin = windowContext.find(clients[i]);
-        if (ywin) {
-            xsmart<char> title;
-            if (ywin->fetchTitle(&title)) {
-                if (strcmp(title, "Frame") == 0) {
-                    YFrameWindow* frame = (YFrameWindow*) ywin;
-                    Window w = frame->client()->handle();
-                    if (matchWindow(w, resource)) {
-                        match = w;
-                        break;
-                    }
-                    else {
-                        continue;
-                    }
-                }
-                else if (strncmp(title, "Ice", 3) == 0) {
-                    continue;
-                }
-            }
+        if (0 == ywin) {
+            match = matchWindow(clients[i], resource);
         }
-
-        swap(clients[i], clients[nonframes]);
-        ++nonframes;
-    }
-
-    for (unsigned i = 0; match == None && i < nonframes; ++i) {
-        match = matchWindow(clients[i], resource);
     }
 
     return match;
@@ -897,42 +890,9 @@ Window YWindowManager::findWindow(Window win, char const* resource,
 }
 
 bool YWindowManager::matchWindow(Window win, char const* resource) {
-    if (isEmpty(resource))
-        return false;
-
-    bool match = false;
-
-    Atom type = 0;
-    int format = 0;
-    unsigned long nitems = 0;
-    unsigned long more;
-    unsigned char* data = 0;
-    if (XGetWindowProperty(xapp->display(), win,
-                           XA_WM_CLASS, 0L, (long)BUFSIZ, False,
-                           XA_STRING, &type, &format, &nitems,
-                           &more, &data) != Success)
-       return false;
-    if (type != XA_STRING || format != 8 || data == 0)
-       return false;
-
-    char* prop = (char *) data;
-    unsigned long namelen = strlen(prop);
-    if (namelen + 1 < nitems)
-        prop[namelen] = '.';
-
-    char* str = strstr(prop, resource);
-    if (str) {
-        size_t len = strlen(str);
-        if (str == prop) {
-            match = (str[len] == 0 || str[len] == '.');
-        } else {
-            match = (str[0] == '.' && str[len] == 0);
-        }
-    }
-
-    XFree(prop);
-
-    return match;
+    ClassHint hint;
+    return XGetClassHint(xapp->display(), handle(), &hint)
+        && hint.match(resource);
 }
 
 YFrameWindow *YWindowManager::findFrame(Window win) {
