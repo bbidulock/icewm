@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-10-20 18:34+0200\n"
-"PO-Revision-Date: 2018-10-31 08:51+0000\n"
+"PO-Revision-Date: 2018-10-31 23:02+0000\n"
 "Last-Translator: Sarah Kriesch <ada.lovelace@gmx.de>\n"
 "Language-Team: German "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/de/>\n"
@@ -417,12 +417,12 @@ msgstr "Konnte nicht geöffnet werden."
 
 #: src/icehelp.cc:2018
 msgid "Failed to create a temporary file"
-msgstr "Konnte eine temporäre Datei nicht erstellen"
+msgstr "Erstellung einer temporären Datei ist fehlgeschlagen"
 
 #: src/icehelp.cc:2110
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
-msgstr "Fehlerhafte Ausführung von system(%s) (%d)"
+msgstr "Ausführung vom System(%s) (%d) ist fehlgeschlagen"
 
 #: src/icehelp.cc:2133
 #, c-format
@@ -435,7 +435,7 @@ msgstr "curl oder wget konnten in PATH nicht gefunden werden"
 
 #: src/icehelp.cc:2145
 msgid "Unsafe characters in URL"
-msgstr "Unsichere Zeichen in URL"
+msgstr "Unsichere Zeichen in der URL"
 
 #: src/icehelp.cc:2182
 #, c-format
