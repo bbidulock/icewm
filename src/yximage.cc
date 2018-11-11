@@ -476,7 +476,9 @@ ref<YImage> YXImage::loadjpg(upath filename)
     (void) jpeg_read_header(&cinfo, TRUE);
     switch (cinfo.out_color_space) {
         case JCS_RGB:
+#ifdef JCS_EXTENSIONS
         case JCS_EXT_RGBA:
+#endif
         case JCS_GRAYSCALE:
             break;
         default:
@@ -513,6 +515,7 @@ ref<YImage> YXImage::loadjpg(upath filename)
                         dst[3] = buf[2];
                     }
                 }
+#ifdef JCS_EXTENSIONS
                 else if (colorspace == JCS_EXT_RGBA) {
                     for (int i = 0; i < width; ++i, buf += bpp, dst += 4) {
                         dst[0] = buf[3];
@@ -521,6 +524,7 @@ ref<YImage> YXImage::loadjpg(upath filename)
                         dst[3] = buf[2];
                     }
                 }
+#endif
                 else if (colorspace == JCS_GRAYSCALE) {
                     for (int i = 0; i < width; ++i, buf += bpp, dst += 4) {
                         dst[0] = 0xFF;
@@ -538,6 +542,7 @@ ref<YImage> YXImage::loadjpg(upath filename)
                         dst[0] = buf[2];
                     }
                 }
+#ifdef JCS_EXTENSIONS
                 else if (colorspace == JCS_EXT_RGBA) {
                     for (int i = 0; i < width; ++i, buf += bpp, dst += 4) {
                         dst[3] = buf[3];
@@ -546,6 +551,7 @@ ref<YImage> YXImage::loadjpg(upath filename)
                         dst[0] = buf[2];
                     }
                 }
+#endif
                 else if (colorspace == JCS_GRAYSCALE) {
                     for (int i = 0; i < width; ++i, buf += bpp, dst += 4) {
                         dst[3] = 0xFF;
