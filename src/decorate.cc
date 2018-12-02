@@ -20,9 +20,9 @@ void YFrameWindow::updateMenu() {
     windowMenu->setActionListener(this);
     windowMenu->enableCommand(actionNull);
 
-    if (isMaximized() || !canMaximize())
+    if (!canMaximize())
         windowMenu->disableCommand(actionMaximize);
-    if (isMinimized() || !canMinimize())
+    if (!canMinimize())
         windowMenu->disableCommand(actionMinimize);
     if (!canRestore())
         windowMenu->disableCommand(actionRestore);
@@ -42,7 +42,9 @@ void YFrameWindow::updateMenu() {
         windowMenu->disableCommand(actionClose);
 
     windowMenu->checkCommand(actionMinimize, isMinimized());
-    windowMenu->checkCommand(actionMaximize, isMaximized());
+    windowMenu->checkCommand(actionMaximize, isMaximizedFully());
+    windowMenu->checkCommand(actionMaximizeVert, isMaximizedVert());
+    windowMenu->checkCommand(actionMaximizeHoriz, isMaximizedHoriz());
     windowMenu->checkCommand(actionFullscreen, isFullscreen());
     windowMenu->checkCommand(actionHide, isHidden());
     windowMenu->checkCommand(actionRollup, isRollup());
@@ -472,9 +474,8 @@ unsigned YFrameWindow::overlap(YFrameWindow* f) {
     return 0;
 }
 
-bool YFrameWindow::overlaps(bool below) {
-    YFrameWindow* f = below ? prev() : next();
-    for (; f; f = below ? f->prev() : f->next())
+bool YFrameWindow::overlaps(bool isAbove) {
+    for (YFrameWindow* f; (f = isAbove ? f->prev() : f->next()) != 0; )
         if (overlap(f))
             return true;
     return false;
@@ -488,7 +489,7 @@ int YFrameWindow::borderX() const {
 
 int YFrameWindow::borderXN() const {
     return
-        ((frameDecors() & fdBorder) && !(hideBordersMaximized && isMaximized()))
+        ((frameDecors() & fdBorder) && !(hideBordersMaximized && isMaximizedFully()))
         ? ((frameDecors() & fdResize) ? wsBorderX : wsDlgBorderX)
         : 0;
 }
@@ -500,7 +501,7 @@ int YFrameWindow::borderY() const {
 
 int YFrameWindow::borderYN() const {
     return
-        ((frameDecors() & fdBorder) && !(hideBordersMaximized && isMaximized()))
+        ((frameDecors() & fdBorder) && !(hideBordersMaximized && isMaximizedFully()))
         ? ((frameDecors() & fdResize) ? wsBorderY : wsDlgBorderY)
         : 0;
 }
@@ -510,7 +511,7 @@ int YFrameWindow::titleY() const {
 }
 
 int YFrameWindow::titleYN() const {
-    if (hideTitleBarWhenMaximized && isMaximized())
+    if (hideTitleBarWhenMaximized && isMaximizedVert())
         return 0;
     return (frameDecors() & fdTitleBar) ? wsTitleBar : 0;
 }

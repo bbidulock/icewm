@@ -1080,6 +1080,9 @@ void YFrameWindow::actionPerformed(YAction action, unsigned int modifiers) {
     } else if (action == actionMaximizeVert) {
         if (canMaximize())
             wmMaximizeVert();
+    } else if (action == actionMaximizeHoriz) {
+        if (canMaximize())
+            wmMaximizeHorz();
     } else if (action == actionLower) {
         if (canLower())
             wmLower();

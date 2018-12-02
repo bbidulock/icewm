@@ -38,6 +38,9 @@ public:
     virtual void activateWindow(bool raise, bool curWork) = 0;
     virtual bool isHidden() const = 0;
     virtual bool isMaximized() const = 0;
+    virtual bool isMaximizedVert() const = 0;
+    virtual bool isMaximizedHoriz() const = 0;
+    virtual bool isMaximizedFully() const = 0;
     virtual bool isMinimized() const = 0;
     virtual bool isFullscreen() const = 0;
     virtual bool isRollup() const = 0;

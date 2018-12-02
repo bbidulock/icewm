@@ -75,6 +75,8 @@ enum EAction {
     actionFocusMouseStrict   = 189,
     actionFocusQuietSloppy   = 191,
     actionFocusCustom        = 193,
+
+    actionMaximizeHoriz      = 195,
 };
 
 bool canShutdown(RebootShutdown reboot);

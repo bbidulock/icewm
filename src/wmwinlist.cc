@@ -210,6 +210,8 @@ void WindowListBox::enableCommands(YMenu *popup) {
     bool selected = false;
     bool minified = true;
     bool maxified = true;
+    bool horified = true;
+    bool vertified = true;
     bool fullscreen = true;
     bool ishidden = true;
     bool rolledup = true;
@@ -239,7 +241,9 @@ void WindowListBox::enableCommands(YMenu *popup) {
             selected = true;
 
             minified &= frame->isMinimized();
-            maxified &= frame->isMaximized();
+            maxified &= frame->isMaximizedFully();
+            vertified &= frame->isMaximizedVert();
+            horified &= frame->isMaximizedHoriz();
             fullscreen &= frame->isFullscreen();
             ishidden &= frame->isHidden();
             rolledup &= frame->isRollup();
@@ -267,6 +271,8 @@ void WindowListBox::enableCommands(YMenu *popup) {
     }
     popup->checkCommand(actionMinimize, selected && minified);
     popup->checkCommand(actionMaximize, selected && maxified);
+    popup->checkCommand(actionMaximizeVert, selected && vertified);
+    popup->checkCommand(actionMaximizeHoriz, selected && horified);
     popup->checkCommand(actionFullscreen, selected && fullscreen);
     popup->checkCommand(actionHide, selected && ishidden);
     popup->checkCommand(actionRollup, selected && rolledup);
@@ -276,6 +282,10 @@ void WindowListBox::enableCommands(YMenu *popup) {
         popup->disableCommand(actionMinimize);
     if (!maxifies)
         popup->disableCommand(actionMaximize);
+    if (!maxifies)
+        popup->disableCommand(actionMaximizeVert);
+    if (!maxifies)
+        popup->disableCommand(actionMaximizeHoriz);
     if (!showable)
         popup->disableCommand(actionShow);
     if (!hidable)
@@ -339,6 +349,7 @@ YFrameClient(aParent, 0) {
     windowListPopup->addItem(_("_Restore"), -2, KEY_NAME(gKeyWinRestore), actionRestore);
     windowListPopup->addItem(_("Mi_nimize"), -2, KEY_NAME(gKeyWinMinimize), actionMinimize);
     windowListPopup->addItem(_("Ma_ximize"), -2, KEY_NAME(gKeyWinMaximize), actionMaximize);
+    windowListPopup->addItem(_("Maximize_Vert"), -2, KEY_NAME(gKeyWinMaximizeVert), actionMaximizeVert);
     windowListPopup->addItem(_("_Fullscreen"), -2, KEY_NAME(gKeyWinFullscreen), actionFullscreen);
     windowListPopup->addItem(_("_Show"), -2, null, actionShow);
     windowListPopup->addItem(_("_Hide"), -2, KEY_NAME(gKeyWinHide), actionHide);
