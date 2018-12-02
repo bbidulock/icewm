@@ -172,6 +172,7 @@ public:
 
     void restackWindows(YFrameWindow *win);
     void focusTopWindow();
+    YFrameWindow *getFrameUnderMouse(long workspace = -1);
     YFrameWindow *getLastFocus(bool skipAllWorkspaces = false, long workspace = -1);
     void focusLastWindow();
     bool focusTop(YFrameWindow *f);
