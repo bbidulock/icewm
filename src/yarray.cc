@@ -96,6 +96,15 @@ void YBaseArray::insert(const SizeType index, const void *item) {
     assert(index < fCount);
 }
 
+void YBaseArray::extend(const SizeType extendedCount) {
+    if (fCapacity < extendedCount)
+        setCapacity(extendedCount);
+    if (fCount < extendedCount) {
+        memset(getElement(fCount), 0, (extendedCount - fCount) * fElementSize);
+        fCount = extendedCount;
+    }
+}
+
 void YBaseArray::remove(const SizeType index) {
     MSG(("remove %d %d", index, fCount));
     PRECONDITION(index < getCount());
@@ -142,10 +151,26 @@ void YBaseArray::operator=(const YBaseArray& other) {
 }
 
 YStringArray::YStringArray(const YStringArray &other) :
-    YArray<const char*>(other.getCount())
+    BaseType(other.getCount())
 {
     for (SizeType i = 0; i < other.getCount(); ++i)
         append(other.getString(i));
+}
+
+YStringArray::YStringArray(const char* cstr[], SizeType num, SizeType cap) :
+    BaseType(max(num, cap))
+{
+    if (cstr) {
+        if (num == npos) {
+            for (SizeType i = 0; cstr[i]; ++i)
+                append(cstr[i]);
+            append(0);
+        }
+        else {
+            for (SizeType i = 0; i < num; ++i)
+                append(cstr[i]);
+        }
+    }
 }
 
 static bool strequal(const char *a, const char *b) {
