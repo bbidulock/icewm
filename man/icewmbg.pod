@@ -187,8 +187,8 @@ is given by the following table:
 
   center:0 scaled:0 = the background is replicated in both directions
   center:1 scaled:0 = the background is centered, but not scaled
-  center:1 scaled:1 = fill one dimension and keep aspect the ratio
-  center:0 scaled:1 = fill both dimensions and keep aspect the ratio
+  center:1 scaled:1 = fill one dimension and preserve the aspect ratio
+  center:0 scaled:1 = fill both dimensions and preserve the aspect ratio
 
 =head1 SIGNALS
 
