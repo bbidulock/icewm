@@ -368,13 +368,13 @@ void YFrameWindow::layoutResizeIndicators() {
     int yy(max(1, min(cy, hh / 2)));
 
     XMoveResizeWindow(xapp->display(), topSide,
-                      xx, 0, ww - 2 * xx, by);
+                      xx, 0, max(1, ww - 2 * xx), by);
     XMoveResizeWindow(xapp->display(), leftSide,
                       0, yy, bx, hh - 2 * yy);
     XMoveResizeWindow(xapp->display(), rightSide,
                       ww - bx, yy, bx, hh - 2 * yy);
     XMoveResizeWindow(xapp->display(), bottomSide,
-                      xx, hh - by, ww - 2 * xx, by);
+                      xx, hh - by, max(1, ww - 2 * xx), by);
 
     XMoveResizeWindow(xapp->display(), topLeft,
                       0, 0, xx, yy);
