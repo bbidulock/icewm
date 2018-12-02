@@ -722,7 +722,7 @@ void YWMApp::runRestart(const char *path, char *const *args) {
          strerror(errno), path ? path : ICEWMEXE);
 }
 
-void YWMApp::restartClient(const char *path, char *const *cargs) {
+void YWMApp::restartClient(const char *cpath, char *const *cargs) {
     csmart path(newstr(cpath));
     YStringArray sargs((const char**) cargs);
     char *const *args = (cargs == 0) ? 0 : sargs.getCArray();
