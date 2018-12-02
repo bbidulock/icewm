@@ -102,6 +102,8 @@ void fail(char const *msg, ...) __attribute__((format(printf, 1, 2) ));
 void msg(char const *msg, ...) __attribute__((format(printf, 1, 2) ));
 void tlog(char const *msg, ...) __attribute__((format(printf, 1, 2) ));
 void precondition(const char *expr, const char *file, int line);
+char* path_lookup(const char* name);
+char* progpath(void);
 void show_backtrace(const int limit = 0);
 
 #define DEPRECATE(x) \
@@ -112,10 +114,6 @@ void show_backtrace(const int limit = 0);
 /*** Misc Stuff (clean up!!!) *************************************************/
 
 #define ACOUNT(x) (sizeof(x)/sizeof(x[0]))
-
-#ifndef DIR_DELIMINATOR
-#define DIR_DELIMINATOR '/'
-#endif
 
 #define REDIR_ROOT(path) (path)
 
