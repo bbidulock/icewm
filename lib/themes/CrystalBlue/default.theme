@@ -3,7 +3,7 @@ ThemeDescription=                       "CrystalBlue"
 License=                                "GPL"
 
 Look=                                   "pixmap"
-Gradients=                              "menubg.xpm dialogbg.xpm"
+Gradients=                              "menubg.xpm menusel.xpm dialogbg.xpm"
 
 #Buttons
 RolloverButtonsSupported=               1
