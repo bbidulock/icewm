@@ -181,9 +181,7 @@ active window manager.
 
 =item B<-r>, B<--restart>
 
-Instructs B<icewm> to restart itself, but one should not use this option
-directly. Instead one selects the C<Restart IceWM> button from the menu
-in the lower left corner of the desktop.
+Tell B<icewm> to restart itself. This reloads the configuration from file.
 
 =item B<--configured>
 
