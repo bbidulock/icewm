@@ -722,7 +722,11 @@ void YWMApp::runRestart(const char *path, char *const *args) {
          strerror(errno), path ? path : ICEWMEXE);
 }
 
-void YWMApp::restartClient(const char *path, char *const *args) {
+void YWMApp::restartClient(const char *path, char *const *cargs) {
+    csmart path(newstr(cpath));
+    YStringArray sargs((const char**) cargs);
+    char *const *args = (cargs == 0) ? 0 : sargs.getCArray();
+
     wmapp->signalGuiEvent(geRestart);
     manager->unmanageClients();
     unregisterProtocols();
