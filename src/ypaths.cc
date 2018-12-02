@@ -91,11 +91,8 @@ bool YResourcePaths::loadPictFile(const upath& file, ref<Pict>* pict) {
         if (*pict != null) {
             return true;
         }
-        else
-            warn(_("Out of memory for image %s"),
-                    file.string().c_str());
-    } else
-        warn(_("Image not readable: %s"), file.string().c_str());
+    }
+    warn(_("Image not readable: %s"), file.string().c_str());
     return false;
 }
 
