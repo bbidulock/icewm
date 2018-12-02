@@ -366,7 +366,6 @@ void Background::addImage(Strings& images, const char* name, bool append) {
 
 void Background::add(const char* name, const char* value, bool append) {
     if (value == 0 || *value == 0) {
-        warn("Empty value for '%s'.", name);
     }
     else if (0 == strcmp(name, "DesktopBackgroundImage")) {
         addImage(backgroundImages, value, append);
@@ -422,8 +421,11 @@ void Background::handleSignal(int sig) {
 }
 
 bool Background::handleTimer(YTimer* timer) {
-    cycleOffset += desktopCount;
-    update(true);
+    if (timer == cycleTimer) {
+        cycleOffset += desktopCount;
+        cache.unload();
+        update(true);
+    }
     return true;
 }
 
