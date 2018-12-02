@@ -68,13 +68,14 @@ public:
     static ref<YImage> loadjpg(upath filename);
 #endif
     static ref<YImage> combine(XImage *xdraw, XImage *xmask);
+    static pstring detectImageType(upath filename);
 
     bool isBitmap() const { return fBitmap; }
     bool hasAlpha() const { return fImage ? fImage->depth == 32 : false; }
     ref<YImage> upscale(unsigned width, unsigned height);
     ref<YImage> downscale(unsigned width, unsigned height);
-    ref<YImage> subimage(int x, int y, unsigned width, unsigned height);
-    void save(upath filename);
+    virtual ref<YImage> subimage(int x, int y, unsigned width, unsigned height);
+    virtual void save(upath filename);
 
     unsigned long getPixel(unsigned x, unsigned y) const {
         return XGetPixel(fImage, int(x), int(y));
@@ -125,6 +126,9 @@ ref<YImage> YImage::load(upath filename)
     pstring ext(filename.getExtension().lower());
     bool unsup = false;
 
+    if (ext.isEmpty())
+        ext = YXImage::detectImageType(filename);
+
     if (ext == ".xbm")
         image = YXImage::loadxbm(filename);
     else if (ext == ".xpm")
@@ -154,6 +158,28 @@ ref<YImage> YImage::load(upath filename)
     if (image == null && !unsup)
         fail(_("Could not load image \"%s\""), filename.string().c_str());
     return image;
+}
+
+pstring YXImage::detectImageType(upath filename) {
+     const int xpm = 9, png = 8, jpg = 4, len = max(xpm, png);
+     char buf[len+1] = {};
+     if (read_file(filename.string(), buf, sizeof buf) >= len) {
+         if (0 == memcmp(buf, "/* XPM */", xpm)) {
+             return ".xpm";
+         }
+         else if (0 == memcmp(buf, "\x89PNG\x0d\x0a\x1a\x0a", png)) {
+             return ".png";
+         }
+         else if (0 == memcmp(buf, "\377\330\377\356", jpg)) {
+             return ".jpg";
+         }
+         else {
+             msg("Unknown image type: \"%s\".", filename.string().c_str());
+             return null;
+         }
+     }
+     fail(_("Could not load image \"%s\""), filename.string().c_str());
+     return null;
 }
 
 ref <YImage> YXImage::loadxbm(upath filename)
