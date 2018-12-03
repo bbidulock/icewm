@@ -278,7 +278,7 @@ Cursor MyCursorLoader::load(upath path) {
         Pixmap bilevel(createMask(pixmap.width(), pixmap.height()));
 
         // -------------------------- figure out which plane we have to copy ---
-        unsigned long pmask(1 << (xapp->depth() - 1));
+        unsigned long pmask(1UL << (xapp->depth() - 1));
 
         if (pixmap.foreground().pixel &&
             pixmap.foreground().pixel != pixmap.background().pixel)
