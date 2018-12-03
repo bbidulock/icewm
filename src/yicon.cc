@@ -346,8 +346,10 @@ void YIcon::freeIcons() {
         icon = null;
         iconCache.remove(k);
     }
-    iconPaths->clear();
-    iconPaths = null;
+    if (iconPaths != null) {
+        iconPaths->clear();
+        iconPaths = null;
+    }
     iconDirs.clear();
 }
 
