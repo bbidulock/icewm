@@ -475,7 +475,8 @@ unsigned YFrameWindow::overlap(YFrameWindow* f) {
 }
 
 bool YFrameWindow::overlaps(bool isAbove) {
-    for (YFrameWindow* f; (f = isAbove ? f->prev() : f->next()) != 0; )
+    YFrameWindow* f = isAbove ? prev() : next();
+    for (; f; f = isAbove ? f->prev() : f->next())
         if (overlap(f))
             return true;
     return false;
