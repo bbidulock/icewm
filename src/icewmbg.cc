@@ -199,6 +199,7 @@ private:
     YColor getTransparencyColor();
     Atom atom(const char* name) const;
     static Window window() { return desktop->handle(); }
+    upath getThemeDir();
 
 private:
     char** mainArgv;
@@ -209,6 +210,7 @@ private:
     Strings transparencyImages;
     YColors transparencyColors;
     PixCache cache;
+    upath themeDir;
     int activeWorkspace;
     int cycleOffset;
     int desktopCount;
@@ -268,6 +270,32 @@ Background::Background(int *argc, char ***argv, bool verb):
     catchSignal(SIGQUIT);
     catchSignal(SIGUSR1);
     catchSignal(SIGUSR2);
+}
+
+upath Background::getThemeDir() {
+    if (themeDir == null && nonempty(themeName)) {
+        upath path(themeName);
+        if (path.isAbsolute() == false) {
+            if (strchr(themeName, '/') == 0) {
+                path = upath("themes") + path + "default.theme";
+            }
+            else {
+                path = upath("themes") + path;
+            }
+            path = findConfigFile(path);
+        }
+        if (path.fileExists()) {
+            themeDir = path.parent();
+        }
+        else if (path.dirExists()) {
+            themeDir = path;
+        }
+        if (themeDir == null) {
+            tlog("Could not find theme dir");
+            themeDir = "";
+        }
+    }
+    return themeDir;
 }
 
 Background::~Background() {
@@ -357,9 +385,21 @@ void Background::addImage(Strings& images, const char* name, bool append) {
                 }
             }
         }
-        else if (path.fileExists()) {
-            images.append(name);
-            cache.add(name);
+        else {
+            bool isAbs = path.isAbsolute();
+            path = path.expand();
+            bool xist = (isAbs && path.fileExists());
+            if (xist == false && isAbs == false) {
+                upath p(getThemeDir() + path);
+                if (p.fileExists()) {
+                    path = p;
+                    xist = true;
+                }
+            }
+            if (xist || (isAbs == false && path.fileExists())) {
+                images.append(path);
+                cache.add(path);
+            }
         }
     }
 }
@@ -906,7 +946,7 @@ void addBgImage(const char* name, const char* value, bool append) {
     }
 }
 
-static void bgLoadConfig(const char *overrideTheme, const char *configFile)
+static void bgLoadConfig(const char *configFile, const char *overrideTheme)
 {
     if (configFile == 0 || *configFile == 0)
         configFile = "preferences";
@@ -927,6 +967,7 @@ static void bgLoadConfig(const char *overrideTheme, const char *configFile)
         MSG(("themeName=%s", themeName));
 
         YConfig::findLoadThemeFile(globalBg, icewmbg_prefs,
+                *themeName == '/' ? themeName :
                 upath("themes").child(themeName));
     }
     YConfig::findLoadConfigFile(globalBg, icewmbg_prefs, "prefoverride");
