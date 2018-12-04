@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Chinese (China) (icewm)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-04 09:33+0000\n"
-"PO-Revision-Date: 2018-12-04 10:08+0000\n"
+"PO-Revision-Date: 2018-12-04 13:01+0000\n"
 "Last-Translator: Dingzhong Chen <wsxy162@gmail.com>\n"
 "Language-Team: Chinese (China) "
 "<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/zh_CN/>\n"
@@ -75,7 +75,7 @@ msgid ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 "softirq = %llu, steal = %llu (h = %i)\n"
 msgstr ""
-"bars:\t user = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
+"栏：\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 "softirq = %llu, steal = %llu (h = %i)\n"
 
 #: src/acpustatus.cc:303
@@ -108,7 +108,7 @@ msgid ""
 "ACPI Temp: "
 msgstr ""
 "\n"
-"ACPI Temp： "
+"ACPI 温度： "
 
 #: src/acpustatus.cc:339 src/acpustatus.cc:379
 #, c-format
@@ -117,7 +117,7 @@ msgid ""
 "CPU Freq: %.3fGHz"
 msgstr ""
 "\n"
-"CPU 频率： %.3fGHz"
+"CPU 频率：%.3fGHz"
 
 #: src/acpustatus.cc:356 src/acpustatus.cc:858
 msgid "CPU"
@@ -134,7 +134,7 @@ msgid ""
 "Ram (user): %5.3f (%.3f) G"
 msgstr ""
 "\n"
-"内存（用户）：%5.3f (%.3f) G"
+"Ram（用户）：%5.3f (%.3f) G"
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
@@ -145,7 +145,7 @@ msgstr "°C"
 #: src/acpustatus.cc:770
 #, c-format
 msgid "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
-msgstr "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
+msgstr "CPU：%llu %llu %llu %llu %llu %llu %llu %llu"
 
 #: src/acpustatus.cc:859
 #, c-format
@@ -1579,7 +1579,7 @@ msgstr "关于(_A)"
 
 #: src/wmframe.cc:1409
 msgid "Kill Client: "
-msgstr "杀死客户程序："
+msgstr "杀死客户端： "
 
 #: src/wmframe.cc:1416
 msgid ""
@@ -1805,7 +1805,7 @@ msgstr "%s：选择失败"
 #: src/yconfig.cc:128
 #, c-format
 msgid "Unknown key name %s in %s"
-msgstr "%2$s 中未知的键名 %1$s"
+msgstr "%2$s 中有未知的键名 %1$s"
 
 #: src/yconfig.cc:150 src/yconfig.cc:163 src/yconfig.cc:177
 #, c-format
