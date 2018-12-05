@@ -372,9 +372,9 @@ void YFrameWindow::layoutResizeIndicators() {
     XMoveResizeWindow(xapp->display(), topSide,
                       xx, 0, max(1, ww - 2 * xx), by);
     XMoveResizeWindow(xapp->display(), leftSide,
-                      0, yy, bx, hh - 2 * yy);
+                      0, yy, bx, max(1, hh - 2 * yy));
     XMoveResizeWindow(xapp->display(), rightSide,
-                      ww - bx, yy, bx, hh - 2 * yy);
+                      ww - bx, yy, bx, max(1, hh - 2 * yy));
     XMoveResizeWindow(xapp->display(), bottomSide,
                       xx, hh - by, max(1, ww - 2 * xx), by);
 
