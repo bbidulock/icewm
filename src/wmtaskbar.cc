@@ -247,7 +247,9 @@ TaskBar::~TaskBar() {
     delete fApplications; fApplications = 0;
     delete fObjectBar; fObjectBar = 0;
     delete fWorkspaces; fWorkspaces = 0;
+#ifdef MAX_ACPI_BATTERY_NUM
     delete fApm; fApm = 0;
+#endif
 #ifdef IWM_STATES
     delete fCPUStatus; fCPUStatus = 0;
 #endif
@@ -322,6 +324,7 @@ void TaskBar::initApplets() {
     else
         fClock = 0;
 
+#ifdef MAX_ACPI_BATTERY_NUM
     if (taskBarShowApm && (access(APMDEV, 0) == 0 ||
                            access("/sys/class/power_supply", 0) == 0 ||
                            access("/proc/acpi", 0) == 0 ||
@@ -342,6 +345,7 @@ void TaskBar::initApplets() {
     }
     else
         fApm = 0;
+#endif
 
     if (taskBarShowCollapseButton) {
         fCollapseButton = new YButton(this, actionCollapseTaskbar);
@@ -648,6 +652,14 @@ void TaskBar::updateFullscreen(bool fullscreen) {
 void TaskBar::updateLocation() {
     fNeedRelayout = false;
 
+    if (fIsHidden) {
+        if (fIsMapped && getFrame())
+            getFrame()->wmHide();
+        else
+            hide();
+        xapp->sync();
+    }
+
     int dx, dy;
     unsigned dw, dh;
     manager->getScreenGeometry(&dx, &dy, &dw, &dh, -1);
@@ -687,19 +699,14 @@ void TaskBar::updateLocation() {
 
     int y = taskBarAtTop ? dy : dy + dh - h;
 
-    if (fIsHidden) {
-        if (fIsMapped && getFrame())
-            getFrame()->wmHide();
-        else
-            hide();
-    } else {
+    if ( !fIsHidden) {
         if (fIsMapped && getFrame()) {
             getFrame()->configureClient(x, y, w, h);
             getFrame()->wmShow();
         } else
             setGeometry(YRect(x, y, w, h));
     }
-    if (fIsHidden || fFullscreen)
+    if ((fIsHidden || fFullscreen) && taskBarAutoHide)
         fEdgeTrigger->show();
     else
         fEdgeTrigger->hide();
