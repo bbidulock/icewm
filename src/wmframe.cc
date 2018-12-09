@@ -187,28 +187,8 @@ YFrameWindow::~YFrameWindow() {
         windowContext.remove(fUserTimeWindow);
     }
 
-    if (affectsWorkArea())
-        manager->updateWorkArea();
-    // FIX !!! should actually check if < than current values
-    if (fStrutLeft != 0 || fStrutRight != 0 ||
-        fStrutTop != 0 || fStrutBottom != 0)
-        manager->updateWorkArea();
-
     delete fClient; fClient = 0;
     delete fClientContainer; fClientContainer = 0;
-
-    /* if (indicatorsCreated) {
-        // do we really need to explicitly destroy these?
-        XDestroyWindow(xapp->display(), topSide);
-        XDestroyWindow(xapp->display(), leftSide);
-        XDestroyWindow(xapp->display(), rightSide);
-        XDestroyWindow(xapp->display(), bottomSide);
-        XDestroyWindow(xapp->display(), topLeft);
-        XDestroyWindow(xapp->display(), topRight);
-        XDestroyWindow(xapp->display(), bottomLeft);
-        XDestroyWindow(xapp->display(), bottomRight);
-    } */
-
     delete fTitleBar; fTitleBar = 0;
 
     manager->updateClientList();
@@ -402,7 +382,7 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
     if (owner())
         setWorkspace(mainOwner()->getWorkspace());
 
-    if (isHidden() || isMinimized() || isIconic()) {
+    if (isHidden() || isMinimized() || isIconic() || client() == taskBar) {
         doActivate = false;
         requestFocus = false;
     }
@@ -601,6 +581,8 @@ void YFrameWindow::unmanage(bool reparent) {
     client()->setFrame(0);
 
     fClient = 0;
+
+    hide();
 }
 
 void YFrameWindow::getNewPos(const XConfigureRequestEvent &cr,
@@ -1807,7 +1789,7 @@ void YFrameWindow::updateTitle() {
         titlebar()->repaint();
     layoutShape();
     updateIconTitle();
-    if (fWinListItem && windowList->visible())
+    if (fWinListItem && windowList && windowList->visible())
         windowList->repaintItem(fWinListItem);
     if (fTaskBarApp)
         fTaskBarApp->setToolTip(client()->windowTitle());
@@ -2293,7 +2275,7 @@ void YFrameWindow::updateIcon() {
     if (fTrayApp) fTrayApp->repaint();
     if (fTaskBarApp) fTaskBarApp->repaint();
     if (windowList && fWinListItem)
-        windowList->getList()->repaintItem(fWinListItem);
+        windowList->repaintItem(fWinListItem);
 }
 
 YFrameWindow *YFrameWindow::nextLayer() {
@@ -2463,12 +2445,15 @@ void YFrameWindow::setWorkspace(int workspace) {
     if (workspace >= workspaceCount || workspace < -1)
         return ;
     if (workspace != fWinWorkspace) {
+        bool refocus = (this == manager->getFocus());
         fWinWorkspace = workspace;
         client()->setWinWorkspaceHint(fWinWorkspace);
         updateState();
-        manager->focusLastWindow();
+        if (refocus)
+            manager->focusLastWindow();
         updateTaskBar();
-        windowList->updateWindowListApp(fWinListItem);
+        if (windowList && fWinListItem)
+            windowList->updateWindowListApp(fWinListItem);
         YFrameWindow *t = transient();
 
         while (t != 0) {
@@ -2594,7 +2579,7 @@ void YFrameWindow::setTrayOption(long option) {
 }
 
 void YFrameWindow::updateState() {
-    if (!isManaged())
+    if (!isManaged() || client()->destroyed())
         return ;
 
     client()->setWinStateHint(WIN_STATE_ALL, fWinState);
@@ -2714,7 +2699,8 @@ void YFrameWindow::setNormalGeometryInner(int x, int y, int w, int h) {
     normalW = sh ? (w - sh->base_width) / sh->width_inc : w;
     normalH = sh ? (h - sh->base_height) / sh->height_inc : h ;
 
-    updateDerivedSize((isMaximizedVert() ? WinStateMaximizedVert : 0) | (isMaximizedHoriz() ? WinStateMaximizedHoriz : 0));
+    updateDerivedSize((isMaximizedVert() ? WinStateMaximizedVert : 0) |
+                      (isMaximizedHoriz() ? WinStateMaximizedHoriz : 0));
     updateLayout();
 }
 
@@ -3111,7 +3097,8 @@ void YFrameWindow::setState(long mask, long state) {
 void YFrameWindow::setAllWorkspaces() {
     setWorkspace(-1);
 
-    windowList->updateWindowListApp(fWinListItem);
+    if (windowList && fWinListItem)
+        windowList->updateWindowListApp(fWinListItem);
     if (affectsWorkArea())
         manager->updateWorkArea();
 }
@@ -3212,8 +3199,7 @@ void YFrameWindow::updateTaskBar() {
             if (fTaskBarApp->getShown()) ///!!! optimize
                 fTaskBarApp->repaint();
         }
-       if (taskBar)
-           taskBar->relayoutTasks();
+        taskBar->relayoutTasks();
     }
 }
 
