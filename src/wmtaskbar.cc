@@ -353,7 +353,7 @@ void TaskBar::initApplets() {
             fCollapseButton->setText(">");
             fCollapseButton->setImage(taskbarCollapseImage);
             fCollapseButton->setActionListener(this);
-            fCollapseButton->setToolTip("Hide taskbar");
+            fCollapseButton->setToolTip("Hide Taskbar");
             fCollapseButton->setTitle("Collapse");
         }
     } else
@@ -368,7 +368,7 @@ void TaskBar::initApplets() {
         fApplications = new ObjectButton(this, rootMenu);
         fApplications->setActionListener(this);
         fApplications->setImage(taskbarStartImage);
-        fApplications->setToolTip(_("Favorite applications"));
+        fApplications->setToolTip(_("Favorite Applications"));
         fApplications->setTitle("TaskBarMenu");
     } else
         fApplications = 0;
@@ -386,7 +386,7 @@ void TaskBar::initApplets() {
         fWinList = new ObjectButton(this, windowListMenu);
         fWinList->setImage(taskbarWindowsImage);
         fWinList->setActionListener(this);
-        fWinList->setToolTip(_("Window list menu"));
+        fWinList->setToolTip(_("Window List Menu"));
         fWinList->setTitle("ShowWindowList");
     } else
         fWinList = 0;
@@ -970,7 +970,7 @@ void TaskBar::handleCollapseButton() {
     if (fCollapseButton) {
         fCollapseButton->setText(fIsCollapsed ? "<": ">");
         fCollapseButton->setImage(fIsCollapsed ? taskbarExpandImage : taskbarCollapseImage);
-        fCollapseButton->setToolTip(fIsCollapsed ? "Show taskbar" : "Hide taskbar");
+        fCollapseButton->setToolTip(fIsCollapsed ? "Show Taskbar" : "Hide Taskbar");
         fCollapseButton->repaint();
     }
 
