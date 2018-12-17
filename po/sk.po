@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2018-10-20 18:34+0200\n"
+"POT-Creation-Date: 2018-12-17 23:55+0100\n"
 "PO-Revision-Date: 2018-11-07 17:16+0000\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
-"Language-Team: Slovak "
-"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/sk/>\n"
+"Language-Team: Slovak <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1099,7 +1099,7 @@ msgstr "Ctrl+W"
 msgid "Failed to load image '%s'."
 msgstr "Zlyhalo načítanie obrázka: '%s'."
 
-#: src/icewmbg.cc:843
+#: src/icewmbg.cc:885
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1197,7 +1197,7 @@ msgstr ""
 " center:0 scaled:1 = vyplní oba rozmery a zachová pomer strán\n"
 "\n"
 
-#: src/icewmbg.cc:1057
+#: src/icewmbg.cc:1100
 msgid "Cannot start, because another icewmbg is still running."
 msgstr "Nebolo možné spustiť, pretože iný icewmbg stále beží."
 
@@ -1353,7 +1353,7 @@ msgstr "_Dole"
 msgid "D_esktop"
 msgstr "_Plocha"
 
-#: src/wmapp.cc:571 src/wmwinlist.cc:305
+#: src/wmapp.cc:571 src/wmwinlist.cc:349
 msgid "_Restore"
 msgstr "O_bnoviť"
 
@@ -1365,71 +1365,83 @@ msgstr "_Presunúť"
 msgid "_Size"
 msgstr "_Veľkosť"
 
-#: src/wmapp.cc:577 src/wmwinlist.cc:306
+#: src/wmapp.cc:577 src/wmwinlist.cc:350
 msgid "Mi_nimize"
 msgstr "_Minimalizovať"
 
-#: src/wmapp.cc:579 src/wmwinlist.cc:307
+#: src/wmapp.cc:579 src/wmwinlist.cc:351
 msgid "Ma_ximize"
 msgstr "Ma_ximalizovať"
 
-#: src/wmapp.cc:581 src/wmwinlist.cc:308
+#: src/wmapp.cc:580 src/wmwinlist.cc:352
+#, fuzzy
+#| msgid "Maximize"
+msgid "Maximize_Vert"
+msgstr "Maximalizovať"
+
+#: src/wmapp.cc:581
+#, fuzzy
+#| msgid "Maximize"
+msgid "MaximizeHori_z"
+msgstr "Maximalizovať"
+
+#: src/wmapp.cc:584 src/wmwinlist.cc:353
 msgid "_Fullscreen"
 msgstr "_Celá obrazovka"
 
-#: src/wmapp.cc:584 src/wmwinlist.cc:310
+#: src/wmapp.cc:587 src/wmwinlist.cc:355
 msgid "_Hide"
 msgstr "_Schovať"
 
-#: src/wmapp.cc:586 src/wmwinlist.cc:311
+#: src/wmapp.cc:589 src/wmwinlist.cc:356
 msgid "Roll_up"
 msgstr "Zrol_ovať"
 
-#: src/wmapp.cc:593
+#: src/wmapp.cc:596
 msgid "R_aise"
 msgstr "Zvýš_iť"
 
-#: src/wmapp.cc:595 src/wmwinlist.cc:313
+#: src/wmapp.cc:598 src/wmwinlist.cc:358
 msgid "_Lower"
 msgstr "_Znížiť"
 
-#: src/wmapp.cc:597
+#: src/wmapp.cc:600
 msgid "La_yer"
 msgstr "Vrs_tva"
 
-#: src/wmapp.cc:601 src/wmwinlist.cc:315
+#: src/wmapp.cc:604 src/wmwinlist.cc:360
 msgid "Move _To"
 msgstr "_Presunúť na"
 
-#: src/wmapp.cc:602 src/wmwinlist.cc:316
+#: src/wmapp.cc:605 src/wmwinlist.cc:361
 msgid "Occupy _All"
 msgstr "N_a všetky plochy"
 
-#: src/wmapp.cc:608
+#: src/wmapp.cc:611
 msgid "Limit _Workarea"
 msgstr "Obmedziť pracovnú ob_lasť"
 
-#: src/wmapp.cc:612 src/wmwinlist.cc:317
+#: src/wmapp.cc:615 src/wmwinlist.cc:362
 msgid "Tray _icon"
 msgstr "Dokuj _ikonu"
 
-#: src/wmapp.cc:617 src/wmwinlist.cc:295 src/wmwinlist.cc:328
+#: src/wmapp.cc:620 src/wmwinlist.cc:339 src/wmwinlist.cc:373
 msgid "_Close"
 msgstr "_Zavrieť"
 
-#: src/wmapp.cc:619 src/wmwinlist.cc:297
+#: src/wmapp.cc:622 src/wmwinlist.cc:341
 msgid "_Kill Client"
 msgstr "Zabiť _klienta"
 
-#: src/wmapp.cc:622 src/wmdialog.cc:80 src/wmwinmenu.cc:131
+#: src/wmapp.cc:625 src/wmdialog.cc:80 src/wmwinmenu.cc:131
 msgid "_Window list"
 msgstr "Zoznam _okien"
 
-#: src/wmapp.cc:636
+#: src/wmapp.cc:639
 msgid "Another window manager already running, exiting..."
 msgstr "Iný window manažér beží, končím..."
 
-#: src/wmapp.cc:721
+#: src/wmapp.cc:724
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1438,18 +1450,18 @@ msgstr ""
 "Nemôžem reštartovať: %s\n"
 "Vedie $PATH k %s?"
 
-#: src/wmapp.cc:842
+#: src/wmapp.cc:849
 msgid "Kill IceWM, replace with Xterm"
 msgstr "Zabiť IceWM, nahradiť s Xterm"
 
-#: src/wmapp.cc:1382
+#: src/wmapp.cc:1394
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      ID klienta, ktoré bude použité pri kontaktovaní "
 "správcu sedenia.\n"
 
-#: src/wmapp.cc:1388
+#: src/wmapp.cc:1400
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1459,7 +1471,7 @@ msgstr ""
 "  --debug             Vypíše všeobecné ladiace správy.\n"
 "  --debug-z           Vypíše ladiace správy týkajúce naskladania okien.\n"
 
-#: src/wmapp.cc:1396
+#: src/wmapp.cc:1408
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1471,7 +1483,7 @@ msgstr ""
 "  -t, --theme=SÚBOR    Načíta tému zo SÚBOR-u.\n"
 "  --postpreferences   Vypíše predvoľby po spracovaní všetkého.\n"
 
-#: src/wmapp.cc:1401
+#: src/wmapp.cc:1413
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1532,26 +1544,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1462
+#: src/wmapp.cc:1474
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s konfiguračné adresáre:\n"
 
-#: src/wmapp.cc:1547
+#: src/wmapp.cc:1559
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s nakonfigurované voľby: %s\n"
 
-#: src/wmapp.cc:1599
+#: src/wmapp.cc:1612
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Nerozpoznaná voľba: '%s'."
 
-#: src/wmapp.cc:1631
+#: src/wmapp.cc:1645
 msgid "Confirm Logout"
 msgstr "Potvrdiť odhlásenie"
 
-#: src/wmapp.cc:1632
+#: src/wmapp.cc:1646
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1574,12 +1586,12 @@ msgstr "Neznáma hodnota '%s' pre voľbu '%s'."
 msgid "Unable to create directory %s"
 msgstr "Nepodarilo sa vytvoriť adresár %s"
 
-#: src/wmconfig.cc:138 src/wmprog.cc:558 src/wmprog.cc:680 src/wmprog.cc:684
+#: src/wmconfig.cc:138 src/wmprog.cc:564 src/wmprog.cc:686 src/wmprog.cc:690
 #, c-format
 msgid "Unable to write to %s"
 msgstr "Nie je možné zapísať do %s"
 
-#: src/wmconfig.cc:165 src/wmprog.cc:688
+#: src/wmconfig.cc:165 src/wmprog.cc:694
 #, c-format
 msgid "Unable to rename %s to %s"
 msgstr "Nepodarilo sa premenovať %s na %s"
@@ -1592,8 +1604,8 @@ msgstr "Zamknúť pracovnú _stanicu"
 msgid "_Cancel"
 msgstr "_Zrušiť"
 
-#: src/wmdialog.cc:77 src/wmprog.cc:838 src/wmprog.cc:840 src/wmtaskbar.cc:292
-#: src/wmtaskbar.cc:294
+#: src/wmdialog.cc:77 src/wmprog.cc:844 src/wmprog.cc:846 src/wmtaskbar.cc:297
+#: src/wmtaskbar.cc:299
 msgid "_Logout..."
 msgstr "Odh_lásenie..."
 
@@ -1601,16 +1613,16 @@ msgstr "Odh_lásenie..."
 msgid "_Restart icewm"
 msgstr "_Reštartovať icewm"
 
-#: src/wmdialog.cc:82 src/wmprog.cc:799 src/wmtaskbar.cc:285
-#: src/wmtaskbar.cc:288
+#: src/wmdialog.cc:82 src/wmprog.cc:805 src/wmtaskbar.cc:290
+#: src/wmtaskbar.cc:293
 msgid "_About"
 msgstr "O _aplikacii"
 
-#: src/wmframe.cc:1409
+#: src/wmframe.cc:1400
 msgid "Kill Client: "
 msgstr "Zabiť klienta: "
 
-#: src/wmframe.cc:1416
+#: src/wmframe.cc:1407
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1618,19 +1630,19 @@ msgstr ""
 "VAROVANIE! Ak bude tento klient zabitý, budú\n"
 "všetky neuložené dáta stratené. Chcete pokračovať?"
 
-#: src/wmframe.cc:3006
+#: src/wmframe.cc:3001
 msgid "Restore"
 msgstr "Obnoviť"
 
-#: src/wmframe.cc:3009 src/wmtitle.cc:69
+#: src/wmframe.cc:3004 src/wmtitle.cc:69
 msgid "Maximize"
 msgstr "Maximalizovať"
 
-#: src/wmframe.cc:3039
+#: src/wmframe.cc:3034
 msgid "Rolldown"
 msgstr "Rozbaliť"
 
-#: src/wmframe.cc:3041 src/wmtitle.cc:127
+#: src/wmframe.cc:3036 src/wmtitle.cc:127
 msgid "Rollup"
 msgstr "Z_rolovať"
 
@@ -1644,79 +1656,79 @@ msgstr "Neznáma voľba okna: %s"
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Syntaktická chyba vo voľbách okna na riadku %d z %s"
 
-#: src/wmprog.cc:386
+#: src/wmprog.cc:392
 msgid "_Click to focus"
 msgstr "Aktivovať _kliknutím"
 
-#: src/wmprog.cc:387
+#: src/wmprog.cc:393
 msgid "_Explicit focus"
 msgstr "_Vybrať kliknutím"
 
-#: src/wmprog.cc:388
+#: src/wmprog.cc:394
 msgid "_Sloppy mouse focus"
 msgstr "Aktivovať _presunom myši"
 
-#: src/wmprog.cc:389
+#: src/wmprog.cc:395
 msgid "S_trict mouse focus"
 msgstr "S_triktné aktivovanie myšou"
 
-#: src/wmprog.cc:390
+#: src/wmprog.cc:396
 msgid "_Quiet sloppy focus"
 msgstr "Aktivovať pokojným _presunom"
 
-#: src/wmprog.cc:391
+#: src/wmprog.cc:397
 msgid "Custo_m"
 msgstr "Vlast_né"
 
-#: src/wmprog.cc:478
+#: src/wmprog.cc:484
 msgid "Save Modifications"
 msgstr "Uložiť zmeny"
 
-#: src/wmprog.cc:711
+#: src/wmprog.cc:717
 msgid "_Manual"
 msgstr "_Ručne"
 
-#: src/wmprog.cc:712
+#: src/wmprog.cc:718
 msgid "_Icewm(1)"
 msgstr "_Icewm(1)"
 
-#: src/wmprog.cc:713
+#: src/wmprog.cc:719
 msgid "Icewm_Bg(1)"
 msgstr "Icewm_Bg(1)"
 
-#: src/wmprog.cc:714
+#: src/wmprog.cc:720
 msgid "Ice_Sound(1)"
 msgstr "Ice_Sound(1)"
 
-#: src/wmprog.cc:776
+#: src/wmprog.cc:782
 msgid "Programs"
 msgstr "Programy"
 
-#: src/wmprog.cc:781
+#: src/wmprog.cc:787
 msgid "_Run..."
 msgstr "_Spustiť..."
 
-#: src/wmprog.cc:786 src/wmtaskbar.cc:275
+#: src/wmprog.cc:792 src/wmtaskbar.cc:280
 msgid "_Windows"
 msgstr "_Okná"
 
-#: src/wmprog.cc:805
+#: src/wmprog.cc:811
 msgid "_Help"
 msgstr "_Pomocník"
 
-#: src/wmprog.cc:816
+#: src/wmprog.cc:822
 msgid "_Focus"
 msgstr "_Aktivovať"
 
-#: src/wmprog.cc:821
+#: src/wmprog.cc:827
 msgid "_Preferences"
 msgstr "_Preferencie"
 
-#: src/wmprog.cc:827
+#: src/wmprog.cc:833
 msgid "_Themes"
 msgstr "_Témy"
 
-#: src/wmprog.cc:832
+#: src/wmprog.cc:838
 msgid "Se_ttings"
 msgstr "Nas_tavenia"
 
@@ -1725,61 +1737,77 @@ msgstr "Nas_tavenia"
 msgid "Session Manager: Unknown line %s"
 msgstr "Manažér sedení: Neznámy riadok %s"
 
-#: src/wmtaskbar.cc:165 src/wmtaskbar.cc:166
+#: src/wmtaskbar.cc:168 src/wmtaskbar.cc:169
 msgid "Task Bar"
 msgstr "Panel úloh"
 
-#: src/wmtaskbar.cc:265 src/wmwinlist.cc:319 src/wmwinlist.cc:332
+#: src/wmtaskbar.cc:270 src/wmwinlist.cc:364 src/wmwinlist.cc:377
 msgid "Tile _Vertically"
 msgstr "Zarovnať _vertikálne"
 
-#: src/wmtaskbar.cc:266 src/wmwinlist.cc:320 src/wmwinlist.cc:333
+#: src/wmtaskbar.cc:271 src/wmwinlist.cc:365 src/wmwinlist.cc:378
 msgid "T_ile Horizontally"
 msgstr "Zarovnať _horizontálne"
 
-#: src/wmtaskbar.cc:267 src/wmwinlist.cc:321 src/wmwinlist.cc:334
+#: src/wmtaskbar.cc:272 src/wmwinlist.cc:366 src/wmwinlist.cc:379
 msgid "Ca_scade"
 msgstr "Zarovnať do _kaskády"
 
-#: src/wmtaskbar.cc:268 src/wmwinlist.cc:322 src/wmwinlist.cc:335
+#: src/wmtaskbar.cc:273 src/wmwinlist.cc:367 src/wmwinlist.cc:380
 msgid "_Arrange"
 msgstr "_Usporiadať"
 
-#: src/wmtaskbar.cc:269 src/wmwinlist.cc:324 src/wmwinlist.cc:336
+#: src/wmtaskbar.cc:274 src/wmwinlist.cc:369 src/wmwinlist.cc:381
 msgid "_Minimize All"
 msgstr "_Minimalizovať všetko"
 
-#: src/wmtaskbar.cc:270 src/wmwinlist.cc:325 src/wmwinlist.cc:337
+#: src/wmtaskbar.cc:275 src/wmwinlist.cc:370 src/wmwinlist.cc:382
 msgid "_Hide All"
 msgstr "_Skryť všetko"
 
-#: src/wmtaskbar.cc:271 src/wmwinlist.cc:326 src/wmwinlist.cc:338
+#: src/wmtaskbar.cc:276 src/wmwinlist.cc:371 src/wmwinlist.cc:383
 msgid "_Undo"
 msgstr "_Vrátiť"
 
-#: src/wmtaskbar.cc:273
+#: src/wmtaskbar.cc:278
 msgid "Arrange _Icons"
 msgstr "Usporiadať _Ikony"
 
-#: src/wmtaskbar.cc:277
+#: src/wmtaskbar.cc:282
 msgid "_Refresh"
 msgstr "_Obnoviť"
 
-#: src/wmtaskbar.cc:283
+#: src/wmtaskbar.cc:288
 msgid "_License"
 msgstr "_Licencia"
 
-#: src/wmtaskbar.cc:364
-msgid "Favorite applications"
+#: src/wmtaskbar.cc:356 src/wmtaskbar.cc:975
+#, fuzzy
+#| msgid "Task Bar"
+msgid "Hide Taskbar"
+msgstr "Panel úloh"
+
+#: src/wmtaskbar.cc:371
+#, fuzzy
+#| msgid "Favorite applications"
+msgid "Favorite Applications"
 msgstr "Obľúbené aplikácie"
 
-#: src/wmtaskbar.cc:382
-msgid "Window list menu"
+#: src/wmtaskbar.cc:389
+#, fuzzy
+#| msgid "Window list menu"
+msgid "Window List Menu"
 msgstr "Menu zoznamu okien"
 
-#: src/wmtaskbar.cc:391
+#: src/wmtaskbar.cc:398
 msgid "Show Desktop"
 msgstr "Ukáž plochu"
+
+#: src/wmtaskbar.cc:975
+#, fuzzy
+#| msgid "Task Bar"
+msgid "Show Taskbar"
+msgstr "Panel úloh"
 
 #: src/wmtitle.cc:85
 msgid "Minimize"
@@ -1793,31 +1821,31 @@ msgstr "Skryť"
 msgid "Raise/Lower"
 msgstr "Zdvihnúť/Znížiť"
 
-#: src/wmwinlist.cc:59
+#: src/wmwinlist.cc:50
 msgid "All Workspaces"
 msgstr "Všetky pracovné plochy"
 
-#: src/wmwinlist.cc:295
+#: src/wmwinlist.cc:339
 msgid "Del"
 msgstr "Zmazať"
 
-#: src/wmwinlist.cc:299
+#: src/wmwinlist.cc:343
 msgid "_Terminate Process"
 msgstr "_Ukončiť proces"
 
-#: src/wmwinlist.cc:300
+#: src/wmwinlist.cc:344
 msgid "Kill _Process"
 msgstr "_Zabiť proces"
 
-#: src/wmwinlist.cc:309
+#: src/wmwinlist.cc:354
 msgid "_Show"
 msgstr "Ukáz_ať"
 
-#: src/wmwinlist.cc:312
+#: src/wmwinlist.cc:357
 msgid "_Raise"
 msgstr "_Zvýšiť"
 
-#: src/wmwinlist.cc:351 src/wmwinlist.cc:352
+#: src/wmwinlist.cc:396 src/wmwinlist.cc:397
 msgid "Window list"
 msgstr "Zoznam okien"
 
@@ -1961,7 +1989,7 @@ msgstr ""
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv (dostatočne) nepodporuje konverziu z %s do %s."
 
-#: src/ylocale.cc:163
+#: src/ylocale.cc:167
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Neplatný viacbajtový reťazec \"%s\": %s"
@@ -1972,15 +2000,10 @@ msgstr "_OK"
 
 #: src/ypaths.cc:95
 #, c-format
-msgid "Out of memory for image %s"
-msgstr "Nedostatok pamäte pre obrázok %s"
-
-#: src/ypaths.cc:98
-#, c-format
 msgid "Image not readable: %s"
 msgstr "Obrázok je nečitateľný: %s"
 
-#: src/ypaths.cc:121
+#: src/ypaths.cc:118
 #, c-format
 msgid "Could not find image %s"
 msgstr "Nie je možné nájsť obrázok %s"
@@ -2701,6 +2724,9 @@ msgstr "Vývoj webu"
 #: src/fdospecgen.h:319
 msgid "WordProcessor"
 msgstr "Textový procesor"
+
+#~ msgid "Out of memory for image %s"
+#~ msgstr "Nedostatok pamäte pre obrázok %s"
 
 #~ msgid "_Minimize"
 #~ msgstr "_Minimalizovať"

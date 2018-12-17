@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.2.2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2018-10-20 18:34+0200\n"
+"POT-Creation-Date: 2018-12-17 23:55+0100\n"
 "PO-Revision-Date: 2003-01-27 22:26+0300\n"
 "Last-Translator: Hleb Valoska <el_globus@tut.by>\n"
 "Language-Team: Belarusian <i18n@mova.org>\n"
@@ -1007,7 +1007,7 @@ msgstr "Ctrl+W"
 msgid "Failed to load image '%s'."
 msgstr "Няўдалае адкрыцьцё %s: %s"
 
-#: src/icewmbg.cc:843
+#: src/icewmbg.cc:885
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1058,7 +1058,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/icewmbg.cc:1057
+#: src/icewmbg.cc:1100
 msgid "Cannot start, because another icewmbg is still running."
 msgstr ""
 
@@ -1210,7 +1210,7 @@ msgstr "_Пад усімі вокнамі"
 msgid "D_esktop"
 msgstr "На ўзроўні _стальца"
 
-#: src/wmapp.cc:571 src/wmwinlist.cc:305
+#: src/wmapp.cc:571 src/wmwinlist.cc:349
 msgid "_Restore"
 msgstr "Вернуць ранейшы _стан"
 
@@ -1222,71 +1222,83 @@ msgstr "_Перасунуць вакно"
 msgid "_Size"
 msgstr "Зьмяніць па_мер"
 
-#: src/wmapp.cc:577 src/wmwinlist.cc:306
+#: src/wmapp.cc:577 src/wmwinlist.cc:350
 msgid "Mi_nimize"
 msgstr "З_гарнуць"
 
-#: src/wmapp.cc:579 src/wmwinlist.cc:307
+#: src/wmapp.cc:579 src/wmwinlist.cc:351
 msgid "Ma_ximize"
 msgstr "_Разгарнуць"
 
-#: src/wmapp.cc:581 src/wmwinlist.cc:308
+#: src/wmapp.cc:580 src/wmwinlist.cc:352
+#, fuzzy
+#| msgid "Maximize"
+msgid "Maximize_Vert"
+msgstr "Разгарнуць"
+
+#: src/wmapp.cc:581
+#, fuzzy
+#| msgid "Maximize"
+msgid "MaximizeHori_z"
+msgstr "Разгарнуць"
+
+#: src/wmapp.cc:584 src/wmwinlist.cc:353
 msgid "_Fullscreen"
 msgstr "На поўны _экран"
 
-#: src/wmapp.cc:584 src/wmwinlist.cc:310
+#: src/wmapp.cc:587 src/wmwinlist.cc:355
 msgid "_Hide"
 msgstr "С_хаваць"
 
-#: src/wmapp.cc:586 src/wmwinlist.cc:311
+#: src/wmapp.cc:589 src/wmwinlist.cc:356
 msgid "Roll_up"
 msgstr "С_круціць угору"
 
-#: src/wmapp.cc:593
+#: src/wmapp.cc:596
 msgid "R_aise"
 msgstr "Уз_ьняць над усімі вокнамі"
 
-#: src/wmapp.cc:595 src/wmwinlist.cc:313
+#: src/wmapp.cc:598 src/wmwinlist.cc:358
 msgid "_Lower"
 msgstr "Ап_усьціць пад усе вокны"
 
-#: src/wmapp.cc:597
+#: src/wmapp.cc:600
 msgid "La_yer"
 msgstr "Узровень разьмя_шчэньня"
 
-#: src/wmapp.cc:601 src/wmwinlist.cc:315
+#: src/wmapp.cc:604 src/wmwinlist.cc:360
 msgid "Move _To"
 msgstr "Перамесьціць на _варштат"
 
-#: src/wmapp.cc:602 src/wmwinlist.cc:316
+#: src/wmapp.cc:605 src/wmwinlist.cc:361
 msgid "Occupy _All"
 msgstr "Хай займае _ўсе варштаты"
 
-#: src/wmapp.cc:608
+#: src/wmapp.cc:611
 msgid "Limit _Workarea"
 msgstr "_Абмежаваць вобласьць"
 
-#: src/wmapp.cc:612 src/wmwinlist.cc:317
+#: src/wmapp.cc:615 src/wmwinlist.cc:362
 msgid "Tray _icon"
 msgstr "Значка _панэлі"
 
-#: src/wmapp.cc:617 src/wmwinlist.cc:295 src/wmwinlist.cc:328
+#: src/wmapp.cc:620 src/wmwinlist.cc:339 src/wmwinlist.cc:373
 msgid "_Close"
 msgstr "За_крыць"
 
-#: src/wmapp.cc:619 src/wmwinlist.cc:297
+#: src/wmapp.cc:622 src/wmwinlist.cc:341
 msgid "_Kill Client"
 msgstr "Заб_іць кліент"
 
-#: src/wmapp.cc:622 src/wmdialog.cc:80 src/wmwinmenu.cc:131
+#: src/wmapp.cc:625 src/wmdialog.cc:80 src/wmwinmenu.cc:131
 msgid "_Window list"
 msgstr "_Сьпіс вакон"
 
-#: src/wmapp.cc:636
+#: src/wmapp.cc:639
 msgid "Another window manager already running, exiting..."
 msgstr "Іншы кіраўнік вакон запушчаны, выходжу..."
 
-#: src/wmapp.cc:721
+#: src/wmapp.cc:724
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1295,23 +1307,23 @@ msgstr ""
 "Немагчыма перазапусьціца: %s\n"
 "Ці спасылаецца $PATH на %s?"
 
-#: src/wmapp.cc:842
+#: src/wmapp.cc:849
 msgid "Kill IceWM, replace with Xterm"
 msgstr ""
 
-#: src/wmapp.cc:1382
+#: src/wmapp.cc:1394
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 
-#: src/wmapp.cc:1388
+#: src/wmapp.cc:1400
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
 "  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
 
-#: src/wmapp.cc:1396
+#: src/wmapp.cc:1408
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1319,7 +1331,7 @@ msgid ""
 "  --postpreferences   Print preferences after all processing.\n"
 msgstr ""
 
-#: src/wmapp.cc:1401
+#: src/wmapp.cc:1413
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1376,28 +1388,28 @@ msgstr ""
 "Наведай https://ice-wm.org/ каб паведаміць пра памылкі, запатрабаваць\n"
 "падтрымкі, ці проста выказацца пра IceWM...\n"
 
-#: src/wmapp.cc:1462
+#: src/wmapp.cc:1474
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr ""
 
 # fixme
-#: src/wmapp.cc:1547
+#: src/wmapp.cc:1559
 #, fuzzy, c-format
 msgid "%s configured options:%s\n"
 msgstr "Нераспазнаная опцыя: %s\n"
 
 # fixme
-#: src/wmapp.cc:1599
+#: src/wmapp.cc:1612
 #, fuzzy, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Нераспазнаная опцыя: %s\n"
 
-#: src/wmapp.cc:1631
+#: src/wmapp.cc:1645
 msgid "Confirm Logout"
 msgstr "Пацьвердзі выйсьце"
 
-#: src/wmapp.cc:1632
+#: src/wmapp.cc:1646
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1420,12 +1432,12 @@ msgstr "Невядомае дзеяньне: `%s'"
 msgid "Unable to create directory %s"
 msgstr "Няўдалае стварэньне дзіцячага працэсу: %s"
 
-#: src/wmconfig.cc:138 src/wmprog.cc:558 src/wmprog.cc:680 src/wmprog.cc:684
+#: src/wmconfig.cc:138 src/wmprog.cc:564 src/wmprog.cc:686 src/wmprog.cc:690
 #, c-format
 msgid "Unable to write to %s"
 msgstr ""
 
-#: src/wmconfig.cc:165 src/wmprog.cc:688
+#: src/wmconfig.cc:165 src/wmprog.cc:694
 #, fuzzy, c-format
 msgid "Unable to rename %s to %s"
 msgstr "Няўдалае адкрыцьцё %s: %s"
@@ -1439,8 +1451,8 @@ msgstr "_Заблякаваць Станцыю"
 msgid "_Cancel"
 msgstr "_Адмена"
 
-#: src/wmdialog.cc:77 src/wmprog.cc:838 src/wmprog.cc:840 src/wmtaskbar.cc:292
-#: src/wmtaskbar.cc:294
+#: src/wmdialog.cc:77 src/wmprog.cc:844 src/wmprog.cc:846 src/wmtaskbar.cc:297
+#: src/wmtaskbar.cc:299
 msgid "_Logout..."
 msgstr "_Скончыць сэанс"
 
@@ -1448,16 +1460,16 @@ msgstr "_Скончыць сэанс"
 msgid "_Restart icewm"
 msgstr "_Перазапусьціць icewm"
 
-#: src/wmdialog.cc:82 src/wmprog.cc:799 src/wmtaskbar.cc:285
-#: src/wmtaskbar.cc:288
+#: src/wmdialog.cc:82 src/wmprog.cc:805 src/wmtaskbar.cc:290
+#: src/wmtaskbar.cc:293
 msgid "_About"
 msgstr "Пр_а"
 
-#: src/wmframe.cc:1409
+#: src/wmframe.cc:1400
 msgid "Kill Client: "
 msgstr "Забіць кліент: "
 
-#: src/wmframe.cc:1416
+#: src/wmframe.cc:1407
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1465,19 +1477,19 @@ msgstr ""
 "УВАГА! Усе незахаваныя зьмены будуць згубленыя,\n"
 "калі забіць гэты кліент. Працягваць?"
 
-#: src/wmframe.cc:3006
+#: src/wmframe.cc:3001
 msgid "Restore"
 msgstr "Аднавіць"
 
-#: src/wmframe.cc:3009 src/wmtitle.cc:69
+#: src/wmframe.cc:3004 src/wmtitle.cc:69
 msgid "Maximize"
 msgstr "Разгарнуць"
 
-#: src/wmframe.cc:3039
+#: src/wmframe.cc:3034
 msgid "Rolldown"
 msgstr "Раскруціць"
 
-#: src/wmframe.cc:3041 src/wmtitle.cc:127
+#: src/wmframe.cc:3036 src/wmtitle.cc:127
 msgid "Rollup"
 msgstr "Пракруціць"
 
@@ -1491,81 +1503,81 @@ msgstr "Невядомая опцыя вакна: %s"
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Сынтаксычная памылка ў опцыях вакна"
 
-#: src/wmprog.cc:386
+#: src/wmprog.cc:392
 msgid "_Click to focus"
 msgstr ""
 
-#: src/wmprog.cc:387
+#: src/wmprog.cc:393
 msgid "_Explicit focus"
 msgstr ""
 
-#: src/wmprog.cc:388
+#: src/wmprog.cc:394
 msgid "_Sloppy mouse focus"
 msgstr ""
 
-#: src/wmprog.cc:389
+#: src/wmprog.cc:395
 msgid "S_trict mouse focus"
 msgstr ""
 
-#: src/wmprog.cc:390
+#: src/wmprog.cc:396
 msgid "_Quiet sloppy focus"
 msgstr ""
 
-#: src/wmprog.cc:391
+#: src/wmprog.cc:397
 msgid "Custo_m"
 msgstr ""
 
-#: src/wmprog.cc:478
+#: src/wmprog.cc:484
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Save Modifications"
 msgstr "Любімыя дастасаваньні"
 
-#: src/wmprog.cc:711
+#: src/wmprog.cc:717
 msgid "_Manual"
 msgstr ""
 
-#: src/wmprog.cc:712
+#: src/wmprog.cc:718
 msgid "_Icewm(1)"
 msgstr ""
 
-#: src/wmprog.cc:713
+#: src/wmprog.cc:719
 msgid "Icewm_Bg(1)"
 msgstr ""
 
-#: src/wmprog.cc:714
+#: src/wmprog.cc:720
 msgid "Ice_Sound(1)"
 msgstr ""
 
-#: src/wmprog.cc:776
+#: src/wmprog.cc:782
 msgid "Programs"
 msgstr "Праграмы"
 
-#: src/wmprog.cc:781
+#: src/wmprog.cc:787
 msgid "_Run..."
 msgstr "_Выканаць..."
 
-#: src/wmprog.cc:786 src/wmtaskbar.cc:275
+#: src/wmprog.cc:792 src/wmtaskbar.cc:280
 msgid "_Windows"
 msgstr "В_окны"
 
-#: src/wmprog.cc:805
+#: src/wmprog.cc:811
 msgid "_Help"
 msgstr "Да_ведка"
 
-#: src/wmprog.cc:816
+#: src/wmprog.cc:822
 msgid "_Focus"
 msgstr ""
 
-#: src/wmprog.cc:821
+#: src/wmprog.cc:827
 msgid "_Preferences"
 msgstr ""
 
-#: src/wmprog.cc:827
+#: src/wmprog.cc:833
 msgid "_Themes"
 msgstr "_Тэмы"
 
-#: src/wmprog.cc:832
+#: src/wmprog.cc:838
 msgid "Se_ttings"
 msgstr ""
 
@@ -1574,62 +1586,78 @@ msgstr ""
 msgid "Session Manager: Unknown line %s"
 msgstr "Кіраўнік сэсій: невядомы радок %s"
 
-#: src/wmtaskbar.cc:165 src/wmtaskbar.cc:166
+#: src/wmtaskbar.cc:168 src/wmtaskbar.cc:169
 msgid "Task Bar"
 msgstr "Панэль задач"
 
-#: src/wmtaskbar.cc:265 src/wmwinlist.cc:319 src/wmwinlist.cc:332
+#: src/wmtaskbar.cc:270 src/wmwinlist.cc:364 src/wmwinlist.cc:377
 msgid "Tile _Vertically"
 msgstr "Побач па _вэртыкалі"
 
-#: src/wmtaskbar.cc:266 src/wmwinlist.cc:320 src/wmwinlist.cc:333
+#: src/wmtaskbar.cc:271 src/wmwinlist.cc:365 src/wmwinlist.cc:378
 msgid "T_ile Horizontally"
 msgstr "Побач па _гарызанталі"
 
-#: src/wmtaskbar.cc:267 src/wmwinlist.cc:321 src/wmwinlist.cc:334
+#: src/wmtaskbar.cc:272 src/wmwinlist.cc:366 src/wmwinlist.cc:379
 msgid "Ca_scade"
 msgstr "_Каскадам"
 
-#: src/wmtaskbar.cc:268 src/wmwinlist.cc:322 src/wmwinlist.cc:335
+#: src/wmtaskbar.cc:273 src/wmwinlist.cc:367 src/wmwinlist.cc:380
 msgid "_Arrange"
 msgstr "_Упарадкавана"
 
-#: src/wmtaskbar.cc:269 src/wmwinlist.cc:324 src/wmwinlist.cc:336
+#: src/wmtaskbar.cc:274 src/wmwinlist.cc:369 src/wmwinlist.cc:381
 msgid "_Minimize All"
 msgstr "_Згарнуць усе"
 
-#: src/wmtaskbar.cc:270 src/wmwinlist.cc:325 src/wmwinlist.cc:337
+#: src/wmtaskbar.cc:275 src/wmwinlist.cc:370 src/wmwinlist.cc:382
 msgid "_Hide All"
 msgstr "_Схаваць усе"
 
-#: src/wmtaskbar.cc:271 src/wmwinlist.cc:326 src/wmwinlist.cc:338
+#: src/wmtaskbar.cc:276 src/wmwinlist.cc:371 src/wmwinlist.cc:383
 msgid "_Undo"
 msgstr "_Вернуць"
 
-#: src/wmtaskbar.cc:273
+#: src/wmtaskbar.cc:278
 msgid "Arrange _Icons"
 msgstr "Упарадкаваць _значкі"
 
-#: src/wmtaskbar.cc:277
+#: src/wmtaskbar.cc:282
 msgid "_Refresh"
 msgstr "А_бнавіць"
 
-#: src/wmtaskbar.cc:283
+#: src/wmtaskbar.cc:288
 msgid "_License"
 msgstr "_Ліцэнзія"
 
-#: src/wmtaskbar.cc:364
-msgid "Favorite applications"
+#: src/wmtaskbar.cc:356 src/wmtaskbar.cc:975
+#, fuzzy
+#| msgid "Task Bar"
+msgid "Hide Taskbar"
+msgstr "Панэль задач"
+
+#: src/wmtaskbar.cc:371
+#, fuzzy
+#| msgid "Favorite applications"
+msgid "Favorite Applications"
 msgstr "Любімыя дастасаваньні"
 
-#: src/wmtaskbar.cc:382
-msgid "Window list menu"
+#: src/wmtaskbar.cc:389
+#, fuzzy
+#| msgid "Window list menu"
+msgid "Window List Menu"
 msgstr "Мэню сьпісу вакон"
 
-#: src/wmtaskbar.cc:391
+#: src/wmtaskbar.cc:398
 #, fuzzy
 msgid "Show Desktop"
 msgstr "На ўзроўні _стальца"
+
+#: src/wmtaskbar.cc:975
+#, fuzzy
+#| msgid "Task Bar"
+msgid "Show Taskbar"
+msgstr "Панэль задач"
 
 #: src/wmtitle.cc:85
 msgid "Minimize"
@@ -1644,35 +1672,35 @@ msgstr "Схаваць"
 msgid "Raise/Lower"
 msgstr "Узьняць/апусьціць"
 
-#: src/wmwinlist.cc:59
+#: src/wmwinlist.cc:50
 #, fuzzy
 msgid "All Workspaces"
 msgstr "Працоўнае поле: "
 
-#: src/wmwinlist.cc:295
+#: src/wmwinlist.cc:339
 #, fuzzy
 msgid "Del"
 msgstr "Выдаліць"
 
-#: src/wmwinlist.cc:299
+#: src/wmwinlist.cc:343
 msgid "_Terminate Process"
 msgstr "Ск_ончыць працэс"
 
-#: src/wmwinlist.cc:300
+#: src/wmwinlist.cc:344
 msgid "Kill _Process"
 msgstr "Забіць _працэс"
 
-#: src/wmwinlist.cc:309
+#: src/wmwinlist.cc:354
 msgid "_Show"
 msgstr "Па_казаць"
 
-#: src/wmwinlist.cc:312
+#: src/wmwinlist.cc:357
 #, fuzzy
 #| msgid "R_aise"
 msgid "_Raise"
 msgstr "Уз_ьняць над усімі вокнамі"
 
-#: src/wmwinlist.cc:351 src/wmwinlist.cc:352
+#: src/wmwinlist.cc:396 src/wmwinlist.cc:397
 msgid "Window list"
 msgstr "Сьпіс вакон"
 
@@ -1817,7 +1845,7 @@ msgstr ""
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv не забясьпечвае (дастаткова) пераўтварэньне з %s у %s."
 
-#: src/ylocale.cc:163
+#: src/ylocale.cc:167
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Няправільны шматбайтавы радок \"%s\": %s"
@@ -1826,18 +1854,12 @@ msgstr "Няправільны шматбайтавы радок \"%s\": %s"
 msgid "_OK"
 msgstr "_Так"
 
-# fixme
 #: src/ypaths.cc:95
-#, fuzzy, c-format
-msgid "Out of memory for image %s"
-msgstr "Не стае памяці для выявы \"%s\""
-
-#: src/ypaths.cc:98
 #, c-format
 msgid "Image not readable: %s"
 msgstr ""
 
-#: src/ypaths.cc:121
+#: src/ypaths.cc:118
 #, fuzzy, c-format
 msgid "Could not find image %s"
 msgstr "Немагчыма знайсьці мапу піксаляў %s"
@@ -2570,6 +2592,11 @@ msgstr ""
 #: src/fdospecgen.h:319
 msgid "WordProcessor"
 msgstr ""
+
+# fixme
+#, fuzzy
+#~ msgid "Out of memory for image %s"
+#~ msgstr "Не стае памяці для выявы \"%s\""
 
 #~ msgid "_Minimize"
 #~ msgstr "Зга_рнуць"

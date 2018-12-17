@@ -1,12 +1,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Chinese (China) (icewm)\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-04 09:33+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
+"POT-Creation-Date: 2018-12-17 23:55+0100\n"
 "PO-Revision-Date: 2018-12-04 13:01+0000\n"
 "Last-Translator: Dingzhong Chen <wsxy162@gmail.com>\n"
-"Language-Team: Chinese (China) "
-"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/zh_CN/>\n"
+"Language-Team: Chinese (China) <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/zh_CN/>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1075,7 +1075,7 @@ msgstr "Ctrl+W"
 msgid "Failed to load image '%s'."
 msgstr "加载图片 '%s' 失败。"
 
-#: src/icewmbg.cc:843
+#: src/icewmbg.cc:885
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1173,7 +1173,7 @@ msgstr ""
 " center:0 scaled:1 = 沿双方向填充并保持缩放率\n"
 "\n"
 
-#: src/icewmbg.cc:1057
+#: src/icewmbg.cc:1100
 msgid "Cannot start, because another icewmbg is still running."
 msgstr "无法启动，因为其他 icewmbg 仍在运行。"
 
@@ -1328,7 +1328,7 @@ msgstr "底层(_B)"
 msgid "D_esktop"
 msgstr "桌面(_E)"
 
-#: src/wmapp.cc:571 src/wmwinlist.cc:305
+#: src/wmapp.cc:571 src/wmwinlist.cc:349
 msgid "_Restore"
 msgstr "恢复(_R)"
 
@@ -1340,71 +1340,83 @@ msgstr "移动(_M)"
 msgid "_Size"
 msgstr "改变大小(_S)"
 
-#: src/wmapp.cc:577 src/wmwinlist.cc:306
+#: src/wmapp.cc:577 src/wmwinlist.cc:350
 msgid "Mi_nimize"
 msgstr "最小化(_N)"
 
-#: src/wmapp.cc:579 src/wmwinlist.cc:307
+#: src/wmapp.cc:579 src/wmwinlist.cc:351
 msgid "Ma_ximize"
 msgstr "最大化(_X)"
 
-#: src/wmapp.cc:581 src/wmwinlist.cc:308
+#: src/wmapp.cc:580 src/wmwinlist.cc:352
+#, fuzzy
+#| msgid "Maximize"
+msgid "Maximize_Vert"
+msgstr "最大化"
+
+#: src/wmapp.cc:581
+#, fuzzy
+#| msgid "Maximize"
+msgid "MaximizeHori_z"
+msgstr "最大化"
+
+#: src/wmapp.cc:584 src/wmwinlist.cc:353
 msgid "_Fullscreen"
 msgstr "全屏(_F)"
 
-#: src/wmapp.cc:584 src/wmwinlist.cc:310
+#: src/wmapp.cc:587 src/wmwinlist.cc:355
 msgid "_Hide"
 msgstr "隐藏(_H)"
 
-#: src/wmapp.cc:586 src/wmwinlist.cc:311
+#: src/wmapp.cc:589 src/wmwinlist.cc:356
 msgid "Roll_up"
 msgstr "卷起(_U)"
 
-#: src/wmapp.cc:593
+#: src/wmapp.cc:596
 msgid "R_aise"
 msgstr "提升(_A)"
 
-#: src/wmapp.cc:595 src/wmwinlist.cc:313
+#: src/wmapp.cc:598 src/wmwinlist.cc:358
 msgid "_Lower"
 msgstr "降低(_L)"
 
-#: src/wmapp.cc:597
+#: src/wmapp.cc:600
 msgid "La_yer"
 msgstr "层次(_Y)"
 
-#: src/wmapp.cc:601 src/wmwinlist.cc:315
+#: src/wmapp.cc:604 src/wmwinlist.cc:360
 msgid "Move _To"
 msgstr "移动到(_T)"
 
-#: src/wmapp.cc:602 src/wmwinlist.cc:316
+#: src/wmapp.cc:605 src/wmwinlist.cc:361
 msgid "Occupy _All"
 msgstr "占据所有(_A)"
 
-#: src/wmapp.cc:608
+#: src/wmapp.cc:611
 msgid "Limit _Workarea"
 msgstr "限制工作区(_W)"
 
-#: src/wmapp.cc:612 src/wmwinlist.cc:317
+#: src/wmapp.cc:615 src/wmwinlist.cc:362
 msgid "Tray _icon"
 msgstr "托盘图标(_I)"
 
-#: src/wmapp.cc:617 src/wmwinlist.cc:295 src/wmwinlist.cc:328
+#: src/wmapp.cc:620 src/wmwinlist.cc:339 src/wmwinlist.cc:373
 msgid "_Close"
 msgstr "关闭(_C)"
 
-#: src/wmapp.cc:619 src/wmwinlist.cc:297
+#: src/wmapp.cc:622 src/wmwinlist.cc:341
 msgid "_Kill Client"
 msgstr "杀死客户程序(_K)"
 
-#: src/wmapp.cc:622 src/wmdialog.cc:80 src/wmwinmenu.cc:131
+#: src/wmapp.cc:625 src/wmdialog.cc:80 src/wmwinmenu.cc:131
 msgid "_Window list"
 msgstr "窗口列表(_W)"
 
-#: src/wmapp.cc:636
+#: src/wmapp.cc:639
 msgid "Another window manager already running, exiting..."
 msgstr "另外的 窗口管理器 已经在运行，退出..."
 
-#: src/wmapp.cc:721
+#: src/wmapp.cc:724
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1413,16 +1425,16 @@ msgstr ""
 "无法重新启动：%s\n"
 "%s 在路径 $PATH 中吗？"
 
-#: src/wmapp.cc:842
+#: src/wmapp.cc:849
 msgid "Kill IceWM, replace with Xterm"
 msgstr "杀掉 IceWM，替换为 Xterm"
 
-#: src/wmapp.cc:1382
+#: src/wmapp.cc:1394
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr "  --client-id=ID      与会话管理器通信时使用客户端 ID\n"
 
-#: src/wmapp.cc:1388
+#: src/wmapp.cc:1400
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1432,7 +1444,7 @@ msgstr ""
 "  --debug             打印通用调试信息。\n"
 "  --debug-z           窗口层叠时打印调试信息。\n"
 
-#: src/wmapp.cc:1396
+#: src/wmapp.cc:1408
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1444,7 +1456,7 @@ msgstr ""
 "  -t, --theme=FILE    从 FILE 中加载主题。\n"
 "  --postpreferences   所有处理过程结束后打印配置选项。\n"
 
-#: src/wmapp.cc:1401
+#: src/wmapp.cc:1413
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1503,26 +1515,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1462
+#: src/wmapp.cc:1474
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s 配置选项目录：\n"
 
-#: src/wmapp.cc:1547
+#: src/wmapp.cc:1559
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s 配置选项：%s\n"
 
-#: src/wmapp.cc:1599
+#: src/wmapp.cc:1612
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "无法识别的选项：'%s'。"
 
-#: src/wmapp.cc:1631
+#: src/wmapp.cc:1645
 msgid "Confirm Logout"
 msgstr "确认退出"
 
-#: src/wmapp.cc:1632
+#: src/wmapp.cc:1646
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1545,12 +1557,12 @@ msgstr "存在未知的值“%s”（选项“%s”）。"
 msgid "Unable to create directory %s"
 msgstr "无法创建目录 %s"
 
-#: src/wmconfig.cc:138 src/wmprog.cc:558 src/wmprog.cc:680 src/wmprog.cc:684
+#: src/wmconfig.cc:138 src/wmprog.cc:564 src/wmprog.cc:686 src/wmprog.cc:690
 #, c-format
 msgid "Unable to write to %s"
 msgstr "无法写入 %s"
 
-#: src/wmconfig.cc:165 src/wmprog.cc:688
+#: src/wmconfig.cc:165 src/wmprog.cc:694
 #, c-format
 msgid "Unable to rename %s to %s"
 msgstr "无法将 %s 重命名为 %s"
@@ -1563,8 +1575,8 @@ msgstr "锁定工作站(_k)"
 msgid "_Cancel"
 msgstr "取消(_C)"
 
-#: src/wmdialog.cc:77 src/wmprog.cc:838 src/wmprog.cc:840 src/wmtaskbar.cc:292
-#: src/wmtaskbar.cc:294
+#: src/wmdialog.cc:77 src/wmprog.cc:844 src/wmprog.cc:846 src/wmtaskbar.cc:297
+#: src/wmtaskbar.cc:299
 msgid "_Logout..."
 msgstr "退出(_L)..."
 
@@ -1572,16 +1584,16 @@ msgstr "退出(_L)..."
 msgid "_Restart icewm"
 msgstr "重启 icewm(_R)"
 
-#: src/wmdialog.cc:82 src/wmprog.cc:799 src/wmtaskbar.cc:285
-#: src/wmtaskbar.cc:288
+#: src/wmdialog.cc:82 src/wmprog.cc:805 src/wmtaskbar.cc:290
+#: src/wmtaskbar.cc:293
 msgid "_About"
 msgstr "关于(_A)"
 
-#: src/wmframe.cc:1409
+#: src/wmframe.cc:1400
 msgid "Kill Client: "
 msgstr "杀死客户端： "
 
-#: src/wmframe.cc:1416
+#: src/wmframe.cc:1407
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1589,19 +1601,19 @@ msgstr ""
 "警告！当这个客户程序被杀死时，所有\n"
 "没有保存的修改将丢失。你想继续吗？"
 
-#: src/wmframe.cc:3006
+#: src/wmframe.cc:3001
 msgid "Restore"
 msgstr "恢复"
 
-#: src/wmframe.cc:3009 src/wmtitle.cc:69
+#: src/wmframe.cc:3004 src/wmtitle.cc:69
 msgid "Maximize"
 msgstr "最大化"
 
-#: src/wmframe.cc:3039
+#: src/wmframe.cc:3034
 msgid "Rolldown"
 msgstr "放下"
 
-#: src/wmframe.cc:3041 src/wmtitle.cc:127
+#: src/wmframe.cc:3036 src/wmtitle.cc:127
 msgid "Rollup"
 msgstr "卷起"
 
@@ -1615,79 +1627,79 @@ msgstr "未知窗口选项：%s"
 msgid "Syntax error in window options on line %d of %s"
 msgstr "第 %d 行 (%s) 的窗口选项中存在语法错误"
 
-#: src/wmprog.cc:386
+#: src/wmprog.cc:392
 msgid "_Click to focus"
 msgstr "点击聚焦(_C)"
 
-#: src/wmprog.cc:387
+#: src/wmprog.cc:393
 msgid "_Explicit focus"
 msgstr "精确聚焦(_e)"
 
-#: src/wmprog.cc:388
+#: src/wmprog.cc:394
 msgid "_Sloppy mouse focus"
 msgstr "粗略的鼠标聚焦(_s)"
 
-#: src/wmprog.cc:389
+#: src/wmprog.cc:395
 msgid "S_trict mouse focus"
 msgstr "点击聚焦(_s)"
 
-#: src/wmprog.cc:390
+#: src/wmprog.cc:396
 msgid "_Quiet sloppy focus"
 msgstr "安静粗略聚焦(_q)"
 
-#: src/wmprog.cc:391
+#: src/wmprog.cc:397
 msgid "Custo_m"
 msgstr "自定义(_m)"
 
-#: src/wmprog.cc:478
+#: src/wmprog.cc:484
 msgid "Save Modifications"
 msgstr "保存修改"
 
-#: src/wmprog.cc:711
+#: src/wmprog.cc:717
 msgid "_Manual"
 msgstr "手册(_m)"
 
-#: src/wmprog.cc:712
+#: src/wmprog.cc:718
 msgid "_Icewm(1)"
 msgstr "_Icewm(1)"
 
-#: src/wmprog.cc:713
+#: src/wmprog.cc:719
 msgid "Icewm_Bg(1)"
 msgstr "Icewm_Bg(1)"
 
-#: src/wmprog.cc:714
+#: src/wmprog.cc:720
 msgid "Ice_Sound(1)"
 msgstr "Ice_Sound(1)"
 
-#: src/wmprog.cc:776
+#: src/wmprog.cc:782
 msgid "Programs"
 msgstr "程序"
 
-#: src/wmprog.cc:781
+#: src/wmprog.cc:787
 msgid "_Run..."
 msgstr "运行(_r)…"
 
-#: src/wmprog.cc:786 src/wmtaskbar.cc:275
+#: src/wmprog.cc:792 src/wmtaskbar.cc:280
 msgid "_Windows"
 msgstr "窗口(_W)"
 
-#: src/wmprog.cc:805
+#: src/wmprog.cc:811
 msgid "_Help"
 msgstr "帮助(_H)"
 
-#: src/wmprog.cc:816
+#: src/wmprog.cc:822
 msgid "_Focus"
 msgstr "聚焦(_F)"
 
-#: src/wmprog.cc:821
+#: src/wmprog.cc:827
 msgid "_Preferences"
 msgstr "配置选项(_P)"
 
-#: src/wmprog.cc:827
+#: src/wmprog.cc:833
 msgid "_Themes"
 msgstr "主题(_T)"
 
-#: src/wmprog.cc:832
+#: src/wmprog.cc:838
 msgid "Se_ttings"
 msgstr "设置(_t)"
 
@@ -1696,61 +1708,77 @@ msgstr "设置(_t)"
 msgid "Session Manager: Unknown line %s"
 msgstr "会话管理者：未知行 %s"
 
-#: src/wmtaskbar.cc:165 src/wmtaskbar.cc:166
+#: src/wmtaskbar.cc:168 src/wmtaskbar.cc:169
 msgid "Task Bar"
 msgstr "任务栏"
 
-#: src/wmtaskbar.cc:265 src/wmwinlist.cc:319 src/wmwinlist.cc:332
+#: src/wmtaskbar.cc:270 src/wmwinlist.cc:364 src/wmwinlist.cc:377
 msgid "Tile _Vertically"
 msgstr "垂直平铺(_V)"
 
-#: src/wmtaskbar.cc:266 src/wmwinlist.cc:320 src/wmwinlist.cc:333
+#: src/wmtaskbar.cc:271 src/wmwinlist.cc:365 src/wmwinlist.cc:378
 msgid "T_ile Horizontally"
 msgstr "水平平铺(_I)"
 
-#: src/wmtaskbar.cc:267 src/wmwinlist.cc:321 src/wmwinlist.cc:334
+#: src/wmtaskbar.cc:272 src/wmwinlist.cc:366 src/wmwinlist.cc:379
 msgid "Ca_scade"
 msgstr "层叠(_S)"
 
-#: src/wmtaskbar.cc:268 src/wmwinlist.cc:322 src/wmwinlist.cc:335
+#: src/wmtaskbar.cc:273 src/wmwinlist.cc:367 src/wmwinlist.cc:380
 msgid "_Arrange"
 msgstr "排列(_A)"
 
-#: src/wmtaskbar.cc:269 src/wmwinlist.cc:324 src/wmwinlist.cc:336
+#: src/wmtaskbar.cc:274 src/wmwinlist.cc:369 src/wmwinlist.cc:381
 msgid "_Minimize All"
 msgstr "全部最小化(_M)"
 
-#: src/wmtaskbar.cc:270 src/wmwinlist.cc:325 src/wmwinlist.cc:337
+#: src/wmtaskbar.cc:275 src/wmwinlist.cc:370 src/wmwinlist.cc:382
 msgid "_Hide All"
 msgstr "全部隐藏(_H)"
 
-#: src/wmtaskbar.cc:271 src/wmwinlist.cc:326 src/wmwinlist.cc:338
+#: src/wmtaskbar.cc:276 src/wmwinlist.cc:371 src/wmwinlist.cc:383
 msgid "_Undo"
 msgstr "撤消(_U)"
 
-#: src/wmtaskbar.cc:273
+#: src/wmtaskbar.cc:278
 msgid "Arrange _Icons"
 msgstr "排列图标(_I)"
 
-#: src/wmtaskbar.cc:277
+#: src/wmtaskbar.cc:282
 msgid "_Refresh"
 msgstr "刷新(_R)"
 
-#: src/wmtaskbar.cc:283
+#: src/wmtaskbar.cc:288
 msgid "_License"
 msgstr "许可(_L)"
 
-#: src/wmtaskbar.cc:364
-msgid "Favorite applications"
+#: src/wmtaskbar.cc:356 src/wmtaskbar.cc:975
+#, fuzzy
+#| msgid "Task Bar"
+msgid "Hide Taskbar"
+msgstr "任务栏"
+
+#: src/wmtaskbar.cc:371
+#, fuzzy
+#| msgid "Favorite applications"
+msgid "Favorite Applications"
 msgstr "喜欢的应用程序"
 
-#: src/wmtaskbar.cc:382
-msgid "Window list menu"
+#: src/wmtaskbar.cc:389
+#, fuzzy
+#| msgid "Window list menu"
+msgid "Window List Menu"
 msgstr "窗口列表菜单"
 
-#: src/wmtaskbar.cc:391
+#: src/wmtaskbar.cc:398
 msgid "Show Desktop"
 msgstr "显示桌面"
+
+#: src/wmtaskbar.cc:975
+#, fuzzy
+#| msgid "Task Bar"
+msgid "Show Taskbar"
+msgstr "任务栏"
 
 #: src/wmtitle.cc:85
 msgid "Minimize"
@@ -1764,31 +1792,31 @@ msgstr "隐藏"
 msgid "Raise/Lower"
 msgstr "提升/降低"
 
-#: src/wmwinlist.cc:59
+#: src/wmwinlist.cc:50
 msgid "All Workspaces"
 msgstr "所有工作区"
 
-#: src/wmwinlist.cc:295
+#: src/wmwinlist.cc:339
 msgid "Del"
 msgstr "删除"
 
-#: src/wmwinlist.cc:299
+#: src/wmwinlist.cc:343
 msgid "_Terminate Process"
 msgstr "结束进程(_T)"
 
-#: src/wmwinlist.cc:300
+#: src/wmwinlist.cc:344
 msgid "Kill _Process"
 msgstr "杀掉进程(_p)"
 
-#: src/wmwinlist.cc:309
+#: src/wmwinlist.cc:354
 msgid "_Show"
 msgstr "显示(_S)"
 
-#: src/wmwinlist.cc:312
+#: src/wmwinlist.cc:357
 msgid "_Raise"
 msgstr "提升(_R)"
 
-#: src/wmwinlist.cc:351 src/wmwinlist.cc:352
+#: src/wmwinlist.cc:396 src/wmwinlist.cc:397
 msgid "Window list"
 msgstr "窗口列表"
 
@@ -1926,7 +1954,7 @@ msgstr "检测当前区域的编码失败，假定为 ISO-8859-1。\n"
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv没有提供（足够）的%s到%s转换器。"
 
-#: src/ylocale.cc:163
+#: src/ylocale.cc:167
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "错误的多字节字符串“%s”：%s"
@@ -1937,15 +1965,10 @@ msgstr "确定(_O)"
 
 #: src/ypaths.cc:95
 #, c-format
-msgid "Out of memory for image %s"
-msgstr "加载图像 %s 的内存不足"
-
-#: src/ypaths.cc:98
-#, c-format
 msgid "Image not readable: %s"
 msgstr "图片无法读取：%s"
 
-#: src/ypaths.cc:121
+#: src/ypaths.cc:118
 #, c-format
 msgid "Could not find image %s"
 msgstr "无法找到图片 %s"
@@ -2666,6 +2689,9 @@ msgstr "Web 开发"
 #: src/fdospecgen.h:319
 msgid "WordProcessor"
 msgstr "文字处理软件"
+
+#~ msgid "Out of memory for image %s"
+#~ msgstr "加载图像 %s 的内存不足"
 
 #~ msgid "_Minimize"
 #~ msgstr "最小化(_M)"

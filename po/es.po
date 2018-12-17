@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2018-10-20 18:34+0200\n"
+"POT-Creation-Date: 2018-12-17 23:55+0100\n"
 "PO-Revision-Date: 2018-10-31 22:06+0000\n"
 "Last-Translator: jc sl <trcs@gmx.com>\n"
-"Language-Team: Spanish "
-"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/es/>\n"
+"Language-Team: Spanish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1122,7 +1122,7 @@ msgstr "Ctrl+W"
 msgid "Failed to load image '%s'."
 msgstr "Error al cargar la imagen '%s'."
 
-#: src/icewmbg.cc:843
+#: src/icewmbg.cc:885
 #, fuzzy
 #| msgid ""
 #| "Usage: icewmbg [OPTIONS]\n"
@@ -1266,7 +1266,7 @@ msgstr ""
 "aspecto\n"
 "\n"
 
-#: src/icewmbg.cc:1057
+#: src/icewmbg.cc:1100
 msgid "Cannot start, because another icewmbg is still running."
 msgstr "No se puede iniciar porque otro icewmbg está aún en ejecución."
 
@@ -1422,7 +1422,7 @@ msgstr "_Debajo"
 msgid "D_esktop"
 msgstr "E_scritorio"
 
-#: src/wmapp.cc:571 src/wmwinlist.cc:305
+#: src/wmapp.cc:571 src/wmwinlist.cc:349
 msgid "_Restore"
 msgstr "_Restaurar"
 
@@ -1434,71 +1434,83 @@ msgstr "_Mover"
 msgid "_Size"
 msgstr "_Tamaño"
 
-#: src/wmapp.cc:577 src/wmwinlist.cc:306
+#: src/wmapp.cc:577 src/wmwinlist.cc:350
 msgid "Mi_nimize"
 msgstr "Mi_nimizar"
 
-#: src/wmapp.cc:579 src/wmwinlist.cc:307
+#: src/wmapp.cc:579 src/wmwinlist.cc:351
 msgid "Ma_ximize"
 msgstr "Ma_ximizar"
 
-#: src/wmapp.cc:581 src/wmwinlist.cc:308
+#: src/wmapp.cc:580 src/wmwinlist.cc:352
+#, fuzzy
+#| msgid "Maximize"
+msgid "Maximize_Vert"
+msgstr "Maximizar"
+
+#: src/wmapp.cc:581
+#, fuzzy
+#| msgid "Maximize"
+msgid "MaximizeHori_z"
+msgstr "Maximizar"
+
+#: src/wmapp.cc:584 src/wmwinlist.cc:353
 msgid "_Fullscreen"
 msgstr "_Pantalla completa"
 
-#: src/wmapp.cc:584 src/wmwinlist.cc:310
+#: src/wmapp.cc:587 src/wmwinlist.cc:355
 msgid "_Hide"
 msgstr "_Ocultar"
 
-#: src/wmapp.cc:586 src/wmwinlist.cc:311
+#: src/wmapp.cc:589 src/wmwinlist.cc:356
 msgid "Roll_up"
 msgstr "_Enrollar"
 
-#: src/wmapp.cc:593
+#: src/wmapp.cc:596
 msgid "R_aise"
 msgstr "E_levar"
 
-#: src/wmapp.cc:595 src/wmwinlist.cc:313
+#: src/wmapp.cc:598 src/wmwinlist.cc:358
 msgid "_Lower"
 msgstr "_Bajar"
 
-#: src/wmapp.cc:597
+#: src/wmapp.cc:600
 msgid "La_yer"
 msgstr "_Capa"
 
-#: src/wmapp.cc:601 src/wmwinlist.cc:315
+#: src/wmapp.cc:604 src/wmwinlist.cc:360
 msgid "Move _To"
 msgstr "Mover _a"
 
-#: src/wmapp.cc:602 src/wmwinlist.cc:316
+#: src/wmapp.cc:605 src/wmwinlist.cc:361
 msgid "Occupy _All"
 msgstr "Ocupar _todo"
 
-#: src/wmapp.cc:608
+#: src/wmapp.cc:611
 msgid "Limit _Workarea"
 msgstr "_Limitar el área de trabajo"
 
-#: src/wmapp.cc:612 src/wmwinlist.cc:317
+#: src/wmapp.cc:615 src/wmwinlist.cc:362
 msgid "Tray _icon"
 msgstr "_Icono en la bandeja"
 
-#: src/wmapp.cc:617 src/wmwinlist.cc:295 src/wmwinlist.cc:328
+#: src/wmapp.cc:620 src/wmwinlist.cc:339 src/wmwinlist.cc:373
 msgid "_Close"
 msgstr "Ce_rrar"
 
-#: src/wmapp.cc:619 src/wmwinlist.cc:297
+#: src/wmapp.cc:622 src/wmwinlist.cc:341
 msgid "_Kill Client"
 msgstr "_Matar el cliente"
 
-#: src/wmapp.cc:622 src/wmdialog.cc:80 src/wmwinmenu.cc:131
+#: src/wmapp.cc:625 src/wmdialog.cc:80 src/wmwinmenu.cc:131
 msgid "_Window list"
 msgstr "Lista de _ventanas"
 
-#: src/wmapp.cc:636
+#: src/wmapp.cc:639
 msgid "Another window manager already running, exiting..."
 msgstr "Otro gestor de ventanas ya se está ejecutando, saliendo..."
 
-#: src/wmapp.cc:721
+#: src/wmapp.cc:724
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1507,18 +1519,18 @@ msgstr ""
 "No se ha podido reiniciar: %s\n"
 "¿Conduce $PATH a %s?"
 
-#: src/wmapp.cc:842
+#: src/wmapp.cc:849
 msgid "Kill IceWM, replace with Xterm"
 msgstr "Matar IceWM, reemplazarlo por Xterm"
 
-#: src/wmapp.cc:1382
+#: src/wmapp.cc:1394
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      Identificador de cliente a usar al contactar con el "
 "administrador de sesiones.\n"
 
-#: src/wmapp.cc:1388
+#: src/wmapp.cc:1400
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1529,7 +1541,7 @@ msgstr ""
 "  --debug-z           Muestra mensajes de depuración relacionados con la "
 "pila de ventanas.\n"
 
-#: src/wmapp.cc:1396
+#: src/wmapp.cc:1408
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1542,7 +1554,7 @@ msgstr ""
 "  --postpreferences         Muestra las preferencias después de todo el "
 "procesamiento.\n"
 
-#: src/wmapp.cc:1401
+#: src/wmapp.cc:1413
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1603,26 +1615,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1462
+#: src/wmapp.cc:1474
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s directorios de configuración:\n"
 
-#: src/wmapp.cc:1547
+#: src/wmapp.cc:1559
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s opciones configuradas:%s\n"
 
-#: src/wmapp.cc:1599
+#: src/wmapp.cc:1612
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Opción no reconocida '%s'."
 
-#: src/wmapp.cc:1631
+#: src/wmapp.cc:1645
 msgid "Confirm Logout"
 msgstr "Confirmar el cierre de sesión"
 
-#: src/wmapp.cc:1632
+#: src/wmapp.cc:1646
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1645,12 +1657,12 @@ msgstr "Valor desconocido «%s» para la opción «%s»."
 msgid "Unable to create directory %s"
 msgstr "No se puede crear el directorio %s"
 
-#: src/wmconfig.cc:138 src/wmprog.cc:558 src/wmprog.cc:680 src/wmprog.cc:684
+#: src/wmconfig.cc:138 src/wmprog.cc:564 src/wmprog.cc:686 src/wmprog.cc:690
 #, c-format
 msgid "Unable to write to %s"
 msgstr "No se puede escribir en %s"
 
-#: src/wmconfig.cc:165 src/wmprog.cc:688
+#: src/wmconfig.cc:165 src/wmprog.cc:694
 #, c-format
 msgid "Unable to rename %s to %s"
 msgstr "No se puede cambiar el nombre %s por %s"
@@ -1663,8 +1675,8 @@ msgstr "_Bloquear la sesión"
 msgid "_Cancel"
 msgstr "_Cancelar"
 
-#: src/wmdialog.cc:77 src/wmprog.cc:838 src/wmprog.cc:840 src/wmtaskbar.cc:292
-#: src/wmtaskbar.cc:294
+#: src/wmdialog.cc:77 src/wmprog.cc:844 src/wmprog.cc:846 src/wmtaskbar.cc:297
+#: src/wmtaskbar.cc:299
 msgid "_Logout..."
 msgstr "Cerrar la _sesión..."
 
@@ -1672,16 +1684,16 @@ msgstr "Cerrar la _sesión..."
 msgid "_Restart icewm"
 msgstr "Reiniciar _icewm"
 
-#: src/wmdialog.cc:82 src/wmprog.cc:799 src/wmtaskbar.cc:285
-#: src/wmtaskbar.cc:288
+#: src/wmdialog.cc:82 src/wmprog.cc:805 src/wmtaskbar.cc:290
+#: src/wmtaskbar.cc:293
 msgid "_About"
 msgstr "_Acerca de"
 
-#: src/wmframe.cc:1409
+#: src/wmframe.cc:1400
 msgid "Kill Client: "
 msgstr "Terminar el cliente: "
 
-#: src/wmframe.cc:1416
+#: src/wmframe.cc:1407
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1689,19 +1701,19 @@ msgstr ""
 "¡ATENCIÓN! Todos los cambios no guardados se perderán\n"
 "cuando este cliente sea terminado. ¿Desea continuar?"
 
-#: src/wmframe.cc:3006
+#: src/wmframe.cc:3001
 msgid "Restore"
 msgstr "Restaurar"
 
-#: src/wmframe.cc:3009 src/wmtitle.cc:69
+#: src/wmframe.cc:3004 src/wmtitle.cc:69
 msgid "Maximize"
 msgstr "Maximizar"
 
-#: src/wmframe.cc:3039
+#: src/wmframe.cc:3034
 msgid "Rolldown"
 msgstr "Desenrollar"
 
-#: src/wmframe.cc:3041 src/wmtitle.cc:127
+#: src/wmframe.cc:3036 src/wmtitle.cc:127
 msgid "Rollup"
 msgstr "Enrollar"
 
@@ -1715,79 +1727,79 @@ msgstr "Opción de ventana desconocida: %s"
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Error sintáctico en las opciones de ventana en la línea %d de %s"
 
-#: src/wmprog.cc:386
+#: src/wmprog.cc:392
 msgid "_Click to focus"
 msgstr "Ha_cer clic para ganar foco"
 
-#: src/wmprog.cc:387
+#: src/wmprog.cc:393
 msgid "_Explicit focus"
 msgstr "Foco _explícito"
 
-#: src/wmprog.cc:388
+#: src/wmprog.cc:394
 msgid "_Sloppy mouse focus"
 msgstr "De_slizar el ratón para ganar el foco"
 
-#: src/wmprog.cc:389
+#: src/wmprog.cc:395
 msgid "S_trict mouse focus"
 msgstr "Foco del ratón es_tricto"
 
-#: src/wmprog.cc:390
+#: src/wmprog.cc:396
 msgid "_Quiet sloppy focus"
 msgstr "De_slizar el ratón para ganar foco"
 
-#: src/wmprog.cc:391
+#: src/wmprog.cc:397
 msgid "Custo_m"
 msgstr "Perzonali_zar"
 
-#: src/wmprog.cc:478
+#: src/wmprog.cc:484
 msgid "Save Modifications"
 msgstr "Guardar las modificaciones"
 
-#: src/wmprog.cc:711
+#: src/wmprog.cc:717
 msgid "_Manual"
 msgstr "_Manual"
 
-#: src/wmprog.cc:712
+#: src/wmprog.cc:718
 msgid "_Icewm(1)"
 msgstr "_Icewm(1)"
 
-#: src/wmprog.cc:713
+#: src/wmprog.cc:719
 msgid "Icewm_Bg(1)"
 msgstr "Icewm_Bg(1)"
 
-#: src/wmprog.cc:714
+#: src/wmprog.cc:720
 msgid "Ice_Sound(1)"
 msgstr "Ice_Sound(1)"
 
-#: src/wmprog.cc:776
+#: src/wmprog.cc:782
 msgid "Programs"
 msgstr "Programas"
 
-#: src/wmprog.cc:781
+#: src/wmprog.cc:787
 msgid "_Run..."
 msgstr "_Ejecutar..."
 
-#: src/wmprog.cc:786 src/wmtaskbar.cc:275
+#: src/wmprog.cc:792 src/wmtaskbar.cc:280
 msgid "_Windows"
 msgstr "_Ventanas"
 
-#: src/wmprog.cc:805
+#: src/wmprog.cc:811
 msgid "_Help"
 msgstr "A_yuda"
 
-#: src/wmprog.cc:816
+#: src/wmprog.cc:822
 msgid "_Focus"
 msgstr "_Foco"
 
-#: src/wmprog.cc:821
+#: src/wmprog.cc:827
 msgid "_Preferences"
 msgstr "_Preferencias"
 
-#: src/wmprog.cc:827
+#: src/wmprog.cc:833
 msgid "_Themes"
 msgstr "_Temas"
 
-#: src/wmprog.cc:832
+#: src/wmprog.cc:838
 msgid "Se_ttings"
 msgstr "Con_figuración"
 
@@ -1796,61 +1808,77 @@ msgstr "Con_figuración"
 msgid "Session Manager: Unknown line %s"
 msgstr "Administrador de sesiones: línea %s desconocida"
 
-#: src/wmtaskbar.cc:165 src/wmtaskbar.cc:166
+#: src/wmtaskbar.cc:168 src/wmtaskbar.cc:169
 msgid "Task Bar"
 msgstr "Barra de tareas"
 
-#: src/wmtaskbar.cc:265 src/wmwinlist.cc:319 src/wmwinlist.cc:332
+#: src/wmtaskbar.cc:270 src/wmwinlist.cc:364 src/wmwinlist.cc:377
 msgid "Tile _Vertically"
 msgstr "_Mosaico vertical"
 
-#: src/wmtaskbar.cc:266 src/wmwinlist.cc:320 src/wmwinlist.cc:333
+#: src/wmtaskbar.cc:271 src/wmwinlist.cc:365 src/wmwinlist.cc:378
 msgid "T_ile Horizontally"
 msgstr "Mosaico _horizontal"
 
-#: src/wmtaskbar.cc:267 src/wmwinlist.cc:321 src/wmwinlist.cc:334
+#: src/wmtaskbar.cc:272 src/wmwinlist.cc:366 src/wmwinlist.cc:379
 msgid "Ca_scade"
 msgstr "_Cascada"
 
-#: src/wmtaskbar.cc:268 src/wmwinlist.cc:322 src/wmwinlist.cc:335
+#: src/wmtaskbar.cc:273 src/wmwinlist.cc:367 src/wmwinlist.cc:380
 msgid "_Arrange"
 msgstr "_Ordenar"
 
-#: src/wmtaskbar.cc:269 src/wmwinlist.cc:324 src/wmwinlist.cc:336
+#: src/wmtaskbar.cc:274 src/wmwinlist.cc:369 src/wmwinlist.cc:381
 msgid "_Minimize All"
 msgstr "Mi_nimizar todo"
 
-#: src/wmtaskbar.cc:270 src/wmwinlist.cc:325 src/wmwinlist.cc:337
+#: src/wmtaskbar.cc:275 src/wmwinlist.cc:370 src/wmwinlist.cc:382
 msgid "_Hide All"
 msgstr "Oc_ultar todo"
 
-#: src/wmtaskbar.cc:271 src/wmwinlist.cc:326 src/wmwinlist.cc:338
+#: src/wmtaskbar.cc:276 src/wmwinlist.cc:371 src/wmwinlist.cc:383
 msgid "_Undo"
 msgstr "_Deshacer"
 
-#: src/wmtaskbar.cc:273
+#: src/wmtaskbar.cc:278
 msgid "Arrange _Icons"
 msgstr "Ordenar _iconos"
 
-#: src/wmtaskbar.cc:277
+#: src/wmtaskbar.cc:282
 msgid "_Refresh"
 msgstr "_Actualizar"
 
-#: src/wmtaskbar.cc:283
+#: src/wmtaskbar.cc:288
 msgid "_License"
 msgstr "_Licencia"
 
-#: src/wmtaskbar.cc:364
-msgid "Favorite applications"
+#: src/wmtaskbar.cc:356 src/wmtaskbar.cc:975
+#, fuzzy
+#| msgid "Task Bar"
+msgid "Hide Taskbar"
+msgstr "Barra de tareas"
+
+#: src/wmtaskbar.cc:371
+#, fuzzy
+#| msgid "Favorite applications"
+msgid "Favorite Applications"
 msgstr "Aplicaciones favoritas"
 
-#: src/wmtaskbar.cc:382
-msgid "Window list menu"
+#: src/wmtaskbar.cc:389
+#, fuzzy
+#| msgid "Window list menu"
+msgid "Window List Menu"
 msgstr "Menú de lista de ventanas"
 
-#: src/wmtaskbar.cc:391
+#: src/wmtaskbar.cc:398
 msgid "Show Desktop"
 msgstr "Mostrar escritorio"
+
+#: src/wmtaskbar.cc:975
+#, fuzzy
+#| msgid "Task Bar"
+msgid "Show Taskbar"
+msgstr "Barra de tareas"
 
 #: src/wmtitle.cc:85
 msgid "Minimize"
@@ -1864,31 +1892,31 @@ msgstr "Ocultar"
 msgid "Raise/Lower"
 msgstr "Elevar/Bajar"
 
-#: src/wmwinlist.cc:59
+#: src/wmwinlist.cc:50
 msgid "All Workspaces"
 msgstr "Todas las áreas de trabajo"
 
-#: src/wmwinlist.cc:295
+#: src/wmwinlist.cc:339
 msgid "Del"
 msgstr "Supr"
 
-#: src/wmwinlist.cc:299
+#: src/wmwinlist.cc:343
 msgid "_Terminate Process"
 msgstr "Term_inar proceso"
 
-#: src/wmwinlist.cc:300
+#: src/wmwinlist.cc:344
 msgid "Kill _Process"
 msgstr "Matar _proceso"
 
-#: src/wmwinlist.cc:309
+#: src/wmwinlist.cc:354
 msgid "_Show"
 msgstr "_Mostrar"
 
-#: src/wmwinlist.cc:312
+#: src/wmwinlist.cc:357
 msgid "_Raise"
 msgstr "E_levar"
 
-#: src/wmwinlist.cc:351 src/wmwinlist.cc:352
+#: src/wmwinlist.cc:396 src/wmwinlist.cc:397
 msgid "Window list"
 msgstr "Lista de ventanas"
 
@@ -2030,7 +2058,7 @@ msgstr ""
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv no suministra (suficiente) %s a %s convertidores."
 
-#: src/ylocale.cc:163
+#: src/ylocale.cc:167
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Cadena multibyte no válida «%s»: %s"
@@ -2041,15 +2069,10 @@ msgstr "_Aceptar"
 
 #: src/ypaths.cc:95
 #, c-format
-msgid "Out of memory for image %s"
-msgstr "No queda memoria para la imagen %s"
-
-#: src/ypaths.cc:98
-#, c-format
 msgid "Image not readable: %s"
 msgstr "Imagen no legible: %s"
 
-#: src/ypaths.cc:121
+#: src/ypaths.cc:118
 #, c-format
 msgid "Could not find image %s"
 msgstr "No se ha podido encontrar la imagen %s"
@@ -2770,6 +2793,9 @@ msgstr "Desarrollo web"
 #: src/fdospecgen.h:319
 msgid "WordProcessor"
 msgstr "Procesador de textos"
+
+#~ msgid "Out of memory for image %s"
+#~ msgstr "No queda memoria para la imagen %s"
 
 #~ msgid "_Minimize"
 #~ msgstr "_Minimizar"
