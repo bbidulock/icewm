@@ -517,8 +517,10 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
             }
         }
     }
+#ifdef MAX_ACPI_BATTERY_NUM
     nw = LayoutInfo( fApm, false, 1, true, 0, 2, false );
     wlist.append(nw);
+#endif
     nw = LayoutInfo( fDesktopTray, false, 1, true, 1, 1, false );
     wlist.append(nw);
     nw = LayoutInfo( fWindowTray, false, 0, true, 1, 1, true );
