@@ -1974,7 +1974,7 @@ void YDesktop::updateXineramaInfo(unsigned &w, unsigned &h) {
         si.height = xapp->displayHeight();
         xiInfo.append(si);
     }
-    {
+    DBG {
         w = xiInfo[0].x_org + xiInfo[0].width;
         h = xiInfo[0].y_org + xiInfo[0].height;
         for (int i = 0; i < xiInfo.getCount(); i++)
@@ -1986,8 +1986,8 @@ void YDesktop::updateXineramaInfo(unsigned &w, unsigned &h) {
 
             MSG(("screen %d (%d): %d %d %d %d", i, xiInfo[i].screen_number, xiInfo[i].x_org, xiInfo[i].y_org, xiInfo[i].width, xiInfo[i].height));
         }
+        MSG(("desktop screen area: %d %d", w, h));
     }
-    MSG(("desktop screen area: %d %d", w, h));
 }
 
 
@@ -2022,7 +2022,7 @@ int YDesktop::getScreenForRect(int x, int y, unsigned width, unsigned height) {
     int screen = -1;
     long coverage = -1;
 
-    if (xiInfo.getCount() == 0)
+    if (xiInfo.getCount() < 2)
         return 0;
     for (int s = 0; s < xiInfo.getCount(); s++) {
         int x_i = intersection(x, x + int(width),
