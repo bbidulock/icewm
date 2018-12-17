@@ -2550,7 +2550,7 @@ void YFrameWindow::updateLayer(bool restack) {
         fWinActiveLayer = newLayer;
         insertFrame(true);
 
-        if (client())
+        if (client() && !client()->destroyed())
             client()->setWinLayerHint(fWinActiveLayer);
 
         if (limitByDockLayer &&
