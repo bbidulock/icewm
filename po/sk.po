@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-12-17 23:55+0100\n"
-"PO-Revision-Date: 2018-11-07 17:16+0000\n"
+"PO-Revision-Date: 2018-12-20 08:24+0000\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
-"Language-Team: Slovak <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/sk/>\n"
+"Language-Team: Slovak <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 2.18\n"
+"X-Generator: Weblate 3.2.2\n"
 
 #: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:681 src/aapm.cc:806
 msgid " - Power"
@@ -1374,16 +1374,12 @@ msgid "Ma_ximize"
 msgstr "Ma_ximalizovať"
 
 #: src/wmapp.cc:580 src/wmwinlist.cc:352
-#, fuzzy
-#| msgid "Maximize"
 msgid "Maximize_Vert"
-msgstr "Maximalizovať"
+msgstr "Maximalizovať_Vert"
 
 #: src/wmapp.cc:581
-#, fuzzy
-#| msgid "Maximize"
 msgid "MaximizeHori_z"
-msgstr "Maximalizovať"
+msgstr "MaximalizovaťHori_z"
 
 #: src/wmapp.cc:584 src/wmwinlist.cc:353
 msgid "_Fullscreen"
@@ -1782,20 +1778,14 @@ msgid "_License"
 msgstr "_Licencia"
 
 #: src/wmtaskbar.cc:356 src/wmtaskbar.cc:975
-#, fuzzy
-#| msgid "Task Bar"
 msgid "Hide Taskbar"
-msgstr "Panel úloh"
+msgstr "Skryť Panel úloh"
 
 #: src/wmtaskbar.cc:371
-#, fuzzy
-#| msgid "Favorite applications"
 msgid "Favorite Applications"
 msgstr "Obľúbené aplikácie"
 
 #: src/wmtaskbar.cc:389
-#, fuzzy
-#| msgid "Window list menu"
 msgid "Window List Menu"
 msgstr "Menu zoznamu okien"
 
@@ -1804,10 +1794,8 @@ msgid "Show Desktop"
 msgstr "Ukáž plochu"
 
 #: src/wmtaskbar.cc:975
-#, fuzzy
-#| msgid "Task Bar"
 msgid "Show Taskbar"
-msgstr "Panel úloh"
+msgstr "Ukázať Panel úloh"
 
 #: src/wmtitle.cc:85
 msgid "Minimize"
