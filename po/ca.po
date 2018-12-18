@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-12-17 23:55+0100\n"
-"PO-Revision-Date: 2018-10-22 18:01+0000\n"
+"PO-Revision-Date: 2018-12-20 18:00+0000\n"
 "Last-Translator: David Medina <medipas@gmail.com>\n"
-"Language-Team: Catalan <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/ca/>\n"
+"Language-Team: Catalan <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8 bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.18\n"
+"X-Generator: Weblate 3.3\n"
 
 #: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:681 src/aapm.cc:806
 msgid " - Power"
@@ -1396,16 +1396,12 @@ msgid "Ma_ximize"
 msgstr "Ma_ximitza"
 
 #: src/wmapp.cc:580 src/wmwinlist.cc:352
-#, fuzzy
-#| msgid "Maximize"
 msgid "Maximize_Vert"
-msgstr "Maximitza"
+msgstr "Maximització _vertical"
 
 #: src/wmapp.cc:581
-#, fuzzy
-#| msgid "Maximize"
 msgid "MaximizeHori_z"
-msgstr "Maximitza"
+msgstr "Maximització horit_zontal"
 
 #: src/wmapp.cc:584 src/wmwinlist.cc:353
 msgid "_Fullscreen"
@@ -1805,20 +1801,14 @@ msgid "_License"
 msgstr "_Llicència"
 
 #: src/wmtaskbar.cc:356 src/wmtaskbar.cc:975
-#, fuzzy
-#| msgid "Task Bar"
 msgid "Hide Taskbar"
-msgstr "Barra de tasques"
+msgstr "Amaga la barra de tasques"
 
 #: src/wmtaskbar.cc:371
-#, fuzzy
-#| msgid "Favorite applications"
 msgid "Favorite Applications"
 msgstr "Aplicacions preferides"
 
 #: src/wmtaskbar.cc:389
-#, fuzzy
-#| msgid "Window list menu"
 msgid "Window List Menu"
 msgstr "Menú de llista de finestres"
 
@@ -1827,10 +1817,8 @@ msgid "Show Desktop"
 msgstr "Mostra l'escriptori"
 
 #: src/wmtaskbar.cc:975
-#, fuzzy
-#| msgid "Task Bar"
 msgid "Show Taskbar"
-msgstr "Barra de tasques"
+msgstr "Mostra la barra de tasques"
 
 #: src/wmtitle.cc:85
 msgid "Minimize"
