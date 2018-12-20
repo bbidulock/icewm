@@ -36,7 +36,8 @@
 #include <sys/file.h>
 #include <sys/ioctl.h>
 #include <sys/types.h>
-#include <machine/apmvar.h>
+#include <dev/apm/apmbios.h>
+#include <dev/apm/apmio.h>
 #endif
 
 #include <math.h>
