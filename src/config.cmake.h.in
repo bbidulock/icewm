@@ -9,7 +9,7 @@
 #define PACKAGE_TARNAME "@PACKAGE@"
 #define PACKAGE_VERSION "@VERSION@"
 #define PACKAGE_STRING "@PACKAGE@ @VERSION@"
-#define PACKAGE_URL "https://github.com/bbidulock/icewm"
+#define PACKAGE_URL "https://github.com/ice-wm/icewm"
 #define VERSION "@VERSION@"
 
 #define HOSTCPU "@CMAKE_HOST_SYSTEM_PROCESSOR@"

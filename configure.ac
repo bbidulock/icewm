@@ -2,8 +2,8 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([icewm],[1.4.2],[https://github.com/bbidulock/icewm/issues])
-AC_REVISION([1.4.2])
+AC_INIT([icewm],[1.5.0],[https://github.com/bbidulock/icewm/issues])
+AC_REVISION([1.5.0])
 AC_CONFIG_SRCDIR([src/ysmapp.cc])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
@@ -11,10 +11,10 @@ AC_CONFIG_AUX_DIR([scripts])
 AC_USE_SYSTEM_EXTENSIONS
 AC_CANONICAL_TARGET
 
-DATE='2017-07-30'
+DATE='2018-12-20'
 AC_SUBST([DATE])
 
-BRANCH='1.4.2'
+BRANCH='1.5.0'
 AC_SUBST([BRANCH])
 
 APPLICATIONS='icewm icewm-session icesh icewmhint icewmbg icewmtray icehelp'
@@ -333,9 +333,9 @@ AC_SUBST([GIO_CFLAGS])
 AC_SUBST([GIO_LIBS])
 
 AC_ARG_ENABLE([gdk-pixbuf],
-    AC_HELP_STRING([--enable-gdk-pixbuf],[Enable gdk-pixbuf rendering.
-	@<:@default=disabled@:>@]))
-if test "x$enable_gdk_pixbuf" = xyes ; then
+    AC_HELP_STRING([--disable-gdk-pixbuf],[Enable gdk-pixbuf rendering.
+	@<:@default=enabled@:>@]))
+if test "x$enable_gdk_pixbuf" != xno ; then
     PKG_CHECK_MODULES([PIXBUF],[gdk-pixbuf-xlib-2.0],[
 	IMAGE_CFLAGS="$PIXBUF_CFLAGS"
 	IMAGE_LIBS="$PIXBUF_LIBS"

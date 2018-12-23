@@ -47,23 +47,23 @@ translations.  If you have difficulties using the tools, just send me the update
 
 [1]: https://github.com/bbidulock/icewm/
 [2]: https://github.com/bbidulock/icewm/issues/
-[3]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/INSTALL
-[4]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/ChangeLog
-[5]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/COMPLIANCE
-[6]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/NEWS
-[7]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/TODO
-[8]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/COPYING
-[9]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/BUGS
+[3]: https://github.com/ice-wm/icewm/blob/master/INSTALL
+[4]: https://github.com/ice-wm/icewm/blob/master/ChangeLog
+[5]: https://github.com/ice-wm/icewm/blob/master/COMPLIANCE
+[6]: https://github.com/ice-wm/icewm/blob/master/NEWS
+[7]: https://github.com/ice-wm/icewm/blob/master/TODO
+[8]: https://github.com/ice-wm/icewm/blob/master/COPYING
+[9]: https://github.com/ice-wm/icewm/blob/master/BUGS
 [10]: https://github.com/
 [11]: https://l10n.opensuse.org/
 [12]: https://sourceforge.net/projects/icewm/files/
 [13]: https://sourceforge.net/projects/icewm/
 [14]: https://ice-wm.org/
 [15]: https://ice-wm.org/FAQ/
-[16]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/doc/icewm.adoc
+[16]: https://github.com/ice-wm/icewm/blob/master/doc/icewm.adoc
 [17]: http://bbkeys.sourceforge.net/
-[18]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/lib/icewm.desktop
-[19]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/lib/icewm-session.desktop
-[20]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/INSTALL-cmakebuild.md
+[18]: https://github.com/ice-wm/icewm/blob/master/lib/icewm.desktop
+[19]: https://github.com/ice-wm/icewm/blob/master/lib/icewm-session.desktop
+[20]: https://github.com/ice-wm/icewm/blob/master/INSTALL-cmakebuild.md
 
 [ vim: set ft=markdown sw=4 tw=80 nocin nosi fo+=tcqlorn: ]: #
