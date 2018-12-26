@@ -444,7 +444,7 @@ CONFIGURE_FILE("${CMAKE_SOURCE_DIR}/src/config.cmake.h.in" "${CMAKE_BINARY_DIR}/
 #######################################
 
 # pkg-config delivers lists, we need plain compiler options! :-(
-foreach(pfx fontconfig xext x11 pixbuf xrandr xrender xft alsa
+foreach(pfx fontconfig xext x11 pixbuf xrandr xrender xft alsa libpng libxpm
         esd ao oss xinerama fribidi gio)
     string(REPLACE ";" " " ${pfx}_CFLAGS "${${pfx}_CFLAGS}")
     #message(STATUS "Normalizing argument lists: ${${pfx}_LDFLAGS} ; ${${pfx}_CFLAGS}")
