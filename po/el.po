@@ -3,90 +3,111 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 #
 # Nick Apostolakis <nickapos@agriroot.aua.gr>, 2003.
-# nikos <nikos769@yahoo.gr>, 2017.
+# nikos <nikos769@yahoo.gr>, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2017-03-12 12:57-0600\n"
-"PO-Revision-Date: 2017-03-13 04:24+0200\n"
-"Last-Translator: nikos <nikos769@yahoo.gr>\n"
-"Language-Team: Greek <>\n"
-"Language: el\n"
+"POT-Creation-Date: 2018-12-17 23:55+0100\n"
+"PO-Revision-Date: 2018-12-30 23:41+0200\n"
+"Last-Translator: nikos papadopoulos <nikos769@yahoo.gr>\n"
+"Language-Team: Greek <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
+"branch/el/>\n"
+"Language: el_GR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Poedit 2.0.2\n"
 
-#: src/aapm.cc:191 src/aapm.cc:513 src/aapm.cc:753 src/aapm.cc:874
+#: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:681 src/aapm.cc:806
 msgid " - Power"
 msgstr " - Τροφοδοσία"
 
-#: src/aapm.cc:193 src/aapm.cc:516 src/aapm.cc:756
+#: src/aapm.cc:179 src/aapm.cc:462 src/aapm.cc:684
 msgid "P"
 msgstr "P"
 
-#: src/aapm.cc:197 src/aapm.cc:487 src/aapm.cc:733 src/aapm.cc:845
-#, c-format
+#: src/aapm.cc:183 src/aapm.cc:436 src/aapm.cc:664 src/aapm.cc:774
 msgid " - Charging"
 msgstr " - Φόρτιση"
 
-#. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
-#. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/aapm.cc:199 src/aapm.cc:489 src/aapm.cc:735 src/acpustatus.cc:410
+#: src/aapm.cc:185 src/aapm.cc:438 src/aapm.cc:666
 msgid "C"
 msgstr "C"
 
-#: src/aapm.cc:491
+#: src/aapm.cc:440
 msgid " - Full"
 msgstr " - Πλήρης"
 
-#: src/acpustatus.cc:209
+#: src/aapm.cc:985
+#, c-format
+msgid "power:\t%s"
+msgstr "ενέργεια:\t%s"
+
+#: src/aclock.cc:173
+msgid "CLOCK"
+msgstr "ΡΟΛΟΙ"
+
+#: src/aclock.cc:177
+msgid "Date"
+msgstr "Ημερομηνία"
+
+#: src/aclock.cc:178 src/themes.cc:85
+msgid "Default"
+msgstr "Εξ ορισμού"
+
+#: src/aclock.cc:179 src/acpustatus.cc:862 src/amailbox.cc:938
+#: src/amemstatus.cc:264
+msgid "_Disable"
+msgstr "_Απενεργοποίηση"
+
+#: src/aclock.cc:180
+msgid "_UTC"
+msgstr ""
+
+#: src/acpustatus.cc:233
 #, c-format
 msgid ""
 "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 "intr = %llu, softirq = %llu, steal = %llu\n"
 msgstr ""
-"στατ.:\tχρήστης = %llu, προτεραιότητα = %llu, σύστ. = %llu, απραξία = %llu,"
-" io-αναμονή = %llu, "
-"intr = %llu, irq-προγράμ. = %llu, κλοπή = %llu\n"
+"στατ.:\tχρήστης = %llu, προτεραιότητα = %llu, σύστ. = %llu, απραξία = %llu, "
+"io-αναμονή = %llu, intr = %llu, irq-προγράμ. = %llu, κλοπή = %llu\n"
 
-#: src/acpustatus.cc:214
+#: src/acpustatus.cc:238
 #, c-format
 msgid ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 "softirq = %llu, steal = %llu (h = %i)\n"
 msgstr ""
 "στήλες:\tχρήστης = %llu, προτεραιότητα = %llu, σύστ. = %llu, io-αναμονή = "
-"%llu, intr = %llu, "
-"irq-προγράμ. = %llu, κλοπή = %llu (h = %i)\n"
+"%llu, intr = %llu, irq-προγράμ. = %llu, κλοπή = %llu (h = %i)\n"
 
-#: src/acpustatus.cc:276
+#: src/acpustatus.cc:303
 #, c-format
-#| msgid "CPU Load: %3.2f %3.2f %3.2f, %u"
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "Φορτίο %s Επεξεργαστή: %3.2f %3.2f %3.2f, %u διεργασίες"
 
-#: src/acpustatus.cc:281
+#: src/acpustatus.cc:309
 #, c-format
 msgid ""
 "\n"
-"Ram (free): %5.2f (%.2f) M"
+"Ram (free): %5.3f (%.3f) G"
 msgstr ""
 "\n"
-"Ram (ελεύθερα): %5.2f (%.2f) M"
+"Ram (ελεύθερη): %5.2f (%.2f) G"
 
-#: src/acpustatus.cc:286
+#: src/acpustatus.cc:314
 #, c-format
 msgid ""
 "\n"
-"Swap (free): %.2f (%.2f) M"
+"Swap (free): %.3f (%.3f) G"
 msgstr ""
 "\n"
-"Swap (ελεύθερα): %.2f (%.2f) M"
+"Swap (ελεύθερη): %.2f (%.2f) G"
 
-#: src/acpustatus.cc:292
+#: src/acpustatus.cc:320
 #, c-format
 msgid ""
 "\n"
@@ -95,7 +116,7 @@ msgstr ""
 "\n"
 "ACPI Θερμοκρασία: "
 
-#: src/acpustatus.cc:311
+#: src/acpustatus.cc:339 src/acpustatus.cc:379
 #, c-format
 msgid ""
 "\n"
@@ -104,55 +125,177 @@ msgstr ""
 "\n"
 "Συχνότητα Επεξεργαστή: %.3fGHz"
 
-#: src/acpustatus.cc:332
+#: src/acpustatus.cc:356 src/acpustatus.cc:858
 msgid "CPU"
 msgstr "Κεν.Μον.Επεξεργαστή"
 
-#: src/acpustatus.cc:332
-#| msgid "CPU Load: "
+#: src/acpustatus.cc:356
 msgid "Load: "
 msgstr "Φορτίο: "
 
-#: src/acpustatus.cc:695
+#: src/acpustatus.cc:371
 #, c-format
-msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
-msgstr "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
+msgid ""
+"\n"
+"Ram (user): %5.3f (%.3f) G"
+msgstr ""
+"\n"
+"Ram (ελεύθερη): %5.2f (%.2f) G"
 
-#: src/acpustatus.cc:695
+#. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
+#. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
+#: src/acpustatus.cc:438
+msgid "°C"
+msgstr "°C"
+
+#: src/acpustatus.cc:770
 #, c-format
-msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
+#| msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
+msgid "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
+msgstr "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
+
+#: src/acpustatus.cc:859
+#, c-format
+msgid "CPU%d"
 msgstr ""
 
-#: src/amailbox.cc:77
+#: src/acpustatus.cc:864
+msgid "_Combine"
+msgstr "_Συνδυασμός"
+
+#: src/acpustatus.cc:866
+msgid "_Separate"
+msgstr "_Χωρισμός"
+
+#: src/amailbox.cc:62
 #, c-format
 msgid "Invalid mailbox protocol: \"%s\""
 msgstr "Μη έγκυρο πρωτόκολλο γραμματοκιβωτίου: \"%s\""
 
-#: src/amailbox.cc:79
+#: src/amailbox.cc:64
 #, c-format
 msgid "Invalid mailbox path: \"%s\""
 msgstr "Μη έγκυρη διαδρομή γραμματοκιβωτίου: \"%s\""
 
-#: src/amailbox.cc:343
+#: src/amailbox.cc:133
+#, c-format
+msgid "DNS name lookup failed for %s"
+msgstr "Η DNS αναζήτηση ονόματος απέτυχε για το %s"
+
+#: src/amailbox.cc:149
+#, c-format
+msgid "Invalid mailbox port: \"%s\""
+msgstr "Μη έγκυρη θήρα γραμματοκιβώτιου: \"%s\""
+
+#: src/amailbox.cc:307
+#, c-format
+msgid "Could not connect to %s: %s"
+msgstr "Αδυναμία σύνδεσης στο %s: %s"
+
+#: src/amailbox.cc:324
+#, c-format
+msgid "Failed to find %s command"
+msgstr "Αδυναμία εύρεσης της εντολής %s"
+
+#: src/amailbox.cc:351
+#, c-format
+msgid "Failed to execute %s"
+msgstr "Αδυναμία εκτέλεσης του %s"
+
+#: src/amailbox.cc:435
+#, c-format
+msgid "Write to socket failed: %s"
+msgstr "Αδυναμία εγγραφής στην υποδοχή: %s"
+
+#: src/amailbox.cc:680
 #, c-format
 msgid "Using MailBox \"%s\"\n"
 msgstr "Χρησιμοποιούμενο Γραμματοκιβώτιο \"%s\"\n"
 
-#: src/amailbox.cc:451
+#: src/amailbox.cc:794
+msgid "Suspended"
+msgstr "Σε αναστολή"
+
+#: src/amailbox.cc:798
 msgid "Error checking mailbox."
 msgstr "Σφάλμα κατά τον έλεγχο του γραμματοκιβωτίου."
 
-#: src/amailbox.cc:457
+#: src/amailbox.cc:805
+#, c-format
+msgid "%ld mail message, %ld unread."
+msgstr "%ld μήνυμα αλληλογραφίας, %ld μη αναγνωσμένο."
+
+#: src/amailbox.cc:806
+#, c-format
+msgid "%ld mail messages, %ld unread."
+msgstr "%ld μηνύματα αλληλογραφίας, %ld μη αναγνωσμένα."
+
+#: src/amailbox.cc:812
 #, c-format
 msgid "%ld mail message."
 msgstr "%ld μήνυμα αλληλογραφίας."
 
-#: src/amailbox.cc:458
+#: src/amailbox.cc:813
 #, c-format
 msgid "%ld mail messages."
 msgstr "%ld μηνύματα αλληλογραφίας."
 
-#: src/apppstatus.cc:204
+#: src/amailbox.cc:936
+msgid "MAIL"
+msgstr "ΤΑΧ/ΜΕΙΟ"
+
+#: src/amailbox.cc:937
+msgid "_Check"
+msgstr "_Έλεγχος"
+
+#: src/amailbox.cc:939
+msgid "_Suspend"
+msgstr "_Αναστολή"
+
+#: src/amemstatus.cc:145
+#, fuzzy
+msgid "GB"
+msgstr "GB"
+
+#: src/amemstatus.cc:149
+#, fuzzy
+msgid "MB"
+msgstr "MB"
+
+#: src/amemstatus.cc:153
+#, fuzzy
+msgid "kB"
+msgstr "kB"
+
+#: src/amemstatus.cc:157
+msgid "bytes"
+msgstr "μπάιτια"
+
+#: src/amemstatus.cc:177
+msgid "Memory Total: "
+msgstr "Μνήμη Συνολική: "
+
+#: src/amemstatus.cc:178
+msgid "Free: "
+msgstr "Ελεύθερη: "
+
+#: src/amemstatus.cc:179
+msgid "Cached: "
+msgstr "Μικροαποθηκευμένη: "
+
+#: src/amemstatus.cc:180
+msgid "Buffers: "
+msgstr "Ενδιάμεσες Μνήμες: "
+
+#: src/amemstatus.cc:181
+msgid "User: "
+msgstr "Χρήστης: "
+
+#: src/amemstatus.cc:263
+msgid "MEM"
+msgstr "ΜΝΗ."
+
+#: src/apppstatus.cc:203
 #, c-format
 msgid ""
 "Interface %s:\n"
@@ -167,7 +310,7 @@ msgstr ""
 "  Μεταφέρθηκαν (μέσα/έξω):\t%lli %s/%lli %s\n"
 "  Χρόνος σύνδεσης:\t%ld:%02ld:%02ld%s%s"
 
-#: src/apppstatus.cc:216
+#: src/apppstatus.cc:215
 msgid ""
 "\n"
 "  Caller id:\t"
@@ -175,213 +318,252 @@ msgstr ""
 "\n"
 "  Αριθμός τηλεφώνου καλούντος:\t"
 
-#: src/aworkspaces.cc:155 src/aworkspaces.cc:220 src/aworkspaces.cc:276
-#: src/wmstatus.cc:178
+#: src/apppstatus.cc:717
+msgid "NET"
+msgstr "ΔΙΚ."
+
+#: src/aworkspaces.cc:294 src/wmstatus.cc:163
 msgid "Workspace: "
 msgstr "Επιφάνεια εργασίας: "
 
-#: src/fdomenu.cc:74
-msgid "Accessibility"
-msgstr "Προσβασιμότητα"
-
-#: src/fdomenu.cc:75
-msgid "Settings"
-msgstr "Ρυθμίσεις"
-
-#: src/fdomenu.cc:76
-msgid "Screensavers"
-msgstr "Προφυλάξεις οθόνης"
-
-#: src/fdomenu.cc:77
-msgid "Accessories"
-msgstr "Εργαλεία"
-
-#: src/fdomenu.cc:78
-msgid "Development"
-msgstr "Ανάπτυξη"
-
-#: src/fdomenu.cc:79
-msgid "Education"
-msgstr "Εκπαίδευση"
-
-#: src/fdomenu.cc:80
-msgid "Games"
-msgstr "Παιχνίδια"
-
-#: src/fdomenu.cc:81
-msgid "Graphics"
-msgstr "Γραφικά"
-
-#: src/fdomenu.cc:82
-msgid "Multimedia"
-msgstr "Πολυμέσα"
-
-#: src/fdomenu.cc:83
-msgid "Network"
-msgstr "Δίκτυο"
-
-#: src/fdomenu.cc:84
-msgid "Office"
-msgstr "Γραφείο"
-
-#: src/fdomenu.cc:85
-msgid "System"
-msgstr "Σύστημα"
-
-#: src/fdomenu.cc:86
-msgid "WINE"
-msgstr "WINE"
-
-#: src/fdomenu.cc:87
-msgid "Editors"
-msgstr "Επεξεργαστές"
-
-#: src/fdomenu.cc:88
-msgid "Other"
-msgstr "Άλλα"
-
-#: src/icehelp.cc:715
+#: src/icehelp.cc:1201
 msgid "Back"
 msgstr "Πίσω"
 
-#: src/icehelp.cc:715
+#: src/icehelp.cc:1201
 msgid "Alt+Left"
 msgstr "Alt+Αριστερά"
 
-#: src/icehelp.cc:716
+#: src/icehelp.cc:1203
 msgid "Forward"
 msgstr "Εμπρός"
 
-#: src/icehelp.cc:716
+#: src/icehelp.cc:1203
 msgid "Alt+Right"
 msgstr "Alt+Δεξιά"
 
-#: src/icehelp.cc:718
+#: src/icehelp.cc:1206
 msgid "Previous"
 msgstr "Προηγούμενο"
 
-#: src/icehelp.cc:719
+#: src/icehelp.cc:1207
 msgid "Next"
 msgstr "Επόμενο"
 
-#: src/icehelp.cc:721
+#: src/icehelp.cc:1209
 msgid "Contents"
 msgstr "Περιεχόμενα"
 
-#: src/icehelp.cc:722
+#: src/icehelp.cc:1210
 msgid "Index"
 msgstr "Ευρετήριο"
 
-#: src/icehelp.cc:724 src/icesame.cc:63 src/iceview.cc:76 src/wmframe.cc:187
+#: src/icehelp.cc:1213 src/icesame.cc:62 src/iceview.cc:74 src/wmtitle.cc:99
 msgid "Close"
 msgstr "Κλείσε"
 
-#: src/icehelp.cc:724 src/icesame.cc:63 src/iceview.cc:76
+#: src/icehelp.cc:1213 src/icesame.cc:62 src/iceview.cc:74
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1327
-#, c-format
-msgid ""
-"Usage: %s FILENAME\n"
-"\n"
-"A very simple HTML browser displaying the document specified by FILENAME.\n"
-"\n"
-msgstr ""
-"Τρόπος χρήσης: %s ΟΝΟΜΑ_ΑΡΧΕΙΟΥ\n"
-"\n"
-"Ένας πολύ απλός πλοηγός HTML, ο οποίος προβάλει το αρχείο που έχει "
-"προσδιοριστεί από το ΟΝΟΜΑ_ΑΡΧΕΙΟΥ.\n"
-"\n"
+#: src/icehelp.cc:1218
+msgid "Icewm(1)"
+msgstr "Icewm(1)"
 
-#: src/icehelp.cc:1337
+#: src/icehelp.cc:1220
+msgid "Icewmbg(1)"
+msgstr "Icewmbg(1)"
+
+#: src/icehelp.cc:1222
+msgid "Icesound(1)"
+msgstr "Icesound(1)"
+
+#: src/icehelp.cc:1224
+msgid "FAQ"
+msgstr "Συχνές Ερωτήσεις"
+
+#: src/icehelp.cc:1226
+msgid "Manual"
+msgstr "Εγχειρίδιο Χρήσης"
+
+#: src/icehelp.cc:1228
+msgid "Support"
+msgstr "Υποστήριξη"
+
+#: src/icehelp.cc:1230
+msgid "Theme Howto"
+msgstr "Οδηγίες ΠώςΝα Θεμάτων"
+
+#: src/icehelp.cc:1232
+msgid "Website"
+msgstr "Ιστότοπος"
+
+#: src/icehelp.cc:1234
+msgid "Github"
+msgstr "Github"
+
+#: src/icehelp.cc:1936
+msgid "Unsupported protocol."
+msgstr "Μη υποστηριζόμενο πρωτόκολλο."
+
+#: src/icehelp.cc:1961
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "Εσφαλμένη διαδρομή: %s\n"
 
-#: src/icehelp.cc:1342
-msgid "Invalid path: "
-msgstr "Εσφαλμένη διαδρομή: "
+#: src/icehelp.cc:1984
+msgid "Path does not refer to a file."
+msgstr "Η διαδρομή δεν παραπέμπει σε κάποιο αρχείο."
 
-#: src/icelist.cc:84
+#: src/icehelp.cc:1989
+msgid "Failed to open file for reading."
+msgstr "Αδυναμία ανοίγματος του αρχείου για ανάγνωση."
+
+#: src/icehelp.cc:2018
+msgid "Failed to create a temporary file"
+msgstr "Αδυναμία δημιουργίας προσωρινού αρχείου"
+
+# ?
+#: src/icehelp.cc:2110
+#, c-format
+msgid "Failed to execute system(%s) (%d)"
+msgstr "Αδυναμία εκτέλεσης του συστημικού (%s) (%d)"
+
+#: src/icehelp.cc:2133
+#, c-format
+msgid "Failed to decompress %s"
+msgstr "Αδυναμία αποσυμπίεσης %s"
+
+#: src/icehelp.cc:2141
+msgid "Could not locate curl or wget in PATH"
+msgstr "Αδυναμία εντοπισμού του curl ή του wget στη διαδρομή (PATH)"
+
+#: src/icehelp.cc:2145
+msgid "Unsafe characters in URL"
+msgstr "Μη ασφαλείς χαρακτήρες στη διεύθυνση URL"
+
+#: src/icehelp.cc:2182
+#, c-format
+msgid ""
+"Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
+"\n"
+"IceHelp is a very simple HTML browser for the IceWM window manager.\n"
+"It can display a HTML document from file, or browse a website.\n"
+"It remembers visited pages in a history, which is navigable\n"
+"by key bindings and a context menu (right mouse click).\n"
+"It neither supports rendering of images nor JavaScript.\n"
+"If no file or URL is given it will display the IceWM Manual\n"
+"from %s.\n"
+"\n"
+"Options:\n"
+"  -d, --display=NAME  NAME of the X server to use.\n"
+"  --sync              Synchronize X11 commands.\n"
+"\n"
+"  -B                  Display the IceWM icewmbg manpage.\n"
+"  -b, --bugs          Display the IceWM bug reports (primitively).\n"
+"  -f, --faq           Display the IceWM FAQ and Howto.\n"
+"  -g                  Display the IceWM Github website.\n"
+"  -i, --icewm         Display the IceWM icewm manpage.\n"
+"  -m, --manual        Display the IceWM Manual (default).\n"
+"  -s                  Display the IceWM icesound manpage.\n"
+"  -t, --theme         Display the IceWM themes Howto.\n"
+"  -w, --website       Display the IceWM website.\n"
+"\n"
+"  -V, --version       Prints version information and exits.\n"
+"  -h, --help          Prints this usage screen and exits.\n"
+"\n"
+"Environment variables:\n"
+"  DISPLAY=NAME        Name of the X server to use.\n"
+"\n"
+"To report bugs, support requests, comments please visit:\n"
+"%s\n"
+"\n"
+msgstr ""
+
+#: src/icehelp.cc:2259
+#, c-format
+msgid "Ignoring option '%s'"
+msgstr "Παραβλέπεται η επιλογή '%s'"
+
+#: src/icelist.cc:80
 msgid "List View"
 msgstr "Εμφάνιση ως Κατάστιχο"
 
-#: src/icelist.cc:85
+#: src/icelist.cc:81
 msgid "Icon View"
 msgstr "Εμφάνιση ως Εικονίδια"
 
-#: src/icelist.cc:89
+#: src/icelist.cc:85
 msgid "Open"
 msgstr "Άνοιγμα"
 
-#: src/icesame.cc:58
+#: src/icesame.cc:57
 msgid "Undo"
 msgstr "Αναίρεση"
 
-#: src/icesame.cc:58
+#: src/icesame.cc:57
 msgid "Ctrl+Z"
 msgstr "Ctrl+Z"
 
-#: src/icesame.cc:60
+#: src/icesame.cc:59
 msgid "New"
 msgstr "Νέο"
 
-#: src/icesame.cc:60
+#: src/icesame.cc:59
 msgid "Ctrl+N"
 msgstr "Ctrl+N"
 
-#: src/icesame.cc:61
+#: src/icesame.cc:60
 msgid "Restart"
 msgstr "Επανεκκίνηση"
 
-#: src/icesame.cc:61
+#: src/icesame.cc:60
 msgid "Ctrl+R"
 msgstr "Ctrl+R"
 
-#: src/icesame.cc:66
+#: src/icesame.cc:65
 msgid "Same Game"
 msgstr "Ίδιο Παιχνίδι"
 
-#: src/icesh.cc:187
+#: src/icesh.cc:191
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Η ενέργεια `%s' απαιτεί τουλάχιστον %d ορίσματα."
 
-#: src/icesh.cc:194
+#: src/icesh.cc:198
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Μη έγκυρη έκφραση: `%s'"
 
-#: src/icesh.cc:316
+#: src/icesh.cc:319
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Ονομασθέντα σύμβολα του domain `%s' (αριθμητικό εύρος: %ld-%ld):\n"
 
-#: src/icesh.cc:429
+#: src/icesh.cc:435
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Μη έγκυρο όνομα επιφάνειας εργασίας: `%s'"
 
-#: src/icesh.cc:435
+#: src/icesh.cc:440
 #, c-format
-msgid "Workspace out of range: %d"
-msgstr "Η επιφάνεια εργασίας είναι εκτός περιοχής: %d"
+msgid "Workspace out of range: %ld"
+msgstr "Η επιφάνεια εργασίας είναι εκτός εμβέλειας: %ld"
 
-#: src/icesh.cc:569
+#: src/icesh.cc:605
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] ACTIONS\n"
 "\n"
 "Options:\n"
-"  -display DISPLAY            Connects to the X server specified by "
+"  -d, -display DISPLAY        Connects to the X server specified by "
 "DISPLAY.\n"
 "                              Default: $DISPLAY or :0.0 when not set.\n"
-"  -window WINDOW_ID           Specifies the window to manipulate. Special\n"
+"  -w, -window WINDOW_ID       Specifies the window to manipulate. Special\n"
 "                              identifiers are `root' for the root window "
 "and\n"
 "                              `focus' for the currently focused window.\n"
-"  -class WM_CLASS             Window management class of the window(s) to\n"
+"  -c, -class WM_CLASS         Window management class of the window(s) to\n"
 "                              manipulate. If WM_CLASS contains a period, "
 "only\n"
 "                              windows with exactly the same WM_CLASS "
@@ -409,8 +591,19 @@ msgid ""
 "  setWorkspace   WORKSPACE    Moves the window to another workspace. Select\n"
 "                              the root window to change the current "
 "workspace.\n"
+"                              Select 0xFFFFFFFF or \"All\" for all "
+"workspaces.\n"
 "  listWorkspaces              Lists the names of all workspaces.\n"
 "  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
+"  logout                      Tell IceWM to logout.\n"
+"  reboot                      Tell IceWM to reboot.\n"
+"  shutdown                    Tell IceWM to shutdown.\n"
+"  cancel                      Tell IceWM to cancel the logout/reboot/"
+"shutdown.\n"
+"  about                       Tell IceWM to show the about window.\n"
+"  windowlist                  Tell IceWM to show the window list.\n"
+"  restart                     Tell IceWM to restart.\n"
+"  suspend                     Tell IceWM to suspend.\n"
 "\n"
 "Expressions:\n"
 "  Expressions are list of symbols of one domain concatenated by `+' or `|':\n"
@@ -421,577 +614,886 @@ msgstr ""
 "Χρήση: %s [ΕΠΙΛΟΓΕΣ] ΕΝΕΡΓΕΙΕΣ\n"
 "\n"
 "Επιλογές:\n"
-"  -display ΠΡΟΒΟΛΗ             Συνδέεται στον εξυπηρετητή X, που "
+"  -d, -display ΠΡΟΒΟΛΗ             Συνδέεται στον εξυπηρετητή X, που "
 "προσδιορίζεται από την ΠΡΟΒΟΛΗ.\n"
-"                               Προεπιλογή: $DISPLAY ή :0.0 όταν δεν "
+"                                   Προεπιλογή: $DISPLAY ή :0.0 , όταν δεν "
 "ορίζεται.\n"
-"  -window ΤΑΥΤΟΤΗΤΑ_ΠΑΡΑΘΥΡΟΥ  Προσδιορίζει την ταυτότητα (WINDOW_ID) του "
-"παράθυρου προς διαχείριση.\n"
-"                               Ειδικά αναγνωριστικά είναι το `root' για το "
-"root παράθυρο, \n"
-"                               και `focus', για το παράθυρο το οποίο είναι, "
-"τώρα, εστιασμένο.\n"
-"  -class ΤΑΞΗ_ΔΙΑΧ_ΠΑΡ         Τάξη διαχείρισης των παράθυρων (WM_CLASS), "
-"από το παράθυρο, ή τα παράθυρα,\n"
-"                               προς διαχείριση. Αν ή ΤΑΞΗ_ΔΙΑΧ_ΠΑΡ περιέχει "
-"μια τελεία, μόνο παράθυρα\n"
-"                               με ακριβώς την ίδια ιδιότητα ΤΑΞΗ_ΔΙΑΧ_ΠΑΡ θα "
-"ταιριάξουν.\n"
-"                               Αν δεν περιέχει τελεία, θα επιλεγούν παράθυρα "
-"καί με την ίδια τάξη\n"
-"                               καί παράθυρα με την ίδια υπόσταση (αλλιώς: `-"
-"name').\n"
+"  -w, -window ΤΑΥΤΟΤΗΤΑ_ΠΑΡΑΘΥΡΟΥ  Προσδιορίζει την ταυτότητα (WINDOW_ID) "
+"του παράθυρου προς διαχείριση.\n"
+"                                   Ειδικά αναγνωριστικά είναι το `root' για "
+"το root παράθυρο, \n"
+"                                   και το `focus', για το παράθυρο το οποίο "
+"είναι, τώρα, εστιασμένο.\n"
+"  -c, -class ΤΑΞΗ_ΔΙΑΧ_ΠΑΡ         Τάξη διαχείρισης των παράθυρων "
+"(WM_CLASS), από το παράθυρο, ή τα παράθυρα,\n"
+"                                   προς διαχείριση. Αν ή ΤΑΞΗ_ΔΙΑΧ_ΠΑΡ "
+"περιέχει μια τελεία, μόνο παράθυρα\n"
+"                                   με ακριβώς την ίδια ιδιότητα "
+"ΤΑΞΗ_ΔΙΑΧ_ΠΑΡ θα ταιριάξουν.\n"
+"                                   Αν δεν περιέχει τελεία, θα επιλεγούν "
+"παράθυρα καί με την ίδια τάξη\n"
+"                                   καί παράθυρα με την ίδια υπόσταση "
+"(αλλιώς: `-name').\n"
 "\n"
 "Ενέργειες:\n"
-"  setIconTitle   ΤΙΤΛΟΣ        Όρισε τον τίτλο της εικόνας.\n"
-"  setWindowTitle ΤΙΤΛΟΣ        Όρισε τον τίτλο του παράθυρου.\n"
-"  setGeometry    γεωμετρία     Όρισε την γεωμετρία του παράθυρου.\n"
-"  setState       ΠΡΟΣΩΠ ΚΑΤΑΣ  Όρισε την κατάσταση (STATE) του παράθυρου του "
-"GNOME σε ΚΑΤΑΣΤΑΣΗ.\n"
-"                               Επηρεάζονται μόνο τα μπίτια που επιλέγονται \n"
-"                               από το ΠΡΟΣΩΠΕΙΟ (MASK). Η ΚΑΤΑΣΤΑΣΗ και το "
-"ΠΡΟΣΩΠΕΙΟ \n"
-"                               είναι εκφράσεις του τομέα `GNOME window "
+"  setIconTitle   ΤΙΤΛΟΣ            Όρισε τον τίτλο του εικονιδίου.\n"
+"  setWindowTitle ΤΙΤΛΟΣ            Όρισε τον τίτλο του παράθυρου.\n"
+"  setGeometry    γεωμετρία         Όρισε την γεωμετρία του παράθυρου.\n"
+"  setState       ΠΡΟΣΩΠΕΙΟ Κ/ΣΤΑΣΗ Όρισε την κατάσταση (state) του παράθυρου "
+"του GNOME σε ΚΑΤΑΣΤΑΣΗ.\n"
+"                                   Επηρεάζονται μόνο τα μπίτια που "
+"επιλέγονται \n"
+"                                   από το ΠΡΟΣΩΠΕΙΟ (MASK). Η ΚΑΤΑΣΤΑΣΗ και "
+"το ΠΡΟΣΩΠΕΙΟ \n"
+"                                   είναι εκφράσεις του τομέα `GNOME window "
 "state'.\n"
-"  toggleState    ΚΑΤΑΣΤΑΣΗ     Εναλλαγή των μπιτιών της κατάστασης του "
+"  toggleState    ΚΑΤΑΣΤΑΣΗ         Εναλλαγή των μπιτιών της κατάστασης του "
 "παράθυρου του GNOME,\n"
-"                               που προσδιορίζονται από την έκφραση "
+"                                   που προσδιορίζονται από την έκφραση "
 "ΚΑΤΑΣΤΑΣΗ.\n"
-"  setHints       ΥΠΟΔΕΙΞΕΙΣ    Όρισε τις υποδείξεις (hints) του παράθυρου "
-"του GNOME σε ΥΠΟΔΕΙΞΕΙΣ.\n"
-"  setLayer       ΣΤΡΩΜΑ        Μετακίνηση του παράθυρου σε άλλο στρώμα "
+"  setHints       ΥΠΟΔΕΙΞΕΙΣ        Όρισε τις υποδείξεις (hints) του "
+"παράθυρου του GNOME σε ΥΠΟΔΕΙΞΕΙΣ.\n"
+"  setLayer       ΣΤΡΩΜΑ            Μετακίνηση του παράθυρου σε άλλο στρώμα "
 "παράθυρων του GNOME.\n"
-"  setWorkspace   ΧΩΡΟΣ_ΕΡΓΑΣ   Μετακινεί το παράθυρο σε διαφορετικό χώρο "
+"  setWorkspace   ΧΩΡΟΣ_ΕΡΓΑΣΙΑΣ    Μετακινεί το παράθυρο σε διαφορετικό χώρο "
 "εργασίας.\n"
-"                               Επέλεξε το παράθυρο root για να αλλάξεις τον "
-"τωρινό χώρο εργασίας.\n"
-"  listWorkspaces               Δίνει κατάστιχο με τα ονόματα όλων των χώρων "
-"εργασίας.\n"
-"  setTrayOption  ΕΠΙΛΟ_ΡΑΦΙΟΥ  Όρισε την υπόδειξη του ραφιού του IceWM.\n"
+"                                   Επέλεξε το παράθυρο root για να αλλάξεις "
+"τον τωρινό χώρο εργασίας.\n"
+"                                   Απέλεξε 0xFFFFFFFF ή \"All\" για όλους "
+"του χώρους εργασίας.\n"
+"  listWorkspaces                   Δίνει κατάστιχο με τα ονόματα όλων των "
+"χώρων εργασίας.\n"
+"  setTrayOption  ΕΠΙΛΟΓΗ_ΡΑΦΙΟΥ    Όρισε την υπόδειξη του ραφιού του IceWM.\n"
+"\n"
+"  reboot                           Λέει στο IceWM να κάνει επανεκκίνηση.\n"
+"  shutdown                         Λέει στο IceWM να κλείσει τον "
+"υπολογιστή.\n"
+"  cancel                           Λέει στο IceWM να ακυρώσει την αποσύνδεση "
+"ή την επανεκκίνηση \n"
+"                                   ή τον τερματισμό του υπολογιστή.\n"
+"  about                            Λέει στο IceWM να προβάλει το παράθυρο "
+"των σχετικών πληροφοριών.\n"
+"  windowlist                       Λέει στο IceWM να προβάλει το κατάστιχο "
+"των παράθυρων.\n"
+"  restart                          Λέει στο IceWM να κάνει επανεκκίνηση.\n"
+"  suspend                          Λέει στο IceWM να κάνει αναστολή .\n"
+"\n"
 "\n"
 "Εκφράσεις:\n"
-"  Οι εκφράσεις είναι παραθέσεις από σύμβολα ενός τομέα ενωμένα με `+' ή "
+"  Οι εκφράσεις είναι παραθέσεις από σύμβολα, ενός τομέα ενωμένα, με `+' ή "
 "`|':\n"
 "\n"
 "  ΕΚΦΡΑΣΗ ::= ΣΥΜΒΟΛΟ | ΕΚΦΡΑΣΗ ( `+' | `|' ) ΣΥΜΒΟΛΟ\n"
 "\n"
 
-#: src/icesh.cc:608
+#: src/icesh.cc:653
 msgid "GNOME window state"
 msgstr "GNOME, κατάσταση παράθυρου"
 
-#: src/icesh.cc:609
+#: src/icesh.cc:654
 msgid "GNOME window hint"
 msgstr "GNOME, υπόδειξη παράθυρου"
 
-#: src/icesh.cc:610
+#: src/icesh.cc:655
 msgid "GNOME window layer"
 msgstr "GNOME, επίπεδο παράθυρου"
 
-#: src/icesh.cc:611
+#: src/icesh.cc:656
 msgid "IceWM tray option"
 msgstr "Επιλογή του ραφιού του IceWM"
 
-#: src/icesh.cc:616
+#: src/icesh.cc:661
 msgid "Usage error: "
 msgstr "Σφάλμα χρήσης: "
 
-#: src/icesh.cc:687
+#: src/icesh.cc:747
 #, c-format
 msgid "Invalid argument: `%s'."
 msgstr "Μη έγκυρο όρισμα: `%s' ."
 
-#: src/icesh.cc:696
+#: src/icesh.cc:753
 msgid "No actions specified."
 msgstr "Δεν υπάρχουν καθορισμένες ενέργειες."
 
-#: src/icesh.cc:703 src/icesound.cc:1050 src/icewmhint.cc:76 src/yxapp.cc:975
+#: src/icesh.cc:760 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:925
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "Δεν μπορώ να ανοίξω την προβολή: %s . Ο X θα πρέπει να τρέχει, και η "
 "μεταβλητή $DISPLAY να έχει οριστεί."
 
-#: src/icesh.cc:743
+#: src/icesh.cc:801
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Μη έγκυρο αναγνωριστικό παράθυρου: `%s'"
 
-#: src/icesh.cc:896
+#: src/icesh.cc:955
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "επιφάνεια εργασίας #%d: `%s'\n"
 
-#: src/icesh.cc:914
+#: src/icesh.cc:974
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Άγνωστη ενέργεια: `%s'"
 
-#: src/iceskt.cc:36
+#: src/iceskt.cc:42
 #, c-format
 msgid "Socket error: %d"
 msgstr "Σφάλμα Υποδοχής: %d 1"
 
-#: src/icesound.cc:256 src/icesound.cc:424 src/icesound.cc:792
+#: src/icesm.cc:57
+msgid ""
+"  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
+"  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
+"\n"
+"  -d, --display=NAME  Use NAME to connect to the X server.\n"
+"  --sync              Synchronize communication with X11 server.\n"
+"\n"
+"  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
+"  -n, --notray        Do not start icewmtray.\n"
+"  -s, --sound         Also start icesound.\n"
+msgstr ""
+"  -c, --config=ΑΡΧΕΙΟ  Αφήνει το IceWM να φορτώσει τις προτιμήσεις από το "
+"ΑΡΧΕΙΟ.\n"
+"  -t, --theme=ΑΡΧΕΙΟ   Αφήνει το IceWM να φορτώσει το θέμα από το ΑΡΧΕΙΟ.\n"
+"\n"
+"  -d, --display=ΟΝΟΜΑ  Χρήση του «ΟΝΟΜΑ», για σύνδεση στον εξυπηρετητή X .\n"
+"  --sync               Συγχρονισμός των επικοινωνιών, με τον εξυπηρετητή "
+"X11 .\n"
+"\n"
+"  -i, --icewm=ΑΡΧΕΙΟ   Χρήση του «ΑΡΧΕΙΟ» ως διαχειριστή παραθύρων του "
+"IceWM.\n"
+"  -n, --notray         Να μην εκκινηθεί το icewmtray.\n"
+"  -s, --sound          Επίσης, να εκκινηθεί το icesound.\n"
+
+#: src/icesm.cc:120
+#, c-format
+msgid "Unknown option '%s'"
+msgstr "Άγνωστη επιλογή '%s'"
+
+#: src/icesm.cc:308
+#, c-format
+msgid "%s exited with status %d."
+msgstr "Το %s εξήχθη με αναφορά κατάστασης %d."
+
+#: src/icesm.cc:314
+#, c-format
+msgid "%s was killed by signal %d."
+msgstr "Το %s σκοτώθηκε από το σήμα %d."
+
+#: src/icesm.cc:348
+msgid ""
+" IceWM crashed for the second time in 10 seconds. \n"
+" Do you wish to:\n"
+"\n"
+"\t1: Restart IceWM?\n"
+"\t2: Abort this session?\n"
+msgstr ""
+" Το IceWM κατέρευσε, για δεύτερη φορά, μέσα σε 10 δευτερόλεπτα. \n"
+" Θα ήθελες να:\n"
+"\n"
+"\t1: Επενεκκινήσεις το IceWM;\n"
+"\t2: Εγκαταλείψεις αυτή τη συνεδρία;\n"
+
+#: src/icesm.cc:353
+msgid "IceWM crash response"
+msgstr "Απόκριση κατάρρευσης του IceWM"
+
+#: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
 #, c-format
 msgid "Playing sample #%d (%s)"
 msgstr "Παίζεται το δείγμα #%d (%s)"
 
-#: src/icesound.cc:468
+#: src/icesound.cc:337
 #, c-format
-msgid "No such device: %s"
-msgstr "Δεν υπάρχει τέτοια συσκευή: %s"
+msgid "%s: Invalid number of channels"
+msgstr "%s: Μη έγκυρο πλήθος καναλιών"
 
-#: src/icesound.cc:561
+#: src/icesound.cc:343 src/icesound.cc:348
+msgid "Could not set OSS channels"
+msgstr "Αδυναμία ορισμού των καναλιών OSS"
+
+#: src/icesound.cc:353 src/icesound.cc:381
+msgid "Could not sync OSS"
+msgstr "Αδυναμία συγχρονισμού του OSS"
+
+#: src/icesound.cc:365
+msgid "OSS write failed"
+msgstr "Αδυναμία εγγραφής του OSS"
+
+#: src/icesound.cc:369
+#, c-format
+msgid "OSS incomplete write (%d/%d)"
+msgstr "Ατελής εγγραφή OSS (%d/%d)"
+
+#: src/icesound.cc:376
+msgid "Could not post OSS"
+msgstr "Αδυναμία καταχώρησης του OSS"
+
+#: src/icesound.cc:405
+#, c-format
+msgid "Could not open OSS device %s"
+msgstr "Αδυναμία ανοίγματος της συσκευής OSS %s"
+
+#: src/icesound.cc:410
+msgid "Could not set OSS stereo"
+msgstr "Αδυναμία ορισμού του στερεοφωνικού OSS"
+
+#: src/icesound.cc:415
+msgid "Could not reset OSS DSP"
+msgstr "Αδυναμία ορισμού από την αρχή του OSS DSP"
+
+#: src/icesound.cc:420
+msgid "Could not set OSS format"
+msgstr "Αδυναμία ορισμού της μορφής OSS"
+
+#: src/icesound.cc:493
 #, c-format
 msgid "Can't connect to ESound daemon: %s"
 msgstr "Δεν μπορώ να συνδεθώ στον δαίμονα ESound: %s"
 
-#: src/icesound.cc:562 src/icesound.cc:739 src/icesound.cc:780
-#: src/icewmhint.cc:78 src/yxapp.cc:976
+#: src/icesound.cc:494 src/icewmhint.cc:38 src/yxapp.cc:926
 msgid "<none>"
 msgstr "<κανένα>"
 
-#: src/icesound.cc:582
+#: src/icesound.cc:512
 #, c-format
 msgid "Error <%d> while uploading `%s:%s'"
 msgstr "Σφάλμα <%d> κατά το ανέβασμα του `%s:%s'"
 
-#: src/icesound.cc:588
+#: src/icesound.cc:518
 #, c-format
 msgid "Sample <%d> uploaded as `%s:%s'"
 msgstr "Το δείγμα <%d> ανέβηκε ως `%s:%s'"
 
-#: src/icesound.cc:647
+#: src/icesound.cc:576
 #, c-format
-msgid "Playing sample #%d"
-msgstr "Παίζεται το δείγμα #%d"
+msgid "Playing sample #%d: %d"
+msgstr "Παίζεται το δείγμα #%d: %d"
 
-#: src/icesound.cc:738 src/icesound.cc:779
+#: src/icesound.cc:651
 #, c-format
-msgid "Can't connect to YIFF server: %s"
-msgstr "Δεν μπορώ να συνδεθώ στον εξυπηρετητή YIFF: %s"
+msgid "ao_open_live failed with %d"
+msgstr "απέτυχε το ao_open_live , με %d"
 
-#: src/icesound.cc:744
+#: src/icesound.cc:662
+msgid "ao_play failed"
+msgstr "απέτυχε το ao_play"
+
+#: src/icesound.cc:824
 #, c-format
-msgid "Can't change to audio mode `%s'."
-msgstr "Δεν μπορώ να αλλάξω στην κατάσταση λειτουργία ήχου `%s'."
+msgid "Unrecognized option: %s\n"
+msgstr "Μη αναγνωρισμένη επιλογή: %s\n"
 
-#: src/icesound.cc:886
+#: src/icesound.cc:827 src/icesound.cc:1130
 #, c-format
-msgid ""
-"Audio mode switch detected, initial audio mode `%s' no longer in effect."
-msgstr ""
-"Ανιχνεύθηκε εναλλαγή της κατάστασης λειτουργίας του ήχου· η αρχική "
-"λειτουργία ήχου`%s' δεν είναι πλέον ενεργή."
+msgid "Unrecognized argument: %s\n"
+msgstr "Μη αναγνωρισμένο όρισμα: %s\n"
 
-#: src/icesound.cc:893
-msgid "Audio mode switch detected, automatic audio mode changing disabled."
-msgstr ""
-"Ανιχνεύθηκε εναλλαγή της κατάστασης λειτουργίας του ήχου· απενεργοποιήθηκε η "
-"αυτόματη αλλαγή της κατάστασης λειτουργία του ήχου."
-
-#: src/icesound.cc:939 src/icesound.cc:952
-#, c-format
-msgid "Overriding previous audio mode `%s'."
-msgstr "Παραμερίζει την προηγούμενη κατάσταση του ήχου `%s'."
-
-#: src/icesound.cc:978
+#: src/icesound.cc:836
 #, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
 "\n"
 "Plays audio files on GUI events raised by IceWM.\n"
+"The currently configured sound interfaces are: %s.\n"
+"Icesound will choose the first of these which is usable.\n"
 "\n"
 "Options:\n"
 "\n"
-"-d, --display=DISPLAY         Display used by IceWM (default: $DISPLAY).\n"
-"-s, --sample-dir=DIR          Specifies the directory which contains\n"
-"                              the sound files (ie ~/.icewm/sounds).\n"
-"-i, --interface=TARGET        Specifies the sound output target\n"
-"                              interface, one of OSS, YIFF, ESD, ALSA\n"
-"-D, --device=DEVICE           (ALSA & OSS only) specifies the device to use\n"
-"                              (OSS default: /dev/dsp; ALSA: default).\n"
-"-S, --server=ADDR:PORT        (ESD and YIFF) specifies server address and\n"
-"                              port number (default localhost:16001 for ESD\n"
-"                              and localhost:9433 for YIFF).\n"
-"-m, --audio-mode[=MODE]       (YIFF only) specifies the Audio mode (leave\n"
-"                              blank to get a list).\n"
-"--audio-mode-auto             (YIFF only) change Audio mode on the fly to\n"
-"                              best match sample's Audio (can cause\n"
-"                              problems with other Y clients, overrides\n"
-"                              --audio-mode).\n"
+" -d, --display=DISPLAY   X11 display used by IceWM (default: $DISPLAY).\n"
 "\n"
-"-v, --verbose                 Be verbose (prints out each sound event to\n"
-"                              stdout).\n"
-"-V, --version                 Prints version information and exits.\n"
-"-h, --help                    Prints (this) help screen and exits.\n"
+" -s, --sample-dir=DIR    Specifies a directory with sound files.\n"
+"                         Default is $HOME/.config/icewm/sounds.\n"
+"\n"
+" -i, --interface=LIST    Specifies audio output interfaces. One or more of:\n"
+"                         %s separated by commas.\n"
+"\n"
+" -D, --device=DEVICE     Backwards compatibility only: the default device. \n"
+"                         Please prefer one of the -A/-O/-S options.\n"
+"\n"
+" -O, --oss=DEVICE        Specifies the OSS device (default: \"%s\").\n"
+"\n"
+" -A, --alsa=DEVICE       Specifies the ALSA device (default: \"%s\").\n"
+"\n"
+" -S, --server=ADDR:PORT  Specifies the ESD server address and port number.\n"
+"                         For ESD the default is \"localhost:16001\".\n"
+"\n"
+" -z, --snooze=millisecs  Specifies the snooze interval between sound events\n"
+"                         in milliseconds. Default is 500 milliseconds.\n"
+"\n"
+" -p, --play=sound        Plays the given sound (name or number) and exits.\n"
+"\n"
+" -l, --list-files        Lists the available sound file paths and exits.\n"
+"\n"
+"     --list-sounds       Lists the supported sound filenames and exits.\n"
+"\n"
+"     --list-interfaces   Lists the supported audio interfaces and exits.\n"
+"\n"
+" -v, --verbose           Be verbose and print out each sound event.\n"
+"\n"
+" -V, --version           Prints version information and exits.\n"
+"\n"
+" -h, --help              Prints this help screen and exits.\n"
 "\n"
 "Return values:\n"
 "\n"
-"0     Success.\n"
-"1     General error.\n"
-"2     Command line error.\n"
-"3     Subsystems error (ie cannot connect to server).\n"
+"  0    Success.\n"
+"  1    General error.\n"
+"  2    Command line error.\n"
+"  3    Subsystems error (ie cannot connect to server).\n"
 "\n"
 msgstr ""
 "Χρήση: %s [ΕΠΙΛΟΓΗ]...\n"
 "\n"
 "Αναπαράγει αρχεία ήχου σε γεγονότα της Γραφικής Διεπαφής Χρήστη που "
 "εξυψώνονται από το IceWM.\n"
+"Οι τωρινές ρυθμισμένες διεπαφές ήχου είναι: %s.\n"
+"Το Icesound θα επιλέξει την πρώτη, από αυτές που είναι έτοιμες προς χρήση.\n"
 "\n"
 "Επιλογές:\n"
 "\n"
-"-d, --display=ΠΡΟΒΟΛΗ           Οθόνη που χρησιμοποιείται από το IceWM "
+" -d, --display=ΠΡΟΒΟΛΗ           X11 Οθόνη που χρησιμοποιείται από το IceWM "
 "(προεπιλογή: $DISPLAY).\n"
-"-s, --sample-dir=ΚΑΤΑΛΟΓΟΣ      Προσδιορίζει το φάκελο ο οποίος περιέχει\n"
-"                                τα αρχεία ήχου (παράδειγμα ~/.icewm/"
-"sounds).\n"
-"-i, --interface=ΠΡΟΟΡΙΣΜΟΣ      Προσδιορίζει την διεπαφή προορισμού της "
-"εξόδου του ήχου·\n"
-"                                ένα από τα OSS, YIFF, ESD, ALSA\n"
-"-D, --device=ΣΥΣΚΕΥΗ            (ALSA κ΄ OSS μόνο) προσδιορίζει τη συσκευή "
-"που θα χρησιμοποιηθεί\n"
-"                                (προεπιλογή του OSS: /dev/dsp · προεπιλογή "
-"της ALSA: default).\n"
-"-S, --server=ΔΙΕΥΘΥΝΣΗ:ΘΥΡΑ     (ESD και YIFF) προσδιορίζει την διεύθυνση "
-"του εξυπηρετητή\n"
-"                                και τον αριθμό της θύρας (προεπιλογή "
-"localhost:16001 για ESD,\n"
-"                                και προεπιλογή localhost:9433 για YIFF).\n"
-"-m, --audio-mode[=ΛΕΙΤΟΥΡΓΙΑ]   (μόνο για YIFF) προσδιορίζει την κατάσταση "
-"λειτουργίας του Ήχου\n"
-"                                (άφησέ το κενό για να εμφανιστεί ένα "
-"κατάστιχο).\n"
-"--audio-mode-auto               (μόνο για YIFF) αλλαγή της κατάστασης "
-"λειτουργίας του Ήχου,\n"
-"                                «εν κινήσει»,\n"
-"                                ώστε να ταιριάξει καλύτερα με τον Ήχου του "
-"δείγματος\n"
-"                                (μπορεί να προκαλέσει προβλήματα με άλλους "
-"πελάτες Y,\n"
-"                                παραμερίζει την επιλογή --audio-mode).\n"
 "\n"
-"-v, --verbose                   Να είναι φλύαρο (εκτυπώνει κάθε γεγονός ήχου "
-"στο stdout).\n"
-"-V, --version                   Εκτυπώνει τις πληροφορίες έκδοσης και "
-"κλείνει.\n"
-"-h, --help                      Εκτυπώνει την (παρούσα) οθόνη βοήθειας και "
-"κλείνει.\n"
+" -s, --sample-dir=ΚΑΤΑΛΟΓΟΣ      Προσδιορίζει ένα φάκελο με αρχεία ήχου.\n"
+"                                 Η προεπιλογή είναι $HOME/.config/icewm/"
+"sounds .\n"
+"\n"
+" -i, --interface=ΚΑΤΑΣΤΙΧΟ       Προσδιορίζει διεπαφές με ηχητική έξοδο.\n"
+"                                 Μία ή περισσότερες από τις: %s ,\n"
+"                                 χωρισμένες με κόμμα.\n"
+"\n"
+" -D, --device=ΣΥΣΚΕΥΗ            Μόνο για συμβατότητα με τα παλιώτερα: η "
+"προεπιλεγμένη συσκευή. \n"
+"                                 Παρακαλείσαι να προτιμήσεις μία από τις "
+"επιλογές -A ή -O ή -S .\n"
+"\n"
+" -O, --oss=ΣΥΣΚΕΥΗ               Προσδιορίζει τη συσκευή OSS (προεπιλογή: "
+"\"%s\").\n"
+"\n"
+" -A, --alsa=ΣΥΣΚΕΥΗ              Προσδιορίζει τη συσκευή ALSA (προεπιλογή: "
+"\"%s\").\n"
+"\n"
+" -S, --server=ΔΙΕΥΘΥΝΣΗ:ΘΥΡΑ     Προσδιορίζει την διεύθυνση του εξυπηρετητή "
+"ESD, \n"
+"                                 και τον αριθμό της θύρας.\n"
+"                                 Για τον ESD η προεπιλογή είναι "
+"\"localhost:16001\".\n"
+"\n"
+" -z, --snooze=χιλιοστοδευτερόλεπτα  \n"
+"                                 Προσδιορίζει το μεσοδιάστημα μεταξύ "
+"γεγονότων ήχου,\n"
+"                                 σε χιλιοστά του δευτερόλεπτου. \n"
+"                                 Η προεπιλογή είναι 500 "
+"χιλιοστοδευτερόλεπτα.\n"
+"\n"
+" -p, --play=ΗΧΟΣ                 Παίζει το δοσμένο ΗΧΟ (όνομα ή αριθμός), "
+"και κάνει έξοδο.\n"
+"\n"
+" -l, --list-files                Καταστιχίζει τις διαδρομές των διαθέσιμων "
+"αρχείων ήχου,\n"
+"                                 και κάνει έξοδο.\n"
+"\n"
+"     --list-sounds               Καταστιχίζει τα υποστηριζόμενα ονόματα των "
+"αρχείων ήχου,\n"
+"                                 και κάνει έξοδο.\n"
+"\n"
+"     --list-interfaces           Καταστιχίζει τις υποστηριζόμενες διεπαφές "
+"ήχου,\n"
+"                                 και κάνει έξοδο.\n"
+"\n"
+"\n"
+" -v, --verbose                   Να είναι φλύαρο και να εκτυπώνει κάθε "
+"γεγονός ήχου.\n"
+"\n"
+" -V, --version                   Εκτυπώνει τις πληροφορίες έκδοσης και κάνει "
+"έξοδο.\n"
+"\n"
+" -h, --help                      Εκτυπώνει την παρούσα οθόνη βοήθειας και "
+"κάνει έξοδο.\n"
+"\n"
 "\n"
 "Επιστρεφόμενες τιμές:\n"
 "\n"
-"0     Επιτυχία.\n"
-"1     Γενικό σφάλμα.\n"
-"2     Σφάλμα της γραμμής εντολών.\n"
-"3     Σφάλμα των υποσυστημάτων (δηλαδή, δεν μπορεί να συνδεθεί στον "
+"  0     Επιτυχία.\n"
+"  1     Γενικό σφάλμα.\n"
+"  2     Σφάλμα της γραμμής εντολών.\n"
+"  3     Σφάλμα των υποσυστημάτων (δηλαδή, δεν μπορεί να συνδεθεί στον "
 "εξυπηρετητή).\n"
 "\n"
 
-#: src/icesound.cc:1175
-msgid "Multiple sound interfaces given."
-msgstr "Έχουν δοθεί πολλαπλές διεπαφές ήχου."
+#: src/icesound.cc:930
+#, c-format
+msgid "No audio for %s"
+msgstr "Καθόλου ήχος για το %s"
 
-#: src/icesound.cc:1187 src/icesound.cc:1199 src/icesound.cc:1212
+#: src/icesound.cc:1007
+msgid "Could not get GUI event property"
+msgstr ""
+"Αδυναμία λήψης της ιδιότητας του γεγονότος του Γραφικού Περιβάλλοντος του "
+"Χρήστη (GUI)"
+
+#: src/icesound.cc:1011
+#, c-format
+msgid "Received invalid GUI event %d"
+msgstr ""
+"Λήφθηκε μη έγκυρο γεγονός του Γραφικού Περιβάλλοντος του Χρήστη (GUI) %d"
+
+#: src/icesound.cc:1015
+#, c-format
+msgid "Received GUI event %s"
+msgstr "Λήφθηκε γεγονός του Γραφικού Περιβάλλοντος του Χρήστη (GUI) %s"
+
+#: src/icesound.cc:1029
+#, c-format
+msgid "Too quick; ignoring %s."
+msgstr "Υπερβολικά γρήγορο· παράβλεψη του %s."
+
+#: src/icesound.cc:1033
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr "Η υποστήριξη για την διεπαφή %s δεν έχει συντεθεί στον κώδικα."
 
-#: src/icesound.cc:1216
+#: src/icesound.cc:1073
 #, c-format
 msgid "Unsupported interface: %s."
-msgstr "Μη υποστηριζόμενη διεπαφή %s."
+msgstr "Μη υποστηριζόμενη διεπαφή: %s ."
 
-#: src/icesound.cc:1233
+#: src/icesound.cc:1082
 #, c-format
-msgid "Received signal %d: Terminating..."
-msgstr "Ελήφθη σήμα %d: Τερματίζεται..."
+msgid "Using %s audio."
+msgstr "Χρησιμοποιείται ο ήχος %s ."
 
-#: src/icesound.cc:1242
+#: src/icesound.cc:1086
 #, c-format
-msgid "Received signal %d: Reloading samples..."
-msgstr "Ελήφθη σήμα %d: Ξαναφορτώνονται τα δείγματα..."
+msgid "Failed to connect to audio interfaces %s."
+msgstr "Αποτυχία σύνδεσης στις διεπαφές ήχου %s ."
 
-#: src/iceview.cc:72
+#: src/icesound.cc:1098
+#, c-format
+msgid "Received signal %s: Terminating..."
+msgstr "Ελήφθη το σήμα %s: Τερματίζεται..."
+
+#: src/icetray.cc:231
+msgid ""
+"  -n, --notify        Notify parent process by sending signal USR1.\n"
+"  --display=NAME      Use NAME to connect to the X server.\n"
+"  --sync              Synchronize communication with X11 server.\n"
+"\n"
+"  -c, --config=FILE   Load preferences from FILE.\n"
+"  -t, --theme=FILE    Load the theme from FILE.\n"
+msgstr ""
+"  -n, --notify        Να ειδοποιηθεί η πατρική διεργασία, δια αποστολής του "
+"σήματος USR1.\n"
+"  --display=NAME      Χρήση του «ΟΝΟΜΑ», για σύνδεση στον εξυπηρετητή X .\n"
+"  --sync              Συγχρονισμός των επικοινωνιών, με τον εξυπηρετητή "
+"X11 .\n"
+"\n"
+"  -c, --config=FILE   Φόρτωμα των προτιμήσεων από το ΑΡΧΕΙΟ.\n"
+"  -t, --theme=FILE    Φόρτωμα του θέματος από το ΑΡΧΕΙΟ.\n"
+
+#: src/iceview.cc:70
 msgid "Hex View"
 msgstr "Δεκαεξαδική Προβολή"
 
-#: src/iceview.cc:72
+#: src/iceview.cc:70
 msgid "Ctrl+H"
 msgstr "Ctrl+H"
 
-#: src/iceview.cc:73
+#: src/iceview.cc:71
 msgid "Expand Tabs"
 msgstr "Επέκταση των Καρτελών"
 
-#: src/iceview.cc:73
+#: src/iceview.cc:71
 msgid "Ctrl+T"
 msgstr "Ctrl+T"
 
-#: src/iceview.cc:74
+#: src/iceview.cc:72
 msgid "Wrap Lines"
 msgstr "Αναδίπλωση των Γραμμών"
 
-#: src/iceview.cc:74
+#: src/iceview.cc:72
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icewmbg.cc:410
+#: src/icewmbg.cc:78
+#, c-format
+msgid "Failed to load image '%s'."
+msgstr "Αδυναμία ανοίγματος της εικόνας '%s'."
+
+#: src/icewmbg.cc:885
 msgid ""
-"Usage: icewmbg [ -r | -q ]\n"
-" -r  Restart icewmbg\n"
-" -q  Quit icewmbg\n"
-"Loads desktop background according to preferences file\n"
+"Usage: icewmbg [OPTIONS]\n"
+"Where multiple values can be given they are separated by commas.\n"
+"When image is a directory then all images from that directory are used.\n"
+"\n"
+"Options:\n"
+"  -p, --replace        Replace an existing icewmbg.\n"
+"  -q, --quit           Tell the running icewmbg to quit.\n"
+"  -r, --restart        Tell the running icewmbg to restart itself.\n"
+"  -u, --shuffle        Shuffle/reshuffle the list of background images.\n"
+"\n"
+"  -c, --config=FILE    Load preferences from FILE.\n"
+"  -t, --theme=NAME     Load the theme with name NAME.\n"
+"\n"
+"  -i, --image=FILE(S)  Load background image(s) from FILE(S).\n"
+"  -k, --color=NAME(S)  Use background color(s) from NAME(S).\n"
+"\n"
+"  -s, --semis=FILE(S)  Load transparency image(s) from FILE(S).\n"
+"  -x, --trans=NAME(S)  Use transparency color(s) from NAME(S).\n"
+"\n"
+"  -e, --center=0/1     Disable/Enable centering background.\n"
+"  -a, --scaled=0/1     Disable/Enable scaling background.\n"
+"  -m, --multi=0/1      Disable/Enable multihead background.\n"
+"  -y, --cycle=SECONDS  Cycle backgrounds every SECONDS.\n"
+"\n"
+"  --display=NAME       Use NAME to connect to the X server.\n"
+"  --sync               Synchronize communication with X11 server.\n"
+"\n"
+"  -h, --help           Print this usage screen and exit.\n"
+"  -V, --version        Prints version information and exits.\n"
+"\n"
+"Loads desktop background according to preferences file:\n"
 " DesktopBackgroundCenter  - Display desktop background centered\n"
 " DesktopBackgroundScaled  - Display desktop background scaled\n"
+" DesktopBackgroundColor   - Desktop background color(s)\n"
+" DesktopBackgroundImage   - Desktop background image(s)\n"
+" ShuffleBackgroundImages  - Shuffle the list of background images\n"
 " SupportSemitransparency  - Support for semitransparent terminals\n"
-" DesktopBackgroundColor   - Desktop background color\n"
-" DesktopBackgroundImage   - Desktop background image\n"
-" DesktopTransparencyColor - Color to announce for semi-transparent windows\n"
-" DesktopTransparencyImage - Image to announce for semi-transparent windows\n"
+" DesktopTransparencyColor - Semitransparency background color(s)\n"
+" DesktopTransparencyImage - Semitransparency background image(s)\n"
+" DesktopBackgroundMultihead - One background over all monitors\n"
+" CycleBackgroundsPeriod   - Seconds between cycling over backgrounds\n"
 "\n"
 " center:0 scaled:0 = tiled\n"
-" center:1 scaled:1 = keep aspect ratio\n"
-msgstr ""
-"Χρήση: icewmbg [ -r | -q ]\n"
-" -r  Επανεκκίνηση του icewmbg\n"
-" -q  Τερματισμός του icewmbg\n"
-"Φορτώνει το παρασκήνιο της επιφάνειας εργασίας, σύμφωνα με το αρχείο των "
-"προτιμήσεων\n"
-" DesktopBackgroundCenter  - Κεντραρισμένη προβολή του παρασκηνίου της "
-"επιφάνειας εργασίας\n"
-" DesktopBackgroundScaled  - Κλιμακωμένη προβολή του παρασκηνίου της "
-"επιφάνειας εργασίας\n"
-" SupportSemitransparency  - Υποστήριξη για ημιδιαφανή τερματικά\n"
-" DesktopBackgroundColor   - Χρώμα παρασκηνίου επιφάνειας εργασίας\n"
-" DesktopBackgroundImage   - Εικόνα παρασκηνίου επιφάνειας εργασίας\n"
-" DesktopTransparencyColor - Χρώμα αναγγελίας για ημιδιαφανή παράθυρα\n"
-" DesktopTransparencyImage - Εικόνα αναγγελίας για ημιδιαφανή παράθυρα\n"
+" center:1 scaled:0 = centered\n"
+" center:1 scaled:1 = fill one dimension and keep aspect ratio\n"
+" center:0 scaled:1 = fill both dimensions and keep aspect ratio\n"
 "\n"
-" center:0 scaled:0 "
-"= παράλληλη τοποθέτηση\n"
-" center:1 scaled:1 = διατήρηση αναλογίας διαστάσεων\n"
-
-#: src/icewmbg.cc:428
-#, c-format
-msgid ""
-"%s: unrecognized option `%s'\n"
-"Try `%s --help' for more information.\n"
 msgstr ""
-"%s: μη αναγνωρισμένη επιλογή `%s'\n"
-"Δοκιμάστε το `%s --help', για περισσότερες πληροφορίες.\n"
+"Χρήση: icewmbg [ΕΠΟΛΟΓΕΣ]\n"
+"Όπου μπορούν να δωθούν πολλαπλές τιμές, αυτές διαχωρίζονται με κόμματα.\n"
+"Όταν η εικόνα είναι ένας κατάλογος, τότε χρησιμοποιούνται όλες οι εικόνες,\n"
+"αυτού του κατάλογου\n"
+"Επιλογές:\n"
+"  -p, --replace             Αντικατάσταση του υπάρχοντος icewmbg.\n"
+"  -q, --quit                Λέει στο icewmbg που τρέχει να τερματίσει.\n"
+"  -r, --restart             Λέει στο icewmbg που τρέχει να επανεκκινήσει τον "
+"εαυτό του.\n"
+"  -u, --shuffle             Ανακάτεμα ή ανακάτεμα, ξανά, του κατάστιχου \n"
+"                            με τις εικόνες παρασκηνίου.\n"
+"\n"
+"  -c, --config=ΑΡΧΕΙΟ       Φορτώνει τις προτιμήσεις από το ΑΡΧΕΙΟ.\n"
+"  -t, --theme=ΟΝΟΜΑ         Φορτώνει το θέμα με το όνομα ΟΝΟΜΑ.\n"
+"\n"
+"  -i, --image=ΑΡΧΕΙΟ(-Α)    Φορτώνει τις εικόνες παρασκηνίου, από το ΑΡΧΕΙΟ, "
+"ή από τα ΑΡΧΕΙΑ.\n"
+"  -k, --color=ΟΝΟΜΑ(-ΤΑ)    Χρησιμοποιεί τα χρώματα παρασκηνίου, από το "
+"ΟΝΟΜΑ, ή από τα ΟΝΟΜΑΤΑ.\n"
+"\n"
+"  -s, --semis=ΑΡΧΕΙΟ(-Α)    Φορτώνει τις εικόνες διαφάνειας, από το ΑΡΧΕΙΟ, "
+"ή από τα ΑΡΧΕΙΑ.\n"
+"  -x, --trans=ΟΝΟΜΑ(-ΤΑ)    Χρησιμοποιεί τα χρώματα διαφάνειας, από το "
+"ΟΝΟΜΑ, ή από τα ΟΝΟΜΑΤΑ.\n"
+"\n"
+"  -e, --center=0 ή 1        Απενεργοποίηση ή Ενεργοποίηση του "
+"κεντραρίσματος\n"
+"                            των εικόνων παρασκηνίου.\n"
+"  -a, --scaled=0 ή 1        Απενεργοποίηση ή Ενεργοποίηση της κλιμάκωσης\n"
+"                            των εικόνων παρασκηνίου.\n"
+"  -m, --multi=0 ή 1         Απενεργοποίηση ή Ενεργοποίηση του πολυκέφαλου\n"
+"                            παρασκηνίου.\n"
+"  -y, --cycle=ΔΕΥΤΕΡΟΛΕΠΤΑ  Άλλαγμα των εικόνων του παρασκηνίου ανά τόσα "
+"ΔΕΥΤΕΡΟΛΕΠΤΑ.\n"
+"\n"
+"  --display=ΟΝΟΜΑ           Χρήση του «ΟΝΟΜΑ», για σύνδεση στον εξυπηρετητή "
+"X .\n"
+"  --sync                    Συγχρονισμός των επικοινωνιών, με τον "
+"εξυπηρετητή X11 .\n"
+"\n"
+"  -h, --help                Να εκτυπώσει την παρούσα οθόνη βοήθειας, και "
+"μετά να κάνει έξοδο.\n"
+"  -V, --version             Να εκτυπώσει τις πληροφορίες της έκδοσης, και "
+"μετά να κάνει έξοδο.\n"
+"\n"
+"\n"
+"Φορτώνει το παρασκήνιο της επιφάνειας εργασίας, σύμφωνα με το αρχείο των "
+"προτιμήσεων:\n"
+" DesktopBackgroundCenter  - Κεντραρισμένη προβολή, του παρασκηνίου της "
+"επιφάνειας εργασίας\n"
+" DesktopBackgroundScaled  - Κλιμακωμένη προβολή, του παρασκηνίου της "
+"επιφάνειας εργασίας\n"
+" DesktopBackgroundColor   - Το χρώμα ή τα χρώματα του παρασκηνίου της "
+"επιφάνειας εργασίας\n"
+" DesktopBackgroundImage   - Η εικόνα ή οι εικόνες του παρασκηνίου της "
+"επιφάνειας εργασίας\n"
+" ShuffleBackgroundImages  - Ανακάτεμα της σειράς των εικόνων του "
+"παρασκηνίου\n"
+" SupportSemitransparency  - Υποστήριξη για ημιδιαφανή τερματικά\n"
+" DesktopTransparencyColor - Το χρώμα ή τα χρώματα του ημιδιάφανου "
+"παρασκηνίου\n"
+" DesktopTransparencyImage - Η εικόνα ή οι εικόνες του ημιδιάφανου "
+"παρασκηνίου\n"
+" DesktopBackgroundMultihead \n"
+"                          - Ένα παρασκήνιο για όλες τις οθόνες\n"
+" CycleBackgroundsPeriod   - Τα δευτερόλεπτα για την αλλαγή των παρασκηνίων\n"
+"\n"
+" center:0 scaled:0 = σαν πλακάκια\n"
+" center:1 scaled:0 = κεντραρισμένο\n"
+" center:1 scaled:1 = γέμισμα της μίας διάστασης, και διατήρηση της αναλογίας "
+"των διαστάσεων\n"
+" center:0 scaled:1 = γέμισμα των δύο διαστάσεων, και διατήρηση της αναλογίας "
+"των διαστάσεων\n"
+"\n"
+"\n"
 
-#: src/icewmbg.cc:557
-#, c-format
-msgid "Loading image %s failed"
-msgstr "Η φόρτωση της φωτογραφίας %s απέτυχε"
+#: src/icewmbg.cc:1100
+msgid "Cannot start, because another icewmbg is still running."
+msgstr "Αδυναμία εκκίνησης, επειδή, ήδη, τρέχει ένα άλλο icewmbg ."
 
-#: src/icewmbg.cc:571 src/ycursor.cc:102 src/yimage.cc:81 src/ypixbuf.cc:879
-#, c-format
-msgid "Loading of pixmap \"%s\" failed: %s"
-msgstr "Η φόρτωση του pixmap \"%s\" απέτυχε: %s"
+#: src/icewmhint.cc:23
+msgid "Usage: icewmhint class.instance option arg\n"
+msgstr "Χρήση:  icewmhint class.instance επιλογή όρισμα\n"
 
-#: src/icewmhint.cc:49
-msgid "Usage: icewmhint [class.instance] option arg\n"
-msgstr "Χρήση:  icewmhint [class.instance] επιλογή όρισμα\n"
-
-#: src/icewmhint.cc:65
+#: src/icewmhint.cc:57
 #, c-format
 msgid "Out of memory (len=%d)."
 msgstr "Υπερπλήρωση μνήμης (μέγεθος=%d)."
 
-#: src/misc.cc:330
+#: src/misc.cc:466 src/misc.cc:478
 msgid "Warning: "
 msgstr "Προειδοποίηση: "
 
-#: src/movesize.cc:903
+#: src/misc.cc:754
+#, c-format
+msgid ""
+"Usage: %s [OPTIONS]\n"
+"Options:\n"
+"%s\n"
+"  -C, --copying       Prints license information and exits.\n"
+"  -V, --version       Prints version information and exits.\n"
+"  -h, --help          Prints this usage screen and exits.\n"
+"\n"
+msgstr ""
+"Χρήση: %s [ΕΠΙΛΟΓΕΣ]\n"
+"Επιλογές:\n"
+"%s\n"
+"  -C, --copying       Εκτυπώνει της πληροφορίες της άδειας, και κάνει "
+"έξοδο.\n"
+"  -V, --version       Εκτυπώνει της πληροφορίες της έκδοσης, και κάνει "
+"έξοδο.\n"
+"  -h, --help          Εκτυπώνει την παρούσα οθόνη χρησιμότητας, και κάνει "
+"έξοδο.\n"
+"\n"
+
+#: src/movesize.cc:876
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Άγνωστη κατεύθυνση στην αίτηση μετακίνησης/αλλαγής-σχήματος: %d"
 
-#: src/themes.cc:100
-msgid "Default"
-msgstr "Εξ ορισμού"
-
-#: src/wmabout.cc:29 src/wmabout.cc:31
+#: src/wmabout.cc:26 src/wmabout.cc:28
 msgid "(C)"
 msgstr "(C)"
 
-#: src/wmabout.cc:37
+#: src/wmabout.cc:34
 msgid "Theme:"
 msgstr "Θέμα:"
 
-#: src/wmabout.cc:38
+#: src/wmabout.cc:35
 msgid "Theme Description:"
 msgstr "Περιγραφή Θέματος:"
 
-#: src/wmabout.cc:39
+#: src/wmabout.cc:36
 msgid "Theme Author:"
 msgstr "Συγγραφέας Θέματος:"
 
-#: src/wmabout.cc:43
+#: src/wmabout.cc:40
 msgid "CodeSet:"
 msgstr "ΟμάδαΚώδικα:"
 
-#: src/wmabout.cc:44
+#: src/wmabout.cc:41
 msgid "Language:"
 msgstr "Γλώσσα:"
 
-#: src/wmabout.cc:69
+#: src/wmabout.cc:67
 msgid "icewm - About"
 msgstr "icewm - Σχετικά με..."
 
-#: src/wmapp.cc:444
+#: src/wmapp.cc:90
+msgid "A window manager is already running, use --replace to replace it"
+msgstr ""
+"Ένας άλλος διαχειριστής παραθύρων, ήδη, τρέχει· χρησιμοποίησε την επιλογή --"
+"replace για να τον αντικαταστήσεις"
+
+#: src/wmapp.cc:108
+#, c-format
+msgid "Failed to become the owner of the %s selection"
+msgstr "Αδυναμία να αποκτήσει την ιδιοκτησία της επιλογής %s"
+
+#: src/wmapp.cc:112
+msgid "Waiting to replace the old window manager"
+msgstr "Αναμονή ως την αντικατάσταση του παλιού διαχειριστή παραθύρων"
+
+#: src/wmapp.cc:117
+msgid "done."
+msgstr "έγινε."
+
+#: src/wmapp.cc:403
 msgid "Unable to get current font path."
 msgstr "Αδυναμία εύρεσης της τοποθεσίας της τωρινής γραμματοσειράς."
 
-#: src/wmapp.cc:471
+#: src/wmapp.cc:430
 msgid "Unexpected format of ICEWM_FONT_PATH property"
 msgstr "Αναπάντεχη μορφή της ιδιότητας ICEWM_FONT_PATH"
 
-#: src/wmapp.cc:528
-#, c-format
-msgid "Multiple references for gradient \"%s\""
-msgstr "Πολλαπλές αναφορές για την διαβάθμιση χρώματος \"%s\""
-
-#: src/wmapp.cc:603
-#, c-format
-msgid "Unknown gradient name: %s"
-msgstr "Άγνωστο όνομα της διαβάθμισης χρώματος: %s"
-
-#: src/wmapp.cc:866
+#: src/wmapp.cc:508
 msgid "_Logout"
 msgstr "_Αποσύνδεση"
 
-#: src/wmapp.cc:867
+#: src/wmapp.cc:509
 msgid "_Cancel logout"
 msgstr "_Ακύρωση της αποσύνδεσης"
 
-#: src/wmapp.cc:880 src/wmapp.cc:882
+#: src/wmapp.cc:514
 msgid "Lock _Workstation"
 msgstr "Κλείδωμα _Σταθμού Εργασίας"
 
-#: src/wmapp.cc:886 src/wmapp.cc:888 src/wmdialog.cc:111
+#: src/wmapp.cc:516 src/wmdialog.cc:78
 msgid "Re_boot"
 msgstr "Επαν_εκκίνηση"
 
-#: src/wmapp.cc:892 src/wmapp.cc:894 src/wmdialog.cc:118
+#: src/wmapp.cc:518 src/wmdialog.cc:79
 msgid "Shut_down"
 msgstr "_Τερματισμός"
 
-#: src/wmapp.cc:900 src/wmapp.cc:902
+#. TRANSLATORS: This means "energy saving mode" or "suspended system". Not "interrupt". Not "hibernate".
+#: src/wmapp.cc:520 src/wmdialog.cc:75
+msgid "_Sleep mode"
+msgstr "_Κατάσταση λειτουργίας ύπνου"
+
+#: src/wmapp.cc:525
 msgid "Restart _Icewm"
 msgstr "Επανεκκίνηση του _Icewm"
 
-#: src/wmapp.cc:906
+#: src/wmapp.cc:527
 msgid "Restart _Xterm"
 msgstr "Επανεκκίνηση του _Xterm"
 
-#: src/wmapp.cc:928
+#: src/wmapp.cc:540
 msgid "_Menu"
 msgstr "_Κατάλογος"
 
-#: src/wmapp.cc:929
+#: src/wmapp.cc:541
 msgid "_Above Dock"
 msgstr "_Πάνω από την Προκυμαία"
 
-#: src/wmapp.cc:930
+#: src/wmapp.cc:542
 msgid "_Dock"
 msgstr "_Προκυμαία"
 
-#: src/wmapp.cc:931
+#: src/wmapp.cc:543
 msgid "_OnTop"
 msgstr "_Στην Κορυφή"
 
-#: src/wmapp.cc:932
+#: src/wmapp.cc:544
 msgid "_Normal"
 msgstr "_Κανονικό"
 
-#: src/wmapp.cc:933
+#: src/wmapp.cc:545
 msgid "_Below"
 msgstr "_Απο Κάτω"
 
-#: src/wmapp.cc:934
+#: src/wmapp.cc:546
 msgid "D_esktop"
 msgstr "Ε_πιφάνεια Εργασίας"
 
-#: src/wmapp.cc:946
+#: src/wmapp.cc:571 src/wmwinlist.cc:349
 msgid "_Restore"
 msgstr "_Επαναφορά"
 
-#: src/wmapp.cc:948
+#: src/wmapp.cc:573
 msgid "_Move"
 msgstr "_Μετακκίνηση"
 
-#: src/wmapp.cc:950
+#: src/wmapp.cc:575
 msgid "_Size"
 msgstr "_Μέγεθος"
 
-#: src/wmapp.cc:952
+#: src/wmapp.cc:577 src/wmwinlist.cc:350
 msgid "Mi_nimize"
 msgstr "Ελ_αχιστοποίηση"
 
-#: src/wmapp.cc:954
+#: src/wmapp.cc:579 src/wmwinlist.cc:351
 msgid "Ma_ximize"
 msgstr "Με_γιστοποίηση"
 
-#: src/wmapp.cc:956
+#: src/wmapp.cc:580 src/wmwinlist.cc:352
+msgid "Maximize_Vert"
+msgstr "Μεγιστοποίηση_Κάθ"
+
+#: src/wmapp.cc:581
+msgid "MaximizeHori_z"
+msgstr "Μεγιστοποίηση_Οριζ"
+
+#: src/wmapp.cc:584 src/wmwinlist.cc:353
 msgid "_Fullscreen"
 msgstr "_Πλήρης Οθόνη"
 
-#: src/wmapp.cc:960 src/wmwinlist.cc:307
+#: src/wmapp.cc:587 src/wmwinlist.cc:355
 msgid "_Hide"
 msgstr "_Απόκρυψη"
 
-#: src/wmapp.cc:963
+#: src/wmapp.cc:589 src/wmwinlist.cc:356
 msgid "Roll_up"
 msgstr "Τ_ύλιγμα"
 
-#: src/wmapp.cc:970
+#: src/wmapp.cc:596
 msgid "R_aise"
 msgstr "_Ανύψωση"
 
-#: src/wmapp.cc:972
+#: src/wmapp.cc:598 src/wmwinlist.cc:358
 msgid "_Lower"
 msgstr "Χαμή_λωμα"
 
-#: src/wmapp.cc:974
+#: src/wmapp.cc:600
 msgid "La_yer"
 msgstr "Στ_ρώμα"
 
-#: src/wmapp.cc:978 src/wmwinlist.cc:310
+#: src/wmapp.cc:604 src/wmwinlist.cc:360
 msgid "Move _To"
 msgstr "Μετακίνηση _Σε"
 
-#: src/wmapp.cc:979
+#: src/wmapp.cc:605 src/wmwinlist.cc:361
 msgid "Occupy _All"
 msgstr "Κατάληψη _Όλων"
 
-#: src/wmapp.cc:985
+#: src/wmapp.cc:611
 msgid "Limit _Workarea"
 msgstr "Περιορισμός της _Περιοχής Εργασίας"
 
-#: src/wmapp.cc:990
+#: src/wmapp.cc:615 src/wmwinlist.cc:362
 msgid "Tray _icon"
 msgstr "Εικονίδ_ιο Ραφιού"
 
-#: src/wmapp.cc:996 src/wmwinlist.cc:295 src/wmwinlist.cc:321
+#: src/wmapp.cc:620 src/wmwinlist.cc:339 src/wmwinlist.cc:373
 msgid "_Close"
 msgstr "_Κλείσιμο"
 
-#: src/wmapp.cc:998 src/wmwinlist.cc:297
+#: src/wmapp.cc:622 src/wmwinlist.cc:341
 msgid "_Kill Client"
 msgstr "_Σκότωμα του Πελάτη"
 
-#: src/wmapp.cc:1002 src/wmdialog.cc:132 src/wmwinmenu.cc:137
+#: src/wmapp.cc:625 src/wmdialog.cc:80 src/wmwinmenu.cc:131
 msgid "_Window list"
 msgstr "Κατάστι_χο Παράθυρων"
 
-#: src/wmapp.cc:1018
+#: src/wmapp.cc:639
 msgid "Another window manager already running, exiting..."
 msgstr "Ένας άλλος διαχειριστής παραθύρων ήδη τρέχει· γίνεται έξοδος..."
 
-#: src/wmapp.cc:1084
+#: src/wmapp.cc:724
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1000,14 +1502,18 @@ msgstr ""
 "Αδύνατη η επανεκκίνηση: %s\n"
 "Όντως οδηγεί το $PATH στο %s ;"
 
-#: src/wmapp.cc:1646
+#: src/wmapp.cc:849
+msgid "Kill IceWM, replace with Xterm"
+msgstr "Σκότωμα του IceWM, αντικατάσταση με το Xterm"
+
+#: src/wmapp.cc:1394
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
-"  --client-id=ΤΑΥΤΟΤΗΤΑ      Ταυτότητα του πελάτη που θα χρησιμοποιηθεί όταν"
-" γίνεται επαφή με το διαχειριστή συνεδρίας.\n"
+"  --client-id=ΤΑΥΤΟΤΗΤΑ      Ταυτότητα του πελάτη που θα χρησιμοποιηθεί όταν "
+"γίνεται επαφή με το διαχειριστή συνεδρίας.\n"
 
-#: src/wmapp.cc:1652
+#: src/wmapp.cc:1400
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1015,75 +1521,109 @@ msgid ""
 msgstr ""
 "\n"
 "  --debug                Εκτύπωση γενικών μηνυμάτων αποσφαλμάτωσης.\n"
-"  --debug-z              Εκτύπωση μηνυμάτων αποσφαλμάτωσης σχετικά με το"
-" στοίβαγμα των παράθυρων.\n"
+"  --debug-z              Εκτύπωση μηνυμάτων αποσφαλμάτωσης σχετικά με το "
+"στοίβαγμα των παράθυρων.\n"
 
-#: src/wmapp.cc:1658
+#: src/wmapp.cc:1408
+msgid ""
+"\n"
+"  -c, --config=FILE   Load preferences from FILE.\n"
+"  -t, --theme=FILE    Load theme from FILE.\n"
+"  --postpreferences   Print preferences after all processing.\n"
+msgstr ""
+"\n"
+"  -c, --config=ΑΡΧΕΙΟ   Φόρτωση των ρυθμίσεων από το ΑΡΧΕΙΟ.\n"
+"  -t, --theme=ΑΡΧΕΙΟ    Φόρτωση του θέματος από το ΑΡΧΕΙΟ.\n"
+"  --postpreferences     Εκτύπωση των ρυθμίσεων, μετά από όλη την "
+"επεξεργασία.\n"
+
+#: src/wmapp.cc:1413
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
 "Starts the IceWM window manager.\n"
 "\n"
 "Options:\n"
-"  --display=NAME      NAME of the X server to use.\n"
+"  -d, --display=NAME  NAME of the X server to use.\n"
 "%s  --sync              Synchronize X11 commands.\n"
-"\n"
-"  -c, --config=FILE   Load preferences from FILE.\n"
-"  -t, --theme=FILE    Load theme from FILE.\n"
-"  -n, --no-configure  Ignore preferences file.\n"
-"\n"
-"  -v, --version       Prints version information and exits.\n"
+"%s\n"
+"  -V, --version       Prints version information and exits.\n"
 "  -h, --help          Prints this usage screen and exits.\n"
-"%s  --replace           Replace an existing window manager.\n"
-"  --restart           Don't use this: It's an internal flag.\n"
+"%s\n"
+"  --replace           Replace an existing window manager.\n"
+"  -r, --restart       Tell the running icewm to restart itself.\n"
+"\n"
+"  --configured        Print the compile time configuration.\n"
+"  --directories       Print the configuration directories.\n"
+"  -l, --list-themes   Print a list of all available themes.\n"
 "\n"
 "Environment variables:\n"
-"  ICEWM_PRIVCFG=PATH  Directory to use for user private configuration "
-"files,\n"
-"                      \"$HOME/.icewm/\" by default.\n"
-"  DISPLAY=NAME        Name of the X server to use, depends on Xlib by "
-"default.\n"
-"  MAIL=URL            Location of your mailbox. If the schema is omitted\n"
-"                      the local \"file\" schema is assumed.\n"
+"  ICEWM_PRIVCFG=PATH  Directory for user configuration files,\n"
+"                      \"$XDG_CONFIG_HOME/icewm\" if exists or\n"
+"                      \"$HOME/.icewm\" by default.\n"
+"  DISPLAY=NAME        Name of the X server to use.\n"
+"  MAIL=URL            Location of your mailbox.\n"
 "\n"
-"Visit http://www.icewm.org/ for report bugs, support requests, comments...\n"
+"To report bugs, support requests, comments please visit:\n"
+"%s\n"
+"\n"
 msgstr ""
 "Χρήση: %s [ΕΠΙΛΟΓΕΣ]\n"
 "Εκκινεί τον διαχειριστή παράθυρων IceWM.\n"
 "\n"
 "Επιλογές:\n"
-"  --display=ΟΝΟΜΑ         ΟΝΟΜΑ το εξυπηρετητή X που θα χρησιμοποιηθεί.\n"
+"  -d, --display=ΟΝΟΜΑ      Το ΟΝΟΜΑ το εξυπηρετητή X, που θα "
+"χρησιμοποιηθεί.\n"
 "%s  --sync                 Συγχρονισμός των εντολών X11.\n"
-"\n"
-"  -c, --config=ΑΡΧΕΙΟ    Φόρτωμα των προτιμήσεων από το ΑΡΧΕΙΟ.\n"
-"  -t, --theme=ΑΡΧΕΙΟ     Φόρτωμα του θέματος από το ΑΡΧΕΙΟ.\n"
-"  -n, --no-configure     Αγνόηση των προτιμήσεων.\n"
-"\n"
-"  -v, --version          Εκτυπώνει της πληροφορίες έκδοσης και κλείνει.\n"
-"  -h, --help             Εκτυπώνει την παρούσα οθόνη χρήσης και κλείνει.\n"
-"%s  --replace              Αντικατάσταση ενός υπάρχοντος διαχειριστή "
+"%s\n"
+"  -V, --version            Εκτυπώνει της πληροφορίες έκδοσης και κλείνει.\n"
+"  -h, --help               Εκτυπώνει την παρούσα οθόνη χρήσης και κλείνει.\n"
+"%s\n"
+"  --replace                Αντικατάσταση ενός υπάρχοντος διαχειριστή "
 "παράθυρων.\n"
-"  --restart              Μην το χρησιμοποιήσεις αυτό.Είναι μια εσωτερική "
-"σημαία.\n"
+"  -r, --restart            Λέει στο icewm, που τρέχει, να επανεκκινήσει τον "
+"εαυτό του.\n"
+"\n"
+"  --configured             Εκτυπώνει τις πληροφορίες του χρόνου σύνθεσης "
+"(compile).\n"
+"  --directories            Εκτυπώνει τους κατάλογους ρύθμισης.\n"
+"  -l, --list-themes        Εκτυπώνει ένα κατάστιχο με όλα τα διαθέσιμα "
+"γραφικά θέματα.\n"
 "\n"
 "Μεταβλητές περιβάλλοντος:\n"
-"  ICEWM_PRIVCFG=ΔΙΑΔΡΟΜΗ Ο κατάλογος που θα χρησιμοποιηθεί για τα ιδιωτικά "
-"αρχεία ρυθμίσεων\n"
-"                         του χρήστη· κατά προεπιλογή το «$HOME/.icewm/».\n"
-"  DISPLAY=ΟΝΟΜΑ          Το όνομα του εξυπηρετητή X προς χρήση· \n"
-"                         κατά προεπιλογή εξαρτάται από το Xlib.\n"
-"  MAIL=URL               Τοποθεσία του γραμματοκιβώτιού σου. Αν το σχήμα "
-"παραληφθεί,\n"
-"                         θα υιοθετηθεί το τοπικό σχήμα «file».\n"
+"  ICEWM_PRIVCFG=ΔΙΑΔΡΟΜΗ   Ο κατάλογος που θα χρησιμοποιηθεί \n"
+"                           για τα αρχεία ρυθμίσεων του χρήστη·\n"
+"                           ο « $XDG_CONFIG_HOME/icewm » αν υπάρχει,\n"
+"                           ή ο « $HOME/.icewm/ », κατά προεπιλογή.\n"
+"  DISPLAY=ΟΝΟΜΑ            Το όνομα του εξυπηρετητή X προς χρήση\n"
+"  MAIL=URL                 Τοποθεσία του γραμματοκιβώτιού σου.\n"
 "\n"
-"Δες το http://www.icewm.org/ για αναφορά δυσλειτουργιών, για αιτήματα "
-"υποστήριξης, σχόλια...\n"
+"Για αναφορά δυσλειτουργιών, για αιτήματα υποστήριξης, σχόλια,\n"
+"παρακαλείσαι να επισκεφθείς το...\n"
+"%s\n"
+"\n"
+"\n"
 
-#: src/wmapp.cc:1769
+#: src/wmapp.cc:1474
+#, c-format
+msgid "%s configuration directories:\n"
+msgstr "%s κατάλογοι ρυθμίσεων:\n"
+
+#: src/wmapp.cc:1559
+#, c-format
+msgid "%s configured options:%s\n"
+msgstr "%s ρυθμισμένες επιλογές:%s\n"
+
+#: src/wmapp.cc:1612
+#, c-format
+msgid "Unrecognized option '%s'."
+msgstr "Μη αναγνωρισμένη επιλογή '%s'."
+
+#: src/wmapp.cc:1645
 msgid "Confirm Logout"
 msgstr "Επιβεβαίωση Αποσύνδεσης"
 
-#: src/wmapp.cc:1770
+#: src/wmapp.cc:1646
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1092,57 +1632,58 @@ msgstr ""
 "\n"
 "Να προχωρήσω;"
 
-#: src/wmconfig.cc:116
-msgid "Bad Look name"
-msgstr "Λάθος όνομα Εμφάνισης"
+#: src/wmconfig.cc:40
+#, c-format
+msgid "Failed to load theme %s"
+msgstr "Αδυναμία φορτώματος του θέματος %s"
 
-#: src/wmdialog.cc:83
+#: src/wmconfig.cc:103
+#, c-format
+msgid "Unknown value '%s' for option '%s'."
+msgstr "Άγνωστη τιμή '%s' για την επιλογή '%s'."
+
+#: src/wmconfig.cc:111
+#, c-format
+msgid "Unable to create directory %s"
+msgstr "Αδυναμία δημιουργία του κατάλογου %s"
+
+#: src/wmconfig.cc:138 src/wmprog.cc:564 src/wmprog.cc:686 src/wmprog.cc:690
+#, c-format
+msgid "Unable to write to %s"
+msgstr "Αδυναμία εγγραφής στο %s"
+
+#: src/wmconfig.cc:165 src/wmprog.cc:694
+#, c-format
+msgid "Unable to rename %s to %s"
+msgstr "Αδυναμία μετονομασίας του %s σε %s"
+
+#: src/wmdialog.cc:73
 msgid "Loc_k Workstation"
 msgstr "Κλείδωμα του _Σταθμού Εργασίας"
 
-#: src/wmdialog.cc:90 src/wmprog.cc:989 src/wmprog.cc:991 src/wmprog.cc:995
-#: src/wmprog.cc:997 src/wmtaskbar.cc:438 src/wmtaskbar.cc:440
-msgid "_Logout..."
-msgstr "_Αποσύνδεση..."
-
-#: src/wmdialog.cc:97 src/ymsgbox.cc:46
+#: src/wmdialog.cc:76 src/ymsgbox.cc:44
 msgid "_Cancel"
 msgstr "_Ακύρωση"
 
-#: src/wmdialog.cc:104
+#: src/wmdialog.cc:77 src/wmprog.cc:844 src/wmprog.cc:846 src/wmtaskbar.cc:297
+#: src/wmtaskbar.cc:299
+msgid "_Logout..."
+msgstr "_Αποσύνδεση..."
+
+#: src/wmdialog.cc:81
 msgid "_Restart icewm"
 msgstr "_Επανεκκίνηση του icewm"
 
-#: src/wmdialog.cc:125 src/wmprog.cc:906 src/wmprog.cc:908 src/wmtaskbar.cc:430
-#: src/wmtaskbar.cc:433
+#: src/wmdialog.cc:82 src/wmprog.cc:805 src/wmtaskbar.cc:290
+#: src/wmtaskbar.cc:293
 msgid "_About"
 msgstr "_Περί"
 
-#: src/wmframe.cc:165 src/wmframe.cc:3437
-msgid "Maximize"
-msgstr "Μεγιστοποίηση"
-
-#: src/wmframe.cc:178
-msgid "Minimize"
-msgstr "Ελαχιστοποίηση"
-
-#: src/wmframe.cc:199
-msgid "Hide"
-msgstr "Απόκρυψη"
-
-#: src/wmframe.cc:209 src/wmframe.cc:3470
-msgid "Rollup"
-msgstr "Τύλιγμα"
-
-#: src/wmframe.cc:218
-msgid "Raise/Lower"
-msgstr "Ανύψωση/Χαμήλωμα"
-
-#: src/wmframe.cc:1727
+#: src/wmframe.cc:1400
 msgid "Kill Client: "
 msgstr "Σκότωμα του Πελάτη: "
 
-#: src/wmframe.cc:1731
+#: src/wmframe.cc:1407
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1152,270 +1693,291 @@ msgstr ""
 "\n"
 "Επιθυμείς να συνεχίσεις;"
 
-#: src/wmframe.cc:3434
+#: src/wmframe.cc:3001
 msgid "Restore"
 msgstr "Επαναφορά"
 
-#: src/wmframe.cc:3468
+#: src/wmframe.cc:3004 src/wmtitle.cc:69
+msgid "Maximize"
+msgstr "Μεγιστοποίηση"
+
+#: src/wmframe.cc:3034
 msgid "Rolldown"
 msgstr "Ξεδίπλωμα"
 
-#: src/wmoption.cc:240
-#, c-format
-msgid "Error in window option: %s"
-msgstr "Σφάλμα στην παράμετρο του παράθυρου: %s"
+#: src/wmframe.cc:3036 src/wmtitle.cc:127
+msgid "Rollup"
+msgstr "Τύλιγμα"
 
-#: src/wmoption.cc:257
+#: src/wmoption.cc:228
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Άγνωστη παράμετρος παράθυρου: %s"
 
-#: src/wmoption.cc:340
-msgid "Syntax error in window options"
-msgstr "Σφάλμα σύνταξης στις παραμέτρους των παράθυρων"
-
-#: src/wmoption.cc:387
-msgid "Out of memory for window options"
-msgstr "Υπερπλήρωση μνήμης για τις παραμέτρους του παράθυρου"
-
-#: src/wmprog.cc:198
-msgid "Missing command argument"
-msgstr "Λείπει το όρισμα της εντολής"
-
-#: src/wmprog.cc:216
+#: src/wmoption.cc:338
 #, c-format
-msgid "Bad argument %d"
-msgstr "Λάθος όρισμα %d"
+msgid "Syntax error in window options on line %d of %s"
+msgstr "Σφάλμα σύνταξης στις παραμέτρους των παράθυρων, στη γραμμή %d του %s"
 
-#: src/wmprog.cc:302 src/wmprog.cc:406 src/wmprog.cc:448
-#, c-format
-msgid "Error at prog %s"
-msgstr "Σφάλμα στο πρόγραμμα %s"
-
-#: src/wmprog.cc:357
-#, c-format
-msgid "Unexepected keyword: %s"
-msgstr "Μη αναμενόμενη λέξη κλειδί: %s"
-
-#: src/wmprog.cc:496
-#, c-format
-msgid "Error at key %s"
-msgstr "Σφάλμα στο κλειδί %s"
-
-#: src/wmprog.cc:858 src/wmprog.cc:860
-msgid "Programs"
-msgstr "Προγράμματα"
-
-#: src/wmprog.cc:867 src/wmprog.cc:869
-msgid "_Run..."
-msgstr "_Εκτέλεση..."
-
-#: src/wmprog.cc:878 src/wmprog.cc:880 src/wmtaskbar.cc:418
-msgid "_Windows"
-msgstr "_Παράθυρα"
-
-#: src/wmprog.cc:922
-msgid "_Help"
-msgstr "_Βοήθεια"
-
-#: src/wmprog.cc:945
+#: src/wmprog.cc:392
 msgid "_Click to focus"
 msgstr "_Κάντε κλικ για εστίαση"
 
-#: src/wmprog.cc:950
+#: src/wmprog.cc:393
+msgid "_Explicit focus"
+msgstr "_Ρητή εστίαση"
+
+#: src/wmprog.cc:394
 msgid "_Sloppy mouse focus"
 msgstr "_Γλιστερή εστίαση ποντικιού"
 
-#: src/wmprog.cc:955
+#: src/wmprog.cc:395
+msgid "S_trict mouse focus"
+msgstr "_Αυστηρή εστίαση ποντικιού"
+
+#: src/wmprog.cc:396
+msgid "_Quiet sloppy focus"
+msgstr "Ή_συχη γλιστερή εστίαση"
+
+#: src/wmprog.cc:397
 msgid "Custo_m"
 msgstr "Προσαρμοσ_μένο"
 
-#: src/wmprog.cc:962 src/wmprog.cc:964
+#: src/wmprog.cc:484
+msgid "Save Modifications"
+msgstr "Αποθήκευση των Μετατροπών"
+
+#: src/wmprog.cc:717
+msgid "_Manual"
+msgstr "_Εγχειρίδιο Χρήσης"
+
+#: src/wmprog.cc:718
+msgid "_Icewm(1)"
+msgstr "_Icewm(1)"
+
+#: src/wmprog.cc:719
+msgid "Icewm_Bg(1)"
+msgstr "Icewm_Bg(1)"
+
+#: src/wmprog.cc:720
+msgid "Ice_Sound(1)"
+msgstr "Ice_Sound(1)"
+
+#: src/wmprog.cc:782
+msgid "Programs"
+msgstr "Προγράμματα"
+
+#: src/wmprog.cc:787
+msgid "_Run..."
+msgstr "_Εκτέλεση..."
+
+#: src/wmprog.cc:792 src/wmtaskbar.cc:280
+msgid "_Windows"
+msgstr "_Παράθυρα"
+
+#: src/wmprog.cc:811
+msgid "_Help"
+msgstr "_Βοήθεια"
+
+#: src/wmprog.cc:822
 msgid "_Focus"
 msgstr "_Εστίαση"
 
-#: src/wmprog.cc:973 src/wmprog.cc:975
+#: src/wmprog.cc:827
+msgid "_Preferences"
+msgstr "_Προτιμήσεις"
+
+#: src/wmprog.cc:833
 msgid "_Themes"
 msgstr "_Θέματα"
 
-#: src/wmprog.cc:979 src/wmprog.cc:981
+#: src/wmprog.cc:838
 msgid "Se_ttings"
 msgstr "Ρυ_θμίσεις"
 
-#: src/wmsession.cc:239 src/wmsession.cc:255 src/wmsession.cc:265
+#: src/wmsession.cc:225 src/wmsession.cc:241 src/wmsession.cc:251
 #, c-format
 msgid "Session Manager: Unknown line %s"
 msgstr "Διαχειριστής Συνεδρίας: Άγνωστη γραμμή %s"
 
-#: src/wmtaskbar.cc:258 src/wmtaskbar.cc:259
+#: src/wmtaskbar.cc:168 src/wmtaskbar.cc:169
 msgid "Task Bar"
 msgstr "Γραμμή Εργασίας"
 
-#: src/wmtaskbar.cc:407 src/wmwinlist.cc:312 src/wmwinlist.cc:325
+#: src/wmtaskbar.cc:270 src/wmwinlist.cc:364 src/wmwinlist.cc:377
 msgid "Tile _Vertically"
 msgstr "Παράλληλη Τοποθέτηση _Κάθετα"
 
-#: src/wmtaskbar.cc:408 src/wmwinlist.cc:313 src/wmwinlist.cc:326
+#: src/wmtaskbar.cc:271 src/wmwinlist.cc:365 src/wmwinlist.cc:378
 msgid "T_ile Horizontally"
 msgstr "Παράλληλη Τοποθέτηση _Οριζόντια"
 
-#: src/wmtaskbar.cc:409 src/wmwinlist.cc:314 src/wmwinlist.cc:327
+#: src/wmtaskbar.cc:272 src/wmwinlist.cc:366 src/wmwinlist.cc:379
 msgid "Ca_scade"
 msgstr "Διαδοχική Επικάλυψη"
 
-#: src/wmtaskbar.cc:410 src/wmwinlist.cc:315 src/wmwinlist.cc:328
+#: src/wmtaskbar.cc:273 src/wmwinlist.cc:367 src/wmwinlist.cc:380
 msgid "_Arrange"
 msgstr "_Παράθεση"
 
-#: src/wmtaskbar.cc:411 src/wmwinlist.cc:317 src/wmwinlist.cc:329
+#: src/wmtaskbar.cc:274 src/wmwinlist.cc:369 src/wmwinlist.cc:381
 msgid "_Minimize All"
 msgstr "_Ελαχιστοποίηση Όλων"
 
-#: src/wmtaskbar.cc:412 src/wmwinlist.cc:318 src/wmwinlist.cc:330
+#: src/wmtaskbar.cc:275 src/wmwinlist.cc:370 src/wmwinlist.cc:382
 msgid "_Hide All"
 msgstr "_Απόκρυψη Όλων"
 
-#: src/wmtaskbar.cc:413 src/wmwinlist.cc:319 src/wmwinlist.cc:331
+#: src/wmtaskbar.cc:276 src/wmwinlist.cc:371 src/wmwinlist.cc:383
 msgid "_Undo"
 msgstr "_Αναίρεση"
 
-#: src/wmtaskbar.cc:415
+#: src/wmtaskbar.cc:278
 msgid "Arrange _Icons"
 msgstr "Παράθεση _Εικονιδίων"
 
-#: src/wmtaskbar.cc:421
+#: src/wmtaskbar.cc:282
 msgid "_Refresh"
 msgstr "_Ανανέωση"
 
-#: src/wmtaskbar.cc:428
+#: src/wmtaskbar.cc:288
 msgid "_License"
 msgstr "_Άδεια χρήσης"
 
-#: src/wmtaskbar.cc:564
-msgid "Favorite applications"
-msgstr "Αγαπημένες εφαρμογές"
+#: src/wmtaskbar.cc:356 src/wmtaskbar.cc:975
+msgid "Hide Taskbar"
+msgstr "Απόκρυψη της Γραμμής Εργασιών"
 
-#: src/wmtaskbar.cc:581
-msgid "Window list menu"
-msgstr "Κατάλογος κατάστιχου παράθυρων"
+#: src/wmtaskbar.cc:371
+msgid "Favorite Applications"
+msgstr "Αγαπημένες Εφαρμογές"
 
-#: src/wmtaskbar.cc:590
+#: src/wmtaskbar.cc:389
+msgid "Window List Menu"
+msgstr "Κατάλογος Κατάστιχου Παράθυρων"
+
+#: src/wmtaskbar.cc:398
 msgid "Show Desktop"
 msgstr "Εμφάνιση της Επιφάνεια Εργασίας"
 
-#: src/wmwinlist.cc:61
+#: src/wmtaskbar.cc:975
+msgid "Show Taskbar"
+msgstr "Προβολή της Γραμμής Εργασιών"
+
+#: src/wmtitle.cc:85
+msgid "Minimize"
+msgstr "Ελαχιστοποίηση"
+
+#: src/wmtitle.cc:113
+msgid "Hide"
+msgstr "Απόκρυψη"
+
+#: src/wmtitle.cc:141
+msgid "Raise/Lower"
+msgstr "Ανύψωση/Χαμήλωμα"
+
+#: src/wmwinlist.cc:50
 msgid "All Workspaces"
 msgstr "Όλες οι Επιφάνειες Εργασίας"
 
-#: src/wmwinlist.cc:295
+#: src/wmwinlist.cc:339
 msgid "Del"
 msgstr "Διαγραφή"
 
-#: src/wmwinlist.cc:299
+#: src/wmwinlist.cc:343
 msgid "_Terminate Process"
 msgstr "_Τερματισμός Διεργασίας"
 
-#: src/wmwinlist.cc:300
+#: src/wmwinlist.cc:344
 msgid "Kill _Process"
 msgstr "Σκότωμα _Διεργασίας"
 
-#: src/wmwinlist.cc:305
+#: src/wmwinlist.cc:354
 msgid "_Show"
 msgstr "_Προβολη"
 
-#: src/wmwinlist.cc:309
-msgid "_Minimize"
-msgstr "_Ελαχιστοποίηση"
+#: src/wmwinlist.cc:357
+msgid "_Raise"
+msgstr "_Ανύψωση"
 
-#: src/wmwinlist.cc:342 src/wmwinlist.cc:343
+#: src/wmwinlist.cc:396 src/wmwinlist.cc:397
 msgid "Window list"
 msgstr "Κατάστιχο παραθύρων"
 
-#: src/wmwinmenu.cc:127
+#: src/wmwinmenu.cc:122
 #, c-format
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Επιφάνεια εργασίας %-.32s"
 
-#: src/yapp.cc:483
+#: src/yapp.cc:277
 #, c-format
-msgid "Message Loop: select failed (errno=%d)"
-msgstr ""
-"Ατέρμων βρόχος μηνύματος: η επιλογή απέτυχε ([αριθμός-σφάλματος]errno=%d 1)"
+msgid "%s: select failed"
+msgstr "%s: επέτυχε η επιλογή"
 
-#: src/ycmdline.cc:43
-#, c-format
-msgid "Unrecognized option: %s\n"
-msgstr "Μη αναγνωρισμένη επιλογή: %s\n"
-
-#: src/ycmdline.cc:48
-#, c-format
-msgid "Unrecognized argument: %s\n"
-msgstr "Μη αναγνωρισμένο όρισμα: %s\n"
-
-#: src/ycmdline.cc:64
-#, c-format
-msgid "Argument required for %s switch"
-msgstr "Απαιτείται όρισμα για την εναλλαγή του %s"
-
-#: src/yconfig.cc:186
+#: src/yconfig.cc:128
 #, c-format
 msgid "Unknown key name %s in %s"
 msgstr "Άγνωστο όνομα κλειδιού %s στο %s"
 
-#: src/yconfig.cc:211 src/yconfig.cc:224
+#: src/yconfig.cc:150 src/yconfig.cc:163 src/yconfig.cc:177
 #, c-format
-msgid "Bad argument: %s for %s"
-msgstr "Λάθος όρισμα: %s για %s"
+msgid "Bad argument: %s for %s [%d,%d]"
+msgstr "Λάθος όρισμα: %s για %s [%d,%d]"
 
-#: src/yconfig.cc:259
+#: src/yconfig.cc:214
 #, c-format
 msgid "Bad option: %s"
 msgstr "Λάθος επιλογή: %s"
 
-#: src/ycursor.cc:127
+#: src/ycursor.cc:101
+#, c-format
+msgid "Loading of pixmap \"%s\" failed: %s"
+msgstr "Η φόρτωση του pixmap \"%s\" απέτυχε: %s"
+
+#: src/ycursor.cc:126
 #, c-format
 msgid "Loading of pixmap \"%s\" failed"
 msgstr "Η φόρτωση του pixmap \"%s\" απέτυχε"
 
-#: src/ycursor.cc:160
+#: src/ycursor.cc:159
 #, c-format
 msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
 msgstr ""
 "Άκυρο pixmap δείκτη ποντικιού: το \"%s\" περιέχει υπερβολικά πολλά μοναδικά "
 "χρώματα"
 
-#: src/ycursor.cc:182
+#: src/ycursor.cc:181
 #, c-format
 msgid "BUG? Imlib was able to read \"%s\""
 msgstr "ΔΥΣΛΕΙΤΟΥΡΓΙΑ, ίσως; Το Imlib ήταν σε θέση να διαβάσει από \"%s\""
 
-#: src/ycursor.cc:208
+#: src/ycursor.cc:207
 #, c-format
 msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
 msgstr ""
 "ΔΥΣΛΕΙΤΟΥΡΓΙΑ, ίσως; Παραμορφωμένη κεφαλίδα XPM, αλλά το Imlib ήταν σε θέση "
 "να αναλύσει το \"%s\""
 
-#: src/ycursor.cc:216
+#: src/ycursor.cc:215
 #, c-format
 msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
 msgstr ""
 "ΔΥΣΛΕΙΤΟΥΡΓΙΑ, ίσως; Αναπάντεχο τέλος του αρχείου XPM, αλλά το Imlib ήταν σε "
 "θέση να αναλύσει το \"%s\""
 
-#: src/ycursor.cc:219
+#: src/ycursor.cc:218
 #, c-format
 msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
 msgstr ""
 "ΔΥΣΛΕΙΤΟΥΡΓΙΑ, ίσως; Αναπάντεχοι χαρακτήρες, αλλά το Imlib ήταν σε θέση να "
 "αναλύσει το \"%s\""
 
-#: src/yfontcore.cc:71 src/yfontxft.cc:174
+#: src/yfontcore.cc:71 src/yfontxft.cc:158
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "Δεν ήταν δυνατή η φόρτωση της γραμματοσειράς \"%s\"."
 
-#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:197
+#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:181
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr "Η φόρτωση της εφεδρικής γραμματοσειράς \"%s\" απέτυχε."
@@ -1430,142 +1992,1017 @@ msgstr "Δεν ήταν δυνατή η φόρτωση της ομάδας γρ�
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "Λείπουν ομάδες κώδικα για την ομάδα γραμματοσειρών \"%s\":"
 
-#: src/yicon.cc:167
-#, c-format
-msgid "Out of memory for pixmap \"%s\""
-msgstr "Εκτός μνήμης για το pixmap \"%s\""
-
-#: src/yimage.cc:61 src/yimage.cc:109 src/ypixbuf.cc:1063
-#, c-format
-msgid "Loading of image \"%s\" failed"
-msgstr "Η φόρτωση της εικόνας \"%s\" απέτυχε"
-
-#: src/yimage.cc:141 src/yimage.cc:159
-msgid "Imlib: Acquisition of X pixmap failed"
-msgstr "Imlib: Η απόκτηση του X pixmap απέτυχε"
-
-#: src/yimage.cc:150
-msgid "Imlib: Imlib image to X pixmap mapping failed"
-msgstr "Imlib: Απέτυχε η αντιστοίχηση της εικόνας Imlib με το Χ pixmap"
-
-#: src/yinput.cc:55
-msgid "Cu_t"
-msgstr "Αποκοπ_ή"
-
-#: src/yinput.cc:55
-msgid "Ctrl+X"
-msgstr "Ctrl+X"
-
-#: src/yinput.cc:56
+#: src/yinput.cc:38
 msgid "_Copy"
 msgstr "_Αντιγραφή"
 
-#: src/yinput.cc:56
+#: src/yinput.cc:38
 msgid "Ctrl+C"
 msgstr "Ctrl+C"
 
-#: src/yinput.cc:57
+#: src/yinput.cc:40
+msgid "Cu_t"
+msgstr "Αποκοπ_ή"
+
+#: src/yinput.cc:40
+msgid "Ctrl+X"
+msgstr "Ctrl+X"
+
+#: src/yinput.cc:42
 msgid "_Paste"
 msgstr "_Επικόλληση"
 
-#: src/yinput.cc:57
+#: src/yinput.cc:42
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#: src/yinput.cc:58
+#: src/yinput.cc:44
 msgid "Paste _Selection"
 msgstr "Επικόλληση της _Επιλογής"
 
-#: src/yinput.cc:60
+#: src/yinput.cc:44
+msgid "Ctrl+P"
+msgstr "Ctrl+P"
+
+#: src/yinput.cc:47
 msgid "Select _All"
 msgstr "Επιλογή _Όλων"
 
-#: src/yinput.cc:60
+#: src/yinput.cc:47
 msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
 #: src/ylocale.cc:46
-msgid "Locale not supported by C library. Falling back to 'C' locale'."
+msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
 msgstr ""
-"Η τοπικοποίηση αυτή δεν υποστηρίζεται από τη βιβλιοθήκη C. Υποχώρηση στη 'C' "
-"locale'."
+"Η τοπικοποίηση αυτή δεν υποστηρίζεται από τη βιβλιοθήκη C η το Xlib. Γίνεται "
+"υποχώρηση στη 'C' locale'."
 
-#: src/ylocale.cc:68
+#: src/ylocale.cc:72
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
 "Απέτυχε ο καθορισμός της τρέχουσας ομάδας κώδικα για την τοπικοποίηση. Το "
 "σύστημα θα υποθέσει την ISO-8859-1.\n"
 
-#: src/ylocale.cc:100 src/ylocale.cc:107
+#: src/ylocale.cc:104 src/ylocale.cc:111
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
-msgstr "Το iconv δεν παρέχει (επαρκείς) μετατροπείς από %s σε %s ."
+msgstr "το iconv δεν παρέχει (επαρκείς) μετατροπείς από %s σε %s ."
 
-#: src/ylocale.cc:161
+#: src/ylocale.cc:167
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Μη έγκυρος στίχος πολλαπλών μπάιτιων \"%s\": %s"
 
-#: src/ymsgbox.cc:38
+#: src/ymsgbox.cc:36
 msgid "_OK"
 msgstr "_Εντάξει"
 
-#: src/ypaths.cc:144 src/ypaths.cc:171
+#: src/ypaths.cc:95
 #, c-format
 msgid "Image not readable: %s"
 msgstr "Η εικόνα δεν είναι αναγνώσιμη: %s"
 
-#: src/ypaths.cc:149
-#, c-format
-msgid "Out of memory for image %s"
-msgstr "Εκτός μνήμης για την εικόνα \"%s\""
-
-#: src/ypaths.cc:156
+#: src/ypaths.cc:118
 #, c-format
 msgid "Could not find image %s"
 msgstr "Αδυναμία εύρεσης της εικόνας %s"
 
-#: src/ypaths.cc:175
-#, c-format
-msgid "Out of memory for image: %s"
-msgstr "Εκτός μνήμης για την εικόνα: \"%s\""
-
-#: src/ypaths.cc:182
-#, c-format
-msgid "Could not find image: %s"
-msgstr "Αδυναμία εύρεσης της εικόνας: %s"
-
-#: src/ypixbuf.cc:482 src/ypixbuf.cc:668
-#, c-format
-msgid ""
-"Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
-"blue): %0*x/%0*x/%0*x)"
-msgstr ""
-"Χρησιμοποίηση του μηχανισμού υποχώρησης για την μετατροπή των πίξελων "
-"(βάθος: %d; μάσκες (κόκκινο/πράσινο/μπλε): %0*x/%0*x/%0*x)"
-
-#: src/ypixbuf.cc:576 src/ypixbuf.cc:725
-#, c-format
-msgid "%s:%d: %d bit visuals are not supported (yet)"
-msgstr "%s:%d: %d τα μπίτια οπτικά ψηφία δεν υποστηρίζονται (ακόμη)"
-
-#: src/ysmapp.cc:106
+#: src/ysmapp.cc:98
 msgid "$USER or $LOGNAME not set?"
 msgstr "Μήπως το $USER ή το $LOGNAME δεν έχουν ρυθμιστεί;"
 
-#: src/yurl.cc:82
+#: src/yurl.cc:145
 #, c-format
-msgid "\"%s\" doesn't describe a common internet scheme"
-msgstr "Το \"%s\" δεν περιγράφει ένα κοινό σύστημα του διαδικτύου"
+msgid "Failed to parse URL \"%s\"."
+msgstr "Αποτυχία ανάλυσης της δομής (parsing) του URL \"%s\"."
 
-#: src/yurl.cc:85
+#: src/yurl.cc:161
 #, c-format
-msgid "\"%s\" contains no scheme description"
-msgstr "Το \"%s\" δεν περιέχει περιγραφή κάποιου συστήματος"
+msgid "Incomplete hex escape in URL at position %d."
+msgstr "Μη ολοκληρωμένη δεκαεξαδική φυγή στη διεύθυνση URL, στη θέση %d."
 
-#~ msgid "Cancel"
-#~ msgstr "Ακύρωση"
+#: src/yurl.cc:168
+#, c-format
+msgid "Invalid hex escape in URL at position %d."
+msgstr "Μη έγγυρη δεκαεξαδική φυγή στη διεύθυνση URL, στη θέση %d."
+
+#: src/yxapp.cc:885
+msgid ""
+"  -d, --display=NAME  NAME of the X server to use.\n"
+"  --sync              Synchronize X11 commands.\n"
+msgstr ""
+"  -d, --display=ΟΝΟΜΑ   Το ΟΝΟΜΑ του εξυπηρετητή X , που θα χρησιμοποιηθεί.\n"
+"  --sync                Συγχρονισμός των εντολών X11.\n"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
+#: src/fdospecgen.h:43
+msgid "2DGraphics"
+msgstr "2Δ-Γραφικά"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
+#: src/fdospecgen.h:45
+msgid "3DGraphics"
+msgstr "3Δ-Γραφικά"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings or Utility
+#: src/fdospecgen.h:47 src/fdospecgen.h:49
+msgid "Accessibility"
+msgstr "Προσβασιμότητα"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:51
+msgid "Accessories"
+msgstr "Εργαλεία"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:53
+msgid "ActionGame"
+msgstr "ΠαιχνίδιΔράσης"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:55
+msgid "Adult"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:57
+msgid "AdventureGame"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:59
+#, fuzzy
+msgid "Amusement"
+msgstr "Ψυχαγωγία"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:61
+msgid "ArcadeGame"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
+#: src/fdospecgen.h:63
+#, fuzzy
+msgid "Archiving"
+msgstr "Αρχειοθέτηση"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:65
+#, fuzzy
+msgid "Art"
+msgstr "Τέχνη"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:67
+msgid "ArtificialIntelligence"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:69
+#, fuzzy
+msgid "Astronomy"
+msgstr "Αστρονομία"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:71
+#, fuzzy
+msgid "Audio"
+msgstr "Audio"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:73
+msgid "AudioVideo"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
+#: src/fdospecgen.h:75
+msgid "AudioVideoEditing"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:77
+#, fuzzy
+msgid "Biology"
+msgstr "Βιολογία"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:79
+msgid "BlocksGame"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:81
+msgid "BoardGame"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
+#: src/fdospecgen.h:83
+#, fuzzy
+msgid "Building"
+msgstr "Κατασκευή"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
+#: src/fdospecgen.h:85
+#, fuzzy
+msgid "Calculator"
+msgstr "Αριθμομηχανή"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
+#: src/fdospecgen.h:87
+#, fuzzy
+msgid "Calendar"
+msgstr "Ημερολόγιο"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:89
+msgid "CardGame"
+msgstr "ΠαιχνίδιαΜεΧαρτιά"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
+#: src/fdospecgen.h:91
+#, fuzzy
+msgid "Chart"
+msgstr "Γράφημα"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:93
+#, fuzzy
+msgid "Chat"
+msgstr "Συνομιλία"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:95
+#, fuzzy
+msgid "Chemistry"
+msgstr "Χημεία"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
+#: src/fdospecgen.h:97
+#, fuzzy
+msgid "Clock"
+msgstr "Ρολόι"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility;Archiving
+#: src/fdospecgen.h:99
+#, fuzzy
+msgid "Compression"
+msgstr "Συμπίεση"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:101
+msgid "ComputerScience"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:103
+#, fuzzy
+msgid "Construction"
+msgstr "Κατασκευή"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
+#: src/fdospecgen.h:105
+msgid "ContactManagement"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:107
+#, fuzzy
+msgid "Core"
+msgstr "CORE"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:109
+msgid "DataVisualization"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or Development or AudioVideo
+#: src/fdospecgen.h:111
+#, fuzzy
+msgid "Database"
+msgstr "Βάση δεδομένων"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
+#: src/fdospecgen.h:113
+#, fuzzy
+msgid "Debugger"
+msgstr "Αποσφαλματωτής"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
+#: src/fdospecgen.h:115
+msgid "DesktopSettings"
+msgstr "ΡυθμίσειςΕπιφάνειαςΕργασίας"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:117
+msgid "Development"
+msgstr "Ανάπτυξη"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:119
+#, fuzzy
+msgid "Dialup"
+msgstr "Τηλεφωνική σύνδεση"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or TextTools
+#: src/fdospecgen.h:121
+#, fuzzy
+msgid "Dictionary"
+msgstr "Λεξικό"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo
+#: src/fdospecgen.h:123
+msgid "DiscBurning"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:125
+#, fuzzy
+msgid "Documentation"
+msgstr "Τεκμηρίωση"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:127
+#, fuzzy
+msgid "Economy"
+msgstr "Οικονομία"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:129
+msgid "Editors"
+msgstr "Επεξεργαστές"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:131
+msgid "Education"
+msgstr "Εκπαίδευση"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:133
+#, fuzzy
+msgid "Electricity"
+msgstr "Ηλεκτρισμός"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:135
+#, fuzzy
+msgid "Electronics"
+msgstr "Ηλεκτρονική"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or Network
+#: src/fdospecgen.h:137
+#, fuzzy
+msgid "Email"
+msgstr "Email"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System or Game
+#: src/fdospecgen.h:139
+#, fuzzy
+msgid "Emulator"
+msgstr "Προσομοιωτής"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:141
+#, fuzzy
+msgid "Engineering"
+msgstr "Μηχανική"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:143
+#, fuzzy
+msgid "Feed"
+msgstr "Ροή"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System;FileTools
+#: src/fdospecgen.h:145
+msgid "FileManager"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility or System
+#: src/fdospecgen.h:147
+msgid "FileTools"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:149
+msgid "FileTransfer"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System
+#: src/fdospecgen.h:151
+msgid "Filesystem"
+msgstr "ΣύστημαΑρχείων"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
+#: src/fdospecgen.h:153
+msgid "Finance"
+msgstr "Οικονομικά"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
+#: src/fdospecgen.h:155
+msgid "FlowChart"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
+#: src/fdospecgen.h:157
+msgid "GUIDesigner"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:159
+msgid "Game"
+msgstr "Παιχνίδια"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:161
+#, fuzzy
+msgid "Geography"
+msgstr "Γεωγραφία"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:163
+#, fuzzy
+msgid "Geology"
+msgstr "Γεωλογία"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:165
+#, fuzzy
+msgid "Geoscience"
+msgstr "Γεωλογικές επιστήμες"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:167
+msgid "Graphics"
+msgstr "Γραφικά"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network or Audio
+#: src/fdospecgen.h:169
+msgid "HamRadio"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
+#: src/fdospecgen.h:171
+msgid "HardwareSettings"
+msgstr "ΡυθμίσειςΥλικού"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:173
+#, fuzzy
+msgid "History"
+msgstr "Ιστορία"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:175
+msgid "Humanities"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
+#: src/fdospecgen.h:177
+#, fuzzy
+msgid "IDE"
+msgstr "IDE"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:179
+msgid "IRCClient"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:181
+msgid "ImageProcessing"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:183
+msgid "InstantMessaging"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:185
+msgid "KidsGame"
+msgstr "ΠαιχνίδιαΓιαΠαιδιά"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:187
+msgid "Languages"
+msgstr "Γλώσσες"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:189
+#, fuzzy
+msgid "Literature"
+msgstr "Λογοτεχνία"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:191
+msgid "LogicGame"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science or Utility
+#: src/fdospecgen.h:193
+#, fuzzy
+msgid "Maps"
+msgstr "Χάρτες"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:195
+#, fuzzy
+msgid "Math"
+msgstr "Μαθηματικά"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:197
+msgid "MedicalSoftware"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
+#: src/fdospecgen.h:199
+#, fuzzy
+msgid "Midi"
+msgstr "Συσκευές Midi"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
+#: src/fdospecgen.h:201
+#, fuzzy
+msgid "Mixer"
+msgstr "Μείκτης"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System or Network
+#: src/fdospecgen.h:203
+#, fuzzy
+msgid "Monitor"
+msgstr "Οθόνη"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:205
+#, fuzzy
+msgid "Motif"
+msgstr "Διαχειριστής παραθύρων Motif"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:207
+msgid "Multimedia"
+msgstr "Πολυμέσα"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo or Education
+#: src/fdospecgen.h:209
+#, fuzzy
+msgid "Music"
+msgstr "Μουσική"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:211
+msgid "Network"
+msgstr "Δίκτυο"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:213
+#, fuzzy
+msgid "News"
+msgstr "Ειδήσεις"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education;Math or Science;Math
+#: src/fdospecgen.h:215
+msgid "NumericalAnalysis"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;Scanning
+#: src/fdospecgen.h:217
+#, fuzzy
+msgid "OCR"
+msgstr "OCR"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:219
+msgid "Office"
+msgstr "Γραφείο"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:221
+msgid "Other"
+msgstr "Άλλα"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:223
+#, fuzzy
+msgid "P2P"
+msgstr "P2P"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
+#: src/fdospecgen.h:225
+#, fuzzy
+msgid "PDA"
+msgstr "PDA"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
+#: src/fdospecgen.h:227
+msgid "PackageManager"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education;ComputerScience or Science;ComputerScience
+#: src/fdospecgen.h:229
+msgid "ParallelComputing"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
+#: src/fdospecgen.h:231
+#, fuzzy
+msgid "Photography"
+msgstr "Φωτογραφική τέχνη"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:233
+#, fuzzy
+msgid "Physics"
+msgstr "Φυσική"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
+#: src/fdospecgen.h:235
+#, fuzzy
+msgid "Player"
+msgstr "Παίκτης"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
+#: src/fdospecgen.h:237
+#, fuzzy
+msgid "Presentation"
+msgstr "Παρουσίαση"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings;HardwareSettings
+#: src/fdospecgen.h:239
+#, fuzzy
+msgid "Printing"
+msgstr "Εκτύπωσης"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
+#: src/fdospecgen.h:241
+msgid "Profiling"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or Development
+#: src/fdospecgen.h:243
+msgid "ProjectManagement"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
+#: src/fdospecgen.h:245
+#, fuzzy
+msgid "Publishing"
+msgstr "Έκδοση"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;2DGraphics
+#: src/fdospecgen.h:247
+msgid "RasterGraphics"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
+#: src/fdospecgen.h:249
+#, fuzzy
+msgid "Recorder"
+msgstr "Πρόγραμμα εγγραφής ψηφιακού βίντεο Cupid"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:251
+msgid "RemoteAccess"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
+#: src/fdospecgen.h:253
+msgid "RevisionControl"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:255
+#, fuzzy
+msgid "Robotics"
+msgstr "Ρομποτική"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:257
+#, fuzzy
+msgid "RolePlaying"
+msgstr "Διαδικτυακό παιχνίδι ρόλων"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
+#: src/fdospecgen.h:259
+#, fuzzy
+msgid "Scanning"
+msgstr "Σάρωση"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:261
+#, fuzzy
+msgid "Science"
+msgstr "Επιστήμη"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:263
+msgid "Screensavers"
+msgstr "Προφυλάξεις οθόνης"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings or System
+#: src/fdospecgen.h:265
+#, fuzzy
+msgid "Security"
+msgstr "Ασφάλεια"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
+#: src/fdospecgen.h:267
+#, fuzzy
+msgid "Sequencer"
+msgstr "Μείκτης"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:269
+msgid "Settings"
+msgstr "Ρυθμίσεις"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:271
+msgid "Shooter"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:273
+msgid "Simulation"
+msgstr "Προσομοίωση"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science or Utility
+#: src/fdospecgen.h:275
+msgid "Spirituality"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:277
+#, fuzzy
+msgid "Sports"
+msgstr "Αθλητικά"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:279
+msgid "SportsGame"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
+#: src/fdospecgen.h:281
+#, fuzzy
+msgid "Spreadsheet"
+msgstr "Λογιστικό φύλλο"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:283
+msgid "StrategyGame"
+msgstr "ΠαιχνίδιΣτρατιγικής"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:285
+msgid "System"
+msgstr "Σύστημα"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Video
+#: src/fdospecgen.h:287
+#, fuzzy
+msgid "TV"
+msgstr "TV"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:289
+#, fuzzy
+msgid "Telephony"
+msgstr "Τηλεφωνία"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
+#: src/fdospecgen.h:291
+msgid "TelephonyTools"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System
+#: src/fdospecgen.h:293
+msgid "TerminalEmulator"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
+#: src/fdospecgen.h:295
+msgid "TextEditor"
+msgstr "ΕπεξεργαστήςΚειμένου"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
+#: src/fdospecgen.h:297
+msgid "TextTools"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
+#: src/fdospecgen.h:299
+#, fuzzy
+msgid "Translation"
+msgstr "Μετάφραση"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
+#: src/fdospecgen.h:301
+#, fuzzy
+msgid "Tuner"
+msgstr "Συντονιστής"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:303
+#, fuzzy
+msgid "Utility"
+msgstr "Εργαλείο"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;2DGraphics
+#: src/fdospecgen.h:305
+msgid "VectorGraphics"
+msgstr "ΔιανυσματικάΓραφικά"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:307
+#, fuzzy
+msgid "Video"
+msgstr "Βίντεο"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:309
+msgid "VideoConference"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
+#: src/fdospecgen.h:311
+#, fuzzy
+msgid "Viewer"
+msgstr "Προβολέας"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:313
+msgid "WINE"
+msgstr "WINE"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:315
+msgid "WebBrowser"
+msgstr ""
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network or Development
+#: src/fdospecgen.h:317
+msgid "WebDevelopment"
+msgstr "ΔικτυακήΑνάπτυξη"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
+#: src/fdospecgen.h:319
+msgid "WordProcessor"
+msgstr ""
+
+#~ msgid "Out of memory for image %s"
+#~ msgstr "Εκτός μνήμης για την εικόνα \"%s\""
+
+#~ msgid "_Minimize"
+#~ msgstr "_Ελαχιστοποίηση"
+
+#~ msgid "Missing command argument"
+#~ msgstr "Λείπει το όρισμα της εντολής"
+
+#, fuzzy
+#~ msgid "Bad argument %d to command '%s'"
+#~ msgstr "Λάθος όρισμα: %s για %s"
+
+#, fuzzy
+#~ msgid "Error at %s '%s'"
+#~ msgstr "Σφάλμα στο κλειδί %s"
+
+#, fuzzy
+#~ msgid "Unexepected menu keyword: '%s'"
+#~ msgstr "Μη αναμενόμενη λέξη κλειδί: %s"
+
+#, fuzzy
+#~ msgid "Error at menuprog '%s'"
+#~ msgstr "Σφάλμα στο πρόγραμμα %s"
+
+#, fuzzy
+#~ msgid "Error at %s: '%s'"
+#~ msgstr "Σφάλμα στο κλειδί %s"
+
+#, fuzzy
+#~ msgid "Unknown keyword '%s'"
+#~ msgstr "Άγνωστη ενέργεια: `%s'"
+
+#, fuzzy
+#~ msgid "Error at keyword '%s' for %s"
+#~ msgstr "Σφάλμα στο κλειδί %s"
+
+#~ msgid "\"%s\" contains no scheme description"
+#~ msgstr "Το \"%s\" δεν περιέχει περιγραφή κάποιου συστήματος"
+
+#~ msgid "\"%s\" doesn't describe a common internet scheme"
+#~ msgstr "Το \"%s\" δεν περιγράφει ένα κοινό σύστημα του διαδικτύου"
+
+#~ msgid "Out of memory for pixmap \"%s\""
+#~ msgstr "Εκτός μνήμης για το pixmap \"%s\""
+
+#~ msgid "Out of memory for window options"
+#~ msgstr "Υπερπλήρωση μνήμης για τις παραμέτρους του παράθυρου"
+
+#~ msgid "Error in window option: %s"
+#~ msgstr "Σφάλμα στην παράμετρο του παράθυρου: %s"
+
+#~ msgid ""
+#~ "Usage: %s FILENAME\n"
+#~ "\n"
+#~ "A very simple HTML browser displaying the document specified by "
+#~ "FILENAME.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Τρόπος χρήσης: %s ΟΝΟΜΑ_ΑΡΧΕΙΟΥ\n"
+#~ "\n"
+#~ "Ένας πολύ απλός πλοηγός HTML, ο οποίος προβάλει το αρχείο που έχει "
+#~ "προσδιοριστεί από το ΟΝΟΜΑ_ΑΡΧΕΙΟΥ.\n"
+#~ "\n"
+
+#~ msgid "No such device: %s"
+#~ msgstr "Δεν υπάρχει τέτοια συσκευή: %s"
+
+#~ msgid "Can't change to audio mode `%s'."
+#~ msgstr "Δεν μπορώ να αλλάξω στην κατάσταση λειτουργία ήχου `%s'."
+
+#~ msgid ""
+#~ "Audio mode switch detected, initial audio mode `%s' no longer in effect."
+#~ msgstr ""
+#~ "Ανιχνεύθηκε εναλλαγή της κατάστασης λειτουργίας του ήχου· η αρχική "
+#~ "λειτουργία ήχου`%s' δεν είναι πλέον ενεργή."
+
+#~ msgid "Audio mode switch detected, automatic audio mode changing disabled."
+#~ msgstr ""
+#~ "Ανιχνεύθηκε εναλλαγή της κατάστασης λειτουργίας του ήχου· "
+#~ "απενεργοποιήθηκε η αυτόματη αλλαγή της κατάστασης λειτουργία του ήχου."
+
+#~ msgid "Overriding previous audio mode `%s'."
+#~ msgstr "Παραμερίζει την προηγούμενη κατάσταση του ήχου `%s'."
+
+#~ msgid "Multiple sound interfaces given."
+#~ msgstr "Έχουν δοθεί πολλαπλές διεπαφές ήχου."
+
+#~ msgid "Received signal %d: Reloading samples..."
+#~ msgstr "Ελήφθη σήμα %d: Ξαναφορτώνονται τα δείγματα..."
+
+#~ msgid "Message Loop: select failed (errno=%d)"
+#~ msgstr ""
+#~ "Ατέρμων βρόχος μηνύματος: η επιλογή απέτυχε ([αριθμός-σφάλματος]errno=%d "
+#~ "1)"
+
+#~ msgid "Argument required for %s switch"
+#~ msgstr "Απαιτείται όρισμα για την εναλλαγή του %s"
+
+#~ msgid "Loading of image \"%s\" failed"
+#~ msgstr "Η φόρτωση της εικόνας \"%s\" απέτυχε"
+
+#~ msgid "Imlib: Acquisition of X pixmap failed"
+#~ msgstr "Imlib: Η απόκτηση του X pixmap απέτυχε"
+
+#~ msgid "Imlib: Imlib image to X pixmap mapping failed"
+#~ msgstr "Imlib: Απέτυχε η αντιστοίχηση της εικόνας Imlib με το Χ pixmap"
+
+#~ msgid ""
+#~ "Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
+#~ "blue): %0*x/%0*x/%0*x)"
+#~ msgstr ""
+#~ "Χρησιμοποίηση του μηχανισμού υποχώρησης για την μετατροπή των πίξελων "
+#~ "(βάθος: %d; μάσκες (κόκκινο/πράσινο/μπλε): %0*x/%0*x/%0*x)"
+
+#~ msgid "%s:%d: %d bit visuals are not supported (yet)"
+#~ msgstr "%s:%d: %d τα μπίτια οπτικά ψηφία δεν υποστηρίζονται (ακόμη)"
+
+#, fuzzy
+#~ msgid "Multiple references for gradient '%s' in theme '%s'."
+#~ msgstr "Πολλαπλές αναφορές για την διαβάθμιση χρώματος \"%s\""
+
+#, fuzzy
+#~ msgid "Unknown gradient name '%s' in theme '%s'."
+#~ msgstr "Άγνωστο όνομα της διαβάθμισης χρώματος: %s"
+
+#~ msgid "Bad Look name"
+#~ msgstr "Λάθος όνομα Εμφάνισης"
+
+#~ msgid ""
+#~ "%s: unrecognized option `%s'\n"
+#~ "Try `%s --help' for more information.\n"
+#~ msgstr ""
+#~ "%s: μη αναγνωρισμένη επιλογή `%s'\n"
+#~ "Δοκιμάστε το `%s --help', για περισσότερες πληροφορίες.\n"
+
+#~ msgid "Loading image %s failed"
+#~ msgstr "Η φόρτωση της φωτογραφίας %s απέτυχε"
+
+#~ msgid "Bad argument %d"
+#~ msgstr "Λάθος όρισμα %d"
+
+#~ msgid "Out of memory for image: %s"
+#~ msgstr "Εκτός μνήμης για την εικόνα: \"%s\""
+
+#~ msgid "Could not find image: %s"
+#~ msgstr "Αδυναμία εύρεσης της εικόνας: %s"
+
+#~ msgid "Invalid path: "
+#~ msgstr "Εσφαλμένη διαδρομή: "
 
 #, fuzzy
 #~ msgid ""
@@ -1594,12 +3031,6 @@ msgstr "Το \"%s\" δεν περιέχει περιγραφή κάποιου σ
 
 #~ msgid "unknown action"
 #~ msgstr "άγνωστη πράξη"
-
-#~ msgid "Failed to open %s: %s"
-#~ msgstr "Αποτυχία ανοίγματος %s: %s"
-
-#~ msgid "Failed to execute %s: %s"
-#~ msgstr "Αποτυχία εκτέλεσης %s: %s"
 
 #~ msgid "Not a regular file: %s"
 #~ msgstr "Όχι ένα κανονικό αρχείο: %s"
