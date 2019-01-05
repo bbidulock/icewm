@@ -11,16 +11,16 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.31\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-12-17 23:55+0100\n"
-"PO-Revision-Date: 2018-11-15 15:22+0000\n"
+"PO-Revision-Date: 2019-01-05 18:28+0000\n"
 "Last-Translator: Alessio Adamo <alessio.adamo@gmail.com>\n"
-"Language-Team: Italian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/it/>\n"
+"Language-Team: Italian <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.18\n"
+"X-Generator: Weblate 3.3\n"
 
 #: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:681 src/aapm.cc:806
 msgid " - Power"
@@ -1406,16 +1406,12 @@ msgid "Ma_ximize"
 msgstr "Massimi_zza"
 
 #: src/wmapp.cc:580 src/wmwinlist.cc:352
-#, fuzzy
-#| msgid "Maximize"
 msgid "Maximize_Vert"
-msgstr "Massimizza"
+msgstr "Massimizza_Vert"
 
 #: src/wmapp.cc:581
-#, fuzzy
-#| msgid "Maximize"
 msgid "MaximizeHori_z"
-msgstr "Massimizza"
+msgstr "Massimizza_Oriz"
 
 #: src/wmapp.cc:584 src/wmwinlist.cc:353
 msgid "_Fullscreen"
@@ -1813,20 +1809,14 @@ msgid "_License"
 msgstr "_Licenza"
 
 #: src/wmtaskbar.cc:356 src/wmtaskbar.cc:975
-#, fuzzy
-#| msgid "Task Bar"
 msgid "Hide Taskbar"
-msgstr "Barra delle applicazioni"
+msgstr "Nascondi barra delle applicazioni"
 
 #: src/wmtaskbar.cc:371
-#, fuzzy
-#| msgid "Favorite applications"
 msgid "Favorite Applications"
 msgstr "Applicazioni preferite"
 
 #: src/wmtaskbar.cc:389
-#, fuzzy
-#| msgid "Window list menu"
 msgid "Window List Menu"
 msgstr "Menu elenco finestre"
 
@@ -1835,10 +1825,8 @@ msgid "Show Desktop"
 msgstr "Mostra desktop"
 
 #: src/wmtaskbar.cc:975
-#, fuzzy
-#| msgid "Task Bar"
 msgid "Show Taskbar"
-msgstr "Barra delle applicazioni"
+msgstr "Mostra barra delle applicazioni"
 
 #: src/wmtitle.cc:85
 msgid "Minimize"

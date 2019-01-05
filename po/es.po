@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-12-17 23:55+0100\n"
-"PO-Revision-Date: 2018-10-31 22:06+0000\n"
-"Last-Translator: jc sl <trcs@gmx.com>\n"
-"Language-Team: Spanish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/es/>\n"
+"PO-Revision-Date: 2019-01-05 18:28+0000\n"
+"Last-Translator: Jorge Gallegos Carrasco <jcarrascochih@gmail.com>\n"
+"Language-Team: Spanish <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.18\n"
+"X-Generator: Weblate 3.3\n"
 
 #: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:681 src/aapm.cc:806
 msgid " - Power"
@@ -1853,32 +1853,24 @@ msgid "_License"
 msgstr "_Licencia"
 
 #: src/wmtaskbar.cc:356 src/wmtaskbar.cc:975
-#, fuzzy
-#| msgid "Task Bar"
 msgid "Hide Taskbar"
-msgstr "Barra de tareas"
+msgstr "Ocultar Barra de tareas"
 
 #: src/wmtaskbar.cc:371
-#, fuzzy
-#| msgid "Favorite applications"
 msgid "Favorite Applications"
 msgstr "Aplicaciones favoritas"
 
 #: src/wmtaskbar.cc:389
-#, fuzzy
-#| msgid "Window list menu"
 msgid "Window List Menu"
-msgstr "Menú de lista de ventanas"
+msgstr "Menú de lista de la ventana"
 
 #: src/wmtaskbar.cc:398
 msgid "Show Desktop"
 msgstr "Mostrar escritorio"
 
 #: src/wmtaskbar.cc:975
-#, fuzzy
-#| msgid "Task Bar"
 msgid "Show Taskbar"
-msgstr "Barra de tareas"
+msgstr "Mostrar Barra de tareas"
 
 #: src/wmtitle.cc:85
 msgid "Minimize"
@@ -2132,7 +2124,7 @@ msgstr "Juegos de acción"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:55
 msgid "Adult"
-msgstr ""
+msgstr "Adulto"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:57
@@ -2147,7 +2139,7 @@ msgstr "Entretenimiento"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:61
 msgid "ArcadeGame"
-msgstr ""
+msgstr "ArcadeGame"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
 #: src/fdospecgen.h:63
@@ -2202,7 +2194,7 @@ msgstr "Juegos de tablero"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
 #: src/fdospecgen.h:83
 msgid "Building"
-msgstr ""
+msgstr "Construyendo"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
 #: src/fdospecgen.h:85
@@ -2242,7 +2234,7 @@ msgstr "Reloj"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility;Archiving
 #: src/fdospecgen.h:99
 msgid "Compression"
-msgstr ""
+msgstr "Compresion"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:101
@@ -2252,7 +2244,7 @@ msgstr "Ciencias de la computación"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:103
 msgid "Construction"
-msgstr ""
+msgstr "Construccion"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
 #: src/fdospecgen.h:105
@@ -2262,7 +2254,7 @@ msgstr "Gestión de contactos"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:107
 msgid "Core"
-msgstr ""
+msgstr "Nucleo"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:109
@@ -2276,8 +2268,9 @@ msgstr "Bases de datos"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
 #: src/fdospecgen.h:113
+#, fuzzy
 msgid "Debugger"
-msgstr ""
+msgstr "Depurador"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
 #: src/fdospecgen.h:115
