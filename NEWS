@@ -1,11 +1,50 @@
-icewm -- history of user-visible changes.  2018-12-20
+icewm -- history of user-visible changes.  2019-01-05
 
-Release icewm-1.5.0 released 2018-12-20
+Release icewm-1.5.0.13 released 2019-01-05
+------------------------------------------
+
+git shortlog -e -n -w80,6,8 1.5.0...HEAD
+
+Benny Siegert <bsiegert@gmail.com> (3):
+      Add libpng and libxpm to flag fixup stanza.
+      Link genpref and icewm-session against gettext.
+      Check sndfile.h with audio_flags.
+
+openSUSE Weblate <weblate-noreply@opensuse.org> (2):
+      Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
+      Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
+
+Alessio Adamo <alessio.adamo@gmail.com> (1):
+      Translated using Weblate (Italian)
+
+Bert Gijsbers <gijsbers@science.uva.nl> (1):
+      merge updated translations and NetBSD portability fixes.
+
+Code7R <Code7R@users.noreply.github.com> (1):
+      Merge pull request #325 from bsiegert/genpref
+
+Dingzhong Chen <wsxy162@gmail.com> (1):
+      Translated using Weblate (Chinese (China))
+
+Dmitriy Khanzhin <dmitriy.khanzhin@gmail.com> (1):
+      Translated using Weblate (Russian)
+
+Jorge Gallegos Carrasco <jcarrascochih@gmail.com> (1):
+      Translated using Weblate (Spanish)
+
+nikoss <nikoss@users.noreply.github.com> (1):
+      Greek translation 002 (#327)
+
+scootergrisen <scootergrisen@gmail.com> (1):
+      Translated using Weblate (Danish)
+
+
+Release icewm-1.5.0 released 2018-12-23
 ---------------------------------------
 
 git shortlog -e -n -w80,6,8 1.4.2...1.5.0
 
-Bert Gijsbers <gijsbers@science.uva.nl> (715):
+Bert Gijsbers <gijsbers@science.uva.nl> (716):
       Add class YArrayIterator for easy iteratation over YArrays.
       Move definition of null to ref.cc to make clang-analyze happy.
       4 assignment operators for easy initialization of smart pointers.
@@ -1018,6 +1057,7 @@ Bert Gijsbers <gijsbers@science.uva.nl> (715):
       merge
       update po files
       Only compile all of aapm.cc if MAX_ACPI_BATTERY_NUM is defined for #316.
+      prepare 1.5.0 release
 
 Brian Bidulock <bidulock@openss7.org> (464):
       new INSTALL file

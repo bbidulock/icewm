@@ -1,5 +1,156 @@
 # created with git log --stat=76 -M -C -500|fmt -sct -w80
 
+commit ffa57cbef3faa743547ddc8b485a039d6d72cfce
+Merge: fb47fcaf 70917b61
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sat Jan 5 21:44:22 2019 +0100
+
+    merge updated translations and NetBSD portability fixes.
+
+commit 70917b612eee00fd3c62d2b47541c6bf15b2718e
+Merge: b952605b 7d859e4a
+Author: openSUSE Weblate <weblate-noreply@opensuse.org>
+Date:   Sat Jan 5 18:28:17 2019 +0000
+
+    Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
+
+commit 7d859e4a7998d48df963bdd1ffd32abdb2c13bdc
+Author: Jorge Gallegos Carrasco <jcarrascochih@gmail.com>
+Date:   Fri Dec 28 23:51:41 2018 +0000
+
+    Translated using Weblate (Spanish)
+
+    Currently translated at 94.4% (442 of 468 strings)
+
+ po/es.po | 39 ++++++++++++++++-----------------------
+ 1 file changed, 16 insertions(+), 23 deletions(-)
+
+commit d6a0a83478ecdeeb0c94e71176b5a2e430ffa690
+Author: Alessio Adamo <alessio.adamo@gmail.com>
+Date:   Fri Jan 4 17:55:44 2019 +0000
+
+    Translated using Weblate (Italian)
+
+    Currently translated at 100.0% (468 of 468 strings)
+
+ po/it.po | 28 ++++++++--------------------
+ 1 file changed, 8 insertions(+), 20 deletions(-)
+
+commit b952605be5f128b66d16d39c32f9003a86b1a89e
+Author: nikoss <nikoss@users.noreply.github.com>
+Date:   Sat Jan 5 20:28:11 2019 +0200
+
+    Greek translation 002 (#327)
+
+ po/el.po | 1052 ++++++++++++++++++++++++++++++++--------------------------
+ 1 file changed, 574 insertions(+), 478 deletions(-)
+
+commit 569bbe78a4d126c00c3879a8e3e660dc7fbac2c9
+Merge: 1a378610 98ec09c5
+Author: openSUSE Weblate <weblate-noreply@opensuse.org>
+Date:   Wed Dec 26 17:32:38 2018 +0000
+
+    Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
+
+commit 98ec09c5af88cead442ba8fb9f1be0a276e128b0
+Author: Dmitriy Khanzhin <dmitriy.khanzhin@gmail.com>
+Date:   Sat Dec 22 07:45:13 2018 +0000
+
+    Translated using Weblate (Russian)
+
+    Currently translated at 100.0% (468 of 468 strings)
+
+ po/ru.po | 213 ++++++++++++++++++++++-------------------------------------
+ 1 file changed, 78 insertions(+), 135 deletions(-)
+
+commit f549b4b130f19c9d3324ec72025da2fc98bc730f
+Author: scootergrisen <scootergrisen@gmail.com>
+Date:   Fri Dec 21 11:47:07 2018 +0000
+
+    Translated using Weblate (Danish)
+
+    Currently translated at 100.0% (468 of 468 strings)
+
+ po/da.po | 28 ++++++++--------------------
+ 1 file changed, 8 insertions(+), 20 deletions(-)
+
+commit 4d36ab1ae63063d86302abd443598543f0b54dac
+Author: Dingzhong Chen <wsxy162@gmail.com>
+Date:   Tue Dec 25 05:46:12 2018 +0000
+
+    Translated using Weblate (Chinese (China))
+
+    Currently translated at 99.6% (466 of 468 strings)
+
+ po/zh_CN.po | 24 +++++++-----------------
+ 1 file changed, 7 insertions(+), 17 deletions(-)
+
+commit 1a378610e510c17cceb1a9bd3e85cffd7fbb8e35
+Merge: 6f29d4ca fe79795e
+Author: Code7R <Code7R@users.noreply.github.com>
+Date:   Wed Dec 26 18:32:32 2018 +0100
+
+    Merge pull request #325 from bsiegert/genpref
+
+    Three more CMake fixes
+
+commit fe79795e0fc92039e196aec670dde8fcebf5cd8d
+Author: Benny Siegert <bsiegert@gmail.com>
+Date:   Wed Dec 26 11:43:06 2018 +0000
+
+    Check sndfile.h with audio_flags.
+
+    Use the CFLAGS returned by pkg-config for libsndfile. Otherwise,
+    sndfile.h is not found when in a non-standard location (such as
+    /usr/pkg in pkgsrc), and building icesound fails.
+
+ src/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 6d25bd05a6373371030e6491b0c1bae3dc2a24cb
+Author: Benny Siegert <bsiegert@gmail.com>
+Date:   Wed Dec 26 11:30:30 2018 +0000
+
+    Link genpref and icewm-session against gettext.
+
+    Also add the x11 CFLAGS, because ylib.h (which these tools include)
+    includes X.h.
+
+ src/CMakeLists.txt | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+commit f1fe12cdf88636c9136d335b38448b9714358293
+Author: Benny Siegert <bsiegert@gmail.com>
+Date:   Wed Dec 26 11:28:54 2018 +0000
+
+    Add libpng and libxpm to flag fixup stanza.
+
+    This removes the stray `;` in the NetBSD build of icewm.
+    Closes bbidulock/icewm#323.
+
+ src/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit fb47fcaf1a46423e1fc0b39764eab71b5b23e54f
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Dec 23 20:52:35 2018 +0100
+
+    prepare 1.5.0 release
+
+ AUTHORS               |   94 +-
+ CONTRIBUTING.md       |   22 +-
+ ChangeLog             | 8746 +++++++++++++++++++++------------------------
+ INSTALL               |  322 +-
+ NEWS                  | 5078 ++++++++++++--------------
+ README.md             |  110 +-
+ README.md.in          |   38 +-
+ VERSION               |    2 +-
+ autogen.sh            |    2 +-
+ configure.ac          |   14 +-
+ icewm.spec.in         |    2 +-
+ src/config.cmake.h.in |    2 +-
+ 12 files changed, 6666 insertions(+), 7766 deletions(-)
+
 commit 6f29d4cad199997ef18f4c50619cf89298032e34
 Author: Benny Siegert <bsiegert@gmail.com>
 Date:   Thu Dec 20 21:43:20 2018 +0100
@@ -5572,160 +5723,3 @@ Date:   Tue Mar 13 14:46:44 2018 +0000
 
  po/de.po | 112 ++++++++++++++++-------------------------------------------
  1 file changed, 29 insertions(+), 83 deletions(-)
-
-commit 82eb8eb96ac107686619ff218f356bd98c7704c5
-Author: Alessio Adamo <alessio.adamo@gmail.com>
-Date:   Tue Mar 13 14:14:02 2018 +0000
-
-    Translated using Weblate (Italian)
-
-    Currently translated at 100.0% (333 of 333 strings)
-
- po/it.po | 84 +++++++-----------------------------------------------------
- 1 file changed, 9 insertions(+), 75 deletions(-)
-
-commit 583fc92e1ee6c3e5cf08912fd91903e190b0e167
-Author: Martin Devenney <devenneymartin@gmail.com>
-Date:   Tue Mar 13 12:26:54 2018 +0000
-
-    Translated using Weblate (Swedish)
-
-    Currently translated at 100.0% (333 of 333 strings)
-
- po/sv.po | 72 ++++--------------------------------------------------------
- 1 file changed, 4 insertions(+), 68 deletions(-)
-
-commit d1f23a43859f381646a607308b26579b7acd7a75
-Author: Ewelina Michalowska <ewelina.michalowska@stgambit.com>
-Date:   Tue Mar 13 11:59:23 2018 +0000
-
-    Translated using Weblate (Polish)
-
-    Currently translated at 100.0% (333 of 333 strings)
-
- po/pl.po | 113 ++++++++++++++++++-----------------------------------------
- 1 file changed, 34 insertions(+), 79 deletions(-)
-
-commit 93033e94a1a0c2c3cbfccaa7a1ba7b591289a0ad
-Merge: 2135c00d 460ae63b
-Author: Brian Bidulock <bidulock@openss7.com>
-Date:   Tue Mar 13 04:31:24 2018 -0600
-
-    Merge pull request #250 from gam3/gam3/cleanup
-
-    Use proper 'delete []' in place of 'delete'
-
-commit 2135c00dc8f93ab80aa030d29628ebd8550db802
-Author: Robert Taisz <robert.taisz@emerald.hu>
-Date:   Tue Mar 13 10:29:51 2018 +0000
-
-    Translated using Weblate (Hungarian)
-
-    Currently translated at 100.0% (333 of 333 strings)
-
- po/hu.po | 88 ++++++++----------------------------------------------------
- 1 file changed, 11 insertions(+), 77 deletions(-)
-
-commit 1bb9554261d902bdce5da4e5f3e9c9b36b43151a
-Author: Ferdinand Galko <galko.ferdinand@gmail.com>
-Date:   Mon Mar 12 08:37:06 2018 +0000
-
-    Translated using Weblate (Slovak)
-
-    Currently translated at 100.0% (333 of 333 strings)
-
- po/sk.po | 65 ++++++------------------------------------------------------
- 1 file changed, 6 insertions(+), 59 deletions(-)
-
-commit 48d930ddf3175a104a0e1f293aa127c4fb602431
-Author: Hwajin Kim <hwajin.kim@e4net.net>
-Date:   Tue Mar 13 06:07:04 2018 +0000
-
-    Translated using Weblate (Korean)
-
-    Currently translated at 100.0% (333 of 333 strings)
-
- po/ko.po | 95 +++++++++++++-----------------------------------------------
- 1 file changed, 20 insertions(+), 75 deletions(-)
-
-commit 946b537d5572b96436b08cf606268f9086281785
-Author: Ferdinand Galko <galko.ferdinand@gmail.com>
-Date:   Mon Mar 12 08:37:06 2018 +0000
-
-    Translated using Weblate (Slovak)
-
-    Currently translated at 99.6% (332 of 333 strings)
-
- po/sk.po | 40 +++++++++++++++++++---------------------
- 1 file changed, 19 insertions(+), 21 deletions(-)
-
-commit 3ef2977b3e4411f9e55c0eb9de09fc77ca4752c3
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Mar 11 21:06:42 2018 +0100
-
-    "order" winoption to sort buttons / icons on taskbar, tray bar and system
-    tray for issues #242, #180, #198. Use _KDE_NET_SYSTEM_TRAY_WINDOWS for
-    issue #242. Possible fixes for issue #209 which requires further testing.
-
- doc/icewm.adoc   |   4 +
- src/Makefile.am  |  19 ++--
- src/atasks.cc    |   8 +-
- src/atasks.h     |   4 +-
- src/atray.cc     |   9 +-
- src/atray.h      |   1 +
- src/debug.h      |   4 +-
- src/wmclient.h   |   1 +
- src/wmframe.cc   |   2 +
- src/wmframe.h    |   4 +-
- src/wmoption.cc  |   5 +
- src/wmoption.h   |   1 +
- src/wmtaskbar.cc |   2 +-
- src/yxtray.cc    | 300 +++++++++++++++++++++++++++++++++++----------------
- src/yxtray.h     |  39 +++++--
- 15 files changed, 282 insertions(+), 121 deletions(-)
-
-commit 49b620188f82329d8b04e016bd78bcfdac625dbc
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Mar 11 21:04:44 2018 +0100
-
-    equal
-
- src/yrect.h | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-commit 542c4d42f6c8760b02a39b8d90918fa430896750
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Mar 11 21:04:32 2018 +0100
-
-    -tab
-
- src/ycolor.cc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-commit b2fb9edf534ba827acc9671e130f849ca5d3e7a3
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Mar 11 21:04:20 2018 +0100
-
-    iter insert
-
- src/yarray.h | 4 ++++
- 1 file changed, 4 insertions(+)
-
-commit d759ea935eba38c9bc10dfb582914abaa68a2915
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Mar 11 21:03:31 2018 +0100
-
-    leak
-
- src/icesh.cc | 2 ++
- 1 file changed, 2 insertions(+)
-
-commit bbd9b3a24d8a30d5445fc96eade5d5fc0e2a4165
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Mar 11 21:03:00 2018 +0100
-
-    itoa
-
- src/mstring.cc | 7 +++++++
- src/mstring.h  | 3 +++
- 2 files changed, 10 insertions(+)
