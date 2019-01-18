@@ -13,6 +13,8 @@
 #include "config.h"
 #include "aapm.h"
 
+#ifdef MAX_ACPI_BATTERY_NUM
+
 #include "sysdep.h"
 #include "wpixmaps.h"
 #include "prefs.h"
@@ -34,7 +36,8 @@
 #include <sys/file.h>
 #include <sys/ioctl.h>
 #include <sys/types.h>
-#include <machine/apmvar.h>
+#include <dev/apm/apmbios.h>
+#include <dev/apm/apmio.h>
 #endif
 
 #include <math.h>
@@ -1113,5 +1116,7 @@ int YApm::calcWidth(const char *s, int count) {
         return len;
     }
 }
+
+#endif
 
 // vim: set sw=4 ts=4 et:

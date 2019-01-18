@@ -14,6 +14,7 @@
 #ifdef HAVE_STRINGS_H
 #include <strings.h>
 #endif
+#include <X11/Xutil.h>
 
 #define ICEWM_SITE      "https://ice-wm.org/"
 #define ICEWM_FAQ       "https://ice-wm.org/FAQ/"

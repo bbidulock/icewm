@@ -108,6 +108,7 @@ public:
     class TrayApp *addTrayApp(YFrameWindow *w);
     void removeTrayApp(YFrameWindow *w);
 
+    bool hidden() const { return fIsCollapsed | fIsHidden | !fIsMapped; }
     bool autoTimer(bool show);
     void updateFullscreen(bool fullscreen);
     Window edgeTriggerWindow() { return fEdgeTrigger->handle(); }

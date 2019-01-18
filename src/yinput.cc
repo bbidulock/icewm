@@ -15,6 +15,7 @@
 #ifndef UINT_MAX
 #include <limits.h>
 #endif
+#include <X11/keysym.h>
 
 YInputLine::YInputLine(YWindow *parent):
     YWindow(parent),

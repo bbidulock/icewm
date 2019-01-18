@@ -1492,6 +1492,9 @@ void YFrameClient::setWinStateHint(long mask, long state) {
     MSG(("set state=%8lX mask=%3lX, saved %8lX, %3lX, %p",
           state, mask, fSavedWinState[0], fSavedWinState[1], this));
 
+    if (destroyed())
+        return;
+
     if (hasbit(mask, state ^ fSavedWinState[0]) || mask != fSavedWinState[1]) {
         long prop[2] = { state & mask, mask };
 

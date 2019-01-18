@@ -368,7 +368,10 @@ bool StartMenu::handleKey(const XKeyEvent &key) {
         KeySym k = keyCodeToKeySym(key.keycode);
         int m = KEY_MODMASK(key.state);
 
-        if (((k == xapp->Win_L) || (k == xapp->Win_R)) && m == 0) {
+        if ((k == xapp->Win_L ||
+             k == XK_Multi_key ||
+             k == xapp->Win_R) && m == 0)
+        {
             cancelPopup();
             return true;
         }

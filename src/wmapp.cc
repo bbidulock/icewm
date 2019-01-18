@@ -1293,11 +1293,16 @@ void YWMApp::handleSignal(int sig) {
         break;
 
     case SIGHUP:
-        restartClient(0, 0);
+        actionPerformed(actionRestart, 0);
         break;
 
     case SIGUSR2:
         tlog("logEvents %s", boolstr(toggleLogEvents()));
+        break;
+
+    case SIGPIPE:
+        if (ferror(stdout) || ferror(stderr))
+            this->exit(1);
         break;
 
     default:
@@ -1371,8 +1376,7 @@ void YWMApp::afterWindowEvent(XEvent &xev) {
                 manager->popupStartMenu(desktop);
             }
             else if (k1 == xapp->Win_R && k2 == xapp->Win_R) {
-                if (windowList)
-                    windowList->showFocused(-1, -1);
+                actionPerformed(actionWindowList, 0);
             }
         }
     }
@@ -1561,6 +1565,7 @@ int main(int argc, char **argv) {
     YLocale locale;
     bool notify_parent(false);
     const char* configFile(0);
+    const char* displayName(0);
     const char* overrideTheme(0);
 
 
@@ -1602,13 +1607,14 @@ int main(int argc, char **argv) {
             else if (is_long_switch(*arg, "sync"))
             { /* handled by Xt */ }
             else if (GetArgument(value, "d", "display", arg, argv+argc))
-            { /* handled by Xt */ }
+                displayName = value;
             else
                 warn(_("Unrecognized option '%s'."), *arg);
         }
     }
 
-    YWMApp app(&argc, &argv, 0, configFile, overrideTheme);
+    YWMApp app(&argc, &argv, displayName,
+                configFile, overrideTheme);
 
     app.signalGuiEvent(geStartup);
     manager->manageClients();
@@ -1640,8 +1646,9 @@ void YWMApp::doLogout(RebootShutdown reboot) {
             msgbox->setText(_("Logout will close all active applications.\nProceed?"));
             msgbox->autoSize();
             msgbox->setMsgBoxListener(this);
-            msgbox->showFocused();
         }
+        if (fLogoutMsgBox)
+            fLogoutMsgBox->showFocused();
     }
 }
 
@@ -1710,7 +1717,7 @@ void YWMApp::handleSMAction(WMAction message) {
         wmapp->doLogout(Reboot);
         break;
     case ICEWM_ACTION_RESTARTWM:
-        wmapp->restartClient(0, 0);
+        wmapp->actionPerformed(actionRestart, 0);
         break;
     case ICEWM_ACTION_WINDOWLIST:
         wmapp->actionPerformed(actionWindowList, 0);

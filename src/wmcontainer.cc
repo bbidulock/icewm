@@ -27,7 +27,8 @@ YClientContainer::YClientContainer(YWindow *parent, YFrameWindow *frame)
 }
 
 YClientContainer::~YClientContainer() {
-    releaseButtons();
+    if (destroyed() == false)
+        releaseButtons();
 }
 
 void YClientContainer::handleButton(const XButtonEvent &button) {
@@ -113,7 +114,7 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
     }
 
     ///!!! do this first?
-    if (doActivate)
+    if (doActivate && getFrame() != manager->getFocus())
         getFrame()->activate();
     if (doRaise)
         getFrame()->wmRaise();
@@ -211,9 +212,7 @@ void YClientContainer::handleConfigureRequest(const XConfigureRequestEvent &conf
     if (getFrame() &&
         configureRequest.window == getFrame()->client()->handle())
     {
-        XConfigureRequestEvent cre = configureRequest;
-
-        getFrame()->configureClient(cre);
+        getFrame()->configureClient(configureRequest);
     }
 }
 
