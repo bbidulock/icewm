@@ -6,17 +6,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-01-18 09:24-0700\n"
-"PO-Revision-Date: 2018-10-31 23:02+0000\n"
+"POT-Creation-Date: 2018-12-17 23:55+0100\n"
+"PO-Revision-Date: 2019-01-21 18:34+0000\n"
 "Last-Translator: Sarah Kriesch <ada.lovelace@gmx.de>\n"
-"Language-Team: German <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/de/>\n"
+"Language-Team: German <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.18\n"
+"X-Generator: Weblate 3.3\n"
 "X-Language: de_DE\n"
 "X-Source-Language: C\n"
 
@@ -269,7 +269,7 @@ msgstr "Bytes"
 
 #: src/amemstatus.cc:177
 msgid "Memory Total: "
-msgstr "Speicher (total): "
+msgstr "Speicher Total: "
 
 #: src/amemstatus.cc:178
 msgid "Free: "
@@ -413,7 +413,7 @@ msgstr "Der Pfad führt zu keiner Datei."
 
 #: src/icehelp.cc:1990
 msgid "Failed to open file for reading."
-msgstr "Konnte nicht geöffnet werden."
+msgstr "Konnte nicht zum lesen geöffnet werden."
 
 #: src/icehelp.cc:2019
 msgid "Failed to create a temporary file"
@@ -477,12 +477,12 @@ msgstr ""
 "Syntax: %s [OPTIONEN] [ DATEINAME | URL ]\n"
 "\n"
 "IceHelp ist ein sehr einfacher HTML-Browser für den IceWM-Fenstermanager.\n"
-"Er kann zum Anzeigen eines HTML-Dokuments aus einer Datei oder Browsen "
-"einer \n"
-"Website verwendet werden. Die besuchten Seiten werden im Verlauf "
-"gespeichert,\n"
-"durch den Sie mit Tastenkombinationen und einem Kontextmenü (Klicken mit "
-"der \n"
+"Er kann zum Anzeigen eines HTML-Dokuments aus einer Datei oder Browsen einer "
+"\n"
+"Website verwendet werden. Die besuchten Seiten werden im Verlauf gespeichert,"
+"\n"
+"durch den Sie mit Tastenkombinationen und einem Kontextmenü (Klicken mit der "
+"\n"
 "rechten Maustaste) navigieren können. Der Browser unterstützt weder die "
 "Darstellung \n"
 "von Bildern noch JavaScript. Wenn keine Datei oder URL angegeben wird, wird "
@@ -496,12 +496,12 @@ msgstr ""
 "  -B                  IceWM icewmbg-Hilfeseite anzeigen.\n"
 "  -b, --bugs          IceWM-Fehlerberichte anzeigen (einfach).\n"
 "  -f, --faq           IceWM FAQ und Howto anzeigen.\n"
-"  -g                  IceWM Github-Website anzeigen.\n"
+"  -g                  IceWM Github-Webseite anzeigen.\n"
 "  -i, --icewm         IceWM icewm-Hilfeseite anzeigen.\n"
 "  -m, --manual        IceWM-Handbuch anzeigen (Standard).\n"
 "  -s                  IceWM icesound-Hilfeseite anzeigen.\n"
 "  -t, --theme         Howto für IceWM-Themen anzeigen.\n"
-"  -w, --website       IceWM-Website anzeigen.\n"
+"  -w, --website       IceWM-Webseite anzeigen.\n"
 "\n"
 "  -V, --version       Versionsinformationen ausgeben und beenden.\n"
 "  -h, --help          Hilfebildschirm ausgeben und beenden.\n"
@@ -576,7 +576,7 @@ msgstr "Benannte Symbole aus der Domain `%s` (Wertebereich: %ld-%ld):\n"
 #: src/icesh.cc:435
 #, c-format
 msgid "Invalid workspace name: `%s'"
-msgstr "Ungültiger Arbeitsbereich: `%s`"
+msgstr "Ungültiger Name des Arbeitsbereichs: `%s`"
 
 #: src/icesh.cc:440
 #, c-format
@@ -695,10 +695,10 @@ msgstr ""
 "  suspend                   Sage IceWM einzufrieren.\n"
 "\n"
 "Ausdrücke:\n"
-"  Ausdrücke sind eine Liste an Symbolen desselben Bereichs, die durch »+«\n"
-"  oder »|« verbunden sind:\n"
+"  Ausdrücke sind eine Liste an Symbolen desselben Bereichs, die durch `+` "
+"oder `|` verbunden sind:\n"
 "\n"
-"  AUSDRUCK ::= SYMBOL | AUSDRUCK ( »+« | »|« ) SYMBOL\n"
+"  AUSDRUCK ::= SYMBOL | AUSDRUCK ( `+«`| `|` ) SYMBOL\n"
 "\n"
 
 #: src/icesh.cc:653
@@ -734,8 +734,8 @@ msgstr "Keine Aktionen angegeben."
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
-"Das Display kann nicht geöffnet werden: %s. Der X muss laufen und \n"
-"die Umgebungsvariable $DISPLAY gesetzt sein."
+"Das Display kann nicht geöffnet werden: %s. Der X muss laufen und $DISPLAY "
+"gesetzt sein."
 
 #: src/icesh.cc:801
 #, c-format
@@ -888,11 +888,11 @@ msgstr "Spiele Sample #%d: %d"
 #: src/icesound.cc:651
 #, c-format
 msgid "ao_open_live failed with %d"
-msgstr "ao_open_live schlug mit %d fehl"
+msgstr "ao_open_live ist mit %d fehlgeschlagen"
 
 #: src/icesound.cc:662
 msgid "ao_play failed"
-msgstr "ao_play schlug fehl"
+msgstr "ao_play ist fehlgeschlagen"
 
 #: src/icesound.cc:824
 #, c-format
@@ -1322,7 +1322,7 @@ msgstr "_Abmelden"
 
 #: src/wmapp.cc:509
 msgid "_Cancel logout"
-msgstr "Abmeldevorgang _abbrechen"
+msgstr "Abmelde_vorgang abbrechen"
 
 #: src/wmapp.cc:514
 msgid "Lock _Workstation"
@@ -1398,16 +1398,12 @@ msgid "Ma_ximize"
 msgstr "Ma_ximieren"
 
 #: src/wmapp.cc:580 src/wmwinlist.cc:352
-#, fuzzy
-#| msgid "Maximize"
 msgid "Maximize_Vert"
-msgstr "Maximieren"
+msgstr "V_ertikalMaximieren"
 
 #: src/wmapp.cc:581
-#, fuzzy
-#| msgid "Maximize"
 msgid "MaximizeHori_z"
-msgstr "Maximieren"
+msgstr "Hori_zontalMaximieren"
 
 #: src/wmapp.cc:584 src/wmwinlist.cc:353
 msgid "_Fullscreen"
@@ -1738,7 +1734,7 @@ msgstr "Aus_führen..."
 
 #: src/wmprog.cc:792 src/wmtaskbar.cc:280
 msgid "_Windows"
-msgstr "_Fenster"
+msgstr "F_enster"
 
 #: src/wmprog.cc:811
 msgid "_Help"
@@ -1771,7 +1767,7 @@ msgstr "Taskleiste"
 
 #: src/wmtaskbar.cc:270 src/wmwinlist.cc:364 src/wmwinlist.cc:377
 msgid "Tile _Vertically"
-msgstr "_Vertikal anordnen"
+msgstr "Ve_rtikal anordnen"
 
 #: src/wmtaskbar.cc:271 src/wmwinlist.cc:365 src/wmwinlist.cc:378
 msgid "T_ile Horizontally"
@@ -1810,20 +1806,14 @@ msgid "_License"
 msgstr "_Lizenz"
 
 #: src/wmtaskbar.cc:356 src/wmtaskbar.cc:975
-#, fuzzy
-#| msgid "Task Bar"
 msgid "Hide Taskbar"
-msgstr "Taskleiste"
+msgstr "Taskleiste verstecken"
 
 #: src/wmtaskbar.cc:371
-#, fuzzy
-#| msgid "Favorite applications"
 msgid "Favorite Applications"
-msgstr "Favorisierte Anwendungen"
+msgstr "Lieblings-Anwendungen"
 
 #: src/wmtaskbar.cc:389
-#, fuzzy
-#| msgid "Window list menu"
 msgid "Window List Menu"
 msgstr "Fensterlisten-Menü"
 
@@ -1832,10 +1822,8 @@ msgid "Show Desktop"
 msgstr "Desktop anzeigen"
 
 #: src/wmtaskbar.cc:975
-#, fuzzy
-#| msgid "Task Bar"
 msgid "Show Taskbar"
-msgstr "Taskleiste"
+msgstr "Taskleiste anzeigen"
 
 #: src/wmtitle.cc:85
 msgid "Minimize"
