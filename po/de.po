@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-12-17 23:55+0100\n"
-"PO-Revision-Date: 2019-01-21 18:34+0000\n"
-"Last-Translator: Sarah Kriesch <ada.lovelace@gmx.de>\n"
+"PO-Revision-Date: 2019-01-27 18:33+0000\n"
+"Last-Translator: Franziska Weinberger <f.weinberger@gemino.de>\n"
 "Language-Team: German <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/de/>\n"
 "Language: de\n"
@@ -1398,12 +1398,14 @@ msgid "Ma_ximize"
 msgstr "Ma_ximieren"
 
 #: src/wmapp.cc:580 src/wmwinlist.cc:352
+#, fuzzy
 msgid "Maximize_Vert"
-msgstr "V_ertikalMaximieren"
+msgstr "Vertikal _Maximieren"
 
 #: src/wmapp.cc:581
+#, fuzzy
 msgid "MaximizeHori_z"
-msgstr "Hori_zontalMaximieren"
+msgstr "hori_zontal Maximieren"
 
 #: src/wmapp.cc:584 src/wmwinlist.cc:353
 msgid "_Fullscreen"
@@ -1807,7 +1809,7 @@ msgstr "_Lizenz"
 
 #: src/wmtaskbar.cc:356 src/wmtaskbar.cc:975
 msgid "Hide Taskbar"
-msgstr "Taskleiste verstecken"
+msgstr "Taskleiste verbergen"
 
 #: src/wmtaskbar.cc:371
 msgid "Favorite Applications"
