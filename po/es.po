@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2019-01-18 09:24-0700\n"
 "PO-Revision-Date: 2019-01-25 16:05+0000\n"
-"Last-Translator: Juan Sarria <juansarriam@gmail.com>\n"
+"Last-Translator: Jorge Gallegos Carrasco <jcarrascochih@gmail.com>\n"
 "Language-Team: Spanish <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/es/>\n"
 "Language: es\n"
@@ -1402,11 +1402,11 @@ msgstr "Ma_ximizar"
 
 #: src/wmapp.cc:580 src/wmwinlist.cc:352
 msgid "Maximize_Vert"
-msgstr "Maximize_Vert"
+msgstr "Maximize_Vert "
 
 #: src/wmapp.cc:581
 msgid "MaximizeHori_z"
-msgstr "MaximizeHori_z"
+msgstr "MaximizeHori_z "
 
 #: src/wmapp.cc:584 src/wmwinlist.cc:353
 msgid "_Fullscreen"
