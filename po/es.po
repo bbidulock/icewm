@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2019-01-18 09:24-0700\n"
-"PO-Revision-Date: 2019-01-25 15:12+0000\n"
-"Last-Translator: Patricia Pazos <pms.malaga@hermestrans.com>\n"
+"PO-Revision-Date: 2019-01-25 16:05+0000\n"
+"Last-Translator: Juan Sarria <juansarriam@gmail.com>\n"
 "Language-Team: Spanish <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/es/>\n"
 "Language: es\n"
@@ -1321,7 +1321,7 @@ msgstr "Formato inesperado de la propiedad ICEWM_FONT_PATH"
 
 #: src/wmapp.cc:508
 msgid "_Logout"
-msgstr "_Logout"
+msgstr "Cerrar _sesión"
 
 #: src/wmapp.cc:509
 msgid "_Cancel logout"
@@ -1329,7 +1329,7 @@ msgstr "_Cancelar el cierre"
 
 #: src/wmapp.cc:514
 msgid "Lock _Workstation"
-msgstr "Lock _Workstation"
+msgstr "_Bloquear sesión"
 
 #: src/wmapp.cc:516 src/wmdialog.cc:78
 msgid "Re_boot"
@@ -1378,7 +1378,7 @@ msgstr "_Debajo"
 
 #: src/wmapp.cc:546
 msgid "D_esktop"
-msgstr "D_esktop"
+msgstr "E_scritorio"
 
 #: src/wmapp.cc:571 src/wmwinlist.cc:349
 msgid "_Restore"
