@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-01-18 09:24-0700\n"
+"POT-Creation-Date: 2019-02-04 21:04+0100\n"
 "PO-Revision-Date: 2018-10-05 18:01+0000\n"
 "Last-Translator: Yi-Jyun Pan <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) <https://l10n.opensuse.org/projects/icewm/"
@@ -1807,7 +1807,7 @@ msgstr "重新整理(_R)"
 msgid "_License"
 msgstr "授權(_L)"
 
-#: src/wmtaskbar.cc:356 src/wmtaskbar.cc:975
+#: src/wmtaskbar.cc:356 src/wmtaskbar.cc:979
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Hide Taskbar"
@@ -1829,7 +1829,7 @@ msgstr "視窗列表選單"
 msgid "Show Desktop"
 msgstr "顯示桌面"
 
-#: src/wmtaskbar.cc:975
+#: src/wmtaskbar.cc:979
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Show Taskbar"

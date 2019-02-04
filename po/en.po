@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-01-18 09:24-0700\n"
+"POT-Creation-Date: 2019-02-04 21:04+0100\n"
 "PO-Revision-Date: 2000-10-21 12:13+2000\n"
 "Last-Translator: Mathias Hasselmann <mathias.hasselmann@gmx.de>\n"
 "Language-Team: English\n"
@@ -1489,7 +1489,7 @@ msgstr ""
 msgid "_License"
 msgstr ""
 
-#: src/wmtaskbar.cc:356 src/wmtaskbar.cc:975
+#: src/wmtaskbar.cc:356 src/wmtaskbar.cc:979
 msgid "Hide Taskbar"
 msgstr ""
 
@@ -1505,7 +1505,7 @@ msgstr ""
 msgid "Show Desktop"
 msgstr ""
 
-#: src/wmtaskbar.cc:975
+#: src/wmtaskbar.cc:979
 msgid "Show Taskbar"
 msgstr ""
 

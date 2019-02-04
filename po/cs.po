@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm-1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-01-18 09:24-0700\n"
+"POT-Creation-Date: 2019-02-04 21:04+0100\n"
 "PO-Revision-Date: 2018-12-20 18:00+0000\n"
 "Last-Translator: Aleš Kastner <alkas@volny.cz>\n"
 "Language-Team: Czech <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -1776,7 +1776,7 @@ msgstr "_Obnovit"
 msgid "_License"
 msgstr "_Licence"
 
-#: src/wmtaskbar.cc:356 src/wmtaskbar.cc:975
+#: src/wmtaskbar.cc:356 src/wmtaskbar.cc:979
 msgid "Hide Taskbar"
 msgstr "Skryj panel úloh"
 
@@ -1792,7 +1792,7 @@ msgstr "Menu Seznam oken"
 msgid "Show Desktop"
 msgstr "Zobrazit Plochu"
 
-#: src/wmtaskbar.cc:975
+#: src/wmtaskbar.cc:979
 msgid "Show Taskbar"
 msgstr "Zobraz panel úloh"
 

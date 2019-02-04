@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.4.2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-01-18 09:24-0700\n"
+"POT-Creation-Date: 2019-02-04 21:04+0100\n"
 "PO-Revision-Date: 2018-12-26 17:32+0000\n"
 "Last-Translator: Dmitriy Khanzhin <dmitriy.khanzhin@gmail.com>\n"
 "Language-Team: Russian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -1799,7 +1799,7 @@ msgstr "_Обновить"
 msgid "_License"
 msgstr "_Лицензия"
 
-#: src/wmtaskbar.cc:356 src/wmtaskbar.cc:975
+#: src/wmtaskbar.cc:356 src/wmtaskbar.cc:979
 msgid "Hide Taskbar"
 msgstr "Скрыть Панель задач"
 
@@ -1815,7 +1815,7 @@ msgstr "Список Окон в Меню"
 msgid "Show Desktop"
 msgstr "Показать Десктоп"
 
-#: src/wmtaskbar.cc:975
+#: src/wmtaskbar.cc:979
 msgid "Show Taskbar"
 msgstr "Показать Панель задач"
 

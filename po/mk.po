@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-01-18 09:24-0700\n"
+"POT-Creation-Date: 2019-02-04 21:04+0100\n"
 "PO-Revision-Date: 2006-01-26 23:29+0100\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team:  <mk@li.org>\n"
@@ -1654,7 +1654,7 @@ msgstr "_Освежи"
 msgid "_License"
 msgstr "_Лиценца"
 
-#: src/wmtaskbar.cc:356 src/wmtaskbar.cc:975
+#: src/wmtaskbar.cc:356 src/wmtaskbar.cc:979
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Hide Taskbar"
@@ -1676,7 +1676,7 @@ msgstr "Мени со листа на прозорци"
 msgid "Show Desktop"
 msgstr "Прикажи раб. површина"
 
-#: src/wmtaskbar.cc:975
+#: src/wmtaskbar.cc:979
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Show Taskbar"

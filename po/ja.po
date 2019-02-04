@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-01-18 09:24-0700\n"
+"POT-Creation-Date: 2019-02-04 21:04+0100\n"
 "PO-Revision-Date: 2018-12-20 18:00+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
 "Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -1809,7 +1809,7 @@ msgstr "再描画 (_R)"
 msgid "_License"
 msgstr "ライセンス (_L)"
 
-#: src/wmtaskbar.cc:356 src/wmtaskbar.cc:975
+#: src/wmtaskbar.cc:356 src/wmtaskbar.cc:979
 msgid "Hide Taskbar"
 msgstr "タスクバーを隠す"
 
@@ -1825,7 +1825,7 @@ msgstr "ウインドウ一覧メニュー"
 msgid "Show Desktop"
 msgstr "デスクトップの表示"
 
-#: src/wmtaskbar.cc:975
+#: src/wmtaskbar.cc:979
 msgid "Show Taskbar"
 msgstr "タスクバーを表示"
 

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.7\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-01-18 09:24-0700\n"
+"POT-Creation-Date: 2019-02-04 21:04+0100\n"
 "PO-Revision-Date: 2018-05-15 20:03+0000\n"
 "Last-Translator: Robert Taisz <robert.taisz@emerald.hu>\n"
 "Language-Team: Hungarian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -2004,7 +2004,7 @@ msgid "_License"
 msgstr "_Licencszerződés"
 
 # ../src/wmtaskbar.cc:145 ../src/wmtaskbar.cc:146
-#: src/wmtaskbar.cc:356 src/wmtaskbar.cc:975
+#: src/wmtaskbar.cc:356 src/wmtaskbar.cc:979
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Hide Taskbar"
@@ -2029,7 +2029,7 @@ msgid "Show Desktop"
 msgstr "Asztal megjelenítése"
 
 # ../src/wmtaskbar.cc:145 ../src/wmtaskbar.cc:146
-#: src/wmtaskbar.cc:975
+#: src/wmtaskbar.cc:979
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Show Taskbar"

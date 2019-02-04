@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Chinese (China) (icewm)\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-01-18 09:24-0700\n"
+"POT-Creation-Date: 2019-02-04 21:04+0100\n"
 "PO-Revision-Date: 2018-12-26 17:32+0000\n"
 "Last-Translator: Dingzhong Chen <wsxy162@gmail.com>\n"
 "Language-Team: Chinese (China) <https://l10n.opensuse.org/projects/icewm/"
@@ -1748,7 +1748,7 @@ msgstr "刷新(_R)"
 msgid "_License"
 msgstr "许可(_L)"
 
-#: src/wmtaskbar.cc:356 src/wmtaskbar.cc:975
+#: src/wmtaskbar.cc:356 src/wmtaskbar.cc:979
 msgid "Hide Taskbar"
 msgstr "隐藏任务栏"
 
@@ -1766,7 +1766,7 @@ msgstr "窗口列表菜单"
 msgid "Show Desktop"
 msgstr "显示桌面"
 
-#: src/wmtaskbar.cc:975
+#: src/wmtaskbar.cc:979
 msgid "Show Taskbar"
 msgstr "显示任务栏"
 

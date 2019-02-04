@@ -1,5 +1,224 @@
 # created with git log --stat=76 -M -C -500|fmt -sct -w80
 
+commit 8a2c5e2cd0ded8271bccf9b19b339daba00aa7c5
+Merge: d12c0260 7371c0e3
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Feb 4 20:48:13 2019 +0100
+
+    Merge branch 'icewm-1-4-BRANCH'
+
+commit 7371c0e35db5ccc361358797a045ff628079f9f3
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Feb 4 03:40:26 2019 +0100
+
+    Solve #330 taskbar border corruption for themes without a taskbar
+    background pixmap.
+
+ src/wmtaskbar.cc | 22 +++++++++++++---------
+ 1 file changed, 13 insertions(+), 9 deletions(-)
+
+commit 313949af064253c1319098286669ec64ae98ad32
+Author: wisememo <46960734+wisememo@users.noreply.github.com>
+Date:   Mon Feb 4 00:17:38 2019 +1100
+
+    Update zh_TW.po (#332)
+
+    section #: src/icewmbg.cc:885
+    - added missing translation
+    - improved minor translation to be aligned with translated terms from
+    Taiwan Ministry of Education
+    - corrected comma used in translation, which should be kept for command
+    option
+
+ po/zh_TW.po | 46 +++++++++++++++++++++++++---------------------
+ 1 file changed, 25 insertions(+), 21 deletions(-)
+
+commit 41716de53b186bc6dfd1bbdb22968d8c8feb9bb2
+Author: Sarah Kriesch <ada.lovelace@gmx.de>
+Date:   Sun Jan 27 18:33:14 2019 +0000
+
+    Translated using Weblate (German)
+
+    Currently translated at 100.0% (468 of 468 strings)
+
+ po/de.po | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
+
+commit 1ab3e7496c73ee355ce5ded954ae82d4be446594
+Author: Franziska Weinberger <f.weinberger@gemino.de>
+Date:   Fri Jan 25 12:58:28 2019 +0000
+
+    Translated using Weblate (German)
+
+    Currently translated at 99.6% (466 of 468 strings)
+
+ po/de.po | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
+
+commit 1d70041130b8131e42d923ace1a42697fe0b1822
+Author: Jorge Gallegos Carrasco <jcarrascochih@gmail.com>
+Date:   Fri Jan 25 16:04:35 2019 +0000
+
+    Translated using Weblate (Spanish)
+
+    Currently translated at 100.0% (468 of 468 strings)
+
+ po/es.po | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+commit 02b402cb4de6daec98243a6c6ded017dbb35f09a
+Author: Juan Sarria <juansarriam@gmail.com>
+Date:   Fri Jan 25 16:02:20 2019 +0000
+
+    Translated using Weblate (Spanish)
+
+    Currently translated at 100.0% (468 of 468 strings)
+
+ po/es.po | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+commit 77bd5e91fc7817ad714bd6b81fc3734d935fdefe
+Author: Patricia Pazos <pms.malaga@hermestrans.com>
+Date:   Thu Jan 24 09:31:40 2019 +0000
+
+    Translated using Weblate (Spanish)
+
+    Currently translated at 100.0% (468 of 468 strings)
+
+ po/es.po | 183 ++++++++++++++++++++++-------------------------------------
+ 1 file changed, 68 insertions(+), 115 deletions(-)
+
+commit 33b03a1e307bb204d60019a937d2b1226487120b
+Merge: f2014a11 74623aca
+Author: openSUSE Weblate <weblate-noreply@opensuse.org>
+Date:   Mon Jan 21 18:34:51 2019 +0000
+
+    Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
+
+commit 74623aca98ecd2d40e3ccb7cf3229d3d3b8fc194
+Author: Sarah Kriesch <ada.lovelace@gmx.de>
+Date:   Tue Jan 8 10:47:47 2019 +0000
+
+    Translated using Weblate (German)
+
+    Currently translated at 100.0% (468 of 468 strings)
+
+ po/de.po | 72 +++++++++++++++++++++++++-----------------------------------
+ 1 file changed, 30 insertions(+), 42 deletions(-)
+
+commit f2014a11350f26d8c526a818c808488909aef7ae
+Author: Brian Bidulock <bidulock@openss7.org>
+Date:   Fri Jan 18 09:32:37 2019 -0700
+
+    update po files
+
+ po/ar.po     |  94 +++++++++++++++++++++++++-------------------------
+ po/be.po     |  94 +++++++++++++++++++++++++-------------------------
+ po/bg.po     |  94 +++++++++++++++++++++++++-------------------------
+ po/ca.po     |  98 ++++++++++++++++++++++++++--------------------------
+ po/cs.po     |  98 ++++++++++++++++++++++++++--------------------------
+ po/da.po     |  98 ++++++++++++++++++++++++++--------------------------
+ po/de.po     |  94 +++++++++++++++++++++++++-------------------------
+ po/el.po     |  97 ++++++++++++++++++++++++++--------------------------
+ po/en.po     |  94 +++++++++++++++++++++++++-------------------------
+ po/es.po     |  98 ++++++++++++++++++++++++++--------------------------
+ po/fi.po     |  94 +++++++++++++++++++++++++-------------------------
+ po/fr.po     |  94 +++++++++++++++++++++++++-------------------------
+ po/he.po     |  94 +++++++++++++++++++++++++-------------------------
+ po/hr.po     |  94 +++++++++++++++++++++++++-------------------------
+ po/hu.po     |  94 +++++++++++++++++++++++++-------------------------
+ po/icewm.pot |  98 ++++++++++++++++++++++++++--------------------------
+ po/id.po     |  94 +++++++++++++++++++++++++-------------------------
+ po/it.po     |  98 ++++++++++++++++++++++++++--------------------------
+ po/ja.po     |  98 ++++++++++++++++++++++++++--------------------------
+ po/ko.po     |  94 +++++++++++++++++++++++++-------------------------
+ po/lt.po     |  94 +++++++++++++++++++++++++-------------------------
+ po/lv.po     |  94 +++++++++++++++++++++++++-------------------------
+ po/mk.po     |  94 +++++++++++++++++++++++++-------------------------
+ po/nb.po     |  94 +++++++++++++++++++++++++-------------------------
+ po/nl.po     |  98 ++++++++++++++++++++++++++--------------------------
+ po/no.po     |  94 +++++++++++++++++++++++++-------------------------
+ po/pl.po     |  94 +++++++++++++++++++++++++-------------------------
+ po/pt_BR.po  |  94 +++++++++++++++++++++++++-------------------------
+ po/ro.po     |  94 +++++++++++++++++++++++++-------------------------
+ po/ru.po     | 102 +++++++++++++++++++++++++++----------------------------
+ po/sk.po     |  98 ++++++++++++++++++++++++++--------------------------
+ po/sl.po     |  94 +++++++++++++++++++++++++-------------------------
+ po/sv.po     |  94 +++++++++++++++++++++++++-------------------------
+ po/tr.po     |  94 +++++++++++++++++++++++++-------------------------
+ po/uk.po     |  94 +++++++++++++++++++++++++-------------------------
+ po/vi.po     |  94 +++++++++++++++++++++++++-------------------------
+ po/zh_CN.po  |  94 +++++++++++++++++++++++++-------------------------
+ po/zh_TW.po  |  94 +++++++++++++++++++++++++-------------------------
+ 38 files changed, 1809 insertions(+), 1810 deletions(-)
+
+commit 44d585650853de1595d8d8608040c5296400aee3
+Merge: fb8d0aa7 77c6e5c7
+Author: Brian Bidulock <bidulock@openss7.org>
+Date:   Fri Jan 18 09:21:52 2019 -0700
+
+    Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
+    icewm-1-4-BRANCH
+
+commit fb8d0aa781aeab736bf149683c27768c521f8d8a
+Author: Brian Bidulock <bidulock@openss7.org>
+Date:   Fri Jan 18 09:20:06 2019 -0700
+
+    reformat TODO
+
+ TODO | 32 +++++++++++++++++---------------
+ 1 file changed, 17 insertions(+), 15 deletions(-)
+
+commit 77c6e5c79e8946d6bbb5fe5da6bf9f4e881c1785
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Wed Jan 9 23:44:58 2019 +0100
+
+    Include Xutil.h.
+
+ src/icehelp.cc | 1 +
+ src/yxtray.cc  | 1 +
+ 2 files changed, 2 insertions(+)
+
+commit 945cf0d59b9127978de0cc3b8416f0f95615a41d
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Wed Jan 9 23:18:11 2019 +0100
+
+    Add keysym.h to aaddressbar.cc.
+
+ src/aaddressbar.cc | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit aee48678cd23ec2f1ae641188a3f4b24306240b5
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Wed Jan 9 22:58:00 2019 +0100
+
+    Add keysym.h to yinput.cc.
+
+ src/yinput.cc | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit e79cf7a3f0c89f10c507478695fdcde587bdf1eb
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Wed Jan 9 21:12:18 2019 +0100
+
+    Include stdlib.h for mblen for issue #329.
+
+ src/ypaint.cc | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit d12c02605e4b494b9bd3fe426f974a5b58cf8843
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sat Jan 5 21:56:51 2019 +0100
+
+    prepare 1.5.1 release
+
+ AUTHORS      |  19 ++--
+ ChangeLog    | 308 +++++++++++++++++++++++++++----------------------------
+ NEWS         |  46 ++++++++-
+ VERSION      |   2 +-
+ configure.ac |   8 +-
+ 5 files changed, 209 insertions(+), 174 deletions(-)
+
 commit ffa57cbef3faa743547ddc8b485a039d6d72cfce
 Merge: fb47fcaf 70917b61
 Author: Bert Gijsbers <gijsbers@science.uva.nl>
@@ -5508,218 +5727,3 @@ Date:   Sun Mar 18 20:14:18 2018 +0100
  src/wmmgr.h     |  3 ++-
  src/ylist.h     |  4 +---
  9 files changed, 102 insertions(+), 66 deletions(-)
-
-commit 16b8d71492d128a09a33765adddc3d736ea0d09a
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Mar 18 20:08:56 2018 +0100
-
-    Add menus for online configurable preferences and key lookup.  Can save
-    modified preferences to file.
-
- lib/Makefile.am          |   6 +
- lib/icons/key_16x16.png  | Bin 0 -> 1165 bytes
- lib/icons/key_32x32.png  | Bin 0 -> 2797 bytes
- lib/icons/pref_16x16.png | Bin 0 -> 1234 bytes
- lib/icons/pref_32x32.png | Bin 0 -> 2741 bytes
- lib/icons/save_16x16.png | Bin 0 -> 1202 bytes
- lib/icons/save_32x32.png | Bin 0 -> 2010 bytes
- src/misc.cc              |   2 +-
- src/wmprog.cc            | 263 +++++++++++++++++++++++++++++++++++++++++--
- src/yaction.h            |   1 +
- src/ymenu.cc             |  16 +--
- src/ypointer.h           |   6 +-
- 12 files changed, 272 insertions(+), 22 deletions(-)
-
-commit 2954c6238089cfdc12e1f803fa899a099a07adb9
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Sat Mar 17 17:32:12 2018 -0600
-
-    Revert "Make it possible to override the layer as set from the window type
-    for issue #251.  Previously when the application sets a window type that
-    could fix the layer forever.  This commit makes it possible to overrule
-    that by either a winoptions setting or by selecting the desired layer
-    from the layer menu.  This gives much more control to the user."
-
-    This reverts commit ea93b40dd3de6dfc8c6a0699820cfd9bfd714608.
-
- src/wmframe.cc | 57 ++++++++++++++++++++++++++----------------------------
- src/wmframe.h  |  2 +-
- 2 files changed, 28 insertions(+), 31 deletions(-)
-
-commit 907a4372bd164ca291260c98bc9157e559987c7e
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Fri Mar 16 05:28:07 2018 +0100
-
-    Revert "Fix the mouse pointer problem on top left and top right."
-    This was not a good pull request as it makes resizing windows
-    in theme CrystelBlue much harder. A fix like that should be
-    better tested.
-    This reverts commit 69b5c83f315330cc9ccccedae8c4a7068301fa29.
-
- src/decorate.cc | 11 +++++++++++
- src/wmframe.cc  | 29 ++++++-----------------------
- 2 files changed, 17 insertions(+), 23 deletions(-)
-
-commit f6caecf6cf03aab762092501b3d9835cbd2266ca
-Merge: bcadc759 69b5c83f
-Author: Brian Bidulock <bidulock@openss7.com>
-Date:   Thu Mar 15 17:45:46 2018 -0600
-
-    Merge pull request #252 from gam3/gam3/upper_coners_handles
-
-    Fix the mouse pointer problem on top left and top right.
-
-commit bcadc75959f40015703145b6734f309213d2befa
-Merge: 5a23b1ad 1bfc25f6
-Author: Brian Bidulock <bidulock@openss7.com>
-Date:   Thu Mar 15 17:43:40 2018 -0600
-
-    Merge pull request #253 from gam3/gam3/psi_widow_warp
-
-    Stop 'psi' windows from warping on first move by title bar.
-
-commit 5a23b1ade6b257d550889a55e5a9b96ad0b4e4b8
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Thu Mar 15 22:11:28 2018 +0100
-
-    On restart windows with _NET_WM_STATE_HIDDEN should set WinStateMinimized
-    to keep them minimized for issues #190, #226, #241 and #254, otherwise
-    they are restored, which is very annoying.
-
- src/wmclient.cc | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
-
-commit ea93b40dd3de6dfc8c6a0699820cfd9bfd714608
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Wed Mar 14 20:17:36 2018 +0100
-
-    Make it possible to override the layer as set from the window type for
-    issue #251.  Previously when the application sets a window type that
-    could fix the layer forever.  This commit makes it possible to overrule
-    that by either a winoptions setting or by selecting the desired layer
-    from the layer menu.  This gives much more control to the user.
-
- src/wmframe.cc | 57 ++++++++++++++++++++++++++++--------------------------
- src/wmframe.h  |  2 +-
- 2 files changed, 31 insertions(+), 28 deletions(-)
-
-commit beb087015c92feeddac3ecd2e3577d49fe5c3790
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Wed Mar 14 18:27:48 2018 +0100
-
-    sed -i 's|%l |%ld |g' zh_TW.po #255
-
- po/zh_TW.po | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-commit 169b5f0c9053c70bf8d9f8b880b8aefdac870ae5
-Author: Nikita Maynagashev <maynagashev@palex.ru>
-Date:   Wed Mar 14 11:42:28 2018 +0000
-
-    Translated using Weblate (Russian)
-
-    Currently translated at 100.0% (333 of 333 strings)
-
- po/ru.po | 109 +++++++++++++++--------------------------------------------
- 1 file changed, 27 insertions(+), 82 deletions(-)
-
-commit a4be083560c18479644f458fe3bd129352482512
-Author: Emily Dong <Emily.Dong@excel-gits.com>
-Date:   Wed Mar 14 06:08:35 2018 +0000
-
-    Translated using Weblate (Chinese (China))
-
-    Currently translated at 100.0% (333 of 333 strings)
-
- po/zh_CN.po | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-commit a2c51f13136b6d569a92b461bb1fcfa4da24b811
-Author: Grace Yu <grace.yu@excel-gits.com>
-Date:   Wed Mar 14 06:48:53 2018 +0000
-
-    Translated using Weblate (Chinese (Taiwan))
-
-    Currently translated at 100.0% (333 of 333 strings)
-
- po/zh_TW.po | 132 ++++++++++++++++----------------------------------------
- 1 file changed, 36 insertions(+), 96 deletions(-)
-
-commit 7136a941baf8e6beb069250ccac39eed25c27403
-Author: Dingzhong Chen <wsxy162@gmail.com>
-Date:   Sat Mar 10 17:34:57 2018 +0000
-
-    Translated using Weblate (Chinese (China))
-
-    Currently translated at 100.0% (333 of 333 strings)
-
- po/zh_CN.po | 98 +++++++++++++--------------------------------------------
- 1 file changed, 22 insertions(+), 76 deletions(-)
-
-commit 1bfc25f607c0676726340d4c7f85e3760d77368d
-Author: G. Allen Morris III <gam3@gam3.net>
-Date:   Wed Mar 14 00:31:38 2018 +0100
-
-    Stop 'psi' windows from warping on first move by title bar.
-
-    This mostly reverts 03af26af5e880f4eee23545973061ccc2e363761
-
- src/ywindow.cc | 4 ----
- 1 file changed, 4 deletions(-)
-
-commit 69b5c83f315330cc9ccccedae8c4a7068301fa29
-Author: G. Allen Morris III <gam3@gam3.net>
-Date:   Tue Mar 13 21:03:23 2018 +0100
-
-    Fix the mouse pointer problem on top left and top right.
-
-        This is a revert of much of commit
-        d759ea935eba38c9bc10dfb582914abaa68a2915
-
- src/decorate.cc | 11 -----------
- src/wmframe.cc  | 29 +++++++++++++++++++++++------
- 2 files changed, 23 insertions(+), 17 deletions(-)
-
-commit a36883eadfa3f9e8e14c76d1c7eb84060952a56f
-Author: Franziska Weinberger <f.weinberger@gemino.de>
-Date:   Tue Mar 13 14:58:30 2018 +0000
-
-    Translated using Weblate (German)
-
-    Currently translated at 100.0% (333 of 333 strings)
-
- po/de.po | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-commit 2af09e6818dd0897004c218fd5ee73d265d53f6c
-Author: Juan Sarria <juansarriam@gmail.com>
-Date:   Tue Mar 13 16:50:31 2018 +0000
-
-    Translated using Weblate (Spanish)
-
-    Currently translated at 100.0% (333 of 333 strings)
-
- po/es.po | 87 ++++++++----------------------------------------------------
- 1 file changed, 11 insertions(+), 76 deletions(-)
-
-commit eeb803a26a0593ed38d51d021427f325b88d789b
-Author: Christine Gabriel <christine@stoquart.com>
-Date:   Tue Mar 13 15:42:37 2018 +0000
-
-    Translated using Weblate (French)
-
-    Currently translated at 100.0% (333 of 333 strings)
-
- po/fr.po | 80 ++++++------------------------------------------------------
- 1 file changed, 7 insertions(+), 73 deletions(-)
-
-commit be62026f3710b4fa742ac8cf6adcc3cc117a1357
-Author: Franziska Weinberger <f.weinberger@gemino.de>
-Date:   Tue Mar 13 14:46:44 2018 +0000
-
-    Translated using Weblate (German)
-
-    Currently translated at 100.0% (333 of 333 strings)
-
- po/de.po | 112 ++++++++++++++++-------------------------------------------
- 1 file changed, 29 insertions(+), 83 deletions(-)

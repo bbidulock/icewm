@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-01-18 09:24-0700\n"
+"POT-Creation-Date: 2019-02-04 21:04+0100\n"
 "PO-Revision-Date: 2016-06-06 12:13+0000\n"
 "Last-Translator: Stanislav Brabec <sbrabec@suse.com>\n"
 "Language-Team: Hebrew <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -1559,7 +1559,7 @@ msgstr "_רענן"
 msgid "_License"
 msgstr "_רשיון"
 
-#: src/wmtaskbar.cc:356 src/wmtaskbar.cc:975
+#: src/wmtaskbar.cc:356 src/wmtaskbar.cc:979
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Hide Taskbar"
@@ -1581,7 +1581,7 @@ msgstr "תפריט רשימת חלון"
 msgid "Show Desktop"
 msgstr "הצג שולחן עבודה"
 
-#: src/wmtaskbar.cc:975
+#: src/wmtaskbar.cc:979
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Show Taskbar"
