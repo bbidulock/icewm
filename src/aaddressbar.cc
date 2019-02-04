@@ -10,6 +10,7 @@
 #include "yxapp.h"
 #include "wmmgr.h"
 #include "default.h"
+#include <X11/keysym.h>
 
 AddressBar::AddressBar(IApp *app, YWindow *parent):
     YInputLine(parent),

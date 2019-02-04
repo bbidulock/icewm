@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2018-12-17 23:55+0100\n"
+"POT-Creation-Date: 2019-01-18 09:24-0700\n"
 "PO-Revision-Date: 2018-10-05 18:01+0000\n"
 "Last-Translator: Yi-Jyun Pan <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) <https://l10n.opensuse.org/projects/icewm/"
@@ -20,27 +20,27 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 2.18\n"
 
-#: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:681 src/aapm.cc:806
+#: src/aapm.cc:180 src/aapm.cc:462 src/aapm.cc:684 src/aapm.cc:809
 msgid " - Power"
 msgstr " - 供電中"
 
-#: src/aapm.cc:179 src/aapm.cc:462 src/aapm.cc:684
+#: src/aapm.cc:182 src/aapm.cc:465 src/aapm.cc:687
 msgid "P"
 msgstr "P"
 
-#: src/aapm.cc:183 src/aapm.cc:436 src/aapm.cc:664 src/aapm.cc:774
+#: src/aapm.cc:186 src/aapm.cc:439 src/aapm.cc:667 src/aapm.cc:777
 msgid " - Charging"
 msgstr " - 充電中"
 
-#: src/aapm.cc:185 src/aapm.cc:438 src/aapm.cc:666
+#: src/aapm.cc:188 src/aapm.cc:441 src/aapm.cc:669
 msgid "C"
 msgstr "C"
 
-#: src/aapm.cc:440
+#: src/aapm.cc:443
 msgid " - Full"
 msgstr " - 電池已滿"
 
-#: src/aapm.cc:985
+#: src/aapm.cc:988
 #, c-format
 msgid "power:\t%s"
 msgstr "電量︰\t%s"
@@ -322,122 +322,122 @@ msgstr "NET"
 msgid "Workspace: "
 msgstr "工作區："
 
-#: src/icehelp.cc:1201
+#: src/icehelp.cc:1202
 msgid "Back"
 msgstr "後退"
 
-#: src/icehelp.cc:1201
+#: src/icehelp.cc:1202
 msgid "Alt+Left"
 msgstr "Alt+Left"
 
-#: src/icehelp.cc:1203
+#: src/icehelp.cc:1204
 msgid "Forward"
 msgstr "前進"
 
-#: src/icehelp.cc:1203
+#: src/icehelp.cc:1204
 msgid "Alt+Right"
 msgstr "Alt+Right"
 
-#: src/icehelp.cc:1206
+#: src/icehelp.cc:1207
 msgid "Previous"
 msgstr "上一個"
 
-#: src/icehelp.cc:1207
+#: src/icehelp.cc:1208
 msgid "Next"
 msgstr "下一個"
 
-#: src/icehelp.cc:1209
+#: src/icehelp.cc:1210
 msgid "Contents"
 msgstr "內容"
 
-#: src/icehelp.cc:1210
+#: src/icehelp.cc:1211
 msgid "Index"
 msgstr "索引"
 
-#: src/icehelp.cc:1213 src/icesame.cc:62 src/iceview.cc:74 src/wmtitle.cc:99
+#: src/icehelp.cc:1214 src/icesame.cc:62 src/iceview.cc:74 src/wmtitle.cc:99
 msgid "Close"
 msgstr "關閉"
 
-#: src/icehelp.cc:1213 src/icesame.cc:62 src/iceview.cc:74
+#: src/icehelp.cc:1214 src/icesame.cc:62 src/iceview.cc:74
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1218
+#: src/icehelp.cc:1219
 msgid "Icewm(1)"
 msgstr "Icewm(1)"
 
-#: src/icehelp.cc:1220
+#: src/icehelp.cc:1221
 msgid "Icewmbg(1)"
 msgstr "Icewmbg(1)"
 
-#: src/icehelp.cc:1222
+#: src/icehelp.cc:1223
 msgid "Icesound(1)"
 msgstr "Icesound(1)"
 
-#: src/icehelp.cc:1224
+#: src/icehelp.cc:1225
 msgid "FAQ"
 msgstr "FAQ"
 
-#: src/icehelp.cc:1226
+#: src/icehelp.cc:1227
 msgid "Manual"
 msgstr "手動"
 
-#: src/icehelp.cc:1228
+#: src/icehelp.cc:1229
 msgid "Support"
 msgstr "支援"
 
-#: src/icehelp.cc:1230
+#: src/icehelp.cc:1231
 msgid "Theme Howto"
 msgstr "佈景主題 Howto"
 
-#: src/icehelp.cc:1232
+#: src/icehelp.cc:1233
 msgid "Website"
 msgstr "網站"
 
-#: src/icehelp.cc:1234
+#: src/icehelp.cc:1235
 msgid "Github"
 msgstr "Github"
 
-#: src/icehelp.cc:1936
+#: src/icehelp.cc:1937
 msgid "Unsupported protocol."
 msgstr "不支援的通訊協定。"
 
-#: src/icehelp.cc:1961
+#: src/icehelp.cc:1962
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "路徑無效：%s\n"
 
-#: src/icehelp.cc:1984
+#: src/icehelp.cc:1985
 msgid "Path does not refer to a file."
 msgstr "路徑未參考檔案。"
 
-#: src/icehelp.cc:1989
+#: src/icehelp.cc:1990
 msgid "Failed to open file for reading."
 msgstr "無法開啟要閱讀的檔案。"
 
-#: src/icehelp.cc:2018
+#: src/icehelp.cc:2019
 msgid "Failed to create a temporary file"
 msgstr "建立臨時檔案失敗"
 
-#: src/icehelp.cc:2110
+#: src/icehelp.cc:2111
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr "執行系統 (%s) (%d) 失敗"
 
-#: src/icehelp.cc:2133
+#: src/icehelp.cc:2134
 #, c-format
 msgid "Failed to decompress %s"
 msgstr "解壓縮 %s 失敗"
 
-#: src/icehelp.cc:2141
+#: src/icehelp.cc:2142
 msgid "Could not locate curl or wget in PATH"
 msgstr "在 PATH 中找不到 curl 或 wget"
 
-#: src/icehelp.cc:2145
+#: src/icehelp.cc:2146
 msgid "Unsafe characters in URL"
 msgstr "URL 中存在不安全的字元"
 
-#: src/icehelp.cc:2182
+#: src/icehelp.cc:2183
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -507,7 +507,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/icehelp.cc:2259
+#: src/icehelp.cc:2260
 #, c-format
 msgid "Ignoring option '%s'"
 msgstr "正在忽略選項「%s」"
@@ -1179,42 +1179,46 @@ msgid ""
 "\n"
 msgstr ""
 "用法︰icewmbg [選項]\n"
-"可以給定多個值，並使用逗號分隔。\n"
+"在可以設定多個預設值時，使用逗號分隔\n"
 "當圖片為某個目錄時，則會使用此目錄下的所有圖片。\n"
 "\n"
 "選項︰\n"
-"  -p、--replace        取代已存在的 icewmbg。\n"
-"  -q、--quit           通知執行中的 icewmbg 離開。\n"
-"  -r、--restart        通知執行中的 icewmbg 重新啟動。\n"
+"  -p, --replace        取代已存在的 icewmbg。\n"
+"  -q, --quit           通知執行中的 icewmbg 離開。\n"
+"  -r, --restart        通知執行中的 icewmbg 重新啟動。\n"
+"  -u, --shuffle        隨機安排/重新隨機安排桌面背景影像清單。\n"
 "\n"
-"  -c、--config=FILE    從 FILE 中載入優先設定。\n"
-"  -t、--theme=NAME     載入名稱為 NAME 的主題。\n"
+"  -c, --config=FILE    從 FILE 中載入優先設定。\n"
+"  -t, --theme=NAME     載入名稱為 NAME 的主題。\n"
 "\n"
-"  -i、--image=FILE(S)  從 FILE 中載入桌面底圖。\n"
-"  -k、--color=NAME(S)  使用 NAME 做為底圖顏色。\n"
+"  -i, --image=FILE(S)  從 FILE 中載入桌面背景影像。\n"
+"  -k, --color=NAME(S)  使用 NAME 做為背景顏色。\n"
 "\n"
-"  -s、--semis=FILE(S)  從 FILE 中載入透明圖案。\n"
-"  -x、--trans=NAME(S)  使用 NAME 做為透明顏色。\n"
+"  -s, --semis=FILE(S)  從 FILE 中載入透明影像。\n"
+"  -x, --trans=NAME(S)  使用 NAME 做為透明顏色。\n"
 "\n"
-"  -e、--center=0/1     停用/啟用置中地圖。\n"
-"  -a、--scaled=0/1     停用/啟用縮放底圖。\n"
-"  -m、--multi=0/1      停用/啟用多頭底圖。\n"
+"  -e, --center=0/1     停用/啟用置中背景圖片。\n"
+"  -a, --scaled=0/1     停用/啟用縮放背景圖片。\n"
+"  -m, --multi=0/1      停用/啟用多螢幕背景影像。\n"
+"  -y, --cycle=SECONDS  每隔SECONDS秒循環桌面背景影像。\n"
 "\n"
 "  --display=NAME       使用 NAME 連接 X 伺服器。\n"
 "  --sync               與 X11 伺服器同步通訊資訊。\n"
 "\n"
-"  -h、--help           列印此用法螢幕並離開。\n"
-"  -V、--version        列印版本資訊並離開。\n"
+"  -h, --help           列印此用法螢幕並離開。\n"
+"  -V, --version        列印版本資訊並離開。\n"
 "\n"
 "依據個人設定檔載入桌面背景︰\n"
-" DesktopBackgroundCenter  - 置中桌面底圖\n"
-" DesktopBackgroundScaled  - 縮放桌面底圖\n"
+" DesktopBackgroundCenter  - 置中桌面背景圖片\n"
+" DesktopBackgroundScaled  - 縮放桌面背景圖片\n"
 " DesktopBackgroundColor   - 桌面底圖顏色\n"
-" DesktopBackgroundImage   - 桌面底圖圖案\n"
+" DesktopBackgroundImage   - 桌面背景影像\n"
+" ShuffleBackgroundImages  - 隨機安排桌面背景影像清單\n"
 " SupportSemitransparency  - 支援半透明背景的終端機\n"
-" DesktopTransparencyColor - 半透明底圖顏色\n"
-" DesktopTransparencyImage - 半透明底圖圖案\n"
-" DesktopBackgroundMultihead – 所有顯示器使用同一個底圖\n"
+" DesktopTransparencyColor - 半透明桌面顏色\n"
+" DesktopTransparencyImage - 半透明桌面圖案\n"
+" DesktopBackgroundMultihead - 所有螢幕使用同一個背景圖片\n"
+" CycleBackgroundsPeriod   - 循環桌面背景圖片的秒數間隔\n"
 "\n"
 " center:0 scaled:0 = 並列\n"
 " center:0 scaled:0 = 置中\n"
@@ -1954,43 +1958,43 @@ msgstr "無法載入字型集「%s」。"
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "字型集 \"%s\" 缺少字碼集："
 
-#: src/yinput.cc:38
+#: src/yinput.cc:39
 msgid "_Copy"
 msgstr "複製(_C)"
 
-#: src/yinput.cc:38
+#: src/yinput.cc:39
 msgid "Ctrl+C"
 msgstr "Ctrl+C"
 
-#: src/yinput.cc:40
+#: src/yinput.cc:41
 msgid "Cu_t"
 msgstr "剪下(_T)"
 
-#: src/yinput.cc:40
+#: src/yinput.cc:41
 msgid "Ctrl+X"
 msgstr "Ctrl+X"
 
-#: src/yinput.cc:42
+#: src/yinput.cc:43
 msgid "_Paste"
 msgstr "貼上(_P)"
 
-#: src/yinput.cc:42
+#: src/yinput.cc:43
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#: src/yinput.cc:44
+#: src/yinput.cc:45
 msgid "Paste _Selection"
 msgstr "貼上所選(_S)"
 
-#: src/yinput.cc:44
+#: src/yinput.cc:45
 msgid "Ctrl+P"
 msgstr "Ctrl+P"
 
-#: src/yinput.cc:47
+#: src/yinput.cc:48
 msgid "Select _All"
 msgstr "全部選取(_A)"
 
-#: src/yinput.cc:47
+#: src/yinput.cc:48
 msgid "Ctrl+A"
 msgstr "Ctrl+A"
 

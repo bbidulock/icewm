@@ -811,16 +811,20 @@ void TaskBar::paint(Graphics &g, const YRect& r) {
     if (taskbackPixmap != null)
         g.fillPixmap(taskbackPixmap, r.x(), r.y(), r.width(), r.height(),
                      r.x(), r.y());
-    else {
-        int y = taskBarAtTop ? 0 : 1;
-        g.fillRect(r.x(), y + r.y(), r.width(), r.height() - 1);
-        if (!taskBarAtTop) {
-            y++;
-            g.setColor(taskBarBg->brighter());
-            g.drawLine(r.x(), 0, r.width(), 0);
-        } else {
+    else
+    if (taskBarAtTop) {
+        bool dh = (r.y() + r.height() == height());
+        g.fillRect(r.x(), r.y(), r.width(), r.height() - dh);
+        if (dh) {
             g.setColor(taskBarBg->darker());
-            g.drawLine(r.x(), height() - 1, r.width(), height() - 1);
+            g.drawLine(r.x(), height() - 1, r.x() + r.width(), height() - 1);
+        }
+    } else {
+        bool dy = (r.y() == 0);
+        g.fillRect(r.x(), r.y() + dy, r.width(), r.height() - dy);
+        if (dy) {
+            g.setColor(taskBarBg->brighter());
+            g.drawLine(r.x(), 0, r.x() + r.width(), 0);
         }
     }
 }

@@ -9,6 +9,7 @@
 #include "yprefs.h"
 #include "intl.h"
 #include <ctype.h>
+#include <stdlib.h>
 
 #ifdef CONFIG_XFREETYPE
 #include <X11/Xft/Xft.h>

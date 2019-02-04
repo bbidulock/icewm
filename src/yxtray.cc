@@ -3,6 +3,7 @@
 #include "prefs.h"
 #include "wmoption.h"
 #include "ytimer.h"
+#include <X11/Xutil.h>
 
 extern YColorName taskBarBg;
 
