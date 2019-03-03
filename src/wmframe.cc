@@ -57,8 +57,6 @@ YFrameWindow::YFrameWindow(
     topRight = None;
     bottomLeft = None;
     bottomRight = None;
-    topLeftSide = None;
-    topRightSide = None;
     indicatorsCreated = false;
     indicatorsVisible = false;
 
@@ -426,25 +424,17 @@ Window YFrameWindow::createPointerWindow(Cursor cursor, Window parent) {
 // create 8 resize pointer indicator windows
 void YFrameWindow::createPointerWindows() {
 
-    // There is a competition for mouse input between
-    // the resize handles, the titlebar and its buttons.
-    // The following solution positions the corner resize
-    // handles between the titlebar and the titlebar buttons.
     const Window frameWin = handle();
-    const Window titleWin = titlebar() ? titlebar()->handle() : frameWin;
 
     topSide = createPointerWindow(YWMApp::sizeTopPointer, frameWin);
     leftSide = createPointerWindow(YWMApp::sizeLeftPointer, frameWin);
     rightSide = createPointerWindow(YWMApp::sizeRightPointer, frameWin);
     bottomSide = createPointerWindow(YWMApp::sizeBottomPointer, frameWin);
 
-    topLeft = createPointerWindow(YWMApp::sizeTopLeftPointer, titleWin);
-    topRight = createPointerWindow(YWMApp::sizeTopRightPointer, titleWin);
+    topLeft = createPointerWindow(YWMApp::sizeTopLeftPointer, frameWin);
+    topRight = createPointerWindow(YWMApp::sizeTopRightPointer, frameWin);
     bottomLeft = createPointerWindow(YWMApp::sizeBottomLeftPointer, frameWin);
     bottomRight = createPointerWindow(YWMApp::sizeBottomRightPointer, frameWin);
-
-    topLeftSide = createPointerWindow(YWMApp::sizeTopLeftPointer, frameWin);
-    topRightSide = createPointerWindow(YWMApp::sizeTopRightPointer, frameWin);
 
     indicatorsCreated = true;
 
