@@ -5,11 +5,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.2.15\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-01-18 09:24-0700\n"
+"POT-Creation-Date: 2019-03-03 22:43+0100\n"
 "PO-Revision-Date: 2019-02-07 06:32+0000\n"
 "Last-Translator: Ewelina Michalowska <ewelina.michalowska@stgambit.com>\n"
-"Language-Team: Polish <https://l10n.opensuse.org/projects/icewm/"
-"icewm-1-4-branch/pl/>\n"
+"Language-Team: Polish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1210,10 +1210,10 @@ msgstr ""
 "↵\n"
 " center:0 scaled:0 = sąsiadująco↵\n"
 " center:1 scaled:0 = wyśrodkowane↵\n"
-" center:1 scaled:1 = wypełnij jeden wymiar i zachowaj współczynnik proporcji↵"
-"\n"
-" center:0 scaled:1 = wypełnij oba wymiary i zachowaj współczynnik proporcji↵"
-"\n"
+" center:1 scaled:1 = wypełnij jeden wymiar i zachowaj współczynnik "
+"proporcji↵\n"
+" center:0 scaled:1 = wypełnij oba wymiary i zachowaj współczynnik "
+"proporcji↵\n"
 "\n"
 
 #: src/icewmbg.cc:1100
@@ -1636,11 +1636,11 @@ msgstr "U_ruchom ponownie IceWM"
 msgid "_About"
 msgstr "Inform_acje"
 
-#: src/wmframe.cc:1400
+#: src/wmframe.cc:1390
 msgid "Kill Client: "
 msgstr "Zamknij klienta: "
 
-#: src/wmframe.cc:1407
+#: src/wmframe.cc:1397
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1648,19 +1648,19 @@ msgstr ""
 "UWAGA! Wszystkie niezapisane zmiany zostaną utracone\n"
 "gdy ten klient zostanie zamknięty. Czy chcesz kontynuować?"
 
-#: src/wmframe.cc:3001
+#: src/wmframe.cc:2991
 msgid "Restore"
 msgstr "Przywróć"
 
-#: src/wmframe.cc:3004 src/wmtitle.cc:69
+#: src/wmframe.cc:2994 src/wmtitle.cc:69
 msgid "Maximize"
 msgstr "Maksymalizuj"
 
-#: src/wmframe.cc:3034
+#: src/wmframe.cc:3024
 msgid "Rolldown"
 msgstr "Zwiń"
 
-#: src/wmframe.cc:3036 src/wmtitle.cc:127
+#: src/wmframe.cc:3026 src/wmtitle.cc:127
 msgid "Rollup"
 msgstr "Rozwiń"
 
@@ -1799,7 +1799,7 @@ msgstr "Odśwież"
 msgid "_License"
 msgstr "_Licencja"
 
-#: src/wmtaskbar.cc:356 src/wmtaskbar.cc:975
+#: src/wmtaskbar.cc:356 src/wmtaskbar.cc:979
 msgid "Hide Taskbar"
 msgstr "Ukryj pasek zadań"
 
@@ -1815,7 +1815,7 @@ msgstr "Menu listy okien"
 msgid "Show Desktop"
 msgstr "Pokaż biurko"
 
-#: src/wmtaskbar.cc:975
+#: src/wmtaskbar.cc:979
 msgid "Show Taskbar"
 msgstr "Pokaż pasek zadań"
 
