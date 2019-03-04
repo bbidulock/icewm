@@ -10,20 +10,14 @@
 
 =item B<icesh> [I<OPTIONS>] I<ACTIONS>
 
-=item B<icesh> {B<-h>|B<--help>}
-
-=item B<icesh> {B<-V>|B<--version>}
-
-=item B<icesh> {B<-C>|B<--copying>}
-
 =back
 
 =head1 DESCRIPTION
 
 B<icesh> provides commands for use by shell scripts that affect a
-window's state similar to L<wmctrl(1)> or L<xdotool(1)>, except more
-limited, specifically for B<icewm(1)>, and limited to affecting GNOME
-WinWM/WMH properties.
+window's state, similar to L<wmctrl(1)> or L<xdotool(1)>, except
+mostly limited to GNOME WinWM/WMH properties
+and B<icewm(1)> specific commands.
 
 =head1 OPTIONS
 
@@ -37,12 +31,7 @@ argument parsing and processing is performed.
 
 =over
 
-=item B<-display> I<DISPLAY>
-
-Specifies the X11 I<DISPLAY> to use.  When unspecified, defaults to the
-$DISPLAY environment variable.
-
-=item B<-window> I<WINDOW_ID>
+=item B<-w>, B<-window> I<WINDOW_ID>
 
 Specifies the identifier of the window, I<WINDOW_ID>, for which the
 action applies.
@@ -51,7 +40,7 @@ and B<focus> for the currently focused window.
 When no I<WINDOW_ID> or I<WM_CLASS> is specified, a selection crossbar
 is invoked to select the desired window.
 
-=item B<-class> I<WM_CLASS>
+=item B<-c>, B<-class> I<WM_CLASS>
 
 Specifies the window manager class, I<WM_CLASS>, for which the action
 applies.
@@ -62,11 +51,24 @@ are selected.
 When no I<WINDOW_ID> or I<WM_CLASS> is specified, a selection crossbar
 is invoked to select the desired window.
 
+=item B<-r>, B<-root>
+
+Is equivalent to B<-window> B<root>.
+
+=item B<-f>, B<-focus>
+
+Is equivalent to B<-window> B<focus>.
+
 =back
 
 =head2 GENERAL OPTIONS
 
 =over
+
+=item B<-d>, B<-display> I<DISPLAY>
+
+Specifies the X11 I<DISPLAY> to use.  When unspecified, defaults to the
+$DISPLAY environment variable.
 
 =item B<-h>, B<--help>
 
@@ -88,7 +90,7 @@ B<icesh> accepts the following arguments:
 
 =over
 
-=item B<ACTIONS> ::= I<ACTION>[ I<ACTION>]*
+=item B<ACTIONS> ::= I<ACTION> [I<ACTION>]*
 
 Actions can be one of:
 
@@ -117,7 +119,7 @@ state>, below, for I<STATE> and I<MASK> symbols.
 
 Toggle the GNOME window state bits specified by the I<STATE> expression
 for the specified window.  See L</GNOME window state>, below, for
-    I<STATE> symbols.
+I<STATE> symbols.
 
 =item B<setHints> I<HINTS>
 
@@ -132,7 +134,8 @@ L</GNOME window layer>, below, for I<LAYER> symbols.
 =item B<setWorkspace> I<WORKSPACE>
 
 Moves the specified window to another workspace.  Select the root
-window to change the current workspace.
+window to change the current workspace. If I<WORKSPACE> is C<All>
+then the specified window becomes visible on all workspaces.
 
 =item B<listWorkspaces>
 
@@ -145,6 +148,69 @@ I<TRAYOPTION>.  See L</IceWM tray options>, below, for I<TRAYOPTION>
 symbols.
 
 =back
+
+The following actions do not require a window or class option:
+
+=over
+
+=item B<check>
+
+Prints information about the current window manager, like name,
+version, class, locale, command, host name and pid.
+
+=item B<list>
+
+Lists all windows, their titles and their geometries.
+
+=item B<logout>
+
+Ask IceWM to execute the C<LogoutCommand>.
+
+=item B<reboot>
+
+Ask IceWM to execute the C<RebootCommand>.
+
+=item B<shutdown>
+
+Ask IceWM to execute the C<ShutdownCommand>.
+
+=item B<cancel>
+
+Ask IceWM to cancel the logout/reboot/shutdown.
+
+=item B<about>
+
+Ask IceWM to show the about window.
+
+=item B<windowlist>
+
+Ask IceWM to show the window list window.
+
+=item B<restart>
+
+Ask IceWM to restart.
+
+=item B<suspend>
+
+Ask IceWM to execute the C<SuspendCommand>.
+
+=item B<guievents>
+
+Monitor the B<ICEWM_GUI_EVENT> property and report all changes.
+
+=item B<colormaps>
+
+Monitor which colormap is installed.
+
+=item B<runonce> I<program> [I<arguments...>]
+
+This action is meant to be used together with the B<-class> option.
+Only if no window is matched by I<WM_CLASS> then
+I<program> [I<arguments...>] is executed.
+
+=back
+
+Some actions require one or two I<EXPRESSION> arguments.
 
 =item B<EXPRESSION> ::= I<SYMBOL> | I<EXPRESSION> { C<+> | C<|> }
 I<SYMBOL>
@@ -224,8 +290,8 @@ associated with a window, or to list and parse information about
 existing windows.
 
 It should be noted that B<icesh> works on any window manager that is
-compliant with the GNOME WinWM/WMH specification.  The C<setTrayOption>
-action; however, is IceWM specific.
+compliant with the GNOME WinWM/WMH specification.  Some commands, like
+C<setTrayOption> and the actions, however, are IceWM specific.
 
 =head1 EXAMPLES
 
@@ -274,7 +340,7 @@ L<https://github.com/bbidulock/icewm/issues>.
 B<icesh> is historical and deprecated.  The command originally (and
 still) only supported the GNOME WinWM/WMH specification.  Unlike
 L<wmctrl(1)> and L<xdotool(1)>, NetWM/EWMH support was never included.
-Except for the C<setTrayOption> command, L<wmctrl(1)> and L<xdotool(1)>
+For most of the supported commands, L<wmctrl(1)> and L<xdotool(1)>
 are quite capable of performing the necessary functions and more.
 
 =head1 AUTHOR
