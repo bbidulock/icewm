@@ -45,6 +45,30 @@ static Display *display;
 static Window root;
 
 /******************************************************************************/
+
+class NAtom {
+    const char* name;
+    Atom atom;
+public:
+    NAtom(const char* name) : name(name), atom(None) { }
+    operator unsigned() { return atom ? atom :
+        atom = XInternAtom(display, name, False); }
+};
+
+NAtom ATOM_WM_STATE("WM_STATE");
+NAtom ATOM_WIN_WORKSPACE(XA_WIN_WORKSPACE);
+NAtom ATOM_WIN_WORKSPACE_NAMES(XA_WIN_WORKSPACE_NAMES);
+NAtom ATOM_WIN_WORKSPACE_COUNT(XA_WIN_WORKSPACE_COUNT);
+NAtom ATOM_WIN_SUPPORTING_WM_CHECK(XA_WIN_SUPPORTING_WM_CHECK);
+NAtom ATOM_WIN_STATE(XA_WIN_STATE);
+NAtom ATOM_WIN_HINTS(XA_WIN_HINTS);
+NAtom ATOM_WIN_LAYER(XA_WIN_LAYER);
+NAtom ATOM_WIN_TRAY(XA_WIN_TRAY);
+NAtom ATOM_GUI_EVENT(XA_GUI_EVENT_NAME);
+NAtom ATOM_ICE_ACTION("_ICEWM_ACTION");
+NAtom ATOM_NET_CLIENT_LIST("_NET_CLIENT_LIST");
+
+/******************************************************************************/
 /******************************************************************************/
 
 struct Symbol {
@@ -109,7 +133,7 @@ public:
         fList(NULL), fCount(0),
         fStatus(XGetTextProperty(display, window, &fProperty, property))
     {
-        if (*this) {
+        if (fStatus == True) {
             XTextPropertyToStringList(&fProperty, &fList, &fCount);
         }
         else {
@@ -164,6 +188,20 @@ public:
         if (window) {
             fSuccess = XQueryTree(display, window, &fRoot, &fParent,
                                   &fChildren, &fCount);
+        }
+        return fSuccess;
+    }
+
+    Status getClientList() {
+        release();
+        YWindowProperty clients(root, ATOM_NET_CLIENT_LIST, XA_WINDOW, 10000);
+        if (clients && XA_WINDOW == clients.type() && 32 == clients.format()) {
+            fCount = clients.count();
+            fChildren = (Window *) malloc(fCount * sizeof(Window));
+            fSuccess = True;
+            for (int k = 0; k < clients.count(); ++k) {
+                fChildren[k] = clients.data<Window>(k);
+            }
         }
         return fSuccess;
     }
@@ -233,12 +271,15 @@ private:
     void flush();
     void flags();
     void xinit();
+    void details(Window window);
     void setWindow(Window window);
     void getWindows(bool interactive = true);
     void parseActions();
     bool isAction(const char* str, int argCount);
     bool icewmAction();
     bool guiEvents();
+    bool listShown();
+    bool listClients();
     bool listWindows();
     bool listWorkspaces();
     bool colormaps();
@@ -249,29 +290,6 @@ private:
     static void catcher(int);
     static bool running;
 };
-
-/******************************************************************************/
-
-class NAtom {
-    const char* name;
-    Atom atom;
-public:
-    NAtom(const char* name) : name(name), atom(None) { }
-    operator unsigned() { return atom ? atom :
-        atom = XInternAtom(display, name, False); }
-};
-
-NAtom ATOM_WM_STATE("WM_STATE");
-NAtom ATOM_WIN_WORKSPACE(XA_WIN_WORKSPACE);
-NAtom ATOM_WIN_WORKSPACE_NAMES(XA_WIN_WORKSPACE_NAMES);
-NAtom ATOM_WIN_WORKSPACE_COUNT(XA_WIN_WORKSPACE_COUNT);
-NAtom ATOM_WIN_SUPPORTING_WM_CHECK(XA_WIN_SUPPORTING_WM_CHECK);
-NAtom ATOM_WIN_STATE(XA_WIN_STATE);
-NAtom ATOM_WIN_HINTS(XA_WIN_HINTS);
-NAtom ATOM_WIN_LAYER(XA_WIN_LAYER);
-NAtom ATOM_WIN_TRAY(XA_WIN_TRAY);
-NAtom ATOM_GUI_EVENT(XA_GUI_EVENT_NAME);
-NAtom ATOM_ICE_ACTION("_ICEWM_ACTION");
 
 /******************************************************************************/
 /******************************************************************************/
@@ -522,6 +540,11 @@ Status setWorkspace(Window window, long workspace) {
     return XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
 }
 
+long getWorkspace(Window window) {
+    YWindowProperty prop(window, ATOM_WIN_WORKSPACE, XA_CARDINAL, 1);
+    return prop ? prop.data<long>(0) : 0;
+}
+
 bool IceSh::running;
 
 void IceSh::catcher(int)
@@ -529,34 +552,70 @@ void IceSh::catcher(int)
     running = false;
 }
 
+void IceSh::details(Window w)
+{
+    char c = 0, *name = &c, *wmname = &c, title[128] = "", wmtitle[200] = "";
+
+    XFetchName(display, w, &name);
+    snprintf(title, sizeof title, "\"%s\"", name);
+
+    YTextProperty text(w, XA_WM_CLASS);
+    if (text.count()) {
+        wmname = text.item(0);
+        wmname[strlen(wmname)] = '.';
+    }
+    snprintf(wmtitle, sizeof wmtitle, "(%s)", wmname);
+
+    XWindowAttributes a = {};
+    XGetWindowAttributes(display, w, &a);
+
+    printf(_("0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"), w, title, wmtitle,
+            a.width, a.height, a.x, a.y);
+    if (name)
+        XFree(name);
+}
+
 bool IceSh::listWindows()
 {
-    if (strcmp(*argp, "list"))
+    if (strcmp(*argp, "windows"))
         return false;
     ++argp;
     if (count() == 0)
         getWindows(false);
 
     FOREACH_WINDOW(w) {
-        char c = 0, *name = &c, *wmname = &c, title[128] = "", wmtitle[200] = "";
+        details(w);
+    }
+    return true;
+}
 
-        XFetchName(display, w, &name);
-        snprintf(title, sizeof title, "\"%s\"", name);
+bool IceSh::listClients()
+{
+    if (strcmp(*argp, "clients"))
+        return false;
+    ++argp;
 
-        YTextProperty text(w, XA_WM_CLASS);
-        if (text.count()) {
-            wmname = text.item(0);
-            wmname[strlen(wmname)] = '.';
-        }
-        snprintf(wmtitle, sizeof wmtitle, "(%s)", wmname);
+    windowList.getClientList();
 
-        XWindowAttributes a = {};
-        XGetWindowAttributes(display, w, &a);
+    FOREACH_WINDOW(w) {
+        details(w);
+    }
+    return true;
+}
 
-        printf(_("0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"), w, title, wmtitle,
-                a.width, a.height, a.x, a.y);
-        if (name)
-            XFree(name);
+bool IceSh::listShown()
+{
+    if (strcmp(*argp, "shown"))
+        return false;
+    ++argp;
+
+    windowList.getClientList();
+    long workspace = getWorkspace(root);
+
+    FOREACH_WINDOW(w) {
+        long ws = getWorkspace(w);
+        if (ws == workspace || hasbits(ws, 0xFFFFFFFF))
+            details(w);
     }
     return true;
 }
@@ -736,6 +795,8 @@ bool IceSh::icewmAction()
         return guiEvents()
             || listWorkspaces()
             || listWindows()
+            || listClients()
+            || listShown()
             || colormaps()
             || wmcheck()
             ;

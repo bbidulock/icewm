@@ -158,9 +158,18 @@ The following actions do not require a window or class option:
 Prints information about the current window manager, like name,
 version, class, locale, command, host name and pid.
 
-=item B<list>
+=item B<clients>
 
-Lists all windows, their titles and their geometries.
+Lists all managed client windows, their titles and geometries.
+
+=item B<shown>
+
+Lists all managed client windows for the current desktop,
+their titles and geometries.
+
+=item B<windows>
+
+Lists all toplevel windows, their titles and geometries.
 
 =item B<logout>
 
