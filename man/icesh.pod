@@ -304,8 +304,7 @@ C<setTrayOption> and the actions, however, are IceWM specific.
 
 =head1 EXAMPLES
 
-The following command will list all the workspaces associated with the
-root window after a window (any window) is selected:
+The following command lists all workspace names:
 
     icesh listWorkspaces
 
@@ -328,8 +327,7 @@ The following environment variables are set or examined by B<icesh>:
 
 =item B<DISPLAY>
 
-When the B<-display> option is not specified, the C<DISPLAY> environment
-variable is consulted to determine the display.
+Which display to use, in case the B<-display> option is not specified.
 
 =back
 
@@ -346,9 +344,9 @@ L<https://github.com/bbidulock/icewm/issues>.
 
 =head1 HISTORY
 
-B<icesh> is historical and deprecated.  The command originally (and
-still) only supported the GNOME WinWM/WMH specification.  Unlike
-L<wmctrl(1)> and L<xdotool(1)>, NetWM/EWMH support was never included.
+B<icesh> is historical and deprecated.  The command only supports
+the GNOME WinWM/WMH specification and IceWM specific commands.  Unlike
+L<wmctrl(1)> and L<xdotool(1)>, support for NetWM/EWMH was never included.
 For most of the supported commands, L<wmctrl(1)> and L<xdotool(1)>
 are quite capable of performing the necessary functions and more.
 
