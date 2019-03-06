@@ -557,7 +557,7 @@ void IceSh::details(Window w)
     char c = 0, *name = &c, *wmname = &c, title[128] = "", wmtitle[200] = "";
 
     XFetchName(display, w, &name);
-    snprintf(title, sizeof title, "\"%s\"", name);
+    snprintf(title, sizeof title, "\"%s\"", name ? name : "");
 
     YTextProperty text(w, XA_WM_CLASS);
     if (text.count()) {
