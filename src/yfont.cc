@@ -28,6 +28,8 @@ ref<YFont> YFont::getFont(ustring name, ustring xftFont, bool antialias) {
     return getCoreFont(cstring(name));
 #else
     (void) antialias;
+    if (ONCE)
+        warn("Neither XFT fonts nor X11 core fonts are configured!");
     return null;
 #endif
 }
