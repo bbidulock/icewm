@@ -285,7 +285,7 @@ for iface in `echo "$with_icesound"|sed 's|,| |g'` ; do
             AUDIO_CFLAGS="$AUDIO_CFLAGS $ESD_CFLAGS"
             AUDIO_LIBS="$AUDIO_LIBS $ESD_LIBS"
             AC_DEFINE([ENABLE_ESD],[1],[Define to enable ESD support.])
-            CONFIG_ESD=yes],[AC_MSG_WARN([ESD is not supported])])
+            CONFIG_ESD=yes],[AC_MSG_NOTICE([ESD is not supported])])
         ;;
     (*)
         AC_MSG_WARN([Invalid audio interface: $iface])
