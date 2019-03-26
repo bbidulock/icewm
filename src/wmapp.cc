@@ -1498,6 +1498,9 @@ static void print_configured(const char *argv0) {
 #ifdef ENABLE_ESD
     " esd"
 #endif
+#ifdef CONFIG_FDO_MENUS
+    " fdomenus"
+#endif
 #ifdef CONFIG_FRIBIDI
     " fribidi"
 #endif
