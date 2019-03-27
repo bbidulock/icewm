@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-02-04 21:04+0100\n"
+"POT-Creation-Date: 2019-03-03 22:43+0100\n"
 "PO-Revision-Date: 2005-06-12 12:59+0300\n"
 "Last-Translator: Kristaps Kaupe <kristaps.kaupe@inbox.lv>\n"
 "Language-Team: \n"
@@ -1472,11 +1472,11 @@ msgstr "Pā_rstartēt icewm"
 msgid "_About"
 msgstr "P_ar"
 
-#: src/wmframe.cc:1400
+#: src/wmframe.cc:1390
 msgid "Kill Client: "
 msgstr "Nogalināt klientu:"
 
-#: src/wmframe.cc:1407
+#: src/wmframe.cc:1397
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1484,19 +1484,19 @@ msgstr ""
 "UZMANĪBU! Visas nesaglabātās izmaiņas tiks zaudētas, kad\n"
 "šis klients tiks nogalināts. Vai jūs vēlaties turpināt?"
 
-#: src/wmframe.cc:3001
+#: src/wmframe.cc:2991
 msgid "Restore"
 msgstr "Atjaunot"
 
-#: src/wmframe.cc:3004 src/wmtitle.cc:69
+#: src/wmframe.cc:2994 src/wmtitle.cc:69
 msgid "Maximize"
 msgstr "Maksimizēt"
 
-#: src/wmframe.cc:3034
+#: src/wmframe.cc:3024
 msgid "Rolldown"
 msgstr "Atritināt"
 
-#: src/wmframe.cc:3036 src/wmtitle.cc:127
+#: src/wmframe.cc:3026 src/wmtitle.cc:127
 msgid "Rollup"
 msgstr "Saritināt"
 

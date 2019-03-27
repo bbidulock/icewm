@@ -234,7 +234,8 @@ if test x$enable_xfreetype != xno; then
 	CORE_LIBS="$XFT2_LIBS $CORE_LIBS"
 	AC_DEFINE([CONFIG_XFREETYPE],[2],[Define to enable XFT support.])
 	features="$features xfreetype"],
-	[AC_MSG_WARN([XFT 2+ not supported.])])
+	[AC_MSG_WARN([XFT 2+ not supported.])
+        enable_corefonts=yes])
 else
     enable_corefonts=yes
 fi
@@ -244,6 +245,12 @@ AC_ARG_ENABLE([corefonts],
 if test x$enable_corefonts = xyes; then
     AC_DEFINE([CONFIG_COREFONTS],[1],[Define to enable X11 core fonts.])
     features="$features corefonts"
+fi
+
+if  test x"${features#*xfreetype}" = x"$features" &&
+    test x"${features#*corefonts}" = x"$features"
+then
+    AC_MSG_ERROR([Either xfreetype or corefonts must be enabled])
 fi
 
 AC_ARG_WITH([icesound],
@@ -278,7 +285,7 @@ for iface in `echo "$with_icesound"|sed 's|,| |g'` ; do
             AUDIO_CFLAGS="$AUDIO_CFLAGS $ESD_CFLAGS"
             AUDIO_LIBS="$AUDIO_LIBS $ESD_LIBS"
             AC_DEFINE([ENABLE_ESD],[1],[Define to enable ESD support.])
-            CONFIG_ESD=yes],[AC_MSG_WARN([ESD is not supported])])
+            CONFIG_ESD=yes],[AC_MSG_NOTICE([ESD is not supported])])
         ;;
     (*)
         AC_MSG_WARN([Invalid audio interface: $iface])

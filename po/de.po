@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-02-04 21:04+0100\n"
+"POT-Creation-Date: 2019-03-03 22:43+0100\n"
 "PO-Revision-Date: 2019-01-28 07:56+0000\n"
 "Last-Translator: Sarah Kriesch <ada.lovelace@gmx.de>\n"
 "Language-Team: German <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -1641,11 +1641,11 @@ msgid "_About"
 msgstr "_Über"
 
 #
-#: src/wmframe.cc:1400
+#: src/wmframe.cc:1390
 msgid "Kill Client: "
 msgstr "Client töten: "
 
-#: src/wmframe.cc:1407
+#: src/wmframe.cc:1397
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1654,19 +1654,19 @@ msgstr ""
 "beim Töten der Anwendung verloren gehen!\n"
 "Wünschen Sie trotzdem fortzufahren?"
 
-#: src/wmframe.cc:3001
+#: src/wmframe.cc:2991
 msgid "Restore"
 msgstr "Wiederherstellen"
 
-#: src/wmframe.cc:3004 src/wmtitle.cc:69
+#: src/wmframe.cc:2994 src/wmtitle.cc:69
 msgid "Maximize"
 msgstr "Maximieren"
 
-#: src/wmframe.cc:3034
+#: src/wmframe.cc:3024
 msgid "Rolldown"
 msgstr "Herunterrollen"
 
-#: src/wmframe.cc:3036 src/wmtitle.cc:127
+#: src/wmframe.cc:3026 src/wmtitle.cc:127
 msgid "Rollup"
 msgstr "Einrollen"
 

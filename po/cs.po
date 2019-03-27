@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm-1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-02-04 21:04+0100\n"
+"POT-Creation-Date: 2019-03-03 22:43+0100\n"
 "PO-Revision-Date: 2018-12-20 18:00+0000\n"
 "Last-Translator: Aleš Kastner <alkas@volny.cz>\n"
 "Language-Team: Czech <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -1613,11 +1613,11 @@ msgstr "Restartovat _icewm"
 msgid "_About"
 msgstr "O _Aplikaci"
 
-#: src/wmframe.cc:1400
+#: src/wmframe.cc:1390
 msgid "Kill Client: "
 msgstr "Zabít Klienta: "
 
-#: src/wmframe.cc:1407
+#: src/wmframe.cc:1397
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1625,19 +1625,19 @@ msgstr ""
 "VAROVÁNÍ! Pokud bude tento klient zabit, budou\n"
 "veškerá neuložená data ztracena. Chcete provézt?"
 
-#: src/wmframe.cc:3001
+#: src/wmframe.cc:2991
 msgid "Restore"
 msgstr "Obnovit"
 
-#: src/wmframe.cc:3004 src/wmtitle.cc:69
+#: src/wmframe.cc:2994 src/wmtitle.cc:69
 msgid "Maximize"
 msgstr "Maximalizovat"
 
-#: src/wmframe.cc:3034
+#: src/wmframe.cc:3024
 msgid "Rolldown"
 msgstr "Rozbalit"
 
-#: src/wmframe.cc:3036 src/wmtitle.cc:127
+#: src/wmframe.cc:3026 src/wmtitle.cc:127
 msgid "Rollup"
 msgstr "S_rolovat"
 

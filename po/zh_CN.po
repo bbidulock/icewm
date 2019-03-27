@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Chinese (China) (icewm)\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-02-04 21:04+0100\n"
-"PO-Revision-Date: 2018-12-26 17:32+0000\n"
-"Last-Translator: Dingzhong Chen <wsxy162@gmail.com>\n"
+"POT-Creation-Date: 2019-03-03 22:43+0100\n"
+"PO-Revision-Date: 2019-02-07 06:32+0000\n"
+"Last-Translator: Emily Dong <Emily.Dong@excel-gits.com>\n"
 "Language-Team: Chinese (China) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/zh_CN/>\n"
 "Language: zh_CN\n"
@@ -1585,11 +1585,11 @@ msgstr "重启 icewm(_R)"
 msgid "_About"
 msgstr "关于(_A)"
 
-#: src/wmframe.cc:1400
+#: src/wmframe.cc:1390
 msgid "Kill Client: "
 msgstr "杀死客户端： "
 
-#: src/wmframe.cc:1407
+#: src/wmframe.cc:1397
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1597,19 +1597,19 @@ msgstr ""
 "警告！当这个客户程序被杀死时，所有\n"
 "没有保存的修改将丢失。你想继续吗？"
 
-#: src/wmframe.cc:3001
+#: src/wmframe.cc:2991
 msgid "Restore"
 msgstr "恢复"
 
-#: src/wmframe.cc:3004 src/wmtitle.cc:69
+#: src/wmframe.cc:2994 src/wmtitle.cc:69
 msgid "Maximize"
 msgstr "最大化"
 
-#: src/wmframe.cc:3034
+#: src/wmframe.cc:3024
 msgid "Rolldown"
 msgstr "放下"
 
-#: src/wmframe.cc:3036 src/wmtitle.cc:127
+#: src/wmframe.cc:3026 src/wmtitle.cc:127
 msgid "Rollup"
 msgstr "卷起"
 
@@ -1753,8 +1753,6 @@ msgid "Hide Taskbar"
 msgstr "隐藏任务栏"
 
 #: src/wmtaskbar.cc:371
-#, fuzzy
-#| msgid "Favorite applications"
 msgid "Favorite Applications"
 msgstr "喜欢的应用程序"
 
@@ -1823,12 +1821,12 @@ msgstr "%s：选择失败"
 #: src/yconfig.cc:128
 #, c-format
 msgid "Unknown key name %s in %s"
-msgstr "%2$s 中有未知的键名 %1$s"
+msgstr "未知的键名 %s（%s 中）"
 
 #: src/yconfig.cc:150 src/yconfig.cc:163 src/yconfig.cc:177
 #, c-format
 msgid "Bad argument: %s for %s [%d,%d]"
-msgstr "错误参数：%2$s [%3$d,%4$d] 中的 %1$s"
+msgstr "错误参数：%s 针对 %s [%d,%d]"
 
 #: src/yconfig.cc:214
 #, c-format
@@ -2568,7 +2566,7 @@ msgstr "模拟"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science or Utility
 #: src/fdospecgen.h:275
 msgid "Spirituality"
-msgstr ""
+msgstr "精神"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:277

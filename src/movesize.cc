@@ -367,7 +367,7 @@ void YFrameWindow::handleMoveMouse(const XMotionEvent &motion, int &newX, int &n
 void YFrameWindow::handleResizeMouse(const XMotionEvent &motion,
                                      int &newX, int &newY, int &newWidth, int &newHeight)
 {
-    if (buttonDownX == 0 && buttonDownY == 0)
+    if (buttonDownX == 0 && buttonDownY == 0 && grabX == 0 && grabY == 0)
         return;
 
     int mouseX = motion.x_root;

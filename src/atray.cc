@@ -32,8 +32,6 @@ static YColorName minimizedTrayAppFg(&clrMinimizedTaskBarAppText);
 static YColorName minimizedTrayAppBg(&clrNormalTaskBarApp);
 static YColorName invisibleTrayAppFg(&clrInvisibleTaskBarAppText);
 static YColorName invisibleTrayAppBg(&clrNormalTaskBarApp);
-static ref<YFont> normalTrayFont;
-static ref<YFont> activeTrayFont;
 
 ref<YImage> TrayApp::taskMinimizedGradient;
 ref<YImage> TrayApp::taskActiveGradient;
@@ -42,11 +40,6 @@ ref<YImage> TrayApp::taskNormalGradient;
 TrayApp::TrayApp(ClientData *frame, TrayPane *trayPane, YWindow *aParent):
     YWindow(aParent)
 {
-    if (normalTrayFont == null)
-        normalTrayFont = YFont::getFont(XFA(normalTaskBarFontName));
-    if (activeTrayFont == null)
-        activeTrayFont = YFont::getFont(XFA(activeTaskBarFontName));
-
     fFrame = frame;
     fTrayPane = trayPane;
     selected = 0;

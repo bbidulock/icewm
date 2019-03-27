@@ -91,12 +91,13 @@ $(icewm_man1_htmls) $(extra_man1_htmls): %.1.html: %.pod
 		--htmldir=$(docdir) \
 		--noindex \
 		--infile=$< \
+		--outfile=$@ \
 		--quiet \
-		--title="User Commands" | \
-		$(SED) -r \
+		--title="User Commands" && \
+	$(SED) -i -r \
 		-e 's,http://man.he.net/man(.)/(ice[^"]*),\2.\1.html,g' \
 		-e 's,man.he.net/man(.)/([^"]*),manned.org/\2.\1,g' \
-		-e 's,http:,https:,g' >$@
+		-e 's,http:,https:,g' $@
 
 $(icewm_man5_htmls): %.5.html: %.pod
 	$(AM_V_GEN)pod2html \
@@ -109,12 +110,13 @@ $(icewm_man5_htmls): %.5.html: %.pod
 		--htmldir=$(docdir) \
 		--noindex \
 		--infile=$< \
+		--outfile=$@ \
 		--quiet \
-		--title="Standards, Environments and Macros" | \
-		$(SED) -r \
+		--title="Standards, Environments and Macros" && \
+	$(SED) -i -r \
 		-e 's,http://man.he.net/man(.)/(ice[^"]*),\2.\1.html,g' \
 		-e 's,man.he.net/man(.)/([^"]*),manned.org/\2.\1,g' \
-		-e 's,http:,https:,g' >$@
+		-e 's,http:,https:,g' $@
 
 $(icewm_man1_files) $(extra_man1_files): %.man: %.pod
 	$(AM_V_GEN)pod2man --center="User Commands" \
@@ -127,7 +129,7 @@ $(icewm_man1_files) $(extra_man1_files): %.man: %.pod
 		--nourls \
 		--release="$(PACKAGE) $(VERSION)" \
 		--section="1" \
-		$< >$@
+		$< $@
 
 $(icewm_man5_files): %.man: %.pod
 	$(AM_V_GEN)pod2man --center="Standards, Environments and Macros" \
@@ -140,5 +142,5 @@ $(icewm_man5_files): %.man: %.pod
 		--nourls \
 		--release="$(PACKAGE) $(VERSION)" \
 		--section="5" \
-		$< >$@
+		$< $@
 
