@@ -1,11 +1,62 @@
-icewm -- history of user-visible changes.  2019-02-04
+icewm -- history of user-visible changes.  2019-03-27
+
+Release icewm-1.5.3 released 2019-03-27
+---------------------------------------
+
+git shortlog -e -n -w80,6,8 1.5.2...1.5.3
+
+Bert Gijsbers <gijsbers@science.uva.nl> (13):
+      Restore resize behavior to 1.4.2 for #331.
+      update po files
+      Extend icesh with a dozen new icewm specific commands.
+      3 icesh commands "clients", "shown", "windows".
+      icesh title can be empty.
+      Minor icesh documentation tweaks.
+      Error if both xfreetype and corefonts are disabled for #338.
+      Remove superfluous font loading.
+      Print a warning if running without fonts for #338.
+      Avoid creating empty output files if pod2html is not installed.
+      configured +fdomenus
+      ESD is obsolete
+      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+
+Emily Dong <Emily.Dong@excel-gits.com> (2):
+      Translated using Weblate (Chinese (China))
+      Translated using Weblate (Chinese (Taiwan))
+
+Christine Gabriel <christine@stoquart.com> (1):
+      Translated using Weblate (French)
+
+Ewelina Michalowska <ewelina.michalowska@stgambit.com> (1):
+      Translated using Weblate (Polish)
+
+George Yacoub <george.yacoub@arabize.com> (1):
+      Translated using Weblate (Arabic)
+
+Hwajin Kim <hwajin.kim@e4net.net> (1):
+      Translated using Weblate (Korean)
+
+Juan Sarria <juansarriam@gmail.com> (1):
+      Translated using Weblate (Spanish)
+
+Robert Taisz <robert.taisz@emerald.hu> (1):
+      Translated using Weblate (Hungarian)
+
+Stanislav Brabec <sbrabec@suse.cz> (1):
+      Merge remote-tracking branch 'weblate/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+
+Sven Åhr <anders.ahr@gmail.com> (1):
+      Translated using Weblate (Swedish)
+
 
 Release icewm-1.5.2 released 2019-02-04
 ---------------------------------------
 
 git shortlog -e -n -w80,6,8 1.5.1...1.5.2
 
-Bert Gijsbers <gijsbers@science.uva.nl> (6):
+Bert Gijsbers <gijsbers@science.uva.nl> (7):
       Include stdlib.h for mblen for issue #329.
       Add keysym.h to yinput.cc.
       Add keysym.h to aaddressbar.cc.
@@ -13,6 +64,7 @@ Bert Gijsbers <gijsbers@science.uva.nl> (6):
       Solve #330 taskbar border corruption for themes without a taskbar
         background pixmap.
       Merge branch 'icewm-1-4-BRANCH'
+      Prepare 1.5.2 release
 
 Brian Bidulock <bidulock@openss7.org> (3):
       reformat TODO
@@ -3131,104 +3183,4 @@ gijsbers <gijsbers@users.noreply.github.com> (1):
 
 hayyan rostami <hayyan71@yahoo.com> (1):
       Translated using Weblate (Persian)
-
-
-Release icewm-1.3.12 released 2015-12-16
-----------------------------------------
-
-git shortlog -e -n -w80,6,8 1.3.11...1.3.12
-
-Brian Bidulock <bidulock@openss7.org> (8):
-      fix issue #40 missed update of VERSION
-      update sgml a little bit
-      add tags files to ignore
-      updated po files
-      updated NEWS file
-      be sure to update VERSION file
-      update po files for release
-      update release files
-
-David Medina <medipas@gmail.com> (6):
-      Translated using Weblate (Catalan)
-      Translated using Weblate (Catalan)
-      Translated using Weblate (Catalan)
-      Translated using Weblate (Catalan)
-      Translated using Weblate (Catalan)
-      Translated using Weblate (Catalan)
-
-Ferdinand Galko <galko.ferdinand@gmail.com> (4):
-      Translated using Weblate (Slovak)
-      Translated using Weblate (Slovak)
-      Translated using Weblate (Slovak)
-      Translated using Weblate (Slovak)
-
-Andriy Bandura <andriykopanytsia@gmail.com> (3):
-      Translated using Weblate (Ukrainian)
-      Translated using Weblate (Ukrainian)
-      Translated using Weblate (Ukrainian)
-
-Brian Bidulock <bidulock@openss7.com> (3):
-      Merge pull request #43 from scarabeusiv/icewm-1-3-BRANCH
-      Merge pull request #46 from PetteriAimonen/feature_taskBarWorkspacesTop
-      Merge pull request #45 from williex/icewm-1-3-BRANCH
-
-Freek de Kruijf <freek@opensuse.org> (3):
-      Translated using Weblate (Dutch)
-      Translated using Weblate (Dutch)
-      Translated using Weblate (Dutch)
-
-openSUSE Weblate <weblate-noreply@opensuse.org> (3):
-      Merge remote-tracking branch 'origin/icewm-1-3-BRANCH' into
-        icewm-1-3-BRANCH
-      Merge remote-tracking branch 'origin/icewm-1-3-BRANCH' into
-        icewm-1-3-BRANCH
-      Merge remote-tracking branch 'origin/icewm-1-3-BRANCH' into
-        icewm-1-3-BRANCH
-
-Ondřej Súkup <mimi.vx@gmail.com> (2):
-      Translated using Weblate (Czech)
-      Translated using Weblate (Czech)
-
-Petteri Aimonen <jpa@git.mail.kapsi.fi> (2):
-      Add taskBarWorkspacesTop option.
-      Update _NET_CLIENT_LIST_STACKING when changing windows.
-
-Ronan Chagas <ronisbr@gmail.com> (2):
-      Translated using Weblate (Portuguese (Brazil))
-      Translated using Weblate (Portuguese (Brazil))
-
-Sorokin Alexei <sor.alexei@meowr.ru> (2):
-      Use generic icons in toolbar to avoid gnome-icon-theme requirement
-      Fix fdo search to not hang on large usr
-
-Vojtech Zeisek <Vojtech.Zeisek@opensuse.org> (2):
-      Translated using Weblate (Czech)
-      Translated using Weblate (Czech)
-
-Alex Minton <alex239@gmail.com> (1):
-      Translated using Weblate (Russian)
-
-Code7R <Code7R@users.noreply.github.com> (1):
-      Merge pull request #48 from mrbrainsample/icewm-1-3-BRANCH
-
-Jeff Woods <klaatu@fnordco.com> (1):
-      Change preferences install dir to LIBDIR for cmake
-
-Jonas Svensson <jonas@ekhorva.se> (1):
-      Translated using Weblate (Swedish)
-
-Luiz Fernando Ranghetti <elchevive68@gmail.com> (1):
-      Translated using Weblate (Portuguese (Brazil))
-
-Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com> (1):
-      Translated using Weblate (Lithuanian)
-
-Yasuhiko Kamata <belphegor@belbel.or.jp> (1):
-      Translated using Weblate (Japanese)
-
-jc sl <trcs@gmx.com> (1):
-      Translated using Weblate (Spanish)
-
-w <w@vm> (1):
-      Enable variable taskbar width
 

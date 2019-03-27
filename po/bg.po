@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.10\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-03-03 22:43+0100\n"
+"POT-Creation-Date: 2019-03-27 12:46+0100\n"
 "PO-Revision-Date: 2017-02-26 21:51+0000\n"
 "Last-Translator: Shyukri Shyukriev <shshyukriev@suse.com>\n"
 "Language-Team: Bulgarian <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -519,32 +519,32 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "Игра"
 
-#: src/icesh.cc:191
-#, c-format
-msgid "Action `%s' requires at least %d arguments."
-msgstr "Действие `%s' изисква минимум %d аргумента"
-
-#: src/icesh.cc:198
-#, c-format
-msgid "Invalid expression: `%s'"
-msgstr "Неправилен израз: `%s'"
-
-#: src/icesh.cc:319
+#: src/icesh.cc:405
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Именувани символи в областта `%s' (числов диапазон: %ld-%ld):\n"
 
-#: src/icesh.cc:435
+#: src/icesh.cc:516
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Неправилно име на работно поле: `%s'"
 
-#: src/icesh.cc:440
+#: src/icesh.cc:521
 #, fuzzy, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Работно поле извън обхват: %d"
 
-#: src/icesh.cc:605
+#: src/icesh.cc:572
+#, c-format
+msgid "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
+msgstr ""
+
+#: src/icesh.cc:632
+#, c-format
+msgid "workspace #%d: `%s'\n"
+msgstr "работно поле #%d: `%s'\n"
+
+#: src/icesh.cc:930
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS] ACTIONS\n"
@@ -649,52 +649,53 @@ msgstr ""
 "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
 "\n"
 
-#: src/icesh.cc:653
+#: src/icesh.cc:978
 msgid "GNOME window state"
 msgstr "GNOME състояние на прозорец"
 
-#: src/icesh.cc:654
+#: src/icesh.cc:979
 msgid "GNOME window hint"
 msgstr "GNOME подсказка на прозорец"
 
-#: src/icesh.cc:655
+#: src/icesh.cc:980
 msgid "GNOME window layer"
 msgstr "GNOME слой на прозорец"
 
-#: src/icesh.cc:656
+#: src/icesh.cc:981
 msgid "IceWM tray option"
 msgstr "Опция на IceWM панела за задачи"
 
-#: src/icesh.cc:661
-msgid "Usage error: "
-msgstr "Грешка при употреба: "
+#: src/icesh.cc:1048
+#, c-format
+msgid "Action `%s' requires at least %d arguments."
+msgstr "Действие `%s' изисква минимум %d аргумента"
 
-#: src/icesh.cc:747
+#: src/icesh.cc:1059
+#, c-format
+msgid "Invalid expression: `%s'"
+msgstr "Неправилен израз: `%s'"
+
+#: src/icesh.cc:1129
 #, c-format
 msgid "Invalid argument: `%s'."
 msgstr "Неправилен аргумент: `%s'."
 
-#: src/icesh.cc:753
+#: src/icesh.cc:1135
 msgid "No actions specified."
 msgstr "Няма указани действия."
 
-#: src/icesh.cc:760 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:925
+#: src/icesh.cc:1145 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:925
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "Не мога да отворя display: %s. X трябва да е стартиран и $DISPLAY установена"
 
-#: src/icesh.cc:801
+#: src/icesh.cc:1182
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Неправилен идентификатор на прозорец: `%s'"
 
-#: src/icesh.cc:955
-#, c-format
-msgid "workspace #%d: `%s'\n"
-msgstr "работно поле #%d: `%s'\n"
-
-#: src/icesh.cc:974
+#: src/icesh.cc:1368
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Неизвестно действие: `%s'"
@@ -1416,21 +1417,21 @@ msgstr ""
 msgid "%s configuration directories:\n"
 msgstr ""
 
-#: src/wmapp.cc:1559
+#: src/wmapp.cc:1562
 #, fuzzy, c-format
 msgid "%s configured options:%s\n"
 msgstr "Неразпозната опция: %s\n"
 
-#: src/wmapp.cc:1612
+#: src/wmapp.cc:1615
 #, fuzzy, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Неразпозната опция: %s\n"
 
-#: src/wmapp.cc:1645
+#: src/wmapp.cc:1648
 msgid "Confirm Logout"
 msgstr "Потвърди Изход"
 
-#: src/wmapp.cc:1646
+#: src/wmapp.cc:1649
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -2628,6 +2629,9 @@ msgstr "Разработване"
 #: src/fdospecgen.h:319
 msgid "WordProcessor"
 msgstr ""
+
+#~ msgid "Usage error: "
+#~ msgstr "Грешка при употреба: "
 
 #, fuzzy
 #~ msgid "Out of memory for image %s"

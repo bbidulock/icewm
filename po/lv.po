@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-03-03 22:43+0100\n"
+"POT-Creation-Date: 2019-03-27 12:46+0100\n"
 "PO-Revision-Date: 2005-06-12 12:59+0300\n"
 "Last-Translator: Kristaps Kaupe <kristaps.kaupe@inbox.lv>\n"
 "Language-Team: \n"
@@ -509,32 +509,32 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "Tā pati spēle"
 
-#: src/icesh.cc:191
-#, c-format
-msgid "Action `%s' requires at least %d arguments."
-msgstr "Darbībai `%s' vajag vismaz %d argumentus."
-
-#: src/icesh.cc:198
-#, c-format
-msgid "Invalid expression: `%s'"
-msgstr "Kļūdaina izteiksme: `%s'"
-
-#: src/icesh.cc:319
+#: src/icesh.cc:405
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Nosauktie simboli domēnam `%s' (numuru apgabals: %ld-%ld):\n"
 
-#: src/icesh.cc:435
+#: src/icesh.cc:516
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Kļūdains darba vides nosaukums: `%s'"
 
-#: src/icesh.cc:440
+#: src/icesh.cc:521
 #, fuzzy, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Darba vide ārpus ranga: %d"
 
-#: src/icesh.cc:605
+#: src/icesh.cc:572
+#, c-format
+msgid "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
+msgstr ""
+
+#: src/icesh.cc:632
+#, c-format
+msgid "workspace #%d: `%s'\n"
+msgstr "darba vide #%d: `%s'\n"
+
+#: src/icesh.cc:930
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS] ACTIONS\n"
@@ -636,52 +636,53 @@ msgstr ""
 "  IZTEIKSME ::= SIMBOLS | IZTEIKSME ( `+' | `|' ) SIMBOLS\n"
 "\n"
 
-#: src/icesh.cc:653
+#: src/icesh.cc:978
 msgid "GNOME window state"
 msgstr "GNOMEs loga stāvoklis"
 
-#: src/icesh.cc:654
+#: src/icesh.cc:979
 msgid "GNOME window hint"
 msgstr "GNOMEs loga padoms"
 
-#: src/icesh.cc:655
+#: src/icesh.cc:980
 msgid "GNOME window layer"
 msgstr "GNOMEs loga slānis"
 
-#: src/icesh.cc:656
+#: src/icesh.cc:981
 msgid "IceWM tray option"
 msgstr "IceWM paplātes opcija"
 
-#: src/icesh.cc:661
-msgid "Usage error: "
-msgstr "Lietošanas kļūda:"
+#: src/icesh.cc:1048
+#, c-format
+msgid "Action `%s' requires at least %d arguments."
+msgstr "Darbībai `%s' vajag vismaz %d argumentus."
 
-#: src/icesh.cc:747
+#: src/icesh.cc:1059
+#, c-format
+msgid "Invalid expression: `%s'"
+msgstr "Kļūdaina izteiksme: `%s'"
+
+#: src/icesh.cc:1129
 #, c-format
 msgid "Invalid argument: `%s'."
 msgstr "Kļūdains arguments: `%s'."
 
-#: src/icesh.cc:753
+#: src/icesh.cc:1135
 msgid "No actions specified."
 msgstr "Nav norādītu darbību."
 
-#: src/icesh.cc:760 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:925
+#: src/icesh.cc:1145 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:925
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "Nevaru atvērt displeju: %s. X ir jābūt palaistam un $DISPLEY uzstādītam."
 
-#: src/icesh.cc:801
+#: src/icesh.cc:1182
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Kļūdains loga identifikators: `%s'"
 
-#: src/icesh.cc:955
-#, c-format
-msgid "workspace #%d: `%s'\n"
-msgstr "darba vide #%d: `%s'\n"
-
-#: src/icesh.cc:974
+#: src/icesh.cc:1368
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Nezināma darbība: `%s'"
@@ -1402,21 +1403,21 @@ msgstr ""
 msgid "%s configuration directories:\n"
 msgstr ""
 
-#: src/wmapp.cc:1559
+#: src/wmapp.cc:1562
 #, fuzzy, c-format
 msgid "%s configured options:%s\n"
 msgstr "Nezināma opcija: %s\n"
 
-#: src/wmapp.cc:1612
+#: src/wmapp.cc:1615
 #, fuzzy, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Nezināma opcija: %s\n"
 
-#: src/wmapp.cc:1645
+#: src/wmapp.cc:1648
 msgid "Confirm Logout"
 msgstr "Apstiprināt izlogošanos"
 
-#: src/wmapp.cc:1646
+#: src/wmapp.cc:1649
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -2590,6 +2591,9 @@ msgstr ""
 #: src/fdospecgen.h:319
 msgid "WordProcessor"
 msgstr ""
+
+#~ msgid "Usage error: "
+#~ msgstr "Lietošanas kļūda:"
 
 #, fuzzy
 #~ msgid "Out of memory for image %s"

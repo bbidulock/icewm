@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.4.2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-03-03 22:43+0100\n"
+"POT-Creation-Date: 2019-03-27 12:46+0100\n"
 "PO-Revision-Date: 2018-12-26 17:32+0000\n"
 "Last-Translator: Dmitriy Khanzhin <dmitriy.khanzhin@gmail.com>\n"
 "Language-Team: Russian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -563,33 +563,33 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "Игра IceSame"
 
-#: src/icesh.cc:191
-#, c-format
-msgid "Action `%s' requires at least %d arguments."
-msgstr "Действие `%s' требует как минимум %d аргумента(ов)."
-
-#: src/icesh.cc:198
-#, c-format
-msgid "Invalid expression: `%s'"
-msgstr "Неправильное выражение: `%s'"
-
-#: src/icesh.cc:319
+#: src/icesh.cc:405
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Поименованные символы в домене `%s' (числовой диапазон: %ld-%ld):\n"
 
-#: src/icesh.cc:435
+#: src/icesh.cc:516
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Неверное имя рабочего места: `%s'"
 
-#: src/icesh.cc:440
+#: src/icesh.cc:521
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Рабочее место за пределами: %ld"
 
+#: src/icesh.cc:572
+#, c-format
+msgid "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
+msgstr ""
+
+#: src/icesh.cc:632
+#, c-format
+msgid "workspace #%d: `%s'\n"
+msgstr "рабочее место #%d: `%s'\n"
+
 # Кому нужно,переводите...
-#: src/icesh.cc:605
+#: src/icesh.cc:930
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] ACTIONS\n"
@@ -713,53 +713,54 @@ msgstr ""
 "  ВЫРАЖЕНИЕ ::= СИМВОЛ | ВЫРАЖЕНИЕ ( `+' | `|' ) СИМВОЛ\n"
 "\n"
 
-#: src/icesh.cc:653
+#: src/icesh.cc:978
 msgid "GNOME window state"
 msgstr "Состояние окна GNOME"
 
-#: src/icesh.cc:654
+#: src/icesh.cc:979
 msgid "GNOME window hint"
 msgstr "Подсказка окна GNOME"
 
-#: src/icesh.cc:655
+#: src/icesh.cc:980
 msgid "GNOME window layer"
 msgstr "Уровень окна GNOME"
 
-#: src/icesh.cc:656
+#: src/icesh.cc:981
 msgid "IceWM tray option"
 msgstr "Опция системного лотка IceWM"
 
-#: src/icesh.cc:661
-msgid "Usage error: "
-msgstr "Ошибка использования: "
+#: src/icesh.cc:1048
+#, c-format
+msgid "Action `%s' requires at least %d arguments."
+msgstr "Действие `%s' требует как минимум %d аргумента(ов)."
 
-#: src/icesh.cc:747
+#: src/icesh.cc:1059
+#, c-format
+msgid "Invalid expression: `%s'"
+msgstr "Неправильное выражение: `%s'"
+
+#: src/icesh.cc:1129
 #, c-format
 msgid "Invalid argument: `%s'."
 msgstr "Неправильный аргумент: `%s'."
 
-#: src/icesh.cc:753
+#: src/icesh.cc:1135
 msgid "No actions specified."
 msgstr "Не указано никаких действий."
 
-#: src/icesh.cc:760 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:925
+#: src/icesh.cc:1145 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:925
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "Не могу открыть Display %s. X-сервер должен быть загружен и \n"
 "переменная $DISPLAY установлена."
 
-#: src/icesh.cc:801
+#: src/icesh.cc:1182
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Неверный идентификатор окна: `%s'"
 
-#: src/icesh.cc:955
-#, c-format
-msgid "workspace #%d: `%s'\n"
-msgstr "рабочее место #%d: `%s'\n"
-
-#: src/icesh.cc:974
+#: src/icesh.cc:1368
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Неизвестное действие: `%s'"
@@ -1566,21 +1567,21 @@ msgstr ""
 msgid "%s configuration directories:\n"
 msgstr "Каталоги конфигурации %s:\n"
 
-#: src/wmapp.cc:1559
+#: src/wmapp.cc:1562
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "Настроенные параметры %s: %s\n"
 
-#: src/wmapp.cc:1612
+#: src/wmapp.cc:1615
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Неизвестная опция '%s'."
 
-#: src/wmapp.cc:1645
+#: src/wmapp.cc:1648
 msgid "Confirm Logout"
 msgstr "Подтверждение выхода"
 
-#: src/wmapp.cc:1646
+#: src/wmapp.cc:1649
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -2732,6 +2733,9 @@ msgstr "Web-Разработка"
 #: src/fdospecgen.h:319
 msgid "WordProcessor"
 msgstr "Текстовый Процессор"
+
+#~ msgid "Usage error: "
+#~ msgstr "Ошибка использования: "
 
 #~ msgid "Out of memory for image %s"
 #~ msgstr "Кончилась память на картинке \"%s\""

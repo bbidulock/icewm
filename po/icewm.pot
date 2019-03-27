@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: icewm 1.4.2.1743\n"
+"Project-Id-Version: icewm 1.5.3\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-03-03 22:43+0100\n"
+"POT-Creation-Date: 2019-03-27 12:46+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -496,32 +496,32 @@ msgstr ""
 msgid "Same Game"
 msgstr ""
 
-#: src/icesh.cc:191
-#, c-format
-msgid "Action `%s' requires at least %d arguments."
-msgstr ""
-
-#: src/icesh.cc:198
-#, c-format
-msgid "Invalid expression: `%s'"
-msgstr ""
-
-#: src/icesh.cc:319
+#: src/icesh.cc:405
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr ""
 
-#: src/icesh.cc:435
+#: src/icesh.cc:516
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr ""
 
-#: src/icesh.cc:440
+#: src/icesh.cc:521
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr ""
 
-#: src/icesh.cc:605
+#: src/icesh.cc:572
+#, c-format
+msgid "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
+msgstr ""
+
+#: src/icesh.cc:632
+#, c-format
+msgid "workspace #%d: `%s'\n"
+msgstr ""
+
+#: src/icesh.cc:930
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] ACTIONS\n"
@@ -583,51 +583,52 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/icesh.cc:653
+#: src/icesh.cc:978
 msgid "GNOME window state"
 msgstr ""
 
-#: src/icesh.cc:654
+#: src/icesh.cc:979
 msgid "GNOME window hint"
 msgstr ""
 
-#: src/icesh.cc:655
+#: src/icesh.cc:980
 msgid "GNOME window layer"
 msgstr ""
 
-#: src/icesh.cc:656
+#: src/icesh.cc:981
 msgid "IceWM tray option"
 msgstr ""
 
-#: src/icesh.cc:661
-msgid "Usage error: "
+#: src/icesh.cc:1048
+#, c-format
+msgid "Action `%s' requires at least %d arguments."
 msgstr ""
 
-#: src/icesh.cc:747
+#: src/icesh.cc:1059
+#, c-format
+msgid "Invalid expression: `%s'"
+msgstr ""
+
+#: src/icesh.cc:1129
 #, c-format
 msgid "Invalid argument: `%s'."
 msgstr ""
 
-#: src/icesh.cc:753
+#: src/icesh.cc:1135
 msgid "No actions specified."
 msgstr ""
 
-#: src/icesh.cc:760 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:925
+#: src/icesh.cc:1145 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:925
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 
-#: src/icesh.cc:801
+#: src/icesh.cc:1182
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr ""
 
-#: src/icesh.cc:955
-#, c-format
-msgid "workspace #%d: `%s'\n"
-msgstr ""
-
-#: src/icesh.cc:974
+#: src/icesh.cc:1368
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr ""
@@ -1263,21 +1264,21 @@ msgstr ""
 msgid "%s configuration directories:\n"
 msgstr ""
 
-#: src/wmapp.cc:1559
+#: src/wmapp.cc:1562
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr ""
 
-#: src/wmapp.cc:1612
+#: src/wmapp.cc:1615
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr ""
 
-#: src/wmapp.cc:1645
+#: src/wmapp.cc:1648
 msgid "Confirm Logout"
 msgstr ""
 
-#: src/wmapp.cc:1646
+#: src/wmapp.cc:1649
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"

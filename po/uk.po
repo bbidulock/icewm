@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-03-03 22:43+0100\n"
+"POT-Creation-Date: 2019-03-27 12:46+0100\n"
 "PO-Revision-Date: 2018-04-14 08:08+0000\n"
 "Last-Translator: Andriy Bandura <andriykopanytsia@gmail.com>\n"
 "Language-Team: Ukrainian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -561,32 +561,32 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "Гра IceSame"
 
-#: src/icesh.cc:191
-#, c-format
-msgid "Action `%s' requires at least %d arguments."
-msgstr "Дія \"%s\" вимагає як мінімум %d аргументу(ів)."
-
-#: src/icesh.cc:198
-#, c-format
-msgid "Invalid expression: `%s'"
-msgstr "Неправильний вираз: \"%s\""
-
-#: src/icesh.cc:319
+#: src/icesh.cc:405
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Іменовані символи у домені \"%s\" (числовий діапазон: %ld-%ld):\n"
 
-#: src/icesh.cc:435
+#: src/icesh.cc:516
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Невірне ім'я робочого простору: \"%s\""
 
-#: src/icesh.cc:440
+#: src/icesh.cc:521
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Робоче місце за межами діапазону: %ld"
 
-#: src/icesh.cc:605
+#: src/icesh.cc:572
+#, c-format
+msgid "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
+msgstr ""
+
+#: src/icesh.cc:632
+#, c-format
+msgid "workspace #%d: `%s'\n"
+msgstr "робоче місце #%d: \"%s\"\n"
+
+#: src/icesh.cc:930
 #, fuzzy, c-format
 #| msgid ""
 #| "Usage: %s [OPTIONS] ACTIONS\n"
@@ -745,53 +745,54 @@ msgstr ""
 "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
 "\n"
 
-#: src/icesh.cc:653
+#: src/icesh.cc:978
 msgid "GNOME window state"
 msgstr "Стан вікна GNOME"
 
-#: src/icesh.cc:654
+#: src/icesh.cc:979
 msgid "GNOME window hint"
 msgstr "Підказка вікна GNOME"
 
-#: src/icesh.cc:655
+#: src/icesh.cc:980
 msgid "GNOME window layer"
 msgstr "Рівень вікна GNOME"
 
-#: src/icesh.cc:656
+#: src/icesh.cc:981
 msgid "IceWM tray option"
 msgstr "Опція панелі завдань IceWM"
 
-#: src/icesh.cc:661
-msgid "Usage error: "
-msgstr "Помилка використання: "
+#: src/icesh.cc:1048
+#, c-format
+msgid "Action `%s' requires at least %d arguments."
+msgstr "Дія \"%s\" вимагає як мінімум %d аргументу(ів)."
 
-#: src/icesh.cc:747
+#: src/icesh.cc:1059
+#, c-format
+msgid "Invalid expression: `%s'"
+msgstr "Неправильний вираз: \"%s\""
+
+#: src/icesh.cc:1129
 #, c-format
 msgid "Invalid argument: `%s'."
 msgstr "Невірний аргумент: \"%s\"."
 
-#: src/icesh.cc:753
+#: src/icesh.cc:1135
 msgid "No actions specified."
 msgstr "Не зазначено ніяких дій."
 
-#: src/icesh.cc:760 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:925
+#: src/icesh.cc:1145 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:925
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "Не вдалося відкрити дисплей: %s. X-сервер повинен бути запущений і змінна "
 "$DISPLAY встановлена."
 
-#: src/icesh.cc:801
+#: src/icesh.cc:1182
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Невірний ідентифікатор вікна: \"%s\""
 
-#: src/icesh.cc:955
-#, c-format
-msgid "workspace #%d: `%s'\n"
-msgstr "робоче місце #%d: \"%s\"\n"
-
-#: src/icesh.cc:974
+#: src/icesh.cc:1368
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Невідома дія: \"%s\""
@@ -1650,21 +1651,21 @@ msgstr ""
 msgid "%s configuration directories:\n"
 msgstr "%s каталоги конфігурації:\n"
 
-#: src/wmapp.cc:1559
+#: src/wmapp.cc:1562
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s налаштовані параметри:%s\n"
 
-#: src/wmapp.cc:1612
+#: src/wmapp.cc:1615
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Нерозпізнаний параметр: %s."
 
-#: src/wmapp.cc:1645
+#: src/wmapp.cc:1648
 msgid "Confirm Logout"
 msgstr "Підтвердження виходу"
 
-#: src/wmapp.cc:1646
+#: src/wmapp.cc:1649
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -2866,6 +2867,9 @@ msgstr "Розробка"
 #: src/fdospecgen.h:319
 msgid "WordProcessor"
 msgstr ""
+
+#~ msgid "Usage error: "
+#~ msgstr "Помилка використання: "
 
 #~ msgid "Out of memory for image %s"
 #~ msgstr "Не вистачає пам'яті для малюнку %s"

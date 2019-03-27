@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-03-03 22:43+0100\n"
+"POT-Creation-Date: 2019-03-27 12:46+0100\n"
 "PO-Revision-Date: 2017-11-03 14:12+0700\n"
 "Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian <https://l10n.opensuse.org/projects/icewm/"
@@ -530,32 +530,32 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "Permainan Sama"
 
-#: src/icesh.cc:191
-#, c-format
-msgid "Action `%s' requires at least %d arguments."
-msgstr "Perintah `%s' membutuhkan setidaknya %d opsi."
-
-#: src/icesh.cc:198
-#, c-format
-msgid "Invalid expression: `%s'"
-msgstr "Ekpresi tidak benar: `%s'"
-
-#: src/icesh.cc:319
+#: src/icesh.cc:405
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Domain berisi simbol `%s' (rentang angka: %ld-%ld):\n"
 
-#: src/icesh.cc:435
+#: src/icesh.cc:516
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Nama Ruang Kerja tidak valid: `%s'"
 
-#: src/icesh.cc:440
+#: src/icesh.cc:521
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Ruang kerja di luar jangkauan: %ld"
 
-#: src/icesh.cc:605
+#: src/icesh.cc:572
+#, c-format
+msgid "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
+msgstr ""
+
+#: src/icesh.cc:632
+#, c-format
+msgid "workspace #%d: `%s'\n"
+msgstr "ruang kerja #%d: `%s'\n"
+
+#: src/icesh.cc:930
 #, fuzzy, c-format
 #| msgid ""
 #| "Usage: %s [OPTIONS] ACTIONS\n"
@@ -719,53 +719,54 @@ msgstr ""
 "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
 "\n"
 
-#: src/icesh.cc:653
+#: src/icesh.cc:978
 msgid "GNOME window state"
 msgstr "keadaan jendela GNOME"
 
-#: src/icesh.cc:654
+#: src/icesh.cc:979
 msgid "GNOME window hint"
 msgstr "petunjuk jendela GNOME"
 
-#: src/icesh.cc:655
+#: src/icesh.cc:980
 msgid "GNOME window layer"
 msgstr "lapisan jendela GNOME"
 
-#: src/icesh.cc:656
+#: src/icesh.cc:981
 msgid "IceWM tray option"
 msgstr "opsi baki IceWM"
 
-#: src/icesh.cc:661
-msgid "Usage error: "
-msgstr "Kesalahan penggunaan: "
+#: src/icesh.cc:1048
+#, c-format
+msgid "Action `%s' requires at least %d arguments."
+msgstr "Perintah `%s' membutuhkan setidaknya %d opsi."
 
-#: src/icesh.cc:747
+#: src/icesh.cc:1059
+#, c-format
+msgid "Invalid expression: `%s'"
+msgstr "Ekpresi tidak benar: `%s'"
+
+#: src/icesh.cc:1129
 #, c-format
 msgid "Invalid argument: `%s'."
 msgstr "Argumen tidak valid: `%s'."
 
-#: src/icesh.cc:753
+#: src/icesh.cc:1135
 msgid "No actions specified."
 msgstr "Tidak ada aksi yang diberikan."
 
-#: src/icesh.cc:760 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:925
+#: src/icesh.cc:1145 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:925
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "Tidak dapat membuka display: %s. X harus berjalan dan $DISPLAY harus "
 "ditetapkan."
 
-#: src/icesh.cc:801
+#: src/icesh.cc:1182
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Indentitas jendela tidak valid: `%s'"
 
-#: src/icesh.cc:955
-#, c-format
-msgid "workspace #%d: `%s'\n"
-msgstr "ruang kerja #%d: `%s'\n"
-
-#: src/icesh.cc:974
+#: src/icesh.cc:1368
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Aksi tidak diketahui: `%s'"
@@ -1539,21 +1540,21 @@ msgstr ""
 msgid "%s configuration directories:\n"
 msgstr "Direktori konfigurasi %s:\n"
 
-#: src/wmapp.cc:1559
+#: src/wmapp.cc:1562
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s pilihan dikonfigurasi: %s\n"
 
-#: src/wmapp.cc:1612
+#: src/wmapp.cc:1615
 #, fuzzy, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Opsi tidak dikenali: %s\n"
 
-#: src/wmapp.cc:1645
+#: src/wmapp.cc:1648
 msgid "Confirm Logout"
 msgstr "Konfirmasi Keluar"
 
-#: src/wmapp.cc:1646
+#: src/wmapp.cc:1649
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -2757,6 +2758,9 @@ msgstr "Pengembangan"
 #: src/fdospecgen.h:319
 msgid "WordProcessor"
 msgstr ""
+
+#~ msgid "Usage error: "
+#~ msgstr "Kesalahan penggunaan: "
 
 #~ msgid "Out of memory for image %s"
 #~ msgstr "Kehabisan memori untuk gambar %s"

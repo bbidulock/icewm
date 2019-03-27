@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-03-03 22:43+0100\n"
+"POT-Creation-Date: 2019-03-27 12:46+0100\n"
 "PO-Revision-Date: 2019-02-07 06:32+0000\n"
 "Last-Translator: Juan Sarria <juansarriam@gmail.com>\n"
 "Language-Team: Spanish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -553,32 +553,32 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "Mismo juego"
 
-#: src/icesh.cc:191
-#, c-format
-msgid "Action `%s' requires at least %d arguments."
-msgstr "La acción `%s' requiere al menos %d argumentos."
-
-#: src/icesh.cc:198
-#, c-format
-msgid "Invalid expression: `%s'"
-msgstr "Expresión no válida: `%s'"
-
-#: src/icesh.cc:319
+#: src/icesh.cc:405
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Símbolos nombrados del dominio `%s' (rango numérico: %ld-%ld):\n"
 
-#: src/icesh.cc:435
+#: src/icesh.cc:516
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Nombre de área de trabajo no válido: `%s'"
 
-#: src/icesh.cc:440
+#: src/icesh.cc:521
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Área de trabajo fuera de límite: %ld"
 
-#: src/icesh.cc:605
+#: src/icesh.cc:572
+#, c-format
+msgid "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
+msgstr ""
+
+#: src/icesh.cc:632
+#, c-format
+msgid "workspace #%d: `%s'\n"
+msgstr "área de trabajo #%d: `%s'\n"
+
+#: src/icesh.cc:930
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] ACTIONS\n"
@@ -701,53 +701,54 @@ msgstr ""
 "  EXPRESIÓN ::= SÍMBOLO | EXPRESIÓN ( `+' | `|' ) SÍMBOLO\n"
 "\n"
 
-#: src/icesh.cc:653
+#: src/icesh.cc:978
 msgid "GNOME window state"
 msgstr "Estado de la ventana de GNOME"
 
-#: src/icesh.cc:654
+#: src/icesh.cc:979
 msgid "GNOME window hint"
 msgstr "Consejo de la ventana de GNOME"
 
-#: src/icesh.cc:655
+#: src/icesh.cc:980
 msgid "GNOME window layer"
 msgstr "Capa de la ventana de GNOME"
 
-#: src/icesh.cc:656
+#: src/icesh.cc:981
 msgid "IceWM tray option"
 msgstr "Opción de la bandeja de IceWM"
 
-#: src/icesh.cc:661
-msgid "Usage error: "
-msgstr "Error de uso: "
+#: src/icesh.cc:1048
+#, c-format
+msgid "Action `%s' requires at least %d arguments."
+msgstr "La acción `%s' requiere al menos %d argumentos."
 
-#: src/icesh.cc:747
+#: src/icesh.cc:1059
+#, c-format
+msgid "Invalid expression: `%s'"
+msgstr "Expresión no válida: `%s'"
+
+#: src/icesh.cc:1129
 #, c-format
 msgid "Invalid argument: `%s'."
 msgstr "Argumento no válido: `%s'."
 
-#: src/icesh.cc:753
+#: src/icesh.cc:1135
 msgid "No actions specified."
 msgstr "Ninguna acción especificada."
 
-#: src/icesh.cc:760 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:925
+#: src/icesh.cc:1145 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:925
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "No se puede abrir pantalla: %s. X debe estar ejecutándose y $DISPLAY "
 "configurado."
 
-#: src/icesh.cc:801
+#: src/icesh.cc:1182
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Identificador de ventana no válido: `%s'"
 
-#: src/icesh.cc:955
-#, c-format
-msgid "workspace #%d: `%s'\n"
-msgstr "área de trabajo #%d: `%s'\n"
-
-#: src/icesh.cc:974
+#: src/icesh.cc:1368
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Acción desconocida: `%s 1'"
@@ -1574,21 +1575,21 @@ msgstr ""
 msgid "%s configuration directories:\n"
 msgstr "%s directorios de configuración:\n"
 
-#: src/wmapp.cc:1559
+#: src/wmapp.cc:1562
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s opciones configuradas:%s\n"
 
-#: src/wmapp.cc:1612
+#: src/wmapp.cc:1615
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Opción no reconocida '%s'."
 
-#: src/wmapp.cc:1645
+#: src/wmapp.cc:1648
 msgid "Confirm Logout"
 msgstr "Confirmar el cierre de sesión"
 
-#: src/wmapp.cc:1646
+#: src/wmapp.cc:1649
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -2739,6 +2740,9 @@ msgstr "Desarrollo web"
 #: src/fdospecgen.h:319
 msgid "WordProcessor"
 msgstr "Procesador de textos"
+
+#~ msgid "Usage error: "
+#~ msgstr "Error de uso: "
 
 #~ msgid "Out of memory for image %s"
 #~ msgstr "No queda memoria para la imagen %s"
