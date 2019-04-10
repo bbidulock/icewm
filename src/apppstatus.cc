@@ -619,7 +619,6 @@ void NetStatusControl::fetchSystemData() {
 
 NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
         IAppletContainer* taskBar, YWindow* aParent) :
-    app(app),
     smActionListener(smActionListener),
     taskBar(taskBar),
     aParent(aParent),
