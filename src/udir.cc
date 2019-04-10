@@ -25,7 +25,7 @@ public:
     operator DIR *() const { return ptr; }
 
     char* name() const { return de->d_name; }
-    int length() const { return strlen(name()); }
+    int length() const { return int(strlen(name())); }
     int size() const { return 1 + length(); }
     struct dirent *next() {
         while (read() && dots());
@@ -57,7 +57,7 @@ bool cdir::open(const char* path) {
 bool cdir::open() {
     close();
     if (fPath) {
-        impl = (void *) opendir(fPath);
+        impl = static_cast<void *>(opendir(fPath));
     }
     return isOpen();
 }
@@ -74,9 +74,9 @@ bool cdir::next() {
 }
 
 bool cdir::nextExt(const char *extension) {
-    int xlen = (int) strlen(extension);
+    int xlen = int(strlen(extension));
     while (next()) {
-        int start = ((int) strlen(fEntry)) - xlen;
+        int start = int(strlen(fEntry)) - xlen;
         if (start >= 0 && 0 == strcmp(fEntry + start, extension)) {
             return true;
         }
@@ -135,9 +135,9 @@ const char* adir::entry() const {
 }
 
 bool adir::nextExt(const char *extension) {
-    int xlen = (int) strlen(extension);
+    int xlen = int(strlen(extension));
     while (next()) {
-        int start = ((int) strlen(entry())) - xlen;
+        int start = int(strlen(entry())) - xlen;
         if (start >= 0 && 0 == strcmp(entry() + start, extension)) {
             return true;
         }
@@ -168,7 +168,7 @@ bool udir::open(const upath& path) {
 bool udir::open() {
     close();
     if (fPath.nonempty()) {
-        impl = (void *) opendir(fPath.string());
+        impl = static_cast<void *>(opendir(fPath.string()));
     }
     return isOpen();
 }
