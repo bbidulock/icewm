@@ -244,4 +244,8 @@ void MStringArray::sort() {
         qsort(getItemPtr(0), getCount(), sizeof(mstring), mstring_compare);
 }
 
+MStringArray::~MStringArray() {
+    clear();
+}
+
 // vim: set sw=4 ts=4 et:

@@ -53,7 +53,7 @@ public:
 
     void setCapacity(SizeType nCapacity);
 
-    static const SizeType npos = (SizeType) -1;
+    static const SizeType npos = SizeType(-1);
 
 protected:
     const StorageType *getElement(const SizeType index) const {
@@ -73,7 +73,9 @@ public:
     SizeType getIndex(void const * ptr) const {
         PRECONDITION(ptr >= getBegin() && ptr < getEnd());
         return (ptr >= getBegin() && ptr < getEnd()
-                ? ((StorageType *) ptr - fElements) / fElementSize : npos);
+             ? SizeType(static_cast<const StorageType *>(ptr) - fElements)
+                 / fElementSize
+             : npos);
     }
     const void *getItem(const SizeType index) const {
         PRECONDITION(index < getCount());
@@ -110,8 +112,10 @@ public:
     typedef YArrayIterator<DataType> IterType;
 
     YArray(): YBaseArray(sizeof(DataType)) {}
-    YArray(YArray &other): YBaseArray((YBaseArray&)other) {}
-    YArray(const YArray& other): YBaseArray((const YBaseArray&)other) {}
+    YArray(YArray &other):
+        YBaseArray(static_cast<YBaseArray&>(other)) {}
+    YArray(const YArray& other):
+        YBaseArray(static_cast<const YBaseArray&>(other)) {}
     explicit YArray(SizeType capacity): YBaseArray(sizeof(DataType)) {
         setCapacity(capacity);
     }
@@ -124,7 +128,7 @@ public:
     }
 
     const DataType *getItemPtr(const SizeType index) const {
-        return (const DataType *) YBaseArray::getItem(index);
+        return static_cast<const DataType *>(YBaseArray::getItem(index));
     }
     const DataType &getItem(const SizeType index) const {
         return *getItemPtr(index);
@@ -137,7 +141,7 @@ public:
     }
 
     DataType *getItemPtr(const SizeType index) {
-        return (DataType *) YBaseArray::getItem(index);
+        return static_cast<DataType *>(YBaseArray::getItem(index));
     }
     DataType &getItem(const SizeType index) {
         return *getItemPtr(index);
@@ -254,7 +258,8 @@ public:
 
 private:
     ref<DataType>* getItemPtr(const SizeType index) const {
-        return (ref<DataType> *) YBaseArray::getItem(index);
+        return static_cast<ref<DataType> *>(
+                const_cast<void *>(YBaseArray::getItem(index)));
     }
 };
 
@@ -267,7 +272,8 @@ public:
     typedef YArray<const char *> BaseType;
     typedef BaseType::IterType IterType;
 
-    YStringArray(YStringArray &other): BaseType((BaseType&)other) { }
+    YStringArray(YStringArray &other):
+        BaseType(static_cast<BaseType&>(other)) { }
     YStringArray(const YStringArray &other);
     YStringArray(const char* cstr[], SizeType count = npos, SizeType cap = 0);
 
@@ -356,10 +362,12 @@ public:
     typedef BaseType::IterType IterType;
 
     MStringArray() { }
-    MStringArray(MStringArray& other) : YArray<mstring>((BaseType&)other) { }
+    MStringArray(MStringArray& other) :
+        YArray<mstring>(static_cast<BaseType&>(other))
+    { }
 
     MStringArray(const MStringArray& other) :
-        YArray<mstring>((const BaseType&)other)
+        YArray<mstring>(static_cast<const BaseType&>(other))
     {
         for (SizeType i = 0; i < getCount(); ++i)
             getItemPtr(i)->acquire();
@@ -373,7 +381,7 @@ public:
         }
     }
 
-    virtual ~MStringArray() { clear(); }
+    virtual ~MStringArray();
 
     void append(mstring item) {
         item.acquire();
@@ -417,7 +425,8 @@ public:
 
 private:
     mstring* getItemPtr(const SizeType index) const {
-        return (mstring *) YBaseArray::getItem(index);
+        return static_cast<mstring *>(
+                const_cast<void *>(YBaseArray::getItem(index)));
     }
 };
 #endif  /*__MSTRING_H*/
@@ -621,7 +630,7 @@ private:
     int index;
 
     bool validate(int extra) const {
-        return inrange(index + extra, 0, (int) array->getCount() - 1);
+        return inrange(index + extra, 0, int(array->getCount()) - 1);
     }
     IterType& move(int amount) {
         index += amount;
