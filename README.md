@@ -32,7 +32,7 @@ Quick Start
 The quickest and easiest way to get IceWM up and running is to run the
 following commands:
 
-    $> git clone http://github.com/bbidulock/icewm.git
+    $> git clone https://github.com/bbidulock/icewm.git
     $> cd icewm
     $> ./autogen.sh
     $> ./configure --prefix=/usr --sysconfdir=/etc
