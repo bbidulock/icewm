@@ -162,7 +162,8 @@ ref<YImage> YImage::load(upath filename)
 
 pstring YXImage::detectImageType(upath filename) {
      const int xpm = 9, png = 8, jpg = 4, len = max(xpm, png);
-     char buf[len+1] = {};
+     char buf[len+1];
+     memset(buf, 0, sizeof buf);
      if (read_file(filename.string(), buf, sizeof buf) >= len) {
          if (0 == memcmp(buf, "/* XPM */", xpm)) {
              return ".xpm";
