@@ -1355,7 +1355,7 @@ void IceSh::parseActions()
         }
         else if (isAction("runonce", 1)) {
             if (windowList.count() == 0 ||
-                (windowList.count() == 1 && windowList[0] == root))
+                (windowList.count() == 1 && windowList[0U] == root))
             {
                 execvp(argp[0], argp);
                 perror(argp[0]);
