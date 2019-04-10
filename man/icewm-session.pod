@@ -49,7 +49,7 @@ Also start icesound.
 
 =over
 
-=item B<--display>=I<DISPLAY>
+=item B<-d>, B<--display>=I<DISPLAY>
 
 Use I<DISPLAY> to connect to the X server.
 If this option is missing then I<DISPLAY>

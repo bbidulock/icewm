@@ -32,16 +32,6 @@ I<FILENAME> may also be the URL of a website.
 
 =over
 
-=item B<--display>=I<DISPLAY>
-
-Use I<DISPLAY> to connect to the X server.
-If this option is missing then I<DISPLAY>
-is read from the environment variable C<DISPLAY>.
-
-=item B<--sync>
-
-Use a slower synchronous mode communication with I<X11> server.
-
 =item B<-B>
 
 Display the IceWM icewmbg manpage.
@@ -83,6 +73,16 @@ Display the IceWM website.
 =head2 GENERAL OPTIONS
 
 =over
+
+=item B<-d>, B<--display>=I<DISPLAY>
+
+Use I<DISPLAY> to connect to the X server.
+If this option is missing then I<DISPLAY>
+is read from the environment variable C<DISPLAY>.
+
+=item B<--sync>
+
+Use a slower synchronous mode communication with I<X11> server.
 
 =item B<-h>, B<--help>
 

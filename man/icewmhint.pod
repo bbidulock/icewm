@@ -28,6 +28,12 @@ parsing and processing is performed.
 
 =over
 
+=item B<-d>, B<--display>=I<DISPLAY>
+
+Use I<DISPLAY> to connect to the X server.
+If this option is missing then I<DISPLAY>
+is read from the environment variable C<DISPLAY>.
+
 =item B<-h>, B<--help>
 
 Print a brief usage statement to F<stdout> and exit.

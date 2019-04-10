@@ -70,6 +70,12 @@ Specifies the configuration file to use.
 
 Specifies an override theme to use.
 
+=item B<-d>, B<--display>=I<DISPLAY>
+
+Use I<DISPLAY> to connect to the X server.
+If this option is missing then I<DISPLAY>
+is read from the environment variable C<DISPLAY>.
+
 =item B<--debug>
 
 Specifies that debugging is to be turned on.  B<icewmtray> must have
