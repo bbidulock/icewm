@@ -62,6 +62,9 @@ public:
     static ref<YImage> loadxpm(upath filename);
 #ifdef CONFIG_LIBPNG
     static ref<YImage> loadpng(upath filename);
+    static void pngload(ref<YImage> image, FILE* f,
+                        png_structp png_ptr,
+                        png_infop info_ptr);
     bool savepng(upath filename, const char** error);
 #endif
 #ifdef CONFIG_LIBJPEG
@@ -260,9 +263,6 @@ ref<YImage> YXImage::loadxpm(upath filename)
 ref<YImage> YXImage::loadpng(upath filename)
 {
     ref<YImage> image;
-    // working around clobbering issues with high optimization levels, see https://stackoverflow.com/questions/7721854/what-sense-do-these-clobbered-variable-warnings-make
-    volatile png_byte *png_pixels = 0, **row_pointers = 0;
-    volatile XImage *ximage = 0;
     png_structp png_ptr;
     png_infop info_ptr;
     png_byte buf[8];
@@ -289,11 +289,27 @@ ref<YImage> YXImage::loadpng(upath filename)
         tlog("could not allocate PNG info struture\n");
         goto noinfo;
     }
+
+    pngload(image, f, png_ptr, info_ptr);
+
+    png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
+    goto noread;
+  noinfo:
+    png_destroy_read_struct(&png_ptr, NULL, NULL);
+  noread:
+    fclose(f);
+  nofile:
+    return image;
+}
+
+void YXImage::pngload(ref<YImage> image, FILE* f,
+                      png_structp png_ptr,
+                      png_infop info_ptr)
+{
     if (setjmp(png_jmpbuf(png_ptr))) {
         tlog("ERROR: longjump from setjump\n");
-        goto pngerr;
     } else {
-        png_uint_32 width, height, row_bytes, i, j;
+        png_uint_32 width, height, row_bytes, i;
         int bit_depth, color_type, channels;
 
         png_init_io(png_ptr, f);
@@ -328,21 +344,19 @@ ref<YImage> YXImage::loadpng(upath filename)
         else
             channels = 0;
         row_bytes = png_get_rowbytes(png_ptr, info_ptr);
-        png_pixels = (volatile png_byte *)calloc(row_bytes * height, sizeof(*png_pixels));
-        row_pointers = (volatile png_byte **)calloc(height, sizeof(*row_pointers));
+        png_byte *png_pixels = static_cast<png_byte *>(
+                  calloc(row_bytes * height, sizeof(*png_pixels)));
+        png_byte **row_pointers = static_cast<png_byte **>(
+                   calloc(height, sizeof(*row_pointers)));
         for (i = 0; i < height; i++)
             row_pointers[i] = png_pixels + i * row_bytes;
-        png_read_image(png_ptr, (png_byte **)row_pointers);
+        png_read_image(png_ptr, row_pointers);
         png_read_end(png_ptr, info_ptr);
-        ximage = createImage(width, height, 32U);
-        if (ximage == 0) {
-            goto pngerr;
-        } else {
-            png_byte *p, *nv_png_pixels = (png_byte *) png_pixels;
+        XImage *ximage = createImage(width, height, 32U);
+        if (ximage) {
             unsigned long pixel, A = 0, R = 0, G = 0, B = 0;
-            XImage *nv_ximage = (XImage *) ximage;
 
-            for (p = nv_png_pixels, j = 0; j < height; j++) {
+            for (png_byte *p = png_pixels, j = 0; j < height; j++) {
                 for (i = 0; i < width; i++, p += channels) {
                     switch(color_type) {
                         case PNG_COLOR_TYPE_GRAY:
@@ -367,24 +381,17 @@ ref<YImage> YXImage::loadpng(upath filename)
                             break;
                     }
                     pixel = (A << 24)|(R <<16)|(G<<8)|(B<<0);
-                    XPutPixel(nv_ximage, i, j, pixel);
+                    XPutPixel(ximage, i, j, pixel);
                 }
             }
+
+            image.init(new YXImage(ximage));
         }
+        if (png_pixels)
+            free(png_pixels);
+        if (row_pointers)
+            free(row_pointers);
     }
-  pngerr:
-    free((png_byte *)png_pixels);
-    free((png_byte **)row_pointers);
-    png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
-    goto noread;
-  noinfo:
-    png_destroy_read_struct(&png_ptr, NULL, NULL);
-  noread:
-    fclose(f);
-  nofile:
-    if (ximage)
-        image.init(new YXImage((XImage *)ximage));
-    return image;
 }
 #endif
 
@@ -428,6 +435,7 @@ bool YXImage::savepng(upath filename, const char** error) {
 
     if (setjmp(png_jmpbuf(png_ptr))) {
         *error = "Error during PNG file output";
+        saved = false;
         goto end;
     }
 
