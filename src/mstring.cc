@@ -236,7 +236,8 @@ int mstring::find(const mstring &s) const {
 int mstring::indexOf(char ch) const {
     if (length() == 0)
         return -1;
-    char *s = static_cast<char *>(memchr(data(), ch, fCount));
+    char *s = static_cast<char *>(
+                const_cast<void *>(memchr(data(), ch, fCount)));
     if (s == NULL)
         return -1;
     return int(s - data());
