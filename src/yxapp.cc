@@ -894,7 +894,7 @@ const char* YXApplication::getHelpText() {
 
 YXApplication::AppArgs
 YXApplication::parseArgs(int *argc, char ***argv, const char *displayName) {
-    AppArgs appArgs = { displayName, None, };
+    AppArgs appArgs = { displayName, false, };
 
     for (char ** arg = *argv + 1; arg < *argv + *argc; ++arg) {
         if (**arg == '-') {
