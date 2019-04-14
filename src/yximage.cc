@@ -60,6 +60,7 @@ public:
     unsigned depth() const { return fImage ? fImage->depth : 0; }
     static ref<YImage> loadxbm(upath filename);
     static ref<YImage> loadxpm(upath filename);
+    static ref<YImage> loadxpm2(upath filename, int& status);
 #ifdef CONFIG_LIBPNG
     static ref<YImage> loadpng(upath filename);
     static void pngload(ref<YImage>& image, FILE* f,
@@ -216,10 +217,38 @@ ref <YImage> YXImage::loadxbm(upath filename)
 
 ref<YImage> YXImage::loadxpm(upath filename)
 {
+    int status = XpmSuccess;
+    ref<YImage> image(loadxpm2(filename, status));
+    if (status != XpmFileInvalid)
+        return image;
+
+    // support themes with indirect XPM images, like OnyX:
+    const int lim = 64;
+    for (int k = 9; --k > 0 && inrange(int(filename.fileSize()), 5, lim); ) {
+        fileptr fp(filename.fopen("r"));
+        if (fp == 0)
+            break;
+
+        char buf[lim];
+        if (fgets(buf, lim, fp) == 0)
+            break;
+
+        mstring match(mstring(buf).match("^[a-z][-_a-z0-9]*\\.xpm$", "i"));
+        if (match == null)
+            break;
+
+        filename = filename.parent().relative(match);
+        if (filename.fileSize() > lim)
+            return loadxpm2(filename, status);
+    }
+    return image;
+}
+
+ref<YImage> YXImage::loadxpm2(upath filename, int& status)
+{
     ref<YImage> image;
     XImage *xdraw = 0, *xmask = 0;
     XpmAttributes xa;
-    int status;
 
     xa.visual = xapp->visual();
     xa.colormap = xapp->colormap();
