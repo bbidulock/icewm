@@ -62,7 +62,7 @@ public:
     static ref<YImage> loadxpm(upath filename);
 #ifdef CONFIG_LIBPNG
     static ref<YImage> loadpng(upath filename);
-    static void pngload(ref<YImage> image, FILE* f,
+    static void pngload(ref<YImage>& image, FILE* f,
                         png_structp png_ptr,
                         png_infop info_ptr);
     bool savepng(upath filename, const char** error);
@@ -302,7 +302,7 @@ ref<YImage> YXImage::loadpng(upath filename)
     return image;
 }
 
-void YXImage::pngload(ref<YImage> image, FILE* f,
+void YXImage::pngload(ref<YImage>& image, FILE* f,
                       png_structp png_ptr,
                       png_infop info_ptr)
 {
