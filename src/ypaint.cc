@@ -377,7 +377,7 @@ void Graphics::drawStringMultiline(int x, int y, const char *str) {
     for (const char * end(strchr(str, '\n')); end;
          str = end + 1, end = strchr(str, '\n')) {
         int const len(int(end - str));
-        const char* tab(reinterpret_cast<const char *>(memchr(str, '\t', len)));
+        const char* tab(static_cast<const char *>(memchr(str, '\t', len)));
 
         if (tab) {
             drawChars(str, 0, int(tab - str), x, y);
@@ -535,25 +535,18 @@ void Graphics::drawMask(ref<YPixmap> pix, int const x, int const y) {
 void Graphics::drawClippedPixmap(Pixmap pix, Pixmap clip,
                                  int x, int y, unsigned w, unsigned h, int toX, int toY)
 {
-    static GC clipPixmapGC = None;
+    unsigned long mask =
+        GCGraphicsExposures | GCClipMask | GCClipXOrigin | GCClipYOrigin;
     XGCValues gcv;
 
-    if (clipPixmapGC == None) {
-        gcv.graphics_exposures = False;
-        clipPixmapGC = XCreateGC(display(), desktop->handle(),
-                                 GCGraphicsExposures,
-                                 &gcv);
-    }
-
+    gcv.graphics_exposures = False;
     gcv.clip_mask = clip;
     gcv.clip_x_origin = toX - xOrigin;
     gcv.clip_y_origin = toY - yOrigin;
-    XChangeGC(display(), clipPixmapGC,
-              GCClipMask|GCClipXOrigin|GCClipYOrigin, &gcv);
+    GC clipPixmapGC = XCreateGC(display(), drawable(), mask, &gcv);
     XCopyArea(display(), pix, drawable(), clipPixmapGC,
               x, y, w, h, toX - xOrigin, toY - yOrigin);
-    gcv.clip_mask = None;
-    XChangeGC(display(), clipPixmapGC, GCClipMask, &gcv);
+    XFreeGC(display(), clipPixmapGC);
 }
 
 void Graphics::compositeImage(ref<YImage> img, int const sx, int const sy, unsigned w, unsigned h, int dx, int dy) {
