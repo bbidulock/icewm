@@ -82,6 +82,7 @@ EXTRA_DIST += \
 	CMakeLists.txt \
 	doc/CMakeLists.txt \
 	lib/CMakeLists.txt \
+	man/CMakeLists.txt \
 	po/CMakeLists.txt \
 	src/CMakeLists.txt \
 	src/config.cmake.h.in
