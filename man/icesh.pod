@@ -25,31 +25,26 @@ B<icesh> recognizes the following options:
 
 =head2 COMMAND OPTIONS
 
-Command options are mutually exclusive.  Only one command option can be
-specified per invocation.  If no command option is specified, action
-argument parsing and processing is performed.
+A command option specifies the window or windows to which subsequent
+arguments apply. If no command option is given, but an argument
+does require a window then a selection crossbar is invoked to select
+the desired window interactively. Some arguments do not require this.
 
 =over
 
 =item B<-w>, B<-window> I<WINDOW_ID>
 
 Specifies the identifier of the window, I<WINDOW_ID>, for which the
-action applies.
-Special identifiers are B<root> for the root window
+action applies.  Special identifiers are B<root> for the root window
 and B<focus> for the currently focused window.
-When no I<WINDOW_ID> or I<WM_CLASS> is specified, a selection crossbar
-is invoked to select the desired window.
 
 =item B<-c>, B<-class> I<WM_CLASS>
 
 Specifies the window manager class, I<WM_CLASS>, for which the action
-applies.
-If I<WM_CLASS> contains a period, only windows with exactly
+applies.  If I<WM_CLASS> contains a period, only windows with exactly
 the same I<WM_CLASS> property are matched.  If there is no period,
 windows of the same class and windows of the same instance (aka. I<-name>)
 are selected.
-When no I<WINDOW_ID> or I<WM_CLASS> is specified, a selection crossbar
-is invoked to select the desired window.
 
 =item B<-r>, B<-root>
 
@@ -67,8 +62,7 @@ Is equivalent to B<-window> B<focus>.
 
 =item B<-d>, B<-display> I<DISPLAY>
 
-Specifies the X11 I<DISPLAY> to use.  When unspecified, defaults to the
-$DISPLAY environment variable.
+Specifies the X11 DISPLAY.  If unspecified, defaults to B<$DISPLAY>.
 
 =item B<-h>, B<--help>
 
@@ -100,19 +94,31 @@ Actions can be one of:
 
 Set the icon title for the specified window to I<TITLE>.
 
+=item B<getIconTitle>
+
+Prints the icon title for the specified window.
+
 =item B<setWindowTitle> I<TITLE>
 
 Set the window title for the specified window to I<TITLE>
+
+=item B<getWindowTitle>
+
+Prints the window title for the specified window.
 
 =item B<setGeometry> I<GEOMETRY>
 
 Set the window geometry for the specified window to I<GEOMETRY>.
 
+=item B<getGeometry>
+
+Prints the window geometry for the specified window.
+
 =item B<setState> I<MASK> I<STATE>
 
 Set the GNOME window state for the specified window to I<STATE>.  Only
 the bits selected by I<MASK> are affected.  I<STATE> and I<MASK> are
-expressions of the domain I<GNOME window state>.  See L</GNOME window
+expressions of the domain GNOME window state.  See L</GNOME window
 state>, below, for I<STATE> and I<MASK> symbols.
 
 =item B<toggleState> I<STATE>
@@ -121,21 +127,37 @@ Toggle the GNOME window state bits specified by the I<STATE> expression
 for the specified window.  See L</GNOME window state>, below, for
 I<STATE> symbols.
 
+=item B<getState>
+
+Prints the GNOME window state for the specified window.
+
 =item B<setHints> I<HINTS>
 
-Set the I<GNOME window hints> for the specified window to I<HINTS>.  See
+Set the GNOME window hints for the specified window to I<HINTS>.  See
 L</GNOME window hints>, below, for I<HINTS> symbols.
+
+=item B<getHints>
+
+Prints the GNOME window hints for the specified window.
 
 =item B<setLayer> I<LAYER>
 
-Moves the specified window to another I<GNOME window layer>.  See
+Moves the specified window to another GNOME window layer.  See
 L</GNOME window layer>, below, for I<LAYER> symbols.
+
+=item B<getLayer>
+
+Prints the GNOME window layer for the specified window.
 
 =item B<setWorkspace> I<WORKSPACE>
 
 Moves the specified window to another workspace.  Select the root
 window to change the current workspace. If I<WORKSPACE> is C<All>
 then the specified window becomes visible on all workspaces.
+
+=item B<getWorkspace>
+
+Prints the workspace for the specified window.
 
 =item B<listWorkspaces>
 
@@ -147,9 +169,13 @@ Set the I<IceWM tray option> hint for the specified window to
 I<TRAYOPTION>.  See L</IceWM tray options>, below, for I<TRAYOPTION>
 symbols.
 
+=item B<getTrayOption>
+
+Prints the IceWM tray option for the specified window.
+
 =back
 
-The following actions do not require a window or class option:
+The following actions do not require a window or class command option:
 
 =over
 
@@ -321,13 +347,13 @@ Example output:
 
 =head1 ENVIRONMENT
 
-The following environment variables are set or examined by B<icesh>:
+The following environment variables are examined by B<icesh>:
 
 =over
 
 =item B<DISPLAY>
 
-Which display to use, in case the B<-display> option is not specified.
+The display to use if the B<-display> option is unspecified.
 
 =back
 
