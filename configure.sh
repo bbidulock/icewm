@@ -25,6 +25,16 @@ case "`uname -m`" in
 	;;
 esac
 
+# Clang has no variable tracking options
+if [[ $CC =~ ^clang || $CC =~ /clang ]]
+then
+    DEBUG_CFLAGS=${DEBUG_CFLAGS%%-fvar-tracking-assignments*}
+fi
+if [[ $CXX =~ ^clang || $CXX =~ /clang ]]
+then
+    DEBUG_CXXFLAGS=${DEBUG_CXXFLAGS%%-fvar-tracking-assignments*}
+fi
+
 ./configure \
 	--enable-maintainer-mode \
 	--enable-dependency-tracking \
