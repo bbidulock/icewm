@@ -338,7 +338,7 @@ void YXImage::pngload(ref<YImage>& image, FILE* f,
     if (setjmp(png_jmpbuf(png_ptr))) {
         tlog("ERROR: longjump from setjump\n");
     } else {
-        png_uint_32 width, height, row_bytes, i;
+        png_uint_32 width, height, row_bytes, i, j;
         int bit_depth, color_type, channels;
 
         png_init_io(png_ptr, f);
@@ -384,8 +384,8 @@ void YXImage::pngload(ref<YImage>& image, FILE* f,
         XImage *ximage = createImage(width, height, 32U);
         if (ximage) {
             unsigned long pixel, A = 0, R = 0, G = 0, B = 0;
-
-            for (png_byte *p = png_pixels, j = 0; j < height; j++) {
+            png_byte *p = png_pixels;
+            for (j = 0; j < height; j++) {
                 for (i = 0; i < width; i++, p += channels) {
                     switch(color_type) {
                         case PNG_COLOR_TYPE_GRAY:
