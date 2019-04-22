@@ -372,9 +372,12 @@ void logShape(const union _XEvent& xev) {
 }
 
 void logVisibility(const union _XEvent& xev) {
-    msg("window=0x%lX: visibilityNotify state=%d",
+    msg("window=0x%lX: visibilityNotify state=%s",
         xev.xvisibility.window,
-        xev.xvisibility.state);
+        xev.xvisibility.state == VisibilityPartiallyObscured ? "partial" :
+        xev.xvisibility.state == VisibilityFullyObscured ? "obscured" :
+        xev.xvisibility.state == VisibilityUnobscured ? "unobscured" : "bogus"
+        );
 }
 
 void logEvent(const union _XEvent& xev) {
@@ -394,8 +397,8 @@ void logEvent(const union _XEvent& xev) {
         logButton,            //  4 ButtonPress
         logButton,            //  5 ButtonRelease
         logMotion,            //  6 MotionNotify
-        logAny,               //  7 EnterNotify
-        logAny,               //  8 LeaveNotify
+        logCrossing,          //  7 EnterNotify
+        logCrossing,          //  8 LeaveNotify
         logFocus,             //  9 FocusIn
         logFocus,             // 10 FocusOut
         logAny,               // 11 KeymapNotify
@@ -809,25 +812,6 @@ void check_argv(int argc, char **argv, const char *help, const char *version)
     }
 }
 
-#if 0
-
-/*
- *      Counts the tokens separated by delim
- */
-unsigned strtoken(const char * str, const char * delim) {
-    unsigned count = 0;
-
-    if (str) {
-        while (*str) {
-            str = strnxt(str, delim);
-            ++count;
-        }
-    }
-
-    return count;
-}
-#endif
-
 #if 1
 const char *my_basename(const char *path) {
     const char *base = ::strrchr(path, '/');
@@ -836,18 +820,6 @@ const char *my_basename(const char *path) {
 #else
 const char *my_basename(const char *path) {
     return basename(path);
-}
-#endif
-
-#if 0
-bool strequal(const char *a, const char *b) {
-    return a ? b && !strcmp(a, b) : !b;
-}
-#endif
-
-#if 0
-int strnullcmp(const char *a, const char *b) {
-    return a ? (b ? strcmp(a, b) : 1) : (b ? -1 : 0);
 }
 #endif
 
