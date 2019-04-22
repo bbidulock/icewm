@@ -35,7 +35,7 @@ to leave this file empty initially.
 
 =head1 FILES
 
-Locations for the toolbar options file are as follows:
+Locations for the F<prefoverride> file are as follows:
 
 =over
 

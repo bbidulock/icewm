@@ -23,7 +23,8 @@
 =head1 DESCRIPTION
 
 L<icewm-session(1)> loads additional environment variables from the file
-F<env>.
+F<env> before it does anything else. These variables are then propagated
+to all other processes, including L<icewm(1)>, via their environment.
 
 =head1 FORMAT
 
@@ -40,9 +41,12 @@ followed by an equals sign, followed by the value (which may be empty).
  XDG_CURRENT_DESKTOP="ICEWM"
  XDG_MENU_PREFIX="unexicon-"
 
+ START_DATE=`date`
+ START_FROM=`pwd`
+
 =head1 FILES
 
-Locations for the toolbar options file are as follows:
+L<icewm-session(1)> looks for the F<env> file in the following locations:
 
 =over
 

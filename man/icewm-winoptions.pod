@@ -263,7 +263,7 @@ and typically installs to F</usr/share/icewm/winoptions>.
 
 =head1 FILES
 
-Locations for the window options file are as follows:
+Locations for the F<winoptions> file are as follows:
 
 =over
 

@@ -34,7 +34,7 @@ It is run by L<icewm-session(1)> when B<icewm> starts.
 
 =head1 FILES
 
-Locations for the toolbar options file are as follows:
+Locations for the F<startup> file are as follows:
 
 =over
 

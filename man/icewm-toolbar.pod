@@ -98,7 +98,7 @@ L<icewm(1)> panel:
 
 =head1 FILES
 
-Locations for the toolbar options file are as follows:
+Locations for the F<toolbar> file are as follows:
 
 =over
 
