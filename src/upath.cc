@@ -27,18 +27,18 @@ upath upath::parent() const {
     int sep = fPath.lastIndexOf('/');
     while (0 < sep && 1 + sep == len) {
         len = sep;
-        sep = fPath.substring(0, len).lastIndexOf('/');
+        sep = fPath.substring(0, size_t(len)).lastIndexOf('/');
     }
     len = max(0, sep);
     while (len > 1 && isSeparator(fPath[len - 1])) {
         --len;
     }
-    return upath( fPath.substring(0, len) );
+    return upath( fPath.substring(0, size_t(len)) );
 }
 
 pstring upath::name() const {
     int start = 1 + fPath.lastIndexOf('/');
-    return fPath.substring(start, length() - start);
+    return fPath.substring(size_t(start), size_t(length() - start));
 }
 
 upath upath::relative(const upath &npath) const {
@@ -71,12 +71,12 @@ pstring upath::getExtension() const {
     int dot = path().lastIndexOf('.');
     int sep = path().lastIndexOf('/');
     if (dot > sep + 1 && dot + 1 < length())
-        return path().substring(dot);
+        return path().substring(size_t(dot));
     return null;
 }
 
 upath upath::removeExtension() const {
-    return fPath.substring(0, length() - getExtension().length());
+    return fPath.substring(0, size_t(length()) - getExtension().length());
 }
 
 upath upath::replaceExtension(const char* ext) const {
@@ -89,7 +89,7 @@ cstring upath::expand() const {
         int k = fPath[1];
         if (k == -1 || isSeparator(k))
             return (YApplication::getHomeDir() +
-                    fPath.substring(min(2, length()))).fPath;
+                    fPath.substring(size_t(min(2, length())))).fPath;
     }
     else if (c == '$') {
         mstring m(fPath.match("^\\$[_A-Za-z][_A-Za-z0-9]*"));
@@ -126,7 +126,7 @@ bool upath::fileExists() const {
 
 off_t upath::fileSize() const {
     struct stat sb;
-    return stat(&sb) == 0 ? sb.st_size : (off_t) -1;
+    return stat(&sb) == 0 ? sb.st_size : off_t(-1);
 }
 
 bool upath::dirExists() const {
@@ -151,7 +151,7 @@ bool upath::isExecutable() const {
 }
 
 int upath::mkdir(int mode) const {
-    return ::mkdir(string(), mode);
+    return ::mkdir(string(), mode_t(mode));
 }
 
 int upath::open(int flags, int mode) const {

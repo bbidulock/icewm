@@ -55,18 +55,18 @@ public:
         atom = XInternAtom(display, name, False); }
 };
 
-NAtom ATOM_WM_STATE("WM_STATE");
-NAtom ATOM_WIN_WORKSPACE(XA_WIN_WORKSPACE);
-NAtom ATOM_WIN_WORKSPACE_NAMES(XA_WIN_WORKSPACE_NAMES);
-NAtom ATOM_WIN_WORKSPACE_COUNT(XA_WIN_WORKSPACE_COUNT);
-NAtom ATOM_WIN_SUPPORTING_WM_CHECK(XA_WIN_SUPPORTING_WM_CHECK);
-NAtom ATOM_WIN_STATE(XA_WIN_STATE);
-NAtom ATOM_WIN_HINTS(XA_WIN_HINTS);
-NAtom ATOM_WIN_LAYER(XA_WIN_LAYER);
-NAtom ATOM_WIN_TRAY(XA_WIN_TRAY);
-NAtom ATOM_GUI_EVENT(XA_GUI_EVENT_NAME);
-NAtom ATOM_ICE_ACTION("_ICEWM_ACTION");
-NAtom ATOM_NET_CLIENT_LIST("_NET_CLIENT_LIST");
+static NAtom ATOM_WM_STATE("WM_STATE");
+static NAtom ATOM_WIN_WORKSPACE(XA_WIN_WORKSPACE);
+static NAtom ATOM_WIN_WORKSPACE_NAMES(XA_WIN_WORKSPACE_NAMES);
+static NAtom ATOM_WIN_WORKSPACE_COUNT(XA_WIN_WORKSPACE_COUNT);
+static NAtom ATOM_WIN_SUPPORTING_WM_CHECK(XA_WIN_SUPPORTING_WM_CHECK);
+static NAtom ATOM_WIN_STATE(XA_WIN_STATE);
+static NAtom ATOM_WIN_HINTS(XA_WIN_HINTS);
+static NAtom ATOM_WIN_LAYER(XA_WIN_LAYER);
+static NAtom ATOM_WIN_TRAY(XA_WIN_TRAY);
+static NAtom ATOM_GUI_EVENT(XA_GUI_EVENT_NAME);
+static NAtom ATOM_ICE_ACTION("_ICEWM_ACTION");
+static NAtom ATOM_NET_CLIENT_LIST("_NET_CLIENT_LIST");
 
 /******************************************************************************/
 /******************************************************************************/
@@ -299,7 +299,7 @@ private:
 
 /******************************************************************************/
 
-Symbol stateIdentifiers[] = {
+static Symbol stateIdentifiers[] = {
     { "Sticky",                 WinStateSticky          },
     { "Minimized",              WinStateMinimized       },
     { "Maximized",              WinStateMaximizedVert   |
@@ -313,7 +313,7 @@ Symbol stateIdentifiers[] = {
     { NULL,                     0                       }
 };
 
-Symbol hintIdentifiers[] = {
+static Symbol hintIdentifiers[] = {
     { "SkipFocus",      WinHintsSkipFocus       },
     { "SkipWindowMenu", WinHintsSkipWindowMenu  },
     { "SkipTaskBar",    WinHintsSkipTaskBar     },
@@ -323,7 +323,7 @@ Symbol hintIdentifiers[] = {
     { NULL,             0                       }
 };
 
-Symbol layerIdentifiers[] = {
+static Symbol layerIdentifiers[] = {
     { "Desktop",    WinLayerDesktop     },
     { "Below",      WinLayerBelow       },
     { "Normal",     WinLayerNormal      },
@@ -334,26 +334,26 @@ Symbol layerIdentifiers[] = {
     { NULL,         0                   }
 };
 
-Symbol trayOptionIdentifiers[] = {
+static Symbol trayOptionIdentifiers[] = {
     { "Ignore",         WinTrayIgnore           },
     { "Minimized",      WinTrayMinimized        },
     { "Exclusive",      WinTrayExclusive        },
     { NULL,             0                       }
 };
 
-SymbolTable layers = {
+static SymbolTable layers = {
     layerIdentifiers, 0, WinLayerCount - 1, WinLayerInvalid
 };
 
-SymbolTable states = {
+static SymbolTable states = {
     stateIdentifiers, 0, WIN_STATE_ALL, -1
 };
 
-SymbolTable hints = {
+static SymbolTable hints = {
     hintIdentifiers, 0, WIN_HINTS_ALL, -1
 };
 
-SymbolTable trayOptions = {
+static SymbolTable trayOptions = {
     trayOptionIdentifiers, 0, WinTrayOptionCount - 1, WinTrayInvalid
 };
 
@@ -369,22 +369,6 @@ long SymbolTable::parseIdentifier(char const * id, size_t const len) const {
 
     return (NULL != endptr && '\0' == *endptr &&
             value >= fMin && value <= fMax ? value : fErrCode);
-}
-
-/*
- *      Counts the tokens separated by delim
- */
-unsigned strtoken(const char * str, const char * delim) {
-    unsigned count = 0;
-
-    if (str) {
-        while (*str) {
-            str = strnxt(str, delim);
-            ++count;
-        }
-    }
-
-    return count;
 }
 
 long SymbolTable::parseExpression(char const * expression) const {
@@ -413,7 +397,7 @@ void SymbolTable::listSymbols(char const * label) const {
 
 /******************************************************************************/
 
-Status getState(Window window, long & mask, long & state) {
+static Status getState(Window window, long & mask, long & state) {
     YWindowProperty winState(window, ATOM_WIN_STATE, XA_CARDINAL, 2);
 
     if (winState && XA_CARDINAL == winState.type() &&
@@ -423,13 +407,13 @@ Status getState(Window window, long & mask, long & state) {
              ? winState.data<long>(1)
              : WIN_STATE_ALL;
 
-        return winState;
+        return Success;
     }
 
     return BadValue;
 }
 
-Status setState(Window window, long mask, long state) {
+static Status setState(Window window, long mask, long state) {
     XClientMessageEvent xev;
     memset(&xev, 0, sizeof(xev));
 
@@ -444,7 +428,7 @@ Status setState(Window window, long mask, long state) {
     return XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
 }
 
-Status toggleState(Window window, long newState) {
+static Status toggleState(Window window, long newState) {
     long mask, state;
 
     if (Success != getState(window, mask, state))
@@ -468,11 +452,70 @@ Status toggleState(Window window, long newState) {
     return XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
 }
 
+static void getState(Window window) {
+    long mask = 0, state = 0;
+
+    if (getState(window, mask, state) == Success) {
+        printf("0x%lx", window);
+        for (int k = 0; k < 2; ++k) {
+            if (((k ? state : mask) & WIN_STATE_ALL) == WIN_STATE_ALL ||
+                (k == 0 && mask == 0)) {
+                printf(" All");
+            }
+            else if (k ? state : mask) {
+                int more = 0;
+                long old = 0;
+                for (int i = 0; stateIdentifiers[i + 1].code; ++i) {
+                    long c = stateIdentifiers[i].code;
+                    if (((k ? state : mask) & c) == c) {
+                        if (i == 0 || (old & c) != c) {
+                            printf("%c%s",
+                                   more++ ? '|' : ' ',
+                                   stateIdentifiers[i].name);
+                            old = c;
+                        }
+                    }
+                }
+            }
+            else {
+                printf(" 0");
+            }
+        }
+        printf("\n");
+    }
+}
+
 /******************************************************************************/
 
-Status setHints(Window window, long hints) {
+static Status setHints(Window window, long hints) {
     return XChangeProperty(display, window, ATOM_WIN_HINTS, XA_CARDINAL, 32,
                            PropModeReplace, (unsigned char *) &hints, 1);
+}
+
+static void getHints(Window window) {
+    YWindowProperty prop(window, ATOM_WIN_HINTS, XA_CARDINAL, 1L);
+    if (prop) {
+        long hint = prop.data<long>(0);
+        printf("0x%lx", window);
+        if ((hint & WIN_HINTS_ALL) == WIN_HINTS_ALL) {
+            printf(" All");
+        }
+        else if (hint == 0) {
+            printf(" 0");
+        }
+        else {
+            int more = 0;
+            for (int i = 0; hintIdentifiers[i + 1].code; ++i) {
+                long c = hintIdentifiers[i].code;
+                if ((hint & c) == c) {
+                    printf("%c%s",
+                           more++ ? '|' : ' ',
+                           hintIdentifiers[i].name);
+                }
+            }
+        }
+        printf("\n");
+    }
 }
 
 /******************************************************************************/
@@ -500,7 +543,7 @@ long WorkspaceInfo::count() {
 bool WorkspaceInfo::parseWorkspaceName(char const* name, long* workspace) {
     *workspace = WinWorkspaceInvalid;
 
-    if (*this == Success) {
+    if (*this) {
         for (int i = 0; i < fNames.count(); ++i)
             if (0 == strcmp(name, fNames.item(i)))
                 return *workspace = i, true;
@@ -526,7 +569,7 @@ bool WorkspaceInfo::parseWorkspaceName(char const* name, long* workspace) {
     return *workspace != WinWorkspaceInvalid;
 }
 
-Status setWorkspace(Window window, long workspace) {
+static Status setWorkspace(Window window, long workspace) {
     XClientMessageEvent xev;
     memset(&xev, 0, sizeof(xev));
 
@@ -540,7 +583,7 @@ Status setWorkspace(Window window, long workspace) {
     return XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
 }
 
-long getWorkspace(Window window) {
+static long getWorkspace(Window window) {
     YWindowProperty prop(window, ATOM_WIN_WORKSPACE, XA_CARDINAL, 1);
     return prop ? prop.data<long>(0) : 0;
 }
@@ -837,6 +880,23 @@ Status setLayer(Window window, long layer) {
     return XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
 }
 
+static void getLayer(Window window) {
+    YWindowProperty prop(window, ATOM_WIN_LAYER, XA_CARDINAL, 1);
+    if (prop) {
+        bool found = false;
+        long layer = prop.data<long>(0);
+        for (int i = 0; layerIdentifiers[i].name; ++i) {
+            if (layer == layerIdentifiers[i].code) {
+                printf("0x%lx %s\n", window, layerIdentifiers[i].name);
+                found = true;
+            }
+        }
+        if (found == false) {
+            printf("0x%lx %ld\n", window, layer);
+        }
+    }
+}
+
 Status setTrayHint(Window window, long trayopt) {
     XClientMessageEvent xev;
     memset(&xev, 0, sizeof(xev));
@@ -849,6 +909,102 @@ Status setTrayHint(Window window, long trayopt) {
     xev.data.l[1] = CurrentTime;
 
     return XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
+}
+
+static void getTrayOption(Window window) {
+    YWindowProperty prop(window, ATOM_WIN_TRAY, XA_CARDINAL, 1);
+    if (prop) {
+        bool found = false;
+        long tropt = prop.data<long>(0);
+        for (int i = 0; trayOptionIdentifiers[i].name; ++i) {
+            if (tropt == trayOptionIdentifiers[i].code) {
+                printf("0x%lx %s\n", window, trayOptionIdentifiers[i].name);
+                found = true;
+            }
+        }
+        if (found == false) {
+            printf("0x%lx %ld\n", window, tropt);
+        }
+    }
+}
+
+/******************************************************************************/
+
+static void setGeometry(Window window, const char* geometry) {
+    int geom_x, geom_y;
+    unsigned geom_width, geom_height;
+    int status(XParseGeometry(geometry, &geom_x, &geom_y,
+                              &geom_width, &geom_height));
+
+    XSizeHints normal;
+    long supplied;
+    XGetWMNormalHints(display, window, &normal, &supplied);
+
+    Window root; int x, y; unsigned width, height, dummy;
+    XGetGeometry(display, window, &root,
+                 &x, &y, &width, &height, &dummy, &dummy);
+
+    if (status & XValue) x = geom_x;
+    if (status & YValue) y = geom_y;
+    if (status & WidthValue) width = geom_width;
+    if (status & HeightValue) height = geom_height;
+
+    if (normal.flags & PResizeInc) {
+        width*= max(1, normal.width_inc);
+        height*= max(1, normal.height_inc);
+    }
+
+    if (normal.flags & PBaseSize) {
+        width+= normal.base_width;
+        height+= normal.base_height;
+    }
+
+    if (status & XNegative)
+        x+= DisplayWidth(display, DefaultScreen(display)) - width;
+    if (status & YNegative)
+        y+= DisplayHeight(display, DefaultScreen(display)) - height;
+
+    MSG(("setGeometry: %dx%d%+i%+i", width, height, x, y));
+    if (hasbit(status, XValue | YValue) &&
+        hasbit(status, WidthValue | HeightValue))
+        XMoveResizeWindow(display, window, x, y, width, height);
+    else if (hasbit(status, XValue | YValue))
+        XMoveWindow(display, window, x, y);
+    else if (hasbit(status, WidthValue | HeightValue))
+        XResizeWindow(display, window, width, height);
+}
+
+static void getGeometry(Window window) {
+    XWindowAttributes a = {};
+    if (XGetWindowAttributes(display, window, &a)) {
+        printf("%dx%d+%d+%d\n", a.width, a.height, a.x, a.y);
+    }
+}
+
+/******************************************************************************/
+
+static void setWindowTitle(Window window, const char* title) {
+    XStoreName(display, window, title);
+}
+
+static void getWindowTitle(Window window) {
+    char* title(0);
+    if (XFetchName(display, window, &title)) {
+        puts(title);
+        XFree(title);
+    }
+}
+
+static void getIconTitle(Window window) {
+    char* title(0);
+    if (XGetIconName(display, window, &title)) {
+        puts(title);
+        XFree(title);
+    }
+}
+
+static void setIconTitle(Window window, const char* title) {
+    XSetIconName(display, window, title);
 }
 
 /******************************************************************************/
@@ -1244,61 +1400,32 @@ void IceSh::parseActions()
             char const * title(*argp++);
 
             MSG(("setWindowTitle: `%s'", title));
-
             FOREACH_WINDOW(window)
-                XStoreName(display, window, title);
+                setWindowTitle(window, title);
+        }
+        else if (isAction("getWindowTitle", 0)) {
+            FOREACH_WINDOW(window)
+                getWindowTitle(window);
+        }
+        else if (isAction("getIconTitle", 0)) {
+            FOREACH_WINDOW(window)
+                getIconTitle(window);
         }
         else if (isAction("setIconTitle", 1)) {
             char const * title(*argp++);
 
             MSG(("setIconTitle: `%s'", title));
             FOREACH_WINDOW(window)
-                XSetIconName(display, window, title);
+                setIconTitle(window, title);
         }
         else if (isAction("setGeometry", 1)) {
             char const * geometry(*argp++);
-            int geom_x, geom_y; unsigned geom_width, geom_height;
-            int status(XParseGeometry(geometry, &geom_x, &geom_y,
-                                      &geom_width, &geom_height));
-
-            FOREACH_WINDOW(window) {
-                XSizeHints normal;
-                long supplied;
-                XGetWMNormalHints(display, window, &normal, &supplied);
-
-                Window root; int x, y; unsigned width, height, dummy;
-                XGetGeometry(display, window, &root,
-                             &x, &y, &width, &height, &dummy, &dummy);
-
-                if (status & XValue) x = geom_x;
-                if (status & YValue) y = geom_y;
-                if (status & WidthValue) width = geom_width;
-                if (status & HeightValue) height = geom_height;
-
-                if (normal.flags & PResizeInc) {
-                    width*= max(1, normal.width_inc);
-                    height*= max(1, normal.height_inc);
-                }
-
-                if (normal.flags & PBaseSize) {
-                    width+= normal.base_width;
-                    height+= normal.base_height;
-                }
-
-                if (status & XNegative)
-                    x+= DisplayWidth(display, DefaultScreen(display)) - width;
-                if (status & YNegative)
-                    y+= DisplayHeight(display, DefaultScreen(display)) - height;
-
-                MSG(("setGeometry: %dx%d%+i%+i", width, height, x, y));
-                if (hasbit(status, XValue | YValue) &&
-                    hasbit(status, WidthValue | HeightValue))
-                    XMoveResizeWindow(display, window, x, y, width, height);
-                else if (hasbit(status, XValue | YValue))
-                    XMoveWindow(display, window, x, y);
-                else if (hasbit(status, WidthValue | HeightValue))
-                    XResizeWindow(display, window, width, height);
-            }
+            FOREACH_WINDOW(window)
+                setGeometry(window, geometry);
+        }
+        else if (isAction("getGeometry", 0)) {
+            FOREACH_WINDOW(window)
+                getGeometry(window);
         }
         else if (isAction("setState", 2)) {
             unsigned mask(states.parseExpression(*argp++));
@@ -1309,6 +1436,10 @@ void IceSh::parseActions()
             MSG(("setState: %d %d", mask, state));
             FOREACH_WINDOW(window)
                 setState(window, mask, state);
+        }
+        else if (isAction("getState", 0)) {
+            FOREACH_WINDOW(window)
+                getState(window);
         }
         else if (isAction("toggleState", 1)) {
             unsigned state(states.parseExpression(*argp++));
@@ -1326,6 +1457,10 @@ void IceSh::parseActions()
             FOREACH_WINDOW(window)
                 setHints(window, hint);
         }
+        else if (isAction("getHints", 0)) {
+            FOREACH_WINDOW(window)
+                getHints(window);
+        }
         else if (isAction("setWorkspace", 1)) {
             long workspace;
             if ( ! WorkspaceInfo(root).parseWorkspaceName(*argp++, &workspace))
@@ -1335,6 +1470,10 @@ void IceSh::parseActions()
             FOREACH_WINDOW(window)
                 setWorkspace(window, workspace);
         }
+        else if (isAction("getWorkspace", 0)) {
+            FOREACH_WINDOW(window)
+                printf("0x%lx %ld\n", window, getWorkspace(window));
+        }
         else if (isAction("setLayer", 1)) {
             unsigned layer(layers.parseExpression(*argp++));
             check(layers, layer, argp[-1]);
@@ -1342,6 +1481,10 @@ void IceSh::parseActions()
             MSG(("setLayer: %d", layer));
             FOREACH_WINDOW(window)
                 setLayer(window, layer);
+        }
+        else if (isAction("getLayer", 0)) {
+            FOREACH_WINDOW(window)
+                getLayer(window);
         }
         else if (isAction("setTrayOption", 1)) {
             unsigned trayopt(trayOptions.parseExpression(*argp++));
@@ -1351,11 +1494,15 @@ void IceSh::parseActions()
             FOREACH_WINDOW(window)
                 setTrayHint(window, trayopt);
         }
+        else if (isAction("getTrayOption", 0)) {
+            FOREACH_WINDOW(window)
+                getTrayOption(window);
+        }
         else if (icewmAction()) {
         }
         else if (isAction("runonce", 1)) {
             if (windowList.count() == 0 ||
-                (windowList.count() == 1 && windowList[0] == root))
+                (windowList.count() == 1 && windowList[0U] == root))
             {
                 execvp(argp[0], argp);
                 perror(argp[0]);

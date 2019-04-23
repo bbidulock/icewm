@@ -61,7 +61,7 @@ that L<icewm(1)> keeps a history of the previous ten theme settings.
 
 =head1 FILES
 
-Locations for the toolbar options file are as follows:
+Locations for the F<theme> file are as follows:
 
 =over
 

@@ -10,12 +10,13 @@ protected:
 public:
     refcounted(): __refcount(0) {}
 
-    void __destroy();
+    virtual void __destroy();
 };
 
 extern class null_ref& null;
 
-template<class T> class ref {
+template<class T>
+class ref {
 private:
     T *ptr;
     ref(int);   // avoid NULL and 0; require null.
@@ -54,7 +55,7 @@ public:
     ref<T>& operator=(const ref<T2>& rv) {
         if (this->ptr != rv._ptr()) {
             if (ptr) __unref();
-            ptr = (T *)rv._ptr();
+            ptr = static_cast<T *>(rv._ptr());
             if (ptr) __ref();
         }
         return *this;

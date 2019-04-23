@@ -144,7 +144,7 @@ Following is the example F<programs> file that ships with L<icewm(1)>:
  # mostly obsolete, fixme
  menu Editors folder {
      prog fte fte fte
-     prog vim vim gvim 
+     prog vim vim gvim
      prog xemacs xemacs xemacs
      prog emacs emacs emacs
      prog NEdit nedit nedit
@@ -211,7 +211,7 @@ Following is the example F<programs> file that ships with L<icewm(1)>:
 
 =head1 FILES
 
-Locations for the programs file are as follows:
+Locations for the F<programs> file are as follows:
 
 =over
 

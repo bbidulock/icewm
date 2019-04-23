@@ -15,11 +15,11 @@ public:
     upath(const pstring& path): fPath(path) {}
     upath(const cstring& path): fPath(path.m_str()) {}
     upath(const char *path): fPath(path) {}
-    upath(const char *path, int len): fPath(path, len) {}
+    upath(const char *path, size_t len): fPath(path, len) {}
     upath(const upath& path): fPath(path.fPath) {}
     upath(): fPath(null) {}
 
-    int length() const { return fPath.length(); }
+    int length() const { return int(fPath.length()); }
     bool isEmpty() const { return fPath.isEmpty(); }
     bool nonempty() const { return fPath.nonempty(); }
 

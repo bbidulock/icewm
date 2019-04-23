@@ -39,7 +39,7 @@ The following is my F<focus_mode> file:
 
 =head1 FILES
 
-Locations for the toolbar options file are as follows:
+Locations for the F<focus_mode> file are as follows:
 
 =over
 

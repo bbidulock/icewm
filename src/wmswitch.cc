@@ -126,7 +126,7 @@ class WindowItemsCtrlr : public ISwitchItems
 
 public:
 
-    virtual int getCount()
+    virtual int getCount() OVERRIDE
     {
         return zList.getCount();
     }
@@ -144,7 +144,7 @@ public:
         const int cnt = getCount();
         return setTarget(cnt < 2 ? 0 : (zTarget + cnt + (zdown ? 1 : -1)) % cnt);
     }
-    inline virtual int setTarget(int zPosition)
+    inline virtual int setTarget(int zPosition) OVERRIDE
     {
         zTarget=zPosition;
         if (inrange(zTarget, 0, getCount() - 1))
@@ -167,25 +167,25 @@ public:
             free(fWMClass);
     }
 
-    int getActiveItem()
+    virtual int getActiveItem() OVERRIDE
     {
         return zTarget;
     }
 
-    virtual ustring getTitle(int idx)
+    virtual ustring getTitle(int idx) OVERRIDE
     {
         if (inrange(idx, 0, getCount() - 1))
             return zList[idx]->client()->windowTitle();
         return null;
     }
 
-    virtual void setWMClass(char* wmclass) {
+    virtual void setWMClass(char* wmclass) OVERRIDE {
         if (fWMClass)
             free(fWMClass);
         fWMClass = wmclass;
     }
 
-    void updateList() {
+    virtual void updateList() OVERRIDE {
         freeList();
         getZList();
     }
@@ -195,7 +195,7 @@ public:
             displayFocusChange(zList[idx]);
     }
 
-    void begin(bool zdown)
+    virtual void begin(bool zdown) OVERRIDE
     {
         fLastWindow = fActiveWindow = manager->getFocus();
         updateList();
@@ -203,11 +203,11 @@ public:
         moveTarget(zdown);
     }
 
-    void reset() {
+    virtual void reset() OVERRIDE {
         zTarget = 0;
     }
 
-    void cancel() {
+    virtual void cancel() OVERRIDE {
         if (fLastWindow) {
             displayFocusChange(fLastWindow);
         } else if (fActiveWindow) {
@@ -217,7 +217,7 @@ public:
         fLastWindow = fActiveWindow = 0;
     }
 
-    void accept(IClosablePopup *parent) {
+    virtual void accept(IClosablePopup *parent) OVERRIDE {
         if (fActiveWindow == 0)
             cancel();
         else {
@@ -228,7 +228,7 @@ public:
         fLastWindow = fActiveWindow = 0;
     }
 
-    void destroyedItem(void *item)
+    virtual void destroyedItem(void *item) OVERRIDE
     {
         if (getCount() == 0)
             return;

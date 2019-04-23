@@ -161,7 +161,7 @@ Following is the example F<menu> file that ships with L<icewm(1)>:
 
 =head1 FILES
 
-Locations for the menu file are as follows:
+Locations for the F<menu> file are as follows:
 
 =over
 

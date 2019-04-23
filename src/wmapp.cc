@@ -658,7 +658,7 @@ static int handler(Display *display, XErrorEvent *xev) {
 
 #if defined(DEBUG) || defined(PRECON)
         if (xapp->synchronized()) {
-            switch (xev->resourceid) {
+            switch (xev->request_code) {
                 case X_GetImage:
                 case X_CreateGC:
                     show_backtrace();

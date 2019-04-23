@@ -221,7 +221,7 @@ and typically installs to F</usr/share/icewm/winoptions>.
   # Place your variants in @CFGDIR@ or in $HOME/.icewm
   # since modifications to this file will be discarded when you
   # (re)install icewm.
-  
+
   xterm.icon: xterm
   rxvt.icon: xterm
   nxterm.icon: xterm
@@ -241,20 +241,20 @@ and typically installs to F</usr/share/icewm/winoptions>.
   xeyes.dMinimize: 0
   xeyes.dMaximize: 0
   xeyes.ignoreNoFocusHint: 1
-  
+
   XClock.ignoreNoFocusHint: 1
   Vim.icon: vim
-  
+
   applix.ignoreNoFocusHint: 1
   XDdts.noFocusOnAppRaise: 1
   Wingz.noFocusOnAppRaise: 1
   WingzPro.noFocusOnAppRaise: 1
-  
+
   gkrellm.Gkrellm.allWorkspaces: 1
   gkrellm.Gkrellm.ignoreTaskBar: 1
   gkrellm.Gkrellm.layer: Below
   #gkrellm.Gkrellm.doNotCover: 1
-  
+
   MainWindow.licq.allWorkspaces: 1
   MainWindow.licq.ignoreQuickSwitch: 1
   MainWindow.licq.ignoreWinList: 1
@@ -263,7 +263,7 @@ and typically installs to F</usr/share/icewm/winoptions>.
 
 =head1 FILES
 
-Locations for the window options file are as follows:
+Locations for the F<winoptions> file are as follows:
 
 =over
 

@@ -47,8 +47,9 @@ void WMConfig::freeConfiguration() {
 
 void addWorkspace(const char * /*name*/, const char *value, bool append) {
     if (!append) {
-        for (int i = 0; i < workspaceCount; i++) {
+        for (long i = 0; i < workspaceCount; i++) {
             delete[] workspaceNames[i];
+            workspaceNames[i] = nullptr;
         }
         workspaceCount = 0;
     }

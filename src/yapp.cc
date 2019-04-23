@@ -23,6 +23,9 @@ static int signalPipe[2];
 static sigset_t oldSignalMask;
 static sigset_t signalMask;
 
+IApp::~IApp() {}
+IMainLoop::~IMainLoop() {}
+
 void YApplication::initSignals() {
     sigemptyset(&signalMask);
     sigaddset(&signalMask, SIGHUP);
@@ -316,8 +319,8 @@ bool YApplication::handleIdle() {
 }
 
 #ifndef USE_SIGNALFD
-void sig_handler(int sig) {
-    unsigned char uc = (unsigned char)sig;
+static void sig_handler(int sig) {
+    unsigned char uc = static_cast<unsigned char>(sig);
     if (write(signalPipe[1], &uc, 1) != 1)
         fprintf(stderr, "icewm: signal error\n");
 }
@@ -392,9 +395,9 @@ int YApplication::runProgram(const char *path, const char *const *args) {
         closeFiles();
 
         if (args)
-            execvp(path, (char **)args);
+            execvp(path, const_cast<char **>(args));
         else
-            execlp(path, path, (void *)NULL);
+            execlp(path, path, static_cast<void *>(NULL));
 
         fail("%s", path);
         _exit(99);

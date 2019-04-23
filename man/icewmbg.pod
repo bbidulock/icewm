@@ -121,7 +121,7 @@ This overrules the C<DesktopBackgroundMultihead> preference.
 Cycle over the list of background images every I<SECONDS>.
 This overrules the C<CycleBackgroundsPeriod> preference.
 
-=item B<--display>=I<DISPLAY>
+=item B<-d>, B<--display>=I<DISPLAY>
 
 Use I<DISPLAY> to connect to the X server.
 If this option is missing then I<DISPLAY>

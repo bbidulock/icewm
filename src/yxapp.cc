@@ -228,7 +228,7 @@ public:
         fLen = len;
         fData = new char[len];
         if (fData)
-            memcpy(fData, data, len);
+            memcpy(fData, data, size_t(len));
         if (fLen == 0)
             clearSelection(false);
         else
@@ -257,12 +257,15 @@ public:
                 request.target == XA_STRING &&
                 fLen > 0)
             {
+                unsigned char nil = 0;
+                unsigned char *data =
+                    reinterpret_cast<unsigned char *>(fData);
                 XChangeProperty(xapp->display(),
                                 request.requestor,
                                 request.property,
                                 request.target,
                                 8, PropModeReplace,
-                                (unsigned char *)(fData ? fData : ""),
+                                data ? data : &nil,
                                 fLen);
             } else if (request.selection == _XA_CLIPBOARD &&
                        request.target == _XA_TARGETS &&
@@ -275,12 +278,13 @@ public:
                                 request.property,
                                 request.target,
                                 32, PropModeReplace,
-                                (unsigned char *)&type, 1);
+                                reinterpret_cast<unsigned char *>(&type), 1);
             } else {
                 notify.property = None;
             }
 
-            XSendEvent(xapp->display(), notify.requestor, False, 0L, (XEvent *)&notify);
+            XSendEvent(xapp->display(), notify.requestor, False, 0L,
+                       reinterpret_cast<XEvent *>(&notify));
         }
     }
 
@@ -466,7 +470,8 @@ void YXApplication::initAtoms() {
     for (i = 0; i < ACOUNT(atom_info); i++)
         names[i] = atom_info[i].name;
 
-    XInternAtoms(xapp->display(), (char **)names, ACOUNT(atom_info), False, atoms);
+    XInternAtoms(xapp->display(), const_cast<char **>(names),
+                 ACOUNT(atom_info), False, atoms);
 
     for (i = 0; i < ACOUNT(atom_info); i++)
         *(atom_info[i].atom) = atoms[i];
@@ -889,7 +894,7 @@ const char* YXApplication::getHelpText() {
 
 YXApplication::AppArgs
 YXApplication::parseArgs(int *argc, char ***argv, const char *displayName) {
-    AppArgs appArgs = { displayName, None, };
+    AppArgs appArgs = { displayName, false, };
 
     for (char ** arg = *argv + 1; arg < *argv + *argc; ++arg) {
         if (**arg == '-') {
@@ -938,7 +943,7 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
     fDisplay( openDisplay()),
     fScreen( DefaultScreen(display())),
     fRoot(  RootWindow(display(), screen())),
-    fDepth( DefaultDepth(display(), screen())),
+    fDepth( unsigned(DefaultDepth(display(), screen()))),
     fVisual( DefaultVisual(display(), screen())),
     fColormap( DefaultColormap(display(), screen())),
     fBlack( BlackPixel(display(), screen())),
@@ -1022,7 +1027,6 @@ bool YXApplication::handleXEvents() {
         logEvent(xev);
 
         if (filterEvent(xev)) {
-            ;
         } else {
             bool ge = xev.type == ButtonPress ||
                       xev.type == ButtonRelease ||

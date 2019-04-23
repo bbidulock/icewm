@@ -288,7 +288,7 @@ created that window.  A primary task of a window manager is to allow the
 user to switch input focus between different windows.  The primary means
 to do this is the mouse pointer.  By moving the mouse pointer over the
 screen to another window, and perhaps also by clicking on a window,
-input focus can be directed. 
+input focus can be directed.
 
 The C<FocusMode> option controls the way B<icewm> gives input focus to
 applications.  It is initialized by the F<focus_mode> configuration
@@ -452,7 +452,7 @@ their preferences names and short descriptions of their effect:
 
 =item C<Alt+F1>
 
-C<KeyWinRaise> raises the window which currently has input focus. 
+C<KeyWinRaise> raises the window which currently has input focus.
 
 =item C<Alt+F2>
 
