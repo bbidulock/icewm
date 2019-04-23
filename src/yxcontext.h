@@ -42,7 +42,7 @@ public:
 
     // store mapping of window to pointer
     void save(Window w, AnyPointer p) {
-        const char* q = (const char *) p;
+        const char* q = static_cast<const char *>(p);
         XSaveContext(dpy(), w, context(), q);
         if (verbose) {
             tlog("%s: save 0x%lx to %p", title, w, p);
@@ -55,7 +55,8 @@ public:
         int rc = XFindContext(dpy(), w, context(), &q);
         if (verbose) {
             if (rc == 0)
-                tlog("%s: find 0x%lx found %p", title, w, p);
+                tlog("%s: find 0x%lx found %p", title, w,
+                        reinterpret_cast<void *>(p));
             else
                 tlog("%s: find 0x%lx not found", title, w);
         }

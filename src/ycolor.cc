@@ -183,21 +183,21 @@ YPixelCache::alloc(unsigned short r, unsigned short g, unsigned short b)
     Visual *visual = ::visual();
 
     if (visual->c_class == TrueColor) {
-        int padding, unused;
+        unsigned long padding, unused;
         int depth = visual->bits_per_rgb;
 
-        int red_shift = lowbit(visual->red_mask);
-        int red_prec = highbit(visual->red_mask) - red_shift + 1;
-        int green_shift = lowbit(visual->green_mask);
-        int green_prec = highbit(visual->green_mask) - green_shift + 1;
-        int blue_shift = lowbit(visual->blue_mask);
-        int blue_prec = highbit(visual->blue_mask) - blue_shift + 1;
+        int red_shift = int(lowbit(visual->red_mask));
+        int red_prec = int(highbit(visual->red_mask)) - red_shift + 1;
+        int green_shift = int(lowbit(visual->green_mask));
+        int green_prec = int(highbit(visual->green_mask)) - green_shift + 1;
+        int blue_shift = int(lowbit(visual->blue_mask));
+        int blue_prec = int(highbit(visual->blue_mask)) - blue_shift + 1;
 
         /* Shifting by >= width-of-type isn't defined in C */
         if (depth >= 32)
             padding = 0;
         else
-            padding = ((~(unsigned int)0)) << depth;
+            padding = ~0UL << depth;
 
         unused = ~ (visual->red_mask | visual->green_mask | visual->blue_mask | padding);
 
@@ -208,15 +208,15 @@ YPixelCache::alloc(unsigned short r, unsigned short g, unsigned short b)
 
     }
     else if (Success == XAllocColor(display(), colormap(), &color)) {
-        int j, ncells;
+        unsigned j, ncells;
         double d = 65536. * 65536. * 24;
         XColor clr;
         unsigned long pix;
-        long d_red, d_green, d_blue;
+        unsigned long d_red, d_green, d_blue;
         double u_red, u_green, u_blue;
 
         pix = 0xFFFFFFFF;
-        ncells = DisplayCells(display(), xapp->screen());
+        ncells = unsigned(DisplayCells(display(), xapp->screen()));
         for (j = 0; j < ncells; j++) {
             clr.pixel = j;
             XQueryColor(display(), colormap(), &clr);

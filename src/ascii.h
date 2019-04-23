@@ -69,7 +69,7 @@ namespace ASCII {
             ++s;
         return s;
     }
-};
+}
 
 #endif
 

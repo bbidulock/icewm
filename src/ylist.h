@@ -95,13 +95,13 @@ public:
     Node* remove(Node* node) {
         PRECONDITION(head && tail && size);
         if (head == node) {
-            head = (Node *) head->nextNode;
+            head = static_cast<Node *>(head->nextNode);
             if (head) head->prevNode = 0;
         } else {
             node->prevNode->nextNode = node->nextNode;
         }
         if (tail == node) {
-            tail = (Node *) tail->prevNode;
+            tail = static_cast<Node *>(tail->prevNode);
             if (tail) tail->nextNode = 0;
         } else {
             node->nextNode->prevNode = node->prevNode;

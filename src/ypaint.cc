@@ -220,7 +220,7 @@ void Graphics::drawRects(XRectangle *rects, unsigned n) {
         rects[i].x -= xOrigin;
         rects[i].y -= yOrigin;
     }
-    XDrawRectangles(display(), drawable(), gc, rects, n);
+    XDrawRectangles(display(), drawable(), gc, rects, int(n));
     for (unsigned i = 0; i < n; i++) {
         rects[i].x += xOrigin;
         rects[i].y += yOrigin;
@@ -247,7 +247,7 @@ void Graphics::drawChars(const char *data, int offset, int len, int x, int y) {
 }
 
 void Graphics::drawString(int x, int y, char const * str) {
-    drawChars(str, 0, strlen(str), x, y);
+    drawChars(str, 0, int(strlen(str)), x, y);
 }
 
 void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
@@ -275,7 +275,7 @@ void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
                 int nc, wc;
 #ifdef CONFIG_I18N
                 if (multiByte) {
-                    nc = mblen(str + l, len - l);
+                    nc = mblen(str + l, size_t(len - l));
                     if (nc < 1) { // bad things
                         l++;
                         continue;
@@ -326,7 +326,7 @@ void Graphics::drawCharUnderline(int x, int y, const char *str, int charPos) {
 /// TODO #warning "FIXME: don't mess with multibyte here, use a wide char"
     int left = 0; //fFont ? fFont->textWidth(str, charPos) : 0;
     int right = 0; // fFont ? fFont->textWidth(str, charPos + 1) - 1 : 0;
-    int len = strlen(str);
+    int len = int(strlen(str));
     int c = 0, cp = 0;
 
 #ifdef CONFIG_I18N
@@ -345,7 +345,7 @@ void Graphics::drawCharUnderline(int x, int y, const char *str, int charPos) {
             break;
 #ifdef CONFIG_I18N
         if (multiByte) {
-            int nc = mblen(str + c, len - c);
+            int nc = mblen(str + c, size_t(len - c));
             if (nc < 1) { // bad things
                 c++;
                 cp++;
@@ -376,15 +376,15 @@ void Graphics::drawStringMultiline(int x, int y, const char *str) {
 
     for (const char * end(strchr(str, '\n')); end;
          str = end + 1, end = strchr(str, '\n')) {
-        int const len(end - str);
-        const char * tab((const char *) memchr(str, '\t', len));
+        int const len(int(end - str));
+        const char* tab(static_cast<const char *>(memchr(str, '\t', len)));
 
         if (tab) {
-            drawChars(str, 0, tab - str, x, y);
-            drawChars(tab + 1, 0, end - tab - 1, tx, y);
+            drawChars(str, 0, int(tab - str), x, y);
+            drawChars(tab + 1, 0, int(end - tab) - 1, int(tx), y);
         }
         else
-            drawChars(str, 0, end - str, x, y);
+            drawChars(str, 0, int(end - str), x, y);
 
         y+= fFont->height();
     }
@@ -392,11 +392,11 @@ void Graphics::drawStringMultiline(int x, int y, const char *str) {
     const char * tab(strchr(str, '\t'));
 
     if (tab) {
-        drawChars(str, 0, tab - str, x, y);
-        drawChars(tab + 1, 0, strlen(tab + 1), tx, y);
+        drawChars(str, 0, int(tab - str), x, y);
+        drawChars(tab + 1, 0, int(strlen(tab + 1)), int(tx), y);
     }
     else
-        drawChars(str, 0, strlen(str), x, y);
+        drawChars(str, 0, int(strlen(str)), x, y);
 }
 
 void Graphics::drawStringMultiline(int x, int y, const ustring &str) {
@@ -463,7 +463,7 @@ void Graphics::setFont(ref<YFont> aFont) {
 
 void Graphics::setLineWidth(unsigned width) {
     XGCValues gcv;
-    gcv.line_width = width;
+    gcv.line_width = int(width);
     XChangeGC(display(), gc, GCLineWidth, &gcv);
 }
 
@@ -535,33 +535,26 @@ void Graphics::drawMask(ref<YPixmap> pix, int const x, int const y) {
 void Graphics::drawClippedPixmap(Pixmap pix, Pixmap clip,
                                  int x, int y, unsigned w, unsigned h, int toX, int toY)
 {
-    static GC clipPixmapGC = None;
+    unsigned long mask =
+        GCGraphicsExposures | GCClipMask | GCClipXOrigin | GCClipYOrigin;
     XGCValues gcv;
 
-    if (clipPixmapGC == None) {
-        gcv.graphics_exposures = False;
-        clipPixmapGC = XCreateGC(display(), desktop->handle(),
-                                 GCGraphicsExposures,
-                                 &gcv);
-    }
-
+    gcv.graphics_exposures = False;
     gcv.clip_mask = clip;
     gcv.clip_x_origin = toX - xOrigin;
     gcv.clip_y_origin = toY - yOrigin;
-    XChangeGC(display(), clipPixmapGC,
-              GCClipMask|GCClipXOrigin|GCClipYOrigin, &gcv);
+    GC clipPixmapGC = XCreateGC(display(), drawable(), mask, &gcv);
     XCopyArea(display(), pix, drawable(), clipPixmapGC,
               x, y, w, h, toX - xOrigin, toY - yOrigin);
-    gcv.clip_mask = None;
-    XChangeGC(display(), clipPixmapGC, GCClipMask, &gcv);
+    XFreeGC(display(), clipPixmapGC);
 }
 
 void Graphics::compositeImage(ref<YImage> img, int const sx, int const sy, unsigned w, unsigned h, int dx, int dy) {
     if (img != null) {
         int rx = dx;
         int ry = dy;
-        int rw = w;
-        int rh = h;
+        int rw = int(w);
+        int rh = int(h);
 
 #if 0
         if (rx < xOrigin) {
@@ -588,18 +581,19 @@ void Graphics::compositeImage(ref<YImage> img, int const sx, int const sy, unsig
         if (rw <= 0 || rh <= 0)
             return;
         //msg("call composite %d %d %d %d | %d %d %d %d", dx, dy, dw, dh, x, y, xOrigin, yOrigin);
-        img->composite(*this, sx, sy, rw, rh, rx, ry);
+        img->composite(*this, sx, sy, unsigned(rw), unsigned(rh), rx, ry);
     }
 }
 
 /******************************************************************************/
 
-void Graphics::draw3DRect(int x, int y, unsigned w, unsigned h, bool raised) {
+void Graphics::draw3DRect(int x, int y, unsigned wid, unsigned hei, bool raised) {
     YColor back(color());
     YColor bright(back.brighter());
     YColor dark(back.darker());
     YColor t(raised ? bright : dark);
     YColor b(raised ? dark : bright);
+    int w = int(wid), h = int(hei);
 
     setColor(t);
     drawLine(x, y, x + w, y);
@@ -612,10 +606,11 @@ void Graphics::draw3DRect(int x, int y, unsigned w, unsigned h, bool raised) {
     drawPoint(x, y + h);
 }
 
-void Graphics::drawBorderW(int x, int y, unsigned w, unsigned h, bool raised) {
+void Graphics::drawBorderW(int x, int y, unsigned wid, unsigned hei, bool raised) {
     YColor back(color());
     YColor bright(back.brighter());
     YColor dark(back.darker());
+    int w = int(wid), h = int(hei);
 
     if (raised) {
         setColor(bright);
@@ -643,10 +638,11 @@ void Graphics::drawBorderW(int x, int y, unsigned w, unsigned h, bool raised) {
 
 // doesn't move... needs two pixels on all sides for up and down
 // position.
-void Graphics::drawBorderM(int x, int y, unsigned w, unsigned h, bool raised) {
+void Graphics::drawBorderM(int x, int y, unsigned wid, unsigned hei, bool raised) {
     YColor back(color());
     YColor bright(back.brighter());
     YColor dark(back.darker());
+    int w = int(wid), h = int(hei);
 
     if (raised) {
         setColor(bright);
@@ -688,10 +684,11 @@ void Graphics::drawBorderM(int x, int y, unsigned w, unsigned h, bool raised) {
     }
 }
 
-void Graphics::drawBorderG(int x, int y, unsigned w, unsigned h, bool raised) {
+void Graphics::drawBorderG(int x, int y, unsigned wid, unsigned hei, bool raised) {
     YColor back(color());
     YColor bright(back.brighter());
     YColor dark(back.darker());
+    int w = int(wid), h = int(hei);
 
     if (raised) {
         setColor(bright);

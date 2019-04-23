@@ -11,7 +11,7 @@
 #
 key "Alt+Ctrl+t"			xterm
 key "Alt+Ctrl+b"			xdg-open about:blank
-key "Alt+Ctrl+s"			xdg-open http://www.google.com
+key "Alt+Ctrl+s"			xdg-open https://www.google.com
 
 key "Super+KP_Subtract"			amixer sset Master 5%-
 key "Super+KP_Add"			amixer sset Master 5%+
@@ -29,7 +29,7 @@ key "XF86AudioLowerVolume"		amixer sset Master 5%-
 key "XF86AudioRaiseVolume"		amixer sset Master 5%+
 key "XF86AudioMute"			amixer sset Master toggle
 key "XF86HomePage"			xdg-open about:blank
-key "XF86Search"			xdg-open http://www.google.com
+key "XF86Search"			xdg-open https://www.google.com
 key "XF86Eject"				eject
 key "XF86Calculator"			/bin/sh -c "gnome-calculator || xcalc || ( type bc >/dev/null 2>&1 && xterm -e bc -l)"
 

@@ -111,12 +111,12 @@ private:
     // methods local to this class
     void getCurrent(long *in, long *out, const void* sharedData);
     void updateStatus(const void* sharedData);
-    virtual void updateToolTip();
+    virtual void updateToolTip() OVERRIDE;
 
     // methods overridden from superclasses
     virtual void handleClick(const XButtonEvent &up, int count) OVERRIDE;
 
-    bool picture();
+    virtual bool picture() OVERRIDE;
     void fill(Graphics& g);
     void draw(Graphics& g);
 };
@@ -140,7 +140,6 @@ private:
     lazy<YTimer> fUpdateTimer;
     YAssocArray<NetStatus*> fNetStatus;
 
-    IApp* app;
     YSMListener* smActionListener;
     IAppletContainer* taskBar;
     YWindow* aParent;
@@ -171,10 +170,10 @@ public:
 
     // subclassing method overrides
     virtual bool handleTimer(YTimer *t) OVERRIDE;
-    virtual void handleClick(const XButtonEvent &up, cstring netdev);
-    virtual void runCommandOnce(const char *resource, const char *cmdline);
-    virtual void actionPerformed(YAction, unsigned int);
-    virtual void relayout();
+    virtual void handleClick(const XButtonEvent &up, cstring netdev) OVERRIDE;
+    virtual void runCommandOnce(const char *resource, const char *cmdline) OVERRIDE;
+    virtual void actionPerformed(YAction, unsigned int) OVERRIDE;
+    virtual void relayout() OVERRIDE;
 };
 
 #endif

@@ -42,7 +42,8 @@ public:
     Atom atom(const char* name) { return XInternAtom(display(), name, False); }
     void sync() { XSync(display(), False); }
     void send(XClientMessageEvent& ev, Window win, long mask) {
-        XSendEvent(display(), win, False, mask, (XEvent*)&ev);
+        XSendEvent(display(), win, False, mask,
+                   reinterpret_cast<XEvent*>(&ev));
     }
 
     bool hasColormap();

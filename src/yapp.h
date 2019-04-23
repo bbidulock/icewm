@@ -18,6 +18,7 @@ public:
 
 class IApp {
 public:
+    virtual ~IApp();
     virtual upath findConfigFile(upath relativePath) = 0;
     virtual void runCommand(const char *prog) = 0;
     virtual int runProgram(const char *path, const char *const *args) = 0;
@@ -27,6 +28,7 @@ public:
 
 class IMainLoop {
 public:
+    virtual ~IMainLoop();
     virtual void registerTimer(YTimer *t) = 0;
     virtual void unregisterTimer(YTimer *t) = 0;
     virtual void registerPoll(YPollBase *t) = 0;

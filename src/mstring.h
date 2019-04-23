@@ -136,6 +136,7 @@ private:
 
 public:
     cstring() : str() {}
+    cstring(const cstring &arg) : str(arg.str) {}
     cstring(const mstring &str);
     cstring(const char *cstr) : str(cstr) {}
     cstring(const null_ref &): str() {}
@@ -155,8 +156,8 @@ public:
     bool operator!=(const null_ref &) const { return str != null; }
     bool operator==(const cstring& c) const { return str == c.str; }
     bool operator!=(const cstring& c) const { return str != c.str; }
-    int c_str_len() const { return str.length(); }
-    int length()    const { return str.length(); }
+    int c_str_len() const { return int(str.length()); }
+    int length()    const { return int(str.length()); }
 };
 
 inline bool operator==(const char* s, cstring c) { return c == s; }

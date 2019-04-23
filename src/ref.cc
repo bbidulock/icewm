@@ -8,9 +8,13 @@ public:
     void* allocate(size_t);
 };
 
+// forward declarations
+extern null_arena a_null_arena;
+void* operator new(size_t size, null_arena& arena);
+
 // place anything at NULL
 void* null_arena::allocate(size_t) {
-    return (void *) 0;
+    return static_cast<void *>(0);
 }
 
 // arena for null_ref

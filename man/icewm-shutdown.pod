@@ -34,7 +34,7 @@ terminates.
 
 =head1 FILES
 
-Locations for the toolbar options file are as follows:
+Locations for the F<shutdown> file are as follows:
 
 =over
 
