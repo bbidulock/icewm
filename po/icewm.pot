@@ -6,15 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-<<<<<<< HEAD
-"Project-Id-Version: icewm 1.5.3\n"
+"Project-Id-Version: icewm 1.5.4\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-03-27 12:46+0100\n"
-=======
-"Project-Id-Version: icewm 1.4.2.1814\n"
-"Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-04-23 21:53+0200\n"
->>>>>>> icewm-1-4-BRANCH
+"POT-Creation-Date: 2019-04-23 22:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -502,56 +496,32 @@ msgstr ""
 msgid "Same Game"
 msgstr ""
 
-<<<<<<< HEAD
-#: src/icesh.cc:405
-=======
 #: src/icesh.cc:389
->>>>>>> icewm-1-4-BRANCH
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr ""
 
-<<<<<<< HEAD
-#: src/icesh.cc:516
-=======
 #: src/icesh.cc:559
->>>>>>> icewm-1-4-BRANCH
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr ""
 
-<<<<<<< HEAD
-#: src/icesh.cc:521
-=======
 #: src/icesh.cc:564
->>>>>>> icewm-1-4-BRANCH
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr ""
 
-<<<<<<< HEAD
-#: src/icesh.cc:572
-=======
 #: src/icesh.cc:615
->>>>>>> icewm-1-4-BRANCH
 #, c-format
 msgid "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
 msgstr ""
 
-<<<<<<< HEAD
-#: src/icesh.cc:632
-=======
 #: src/icesh.cc:675
->>>>>>> icewm-1-4-BRANCH
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr ""
 
-<<<<<<< HEAD
-#: src/icesh.cc:930
-=======
 #: src/icesh.cc:1086
->>>>>>> icewm-1-4-BRANCH
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] ACTIONS\n"
@@ -613,25 +583,6 @@ msgid ""
 "\n"
 msgstr ""
 
-<<<<<<< HEAD
-#: src/icesh.cc:978
-msgid "GNOME window state"
-msgstr ""
-
-#: src/icesh.cc:979
-msgid "GNOME window hint"
-msgstr ""
-
-#: src/icesh.cc:980
-msgid "GNOME window layer"
-msgstr ""
-
-#: src/icesh.cc:981
-msgid "IceWM tray option"
-msgstr ""
-
-#: src/icesh.cc:1048
-=======
 #: src/icesh.cc:1134
 msgid "GNOME window state"
 msgstr ""
@@ -649,60 +600,35 @@ msgid "IceWM tray option"
 msgstr ""
 
 #: src/icesh.cc:1204
->>>>>>> icewm-1-4-BRANCH
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr ""
 
-<<<<<<< HEAD
-#: src/icesh.cc:1059
-=======
 #: src/icesh.cc:1215
->>>>>>> icewm-1-4-BRANCH
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr ""
 
-<<<<<<< HEAD
-#: src/icesh.cc:1129
-=======
 #: src/icesh.cc:1285
->>>>>>> icewm-1-4-BRANCH
 #, c-format
 msgid "Invalid argument: `%s'."
 msgstr ""
 
-<<<<<<< HEAD
-#: src/icesh.cc:1135
-msgid "No actions specified."
-msgstr ""
-
-#: src/icesh.cc:1145 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:925
-=======
 #: src/icesh.cc:1291
 msgid "No actions specified."
 msgstr ""
 
 #: src/icesh.cc:1301 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:930
->>>>>>> icewm-1-4-BRANCH
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 
-<<<<<<< HEAD
-#: src/icesh.cc:1182
-=======
 #: src/icesh.cc:1338
->>>>>>> icewm-1-4-BRANCH
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr ""
 
-<<<<<<< HEAD
-#: src/icesh.cc:1368
-=======
 #: src/icesh.cc:1515
->>>>>>> icewm-1-4-BRANCH
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr ""
