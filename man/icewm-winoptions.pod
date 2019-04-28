@@ -149,6 +149,11 @@ zero. Increasing positive values go farther right, while decreasing
 negative values go farther left. The order option applies to the task
 pane, the tray pane and the system tray.
 
+=item B<opacity>: I<NUMBER> (default: 0)
+
+Set the _NET_WM_WINDOW_OPACITY property if I<NUMBER> is a value between
+1 and 100. I<NUMBER> is interpreted as percentage of maximum opaqueness.
+
 =back
 
 =head2 FUNCTION OPTIONS

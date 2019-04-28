@@ -22,7 +22,7 @@ WindowOption::WindowOption(ustring n_class_instance):
     workspace(WinWorkspaceInvalid),
     layer(WinLayerInvalid),
     tray(WinTrayInvalid),
-    order(0),
+    order(0), opacity(0),
     gflags(0), gx(0), gy(0), gw(0), gh(0)
 {
 }
@@ -83,6 +83,10 @@ void WindowOptions::setWinOption(ustring n_class_instance,
                       : WinWorkspaceInvalid;
     } else if (strcmp(opt, "order") == 0) {
         op->order = atoi(arg);
+    } else if (strcmp(opt, "opacity") == 0) {
+        int opaq = atoi(arg);
+        if (inrange(opaq, 0, 100))
+            op->opacity = opaq;
     } else if (strcmp(opt, "geometry") == 0) {
         int rx, ry;
         unsigned int rw, rh;
@@ -278,6 +282,8 @@ void WindowOptions::combineOptions(WindowOption &cm, WindowOption &n) {
         cm.tray = n.tray;
     if (n.order)
         cm.order = n.order;
+    if (n.opacity && inrange(n.opacity, 1, 100))
+        cm.opacity = n.opacity;
     if ((n.gflags & XValue) && !(cm.gflags & XValue)) {
         cm.gx = n.gx;
         cm.gflags |= XValue;
