@@ -14,10 +14,9 @@
 
 =head1 DESCRIPTION
 
-B<icesh> provides commands for use by shell scripts that affect a
-window's state, similar to L<wmctrl(1)> or L<xdotool(1)>, except
-mostly limited to GNOME WinWM/WMH properties
-and B<icewm(1)> specific commands.
+B<icesh> provides commands for use by shell scripts that query or
+affect a window's state. B<icesh> also supports commands for
+querying and controlling the L<icewm(1)> window manager.
 
 =head1 OPTIONS
 
@@ -54,6 +53,14 @@ Is equivalent to B<-window> B<root>.
 
 Is equivalent to B<-window> B<focus>.
 
+=item B<-a>, B<-all>
+
+Selects all clients of the window manager.
+
+=item B<-s>, B<-shown>
+
+Selects all currently mapped clients of the window manager.
+
 =back
 
 =head2 GENERAL OPTIONS
@@ -89,6 +96,58 @@ B<icesh> accepts the following arguments:
 Actions can be one of:
 
 =over
+
+=item B<activate>
+
+Requests the specified window to be activated, aka. I<to focus>.
+
+=item B<close>
+
+Requests the specified window to be closed.
+
+=item B<kill>
+
+Terminates the specified window.
+
+=item B<list>
+
+Shows details of the specified window, such as geometry and names.
+
+=item B<lower>
+
+Lowers the specified window.
+
+=item B<raise>
+
+Request to raise the specified window.
+
+=item B<above>
+
+Request to stack the window above others.
+
+=item B<below>
+
+Request to stack the window below others.
+
+=item B<rollup>
+
+Request to rollup the specified window.
+
+=item B<fullscreen>
+
+Request to set the window to fullscreen.
+
+=item B<maximize>
+
+Request to maximize the window.
+
+=item B<minimize>
+
+Request to minimize the window.
+
+=item B<restore>
+
+Request to restore the window to normal.
 
 =item B<setIconTitle> I<TITLE>
 
@@ -159,9 +218,10 @@ then the specified window becomes visible on all workspaces.
 
 Prints the workspace for the specified window.
 
-=item B<listWorkspaces>
+=item B<opacity> [I<OPACITY>]
 
-Lists the names of all workspaces.
+Print the window opacity if I<OPACITY> is not given,
+otherwise set the window opacity to I<OPACITY>.
 
 =item B<setTrayOption> I<TRAYOPTION>
 
@@ -178,6 +238,19 @@ Prints the IceWM tray option for the specified window.
 The following actions do not require a window or class command option:
 
 =over
+
+=item B<listWorkspaces>
+
+Lists the names of all workspaces.
+
+=item B<goto> I<WORKSPACE>
+
+Change the current workspace to I<WORKSPACE>.
+
+=item B<workspaces> [I<COUNT>]
+
+Print the number of workspaces if I<COUNT> is not given,
+otherwise set the number of workspaces to I<COUNT>.
 
 =item B<check>
 
@@ -330,7 +403,7 @@ C<setTrayOption> and the actions, however, are IceWM specific.
 
 =head1 EXAMPLES
 
-The following command lists all workspace names:
+Lists all workspace names:
 
     icesh listWorkspaces
 
@@ -340,10 +413,22 @@ Example output:
     workspace #1: `web'
     workspace #2: `doc'
     workspace #3: `dev'
-    workspace #4: `scr'
-    workspace #5: `gfx'
-    workspace #6: `misc'
-    workspace #7: `'
+
+Close terminal work.
+
+    icesh -c work.XTerm close
+
+Activate terminal fun.
+
+    icesh -c fun.XTerm activate
+
+Print opacity for all xterms.
+
+    icesh -c xterm.XTerm opacity
+
+Change opacity for all xterms.
+
+    icesh -c xterm.XTerm opacity 84
 
 =head1 ENVIRONMENT
 
@@ -360,7 +445,7 @@ The display to use if the B<-display> option is unspecified.
 =head1 COMPLIANCE
 
 While B<icesh> is largely compliant with the GNOME WinWM/WMH
-specification, it does not support NetWM/EWMH.
+specification, it only minimally supports NetWM/EWMH.
 
 =head1 BUGS
 
@@ -370,11 +455,8 @@ L<https://github.com/bbidulock/icewm/issues>.
 
 =head1 HISTORY
 
-B<icesh> is historical and deprecated.  The command only supports
-the GNOME WinWM/WMH specification and IceWM specific commands.  Unlike
-L<wmctrl(1)> and L<xdotool(1)>, support for NetWM/EWMH was never included.
-For most of the supported commands, L<wmctrl(1)> and L<xdotool(1)>
-are quite capable of performing the necessary functions and more.
+B<icesh> is somewhat historical. Commands like L<wmctrl(1)> and
+L<xdotool(1)> support similar functions and more.
 
 =head1 AUTHOR
 
