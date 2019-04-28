@@ -396,6 +396,7 @@ YFrameClient(aParent, 0) {
     setWindowTitle(_("Window list"));
     setIconTitle(_("Window list"));
     setClassHint("windowList", "IceWM");
+    setNetWindowType(_XA_NET_WM_WINDOW_TYPE_DIALOG);
 
     setWinHintsHint(WinHintsSkipTaskBar |
                     WinHintsSkipWindowMenu);

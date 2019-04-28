@@ -61,6 +61,7 @@ public:
     YActionListener *getActionListener() const { return fActionListener; }
 
     virtual bool handleTimer(YTimer *timer);
+    virtual void raise();
 
 private:
     YObjectArray<YMenuItem> fItems;
@@ -71,6 +72,7 @@ private:
     YPopupWindow *fPopup;
     YPopupWindow *fPopupActive;
     bool fShared;
+    bool fRaised;
     YActionListener *fActionListener;
     int activatedX, activatedY;
     int submenuItem;

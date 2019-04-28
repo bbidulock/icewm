@@ -19,6 +19,7 @@ YDialog::YDialog(YWindow *owner):
     fGradient(null)
 {
     fOwner = owner;
+    setNetWindowType(_XA_NET_WM_WINDOW_TYPE_DIALOG);
 }
 
 YDialog::~YDialog() {
