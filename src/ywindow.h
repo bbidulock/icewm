@@ -199,6 +199,9 @@ public:
     void setWinGravity(int gravity);
     void setBitGravity(int gravity);
 
+    void setProperty(Atom property, Atom propType, Atom value);
+    void setNetWindowType(Atom window_type);
+    void setNetOpacity(Atom opacity);
     void setDND(bool enabled);
 
     void XdndStatus(bool acceptDrop, Atom dropAction);
@@ -368,6 +371,23 @@ extern Atom XA_XdndProxy;
 extern Atom XA_XdndStatus;
 extern Atom XA_XdndDrop;
 extern Atom XA_XdndFinished;
+
+extern Atom _XA_NET_WM_WINDOW_OPACITY;              // OK
+extern Atom _XA_NET_WM_WINDOW_TYPE;                 // OK
+extern Atom _XA_NET_WM_WINDOW_TYPE_COMBO;           // OK
+extern Atom _XA_NET_WM_WINDOW_TYPE_DESKTOP;         // OK
+extern Atom _XA_NET_WM_WINDOW_TYPE_DIALOG;          // OK
+extern Atom _XA_NET_WM_WINDOW_TYPE_DND;             // OK
+extern Atom _XA_NET_WM_WINDOW_TYPE_DOCK;            // OK
+extern Atom _XA_NET_WM_WINDOW_TYPE_DROPDOWN_MENU;   // OK
+extern Atom _XA_NET_WM_WINDOW_TYPE_MENU;            // OK
+extern Atom _XA_NET_WM_WINDOW_TYPE_NORMAL;          // OK
+extern Atom _XA_NET_WM_WINDOW_TYPE_NOTIFICATION;    // OK
+extern Atom _XA_NET_WM_WINDOW_TYPE_POPUP_MENU;      // OK
+extern Atom _XA_NET_WM_WINDOW_TYPE_SPLASH;          // OK
+extern Atom _XA_NET_WM_WINDOW_TYPE_TOOLBAR;         // OK
+extern Atom _XA_NET_WM_WINDOW_TYPE_TOOLTIP;         // OK
+extern Atom _XA_NET_WM_WINDOW_TYPE_UTILITY;         // OK
 
 #endif
 
