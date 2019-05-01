@@ -1647,6 +1647,10 @@ void IceSh::parseActions()
             FOREACH_WINDOW(window)
                 getTrayOption(window);
         }
+        else if (isAction("id", 0)) {
+            FOREACH_WINDOW(window)
+                printf("0x%06lx", window);
+        }
         else if (isAction("list", 0)) {
             FOREACH_WINDOW(window)
                 details(window);
@@ -1673,27 +1677,43 @@ void IceSh::parseActions()
         }
         else if (isAction("fullscreen", 0)) {
             FOREACH_WINDOW(window)
-                setState(window, WinStateFullscreen, WinStateFullscreen);
+                setState(window,
+                         WinStateFullscreen|WinStateMaximized|
+                         WinStateMinimized|WinStateRollup,
+                         WinStateFullscreen);
         }
         else if (isAction("maximize", 0)) {
             FOREACH_WINDOW(window)
-                setState(window, WinStateMaximized, WinStateMaximized);
+                setState(window,
+                         WinStateFullscreen|WinStateMaximized|
+                         WinStateMinimized|WinStateRollup,
+                         WinStateMaximized);
         }
         else if (isAction("minimize", 0)) {
             FOREACH_WINDOW(window)
-                setState(window, WinStateMinimized, WinStateMinimized);
+                setState(window,
+                         WinStateFullscreen|WinStateMaximized|
+                         WinStateMinimized|WinStateRollup,
+                         WinStateMinimized);
         }
         else if (isAction("rollup", 0)) {
             FOREACH_WINDOW(window)
-                setState(window, WinStateRollup, WinStateRollup);
+                setState(window,
+                         WinStateFullscreen|WinStateMaximized|
+                         WinStateMinimized|WinStateRollup,
+                         WinStateRollup);
         }
         else if (isAction("above", 0)) {
             FOREACH_WINDOW(window)
-                setState(window, WinStateAbove, WinStateAbove);
+                setState(window,
+                         WinStateAbove|WinStateBelow,
+                         WinStateAbove);
         }
         else if (isAction("below", 0)) {
             FOREACH_WINDOW(window)
-                setState(window, WinStateBelow, WinStateBelow);
+                setState(window,
+                         WinStateAbove|WinStateBelow,
+                         WinStateBelow);
         }
         else if (isAction("restore", 0)) {
             FOREACH_WINDOW(window) {
@@ -1707,6 +1727,18 @@ void IceSh::parseActions()
                 mask |= WinStateBelow;
                 setState(window, mask, 0L);
             }
+        }
+        else if (isAction("skip", 0)) {
+            FOREACH_WINDOW(window)
+                setState(window,
+                         WinStateSkipPager|WinStateSkipTaskBar,
+                         WinStateSkipPager|WinStateSkipTaskBar);
+        }
+        else if (isAction("unskip", 0)) {
+            FOREACH_WINDOW(window)
+                setState(window,
+                         WinStateSkipPager|WinStateSkipTaskBar,
+                         0L);
         }
         else if (isAction("opacity", 0)) {
             char* opaq = nullptr;

@@ -99,55 +99,67 @@ Actions can be one of:
 
 =item B<activate>
 
-Requests the specified window to be activated, aka. I<to focus>.
+Activate the window, aka. I<to focus>.
 
 =item B<close>
 
-Requests the specified window to be closed.
+Close the window.
 
 =item B<kill>
 
-Terminates the specified window.
+Terminate the window.
+
+=item B<id>
+
+Print window identifiers for the selected windows.
 
 =item B<list>
 
-Shows details of the specified window, such as geometry and names.
+Show window details, like geometry and names.
 
 =item B<lower>
 
-Lowers the specified window.
+Lower the window.
 
 =item B<raise>
 
-Request to raise the specified window.
+Raise the window.
 
 =item B<above>
 
-Request to stack the window above others.
+Stack the window above others.
 
 =item B<below>
 
-Request to stack the window below others.
+Stack the window below others.
 
 =item B<rollup>
 
-Request to rollup the specified window.
+Rollup the specified window.
 
 =item B<fullscreen>
 
-Request to set the window to fullscreen.
+Set the window to fullscreen.
 
 =item B<maximize>
 
-Request to maximize the window.
+Maximize the window.
 
 =item B<minimize>
 
-Request to minimize the window.
+Minimize the window.
 
 =item B<restore>
 
-Request to restore the window to normal.
+Restore the window to normal.
+
+=item B<skip>
+
+Don't show window on taskbar.
+
+=item B<unskip>
+
+Do show window on taskbar.
 
 =item B<setIconTitle> I<TITLE>
 
