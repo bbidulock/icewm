@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2019-04-23 21:53+0200\n"
-"PO-Revision-Date: 2018-12-20 08:24+0000\n"
+"PO-Revision-Date: 2019-05-04 15:44+0000\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
-"Language-Team: Slovak <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/sk/>\n"
+"Language-Team: Slovak <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 3.2.2\n"
+"X-Generator: Weblate 3.3\n"
 
 #: src/aapm.cc:180 src/aapm.cc:462 src/aapm.cc:684 src/aapm.cc:809
 msgid " - Power"
@@ -570,7 +570,7 @@ msgstr "Pracovná plocha je mimo rozsah: %ld"
 #: src/icesh.cc:615
 #, c-format
 msgid "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
-msgstr ""
+msgstr "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
 
 #: src/icesh.cc:675
 #, c-format
