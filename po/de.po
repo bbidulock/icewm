@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2019-04-23 21:53+0200\n"
-"PO-Revision-Date: 2019-01-28 07:56+0000\n"
+"PO-Revision-Date: 2019-05-04 15:44+0000\n"
 "Last-Translator: Sarah Kriesch <ada.lovelace@gmx.de>\n"
-"Language-Team: German <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/de/>\n"
+"Language-Team: German <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -576,7 +576,7 @@ msgstr "Arbeitsbereich außerhalb des Wertebereichs: %ld"
 #: src/icesh.cc:615
 #, c-format
 msgid "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
-msgstr ""
+msgstr "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
 
 #: src/icesh.cc:675
 #, c-format
