@@ -324,7 +324,6 @@ message(STATUS "Checking audio subsystems from ICESOUND: ${ICESOUND}")
 #clear cache
 set(ENABLE_ALSA off)
 set(ENABLE_AO off)
-set(ENABLE_ESD off)
 set(ENABLE_OSS off)
 set(audio_libs )
 set(audio_flags )
@@ -360,15 +359,6 @@ if(sndfile_FOUND)
             list(APPEND audio_flags "${ao_CFLAGS}")
             list(APPEND audio_libs ${ao_LDFLAGS})
             list(APPEND audio_libs ${ao_LIBS})
-        endif()
-    endif()
-    if("${ICESOUND}" MATCHES "esound|esd")
-        pkg_check_modules(esd esound)
-        set(ENABLE_ESD "${esd_FOUND}")
-        if(esd_FOUND)
-            list(APPEND audio_flags "${esd_CFLAGS}")
-            list(APPEND audio_libs ${esd_LDFLAGS})
-            list(APPEND audio_libs ${esd_LIBS})
         endif()
     endif()
     if("${ICESOUND}" MATCHES "oss")
@@ -519,7 +509,7 @@ ADD_EXECUTABLE(icewmbg${EXEEXT} icewmbg.cc ref.cc ${ICE_COMMON_SRCS})
 SET_TARGET_PROPERTIES(icewmbg${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
 TARGET_LINK_LIBRARIES(icewmbg${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${fribidi_LDFLAGS} ${xrandr_LDFLAGS}  ${icewm_img_libs} ${xinerama_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 
-IF(ENABLE_ALSA OR ENABLE_AO OR ENABLE_ESD OR ENABLE_OSS)
+IF(ENABLE_ALSA OR ENABLE_AO OR ENABLE_OSS)
     ADD_EXECUTABLE(icesound${EXEEXT} icesound.cc upath.cc misc.cc mstring.cc ytimer.cc yapp.cc yprefs.cc yarray.cc ref.cc)
     SET_TARGET_PROPERTIES(icesound${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags} ${audio_flags}")
     TARGET_LINK_LIBRARIES(icesound${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${audio_libs} ${EXTRA_LIBS})
@@ -570,7 +560,6 @@ foreach (_variableName
         ENABLE_LTO
         ENABLE_ALSA
         ENABLE_AO
-        ENABLE_ESD
         ENABLE_OSS
         ENABLE_NLS
         )
