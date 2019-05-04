@@ -2,7 +2,7 @@
 
 =head1 NAME
 
- icesh - control properties of windows
+icesh - control window properties and the IceWM window manager
 
 =head1 SYNOPSIS
 
@@ -14,9 +14,8 @@
 
 =head1 DESCRIPTION
 
-B<icesh> provides commands for use by shell scripts that query or
-affect a window's state. B<icesh> also supports commands for
-querying and controlling the L<icewm(1)> window manager.
+B<icesh> provides 59 commands to change or query a window's state,
+and to interact with the L<icewm(1)> window manager.
 
 =head1 OPTIONS
 
@@ -25,9 +24,9 @@ B<icesh> recognizes the following options:
 =head2 COMMAND OPTIONS
 
 A command option specifies the window or windows to which subsequent
-arguments apply. If no command option is given, but an argument
-does require a window then a selection crossbar is invoked to select
-the desired window interactively. Some arguments do not require this.
+arguments apply. If no command option is given, but an argument does
+require a window, then a selection crossbar is invoked to select the
+desired window interactively. Some arguments do not require this.
 
 =over
 
@@ -61,9 +60,20 @@ Selects all clients of the window manager.
 
 Selects all currently mapped clients of the window manager.
 
+=item B<-p>, B<-pid> I<PID>
+
+Selects clients which have a _NET_WM_PID property equal to I<PID>.
+
+=item B<-W>, B<-Workspace> I<WORKSPACE>
+
+Selects clients which are on workspace I<WORKSPACE>, which can either be
+a workspace name or a workspace number counting from zero.
+
 =back
 
 =head2 GENERAL OPTIONS
+
+The following options are identical for every icewm command.
 
 =over
 
@@ -87,13 +97,19 @@ Print copying permissions to F<stdout> for the program and exit.
 
 =head1 ARGUMENTS
 
-B<icesh> accepts the following arguments:
+B<icesh> expects one or more action arguments:
 
 =over
 
 =item B<ACTIONS> ::= I<ACTION> [I<ACTION>]*
 
-Actions can be one of:
+=back
+
+Where I<ACTION> can either be a window action or a manager action.
+
+=head2 WINDOW ACTIONS
+
+The following actions affect the selected window or windows.
 
 =over
 
@@ -153,6 +169,14 @@ Minimize the window.
 
 Restore the window to normal.
 
+=item B<hide>
+
+Make window hidden.
+
+=item B<unhide>
+
+Undo window hidden.
+
 =item B<skip>
 
 Don't show window on taskbar.
@@ -161,74 +185,83 @@ Don't show window on taskbar.
 
 Do show window on taskbar.
 
+=item B<resize> I<WIDTH> I<HEIGHT>
+
+Resize window to I<WIDTH> by I<HEIGHT> window units.
+
+=item B<move> I<X> I<Y>
+
+Move window to screen position I<X> I<Y>.
+Negative values start from bottom right.
+
+=item B<moveby> I<X> I<Y>
+
+Displace window by I<X> I<Y> pixels.
+
 =item B<setIconTitle> I<TITLE>
 
-Set the icon title for the specified window to I<TITLE>.
+Set the icon title to I<TITLE>.
 
 =item B<getIconTitle>
 
-Prints the icon title for the specified window.
+Print the icon title.
 
 =item B<setWindowTitle> I<TITLE>
 
-Set the window title for the specified window to I<TITLE>
+Set the window title to I<TITLE>.
 
 =item B<getWindowTitle>
 
-Prints the window title for the specified window.
+Print the window title.
 
 =item B<setGeometry> I<GEOMETRY>
 
-Set the window geometry for the specified window to I<GEOMETRY>.
+Set the window geometry to I<GEOMETRY>.
 
 =item B<getGeometry>
 
-Prints the window geometry for the specified window.
+Print the window geometry.
 
 =item B<setState> I<MASK> I<STATE>
 
-Set the GNOME window state for the specified window to I<STATE>.  Only
-the bits selected by I<MASK> are affected.  I<STATE> and I<MASK> are
-expressions of the domain GNOME window state.  See L</GNOME window
-state>, below, for I<STATE> and I<MASK> symbols.
+Set the I<GNOME window state> to I<STATE>.  Only bits selected by
+I<MASK> are affected.  See below for I<STATE> and I<MASK> symbols.
 
 =item B<toggleState> I<STATE>
 
-Toggle the GNOME window state bits specified by the I<STATE> expression
-for the specified window.  See L</GNOME window state>, below, for
-I<STATE> symbols.
+Toggle the I<GNOME window state> bits specified by the I<STATE>
+expression.  See below for I<STATE> symbols.
 
 =item B<getState>
 
-Prints the GNOME window state for the specified window.
+Print the I<GNOME window state> for the specified window.
 
 =item B<setHints> I<HINTS>
 
-Set the GNOME window hints for the specified window to I<HINTS>.  See
-L</GNOME window hints>, below, for I<HINTS> symbols.
+Set the I<GNOME window hints> to I<HINTS>. See below for symbols.
 
 =item B<getHints>
 
-Prints the GNOME window hints for the specified window.
+Print the I<GNOME window hints> for the specified window.
 
 =item B<setLayer> I<LAYER>
 
-Moves the specified window to another GNOME window layer.  See
-L</GNOME window layer>, below, for I<LAYER> symbols.
+Move the specified window to another I<GNOME window layer>.
+See below for I<LAYER> symbols.
 
 =item B<getLayer>
 
-Prints the GNOME window layer for the specified window.
+Print the I<GNOME window layer> for the specified window.
 
 =item B<setWorkspace> I<WORKSPACE>
 
-Moves the specified window to another workspace.  Select the root
+Move the specified window to another workspace.  Select the root
 window to change the current workspace. If I<WORKSPACE> is C<All>
 then the specified window becomes visible on all workspaces.
 
 =item B<getWorkspace>
 
-Prints the workspace for the specified window.
+Print the workspace for the specified window.
 
 =item B<opacity> [I<OPACITY>]
 
@@ -237,23 +270,25 @@ otherwise set the window opacity to I<OPACITY>.
 
 =item B<setTrayOption> I<TRAYOPTION>
 
-Set the I<IceWM tray option> hint for the specified window to
-I<TRAYOPTION>.  See L</IceWM tray options>, below, for I<TRAYOPTION>
-symbols.
+Set the I<IceWM tray option> for the specified window to I<TRAYOPTION>.
+See I<IceWM tray options>, below, for I<TRAYOPTION> symbols.
 
 =item B<getTrayOption>
 
-Prints the IceWM tray option for the specified window.
+Print the I<IceWM tray option> for the specified window.
 
 =back
 
-The following actions do not require a window or class command option:
+=head2 MANAGER ACTIONS
+
+The following actions control the IceWM window manager and therefore
+do not require a window option:
 
 =over
 
 =item B<listWorkspaces>
 
-Lists the names of all workspaces.
+List the names of all workspaces.
 
 =item B<goto> I<WORKSPACE>
 
@@ -264,23 +299,32 @@ Change the current workspace to I<WORKSPACE>.
 Print the number of workspaces if I<COUNT> is not given,
 otherwise set the number of workspaces to I<COUNT>.
 
+=item B<setWorkspaceName> I<INDEX> I<NAME>
+
+Change the name of the workspace I<INDEX> to I<NAME>, where I<INDEX> is
+a workspace number starting from zero.
+
+=item B<setWorkspaceNames> I<NAME> [I<NAME>]*
+
+Change the workspace names to the list of I<NAME>s.
+
 =item B<check>
 
-Prints information about the current window manager, like name,
+Print information about the current window manager, like name,
 version, class, locale, command, host name and pid.
 
 =item B<clients>
 
-Lists all managed client windows, their titles and geometries.
+List all managed client windows, their titles and geometries.
 
 =item B<shown>
 
-Lists all managed client windows for the current desktop,
+List all managed client windows for the current desktop,
 their titles and geometries.
 
 =item B<windows>
 
-Lists all toplevel windows, their titles and geometries.
+List all toplevel windows, their titles and geometries.
 
 =item B<logout>
 
@@ -330,10 +374,16 @@ I<program> [I<arguments...>] is executed.
 
 =back
 
-Some actions require one or two I<EXPRESSION> arguments.
+=head2 EXPRESSIONS
+
+Some of the window actions require one or two I<EXPRESSION> arguments.
+
+=over
 
 =item B<EXPRESSION> ::= I<SYMBOL> | I<EXPRESSION> { C<+> | C<|> }
 I<SYMBOL>
+
+=back
 
 Each I<SYMBOL> may be from one of the following applicable domains:
 
@@ -353,6 +403,7 @@ Named symbols of the domain I<GNOME window state> (numeric range:
     MaximizedHoriz         (8)
     MaximizedHorizontal    (8)
     Hidden                (16)
+    Rollup                (32)
     All                 (1023)
 
 These symbols are used with the I<MASK> and I<STATE> arguments to the
@@ -400,8 +451,6 @@ C<setTrayOption> action.
 
 =back
 
-=back
-
 =head1 USAGE
 
 The purpose of B<icesh> is to provide commands that can be used from a
@@ -410,12 +459,12 @@ associated with a window, or to list and parse information about
 existing windows.
 
 It should be noted that B<icesh> works on any window manager that is
-compliant with the GNOME WinWM/WMH specification.  Some commands, like
-C<setTrayOption> and the actions, however, are IceWM specific.
+compliant with the I<GNOME WinWM/WMH specification>.  Some commands,
+like C<setTrayOption> and the actions, however, are IceWM specific.
 
 =head1 EXAMPLES
 
-Lists all workspace names:
+List all workspace names:
 
     icesh listWorkspaces
 
@@ -459,16 +508,15 @@ The display to use if the B<-display> option is unspecified.
 While B<icesh> is largely compliant with the GNOME WinWM/WMH
 specification, it only minimally supports NetWM/EWMH.
 
+=head1 SEE ALSO
+
+L<icewm(1)>, L<wmctrl(1)>, L<xdotool(1)>, L<xprop(1)>, L<xwininfo(1)>.
+
 =head1 BUGS
 
 B<icesh> had no known bugs at the time of release.  Please report bugs
 for current versions to the source code repository at
 L<https://github.com/bbidulock/icewm/issues>.
-
-=head1 HISTORY
-
-B<icesh> is somewhat historical. Commands like L<wmctrl(1)> and
-L<xdotool(1)> support similar functions and more.
 
 =head1 AUTHOR
 
