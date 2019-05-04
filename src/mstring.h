@@ -15,8 +15,8 @@ struct MStringData {
     int fRefCount;
     char fStr[];
 
-    static MStringData *alloc(int length);
-    static MStringData *create(const char *str, int length);
+    static MStringData *alloc(size_t length);
+    static MStringData *create(const char *str, size_t length);
     static MStringData *create(const char *str);
 };
 
@@ -51,8 +51,8 @@ public:
     mstring(const char *str, size_t len);
     explicit mstring(long);
 
-    mstring(null_ref &): fStr(0), fOffset(0), fCount(0) { }
-    mstring():           fStr(0), fOffset(0), fCount(0) { }
+    mstring(null_ref &): fStr(nullptr), fOffset(0), fCount(0) { }
+    mstring():           fStr(nullptr), fOffset(0), fCount(0) { }
 
     mstring(const mstring &r):
         fStr(r.fStr),
@@ -76,15 +76,15 @@ public:
     bool operator!=(const char *rv) const { return !equals(rv); }
     bool operator==(const mstring &rv) const { return equals(rv); }
     bool operator!=(const mstring &rv) const { return !equals(rv); }
-    bool operator==(null_ref &) const { return fStr == 0; }
-    bool operator!=(null_ref &) const { return fStr != 0; }
+    bool operator==(null_ref &) const { return fStr == nullptr; }
+    bool operator!=(null_ref &) const { return fStr != nullptr; }
 //    bool operator==(const char *rv, size_t len) const { return equals(rv, len); }
 //    bool operator!=(const char *rv, size_t len) const { return !equals(rv, len); }
 
     mstring& operator=(null_ref &);
     mstring substring(size_t pos) const;
     mstring substring(size_t pos, size_t len) const;
-    mstring match(const char* regex, const char* flags = 0) const;
+    mstring match(const char* regex, const char* flags = nullptr) const;
 
     int operator[](int pos) const { return charAt(pos); }
     int charAt(int pos) const;
@@ -93,7 +93,7 @@ public:
     int count(char ch) const;
 
     bool equals(const char *s) const;
-    bool equals(const char *s, unsigned len) const;
+    bool equals(const char *s, size_t len) const;
     bool equals(const mstring &s) const;
     int collate(const mstring &s, bool ignoreCase = false) const;
     int compareTo(const mstring &s) const;
@@ -114,14 +114,6 @@ public:
     mstring lower() const;
     mstring upper() const;
 
-#if 0
-    static mstring fromUTF32(const UChar *str, int len);
-    static mstring fromUTF8(const unsigned char *str, int len);
-#endif
-    static mstring fromMultiByte(const char *str, int len);
-    static mstring fromMultiByte(const char *str);
-    static mstring newstr(const char *str);
-    static mstring newstr(const char *str, int len);
     void normalize();
 };
 
@@ -146,7 +138,7 @@ public:
     cstring operator+(const mstring& rv) const { return cstring(m_str() + rv); }
     operator const char *() const { return c_str(); }
     const char *c_str() const {
-        return str.length() > 0 ? str.data() : "";
+        return str.nonempty() ? str.data() : "";
     }
     const mstring& m_str() const { return str; }
     operator const mstring&() const { return str; }
