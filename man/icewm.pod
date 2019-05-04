@@ -56,41 +56,37 @@ has changed then L<icewmbg(1)> can be notified to update the background.
 Multi-head monitor setups are fully supported.  This program should be
 started before B<icewm>.  See the L<icewmbg(1)> manual page for details.
 
-=item L<icewmtray(1)>
-
-Catches the system tray objects which are installed by various
-applications.
-
 =item L<icewm-session(1)>
 
 Runs all of the above when needed.  It first loads additional
 environment variables from the optional F<env> file. Then it starts
-L<icewmbg(1)>, L<icewmtray(1)> and B<icewm>.  It also runs the
-F<startup> script.  It implements basic session management.
+L<icewmbg(1)> and B<icewm>.  It also runs the F<startup> script.
+It implements basic session management.
 L<icewm-session(1)> is the preferred program to start the IceWM system.
 On termination the F<shutdown> script will be run first, then
-L<icewm-session(1)> will terminate L<icewmtray(1)>, B<icewm> and
-L<icewmbg(1)>.  If instead of L<icewmtray(1)> you wish to run your own
-tray application then give L<icewm-session(1)> the B<--notray> option.
+L<icewm-session(1)> will terminate B<icewm> and L<icewmbg(1)>. 
 L<icewm-session(1)> will also start L<icesound(1)> if you give it the
 B<--sound> option.  See the L<icewm-session(1)> manual page for details.
 
 =item L<icesh(1)>
 
-Could be used to manage B<icewm> internals from command line.
+A powerful tool to control window properties and to interact with the
+window manager. This tool is typically used in scripts.
 
 =item L<icehelp(1)>
 
-Is used by B<icewm> to display the 'IceWM manual' and the manual pages.
+Is used by B<icewm> to display the 'IceWM manual' and some man pages.
 
 =item L<icewmhint(1)>
 
-Is used internally.
+A utility for passing IceWM-specific window options to B<icewm>.
+The options are used to configure the first application which
+is started subsequently.
 
 =item L<icesound(1)>
 
 Plays audio files on GUI events raised by B<icewm>.  It supports ALSA,
-AO, EsounD and OSS.  See the L<icesound(1)> manual page.
+AO and OSS.  See the L<icesound(1)> manual page.
 
 =item L<icewm-menu-fdo(1)>
 
@@ -1138,7 +1134,6 @@ L<icewm-toolbar(5)>,
 L<icewm-winoptions(5)>,
 L<icewmbg(1)>,
 L<icewmhint(1)>,
-L<icewmtray(1)>,
 L<Xorg(1)>,
 L<Xserver(1)>,
 L<xinit(1)>,
