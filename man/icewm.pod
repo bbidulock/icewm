@@ -31,6 +31,8 @@ Generally, it tries to make all functions available by both keyboard and
 mouse.  Configuration is very good through various preferences files.
 However, configuring is not required: it works fine out of the box.
 
+=head2 PROGRAMS
+
 The B<icewm> package includes several programs:
 
 =over
@@ -39,12 +41,10 @@ The B<icewm> package includes several programs:
 
 The actual window manager. It positions application windows on screen
 and decorates them with borders. It gives input focus to the current
-active application. B<icewm> supports three different focus modes: click
-to focus, sloppy mouse focus and a custom user-definable focus mode.
-B<icewm> also draws a small task bar at the bottom of the screen, which
-gives easy
-access to programs, to active applications, and to a small set of
-monitoring applets.
+active application. B<icewm> supports different focus modes, which are
+explained below. It draws a small task bar at the bottom of the screen,
+which gives easy access to programs, to virtual desktops, to active
+applications, and to a small set of monitoring applets.
 
 =item L<icewmbg(1)>
 
@@ -54,44 +54,48 @@ have its own background.  It supports semi-transparency. Semitransparent
 background image and colour can be configured. When the background image
 has changed then L<icewmbg(1)> can be notified to update the background.
 Multi-head monitor setups are fully supported.  This program should be
-started before B<icewm>.  See the L<icewmbg(1)> manual page for details.
+started before B<icewm>.  See the L<icewmbg(1)> man page for details.
 
 =item L<icewm-session(1)>
 
-Runs all of the above when needed.  It first loads additional
-environment variables from the optional F<env> file. Then it starts
-L<icewmbg(1)> and B<icewm>.  It also runs the F<startup> script.
-It implements basic session management.
 L<icewm-session(1)> is the preferred program to start the IceWM system.
+It first loads additional environment variables from the optional
+F<env> file. Then it starts L<icewmbg(1)> and B<icewm>. It also runs
+the F<startup> script and implements basic session management.
 On termination the F<shutdown> script will be run first, then
-L<icewm-session(1)> will terminate B<icewm> and L<icewmbg(1)>. 
-L<icewm-session(1)> will also start L<icesound(1)> if you give it the
-B<--sound> option.  See the L<icewm-session(1)> manual page for details.
+L<icewm-session(1)> will terminate B<icewm> and L<icewmbg(1)>.
+L<icewm-session(1)> will also start the optional L<icesound(1)>
+if you give it the B<--sound> option.  See L<icewm-session(1)>.
 
 =item L<icesh(1)>
 
 A powerful tool to control window properties and to interact with the
-window manager. This tool is typically used in scripts.
+window manager. It is typically used in shell scripts. See L<icesh(1)>.
 
 =item L<icehelp(1)>
 
-Is used by B<icewm> to display the 'IceWM manual' and some man pages.
+A small document browser, which is used by B<icewm> to display the
+'IceWM manual' and some man pages.
 
 =item L<icewmhint(1)>
 
 A utility for passing IceWM-specific window options to B<icewm>.
-The options are used to configure the first application which
-is started subsequently.
+The options are used to configure the first application which is started
+subsequently.  See L<icewmhint(1)>.
 
 =item L<icesound(1)>
 
-Plays audio files on GUI events raised by B<icewm>.  It supports ALSA,
-AO and OSS.  See the L<icesound(1)> manual page.
+Plays audio files on GUI events which are raised by B<icewm>.
+It supports ALSA, AO and OSS.  See the L<icesound(1)> man page.
 
 =item L<icewm-menu-fdo(1)>
 
 Generate an B<icewm> menu with executable desktop applications
-according to XDG specifications.
+according to XDG specifications. See the L<icewm-menu-fdo(1)> man page.
+
+=item L<icewm-set-gnomewm(1)>
+
+Configures GNOME to start IceWM instead of its own WM.
 
 =back
 
@@ -934,7 +938,7 @@ follows a shell command line which will be executed by B<icewm> whenever
 this key combination is pressed.  For example, the following line
 creates a hotkey to reload the B<icewm> configuration:
 
- key "Ctrl+Shift+r"      pkill -x -HUP icewm
+ key "Ctrl+Shift+r"      icesh restart
 
 See L<icewm-keys(5)>.
 
@@ -973,6 +977,7 @@ See L<icewm-prefoverride(5)>.
 An automatically generated menu of applications.  This could be used by
 L<wmconfig(1)>, menu or similar programs to give easy access to all the
 desktop applications which are installed on the system.
+
 See L<icewm-programs(5)>.
 
 =item F<theme>
@@ -1016,8 +1021,7 @@ Contains settings to control window appearance and behaviour which are
 specific to applications or groups of applications.  Options can control
 the border, whether it appears on the task bar, the window list, the
 system tray and the work spaces.  Also its layer, geometry, whether it
-can be moved, resized and closed.  Full details for this file are
-explained in the L<IceWM Manual|https://ice-wm.org/manual>.
+can be moved, resized and closed.
 
 See L<icewm-winoptions(5)>.
 
@@ -1097,6 +1101,26 @@ additional files which have a F<.theme> file name extension and which
 contain tweaks of the F<default.theme> file.
 How to create a theme is explained in the
 L<IceWM Theme Creation Howto|https://ice-wm.org/themes>.
+
+=back
+
+=head2 OPACITY
+
+=over
+
+IceWM supports window opacity and transparency in connection with an
+external compositor like L<compton(1)>. If a client window sets the
+C<_NET_WM_WINDOW_OPACITY> property on its window then B<icewm> will copy
+this to the outer frame window where B<compton> will read it to adjust
+the opacity of the client window. The opacity can also be controlled by
+B<icewm> when this is configured in the L<icewm-winoptions(5)> file.
+Another way is to use L<icewmhint(1)> to preset the opacity level
+immediately before starting the application.  The opacity level of
+running applications can always be queried or modified by L<icesh(1)>.
+
+The _NET_WM_WINDOW_TYPE properties which B<icewm> sets on its windows
+are I<DIALOG>, I<NOTIFICATION>, I<POPUP_MENU> and I<TOOLTIP>. The output
+of C<icesh windows> shows their WM_CLASS values.
 
 =back
 
