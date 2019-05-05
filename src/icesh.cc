@@ -255,6 +255,11 @@ private:
     int fCount, fStatus;
 };
 
+static long currentWorkspace() {
+    YWindowProperty prop(root, ATOM_NET_CURRENT_DESKTOP, XA_CARDINAL, 1);
+    return prop.data<long>(0);
+}
+
 static long getWorkspace(Window window) {
     YWindowProperty prop(window, ATOM_NET_WM_DESKTOP, XA_CARDINAL, 1);
     return prop.data<long>(0);
@@ -818,7 +823,7 @@ bool IceSh::listShown()
         return false;
 
     windowList.getClientList();
-    long workspace = getWorkspace(root);
+    long workspace = currentWorkspace();
     windowList.filterByWorkspace(workspace);
 
     FOREACH_WINDOW(w) {
@@ -1594,7 +1599,7 @@ void IceSh::getWindows(bool interactive)
         }
         else if (!strcmp(winname, "shown")) {
             windowList.getClientList();
-            windowList.filterByWorkspace(getWorkspace(root));
+            windowList.filterByWorkspace(currentWorkspace());
 
             MSG(("shown windows selected"));
         }
