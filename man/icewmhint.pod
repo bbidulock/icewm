@@ -110,6 +110,18 @@ I<CLASS>B<.>I<INSTANCE>.  I<GEOMETRY> must be a geometry that can be
 parsed by L<XParseGeometry(3)>.  The default is the geometry provided by
 window manager hints.
 
+=item B<order>: I<NUMBER>
+
+The sorting order of task buttons and tray icons. The default value is
+zero. Increasing positive values go farther right, while decreasing
+negative values go farther left. The order option applies to the task
+pane, the tray pane and the system tray.
+
+=item B<opacity>: I<NUMBER>
+
+Set the _NET_WM_WINDOW_OPACITY property if I<NUMBER> is a value between
+1 and 100. I<NUMBER> is interpreted as percentage of maximum opaqueness.
+
 =item B<layer> {B<Desktop>|B<Below>|B<Normal>|B<OnTop>|B<Dock>|B<AboveDock>|B<Menu>|I<NUMBER>}
 
 The layer is a similar concept to the layer specified by I<GNOME/WMH> and
