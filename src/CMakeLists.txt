@@ -71,7 +71,7 @@ option(CONFIG_I18N "Define to enable internationalization" on)
 option(CONFIG_RENDER "Define to enable XRENDER extension" on)
 option(CONFIG_XRANDR "Define to enable XRANDR extension" on)
 option(CONFIG_SESSION "Define to enable X session management" on)
-option(CONFIG_EXTERNAL_TRAY "Define to build tray support in standalone executable" off)
+option(CONFIG_EXTERNAL_TRAY "Define for external systray (unsupported)" off)
 option(ENABLE_NLS "Enable Native Language Support" on)
 option(ENABLE_LTO "Enable Link Time Optimization" off)
 
