@@ -4,6 +4,11 @@
 namespace ASCII {
 
     template<class T>
+    inline bool isSign(T c) {
+        return c == '+' || c == '-';
+    }
+
+    template<class T>
     static bool isLower(T c) {
         return c >= 'a' && c <= 'z';
     }
