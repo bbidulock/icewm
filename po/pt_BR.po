@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: icewm 1.3.4pre2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2019-04-23 21:53+0200\n"
-"PO-Revision-Date: 2018-12-20 18:00+0000\n"
-"Last-Translator: Luiz Fernando Ranghetti <elchevive68@gmail.com>\n"
+"PO-Revision-Date: 2019-05-06 23:24+0000\n"
+"Last-Translator: Rodrigo Macedo <rmsolucoeseminformatic4@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -574,7 +574,7 @@ msgstr "Área de trabalho fora de âmbito: %ld"
 #: src/icesh.cc:615
 #, c-format
 msgid "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
-msgstr ""
+msgstr "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
 
 #: src/icesh.cc:675
 #, c-format
