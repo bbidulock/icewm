@@ -1,6 +1,10 @@
 #ifndef __REF_H
 #define __REF_H
 
+#if __cplusplus == 199711L
+#define nullptr NULL
+#endif
+
 class refcounted {
 public:
     int __refcount;
