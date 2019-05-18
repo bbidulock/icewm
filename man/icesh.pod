@@ -24,9 +24,9 @@ B<icesh> recognizes the following options:
 =head2 COMMAND OPTIONS
 
 A command option specifies the window or windows to which subsequent
-arguments apply. If no command option is given, but an argument does
-require a window, then a selection crossbar is invoked to select the
-desired window interactively. Some arguments do not require this.
+arguments apply. If none is given, but an argument does require a
+window, a selection crossbar is invoked to select the desired window
+interactively. Some arguments do not require this.
 
 =over
 
@@ -64,6 +64,10 @@ Selects all currently mapped clients of the window manager.
 
 Selects clients which have a _NET_WM_PID property equal to I<PID>.
 
+=item B<-m>, B<-machine> I<HOST>
+
+Selects clients with a WM_CLIENT_MACHINE property equal to I<HOST>.
+
 =item B<-W>, B<-Workspace> I<WORKSPACE>
 
 Selects clients which are on workspace I<WORKSPACE>, which can either be
@@ -73,7 +77,7 @@ a workspace name or a workspace number counting from zero.
 
 =head2 GENERAL OPTIONS
 
-The following options are identical for every icewm command.
+The following options are identical for every IceWM command.
 
 =over
 
@@ -258,6 +262,7 @@ Print the I<GNOME window layer> for the specified window.
 Move the specified window to another workspace.  Select the root
 window to change the current workspace. If I<WORKSPACE> is C<All>
 then the specified window becomes visible on all workspaces.
+Specify C<this> for the current workspace.
 
 =item B<getWorkspace>
 
@@ -319,7 +324,7 @@ List all managed client windows, their titles and geometries.
 
 =item B<shown>
 
-List all managed client windows for the current desktop,
+List all mapped client windows for the current desktop,
 their titles and geometries.
 
 =item B<windows>
@@ -490,6 +495,10 @@ Print opacity for all xterms.
 Change opacity for all xterms.
 
     icesh -c xterm.XTerm opacity 84
+
+Move all windows on workspace "Top" to the current workspace.
+
+    icesh -W "Top" setWorkspace "this"
 
 =head1 ENVIRONMENT
 
