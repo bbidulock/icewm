@@ -8,14 +8,16 @@ icesh - control window properties and the IceWM window manager
 
 =over
 
-=item B<icesh> [I<OPTIONS>] I<ACTIONS>
+=item B<icesh> I<OPTIONS|ACTIONS>+
 
 =back
 
 =head1 DESCRIPTION
 
 B<icesh> provides 59 commands to change or query a window's state,
-and to interact with the L<icewm(1)> window manager.
+and to interact with the L<icewm(1)> window manager. Multiple commands
+can be given. The commands operate on a selection of one or more
+windows. B<icesh> has several means to select and filter windows.
 
 =head1 OPTIONS
 
@@ -23,10 +25,14 @@ B<icesh> recognizes the following options:
 
 =head2 COMMAND OPTIONS
 
-A command option specifies the window or windows to which subsequent
-arguments apply. If none is given, but an argument does require a
-window, a selection crossbar is invoked to select the desired window
-interactively. Some arguments do not require this.
+Command options specify the window or windows to which subsequent
+actions apply or filter the set of specified windows. If none is given,
+but an action does require a window, then a selection crossbar is
+invoked to select the desired window interactively. The manager actions
+do not require window options.
+
+The following five options I<select> one or more client windows.
+If needed, they can be repeated for multiple actions.
 
 =over
 
@@ -36,21 +42,13 @@ Specifies the identifier of the window, I<WINDOW_ID>, for which the
 action applies.  Special identifiers are B<root> for the root window
 and B<focus> for the currently focused window.
 
-=item B<-c>, B<-class> I<WM_CLASS>
-
-Specifies the window manager class, I<WM_CLASS>, for which the action
-applies.  If I<WM_CLASS> contains a period, only windows with exactly
-the same I<WM_CLASS> property are matched.  If there is no period,
-windows of the same class and windows of the same instance (aka. I<-name>)
-are selected.
-
 =item B<-r>, B<-root>
 
-Is equivalent to B<-window> B<root>.
+Is equivalent to B<-window> B<root> and selects the root window.
 
 =item B<-f>, B<-focus>
 
-Is equivalent to B<-window> B<focus>.
+Is equivalent to B<-window> B<focus> and selects the focused window.
 
 =item B<-a>, B<-all>
 
@@ -58,15 +56,45 @@ Selects all clients of the window manager.
 
 =item B<-s>, B<-shown>
 
-Selects all currently mapped clients of the window manager.
+Selects all currently visible clients of the window manager.
+
+=back
+
+=head2 FILTER OPTIONS
+
+The following options I<filter> the currently selected set of windows.
+If no previous option was given then a B<-all> option is implicitly
+assumed to filter all client windows.
+
+=over
+
+=item B<-c>, B<-class> I<WM_CLASS>
+
+Filters the set of windows on window manager class, I<WM_CLASS>.  If
+I<WM_CLASS> contains a period, only windows with exactly the same
+I<WM_CLASS> property are matched.  If there is no period, windows of the
+same class and windows of the same instance (aka. I<-name>) are selected.
 
 =item B<-p>, B<-pid> I<PID>
 
-Selects clients which have a _NET_WM_PID property equal to I<PID>.
+Filters clients by process ID. Clients with a _NET_WM_PID property equal
+to I<PID> are selected.
 
 =item B<-m>, B<-machine> I<HOST>
 
-Selects clients with a WM_CLIENT_MACHINE property equal to I<HOST>.
+Filters clients by host name. Clients with a WM_CLIENT_MACHINE property
+equal to I<HOST> are selected.
+
+=item B<-L>, B<-Layer> I<LAYER>
+
+Filters clients by I<GNOME window layer>, which can either be a layer
+name (see below) or a layer number.
+
+=item B<-S>, B<-State> I<STATE>
+
+Filters clients by I<GNOME window state>. Clients which have at least
+a state of I<STATE> are selected.  The window state refers to details
+like B<minized> or B<maximized> and is explained below.
 
 =item B<-W>, B<-Workspace> I<WORKSPACE>
 
@@ -99,17 +127,12 @@ Print copying permissions to F<stdout> for the program and exit.
 
 =back
 
-=head1 ARGUMENTS
+=head1 ACTIONS
 
-B<icesh> expects one or more action arguments:
-
-=over
-
-=item B<ACTIONS> ::= I<ACTION> [I<ACTION>]*
-
-=back
-
-Where I<ACTION> can either be a window action or a manager action.
+B<icesh> expects one or more action arguments.  There are two kinds of
+actions: window actions and manager actions. The first operates on the
+selected windows. The second directly interacts with the B<icewm> window
+manager.
 
 =head2 WINDOW ACTIONS
 
@@ -333,35 +356,35 @@ List all toplevel windows, their titles and geometries.
 
 =item B<logout>
 
-Ask IceWM to execute the C<LogoutCommand>.
+Let icewm execute the C<LogoutCommand>.
 
 =item B<reboot>
 
-Ask IceWM to execute the C<RebootCommand>.
+Let icewm execute the C<RebootCommand>.
 
 =item B<shutdown>
 
-Ask IceWM to execute the C<ShutdownCommand>.
+Let icewm execute the C<ShutdownCommand>.
 
 =item B<cancel>
 
-Ask IceWM to cancel the logout/reboot/shutdown.
+Let icewm cancel the logout/reboot/shutdown.
 
 =item B<about>
 
-Ask IceWM to show the about window.
+Let icewm show the about window.
 
 =item B<windowlist>
 
-Ask IceWM to show the window list window.
+Let icewm show the window list window.
 
 =item B<restart>
 
-Ask IceWM to restart.
+Let icewm restart itself.
 
 =item B<suspend>
 
-Ask IceWM to execute the C<SuspendCommand>.
+Let icewm execute the C<SuspendCommand>.
 
 =item B<guievents>
 
@@ -412,7 +435,11 @@ Named symbols of the domain I<GNOME window state> (numeric range:
     All                 (1023)
 
 These symbols are used with the I<MASK> and I<STATE> arguments to the
-C<setState> and C<toggleState> actions.
+C<setState> and C<toggleState> actions. Some additional states include:
+
+    Above
+    Below
+    Fullscreen
 
 =item I<GNOME window hint>
 
@@ -456,17 +483,6 @@ C<setTrayOption> action.
 
 =back
 
-=head1 USAGE
-
-The purpose of B<icesh> is to provide commands that can be used from a
-shell script (see L<sh(1)>) to affect the state, geometry and hints
-associated with a window, or to list and parse information about
-existing windows.
-
-It should be noted that B<icesh> works on any window manager that is
-compliant with the I<GNOME WinWM/WMH specification>.  Some commands,
-like C<setTrayOption> and the actions, however, are IceWM specific.
-
 =head1 EXAMPLES
 
 List all workspace names:
@@ -490,15 +506,20 @@ Activate terminal fun.
 
 Print opacity for all xterms.
 
-    icesh -c xterm.XTerm opacity
+    icesh -c XTerm opacity
 
 Change opacity for all xterms.
 
-    icesh -c xterm.XTerm opacity 84
+    icesh -c XTerm opacity 84
 
 Move all windows on workspace "Top" to the current workspace.
 
     icesh -W "Top" setWorkspace "this"
+
+Restore all hidden clients, minimize all clients on the current
+workspace and activate Firefox.
+
+    icesh -S hidden restore -a -W "this" minimize -a -c Firefox activate
 
 =head1 ENVIRONMENT
 
@@ -516,6 +537,8 @@ The display to use if the B<-display> option is unspecified.
 
 While B<icesh> is largely compliant with the GNOME WinWM/WMH
 specification, it only minimally supports NetWM/EWMH.
+Some commands, like tray options and manager actions, are specific
+to IceWM.
 
 =head1 SEE ALSO
 
