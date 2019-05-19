@@ -907,7 +907,7 @@ void IceSh::details(Window w)
     xsmart<char> name;
 
     XFetchName(display, w, &name);
-    snprintf(title, sizeof title, "\"%s\"", name ? name : "");
+    snprintf(title, sizeof title, "\"%s\"", name ? (char *) name : "");
 
     YTextProperty text(w, XA_WM_CLASS);
     if (text) {
