@@ -14,7 +14,7 @@ icesh - control window properties and the IceWM window manager
 
 =head1 DESCRIPTION
 
-B<icesh> provides 59 commands to change or query a window's state,
+B<icesh> provides 64 commands to change or query a window's state,
 and to interact with the L<icewm(1)> window manager. Multiple commands
 can be given. The commands operate on a selection of one or more
 windows. B<icesh> has several means to select and filter windows.
@@ -23,16 +23,15 @@ windows. B<icesh> has several means to select and filter windows.
 
 B<icesh> recognizes the following options:
 
-=head2 COMMAND OPTIONS
+=head2 SELECT OPTIONS
 
-Command options specify the window or windows to which subsequent
-actions apply or filter the set of specified windows. If none is given,
-but an action does require a window, then a selection crossbar is
-invoked to select the desired window interactively. The manager actions
-do not require window options.
+Select options specify the window or windows to which subsequent
+actions apply. If none is given, but an action does require a window,
+then a selection crossbar is invoked to select the desired window
+interactively. The manager actions do not require window options.
 
 The following five options I<select> one or more client windows.
-If needed, they can be repeated for multiple actions.
+If needed, they can be repeated for successive actions.
 
 =over
 
@@ -63,8 +62,8 @@ Selects all currently visible clients of the window manager.
 =head2 FILTER OPTIONS
 
 The following options I<filter> the currently selected set of windows.
-If no previous option was given then a B<-all> option is implicitly
-assumed to filter all client windows.
+If no previous I<select> option was given then a B<-all> option is
+implicitly assumed to filter all client windows.
 
 =over
 
@@ -98,8 +97,8 @@ like B<minized> or B<maximized> and is explained below.
 
 =item B<-W>, B<-Workspace> I<WORKSPACE>
 
-Selects clients which are on workspace I<WORKSPACE>, which can either be
-a workspace name or a workspace number counting from zero.
+Filter clients by workspace. Workspace I<WORKSPACE> is either a
+workspace name or a workspace number counting from zero.
 
 =back
 
@@ -130,9 +129,9 @@ Print copying permissions to F<stdout> for the program and exit.
 =head1 ACTIONS
 
 B<icesh> expects one or more action arguments.  There are two kinds of
-actions: window actions and manager actions. The first operates on the
-selected windows. The second directly interacts with the B<icewm> window
-manager.
+actions: I<window actions> and I<manager actions>. The first operates on
+the selected windows. The second directly interacts with the B<icewm>
+window manager.
 
 =head2 WINDOW ACTIONS
 
@@ -218,12 +217,33 @@ Resize window to I<WIDTH> by I<HEIGHT> window units.
 
 =item B<move> I<X> I<Y>
 
-Move window to screen position I<X> I<Y>.
-Negative values start from bottom right.
+Move the selected window or windows to the screen position I<X> I<Y>.
+To specify I<X> or I<Y> values relative to the right side or bottom side
+precede the value with an extra minus sign, like in C<move -+10 --20>.
 
 =item B<moveby> I<X> I<Y>
 
 Displace window by I<X> I<Y> pixels.
+
+=item B<center>
+
+Position window in the center of the screen.
+
+=item B<left>
+
+Position window against the left side of the screen.
+
+=item B<right>
+
+Position window against the right side of the screen.
+
+=item B<top>
+
+Position window against the top side of the screen.
+
+=item B<bottom>
+
+Position window against the bottom side of the screen.
 
 =item B<setIconTitle> I<TITLE>
 
@@ -310,7 +330,7 @@ Print the I<IceWM tray option> for the specified window.
 =head2 MANAGER ACTIONS
 
 The following actions control the IceWM window manager and therefore
-do not require a window option:
+do not require a window I<select> or I<filter> option:
 
 =over
 
@@ -436,10 +456,7 @@ Named symbols of the domain I<GNOME window state> (numeric range:
 
 These symbols are used with the I<MASK> and I<STATE> arguments to the
 C<setState> and C<toggleState> actions. Some additional states include:
-
-    Above
-    Below
-    Fullscreen
+Above, Below, Urgent and Fullscreen.
 
 =item I<GNOME window hint>
 

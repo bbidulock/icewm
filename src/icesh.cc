@@ -340,34 +340,15 @@ static long getWorkspace(Window window) {
     return *YCardinal(window, ATOM_NET_WM_DESKTOP);
 }
 
-static Window getParent(Window window) {
-    Window parent = None, rootwin = None;
-    xsmart<Window> subwins;
-    unsigned count = 0;
-
-    XQueryTree(display, window, &rootwin, &parent, &subwins, &count);
-
-    return parent;
-}
-
-static Window getFrameWindow(Window window)
-{
-    while (window && window != root) {
-        Window parent = getParent(window);
-        if (parent == root)
-            return window;
-        window = parent;
-    }
-    return None;
-}
-
 class YWindowTree {
 public:
-    YWindowTree():
+    YWindowTree(Window window = None):
         fRoot(None), fParent(None),
         fChildren(nullptr), fCount(0),
         fSuccess(False)
     {
+        if (window)
+            query(window);
     }
 
     void set(Window window) {
@@ -536,6 +517,10 @@ public:
         return *this && count() == 1 && fChildren[0] == root;
     }
 
+    Window parent() const {
+        return fParent;
+    }
+
 private:
     Window fRoot, fParent, * fChildren;
     unsigned fCount;
@@ -600,6 +585,9 @@ private:
 
 #define WinStateMaximized   (WinStateMaximizedVert | WinStateMaximizedHoriz)
 #define WinStateSkip        (WinStateSkipPager     | WinStateSkipTaskBar)
+#define WIN_STATE_FULL      (WIN_STATE_ALL | WinStateSkip |\
+                             WinStateAbove | WinStateBelow |\
+                             WinStateFullscreen | WinStateUrgent)
 
 static Symbol stateIdentifiers[] = {
     { "Sticky",                 WinStateSticky          },
@@ -611,6 +599,7 @@ static Symbol stateIdentifiers[] = {
     { "MaximizedHorizontal",    WinStateMaximizedHoriz  },
     { "Hidden",                 WinStateHidden          },
     { "Rollup",                 WinStateRollup          },
+    { "Urgent",                 WinStateUrgent          },
     { "Skip",                   WinStateSkip            },
     { "SkipPager",              WinStateSkipPager       },
     { "SkipTaskBar",            WinStateSkipTaskBar     },
@@ -654,7 +643,7 @@ static SymbolTable layers = {
 };
 
 static SymbolTable states = {
-    stateIdentifiers, 0, WIN_STATE_ALL | WinStateFullscreen, -1
+    stateIdentifiers, 0, WIN_STATE_FULL, -1
 };
 
 static SymbolTable hints = {
@@ -711,7 +700,9 @@ bool SymbolTable::lookup(long code, char const ** name) const {
 
 /******************************************************************************/
 
-static Status send(NAtom& typ, Window win, long l0, long l1, long l2 = 0L) {
+static Status send(NAtom& typ, Window win, long l0, long l1,
+                   long l2 = 0L, long l3 = 0L, long l4 = 0L)
+{
     XClientMessageEvent xev;
     memset(&xev, 0, sizeof(xev));
 
@@ -722,6 +713,8 @@ static Status send(NAtom& typ, Window win, long l0, long l1, long l2 = 0L) {
     xev.data.l[0] = l0;
     xev.data.l[1] = l1;
     xev.data.l[2] = l2;
+    xev.data.l[3] = l3;
+    xev.data.l[4] = l4;
 
     return XSendEvent(display, root, False, SubstructureNotifyMask,
                       reinterpret_cast<XEvent *>(&xev));
@@ -876,6 +869,21 @@ static void setWorkspace(Window window, long workspace) {
 
 static void changeWorkspace(long workspace) {
     send(ATOM_NET_CURRENT_DESKTOP, root, workspace, CurrentTime);
+}
+
+static Window getParent(Window window) {
+    return YWindowTree(window).parent();
+}
+
+static Window getFrameWindow(Window window)
+{
+    while (window && window != root) {
+        Window parent = getParent(window);
+        if (parent == root)
+            return window;
+        window = parent;
+    }
+    return None;
 }
 
 static bool getGeometry(Window window, int& x, int& y, int& width, int& height) {
@@ -1243,6 +1251,14 @@ static void getTrayOption(Window window) {
 
 /******************************************************************************/
 
+static int displayWidth() {
+    return DisplayWidth(display, DefaultScreen(display));
+}
+
+static int displayHeight() {
+    return DisplayHeight(display, DefaultScreen(display));
+}
+
 static void setGeometry(Window window, const char* geometry) {
     int geom_x, geom_y;
     unsigned geom_width, geom_height;
@@ -1267,9 +1283,9 @@ static void setGeometry(Window window, const char* geometry) {
     if (status & HeightValue) height = geom_height;
 
     if (hasbits(status, XValue | XNegative))
-        x += DisplayWidth(display, DefaultScreen(display)) - width;
+        x += displayWidth() - width;
     if (hasbits(status, YValue | YNegative))
-        y += DisplayHeight(display, DefaultScreen(display)) - height;
+        y += displayHeight() - height;
 
     if (normal.flags & PResizeInc) {
         width *= max(1, normal.width_inc);
@@ -1376,26 +1392,22 @@ static Status lowerWindow(Window window) {
 
 static Window getClientWindow(Window window)
 {
-    YProperty wmstate(window, ATOM_WM_STATE, ATOM_WM_STATE);
-    if (wmstate)
+    if (YProperty(window, ATOM_WM_STATE, ATOM_WM_STATE))
         return window;
 
-    YWindowTree tree;
-    if (tree.query(window) == false) {
-        warn("XQueryTree failed for window 0x%lx", window);
+    YWindowTree windowList(window);
+    if (windowList == false)
         return None;
-    }
 
-    Window client(None);
+    FOREACH_WINDOW(client)
+        if (YProperty(client, ATOM_WM_STATE, ATOM_WM_STATE))
+            return client;
 
-    for (unsigned i = 0; client == None && i < tree.count(); ++i)
-        if (YProperty(tree[i], ATOM_WM_STATE, ATOM_WM_STATE))
-            client = tree[i];
+    FOREACH_WINDOW(client)
+        if ((client = getClientWindow(client)) != None)
+            return client;
 
-    for (unsigned i = 0; client == None && i < tree.count(); ++i)
-        client = getClientWindow(tree[i]);
-
-    return client;
+    return None;
 }
 
 static Window pickWindow() {
@@ -1810,12 +1822,25 @@ void IceSh::parseAction()
             const char* ys = &ya[isSign(ya[0]) && isSign(ya[1])];
             long lx, ly;
             if (tolong(xs, lx) && tolong(ys, ly)) {
-                char buf[64];
-                snprintf(buf, sizeof buf, "%s%s%s%s",
-                         &"+"[isSign(xa[0])], xa,
-                         &"+"[isSign(ya[0])], ya);
                 FOREACH_WINDOW(window) {
-                    setGeometry(window, buf);
+                    Window frame = getFrameWindow(window);
+                    if (frame) {
+                        int x, y, w, h;
+                        if (getGeometry(frame, x, y, w, h)) {
+                            int tx, ty;
+                            if (xa < xs && *xa == '-') {
+                                tx = displayWidth() - w + lx;
+                            } else {
+                                tx = lx;
+                            }
+                            if (ya < ys && *ya == '-') {
+                                ty = displayHeight() - h + ly;
+                            } else {
+                                ty = ly;
+                            }
+                            XMoveWindow(display, frame, tx, ty);
+                        }
+                    }
                 }
             }
             else {
@@ -1842,13 +1867,72 @@ void IceSh::parseAction()
                 THROW(1);
             }
         }
+        else if (isAction("centre", 0) || isAction("center", 0)) {
+            FOREACH_WINDOW(window) {
+                Window frame = getFrameWindow(window);
+                if (frame) {
+                    int x, y, w, h;
+                    if (getGeometry(frame, x, y, w, h)) {
+                        int tx = (displayWidth() - w) / 2;
+                        int ty = (displayHeight() - h) / 2;
+                        XMoveWindow(display, frame, tx, ty);
+                    }
+                }
+            }
+        }
+        else if (isAction("left", 0)) {
+            FOREACH_WINDOW(window) {
+                Window frame = getFrameWindow(window);
+                if (frame) {
+                    XWindowChanges c;
+                    c.x = 0;
+                    XConfigureWindow(display, frame, CWX, &c);
+                }
+            }
+        }
+        else if (isAction("right", 0)) {
+            FOREACH_WINDOW(window) {
+                Window frame = getFrameWindow(window);
+                if (frame) {
+                    int x, y, w, h;
+                    if (getGeometry(frame, x, y, w, h)) {
+                        XWindowChanges c;
+                        c.x = displayWidth() - w;
+                        XConfigureWindow(display, frame, CWX, &c);
+                    }
+                }
+            }
+        }
+        else if (isAction("top", 0)) {
+            FOREACH_WINDOW(window) {
+                Window frame = getFrameWindow(window);
+                if (frame) {
+                    XWindowChanges c;
+                    c.y = 0;
+                    XConfigureWindow(display, frame, CWY, &c);
+                }
+            }
+        }
+        else if (isAction("bottom", 0)) {
+            FOREACH_WINDOW(window) {
+                Window frame = getFrameWindow(window);
+                if (frame) {
+                    int x, y, w, h;
+                    if (getGeometry(frame, x, y, w, h)) {
+                        XWindowChanges c;
+                        c.y = displayHeight() - h;
+                        XConfigureWindow(display, frame, CWY, &c);
+                    }
+                }
+            }
+        }
         else if (isAction("setState", 2)) {
             unsigned mask(states.parseExpression(getArg()));
             unsigned state(states.parseExpression(getArg()));
             check(states, mask, argp[-2]);
             check(states, state, argp[-1]);
 
-            MSG(("setState: %d %d", mask, state));
+            MSG(("setState: 0x%03lx 0x%03lx", mask, state));
             FOREACH_WINDOW(window)
                 setState(window, mask, state);
         }
