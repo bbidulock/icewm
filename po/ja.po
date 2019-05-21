@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-04-23 21:53+0200\n"
+"POT-Creation-Date: 2019-05-21 22:54+0200\n"
 "PO-Revision-Date: 2019-05-06 23:24+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
-"Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/"
-"icewm-1-4-branch/ja/>\n"
+"Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -316,7 +316,7 @@ msgstr ""
 msgid "NET"
 msgstr "ネット"
 
-#: src/aworkspaces.cc:294 src/wmstatus.cc:163
+#: src/aworkspaces.cc:294 src/wmstatus.cc:165
 msgid "Workspace: "
 msgstr "ワークスペース: "
 
@@ -555,210 +555,62 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "さめがめ"
 
-#: src/icesh.cc:389
+#: src/icesh.cc:51
+msgid "For help please consult the man page icesh(1).\n"
+msgstr ""
+
+#: src/icesh.cc:685
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "領域 `%s' に対するシンボル名 (数値範囲: %ld-%ld):\n"
 
-#: src/icesh.cc:559
+#: src/icesh.cc:855
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "ワークスペース名が正しくありません: `%s'"
 
-#: src/icesh.cc:564
+#: src/icesh.cc:858
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "ワークスペースの範囲が正しくありません: %ld"
 
-#: src/icesh.cc:615
-#, c-format
-msgid "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
-msgstr "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
-
-#: src/icesh.cc:675
+#: src/icesh.cc:988
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "ワークスペース #%d: `%s'\n"
 
-#: src/icesh.cc:1086
-#, c-format
-msgid ""
-"Usage: %s [OPTIONS] ACTIONS\n"
-"\n"
-"Options:\n"
-"  -d, -display DISPLAY        Connects to the X server specified by "
-"DISPLAY.\n"
-"                              Default: $DISPLAY or :0.0 when not set.\n"
-"  -w, -window WINDOW_ID       Specifies the window to manipulate. Special\n"
-"                              identifiers are `root' for the root window "
-"and\n"
-"                              `focus' for the currently focused window.\n"
-"  -c, -class WM_CLASS         Window management class of the window(s) to\n"
-"                              manipulate. If WM_CLASS contains a period, "
-"only\n"
-"                              windows with exactly the same WM_CLASS "
-"property\n"
-"                              are matched. If there is no period, windows "
-"of\n"
-"                              the same class and windows of the same "
-"instance\n"
-"                              (aka. `-name') are selected.\n"
-"\n"
-"Actions:\n"
-"  setIconTitle   TITLE        Set the icon title.\n"
-"  setWindowTitle TITLE        Set the window title.\n"
-"  setGeometry    geometry     Set the window geometry\n"
-"  setState       MASK STATE   Set the GNOME window state to STATE.\n"
-"                              Only the bits selected by MASK are affected.\n"
-"                              STATE and MASK are expressions of the domain\n"
-"                              `GNOME window state'.\n"
-"  toggleState    STATE        Toggle the GNOME window state bits specified "
-"by\n"
-"                              the STATE expression.\n"
-"  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
-"  setLayer       LAYER        Moves the window to another GNOME window "
-"layer.\n"
-"  setWorkspace   WORKSPACE    Moves the window to another workspace. Select\n"
-"                              the root window to change the current "
-"workspace.\n"
-"                              Select 0xFFFFFFFF or \"All\" for all "
-"workspaces.\n"
-"  listWorkspaces              Lists the names of all workspaces.\n"
-"  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
-"  logout                      Tell IceWM to logout.\n"
-"  reboot                      Tell IceWM to reboot.\n"
-"  shutdown                    Tell IceWM to shutdown.\n"
-"  cancel                      Tell IceWM to cancel the logout/reboot/"
-"shutdown.\n"
-"  about                       Tell IceWM to show the about window.\n"
-"  windowlist                  Tell IceWM to show the window list.\n"
-"  restart                     Tell IceWM to restart.\n"
-"  suspend                     Tell IceWM to suspend.\n"
-"\n"
-"Expressions:\n"
-"  Expressions are list of symbols of one domain concatenated by `+' or `|':\n"
-"\n"
-"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
-"\n"
-msgstr ""
-"使用方法: %s [オプション] アクション\n"
-"\n"
-"オプション:\n"
-"  -d, -display DISPLAY            DISPLAY で指定した X サーバのディスプレイに"
-"接続します。\n"
-"                              既定値: $DISPLAY または :0.0 ($DISPLAY が未設定"
-"の場合)\n"
-"  -w, -window WINDOW_ID            操作対象のウインドウを指定します。特殊キー"
-"ワード `root'\n"
-"                              を指定するとルートウインドウを、 `focus' を指定"
-"すると\n"
-"                              現在フォーカスされているウインドウを対象としま"
-"す。\n"
-"  -c, -class WM_CLASS            操作するウインドウのウインドウ管理クラスを指"
-"定します。\n"
-"                              WM_CLASS にピリオド (.) が含まれている場合、指"
-"定した\n"
-"                              クラスに厳密に一致するものを指定したものと見な"
-"します。\n"
-"                              ピリオドがない場合、同じクラスかつ同じインスタ"
-"ンス\n"
-"                              (別名: `-name') のウインドウを選択します。\n"
-"\n"
-"アクション:\n"
-"  setIconTitle   TITLE        アイコンのタイトルを設定します。\n"
-"  setWindowTitle TITLE        ウインドウのタイトルを設定します。\n"
-"  setGeometry    geometry     ウインドウのジオメトリを設定します。\n"
-"  setState       MASK STATE   GNOME のウインドウ状態を STATE に設定します。\n"
-"                              MASK で選択したビットのみを設定します。\n"
-"                              STATE と MASK は、領域 `GNOME window state' の"
-"表現で\n"
-"                              指定します。\n"
-"  toggleState    STATE        STATE の表現で指定した GNOME の状態ビットを\n"
-"                              切り替えます。\n"
-"  setHints       HINTS        GNOME のウインドウヒントを HINTS に設定しま"
-"す。\n"
-"  setLayer       LAYER        ウインドウを他の GNOME ウインドウレイヤに移動し"
-"ます。\n"
-"  setWorkspace   WORKSPACE    ウインドウを他のワークスペースに移動します。現"
-"在の\n"
-"                              ワークスペースを変更したい場合は、ルートウイン"
-"ドウを\n"
-"                              選択してください。全てのワークスペースに設定し"
-"たい場合は、 \n"
-"                               0xFFFFFFFF または \"All\" を指定してくださ"
-"い。\n"
-"  listWorkspaces              全てのワークスペースの名前を一覧表示します。\n"
-"  setTrayOption  TRAYOPTION   IceWM トレイオプションのヒントを設定します。\n"
-"  logout                      IceWM に対して、ログアウトするように依頼しま"
-"す。\n"
-"  reboot                      IceWM に対して、再起動するように依頼します。\n"
-"  shutdown                    IceWM に対して、シャットダウンするように依頼し"
-"ます。\n"
-"  cancel                      IceWM に対して、ログアウト／再起動／シャットダ"
-"ウンをキャンセルするように依頼します。\n"
-"  about                       IceWM に対して、バージョン情報を表示するように"
-"依頼します。\n"
-"  windowlist                  IceWM に対して、ウインドウ一覧を表示するように"
-"依頼します。\n"
-"  restart                     IceWM に対して、再開するように依頼します。\n"
-"  suspend                     IceWM に対して、サスペンドするように依頼しま"
-"す。\n"
-"\n"
-"表現:\n"
-"  表現は、ある 1 つのドメインに対するシンボルリストを `+' または `|' で区切っ"
-"て指定します:\n"
-"\n"
-"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
-"\n"
-
-#: src/icesh.cc:1134
-msgid "GNOME window state"
-msgstr "GNOME ウインドウ状態"
-
-#: src/icesh.cc:1135
-msgid "GNOME window hint"
-msgstr "GNOME ウインドウヒント"
-
-#: src/icesh.cc:1136
-msgid "GNOME window layer"
-msgstr "GNOME ウインドウレイヤ"
-
-#: src/icesh.cc:1137
-msgid "IceWM tray option"
-msgstr "IceWM トレイアイコン"
-
-#: src/icesh.cc:1204
+#: src/icesh.cc:1556
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "アクション `%s' には少なくとも %d 個のパラメータが必要です。"
 
-#: src/icesh.cc:1215
+#: src/icesh.cc:1566
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "表現が正しくありません: `%s'"
 
-#: src/icesh.cc:1285
-#, c-format
-msgid "Invalid argument: `%s'."
-msgstr "パラメータが正しくありません: `%s'"
-
-#: src/icesh.cc:1291
-msgid "No actions specified."
-msgstr "アクションが指定されていません。"
-
-#: src/icesh.cc:1301 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:930
+#: src/icesh.cc:1577 src/icesound.cc:795 src/icewmhint.cc:36 src/yxapp.cc:930
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "ディスプレイ %s を開くことができません。X が起動されていて、かつ $DISPLAY が"
 "セットされていなければなりません。"
 
-#: src/icesh.cc:1338
+#: src/icesh.cc:1621
+msgid "No actions specified."
+msgstr "アクションが指定されていません。"
+
+#: src/icesh.cc:1724
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "ウインドウの識別子が正しくありません: `%s'"
 
-#: src/icesh.cc:1515
+#: src/icesh.cc:1762
+#, c-format
+msgid "Invalid argument: `%s'."
+msgstr "パラメータが正しくありません: `%s'"
+
+#: src/icesh.cc:2126
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "不明なアクションです: `%s'"
@@ -825,99 +677,131 @@ msgstr ""
 msgid "IceWM crash response"
 msgstr "IceWM クラッシュ応答"
 
-#: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
+#: src/icesound.cc:216 src/icesound.cc:324 src/icesound.cc:484
 #, c-format
 msgid "Playing sample #%d (%s)"
 msgstr "サンプル #%d を再生しています (%s)"
 
-#: src/icesound.cc:337
+#: src/icesound.cc:334
 #, c-format
 msgid "%s: Invalid number of channels"
 msgstr "%s: チャンネル数が正しくありません"
 
-#: src/icesound.cc:343 src/icesound.cc:348
+#: src/icesound.cc:340 src/icesound.cc:345
 msgid "Could not set OSS channels"
 msgstr "OSS チャンネルの設定ができませんでした"
 
-#: src/icesound.cc:353 src/icesound.cc:381
+#: src/icesound.cc:350 src/icesound.cc:378
 msgid "Could not sync OSS"
 msgstr "OSS の同期ができませんでした"
 
-#: src/icesound.cc:365
+#: src/icesound.cc:362
 msgid "OSS write failed"
 msgstr "OSS の書き込みに失敗しました"
 
-#: src/icesound.cc:369
+#: src/icesound.cc:366
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
 msgstr "OSS への書き込みが完了しませんでした (%d/%d)"
 
-#: src/icesound.cc:376
+#: src/icesound.cc:373
 msgid "Could not post OSS"
 msgstr "OSS をポストできませんでした"
 
-#: src/icesound.cc:405
+#: src/icesound.cc:402
 #, c-format
 msgid "Could not open OSS device %s"
 msgstr "OSS デバイス %s を開くことができませんでした"
 
-#: src/icesound.cc:410
+#: src/icesound.cc:407
 msgid "Could not set OSS stereo"
 msgstr "OSS ステレオの設定ができませんでした"
 
-#: src/icesound.cc:415
+#: src/icesound.cc:412
 msgid "Could not reset OSS DSP"
 msgstr "OSS DSP のリセットができませんでした"
 
-#: src/icesound.cc:420
+#: src/icesound.cc:417
 msgid "Could not set OSS format"
 msgstr "OSS の形式設定ができませんでした"
 
-#: src/icesound.cc:493
-#, c-format
-msgid "Can't connect to ESound daemon: %s"
-msgstr "ESound デーモンに接続することができません: %s"
-
-#: src/icesound.cc:494 src/yxapp.cc:931
-msgid "<none>"
-msgstr "<なし>"
-
-#: src/icesound.cc:512
-#, c-format
-msgid "Error <%d> while uploading `%s:%s'"
-msgstr "`%2$s:%3$s' をアップロードする際にエラーが発生しました <%1$d>"
-
-#: src/icesound.cc:518
-#, c-format
-msgid "Sample <%d> uploaded as `%s:%s'"
-msgstr "サンプル <%d> は `%s:%s' としてアップロードされました"
-
-#: src/icesound.cc:576
-#, c-format
-msgid "Playing sample #%d: %d"
-msgstr "サンプル #%d: %d を再生しています"
-
-#: src/icesound.cc:651
+#: src/icesound.cc:504
 #, c-format
 msgid "ao_open_live failed with %d"
 msgstr "ao_open_live が %d で失敗しました"
 
-#: src/icesound.cc:662
+#: src/icesound.cc:515
 msgid "ao_play failed"
 msgstr "ao_play が失敗しました"
 
-#: src/icesound.cc:824
+#: src/icesound.cc:677
 #, c-format
 msgid "Unrecognized option: %s\n"
 msgstr "認識できないオプションです: %s\n"
 
-#: src/icesound.cc:827 src/icesound.cc:1130
+#: src/icesound.cc:680 src/icesound.cc:973
 #, c-format
 msgid "Unrecognized argument: %s\n"
 msgstr "認識できないパラメータです: %s\n"
 
-#: src/icesound.cc:836
-#, c-format
+#: src/icesound.cc:689
+#, fuzzy, c-format
+#| msgid ""
+#| "Usage: %s [OPTION]...\n"
+#| "\n"
+#| "Plays audio files on GUI events raised by IceWM.\n"
+#| "The currently configured sound interfaces are: %s.\n"
+#| "Icesound will choose the first of these which is usable.\n"
+#| "\n"
+#| "Options:\n"
+#| "\n"
+#| " -d, --display=DISPLAY   X11 display used by IceWM (default: $DISPLAY).\n"
+#| "\n"
+#| " -s, --sample-dir=DIR    Specifies a directory with sound files.\n"
+#| "                         Default is $HOME/.config/icewm/sounds.\n"
+#| "\n"
+#| " -i, --interface=LIST    Specifies audio output interfaces. One or more "
+#| "of:\n"
+#| "                         %s separated by commas.\n"
+#| "\n"
+#| " -D, --device=DEVICE     Backwards compatibility only: the default "
+#| "device. \n"
+#| "                         Please prefer one of the -A/-O/-S options.\n"
+#| "\n"
+#| " -O, --oss=DEVICE        Specifies the OSS device (default: \"%s\").\n"
+#| "\n"
+#| " -A, --alsa=DEVICE       Specifies the ALSA device (default: \"%s\").\n"
+#| "\n"
+#| " -S, --server=ADDR:PORT  Specifies the ESD server address and port "
+#| "number.\n"
+#| "                         For ESD the default is \"localhost:16001\".\n"
+#| "\n"
+#| " -z, --snooze=millisecs  Specifies the snooze interval between sound "
+#| "events\n"
+#| "                         in milliseconds. Default is 500 milliseconds.\n"
+#| "\n"
+#| " -p, --play=sound        Plays the given sound (name or number) and "
+#| "exits.\n"
+#| "\n"
+#| " -l, --list-files        Lists the available sound file paths and exits.\n"
+#| "\n"
+#| "     --list-sounds       Lists the supported sound filenames and exits.\n"
+#| "\n"
+#| "     --list-interfaces   Lists the supported audio interfaces and exits.\n"
+#| "\n"
+#| " -v, --verbose           Be verbose and print out each sound event.\n"
+#| "\n"
+#| " -V, --version           Prints version information and exits.\n"
+#| "\n"
+#| " -h, --help              Prints this help screen and exits.\n"
+#| "\n"
+#| "Return values:\n"
+#| "\n"
+#| "  0    Success.\n"
+#| "  1    General error.\n"
+#| "  2    Command line error.\n"
+#| "  3    Subsystems error (ie cannot connect to server).\n"
+#| "\n"
 msgid ""
 "Usage: %s [OPTION]...\n"
 "\n"
@@ -941,9 +825,6 @@ msgid ""
 " -O, --oss=DEVICE        Specifies the OSS device (default: \"%s\").\n"
 "\n"
 " -A, --alsa=DEVICE       Specifies the ALSA device (default: \"%s\").\n"
-"\n"
-" -S, --server=ADDR:PORT  Specifies the ESD server address and port number.\n"
-"                         For ESD the default is \"localhost:16001\".\n"
 "\n"
 " -z, --snooze=millisecs  Specifies the snooze interval between sound events\n"
 "                         in milliseconds. Default is 500 milliseconds.\n"
@@ -1032,51 +913,51 @@ msgstr ""
 "  3    サブシステムのエラー (サーバに接続できないなど)\n"
 "\n"
 
-#: src/icesound.cc:930
+#: src/icesound.cc:780
 #, c-format
 msgid "No audio for %s"
 msgstr "%s に対するサウンドがありません"
 
-#: src/icesound.cc:1007
+#: src/icesound.cc:857
 msgid "Could not get GUI event property"
 msgstr "GUI イベントプロパティの取得ができませんでした"
 
-#: src/icesound.cc:1011
+#: src/icesound.cc:861
 #, c-format
 msgid "Received invalid GUI event %d"
 msgstr "正しくない GUI イベント %d を受信しました"
 
-#: src/icesound.cc:1015
+#: src/icesound.cc:865
 #, c-format
 msgid "Received GUI event %s"
 msgstr "GUI イベント %s を受信しました"
 
-#: src/icesound.cc:1029
+#: src/icesound.cc:879
 #, c-format
 msgid "Too quick; ignoring %s."
 msgstr "間隔が短すぎます; %s を無視しています。"
 
-#: src/icesound.cc:1033
+#: src/icesound.cc:883
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr "%s インターフェイスへの対応はコンパイルされていません。"
 
-#: src/icesound.cc:1073
+#: src/icesound.cc:916
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr "未対応のインターフェイスです: %s"
 
-#: src/icesound.cc:1082
+#: src/icesound.cc:925
 #, c-format
 msgid "Using %s audio."
 msgstr "%s オーディオを使用しています。"
 
-#: src/icesound.cc:1086
+#: src/icesound.cc:929
 #, c-format
 msgid "Failed to connect to audio interfaces %s."
 msgstr "オーディオインターフェイス %s への接続に失敗しました。"
 
-#: src/icesound.cc:1098
+#: src/icesound.cc:941
 #, c-format
 msgid "Received signal %s: Terminating..."
 msgstr "シグナル %s を受け取りました。終了しています..."
@@ -1483,14 +1364,14 @@ msgstr ""
 msgid "Kill IceWM, replace with Xterm"
 msgstr "IceWM を kill し、 Xterm に置き換えます"
 
-#: src/wmapp.cc:1394
+#: src/wmapp.cc:1397
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      セッションマネージャに接続する際のクライアント ID を指"
 "定します。\n"
 
-#: src/wmapp.cc:1400
+#: src/wmapp.cc:1403
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1501,7 +1382,7 @@ msgstr ""
 "  --debug-z           ウインドウのスタック処理に関連するデバッグメッセージを"
 "表示します。\n"
 
-#: src/wmapp.cc:1408
+#: src/wmapp.cc:1411
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1513,7 +1394,7 @@ msgstr ""
 "  -t, --theme=FILE    FILE で指定したファイルからテーマを読み込みます。\n"
 "  --postpreferences   全ての処理が終了した後、設定内容を表示します。\n"
 
-#: src/wmapp.cc:1413
+#: src/wmapp.cc:1416
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1573,7 +1454,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1474
+#: src/wmapp.cc:1477
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s の設定ディレクトリ:\n"
@@ -1588,11 +1469,11 @@ msgstr "%s の設定済みオプション: %s\n"
 msgid "Unrecognized option '%s'."
 msgstr "認識できないオプション '%s' です。"
 
-#: src/wmapp.cc:1648
+#: src/wmapp.cc:1661
 msgid "Confirm Logout"
 msgstr "ログアウトの確認"
 
-#: src/wmapp.cc:1649
+#: src/wmapp.cc:1662
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1633,8 +1514,8 @@ msgstr "ワークステーションをロック (_K)"
 msgid "_Cancel"
 msgstr "キャンセル (_C)"
 
-#: src/wmdialog.cc:77 src/wmprog.cc:844 src/wmprog.cc:846 src/wmtaskbar.cc:297
-#: src/wmtaskbar.cc:299
+#: src/wmdialog.cc:77 src/wmprog.cc:844 src/wmprog.cc:846 src/wmtaskbar.cc:301
+#: src/wmtaskbar.cc:303
 msgid "_Logout..."
 msgstr "ログアウト (_L)..."
 
@@ -1642,16 +1523,16 @@ msgstr "ログアウト (_L)..."
 msgid "_Restart icewm"
 msgstr "icewm を再起動 (_R)"
 
-#: src/wmdialog.cc:82 src/wmprog.cc:805 src/wmtaskbar.cc:290
-#: src/wmtaskbar.cc:293
+#: src/wmdialog.cc:82 src/wmprog.cc:805 src/wmtaskbar.cc:294
+#: src/wmtaskbar.cc:297
 msgid "_About"
 msgstr "情報 (_A)"
 
-#: src/wmframe.cc:1390
+#: src/wmframe.cc:1394
 msgid "Kill Client: "
 msgstr "クライアント強制終了: "
 
-#: src/wmframe.cc:1397
+#: src/wmframe.cc:1401
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1659,28 +1540,28 @@ msgstr ""
 "このクライアントを強制終了すると、保存されて\n"
 "いない変更点が失われてしまいます。処理を続けてよろしいですか？"
 
-#: src/wmframe.cc:2991
+#: src/wmframe.cc:2997
 msgid "Restore"
 msgstr "元に戻す"
 
-#: src/wmframe.cc:2994 src/wmtitle.cc:69
+#: src/wmframe.cc:3000 src/wmtitle.cc:69
 msgid "Maximize"
 msgstr "最大化"
 
-#: src/wmframe.cc:3024
+#: src/wmframe.cc:3030
 msgid "Rolldown"
 msgstr "シェード解除"
 
-#: src/wmframe.cc:3026 src/wmtitle.cc:127
+#: src/wmframe.cc:3032 src/wmtitle.cc:127
 msgid "Rollup"
 msgstr "シェード"
 
-#: src/wmoption.cc:228
+#: src/wmoption.cc:232
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "未知のウインドウオプションです: %s"
 
-#: src/wmoption.cc:338
+#: src/wmoption.cc:344
 #, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "%d 行目 (%s) のウインドウオプション内に文法エラーがあります"
@@ -1737,7 +1618,7 @@ msgstr "プログラム"
 msgid "_Run..."
 msgstr "実行 (_R)..."
 
-#: src/wmprog.cc:792 src/wmtaskbar.cc:280
+#: src/wmprog.cc:792 src/wmtaskbar.cc:284
 msgid "_Windows"
 msgstr "ウインドウ一覧 (_W)"
 
@@ -1770,63 +1651,63 @@ msgstr "セッションマネージャ: 未知の行 %s"
 msgid "Task Bar"
 msgstr "タスクバー"
 
-#: src/wmtaskbar.cc:270 src/wmwinlist.cc:364 src/wmwinlist.cc:377
+#: src/wmtaskbar.cc:274 src/wmwinlist.cc:364 src/wmwinlist.cc:377
 msgid "Tile _Vertically"
 msgstr "垂直に並べる (_V)"
 
-#: src/wmtaskbar.cc:271 src/wmwinlist.cc:365 src/wmwinlist.cc:378
+#: src/wmtaskbar.cc:275 src/wmwinlist.cc:365 src/wmwinlist.cc:378
 msgid "T_ile Horizontally"
 msgstr "水平に並べる (_I)"
 
-#: src/wmtaskbar.cc:272 src/wmwinlist.cc:366 src/wmwinlist.cc:379
+#: src/wmtaskbar.cc:276 src/wmwinlist.cc:366 src/wmwinlist.cc:379
 msgid "Ca_scade"
 msgstr "カスケード (_S)"
 
-#: src/wmtaskbar.cc:273 src/wmwinlist.cc:367 src/wmwinlist.cc:380
+#: src/wmtaskbar.cc:277 src/wmwinlist.cc:367 src/wmwinlist.cc:380
 msgid "_Arrange"
 msgstr "整列 (_A)"
 
-#: src/wmtaskbar.cc:274 src/wmwinlist.cc:369 src/wmwinlist.cc:381
+#: src/wmtaskbar.cc:278 src/wmwinlist.cc:369 src/wmwinlist.cc:381
 msgid "_Minimize All"
 msgstr "全て最小化 (_M)"
 
-#: src/wmtaskbar.cc:275 src/wmwinlist.cc:370 src/wmwinlist.cc:382
+#: src/wmtaskbar.cc:279 src/wmwinlist.cc:370 src/wmwinlist.cc:382
 msgid "_Hide All"
 msgstr "全て隠す (_H)"
 
-#: src/wmtaskbar.cc:276 src/wmwinlist.cc:371 src/wmwinlist.cc:383
+#: src/wmtaskbar.cc:280 src/wmwinlist.cc:371 src/wmwinlist.cc:383
 msgid "_Undo"
 msgstr "元に戻す (_U)"
 
-#: src/wmtaskbar.cc:278
+#: src/wmtaskbar.cc:282
 msgid "Arrange _Icons"
 msgstr "アイコン整列 (_I)"
 
-#: src/wmtaskbar.cc:282
+#: src/wmtaskbar.cc:286
 msgid "_Refresh"
 msgstr "再描画 (_R)"
 
-#: src/wmtaskbar.cc:288
+#: src/wmtaskbar.cc:292
 msgid "_License"
 msgstr "ライセンス (_L)"
 
-#: src/wmtaskbar.cc:356 src/wmtaskbar.cc:979
+#: src/wmtaskbar.cc:363 src/wmtaskbar.cc:992
 msgid "Hide Taskbar"
 msgstr "タスクバーを隠す"
 
-#: src/wmtaskbar.cc:371
+#: src/wmtaskbar.cc:378
 msgid "Favorite Applications"
 msgstr "お気に入りのアプリケーション"
 
-#: src/wmtaskbar.cc:389
+#: src/wmtaskbar.cc:396
 msgid "Window List Menu"
 msgstr "ウインドウ一覧メニュー"
 
-#: src/wmtaskbar.cc:398
+#: src/wmtaskbar.cc:405
 msgid "Show Desktop"
 msgstr "デスクトップの表示"
 
-#: src/wmtaskbar.cc:979
+#: src/wmtaskbar.cc:992
 msgid "Show Taskbar"
 msgstr "タスクバーを表示"
 
@@ -2061,6 +1942,10 @@ msgid ""
 msgstr ""
 "  -d, --display=NAME  使用する X サーバを指定します。\n"
 "  --sync              X11 コマンドを同期させます。\n"
+
+#: src/yxapp.cc:931
+msgid "<none>"
+msgstr "<なし>"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
 #: src/fdospecgen.h:43
@@ -2751,6 +2636,173 @@ msgstr "Web開発"
 #: src/fdospecgen.h:319
 msgid "WordProcessor"
 msgstr "ワードプロセッサ"
+
+#~ msgid "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
+#~ msgstr "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
+
+#~ msgid ""
+#~ "Usage: %s [OPTIONS] ACTIONS\n"
+#~ "\n"
+#~ "Options:\n"
+#~ "  -d, -display DISPLAY        Connects to the X server specified by "
+#~ "DISPLAY.\n"
+#~ "                              Default: $DISPLAY or :0.0 when not set.\n"
+#~ "  -w, -window WINDOW_ID       Specifies the window to manipulate. "
+#~ "Special\n"
+#~ "                              identifiers are `root' for the root window "
+#~ "and\n"
+#~ "                              `focus' for the currently focused window.\n"
+#~ "  -c, -class WM_CLASS         Window management class of the window(s) "
+#~ "to\n"
+#~ "                              manipulate. If WM_CLASS contains a period, "
+#~ "only\n"
+#~ "                              windows with exactly the same WM_CLASS "
+#~ "property\n"
+#~ "                              are matched. If there is no period, windows "
+#~ "of\n"
+#~ "                              the same class and windows of the same "
+#~ "instance\n"
+#~ "                              (aka. `-name') are selected.\n"
+#~ "\n"
+#~ "Actions:\n"
+#~ "  setIconTitle   TITLE        Set the icon title.\n"
+#~ "  setWindowTitle TITLE        Set the window title.\n"
+#~ "  setGeometry    geometry     Set the window geometry\n"
+#~ "  setState       MASK STATE   Set the GNOME window state to STATE.\n"
+#~ "                              Only the bits selected by MASK are "
+#~ "affected.\n"
+#~ "                              STATE and MASK are expressions of the "
+#~ "domain\n"
+#~ "                              `GNOME window state'.\n"
+#~ "  toggleState    STATE        Toggle the GNOME window state bits "
+#~ "specified by\n"
+#~ "                              the STATE expression.\n"
+#~ "  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
+#~ "  setLayer       LAYER        Moves the window to another GNOME window "
+#~ "layer.\n"
+#~ "  setWorkspace   WORKSPACE    Moves the window to another workspace. "
+#~ "Select\n"
+#~ "                              the root window to change the current "
+#~ "workspace.\n"
+#~ "                              Select 0xFFFFFFFF or \"All\" for all "
+#~ "workspaces.\n"
+#~ "  listWorkspaces              Lists the names of all workspaces.\n"
+#~ "  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
+#~ "  logout                      Tell IceWM to logout.\n"
+#~ "  reboot                      Tell IceWM to reboot.\n"
+#~ "  shutdown                    Tell IceWM to shutdown.\n"
+#~ "  cancel                      Tell IceWM to cancel the logout/reboot/"
+#~ "shutdown.\n"
+#~ "  about                       Tell IceWM to show the about window.\n"
+#~ "  windowlist                  Tell IceWM to show the window list.\n"
+#~ "  restart                     Tell IceWM to restart.\n"
+#~ "  suspend                     Tell IceWM to suspend.\n"
+#~ "\n"
+#~ "Expressions:\n"
+#~ "  Expressions are list of symbols of one domain concatenated by `+' or "
+#~ "`|':\n"
+#~ "\n"
+#~ "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
+#~ "\n"
+#~ msgstr ""
+#~ "使用方法: %s [オプション] アクション\n"
+#~ "\n"
+#~ "オプション:\n"
+#~ "  -d, -display DISPLAY            DISPLAY で指定した X サーバのディスプレ"
+#~ "イに接続します。\n"
+#~ "                              既定値: $DISPLAY または :0.0 ($DISPLAY が未"
+#~ "設定の場合)\n"
+#~ "  -w, -window WINDOW_ID            操作対象のウインドウを指定します。特殊"
+#~ "キーワード `root'\n"
+#~ "                              を指定するとルートウインドウを、 `focus' を"
+#~ "指定すると\n"
+#~ "                              現在フォーカスされているウインドウを対象とし"
+#~ "ます。\n"
+#~ "  -c, -class WM_CLASS            操作するウインドウのウインドウ管理クラス"
+#~ "を指定します。\n"
+#~ "                              WM_CLASS にピリオド (.) が含まれている場合、"
+#~ "指定した\n"
+#~ "                              クラスに厳密に一致するものを指定したものと見"
+#~ "なします。\n"
+#~ "                              ピリオドがない場合、同じクラスかつ同じインス"
+#~ "タンス\n"
+#~ "                              (別名: `-name') のウインドウを選択します。\n"
+#~ "\n"
+#~ "アクション:\n"
+#~ "  setIconTitle   TITLE        アイコンのタイトルを設定します。\n"
+#~ "  setWindowTitle TITLE        ウインドウのタイトルを設定します。\n"
+#~ "  setGeometry    geometry     ウインドウのジオメトリを設定します。\n"
+#~ "  setState       MASK STATE   GNOME のウインドウ状態を STATE に設定しま"
+#~ "す。\n"
+#~ "                              MASK で選択したビットのみを設定します。\n"
+#~ "                              STATE と MASK は、領域 `GNOME window state' "
+#~ "の表現で\n"
+#~ "                              指定します。\n"
+#~ "  toggleState    STATE        STATE の表現で指定した GNOME の状態ビット"
+#~ "を\n"
+#~ "                              切り替えます。\n"
+#~ "  setHints       HINTS        GNOME のウインドウヒントを HINTS に設定しま"
+#~ "す。\n"
+#~ "  setLayer       LAYER        ウインドウを他の GNOME ウインドウレイヤに移"
+#~ "動します。\n"
+#~ "  setWorkspace   WORKSPACE    ウインドウを他のワークスペースに移動します。"
+#~ "現在の\n"
+#~ "                              ワークスペースを変更したい場合は、ルートウイ"
+#~ "ンドウを\n"
+#~ "                              選択してください。全てのワークスペースに設定"
+#~ "したい場合は、 \n"
+#~ "                               0xFFFFFFFF または \"All\" を指定してくださ"
+#~ "い。\n"
+#~ "  listWorkspaces              全てのワークスペースの名前を一覧表示しま"
+#~ "す。\n"
+#~ "  setTrayOption  TRAYOPTION   IceWM トレイオプションのヒントを設定しま"
+#~ "す。\n"
+#~ "  logout                      IceWM に対して、ログアウトするように依頼しま"
+#~ "す。\n"
+#~ "  reboot                      IceWM に対して、再起動するように依頼しま"
+#~ "す。\n"
+#~ "  shutdown                    IceWM に対して、シャットダウンするように依頼"
+#~ "します。\n"
+#~ "  cancel                      IceWM に対して、ログアウト／再起動／シャット"
+#~ "ダウンをキャンセルするように依頼します。\n"
+#~ "  about                       IceWM に対して、バージョン情報を表示するよう"
+#~ "に依頼します。\n"
+#~ "  windowlist                  IceWM に対して、ウインドウ一覧を表示するよう"
+#~ "に依頼します。\n"
+#~ "  restart                     IceWM に対して、再開するように依頼します。\n"
+#~ "  suspend                     IceWM に対して、サスペンドするように依頼しま"
+#~ "す。\n"
+#~ "\n"
+#~ "表現:\n"
+#~ "  表現は、ある 1 つのドメインに対するシンボルリストを `+' または `|' で区"
+#~ "切って指定します:\n"
+#~ "\n"
+#~ "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
+#~ "\n"
+
+#~ msgid "GNOME window state"
+#~ msgstr "GNOME ウインドウ状態"
+
+#~ msgid "GNOME window hint"
+#~ msgstr "GNOME ウインドウヒント"
+
+#~ msgid "GNOME window layer"
+#~ msgstr "GNOME ウインドウレイヤ"
+
+#~ msgid "IceWM tray option"
+#~ msgstr "IceWM トレイアイコン"
+
+#~ msgid "Can't connect to ESound daemon: %s"
+#~ msgstr "ESound デーモンに接続することができません: %s"
+
+#~ msgid "Error <%d> while uploading `%s:%s'"
+#~ msgstr "`%2$s:%3$s' をアップロードする際にエラーが発生しました <%1$d>"
+
+#~ msgid "Sample <%d> uploaded as `%s:%s'"
+#~ msgstr "サンプル <%d> は `%s:%s' としてアップロードされました"
+
+#~ msgid "Playing sample #%d: %d"
+#~ msgstr "サンプル #%d: %d を再生しています"
 
 #~ msgid "Usage error: "
 #~ msgstr "使用法エラー: "
