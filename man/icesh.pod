@@ -15,9 +15,15 @@ icesh - control window properties and the IceWM window manager
 =head1 DESCRIPTION
 
 B<icesh> provides 64 commands to change or query a window's state,
-and to interact with the L<icewm(1)> window manager. Multiple commands
-can be given. The commands operate on a selection of one or more
-windows. B<icesh> has several means to select and filter windows.
+and to interact with the L<icewm(1)> window manager. Command arguments
+are called actions. Window actions operate on a selection of windows.
+B<icesh> has several options to select and filter windows.  Options and
+actions can be interspersed. They are processed and evaluated one after
+another from left to right. Therefore, an option can only affect a
+subsequent action, but not a previous one. Because of this, an action
+can operate on a different selection of windows than a previous action,
+if it is preceded by a new select option. In combination with filter
+options, this gives B<icesh> its expressive power.
 
 =head1 OPTIONS
 
