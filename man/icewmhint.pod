@@ -110,14 +110,14 @@ I<CLASS>B<.>I<INSTANCE>.  I<GEOMETRY> must be a geometry that can be
 parsed by L<XParseGeometry(3)>.  The default is the geometry provided by
 window manager hints.
 
-=item B<order>: I<NUMBER>
+=item B<order> I<NUMBER>
 
 The sorting order of task buttons and tray icons. The default value is
 zero. Increasing positive values go farther right, while decreasing
 negative values go farther left. The order option applies to the task
 pane, the tray pane and the system tray.
 
-=item B<opacity>: I<NUMBER>
+=item B<opacity> I<NUMBER>
 
 Set the _NET_WM_WINDOW_OPACITY property if I<NUMBER> is a value between
 1 and 100. I<NUMBER> is interpreted as percentage of maximum opaqueness.
@@ -228,7 +228,9 @@ advanced features are as follows:
               Chromium-browser ignorePagerPreview 1 \
               Chromium-browser ignorePositionHint 1 \
               Chromium-browser ignoreTaskBar 1 \
-              Chromium-browser ignoreQuickSwitch 1
+              Chromium-browser ignoreQuickSwitch 1 \
+              Chromium-browser ignoreUrgentHint 1 \
+              Chromium-browser noFocusOnAppRaise 1
     chromium
 
 =head1 BUGS

@@ -14,7 +14,7 @@ icesh - control window properties and the IceWM window manager
 
 =head1 DESCRIPTION
 
-B<icesh> provides 64 commands to change or query a window's state,
+B<icesh> provides 69 commands to change or query a window's state,
 and to interact with the L<icewm(1)> window manager. Command arguments
 are called actions. Window actions operate on a selection of windows.
 B<icesh> has several options to select and filter windows.  Options and
@@ -63,6 +63,10 @@ Selects all clients of the window manager.
 
 Selects all currently visible clients of the window manager.
 
+=item B<-t>, B<-top>
+
+Selects all toplevel windows from the display unconditionally.
+
 =back
 
 =head2 FILTER OPTIONS
@@ -80,6 +84,10 @@ I<WM_CLASS> contains a period, only windows with exactly the same
 I<WM_CLASS> property are matched.  If there is no period, windows of the
 same class and windows of the same instance (aka. I<-name>) are selected.
 
+=item B<-l>, B<-last>
+
+Filter clients and keep only the most recent client.
+
 =item B<-p>, B<-pid> I<PID>
 
 Filters clients by process ID. Clients with a _NET_WM_PID property equal
@@ -89,6 +97,13 @@ to I<PID> are selected.
 
 Filters clients by host name. Clients with a WM_CLIENT_MACHINE property
 equal to I<HOST> are selected.
+
+=item B<-n>, B<-name> I<NAME>
+
+Filters clients by _NET_WM_NAME or WM_NAME.
+I<NAME> matches any part of the property value.
+To match at the beginning use a C<^> prefix.
+To match at the end use a C<$> suffix.
 
 =item B<-L>, B<-Layer> I<LAYER>
 
@@ -105,6 +120,13 @@ like B<minized> or B<maximized> and is explained below.
 
 Filter clients by workspace. Workspace I<WORKSPACE> is either a
 workspace name or a workspace number counting from zero.
+
+=item B<-X>, B<-Xinerama> I<MONITOR>
+
+Limit clients by I<RandR>/I<Xinerama> monitor. Only operate on
+clients which are displayed on I<MONITOR>, where I<MONITOR> can
+be C<All> for all monitors or C<this> for the monitor where the
+active window is displayed.
 
 =back
 
@@ -192,6 +214,14 @@ Set the window to fullscreen.
 =item B<maximize>
 
 Maximize the window.
+
+=item B<horizontal>
+
+Maximize the window only horizontally.
+
+=item B<vertical>
+
+Maximize the window only vertically.
 
 =item B<minimize>
 
@@ -361,6 +391,20 @@ a workspace number starting from zero.
 =item B<setWorkspaceNames> I<NAME> [I<NAME>]*
 
 Change the workspace names to the list of I<NAME>s.
+
+=item B<desktop> [I<SHOWING>]
+
+If I<SHOWING> is C<1> then set C<showing the desktop> mode.
+If I<SHOWING> is C<0> then turn off C<showing the desktop>.
+Print the current mode if I<SHOWING> is not given.
+
+=item B<randr>
+
+Summarize the I<RandR> configuration.
+
+=item B<xinerama>
+
+Summarize the I<Xinerama> configuration.
 
 =item B<check>
 
