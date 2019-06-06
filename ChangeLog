@@ -1,5 +1,662 @@
 # created with git log --stat=76 -M -C -500|fmt -sct -w80
 
+commit 7d4f52b23922ff36a97eb90e4a618110f5c2c66f
+Merge: 30d53d96 848cd242
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Fri Jun 7 00:58:04 2019 +0200
+
+    Merge branch 'icewm-1-4-BRANCH'
+
+commit 848cd2420ee1d818c1c668d255d0484fb35c140d
+Merge: 17130943 c6137fcf
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Fri Jun 7 00:40:14 2019 +0200
+
+    Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
+    icewm-1-4-BRANCH
+
+commit c6137fcf7296da52122d5b504c0494cd58a2f4c2
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Fri Jun 7 00:39:15 2019 +0200
+
+    update po files
+
+ po/ar.po     | 35 ++++++++++++++-------------
+ po/be.po     | 35 ++++++++++++++-------------
+ po/bg.po     | 35 ++++++++++++++-------------
+ po/ca.po     | 47 ++++++++++++++++++------------------
+ po/cs.po     | 39 +++++++++++++++---------------
+ po/da.po     | 35 ++++++++++++++-------------
+ po/de.po     | 39 +++++++++++++++---------------
+ po/el.po     | 35 ++++++++++++++-------------
+ po/en.po     | 34 +++++++++++++-------------
+ po/es.po     | 35 ++++++++++++++-------------
+ po/fi.po     | 35 ++++++++++++++-------------
+ po/fr.po     | 35 ++++++++++++++-------------
+ po/he.po     | 35 ++++++++++++++-------------
+ po/hr.po     | 34 +++++++++++++-------------
+ po/hu.po     | 37 +++++++++++++++--------------
+ po/icewm.pot | 34 +++++++++++++-------------
+ po/id.po     | 35 ++++++++++++++-------------
+ po/it.po     | 35 ++++++++++++++-------------
+ po/ja.po     | 72 +++++++++++++++++++++++++++++++++-----------------------
+ po/ko.po     | 35 ++++++++++++++-------------
+ po/lt.po     | 35 ++++++++++++++-------------
+ po/lv.po     | 35 ++++++++++++++-------------
+ po/mk.po     | 35 ++++++++++++++-------------
+ po/nb.po     | 35 ++++++++++++++-------------
+ po/nl.po     | 39 +++++++++++++++---------------
+ po/no.po     | 35 ++++++++++++++-------------
+ po/pl.po     | 35 ++++++++++++++-------------
+ po/pt_BR.po  | 39 +++++++++++++++---------------
+ po/ro.po     | 35 ++++++++++++++-------------
+ po/ru.po     | 35 ++++++++++++++-------------
+ po/sk.po     | 39 +++++++++++++++---------------
+ po/sl.po     | 35 ++++++++++++++-------------
+ po/sv.po     | 35 ++++++++++++++-------------
+ po/tr.po     | 35 ++++++++++++++-------------
+ po/uk.po     | 35 ++++++++++++++-------------
+ po/vi.po     | 35 ++++++++++++++-------------
+ po/zh_CN.po  | 35 ++++++++++++++-------------
+ po/zh_TW.po  | 35 ++++++++++++++-------------
+ 38 files changed, 722 insertions(+), 676 deletions(-)
+
+commit 17130943253b82ee8637c403258d4540db30de0f
+Merge: 9275186b 3bf1d504
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Fri Jun 7 00:37:26 2019 +0200
+
+    Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
+    icewm-1-4-BRANCH
+
+commit 3bf1d5046e74e27f264cfd724cbb47b37ef89061
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Fri Jun 7 00:35:19 2019 +0200
+
+    icesh monitor number
+
+ man/icesh.pod | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+commit dbe56fe706af5e2bbf008e493f07e19f102e1128
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Wed Jun 5 06:40:37 2019 +0200
+
+    icesh missing bits.
+
+ man/icesh.pod     |  46 +++-
+ man/icewmhint.pod |   8 +-
+ src/icesh.cc      | 638 +++++++++++++++++++++++++++++++++++++-------------
+ 3 files changed, 525 insertions(+), 167 deletions(-)
+
+commit 48394080fd4edabf8f36509cdb3f1db2f8c549aa
+Author: Sarah Kriesch <ada.lovelace@gmx.de>
+Date:   Sun Jun 2 08:50:24 2019 +0000
+
+    Translated using Weblate (German)
+
+    Currently translated at 100.0% (459 of 459 strings)
+
+ po/de.po | 74 ++++++------------------------------------------------------
+ 1 file changed, 7 insertions(+), 67 deletions(-)
+
+commit b7eabae9ee10aa66164a930f7fe87cdd4311923f
+Author: Rodrigo Macedo <rmsolucoeseminformatic4@gmail.com>
+Date:   Tue May 28 11:57:53 2019 +0000
+
+    Translated using Weblate (Portuguese (Brazil))
+
+    Currently translated at 100.0% (459 of 459 strings)
+
+ po/pt_BR.po | 70 +++++----------------------------------------------------
+ 1 file changed, 5 insertions(+), 65 deletions(-)
+
+commit bf42fba0d3dba21f198caee1afacdcee1465d193
+Author: Freek de Kruijf <freek@opensuse.org>
+Date:   Sun May 26 21:26:26 2019 +0000
+
+    Translated using Weblate (Dutch)
+
+    Currently translated at 100.0% (459 of 459 strings)
+
+ po/nl.po | 72 +++++-------------------------------------------------------
+ 1 file changed, 6 insertions(+), 66 deletions(-)
+
+commit 22f87aaa97ced4cfa7539cf009f8aad678cbde06
+Author: Ferdinand Galko <galko.ferdinand@gmail.com>
+Date:   Sat May 25 16:09:02 2019 +0000
+
+    Translated using Weblate (Slovak)
+
+    Currently translated at 100.0% (459 of 459 strings)
+
+ po/sk.po | 71 +++++-------------------------------------------------------
+ 1 file changed, 6 insertions(+), 65 deletions(-)
+
+commit aab3d78f4a9cb027b3b6b43774ec9fec461a0061
+Author: David Medina <medipas@gmail.com>
+Date:   Sat May 25 08:43:13 2019 +0000
+
+    Translated using Weblate (Catalan)
+
+    Currently translated at 100.0% (459 of 459 strings)
+
+ po/ca.po | 80 ++++++++----------------------------------------------------
+ 1 file changed, 10 insertions(+), 70 deletions(-)
+
+commit d81c0bcc3126b6e565a54b7e4d0326feceffc036
+Author: Yasuhiko Kamata <belphegor@belbel.or.jp>
+Date:   Fri May 24 22:45:17 2019 +0000
+
+    Translated using Weblate (Japanese)
+
+    Currently translated at 100.0% (459 of 459 strings)
+
+ po/ja.po | 102 ++++++++++-------------------------------------------------
+ 1 file changed, 16 insertions(+), 86 deletions(-)
+
+commit 1123543c74aa24591e6b0458a04a8e3b682d0ee1
+Author: Aleš Kastner <alkas@volny.cz>
+Date:   Fri May 24 19:58:47 2019 +0000
+
+    Translated using Weblate (Czech)
+
+    Currently translated at 100.0% (459 of 459 strings)
+
+ po/cs.po | 72 +++++-------------------------------------------------------
+ 1 file changed, 6 insertions(+), 66 deletions(-)
+
+commit db0f894e4e1490ee5aba68baeff42e80f80f8372
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Thu May 23 07:56:08 2019 +0200
+
+    icesh clarify
+
+ man/icesh.pod | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
+
+commit 4f337ccd8631f01f68602056eefb76210311d482
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Tue May 21 22:57:22 2019 +0200
+
+    update po files.
+
+ po/ar.po     | 536 ++++++++++++++++++++++++++---------------------
+ po/be.po     | 458 ++++++++++++++++++++--------------------
+ po/bg.po     | 459 ++++++++++++++++++++--------------------
+ po/ca.po     | 570 +++++++++++++++++++++++++++-----------------------
+ po/cs.po     | 542 +++++++++++++++++++++++++----------------------
+ po/da.po     | 549 ++++++++++++++++++++++++++----------------------
+ po/de.po     | 554 ++++++++++++++++++++++++++----------------------
+ po/el.po     | 577 +++++++++++++++++++++++++++-----------------------
+ po/en.po     | 272 ++++++++----------------
+ po/es.po     | 553 ++++++++++++++++++++++++++----------------------
+ po/fi.po     | 452 ++++++++++++++++++++-------------------
+ po/fr.po     | 562 ++++++++++++++++++++++++++-----------------------
+ po/he.po     | 356 +++++++++++++++----------------
+ po/hr.po     | 280 ++++++++-----------------
+ po/hu.po     | 562 ++++++++++++++++++++++++++-----------------------
+ po/icewm.pot | 274 ++++++++----------------
+ po/id.po     | 581 +++++++++++++++++++++++++--------------------------
+ po/it.po     | 559 ++++++++++++++++++++++++++-----------------------
+ po/ja.po     | 578 +++++++++++++++++++++++++++-----------------------
+ po/ko.po     | 524 +++++++++++++++++++++++++---------------------
+ po/lt.po     | 443 +++++++++++++++++++--------------------
+ po/lv.po     | 455 ++++++++++++++++++++--------------------
+ po/mk.po     | 471 ++++++++++++++++++++---------------------
+ po/nb.po     | 443 +++++++++++++++++++--------------------
+ po/nl.po     | 560 +++++++++++++++++++++++++++----------------------
+ po/no.po     | 443 +++++++++++++++++++--------------------
+ po/pl.po     | 538 +++++++++++++++++++++++++----------------------
+ po/pt_BR.po  | 559 +++++++++++++++++++++++++++----------------------
+ po/ro.po     | 446 +++++++++++++++++++--------------------
+ po/ru.po     | 556 ++++++++++++++++++++++++++----------------------
+ po/sk.po     | 541 +++++++++++++++++++++++++----------------------
+ po/sl.po     | 458 ++++++++++++++++++++--------------------
+ po/sv.po     | 544 +++++++++++++++++++++++++----------------------
+ po/tr.po     | 456 ++++++++++++++++++++--------------------
+ po/uk.po     | 627 ++++++++++++++++++++++++++++++-------------------------
+ po/vi.po     | 455 ++++++++++++++++++++--------------------
+ po/zh_CN.po  | 513 ++++++++++++++++++++++++---------------------
+ po/zh_TW.po  | 520 ++++++++++++++++++++++++---------------------
+ 38 files changed, 9710 insertions(+), 9116 deletions(-)
+
+commit 0bc1d67418a75c6e1db1993f118922113cafe8e1
+Merge: 83e8e152 e6d3be4e
+Author: openSUSE Weblate <weblate-noreply@opensuse.org>
+Date:   Tue May 21 15:55:09 2019 +0000
+
+    Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
+
+commit e6d3be4eba659fb8f76c4a99772f9cc6dc96549d
+Author: scootergrisen <scootergrisen@gmail.com>
+Date:   Sat May 18 22:05:44 2019 +0000
+
+    Translated using Weblate (Danish)
+
+    Currently translated at 100.0% (468 of 468 strings)
+
+ po/da.po | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit 83e8e1520f1aeed022401390f2f58e885d6c724b
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon May 20 22:28:56 2019 +0200
+
+    icesh urgent, move frame, center, left, right, top, bottom.
+
+ man/icesh.pod |  61 ++++++++++++-------
+ src/icesh.cc  | 176 ++++++++++++++++++++++++++++++++++++++++--------------
+ 2 files changed, 169 insertions(+), 68 deletions(-)
+
+commit aee9b0350568ec8246ba72ce5343cceb135213cc
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun May 19 15:07:06 2019 +0200
+
+    prefer clang for cmake testing
+
+ rebuild.sh | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+commit f8456d0ea631b37e4754ee981aca2cf62786b4c1
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun May 19 15:06:00 2019 +0200
+
+    fix clang warning
+
+ src/icesh.cc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 714f6a31583fc5f931fe08d6c496a17610f8638d
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun May 19 10:58:07 2019 +0200
+
+    icesh flexible filtering.
+
+ man/icesh.pod | 125 +++++++------
+ src/icesh.cc  | 535 ++++++++++++++++++++++++++++--------------------------
+ 2 files changed, 347 insertions(+), 313 deletions(-)
+
+commit 0849fcabe35cb1b1c91e82fbe71f0836f7f0cdae
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sat May 18 07:51:17 2019 +0200
+
+    Add -machine option. Add the "this" workspace.  Fix window titles and
+    icon titles and support EWMH. Fix -window root and -window focus.
+    Also print workspace name for "getWorkspace".
+    Also print PID and workspace for window details.
+
+ man/icesh.pod |  19 +++--
+ src/icesh.cc  | 228 ++++++++++++++++++++++++++++++++++--------------------
+ 2 files changed, 156 insertions(+), 91 deletions(-)
+
+commit c2f53e08969040bb11606f018e4d3740dfd2050f
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Tue May 14 21:49:51 2019 +0200
+
+    prevent warning.
+
+ src/ymsgbox.cc | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+commit 844f92ba67806e33efe56d1e03c56683b88a3c5f
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Tue May 14 21:49:19 2019 +0200
+
+    fix compilation for C++11 and older.
+
+ src/ref.h | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+commit e07825fe5fa6067a0d30dc0f27c00ea811723418
+Merge: 10a14f0b 73d3985f
+Author: openSUSE Weblate <weblate-noreply@opensuse.org>
+Date:   Tue May 14 14:45:48 2019 +0000
+
+    Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
+
+commit 73d3985f13cc18d22889fc594d967c795e3914bb
+Author: Freek de Kruijf <freek@opensuse.org>
+Date:   Thu May 9 10:19:38 2019 +0000
+
+    Translated using Weblate (Dutch)
+
+    Currently translated at 100.0% (468 of 468 strings)
+
+ po/nl.po | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+commit ec4ada77ed171ac3cebcdb6c5731dd58fc4acae5
+Author: scootergrisen <scootergrisen@gmail.com>
+Date:   Tue May 7 19:34:10 2019 +0000
+
+    Translated using Weblate (Danish)
+
+    Currently translated at 100.0% (468 of 468 strings)
+
+ po/da.po | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+commit fc9ce85926a8f866821b5352090bf84371b949b1
+Author: mohammad alhargan <malham1@gmail.com>
+Date:   Mon May 13 21:30:43 2019 +0000
+
+    Translated using Weblate (Arabic)
+
+    Currently translated at 100.0% (468 of 468 strings)
+
+ po/ar.po | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+commit 10a14f0b5b1b379f3752111c11a40ee9fb462dca
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon May 13 21:57:17 2019 +0200
+
+    better icesh
+
+ src/icesh.cc | 381 +++++++++++++++++++++++++++++++------------------------
+ 1 file changed, 215 insertions(+), 166 deletions(-)
+
+commit 4d72354c383b5233137779f639334065a134d6a3
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon May 13 21:56:16 2019 +0200
+
+    +isSign
+
+ src/ascii.h | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+commit 03145fe1add72c0932090547bdfee01abd78f085
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sat May 11 08:43:21 2019 +0200
+
+    backwards support for nullptr.
+
+ src/base.h | 3 +++
+ 1 file changed, 3 insertions(+)
+
+commit b2a113109961a8d0f6ef37038ff275d6ab991e22
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Fri May 10 20:53:53 2019 +0200
+
+    add order and opacity to icewmhint.
+
+ man/icewmhint.pod | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+commit 96ab761229a5ccff90ecd906667275c650ef1eda
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Fri May 10 20:52:35 2019 +0200
+
+    CMake external systray is unsupported.
+
+ src/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 77e8dff3ffb98a0443cfbffd3e5d4f10a8d5a687
+Merge: 8d04dd9b 2ad9b4b0
+Author: openSUSE Weblate <weblate-noreply@opensuse.org>
+Date:   Mon May 6 23:24:20 2019 +0000
+
+    Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
+
+commit 2ad9b4b087ec1d998da5b1fe45c0a5626eeb9903
+Author: Rodrigo Macedo <rmsolucoeseminformatic4@gmail.com>
+Date:   Sat May 4 21:12:25 2019 +0000
+
+    Translated using Weblate (Portuguese (Brazil))
+
+    Currently translated at 100.0% (468 of 468 strings)
+
+ po/pt_BR.po | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+commit ea0a38ebdfb4c61ebe6e9775ed3e9a190d9ee2a1
+Author: Yasuhiko Kamata <belphegor@belbel.or.jp>
+Date:   Sat May 4 22:46:39 2019 +0000
+
+    Translated using Weblate (Japanese)
+
+    Currently translated at 100.0% (468 of 468 strings)
+
+ po/ja.po | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+commit 04aa7368771c9f617afca64cac5fc6265c16a524
+Author: David Medina <medipas@gmail.com>
+Date:   Sun May 5 11:48:03 2019 +0000
+
+    Translated using Weblate (Catalan)
+
+    Currently translated at 100.0% (468 of 468 strings)
+
+ po/ca.po | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+commit 8d04dd9b2d49b840068740505cea29623f616e09
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun May 5 23:22:23 2019 +0200
+
+    currentWorkspace
+
+ src/icesh.cc | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+commit b305a95d770efa3fdfbebe573a36ebcc538a978e
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun May 5 21:36:26 2019 +0200
+
+    update. explain opacity.
+
+ man/icewm-menu-fdo.pod | 13 +++++++--
+ man/icewm.pod          | 72 ++++++++++++++++++++++++++++++----------------
+ 2 files changed, 59 insertions(+), 26 deletions(-)
+
+commit 4335942fa9aaed23fc3bd58e2be802210dea5f71
+Merge: 7b9d539c 0b7cb7c9
+Author: openSUSE Weblate <weblate-noreply@opensuse.org>
+Date:   Sat May 4 15:44:22 2019 +0000
+
+    Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
+
+commit 0b7cb7c9133b71f12d3ab4bac14c8dd101e74b3c
+Author: Ferdinand Galko <galko.ferdinand@gmail.com>
+Date:   Fri May 3 14:10:27 2019 +0000
+
+    Translated using Weblate (Slovak)
+
+    Currently translated at 100.0% (468 of 468 strings)
+
+ po/sk.po | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+commit b1ba3d9473f30eeffbbb157ebe0584cd30aa1796
+Author: Sarah Kriesch <ada.lovelace@gmx.de>
+Date:   Fri May 3 17:22:26 2019 +0000
+
+    Translated using Weblate (German)
+
+    Currently translated at 100.0% (468 of 468 strings)
+
+ po/de.po | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+commit eae2564cde68b30f083c8c0613676f20e4b56248
+Author: Aleš Kastner <alkas@volny.cz>
+Date:   Fri May 3 14:02:49 2019 +0000
+
+    Translated using Weblate (Czech)
+
+    Currently translated at 100.0% (468 of 468 strings)
+
+ po/cs.po | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+commit 7b9d539c87efae0a72d18e98614ec2e6e82445b9
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sat May 4 09:54:43 2019 +0200
+
+    Update icewm(1) man page.
+
+ man/icewm.pod | 25 ++++++++++---------------
+ 1 file changed, 10 insertions(+), 15 deletions(-)
+
+commit 2c0c176326a83b0626c00673360e1e468ef2b92c
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sat May 4 09:54:28 2019 +0200
+
+    More icesh commands.
+
+ man/icesh.pod | 152 ++++++++++++++-------
+ src/icesh.cc  | 394 ++++++++++++++++++++++++++++++++++++++----------------
+ 2 files changed, 381 insertions(+), 165 deletions(-)
+
+commit d5f710985255e19668d3edc36f3a4bd9f9802086
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sat May 4 09:52:19 2019 +0200
+
+    Fix compiler warnings, prefer size_t over int, prefer nullptr over 0.
+
+ src/mstring.cc  | 99 ++++++++++++++++++++++-------------------------------
+ src/mstring.h   | 26 +++++---------
+ src/wmclient.cc |  6 ++--
+ 3 files changed, 53 insertions(+), 78 deletions(-)
+
+commit ba1752901816bbae47016b919f5fb6779537bdfb
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sat May 4 09:51:30 2019 +0200
+
+    Drop support for EsounD.
+
+ configure.ac          |  13 +---
+ man/icesound.pod      |  23 ++-----
+ src/CMakeLists.txt    |  13 +---
+ src/config.cmake.h.in |   1 -
+ src/icesound.cc       | 157 ----------------------------------------------
+ src/wmapp.cc          |   3 -
+ 6 files changed, 8 insertions(+), 202 deletions(-)
+
+commit 8b7a3f8c6304966b6dba221bedba7a045d2e6a45
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Wed May 1 21:34:56 2019 +0200
+
+    improve icesh
+
+ man/icesh.pod | 38 +++++++++++++++++++++++++-------------
+ src/icesh.cc  | 44 ++++++++++++++++++++++++++++++++++++++------
+ 2 files changed, 63 insertions(+), 19 deletions(-)
+
+commit 5e601d69b7eda1647087d99978a1dcafc0e1fa3e
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Apr 28 20:10:41 2019 +0200
+
+    correction
+
+ src/ymenu.cc | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit 999d950bffa665a2d6e92868cabe5e90f560beb9
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Apr 28 15:55:02 2019 +0200
+
+    Add opacity to winoptions.
+
+ man/icewm-winoptions.pod | 5 +++++
+ src/wmmgr.cc             | 8 ++++++++
+ src/wmoption.cc          | 8 +++++++-
+ src/wmoption.h           | 1 +
+ 4 files changed, 21 insertions(+), 1 deletion(-)
+
+commit 9adf16d67e4a10800fcface98fdc05050741d00e
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Apr 28 15:53:37 2019 +0200
+
+    Set WM_CLASS and window type on icewm windows.
+
+ src/wmdialog.cc  |  4 ++++
+ src/wmstatus.cc  |  2 ++
+ src/wmswitch.cc  |  2 ++
+ src/wmtaskbar.cc |  5 ++++-
+ src/wmwinlist.cc |  1 +
+ src/ydialog.cc   |  1 +
+ src/ymenu.cc     | 51 ++++++++++++++++++++++++++++++++++++++++-----------
+ src/ymenu.h      |  2 ++
+ src/ytooltip.cc  |  3 +++
+ 9 files changed, 59 insertions(+), 12 deletions(-)
+
+commit acd41c6d6a728a90c0330a8ec61d6862374267d1
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Apr 28 15:49:45 2019 +0200
+
+    Set EWMH window type on icewm windows.
+
+ src/wmmgr.h    | 16 ----------------
+ src/ywindow.cc | 13 +++++++++++++
+ src/ywindow.h  | 20 ++++++++++++++++++++
+ 3 files changed, 33 insertions(+), 16 deletions(-)
+
+commit d2b601e313b709a73e1b8985cc0c7fa28c6bf6c5
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Apr 28 15:46:53 2019 +0200
+
+    Add 16 new icesh commands.
+
+ man/icesh.pod | 116 +++++++--
+ src/icesh.cc  | 743 +++++++++++++++++++++++++++++++++++-------------------
+ 2 files changed, 581 insertions(+), 278 deletions(-)
+
+commit 30d53d967db117504923c53b62ac23466f6368c0
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Tue Apr 23 22:23:59 2019 +0200
+
+    Prepare 1.5.4 release
+
+ AUTHORS      |    2 +-
+ ChangeLog    | 1083 +++++++++++++++++++++++++++---------------------------
+ NEWS         |  826 +++--------------------------------------
+ README.md    |   40 +-
+ VERSION      |    2 +-
+ configure.ac |    8 +-
+ po/ar.po     |    2 +-
+ po/be.po     |    2 +-
+ po/bg.po     |    2 +-
+ po/ca.po     |    2 +-
+ po/cs.po     |    2 +-
+ po/da.po     |    2 +-
+ po/de.po     |    2 +-
+ po/el.po     |    2 +-
+ po/en.po     |    2 +-
+ po/es.po     |    2 +-
+ po/fi.po     |    2 +-
+ po/fr.po     |    2 +-
+ po/he.po     |    2 +-
+ po/hr.po     |    2 +-
+ po/hu.po     |    2 +-
+ po/icewm.pot |   78 +---
+ po/id.po     |    2 +-
+ po/it.po     |    2 +-
+ po/ja.po     |    2 +-
+ po/ko.po     |    2 +-
+ po/lt.po     |    2 +-
+ po/lv.po     |    2 +-
+ po/mk.po     |    2 +-
+ po/nb.po     |    2 +-
+ po/nl.po     |    2 +-
+ po/no.po     |    2 +-
+ po/pl.po     |    2 +-
+ po/pt_BR.po  |    2 +-
+ po/ro.po     |    2 +-
+ po/ru.po     |    2 +-
+ po/sk.po     |    2 +-
+ po/sl.po     |    2 +-
+ po/sv.po     |    2 +-
+ po/tr.po     |    2 +-
+ po/uk.po     |    2 +-
+ po/vi.po     |    2 +-
+ po/zh_CN.po  |    2 +-
+ po/zh_TW.po  |    2 +-
+ 44 files changed, 668 insertions(+), 1445 deletions(-)
+
 commit bccd3c674d465a348a7653b8e7206f72a2590474
 Merge: d6b77934 9275186b
 Author: Bert Gijsbers <gijsbers@science.uva.nl>
@@ -5111,645 +5768,3 @@ Date:   Sat May 12 17:20:11 2018 +0200
 
  src/acpustatus.cc | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
-
-commit 3069a74199b5b06a807d482b94d04f497ec51476
-Author: Eduard Bloch <blade@debian.org>
-Date:   Sat May 12 17:05:28 2018 +0200
-
-    [cmake] Include yarray source dependencies as needed
-
- src/CMakeLists.txt | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-commit 8d6059c82eff4fc901fba5781904c3933442d382
-Author: Eduard Bloch <blade@debian.org>
-Date:   Sat May 12 12:33:59 2018 +0200
-
-    Interpret removed monitors as truely disconnected
-
- contrib/icewm-menu-xrandr | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
-
-commit ffbcbc1fd50fb6379ea1205368d77819a70d3aaf
-Author: Dingzhong Chen <wsxy162@gmail.com>
-Date:   Fri May 11 16:44:52 2018 +0000
-
-    Translated using Weblate (Chinese (China))
-
-    Currently translated at 100.0% (336 of 336 strings)
-
- po/zh_CN.po | 40 +++++++++++++++++-----------------------
- 1 file changed, 17 insertions(+), 23 deletions(-)
-
-commit 742534399cf71b7f2fba0ca36e65a2248f22e8f5
-Author: Luiz Fernando Ranghetti <elchevive68@gmail.com>
-Date:   Fri May 11 16:22:23 2018 +0000
-
-    Translated using Weblate (Portuguese (Brazil))
-
-    Currently translated at 100.0% (336 of 336 strings)
-
- po/pt_BR.po | 38 ++++++++++++++++----------------------
- 1 file changed, 16 insertions(+), 22 deletions(-)
-
-commit 06e47d14171cada5ab30e2d3ff83194fc7ac5782
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Wed May 9 22:15:58 2018 +0200
-
-    fix initialization of taskbar for TaskBarEnableSystemTray=0 in issue #265.
-
- src/wmtaskbar.cc | 41 +++++++++++++++++++++++++++--------------
- 1 file changed, 27 insertions(+), 14 deletions(-)
-
-commit fc99508e042c454ee65162604396689a89cfd181
-Author: Alessio Adamo <alessio.adamo@gmail.com>
-Date:   Wed May 9 12:10:45 2018 +0000
-
-    Translated using Weblate (Italian)
-
-    Currently translated at 100.0% (336 of 336 strings)
-
- po/it.po | 38 ++++++++++++++++----------------------
- 1 file changed, 16 insertions(+), 22 deletions(-)
-
-commit a67aa4a1aeb574a43bc0e4bfa0e9e891ba6726ac
-Author: Ferdinand Galko <galko.ferdinand@gmail.com>
-Date:   Wed May 9 06:43:10 2018 +0000
-
-    Translated using Weblate (Slovak)
-
-    Currently translated at 100.0% (336 of 336 strings)
-
- po/sk.po | 38 ++++++++++++++++----------------------
- 1 file changed, 16 insertions(+), 22 deletions(-)
-
-commit 71739f277680c3a1fbcd02cdbd73736f3cb0b769
-Author: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>
-Date:   Wed May 9 03:43:10 2018 +0000
-
-    Translated using Weblate (Lithuanian)
-
-    Currently translated at 65.1% (219 of 336 strings)
-
- po/lt.po | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
-
-commit 66e654b6b45738865c920e5f84e0f7df73b07a60
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Tue May 8 22:26:55 2018 +0200
-
-    port to TrueOS.
-
- lib/menu.in  | 2 +-
- src/yarray.h | 2 +-
- src/yurl.cc  | 1 -
- 3 files changed, 2 insertions(+), 3 deletions(-)
-
-commit 0b7bd7060209e6fa02dfccdc8f2c575ad0bad289
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Tue May 8 07:51:35 2018 +0200
-
-    ... and reset cache.
-
- src/aclock.cc | 3 +++
- 1 file changed, 3 insertions(+)
-
-commit 547bbc1d4a0d44a80c53f084dc649d77c7b9b17d
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Tue May 8 07:49:20 2018 +0200
-
-    recreate pixmap
-
- src/aclock.cc | 1 +
- src/applet.cc | 9 ++++++++-
- src/applet.h  | 1 +
- 3 files changed, 10 insertions(+), 1 deletion(-)
-
-commit e6d84e2cc49dc32b2b704ed2e284cd36f0d8dfb5
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Tue May 8 07:40:32 2018 +0200
-
-    modernize menu
-
- lib/menu.in | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-commit 84e239caad1b3a6b8df3a16ae7d908fe1925081c
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Tue May 8 07:34:03 2018 +0200
-
-    Move common applet features to class IApplet.
-    Reduce redraw of applets a bit further for issue #258.
-    Get list if network devices using if_nameindex.
-    A few more monitor menu entries.
-
- configure.ac       |  2 +-
- src/CMakeLists.txt |  2 +-
- src/Makefile.am    |  2 ++
- src/aclock.cc      | 74 +++++++++++++++++++++++---------------------------
- src/aclock.h       | 17 ++++--------
- src/acpustatus.cc  | 69 ++++++++++++++++++----------------------------
- src/acpustatus.h   |  6 +---
- src/amailbox.cc    | 62 ++++++++++++++++++++++++++++++++++--------
- src/amailbox.h     |  7 +++++
- src/amemstatus.cc  | 32 ++++------------------
- src/amemstatus.h   |  7 +----
- src/applet.cc      | 67 +++++++++++++++++++++++++++++++++++++++++++++
- src/applet.h       | 41 ++++++++++++++++++++++++++++
- src/apppstatus.cc  | 48 +++++++++-----------------------
- src/apppstatus.h   |  7 +----
- src/atasks.cc      |  3 +-
- src/atray.cc       |  3 +-
- src/aworkspaces.cc |  2 +-
- src/wmtaskbar.h    | 10 +------
- 19 files changed, 263 insertions(+), 198 deletions(-)
-
-commit 0ba20956011583291bd41e0cae9c6d17d3de4910
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Tue May 8 01:23:05 2018 +0200
-
-    respect TaskBarShowMailboxStatus=0 for issue #258.
-
- src/wmtaskbar.cc | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
-
-commit 6400229c7e4f5225219ae4b64339d7ad72d036c3
-Author: David Medina <medipas@gmail.com>
-Date:   Mon May 7 15:32:05 2018 +0000
-
-    Translated using Weblate (Catalan)
-
-    Currently translated at 100.0% (336 of 336 strings)
-
- po/ca.po | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
-
-commit 6bf8623a118a4fc19ffcf4b5f60cd9853ef6a4d0
-Author: David Medina <medipas@gmail.com>
-Date:   Mon May 7 15:22:00 2018 +0000
-
-    Translated using Weblate (Catalan)
-
-    Currently translated at 100.0% (336 of 336 strings)
-
- po/ca.po | 38 ++++++++++++++++----------------------
- 1 file changed, 16 insertions(+), 22 deletions(-)
-
-commit 3ab5ecb9d985bde55e20377b30f0b7c77426b071
-Author: Aleš Kastner <alkas@volny.cz>
-Date:   Mon May 7 14:15:19 2018 +0000
-
-    Translated using Weblate (Czech)
-
-    Currently translated at 100.0% (336 of 336 strings)
-
- po/cs.po | 38 ++++++++++++++++----------------------
- 1 file changed, 16 insertions(+), 22 deletions(-)
-
-commit 7448ae4721f1d0a15bbc6df85e39fd470312e999
-Author: Anshul Panwar <caspian7pena@gmail.com>
-Date:   Mon May 7 10:42:15 2018 +0000
-
-    Translated using Weblate (Hindi)
-
-    Currently translated at 1.4% (5 of 338 strings)
-
- po/hi.po | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-commit ec9249d4ff8ac9cfe8ac2be4fad29968bcd4dbd4
-Author: Sarah Kriesch <ada.lovelace@gmx.de>
-Date:   Mon May 7 11:06:57 2018 +0000
-
-    Translated using Weblate (German)
-
-    Currently translated at 100.0% (336 of 336 strings)
-
- po/de.po | 38 ++++++++++++++++----------------------
- 1 file changed, 16 insertions(+), 22 deletions(-)
-
-commit 5b548c9fe48014e2561af3262f1d2c83640e4fef
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Mon May 7 04:57:24 2018 +0200
-
-    Evade obscure transparency fill bug for issue #266.
-
- src/aclock.cc | 20 +++++++++++++++++---
- src/aclock.h  |  4 ++++
- 2 files changed, 21 insertions(+), 3 deletions(-)
-
-commit bc8b5770b983f128dc9a18b80e9b2d03be8abba5
-Author: Yasuhiko Kamata <belphegor@belbel.or.jp>
-Date:   Sun May 6 22:37:43 2018 +0000
-
-    Translated using Weblate (Japanese)
-
-    Currently translated at 100.0% (336 of 336 strings)
-
- po/ja.po | 38 ++++++++++++++++----------------------
- 1 file changed, 16 insertions(+), 22 deletions(-)
-
-commit e31e23fa00ef8c76efb50dc29fcaffd025ff5629
-Author: Freek de Kruijf <freek@opensuse.org>
-Date:   Sun May 6 21:14:18 2018 +0000
-
-    Translated using Weblate (Dutch)
-
-    Currently translated at 100.0% (336 of 336 strings)
-
- po/nl.po | 38 ++++++++++++++++----------------------
- 1 file changed, 16 insertions(+), 22 deletions(-)
-
-commit b6fd22d80ef0919720a9a08e820299329c8343ae
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun May 6 21:27:49 2018 +0200
-
-    update manual for menu files.
-
- doc/icewm.adoc | 41 ++++++++++++++++++++++++++++++-----------
- 1 file changed, 30 insertions(+), 11 deletions(-)
-
-commit 787dc49d1470610757e841badb6231d3cb6674aa
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun May 6 21:27:33 2018 +0200
-
-    Update potfiles.
-
- po/ar.po     | 318 ++++++++++++++++++++++++++++------------------------
- po/be.po     | 302 +++++++++++++++++++++++++------------------------
- po/bg.po     | 300 ++++++++++++++++++++++++++-----------------------
- po/ca.po     | 318 ++++++++++++++++++++++++++++------------------------
- po/cs.po     | 318 ++++++++++++++++++++++++++++------------------------
- po/da.po     | 314 +++++++++++++++++++++++++++------------------------
- po/de.po     | 322 ++++++++++++++++++++++++++++------------------------
- po/el.po     | 306 +++++++++++++++++++++++++++-----------------------
- po/en.po     | 265 ++++++++++++++++++++-----------------------
- po/es.po     | 318 ++++++++++++++++++++++++++++------------------------
- po/fi.po     | 296 +++++++++++++++++++++++++-----------------------
- po/fr.po     | 318 ++++++++++++++++++++++++++++------------------------
- po/he.po     | 290 ++++++++++++++++++++++++-----------------------
- po/hr.po     | 292 ++++++++++++++++++++++++-----------------------
- po/hu.po     | 336 +++++++++++++++++++++++++++++--------------------------
- po/icewm.pot | 267 +++++++++++++++++++++----------------------
- po/id.po     | 314 +++++++++++++++++++++++++++------------------------
- po/it.po     | 318 ++++++++++++++++++++++++++++------------------------
- po/ja.po     | 324 +++++++++++++++++++++++++++++------------------------
- po/ko.po     | 318 ++++++++++++++++++++++++++++------------------------
- po/lt.po     | 306 +++++++++++++++++++++++++++-----------------------
- po/lv.po     | 296 +++++++++++++++++++++++++-----------------------
- po/mk.po     | 296 +++++++++++++++++++++++++-----------------------
- po/nb.po     | 296 +++++++++++++++++++++++++-----------------------
- po/nl.po     | 318 ++++++++++++++++++++++++++++------------------------
- po/no.po     | 296 +++++++++++++++++++++++++-----------------------
- po/pl.po     | 318 ++++++++++++++++++++++++++++------------------------
- po/pt_BR.po  | 322 ++++++++++++++++++++++++++++------------------------
- po/ro.po     | 292 ++++++++++++++++++++++++-----------------------
- po/ru.po     | 322 ++++++++++++++++++++++++++++------------------------
- po/sk.po     | 318 ++++++++++++++++++++++++++++------------------------
- po/sl.po     | 296 +++++++++++++++++++++++++-----------------------
- po/sv.po     | 318 ++++++++++++++++++++++++++++------------------------
- po/tr.po     | 296 +++++++++++++++++++++++++-----------------------
- po/uk.po     | 322 ++++++++++++++++++++++++++++------------------------
- po/vi.po     | 306 +++++++++++++++++++++++++++-----------------------
- po/zh_CN.po  | 318 ++++++++++++++++++++++++++++------------------------
- po/zh_TW.po  | 318 ++++++++++++++++++++++++++++------------------------
- 38 files changed, 6196 insertions(+), 5512 deletions(-)
-
-commit 0a91d33bb264d41b3465a09b4b82435919fb07e1
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun May 6 21:26:57 2018 +0200
-
-    Avoid redrawing applets if possible for issue #258.
-    Add "includeprog" control for menu files for issue #264.
-    Give applets a menu to control them interactively.
-    Fix a memory leak for button submenus.
-
- src/CMakeLists.txt |   2 +-
- src/Makefile.am    |   2 +
- src/aclock.cc      |  72 +++++--
- src/aclock.h       |  22 +-
- src/acpustatus.cc  | 206 ++++++++++++------
- src/acpustatus.h   |  63 ++++--
- src/amailbox.cc    | 115 +++++++++-
- src/amailbox.h     |  48 ++++-
- src/amemstatus.cc  | 144 ++++++-------
- src/amemstatus.h   |  20 +-
- src/apppstatus.cc  |  97 +++++++--
- src/apppstatus.h   |  33 ++-
- src/wmapp.cc       |   3 +-
- src/wmmenu.cc      | 513 +++++++++++++++++++++++++++++++++++++++++++++
- src/wmprog.cc      | 558 +++----------------------------------------------
- src/wmprog.h       |  70 ++++---
- src/wmtaskbar.cc   |  82 +++-----
- src/wmtaskbar.h    |   9 +-
- src/ybutton.cc     |   3 +
- 19 files changed, 1212 insertions(+), 850 deletions(-)
-
-commit 6585695e243c202f9b9b82f994874fa52de014f7
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun May 6 21:17:54 2018 +0200
-
-    String array sort. Multi-dimensional array.
-
- src/udir.cc   | 19 +++----------
- src/yarray.cc | 22 ++++++++++++++++
- src/yarray.h  | 79 ++++++++++++++++++++++++++++++++++++++++++++++++++++++-
- 3 files changed, 103 insertions(+), 17 deletions(-)
-
-commit 741f7d48cd61ed281dedf90278eddf22e43881b1
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Fri May 4 18:58:40 2018 +0200
-
-    As an experiment, turn on backing store for system tray icons
-    to overcome that GTK2 tray icons sometimes don't respond to expose
-    events for
-    issues #209 and #265.
-
- src/yxtray.cc | 39 +++++++++++++++++++++++----------------
- 1 file changed, 23 insertions(+), 16 deletions(-)
-
-commit 30652d9eb23a5c5a38fb86906f8cec33d23bead4
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Fri May 4 18:57:37 2018 +0200
-
-    Set save under for short-lived status windows.
-
- src/wmstatus.cc | 2 +-
- src/ytooltip.cc | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-commit b1c6fe826428dd99a9fa2fd8cb51fc2117c702f2
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Tue May 1 19:02:28 2018 +0200
-
-    Enlarge system tray before adding a new icon for issues #265 and #209.
-
- src/yxtray.cc | 37 ++++++++++++++++++++++---------------
- src/yxtray.h  |  1 +
- 2 files changed, 23 insertions(+), 15 deletions(-)
-
-commit 74f0dd8c334de372ab0ad716b732fffa0a15c438
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Tue May 1 06:56:12 2018 +0200
-
-    Fix broken tray (2) (issue #265).
-
- src/yxtray.cc | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-commit 7781ee8f48876ba0fb3708f151344b3479e6ff27
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Mon Apr 30 21:55:58 2018 +0200
-
-    A possible fix for claws-mail minimization on startup issue #241.
-
- src/yxtray.cc | 5 +++++
- 1 file changed, 5 insertions(+)
-
-commit e1b72970c45bba41319cc1ea4556e800fb3170c9
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Mon Apr 30 05:39:30 2018 +0200
-
-    fix typo in 053a7f447f8532e08d9a84875851c6681dfe7b25
-
- src/aclock.cc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-commit d0f9432197c2414f9924436451761f36f6274c50
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Mon Apr 30 05:27:51 2018 +0200
-
-    See issue #261.
-
-    Revert "FIX: The window size had been resized too much times in some
-    rare situation."
-
-    This reverts commit 6a03d437b7c944993d6ea78bd75e5cf548660d2f.
-
- src/wmframe.h | 1 +
- 1 file changed, 1 insertion(+)
-
-commit 053a7f447f8532e08d9a84875851c6681dfe7b25
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Mon Apr 30 05:18:55 2018 +0200
-
-    Reduce applet event overhead for issue #258.
-
- src/aclock.cc     | 29 +++++++++++++++++++++++++----
- src/aclock.h      |  5 +++++
- src/acpustatus.cc | 32 ++++++++++++++++++++++++--------
- src/acpustatus.h  |  6 ++++--
- src/amemstatus.cc | 33 +++++++++++++++++++++++++--------
- src/amemstatus.h  |  5 ++++-
- src/apppstatus.cc | 32 +++++++++++++++++++++++++-------
- src/apppstatus.h  |  4 ++++
- 8 files changed, 116 insertions(+), 30 deletions(-)
-
-commit fdac1f22955cb6b2eaf11e244a99eb69a648a9d3
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Mon Apr 30 05:04:54 2018 +0200
-
-    fix comment
-
- src/default.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-commit 12e10daa2fe37b504d2e769a0b16d574f114bb3f
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Mon Apr 30 05:04:14 2018 +0200
-
-    addEventMask + handleVisibility.
-
- src/ywindow.cc | 16 +++++++++++++++-
- src/ywindow.h  |  5 +++--
- 2 files changed, 18 insertions(+), 3 deletions(-)
-
-commit 7227de140a25239db392f1f0d9f55ccb114a3653
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Apr 29 18:38:21 2018 +0200
-
-    libglib dependency for icewm-menu-fdo
-
- README.md    | 1 +
- README.md.in | 1 +
- 2 files changed, 2 insertions(+)
-
-commit 35c632fa21bbb990435e95b430f27fe1428800a5
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Apr 29 18:36:22 2018 +0200
-
-    Optimize clock + CPU + MEM status updates for issue #258.
-
- src/aclock.cc     | 130 ++++++++++++++++++++++++++++++++++++++++++--------
- src/aclock.h      |  17 ++++++-
- src/acpustatus.cc |  48 ++++++++++++++++++-
- src/acpustatus.h  |   7 +++
- src/amemstatus.cc |  53 ++++++++++++++++++--
- src/amemstatus.h  |   6 +++
- 6 files changed, 235 insertions(+), 26 deletions(-)
-
-commit 3b1e8b8b9dc600c0eb73e6076467c09615aeaa8b
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Apr 29 18:32:56 2018 +0200
-
-    Use assoc array to directly get just the wanted devices.
-    Optimize network status updates for issue #258.
-
- src/apppstatus.cc | 114 +++++++++++++++++++++++++++++++++++++-------------
- src/apppstatus.h  |  22 ++++++++--
- src/wmtaskbar.cc  |   6 ++-
- 3 files changed, 107 insertions(+), 35 deletions(-)
-
-commit 4a06de480edfee2a6e79a4fee3b4463cca793664
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Apr 29 18:31:50 2018 +0200
-
-    simplify and standardize on yarray.
-
- src/udir.cc | 53 +++++++++++++++++------------------------------------
- src/udir.h  | 23 +++++++++++------------
- 2 files changed, 28 insertions(+), 48 deletions(-)
-
-commit 5148617e6788a930e2b54852268b543064e6fc2d
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Apr 29 18:31:26 2018 +0200
-
-    glob
-
- src/upath.cc | 21 +++++++++++++++++++++
- src/upath.h  |  1 +
- 2 files changed, 22 insertions(+)
-
-commit ea2cd4c2f6de21c2e4788e97bdc5ec1d11a08643
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Apr 29 18:30:09 2018 +0200
-
-    associative array for apppstatus and copy constructors.
-
- src/yarray.cc |  28 +++++++--
- src/yarray.h  | 176 ++++++++++++++++++++++++++++++++++++++++++++++++++----
- 2 files changed, 190 insertions(+), 14 deletions(-)
-
-commit 488de4396512e693519ee1b7965d682d77a20177
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Thu Apr 26 02:23:31 2018 +0200
-
-    fix restart for CentOS.
-
- src/wmapp.cc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-commit 08c22682570a447774f2d056eb6f920a9fc4656e
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Tue Apr 24 22:20:27 2018 +0200
-
-    Fix initialization of variable array for issue #260.
-    Replace MStringArray with more efficient YStringArray.
-
- src/apppstatus.cc | 55 ++++++++++++++++++++++++++++-----------------------
- src/apppstatus.h  |  4 ++--
- 2 files changed, 32 insertions(+), 27 deletions(-)
-
-commit 978a64ac47ba17c17e8aab0d173af80a3fef6cdf
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Thu Apr 19 20:42:28 2018 +0200
-
-    Extend cycling over tasks to task tray.
-
- src/atasks.cc   |  3 +++
- src/atray.cc    | 72 +++++++++++++++++++++++++++++++++++++++++++++++++----
- src/atray.h     |  9 ++++++-
- src/wmtaskbar.h |  1 +
- 4 files changed, 79 insertions(+), 6 deletions(-)
-
-commit ab3e2561b23b3bcd56aaae3c3e04122d58b6c7dc
-Author: Ewelina Michalowska <ewelina.michalowska@stgambit.com>
-Date:   Thu Apr 19 09:25:48 2018 +0000
-
-    Translated using Weblate (Polish)
-
-    Currently translated at 100.0% (338 of 338 strings)
-
- po/pl.po | 35 ++++++++++++++---------------------
- 1 file changed, 14 insertions(+), 21 deletions(-)
-
-commit d666f65c9472e20fa40bd0116bb2aacf8ab966d2
-Author: Martin Devenney <devenneymartin@gmail.com>
-Date:   Thu Apr 19 08:28:24 2018 +0000
-
-    Translated using Weblate (Swedish)
-
-    Currently translated at 100.0% (338 of 338 strings)
-
- po/sv.po | 34 +++++++++++++---------------------
- 1 file changed, 13 insertions(+), 21 deletions(-)
-
-commit 8809178729237119efae221c66f07d6a68c8607d
-Author: Nikita Maynagashev <maynagashev@palex.ru>
-Date:   Wed Apr 18 13:10:45 2018 +0000
-
-    Translated using Weblate (Russian)
-
-    Currently translated at 100.0% (338 of 338 strings)
-
- po/ru.po | 39 ++++++++++++++++-----------------------
- 1 file changed, 16 insertions(+), 23 deletions(-)
-
-commit 5e4cbcff064f8e5e52c65383a258462cbd8038dc
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Wed Apr 18 06:35:48 2018 +0200
-
-    Better sorting order for interface wildcard.
-
- src/apppstatus.cc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-commit 3576168717797f5c9d48f8bc72b1af6ff38cfb77
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Wed Apr 18 06:33:10 2018 +0200
-
-    scroll wheel over task pane cycles over tasks.
-
- src/atasks.cc | 87 ++++++++++++++++++++++++++++++++++++++++++-------------
- src/atasks.h  |  5 ++++
- 2 files changed, 72 insertions(+), 20 deletions(-)
-
-commit 1b131a2112933f22e231776c8576c1aea9888014
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Wed Apr 18 06:32:05 2018 +0200
-
-    Give a little margin to tooltips.
-
- src/ytooltip.cc | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
-
-commit 29a0445a6695259b2c21affbeb03488457ad8adc
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Wed Apr 18 06:31:28 2018 +0200
-
-    report RAM/swap in GB
-
- src/acpustatus.cc | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
-
-commit 7b2ced17c724156329053e03f69cc6c007b432ce
-Author: Christine Gabriel <christine@stoquart.com>
-Date:   Tue Apr 17 13:37:14 2018 +0000
-
-    Translated using Weblate (French)
-
-    Currently translated at 100.0% (338 of 338 strings)
-
- po/fr.po | 33 ++++++++++++++-------------------
- 1 file changed, 14 insertions(+), 19 deletions(-)
-
-commit 21fa79fcc0b3f2e930d4134b6c41373b30b91f6e
-Author: Hwajin Kim <hwajin.kim@e4net.net>
-Date:   Tue Apr 17 05:01:40 2018 +0000
-
-    Translated using Weblate (Korean)
-
-    Currently translated at 100.0% (338 of 338 strings)
-
- po/ko.po | 35 ++++++++++++++---------------------
- 1 file changed, 14 insertions(+), 21 deletions(-)

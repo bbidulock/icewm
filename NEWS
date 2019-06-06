@@ -1,11 +1,97 @@
-icewm -- history of user-visible changes.  2019-04-23
+icewm -- history of user-visible changes.  2019-06-07
+
+Release icewm-1.5.5 released 2019-06-07
+---------------------------------------
+
+git shortlog -e -n -w80,6,8 1.5.4...1.5.5
+
+Bert Gijsbers <gijsbers@science.uva.nl> (32):
+      Add 16 new icesh commands.
+      Set EWMH window type on icewm windows.
+      Set WM_CLASS and window type on icewm windows.
+      Add opacity to winoptions.
+      correction
+      improve icesh
+      Drop support for EsounD.
+      Fix compiler warnings, prefer size_t over int, prefer nullptr over 0.
+      More icesh commands.
+      Update icewm(1) man page.
+      update. explain opacity.
+      currentWorkspace
+      CMake external systray is unsupported.
+      add order and opacity to icewmhint.
+      backwards support for nullptr.
+      +isSign
+      better icesh
+      fix compilation for C++11 and older.
+      prevent warning.
+      Add -machine option. Add the "this" workspace.  Fix window titles and icon
+        titles and support EWMH. Fix -window root and -window focus. Also print
+        workspace name for "getWorkspace". Also print PID and workspace for
+        window details.
+      icesh flexible filtering.
+      fix clang warning
+      prefer clang for cmake testing
+      icesh urgent, move frame, center, left, right, top, bottom.
+      update po files.
+      icesh clarify
+      icesh missing bits.
+      icesh monitor number
+      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      update po files
+      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge branch 'icewm-1-4-BRANCH'
+
+openSUSE Weblate <weblate-noreply@opensuse.org> (4):
+      Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
+      Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
+      Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
+      Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
+
+Aleš Kastner <alkas@volny.cz> (2):
+      Translated using Weblate (Czech)
+      Translated using Weblate (Czech)
+
+David Medina <medipas@gmail.com> (2):
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+
+Ferdinand Galko <galko.ferdinand@gmail.com> (2):
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+
+Freek de Kruijf <freek@opensuse.org> (2):
+      Translated using Weblate (Dutch)
+      Translated using Weblate (Dutch)
+
+Rodrigo Macedo <rmsolucoeseminformatic4@gmail.com> (2):
+      Translated using Weblate (Portuguese (Brazil))
+      Translated using Weblate (Portuguese (Brazil))
+
+Sarah Kriesch <ada.lovelace@gmx.de> (2):
+      Translated using Weblate (German)
+      Translated using Weblate (German)
+
+Yasuhiko Kamata <belphegor@belbel.or.jp> (2):
+      Translated using Weblate (Japanese)
+      Translated using Weblate (Japanese)
+
+scootergrisen <scootergrisen@gmail.com> (2):
+      Translated using Weblate (Danish)
+      Translated using Weblate (Danish)
+
+mohammad alhargan <malham1@gmail.com> (1):
+      Translated using Weblate (Arabic)
+
 
 Release icewm-1.5.4 released 2019-04-23
 ---------------------------------------
 
 git shortlog -e -n -w80,6,8 1.5.3...1.5.4
 
-Bert Gijsbers <gijsbers@science.uva.nl> (45):
+Bert Gijsbers <gijsbers@science.uva.nl> (46):
       remove stray semicolon
       avoid clang warnings
       solve ambiguous[] for #340
@@ -52,6 +138,7 @@ Bert Gijsbers <gijsbers@science.uva.nl> (45):
       Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
         icewm-1-4-BRANCH
       Merge branch 'icewm-1-4-BRANCH'
+      Prepare 1.5.4 release
 
 
 Release icewm-1.5.3 released 2019-03-27
@@ -2454,23 +2541,4 @@ Brian Bidulock <bidulock@openss7.com> (1):
 
 Eduard Bloch <blade@debian.org> (1):
       Increased the trigger value for the theme menu nesting algorithm
-
-
-Release icewm-1.4.1 released 2017-07-28
----------------------------------------
-
-git shortlog -e -n -w80,6,8 1.4.0...1.4.1
-
-Bert Gijsbers <gijsbers@science.uva.nl> (5):
-      Before calling setNetFrameExtents check if client() is non-null. This
-        prevents a SEGV crash which occasionally occurs when closing all
-        windows.
-      Only load a gradient when it is specified in the theme "gradients" option.
-        This fixes issue #144.
-      Omit -b in git checkout icewm-1-4-BRANCH.
-      Update to version 1.4.0.
-      Prepare for 1.4.1 release.
-
-Aleš Kastner <alkas@volny.cz> (1):
-      Translated using Weblate (Czech)
 

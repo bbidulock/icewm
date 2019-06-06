@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-06-07 00:39+0200\n"
+"POT-Creation-Date: 2019-06-07 00:59+0200\n"
 "PO-Revision-Date: 2018-12-30 23:41+0200\n"
 "Last-Translator: nikos papadopoulos <nikos769@yahoo.gr>\n"
 "Language-Team: Greek <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -1383,14 +1383,14 @@ msgstr ""
 msgid "Kill IceWM, replace with Xterm"
 msgstr "Σκότωμα του IceWM, αντικατάσταση με το Xterm"
 
-#: src/wmapp.cc:1397
+#: src/wmapp.cc:1394
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ΤΑΥΤΟΤΗΤΑ      Ταυτότητα του πελάτη που θα χρησιμοποιηθεί όταν "
 "γίνεται επαφή με το διαχειριστή συνεδρίας.\n"
 
-#: src/wmapp.cc:1403
+#: src/wmapp.cc:1400
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1401,7 +1401,7 @@ msgstr ""
 "  --debug-z              Εκτύπωση μηνυμάτων αποσφαλμάτωσης σχετικά με το "
 "στοίβαγμα των παράθυρων.\n"
 
-#: src/wmapp.cc:1411
+#: src/wmapp.cc:1408
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1414,7 +1414,7 @@ msgstr ""
 "  --postpreferences     Εκτύπωση των ρυθμίσεων, μετά από όλη την "
 "επεξεργασία.\n"
 
-#: src/wmapp.cc:1416
+#: src/wmapp.cc:1413
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1481,26 +1481,26 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/wmapp.cc:1477
+#: src/wmapp.cc:1474
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s κατάλογοι ρυθμίσεων:\n"
 
-#: src/wmapp.cc:1562
+#: src/wmapp.cc:1559
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s ρυθμισμένες επιλογές:%s\n"
 
-#: src/wmapp.cc:1615
+#: src/wmapp.cc:1612
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Μη αναγνωρισμένη επιλογή '%s'."
 
-#: src/wmapp.cc:1661
+#: src/wmapp.cc:1645
 msgid "Confirm Logout"
 msgstr "Επιβεβαίωση Αποσύνδεσης"
 
-#: src/wmapp.cc:1662
+#: src/wmapp.cc:1646
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1542,8 +1542,8 @@ msgstr "Κλείδωμα του _Σταθμού Εργασίας"
 msgid "_Cancel"
 msgstr "_Ακύρωση"
 
-#: src/wmdialog.cc:77 src/wmprog.cc:844 src/wmprog.cc:846 src/wmtaskbar.cc:301
-#: src/wmtaskbar.cc:303
+#: src/wmdialog.cc:77 src/wmprog.cc:844 src/wmprog.cc:846 src/wmtaskbar.cc:297
+#: src/wmtaskbar.cc:299
 msgid "_Logout..."
 msgstr "_Αποσύνδεση..."
 
@@ -1551,16 +1551,16 @@ msgstr "_Αποσύνδεση..."
 msgid "_Restart icewm"
 msgstr "_Επανεκκίνηση του icewm"
 
-#: src/wmdialog.cc:82 src/wmprog.cc:805 src/wmtaskbar.cc:294
-#: src/wmtaskbar.cc:297
+#: src/wmdialog.cc:82 src/wmprog.cc:805 src/wmtaskbar.cc:290
+#: src/wmtaskbar.cc:293
 msgid "_About"
 msgstr "_Περί"
 
-#: src/wmframe.cc:1394
+#: src/wmframe.cc:1390
 msgid "Kill Client: "
 msgstr "Σκότωμα του Πελάτη: "
 
-#: src/wmframe.cc:1401
+#: src/wmframe.cc:1397
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1570,19 +1570,19 @@ msgstr ""
 "\n"
 "Επιθυμείς να συνεχίσεις;"
 
-#: src/wmframe.cc:2997
+#: src/wmframe.cc:2991
 msgid "Restore"
 msgstr "Επαναφορά"
 
-#: src/wmframe.cc:3000 src/wmtitle.cc:69
+#: src/wmframe.cc:2994 src/wmtitle.cc:69
 msgid "Maximize"
 msgstr "Μεγιστοποίηση"
 
-#: src/wmframe.cc:3030
+#: src/wmframe.cc:3024
 msgid "Rolldown"
 msgstr "Ξεδίπλωμα"
 
-#: src/wmframe.cc:3032 src/wmtitle.cc:127
+#: src/wmframe.cc:3026 src/wmtitle.cc:127
 msgid "Rollup"
 msgstr "Τύλιγμα"
 
@@ -1648,7 +1648,7 @@ msgstr "Προγράμματα"
 msgid "_Run..."
 msgstr "_Εκτέλεση..."
 
-#: src/wmprog.cc:792 src/wmtaskbar.cc:284
+#: src/wmprog.cc:792 src/wmtaskbar.cc:280
 msgid "_Windows"
 msgstr "_Παράθυρα"
 
@@ -1681,63 +1681,63 @@ msgstr "Διαχειριστής Συνεδρίας: Άγνωστη γραμμή
 msgid "Task Bar"
 msgstr "Γραμμή Εργασίας"
 
-#: src/wmtaskbar.cc:274 src/wmwinlist.cc:364 src/wmwinlist.cc:377
+#: src/wmtaskbar.cc:270 src/wmwinlist.cc:364 src/wmwinlist.cc:377
 msgid "Tile _Vertically"
 msgstr "Παράλληλη Τοποθέτηση _Κάθετα"
 
-#: src/wmtaskbar.cc:275 src/wmwinlist.cc:365 src/wmwinlist.cc:378
+#: src/wmtaskbar.cc:271 src/wmwinlist.cc:365 src/wmwinlist.cc:378
 msgid "T_ile Horizontally"
 msgstr "Παράλληλη Τοποθέτηση _Οριζόντια"
 
-#: src/wmtaskbar.cc:276 src/wmwinlist.cc:366 src/wmwinlist.cc:379
+#: src/wmtaskbar.cc:272 src/wmwinlist.cc:366 src/wmwinlist.cc:379
 msgid "Ca_scade"
 msgstr "Διαδοχική Επικάλυψη"
 
-#: src/wmtaskbar.cc:277 src/wmwinlist.cc:367 src/wmwinlist.cc:380
+#: src/wmtaskbar.cc:273 src/wmwinlist.cc:367 src/wmwinlist.cc:380
 msgid "_Arrange"
 msgstr "_Παράθεση"
 
-#: src/wmtaskbar.cc:278 src/wmwinlist.cc:369 src/wmwinlist.cc:381
+#: src/wmtaskbar.cc:274 src/wmwinlist.cc:369 src/wmwinlist.cc:381
 msgid "_Minimize All"
 msgstr "_Ελαχιστοποίηση Όλων"
 
-#: src/wmtaskbar.cc:279 src/wmwinlist.cc:370 src/wmwinlist.cc:382
+#: src/wmtaskbar.cc:275 src/wmwinlist.cc:370 src/wmwinlist.cc:382
 msgid "_Hide All"
 msgstr "_Απόκρυψη Όλων"
 
-#: src/wmtaskbar.cc:280 src/wmwinlist.cc:371 src/wmwinlist.cc:383
+#: src/wmtaskbar.cc:276 src/wmwinlist.cc:371 src/wmwinlist.cc:383
 msgid "_Undo"
 msgstr "_Αναίρεση"
 
-#: src/wmtaskbar.cc:282
+#: src/wmtaskbar.cc:278
 msgid "Arrange _Icons"
 msgstr "Παράθεση _Εικονιδίων"
 
-#: src/wmtaskbar.cc:286
+#: src/wmtaskbar.cc:282
 msgid "_Refresh"
 msgstr "_Ανανέωση"
 
-#: src/wmtaskbar.cc:292
+#: src/wmtaskbar.cc:288
 msgid "_License"
 msgstr "_Άδεια χρήσης"
 
-#: src/wmtaskbar.cc:363 src/wmtaskbar.cc:992
+#: src/wmtaskbar.cc:359 src/wmtaskbar.cc:982
 msgid "Hide Taskbar"
 msgstr "Απόκρυψη της Γραμμής Εργασιών"
 
-#: src/wmtaskbar.cc:378
+#: src/wmtaskbar.cc:374
 msgid "Favorite Applications"
 msgstr "Αγαπημένες Εφαρμογές"
 
-#: src/wmtaskbar.cc:396
+#: src/wmtaskbar.cc:392
 msgid "Window List Menu"
 msgstr "Κατάλογος Κατάστιχου Παράθυρων"
 
-#: src/wmtaskbar.cc:405
+#: src/wmtaskbar.cc:401
 msgid "Show Desktop"
 msgstr "Εμφάνιση της Επιφάνεια Εργασίας"
 
-#: src/wmtaskbar.cc:992
+#: src/wmtaskbar.cc:982
 msgid "Show Taskbar"
 msgstr "Προβολή της Γραμμής Εργασιών"
 

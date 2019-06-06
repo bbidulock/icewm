@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.35\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-06-07 00:39+0200\n"
+"POT-Creation-Date: 2019-06-07 00:59+0200\n"
 "PO-Revision-Date: 2019-02-07 06:32+0000\n"
 "Last-Translator: Hwajin Kim <hwajin.kim@e4net.net>\n"
 "Language-Team: Korean <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -1348,13 +1348,13 @@ msgstr ""
 msgid "Kill IceWM, replace with Xterm"
 msgstr "IceWM 종료, Xterm으로 바꾸기"
 
-#: src/wmapp.cc:1397
+#: src/wmapp.cc:1394
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      세션 관리자에게 문의할 때 사용할 클라이언트 ID입니다.\n"
 
-#: src/wmapp.cc:1403
+#: src/wmapp.cc:1400
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1364,7 +1364,7 @@ msgstr ""
 "  --debug             일반 디버그 메시지를 인쇄합니다.\n"
 "  --debug-z           창 스택 관련 디버그 메시지를 인쇄합니다.\n"
 
-#: src/wmapp.cc:1411
+#: src/wmapp.cc:1408
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1376,7 +1376,7 @@ msgstr ""
 "  -t, --theme=FILE    FILE에서 테마를 로드합니다.\n"
 "  --postpreferences   모든 처리 후 기본 설정을 인쇄합니다.\n"
 
-#: src/wmapp.cc:1416
+#: src/wmapp.cc:1413
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1435,26 +1435,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1477
+#: src/wmapp.cc:1474
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s 구성 디렉터리:\n"
 
-#: src/wmapp.cc:1562
+#: src/wmapp.cc:1559
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s 구성된 옵션: %s\n"
 
-#: src/wmapp.cc:1615
+#: src/wmapp.cc:1612
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "알아볼 수 없는 옵션: '%s'"
 
-#: src/wmapp.cc:1661
+#: src/wmapp.cc:1645
 msgid "Confirm Logout"
 msgstr "종료 확인"
 
-#: src/wmapp.cc:1662
+#: src/wmapp.cc:1646
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1495,8 +1495,8 @@ msgstr "작업공간 잠금(_k)"
 msgid "_Cancel"
 msgstr "취소(_C)"
 
-#: src/wmdialog.cc:77 src/wmprog.cc:844 src/wmprog.cc:846 src/wmtaskbar.cc:301
-#: src/wmtaskbar.cc:303
+#: src/wmdialog.cc:77 src/wmprog.cc:844 src/wmprog.cc:846 src/wmtaskbar.cc:297
+#: src/wmtaskbar.cc:299
 msgid "_Logout..."
 msgstr "로그아웃(_L)..."
 
@@ -1504,16 +1504,16 @@ msgstr "로그아웃(_L)..."
 msgid "_Restart icewm"
 msgstr "icewm 다시 시작(_R)"
 
-#: src/wmdialog.cc:82 src/wmprog.cc:805 src/wmtaskbar.cc:294
-#: src/wmtaskbar.cc:297
+#: src/wmdialog.cc:82 src/wmprog.cc:805 src/wmtaskbar.cc:290
+#: src/wmtaskbar.cc:293
 msgid "_About"
 msgstr "정보(_A)"
 
-#: src/wmframe.cc:1394
+#: src/wmframe.cc:1390
 msgid "Kill Client: "
 msgstr "클라이언트 죽이기: "
 
-#: src/wmframe.cc:1401
+#: src/wmframe.cc:1397
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1521,19 +1521,19 @@ msgstr ""
 "경고! 이 클라이언트를 죽이면 저장되지 않은\n"
 "변경 사항을 모두 잃어버립니다. 계속할까요?"
 
-#: src/wmframe.cc:2997
+#: src/wmframe.cc:2991
 msgid "Restore"
 msgstr "원래 크기로"
 
-#: src/wmframe.cc:3000 src/wmtitle.cc:69
+#: src/wmframe.cc:2994 src/wmtitle.cc:69
 msgid "Maximize"
 msgstr "최대화"
 
-#: src/wmframe.cc:3030
+#: src/wmframe.cc:3024
 msgid "Rolldown"
 msgstr "말아내리기"
 
-#: src/wmframe.cc:3032 src/wmtitle.cc:127
+#: src/wmframe.cc:3026 src/wmtitle.cc:127
 msgid "Rollup"
 msgstr "말아올리기"
 
@@ -1599,7 +1599,7 @@ msgstr "프로그램"
 msgid "_Run..."
 msgstr "실행(_R)..."
 
-#: src/wmprog.cc:792 src/wmtaskbar.cc:284
+#: src/wmprog.cc:792 src/wmtaskbar.cc:280
 msgid "_Windows"
 msgstr "창(_W)"
 
@@ -1632,63 +1632,63 @@ msgstr "세션 관리자: 알 수 없는 줄 %s"
 msgid "Task Bar"
 msgstr "태스크바"
 
-#: src/wmtaskbar.cc:274 src/wmwinlist.cc:364 src/wmwinlist.cc:377
+#: src/wmtaskbar.cc:270 src/wmwinlist.cc:364 src/wmwinlist.cc:377
 msgid "Tile _Vertically"
 msgstr "수직 정렬(_V)"
 
-#: src/wmtaskbar.cc:275 src/wmwinlist.cc:365 src/wmwinlist.cc:378
+#: src/wmtaskbar.cc:271 src/wmwinlist.cc:365 src/wmwinlist.cc:378
 msgid "T_ile Horizontally"
 msgstr "수평 정렬(_I)"
 
-#: src/wmtaskbar.cc:276 src/wmwinlist.cc:366 src/wmwinlist.cc:379
+#: src/wmtaskbar.cc:272 src/wmwinlist.cc:366 src/wmwinlist.cc:379
 msgid "Ca_scade"
 msgstr "계단식 정렬(_S)"
 
-#: src/wmtaskbar.cc:277 src/wmwinlist.cc:367 src/wmwinlist.cc:380
+#: src/wmtaskbar.cc:273 src/wmwinlist.cc:367 src/wmwinlist.cc:380
 msgid "_Arrange"
 msgstr "정렬(_A)"
 
-#: src/wmtaskbar.cc:278 src/wmwinlist.cc:369 src/wmwinlist.cc:381
+#: src/wmtaskbar.cc:274 src/wmwinlist.cc:369 src/wmwinlist.cc:381
 msgid "_Minimize All"
 msgstr "모두 최소화(_M)"
 
-#: src/wmtaskbar.cc:279 src/wmwinlist.cc:370 src/wmwinlist.cc:382
+#: src/wmtaskbar.cc:275 src/wmwinlist.cc:370 src/wmwinlist.cc:382
 msgid "_Hide All"
 msgstr "모두 숨기기(_H)"
 
-#: src/wmtaskbar.cc:280 src/wmwinlist.cc:371 src/wmwinlist.cc:383
+#: src/wmtaskbar.cc:276 src/wmwinlist.cc:371 src/wmwinlist.cc:383
 msgid "_Undo"
 msgstr "실행 취소(_U)"
 
-#: src/wmtaskbar.cc:282
+#: src/wmtaskbar.cc:278
 msgid "Arrange _Icons"
 msgstr "아이콘 정렬(_I)"
 
-#: src/wmtaskbar.cc:286
+#: src/wmtaskbar.cc:282
 msgid "_Refresh"
 msgstr "새롭게(_R)"
 
-#: src/wmtaskbar.cc:292
+#: src/wmtaskbar.cc:288
 msgid "_License"
 msgstr "라이센스(_L)"
 
-#: src/wmtaskbar.cc:363 src/wmtaskbar.cc:992
+#: src/wmtaskbar.cc:359 src/wmtaskbar.cc:982
 msgid "Hide Taskbar"
 msgstr "작업 표시줄 숨기기"
 
-#: src/wmtaskbar.cc:378
+#: src/wmtaskbar.cc:374
 msgid "Favorite Applications"
 msgstr "즐겨쓰는 응용 프로그램"
 
-#: src/wmtaskbar.cc:396
+#: src/wmtaskbar.cc:392
 msgid "Window List Menu"
 msgstr "창 목록 메뉴"
 
-#: src/wmtaskbar.cc:405
+#: src/wmtaskbar.cc:401
 msgid "Show Desktop"
 msgstr "바탕화면 보기"
 
-#: src/wmtaskbar.cc:992
+#: src/wmtaskbar.cc:982
 msgid "Show Taskbar"
 msgstr "작업 표시줄 표시"
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.14\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-06-07 00:39+0200\n"
+"POT-Creation-Date: 2019-06-07 00:59+0200\n"
 "PO-Revision-Date: 2004-06-16 02:44+0200\n"
 "Last-Translator: Taisto Kuikka <69319@batman.jypoly.fi>\n"
 "Language-Team: Finnish <fi@li.org>\n"
@@ -1175,19 +1175,19 @@ msgstr ""
 msgid "Kill IceWM, replace with Xterm"
 msgstr ""
 
-#: src/wmapp.cc:1397
+#: src/wmapp.cc:1394
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 
-#: src/wmapp.cc:1403
+#: src/wmapp.cc:1400
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
 "  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
 
-#: src/wmapp.cc:1411
+#: src/wmapp.cc:1408
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1195,7 +1195,7 @@ msgid ""
 "  --postpreferences   Print preferences after all processing.\n"
 msgstr ""
 
-#: src/wmapp.cc:1416
+#: src/wmapp.cc:1413
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1254,26 +1254,26 @@ msgstr ""
 "Käy osoitteessa https://ice-wm.org/ kun haluat ilmoittaa virheestä, kaipaat\n"
 "apua tai jos haluat vain antaa kommenttisi.\n"
 
-#: src/wmapp.cc:1477
+#: src/wmapp.cc:1474
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr ""
 
-#: src/wmapp.cc:1562
+#: src/wmapp.cc:1559
 #, fuzzy, c-format
 msgid "%s configured options:%s\n"
 msgstr "Tuntematon optio: %s\n"
 
-#: src/wmapp.cc:1615
+#: src/wmapp.cc:1612
 #, fuzzy, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Tuntematon optio: %s\n"
 
-#: src/wmapp.cc:1661
+#: src/wmapp.cc:1645
 msgid "Confirm Logout"
 msgstr "Varmista uloskirjautuminen"
 
-#: src/wmapp.cc:1662
+#: src/wmapp.cc:1646
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1315,8 +1315,8 @@ msgstr "_Lukitse työasema"
 msgid "_Cancel"
 msgstr "_Peruuta"
 
-#: src/wmdialog.cc:77 src/wmprog.cc:844 src/wmprog.cc:846 src/wmtaskbar.cc:301
-#: src/wmtaskbar.cc:303
+#: src/wmdialog.cc:77 src/wmprog.cc:844 src/wmprog.cc:846 src/wmtaskbar.cc:297
+#: src/wmtaskbar.cc:299
 msgid "_Logout..."
 msgstr "_Kirjaudu ulos..."
 
@@ -1324,16 +1324,16 @@ msgstr "_Kirjaudu ulos..."
 msgid "_Restart icewm"
 msgstr "Uudelleenkäynnistä _IceWM"
 
-#: src/wmdialog.cc:82 src/wmprog.cc:805 src/wmtaskbar.cc:294
-#: src/wmtaskbar.cc:297
+#: src/wmdialog.cc:82 src/wmprog.cc:805 src/wmtaskbar.cc:290
+#: src/wmtaskbar.cc:293
 msgid "_About"
 msgstr "_Tietoja"
 
-#: src/wmframe.cc:1394
+#: src/wmframe.cc:1390
 msgid "Kill Client: "
 msgstr "Tapa asiakasohjelma: "
 
-#: src/wmframe.cc:1401
+#: src/wmframe.cc:1397
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1341,19 +1341,19 @@ msgstr ""
 "VAROITUS! Kaikki tallentamattomat muutokset tässä\n"
 "asiakkaassa menetetään kun se tapetaan. Haluatko jatkaa?"
 
-#: src/wmframe.cc:2997
+#: src/wmframe.cc:2991
 msgid "Restore"
 msgstr "Palauta"
 
-#: src/wmframe.cc:3000 src/wmtitle.cc:69
+#: src/wmframe.cc:2994 src/wmtitle.cc:69
 msgid "Maximize"
 msgstr "Suurenna"
 
-#: src/wmframe.cc:3030
+#: src/wmframe.cc:3024
 msgid "Rolldown"
 msgstr "Rullaa alas"
 
-#: src/wmframe.cc:3032 src/wmtitle.cc:127
+#: src/wmframe.cc:3026 src/wmtitle.cc:127
 msgid "Rollup"
 msgstr "Rullaa ylös"
 
@@ -1421,7 +1421,7 @@ msgstr "Ohjelmat"
 msgid "_Run..."
 msgstr "_Suorita"
 
-#: src/wmprog.cc:792 src/wmtaskbar.cc:284
+#: src/wmprog.cc:792 src/wmtaskbar.cc:280
 msgid "_Windows"
 msgstr "_Ikkunat"
 
@@ -1454,69 +1454,69 @@ msgstr "Istuntomanageri: Tuntematon rivi %s"
 msgid "Task Bar"
 msgstr "Tehtäväpalkki"
 
-#: src/wmtaskbar.cc:274 src/wmwinlist.cc:364 src/wmwinlist.cc:377
+#: src/wmtaskbar.cc:270 src/wmwinlist.cc:364 src/wmwinlist.cc:377
 msgid "Tile _Vertically"
 msgstr "Lomita _vertikaalisesti"
 
-#: src/wmtaskbar.cc:275 src/wmwinlist.cc:365 src/wmwinlist.cc:378
+#: src/wmtaskbar.cc:271 src/wmwinlist.cc:365 src/wmwinlist.cc:378
 msgid "T_ile Horizontally"
 msgstr "Lomita _horisontaalisesti"
 
-#: src/wmtaskbar.cc:276 src/wmwinlist.cc:366 src/wmwinlist.cc:379
+#: src/wmtaskbar.cc:272 src/wmwinlist.cc:366 src/wmwinlist.cc:379
 msgid "Ca_scade"
 msgstr "Pu_dota"
 
-#: src/wmtaskbar.cc:277 src/wmwinlist.cc:367 src/wmwinlist.cc:380
+#: src/wmtaskbar.cc:273 src/wmwinlist.cc:367 src/wmwinlist.cc:380
 msgid "_Arrange"
 msgstr "_Järjestä"
 
-#: src/wmtaskbar.cc:278 src/wmwinlist.cc:369 src/wmwinlist.cc:381
+#: src/wmtaskbar.cc:274 src/wmwinlist.cc:369 src/wmwinlist.cc:381
 msgid "_Minimize All"
 msgstr "_Pienennä kaikki"
 
-#: src/wmtaskbar.cc:279 src/wmwinlist.cc:370 src/wmwinlist.cc:382
+#: src/wmtaskbar.cc:275 src/wmwinlist.cc:370 src/wmwinlist.cc:382
 msgid "_Hide All"
 msgstr "P_iilota kaikki"
 
-#: src/wmtaskbar.cc:280 src/wmwinlist.cc:371 src/wmwinlist.cc:383
+#: src/wmtaskbar.cc:276 src/wmwinlist.cc:371 src/wmwinlist.cc:383
 msgid "_Undo"
 msgstr "Per_u"
 
-#: src/wmtaskbar.cc:282
+#: src/wmtaskbar.cc:278
 msgid "Arrange _Icons"
 msgstr "Järjestä _kuvakkeet"
 
-#: src/wmtaskbar.cc:286
+#: src/wmtaskbar.cc:282
 msgid "_Refresh"
 msgstr "_Päivitä"
 
-#: src/wmtaskbar.cc:292
+#: src/wmtaskbar.cc:288
 msgid "_License"
 msgstr "_Lisenssi"
 
-#: src/wmtaskbar.cc:363 src/wmtaskbar.cc:992
+#: src/wmtaskbar.cc:359 src/wmtaskbar.cc:982
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Hide Taskbar"
 msgstr "Tehtäväpalkki"
 
-#: src/wmtaskbar.cc:378
+#: src/wmtaskbar.cc:374
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Favorite Applications"
 msgstr "Sovellukset"
 
-#: src/wmtaskbar.cc:396
+#: src/wmtaskbar.cc:392
 #, fuzzy
 #| msgid "Window list menu"
 msgid "Window List Menu"
 msgstr "Ikkunalista"
 
-#: src/wmtaskbar.cc:405
+#: src/wmtaskbar.cc:401
 msgid "Show Desktop"
 msgstr "Näytä työpöytä"
 
-#: src/wmtaskbar.cc:992
+#: src/wmtaskbar.cc:982
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Show Taskbar"

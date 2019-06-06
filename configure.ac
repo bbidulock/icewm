@@ -2,8 +2,8 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([icewm],[1.5.4],[https://github.com/bbidulock/icewm/issues])
-AC_REVISION([1.5.4])
+AC_INIT([icewm],[1.5.5],[https://github.com/bbidulock/icewm/issues])
+AC_REVISION([1.5.5])
 AC_CONFIG_SRCDIR([src/ysmapp.cc])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
@@ -11,10 +11,10 @@ AC_CONFIG_AUX_DIR([scripts])
 AC_USE_SYSTEM_EXTENSIONS
 AC_CANONICAL_TARGET
 
-DATE='2019-04-23'
+DATE='2019-06-07'
 AC_SUBST([DATE])
 
-BRANCH='1.5.4'
+BRANCH='1.5.5'
 AC_SUBST([BRANCH])
 
 APPLICATIONS='icewm icewm-session icesh icewmhint icewmbg icewmtray icehelp'

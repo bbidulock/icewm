@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.4.2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-06-07 00:39+0200\n"
+"POT-Creation-Date: 2019-06-07 00:59+0200\n"
 "PO-Revision-Date: 2018-12-26 17:32+0000\n"
 "Last-Translator: Dmitriy Khanzhin <dmitriy.khanzhin@gmail.com>\n"
 "Language-Team: Russian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -1360,13 +1360,13 @@ msgstr ""
 msgid "Kill IceWM, replace with Xterm"
 msgstr "Остановить IceWM, заменить на Xterm"
 
-#: src/wmapp.cc:1397
+#: src/wmapp.cc:1394
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      Идентификатор клиента для связи с менеджером сеансов.\n"
 
-#: src/wmapp.cc:1403
+#: src/wmapp.cc:1400
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1377,7 +1377,7 @@ msgstr ""
 "  --debug-z           Печатать отладочные сообщения, относящиеся к стеку "
 "окон.\n"
 
-#: src/wmapp.cc:1411
+#: src/wmapp.cc:1408
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1389,7 +1389,7 @@ msgstr ""
 "  -t, --theme=FILE    Загрузка темы из файла FILE.\n"
 "  --postpreferences   Вывод настроек после завершения обработки.\n"
 
-#: src/wmapp.cc:1416
+#: src/wmapp.cc:1413
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1450,26 +1450,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1477
+#: src/wmapp.cc:1474
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "Каталоги конфигурации %s:\n"
 
-#: src/wmapp.cc:1562
+#: src/wmapp.cc:1559
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "Настроенные параметры %s: %s\n"
 
-#: src/wmapp.cc:1615
+#: src/wmapp.cc:1612
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Неизвестная опция '%s'."
 
-#: src/wmapp.cc:1661
+#: src/wmapp.cc:1645
 msgid "Confirm Logout"
 msgstr "Подтверждение выхода"
 
-#: src/wmapp.cc:1662
+#: src/wmapp.cc:1646
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1510,8 +1510,8 @@ msgstr "Заблокировать _станцию"
 msgid "_Cancel"
 msgstr "_Отмена"
 
-#: src/wmdialog.cc:77 src/wmprog.cc:844 src/wmprog.cc:846 src/wmtaskbar.cc:301
-#: src/wmtaskbar.cc:303
+#: src/wmdialog.cc:77 src/wmprog.cc:844 src/wmprog.cc:846 src/wmtaskbar.cc:297
+#: src/wmtaskbar.cc:299
 msgid "_Logout..."
 msgstr "_Выход..."
 
@@ -1519,17 +1519,17 @@ msgstr "_Выход..."
 msgid "_Restart icewm"
 msgstr "_Перезапуск IceWM"
 
-#: src/wmdialog.cc:82 src/wmprog.cc:805 src/wmtaskbar.cc:294
-#: src/wmtaskbar.cc:297
+#: src/wmdialog.cc:82 src/wmprog.cc:805 src/wmtaskbar.cc:290
+#: src/wmtaskbar.cc:293
 msgid "_About"
 msgstr "_О программе"
 
 #
-#: src/wmframe.cc:1394
+#: src/wmframe.cc:1390
 msgid "Kill Client: "
 msgstr "Убить Окно: "
 
-#: src/wmframe.cc:1401
+#: src/wmframe.cc:1397
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1537,19 +1537,19 @@ msgstr ""
 "ВНИМАНИЕ! Все несохраненные данные будут потеряны\n"
 "при закрытии этого окна. Вы согласны его закрыть?"
 
-#: src/wmframe.cc:2997
+#: src/wmframe.cc:2991
 msgid "Restore"
 msgstr "Восстановить"
 
-#: src/wmframe.cc:3000 src/wmtitle.cc:69
+#: src/wmframe.cc:2994 src/wmtitle.cc:69
 msgid "Maximize"
 msgstr "Развернуть"
 
-#: src/wmframe.cc:3030
+#: src/wmframe.cc:3024
 msgid "Rolldown"
 msgstr "Скрутить вниз"
 
-#: src/wmframe.cc:3032 src/wmtitle.cc:127
+#: src/wmframe.cc:3026 src/wmtitle.cc:127
 msgid "Rollup"
 msgstr "Скрутить"
 
@@ -1615,7 +1615,7 @@ msgstr "Программы"
 msgid "_Run..."
 msgstr "_Выполнить..."
 
-#: src/wmprog.cc:792 src/wmtaskbar.cc:284
+#: src/wmprog.cc:792 src/wmtaskbar.cc:280
 msgid "_Windows"
 msgstr "_Окна"
 
@@ -1648,63 +1648,63 @@ msgstr "Session Manager: Неизвестная линия %s"
 msgid "Task Bar"
 msgstr "Панель задач"
 
-#: src/wmtaskbar.cc:274 src/wmwinlist.cc:364 src/wmwinlist.cc:377
+#: src/wmtaskbar.cc:270 src/wmwinlist.cc:364 src/wmwinlist.cc:377
 msgid "Tile _Vertically"
 msgstr "Разделить _Вертикально"
 
-#: src/wmtaskbar.cc:275 src/wmwinlist.cc:365 src/wmwinlist.cc:378
+#: src/wmtaskbar.cc:271 src/wmwinlist.cc:365 src/wmwinlist.cc:378
 msgid "T_ile Horizontally"
 msgstr "Р_азделить Горизонтально"
 
-#: src/wmtaskbar.cc:276 src/wmwinlist.cc:366 src/wmwinlist.cc:379
+#: src/wmtaskbar.cc:272 src/wmwinlist.cc:366 src/wmwinlist.cc:379
 msgid "Ca_scade"
 msgstr "Ка_скадом"
 
-#: src/wmtaskbar.cc:277 src/wmwinlist.cc:367 src/wmwinlist.cc:380
+#: src/wmtaskbar.cc:273 src/wmwinlist.cc:367 src/wmwinlist.cc:380
 msgid "_Arrange"
 msgstr "_Упорядочить"
 
-#: src/wmtaskbar.cc:278 src/wmwinlist.cc:369 src/wmwinlist.cc:381
+#: src/wmtaskbar.cc:274 src/wmwinlist.cc:369 src/wmwinlist.cc:381
 msgid "_Minimize All"
 msgstr "_Свернуть все"
 
-#: src/wmtaskbar.cc:279 src/wmwinlist.cc:370 src/wmwinlist.cc:382
+#: src/wmtaskbar.cc:275 src/wmwinlist.cc:370 src/wmwinlist.cc:382
 msgid "_Hide All"
 msgstr "_Скрыть все"
 
-#: src/wmtaskbar.cc:280 src/wmwinlist.cc:371 src/wmwinlist.cc:383
+#: src/wmtaskbar.cc:276 src/wmwinlist.cc:371 src/wmwinlist.cc:383
 msgid "_Undo"
 msgstr "_Отмена"
 
-#: src/wmtaskbar.cc:282
+#: src/wmtaskbar.cc:278
 msgid "Arrange _Icons"
 msgstr "Упорядочить _Иконки"
 
-#: src/wmtaskbar.cc:286
+#: src/wmtaskbar.cc:282
 msgid "_Refresh"
 msgstr "_Обновить"
 
-#: src/wmtaskbar.cc:292
+#: src/wmtaskbar.cc:288
 msgid "_License"
 msgstr "_Лицензия"
 
-#: src/wmtaskbar.cc:363 src/wmtaskbar.cc:992
+#: src/wmtaskbar.cc:359 src/wmtaskbar.cc:982
 msgid "Hide Taskbar"
 msgstr "Скрыть Панель задач"
 
-#: src/wmtaskbar.cc:378
+#: src/wmtaskbar.cc:374
 msgid "Favorite Applications"
 msgstr "Любимые Приложения"
 
-#: src/wmtaskbar.cc:396
+#: src/wmtaskbar.cc:392
 msgid "Window List Menu"
 msgstr "Список Окон в Меню"
 
-#: src/wmtaskbar.cc:405
+#: src/wmtaskbar.cc:401
 msgid "Show Desktop"
 msgstr "Показать Десктоп"
 
-#: src/wmtaskbar.cc:992
+#: src/wmtaskbar.cc:982
 msgid "Show Taskbar"
 msgstr "Показать Панель задач"
 
