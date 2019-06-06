@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-05-21 22:54+0200\n"
+"POT-Creation-Date: 2019-06-07 00:39+0200\n"
 "PO-Revision-Date: 2019-05-25 00:49+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
-"Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/"
-"icewm-1-4-branch/ja/>\n"
+"Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -555,62 +555,64 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "さめがめ"
 
-#: src/icesh.cc:51
+#: src/icesh.cc:58
 msgid "For help please consult the man page icesh(1).\n"
-msgstr "ヘルプを読みたい場合は icesh(1) のマニュアルページを参照してください。\n"
+msgstr ""
+"ヘルプを読みたい場合は icesh(1) のマニュアルページを参照してください。\n"
 
-#: src/icesh.cc:685
+#: src/icesh.cc:890
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "領域 `%s' に対するシンボル名 (数値範囲: %ld-%ld):\n"
 
-#: src/icesh.cc:855
+#: src/icesh.cc:1025
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "ワークスペース名が正しくありません: `%s'"
 
-#: src/icesh.cc:858
+#: src/icesh.cc:1028
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "ワークスペースの範囲が正しくありません: %ld"
 
-#: src/icesh.cc:988
+#: src/icesh.cc:1180
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "ワークスペース #%d: `%s'\n"
 
-#: src/icesh.cc:1556
+#: src/icesh.cc:1827
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "アクション `%s' には少なくとも %d 個のパラメータが必要です。"
 
-#: src/icesh.cc:1566
+#: src/icesh.cc:1837
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "表現が正しくありません: `%s'"
 
-#: src/icesh.cc:1577 src/icesound.cc:795 src/icewmhint.cc:36 src/yxapp.cc:930
+#: src/icesh.cc:1848 src/icesound.cc:795 src/icewmhint.cc:36 src/yxapp.cc:930
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "ディスプレイ %s を開くことができません。X が起動されていて、かつ $DISPLAY が"
 "セットされていなければなりません。"
 
-#: src/icesh.cc:1621
+#: src/icesh.cc:1861
+#, fuzzy, c-format
+#| msgid "Invalid argument: `%s'."
+msgid "Invalid argument: `%s'"
+msgstr "パラメータが正しくありません: `%s'"
+
+#: src/icesh.cc:1898
 msgid "No actions specified."
 msgstr "アクションが指定されていません。"
 
-#: src/icesh.cc:1724
+#: src/icesh.cc:2023
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "ウインドウの識別子が正しくありません: `%s'"
 
-#: src/icesh.cc:1762
-#, c-format
-msgid "Invalid argument: `%s'."
-msgstr "パラメータが正しくありません: `%s'"
-
-#: src/icesh.cc:2126
+#: src/icesh.cc:2438
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "不明なアクションです: `%s'"
@@ -803,33 +805,43 @@ msgstr ""
 "\n"
 "オプション:\n"
 "\n"
-" -d, --display=DISPLAY   IceWM が使用するディスプレイを指定します (既定値: $DISPLAY) 。\n"
+" -d, --display=DISPLAY   IceWM が使用するディスプレイを指定します (既定値: "
+"$DISPLAY) 。\n"
 "\n"
-" -s, --sample-dir=DIR    サウンドファイルが含まれているディレクトリを指定します。\n"
+" -s, --sample-dir=DIR    サウンドファイルが含まれているディレクトリを指定しま"
+"す。\n"
 "                         既定値は $HOME/.config/icewm/sounds です。\n"
 "\n"
-" -i, --interface=LIST    サウンド出力のインターフェイスを指定します。下記の中から 1 つ以上を指定します:\n"
+" -i, --interface=LIST    サウンド出力のインターフェイスを指定します。下記の中"
+"から 1 つ以上を指定します:\n"
 "                         %s 。複数を指定したい場合はカンマで区切ります。\n"
 "\n"
-" -D, --device=DEVICE     後方互換性のためだけに用意されているオプションで、既定のデバイスを指定します。\n"
+" -D, --device=DEVICE     後方互換性のためだけに用意されているオプションで、既"
+"定のデバイスを指定します。\n"
 "                         -A/-O/-S の各オプションの使用をお勧めします。\n"
 "\n"
 " -O, --oss=DEVICE        OSS デバイスを指定します (既定値: \"%s\") 。\n"
 "\n"
 " -A, --alsa=DEVICE       ALSA デバイスを指定します (既定値: \"%s\") 。\n"
 "\n"
-" -z, --snooze=millisecs  サウンドイベント同士のスヌーズ間隔をミリ秒単位で指定します。\n"
+" -z, --snooze=millisecs  サウンドイベント同士のスヌーズ間隔をミリ秒単位で指定"
+"します。\n"
 "                         既定値は 500 ミリ秒です。\n"
 "\n"
-" -p, --play=sound        指定されたサウンド (名前または番号) を再生して終了します。\n"
+" -p, --play=sound        指定されたサウンド (名前または番号) を再生して終了し"
+"ます。\n"
 "\n"
-" -l, --list-files        利用可能なサウンドファイルパスの一覧を表示して終了します。\n"
+" -l, --list-files        利用可能なサウンドファイルパスの一覧を表示して終了し"
+"ます。\n"
 "\n"
-"     --list-sounds       対応するサウンドファイル名の一覧を表示して終了します。\n"
+"     --list-sounds       対応するサウンドファイル名の一覧を表示して終了しま"
+"す。\n"
 "\n"
-"     --list-interfaces   対応するオーディオインターフェイスの一覧を表示して終了します。\n"
+"     --list-interfaces   対応するオーディオインターフェイスの一覧を表示して終"
+"了します。\n"
 "\n"
-" -v, --verbose           冗長な出力を行ないます (それぞれのサウンドイベントを stdout に出力します) 。\n"
+" -v, --verbose           冗長な出力を行ないます (それぞれのサウンドイベント"
+"を stdout に出力します) 。\n"
 "\n"
 " -V, --version           バージョン情報を表示して終了します。\n"
 "\n"
