@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.2.2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-04-23 22:12+0200\n"
+"POT-Creation-Date: 2019-06-07 00:39+0200\n"
 "PO-Revision-Date: 2003-01-27 22:26+0300\n"
 "Last-Translator: Hleb Valoska <el_globus@tut.by>\n"
 "Language-Team: Belarusian <i18n@mova.org>\n"
@@ -301,7 +301,7 @@ msgstr ""
 msgid "NET"
 msgstr ""
 
-#: src/aworkspaces.cc:294 src/wmstatus.cc:163
+#: src/aworkspaces.cc:294 src/wmstatus.cc:165
 msgid "Workspace: "
 msgstr "Працоўнае поле: "
 
@@ -507,179 +507,62 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "Тую ж гульню"
 
-#: src/icesh.cc:389
+#: src/icesh.cc:58
+msgid "For help please consult the man page icesh(1).\n"
+msgstr ""
+
+#: src/icesh.cc:890
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Прайменаваныя сымбалі вобласьці `%s' (лікавы дыяпазон: %ld-%ld):\n"
 
-#: src/icesh.cc:559
+#: src/icesh.cc:1025
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Дрэннае імя варштата: `%s'"
 
-#: src/icesh.cc:564
+#: src/icesh.cc:1028
 #, fuzzy, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Варштат па-за межамі: %d"
 
-#: src/icesh.cc:615
-#, c-format
-msgid "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
-msgstr ""
-
-#: src/icesh.cc:675
+#: src/icesh.cc:1180
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "Працоўнае поле #%d: `%s'\n"
 
-#: src/icesh.cc:1086
-#, fuzzy, c-format
-msgid ""
-"Usage: %s [OPTIONS] ACTIONS\n"
-"\n"
-"Options:\n"
-"  -d, -display DISPLAY        Connects to the X server specified by "
-"DISPLAY.\n"
-"                              Default: $DISPLAY or :0.0 when not set.\n"
-"  -w, -window WINDOW_ID       Specifies the window to manipulate. Special\n"
-"                              identifiers are `root' for the root window "
-"and\n"
-"                              `focus' for the currently focused window.\n"
-"  -c, -class WM_CLASS         Window management class of the window(s) to\n"
-"                              manipulate. If WM_CLASS contains a period, "
-"only\n"
-"                              windows with exactly the same WM_CLASS "
-"property\n"
-"                              are matched. If there is no period, windows "
-"of\n"
-"                              the same class and windows of the same "
-"instance\n"
-"                              (aka. `-name') are selected.\n"
-"\n"
-"Actions:\n"
-"  setIconTitle   TITLE        Set the icon title.\n"
-"  setWindowTitle TITLE        Set the window title.\n"
-"  setGeometry    geometry     Set the window geometry\n"
-"  setState       MASK STATE   Set the GNOME window state to STATE.\n"
-"                              Only the bits selected by MASK are affected.\n"
-"                              STATE and MASK are expressions of the domain\n"
-"                              `GNOME window state'.\n"
-"  toggleState    STATE        Toggle the GNOME window state bits specified "
-"by\n"
-"                              the STATE expression.\n"
-"  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
-"  setLayer       LAYER        Moves the window to another GNOME window "
-"layer.\n"
-"  setWorkspace   WORKSPACE    Moves the window to another workspace. Select\n"
-"                              the root window to change the current "
-"workspace.\n"
-"                              Select 0xFFFFFFFF or \"All\" for all "
-"workspaces.\n"
-"  listWorkspaces              Lists the names of all workspaces.\n"
-"  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
-"  logout                      Tell IceWM to logout.\n"
-"  reboot                      Tell IceWM to reboot.\n"
-"  shutdown                    Tell IceWM to shutdown.\n"
-"  cancel                      Tell IceWM to cancel the logout/reboot/"
-"shutdown.\n"
-"  about                       Tell IceWM to show the about window.\n"
-"  windowlist                  Tell IceWM to show the window list.\n"
-"  restart                     Tell IceWM to restart.\n"
-"  suspend                     Tell IceWM to suspend.\n"
-"\n"
-"Expressions:\n"
-"  Expressions are list of symbols of one domain concatenated by `+' or `|':\n"
-"\n"
-"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
-"\n"
-msgstr ""
-"Ужывай: %s [ОПЦЫІ] ДЗЕЯНЬНІ\n"
-"\n"
-"Опцыі:\n"
-"  -display ДЫСПЛЕЙ            Злучаецца з X сэрвэрам вызначаным як ДЫСПЛЕЙ.\n"
-"                              Даўнята: $DISPLAY ці :0.0, як ня вызначаны.\n"
-"  -window ID_ВАКНА            Вызначае вакно для маніпуляцый. Асобныя\n"
-"                              вызначнікі - `root' для карнявога вакна ды\n"
-"\t\t\t      `focus' для вакна ў фокусе ўводу.\n"
-"  -class WM_CLASS             Кляса кіраваньня вокнамі для тых вакон, якія\n"
-"\t\t\t      будуць абслугоўваю утрымлівае\n"
-"\t\t\t      кропку, то толькі вокны з дакладна такой жа\n"
-"\t\t\t      ўласьцівасьцю WM_CLASS выбіраюцца. Калі кропкі\n"
-"\t\t\t      няма вокны, то вокны тае ж клясы ці таго ж\n"
-"\t\t\t      асобніка (г.зн. `-name') выбіраюцца.\n"
-"Дзеяньні:\n"
-"  setIconTitle ЗАГАЛОВАК      Устанавіць загаловак значкі.\n"
-"  setWindowTitle ЗАГАЛОВАК    Устанавіць загаловак вакна.\n"
-"  setState МАСКА СТАН         Устанавіць стан вакна GNOME'а ў `СТАН'.\n"
-"  \t\t\t      Узьдзейнічае толькі на біты, вызначаныя `МАСКАЙ'.\n"
-"                              `СТАН' ды `МАСКА' - выразы з вобласьці\n"
-"                              `стан вакна GNOME'.\n"
-"  toggleState СТАН            Пераключыць біты стану вакна GNOME'а "
-"вызначаныя\n"
-"                              выразам `СТАН'.\n"
-"  setHints ПАДКАЗКІ           Устанавіць падказкі вакон GNOME у `ПАДКАЗКІ'.\n"
-"  setLayer ПЛАСТ              Перамесьціць вакно ў іншы пласт вакон "
-"GNOME'а.\n"
-"  setWorkspace ВАРШТАТ        Перамесьціць вакно на іншы варштат. Выберы\n"
-"  \t\t\t      карнявое вакно, каб перайсьці да іншага варштату.\n"
-"  listWorkspaces   \t      Паказаць імёны ўсіх варштатаў.\n"
-"  setTrayOption ОПЦЫЯ_ПАНЭЛІ  Устанавіць падказку опцыі сподка IceWM.\n"
-"\n"
-"Выразы:\n"
-"  Выраз - гэта сьпіс знакаў аднае вобласьці, злучаныя з дапамогай `+' ці "
-"`|':\n"
-"\n"
-"  ВЫРАЗ ::= ЗНАКL | ВЫРАЗ ( `+' | `|' ) ЗНАК\n"
-"\n"
-
-# Set the IceWM tray option hint??
-#: src/icesh.cc:1134
-msgid "GNOME window state"
-msgstr "Стан вакна GNOME'а"
-
-#: src/icesh.cc:1135
-msgid "GNOME window hint"
-msgstr "Падказка вакна GNOME'а"
-
-#: src/icesh.cc:1136
-msgid "GNOME window layer"
-msgstr "Пласт вакна GNOME'а"
-
-#: src/icesh.cc:1137
-msgid "IceWM tray option"
-msgstr "Опцыя сподка IceWM"
-
-#: src/icesh.cc:1204
+#: src/icesh.cc:1827
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Дзеяньне `%s' патрабуе прынамсі %d парамэтраў."
 
-#: src/icesh.cc:1215
+#: src/icesh.cc:1837
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Няправільны выраз: `%s'"
 
-#: src/icesh.cc:1285
-#, c-format
-msgid "Invalid argument: `%s'."
-msgstr "Дрэнны парамэтар: `%s'."
-
-#: src/icesh.cc:1291
-msgid "No actions specified."
-msgstr "Ня вызначана дзеяньняў."
-
-#: src/icesh.cc:1301 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:930
+#: src/icesh.cc:1848 src/icesound.cc:795 src/icewmhint.cc:36 src/yxapp.cc:930
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "Немагчыма адкрыць дысплей: %s. Патрэбна запусьціць X і ўстанавіць $DISPLAY."
 
-#: src/icesh.cc:1338
+#: src/icesh.cc:1861
+#, fuzzy, c-format
+#| msgid "Invalid argument: `%s'."
+msgid "Invalid argument: `%s'"
+msgstr "Дрэнны парамэтар: `%s'."
+
+#: src/icesh.cc:1898
+msgid "No actions specified."
+msgstr "Ня вызначана дзеяньняў."
+
+#: src/icesh.cc:2023
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Дрэнны вызначнік вакна: `%s'"
 
-#: src/icesh.cc:1515
+#: src/icesh.cc:2438
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Невядомае дзеяньне: `%s'"
@@ -732,102 +615,76 @@ msgstr ""
 msgid "IceWM crash response"
 msgstr "Опцыя сподка IceWM"
 
-#: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
+#: src/icesound.cc:216 src/icesound.cc:324 src/icesound.cc:484
 #, c-format
 msgid "Playing sample #%d (%s)"
 msgstr "Іграю ўзор #%d (%s)"
 
-#: src/icesound.cc:337
+#: src/icesound.cc:334
 #, c-format
 msgid "%s: Invalid number of channels"
 msgstr ""
 
-#: src/icesound.cc:343 src/icesound.cc:348
+#: src/icesound.cc:340 src/icesound.cc:345
 msgid "Could not set OSS channels"
 msgstr ""
 
-#: src/icesound.cc:353 src/icesound.cc:381
+#: src/icesound.cc:350 src/icesound.cc:378
 msgid "Could not sync OSS"
 msgstr ""
 
-#: src/icesound.cc:365
+#: src/icesound.cc:362
 msgid "OSS write failed"
 msgstr ""
 
-#: src/icesound.cc:369
+#: src/icesound.cc:366
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
 msgstr ""
 
-#: src/icesound.cc:376
+#: src/icesound.cc:373
 #, fuzzy
 msgid "Could not post OSS"
 msgstr "Немагчыма загрузіць шрыфтовае мноства \"%s\"."
 
-#: src/icesound.cc:405
+#: src/icesound.cc:402
 #, fuzzy, c-format
 msgid "Could not open OSS device %s"
 msgstr "Немагчыма знайсьці мапу піксаляў %s"
 
-#: src/icesound.cc:410
+#: src/icesound.cc:407
 msgid "Could not set OSS stereo"
 msgstr ""
 
-#: src/icesound.cc:415
+#: src/icesound.cc:412
 msgid "Could not reset OSS DSP"
 msgstr ""
 
-#: src/icesound.cc:420
+#: src/icesound.cc:417
 msgid "Could not set OSS format"
 msgstr ""
 
-#: src/icesound.cc:493
-#, c-format
-msgid "Can't connect to ESound daemon: %s"
-msgstr "Немагчыма злучыцца з дэманам ESound: %s"
-
-#: src/icesound.cc:494 src/yxapp.cc:931
-msgid "<none>"
-msgstr "<няма>"
-
-#: src/icesound.cc:512
-#, c-format
-msgid "Error <%d> while uploading `%s:%s'"
-msgstr "Памылка <%d> падчас падгрузкі `%s:%s'"
-
-# fixme
-#: src/icesound.cc:518
-#, c-format
-msgid "Sample <%d> uploaded as `%s:%s'"
-msgstr "Узор <%d> падгружаны як `%s:%s'"
-
-# fixme
-#: src/icesound.cc:576
-#, fuzzy, c-format
-msgid "Playing sample #%d: %d"
-msgstr "Іграю ўзор #%d"
-
-#: src/icesound.cc:651
+#: src/icesound.cc:504
 #, c-format
 msgid "ao_open_live failed with %d"
 msgstr ""
 
-#: src/icesound.cc:662
+#: src/icesound.cc:515
 msgid "ao_play failed"
 msgstr ""
 
 # fixme
-#: src/icesound.cc:824
+#: src/icesound.cc:677
 #, c-format
 msgid "Unrecognized option: %s\n"
 msgstr "Нераспазнаная опцыя: %s\n"
 
-#: src/icesound.cc:827 src/icesound.cc:1130
+#: src/icesound.cc:680 src/icesound.cc:973
 #, c-format
 msgid "Unrecognized argument: %s\n"
 msgstr "Нераспазнаны парамэтар: %s\n"
 
-#: src/icesound.cc:836
+#: src/icesound.cc:689
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
@@ -852,9 +709,6 @@ msgid ""
 " -O, --oss=DEVICE        Specifies the OSS device (default: \"%s\").\n"
 "\n"
 " -A, --alsa=DEVICE       Specifies the ALSA device (default: \"%s\").\n"
-"\n"
-" -S, --server=ADDR:PORT  Specifies the ESD server address and port number.\n"
-"                         For ESD the default is \"localhost:16001\".\n"
 "\n"
 " -z, --snooze=millisecs  Specifies the snooze interval between sound events\n"
 "                         in milliseconds. Default is 500 milliseconds.\n"
@@ -920,51 +774,51 @@ msgstr ""
 "  3     Памылка падсыстэмы (г.зн. немагчыма злучыцца з сэрвэрам).\n"
 "\n"
 
-#: src/icesound.cc:930
+#: src/icesound.cc:780
 #, c-format
 msgid "No audio for %s"
 msgstr ""
 
-#: src/icesound.cc:1007
+#: src/icesound.cc:857
 msgid "Could not get GUI event property"
 msgstr ""
 
-#: src/icesound.cc:1011
+#: src/icesound.cc:861
 #, c-format
 msgid "Received invalid GUI event %d"
 msgstr ""
 
-#: src/icesound.cc:1015
+#: src/icesound.cc:865
 #, c-format
 msgid "Received GUI event %s"
 msgstr ""
 
-#: src/icesound.cc:1029
+#: src/icesound.cc:879
 #, c-format
 msgid "Too quick; ignoring %s."
 msgstr ""
 
-#: src/icesound.cc:1033
+#: src/icesound.cc:883
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr "Падтрымка для інтэрфэйсу %s ня ўлучаная."
 
-#: src/icesound.cc:1073
+#: src/icesound.cc:916
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr "Інтэрфэйс %s не падтрымліваецца."
 
-#: src/icesound.cc:1082
+#: src/icesound.cc:925
 #, c-format
 msgid "Using %s audio."
 msgstr ""
 
-#: src/icesound.cc:1086
+#: src/icesound.cc:929
 #, fuzzy, c-format
 msgid "Failed to connect to audio interfaces %s."
 msgstr "Няўдалае адкрыцьцё %s: %s"
 
-#: src/icesound.cc:1098
+#: src/icesound.cc:941
 #, fuzzy, c-format
 msgid "Received signal %s: Terminating..."
 msgstr "Атрыманы сыгнал %d: Сканчэньне працы..."
@@ -1312,19 +1166,19 @@ msgstr ""
 msgid "Kill IceWM, replace with Xterm"
 msgstr ""
 
-#: src/wmapp.cc:1394
+#: src/wmapp.cc:1397
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 
-#: src/wmapp.cc:1400
+#: src/wmapp.cc:1403
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
 "  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
 
-#: src/wmapp.cc:1408
+#: src/wmapp.cc:1411
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1332,7 +1186,7 @@ msgid ""
 "  --postpreferences   Print preferences after all processing.\n"
 msgstr ""
 
-#: src/wmapp.cc:1413
+#: src/wmapp.cc:1416
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1389,7 +1243,7 @@ msgstr ""
 "Наведай https://ice-wm.org/ каб паведаміць пра памылкі, запатрабаваць\n"
 "падтрымкі, ці проста выказацца пра IceWM...\n"
 
-#: src/wmapp.cc:1474
+#: src/wmapp.cc:1477
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr ""
@@ -1406,11 +1260,11 @@ msgstr "Нераспазнаная опцыя: %s\n"
 msgid "Unrecognized option '%s'."
 msgstr "Нераспазнаная опцыя: %s\n"
 
-#: src/wmapp.cc:1648
+#: src/wmapp.cc:1661
 msgid "Confirm Logout"
 msgstr "Пацьвердзі выйсьце"
 
-#: src/wmapp.cc:1649
+#: src/wmapp.cc:1662
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1452,8 +1306,8 @@ msgstr "_Заблякаваць Станцыю"
 msgid "_Cancel"
 msgstr "_Адмена"
 
-#: src/wmdialog.cc:77 src/wmprog.cc:844 src/wmprog.cc:846 src/wmtaskbar.cc:297
-#: src/wmtaskbar.cc:299
+#: src/wmdialog.cc:77 src/wmprog.cc:844 src/wmprog.cc:846 src/wmtaskbar.cc:301
+#: src/wmtaskbar.cc:303
 msgid "_Logout..."
 msgstr "_Скончыць сэанс"
 
@@ -1461,16 +1315,16 @@ msgstr "_Скончыць сэанс"
 msgid "_Restart icewm"
 msgstr "_Перазапусьціць icewm"
 
-#: src/wmdialog.cc:82 src/wmprog.cc:805 src/wmtaskbar.cc:290
-#: src/wmtaskbar.cc:293
+#: src/wmdialog.cc:82 src/wmprog.cc:805 src/wmtaskbar.cc:294
+#: src/wmtaskbar.cc:297
 msgid "_About"
 msgstr "Пр_а"
 
-#: src/wmframe.cc:1390
+#: src/wmframe.cc:1394
 msgid "Kill Client: "
 msgstr "Забіць кліент: "
 
-#: src/wmframe.cc:1397
+#: src/wmframe.cc:1401
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1478,28 +1332,28 @@ msgstr ""
 "УВАГА! Усе незахаваныя зьмены будуць згубленыя,\n"
 "калі забіць гэты кліент. Працягваць?"
 
-#: src/wmframe.cc:2991
+#: src/wmframe.cc:2997
 msgid "Restore"
 msgstr "Аднавіць"
 
-#: src/wmframe.cc:2994 src/wmtitle.cc:69
+#: src/wmframe.cc:3000 src/wmtitle.cc:69
 msgid "Maximize"
 msgstr "Разгарнуць"
 
-#: src/wmframe.cc:3024
+#: src/wmframe.cc:3030
 msgid "Rolldown"
 msgstr "Раскруціць"
 
-#: src/wmframe.cc:3026 src/wmtitle.cc:127
+#: src/wmframe.cc:3032 src/wmtitle.cc:127
 msgid "Rollup"
 msgstr "Пракруціць"
 
-#: src/wmoption.cc:228
+#: src/wmoption.cc:232
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Невядомая опцыя вакна: %s"
 
-#: src/wmoption.cc:338
+#: src/wmoption.cc:344
 #, fuzzy, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Сынтаксычная памылка ў опцыях вакна"
@@ -1558,7 +1412,7 @@ msgstr "Праграмы"
 msgid "_Run..."
 msgstr "_Выканаць..."
 
-#: src/wmprog.cc:792 src/wmtaskbar.cc:280
+#: src/wmprog.cc:792 src/wmtaskbar.cc:284
 msgid "_Windows"
 msgstr "В_окны"
 
@@ -1591,70 +1445,70 @@ msgstr "Кіраўнік сэсій: невядомы радок %s"
 msgid "Task Bar"
 msgstr "Панэль задач"
 
-#: src/wmtaskbar.cc:270 src/wmwinlist.cc:364 src/wmwinlist.cc:377
+#: src/wmtaskbar.cc:274 src/wmwinlist.cc:364 src/wmwinlist.cc:377
 msgid "Tile _Vertically"
 msgstr "Побач па _вэртыкалі"
 
-#: src/wmtaskbar.cc:271 src/wmwinlist.cc:365 src/wmwinlist.cc:378
+#: src/wmtaskbar.cc:275 src/wmwinlist.cc:365 src/wmwinlist.cc:378
 msgid "T_ile Horizontally"
 msgstr "Побач па _гарызанталі"
 
-#: src/wmtaskbar.cc:272 src/wmwinlist.cc:366 src/wmwinlist.cc:379
+#: src/wmtaskbar.cc:276 src/wmwinlist.cc:366 src/wmwinlist.cc:379
 msgid "Ca_scade"
 msgstr "_Каскадам"
 
-#: src/wmtaskbar.cc:273 src/wmwinlist.cc:367 src/wmwinlist.cc:380
+#: src/wmtaskbar.cc:277 src/wmwinlist.cc:367 src/wmwinlist.cc:380
 msgid "_Arrange"
 msgstr "_Упарадкавана"
 
-#: src/wmtaskbar.cc:274 src/wmwinlist.cc:369 src/wmwinlist.cc:381
+#: src/wmtaskbar.cc:278 src/wmwinlist.cc:369 src/wmwinlist.cc:381
 msgid "_Minimize All"
 msgstr "_Згарнуць усе"
 
-#: src/wmtaskbar.cc:275 src/wmwinlist.cc:370 src/wmwinlist.cc:382
+#: src/wmtaskbar.cc:279 src/wmwinlist.cc:370 src/wmwinlist.cc:382
 msgid "_Hide All"
 msgstr "_Схаваць усе"
 
-#: src/wmtaskbar.cc:276 src/wmwinlist.cc:371 src/wmwinlist.cc:383
+#: src/wmtaskbar.cc:280 src/wmwinlist.cc:371 src/wmwinlist.cc:383
 msgid "_Undo"
 msgstr "_Вернуць"
 
-#: src/wmtaskbar.cc:278
+#: src/wmtaskbar.cc:282
 msgid "Arrange _Icons"
 msgstr "Упарадкаваць _значкі"
 
-#: src/wmtaskbar.cc:282
+#: src/wmtaskbar.cc:286
 msgid "_Refresh"
 msgstr "А_бнавіць"
 
-#: src/wmtaskbar.cc:288
+#: src/wmtaskbar.cc:292
 msgid "_License"
 msgstr "_Ліцэнзія"
 
-#: src/wmtaskbar.cc:356 src/wmtaskbar.cc:979
+#: src/wmtaskbar.cc:363 src/wmtaskbar.cc:992
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Hide Taskbar"
 msgstr "Панэль задач"
 
-#: src/wmtaskbar.cc:371
+#: src/wmtaskbar.cc:378
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Favorite Applications"
 msgstr "Любімыя дастасаваньні"
 
-#: src/wmtaskbar.cc:389
+#: src/wmtaskbar.cc:396
 #, fuzzy
 #| msgid "Window list menu"
 msgid "Window List Menu"
 msgstr "Мэню сьпісу вакон"
 
-#: src/wmtaskbar.cc:398
+#: src/wmtaskbar.cc:405
 #, fuzzy
 msgid "Show Desktop"
 msgstr "На ўзроўні _стальца"
 
-#: src/wmtaskbar.cc:979
+#: src/wmtaskbar.cc:992
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Show Taskbar"
@@ -1889,6 +1743,10 @@ msgid ""
 "  -d, --display=NAME  NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"
 msgstr ""
+
+#: src/yxapp.cc:931
+msgid "<none>"
+msgstr "<няма>"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
 #: src/fdospecgen.h:43
@@ -2593,6 +2451,143 @@ msgstr ""
 #: src/fdospecgen.h:319
 msgid "WordProcessor"
 msgstr ""
+
+#, fuzzy
+#~ msgid ""
+#~ "Usage: %s [OPTIONS] ACTIONS\n"
+#~ "\n"
+#~ "Options:\n"
+#~ "  -d, -display DISPLAY        Connects to the X server specified by "
+#~ "DISPLAY.\n"
+#~ "                              Default: $DISPLAY or :0.0 when not set.\n"
+#~ "  -w, -window WINDOW_ID       Specifies the window to manipulate. "
+#~ "Special\n"
+#~ "                              identifiers are `root' for the root window "
+#~ "and\n"
+#~ "                              `focus' for the currently focused window.\n"
+#~ "  -c, -class WM_CLASS         Window management class of the window(s) "
+#~ "to\n"
+#~ "                              manipulate. If WM_CLASS contains a period, "
+#~ "only\n"
+#~ "                              windows with exactly the same WM_CLASS "
+#~ "property\n"
+#~ "                              are matched. If there is no period, windows "
+#~ "of\n"
+#~ "                              the same class and windows of the same "
+#~ "instance\n"
+#~ "                              (aka. `-name') are selected.\n"
+#~ "\n"
+#~ "Actions:\n"
+#~ "  setIconTitle   TITLE        Set the icon title.\n"
+#~ "  setWindowTitle TITLE        Set the window title.\n"
+#~ "  setGeometry    geometry     Set the window geometry\n"
+#~ "  setState       MASK STATE   Set the GNOME window state to STATE.\n"
+#~ "                              Only the bits selected by MASK are "
+#~ "affected.\n"
+#~ "                              STATE and MASK are expressions of the "
+#~ "domain\n"
+#~ "                              `GNOME window state'.\n"
+#~ "  toggleState    STATE        Toggle the GNOME window state bits "
+#~ "specified by\n"
+#~ "                              the STATE expression.\n"
+#~ "  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
+#~ "  setLayer       LAYER        Moves the window to another GNOME window "
+#~ "layer.\n"
+#~ "  setWorkspace   WORKSPACE    Moves the window to another workspace. "
+#~ "Select\n"
+#~ "                              the root window to change the current "
+#~ "workspace.\n"
+#~ "                              Select 0xFFFFFFFF or \"All\" for all "
+#~ "workspaces.\n"
+#~ "  listWorkspaces              Lists the names of all workspaces.\n"
+#~ "  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
+#~ "  logout                      Tell IceWM to logout.\n"
+#~ "  reboot                      Tell IceWM to reboot.\n"
+#~ "  shutdown                    Tell IceWM to shutdown.\n"
+#~ "  cancel                      Tell IceWM to cancel the logout/reboot/"
+#~ "shutdown.\n"
+#~ "  about                       Tell IceWM to show the about window.\n"
+#~ "  windowlist                  Tell IceWM to show the window list.\n"
+#~ "  restart                     Tell IceWM to restart.\n"
+#~ "  suspend                     Tell IceWM to suspend.\n"
+#~ "\n"
+#~ "Expressions:\n"
+#~ "  Expressions are list of symbols of one domain concatenated by `+' or "
+#~ "`|':\n"
+#~ "\n"
+#~ "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Ужывай: %s [ОПЦЫІ] ДЗЕЯНЬНІ\n"
+#~ "\n"
+#~ "Опцыі:\n"
+#~ "  -display ДЫСПЛЕЙ            Злучаецца з X сэрвэрам вызначаным як "
+#~ "ДЫСПЛЕЙ.\n"
+#~ "                              Даўнята: $DISPLAY ці :0.0, як ня "
+#~ "вызначаны.\n"
+#~ "  -window ID_ВАКНА            Вызначае вакно для маніпуляцый. Асобныя\n"
+#~ "                              вызначнікі - `root' для карнявога вакна ды\n"
+#~ "\t\t\t      `focus' для вакна ў фокусе ўводу.\n"
+#~ "  -class WM_CLASS             Кляса кіраваньня вокнамі для тых вакон, "
+#~ "якія\n"
+#~ "\t\t\t      будуць абслугоўваю утрымлівае\n"
+#~ "\t\t\t      кропку, то толькі вокны з дакладна такой жа\n"
+#~ "\t\t\t      ўласьцівасьцю WM_CLASS выбіраюцца. Калі кропкі\n"
+#~ "\t\t\t      няма вокны, то вокны тае ж клясы ці таго ж\n"
+#~ "\t\t\t      асобніка (г.зн. `-name') выбіраюцца.\n"
+#~ "Дзеяньні:\n"
+#~ "  setIconTitle ЗАГАЛОВАК      Устанавіць загаловак значкі.\n"
+#~ "  setWindowTitle ЗАГАЛОВАК    Устанавіць загаловак вакна.\n"
+#~ "  setState МАСКА СТАН         Устанавіць стан вакна GNOME'а ў `СТАН'.\n"
+#~ "  \t\t\t      Узьдзейнічае толькі на біты, вызначаныя `МАСКАЙ'.\n"
+#~ "                              `СТАН' ды `МАСКА' - выразы з вобласьці\n"
+#~ "                              `стан вакна GNOME'.\n"
+#~ "  toggleState СТАН            Пераключыць біты стану вакна GNOME'а "
+#~ "вызначаныя\n"
+#~ "                              выразам `СТАН'.\n"
+#~ "  setHints ПАДКАЗКІ           Устанавіць падказкі вакон GNOME у "
+#~ "`ПАДКАЗКІ'.\n"
+#~ "  setLayer ПЛАСТ              Перамесьціць вакно ў іншы пласт вакон "
+#~ "GNOME'а.\n"
+#~ "  setWorkspace ВАРШТАТ        Перамесьціць вакно на іншы варштат. Выберы\n"
+#~ "  \t\t\t      карнявое вакно, каб перайсьці да іншага варштату.\n"
+#~ "  listWorkspaces   \t      Паказаць імёны ўсіх варштатаў.\n"
+#~ "  setTrayOption ОПЦЫЯ_ПАНЭЛІ  Устанавіць падказку опцыі сподка IceWM.\n"
+#~ "\n"
+#~ "Выразы:\n"
+#~ "  Выраз - гэта сьпіс знакаў аднае вобласьці, злучаныя з дапамогай `+' ці "
+#~ "`|':\n"
+#~ "\n"
+#~ "  ВЫРАЗ ::= ЗНАКL | ВЫРАЗ ( `+' | `|' ) ЗНАК\n"
+#~ "\n"
+
+# Set the IceWM tray option hint??
+#~ msgid "GNOME window state"
+#~ msgstr "Стан вакна GNOME'а"
+
+#~ msgid "GNOME window hint"
+#~ msgstr "Падказка вакна GNOME'а"
+
+#~ msgid "GNOME window layer"
+#~ msgstr "Пласт вакна GNOME'а"
+
+#~ msgid "IceWM tray option"
+#~ msgstr "Опцыя сподка IceWM"
+
+#~ msgid "Can't connect to ESound daemon: %s"
+#~ msgstr "Немагчыма злучыцца з дэманам ESound: %s"
+
+#~ msgid "Error <%d> while uploading `%s:%s'"
+#~ msgstr "Памылка <%d> падчас падгрузкі `%s:%s'"
+
+# fixme
+#~ msgid "Sample <%d> uploaded as `%s:%s'"
+#~ msgstr "Узор <%d> падгружаны як `%s:%s'"
+
+# fixme
+#, fuzzy
+#~ msgid "Playing sample #%d: %d"
+#~ msgstr "Іграю ўзор #%d"
 
 #~ msgid "Usage error: "
 #~ msgstr "Памылка ўжываньня: "

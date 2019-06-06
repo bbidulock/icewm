@@ -25,6 +25,9 @@ YToolTipWindow::YToolTipWindow(ustring text) :
 {
     setStyle(wsToolTip | wsOverrideRedirect | wsSaveUnder);
     setText(text);
+    setNetWindowType(_XA_NET_WM_WINDOW_TYPE_TOOLTIP);
+    setClassHint("tooltip", "IceWM");
+    setTitle("Tooltip");
 }
 
 YToolTip::YToolTip() :

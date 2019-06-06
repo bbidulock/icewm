@@ -55,9 +55,12 @@ if [[ -v DBGCM ]]; then
     cd builddir-debug &&
         cmake .. \
         -DCONFIG_GDK_PIXBUF_XLIB=ON \
+        -DCONFIG_LIBRSVG=ON \
         -DCONFIG_XPM=off \
+        -DCMAKE_CXX_COMPILER_ID=clang \
+        -DCMAKE_CXX_COMPILER=clang++ \
         -DCMAKE_INSTALL_PREFIX=/usr \
-        -DCMAKE_BUILD_TYPE=Debug \
+        -DCMAKE_BUILD_TYPE=RelWithDebInfo \
         -DICEHELPIDX=/usr/share/doc/icewm-common/html/icewm.html \
         -DCFGDIR=/etc/X11/icewm \
         -DVERSION=10.9.8-debug \

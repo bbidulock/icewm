@@ -13,6 +13,9 @@
 #else
 #define OVERRIDE override
 #endif
+#if __cplusplus == 199711L
+#define nullptr NULL
+#endif
 
 /*** Essential Arithmetic Functions *******************************************/
 

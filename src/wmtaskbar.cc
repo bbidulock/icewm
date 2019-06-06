@@ -298,8 +298,11 @@ void TaskBar::initMenu() {
             else
                 taskBarMenu->addItem(_("_Logout..."), -2, null, actionLogout);
         }
-    }
 
+        taskBarMenu->setTitle("IceMenu");
+        taskBarMenu->setClassHint("icemenu", "TaskBar");
+        taskBarMenu->setNetWindowType(_XA_NET_WM_WINDOW_TYPE_POPUP_MENU);
+    }
 }
 
 void TaskBar::initApplets() {

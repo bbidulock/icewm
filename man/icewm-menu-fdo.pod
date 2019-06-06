@@ -37,9 +37,17 @@ file's C<Exec> line.
 This utility is not normally used directly, but is used as the
 executable in a B<menuprog> entry in a menu.
 
+=head1 EXAMPLES
+
+The following line in a L<icewm-menu(5)> file will dynamically generate
+a comprehensive set of menus for easy access to F<.desktop> files.
+
+    menuprog "Desktop Apps" folder icewm-menu-fdo
+
 =head1 ENVIRONMENT
 
-B<XDG_DATA_HOME> or B<XDG_DATA_DIRS> are considered as suggested by XDG Base Directory Specification.
+B<XDG_DATA_HOME> or B<XDG_DATA_DIRS> are considered as suggested by XDG
+Base Directory Specification.
 
 =head1 CONFORMING TO
 
@@ -51,7 +59,8 @@ March 2011.
 =head1 CAVEATS
 
 The B<icewm-menu-fdo> program is only built when the L<icewm(1)> package
-is configured with the B<--enable-menus-fdo> option.
+is configured with the B<--enable-menus-fdo> option, which requires the
+B<glib2-dev> package dependency.
 
 =head1 SEE ALSO
 

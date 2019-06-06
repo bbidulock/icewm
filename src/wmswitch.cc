@@ -280,6 +280,8 @@ SwitchWindow::SwitchWindow(YWindow *parent, ISwitchItems *items,
 
     setStyle(wsSaveUnder | wsOverrideRedirect | wsPointerMotion);
     setTitle("IceSwitch");
+    setClassHint("switch", "IceWM");
+    setNetWindowType(_XA_NET_WM_WINDOW_TYPE_DIALOG);
 }
 
 bool SwitchWindow::close() {

@@ -23,7 +23,7 @@ These sound files are F<.wav> files located in a F<sounds> sub-directory
 in one of the L<icewm(1)> configuration directories.
 
 B<icesound> supports several common audio interfaces.  These are: ALSA,
-ESounD, OSS and libAO.  These must be enabled during configuration.
+OSS and libAO.  These must be enabled during configuration.
 ALSA, OSS and libAO all require support for L<libsndfile>, which is a
 very common library to read audio files.
 
@@ -33,14 +33,6 @@ very common library to read audio files.
 
 B<ALSA> is rather involved to program and it works, but this could use
 more testing.  It plays at most one sound at a time.
-
-=item B<ESounD>
-
-The B<ESounD> interface is much simpler to implement and this works very
-well, because the difficult details are handled by the B<ESounD> Sound
-Daemon.  It supports mixing of sounds when multiple GUI events occur
-within a second.  This may be the best option currently.  It requires
-that L<esd(1)> is running and that B<icesound> can connect to it.
 
 =item B<LibAO>
 
@@ -58,8 +50,7 @@ which is fully supported by B<icesound>.
 
 When multiple audio interfaces are available B<icesound> will examine
 them all until it finds one which it can connect to and then use that
-one.  By default it prefers them in the order of: B<AO>, B<ESD>,
-B<ALSA>, B<OSS>.
+one. By default it prefers them in the order of: B<AO>, B<ALSA>, B<OSS>.
 
 =head1 OPTIONS
 
@@ -77,9 +68,9 @@ Specifies a directory with sound files.  The default is:
 F<$HOME/.config/icewm/sounds>, F<$HOME/.icewm/sounds>, F<CFGDIR/sounds>
 and F<LIBDIR/sounds>.  See the output of C<icewm --directories>.
 
-=item B<-i>, B<--interface>={B<AO>|B<ESD>|B<ALSA>|B<OSS>}[,{B<AO>|B<ESD>|B<ALSA>|B<OSS>}]*
+=item B<-i>, B<--interface>={B<AO>|B<ALSA>|B<OSS>}[,{B<AO>|B<ALSA>|B<OSS>}]*
 
-Specifies the audio output interfaces. One or more of: B<AO>, B<ESD>,
+Specifies the audio output interfaces. One or more of: B<AO>,
 B<ALSA>, B<OSS> separated by commas (C<,>).
 
 =item B<-D>, B<--device>=I<DEVICE>
@@ -94,11 +85,6 @@ Specifies the OSS device (default: C<default>).
 =item B<-A>, B<--alsa>=I<DEVICE>
 
 Specifies the ALSA device (default: F</dev/dsp>).
-
-=item B<-S>, B<--server>=I<ADDR>[B<:>I<PORT>]
-
-Specifies the ESD server address and port number.
-For ESD the default is C<localhost:16001>.
 
 =item B<-z>, B<--snooze>=I<MILLISECONDS>
 
@@ -171,7 +157,6 @@ Subsystems error (i.e cannot connect to server).
 
 L<icewm(1)>,
 L<libao.conf(5)>,
-L<esd(1)>,
 L<padsp(1)>,
 L<aplay(1)>,
 L<alsamixer(1)>.
