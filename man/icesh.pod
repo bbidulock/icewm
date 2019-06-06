@@ -125,8 +125,9 @@ workspace name or a workspace number counting from zero.
 
 Limit clients by I<RandR>/I<Xinerama> monitor. Only operate on
 clients which are displayed on I<MONITOR>, where I<MONITOR> can
-be C<All> for all monitors or C<this> for the monitor where the
-active window is displayed.
+be C<All> for all monitors, C<this> for the monitor where the
+active window is displayed, or a monitor number starting from zero.
+See the output of C<randr> or C<xinerama> below.
 
 =back
 
