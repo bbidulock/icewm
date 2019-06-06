@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-05-21 22:54+0200\n"
+"POT-Creation-Date: 2019-06-07 00:39+0200\n"
 "PO-Revision-Date: 2019-05-25 18:49+0000\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
-"Language-Team: Slovak <https://l10n.opensuse.org/projects/icewm/"
-"icewm-1-4-branch/sk/>\n"
+"Language-Team: Slovak <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -552,62 +552,63 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "Rovnaká hra"
 
-#: src/icesh.cc:51
+#: src/icesh.cc:58
 msgid "For help please consult the man page icesh(1).\n"
 msgstr "Pomoc nájdete na manuálovej stránke cesh(1).\n"
 
-#: src/icesh.cc:685
+#: src/icesh.cc:890
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Pomenované znaky domény `%s' (číselný rozsah: %ld-%ld):\n"
 
-#: src/icesh.cc:855
+#: src/icesh.cc:1025
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Neplatný názov plochy: `%s'"
 
-#: src/icesh.cc:858
+#: src/icesh.cc:1028
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Pracovná plocha je mimo rozsah: %ld"
 
-#: src/icesh.cc:988
+#: src/icesh.cc:1180
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "pracovná plocha #%d: `%s'\n"
 
-#: src/icesh.cc:1556
+#: src/icesh.cc:1827
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Akcia `%s' vyžaduje najmenej %d argumentov."
 
-#: src/icesh.cc:1566
+#: src/icesh.cc:1837
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Neplatný výraz: `%s'"
 
-#: src/icesh.cc:1577 src/icesound.cc:795 src/icewmhint.cc:36 src/yxapp.cc:930
+#: src/icesh.cc:1848 src/icesound.cc:795 src/icewmhint.cc:36 src/yxapp.cc:930
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "Neide otvoriť displej: %s. Server X musí byť spustený a premenná $DISPLAY "
 "nastavená."
 
-#: src/icesh.cc:1621
+#: src/icesh.cc:1861
+#, fuzzy, c-format
+#| msgid "Invalid argument: `%s'."
+msgid "Invalid argument: `%s'"
+msgstr "Neplatná hodnota: `%s'."
+
+#: src/icesh.cc:1898
 msgid "No actions specified."
 msgstr "Nebola zadaná žiadna akcia."
 
-#: src/icesh.cc:1724
+#: src/icesh.cc:2023
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Neplatné označenie okna: `%s'"
 
-#: src/icesh.cc:1762
-#, c-format
-msgid "Invalid argument: `%s'."
-msgstr "Neplatná hodnota: `%s'."
-
-#: src/icesh.cc:2126
+#: src/icesh.cc:2438
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Neznáma akcia: `%s'"

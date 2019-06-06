@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.15pre3\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-05-21 22:54+0200\n"
+"POT-Creation-Date: 2019-06-07 00:39+0200\n"
 "PO-Revision-Date: 2019-02-07 06:32+0000\n"
 "Last-Translator: Christine Gabriel <christine@stoquart.com>\n"
 "Language-Team: French <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -559,62 +559,63 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "Même jeu"
 
-#: src/icesh.cc:51
+#: src/icesh.cc:58
 msgid "For help please consult the man page icesh(1).\n"
 msgstr ""
 
-#: src/icesh.cc:685
+#: src/icesh.cc:890
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Symboles nommés du domaine \"%s\" (intervalle numérique: %ld-%ld) :\n"
 
-#: src/icesh.cc:855
+#: src/icesh.cc:1025
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Nom de bureau incorrect : \"%s\""
 
-#: src/icesh.cc:858
+#: src/icesh.cc:1028
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Bureau hors limites : %ld"
 
-#: src/icesh.cc:988
+#: src/icesh.cc:1180
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "Bureau n°%d : \"%s\"\n"
 
-#: src/icesh.cc:1556
+#: src/icesh.cc:1827
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "L'action \"%s\" nécessite au moins %d paramètre(s)."
 
-#: src/icesh.cc:1566
+#: src/icesh.cc:1837
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Expression incorrecte : \"%s\""
 
-#: src/icesh.cc:1577 src/icesound.cc:795 src/icewmhint.cc:36 src/yxapp.cc:930
+#: src/icesh.cc:1848 src/icesound.cc:795 src/icewmhint.cc:36 src/yxapp.cc:930
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "Impossible d'ouvrir le display %s. X doit être lancé et \n"
 "$DISPLAY doit être positionnée."
 
-#: src/icesh.cc:1621
+#: src/icesh.cc:1861
+#, fuzzy, c-format
+#| msgid "Invalid argument: `%s'."
+msgid "Invalid argument: `%s'"
+msgstr "Paramètre incorrect : \"%s\"."
+
+#: src/icesh.cc:1898
 msgid "No actions specified."
 msgstr "Aucune action spécifiée."
 
-#: src/icesh.cc:1724
+#: src/icesh.cc:2023
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Identifiant de fenêtre incorrect : \"%s\""
 
-#: src/icesh.cc:1762
-#, c-format
-msgid "Invalid argument: `%s'."
-msgstr "Paramètre incorrect : \"%s\"."
-
-#: src/icesh.cc:2126
+#: src/icesh.cc:2438
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Action inconnue : \"%s\""
