@@ -108,6 +108,10 @@ CtrlAltDelete::CtrlAltDelete(IApp *app, YWindow *parent): YWindow(parent) {
     windowListButton->setGeometry(YRect(HORZ, VERT + 2 * (h + MIDV), w, h));
     restartButton->setGeometry(YRect(HORZ + w + MIDH, VERT + 2 * (h + MIDV), w, h));
     aboutButton->setGeometry(YRect(HORZ + w + MIDH + w + MIDH, VERT + 2 * (h + MIDV), w, h));
+
+    setNetWindowType(_XA_NET_WM_WINDOW_TYPE_DIALOG);
+    setClassHint("icecad", "IceWM");
+    setTitle("IceCAD");
 }
 
 CtrlAltDelete::~CtrlAltDelete() {

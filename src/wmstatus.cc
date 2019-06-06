@@ -47,6 +47,8 @@ YWindowManagerStatus::YWindowManagerStatus(YWindow *aParent,
                       sW + 2, sH + 4));
     setStyle(wsOverrideRedirect | wsSaveUnder);
     setTitle("IceStatus");
+    setClassHint("status", "IceWM");
+    setNetWindowType(_XA_NET_WM_WINDOW_TYPE_NOTIFICATION);
 }
 
 YWindowManagerStatus::~YWindowManagerStatus() {

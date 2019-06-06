@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.35\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-04-23 21:53+0200\n"
+"POT-Creation-Date: 2019-05-21 22:54+0200\n"
 "PO-Revision-Date: 2019-02-07 06:32+0000\n"
 "Last-Translator: Hwajin Kim <hwajin.kim@e4net.net>\n"
 "Language-Team: Korean <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -318,7 +318,7 @@ msgstr ""
 msgid "NET"
 msgstr "NET"
 
-#: src/aworkspaces.cc:294 src/wmstatus.cc:163
+#: src/aworkspaces.cc:294 src/wmstatus.cc:165
 msgid "Workspace: "
 msgstr "작업공간: "
 
@@ -554,187 +554,60 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "같은 게임"
 
-#: src/icesh.cc:389
+#: src/icesh.cc:51
+msgid "For help please consult the man page icesh(1).\n"
+msgstr ""
+
+#: src/icesh.cc:685
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "`%s' 도메인의 지명된 심볼들 (숫자 범위: %ld-%ld):\n"
 
-#: src/icesh.cc:559
+#: src/icesh.cc:855
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "잘못된 작업공간 이름: `%s'"
 
-#: src/icesh.cc:564
+#: src/icesh.cc:858
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "범위 밖의 작업공간: %ld"
 
-#: src/icesh.cc:615
-#, c-format
-msgid "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
-msgstr ""
-
-#: src/icesh.cc:675
+#: src/icesh.cc:988
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "작업공간 #%d: `%s'\n"
 
-#: src/icesh.cc:1086
-#, c-format
-msgid ""
-"Usage: %s [OPTIONS] ACTIONS\n"
-"\n"
-"Options:\n"
-"  -d, -display DISPLAY        Connects to the X server specified by "
-"DISPLAY.\n"
-"                              Default: $DISPLAY or :0.0 when not set.\n"
-"  -w, -window WINDOW_ID       Specifies the window to manipulate. Special\n"
-"                              identifiers are `root' for the root window "
-"and\n"
-"                              `focus' for the currently focused window.\n"
-"  -c, -class WM_CLASS         Window management class of the window(s) to\n"
-"                              manipulate. If WM_CLASS contains a period, "
-"only\n"
-"                              windows with exactly the same WM_CLASS "
-"property\n"
-"                              are matched. If there is no period, windows "
-"of\n"
-"                              the same class and windows of the same "
-"instance\n"
-"                              (aka. `-name') are selected.\n"
-"\n"
-"Actions:\n"
-"  setIconTitle   TITLE        Set the icon title.\n"
-"  setWindowTitle TITLE        Set the window title.\n"
-"  setGeometry    geometry     Set the window geometry\n"
-"  setState       MASK STATE   Set the GNOME window state to STATE.\n"
-"                              Only the bits selected by MASK are affected.\n"
-"                              STATE and MASK are expressions of the domain\n"
-"                              `GNOME window state'.\n"
-"  toggleState    STATE        Toggle the GNOME window state bits specified "
-"by\n"
-"                              the STATE expression.\n"
-"  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
-"  setLayer       LAYER        Moves the window to another GNOME window "
-"layer.\n"
-"  setWorkspace   WORKSPACE    Moves the window to another workspace. Select\n"
-"                              the root window to change the current "
-"workspace.\n"
-"                              Select 0xFFFFFFFF or \"All\" for all "
-"workspaces.\n"
-"  listWorkspaces              Lists the names of all workspaces.\n"
-"  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
-"  logout                      Tell IceWM to logout.\n"
-"  reboot                      Tell IceWM to reboot.\n"
-"  shutdown                    Tell IceWM to shutdown.\n"
-"  cancel                      Tell IceWM to cancel the logout/reboot/"
-"shutdown.\n"
-"  about                       Tell IceWM to show the about window.\n"
-"  windowlist                  Tell IceWM to show the window list.\n"
-"  restart                     Tell IceWM to restart.\n"
-"  suspend                     Tell IceWM to suspend.\n"
-"\n"
-"Expressions:\n"
-"  Expressions are list of symbols of one domain concatenated by `+' or `|':\n"
-"\n"
-"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
-"\n"
-msgstr ""
-"사용법: %s [옵션] 동작\n"
-"\n"
-"옵션:\n"
-"  -display DISPLAY            DISPLAY로 지정한 X 서버로 연결.\n"
-"                              기본값: $DISPLAY 혹은 정하지 않았을 때: 0.0\n"
-"  -window WINDOW_ID           조작할 창을 지정한다. 특별한 식별명으론\n"
-"                              루트 창에 대한 `root'가 있다. 그리고\n"
-"                              현재 초점이 있는 창에 대한 `focus'가 있다.\n"
-"  -class WM_CLASS             조작할 창(들)의 창 관리 클래스.\n"
-"                              WM_CLASS가 마침표를 포함하고 있으면,\n"
-"                              똑같은 WM_CLASS 속성의 창들만 맞춘다.\n"
-"                              만일 마침표가 없으면, 같은 클래스의\n"
-"                              창과 같은 instance의 창이\n"
-"                              (aka. `-name') 선택된다.\n"
-"\n"
-"동작:\n"
-"  setIconTitle   TITLE        아이콘 타이틀을 정한다.\n"
-"  setWindowTitle TITLE        창 타이틀을 정한다.\n"
-"  setGeometry    geometry     창의 크기와 위치를 정한다.\n"
-"  setState       MASK STATE   GNOME 창 상태를 STATE로 정한다.\n"
-"                              MASK로 선택한 비트만 영향을 받는다.\n"
-"                              STATE와 MASK는 `GNOME window state'\n"
-"                              도메인의 표현식이다.\n"
-"  toggleState    STATE        STATE 표현식으로 지정한\n"
-"                              GNOME 창 상태 비트를 토글한다.\n"
-"  setHints       HINTS        GNOME 창 힌트를 HINTS로 정한다.\n"
-"  setLayer       LAYER        창을 다른 GNOME 창 레이어로 옮긴다.\n"
-"  setWorkspace   WORKSPACE    창을 다른 작업공간으로 옮긴다. 현재\n"
-"                              작업공간을 바꾸기 위해선 루트 창을 선택한다.\n"
-"                              모든 작업공간에 대해 0xFFFFFFFF 또는 \"모두"
-"\"를 선택한다.\n"
-"  listWorkspaces              모든 작업공간의 이름을 나열한다.\n"
-"  setTrayOption  TRAYOPTION   IceWM 트레이 옵션 힌트를 설정한다.\n"
-"  logout                      IceWM에 로그아웃하라고 말한다.\n"
-"  reboot                      IceWM에 재부팅하라고 말한다.\n"
-"  shutdown                    IceWM에 종료하라고 말한다.\n"
-"  cancel                      IceWM에 로그아웃/재부팅/종료를 취소하라고 말한"
-"다.\n"
-"  about                        IceWM에 창에 대해 표시하라고 말한다.\n"
-"  windowlist                  IceWM에 창 목록을 표시하라고 말한다.\n"
-"  restart                     IceWM에 다시 시작하라고 말한다.\n"
-"  suspend                     IceWM에 일시 중단하라고 말한다.\n"
-"\n"
-"표현식:\n"
-"  표현식은 한 도메인의 심볼을 `+'나 `|'로 연결한 리스트이다.\n"
-"\n"
-"  표현식 ::= 심볼 | 표현식 ( `+' | `|' ) 심볼\n"
-"\n"
-
-#: src/icesh.cc:1134
-msgid "GNOME window state"
-msgstr "GNOME 창 상태"
-
-#: src/icesh.cc:1135
-msgid "GNOME window hint"
-msgstr "GNOME 창 힌트"
-
-#: src/icesh.cc:1136
-msgid "GNOME window layer"
-msgstr "GNOME 창 레이어"
-
-#: src/icesh.cc:1137
-msgid "IceWM tray option"
-msgstr "IceWM 트레이 옵션"
-
-#: src/icesh.cc:1204
+#: src/icesh.cc:1556
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "`%s' 동작은 최소 %d 개의 인수를 요구한다."
 
-#: src/icesh.cc:1215
+#: src/icesh.cc:1566
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "잘못된 표현: `%s'"
 
-#: src/icesh.cc:1285
-#, c-format
-msgid "Invalid argument: `%s'."
-msgstr "잘못된 인수: `%s'."
-
-#: src/icesh.cc:1291
-msgid "No actions specified."
-msgstr "아무 동작도 지정하지 않음."
-
-#: src/icesh.cc:1301 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:930
+#: src/icesh.cc:1577 src/icesound.cc:795 src/icewmhint.cc:36 src/yxapp.cc:930
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "디스플레이를 열지 못함: %s. X 실행 중여야 하고 $DISPLAY 정해야 함."
 
-#: src/icesh.cc:1338
+#: src/icesh.cc:1621
+msgid "No actions specified."
+msgstr "아무 동작도 지정하지 않음."
+
+#: src/icesh.cc:1724
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "잘못된 창 식별명: `%s'"
 
-#: src/icesh.cc:1515
+#: src/icesh.cc:1762
+#, c-format
+msgid "Invalid argument: `%s'."
+msgstr "잘못된 인수: `%s'."
+
+#: src/icesh.cc:2126
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "알 수 없는 동작: `%s'"
@@ -799,99 +672,131 @@ msgstr ""
 msgid "IceWM crash response"
 msgstr "IceWM 충돌 응답"
 
-#: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
+#: src/icesound.cc:216 src/icesound.cc:324 src/icesound.cc:484
 #, c-format
 msgid "Playing sample #%d (%s)"
 msgstr "#%d (%s) 샘플 연주"
 
-#: src/icesound.cc:337
+#: src/icesound.cc:334
 #, c-format
 msgid "%s: Invalid number of channels"
 msgstr "%s: 채널 수가 잘못됨"
 
-#: src/icesound.cc:343 src/icesound.cc:348
+#: src/icesound.cc:340 src/icesound.cc:345
 msgid "Could not set OSS channels"
 msgstr "OSS 채널을 설정할 수 없습니다."
 
-#: src/icesound.cc:353 src/icesound.cc:381
+#: src/icesound.cc:350 src/icesound.cc:378
 msgid "Could not sync OSS"
 msgstr "OSS를 동기화할 수 없습니다."
 
-#: src/icesound.cc:365
+#: src/icesound.cc:362
 msgid "OSS write failed"
 msgstr "OSS 쓰기에 실패했습니다."
 
-#: src/icesound.cc:369
+#: src/icesound.cc:366
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
 msgstr "OSS 완료되지 않은 쓰기(%d/%d)"
 
-#: src/icesound.cc:376
+#: src/icesound.cc:373
 msgid "Could not post OSS"
 msgstr "OSS를 게시할 수 없음"
 
-#: src/icesound.cc:405
+#: src/icesound.cc:402
 #, c-format
 msgid "Could not open OSS device %s"
 msgstr "OSS 장치%s을(를) 열 수 없음"
 
-#: src/icesound.cc:410
+#: src/icesound.cc:407
 msgid "Could not set OSS stereo"
 msgstr "OSS 스테레오를 설정할 수 없음"
 
-#: src/icesound.cc:415
+#: src/icesound.cc:412
 msgid "Could not reset OSS DSP"
 msgstr "OSS DSP를 재설정할 수 없음"
 
-#: src/icesound.cc:420
+#: src/icesound.cc:417
 msgid "Could not set OSS format"
 msgstr "OSS 형식을 설정할 수 없음"
 
-#: src/icesound.cc:493
-#, c-format
-msgid "Can't connect to ESound daemon: %s"
-msgstr "사운드 데몬에 연결 못함: %s"
-
-#: src/icesound.cc:494 src/yxapp.cc:931
-msgid "<none>"
-msgstr "<none>"
-
-#: src/icesound.cc:512
-#, c-format
-msgid "Error <%d> while uploading `%s:%s'"
-msgstr "중 <%d> 오류 `%s:%s'를 업로드"
-
-#: src/icesound.cc:518
-#, c-format
-msgid "Sample <%d> uploaded as `%s:%s'"
-msgstr "샘플 <%d>를 `%s:%s'로 업로드"
-
-#: src/icesound.cc:576
-#, c-format
-msgid "Playing sample #%d: %d"
-msgstr "샘플 #%d 연주: %d"
-
-#: src/icesound.cc:651
+#: src/icesound.cc:504
 #, c-format
 msgid "ao_open_live failed with %d"
 msgstr "ao_open_live가 %d(으)로 실패했습니다."
 
-#: src/icesound.cc:662
+#: src/icesound.cc:515
 msgid "ao_play failed"
 msgstr "ao_play가 실패했습니다."
 
-#: src/icesound.cc:824
+#: src/icesound.cc:677
 #, c-format
 msgid "Unrecognized option: %s\n"
 msgstr "알아볼 수 없는 옵션: %s\n"
 
-#: src/icesound.cc:827 src/icesound.cc:1130
+#: src/icesound.cc:680 src/icesound.cc:973
 #, c-format
 msgid "Unrecognized argument: %s\n"
 msgstr "알아볼 수 없는 인수: %s\n"
 
-#: src/icesound.cc:836
-#, c-format
+#: src/icesound.cc:689
+#, fuzzy, c-format
+#| msgid ""
+#| "Usage: %s [OPTION]...\n"
+#| "\n"
+#| "Plays audio files on GUI events raised by IceWM.\n"
+#| "The currently configured sound interfaces are: %s.\n"
+#| "Icesound will choose the first of these which is usable.\n"
+#| "\n"
+#| "Options:\n"
+#| "\n"
+#| " -d, --display=DISPLAY   X11 display used by IceWM (default: $DISPLAY).\n"
+#| "\n"
+#| " -s, --sample-dir=DIR    Specifies a directory with sound files.\n"
+#| "                         Default is $HOME/.config/icewm/sounds.\n"
+#| "\n"
+#| " -i, --interface=LIST    Specifies audio output interfaces. One or more "
+#| "of:\n"
+#| "                         %s separated by commas.\n"
+#| "\n"
+#| " -D, --device=DEVICE     Backwards compatibility only: the default "
+#| "device. \n"
+#| "                         Please prefer one of the -A/-O/-S options.\n"
+#| "\n"
+#| " -O, --oss=DEVICE        Specifies the OSS device (default: \"%s\").\n"
+#| "\n"
+#| " -A, --alsa=DEVICE       Specifies the ALSA device (default: \"%s\").\n"
+#| "\n"
+#| " -S, --server=ADDR:PORT  Specifies the ESD server address and port "
+#| "number.\n"
+#| "                         For ESD the default is \"localhost:16001\".\n"
+#| "\n"
+#| " -z, --snooze=millisecs  Specifies the snooze interval between sound "
+#| "events\n"
+#| "                         in milliseconds. Default is 500 milliseconds.\n"
+#| "\n"
+#| " -p, --play=sound        Plays the given sound (name or number) and "
+#| "exits.\n"
+#| "\n"
+#| " -l, --list-files        Lists the available sound file paths and exits.\n"
+#| "\n"
+#| "     --list-sounds       Lists the supported sound filenames and exits.\n"
+#| "\n"
+#| "     --list-interfaces   Lists the supported audio interfaces and exits.\n"
+#| "\n"
+#| " -v, --verbose           Be verbose and print out each sound event.\n"
+#| "\n"
+#| " -V, --version           Prints version information and exits.\n"
+#| "\n"
+#| " -h, --help              Prints this help screen and exits.\n"
+#| "\n"
+#| "Return values:\n"
+#| "\n"
+#| "  0    Success.\n"
+#| "  1    General error.\n"
+#| "  2    Command line error.\n"
+#| "  3    Subsystems error (ie cannot connect to server).\n"
+#| "\n"
 msgid ""
 "Usage: %s [OPTION]...\n"
 "\n"
@@ -915,9 +820,6 @@ msgid ""
 " -O, --oss=DEVICE        Specifies the OSS device (default: \"%s\").\n"
 "\n"
 " -A, --alsa=DEVICE       Specifies the ALSA device (default: \"%s\").\n"
-"\n"
-" -S, --server=ADDR:PORT  Specifies the ESD server address and port number.\n"
-"                         For ESD the default is \"localhost:16001\".\n"
 "\n"
 " -z, --snooze=millisecs  Specifies the snooze interval between sound events\n"
 "                         in milliseconds. Default is 500 milliseconds.\n"
@@ -1000,51 +902,51 @@ msgstr ""
 "  3     하위 시스템 오류(예: 서버에 연결할 수 없음).\n"
 "\n"
 
-#: src/icesound.cc:930
+#: src/icesound.cc:780
 #, c-format
 msgid "No audio for %s"
 msgstr "%s에 대한 오디오 없음"
 
-#: src/icesound.cc:1007
+#: src/icesound.cc:857
 msgid "Could not get GUI event property"
 msgstr "GUI 이벤트 속성을 가져올 수 없음"
 
-#: src/icesound.cc:1011
+#: src/icesound.cc:861
 #, c-format
 msgid "Received invalid GUI event %d"
 msgstr "잘못된 GUI 이벤트 %d을(를) 수신함"
 
-#: src/icesound.cc:1015
+#: src/icesound.cc:865
 #, c-format
 msgid "Received GUI event %s"
 msgstr "GUI 이벤트 %s을(를) 수신함"
 
-#: src/icesound.cc:1029
+#: src/icesound.cc:879
 #, c-format
 msgid "Too quick; ignoring %s."
 msgstr "너무 빠릅니다. %s을(를) 무시합니다."
 
-#: src/icesound.cc:1033
+#: src/icesound.cc:883
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr "%s 인터페이스 지원이 컴파일 안 되었음."
 
-#: src/icesound.cc:1073
+#: src/icesound.cc:916
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr "%s: 인터페이스 지원 안 됨."
 
-#: src/icesound.cc:1082
+#: src/icesound.cc:925
 #, c-format
 msgid "Using %s audio."
 msgstr "%s 오디오를 사용하는 중입니다."
 
-#: src/icesound.cc:1086
+#: src/icesound.cc:929
 #, c-format
 msgid "Failed to connect to audio interfaces %s."
 msgstr "오디오 인터페이스 %s에 연결하지 못했습니다."
 
-#: src/icesound.cc:1098
+#: src/icesound.cc:941
 #, c-format
 msgid "Received signal %s: Terminating..."
 msgstr "신호 %s을(를) 수신: 종료 중..."
@@ -1445,13 +1347,13 @@ msgstr ""
 msgid "Kill IceWM, replace with Xterm"
 msgstr "IceWM 종료, Xterm으로 바꾸기"
 
-#: src/wmapp.cc:1394
+#: src/wmapp.cc:1397
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      세션 관리자에게 문의할 때 사용할 클라이언트 ID입니다.\n"
 
-#: src/wmapp.cc:1400
+#: src/wmapp.cc:1403
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1461,7 +1363,7 @@ msgstr ""
 "  --debug             일반 디버그 메시지를 인쇄합니다.\n"
 "  --debug-z           창 스택 관련 디버그 메시지를 인쇄합니다.\n"
 
-#: src/wmapp.cc:1408
+#: src/wmapp.cc:1411
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1473,7 +1375,7 @@ msgstr ""
 "  -t, --theme=FILE    FILE에서 테마를 로드합니다.\n"
 "  --postpreferences   모든 처리 후 기본 설정을 인쇄합니다.\n"
 
-#: src/wmapp.cc:1413
+#: src/wmapp.cc:1416
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1532,7 +1434,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1474
+#: src/wmapp.cc:1477
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s 구성 디렉터리:\n"
@@ -1547,11 +1449,11 @@ msgstr "%s 구성된 옵션: %s\n"
 msgid "Unrecognized option '%s'."
 msgstr "알아볼 수 없는 옵션: '%s'"
 
-#: src/wmapp.cc:1648
+#: src/wmapp.cc:1661
 msgid "Confirm Logout"
 msgstr "종료 확인"
 
-#: src/wmapp.cc:1649
+#: src/wmapp.cc:1662
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1592,8 +1494,8 @@ msgstr "작업공간 잠금(_k)"
 msgid "_Cancel"
 msgstr "취소(_C)"
 
-#: src/wmdialog.cc:77 src/wmprog.cc:844 src/wmprog.cc:846 src/wmtaskbar.cc:297
-#: src/wmtaskbar.cc:299
+#: src/wmdialog.cc:77 src/wmprog.cc:844 src/wmprog.cc:846 src/wmtaskbar.cc:301
+#: src/wmtaskbar.cc:303
 msgid "_Logout..."
 msgstr "로그아웃(_L)..."
 
@@ -1601,16 +1503,16 @@ msgstr "로그아웃(_L)..."
 msgid "_Restart icewm"
 msgstr "icewm 다시 시작(_R)"
 
-#: src/wmdialog.cc:82 src/wmprog.cc:805 src/wmtaskbar.cc:290
-#: src/wmtaskbar.cc:293
+#: src/wmdialog.cc:82 src/wmprog.cc:805 src/wmtaskbar.cc:294
+#: src/wmtaskbar.cc:297
 msgid "_About"
 msgstr "정보(_A)"
 
-#: src/wmframe.cc:1390
+#: src/wmframe.cc:1394
 msgid "Kill Client: "
 msgstr "클라이언트 죽이기: "
 
-#: src/wmframe.cc:1397
+#: src/wmframe.cc:1401
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1618,28 +1520,28 @@ msgstr ""
 "경고! 이 클라이언트를 죽이면 저장되지 않은\n"
 "변경 사항을 모두 잃어버립니다. 계속할까요?"
 
-#: src/wmframe.cc:2991
+#: src/wmframe.cc:2997
 msgid "Restore"
 msgstr "원래 크기로"
 
-#: src/wmframe.cc:2994 src/wmtitle.cc:69
+#: src/wmframe.cc:3000 src/wmtitle.cc:69
 msgid "Maximize"
 msgstr "최대화"
 
-#: src/wmframe.cc:3024
+#: src/wmframe.cc:3030
 msgid "Rolldown"
 msgstr "말아내리기"
 
-#: src/wmframe.cc:3026 src/wmtitle.cc:127
+#: src/wmframe.cc:3032 src/wmtitle.cc:127
 msgid "Rollup"
 msgstr "말아올리기"
 
-#: src/wmoption.cc:228
+#: src/wmoption.cc:232
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "알 수 없는 창 옵션: %s"
 
-#: src/wmoption.cc:338
+#: src/wmoption.cc:344
 #, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "%d 라인(%s)에 있는 창 옵션 구문 오류"
@@ -1696,7 +1598,7 @@ msgstr "프로그램"
 msgid "_Run..."
 msgstr "실행(_R)..."
 
-#: src/wmprog.cc:792 src/wmtaskbar.cc:280
+#: src/wmprog.cc:792 src/wmtaskbar.cc:284
 msgid "_Windows"
 msgstr "창(_W)"
 
@@ -1729,63 +1631,63 @@ msgstr "세션 관리자: 알 수 없는 줄 %s"
 msgid "Task Bar"
 msgstr "태스크바"
 
-#: src/wmtaskbar.cc:270 src/wmwinlist.cc:364 src/wmwinlist.cc:377
+#: src/wmtaskbar.cc:274 src/wmwinlist.cc:364 src/wmwinlist.cc:377
 msgid "Tile _Vertically"
 msgstr "수직 정렬(_V)"
 
-#: src/wmtaskbar.cc:271 src/wmwinlist.cc:365 src/wmwinlist.cc:378
+#: src/wmtaskbar.cc:275 src/wmwinlist.cc:365 src/wmwinlist.cc:378
 msgid "T_ile Horizontally"
 msgstr "수평 정렬(_I)"
 
-#: src/wmtaskbar.cc:272 src/wmwinlist.cc:366 src/wmwinlist.cc:379
+#: src/wmtaskbar.cc:276 src/wmwinlist.cc:366 src/wmwinlist.cc:379
 msgid "Ca_scade"
 msgstr "계단식 정렬(_S)"
 
-#: src/wmtaskbar.cc:273 src/wmwinlist.cc:367 src/wmwinlist.cc:380
+#: src/wmtaskbar.cc:277 src/wmwinlist.cc:367 src/wmwinlist.cc:380
 msgid "_Arrange"
 msgstr "정렬(_A)"
 
-#: src/wmtaskbar.cc:274 src/wmwinlist.cc:369 src/wmwinlist.cc:381
+#: src/wmtaskbar.cc:278 src/wmwinlist.cc:369 src/wmwinlist.cc:381
 msgid "_Minimize All"
 msgstr "모두 최소화(_M)"
 
-#: src/wmtaskbar.cc:275 src/wmwinlist.cc:370 src/wmwinlist.cc:382
+#: src/wmtaskbar.cc:279 src/wmwinlist.cc:370 src/wmwinlist.cc:382
 msgid "_Hide All"
 msgstr "모두 숨기기(_H)"
 
-#: src/wmtaskbar.cc:276 src/wmwinlist.cc:371 src/wmwinlist.cc:383
+#: src/wmtaskbar.cc:280 src/wmwinlist.cc:371 src/wmwinlist.cc:383
 msgid "_Undo"
 msgstr "실행 취소(_U)"
 
-#: src/wmtaskbar.cc:278
+#: src/wmtaskbar.cc:282
 msgid "Arrange _Icons"
 msgstr "아이콘 정렬(_I)"
 
-#: src/wmtaskbar.cc:282
+#: src/wmtaskbar.cc:286
 msgid "_Refresh"
 msgstr "새롭게(_R)"
 
-#: src/wmtaskbar.cc:288
+#: src/wmtaskbar.cc:292
 msgid "_License"
 msgstr "라이센스(_L)"
 
-#: src/wmtaskbar.cc:356 src/wmtaskbar.cc:979
+#: src/wmtaskbar.cc:363 src/wmtaskbar.cc:992
 msgid "Hide Taskbar"
 msgstr "작업 표시줄 숨기기"
 
-#: src/wmtaskbar.cc:371
+#: src/wmtaskbar.cc:378
 msgid "Favorite Applications"
 msgstr "즐겨쓰는 응용 프로그램"
 
-#: src/wmtaskbar.cc:389
+#: src/wmtaskbar.cc:396
 msgid "Window List Menu"
 msgstr "창 목록 메뉴"
 
-#: src/wmtaskbar.cc:398
+#: src/wmtaskbar.cc:405
 msgid "Show Desktop"
 msgstr "바탕화면 보기"
 
-#: src/wmtaskbar.cc:979
+#: src/wmtaskbar.cc:992
 msgid "Show Taskbar"
 msgstr "작업 표시줄 표시"
 
@@ -2010,6 +1912,10 @@ msgid ""
 msgstr ""
 "  -d, --display=NAME  사용할 X 서버의 이름입니다.\n"
 "  --sync              X11 명령을 동기화합니다.\n"
+
+#: src/yxapp.cc:931
+msgid "<none>"
+msgstr "<none>"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
 #: src/fdospecgen.h:43
@@ -2700,6 +2606,146 @@ msgstr "웹 개발"
 #: src/fdospecgen.h:319
 msgid "WordProcessor"
 msgstr "워드 프로세서"
+
+#~ msgid ""
+#~ "Usage: %s [OPTIONS] ACTIONS\n"
+#~ "\n"
+#~ "Options:\n"
+#~ "  -d, -display DISPLAY        Connects to the X server specified by "
+#~ "DISPLAY.\n"
+#~ "                              Default: $DISPLAY or :0.0 when not set.\n"
+#~ "  -w, -window WINDOW_ID       Specifies the window to manipulate. "
+#~ "Special\n"
+#~ "                              identifiers are `root' for the root window "
+#~ "and\n"
+#~ "                              `focus' for the currently focused window.\n"
+#~ "  -c, -class WM_CLASS         Window management class of the window(s) "
+#~ "to\n"
+#~ "                              manipulate. If WM_CLASS contains a period, "
+#~ "only\n"
+#~ "                              windows with exactly the same WM_CLASS "
+#~ "property\n"
+#~ "                              are matched. If there is no period, windows "
+#~ "of\n"
+#~ "                              the same class and windows of the same "
+#~ "instance\n"
+#~ "                              (aka. `-name') are selected.\n"
+#~ "\n"
+#~ "Actions:\n"
+#~ "  setIconTitle   TITLE        Set the icon title.\n"
+#~ "  setWindowTitle TITLE        Set the window title.\n"
+#~ "  setGeometry    geometry     Set the window geometry\n"
+#~ "  setState       MASK STATE   Set the GNOME window state to STATE.\n"
+#~ "                              Only the bits selected by MASK are "
+#~ "affected.\n"
+#~ "                              STATE and MASK are expressions of the "
+#~ "domain\n"
+#~ "                              `GNOME window state'.\n"
+#~ "  toggleState    STATE        Toggle the GNOME window state bits "
+#~ "specified by\n"
+#~ "                              the STATE expression.\n"
+#~ "  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
+#~ "  setLayer       LAYER        Moves the window to another GNOME window "
+#~ "layer.\n"
+#~ "  setWorkspace   WORKSPACE    Moves the window to another workspace. "
+#~ "Select\n"
+#~ "                              the root window to change the current "
+#~ "workspace.\n"
+#~ "                              Select 0xFFFFFFFF or \"All\" for all "
+#~ "workspaces.\n"
+#~ "  listWorkspaces              Lists the names of all workspaces.\n"
+#~ "  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
+#~ "  logout                      Tell IceWM to logout.\n"
+#~ "  reboot                      Tell IceWM to reboot.\n"
+#~ "  shutdown                    Tell IceWM to shutdown.\n"
+#~ "  cancel                      Tell IceWM to cancel the logout/reboot/"
+#~ "shutdown.\n"
+#~ "  about                       Tell IceWM to show the about window.\n"
+#~ "  windowlist                  Tell IceWM to show the window list.\n"
+#~ "  restart                     Tell IceWM to restart.\n"
+#~ "  suspend                     Tell IceWM to suspend.\n"
+#~ "\n"
+#~ "Expressions:\n"
+#~ "  Expressions are list of symbols of one domain concatenated by `+' or "
+#~ "`|':\n"
+#~ "\n"
+#~ "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
+#~ "\n"
+#~ msgstr ""
+#~ "사용법: %s [옵션] 동작\n"
+#~ "\n"
+#~ "옵션:\n"
+#~ "  -display DISPLAY            DISPLAY로 지정한 X 서버로 연결.\n"
+#~ "                              기본값: $DISPLAY 혹은 정하지 않았을 때: "
+#~ "0.0\n"
+#~ "  -window WINDOW_ID           조작할 창을 지정한다. 특별한 식별명으론\n"
+#~ "                              루트 창에 대한 `root'가 있다. 그리고\n"
+#~ "                              현재 초점이 있는 창에 대한 `focus'가 있다.\n"
+#~ "  -class WM_CLASS             조작할 창(들)의 창 관리 클래스.\n"
+#~ "                              WM_CLASS가 마침표를 포함하고 있으면,\n"
+#~ "                              똑같은 WM_CLASS 속성의 창들만 맞춘다.\n"
+#~ "                              만일 마침표가 없으면, 같은 클래스의\n"
+#~ "                              창과 같은 instance의 창이\n"
+#~ "                              (aka. `-name') 선택된다.\n"
+#~ "\n"
+#~ "동작:\n"
+#~ "  setIconTitle   TITLE        아이콘 타이틀을 정한다.\n"
+#~ "  setWindowTitle TITLE        창 타이틀을 정한다.\n"
+#~ "  setGeometry    geometry     창의 크기와 위치를 정한다.\n"
+#~ "  setState       MASK STATE   GNOME 창 상태를 STATE로 정한다.\n"
+#~ "                              MASK로 선택한 비트만 영향을 받는다.\n"
+#~ "                              STATE와 MASK는 `GNOME window state'\n"
+#~ "                              도메인의 표현식이다.\n"
+#~ "  toggleState    STATE        STATE 표현식으로 지정한\n"
+#~ "                              GNOME 창 상태 비트를 토글한다.\n"
+#~ "  setHints       HINTS        GNOME 창 힌트를 HINTS로 정한다.\n"
+#~ "  setLayer       LAYER        창을 다른 GNOME 창 레이어로 옮긴다.\n"
+#~ "  setWorkspace   WORKSPACE    창을 다른 작업공간으로 옮긴다. 현재\n"
+#~ "                              작업공간을 바꾸기 위해선 루트 창을 선택한"
+#~ "다.\n"
+#~ "                              모든 작업공간에 대해 0xFFFFFFFF 또는 \"모두"
+#~ "\"를 선택한다.\n"
+#~ "  listWorkspaces              모든 작업공간의 이름을 나열한다.\n"
+#~ "  setTrayOption  TRAYOPTION   IceWM 트레이 옵션 힌트를 설정한다.\n"
+#~ "  logout                      IceWM에 로그아웃하라고 말한다.\n"
+#~ "  reboot                      IceWM에 재부팅하라고 말한다.\n"
+#~ "  shutdown                    IceWM에 종료하라고 말한다.\n"
+#~ "  cancel                      IceWM에 로그아웃/재부팅/종료를 취소하라고 말"
+#~ "한다.\n"
+#~ "  about                        IceWM에 창에 대해 표시하라고 말한다.\n"
+#~ "  windowlist                  IceWM에 창 목록을 표시하라고 말한다.\n"
+#~ "  restart                     IceWM에 다시 시작하라고 말한다.\n"
+#~ "  suspend                     IceWM에 일시 중단하라고 말한다.\n"
+#~ "\n"
+#~ "표현식:\n"
+#~ "  표현식은 한 도메인의 심볼을 `+'나 `|'로 연결한 리스트이다.\n"
+#~ "\n"
+#~ "  표현식 ::= 심볼 | 표현식 ( `+' | `|' ) 심볼\n"
+#~ "\n"
+
+#~ msgid "GNOME window state"
+#~ msgstr "GNOME 창 상태"
+
+#~ msgid "GNOME window hint"
+#~ msgstr "GNOME 창 힌트"
+
+#~ msgid "GNOME window layer"
+#~ msgstr "GNOME 창 레이어"
+
+#~ msgid "IceWM tray option"
+#~ msgstr "IceWM 트레이 옵션"
+
+#~ msgid "Can't connect to ESound daemon: %s"
+#~ msgstr "사운드 데몬에 연결 못함: %s"
+
+#~ msgid "Error <%d> while uploading `%s:%s'"
+#~ msgstr "중 <%d> 오류 `%s:%s'를 업로드"
+
+#~ msgid "Sample <%d> uploaded as `%s:%s'"
+#~ msgstr "샘플 <%d>를 `%s:%s'로 업로드"
+
+#~ msgid "Playing sample #%d: %d"
+#~ msgstr "샘플 #%d 연주: %d"
 
 #~ msgid "Usage error: "
 #~ msgstr "사용법 오류: "

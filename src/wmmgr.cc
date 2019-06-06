@@ -1378,6 +1378,14 @@ void YWindowManager::placeWindow(YFrameWindow *frame,
         WindowOption wo(null);
         frame->getWindowOptions(wo, true);
 
+        if (wo.opacity && inrange(wo.opacity, 1, 100)) {
+            Atom omax = 0xFFFFFFFF;
+            Atom oper = omax / 100;
+            Atom orem = omax - oper * 100;
+            Atom opaq = wo.opacity * oper + wo.opacity * orem / 100;
+            frame->setNetOpacity(opaq);
+        }
+
         //msg("positioning %d %d %d %d %X", wo.gx, wo.gy, wo.gw, wo.gh, wo.gflags);
         if (wo.gh != 0 && wo.gw != 0) {
             if ((wo.gflags & (WidthValue | HeightValue)) ==

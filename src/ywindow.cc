@@ -1414,6 +1414,19 @@ void YWindow::removeAccelerator(unsigned int key, unsigned int mod, YWindow *win
 
 const Atom XdndCurrentVersion = 3;
 
+void YWindow::setProperty(Atom property, Atom propType, Atom value) {
+    XChangeProperty(xapp->display(), handle(), property, propType,
+                    32, PropModeReplace, (unsigned char *) &value, 1);
+}
+
+void YWindow::setNetWindowType(Atom window_type) {
+    setProperty(_XA_NET_WM_WINDOW_TYPE, XA_ATOM, window_type);
+}
+
+void YWindow::setNetOpacity(Atom opacity) {
+    setProperty(_XA_NET_WM_WINDOW_OPACITY, XA_CARDINAL, opacity);
+}
+
 void YWindow::setDND(bool enabled) {
     if (fDND != enabled) {
         fDND = enabled;

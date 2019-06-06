@@ -6,17 +6,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-04-23 21:53+0200\n"
-"PO-Revision-Date: 2018-12-20 08:24+0000\n"
+"POT-Creation-Date: 2019-05-21 22:54+0200\n"
+"PO-Revision-Date: 2019-05-25 18:49+0000\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
-"Language-Team: Slovak <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/sk/>\n"
+"Language-Team: Slovak <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 3.2.2\n"
+"X-Generator: Weblate 3.6.1\n"
 
 #: src/aapm.cc:180 src/aapm.cc:462 src/aapm.cc:684 src/aapm.cc:809
 msgid " - Power"
@@ -316,7 +316,7 @@ msgstr ""
 msgid "NET"
 msgstr "NET"
 
-#: src/aworkspaces.cc:294 src/wmstatus.cc:163
+#: src/aworkspaces.cc:294 src/wmstatus.cc:165
 msgid "Workspace: "
 msgstr "Pracovná plocha: "
 
@@ -552,193 +552,62 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "Rovnaká hra"
 
-#: src/icesh.cc:389
+#: src/icesh.cc:51
+msgid "For help please consult the man page icesh(1).\n"
+msgstr "Pomoc nájdete na manuálovej stránke cesh(1).\n"
+
+#: src/icesh.cc:685
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Pomenované znaky domény `%s' (číselný rozsah: %ld-%ld):\n"
 
-#: src/icesh.cc:559
+#: src/icesh.cc:855
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Neplatný názov plochy: `%s'"
 
-#: src/icesh.cc:564
+#: src/icesh.cc:858
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Pracovná plocha je mimo rozsah: %ld"
 
-#: src/icesh.cc:615
-#, c-format
-msgid "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
-msgstr ""
-
-#: src/icesh.cc:675
+#: src/icesh.cc:988
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "pracovná plocha #%d: `%s'\n"
 
-#: src/icesh.cc:1086
-#, c-format
-msgid ""
-"Usage: %s [OPTIONS] ACTIONS\n"
-"\n"
-"Options:\n"
-"  -d, -display DISPLAY        Connects to the X server specified by "
-"DISPLAY.\n"
-"                              Default: $DISPLAY or :0.0 when not set.\n"
-"  -w, -window WINDOW_ID       Specifies the window to manipulate. Special\n"
-"                              identifiers are `root' for the root window "
-"and\n"
-"                              `focus' for the currently focused window.\n"
-"  -c, -class WM_CLASS         Window management class of the window(s) to\n"
-"                              manipulate. If WM_CLASS contains a period, "
-"only\n"
-"                              windows with exactly the same WM_CLASS "
-"property\n"
-"                              are matched. If there is no period, windows "
-"of\n"
-"                              the same class and windows of the same "
-"instance\n"
-"                              (aka. `-name') are selected.\n"
-"\n"
-"Actions:\n"
-"  setIconTitle   TITLE        Set the icon title.\n"
-"  setWindowTitle TITLE        Set the window title.\n"
-"  setGeometry    geometry     Set the window geometry\n"
-"  setState       MASK STATE   Set the GNOME window state to STATE.\n"
-"                              Only the bits selected by MASK are affected.\n"
-"                              STATE and MASK are expressions of the domain\n"
-"                              `GNOME window state'.\n"
-"  toggleState    STATE        Toggle the GNOME window state bits specified "
-"by\n"
-"                              the STATE expression.\n"
-"  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
-"  setLayer       LAYER        Moves the window to another GNOME window "
-"layer.\n"
-"  setWorkspace   WORKSPACE    Moves the window to another workspace. Select\n"
-"                              the root window to change the current "
-"workspace.\n"
-"                              Select 0xFFFFFFFF or \"All\" for all "
-"workspaces.\n"
-"  listWorkspaces              Lists the names of all workspaces.\n"
-"  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
-"  logout                      Tell IceWM to logout.\n"
-"  reboot                      Tell IceWM to reboot.\n"
-"  shutdown                    Tell IceWM to shutdown.\n"
-"  cancel                      Tell IceWM to cancel the logout/reboot/"
-"shutdown.\n"
-"  about                       Tell IceWM to show the about window.\n"
-"  windowlist                  Tell IceWM to show the window list.\n"
-"  restart                     Tell IceWM to restart.\n"
-"  suspend                     Tell IceWM to suspend.\n"
-"\n"
-"Expressions:\n"
-"  Expressions are list of symbols of one domain concatenated by `+' or `|':\n"
-"\n"
-"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
-"\n"
-msgstr ""
-"Použití: %s [VOĽBY] AKCIE\n"
-"\n"
-"Voľby:\n"
-"  -d, -display DISPLAY        Pripojí sa k X serveru určeného pomocou "
-"DISPLAY.\n"
-"                              Predvolené: $DISPLAY alebo :0.0, keď nie je "
-"nastavené.\n"
-"  -w, -window WINDOW_ID       Určuje okno pre manipuláciu. Špeciálne\n"
-"                              identifikátory sú 'root' pre root okno a\n"
-"                              'focus' pre práve aktívne okno.\n"
-"  -c, -class WM_CLASS         Trieda správy okna pre spravovanie okna(ien).\n"
-"                              Ak WM_CLASS obsahuje bodku, zhodujú sa\n"
-"                              iba okná s presne rovnakou vlastnosťou "
-"WM_CLASS.\n"
-"                              Ak tam nie je žiadna bodka, vyberú sa okná "
-"rovnakej\n"
-"                              triedy a okná rovnakej inštancie (tiež známe\n"
-"                              ako '-name').\n"
-"\n"
-"Akcie:\n"
-"  setIconTitle   TITLE        Nastaví ikonu pre titulok.\n"
-"  setWindowTitle TITLE        Nastaví titulok okna.\n"
-"  setGeometry    geometria    Nastaví geometriu okna\n"
-"  setState       MASK STATE   Nastaví stav okna GNOME na STATE.\n"
-"                              Ovplyvnené sú iba bity vybrané s MASK.\n"
-"                              STATE a MASK sú výrazy z domény\n"
-"                              `GNOME window state'.\n"
-"  toggleState    STATE         Prepne GNOME stavové bity okna určené\n"
-"                              výrazom STATE.\n"
-"  setHints       HINTS        Nastaví GNOME tipy okna na HINTS.\n"
-"  setLayer       LAYER        Presunie okno na inú GNOME okennú úroveň.\n"
-"  setWorkspace   WORKSPACE       Presunie okno na inú pracovnú plochu.\n"
-"                              Vyberte root okno pre zmenu súčasnej pracovnej "
-"plochy.\n"
-"                              Vyberte 0xFFFFFFFF alebo \"Všetko\" pre všetky "
-"pracovné plochy.\n"
-"  listWorkspaces              Vypíše názvy všetkých pracovných plôch.\n"
-"  setTrayOption  TRAYOPTION   Nastaví tip voľby lišty IceWM.\n"
-"  logout                      Povie IceWM, aby sa odhlásilo.\n"
-"  reboot                      Povie IceWM, aby sa znovu spustilo.\n"
-"  shutdown                    Povie IceWM, aby sa vyplo.\n"
-"  cancel                      Povie IceWM, aby zrušilo odhlásenie/reštart/"
-"vypnutie.\n"
-"  about                       Povie IceWM, aby ukázalo okno o programe.\n"
-"  windowlist                  Povie IceWM, aby ukázalo zoznam okien.\n"
-"  restart                     Povie IceWM, aby sa reštartovalo.\n"
-"  suspend                     Povie IceWM, aby sa uspalo.\n"
-"\n"
-"Výrazy:  Výrazy je zoznam symbolov jednej domény spojené s `+' or `|':\n"
-"\n"
-"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
-"\n"
-
-#: src/icesh.cc:1134
-msgid "GNOME window state"
-msgstr "GNOME stav okna"
-
-#: src/icesh.cc:1135
-msgid "GNOME window hint"
-msgstr "GNOME tip okna"
-
-#: src/icesh.cc:1136
-msgid "GNOME window layer"
-msgstr "GNOME vrstva okna"
-
-#: src/icesh.cc:1137
-msgid "IceWM tray option"
-msgstr "IceWM nastavenia lišty"
-
-#: src/icesh.cc:1204
+#: src/icesh.cc:1556
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Akcia `%s' vyžaduje najmenej %d argumentov."
 
-#: src/icesh.cc:1215
+#: src/icesh.cc:1566
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Neplatný výraz: `%s'"
 
-#: src/icesh.cc:1285
-#, c-format
-msgid "Invalid argument: `%s'."
-msgstr "Neplatná hodnota: `%s'."
-
-#: src/icesh.cc:1291
-msgid "No actions specified."
-msgstr "Nebola zadaná žiadna akcia."
-
-#: src/icesh.cc:1301 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:930
+#: src/icesh.cc:1577 src/icesound.cc:795 src/icewmhint.cc:36 src/yxapp.cc:930
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "Neide otvoriť displej: %s. Server X musí byť spustený a premenná $DISPLAY "
 "nastavená."
 
-#: src/icesh.cc:1338
+#: src/icesh.cc:1621
+msgid "No actions specified."
+msgstr "Nebola zadaná žiadna akcia."
+
+#: src/icesh.cc:1724
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Neplatné označenie okna: `%s'"
 
-#: src/icesh.cc:1515
+#: src/icesh.cc:1762
+#, c-format
+msgid "Invalid argument: `%s'."
+msgstr "Neplatná hodnota: `%s'."
+
+#: src/icesh.cc:2126
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Neznáma akcia: `%s'"
@@ -803,98 +672,74 @@ msgstr ""
 msgid "IceWM crash response"
 msgstr "Odpoveď spadnutia IceWM"
 
-#: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
+#: src/icesound.cc:216 src/icesound.cc:324 src/icesound.cc:484
 #, c-format
 msgid "Playing sample #%d (%s)"
 msgstr "Hrám vzorku #%d (%s)"
 
-#: src/icesound.cc:337
+#: src/icesound.cc:334
 #, c-format
 msgid "%s: Invalid number of channels"
 msgstr "%s: Neplatný počet kanálov"
 
-#: src/icesound.cc:343 src/icesound.cc:348
+#: src/icesound.cc:340 src/icesound.cc:345
 msgid "Could not set OSS channels"
 msgstr "Nebolo možné nastaviť OSS kanály"
 
-#: src/icesound.cc:353 src/icesound.cc:381
+#: src/icesound.cc:350 src/icesound.cc:378
 msgid "Could not sync OSS"
 msgstr "Nebolo možné synchronizovať OSS"
 
-#: src/icesound.cc:365
+#: src/icesound.cc:362
 msgid "OSS write failed"
 msgstr "Zápis OSS zlyhal"
 
-#: src/icesound.cc:369
+#: src/icesound.cc:366
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
 msgstr "Neúplný zápis OSS (%d/%d)"
 
-#: src/icesound.cc:376
+#: src/icesound.cc:373
 msgid "Could not post OSS"
 msgstr "Nebolo možné odoslať OSS"
 
-#: src/icesound.cc:405
+#: src/icesound.cc:402
 #, c-format
 msgid "Could not open OSS device %s"
 msgstr "Nebolo možné otvoriť zariadenie OSS %s"
 
-#: src/icesound.cc:410
+#: src/icesound.cc:407
 msgid "Could not set OSS stereo"
 msgstr "Nebolo možné nastaviť OSS stereo"
 
-#: src/icesound.cc:415
+#: src/icesound.cc:412
 msgid "Could not reset OSS DSP"
 msgstr "Nebolo možné resetovať OSS DSP"
 
-#: src/icesound.cc:420
+#: src/icesound.cc:417
 msgid "Could not set OSS format"
 msgstr "Nebolo možné nastaviť formát OSS"
 
-#: src/icesound.cc:493
-#, c-format
-msgid "Can't connect to ESound daemon: %s"
-msgstr "Nedá sa spojiť s ESound démonom: %s"
-
-#: src/icesound.cc:494 src/yxapp.cc:931
-msgid "<none>"
-msgstr "<žiadny>"
-
-#: src/icesound.cc:512
-#, c-format
-msgid "Error <%d> while uploading `%s:%s'"
-msgstr "Nastala chyba <%d>: pri nahrávaní `%s:%s'"
-
-#: src/icesound.cc:518
-#, c-format
-msgid "Sample <%d> uploaded as `%s:%s'"
-msgstr "Vzorka <%d> bola nahraná ako `%s:%s'"
-
-#: src/icesound.cc:576
-#, c-format
-msgid "Playing sample #%d: %d"
-msgstr "Prehrávanie ukážky #%d: %d"
-
-#: src/icesound.cc:651
+#: src/icesound.cc:504
 #, c-format
 msgid "ao_open_live failed with %d"
 msgstr "ao_open_live zlyhalo s %d"
 
-#: src/icesound.cc:662
+#: src/icesound.cc:515
 msgid "ao_play failed"
 msgstr "ao_play zlyhalo"
 
-#: src/icesound.cc:824
+#: src/icesound.cc:677
 #, c-format
 msgid "Unrecognized option: %s\n"
 msgstr "Nerozpoznaná voľba: %s\n"
 
-#: src/icesound.cc:827 src/icesound.cc:1130
+#: src/icesound.cc:680 src/icesound.cc:973
 #, c-format
 msgid "Unrecognized argument: %s\n"
 msgstr "Nerozpoznaný parameter: %s\n"
 
-#: src/icesound.cc:836
+#: src/icesound.cc:689
 #, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
@@ -919,9 +764,6 @@ msgid ""
 " -O, --oss=DEVICE        Specifies the OSS device (default: \"%s\").\n"
 "\n"
 " -A, --alsa=DEVICE       Specifies the ALSA device (default: \"%s\").\n"
-"\n"
-" -S, --server=ADDR:PORT  Specifies the ESD server address and port number.\n"
-"                         For ESD the default is \"localhost:16001\".\n"
 "\n"
 " -z, --snooze=millisecs  Specifies the snooze interval between sound events\n"
 "                         in milliseconds. Default is 500 milliseconds.\n"
@@ -973,9 +815,6 @@ msgstr ""
 "\n"
 " -A, --alsa=ZARIADENIE       Určuje zariadenie ALSA (predvolené: \"%s\").\n"
 "\n"
-"-S, --server=ADRESA:PORT  Určuje adresu a číslo portu pre ESD server.\n"
-"                         Predvolené pre ESD je \"localhost:16001\".\n"
-" \n"
 " -z, --snooze=millisek  Určuje interval oneskorenia medzi zvukovými "
 "udalosťami\n"
 "                         v milisekundách. Predvolených je Default is 500 "
@@ -1006,51 +845,51 @@ msgstr ""
 "3     Chyba podsystému (t,j. nie je možné sa pripojiť na server).\n"
 "\n"
 
-#: src/icesound.cc:930
+#: src/icesound.cc:780
 #, c-format
 msgid "No audio for %s"
 msgstr "Žiadne audio pre %s"
 
-#: src/icesound.cc:1007
+#: src/icesound.cc:857
 msgid "Could not get GUI event property"
 msgstr "Nebolo možné správne získať GUI udalosť"
 
-#: src/icesound.cc:1011
+#: src/icesound.cc:861
 #, c-format
 msgid "Received invalid GUI event %d"
 msgstr "Prijatá neplatná GUI udalosť %d"
 
-#: src/icesound.cc:1015
+#: src/icesound.cc:865
 #, c-format
 msgid "Received GUI event %s"
 msgstr "Prijatá GUI udalosť %s"
 
-#: src/icesound.cc:1029
+#: src/icesound.cc:879
 #, c-format
 msgid "Too quick; ignoring %s."
 msgstr "Príliš rýchlo; ignorovanie %s."
 
-#: src/icesound.cc:1033
+#: src/icesound.cc:883
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr "Podpora rozhrania %s nebola skompilovaná."
 
-#: src/icesound.cc:1073
+#: src/icesound.cc:916
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr "Nepodporované rozhranie: %s."
 
-#: src/icesound.cc:1082
+#: src/icesound.cc:925
 #, c-format
 msgid "Using %s audio."
 msgstr "Použitie %s audio."
 
-#: src/icesound.cc:1086
+#: src/icesound.cc:929
 #, c-format
 msgid "Failed to connect to audio interfaces %s."
 msgstr "Zlyhalo pripojenie k audio rozhraniam %s."
 
-#: src/icesound.cc:1098
+#: src/icesound.cc:941
 #, c-format
 msgid "Received signal %s: Terminating..."
 msgstr "Prijatý signál %s: Ukončenie..."
@@ -1451,14 +1290,14 @@ msgstr ""
 msgid "Kill IceWM, replace with Xterm"
 msgstr "Zabiť IceWM, nahradiť s Xterm"
 
-#: src/wmapp.cc:1394
+#: src/wmapp.cc:1397
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      ID klienta, ktoré bude použité pri kontaktovaní "
 "správcu sedenia.\n"
 
-#: src/wmapp.cc:1400
+#: src/wmapp.cc:1403
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1468,7 +1307,7 @@ msgstr ""
 "  --debug             Vypíše všeobecné ladiace správy.\n"
 "  --debug-z           Vypíše ladiace správy týkajúce naskladania okien.\n"
 
-#: src/wmapp.cc:1408
+#: src/wmapp.cc:1411
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1480,7 +1319,7 @@ msgstr ""
 "  -t, --theme=SÚBOR    Načíta tému zo SÚBOR-u.\n"
 "  --postpreferences   Vypíše predvoľby po spracovaní všetkého.\n"
 
-#: src/wmapp.cc:1413
+#: src/wmapp.cc:1416
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1541,7 +1380,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1474
+#: src/wmapp.cc:1477
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s konfiguračné adresáre:\n"
@@ -1556,11 +1395,11 @@ msgstr "%s nakonfigurované voľby: %s\n"
 msgid "Unrecognized option '%s'."
 msgstr "Nerozpoznaná voľba: '%s'."
 
-#: src/wmapp.cc:1648
+#: src/wmapp.cc:1661
 msgid "Confirm Logout"
 msgstr "Potvrdiť odhlásenie"
 
-#: src/wmapp.cc:1649
+#: src/wmapp.cc:1662
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1601,8 +1440,8 @@ msgstr "Zamknúť pracovnú _stanicu"
 msgid "_Cancel"
 msgstr "_Zrušiť"
 
-#: src/wmdialog.cc:77 src/wmprog.cc:844 src/wmprog.cc:846 src/wmtaskbar.cc:297
-#: src/wmtaskbar.cc:299
+#: src/wmdialog.cc:77 src/wmprog.cc:844 src/wmprog.cc:846 src/wmtaskbar.cc:301
+#: src/wmtaskbar.cc:303
 msgid "_Logout..."
 msgstr "Odh_lásenie..."
 
@@ -1610,16 +1449,16 @@ msgstr "Odh_lásenie..."
 msgid "_Restart icewm"
 msgstr "_Reštartovať icewm"
 
-#: src/wmdialog.cc:82 src/wmprog.cc:805 src/wmtaskbar.cc:290
-#: src/wmtaskbar.cc:293
+#: src/wmdialog.cc:82 src/wmprog.cc:805 src/wmtaskbar.cc:294
+#: src/wmtaskbar.cc:297
 msgid "_About"
 msgstr "O _aplikacii"
 
-#: src/wmframe.cc:1390
+#: src/wmframe.cc:1394
 msgid "Kill Client: "
 msgstr "Zabiť klienta: "
 
-#: src/wmframe.cc:1397
+#: src/wmframe.cc:1401
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1627,28 +1466,28 @@ msgstr ""
 "VAROVANIE! Ak bude tento klient zabitý, budú\n"
 "všetky neuložené dáta stratené. Chcete pokračovať?"
 
-#: src/wmframe.cc:2991
+#: src/wmframe.cc:2997
 msgid "Restore"
 msgstr "Obnoviť"
 
-#: src/wmframe.cc:2994 src/wmtitle.cc:69
+#: src/wmframe.cc:3000 src/wmtitle.cc:69
 msgid "Maximize"
 msgstr "Maximalizovať"
 
-#: src/wmframe.cc:3024
+#: src/wmframe.cc:3030
 msgid "Rolldown"
 msgstr "Rozbaliť"
 
-#: src/wmframe.cc:3026 src/wmtitle.cc:127
+#: src/wmframe.cc:3032 src/wmtitle.cc:127
 msgid "Rollup"
 msgstr "Z_rolovať"
 
-#: src/wmoption.cc:228
+#: src/wmoption.cc:232
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Neznáma voľba okna: %s"
 
-#: src/wmoption.cc:338
+#: src/wmoption.cc:344
 #, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Syntaktická chyba vo voľbách okna na riadku %d z %s"
@@ -1705,7 +1544,7 @@ msgstr "Programy"
 msgid "_Run..."
 msgstr "_Spustiť..."
 
-#: src/wmprog.cc:792 src/wmtaskbar.cc:280
+#: src/wmprog.cc:792 src/wmtaskbar.cc:284
 msgid "_Windows"
 msgstr "_Okná"
 
@@ -1738,63 +1577,63 @@ msgstr "Manažér sedení: Neznámy riadok %s"
 msgid "Task Bar"
 msgstr "Panel úloh"
 
-#: src/wmtaskbar.cc:270 src/wmwinlist.cc:364 src/wmwinlist.cc:377
+#: src/wmtaskbar.cc:274 src/wmwinlist.cc:364 src/wmwinlist.cc:377
 msgid "Tile _Vertically"
 msgstr "Zarovnať _vertikálne"
 
-#: src/wmtaskbar.cc:271 src/wmwinlist.cc:365 src/wmwinlist.cc:378
+#: src/wmtaskbar.cc:275 src/wmwinlist.cc:365 src/wmwinlist.cc:378
 msgid "T_ile Horizontally"
 msgstr "Zarovnať _horizontálne"
 
-#: src/wmtaskbar.cc:272 src/wmwinlist.cc:366 src/wmwinlist.cc:379
+#: src/wmtaskbar.cc:276 src/wmwinlist.cc:366 src/wmwinlist.cc:379
 msgid "Ca_scade"
 msgstr "Zarovnať do _kaskády"
 
-#: src/wmtaskbar.cc:273 src/wmwinlist.cc:367 src/wmwinlist.cc:380
+#: src/wmtaskbar.cc:277 src/wmwinlist.cc:367 src/wmwinlist.cc:380
 msgid "_Arrange"
 msgstr "_Usporiadať"
 
-#: src/wmtaskbar.cc:274 src/wmwinlist.cc:369 src/wmwinlist.cc:381
+#: src/wmtaskbar.cc:278 src/wmwinlist.cc:369 src/wmwinlist.cc:381
 msgid "_Minimize All"
 msgstr "_Minimalizovať všetko"
 
-#: src/wmtaskbar.cc:275 src/wmwinlist.cc:370 src/wmwinlist.cc:382
+#: src/wmtaskbar.cc:279 src/wmwinlist.cc:370 src/wmwinlist.cc:382
 msgid "_Hide All"
 msgstr "_Skryť všetko"
 
-#: src/wmtaskbar.cc:276 src/wmwinlist.cc:371 src/wmwinlist.cc:383
+#: src/wmtaskbar.cc:280 src/wmwinlist.cc:371 src/wmwinlist.cc:383
 msgid "_Undo"
 msgstr "_Vrátiť"
 
-#: src/wmtaskbar.cc:278
+#: src/wmtaskbar.cc:282
 msgid "Arrange _Icons"
 msgstr "Usporiadať _Ikony"
 
-#: src/wmtaskbar.cc:282
+#: src/wmtaskbar.cc:286
 msgid "_Refresh"
 msgstr "_Obnoviť"
 
-#: src/wmtaskbar.cc:288
+#: src/wmtaskbar.cc:292
 msgid "_License"
 msgstr "_Licencia"
 
-#: src/wmtaskbar.cc:356 src/wmtaskbar.cc:979
+#: src/wmtaskbar.cc:363 src/wmtaskbar.cc:992
 msgid "Hide Taskbar"
 msgstr "Skryť Panel úloh"
 
-#: src/wmtaskbar.cc:371
+#: src/wmtaskbar.cc:378
 msgid "Favorite Applications"
 msgstr "Obľúbené aplikácie"
 
-#: src/wmtaskbar.cc:389
+#: src/wmtaskbar.cc:396
 msgid "Window List Menu"
 msgstr "Menu zoznamu okien"
 
-#: src/wmtaskbar.cc:398
+#: src/wmtaskbar.cc:405
 msgid "Show Desktop"
 msgstr "Ukáž plochu"
 
-#: src/wmtaskbar.cc:979
+#: src/wmtaskbar.cc:992
 msgid "Show Taskbar"
 msgstr "Ukázať Panel úloh"
 
@@ -2023,6 +1862,10 @@ msgid ""
 msgstr ""
 "  -d,  --display=NÁZOV  NÁZOV X servera, ktorý sa použije.\n"
 "  --sync               Synchronizuje príkazy X11.\n"
+
+#: src/yxapp.cc:931
+msgid "<none>"
+msgstr "<žiadny>"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
 #: src/fdospecgen.h:43
@@ -2713,6 +2556,153 @@ msgstr "Vývoj webu"
 #: src/fdospecgen.h:319
 msgid "WordProcessor"
 msgstr "Textový procesor"
+
+#~ msgid "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
+#~ msgstr "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
+
+#~ msgid ""
+#~ "Usage: %s [OPTIONS] ACTIONS\n"
+#~ "\n"
+#~ "Options:\n"
+#~ "  -d, -display DISPLAY        Connects to the X server specified by "
+#~ "DISPLAY.\n"
+#~ "                              Default: $DISPLAY or :0.0 when not set.\n"
+#~ "  -w, -window WINDOW_ID       Specifies the window to manipulate. "
+#~ "Special\n"
+#~ "                              identifiers are `root' for the root window "
+#~ "and\n"
+#~ "                              `focus' for the currently focused window.\n"
+#~ "  -c, -class WM_CLASS         Window management class of the window(s) "
+#~ "to\n"
+#~ "                              manipulate. If WM_CLASS contains a period, "
+#~ "only\n"
+#~ "                              windows with exactly the same WM_CLASS "
+#~ "property\n"
+#~ "                              are matched. If there is no period, windows "
+#~ "of\n"
+#~ "                              the same class and windows of the same "
+#~ "instance\n"
+#~ "                              (aka. `-name') are selected.\n"
+#~ "\n"
+#~ "Actions:\n"
+#~ "  setIconTitle   TITLE        Set the icon title.\n"
+#~ "  setWindowTitle TITLE        Set the window title.\n"
+#~ "  setGeometry    geometry     Set the window geometry\n"
+#~ "  setState       MASK STATE   Set the GNOME window state to STATE.\n"
+#~ "                              Only the bits selected by MASK are "
+#~ "affected.\n"
+#~ "                              STATE and MASK are expressions of the "
+#~ "domain\n"
+#~ "                              `GNOME window state'.\n"
+#~ "  toggleState    STATE        Toggle the GNOME window state bits "
+#~ "specified by\n"
+#~ "                              the STATE expression.\n"
+#~ "  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
+#~ "  setLayer       LAYER        Moves the window to another GNOME window "
+#~ "layer.\n"
+#~ "  setWorkspace   WORKSPACE    Moves the window to another workspace. "
+#~ "Select\n"
+#~ "                              the root window to change the current "
+#~ "workspace.\n"
+#~ "                              Select 0xFFFFFFFF or \"All\" for all "
+#~ "workspaces.\n"
+#~ "  listWorkspaces              Lists the names of all workspaces.\n"
+#~ "  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
+#~ "  logout                      Tell IceWM to logout.\n"
+#~ "  reboot                      Tell IceWM to reboot.\n"
+#~ "  shutdown                    Tell IceWM to shutdown.\n"
+#~ "  cancel                      Tell IceWM to cancel the logout/reboot/"
+#~ "shutdown.\n"
+#~ "  about                       Tell IceWM to show the about window.\n"
+#~ "  windowlist                  Tell IceWM to show the window list.\n"
+#~ "  restart                     Tell IceWM to restart.\n"
+#~ "  suspend                     Tell IceWM to suspend.\n"
+#~ "\n"
+#~ "Expressions:\n"
+#~ "  Expressions are list of symbols of one domain concatenated by `+' or "
+#~ "`|':\n"
+#~ "\n"
+#~ "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Použití: %s [VOĽBY] AKCIE\n"
+#~ "\n"
+#~ "Voľby:\n"
+#~ "  -d, -display DISPLAY        Pripojí sa k X serveru určeného pomocou "
+#~ "DISPLAY.\n"
+#~ "                              Predvolené: $DISPLAY alebo :0.0, keď nie je "
+#~ "nastavené.\n"
+#~ "  -w, -window WINDOW_ID       Určuje okno pre manipuláciu. Špeciálne\n"
+#~ "                              identifikátory sú 'root' pre root okno a\n"
+#~ "                              'focus' pre práve aktívne okno.\n"
+#~ "  -c, -class WM_CLASS         Trieda správy okna pre spravovanie "
+#~ "okna(ien).\n"
+#~ "                              Ak WM_CLASS obsahuje bodku, zhodujú sa\n"
+#~ "                              iba okná s presne rovnakou vlastnosťou "
+#~ "WM_CLASS.\n"
+#~ "                              Ak tam nie je žiadna bodka, vyberú sa okná "
+#~ "rovnakej\n"
+#~ "                              triedy a okná rovnakej inštancie (tiež "
+#~ "známe\n"
+#~ "                              ako '-name').\n"
+#~ "\n"
+#~ "Akcie:\n"
+#~ "  setIconTitle   TITLE        Nastaví ikonu pre titulok.\n"
+#~ "  setWindowTitle TITLE        Nastaví titulok okna.\n"
+#~ "  setGeometry    geometria    Nastaví geometriu okna\n"
+#~ "  setState       MASK STATE   Nastaví stav okna GNOME na STATE.\n"
+#~ "                              Ovplyvnené sú iba bity vybrané s MASK.\n"
+#~ "                              STATE a MASK sú výrazy z domény\n"
+#~ "                              `GNOME window state'.\n"
+#~ "  toggleState    STATE         Prepne GNOME stavové bity okna určené\n"
+#~ "                              výrazom STATE.\n"
+#~ "  setHints       HINTS        Nastaví GNOME tipy okna na HINTS.\n"
+#~ "  setLayer       LAYER        Presunie okno na inú GNOME okennú úroveň.\n"
+#~ "  setWorkspace   WORKSPACE       Presunie okno na inú pracovnú plochu.\n"
+#~ "                              Vyberte root okno pre zmenu súčasnej "
+#~ "pracovnej plochy.\n"
+#~ "                              Vyberte 0xFFFFFFFF alebo \"Všetko\" pre "
+#~ "všetky pracovné plochy.\n"
+#~ "  listWorkspaces              Vypíše názvy všetkých pracovných plôch.\n"
+#~ "  setTrayOption  TRAYOPTION   Nastaví tip voľby lišty IceWM.\n"
+#~ "  logout                      Povie IceWM, aby sa odhlásilo.\n"
+#~ "  reboot                      Povie IceWM, aby sa znovu spustilo.\n"
+#~ "  shutdown                    Povie IceWM, aby sa vyplo.\n"
+#~ "  cancel                      Povie IceWM, aby zrušilo odhlásenie/reštart/"
+#~ "vypnutie.\n"
+#~ "  about                       Povie IceWM, aby ukázalo okno o programe.\n"
+#~ "  windowlist                  Povie IceWM, aby ukázalo zoznam okien.\n"
+#~ "  restart                     Povie IceWM, aby sa reštartovalo.\n"
+#~ "  suspend                     Povie IceWM, aby sa uspalo.\n"
+#~ "\n"
+#~ "Výrazy:  Výrazy je zoznam symbolov jednej domény spojené s `+' or `|':\n"
+#~ "\n"
+#~ "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
+#~ "\n"
+
+#~ msgid "GNOME window state"
+#~ msgstr "GNOME stav okna"
+
+#~ msgid "GNOME window hint"
+#~ msgstr "GNOME tip okna"
+
+#~ msgid "GNOME window layer"
+#~ msgstr "GNOME vrstva okna"
+
+#~ msgid "IceWM tray option"
+#~ msgstr "IceWM nastavenia lišty"
+
+#~ msgid "Can't connect to ESound daemon: %s"
+#~ msgstr "Nedá sa spojiť s ESound démonom: %s"
+
+#~ msgid "Error <%d> while uploading `%s:%s'"
+#~ msgstr "Nastala chyba <%d>: pri nahrávaní `%s:%s'"
+
+#~ msgid "Sample <%d> uploaded as `%s:%s'"
+#~ msgstr "Vzorka <%d> bola nahraná ako `%s:%s'"
+
+#~ msgid "Playing sample #%d: %d"
+#~ msgstr "Prehrávanie ukážky #%d: %d"
 
 #~ msgid "Usage error: "
 #~ msgstr "Chybné použitie: "

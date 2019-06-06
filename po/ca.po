@@ -6,17 +6,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-04-23 21:53+0200\n"
-"PO-Revision-Date: 2018-12-20 18:00+0000\n"
+"POT-Creation-Date: 2019-05-21 22:54+0200\n"
+"PO-Revision-Date: 2019-05-25 10:49+0000\n"
 "Last-Translator: David Medina <medipas@gmail.com>\n"
-"Language-Team: Catalan <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/ca/>\n"
+"Language-Team: Catalan <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8 bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.3\n"
+"X-Generator: Weblate 3.6.1\n"
 
 #: src/aapm.cc:180 src/aapm.cc:462 src/aapm.cc:684 src/aapm.cc:809
 msgid " - Power"
@@ -316,7 +316,7 @@ msgstr ""
 msgid "NET"
 msgstr "XARXA"
 
-#: src/aworkspaces.cc:294 src/wmstatus.cc:163
+#: src/aworkspaces.cc:294 src/wmstatus.cc:165
 msgid "Workspace: "
 msgstr "Espai de treball: "
 
@@ -554,208 +554,62 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "El mateix joc"
 
-#: src/icesh.cc:389
+#: src/icesh.cc:51
+msgid "For help please consult the man page icesh(1).\n"
+msgstr "Per a l'ajuda, consulteu la pàgina del manual icesh(1).\n"
+
+#: src/icesh.cc:685
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Símbols anomenats del domini \"%s\" (gamma numèrica: %ld-%ld):\n"
 
-#: src/icesh.cc:559
+#: src/icesh.cc:855
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Nom d'escriptori no vàlid: %s"
 
-#: src/icesh.cc:564
+#: src/icesh.cc:858
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Escriptori fora de l'abast: %ld"
 
-#: src/icesh.cc:615
-#, c-format
-msgid "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
-msgstr ""
-
-#: src/icesh.cc:675
+#: src/icesh.cc:988
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "Escriptori #%d: \"%s\"\n"
 
-#: src/icesh.cc:1086
-#, c-format
-msgid ""
-"Usage: %s [OPTIONS] ACTIONS\n"
-"\n"
-"Options:\n"
-"  -d, -display DISPLAY        Connects to the X server specified by "
-"DISPLAY.\n"
-"                              Default: $DISPLAY or :0.0 when not set.\n"
-"  -w, -window WINDOW_ID       Specifies the window to manipulate. Special\n"
-"                              identifiers are `root' for the root window "
-"and\n"
-"                              `focus' for the currently focused window.\n"
-"  -c, -class WM_CLASS         Window management class of the window(s) to\n"
-"                              manipulate. If WM_CLASS contains a period, "
-"only\n"
-"                              windows with exactly the same WM_CLASS "
-"property\n"
-"                              are matched. If there is no period, windows "
-"of\n"
-"                              the same class and windows of the same "
-"instance\n"
-"                              (aka. `-name') are selected.\n"
-"\n"
-"Actions:\n"
-"  setIconTitle   TITLE        Set the icon title.\n"
-"  setWindowTitle TITLE        Set the window title.\n"
-"  setGeometry    geometry     Set the window geometry\n"
-"  setState       MASK STATE   Set the GNOME window state to STATE.\n"
-"                              Only the bits selected by MASK are affected.\n"
-"                              STATE and MASK are expressions of the domain\n"
-"                              `GNOME window state'.\n"
-"  toggleState    STATE        Toggle the GNOME window state bits specified "
-"by\n"
-"                              the STATE expression.\n"
-"  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
-"  setLayer       LAYER        Moves the window to another GNOME window "
-"layer.\n"
-"  setWorkspace   WORKSPACE    Moves the window to another workspace. Select\n"
-"                              the root window to change the current "
-"workspace.\n"
-"                              Select 0xFFFFFFFF or \"All\" for all "
-"workspaces.\n"
-"  listWorkspaces              Lists the names of all workspaces.\n"
-"  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
-"  logout                      Tell IceWM to logout.\n"
-"  reboot                      Tell IceWM to reboot.\n"
-"  shutdown                    Tell IceWM to shutdown.\n"
-"  cancel                      Tell IceWM to cancel the logout/reboot/"
-"shutdown.\n"
-"  about                       Tell IceWM to show the about window.\n"
-"  windowlist                  Tell IceWM to show the window list.\n"
-"  restart                     Tell IceWM to restart.\n"
-"  suspend                     Tell IceWM to suspend.\n"
-"\n"
-"Expressions:\n"
-"  Expressions are list of symbols of one domain concatenated by `+' or `|':\n"
-"\n"
-"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
-"\n"
-msgstr ""
-"Ús: %s [OPCIONS] ACCIONS\n"
-"\n"
-"Opcions:\n"
-"    -d, -display DISPLAY        Connecta al servidor X especificat per "
-"DISPLAY.\n"
-"                              Per defecte: $DISPLAY o :0.0 quan no estigui "
-"establert.\n"
-"  -w, -window WINDOW_ID           Especifica la finestra a manipular. Els "
-"indentificadors\n"
-"                              especials són \"root\" per a la finestra "
-"d'arrel i \n"
-"                              \"focus\" per a la finestra actual amb el "
-"focus.\n"
-"  -c, -class WM_CLASS              Gestió de classe de les finestres a\n"
-"                              manipular. Si WM_CLASS conté un punt (period), "
-"només\n"
-"                              les finestres amb la mateixa exacta propietat "
-"WM_CLASS\n"
-"                              són coincidents. Si no n'hi ha, les finestres "
-"de la mateixa classe\n"
-"                              i les finestres de la mateixa instància\n"
-"                              (és a dir: `-name') es seleccionen.\n"
-"\n"
-"Accions:\n"
-"  setIconTitle   TITLE        Estableix el títol de la icona.\n"
-"  setWindowTitle TITLE        Estableix el títol de la finestra.\n"
-"  setGeometry    geometry     Estableix la geometria de la finestra\n"
-"  setState       MASK STATE   Estableix l'estat de la finestra del GNOME a "
-"STATE.\n"
-"                              Només afecta els bits seleccionats per MASK.\n"
-"                              STATE i MASK són expressions del domini\n"
-"                              \"GNOME window state\".\n"
-"  toggleState    STATE        Commuta l'estat dels bits de la finestra del "
-"GNOME especificats per\n"
-"                              l'expressió STATE.\n"
-"  setHints       HINTS        Estableix els suggeriments de la finestra del "
-"GNOME a HINTS.\n"
-"  setLayer       LAYER        Mou la finestra a una altra capa de finestres "
-"del GNOME.\n"
-"  setWorkspace   WORKSPACE    Mou la finestra a un altre espai de treball. "
-"Seleccioneu\n"
-"                              la finestra d'arrel per canviar l'espai de "
-"treball actual.\n"
-"                                Seleccioneu 0xFFFFFFFF o \"Tot\" per a tots "
-"els espais de treball.\n"
-"  listWorkspaces              Llista els noms dels espais de treball.\n"
-"  setTrayOption  TRAYOPTION   Estableix l'opció de suggeriments de la safata "
-"de l'IceWM.\n"
-"  logout                      Indica a l'IceWM de sortir de la sessió.\n"
-"  reboot                      Indica a l'IceWM de reinciar.\n"
-"  shutdown                    Indica a l'IceWM d'aturar.\n"
-"  cancel                      Indica a l'IceWM de cancel·lar la sortida, el "
-"reinici o l'aturada.\n"
-"  about                       Indica a l'IceWM de mostrar la finestra "
-"d'informació.\n"
-"  windowlist                  Indica a l'IceWM de mostrar la llista de "
-"finestres.\n"
-"  restart                     Indica a l'IceWM de reiniciar.\n"
-"  suspend                     Indica a l'IceWM de suspendre.\n"
-"\n"
-"\n"
-"Expressions:\n"
-"  Les expressions són llistes de símbols d'un domini encadenats amb \"+\" o "
-"\"|\":\n"
-"\n"
-"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
-"\n"
-
-#: src/icesh.cc:1134
-msgid "GNOME window state"
-msgstr "Estat de la finestra del GNOME"
-
-#: src/icesh.cc:1135
-msgid "GNOME window hint"
-msgstr "Suggeriment de finestra del GNOME"
-
-#: src/icesh.cc:1136
-msgid "GNOME window layer"
-msgstr "Capa de finestra del GNOME"
-
-#: src/icesh.cc:1137
-msgid "IceWM tray option"
-msgstr "Opció de la safata de l'IceWM"
-
-#: src/icesh.cc:1204
+#: src/icesh.cc:1556
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "L'acció \"%s\" necessita com a mínim %d arguments."
 
-#: src/icesh.cc:1215
+#: src/icesh.cc:1566
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Expressió no vàlida: \"%s\""
 
-#: src/icesh.cc:1285
-#, c-format
-msgid "Invalid argument: `%s'."
-msgstr "Argument no vàlid: \"%s\"."
-
-#: src/icesh.cc:1291
-msgid "No actions specified."
-msgstr "No s'ha especificat cap acció."
-
-#: src/icesh.cc:1301 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:930
+#: src/icesh.cc:1577 src/icesound.cc:795 src/icewmhint.cc:36 src/yxapp.cc:930
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "No es pot obrir la pantalla: %s. X ha d'estar funcionant i $DISPLAY "
 "configurat."
 
-#: src/icesh.cc:1338
+#: src/icesh.cc:1621
+msgid "No actions specified."
+msgstr "No s'ha especificat cap acció."
+
+#: src/icesh.cc:1724
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Identificador de finestra no vàlid: \"%s\""
 
-#: src/icesh.cc:1515
+#: src/icesh.cc:1762
+#, c-format
+msgid "Invalid argument: `%s'."
+msgstr "Argument no vàlid: \"%s\"."
+
+#: src/icesh.cc:2126
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Acció desconeguda: \"%s\""
@@ -822,98 +676,74 @@ msgstr ""
 msgid "IceWM crash response"
 msgstr "Resposta de fallada de l'IceWM"
 
-#: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
+#: src/icesound.cc:216 src/icesound.cc:324 src/icesound.cc:484
 #, c-format
 msgid "Playing sample #%d (%s)"
 msgstr "Reproduint l'exemple #%d (%s)"
 
-#: src/icesound.cc:337
+#: src/icesound.cc:334
 #, c-format
 msgid "%s: Invalid number of channels"
 msgstr "%s: nombre no vàlid de canals"
 
-#: src/icesound.cc:343 src/icesound.cc:348
+#: src/icesound.cc:340 src/icesound.cc:345
 msgid "Could not set OSS channels"
 msgstr "No s'han pogut establir canals OSS"
 
-#: src/icesound.cc:353 src/icesound.cc:381
+#: src/icesound.cc:350 src/icesound.cc:378
 msgid "Could not sync OSS"
 msgstr "No s'ha pogut sincronitzar l'OSS"
 
-#: src/icesound.cc:365
+#: src/icesound.cc:362
 msgid "OSS write failed"
 msgstr "Ha fallat l'escriptura d'OSS"
 
-#: src/icesound.cc:369
+#: src/icesound.cc:366
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
 msgstr "Escriptura d'OSS incompleta (%d/%d)"
 
-#: src/icesound.cc:376
+#: src/icesound.cc:373
 msgid "Could not post OSS"
 msgstr "No s'ha pogut enviar l'OSS"
 
-#: src/icesound.cc:405
+#: src/icesound.cc:402
 #, c-format
 msgid "Could not open OSS device %s"
 msgstr "No s'ha pogut obrir el dispositiu d'OSS %s"
 
-#: src/icesound.cc:410
+#: src/icesound.cc:407
 msgid "Could not set OSS stereo"
 msgstr "No s'ha pogut establir l'OSS estèreo"
 
-#: src/icesound.cc:415
+#: src/icesound.cc:412
 msgid "Could not reset OSS DSP"
 msgstr "No s'ha pogut restablir DSP OSS"
 
-#: src/icesound.cc:420
+#: src/icesound.cc:417
 msgid "Could not set OSS format"
 msgstr "No s'ha pogut establir el format d'OSS"
 
-#: src/icesound.cc:493
-#, c-format
-msgid "Can't connect to ESound daemon: %s"
-msgstr "No es pot connectar al dimoni Esound: %s"
-
-#: src/icesound.cc:494 src/yxapp.cc:931
-msgid "<none>"
-msgstr "<cap>"
-
-#: src/icesound.cc:512
-#, c-format
-msgid "Error <%d> while uploading `%s:%s'"
-msgstr "Error <%d> mentre es carregava \"%s:%s\""
-
-#: src/icesound.cc:518
-#, c-format
-msgid "Sample <%d> uploaded as `%s:%s'"
-msgstr "Exemple <%d> carregat com a \"%s:%s\""
-
-#: src/icesound.cc:576
-#, c-format
-msgid "Playing sample #%d: %d"
-msgstr "Reproduint l'exemple %d:%d"
-
-#: src/icesound.cc:651
+#: src/icesound.cc:504
 #, c-format
 msgid "ao_open_live failed with %d"
 msgstr "ao_open_live ha fallat amb %d"
 
-#: src/icesound.cc:662
+#: src/icesound.cc:515
 msgid "ao_play failed"
 msgstr "ao_play ha fallat"
 
-#: src/icesound.cc:824
+#: src/icesound.cc:677
 #, c-format
 msgid "Unrecognized option: %s\n"
 msgstr "Opció no reconeguda: %s\n"
 
-#: src/icesound.cc:827 src/icesound.cc:1130
+#: src/icesound.cc:680 src/icesound.cc:973
 #, c-format
 msgid "Unrecognized argument: %s\n"
 msgstr "Argument no reconegut: %s\n"
 
-#: src/icesound.cc:836
+#: src/icesound.cc:689
 #, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
@@ -938,9 +768,6 @@ msgid ""
 " -O, --oss=DEVICE        Specifies the OSS device (default: \"%s\").\n"
 "\n"
 " -A, --alsa=DEVICE       Specifies the ALSA device (default: \"%s\").\n"
-"\n"
-" -S, --server=ADDR:PORT  Specifies the ESD server address and port number.\n"
-"                         For ESD the default is \"localhost:16001\".\n"
 "\n"
 " -z, --snooze=millisecs  Specifies the snooze interval between sound events\n"
 "                         in milliseconds. Default is 500 milliseconds.\n"
@@ -989,15 +816,11 @@ msgstr ""
 "defecte. \n"
 "                         Si us plau, preferiu una de les opcions -A/-O/-S.\n"
 "\n"
-" -O, --oss=DEVICE        Especifica el dispositiu OSS (per defecte: \"%s "
-"4\").\n"
+" -O, --oss=DEVICE        Especifica el dispositiu OSS (per defecte: \"%s 4\""
+").\n"
 "\n"
-" -A, --alsa=DEVICE       Especifica el dispositiu ALSA (per defecte: \"%s "
-"5\").\n"
-"\n"
-" -S, --server=ADDR:PORT  Especifica l'adreça de servidor ESD i el número de "
-"port.\n"
-"                         Per defecte per a l'ESD és \"localhost:16001\".\n"
+" -A, --alsa=DEVICE       Especifica el dispositiu ALSA (per defecte: \"%s 5\""
+").\n"
 "\n"
 " -z, --snooze=millisecs  Especifica l'interval de posposició entre "
 "esdeveniments de so\n"
@@ -1027,51 +850,51 @@ msgstr ""
 "3     Error de subsistemes (p. e., no es pot connectar amb el servidor).\n"
 "\n"
 
-#: src/icesound.cc:930
+#: src/icesound.cc:780
 #, c-format
 msgid "No audio for %s"
 msgstr "No hi ha àudio per a %s"
 
-#: src/icesound.cc:1007
+#: src/icesound.cc:857
 msgid "Could not get GUI event property"
 msgstr "No s'ha pogut obtenir la propietat d'esdeveniment IGU"
 
-#: src/icesound.cc:1011
+#: src/icesound.cc:861
 #, c-format
 msgid "Received invalid GUI event %d"
 msgstr "Esdeveniment IGU rebut no vàlid: %d"
 
-#: src/icesound.cc:1015
+#: src/icesound.cc:865
 #, c-format
 msgid "Received GUI event %s"
 msgstr "Esdeveniment IGU rebut: %s"
 
-#: src/icesound.cc:1029
+#: src/icesound.cc:879
 #, c-format
 msgid "Too quick; ignoring %s."
 msgstr "Massa ràpid. S'ignora %s."
 
-#: src/icesound.cc:1033
+#: src/icesound.cc:883
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr "El suport per a la interfície %s no s'ha compilat."
 
-#: src/icesound.cc:1073
+#: src/icesound.cc:916
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr "Interfície no admesa: %s."
 
-#: src/icesound.cc:1082
+#: src/icesound.cc:925
 #, c-format
 msgid "Using %s audio."
 msgstr "S'usa l'àudio %s."
 
-#: src/icesound.cc:1086
+#: src/icesound.cc:929
 #, c-format
 msgid "Failed to connect to audio interfaces %s."
 msgstr "Ha fallat connectar amb les interfícies d'àudio %s."
 
-#: src/icesound.cc:1098
+#: src/icesound.cc:941
 #, c-format
 msgid "Received signal %s: Terminating..."
 msgstr "Senyal %s rebut: acabant..."
@@ -1473,14 +1296,14 @@ msgstr ""
 msgid "Kill IceWM, replace with Xterm"
 msgstr "Mata l'IceWM, reemplaça'l per l'Xterm"
 
-#: src/wmapp.cc:1394
+#: src/wmapp.cc:1397
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      Id de client per usar quan es contacti amb el gestor "
 "de sessions.\n"
 
-#: src/wmapp.cc:1400
+#: src/wmapp.cc:1403
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1491,7 +1314,7 @@ msgstr ""
 "  --debug-z           Imprimeix els missatges de depuració sobre l'apilament "
 "de finestres.\n"
 
-#: src/wmapp.cc:1408
+#: src/wmapp.cc:1411
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1504,7 +1327,7 @@ msgstr ""
 "  --postpreferences   Imprimeix les preferències després de tot el "
 "processament.\n"
 
-#: src/wmapp.cc:1413
+#: src/wmapp.cc:1416
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1564,7 +1387,7 @@ msgstr ""
 "%s.\n"
 "\n"
 
-#: src/wmapp.cc:1474
+#: src/wmapp.cc:1477
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s directoris de configuració:\n"
@@ -1579,11 +1402,11 @@ msgstr "%s opcions configurades:%s\n"
 msgid "Unrecognized option '%s'."
 msgstr "Opció no reconeguda: \"%s\"."
 
-#: src/wmapp.cc:1648
+#: src/wmapp.cc:1661
 msgid "Confirm Logout"
 msgstr "Confirmació de la sortida"
 
-#: src/wmapp.cc:1649
+#: src/wmapp.cc:1662
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1624,8 +1447,8 @@ msgstr "Bloque_ja l'estació de treball"
 msgid "_Cancel"
 msgstr "_Cancel·la"
 
-#: src/wmdialog.cc:77 src/wmprog.cc:844 src/wmprog.cc:846 src/wmtaskbar.cc:297
-#: src/wmtaskbar.cc:299
+#: src/wmdialog.cc:77 src/wmprog.cc:844 src/wmprog.cc:846 src/wmtaskbar.cc:301
+#: src/wmtaskbar.cc:303
 msgid "_Logout..."
 msgstr "_Surt..."
 
@@ -1633,16 +1456,16 @@ msgstr "_Surt..."
 msgid "_Restart icewm"
 msgstr "_Reinicia l'icewm"
 
-#: src/wmdialog.cc:82 src/wmprog.cc:805 src/wmtaskbar.cc:290
-#: src/wmtaskbar.cc:293
+#: src/wmdialog.cc:82 src/wmprog.cc:805 src/wmtaskbar.cc:294
+#: src/wmtaskbar.cc:297
 msgid "_About"
 msgstr "_Quant a"
 
-#: src/wmframe.cc:1390
+#: src/wmframe.cc:1394
 msgid "Kill Client: "
 msgstr "Mata el client: "
 
-#: src/wmframe.cc:1397
+#: src/wmframe.cc:1401
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1650,28 +1473,28 @@ msgstr ""
 "ATENCIÓ! Tots els canvis no desats es perdran en\n"
 "matar el client. Encara voleu continuar?"
 
-#: src/wmframe.cc:2991
+#: src/wmframe.cc:2997
 msgid "Restore"
 msgstr "Restaura"
 
-#: src/wmframe.cc:2994 src/wmtitle.cc:69
+#: src/wmframe.cc:3000 src/wmtitle.cc:69
 msgid "Maximize"
 msgstr "Maximitza"
 
-#: src/wmframe.cc:3024
+#: src/wmframe.cc:3030
 msgid "Rolldown"
 msgstr "Desenrotlla"
 
-#: src/wmframe.cc:3026 src/wmtitle.cc:127
+#: src/wmframe.cc:3032 src/wmtitle.cc:127
 msgid "Rollup"
 msgstr "Enrotlla"
 
-#: src/wmoption.cc:228
+#: src/wmoption.cc:232
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Opció de finestra desconeguda: %s"
 
-#: src/wmoption.cc:338
+#: src/wmoption.cc:344
 #, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Error de sintaxi de les opcions de finestra a la línia %d de %s."
@@ -1728,7 +1551,7 @@ msgstr "Programes"
 msgid "_Run..."
 msgstr "_Executa..."
 
-#: src/wmprog.cc:792 src/wmtaskbar.cc:280
+#: src/wmprog.cc:792 src/wmtaskbar.cc:284
 msgid "_Windows"
 msgstr "_Finestres"
 
@@ -1761,63 +1584,63 @@ msgstr "Gestor de sessions: línia desconeguda: %s"
 msgid "Task Bar"
 msgstr "Barra de tasques"
 
-#: src/wmtaskbar.cc:270 src/wmwinlist.cc:364 src/wmwinlist.cc:377
+#: src/wmtaskbar.cc:274 src/wmwinlist.cc:364 src/wmwinlist.cc:377
 msgid "Tile _Vertically"
 msgstr "Mosaic _vertical"
 
-#: src/wmtaskbar.cc:271 src/wmwinlist.cc:365 src/wmwinlist.cc:378
+#: src/wmtaskbar.cc:275 src/wmwinlist.cc:365 src/wmwinlist.cc:378
 msgid "T_ile Horizontally"
 msgstr "Mosaic _horitzontal"
 
-#: src/wmtaskbar.cc:272 src/wmwinlist.cc:366 src/wmwinlist.cc:379
+#: src/wmtaskbar.cc:276 src/wmwinlist.cc:366 src/wmwinlist.cc:379
 msgid "Ca_scade"
 msgstr "Ca_scada"
 
-#: src/wmtaskbar.cc:273 src/wmwinlist.cc:367 src/wmwinlist.cc:380
+#: src/wmtaskbar.cc:277 src/wmwinlist.cc:367 src/wmwinlist.cc:380
 msgid "_Arrange"
 msgstr "_Organitza"
 
-#: src/wmtaskbar.cc:274 src/wmwinlist.cc:369 src/wmwinlist.cc:381
+#: src/wmtaskbar.cc:278 src/wmwinlist.cc:369 src/wmwinlist.cc:381
 msgid "_Minimize All"
 msgstr "_Minimitza-ho tot"
 
-#: src/wmtaskbar.cc:275 src/wmwinlist.cc:370 src/wmwinlist.cc:382
+#: src/wmtaskbar.cc:279 src/wmwinlist.cc:370 src/wmwinlist.cc:382
 msgid "_Hide All"
 msgstr "_Amaga-ho tot"
 
-#: src/wmtaskbar.cc:276 src/wmwinlist.cc:371 src/wmwinlist.cc:383
+#: src/wmtaskbar.cc:280 src/wmwinlist.cc:371 src/wmwinlist.cc:383
 msgid "_Undo"
 msgstr "_Desfés"
 
-#: src/wmtaskbar.cc:278
+#: src/wmtaskbar.cc:282
 msgid "Arrange _Icons"
 msgstr "Organitza les _icones"
 
-#: src/wmtaskbar.cc:282
+#: src/wmtaskbar.cc:286
 msgid "_Refresh"
 msgstr "_Refresca"
 
-#: src/wmtaskbar.cc:288
+#: src/wmtaskbar.cc:292
 msgid "_License"
 msgstr "_Llicència"
 
-#: src/wmtaskbar.cc:356 src/wmtaskbar.cc:979
+#: src/wmtaskbar.cc:363 src/wmtaskbar.cc:992
 msgid "Hide Taskbar"
 msgstr "Amaga la barra de tasques"
 
-#: src/wmtaskbar.cc:371
+#: src/wmtaskbar.cc:378
 msgid "Favorite Applications"
 msgstr "Aplicacions preferides"
 
-#: src/wmtaskbar.cc:389
+#: src/wmtaskbar.cc:396
 msgid "Window List Menu"
 msgstr "Menú de llista de finestres"
 
-#: src/wmtaskbar.cc:398
+#: src/wmtaskbar.cc:405
 msgid "Show Desktop"
 msgstr "Mostra l'escriptori"
 
-#: src/wmtaskbar.cc:979
+#: src/wmtaskbar.cc:992
 msgid "Show Taskbar"
 msgstr "Mostra la barra de tasques"
 
@@ -2044,6 +1867,10 @@ msgid ""
 msgstr ""
 "  -d, --display=NAME      Nom del servidor X per usar.\n"
 "  --sync              Sincronitza les ordres d'X11.\n"
+
+#: src/yxapp.cc:931
+msgid "<none>"
+msgstr "<cap>"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
 #: src/fdospecgen.h:43
@@ -2734,6 +2561,167 @@ msgstr "Desenvolupament web"
 #: src/fdospecgen.h:319
 msgid "WordProcessor"
 msgstr "Processador de textos"
+
+#~ msgid "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
+#~ msgstr "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
+
+#~ msgid ""
+#~ "Usage: %s [OPTIONS] ACTIONS\n"
+#~ "\n"
+#~ "Options:\n"
+#~ "  -d, -display DISPLAY        Connects to the X server specified by "
+#~ "DISPLAY.\n"
+#~ "                              Default: $DISPLAY or :0.0 when not set.\n"
+#~ "  -w, -window WINDOW_ID       Specifies the window to manipulate. "
+#~ "Special\n"
+#~ "                              identifiers are `root' for the root window "
+#~ "and\n"
+#~ "                              `focus' for the currently focused window.\n"
+#~ "  -c, -class WM_CLASS         Window management class of the window(s) "
+#~ "to\n"
+#~ "                              manipulate. If WM_CLASS contains a period, "
+#~ "only\n"
+#~ "                              windows with exactly the same WM_CLASS "
+#~ "property\n"
+#~ "                              are matched. If there is no period, windows "
+#~ "of\n"
+#~ "                              the same class and windows of the same "
+#~ "instance\n"
+#~ "                              (aka. `-name') are selected.\n"
+#~ "\n"
+#~ "Actions:\n"
+#~ "  setIconTitle   TITLE        Set the icon title.\n"
+#~ "  setWindowTitle TITLE        Set the window title.\n"
+#~ "  setGeometry    geometry     Set the window geometry\n"
+#~ "  setState       MASK STATE   Set the GNOME window state to STATE.\n"
+#~ "                              Only the bits selected by MASK are "
+#~ "affected.\n"
+#~ "                              STATE and MASK are expressions of the "
+#~ "domain\n"
+#~ "                              `GNOME window state'.\n"
+#~ "  toggleState    STATE        Toggle the GNOME window state bits "
+#~ "specified by\n"
+#~ "                              the STATE expression.\n"
+#~ "  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
+#~ "  setLayer       LAYER        Moves the window to another GNOME window "
+#~ "layer.\n"
+#~ "  setWorkspace   WORKSPACE    Moves the window to another workspace. "
+#~ "Select\n"
+#~ "                              the root window to change the current "
+#~ "workspace.\n"
+#~ "                              Select 0xFFFFFFFF or \"All\" for all "
+#~ "workspaces.\n"
+#~ "  listWorkspaces              Lists the names of all workspaces.\n"
+#~ "  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
+#~ "  logout                      Tell IceWM to logout.\n"
+#~ "  reboot                      Tell IceWM to reboot.\n"
+#~ "  shutdown                    Tell IceWM to shutdown.\n"
+#~ "  cancel                      Tell IceWM to cancel the logout/reboot/"
+#~ "shutdown.\n"
+#~ "  about                       Tell IceWM to show the about window.\n"
+#~ "  windowlist                  Tell IceWM to show the window list.\n"
+#~ "  restart                     Tell IceWM to restart.\n"
+#~ "  suspend                     Tell IceWM to suspend.\n"
+#~ "\n"
+#~ "Expressions:\n"
+#~ "  Expressions are list of symbols of one domain concatenated by `+' or "
+#~ "`|':\n"
+#~ "\n"
+#~ "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Ús: %s [OPCIONS] ACCIONS\n"
+#~ "\n"
+#~ "Opcions:\n"
+#~ "    -d, -display DISPLAY        Connecta al servidor X especificat per "
+#~ "DISPLAY.\n"
+#~ "                              Per defecte: $DISPLAY o :0.0 quan no "
+#~ "estigui establert.\n"
+#~ "  -w, -window WINDOW_ID           Especifica la finestra a manipular. Els "
+#~ "indentificadors\n"
+#~ "                              especials són \"root\" per a la finestra "
+#~ "d'arrel i \n"
+#~ "                              \"focus\" per a la finestra actual amb el "
+#~ "focus.\n"
+#~ "  -c, -class WM_CLASS              Gestió de classe de les finestres a\n"
+#~ "                              manipular. Si WM_CLASS conté un punt "
+#~ "(period), només\n"
+#~ "                              les finestres amb la mateixa exacta "
+#~ "propietat WM_CLASS\n"
+#~ "                              són coincidents. Si no n'hi ha, les "
+#~ "finestres de la mateixa classe\n"
+#~ "                              i les finestres de la mateixa instància\n"
+#~ "                              (és a dir: `-name') es seleccionen.\n"
+#~ "\n"
+#~ "Accions:\n"
+#~ "  setIconTitle   TITLE        Estableix el títol de la icona.\n"
+#~ "  setWindowTitle TITLE        Estableix el títol de la finestra.\n"
+#~ "  setGeometry    geometry     Estableix la geometria de la finestra\n"
+#~ "  setState       MASK STATE   Estableix l'estat de la finestra del GNOME "
+#~ "a STATE.\n"
+#~ "                              Només afecta els bits seleccionats per "
+#~ "MASK.\n"
+#~ "                              STATE i MASK són expressions del domini\n"
+#~ "                              \"GNOME window state\".\n"
+#~ "  toggleState    STATE        Commuta l'estat dels bits de la finestra "
+#~ "del GNOME especificats per\n"
+#~ "                              l'expressió STATE.\n"
+#~ "  setHints       HINTS        Estableix els suggeriments de la finestra "
+#~ "del GNOME a HINTS.\n"
+#~ "  setLayer       LAYER        Mou la finestra a una altra capa de "
+#~ "finestres del GNOME.\n"
+#~ "  setWorkspace   WORKSPACE    Mou la finestra a un altre espai de "
+#~ "treball. Seleccioneu\n"
+#~ "                              la finestra d'arrel per canviar l'espai de "
+#~ "treball actual.\n"
+#~ "                                Seleccioneu 0xFFFFFFFF o \"Tot\" per a "
+#~ "tots els espais de treball.\n"
+#~ "  listWorkspaces              Llista els noms dels espais de treball.\n"
+#~ "  setTrayOption  TRAYOPTION   Estableix l'opció de suggeriments de la "
+#~ "safata de l'IceWM.\n"
+#~ "  logout                      Indica a l'IceWM de sortir de la sessió.\n"
+#~ "  reboot                      Indica a l'IceWM de reinciar.\n"
+#~ "  shutdown                    Indica a l'IceWM d'aturar.\n"
+#~ "  cancel                      Indica a l'IceWM de cancel·lar la sortida, "
+#~ "el reinici o l'aturada.\n"
+#~ "  about                       Indica a l'IceWM de mostrar la finestra "
+#~ "d'informació.\n"
+#~ "  windowlist                  Indica a l'IceWM de mostrar la llista de "
+#~ "finestres.\n"
+#~ "  restart                     Indica a l'IceWM de reiniciar.\n"
+#~ "  suspend                     Indica a l'IceWM de suspendre.\n"
+#~ "\n"
+#~ "\n"
+#~ "Expressions:\n"
+#~ "  Les expressions són llistes de símbols d'un domini encadenats amb \"+\" "
+#~ "o \"|\":\n"
+#~ "\n"
+#~ "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
+#~ "\n"
+
+#~ msgid "GNOME window state"
+#~ msgstr "Estat de la finestra del GNOME"
+
+#~ msgid "GNOME window hint"
+#~ msgstr "Suggeriment de finestra del GNOME"
+
+#~ msgid "GNOME window layer"
+#~ msgstr "Capa de finestra del GNOME"
+
+#~ msgid "IceWM tray option"
+#~ msgstr "Opció de la safata de l'IceWM"
+
+#~ msgid "Can't connect to ESound daemon: %s"
+#~ msgstr "No es pot connectar al dimoni Esound: %s"
+
+#~ msgid "Error <%d> while uploading `%s:%s'"
+#~ msgstr "Error <%d> mentre es carregava \"%s:%s\""
+
+#~ msgid "Sample <%d> uploaded as `%s:%s'"
+#~ msgstr "Exemple <%d> carregat com a \"%s:%s\""
+
+#~ msgid "Playing sample #%d: %d"
+#~ msgstr "Reproduint l'exemple %d:%d"
 
 #~ msgid "Usage error: "
 #~ msgstr "Error d'ús: "

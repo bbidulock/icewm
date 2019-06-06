@@ -6,17 +6,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-04-23 21:53+0200\n"
-"PO-Revision-Date: 2019-01-28 07:56+0000\n"
+"POT-Creation-Date: 2019-05-21 22:54+0200\n"
+"PO-Revision-Date: 2019-06-02 11:49+0000\n"
 "Last-Translator: Sarah Kriesch <ada.lovelace@gmx.de>\n"
-"Language-Team: German <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/de/>\n"
+"Language-Team: German <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.3\n"
+"X-Generator: Weblate 3.6.1\n"
 "X-Language: de_DE\n"
 "X-Source-Language: C\n"
 
@@ -318,7 +318,7 @@ msgstr ""
 msgid "NET"
 msgstr "NETZ"
 
-#: src/aworkspaces.cc:294 src/wmstatus.cc:163
+#: src/aworkspaces.cc:294 src/wmstatus.cc:165
 msgid "Workspace: "
 msgstr "Arbeitsbereich: "
 
@@ -558,197 +558,62 @@ msgstr "Strg+R"
 msgid "Same Game"
 msgstr "Gleiches Spiel"
 
-#: src/icesh.cc:389
+#: src/icesh.cc:51
+msgid "For help please consult the man page icesh(1).\n"
+msgstr "Für Hilfe bitte die Manpage (1) hinzuziehen.\n"
+
+#: src/icesh.cc:685
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Benannte Symbole aus der Domain `%s` (Wertebereich: %ld-%ld):\n"
 
-#: src/icesh.cc:559
+#: src/icesh.cc:855
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Ungültiger Name des Arbeitsbereichs: `%s`"
 
-#: src/icesh.cc:564
+#: src/icesh.cc:858
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Arbeitsbereich außerhalb des Wertebereichs: %ld"
 
-#: src/icesh.cc:615
-#, c-format
-msgid "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
-msgstr ""
-
-#: src/icesh.cc:675
+#: src/icesh.cc:988
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "Arbeitsbereich #%d: `%s`\n"
 
-#: src/icesh.cc:1086
-#, c-format
-msgid ""
-"Usage: %s [OPTIONS] ACTIONS\n"
-"\n"
-"Options:\n"
-"  -d, -display DISPLAY        Connects to the X server specified by "
-"DISPLAY.\n"
-"                              Default: $DISPLAY or :0.0 when not set.\n"
-"  -w, -window WINDOW_ID       Specifies the window to manipulate. Special\n"
-"                              identifiers are `root' for the root window "
-"and\n"
-"                              `focus' for the currently focused window.\n"
-"  -c, -class WM_CLASS         Window management class of the window(s) to\n"
-"                              manipulate. If WM_CLASS contains a period, "
-"only\n"
-"                              windows with exactly the same WM_CLASS "
-"property\n"
-"                              are matched. If there is no period, windows "
-"of\n"
-"                              the same class and windows of the same "
-"instance\n"
-"                              (aka. `-name') are selected.\n"
-"\n"
-"Actions:\n"
-"  setIconTitle   TITLE        Set the icon title.\n"
-"  setWindowTitle TITLE        Set the window title.\n"
-"  setGeometry    geometry     Set the window geometry\n"
-"  setState       MASK STATE   Set the GNOME window state to STATE.\n"
-"                              Only the bits selected by MASK are affected.\n"
-"                              STATE and MASK are expressions of the domain\n"
-"                              `GNOME window state'.\n"
-"  toggleState    STATE        Toggle the GNOME window state bits specified "
-"by\n"
-"                              the STATE expression.\n"
-"  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
-"  setLayer       LAYER        Moves the window to another GNOME window "
-"layer.\n"
-"  setWorkspace   WORKSPACE    Moves the window to another workspace. Select\n"
-"                              the root window to change the current "
-"workspace.\n"
-"                              Select 0xFFFFFFFF or \"All\" for all "
-"workspaces.\n"
-"  listWorkspaces              Lists the names of all workspaces.\n"
-"  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
-"  logout                      Tell IceWM to logout.\n"
-"  reboot                      Tell IceWM to reboot.\n"
-"  shutdown                    Tell IceWM to shutdown.\n"
-"  cancel                      Tell IceWM to cancel the logout/reboot/"
-"shutdown.\n"
-"  about                       Tell IceWM to show the about window.\n"
-"  windowlist                  Tell IceWM to show the window list.\n"
-"  restart                     Tell IceWM to restart.\n"
-"  suspend                     Tell IceWM to suspend.\n"
-"\n"
-"Expressions:\n"
-"  Expressions are list of symbols of one domain concatenated by `+' or `|':\n"
-"\n"
-"  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
-"\n"
-msgstr ""
-"Syntax: %s [OPTIONEN] AKTIONEN\n"
-"\n"
-"Optionen:\n"
-"  -d, -display DISPLAY            Mit dem durch DISPLAY beschriebenen X-"
-"Server\n"
-"                              verbinden. Vorgabe: $DISPLAY oder :0.0, falls "
-"nicht gesetzt.\n"
-"  -w, -window FENSTER_ID          Das zu beeinflussende Fenster. Besondere\n"
-"                              Bezeichner sind »root« für den Desktop und\n"
-"                              »focus« für das momentan aktive Fenster.\n"
-"  -c, -class WM_CLASS             Fenstermanagement-Klasse der/des zu\n"
-"                              manipulierenden Fenster/s. Wenn WM_CLASS "
-"einen\n"
-"                              Punkt enthält, dann sind dadurch nur Fenster\n"
-"                              betroffen, deren WM_CLASS-Eigenschaft exakt\n"
-"                              übereinstimmt. Ohne Punkt werden Fenster\n"
-"                              derselben Klasse und Fenster derselben "
-"Instanz\n"
-"                              (alias »-name« ausgewählt).\n"
-"\n"
-"Aktionen:\n"
-"  setIconTitle   BEZEICHNUNG  Legt die Symbolbezeichnung fest.\n"
-"  setWindowTitle BEZEICHNUNG  Legt die Fensterbezeichnung fest.\n"
-"  setState MASKE ZUSTAND      Setzt den GNOME-Fensterzustand auf ZUSTAND.\n"
-"                              Nur die durch die MASKE gewählten Bits sind\n"
-"                              betroffen. ZUSTAND und MASKE sind Ausdrücke\n"
-"                              des Bereichs »GNOME-Fensterzustand«.\n"
-"  toggleState ZUSTAND         Wechselt die durch den Ausdruck ZUSTAND\n"
-"                              beschriebenen GNOME-Fensterzustandbits.\n"
-"  setHints HINWEIS            Legt den GNOME-Fensterhinweis fest.\n"
-"  setLayer EBENE              Legt das Fenster auf eine andere GNOME-"
-"Fensterebene.\n"
-"  setWorkspace ARBEITSBEREICH Legt das Fenster auf einen anderen\n"
-"                              Arbeitsbereich. Wählen Sie das »root«-\n"
-"                              Fenster, um den momentanen Arbeitsbereich zu\n"
-"                              ändern.\n"
-"                              0xFFFFFFFF oder \"Alles\" für alle "
-"Arbeitsbereiche auswählen.\n"
-"  listWorkspaces              Zeigt eine Liste aller Arbeitsbereiche.\n"
-"  setTrayOption TRAYOPTION    Legt den IceWM-Trayoption-Hinweis fest.\n"
-"  logout                      Sage IceWM sich abzumelden.\n"
-"  reboot                      Sage IceWM neu zu starten.\n"
-"  shutdown                 Sage IceWM herunter zu fahren.\n"
-"  cancel                      Sage IceWM den Logout/den Neustart/das "
-"Herunterfahren abzubrechen.\n"
-"  about                       Sage IceWM das Fenster Über anzuzeigen.\n"
-"  windowlist                Sage IceWM die Fenster-Liste anzuzeigen.\n"
-"  restart                     Sage IceWM neu zu starten.\n"
-"  suspend                   Sage IceWM einzufrieren.\n"
-"\n"
-"Ausdrücke:\n"
-"  Ausdrücke sind eine Liste an Symbolen desselben Bereichs, die durch `+` "
-"oder `|` verbunden sind:\n"
-"\n"
-"  AUSDRUCK ::= SYMBOL | AUSDRUCK ( `+«`| `|` ) SYMBOL\n"
-"\n"
-
-#: src/icesh.cc:1134
-msgid "GNOME window state"
-msgstr "GNOME-Fensterzustand"
-
-#: src/icesh.cc:1135
-msgid "GNOME window hint"
-msgstr "GNOME-Fensterbeschreibung"
-
-#: src/icesh.cc:1136
-msgid "GNOME window layer"
-msgstr "GNOME-Fensterebene"
-
-#: src/icesh.cc:1137
-msgid "IceWM tray option"
-msgstr "IceWM-Trayoption"
-
-#: src/icesh.cc:1204
+#: src/icesh.cc:1556
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Aktion `%s` benötigt mindestens %d Argumente."
 
-#: src/icesh.cc:1215
+#: src/icesh.cc:1566
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Ungültiger Ausdruck: `%s`"
 
-#: src/icesh.cc:1285
-#, c-format
-msgid "Invalid argument: `%s'."
-msgstr "Ungültiges Argument: `%s`."
-
-#: src/icesh.cc:1291
-msgid "No actions specified."
-msgstr "Keine Aktionen angegeben."
-
-#: src/icesh.cc:1301 src/icesound.cc:945 src/icewmhint.cc:36 src/yxapp.cc:930
+#: src/icesh.cc:1577 src/icesound.cc:795 src/icewmhint.cc:36 src/yxapp.cc:930
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "Das Display kann nicht geöffnet werden: %s. Der X muss laufen und $DISPLAY "
 "gesetzt sein."
 
-#: src/icesh.cc:1338
+#: src/icesh.cc:1621
+msgid "No actions specified."
+msgstr "Keine Aktionen angegeben."
+
+#: src/icesh.cc:1724
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Ungültiger Fensterbezeichner: `%s`"
 
-#: src/icesh.cc:1515
+#: src/icesh.cc:1762
+#, c-format
+msgid "Invalid argument: `%s'."
+msgstr "Ungültiges Argument: `%s`."
+
+#: src/icesh.cc:2126
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Unbekannte Aktion: `%s`"
@@ -814,98 +679,74 @@ msgstr ""
 msgid "IceWM crash response"
 msgstr "IceWM-Absturz-Reaktion"
 
-#: src/icesound.cc:219 src/icesound.cc:327 src/icesound.cc:631
+#: src/icesound.cc:216 src/icesound.cc:324 src/icesound.cc:484
 #, c-format
 msgid "Playing sample #%d (%s)"
 msgstr "Spiele Sample #%d (%s)"
 
-#: src/icesound.cc:337
+#: src/icesound.cc:334
 #, c-format
 msgid "%s: Invalid number of channels"
 msgstr "%s: Ungültige Anzahl an Kanälen"
 
-#: src/icesound.cc:343 src/icesound.cc:348
+#: src/icesound.cc:340 src/icesound.cc:345
 msgid "Could not set OSS channels"
 msgstr "Konnte OSS-Kanäle nicht festlegen"
 
-#: src/icesound.cc:353 src/icesound.cc:381
+#: src/icesound.cc:350 src/icesound.cc:378
 msgid "Could not sync OSS"
 msgstr "Konnte OSS nicht synchronisieren"
 
-#: src/icesound.cc:365
+#: src/icesound.cc:362
 msgid "OSS write failed"
 msgstr "Schreibfehler bei OSS"
 
-#: src/icesound.cc:369
+#: src/icesound.cc:366
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
 msgstr "Unvollständiger Schreibvorgang bei OSS (%d/%d)"
 
-#: src/icesound.cc:376
+#: src/icesound.cc:373
 msgid "Could not post OSS"
 msgstr "Konnte OSS nicht versenden"
 
-#: src/icesound.cc:405
+#: src/icesound.cc:402
 #, c-format
 msgid "Could not open OSS device %s"
 msgstr "Konnte OSS-Gerät %s nicht öffnen"
 
-#: src/icesound.cc:410
+#: src/icesound.cc:407
 msgid "Could not set OSS stereo"
 msgstr "Konnte OSS-Stereo nicht festlegen"
 
-#: src/icesound.cc:415
+#: src/icesound.cc:412
 msgid "Could not reset OSS DSP"
 msgstr "Konnte OSS-DSP nicht zurücksetzen"
 
-#: src/icesound.cc:420
+#: src/icesound.cc:417
 msgid "Could not set OSS format"
 msgstr "Konnte OSS-Format nicht einstellen"
 
-#: src/icesound.cc:493
-#, c-format
-msgid "Can't connect to ESound daemon: %s"
-msgstr "Kann keine Verbindung zum ESound-Daemon herstellen: %s"
-
-#: src/icesound.cc:494 src/yxapp.cc:931
-msgid "<none>"
-msgstr "<keines>"
-
-#: src/icesound.cc:512
-#, c-format
-msgid "Error <%d> while uploading `%s:%s'"
-msgstr "Fehler <%d> beim Hochladen von `%s:%s`"
-
-#: src/icesound.cc:518
-#, c-format
-msgid "Sample <%d> uploaded as `%s:%s'"
-msgstr "Sample <%d> wurde als »%s:%s« hochgeladen"
-
-#: src/icesound.cc:576
-#, c-format
-msgid "Playing sample #%d: %d"
-msgstr "Spiele Sample #%d: %d"
-
-#: src/icesound.cc:651
+#: src/icesound.cc:504
 #, c-format
 msgid "ao_open_live failed with %d"
 msgstr "ao_open_live ist mit %d fehlgeschlagen"
 
-#: src/icesound.cc:662
+#: src/icesound.cc:515
 msgid "ao_play failed"
 msgstr "ao_play ist fehlgeschlagen"
 
-#: src/icesound.cc:824
+#: src/icesound.cc:677
 #, c-format
 msgid "Unrecognized option: %s\n"
 msgstr "Nicht erkannte Option: %s\n"
 
-#: src/icesound.cc:827 src/icesound.cc:1130
+#: src/icesound.cc:680 src/icesound.cc:973
 #, c-format
 msgid "Unrecognized argument: %s\n"
 msgstr "Nicht erkanntes Argument: %s\n"
 
-#: src/icesound.cc:836
+#: src/icesound.cc:689
 #, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
@@ -930,9 +771,6 @@ msgid ""
 " -O, --oss=DEVICE        Specifies the OSS device (default: \"%s\").\n"
 "\n"
 " -A, --alsa=DEVICE       Specifies the ALSA device (default: \"%s\").\n"
-"\n"
-" -S, --server=ADDR:PORT  Specifies the ESD server address and port number.\n"
-"                         For ESD the default is \"localhost:16001\".\n"
 "\n"
 " -z, --snooze=millisecs  Specifies the snooze interval between sound events\n"
 "                         in milliseconds. Default is 500 milliseconds.\n"
@@ -985,11 +823,7 @@ msgstr ""
 " -O, --oss=GERÄT        Spezifiziert das OSS-Gerät (Standard: \"%s\").\n"
 "\n"
 " -A, --alsa=GERÄT       Spezifiziert das ALSA-Gerät (Standard: \"%s\").\n"
-"\n"
-" -S, --server=ADRESSE:PORT     Spezifiziert die ESD-Serveradresse und -"
-"portnummer.\n"
-"                              Standard für ESD ist \"localhost:16001\".\n"
-"                              \n"
+"                             \n"
 " -z, --snooze=Millisek  Spezifiziert das Snooze-Intervall zwischen "
 "Soundereignissen\n"
 "                         in Millisekunden. Standard ist 500 Millisekunden.\n"
@@ -1021,51 +855,51 @@ msgstr ""
 "3     Fehler im Subsystem (d.h. Verbindungsaufbau zum Server gescheitert).\n"
 "\n"
 
-#: src/icesound.cc:930
+#: src/icesound.cc:780
 #, c-format
 msgid "No audio for %s"
 msgstr "Kein Audio für %s"
 
-#: src/icesound.cc:1007
+#: src/icesound.cc:857
 msgid "Could not get GUI event property"
 msgstr "Konnte keine GUI-Event-Property erhalten"
 
-#: src/icesound.cc:1011
+#: src/icesound.cc:861
 #, c-format
 msgid "Received invalid GUI event %d"
 msgstr "Ungültiges GUI-Event %d erhalten"
 
-#: src/icesound.cc:1015
+#: src/icesound.cc:865
 #, c-format
 msgid "Received GUI event %s"
 msgstr "GUI-Event %s erhalten"
 
-#: src/icesound.cc:1029
+#: src/icesound.cc:879
 #, c-format
 msgid "Too quick; ignoring %s."
 msgstr "Zu schnell; %s wird ignoriert."
 
-#: src/icesound.cc:1033
+#: src/icesound.cc:883
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr "Die Unterstützung für das %s-Interface wurde nicht kompiliert."
 
-#: src/icesound.cc:1073
+#: src/icesound.cc:916
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr "Nicht unterstütztes Interface: %s."
 
-#: src/icesound.cc:1082
+#: src/icesound.cc:925
 #, c-format
 msgid "Using %s audio."
 msgstr "%s Audio wird verwendet."
 
-#: src/icesound.cc:1086
+#: src/icesound.cc:929
 #, c-format
 msgid "Failed to connect to audio interfaces %s."
 msgstr "Konnte sich nicht mit Audio-Schnittstellen %s verbinden."
 
-#: src/icesound.cc:1098
+#: src/icesound.cc:941
 #, c-format
 msgid "Received signal %s: Terminating..."
 msgstr "Signal %s erhalten: Beende das Programm..."
@@ -1476,14 +1310,14 @@ msgstr ""
 msgid "Kill IceWM, replace with Xterm"
 msgstr "IceWM töten, mit Xterm ersetzen"
 
-#: src/wmapp.cc:1394
+#: src/wmapp.cc:1397
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      zu verwendende Client-ID, wenn der Sitzungs-Manager "
 "kontaktiert wird.\n"
 
-#: src/wmapp.cc:1400
+#: src/wmapp.cc:1403
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1494,7 +1328,7 @@ msgstr ""
 "  --debug-z           Gibt Debug-Nachrichten mit dem Blick auf window "
 "stacking aus.\n"
 
-#: src/wmapp.cc:1408
+#: src/wmapp.cc:1411
 msgid ""
 "\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
@@ -1506,7 +1340,7 @@ msgstr ""
 "  -t, --theme=DATEI   Theme aus DATEI laden.\n"
 "  --postpreferences    Einstellungen nach der ganzen Verarbeitung ausgeben.\n"
 
-#: src/wmapp.cc:1413
+#: src/wmapp.cc:1416
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1567,7 +1401,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1474
+#: src/wmapp.cc:1477
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s Konfigurationsverzeichnisse:\n"
@@ -1582,11 +1416,11 @@ msgstr "%s konfigurierte Optionen: %s\n"
 msgid "Unrecognized option '%s'."
 msgstr "Unbekannte Option: '%s'."
 
-#: src/wmapp.cc:1648
+#: src/wmapp.cc:1661
 msgid "Confirm Logout"
 msgstr "Abmelden bestätigen"
 
-#: src/wmapp.cc:1649
+#: src/wmapp.cc:1662
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1627,8 +1461,8 @@ msgstr "Arbeitsplatz _sperren"
 msgid "_Cancel"
 msgstr "Ab_brechen"
 
-#: src/wmdialog.cc:77 src/wmprog.cc:844 src/wmprog.cc:846 src/wmtaskbar.cc:297
-#: src/wmtaskbar.cc:299
+#: src/wmdialog.cc:77 src/wmprog.cc:844 src/wmprog.cc:846 src/wmtaskbar.cc:301
+#: src/wmtaskbar.cc:303
 msgid "_Logout..."
 msgstr "_Abmelden..."
 
@@ -1636,17 +1470,17 @@ msgstr "_Abmelden..."
 msgid "_Restart icewm"
 msgstr "_IceWM neu starten"
 
-#: src/wmdialog.cc:82 src/wmprog.cc:805 src/wmtaskbar.cc:290
-#: src/wmtaskbar.cc:293
+#: src/wmdialog.cc:82 src/wmprog.cc:805 src/wmtaskbar.cc:294
+#: src/wmtaskbar.cc:297
 msgid "_About"
 msgstr "_Über"
 
 #
-#: src/wmframe.cc:1390
+#: src/wmframe.cc:1394
 msgid "Kill Client: "
 msgstr "Client töten: "
 
-#: src/wmframe.cc:1397
+#: src/wmframe.cc:1401
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1655,28 +1489,28 @@ msgstr ""
 "beim Töten der Anwendung verloren gehen!\n"
 "Wünschen Sie trotzdem fortzufahren?"
 
-#: src/wmframe.cc:2991
+#: src/wmframe.cc:2997
 msgid "Restore"
 msgstr "Wiederherstellen"
 
-#: src/wmframe.cc:2994 src/wmtitle.cc:69
+#: src/wmframe.cc:3000 src/wmtitle.cc:69
 msgid "Maximize"
 msgstr "Maximieren"
 
-#: src/wmframe.cc:3024
+#: src/wmframe.cc:3030
 msgid "Rolldown"
 msgstr "Herunterrollen"
 
-#: src/wmframe.cc:3026 src/wmtitle.cc:127
+#: src/wmframe.cc:3032 src/wmtitle.cc:127
 msgid "Rollup"
 msgstr "Einrollen"
 
-#: src/wmoption.cc:228
+#: src/wmoption.cc:232
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Unbekannte Fensteroption: %s"
 
-#: src/wmoption.cc:338
+#: src/wmoption.cc:344
 #, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Syntaxfehler in Fensteroptionen in Zeile %d von %s"
@@ -1733,7 +1567,7 @@ msgstr "Programme"
 msgid "_Run..."
 msgstr "Aus_führen..."
 
-#: src/wmprog.cc:792 src/wmtaskbar.cc:280
+#: src/wmprog.cc:792 src/wmtaskbar.cc:284
 msgid "_Windows"
 msgstr "F_enster"
 
@@ -1766,63 +1600,63 @@ msgstr "Sitzungsmanager: Unbekannte Zeile %s"
 msgid "Task Bar"
 msgstr "Taskleiste"
 
-#: src/wmtaskbar.cc:270 src/wmwinlist.cc:364 src/wmwinlist.cc:377
+#: src/wmtaskbar.cc:274 src/wmwinlist.cc:364 src/wmwinlist.cc:377
 msgid "Tile _Vertically"
 msgstr "Ve_rtikal anordnen"
 
-#: src/wmtaskbar.cc:271 src/wmwinlist.cc:365 src/wmwinlist.cc:378
+#: src/wmtaskbar.cc:275 src/wmwinlist.cc:365 src/wmwinlist.cc:378
 msgid "T_ile Horizontally"
 msgstr "_Horizontal anordnen"
 
-#: src/wmtaskbar.cc:272 src/wmwinlist.cc:366 src/wmwinlist.cc:379
+#: src/wmtaskbar.cc:276 src/wmwinlist.cc:366 src/wmwinlist.cc:379
 msgid "Ca_scade"
 msgstr "_Überlappend anordnen"
 
-#: src/wmtaskbar.cc:273 src/wmwinlist.cc:367 src/wmwinlist.cc:380
+#: src/wmtaskbar.cc:277 src/wmwinlist.cc:367 src/wmwinlist.cc:380
 msgid "_Arrange"
 msgstr "_Ordnen"
 
-#: src/wmtaskbar.cc:274 src/wmwinlist.cc:369 src/wmwinlist.cc:381
+#: src/wmtaskbar.cc:278 src/wmwinlist.cc:369 src/wmwinlist.cc:381
 msgid "_Minimize All"
 msgstr "Alle _Minimieren"
 
-#: src/wmtaskbar.cc:275 src/wmwinlist.cc:370 src/wmwinlist.cc:382
+#: src/wmtaskbar.cc:279 src/wmwinlist.cc:370 src/wmwinlist.cc:382
 msgid "_Hide All"
 msgstr "Alle _Verstecken"
 
-#: src/wmtaskbar.cc:276 src/wmwinlist.cc:371 src/wmwinlist.cc:383
+#: src/wmtaskbar.cc:280 src/wmwinlist.cc:371 src/wmwinlist.cc:383
 msgid "_Undo"
 msgstr "_Rückgängig"
 
-#: src/wmtaskbar.cc:278
+#: src/wmtaskbar.cc:282
 msgid "Arrange _Icons"
 msgstr "_Symbole anordnen"
 
-#: src/wmtaskbar.cc:282
+#: src/wmtaskbar.cc:286
 msgid "_Refresh"
 msgstr "_Aktualisieren"
 
-#: src/wmtaskbar.cc:288
+#: src/wmtaskbar.cc:292
 msgid "_License"
 msgstr "_Lizenz"
 
-#: src/wmtaskbar.cc:356 src/wmtaskbar.cc:979
+#: src/wmtaskbar.cc:363 src/wmtaskbar.cc:992
 msgid "Hide Taskbar"
 msgstr "Taskleiste verbergen"
 
-#: src/wmtaskbar.cc:371
+#: src/wmtaskbar.cc:378
 msgid "Favorite Applications"
 msgstr "Lieblings-Anwendungen"
 
-#: src/wmtaskbar.cc:389
+#: src/wmtaskbar.cc:396
 msgid "Window List Menu"
 msgstr "Fensterlisten-Menü"
 
-#: src/wmtaskbar.cc:398
+#: src/wmtaskbar.cc:405
 msgid "Show Desktop"
 msgstr "Desktop anzeigen"
 
-#: src/wmtaskbar.cc:979
+#: src/wmtaskbar.cc:992
 msgid "Show Taskbar"
 msgstr "Taskleiste anzeigen"
 
@@ -2054,6 +1888,10 @@ msgid ""
 msgstr ""
 "  -d, --display=NAME      NAME des zu verwendenden  X-Servers.\n"
 "  --sync              Synchronisation von X11-Befehlen.\n"
+
+#: src/yxapp.cc:931
+msgid "<none>"
+msgstr "<keines>"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
 #: src/fdospecgen.h:43
@@ -2744,6 +2582,162 @@ msgstr "Webentwicklung"
 #: src/fdospecgen.h:319
 msgid "WordProcessor"
 msgstr "Textverarbeitung"
+
+#~ msgid "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
+#~ msgstr "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
+
+#~ msgid ""
+#~ "Usage: %s [OPTIONS] ACTIONS\n"
+#~ "\n"
+#~ "Options:\n"
+#~ "  -d, -display DISPLAY        Connects to the X server specified by "
+#~ "DISPLAY.\n"
+#~ "                              Default: $DISPLAY or :0.0 when not set.\n"
+#~ "  -w, -window WINDOW_ID       Specifies the window to manipulate. "
+#~ "Special\n"
+#~ "                              identifiers are `root' for the root window "
+#~ "and\n"
+#~ "                              `focus' for the currently focused window.\n"
+#~ "  -c, -class WM_CLASS         Window management class of the window(s) "
+#~ "to\n"
+#~ "                              manipulate. If WM_CLASS contains a period, "
+#~ "only\n"
+#~ "                              windows with exactly the same WM_CLASS "
+#~ "property\n"
+#~ "                              are matched. If there is no period, windows "
+#~ "of\n"
+#~ "                              the same class and windows of the same "
+#~ "instance\n"
+#~ "                              (aka. `-name') are selected.\n"
+#~ "\n"
+#~ "Actions:\n"
+#~ "  setIconTitle   TITLE        Set the icon title.\n"
+#~ "  setWindowTitle TITLE        Set the window title.\n"
+#~ "  setGeometry    geometry     Set the window geometry\n"
+#~ "  setState       MASK STATE   Set the GNOME window state to STATE.\n"
+#~ "                              Only the bits selected by MASK are "
+#~ "affected.\n"
+#~ "                              STATE and MASK are expressions of the "
+#~ "domain\n"
+#~ "                              `GNOME window state'.\n"
+#~ "  toggleState    STATE        Toggle the GNOME window state bits "
+#~ "specified by\n"
+#~ "                              the STATE expression.\n"
+#~ "  setHints       HINTS        Set the GNOME window hints to HINTS.\n"
+#~ "  setLayer       LAYER        Moves the window to another GNOME window "
+#~ "layer.\n"
+#~ "  setWorkspace   WORKSPACE    Moves the window to another workspace. "
+#~ "Select\n"
+#~ "                              the root window to change the current "
+#~ "workspace.\n"
+#~ "                              Select 0xFFFFFFFF or \"All\" for all "
+#~ "workspaces.\n"
+#~ "  listWorkspaces              Lists the names of all workspaces.\n"
+#~ "  setTrayOption  TRAYOPTION   Set the IceWM tray option hint.\n"
+#~ "  logout                      Tell IceWM to logout.\n"
+#~ "  reboot                      Tell IceWM to reboot.\n"
+#~ "  shutdown                    Tell IceWM to shutdown.\n"
+#~ "  cancel                      Tell IceWM to cancel the logout/reboot/"
+#~ "shutdown.\n"
+#~ "  about                       Tell IceWM to show the about window.\n"
+#~ "  windowlist                  Tell IceWM to show the window list.\n"
+#~ "  restart                     Tell IceWM to restart.\n"
+#~ "  suspend                     Tell IceWM to suspend.\n"
+#~ "\n"
+#~ "Expressions:\n"
+#~ "  Expressions are list of symbols of one domain concatenated by `+' or "
+#~ "`|':\n"
+#~ "\n"
+#~ "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Syntax: %s [OPTIONEN] AKTIONEN\n"
+#~ "\n"
+#~ "Optionen:\n"
+#~ "  -d, -display DISPLAY            Mit dem durch DISPLAY beschriebenen X-"
+#~ "Server\n"
+#~ "                              verbinden. Vorgabe: $DISPLAY oder :0.0, "
+#~ "falls nicht gesetzt.\n"
+#~ "  -w, -window FENSTER_ID          Das zu beeinflussende Fenster. "
+#~ "Besondere\n"
+#~ "                              Bezeichner sind »root« für den Desktop und\n"
+#~ "                              »focus« für das momentan aktive Fenster.\n"
+#~ "  -c, -class WM_CLASS             Fenstermanagement-Klasse der/des zu\n"
+#~ "                              manipulierenden Fenster/s. Wenn WM_CLASS "
+#~ "einen\n"
+#~ "                              Punkt enthält, dann sind dadurch nur "
+#~ "Fenster\n"
+#~ "                              betroffen, deren WM_CLASS-Eigenschaft "
+#~ "exakt\n"
+#~ "                              übereinstimmt. Ohne Punkt werden Fenster\n"
+#~ "                              derselben Klasse und Fenster derselben "
+#~ "Instanz\n"
+#~ "                              (alias »-name« ausgewählt).\n"
+#~ "\n"
+#~ "Aktionen:\n"
+#~ "  setIconTitle   BEZEICHNUNG  Legt die Symbolbezeichnung fest.\n"
+#~ "  setWindowTitle BEZEICHNUNG  Legt die Fensterbezeichnung fest.\n"
+#~ "  setState MASKE ZUSTAND      Setzt den GNOME-Fensterzustand auf "
+#~ "ZUSTAND.\n"
+#~ "                              Nur die durch die MASKE gewählten Bits "
+#~ "sind\n"
+#~ "                              betroffen. ZUSTAND und MASKE sind "
+#~ "Ausdrücke\n"
+#~ "                              des Bereichs »GNOME-Fensterzustand«.\n"
+#~ "  toggleState ZUSTAND         Wechselt die durch den Ausdruck ZUSTAND\n"
+#~ "                              beschriebenen GNOME-Fensterzustandbits.\n"
+#~ "  setHints HINWEIS            Legt den GNOME-Fensterhinweis fest.\n"
+#~ "  setLayer EBENE              Legt das Fenster auf eine andere GNOME-"
+#~ "Fensterebene.\n"
+#~ "  setWorkspace ARBEITSBEREICH Legt das Fenster auf einen anderen\n"
+#~ "                              Arbeitsbereich. Wählen Sie das »root«-\n"
+#~ "                              Fenster, um den momentanen Arbeitsbereich "
+#~ "zu\n"
+#~ "                              ändern.\n"
+#~ "                              0xFFFFFFFF oder \"Alles\" für alle "
+#~ "Arbeitsbereiche auswählen.\n"
+#~ "  listWorkspaces              Zeigt eine Liste aller Arbeitsbereiche.\n"
+#~ "  setTrayOption TRAYOPTION    Legt den IceWM-Trayoption-Hinweis fest.\n"
+#~ "  logout                      Sage IceWM sich abzumelden.\n"
+#~ "  reboot                      Sage IceWM neu zu starten.\n"
+#~ "  shutdown                 Sage IceWM herunter zu fahren.\n"
+#~ "  cancel                      Sage IceWM den Logout/den Neustart/das "
+#~ "Herunterfahren abzubrechen.\n"
+#~ "  about                       Sage IceWM das Fenster Über anzuzeigen.\n"
+#~ "  windowlist                Sage IceWM die Fenster-Liste anzuzeigen.\n"
+#~ "  restart                     Sage IceWM neu zu starten.\n"
+#~ "  suspend                   Sage IceWM einzufrieren.\n"
+#~ "\n"
+#~ "Ausdrücke:\n"
+#~ "  Ausdrücke sind eine Liste an Symbolen desselben Bereichs, die durch `+` "
+#~ "oder `|` verbunden sind:\n"
+#~ "\n"
+#~ "  AUSDRUCK ::= SYMBOL | AUSDRUCK ( `+«`| `|` ) SYMBOL\n"
+#~ "\n"
+
+#~ msgid "GNOME window state"
+#~ msgstr "GNOME-Fensterzustand"
+
+#~ msgid "GNOME window hint"
+#~ msgstr "GNOME-Fensterbeschreibung"
+
+#~ msgid "GNOME window layer"
+#~ msgstr "GNOME-Fensterebene"
+
+#~ msgid "IceWM tray option"
+#~ msgstr "IceWM-Trayoption"
+
+#~ msgid "Can't connect to ESound daemon: %s"
+#~ msgstr "Kann keine Verbindung zum ESound-Daemon herstellen: %s"
+
+#~ msgid "Error <%d> while uploading `%s:%s'"
+#~ msgstr "Fehler <%d> beim Hochladen von `%s:%s`"
+
+#~ msgid "Sample <%d> uploaded as `%s:%s'"
+#~ msgstr "Sample <%d> wurde als »%s:%s« hochgeladen"
+
+#~ msgid "Playing sample #%d: %d"
+#~ msgstr "Spiele Sample #%d: %d"
 
 #~ msgid "Usage error: "
 #~ msgstr "Verwendungsfehler: "

@@ -75,13 +75,24 @@ YMenu::YMenu(YWindow *parent):
     fActionListener = 0;
     fPopupActive = 0;
     fShared = false;
+    fRaised = false;
     activatedX = -1;
     activatedY = -1;
     fTimerX = 0;
     fTimerY = 0;
     fTimerSubmenuItem = -1;
+}
 
-    setTitle("IceMenu");
+void YMenu::raise() {
+    if (fRaised == false) {
+        fRaised = true;
+        if (parent() == desktop) {
+            setTitle("IceMenu");
+            setClassHint("icemenu", "IceWM");
+            setNetWindowType(_XA_NET_WM_WINDOW_TYPE_POPUP_MENU);
+        }
+    }
+    YPopupWindow::raise();
 }
 
 YMenu::~YMenu() {
@@ -836,6 +847,14 @@ void YMenu::sizePopup(int hspace) {
 
         int top, bottom, pad;
         int ih = mitem->queryHeight(top, bottom, pad);
+
+        if (height + ih >= 16000) {
+            // evade library bug
+            TLOG(("truncating menu to %d items at height %d", i, height));
+            fItems.shrink(i);
+            break;
+        }
+
         height += ih;
 
         if (pad > padx) padx = pad;
@@ -897,37 +916,43 @@ void YMenu::paintItems() {
 }
 
 void YMenu::drawBackground(Graphics &g, int x, int y, unsigned w, unsigned h) {
+    if (int(w) < 1 || int(w) < 1)
+        return;
+
+    PRECONDITION(w < SHRT_MAX && h < SHRT_MAX);
     if (fGradient != null)
         g.drawImage(fGradient, x, y, w, h, x, y);
     else
     if (menubackPixmap != null)
         g.fillPixmap(menubackPixmap, x, y, w, h);
-    else
+    else {
+        g.setColor(menuBg);
         g.fillRect(x, y, w, h);
+    }
 }
 
 void YMenu::drawSeparator(Graphics &g, int x, int y, unsigned w) {
     g.setColor(menuBg);
 
     if (menusepPixbuf != null) {
-        drawBackground(g, x, y, w, 2 - menusepPixbuf->height()/2);
+        drawBackground(g, x, y, w, 2 - int(menusepPixbuf->height()/2));
 
         g.drawGradient(menusepPixbuf,
-                       x, y + 2 - menusepPixbuf->height()/2,
+                       x, y + 2 - int(menusepPixbuf->height()/2),
                        w, menusepPixbuf->height());
 
-        drawBackground(g, x, y + 2 + (menusepPixbuf->height()+1)/2,
-                       w, 2 - (menusepPixbuf->height()+1)/2);
+        drawBackground(g, x, y + 2 + int(menusepPixbuf->height()+1)/2,
+                       w, 2 - int(menusepPixbuf->height()+1)/2);
     } else
     if (menusepPixmap != null) {
-        drawBackground(g, x, y, w, 2 - menusepPixmap->height()/2);
+        drawBackground(g, x, y, w, 2 - int(menusepPixmap->height()/2));
 
         g.fillPixmap(menusepPixmap,
-                     x, y + 2 - menusepPixmap->height()/2,
+                     x, y + 2 - int(menusepPixmap->height()/2),
                      w, menusepPixmap->height());
 
-        drawBackground(g, x, y + 2 + (menusepPixmap->height()+1)/2,
-                       w, 2 - (menusepPixmap->height()+1)/2);
+        drawBackground(g, x, y + 2 + int(menusepPixmap->height()+1)/2,
+                       w, 2 - int(menusepPixmap->height()+1)/2);
     } else if (wmLook == lookMetal || wmLook == lookFlat) {
         drawBackground(g, x, y + 0, w, 1);
 
@@ -1136,6 +1161,11 @@ void YMenu::paintItem(Graphics &g, const int i, const int l, const int t, const 
 }
 
 void YMenu::paint(Graphics &g, const YRect &r1) {
+    if (g.drawable() == None || int(r1.width()) < 1 || int(r1.height()) < 1)
+        return;
+
+    drawBackground(g, r1.x(), r1.y(), r1.width(), r1.height());
+
     if (wmLook == lookMetal || wmLook == lookFlat) {
         g.setColor(activeMenuItemBg ? activeMenuItemBg : menuBg);
         g.drawLine(0, 0, width() - 1, 0);
