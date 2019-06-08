@@ -275,7 +275,7 @@ bool YALSAAudio::play(int sound) {
         const int N = 8*1024;
         short sbuf[N]; // period_size * channels * snd_pcm_format_width(format)) / 8
         for (int n; (n = sf_readf_short(sf, sbuf, N / 2)) > 0; ) {
-            if ((err = snd_pcm_writei(playback_handle, sbuf, n) != n)) {
+            if ((err = snd_pcm_writei(playback_handle, sbuf, n)) != n) {
                 warn("write to audio interface failed (%s) %zd %d\n",
                          snd_strerror(err), sizeof(short), n);
                 goto done;
