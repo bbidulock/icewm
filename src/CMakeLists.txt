@@ -12,7 +12,7 @@ INCLUDE(FindPkgConfig)
 INCLUDE(CheckCXXSourceCompiles)
 INCLUDE(CheckCXXCompilerFlag)
 
-SET(CXXFLAGS_COMMON "-pthread -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE -I. -DHAVE_CONFIG_H")
+SET(CXXFLAGS_COMMON -pthread -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE -I. -DHAVE_CONFIG_H)
 
 set(icewm_img_libs "")
 set(icewm_libs "")
@@ -22,39 +22,38 @@ if("${CMAKE_BUILD_TYPE}" STREQUAL "" AND ("" STREQUAL "${CMAKE_CXX_FLAGS}"))
 endif()
 
 if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
+    CHECK_CXX_COMPILER_FLAG(-std=gnu++98 CXX_FORCELEGACY)
+    if(CXX_FORCELEGACY)
+        list(APPEND CXXFLAGS_COMMON -std=gnu++98)
+    endif()
     add_definitions(-DDEBUG)
 endif()
-
-# carefully splicing of command line arguments, even from lists
-macro(_append varname)
-    string(REPLACE ";" " " _apx "${ARGN}")
-    if(NOT DEFINED ${varname})
-        set(${varname} "${_apx}")
-    else()
-        set(${varname} "${${varname}} ${_apx}")
-    endif()
-endmacro()
 
 # I don't need -rdynamic, thanks!
 SET(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "")
 SET(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
 
-# apply to test calls
-SET(CMAKE_REQUIRED_FLAGS ${CXXFLAGS_COMMON})
+SET(CMAKE_REQUIRED_FLAGS )
 
 CHECK_CXX_COMPILER_FLAG(-fvisibility=hidden CXX_VHI)
 if(CXX_VHI)
-    _append(CXXFLAGS_COMMON -fvisibility=hidden)
+    list(APPEND CXXFLAGS_COMMON -fvisibility=hidden)
 endif()
 
 CHECK_CXX_COMPILER_FLAG(-fvisibility-inlines-hidden CXX_VIHI)
 if(CXX_VIHI)
-    _append(CXXFLAGS_COMMON -fvisibility-inlines-hidden)
+    list(APPEND CXXFLAGS_COMMON -fvisibility-inlines-hidden)
 endif()
 
-CHECK_CXX_COMPILER_FLAG(-std=gnu++98 CXX_FORCELEGACY)
-if(CXX_FORCELEGACY)
-    _append(CXXFLAGS_COMMON -std=gnu++98)
+# teach GCC7+ to interpret our comments
+CHECK_CXX_COMPILER_FLAG(-Wimplicit-fallthrough=2 HAS_FALLTHROUGH_OPTION)
+if(HAS_FALLTHROUGH_OPTION)
+    list(APPEND CXXFLAGS_COMMON -Wimplicit-fallthrough=2)
+else()
+    CHECK_CXX_COMPILER_FLAG(-Wimplicit-fallthrough HAS_FALLTHROUGH_OPTION)
+    if(HAS_FALLTHROUGH_OPTION)
+        list(APPEND CXXFLAGS_COMMON -Wimplicit-fallthrough)
+    endif()
 endif()
 
 #CHECK_CXX_COMPILER_FLAG(-Wl,-fuse-ld=gold CXX_LINKER_GOLD)
@@ -97,7 +96,7 @@ if(ENABLE_NLS OR CONFIG_I18N)
 endif()
 
 if(ENABLE_LTO)
-    set(CXXFLAGS_COMMON "${CXXFLAGS_COMMON} -flto")
+    list(APPEND CXXFLAGS_COMMON -flto)
     list(APPEND EXTRA_LIBS -flto)
 endif()
 
@@ -365,8 +364,6 @@ if(sndfile_FOUND)
         CHECK_INCLUDE_FILE_CXX(sys/soundcard.h HAVE_SYS_SOUNDCARD_H)
         set(ENABLE_OSS "${HAVE_SYS_SOUNDCARD_H}")
     endif()
-
-    string(REPLACE ";" " " audio_flags "${audio_flags}")
 endif(sndfile_FOUND)
 CHECK_INCLUDE_FILE_CXX(sndfile.h HAVE_SNDFILE_H ${audio_flags})
 
@@ -403,24 +400,11 @@ option(DEBUG "Define if you want to debug IceWM" off)
 # some extra sugar where available    #
 #######################################
 
-SET(CMAKE_REQUIRED_FLAGS ${CXXFLAGS_COMMON})
 SET(LDFLAGS_ORIG ${CMAKE_EXE_LINKER_FLAGS})
 SET(CMAKE_EXE_LINKER_FLAGS "${LDFLAGS_ORIG} -Wl,--as-needed ")
 CHECK_CXX_SOURCE_COMPILES("int main() {return 0;}" USE_WLASNEEDED)
 IF(NOT USE_WLASNEEDED)
     SET(CMAKE_EXE_LINKER_FLAGS ${LDFLAGS_ORIG})
-ENDIF()
-
-# teach GCC7 to interpret our comments
-SET(CMAKE_REQUIRED_FLAGS "${CXXFLAGS_COMMON} -Wimplicit-fallthrough=2")
-CHECK_CXX_SOURCE_COMPILES("int main() {return 0;}" USE_FALLTHROUGH_WARNING)
-IF(USE_FALLTHROUGH_WARNING)
-    if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-        # apparently clang does not support the parameter but the default behavior is what we ant
-        SET(CXXFLAGS_COMMON "${CXXFLAGS_COMMON} -Wimplicit-fallthrough")
-    else()
-        SET(CXXFLAGS_COMMON "${CXXFLAGS_COMMON} -Wimplicit-fallthrough=2")
-    endif()
 ENDIF()
 
 #######################################
@@ -432,13 +416,6 @@ CONFIGURE_FILE("${CMAKE_SOURCE_DIR}/src/config.cmake.h.in" "${CMAKE_BINARY_DIR}/
 #######################################
 # declaring targets and build flags   #
 #######################################
-
-# pkg-config delivers lists, we need plain compiler options! :-(
-foreach(pfx fontconfig xext x11 pixbuf xrandr xrender xft alsa libpng libxpm
-        esd ao oss xinerama fribidi gio)
-    string(REPLACE ";" " " ${pfx}_CFLAGS "${${pfx}_CFLAGS}")
-    #message(STATUS "Normalizing argument lists: ${${pfx}_LDFLAGS} ; ${${pfx}_CFLAGS}")
-endforeach()
 
 SET(ICE_COMMON_SRCS mstring.cc udir.cc upath.cc yapp.cc yxapp.cc ytimer.cc
     ywindow.cc ypaint.cc ypopup.cc misc.cc ycursor.cc ysocket.cc ypaths.cc
@@ -475,55 +452,55 @@ SET(ICEWM_SRCS ${ICE_COMMON_SRCS} ${ITK_SRCS}
 SET(MISC_SRCS misc.cc yarray.cc mstring.cc ref.cc)
 
 ADD_EXECUTABLE(icewm${EXEEXT} ${ICEWM_SRCS})
-set(icewm_pc_flags "${fontconfig_CFLAGS} ${x11_CFLAGS} ${xext_CFLAGS} ${libpng_CFLAGS} ${libxpm_CFLAGS} ${pixbuf_CFLAGS} ${xft_CFLAGS} ${xrandr_CFLAGS} ${xrender_CFLAGS} ${xinerama_CFLAGS} ${fribidi_CFLAGS}")
-SET_TARGET_PROPERTIES(icewm${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
-list(APPEND icewm_libs ${sm_LIBS} ${nls_LIBS} ${fontconfig_LDFLAGS} ${fribidi_LDFLAGS} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${xinerama_LDFLAGS} ${EXTRA_LIBS})
+set(icewm_pc_flags ${fontconfig_CFLAGS} ${x11_CFLAGS} ${xext_CFLAGS} ${libpng_CFLAGS} ${libxpm_CFLAGS} ${pixbuf_CFLAGS} ${xft_CFLAGS} ${xrandr_CFLAGS} ${xrender_CFLAGS} ${xinerama_CFLAGS} ${fribidi_CFLAGS})
+target_compile_options(icewm${EXEEXT} PUBLIC ${CXXFLAGS_COMMON} ${icewm_pc_flags})
+set(icewm_libs ${sm_LIBS} ${nls_LIBS} ${fontconfig_LDFLAGS} ${fribidi_LDFLAGS} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${xinerama_LDFLAGS} ${EXTRA_LIBS})
 TARGET_LINK_LIBRARIES(icewm${EXEEXT} ${icewm_libs} ${icewm_img_libs})
 
 ADD_EXECUTABLE(genpref${EXEEXT} genpref.cc ${MISC_SRCS})
 set(genpref_pc_flags ${x11_CFLAGS})
-SET_TARGET_PROPERTIES(genpref${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${genpref_pc_flags}")
+target_compile_options(genpref${EXEEXT} PUBLIC ${CXXFLAGS_COMMON} ${genpref_pc_flags})
 TARGET_LINK_LIBRARIES(genpref${EXEEXT} ${nls_LIBS} ${EXTRA_LIBS})
 
 IF(CONFIG_FDO_MENUS)
     ADD_EXECUTABLE(icewm-menu-fdo${EXEEXT} fdomenu.cc ${MISC_SRCS})
-    SET_TARGET_PROPERTIES(icewm-menu-fdo${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${gio_CFLAGS}")
+    target_compile_options(icewm-menu-fdo${EXEEXT} PUBLIC ${CXXFLAGS_COMMON} ${gio_CFLAGS})
     TARGET_LINK_LIBRARIES(icewm-menu-fdo${EXEEXT} ${gio_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
     INSTALL(TARGETS icewm-menu-fdo${EXEEXT} DESTINATION ${BINDIR})
 ENDIF()
 
 ADD_EXECUTABLE(icewm-session${EXEEXT} icesm.cc yapp.cc misc.cc mstring.cc upath.cc ytimer.cc yprefs.cc yarray.cc ref.cc)
 set(icewm_session_pc_flags ${x11_CFLAGS})
-SET_TARGET_PROPERTIES(icewm-session${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_session_pc_flags}")
+target_compile_options(icewm-session${EXEEXT} PUBLIC ${CXXFLAGS_COMMON} ${icewm_session_pc_flags})
 TARGET_LINK_LIBRARIES(icewm-session${EXEEXT} ${nls_LIBS} ${EXTRA_LIBS})
 
 ADD_EXECUTABLE(icewmhint${EXEEXT} icewmhint.cc ${MISC_SRCS})
-SET_TARGET_PROPERTIES(icewmhint${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
+target_compile_options(icewmhint${EXEEXT} PUBLIC ${CXXFLAGS_COMMON} ${icewm_pc_flags})
 TARGET_LINK_LIBRARIES(icewmhint${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 
 ADD_EXECUTABLE(icesh${EXEEXT} icesh.cc misc.cc mstring.cc ref.cc yarray.cc)
-SET_TARGET_PROPERTIES(icesh${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
+target_compile_options(icesh${EXEEXT} PUBLIC ${CXXFLAGS_COMMON} ${icewm_pc_flags})
 TARGET_LINK_LIBRARIES(icesh${EXEEXT} ${xext_LDFLAGS} ${xrandr_LDFLAGS} ${xinerama_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 
 ADD_EXECUTABLE(icewmbg${EXEEXT} icewmbg.cc ref.cc ${ICE_COMMON_SRCS})
-SET_TARGET_PROPERTIES(icewmbg${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
+target_compile_options(icewmbg${EXEEXT} PUBLIC ${CXXFLAGS_COMMON} ${icewm_pc_flags})
 TARGET_LINK_LIBRARIES(icewmbg${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${fribidi_LDFLAGS} ${xrandr_LDFLAGS}  ${icewm_img_libs} ${xinerama_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 
 IF(ENABLE_ALSA OR ENABLE_AO OR ENABLE_OSS)
     ADD_EXECUTABLE(icesound${EXEEXT} icesound.cc upath.cc misc.cc mstring.cc ytimer.cc yapp.cc yprefs.cc yarray.cc ref.cc)
-    SET_TARGET_PROPERTIES(icesound${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags} ${audio_flags}")
+    target_compile_options(icesound${EXEEXT} PUBLIC ${CXXFLAGS_COMMON} ${icewm_pc_flags} ${audio_flags})
     TARGET_LINK_LIBRARIES(icesound${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${audio_libs} ${EXTRA_LIBS})
     INSTALL(TARGETS icesound${EXEEXT} DESTINATION ${BINDIR})
 ENDIF()
 
 ADD_EXECUTABLE(icehelp${EXEEXT} icehelp.cc ${ICE_COMMON_SRCS} yscrollbar.cc ref.cc yicon.cc wmconfig.cc ymenu.cc ymenuitem.cc yprefs.cc yscrollview.cc)
-SET_TARGET_PROPERTIES(icehelp${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
+target_compile_options(icehelp${EXEEXT} PUBLIC ${CXXFLAGS_COMMON} ${icewm_pc_flags})
 TARGET_LINK_LIBRARIES(icehelp${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${fribidi_LDFLAGS} ${xrandr_LDFLAGS} ${icewm_img_libs} ${xinerama_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 INSTALL(TARGETS icehelp${EXEEXT} DESTINATION ${BINDIR})
 
 IF(CONFIG_EXTERNAL_TRAY)
 ADD_EXECUTABLE(icewmtray${EXEEXT} icetray.cc ref.cc wmconfig.cc yxtray.cc wmoption.cc ${ICE_COMMON_SRCS})
-SET_TARGET_PROPERTIES(icewmtray${EXEEXT} PROPERTIES COMPILE_FLAGS "${CXXFLAGS_COMMON} ${icewm_pc_flags}")
+target_compile_options(icewmtray${EXEEXT} PUBLIC ${CXXFLAGS_COMMON} ${icewm_pc_flags})
 TARGET_LINK_LIBRARIES(icewmtray${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${xinerama_LDFLAGS} ${nls_LIBS} ${icewm_img_libs} ${EXTRA_LIBS})
 ENDIF()
 
