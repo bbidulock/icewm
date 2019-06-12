@@ -1518,7 +1518,7 @@ msgstr "Syntaxfehler in Fensteroptionen in Zeile %d von %s"
 
 #: src/wmprog.cc:392
 msgid "_Click to focus"
-msgstr "_Klick auf Fokus"
+msgstr "Fokus durch _Klicken"
 
 #: src/wmprog.cc:393
 msgid "_Explicit focus"
@@ -1526,15 +1526,15 @@ msgstr "_Expliziter Fokus"
 
 #: src/wmprog.cc:394
 msgid "_Sloppy mouse focus"
-msgstr "_Schlechter Maus-Fokus"
+msgstr "_Salopper Maus-Fokus"
 
 #: src/wmprog.cc:395
 msgid "S_trict mouse focus"
-msgstr "_Genauer Maus-Fokus"
+msgstr "Strenger _Maus-Fokus"
 
 #: src/wmprog.cc:396
 msgid "_Quiet sloppy focus"
-msgstr "_Leicht schlechter Fokus"
+msgstr "Salopper Fokus (_träge)"
 
 #: src/wmprog.cc:397
 msgid "Custo_m"
@@ -1542,7 +1542,7 @@ msgstr "_Benutzerdefiniert"
 
 #: src/wmprog.cc:484
 msgid "Save Modifications"
-msgstr "Modifizierungen speichern"
+msgstr "Änderungen speichern"
 
 #: src/wmprog.cc:717
 msgid "_Manual"
