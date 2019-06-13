@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: icewm-1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2019-06-07 00:39+0200\n"
-"PO-Revision-Date: 2019-05-25 00:49+0000\n"
+"PO-Revision-Date: 2019-06-13 10:49+0000\n"
 "Last-Translator: Aleš Kastner <alkas@volny.cz>\n"
-"Language-Team: Czech <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/cs/>\n"
+"Language-Team: Czech <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -595,10 +595,9 @@ msgstr ""
 "nastavena."
 
 #: src/icesh.cc:1861
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'."
+#, c-format
 msgid "Invalid argument: `%s'"
-msgstr "Neplatný argument: „%s“."
+msgstr "Neplatný argument: `%s'"
 
 #: src/icesh.cc:1898
 msgid "No actions specified."
