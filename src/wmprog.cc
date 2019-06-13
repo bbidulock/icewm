@@ -192,11 +192,9 @@ public:
     // move the focused target up or down and return the new focused element
     virtual int moveTarget(bool zdown) OVERRIDE {
         int count = menu->itemCount();
-        if(count)
-            zTarget = (zTarget + count + (zdown?1:-1)) % count;
-        else {
-            MSG(("Zero items reported from menu provider? Debug this if you can reproduce it!"));
-        }
+        zTarget += zdown ? 1 : -1;
+        if (zTarget >= count || zTarget < 0)
+            zTarget = 0;
         // no further gimmicks
         return zTarget;
     }
