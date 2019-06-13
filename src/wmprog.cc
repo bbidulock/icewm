@@ -193,8 +193,10 @@ public:
     virtual int moveTarget(bool zdown) OVERRIDE {
         int count = menu->itemCount();
         zTarget += zdown ? 1 : -1;
-        if (zTarget >= count || zTarget < 0)
+        if (zTarget >= count)
             zTarget = 0;
+        if (zTarget < 0)
+            zTarget = max(0, count - 1);
         // no further gimmicks
         return zTarget;
     }
