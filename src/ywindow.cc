@@ -479,6 +479,15 @@ void YWindow::hide() {
     }
 }
 
+void YWindow::setDestroyed() {
+    flags |= wfDestroyed;
+}
+
+bool YWindow::testDestroyed() {
+    XWindowAttributes attr;
+    return fHandle && (destroyed() || !getWindowAttributes(&attr));
+}
+
 void YWindow::setVisible(bool enable) {
     return enable ? show() : hide();
 }

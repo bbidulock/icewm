@@ -154,8 +154,10 @@ public:
     bool visible() const { return (flags & wfVisible); }
     bool created() const { return (flags & wfCreated); }
     bool adopted() const { return (flags & wfAdopted); }
-    bool destroyed() const { return (flags & wfDestroyed); }
     bool focused() const { return (flags & wfFocused); }
+    bool destroyed() const { return (flags & wfDestroyed); }
+    void setDestroyed();
+    bool testDestroyed();
 
     virtual void donePopup(YPopupWindow * /*command*/);
 
