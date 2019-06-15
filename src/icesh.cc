@@ -915,9 +915,9 @@ static void toggleState(Window window, long newState) {
     MSG(("old mask/state: %ld/%ld", mask, state));
 
     long newMask = (state & mask & newState) ^ newState;
-    MSG(("new mask/state: %ld/%ld", newMask, newState));
+    MSG(("new mask/state: %ld/%ld", newState, newMask));
 
-    setState(window, newMask, newState);
+    setState(window, newState, newMask);
 }
 
 static void getState(Window window) {
@@ -1928,6 +1928,13 @@ void IceSh::flag(char* arg)
         MSG(("top windows selected"));
         return;
     }
+    if (isOptArg(arg, "-last", "")) {
+        if ( ! windowList)
+            windowList.getClientList();
+        windowList.filterLast();
+        MSG(("last window selected"));
+        return;
+    }
 
     size_t sep(strcspn(arg, "=:"));
     char *val(arg[sep] ? &arg[sep + 1] : getArg());
@@ -1947,12 +1954,6 @@ void IceSh::flag(char* arg)
             msg("Invalid PID: `%s'", val);
             THROW(1);
         }
-    }
-    else if (isOptArg(arg, "-last", "")) {
-        if ( ! windowList)
-            windowList.getClientList();
-        windowList.filterLast();
-        MSG(("last window selected"));
     }
     else if (isOptArg(arg, "-machine", val)) {
         if ( ! windowList)
