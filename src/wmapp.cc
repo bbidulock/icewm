@@ -840,7 +840,7 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
             t_executor(YSMListener* x) : listener(x) {}
             virtual void handleMsgBox(YMsgBox *msgbox, int operation) {
                 if (msgbox)
-                    manager->unmanageClient(msgbox->handle());
+                    manager->unmanageClient(msgbox);
                 if (operation == YMsgBox::mbOK)
                     listener->restartClient(QUOTE(XTERMCMD), 0);
             }
@@ -1209,14 +1209,8 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
     statusWorkspace = WorkspaceStatus::createInstance(manager);
 
     windowList = new WindowList(manager, this);
-    if (showTaskBar) {
-        taskBar = new TaskBar(this, manager, this, this);
-        if (taskBar)
-          taskBar->showBar(true);
-    } else {
-        taskBar = 0;
-    }
-    //windowList->show();
+
+    createTaskBar();
 
     manager->initWorkspaces();
 
@@ -1235,7 +1229,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
 
 YWMApp::~YWMApp() {
     if (fLogoutMsgBox) {
-        manager->unmanageClient(fLogoutMsgBox->handle());
+        manager->unmanageClient(fLogoutMsgBox);
         fLogoutMsgBox = 0;
     }
     delete aboutDlg; aboutDlg = 0;
@@ -1312,11 +1306,20 @@ void YWMApp::handleSignal(int sig) {
 }
 
 bool YWMApp::handleIdle() {
-/// TODO #warning "make this generic"
-    if (taskBar) {
+    static int qbits;
+    bool busy = YSMApplication::handleIdle();
+
+    if ((QLength(display()) >> qbits) > 0) {
+        ++qbits;
+    }
+    else if (taskBar == 0 && showTaskBar) {
+        createTaskBar();
+        busy = true;
+    }
+    else if (taskBar) {
         taskBar->relayoutNow();
     }
-    return YSMApplication::handleIdle();
+    return busy;
 }
 
 void YWMApp::signalGuiEvent(GUIEvent ge) {
@@ -1634,6 +1637,19 @@ int main(int argc, char **argv) {
     return rc;
 }
 
+void YWMApp::createTaskBar() {
+    if (showTaskBar && taskBar == 0) {
+        manager->lockWorkArea();
+        taskBar = new TaskBar(this, manager, this, this);
+        for (YFrameIter frame = manager->focusedIterator(); ++frame; ) {
+            frame->updateTaskBar();
+        }
+        taskBar->showBar();
+        taskBar->relayoutNow();
+        manager->unlockWorkArea();
+    }
+}
+
 void YWMApp::doLogout(RebootShutdown reboot) {
     rebootOrShutdown = reboot;
     if (!confirmLogout)
@@ -1693,7 +1709,7 @@ void YWMApp::cancelLogout() {
 void YWMApp::handleMsgBox(YMsgBox *msgbox, int operation) {
     if (msgbox == fLogoutMsgBox && fLogoutMsgBox) {
         if (fLogoutMsgBox) {
-            manager->unmanageClient(fLogoutMsgBox->handle());
+            manager->unmanageClient(fLogoutMsgBox);
             fLogoutMsgBox = 0;
         }
         if (operation == YMsgBox::mbOK) {

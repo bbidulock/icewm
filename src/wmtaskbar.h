@@ -96,7 +96,7 @@ public:
     void popupWindowListMenu();
 
     void showAddressBar();
-    void showBar(bool visible);
+    void showBar();
     void handleCollapseButton();
 
     void relayout() { fNeedRelayout = true; }

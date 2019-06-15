@@ -233,6 +233,8 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     getWMHints();
     getClassHint();
     fIsMapped = true;
+
+    TLOG(("taskbar"));
 }
 
 TaskBar::~TaskBar() {
@@ -260,6 +262,8 @@ TaskBar::~TaskBar() {
     delete fShowDesktop; fShowDesktop = 0;
     delete taskBarMenu; taskBarMenu = 0;
     taskBar = 0;
+    if (getFrame())
+        getFrame()->unmanage(false);
     MSG(("taskBar delete"));
 }
 
@@ -637,6 +641,7 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
 }
 
 void TaskBar::relayoutNow() {
+    manager->lockWorkArea();
     if (windowTrayPane())
         windowTrayPane()->relayoutNow();
     if (fNeedRelayout) {
@@ -644,6 +649,7 @@ void TaskBar::relayoutNow() {
     }
     if (taskPane())
         taskPane()->relayoutNow();
+    manager->unlockWorkArea();
 }
 
 void TaskBar::updateFullscreen(bool fullscreen) {
@@ -830,6 +836,8 @@ void TaskBar::paint(Graphics &g, const YRect& r) {
             g.drawLine(r.x(), 0, r.x() + r.width(), 0);
         }
     }
+
+    if (ONCE) TLOG(("tb paint"));
 }
 
 bool TaskBar::handleKey(const XKeyEvent &key) {
@@ -952,10 +960,10 @@ void TaskBar::popOut() {
     relayoutNow();
 }
 
-void TaskBar::showBar(bool visible) {
-    if (visible) {
-        if (getFrame() == 0)
-            manager->mapClient(handle());
+void TaskBar::showBar() {
+    if (getFrame() == 0) {
+        manager->lockWorkArea();
+        manager->mapClient(handle());
         if (getFrame() != 0) {
             setWinLayerHint((taskBarAutoHide || fFullscreen) ? WinLayerAboveAll :
                             fIsCollapsed ? WinLayerAboveDock :
@@ -967,6 +975,7 @@ void TaskBar::showBar(bool visible) {
             parent()->setTitle("TaskBarFrame");
             getFrame()->updateLayer();
         }
+        manager->unlockWorkArea();
     }
 }
 
@@ -991,7 +1000,6 @@ void TaskBar::handlePopDown(YPopupWindow * /*popup*/) {
 }
 
 void TaskBar::configure(const YRect &r) {
-    YWindow::configure(r);
 }
 
 void TaskBar::detachDesktopTray() {

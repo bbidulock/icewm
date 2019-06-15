@@ -139,7 +139,7 @@ void YMsgBox::handleClose() {
     if (fListener)
         fListener->handleMsgBox(this, 0);
     else {
-        manager->unmanageClient(handle());
+        manager->unmanageClient(this);
         manager->focusTopWindow();
     }
 }

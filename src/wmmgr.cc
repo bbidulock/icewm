@@ -22,9 +22,9 @@
 #include "wmframe.h"
 #include "wmdialog.h"
 #include "wmsession.h"
-#include "wmapp.h"
 #include "wmaction.h"
 #include "wmprog.h"
+#include "wmapp.h"
 #include "prefs.h"
 #include "yprefs.h"
 #include "yrect.h"
@@ -47,13 +47,14 @@ YWindowManager::YWindowManager(
     wmActionListener(wmActionListener),
     smActionListener(smListener)
 {
-    fWmState = wmSTARTUP;
+    fWmState = WMState(-1);
     fShowingDesktop = false;
     fShuttingDown = false;
     fOtherScreenFocused = false;
     fActiveWindow = (Window) -1;
     fFocusWin = 0;
     lockFocusCount = 0;
+    fServerGrabCount = 0;
     fLayout = (DesktopLayout) {
          _NET_WM_ORIENTATION_HORZ,
          MAXWORKSPACES,
@@ -71,12 +72,15 @@ YWindowManager::YWindowManager(
     fWorkArea = 0;
     fWorkAreaWorkspaceCount = 0;
     fWorkAreaScreenCount = 0;
+    fWorkAreaLock = 0;
+    fWorkAreaUpdate = 0;
     fFullscreenEnabled = true;
     for (int w = 0; w < MAXWORKSPACES; w++)
         fFocusedWindow[w] = 0;
     fCreatedUpdated = true;
     fLayeredUpdated = true;
 
+    setWmState(wmSTARTUP);
     setStyle(wsManager);
     setPointer(YXApplication::leftPointer);
 #ifdef CONFIG_XRANDR
@@ -97,38 +101,17 @@ YWindowManager::YWindowManager(
 #endif
 
     fTopWin = new YWindow();
-    fTopWin->setStyle(YWindow::wsOverrideRedirect);
+    fTopWin->setStyle(wsOverrideRedirect | wsInputOnly);
     fTopWin->setGeometry(YRect(-1, -1, 1, 1));
     fTopWin->setTitle("IceTopWin");
     fTopWin->show();
     if (edgeHorzWorkspaceSwitching) {
-        fLeftSwitch = new EdgeSwitch(this, -1, false);
-        if (fLeftSwitch) {
-            fLeftSwitch->setGeometry(YRect(0, 0, 1, height()));
-            fLeftSwitch->show();
-        }
-        fRightSwitch = new EdgeSwitch(this, +1, false);
-        if (fRightSwitch) {
-            fRightSwitch->setGeometry(YRect(width() - 1, 0, 1, height()));
-            fRightSwitch->show();
-        }
-    } else {
-        fLeftSwitch = fRightSwitch = 0;
+        edges += new EdgeSwitch(this, -1, false);
+        edges += new EdgeSwitch(this, +1, false);
     }
-
     if (edgeVertWorkspaceSwitching) {
-        fTopSwitch = new EdgeSwitch(this, -1, true);
-        if (fTopSwitch) {
-            fTopSwitch->setGeometry(YRect(0, 0, width(), 1));
-            fTopSwitch->show();
-        }
-        fBottomSwitch = new EdgeSwitch(this, +1, true);
-        if (fBottomSwitch) {
-            fBottomSwitch->setGeometry(YRect(0, height() - 1, width(), 1));
-            fBottomSwitch->show();
-        }
-    } else {
-        fTopSwitch = fBottomSwitch = 0;
+        edges += new EdgeSwitch(this, -1, true);
+        edges += new EdgeSwitch(this, +1, true);
     }
 
     YWindow::setWindowFocus();
@@ -136,16 +119,28 @@ YWindowManager::YWindowManager(
 
 YWindowManager::~YWindowManager() {
     if (fWorkArea) {
-        for (int i = 0; i < fWorkAreaWorkspaceCount; i++)
-            delete [] fWorkArea[i];
+        delete [] fWorkArea[0];
         delete [] fWorkArea;
     }
-    delete fBottomSwitch;
-    delete fTopSwitch;
-    delete fRightSwitch;
-    delete fLeftSwitch;
     delete fTopWin;
     delete rootProxy;
+}
+
+void YWindowManager::setWmState(WMState newWmState) {
+    if (fWmState != newWmState) {
+        TLOG(("wmstate %d", newWmState));
+        fWmState = newWmState;
+    }
+}
+
+void YWindowManager::grabServer() {
+    if (0 == fServerGrabCount++)
+        XGrabServer(xapp->display());
+}
+
+void YWindowManager::ungrabServer() {
+    if (0 == --fServerGrabCount)
+        XUngrabServer(xapp->display());
 }
 
 void YWindowManager::grabKeys() {
@@ -211,7 +206,7 @@ void YWindowManager::grabKeys() {
     GRAB_WMKEY(gKeySysHideAll);
 
     GRAB_WMKEY(gKeySysShowDesktop);
-    if (taskBar != 0) {
+    if (taskBar || showTaskBar) {
         GRAB_WMKEY(gKeySysCollapseTaskBar);
         GRAB_WMKEY(gKeyTaskBarSwitchNext);
         GRAB_WMKEY(gKeyTaskBarSwitchPrev);
@@ -695,17 +690,12 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
     if (message.message_type == _XA_NET_NUMBER_OF_DESKTOPS) {
         MSG(("ClientMessage: _NET_NUMBER_OF_DESKTOPS => %ld", message.data.l[0]));
         long ws = message.data.l[0];
-        if (ws >= 1 && ws <= MAXWORKSPACES) {
-            if (ws > workspaceCount()) {
-                int more = ws - workspaceCount();
-                for (int i=0; i<more; i++)
-                    appendNewWorkspace();
-            } else
-            if (ws < workspaceCount()) {
-                int less = workspaceCount() - ws;
-                for (int i=0; i<less; i++)
-                    removeLastWorkspace();
-            }
+        long now = ::workspaceCount;
+        if (inrange<long>(ws, now + 1, MAXWORKSPACES)) {
+            appendNewWorkspaces(ws - now);
+        }
+        else if (inrange<long>(ws, 1, now - 1)) {
+            removeLastWorkspaces(now - ws);
         }
         return;
     }
@@ -827,6 +817,9 @@ void YWindowManager::handleFocus(const XFocusChangeEvent &focus) {
         } else {
             if (focus.detail != NotifyInferior) {
                 fOtherScreenFocused = true;
+                if (fFocusWin) {
+                    fFocusWin->client()->testDestroyed();
+                }
                 switchFocusFrom(fFocusWin);
             }
         }
@@ -1043,10 +1036,12 @@ void YWindowManager::setColormapWindow(YFrameWindow *frame) {
 
 void YWindowManager::manageClients() {
     unsigned int clientCount;
-    Window winRoot, winParent, *winClients(NULL);
+    Window winRoot, winParent;
+    xsmart<Window> winClients;
 
-    manager->fWmState = YWindowManager::wmSTARTUP;
-    XGrabServer(xapp->display());
+    setWmState(wmSTARTUP);
+    lockWorkArea();
+    grabServer();
     XQueryTree(xapp->display(), handle(),
                &winRoot, &winParent, &winClients, &clientCount);
 
@@ -1055,31 +1050,40 @@ void YWindowManager::manageClients() {
             if (findClient(winClients[i]) == 0)
                 manageClient(winClients[i]);
 
-    XUngrabServer(xapp->display());
-    if (winClients)
-        XFree(winClients);
-    updateWorkArea();
-    fWmState = wmRUNNING;
+    ungrabServer();
+    unlockWorkArea();
+    setWmState(wmRUNNING);
     focusTopWindow();
 }
 
 void YWindowManager::unmanageClients() {
-    Window w;
-
-    manager->fWmState = YWindowManager::wmSHUTDOWN;
+    setWmState(wmSHUTDOWN);
+    lockWorkArea();
     if (taskBar)
         taskBar->detachDesktopTray();
     setFocus(0);
-    XGrabServer(xapp->display());
+    grabServer();
+
+    const bool reparent = true;
     for (unsigned int l = 0; l < WinLayerCount; l++) {
         while (bottom(l)) {
-            w = bottom(l)->client()->handle();
-            unmanageClient(w, true);
+            YFrameWindow* frame = bottom(l);
+            YFrameClient* client = frame->client();
+
+            frame->unmanage(reparent);
+            delete frame;
+
+            if (client->adopted()) {
+                client->show();
+                delete client;
+            }
         }
     }
+
     XSetInputFocus(xapp->display(), PointerRoot, RevertToNone, CurrentTime);
-    XUngrabServer(xapp->display());
+    ungrabServer();
     XSync(xapp->display(), True);
+    unlockWorkArea();
 }
 
 static int addco(int *v, int &n, int c) {
@@ -1243,7 +1247,7 @@ void YWindowManager::smartPlace(YFrameWindow **w, int count) {
     if (count == 0)
         return;
 
-    int n = xiInfo.getCount();
+    int n = getScreenCount();
     for (int s = 0; s < n; s++)
     {
         for (int i = 0; i < count; i++) {
@@ -1463,7 +1467,8 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     MSG(("managing window 0x%lX", win));
     PRECONDITION(findFrame(win) == 0);
 
-    XGrabServer(xapp->display());
+    grabServer();
+    lockWorkArea();
 #if 0
     XSync(xapp->display(), False);
     {
@@ -1509,7 +1514,6 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         }
 
         client->setBorder(attributes.border_width);
-        client->setColormap(attributes.colormap);
     }
 
     MSG(("initial geometry 1 (%d:%d %dx%d)",
@@ -1648,7 +1652,8 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     }
     manager->updateFullscreenLayerEnable(true);
 end:
-    XUngrabServer(xapp->display());
+    ungrabServer();
+    unlockWorkArea();
     return frame;
 }
 
@@ -1667,28 +1672,17 @@ YFrameWindow *YWindowManager::mapClient(Window win) {
     return frame;
 }
 
-void YWindowManager::unmanageClient(Window win, bool mapClient,
-                                    bool reparent) {
-    YFrameWindow *frame = findFrame(win);
+void YWindowManager::unmanageClient(YFrameClient* client) {
+    YFrameWindow *frame = client->getFrame();
+    const bool reparent = true;
 
-    MSG(("unmanaging window 0x%lX", win));
+    MSG(("unmanaging window 0x%lX", client->handle()));
 
     if (frame) {
-        YFrameClient *client = frame->client();
-
-        // !!! cleanup
-        client->hide();
-
-        frame->hide();
         frame->unmanage(reparent);
         delete frame;
-
-        if (mapClient)
-            client->show();
-        delete client;
-    } else {
-        MSG(("unmanage: unknown window: 0x%lX", win));
     }
+    delete client;
 }
 
 void YWindowManager::destroyedClient(Window win) {
@@ -1956,17 +1950,8 @@ void YWindowManager::restackWindows(YFrameWindow *) {
     if (taskBar)
         w.append(taskBar->edgeTriggerWindow());
 
-    if (fLeftSwitch && fLeftSwitch->visible())
-        w.append(fLeftSwitch->handle());
-
-    if (fRightSwitch && fRightSwitch->visible())
-        w.append(fRightSwitch->handle());
-
-    if (fTopSwitch && fTopSwitch->visible())
-        w.append(fTopSwitch->handle());
-
-    if (fBottomSwitch && fBottomSwitch->visible())
-        w.append(fBottomSwitch->handle());
+    for (int i = 0; i < edges.getCount(); ++i)
+        w.append(edges[i]->handle());
 
     if (wmapp->hasCtrlAltDelete()) {
         if (wmapp->getCtrlAltDelete()->visible()) {
@@ -1974,7 +1959,7 @@ void YWindowManager::restackWindows(YFrameWindow *) {
         }
     }
 
-    if (statusMoveSize->visible())
+    if (statusMoveSize && statusMoveSize->visible())
         w.append(statusMoveSize->handle());
 
     for (YFrameWindow* f = topLayer(); f; f = f->nextLayer()) {
@@ -1987,41 +1972,36 @@ void YWindowManager::restackWindows(YFrameWindow *) {
 }
 
 void YWindowManager::getWorkArea(YFrameWindow *frame,
-                                 int *mx, int *my, int *Mx, int *My, int xiscreen) const
+                                 int *mx, int *my, int *Mx, int *My,
+                                 int xiscreen) const
 {
-    bool whole = false;
-    long ws = -1;
+    long ws = WinWorkspaceInvalid;
 
     if (frame) {
         if (xiscreen == -1)
             xiscreen = frame->getScreen();
 
-        if (!frame->inWorkArea())
-            whole = true;
+        if (frame->inWorkArea()) {
+            if (frame->isAllWorkspaces())
+                ws = activeWorkspace();
+            else
+                ws = frame->getWorkspace();
+        }
+    }
 
-        ws = frame->getWorkspace();
-        if (frame->isAllWorkspaces())
-            ws = activeWorkspace();
-
-        if (ws < 0 || ws >= fWorkAreaWorkspaceCount)
-            whole = true;
-    } else
-        whole = true;
-
-
-    if (whole) {
-        *mx = 0;
-        *my = 0;
-        *Mx = width();
-        *My = height();
-    } else {
+    if (inrange(ws, 0L, fWorkAreaWorkspaceCount - 1L) && 0 <= xiscreen) {
         *mx = fWorkArea[ws][xiscreen].fMinX;
         *my = fWorkArea[ws][xiscreen].fMinY;
         *Mx = fWorkArea[ws][xiscreen].fMaxX;
         *My = fWorkArea[ws][xiscreen].fMaxY;
+    } else {
+        *mx = 0;
+        *my = 0;
+        *Mx = width();
+        *My = height();
     }
 
-    if (xiscreen != -1) {
+    if (0 <= xiscreen) {
         int dx, dy;
         unsigned dw, dh;
         manager->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
@@ -2044,71 +2024,30 @@ void YWindowManager::getWorkAreaSize(YFrameWindow *frame, int *Mw,int *Mh) {
     *Mh = My - my;
 }
 
-void YWindowManager::updateArea(long workspace, int screen_number, int l, int t, int r, int b) {
-    if (workspace >= 0 && workspace < fWorkAreaWorkspaceCount) {
-        struct WorkAreaRect *wa = &(fWorkArea[workspace][screen_number]);
-
+void YWindowManager::updateArea(long workspace, int screen_number,
+                                int l, int t, int r, int b)
+{
+    long low = 0, lim = fWorkAreaWorkspaceCount - 1L;
+    if (inrange(workspace, low, lim)) {
+        low = lim = workspace;
+    } else if (workspace != WinWorkspaceInvalid) {
+        return;
+    }
+    for (long ws = low; ws <= lim; ++ws) {
+        WorkAreaRect *wa = fWorkArea[ws] + screen_number;
         if (l > wa->fMinX) wa->fMinX = l;
         if (t > wa->fMinY) wa->fMinY = t;
         if (r < wa->fMaxX) wa->fMaxX = r;
         if (b < wa->fMaxY) wa->fMaxY = b;
-    } else if (workspace == -1) {
-        for (int ws = 0; ws < fWorkAreaWorkspaceCount; ws++) {
-            struct WorkAreaRect *wa = fWorkArea[ws] + screen_number;
-
-            if (l > wa->fMinX) wa->fMinX = l;
-            if (t > wa->fMinY) wa->fMinY = t;
-            if (r < wa->fMaxX) wa->fMaxX = r;
-            if (b < wa->fMaxY) wa->fMaxY = b;
-        }
     }
 }
 
-void YWindowManager::updateWorkArea() {
-    int fOldWorkAreaWorkspaceCount = fWorkAreaWorkspaceCount;
-    int fOldWorkAreaScreenCount = fWorkAreaScreenCount;
-    struct WorkAreaRect **fOldWorkArea = fWorkArea;
-
-    fWorkAreaWorkspaceCount = 0;
-    fWorkAreaScreenCount = 0;
-    fWorkArea = 0;
-
-    fWorkArea = new struct WorkAreaRect *[::workspaceCount];
-    if (fWorkArea == 0) {
-        if (fOldWorkArea) {
-            for (int i = 0; i < fOldWorkAreaWorkspaceCount; i++)
-                delete [] fOldWorkArea[i];
-            delete [] fOldWorkArea;
-        }
-        return;
-    }
-    fWorkAreaWorkspaceCount = ::workspaceCount;
-
-    for (int i = 0; i < fWorkAreaWorkspaceCount; i++) {
-        fWorkAreaScreenCount = xiInfo.getCount();
-        fWorkArea[i] = new struct WorkAreaRect[fWorkAreaScreenCount];
-        if (fWorkArea[i] == 0) {
-            fWorkArea = 0;
-            fWorkAreaWorkspaceCount = 0;
-            fWorkAreaScreenCount = 0;
-            if (fOldWorkArea) {
-                for (int i = 0; i < fOldWorkAreaWorkspaceCount; i++)
-                    delete [] fOldWorkArea[i];
-                delete [] fOldWorkArea;
-            }
-            return;
-        }
-
-        for (int j = 0; j < fWorkAreaScreenCount; j++) {
-            fWorkArea[i][j].fMinX = xiInfo[j].x_org;
-            fWorkArea[i][j].fMinY = xiInfo[j].y_org;
-            fWorkArea[i][j].fMaxX = xiInfo[j].x_org + xiInfo[j].width;
-            fWorkArea[i][j].fMaxY = xiInfo[j].y_org + xiInfo[j].height;
-        }
-    }
+void YWindowManager::debugWorkArea(const char* prefix) {
+#ifdef DEBUG
     for (int i = 0; i < fWorkAreaWorkspaceCount; i++) {
         for (int j = 0; j < fWorkAreaScreenCount; j++) {
-            MSG(("before: workarea w:%d s:%d %d %d %d %d",
+            MSG(("%s: workarea w:%d s:%d %d %d %d %d",
+                prefix,
                 i, j,
                 fWorkArea[i][j].fMinX,
                 fWorkArea[i][j].fMinY,
@@ -2116,33 +2055,80 @@ void YWindowManager::updateWorkArea() {
                 fWorkArea[i][j].fMaxY));
         }
     }
+#endif
+}
 
-    for (YFrameWindow *w = topLayer();
-         w;
-         w = w->nextLayer())
-    {
-        if (w->client() == 0 ||
-            w->isHidden() ||
-            w->isRollup() ||
-            w->isIconic() ||
-            w->isMinimized())
+void YWindowManager::updateWorkArea() {
+    if (fWorkAreaLock) {
+        fWorkAreaUpdate++;
+    }
+    else {
+        fWorkAreaLock = true;
+        do {
+            fWorkAreaUpdate = 0;
+            updateWorkAreaInner();
+        } while (fWorkAreaUpdate);
+        fWorkAreaLock = false;
+    }
+}
+
+void YWindowManager::updateWorkAreaInner() {
+    long oldWorkAreaWorkspaceCount = fWorkAreaWorkspaceCount;
+    int oldWorkAreaScreenCount = fWorkAreaScreenCount;
+    WorkAreaRect **oldWorkArea = new WorkAreaRect *[::workspaceCount];
+    if (oldWorkArea == nullptr)
+        return;
+    else {
+        long areaCount = ::workspaceCount * getScreenCount();
+        oldWorkArea[0] = new WorkAreaRect[areaCount];
+        if (oldWorkArea[0] == nullptr) {
+            delete[] oldWorkArea;
+            return;
+        }
+        else {
+            fWorkAreaWorkspaceCount = ::workspaceCount;
+            fWorkAreaScreenCount = getScreenCount();
+            swap(fWorkArea, oldWorkArea);
+        }
+    }
+
+    for (long i = 0; i < fWorkAreaWorkspaceCount; i++) {
+        if (i)
+            fWorkArea[i] = fWorkArea[i - 1] + fWorkAreaScreenCount;
+        for (int j = 0; j < fWorkAreaScreenCount; j++)
+            fWorkArea[i][j] = xiInfo[j];
+    }
+
+    debugWorkArea("before");
+
+    for (YFrameWindow *w = topLayer(); w; w = w->nextLayer()) {
+        if (w->client() == 0) {
             continue;
+        }
+        if (hasbit(w->getState(),
+                   WinStateHidden | WinStateMinimized | WinStateRollup)) {
+            continue;
+        }
 
-        int ws = w->getWorkspace();
-        int s = w->getScreen();
-        int sx = xiInfo[s].x_org;
-        int sy = xiInfo[s].y_org;
-        int sw = xiInfo[s].width;
-        int sh = xiInfo[s].height;
-
-        MSG(("workarea window %s: ws:%d s:%d x:%d y:%d w:%d h:%d", cstring(w->getTitle()).c_str(), ws, s, w->x(), w->y(), w->width(), w->height()));
+        MSG(("workarea window %s: ws:%d s:%d x:%d y:%d w:%d h:%d",
+            cstring(w->getTitle()).c_str(), w->getWorkspace(), w->getScreen(),
+            w->x(), w->y(), w->width(), w->height()));
+        if (w->haveStruts())
         {
+            int ws = w->getWorkspace();
+            int s = w->getScreen();
+            int sx = xiInfo[s].x_org;
+            int sy = xiInfo[s].y_org;
+            int sw = xiInfo[s].width;
+            int sh = xiInfo[s].height;
+
             int l = sx + w->strutLeft();
             int t = sy + w->strutTop();
             int r = sx + sw - w->strutRight();
             int b = sy + sh - w->strutBottom();
 
-            MSG(("strut %d %d %d %d", w->strutLeft(), w->strutTop(), w->strutRight(), w->strutBottom()));
+            MSG(("strut %d %d %d %d", w->strutLeft(), w->strutTop(),
+                                      w->strutRight(), w->strutBottom()));
             MSG(("limit %d %d %d %d", l, t, r, b));
             updateArea(ws, s, l, t, r, b);
         }
@@ -2150,6 +2136,13 @@ void YWindowManager::updateWorkArea() {
         if (w->doNotCover() ||
             (limitByDockLayer && w->getActiveLayer() == WinLayerDock))
         {
+            int ws = w->getWorkspace();
+            int s = w->getScreen();
+            int sx = xiInfo[s].x_org;
+            int sy = xiInfo[s].y_org;
+            int sw = xiInfo[s].width;
+            int sh = xiInfo[s].height;
+
             int lowX = sx + sw / 4;
             int lowY = sy + sh / 4;
             int hiX = sx + 3 * sw / 4;
@@ -2177,42 +2170,19 @@ void YWindowManager::updateWorkArea() {
             MSG(("dock limit %d %d %d %d", l, t, r, b));
             updateArea(ws, s, l, t, r, b);
         }
-    for (int i = 0; i < fWorkAreaWorkspaceCount; i++) {
-        for (int j = 0; j < fWorkAreaScreenCount; j++) {
-           if (0) {
-           MSG(("updated: workarea w:%d s:%d %d %d %d %d",
-                i, j,
-                fWorkArea[i][j].fMinX,
-                fWorkArea[i][j].fMinY,
-                fWorkArea[i][j].fMaxX,
-                fWorkArea[i][j].fMaxY));
-           }
-        }
+        debugWorkArea("updated");
     }
-    }
-    for (int i = 0; i < fWorkAreaWorkspaceCount; i++) {
-        for (int j = 0; j < fWorkAreaScreenCount; j++) {
-            MSG(("after: workarea w:%d s:%d %d %d %d %d",
-                i, j,
-                fWorkArea[i][j].fMinX,
-                fWorkArea[i][j].fMinY,
-                fWorkArea[i][j].fMaxX,
-                fWorkArea[i][j].fMaxY));
-        }
-    }
+    debugWorkArea("after");
 
     bool changed = false;
-    if (fOldWorkArea == 0 ||
-        fOldWorkAreaWorkspaceCount != fWorkAreaWorkspaceCount ||
-        fOldWorkAreaScreenCount != fWorkAreaScreenCount) {
+    if (oldWorkArea == 0 ||
+        oldWorkAreaWorkspaceCount != fWorkAreaWorkspaceCount ||
+        oldWorkAreaScreenCount != fWorkAreaScreenCount) {
         changed = true;
     } else {
-        for (int ws = 0; ws < fWorkAreaWorkspaceCount; ws++) {
+        for (long ws = 0; ws < fWorkAreaWorkspaceCount; ws++) {
             for (int s = 0; s < fWorkAreaScreenCount; s++) {
-                if (fWorkArea[ws][s].fMinX != fOldWorkArea[ws][s].fMinX ||
-                    fWorkArea[ws][s].fMinY != fOldWorkArea[ws][s].fMinY ||
-                    fWorkArea[ws][s].fMaxX != fOldWorkArea[ws][s].fMaxX ||
-                    fWorkArea[ws][s].fMaxY != fOldWorkArea[ws][s].fMaxY) {
+                if (fWorkArea[ws][s] != oldWorkArea[ws][s]) {
                     changed = true;
                     break;
                 }
@@ -2222,33 +2192,44 @@ void YWindowManager::updateWorkArea() {
         }
     }
 
+    bool resize = false;
     if (changed) {
+        TLOG(("announceWorkArea"));
         announceWorkArea();
-        if (fWorkAreaMoveWindows) {
-            for (int ws = 0; ws < fWorkAreaWorkspaceCount; ws++) {
-                if (ws >= fOldWorkAreaWorkspaceCount)
-                    break;
-
-                for (int s = 0; s < fWorkAreaScreenCount; s++) {
-                    int const deltaX = fWorkArea[ws][s].fMinX - fOldWorkArea[ws][s].fMinX;
-                    int const deltaY = fWorkArea[ws][s].fMinY - fOldWorkArea[ws][s].fMinY;
-
-                    if (deltaX != 0 || deltaY != 0)
-                        relocateWindows(ws, s, deltaX, deltaY);
+        long spaces = min(fWorkAreaWorkspaceCount, oldWorkAreaWorkspaceCount);
+        int screens = min(fWorkAreaScreenCount, oldWorkAreaScreenCount);
+        for (long ws = 0; ws < spaces; ws++) {
+            for (int s = 0; s < screens; s++) {
+                int deltaX = fWorkArea[ws][s].fMinX
+                           - oldWorkArea[ws][s].fMinX;
+                int deltaY = fWorkArea[ws][s].fMinY
+                           - oldWorkArea[ws][s].fMinY;
+                if (deltaX || deltaY) {
+                    relocateWindows(ws, s, deltaX, deltaY);
                 }
+
+                if (fWorkArea[ws][s].width() < oldWorkArea[ws][s].width())
+                    resize = true;
+                if (fWorkArea[ws][s].height() < oldWorkArea[ws][s].height())
+                    resize = true;
             }
         }
+        if (screens < oldWorkAreaScreenCount)
+            resize = true;
     }
-    if (fOldWorkArea) {
-        for (int i = 0; i < fOldWorkAreaWorkspaceCount; i++)
-            delete [] fOldWorkArea[i];
-        delete [] fOldWorkArea;
+
+    if (oldWorkArea) {
+        delete [] oldWorkArea[0];
+        delete [] oldWorkArea;
     }
-    resizeWindows();
+    if (resize) {
+        TLOG(("resizeWindows"));
+        resizeWindows();
+    }
 }
 
 void YWindowManager::announceWorkArea() {
-    int nw = workspaceCount();
+    long nw = workspaceCount();
     long *area = new long[nw * 4];
     bool isCloned = true;
 
@@ -2263,8 +2244,8 @@ void YWindowManager::announceWorkArea() {
     if (!area)
         return;
 
-    if (xiInfo.getCount() > 1 && netWorkAreaBehaviour != 1) {
-        for (int i = 0; i < xiInfo.getCount(); i++) {
+    if (getScreenCount() > 1 && netWorkAreaBehaviour != 1) {
+        for (int i = 0; i < getScreenCount(); i++) {
             if (xiInfo[i].x_org != 0 || xiInfo[i].y_org != 0) {
                 isCloned = false;
                 break;
@@ -2276,21 +2257,19 @@ void YWindowManager::announceWorkArea() {
     for (int ws = 0; ws < nw; ws++) {
         YRect r(desktopArea);
         if (netWorkAreaBehaviour != 1) {
-            r = YRect(fWorkArea[ws][0].fMinX, fWorkArea[ws][0].fMinY,
-                      fWorkArea[ws][0].fMaxX - fWorkArea[ws][0].fMinX,
-                      fWorkArea[ws][0].fMaxY - fWorkArea[ws][0].fMinY);
+            r = fWorkArea[ws][0];
         }
 
-        if (xiInfo.getCount() > 1 && ! isCloned && netWorkAreaBehaviour != 1) {
+        if (getScreenCount() > 1 && ! isCloned && netWorkAreaBehaviour != 1) {
             if (netWorkAreaBehaviour == 0) {
                 // STRUTS information is messy and broken for multimonitor,
                 // but there is no solution for this problem.
                 // So we imitate metacity's behaviour := merge,
                 // but limit height of each screen and hope for the best
-                for (int i = 1; i < xiInfo.getCount(); i++) {
+                for (int i = 1; i < getScreenCount(); i++) {
                     r.unionRect(fWorkArea[ws][i].fMinX, fWorkArea[ws][i].fMinY,
-                                fWorkArea[ws][i].fMaxX - fWorkArea[ws][i].fMinX,
-                                fWorkArea[ws][0].fMaxY - fWorkArea[ws][0].fMinY);
+                                fWorkArea[ws][i].width(),
+                                fWorkArea[ws][0].height());
                 }
             } else if (netWorkAreaBehaviour == 2) {
                 r = desktopArea;
@@ -2365,16 +2344,16 @@ void YWindowManager::initWorkspaces() {
 
 void YWindowManager::activateWorkspace(long workspace) {
     if (workspace != fActiveWorkspace) {
+        lockWorkArea();
         lockFocus();
-///        XSetInputFocus(app->display(), desktop->handle(), RevertToNone, CurrentTime);
 
         if (taskBar && fActiveWorkspace != WinWorkspaceInvalid) {
-            taskBar->setWorkspaceActive(fActiveWorkspace, 0);
+            taskBar->setWorkspaceActive(fActiveWorkspace, false);
         }
         fLastWorkspace = fActiveWorkspace;
         fActiveWorkspace = workspace;
         if (taskBar) {
-            taskBar->setWorkspaceActive(fActiveWorkspace, 1);
+            taskBar->setWorkspaceActive(fActiveWorkspace, true);
         }
 
         long ws = fActiveWorkspace;
@@ -2423,52 +2402,56 @@ void YWindowManager::activateWorkspace(long workspace) {
            )
             statusWorkspace->begin(workspace);
         wmapp->signalGuiEvent(geWorkspaceChange);
-        updateWorkArea();
+        unlockWorkArea();
     }
 }
 
-void YWindowManager::appendNewWorkspace() {
-    if (::workspaceCount >= MAXWORKSPACES)
+void YWindowManager::appendNewWorkspaces(long extra) {
+    if ( !inrange(extra, 1L, MAXWORKSPACES - ::workspaceCount))
         return;
 
-    long ws = ::workspaceCount;
-
-    if (workspaceNames[ws] == 0) {
-        char s[32];
-        snprintf(s, 32, " %ld ", ws);
-        workspaceNames[ws] = newstr(s);
+    for (long x = 0; x < extra; ++x) {
+        long ws = x + ::workspaceCount;
+        if (workspaceNames[ws] == nullptr) {
+            char buf[32];
+            snprintf(buf, sizeof buf, ws < 999 ? "%3ld " : "%ld", 1 + ws);
+            workspaceNames[ws] = newstr(buf);
+        }
     }
-
-    ::workspaceCount++;
+    ::workspaceCount += extra;
 
     updateWorkspaces(true);
 }
 
-void YWindowManager::removeLastWorkspace() {
-    if (::workspaceCount <= 1)
+void YWindowManager::removeLastWorkspaces(long minus) {
+    if ( !inrange(minus, 1L, ::workspaceCount - 1L))
         return;
-
-    long ws = ::workspaceCount - 1;
+    long last = ::workspaceCount - 1L - minus;
 
     // switch away from the workspace being removed
-    if (fActiveWorkspace == ws)
-        activateWorkspace(ws-1);
+    bool refocus = (fActiveWorkspace > last);
+    if (refocus) {
+        setFocus(0);
+        activateWorkspace(last);
+    }
 
     // move windows away from the workspace being removed
-    bool changed;
-    do {
+    for (bool changed(true); changed; ) {
         changed = false;
-        for (YFrameWindow *frame = topLayer(); frame; frame = frame->nextLayer())
-            if (frame->getWorkspace() == ws) {
-                frame->setWorkspace(ws-1);
+        for (YFrameIter frame(focusedIterator()); ++frame; ) {
+            if (frame->getWorkspace() > last) {
+                frame->setWorkspace(last);
                 changed = true;
-                break;
             }
-    } while (changed);
+        }
+    }
 
-    ::workspaceCount--;
+    ::workspaceCount = 1L + last;
 
     updateWorkspaces(false);
+
+    if (refocus)
+        focusLastWindow();
 }
 
 void YWindowManager::updateWorkspaces(bool increase) {
@@ -2502,11 +2485,6 @@ bool YWindowManager::readCurrentDesktop(long &workspace) {
     xsmart<unsigned char> prop;
     workspace = 0;
 
-    r_type = None;
-    r_format = 0;
-    count = 0;
-    bytes_remain = 0;
-    prop = 0;
     if (XGetWindowProperty(xapp->display(), handle(),
                            _XA_NET_CURRENT_DESKTOP, 0, 1, False,
                            XA_CARDINAL, &r_type, &r_format,
@@ -2516,11 +2494,6 @@ bool YWindowManager::readCurrentDesktop(long &workspace) {
             return true;
         }
     }
-    r_type = None;
-    r_format = 0;
-    count = 0;
-    bytes_remain = 0;
-    prop = 0;
     if (XGetWindowProperty(xapp->display(), handle(),
                            _XA_WIN_WORKSPACE, 0, 1, False,
                            XA_CARDINAL, &r_type, &r_format,
@@ -2662,7 +2635,7 @@ bool YWindowManager::readNetDesktopNames() {
         char **strings = 0;
         if (XmbTextPropertyToTextList(xapp->display(), &names,
                                       &strings, &count) == Success) {
-            if (count > 0 && strings[count - 1][0] == '\0')
+            if (count > 0 && isEmpty(strings[count - 1]))
                 count--;
             count = min(count, MAXWORKSPACES);
             if (compareDesktopNames(strings, count)) {
@@ -2693,7 +2666,7 @@ bool YWindowManager::readWinDesktopNames() {
         char **strings = 0;
         if (XmbTextPropertyToTextList(xapp->display(), &names,
                                       &strings, &count) == Success) {
-            if (count > 0 && strings[count - 1][0] == '\0')
+            if (count > 0 && isEmpty(strings[count - 1]))
                 count--;
             count = min(count, MAXWORKSPACES);
             if (compareDesktopNames(strings, count)) {
@@ -3101,6 +3074,7 @@ void YWindowManager::popupWindowListMenu(YWindow *owner) {
 
 void YWindowManager::switchToWorkspace(long nw, bool takeCurrent) {
     if (nw >= 0 && nw < workspaceCount()) {
+        lockWorkArea();
         YFrameWindow *frame = getFocus();
         if (takeCurrent && frame && !frame->isAllWorkspaces()) {
             lockFocus();
@@ -3114,6 +3088,7 @@ void YWindowManager::switchToWorkspace(long nw, bool takeCurrent) {
         } else {
             activateWorkspace(nw);
         }
+        unlockWorkArea();
     }
 }
 
@@ -3303,8 +3278,6 @@ void YWindowManager::exitAfterLastClient(bool shuttingDown) {
     checkLogout();
 }
 
-lazy<YTimer> EdgeSwitch::fEdgeSwitchTimer;
-
 EdgeSwitch::EdgeSwitch(YWindowManager *manager, int delta, bool vertical):
     YWindow(manager),
     fManager(manager),
@@ -3317,12 +3290,21 @@ EdgeSwitch::EdgeSwitch(YWindowManager *manager, int delta, bool vertical):
 {
     setStyle(wsOverrideRedirect | wsInputOnly);
     setPointer(YXApplication::leftPointer);
+    setGeometry();
+    setTitle("IceEdgeSwitch");
+    show();
 }
 
 EdgeSwitch::~EdgeSwitch() {
-    if (fEdgeSwitchTimer && fEdgeSwitchTimer->getTimerListener() == this) {
-        fEdgeSwitchTimer = null;
-    }
+}
+
+void EdgeSwitch::setGeometry() {
+    int x = (!fVert && 0 < fDelta) ? int(fManager->width() - 1) : 0;
+    int y = (fVert && 0 < fDelta) ? int(fManager->height() - 1) : 0;
+    unsigned w = !fVert ? 1 : fManager->width();
+    unsigned h = fVert ? 1 : fManager->height();
+
+    YWindow::setGeometry(YRect(x, y, w, h));
 }
 
 void EdgeSwitch::handleCrossing(const XCrossingEvent &crossing) {
@@ -3341,7 +3323,7 @@ bool EdgeSwitch::handleTimer(YTimer *t) {
     if (t != fEdgeSwitchTimer)
         return false;
 
-    int worksps = (int) fManager->workspaceCount();
+    int worksps = int(::workspaceCount);
     int orient  = fManager->layout().orient;
     int columns = min(fManager->layout().columns, worksps);
     int rows    = min(fManager->layout().rows, worksps);
@@ -3464,22 +3446,8 @@ void YWindowManager::UpdateScreenSize(XEvent *event) {
             taskBar->relayout();
             taskBar->relayoutNow();
         }
-        if (edgeHorzWorkspaceSwitching) {
-            if (fLeftSwitch) {
-                fLeftSwitch->setGeometry(YRect(0, 0, 1, height()));
-            }
-            if (fRightSwitch) {
-                fRightSwitch->setGeometry(YRect(width() - 1, 0, 1, height()));
-            }
-        }
-        if (edgeVertWorkspaceSwitching) {
-            if (fTopSwitch) {
-                fTopSwitch->setGeometry(YRect(0, 0, width(), 1));
-            }
-            if (fBottomSwitch) {
-                fBottomSwitch->setGeometry(YRect(0, height() - 1, width(), 1));
-            }
-        }
+        for (int i = 0; i < edges.getCount(); ++i)
+            edges[i]->setGeometry();
 
 /// TODO #warning "make something better"
         if (arrangeWindowsOnScreenSizeChange) {

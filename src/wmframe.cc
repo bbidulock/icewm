@@ -98,6 +98,7 @@ YFrameWindow::YFrameWindow(
     fStrutRight = 0;
     fStrutTop = 0;
     fStrutBottom = 0;
+    fHaveStruts = false;
     fTitleBar = 0;
 
     fUserTimeWindow = None;
@@ -123,12 +124,13 @@ YFrameWindow::YFrameWindow(
     fClientContainer->show();
     fClientContainer->setTitle("Container");
     setTitle("Frame");
+    setBackground(inactiveBorderBg);
 }
 
 YFrameWindow::~YFrameWindow() {
     fManaged = false;
     if (fKillMsgBox) {
-        manager->unmanageClient(fKillMsgBox->handle());
+        manager->unmanageClient(fKillMsgBox);
         fKillMsgBox = 0;
     }
     if (fWindowType == wtDialog)
@@ -170,6 +172,7 @@ YFrameWindow::~YFrameWindow() {
     // perhaps should be done another way
     removeTransients();
     removeAsTransient();
+    manager->lockWorkArea();
     manager->removeFocusFrame(this);
     manager->removeClientFrame(this);
     manager->removeCreatedFrame(this);
@@ -189,6 +192,7 @@ YFrameWindow::~YFrameWindow() {
     delete fClientContainer; fClientContainer = 0;
     delete fTitleBar; fTitleBar = 0;
 
+    manager->unlockWorkArea();
     manager->updateClientList();
 
     // update pager when unfocused windows are killed, because this
@@ -492,10 +496,9 @@ void YFrameWindow::manage(YFrameClient *client) {
     PRECONDITION(client != 0);
     fClient = client;
 
-/// TODO #warning "optimize this, do it only if needed"
-    XSetWindowBorderWidth(xapp->display(),
-                          client->handle(),
-                          0);
+    if (client->getBorder()) {
+        client->setBorderWidth(0U);
+    }
 
 #if 0
     {
@@ -527,9 +530,7 @@ void YFrameWindow::unmanage(bool reparent) {
         int gx, gy;
         client()->gravityOffsets(gx, gy);
 
-        XSetWindowBorderWidth(xapp->display(),
-                              client()->handle(),
-                              client()->getBorder());
+        client()->setBorderWidth(client()->getBorder());
 
         int posX, posY, posWidth, posHeight;
 
@@ -1445,6 +1446,7 @@ void YFrameWindow::loseWinFocus() {
         if (isIconic())
             getMiniIcon()->repaint();
         else {
+            setBackground(inactiveBorderBg);
             repaint();
             if (titlebar())
                 titlebar()->deactivate();
@@ -1463,6 +1465,7 @@ void YFrameWindow::setWinFocus() {
         else {
             if (titlebar())
                 titlebar()->activate();
+            setBackground(activeBorderBg);
             repaint();
         }
         updateTaskBar();
@@ -2264,7 +2267,7 @@ void YFrameWindow::updateIcon() {
     if (getMiniIcon()) getMiniIcon()->repaint();
     if (fTrayApp) fTrayApp->repaint();
     if (fTaskBarApp) fTaskBarApp->repaint();
-    if (windowList && fWinListItem)
+    if (windowList && fWinListItem && windowList->visible())
         windowList->repaintItem(fWinListItem);
 }
 
@@ -2634,12 +2637,7 @@ bool YFrameWindow::affectsWorkArea() const {
         return true;
     if (getActiveLayer() == WinLayerDock)
         return true;
-    if (fStrutLeft != 0 ||
-        fStrutRight != 0 ||
-        fStrutTop != 0 ||
-        fStrutBottom != 0)
-        return true;
-    return false;
+    return fHaveStruts;
 }
 
 bool YFrameWindow::inWorkArea() const {
@@ -2649,12 +2647,7 @@ bool YFrameWindow::inWorkArea() const {
         return false;
     if (getActiveLayer() >= WinLayerDock)
         return false;
-    if (fStrutLeft != 0 ||
-        fStrutRight != 0 ||
-        fStrutTop != 0 ||
-        fStrutBottom != 0)
-        return false;
-    return true;
+    return !fHaveStruts;
 }
 
 void YFrameWindow::getNormalGeometryInner(int *x, int *y, int *w, int *h) {
@@ -2665,12 +2658,12 @@ void YFrameWindow::getNormalGeometryInner(int *x, int *y, int *w, int *h) {
     *h = sh ? normalH * sh->height_inc + sh->base_height : normalH;
 }
 
-void YFrameWindow::setNormalGeometryOuter(int x, int y, int w, int h) {
-    x += borderXN();
-    y += borderYN();
-    w -= 2 * borderXN();
-    h -= 2 * borderYN() + titleYN();
-    setNormalGeometryInner(x, y, w, h);
+void YFrameWindow::setNormalGeometryOuter(int ox, int oy, int ow, int oh) {
+    int ix = ox + borderXN();
+    int iy = oy + borderYN();
+    int iw = ow - (2 * borderXN());
+    int ih = oh - (2 * borderYN() + titleYN());
+    setNormalGeometryInner(ix, iy, iw, ih);
 }
 
 void YFrameWindow::setNormalPositionOuter(int x, int y) {
@@ -3112,9 +3105,6 @@ void YFrameWindow::updateMwmHints() {
 
     getFrameHints();
 
-    int gx, gy;
-    client()->gravityOffsets(gx, gy);
-
     if (!isRollup() && !isIconic()) /// !!! check (emacs hates this)
         configureClient(x() + bx + bx - borderX(),
                         y() + by + by - borderY() + titleY(),
@@ -3197,7 +3187,7 @@ void YFrameWindow::handleMsgBox(YMsgBox *msgbox, int operation) {
     //msg("msgbox operation %d", operation);
     if (msgbox == fKillMsgBox && fKillMsgBox) {
         if (fKillMsgBox) {
-            manager->unmanageClient(fKillMsgBox->handle());
+            manager->unmanageClient(fKillMsgBox);
             fKillMsgBox = 0;
             manager->focusTopWindow();
         }
@@ -3221,6 +3211,7 @@ void YFrameWindow::updateNetWMStrut() {
         fStrutRight = r;
         fStrutTop = t;
         fStrutBottom = b;
+        fHaveStruts = l | r | t | b;
         MSG(("strut: %d %d %d %d", l, r, t, b));
         manager->updateWorkArea();
     }
@@ -3241,6 +3232,7 @@ void YFrameWindow::updateNetWMStrutPartial() {
         fStrutRight = r;
         fStrutTop = t;
         fStrutBottom = b;
+        fHaveStruts = l | r | t | b;
         MSG(("strut: %d %d %d %d", l, r, t, b));
         manager->updateWorkArea();
     }

@@ -113,6 +113,7 @@ private:
     CtrlAltDelete* ctrlAltDelete;
     SwitchWindow* switchWindow;
 
+    void createTaskBar();
     void runRestart(const char *path, char *const *args);
 
     FocusModels focusMode;

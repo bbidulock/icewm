@@ -413,6 +413,7 @@ public:
     int strutRight() { return fStrutRight; }
     int strutTop() { return fStrutTop; }
     int strutBottom() { return fStrutBottom; }
+    bool haveStruts() const { return fHaveStruts; }
 
     void updateUrgency();
     void setWmUrgency(bool wmUrgency);
@@ -511,6 +512,7 @@ private:
     int fShapeBorderX;
     int fShapeBorderY;
 
+    bool fHaveStruts;
     bool fWmUrgency;
     bool fClientUrgency;
 
