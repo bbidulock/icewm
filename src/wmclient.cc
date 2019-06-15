@@ -15,6 +15,32 @@
 #include "sysdep.h"
 #include "yxcontext.h"
 
+bool operator==(const XSizeHints& a, const XSizeHints& b) {
+    return (a.flags & PAllHints) == (b.flags & PAllHints) &&
+        (notbit(a.flags, USPosition|PPosition) ||
+               (a.x == b.x && a.y == b.y)) &&
+        (notbit(a.flags, USSize|PSize) ||
+               (a.width == b.width && a.height == b.height)) &&
+        (notbit(a.flags, PMinSize) ||
+               (a.min_width == b.min_width && a.min_height == b.min_height)) &&
+        (notbit(a.flags, PMaxSize) ||
+               (a.max_width == b.max_width && a.max_height == b.max_height)) &&
+        (notbit(a.flags, PResizeInc) ||
+               (a.width_inc == b.width_inc && a.height_inc == b.height_inc)) &&
+        (notbit(a.flags, PAspect) ||
+               (a.min_aspect.x == b.min_aspect.x &&
+                a.min_aspect.y == b.min_aspect.y &&
+                a.max_aspect.x == b.max_aspect.x &&
+                a.max_aspect.y == b.max_aspect.y)) &&
+        (notbit(a.flags, PBaseSize) ||
+               (a.base_width == b.base_width &&
+                a.base_height == b.base_height)) &&
+        (notbit(a.flags, PWinGravity) || a.win_gravity == b.win_gravity) ;
+}
+bool operator!=(const XSizeHints& a, const XSizeHints& b) {
+    return !(a == b);
+}
+
 YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win):
     YWindow(parent, win),
     fWindowTitle(),
@@ -266,7 +292,7 @@ void YFrameClient::gravityOffsets(int &xp, int &yp) {
     xp = 0;
     yp = 0;
 
-    if (fSizeHints == 0)
+    if (fSizeHints == 0 || notbit(fSizeHints->flags, PWinGravity))
         return;
 
     static struct {
@@ -505,18 +531,22 @@ void YFrameClient::handleUnmap(const XUnmapEvent &unmap) {
 
     MSG(("UnmapWindow"));
 
-    XEvent ev;
-    if (XCheckTypedWindowEvent(xapp->display(), unmap.window,
-                               DestroyNotify, &ev)) {
-        YWindow::handleDestroyWindow(ev.xdestroywindow);
-        manager->destroyedClient(unmap.window);
-    } else {
-        if (adopted()) {
-            // When destroyed set wfDestroyed flag.
-            XWindowAttributes attr;
-            getWindowAttributes(&attr);
+    bool unmanage = true;
+    bool destroy = false;
+    do {
+        XEvent ev;
+        if (XCheckTypedWindowEvent(xapp->display(), unmap.window,
+                                   DestroyNotify, &ev)) {
+            YWindow::handleDestroyWindow(ev.xdestroywindow);
+            manager->destroyedClient(unmap.window);
+            unmanage = false;
         }
-        manager->unmanageClient(unmap.window, false);
+        else {
+            destroy = (adopted() && destroyed() == false && testDestroyed());
+        }
+    } while (unmanage && destroy);
+    if (unmanage) {
+        manager->unmanageClient(this);
     }
 }
 
@@ -555,9 +585,14 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
 
     case XA_WM_NORMAL_HINTS:
         if (new_prop) prop.wm_normal_hints = true;
-        getSizeHints();
-        if (getFrame())
-            getFrame()->updateMwmHints();
+        if (fSizeHints) {
+            XSizeHints old(*fSizeHints);
+            getSizeHints();
+            if (old != *fSizeHints) {
+                if (getFrame())
+                    getFrame()->updateMwmHints();
+            }
+        }
         prop.wm_normal_hints = new_prop;
         break;
 
@@ -630,13 +665,19 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
                 getFrame()->updateIcon();
             prop.net_wm_icon = new_prop;
         } else if (property.atom == _XA_WIN_HINTS) {
+            long old = fWinHints;
             if (new_prop) prop.win_hints = true;
             getWinHintsHint(&fWinHints);
-
             if (getFrame()) {
-                getFrame()->getFrameHints();
+                if (hasbit(old ^ fWinHints,
+                            WinHintsSkipFocus |
+                            WinHintsSkipWindowMenu |
+                            WinHintsSkipTaskBar))
+                    getFrame()->getFrameHints();
+                if (hasbit(fWinHints, WinHintsDoNotCover))
                     manager->updateWorkArea();
-                getFrame()->updateTaskBar();
+                if (hasbit(old ^ fWinHints, WinHintsSkipTaskBar))
+                    getFrame()->updateTaskBar();
             }
             prop.win_hints = new_prop;
         } else if (property.atom == _XA_WIN_WORKSPACE) {
@@ -1826,7 +1867,7 @@ bool YFrameClient::getNetWMStrut(int *left, int *right, int *top, int *bottom) {
     int r_format;
     unsigned long count;
     unsigned long bytes_remain;
-    unsigned char *prop(0);
+    xsmart<unsigned char> prop;
 
     if (XGetWindowProperty(xapp->display(),
                            handle(),
@@ -1836,37 +1877,20 @@ bool YFrameClient::getNetWMStrut(int *left, int *right, int *top, int *bottom) {
                            &count, &bytes_remain, &prop) == Success && prop)
     {
         if (r_type == XA_CARDINAL && r_format == 32 && count == 4U) {
-            long *strut = (long *)prop;
-
-            MSG(("got strut"));
+            long *strut = prop.convert<long>();
             *left = strut[0];
             *right = strut[1];
             *top = strut[2];
             *bottom = strut[3];
-
-            XFree(prop);
+            MSG(("got strut %d, %d, %d, %d", *left, *right, *top, *bottom));
             return true;
         }
-        XFree(prop);
     }
     return false;
 }
 
-bool YFrameClient::getNetWMStrutPartial(int *left, int *right, int *top, int *bottom,
-        int *left_start_y, int *left_end_y, int *right_start_y, int* right_end_y,
-        int *top_start_x, int *top_end_x, int *bottom_start_x, int *bottom_end_x) {
-    if (left_start_y   != 0) *left_start_y   = 0;
-    if (left_end_y     != 0) *left_end_y     = 0;
-    if (right_start_y  != 0) *right_start_y  = 0;
-    if (right_end_y    != 0) *right_end_y    = 0;
-    if (top_start_x    != 0) *top_start_x    = 0;
-    if (top_end_x      != 0) *top_end_x      = 0;
-    if (bottom_start_x != 0) *bottom_start_x = 0;
-    if (bottom_end_x   != 0) *bottom_end_x   = 0;
-
-    if (prop.net_wm_strut)
-        return false;
-
+bool YFrameClient::getNetWMStrutPartial(int *left, int *right, int *top, int *bottom)
+{
     *left   = 0;
     *right  = 0;
     *top    = 0;
@@ -1879,7 +1903,7 @@ bool YFrameClient::getNetWMStrutPartial(int *left, int *right, int *top, int *bo
     int r_format;
     unsigned long count;
     unsigned long bytes_remain;
-    unsigned char *prop(0);
+    xsmart<unsigned char> prop;
 
     if (XGetWindowProperty(xapp->display(),
                            handle(),
@@ -1889,26 +1913,14 @@ bool YFrameClient::getNetWMStrutPartial(int *left, int *right, int *top, int *bo
                            &count, &bytes_remain, &prop) == Success && prop)
     {
         if (r_type == XA_CARDINAL && r_format == 32 && count == 12U) {
-            long *strut = (long *)prop;
-
-            MSG(("got strut partial"));
+            long *strut = prop.convert<long>();
             *left = strut[0];
             *right = strut[1];
             *top = strut[2];
             *bottom = strut[3];
-            if (left_start_y != 0) *left_start_y = strut[4];
-            if (left_end_y != 0) *left_end_y = strut[5];
-            if (right_start_y != 0) *right_start_y = strut[6];
-            if (right_end_y != 0) *right_end_y = strut[7];
-            if (top_start_x != 0) *top_start_x = strut[8];
-            if (top_end_x != 0) *top_end_x = strut[9];
-            if (bottom_start_x != 0) *bottom_start_x = strut[10];
-            if (bottom_end_x != 0) *bottom_end_x = strut[11];
-
-            XFree(prop);
+            MSG(("strut partial %d, %d, %d, %d", *left, *right, *top, *bottom));
             return true;
         }
-        XFree(prop);
     }
     return false;
 }

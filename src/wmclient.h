@@ -178,9 +178,7 @@ public:
     bool getNetWMDesktopHint(long *workspace);
     bool getNetWMPid(long *pid);
     bool getNetWMStrut(int *left, int *right, int *top, int *bottom);
-    bool getNetWMStrutPartial(int *left, int *right, int *top, int *bottom,
-            int *left_start_y=0, int *left_end_y=0, int *right_start_y=0, int *right_end_y=0,
-            int *top_start_x=0, int *top_end_x=0, int *bottom_start_x=0, int *bottom_end_x=0);
+    bool getNetWMStrutPartial(int *left, int *right, int *top, int *bottom);
     bool getNetStartupId(unsigned long &time);
     bool getNetWMUserTime(Window window, unsigned long &time);
     bool getNetWMUserTimeWindow(Window &window);
