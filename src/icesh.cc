@@ -1397,6 +1397,7 @@ bool IceSh::icewmAction()
         { "windowlist", ICEWM_ACTION_WINDOWLIST },
         { "restart",    ICEWM_ACTION_RESTARTWM },
         { "suspend",    ICEWM_ACTION_SUSPEND },
+        { "winoptions", ICEWM_ACTION_WINOPTIONS },
     };
     for (int i = 0; i < int ACOUNT(sa); ++i) {
         if (0 == strcmp(*argp, sa[i].s)) {
@@ -1871,6 +1872,8 @@ void IceSh::flags()
 {
     bool act = false;
 
+    signal(SIGHUP, SIG_IGN);
+
     while (haveArg()) {
         if (argp[0][0] == '-') {
             char* arg = getArg();
@@ -1891,6 +1894,7 @@ void IceSh::flags()
                 setWindow(w);
                 parseAction();
             }
+            flush();
         }
     }
 
@@ -2439,8 +2443,6 @@ void IceSh::parseAction()
             msg(_("Unknown action: `%s'"), *argp);
             THROW(1);
         }
-
-        flush();
     }
 }
 

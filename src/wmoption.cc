@@ -389,8 +389,10 @@ static char *parseWinOptions(char *data, const char* filename) {
 void loadWinOptions(upath optFile) {
     if (optFile.nonempty()) {
         csmart buf(optFile.loadText());
-        if (buf)
+        if (buf) {
+            defOptions = null;
             parseWinOptions(buf, optFile.string());
+        }
     }
 }
 

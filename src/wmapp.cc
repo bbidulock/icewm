@@ -935,6 +935,8 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
     } else if (action == actionWindowList) {
         if (windowList)
             windowList->showFocused(-1, -1);
+    } else if (action == actionWinOptions) {
+        loadWinOptions(findConfigFile("winoptions"));
     } else if (action == actionCollapseTaskbar && taskBar) {
         taskBar->handleCollapseButton();
         manager->focusLastWindow();
@@ -1128,7 +1130,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
     catchSignal(SIGCHLD);
     catchSignal(SIGUSR2);
 
-    loadWinOptions(findConfigFile("winoptions"));
+    actionPerformed(actionWinOptions, 0);
     MenuLoader(this, this, this).loadMenus(findConfigFile("keys"), 0);
 
     XSetErrorHandler(handler);
@@ -1743,6 +1745,9 @@ void YWMApp::handleSMAction(WMAction message) {
         break;
     case ICEWM_ACTION_SUSPEND:
         YWindowManager::execAfterFork(suspendCommand);
+        break;
+    case ICEWM_ACTION_WINOPTIONS:
+        wmapp->actionPerformed(actionWinOptions, 0);
         break;
     }
 }
