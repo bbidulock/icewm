@@ -1772,7 +1772,7 @@ YFrameWindow *YWindowManager::getLastFocus(bool skipAllWorkspaces, long workspac
         }
     }
 
-    if (toFocus == 0) {
+    if (toFocus == nullptr && clickFocus == false) {
         toFocus = getFrameUnderMouse(workspace);
     }
 
