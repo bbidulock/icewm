@@ -517,6 +517,13 @@ Place workspace pager on left, not right.
 
 Place workspace pager on top row when using dual-height taskbar.
 
+=item B<TaskBarWorkspacesLimit>=""
+
+Limit the number of taskbar workspaces buttons which are shown on the
+workspaces pane of the taskbar. If the numeric value has a C<p> suffix
+then the limitation is in pixels. A C<%> suffix limits by percentage of
+desktop width. By default a C<B> suffix is assumed for number of buttons.
+
 =item B<TaskBarUseMouseWheel>=1
 
 Enable mouse wheel cycling over workspaces and task buttons in taskbar.
