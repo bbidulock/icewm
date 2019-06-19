@@ -7,10 +7,21 @@
 #include "ypointer.h"
 
 class YMenu;
+class YInputLine;
+class YInputMenu;
+
+class YInputListener {
+public:
+    virtual void inputReturn(YInputLine* input) = 0;
+    virtual void inputEscape(YInputLine* input) = 0;
+    virtual void inputLostFocus(YInputLine* input) = 0;
+protected:
+    virtual ~YInputListener() {}
+};
 
 class YInputLine: public YWindow, public YTimerListener, public YActionListener {
 public:
-    YInputLine(YWindow *parent = 0);
+    YInputLine(YWindow *parent = 0, YInputListener *listener = 0);
     virtual ~YInputLine();
 
     void setText(const ustring &text, bool asMarked);
@@ -41,8 +52,8 @@ public:
     bool deleteToBegin();
     void selectAll();
     void unselectAll();
-    void cutSelection();
-    void copySelection();
+    bool cutSelection();
+    bool copySelection();
     void complete();
 
 private:
@@ -62,6 +73,7 @@ private:
     bool fCursorVisible;
     bool fSelecting;
     const short fBlinkTime;
+    YInputListener* fListener;
 
     ref<YFont> inputFont;
     YColorName inputBg;
@@ -69,13 +81,7 @@ private:
     YColorName inputSelectionBg;
     YColorName inputSelectionFg;
     lazy<YTimer> cursorBlinkTimer;
-    osmart<YMenu> inputMenu;
-
-    YAction actionCut;
-    YAction actionCopy;
-    YAction actionPaste;
-    YAction actionSelectAll;
-    YAction actionPasteSelection;
+    lazy<YInputMenu> inputMenu;
 
 private: // not-used
     YInputLine(const YInputLine &);

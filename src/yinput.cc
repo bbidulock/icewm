@@ -7,17 +7,24 @@
 #include "globit.h"
 #include "yinputline.h"
 #include "ymenu.h"
-#include "ymenuitem.h"
 #include "yxapp.h"
 #include "prefs.h"
 #include "intl.h"
-
-#ifndef UINT_MAX
-#include <limits.h>
-#endif
 #include <X11/keysym.h>
 
-YInputLine::YInputLine(YWindow *parent):
+class YInputMenu: public YMenu {
+public:
+    YInputMenu() {
+        addItem(_("_Copy"), -2, _("Ctrl+C"), actionCopy);
+        addItem(_("Cu_t"), -2, _("Ctrl+X"), actionCut);
+        addItem(_("_Paste"), -2, _("Ctrl+V"), actionPaste);
+        addItem(_("Paste _Selection"), -2, _("Ctrl+P"), actionPasteSelection);
+        addSeparator();
+        addItem(_("Select _All"), -2, _("Ctrl+A"), actionSelectAll);
+    }
+};
+
+YInputLine::YInputLine(YWindow *parent, YInputListener *listener):
     YWindow(parent),
     fText(null),
     markPos(0),
@@ -28,25 +35,14 @@ YInputLine::YInputLine(YWindow *parent):
     fCursorVisible(true),
     fSelecting(false),
     fBlinkTime(333),
+    fListener(listener),
     inputFont(YFont::getFont(XFA(inputFontName))),
     inputBg(&clrInput),
     inputFg(&clrInputText),
     inputSelectionBg(&clrInputSelection),
     inputSelectionFg(&clrInputSelectionText),
-    inputMenu(new YMenu())
+    inputMenu()
 {
-    inputMenu->setActionListener(this);
-    inputMenu->addItem(_("_Copy"), -2, _("Ctrl+C"), actionCopy)
-             ->setEnabled(true);
-    inputMenu->addItem(_("Cu_t"), -2, _("Ctrl+X"), actionCut)
-             ->setEnabled(true);
-    inputMenu->addItem(_("_Paste"), -2, _("Ctrl+V"), actionPaste)
-             ->setEnabled(true);
-    inputMenu->addItem(_("Paste _Selection"), -2, _("Ctrl+P"), actionPasteSelection)
-             ->setEnabled(true);
-    inputMenu->addSeparator();
-    inputMenu->addItem(_("Select _All"), -2, _("Ctrl+A"), actionSelectAll);
-
     if (inputFont != null)
         setSize(width(), inputFont->height() + 2);
 }
@@ -170,9 +166,19 @@ bool YInputLine::handleKey(const XKeyEvent &key) {
             case '\\':
                 unselectAll();
                 return true;
+            case 'u':
+            case 'U':
+                if ( !deleteSelection())
+                    deleteToBegin();
+                return true;
             case 'v':
             case 'V':
                 requestSelection(false);
+                return true;
+            case 'w':
+            case 'W':
+                if ( !deleteSelection())
+                    deletePreviousWord();
                 return true;
             case 'X':
             case 'x':
@@ -285,6 +291,21 @@ bool YInputLine::handleKey(const XKeyEvent &key) {
             complete();
             break;
         default:
+            if (fListener &&
+                ((k == XK_Return && m == 0) ||
+                 (k == XK_KP_Enter && m == 0) ||
+                 (k == XK_j && m == ControlMask) ||
+                 (k == XK_m && m == ControlMask)))
+            {
+                fListener->inputReturn(this);
+                return true;
+            }
+            else if (fListener && (k == XK_Escape && m == 0))
+            {
+                fListener->inputEscape(this);
+                return true;
+            }
+            else
             {
                 char s[16];
 
@@ -375,10 +396,10 @@ void YInputLine::handleClickDown(const XButtonEvent &down, int count) {
 
 void YInputLine::handleClick(const XButtonEvent &up, int /*count*/) {
     if (up.button == 3 && IS_BUTTON(up.state, Button3Mask)) {
-        if (inputMenu)
-            inputMenu->popup(this, 0, 0, up.x_root, up.y_root,
-                             YPopupWindow::pfCanFlipVertical |
-                             YPopupWindow::pfCanFlipHorizontal);
+        inputMenu->setActionListener(this);
+        inputMenu->popup(this, 0, 0, up.x_root, up.y_root,
+                         YPopupWindow::pfCanFlipVertical |
+                         YPopupWindow::pfCanFlipHorizontal);
     } else if (up.button == 2 && IS_BUTTON(up.state, Button2Mask)) {
         requestSelection(true);
     }
@@ -441,6 +462,9 @@ void YInputLine::handleFocus(const XFocusChangeEvent &focus) {
         fHasFocus = false;
         repaint();
         cursorBlinkTimer = null;
+        if (fListener) {
+            fListener->inputLostFocus(this);
+        }
     }
 }
 
@@ -636,29 +660,15 @@ void YInputLine::unselectAll() {
         repaint();
     }
 }
-void YInputLine::cutSelection() {
-    if (fText == null)
-        return ;
-    if (hasSelection()) {
-        copySelection();
-        deleteSelection();
-    }
+
+bool YInputLine::cutSelection() {
+    return copySelection() && deleteSelection();
 }
 
-void YInputLine::copySelection() {
-    int min, max;
-    if (hasSelection()) {
-        if (fText == null)
-            return ;
-        if (curPos > markPos) {
-            min = markPos;
-            max = curPos;
-        } else {
-            min = curPos;
-            max = markPos;
-        }
-        xapp->setClipboardText(fText.substring(min, max - min));
-    }
+bool YInputLine::copySelection() {
+    int min = ::min(curPos, markPos), max = ::max(curPos, markPos);
+    return min < max && fText.nonempty()
+        && (xapp->setClipboardText(fText.substring(min, max - min)), true);
 }
 
 void YInputLine::actionPerformed(YAction action, unsigned int /*modifiers*/) {
