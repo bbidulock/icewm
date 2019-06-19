@@ -280,19 +280,22 @@ void YButton::handleButton(const XButtonEvent &button) {
                     setArmed(false, false);
                     setSelected(false);
                 }
-            } else {
-                bool wasArmed = fArmed;
-
-                setArmed(false, false);
-                setSelected(false);
-                if (wasArmed) {
-                    actionPerformed(fAction, button.state);
-                    return ;
-                }
             }
         }
     }
     YWindow::handleButton(button);
+}
+
+void YButton::handleClick(const XButtonEvent &button, int count) {
+    if (fEnabled && fPopup == 0) {
+        bool wasArmed = fArmed;
+
+        setArmed(false, false);
+        setSelected(false);
+        if (wasArmed && count == 1 && button.button == Button1) {
+            actionPerformed(fAction, button.state);
+        }
+    }
 }
 
 void YButton::handleCrossing(const XCrossingEvent &crossing) {
