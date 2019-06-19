@@ -47,8 +47,6 @@
 
 #include "intl.h"
 
-lazy<YTimer> WorkspaceButton::fRaiseTimer;
-
 TaskBar *taskBar = 0;
 
 YColorName taskBarBg(&clrDefaultTaskBar);
@@ -1052,10 +1050,9 @@ void TaskBar::showAddressBar() {
 }
 
 void TaskBar::setWorkspaceActive(long workspace, bool active) {
-    if (fWorkspaces != 0 &&
-        fWorkspaces->workspaceButton(workspace) != 0)
-    {
-        fWorkspaces->workspaceButton(workspace)->setPressed(active);
+    if (taskBarShowWorkspaces && fWorkspaces) {
+        fWorkspaces->setPressed(workspace, active);
+        relayout();
     }
 }
 
