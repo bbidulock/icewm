@@ -21,10 +21,7 @@
 
 #include "intl.h"
 
-long workspaceCount = 0;
-char *workspaceNames[MAXWORKSPACES];
-YAction workspaceActionActivate[MAXWORKSPACES];
-YAction workspaceActionMoveTo[MAXWORKSPACES];
+YStringArray configWorkspaces;
 
 void WMConfig::loadConfiguration(IApp *app, const char *fileName) {
     YConfig::findLoadConfigFile(app, icewm_preferences, fileName);
@@ -45,20 +42,11 @@ void WMConfig::freeConfiguration() {
     YConfig::freeConfig(icewm_themable_preferences);
 }
 
-void addWorkspace(const char * /*name*/, const char *value, bool append) {
+void addWorkspace(const char *, const char *value, bool append) {
     if (!append) {
-        for (long i = 0; i < workspaceCount; i++) {
-            delete[] workspaceNames[i];
-            workspaceNames[i] = nullptr;
-        }
-        workspaceCount = 0;
+        configWorkspaces.clear();
     }
-
-    if (workspaceCount >= MAXWORKSPACES)
-        return;
-    workspaceNames[workspaceCount] = newstr(value);
-    PRECONDITION(workspaceNames[workspaceCount] != NULL);
-    workspaceCount++;
+    configWorkspaces += value;
 }
 
 static const struct {

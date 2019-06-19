@@ -17,6 +17,7 @@
 #include "wmmgr.h"
 #include "wmframe.h"
 #include "wmwinmenu.h"
+#include "workspaces.h"
 
 #include "intl.h"
 
@@ -110,7 +111,7 @@ void WindowListMenu::updatePopup() {
 
     bool first = true;
 
-    for (long d = 0; d < manager->workspaceCount(); d++) {
+    for (long d = 0; d < workspaceCount; d++) {
         if (d == manager->activeWorkspace())
             continue;
         if (first) {
@@ -120,7 +121,7 @@ void WindowListMenu::updatePopup() {
         char s[128];
         snprintf(s, sizeof s,
                 _("%lu. Workspace %-.32s"), (unsigned long)(d + 1),
-                manager->workspaceName(d));
+                workspaceNames[d]);
 
         YMenu *sub = 0;
         if (manager->windowCount(d) > 0) // !!! do lazy create menu instead

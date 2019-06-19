@@ -2,7 +2,7 @@
 
 #include "ylib.h"
 #include "aworkspaces.h"
-#include "applet.h"
+#include "workspaces.h"
 #include "prefs.h"
 #include "wmmgr.h"
 #include "wmapp.h"
@@ -34,7 +34,7 @@ WorkspaceButton::WorkspaceButton(long ws, YWindow *parent):
 {
     fWorkspace = ws;
     //setDND(true);
-    setTitle(manager->workspaceName(ws));
+    setTitle(workspaceNames[ws]);
 }
 
 void WorkspaceButton::handleClick(const XButtonEvent &up, int /*count*/) {
@@ -139,9 +139,6 @@ WorkspacesPane::~WorkspacesPane() {
         for (long w = 0; w < fWorkspaceButtonCount; w++)
             delete fWorkspaceButton[w];
         delete [] fWorkspaceButton;
-    }
-    for (int i = workspaceCount; --i >= 0; --workspaceCount) {
-        delete[] workspaceNames[i]; workspaceNames[i] = 0;
     }
 }
 

@@ -78,9 +78,7 @@ void WindowOptions::setWinOption(ustring n_class_instance,
         op->icon = newstr(arg);
     } else if (strcmp(opt, "workspace") == 0) {
         int workspace = atoi(arg);
-        op->workspace = inrange(workspace, 0, MAXWORKSPACES - 1)
-                      ? workspace
-                      : WinWorkspaceInvalid;
+        op->workspace = max(workspace, int(WinWorkspaceInvalid));
     } else if (strcmp(opt, "order") == 0) {
         op->order = atoi(arg);
     } else if (strcmp(opt, "opacity") == 0) {

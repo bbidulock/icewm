@@ -84,7 +84,10 @@ private:
 
 public:
     bool windowTrayRequestDock(Window w);
-    void setWorkspaceActive(long workspace, int active);
+    void setWorkspaceActive(long workspace, bool active);
+    void workspacesRepaint();
+    void workspacesUpdateButtons();
+    void workspacesRelabelButtons();
 
     void removeTasksApp(YFrameWindow *w);
     class TaskBarApp *addTasksApp(YFrameWindow *w);

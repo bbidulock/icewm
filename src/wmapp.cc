@@ -6,15 +6,16 @@
 #include "config.h"
 
 #include "yfull.h"
+#include "wmprog.h"
+#include "wmwinmenu.h"
+#include "workspaces.h"
 #include "wmapp.h"
 #include "wmframe.h"
-#include "wmprog.h"
 #include "wmswitch.h"
 #include "wmstatus.h"
 #include "wmabout.h"
 #include "wmdialog.h"
 #include "wmconfig.h"
-#include "wmwinmenu.h"
 #include "wmwinlist.h"
 #include "wmtaskbar.h"
 #include "wmsession.h"
@@ -1120,9 +1121,6 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
     DEPRECATE(dontRotateMenuPointer == false);
     DEPRECATE(lowerOnClickWhenRaised == true);
 
-    if (workspaceCount == 0)
-        addWorkspace(0, " 0 ", false);
-
     catchSignal(SIGINT);
     catchSignal(SIGTERM);
     catchSignal(SIGQUIT);
@@ -1207,13 +1205,6 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
         }
     }
 
-    statusMoveSize = new MoveSizeStatus(manager);
-    statusWorkspace = WorkspaceStatus::createInstance(manager);
-
-    windowList = new WindowList(manager, this);
-
-    createTaskBar();
-
     manager->initWorkspaces();
 
     manager->grabKeys();
@@ -1225,6 +1216,8 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
     if (haveSessionManager())
         loadWindowInfo();
 #endif
+
+    windowList = new WindowList(manager, this);
 
     initializing = false;
 }
@@ -1240,8 +1233,10 @@ YWMApp::~YWMApp() {
     delete ctrlAltDelete; ctrlAltDelete = 0;
     delete taskBar; taskBar = 0;
 
-    delete statusMoveSize; statusMoveSize = 0;
-    delete statusWorkspace; statusWorkspace = 0;
+    if (statusMoveSize)
+        statusMoveSize = null;
+    if (statusWorkspace)
+        statusWorkspace = null;
 
     delete rootMenu; rootMenu = 0;
     delete windowListPopup; windowListPopup = 0;

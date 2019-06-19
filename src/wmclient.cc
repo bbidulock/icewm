@@ -14,6 +14,7 @@
 #include "wmapp.h"
 #include "sysdep.h"
 #include "yxcontext.h"
+#include "workspaces.h"
 
 bool operator==(const XSizeHints& a, const XSizeHints& b) {
     return (a.flags & PAllHints) == (b.flags & PAllHints) &&

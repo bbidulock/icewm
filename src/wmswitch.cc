@@ -13,6 +13,7 @@
 #include "yxapp.h"
 #include "prefs.h"
 #include "yprefs.h"
+#include "workspaces.h"
 
 // for vertical quickswitch, reuse some colors from the menu because those
 // from flat quickswitch often look odd (not enough contrast)

@@ -21,6 +21,7 @@
 #include "wmapp.h"
 #include "wmaction.h"
 #include "wmprog.h"
+#include "workspaces.h"
 #include "sysdep.h"
 #include "wmwinlist.h"
 
@@ -1050,11 +1051,31 @@ void TaskBar::showAddressBar() {
         fAddressBar->showNow();
 }
 
-void TaskBar::setWorkspaceActive(long workspace, int active) {
+void TaskBar::setWorkspaceActive(long workspace, bool active) {
     if (fWorkspaces != 0 &&
         fWorkspaces->workspaceButton(workspace) != 0)
     {
         fWorkspaces->workspaceButton(workspace)->setPressed(active);
+    }
+}
+
+void TaskBar::workspacesRepaint() {
+    if (taskBarShowWorkspaces && fWorkspaces) {
+        fWorkspaces->repaint();
+    }
+}
+
+void TaskBar::workspacesUpdateButtons() {
+    if (taskBarShowWorkspaces && fWorkspaces) {
+        fWorkspaces->updateButtons();
+        relayout();
+    }
+}
+
+void TaskBar::workspacesRelabelButtons() {
+    if (taskBarShowWorkspaces && fWorkspaces) {
+        fWorkspaces->relabelButtons();
+        relayout();
     }
 }
 

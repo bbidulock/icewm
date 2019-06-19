@@ -9,6 +9,7 @@
 #include "wmtitle.h"
 #include "wmapp.h"
 #include "wmcontainer.h"
+#include "workspaces.h"
 #include "wpixmaps.h"
 #include "ymenuitem.h"
 #include "yrect.h"

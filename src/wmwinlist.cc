@@ -11,6 +11,7 @@
 #include "prefs.h"
 #include "wmframe.h"
 #include "wmapp.h"
+#include "workspaces.h"
 #include <assert.h>
 #include "intl.h"
 

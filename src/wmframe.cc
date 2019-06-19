@@ -21,7 +21,7 @@
 #include "wmapp.h"
 #include "yrect.h"
 #include "wpixmaps.h"
-#include "aworkspaces.h"
+#include "workspaces.h"
 #include "yxcontext.h"
 
 #include "intl.h"
@@ -197,8 +197,8 @@ YFrameWindow::~YFrameWindow() {
 
     // update pager when unfocused windows are killed, because this
     // does not call YWindowManager::updateFullscreenLayer()
-    if (!focused() && taskBar && taskBar->workspacesPane()) {
-        taskBar->workspacesPane()->repaint();
+    if (!focused() && taskBar) {
+        taskBar->workspacesRepaint();
     }
 }
 
@@ -650,7 +650,7 @@ void YFrameWindow::getNewPos(const XConfigureRequestEvent &cr,
     // update pager when windows move/resize themselves (like xmms, gmplayer, ...),
     // because this does not call YFrameWindow::endMoveSize()
     if (taskBar && taskBar->workspacesPane()) {
-        taskBar->workspacesPane()->repaint();
+        taskBar->workspacesRepaint();
     }
 }
 
