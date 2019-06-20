@@ -43,9 +43,10 @@ public:
     virtual void raise();
     virtual void lower();
 
-    void repaint();
-    void repaintFocus();
-    void repaintSync();
+    virtual void repaint();
+    virtual void repaintFocus();
+    virtual void repaintSync();
+
     void readAttributes();
     void reparent(YWindow *parent, int x, int y);
     bool getWindowAttributes(XWindowAttributes* attr);
@@ -67,7 +68,6 @@ public:
 
 
     virtual void paint(Graphics &g, const YRect &r);
-    virtual void paintFocus(Graphics &, const YRect &) {}
 
     virtual void handleEvent(const XEvent &event);
 
@@ -166,7 +166,7 @@ public:
         wsSaveUnder        = 1 << 1,
         wsManager          = 1 << 2,
         wsInputOnly        = 1 << 3,
-        wsOutputOnly       = 1 << 4,
+        wsNoExpose         = 1 << 4,
         wsPointerMotion    = 1 << 5,
         wsDesktopAware     = 1 << 6,
         wsToolTip          = 1 << 7,
