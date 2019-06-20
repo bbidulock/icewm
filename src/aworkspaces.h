@@ -30,6 +30,7 @@ public:
     mstring baseName();
     void setPosition(int x, int y);
     int extent() const { return x() + int(width()); }
+    virtual void repaint();
 
 private:
     virtual void handleButton(const XButtonEvent &button);
@@ -61,6 +62,7 @@ private:
     int fDelta;
     int fDownX;
     bool fDragging;
+    bool fPainted;
     lazy<YTimer> fRaiseTimer;
     osmart<YInputLine> fInput;
     WorkspaceDragger* fPane;

@@ -28,6 +28,7 @@ WorkspaceButton::WorkspaceButton(int ws, YWindow *parent, WorkspaceDragger* d):
     fDelta(0),
     fDownX(0),
     fDragging(false),
+    fPainted(false),
     fPane(d)
 {
     setParentRelative();
@@ -40,6 +41,14 @@ void WorkspaceButton::configure(const YRect& r) {
         fWidth = r.width();
         fHeight = r.height();
         repaint();
+    }
+}
+
+void WorkspaceButton::repaint() {
+    if (fPainted && visible()) {
+        paint(getGraphics(), YRect(0, 0, fWidth, fHeight));
+    } else {
+        super::repaint();
     }
 }
 
@@ -58,6 +67,7 @@ void WorkspaceButton::paintBackground(Graphics& g, const YRect& r) {
         g.setColor(taskBarBg);
         g.fillRect(r.x(), r.y(), r.width(), r.height());
     }
+    fPainted = true;
 }
 
 void WorkspaceButton::handleButton(const XButtonEvent &button) {
@@ -115,7 +125,10 @@ void WorkspaceButton::handleCrossing(const XCrossingEvent &e) {
         fDelta = e.x_root - fDownX;
         fPane->drag(fWorkspace, fDelta, false, true);
     }
-    super::handleCrossing(e);
+
+    if (false == pagerShowPreview) {
+       super::handleCrossing(e);
+    }
 }
 
 void WorkspaceButton::handleDNDEnter() {
@@ -316,11 +329,20 @@ void WorkspacesPane::repositionButtons() {
     MSG(("WorkspacesPane::repositionButtons()"));
     fRepositioning = true;
     int width = 0;
-    for (IterType wk = iterator(); ++wk; width += wk->width()) {
+    asmart<int> xs(new int[count()]);
+    IterType wk = iterator();
+    for (; ++wk; width += wk->width()) {
         if (wk->height() != height())
             wk->setSize(wk->width(), height());
-        if (wk->x() != width + fMoved)
-            wk->setPosition(width + fMoved, 0);
+        xs[wk.where()] = width + fMoved;
+        if (xs[wk.where()] < wk->x()) {
+            wk->setPosition(xs[wk.where()], 0);
+        }
+    }
+    while (--wk) {
+        if (wk->x() < xs[wk.where()]) {
+            wk->setPosition(xs[wk.where()], 0);
+        }
     }
     if (fReconfiguring == false)
         resize(width, height());
