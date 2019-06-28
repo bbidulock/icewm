@@ -472,11 +472,12 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
     YArray<LayoutInfo> wlist;
     wlist.setCapacity(13);
 
-    nw = LayoutInfo( fApplications, true, 1, true, 0, 0, true );
+    bool issue314 = taskBarAtTop;
+    nw = LayoutInfo( fApplications, true, issue314, true, 0, 0, true );
     wlist.append(nw);
-    nw = LayoutInfo( fShowDesktop, true, 0, true, 0, 0, true );
+    nw = LayoutInfo( fShowDesktop, true, !issue314, true, 0, 0, true );
     wlist.append(nw);
-    nw = LayoutInfo( fWinList, true, 0, true, 0, 0, true );
+    nw = LayoutInfo( fWinList, true, !issue314, true, 0, 0, true );
     wlist.append(nw);
     nw = LayoutInfo( fObjectBar, true, 1, true, 4, 0, true );
     wlist.append(nw);
