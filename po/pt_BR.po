@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.3.4pre2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2019-06-07 00:39+0200\n"
-"PO-Revision-Date: 2019-05-28 14:49+0000\n"
+"PO-Revision-Date: 2019-06-30 22:50+0000\n"
 "Last-Translator: Rodrigo Macedo <rmsolucoeseminformatic4@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/pt_BR/>\n"
@@ -598,10 +598,9 @@ msgstr ""
 "$DISPLAY definido."
 
 #: src/icesh.cc:1861
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'."
+#, c-format
 msgid "Invalid argument: `%s'"
-msgstr "Argumento inválido `%s'."
+msgstr "Argumento inválido `%s'"
 
 #: src/icesh.cc:1898
 msgid "No actions specified."
