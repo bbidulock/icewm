@@ -57,18 +57,15 @@ static void initPixmaps() {
 }
 
 
-EdgeTrigger::EdgeTrigger(TaskBar *owner) {
+EdgeTrigger::EdgeTrigger(TaskBar *owner):
+    fTaskBar(owner),
+    fDoShow(false)
+{
     setStyle(wsOverrideRedirect | wsInputOnly);
     setPointer(YXApplication::leftPointer);
     setDND(true);
-    if (taskBarAutoHide) {
-        setTitle("IceEdge");
-    }
-
-    fTaskBar = owner;
-
+    setTitle("IceEdge");
     fAutoHideTimer->setTimer(autoShowDelay, this, false);
-    fDoShow = false;
 }
 
 EdgeTrigger::~EdgeTrigger() {
@@ -76,14 +73,22 @@ EdgeTrigger::~EdgeTrigger() {
 
 void EdgeTrigger::startHide() {
     fDoShow = false;
-    if (fAutoHideTimer)
-        fAutoHideTimer->startTimer(autoHideDelay);
+    fAutoHideTimer->startTimer(autoHideDelay);
 }
 
 void EdgeTrigger::stopHide() {
     fDoShow = false;
-    if (fAutoHideTimer)
-        fAutoHideTimer->stopTimer();
+    fAutoHideTimer->stopTimer();
+}
+
+bool EdgeTrigger::enabled() const {
+    return (taskBarAutoHide | taskBarFullscreenAutoShow) & ~taskBarKeepBelow;
+}
+
+void EdgeTrigger::show() {
+    if (enabled()) {
+        YWindow::show();
+    }
 }
 
 void EdgeTrigger::handleCrossing(const XCrossingEvent &crossing) {
@@ -92,37 +97,29 @@ void EdgeTrigger::handleCrossing(const XCrossingEvent &crossing) {
         if (crossing.serial != last && crossing.serial != last + 1) {
             MSG(("enter notify %d %d", crossing.mode, crossing.detail));
             fDoShow = true;
-            if (fAutoHideTimer) {
-                fAutoHideTimer->startTimer(autoShowDelay);
-            }
+            fAutoHideTimer->startTimer(autoShowDelay);
         }
     } else if (crossing.type == LeaveNotify /* && crossing.mode != NotifyNormal */) {
         fDoShow = false;
         MSG(("leave notify"));
-        if (fAutoHideTimer)
-            fAutoHideTimer->stopTimer();
+        fAutoHideTimer->stopTimer();
     }
 }
 
 void EdgeTrigger::handleDNDEnter() {
     fDoShow = true;
-    if (fAutoHideTimer)
-        fAutoHideTimer->startTimer(autoShowDelay);
+    fAutoHideTimer->startTimer(autoShowDelay);
 }
 
 void EdgeTrigger::handleDNDLeave() {
     fDoShow = false;
-    if (fAutoHideTimer)
-        fAutoHideTimer->startTimer(autoHideDelay);
+    fAutoHideTimer->startTimer(autoHideDelay);
 }
 
 
 bool EdgeTrigger::handleTimer(YTimer *t) {
     MSG(("taskbar handle timer"));
-    if (t == fAutoHideTimer) {
-        fTaskBar->autoTimer(fDoShow);
-        return false;
-    }
+    fTaskBar->autoTimer(fDoShow);
     return false;
 }
 
@@ -206,20 +203,8 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
 
     setMwmHints(MwmHints(
        MWM_HINTS_FUNCTIONS | MWM_HINTS_DECORATIONS,
-       MWM_FUNC_MOVE,
-       0,
-       0,
-       0));
-
-    {
-        long arg[2];
-        arg[0] = NormalState;
-        arg[1] = 0;
-        XChangeProperty(xapp->display(), handle(),
-                        _XA_WM_STATE, _XA_WM_STATE,
-                        32, PropModeReplace,
-                        (unsigned char *)arg, 2);
-    }
+       MWM_FUNC_MOVE));
+    setFrameState(NormalState);
     setPointer(YXApplication::leftPointer);
     setDND(true);
 
@@ -654,7 +639,7 @@ void TaskBar::relayoutNow() {
 
 void TaskBar::updateFullscreen(bool fullscreen) {
     fFullscreen = fullscreen;
-    if ((fFullscreen || fIsHidden) && taskBarAutoHide)
+    if (fFullscreen || fIsHidden)
         fEdgeTrigger->show();
     else
         fEdgeTrigger->hide();
@@ -704,9 +689,7 @@ void TaskBar::updateLocation() {
 
     int by = taskBarAtTop ? dy : dy + dh - 1;
 
-    if (taskBarAutoHide) {
-        fEdgeTrigger->setGeometry(YRect(x, by, w, 1));
-    }
+    fEdgeTrigger->setGeometry(YRect(x, by, w, 1));
 
     int y = taskBarAtTop ? dy : dy + dh - h;
 
@@ -717,24 +700,15 @@ void TaskBar::updateLocation() {
         } else
             setGeometry(YRect(x, y, w, h));
     }
-    if ((fIsHidden || fFullscreen) && taskBarAutoHide)
+    if (fIsHidden || fFullscreen)
         fEdgeTrigger->show();
     else
         fEdgeTrigger->hide();
 
     MwmHints mwm(
        MWM_HINTS_FUNCTIONS | MWM_HINTS_DECORATIONS,
-       MWM_FUNC_MOVE,
-       0,
-       0,
-       0);
+       MWM_FUNC_MOVE);
     setMwmHints(mwm);
-
-    XChangeProperty(xapp->display(), handle(),
-                    _XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
-                    32, PropModeReplace,
-                    (unsigned char *)&mwm, PROP_MWM_HINTS_ELEMENTS);
-    getMwmHints();
     if (getFrame())
         getFrame()->updateMwmHints();
 

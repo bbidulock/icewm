@@ -34,6 +34,8 @@ public:
     EdgeTrigger(TaskBar *owner);
     virtual ~EdgeTrigger();
 
+    bool enabled() const;
+    void show();
     void startHide();
     void stopHide();
 
