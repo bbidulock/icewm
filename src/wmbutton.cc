@@ -69,6 +69,7 @@ void YFrameButton::handleClick(const XButtonEvent &up, int count) {
                                         YPopupWindow::pfCanFlipVertical |
                                         YPopupWindow::pfCanFlipHorizontal);
     }
+    YButton::handleClick(up, count);
 }
 
 void YFrameButton::handleBeginDrag(const XButtonEvent &down, const XMotionEvent &/*motion*/) {
