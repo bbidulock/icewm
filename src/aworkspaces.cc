@@ -45,11 +45,7 @@ void WorkspaceButton::configure(const YRect& r) {
 }
 
 void WorkspaceButton::repaint() {
-    if (fPainted && visible()) {
-        paint(getGraphics(), YRect(0, 0, fWidth, fHeight));
-    } else {
-        super::repaint();
-    }
+    super::repaint();
 }
 
 void WorkspaceButton::paintBackground(Graphics& g, const YRect& r) {
