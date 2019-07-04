@@ -128,8 +128,8 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
     } else if (!getFrame()->visibleNow()) {
         bg = invisibleTaskBarAppBg;
         fg = invisibleTaskBarAppFg;
-        bgPix = taskbackPixmap;
-        bgGrad = taskbackPixbuf;
+        bgPix = taskbuttonPixmap;
+        bgGrad = taskbuttonPixbuf;
     } else if (getFrame()->isMinimized()) {
         bg = minimizedTaskBarAppBg;
         fg = minimizedTaskBarAppFg;
