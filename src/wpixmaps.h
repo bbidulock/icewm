@@ -32,12 +32,15 @@ extern ref<YPixmap> menuButton[3];
 extern ref<YPixmap> taskbuttonPixmap;
 extern ref<YPixmap> taskbuttonactivePixmap;
 extern ref<YPixmap> taskbuttonminimizedPixmap;
+extern ref<YPixmap> taskbuttoninvisiblePixmap;
 extern ref<YPixmap> taskbuttonLeftPixmap;
 extern ref<YPixmap> taskbuttonRightPixmap;
 extern ref<YPixmap> taskbuttonactiveLeftPixmap;
 extern ref<YPixmap> taskbuttonactiveRightPixmap;
 extern ref<YPixmap> taskbuttonminimizedLeftPixmap;
 extern ref<YPixmap> taskbuttonminimizedRightPixmap;
+extern ref<YPixmap> taskbuttoninvisibleLeftPixmap;
+extern ref<YPixmap> taskbuttoninvisibleRightPixmap;
 
 extern ref<YPixmap> titleJ[2]; // Frame <=> Left buttons
 extern ref<YPixmap> titleL[2]; // Left buttons <=> Left pane
@@ -75,12 +78,15 @@ extern ref<YImage> taskbackPixbuf;
 extern ref<YImage> taskbuttonPixbuf;
 extern ref<YImage> taskbuttonactivePixbuf;
 extern ref<YImage> taskbuttonminimizedPixbuf;
+extern ref<YImage> taskbuttoninvisiblePixbuf;
 extern ref<YImage> taskbuttonLeftPixbuf;
 extern ref<YImage> taskbuttonRightPixbuf;
 extern ref<YImage> taskbuttonactiveLeftPixbuf;
 extern ref<YImage> taskbuttonactiveRightPixbuf;
 extern ref<YImage> taskbuttonminimizedLeftPixbuf;
 extern ref<YImage> taskbuttonminimizedRightPixbuf;
+extern ref<YImage> taskbuttoninvisibleLeftPixbuf;
+extern ref<YImage> taskbuttoninvisibleRightPixbuf;
 
 extern ref<YImage> toolbuttonPixbuf;
 

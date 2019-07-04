@@ -261,6 +261,9 @@ static const PixmapResource taskbarPixRes[] = {
     PixmapResource(taskbuttonPixmap, "taskbuttonbg.xpm"),
     PixmapResource(taskbuttonactivePixmap, "taskbuttonactive.xpm"),
     PixmapResource(taskbuttonminimizedPixmap, "taskbuttonminimized.xpm"),
+
+    GradientResource(taskbuttoninvisiblePixbuf, "taskbuttoninvisible.xpm"),
+    PixmapResource(taskbuttoninvisiblePixmap, "taskbuttoninvisible.xpm"),
 };
 
 static const PixmapResource taskbar2PixRes[] = {
@@ -280,6 +283,9 @@ static const PixmapResource taskbar2PixRes[] = {
     PixmapResource(taskbarShowDesktopImage, "desktop.xpm"),
     PixmapResource(taskbarCollapseImage, "collapse.xpm"),
     PixmapResource(taskbarExpandImage, "expand.xpm"),
+
+    GradientResource(taskbuttoninvisiblePixbuf, "taskbuttoninvisible.xpm"),
+    PixmapResource(taskbuttoninvisiblePixmap, "taskbuttoninvisible.xpm"),
 };
 
 static const PixmapResource mailboxPixRes[] = {
@@ -521,6 +527,9 @@ static PixmapOffset taskbuttonPixmapOffsets[] = {
     PixmapOffset(taskbuttonminimizedPixmap,
                  taskbuttonminimizedLeftPixmap,
                  taskbuttonminimizedRightPixmap),
+    PixmapOffset(taskbuttoninvisiblePixmap,
+                 taskbuttoninvisibleLeftPixmap,
+                 taskbuttoninvisibleRightPixmap),
 };
 
 static PixbufOffset taskbuttonPixbufOffsets[] = {
@@ -533,6 +542,9 @@ static PixbufOffset taskbuttonPixbufOffsets[] = {
     PixbufOffset(taskbuttonminimizedPixbuf,
                  taskbuttonminimizedLeftPixbuf,
                  taskbuttonminimizedRightPixbuf),
+    PixbufOffset(taskbuttoninvisiblePixbuf,
+                 taskbuttoninvisibleLeftPixbuf,
+                 taskbuttoninvisibleRightPixbuf),
 };
 
 static void initPixmapOffsets() {
