@@ -993,6 +993,8 @@ Command to run for address bar entries.
 
 =head2 WINDOW MENUS
 
+=over
+
 =item B<WinMenuItems>="rmsnxfhualyticw"
 
 Items supported in menu window (rmsnxfhualytickw)
@@ -1004,6 +1006,8 @@ Does it support the 'O' title bar button images (for mouse rollover).
 =item B<ShowMenuButtonIcon>=1 # 0/1
 
 Show application icon over menu button
+
+=back
 
 =head2 THEME SETTINGS
 
