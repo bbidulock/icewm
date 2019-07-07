@@ -29,6 +29,8 @@ public:
     unsigned depth() const { return fDepth; }
     ref<YImage> image();
     Pixmap pixmap32();
+    Pixmap pixmap24();
+    Pixmap pixmap(unsigned depth);
     ref<YPixmap> scale(unsigned w, unsigned h);
     ref<YPixmap> subimage(unsigned x, unsigned y, unsigned w, unsigned h);
 
@@ -42,7 +44,8 @@ private:
         fPixmap(pixmap),
         fMask(mask),
         fImage(image),
-        fPixmap32()
+        fPixmap32(),
+        fPixmap24()
     {
     }
     virtual ~YPixmap();
@@ -58,6 +61,7 @@ private:
     Pixmap fMask;
     ref<YImage> fImage;
     ref<YPixmap> fPixmap32;
+    ref<YPixmap> fPixmap24;
 };
 
 #endif

@@ -3,17 +3,11 @@
 #include "ypixmap.h"
 #include "yxapp.h"
 
-static Pixmap createPixmap(int w, int h, int depth) {
+static Pixmap createPixmap(unsigned w, unsigned h, unsigned depth) {
     return XCreatePixmap(xapp->display(), desktop->handle(), w, h, depth);
 }
 
-#if 0
-static Pixmap createPixmap(int w, int h) {
-    return createPixmap(w, h, xapp->depth());
-}
-#endif
-
-static Pixmap createMask(int w, int h) {
+static Pixmap createMask(unsigned w, unsigned h) {
     return XCreatePixmap(xapp->display(), desktop->handle(), w, h, 1);
 }
 
@@ -21,7 +15,7 @@ void YPixmap::replicate(bool horiz, bool copyMask) {
     if (pixmap() == None || (fMask == None && copyMask))
         return;
 
-    int dim(horiz ? width() : height());
+    unsigned dim(horiz ? width() : height());
     if (dim >= 128) return;
     dim = 128 + dim - 128 % dim;
 
@@ -46,6 +40,10 @@ void YPixmap::replicate(bool horiz, bool copyMask) {
         XFreePixmap(xapp->display(), fPixmap);
     if (fMask != None)
         XFreePixmap(xapp->display(), fMask);
+    if (fPixmap32 != null)
+        fPixmap32 = null;
+    if (fPixmap24 != null)
+        fPixmap24 = null;
 
     fPixmap = nPixmap;
     fMask = nMask;
@@ -74,13 +72,39 @@ ref<YImage> YPixmap::image() {
 }
 
 Pixmap YPixmap::pixmap32() {
+    if (fDepth == 32) {
+        return pixmap();
+    }
     if (fPixmap32 == null && image() != null) {
         fPixmap32 = fImage->renderToPixmap(32);
     }
     return fPixmap32 != null ? fPixmap32->pixmap() : None;
 }
 
+Pixmap YPixmap::pixmap24() {
+    if (fDepth == 24) {
+        return pixmap();
+    }
+    if (fPixmap24 == null && image() != null) {
+        fPixmap24 = fImage->renderToPixmap(24);
+    }
+    return fPixmap24 != null ? fPixmap24->pixmap() : None;
+}
+
+Pixmap YPixmap::pixmap(unsigned depth) {
+    if (depth == fDepth)
+        return pixmap();
+    if (depth == 32)
+        return pixmap32();
+    if (depth == 24)
+        return pixmap24();
+    return None;
+}
+
 ref<YPixmap> YPixmap::scale(unsigned const w, unsigned const h) {
+    if (w == width() && h == height())
+        return ref<YPixmap>(this);
+
     ref<YPixmap> pixmap;
     pixmap.init(this);
     ref<YImage> image = YImage::createFromPixmap(pixmap);
