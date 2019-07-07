@@ -114,8 +114,11 @@ void YWindow::updateEnterNotifySerial(const XEvent &event) {
 /******************************************************************************/
 /******************************************************************************/
 
-YWindow::YWindow(YWindow *parent, Window win, int depth, Visual *visual):
-    fDepth(unsigned(depth)), fVisual(visual), fAllocColormap(None),
+YWindow::YWindow(YWindow *parent, Window win, int depth,
+                 Visual *visual, Colormap colormap):
+    fDepth(depth ? unsigned(depth) : xapp->depth()),
+    fVisual(visual ? visual : xapp->visual()),
+    fColormap(colormap),
     fParentWindow(parent),
     fFocusedWindow(0),
 
@@ -173,10 +176,30 @@ YWindow::~YWindow() {
     }
     if (flags & wfCreated)
         destroy();
-    if (fAllocColormap) {
-        XFreeColormap(xapp->display(), fAllocColormap);
-        fAllocColormap = None;
+}
+
+Colormap YWindow::colormap() {
+    if (fColormap == None) {
+        if (fParentWindow
+            && (fVisual == CopyFromParent || fVisual == fParentWindow->fVisual)
+            && (fDepth == CopyFromParent || fDepth == fParentWindow->fDepth))
+        {
+            fColormap = fParentWindow->colormap();
+        }
+        if (fVisual && fColormap == None) {
+            fColormap = xapp->colormapForVisual(fVisual);
+        }
+        if (fDepth && fColormap == None) {
+            fColormap = xapp->colormapForDepth(fDepth);
+        }
+        if (fColormap == None) {
+            // unexpected
+            fColormap = XCreateColormap(xapp->display(), xapp->root(),
+                                        fVisual ? fVisual : xapp->visual(),
+                                        AllocNone);
+        }
     }
+    return fColormap;
 }
 
 void YWindow::setWindowFocus() {
@@ -228,6 +251,9 @@ void YWindow::setStyle(unsigned aStyle) {
                 if (!(fStyle & wsManager) || !grabRootWindow)
                     fEventMask &= ~(ButtonPressMask | ButtonReleaseMask | ButtonMotionMask);
 
+            if (fStyle & wsNoExpose)
+                fEventMask &= ~ExposureMask;
+
             XSelectInput(xapp->display(), fHandle, fEventMask);
         }
     }
@@ -250,7 +276,7 @@ void YWindow::repaint() {
 }
 
 void YWindow::repaintSync() { // useful when server grabbed
-    if ((flags & (wfCreated | wfVisible)) == (wfCreated | wfVisible)) {
+    if (created() && visible()) {
         Graphics &g = getGraphics();
         YRect r1(0, 0, width(), height());
         ref<YPixmap> pixmap = beginPaint(r1);
@@ -262,9 +288,6 @@ void YWindow::repaintSync() { // useful when server grabbed
 
 void YWindow::repaintFocus() {
     repaint();
-///    if ((flags & (wfCreated | wfVisible)) == (wfCreated | wfVisible)) {
-///        paintFocus(getGraphics(), YRect(0, 0, width(), height()));
-///    }
 }
 
 bool YWindow::getWindowAttributes(XWindowAttributes* attr) {
@@ -274,7 +297,7 @@ bool YWindow::getWindowAttributes(XWindowAttributes* attr) {
     if (XGetWindowAttributes(xapp->display(), fHandle, attr))
         return true;
 
-    flags |= wfDestroyed;
+    setDestroyed();
     return false;
 }
 
@@ -289,6 +312,12 @@ void YWindow::readAttributes() {
     fWidth = unsigned(attributes.width);
     fHeight = unsigned(attributes.height);
 
+    if (fHandle != xapp->root()) {
+        fDepth = attributes.depth;
+        fVisual = attributes.visual;
+        fColormap = attributes.colormap;
+    }
+
     //MSG(("window initial geometry (%d:%d %dx%d)",
     //     fX, fY, fWidth, fHeight));
 
@@ -302,8 +331,9 @@ Window YWindow::create() {
     if (flags & wfCreated) return fHandle;
 
     if (fHandle == None) {
-        XSetWindowAttributes attributes;
+        XSetWindowAttributes attributes = { 0, };
         unsigned int attrmask = CWEventMask;
+        const bool output = notbit(fStyle, wsInputOnly);
 
         fEventMask |=
             ExposureMask |
@@ -319,6 +349,10 @@ Window YWindow::create() {
             fEventMask |= StructureNotifyMask | SubstructureRedirectMask;
         if (fStyle & wsManager)
             fEventMask |= SubstructureRedirectMask | SubstructureNotifyMask;
+        if (fStyle & (wsInputOnly | wsNoExpose)) {
+            fEventMask &= ~(ExposureMask | FocusChangeMask);
+            fDoubleBuffer = false;
+        }
 
         if (fStyle & wsSaveUnder) {
             attributes.save_under = True;
@@ -340,16 +374,15 @@ Window YWindow::create() {
             attributes.win_gravity = fWinGravity;
             attrmask |= CWWinGravity;
         }
-        if (fVisual != CopyFromParent) {
-            fAllocColormap = XCreateColormap(xapp->display(), desktop->handle(), fVisual, AllocNone);
-            attributes.colormap = fAllocColormap;
-            attrmask |= CWColormap;
-        }
-        if (fDepth != CopyFromParent) {
+        if (fDepth && output) {
             attributes.background_pixel = xapp->black();
             attrmask |= CWBackPixel;
             attributes.border_pixel = xapp->black();
             attrmask |= CWBorderPixel;
+        }
+        if (fVisual && output) {
+            attributes.colormap = colormap();
+            attrmask |= CWColormap;
         }
 
         attributes.event_mask = fEventMask;
@@ -364,14 +397,17 @@ Window YWindow::create() {
                                 parent()->handle(),
                                 x(), y(), zw, zh,
                                 0,
-                                int(fDepth),
-                                (fStyle & wsInputOnly) ? InputOnly : InputOutput,
-                                fVisual,
+                                output ? fDepth : CopyFromParent,
+                                output ? InputOutput : InputOnly,
+                                output ? fVisual : CopyFromParent,
                                 attrmask,
                                 &attributes);
 
         XWindowAttributes wa;
-        XGetWindowAttributes(xapp->display(), fHandle, &wa);
+        if (XGetWindowAttributes(xapp->display(), fHandle, &wa) == False) {
+            flags |= (wfCreated | wfDestroyed);
+            return None;
+        }
         fDepth = unsigned(wa.depth);
         fVisual = wa.visual;
         if (parent() == desktop &&
@@ -414,6 +450,7 @@ Window YWindow::create() {
 void YWindow::destroy() {
     if (flags & wfCreated) {
         if (!(flags & wfDestroyed)) {
+            setDestroyed();
             if (!(flags & wfAdopted)) {
                 MSG(("----------------------destroy %lX", fHandle));
                 XDestroyWindow(xapp->display(), fHandle);
@@ -421,7 +458,6 @@ void YWindow::destroy() {
             } else {
                 XSelectInput(xapp->display(), fHandle, NoEventMask);
             }
-            flags |= wfDestroyed;
         }
         windowContext.remove(fHandle);
         fHandle = None;
@@ -764,17 +800,16 @@ void YWindow::handleGraphicsExpose(const XGraphicsExposeEvent &expose) {
 
 void YWindow::handleConfigure(const XConfigureEvent &configure) {
     if (configure.window == handle()) {
-        if (configure.x != fX ||
-            configure.y != fY ||
-            unsigned(configure.width) != fWidth ||
-            unsigned(configure.height) != fHeight)
+        YRect evt(configure.x, configure.y, configure.width, configure.height);
+        YRect old(geometry());
+        if (evt != old)
         {
             fX = configure.x;
             fY = configure.y;
-            fWidth = unsigned(configure.width);
-            fHeight = unsigned(configure.height);
+            fWidth = configure.width;
+            fHeight = configure.height;
 
-            this->configure(geometry());
+            this->configure(YRect2(evt, old));
         }
     }
 }
@@ -999,7 +1034,7 @@ void YWindow::handleMapRequest(const XMapRequestEvent&) {
 
 void YWindow::handleDestroyWindow(const XDestroyWindowEvent &destroyWindow) {
     if (destroyWindow.window == fHandle) {
-        flags |= wfDestroyed;
+        setDestroyed();
         removeAllIgnoreUnmap(destroyWindow.window);
     }
 }
@@ -1026,9 +1061,9 @@ bool YWindow::nullGeometry() {
 }
 
 void YWindow::setGeometry(const YRect &r) {
-    const bool resized = (r.width() != fWidth || r.height() != fHeight);
+    YRect old(geometry());
 
-    if (r.x() != fX || r.y() != fY || resized) {
+    if (r != old) {
         fX = r.x();
         fY = r.y();
         fWidth = r.width();
@@ -1041,24 +1076,28 @@ void YWindow::setGeometry(const YRect &r) {
                                   fX, fY, fWidth, fHeight);
         }
 
-        configure(geometry());
+        configure(YRect2(r, old));
     }
 }
 
 void YWindow::setPosition(int x, int y) {
     if (x != fX || y != fY) {
+        YRect old(geometry());
+
         fX = x;
         fY = y;
 
         if (flags & wfCreated)
             XMoveWindow(xapp->display(), fHandle, fX, fY);
 
-        configure(geometry());
+        configure(YRect2(geometry(), old));
     }
 }
 
 void YWindow::setSize(unsigned width, unsigned height) {
     if (width != fWidth || height != fHeight) {
+        YRect old(geometry());
+
         fWidth = width;
         fHeight = height;
 
@@ -1066,7 +1105,7 @@ void YWindow::setSize(unsigned width, unsigned height) {
             if (!nullGeometry())
                 XResizeWindow(xapp->display(), fHandle, fWidth, fHeight);
 
-        configure(geometry());
+        configure(YRect2(geometry(), old));
     }
 }
 
@@ -1080,6 +1119,10 @@ void YWindow::setBackground(unsigned long pixel) {
 
 void YWindow::setBackgroundPixmap(Pixmap pixmap) {
     XSetWindowBackgroundPixmap(xapp->display(), handle(), pixmap);
+}
+
+void YWindow::setBackgroundPixmap(ref<YPixmap> pixmap) {
+    setBackgroundPixmap(pixmap->pixmap(depth()));
 }
 
 void YWindow::setParentRelative(void) {
@@ -1114,6 +1157,11 @@ void YWindow::mapToLocal(int &x, int &y) {
 
 void YWindow::configure(const YRect &/*r*/)
 {
+}
+
+void YWindow::configure(const YRect2& r2)
+{
+    configure((const YRect &) r2);
 }
 
 void YWindow::setPointer(const YCursor& pointer) {
@@ -1881,6 +1929,18 @@ void YWindow::scrollWindow(int dx, int dy) {
     }
 }
 
+void YWindow::clearWindow() {
+    XClearWindow(xapp->display(), handle());
+}
+
+void YWindow::clearArea(int x, int y, unsigned w, unsigned h, bool exposures) {
+    XClearArea(xapp->display(), handle(), x, y, w, h, exposures);
+}
+
+Pixmap YWindow::createPixmap() {
+    return XCreatePixmap(xapp->display(), xapp->root(), fWidth, fHeight, fDepth);
+}
+
 void YDesktop::updateXineramaInfo(unsigned &w, unsigned &h) {
     xiInfo.clear();
 
@@ -1986,6 +2046,12 @@ void YDesktop::updateXineramaInfo(unsigned &w, unsigned &h) {
     }
 }
 
+YRect YDesktop::getScreenGeometry(int screen_no) {
+    int x, y;
+    unsigned w, h;
+    getScreenGeometry(&x, &y, &w, &h, screen_no);
+    return YRect(x, y, w, h);
+}
 
 void YDesktop::getScreenGeometry(int *x, int *y,
                                  unsigned *width, unsigned *height,

@@ -10,6 +10,8 @@ extern "C" {
 #include <gdk-pixbuf-xlib/gdk-pixbuf-xlib.h>
 }
 
+#define ATH 55  /* alpha threshold that can show anti-aliased lines */
+
 class YImageGDK: public YImage {
 public:
     YImageGDK(unsigned width, unsigned height, GdkPixbuf *pixbuf):
@@ -34,6 +36,10 @@ public:
 private:
     GdkPixbuf *fPixbuf;
 };
+
+bool YImage::supportsDepth(unsigned depth) {
+    return depth == unsigned(xlib_rgb_get_depth());
+}
 
 ref<YImage> YImage::load(upath filename) {
     ref<YImage> image;
@@ -80,6 +86,9 @@ void YImageGDK::save(upath filename) {
 }
 
 ref<YImage> YImageGDK::scale(unsigned w, unsigned h) {
+    if (w == width() && h == height())
+        return ref<YImage>(this);
+
     ref<YImage> image;
     GdkPixbuf *pixbuf;
     pixbuf = gdk_pixbuf_scale_simple(fPixbuf,
@@ -202,42 +211,45 @@ ref<YImage> YImage::createFromPixmapAndMaskScaled(Pixmap pix, Pixmap mask,
 ref<YPixmap> YImageGDK::renderToPixmap(unsigned depth) {
     Pixmap pixmap = None, mask = None;
 
-    if (depth == (unsigned) xlib_rgb_get_depth()) {
-        gdk_pixbuf_xlib_render_pixmap_and_mask(fPixbuf, &pixmap, &mask, 128);
+    if (depth == 0) {
+        depth = xapp->depth();
     }
-    else if (depth == 32) {
+    if (depth == 32 || depth == 24) {
         int width = int(this->width());
         int height = int(this->height());
-        XImage* image = XCreateImage(xapp->display(), xapp->visual(), depth,
+        Visual* visual = xapp->visualForDepth(depth);
+        XImage* image = XCreateImage(xapp->display(), visual, depth,
                                      ZPixmap, 0, NULL, width, height, 8, 0);
         if (image)
             image->data = (char *) calloc(image->bytes_per_line * height, 1);
-        XImage* imask = XCreateImage(xapp->display(), xapp->visual(), 1,
+        XImage* imask = XCreateImage(xapp->display(), visual, 1,
                                      XYPixmap, 0, NULL, width, height, 8, 0);
         if (imask)
             imask->data = (char *) calloc(imask->bytes_per_line * height, 1);
 
         if (image && image->data && imask && imask->data) {
-            if (4 != gdk_pixbuf_get_n_channels(fPixbuf) ||
-                1 != gdk_pixbuf_get_has_alpha(fPixbuf)) {
-                static int atmost(3);
-                if (atmost-- > 0)
-                    tlog("gdk pixbuf channels %d != 4 || has_alpha %d != 1",
-                         gdk_pixbuf_get_n_channels(fPixbuf),
-                         gdk_pixbuf_get_has_alpha(fPixbuf));
-            }
-            guchar *pixels = gdk_pixbuf_get_pixels(fPixbuf);
+            const bool alpha = gdk_pixbuf_get_has_alpha(fPixbuf);
+            const int nchans = gdk_pixbuf_get_n_channels(fPixbuf);
+            const int stride = gdk_pixbuf_get_rowstride(fPixbuf);
+            const guchar* pixels = gdk_pixbuf_get_pixels(fPixbuf);
 
-            for (int r = 0; r < height; r++) {
-                for (int c = 0; c < width; c++) {
-                    XPutPixel(image, c, r,
-                              (pixels[c * 4] << 16) +
-                              (pixels[c * 4 + 1] << 8) +
-                              (pixels[c * 4 + 2] << 0) +
-                              (pixels[c * 4 + 3] << 24));
-                    XPutPixel(imask, c, r, pixels[c * 4 + 3] >= 128);
+            for (int row = 0; row < height; row++) {
+                const guchar* rowpix = pixels + row * stride;
+                for (int col = 0; col < width; col++, rowpix += nchans) {
+                    guchar red = rowpix[0];
+                    guchar grn = rowpix[1];
+                    guchar blu = rowpix[2];
+                    guchar alp = alpha
+                               ? (rowpix[3] >= ATH ? rowpix[3] : 0x00)
+                               : 0xFF;
+                    XPutPixel(image, col, row,
+                              (red << 16) |
+                              (grn << 8) |
+                              (blu << 0) |
+                              (alp << 24));
+                    bool bit = (alp >= ATH);
+                    XPutPixel(imask, col, row, bit);
                 }
-                pixels += gdk_pixbuf_get_rowstride(fPixbuf);
             }
 
             pixmap = XCreatePixmap(xapp->display(), xapp->root(),
@@ -258,6 +270,11 @@ ref<YPixmap> YImageGDK::renderToPixmap(unsigned depth) {
             XDestroyImage(imask);
         }
     }
+    else if (depth == unsigned(xlib_rgb_get_depth())) {
+        gdk_pixbuf_xlib_render_pixmap_and_mask(fPixbuf, &pixmap, &mask, ATH);
+        if (pixmap == None)
+            return null;
+    }
 
     return createPixmap(pixmap, mask, width(), height(), depth);
 }
@@ -266,7 +283,8 @@ ref<YPixmap> YImage::createPixmap(Pixmap pixmap, Pixmap mask,
                                   unsigned w, unsigned h, unsigned depth) {
     ref<YPixmap> n;
 
-    n.init(new YPixmap(pixmap, mask, w, h, depth, ref<YImage>(this)));
+    if (pixmap)
+        n.init(new YPixmap(pixmap, mask, w, h, depth, ref<YImage>(this)));
     return n;
 }
 
@@ -277,7 +295,7 @@ void YImageGDK::draw(Graphics &g, int dx, int dy) {
     gdk_pixbuf_xlib_render_to_drawable_alpha(fPixbuf, g.drawable(), //g.handleX(),
                                              0, 0, dx, dy, width(), height(),
                                              GDK_PIXBUF_ALPHA_FULL,
-                                             128,
+                                             ATH,
                                              XLIB_RGB_DITHER_NORMAL, 0, 0);
 #endif
 }
@@ -286,9 +304,12 @@ void YImageGDK::draw(Graphics &g, int x, int y, unsigned w, unsigned h, int dx, 
 #if 1
     composite(g, x, y, w, h, dx, dy);
 #else
+    if (x < 0 || x + w > width() || y < 0 || y + h > height())
+        return;
     gdk_pixbuf_xlib_render_to_drawable_alpha(fPixbuf, g.drawable(), //g.handleX(),
                                              x, y, dx, dy, w, h,
-                                             GDK_PIXBUF_ALPHA_BILEVEL, 128,
+                                             GDK_PIXBUF_ALPHA_BILEVEL,
+                                             ATH,
                                              XLIB_RGB_DITHER_NORMAL, 0, 0);
 #endif
 }
@@ -331,10 +352,12 @@ void YImageGDK::composite(Graphics &g, int x, int y, unsigned width, unsigned he
     //MSG(("composite ++ %d %d %d %d | %d %d", x, y, w, h, dx, dy));
     GdkPixbuf *pixbuf =
         gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, w, h);
+    Visual* visual = xapp->visualForDepth(g.rdepth());
+    Colormap cmap = xapp->colormapForDepth(g.rdepth());
     gdk_pixbuf_xlib_get_from_drawable(pixbuf,
                                       g.drawable(),
-                                      xapp->colormap(),
-                                      xapp->visual(),
+                                      cmap,
+                                      visual,
                                       src_x, src_y, 0, 0, w, h);
     gdk_pixbuf_composite(fPixbuf, pixbuf,
                          0, 0, w, h,
@@ -347,13 +370,14 @@ void YImageGDK::composite(Graphics &g, int x, int y, unsigned width, unsigned he
     g_object_unref(G_OBJECT(pixbuf));
 }
 
-
 void image_init() {
 #if (GLIB_MAJOR_VERSION <= 2 && GLIB_MINOR_VERSION < 36 && GLIB_MICRO_VERSION <= 0)
     g_type_init();
 #endif
-    xlib_rgb_init(xapp->display(), ScreenOfDisplay(xapp->display(), xapp->screen()));
-    gdk_pixbuf_xlib_init(xapp->display(), xapp->screen());
+
+    int depth = xapp->alpha() ? 32 : int(xapp->depth());
+
+    gdk_pixbuf_xlib_init_with_depth(xapp->display(), xapp->screen(), depth);
 }
 
 #endif

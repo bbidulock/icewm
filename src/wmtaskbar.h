@@ -2,30 +2,29 @@
 #define __TASKBAR_H
 
 #include "yaction.h"
-#include "ybutton.h"
-#include "ymenu.h"
 #include "ytimer.h"
 #include "wmclient.h"
 #include "yxtray.h"
-#include "base.h"
-#include "ypointer.h"
 #include "applet.h"
 
 class ObjectBar;
+class ObjectButton;
 class MEMStatus;
 class CPUStatusControl;
 class NetStatusControl;
 class AddressBar;
 class MailBoxControl;
 class MailBoxStatus;
+class YButton;
 class YClock;
 class YApm;
+class TaskBarMenu;
 class TaskPane;
 class TrayPane;
+class AWorkspaces;
 class WorkspacesPane;
 class YXTray;
 class YSMListener;
-class IApp;
 
 class TaskBar;
 

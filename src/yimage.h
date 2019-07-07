@@ -18,6 +18,7 @@ public:
                                                      unsigned nw, unsigned nh);
     static ref<YImage> createFromIconProperty(long *pixels,
                                               unsigned width, unsigned height);
+    static bool supportsDepth(unsigned depth);
 
     unsigned width() const { return fWidth; }
     unsigned height() const { return fHeight; }

@@ -12,6 +12,7 @@ class YToolTip;
 class YTimer;
 class YAutoScroll;
 class YRect;
+class YRect2;
 
 #ifdef XINERAMA
 extern "C" {
@@ -29,7 +30,11 @@ struct DesktopScreenInfo {
 
 class YWindow : protected YWindowList, private YWindowNode {
 public:
-    YWindow(YWindow *aParent = 0, Window win = 0, int depth = CopyFromParent, Visual *visual = CopyFromParent);
+    YWindow(YWindow *aParent = nullptr,
+            Window window = None,
+            int depth = CopyFromParent,
+            Visual *visual = nullptr,
+            Colormap colormap = CopyFromParent);
     virtual ~YWindow();
 
     void setStyle(unsigned aStyle);
@@ -62,10 +67,11 @@ public:
     void setPosition(int x, int y);
     void setBorderWidth(unsigned width);
     void setBackground(unsigned long pixel);
+    void setBackgroundPixmap(ref<YPixmap> pixmap);
     void setBackgroundPixmap(Pixmap pixmap);
     void setParentRelative(void);
     virtual void configure(const YRect &r);
-
+    virtual void configure(const YRect2& r2);
 
     virtual void paint(Graphics &g, const YRect &r);
 
@@ -149,7 +155,9 @@ public:
     unsigned height() const { return fHeight; }
     unsigned depth() const { return fDepth; }
     Visual *visual() const { return fVisual; }
+    Colormap colormap();
     YRect geometry() const { return YRect(fX, fY, fWidth, fHeight); }
+    YDimension dimension() const { return YDimension(fWidth, fHeight); }
 
     bool visible() const { return (flags & wfVisible); }
     bool created() const { return (flags & wfCreated); }
@@ -179,7 +187,7 @@ public:
     void nextFocus();
     void prevFocus();
     bool changeFocus(bool next);
-    void requestFocus(bool requestUserFocus);
+    virtual void requestFocus(bool requestUserFocus);
     void setFocus(YWindow *window);
     YWindow *getFocusWindow();
     virtual void gotFocus();
@@ -217,6 +225,9 @@ public:
     int getClickCount() { return fClickCount; }
 
     void scrollWindow(int dx, int dy);
+    void clearWindow();
+    void clearArea(int x, int y, unsigned w, unsigned h, bool expos = false);
+    Pixmap createPixmap();
 
     bool toolTipVisible();
     virtual void updateToolTip();
@@ -253,7 +264,7 @@ private:
 
     unsigned fDepth;
     Visual *fVisual;
-    Colormap fAllocColormap;
+    Colormap fColormap;
 
     YWindow *fParentWindow;
     YWindow *fFocusedWindow;
@@ -312,6 +323,7 @@ public:
 
     void updateXineramaInfo(unsigned &w, unsigned &h);
 
+    YRect getScreenGeometry(int screen_no);
     void getScreenGeometry(int *x, int *y,
                            unsigned *width, unsigned *height,
                            int screen_no = -1);

@@ -23,6 +23,8 @@ YContext<YWindow> windowContext;
 YCursor YXApplication::leftPointer;
 YCursor YXApplication::rightPointer;
 YCursor YXApplication::movePointer;
+bool YXApplication::synchronizeX11;
+bool YXApplication::alphaBlending;
 
 Atom _XA_WM_CHANGE_STATE;
 Atom _XA_WM_CLASS;
@@ -848,29 +850,81 @@ Time YXApplication::getEventTime(const char */*debug*/) const {
     return lastEventTime;
 }
 
-bool YXApplication::hasColormap() {
+bool YXApplication::haveColormaps(Display* dpy) {
     XVisualInfo pattern;
-    pattern.screen = DefaultScreen(display());
-
-    int nVisuals;
-    bool rc = false;
-
-    XVisualInfo *first_visual(XGetVisualInfo(display(), VisualScreenMask,
-                                              &pattern, &nVisuals));
-    XVisualInfo *visual = first_visual;
-
-    while (visual && nVisuals--) {
-        if (visual->c_class & 1)
-            rc = true;
-        visual++;
-    }
-
-    if (first_visual)
-        XFree(first_visual);
-
-    return rc;
+    pattern.screen = DefaultScreen(dpy);
+    int i = 0, num = 0, mask = VisualScreenMask;
+    xsmart<XVisualInfo> info(XGetVisualInfo(dpy, mask, &pattern, &num));
+    for (; i < num && notbit(info[i].c_class, 1); ++i);
+    return i < num;
 }
 
+Visual* YXApplication::visualForDepth(unsigned depth) {
+    Visual* vis = CopyFromParent;
+
+    if (depth == this->depth()) {
+        vis = visual();
+    }
+    else if (int(depth) == DefaultDepth(display(), screen())) {
+        vis = DefaultVisual(display(), screen());
+    }
+    else if (depth == 32) {
+        vis = fVisual32 ? fVisual32 :
+             (fVisual32 = visual32(display(), screen()));
+    }
+
+    return vis;
+}
+
+Visual* YXApplication::visual32(Display* dpy, int scn) {
+    XVisualInfo info;
+    return XMatchVisualInfo(dpy, scn, 32, TrueColor, &info)
+         ? info.visual : nullptr;
+}
+
+Colormap YXApplication::colormapForDepth(unsigned depth) {
+    Colormap cmap = CopyFromParent;
+
+    if (depth == this->depth()) {
+        cmap = colormap();
+    }
+    else if (int(depth) == DefaultDepth(display(), screen())) {
+        cmap = DefaultColormap(display(), screen());
+    }
+    else if (depth == 32) {
+        cmap = fColormap32 ? fColormap32 :
+              (fColormap32 = XCreateColormap(display(), root(),
+                                             visualForDepth(depth),
+                                             AllocNone));
+    }
+
+    return cmap;
+}
+
+Colormap YXApplication::cmap32(Display* dpy, int scn, Window rtw) {
+    Visual* visual = visual32(dpy, scn);
+    return visual ? XCreateColormap(dpy, rtw, visual, AllocNone) : None;
+}
+
+Colormap YXApplication::colormapForVisual(Visual* visual) {
+    Colormap cmap = CopyFromParent;
+
+    if (visual == this->visual()) {
+        cmap = colormap();
+    }
+    else if (visual == DefaultVisual(display(), screen())) {
+        cmap = DefaultColormap(display(), screen());
+    }
+    else if (fVisual32 && visual == fVisual32) {
+        cmap = fColormap32 ? fColormap32 :
+              (fColormap32 = cmap32(fArgs.display, fArgs.screen, fArgs.root));
+    }
+    else if (visual == visualForDepth(32)) {
+        cmap = colormapForDepth(32);
+    }
+
+    return cmap;
+}
 
 void YXApplication::alert() {
     XBell(display(), 100);
@@ -894,7 +948,12 @@ const char* YXApplication::getHelpText() {
 
 YXApplication::AppArgs
 YXApplication::parseArgs(int *argc, char ***argv, const char *displayName) {
-    AppArgs appArgs = { displayName, false, };
+    AppArgs appArgs = {
+        displayName,
+        alphaBlending,
+        0, 0, None,
+        0, 0, None,
+    };
 
     for (char ** arg = *argv + 1; arg < *argv + *argc; ++arg) {
         if (**arg == '-') {
@@ -912,7 +971,9 @@ YXApplication::parseArgs(int *argc, char ***argv, const char *displayName) {
                 appArgs.displayName = value;
             }
             else if (is_long_switch(*arg, "sync"))
-                appArgs.runSynchronized = true;
+                synchronizeX11 = true;
+            else if (is_long_switch(*arg, "alpha"))
+                appArgs.alpha = alphaBlending = true;
         }
     }
 
@@ -920,6 +981,24 @@ YXApplication::parseArgs(int *argc, char ***argv, const char *displayName) {
         appArgs.displayName = getenv("DISPLAY");
     else
         setenv("DISPLAY", appArgs.displayName, True);
+
+    Display* dpy = appArgs.display = openDisplay();
+    int   screen = appArgs.screen = DefaultScreen(dpy);
+    Window  root = appArgs.root = RootWindow(dpy, screen);
+
+    if (appArgs.alpha) {
+        appArgs.depth = 32;
+        appArgs.visual = visual32(dpy, screen);
+        appArgs.cmap = cmap32(dpy, screen, root);
+        if (appArgs.visual == 0 || appArgs.cmap == None)
+            appArgs.alpha = false;
+    }
+    if (appArgs.alpha == false) {
+        appArgs.depth = unsigned(DefaultDepth(dpy, screen));
+        appArgs.visual = DefaultVisual(dpy, screen);
+        appArgs.cmap = DefaultColormap(dpy, screen);
+    }
+    alphaBlending = appArgs.alpha;
 
     return appArgs;
 }
@@ -930,8 +1009,10 @@ Display* YXApplication::openDisplay() {
         die(1, _("Can't open display: %s. X must be running and $DISPLAY set."),
             fArgs.displayName ? fArgs.displayName : _("<none>"));
 
-    if (fArgs.runSynchronized)
+    if (synchronizeX11)
         XSynchronize(display, True);
+
+    XSetErrorHandler(errorHandler);
 
     return display;
 }
@@ -940,15 +1021,18 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
     YApplication(argc, argv),
 
     fArgs( parseArgs(argc, argv, displayName)),
-    fDisplay( openDisplay()),
-    fScreen( DefaultScreen(display())),
-    fRoot(  RootWindow(display(), screen())),
-    fDepth( unsigned(DefaultDepth(display(), screen()))),
-    fVisual( DefaultVisual(display(), screen())),
-    fColormap( DefaultColormap(display(), screen())),
+    fDisplay( fArgs.display),
+    fScreen( fArgs.screen),
+    fRoot( fArgs.root),
+    fDepth( fArgs.depth),
+    fVisual( fArgs.visual),
+    fColormap( fArgs.cmap),
+    fHasColormaps( haveColormaps(display())),
     fBlack( BlackPixel(display(), screen())),
     fWhite( WhitePixel(display(), screen())),
 
+    fVisual32( fArgs.alpha ? fArgs.visual : CopyFromParent),
+    fColormap32( fArgs.alpha ? fArgs.cmap : CopyFromParent),
     lastEventTime(CurrentTime),
     fPopup(0),
     fGrabTree(0),
@@ -1005,6 +1089,9 @@ void YXApplication::initExtensions() {
 }
 
 YXApplication::~YXApplication() {
+    if (fColormap32 != CopyFromParent)
+        XFreeColormap(xapp->display(), fColormap32);
+
     xfd.unregisterPoll();
     XCloseDisplay(display());
     xapp = 0;
@@ -1122,6 +1209,56 @@ void YXApplication::handleWindowEvent(Window xwindow, XEvent &xev) {
 
 void YXApplication::flushXEvents() {
     XFlush(display());
+}
+
+int YXApplication::handleError(XErrorEvent* xev) {
+    return BadImplementation;
+}
+
+int YXApplication::errorHandler(Display* display, XErrorEvent* xev) {
+    int rc = xapp->handleError(xev);
+    if (rc == Success)
+        return rc;
+
+    XDBG {
+        char message[80], req[80], number[80];
+
+        snprintf(number, sizeof number, "%d", xev->request_code);
+        XGetErrorDatabaseText(display, "XRequest", number, "", req, sizeof req);
+        if (req[0] == 0)
+            snprintf(req, sizeof req, "[request_code=%d]", xev->request_code);
+
+        if (XGetErrorText(display, xev->error_code, message, sizeof message))
+            *message = '\0';
+
+        tlog("X error %s(0x%lx): %s, #%lu, %+ld, %+ld.",
+             req, xev->resourceid, message, xev->serial,
+             long(NextRequest(display)) - long(xev->serial),
+             long(LastKnownRequestProcessed(display)) - long(xev->serial));
+
+#if defined(DEBUG) || defined(PRECON)
+        if (xapp->synchronized()) {
+            switch (xev->request_code) {
+                case X_GetWindowAttributes:
+                    break;
+                case X_GetImage:
+                case X_CreateGC:
+                    show_backtrace();
+                    break;
+                default:
+                    show_backtrace();
+                    break;
+            }
+        }
+        else if (ONCE) {
+            TLOG(("unsynchronized"));
+        }
+#endif
+    }
+
+    if (rc == BadImplementation)
+        xapp->exit(rc);
+    return rc;
 }
 
 void YXPoll::notifyRead() {

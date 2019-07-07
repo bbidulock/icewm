@@ -46,8 +46,12 @@ public:
                    reinterpret_cast<XEvent*>(&ev));
     }
 
-    bool hasColormap();
-    bool synchronized() const { return fArgs.runSynchronized; }
+    bool hasColormap() const { return fHasColormaps; }
+    bool synchronized() const { return synchronizeX11; }
+    bool alpha() const { return fArgs.alpha; }
+    Visual* visualForDepth(unsigned depth);
+    Colormap colormapForDepth(unsigned depth);
+    Colormap colormapForVisual(Visual* visual);
 
     void saveEventTime(const XEvent &xev);
     Time getEventTime(const char *debug) const;
@@ -81,6 +85,8 @@ public:
     static YCursor leftPointer;
     static YCursor rightPointer;
     static YCursor movePointer;
+    static bool alphaBlending;
+    static bool synchronizeX11;
 
     unsigned int AltMask;
     unsigned int MetaMask;
@@ -98,10 +104,19 @@ public:
 
     static const char* getHelpText();
 
+protected:
+    virtual int handleError(XErrorEvent* xev);
+
 private:
     struct AppArgs {
         const char* displayName;
-        bool runSynchronized;
+        bool alpha;
+        Display* display;
+        int screen;
+        Window root;
+        unsigned depth;
+        Visual* visual;
+        Colormap cmap;
     } const fArgs;
 
     AppArgs parseArgs(int *argc, char ***argv, const char *displayName);
@@ -113,8 +128,12 @@ private:
     unsigned const fDepth;
     Visual* const fVisual;
     Colormap const fColormap;
+    bool const fHasColormaps;
     unsigned long const fBlack;
     unsigned long const fWhite;
+
+    Visual* fVisual32;
+    Colormap fColormap32;
 
     Time lastEventTime;
     YPopupWindow *fPopup;
@@ -136,6 +155,10 @@ private:
     void initModifiers();
     static void initAtoms();
     static void initPointers();
+    static Visual* visual32(Display* dpy, int scn);
+    static Colormap cmap32(Display* dpy, int scn, Window rtw);
+    static bool haveColormaps(Display* dpy);
+    static int errorHandler(Display* display, XErrorEvent* xev);
 };
 
 extern YXApplication *xapp;

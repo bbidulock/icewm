@@ -60,6 +60,8 @@ public:
     virtual void wmMinimize() = 0;
     virtual int getWorkspace() const = 0;
     virtual int getTrayOrder() const = 0;
+    virtual long getTrayOption() const = 0;
+    virtual unsigned frameOptions() const = 0;
     virtual bool isSticky() const = 0;
     virtual bool isAllWorkspaces() const = 0;
     virtual void wmOccupyWorkspace(int workspace) = 0;
@@ -68,6 +70,7 @@ public:
     virtual void popupSystemMenu(YWindow *owner, int x, int y,
                          unsigned int flags,
                          YWindow *forWindow = 0) = 0;
+    virtual void updateSubmenus() = 0;
 protected:
     virtual ~ClientData() {}
 };
@@ -76,7 +79,8 @@ class YFrameClient: public YWindow
                   , public YTimerListener
 {
 public:
-    YFrameClient(YWindow *parent, YFrameWindow *frame, Window win = 0);
+    YFrameClient(YWindow *parent, YFrameWindow *frame, Window win = 0,
+                 int depth = 0, Visual *visual = 0, Colormap cmap = 0);
     virtual ~YFrameClient();
 
     virtual void handleProperty(const XPropertyEvent &property);
@@ -215,7 +219,7 @@ public:
     ustring getClientId(Window leader);
     void getPropertiesList();
 
-    virtual void configure(const YRect &rect);
+    // virtual void configure(const YRect2 &rect);
     virtual void handleGravityNotify(const XGravityEvent &gravity);
 
     bool isKdeTrayWindow() { return prop.kde_net_wm_system_tray_window_for; }

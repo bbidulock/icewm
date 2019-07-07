@@ -4,6 +4,7 @@
 #include "yconfig.h"
 
 /************************************************************************************************************************************************************/
+XIV(bool, alphaBlending,                        false)
 XIV(bool, clickFocus,                           true)
 XIV(bool, focusOnAppRaise,                      false)
 XIV(bool, requestFocusOnAppRaise,               true)
@@ -228,6 +229,7 @@ XSV(const char *, fmtDate,                      "%Y-%m-%d %H:%M:%S %z %B %A")
 #if defined(CFGDEF)
 
 cfoption icewm_preferences[] = {
+    OBV("Alpha",                                &alphaBlending,                 "Support alpha blending by using a 32-bit visual"),
     OBV("ClickToFocus",                         &clickFocus,                    "Focus windows by clicking"),
     OBV("FocusOnAppRaise",                      &focusOnAppRaise,               "Focus windows when application requests to raise"),
     OBV("RequestFocusOnAppRaise",               &requestFocusOnAppRaise,        "Request focus (flashing in taskbar) when application requests raise"),

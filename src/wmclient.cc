@@ -42,8 +42,9 @@ bool operator!=(const XSizeHints& a, const XSizeHints& b) {
     return !(a == b);
 }
 
-YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win):
-    YWindow(parent, win),
+YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
+                           int depth, Visual *visual, Colormap colormap):
+    YWindow(parent, win, depth, visual, colormap),
     fWindowTitle(),
     fIconTitle(),
     fWMWindowRole(),
@@ -52,7 +53,7 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win):
     fFrame = frame;
     fBorder = 0;
     fProtocols = 0;
-    fColormap = None;
+    fColormap = colormap;
     fShaped = false;
     fPinging = false;
     fPingTime = 0;
@@ -2205,11 +2206,6 @@ void YFrameClient::getPropertiesList() {
         }
         XFree(p);
     }
-}
-
-void YFrameClient::configure(const YRect &r) {
-    (void)r;
-    MSG(("client geometry %+d%+d %dx%d", r.x(), r.y(), r.width(), r.height()));
 }
 
 void YFrameClient::handleGravityNotify(const XGravityEvent &gravity) {

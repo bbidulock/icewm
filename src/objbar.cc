@@ -116,6 +116,4 @@ void ObjectButton::actionPerformed(YAction action, unsigned modifiers) {
     else YButton::actionPerformed(action, modifiers);
 }
 
-ObjectMenu *rootMenu(NULL);
-
 // vim: set sw=4 ts=4 et:

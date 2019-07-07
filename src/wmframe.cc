@@ -202,6 +202,21 @@ YFrameWindow::~YFrameWindow() {
     }
 }
 
+void YFrameWindow::addToWindowList() {
+    if (fWinListItem == 0) {
+        if (windowList && !(frameOptions() & foIgnoreWinList))
+            fWinListItem = windowList->addWindowListApp(this);
+    }
+}
+
+void YFrameWindow::removeFromWindowList() {
+    if (fWinListItem) {
+        if (windowList)
+            windowList->removeWindowListApp(fWinListItem);
+        delete fWinListItem; fWinListItem = 0;
+    }
+}
+
 YFrameTitleBar* YFrameWindow::titlebar() {
     if (fTitleBar == 0 && titleY() > 0) {
         fTitleBar = new YFrameTitleBar(this, this);
@@ -2293,7 +2308,7 @@ YMenu *YFrameWindow::windowMenu() {
     //if (frameOptions() & foFullKeys)
     //    return windowMenuNoKeys;
     //else
-    return ::windowMenu;
+    return wmapp->getWindowMenu();
 }
 
 void YFrameWindow::addAsTransient() {

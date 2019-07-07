@@ -100,8 +100,10 @@ YMenu *YWindowManager::createWindowMenu(YMenu *menu, long workspace) {
     return menu;
 }
 
-WindowListMenu::WindowListMenu(IApp *app, YWindow *parent): YMenu(parent) {
-    this->app = app;
+WindowListMenu::WindowListMenu(YActionListener *app, YWindow *parent):
+    YMenu(parent)
+{
+    setActionListener(app);
 }
 
 void WindowListMenu::updatePopup() {
@@ -111,7 +113,7 @@ void WindowListMenu::updatePopup() {
 
     bool first = true;
 
-    for (long d = 0; d < workspaceCount; d++) {
+    for (int d = 0; d < workspaceCount; d++) {
         if (d == manager->activeWorkspace())
             continue;
         if (first) {
@@ -130,6 +132,11 @@ void WindowListMenu::updatePopup() {
     }
     addSeparator();
     addItem(_("_Window list"), -2, KEY_NAME(gKeySysWindowList), actionWindowList);
+}
+
+void WindowListMenu::activatePopup(int flags) {
+    super::activatePopup(flags);
+    repaint();
 }
 
 // vim: set sw=4 ts=4 et:

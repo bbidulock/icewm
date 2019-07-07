@@ -178,6 +178,7 @@ public:
     YFrameWindow *findWindow(int flag);
 
     void updateMenu();
+    virtual void updateSubmenus();
 
     virtual void raise();
     virtual void lower();
@@ -428,6 +429,9 @@ public:
     Window topSideIndicator() const { return topSide; }
     Window topLeftIndicator() const { return topLeft; }
     Window topRightIndicator() const { return topRight; }
+
+    void addToWindowList();
+    void removeFromWindowList();
 
 private:
     /*typedef enum {

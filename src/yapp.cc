@@ -41,7 +41,6 @@ void YApplication::initSignals() {
     fcntl(signalPipe[0], F_SETFD, FD_CLOEXEC);
 #else
     sigemptyset(&signalMask);
-    sigaddset(&signalMask, SIGPIPE);
     sigprocmask(SIG_BLOCK, &signalMask, &oldSignalMask);
 
     if (pipe(signalPipe) != 0)
@@ -507,10 +506,14 @@ upath YApplication::getHomeDir() {
 }
 
 upath YApplication::findConfigFile(upath name) {
+    return locateConfigFile(name);
+}
+
+upath YApplication::locateConfigFile(upath name) {
     upath p;
 
     if (name.isAbsolute())
-        return name;
+        return name.expand();
 
     p = getPrivConfDir() + name;
     if (p.fileExists())
