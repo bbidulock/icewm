@@ -15,12 +15,6 @@
 #include <X11/Xft/Xft.h>
 #endif
 
-#ifdef DEBUG
-/* since recently sometimes copy area for NULL pixmap is done: */
-#define XCopyArea(a,b,c,d,e,f,g,h,i,j) \
-    do { Drawable B(b),C(c); PRECONDITION(B); PRECONDITION(C); ::XCopyArea(a,B,C,d,e,f,g,h,i,j); } while (0)
-#endif
-
 static inline Display* display()  { return xapp->display(); }
 static inline Colormap colormap() { return xapp->colormap(); }
 static inline Visual*  visual()   { return xapp->visual(); }
@@ -112,7 +106,10 @@ Graphics::~Graphics() {
 
 #ifdef CONFIG_XFREETYPE
 XftDraw* Graphics::handleXft() {
-    if (fXftDraw == 0) {
+    if (fXftDraw == nullptr && rdepth() == 32 && xapp->alpha()) {
+        fXftDraw = XftDrawCreateAlpha(display(), drawable(), 32);
+    }
+    if (fXftDraw == nullptr) {
         fXftDraw = XftDrawCreate(display(), drawable(),
                     visual(), colormap());
     }
@@ -121,6 +118,23 @@ XftDraw* Graphics::handleXft() {
 #endif
 
 /******************************************************************************/
+
+void Graphics::clear()
+{
+    clearArea(0, 0, rwidth(), rheight());
+}
+
+void Graphics::clearArea(int x, int y, unsigned w, unsigned h)
+{
+    XGCValues val;                      unsigned long mask = 0;
+    val.foreground         = None;      mask |= GCForeground;
+    val.background         = None;      mask |= GCBackground;
+    val.fill_style         = FillSolid; mask |= GCFillStyle;
+    val.function           = GXcopy;    mask |= GCFunction;
+    val.graphics_exposures = False;     mask |= GCGraphicsExposures;
+    XChangeGC(display(), gc, mask, &val);
+    XFillRectangle(display(), drawable(), gc, x, y, w, h);
+}
 
 void Graphics::copyArea(const int x, const int y,
                         const unsigned width, const unsigned height,
@@ -144,6 +158,16 @@ void Graphics::copyDrawable(Drawable const d,
               dx - xOrigin, dy - yOrigin);
 }
 
+void Graphics::copyImage(ref<YImage> image, int x, int y) {
+    ref<YPixmap> pixmap(image->renderToPixmap(rdepth()));
+    if (pixmap != null)
+        drawPixmap(pixmap, 0, 0, pixmap->width(), pixmap->height(), x, y);
+}
+
+void Graphics::copyPixmap(ref<YPixmap> p, int dx, int dy) {
+    copyPixmap(p, 0, 0, p->width(), p->height(), dx, dy);
+}
+
 void Graphics::copyPixmap(ref<YPixmap> p,
                           const int x, const int y,
                           const unsigned w, const unsigned h,
@@ -151,21 +175,18 @@ void Graphics::copyPixmap(ref<YPixmap> p,
 {
     if (p == null)
         return;
-    if (p->depth() == rdepth()) {
-        copyDrawable(p->pixmap(), x, y, w, h, dx, dy);
+    Pixmap pixmap = p->pixmap(rdepth());
+    if (pixmap) {
+        copyDrawable(pixmap, x, y, w, h, dx, dy);
         return;
     }
 
-    if (32 == rdepth()) {
-        Pixmap pixmap32 = p->pixmap32();
-        if (pixmap32) {
-            copyDrawable(pixmap32, x, y, w, h, dx, dy);
-            return;
-        }
-    }
-
-    tlog("%s:%d:Graphics::%s: attempt to copy pixmap 0x%lx of depth %d using gc of depth %d",
-            __FILE__, __LINE__, __func__, p->pixmap(), p->depth(), rdepth());
+    TLOG(("%s: attempt to copy pixmap 0x%lx of depth %d using gc of depth %d",
+          __func__, pixmap, p->depth(), rdepth()));
+#if defined(DEBUG) || defined(PRECON)
+    if (xapp->synchronized())
+        show_backtrace();
+#endif
 }
 
 /******************************************************************************/
@@ -448,12 +469,14 @@ void Graphics::fillArc(int x, int y, unsigned width, unsigned height, int a1, in
 
 void Graphics::setColor(YColor aColor) {
     fColor = aColor;
-    setColorPixel(fColor.pixel());
+    unsigned long pixel = fColor.pixel();
+    setColorPixel(pixel);
 }
 
 void Graphics::setColorPixel(unsigned long pixel) {
-    if (rdepth() == 32)
-        pixel |= 0xff000000;
+    if (rdepth() == 32 && notbit(pixel, 0xFF000000) && xapp->alpha()) {
+        pixel |= 0xFF000000;
+    }
     XSetForeground(display(), gc, pixel);
 }
 
@@ -488,41 +511,55 @@ void Graphics::setFunction(int function) {
 /******************************************************************************/
 
 void Graphics::drawImage(ref<YImage> pix, int const x, int const y) {
-    pix->draw(*this, x, y);
+    if (pix->supportsDepth(rdepth())) {
+        pix->draw(*this, x, y);
+    }
+    else {
+        ref<YPixmap> p(pix->renderToPixmap(rdepth()));
+        drawPixmap(p, x, y);
+    }
 }
 
 void Graphics::drawImage(ref<YImage> pix, int x, int y, unsigned w, unsigned h, int dx, int dy) {
-    pix->draw(*this, x, y, w, h, dx, dy);
+    if (pix->supportsDepth(rdepth())) {
+        pix->draw(*this, x, y, w, h, dx, dy);
+    }
+    else {
+        ref<YPixmap> p(pix->renderToPixmap(rdepth()));
+        drawPixmap(p, x, y, w, h, dx, dy);
+    }
 }
 
 void Graphics::drawPixmap(ref<YPixmap> pix, int const x, int const y) {
-    if (pix->depth() != rdepth()) {
+    Pixmap pixmap(pix->pixmap(rdepth()));
+    if (pixmap == None) {
         tlog("Graphics::%s: attempt to draw pixmap 0x%lx of depth %d with gc of depth %d\n",
                 __func__, pix->pixmap(), pix->depth(), rdepth());
         return;
     }
     if (pix->mask())
-        drawClippedPixmap(pix->pixmap(),
+        drawClippedPixmap(pixmap,
                           pix->mask(),
                           0, 0, pix->width(), pix->height(), x, y);
     else
-        XCopyArea(display(), pix->pixmap(), drawable(), gc,
+        XCopyArea(display(), pixmap, drawable(), gc,
                   0, 0, pix->width(), pix->height(), x - xOrigin, y - yOrigin);
 }
 
 void Graphics::drawPixmap(ref<YPixmap> pix, int const sx, int const sy,
         const unsigned w, const unsigned h, const int dx, const int dy) {
-    if (pix->depth() != rdepth()) {
+    Pixmap pixmap(pix->pixmap(rdepth()));
+    if (pixmap == None) {
         tlog("Graphics::%s: attempt to draw pixmap 0x%lx of depth %d with gc of depth %d\n",
                 __func__, pix->pixmap(), pix->depth(), rdepth());
         return;
     }
     if (pix->mask())
-        drawClippedPixmap(pix->pixmap(),
+        drawClippedPixmap(pixmap,
                           pix->mask(),
                           sx, sy, w, h, dx, dy);
     else
-        XCopyArea(display(), pix->pixmap(), drawable(), gc,
+        XCopyArea(display(), pixmap, drawable(), gc,
                   sx, sy, w, h, dx - xOrigin, dy - yOrigin);
 }
 
@@ -538,7 +575,6 @@ void Graphics::drawClippedPixmap(Pixmap pix, Pixmap clip,
     unsigned long mask =
         GCGraphicsExposures | GCClipMask | GCClipXOrigin | GCClipYOrigin;
     XGCValues gcv;
-
     gcv.graphics_exposures = False;
     gcv.clip_mask = clip;
     gcv.clip_x_origin = toX - xOrigin;
@@ -580,8 +616,14 @@ void Graphics::compositeImage(ref<YImage> img, int const sx, int const sy, unsig
 #endif
         if (rw <= 0 || rh <= 0)
             return;
-        //msg("call composite %d %d %d %d | %d %d %d %d", dx, dy, dw, dh, x, y, xOrigin, yOrigin);
-        img->composite(*this, sx, sy, unsigned(rw), unsigned(rh), rx, ry);
+        // msg("call composite %ux%u:%u | %d %d %d %d | %d %d %d %d", rwidth(), rheight(), rdepth(), sx, sy, w, h, dx, dy, xOrigin, yOrigin);
+        if (img->supportsDepth(rdepth())) {
+            img->composite(*this, sx, sy, unsigned(rw), unsigned(rh), rx, ry);
+        }
+        else {
+            ref<YPixmap> p(img->renderToPixmap(rdepth()));
+            drawPixmap(p, sx, sy, unsigned(rw), unsigned(rh), rx, ry);
+        }
     }
 }
 
@@ -788,53 +830,34 @@ void Graphics::repHorz(ref<YPixmap> p, int x, int y, unsigned w) {
     if (p == null)
         return;
 
-    if (p->depth() == rdepth()) {
-        repHorz(p->pixmap(), p->width(), p->height(), x, y, w);
-        return;
-    }
-
-    if (32 == rdepth()) {
-        Pixmap pixmap = p->pixmap32();
-        if (pixmap) {
-            repHorz(pixmap, p->width(), p->height(), x, y, w);
-            return;
-        }
-    }
+    repHorz(p->pixmap(rdepth()), p->width(), p->height(), x, y, w);
 }
 
 void Graphics::repVert(ref<YPixmap> p, int x, int y, unsigned h) {
     if (p == null)
         return;
 
-    if (p->depth() == rdepth()) {
-        repVert(p->pixmap(), p->width(), p->height(), x, y, h);
-        return;
-    }
-
-    if (32 == rdepth()) {
-        Pixmap pixmap32 = p->pixmap32();
-        if (pixmap32) {
-            repVert(pixmap32, p->width(), p->height(), x, y, h);
-            return;
-        }
-    }
+    repVert(p->pixmap(rdepth()), p->width(), p->height(), x, y, h);
 }
 
 void Graphics::fillPixmap(ref<YPixmap> pixmap, int x, int y,
                           unsigned w, unsigned h, int px, int py) {
+    Pixmap xpixmap(pixmap->pixmap(rdepth()));
     int const pw(pixmap->width());
     int const ph(pixmap->height());
+    if (xpixmap == None)
+        return;
 
     px%= pw; const int pww(px ? pw - px : 0);
     py%= ph; const int phh(py ? ph - py : 0);
 
     if (px) {
         if (py)
-            XCopyArea(display(), pixmap->pixmap(), drawable(), gc,
+            XCopyArea(display(), xpixmap, drawable(), gc,
                       px, py, pww, phh, x - xOrigin, y - yOrigin);
 
         for (int yy(y + phh), hh(h - phh); hh > 0; yy += ph, hh -= ph)
-            XCopyArea(display(), pixmap->pixmap(), drawable(), gc,
+            XCopyArea(display(), xpixmap, drawable(), gc,
                       px, 0, pww, min(hh, ph), x - xOrigin, yy - yOrigin);
     }
 
@@ -842,11 +865,11 @@ void Graphics::fillPixmap(ref<YPixmap> pixmap, int x, int y,
         int const www(min(ww, pw));
 
         if (py)
-            XCopyArea(display(), pixmap->pixmap(), drawable(), gc,
+            XCopyArea(display(), xpixmap, drawable(), gc,
                       0, py, www, phh, xx - xOrigin, y - yOrigin);
 
         for (int yy(y + phh), hh(h - phh); hh > 0; yy += ph, hh -= ph)
-            XCopyArea(display(), pixmap->pixmap(), drawable(), gc,
+            XCopyArea(display(), xpixmap, drawable(), gc,
                       0, 0, www, min(hh, ph), xx - xOrigin, yy - yOrigin);
     }
 }
@@ -871,7 +894,8 @@ void Graphics::drawGradient(ref<YImage> gradient,
                             int const gx, int const gy, const unsigned gw, const unsigned gh)
 {
     ref<YImage> scaled = gradient->scale(gw, gh);
-    scaled->draw(*this, gx, gy, w, h, x, y);
+    if (scaled != null)
+        scaled->draw(*this, gx, gy, w, h, x, y);
 }
 
 /******************************************************************************/
@@ -994,6 +1018,12 @@ int Graphics::function() const {
     return values.function;
 }
 
+unsigned long Graphics::getColorPixel() const {
+    XGCValues values;
+    XGetGCValues(display(), gc, GCForeground, &values);
+    return values.foreground;
+}
+
 void Graphics::setClipRectangles(XRectangle *rect, int count) {
     XSetClipRectangles(display(), gc,
                        -xOrigin, -yOrigin, rect, count, Unsorted);
@@ -1011,6 +1041,78 @@ void Graphics::resetClip() {
 #ifdef CONFIG_XFREETYPE
     XftDrawSetClip(handleXft(), 0);
 #endif
+}
+
+/******************************************************************************/
+
+void GraphicsBuffer::paint(Pixmap pixmap, const YRect& rect) {
+    if (window()->handle() && window()->destroyed())
+        return;
+
+    const bool clipping = false;
+    const int x(rect.x());
+    const int y(rect.y());
+    const unsigned w(rect.width());
+    const unsigned h(rect.height());
+    const unsigned depth(window()->depth());
+
+    if (x < 0 || y < 0 || int(w) <= 0 || int(h) <= 0 || pixmap == None) {
+        return;
+    }
+
+    fNesting += 1;
+
+    Graphics gfx(pixmap, w, h, depth);
+
+    if (clipping) {
+        if (x || y || w < window()->width() || h < window()->height()) {
+            XRectangle clip = { short(x), short(y),
+                               (unsigned short)w, (unsigned short)h };
+            gfx.setClipRectangles(&clip, 1);
+        }
+    }
+
+    window()->paint(gfx, rect);
+
+    if (pixmap == fPixmap && fNesting == 1) {
+        if ( !window()->destroyed()) {
+            window()->setBackgroundPixmap(pixmap);
+            window()->clearArea(x, y, w, h);
+        }
+    }
+
+    fNesting -= 1;
+}
+
+void GraphicsBuffer::release() {
+    if (fPixmap) {
+        XFreePixmap(display(), fPixmap);
+        fPixmap = None;
+    }
+}
+
+GraphicsBuffer::~GraphicsBuffer() {
+    release();
+}
+
+void GraphicsBuffer::paint(const YRect& rect) {
+    if (0 < window()->width() && 0 < window()->height()) {
+        GraphicsBuffer::paint(pixmap(), rect);
+    }
+}
+
+void GraphicsBuffer::paint() {
+    YRect rect(0, 0, window()->width(), window()->height());
+    paint(rect);
+}
+
+Pixmap GraphicsBuffer::pixmap() {
+    if (fPixmap == None || fDim != window()->dimension()) {
+        if (fPixmap) XFreePixmap(display(), fPixmap);
+        fPixmap = window()->createPixmap();
+        fDim = window()->dimension();
+    }
+    return fPixmap;
 }
 
 /******************************************************************************/

@@ -28,6 +28,9 @@ enum YDirection {
 struct YDimension {
     YDimension(unsigned w, unsigned h): w(w), h(h) {}
     unsigned w, h;
+
+    bool operator==(const YDimension& d) const { return w == d.w && h == d.h; }
+    bool operator!=(const YDimension& d) const { return w != d.w || h != d.h; }
 };
 
 /******************************************************************************/
@@ -77,10 +80,14 @@ public:
     Graphics(Drawable drawable, unsigned w, unsigned h, unsigned depth);
     ~Graphics();
 
+    void clear();
+    void clearArea(int x, int y, unsigned w, unsigned h);
     void copyArea(const int x, const int y, const unsigned width, const unsigned height,
                   const int dx, const int dy);
     void copyDrawable(const Drawable d, const int x, const int y,
                       const unsigned w, const unsigned h, const int dx, const int dy);
+    void copyImage(ref<YImage> image, int x, int y);
+    void copyPixmap(ref<YPixmap> p, int dx, int dy);
     void copyPixmap(ref<YPixmap> p, const int x, const int y,
                      const unsigned w, const unsigned h, const int dx, const int dy);
 
@@ -126,6 +133,7 @@ public:
     void setLineWidth(unsigned width);
     void setPenStyle(bool dotLine = false); ///!!!hack
     void setFunction(int function = GXcopy);
+    unsigned long getColorPixel() const;
 
     void draw3DRect(int x, int y, unsigned w, unsigned h, bool raised);
     void drawBorderW(int x, int y, unsigned w, unsigned h, bool raised);
@@ -184,6 +192,37 @@ private:
     ref<YFont> fFont;
     int xOrigin, yOrigin;
     unsigned rWidth, rHeight, rDepth;
+};
+
+/******************************************************************************/
+/******************************************************************************/
+
+class GraphicsBuffer {
+public:
+    GraphicsBuffer(YWindow* ywindow) :
+        fWindow(ywindow),
+        fNesting(0),
+        fPixmap(None),
+        fDim(0, 0)
+    {
+    }
+    ~GraphicsBuffer();
+    void paint(const class YRect& rect);
+    void paint();
+    void release();
+
+    YWindow* window() const { return fWindow; }
+    int nesting() const { return fNesting; }
+    bool operator!() const { return !fPixmap; }
+
+private:
+    YWindow* fWindow;
+    int fNesting;
+    Pixmap fPixmap;
+    YDimension fDim;
+
+    Pixmap pixmap();
+    void paint(Pixmap p, const class YRect& rect);
 };
 
 #endif
