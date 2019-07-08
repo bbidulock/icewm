@@ -110,10 +110,10 @@ static upath getDefaultsFilePath(const pstring& basename) {
     return null;
 }
 
-int WMConfig::setDefault(const char *basename, const char *content) {
+void WMConfig::setDefault(const char *basename, cstring content) {
     upath confOld(getDefaultsFilePath(basename));
     if (confOld == null) {
-        return -1; // no directory
+        return; // no directory
     }
     upath confNew(confOld.path() + ".new.tmp");
 
@@ -123,12 +123,12 @@ int WMConfig::setDefault(const char *basename, const char *content) {
         if (content[0] && content[strlen(content)-1] != '\n')
             fputc('\n', fpNew);
     }
-    if (fpNew == NULL || fflush(fpNew) || ferror(fpNew)) {
+    if (fpNew == nullptr || fflush(fpNew) || ferror(fpNew)) {
         fail(_("Unable to write to %s"), confNew.string().c_str());
         if (fpNew)
             fclose(fpNew);
         confNew.remove();
-        return -1;
+        return;
     }
 
     FILE *fpOld = confOld.fopen("r");
@@ -147,7 +147,7 @@ int WMConfig::setDefault(const char *basename, const char *content) {
     }
     fclose(fpNew);
 
-    if (fpOld != 0 || confOld.access() == 0) {
+    if (fpOld != nullptr || confOld.access() == 0) {
         confOld.remove();
     }
     if (confNew.renameAs(confOld)) {
@@ -155,7 +155,14 @@ int WMConfig::setDefault(const char *basename, const char *content) {
                 confNew.string().c_str(), confOld.string().c_str());
         confNew.remove();
     }
-    return 0;
+}
+
+void WMConfig::setDefaultFocus(long focusMode) {
+    setDefault("focus_mode", "FocusMode=\"" + mstring(focusMode) + "\"");
+}
+
+void WMConfig::setDefaultTheme(mstring themeName) {
+    setDefault("theme", "Theme=\"" + themeName + "\"");
 }
 
 static void print_options(cfoption *options) {
@@ -187,7 +194,11 @@ static void print_options(cfoption *options) {
     }
 }
 
-void WMConfig::print_preferences() {
+void WMConfig::printPrefs(long focus, bool log, bool sync, const char* spl) {
+    printf("FocusMode=%ld\n", focus);
+    printf("LoggingEvents=%d\n", log);
+    printf("SynchronizeX11=%d\n", sync);
+    printf("SplashFile=\"%s\"\n", spl);
     print_options(icewm_preferences);
     print_options(icewm_themable_preferences);
 }

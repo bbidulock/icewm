@@ -812,10 +812,7 @@ bool YWMApp::mapClientByResource(const char* resource, long *pid) {
 void YWMApp::setFocusMode(FocusModels mode) {
     focusMode = mode;
     initFocusMode();
-
-    char s[32];
-    snprintf(s, sizeof s, "FocusMode=%d\n", mode);
-    WMConfig::setDefault("focus_mode", s);
+    WMConfig::setDefaultFocus(mode);
 }
 
 void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
@@ -1061,8 +1058,7 @@ static int restartWM(const char* displayName, const char* overrideTheme) {
     Display* display = XOpenDisplay(displayName);
     if (display) {
         if (nonempty(overrideTheme)) {
-            cstring themeContent("Theme=\"" + mstring(overrideTheme) + "\"");
-            WMConfig::setDefault("theme", themeContent);
+            WMConfig::setDefaultTheme(overrideTheme);
         }
         XClientMessageEvent message = {
             ClientMessage, 0UL, False, 0, DefaultRootWindow(display),
@@ -1153,7 +1149,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
     initPointers();
 
     if (post_preferences)
-        WMConfig::print_preferences();
+        WMConfig::printPrefs(focusMode, loggingEvents, synchronizeX11, splashFile);
 
     delete desktop;
 
