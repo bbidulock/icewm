@@ -25,6 +25,8 @@ public:
     YXTrayEmbedder(YXTray *tray, Window win, Window leader, cstring title);
     ~YXTrayEmbedder();
     virtual void paint(Graphics &g, const YRect &r);
+    virtual void repaint();
+    virtual void handleExpose(const XExposeEvent& expose) {}
     virtual void handleConfigureRequest(const XConfigureRequestEvent &configureRequest);
     virtual bool destroyedClient(Window win);
     virtual void handleClientUnmap(Window win);
@@ -71,6 +73,8 @@ public:
 
     virtual void paint(Graphics &g, const YRect &r);
     virtual void configure(const YRect &r);
+    virtual void repaint();
+    virtual void handleExpose(const XExposeEvent& expose) {}
     virtual void handleConfigureRequest(const XConfigureRequestEvent &configureRequest);
 
     void backgroundChanged();
