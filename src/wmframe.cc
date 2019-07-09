@@ -33,9 +33,8 @@ lazy<YTimer> YFrameWindow::fAutoRaiseTimer;
 lazy<YTimer> YFrameWindow::fDelayFocusTimer;
 
 YFrameWindow::YFrameWindow(
-    YActionListener *wmActionListener,
-    YWindow *parent, int depth, Visual *visual)
-    : YWindow(parent, 0, depth, visual)
+    YActionListener *wmActionListener)
+    : YWindow(nullptr, None, xapp->depth(), xapp->visual(), xapp->colormap())
 {
     this->wmActionListener = wmActionListener;
 
@@ -119,12 +118,8 @@ YFrameWindow::YFrameWindow(
     fWinState = 0;
     fWinOptionMask = ~0;
     fTrayOrder = 0;
-
-    fClientContainer = new YClientContainer(this, this);
-    fClientContainer->show();
-    fClientContainer->setTitle("Container");
+    fClientContainer = nullptr;
     setTitle("Frame");
-    setBackground(inactiveBorderBg);
 }
 
 YFrameWindow::~YFrameWindow() {
@@ -155,11 +150,7 @@ YFrameWindow::~YFrameWindow() {
             taskBar->removeTrayApp(this);
         fTrayApp = 0;
     }
-    if (fWinListItem) {
-        if (windowList)
-            windowList->removeWindowListApp(fWinListItem);
-        delete fWinListItem; fWinListItem = 0;
-    }
+    removeFromWindowList();
     if (fMiniIcon) {
         delete fMiniIcon;
         fMiniIcon = 0;
@@ -226,7 +217,18 @@ YFrameTitleBar* YFrameWindow::titlebar() {
 }
 
 void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &requestFocus) {
-    PRECONDITION(clientw != 0);
+    PRECONDITION(clientw != 0 && !fClientContainer && !fClient);
+
+    if (clientw->handle() == None || clientw->destroyed()) {
+        return;
+    }
+
+    unsigned depth = Elvis(clientw->depth(), xapp->depth());
+    bool sameDepth = (depth == xapp->depth());
+    Visual* visual = (sameDepth ? xapp->visual() : clientw->visual());
+    Colormap clmap = (sameDepth ? xapp->colormap() : clientw->colormap());
+    fClientContainer = new YClientContainer(this, this, depth, visual, clmap);
+
     fClient = clientw;
 
     {
@@ -421,8 +423,7 @@ void YFrameWindow::afterManage() {
     if (!(frameOptions() & foFullKeys))
         grabKeys();
     fClientContainer->grabButtons();
-    if (windowList && !(frameOptions() & foIgnoreWinList))
-        fWinListItem = windowList->addWindowListApp(this);
+    addToWindowList();
     if (fWindowType == wtDialog)
         wmapp->signalGuiEvent(geDialogOpened);
     else

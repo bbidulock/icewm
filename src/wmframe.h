@@ -25,7 +25,7 @@ class YFrameWindow:
     public YFocusedNode
 {
 public:
-    YFrameWindow(YActionListener *wmActionListener, YWindow *parent = 0, int depth = CopyFromParent, Visual *visual = CopyFromParent);
+    YFrameWindow(YActionListener *wmActionListener);
     virtual ~YFrameWindow();
 
     void doManage(YFrameClient *client, bool &doActivate, bool &requestFocus);
@@ -347,6 +347,7 @@ public:
     void setWorkspaceHint(long workspace);
     long getActiveLayer() const { return fWinActiveLayer; }
     void setRequestedLayer(long layer);
+    long getRequestedLayer() const { return fWinRequestedLayer; }
     long getTrayOption() const { return fWinTrayOption; }
     void setTrayOption(long option);
     void setDoNotCover(bool flag);

@@ -622,8 +622,7 @@ void YWindowManager::handleClick(const XButtonEvent &up, int count) {
             break;
         }
         if (up.button == (unsigned) rootWinListButton) {
-            if (windowList)
-                windowList->showFocused(up.x_root, up.y_root);
+            windowList->showFocused(up.x_root, up.y_root);
             break;
         }
     } while (0);
@@ -1492,7 +1491,10 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         if (!mapClient && attributes.map_state == IsUnmapped)
             goto end;
 
-        client = new YFrameClient(0, 0, win);
+        client = new YFrameClient(0, 0, win,
+                                  attributes.depth,
+                                  attributes.visual,
+                                  attributes.colormap);
         if (client == 0)
             goto end;
 
@@ -1529,15 +1531,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 
     manager->updateFullscreenLayerEnable(false);
 
-    XWindowAttributes wa;
-    XGetWindowAttributes(xapp->display(), client->handle(), &wa);
-
-    if (wa.depth == 32)
-        frame = new YFrameWindow(wmActionListener, 0,
-                                 wa.depth,
-                                 wa.visual);
-    else
-        frame = new YFrameWindow(wmActionListener);
+    frame = new YFrameWindow(wmActionListener);
 
     if (frame == 0) {
         delete client;
@@ -2544,11 +2538,7 @@ void YWindowManager::updateTaskBarNames() {
 void YWindowManager::updateMoveMenu() {
     if (moveMenu) {
         moveMenu->removeAll();
-        for (long w = 0; w < ::workspaceCount; w++) {
-            char s[128];
-            snprintf(s, 128, "%lu. %s", (unsigned long)(w + 1), workspaceNames[w]);
-            moveMenu->addItem(s, 0, null, workspaceActionMoveTo[w]);
-        }
+        moveMenu->updatePopup();
     }
 }
 
