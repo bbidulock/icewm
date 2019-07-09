@@ -189,7 +189,7 @@ public:
     virtual void popupSystemMenu(YWindow *owner);
     virtual void handlePopDown(YPopupWindow *popup);
 
-    virtual void configure(const YRect &r);
+    virtual void configure(const YRect2& r);
 
     void getNewPos(const XConfigureRequestEvent &cr,
                    int &cx, int &cy, int &cw, int &ch);

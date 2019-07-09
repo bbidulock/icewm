@@ -282,10 +282,12 @@ void YFrameWindow::layoutShape() {
     }
 }
 
-void YFrameWindow::configure(const YRect& r) {
+void YFrameWindow::configure(const YRect2& r) {
     MSG(("configure %d %d %d %d", r.x(), r.y(), r.width(), r.height()));
 
-    performLayout();
+    if (r.resized()) {
+        performLayout();
+    }
     if (affectsWorkArea()) {
         manager->updateWorkArea();
     }
