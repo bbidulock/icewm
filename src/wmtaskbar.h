@@ -25,7 +25,6 @@ class AWorkspaces;
 class WorkspacesPane;
 class YXTray;
 class YSMListener;
-
 class TaskBar;
 
 class EdgeTrigger: public YWindow, public YTimerListener {
@@ -69,9 +68,7 @@ private:
     virtual void handleEndDrag(const XButtonEvent &down, const XButtonEvent &up);
 
     virtual void handleCrossing(const XCrossingEvent &crossing);
-#if false
-    virtual bool handleTimer(YTimer *t);
-#endif
+    virtual void handleExpose(const XExposeEvent &expose) {}
 
     virtual void actionPerformed(YAction action, unsigned int modifiers);
     virtual void handlePopDown(YPopupWindow *popup);
@@ -79,7 +76,8 @@ private:
 
     void updateWMHints();
     void updateLocation();
-    void configure(const YRect &r);
+    virtual void configure(const YRect2 &r);
+    virtual void repaint();
 
     YClock *clock() { return fClock; }
 
@@ -93,8 +91,6 @@ public:
     void removeTasksApp(YFrameWindow *w);
     class TaskBarApp *addTasksApp(YFrameWindow *w);
     void relayoutTasks();
-
-    WorkspacesPane *workspacesPane() const { return fWorkspaces; }
 
     void popupStartMenu();
     void popupWindowListMenu();
@@ -129,6 +125,7 @@ private:
     TrayPane *windowTrayPane() const { return fWindowTray; }
 
     virtual ref<YImage> getGradient() const { return fGradient; }
+    const YSurface& getSurface() const { return fSurface; }
 
     void contextMenu(int x_root, int y_root);
 
@@ -136,9 +133,11 @@ private:
     YXTray *netwmTray() { return fDesktopTray; }
 
 private:
+    GraphicsBuffer fGraphics;
+    YSurface fSurface;
     TaskPane *fTasks;
 
-    YButton *fCollapseButton;
+    ObjectButton *fCollapseButton;
     TrayPane *fWindowTray;
     YClock *fClock;
     MailBoxControl *fMailBoxStatus;
@@ -148,11 +147,11 @@ private:
     ref<NetStatusControl> fNetStatus;
 
     ObjectBar *fObjectBar;
-    YButton *fApplications;
-    YButton *fWinList;
-    YButton *fShowDesktop;
+    ObjectButton *fApplications;
+    ObjectButton *fWinList;
+    ObjectButton *fShowDesktop;
     AddressBar *fAddressBar;
-    WorkspacesPane *fWorkspaces;
+    AWorkspaces *fWorkspaces;
     YXTray *fDesktopTray;
     YActionListener *wmActionListener;
     YSMListener *smActionListener;
@@ -163,11 +162,8 @@ private:
     bool fIsCollapsed;
     bool fIsMapped;
     bool fMenuShown;
-#if false
-    YTimer *fAutoHideTimer;
-#endif
 
-    YMenu *taskBarMenu;
+    lazy<TaskBarMenu> taskBarMenu;
 
     friend class WindowList;
     friend class WindowListBox;
@@ -176,7 +172,6 @@ private:
 
     bool fNeedRelayout;
 
-    void initMenu();
     void initApplets();
     void updateLayout(unsigned &size_w, unsigned &size_h);
 

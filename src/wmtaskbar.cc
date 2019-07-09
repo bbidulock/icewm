@@ -119,6 +119,8 @@ bool EdgeTrigger::handleTimer(YTimer *t) {
 
 TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener, YSMListener *smActionListener):
     YFrameClient(aParent, 0),
+    fGraphics(this),
+    fSurface(taskBarBg, taskbackPixmap, taskbackPixbuf),
     fTasks(0),
     fCollapseButton(0),
     fWindowTray(0),
@@ -141,16 +143,12 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     fIsCollapsed(false),
     fIsMapped(false),
     fMenuShown(false),
-    taskBarMenu(0),
     fNeedRelayout(false),
     fEdgeTrigger(0)
 {
     taskBar = this;
 
     ///setToplevel(true);
-    setBackground(taskBarBg.pixel());
-    if (taskbackPixmap != null)
-        setBackgroundPixmap(taskbackPixmap->pixmap());
 
     initPixmaps();
 
@@ -204,7 +202,6 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
 
     fEdgeTrigger = new EdgeTrigger(this);
 
-    initMenu();
     initApplets();
 
     getPropertiesList();
@@ -238,54 +235,46 @@ TaskBar::~TaskBar() {
     delete fWindowTray; fWindowTray = 0;
     delete fCollapseButton; fCollapseButton = 0;
     delete fShowDesktop; fShowDesktop = 0;
-    delete taskBarMenu; taskBarMenu = 0;
-    taskBar = 0;
+    taskBar = nullptr;
     if (getFrame())
         getFrame()->unmanage(false);
     MSG(("taskBar delete"));
 }
 
-void TaskBar::initMenu() {
-    taskBarMenu = new YMenu();
-    if (taskBarMenu) {
-        taskBarMenu->setActionListener(this);
-        taskBarMenu->addItem(_("Tile _Vertically"), -2, KEY_NAME(gKeySysTileVertical), actionTileVertical);
-        taskBarMenu->addItem(_("T_ile Horizontally"), -2, KEY_NAME(gKeySysTileHorizontal), actionTileHorizontal);
-        taskBarMenu->addItem(_("Ca_scade"), -2, KEY_NAME(gKeySysCascade), actionCascade);
-        taskBarMenu->addItem(_("_Arrange"), -2, KEY_NAME(gKeySysArrange), actionArrange);
-        taskBarMenu->addItem(_("_Minimize All"), -2, KEY_NAME(gKeySysMinimizeAll), actionMinimizeAll);
-        taskBarMenu->addItem(_("_Hide All"), -2, KEY_NAME(gKeySysHideAll), actionHideAll);
-        taskBarMenu->addItem(_("_Undo"), -2, KEY_NAME(gKeySysUndoArrange), actionUndoArrange);
+class TaskBarMenu : public YMenu {
+public:
+    void updatePopup() {
+        if (0 < itemCount())
+            return;
+
+        setActionListener(taskBar);
+        addItem(_("Tile _Vertically"), -2, KEY_NAME(gKeySysTileVertical), actionTileVertical);
+        addItem(_("T_ile Horizontally"), -2, KEY_NAME(gKeySysTileHorizontal), actionTileHorizontal);
+        addItem(_("Ca_scade"), -2, KEY_NAME(gKeySysCascade), actionCascade);
+        addItem(_("_Arrange"), -2, KEY_NAME(gKeySysArrange), actionArrange);
+        addItem(_("_Minimize All"), -2, KEY_NAME(gKeySysMinimizeAll), actionMinimizeAll);
+        addItem(_("_Hide All"), -2, KEY_NAME(gKeySysHideAll), actionHideAll);
+        addItem(_("_Undo"), -2, KEY_NAME(gKeySysUndoArrange), actionUndoArrange);
         if (minimizeToDesktop)
-            taskBarMenu->addItem(_("Arrange _Icons"), -2, KEY_NAME(gKeySysArrangeIcons), actionArrangeIcons)->setEnabled(false);
-        taskBarMenu->addSeparator();
-        taskBarMenu->addItem(_("_Windows"), -2, actionWindowList, windowListMenu);
-        taskBarMenu->addSeparator();
-        taskBarMenu->addItem(_("_Refresh"), -2, null, actionRefresh);
-
-#if 0
-        YMenu *helpMenu; // !!!
-
-        helpMenu = new YMenu();
-        helpMenu->addItem(_("_License"), -2, null, actionLicense);
-        helpMenu->addSeparator();
-        helpMenu->addItem(_("_About"), -2, null, actionAbout);
-#endif
-
-        taskBarMenu->addItem(_("_About"), -2, actionAbout, 0);
-        if (logoutMenu) {
-            taskBarMenu->addSeparator();
+            addItem(_("Arrange _Icons"), -2, KEY_NAME(gKeySysArrangeIcons), actionArrangeIcons)->setEnabled(false);
+        addSeparator();
+        addItem(_("_Windows"), -2, actionWindowList, windowListMenu);
+        addSeparator();
+        addItem(_("_Refresh"), -2, null, actionRefresh);
+        addItem(_("_About"), -2, actionAbout, 0);
+        if (showLogoutMenu) {
+            addSeparator();
             if (showLogoutSubMenu)
-                taskBarMenu->addItem(_("_Logout..."), -2, actionLogout, logoutMenu);
+                addItem(_("_Logout..."), -2, actionLogout, logoutMenu);
             else
-                taskBarMenu->addItem(_("_Logout..."), -2, null, actionLogout);
+                addItem(_("_Logout..."), -2, null, actionLogout);
         }
 
-        taskBarMenu->setTitle("IceMenu");
-        taskBarMenu->setClassHint("icemenu", "TaskBar");
-        taskBarMenu->setNetWindowType(_XA_NET_WM_WINDOW_TYPE_POPUP_MENU);
+        setTitle("IceMenu");
+        setClassHint("icemenu", "TaskBar");
+        setNetWindowType(_XA_NET_WM_WINDOW_TYPE_POPUP_MENU);
     }
-}
+};
 
 void TaskBar::initApplets() {
 #ifdef MEM_STATES
@@ -333,8 +322,9 @@ void TaskBar::initApplets() {
 #endif
 
     if (taskBarShowCollapseButton) {
-        fCollapseButton = new YButton(this, actionCollapseTaskbar);
+        fCollapseButton = new ObjectButton(this, actionCollapseTaskbar);
         if (fCollapseButton) {
+            fCollapseButton->setWinGravity(StaticGravity);
             fCollapseButton->setText(">");
             fCollapseButton->setImage(taskbarCollapseImage);
             fCollapseButton->setActionListener(this);
@@ -350,7 +340,10 @@ void TaskBar::initApplets() {
         fMailBoxStatus = 0;
 
     if (taskBarShowStartMenu) {
-        fApplications = new ObjectButton(this, rootMenu);
+        class LazyRootMenu : public LazyMenu {
+            YMenu* ymenu() { return rootMenu; }
+        };
+        fApplications = new ObjectButton(this, new LazyRootMenu);
         fApplications->setActionListener(this);
         fApplications->setImage(taskbarStartImage);
         fApplications->setToolTip(_("Favorite Applications"));
@@ -368,7 +361,10 @@ void TaskBar::initApplets() {
         fObjectBar->setTitle("IceToolbar");
     }
     if (taskBarShowWindowListMenu) {
-        fWinList = new ObjectButton(this, windowListMenu);
+        class LazyWindowListMenu : public LazyMenu {
+            YMenu* ymenu() { return windowListMenu; }
+        };
+        fWinList = new ObjectButton(this, new LazyWindowListMenu);
         fWinList->setImage(taskbarWindowsImage);
         fWinList->setActionListener(this);
         fWinList->setToolTip(_("Window List Menu"));
@@ -383,11 +379,12 @@ void TaskBar::initApplets() {
         fShowDesktop->setToolTip(_("Show Desktop"));
         fShowDesktop->setTitle("ShowDesktop");
     }
-    if (taskBarShowWorkspaces && workspaceCount > 0) {
-        fWorkspaces = new WorkspacesPane(this);
-        fWorkspaces->setTitle("Workspaces");
-    } else
-        fWorkspaces = 0;
+
+    fWorkspaces = taskBarShowWorkspaces
+                ? new WorkspacesPane(this)
+                : new AWorkspaces(this);
+    fWorkspaces->setTitle("Workspaces");
+
     if (enableAddressBar) {
         fAddressBar = new AddressBar(app, this);
         fAddressBar->setTitle("AddressBar");
@@ -420,6 +417,10 @@ void TaskBar::initApplets() {
         fDesktopTray->relayout();
     } else
         fDesktopTray = 0;
+
+    if (fCollapseButton) {
+        fCollapseButton->raise();
+    }
 }
 
 void TaskBar::trayChanged() {
@@ -817,8 +818,7 @@ void TaskBar::handleButton(const XButtonEvent &button) {
         (button.button == 1 || button.button == 3) &&
         (BUTTON_MODMASK(button.state) == Button1Mask + Button3Mask))
     {
-        if (windowList)
-            windowList->showFocused(button.x_root, button.y_root);
+        windowList->showFocused(button.x_root, button.y_root);
     }
     else {
         if (button.type == ButtonPress) {
@@ -843,8 +843,7 @@ void TaskBar::contextMenu(int x_root, int y_root) {
 void TaskBar::handleClick(const XButtonEvent &up, int count) {
     if (up.button == 1) {
     } else if (up.button == 2) {
-        if (windowList)
-            windowList->showFocused(up.x_root, up.y_root);
+        windowList->showFocused(up.x_root, up.y_root);
     } else {
         if (up.button == 3 && count == 1 && IS_BUTTON(up.state, Button3Mask)) {
             contextMenu(up.x_root, up.y_root);
@@ -967,7 +966,14 @@ void TaskBar::handleCollapseButton() {
 void TaskBar::handlePopDown(YPopupWindow * /*popup*/) {
 }
 
-void TaskBar::configure(const YRect &r) {
+void TaskBar::configure(const YRect2& r) {
+    if (r.resized() && 1 < r.width()) {
+        fGraphics.paint(r);
+    }
+}
+
+void TaskBar::repaint() {
+    fGraphics.paint();
 }
 
 void TaskBar::detachDesktopTray() {

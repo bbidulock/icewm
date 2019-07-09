@@ -664,7 +664,7 @@ void YFrameWindow::getNewPos(const XConfigureRequestEvent &cr,
 
     // update pager when windows move/resize themselves (like xmms, gmplayer, ...),
     // because this does not call YFrameWindow::endMoveSize()
-    if (taskBar && taskBar->workspacesPane()) {
+    if (taskBar) {
         taskBar->workspacesRepaint();
     }
 }
