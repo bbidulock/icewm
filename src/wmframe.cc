@@ -120,6 +120,7 @@ YFrameWindow::YFrameWindow(
     fTrayOrder = 0;
     fClientContainer = nullptr;
     setTitle("Frame");
+    setBackground(inactiveBorderBg);
 }
 
 YFrameWindow::~YFrameWindow() {

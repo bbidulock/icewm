@@ -41,9 +41,10 @@ YColor YFrameTitleBar::background(bool active) {
 }
 
 YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
-    YWindow(desktop),
+    YWindow(parent),
     fFrame(frame),
     wasCanRaise(false),
+    isVisible(false),
     fCloseButton(0),
     fMenuButton(0),
     fMaximizeButton(0),
@@ -52,11 +53,12 @@ YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
     fRollupButton(0),
     fDepthButton(0)
 {
-    reparent(parent, 0, 0);
-
     initTitleColorsFonts();
-    setTitle("TitleBar");
+    setStyle(wsNoExpose);
     setWinGravity(NorthGravity);
+    setBitGravity(NorthWestGravity);
+    addEventMask(VisibilityChangeMask);
+    setTitle("TitleBar");
 }
 
 YFrameButton* YFrameTitleBar::maximizeButton() {
@@ -220,8 +222,7 @@ void YFrameTitleBar::handleButton(const XButtonEvent &button) {
         if (button.button == Button1 &&
             IS_BUTTON(BUTTON_MODMASK(button.state), Button1Mask + Button3Mask))
         {
-            if (windowList)
-                windowList->showFocused(button.x_root, button.y_root);
+            windowList->showFocused(button.x_root, button.y_root);
         }
     }
     YWindow::handleButton(button);
@@ -408,6 +409,25 @@ int YFrameTitleBar::titleLen() const {
     ustring title = getFrame()->client()->windowTitle();
     int tlen = title != null ? titleFont->textWidth(title) : 0;
     return tlen;
+}
+
+void YFrameTitleBar::repaint() {
+    if (isVisible && width() > 1 && height() > 1) {
+        GraphicsBuffer(this).paint();
+    }
+}
+
+void YFrameTitleBar::handleVisibility(const XVisibilityEvent& visib) {
+    bool prev = isVisible;
+    isVisible = (visib.state != VisibilityFullyObscured);
+    if (prev < isVisible)
+        repaint();
+}
+
+void YFrameTitleBar::configure(const YRect2& r) {
+    if (r.resized()) {
+        repaint();
+    }
 }
 
 void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {

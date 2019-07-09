@@ -21,6 +21,10 @@ public:
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleClick(const XButtonEvent &up, int count);
     virtual void handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion);
+    virtual void handleVisibility(const XVisibilityEvent &visibility);
+    virtual void handleExpose(XExposeEvent const& expose) {}
+    virtual void configure(const YRect2& r);
+    virtual void repaint();
 
     YFrameWindow *getFrame() const { return fFrame; };
 
@@ -50,6 +54,7 @@ private:
 
     YFrameWindow *fFrame;
     bool wasCanRaise;
+    bool isVisible;
 
     YFrameButton* fCloseButton;
     YFrameButton* fMenuButton;
