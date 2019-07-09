@@ -8,7 +8,8 @@ YXEmbedClient::YXEmbedClient(YXEmbed *embedder, YWindow *aParent, Window win):
     fEmbedder(embedder),
     _XEMBED_INFO("_XEMBED_INFO")
 {
-    setParentRelative();
+    if (xapp->alpha() == false)
+        setParentRelative();
 }
 
 YXEmbedClient::~YXEmbedClient() {

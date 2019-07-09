@@ -631,12 +631,8 @@ void YXTray::showClient(Window win, bool showClient) {
 }
 
 void YXTray::detachTray() {
-    for (IterType ec = fDocked.reverseIterator(); ++ec; ) {
-        ec->detach();
-    }
     fDocked.clear();
 }
-
 
 void YXTray::paint(Graphics &g, const YRect &/*r*/) {
     if (!fDrawBevel)
