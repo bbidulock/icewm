@@ -196,9 +196,13 @@ static void print_options(cfoption *options) {
 
 void WMConfig::printPrefs(long focus, bool log, bool sync, const char* spl) {
     printf("FocusMode=%ld\n", focus);
-    printf("LoggingEvents=%d\n", log);
-    printf("SynchronizeX11=%d\n", sync);
-    printf("SplashFile=\"%s\"\n", spl);
+    printf("LogEvents=%d\n", log);
+    printf("Synchronize=%d\n", sync);
+    printf("Splash=\"%s\"\n", Elvis(spl, ""));
+    print_preferences();
+}
+
+void WMConfig::print_preferences() {
     print_options(icewm_preferences);
     print_options(icewm_themable_preferences);
 }

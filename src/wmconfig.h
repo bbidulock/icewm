@@ -13,6 +13,7 @@ public:
     static void setDefaultFocus(long focusMode);
     static void setDefaultTheme(mstring themeName);
     static void printPrefs(long focus, bool log, bool sync, const char* spl);
+    static void print_preferences();
 };
 
 // functions which are used in preferences options:
