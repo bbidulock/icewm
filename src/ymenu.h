@@ -115,6 +115,12 @@ private:
     void hideSubmenu();
 };
 
+class LazyMenu {
+public:
+    virtual YMenu* ymenu() = 0;
+    virtual ~LazyMenu() {}
+};
+
 extern ref<YPixmap> menubackPixmap;
 extern ref<YPixmap> menuselPixmap;
 extern ref<YPixmap> menusepPixmap;
