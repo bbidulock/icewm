@@ -1026,8 +1026,11 @@ void TaskBar::showAddressBar() {
 
 void TaskBar::setWorkspaceActive(long workspace, bool active) {
     if (taskBarShowWorkspaces && fWorkspaces) {
+        YDimension dim(fWorkspaces->dimension());
         fWorkspaces->setPressed(workspace, active);
-        relayout();
+        if (dim != fWorkspaces->dimension()) {
+            relayout();
+        }
     }
 }
 
@@ -1039,15 +1042,21 @@ void TaskBar::workspacesRepaint() {
 
 void TaskBar::workspacesUpdateButtons() {
     if (taskBarShowWorkspaces && fWorkspaces) {
+        YDimension dim(fWorkspaces->dimension());
         fWorkspaces->updateButtons();
-        relayout();
+        if (dim != fWorkspaces->dimension()) {
+            relayout();
+        }
     }
 }
 
 void TaskBar::workspacesRelabelButtons() {
     if (taskBarShowWorkspaces && fWorkspaces) {
+        YDimension dim(fWorkspaces->dimension());
         fWorkspaces->relabelButtons();
-        relayout();
+        if (dim != fWorkspaces->dimension()) {
+            relayout();
+        }
     }
 }
 
