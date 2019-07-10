@@ -1832,7 +1832,7 @@ public:
         int x = (xapp->displayWidth() - w) / 2;
         int y = (xapp->displayHeight() - h) / 2;
         setGeometry(YRect(x, y, w, h));
-        // GraphicsBuffer(this, 0).paint();
+        GraphicsBuffer(this).paint();
     }
     void props() {
         setTitle("IceSplash");
@@ -1846,7 +1846,7 @@ public:
     void handleExpose(const XExposeEvent&) {
     }
     void paint(Graphics& g, const YRect&) {
-        // g.copyImage(image, 0, 0);
+        g.copyImage(image, 0, 0);
     }
     void handleVisibility(const XVisibilityEvent&) {
         raise();
