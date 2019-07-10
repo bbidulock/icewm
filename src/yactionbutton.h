@@ -9,9 +9,14 @@ public:
     YActionButton(YWindow *parent):
         YButton(parent, YAction())
     {
+        setParentRelative();
     }
 
     operator YAction() const { return getAction(); }
+
+    virtual void handleExpose(const XExposeEvent& expose) {}
+    virtual void configure(const YRect2& r);
+    virtual void repaint();
 };
 
 #endif

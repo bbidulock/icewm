@@ -15,8 +15,11 @@ YColorName YLabel::labelBg(&clrLabel);
 ref<YFont> YLabel::labelFont;
 
 YLabel::YLabel(const ustring &label, YWindow *parent):
-    YWindow(parent), fLabel(label)
+    YWindow(parent),
+    fLabel(label),
+    fPainted(false)
 {
+    setParentRelative();
     setBitGravity(NorthWestGravity);
 
     if (labelFont == null)
@@ -28,8 +31,25 @@ YLabel::YLabel(const ustring &label, YWindow *parent):
 YLabel::~YLabel() {
 }
 
+void YLabel::handleExpose(const XExposeEvent& expose) {
+    if (fPainted == false) {
+        repaint();
+    }
+}
+
+void YLabel::configure(const YRect2& r) {
+    if (visible() && created()) {
+        repaint();
+    }
+}
+
+void YLabel::repaint() {
+    fPainted = true;
+    GraphicsBuffer(this).paint();
+}
+
 void YLabel::paint(Graphics &g, const YRect &/*r*/) {
-    ref<YImage> gradient(parent() ? parent()->getGradient() : null);
+    ref<YImage> gradient(getGradient());
 
     if (gradient != null)
         g.drawImage(gradient, x() - 1, y() - 1, width(), height(), 0, 0);
