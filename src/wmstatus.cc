@@ -36,7 +36,7 @@ YWindowManagerStatus::YWindowManagerStatus()
     : YWindow()
     , fConfigured(false)
 {
-    setStyle(wsOverrideRedirect | wsSaveUnder);
+    setStyle(wsOverrideRedirect | wsSaveUnder | wsNoExpose);
     setTitle("IceStatus");
     setClassHint("status", "IceWM");
     setNetWindowType(_XA_NET_WM_WINDOW_TYPE_NOTIFICATION);
@@ -45,8 +45,10 @@ YWindowManagerStatus::YWindowManagerStatus()
 YWindowManagerStatus::~YWindowManagerStatus() {
 }
 
-void YWindowManagerStatus::configure(const YRect& r) {
-    configureStatus();
+void YWindowManagerStatus::configure(const YRect2& r) {
+    if (fConfigured == false || r.resized()) {
+        configureStatus();
+    }
 }
 
 void YWindowManagerStatus::configureStatus() {
@@ -67,7 +69,7 @@ void YWindowManagerStatus::repaintSync() {
     if (fConfigured == false) {
         configureStatus();
     }
-    paint(getGraphics(), YRect());
+    GraphicsBuffer(this).paint();
 }
 
 void YWindowManagerStatus::paint(Graphics &g, const YRect &/*r*/) {

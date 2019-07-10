@@ -11,7 +11,8 @@ public:
     YWindowManagerStatus();
     virtual ~YWindowManagerStatus();
 
-    virtual void configure(const YRect& r);
+    virtual void configure(const YRect2& r2);
+    virtual void handleExpose(const XExposeEvent& expose) {}
     virtual void paint(Graphics &g, const YRect &r);
     virtual void repaint() { repaintSync(); }
     virtual void repaintSync();
