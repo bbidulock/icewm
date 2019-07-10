@@ -279,7 +279,7 @@ SwitchWindow::SwitchWindow(YWindow *parent, ISwitchItems *items,
     modsDown = 0;
     isUp = false;
 
-    setStyle(wsSaveUnder | wsOverrideRedirect | wsPointerMotion);
+    setStyle(wsSaveUnder | wsOverrideRedirect | wsPointerMotion | wsNoExpose);
     setTitle("IceSwitch");
     setClassHint("switch", "IceWM");
     setNetWindowType(_XA_NET_WM_WINDOW_TYPE_DIALOG);
@@ -394,6 +394,10 @@ void SwitchWindow::resize(int xiscreen) {
     setGeometry(YRect(dx + ((dw - w) >> 1),
                       dy + ((dh - h) >> 1),
                       w, h));
+}
+
+void SwitchWindow::repaint() {
+    GraphicsBuffer(this).paint();
 }
 
 void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
