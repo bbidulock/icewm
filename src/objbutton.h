@@ -39,7 +39,7 @@ public:
     virtual YSurface getSurface();
 
 private:
-    void obinit() { setParentRelative(); }
+    void obinit() { setStyle(wsNoExpose); setParentRelative(); }
 
     osmart<DObject> fObject;
     osmart<LazyMenu> fMenu;

@@ -116,6 +116,7 @@ YXTrayProxy::YXTrayProxy(const YAtom& atom, YXTray *tray):
     _NET_WM_NAME("_NET_WM_NAME"),
     fTray(tray)
 {
+    setStyle(wsNoExpose);
     setTitle("YXTrayProxy");
     if (isExternal()) {
         long orientation = SYSTEM_TRAY_ORIENTATION_HORZ;
@@ -356,8 +357,8 @@ YXTrayEmbedder::YXTrayEmbedder(YXTray *tray, Window win, Window ldr, cstring tit
     if (fClient->destroyed())
         return;
 
-    setParentRelative();
     setStyle(wsManager | wsNoExpose);
+    setParentRelative();
     setTitle("YXTrayEmbedder");
 
     fClient->setBorderWidth(0);

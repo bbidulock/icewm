@@ -337,6 +337,7 @@ WindowList::WindowList(YWindow *aParent, YActionListener *wmActionListener):
     scroll(new YScrollView(this)),
     list(new WindowListBox(scroll, scroll))
 {
+    setStyle(wsNoExpose);
     scroll->setView(list);
     list->show();
     scroll->show();

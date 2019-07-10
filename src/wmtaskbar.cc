@@ -152,6 +152,7 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
 
     initPixmaps();
 
+    setStyle(wsNoExpose);
     setTitle("TaskBar");
     setWindowTitle(_("Task Bar"));
     setIconTitle(_("Task Bar"));
