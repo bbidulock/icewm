@@ -151,7 +151,7 @@ XIV(int, autoShowDelay,                         500)
 XIV(int, edgeSwitchDelay,                       600)
 XIV(int, scrollBarStartDelay,                   500)
 XIV(int, scrollBarDelay,                        30)
-XIV(int, workspaceStatusTime,                   2500)
+XIV(int, workspaceStatusTime,                   700)
 XIV(int, useRootButtons,                        255)    // bitmask=all
 XIV(int, buttonRaiseMask,                       1)
 XIV(int, rootWinMenuButton,                     0)
