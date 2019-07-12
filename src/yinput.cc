@@ -63,6 +63,18 @@ ustring YInputLine::getText() {
     return fText;
 }
 
+void YInputLine::repaint() {
+    if (width() > 1) {
+        GraphicsBuffer(this).paint();
+    }
+}
+
+void YInputLine::configure(const YRect2& r) {
+    if (r.resized()) {
+        repaint();
+    }
+}
+
 void YInputLine::paint(Graphics &g, const YRect &/*r*/) {
     ref<YFont> font = inputFont;
     int min, max, minOfs = 0, maxOfs = 0;

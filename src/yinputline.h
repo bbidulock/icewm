@@ -36,6 +36,9 @@ public:
     virtual void handleClick(const XButtonEvent &up, int count);
     virtual void actionPerformed(YAction action, unsigned int modifiers);
     virtual void handleSelection(const XSelectionEvent &selection);
+    virtual void handleExpose(const XExposeEvent& expose) {}
+    virtual void configure(const YRect2& r);
+    virtual void repaint();
 
     bool move(unsigned pos, bool extend);
     bool hasSelection() const { return (curPos != markPos) ? true : false; }
