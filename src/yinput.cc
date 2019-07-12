@@ -43,6 +43,7 @@ YInputLine::YInputLine(YWindow *parent, YInputListener *listener):
     inputSelectionFg(&clrInputSelectionText),
     inputMenu()
 {
+    setStyle(wsNoExpose);
     if (inputFont != null)
         setSize(width(), inputFont->height() + 2);
 }

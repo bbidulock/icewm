@@ -480,6 +480,7 @@ YXTray::YXTray(YXTrayNotifier *notifier,
     fRunProxy(internal == false),
     fDrawBevel(drawBevel)
 {
+    setStyle(wsNoExpose);
     setTitle("YXTray");
     setParentRelative();
     fTrayProxy = new YXTrayProxy(atom, this);
