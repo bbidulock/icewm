@@ -25,6 +25,23 @@ enum YDirection {
 /******************************************************************************/
 /******************************************************************************/
 
+enum Opaqueness {
+    NilOpacity = 0,
+    MinOpacity = 1,
+    MaxOpacity = 100,
+};
+
+inline bool validOpacity(int opacity) {
+    return MinOpacity <= opacity && opacity <= MaxOpacity;
+}
+
+inline unsigned opacityAlpha(int opacity) {
+    return (unsigned(opacity) * 255U) / 100U;
+}
+
+/******************************************************************************/
+/******************************************************************************/
+
 struct YDimension {
     YDimension(unsigned w, unsigned h): w(w), h(h) {}
     unsigned w, h;
