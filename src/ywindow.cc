@@ -350,7 +350,9 @@ Window YWindow::create() {
         if (fStyle & wsManager)
             fEventMask |= SubstructureRedirectMask | SubstructureNotifyMask;
         if (fStyle & (wsInputOnly | wsNoExpose)) {
-            fEventMask &= ~(ExposureMask | FocusChangeMask);
+            fEventMask &= ~(ExposureMask);
+            if (fStyle & wsInputOnly)
+                fEventMask &= ~(FocusChangeMask);
             fDoubleBuffer = false;
         }
 
