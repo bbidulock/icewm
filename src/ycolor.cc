@@ -23,6 +23,9 @@ YColorName YColor::white("rgb:FF/FF/FF");
 static inline Display* display()  { return xapp->display(); }
 static inline Colormap colormap() { return xapp->colormap(); }
 static inline Visual*  visual()   { return xapp->visual(); }
+static inline unsigned vdepth()   { return xapp->depth(); }
+
+typedef unsigned short Word;
 
 class YPixel {
 public:
@@ -38,30 +41,38 @@ public:
     YColor darker();
 
     static unsigned long
-    color(unsigned short r, unsigned short g, unsigned short b)
+    color(Word r, Word g, Word b, Word a)
     {
         if (sizeof(unsigned long) < 8)
-            return (r & 0xFFE0) << 16 | (g & 0xFFE0) <<  5 | ((b >> 6) & 0x3FF);
+            return (r & 0xFF00) << 16 | (g & 0xFF00) << 8 | ((b >> 8) & 0xFF)
+                 | ((a & 0xFF) << 24);
         else
-            return (unsigned long) r << 32 | (unsigned long) g << 16 | b;
+            return (unsigned long) r << 32 | (unsigned long) g << 16 | b
+                 | (unsigned long) (a & 0xFF) << 48;
     }
     unsigned short red() const {
         if (sizeof(unsigned long) < 8)
-            return (fColor >> 16 & 0xFFE0);
+            return (fColor >> 16 & 0xFF00);
         else
             return (fColor >> 32 & 0xFFFF);
     }
     unsigned short green() const {
         if (sizeof(unsigned long) < 8)
-            return (fColor >>  5 & 0xFFE0);
+            return (fColor >>  8 & 0xFF00);
         else
             return (fColor >> 16 & 0xFFFF);
     }
     unsigned short blue() const {
         if (sizeof(unsigned long) < 8)
-            return (fColor <<  6 & 0xFFC0);
+            return (fColor <<  8 & 0xFF00);
         else
             return (fColor & 0xFFFF);
+    }
+    unsigned short alpha() const {
+        if (sizeof(unsigned long) < 8)
+            return (fColor >> 24 & 0xFF);
+        else
+            return (fColor >> 48 & 0xFF);
     }
 
 private:
@@ -87,8 +98,11 @@ public:
         return pixels[0];
     }
 
-    YPixel* get(unsigned short r, unsigned short g, unsigned short b) {
-        unsigned long color = YPixel::color(r, g, b);
+    YPixel* get(Word r, Word g, Word b, Word a = 0) {
+        if (a == 0 && xapp->alpha() && validOpacity(fOpacity)) {
+            a = opacityAlpha(fOpacity);
+        }
+        unsigned long color = YPixel::color(r, g, b, a);
         int lo = 0, hi = pixels.getCount();
 
         while (lo < hi) {
@@ -105,7 +119,7 @@ public:
                 return pivot;
             }
         }
-        unsigned long allocated = alloc(r, g, b);
+        unsigned long allocated = alloc(r, g, b, a);
         if (allocated == 0)
             return black();
         else {
@@ -115,9 +129,19 @@ public:
         }
     }
 
-private:
-    unsigned long alloc(unsigned short r, unsigned short g, unsigned short b);
+    void setOpacity(int opacity) {
+        fOpacity = opacity;
+    }
 
+    YPixelCache() :
+        fOpacity(0)
+    {
+    }
+
+private:
+    unsigned long alloc(Word r, Word g, Word b, Word a);
+
+    int fOpacity;
     YObjectArray<YPixel> pixels;
 
 } cache;
@@ -131,6 +155,21 @@ YPixel::~YPixel() {
         delete fXftColor;
     }
 #endif
+}
+
+void YColor::alloc(const char* name, int opacity) {
+    if (name && name[0]) {
+        if (*name == '[') {
+            long opaq(strtol(++name, (char **) &name, 10));
+            if (inrange<long>(opaq, MinOpacity, MaxOpacity)) {
+                opacity = int(opaq);
+            }
+            name += (*name == ']');
+        }
+        cache.setOpacity(opacity);
+        alloc(name);
+        cache.setOpacity(0);
+    }
 }
 
 void YColor::alloc(const char* name) {
@@ -177,14 +216,13 @@ XftColor* YColor::xftColor() {
 #endif
 
 unsigned long
-YPixelCache::alloc(unsigned short r, unsigned short g, unsigned short b)
+YPixelCache::alloc(Word r, Word g, Word b, Word a)
 {
     XColor color = { 0, r, g, b, (DoRed | DoGreen | DoBlue), 0 };
     Visual *visual = ::visual();
 
     if (visual->c_class == TrueColor) {
-        unsigned long padding, unused;
-        int depth = visual->bits_per_rgb;
+        unsigned depth = vdepth(), high, unused = 0;
 
         int red_shift = int(lowbit(visual->red_mask));
         int red_prec = int(highbit(visual->red_mask)) - red_shift + 1;
@@ -193,13 +231,20 @@ YPixelCache::alloc(unsigned short r, unsigned short g, unsigned short b)
         int blue_shift = int(lowbit(visual->blue_mask));
         int blue_prec = int(highbit(visual->blue_mask)) - blue_shift + 1;
 
-        /* Shifting by >= width-of-type isn't defined in C */
-        if (depth >= 32)
-            padding = 0;
-        else
-            padding = ~0UL << depth;
-
-        unused = ~ (visual->red_mask | visual->green_mask | visual->blue_mask | padding);
+        high = 1
+             + highbit(visual->red_mask | visual->green_mask | visual->blue_mask);
+        if (high < depth) {
+            if (a) {
+                unused = a;
+            }
+            else if (validOpacity(fOpacity)) {
+                unused = (((1U << (depth - high)) - 1U) * fOpacity) / MaxOpacity;
+            }
+            else {
+                unused = ((1U << (depth - high)) - 1U);
+            }
+            unused <<= high;
+        }
 
         color.pixel = (unused +
                        ((color.red >> (16 - red_prec)) << red_shift) +
@@ -266,7 +311,8 @@ YColor YPixel::darker() {
     if (fDarken == false)
         fDarken = YColor( cache.get(darken(red()),
                                     darken(green()),
-                                    darken(blue())));
+                                    darken(blue()),
+                                    alpha()));
     return fDarken;
 }
 
@@ -274,7 +320,8 @@ YColor YPixel::brighter() {
     if (fBright == false)
         fBright = YColor( cache.get(bright(red()),
                                     bright(green()),
-                                    bright(blue())));
+                                    bright(blue()),
+                                    alpha()));
     return fBright;
 }
 
