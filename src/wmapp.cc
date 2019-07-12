@@ -151,7 +151,7 @@ static Window registerProtocols1(char **argv, int argc) {
     return xid;
 }
 
-static void registerProtocols2(Window xid) {
+static void registerWinProtocols(Window xid) {
     Atom win_proto[] = {
 //      _XA_WIN_APP_STATE,
         _XA_WIN_AREA,
@@ -171,12 +171,14 @@ static void registerProtocols2(Window xid) {
         _XA_WIN_WORKSPACE_COUNT,
         _XA_WIN_WORKSPACE_NAMES
     };
-    unsigned int i = ACOUNT(win_proto);
+    int win_count = int ACOUNT(win_proto);
 
     XChangeProperty(xapp->display(), manager->handle(),
                     _XA_WIN_PROTOCOLS, XA_ATOM, 32,
-                    PropModeReplace, (unsigned char *)win_proto, i);
+                    PropModeReplace, (unsigned char *)win_proto, win_count);
+}
 
+static void registerWinProperties(Window xid) {
     XChangeProperty(xapp->display(), xid,
                     _XA_WIN_SUPPORTING_WM_CHECK, XA_CARDINAL, 32,
                     PropModeReplace, (unsigned char *)&xid, 1);
@@ -194,7 +196,9 @@ static void registerProtocols2(Window xid) {
     XChangeProperty(xapp->display(), manager->handle(),
                     _XA_WIN_AREA, XA_CARDINAL, 32,
                     PropModeReplace, (unsigned char *)&ca, 2);
+}
 
+static void registerNetProtocols(Window xid) {
     Atom net_proto[] = {
         _XA_NET_ACTIVE_WINDOW,
         _XA_NET_CLIENT_LIST,
@@ -219,8 +223,8 @@ static void registerProtocols2(Window xid) {
         _XA_NET_SUPPORTING_WM_CHECK,
         _XA_NET_SYSTEM_TRAY_MESSAGE_DATA,
         _XA_NET_SYSTEM_TRAY_OPCODE,
-//      _XA_NET_SYSTEM_TRAY_ORIENTATION,
-//      _XA_NET_SYSTEM_TRAY_VISUAL,
+        _XA_NET_SYSTEM_TRAY_ORIENTATION,
+        _XA_NET_SYSTEM_TRAY_VISUAL,
 //      _XA_NET_VIRTUAL_ROOTS,
         _XA_NET_WM_ACTION_ABOVE,
         _XA_NET_WM_ACTION_BELOW,
@@ -288,12 +292,30 @@ static void registerProtocols2(Window xid) {
         _XA_NET_WM_WINDOW_TYPE_UTILITY,
         _XA_NET_WORKAREA
     };
-    unsigned int j = ACOUNT(net_proto);
+    int net_count = int ACOUNT(net_proto);
+
+    if ((showTaskBar & taskBarEnableSystemTray) == false) {
+        for (int k = net_count; 0 < k--; ) {
+            if (net_proto[k] == _XA_NET_SYSTEM_TRAY_MESSAGE_DATA ||
+                net_proto[k] == _XA_NET_SYSTEM_TRAY_OPCODE ||
+                net_proto[k] == _XA_NET_SYSTEM_TRAY_ORIENTATION ||
+                net_proto[k] == _XA_NET_SYSTEM_TRAY_VISUAL)
+            {
+                int keep = --net_count - k;
+                if (keep > 0) {
+                    size_t size = keep * sizeof(Atom);
+                    memmove(&net_proto[k], &net_proto[k + 1], size);
+                }
+            }
+        }
+    }
 
     XChangeProperty(xapp->display(), manager->handle(),
                     _XA_NET_SUPPORTED, XA_ATOM, 32,
-                    PropModeReplace, (unsigned char *)net_proto, j);
+                    PropModeReplace, (unsigned char *)net_proto, net_count);
+}
 
+static void registerNetProperties(Window xid) {
     XChangeProperty(xapp->display(), xid,
                     _XA_NET_SUPPORTING_WM_CHECK, XA_WINDOW, 32,
                     PropModeReplace, (unsigned char *)&xid, 1);
@@ -308,11 +330,19 @@ static void registerProtocols2(Window xid) {
 
     XChangeProperty(xapp->display(), xid,
                     _XA_NET_WM_NAME, _XA_UTF8_STRING, 8,
-                    PropModeReplace, (unsigned char *)wmname, strnlen(wmname, sizeof(wmname)));
+                    PropModeReplace, (unsigned char *)wmname,
+                    strnlen(wmname, sizeof(wmname)));
 
     XChangeProperty(xapp->display(), manager->handle(),
                     _XA_NET_SUPPORTING_WM_CHECK, XA_WINDOW, 32,
                     PropModeReplace, (unsigned char *)&xid, 1);
+}
+
+static void registerProtocols2(Window xid) {
+    registerWinProtocols(xid);
+    registerWinProperties(xid);
+    registerNetProtocols(xid);
+    registerNetProperties(xid);
 }
 
 static void unregisterProtocols() {
