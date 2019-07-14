@@ -128,7 +128,7 @@ private:
     const YSurface& getSurface() const { return fSurface; }
 
     void contextMenu(int x_root, int y_root);
-
+    void buttonUpdate();
     void trayChanged();
     YXTray *netwmTray() { return fDesktopTray; }
 
@@ -171,6 +171,7 @@ private:
     ref<YImage> fGradient;
 
     bool fNeedRelayout;
+    bool fButtonUpdate;
 
     void initApplets();
     void updateLayout(unsigned &size_w, unsigned &size_h);

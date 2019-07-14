@@ -144,6 +144,7 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     fIsMapped(false),
     fMenuShown(false),
     fNeedRelayout(false),
+    fButtonUpdate(false),
     fEdgeTrigger(0)
 {
     taskBar = this;
@@ -630,6 +631,10 @@ void TaskBar::relayoutNow() {
     }
     if (taskPane())
         taskPane()->relayoutNow();
+    if (fButtonUpdate) {
+        fButtonUpdate = false;
+        buttonUpdate();
+    }
     manager->unlockWorkArea();
 }
 
@@ -1042,6 +1047,10 @@ void TaskBar::workspacesRepaint() {
 }
 
 void TaskBar::workspacesUpdateButtons() {
+    fButtonUpdate = true;
+}
+
+void TaskBar::buttonUpdate() {
     if (taskBarShowWorkspaces && fWorkspaces) {
         YDimension dim(fWorkspaces->dimension());
         fWorkspaces->updateButtons();
