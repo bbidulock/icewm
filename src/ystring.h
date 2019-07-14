@@ -11,6 +11,10 @@
 #include "ylocale.h"
 #include <string.h>
 
+#if __cplusplus == 199711L
+#define nullptr NULL
+#endif
+
 template <class DataType> class YString {
 public:
     typedef DataType data_t;
