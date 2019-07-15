@@ -22,30 +22,27 @@ ref<YFont> WorkspaceButton::activeButtonFont;
 
 WorkspaceButton::WorkspaceButton(int ws, YWindow *parent, WorkspaceDragger* d):
     super(parent, YAction()),
-    fWidth(1),
-    fHeight(1),
     fWorkspace(ws),
     fDelta(0),
     fDownX(0),
     fDragging(false),
-    fPainted(false),
+    fGraphics(this),
     fPane(d)
 {
+    setStyle(wsNoExpose);
     setParentRelative();
     //setDND(true);
     setTitle(name());
 }
 
-void WorkspaceButton::configure(const YRect& r) {
-    if (fWidth != r.width() || fHeight != r.height()) {
-        fWidth = r.width();
-        fHeight = r.height();
+void WorkspaceButton::configure(const YRect2& r) {
+    if (r.resized() || !fGraphics) {
         repaint();
     }
 }
 
 void WorkspaceButton::repaint() {
-    super::repaint();
+    fGraphics.paint();
 }
 
 void WorkspaceButton::paintBackground(Graphics& g, const YRect& r) {
@@ -63,7 +60,6 @@ void WorkspaceButton::paintBackground(Graphics& g, const YRect& r) {
         g.setColor(taskBarBg);
         g.fillRect(r.x(), r.y(), r.width(), r.height());
     }
-    fPainted = true;
 }
 
 void WorkspaceButton::handleButton(const XButtonEvent &button) {
@@ -123,7 +119,7 @@ void WorkspaceButton::handleCrossing(const XCrossingEvent &e) {
     }
 
     if (false == pagerShowPreview) {
-       super::handleCrossing(e);
+        super::handleCrossing(e);
     }
 }
 
@@ -234,6 +230,7 @@ WorkspacesPane::WorkspacesPane(YWindow *parent):
     fRepositioning(false),
     fReconfiguring(false)
 {
+    setStyle(wsNoExpose);
     setParentRelative();
 }
 
@@ -355,8 +352,8 @@ void WorkspacesPane::relabelButtons() {
     paths = null;
 }
 
-void WorkspacesPane::configure(const YRect& r) {
-    if ((fReconfiguring | fRepositioning) == false) {
+void WorkspacesPane::configure(const YRect2& r) {
+    if ((fReconfiguring | fRepositioning) == false && r.resized()) {
         fReconfiguring = true;
         if (count() == 0) {
             unsigned width = 0, height = max(smallIconSize + 8, r.height());

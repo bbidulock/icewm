@@ -42,7 +42,8 @@ private:
     virtual void handleBeginDrag(const XButtonEvent&, const XMotionEvent&);
     virtual void handleDrag(const XButtonEvent&, const XMotionEvent&);
     virtual void handleEndDrag(const XButtonEvent&, const XButtonEvent&);
-    virtual void configure(const YRect& r);
+    virtual void handleExpose(const XExposeEvent& expose) {}
+    virtual void configure(const YRect2& r);
     virtual bool handleTimer(YTimer *t);
 
     virtual void actionPerformed(YAction button, unsigned int modifiers);
@@ -56,13 +57,11 @@ private:
     virtual void paint(Graphics &g, const YRect &r);
     virtual void paintBackground(Graphics &g, const YRect &r);
 
-    unsigned fWidth;
-    unsigned fHeight;
     int fWorkspace;
     int fDelta;
     int fDownX;
     bool fDragging;
-    bool fPainted;
+    GraphicsBuffer fGraphics;
     lazy<YTimer> fRaiseTimer;
     osmart<YInputLine> fInput;
     WorkspaceDragger* fPane;
@@ -88,7 +87,8 @@ class WorkspaceIcons {
 
 class AWorkspaces : public YWindow {
 public:
-    AWorkspaces(YWindow *parent) : YWindow(parent) { setParentRelative(); }
+    AWorkspaces(YWindow *parent) : YWindow(parent) {
+        setParentRelative(); setStyle(wsNoExpose); }
     virtual ~AWorkspaces() {}
 
     virtual void repaint() {}
@@ -145,7 +145,8 @@ private:
     virtual void stopDrag();
     virtual void relabel(int ws);
     virtual bool handleTimer(YTimer *t);
-    virtual void configure(const YRect &r);
+    virtual void configure(const YRect2 &r);
+    virtual void handleExpose(const XExposeEvent &e) {}
 };
 
 extern YColorName taskBarBg;
