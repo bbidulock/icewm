@@ -30,11 +30,14 @@ lazy<YTimer> TaskBarApp::fRaiseTimer;
 TaskBarApp::TaskBarApp(ClientData *frame, TaskPane *taskPane, YWindow *aParent): YWindow(aParent) {
     fTaskPane = taskPane;
     fFrame = frame;
+    fPixmap = None;
+    fRepainted = false;
     selected = 0;
     fShown = true;
     fFlashing = false;
     fFlashOn = false;
     fFlashStart = zerotime();
+    setParentRelative();
     setToolTip(frame->getTitle());
     //setDND(true);
 }
@@ -45,6 +48,9 @@ TaskBarApp::~TaskBarApp() {
 
     if (fRaiseTimer)
         fRaiseTimer->disableTimerListener(this);
+
+    if (fPixmap)
+        XFreePixmap(xapp->display(), fPixmap);
 }
 
 void TaskBarApp::activate() const {
@@ -83,7 +89,32 @@ void TaskBarApp::setFlash(bool flashing) {
     }
 }
 
-void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
+void TaskBarApp::configure(const YRect2& r) {
+    if (r.resized()) {
+        int dw = r.deltaWidth();
+        if (r.deltaHeight() || dw < -2 || dw > 0 || fRepainted == false) {
+            fRepainted = false;
+            repaint();
+        } else {
+            fRepainted = false;
+        }
+    }
+}
+
+void TaskBarApp::repaint() {
+    if (width() > 1 && height() > 1) {
+        GraphicsBuffer(this).paint();
+        fRepainted = true;
+    }
+}
+
+void TaskBarApp::handleExpose(const XExposeEvent& exp) {
+    if (fRepainted == false) {
+        repaint();
+    }
+}
+
+void TaskBarApp::paint(Graphics &g, const YRect& r) {
     YColor bg, fg;
     ref<YPixmap> bgPix;
     ref<YPixmap> bgLeft;
@@ -246,6 +277,8 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
         int const y((height() - 3 - iconSize -
                      ((wmLook == lookMetal) ? 1 : 0)) / 2);
         iconDrawn = icon->draw(g, p + max(1, left), p + 1 + y, iconSize);
+        if (iconDrawn && p + max(1, left) + iconSize + 5 >= int(width()))
+            return;
     }
 
     ustring str = getFrame()->getIconTitle();
@@ -269,9 +302,10 @@ void TaskBarApp::paint(Graphics &g, const YRect &/*r*/) {
                                (height() + font->height() -
                                 ((wmLook == lookMetal || wmLook == lookFlat) ? 2 : 1)) / 2 -
                                font->descent());
-            int const wm = width() - p - pad - iconSize - 1;
+            int const wm = int(width()) - p - pad - iconSize - 1;
 
-            g.drawStringEllipsis(p + tx, p + ty, str, wm);
+            if (0 < wm && p + tx + wm < int(width()))
+                g.drawStringEllipsis(p + tx, p + ty, str, wm);
         }
     }
 }
@@ -439,6 +473,12 @@ TaskPane::TaskPane(IAppletContainer *taskBar, YWindow *parent): YWindow(parent) 
     fNeedRelayout = true;
     fDragging = 0;
     fDragX = fDragY = 0;
+
+    setStyle(wsNoExpose);
+    if (getGradient() == null && taskbackPixmap == null) {
+        setBackground(taskBarBg);
+    }
+    setParentRelative();
 }
 
 TaskPane::~TaskPane() {
@@ -511,11 +551,32 @@ void TaskPane::removeApp(YFrameWindow *frame) {
     }
 }
 
-void TaskPane::relayoutNow() {
-    if (!fNeedRelayout)
+void TaskPane::relayout(bool force) {
+    if (force)
+        fForceImmediate = true;
+    if (fNeedRelayout == false) {
+        fNeedRelayout = true;
+        fRelayoutTimer->setTimer(15L, this, true);
+    }
+}
+
+bool TaskPane::handleTimer(YTimer *t) {
+    if (t == fRelayoutTimer) {
+        fRelayoutTimer = null;
+        fNeedRelayout = true;
+        if (fForceImmediate)
+            relayoutNow();
+    }
+    return false;
+}
+
+void TaskPane::relayoutNow(bool force) {
+    if (!fNeedRelayout && !force)
         return ;
 
     fNeedRelayout = false;
+    if (fRelayoutTimer)
+        fRelayoutTimer = null;
 
     int tc = 0;
 
@@ -564,21 +625,11 @@ void TaskPane::handleClick(const XButtonEvent &up, int count) {
     }
 }
 
-void TaskPane::paint(Graphics &g, const YRect &/*r*/) {
-    g.setColor(taskBarBg);
-    //g.draw3DRect(0, 0, width() - 1, height() - 1, true);
-
-    // When TaskBarDoubleHeight=1 this draws the lower half.
-    ref<YImage> gradient = parent()->getGradient();
-
-    if (gradient != null)
-        g.drawImage(gradient, 0, taskBarDoubleHeight ? 0 : y(),
-                    width(), height(), 0, 0);
-    else
-    if (taskbackPixmap != null)
-        g.fillPixmap(taskbackPixmap, 0, 0, width(), height(), x(), y());
-    else
-        g.fillRect(0, 0, width(), height());
+void TaskPane::paint(Graphics &g, const YRect& r) {
+    if (taskbackPixmap == null && getGradient() == null) {
+        g.setColor(taskBarBg);
+        g.fillRect(r.x(), r.y(), r.width(), r.height());
+    }
 }
 
 unsigned TaskPane::maxHeight() {
@@ -595,6 +646,12 @@ void TaskPane::handleButton(const XButtonEvent &button) {
     if (button.type == ButtonRelease)
         endDrag();
     YWindow::handleButton(button);
+}
+
+void TaskPane::configure(const YRect2& r) {
+    if (fNeedRelayout || r.resized()) {
+        clearWindow();
+    }
 }
 
 void TaskPane::startDrag(TaskBarApp *drag, int /*byMouse*/, int sx, int sy) {
@@ -643,16 +700,14 @@ void TaskPane::processDrag(int mx, int my) {
     }
     fDragX += dx;
     fDragY += dy;
-    relayout();
-    relayoutNow();
+    relayout(true);
 }
 
 void TaskPane::endDrag() {
     if (fDragging != 0) {
         xapp->releaseEvents();
         fDragging = 0;
-        relayout();
-        relayoutNow();
+        relayout(true);
     }
 }
 
@@ -670,8 +725,7 @@ void TaskPane::movePrev() {
         return;
 
     fApps.swap(other_index, act_index);
-    relayout();
-    relayoutNow();
+    relayout(true);
 }
 
 void TaskPane::moveNext() {
@@ -688,8 +742,7 @@ void TaskPane::moveNext() {
         return;
 
     fApps.swap(other_index, act_index);
-    relayout();
-    relayoutNow();
+    relayout(true);
 }
 
 void TaskPane::switchToPrev() {
