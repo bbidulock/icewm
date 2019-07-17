@@ -46,6 +46,10 @@
 #define GUI_EVENT_NAMES
 #include "guievent.h"
 
+#ifndef __GLIBC__
+typedef void (*sighandler_t)(int);
+#endif
+
 /******************************************************************************/
 
 using namespace ASCII;
