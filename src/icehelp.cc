@@ -1005,6 +1005,14 @@ public:
 
         draw(g, fRoot);
     }
+    virtual void handleExpose(const XExposeEvent& expose) {
+    }
+    virtual void repaint() {
+        GraphicsBuffer(this).paint();
+    }
+    virtual void configure(const YRect2& r) {
+        repaint();
+    }
 
     void resetScroll() {
         fVerticalScroll->setValues(ty, height(), 0, contentHeight());
@@ -1805,6 +1813,8 @@ public:
 
     virtual void handleClose() {
         app->exitLoop(0);
+    }
+    virtual void handleExpose(const XExposeEvent& expose) {
     }
 
 private:
