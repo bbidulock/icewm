@@ -23,7 +23,7 @@ YToolTipWindow::YToolTipWindow(ustring text) :
     toolTipFg(&clrToolTipText),
     toolTipFont(YFont::getFont(XFA(toolTipFontName)))
 {
-    setStyle(wsToolTip | wsOverrideRedirect | wsSaveUnder);
+    setStyle(wsToolTip | wsOverrideRedirect | wsSaveUnder | wsNoExpose);
     setText(text);
     setNetWindowType(_XA_NET_WM_WINDOW_TYPE_TOOLTIP);
     setClassHint("tooltip", "IceWM");
@@ -33,6 +33,16 @@ YToolTipWindow::YToolTipWindow(ustring text) :
 YToolTip::YToolTip() :
     fLocate(0)
 {
+}
+
+void YToolTipWindow::configure(const YRect2& r) {
+    if (r.resized()) {
+        repaint();
+    }
+}
+
+void YToolTipWindow::repaint() {
+    GraphicsBuffer(this).paint();
 }
 
 void YToolTipWindow::paint(Graphics &g, const YRect &/*r*/) {
