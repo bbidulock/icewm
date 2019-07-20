@@ -672,6 +672,9 @@ void YListBox::paint(Graphics &g, const YRect &r) {
 }
 
 void YListBox::paintItem(int i) {
+    if (!fGraphics)
+        return;
+
     if (i >= 0 && i < getItemCount() && fVisible) {
         int y = i * getLineHeight() - fOffsetY;
         YRect r(0, y, width(), getLineHeight());
