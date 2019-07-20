@@ -68,7 +68,8 @@ static char *getNameElement(const char *pattern, unsigned const element) {
 
 YCoreFont::YCoreFont(char const * name) {
     if (NULL == (fFont = XLoadQueryFont(xapp->display(), name))) {
-        warn(_("Could not load font \"%s\"."), name);
+        if (testOnce(name, __LINE__))
+            warn(_("Could not load font \"%s\"."), name);
 
         if (NULL == (fFont = XLoadQueryFont(xapp->display(), "fixed")))
             warn(_("Loading of fallback font \"%s\" failed."), "fixed");
@@ -104,14 +105,16 @@ void YCoreFont::drawGlyphs(Graphics & graphics, int x, int y,
 #ifdef CONFIG_I18N
 
 YFontSet::YFontSet(char const * name):
-fFontSet(None), fAscent(0), fDescent(0) {
-    int nMissing;
-    char **missing, *defString;
+    fFontSet(None), fAscent(0), fDescent(0)
+{
+    int nMissing = 0;
+    char **missing = 0, *defString = 0;
 
     fFontSet = getFontSetWithGuess(name, &missing, &nMissing, &defString);
 
     if (None == fFontSet) {
-        warn(_("Could not load fontset \"%s\"."), name);
+        if (testOnce(name, __LINE__))
+            warn(_("Could not load fontset \"%s\"."), name);
         if (nMissing) XFreeStringList(missing);
 
         fFontSet = XCreateFontSet(xapp->display(), "fixed",
@@ -122,7 +125,7 @@ fFontSet(None), fAscent(0), fDescent(0) {
     }
 
     if (fFontSet) {
-        if (nMissing) {
+        if (nMissing && testOnce(name, __LINE__)) {
             warn(_("Missing codesets for fontset \"%s\":"), name);
             for (int n(0); n < nMissing; ++n)
                 warn("  %s\n", missing[n]);
