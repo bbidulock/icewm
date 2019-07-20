@@ -76,7 +76,7 @@ void EdgeTrigger::stopHide() {
 }
 
 bool EdgeTrigger::enabled() const {
-    return (taskBarAutoHide | taskBarFullscreenAutoShow) & ~taskBarKeepBelow;
+    return (taskBarAutoHide | taskBarFullscreenAutoShow) & !taskBarKeepBelow;
 }
 
 void EdgeTrigger::show() {
