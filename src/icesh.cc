@@ -105,7 +105,9 @@ static NAtom ATOM_NET_ACTIVE_WINDOW("_NET_ACTIVE_WINDOW");
 static NAtom ATOM_NET_FRAME_EXTENTS("_NET_FRAME_EXTENTS");
 static NAtom ATOM_NET_RESTACK_WINDOW("_NET_RESTACK_WINDOW");
 static NAtom ATOM_NET_WM_WINDOW_OPACITY("_NET_WM_WINDOW_OPACITY");
+static NAtom ATOM_NET_SYSTEM_TRAY_WINDOWS("_KDE_NET_SYSTEM_TRAY_WINDOWS");
 static NAtom ATOM_UTF8_STRING("UTF8_STRING");
+static NAtom ATOM_XEMBED_INFO("_XEMBED_INFO");
 
 /******************************************************************************/
 
@@ -553,9 +555,9 @@ public:
         }
     }
 
-    void getClientList() {
+    void getWindowList(NAtom property) {
         release();
-        YClient clients(root, ATOM_NET_CLIENT_LIST, 10000);
+        YClient clients(root, property, 100000);
         if (clients) {
             fCount = clients.count();
             fChildren = (Window *) malloc(fCount * sizeof(Window));
@@ -566,6 +568,14 @@ public:
                 fSuccess = True;
             }
         }
+    }
+
+    void getClientList() {
+        getWindowList(ATOM_NET_CLIENT_LIST);
+    }
+
+    void getSystrayList() {
+        getWindowList(ATOM_NET_SYSTEM_TRAY_WINDOWS);
     }
 
     void filterLast() {
@@ -772,9 +782,12 @@ private:
     bool icewmAction();
     bool guiEvents();
     bool listShown();
+    bool listXembed();
+    void listXembed(Window w);
     bool listClients();
     bool listWindows();
     bool listScreens();
+    bool listSystray();
     bool listWorkspaces();
     bool setWorkspaceName();
     bool setWorkspaceNames();
@@ -1108,6 +1121,38 @@ void IceSh::detail()
     }
 }
 
+void IceSh::listXembed(Window parent)
+{
+    YWindowTree windowList(parent);
+    FOREACH_WINDOW(window) {
+        YCardinal info(window, ATOM_XEMBED_INFO, 2);
+        if (info) {
+            details(window);
+        }
+        listXembed(window);
+    }
+}
+
+bool IceSh::listXembed()
+{
+    if ( !isAction("xembed", 0))
+        return false;
+
+    listXembed(root);
+    return true;
+}
+
+bool IceSh::listSystray()
+{
+    if ( !isAction("systray", 0))
+        return false;
+
+    windowList.getSystrayList();
+
+    detail();
+    return true;
+}
+
 bool IceSh::listWindows()
 {
     if ( !isAction("windows", 0))
@@ -1418,6 +1463,8 @@ bool IceSh::icewmAction()
         || listScreens()
         || listWindows()
         || listClients()
+        || listSystray()
+        || listXembed()
         || listShown()
         || colormaps()
         || desktops()

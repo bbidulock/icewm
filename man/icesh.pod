@@ -14,7 +14,7 @@ icesh - control window properties and the IceWM window manager
 
 =head1 DESCRIPTION
 
-B<icesh> provides 69 commands to change or query a window's state,
+B<icesh> provides 72 commands to change or query a window's state,
 and to interact with the L<icewm(1)> window manager. Command arguments
 are called actions. Window actions operate on a selection of windows.
 B<icesh> has several options to select and filter windows.  Options and
@@ -424,6 +424,15 @@ their titles and geometries.
 =item B<windows>
 
 List all toplevel windows, their titles and geometries.
+
+=item B<systray>
+
+List applications which are managed by the IceWM system tray.
+
+=item B<xembed>
+
+List application windows which are embedded using the I<XEMBED> protocol.
+This is another way to discover system tray applications.
 
 =item B<logout>
 
