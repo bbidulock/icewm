@@ -23,11 +23,9 @@ public:
     IApplet(Picturer *picturer, YWindow *parent);
     virtual ~IApplet();
 
-    virtual void handleExpose(const XExposeEvent &expose);
-    virtual void handleMapNotify(const XMapEvent &map);
-    virtual void handleUnmapNotify(const XUnmapEvent &map);
+    virtual void handleExpose(const XExposeEvent &expose) {}
     virtual void handleVisibility(const XVisibilityEvent& visib);
-    virtual void paint(Graphics &g, const YRect &r);
+    virtual void paint(Graphics &g, const YRect &r) {}
     virtual void repaint();
 
 protected:
@@ -38,7 +36,9 @@ protected:
     bool isVisible;
 
 private:
-    bool isMapped;
+    virtual void configure(const YRect2& r);
+    void showPixmap();
+
     Picturer* fPicturer;
     Drawable fPixmap;
 };

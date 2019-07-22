@@ -73,7 +73,7 @@ NetStatus::NetStatus(
     prev_time(start_time),
     oldMaxBytes(None),
     statusUpdateCount(0),
-    unchanged(taskBarNetSamples),
+    unchanged(0),
     wasUp(false),
     useIsdn(netdev.m_str().startsWith("ippp")),
     fDevName(netdev),
@@ -104,14 +104,10 @@ NetStatus::~NetStatus() {
 
 void NetStatus::updateVisible(bool aVisible) {
     if (visible() != aVisible) {
-        if (aVisible)
-            show();
-        else
-            hide();
-
+        setVisible(aVisible);
         fHandler->relayout();
+        isVisible = min(isVisible, aVisible);
     }
-    isVisible = min(isVisible, aVisible);
 }
 
 void NetStatus::timedUpdate(const void* sharedData, bool forceDown) {
@@ -255,7 +251,7 @@ void NetStatus::fill(Graphics& g) {
         g.setColor(color[2]);
         g.fillRect(0, 0, width(), height());
     } else {
-        ref<YImage> gradient(parent()->getGradient());
+        ref<YImage> gradient(getGradient());
 
         if (gradient != null)
             g.drawImage(gradient,
@@ -318,7 +314,7 @@ void NetStatus::draw(Graphics &g) {
                     g.setColor(color[2]);
                     g.drawLine(i, l, i, t);
                 } else {
-                    ref<YImage> gradient(parent()->getGradient());
+                    ref<YImage> gradient(getGradient());
 
                     if (gradient != null)
                         g.drawImage(gradient,
@@ -334,7 +330,7 @@ void NetStatus::draw(Graphics &g) {
                 g.setColor(color[2]);
                 g.drawLine(i, 0, i, h - 1);
             } else {
-                ref<YImage> gradient(parent()->getGradient());
+                ref<YImage> gradient(getGradient());
 
                 if (gradient != null)
                     g.drawImage(gradient,

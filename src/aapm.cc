@@ -11,6 +11,8 @@
 #define NEED_TIME_H
 
 #include "config.h"
+#include "ywindow.h"
+#include "applet.h"
 #include "aapm.h"
 
 #ifdef MAX_ACPI_BATTERY_NUM
@@ -813,13 +815,15 @@ void YApm::PmuStr(char *s, const bool tool_tip)
 }
 
 YApm::YApm(YWindow *aParent, bool autodetect):
-    YWindow(aParent), YTimerListener(),
+    IApplet(this, aParent),
+    YTimerListener(),
     apmTimer(0), apmBg(&clrApm), apmFg(&clrApmText),
     apmFont(YFont::getFont(XFA(apmFontName))),
     apmColorOnLine(&clrApmLine),
     apmColorBattery(&clrApmBat),
     apmColorGraphBg(&clrApmGraphBg),
     mode(APM), batteryNum(0), acpiACName(0), fCurrentState(0),
+    fStatusChanged(true),
     acIsOnLine(false), energyNow(0), energyFull(0)
 {
     FILE *pmu_info;
@@ -909,6 +913,7 @@ YApm::YApm(YWindow *aParent, bool autodetect):
        setSize(taskBarApmGraphWidth, taskBarGraphHeight);
     else
        setSize(calcInitialWidth(), taskBarGraphHeight);
+    setParentRelative();
     updateToolTip();
     // setDND(true);
 }
@@ -968,7 +973,7 @@ int YApm::calcInitialWidth() {
     return calcWidth(buf, strlen(buf));
 }
 
-void YApm::updateState() {
+bool YApm::updateState() {
     char s[SYS_STR_SIZE] = {' ', ' ', ' ', 0, 0, 0, 0, 0};
 
     switch (mode) {
@@ -987,12 +992,29 @@ void YApm::updateState() {
     }
     MSG((_("power:\t%s"), s));
 
-    if (fCurrentState != 0)
-        delete[] fCurrentState;
-    fCurrentState = newstr(s);
+    fStatusChanged |= (fCurrentState == 0 || strcmp(fCurrentState, s));
+    if (fStatusChanged) {
+        if (fCurrentState)
+            delete[] fCurrentState;
+        fCurrentState = newstr(s);
+    }
+    return fStatusChanged;
 }
 
-void YApm::paint(Graphics &g, const YRect &/*r*/) {
+bool YApm::picture() {
+    bool update = (hasPixmap() == false);
+    if (update || fStatusChanged) {
+        Pixmap pixmap(IApplet::getPixmap());
+        if (pixmap) {
+            Graphics G(pixmap, width(), height(), depth());
+            draw(G);
+            swap(update, fStatusChanged);
+        }
+    }
+    return update;
+}
+
+void YApm::draw(Graphics &g) {
     unsigned int x = 0;
     int len, i;
 
@@ -1000,17 +1022,8 @@ void YApm::paint(Graphics &g, const YRect &/*r*/) {
 
     //clean background of current size first, so that
     //it is possible to use transparent apm-background
-    ref<YImage> gradient(parent()->getGradient());
-
-    if (gradient != null) {
-        g.drawImage(gradient, this->x(), this->y(), width(), height(), 0, 0);
-    }
-    else
-    if (taskbackPixmap != null) {
-        g.fillPixmap(taskbackPixmap,
-                     0, 0, width(), height(),
-                     this->x(), this->y());
-    }
+    if (taskbackPixmap != null || getGradient() != null)
+        g.clear();
     else {
         g.setColor(taskBarBg);
         g.fillRect(0, 0, width(), height());
@@ -1075,11 +1088,11 @@ void YApm::paint(Graphics &g, const YRect &/*r*/) {
 bool YApm::handleTimer(YTimer *t) {
     if (t != apmTimer) return false;
 
-    updateState();
-
-    if (toolTipVisible())
-        updateToolTip();
-    repaint();
+    if (updateState()) {
+        if (toolTipVisible())
+            updateToolTip();
+        repaint();
+    }
     return true;
 }
 

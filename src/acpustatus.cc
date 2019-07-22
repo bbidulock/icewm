@@ -125,7 +125,7 @@ void CPUStatus::paint(Graphics &g, const YRect& r) {
 }
 
 bool CPUStatus::picture() {
-    bool create = (hasPixmap() == None);
+    bool create = (hasPixmap() == false);
 
     Graphics G(getPixmap(), width(), height(), depth());
 
@@ -141,7 +141,7 @@ void CPUStatus::fill(Graphics& g) {
         g.setColor(color[IWM_IDLE]);
         g.fillRect(0, 0, width(), height());
     } else {
-        ref<YImage> gradient(parent()->getGradient());
+        ref<YImage> gradient(getGradient());
 
         if (gradient != null)
             g.drawImage(gradient,
@@ -245,7 +245,7 @@ void CPUStatus::draw(Graphics& g) {
                 g.setColor(color[IWM_IDLE]);
                 g.drawLine(i, 0, i, y);
             } else {
-                ref<YImage> gradient = parent()->getGradient();
+                ref<YImage> gradient(getGradient());
 
                 if (gradient != null)
                     g.drawImage(gradient,
