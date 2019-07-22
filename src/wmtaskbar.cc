@@ -811,8 +811,6 @@ void TaskBar::paint(Graphics &g, const YRect& r) {
             g.drawLine(r.x(), 0, r.x() + r.width(), 0);
         }
     }
-
-    if (ONCE) TLOG(("tb paint"));
 }
 
 bool TaskBar::handleKey(const XKeyEvent &key) {
