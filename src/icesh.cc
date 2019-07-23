@@ -99,6 +99,7 @@ static NAtom ATOM_WIN_LAYER(XA_WIN_LAYER);
 static NAtom ATOM_WIN_TRAY(XA_WIN_TRAY);
 static NAtom ATOM_GUI_EVENT(XA_GUI_EVENT_NAME);
 static NAtom ATOM_ICE_ACTION("_ICEWM_ACTION");
+static NAtom ATOM_ICE_WINOPT("_ICEWM_WINOPTHINT");
 static NAtom ATOM_NET_CLIENT_LIST("_NET_CLIENT_LIST");
 static NAtom ATOM_NET_CLOSE_WINDOW("_NET_CLOSE_WINDOW");
 static NAtom ATOM_NET_ACTIVE_WINDOW("_NET_ACTIVE_WINDOW");
@@ -279,7 +280,7 @@ public:
     void replace(const T* replacement, size_t length) const {
         XChangeProperty(display, fWindow, fProp,
                         fType, fFormat, PropModeReplace,
-                        reinterpret_cast<const unsigned char *>(
+                        reinterpret_cast<unsigned char *>(
                             const_cast<T *>(replacement)), int(length));
     }
 
@@ -515,7 +516,7 @@ static long getWorkspace(Window window) {
     return *YCardinal(window, ATOM_NET_WM_DESKTOP);
 }
 
-void setWindowGravity(Window window, long gravity) {
+static void setWindowGravity(Window window, long gravity) {
     unsigned long mask = CWWinGravity;
     XSetWindowAttributes attr = {};
     attr.win_gravity = int(gravity);
@@ -528,7 +529,7 @@ static int getWindowGravity(Window window) {
     return attr.win_gravity;
 }
 
-void setBitGravity(Window window, long gravity) {
+static void setBitGravity(Window window, long gravity) {
     unsigned long mask = CWBitGravity;
     XSetWindowAttributes attr = {};
     attr.bit_gravity = int(gravity);
@@ -539,6 +540,36 @@ static int getBitGravity(Window window) {
     XWindowAttributes attr = {};
     XGetWindowAttributes(display, window, &attr);
     return attr.bit_gravity;
+}
+
+static void setNormalGravity(Window window, long gravity) {
+    XSizeHints normal;
+    long supplied;
+    if (XGetWMNormalHints(display, window, &normal, &supplied)) {
+        if (inrange(gravity, 1L, 10L)) {
+            normal.win_gravity = int(gravity);
+            normal.flags |= PWinGravity;
+        } else {
+            normal.flags &= ~PWinGravity;
+        }
+    }
+    else {
+        normal.win_gravity = int(gravity);
+        normal.flags = PWinGravity;
+    }
+    XSetWMNormalHints(display, window, &normal);
+}
+
+static int getNormalGravity(Window window) {
+    int gravity = NorthWestGravity;
+    XSizeHints normal;
+    long supplied;
+    if (XGetWMNormalHints(display, window, &normal, &supplied)) {
+        if (hasbit(normal.flags, PWinGravity)) {
+            gravity = normal.win_gravity;
+        }
+    }
+    return gravity;
 }
 
 class YWindowTree;
@@ -646,7 +677,7 @@ public:
     void filterByGravity(long gravity, bool inverse) {
         unsigned keep = 0;
         for (YTreeIter client(*this); client; ++client) {
-            long winGrav = getWindowGravity(client);
+            long winGrav = getNormalGravity(client);
             if ((winGrav == gravity) != inverse) {
                 fChildren[keep++] = client;
             }
@@ -1588,6 +1619,15 @@ static void printBitGravity(Window window) {
         printf("0x%-7lx %ld\n", window, grav);
 }
 
+static void printNormalGravity(Window window) {
+    long grav = getNormalGravity(window);
+    const char* name = nullptr;
+    if (gravities.lookup(grav, &name))
+        printf("0x%-7lx %s\n", window, name);
+    else
+        printf("0x%-7lx %ld\n", window, grav);
+}
+
 /******************************************************************************/
 
 static void setGeometry(Window window, const char* geometry) {
@@ -2462,6 +2502,16 @@ void IceSh::parseAction()
             FOREACH_WINDOW(window)
                 printBitGravity(window);
         }
+        else if (isAction("setNormalGravity", 1)) {
+            long grav(gravities.parseExpression(getArg()));
+            check(gravities, grav, argp[-1]);
+            FOREACH_WINDOW(window)
+                setNormalGravity(window, grav);
+        }
+        else if (isAction("getNormalGravity", 0)) {
+            FOREACH_WINDOW(window)
+                printNormalGravity(window);
+        }
         else if (isAction("id", 0)) {
             FOREACH_WINDOW(window)
                 printf("0x%06lx\n", Window(window));
@@ -2592,6 +2642,15 @@ void IceSh::parseAction()
                 THROW(1);
             } else {
                 THROW(0);
+            }
+        }
+        else if (isAction("sync", 0)) {
+            unsigned char data[3] = { 0, 0, 0, };
+            XChangeProperty(display, root,
+                            ATOM_ICE_WINOPT, ATOM_ICE_WINOPT,
+                            8, PropModeAppend, data, 3);
+            for (bool hint = true; hint; ) {
+                hint = YProperty(root, ATOM_ICE_WINOPT, ATOM_ICE_WINOPT);
             }
         }
         else {

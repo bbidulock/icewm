@@ -14,7 +14,7 @@ icesh - control window properties and the IceWM window manager
 
 =head1 DESCRIPTION
 
-B<icesh> provides 76 commands to change or query a window's state,
+B<icesh> provides 79 commands to change or query a window's state,
 and to interact with the L<icewm(1)> window manager. Command arguments
 are called actions. Window actions operate on a selection of windows.
 B<icesh> has several options to select and filter windows.  Options and
@@ -107,9 +107,10 @@ to I<PID> are selected.
 
 =item B<-G>, B<-Gravity> I<GRAVITY>
 
-Filters clients by window gravity. Clients with a window gravity equal
-to I<GRAVITY> are selected. If I<GRAVITY> starts with an exclamation
-mark then the filtering is inverted.
+Filters clients by the window gravity field of the WM_NORMAL_HINTS
+property.  Clients with a gravity equal to I<GRAVITY> are selected.
+If I<GRAVITY> starts with an exclamation mark then the filtering is
+inverted.
 
 =item B<-L>, B<-Layer> I<LAYER>
 
@@ -368,6 +369,16 @@ See I<IceWM tray options>, below, for I<TRAYOPTION> symbols.
 
 Print the I<IceWM tray option> for the specified window.
 
+=item B<setNormalGravity> I<GRAVITY>
+
+Set the window gravity field in the WM_NORMAL_HINTS property for the
+specified window to I<GRAVITY>.  See below for I<GRAVITY> symbols.
+
+=item B<getNormalGravity>
+
+Print the window gravity from the WM_NORMAL_HINTS property for the
+specified window.
+
 =item B<setWindowGravity> I<GRAVITY>
 
 Set the window gravity for the specified window to I<GRAVITY>.
@@ -507,6 +518,11 @@ Monitor which colormap is installed.
 This action is meant to be used together with the B<-class> option.
 Only if no window is matched by I<WM_CLASS> then
 I<program> [I<arguments...>] is executed.
+
+=item B<sync>
+
+Synchronize with the IceWM window manager. That is, wait for icewm to
+process all previous actions.
 
 =back
 
