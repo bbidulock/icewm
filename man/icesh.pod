@@ -14,7 +14,7 @@ icesh - control window properties and the IceWM window manager
 
 =head1 DESCRIPTION
 
-B<icesh> provides 72 commands to change or query a window's state,
+B<icesh> provides 76 commands to change or query a window's state,
 and to interact with the L<icewm(1)> window manager. Command arguments
 are called actions. Window actions operate on a selection of windows.
 B<icesh> has several options to select and filter windows.  Options and
@@ -88,11 +88,6 @@ same class and windows of the same instance (aka. I<-name>) are selected.
 
 Filter clients and keep only the most recent client.
 
-=item B<-p>, B<-pid> I<PID>
-
-Filters clients by process ID. Clients with a _NET_WM_PID property equal
-to I<PID> are selected.
-
 =item B<-m>, B<-machine> I<HOST>
 
 Filters clients by host name. Clients with a WM_CLIENT_MACHINE property
@@ -104,6 +99,17 @@ Filters clients by _NET_WM_NAME or WM_NAME.
 I<NAME> matches any part of the property value.
 To match at the beginning use a C<^> prefix.
 To match at the end use a C<$> suffix.
+
+=item B<-p>, B<-pid> I<PID>
+
+Filters clients by process ID. Clients with a _NET_WM_PID property equal
+to I<PID> are selected.
+
+=item B<-G>, B<-Gravity> I<GRAVITY>
+
+Filters clients by window gravity. Clients with a window gravity equal
+to I<GRAVITY> are selected. If I<GRAVITY> starts with an exclamation
+mark then the filtering is inverted.
 
 =item B<-L>, B<-Layer> I<LAYER>
 
@@ -362,6 +368,24 @@ See I<IceWM tray options>, below, for I<TRAYOPTION> symbols.
 
 Print the I<IceWM tray option> for the specified window.
 
+=item B<setWindowGravity> I<GRAVITY>
+
+Set the window gravity for the specified window to I<GRAVITY>.
+See below for I<GRAVITY> symbols.
+
+=item B<getWindowGravity>
+
+Print the window gravity for the specified window.
+
+=item B<setBitGravity> I<GRAVITY>
+
+Set the bit gravity> for the specified window to I<GRAVITY>.
+See below for I<GRAVITY> symbols.
+
+=item B<getBitGravity>
+
+Print the bit gravity for the specified window.
+
 =back
 
 =head2 MANAGER ACTIONS
@@ -561,6 +585,22 @@ Named symbols of the domain I<IceWM tray option> (numeric range: 0-2):
 
 These symbols are used with the I<TRAYOPTION> argument to the
 C<setTrayOption> action.
+
+=item I<Gravity symbols>
+
+Named symbols for window and bit gravity (numeric range: 0-10):
+
+    ForgetGravity         (0)
+    NorthWestGravity      (1)
+    NorthGravity          (2)
+    NorthEastGravity      (3)
+    WestGravity           (4)
+    CenterGravity         (5)
+    EastGravity           (6)
+    SouthWestGravity      (7)
+    SouthGravity          (8)
+    SouthEastGravity      (9)
+    StaticGravity         (10)
 
 =back
 

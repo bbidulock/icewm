@@ -515,6 +515,32 @@ static long getWorkspace(Window window) {
     return *YCardinal(window, ATOM_NET_WM_DESKTOP);
 }
 
+void setWindowGravity(Window window, long gravity) {
+    unsigned long mask = CWWinGravity;
+    XSetWindowAttributes attr = {};
+    attr.win_gravity = int(gravity);
+    XChangeWindowAttributes(display, window, mask, &attr);
+}
+
+static int getWindowGravity(Window window) {
+    XWindowAttributes attr = {};
+    XGetWindowAttributes(display, window, &attr);
+    return attr.win_gravity;
+}
+
+void setBitGravity(Window window, long gravity) {
+    unsigned long mask = CWBitGravity;
+    XSetWindowAttributes attr = {};
+    attr.bit_gravity = int(gravity);
+    XChangeWindowAttributes(display, window, mask, &attr);
+}
+
+static int getBitGravity(Window window) {
+    XWindowAttributes attr = {};
+    XGetWindowAttributes(display, window, &attr);
+    return attr.bit_gravity;
+}
+
 class YWindowTree;
 
 class YTreeIter {
@@ -611,6 +637,17 @@ public:
         for (YTreeIter client(*this); client; ++client) {
             YWinState prop(client);
             if (prop && hasbits(*prop, state)) {
+                fChildren[keep++] = client;
+            }
+        }
+        fCount = keep;
+    }
+
+    void filterByGravity(long gravity, bool inverse) {
+        unsigned keep = 0;
+        for (YTreeIter client(*this); client; ++client) {
+            long winGrav = getWindowGravity(client);
+            if ((winGrav == gravity) != inverse) {
                 fChildren[keep++] = client;
             }
         }
@@ -860,6 +897,22 @@ static Symbol trayOptionIdentifiers[] = {
     { nullptr,          0                       }
 };
 
+static Symbol gravityIdentifiers[] = {
+    { "ForgetGravity",    ForgetGravity    },
+    { "NorthWestGravity", NorthWestGravity },
+    { "NorthGravity",     NorthGravity     },
+    { "NorthEastGravity", NorthEastGravity },
+    { "WestGravity",      WestGravity      },
+    { "CenterGravity",    CenterGravity    },
+    { "EastGravity",      EastGravity      },
+    { "SouthWestGravity", SouthWestGravity },
+    { "SouthGravity",     SouthGravity     },
+    { "SouthEastGravity", SouthEastGravity },
+    { "StaticGravity",    StaticGravity    },
+    { "UnmapGravity",     UnmapGravity     },
+    { nullptr,            0                }
+};
+
 static SymbolTable layers = {
     layerIdentifiers, 0, WinLayerCount - 1, WinLayerInvalid
 };
@@ -874,6 +927,10 @@ static SymbolTable hints = {
 
 static SymbolTable trayOptions = {
     trayOptionIdentifiers, 0, WinTrayOptionCount - 1, WinTrayInvalid
+};
+
+static SymbolTable gravities = {
+    gravityIdentifiers, 0, 10, -1
 };
 
 /******************************************************************************/
@@ -1513,6 +1570,24 @@ static void getTrayOption(Window window) {
     }
 }
 
+static void printWindowGravity(Window window) {
+    long grav = getWindowGravity(window);
+    const char* name = nullptr;
+    if (gravities.lookup(grav, &name))
+        printf("0x%-7lx %s\n", window, name);
+    else
+        printf("0x%-7lx %ld\n", window, grav);
+}
+
+static void printBitGravity(Window window) {
+    long grav = getBitGravity(window);
+    const char* name = nullptr;
+    if (gravities.lookup(grav, &name))
+        printf("0x%-7lx %s\n", window, name);
+    else
+        printf("0x%-7lx %ld\n", window, grav);
+}
+
 /******************************************************************************/
 
 static void setGeometry(Window window, const char* geometry) {
@@ -2056,6 +2131,15 @@ void IceSh::flag(char* arg)
         windowList.filterByState(state);
         MSG(("state windows selected"));
     }
+    else if (isOptArg(arg, "-Gravity", val)) {
+        bool inverse(*val == '!');
+        long gravity(gravities.parseExpression(val + inverse));
+        check(gravities, gravity, val + inverse);
+        if ( ! windowList)
+            windowList.getClientList();
+        windowList.filterByGravity(gravity, inverse);
+        MSG(("gravity windows selected"));
+    }
     else if (isOptArg(arg, "-Xinerama", val)) {
         confine(val);
         MSG(("xinerama %s selected", val));
@@ -2357,6 +2441,26 @@ void IceSh::parseAction()
         else if (isAction("getTrayOption", 0)) {
             FOREACH_WINDOW(window)
                 getTrayOption(window);
+        }
+        else if (isAction("setWindowGravity", 1)) {
+            long grav(gravities.parseExpression(getArg()));
+            check(gravities, grav, argp[-1]);
+            FOREACH_WINDOW(window)
+                setWindowGravity(window, grav);
+        }
+        else if (isAction("getWindowGravity", 0)) {
+            FOREACH_WINDOW(window)
+                printWindowGravity(window);
+        }
+        else if (isAction("setBitGravity", 1)) {
+            long grav(gravities.parseExpression(getArg()));
+            check(gravities, grav, argp[-1]);
+            FOREACH_WINDOW(window)
+                setBitGravity(window, grav);
+        }
+        else if (isAction("getBitGravity", 0)) {
+            FOREACH_WINDOW(window)
+                printBitGravity(window);
         }
         else if (isAction("id", 0)) {
             FOREACH_WINDOW(window)
