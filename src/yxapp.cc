@@ -1289,4 +1289,16 @@ YAtom::operator Atom() {
     return atom;
 }
 
+YTextProperty::YTextProperty(const char* str) {
+    encoding = XA_STRING;
+    format = 8;
+    nitems = strlen(str);
+    value = new unsigned char[1 + nitems];
+    if (value) memcpy(value, str, 1 + nitems);
+}
+
+YTextProperty::~YTextProperty() {
+    if (value) delete[] value;
+}
+
 // vim: set sw=4 ts=4 et:

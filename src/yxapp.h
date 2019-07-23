@@ -16,6 +16,12 @@ public:
     const char* str() const { return name; }
 };
 
+class YTextProperty : public XTextProperty {
+public:
+    YTextProperty(const char* str);
+    ~YTextProperty();
+};
+
 class YXPoll: public YPoll<class YXApplication> {
 public:
     virtual void notifyRead();
