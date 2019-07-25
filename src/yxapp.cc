@@ -188,24 +188,17 @@ Atom XA_XdndPosition;
 Atom XA_XdndProxy;
 Atom XA_XdndStatus;
 
-#ifdef CONFIG_RENDER
-int renderSupported;
+bool renderSupported;
 int renderEventBase, renderErrorBase;
 int renderVersionMajor, renderVersionMinor;
-#endif
 
-#ifdef CONFIG_SHAPE
-int shapesSupported;
+bool shapesSupported;
 int shapeEventBase, shapeErrorBase;
 int shapeVersionMajor, shapeVersionMinor;
-#endif
 
-#ifdef CONFIG_XRANDR
-int xrandrSupported;
+bool xrandrSupported;
 int xrandrEventBase, xrandrErrorBase;
 int xrandrVersionMajor, xrandrVersionMinor;
-bool xrandr12 = false;
-#endif
 
 #ifdef DEBUG
 int xeventcount = 0;
@@ -1058,33 +1051,28 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
 void YXApplication::initExtensions() {
 
 #ifdef CONFIG_SHAPE
-    if ((shapesSupported = XShapeQueryExtension(display(),
-                                           &shapeEventBase, &shapeErrorBase)))
-    {
+    shapesSupported =
+        XShapeQueryExtension(display(),
+                             &shapeEventBase, &shapeErrorBase) &&
         XShapeQueryVersion(display(),
-                &shapeVersionMajor, &shapeVersionMinor);
-    }
+                           &shapeVersionMajor, &shapeVersionMinor);
 #endif
 
 #ifdef CONFIG_RENDER
-    if ((renderSupported = XRenderQueryExtension(display(),
-                    &renderEventBase, &renderErrorBase)))
-    {
+    renderSupported =
+        XRenderQueryExtension(display(),
+                              &renderEventBase, &renderErrorBase) &&
         XRenderQueryVersion(display(),
-                &renderVersionMajor, &renderVersionMinor);
-    }
+                            &renderVersionMajor, &renderVersionMinor);
 #endif
 
 #ifdef CONFIG_XRANDR
-    if ((xrandrSupported = XRRQueryExtension(display(),
-                                        &xrandrEventBase, &xrandrErrorBase)))
-    {
-        XRRQueryVersion(display(), &xrandrVersionMajor, &xrandrVersionMinor);
-
-        MSG(("XRRVersion: %d %d", xrandrVersionMajor, xrandrVersionMinor));
-        if (12 <= 10 * xrandrVersionMajor + xrandrVersionMinor)
-            xrandr12 = true;
-    }
+    xrandrSupported =
+        XRRQueryExtension(display(),
+                          &xrandrEventBase, &xrandrErrorBase) &&
+        XRRQueryVersion(display(),
+                        &xrandrVersionMajor, &xrandrVersionMinor) &&
+        (12 <= 10 * xrandrVersionMajor + xrandrVersionMinor);
 #endif
 }
 
@@ -1111,7 +1099,16 @@ bool YXApplication::handleXEvents() {
 
         saveEventTime(xev);
 
-        logEvent(xev);
+        if (loggingEvents) {
+            if (xev.type < LASTEvent)
+                logEvent(xev);
+            else if (xev.type == shapeEventBase)
+                logShape(xev);
+            else if (xev.type == xrandrEventBase + RRScreenChangeNotify)
+                logRandrScreen(xev);
+            else if (xev.type == xrandrEventBase + RRNotify)
+                logRandrNotify(xev);
+        }
 
         if (filterEvent(xev)) {
         } else {

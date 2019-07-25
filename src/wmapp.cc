@@ -37,8 +37,6 @@
 char const *ApplicationName("IceWM");
 RebootShutdown rebootOrShutdown = Logout;
 static bool initializing(true);
-extern bool loggingEvents;
-extern bool initLogEvents();
 
 YWMApp *wmapp(NULL);
 YWindowManager *manager(NULL);
@@ -72,6 +70,7 @@ static ref<YIcon> defaultAppIcon;
 
 static bool replace_wm;
 static bool post_preferences;
+static bool show_extensions;
 
 static Window registerProtocols1(char **argv, int argc) {
     long timestamp = CurrentTime;
@@ -1084,6 +1083,21 @@ void YWMApp::initFocusMode() {
     }
 }
 
+static void showExtensions() {
+    if (shapesSupported)
+        printf("shapes %d.%d\n", shapeVersionMajor, shapeVersionMinor);
+    else
+        printf("shapes unavailable\n");
+    if (renderSupported)
+        printf("render %d.%d\n", renderVersionMajor, renderVersionMinor);
+    else
+        printf("render unavailable\n");
+    if (xrandrSupported)
+        printf("xrandr %d.%d\n", xrandrVersionMajor, xrandrVersionMinor);
+    else
+        printf("xrandr unavailable\n");
+}
+
 static int restartWM(const char* displayName, const char* overrideTheme) {
     Display* display = XOpenDisplay(displayName);
     if (display) {
@@ -1180,6 +1194,8 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
 
     if (post_preferences)
         WMConfig::printPrefs(focusMode, loggingEvents, synchronizeX11, splashFile);
+    if (show_extensions)
+        showExtensions();
 
     delete desktop;
 
@@ -1623,7 +1639,6 @@ int main(int argc, char **argv) {
     YLocale locale;
     bool restart_wm(false);
     bool notify_parent(false);
-    bool enable_logging(false);
     const char* configFile(0);
     const char* displayName(0);
     const char* overrideTheme(0);
@@ -1638,6 +1653,8 @@ int main(int argc, char **argv) {
                 overrideTheme = value;
             else if (is_long_switch(*arg, "postpreferences"))
                 post_preferences = true;
+            else if (is_long_switch(*arg, "extensions"))
+                show_extensions = true;
             else
 #ifdef DEBUG
             if (is_long_switch(*arg, "debug"))
@@ -1667,7 +1684,7 @@ int main(int argc, char **argv) {
             else if (is_long_switch(*arg, "sync"))
                 YXApplication::synchronizeX11 = true;
             else if (is_long_switch(*arg, "logevents"))
-                enable_logging = true;
+                loggingEvents = true;
             else if (is_switch(*arg, "a", "alpha"))
                 YXApplication::alphaBlending = true;
             else if (GetArgument(value, "d", "display", arg, argv+argc))
@@ -1708,8 +1725,6 @@ int main(int argc, char **argv) {
 
     if (nonempty(overrideTheme))
         themeName = overrideTheme;
-    if (enable_logging)
-        loggingEvents = true;
     if (loggingEvents)
         initLogEvents();
 

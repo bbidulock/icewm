@@ -14,12 +14,6 @@ class YAutoScroll;
 class YRect;
 class YRect2;
 
-#ifdef XINERAMA
-extern "C" {
-#include <X11/extensions/Xinerama.h>
-}
-#endif
-
 struct DesktopScreenInfo {
     int screen_number;
     int x_org;
@@ -339,17 +333,17 @@ protected:
 
 extern YDesktop *desktop;
 
-#ifdef CONFIG_SHAPE
-extern int shapesSupported;
+extern bool renderSupported;
+extern int renderEventBase, renderErrorBase;
+extern int renderVersionMajor, renderVersionMinor;
+
+extern bool shapesSupported;
 extern int shapeEventBase, shapeErrorBase;
-#endif
+extern int shapeVersionMajor, shapeVersionMinor;
 
-#ifdef CONFIG_XRANDR
-extern int xrandrSupported;
-extern bool xrandr12;
+extern bool xrandrSupported;
 extern int xrandrEventBase, xrandrErrorBase;
-#endif
-
+extern int xrandrVersionMajor, xrandrVersionMinor;
 
 extern Atom _XA_WM_CHANGE_STATE;
 extern Atom _XA_WM_CLASS;

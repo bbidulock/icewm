@@ -20,6 +20,10 @@
 #include "yxcontext.h"
 #include <typeinfo>
 
+#ifdef XINERAMA
+#include <X11/extensions/Xinerama.h>
+#endif
+
 /******************************************************************************/
 /******************************************************************************/
 
@@ -1949,7 +1953,7 @@ void YDesktop::updateXineramaInfo(unsigned &w, unsigned &h) {
 #ifdef CONFIG_XRANDR
     bool gotLayout = false;
     MSG(("xrr: %d", xrandr12 ? 1 : 0));
-    if (xrandr12 && !xrrDisable) {
+    if (xrandrSupported && !xrrDisable) {
         XRRScreenResources *xrrsr =
             XRRGetScreenResources(xapp->display(), handle());
 

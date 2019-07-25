@@ -255,6 +255,9 @@ char* load_text_file(const char *filename);
 
 #include "debug.h"
 
+extern bool loggingEvents;
+extern bool initLogEvents();
+
 void logAny(const union _XEvent& xev);
 void logButton(const union _XEvent& xev);
 void logClientMessage(const union _XEvent& xev);
@@ -274,6 +277,8 @@ void logUnmap(const union _XEvent& xev);
 void logMotion(const union _XEvent& xev);
 void logProperty(const union _XEvent& xev);
 void logReparent(const union _XEvent& xev);
+void logRandrScreen(const union _XEvent& xev);
+void logRandrNotify(const union _XEvent& xev);
 void logShape(const union _XEvent& xev);
 void logVisibility(const union _XEvent& xev);
 void logEvent(const union _XEvent& xev);
