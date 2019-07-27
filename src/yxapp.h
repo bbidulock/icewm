@@ -3,6 +3,7 @@
 
 #include "yapp.h"
 #include "ywindow.h"
+#include <X11/Xutil.h>
 
 class YAtom {
     const char* name;
