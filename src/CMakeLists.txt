@@ -12,7 +12,8 @@ INCLUDE(FindPkgConfig)
 INCLUDE(CheckCXXSourceCompiles)
 INCLUDE(CheckCXXCompilerFlag)
 
-SET(CXXFLAGS_COMMON -pthread -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE -I. -DHAVE_CONFIG_H)
+SET(CXXFLAGS_COMMON -pthread -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE -DHAVE_CONFIG_H -include "${CMAKE_BINARY_DIR}/config.h")
+include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(icewm_img_libs "")
 set(icewm_libs "")
