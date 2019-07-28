@@ -34,12 +34,17 @@
 #include <dev/acpica/acpiio.h>
 #endif
 
-#ifdef __NetBSD__
+#if defined __NetBSD__ || defined __OpenBSD__
 #include <sys/file.h>
 #include <sys/ioctl.h>
 #include <sys/types.h>
+#if defined __NetBSD__
 #include <dev/apm/apmbios.h>
 #include <dev/apm/apmio.h>
+#endif
+#if defined __OpenBSD__
+#include <machine/apmvar.h>
+#endif
 #endif
 
 #include <math.h>
@@ -64,7 +69,7 @@ extern YColorName taskBarBg;
 void YApm::ApmStr(char *s, bool Tool) {
 #if (defined(__FreeBSD__) || defined(__FreeBSD_kernel__)) && defined(i386)
     struct apm_info ai;
-#elif defined __NetBSD__
+#elif defined __NetBSD__ || defined __OpenBSD__
     struct apm_power_info ai;
 #else
     char buf[APM_LINE_LEN];
@@ -105,7 +110,7 @@ void YApm::ApmStr(char *s, bool Tool) {
     BATlife = ai.ai_batt_life;
     BATtime = ai.ai_batt_time == 0 ? -1 : ai.ai_batt_time;
     strlcpy(units, "sec", sizeof units);
-#elif defined __NetBSD__
+#elif defined __NetBSD__ || defined __OpenBSD__
     memset(&ai, 0, sizeof(ai));
     if (ioctl(fd, APM_IOC_GETPOWER, &ai) == -1)
     {

@@ -264,7 +264,7 @@ int YApplication::mainLoop() {
             // This is irrelevant when using monotonic clocks:
             // if time travel to past, decrease the timeouts
             if (diff < zerotime()) {
-                warn("time warp of %ld.%06ld", diff.tv_sec, diff.tv_usec);
+                warn("time warp of %ld.%06ld", long(diff.tv_sec), diff.tv_usec);
                 decreaseTimeouts(diff);
             } else {
                 // no detection for time travel to the future
