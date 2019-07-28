@@ -471,6 +471,7 @@ void TaskBarApp::handleBeginDrag(const XButtonEvent &down, const XMotionEvent &m
 TaskPane::TaskPane(IAppletContainer *taskBar, YWindow *parent): YWindow(parent) {
     fTaskBar = taskBar;
     fNeedRelayout = true;
+    fForceImmediate = false;
     fDragging = 0;
     fDragX = fDragY = 0;
 
@@ -564,8 +565,10 @@ bool TaskPane::handleTimer(YTimer *t) {
     if (t == fRelayoutTimer) {
         fRelayoutTimer = null;
         fNeedRelayout = true;
-        if (fForceImmediate)
+        if (fForceImmediate) {
+            fForceImmediate = false;
             relayoutNow();
+        }
     }
     return false;
 }
