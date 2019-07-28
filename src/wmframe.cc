@@ -2158,7 +2158,7 @@ ref<YIcon> newClientIcon(int count, int reclen, long * elem) {
             img = null;
         }
 
-        if (depth == xapp->depth()) {
+        if (depth == xapp->depth() || depth == 24U) {
             MSG(("client icon color: %ld %d %d %d %d", pixmap, w, h, depth, xapp->depth()));
             if (w <= YIcon::smallSize()) {
                 small = YImage::createFromPixmapAndMaskScaled(
