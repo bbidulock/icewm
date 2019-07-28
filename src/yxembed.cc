@@ -66,7 +66,7 @@ void YXEmbedClient::handleProperty(const XPropertyEvent &property) {
         unsigned char *prop(0);
 
         if (XGetWindowProperty(xapp->display(), handle(),
-                    _XEMBED_INFO, 0L, 2L, False, XA_CARDINAL,
+                    _XEMBED_INFO, 0L, 2L, False, AnyPropertyType,
                     &type, &format, &nitems, &lbytes, &prop) == Success && prop)
         {
             if (format == 32 && nitems >= 2) {

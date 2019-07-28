@@ -1213,7 +1213,7 @@ void IceSh::listXembed(Window parent)
 {
     YWindowTree windowList(parent);
     FOREACH_WINDOW(window) {
-        YCardinal info(window, ATOM_XEMBED_INFO, 2);
+        YProperty info(window, ATOM_XEMBED_INFO, AnyPropertyType, 2);
         if (info) {
             details(window);
         }
