@@ -1381,6 +1381,11 @@ void YWindowManager::placeWindow(YFrameWindow *frame,
         WindowOption wo(null);
         frame->getWindowOptions(wo, true);
 
+        if (frame->frameOptions() & YFrameWindow::foClose) {
+            frame->wmClose();
+            doActivate = false;
+        }
+
         if (wo.opacity && inrange(wo.opacity, 1, 100)) {
             Atom omax = 0xFFFFFFFF;
             Atom oper = omax / 100;

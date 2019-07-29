@@ -245,6 +245,7 @@ public:
         foNoFocusOnMap             = (1 << 18),
         foNoIgnoreTaskBar          = (1 << 19),
         foNonICCCMConfigureRequest = (1 << 20),
+        foClose                    = (1 << 21),
     };
 
     unsigned frameFunctions() const { return fFrameFunctions; }
