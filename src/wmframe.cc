@@ -1387,7 +1387,7 @@ void YFrameWindow::wmClose() {
     if (!canClose())
         return ;
 
-    XGrabServer(xapp->display());
+    manager->grabServer();
     client()->getProtocols(true);
 
     client()->sendPing();
@@ -1400,7 +1400,7 @@ void YFrameWindow::wmClose() {
             wmConfirmKill();
         }
     }
-    XUngrabServer(xapp->display());
+    manager->ungrabServer();
 }
 
 void YFrameWindow::wmConfirmKill() {
