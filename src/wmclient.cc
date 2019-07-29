@@ -2159,8 +2159,7 @@ void YFrameClient::getPropertiesList() {
 
     p = XListProperties(xapp->display(), handle(), &count);
 
-//    #define HAS(x) do { puts(#x); x = true; } while (0)
-#define HAS(x) do { x = true; } while (0)
+#define HAS(x)   ((x) = true)
 
     if (p) {
         for (int i = 0; i < count; i++) {
@@ -2173,6 +2172,7 @@ void YFrameClient::getPropertiesList() {
             else if (a == _XA_NET_WM_NAME) HAS(prop.net_wm_name);
             else if (a == XA_WM_ICON_NAME) HAS(prop.wm_icon_name);
             else if (a == _XA_NET_WM_ICON_NAME) HAS(prop.net_wm_icon_name);
+            else if (a == _XA_NET_WM_ICON) HAS(prop.net_wm_icon);
             else if (a == XA_WM_CLASS) HAS(prop.wm_class);
             else if (a == _XA_WM_PROTOCOLS) HAS(prop.wm_protocols);
             else if (a == _XA_WM_CLIENT_LEADER) HAS(prop.wm_client_leader);
@@ -2192,6 +2192,7 @@ void YFrameClient::getPropertiesList() {
             else if (a == _XA_NET_WM_USER_TIME) HAS(prop.net_wm_user_time);
             else if (a == _XA_NET_WM_USER_TIME_WINDOW) HAS(prop.net_wm_user_time_window);
             else if (a == _XA_NET_WM_WINDOW_OPACITY) HAS(prop.net_wm_window_opacity);
+            else if (a == _XA_NET_WM_PID) HAS(prop.net_wm_pid);
             else if (a == _XA_WIN_HINTS) HAS(prop.win_hints);
             else if (a == _XA_WIN_WORKSPACE) HAS(prop.win_workspace);
             else if (a == _XA_WIN_STATE) HAS(prop.win_state);
@@ -2203,6 +2204,7 @@ void YFrameClient::getPropertiesList() {
                 MSG(("unknown atom: %s", XGetAtomName(xapp->display(), a)));
             }
 #endif
+#undef HAS
         }
         XFree(p);
     }
