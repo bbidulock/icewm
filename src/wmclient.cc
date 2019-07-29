@@ -1295,85 +1295,33 @@ bool YFrameClient::getWinIcons(Atom *type, int *count, long **elem) {
     return false;
 }
 
-static void *GetFullWindowProperty(Display *display, Window handle, Atom propAtom, int &itemCount, int itemSize1)
-{
-    void *data = NULL;
-    itemCount = 0;
-    int itemSize = itemSize1;
-    if (itemSize1 == 32)
-        itemSize = sizeof(long) * 8;
-
-    {
-        Atom r_type;
-        int r_format;
-        unsigned long nitems;
-        unsigned long bytes_remain;
-        unsigned char *prop(0);
-
-        while (XGetWindowProperty(display, handle,
-                               propAtom, (itemCount * itemSize1) / 32, 1024*32, False, AnyPropertyType,
-                               &r_type, &r_format, &nitems, &bytes_remain,
-                               &prop) == Success && prop)
-        {
-            if (r_format == itemSize1 && nitems > 0) {
-                data = realloc(data, (itemCount + nitems) * itemSize / 8);
-
-                memcpy((char *)data + itemCount * itemSize / 8, prop, nitems * itemSize / 8);
-                itemCount += nitems;
-                XFree(prop);
-                if (bytes_remain == 0)
-                    break;
-                continue;
-            }
-            XFree(prop);
-            free(data);
-            itemCount = 0;
-            return NULL;
-        }
-    }
-    return data;
-}
-
-bool YFrameClient::getNetWMIcon(int *count, long **elem) {
+bool YFrameClient::getNetWMIcon(int* count, long** elems) {
     *count = 0;
-    *elem = 0;
-
-    MSG(("get_net_wm_icon 1"));
-    //if (!prop.net_wm_icon)
-//        return false;
-
-    *elem = (long *)GetFullWindowProperty(xapp->display(), handle(),
-                                          _XA_NET_WM_ICON, *count, 32);
-
-    if (elem && count && *count>0)
-        return true;
-
-#if 0
-    msg("get_net_wm_icon 2");
-    Atom r_type;
-    int r_format;
-    unsigned long nitems;
-    unsigned long bytes_remain;
-    unsigned char *prop(0);
-
-    if (XGetWindowProperty(xapp->display(), handle(),
-                           _XA_NET_WM_ICON, 0, 1024*256, False, AnyPropertyType,
-                           &r_type, &r_format, &nitems, &bytes_remain,
-                           &prop) == Success && prop)
-    {
-        msg("get_net_wm_icon 3");
-        if (r_format == 32 && nitems > 0 && bytes_remain == 0) {
-
-            msg("get_net_wm_icon 4, %ld %ld", (long)_XA_NET_WM_ICON, (long)r_type);
-
-            *count = nitems;
-            *elem = (long *)prop;
-            return true;
+    *elems = nullptr;
+    if (prop.net_wm_icon) {
+        Atom atom = _XA_NET_WM_ICON;
+        Atom type = AnyPropertyType;
+        int format;
+        long limit = 1L<<22;
+        unsigned long size;
+        unsigned long after;
+        xsmart<unsigned char> data;
+        if (XGetWindowProperty(xapp->display(), handle(), atom, 0L,
+                               limit, False, type, &type, &format,
+                               &size, &after, &data) == Success && data) {
+            if (size && format == 32 && type == XA_CARDINAL) {
+                *count = int(size);
+                *elems = data.convert<long>();
+                data.release();
+            }
+            else if (testOnce("_NET_WM_ICON", int(handle()))) {
+                TLOG(("Bad _NET_WM_ICON for window 0x%lx: N=%ld, F=%d, T=%s",
+                     handle(), size, format,
+                     XGetAtomName(xapp->display(), type)));
+            }
         }
-        XFree(prop);
     }
-#endif
-    return false;
+    return (*elems != nullptr);
 }
 
 void YFrameClient::setWinWorkspaceHint(long wk) {
