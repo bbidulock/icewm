@@ -236,8 +236,8 @@ void logCreate(const union _XEvent& xev) {
 }
 
 void logCrossing(const union _XEvent& xev) {
-    msg("window=0x%lX: %s serial=%10lu root=0x%lX, subwindow=0x%lX, time=%ld, "
-        "(%d:%d %d:%d) mode=%d detail=%d same_screen=%s, focus=%s state=0x%X",
+    msg("window=0x%06lX: %s serial=%6lu root=0x%lX, subwindow=0x%lX, time=%ld, "
+        "(%d:%d %d:%d) mode=%s detail=%s same_screen=%s, focus=%s state=0x%X",
         xev.xcrossing.window,
         eventName(xev.type),
         (unsigned long) xev.xany.serial,
@@ -246,8 +246,18 @@ void logCrossing(const union _XEvent& xev) {
         xev.xcrossing.time,
         xev.xcrossing.x, xev.xcrossing.y,
         xev.xcrossing.x_root, xev.xcrossing.y_root,
-        xev.xcrossing.mode,
-        xev.xcrossing.detail,
+        xev.xcrossing.mode == NotifyNormal ? "Normal" :
+        xev.xcrossing.mode == NotifyGrab ? "Grab" :
+        xev.xcrossing.mode == NotifyUngrab ? "Ungrab" :
+        xev.xcrossing.mode == NotifyWhileGrabbed ? "Grabbed" : "Unknown",
+        xev.xcrossing.detail == NotifyAncestor ? "Ancestor" :
+        xev.xcrossing.detail == NotifyVirtual ? "Virtual" :
+        xev.xcrossing.detail == NotifyInferior ? "Inferior" :
+        xev.xcrossing.detail == NotifyNonlinear ? "Nonlinear" :
+        xev.xcrossing.detail == NotifyNonlinearVirtual ? "NonlinearVirtual" :
+        xev.xcrossing.detail == NotifyPointer ? "Pointer" :
+        xev.xcrossing.detail == NotifyPointerRoot ? "PointerRoot" :
+        xev.xcrossing.detail == NotifyDetailNone ? "DetailNone" : "Unknown",
         xev.xcrossing.same_screen ? "True" : "False",
         xev.xcrossing.focus ? "True" : "False",
         xev.xcrossing.state);
@@ -792,7 +802,7 @@ bool GetLongArgument(char* &ret, const char *name, char** &argpp, char **endpp)
 bool GetArgument(char* &ret, const char *sn, const char *ln, char** &arg, char **end)
 {
     bool got = false;
-    if (**arg == '-') {
+    if (arg && *arg && **arg == '-') {
         if (arg[0][1] == '-') {
             got = GetLongArgument(ret, ln, arg, end);
         } else {
@@ -877,7 +887,7 @@ void check_help_version(const char *arg, const char *help, const char *version)
 
 void check_argv(int argc, char **argv, const char *help, const char *version)
 {
-    if (ApplicationName == NULL) {
+    if (ApplicationName == nullptr) {
         ApplicationName = my_basename(argv[0]);
     }
     for (char **arg = argv + 1; arg < argv + argc; ++arg) {
