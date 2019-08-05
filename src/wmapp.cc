@@ -60,11 +60,11 @@ YCursor YWMApp::scrollRightPointer;
 YCursor YWMApp::scrollUpPointer;
 YCursor YWMApp::scrollDownPointer;
 
-lazily<SharedWindowList> windowListMenu;
-lazily<RootMenu> rootMenu;
 lazy<MoveMenu> moveMenu;
 lazy<LayerMenu> layerMenu;
+lazily<SharedWindowList> windowListMenu;
 lazy<LogoutMenu> logoutMenu;
+lazily<RootMenu> rootMenu;
 
 static ref<YIcon> defaultAppIcon;
 
