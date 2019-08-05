@@ -224,7 +224,8 @@ public:
             if (store_here) {
                 pTree->get_subtree(subCatCandidate)->add(pNode);
                 // main menu was served, don't come here again
-                *ppLastMainCat = 0;
+                if (ppLastMainCat)
+                    *ppLastMainCat = 0;
             }
 
             skipping = true;
