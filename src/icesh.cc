@@ -426,7 +426,7 @@ public:
 
     int count() const { return fCount; }
 
-    operator bool() const { return fStatus == True && count() > 0; }
+    operator bool() const { return fStatus == True && count() > 0 && fList; }
     char* operator[](int index) const { return fList[index]; }
 
     bool set(int index, const char* name) {
@@ -1115,27 +1115,28 @@ private:
 };
 
 bool WorkspaceInfo::parseWorkspace(char const* name, long* workspace) {
-    if (*this) {
+    if (fNames) {
         for (int i = 0; i < fNames.count(); ++i)
             if (0 == strcmp(name, fNames[i]))
                 return *workspace = i, true;
-
-        if (0 == strcmp(name, "All") || 0 == strcmp(name, "0xFFFFFFFF"))
-            return *workspace = 0xFFFFFFFF, true;
-
-        if (0 == strcmp(name, "this"))
-            return *workspace = currentWorkspace(), true;
-
-        if (tolong(name, *workspace) == false) {
-            msg(_("Invalid workspace name: `%s'"), name);
-        }
-        else if (inrange(*workspace, 0L, count() - 1L) == false) {
-            msg(_("Workspace out of range: %ld"), *workspace);
-        }
-        else return true;
     }
 
-    return false;
+    if (0 == strcmp(name, "All") || 0 == strcmp(name, "0xFFFFFFFF"))
+        return *workspace = 0xFFFFFFFF, true;
+
+    if (0 == strcmp(name, "this"))
+        return *workspace = currentWorkspace(), true;
+
+    if (tolong(name, *workspace) == false) {
+        msg(_("Invalid workspace name: `%s'"), name);
+        return false;
+    }
+    else if (inrange(*workspace, 0L, count() - 1L) == false) {
+        msg(_("Workspace out of range: %ld"), *workspace);
+        return false;
+    }
+
+    return true;
 }
 
 static Window getParent(Window window) {
@@ -1313,8 +1314,10 @@ bool IceSh::listWorkspaces()
         return false;
 
     WorkspaceInfo info;
-    for (int n(0); n < info.count(); ++n)
-        printf(_("workspace #%d: `%s'\n"), n, info[n]);
+    if (info) {
+        for (int n(0); n < info.count(); ++n)
+            printf(_("workspace #%d: `%s'\n"), n, info[n]);
+    }
     return true;
 }
 
@@ -2454,7 +2457,7 @@ void IceSh::parseAction()
             WorkspaceInfo info;
             FOREACH_WINDOW(window) {
                 int ws = int(getWorkspace(window));
-                const char* name = info[ws];
+                const char* name = info ? info[ws] : "";
                 printf("0x%-7lx %d \"%s\"\n", Window(window), ws, name);
             }
         }
