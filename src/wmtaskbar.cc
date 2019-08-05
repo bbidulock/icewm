@@ -744,22 +744,23 @@ void TaskBar::updateWMHints() {
 
 void TaskBar::handleCrossing(const XCrossingEvent &crossing) {
     unsigned long last = YWindow::getLastEnterNotifySerial();
-    if (crossing.serial != last &&
-        (crossing.serial != last + 1 || crossing.detail != NotifyVirtual))
-    {
-        if (crossing.type == EnterNotify /* && crossing.mode != NotifyNormal */) {
-            fEdgeTrigger->stopHide();
-        } else if (crossing.type == LeaveNotify /* && crossing.mode != NotifyNormal */) {
-            if (crossing.detail != NotifyInferior &&
-                !(crossing.detail == NotifyVirtual &&
-                  crossing.mode == NotifyGrab) &&
-                !(crossing.detail == NotifyAncestor &&
-                  crossing.mode != NotifyNormal))
-            {
-                MSG(("taskbar hide: %d", crossing.detail));
-                fEdgeTrigger->startHide();
-            } else {
+    bool ahwm_hack = (crossing.serial != last &&
+        (crossing.serial != last + 1 || crossing.detail != NotifyVirtual));
+
+    if (crossing.type == EnterNotify) {
+        fEdgeTrigger->stopHide();
+    }
+    else if (crossing.type == LeaveNotify) {
+        if (crossing.detail == NotifyInferior ||
+           (crossing.detail == NotifyVirtual && crossing.mode == NotifyGrab) ||
+           (crossing.detail == NotifyAncestor && crossing.mode != NotifyNormal))
+        {
+            if (ahwm_hack) {
                 fEdgeTrigger->stopHide();
+            }
+        } else {
+            if (ahwm_hack) {
+                fEdgeTrigger->startHide();
             }
         }
     }
