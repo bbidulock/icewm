@@ -397,8 +397,8 @@ void YButton::donePopup(YPopupWindow *popup) {
         return ;
     }
     popdown();
-    fArmed = 0;
-    fSelected = 0;
+    fArmed = false;
+    fSelected = false;
     repaint();
 }
 
