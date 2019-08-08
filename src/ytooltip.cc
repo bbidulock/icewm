@@ -18,13 +18,12 @@ enum ToolTipMargins {
     TTYMargin = 3,
 };
 
-YToolTipWindow::YToolTipWindow(ustring text) :
+YToolTipWindow::YToolTipWindow() :
     toolTipBg(&clrToolTip),
     toolTipFg(&clrToolTipText),
     toolTipFont(YFont::getFont(XFA(toolTipFontName)))
 {
     setStyle(wsToolTip | wsOverrideRedirect | wsSaveUnder | wsNoExpose);
-    setText(text);
     setNetWindowType(_XA_NET_WM_WINDOW_TYPE_TOOLTIP);
     setClassHint("tooltip", "IceWM");
     setTitle("Tooltip");
@@ -101,10 +100,13 @@ bool YToolTip::handleTimer(YTimer *timer) {
 }
 
 YToolTipWindow* YToolTip::window() {
-    if (fWindow == 0) {
-        fWindow = new YToolTipWindow(fText);
-        if (fLocate)
-            fWindow->locate(fLocate);
+    if (fWindow == nullptr) {
+        fWindow = new YToolTipWindow();
+        if (fWindow) {
+            fWindow->setText(fText);
+            if (fLocate)
+                fWindow->locate(fLocate);
+        }
     }
     return fWindow;
 }

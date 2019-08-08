@@ -7,7 +7,7 @@
 
 class YToolTipWindow: public YWindow {
 public:
-    YToolTipWindow(ustring text);
+    YToolTipWindow();
 
     virtual void paint(Graphics &g, const YRect &r);
     virtual void handleExpose(const XExposeEvent& expose) {}
