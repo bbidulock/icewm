@@ -105,15 +105,13 @@ ref<YPixmap> YPixmap::scale(unsigned const w, unsigned const h) {
     if (w == width() && h == height())
         return ref<YPixmap>(this);
 
-    ref<YPixmap> pixmap;
-    pixmap.init(this);
-    ref<YImage> image = YImage::createFromPixmap(pixmap);
-    if (image != null) {
-        image = image->scale(w, h);
-        if (image != null)
-            pixmap = YPixmap::createFromImage(image, depth());
+    if (image() != null) {
+        ref<YImage> scaled(image()->scale(w, h));
+        if (scaled != null) {
+            return YPixmap::createFromImage(scaled, depth());
+        }
     }
-    return pixmap;
+    return null;
 }
 
 ref<YPixmap> YPixmap::subimage(unsigned x, unsigned y, unsigned w, unsigned h) {
