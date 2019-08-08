@@ -289,7 +289,7 @@ void NetStatus::draw(Graphics &g) {
     oldMaxBytes = maxBytes;
 
     for (int i = first; i < limit; i++) {
-        if (1 /* ppp_in[i] > 0 || ppp_out[i] > 0 */) {
+        if (true /* ppp_in[i] > 0 || ppp_out[i] > 0 */) {
             long round = maxBytes / h / 2;
             int inbar, outbar;
 

@@ -603,7 +603,7 @@ void YWindowManager::handleButton(const XButtonEvent &button) {
             popupWindowListMenu(this, button.x, button.y);
             break;
         }
-    } while (0);
+    } while (false);
     YWindow::handleButton(button);
 }
 
@@ -625,7 +625,7 @@ void YWindowManager::handleClick(const XButtonEvent &up, int count) {
             windowList->showFocused(up.x_root, up.y_root);
             break;
         }
-    } while (0);
+    } while (false);
 }
 
 void YWindowManager::handleConfigure(const XConfigureEvent &configure) {
@@ -1213,7 +1213,7 @@ bool YWindowManager::getSmartPlace(bool down, YFrameWindow *frame1, int &x, int 
     int xn = 0, yn = 0;
     px = x; py = y;
     cover = calcCoverage(down, frame1, x, y, w, h);
-    while (1) {
+    while (true) {
         x = xcoord[xn];
         y = ycoord[yn];
 
@@ -1514,7 +1514,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 
         // temp workaro/und for flashblock problems
         // reverted, causes problems with Qt5
-        if (client->isEmbed() && 0) {
+        if (client->isEmbed() && false) {
             warn("app trying to map XEmbed window 0x%lX, ignoring", client->handle());
             delete client;
             goto end;
@@ -3339,13 +3339,13 @@ bool EdgeSwitch::handleTimer(YTimer *t) {
     int corner  = fManager->layout().corner;
 
     if (rows == 0)
-        rows = (worksps + (columns - 1)) / columns;
+        rows = (worksps + (columns - 1)) / non_zero(columns);
     if (columns == 0)
-        columns = (worksps + (rows - 1)) / rows;
+        columns = (worksps + (rows - 1)) / non_zero(rows);
     if (orient == _NET_WM_ORIENTATION_VERT) {
-        columns = (worksps + (rows - 1)) / rows;
+        columns = (worksps + (rows - 1)) / non_zero(rows);
     } else {
-        rows = (worksps + (columns - 1)) / columns;
+        rows = (worksps + (columns - 1)) / non_zero(columns);
     }
 
     int dx = fVert ? 0 : fDelta;
@@ -3359,8 +3359,8 @@ bool EdgeSwitch::handleTimer(YTimer *t) {
         swap(dx, dy);
     }
 
-    int col = fManager->activeWorkspace() % columns;
-    int row = fManager->activeWorkspace() / columns;
+    int col = fManager->activeWorkspace() % non_zero(columns);
+    int row = fManager->activeWorkspace() / non_zero(columns);
 
     if (dx == 0 && rows == 1) {
         swap(dx, dy);

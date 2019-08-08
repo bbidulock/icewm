@@ -938,16 +938,16 @@ void YApm::updateToolTip() {
 
     switch (mode) {
     case ACPI:
-        AcpiStr(s, 1);
+        AcpiStr(s, true);
         break;
     case SYSFS:
-        SysStr(s, 1);
+        SysStr(s, true);
         break;
     case APM:
-        ApmStr(s, 1);
+        ApmStr(s, true);
         break;
     case PMU:
-        PmuStr(s, 1);
+        PmuStr(s, true);
         break;
     }
 
@@ -983,16 +983,16 @@ bool YApm::updateState() {
 
     switch (mode) {
     case ACPI:
-        AcpiStr(s, 0);
+        AcpiStr(s, false);
         break;
     case SYSFS:
-        SysStr(s, 0);
+        SysStr(s, false);
         break;
     case APM:
-        ApmStr(s, 0);
+        ApmStr(s, false);
         break;
     case PMU:
-        PmuStr(s, 0);
+        PmuStr(s, false);
         break;
     }
     MSG((_("power:\t%s"), s));

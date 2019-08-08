@@ -445,7 +445,7 @@ bool TaskBarApp::handleTimer(YTimer *t) {
     }
     if (t == fFlashTimer) {
         if (!fFlashing) {
-            fFlashOn = 0;
+            fFlashOn = false;
             fFlashStart = zerotime();
             return false;
         }

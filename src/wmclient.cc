@@ -834,7 +834,7 @@ void YFrameClient::setColormap(Colormap cmap) {
 
 #ifdef CONFIG_SHAPE
 void YFrameClient::queryShape() {
-    fShaped = 0;
+    fShaped = false;
 
     if (shapesSupported) {
         int xws, yws, xbs, ybs;
