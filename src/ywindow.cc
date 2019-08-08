@@ -1131,7 +1131,7 @@ void YWindow::setBackgroundPixmap(ref<YPixmap> pixmap) {
     setBackgroundPixmap(pixmap->pixmap(depth()));
 }
 
-void YWindow::setParentRelative(void) {
+void YWindow::setParentRelative() {
     setBackgroundPixmap(ParentRelative);
 }
 
@@ -1495,11 +1495,7 @@ void YWindow::setDND(bool enabled) {
         fDND = enabled;
 
         if (fDND) {
-            XChangeProperty(xapp->display(), handle(),
-                            XA_XdndAware, XA_ATOM, // !!! ATOM?
-                            32, PropModeReplace,
-                            reinterpret_cast<const unsigned char *>(
-                                &XdndCurrentVersion), 1);
+            setProperty(XA_XdndAware, XA_ATOM, XdndCurrentVersion);
         } else {
             XDeleteProperty(xapp->display(), handle(), XA_XdndAware);
         }
@@ -1705,6 +1701,8 @@ YDesktop::~YDesktop() {
         INFO("deleting stray %s", name);
         free(name);
     }
+    if (desktop == this)
+        desktop = nullptr;
 }
 
 void YWindow::grabVKey(int key, unsigned int vm) {

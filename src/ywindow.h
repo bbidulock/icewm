@@ -63,7 +63,7 @@ public:
     void setBackground(unsigned long pixel);
     void setBackgroundPixmap(ref<YPixmap> pixmap);
     void setBackgroundPixmap(Pixmap pixmap);
-    void setParentRelative(void);
+    void setParentRelative();
     virtual void configure(const YRect &r);
     virtual void configure(const YRect2& r2);
 
