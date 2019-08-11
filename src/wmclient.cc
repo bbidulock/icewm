@@ -1666,17 +1666,8 @@ bool YFrameClient::getWinHintsHint(long *state) {
 }
 
 void YFrameClient::setWinHintsHint(long hints) {
-    long s[1];
-
-    s[0] = hints;
     fWinHints = hints;
-
-    XChangeProperty(xapp->display(),
-                    handle(),
-                    _XA_WIN_HINTS,
-                    XA_CARDINAL,
-                    32, PropModeReplace,
-                    (unsigned char *)&s, 1);
+    setProperty(_XA_WIN_HINTS, XA_CARDINAL, hints);
 }
 
 void YFrameClient::getClientLeader() {
