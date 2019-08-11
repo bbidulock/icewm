@@ -13,6 +13,8 @@
 
 #if __cplusplus == 199711L
 #define nullptr NULL
+#define override
+#define final
 #endif
 
 template <class DataType> class YString {

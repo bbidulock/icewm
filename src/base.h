@@ -15,6 +15,8 @@
 #endif
 #if __cplusplus == 199711L
 #define nullptr NULL
+#define override
+#define final
 #endif
 
 /*** Essential Arithmetic Functions *******************************************/
@@ -106,7 +108,7 @@ void msg(char const *msg, ...) __attribute__((format(printf, 1, 2) ));
 void tlog(char const *msg, ...) __attribute__((format(printf, 1, 2) ));
 void precondition(const char *expr, const char *file, int line);
 char* path_lookup(const char* name);
-char* progpath(void);
+char* progpath();
 void show_backtrace(const int limit = 0);
 
 #define DEPRECATE(x) \

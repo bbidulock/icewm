@@ -3,6 +3,8 @@
 
 #if __cplusplus == 199711L
 #define nullptr NULL
+#define override
+#define final
 #endif
 
 class refcounted {
