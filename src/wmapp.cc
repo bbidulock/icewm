@@ -111,16 +111,6 @@ static Window registerProtocols1(char **argv, int argc) {
         msg(_("done."));
     }
 
-    char hostname[64] = { 0, };
-    gethostname(hostname, 64);
-
-    XTextProperty hname = {
-        (unsigned char *) hostname,
-        XA_STRING,
-        8,
-        strnlen(hostname, 64)
-    };
-
     static char wm_class[] = "IceWM";
     static char wm_instance[] = "icewm";
 
@@ -133,7 +123,6 @@ static Window registerProtocols1(char **argv, int argc) {
 
     Xutf8SetWMProperties(xapp->display(), xid, wm_name, NULL,
             argv, argc, NULL, NULL, &class_hint);
-    XSetWMClientMachine(xapp->display(), xid, &hname);
 
     XClientMessageEvent ev;
 
