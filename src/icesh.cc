@@ -40,6 +40,7 @@
 #include "ascii.h"
 #include "base.h"
 #include "WinMgr.h"
+#include "MwmUtil.h"
 #include "wmaction.h"
 #include "ypointer.h"
 #include "yrect.h"
@@ -100,6 +101,7 @@ static NAtom ATOM_WIN_TRAY(XA_WIN_TRAY);
 static NAtom ATOM_GUI_EVENT(XA_GUI_EVENT_NAME);
 static NAtom ATOM_ICE_ACTION("_ICEWM_ACTION");
 static NAtom ATOM_ICE_WINOPT("_ICEWM_WINOPTHINT");
+static NAtom ATOM_MOTIF_HINTS(_XA_MOTIF_WM_HINTS);
 static NAtom ATOM_NET_CLIENT_LIST("_NET_CLIENT_LIST");
 static NAtom ATOM_NET_CLOSE_WINDOW("_NET_CLOSE_WINDOW");
 static NAtom ATOM_NET_ACTIVE_WINDOW("_NET_ACTIVE_WINDOW");
@@ -222,7 +224,7 @@ private:
 
 struct Symbol {
     char const * name;
-    long code;
+    long const code;
 };
 
 struct SymbolTable {
@@ -239,7 +241,7 @@ struct SymbolTable {
     bool invalid(long code) const { return code == fErrCode; }
 
     Symbol const * fSymbols;
-    long fMin, fMax, fErrCode;
+    long const fMin, fMax, fErrCode;
 };
 
 class YProperty {
@@ -284,6 +286,11 @@ public:
                             const_cast<T *>(replacement)), int(length));
     }
 
+    void remove() {
+        XDeleteProperty(display, fWindow, fProp);
+        release();
+    }
+
     Atom type() const { return fType; }
     int format() const { return fFormat; }
     long count() const { return fCount; }
@@ -298,7 +305,7 @@ public:
         return index < fCount ? data<T>()[index] : T(0);
     }
 
-    operator bool() const { return fStatus == Success && fType && fCount; }
+    operator bool() const { return !fStatus && fData && fType && fCount; }
 
     long operator*() const { return data<long>(0); }
 
@@ -361,6 +368,21 @@ public:
     }
     long state() const { return 0 < count() ? (*this)[0] : 0L; }
     long mask() const { return 2 == count() ? (*this)[1] : WIN_STATE_ALL; }
+};
+
+class YMotifHints : public YProperty {
+public:
+    YMotifHints(Window window) :
+        YProperty(window, ATOM_MOTIF_HINTS, ATOM_MOTIF_HINTS, 5)
+    {
+    }
+
+    const MwmHints* operator->() const { return data<MwmHints>(); }
+    const MwmHints& operator*() const { return *data<MwmHints>(); }
+
+    void replace(const MwmHints& replacement) const {
+        YProperty::replace<MwmHints>(&replacement, 5);
+    }
 };
 
 class YStringProperty : public YProperty {
@@ -838,6 +860,7 @@ private:
     void flags();
     void flag(char* arg);
     void xinit();
+    void motif(Window window, char** args, int count);
     void detail();
     void details(Window window);
     void setWindow(Window window);
@@ -855,6 +878,7 @@ private:
     bool listClients();
     bool listWindows();
     bool listScreens();
+    bool listSymbols();
     bool listSystray();
     bool listWorkspaces();
     bool setWorkspaceName();
@@ -879,7 +903,7 @@ private:
                              WinStateAbove | WinStateBelow |\
                              WinStateFullscreen | WinStateUrgent)
 
-static Symbol stateIdentifiers[] = {
+static const Symbol stateIdentifiers[] = {
     { "Sticky",                 WinStateSticky          },
     { "Minimized",              WinStateMinimized       },
     { "Maximized",              WinStateMaximized       },
@@ -893,14 +917,14 @@ static Symbol stateIdentifiers[] = {
     { "Skip",                   WinStateSkip            },
     { "SkipPager",              WinStateSkipPager       },
     { "SkipTaskBar",            WinStateSkipTaskBar     },
-    { "Fullscreen",             WinStateFullscreen      },
-    { "Above",                  WinStateAbove           },
     { "Below",                  WinStateBelow           },
+    { "Above",                  WinStateAbove           },
+    { "Fullscreen",             WinStateFullscreen      },
     { "All",                    WIN_STATE_ALL           },
     { nullptr,                  0                       }
 };
 
-static Symbol hintIdentifiers[] = {
+static const Symbol hintIdentifiers[] = {
     { "SkipFocus",      WinHintsSkipFocus       },
     { "SkipWindowMenu", WinHintsSkipWindowMenu  },
     { "SkipTaskBar",    WinHintsSkipTaskBar     },
@@ -910,7 +934,7 @@ static Symbol hintIdentifiers[] = {
     { nullptr,          0                       }
 };
 
-static Symbol layerIdentifiers[] = {
+static const Symbol layerIdentifiers[] = {
     { "Desktop",    WinLayerDesktop     },
     { "Below",      WinLayerBelow       },
     { "Normal",     WinLayerNormal      },
@@ -921,14 +945,14 @@ static Symbol layerIdentifiers[] = {
     { nullptr,      0                   }
 };
 
-static Symbol trayOptionIdentifiers[] = {
+static const Symbol trayOptionIdentifiers[] = {
     { "Ignore",         WinTrayIgnore           },
     { "Minimized",      WinTrayMinimized        },
     { "Exclusive",      WinTrayExclusive        },
     { nullptr,          0                       }
 };
 
-static Symbol gravityIdentifiers[] = {
+static const Symbol gravityIdentifiers[] = {
     { "ForgetGravity",    ForgetGravity    },
     { "NorthWestGravity", NorthWestGravity },
     { "NorthGravity",     NorthGravity     },
@@ -944,24 +968,53 @@ static Symbol gravityIdentifiers[] = {
     { nullptr,            0                }
 };
 
-static SymbolTable layers = {
+static const Symbol motifFunctions[] = {
+    { "All",              MWM_FUNC_ALL        },
+    { "Resize",           MWM_FUNC_RESIZE     },
+    { "Move",             MWM_FUNC_MOVE       },
+    { "Minimize",         MWM_FUNC_MINIMIZE   },
+    { "Maximize",         MWM_FUNC_MAXIMIZE   },
+    { "Close",            MWM_FUNC_CLOSE      },
+    { nullptr,            0                   }
+};
+
+static const Symbol motifDecorations[] = {
+    { "All",              MWM_DECOR_ALL       },
+    { "Border",           MWM_DECOR_BORDER    },
+    { "Resize",           MWM_DECOR_RESIZEH   },
+    { "Title",            MWM_DECOR_TITLE     },
+    { "Menu",             MWM_DECOR_MENU      },
+    { "Minimize",         MWM_DECOR_MINIMIZE  },
+    { "Maximize",         MWM_DECOR_MAXIMIZE  },
+    { nullptr,            0                   }
+};
+
+static const SymbolTable layers = {
     layerIdentifiers, 0, WinLayerCount - 1, WinLayerInvalid
 };
 
-static SymbolTable states = {
+static const SymbolTable states = {
     stateIdentifiers, 0, WIN_STATE_FULL, -1
 };
 
-static SymbolTable hints = {
+static const SymbolTable hints = {
     hintIdentifiers, 0, WIN_HINTS_ALL, -1
 };
 
-static SymbolTable trayOptions = {
+static const SymbolTable trayOptions = {
     trayOptionIdentifiers, 0, WinTrayOptionCount - 1, WinTrayInvalid
 };
 
-static SymbolTable gravities = {
+static const SymbolTable gravities = {
     gravityIdentifiers, 0, 10, -1
+};
+
+static const SymbolTable motifFunctionsTable = {
+    motifFunctions, 0, MWM_FUNC_MASK, -1
+};
+
+static const SymbolTable motifDecorationsTable = {
+    motifDecorations, 0, MWM_DECOR_MASK, -1
 };
 
 /******************************************************************************/
@@ -979,24 +1032,63 @@ long SymbolTable::parseIdentifier(char const * id, size_t const len) const {
 
 long SymbolTable::parseExpression(char const * expression) const {
     long value(0);
-
-    for (char const * token(expression);
-         *token != '\0' && value != fErrCode; token = strnxt(token, "+|"))
-    {
-        char const * id(token + strspn(token, " \t"));
-        value |= parseIdentifier(id = newstr(id, "+| \t"));
-        delete[] id;
+    const char* token(expression);
+    for (int count = 0;; ++count) {
+        token = pastSpacesAndTabs(token);
+        if (isEmpty(token)) {
+            break;
+        }
+        bool add = *token == '+' || *token == '|';
+        bool sub = *token == '-';
+        if (count && !(add | sub)) {
+            value = fErrCode;
+            break;
+        }
+        if (add | sub) {
+            token = pastSpacesAndTabs(token + 1);
+        }
+        if (isEmpty(token)) {
+            value = fErrCode;
+            break;
+        }
+        size_t len = strcspn(token, "-+| \t");
+        if (len == 0) {
+            value = fErrCode;
+            break;
+        }
+        csmart copy(newstr(token, int(len)));
+        if (copy == nullptr) {
+            value = fErrCode;
+            break;
+        }
+        long ident = parseIdentifier(copy, len);
+        if (ident == fErrCode) {
+            value = fErrCode;
+            break;
+        }
+        if (add) {
+            value |= ident;
+        }
+        else if (sub) {
+            value &= ~ident;
+        }
+        else if (count == 0) {
+            value = ident;
+        }
+        token += len;
     }
 
     return value;
 }
 
 void SymbolTable::listSymbols(char const * label) const {
+    const long limit = 1023L;
     printf(_("Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"),
-           label, fMin, fMax);
+           label, fMin, min(fMax, limit));
 
     for (Symbol const * sym(fSymbols); sym && sym->name; ++sym)
-        printf("  %-20s (%ld)\n", sym->name, sym->code);
+        if (sym->code <= limit && (sym->code || sym == fSymbols))
+            printf("  %-20s (%ld)\n", sym->name, sym->code);
 
     puts("");
 }
@@ -1239,6 +1331,22 @@ bool IceSh::listSystray()
     windowList.getSystrayList();
 
     detail();
+    return true;
+}
+
+bool IceSh::listSymbols()
+{
+    if ( !isAction("symbols", 0))
+        return false;
+
+    states.listSymbols(_("GNOME window state"));
+    hints.listSymbols(_("GNOME window hint"));
+    layers.listSymbols(_("GNOME window layer"));
+    trayOptions.listSymbols(_("IceWM tray option"));
+    gravities.listSymbols(_("Gravity symbols"));
+    motifFunctionsTable.listSymbols(_("Motif functions"));
+    motifDecorationsTable.listSymbols(_("Motif decorations"));
+
     return true;
 }
 
@@ -1528,7 +1636,7 @@ bool IceSh::guiEvents()
 
 bool IceSh::icewmAction()
 {
-    static const struct { const char *s; WMAction a; } sa[] = {
+    static const Symbol sa[] = {
         { "logout",     ICEWM_ACTION_LOGOUT },
         { "cancel",     ICEWM_ACTION_CANCEL_LOGOUT },
         { "reboot",     ICEWM_ACTION_REBOOT },
@@ -1540,9 +1648,9 @@ bool IceSh::icewmAction()
         { "winoptions", ICEWM_ACTION_WINOPTIONS },
     };
     for (int i = 0; i < int ACOUNT(sa); ++i) {
-        if (0 == strcmp(*argp, sa[i].s)) {
+        if (0 == strcmp(*argp, sa[i].name)) {
             ++argp;
-            send(ATOM_ICE_ACTION, root, CurrentTime, sa[i].a);
+            send(ATOM_ICE_ACTION, root, CurrentTime, sa[i].code);
             return true;
         }
     }
@@ -1554,6 +1662,7 @@ bool IceSh::icewmAction()
         || listScreens()
         || listWindows()
         || listClients()
+        || listSymbols()
         || listSystray()
         || listXembed()
         || listShown()
@@ -1898,6 +2007,119 @@ static void opacity(Window window, char* opaq) {
     else {
         unsigned perc = getOpacity(window);
         printf("0x%-7lx %u\n", window, perc);
+    }
+}
+
+void IceSh::motif(Window window, char** args, int count) {
+    YMotifHints hints(window);
+
+    if (hints && !count) { // && hasbit(hints->flags, 017)) {
+        const char spaces[] = "          ";
+        printf("0x%-7lx motif:%s%s%s%s\n", window,
+                hints->hasFuncs() ? " funcs" : "",
+                hints->hasDecor() ? " decor" : "",
+                hints->hasInput() ? " input" : "",
+                hints->hasStatus() ? " status" : "");
+        if (hints->hasFuncs()) {
+            unsigned long funcs = hints->functions;
+            if (funcs & MWM_FUNC_ALL)
+                funcs = (~funcs & 0x3E);
+            printf("%sfuncs:", spaces);
+            for (int i = 1, n = 0; motifFunctions[i].name; ++i) {
+                if (funcs & motifFunctions[i].code)
+                    printf("%c%s",
+                            ++n == 1 ? ' ' : '+',
+                            motifFunctions[i].name);
+            }
+            printf("\n");
+        }
+        if (hints->hasDecor()) {
+            unsigned long decor = hints->decorations;
+            if (decor & MWM_DECOR_ALL)
+                decor = (~decor & 0x7E);
+            printf("%sdecor:", spaces);
+            for (int i = 1, n = 0; motifDecorations[i].name; ++i) {
+                if (decor & motifDecorations[i].code)
+                    printf("%c%s",
+                            ++n == 1 ? ' ' : '+',
+                            motifDecorations[i].name);
+            }
+            printf("\n");
+        }
+        if (hints->hasInput()) {
+            long input = hints->input_mode;
+            printf("%sinput: %s\n", spaces,
+                    input == MWM_INPUT_MODELESS ?
+                            "modeless" :
+                    input == MWM_INPUT_APPLICATION_MODAL ?
+                            "application_modal" :
+                    input == MWM_INPUT_SYSTEM_MODAL ?
+                            "system_modal" :
+                    input == MWM_INPUT_FULL_APPLICATION_MODAL ?
+                            "full_application_modal" : "");
+        }
+        if (hints->hasStatus()) {
+            printf("%sstatus:%s\n", spaces,
+                    (hints->status & MWM_TEAROFF_WINDOW) ?
+                            " tearoff" : "");
+        }
+    }
+
+    if (0 == count) {
+        return;
+    }
+
+    MwmHints mwm;
+    if (hints) {
+        mwm = *hints;
+    }
+    bool removing = false;
+
+    for (int k = 0; k < count; ++k) {
+        char* arg = args[k];
+        if (0 == strcmp(arg, "remove")) {
+            memset(&mwm, 0, sizeof(mwm));
+            removing = true;
+        }
+        else if (0 == strcmp(arg, "funcs") && k + 1 < count) {
+            arg = args[++k];
+            csmart tmp;
+            if (strchr("-+|", *arg) && mwm.hasFuncs()) {
+                size_t len = 32 + strlen(arg);
+                tmp = new char[len];
+                snprintf(tmp, len, "%ld%s", mwm.functions, arg);
+                arg = tmp;
+            }
+            long val = motifFunctionsTable.parseExpression(arg);
+            if (val < None) {
+                return;
+            }
+            mwm.functions = val;
+            mwm.setFuncs();
+        }
+        else if (0 == strcmp(arg, "decor") && k + 1 < count) {
+            arg = args[++k];
+            csmart tmp;
+            if (strchr("-+|", *arg) && mwm.hasDecor()) {
+                size_t len = 32 + strlen(arg);
+                tmp = new char[len];
+                snprintf(tmp, len, "%ld%s", mwm.decorations, arg);
+                arg = tmp;
+            }
+            long val = motifDecorationsTable.parseExpression(arg);
+            if (val < None) {
+                return;
+            }
+            mwm.decorations = val;
+            mwm.setDecor();
+        }
+    }
+
+    if (mwm.hasFlags()) {
+        hints.replace(mwm);
+    }
+    else if (removing && hints) {
+        hints.remove();
     }
 }
 
@@ -2655,6 +2877,29 @@ void IceSh::parseAction()
             for (bool hint = true; hint; ) {
                 hint = YProperty(root, ATOM_ICE_WINOPT, ATOM_ICE_WINOPT);
             }
+        }
+        else if (isAction("motif", 0)) {
+            char** args = argp;
+            int count = 0;
+            while (args + count < argv + argc) {
+                int more = (argv + argc) - (args + count);
+                if (0 == strcmp(args[count], "remove")) {
+                    ++count;
+                }
+                else if (0 == strcmp(args[count], "funcs") && 2 <= more) {
+                    count += 2;
+                }
+                else if (0 == strcmp(args[count], "decor") && 2 <= more) {
+                    count += 2;
+                }
+                else {
+                    break;
+                }
+            }
+            FOREACH_WINDOW(window) {
+                motif(window, args, count);
+            }
+            argp = args + count;
         }
         else {
             msg(_("Unknown action: `%s'"), *argp);

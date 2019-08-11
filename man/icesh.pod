@@ -14,7 +14,7 @@ icesh - control window properties and the IceWM window manager
 
 =head1 DESCRIPTION
 
-B<icesh> provides 79 commands to change or query a window's state,
+B<icesh> provides 81 commands to change or query a window's state,
 and to interact with the L<icewm(1)> window manager. Command arguments
 are called actions. Window actions operate on a selection of windows.
 B<icesh> has several options to select and filter windows.  Options and
@@ -397,6 +397,18 @@ See below for I<GRAVITY> symbols.
 
 Print the bit gravity for the specified window.
 
+=item B<motif> [B<funcs> I<FUNCTIONS> | B<decor> I<DECORATIONS> | B<remove>]
+
+Query, set or modify the C<_MOTIF_WM_HINTS> property for the specified
+window.  Without arguments B<motif> will show the current value, but
+only if the window has such a property. The property can be removed or
+reset with the B<remove> argument. With B<funcs> and B<decor> individual
+fields of this property can be enabled or disabled. If I<FUNCTIONS> or
+I<DECORATIONS> starts with a minus or plus sign then the existing value
+is modified, otherwise it is set to the new value. Note that if C<All>
+is set, then other set fields will be disabled and cleared fields will
+be enabled.
+
 =back
 
 =head2 MANAGER ACTIONS
@@ -524,6 +536,10 @@ I<program> [I<arguments...>] is executed.
 Synchronize with the IceWM window manager. That is, wait for icewm to
 process all previous actions.
 
+=item B<symbols>
+
+List all named symbols.
+
 =back
 
 =head2 EXPRESSIONS
@@ -618,6 +634,25 @@ Named symbols for window and bit gravity (numeric range: 0-10):
     SouthEastGravity      (9)
     StaticGravity         (10)
 
+=item I<Motif functions>
+
+    All                  (1)
+    Resize               (2)
+    Move                 (4)
+    Minimize             (8)
+    Maximize             (16)
+    Close                (32)
+
+=item I<Motif decorations>
+
+    All                  (1)
+    Border               (2)
+    Resize               (4)
+    Title                (8)
+    Menu                 (16)
+    Minimize             (32)
+    Maximize             (64)
+
 =back
 
 =head1 EXAMPLES
@@ -633,13 +668,9 @@ Example output:
     workspace #2: `doc'
     workspace #3: `dev'
 
-Close terminal work.
+Close terminal work and activate terminal fun.
 
-    icesh -c work.XTerm close
-
-Activate terminal fun.
-
-    icesh -c fun.XTerm activate
+    icesh -c work.XTerm close -a -c fun.XTerm activate
 
 Print opacity for all xterms.
 
