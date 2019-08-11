@@ -272,6 +272,9 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
     manager->insertFocusFrame(this, !isRunning);
 
     getFrameHints();
+    if (isManaged()) {
+        performLayout();
+    }
 
     {
         long layer = 0;
