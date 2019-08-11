@@ -274,12 +274,15 @@ public:
         if (type) fType = type;
         if (leng) fLength = leng;
         fStatus = XGetWindowProperty(display, fWindow, fProp, 0L,
-                                     fLength, False, fType, &fType,
+                                     fLength, False, fType, &type,
                                      &fFormat, &fCount, &fAfter, &fData);
+        if (type && !fStatus)
+            fType = type;
     }
 
     template <class T>
-    void replace(const T* replacement, size_t length) const {
+    void replace(const T* replacement, size_t length, int format = 0) {
+        if (format) fFormat = format;
         XChangeProperty(display, fWindow, fProp,
                         fType, fFormat, PropModeReplace,
                         reinterpret_cast<unsigned char *>(
@@ -380,8 +383,8 @@ public:
     const MwmHints* operator->() const { return data<MwmHints>(); }
     const MwmHints& operator*() const { return *data<MwmHints>(); }
 
-    void replace(const MwmHints& replacement) const {
-        YProperty::replace<MwmHints>(&replacement, 5);
+    void replace(const MwmHints& replacement) {
+        YProperty::replace<MwmHints>(&replacement, 5, 32);
     }
 };
 
