@@ -19,6 +19,10 @@ typedef int FrameState;
 class ClassHint : public XClassHint {
 public:
     ClassHint() { res_name = res_class = 0; }
+    ClassHint(const char* name, const char* klas) {
+        res_name = strdup(name);
+        res_class = strdup(klas);
+    }
     ~ClassHint() { reset(); }
     void reset() {
         if (res_name) { XFree(res_name); res_name = 0; }
