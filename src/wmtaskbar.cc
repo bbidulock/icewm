@@ -154,10 +154,6 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     initPixmaps();
 
     setStyle(wsNoExpose);
-    setTitle("TaskBar");
-    setWindowTitle(_("Task Bar"));
-    setIconTitle(_("Task Bar"));
-    setClassHint("icewm", "TaskBar");
     //!!!setWinStateHint(WinStateDockHorizontal, WinStateDockHorizontal);
 
     setWinHintsHint(WinHintsSkipFocus |
@@ -175,14 +171,14 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
       //_NET_WM_SYNC_REQUEST,
     };
     XSetWMProtocols(xapp->display(), handle(), protocols, 2);
-    getProtocols(false);
 
     {
-        XWMHints wmh = {};
-        wmh.flags = InputHint;
-        wmh.input = False;
-        wmh.initial_state = WithdrawnState;
-        XSetWMHints(xapp->display(), handle(), &wmh);
+        XWMHints wmhints = { InputHint, False, };
+        ClassHint clhint("icewm", "TaskBar");
+        YTextProperty text("TaskBar");
+        XSetWMProperties(xapp->display(), handle(), &text, &text,
+                         nullptr, 0, nullptr, &wmhints, &clhint);
+        setProperty(_XA_NET_WM_PID, XA_CARDINAL, getpid());
     }
     {
         long wk[4] = { 0, 0, 0, 0 };
