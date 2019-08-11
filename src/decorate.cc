@@ -394,8 +394,8 @@ void YFrameWindow::layoutClient() {
         int x = borderX();
         int y = borderY();
         int title = titleY();
-        int w = this->width() - 2 * x;
-        int h = this->height() - 2 * y - title;
+        int w = max(1, int(width()) - 2 * x);
+        int h = max(1, int(height()) - 2 * y - title);
 
         fClientContainer->setGeometry(YRect(x, y + title, w, h));
         fClient->setGeometry(YRect(0, 0, w, h));
