@@ -399,6 +399,8 @@ void YFrameTitleBar::layoutButtons() {
             }
         }
     }
+
+    activate();
 }
 
 void YFrameTitleBar::deactivate() {
