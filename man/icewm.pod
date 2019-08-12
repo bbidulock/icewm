@@ -1106,8 +1106,6 @@ L<IceWM Theme Creation Howto|https://ice-wm.org/themes>.
 
 =head2 OPACITY
 
-=over
-
 IceWM supports window opacity and transparency in connection with an
 external compositor like L<compton(1)>. If a client window sets the
 C<_NET_WM_WINDOW_OPACITY> property on its window then B<icewm> will copy
@@ -1121,8 +1119,6 @@ running applications can always be queried or modified by L<icesh(1)>.
 The _NET_WM_WINDOW_TYPE properties which B<icewm> sets on its windows
 are I<DIALOG>, I<NOTIFICATION>, I<POPUP_MENU> and I<TOOLTIP>. The output
 of C<icesh windows> shows their WM_CLASS values.
-
-=back
 
 =head1 EXAMPLES
 
