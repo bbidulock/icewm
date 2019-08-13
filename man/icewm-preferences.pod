@@ -891,6 +891,14 @@ TitleBar mouse-button double click to rollup the window.
 
 =head2 WORKSPACES
 
+=over
+
+=item B<WorkspaceNames>=" 1 ", " 2 ", " 3 ", " 4 "
+
+Create four workspaces with names C< 1 >, C< 2 >, C< 3 > and C< 4 >.
+
+=back
+
 =head2 PATHS
 
 =over
