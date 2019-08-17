@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: icewm-1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2019-08-17 12:39+0200\n"
-"PO-Revision-Date: 2019-06-13 10:49+0000\n"
+"PO-Revision-Date: 2019-08-17 21:51+0000\n"
 "Last-Translator: Aleš Kastner <alkas@volny.cz>\n"
-"Language-Team: Czech <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/cs/>\n"
+"Language-Team: Czech <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -589,20 +589,17 @@ msgid "IceWM tray option"
 msgstr "Přepínače IceWM tray"
 
 #: src/icesh.cc:1446
+#, fuzzy
 msgid "Gravity symbols"
-msgstr ""
+msgstr "Symboly závažnosti"
 
 #: src/icesh.cc:1447
-#, fuzzy
-#| msgid "Save Modifications"
 msgid "Motif functions"
-msgstr "Uložit změny"
+msgstr "Motif - funkce"
 
 #: src/icesh.cc:1448
-#, fuzzy
-#| msgid "Save Modifications"
 msgid "Motif decorations"
-msgstr "Uložit změny"
+msgstr "Motif - dekorace"
 
 #: src/icesh.cc:1527
 #, c-format
@@ -652,17 +649,6 @@ msgid "Socket error: %d"
 msgstr "Chyba socketu: %d"
 
 #: src/icesm.cc:57
-#, fuzzy
-#| msgid ""
-#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-#| "\n"
-#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
-#| "  --sync              Synchronize communication with X11 server.\n"
-#| "\n"
-#| "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
-#| "  -n, --notray        Do not start icewmtray.\n"
-#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -680,9 +666,11 @@ msgstr ""
 "  -t, --theme=SOUBOR    Umožní IceWM načíst téma ze SOUBORU.\n"
 "\n"
 "  -d, --display=NÁZEV      Použije NÁZEV pro připojení k X-serveru.\n"
+"  -a, --alpha        Použije 32-bit visual pro průsvitnost.\n"
 "  --sync              Synchronizuje komunikaci se serverem X11.\n"
 "\n"
 "  -i, --icewm=SOUBOR    Použije SOUBOR jako správce oken IceWM.\n"
+"  -b, --nobg          Nespouštět icewmbg.\n"
 "  -n, --notray        Nespouštět icewmtray.\n"
 "  -s, --sound         Spustit také icesound.\n"
 
@@ -692,10 +680,9 @@ msgid "Unknown option '%s'"
 msgstr "Neznámá volba: '%s'"
 
 #: src/icesm.cc:331 src/icesm.cc:449
-#, fuzzy, c-format
-#| msgid "Restart"
+#, c-format
 msgid "restart %s."
-msgstr "Restartovat"
+msgstr "restartovat %s."
 
 #: src/icesm.cc:337
 #, c-format
@@ -1365,12 +1352,6 @@ msgstr ""
 "  --debug-z          Vypíše ladicí zprávy ohledně seskládání oken.\n"
 
 #: src/wmapp.cc:1480
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "  -c, --config=FILE   Load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Load theme from FILE.\n"
-#| "  --postpreferences   Print preferences after all processing.\n"
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -1380,8 +1361,10 @@ msgid ""
 "  --postpreferences   Print preferences after all processing.\n"
 msgstr ""
 "\n"
+"  -a, --alpha         Použije 32-bit visual pro průsvitnost.\n"
 "  -c, --config=SOUBOR   Načíst nastavení ze SOUBORu.\n"
 "  -t, --theme=SOUBOR    Načíst téma ze SOUBORu.\n"
+"  --splash=OBRAZ     Při startu krátce ukáže OBRAZ.\n"
 "  --postpreferences   Po zpracování vypsat nastavení.\n"
 
 #: src/wmapp.cc:1487
