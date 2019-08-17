@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2019-08-17 12:39+0200\n"
-"PO-Revision-Date: 2019-06-16 11:49+0000\n"
-"Last-Translator: Sarah Kriesch <ada.lovelace@gmx.de>\n"
-"Language-Team: German <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/de/>\n"
+"PO-Revision-Date: 2019-08-18 00:51+0000\n"
+"Last-Translator: Thomas Koller <tk120@protonmail.com>\n"
+"Language-Team: German <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -595,7 +595,7 @@ msgstr "IceWM-Trayoption"
 
 #: src/icesh.cc:1446
 msgid "Gravity symbols"
-msgstr ""
+msgstr "Gravitationssymbole"
 
 #: src/icesh.cc:1447
 #, fuzzy
@@ -698,10 +698,9 @@ msgid "Unknown option '%s'"
 msgstr "Unbekannte Option: '%s'"
 
 #: src/icesm.cc:331 src/icesm.cc:449
-#, fuzzy, c-format
-#| msgid "Restart"
+#, c-format
 msgid "restart %s."
-msgstr "Neustart"
+msgstr "Neustart %s."
 
 #: src/icesm.cc:337
 #, c-format
