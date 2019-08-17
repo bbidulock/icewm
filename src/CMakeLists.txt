@@ -15,7 +15,6 @@ INCLUDE(CheckCXXCompilerFlag)
 SET(CXXFLAGS_COMMON -pthread -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE -DHAVE_CONFIG_H -include "${CMAKE_BINARY_DIR}/config.h")
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
-set(icewm_img_libs "")
 set(icewm_libs "")
 
 if("${CMAKE_BUILD_TYPE}" STREQUAL "" AND ("" STREQUAL "${CMAKE_CXX_FLAGS}"))
@@ -190,8 +189,14 @@ CHECK_TYPE_SIZE(short SIZEOF_SHORT)
 #########################################################
 
 pkg_check_modules(fontconfig fontconfig)
+pkg_check_modules(xrender xrender)
+pkg_check_modules(xcomposite xcomposite)
+pkg_check_modules(xdamage xdamage)
+pkg_check_modules(xfixes xfixes)
 pkg_check_modules(xext xext)
 pkg_check_modules(x11 x11)
+
+set(icewm_img_libs ${xrender_LDFLAGS} ${xcomposite_LDFLAGS} ${xdamage_LDFLAGS} ${xfixes_LDFLAGS})
 
 # XXX: the image loader selection became a big mess but it is hard to revert now
 # It would have been a better idea to use different names for the user-specified
@@ -291,15 +296,6 @@ if(CONFIG_XRANDR)
         message(WARNING "Xrandr library not found, disabling CONFIG_XRANDR")
         set(CONFIG_XRANDR off)
     ENDIF()
-endif()
-
-if(CONFIG_RENDER)
-    pkg_check_modules(xrender xrender)
-    IF(NOT xrender_FOUND)
-        message(WARNING "Xrender library not found, disabling CONFIG_RENDER")
-        set(CONFIG_RENDER off)
-    ENDIF()
-    LIST(APPEND icewm_img_libs ${xrender_LDFLAGS})
 endif()
 
 option(CONFIG_COREFONTS "Define to enable X11 core fonts" off)
