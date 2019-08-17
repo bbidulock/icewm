@@ -83,7 +83,7 @@ YWindowManager::YWindowManager(
     setStyle(wsManager);
     setPointer(YXApplication::leftPointer);
 #ifdef CONFIG_XRANDR
-    if (xrandrSupported) {
+    if (xrandr.supported) {
 #if RANDR_MAJOR >= 1
         XRRSelectInput(xapp->display(), handle(),
                        RRScreenChangeNotifyMask
@@ -3421,6 +3421,10 @@ void YWindowManager::doWMAction(WMAction action) {
 #ifdef CONFIG_XRANDR
 void YWindowManager::handleRRScreenChangeNotify(const XRRScreenChangeNotifyEvent &xrrsc) {
     UpdateScreenSize((XEvent *)&xrrsc);
+}
+
+void YWindowManager::handleRRNotify(const XRRNotifyEvent &notify) {
+    // logRandrNotify((XEvent *)&notify);
 }
 
 void YWindowManager::UpdateScreenSize(XEvent *event) {

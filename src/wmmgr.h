@@ -106,6 +106,7 @@ public:
     virtual void handleFocus(const XFocusChangeEvent &focus);
 #ifdef CONFIG_XRANDR
     virtual void handleRRScreenChangeNotify(const XRRScreenChangeNotifyEvent &xrrsc);
+    virtual void handleRRNotify(const XRRNotifyEvent &notify);
 #endif
 
     void manageClients();

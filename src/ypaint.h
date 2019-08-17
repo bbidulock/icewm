@@ -6,7 +6,6 @@
 #include "mstring.h"
 
 #ifdef CONFIG_SHAPE
-#define __YIMP_XUTIL__
 #include <X11/extensions/shape.h>
 #endif
 
@@ -145,7 +144,7 @@ public:
     void setColor(YColor aColor);
     void setColorPixel(unsigned long pixel);
     void setFont(ref<YFont> aFont);
-    void setThinLines(void) { setLineWidth(0); }
+    void setThinLines() { setLineWidth(0); }
     void setWideLines(unsigned width = 1) { setLineWidth(width >= 1 ? width : 1); }
     void setLineWidth(unsigned width);
     void setPenStyle(bool dotLine = false); ///!!!hack
@@ -194,6 +193,7 @@ public:
     unsigned rwidth() const { return rWidth; }
     unsigned rheight() const { return rHeight; }
     unsigned rdepth() const { return rDepth; }
+    Picture picture();
 
     void setClipRectangles(XRectangle *rect, int count);
     void setClipMask(Pixmap mask = None);
@@ -207,6 +207,7 @@ private:
 
     YColor   fColor;
     ref<YFont> fFont;
+    Picture fPicture;
     int xOrigin, yOrigin;
     unsigned rWidth, rHeight, rDepth;
 };

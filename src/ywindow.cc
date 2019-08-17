@@ -727,17 +727,29 @@ void YWindow::handleEvent(const XEvent &event) {
         break;
 
     default:
+        if (damage.isEvent(event.type, XDamageNotify)) {
+            handleDamageNotify(
+                *reinterpret_cast<const XDamageNotifyEvent *>(&event));
+            break;
+        }
 #ifdef CONFIG_SHAPE
-        if (shapesSupported && event.type == (shapeEventBase + ShapeNotify)) {
+        if (shapes.isEvent(event.type, ShapeNotify)) {
             handleShapeNotify(*reinterpret_cast<const XShapeEvent *>(&event));
             break;
         }
 #endif
 #ifdef CONFIG_XRANDR
-        //msg("event.type=%d %d %d", event.type, xrandrEventBase, xrandrSupported);
-        if (xrandrSupported && event.type == (xrandrEventBase + 0)) // XRRScreenChangeNotify
+        if (xrandr.isEvent(event.type, RRScreenChangeNotify)) {
             handleRRScreenChangeNotify(
-                *reinterpret_cast<const XRRScreenChangeNotifyEvent *>(&event));
+                *reinterpret_cast<const XRRScreenChangeNotifyEvent *>
+                (&event));
+            break;
+        }
+        else if (xrandr.isEvent(event.type, RRNotify)) {
+            handleRRNotify(
+                *reinterpret_cast<const XRRNotifyEvent *>(&event));
+            break;
+        }
 #endif
         break;
     }
@@ -1477,9 +1489,13 @@ void YWindow::removeAccelerator(unsigned int key, unsigned int mod, YWindow *win
 
 const Atom XdndCurrentVersion = 3;
 
+void YWindow::setProperty(Atom prop, Atom type, const Atom* values, int count) {
+    XChangeProperty(xapp->display(), handle(), prop, type, 32, PropModeReplace,
+                    reinterpret_cast<const unsigned char *>(values), count);
+}
+
 void YWindow::setProperty(Atom property, Atom propType, Atom value) {
-    XChangeProperty(xapp->display(), handle(), property, propType,
-                    32, PropModeReplace, (unsigned char *) &value, 1);
+    setProperty(property, propType, &value, 1);
 }
 
 void YWindow::setNetWindowType(Atom window_type) {
@@ -1945,13 +1961,29 @@ Pixmap YWindow::createPixmap() {
     return XCreatePixmap(xapp->display(), xapp->root(), fWidth, fHeight, fDepth);
 }
 
+XRenderPictFormat* YWindow::format() {
+    return xapp->formatForDepth(depth());
+}
+
+Picture YWindow::createPicture() {
+    Picture picture = None;
+    XRenderPictFormat* format = this->format();
+    if (format) {
+        XRenderPictureAttributes attr;
+        unsigned long mask = None;
+        picture = XRenderCreatePicture(xapp->display(), handle(),
+                                       format, mask, &attr);
+    }
+    return picture;
+}
+
 void YDesktop::updateXineramaInfo(unsigned &w, unsigned &h) {
     xiInfo.clear();
 
 #ifdef CONFIG_XRANDR
     bool gotLayout = false;
     MSG(("xrr: %d", xrandr12 ? 1 : 0));
-    if (xrandrSupported && !xrrDisable) {
+    if (xrandr.supported && !xrrDisable) {
         XRRScreenResources *xrrsr =
             XRRGetScreenResources(xapp->display(), handle());
 

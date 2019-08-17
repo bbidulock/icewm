@@ -5,10 +5,7 @@
 #include "yimage.h"
 #include "yxapp.h"
 #include <stdlib.h>
-
-extern "C" {
 #include <gdk-pixbuf-xlib/gdk-pixbuf-xlib.h>
-}
 
 #define ATH 55  /* alpha threshold that can show anti-aliased lines */
 
@@ -29,6 +26,8 @@ public:
                        unsigned w, unsigned h, int dx, int dy);
     virtual void composite(Graphics &g, int x, int y,
                             unsigned w, unsigned h, int dx, int dy);
+    virtual unsigned depth() const;
+    virtual bool hasAlpha() const;
     virtual bool valid() const { return fPixbuf != 0; }
     virtual ref<YImage> subimage(int x, int y, unsigned w, unsigned h);
     virtual void save(upath filename);
@@ -39,6 +38,14 @@ private:
 
 bool YImage::supportsDepth(unsigned depth) {
     return depth == unsigned(xlib_rgb_get_depth());
+}
+
+bool YImageGDK::hasAlpha() const {
+    return gdk_pixbuf_get_has_alpha(fPixbuf);
+}
+
+unsigned YImageGDK::depth() const {
+    return 8 * gdk_pixbuf_get_n_channels(fPixbuf);
 }
 
 ref<YImage> YImage::load(upath filename) {
@@ -203,7 +210,7 @@ ref<YImage> YImage::createFromPixmapAndMaskScaled(Pixmap pix, Pixmap mask,
                                                   unsigned nw, unsigned nh)
 {
     ref<YImage> image = createFromPixmapAndMask(pix, mask, width, height);
-    if (image != null)
+    if (image != null && (nw != width || nh != height))
         image = image->scale(nw, nh);
     return image;
 }
@@ -353,7 +360,7 @@ void YImageGDK::composite(Graphics &g, int x, int y, unsigned width, unsigned he
     GdkPixbuf *pixbuf =
         gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, w, h);
     Visual* visual = xapp->visualForDepth(g.rdepth());
-    Colormap cmap = xapp->colormapForDepth(g.rdepth());
+    Colormap cmap = xapp->colormapForVisual(visual);
     gdk_pixbuf_xlib_get_from_drawable(pixbuf,
                                       g.drawable(),
                                       cmap,

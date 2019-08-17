@@ -62,6 +62,28 @@ YPixmap::~YPixmap() {
             XFreePixmap(xapp->display(), fMask);
         fMask = 0;
     }
+    freePicture();
+}
+
+Picture YPixmap::picture() {
+    if (fPicture == None) {
+        XRenderPictFormat* format = xapp->formatForDepth(fDepth);
+        if (format) {
+            XRenderPictureAttributes attr;
+            unsigned long mask = fMask ? CPClipMask : None;
+            attr.clip_mask = fMask;
+            fPicture = XRenderCreatePicture(xapp->display(), fPixmap,
+                                            format, mask, &attr);
+        }
+    }
+    return fPicture;
+}
+
+void YPixmap::freePicture() {
+    if (fPicture) {
+        XRenderFreePicture(xapp->display(), fPicture);
+        fPicture = None;
+    }
 }
 
 ref<YImage> YPixmap::image() {
@@ -128,8 +150,8 @@ ref<YPixmap> YPixmap::create(unsigned w, unsigned h, unsigned depth, bool useMas
     ref<YPixmap> n;
 
     Pixmap pixmap = createPixmap(w, h, depth);
-    Pixmap mask = useMask ? createMask(w, h) : None;
-    if (pixmap != None && (!useMask || mask != None)) {
+    if (pixmap) {
+        Pixmap mask = useMask ? createMask(w, h) : None;
         n.init(new YPixmap(pixmap, mask, w, h, depth, null));
     }
     return n;

@@ -144,7 +144,7 @@ private:
     MEMStatus *fMEMStatus;
     CPUStatusControl *fCPUStatus;
     YApm *fApm;
-    ref<NetStatusControl> fNetStatus;
+    NetStatusControl *fNetStatus;
 
     ObjectBar *fObjectBar;
     ObjectButton *fApplications;

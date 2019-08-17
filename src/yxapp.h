@@ -23,6 +23,44 @@ public:
     ~YTextProperty();
 };
 
+enum YFormat { F8 = 8, F16 = 16, F32 = 32 };
+
+class YProperty {
+public:
+    YProperty(YWindow* window, Atom prop, YFormat format = F32,
+              long limit = 1L, Atom type = AnyPropertyType):
+        fWind(window->handle()), fData(nullptr), fProp(prop), fKind(type),
+        fType(None), fLimit(limit), fSize(None), fMore(None), fBits(format)
+    { update(); }
+    ~YProperty() { discard(); }
+    void discard();
+    const YProperty& update();
+    Atom property() const { return fProp; }
+    Atom type() const { return fType; }
+    YFormat bits() const { return fBits; }
+    unsigned long size() const { return fSize; }
+    unsigned long more() const { return fMore; }
+    operator bool() const { return fData; }
+    bool typed(Atom type) const { return fData && type == fType; }
+
+    template<class T> T* data() const { return reinterpret_cast<T*>(fData); }
+    template<class T> T* retrieve() { T* t(data<T>()); fData = 0; return t; }
+    template<class T> T& operator[](int i) const { return data<T>()[i]; }
+    template<class T> T& operator*() const { return *data<T>(); }
+    template<class T> T* operator->() const { return data<T>(); }
+
+private:
+    Window fWind;
+    unsigned char* fData;
+    Atom fProp;
+    Atom fKind;
+    Atom fType;
+    long fLimit;
+    unsigned long fSize;
+    unsigned long fMore;
+    YFormat fBits;
+};
+
 class YXPoll: public YPoll<class YXApplication> {
 public:
     virtual void notifyRead();
@@ -55,10 +93,12 @@ public:
 
     bool hasColormap() const { return fHasColormaps; }
     bool synchronized() const { return synchronizeX11; }
-    bool alpha() const { return fArgs.alpha; }
-    Visual* visualForDepth(unsigned depth);
-    Colormap colormapForDepth(unsigned depth);
-    Colormap colormapForVisual(Visual* visual);
+    bool alpha() const { return fAlpha; }
+    Visual* visualForDepth(unsigned depth) const;
+    Colormap colormapForDepth(unsigned depth) const;
+    Colormap colormapForVisual(Visual* visual) const;
+    XRenderPictFormat* formatForDepth(unsigned depth) const;
+    XRenderPictFormat* format() const { return formatForDepth(fDepth); }
 
     void saveEventTime(const XEvent &xev);
     Time getEventTime(const char *debug) const;
@@ -115,32 +155,27 @@ protected:
     virtual int handleError(XErrorEvent* xev);
 
 private:
-    struct AppArgs {
-        const char* displayName;
-        bool alpha;
-        Display* display;
-        int screen;
-        Window root;
-        unsigned depth;
-        Visual* visual;
-        Colormap cmap;
-    } const fArgs;
-
-    AppArgs parseArgs(int *argc, char ***argv, const char *displayName);
-    Display* openDisplay();
+    XRenderPictFormat* findFormat(int depth) const;
+    Visual* findVisual(int depth) const;
+    Colormap getColormap(int depth) const;
 
     Display* const fDisplay;
     int const fScreen;
     Window const fRoot;
+    XRenderPictFormat* fFormat32;
+    XRenderPictFormat* fFormat24;
+    Visual* const fVisual32;
+    Visual* const fVisual24;
+    Colormap const fColormap32;
+    Colormap const fColormap24;
+    bool const fAlpha;
+
     unsigned const fDepth;
     Visual* const fVisual;
     Colormap const fColormap;
     bool const fHasColormaps;
     unsigned long const fBlack;
     unsigned long const fWhite;
-
-    Visual* fVisual32;
-    Colormap fColormap32;
 
     Time lastEventTime;
     YPopupWindow *fPopup;
@@ -152,18 +187,19 @@ private:
     int fGrabMouse;
     YWindow *fGrabWindow;
 
-    YClipboard *fClip;
+    lazy<YClipboard> fClip;
     bool fReplayEvent;
 
     virtual bool handleXEvents();
     virtual void flushXEvents();
 
-    void initExtensions();
     void initModifiers();
     static void initAtoms();
     static void initPointers();
-    static Visual* visual32(Display* dpy, int scn);
-    static Colormap cmap32(Display* dpy, int scn, Window rtw);
+
+    static const char* parseArgs(int argc, char **argv, const char *displayName);
+    static Display* openDisplay(const char* displayName);
+    static void initExtensions(Display* dpy);
     static bool haveColormaps(Display* dpy);
     static int errorHandler(Display* display, XErrorEvent* xev);
 };

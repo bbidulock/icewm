@@ -109,7 +109,7 @@ void YFrameWindow::updateSubmenus() {
 
 #ifdef CONFIG_SHAPE
 void YFrameWindow::setShape() {
-    if (!shapesSupported)
+    if (!shapes.supported)
         return ;
 
     if (client()->shaped()) {
@@ -187,7 +187,7 @@ void YFrameWindow::layoutShape() {
         fShapeBorderY = borderY();
 
 #ifdef CONFIG_SHAPE
-        if (shapesSupported &&
+        if (shapes.supported &&
             (frameDecors() & fdBorder) &&
             !(isIconic() || isFullscreen()))
         {

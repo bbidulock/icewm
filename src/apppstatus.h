@@ -133,8 +133,7 @@ public:
 class NetStatusControl :
     private YTimerListener,
     private YActionListener,
-    private NetStatusHandler,
-    public refcounted
+    private NetStatusHandler
 {
 private:
     lazy<YTimer> fUpdateTimer;

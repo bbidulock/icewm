@@ -75,7 +75,6 @@ static bool show_extensions;
 static Window registerProtocols1(char **argv, int argc) {
     long timestamp = CurrentTime;
     YAtom wmSx("WM_S", true);
-    YAtom wm_manager("MANAGER");
 
     Window current_wm = XGetSelectionOwner(xapp->display(), wmSx);
 
@@ -129,7 +128,7 @@ static Window registerProtocols1(char **argv, int argc) {
     memset(&ev, 0, sizeof(ev));
     ev.type = ClientMessage;
     ev.window = xroot;
-    ev.message_type = wm_manager;
+    ev.message_type = _XA_MANAGER;
     ev.format = 32;
     ev.data.l[0] = timestamp;
     ev.data.l[1] = wmSx;
@@ -1073,18 +1072,30 @@ void YWMApp::initFocusMode() {
 }
 
 static void showExtensions() {
-    if (shapesSupported)
-        printf("shapes %d.%d\n", shapeVersionMajor, shapeVersionMinor);
-    else
-        printf("shapes unavailable\n");
-    if (renderSupported)
-        printf("render %d.%d\n", renderVersionMajor, renderVersionMinor);
-    else
-        printf("render unavailable\n");
-    if (xrandrSupported)
-        printf("xrandr %d.%d\n", xrandrVersionMajor, xrandrVersionMinor);
-    else
-        printf("xrandr unavailable\n");
+    struct {
+        const char* str;
+        YExtension* ext;
+    } xs[] = {
+        { "composite", &composite },
+        { "damage",    &damage    },
+        { "fixes",     &fixes     },
+        { "render",    &render    },
+        { "shapes",    &shapes    },
+        { "xrandr",    &xrandr    },
+    };
+    printf("[name]   [ver] [ev][err]\n");
+    for (int i = 0; i < int ACOUNT(xs); ++i) {
+        const char* s = xs[i].str;
+        YExtension* x = xs[i].ext;
+        if (x->versionMajor | x->versionMinor) {
+            printf("%-9s %d.%-2d (%2d, %3d)\n", s,
+                    x->versionMajor, x->versionMinor,
+                    x->eventBase, x->errorBase);
+        }
+        if (!x->supported) {
+            printf("%-9s unsupported\n", s);
+        }
+    }
 }
 
 static int restartWM(const char* displayName, const char* overrideTheme) {

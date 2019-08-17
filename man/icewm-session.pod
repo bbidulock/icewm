@@ -12,7 +12,7 @@ B<icewm-session> [I<OPTIONS>]
 
 icewm-session is an implementation of X.Org session manager and can be
 run from X11 session setup. It runs B<icewm> as default window manager
-and handles the startup and lifecycle control of the WM and all related
+and handles the startup and life cycle control of the WM and all related
 support applications.
 
 =head1 OPTIONS
@@ -32,6 +32,10 @@ Let IceWM load the theme from I<FILE>.
 =item B<-i>, B<--icewm=FILE>
 
 Use I<FILE> as the IceWM window manager.
+
+=item B<-b>, B<--nobg>
+
+Do not start icewmbg.
 
 =item B<-n>, B<--notray>
 

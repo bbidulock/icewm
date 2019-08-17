@@ -6,6 +6,7 @@
 #include "config.h"
 #include "ycolor.h"
 #include "yxapp.h"
+#include "ascii.h"
 
 #ifdef CONFIG_XFREETYPE
 #include <ft2build.h>
@@ -133,6 +134,10 @@ public:
         fOpacity = opacity;
     }
 
+    int getOpacity() {
+        return fOpacity;
+    }
+
     YPixelCache() :
         fOpacity(0)
     {
@@ -173,7 +178,44 @@ void YColor::alloc(const char* name, int opacity) {
 }
 
 void YColor::alloc(const char* name) {
-    if (name && name[0]) {
+    if (name && 0 == strncmp(name, "rgba:", 5)) {
+        unsigned short color[4] = { 0, 0, 0, 0 };
+        bool valid = false;
+        int k = 0, n = 12;
+        for (const char* str = name + 5; -4 <= n; ++str, n -= 4) {
+            const char c = *str;
+            const int hex = ASCII::hexDigit(c);
+            if (0 <= hex) {
+                if (0 <= n) {
+                    color[k] |= hex << n;
+                }
+            }
+            else {
+                while (0 <= n && n <= 8) {
+                    color[k] |= (color[k] >> (12 - n));
+                    n = max(-4, n - (12 - n));
+                }
+                if (c != '/' || n != -4 || ++k == 4) {
+                    valid = (c == 0 && k == 3 && n == -4);
+                    break;
+                }
+                n = 16;
+            }
+        }
+        if (valid) {
+            int previous = cache.getOpacity();
+            if (previous == 0) {
+                cache.setOpacity(color[3]);
+            }
+            fPixel = cache.get(color[0], color[1], color[2]);
+            cache.setOpacity(previous);
+            return;
+        }
+        else if (testOnce(name, __LINE__)) {
+            msg(_("Could not parse color \"%s\""), name);
+        }
+    }
+    else if (nonempty(name)) {
         XColor color;
         if (XParseColor(display(), colormap(), name, &color)) {
             fPixel = cache.get(color.red, color.green, color.blue);

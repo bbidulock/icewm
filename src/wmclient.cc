@@ -85,7 +85,7 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
     getMwmHints();
 
 #ifdef CONFIG_SHAPE
-    if (shapesSupported) {
+    if (shapes.supported) {
         XShapeSelectInput(xapp->display(), handle(), ShapeNotifyMask);
         queryShape();
     }
@@ -736,7 +736,7 @@ void YFrameClient::handleDestroyWindow(const XDestroyWindowEvent &destroyWindow)
 
 #ifdef CONFIG_SHAPE
 void YFrameClient::handleShapeNotify(const XShapeEvent &shape) {
-    if (shapesSupported) {
+    if (shapes.supported) {
         MSG(("shape event: %d %d %d:%d=%dx%d time=%ld",
              shape.shaped, shape.kind,
              shape.x, shape.y, shape.width, shape.height, shape.time));
@@ -836,7 +836,7 @@ void YFrameClient::setColormap(Colormap cmap) {
 void YFrameClient::queryShape() {
     fShaped = false;
 
-    if (shapesSupported) {
+    if (shapes.supported) {
         int xws, yws, xbs, ybs;
         unsigned wws, hws, wbs, hbs;
         Bool boundingShaped, clipShaped;
@@ -1108,31 +1108,14 @@ void YFrameClient::getMwmHints() {
     if (!prop.mwm_hints)
         return;
 
-    int retFormat;
-    Atom retType;
-    unsigned long retCount, remain;
-
     if (fMwmHints) {
         XFree(fMwmHints);
-        fMwmHints = 0;
+        fMwmHints = nullptr;
     }
-    union {
-        MwmHints *ptr;
-        unsigned char *xptr;
-    } mwmHints = { 0 };
-
-    if (XGetWindowProperty(xapp->display(), handle(),
-                           _XATOM_MWM_HINTS, 0L, 20L, False, _XATOM_MWM_HINTS,
-                           &retType, &retFormat, &retCount,
-                           &remain, &(mwmHints.xptr)) == Success && mwmHints.ptr)
-    {
-        if (retCount >= PROP_MWM_HINTS_ELEMENTS) {
-            fMwmHints = mwmHints.ptr;
-            return;
-        } else
-            XFree(mwmHints.xptr);
-    }
-    fMwmHints = 0;
+    YProperty prop(this, _XATOM_MWM_HINTS, F32,
+                   PROP_MWM_HINTS_ELEMENTS, _XATOM_MWM_HINTS);
+    if (prop && prop.size() == PROP_MWM_HINTS_ELEMENTS)
+        fMwmHints = prop.retrieve<MwmHints>();
 }
 
 void YFrameClient::setMwmHints(const MwmHints &mwm) {

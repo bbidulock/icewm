@@ -6,13 +6,6 @@
 #include "MwmUtil.h"
 #include "ypointer.h"
 #include "yxcontext.h"
-
-#ifdef CONFIG_RENDER
-#include <X11/extensions/Xrender.h>
-#endif
-
-#include <sys/resource.h>
-
 #include "intl.h"
 
 YXApplication *xapp = 0;
@@ -55,7 +48,9 @@ Atom _XA_WINDOW_ROLE;
 Atom _XA_SM_CLIENT_ID;
 Atom _XA_ICEWM_ACTION;
 Atom _XA_CLIPBOARD;
+Atom _XA_MANAGER;
 Atom _XA_TARGETS;
+Atom _XA_XEMBED;
 Atom _XA_XEMBED_INFO;
 Atom _XA_UTF8_STRING;
 
@@ -188,17 +183,12 @@ Atom XA_XdndPosition;
 Atom XA_XdndProxy;
 Atom XA_XdndStatus;
 
-bool renderSupported;
-int renderEventBase, renderErrorBase;
-int renderVersionMajor, renderVersionMinor;
-
-bool shapesSupported;
-int shapeEventBase, shapeErrorBase;
-int shapeVersionMajor, shapeVersionMinor;
-
-bool xrandrSupported;
-int xrandrEventBase, xrandrErrorBase;
-int xrandrVersionMajor, xrandrVersionMinor;
+YExtension composite;
+YExtension damage;
+YExtension fixes;
+YExtension render;
+YExtension shapes;
+YExtension xrandr;
 
 #ifdef DEBUG
 int xeventcount = 0;
@@ -443,6 +433,8 @@ void YXApplication::initAtoms() {
         { &_XA_NET_WORKAREA                     , "_NET_WORKAREA"                       },
 
         { &_XA_CLIPBOARD                        , "CLIPBOARD"                           },
+        { &_XA_MANAGER                          , "MANAGER"                             },
+        { &_XA_XEMBED                           , "_XEMBED"                             },
         { &_XA_XEMBED_INFO                      , "_XEMBED_INFO"                        },
         { &_XA_TARGETS                          , "TARGETS"                             },
         { &_XA_UTF8_STRING                      , "UTF8_STRING"                         },
@@ -600,7 +592,7 @@ void YXApplication::dispatchEvent(YWindow *win, XEvent &xev) {
     if (xev.type == KeyPress || xev.type == KeyRelease) {
         YWindow *w = win;
 
-        if (!(fGrabWindow != 0 && !fGrabTree)) {
+        if (w && (fGrabWindow == nullptr || fGrabTree)) {
             if (w->toplevel())
                 w = w->toplevel();
 
@@ -839,83 +831,117 @@ void YXApplication::saveEventTime(const XEvent &xev) {
     }
 }
 
-Time YXApplication::getEventTime(const char */*debug*/) const {
+Time YXApplication::getEventTime(const char *) const {
     return lastEventTime;
 }
 
 bool YXApplication::haveColormaps(Display* dpy) {
-    XVisualInfo pattern;
-    pattern.screen = DefaultScreen(dpy);
+    XVisualInfo pattern = { nullptr, None, DefaultScreen(dpy), 0, };
     int i = 0, num = 0, mask = VisualScreenMask;
     xsmart<XVisualInfo> info(XGetVisualInfo(dpy, mask, &pattern, &num));
     for (; i < num && notbit(info[i].c_class, 1); ++i);
     return i < num;
 }
 
-Visual* YXApplication::visualForDepth(unsigned depth) {
-    Visual* vis = CopyFromParent;
-
-    if (depth == this->depth()) {
-        vis = visual();
-    }
-    else if (int(depth) == DefaultDepth(display(), screen())) {
-        vis = DefaultVisual(display(), screen());
-    }
-    else if (depth == 32) {
-        vis = fVisual32 ? fVisual32 :
-             (fVisual32 = visual32(display(), screen()));
-    }
-
+Visual* YXApplication::visualForDepth(unsigned depth) const {
+    Visual* vis =
+        depth == 32 ? fVisual32 :
+        depth == 24 ? fVisual24 :
+        depth == unsigned(DefaultDepth(display(), screen())) ?
+                 DefaultVisual(display(), screen()) :
+                 CopyFromParent;
     return vis;
 }
 
-Visual* YXApplication::visual32(Display* dpy, int scn) {
-    XVisualInfo info;
-    return XMatchVisualInfo(dpy, scn, 32, TrueColor, &info)
-         ? info.visual : nullptr;
-}
-
-Colormap YXApplication::colormapForDepth(unsigned depth) {
-    Colormap cmap = CopyFromParent;
-
-    if (depth == this->depth()) {
-        cmap = colormap();
-    }
-    else if (int(depth) == DefaultDepth(display(), screen())) {
-        cmap = DefaultColormap(display(), screen());
-    }
-    else if (depth == 32) {
-        cmap = fColormap32 ? fColormap32 :
-              (fColormap32 = XCreateColormap(display(), root(),
-                                             visualForDepth(depth),
-                                             AllocNone));
-    }
-
+Colormap YXApplication::colormapForDepth(unsigned depth) const {
+    Colormap cmap =
+        depth == 32 ? fColormap32 :
+        depth == 24 ? fColormap24 :
+        depth == unsigned(DefaultDepth(display(), screen())) ?
+                 DefaultColormap(display(), screen()) :
+                 CopyFromParent;
     return cmap;
 }
 
-Colormap YXApplication::cmap32(Display* dpy, int scn, Window rtw) {
-    Visual* visual = visual32(dpy, scn);
-    return visual ? XCreateColormap(dpy, rtw, visual, AllocNone) : None;
+Colormap YXApplication::colormapForVisual(Visual* visual) const {
+    Colormap cmap =
+        visual == fVisual32 ? fColormap32 :
+        visual == fVisual24 ? fColormap24 :
+        visual == DefaultVisual(display(), screen()) ?
+                  DefaultColormap(display(), screen()) :
+                  CopyFromParent;
+    return cmap;
 }
 
-Colormap YXApplication::colormapForVisual(Visual* visual) {
-    Colormap cmap = CopyFromParent;
+XRenderPictFormat* YXApplication::formatForDepth(unsigned depth) const {
+    XRenderPictFormat* format =
+        depth == 32 ? fFormat32 :
+        depth == 24 ? fFormat24 :
+        nullptr;
+    return format;
+}
 
-    if (visual == this->visual()) {
-        cmap = colormap();
-    }
-    else if (visual == DefaultVisual(display(), screen())) {
-        cmap = DefaultColormap(display(), screen());
-    }
-    else if (fVisual32 && visual == fVisual32) {
-        cmap = fColormap32 ? fColormap32 :
-              (fColormap32 = cmap32(fArgs.display, fArgs.screen, fArgs.root));
-    }
-    else if (visual == visualForDepth(32)) {
-        cmap = colormapForDepth(32);
-    }
+XRenderPictFormat* YXApplication::findFormat(int depth) const {
+    XRenderPictFormat* format = nullptr;
+    if (depth == 32)
+        format = XRenderFindStandardFormat(fDisplay, PictStandardARGB32);
+    if (depth == 24)
+        format = XRenderFindStandardFormat(fDisplay, PictStandardRGB24);
+    return format;
+}
 
+Visual* YXApplication::findVisual(int depth) const {
+    Visual* found = nullptr;
+    XRenderPictFormat* pictFormat = findFormat(depth);
+    if (pictFormat) {
+        XVisualInfo pattern = {
+            found, None, fScreen, depth, TrueColor, None, None, None, 0, 8
+        };
+        int count = 0, mask = VisualDepthMask | VisualScreenMask |
+                              VisualClassMask | VisualBitsPerRGBMask;
+        xsmart<XVisualInfo> info(
+                XGetVisualInfo(fDisplay, mask, &pattern, &count));
+        for (int i = 0; i < count && found == nullptr; ++i) {
+            XRenderPictFormat* format =
+                XRenderFindVisualFormat(fDisplay, info[i].visual);
+            if (format == pictFormat) {
+                found = info[i].visual;
+            }
+        }
+    }
+    if (found == nullptr) {
+        XVisualInfo pattern = {
+            found, 0, fScreen, depth, TrueColor, 0xff0000, 0xff00, 0xff, 0, 8
+        };
+        int mask = VisualScreenMask | VisualDepthMask | VisualClassMask
+                 | VisualRedMaskMask | VisualGreenMaskMask
+                 | VisualBlueMaskMask | VisualBitsPerRGBMask;
+        int count = 0;
+        xsmart<XVisualInfo> info(
+                XGetVisualInfo(fDisplay, mask, &pattern, &count));
+        if (count && info) {
+            found = info->visual;
+        }
+    }
+    if (found == nullptr && depth == DefaultDepth(fDisplay, fScreen)) {
+        found = DefaultVisual(fDisplay, fScreen);
+    }
+    return found;
+}
+
+Colormap YXApplication::getColormap(int depth) const {
+    Colormap cmap = None;
+    Visual* visual = depth == 32 ? fVisual32
+                   : depth == 24 ? fVisual24 : nullptr;
+    if (visual == DefaultVisual(fDisplay, fScreen)) {
+        cmap = DefaultColormap(fDisplay, fScreen);
+    }
+    else if (visual) {
+        cmap = XCreateColormap(fDisplay, fRoot, visual, AllocNone);
+    }
+    else if (depth == DefaultDepth(fDisplay, fScreen)) {
+        cmap = DefaultColormap(fDisplay, fScreen);
+    }
     return cmap;
 }
 
@@ -924,12 +950,7 @@ void YXApplication::alert() {
 }
 
 void YXApplication::setClipboardText(const ustring &data) {
-    if (fClip == 0)
-        fClip = new YClipboard();
-    if (!fClip)
-        return ;
-    cstring s(data);
-    fClip->setData(s.c_str(), s.c_str_len());
+    fClip->setData(cstring(data), data.length());
 }
 
 const char* YXApplication::getHelpText() {
@@ -939,16 +960,9 @@ const char* YXApplication::getHelpText() {
     );
 }
 
-YXApplication::AppArgs
-YXApplication::parseArgs(int *argc, char ***argv, const char *displayName) {
-    AppArgs appArgs = {
-        displayName,
-        alphaBlending,
-        0, 0, None,
-        0, 0, None,
-    };
-
-    for (char ** arg = *argv + 1; arg < *argv + *argc; ++arg) {
+const char*
+YXApplication::parseArgs(int argc, char **argv, const char *displayName) {
+    for (char ** arg = argv + 1; arg < argv + argc; ++arg) {
         if (**arg == '-') {
             char *value;
             if (is_help_switch(*arg)) {
@@ -960,52 +974,35 @@ YXApplication::parseArgs(int *argc, char ***argv, const char *displayName) {
             else if (is_copying_switch(*arg)) {
                 print_copying_exit();
             }
-            else if (GetArgument(value, "d", "display", arg, *argv+*argc)) {
-                appArgs.displayName = value;
+            else if (GetArgument(value, "d", "display", arg, argv + argc)) {
+                if (isEmpty(displayName))
+                    displayName = value;
             }
             else if (is_long_switch(*arg, "sync"))
                 synchronizeX11 = true;
             else if (is_long_switch(*arg, "alpha"))
-                appArgs.alpha = alphaBlending = true;
+                alphaBlending = true;
         }
     }
 
-    if (appArgs.displayName == None)
-        appArgs.displayName = getenv("DISPLAY");
-    else
-        setenv("DISPLAY", appArgs.displayName, True);
-
-    Display* dpy = appArgs.display = openDisplay();
-    int   screen = appArgs.screen = DefaultScreen(dpy);
-    Window  root = appArgs.root = RootWindow(dpy, screen);
-
-    if (appArgs.alpha) {
-        appArgs.depth = 32;
-        appArgs.visual = visual32(dpy, screen);
-        appArgs.cmap = cmap32(dpy, screen, root);
-        if (appArgs.visual == 0 || appArgs.cmap == None)
-            appArgs.alpha = false;
-    }
-    if (appArgs.alpha == false) {
-        appArgs.depth = unsigned(DefaultDepth(dpy, screen));
-        appArgs.visual = DefaultVisual(dpy, screen);
-        appArgs.cmap = DefaultColormap(dpy, screen);
-    }
-    alphaBlending = appArgs.alpha;
-
-    return appArgs;
+    return displayName;
 }
 
-Display* YXApplication::openDisplay() {
-    Display* display = XOpenDisplay(fArgs.displayName);
-    if (display == 0)
+Display* YXApplication::openDisplay(const char* displayName) {
+    if (nonempty(displayName))
+        setenv("DISPLAY", displayName, True);
+
+    Display* display = XOpenDisplay(nullptr);
+    if (display == nullptr)
         die(1, _("Can't open display: %s. X must be running and $DISPLAY set."),
-            fArgs.displayName ? fArgs.displayName : _("<none>"));
+            displayName ? displayName : _("<none>"));
 
     if (synchronizeX11)
         XSynchronize(display, True);
 
     XSetErrorHandler(errorHandler);
+
+    initExtensions(display);
 
     return display;
 }
@@ -1013,26 +1010,29 @@ Display* YXApplication::openDisplay() {
 YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
     YApplication(argc, argv),
 
-    fArgs( parseArgs(argc, argv, displayName)),
-    fDisplay( fArgs.display),
-    fScreen( fArgs.screen),
-    fRoot( fArgs.root),
-    fDepth( fArgs.depth),
-    fVisual( fArgs.visual),
-    fColormap( fArgs.cmap),
+    fDisplay( openDisplay( parseArgs(*argc, *argv, displayName))),
+    fScreen( DefaultScreen(fDisplay)),
+    fRoot( RootWindow(fDisplay, fScreen)),
+    fFormat32( findFormat(32)),
+    fFormat24( findFormat(24)),
+    fVisual32( findVisual(32)),
+    fVisual24( findVisual(24)),
+    fColormap32( getColormap(32)),
+    fColormap24( getColormap(24)),
+    fAlpha( alphaBlending && fVisual32 && fColormap32 ),
+    fDepth( fAlpha ? 32 : fVisual24 ? 24 : DefaultDepth(fDisplay, fScreen)),
+    fVisual( visualForDepth(fDepth)),
+    fColormap( colormapForDepth(fDepth)),
     fHasColormaps( haveColormaps(display())),
     fBlack( BlackPixel(display(), screen())),
     fWhite( WhitePixel(display(), screen())),
 
-    fVisual32( fArgs.alpha ? fArgs.visual : CopyFromParent),
-    fColormap32( fArgs.alpha ? fArgs.cmap : CopyFromParent),
     lastEventTime(CurrentTime),
     fPopup(0),
     fGrabTree(0),
     fXGrabWindow(0),
     fGrabMouse(0),
     fGrabWindow(0),
-    fClip(0),
     fReplayEvent(false)
 {
     xapp = this;
@@ -1045,34 +1045,27 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
     initAtoms();
     initModifiers();
     initPointers();
-    initExtensions();
 }
 
-void YXApplication::initExtensions() {
+void YExtension::init(Display* dis, QueryFunc ext, QueryFunc ver) {
+    supported = (*ext)(dis, &eventBase, &errorBase)
+             && (*ver)(dis, &versionMajor, &versionMinor);
+}
+
+void YXApplication::initExtensions(Display* dpy) {
+
+    composite.init(dpy, XCompositeQueryExtension, XCompositeQueryVersion);
+    damage.init(dpy, XDamageQueryExtension, XDamageQueryVersion);
+    fixes.init(dpy, XFixesQueryExtension, XFixesQueryVersion);
+    render.init(dpy, XRenderQueryExtension, XRenderQueryVersion);
 
 #ifdef CONFIG_SHAPE
-    shapesSupported =
-        XShapeQueryExtension(display(),
-                             &shapeEventBase, &shapeErrorBase) &&
-        XShapeQueryVersion(display(),
-                           &shapeVersionMajor, &shapeVersionMinor);
-#endif
-
-#ifdef CONFIG_RENDER
-    renderSupported =
-        XRenderQueryExtension(display(),
-                              &renderEventBase, &renderErrorBase) &&
-        XRenderQueryVersion(display(),
-                            &renderVersionMajor, &renderVersionMinor);
+    shapes.init(dpy, XShapeQueryExtension, XShapeQueryVersion);
 #endif
 
 #ifdef CONFIG_XRANDR
-    xrandrSupported =
-        XRRQueryExtension(display(),
-                          &xrandrEventBase, &xrandrErrorBase) &&
-        XRRQueryVersion(display(),
-                        &xrandrVersionMajor, &xrandrVersionMinor) &&
-        (12 <= 10 * xrandrVersionMajor + xrandrVersionMinor);
+    xrandr.init(dpy, XRRQueryExtension, XRRQueryVersion);
+    xrandr.supported = (12 <= 10 * xrandr.versionMajor + xrandr.versionMinor);
 #endif
 }
 
@@ -1102,11 +1095,11 @@ bool YXApplication::handleXEvents() {
         if (loggingEvents) {
             if (xev.type < LASTEvent)
                 logEvent(xev);
-            else if (xev.type == shapeEventBase)
+            else if (shapes.isEvent(xev.type, ShapeNotify))
                 logShape(xev);
-            else if (xev.type == xrandrEventBase + RRScreenChangeNotify)
+            else if (xrandr.isEvent(xev.type, RRScreenChangeNotify))
                 logRandrScreen(xev);
-            else if (xev.type == xrandrEventBase + RRNotify)
+            else if (xrandr.isEvent(xev.type, RRNotify))
                 logRandrNotify(xev);
         }
 
@@ -1296,6 +1289,27 @@ YTextProperty::YTextProperty(const char* str) {
 
 YTextProperty::~YTextProperty() {
     if (value) delete[] value;
+}
+
+void YProperty::discard() {
+    if (fData) {
+        XFree(fData);
+        fData = nullptr;
+        fSize = None;
+    }
+}
+
+const YProperty& YProperty::update() {
+    discard();
+    int fmt = 0;
+    if (XGetWindowProperty(xapp->display(), fWind, fProp, 0L, fLimit, False,
+                           fKind, &fType, &fmt, &fSize, &fMore, &fData) ==
+        Success && fData && fSize && fmt == fBits && (fKind == fType || !fKind))
+    {
+    } else {
+        discard();
+    }
+    return *this;
 }
 
 // vim: set sw=4 ts=4 et:

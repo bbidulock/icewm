@@ -97,11 +97,13 @@ public:
     virtual void handleReparentNotify(const XReparentEvent &) {}
     virtual void handleConfigureRequest(const XConfigureRequestEvent &);
     virtual void handleMapRequest(const XMapRequestEvent &);
+    virtual void handleDamageNotify(const XDamageNotifyEvent &) {}
 #ifdef CONFIG_SHAPE
     virtual void handleShapeNotify(const XShapeEvent &) {}
 #endif
 #ifdef CONFIG_XRANDR
-    virtual void handleRRScreenChangeNotify(const XRRScreenChangeNotifyEvent &/*xrrsc*/) {}
+    virtual void handleRRScreenChangeNotify(const XRRScreenChangeNotifyEvent &) {}
+    virtual void handleRRNotify(const XRRNotifyEvent &) {}
 #endif
 
     virtual void handleClickDown(const XButtonEvent &, int) {}
@@ -203,6 +205,7 @@ public:
     void setWinGravity(int gravity);
     void setBitGravity(int gravity);
 
+    void setProperty(Atom prop, Atom type, const Atom* values, int count);
     void setProperty(Atom property, Atom propType, Atom value);
     void setNetWindowType(Atom window_type);
     void setNetOpacity(Atom opacity);
@@ -222,6 +225,8 @@ public:
     void clearWindow();
     void clearArea(int x, int y, unsigned w, unsigned h, bool expos = false);
     Pixmap createPixmap();
+    XRenderPictFormat* format();
+    Picture createPicture();
 
     bool toolTipVisible();
     virtual void updateToolTip();
@@ -333,20 +338,28 @@ protected:
 
 extern YDesktop *desktop;
 
-extern bool renderSupported;
-extern int renderEventBase, renderErrorBase;
-extern int renderVersionMajor, renderVersionMinor;
+struct YExtension {
+    int eventBase, errorBase;
+    int versionMajor, versionMinor;
+    bool supported;
 
-extern bool shapesSupported;
-extern int shapeEventBase, shapeErrorBase;
-extern int shapeVersionMajor, shapeVersionMinor;
+    typedef int (*QueryFunc)(Display *, int *, int *);
+    void init(Display* dis, QueryFunc ext, QueryFunc ver);
+    bool isEvent(int type, int eventNumber) const {
+        return supported && type == eventBase + eventNumber;
+    }
+};
 
-extern bool xrandrSupported;
-extern int xrandrEventBase, xrandrErrorBase;
-extern int xrandrVersionMajor, xrandrVersionMinor;
+extern YExtension composite;
+extern YExtension damage;
+extern YExtension fixes;
+extern YExtension render;
+extern YExtension shapes;
+extern YExtension xrandr;
 
 extern Atom _XA_WM_CHANGE_STATE;
 extern Atom _XA_WM_CLASS;
+extern Atom _XA_WM_CLIENT_LEADER;
 extern Atom _XA_WM_COLORMAP_NOTIFY;
 extern Atom _XA_WM_COLORMAP_WINDOWS;
 extern Atom _XA_WM_COMMAND;
@@ -367,7 +380,9 @@ extern Atom _XA_WM_ZOOM_HINTS;
 
 extern Atom _XATOM_MWM_HINTS;
 extern Atom _XA_CLIPBOARD;
+extern Atom _XA_MANAGER;
 extern Atom _XA_TARGETS;
+extern Atom _XA_XEMBED;
 extern Atom _XA_XEMBED_INFO;
 
 /* Xdnd */
@@ -380,6 +395,12 @@ extern Atom XA_XdndStatus;
 extern Atom XA_XdndDrop;
 extern Atom XA_XdndFinished;
 
+extern Atom _XA_KDE_NET_SYSTEM_TRAY_WINDOWS;
+extern Atom _XA_NET_SYSTEM_TRAY_OPCODE;
+extern Atom _XA_NET_SYSTEM_TRAY_ORIENTATION;
+extern Atom _XA_NET_SYSTEM_TRAY_MESSAGE_DATA;
+extern Atom _XA_NET_SYSTEM_TRAY_VISUAL;
+extern Atom _XA_NET_WM_NAME;
 extern Atom _XA_NET_WM_WINDOW_OPACITY;              // OK
 extern Atom _XA_NET_WM_WINDOW_TYPE;                 // OK
 extern Atom _XA_NET_WM_WINDOW_TYPE_COMBO;           // OK

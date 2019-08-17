@@ -5,14 +5,17 @@ YXEmbed::~YXEmbed() {
 
 YXEmbedClient::YXEmbedClient(YXEmbed *embedder, YWindow *aParent, Window win):
     YWindow(aParent, win),
-    fEmbedder(embedder),
-    _XEMBED_INFO("_XEMBED_INFO")
+    fEmbedder(embedder)
 {
     if (xapp->alpha() == false)
         setParentRelative();
 }
 
 YXEmbedClient::~YXEmbedClient() {
+}
+
+void YXEmbedClient::handleDamageNotify(const XDamageNotifyEvent& damage) {
+    fEmbedder->damagedClient();
 }
 
 void YXEmbedClient::handleDestroyWindow(const XDestroyWindowEvent& destroy) {
@@ -59,14 +62,14 @@ void YXEmbedClient::handleProperty(const XPropertyEvent &property) {
                 property.window, property.atom));
 
     if ((property.window == handle()) &&
-            property.atom == _XEMBED_INFO) {
+            property.atom == _XA_XEMBED_INFO) {
         Atom type;
         int format;
         unsigned long nitems, lbytes;
         unsigned char *prop(0);
 
         if (XGetWindowProperty(xapp->display(), handle(),
-                    _XEMBED_INFO, 0L, 2L, False, AnyPropertyType,
+                    _XA_XEMBED_INFO, 0L, 2L, False, AnyPropertyType,
                     &type, &format, &nitems, &lbytes, &prop) == Success && prop)
         {
             if (format == 32 && nitems >= 2) {

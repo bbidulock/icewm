@@ -28,11 +28,12 @@ public:
     virtual void repaint();
     virtual void handleExpose(const XExposeEvent& expose) {}
     virtual void handleConfigureRequest(const XConfigureRequestEvent &configureRequest);
+    virtual void damagedClient();
     virtual bool destroyedClient(Window win);
     virtual void handleClientUnmap(Window win);
     virtual void handleClientMap(Window win);
     virtual void handleMapRequest(const XMapRequestEvent &mapRequest);
-    virtual void configure(const YRect &r);
+    virtual void configure(const YRect2 &r);
     void detach();
 
     Window client_handle() const { return fClient->handle(); }
@@ -47,12 +48,14 @@ private:
     virtual Window getHandle() { return YWindow::handle(); }
     virtual unsigned getWidth() { return YWindow::width(); }
     virtual unsigned getHeight() { return YWindow::height(); }
+    bool composing() const { return fComposing; }
 
     YXTray *const fTray;
     YXEmbedClient *const fClient;
     const Window fLeader;
     const cstring fTitle;
-    const bool fRepaint;
+    Damage fDamage;
+    bool fComposing;
     const int fOrder;
 };
 
@@ -72,7 +75,7 @@ public:
     virtual ~YXTray();
 
     virtual void paint(Graphics &g, const YRect &r);
-    virtual void configure(const YRect &r);
+    virtual void configure(const YRect2 &r);
     virtual void repaint();
     virtual void handleExpose(const XExposeEvent& expose) {}
     virtual void handleConfigureRequest(const XConfigureRequestEvent &configureRequest);
@@ -81,7 +84,7 @@ public:
     void relayout(bool enforce = false);
     int countClients() const { return fDocked.getCount(); }
 
-    void trayRequestDock(Window win, cstring title);
+    bool trayRequestDock(Window win, cstring title);
     void detachTray();
     void updateTrayWindows();
     void regainTrayWindows();
@@ -103,8 +106,6 @@ private:
     YXTrayNotifier *fNotifier;
     YArray<Window> fRegained;
     YRect fGeometry;
-    YAtom NET_TRAY_WINDOWS;
-    YAtom WM_CLIENT_LEADER;
     bool fLocked;
     bool fRunProxy;
     bool fDrawBevel;

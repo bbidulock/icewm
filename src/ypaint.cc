@@ -25,6 +25,7 @@ Graphics::Graphics(YWindow & window,
                    unsigned long vmask, XGCValues * gcv):
     fDrawable(window.handle()),
     fColor(), fFont(null),
+    fPicture(None),
     xOrigin(0), yOrigin(0)
 {
     rWidth = window.width();
@@ -39,6 +40,7 @@ Graphics::Graphics(YWindow & window,
 Graphics::Graphics(YWindow & window):
     fDrawable(window.handle()),
     fColor(), fFont(null),
+    fPicture(None),
     xOrigin(0), yOrigin(0)
  {
     rWidth = window.width();
@@ -54,6 +56,7 @@ Graphics::Graphics(YWindow & window):
 Graphics::Graphics(ref<YPixmap> pixmap, int x_org, int y_org):
     fDrawable(pixmap->pixmap()),
     fColor(), fFont(null),
+    fPicture(None),
     xOrigin(x_org), yOrigin(y_org)
  {
     rWidth = pixmap->width();
@@ -70,6 +73,7 @@ Graphics::Graphics(Drawable drawable, unsigned w, unsigned h, unsigned depth,
                    unsigned long vmask, XGCValues * gcv):
     fDrawable(drawable),
     fColor(), fFont(null),
+    fPicture(None),
     xOrigin(0), yOrigin(0),
     rWidth(w), rHeight(h), rDepth(depth)
 {
@@ -82,6 +86,7 @@ Graphics::Graphics(Drawable drawable, unsigned w, unsigned h, unsigned depth,
 Graphics::Graphics(Drawable drawable, unsigned w, unsigned h, unsigned depth):
     fDrawable(drawable),
     fColor(), fFont(null),
+    fPicture(None),
     xOrigin(0), yOrigin(0),
     rWidth(w), rHeight(h), rDepth(depth)
 {
@@ -95,6 +100,11 @@ Graphics::Graphics(Drawable drawable, unsigned w, unsigned h, unsigned depth):
 Graphics::~Graphics() {
     XFreeGC(display(), gc);
     gc = None;
+
+    if (fPicture) {
+        XRenderFreePicture(display(), fPicture);
+        fPicture = None;
+    }
 
 #ifdef CONFIG_XFREETYPE
     if (fXftDraw) {
@@ -116,6 +126,19 @@ XftDraw* Graphics::handleXft() {
     return fXftDraw;
 }
 #endif
+
+Picture Graphics::picture() {
+    if (fPicture == None) {
+        XRenderPictFormat* format = xapp->formatForDepth(rDepth);
+        if (format) {
+            XRenderPictureAttributes attr;
+            unsigned long mask = None;
+            fPicture = XRenderCreatePicture(display(), fDrawable,
+                                            format, mask, &attr);
+        }
+    }
+    return fPicture;
+}
 
 /******************************************************************************/
 
@@ -510,40 +533,36 @@ void Graphics::setFunction(int function) {
 
 /******************************************************************************/
 
-void Graphics::drawImage(ref<YImage> pix, int const x, int const y) {
-    if (pix->supportsDepth(rdepth())) {
-        pix->draw(*this, x, y);
-    }
-    else {
-        ref<YPixmap> p(pix->renderToPixmap(rdepth()));
-        drawPixmap(p, x, y);
-    }
+void Graphics::drawImage(ref<YImage> img, int const x, int const y) {
+    drawImage(img, 0, 0, img->width(), img->height(), x, y);
 }
 
-void Graphics::drawImage(ref<YImage> pix, int x, int y, unsigned w, unsigned h, int dx, int dy) {
-    if (pix->supportsDepth(rdepth())) {
-        pix->draw(*this, x, y, w, h, dx, dy);
+void Graphics::drawImage(ref<YImage> img, int x, int y, unsigned w, unsigned h, int dx, int dy) {
+    if (picture()) {
+        unsigned depth = max(img->depth(), rdepth());
+        ref<YPixmap> pix(img->renderToPixmap(depth));
+        if (pix != null) {
+            Picture source = pix->picture();
+            XRenderComposite(display(),
+                             img->hasAlpha() ? PictOpOver : PictOpSrc,
+                             source, None, picture(),
+                             x, y, 0, 0, dx, dy, w, h);
+            return;
+        }
+    }
+    if (img->supportsDepth(rdepth())) {
+        img->draw(*this, x, y, w, h, dx, dy);
     }
     else {
-        ref<YPixmap> p(pix->renderToPixmap(rdepth()));
-        drawPixmap(p, x, y, w, h, dx, dy);
+        ref<YPixmap> pix(img->renderToPixmap(rdepth()));
+        if (pix != null) {
+            drawPixmap(pix, x, y, w, h, dx, dy);
+        }
     }
 }
 
 void Graphics::drawPixmap(ref<YPixmap> pix, int const x, int const y) {
-    Pixmap pixmap(pix->pixmap(rdepth()));
-    if (pixmap == None) {
-        tlog("Graphics::%s: attempt to draw pixmap 0x%lx of depth %d with gc of depth %d\n",
-                __func__, pix->pixmap(), pix->depth(), rdepth());
-        return;
-    }
-    if (pix->mask())
-        drawClippedPixmap(pixmap,
-                          pix->mask(),
-                          0, 0, pix->width(), pix->height(), x, y);
-    else
-        XCopyArea(display(), pixmap, drawable(), gc,
-                  0, 0, pix->width(), pix->height(), x - xOrigin, y - yOrigin);
+    drawPixmap(pix, 0, 0, pix->width(), pix->height(), x, y);
 }
 
 void Graphics::drawPixmap(ref<YPixmap> pix, int const sx, int const sy,
@@ -586,7 +605,8 @@ void Graphics::drawClippedPixmap(Pixmap pix, Pixmap clip,
 }
 
 void Graphics::compositeImage(ref<YImage> img, int const sx, int const sy, unsigned w, unsigned h, int dx, int dy) {
-    if (img != null) {
+
+    if (picture()) {
         int rx = dx;
         int ry = dy;
         int rw = int(w);
@@ -616,14 +636,27 @@ void Graphics::compositeImage(ref<YImage> img, int const sx, int const sy, unsig
 #endif
         if (rw <= 0 || rh <= 0)
             return;
-        // msg("call composite %ux%u:%u | %d %d %d %d | %d %d %d %d", rwidth(), rheight(), rdepth(), sx, sy, w, h, dx, dy, xOrigin, yOrigin);
-        if (img->supportsDepth(rdepth())) {
-            img->composite(*this, sx, sy, unsigned(rw), unsigned(rh), rx, ry);
+
+        unsigned depth = max(img->depth(), rdepth());
+        ref<YPixmap> pix(img->renderToPixmap(depth));
+        if (pix != null) {
+            Picture source = pix->picture();
+            XRenderComposite(display(),
+                             img->hasAlpha() ? PictOpOver : PictOpSrc,
+                             source, None, picture(),
+                             0, 0, 0, 0, rx, ry,
+                             unsigned(rw), unsigned(rh));
+            return;
         }
-        else {
-            ref<YPixmap> p(img->renderToPixmap(rdepth()));
-            drawPixmap(p, sx, sy, unsigned(rw), unsigned(rh), rx, ry);
-        }
+    }
+
+    // msg("call composite %ux%u:%u | %d %d %d %d | %d %d %d %d", rwidth(), rheight(), rdepth(), sx, sy, w, h, dx, dy, xOrigin, yOrigin);
+    if (img->supportsDepth(rdepth())) {
+        img->composite(*this, sx, sy, w, h, dx, dy);
+    }
+    else {
+        ref<YPixmap> p(img->renderToPixmap(rdepth()));
+        drawPixmap(p, sx, sy, w, h, dx, dy);
     }
 }
 

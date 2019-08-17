@@ -22,6 +22,8 @@ public:
 
     unsigned width() const { return fWidth; }
     unsigned height() const { return fHeight; }
+    virtual unsigned depth() const = 0;
+    virtual bool hasAlpha() const = 0;
     virtual bool valid() const = 0;
 
     virtual ref<YPixmap> renderToPixmap(unsigned depth) = 0;

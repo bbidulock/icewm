@@ -128,6 +128,7 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     fMEMStatus(0),
     fCPUStatus(0),
     fApm(0),
+    fNetStatus(0),
     fObjectBar(0),
     fApplications(0),
     fWinList(0),
@@ -228,6 +229,7 @@ TaskBar::~TaskBar() {
 #ifdef IWM_STATES
     delete fCPUStatus; fCPUStatus = 0;
 #endif
+    delete fNetStatus; fCPUStatus = 0;
     delete fAddressBar; fAddressBar = 0;
     delete fTasks; fTasks = 0;
     delete fWindowTray; fWindowTray = 0;
@@ -290,7 +292,10 @@ void TaskBar::initApplets() {
 #endif
 
     if (taskBarShowNetStatus)
-        fNetStatus.init(new NetStatusControl(app, smActionListener, this, this));
+        fNetStatus = new NetStatusControl(app, smActionListener, this, this);
+    else
+        fNetStatus = nullptr;
+
     if (taskBarShowClock)
         fClock = new YClock(smActionListener, this, this);
     else
