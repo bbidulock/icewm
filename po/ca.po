@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2019-08-17 12:39+0200\n"
-"PO-Revision-Date: 2019-06-13 10:49+0000\n"
+"PO-Revision-Date: 2019-08-17 14:51+0000\n"
 "Last-Translator: David Medina <medipas@gmail.com>\n"
-"Language-Team: Catalan <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/ca/>\n"
+"Language-Team: Catalan <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -591,19 +591,15 @@ msgstr "Opció de la safata de l'IceWM"
 
 #: src/icesh.cc:1446
 msgid "Gravity symbols"
-msgstr ""
+msgstr "Símbols de gravetat"
 
 #: src/icesh.cc:1447
-#, fuzzy
-#| msgid "Save Modifications"
 msgid "Motif functions"
-msgstr "Desa les modificacions"
+msgstr "Funcions del Motif"
 
 #: src/icesh.cc:1448
-#, fuzzy
-#| msgid "Save Modifications"
 msgid "Motif decorations"
-msgstr "Desa les modificacions"
+msgstr "Decoracions del Motif"
 
 #: src/icesh.cc:1527
 #, c-format
@@ -653,17 +649,6 @@ msgid "Socket error: %d"
 msgstr "Error de sòcol: %d"
 
 #: src/icesm.cc:57
-#, fuzzy
-#| msgid ""
-#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-#| "\n"
-#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
-#| "  --sync              Synchronize communication with X11 server.\n"
-#| "\n"
-#| "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
-#| "  -n, --notray        Do not start icewmtray.\n"
-#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -682,10 +667,11 @@ msgstr ""
 "  -t, --theme=FILE    Permet que l'IceWM carregui el tema des del FITXER.\n"
 "\n"
 "  -d, --display=NAME      Usa el NOM per connectar al servidor X.\n"
+"  -a, --alpha         Usa un visual de 32 bits per a la translucidesa.\n"
 "  --sync              Sincronitza la comunicació amb el servidor X11.\n"
 "\n"
-"\n"
 "  -i, --icewm=FILE    Usa el FITXER com a gestor de finestres de l'IceWM.\n"
+"  -b, --nobg          No iniciïs l'icewmbg.\n"
 "  -n, --notray        No iniciïs l'icewmtray.\n"
 "  -s, --sound         Inicia també l'icesound.\n"
 
@@ -695,10 +681,9 @@ msgid "Unknown option '%s'"
 msgstr "Opció desconeguda: \"%s\""
 
 #: src/icesm.cc:331 src/icesm.cc:449
-#, fuzzy, c-format
-#| msgid "Restart"
+#, c-format
 msgid "restart %s."
-msgstr "Reinicia"
+msgstr "Reinicia %s."
 
 #: src/icesm.cc:337
 #, c-format
@@ -1371,12 +1356,6 @@ msgstr ""
 "de finestres.\n"
 
 #: src/wmapp.cc:1480
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "  -c, --config=FILE   Load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Load theme from FILE.\n"
-#| "  --postpreferences   Print preferences after all processing.\n"
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -1386,8 +1365,10 @@ msgid ""
 "  --postpreferences   Print preferences after all processing.\n"
 msgstr ""
 "\n"
+"  -a, --alpha         Usa un visual de 32 bits per a la translucidesa.\n"
 "  -c, --config=FILE   Carrega preferències des del FITXER.\n"
 "  -t, --theme=FILE    Carrega el tema des del FITXER.\n"
+"  --splash=IMAGE      Mostra breument la imatge en iniciar.\n"
 "  --postpreferences   Imprimeix les preferències després de tot el "
 "processament.\n"
 
