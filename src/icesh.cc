@@ -111,6 +111,7 @@ static NAtom ATOM_NET_WM_WINDOW_OPACITY("_NET_WM_WINDOW_OPACITY");
 static NAtom ATOM_NET_SYSTEM_TRAY_WINDOWS("_KDE_NET_SYSTEM_TRAY_WINDOWS");
 static NAtom ATOM_UTF8_STRING("UTF8_STRING");
 static NAtom ATOM_XEMBED_INFO("_XEMBED_INFO");
+static NAtom ATOM_NET_WORKAREA("_NET_WORKAREA");
 
 /******************************************************************************/
 
@@ -273,11 +274,13 @@ public:
         if (prop) fProp = prop;
         if (type) fType = type;
         if (leng) fLength = leng;
-        fStatus = XGetWindowProperty(display, fWindow, fProp, 0L,
-                                     fLength, False, fType, &type,
-                                     &fFormat, &fCount, &fAfter, &fData);
-        if (type && !fStatus)
-            fType = type;
+        if (fWindow && fProp && fLength) {
+            fStatus = XGetWindowProperty(display, fWindow, fProp, 0L,
+                                         fLength, False, fType, &type,
+                                         &fFormat, &fCount, &fAfter, &fData);
+            if (type && !fStatus)
+                fType = type;
+        }
     }
 
     template <class T>
@@ -604,6 +607,7 @@ public:
     YTreeIter(const YWindowTree& tree) : fTree(tree), fIndex(0) { }
 
     operator Window() const;
+    Window operator*() const { return Window(*this); }
     const YTreeIter& operator++() { ++fIndex; return *this; }
 
 private:
@@ -666,33 +670,34 @@ public:
         }
     }
 
-    void filterByWorkspace(long workspace) {
+    void filterByWorkspace(long workspace, bool inverse = false) {
         unsigned keep = 0;
         for (YTreeIter client(*this); client; ++client) {
             long ws = getWorkspace(client);
-            if (ws == workspace || hasbits(ws, 0xFFFFFFFF)) {
+            if ((ws == workspace || hasbits(ws, 0xFFFFFFFF)) != inverse) {
                 fChildren[keep++] = client;
             }
         }
         fCount = keep;
     }
 
-    void filterByLayer(long layer) {
+    void filterByLayer(long layer, bool inverse) {
         unsigned keep = 0;
         for (YTreeIter client(*this); client; ++client) {
             YCardinal prop(client, ATOM_WIN_LAYER);
-            if (prop && *prop == layer) {
+            if (prop && ((*prop == layer) != inverse)) {
                 fChildren[keep++] = client;
             }
         }
         fCount = keep;
     }
 
-    void filterByState(long state) {
+    void filterByState(long state, bool inverse, bool anybit) {
         unsigned keep = 0;
         for (YTreeIter client(*this); client; ++client) {
             YWinState prop(client);
-            if (prop && hasbits(*prop, state)) {
+            bool test(anybit ? hasbit(*prop, state) : hasbits(*prop, state));
+            if (prop && (test != inverse)) {
                 fChildren[keep++] = client;
             }
         }
@@ -864,6 +869,7 @@ private:
     void flag(char* arg);
     void xinit();
     void motif(Window window, char** args, int count);
+    void sizeto();
     void detail();
     void details(Window window);
     void setWindow(Window window);
@@ -1265,6 +1271,35 @@ static bool getGeometry(Window window, int& x, int& y, int& width, int& height) 
     return got;
 }
 
+static void getArea(Window window, int& x, int& y, int& w, int& h) {
+    long wmin = 0;
+    long hmin = 0;
+    long wmax = displayWidth();
+    long hmax = displayHeight();
+    long ws = getWorkspace(window);
+    YCardinal net(root, ATOM_NET_WORKAREA, 5000);
+    if (net && 0 <= ws && ws < net.count() / 4) {
+        wmin = net[ws * 4 + 0];
+        hmin = net[ws * 4 + 1];
+        wmax = net[ws * 4 + 2];
+        hmax = net[ws * 4 + 3];
+    }
+    x = int(wmin);
+    y = int(hmin);
+    w = int(wmax);
+    h = int(hmax);
+}
+
+static void extArea(Window window, int& x, int& y, int& w, int& h) {
+    YCardinal exts(window, ATOM_NET_FRAME_EXTENTS, 4);
+    if (exts && exts.count() == 4) {
+        x += int(exts[0]);
+        y += int(exts[2]);
+        w -= int(exts[0] + exts[1]);
+        h -= int(exts[2] + exts[3]);
+    }
+}
+
 bool IceSh::running;
 
 void IceSh::catcher(int)
@@ -1302,6 +1337,68 @@ void IceSh::detail()
 {
     FOREACH_WINDOW(window) {
         details(window);
+    }
+}
+
+void IceSh::sizeto()
+{
+    char* wstr = getArg();
+    char* hstr = getArg();
+    bool wper = *wstr && wstr[strlen(wstr)-1] == '%';
+    bool hper = *hstr && hstr[strlen(hstr)-1] == '%';
+    if (wper) wstr[strlen(wstr)-1] = '\0';
+    if (hper) hstr[strlen(hstr)-1] = '\0';
+    long wlen, hlen, supplied;
+    if (tolong(wstr, wlen) && tolong(hstr, hlen) && 0 < wlen && 0 < hlen) {
+        FOREACH_WINDOW(window) {
+            long w = wlen;
+            long h = hlen;
+            if (wper | hper) {
+                int ax, ay, aw, ah;
+                getArea(window, ax, ay, aw, ah);
+                extArea(window, ax, ay, aw, ah);
+                if (wper) w = aw * wlen / 100;
+                if (hper) h = ah * hlen / 100;
+                if (w <= 0 || h <= 0) {
+                    continue;
+                }
+            }
+
+            xsmart<XSizeHints> sh(XAllocSizeHints());
+            if (XGetWMNormalHints(display, window, sh, &supplied)) {
+                if (sh->flags & PMaxSize) {
+                    w = min<long>(w, sh->max_width);
+                    h = min<long>(h, sh->max_height);
+                }
+                if (sh->flags & PBaseSize) {
+                    w -= sh->base_width;
+                    h -= sh->base_height;
+                }
+                if (sh->flags & PResizeInc) {
+                    w -= w % max(1, sh->width_inc);
+                    h -= h % max(1, sh->height_inc);
+                }
+                if (w <= 0 || h <= 0) {
+                    continue;
+                }
+                if (sh->flags & PBaseSize) {
+                    w += sh->base_width;
+                    h += sh->base_height;
+                }
+                if (sh->flags & PMinSize) {
+                    w = max<long>(w, sh->min_width);
+                    h = max<long>(h, sh->min_height);
+                }
+            }
+
+            if (0 < w && 0 < h) {
+                XResizeWindow(display, window,
+                              unsigned(w), unsigned(h));
+            }
+        }
+    }
+    else {
+        invalidArgument("sizeto parameters");
     }
 }
 
@@ -1768,11 +1865,6 @@ static void setGeometry(Window window, const char* geometry) {
     if (status & WidthValue) width = geom_width;
     if (status & HeightValue) height = geom_height;
 
-    if (hasbits(status, XValue | XNegative))
-        x += displayWidth() - width;
-    if (hasbits(status, YValue | YNegative))
-        y += displayHeight() - height;
-
     if (normal.flags & PResizeInc) {
         width *= max(1, normal.width_inc);
         height *= max(1, normal.height_inc);
@@ -1781,6 +1873,20 @@ static void setGeometry(Window window, const char* geometry) {
     if (normal.flags & PBaseSize) {
         width += normal.base_width;
         height += normal.base_height;
+    }
+
+    if (hasbit(status, XNegative | YNegative)) {
+        int maxWidth = displayWidth();
+        int maxHeight = displayHeight();
+        YCardinal exts(window, ATOM_NET_FRAME_EXTENTS, 4);
+        if (exts && exts.count() == 4) {
+            maxWidth -= exts[0] + exts[1];
+            maxHeight -= exts[2] + exts[3];
+        }
+        if (hasbits(status, XValue | XNegative))
+            x += maxWidth - width;
+        if (hasbits(status, YValue | YNegative))
+            y += maxHeight - height;
     }
 
     MSG(("setGeometry: %dx%d%+i%+i", width, height, x, y));
@@ -2368,35 +2474,39 @@ void IceSh::flag(char* arg)
         MSG(("name windows selected"));
     }
     else if (isOptArg(arg, "-Workspace", val)) {
+        bool inverse(*val == '!');
         long ws;
-        if ( ! WorkspaceInfo().parseWorkspace(val, &ws))
+        if ( ! WorkspaceInfo().parseWorkspace(val + inverse, &ws))
             THROW(1);
 
         if ( ! windowList)
             windowList.getClientList();
-        windowList.filterByWorkspace(ws);
+        windowList.filterByWorkspace(ws, inverse);
         MSG(("workspace windows selected"));
     }
     else if (isOptArg(arg, "-Layer", val)) {
-        long layer = layers.parseIdentifier(val);
+        bool inverse(*val == '!');
+        long layer = layers.parseIdentifier(val + inverse);
         if (layer == WinLayerInvalid) {
             msg("Invalid layer: `%s'.", val);
             THROW(1);
         }
         if ( ! windowList)
             windowList.getClientList();
-        windowList.filterByLayer(layer);
+        windowList.filterByLayer(layer, inverse);
         MSG(("layer windows selected"));
     }
     else if (isOptArg(arg, "-State", val)) {
-        long state(states.parseExpression(val));
+        bool inverse(*val == '!');
+        bool question(val[inverse] == '?');
+        long state(states.parseExpression(val + inverse + question));
         if (state == -1L) {
-            msg("Invalid state: `%s'.", val);
+            msg("Invalid state: `%s'.", val + inverse + question);
             THROW(1);
         }
         if ( ! windowList)
             windowList.getClientList();
-        windowList.filterByState(state);
+        windowList.filterByState(state, inverse, question);
         MSG(("state windows selected"));
     }
     else if (isOptArg(arg, "-Gravity", val)) {
@@ -2521,6 +2631,9 @@ void IceSh::parseAction()
                 invalidArgument("resize parameters");
             }
         }
+        else if (isAction("sizeto", 2)) {
+            sizeto();
+        }
         else if (isAction("move", 2)) {
             const char* xa = getArg();
             const char* ya = getArg();
@@ -2575,14 +2688,16 @@ void IceSh::parseAction()
         }
         else if (isAction("centre", 0) || isAction("center", 0)) {
             FOREACH_WINDOW(window) {
-                Window frame = getFrameWindow(window);
-                if (frame) {
-                    int x, y, w, h;
-                    if (getGeometry(frame, x, y, w, h)) {
-                        int tx = (displayWidth() - w) / 2;
-                        int ty = (displayHeight() - h) / 2;
-                        XMoveWindow(display, frame, tx, ty);
-                    }
+                int x, y, w, h;
+                if (getGeometry(window, x, y, w, h)) {
+                    XWindowChanges c;
+                    int ax, ay, aw, ah;
+                    getArea(window, ax, ay, aw, ah);
+                    extArea(window, ax, ay, aw, ah);
+                    c.x = (aw - w) / 2;
+                    c.y = (ah - h) / 2;
+                    tlog("%d, %d, %d, %d, %d, %d", c.x, aw, w, c.y, ah, h);
+                    XConfigureWindow(display, window, CWX | CWY, &c);
                 }
             }
         }
@@ -2591,7 +2706,9 @@ void IceSh::parseAction()
                 int x, y, w, h;
                 if (getGeometry(window, x, y, w, h)) {
                     XWindowChanges c;
-                    c.x = 0;
+                    int ax, ay, aw, ah;
+                    getArea(window, ax, ay, aw, ah);
+                    c.x = max(0, ax);
                     XConfigureWindow(display, window, CWX, &c);
                 }
             }
@@ -2602,8 +2719,10 @@ void IceSh::parseAction()
                 if (exts) {
                     int x, y, w, h;
                     if (getGeometry(window, x, y, w, h)) {
+                        int ax, ay, aw, ah;
+                        getArea(window, ax, ay, aw, ah);
                         XWindowChanges c;
-                        c.x = displayWidth() - w - exts[0] - exts[1];
+                        c.x = ax + aw - w - exts[0] - exts[1];
                         XConfigureWindow(display, window, CWX, &c);
                     }
                 }
@@ -2614,7 +2733,9 @@ void IceSh::parseAction()
                 int x, y, w, h;
                 if (getGeometry(window, x, y, w, h)) {
                     XWindowChanges c;
-                    c.y = 0;
+                    int ax, ay, aw, ah;
+                    getArea(window, ax, ay, aw, ah);
+                    c.y = max(0, ay);
                     XConfigureWindow(display, window, CWY, &c);
                 }
             }
@@ -2625,8 +2746,10 @@ void IceSh::parseAction()
                 if (exts) {
                     int x, y, w, h;
                     if (getGeometry(window, x, y, w, h)) {
+                        int ax, ay, aw, ah;
+                        getArea(window, ax, ay, aw, ah);
                         XWindowChanges c;
-                        c.y = displayHeight() - h - exts[2] - exts[3];
+                        c.y = ay + ah - h - exts[2] - exts[3];
                         XConfigureWindow(display, window, CWY, &c);
                     }
                 }
@@ -2743,6 +2866,14 @@ void IceSh::parseAction()
         else if (isAction("id", 0)) {
             FOREACH_WINDOW(window)
                 printf("0x%06lx\n", Window(window));
+        }
+        else if (isAction("pid", 0)) {
+            FOREACH_WINDOW(window) {
+                long pid = *YCardinal(window, ATOM_NET_WM_PID);
+                if (1 < pid) {
+                    printf("%ld\n", pid);
+                }
+            }
         }
         else if (isAction("list", 0)) {
             detail();
