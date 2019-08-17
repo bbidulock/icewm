@@ -172,7 +172,7 @@ AC_RUN_IFELSE([AC_LANG_PROGRAM([[#include <string.h>]],[[
               ])
 
 
-PKG_CHECK_MODULES([CORE],[fontconfig xext x11])
+PKG_CHECK_MODULES([CORE],[fontconfig xrender xcomposite xdamage xfixes xext x11])
 AC_SUBST([CORE_CFLAGS])
 AC_SUBST([CORE_LIBS])
 
@@ -198,19 +198,6 @@ if test x$enable_shape != xno ; then
 	[AC_MSG_WARN([SHAPE not supported.])])
 else
     AC_MSG_WARN([SHAPE disabled.])
-fi
-
-AC_ARG_ENABLE([xrender],
-    AC_HELP_STRING([--disable-xrender],[Disable use of RENDER extension.]))
-if test x$enable_xrender != xno ; then
-    PKG_CHECK_MODULES([RENDER],[xrender],[
-	CORE_CFLAGS="$RENDER_CFLAGS $CORE_CFLAGS"
-	CORE_LIBS="$RENDER_LIBS $CORE_LIBS"
-	AC_DEFINE([CONFIG_RENDER],[1],[Define to enable RENDER extension.])
-	features="$features render"],
-	[AC_MSG_WARN([RENDER not supported.])])
-else
-    AC_MSG_WARN([RENDER disabled.])
 fi
 
 AC_ARG_ENABLE([xrandr],
