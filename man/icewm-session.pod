@@ -33,6 +33,10 @@ Let IceWM load the theme from I<FILE>.
 
 Use I<FILE> as the IceWM window manager.
 
+=item B<-a>, B<--alpha>
+
+Use a 32-bit visual for translucency.
+
 =item B<-b>, B<--nobg>
 
 Do not start icewmbg.
