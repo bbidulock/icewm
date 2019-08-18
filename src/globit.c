@@ -209,15 +209,15 @@ globit_best(const char *pattern_, char **result,
 		break;
 	case GLOB_NOSPACE:
 		errstr = "not enough space for glob";
-		if (0)
+		if (false)
 			/* FALLTHROUGH */
 	case GLOB_ABORTED:
 		  errstr = "glob was aborted due to an error";
-		if (0)
+		if (false)
 			/* FALLTHROUGH */
 	case GLOB_NOSYS:
 		  errstr = "glob library does not support requested function";
-		if (0)
+		if (false)
 			/* FALLTHROUGH */
 	default:
 		  errstr = "unknown glob error";

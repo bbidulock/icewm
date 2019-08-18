@@ -6,16 +6,13 @@
  * Dialogs
  */
 #include "config.h"
-
-#include "ylib.h"
 #include "wmabout.h"
-
 #include "yprefs.h"
 #include "prefs.h"
-#include "wmapp.h"
 #include "wmframe.h"
-#include "sysdep.h"
-#include "WinMgr.h"
+#ifdef CONFIG_I18N
+#include <langinfo.h>
+#endif
 
 #include "intl.h"
 

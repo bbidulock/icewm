@@ -126,6 +126,16 @@ CtrlAltDelete::~CtrlAltDelete() {
     delete aboutButton; aboutButton = 0;
 }
 
+void CtrlAltDelete::configure(const YRect2& r) {
+    if (r.resized()) {
+        repaint();
+    }
+}
+
+void CtrlAltDelete::repaint() {
+    GraphicsBuffer(this).paint();
+}
+
 void CtrlAltDelete::paint(Graphics &g, const YRect &/*r*/) {
     YSurface surface(cadBg, logoutPixmap, logoutPixbuf);
     g.setColor(surface.color);
@@ -183,6 +193,14 @@ bool CtrlAltDelete::handleKey(const XKeyEvent &key) {
             prevFocus(); prevFocus(); prevFocus();
             return true;
         }
+        if ((k == XK_End || k == XK_KP_End) && m == 0) {
+            setFocus(firstWindow());
+            return true;
+        }
+        if ((k == XK_Home || k == XK_KP_Home) && m == 0) {
+            setFocus(lastWindow());
+            return true;
+        }
     }
     return YWindow::handleKey(key);
 }
@@ -211,7 +229,7 @@ void CtrlAltDelete::deactivate() {
 
 YActionButton* CtrlAltDelete::addButton(const ustring& str, unsigned& maxW, unsigned& maxH)
 {
-        YActionButton* b = new YActionButton(this);
+    YActionButton* b = new YActionButton(this);
     b->setText(str, -2);
     if (b->width() > maxW) maxW = b->width();
     if (b->height() > maxH) maxH = b->height();
@@ -219,5 +237,16 @@ YActionButton* CtrlAltDelete::addButton(const ustring& str, unsigned& maxW, unsi
     b->show();
     return b;
 }
+
+void YActionButton::repaint() {
+    GraphicsBuffer(this).paint();
+}
+
+void YActionButton::configure(const YRect2& r) {
+    if (r.resized() && r.width() > 1 && r.height() > 1) {
+        repaint();
+    }
+}
+
 
 // vim: set sw=4 ts=4 et:

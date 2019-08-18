@@ -4,6 +4,7 @@
 #include "yconfig.h"
 
 /************************************************************************************************************************************************************/
+XIV(bool, alphaBlending,                        false)
 XIV(bool, clickFocus,                           true)
 XIV(bool, focusOnAppRaise,                      false)
 XIV(bool, requestFocusOnAppRaise,               true)
@@ -63,6 +64,7 @@ XIV(bool, taskBarFullscreenAutoShow,            true)
 XIV(bool, taskBarDoubleHeight,                  false)
 XIV(bool, taskBarWorkspacesLeft,                true)
 XIV(bool, taskBarWorkspacesTop,                 false)
+XSV(const char *, taskBarWorkspacesLimit,       0)
 XIV(bool, taskBarUseMouseWheel,                 true)
 XIV(bool, pagerShowPreview,                     true)
 XIV(bool, pagerShowWindowIcons,                 true)
@@ -149,7 +151,7 @@ XIV(int, autoShowDelay,                         500)
 XIV(int, edgeSwitchDelay,                       600)
 XIV(int, scrollBarStartDelay,                   500)
 XIV(int, scrollBarDelay,                        30)
-XIV(int, workspaceStatusTime,                   2500)
+XIV(int, workspaceStatusTime,                   700)
 XIV(int, useRootButtons,                        255)    // bitmask=all
 XIV(int, buttonRaiseMask,                       1)
 XIV(int, rootWinMenuButton,                     0)
@@ -227,6 +229,7 @@ XSV(const char *, fmtDate,                      "%Y-%m-%d %H:%M:%S %z %B %A")
 #if defined(CFGDEF)
 
 cfoption icewm_preferences[] = {
+    OBV("Alpha",                                &alphaBlending,                 "Support alpha blending by using a 32-bit visual"),
     OBV("ClickToFocus",                         &clickFocus,                    "Focus windows by clicking"),
     OBV("FocusOnAppRaise",                      &focusOnAppRaise,               "Focus windows when application requests to raise"),
     OBV("RequestFocusOnAppRaise",               &requestFocusOnAppRaise,        "Request focus (flashing in taskbar) when application requests raise"),
@@ -335,6 +338,7 @@ cfoption icewm_preferences[] = {
     OBV("TaskBarDoubleHeight",                  &taskBarDoubleHeight,           "Use double-height task bar"),
     OBV("TaskBarWorkspacesLeft",                &taskBarWorkspacesLeft,         "Place workspace pager on left, not right"),
     OBV("TaskBarWorkspacesTop",                 &taskBarWorkspacesTop,          "Place workspace pager on top row when using dual-height taskbar"),
+    OSV("TaskBarWorkspacesLimit",               &taskBarWorkspacesLimit,        "Limit number of taskbar workspaces"),
     OBV("TaskBarUseMouseWheel",                 &taskBarUseMouseWheel,          "Enable mouse wheel cycling over workspaces and task buttons in taskbar"),
     OBV("PagerShowPreview",                     &pagerShowPreview,              "Show a mini desktop preview on each workspace button"),
     OBV("PagerShowWindowIcons",                 &pagerShowWindowIcons,          "Draw window icons inside large enough preview windows on pager (if PagerShowPreview=1)"),

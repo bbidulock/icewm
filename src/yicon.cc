@@ -215,11 +215,13 @@ ref<YImage> YIcon::loadIcon(unsigned size) {
             icon = YImage::load(cs.c_str());
         }
     }
-#if 1
+
     if (icon != null) {
-        icon = icon->scale(size, size);
+        if (size != icon->width() || size != icon->height()) {
+            icon = icon->scale(size, size);
+        }
     }
-#endif
+
     return icon;
 }
 
@@ -268,27 +270,25 @@ ref<YImage> YIcon::small() {
 }
 
 ref<YImage> YIcon::getScaledIcon(unsigned size) {
-    ref<YImage> base = null;
+    ref<YImage> base;
 
-#if 1
     if (size == smallSize())
         base = small();
     else if (size == largeSize())
         base = large();
     else if (size == hugeSize())
         base = huge();
-#endif
 
-    if (base == null)
-        base = huge();
-    if (base == null)
-        base = large();
-    if (base == null)
-        base = small();
+    if (base == null) {
+        base = fHuge != null ? fHuge
+             : fLarge != null ? fLarge
+             : fSmall;
+    }
 
     if (base != null) {
-        ref<YImage> img = base->scale(size, size);
-        return img;
+        if (size != base->width() || size != base->height()) {
+           base = base->scale(size, size);
+        }
     }
     return base;
 }

@@ -29,6 +29,9 @@ public:
     virtual void handleDNDEnter();
     virtual void handleDNDLeave();
     virtual bool handleTimer(YTimer *t);
+    virtual void handleExpose(const XExposeEvent& expose);
+    virtual void configure(const YRect2& r);
+    virtual void repaint();
 
     void activate() const;
     ClientData *getFrame() const { return fFrame; }
@@ -40,6 +43,7 @@ public:
 private:
     ClientData *fFrame;
     TrayPane *fTrayPane;
+    bool fRepainted;
     bool fShown;
     int selected;
     lazy<YTimer> fRaiseTimer;
@@ -68,11 +72,18 @@ public:
     void relayoutNow();
 
     virtual void handleClick(const XButtonEvent &up, int count);
+    virtual void handleExpose(const XExposeEvent &expose);
     virtual void paint(Graphics &g, const YRect &r);
+    virtual void configure(const YRect2& r);
+    virtual void repaint();
 
 private:
+    bool hasBorder();
+
     IAppletContainer *fTaskBar;
     bool fNeedRelayout;
+    bool fConfigured;
+    bool fExposed;
 
     typedef YObjectArray<TrayApp> AppsType;
     typedef AppsType::IterType IterType;

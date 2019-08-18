@@ -171,6 +171,11 @@ The B<icewm> program supports some additional options:
 
 =over
 
+=item B<-a>, B<--alpha>
+
+Use a 32-bit visual for translucency. This can also be set in
+the preferences file as C<Alpha=1>.
+
 =item B<--replace>
 
 Instructs B<icewm> to replace an existing window manager.  Provided that
@@ -182,6 +187,11 @@ active window manager.
 =item B<-r>, B<--restart>
 
 Tell B<icewm> to restart itself. This reloads the configuration from file.
+
+=item B<--splash>=I<IMAGE>
+
+Briefly show I<IMAGE> on startup in the center of the screen.
+This can also be set in the preferences file as Splash=C<image.jpg>.
 
 =item B<--configured>
 
@@ -206,6 +216,10 @@ This gives a long list of all the internal B<icewm> options with their
 actual values after B<icewm> has processed all of the configuration and
 theme files. In some advanced scenarios this can be helpful to inspect
 which configuration was chosen or whether option formatting was correct.
+
+=item B<--extensions>
+
+Give a list of the current X extensions, their versions and status.
 
 =back
 
@@ -1106,8 +1120,6 @@ L<IceWM Theme Creation Howto|https://ice-wm.org/themes>.
 
 =head2 OPACITY
 
-=over
-
 IceWM supports window opacity and transparency in connection with an
 external compositor like L<compton(1)>. If a client window sets the
 C<_NET_WM_WINDOW_OPACITY> property on its window then B<icewm> will copy
@@ -1120,9 +1132,8 @@ running applications can always be queried or modified by L<icesh(1)>.
 
 The _NET_WM_WINDOW_TYPE properties which B<icewm> sets on its windows
 are I<DIALOG>, I<NOTIFICATION>, I<POPUP_MENU> and I<TOOLTIP>. The output
-of C<icesh windows> shows their WM_CLASS values.
-
-=back
+of C<icesh windows> shows their WM_CLASS values. These can be helpful
+to configure compton.
 
 =head1 EXAMPLES
 

@@ -25,7 +25,7 @@ class YFrameWindow:
     public YFocusedNode
 {
 public:
-    YFrameWindow(YActionListener *wmActionListener, YWindow *parent = 0, int depth = CopyFromParent, Visual *visual = CopyFromParent);
+    YFrameWindow(YActionListener *wmActionListener);
     virtual ~YFrameWindow();
 
     void doManage(YFrameClient *client, bool &doActivate, bool &requestFocus);
@@ -178,6 +178,7 @@ public:
     YFrameWindow *findWindow(int flag);
 
     void updateMenu();
+    virtual void updateSubmenus();
 
     virtual void raise();
     virtual void lower();
@@ -188,7 +189,7 @@ public:
     virtual void popupSystemMenu(YWindow *owner);
     virtual void handlePopDown(YPopupWindow *popup);
 
-    virtual void configure(const YRect &r);
+    virtual void configure(const YRect2& r);
 
     void getNewPos(const XConfigureRequestEvent &cr,
                    int &cx, int &cy, int &cw, int &ch);
@@ -244,6 +245,7 @@ public:
         foNoFocusOnMap             = (1 << 18),
         foNoIgnoreTaskBar          = (1 << 19),
         foNonICCCMConfigureRequest = (1 << 20),
+        foClose                    = (1 << 21),
     };
 
     unsigned frameFunctions() const { return fFrameFunctions; }
@@ -346,6 +348,7 @@ public:
     void setWorkspaceHint(long workspace);
     long getActiveLayer() const { return fWinActiveLayer; }
     void setRequestedLayer(long layer);
+    long getRequestedLayer() const { return fWinRequestedLayer; }
     long getTrayOption() const { return fWinTrayOption; }
     void setTrayOption(long option);
     void setDoNotCover(bool flag);
@@ -413,6 +416,7 @@ public:
     int strutRight() { return fStrutRight; }
     int strutTop() { return fStrutTop; }
     int strutBottom() { return fStrutBottom; }
+    bool haveStruts() const { return fHaveStruts; }
 
     void updateUrgency();
     void setWmUrgency(bool wmUrgency);
@@ -427,6 +431,9 @@ public:
     Window topSideIndicator() const { return topSide; }
     Window topLeftIndicator() const { return topLeft; }
     Window topRightIndicator() const { return topRight; }
+
+    void addToWindowList();
+    void removeFromWindowList();
 
 private:
     /*typedef enum {
@@ -511,6 +518,7 @@ private:
     int fShapeBorderX;
     int fShapeBorderY;
 
+    bool fHaveStruts;
     bool fWmUrgency;
     bool fClientUrgency;
 

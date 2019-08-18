@@ -6,14 +6,9 @@
 #include "MwmUtil.h"
 #include "ypointer.h"
 #include "yxcontext.h"
-
-#ifdef CONFIG_RENDER
-#include <X11/extensions/Xrender.h>
-#endif
-
-#include <sys/resource.h>
-
 #include "intl.h"
+#undef override
+#include <X11/Xproto.h>
 
 YXApplication *xapp = 0;
 
@@ -23,6 +18,8 @@ YContext<YWindow> windowContext;
 YCursor YXApplication::leftPointer;
 YCursor YXApplication::rightPointer;
 YCursor YXApplication::movePointer;
+bool YXApplication::synchronizeX11;
+bool YXApplication::alphaBlending;
 
 Atom _XA_WM_CHANGE_STATE;
 Atom _XA_WM_CLASS;
@@ -53,7 +50,9 @@ Atom _XA_WINDOW_ROLE;
 Atom _XA_SM_CLIENT_ID;
 Atom _XA_ICEWM_ACTION;
 Atom _XA_CLIPBOARD;
+Atom _XA_MANAGER;
 Atom _XA_TARGETS;
+Atom _XA_XEMBED;
 Atom _XA_XEMBED_INFO;
 Atom _XA_UTF8_STRING;
 
@@ -186,24 +185,12 @@ Atom XA_XdndPosition;
 Atom XA_XdndProxy;
 Atom XA_XdndStatus;
 
-#ifdef CONFIG_RENDER
-int renderSupported;
-int renderEventBase, renderErrorBase;
-int renderVersionMajor, renderVersionMinor;
-#endif
-
-#ifdef CONFIG_SHAPE
-int shapesSupported;
-int shapeEventBase, shapeErrorBase;
-int shapeVersionMajor, shapeVersionMinor;
-#endif
-
-#ifdef CONFIG_XRANDR
-int xrandrSupported;
-int xrandrEventBase, xrandrErrorBase;
-int xrandrVersionMajor, xrandrVersionMinor;
-bool xrandr12 = false;
-#endif
+YExtension composite;
+YExtension damage;
+YExtension fixes;
+YExtension render;
+YExtension shapes;
+YExtension xrandr;
 
 #ifdef DEBUG
 int xeventcount = 0;
@@ -448,6 +435,8 @@ void YXApplication::initAtoms() {
         { &_XA_NET_WORKAREA                     , "_NET_WORKAREA"                       },
 
         { &_XA_CLIPBOARD                        , "CLIPBOARD"                           },
+        { &_XA_MANAGER                          , "MANAGER"                             },
+        { &_XA_XEMBED                           , "_XEMBED"                             },
         { &_XA_XEMBED_INFO                      , "_XEMBED_INFO"                        },
         { &_XA_TARGETS                          , "TARGETS"                             },
         { &_XA_UTF8_STRING                      , "UTF8_STRING"                         },
@@ -605,7 +594,7 @@ void YXApplication::dispatchEvent(YWindow *win, XEvent &xev) {
     if (xev.type == KeyPress || xev.type == KeyRelease) {
         YWindow *w = win;
 
-        if (!(fGrabWindow != 0 && !fGrabTree)) {
+        if (w && (fGrabWindow == nullptr || fGrabTree)) {
             if (w->toplevel())
                 w = w->toplevel();
 
@@ -844,45 +833,126 @@ void YXApplication::saveEventTime(const XEvent &xev) {
     }
 }
 
-Time YXApplication::getEventTime(const char */*debug*/) const {
+Time YXApplication::getEventTime(const char *) const {
     return lastEventTime;
 }
 
-bool YXApplication::hasColormap() {
-    XVisualInfo pattern;
-    pattern.screen = DefaultScreen(display());
-
-    int nVisuals;
-    bool rc = false;
-
-    XVisualInfo *first_visual(XGetVisualInfo(display(), VisualScreenMask,
-                                              &pattern, &nVisuals));
-    XVisualInfo *visual = first_visual;
-
-    while (visual && nVisuals--) {
-        if (visual->c_class & 1)
-            rc = true;
-        visual++;
-    }
-
-    if (first_visual)
-        XFree(first_visual);
-
-    return rc;
+bool YXApplication::haveColormaps(Display* dpy) {
+    XVisualInfo pattern = { nullptr, None, DefaultScreen(dpy), 0, };
+    int i = 0, num = 0, mask = VisualScreenMask;
+    xsmart<XVisualInfo> info(XGetVisualInfo(dpy, mask, &pattern, &num));
+    for (; i < num && notbit(info[i].c_class, 1); ++i);
+    return i < num;
 }
 
+Visual* YXApplication::visualForDepth(unsigned depth) const {
+    Visual* vis =
+        depth == 32 ? fVisual32 :
+        depth == 24 ? fVisual24 :
+        depth == unsigned(DefaultDepth(display(), screen())) ?
+                 DefaultVisual(display(), screen()) :
+                 CopyFromParent;
+    return vis;
+}
+
+Colormap YXApplication::colormapForDepth(unsigned depth) const {
+    Colormap cmap =
+        depth == 32 ? fColormap32 :
+        depth == 24 ? fColormap24 :
+        depth == unsigned(DefaultDepth(display(), screen())) ?
+                 DefaultColormap(display(), screen()) :
+                 CopyFromParent;
+    return cmap;
+}
+
+Colormap YXApplication::colormapForVisual(Visual* visual) const {
+    Colormap cmap =
+        visual == fVisual32 ? fColormap32 :
+        visual == fVisual24 ? fColormap24 :
+        visual == DefaultVisual(display(), screen()) ?
+                  DefaultColormap(display(), screen()) :
+                  CopyFromParent;
+    return cmap;
+}
+
+XRenderPictFormat* YXApplication::formatForDepth(unsigned depth) const {
+    XRenderPictFormat* format =
+        depth == 32 ? fFormat32 :
+        depth == 24 ? fFormat24 :
+        nullptr;
+    return format;
+}
+
+XRenderPictFormat* YXApplication::findFormat(int depth) const {
+    XRenderPictFormat* format = nullptr;
+    if (depth == 32)
+        format = XRenderFindStandardFormat(fDisplay, PictStandardARGB32);
+    if (depth == 24)
+        format = XRenderFindStandardFormat(fDisplay, PictStandardRGB24);
+    return format;
+}
+
+Visual* YXApplication::findVisual(int depth) const {
+    Visual* found = nullptr;
+    XRenderPictFormat* pictFormat = findFormat(depth);
+    if (pictFormat) {
+        XVisualInfo pattern = {
+            found, None, fScreen, depth, TrueColor, None, None, None, 0, 8
+        };
+        int count = 0, mask = VisualDepthMask | VisualScreenMask |
+                              VisualClassMask | VisualBitsPerRGBMask;
+        xsmart<XVisualInfo> info(
+                XGetVisualInfo(fDisplay, mask, &pattern, &count));
+        for (int i = 0; i < count && found == nullptr; ++i) {
+            XRenderPictFormat* format =
+                XRenderFindVisualFormat(fDisplay, info[i].visual);
+            if (format == pictFormat) {
+                found = info[i].visual;
+            }
+        }
+    }
+    if (found == nullptr) {
+        XVisualInfo pattern = {
+            found, 0, fScreen, depth, TrueColor, 0xff0000, 0xff00, 0xff, 0, 8
+        };
+        int mask = VisualScreenMask | VisualDepthMask | VisualClassMask
+                 | VisualRedMaskMask | VisualGreenMaskMask
+                 | VisualBlueMaskMask | VisualBitsPerRGBMask;
+        int count = 0;
+        xsmart<XVisualInfo> info(
+                XGetVisualInfo(fDisplay, mask, &pattern, &count));
+        if (count && info) {
+            found = info->visual;
+        }
+    }
+    if (found == nullptr && depth == DefaultDepth(fDisplay, fScreen)) {
+        found = DefaultVisual(fDisplay, fScreen);
+    }
+    return found;
+}
+
+Colormap YXApplication::getColormap(int depth) const {
+    Colormap cmap = None;
+    Visual* visual = depth == 32 ? fVisual32
+                   : depth == 24 ? fVisual24 : nullptr;
+    if (visual == DefaultVisual(fDisplay, fScreen)) {
+        cmap = DefaultColormap(fDisplay, fScreen);
+    }
+    else if (visual) {
+        cmap = XCreateColormap(fDisplay, fRoot, visual, AllocNone);
+    }
+    else if (depth == DefaultDepth(fDisplay, fScreen)) {
+        cmap = DefaultColormap(fDisplay, fScreen);
+    }
+    return cmap;
+}
 
 void YXApplication::alert() {
     XBell(display(), 100);
 }
 
 void YXApplication::setClipboardText(const ustring &data) {
-    if (fClip == 0)
-        fClip = new YClipboard();
-    if (!fClip)
-        return ;
-    cstring s(data);
-    fClip->setData(s.c_str(), s.c_str_len());
+    fClip->setData(cstring(data), data.length());
 }
 
 const char* YXApplication::getHelpText() {
@@ -892,11 +962,9 @@ const char* YXApplication::getHelpText() {
     );
 }
 
-YXApplication::AppArgs
-YXApplication::parseArgs(int *argc, char ***argv, const char *displayName) {
-    AppArgs appArgs = { displayName, false, };
-
-    for (char ** arg = *argv + 1; arg < *argv + *argc; ++arg) {
+const char*
+YXApplication::parseArgs(int argc, char **argv, const char *displayName) {
+    for (char ** arg = argv + 1; arg < argv + argc; ++arg) {
         if (**arg == '-') {
             char *value;
             if (is_help_switch(*arg)) {
@@ -908,30 +976,35 @@ YXApplication::parseArgs(int *argc, char ***argv, const char *displayName) {
             else if (is_copying_switch(*arg)) {
                 print_copying_exit();
             }
-            else if (GetArgument(value, "d", "display", arg, *argv+*argc)) {
-                appArgs.displayName = value;
+            else if (GetArgument(value, "d", "display", arg, argv + argc)) {
+                if (isEmpty(displayName))
+                    displayName = value;
             }
             else if (is_long_switch(*arg, "sync"))
-                appArgs.runSynchronized = true;
+                synchronizeX11 = true;
+            else if (is_long_switch(*arg, "alpha"))
+                alphaBlending = true;
         }
     }
 
-    if (appArgs.displayName == None)
-        appArgs.displayName = getenv("DISPLAY");
-    else
-        setenv("DISPLAY", appArgs.displayName, True);
-
-    return appArgs;
+    return displayName;
 }
 
-Display* YXApplication::openDisplay() {
-    Display* display = XOpenDisplay(fArgs.displayName);
-    if (display == 0)
-        die(1, _("Can't open display: %s. X must be running and $DISPLAY set."),
-            fArgs.displayName ? fArgs.displayName : _("<none>"));
+Display* YXApplication::openDisplay(const char* displayName) {
+    if (nonempty(displayName))
+        setenv("DISPLAY", displayName, True);
 
-    if (fArgs.runSynchronized)
+    Display* display = XOpenDisplay(nullptr);
+    if (display == nullptr)
+        die(1, _("Can't open display: %s. X must be running and $DISPLAY set."),
+            displayName ? displayName : _("<none>"));
+
+    if (synchronizeX11)
         XSynchronize(display, True);
+
+    XSetErrorHandler(errorHandler);
+
+    initExtensions(display);
 
     return display;
 }
@@ -939,13 +1012,20 @@ Display* YXApplication::openDisplay() {
 YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
     YApplication(argc, argv),
 
-    fArgs( parseArgs(argc, argv, displayName)),
-    fDisplay( openDisplay()),
-    fScreen( DefaultScreen(display())),
-    fRoot(  RootWindow(display(), screen())),
-    fDepth( unsigned(DefaultDepth(display(), screen()))),
-    fVisual( DefaultVisual(display(), screen())),
-    fColormap( DefaultColormap(display(), screen())),
+    fDisplay( openDisplay( parseArgs(*argc, *argv, displayName))),
+    fScreen( DefaultScreen(fDisplay)),
+    fRoot( RootWindow(fDisplay, fScreen)),
+    fFormat32( findFormat(32)),
+    fFormat24( findFormat(24)),
+    fVisual32( findVisual(32)),
+    fVisual24( findVisual(24)),
+    fColormap32( getColormap(32)),
+    fColormap24( getColormap(24)),
+    fAlpha( alphaBlending && fVisual32 && fColormap32 ),
+    fDepth( fAlpha ? 32 : fVisual24 ? 24 : DefaultDepth(fDisplay, fScreen)),
+    fVisual( visualForDepth(fDepth)),
+    fColormap( colormapForDepth(fDepth)),
+    fHasColormaps( haveColormaps(display())),
     fBlack( BlackPixel(display(), screen())),
     fWhite( WhitePixel(display(), screen())),
 
@@ -955,7 +1035,6 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
     fXGrabWindow(0),
     fGrabMouse(0),
     fGrabWindow(0),
-    fClip(0),
     fReplayEvent(false)
 {
     xapp = this;
@@ -968,43 +1047,34 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
     initAtoms();
     initModifiers();
     initPointers();
-    initExtensions();
 }
 
-void YXApplication::initExtensions() {
+void YExtension::init(Display* dis, QueryFunc ext, QueryFunc ver) {
+    supported = (*ext)(dis, &eventBase, &errorBase)
+             && (*ver)(dis, &versionMajor, &versionMinor);
+}
+
+void YXApplication::initExtensions(Display* dpy) {
+
+    composite.init(dpy, XCompositeQueryExtension, XCompositeQueryVersion);
+    damage.init(dpy, XDamageQueryExtension, XDamageQueryVersion);
+    fixes.init(dpy, XFixesQueryExtension, XFixesQueryVersion);
+    render.init(dpy, XRenderQueryExtension, XRenderQueryVersion);
 
 #ifdef CONFIG_SHAPE
-    if ((shapesSupported = XShapeQueryExtension(display(),
-                                           &shapeEventBase, &shapeErrorBase)))
-    {
-        XShapeQueryVersion(display(),
-                &shapeVersionMajor, &shapeVersionMinor);
-    }
-#endif
-
-#ifdef CONFIG_RENDER
-    if ((renderSupported = XRenderQueryExtension(display(),
-                    &renderEventBase, &renderErrorBase)))
-    {
-        XRenderQueryVersion(display(),
-                &renderVersionMajor, &renderVersionMinor);
-    }
+    shapes.init(dpy, XShapeQueryExtension, XShapeQueryVersion);
 #endif
 
 #ifdef CONFIG_XRANDR
-    if ((xrandrSupported = XRRQueryExtension(display(),
-                                        &xrandrEventBase, &xrandrErrorBase)))
-    {
-        XRRQueryVersion(display(), &xrandrVersionMajor, &xrandrVersionMinor);
-
-        MSG(("XRRVersion: %d %d", xrandrVersionMajor, xrandrVersionMinor));
-        if (12 <= 10 * xrandrVersionMajor + xrandrVersionMinor)
-            xrandr12 = true;
-    }
+    xrandr.init(dpy, XRRQueryExtension, XRRQueryVersion);
+    xrandr.supported = (12 <= 10 * xrandr.versionMajor + xrandr.versionMinor);
 #endif
 }
 
 YXApplication::~YXApplication() {
+    if (fColormap32 != CopyFromParent)
+        XFreeColormap(xapp->display(), fColormap32);
+
     xfd.unregisterPoll();
     XCloseDisplay(display());
     xapp = 0;
@@ -1024,7 +1094,16 @@ bool YXApplication::handleXEvents() {
 
         saveEventTime(xev);
 
-        logEvent(xev);
+        if (loggingEvents) {
+            if (xev.type < LASTEvent)
+                logEvent(xev);
+            else if (shapes.isEvent(xev.type, ShapeNotify))
+                logShape(xev);
+            else if (xrandr.isEvent(xev.type, RRScreenChangeNotify))
+                logRandrScreen(xev);
+            else if (xrandr.isEvent(xev.type, RRNotify))
+                logRandrNotify(xev);
+        }
 
         if (filterEvent(xev)) {
         } else {
@@ -1124,6 +1203,56 @@ void YXApplication::flushXEvents() {
     XFlush(display());
 }
 
+int YXApplication::handleError(XErrorEvent* xev) {
+    return BadImplementation;
+}
+
+int YXApplication::errorHandler(Display* display, XErrorEvent* xev) {
+    int rc = xapp->handleError(xev);
+    if (rc == Success)
+        return rc;
+
+    XDBG {
+        char message[80], req[80], number[80];
+
+        snprintf(number, sizeof number, "%d", xev->request_code);
+        XGetErrorDatabaseText(display, "XRequest", number, "", req, sizeof req);
+        if (req[0] == 0)
+            snprintf(req, sizeof req, "[request_code=%d]", xev->request_code);
+
+        if (XGetErrorText(display, xev->error_code, message, sizeof message))
+            *message = '\0';
+
+        tlog("X error %s(0x%lx): %s, #%lu, %+ld, %+ld.",
+             req, xev->resourceid, message, xev->serial,
+             long(NextRequest(display)) - long(xev->serial),
+             long(LastKnownRequestProcessed(display)) - long(xev->serial));
+
+#if defined(DEBUG) || defined(PRECON)
+        if (xapp->synchronized()) {
+            switch (xev->request_code) {
+                case X_GetWindowAttributes:
+                    break;
+                case X_GetImage:
+                case X_CreateGC:
+                    show_backtrace();
+                    break;
+                default:
+                    show_backtrace();
+                    break;
+            }
+        }
+        else if (ONCE) {
+            TLOG(("unsynchronized"));
+        }
+#endif
+    }
+
+    if (rc == BadImplementation)
+        xapp->exit(rc);
+    return rc;
+}
+
 void YXPoll::notifyRead() {
     owner()->handleXEvents();
 }
@@ -1150,6 +1279,39 @@ YAtom::operator Atom() {
     if (atom == None)
         atomize();
     return atom;
+}
+
+YTextProperty::YTextProperty(const char* str) {
+    encoding = XA_STRING;
+    format = 8;
+    nitems = strlen(str);
+    value = new unsigned char[1 + nitems];
+    if (value) memcpy(value, str, 1 + nitems);
+}
+
+YTextProperty::~YTextProperty() {
+    if (value) delete[] value;
+}
+
+void YProperty::discard() {
+    if (fData) {
+        XFree(fData);
+        fData = nullptr;
+        fSize = None;
+    }
+}
+
+const YProperty& YProperty::update() {
+    discard();
+    int fmt = 0;
+    if (XGetWindowProperty(xapp->display(), fWind, fProp, 0L, fLimit, False,
+                           fKind, &fType, &fmt, &fSize, &fMore, &fData) ==
+        Success && fData && fSize && fmt == fBits && (fKind == fType || !fKind))
+    {
+    } else {
+        discard();
+    }
+    return *this;
 }
 
 // vim: set sw=4 ts=4 et:

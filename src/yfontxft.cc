@@ -272,6 +272,9 @@ YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
     XftFont ** font(NULL);
     char_t * c(str);
 
+    if (fFonts == nullptr || fFontCount == 0)
+        return nullptr;
+
     for (char_t * endptr(str + len); c < endptr; ++c) {
         XftFont ** probe(fFonts);
 

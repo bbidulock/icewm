@@ -41,7 +41,6 @@ void YApplication::initSignals() {
     fcntl(signalPipe[0], F_SETFD, FD_CLOEXEC);
 #else
     sigemptyset(&signalMask);
-    sigaddset(&signalMask, SIGPIPE);
     sigprocmask(SIG_BLOCK, &signalMask, &oldSignalMask);
 
     if (pipe(signalPipe) != 0)
@@ -265,7 +264,7 @@ int YApplication::mainLoop() {
             // This is irrelevant when using monotonic clocks:
             // if time travel to past, decrease the timeouts
             if (diff < zerotime()) {
-                warn("time warp of %ld.%06ld", diff.tv_sec, diff.tv_usec);
+                warn("time warp of %ld.%06ld", long(diff.tv_sec), diff.tv_usec);
                 decreaseTimeouts(diff);
             } else {
                 // no detection for time travel to the future
@@ -507,10 +506,14 @@ upath YApplication::getHomeDir() {
 }
 
 upath YApplication::findConfigFile(upath name) {
+    return locateConfigFile(name);
+}
+
+upath YApplication::locateConfigFile(upath name) {
     upath p;
 
     if (name.isAbsolute())
-        return name;
+        return name.expand();
 
     p = getPrivConfDir() + name;
     if (p.fileExists())

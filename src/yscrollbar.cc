@@ -29,6 +29,9 @@ YScrollBar::YScrollBar(YWindow *aParent): YWindow(aParent) {
     fListener = 0;
     fScrollTo = goNone;
     fDNDScroll = false;
+    fConfigured = false;
+    fExposed = false;
+    setTitle("ScrollBar");
 }
 
 
@@ -42,6 +45,9 @@ YWindow(aParent)
     fListener = 0;
     fScrollTo = goNone;
     fDNDScroll = false;
+    fConfigured = false;
+    fExposed = false;
+    setTitle("ScrollBar");
 }
 
 YScrollBar::YScrollBar(Orientation anOrientation,
@@ -57,6 +63,10 @@ YScrollBar::YScrollBar(Orientation anOrientation,
     fUnitIncrement = fBlockIncrement = 1;
     fListener = 0;
     fScrollTo = goNone;
+    fDNDScroll = false;
+    fConfigured = false;
+    fExposed = false;
+    setTitle("ScrollBar");
 }
 
 YScrollBar::~YScrollBar() {
@@ -850,6 +860,26 @@ void YScrollBar::handleDNDPosition(int x, int y) {
     fScrollTo = getOp(x, y);
     fScrollTimer->setTimer(scrollBarStartDelay, this, true);
     repaint();
+}
+
+void YScrollBar::configure(const YRect2& r) {
+    if (r.width() > 1 && r.height() > 1) {
+        fConfigured = true;
+        repaint();
+    }
+}
+
+void YScrollBar::handleExpose(const XExposeEvent &expose) {
+    if (fExposed == false && expose.count == 0) {
+        fExposed = true;
+        repaint();
+    }
+}
+
+void YScrollBar::repaint() {
+    if (fConfigured && fExposed) {
+        GraphicsBuffer(this).paint();
+    }
 }
 
 // vim: set sw=4 ts=4 et:

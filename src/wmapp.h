@@ -36,13 +36,18 @@ class YWMApp:
     public YSMApplication,
     public YActionListener,
     public YMsgBoxListener,
-    public YSMListener
+    public YSMListener,
+    public YTimerListener
 {
+    typedef YSMApplication super;
+
 public:
     YWMApp(int *argc, char ***argv, const char *displayName,
+            bool notifyParent, const char *splashFile,
             const char *configFile, const char *overrideTheme);
     ~YWMApp();
     void signalGuiEvent(GUIEvent ge);
+    int mainLoop();
 
     virtual void afterWindowEvent(XEvent &xev);
     virtual void handleSignal(int sig);
@@ -56,12 +61,6 @@ public:
     void doLogout(RebootShutdown reboot);
     void logout();
     void cancelLogout();
-
-    // drop ties to own clients/windows since those are now destroyed by unmanageClients
-    inline void clientsAreUnmanaged() {
-        fLogoutMsgBox = 0;
-        aboutDlg = 0;
-    }
 
 #ifdef CONFIG_SESSION
     virtual void smSaveYourselfPhase2();
@@ -100,10 +99,13 @@ public:
     SwitchWindow* getSwitchWindow();
     const char* getConfigFile() const { return configFile; }
     FocusModels getFocusMode() const { return focusMode; }
+    YMenu* getWindowMenu();
 
 private:
     char** mainArgv;
     const char* configFile;
+    bool notifyParent;
+    pid_t notifiedParent;
 
     // XXX: these pointers are PITA because they can become wild when objects
     // are destroyed independently by manager. What we need is something like std::weak_ptr...
@@ -112,7 +114,17 @@ private:
 
     CtrlAltDelete* ctrlAltDelete;
     SwitchWindow* switchWindow;
+    YMenu* windowMenu;
+    int errorRequestCode;
+    YFrameWindow* errorFrame;
+    lazy<YTimer> errorTimer;
+    lazy<YTimer> splashTimer;
+    lazy<YWindow> splashWindow;
 
+    void createTaskBar();
+    YWindow* splash(const char* splashFile);
+    virtual bool handleTimer(YTimer *timer);
+    virtual int handleError(XErrorEvent *xev);
     void runRestart(const char *path, char *const *args);
 
     FocusModels focusMode;
@@ -128,18 +140,52 @@ private:
 
 extern YWMApp * wmapp;
 
-extern YMenu *windowMenu;
-extern YMenu *layerMenu;
-extern YMenu *moveMenu;
-extern YMenu *trayMenu;
-extern YMenu *windowListMenu;
-extern YMenu *windowListPopup;
-extern YMenu *windowListAllPopup;
+#ifdef __WMPROG_H
+class RootMenu  : public StartMenu {
+public:
+    RootMenu() : StartMenu(wmapp, wmapp, wmapp, "menu") {
+        setShared(true);
+    }
+};
+extern lazily<RootMenu> rootMenu;
+#endif
 
-extern YMenu *logoutMenu;
+#ifdef __WMWINMENU_H
+class SharedWindowList  : public WindowListMenu {
+public:
+    SharedWindowList() : WindowListMenu(wmapp) {
+        setShared(true);
+    }
+};
+extern lazily<SharedWindowList> windowListMenu;
+#endif
 
-class ObjectMenu;
-extern ObjectMenu *rootMenu;
+class LogoutMenu : public YMenu {
+public:
+    LogoutMenu() {
+        setShared(true);
+    }
+    void updatePopup();
+};
+extern lazy<LogoutMenu> logoutMenu;
+
+class LayerMenu : public YMenu {
+public:
+    LayerMenu() {
+        setShared(true);
+    }
+    void updatePopup();
+};
+extern lazy<LayerMenu> layerMenu;
+
+class MoveMenu : public YMenu {
+public:
+    MoveMenu() {
+        setShared(true);
+    }
+    void updatePopup();
+};
+extern lazy<MoveMenu> moveMenu;
 
 class KProgram;
 extern YObjectArray<KProgram> keyProgs;

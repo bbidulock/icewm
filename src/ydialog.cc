@@ -16,9 +16,11 @@ static YColorName dialogBg(&clrDialog);
 
 YDialog::YDialog(YWindow *owner):
     YFrameClient(0, 0),
-    fGradient(null)
+    fGradient(dialogbackPixbuf),
+    fSurface(dialogBg, dialogbackPixmap, getGradient())
 {
     fOwner = owner;
+    setStyle(wsNoExpose);
     setNetWindowType(_XA_NET_WM_WINDOW_TYPE_DIALOG);
 }
 
@@ -26,26 +28,25 @@ YDialog::~YDialog() {
     fGradient = null;
 }
 
-void YDialog::paint(Graphics &g, const YRect &/*r*/) {
+void YDialog::paint(Graphics &g, const YRect& r) {
+    if (width() > 2 && height() > 2)
+        g.drawSurface(getSurface(), 1, 1, width() - 2, height() - 2);
     g.setColor(dialogBg);
     g.draw3DRect(0, 0, width() - 1, height() - 1, true);
+}
 
-    if (dialogbackPixbuf != null
-        && !(fGradient != null &&
-             fGradient->width() == (width() - 2) &&
-             fGradient->height() == (height() - 2)))
-    {
-        fGradient = dialogbackPixbuf->scale(width() - 2, height() - 2);
+void YDialog::configure(const YRect2& r) {
+    if (r.resized()) {
+        if (dialogbackPixbuf == null || r.width() <= 2 || r.height() <= 2)
+            fGradient = null;
+        else
+            fGradient = dialogbackPixbuf->scale(r.width() - 2, r.height() - 2);
         repaint();
     }
+}
 
-    if (fGradient != null)
-        g.drawImage(fGradient, 0, 0, width() - 2, height() - 2, 1, 1);
-    else
-    if (dialogbackPixmap != null)
-        g.fillPixmap(dialogbackPixmap, 1, 1, width() -2, height() - 2);
-    else
-        g.fillRect(1, 1, width() - 2, height() - 2);
+void YDialog::repaint() {
+    GraphicsBuffer(this).paint();
 }
 
 bool YDialog::handleKey(const XKeyEvent &key) {

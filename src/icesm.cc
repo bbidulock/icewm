@@ -58,9 +58,11 @@ private:
         "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
         "\n"
         "  -d, --display=NAME  Use NAME to connect to the X server.\n"
+        "  -a, --alpha         Use a 32-bit visual for translucency.\n"
         "  --sync              Synchronize communication with X11 server.\n"
         "\n"
         "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
+        "  -b, --nobg          Do not start icewmbg.\n"
         "  -n, --notray        Do not start icewmtray.\n"
         "  -s, --sound         Also start icesound.\n"
         );
@@ -69,8 +71,10 @@ private:
     const char *displayArg;
     const char *configArg;
     const char *themeArg;
+    const char *alphaArg;
     const char *icewmExe;
     bool syncArg;
+    bool nobgArg;
     bool notrayArg;
     bool soundArg;
     char* argv0;
@@ -80,8 +84,10 @@ private:
         displayArg = 0;
         configArg = 0;
         themeArg = 0;
+        alphaArg = 0;
         icewmExe = ICEWMEXE;
         syncArg = false;
+        nobgArg = false;
         notrayArg = NOTRAY;
         soundArg = false;
 
@@ -101,8 +107,14 @@ private:
                 else if (GetArgument(value, "i", "icewm", arg, *argv+*argc)) {
                     icewmExe = value;
                 }
+                else if (is_switch(*arg, "a", "alpha")) {
+                    alphaArg = *arg;
+                }
                 else if (is_long_switch(*arg, "sync")) {
                     syncArg = true;
+                }
+                else if (is_switch(*arg, "b", "nobg")) {
+                    nobgArg = true;
                 }
                 else if (is_switch(*arg, "n", "notray")) {
                     notrayArg = true;
@@ -115,6 +127,9 @@ private:
                 }
                 else if (is_version_switch(*arg)) {
                     print_version_exit(VERSION);
+                }
+                else if (is_copying_switch(*arg)) {
+                    print_copying_exit();
                 }
                 else {
                     warn(_("Unknown option '%s'"), *arg);
@@ -197,6 +212,9 @@ public:
             args[k++] = "--theme";
             args[k++] = themeArg;
         }
+        if (alphaArg && k + 1 < narg && 0 == strcmp(args[0], icewmExe)) {
+            args[k++] = alphaArg;
+        }
         if (syncArg && k + 1 < narg) {
             args[k++] = "--sync";
         }
@@ -208,6 +226,9 @@ public:
     void runIcewmbg(bool quit = false) {
         const char *args[12] = { ICEWMBGEXE, 0, 0 };
 
+        if (nobgArg) {
+            return;
+        }
         if (quit) {
             args[1] = "-q";
         }
@@ -294,8 +315,10 @@ private:
                 }
                 else if (pid == sound_pid)
                     sound_pid = -1;
-                else if (pid == bg_pid)
+                else if (pid == bg_pid) {
                     bg_pid = -1;
+                    checkIcewmbgExitStatus(status);
+                }
             }
         }
         else if (sig == SIGUSR1)
@@ -304,6 +327,12 @@ private:
 
     void checkWMExitStatus(int status) {
         if (WIFEXITED(status)) {
+            if (WEXITSTATUS(status) == ICESM_EXIT_RESTART) {
+                tlog(_("restart %s."), icewmExe);
+                runWM();
+                return;
+            }
+
             if (WEXITSTATUS(status)) {
                 tlog(_("%s exited with status %d."),
                         icewmExe, WEXITSTATUS(status));
@@ -412,6 +441,20 @@ private:
             warn("Could not execute '%s': status %d.", command, status);
         }
         return true;
+    }
+
+    void checkIcewmbgExitStatus(int status) {
+        if (WIFEXITED(status)) {
+            if (WEXITSTATUS(status) == ICESM_EXIT_RESTART) {
+                tlog(_("restart %s."), ICEWMBGEXE);
+                runIcewmbg();
+                return;
+            }
+        }
+        else if (WIFSIGNALED(status)) {
+            tlog(_("%s was killed by signal %d."),
+                    ICEWMBGEXE, WTERMSIG(status));
+        }
     }
 
     void checkTrayExitStatus(int status) {

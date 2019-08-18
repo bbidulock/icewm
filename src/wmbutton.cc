@@ -24,7 +24,7 @@ YFrameButton::YFrameButton(YWindow *parent,
                            YFrameWindow *frame,
                            YAction action,
                            YAction action2):
-    YButton(desktop, actionNull),
+    YButton(parent, actionNull),
     fFrame(frame),
     fRight(right),
     fAction(action),
@@ -33,12 +33,11 @@ YFrameButton::YFrameButton(YWindow *parent,
     if (right)
         setWinGravity(NorthEastGravity);
 
-    reparent(parent, 0, 0);
+    setParentRelative();
+    setStyle(wsNoExpose);
 
     if (fAction == actionNull)
         setPopup(frame->windowMenu());
-
-    setSize(0,0);
 }
 
 YFrameButton::~YFrameButton() {
@@ -69,6 +68,7 @@ void YFrameButton::handleClick(const XButtonEvent &up, int count) {
                                         YPopupWindow::pfCanFlipVertical |
                                         YPopupWindow::pfCanFlipHorizontal);
     }
+    YButton::handleClick(up, count);
 }
 
 void YFrameButton::handleBeginDrag(const XButtonEvent &down, const XMotionEvent &/*motion*/) {
@@ -122,6 +122,18 @@ ref<YPixmap> YFrameButton::getPixmap(int pn) const {
         return menuButton[pn];
     else
         return null;
+}
+
+void YFrameButton::configure(const YRect2& r) {
+    if (r.resized()) {
+        repaint();
+    }
+}
+
+void YFrameButton::repaint() {
+    if (width() > 1 && height() > 1) {
+        GraphicsBuffer(this).paint();
+    }
 }
 
 void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {

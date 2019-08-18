@@ -12,12 +12,7 @@ class YToolTip;
 class YTimer;
 class YAutoScroll;
 class YRect;
-
-#ifdef XINERAMA
-extern "C" {
-#include <X11/extensions/Xinerama.h>
-}
-#endif
+class YRect2;
 
 struct DesktopScreenInfo {
     int screen_number;
@@ -29,7 +24,11 @@ struct DesktopScreenInfo {
 
 class YWindow : protected YWindowList, private YWindowNode {
 public:
-    YWindow(YWindow *aParent = 0, Window win = 0, int depth = CopyFromParent, Visual *visual = CopyFromParent);
+    YWindow(YWindow *aParent = nullptr,
+            Window window = None,
+            int depth = CopyFromParent,
+            Visual *visual = nullptr,
+            Colormap colormap = CopyFromParent);
     virtual ~YWindow();
 
     void setStyle(unsigned aStyle);
@@ -43,9 +42,10 @@ public:
     virtual void raise();
     virtual void lower();
 
-    void repaint();
-    void repaintFocus();
-    void repaintSync();
+    virtual void repaint();
+    virtual void repaintFocus();
+    virtual void repaintSync();
+
     void readAttributes();
     void reparent(YWindow *parent, int x, int y);
     bool getWindowAttributes(XWindowAttributes* attr);
@@ -61,13 +61,13 @@ public:
     void setPosition(int x, int y);
     void setBorderWidth(unsigned width);
     void setBackground(unsigned long pixel);
+    void setBackgroundPixmap(ref<YPixmap> pixmap);
     void setBackgroundPixmap(Pixmap pixmap);
-    void setParentRelative(void);
+    void setParentRelative();
     virtual void configure(const YRect &r);
-
+    virtual void configure(const YRect2& r2);
 
     virtual void paint(Graphics &g, const YRect &r);
-    virtual void paintFocus(Graphics &, const YRect &) {}
 
     virtual void handleEvent(const XEvent &event);
 
@@ -97,11 +97,13 @@ public:
     virtual void handleReparentNotify(const XReparentEvent &) {}
     virtual void handleConfigureRequest(const XConfigureRequestEvent &);
     virtual void handleMapRequest(const XMapRequestEvent &);
+    virtual void handleDamageNotify(const XDamageNotifyEvent &) {}
 #ifdef CONFIG_SHAPE
     virtual void handleShapeNotify(const XShapeEvent &) {}
 #endif
 #ifdef CONFIG_XRANDR
-    virtual void handleRRScreenChangeNotify(const XRRScreenChangeNotifyEvent &/*xrrsc*/) {}
+    virtual void handleRRScreenChangeNotify(const XRRScreenChangeNotifyEvent &) {}
+    virtual void handleRRNotify(const XRRNotifyEvent &) {}
 #endif
 
     virtual void handleClickDown(const XButtonEvent &, int) {}
@@ -149,13 +151,17 @@ public:
     unsigned height() const { return fHeight; }
     unsigned depth() const { return fDepth; }
     Visual *visual() const { return fVisual; }
+    Colormap colormap();
     YRect geometry() const { return YRect(fX, fY, fWidth, fHeight); }
+    YDimension dimension() const { return YDimension(fWidth, fHeight); }
 
     bool visible() const { return (flags & wfVisible); }
     bool created() const { return (flags & wfCreated); }
     bool adopted() const { return (flags & wfAdopted); }
-    bool destroyed() const { return (flags & wfDestroyed); }
     bool focused() const { return (flags & wfFocused); }
+    bool destroyed() const { return (flags & wfDestroyed); }
+    void setDestroyed();
+    bool testDestroyed();
 
     virtual void donePopup(YPopupWindow * /*command*/);
 
@@ -164,7 +170,7 @@ public:
         wsSaveUnder        = 1 << 1,
         wsManager          = 1 << 2,
         wsInputOnly        = 1 << 3,
-        wsOutputOnly       = 1 << 4,
+        wsNoExpose         = 1 << 4,
         wsPointerMotion    = 1 << 5,
         wsDesktopAware     = 1 << 6,
         wsToolTip          = 1 << 7,
@@ -177,7 +183,7 @@ public:
     void nextFocus();
     void prevFocus();
     bool changeFocus(bool next);
-    void requestFocus(bool requestUserFocus);
+    virtual void requestFocus(bool requestUserFocus);
     void setFocus(YWindow *window);
     YWindow *getFocusWindow();
     virtual void gotFocus();
@@ -199,6 +205,7 @@ public:
     void setWinGravity(int gravity);
     void setBitGravity(int gravity);
 
+    void setProperty(Atom prop, Atom type, const Atom* values, int count);
     void setProperty(Atom property, Atom propType, Atom value);
     void setNetWindowType(Atom window_type);
     void setNetOpacity(Atom opacity);
@@ -215,6 +222,11 @@ public:
     int getClickCount() { return fClickCount; }
 
     void scrollWindow(int dx, int dy);
+    void clearWindow();
+    void clearArea(int x, int y, unsigned w, unsigned h, bool expos = false);
+    Pixmap createPixmap();
+    XRenderPictFormat* format();
+    Picture createPicture();
 
     bool toolTipVisible();
     virtual void updateToolTip();
@@ -251,7 +263,7 @@ private:
 
     unsigned fDepth;
     Visual *fVisual;
-    Colormap fAllocColormap;
+    Colormap fColormap;
 
     YWindow *fParentWindow;
     YWindow *fFocusedWindow;
@@ -310,6 +322,7 @@ public:
 
     void updateXineramaInfo(unsigned &w, unsigned &h);
 
+    YRect getScreenGeometry(int screen_no);
     void getScreenGeometry(int *x, int *y,
                            unsigned *width, unsigned *height,
                            int screen_no = -1);
@@ -325,20 +338,28 @@ protected:
 
 extern YDesktop *desktop;
 
-#ifdef CONFIG_SHAPE
-extern int shapesSupported;
-extern int shapeEventBase, shapeErrorBase;
-#endif
+struct YExtension {
+    int eventBase, errorBase;
+    int versionMajor, versionMinor;
+    bool supported;
 
-#ifdef CONFIG_XRANDR
-extern int xrandrSupported;
-extern bool xrandr12;
-extern int xrandrEventBase, xrandrErrorBase;
-#endif
+    typedef int (*QueryFunc)(Display *, int *, int *);
+    void init(Display* dis, QueryFunc ext, QueryFunc ver);
+    bool isEvent(int type, int eventNumber) const {
+        return supported && type == eventBase + eventNumber;
+    }
+};
 
+extern YExtension composite;
+extern YExtension damage;
+extern YExtension fixes;
+extern YExtension render;
+extern YExtension shapes;
+extern YExtension xrandr;
 
 extern Atom _XA_WM_CHANGE_STATE;
 extern Atom _XA_WM_CLASS;
+extern Atom _XA_WM_CLIENT_LEADER;
 extern Atom _XA_WM_COLORMAP_NOTIFY;
 extern Atom _XA_WM_COLORMAP_WINDOWS;
 extern Atom _XA_WM_COMMAND;
@@ -359,7 +380,9 @@ extern Atom _XA_WM_ZOOM_HINTS;
 
 extern Atom _XATOM_MWM_HINTS;
 extern Atom _XA_CLIPBOARD;
+extern Atom _XA_MANAGER;
 extern Atom _XA_TARGETS;
+extern Atom _XA_XEMBED;
 extern Atom _XA_XEMBED_INFO;
 
 /* Xdnd */
@@ -372,6 +395,12 @@ extern Atom XA_XdndStatus;
 extern Atom XA_XdndDrop;
 extern Atom XA_XdndFinished;
 
+extern Atom _XA_KDE_NET_SYSTEM_TRAY_WINDOWS;
+extern Atom _XA_NET_SYSTEM_TRAY_OPCODE;
+extern Atom _XA_NET_SYSTEM_TRAY_ORIENTATION;
+extern Atom _XA_NET_SYSTEM_TRAY_MESSAGE_DATA;
+extern Atom _XA_NET_SYSTEM_TRAY_VISUAL;
+extern Atom _XA_NET_WM_NAME;
 extern Atom _XA_NET_WM_WINDOW_OPACITY;              // OK
 extern Atom _XA_NET_WM_WINDOW_TYPE;                 // OK
 extern Atom _XA_NET_WM_WINDOW_TYPE_COMBO;           // OK

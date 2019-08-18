@@ -17,6 +17,7 @@
 #include "wmmgr.h"
 #include "wmframe.h"
 #include "wmwinmenu.h"
+#include "workspaces.h"
 
 #include "intl.h"
 
@@ -99,8 +100,10 @@ YMenu *YWindowManager::createWindowMenu(YMenu *menu, long workspace) {
     return menu;
 }
 
-WindowListMenu::WindowListMenu(IApp *app, YWindow *parent): YMenu(parent) {
-    this->app = app;
+WindowListMenu::WindowListMenu(YActionListener *app, YWindow *parent):
+    YMenu(parent)
+{
+    setActionListener(app);
 }
 
 void WindowListMenu::updatePopup() {
@@ -110,7 +113,7 @@ void WindowListMenu::updatePopup() {
 
     bool first = true;
 
-    for (long d = 0; d < manager->workspaceCount(); d++) {
+    for (int d = 0; d < workspaceCount; d++) {
         if (d == manager->activeWorkspace())
             continue;
         if (first) {
@@ -120,7 +123,7 @@ void WindowListMenu::updatePopup() {
         char s[128];
         snprintf(s, sizeof s,
                 _("%lu. Workspace %-.32s"), (unsigned long)(d + 1),
-                manager->workspaceName(d));
+                workspaceNames[d]);
 
         YMenu *sub = 0;
         if (manager->windowCount(d) > 0) // !!! do lazy create menu instead
@@ -129,6 +132,11 @@ void WindowListMenu::updatePopup() {
     }
     addSeparator();
     addItem(_("_Window list"), -2, KEY_NAME(gKeySysWindowList), actionWindowList);
+}
+
+void WindowListMenu::activatePopup(int flags) {
+    super::activatePopup(flags);
+    repaint();
 }
 
 // vim: set sw=4 ts=4 et:

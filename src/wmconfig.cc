@@ -21,10 +21,7 @@
 
 #include "intl.h"
 
-long workspaceCount = 0;
-char *workspaceNames[MAXWORKSPACES];
-YAction workspaceActionActivate[MAXWORKSPACES];
-YAction workspaceActionMoveTo[MAXWORKSPACES];
+YStringArray configWorkspaces;
 
 void WMConfig::loadConfiguration(IApp *app, const char *fileName) {
     YConfig::findLoadConfigFile(app, icewm_preferences, fileName);
@@ -45,20 +42,11 @@ void WMConfig::freeConfiguration() {
     YConfig::freeConfig(icewm_themable_preferences);
 }
 
-void addWorkspace(const char * /*name*/, const char *value, bool append) {
+void addWorkspace(const char *, const char *value, bool append) {
     if (!append) {
-        for (long i = 0; i < workspaceCount; i++) {
-            delete[] workspaceNames[i];
-            workspaceNames[i] = nullptr;
-        }
-        workspaceCount = 0;
+        configWorkspaces.clear();
     }
-
-    if (workspaceCount >= MAXWORKSPACES)
-        return;
-    workspaceNames[workspaceCount] = newstr(value);
-    PRECONDITION(workspaceNames[workspaceCount] != NULL);
-    workspaceCount++;
+    configWorkspaces += value;
 }
 
 static const struct {
@@ -122,10 +110,10 @@ static upath getDefaultsFilePath(const pstring& basename) {
     return null;
 }
 
-int WMConfig::setDefault(const char *basename, const char *content) {
+void WMConfig::setDefault(const char *basename, cstring content) {
     upath confOld(getDefaultsFilePath(basename));
     if (confOld == null) {
-        return -1; // no directory
+        return; // no directory
     }
     upath confNew(confOld.path() + ".new.tmp");
 
@@ -135,12 +123,12 @@ int WMConfig::setDefault(const char *basename, const char *content) {
         if (content[0] && content[strlen(content)-1] != '\n')
             fputc('\n', fpNew);
     }
-    if (fpNew == NULL || fflush(fpNew) || ferror(fpNew)) {
+    if (fpNew == nullptr || fflush(fpNew) || ferror(fpNew)) {
         fail(_("Unable to write to %s"), confNew.string().c_str());
         if (fpNew)
             fclose(fpNew);
         confNew.remove();
-        return -1;
+        return;
     }
 
     FILE *fpOld = confOld.fopen("r");
@@ -159,7 +147,7 @@ int WMConfig::setDefault(const char *basename, const char *content) {
     }
     fclose(fpNew);
 
-    if (fpOld != 0 || confOld.access() == 0) {
+    if (fpOld != nullptr || confOld.access() == 0) {
         confOld.remove();
     }
     if (confNew.renameAs(confOld)) {
@@ -167,7 +155,14 @@ int WMConfig::setDefault(const char *basename, const char *content) {
                 confNew.string().c_str(), confOld.string().c_str());
         confNew.remove();
     }
-    return 0;
+}
+
+void WMConfig::setDefaultFocus(long focusMode) {
+    setDefault("focus_mode", "FocusMode=\"" + mstring(focusMode) + "\"");
+}
+
+void WMConfig::setDefaultTheme(mstring themeName) {
+    setDefault("theme", "Theme=\"" + themeName + "\"");
 }
 
 static void print_options(cfoption *options) {
@@ -197,6 +192,14 @@ static void print_options(cfoption *options) {
             break;
         }
     }
+}
+
+void WMConfig::printPrefs(long focus, bool log, bool sync, const char* spl) {
+    printf("FocusMode=%ld\n", focus);
+    printf("LogEvents=%d\n", log);
+    printf("Synchronize=%d\n", sync);
+    printf("Splash=\"%s\"\n", Elvis(spl, ""));
+    print_preferences();
 }
 
 void WMConfig::print_preferences() {

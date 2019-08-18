@@ -9,11 +9,15 @@ public:
     virtual ~YLabel();
 
     virtual void paint(Graphics &g, const YRect &r);
+    virtual void handleExpose(const XExposeEvent& expose);
+    virtual void configure(const YRect2& r);
+    virtual void repaint();
 
     void setText(const ustring &label);
     const ustring getText() const { return fLabel; }
 private:
     ustring fLabel;
+    bool fPainted;
 
     void autoSize();
 

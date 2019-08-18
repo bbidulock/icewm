@@ -14,16 +14,19 @@
 
 #include <stdio.h>
 
-YClientContainer::YClientContainer(YWindow *parent, YFrameWindow *frame)
-:YWindow(parent)
+YClientContainer::YClientContainer(YWindow *parent, YFrameWindow *frame,
+                                   int depth, Visual *visual, Colormap cmap)
+    : YWindow(parent, None, depth, visual, cmap)
 {
     fFrame = frame;
     fHaveGrab = false;
     fHaveActionGrab = false;
 
-    setStyle(wsManager);
+    setStyle(wsManager | wsNoExpose);
     setDoubleBuffer(false);
     setPointer(YXApplication::leftPointer);
+    setTitle("Container");
+    show();
 }
 
 YClientContainer::~YClientContainer() {

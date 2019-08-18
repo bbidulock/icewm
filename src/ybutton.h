@@ -16,6 +16,7 @@ public:
     virtual void paintFocus(Graphics &g, const YRect &r);
     virtual bool handleKey(const XKeyEvent &key);
     virtual void handleButton(const XButtonEvent &button);
+    virtual void handleClick(const XButtonEvent &button, int count);
     virtual void handleCrossing(const XCrossingEvent &crossing);
 
     YAction getAction() const { return fAction; }
@@ -24,6 +25,10 @@ public:
     void setIcon(ref<YIcon> image, int size);
     void setImage(ref<YImage> image);
     void setText(const ustring &str, int hot = -1);
+    ustring getText() const { return fText; }
+    bool hasImage() const { return fImage != null; }
+    bool hasText() const { return fText.nonempty(); }
+    bool hasPopup() const { return fPopup; }
 
     void setPressed(int pressed);
     virtual bool isFocusTraversable();
@@ -31,7 +36,7 @@ public:
     void updateSize();
     virtual void donePopup(YPopupWindow *popup);
 
-    void popupMenu();
+    virtual void popupMenu();
     virtual void updatePopup();
 
     void setActionListener(YActionListener *listener) { fListener = listener; }

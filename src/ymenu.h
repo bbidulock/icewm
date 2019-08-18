@@ -25,6 +25,9 @@ public:
     virtual void handleMotion(const XMotionEvent &motion);
     virtual void handleMotionOutside(bool top, const XMotionEvent &motion);
     virtual bool handleAutoScroll(const XMotionEvent &mouse);
+    virtual void configure(const YRect2& r2);
+    virtual void handleExpose(const XExposeEvent &expose) {}
+    virtual void repaint();
 
     void trackMotion(const int x_root, const int y_root, const unsigned state, bool submenu);
 
@@ -77,7 +80,9 @@ private:
     int activatedX, activatedY;
     int submenuItem;
 
-    ref<YImage> fGradient;
+    GraphicsBuffer fGraphics;
+    ref<YPixmap> fGradient;
+    ref<YPixmap> fMenusel;
 
     static YMenu *fPointedMenu;
     static lazy<YTimer> fMenuTimer;
@@ -89,7 +94,7 @@ private:
     void getOffsets(int &left, int &top, int &right, int &bottom);
     void getArea(int &x, int &y, unsigned &w, unsigned &h);
 
-    void drawBackground(Graphics &g, int x, int y, unsigned w, unsigned h);
+    void drawBackground(Graphics &g, int x, int y, int w, int h);
     void drawSeparator(Graphics &g, int x, int y, unsigned w);
 
     void drawSubmenuArrow(Graphics &g, YMenuItem *mitem,
@@ -115,11 +120,15 @@ private:
     void hideSubmenu();
 };
 
+class LazyMenu {
+public:
+    virtual YMenu* ymenu() = 0;
+    virtual ~LazyMenu() {}
+};
+
 extern ref<YPixmap> menubackPixmap;
 extern ref<YPixmap> menuselPixmap;
 extern ref<YPixmap> menusepPixmap;
-
-//class YPixbuf;
 
 extern ref<YImage> menubackPixbuf;
 extern ref<YImage> menuselPixbuf;

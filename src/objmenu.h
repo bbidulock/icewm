@@ -8,7 +8,6 @@
 #include "obj.h"
 
 class DObject;
-class YSMListener;
 
 class DObjectMenuItem: public YMenuItem {
 public:

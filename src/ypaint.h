@@ -6,7 +6,6 @@
 #include "mstring.h"
 
 #ifdef CONFIG_SHAPE
-#define __YIMP_XUTIL__
 #include <X11/extensions/shape.h>
 #endif
 
@@ -25,9 +24,29 @@ enum YDirection {
 /******************************************************************************/
 /******************************************************************************/
 
+enum Opaqueness {
+    NilOpacity = 0,
+    MinOpacity = 1,
+    MaxOpacity = 100,
+};
+
+inline bool validOpacity(int opacity) {
+    return MinOpacity <= opacity && opacity <= MaxOpacity;
+}
+
+inline unsigned opacityAlpha(int opacity) {
+    return (unsigned(opacity) * 255U) / 100U;
+}
+
+/******************************************************************************/
+/******************************************************************************/
+
 struct YDimension {
     YDimension(unsigned w, unsigned h): w(w), h(h) {}
     unsigned w, h;
+
+    bool operator==(const YDimension& d) const { return w == d.w && h == d.h; }
+    bool operator!=(const YDimension& d) const { return w != d.w || h != d.h; }
 };
 
 /******************************************************************************/
@@ -77,10 +96,14 @@ public:
     Graphics(Drawable drawable, unsigned w, unsigned h, unsigned depth);
     ~Graphics();
 
+    void clear();
+    void clearArea(int x, int y, unsigned w, unsigned h);
     void copyArea(const int x, const int y, const unsigned width, const unsigned height,
                   const int dx, const int dy);
     void copyDrawable(const Drawable d, const int x, const int y,
                       const unsigned w, const unsigned h, const int dx, const int dy);
+    void copyImage(ref<YImage> image, int x, int y);
+    void copyPixmap(ref<YPixmap> p, int dx, int dy);
     void copyPixmap(ref<YPixmap> p, const int x, const int y,
                      const unsigned w, const unsigned h, const int dx, const int dy);
 
@@ -121,11 +144,12 @@ public:
     void setColor(YColor aColor);
     void setColorPixel(unsigned long pixel);
     void setFont(ref<YFont> aFont);
-    void setThinLines(void) { setLineWidth(0); }
+    void setThinLines() { setLineWidth(0); }
     void setWideLines(unsigned width = 1) { setLineWidth(width >= 1 ? width : 1); }
     void setLineWidth(unsigned width);
     void setPenStyle(bool dotLine = false); ///!!!hack
     void setFunction(int function = GXcopy);
+    unsigned long getColorPixel() const;
 
     void draw3DRect(int x, int y, unsigned w, unsigned h, bool raised);
     void drawBorderW(int x, int y, unsigned w, unsigned h, bool raised);
@@ -169,6 +193,7 @@ public:
     unsigned rwidth() const { return rWidth; }
     unsigned rheight() const { return rHeight; }
     unsigned rdepth() const { return rDepth; }
+    Picture picture();
 
     void setClipRectangles(XRectangle *rect, int count);
     void setClipMask(Pixmap mask = None);
@@ -182,8 +207,40 @@ private:
 
     YColor   fColor;
     ref<YFont> fFont;
+    Picture fPicture;
     int xOrigin, yOrigin;
     unsigned rWidth, rHeight, rDepth;
+};
+
+/******************************************************************************/
+/******************************************************************************/
+
+class GraphicsBuffer {
+public:
+    GraphicsBuffer(YWindow* ywindow) :
+        fWindow(ywindow),
+        fNesting(0),
+        fPixmap(None),
+        fDim(0, 0)
+    {
+    }
+    ~GraphicsBuffer();
+    void paint(const class YRect& rect);
+    void paint();
+    void release();
+
+    YWindow* window() const { return fWindow; }
+    int nesting() const { return fNesting; }
+    bool operator!() const { return !fPixmap; }
+
+private:
+    YWindow* fWindow;
+    int fNesting;
+    Pixmap fPixmap;
+    YDimension fDim;
+
+    Pixmap pixmap();
+    void paint(Pixmap p, const class YRect& rect);
 };
 
 #endif

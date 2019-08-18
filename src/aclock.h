@@ -29,7 +29,6 @@ private:
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleCrossing(const XCrossingEvent &crossing);
     virtual void handleClick(const XButtonEvent &up, int count);
-    virtual void handleExpose(const XExposeEvent &e);
 
     virtual void updateToolTip();
     virtual bool handleTimer(YTimer *t);

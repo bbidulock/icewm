@@ -1,15 +1,10 @@
-#include "config.h"
-
-#include "ylib.h"
 #include "aworkspaces.h"
-#include "applet.h"
+#include "workspaces.h"
 #include "prefs.h"
-#include "wmmgr.h"
-#include "wmapp.h"
+#include "yxapp.h"
 #include "wmframe.h"
-#include "yrect.h"
+#include "udir.h"
 #include "ypaths.h"
-#include "wmwinlist.h"
 #include "wpixmaps.h"
 #include "intl.h"
 #include <math.h>
@@ -25,33 +20,106 @@ YColorName WorkspaceButton::activeButtonFg(&clrWorkspaceActiveButtonText);
 ref<YFont> WorkspaceButton::normalButtonFont;
 ref<YFont> WorkspaceButton::activeButtonFont;
 
-static ref<YResourcePaths> getResourcePaths() {
-    return YResourcePaths::subdirs("workspace", false);
-}
-
-WorkspaceButton::WorkspaceButton(long ws, YWindow *parent):
-    ObjectButton(parent, YAction())
+WorkspaceButton::WorkspaceButton(int ws, YWindow *parent, WorkspaceDragger* d):
+    super(parent, YAction()),
+    fWorkspace(ws),
+    fDelta(0),
+    fDownX(0),
+    fDragging(false),
+    fGraphics(this),
+    fPane(d)
 {
-    fWorkspace = ws;
+    setStyle(wsNoExpose);
+    setParentRelative();
     //setDND(true);
-    setTitle(manager->workspaceName(ws));
+    setTitle(name());
 }
 
-void WorkspaceButton::handleClick(const XButtonEvent &up, int /*count*/) {
+void WorkspaceButton::configure(const YRect2& r) {
+    if (r.resized() || !fGraphics) {
+        repaint();
+    }
+}
+
+void WorkspaceButton::repaint() {
+    fGraphics.paint();
+}
+
+void WorkspaceButton::paintBackground(Graphics& g, const YRect& r) {
+    if (taskbackPixbuf != null) {
+        g.drawGradient(taskbackPixbuf,
+                       r.x(), r.y(), r.width(), r.height(),
+                       0, 0, width(), height());
+    }
+    else if (taskbackPixmap != null) {
+        g.fillPixmap(taskbackPixmap,
+                     r.x(), r.y(), r.width(), r.height(),
+                     r.x(), r.y());
+    }
+    else {
+        g.setColor(taskBarBg);
+        g.fillRect(r.x(), r.y(), r.width(), r.height());
+    }
+}
+
+void WorkspaceButton::handleButton(const XButtonEvent &button) {
+    if (fDragging &&
+        button.type == ButtonPress &&
+        button.button == Button1)
+    {
+        fDragging = false;
+        fPane->stopDrag();
+    }
+    super::handleButton(button);
+}
+
+void WorkspaceButton::handleClick(const XButtonEvent &up, int count) {
     switch (up.button) {
+        case 1:
+            if (count == 2) {
+                if (fInput == 0) {
+                    fInput = new YInputLine(this, this);
+                }
+                if (fInput) {
+                    fInput->setSize(width(), height());
+                    fInput->setText(name(), false);
+                    fInput->show();
+                    fInput->setWindowFocus();
+                }
+                return;
+            }
+            break;
         case 2:
-            if (windowList)
-                windowList->showFocused(-1, -1);
+            manager->doWMAction(ICEWM_ACTION_WINDOWLIST);
             break;
         case 3:
             manager->popupWindowListMenu(this, up.x_root, up.y_root);
             break;
         case 4:
-            if(taskBarUseMouseWheel) manager->switchToPrevWorkspace(false);
+            if (taskBarUseMouseWheel)
+                manager->switchToPrevWorkspace(false);
             break;
         case 5:
-            if(taskBarUseMouseWheel) manager->switchToNextWorkspace(false);
+            if (taskBarUseMouseWheel)
+                manager->switchToNextWorkspace(false);
             break;
+    }
+    super::handleClick(up, count);
+}
+
+void WorkspaceButton::handleCrossing(const XCrossingEvent &e) {
+    if (fDragging &&
+        e.type == LeaveNotify &&
+        e.mode == NotifyUngrab &&
+        hasbit(e.state, Button1Mask))
+    {
+        fDragging = false;
+        fDelta = e.x_root - fDownX;
+        fPane->drag(fWorkspace, fDelta, false, true);
+    }
+
+    if (false == pagerShowPreview) {
+        super::handleCrossing(e);
     }
 }
 
@@ -66,11 +134,65 @@ void WorkspaceButton::handleDNDLeave() {
     repaint();
 }
 
+void WorkspaceButton::handleBeginDrag(const XButtonEvent& d, const XMotionEvent& m)
+{
+    if (d.button == Button1) {
+        fDragging = true;
+        fDownX = d.x_root;
+        fDelta = m.x_root - d.x_root;
+        fPane->drag(fWorkspace, fDelta, true, false);
+    }
+}
+
+void WorkspaceButton::handleDrag(const XButtonEvent& d, const XMotionEvent& m)
+{
+    if (d.button == Button1 && fDragging) {
+        fDelta = m.x_root - d.x_root;
+        PRECONDITION(fDownX == d.x_root);
+        fPane->drag(fWorkspace, fDelta, false, false);
+    }
+}
+
+void WorkspaceButton::handleEndDrag(const XButtonEvent& d, const XButtonEvent& u)
+{
+    if (d.button == Button1 && fDragging) {
+        fDragging = false;
+        fDelta = u.x_root - d.x_root;
+        PRECONDITION(fDownX == d.x_root);
+        fPane->drag(fWorkspace, fDelta, false, true);
+    }
+}
+
 bool WorkspaceButton::handleTimer(YTimer *t) {
     if (t == fRaiseTimer) {
         manager->activateWorkspace(fWorkspace);
     }
     return false;
+}
+
+void WorkspaceButton::inputReturn(YInputLine* input) {
+    if (input == fInput) {
+        cstring text(input->getText());
+        if (text != name()) {
+            csmart str(newstr(text));
+            swap(*&str, *workspaces[fWorkspace]);
+            manager->setDesktopNames();
+            fPane->relabel(fWorkspace);
+        }
+        fInput = 0;
+    }
+}
+
+void WorkspaceButton::inputEscape(YInputLine* input) {
+    if (input == fInput) {
+        fInput = 0;
+    }
+}
+
+void WorkspaceButton::inputLostFocus(YInputLine* input) {
+    if (input == fInput) {
+        fInput = 0;
+    }
 }
 
 void WorkspaceButton::actionPerformed(YAction /*action*/, unsigned int modifiers) {
@@ -85,170 +207,334 @@ void WorkspaceButton::actionPerformed(YAction /*action*/, unsigned int modifiers
     }
 }
 
-WorkspacesPane::WorkspacesPane(YWindow *parent): YWindow(parent) {
-    long w;
+void WorkspaceButton::setPosition(int x, int y) {
+    bool left = (x >= -int(width()));
+    bool right = x <= int((fPane->width() >= max(10U, width()) ?
+                           fPane->width() : desktop->width()));
+    int change((left && right) - visible());
+    if (change < 0)
+        hide();
+    YWindow::setPosition(x, y);
+    if (0 < change)
+        show();
+}
 
-    fWorkspaceButtonCount = workspaceCount;
+WorkspacesPane::WorkspacesPane(YWindow *parent):
+    super(parent),
+    fActive(0),
+    fDelta(0),
+    fMoved(0),
+    fSpeed(0),
+    fTime(zerotime()),
+    fMillis(16L),
+    fRepositioning(false),
+    fReconfiguring(false)
+{
+    setStyle(wsNoExpose);
+    setParentRelative();
+}
 
-    if (fWorkspaceButtonCount > 0)
-        fWorkspaceButton = new WorkspaceButton *[fWorkspaceButtonCount];
-    else
-        fWorkspaceButton = 0;
+void WorkspacesPane::resize(unsigned width, unsigned height) {
+    bool save(fReconfiguring);
+    fReconfiguring = true;
+    long limit = limitWidth(width);
+    setSize(unsigned(limit), height);
+    fReconfiguring = save;
 
-    if (fWorkspaceButton) {
-        ref<YResourcePaths> paths = getResourcePaths();
-
-        int ht = smallIconSize + 8;
-        int leftX = 0;
-
-        for (w = 0; w < fWorkspaceButtonCount; w++) {
-            WorkspaceButton *wk = new WorkspaceButton(w, this);
-            if (wk) {
-                if (pagerShowPreview) {
-                    wk->setSize((int) round((double)
-                                (ht * desktop->width() / desktop->height())), ht);
-                } else {
-                    ref<YImage> image
-                        (paths->loadImage("workspace/", workspaceNames[w]));
-                    if (image != null)
-                        wk->setImage(image);
-                    else
-                        wk->setText(workspaceNames[w]);
-                }
-
-                wk->updateName();
-            }
-            fWorkspaceButton[w] = wk;
-        }
-
-        for (w = 0; w < fWorkspaceButtonCount; w++) {
-            YButton *wk = fWorkspaceButton[w];
-            //leftX += 2;
-            if (wk) {
-                wk->setGeometry(YRect(leftX, 0, wk->width(), ht));
-                wk->show();
-                leftX += wk->width();
-            }
-        }
-        setSize(leftX, ht);
+    int excess = int(this->width()) - extent();
+    if (excess > 0) {
+        fMoved = min(0, fMoved + excess);
+        repositionButtons();
     }
 }
 
-WorkspacesPane::~WorkspacesPane() {
-    if (fWorkspaceButton) {
-        for (long w = 0; w < fWorkspaceButtonCount; w++)
-            delete fWorkspaceButton[w];
-        delete [] fWorkspaceButton;
+long WorkspacesPane::limitWidth(long paneWidth) {
+    const char* str = taskBarWorkspacesLimit;
+    long maxPixels = 0;
+    long maxButtons = 0;
+    long maxPercent = 0;
+    if (nonempty(str)) {
+        char* end = 0;
+        long num = strtol(str, &end, 0);
+        if (end && str < end && inrange(num, 0L, long(SHRT_MAX))) {
+            maxPixels = max(50L, long(desktop->width()) - x() - 20L);
+            maxButtons = maxPixels * count() / paneWidth;
+            maxPercent = 100L * maxPixels / desktop->width();
+            if (*end == ' ')
+                ++end;
+            if (*end == 'p' || *end == 'P') {
+                maxPixels = clamp(num, 0L, maxPixels);
+            }
+            if (*end == 0 || *end == 'b' || *end == 'B') {
+                maxButtons = clamp(num, 0L, maxButtons);
+            }
+            if (*end == '%' && inrange(num, 0L, 100L)) {
+                maxPercent = num;
+                maxPixels = maxPercent * desktop->width() / 100L;
+                maxButtons = maxPixels * count() / paneWidth;
+            }
+        }
     }
-    for (int i = workspaceCount; --i >= 0; --workspaceCount) {
-        delete[] workspaceNames[i]; workspaceNames[i] = 0;
+    if (isEmpty(str) || 0 == (maxPixels | maxButtons)) {
+        if (taskBarDoubleHeight && taskBarWorkspacesTop) {
+            maxPixels = long(desktop->width()) - x() - 20L;
+        } else {
+            maxPixels = (long(desktop->width()) - x() - 20L) / 2;
+            maxButtons = 20;    // old limit
+        }
     }
+
+
+    long limit = 0;
+    long activ = 0;
+    for (int k = fActive, pass = 0, third = 0; true; ) {
+        if (limit >= maxPixels && maxPixels > 0)
+            break;
+        if (activ >= maxButtons && maxButtons > 0)
+            break;
+
+        limit += fButtons[k]->width();
+        activ += 1;
+
+        if (pass == 0) {
+            if (--k < 0 || fButtons[k]->extent() <= 0) {
+                ++pass;
+                third = k + 1;
+                k = fActive;
+            }
+        }
+        if (pass == 1) {
+            if (++k >= count()) {
+                ++pass;
+                k = third;
+            }
+        }
+        if (pass == 2) {
+            if (--k < 0)
+                break;
+        }
+    }
+
+    return min(paneWidth, limit);
 }
 
 void WorkspacesPane::repositionButtons() {
     MSG(("WorkspacesPane::repositionButtons()"));
-    int ht = height();
-    int leftX = 0;
-    for (long w = 0; w < fWorkspaceButtonCount; w++) {
-        YButton *wk = fWorkspaceButton[w];
-        //leftX += 2;
-        if (wk) {
-            wk->setGeometry(YRect(leftX, 0, wk->width(), ht));
-            wk->show(); // no effect if already shown
-            leftX += wk->width();
+    fRepositioning = true;
+    int width = 0;
+    asmart<int> xs(new int[count()]);
+    IterType wk = iterator();
+    for (; ++wk; width += wk->width()) {
+        if (wk->height() != height())
+            wk->setSize(wk->width(), height());
+        xs[wk.where()] = width + fMoved;
+        if (xs[wk.where()] < wk->x()) {
+            wk->setPosition(xs[wk.where()], 0);
         }
     }
-    setSize(leftX, ht);
+    while (--wk) {
+        if (wk->x() < xs[wk.where()]) {
+            wk->setPosition(xs[wk.where()], 0);
+        }
+    }
+    if (fReconfiguring == false)
+        resize(width, height());
+    fRepositioning = false;
 }
 
 void WorkspacesPane::relabelButtons() {
-    ref<YResourcePaths> paths = getResourcePaths();
+    for (IterType wk = iterator(); ++wk; )
+        label(*wk);
 
-    for (long w = 0; w < fWorkspaceButtonCount; w++) {
-        WorkspaceButton *wk = fWorkspaceButton[w];
-        if (wk) {
-            if (false == pagerShowPreview) {
-                ref<YImage> image
-                    (paths->loadImage("workspace/",workspaceNames[w]));
-                if (image != null)
-                    wk->setImage(image);
-                else
-                    wk->setText(workspaceNames[w]);
-            }
-            wk->updateName();
-        }
-    }
+    if ( !pagerShowPreview)
+        repositionButtons();
 
-    repositionButtons();
+    paths = null;
 }
 
-void WorkspacesPane::configure(const YRect &r) {
-    YWindow::configure(r);
-
-    int ht = height();
-    int leftX = 0;
-    for (int w = 0; w < fWorkspaceButtonCount; w++) {
-        YButton *wk = fWorkspaceButton[w];
-        //leftX += 2;
-        if (wk) {
-            wk->setGeometry(YRect(leftX, 0, wk->width(), ht));
-            leftX += wk->width();
+void WorkspacesPane::configure(const YRect2& r) {
+    if ((fReconfiguring | fRepositioning) == false && r.resized()) {
+        fReconfiguring = true;
+        if (count() == 0) {
+            unsigned width = 0, height = max(smallIconSize + 8, r.height());
+            for (int i = 0, n = workspaceCount; i < n; ++i)
+                width += create(i, height)->width();
+            resize(width, height);
+            paths = null;
         }
+        else {
+            repositionButtons();
+        }
+        fReconfiguring = false;
     }
 }
 
 void WorkspacesPane::updateButtons() {
     MSG(("WorkspacesPane::udpateButtons(): updating %ld -> %ld",
-         fWorkspaceButtonCount,workspaceCount));
-    long fOldWorkspaceButtonCount = fWorkspaceButtonCount;
-    fWorkspaceButtonCount = workspaceCount;
-    if (fWorkspaceButtonCount != fOldWorkspaceButtonCount) {
-        WorkspaceButton **fOldWorkspaceButton = fWorkspaceButton;
-        fWorkspaceButton = new WorkspaceButton *[fWorkspaceButtonCount];
-        if (fWorkspaceButtonCount > fOldWorkspaceButtonCount) {
-            for (long w = 0; w < fOldWorkspaceButtonCount; w++)
-                fWorkspaceButton[w] = fOldWorkspaceButton[w];
-            int ht = smallIconSize + 8;
-            MSG(("WorkspacesPane::updateButtons(): adding new buttons"));
-            ref<YResourcePaths> paths = getResourcePaths();
-            for (long w = fOldWorkspaceButtonCount; w < fWorkspaceButtonCount; w++) {
-                WorkspaceButton *wk = new WorkspaceButton(w, this);
-                if (wk) {
-                    if (pagerShowPreview) {
-                        wk->setSize((int) round((double)
-                                    (ht * desktop->width() / desktop->height())), ht);
-                    } else {
-                        ref<YImage> image
-                            (paths->loadImage("workspace/", workspaceNames[w]));
-                        if (image != null)
-                            wk->setImage(image);
-                        else
-                            wk->setText(workspaceNames[w]);
-                    }
+         count(), workspaceCount));
 
-                    wk->updateName();
-                }
-                fWorkspaceButton[w] = wk;
-            }
-        } else
-        if (fWorkspaceButtonCount < fOldWorkspaceButtonCount) {
-            for (long w = 0; w < fWorkspaceButtonCount; w++)
-                fWorkspaceButton[w] = fOldWorkspaceButton[w];
-            MSG(("WorkspacesPane::updateButtons(): removing buttons"));
-            for (long w = fWorkspaceButtonCount; w < fOldWorkspaceButtonCount; w++) {
-                MSG(("WorkspacePane::updateButtons(): removing button for workspace %ld",w));
-                delete fOldWorkspaceButton[w];
-                MSG(("WorkspacePane::updateButtons(): removed  button for workspace %ld",w));
-            }
-        }
-        if (fOldWorkspaceButton != 0)
-            delete[] fOldWorkspaceButton;
+    if (count() > workspaceCount)
+        fButtons.shrink(max<int>(1, workspaceCount));
+
+    int width = extent() - fMoved;
+    for (int i = count(), n = workspaceCount; i < n; ++i) {
+        WorkspaceButton* wk = create(i, height());
+        wk->setPosition(width + fMoved, 0);
+        width += wk->width();
+        if (wk->extent() > 0 && wk->x() < max(width, int(this->width())))
+            wk->show();
+    }
+    resize(width, height());
+    int limit = int(this->width());
+    if (fMoved + width < limit) {
+        fMoved = limit - width;
         repositionButtons();
+    }
+
+    paths = null;
+}
+
+WorkspaceButton* WorkspacesPane::create(int workspace, unsigned height) {
+    WorkspaceButton *wk = new WorkspaceButton(workspace, this, this);
+    fButtons += wk;
+    if (pagerShowPreview) {
+        double scaled = double(height * desktop->width()) / desktop->height();
+        wk->setSize(unsigned(lround(scaled)), height);
+        wk->updateName();
+    } else {
+        label(wk);
+    }
+    if (workspace == 0)
+        wk->show();
+    return wk;
+}
+
+WorkspaceIcons::WorkspaceIcons() {
+    ref<YResourcePaths> dirs(YResourcePaths::subdirs("workspace", false));
+    for (int i = 0; i < dirs->getCount(); ++i) {
+        upath path(dirs->getPath(i) + "/workspace/");
+        for (adir dir(path.string()); dir.next(); ) {
+            files += (path + dir.entry()).string();
+        }
     }
 }
 
-WorkspaceButton *WorkspacesPane::workspaceButton(long n) {
-    return (fWorkspaceButton ? fWorkspaceButton[n] : NULL);
+ref<YImage> WorkspaceIcons::load(const char* name) {
+    int len = int(strlen(name));
+    if (len < 1)
+        return null;
+    for (YStringArray::IterType iter = files.iterator(); ++iter; ) {
+        const char* file = 1 + strrchr(*iter, '/');
+        if (0 == strncmp(file, name, len)) {
+            if (file[len] == 0 || file[len] == '.' || name[len - 1] == '.') {
+                ref<YImage> image(YImage::load(*iter));
+                if (image != null)
+                    return image;
+            }
+        }
+    }
+    cstring trim(mstring(name).trim());
+    return (trim.length() && trim != name) ? load(trim) : null;
+}
+
+void WorkspacesPane::label(WorkspaceButton* wk) {
+    if ( !pagerShowPreview) {
+        wk->setImage(paths->load(wk->name()));
+        wk->setText(wk->name());
+    }
+    wk->updateName();
+}
+
+void WorkspacesPane::relabel(int ws) {
+    label(fButtons[ws]);
+    repositionButtons();
+    paths = null;
+}
+
+void WorkspacesPane::setPressed(long ws, bool set) {
+    if (inrange<long>(1+ws, 1, count())) {
+        WorkspaceButton* wk = fButtons[int(ws)];
+        wk->setPressed(set);
+        if (set) {
+            fActive = int(ws);
+            if (wk->extent() > int(width())) {
+                fMoved -= wk->extent() - int(width());
+                repositionButtons();
+            }
+            else if (wk->x() < 0) {
+                fMoved -= wk->x();
+                repositionButtons();
+            }
+        }
+    }
+}
+
+void WorkspacesPane::drag(int ws, int dx, bool start, bool end) {
+    int previous = fMoved;
+    int farthest = extent() - fButtons[0]->x();
+    int lowerBound = min(0, int(width()) - farthest);
+    int upperBound = 0;
+    if (start) {
+        fDelta = dx;
+        fMoved = clamp(fMoved + dx, lowerBound, upperBound);
+        fSpeed = 0;
+        fTime = monotime();
+    }
+    else {
+        if (fDelta != dx) {
+            fMoved = clamp(fMoved + dx - fDelta, lowerBound, upperBound);
+            fDelta = dx;
+        }
+        timeval now(monotime());
+        if (fTime < now) {
+            double speed = (fMoved - previous) / toDouble(now - fTime);
+            fSpeed = (fSpeed + speed) * 0.5;
+            fTime = now;
+        }
+    }
+    if (fMoved != previous) {
+        repositionButtons();
+    }
+    if (end) {
+        fDragTimer->setTimer(fMillis, this, true);
+    }
+    else if (fDragTimer) {
+        fDragTimer = null;
+    }
+}
+
+bool WorkspacesPane::handleTimer(YTimer *t) {
+    if (t == fDragTimer) {
+        fDragTimer = null;
+        int delta = int(trunc(fSpeed * fMillis / 1000.0));
+        if (delta) {
+            drag(0, fDelta + delta, false, true);
+        }
+    }
+    else if (t == fRepaintTimer) {
+        fRepaintTimer = null;
+        if (fRepaintSpaces) {
+            fRepaintSpaces = false;
+            if (pagerShowPreview) {
+                for (IterType wk = iterator(); ++wk; ) {
+                    if (wk->visible() &&
+                        wk->extent() > 0 &&
+                        wk->x() < int(width()))
+                    {
+                        wk->repaint();
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+
+void WorkspacesPane::stopDrag() {
+    if (fDragTimer) {
+        fDragTimer = null;
+        fSpeed = 0;
+    }
 }
 
 ref<YFont> WorkspaceButton::getFont() {
@@ -281,8 +567,12 @@ YSurface WorkspaceButton::getSurface() {
                        workspacebuttonPixbuf));
 }
 
+const char* WorkspaceButton::name() const {
+    return workspaces[fWorkspace];
+}
+
 mstring WorkspaceButton::baseName() {
-    mstring name(my_basename(workspaceNames[fWorkspace]));
+    mstring name(my_basename(this->name()));
     name = name.trim();
     int dot = name.lastIndexOf('.');
     if (inrange(dot, 1, (int) name.length() - 2))
@@ -297,14 +587,15 @@ void WorkspaceButton::updateName() {
 void WorkspacesPane::repaint() {
     if (!pagerShowPreview) return;
 
-    for (int w = 0; w < fWorkspaceButtonCount; w++) {
-        fWorkspaceButton[w]->repaint();
-    }
+    fRepaintSpaces = true;
+    fRepaintTimer->setTimer(20L, this, true);
 }
 
-void WorkspaceButton::paint(Graphics &g, const YRect &/*r*/) {
+void WorkspaceButton::paint(Graphics &g, const YRect& r) {
+    paintBackground(g, r);
+
     if (!pagerShowPreview) {
-        YButton::paint(g, YRect(0,0,0,0));
+        YButton::paint(g, r);
         return;
     }
 

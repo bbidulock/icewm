@@ -32,8 +32,11 @@ set(icewm_man1_files
 	icewm.man
 	icewm-session.man
 	icewm-set-gnomewm.man
-	icewmtray.man
   )
+
+if(CONFIG_EXTERNAL_SYSTRAY)
+    list(APPEND icewm_man1_files icewmtray.man)
+endif()
 
 set(extra_man1_files
 	icehelp.man

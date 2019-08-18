@@ -26,9 +26,9 @@
 
 * [ ] add support for startup notification (_NET_STARTUP_INFO{,_BEGIN}).
 
-* [ ] add support for _NET_SYSTEM_TRAY_ORIENTATION.
+* [x] add support for _NET_SYSTEM_TRAY_ORIENTATION.
 
-* [ ] add support for _NET_SYSTEM_TRAY_VISUAL.
+* [x] add support for _NET_SYSTEM_TRAY_VISUAL.
 
 Old to do items:
 

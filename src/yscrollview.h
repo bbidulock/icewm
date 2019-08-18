@@ -27,8 +27,10 @@ public:
     YScrollable *getScrollable() { return scrollable; }
 
     void layout();
-    virtual void configure(const YRect &r);
+    virtual void configure(const YRect2 &r);
     virtual void paint(Graphics &g, const YRect &r);
+    virtual void repaint();
+    virtual void handleExpose(const XExposeEvent& expose) {}
 
 protected:
     void getGap(int &dx, int &dy);
