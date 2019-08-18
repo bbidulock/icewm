@@ -1,5 +1,1702 @@
 # created with git log --stat=76 -M -C -500|fmt -sct -w80
 
+commit 79f4b772060a97a9d358dd80bd39f6c34a606b93
+Merge: e5f7a8b0 c4dd3145
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Aug 18 23:19:04 2019 +0200
+
+    Merge branch 'icewm-1-4-BRANCH'
+
+commit c4dd3145fb95704849dc5259878461beb672a1e1
+Merge: 848cd242 509d6a33
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Aug 18 23:15:24 2019 +0200
+
+    Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
+    icewm-1-4-BRANCH
+
+commit 509d6a332579ec1346f4971c0cd5334f335dd861
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Aug 18 21:27:01 2019 +0200
+
+    Include X11/Xproto.h only when required.
+
+ src/wmapp.cc | 2 ++
+ src/yfull.h  | 3 ---
+ src/yxapp.cc | 2 ++
+ 3 files changed, 4 insertions(+), 3 deletions(-)
+
+commit 5867841c010b649faa0b2b296085100d94045211
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Aug 18 13:12:17 2019 +0200
+
+    add example
+
+ man/icewm-preferences.pod | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
+
+commit cfb42457f8589b564b83e18b94ae4948c263d99e
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Aug 18 13:12:06 2019 +0200
+
+    add --alpha
+
+ man/icewm-session.pod | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+commit 30dbfd6f33d89258ccff179fb27bebbee2c0c22d
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Aug 18 12:48:11 2019 +0200
+
+    Fix sizeto for sticky windows.
+
+ src/icesh.cc | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+commit a676b6663fc26e36083bd78fd7a7b197dfd064a8
+Author: Thomas Koller <tk120@protonmail.com>
+Date:   Sat Aug 17 22:02:17 2019 +0000
+
+    Translated using Weblate (German)
+
+    Currently translated at 99.1% (461 of 465 strings)
+
+ po/de.po | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
+
+commit b6fdc8cbf603dadcf1ae057e107c030b8a8e8656
+Author: Aleš Kastner <alkas@volny.cz>
+Date:   Sat Aug 17 18:44:24 2019 +0000
+
+    Translated using Weblate (Czech)
+
+    Currently translated at 99.8% (464 of 465 strings)
+
+ po/cs.po | 43 +++++++++++++------------------------------
+ 1 file changed, 13 insertions(+), 30 deletions(-)
+
+commit 3c0797ab64877ba3b101506e4aaa84277f34c8c5
+Author: Yasuhiko Kamata <belphegor@belbel.or.jp>
+Date:   Sat Aug 17 12:22:19 2019 +0000
+
+    Translated using Weblate (Japanese)
+
+    Currently translated at 100.0% (465 of 465 strings)
+
+ po/ja.po | 48 ++++++++++++++----------------------------------
+ 1 file changed, 14 insertions(+), 34 deletions(-)
+
+commit 10d20ad8e78cd8bb22bf9f4c15367f70b0df73a9
+Author: David Medina <medipas@gmail.com>
+Date:   Sat Aug 17 10:45:43 2019 +0000
+
+    Translated using Weblate (Catalan)
+
+    Currently translated at 100.0% (465 of 465 strings)
+
+ po/ca.po | 43 ++++++++++++-------------------------------
+ 1 file changed, 12 insertions(+), 31 deletions(-)
+
+commit 74a75900537887612433ad21098d8b3a6fdc8faa
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sat Aug 17 12:40:30 2019 +0200
+
+    update po files
+
+ po/ar.po     | 551 ++++++++++++++++++++++++++++-------------------------
+ po/be.po     | 536 +++++++++++++++++++++++++++-------------------------
+ po/bg.po     | 534 +++++++++++++++++++++++++++-------------------------
+ po/ca.po     | 555 +++++++++++++++++++++++++++++-------------------------
+ po/cs.po     | 555 +++++++++++++++++++++++++++++-------------------------
+ po/da.po     | 559 +++++++++++++++++++++++++++++-------------------------
+ po/de.po     | 555 +++++++++++++++++++++++++++++-------------------------
+ po/el.po     | 551 ++++++++++++++++++++++++++++-------------------------
+ po/en.po     | 511 ++++++++++++++++++++++++++------------------------
+ po/es.po     | 551 ++++++++++++++++++++++++++++-------------------------
+ po/fi.po     | 534 +++++++++++++++++++++++++++-------------------------
+ po/fr.po     | 551 ++++++++++++++++++++++++++++-------------------------
+ po/he.po     | 526 +++++++++++++++++++++++++++------------------------
+ po/hr.po     | 518 ++++++++++++++++++++++++++------------------------
+ po/hu.po     | 560 +++++++++++++++++++++++++++++-------------------------
+ po/icewm.pot | 513 ++++++++++++++++++++++++++------------------------
+ po/id.po     | 534 +++++++++++++++++++++++++++-------------------------
+ po/it.po     | 551 ++++++++++++++++++++++++++++-------------------------
+ po/ja.po     | 555 +++++++++++++++++++++++++++++-------------------------
+ po/ko.po     | 551 ++++++++++++++++++++++++++++-------------------------
+ po/lt.po     | 534 +++++++++++++++++++++++++++-------------------------
+ po/lv.po     | 534 +++++++++++++++++++++++++++-------------------------
+ po/mk.po     | 534 +++++++++++++++++++++++++++-------------------------
+ po/nb.po     | 534 +++++++++++++++++++++++++++-------------------------
+ po/nl.po     | 555 +++++++++++++++++++++++++++++-------------------------
+ po/no.po     | 534 +++++++++++++++++++++++++++-------------------------
+ po/pl.po     | 551 ++++++++++++++++++++++++++++-------------------------
+ po/pt_BR.po  | 551 ++++++++++++++++++++++++++++-------------------------
+ po/ro.po     | 534 +++++++++++++++++++++++++++-------------------------
+ po/ru.po     | 563 ++++++++++++++++++++++++++++++-------------------------
+ po/sk.po     | 555 +++++++++++++++++++++++++++++-------------------------
+ po/sl.po     | 534 +++++++++++++++++++++++++++-------------------------
+ po/sv.po     | 551 ++++++++++++++++++++++++++++-------------------------
+ po/tr.po     | 534 +++++++++++++++++++++++++++-------------------------
+ po/uk.po     | 540 +++++++++++++++++++++++++++-------------------------
+ po/vi.po     | 534 +++++++++++++++++++++++++++-------------------------
+ po/zh_CN.po  | 551 ++++++++++++++++++++++++++++-------------------------
+ po/zh_TW.po  | 551 ++++++++++++++++++++++++++++-------------------------
+ 38 files changed, 11028 insertions(+), 9597 deletions(-)
+
+commit 2d642d0229d74b2ad67ce26b1ca371f16d682c78
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sat Aug 17 12:22:19 2019 +0200
+
+    Require xrender xcomposite xdamage xfixes.
+
+ src/CMakeLists.txt | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
+
+commit 18368daa9121e046e0e26bafa9caacfb040df8aa
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sat Aug 17 11:27:53 2019 +0200
+
+    Support more extensions: composite, damage, render.
+    Support rgba colors. Render systray icons with composite
+    when in 32-bit alpha mode.
+
+ man/icewm-session.pod |   6 +-
+ src/apppstatus.h      |   3 +-
+ src/decorate.cc       |   4 +-
+ src/wmapp.cc          |  39 ++++--
+ src/wmclient.cc       |  33 ++---
+ src/wmmgr.cc          |   6 +-
+ src/wmmgr.h           |   1 +
+ src/wmtaskbar.cc      |   7 +-
+ src/wmtaskbar.h       |   2 +-
+ src/ycolor.cc         |  44 ++++++-
+ src/yimage.h          |   2 +
+ src/yimage_gdk.cc     |  17 ++-
+ src/ylib.h            |   6 +-
+ src/ypaint.cc         | 101 ++++++++++-----
+ src/ypaint.h          |   5 +-
+ src/ypixmap.cc        |  26 +++-
+ src/ypixmap.h         |   4 +
+ src/ywindow.cc        |  46 ++++++-
+ src/ywindow.h         |  41 ++++--
+ src/yxapp.cc          | 318 ++++++++++++++++++++++++----------------------
+ src/yxapp.h           |  84 ++++++++----
+ src/yxembed.cc        |  11 +-
+ src/yxembed.h         |   3 +-
+ src/yxtray.cc         | 155 ++++++++++++----------
+ src/yxtray.h          |  13 +-
+ 25 files changed, 614 insertions(+), 363 deletions(-)
+
+commit e58dca1db8a5e1989e963ccfe2a4fd9d35f36798
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sat Aug 17 10:26:38 2019 +0200
+
+    Enable STD_OPTIONS if internal.
+
+ src/icetray.cc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+commit ab65ffd090dedd2a97d9755b1f3c91bece39f6ef
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sat Aug 17 10:26:01 2019 +0200
+
+    +hexDigit.
+
+ src/ascii.h | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+commit 706216ef3efc157b6c499824b1f03c829802365d
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sat Aug 17 10:17:14 2019 +0200
+
+    Require xrender xcomposite xdamage xfixes.
+
+ configure.ac | 15 +--------------
+ 1 file changed, 1 insertion(+), 14 deletions(-)
+
+commit 7eacc2e97e8888c39fe249da9d2f809ef74ce7e6
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sat Aug 17 10:06:43 2019 +0200
+
+    alpha, splash, extensions.
+
+ man/icewm.pod | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
+
+commit b30d90018e8bbda65736257e9ac400c07ec8844d
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sat Aug 17 09:43:29 2019 +0200
+
+    Add pid and sizeto.
+
+ man/icesh.pod |  42 +++++++++---
+ src/icesh.cc  | 201 ++++++++++++++++++++++++++++++++++++++++++++----------
+ 2 files changed, 198 insertions(+), 45 deletions(-)
+
+commit a42911288112ede0fb900f79c6a9cb5c6f9e4d15
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Tue Aug 13 11:23:06 2019 +0200
+
+    Add 'WorkspaceNames' for issue #371.
+
+ man/icewm-preferences.pod | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+commit 8890204652a630afb40736606ca60b1fb41f1403
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Aug 12 21:37:07 2019 +0200
+
+    fix over/back.
+
+ man/icewm.pod | 4 ----
+ 1 file changed, 4 deletions(-)
+
+commit ae7a25a7235f335a1d2ce4ab393122d5acefa6cb
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Aug 12 21:35:04 2019 +0200
+
+    No longer build icewmtray by default.
+
+ configure.ac       |  1 +
+ man/CMakeLists.txt |  5 ++++-
+ man/Makefile.am    |  8 ++++++--
+ src/Makefile.am    | 10 ++++++----
+ 4 files changed, 17 insertions(+), 7 deletions(-)
+
+commit c62a733185b5044997794debd8a1b274c7572e1f
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Aug 11 21:17:53 2019 +0200
+
+    Correction for updateMwmHints.
+
+ src/wmframe.cc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+commit f570875e21360d599b7b4a0fd479a389c476e7ff
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Aug 11 21:09:02 2019 +0200
+
+    Create a new property when needed.
+
+ src/icesh.cc | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+commit f7571b1391170315f33502f52b48e3cbb289ebb9
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Aug 11 19:05:35 2019 +0200
+
+    Add "motif", "symbols". Better expression parser.
+
+ man/icesh.pod |  45 ++++++--
+ src/icesh.cc  | 299 +++++++++++++++++++++++++++++++++++++++++++++++++-----
+ 2 files changed, 310 insertions(+), 34 deletions(-)
+
+commit e75a5e8f5e6b7c705e9b20d475254df0ea6b731a
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Aug 11 18:59:53 2019 +0200
+
+    Repaint after relayout.
+
+ src/wmtitle.cc | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit b95f1953d2680c8e786839d144d65e06520e451d
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Aug 11 18:59:28 2019 +0200
+
+    When Mwm changes then relayout.
+
+ src/wmframe.cc | 3 +++
+ 1 file changed, 3 insertions(+)
+
+commit 81a9393265f8d73589ab67e8e9812bf426daea7d
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Aug 11 18:54:20 2019 +0200
+
+    Use SetWMProperties and set _NET_WM_PID.
+
+ src/wmtaskbar.cc | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
+
+commit c659a1f166bb3bef55a422ca80ef26b6b711dca2
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Aug 11 18:53:08 2019 +0200
+
+    add ClassHint constructor.
+
+ src/wmclient.h | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+commit 47701f486c3614ea7affd09112dd3d6bba00bbe0
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Aug 11 18:52:43 2019 +0200
+
+    simplify setWinHintsHint.
+
+ src/wmclient.cc | 11 +----------
+ 1 file changed, 1 insertion(+), 10 deletions(-)
+
+commit 222a8fb51264cb6323fec11160e30fca86511028
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Aug 11 18:52:02 2019 +0200
+
+    Hostname is already set by SetWMProperties.
+
+ src/wmapp.cc | 11 -----------
+ 1 file changed, 11 deletions(-)
+
+commit 49fed5b03827a04a610be9f14019212e7fac7a05
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Aug 11 18:50:03 2019 +0200
+
+    Support C++98.
+
+ src/base.h    | 4 +++-
+ src/ref.h     | 2 ++
+ src/ystring.h | 2 ++
+ 3 files changed, 7 insertions(+), 1 deletion(-)
+
+commit 950582ac118b8384557ea788db78fc2261cc22e1
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Aug 11 18:47:23 2019 +0200
+
+    Mwm flags member functions.
+
+ src/MwmUtil.h | 61 +++++++++++++++++++++++++++++++++++++------------------
+ 1 file changed, 41 insertions(+), 20 deletions(-)
+
+commit 5e16a20d4d616c446aa449655c8b7e2e433305a4
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Aug 11 17:51:15 2019 +0200
+
+    Ensure geometry is valid in layoutClient.
+
+ src/decorate.cc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit 2fac35806b61206491ebb199c469ec60996d7575
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Thu Aug 8 07:40:53 2019 +0200
+
+    don't call virtual function in constructor.
+
+ src/icehelp.cc  | 13 ++++++-------
+ src/icesound.cc | 15 ++++++++++++---
+ src/ytooltip.cc | 14 ++++++++------
+ src/ytooltip.h  |  2 +-
+ 4 files changed, 27 insertions(+), 17 deletions(-)
+
+commit f4d761164cdaa84e98658cbbf7010b698473d83d
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Thu Aug 8 07:37:22 2019 +0200
+
+    reset desktop when done.
+
+ src/ywindow.cc | 10 ++++------
+ src/ywindow.h  |  2 +-
+ 2 files changed, 5 insertions(+), 7 deletions(-)
+
+commit f3d48549a22a18035d0c2f4bacccf3ab12fe9d3b
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Thu Aug 8 07:37:03 2019 +0200
+
+    cache image.
+
+ src/ypixmap.cc | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
+
+commit 3e2b3f97bb3ba1c9f27bdb3640d5300bc90757d1
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Thu Aug 8 07:36:30 2019 +0200
+
+    check if null.
+
+ src/yfontxft.cc | 3 +++
+ 1 file changed, 3 insertions(+)
+
+commit af1238ab88c3968f0893aa8954247dd32fd98664
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Thu Aug 8 07:36:16 2019 +0200
+
+    use bool.
+
+ src/ybutton.cc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit 8b922b383340305b1bc22612cb4bb7509ec5541c
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Thu Aug 8 07:35:48 2019 +0200
+
+    use bool.
+
+ src/aapm.cc       | 16 ++++++++--------
+ src/apppstatus.cc |  2 +-
+ src/atasks.cc     |  2 +-
+ src/globit.c      |  6 +++---
+ src/wmclient.cc   |  2 +-
+ src/wmmgr.cc      | 20 ++++++++++----------
+ 6 files changed, 24 insertions(+), 24 deletions(-)
+
+commit 770da7d063a0f38594a63bc840e80c06d458d9c6
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Aug 5 17:10:28 2019 +0200
+
+    Don't pass a nullptr to mem functions.
+
+ src/yarray.cc | 14 ++++++--------
+ src/yarray.h  |  4 +++-
+ 2 files changed, 9 insertions(+), 9 deletions(-)
+
+commit 6ce96b1ff277284834e7005e21ff1289cbc5aa32
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Aug 5 17:07:49 2019 +0200
+
+    Don't apply ahwm hack if a task tooltip is created for issue #370.
+
+ src/wmtaskbar.cc | 31 ++++++++++++++++---------------
+ 1 file changed, 16 insertions(+), 15 deletions(-)
+
+commit dd7612022f1a704f68a48e60f367fb70230cbf07
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Aug 5 17:07:21 2019 +0200
+
+    Order global menus in reverse order of destruction.
+
+ src/wmapp.cc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit 901426e0ddbe7f12221460640ce642533bcb4d6d
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Aug 5 17:06:09 2019 +0200
+
+    logCrossing details.
+
+ src/misc.cc | 22 ++++++++++++++++------
+ 1 file changed, 16 insertions(+), 6 deletions(-)
+
+commit 314fe62e3f0dd7a6be2c0c9631e86fd20baa9c80
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Aug 5 17:05:42 2019 +0200
+
+    More robust checking of workspace info.
+
+ src/icesh.cc | 37 ++++++++++++++++++++-----------------
+ 1 file changed, 20 insertions(+), 17 deletions(-)
+
+commit 2c803990d75fc34678072cda1d2c722466d2d394
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Aug 5 17:05:06 2019 +0200
+
+    avoid null-dereference.
+
+ src/fdomenu.cc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+commit e4759afdcf644f1a45936d8f94fcae601eb4619e
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Jul 29 22:08:27 2019 +0200
+
+    nest grabs.
+
+ src/wmframe.cc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit de33783515f6432068eb964b6d8e08cbe96c19f9
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Jul 29 22:04:32 2019 +0200
+
+    Add winoption startClose to immediately close unwanted windows.
+
+ man/icewm-winoptions.pod | 21 ++++++++++++++++-----
+ src/wmframe.h            |  1 +
+ src/wmmgr.cc             |  5 +++++
+ src/wmoption.cc          |  1 +
+ 4 files changed, 23 insertions(+), 5 deletions(-)
+
+commit cf459a4e6435f9b6aa0ef90048534ea2647e45d4
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Jul 29 21:33:47 2019 +0200
+
+    Rewrite getNetWMIcon succinctly.
+
+ src/wmclient.cc | 100 +++++++++++++---------------------------------------
+ 1 file changed, 24 insertions(+), 76 deletions(-)
+
+commit e9aa6e0f48b41e6bb96a4c5504216543564a8b72
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Jul 29 21:33:00 2019 +0200
+
+    Complete properties list.
+
+ src/wmclient.cc | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+commit 12da4034b771fdc9fbad5244187776c6e89eac45
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Jul 28 20:02:33 2019 +0200
+
+    _XEMBED_INFO has property type _XEMBED_INFO.
+
+ src/icesh.cc   | 2 +-
+ src/yxembed.cc | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+commit da2a36ba1448aee1734a64bd9cc2fd3c1a4dd1ba
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Jul 28 05:03:22 2019 +0200
+
+    No need to reparent MiniIcon anymore.
+
+ src/wmminiicon.cc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit 58c9d203a69ee0972c01c0a0b96929f644cdb6b4
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Jul 28 05:01:38 2019 +0200
+
+    keep showing 24-bit icons in 32-bit mode.
+
+ src/wmframe.cc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 110711844cf2d1c7d067fc1ada480606ce798176
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Jul 28 05:00:13 2019 +0200
+
+    compile on OpenBSD.
+
+ src/aapm.cc | 11 ++++++++---
+ src/yapp.cc |  2 +-
+ 2 files changed, 9 insertions(+), 4 deletions(-)
+
+commit 5b02f4ec5972ce28057a53b9c0bb9669c9628115
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Jul 28 04:54:09 2019 +0200
+
+    reduce resizing yicons.
+
+ src/yicon.cc | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
+
+commit 3d1daefd67d2b8c6e41a3a0b40b1a52ae4c12d10
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Jul 28 04:44:05 2019 +0200
+
+    initialize fForceImmediate.
+
+ src/atasks.cc | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+commit 201d88142941c9596109200488cc2239c18cb1d7
+Author: Eduard Bloch <blade@debian.org>
+Date:   Sun Jul 28 00:55:11 2019 +0200
+
+    [cmake] Make sure to preinclude config.h
+
+    Enforce a behavior similar to automake driven builds for now, fixing an
+    inexplicable crash with hardening flags set.
+
+ src/CMakeLists.txt | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+commit a29d2c8566da4b9cc694ac9cf857ede21d80f3da
+Author: Eduard Bloch <blade@debian.org>
+Date:   Sat Jul 27 16:31:26 2019 +0200
+
+    Build fix (XTextProperty definition)
+
+    Was broken since 4d2ddd85d31bbe7fac82b6a9376cfa7052f48841 at least for
+    libx11-dev 2:1.6.7-1
+
+ src/yxapp.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit fb97bf3ffe7db03001bc4c936ec935bb960b1b27
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Thu Jul 25 06:07:16 2019 +0200
+
+    add RandR logging for #296.
+
+ src/base.h     |  5 ++++
+ src/misc.cc    | 80 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ src/wmapp.cc   | 27 ++++++++++++++----
+ src/ywindow.cc |  6 +++-
+ src/ywindow.h  | 22 ++++++---------
+ src/yxapp.cc   | 57 ++++++++++++++++++--------------------
+ 6 files changed, 146 insertions(+), 51 deletions(-)
+
+commit c0394d75f0b26deb9016bc4b640fe047adddf084
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Tue Jul 23 22:29:57 2019 +0200
+
+    update gravity filtering to the win_gravity field of WM_NORMAL_HINTS for
+    issue #351.
+
+ man/icesh.pod | 24 ++++++++++++++++----
+ src/icesh.cc  | 67 +++++++++++++++++++++++++++++++++++++++++++++++++++----
+ 2 files changed, 83 insertions(+), 8 deletions(-)
+
+commit 6d139186b9256dadeceaeb8581e3f302bc3eecda
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Tue Jul 23 11:03:49 2019 +0200
+
+    use XSetWMProperties.
+
+ src/icehelp.cc | 29 ++++++++++++++---------------
+ 1 file changed, 14 insertions(+), 15 deletions(-)
+
+commit 4d2ddd85d31bbe7fac82b6a9376cfa7052f48841
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Tue Jul 23 11:01:46 2019 +0200
+
+    YTextProperty
+
+ src/yxapp.cc | 12 ++++++++++++
+ src/yxapp.h  |  6 ++++++
+ 2 files changed, 18 insertions(+)
+
+commit 320dd01e65bd6f6d143f55a9fb61175b892c03cd
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Tue Jul 23 10:43:34 2019 +0200
+
+    Support window gravity for issue #351.
+
+ man/icesh.pod |  52 +++++++++++++++++++++++----
+ src/icesh.cc  | 104 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 150 insertions(+), 6 deletions(-)
+
+commit d41079a667f8b9efbe440e3d1190db26d91c5a8a
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Jul 22 19:33:11 2019 +0200
+
+    remove empty if statement
+
+ src/wmtaskbar.cc | 2 --
+ 1 file changed, 2 deletions(-)
+
+commit 42f6a21d99144d850631f87e5b71a3b81273f01b
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Jul 22 19:11:36 2019 +0200
+
+    Add "systray" and "xembed" commands to list the system tray.
+
+ man/icesh.pod | 11 ++++++++++-
+ src/icesh.cc  | 51 +++++++++++++++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 59 insertions(+), 3 deletions(-)
+
+commit d48a3967bf9801a75ba8673fd54baf154a96bdcb
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Jul 22 18:55:57 2019 +0200
+
+    Use buffered drawing for all applets.
+
+ src/aapm.cc       | 57 +++++++++++++++++++++++++++++++--------------------
+ src/aapm.h        | 13 ++++++++----
+ src/aclock.cc     | 11 ++--------
+ src/aclock.h      |  1 -
+ src/acpustatus.cc |  6 +++---
+ src/amailbox.cc   | 20 +++++++++++++++---
+ src/amailbox.h    | 14 ++++++++++---
+ src/amemstatus.cc |  4 ++--
+ src/applet.cc     | 48 +++++++++++++++++++------------------------
+ src/applet.h      | 10 ++++-----
+ src/apppstatus.cc | 16 ++++++---------
+ 11 files changed, 111 insertions(+), 89 deletions(-)
+
+commit 42773552c607936ac513c3a3444bf2e4464085b5
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sat Jul 20 09:05:28 2019 +0200
+
+    prevent a compiler warning
+
+ src/wmtaskbar.cc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 71c3872d5286ae9ac347430a8f022db7cf3dffde
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sat Jul 20 09:04:51 2019 +0200
+
+    Warn at most once per missing font.
+
+ src/yfont.cc     | 29 +++++++++++++++++++----------
+ src/yfontcore.cc | 15 +++++++++------
+ 2 files changed, 28 insertions(+), 16 deletions(-)
+
+commit e4eaf365fbbf4fb0f4e3b862d8386a685f19111b
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sat Jul 20 09:03:28 2019 +0200
+
+    Prevent premature drawing.
+
+ src/ylistbox.cc | 3 +++
+ 1 file changed, 3 insertions(+)
+
+commit ce95ec176a7b8ab78603ea7bf784bae3833d193e
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Wed Jul 17 19:06:40 2019 +0200
+
+    buffered draw icehelp
+
+ src/icehelp.cc | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+commit 6c25a3494a9a51f6d6fe355a6e62f87dd54249f4
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Wed Jul 17 19:06:34 2019 +0200
+
+    buffered draw window list
+
+ src/ylistbox.cc    | 130 ++++++++++++++++++++++++++++++++++---------------
+ src/ylistbox.h     |  22 +++++++--
+ src/yscrollbar.cc  |  30 ++++++++++++
+ src/yscrollbar.h   |   5 ++
+ src/yscrollview.cc |  12 +++--
+ src/yscrollview.h  |   4 +-
+ 6 files changed, 155 insertions(+), 48 deletions(-)
+
+commit 55912804bd7360e421c9b6a70dc646e7db85d7ee
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Wed Jul 17 19:04:34 2019 +0200
+
+    buffer tooltip (for net/cpu apps).
+
+ src/ytooltip.cc | 12 +++++++++++-
+ src/ytooltip.h  |  3 +++
+ 2 files changed, 14 insertions(+), 1 deletion(-)
+
+commit 3a40b304ce362dccfa63e7997fc3341591a7d1a6
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Wed Jul 17 19:01:53 2019 +0200
+
+    BSD sighandler_t
+
+ src/icesh.cc | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+commit 056b8ada7bffb6e8c94d5ef5839fdef89db8cce6
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Jul 15 17:51:25 2019 +0200
+
+    buffered drawing for task buttons
+
+ src/atasks.cc | 109 ++++++++++++++++++++++++++++++++++++++++--------------
+ src/atasks.h  |  17 +++++++--
+ 2 files changed, 95 insertions(+), 31 deletions(-)
+
+commit dbe55d71c1992d954ca6d581b6042ebd631ac86b
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Jul 15 17:51:15 2019 +0200
+
+    buffered drawing for workspace buttons
+
+ src/aworkspaces.cc | 21 +++++++++------------
+ src/aworkspaces.h  | 13 +++++++------
+ 2 files changed, 16 insertions(+), 18 deletions(-)
+
+commit ec7d8163becf87b845639590f2d21e2e7002be02
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Jul 15 17:43:11 2019 +0200
+
+    buffered menu drawing.
+
+ src/ymenu.cc | 70 ++++++++++++++++++++++++++++++++++++++++++++------------
+ src/ymenu.h  | 11 +++++----
+ 2 files changed, 63 insertions(+), 18 deletions(-)
+
+commit 90d2dcefbe61f2a1baeaffb6b691330ebf8c8fee
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Jul 15 17:13:11 2019 +0200
+
+    _NET_SYSTEM_TRAY_ORIENTATION and _NET_SYSTEM_TRAY_VISUAL are now supported.
+
+ COMPLIANCE | 4 ++--
+ TODO       | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+commit 42f332461c01edb51634859baad5da90599e4523
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Jul 14 20:55:33 2019 +0200
+
+    update workspace buttons only when idle.
+
+ src/wmtaskbar.cc | 9 +++++++++
+ src/wmtaskbar.h  | 3 ++-
+ 2 files changed, 11 insertions(+), 1 deletion(-)
+
+commit 85c02c34ab9f6e06837011b836713614d6920443
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Jul 14 16:32:52 2019 +0200
+
+    nullptr portability.
+
+ src/ystring.h | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+commit dca94b943ea3e200cbd9b43638af0b17268cf2ec
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Fri Jul 12 20:36:23 2019 +0200
+
+    prevent expose events
+
+ src/yinput.cc | 1 +
+ src/yxtray.cc | 1 +
+ 2 files changed, 2 insertions(+)
+
+commit 08cd2733e15a5347daaa5eaf245161bf51433305
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Fri Jul 12 20:27:55 2019 +0200
+
+    Keep focus change for wsNoExpose.
+
+ src/ywindow.cc | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+commit 9ae9da7285730f2071e810950cbf29c069340e6f
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Fri Jul 12 20:23:32 2019 +0200
+
+    support _NET_SYSTEM_TRAY_ORIENTATION, _NET_SYSTEM_TRAY_VISUAL.
+
+ src/wmapp.cc | 46 ++++++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 38 insertions(+), 8 deletions(-)
+
+commit 5affb0168dd441ff372eef7098d65ef485bbbf98
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Fri Jul 12 20:23:09 2019 +0200
+
+    support opacity in color specifications as prefix "[100]"
+
+ src/ycolor.cc | 91 +++++++++++++++++++++++++++++++++++++++++--------------
+ src/ycolor.h  |  8 ++---
+ 2 files changed, 73 insertions(+), 26 deletions(-)
+
+commit 06cc69462b05840fe137a073928f1de4361c495a
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Fri Jul 12 20:21:13 2019 +0200
+
+    buffer yinput
+
+ src/yinput.cc    | 12 ++++++++++++
+ src/yinputline.h |  3 +++
+ 2 files changed, 15 insertions(+)
+
+commit fd53b4cc177bf2d471efdbad63ea7d2fc7bcbba0
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Fri Jul 12 20:20:38 2019 +0200
+
+    Opaqueness
+
+ src/ypaint.h | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+commit b042c54eadbeed929d5832f9e47331377357f7b7
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Wed Jul 10 19:14:13 2019 +0200
+
+    prevent useless expose events
+
+ src/objbutton.h     | 2 +-
+ src/wmtaskbar.cc    | 1 +
+ src/wmwinlist.cc    | 1 +
+ src/yactionbutton.h | 1 +
+ src/ydialog.cc      | 1 +
+ src/yxtray.cc       | 3 ++-
+ 6 files changed, 7 insertions(+), 2 deletions(-)
+
+commit f5eabd7a0db03c61fb75f8fd88129ad3a2565d1f
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Wed Jul 10 19:13:31 2019 +0200
+
+    buffered wm status draw
+
+ src/wmswitch.cc | 6 +++++-
+ src/wmswitch.h  | 2 ++
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+
+commit 6b12633d8306a6064477c24b84ba8bc0a094eac5
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Wed Jul 10 19:13:03 2019 +0200
+
+    buffered wm status draw
+
+ src/wmstatus.cc | 10 ++++++----
+ src/wmstatus.h  |  3 ++-
+ 2 files changed, 8 insertions(+), 5 deletions(-)
+
+commit 2771c0c2048a04773ae3008cac183eeb2a7a2aee
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Wed Jul 10 19:12:24 2019 +0200
+
+    paint splash
+
+ src/wmapp.cc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit 7492275d6380faf5a93cef1bc648a42d5a395506
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Wed Jul 10 19:12:06 2019 +0200
+
+    fix includes
+
+ src/wmabout.cc | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
+
+commit 1137119d25c55086ffe3f4ac48b3767596e6af0e
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Wed Jul 10 19:11:42 2019 +0200
+
+    change default WorkspaceStatusTime to 700
+
+ src/default.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 3c6263ee7fd989f82aefb8b6fdc3dccbcbaf1903
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Wed Jul 10 07:18:02 2019 +0200
+
+    draw labels and dialogs buffered.
+
+ src/wmdialog.cc     | 31 ++++++++++++++++++++++++++++++-
+ src/wmdialog.h      |  2 ++
+ src/yactionbutton.h |  5 +++++
+ src/ydialog.cc      | 30 +++++++++++++++---------------
+ src/ydialog.h       |  8 +++++++-
+ src/ylabel.cc       | 24 ++++++++++++++++++++++--
+ src/ylabel.h        |  4 ++++
+ src/ymsgbox.cc      |  5 +++--
+ 8 files changed, 88 insertions(+), 21 deletions(-)
+
+commit 8a96ab8175b3f1e242f16c3f60eb50299af6ff77
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Wed Jul 10 07:17:42 2019 +0200
+
+    reduce number of relayouts.
+
+ src/wmtaskbar.cc | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
+
+commit ddd1e06f2525241d0aae189d8b51be9737286419
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Tue Jul 9 21:47:54 2019 +0200
+
+    prevent X errors.
+
+ src/yxembed.cc | 3 ++-
+ src/yxtray.cc  | 4 ----
+ 2 files changed, 2 insertions(+), 5 deletions(-)
+
+commit e7f3e986251c60a0676304140d02b24ab1b47753
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Tue Jul 9 20:38:21 2019 +0200
+
+    Buffered titlebar draw.
+
+ src/wmbutton.cc | 19 +++++++++++++++----
+ src/wmbutton.h  |  3 +++
+ src/wmframe.cc  |  1 +
+ src/wmtitle.cc  | 32 ++++++++++++++++++++++++++------
+ src/wmtitle.h   |  5 +++++
+ 5 files changed, 50 insertions(+), 10 deletions(-)
+
+commit 2cc36e7515ef4baf191c56d685549c805957ece2
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Tue Jul 9 19:27:04 2019 +0200
+
+    Only layout frame if resized.
+
+ src/decorate.cc | 6 ++++--
+ src/wmframe.h   | 2 +-
+ 2 files changed, 5 insertions(+), 3 deletions(-)
+
+commit d78cd80e54d6170f696d8e2173ab70609b9af65f
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Tue Jul 9 19:08:01 2019 +0200
+
+    correlate output to input.
+
+ src/wmconfig.cc | 10 +++++++---
+ src/wmconfig.h  |  1 +
+ 2 files changed, 8 insertions(+), 3 deletions(-)
+
+commit 4ebec613fb6e468218e80d5a5ab3442f2b9ee651
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Tue Jul 9 18:48:23 2019 +0200
+
+    All frames same visual, defer client visual and bit-depth to container.
+
+ src/wmcontainer.cc |  9 ++++++---
+ src/wmcontainer.h  |  4 +++-
+ src/wmframe.cc     | 33 +++++++++++++++++----------------
+ src/wmframe.h      |  3 ++-
+ src/wmmgr.cc       | 24 +++++++-----------------
+ 5 files changed, 35 insertions(+), 38 deletions(-)
+
+commit 58932f7bcb8114cb3aa99671305c5b68fdd9ab40
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Tue Jul 9 07:41:08 2019 +0200
+
+    taskbar use buffered graphics, objectbuttons, delay menu.
+
+ src/movesize.cc  |   9 ++--
+ src/wmframe.cc   |   2 +-
+ src/wmtaskbar.cc | 116 +++++++++++++++++++++++++++------------------------
+ src/wmtaskbar.h  |  29 ++++++-------
+ 4 files changed, 78 insertions(+), 78 deletions(-)
+
+commit 2dc961d60f7ba089b737715d7a83e92987a7d7d9
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Tue Jul 9 07:34:39 2019 +0200
+
+    buffered object buttons
+
+ src/browse.h    |   2 +
+ src/objbar.cc   | 103 ++++++++++++++++++++++++++++++++++------------------
+ src/objbar.h    |  13 +++++--
+ src/objbutton.h |  28 +++++++++++---
+ src/objmenu.h   |   1 -
+ src/ymenu.h     |   6 +++
+ 6 files changed, 107 insertions(+), 46 deletions(-)
+
+commit 35d1e15cae6a4326984a46582ef6164baa5a0ae1
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Jul 8 22:48:36 2019 +0200
+
+    tray pane buffered drawing.
+
+ src/atray.cc | 102 ++++++++++++++++++++++++++++++++++++++++++++++---------
+ src/atray.h  |  11 ++++++
+ 2 files changed, 97 insertions(+), 16 deletions(-)
+
+commit da5d44a6fed37bae4a4673a0e3987cdbb87c7723
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Jul 8 22:41:01 2019 +0200
+
+    Tray support 32-bit visual.
+
+ src/yxtray.cc | 19 +++++++++++++------
+ src/yxtray.h  |  4 ++++
+ 2 files changed, 17 insertions(+), 6 deletions(-)
+
+commit 165655e5112fad1703e58e0d382373f9a778bcbb
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Jul 8 22:28:04 2019 +0200
+
+    paint 32-bit alpha. GraphicsBuffer. copyImage.
+
+ src/ypaint.cc | 226 +++++++++++++++++++++++++++++++++++++++---------------
+ src/ypaint.h  |  39 ++++++++++
+ 2 files changed, 203 insertions(+), 62 deletions(-)
+
+commit 2425034305d938ef04470ce107f6c19aa26fc035
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Jul 8 22:17:41 2019 +0200
+
+    setDefaultTheme, printPrefs.
+
+ src/themes.cc   |  9 +--------
+ src/wmapp.cc    | 10 +++-------
+ src/wmconfig.cc | 25 ++++++++++++++++++-------
+ src/wmconfig.h  |  7 +++++--
+ 4 files changed, 27 insertions(+), 24 deletions(-)
+
+commit b2b13c9224116e03c92ee763a0132ac106014adb
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Jul 7 07:44:53 2019 +0200
+
+    Don't create menus on startup.
+    Support use of 32-bit visuals within icewm.
+    Add optional splash window (default OFF).
+    Enable logging on startup.
+    Support 32-bit pixmaps.
+
+ src/appnames.h    |  11 ++
+ src/decorate.cc   |  14 +-
+ src/default.h     |   2 +
+ src/objbar.cc     |   2 -
+ src/wmapp.cc      | 389 +++++++++++++++++++++++++++++++++-----------------
+ src/wmapp.h       |  79 +++++++---
+ src/wmclient.cc   |  12 +-
+ src/wmclient.h    |   8 +-
+ src/wmframe.cc    |  17 ++-
+ src/wmframe.h     |   4 +
+ src/wmprog.cc     |   3 +-
+ src/wmtaskbar.cc  |  10 +-
+ src/wmtaskbar.h   |   9 +-
+ src/wmwinlist.cc  |  88 ++++++++++--
+ src/wmwinlist.h   |  34 ++++-
+ src/wmwinmenu.cc  |  13 +-
+ src/wmwinmenu.h   |   6 +-
+ src/yapp.cc       |   7 +-
+ src/yapp.h        |   1 +
+ src/yimage.h      |   1 +
+ src/yimage_gdk.cc |  88 +++++++-----
+ src/ywindow.cc    | 136 +++++++++++++-----
+ src/ywindow.h     |  20 ++-
+ src/yxapp.cc      | 183 +++++++++++++++++++++---
+ src/yxapp.h       |  29 +++-
+ src/yximage.cc    |  41 ++++--
+ 26 files changed, 890 insertions(+), 317 deletions(-)
+
+commit 5d751834e6364bebc17e93feab5ff4f2b301b697
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Jul 7 07:40:23 2019 +0200
+
+    YRect2.
+
+ src/yrect.h | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
+
+commit 9e106c9c01b69f2fb185f4f0017b41fc1be714e4
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Jul 7 07:40:09 2019 +0200
+
+    depth 24.
+
+ src/ypixmap.cc | 42 +++++++++++++++++++++++++++++++++---------
+ src/ypixmap.h  |  6 +++++-
+ 2 files changed, 38 insertions(+), 10 deletions(-)
+
+commit 7dd70e10b244496db5e94d870db3db9a66e02455
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Jul 7 07:36:40 2019 +0200
+
+    lazily
+
+ src/ref.h | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
+
+commit a0a5afe7ab37c3fef4c0057b72ffc275315197c2
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Jul 7 07:36:00 2019 +0200
+
+    --nobg          Do not start icewmbg
+
+ src/icesm.cc | 45 ++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 44 insertions(+), 1 deletion(-)
+
+commit 3c2822fa52be53ed3ef32d105a015b23e05e577a
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sat Jul 6 23:09:44 2019 +0200
+
+    Add missing =over + =back.
+
+ man/icewm-preferences.pod | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+commit d28b1e78435434c1c43dda4e457f9fd589208e92
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Wed Jul 3 21:06:11 2019 +0200
+
+    undo optimization
+
+ src/aworkspaces.cc | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
+
+commit e0cd7f2a912f1e85013224ab97ce9d3cac88f8b3
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Wed Jul 3 00:16:10 2019 +0200
+
+    resurrect TaskBarFullscreenAutoShow for issue #361.
+
+ src/wmtaskbar.cc | 82 ++++++++++++++++++----------------------------------
+ src/wmtaskbar.h  |  2 ++
+ 2 files changed, 30 insertions(+), 54 deletions(-)
+
+commit b5b5f13f82f438a1528099024bafa6dbdea8d10f
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Tue Jul 2 07:56:44 2019 +0200
+
+    handleClick for framebutton should call YButton::handleClick.
+    This complements commit 1caa1178f615ed06f56c4fa512829a56141ddbb9.
+
+ src/wmbutton.cc | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit f3a1aa2c38c095d02362531aa7f1652657526568
+Author: Rodrigo Macedo <rmsolucoeseminformatic4@gmail.com>
+Date:   Sun Jun 30 20:13:52 2019 +0000
+
+    Translated using Weblate (Portuguese (Brazil))
+
+    Currently translated at 100.0% (459 of 459 strings)
+
+ po/pt_BR.po | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+
+commit e57c3e5cbf64ca09957f9a84c050439354d0e880
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sat Jun 29 00:21:47 2019 +0200
+
+    implement issue #314 to put start menu button in the corner.
+
+ src/wmtaskbar.cc | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+commit b7878b0ee7edbb6e625a8fd88ea978f98ec533b2
+Author: Yi-Jyun Pan <pan93412@gmail.com>
+Date:   Tue Jun 25 05:09:43 2019 +0000
+
+    Translated using Weblate (Chinese (Taiwan))
+
+    Currently translated at 100.0% (459 of 459 strings)
+
+ po/zh_TW.po | 73 ++++++---------------------------------------------------
+ 1 file changed, 7 insertions(+), 66 deletions(-)
+
+commit 5d28b7220ad44bdeb316762ea9313d1be6be99fb
+Author: scootergrisen <scootergrisen@gmail.com>
+Date:   Sat Jun 22 20:25:19 2019 +0000
+
+    Translated using Weblate (Danish)
+
+    Currently translated at 100.0% (459 of 459 strings)
+
+ po/da.po | 80 ++++++++----------------------------------------------------
+ 1 file changed, 10 insertions(+), 70 deletions(-)
+
+commit 08830e04dcae40e768da495887679a3c072d5200
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Fri Jun 21 01:26:15 2019 +0200
+
+    eliminate flicker.
+
+ src/aworkspaces.cc | 30 ++++++++++++++++++++++++++----
+ src/aworkspaces.h  |  2 ++
+ 2 files changed, 28 insertions(+), 4 deletions(-)
+
+commit 967fbc2ed51b1a7e5010676d356b312b49cebe8b
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Fri Jun 21 01:22:07 2019 +0200
+
+    repaint must be virtual.
+
+ src/ywindow.h | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+commit 80381bfd948b944a97ca816c0df59a3129e4913b
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Thu Jun 20 00:55:48 2019 +0200
+
+    TaskBarWorkspacesLimit.
+
+ man/icewm-preferences.pod | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+commit 04cdb04583d065afe017e99be5bde00052d49301
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Thu Jun 20 00:43:01 2019 +0200
+
+    Limit number of taskbar workspaces
+
+ src/aworkspaces.cc | 573 ++++++++++++++++++++++++++++++++++++-------------
+ src/aworkspaces.h  | 127 +++++++++--
+ src/default.h      |   2 +
+ src/wmtaskbar.cc   |   9 +-
+ 4 files changed, 539 insertions(+), 172 deletions(-)
+
+commit 1caa1178f615ed06f56c4fa512829a56141ddbb9
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Thu Jun 20 00:41:32 2019 +0200
+
+    Fix button click for derived classes.
+
+ src/ybutton.cc | 21 ++++++++++++---------
+ src/ybutton.h  |  7 ++++++-
+ 2 files changed, 18 insertions(+), 10 deletions(-)
+
+commit 136a14022dcfdffc7b948d83c41cca9833cad7c5
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Wed Jun 19 22:40:09 2019 +0200
+
+    Make YInputLine reusable.
+
+ src/wmaction.h   |  7 +++-
+ src/yinput.cc    | 98 +++++++++++++++++++++++++++++-----------------------
+ src/yinputline.h | 26 ++++++++------
+ 3 files changed, 76 insertions(+), 55 deletions(-)
+
+commit 9787372309cea1e18296ab93efe5ba9dc9b6aa9a
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Wed Jun 19 21:49:26 2019 +0200
+
+    Remove static limitations on number of workspaces.
+
+ src/aworkspaces.cc |   7 +-
+ src/decorate.cc    |   1 +
+ src/wmapp.cc       |  23 ++---
+ src/wmclient.cc    |   1 +
+ src/wmconfig.cc    |  20 +----
+ src/wmframe.cc     |   8 +-
+ src/wmmgr.cc       | 236 ++++++++++++++++++++++++++-----------------------
+ src/wmmgr.h        |  18 ++--
+ src/wmoption.cc    |   4 +-
+ src/wmsession.cc   |  17 ++--
+ src/wmstatus.cc    |  99 ++++++++++++++-------
+ src/wmstatus.h     |  30 +++++--
+ src/wmswitch.cc    |   1 +
+ src/wmtaskbar.cc   |  23 ++++-
+ src/wmtaskbar.h    |   5 +-
+ src/wmwinlist.cc   |   1 +
+ src/wmwinmenu.cc   |   5 +-
+ 17 files changed, 277 insertions(+), 222 deletions(-)
+
+commit 8305c993e3e310f44590b3e57b9d8cfc9daa6b8d
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Wed Jun 19 21:47:41 2019 +0200
+
+    Move workspace info to dedicated class Workspaces.
+
+ src/Makefile.am  |   1 +
+ src/workspaces.h | 106 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 107 insertions(+)
+
+commit 2061e769e747e4fa7156087eef7913b610d34a03
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Wed Jun 19 21:46:45 2019 +0200
+
+    add class YStringList
+
+ src/ystring.h | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
+
+commit 353a93986ea18b424e4e1ec6514b627ca7b8ca55
+Author: Brian Bidulock <bidulock@openss7.org>
+Date:   Mon Jun 17 22:48:53 2019 -0600
+
+    update to support gettext 0.20.1
+
+ autogen.sh | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+commit be19e1899ecdcee050bde5bc5389132f3a03e4b9
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Jun 16 21:54:31 2019 +0200
+
+    Allow to reload winoptions without requiring a restart for issue #353..
+
+ man/icesh.pod   | 4 ++++
+ src/icesh.cc    | 6 ++++--
+ src/wmaction.h  | 2 ++
+ src/wmapp.cc    | 7 ++++++-
+ src/wmmgr.cc    | 1 +
+ src/wmoption.cc | 4 +++-
+ 6 files changed, 20 insertions(+), 4 deletions(-)
+
+commit db04d8a248dc9dde847478eaa700edb0b662b8d5
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Jun 16 21:49:28 2019 +0200
+
+    Don't focus frame under mouse if ClickToFocus in issue #355 and issue #358.
+
+ src/wmmgr.cc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit fe319dab5ca74b19a81c3c3f35a2e73d35dd7249
+Author: Sarah Kriesch <ada.lovelace@gmx.de>
+Date:   Sun Jun 16 09:29:01 2019 +0000
+
+    Translated using Weblate (German)
+
+    Currently translated at 100.0% (459 of 459 strings)
+
+ po/de.po | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
+
+commit f62cf7463090e38dba477a0eafaf253cb622c79a
+Author: Olga Smirnova <mistresssilvara@hotmail.com>
+Date:   Sat Jun 15 16:49:20 2019 +0000
+
+    Translated using Weblate (Russian)
+
+    Currently translated at 100.0% (459 of 459 strings)
+
+ po/ru.po | 130 +++++++++++++++++------------------------------------------
+ 1 file changed, 38 insertions(+), 92 deletions(-)
+
+commit 13713b8a7c77894a81ec7d2473214b7f081ae02a
+Author: Olga Smirnova <mistresssilvara@hotmail.com>
+Date:   Sat Jun 15 16:31:33 2019 +0000
+
+    Translated using Weblate (Occidental)
+
+    Currently translated at 74.1% (340 of 459 strings)
+
+ po/ie.po | 698 +++++++++++++++++++++++++++++++----------------------------
+ 1 file changed, 364 insertions(+), 334 deletions(-)
+
+commit 1a041565030965ee833f57329f1e569de2ba12c5
+Author: Olga Smirnova <mistresssilvara@hotmail.com>
+Date:   Sat Jun 15 13:51:04 2019 +0000
+
+    Added translation using Weblate (Occidental)
+
+ po/ie.po | 2318 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 2318 insertions(+)
+
+commit cc4df5e15c960ff362f83aaac5e425d363b0d1b6
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sat Jun 15 14:59:16 2019 +0200
+
+    On startup postpone creating taskbar.
+    Set frame background color.
+    Lock work area.
+    Improve work area efficiency.
+    Prevent nested server grabs.
+    Simplify edges.
+    Increase/decrease number of workspaces not in incremental steps, but
+    all at once.
+
+ src/wmapp.cc     |  44 ++--
+ src/wmapp.h      |   1 +
+ src/wmframe.cc   |  54 ++---
+ src/wmframe.h    |   2 +
+ src/wmmgr.cc     | 580 ++++++++++++++++++++++++---------------------------
+ src/wmmgr.h      |  44 +++-
+ src/wmtaskbar.cc |  18 +-
+ src/wmtaskbar.h  |   2 +-
+ src/ymsgbox.cc   |   2 +-
+ 9 files changed, 383 insertions(+), 364 deletions(-)
+
+commit cb217de7cc0bacae465eaaf2e768fb8c51c32763
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sat Jun 15 13:55:42 2019 +0200
+
+    setDestroyed + testDestroyed.
+
+ src/ywindow.cc | 9 +++++++++
+ src/ywindow.h  | 4 +++-
+ 2 files changed, 12 insertions(+), 1 deletion(-)
+
+commit 1d43918a3e4e4c57831b3f3f5bff32f476cbe89d
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sat Jun 15 13:37:40 2019 +0200
+
+    Simplify partial struts. Check if window gravity was specified.
+    If testDestroyed failed then Wait for DestroyNotify.
+    Only call updateMwmHints if WM_NORMAL_HINTS has really changed for
+    Xephyr in #353.
+    Only update if WIN_HINTS has really changed.
+
+ src/wmclient.cc | 122 +++++++++++++++++++++++++++++-----------------------
+ src/wmclient.h  |   4 +-
+ 2 files changed, 68 insertions(+), 58 deletions(-)
+
+commit f8aa1af934778da11b9d7a87716d1d83af8a3772
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sat Jun 15 07:52:48 2019 +0200
+
+    Fix icesh -last. Fix toggleState for #354.
+
+ src/icesh.cc | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
+
+commit 5d781a5bf4b751fe024ac56d7a1ca3ad9644b0c5
+Author: Ferdinand Galko <galko.ferdinand@gmail.com>
+Date:   Fri Jun 14 05:48:36 2019 +0000
+
+    Translated using Weblate (Slovak)
+
+    Currently translated at 100.0% (459 of 459 strings)
+
+ po/sk.po | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
+
+commit 9d80d29f94b71327f2063ae52fb496c9a61e44d9
+Author: Freek de Kruijf <freek@opensuse.org>
+Date:   Thu Jun 13 16:42:11 2019 +0000
+
+    Translated using Weblate (Dutch)
+
+    Currently translated at 100.0% (459 of 459 strings)
+
+ po/nl.po | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
+
+commit c2929363a0db7e99689ac89ae25a01388eca3ae4
+Author: Yasuhiko Kamata <belphegor@belbel.or.jp>
+Date:   Thu Jun 13 07:33:25 2019 +0000
+
+    Translated using Weblate (Japanese)
+
+    Currently translated at 100.0% (459 of 459 strings)
+
+ po/ja.po | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
+
+commit bc78700db5700f30c8148b7932b3680c281ba33b
+Author: Aleš Kastner <alkas@volny.cz>
+Date:   Thu Jun 13 08:20:29 2019 +0000
+
+    Translated using Weblate (Czech)
+
+    Currently translated at 100.0% (459 of 459 strings)
+
+ po/cs.po | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
+
+commit 9063f8e57ccf3f9d0f22b17e984e62fc3a394735
+Author: David Medina <medipas@gmail.com>
+Date:   Thu Jun 13 08:20:18 2019 +0000
+
+    Translated using Weblate (Catalan)
+
+    Currently translated at 100.0% (459 of 459 strings)
+
+ po/ca.po | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
+
+commit c5e6d12599e96a905d419e73e34c41ec17ffa423
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Thu Jun 13 07:53:52 2019 +0200
+
+    wrap negative increments around.
+
+ src/wmprog.cc | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+commit 72e0d6905b6e62654ecbbec57370ef125b12d6c3
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Thu Jun 13 06:34:01 2019 +0200
+
+    more robust fix for SIGFPE commit
+    6ef7a381dc12de5c8d179511a7733da12bacc0ed
+
+ src/wmprog.cc | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+
+commit 38f682dfbca482164f0ede5a71cd1a8f2088fd25
+Author: Eduard Bloch <blade@debian.org>
+Date:   Wed Jun 12 13:48:31 2019 +0200
+
+    Improve German translation regarding focus behaviors
+
+    Don't use completely wrong German words for slangy English words!
+
+ po/de.po | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+commit 83cb07ef609da62c87de11afbfcdebefd4c0e997
+Author: Eduard Bloch <blade@debian.org>
+Date:   Wed Jun 12 11:49:14 2019 +0200
+
+    [cmake] Use list based handling of compiler options
+
+    The command line merging was probably still vulnerable to bad characters
+    in pkg-config output.
+
+    Also set CMP0053 to new since there should be no further need for the
+    old style expansions.
+
+ CMakeLists.txt     |  4 +--
+ src/CMakeLists.txt | 83 ++++++++++++++++++--------------------------------
+ 2 files changed, 31 insertions(+), 56 deletions(-)
+
+commit 3a913649c665774b5caf5325bcc25816867f7940
+Author: Eduard Bloch <blade@debian.org>
+Date:   Tue Jun 11 00:31:05 2019 +0200
+
+    Don't read trailing terminator when not needed
+
+    When the length was specified by user then the code shall not copy the
+    last byte because it might be uninitialized memory.
+    The terminator will be appended to the new string anyway.
+
+ src/mstring.cc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 6ef7a381dc12de5c8d179511a7733da12bacc0ed
+Author: Eduard Bloch <blade@debian.org>
+Date:   Tue Jun 11 00:04:57 2019 +0200
+
+    Prevent a potential crash from glitches in item provider
+
+    Something causes SIGFPE sometimes, probably the monitor list provider
+    returning zero from itemCount(), thus causing SIGFPE. Hard to reproduce
+    but should not cause a crash just due to random glitches.
+
+ src/wmprog.cc | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+commit be17edf5855b0d9413fbab1ed4491ca73503281d
+Author: Eduard Bloch <blade@debian.org>
+Date:   Mon Jun 10 13:15:25 2019 +0200
+
+    [cmake] Fix linking of icesh with Xinerama and Xrandr
+
+ src/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 2dc8e6eeb7ce5fed815a1e17adeb3a3f5ca6fc2d
+Author: Eduard Bloch <blade@debian.org>
+Date:   Tue Nov 20 20:03:59 2018 +0100
+
+    Another xrandr setup where second screen is primary
+
+ contrib/icewm-menu-xrandr        |   3 +++
+ lib/icons/setscreen12x_32x32.png | Bin 0 -> 562 bytes
+ 2 files changed, 3 insertions(+)
+
+commit 8e5817638ddf4e1c5befc1a9b4431434557d9f0d
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sat Jun 8 08:37:08 2019 +0200
+
+    Fix #350. thx!
+
+ src/icesound.cc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit e5f7a8b034ea9989c78057512528c29b10194c41
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Fri Jun 7 01:01:52 2019 +0200
+
+    Prepare 1.5.5 release
+
+ AUTHORS      |   22 +-
+ ChangeLog    | 8031 +++++++++++++++++++++++++++---------------------------
+ NEWS         |  110 +-
+ README.md    |   40 +-
+ VERSION      |    2 +-
+ configure.ac |    8 +-
+ po/ar.po     |   72 +-
+ po/be.po     |   72 +-
+ po/bg.po     |   72 +-
+ po/ca.po     |   72 +-
+ po/cs.po     |   72 +-
+ po/da.po     |   72 +-
+ po/de.po     |   72 +-
+ po/el.po     |   72 +-
+ po/en.po     |   72 +-
+ po/es.po     |   72 +-
+ po/fi.po     |   72 +-
+ po/fr.po     |   72 +-
+ po/he.po     |   72 +-
+ po/hr.po     |   72 +-
+ po/hu.po     |   72 +-
+ po/icewm.pot |   74 +-
+ po/id.po     |   72 +-
+ po/it.po     |   72 +-
+ po/ja.po     |   72 +-
+ po/ko.po     |   72 +-
+ po/lt.po     |   72 +-
+ po/lv.po     |   72 +-
+ po/mk.po     |   72 +-
+ po/nb.po     |   72 +-
+ po/nl.po     |   72 +-
+ po/no.po     |   72 +-
+ po/pl.po     |   72 +-
+ po/pt_BR.po  |   72 +-
+ po/ro.po     |   72 +-
+ po/ru.po     |   72 +-
+ po/sk.po     |   72 +-
+ po/sl.po     |   72 +-
+ po/sv.po     |   72 +-
+ po/tr.po     |   72 +-
+ po/uk.po     |   72 +-
+ po/vi.po     |   72 +-
+ po/zh_CN.po  |   72 +-
+ po/zh_TW.po  |   72 +-
+ 44 files changed, 5517 insertions(+), 5434 deletions(-)
+
 commit 7d4f52b23922ff36a97eb90e4a618110f5c2c66f
 Merge: 30d53d96 848cd242
 Author: Bert Gijsbers <gijsbers@science.uva.nl>
@@ -4017,1754 +5714,3 @@ Date:   Fri Sep 7 22:15:03 2018 +0100
  src/yicon.cc  | 4 +++-
  src/yicon.h   | 2 +-
  3 files changed, 7 insertions(+), 4 deletions(-)
-
-commit d33d4b126d8063d9158779e9ea59ccd4d7e621c9
-Author: Yasuhiko Kamata <belphegor@belbel.or.jp>
-Date:   Mon Aug 27 22:49:16 2018 +0000
-
-    Translated using Weblate (Japanese)
-
-    Currently translated at 100.0% (464 of 464 strings)
-
- po/ja.po | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-commit 8badee40e86b1f7ef8a069ee6a9c8f5c8e4a6bf3
-Author: Freek de Kruijf <freek@opensuse.org>
-Date:   Mon Aug 27 15:45:58 2018 +0000
-
-    Translated using Weblate (Dutch)
-
-    Currently translated at 100.0% (464 of 464 strings)
-
- po/nl.po | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-commit f6b12a7dc74a10ac8f5e396bc39e0d94647cc20f
-Author: scootergrisen <scootergrisen@gmail.com>
-Date:   Thu Sep 6 22:18:53 2018 +0000
-
-    Translated using Weblate (Danish)
-
-    Currently translated at 100.0% (464 of 464 strings)
-
- po/da.po | 144 +++++++++++++++++++++++++++++------------------------------
- 1 file changed, 72 insertions(+), 72 deletions(-)
-
-commit 5ba43031b4b5bd529a6c7eeb0f20c984d1e00958
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Thu Sep 6 13:01:04 2018 -0600
-
-    update po files
-
- po/ar.po     | 71 ++++++++++++++++++++++++++++-------------------------
- po/be.po     | 71 ++++++++++++++++++++++++++++-------------------------
- po/bg.po     | 71 ++++++++++++++++++++++++++++-------------------------
- po/ca.po     | 75 ++++++++++++++++++++++++++++++--------------------------
- po/cs.po     | 75 ++++++++++++++++++++++++++++++--------------------------
- po/da.po     | 75 ++++++++++++++++++++++++++++++--------------------------
- po/de.po     | 75 ++++++++++++++++++++++++++++++--------------------------
- po/el.po     | 71 ++++++++++++++++++++++++++++-------------------------
- po/en.po     | 71 ++++++++++++++++++++++++++++-------------------------
- po/es.po     | 71 ++++++++++++++++++++++++++++-------------------------
- po/fi.po     | 71 ++++++++++++++++++++++++++++-------------------------
- po/fr.po     | 71 ++++++++++++++++++++++++++++-------------------------
- po/he.po     | 71 ++++++++++++++++++++++++++++-------------------------
- po/hr.po     | 71 ++++++++++++++++++++++++++++-------------------------
- po/hu.po     | 71 ++++++++++++++++++++++++++++-------------------------
- po/icewm.pot | 73 +++++++++++++++++++++++++++++-------------------------
- po/id.po     | 71 ++++++++++++++++++++++++++++-------------------------
- po/it.po     | 71 ++++++++++++++++++++++++++++-------------------------
- po/ja.po     | 75 ++++++++++++++++++++++++++++++--------------------------
- po/ko.po     | 71 ++++++++++++++++++++++++++++-------------------------
- po/lt.po     | 71 ++++++++++++++++++++++++++++-------------------------
- po/lv.po     | 71 ++++++++++++++++++++++++++++-------------------------
- po/mk.po     | 71 ++++++++++++++++++++++++++++-------------------------
- po/nb.po     | 71 ++++++++++++++++++++++++++++-------------------------
- po/nl.po     | 75 ++++++++++++++++++++++++++++++--------------------------
- po/no.po     | 71 ++++++++++++++++++++++++++++-------------------------
- po/pl.po     | 71 ++++++++++++++++++++++++++++-------------------------
- po/pt_BR.po  | 75 ++++++++++++++++++++++++++++++--------------------------
- po/ro.po     | 71 ++++++++++++++++++++++++++++-------------------------
- po/ru.po     | 71 ++++++++++++++++++++++++++++-------------------------
- po/sk.po     | 75 ++++++++++++++++++++++++++++++--------------------------
- po/sl.po     | 71 ++++++++++++++++++++++++++++-------------------------
- po/sv.po     | 71 ++++++++++++++++++++++++++++-------------------------
- po/tr.po     | 71 ++++++++++++++++++++++++++++-------------------------
- po/uk.po     | 71 ++++++++++++++++++++++++++++-------------------------
- po/vi.po     | 71 ++++++++++++++++++++++++++++-------------------------
- po/zh_CN.po  | 71 ++++++++++++++++++++++++++++-------------------------
- po/zh_TW.po  | 71 ++++++++++++++++++++++++++++-------------------------
- 38 files changed, 1461 insertions(+), 1271 deletions(-)
-
-commit 6610af0ac091b4c3c6e054b84307729b0bfd70f9
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Thu Sep 6 13:00:36 2018 -0600
-
-    add missing header file
-
- src/Makefile.am | 1 +
- 1 file changed, 1 insertion(+)
-
-commit 68a0cc01ffe51102cce75e3d638842b607e2a70b
-Author: Eduard Bloch <blade@debian.org>
-Date:   Thu Sep 6 11:45:29 2018 +0200
-
-    Use a different phrase for "Suspend system"
-
-    Avoid translator's confusion with "interrupt"
-
- src/wmapp.cc    | 2 +-
- src/wmdialog.cc | 3 ++-
- 2 files changed, 3 insertions(+), 2 deletions(-)
-
-commit 80725d826a756ffd5f2a2feacbc334dfcb14b39c
-Author: Eduard Bloch <blade@debian.org>
-Date:   Wed Sep 5 16:53:40 2018 +0200
-
-    Reformat, refactor, cleanup
-
- src/fdomenu.cc | 75 ++++++++++++++++++++++++------------------------------
- 1 file changed, 33 insertions(+), 42 deletions(-)
-
-commit 53ca2c548da544abf7beac7b89bddcc8147c88bd
-Author: Eduard Bloch <blade@debian.org>
-Date:   Wed Sep 5 12:24:19 2018 +0200
-
-    Use built-in translations for all sub-categories
-
- src/fdomenu.cc | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-commit ada0a33509a4e37c67f476a40230cb12bdf4ee7c
-Author: Ferdinand Galko <galko.ferdinand@gmail.com>
-Date:   Tue Sep 4 16:41:48 2018 +0000
-
-    Translated using Weblate (Slovak)
-
-    Currently translated at 95.6% (443 of 463 strings)
-
- po/sk.po | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
-
-commit 3860d4061ae9b4f0613543de8170be6a578b8b1c
-Author: Ferdinand Galko <galko.ferdinand@gmail.com>
-Date:   Tue Sep 4 16:35:53 2018 +0000
-
-    Translated using Weblate (Slovak)
-
-    Currently translated at 93.5% (433 of 463 strings)
-
- po/sk.po | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
-
-commit ef37a044edb5f9825b4128fff6a738a0cc0f1b23
-Author: Ferdinand Galko <galko.ferdinand@gmail.com>
-Date:   Tue Sep 4 16:30:26 2018 +0000
-
-    Translated using Weblate (Slovak)
-
-    Currently translated at 91.3% (423 of 463 strings)
-
- po/sk.po | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
-
-commit 4468952ce848e1b86520a2cf70da537bfa32bf9d
-Author: Sarah Kriesch <ada.lovelace@gmx.de>
-Date:   Mon Sep 3 19:39:30 2018 +0000
-
-    Translated using Weblate (German)
-
-    Currently translated at 94.3% (437 of 463 strings)
-
- po/de.po | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
-
-commit 32c444270d2a700ae45bd20ffd43fbd5a34c5b7a
-Author: Sarah Kriesch <ada.lovelace@gmx.de>
-Date:   Mon Sep 3 12:29:51 2018 +0000
-
-    Translated using Weblate (German)
-
-    Currently translated at 91.5% (424 of 463 strings)
-
- po/de.po | 130 +++++++++++++++++++++++------------------------------------
- 1 file changed, 50 insertions(+), 80 deletions(-)
-
-commit 33259b511e8a2003c8e827b7b8f6dd6547908bee
-Author: scootergrisen <scootergrisen@gmail.com>
-Date:   Sun Sep 2 17:28:38 2018 +0000
-
-    Translated using Weblate (Danish)
-
-    Currently translated at 85.3% (395 of 463 strings)
-
- po/da.po | 14 ++++----------
- 1 file changed, 4 insertions(+), 10 deletions(-)
-
-commit 400c26e205b159ace843b42cea490920942b46ff
-Merge: c219c01a 3e1ef697
-Author: openSUSE Weblate <weblate-noreply@opensuse.org>
-Date:   Sun Sep 2 17:27:28 2018 +0000
-
-    Merge remote-tracking branch 'origin/icewm-1-4-BRANCH' into
-    icewm-1-4-BRANCH
-
-commit c219c01a4f2b230e38e1bf915fe3ca7ca6d8d764
-Author: scootergrisen <scootergrisen@gmail.com>
-Date:   Sun Sep 2 17:27:18 2018 +0000
-
-    Translated using Weblate (Danish)
-
-    Currently translated at 84.6% (392 of 463 strings)
-
- po/da.po | 134 +++++++++++++++++++++--------------------------------------
- 1 file changed, 48 insertions(+), 86 deletions(-)
-
-commit 3e1ef69748d4600e386ad4574bb3a9b8a8a0247a
-Author: Eduard Bloch <blade@debian.org>
-Date:   Sun Sep 2 19:24:54 2018 +0200
-
-    Point-to-activate functionality also for horizontal quickswitch
-
-    At least as long as the huge-icon mode is not enabled.
-
- src/wmswitch.cc | 52 +++++++++++++++++++++++++++++++++++-----------------
- 1 file changed, 35 insertions(+), 17 deletions(-)
-
-commit 5f523fd2ababfe565e92db14b7be22e00bda79c0
-Author: Eduard Bloch <blade@debian.org>
-Date:   Sun Sep 2 12:06:59 2018 +0200
-
-    Avoid painting over the edge in vertical quickswitch
-
- src/wmswitch.cc | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-commit a92d97ad522c10dde8e8506f10d9287bcdf9f7a1
-Author: Aleš Kastner <alkas@volny.cz>
-Date:   Sun Sep 2 08:44:48 2018 +0000
-
-    Translated using Weblate (Czech)
-
-    Currently translated at 100.0% (463 of 463 strings)
-
- po/cs.po | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
-
-commit e945342e5747b8442ce3fb3296522dc4c1bbfd02
-Author: Ferdinand Galko <galko.ferdinand@gmail.com>
-Date:   Sat Sep 1 11:50:25 2018 +0000
-
-    Translated using Weblate (Slovak)
-
-    Currently translated at 89.2% (413 of 463 strings)
-
- po/sk.po | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
-
-commit 5565856ce0198d2016c49eb9abb2420be2b2b4bf
-Author: Ferdinand Galko <galko.ferdinand@gmail.com>
-Date:   Sat Sep 1 11:43:11 2018 +0000
-
-    Translated using Weblate (Slovak)
-
-    Currently translated at 87.0% (403 of 463 strings)
-
- po/sk.po | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
-
-commit 941d40afb8cb16d9c381af0f93ced7eff96d52ce
-Author: Eduard Bloch <blade@debian.org>
-Date:   Sat Sep 1 09:17:43 2018 +0200
-
-    Revert "Use nicer Unicode ellipsis instead of the improvised string"
-
-    This reverts commit f688a0fda30ef8a1e67a3469df90d05cac2030b7.
-
-    It can be done but becomes messy. May handle such thing via i18n later.
-
- src/mstring.cc | 3 ---
- src/wmprog.cc  | 5 ++---
- src/ypaint.cc  | 6 ++----
- 3 files changed, 4 insertions(+), 10 deletions(-)
-
-commit 865790a893286e679b966e5279124e449c6dd6a8
-Merge: d2a60862 1623c4e1
-Author: Code7R <Code7R@users.noreply.github.com>
-Date:   Fri Aug 31 22:14:01 2018 +0200
-
-    Merge pull request #293 from nikolas/spelling
-
-    Fix a few spelling errors in icewm-preferences man page
-
-commit d2a60862f8ea3be0ef4c82d85c8c543c50e45a17
-Author: Eduard Bloch <blade@debian.org>
-Date:   Fri Aug 31 21:03:11 2018 +0200
-
-    Better default size for vertical quickswitch
-
- src/wmswitch.cc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-commit f688a0fda30ef8a1e67a3469df90d05cac2030b7
-Author: Eduard Bloch <blade@debian.org>
-Date:   Fri Aug 31 20:44:18 2018 +0200
-
-    Use nicer Unicode ellipsis instead of the improvised string
-
- src/mstring.cc | 3 +++
- src/wmprog.cc  | 5 +++--
- src/ypaint.cc  | 6 ++++--
- 3 files changed, 10 insertions(+), 4 deletions(-)
-
-commit ad82289e3789f2c3c0245f7b524b89cd8ddcdc44
-Author: Eduard Bloch <blade@debian.org>
-Date:   Fri Aug 31 16:11:33 2018 +0200
-
-    Improve vert. wmswitch painting
-
-    Now using menu item colors in the vertical wmswitch.
-    With the colors from flat quickswitch it looked just too weird with most
-    themes. Have been done so for years, since I introduced the vertial mode
-    and have been too lazy to add custom options.
-
-    Fixed space calculation and cleaned up a lot, needs less X calls in
-    text-first mode.
-
- src/wmswitch.cc | 131 ++++++++++++++++++++++------------------------------
- src/wmswitch.h  |   7 ++-
- 2 files changed, 61 insertions(+), 77 deletions(-)
-
-commit 1623c4e1f72974c229dda29beec303398985a6e2
-Author: Nikolas Nyby <nikolas@gnu.org>
-Date:   Fri Aug 31 12:31:28 2018 -0400
-
-    Fix a few spelling errors in icewm-preferences man page
-
- man/icewm-preferences.pod | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-commit b4c786ff3332abda5d1f0f7075c8488ba74f489e
-Merge: 42925cc6 8fba2b29
-Author: openSUSE Weblate <weblate-noreply@opensuse.org>
-Date:   Thu Aug 30 18:52:26 2018 +0000
-
-    Merge remote-tracking branch 'origin/icewm-1-4-BRANCH' into
-    icewm-1-4-BRANCH
-
-commit 42925cc63db26109d61cf1f4d175729b56d77f6f
-Author: Sarah Kriesch <ada.lovelace@gmx.de>
-Date:   Thu Aug 30 18:09:49 2018 +0000
-
-    Translated using Weblate (German)
-
-    Currently translated at 80.9% (375 of 463 strings)
-
- po/de.po | 58 +++++++++++++++++++++++++++-------------------------------
- 1 file changed, 27 insertions(+), 31 deletions(-)
-
-commit 8fba2b292d6d4affafec480131c4d53dc2b006b3
-Author: Eduard Bloch <blade@debian.org>
-Date:   Thu Aug 30 20:44:50 2018 +0200
-
-    Also apply the taskBarUseMouseWheel setting to workspace pager
-
-    Just like the suggested solution of issue #284 .
-
- src/aworkspaces.cc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-commit ec8ef3748bfb77c1816dec58dc95ef26635dccbe
-Author: Ferdinand Galko <galko.ferdinand@gmail.com>
-Date:   Thu Aug 30 17:47:03 2018 +0000
-
-    Translated using Weblate (Slovak)
-
-    Currently translated at 84.8% (393 of 463 strings)
-
- po/sk.po | 42 +++++++++++++++++++++---------------------
- 1 file changed, 21 insertions(+), 21 deletions(-)
-
-commit b291c11bba8f4939e0a7010eca3dcee3f84360c1
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Thu Aug 30 19:30:50 2018 +0200
-
-    Fix for wandering static gravity windows issue #291.
-
- src/wmframe.cc | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-commit 1f8d46b95476de192376f6d9848b96e7ae3e8e8b
-Author: Ferdinand Galko <galko.ferdinand@gmail.com>
-Date:   Thu Aug 30 17:25:27 2018 +0000
-
-    Translated using Weblate (Slovak)
-
-    Currently translated at 80.5% (373 of 463 strings)
-
- po/sk.po | 82 ++++++++++++++++--------------------------------------------
- 1 file changed, 21 insertions(+), 61 deletions(-)
-
-commit 9a6fd2d726d68704c1424de26d3e947b2767ee9b
-Author: Ferdinand Galko <galko.ferdinand@gmail.com>
-Date:   Thu Aug 30 12:42:30 2018 +0000
-
-    Translated using Weblate (Slovak)
-
-    Currently translated at 76.2% (353 of 463 strings)
-
- po/sk.po | 28 +++++++++++-----------------
- 1 file changed, 11 insertions(+), 17 deletions(-)
-
-commit 176567ef455c6426788a55353da5344345e7d028
-Merge: 419a7c1a ef7e4b44
-Author: openSUSE Weblate <weblate-noreply@opensuse.org>
-Date:   Thu Aug 30 10:25:42 2018 +0000
-
-    Merge remote-tracking branch 'origin/icewm-1-4-BRANCH' into
-    icewm-1-4-BRANCH
-
-commit 419a7c1a3c25d80fa1e53c9953daef72fa53d56c
-Author: Aleš Kastner <alkas@volny.cz>
-Date:   Thu Aug 30 09:50:51 2018 +0000
-
-    Translated using Weblate (Czech)
-
-    Currently translated at 99.3% (460 of 463 strings)
-
- po/cs.po | 227 ++++++++++++++++++++++++++---------------------------------
- 1 file changed, 98 insertions(+), 129 deletions(-)
-
-commit ef7e4b4447881e0cbea39b467a68e4d22c2dd64e
-Author: Eduard Bloch <blade@debian.org>
-Date:   Wed Aug 29 17:15:37 2018 +0200
-
-    Mouse-over (clickable item) indicator in quick-switch menu
-
- src/wmswitch.cc | 85 ++++++++++++++++++++++++++++++++---------------------
- src/wmswitch.h  |  5 ++--
- 2 files changed, 55 insertions(+), 35 deletions(-)
-
-commit 92a55e1dcb25bc53816f3593c7ae9eaef4c446e7
-Author: Aleš Kastner <alkas@volny.cz>
-Date:   Wed Aug 29 21:54:18 2018 +0000
-
-    Translated using Weblate (Czech)
-
-    Currently translated at 79.6% (369 of 463 strings)
-
- po/cs.po | 66 +++++++++++++++++++++++++-----------------------------------
- 1 file changed, 27 insertions(+), 39 deletions(-)
-
-commit dc3c957f80222dc90855c05ca370541fffcb2432
-Author: Sarah Kriesch <ada.lovelace@gmx.de>
-Date:   Wed Aug 29 15:38:18 2018 +0000
-
-    Translated using Weblate (German)
-
-    Currently translated at 76.2% (353 of 463 strings)
-
- po/de.po | 62 ++++++++++++++++++++++++------------------------------------
- 1 file changed, 25 insertions(+), 37 deletions(-)
-
-commit 2ec13853796b1bc0af4657e653f8c1fb38368299
-Author: Eduard Bloch <blade@debian.org>
-Date:   Wed Aug 29 15:41:30 2018 +0200
-
-    Make entries of vertical quickswitch clickable
-
- src/wmprog.cc   |  9 +++++++++
- src/wmswitch.cc | 48 ++++++++++++++++++++++++++++++++++++++----------
- src/wmswitch.h  |  9 +++++++--
- 3 files changed, 54 insertions(+), 12 deletions(-)
-
-commit 9372fdcdc2c78ef699af76a48541dfc26ab23bec
-Author: Eduard Bloch <blade@debian.org>
-Date:   Tue Aug 28 11:23:10 2018 +0200
-
-    Canonical implementation is faulty with unsigned index variable
-
- src/ycollections.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-commit 6780ca25146ea3edb6756405c85622585adb30c1
-Author: Yasuhiko Kamata <belphegor@belbel.or.jp>
-Date:   Mon Aug 27 22:49:08 2018 +0000
-
-    Translated using Weblate (Japanese)
-
-    Currently translated at 100.0% (463 of 463 strings)
-
- po/ja.po | 288 +++++++++++++++++++++++++----------------------------------
- 1 file changed, 120 insertions(+), 168 deletions(-)
-
-commit 49762b49c2dce0b8f2776660ce8dfab03eb6f81e
-Author: Luiz Fernando Ranghetti <elchevive68@gmail.com>
-Date:   Mon Aug 27 19:09:39 2018 +0000
-
-    Translated using Weblate (Portuguese (Brazil))
-
-    Currently translated at 100.0% (463 of 463 strings)
-
- po/pt_BR.po | 312 ++++++++++++++++++++++++--------------------------------
- 1 file changed, 134 insertions(+), 178 deletions(-)
-
-commit f83d3d276743cb6d33913d1dddf2df118026f9e1
-Author: Freek de Kruijf <freek@opensuse.org>
-Date:   Mon Aug 27 15:45:46 2018 +0000
-
-    Translated using Weblate (Dutch)
-
-    Currently translated at 100.0% (463 of 463 strings)
-
- po/nl.po | 290 +++++++++++++++++++++++++----------------------------------
- 1 file changed, 121 insertions(+), 169 deletions(-)
-
-commit 6e1614317e4beb9fc384b2c800e64631955a9fa1
-Author: David Medina <medipas@gmail.com>
-Date:   Mon Aug 27 14:01:41 2018 +0000
-
-    Translated using Weblate (Catalan)
-
-    Currently translated at 100.0% (463 of 463 strings)
-
- po/ca.po | 288 +++++++++++++++++++++++++----------------------------------
- 1 file changed, 120 insertions(+), 168 deletions(-)
-
-commit 5f3b110963ddeec7c54a34af4898e529e1c2f5bb
-Author: Eduard Bloch <blade@debian.org>
-Date:   Mon Aug 27 14:02:18 2018 +0200
-
-    Update translations with new menu string data
-
- po/ar.po     |  850 ++++++++++++++--
- po/be.po     |  834 +++++++++++++---
- po/bg.po     |  855 +++++++++++++++--
- po/ca.po     |  873 ++++++++++++++---
- po/cs.po     |  868 ++++++++++++++---
- po/da.po     |  872 ++++++++++++++---
- po/de.po     |  861 ++++++++++++++---
- po/el.po     |  853 ++++++++++++++--
- po/en.po     |  814 ++++++++++++++--
- po/es.po     |  868 ++++++++++++++---
- po/fi.po     |  829 ++++++++++++++--
- po/fr.po     |  860 ++++++++++++++---
- po/he.po     |  853 ++++++++++++++--
- po/hr.po     |  834 +++++++++++++---
- po/hu.po     |  861 ++++++++++++++---
- po/icewm.pot | 2826 +++++++++++++++++++++++++++---------------------------
- po/id.po     |  853 ++++++++++++++--
- po/it.po     |  856 ++++++++++++++---
- po/ja.po     |  873 ++++++++++++++---
- po/ko.po     |  856 ++++++++++++++---
- po/lt.po     |  859 ++++++++++++++---
- po/lv.po     |  829 ++++++++++++++--
- po/mk.po     |  829 ++++++++++++++--
- po/nb.po     |  834 +++++++++++++---
- po/nl.po     |  873 ++++++++++++++---
- po/no.po     |  834 +++++++++++++---
- po/pl.po     |  855 +++++++++++++++--
- po/pt_BR.po  |  856 ++++++++++++++---
- po/ro.po     |  834 +++++++++++++---
- po/ru.po     |  855 +++++++++++++++--
- po/sk.po     |  868 ++++++++++++++---
- po/sl.po     |  834 +++++++++++++---
- po/sv.po     |  860 ++++++++++++++---
- po/tr.po     |  830 +++++++++++++---
- po/uk.po     |  855 +++++++++++++++--
- po/vi.po     |  853 ++++++++++++++--
- po/zh_CN.po  |  856 ++++++++++++++---
- po/zh_TW.po  |  856 ++++++++++++++---
- 38 files changed, 28952 insertions(+), 5367 deletions(-)
-
-commit a460c2a95d8645497a6df6b16ba2106dd49a956f
-Author: Eduard Bloch <blade@debian.org>
-Date:   Mon Aug 27 12:39:19 2018 +0200
-
-    Fix static preordering or the main menu categories
-
-    Also assign default icon string, avoiding the extra NULL check.
-
-    For #263
-
- contrib/conv_cat.pl |  48 ++++----
- src/fdomenu.cc      |   3 +-
- src/fdospecgen.h    | 298 ++++++++++++++++++++++++++----------------------
- 3 files changed, 186 insertions(+), 163 deletions(-)
-
-commit 8836c8b830bd3789b6dfd3c2f0db55aaff3522d9
-Author: Eduard Bloch <blade@debian.org>
-Date:   Sun Aug 26 12:21:08 2018 +0200
-
-    For default distro config, save the prefs as delta in home directory
-
- src/wmprog.cc | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-commit be2aefdfe3994e66f0717614f03a45632f40e37e
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Aug 26 09:26:21 2018 +0200
-
-    Titles for issue #289.
-
- src/wmprog.cc   | 5 ++---
- src/wmstatus.cc | 1 +
- src/wmswitch.cc | 1 +
- src/ymenu.cc    | 2 ++
- 4 files changed, 6 insertions(+), 3 deletions(-)
-
-commit ec6a9a7d6469728aad78ecc94a084fac3565d82b
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sat Aug 25 13:37:05 2018 +0200
-
-    fix for temporary mstring expressions.
-
- src/yarray.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-commit a015d34e49e7785eaadfce2973b4055e950a36b6
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sat Aug 25 13:36:38 2018 +0200
-
-    fix spelling
-
- CHANGES      | 6 +++---
- src/WinMgr.h | 2 +-
- src/aapm.cc  | 2 +-
- 3 files changed, 5 insertions(+), 5 deletions(-)
-
-commit 3ddbc27da999f5833cac444383fd43192c1f1206
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sat Aug 25 13:34:56 2018 +0200
-
-    doc TaskBarUseMouseWheel
-
- doc/icewm.adoc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-commit 8b6d6279591da01c497cb799af0859b74b48fe7a
-Author: Eduard Bloch <blade@debian.org>
-Date:   Wed Aug 22 23:17:11 2018 +0200
-
-    Added simplest icons for xrandr quickswitch menu
-
- lib/icons/setscreen12_32x32.png | Bin 0 -> 873 bytes
- lib/icons/setscreen1_32x32.png  | Bin 0 -> 375 bytes
- lib/icons/setscreen21_32x32.png | Bin 0 -> 830 bytes
- lib/icons/setscreen2_32x32.png  | Bin 0 -> 592 bytes
- 4 files changed, 0 insertions(+), 0 deletions(-)
-
-commit 2ad6b80a03993af95207033c6c70732098e20f4e
-Author: Eduard Bloch <blade@debian.org>
-Date:   Wed Aug 22 22:27:04 2018 +0200
-
-    Various minor bugfixes on fdomenu
-
-    Fix build with optional override of terminal emulator name
-    Fix printing of separator after content
-    Ensure printing of initial separator
-
- src/fdomenu.cc | 26 +++++++++++++++-----------
- 1 file changed, 15 insertions(+), 11 deletions(-)
-
-commit 412dede33a2f735606ef0b93564320a515d1aba1
-Author: jc sl <trcs@gmx.com>
-Date:   Wed Aug 22 18:20:40 2018 +0000
-
-    Translated using Weblate (Spanish)
-
-    Currently translated at 100.0% (345 of 345 strings)
-
- po/es.po | 98 ++++++++++++++++++++++++++++++------------------------------
- 1 file changed, 49 insertions(+), 49 deletions(-)
-
-commit ac2ce65a4d7a37197666b74b7a33334e48ccc503
-Author: jc sl <trcs@gmx.com>
-Date:   Wed Aug 22 17:38:07 2018 +0000
-
-    Translated using Weblate (Spanish)
-
-    Currently translated at 100.0% (345 of 345 strings)
-
- po/es.po | 56 +++++++++++++++++++++++++-------------------------------
- 1 file changed, 25 insertions(+), 31 deletions(-)
-
-commit 6add69b3ac49f269295fc04100040d402fb57ff1
-Author: scootergrisen <scootergrisen@gmail.com>
-Date:   Tue Aug 21 11:30:39 2018 +0000
-
-    Translated using Weblate (Danish)
-
-    Currently translated at 100.0% (345 of 345 strings)
-
- po/da.po | 38 ++++++++++++++++----------------------
- 1 file changed, 16 insertions(+), 22 deletions(-)
-
-commit 594e3869c84df4b8f9f958a9048dbd3db0dbf589
-Author: Eduard Bloch <blade@debian.org>
-Date:   Mon Aug 20 08:56:16 2018 +0200
-
-    Now correctly exported new FDO strings wit comments for l10n
-
-    And explained the origin in the comment.
-
- contrib/conv_cat.pl |   6 +-
- po/icewm.pot        | 729 +++++++++++++++++++++++++++++++++++++++++++-----
- src/fdospecgen.h    | 236 ++++++++--------
- 3 files changed, 778 insertions(+), 193 deletions(-)
-
-commit 83fca10643e246317c95ecfedd5760b0d71926c9
-Author: Eduard Bloch <blade@debian.org>
-Date:   Mon Aug 20 08:55:18 2018 +0200
-
-    Align the use of xgettext in cmake with autoconf
-
-    Or mostly so, a minor difference in the header remains, see comments.
-    The merge of .po files is also not working, to be continued...
-
- po/CMakeLists.txt | 21 ++++++++++++---------
- po/POTFILES.in    |  2 ++
- 2 files changed, 14 insertions(+), 9 deletions(-)
-
-commit aabaa3325a305eee63540d1d3bbbdd011e9e46f7
-Author: Eduard Bloch <blade@debian.org>
-Date:   Sun Aug 19 23:40:57 2018 +0200
-
-    Added l10n request for the predefined category names
-
-    With hints for translators to make the wording right.
-
-    Also dropped GTK, Qt, etc. submenu creation because it looked too weird.
-
-    For #263
-
- contrib/conv_cat.pl |    4 +-
- po/CMakeLists.txt   |    2 +-
- po/icewm.pot        | 2069 ++++++++++++++++++++++++-----------------------
- src/fdomenu.cc      |    4 +-
- src/fdospecgen.h    |  363 ++++++---
- 5 files changed, 1278 insertions(+), 1164 deletions(-)
-
-commit 24b8f213d210c7fc16fa8a9b0674e57aae48fa7b
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Aug 19 21:53:11 2018 +0200
-
-    Update homepage url for issue #287.
-
- CONTRIBUTING.md | 6 +++---
- README.md       | 6 +++---
- README.md.in    | 6 +++---
- doc/icewm.adoc  | 4 ++--
- icewm.lsm.in    | 2 +-
- icewm.spec.in   | 2 +-
- src/icehelp.cc  | 6 +++---
- src/wmapp.cc    | 2 +-
- 8 files changed, 17 insertions(+), 17 deletions(-)
-
-commit dfded3ae57f64519d18202e9e461136542a9e204
-Author: David Medina <medipas@gmail.com>
-Date:   Sun Aug 19 19:45:32 2018 +0000
-
-    Translated using Weblate (Catalan)
-
-    Currently translated at 100.0% (345 of 345 strings)
-
- po/ca.po | 38 ++++++++++++++++----------------------
- 1 file changed, 16 insertions(+), 22 deletions(-)
-
-commit ff317d3aa1016aa642551cbcaeac993e1a274d7a
-Author: Aleš Kastner <alkas@volny.cz>
-Date:   Sun Aug 19 18:25:53 2018 +0000
-
-    Translated using Weblate (Czech)
-
-    Currently translated at 100.0% (345 of 345 strings)
-
- po/cs.po | 38 ++++++++++++++++----------------------
- 1 file changed, 16 insertions(+), 22 deletions(-)
-
-commit 897e53c6f46d6e70e52797f99556aa4d18278ead
-Author: Eduard Bloch <blade@debian.org>
-Date:   Sun Aug 19 17:52:14 2018 +0200
-
-    Inject fdomenu output into root menu
-
-    For #263
-
- lib/menu.in | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-commit aa6a26fa49d05dcdca6f16dc2f4b99a86f7ef2e2
-Author: Eduard Bloch <blade@debian.org>
-Date:   Sun Aug 19 17:51:24 2018 +0200
-
-    Make sure to set to root right when digging for categories
-
-    For #263
-
- src/fdomenu.cc | 1 +
- 1 file changed, 1 insertion(+)
-
-commit 140b713eb46904fd5ea0461ded4b9d362f720600
-Author: Eduard Bloch <blade@debian.org>
-Date:   Sun Aug 19 14:47:14 2018 +0200
-
-    Added semi-automated handling of FDO subcategories
-
- contrib/conv_cat.pl |  65 +++++++++++++++++
- src/fdomenu.cc      | 182 +++++++++++++++++++++++++++++++---------------
- src/fdospecgen.h    | 190 ++++++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 378 insertions(+), 59 deletions(-)
-
-commit 7a23eecba39210f0b06d88d973343edb888ab1b6
-Author: Eduard Bloch <blade@debian.org>
-Date:   Sun Aug 19 11:22:20 2018 +0200
-
-    Little redesign for more OOP style
-
-    Preparing for (efficient) subcategory handling
-
- src/fdomenu.cc | 528 ++++++++++++++++++++++++-----------------------------
- 1 file changed, 241 insertions(+), 287 deletions(-)
-
-commit e44a9c4b37555e7d58e2a9387feacffc40ac82f5
-Author: Eduard Bloch <blade@debian.org>
-Date:   Sat Aug 18 21:49:09 2018 +0200
-
-    Use the supposedly better display name
-
- src/fdomenu.cc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-commit eec124e06e77c5b17d367482449d012cea7da6c3
-Author: Freek de Kruijf <freek@opensuse.org>
-Date:   Sun Aug 19 12:26:11 2018 +0000
-
-    Translated using Weblate (Dutch)
-
-    Currently translated at 100.0% (345 of 345 strings)
-
- po/nl.po | 38 ++++++++++++++++----------------------
- 1 file changed, 16 insertions(+), 22 deletions(-)
-
-commit e7f63a1b6cbc1b795fd51244077d8a8ce64cfb7e
-Author: Ferdinand Galko <galko.ferdinand@gmail.com>
-Date:   Sun Aug 19 10:49:48 2018 +0000
-
-    Translated using Weblate (Slovak)
-
-    Currently translated at 100.0% (345 of 345 strings)
-
- po/sk.po | 40 +++++++++++++++++-----------------------
- 1 file changed, 17 insertions(+), 23 deletions(-)
-
-commit 932ee28b9c53709108de39f19f6297beb9979031
-Author: Yasuhiko Kamata <belphegor@belbel.or.jp>
-Date:   Sun Aug 19 09:59:38 2018 +0000
-
-    Translated using Weblate (Japanese)
-
-    Currently translated at 100.0% (345 of 345 strings)
-
- po/ja.po | 40 +++++++++++++++++-----------------------
- 1 file changed, 17 insertions(+), 23 deletions(-)
-
-commit a9a2e10a63959603107a271fecd0ccaa21c1a782
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Sun Aug 19 00:36:46 2018 -0600
-
-    update po files
-
- po/ar.po     | 241 ++++++++++++++++++++++++++++++--------------------
- po/be.po     | 233 +++++++++++++++++++++++++++++--------------------
- po/bg.po     | 233 +++++++++++++++++++++++++++++--------------------
- po/ca.po     | 254 +++++++++++++++++++++++++++++++----------------------
- po/cs.po     | 250 +++++++++++++++++++++++++++++++---------------------
- po/da.po     | 262 +++++++++++++++++++++++++++++++++----------------------
- po/de.po     | 250 +++++++++++++++++++++++++++++++---------------------
- po/el.po     | 239 ++++++++++++++++++++++++++++++--------------------
- po/en.po     | 231 ++++++++++++++++++++++++++++--------------------
- po/es.po     | 250 +++++++++++++++++++++++++++++++---------------------
- po/fi.po     | 231 ++++++++++++++++++++++++++++--------------------
- po/fr.po     | 241 ++++++++++++++++++++++++++++++--------------------
- po/he.po     | 236 +++++++++++++++++++++++++++++--------------------
- po/hr.po     | 233 +++++++++++++++++++++++++++++--------------------
- po/hu.po     | 252 +++++++++++++++++++++++++++++++---------------------
- po/icewm.pot | 235 ++++++++++++++++++++++++++++---------------------
- po/id.po     | 239 ++++++++++++++++++++++++++++++--------------------
- po/it.po     | 250 +++++++++++++++++++++++++++++++---------------------
- po/ja.po     | 250 +++++++++++++++++++++++++++++++---------------------
- po/ko.po     | 250 +++++++++++++++++++++++++++++++---------------------
- po/lt.po     | 252 ++++++++++++++++++++++++++++++----------------------
- po/lv.po     | 231 ++++++++++++++++++++++++++++--------------------
- po/mk.po     | 231 ++++++++++++++++++++++++++++--------------------
- po/nb.po     | 233 +++++++++++++++++++++++++++++--------------------
- po/nl.po     | 250 +++++++++++++++++++++++++++++++---------------------
- po/no.po     | 231 ++++++++++++++++++++++++++++--------------------
- po/pl.po     | 241 ++++++++++++++++++++++++++++++--------------------
- po/pt_BR.po  | 250 +++++++++++++++++++++++++++++++---------------------
- po/ro.po     | 233 +++++++++++++++++++++++++++++--------------------
- po/ru.po     | 241 ++++++++++++++++++++++++++++++--------------------
- po/sk.po     | 250 +++++++++++++++++++++++++++++++---------------------
- po/sl.po     | 231 ++++++++++++++++++++++++++++--------------------
- po/sv.po     | 242 ++++++++++++++++++++++++++++++--------------------
- po/tr.po     | 240 +++++++++++++++++++++++++++++---------------------
- po/uk.po     | 241 ++++++++++++++++++++++++++++++--------------------
- po/vi.po     | 236 +++++++++++++++++++++++++++++--------------------
- po/zh_CN.po  | 250 +++++++++++++++++++++++++++++++---------------------
- po/zh_TW.po  | 250 +++++++++++++++++++++++++++++++---------------------
- 38 files changed, 5457 insertions(+), 3736 deletions(-)
-
-commit a3c0ae0936469fffe553c33d222041ccd3652bbb
-Merge: 52c134e7 efb81cfd
-Author: Brian Bidulock <bidulock@openss7.com>
-Date:   Sun Aug 19 00:06:40 2018 -0600
-
-    Merge pull request #282 from wongma7/win95-titlebar-menu-button
-
-    Make win95 menu button bg color match titlebar's
-
-commit 52c134e7a84f2511189b5e6043913a7251dd8394
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Sat Aug 18 23:58:55 2018 -0600
-
-    fix issue #286
-
- man/icehelp.pod | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-commit 0c9c9908f8261f296383cbdb8615f8000c021d46
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Fri Aug 17 02:33:04 2018 +0200
-
-    new option TaskBarUseMouseWheel for issue #284.
-
- src/atasks.cc | 8 +++++---
- src/atray.cc  | 8 +++++---
- src/default.h | 2 ++
- 3 files changed, 12 insertions(+), 6 deletions(-)
-
-commit 937ed000ccac79d81f08ed003e7c0b9e70800368
-Author: Eduard Bloch <blade@debian.org>
-Date:   Sun Aug 12 10:46:24 2018 +0200
-
-    Considering of categories folders for icon source
-
-    This is actually a stop-gap solution, ideally some context-awareness of
-    the icon purpose should be added but that implies redesigning the cache
-    handling a bit.
-
- src/yicon.cc | 44 +++++++++++++++++++++++++++++++-------------
- 1 file changed, 31 insertions(+), 13 deletions(-)
-
-commit 6b24d6a737a09bdff38fa3d465347ea2e7384999
-Author: Eduard Bloch <blade@debian.org>
-Date:   Sun Aug 12 08:37:58 2018 +0200
-
-    Options to embed fdomenu nicely as regular contents
-
- src/fdomenu.cc | 89 +++++++++++++++++++++++++++++++++++++++---------------
- 1 file changed, 64 insertions(+), 25 deletions(-)
-
-commit b511fab841c77744f57afc9df26cd3401abbeee7
-Author: Eduard Bloch <blade@debian.org>
-Date:   Fri Aug 10 14:09:11 2018 +0200
-
-    Partial overhauling of fdomenu
-
-    Use binary search for categories and allow more categories
-
-    Also updated the list of Main categories to the current FDO spec.
-    For bug #263.
-
-    Consider multiple folders in XDG_DATA_HOME env
-
-    Loading of extended attributes for category folder descriptions from
-    .desktop files, and printing folder icon names where available.
-
-    More smart processing of .desktop folders (skipping junk).
-
- src/fdomenu.cc | 810 ++++++++++++++++++++++++++++++++---------------------
- 1 file changed, 486 insertions(+), 324 deletions(-)
-
-commit efb81cfd9a30fa926f515a43aa81e81cb7fb8574
-Author: Matthew Wong <mawong@redhat.com>
-Date:   Sat Aug 11 15:36:53 2018 -0400
-
-    Make win95 menu button bg color match titlebar's
-
- src/wmbutton.cc | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
-
-commit 8cf5e1fd539c094dbabed67478d09e76ad5a5e21
-Author: Eduard Bloch <blade@debian.org>
-Date:   Fri Aug 10 14:08:07 2018 +0200
-
-    Fixed a potentially endless recursion
-
-    Basically checked against the algorithm by the book.
-    Also added range lookup function probably needed in future.
-
- src/ycollections.cc | 12 ++++++++++++
- src/ycollections.h  | 51 ++++++++++++++++++++++++++++++++++++++++++-------
- 2 files changed, 56 insertions(+), 7 deletions(-)
-
-commit 939ca53ae3e5d9e4d02d3d31149bf66e6c3f6867
-Author: Eduard Bloch <blade@debian.org>
-Date:   Fri Aug 10 07:29:04 2018 +0200
-
-    Enforcing valid combinations of image loaders
-
-    In case pixbuf is selected manually, turn off other default selections.
-    Also print more meaningfull error message in case of other bad
-    situtations (lack of libs/headers).
-
- src/CMakeLists.txt | 73 +++++++++++++++++++++++++++++++-------------------
- 1 file changed, 45 insertions(+), 28 deletions(-)
-
-commit d86690abca39ee1744fa72a39668f0d740cb4c77
-Author: Eduard Bloch <blade@debian.org>
-Date:   Mon Jun 4 22:15:11 2018 +0200
-
-    Typo
-
- src/yximage.cc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-commit b0755148ec4ed98a1446d57bac9cc704915eeda6
-Author: Eduard Bloch <blade@debian.org>
-Date:   Mon Jun 4 22:14:37 2018 +0200
-
-    Adding potentially missing defines while looking for unexplainable behavior
-
- src/CMakeLists.txt | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
-
-commit 3259b95e2e137878a1fac661efd4cd9c39ea5e94
-Author: Ad Soyad <kalemlik100@yandex.com>
-Date:   Fri Aug 3 19:10:40 2018 +0000
-
-    Translated using Weblate (Turkish)
-
-    Currently translated at 54.4% (183 of 336 strings)
-
- po/tr.po | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
-
-commit f14cecfe2b635ae177a3493bd42cd4416c527945
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Jul 29 20:43:55 2018 +0200
-
-    Expand all tabs from pull request 279.
-
- src/wmmgr.cc     | 32 ++++++++++++++++----------------
- src/wmtaskbar.cc | 16 ++++++++--------
- 2 files changed, 24 insertions(+), 24 deletions(-)
-
-commit e7c0e7b34f01c2b6ba0d316a49674b33bc61fd42
-Merge: 7a20a33c 049986e2
-Author: Brian Bidulock <bidulock@openss7.com>
-Date:   Sun Jul 15 03:28:16 2018 +0000
-
-    Merge pull request #279 from jiribohac/icewm-1-4-BRANCH
-
-    Allow switching and reordering taskbar buttons with keyboard.
-
-commit 049986e27a427d2cdee2d38dc64c786fff37482e
-Author: Jiri Bohac <jbohac@suse.cz>
-Date:   Sat Jul 14 00:00:24 2018 +0200
-
-    Allow switching and reordering taskbar buttons with keyboard.
-
-    Since commit 556b5356 windows can be switched in taskbar order using
-    the mouse wheel.
-    They taskbar buttons can also be rearranged with drag and drop.
-
-    This patch adds the possibility to perform these actions using the
-    keyboard.
-
-    This is a forward port of this old patch of mine:
-    https://sourceforge.net/p/icewm/patches/193/
-
-    The new keys are set as this by default:
-
-            KeyTaskBarSwitchNext="Alt+1"
-            KeyTaskBarSwitchPrev="Alt+grave"
-            KeyTaskBarMoveNext="Alt+Shift+1"
-            KeyTaskBarMovePrev="Alt+Shift+grave"
-
-    I have been using this setup for over a decade now and find it very
-    convenient
-    that "grave" and "1" are next to each other and right above the tab key,
-    so that both
-    swithing methods Alt+Tab and Alt+1/grave are next to each other.
-
- src/atasks.cc    | 78 ++++++++++++++++++++++++++++++++++++++++++++--------
- src/atasks.h     |  6 ++++
- src/bindkey.h    |  8 ++++++
- src/default.h    |  4 +++
- src/wmmgr.cc     | 25 ++++++++++++++++-
- src/wmtaskbar.cc | 23 ++++++++++++++++
- src/wmtaskbar.h  |  4 +++
- 7 files changed, 135 insertions(+), 13 deletions(-)
-
-commit 7a20a33c50ca6c8b91b2ab048cf5a7e81a22e3c0
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Mon Jun 18 21:19:11 2018 +0200
-
-    librsvg
-
- src/wmapp.cc | 3 +++
- 1 file changed, 3 insertions(+)
-
-commit 51a04b1e3d95724dc0035d0d2e55b3cbb5088e52
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Mon Jun 18 21:18:20 2018 +0200
-
-    After fullscreen ends do repaint clock immediately.
-
- src/aclock.cc | 7 +++++++
- src/aclock.h  | 1 +
- 2 files changed, 8 insertions(+)
-
-commit e7a18d73d868b39060be80d64c3029ae7508cac0
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Tue Jun 5 15:50:04 2018 -0600
-
-    delete old
-
- src/ycollections.h | 2 ++
- 1 file changed, 2 insertions(+)
-
-commit 48ef78c865a59aba88b9b48e2c089518f7b1187f
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Tue Jun 5 15:45:15 2018 -0600
-
-    much simpler support for svg
-
- configure.ac          |  5 +++++
- src/CMakeLists.txt    | 13 +++++++++++++
- src/config.cmake.h.in |  1 +
- src/yicon.cc          |  4 +---
- 4 files changed, 20 insertions(+), 3 deletions(-)
-
-commit 6011ab5befdf60d3349aff74cf9e72dbfa673c9e
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Tue Jun 5 15:12:28 2018 -0600
-
-    remove warning on memmove
-
- src/ycollections.h | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
-
-commit a486d96aeeb7dad9da45dbd8a97dac5140784a44
-Merge: c7cfa6a6 2ea1f14c
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Tue Jun 5 14:45:49 2018 -0600
-
-    Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
-    icewm-1-4-BRANCH
-
-commit c7cfa6a66ef2da0db6ee6db92ad85067cc61a373
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Tue Jun 5 14:45:34 2018 -0600
-
-    Revert "support SVG icons for GDK-pixbuf and add --iconformats option."
-
-    This reverts commit cbe949d1fe5570d5265d2a7e016b86e5b9ecdb1d.
-
- src/wmapp.cc      | 14 --------------
- src/yicon.cc      | 21 ++++++++++-----------
- src/yimage.h      |  3 ---
- src/yimage_gdk.cc | 21 ---------------------
- src/ymsgbox.cc    |  4 +---
- src/yprefs.h      |  2 +-
- src/yximage.cc    | 26 --------------------------
- 7 files changed, 12 insertions(+), 79 deletions(-)
-
-commit 11ee3cfad91c406a4c78420c7e27281d16300054
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Tue Jun 5 14:45:22 2018 -0600
-
-    Revert "match is const."
-
-    This reverts commit d68d0fbbadeba38da8773b9ddc7b2876c70a4883.
-
- src/mstring.cc | 2 +-
- src/mstring.h  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-commit a549f005166f2afcde4ca841a07b70bd643bafaa
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Tue Jun 5 14:45:00 2018 -0600
-
-    Revert "keep --iconformats undocumented for now."
-
-    This reverts commit 1ef85b0485d304814bf4180ff64fae2861da1124.
-
- src/wmapp.cc | 1 +
- 1 file changed, 1 insertion(+)
-
-commit 4943c045f3ca466c43f3bc6be8b152fa8391152e
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Tue Jun 5 14:43:20 2018 -0600
-
-    Revert "yximage SVG by means of external converters (for the time being,
-    until better solutions)."
-
-    This reverts commit 3368e84e24618c9a1d3f85e3c4cac0afdcf08ca2.
-
- src/yximage.cc | 126 -----------------------------------------------------
- 1 file changed, 126 deletions(-)
-
-commit 2ea1f14cfa7e82510ff6f42d2195e79b39215553
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Tue Jun 5 22:18:20 2018 +0200
-
-    Introduce abstract class Picturer to work around buggy vtable for CMake
-    builds for issues #258 and #273.
-
- src/aclock.cc     |  2 +-
- src/aclock.h      |  7 ++++++-
- src/acpustatus.cc |  2 +-
- src/acpustatus.h  |  2 +-
- src/amemstatus.cc |  2 +-
- src/amemstatus.h  |  7 ++++++-
- src/applet.cc     | 17 ++++++++---------
- src/applet.h      | 10 ++++++++--
- src/apppstatus.cc |  2 +-
- src/apppstatus.h  |  2 +-
- 10 files changed, 34 insertions(+), 19 deletions(-)
-
-commit 2c6f83020ec664b4f57205886a19118a5408a732
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Tue Jun 5 22:17:31 2018 +0200
-
-    Simply return the newly created icon instead of looking it up in the cache.
-
- src/yicon.cc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-commit 4c5d879c4a5759fe532ec06151c9c9d3beb836b8
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Tue Jun 5 22:16:41 2018 +0200
-
-    Use the same source file grouping and ordering as in Makefile.am.
-    Fix missing definition of CONFIG_XFREETYPE_VALUE.
-
- src/CMakeLists.txt | 28 ++++++++++++++++++----------
- 1 file changed, 18 insertions(+), 10 deletions(-)
-
-commit 708ac7fd504c6711df4cd02a6cab1ce86319bbd8
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Mon Jun 4 21:16:46 2018 +0200
-
-    block SIGPIPE to safely write to socket to openssl for mailbox applet.
-
- src/yapp.cc | 1 +
- 1 file changed, 1 insertion(+)
-
-commit 3c47078ab505662283827bee1cc159896ca8c0f2
-Author: scootergrisen <scootergrisen@gmail.com>
-Date:   Mon Jun 4 07:21:44 2018 +0000
-
-    Translated using Weblate (Danish)
-
-    Currently translated at 100.0% (336 of 336 strings)
-
- po/da.po | 157 +++++++++++++++++++----------------------------------------
- 1 file changed, 49 insertions(+), 108 deletions(-)
-
-commit 3368e84e24618c9a1d3f85e3c4cac0afdcf08ca2
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Mon Jun 4 00:29:34 2018 +0200
-
-    yximage SVG by means of external converters (for the time being, until
-    better solutions).
-
- src/yximage.cc | 126 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 126 insertions(+)
-
-commit 1ef85b0485d304814bf4180ff64fae2861da1124
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Jun 3 23:02:39 2018 +0200
-
-    keep --iconformats undocumented for now.
-
- src/wmapp.cc | 1 -
- 1 file changed, 1 deletion(-)
-
-commit d68d0fbbadeba38da8773b9ddc7b2876c70a4883
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Jun 3 23:02:11 2018 +0200
-
-    match is const.
-
- src/mstring.cc | 2 +-
- src/mstring.h  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-commit cbe949d1fe5570d5265d2a7e016b86e5b9ecdb1d
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Jun 3 14:46:26 2018 +0200
-
-    support SVG icons for GDK-pixbuf and add --iconformats option.
-
- src/wmapp.cc      | 14 ++++++++++++++
- src/yicon.cc      | 21 +++++++++++----------
- src/yimage.h      |  3 +++
- src/yimage_gdk.cc | 21 +++++++++++++++++++++
- src/ymsgbox.cc    |  4 +++-
- src/yprefs.h      |  2 +-
- src/yximage.cc    | 26 ++++++++++++++++++++++++++
- 7 files changed, 79 insertions(+), 12 deletions(-)
-
-commit b867129ece891d45a557f6042afcc5588f0bb498
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Jun 3 09:35:38 2018 +0200
-
-    port to FreeBSD and OpenBSD
-
- configure.ac      |   4 +-
- src/acpustatus.cc | 104 +++++++++++++++++++++++++++++++++++++++-----------
- src/acpustatus.h  |   2 +-
- src/apppstatus.cc |  58 ++++++++++++++++++----------
- src/apppstatus.h  |   5 ++-
- 5 files changed, 126 insertions(+), 47 deletions(-)
-
-commit 3817103bae789b2bff7cf8c1bbe2255b60878ab3
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Jun 3 09:34:12 2018 +0200
-
-    portability
-
- src/globit.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-commit eb60f812840606f69a41b026a3ff9702df555f7c
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Jun 3 09:33:53 2018 +0200
-
-    cstring equality
-
- src/mstring.h | 3 +++
- 1 file changed, 3 insertions(+)
-
-commit 4fcc52db8dd1a55af80e1b8b11646762988426d3
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Jun 3 09:33:26 2018 +0200
-
-    close file before recursing
-
- src/wmmenu.cc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-commit b0d67bd8adf4a8808075890421547bbb694d7f93
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Jun 3 09:33:12 2018 +0200
-
-    portability
-
- src/upath.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-commit a1977829cf8be9334e56b460d19e12f9a3e5445f
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Jun 3 09:30:50 2018 +0200
-
-    fix getloadavg2
-
- src/CMakeLists.txt    | 2 +-
- src/config.cmake.h.in | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-commit dc18cd7c532282c314e42b158633cb833d1cf9fa
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Jun 3 09:21:34 2018 +0200
-
-    Don't change workspace when clicking on About for issue #269.
-
- src/wmapp.cc | 2 ++
- 1 file changed, 2 insertions(+)
-
-commit c5fa2fa10edd3b6f3f75696141e1e6223efa2e3d
-Author: David Medina <medipas@gmail.com>
-Date:   Wed May 30 14:03:57 2018 +0000
-
-    Translated using Weblate (Catalan)
-
-    Currently translated at 100.0% (336 of 336 strings)
-
- po/ca.po | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-commit c8b9f90465b3cf7270edef5be78b2cb550e19970
-Merge: 03c34241 6958728d
-Author: Brian Bidulock <bidulock@openss7.com>
-Date:   Sat May 19 18:58:40 2018 -0600
-
-    Merge pull request #233 from zhengqiang130/icewm-1-4-BRANCH
-
-    Use ss instead of netstat in src/default.h
-
-commit 6958728d4d98966d8f6bf31df126dc4003b50345
-Merge: 0470318b 03c34241
-Author: Brian Bidulock <bidulock@openss7.com>
-Date:   Sat May 19 18:58:27 2018 -0600
-
-    Merge branch 'icewm-1-4-BRANCH' into icewm-1-4-BRANCH
-
-commit 03c3424193f110d136c133fccc4643dbae0398cf
-Merge: 7a70e5b2 48e4dad7
-Author: Brian Bidulock <bidulock@openss7.com>
-Date:   Sat May 19 18:50:04 2018 -0600
-
-    Merge pull request #272 from ddekany/pr-default-colors
-
-    Weird title bar colors in the default theme
-
-commit 7a70e5b26491aebdef06d930c8d1218e63b40d2b
-Merge: 3a04e777 158e9407
-Author: Brian Bidulock <bidulock@openss7.com>
-Date:   Sat May 19 18:49:17 2018 -0600
-
-    Merge pull request #271 from ddekany/pr-default-buttons
-
-    Removed unwanted pixel from the corners of default theme buttons
-
-commit 48e4dad70a173758a5f54cdbbee8efd4dd34c141
-Author: ddekany <ddekany@apache.org>
-Date:   Fri May 18 01:20:41 2018 +0200
-
-    Decreased border size a bit. Looks less unbalanced with the new color.
-
- lib/themes/default/default.theme | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-commit 50c273c73a7d94c7d7d3c22ed6226fd07e075964
-Author: ddekany <ddekany@apache.org>
-Date:   Fri May 18 00:47:58 2018 +0200
-
-    Fixed weird title bar and header colors in default theme
-
- lib/themes/default/default.theme | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-commit 158e9407569f1a934d0af4d04e2871a251b6f7bc
-Author: ddekany <ddekany@apache.org>
-Date:   Fri May 18 00:39:33 2018 +0200
-
-    Removed unwanted pixel from the corners
-
- lib/themes/default/closeA.xpm      | 4 ++--
- lib/themes/default/closeI.xpm      | 4 ++--
- lib/themes/default/menuButtonA.xpm | 4 ++--
- lib/themes/default/menuButtonI.xpm | 4 ++--
- 4 files changed, 8 insertions(+), 8 deletions(-)
-
-commit 3a04e777d715606c0209a92aa5f15d57b552f028
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Wed May 16 21:09:44 2018 -0600
-
-    mention xde-menu utility
-
- README.md    |  7 ++++++-
- README.md.in | 40 +++++++++++++++++++++++-----------------
- 2 files changed, 29 insertions(+), 18 deletions(-)
-
-commit da195972e124eed199317f57981fafd8d300c4b4
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Wed May 16 21:05:02 2018 -0600
-
-    get bbkeys from github
-
- README.md    | 5 ++---
- README.md.in | 5 ++---
- 2 files changed, 4 insertions(+), 6 deletions(-)
-
-commit e22413fbabee9089d504d85ec67d2176795511ab
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Wed May 16 21:01:53 2018 -0600
-
-    remove wm-session section, correct reference links
-
- README.md.in | 100 +++++++++++++++++--------------------------------------
- 1 file changed, 30 insertions(+), 70 deletions(-)
-
-commit 9e8df7abb61657292b55ec6230f6eb6678acbd6b
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Wed May 16 21:01:34 2018 -0600
-
-    remove deprecated wm-session section
-
- README.md | 66 +++++++++++++----------------------------------------------
- 1 file changed, 14 insertions(+), 52 deletions(-)
-
-commit 82e92b04edf1f20f02a0efa5434df07a0a61a097
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Wed May 16 20:56:18 2018 -0600
-
-    silent build is default
-
- README.md | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-commit 369dd2d326e5328da8241243085f443cc8305da1
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Wed May 16 20:53:08 2018 -0600
-
-    simplfy quickstart build
-
- README.md    | 5 +----
- README.md.in | 4 +---
- 2 files changed, 2 insertions(+), 7 deletions(-)
-
-commit 6cfb7993bdec7940d1cd3d369d85217e6a11301a
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Wed May 16 19:43:54 2018 -0600
-
-    remove redundant meaningless descriptions
-
- README.md    | 16 ++++++++--------
- README.md.in | 16 ++++++++--------
- 2 files changed, 16 insertions(+), 16 deletions(-)
-
-commit bea9543c6e0a80d3c8cf6e11c2ddfe0a9011fcd2
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Wed May 16 19:42:57 2018 -0600
-
-    do not need libsndfile to build
-
- README.md    | 1 -
- README.md.in | 1 -
- 2 files changed, 2 deletions(-)
-
-commit 6c29b3b1fd9e216c293295e57eeeeee2f0b05d80
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Wed May 16 19:41:15 2018 -0600
-
-    building from git does not require git
-
- README.md    | 1 -
- README.md.in | 1 -
- 2 files changed, 2 deletions(-)
-
-commit 746e19b2270d6628cf66d251d880763f46788f4d
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Wed May 16 19:39:48 2018 -0600
-
-    users do not need to build releases
-
- README.md    | 1 -
- README.md.in | 1 -
- 2 files changed, 2 deletions(-)
-
-commit f7e8b1e59f3b0c9600caed6e44aa56a43a33e3cc
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Wed May 16 19:35:28 2018 -0600
-
-    do not need xorg-mkfontdir to build
-
- README.md    | 1 -
- README.md.in | 1 -
- 2 files changed, 2 deletions(-)
-
-commit 46b9d4d5fb3e08357433f3554f6ef92a959f0f7a
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Wed May 16 19:34:51 2018 -0600
-
-    automake, autopoint gettext part of complete autoconf toolchain
-
- README.md    | 3 +--
- README.md.in | 3 +--
- 2 files changed, 2 insertions(+), 4 deletions(-)
-
-commit a768d91577cefcbda638542a166c999cc39038c7
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Wed May 16 19:33:20 2018 -0600
-
-    cannot have autoconf without having perl
-
- README.md    | 1 -
- README.md.in | 1 -
- 2 files changed, 2 deletions(-)
-
-commit 2f397518a4cc8e13eeba2bf53f841cce9f4b1add
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Wed May 16 19:32:54 2018 -0600
-
-    do not need glib2 to compile
-
- README.md    | 1 -
- README.md.in | 1 -
- 2 files changed, 2 deletions(-)
-
-commit 0c22e23881b9e23b4cd2bffdaca73c6aa0432f84
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Wed May 16 19:32:30 2018 -0600
-
-    do not need fribidi to compile
-
- README.md    | 1 -
- README.md.in | 1 -
- 2 files changed, 2 deletions(-)
-
-commit 8b21298778c97b4e4af7112156d34bccc470eb3b
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Wed May 16 19:32:06 2018 -0600
-
-    do not need libsm to compile
-
- README.md    | 1 -
- README.md.in | 1 -
- 2 files changed, 2 deletions(-)
-
-commit e42dd3f4bad42f0e41bb6e1dde4fc9194a46ac51
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Wed May 16 19:31:33 2018 -0600
-
-    cannot have libxft without libxrender
-
- README.md    | 1 -
- README.md.in | 1 -
- 2 files changed, 2 deletions(-)
-
-commit 79a1c004f2c83cbef5b0fc9e381be96757bda5fa
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Wed May 16 19:31:06 2018 -0600
-
-    cannot have libxft without freetype2 and libpng
-
- README.md    | 1 -
- README.md.in | 1 -
- 2 files changed, 2 deletions(-)
-
-commit 2c6edaa00bf9e25fc734bfabbb0e67e300409323
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Wed May 16 19:30:10 2018 -0600
-
-    do not need gdk-pixbuf2 (ximage rendering)
-
- README.md    | 1 -
- README.md.in | 1 -
- 2 files changed, 2 deletions(-)
-
-commit dec45b93977cbb4d18b60b8f9b5cb85c3940b911
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Wed May 16 19:29:05 2018 -0600
-
-    cannot have libxft wihtout having fontconfig
-
- README.md    | 1 -
- README.md.in | 1 -
- 2 files changed, 2 deletions(-)
-
-commit 384c51f004d47d927389f461cda27a437077b2db
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Wed May 16 19:28:22 2018 -0600
-
-    cannot have libxft wihtout having libxext
-
- README.md    | 1 -
- README.md.in | 1 -
- 2 files changed, 2 deletions(-)
-
-commit ada0a4e8c17de9d1b807b689f62bd3e09040b37b
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Wed May 16 19:27:53 2018 -0600
-
-    cannot have libxft wihtout having libx11
-
- README.md    | 1 -
- README.md.in | 1 -
- 2 files changed, 2 deletions(-)
-
-commit 4d71175141cb35c9fcf695c79fa15e7168d1a869
-Author: Brian Bidulock <bidulock@openss7.org>
-Date:   Wed May 16 19:26:52 2018 -0600
-
-    do not need libtool to compile from tarball
-
- README.md    | 1 -
- README.md.in | 1 -
- 2 files changed, 2 deletions(-)
-
-commit d3efbffdcfcffb381457b1855d2ce145a5109793
-Author: Juan Sarria <juansarriam@gmail.com>
-Date:   Wed May 16 19:56:08 2018 +0000
-
-    Translated using Weblate (Spanish)
-
-    Currently translated at 100.0% (336 of 336 strings)
-
- po/es.po | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
-
-commit d2859a8b241f3e1190071df9afc2a084c559a676
-Author: jc sl <trcs@gmx.com>
-Date:   Tue May 15 19:38:00 2018 +0000
-
-    Translated using Weblate (Spanish)
-
-    Currently translated at 97.9% (329 of 336 strings)
-
- po/es.po | 26 ++++++++++----------------
- 1 file changed, 10 insertions(+), 16 deletions(-)
-
-commit a6fac572cb7a7b7b2fc9351fad8bf19f2726fce4
-Author: Robert Taisz <robert.taisz@emerald.hu>
-Date:   Tue May 15 17:41:12 2018 +0000
-
-    Translated using Weblate (Hungarian)
-
-    Currently translated at 100.0% (336 of 336 strings)
-
- po/hu.po | 38 ++++++++++++++++----------------------
- 1 file changed, 16 insertions(+), 22 deletions(-)
-
-commit 2d605baaabeebe91bfbd1218373355ce0de7fc85
-Author: Grace Yu <grace.yu@excel-gits.com>
-Date:   Mon May 14 07:32:21 2018 +0000
-
-    Translated using Weblate (Chinese (Taiwan))
-
-    Currently translated at 100.0% (336 of 336 strings)
-
- po/zh_TW.po | 38 ++++++++++++++++----------------------
- 1 file changed, 16 insertions(+), 22 deletions(-)
-
-commit 8bfb7585c77295a4791f12ba0f0c7f068e84991e
-Author: Hwajin Kim <hwajin.kim@e4net.net>
-Date:   Mon May 14 05:54:46 2018 +0000
-
-    Translated using Weblate (Korean)
-
-    Currently translated at 100.0% (336 of 336 strings)
-
- po/ko.po | 38 ++++++++++++++++----------------------
- 1 file changed, 16 insertions(+), 22 deletions(-)
-
-commit 7daedf3d012bbfdc573b621453b7af4d0daaacfe
-Author: Eduard Bloch <blade@debian.org>
-Date:   Sat May 12 17:23:44 2018 +0200
-
-    [cmake] Restored icewmtray target
-
-    Now optional via CONFIG_EXTERNAL_TRAY.
-
- src/CMakeLists.txt    | 11 +++++++----
- src/amailbox.cc       |  2 +-
- src/config.cmake.h.in |  1 +
- 3 files changed, 9 insertions(+), 5 deletions(-)
-
-commit 6d8e2757bf13bcfb5de38a78364531d4319e6251
-Author: Eduard Bloch <blade@debian.org>
-Date:   Sat May 12 17:20:11 2018 +0200
-
-    Fix debug build
-
-    Looks like cpuname is gone for good in the latest rewrites.
-
- src/acpustatus.cc | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)

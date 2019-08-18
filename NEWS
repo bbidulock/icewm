@@ -1,11 +1,209 @@
-icewm -- history of user-visible changes.  2019-06-07
+icewm -- history of user-visible changes.  2019-08-18
+
+Release icewm-1.6.0 released 2019-08-18
+---------------------------------------
+
+git shortlog -e -n -w80,6,8 1.5.5...1.6.0
+
+Bert Gijsbers <gijsbers@science.uva.nl> (125):
+      Fix #350. thx!
+      more robust fix for SIGFPE commit 6ef7a381dc12de5c8d179511a7733da12bacc0ed
+      wrap negative increments around.
+      Fix icesh -last. Fix toggleState for #354.
+      Simplify partial struts. Check if window gravity was specified. If
+        testDestroyed failed then Wait for DestroyNotify. Only call
+        updateMwmHints if WM_NORMAL_HINTS has really changed for Xephyr in #353.
+        Only update if WIN_HINTS has really changed.
+      setDestroyed + testDestroyed.
+      On startup postpone creating taskbar. Set frame background color. Lock
+        work area. Improve work area efficiency. Prevent nested server grabs.
+        Simplify edges. Increase/decrease number of workspaces not in
+        incremental steps, but all at once.
+      Don't focus frame under mouse if ClickToFocus in issue #355 and issue
+        #358.
+      Allow to reload winoptions without requiring a restart for issue #353..
+      add class YStringList
+      Move workspace info to dedicated class Workspaces.
+      Remove static limitations on number of workspaces.
+      Make YInputLine reusable.
+      Fix button click for derived classes.
+      Limit number of taskbar workspaces
+      TaskBarWorkspacesLimit.
+      repaint must be virtual.
+      eliminate flicker.
+      implement issue #314 to put start menu button in the corner.
+      handleClick for framebutton should call YButton::handleClick. This
+        complements commit 1caa1178f615ed06f56c4fa512829a56141ddbb9.
+      resurrect TaskBarFullscreenAutoShow for issue #361.
+      undo optimization
+      Add missing =over + =back.
+      --nobg          Do not start icewmbg
+      lazily
+      depth 24.
+      YRect2.
+      Don't create menus on startup. Support use of 32-bit visuals within icewm.
+        Add optional splash window (default OFF). Enable logging on startup.
+        Support 32-bit pixmaps.
+      setDefaultTheme, printPrefs.
+      paint 32-bit alpha. GraphicsBuffer. copyImage.
+      Tray support 32-bit visual.
+      tray pane buffered drawing.
+      buffered object buttons
+      taskbar use buffered graphics, objectbuttons, delay menu.
+      All frames same visual, defer client visual and bit-depth to container.
+      correlate output to input.
+      Only layout frame if resized.
+      Buffered titlebar draw.
+      prevent X errors.
+      reduce number of relayouts.
+      draw labels and dialogs buffered.
+      change default WorkspaceStatusTime to 700
+      fix includes
+      paint splash
+      buffered wm status draw
+      buffered wm status draw
+      prevent useless expose events
+      Opaqueness
+      buffer yinput
+      support opacity in color specifications as prefix "[100]"
+      support _NET_SYSTEM_TRAY_ORIENTATION, _NET_SYSTEM_TRAY_VISUAL.
+      Keep focus change for wsNoExpose.
+      prevent expose events
+      nullptr portability.
+      update workspace buttons only when idle.
+      _NET_SYSTEM_TRAY_ORIENTATION and _NET_SYSTEM_TRAY_VISUAL are now
+        supported.
+      buffered menu drawing.
+      buffered drawing for workspace buttons
+      buffered drawing for task buttons
+      BSD sighandler_t
+      buffer tooltip (for net/cpu apps).
+      buffered draw window list
+      buffered draw icehelp
+      Prevent premature drawing.
+      Warn at most once per missing font.
+      prevent a compiler warning
+      Use buffered drawing for all applets.
+      Add "systray" and "xembed" commands to list the system tray.
+      remove empty if statement
+      Support window gravity for issue #351.
+      YTextProperty
+      use XSetWMProperties.
+      update gravity filtering to the win_gravity field of WM_NORMAL_HINTS for
+        issue #351.
+      add RandR logging for #296.
+      initialize fForceImmediate.
+      reduce resizing yicons.
+      compile on OpenBSD.
+      keep showing 24-bit icons in 32-bit mode.
+      No need to reparent MiniIcon anymore.
+      _XEMBED_INFO has property type _XEMBED_INFO.
+      Complete properties list.
+      Rewrite getNetWMIcon succinctly.
+      Add winoption startClose to immediately close unwanted windows.
+      nest grabs.
+      avoid null-dereference.
+      More robust checking of workspace info.
+      logCrossing details.
+      Order global menus in reverse order of destruction.
+      Don't apply ahwm hack if a task tooltip is created for issue #370.
+      Don't pass a nullptr to mem functions.
+      use bool.
+      use bool.
+      check if null.
+      cache image.
+      reset desktop when done.
+      don't call virtual function in constructor.
+      Ensure geometry is valid in layoutClient.
+      Mwm flags member functions.
+      Support C++98.
+      Hostname is already set by SetWMProperties.
+      simplify setWinHintsHint.
+      add ClassHint constructor.
+      Use SetWMProperties and set _NET_WM_PID.
+      When Mwm changes then relayout.
+      Repaint after relayout.
+      Add "motif", "symbols". Better expression parser.
+      Create a new property when needed.
+      Correction for updateMwmHints.
+      No longer build icewmtray by default.
+      fix over/back.
+      Add 'WorkspaceNames' for issue #371.
+      Add pid and sizeto.
+      alpha, splash, extensions.
+      Require xrender xcomposite xdamage xfixes.
+      +hexDigit.
+      Enable STD_OPTIONS if internal.
+      Support more extensions: composite, damage, render. Support rgba colors.
+        Render systray icons with composite when in 32-bit alpha mode.
+      Require xrender xcomposite xdamage xfixes.
+      update po files
+      Fix sizeto for sticky windows.
+      add --alpha
+      add example
+      Include X11/Xproto.h only when required.
+      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge branch 'icewm-1-4-BRANCH'
+
+Eduard Bloch <blade@debian.org> (8):
+      Another xrandr setup where second screen is primary
+      [cmake] Fix linking of icesh with Xinerama and Xrandr
+      Prevent a potential crash from glitches in item provider
+      Don't read trailing terminator when not needed
+      [cmake] Use list based handling of compiler options
+      Improve German translation regarding focus behaviors
+      Build fix (XTextProperty definition)
+      [cmake] Make sure to preinclude config.h
+
+Olga Smirnova <mistresssilvara@hotmail.com> (3):
+      Added translation using Weblate (Occidental)
+      Translated using Weblate (Occidental)
+      Translated using Weblate (Russian)
+
+Aleš Kastner <alkas@volny.cz> (2):
+      Translated using Weblate (Czech)
+      Translated using Weblate (Czech)
+
+David Medina <medipas@gmail.com> (2):
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+
+Yasuhiko Kamata <belphegor@belbel.or.jp> (2):
+      Translated using Weblate (Japanese)
+      Translated using Weblate (Japanese)
+
+Brian Bidulock <bidulock@openss7.org> (1):
+      update to support gettext 0.20.1
+
+Ferdinand Galko <galko.ferdinand@gmail.com> (1):
+      Translated using Weblate (Slovak)
+
+Freek de Kruijf <freek@opensuse.org> (1):
+      Translated using Weblate (Dutch)
+
+Rodrigo Macedo <rmsolucoeseminformatic4@gmail.com> (1):
+      Translated using Weblate (Portuguese (Brazil))
+
+Sarah Kriesch <ada.lovelace@gmx.de> (1):
+      Translated using Weblate (German)
+
+Thomas Koller <tk120@protonmail.com> (1):
+      Translated using Weblate (German)
+
+Yi-Jyun Pan <pan93412@gmail.com> (1):
+      Translated using Weblate (Chinese (Taiwan))
+
+scootergrisen <scootergrisen@gmail.com> (1):
+      Translated using Weblate (Danish)
+
 
 Release icewm-1.5.5 released 2019-06-07
 ---------------------------------------
 
 git shortlog -e -n -w80,6,8 1.5.4...1.5.5
 
-Bert Gijsbers <gijsbers@science.uva.nl> (32):
+Bert Gijsbers <gijsbers@science.uva.nl> (33):
       Add 16 new icesh commands.
       Set EWMH window type on icewm windows.
       Set WM_CLASS and window type on icewm windows.
@@ -43,6 +241,7 @@ Bert Gijsbers <gijsbers@science.uva.nl> (32):
       Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
         icewm-1-4-BRANCH
       Merge branch 'icewm-1-4-BRANCH'
+      Prepare 1.5.5 release
 
 openSUSE Weblate <weblate-noreply@opensuse.org> (4):
       Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
@@ -2503,42 +2702,4 @@ varmanishant <nishant.varma@gmail.com> (1):
 
 zhengqiang130 <qzheng@suse.com> (1):
       Use ss instead of netstat in src/default.h
-
-
-Release icewm-1.4.2 released 2017-07-30
----------------------------------------
-
-git shortlog -e -n -w80,6,8 1.4.1...1.4.2
-
-Brian Bidulock <bidulock@openss7.org> (10):
-      Merge remote-tracking branch 'origin/icewm-1-3-BRANCH' into
-        icewm-1-4-BRANCH
-      update po files
-      update AUTHORS file
-      generate more news
-      update NEWS file
-      icewm-1-4-BRANCH is now the default
-      partially address issue #146
-      better fix for issue #146
-      final tweak for #146
-      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
-        icewm-1-4-BRANCH
-
-Bert Gijsbers <gijsbers@science.uva.nl> (6):
-      Omit -b in git checkout icewm-1-4-BRANCH.
-      Specify output with -o icewm.html.
-      Update ChangeLog to 1.4.1 and remove all changes for the 1.3.12 release
-        and older.
-      New function copyPixmaps adds more defaults for missing pixmaps. When some
-        pixmaps are missing then they are copied from others. This restores
-        backward compatibility in issue #144.
-      Always show icon in the top left corner of a window in issue #144.
-      Prepare for release 1.4.2.
-
-Brian Bidulock <bidulock@openss7.com> (1):
-      Merge pull request #150 from
-        Code7R/feature/increase_theme_menu_collapsing_threshold
-
-Eduard Bloch <blade@debian.org> (1):
-      Increased the trigger value for the theme menu nesting algorithm
 

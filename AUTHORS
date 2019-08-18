@@ -1,15 +1,20 @@
-icewm -- authors file.  2019-06-07
+icewm -- authors file.  2019-08-18
 
 Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Author: Sarah Kriesch <ada.lovelace@gmx.de>
-Author: Rodrigo Macedo <rmsolucoeseminformatic4@gmail.com>
-Author: Freek de Kruijf <freek@opensuse.org>
-Author: Ferdinand Galko <galko.ferdinand@gmail.com>
-Author: David Medina <medipas@gmail.com>
-Author: Yasuhiko Kamata <belphegor@belbel.or.jp>
+Author: Thomas Koller <tk120@protonmail.com>
 Author: Aleš Kastner <alkas@volny.cz>
-Author: openSUSE Weblate <weblate-noreply@opensuse.org>
+Author: Yasuhiko Kamata <belphegor@belbel.or.jp>
+Author: David Medina <medipas@gmail.com>
+Author: Eduard Bloch <blade@debian.org>
+Author: Rodrigo Macedo <rmsolucoeseminformatic4@gmail.com>
+Author: Yi-Jyun Pan <pan93412@gmail.com>
 Author: scootergrisen <scootergrisen@gmail.com>
+Author: Brian Bidulock <bidulock@openss7.org>
+Author: Sarah Kriesch <ada.lovelace@gmx.de>
+Author: Olga Smirnova <mistresssilvara@hotmail.com>
+Author: Ferdinand Galko <galko.ferdinand@gmail.com>
+Author: Freek de Kruijf <freek@opensuse.org>
+Author: openSUSE Weblate <weblate-noreply@opensuse.org>
 Author: mohammad alhargan <malham1@gmail.com>
 Author: Stanislav Brabec <sbrabec@suse.cz>
 Author: Sven Åhr <anders.ahr@gmail.com>
@@ -24,7 +29,6 @@ Author: wisememo <46960734+wisememo@users.noreply.github.com>
 Author: Franziska Weinberger <f.weinberger@gemino.de>
 Author: Jorge Gallegos Carrasco <jcarrascochih@gmail.com>
 Author: Patricia Pazos <pms.malaga@hermestrans.com>
-Author: Brian Bidulock <bidulock@openss7.org>
 Author: Alessio Adamo <alessio.adamo@gmail.com>
 Author: nikoss <nikoss@users.noreply.github.com>
 Author: Dmitriy Khanzhin <dmitriy.khanzhin@gmail.com>
@@ -36,10 +40,8 @@ Author: YunSeok Choi <xein@naver.com>
 Author: varmanishant <nishant.varma@gmail.com>
 Author: Brian Bidulock <bidulock@openss7.com>
 Author: Antoine Belvire <antoine.belvire@opensuse.org>
-Author: Eduard Bloch <blade@debian.org>
 Author: jc sl <trcs@gmx.com>
 Author: Sir Mobus Gochfulshigan Dorphin Esquire XXIII <celestialtuba@gmail.com>
-Author: Yi-Jyun Pan <pan93412@gmail.com>
 Author: Marguerite Su <i@marguerite.su>
 Author: ldarby2 <42494548+ldarby2@users.noreply.github.com>
 Author: Nikolas Nyby <nikolas@gnu.org>
