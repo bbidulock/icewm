@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: icewm-1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2019-08-17 12:39+0200\n"
-"PO-Revision-Date: 2019-08-17 21:51+0000\n"
+"PO-Revision-Date: 2019-08-18 21:51+0000\n"
 "Last-Translator: Aleš Kastner <alkas@volny.cz>\n"
 "Language-Team: Czech <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/cs/>\n"
@@ -589,9 +589,8 @@ msgid "IceWM tray option"
 msgstr "Přepínače IceWM tray"
 
 #: src/icesh.cc:1446
-#, fuzzy
 msgid "Gravity symbols"
-msgstr "Symboly závažnosti"
+msgstr "Symboly váhy"
 
 #: src/icesh.cc:1447
 msgid "Motif functions"
