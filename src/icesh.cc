@@ -1276,9 +1276,9 @@ static void getArea(Window window, int& x, int& y, int& w, int& h) {
     long hmin = 0;
     long wmax = displayWidth();
     long hmax = displayHeight();
-    long ws = getWorkspace(window);
+    long ws = max(0L, getWorkspace(window));
     YCardinal net(root, ATOM_NET_WORKAREA, 5000);
-    if (net && 0 <= ws && ws < net.count() / 4) {
+    if (net && ws < net.count() / 4) {
         wmin = net[ws * 4 + 0];
         hmin = net[ws * 4 + 1];
         wmax = net[ws * 4 + 2];
@@ -2696,7 +2696,6 @@ void IceSh::parseAction()
                     extArea(window, ax, ay, aw, ah);
                     c.x = (aw - w) / 2;
                     c.y = (ah - h) / 2;
-                    tlog("%d, %d, %d, %d, %d, %d", c.x, aw, w, c.y, ah, h);
                     XConfigureWindow(display, window, CWX | CWY, &c);
                 }
             }
