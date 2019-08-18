@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.4.2.1038\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2019-08-17 12:39+0200\n"
-"PO-Revision-Date: 2019-06-22 22:49+0000\n"
+"PO-Revision-Date: 2019-08-18 21:51+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
-"Language-Team: Danish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/da/>\n"
+"Language-Team: Danish <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -589,19 +589,15 @@ msgstr "IceWM-bakketilvalg"
 
 #: src/icesh.cc:1446
 msgid "Gravity symbols"
-msgstr ""
+msgstr "Tyngdekraftsymboler"
 
 #: src/icesh.cc:1447
-#, fuzzy
-#| msgid "Save Modifications"
 msgid "Motif functions"
-msgstr "Gem ændringer"
+msgstr "Motif-funktioner"
 
 #: src/icesh.cc:1448
-#, fuzzy
-#| msgid "Save Modifications"
 msgid "Motif decorations"
-msgstr "Gem ændringer"
+msgstr "Motif-dekorationer"
 
 #: src/icesh.cc:1527
 #, c-format
@@ -649,17 +645,6 @@ msgid "Socket error: %d"
 msgstr "Sokkelfejl: %d"
 
 #: src/icesm.cc:57
-#, fuzzy
-#| msgid ""
-#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-#| "\n"
-#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
-#| "  --sync              Synchronize communication with X11 server.\n"
-#| "\n"
-#| "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
-#| "  -n, --notray        Do not start icewmtray.\n"
-#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -677,9 +662,11 @@ msgstr ""
 "  -t, --theme=FIL     Lad IceWM indlæse temaet fra FIL.\n"
 "\n"
 "  -d, --display=NAVN  Brug NAVN til at oprette forbindelse til X-serveren.\n"
+"  -a, --alpha         Brug en 32-bit visuel for gennemsigtighed.\n"
 "  --sync              Synkroniser kommunikation med X11-server.\n"
 "\n"
 "  -i, --icewm=FIL     Brug FIL som IceWM-vindueshåndteringen.\n"
+"  -b, --nobg          Start ikke icewmbg.\n"
 "  -n, --notray        Start ikke icewmtray.\n"
 "  -s, --sound         Start også icesound.\n"
 
@@ -689,10 +676,9 @@ msgid "Unknown option '%s'"
 msgstr "Ukendt tilvalg \"%s\""
 
 #: src/icesm.cc:331 src/icesm.cc:449
-#, fuzzy, c-format
-#| msgid "Restart"
+#, c-format
 msgid "restart %s."
-msgstr "Genstart"
+msgstr "genstart %s."
 
 #: src/icesm.cc:337
 #, c-format
@@ -1362,12 +1348,6 @@ msgstr ""
 "vinduesstakning.\n"
 
 #: src/wmapp.cc:1480
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "  -c, --config=FILE   Load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Load theme from FILE.\n"
-#| "  --postpreferences   Print preferences after all processing.\n"
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -1377,8 +1357,10 @@ msgid ""
 "  --postpreferences   Print preferences after all processing.\n"
 msgstr ""
 "\n"
+"  -a, --alpha         Brug en 32-bit visuel for gennemsigtighed.\n"
 "  -c, --config=FIL    Indlæs præferencer fra FIL.\n"
 "  -t, --theme=FIL     Indlæs tema fra FIL.\n"
+"  --splash=BILLEDE    Vis kortvarigt BILLEDE under opstart.\n"
 "  --postpreferences   Udskriv præferencer efter endt behandling.\n"
 
 #: src/wmapp.cc:1487
