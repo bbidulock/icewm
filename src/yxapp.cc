@@ -7,6 +7,8 @@
 #include "ypointer.h"
 #include "yxcontext.h"
 #include "intl.h"
+#undef override
+#include <X11/Xproto.h>
 
 YXApplication *xapp = 0;
 

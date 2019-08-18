@@ -32,6 +32,8 @@
 #include <ft2build.h>
 #include <X11/Xft/Xft.h>
 #endif
+#undef override
+#include <X11/Xproto.h>
 #include "intl.h"
 
 char const *ApplicationName("IceWM");
