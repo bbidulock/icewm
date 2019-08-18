@@ -9,6 +9,7 @@
 
 #include "wmprog.h"
 #include "prefs.h"
+#include "wmwinmenu.h"
 #include "wmapp.h"
 #include "sysdep.h"
 #include "wmmgr.h"
@@ -192,7 +193,11 @@ public:
     // move the focused target up or down and return the new focused element
     virtual int moveTarget(bool zdown) OVERRIDE {
         int count = menu->itemCount();
-        zTarget = (zTarget + count + (zdown?1:-1)) % count;
+        zTarget += zdown ? 1 : -1;
+        if (zTarget >= count)
+            zTarget = 0;
+        if (zTarget < 0)
+            zTarget = max(0, count - 1);
         // no further gimmicks
         return zTarget;
     }
@@ -838,7 +843,7 @@ void StartMenu::refresh() {
             addSubmenu(_("Se_ttings"), -2, settings, "settings");
     }
 
-    if (logoutMenu) {
+    if (showLogoutMenu) {
         addSeparator();
         if (showLogoutSubMenu)
             addItem(_("_Logout..."), -2, actionLogout, logoutMenu, "logout");

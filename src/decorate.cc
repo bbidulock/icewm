@@ -9,6 +9,7 @@
 #include "wmtitle.h"
 #include "wmapp.h"
 #include "wmcontainer.h"
+#include "workspaces.h"
 #include "wpixmaps.h"
 #include "ymenuitem.h"
 #include "yrect.h"
@@ -52,9 +53,12 @@ void YFrameWindow::updateMenu() {
 #if DO_NOT_COVER_OLD
     windowMenu->checkCommand(actionDoNotCover, doNotCover());
 #endif
+    updateSubmenus();
+}
 
-    YMenuItem *item;
-    if ((item = windowMenu->findSubmenu(moveMenu)))
+void YFrameWindow::updateSubmenus() {
+    YMenuItem *item = windowMenu()->findSubmenu(moveMenu);
+    if (item)
         item->setEnabled(!isAllWorkspaces());
 
     moveMenu->setActionListener(this);
@@ -82,7 +86,8 @@ void YFrameWindow::updateMenu() {
         }
     }
 
-    if ((item = windowMenu->findAction(actionToggleTray))) {
+    item = windowMenu()->findAction(actionToggleTray);
+    if (item) {
         bool enabled = false == (frameOptions() & foIgnoreTaskBar);
         bool checked = enabled && (getTrayOption() != WinTrayIgnore);
         item->setChecked(checked);
@@ -104,7 +109,7 @@ void YFrameWindow::updateMenu() {
 
 #ifdef CONFIG_SHAPE
 void YFrameWindow::setShape() {
-    if (!shapesSupported)
+    if (!shapes.supported)
         return ;
 
     if (client()->shaped()) {
@@ -182,7 +187,7 @@ void YFrameWindow::layoutShape() {
         fShapeBorderY = borderY();
 
 #ifdef CONFIG_SHAPE
-        if (shapesSupported &&
+        if (shapes.supported &&
             (frameDecors() & fdBorder) &&
             !(isIconic() || isFullscreen()))
         {
@@ -277,12 +282,12 @@ void YFrameWindow::layoutShape() {
     }
 }
 
-void YFrameWindow::configure(const YRect &r) {
+void YFrameWindow::configure(const YRect2& r) {
     MSG(("configure %d %d %d %d", r.x(), r.y(), r.width(), r.height()));
 
-    YWindow::configure(r);
-
-    performLayout();
+    if (r.resized()) {
+        performLayout();
+    }
     if (affectsWorkArea()) {
         manager->updateWorkArea();
     }
@@ -389,8 +394,8 @@ void YFrameWindow::layoutClient() {
         int x = borderX();
         int y = borderY();
         int title = titleY();
-        int w = this->width() - 2 * x;
-        int h = this->height() - 2 * y - title;
+        int w = max(1, int(width()) - 2 * x);
+        int h = max(1, int(height()) - 2 * y - title);
 
         fClientContainer->setGeometry(YRect(x, y + title, w, h));
         fClient->setGeometry(YRect(0, 0, w, h));

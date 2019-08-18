@@ -22,6 +22,8 @@
 #include <setjmp.h>
 #endif
 
+#define ATH 55  /* highest alpha threshold that can show anti-aliased lines */
+
 struct Verbose {
     const bool verbose;
     Verbose() : verbose(init()) { }
@@ -86,7 +88,8 @@ public:
     }
 
     static XImage* createImage(unsigned width, unsigned height, unsigned depth) {
-        XImage* ximage = XCreateImage(xapp->display(), xapp->visual(), depth,
+        Visual* visual = xapp->visualForDepth(depth);
+        XImage* ximage = XCreateImage(xapp->display(), visual, depth,
                                       ZPixmap, 0, NULL, width, height, 8, 0);
         if (ximage == 0)
             tlog("ERROR: could not create %ux%ux%u ximage", width, height, depth);
@@ -123,6 +126,10 @@ private:
     XImage *fImage;
     bool fBitmap;
 };
+
+bool YImage::supportsDepth(unsigned depth) {
+    return depth == 32 || depth == xapp->depth();
+}
 
 ref<YImage> YImage::load(upath filename)
 {
@@ -926,7 +933,7 @@ ref<YImage> YXImage::scale(unsigned nw, unsigned nh)
     unsigned w = fImage->width;
     unsigned h = fImage->height;
     if (nw == w && nh == h)
-        return subimage(0, 0, w, h);
+        return ref<YImage>(this);
     if (nw <= w && nh <= h)
         return downscale(nw, nh);
     return upscale(nw, nh);
@@ -1066,6 +1073,9 @@ ref <YPixmap> YXImage::renderToPixmap(unsigned depth)
     XGCValues xg;
     GC gcd = None, gcm = None;
 
+    if (depth == 0) {
+        depth = xapp->depth();
+    }
     if (!valid()) {
         tlog("ERROR: invalid YXImage\n");
         goto error;
@@ -1079,8 +1089,8 @@ ref <YPixmap> YXImage::renderToPixmap(unsigned depth)
                 for (unsigned i = 0; !has_mask && i < w; i++)
                     if (((XGetPixel(fImage, i, j) >> 24) & 0xff) < 128)
                         has_mask = true;
-        if (hasAlpha()) {
-            xdraw = createImage(w, h, xapp->depth());
+        if (hasAlpha() || depth != this->depth()) {
+            xdraw = createImage(w, h, depth);
             if (xdraw == 0) {
                 goto error;
             }
@@ -1100,7 +1110,8 @@ ref <YPixmap> YXImage::renderToPixmap(unsigned depth)
         for (unsigned j = 0; j < h; j++)
             for (unsigned i = 0; i < w; i++)
                 XPutPixel(xmask, i, j,
-                        has_mask ? (((XGetPixel(fImage, i, j) >> 24) & 0xff) < 128 ? 0 : 1) : 1);
+                          !has_mask ||
+                          ((XGetPixel(fImage, i, j) >> 24) & 0xff) >= ATH);
         // tlog("created ximage %ux%ux%u for mask\n", xmask->width, xmask->height, xmask->depth);
 
         // tlog("next request %lu at %s: +%d : %s()\n", NextRequest(xapp->display()), __FILE__, __LINE__, __func__);
@@ -1193,8 +1204,12 @@ void YXImage::composite(Graphics& g, int x, int y,
     unsigned hi = fImage->height;
     unsigned di = fImage->depth;
     bool bitmap = isBitmap();
-    unsigned long fg = g.color() ? g.color().pixel() & 0x00FFFFFF : 0;
-    unsigned long bg = 0x00000000; /* for now */
+    unsigned fg = g.color() ? g.color().pixel() & 0x00FFFFFF : 0;
+    unsigned bg = 0x00000000; /* for now */
+    unsigned backAlpha = (g.rdepth() == 32) ? 0 : 0xFF;
+    unsigned backAmask = (g.rdepth() == 32) ? 0xFF : 0;
+    unsigned foreAlpha = (depth() == 32) ? 0 : 0xFF;
+    unsigned foreAmask = (depth() == 32) ? 0xFF : 0;
 
     if (verbose)
     tlog("compositing %ux%u+%d+%d of %ux%ux%u onto drawable 0x%lx at +%d+%d\n", w, h, x, y, wi, hi, di, g.drawable(), dx, dy);
@@ -1261,7 +1276,7 @@ void YXImage::composite(Graphics& g, int x, int y,
     xback = XGetImage(xapp->display(), g.drawable(), dx - g.xorigin(), dy - g.yorigin(), w, h, AllPlanes, ZPixmap);
     if (!xback) {
         tlog("ERROR: could not get backing image\n");
-        return;
+        xback = createImage(w, h, g.rdepth());
     }
     // tlog("got ximage %ux%ux%u\n", xback->width, xback->height, xback->depth);
 
@@ -1277,13 +1292,14 @@ void YXImage::composite(Graphics& g, int x, int y,
                 tlog("ERROR: point x = %u is out of bounds\n", i);
                 continue;
             }
-            unsigned Rb, Gb, Bb, A, R, G, B;
-            unsigned long pixel;
+            unsigned Rb, Gb, Bb, Ab, A, R, G, B;
+            unsigned pixel;
 
             pixel = XGetPixel(xback, i, j);
             Rb = (pixel >> 16) & 0xff;
             Gb = (pixel >>  8) & 0xff;
             Bb = (pixel >>  0) & 0xff;
+            Ab = ((pixel >> 24) & backAmask) | backAlpha;
             pixel = XGetPixel(fImage, i + x, j + y);
             if (bitmap) {
                 if (pixel & 0x00FFFFFF)
@@ -1291,7 +1307,7 @@ void YXImage::composite(Graphics& g, int x, int y,
                 else
                     pixel = (pixel & 0xFF000000) | bg;
             }
-            A = (pixel >> 24) & 0xff;
+            A = ((pixel >> 24) & foreAmask) | foreAlpha;
             R = (pixel >> 16) & 0xff;
             G = (pixel >>  8) & 0xff;
             B = (pixel >>  0) & 0xff;
@@ -1299,7 +1315,8 @@ void YXImage::composite(Graphics& g, int x, int y,
             Rb = ((A * R) + ((255 - A) * Rb)) / 255;
             Gb = ((A * G) + ((255 - A) * Gb)) / 255;
             Bb = ((A * B) + ((255 - A) * Bb)) / 255;
-            pixel = (Rb << 16)|(Gb << 8)|(Bb << 0);
+            Ab = (A + Ab + 1) / 2;
+            pixel = (Rb << 16)|(Gb << 8)|(Bb << 0)|(Ab << 24);
             XPutPixel(xback, i, j, pixel);
         }
     }

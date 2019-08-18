@@ -9,7 +9,6 @@
 #include "wmapp.h"
 #include "prefs.h"
 #include "wmtaskbar.h"
-#include "aworkspaces.h"
 #include "intl.h"
 
 extern YColorName activeBorderBg;
@@ -726,9 +725,9 @@ bool YFrameWindow::handleKey(const XKeyEvent &key) {
             } else if (IS_WMKEY(k, vm, gKeyWinPrev)) {
                 wmPrevWindow();
             } else if (IS_WMKEY(k, vm, gKeyWinMaximizeVert)) {
-                wmMaximizeVert();
+                if (canMaximize()) wmMaximizeVert();
             } else if (IS_WMKEY(k, vm, gKeyWinMaximizeHoriz)) {
-                wmMaximizeHorz();
+                if (canMaximize()) wmMaximizeHorz();
             } else if (IS_WMKEY(k, vm, gKeyWinRaise)) {
                 if (canRaise()) wmRaise();
             } else if (IS_WMKEY(k, vm, gKeyWinOccupyAll)) {
@@ -975,8 +974,8 @@ void YFrameWindow::endMoveSize() {
 
     manager->setWorkAreaMoveWindows(false);
 
-    if (taskBar && taskBar->workspacesPane()) {
-        taskBar->workspacesPane()->repaint();
+    if (taskBar) {
+        taskBar->workspacesRepaint();
     }
 }
 

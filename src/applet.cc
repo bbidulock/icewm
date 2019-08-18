@@ -1,6 +1,7 @@
 #include "ywindow.h"
 #include "applet.h"
 #include "yxapp.h"
+#include "default.h"
 
 Picturer::~Picturer()
 {
@@ -9,11 +10,11 @@ Picturer::~Picturer()
 IApplet::IApplet(Picturer *picturer, YWindow *parent) :
     YWindow(parent),
     isVisible(false),
-    isMapped(false),
     fPicturer(picturer),
     fPixmap(None)
 {
-    addEventMask(VisibilityChangeMask | StructureNotifyMask);
+    setStyle(wsNoExpose);
+    addEventMask(VisibilityChangeMask);
 }
 
 IApplet::~IApplet()
@@ -29,45 +30,38 @@ void IApplet::freePixmap()
     }
 }
 
-void IApplet::handleExpose(const XExposeEvent &e)
-{
-    if (fPixmap || fPicturer->picture())
-        paint(getGraphics(), YRect(e.x, e.y, e.width, e.height));
-}
-
-void IApplet::handleMapNotify(const XMapEvent &map)
-{
-    isMapped = true;
-}
-
-void IApplet::handleUnmapNotify(const XUnmapEvent &map)
-{
-    isMapped = false;
-}
-
 void IApplet::handleVisibility(const XVisibilityEvent& visib)
 {
+    bool prev = isVisible;
     isVisible = (visib.state != VisibilityFullyObscured);
-}
-
-void IApplet::paint(Graphics &g, const YRect& r) {
-    if (fPixmap)
-        g.copyDrawable(fPixmap, r.x(), r.y(), r.width(), r.height(), r.x(), r.y());
+    if (prev < isVisible)
+        repaint();
 }
 
 void IApplet::repaint()
 {
-    if (isMapped && isVisible && fPicturer->picture())
-        paint(getGraphics(), YRect(0, 0, width(), height()));
+    if (isVisible && visible() && fPicturer->picture())
+        showPixmap();
 }
 
 Drawable IApplet::getPixmap()
 {
     if (fPixmap == None)
-        fPixmap = XCreatePixmap(xapp->display(), handle(),
-                                width(), height(), depth());
+        fPixmap = createPixmap();
     return fPixmap;
 }
 
+void IApplet::showPixmap() {
+    Graphics g(fPixmap, width(), height(), depth());
+    paint(g, YRect(0, 0, width(), height()));
+    setBackgroundPixmap(fPixmap);
+    clearWindow();
+}
 
+void IApplet::configure(const YRect2& r) {
+    if (r.resized())
+        freePixmap();
+    if (None == fPixmap && 1 < r.width() && 1 < r.height())
+        repaint();
+}
 

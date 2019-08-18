@@ -23,12 +23,6 @@
 
 #include "intl.h"
 
-static void setDefaultTheme(const char *theme) {
-    char buf[600];
-    snprintf(buf, sizeof buf, "Theme=\"%s\"\n", theme);
-    WMConfig::setDefault("theme", buf);
-}
-
 DTheme::DTheme(IApp *app, YSMListener *smActionListener, const ustring &label, const ustring &theme):
     DObject(app, label, null), fTheme(theme)
 {
@@ -43,8 +37,7 @@ void DTheme::open() {
     if (fTheme == null)
         return;
 
-    cstring cTheme(fTheme);
-    setDefaultTheme(cTheme.c_str());
+    WMConfig::setDefaultTheme(fTheme);
 
     const char *bg[] = { ICEWMBGEXE, "-r", 0 };
     int pid = app->runProgram(bg[0], bg);

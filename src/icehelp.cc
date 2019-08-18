@@ -1005,6 +1005,14 @@ public:
 
         draw(g, fRoot);
     }
+    virtual void handleExpose(const XExposeEvent& expose) {
+    }
+    virtual void repaint() {
+        GraphicsBuffer(this).paint();
+    }
+    virtual void configure(const YRect2& r) {
+        repaint();
+    }
 
     void resetScroll() {
         fVerticalScroll->setValues(ty, height(), 0, contentHeight());
@@ -1790,7 +1798,7 @@ void HTextView::handleClick(const XButtonEvent &up, int /*count*/) {
 
 class FileView: public YWindow, public HTListener {
 public:
-    FileView(YApplication *app, const char *path);
+    FileView(YApplication *app, int argc, char **argv);
     ~FileView() {
         delete view;
         delete scroll;
@@ -1805,6 +1813,8 @@ public:
 
     virtual void handleClose() {
         app->exitLoop(0);
+    }
+    virtual void handleExpose(const XExposeEvent& expose) {
     }
 
 private:
@@ -1821,7 +1831,7 @@ private:
     ref<YPixmap> large_icon;
 };
 
-FileView::FileView(YApplication *iapp, const char *path)
+FileView::FileView(YApplication *iapp, int argc, char **argv)
     : fPath(), app(iapp), view(0), scroll(0)
 {
     setDND(true);
@@ -1834,8 +1844,6 @@ FileView::FileView(YApplication *iapp, const char *path)
     scroll->show();
 
     setSize(ViewerWidth, ViewerHeight);
-    setTitle("IceHelp");
-    setClassHint("icehelp", "IceWM");
 
     ref<YIcon> file_icon = YIcon::getIcon("file");
     small_icon = YPixmap::createFromImage(file_icon->small(), xapp->depth());
@@ -1859,16 +1867,6 @@ FileView::FileView(YApplication *iapp, const char *path)
                     32, PropModeReplace,
                     (unsigned char *)&pid, 1);
 
-    char hostname[256] = {};
-    gethostname(hostname, sizeof hostname);
-    XTextProperty hname = {
-        (unsigned char *) hostname,
-        XA_STRING,
-        8,
-        strnlen(hostname, sizeof hostname)
-    };
-    XSetWMClientMachine(xapp->display(), handle(), &hname);
-
     XWMHints wmhints = {};
     wmhints.flags = InputHint | StateHint | IconPixmapHint | IconMaskHint;
     wmhints.input = True;
@@ -1877,7 +1875,16 @@ FileView::FileView(YApplication *iapp, const char *path)
     wmhints.icon_mask = large_icon->mask();
     XSetWMHints(xapp->display(), handle(), &wmhints);
 
-    activateURL(path);
+    YTextProperty name("icehelp");
+    YTextProperty icon("icehelp");
+    XSizeHints size = { PSize, 0, 0,
+                        ViewerWidth, ViewerHeight,
+                      };
+    XClassHint klas = { const_cast<char *>("icehelp"),
+                        const_cast<char *>("IceWM") };
+    XSetWMProperties(xapp->display(), handle(),
+                     &name, &icon, argv, argc,
+                     &size, &wmhints, &klas);
 }
 
 void FileView::activateURL(const cstring& url, bool relative) {
@@ -2253,7 +2260,7 @@ int main(int argc, char **argv) {
             else if (is_long_switch(*arg, "sync")) {
                 /*ignore*/; }
             else {
-                char *dummy(0);
+                char *dummy(nullptr);
                 if (GetArgument(dummy, "d", "display", arg, argv + argc)) {
                     /*ignore*/; }
                 else
@@ -2265,7 +2272,7 @@ int main(int argc, char **argv) {
         }
     }
 
-    if (helpfile == 0) {
+    if (helpfile == nullptr) {
         helpfile = ICEHELPIDX;
     }
 
@@ -2273,7 +2280,8 @@ int main(int argc, char **argv) {
 
     YXApplication app(&argc, &argv);
 
-    FileView view(&app, helpfile);
+    FileView view(&app, argc, argv);
+    view.activateURL(helpfile);
 
     if (nodelete) {
         extern Atom _XA_WM_PROTOCOLS;

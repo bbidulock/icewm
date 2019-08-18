@@ -23,6 +23,38 @@
 #ifndef __MWMUTIL_H
 #define __MWMUTIL_H
 
+#define PROP_MWM_HINTS_ELEMENTS  5
+
+#define MWM_HINTS_FUNCTIONS     (1L << 0)
+#define MWM_HINTS_DECORATIONS   (1L << 1)
+#define MWM_HINTS_INPUT_MODE    (1L << 2)
+#define MWM_HINTS_STATUS        (1L << 3)
+#define MWM_HINTS_MASK          15L
+
+#define MWM_FUNC_ALL            (1L << 0)
+#define MWM_FUNC_RESIZE         (1L << 1)
+#define MWM_FUNC_MOVE           (1L << 2)
+#define MWM_FUNC_MINIMIZE       (1L << 3)
+#define MWM_FUNC_MAXIMIZE       (1L << 4)
+#define MWM_FUNC_CLOSE          (1L << 5)
+#define MWM_FUNC_MASK           63L
+
+#define MWM_DECOR_ALL           (1L << 0)
+#define MWM_DECOR_BORDER        (1L << 1)
+#define MWM_DECOR_RESIZEH       (1L << 2)
+#define MWM_DECOR_TITLE         (1L << 3)
+#define MWM_DECOR_MENU          (1L << 4)
+#define MWM_DECOR_MINIMIZE      (1L << 5)
+#define MWM_DECOR_MAXIMIZE      (1L << 6)
+#define MWM_DECOR_MASK          127L
+
+#define MWM_INPUT_MODELESS               0L
+#define MWM_INPUT_APPLICATION_MODAL      1L
+#define MWM_INPUT_SYSTEM_MODAL           2L
+#define MWM_INPUT_FULL_APPLICATION_MODAL 3L
+
+#define MWM_TEAROFF_WINDOW      (1L<<0)
+
 struct MwmHints {
     unsigned long flags;
     unsigned long functions;
@@ -41,36 +73,25 @@ struct MwmHints {
         input_mode(input_mode),
         status(status)
     { }
+
+    bool hasFlags() const { return flags & MWM_HINTS_MASK; }
+
+    bool hasFuncs() const { return flags & MWM_HINTS_FUNCTIONS; }
+    bool hasDecor() const { return flags & MWM_HINTS_DECORATIONS; }
+    bool hasInput() const { return flags & MWM_HINTS_INPUT_MODE; }
+    bool hasStatus() const { return flags & MWM_HINTS_STATUS; }
+    bool onlyFuncs() const { return hasFuncs() && !hasDecor(); }
+
+    void setFuncs() { flags |= MWM_HINTS_FUNCTIONS; }
+    void setDecor() { flags |= MWM_HINTS_DECORATIONS; }
+    void setInput() { flags |= MWM_HINTS_INPUT_MODE; }
+    void setStatus() { flags |= MWM_HINTS_STATUS; }
+
+    void notFuncs() { flags &= ~MWM_HINTS_FUNCTIONS; }
+    void notDecor() { flags &= ~MWM_HINTS_DECORATIONS; }
+    void notInput() { flags &= ~MWM_HINTS_INPUT_MODE; }
+    void notStatus() { flags &= ~MWM_HINTS_STATUS; }
 };
-
-#define PROP_MWM_HINTS_ELEMENTS  5
-
-#define MWM_HINTS_FUNCTIONS     (1L << 0)
-#define MWM_HINTS_DECORATIONS   (1L << 1)
-#define MWM_HINTS_INPUT_MODE    (1L << 2)
-#define MWM_HINTS_STATUS        (1L << 3)
-
-#define MWM_FUNC_ALL            (1L << 0)
-#define MWM_FUNC_RESIZE         (1L << 1)
-#define MWM_FUNC_MOVE           (1L << 2)
-#define MWM_FUNC_MINIMIZE       (1L << 3)
-#define MWM_FUNC_MAXIMIZE       (1L << 4)
-#define MWM_FUNC_CLOSE          (1L << 5)
-
-#define MWM_DECOR_ALL           (1L << 0)
-#define MWM_DECOR_BORDER        (1L << 1)
-#define MWM_DECOR_RESIZEH       (1L << 2)
-#define MWM_DECOR_TITLE         (1L << 3)
-#define MWM_DECOR_MENU          (1L << 4)
-#define MWM_DECOR_MINIMIZE      (1L << 5)
-#define MWM_DECOR_MAXIMIZE      (1L << 6)
-
-#define MWM_INPUT_MODELESS               0L
-#define MWM_INPUT_APPLICATION_MODAL      1L
-#define MWM_INPUT_SYSTEM_MODAL           2L
-#define MWM_INPUT_FULL_APPLICATION_MODAL 3L
-
-#define MWM_TEAROFF_WINDOW      (1L<<0)
 
 /*
  * atoms

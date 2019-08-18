@@ -11,6 +11,12 @@
 #include "ylocale.h"
 #include <string.h>
 
+#if __cplusplus == 199711L
+#define nullptr NULL
+#define override
+#define final
+#endif
+
 template <class DataType> class YString {
 public:
     typedef DataType data_t;
@@ -133,6 +139,36 @@ class YLocaleString : public YString<YLChar> {
 public:
     YLocaleString(YLChar const * str): YString<YLChar>(str) {}
     YLocaleString(YLChar const * str, size_t len): YString<YLChar>(str, len) {}
+};
+
+extern "C" {
+    extern int XFree(void*);
+    extern void XFreeStringList(char** list);
+}
+
+class YStringList {
+public:
+    char** strings;
+    int count;
+
+    YStringList() : strings(nullptr), count(0) { }
+    ~YStringList() { XFreeStringList(strings); }
+    char* operator[](int index) const { return strings[index]; }
+    char* last() const {
+        return 0 < count ? strings[count - 1] : nullptr;
+    }
+
+    bool operator==(const YStringList& o) const {
+        if (count != o.count)
+            return false;
+        for (int i = 0; i < count; ++i)
+            if (strcmp(strings[i], o.strings[i]))
+                return false;
+        return true;
+    }
+    bool operator!=(const YStringList& o) const {
+        return !(o == *this);
+    }
 };
 
 #endif

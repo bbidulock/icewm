@@ -238,6 +238,9 @@ print $cmd;
 my $cmd = "prog '".getName($second)." + ".getName($primary)."' setscreen21 sh -c 'xrandr --output $primary --auto --output $second --auto --left-of $primary $turnNonPrimSecOff $turnRestOff'\n";
 print $cmd;
 
+my $cmd = "prog '".getName($primary)." + ".getName($second)."*' setscreen12x sh -c 'xrandr --output $primary --auto --output $second --primary --auto --right-of $primary $turnNonPrimSecOff $turnRestOff'\n";
+print $cmd;
+
 my $cmd = "prog '".join(" / ", map { getName($_) } @connected)."' setscreen_all sh -c 'xrandr "
 .join(" ", map { "--output $_ --auto ".( $_ eq $primary ? "" : "--same-as $primary")} @connected)
 ."$turnRestOff'\n";

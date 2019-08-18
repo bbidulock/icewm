@@ -15,6 +15,8 @@ public:
     virtual void paint(Graphics &g, const YRect &r);
     virtual bool handleKey(const XKeyEvent &key);
     virtual void actionPerformed(YAction action, unsigned int modifiers);
+    virtual void configure(const YRect2& rect);
+    virtual void repaint();
 
     void activate();
     void deactivate();

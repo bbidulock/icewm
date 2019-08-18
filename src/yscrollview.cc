@@ -17,6 +17,8 @@ YScrollView::YScrollView(YWindow *aParent): YWindow(aParent) {
     scrollHoriz = new YScrollBar(YScrollBar::Horizontal, this);
     scrollHoriz->show();
     scrollable = 0;
+    setStyle(wsNoExpose);
+    setTitle("ScrollView");
 }
 
 YScrollView::~YScrollView() {
@@ -69,9 +71,9 @@ void YScrollView::layout() {
     ww->setGeometry(YRect(0, 0, w - dx, h - dy));
 }
 
-void YScrollView::configure(const YRect &r) {
-    YWindow::configure(r);
+void YScrollView::configure(const YRect2& r) {
     layout();
+    repaint();
 }
 
 void YScrollView::paint(Graphics &g, const YRect &r) {
@@ -82,7 +84,11 @@ void YScrollView::paint(Graphics &g, const YRect &r) {
     g.setColor(scrollBarBg);
     if (dx && dy) g.fillRect(width() - dx, height() - dy, dx, dy);
 
-    YWindow::paint(g, r);
+    g.fillRect(r.x(), r.y(), r.width(), r.height());
+}
+
+void YScrollView::repaint() {
+    GraphicsBuffer(this).paint();
 }
 
 // vim: set sw=4 ts=4 et:

@@ -6,8 +6,7 @@ icewm_man1_files = \
 	icewmhint.man \
 	icewm.man \
 	icewm-session.man \
-	icewm-set-gnomewm.man \
-	icewmtray.man
+	icewm-set-gnomewm.man
 
 icewm_man1_htmls = $(icewm_man1_files:%.man=%.1.html)
 
@@ -30,6 +29,11 @@ endif
 if BUILD_MENU_FDO
 man1_MANS += icewm-menu-fdo.man
 doc_DATA += icewm-menu-fdo.1.html
+endif
+
+if BUILD_ICEWMTRAY
+man1_MANS += icewmtray.man
+doc_DATA += icewmtray.1.html
 endif
 
 icewm_man5_files = \

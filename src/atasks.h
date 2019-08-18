@@ -24,6 +24,9 @@ public:
     virtual void handleDNDLeave();
     virtual bool handleTimer(YTimer *t);
     virtual void handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion);
+    virtual void handleExpose(const XExposeEvent& expose);
+    virtual void configure(const YRect2& r);
+    virtual void repaint();
 
     void activate() const;
     ClientData *getFrame() const { return fFrame; }
@@ -41,6 +44,8 @@ public:
 private:
     ClientData *fFrame;
     TaskPane *fTaskPane;
+    Pixmap fPixmap;
+    bool fRepainted;
     bool fShown;
     bool fFlashing;
     bool fFlashOn;
@@ -57,7 +62,7 @@ private:
     static ref<YFont> activeTaskBarFont;
 };
 
-class TaskPane: public YWindow {
+class TaskPane: public YWindow, private YTimerListener {
 public:
     TaskPane(IAppletContainer *taskBar, YWindow *parent);
     ~TaskPane();
@@ -72,12 +77,14 @@ public:
     void removeApp(YFrameWindow *frame);
 
     static unsigned maxHeight();
-    void relayout() { fNeedRelayout = true; }
-    void relayoutNow();
+    void relayout(bool force = false);
+    void relayoutNow(bool force = false);
 
+    virtual void configure(const YRect2& r);
     virtual void handleClick(const XButtonEvent &up, int count);
     virtual void handleMotion(const XMotionEvent &motion);
     virtual void handleButton(const XButtonEvent &button);
+    virtual void handleExpose(const XExposeEvent &expose) {}
     virtual void paint(Graphics &g, const YRect &r);
 
     void startDrag(TaskBarApp *drag, int byMouse, int sx, int sy);
@@ -101,10 +108,14 @@ private:
     AppsType fApps;
 
     bool fNeedRelayout;
+    bool fForceImmediate;
 
     TaskBarApp *fDragging;
     int fDragX;
     int fDragY;
+
+    lazy<YTimer> fRelayoutTimer;
+    virtual bool handleTimer(YTimer *t);
 };
 
 #endif

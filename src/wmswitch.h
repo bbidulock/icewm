@@ -60,12 +60,14 @@ public:
     virtual ~SwitchWindow();
 
     virtual void paint(Graphics &g, const YRect &r) OVERRIDE;
+    virtual void repaint() OVERRIDE;
 
     void begin(bool zdown, int mods, char* wmclass = 0);
 
     virtual void activatePopup(int flags) OVERRIDE;
     virtual void deactivatePopup() OVERRIDE;
 
+    virtual void handleExpose(const XExposeEvent &expose) OVERRIDE {}
     virtual bool handleKey(const XKeyEvent &key) OVERRIDE;
     virtual void handleButton(const XButtonEvent &button) OVERRIDE;
     void handleMotion(const XMotionEvent &motion) OVERRIDE;

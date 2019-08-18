@@ -50,32 +50,54 @@ public:
 
     void updateWorkspaces();
 
-    void handleFocus(const XFocusChangeEvent &focus);
+    virtual void handleFocus(const XFocusChangeEvent &focus);
+    virtual void handleExpose(const XExposeEvent&) {}
     virtual void handleClose();
 
-    virtual void configure(const YRect &r);
+    virtual void configure(const YRect2 &r);
     void relayout();
 
     WindowListItem *addWindowListApp(YFrameWindow *frame);
     void removeWindowListApp(WindowListItem *item);
     void updateWindowListApp(WindowListItem *item);
+    void updateWindowListApps();
 
     void repaintItem(WindowListItem *item) { list->repaintItem(item); }
     void showFocused(int x, int y);
 
     WindowListBox *getList() const { return list; }
+    YMenu* getWindowListPopup();
+    YMenu* getWindowListAllPopup();
 
 private:
-    WindowListBox *list;
-    YScrollView *scroll;
+    long fWorkspaceCount;
     WindowListItem **workspaceItem;
     YActionListener *wmActionListener;
+    YMenu* windowListPopup;
+    YMenu* windowListAllPopup;
+    YScrollView *scroll;
+    WindowListBox *list;
 
+    void setupClient();
     void insertApp(WindowListItem *item);
-    long fWorkspaceCount;
 };
 
-extern WindowList *windowList;
+extern class WindowListProxy {
+    WindowList* wlist;
+public:
+    WindowListProxy() : wlist(nullptr) { }
+    ~WindowListProxy() { release(); }
+    operator bool() { return wlist; }
+    operator WindowList*() { return wlist ? wlist : acquire(); }
+    WindowList* operator->() { return *this; }
+    WindowList* _ptr() { return wlist; }
+    void release() { if (wlist) { delete wlist; wlist = nullptr; } }
+    void operator=(null_ref&) { release(); }
+private:
+    WindowList* acquire();
+    operator void* ();  // undefined
+    operator int ();    // undefined
+} windowList;
 
 #endif
 

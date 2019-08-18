@@ -15,6 +15,9 @@ public:
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleClick(const XButtonEvent &up, int count);
     virtual void handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion);
+    virtual void handleExpose(const XExposeEvent& expose) {}
+    virtual void configure(const YRect2 &r);
+    virtual void repaint();
 
     virtual void actionPerformed(YAction action, unsigned int modifiers);
     void setActions(YAction action, YAction action2 = actionNull);

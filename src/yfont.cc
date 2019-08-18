@@ -12,26 +12,35 @@ extern ref<YFont> getXftFontXlfd(ustring name, bool antialias);
 extern ref<YFont> getCoreFont(const char*);
 
 ref<YFont> YFont::getFont(ustring name, ustring xftFont, bool antialias) {
-#if defined(CONFIG_XFREETYPE) && defined(CONFIG_COREFONTS)
     ref<YFont> ret;
+
+#if defined(CONFIG_XFREETYPE) && defined(CONFIG_COREFONTS)
     if (fontPreferFreetype) {
-        if (xftFont != null && xftFont.length() > 0) ret = getXftFont(xftFont, antialias);
-        if (ret != null) return ret;
-        ret = getXftFontXlfd(name, antialias);
-        if (ret != null) return ret;
+        if (xftFont.nonempty())
+            ret = getXftFont(xftFont, antialias);
+        if (ret == null)
+            ret = getXftFontXlfd(name, antialias);
     }
-    return getCoreFont(cstring(name));
+    if (ret == null)
+        getCoreFont(cstring(name));
+
 #elif defined(CONFIG_XFREETYPE)
-    if (xftFont != null && xftFont.length() > 0) return getXftFont(xftFont, antialias);
-    return getXftFontXlfd(name, antialias);
+    if (xftFont.nonempty())
+        ret = getXftFont(xftFont, antialias);
+    if (ret == null)
+        ret = getXftFontXlfd(name, antialias);
+
 #elif defined(CONFIG_COREFONTS)
-    return getCoreFont(cstring(name));
+    ret = getCoreFont(cstring(name));
+
 #else
     (void) antialias;
     if (ONCE)
         warn("Neither XFT fonts nor X11 core fonts are configured!");
-    return null;
+
 #endif
+
+    return ret;
 }
 
 int YFont::textWidth(char const * str) const {

@@ -30,23 +30,33 @@ private:
     YListItem *fPrevItem, *fNextItem;
 };
 
-class YListBox: public YWindow, public YScrollBarListener, public YScrollable {
+class YListBox:
+    public YWindow,
+    public YScrollBarListener,
+    public YScrollable,
+    public YTimerListener
+{
 public:
     YListBox(YScrollView *view, YWindow *aParent);
     virtual ~YListBox();
 
-    int addItem(YListItem *item);
-    int addAfter(YListItem *prev, YListItem *item);
+    void addItem(YListItem *item);
+    void addAfter(YListItem *prev, YListItem *item);
     void removeItem(YListItem *item);
 
-    virtual void configure(const YRect &r);
+    virtual void configure(const YRect2 &r);
     virtual bool handleKey(const XKeyEvent &key);
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleClick(const XButtonEvent &up, int count);
     virtual void handleDrag(const XButtonEvent &down, const XMotionEvent &motion);
     virtual void handleMotion(const XMotionEvent &motion);
     virtual bool handleAutoScroll(const XMotionEvent &mouse);
+    virtual bool handleTimer(YTimer* timer);
+    virtual void handleExpose(const XExposeEvent& expose) {}
+    virtual void handleVisibility(const XVisibilityEvent& visib);
 
+    virtual void outdated();
+    virtual void repaint();
     virtual void paint(Graphics &g, const YRect &r);
     virtual void scroll(YScrollBar *sb, int delta);
     virtual void move(YScrollBar *sb, int pos);
@@ -92,6 +102,9 @@ private:
     int fSelectStart, fSelectEnd;
     bool fDragging;
     bool fSelect;
+    bool fVisible;
+    bool fOutdated;
+    GraphicsBuffer fGraphics;
 
     static int fAutoScrollDelta;
 
@@ -112,6 +125,7 @@ private:
     void focusVisible();
     void ensureVisibility(int item);
 
+    lazy<YTimer> fTimer;
     ref<YImage> fGradient;
 };
 

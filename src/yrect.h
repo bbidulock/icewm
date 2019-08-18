@@ -58,9 +58,26 @@ public:
         return !(*this == r);
     }
 
-private:
     int xx, yy;
     unsigned ww, hh;
+};
+
+class YRect2 : public YRect {
+public:
+    YRect2(const YRect& r1, const YRect& r2) :
+        YRect(r1),
+        old(r2)
+    { }
+
+    const YRect old;
+
+    int deltaX() const { return x() - old.x(); }
+    int deltaY() const { return y() - old.y(); }
+    bool moved() const { return deltaX() | deltaY(); }
+    int deltaWidth() const { return int(width()) - int(old.width()); }
+    int deltaHeight() const { return int(height()) - int(old.height()); }
+    bool resized() const { return deltaWidth() | deltaHeight(); }
+    bool enlarged() const { return 0 < deltaWidth() || 0 < deltaHeight(); }
 };
 
 #endif

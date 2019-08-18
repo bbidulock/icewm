@@ -29,6 +29,7 @@ class YXEmbed {
 public:
     virtual ~YXEmbed();
 
+    virtual void damagedClient() = 0;
     virtual bool destroyedClient(Window win) = 0;
     virtual void handleClientUnmap(Window win) = 0;
     virtual void handleClientMap(Window win) = 0;
@@ -42,6 +43,7 @@ public:
     YXEmbedClient(YXEmbed *embedder, YWindow *aParent, Window win);
     virtual ~YXEmbedClient();
 
+    virtual void handleDamageNotify(const XDamageNotifyEvent &);
     virtual void handleDestroyWindow(const XDestroyWindowEvent& destroyWindow);
     virtual void handleReparentNotify(const XReparentEvent& reparent);
     virtual void handleConfigure(const XConfigureEvent& configure);
@@ -50,7 +52,6 @@ public:
 
 private:
     YXEmbed *fEmbedder;
-    YAtom _XEMBED_INFO;
 };
 
 #endif

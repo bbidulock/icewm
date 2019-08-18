@@ -16,6 +16,9 @@
 #ifdef CONFIG_SHAPE
 #include <X11/extensions/shape.h>
 #endif
+#ifdef CONFIG_XRANDR
+#include <X11/extensions/Xrandr.h>
+#endif
 #ifdef HAVE_LIBGEN_H
 #include <libgen.h>
 #endif
@@ -233,8 +236,8 @@ void logCreate(const union _XEvent& xev) {
 }
 
 void logCrossing(const union _XEvent& xev) {
-    msg("window=0x%lX: %s serial=%10lu root=0x%lX, subwindow=0x%lX, time=%ld, "
-        "(%d:%d %d:%d) mode=%d detail=%d same_screen=%s, focus=%s state=0x%X",
+    msg("window=0x%06lX: %s serial=%6lu root=0x%lX, subwindow=0x%lX, time=%ld, "
+        "(%d:%d %d:%d) mode=%s detail=%s same_screen=%s, focus=%s state=0x%X",
         xev.xcrossing.window,
         eventName(xev.type),
         (unsigned long) xev.xany.serial,
@@ -243,8 +246,18 @@ void logCrossing(const union _XEvent& xev) {
         xev.xcrossing.time,
         xev.xcrossing.x, xev.xcrossing.y,
         xev.xcrossing.x_root, xev.xcrossing.y_root,
-        xev.xcrossing.mode,
-        xev.xcrossing.detail,
+        xev.xcrossing.mode == NotifyNormal ? "Normal" :
+        xev.xcrossing.mode == NotifyGrab ? "Grab" :
+        xev.xcrossing.mode == NotifyUngrab ? "Ungrab" :
+        xev.xcrossing.mode == NotifyWhileGrabbed ? "Grabbed" : "Unknown",
+        xev.xcrossing.detail == NotifyAncestor ? "Ancestor" :
+        xev.xcrossing.detail == NotifyVirtual ? "Virtual" :
+        xev.xcrossing.detail == NotifyInferior ? "Inferior" :
+        xev.xcrossing.detail == NotifyNonlinear ? "Nonlinear" :
+        xev.xcrossing.detail == NotifyNonlinearVirtual ? "NonlinearVirtual" :
+        xev.xcrossing.detail == NotifyPointer ? "Pointer" :
+        xev.xcrossing.detail == NotifyPointerRoot ? "PointerRoot" :
+        xev.xcrossing.detail == NotifyDetailNone ? "DetailNone" : "Unknown",
         xev.xcrossing.same_screen ? "True" : "False",
         xev.xcrossing.focus ? "True" : "False",
         xev.xcrossing.state);
@@ -368,6 +381,83 @@ void logShape(const union _XEvent& xev) {
         shp.kind == ShapeBounding ? "ShapeBounding" :
         shp.kind == ShapeClip ? "ShapeClip" : "unknown_shape_kind",
         shp.x, shp.y, shp.width, shp.height, boolstr(shp.shaped), shp.time);
+#endif
+}
+
+void logRandrScreen(const union _XEvent& xev) {
+#ifdef CONFIG_XRANDR
+    const XRRScreenChangeNotifyEvent& evt =
+        (const XRRScreenChangeNotifyEvent &)xev;
+    msg("window=0x%lX: %s index=%u order=%u "
+        "rotation=%u width=%d(%d) height=%d(%d)",
+        evt.window, "XRRScreenChangeNotifyEvent",
+        evt.size_index, evt.subpixel_order, (evt.rotation & 15) * 45,
+        evt.width, evt.mwidth, evt.height, evt.mheight
+       );
+#endif
+}
+
+void logRandrNotify(const union _XEvent& xev) {
+#ifdef CONFIG_XRANDR
+    const XRRNotifyEvent& nev = (const XRRNotifyEvent &)xev;
+    if (nev.subtype == RRNotify_CrtcChange) {
+        const XRRCrtcChangeNotifyEvent& e =
+            (const XRRCrtcChangeNotifyEvent &) xev;
+        msg("window=0x%lX: %s crtc=%lu mode=%lu rotation=%u %ux%u+%d+%d",
+            e.window, "XRRCrtcChangeNotifyEvent",
+            e.crtc, e.mode, (e.rotation & 15) * 45, e.width, e.height, e.x, e.y
+           );
+    }
+    else if (nev.subtype == RRNotify_OutputChange) {
+        const XRROutputChangeNotifyEvent& e =
+            (const XRROutputChangeNotifyEvent &) xev;
+        msg("window=0x%lX: %s output=%lu crtc=%lu mode=%lu "
+            "rotation=%u connection=%s subpixel=%u",
+            e.window, "XRROutputChangeNotifyEvent",
+            e.output, e.crtc, e.mode, (e.rotation & 15) * 45,
+            e.connection == RR_Connected ? "RR_Connected" :
+            e.connection == RR_Disconnected ? "RR_Disconnected" :
+            e.connection == RR_UnknownConnection ? "RR_UnknownConnection" :
+            "unknown", e.subpixel_order
+           );
+    }
+    else if (nev.subtype == RRNotify_OutputProperty) {
+        const XRROutputPropertyNotifyEvent& e =
+            (const XRROutputPropertyNotifyEvent &) xev;
+        msg("window=0x%lX: %s output=%lu property=%lu state=%s",
+            e.window, "XRROutputPropertyNotifyEvent",
+            e.output, e.property,
+            e.state == PropertyNewValue ? "NewValue" :
+            e.state == PropertyDelete ? "Deleted" :
+            "unknown"
+           );
+    }
+    else if (nev.subtype == RRNotify_ProviderChange) {
+        const XRRProviderChangeNotifyEvent& e =
+            (const XRRProviderChangeNotifyEvent &) xev;
+        msg("window=0x%lX: %s provider=%lu current_role=%u",
+            e.window, "XRRProviderChangeNotifyEvent",
+            e.provider, e.current_role
+           );
+    }
+    else if (nev.subtype == RRNotify_ProviderProperty) {
+        const XRRProviderPropertyNotifyEvent& e =
+            (const XRRProviderPropertyNotifyEvent &) xev;
+        msg("window=0x%lX: %s provider=%lu property=%lu state=%s",
+            e.window, "XRRProviderPropertyNotifyEvent",
+            e.provider, e.property,
+            e.state == PropertyNewValue ? "NewValue" :
+            e.state == PropertyDelete ? "Deleted" :
+            "unknown"
+           );
+    }
+    else if (nev.subtype == RRNotify_ResourceChange) {
+        const XRRResourceChangeNotifyEvent& e =
+            (const XRRResourceChangeNotifyEvent &) xev;
+        msg("window=0x%lX: %s",
+            e.window, "XRRResourceChangeNotifyEvent"
+           );
+    }
 #endif
 }
 
@@ -712,7 +802,7 @@ bool GetLongArgument(char* &ret, const char *name, char** &argpp, char **endpp)
 bool GetArgument(char* &ret, const char *sn, const char *ln, char** &arg, char **end)
 {
     bool got = false;
-    if (**arg == '-') {
+    if (arg && *arg && **arg == '-') {
         if (arg[0][1] == '-') {
             got = GetLongArgument(ret, ln, arg, end);
         } else {
@@ -797,7 +887,7 @@ void check_help_version(const char *arg, const char *help, const char *version)
 
 void check_argv(int argc, char **argv, const char *help, const char *version)
 {
-    if (ApplicationName == NULL) {
+    if (ApplicationName == nullptr) {
         ApplicationName = my_basename(argv[0]);
     }
     for (char **arg = argv + 1; arg < argv + argc; ++arg) {

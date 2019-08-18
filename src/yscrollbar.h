@@ -61,7 +61,10 @@ public:
     void scroll(int delta);
     void move(int pos);
 
+    virtual void configure(const YRect2& r);
+    virtual void repaint();
     virtual void paint(Graphics &g, const YRect &r);
+    virtual void handleExpose(const XExposeEvent &expose);
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleMotion(const XMotionEvent &motion);
     virtual bool handleTimer(YTimer *timer);
@@ -81,6 +84,8 @@ private:
     int fGrabDelta;
     YScrollBarListener *fListener;
     bool fDNDScroll;
+    bool fConfigured;
+    bool fExposed;
     static lazy<YTimer> fScrollTimer;
 };
 

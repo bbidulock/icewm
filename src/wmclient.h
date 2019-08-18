@@ -19,6 +19,10 @@ typedef int FrameState;
 class ClassHint : public XClassHint {
 public:
     ClassHint() { res_name = res_class = 0; }
+    ClassHint(const char* name, const char* klas) {
+        res_name = strdup(name);
+        res_class = strdup(klas);
+    }
     ~ClassHint() { reset(); }
     void reset() {
         if (res_name) { XFree(res_name); res_name = 0; }
@@ -60,6 +64,8 @@ public:
     virtual void wmMinimize() = 0;
     virtual int getWorkspace() const = 0;
     virtual int getTrayOrder() const = 0;
+    virtual long getTrayOption() const = 0;
+    virtual unsigned frameOptions() const = 0;
     virtual bool isSticky() const = 0;
     virtual bool isAllWorkspaces() const = 0;
     virtual void wmOccupyWorkspace(int workspace) = 0;
@@ -68,6 +74,7 @@ public:
     virtual void popupSystemMenu(YWindow *owner, int x, int y,
                          unsigned int flags,
                          YWindow *forWindow = 0) = 0;
+    virtual void updateSubmenus() = 0;
 protected:
     virtual ~ClientData() {}
 };
@@ -76,7 +83,8 @@ class YFrameClient: public YWindow
                   , public YTimerListener
 {
 public:
-    YFrameClient(YWindow *parent, YFrameWindow *frame, Window win = 0);
+    YFrameClient(YWindow *parent, YFrameWindow *frame, Window win = 0,
+                 int depth = 0, Visual *visual = 0, Colormap cmap = 0);
     virtual ~YFrameClient();
 
     virtual void handleProperty(const XPropertyEvent &property);
@@ -178,9 +186,7 @@ public:
     bool getNetWMDesktopHint(long *workspace);
     bool getNetWMPid(long *pid);
     bool getNetWMStrut(int *left, int *right, int *top, int *bottom);
-    bool getNetWMStrutPartial(int *left, int *right, int *top, int *bottom,
-            int *left_start_y=0, int *left_end_y=0, int *right_start_y=0, int *right_end_y=0,
-            int *top_start_x=0, int *top_end_x=0, int *bottom_start_x=0, int *bottom_end_x=0);
+    bool getNetWMStrutPartial(int *left, int *right, int *top, int *bottom);
     bool getNetStartupId(unsigned long &time);
     bool getNetWMUserTime(Window window, unsigned long &time);
     bool getNetWMUserTimeWindow(Window &window);
@@ -217,7 +223,7 @@ public:
     ustring getClientId(Window leader);
     void getPropertiesList();
 
-    virtual void configure(const YRect &rect);
+    // virtual void configure(const YRect2 &rect);
     virtual void handleGravityNotify(const XGravityEvent &gravity);
 
     bool isKdeTrayWindow() { return prop.kde_net_wm_system_tray_window_for; }

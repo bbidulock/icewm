@@ -4,9 +4,6 @@
 #include "ykey.h"
 
 #include <X11/Xutil.h>
-#define __YIMP_XUTIL__
-
-#include <X11/Xproto.h>
 #include <X11/Xatom.h>
 #include <X11/Xresource.h>
 #include <X11/cursorfont.h>

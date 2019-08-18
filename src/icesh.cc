@@ -40,11 +40,16 @@
 #include "ascii.h"
 #include "base.h"
 #include "WinMgr.h"
+#include "MwmUtil.h"
 #include "wmaction.h"
 #include "ypointer.h"
 #include "yrect.h"
 #define GUI_EVENT_NAMES
 #include "guievent.h"
+
+#ifndef __GLIBC__
+typedef void (*sighandler_t)(int);
+#endif
 
 /******************************************************************************/
 
@@ -95,13 +100,18 @@ static NAtom ATOM_WIN_LAYER(XA_WIN_LAYER);
 static NAtom ATOM_WIN_TRAY(XA_WIN_TRAY);
 static NAtom ATOM_GUI_EVENT(XA_GUI_EVENT_NAME);
 static NAtom ATOM_ICE_ACTION("_ICEWM_ACTION");
+static NAtom ATOM_ICE_WINOPT("_ICEWM_WINOPTHINT");
+static NAtom ATOM_MOTIF_HINTS(_XA_MOTIF_WM_HINTS);
 static NAtom ATOM_NET_CLIENT_LIST("_NET_CLIENT_LIST");
 static NAtom ATOM_NET_CLOSE_WINDOW("_NET_CLOSE_WINDOW");
 static NAtom ATOM_NET_ACTIVE_WINDOW("_NET_ACTIVE_WINDOW");
 static NAtom ATOM_NET_FRAME_EXTENTS("_NET_FRAME_EXTENTS");
 static NAtom ATOM_NET_RESTACK_WINDOW("_NET_RESTACK_WINDOW");
 static NAtom ATOM_NET_WM_WINDOW_OPACITY("_NET_WM_WINDOW_OPACITY");
+static NAtom ATOM_NET_SYSTEM_TRAY_WINDOWS("_KDE_NET_SYSTEM_TRAY_WINDOWS");
 static NAtom ATOM_UTF8_STRING("UTF8_STRING");
+static NAtom ATOM_XEMBED_INFO("_XEMBED_INFO");
+static NAtom ATOM_NET_WORKAREA("_NET_WORKAREA");
 
 /******************************************************************************/
 
@@ -215,7 +225,7 @@ private:
 
 struct Symbol {
     char const * name;
-    long code;
+    long const code;
 };
 
 struct SymbolTable {
@@ -232,7 +242,7 @@ struct SymbolTable {
     bool invalid(long code) const { return code == fErrCode; }
 
     Symbol const * fSymbols;
-    long fMin, fMax, fErrCode;
+    long const fMin, fMax, fErrCode;
 };
 
 class YProperty {
@@ -264,17 +274,27 @@ public:
         if (prop) fProp = prop;
         if (type) fType = type;
         if (leng) fLength = leng;
-        fStatus = XGetWindowProperty(display, fWindow, fProp, 0L,
-                                     fLength, False, fType, &fType,
-                                     &fFormat, &fCount, &fAfter, &fData);
+        if (fWindow && fProp && fLength) {
+            fStatus = XGetWindowProperty(display, fWindow, fProp, 0L,
+                                         fLength, False, fType, &type,
+                                         &fFormat, &fCount, &fAfter, &fData);
+            if (type && !fStatus)
+                fType = type;
+        }
     }
 
     template <class T>
-    void replace(const T* replacement, size_t length) const {
+    void replace(const T* replacement, size_t length, int format = 0) {
+        if (format) fFormat = format;
         XChangeProperty(display, fWindow, fProp,
                         fType, fFormat, PropModeReplace,
-                        reinterpret_cast<const unsigned char *>(
+                        reinterpret_cast<unsigned char *>(
                             const_cast<T *>(replacement)), int(length));
+    }
+
+    void remove() {
+        XDeleteProperty(display, fWindow, fProp);
+        release();
     }
 
     Atom type() const { return fType; }
@@ -291,7 +311,7 @@ public:
         return index < fCount ? data<T>()[index] : T(0);
     }
 
-    operator bool() const { return fStatus == Success && fType && fCount; }
+    operator bool() const { return !fStatus && fData && fType && fCount; }
 
     long operator*() const { return data<long>(0); }
 
@@ -354,6 +374,21 @@ public:
     }
     long state() const { return 0 < count() ? (*this)[0] : 0L; }
     long mask() const { return 2 == count() ? (*this)[1] : WIN_STATE_ALL; }
+};
+
+class YMotifHints : public YProperty {
+public:
+    YMotifHints(Window window) :
+        YProperty(window, ATOM_MOTIF_HINTS, ATOM_MOTIF_HINTS, 5)
+    {
+    }
+
+    const MwmHints* operator->() const { return data<MwmHints>(); }
+    const MwmHints& operator*() const { return *data<MwmHints>(); }
+
+    void replace(const MwmHints& replacement) {
+        YProperty::replace<MwmHints>(&replacement, 5, 32);
+    }
 };
 
 class YStringProperty : public YProperty {
@@ -419,7 +454,7 @@ public:
 
     int count() const { return fCount; }
 
-    operator bool() const { return fStatus == True && count() > 0; }
+    operator bool() const { return fStatus == True && count() > 0 && fList; }
     char* operator[](int index) const { return fList[index]; }
 
     bool set(int index, const char* name) {
@@ -509,6 +544,62 @@ static long getWorkspace(Window window) {
     return *YCardinal(window, ATOM_NET_WM_DESKTOP);
 }
 
+static void setWindowGravity(Window window, long gravity) {
+    unsigned long mask = CWWinGravity;
+    XSetWindowAttributes attr = {};
+    attr.win_gravity = int(gravity);
+    XChangeWindowAttributes(display, window, mask, &attr);
+}
+
+static int getWindowGravity(Window window) {
+    XWindowAttributes attr = {};
+    XGetWindowAttributes(display, window, &attr);
+    return attr.win_gravity;
+}
+
+static void setBitGravity(Window window, long gravity) {
+    unsigned long mask = CWBitGravity;
+    XSetWindowAttributes attr = {};
+    attr.bit_gravity = int(gravity);
+    XChangeWindowAttributes(display, window, mask, &attr);
+}
+
+static int getBitGravity(Window window) {
+    XWindowAttributes attr = {};
+    XGetWindowAttributes(display, window, &attr);
+    return attr.bit_gravity;
+}
+
+static void setNormalGravity(Window window, long gravity) {
+    XSizeHints normal;
+    long supplied;
+    if (XGetWMNormalHints(display, window, &normal, &supplied)) {
+        if (inrange(gravity, 1L, 10L)) {
+            normal.win_gravity = int(gravity);
+            normal.flags |= PWinGravity;
+        } else {
+            normal.flags &= ~PWinGravity;
+        }
+    }
+    else {
+        normal.win_gravity = int(gravity);
+        normal.flags = PWinGravity;
+    }
+    XSetWMNormalHints(display, window, &normal);
+}
+
+static int getNormalGravity(Window window) {
+    int gravity = NorthWestGravity;
+    XSizeHints normal;
+    long supplied;
+    if (XGetWMNormalHints(display, window, &normal, &supplied)) {
+        if (hasbit(normal.flags, PWinGravity)) {
+            gravity = normal.win_gravity;
+        }
+    }
+    return gravity;
+}
+
 class YWindowTree;
 
 class YTreeIter {
@@ -516,6 +607,7 @@ public:
     YTreeIter(const YWindowTree& tree) : fTree(tree), fIndex(0) { }
 
     operator Window() const;
+    Window operator*() const { return Window(*this); }
     const YTreeIter& operator++() { ++fIndex; return *this; }
 
 private:
@@ -549,9 +641,9 @@ public:
         }
     }
 
-    void getClientList() {
+    void getWindowList(NAtom property) {
         release();
-        YClient clients(root, ATOM_NET_CLIENT_LIST, 10000);
+        YClient clients(root, property, 100000);
         if (clients) {
             fCount = clients.count();
             fChildren = (Window *) malloc(fCount * sizeof(Window));
@@ -564,39 +656,59 @@ public:
         }
     }
 
+    void getClientList() {
+        getWindowList(ATOM_NET_CLIENT_LIST);
+    }
+
+    void getSystrayList() {
+        getWindowList(ATOM_NET_SYSTEM_TRAY_WINDOWS);
+    }
+
     void filterLast() {
         if (1 < fCount) {
             set(fChildren[fCount - 1]);
         }
     }
 
-    void filterByWorkspace(long workspace) {
+    void filterByWorkspace(long workspace, bool inverse = false) {
         unsigned keep = 0;
         for (YTreeIter client(*this); client; ++client) {
             long ws = getWorkspace(client);
-            if (ws == workspace || hasbits(ws, 0xFFFFFFFF)) {
+            if ((ws == workspace || hasbits(ws, 0xFFFFFFFF)) != inverse) {
                 fChildren[keep++] = client;
             }
         }
         fCount = keep;
     }
 
-    void filterByLayer(long layer) {
+    void filterByLayer(long layer, bool inverse) {
         unsigned keep = 0;
         for (YTreeIter client(*this); client; ++client) {
             YCardinal prop(client, ATOM_WIN_LAYER);
-            if (prop && *prop == layer) {
+            if (prop && ((*prop == layer) != inverse)) {
                 fChildren[keep++] = client;
             }
         }
         fCount = keep;
     }
 
-    void filterByState(long state) {
+    void filterByState(long state, bool inverse, bool anybit) {
         unsigned keep = 0;
         for (YTreeIter client(*this); client; ++client) {
             YWinState prop(client);
-            if (prop && hasbits(*prop, state)) {
+            bool test(anybit ? hasbit(*prop, state) : hasbits(*prop, state));
+            if (prop && (test != inverse)) {
+                fChildren[keep++] = client;
+            }
+        }
+        fCount = keep;
+    }
+
+    void filterByGravity(long gravity, bool inverse) {
+        unsigned keep = 0;
+        for (YTreeIter client(*this); client; ++client) {
+            long winGrav = getNormalGravity(client);
+            if ((winGrav == gravity) != inverse) {
                 fChildren[keep++] = client;
             }
         }
@@ -756,6 +868,8 @@ private:
     void flags();
     void flag(char* arg);
     void xinit();
+    void motif(Window window, char** args, int count);
+    void sizeto();
     void detail();
     void details(Window window);
     void setWindow(Window window);
@@ -768,9 +882,13 @@ private:
     bool icewmAction();
     bool guiEvents();
     bool listShown();
+    bool listXembed();
+    void listXembed(Window w);
     bool listClients();
     bool listWindows();
     bool listScreens();
+    bool listSymbols();
+    bool listSystray();
     bool listWorkspaces();
     bool setWorkspaceName();
     bool setWorkspaceNames();
@@ -794,7 +912,7 @@ private:
                              WinStateAbove | WinStateBelow |\
                              WinStateFullscreen | WinStateUrgent)
 
-static Symbol stateIdentifiers[] = {
+static const Symbol stateIdentifiers[] = {
     { "Sticky",                 WinStateSticky          },
     { "Minimized",              WinStateMinimized       },
     { "Maximized",              WinStateMaximized       },
@@ -808,14 +926,14 @@ static Symbol stateIdentifiers[] = {
     { "Skip",                   WinStateSkip            },
     { "SkipPager",              WinStateSkipPager       },
     { "SkipTaskBar",            WinStateSkipTaskBar     },
-    { "Fullscreen",             WinStateFullscreen      },
-    { "Above",                  WinStateAbove           },
     { "Below",                  WinStateBelow           },
+    { "Above",                  WinStateAbove           },
+    { "Fullscreen",             WinStateFullscreen      },
     { "All",                    WIN_STATE_ALL           },
     { nullptr,                  0                       }
 };
 
-static Symbol hintIdentifiers[] = {
+static const Symbol hintIdentifiers[] = {
     { "SkipFocus",      WinHintsSkipFocus       },
     { "SkipWindowMenu", WinHintsSkipWindowMenu  },
     { "SkipTaskBar",    WinHintsSkipTaskBar     },
@@ -825,7 +943,7 @@ static Symbol hintIdentifiers[] = {
     { nullptr,          0                       }
 };
 
-static Symbol layerIdentifiers[] = {
+static const Symbol layerIdentifiers[] = {
     { "Desktop",    WinLayerDesktop     },
     { "Below",      WinLayerBelow       },
     { "Normal",     WinLayerNormal      },
@@ -836,27 +954,76 @@ static Symbol layerIdentifiers[] = {
     { nullptr,      0                   }
 };
 
-static Symbol trayOptionIdentifiers[] = {
+static const Symbol trayOptionIdentifiers[] = {
     { "Ignore",         WinTrayIgnore           },
     { "Minimized",      WinTrayMinimized        },
     { "Exclusive",      WinTrayExclusive        },
     { nullptr,          0                       }
 };
 
-static SymbolTable layers = {
+static const Symbol gravityIdentifiers[] = {
+    { "ForgetGravity",    ForgetGravity    },
+    { "NorthWestGravity", NorthWestGravity },
+    { "NorthGravity",     NorthGravity     },
+    { "NorthEastGravity", NorthEastGravity },
+    { "WestGravity",      WestGravity      },
+    { "CenterGravity",    CenterGravity    },
+    { "EastGravity",      EastGravity      },
+    { "SouthWestGravity", SouthWestGravity },
+    { "SouthGravity",     SouthGravity     },
+    { "SouthEastGravity", SouthEastGravity },
+    { "StaticGravity",    StaticGravity    },
+    { "UnmapGravity",     UnmapGravity     },
+    { nullptr,            0                }
+};
+
+static const Symbol motifFunctions[] = {
+    { "All",              MWM_FUNC_ALL        },
+    { "Resize",           MWM_FUNC_RESIZE     },
+    { "Move",             MWM_FUNC_MOVE       },
+    { "Minimize",         MWM_FUNC_MINIMIZE   },
+    { "Maximize",         MWM_FUNC_MAXIMIZE   },
+    { "Close",            MWM_FUNC_CLOSE      },
+    { nullptr,            0                   }
+};
+
+static const Symbol motifDecorations[] = {
+    { "All",              MWM_DECOR_ALL       },
+    { "Border",           MWM_DECOR_BORDER    },
+    { "Resize",           MWM_DECOR_RESIZEH   },
+    { "Title",            MWM_DECOR_TITLE     },
+    { "Menu",             MWM_DECOR_MENU      },
+    { "Minimize",         MWM_DECOR_MINIMIZE  },
+    { "Maximize",         MWM_DECOR_MAXIMIZE  },
+    { nullptr,            0                   }
+};
+
+static const SymbolTable layers = {
     layerIdentifiers, 0, WinLayerCount - 1, WinLayerInvalid
 };
 
-static SymbolTable states = {
+static const SymbolTable states = {
     stateIdentifiers, 0, WIN_STATE_FULL, -1
 };
 
-static SymbolTable hints = {
+static const SymbolTable hints = {
     hintIdentifiers, 0, WIN_HINTS_ALL, -1
 };
 
-static SymbolTable trayOptions = {
+static const SymbolTable trayOptions = {
     trayOptionIdentifiers, 0, WinTrayOptionCount - 1, WinTrayInvalid
+};
+
+static const SymbolTable gravities = {
+    gravityIdentifiers, 0, 10, -1
+};
+
+static const SymbolTable motifFunctionsTable = {
+    motifFunctions, 0, MWM_FUNC_MASK, -1
+};
+
+static const SymbolTable motifDecorationsTable = {
+    motifDecorations, 0, MWM_DECOR_MASK, -1
 };
 
 /******************************************************************************/
@@ -874,24 +1041,63 @@ long SymbolTable::parseIdentifier(char const * id, size_t const len) const {
 
 long SymbolTable::parseExpression(char const * expression) const {
     long value(0);
-
-    for (char const * token(expression);
-         *token != '\0' && value != fErrCode; token = strnxt(token, "+|"))
-    {
-        char const * id(token + strspn(token, " \t"));
-        value |= parseIdentifier(id = newstr(id, "+| \t"));
-        delete[] id;
+    const char* token(expression);
+    for (int count = 0;; ++count) {
+        token = pastSpacesAndTabs(token);
+        if (isEmpty(token)) {
+            break;
+        }
+        bool add = *token == '+' || *token == '|';
+        bool sub = *token == '-';
+        if (count && !(add | sub)) {
+            value = fErrCode;
+            break;
+        }
+        if (add | sub) {
+            token = pastSpacesAndTabs(token + 1);
+        }
+        if (isEmpty(token)) {
+            value = fErrCode;
+            break;
+        }
+        size_t len = strcspn(token, "-+| \t");
+        if (len == 0) {
+            value = fErrCode;
+            break;
+        }
+        csmart copy(newstr(token, int(len)));
+        if (copy == nullptr) {
+            value = fErrCode;
+            break;
+        }
+        long ident = parseIdentifier(copy, len);
+        if (ident == fErrCode) {
+            value = fErrCode;
+            break;
+        }
+        if (add) {
+            value |= ident;
+        }
+        else if (sub) {
+            value &= ~ident;
+        }
+        else if (count == 0) {
+            value = ident;
+        }
+        token += len;
     }
 
     return value;
 }
 
 void SymbolTable::listSymbols(char const * label) const {
+    const long limit = 1023L;
     printf(_("Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"),
-           label, fMin, fMax);
+           label, fMin, min(fMax, limit));
 
     for (Symbol const * sym(fSymbols); sym && sym->name; ++sym)
-        printf("  %-20s (%ld)\n", sym->name, sym->code);
+        if (sym->code <= limit && (sym->code || sym == fSymbols))
+            printf("  %-20s (%ld)\n", sym->name, sym->code);
 
     puts("");
 }
@@ -915,9 +1121,9 @@ static void toggleState(Window window, long newState) {
     MSG(("old mask/state: %ld/%ld", mask, state));
 
     long newMask = (state & mask & newState) ^ newState;
-    MSG(("new mask/state: %ld/%ld", newMask, newState));
+    MSG(("new mask/state: %ld/%ld", newState, newMask));
 
-    setState(window, newMask, newState);
+    setState(window, newState, newMask);
 }
 
 static void getState(Window window) {
@@ -1010,27 +1216,28 @@ private:
 };
 
 bool WorkspaceInfo::parseWorkspace(char const* name, long* workspace) {
-    if (*this) {
+    if (fNames) {
         for (int i = 0; i < fNames.count(); ++i)
             if (0 == strcmp(name, fNames[i]))
                 return *workspace = i, true;
-
-        if (0 == strcmp(name, "All") || 0 == strcmp(name, "0xFFFFFFFF"))
-            return *workspace = 0xFFFFFFFF, true;
-
-        if (0 == strcmp(name, "this"))
-            return *workspace = currentWorkspace(), true;
-
-        if (tolong(name, *workspace) == false) {
-            msg(_("Invalid workspace name: `%s'"), name);
-        }
-        else if (inrange(*workspace, 0L, count() - 1L) == false) {
-            msg(_("Workspace out of range: %ld"), *workspace);
-        }
-        else return true;
     }
 
-    return false;
+    if (0 == strcmp(name, "All") || 0 == strcmp(name, "0xFFFFFFFF"))
+        return *workspace = 0xFFFFFFFF, true;
+
+    if (0 == strcmp(name, "this"))
+        return *workspace = currentWorkspace(), true;
+
+    if (tolong(name, *workspace) == false) {
+        msg(_("Invalid workspace name: `%s'"), name);
+        return false;
+    }
+    else if (inrange(*workspace, 0L, count() - 1L) == false) {
+        msg(_("Workspace out of range: %ld"), *workspace);
+        return false;
+    }
+
+    return true;
 }
 
 static Window getParent(Window window) {
@@ -1062,6 +1269,35 @@ static bool getGeometry(Window window, int& x, int& y, int& width, int& height) 
         }
     }
     return got;
+}
+
+static void getArea(Window window, int& x, int& y, int& w, int& h) {
+    long wmin = 0;
+    long hmin = 0;
+    long wmax = displayWidth();
+    long hmax = displayHeight();
+    long ws = max(0L, getWorkspace(window));
+    YCardinal net(root, ATOM_NET_WORKAREA, 5000);
+    if (net && ws < net.count() / 4) {
+        wmin = net[ws * 4 + 0];
+        hmin = net[ws * 4 + 1];
+        wmax = net[ws * 4 + 2];
+        hmax = net[ws * 4 + 3];
+    }
+    x = int(wmin);
+    y = int(hmin);
+    w = int(wmax);
+    h = int(hmax);
+}
+
+static void extArea(Window window, int& x, int& y, int& w, int& h) {
+    YCardinal exts(window, ATOM_NET_FRAME_EXTENTS, 4);
+    if (exts && exts.count() == 4) {
+        x += int(exts[0]);
+        y += int(exts[2]);
+        w -= int(exts[0] + exts[1]);
+        h -= int(exts[2] + exts[3]);
+    }
 }
 
 bool IceSh::running;
@@ -1102,6 +1338,116 @@ void IceSh::detail()
     FOREACH_WINDOW(window) {
         details(window);
     }
+}
+
+void IceSh::sizeto()
+{
+    char* wstr = getArg();
+    char* hstr = getArg();
+    bool wper = *wstr && wstr[strlen(wstr)-1] == '%';
+    bool hper = *hstr && hstr[strlen(hstr)-1] == '%';
+    if (wper) wstr[strlen(wstr)-1] = '\0';
+    if (hper) hstr[strlen(hstr)-1] = '\0';
+    long wlen, hlen, supplied;
+    if (tolong(wstr, wlen) && tolong(hstr, hlen) && 0 < wlen && 0 < hlen) {
+        FOREACH_WINDOW(window) {
+            long w = wlen;
+            long h = hlen;
+            if (wper | hper) {
+                int ax, ay, aw, ah;
+                getArea(window, ax, ay, aw, ah);
+                extArea(window, ax, ay, aw, ah);
+                if (wper) w = aw * wlen / 100;
+                if (hper) h = ah * hlen / 100;
+                if (w <= 0 || h <= 0) {
+                    continue;
+                }
+            }
+
+            xsmart<XSizeHints> sh(XAllocSizeHints());
+            if (XGetWMNormalHints(display, window, sh, &supplied)) {
+                if (sh->flags & PMaxSize) {
+                    w = min<long>(w, sh->max_width);
+                    h = min<long>(h, sh->max_height);
+                }
+                if (sh->flags & PBaseSize) {
+                    w -= sh->base_width;
+                    h -= sh->base_height;
+                }
+                if (sh->flags & PResizeInc) {
+                    w -= w % max(1, sh->width_inc);
+                    h -= h % max(1, sh->height_inc);
+                }
+                if (w <= 0 || h <= 0) {
+                    continue;
+                }
+                if (sh->flags & PBaseSize) {
+                    w += sh->base_width;
+                    h += sh->base_height;
+                }
+                if (sh->flags & PMinSize) {
+                    w = max<long>(w, sh->min_width);
+                    h = max<long>(h, sh->min_height);
+                }
+            }
+
+            if (0 < w && 0 < h) {
+                XResizeWindow(display, window,
+                              unsigned(w), unsigned(h));
+            }
+        }
+    }
+    else {
+        invalidArgument("sizeto parameters");
+    }
+}
+
+void IceSh::listXembed(Window parent)
+{
+    YWindowTree windowList(parent);
+    FOREACH_WINDOW(window) {
+        YProperty info(window, ATOM_XEMBED_INFO, AnyPropertyType, 2);
+        if (info) {
+            details(window);
+        }
+        listXembed(window);
+    }
+}
+
+bool IceSh::listXembed()
+{
+    if ( !isAction("xembed", 0))
+        return false;
+
+    listXembed(root);
+    return true;
+}
+
+bool IceSh::listSystray()
+{
+    if ( !isAction("systray", 0))
+        return false;
+
+    windowList.getSystrayList();
+
+    detail();
+    return true;
+}
+
+bool IceSh::listSymbols()
+{
+    if ( !isAction("symbols", 0))
+        return false;
+
+    states.listSymbols(_("GNOME window state"));
+    hints.listSymbols(_("GNOME window hint"));
+    layers.listSymbols(_("GNOME window layer"));
+    trayOptions.listSymbols(_("IceWM tray option"));
+    gravities.listSymbols(_("Gravity symbols"));
+    motifFunctionsTable.listSymbols(_("Motif functions"));
+    motifDecorationsTable.listSymbols(_("Motif decorations"));
+
+    return true;
 }
 
 bool IceSh::listWindows()
@@ -1176,8 +1522,10 @@ bool IceSh::listWorkspaces()
         return false;
 
     WorkspaceInfo info;
-    for (int n(0); n < info.count(); ++n)
-        printf(_("workspace #%d: `%s'\n"), n, info[n]);
+    if (info) {
+        for (int n(0); n < info.count(); ++n)
+            printf(_("workspace #%d: `%s'\n"), n, info[n]);
+    }
     return true;
 }
 
@@ -1388,7 +1736,7 @@ bool IceSh::guiEvents()
 
 bool IceSh::icewmAction()
 {
-    static const struct { const char *s; WMAction a; } sa[] = {
+    static const Symbol sa[] = {
         { "logout",     ICEWM_ACTION_LOGOUT },
         { "cancel",     ICEWM_ACTION_CANCEL_LOGOUT },
         { "reboot",     ICEWM_ACTION_REBOOT },
@@ -1397,11 +1745,12 @@ bool IceSh::icewmAction()
         { "windowlist", ICEWM_ACTION_WINDOWLIST },
         { "restart",    ICEWM_ACTION_RESTARTWM },
         { "suspend",    ICEWM_ACTION_SUSPEND },
+        { "winoptions", ICEWM_ACTION_WINOPTIONS },
     };
     for (int i = 0; i < int ACOUNT(sa); ++i) {
-        if (0 == strcmp(*argp, sa[i].s)) {
+        if (0 == strcmp(*argp, sa[i].name)) {
             ++argp;
-            send(ATOM_ICE_ACTION, root, CurrentTime, sa[i].a);
+            send(ATOM_ICE_ACTION, root, CurrentTime, sa[i].code);
             return true;
         }
     }
@@ -1413,6 +1762,9 @@ bool IceSh::icewmAction()
         || listScreens()
         || listWindows()
         || listClients()
+        || listSymbols()
+        || listSystray()
+        || listXembed()
         || listShown()
         || colormaps()
         || desktops()
@@ -1461,6 +1813,33 @@ static void getTrayOption(Window window) {
     }
 }
 
+static void printWindowGravity(Window window) {
+    long grav = getWindowGravity(window);
+    const char* name = nullptr;
+    if (gravities.lookup(grav, &name))
+        printf("0x%-7lx %s\n", window, name);
+    else
+        printf("0x%-7lx %ld\n", window, grav);
+}
+
+static void printBitGravity(Window window) {
+    long grav = getBitGravity(window);
+    const char* name = nullptr;
+    if (gravities.lookup(grav, &name))
+        printf("0x%-7lx %s\n", window, name);
+    else
+        printf("0x%-7lx %ld\n", window, grav);
+}
+
+static void printNormalGravity(Window window) {
+    long grav = getNormalGravity(window);
+    const char* name = nullptr;
+    if (gravities.lookup(grav, &name))
+        printf("0x%-7lx %s\n", window, name);
+    else
+        printf("0x%-7lx %ld\n", window, grav);
+}
+
 /******************************************************************************/
 
 static void setGeometry(Window window, const char* geometry) {
@@ -1486,11 +1865,6 @@ static void setGeometry(Window window, const char* geometry) {
     if (status & WidthValue) width = geom_width;
     if (status & HeightValue) height = geom_height;
 
-    if (hasbits(status, XValue | XNegative))
-        x += displayWidth() - width;
-    if (hasbits(status, YValue | YNegative))
-        y += displayHeight() - height;
-
     if (normal.flags & PResizeInc) {
         width *= max(1, normal.width_inc);
         height *= max(1, normal.height_inc);
@@ -1499,6 +1873,20 @@ static void setGeometry(Window window, const char* geometry) {
     if (normal.flags & PBaseSize) {
         width += normal.base_width;
         height += normal.base_height;
+    }
+
+    if (hasbit(status, XNegative | YNegative)) {
+        int maxWidth = displayWidth();
+        int maxHeight = displayHeight();
+        YCardinal exts(window, ATOM_NET_FRAME_EXTENTS, 4);
+        if (exts && exts.count() == 4) {
+            maxWidth -= exts[0] + exts[1];
+            maxHeight -= exts[2] + exts[3];
+        }
+        if (hasbits(status, XValue | XNegative))
+            x += maxWidth - width;
+        if (hasbits(status, YValue | YNegative))
+            y += maxHeight - height;
     }
 
     MSG(("setGeometry: %dx%d%+i%+i", width, height, x, y));
@@ -1731,6 +2119,119 @@ static void opacity(Window window, char* opaq) {
     }
 }
 
+void IceSh::motif(Window window, char** args, int count) {
+    YMotifHints hints(window);
+
+    if (hints && !count) { // && hasbit(hints->flags, 017)) {
+        const char spaces[] = "          ";
+        printf("0x%-7lx motif:%s%s%s%s\n", window,
+                hints->hasFuncs() ? " funcs" : "",
+                hints->hasDecor() ? " decor" : "",
+                hints->hasInput() ? " input" : "",
+                hints->hasStatus() ? " status" : "");
+        if (hints->hasFuncs()) {
+            unsigned long funcs = hints->functions;
+            if (funcs & MWM_FUNC_ALL)
+                funcs = (~funcs & 0x3E);
+            printf("%sfuncs:", spaces);
+            for (int i = 1, n = 0; motifFunctions[i].name; ++i) {
+                if (funcs & motifFunctions[i].code)
+                    printf("%c%s",
+                            ++n == 1 ? ' ' : '+',
+                            motifFunctions[i].name);
+            }
+            printf("\n");
+        }
+        if (hints->hasDecor()) {
+            unsigned long decor = hints->decorations;
+            if (decor & MWM_DECOR_ALL)
+                decor = (~decor & 0x7E);
+            printf("%sdecor:", spaces);
+            for (int i = 1, n = 0; motifDecorations[i].name; ++i) {
+                if (decor & motifDecorations[i].code)
+                    printf("%c%s",
+                            ++n == 1 ? ' ' : '+',
+                            motifDecorations[i].name);
+            }
+            printf("\n");
+        }
+        if (hints->hasInput()) {
+            long input = hints->input_mode;
+            printf("%sinput: %s\n", spaces,
+                    input == MWM_INPUT_MODELESS ?
+                            "modeless" :
+                    input == MWM_INPUT_APPLICATION_MODAL ?
+                            "application_modal" :
+                    input == MWM_INPUT_SYSTEM_MODAL ?
+                            "system_modal" :
+                    input == MWM_INPUT_FULL_APPLICATION_MODAL ?
+                            "full_application_modal" : "");
+        }
+        if (hints->hasStatus()) {
+            printf("%sstatus:%s\n", spaces,
+                    (hints->status & MWM_TEAROFF_WINDOW) ?
+                            " tearoff" : "");
+        }
+    }
+
+    if (0 == count) {
+        return;
+    }
+
+    MwmHints mwm;
+    if (hints) {
+        mwm = *hints;
+    }
+    bool removing = false;
+
+    for (int k = 0; k < count; ++k) {
+        char* arg = args[k];
+        if (0 == strcmp(arg, "remove")) {
+            memset(&mwm, 0, sizeof(mwm));
+            removing = true;
+        }
+        else if (0 == strcmp(arg, "funcs") && k + 1 < count) {
+            arg = args[++k];
+            csmart tmp;
+            if (strchr("-+|", *arg) && mwm.hasFuncs()) {
+                size_t len = 32 + strlen(arg);
+                tmp = new char[len];
+                snprintf(tmp, len, "%ld%s", mwm.functions, arg);
+                arg = tmp;
+            }
+            long val = motifFunctionsTable.parseExpression(arg);
+            if (val < None) {
+                return;
+            }
+            mwm.functions = val;
+            mwm.setFuncs();
+        }
+        else if (0 == strcmp(arg, "decor") && k + 1 < count) {
+            arg = args[++k];
+            csmart tmp;
+            if (strchr("-+|", *arg) && mwm.hasDecor()) {
+                size_t len = 32 + strlen(arg);
+                tmp = new char[len];
+                snprintf(tmp, len, "%ld%s", mwm.decorations, arg);
+                arg = tmp;
+            }
+            long val = motifDecorationsTable.parseExpression(arg);
+            if (val < None) {
+                return;
+            }
+            mwm.decorations = val;
+            mwm.setDecor();
+        }
+    }
+
+    if (mwm.hasFlags()) {
+        hints.replace(mwm);
+    }
+    else if (removing && hints) {
+        hints.remove();
+    }
+}
+
 void IceSh::confine(const char* val) {
     long screen = -1L;
     if (strcmp(val, "All") == 0) {
@@ -1871,6 +2372,8 @@ void IceSh::flags()
 {
     bool act = false;
 
+    signal(SIGHUP, SIG_IGN);
+
     while (haveArg()) {
         if (argp[0][0] == '-') {
             char* arg = getArg();
@@ -1891,6 +2394,7 @@ void IceSh::flags()
                 setWindow(w);
                 parseAction();
             }
+            flush();
         }
     }
 
@@ -1928,6 +2432,13 @@ void IceSh::flag(char* arg)
         MSG(("top windows selected"));
         return;
     }
+    if (isOptArg(arg, "-last", "")) {
+        if ( ! windowList)
+            windowList.getClientList();
+        windowList.filterLast();
+        MSG(("last window selected"));
+        return;
+    }
 
     size_t sep(strcspn(arg, "=:"));
     char *val(arg[sep] ? &arg[sep + 1] : getArg());
@@ -1948,12 +2459,6 @@ void IceSh::flag(char* arg)
             THROW(1);
         }
     }
-    else if (isOptArg(arg, "-last", "")) {
-        if ( ! windowList)
-            windowList.getClientList();
-        windowList.filterLast();
-        MSG(("last window selected"));
-    }
     else if (isOptArg(arg, "-machine", val)) {
         if ( ! windowList)
             windowList.getClientList();
@@ -1969,36 +2474,49 @@ void IceSh::flag(char* arg)
         MSG(("name windows selected"));
     }
     else if (isOptArg(arg, "-Workspace", val)) {
+        bool inverse(*val == '!');
         long ws;
-        if ( ! WorkspaceInfo().parseWorkspace(val, &ws))
+        if ( ! WorkspaceInfo().parseWorkspace(val + inverse, &ws))
             THROW(1);
 
         if ( ! windowList)
             windowList.getClientList();
-        windowList.filterByWorkspace(ws);
+        windowList.filterByWorkspace(ws, inverse);
         MSG(("workspace windows selected"));
     }
     else if (isOptArg(arg, "-Layer", val)) {
-        long layer = layers.parseIdentifier(val);
+        bool inverse(*val == '!');
+        long layer = layers.parseIdentifier(val + inverse);
         if (layer == WinLayerInvalid) {
             msg("Invalid layer: `%s'.", val);
             THROW(1);
         }
         if ( ! windowList)
             windowList.getClientList();
-        windowList.filterByLayer(layer);
+        windowList.filterByLayer(layer, inverse);
         MSG(("layer windows selected"));
     }
     else if (isOptArg(arg, "-State", val)) {
-        long state(states.parseExpression(val));
+        bool inverse(*val == '!');
+        bool question(val[inverse] == '?');
+        long state(states.parseExpression(val + inverse + question));
         if (state == -1L) {
-            msg("Invalid state: `%s'.", val);
+            msg("Invalid state: `%s'.", val + inverse + question);
             THROW(1);
         }
         if ( ! windowList)
             windowList.getClientList();
-        windowList.filterByState(state);
+        windowList.filterByState(state, inverse, question);
         MSG(("state windows selected"));
+    }
+    else if (isOptArg(arg, "-Gravity", val)) {
+        bool inverse(*val == '!');
+        long gravity(gravities.parseExpression(val + inverse));
+        check(gravities, gravity, val + inverse);
+        if ( ! windowList)
+            windowList.getClientList();
+        windowList.filterByGravity(gravity, inverse);
+        MSG(("gravity windows selected"));
     }
     else if (isOptArg(arg, "-Xinerama", val)) {
         confine(val);
@@ -2113,6 +2631,9 @@ void IceSh::parseAction()
                 invalidArgument("resize parameters");
             }
         }
+        else if (isAction("sizeto", 2)) {
+            sizeto();
+        }
         else if (isAction("move", 2)) {
             const char* xa = getArg();
             const char* ya = getArg();
@@ -2167,14 +2688,15 @@ void IceSh::parseAction()
         }
         else if (isAction("centre", 0) || isAction("center", 0)) {
             FOREACH_WINDOW(window) {
-                Window frame = getFrameWindow(window);
-                if (frame) {
-                    int x, y, w, h;
-                    if (getGeometry(frame, x, y, w, h)) {
-                        int tx = (displayWidth() - w) / 2;
-                        int ty = (displayHeight() - h) / 2;
-                        XMoveWindow(display, frame, tx, ty);
-                    }
+                int x, y, w, h;
+                if (getGeometry(window, x, y, w, h)) {
+                    XWindowChanges c;
+                    int ax, ay, aw, ah;
+                    getArea(window, ax, ay, aw, ah);
+                    extArea(window, ax, ay, aw, ah);
+                    c.x = (aw - w) / 2;
+                    c.y = (ah - h) / 2;
+                    XConfigureWindow(display, window, CWX | CWY, &c);
                 }
             }
         }
@@ -2183,7 +2705,9 @@ void IceSh::parseAction()
                 int x, y, w, h;
                 if (getGeometry(window, x, y, w, h)) {
                     XWindowChanges c;
-                    c.x = 0;
+                    int ax, ay, aw, ah;
+                    getArea(window, ax, ay, aw, ah);
+                    c.x = max(0, ax);
                     XConfigureWindow(display, window, CWX, &c);
                 }
             }
@@ -2194,8 +2718,10 @@ void IceSh::parseAction()
                 if (exts) {
                     int x, y, w, h;
                     if (getGeometry(window, x, y, w, h)) {
+                        int ax, ay, aw, ah;
+                        getArea(window, ax, ay, aw, ah);
                         XWindowChanges c;
-                        c.x = displayWidth() - w - exts[0] - exts[1];
+                        c.x = ax + aw - w - exts[0] - exts[1];
                         XConfigureWindow(display, window, CWX, &c);
                     }
                 }
@@ -2206,7 +2732,9 @@ void IceSh::parseAction()
                 int x, y, w, h;
                 if (getGeometry(window, x, y, w, h)) {
                     XWindowChanges c;
-                    c.y = 0;
+                    int ax, ay, aw, ah;
+                    getArea(window, ax, ay, aw, ah);
+                    c.y = max(0, ay);
                     XConfigureWindow(display, window, CWY, &c);
                 }
             }
@@ -2217,8 +2745,10 @@ void IceSh::parseAction()
                 if (exts) {
                     int x, y, w, h;
                     if (getGeometry(window, x, y, w, h)) {
+                        int ax, ay, aw, ah;
+                        getArea(window, ax, ay, aw, ah);
                         XWindowChanges c;
-                        c.y = displayHeight() - h - exts[2] - exts[3];
+                        c.y = ay + ah - h - exts[2] - exts[3];
                         XConfigureWindow(display, window, CWY, &c);
                     }
                 }
@@ -2274,7 +2804,7 @@ void IceSh::parseAction()
             WorkspaceInfo info;
             FOREACH_WINDOW(window) {
                 int ws = int(getWorkspace(window));
-                const char* name = info[ws];
+                const char* name = info ? info[ws] : "";
                 printf("0x%-7lx %d \"%s\"\n", Window(window), ws, name);
             }
         }
@@ -2302,9 +2832,47 @@ void IceSh::parseAction()
             FOREACH_WINDOW(window)
                 getTrayOption(window);
         }
+        else if (isAction("setWindowGravity", 1)) {
+            long grav(gravities.parseExpression(getArg()));
+            check(gravities, grav, argp[-1]);
+            FOREACH_WINDOW(window)
+                setWindowGravity(window, grav);
+        }
+        else if (isAction("getWindowGravity", 0)) {
+            FOREACH_WINDOW(window)
+                printWindowGravity(window);
+        }
+        else if (isAction("setBitGravity", 1)) {
+            long grav(gravities.parseExpression(getArg()));
+            check(gravities, grav, argp[-1]);
+            FOREACH_WINDOW(window)
+                setBitGravity(window, grav);
+        }
+        else if (isAction("getBitGravity", 0)) {
+            FOREACH_WINDOW(window)
+                printBitGravity(window);
+        }
+        else if (isAction("setNormalGravity", 1)) {
+            long grav(gravities.parseExpression(getArg()));
+            check(gravities, grav, argp[-1]);
+            FOREACH_WINDOW(window)
+                setNormalGravity(window, grav);
+        }
+        else if (isAction("getNormalGravity", 0)) {
+            FOREACH_WINDOW(window)
+                printNormalGravity(window);
+        }
         else if (isAction("id", 0)) {
             FOREACH_WINDOW(window)
                 printf("0x%06lx\n", Window(window));
+        }
+        else if (isAction("pid", 0)) {
+            FOREACH_WINDOW(window) {
+                long pid = *YCardinal(window, ATOM_NET_WM_PID);
+                if (1 < pid) {
+                    printf("%ld\n", pid);
+                }
+            }
         }
         else if (isAction("list", 0)) {
             detail();
@@ -2434,12 +3002,42 @@ void IceSh::parseAction()
                 THROW(0);
             }
         }
+        else if (isAction("sync", 0)) {
+            unsigned char data[3] = { 0, 0, 0, };
+            XChangeProperty(display, root,
+                            ATOM_ICE_WINOPT, ATOM_ICE_WINOPT,
+                            8, PropModeAppend, data, 3);
+            for (bool hint = true; hint; ) {
+                hint = YProperty(root, ATOM_ICE_WINOPT, ATOM_ICE_WINOPT);
+            }
+        }
+        else if (isAction("motif", 0)) {
+            char** args = argp;
+            int count = 0;
+            while (args + count < argv + argc) {
+                int more = (argv + argc) - (args + count);
+                if (0 == strcmp(args[count], "remove")) {
+                    ++count;
+                }
+                else if (0 == strcmp(args[count], "funcs") && 2 <= more) {
+                    count += 2;
+                }
+                else if (0 == strcmp(args[count], "decor") && 2 <= more) {
+                    count += 2;
+                }
+                else {
+                    break;
+                }
+            }
+            FOREACH_WINDOW(window) {
+                motif(window, args, count);
+            }
+            argp = args + count;
+        }
         else {
             msg(_("Unknown action: `%s'"), *argp);
             THROW(1);
         }
-
-        flush();
     }
 }
 

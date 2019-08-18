@@ -667,7 +667,8 @@ const char* MailCheck::s(ProtocolState p) {
 
 MailBoxStatus::MailBoxStatus(MailHandler* handler,
                              mstring mailbox, YWindow *aParent):
-    YWindow(aParent),
+    IApplet(this, aParent),
+    fOldState(MailBoxState(-1)),
     fState(mbxNoMail),
     check(mailbox, this),
     fHandler(handler),
@@ -692,7 +693,16 @@ MailBoxStatus::MailBoxStatus(MailHandler* handler,
 MailBoxStatus::~MailBoxStatus() {
 }
 
-void MailBoxStatus::paint(Graphics &g, const YRect &/*r*/) {
+bool MailBoxStatus::picture() {
+    bool create = (hasPixmap() == false);
+
+    Graphics G(getPixmap(), width(), height(), depth());
+
+    return (fState != fOldState)
+         ? draw(G), true : create;
+}
+
+ref<YPixmap> MailBoxStatus::statePixmap() {
     ref<YPixmap> pixmap;
     switch (fState) {
     case mbxHasMail:
@@ -711,9 +721,13 @@ void MailBoxStatus::paint(Graphics &g, const YRect &/*r*/) {
         pixmap = errMailPixmap;
         break;
     }
+    return pixmap;
+}
 
+void MailBoxStatus::draw(Graphics& g) {
+    ref<YPixmap> pixmap(statePixmap());
     if (pixmap == null || pixmap->mask()) {
-        ref<YImage> gradient = parent()->getGradient();
+        ref<YImage> gradient(getGradient());
 
         if (gradient != null)
             g.drawImage(gradient, x(), y(), width(), height(), 0, 0);

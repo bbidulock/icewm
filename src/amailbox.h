@@ -7,6 +7,7 @@
 #include "ysocket.h"
 #include "yurl.h"
 #include "yaction.h"
+#include "applet.h"
 
 class IAppletContainer;
 class MailBoxControl;
@@ -107,7 +108,11 @@ private:
     void escape(const char* buf, int len, char* tmp, int siz);
 };
 
-class MailBoxStatus: public YWindow, public YTimerListener {
+class MailBoxStatus:
+    public IApplet,
+    private Picturer,
+    private YTimerListener
+{
 public:
     enum MailBoxState {
         mbxNoMail,
@@ -121,7 +126,6 @@ public:
                   mstring mailBox, YWindow *aParent);
     virtual ~MailBoxStatus();
 
-    virtual void paint(Graphics &g, const YRect &r);
     virtual void handleClick(const XButtonEvent &up, int count);
     virtual void handleCrossing(const XCrossingEvent &crossing);
 
@@ -131,10 +135,14 @@ public:
     void suspend(bool suspend);
     bool suspended() const { return fSuspended; }
 
+private:
+    virtual bool picture();
     virtual bool handleTimer(YTimer *t);
     virtual void updateToolTip();
+    ref<YPixmap> statePixmap();
+    void draw(Graphics& g);
 
-private:
+    MailBoxState fOldState;
     MailBoxState fState;
     MailCheck check;
     lazy<YTimer> fMailboxCheckTimer;

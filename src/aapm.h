@@ -25,13 +25,15 @@ struct Battery {
 };
 
 
-class YApm: public YWindow, public YTimerListener {
+class YApm:
+    public IApplet,
+    private Picturer,
+    private YTimerListener
+{
 public:
         // autodetect==true means becoming dormant if no battery was detected correctly
     YApm(YWindow *aParent = 0, bool autodetect=false);
     virtual ~YApm();
-
-    virtual void paint(Graphics &g, const YRect &r);
 
     virtual void updateToolTip();
     virtual bool handleTimer(YTimer *t);
@@ -69,13 +71,16 @@ private:
     //(file)name of ac adapter
     char *acpiACName;
     char *fCurrentState;
+    bool fStatusChanged;
 
     // On line status and charge persent
     bool     acIsOnLine;
     // current and maximum charge, large enough for hundred 40Wh batteries
     unsigned    energyNow, energyFull;
 
-    void updateState();
+    bool updateState();
+    bool picture();
+    void draw(Graphics& g);
 };
 #endif
 
