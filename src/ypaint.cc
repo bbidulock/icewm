@@ -149,14 +149,9 @@ void Graphics::clear()
 
 void Graphics::clearArea(int x, int y, unsigned w, unsigned h)
 {
-    XGCValues val;                      unsigned long mask = 0;
-    val.foreground         = None;      mask |= GCForeground;
-    val.background         = None;      mask |= GCBackground;
-    val.fill_style         = FillSolid; mask |= GCFillStyle;
-    val.function           = GXcopy;    mask |= GCFunction;
-    val.graphics_exposures = False;     mask |= GCGraphicsExposures;
-    XChangeGC(display(), gc, mask, &val);
+    setFunction(GXclear);
     XFillRectangle(display(), drawable(), gc, x, y, w, h);
+    setFunction(GXcopy);
 }
 
 void Graphics::copyArea(const int x, const int y,
@@ -1097,12 +1092,16 @@ void GraphicsBuffer::paint(Pixmap pixmap, const YRect& rect) {
 
     Graphics gfx(pixmap, w, h, depth);
 
-    if (clipping) {
+    if (clipping && fNesting == 1) {
         if (x || y || w < window()->width() || h < window()->height()) {
             XRectangle clip = { short(x), short(y),
                                (unsigned short)w, (unsigned short)h };
             gfx.setClipRectangles(&clip, 1);
         }
+    }
+
+    if (fNesting == 1) {
+        gfx.clearArea(x, y, w, h);
     }
 
     window()->paint(gfx, rect);
