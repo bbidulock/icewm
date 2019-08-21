@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2019-08-17 12:39+0200\n"
-"PO-Revision-Date: 2019-08-18 00:51+0000\n"
-"Last-Translator: Thomas Koller <tk120@protonmail.com>\n"
+"PO-Revision-Date: 2019-08-20 21:51+0000\n"
+"Last-Translator: Sarah Kriesch <ada.lovelace@gmx.de>\n"
 "Language-Team: German <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/de/>\n"
 "Language: de\n"
@@ -598,16 +598,12 @@ msgid "Gravity symbols"
 msgstr "Gravitationssymbole"
 
 #: src/icesh.cc:1447
-#, fuzzy
-#| msgid "Save Modifications"
 msgid "Motif functions"
-msgstr "Änderungen speichern"
+msgstr "Motif-Funktionen"
 
 #: src/icesh.cc:1448
-#, fuzzy
-#| msgid "Save Modifications"
 msgid "Motif decorations"
-msgstr "Änderungen speichern"
+msgstr "Motif-Ausstattung"
 
 #: src/icesh.cc:1527
 #, c-format
@@ -657,17 +653,6 @@ msgid "Socket error: %d"
 msgstr "Socketfehler: %d"
 
 #: src/icesm.cc:57
-#, fuzzy
-#| msgid ""
-#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-#| "\n"
-#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
-#| "  --sync              Synchronize communication with X11 server.\n"
-#| "\n"
-#| "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
-#| "  -n, --notray        Do not start icewmtray.\n"
-#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -685,10 +670,13 @@ msgstr ""
 "  -t, --theme=DATEI    Lässt IceWM das Thema aus DATEI laden.\n"
 "\n"
 "  -d, --display=NAME      Verwendet NAME zur Verbindung mit dem X-Server.\n"
-"  --sync              Synchronisierung der Kommunikation mit dem X11-"
-"Server.\n"
+"  -a, --alpha          Verwendet einen 32Bit-Sichtkontakt zur "
+"Lichtdurchlässigkeit.\n"
+"  --sync              Synchronisierung der Kommunikation mit dem X11-Server."
+"\n"
 "\n"
 "  -i, --icewm=DATEI    Verwendet DATEI als IceWM Window Manager.\n"
+"  -b, --nobg          Nicht icewmbg starten.\n"
 "  -n, --notray        Nicht icewmtray starten.\n"
 "  -s, --sound         Auch icesound starten.\n"
 
@@ -1384,12 +1372,6 @@ msgstr ""
 "stacking aus.\n"
 
 #: src/wmapp.cc:1480
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "  -c, --config=FILE   Load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Load theme from FILE.\n"
-#| "  --postpreferences   Print preferences after all processing.\n"
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -1399,8 +1381,11 @@ msgid ""
 "  --postpreferences   Print preferences after all processing.\n"
 msgstr ""
 "\n"
+"  -a, --alpha          Verwendet einen 32Bit-Sichtkontakt zur "
+"Lichtdurchlässigkeit.\n"
 "  -c, --config=DATEI   Einstellungen aus DATEI laden.\n"
 "  -t, --theme=DATEI   Theme aus DATEI laden.\n"
+"  --spash=BILD           Kurz BILD beim Start anzeigen.\n"
 "  --postpreferences    Einstellungen nach der ganzen Verarbeitung ausgeben.\n"
 
 #: src/wmapp.cc:1487

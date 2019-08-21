@@ -698,6 +698,9 @@ bool MailBoxStatus::picture() {
 
     Graphics G(getPixmap(), width(), height(), depth());
 
+    if (create)
+        G.clear();
+
     return (fState != fOldState)
          ? draw(G), true : create;
 }
