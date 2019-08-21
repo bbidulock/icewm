@@ -1,5 +1,157 @@
 # created with git log --stat=76 -M -C -500|fmt -sct -w80
 
+commit 2af1034a7e51b28b700cf26c5b48380af6342acf
+Merge: 23b13d68 c5386d27
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Thu Aug 22 01:33:52 2019 +0200
+
+    Merge branch 'icewm-1-4-BRANCH'
+
+commit c5386d27db20b469980ddd4a35021490f19751ca
+Merge: c4dd3145 02f11b28
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Thu Aug 22 01:30:50 2019 +0200
+
+    Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
+    icewm-1-4-BRANCH
+
+commit 02f11b28637a2985a506b736118bd261758096b4
+Author: jcsl <trcs@gmx.com>
+Date:   Wed Aug 21 10:35:17 2019 +0000
+
+    Translated using Weblate (Spanish)
+
+    Currently translated at 99.4% (462 of 465 strings)
+
+ po/es.po | 471 +++++++++++++++++++++++++----------------------------------
+ 1 file changed, 199 insertions(+), 272 deletions(-)
+
+commit 2766da4de269a61272ca189dd9ac8be96039915f
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Wed Aug 21 14:52:15 2019 +0200
+
+    Don't composite systray when using 24-bit RGB visuals for issue #374.
+
+ src/yxtray.cc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+commit 3218e732928df0b43d71abfbf1bea998d106a98b
+Author: Luiz Fernando Ranghetti <elchevive68@gmail.com>
+Date:   Tue Aug 20 17:52:54 2019 +0000
+
+    Translated using Weblate (Portuguese (Brazil))
+
+    Currently translated at 100.0% (465 of 465 strings)
+
+ po/pt_BR.po | 44 +++++++++++++-------------------------------
+ 1 file changed, 13 insertions(+), 31 deletions(-)
+
+commit 064c19df7fe59d44ba771eed4be97ef5b4ef44c2
+Author: Sarah Kriesch <ada.lovelace@gmx.de>
+Date:   Tue Aug 20 19:26:57 2019 +0000
+
+    Translated using Weblate (German)
+
+    Currently translated at 100.0% (465 of 465 strings)
+
+ po/de.po | 39 ++++++++++++---------------------------
+ 1 file changed, 12 insertions(+), 27 deletions(-)
+
+commit 4c5d7f672684a31246b81b3491062bcbd9dce73e
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Tue Aug 20 23:40:49 2019 +0200
+
+    Clear GraphicsBuffer so we can have a transparent taskbar in issue #299.
+
+ src/amailbox.cc |  3 +++
+ src/ypaint.cc   | 15 +++++++--------
+ 2 files changed, 10 insertions(+), 8 deletions(-)
+
+commit 62cce4d2be20857d8b858db69d5f7129ab141a18
+Author: Ferdinand Galko <galko.ferdinand@gmail.com>
+Date:   Sun Aug 18 17:06:26 2019 +0000
+
+    Translated using Weblate (Slovak)
+
+    Currently translated at 100.0% (465 of 465 strings)
+
+ po/sk.po | 42 ++++++++++++------------------------------
+ 1 file changed, 12 insertions(+), 30 deletions(-)
+
+commit 42c33ad6bfd3aff3d496eab47ce65744c415e020
+Author: scootergrisen <scootergrisen@gmail.com>
+Date:   Sun Aug 18 19:45:44 2019 +0000
+
+    Translated using Weblate (Danish)
+
+    Currently translated at 100.0% (465 of 465 strings)
+
+ po/da.po | 42 ++++++++++++------------------------------
+ 1 file changed, 12 insertions(+), 30 deletions(-)
+
+commit abe91be50a181934e1ea6989e7591082329f27f5
+Author: Aleš Kastner <alkas@volny.cz>
+Date:   Sun Aug 18 18:31:11 2019 +0000
+
+    Translated using Weblate (Czech)
+
+    Currently translated at 100.0% (465 of 465 strings)
+
+ po/cs.po | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+commit 23b13d688f62292fac70933fe02c08173d9c3b6a
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Aug 18 23:31:59 2019 +0200
+
+    Prepare 1.6.0 release
+
+ AUTHORS      |   22 +-
+ ChangeLog    | 7968 +++++++++++++++++++++++++++---------------------------
+ NEWS         |  241 +-
+ README.md    |   40 +-
+ VERSION      |    2 +-
+ configure.ac |    8 +-
+ po/ar.po     |  176 +-
+ po/be.po     |  176 +-
+ po/bg.po     |  176 +-
+ po/ca.po     |  180 +-
+ po/cs.po     |  180 +-
+ po/da.po     |  176 +-
+ po/de.po     |  180 +-
+ po/el.po     |  176 +-
+ po/en.po     |  176 +-
+ po/es.po     |  176 +-
+ po/fi.po     |  176 +-
+ po/fr.po     |  176 +-
+ po/he.po     |  176 +-
+ po/hr.po     |  176 +-
+ po/hu.po     |  176 +-
+ po/icewm.pot |  178 +-
+ po/id.po     |  176 +-
+ po/it.po     |  176 +-
+ po/ja.po     |  186 +-
+ po/ko.po     |  176 +-
+ po/lt.po     |  176 +-
+ po/lv.po     |  176 +-
+ po/mk.po     |  176 +-
+ po/nb.po     |  176 +-
+ po/nl.po     |  176 +-
+ po/no.po     |  176 +-
+ po/pl.po     |  176 +-
+ po/pt_BR.po  |  176 +-
+ po/ro.po     |  176 +-
+ po/ru.po     |  176 +-
+ po/sk.po     |  176 +-
+ po/sl.po     |  176 +-
+ po/sv.po     |  176 +-
+ po/tr.po     |  176 +-
+ po/uk.po     |  176 +-
+ po/vi.po     |  176 +-
+ po/zh_CN.po  |  176 +-
+ po/zh_TW.po  |  176 +-
+ 44 files changed, 7552 insertions(+), 7441 deletions(-)
+
 commit 79f4b772060a97a9d358dd80bd39f6c34a606b93
 Merge: e5f7a8b0 c4dd3145
 Author: Bert Gijsbers <gijsbers@science.uva.nl>
@@ -5576,141 +5728,3 @@ Date:   Wed Sep 12 20:25:52 2018 +0200
  src/upath.cc | 26 ++++++++++++++++++++++++--
  src/upath.h  | 11 ++++++++++-
  2 files changed, 34 insertions(+), 3 deletions(-)
-
-commit 7e212ffd064770b137b763d4a5e67fddda56cdf1
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Wed Sep 12 20:24:51 2018 +0200
-
-    namespace, lineEnding, pastSpaces
-
- src/ascii.h | 26 ++++++++++++++++++++++++--
- 1 file changed, 24 insertions(+), 2 deletions(-)
-
-commit 47ff0502c3d21a402c528d89c552ae3feed61917
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Tue Sep 11 18:37:32 2018 +0200
-
-    update homepage URL
-
- po/ast.po | 2 +-
- po/be.po  | 2 +-
- po/bg.po  | 2 +-
- po/el.po  | 2 +-
- po/eo.po  | 2 +-
- po/fa.po  | 2 +-
- po/fi.po  | 2 +-
- po/lv.po  | 2 +-
- po/mk.po  | 2 +-
- po/nb.po  | 2 +-
- po/no.po  | 2 +-
- po/sl.po  | 2 +-
- po/tr.po  | 2 +-
- po/vi.po  | 2 +-
- 14 files changed, 14 insertions(+), 14 deletions(-)
-
-commit 2b970e8d02b4060f1c6a30ae1e51ac06bf19b21a
-Author: David Medina <medipas@gmail.com>
-Date:   Mon Aug 27 14:01:52 2018 +0000
-
-    Translated using Weblate (Catalan)
-
-    Currently translated at 100.0% (464 of 464 strings)
-
- po/ca.po | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-commit 7fe72cbc347bfc28e0d5fd986a85607d0dc7fff0
-Author: Luiz Fernando Ranghetti <elchevive68@gmail.com>
-Date:   Mon Aug 27 19:09:57 2018 +0000
-
-    Translated using Weblate (Portuguese (Brazil))
-
-    Currently translated at 100.0% (464 of 464 strings)
-
- po/pt_BR.po | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-commit a46609eb7dc42fb37fee27ce4d8bdc53ae6756dc
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Sep 9 14:42:05 2018 +0200
-
-    fix #292
-
- src/wmmgr.cc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-commit 49669caec7af29fcf977a07bf5d3a358a68f7942
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Sep 9 09:47:20 2018 +0200
-
-    Auto-adjust taskbar height to large task button fonts for issue #283.
-
- src/atasks.cc    | 46 ++++++++++++++++++++++++++++++++++++----------
- src/atasks.h     | 10 ++++++++++
- src/wmtaskbar.cc |  3 +--
- 3 files changed, 47 insertions(+), 12 deletions(-)
-
-commit 0a1bdbdf9707320bc3ce4aa693f9494156305660
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Sep 9 09:30:13 2018 +0200
-
-    ice-wm.org #287
-
- CONTRIBUTING.md | 7 +++----
- README.md       | 7 +++----
- README.md.in    | 7 +++----
- doc/icewm.adoc  | 6 +++---
- icewm.lsm.in    | 2 +-
- icewm.spec.in   | 2 +-
- src/icehelp.cc  | 6 +++---
- src/wmapp.cc    | 2 +-
- 8 files changed, 18 insertions(+), 21 deletions(-)
-
-commit ebcd901da9298b0d5b580d84b56370b791458c7a
-Author: Ferdinand Galko <galko.ferdinand@gmail.com>
-Date:   Sat Sep 8 10:48:54 2018 +0000
-
-    Translated using Weblate (Slovak)
-
-    Currently translated at 100.0% (464 of 464 strings)
-
- po/sk.po | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
-
-commit 0280df4fc182336022e3f234a3ada2488da4820d
-Author: Ferdinand Galko <galko.ferdinand@gmail.com>
-Date:   Sat Sep 8 10:43:00 2018 +0000
-
-    Translated using Weblate (Slovak)
-
-    Currently translated at 97.8% (454 of 464 strings)
-
- po/sk.po | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
-
-commit a76a60abf54419dd7deed1aa041749738a4e3f29
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Fri Sep 7 23:17:21 2018 +0200
-
-    camelCase drew_icon.
-
- src/atasks.cc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-commit ff45b6b6d17b04d69265d5ece900ff09a5ef23e9
-Author: ldarby2 <42494548+ldarby2@users.noreply.github.com>
-Date:   Fri Sep 7 22:15:03 2018 +0100
-
-    Don't waste taskbar space for window titles if there's no icon. (#294)
-
-    * Don't waste taskbar space for window titles if there's no icon.
-
-    To have no icon, set the winoption icon to e.g. NULL (any non
-    existing path).  Useful if there are e.g. lots of xterms.
-
-    * deleted pointless (and misleading) initialization
-
- src/atasks.cc | 5 +++--
- src/yicon.cc  | 4 +++-
- src/yicon.h   | 2 +-
- 3 files changed, 7 insertions(+), 4 deletions(-)

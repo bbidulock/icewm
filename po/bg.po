@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.10\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-08-18 23:27+0200\n"
+"POT-Creation-Date: 2019-08-22 01:40+0200\n"
 "PO-Revision-Date: 2017-02-26 21:51+0000\n"
 "Last-Translator: Shyukri Shyukriev <shshyukriev@suse.com>\n"
 "Language-Team: Bulgarian <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -58,7 +58,7 @@ msgstr ""
 msgid "Default"
 msgstr "По подразбиране"
 
-#: src/aclock.cc:179 src/acpustatus.cc:862 src/amailbox.cc:952
+#: src/aclock.cc:179 src/acpustatus.cc:862 src/amailbox.cc:955
 #: src/amemstatus.cc:264
 msgid "_Disable"
 msgstr ""
@@ -207,43 +207,43 @@ msgstr ""
 msgid "Using MailBox \"%s\"\n"
 msgstr "Използва пощенска кутия \"%s\"\n"
 
-#: src/amailbox.cc:808
+#: src/amailbox.cc:811
 msgid "Suspended"
 msgstr ""
 
-#: src/amailbox.cc:812
+#: src/amailbox.cc:815
 msgid "Error checking mailbox."
 msgstr "Грешка при проверка на пощенска кутия."
 
-#: src/amailbox.cc:819
+#: src/amailbox.cc:822
 #, fuzzy, c-format
 msgid "%ld mail message, %ld unread."
 msgstr "%ld съобщение"
 
-#: src/amailbox.cc:820
+#: src/amailbox.cc:823
 #, fuzzy, c-format
 msgid "%ld mail messages, %ld unread."
 msgstr "%ld съобщения"
 
-#: src/amailbox.cc:826
+#: src/amailbox.cc:829
 #, c-format
 msgid "%ld mail message."
 msgstr "%ld съобщение"
 
-#: src/amailbox.cc:827
+#: src/amailbox.cc:830
 #, c-format
 msgid "%ld mail messages."
 msgstr "%ld съобщения"
 
-#: src/amailbox.cc:950
+#: src/amailbox.cc:953
 msgid "MAIL"
 msgstr ""
 
-#: src/amailbox.cc:951
+#: src/amailbox.cc:954
 msgid "_Check"
 msgstr ""
 
-#: src/amailbox.cc:953
+#: src/amailbox.cc:956
 msgid "_Suspend"
 msgstr ""
 
