@@ -348,7 +348,8 @@ YXTrayEmbedder::YXTrayEmbedder(YXTray *tray, Window win, Window ldr, cstring tit
     fLeader(Elvis(ldr, win)),
     fTitle(title),
     fDamage(None),
-    fComposing(xapp->format() && damage.supported && composite.supported),
+    fComposing(xapp->alpha() && composite.supported &&
+               xapp->format() && damage.supported),
     fOrder(getOrder(fTitle))
 {
     if (fClient->destroyed())
