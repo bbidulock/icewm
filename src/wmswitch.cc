@@ -6,7 +6,6 @@
  * Alt{+Shift}+Tab window switching
  */
 #include "config.h"
-
 #include "wmswitch.h"
 #include "wpixmaps.h"
 #include "wmframe.h"
@@ -14,11 +13,6 @@
 #include "prefs.h"
 #include "yprefs.h"
 #include "workspaces.h"
-
-// for vertical quickswitch, reuse some colors from the menu because those
-// from flat quickswitch often look odd (not enough contrast)
-
-extern YColorName activeMenuItemBg, activeMenuItemFg;
 
 class WindowItemsCtrlr : public ISwitchItems
 {
@@ -600,9 +594,9 @@ void SwitchWindow::paintVertical(Graphics &g) {
             if(contentY + frameHght > (int) height())
                 break;
             if (i == zItems->getActiveItem()) {
-                g.setColor(activeMenuItemBg);
+                g.setColor(switchMbg);
                 g.fillRect(frameX, contentY-quickSwitchIBorder, frameWid, frameHght);
-                g.setColor(activeMenuItemFg);
+                g.setColor(switchMfg);
             }
             else
                 g.setColor(switchFg);
