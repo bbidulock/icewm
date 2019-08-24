@@ -98,6 +98,7 @@ static NAtom ATOM_WIN_STATE(XA_WIN_STATE);
 static NAtom ATOM_WIN_HINTS(XA_WIN_HINTS);
 static NAtom ATOM_WIN_LAYER(XA_WIN_LAYER);
 static NAtom ATOM_WIN_TRAY(XA_WIN_TRAY);
+static NAtom ATOM_WIN_PROTOCOLS(XA_WIN_PROTOCOLS);
 static NAtom ATOM_GUI_EVENT(XA_GUI_EVENT_NAME);
 static NAtom ATOM_ICE_ACTION("_ICEWM_ACTION");
 static NAtom ATOM_ICE_WINOPT("_ICEWM_WINOPTHINT");
@@ -250,7 +251,14 @@ public:
     YProperty(Window window, Atom property, Atom type, long length = 1):
         fWindow(window), fProp(property), fType(type),
         fLength(length), fCount(0), fAfter(0),
-        fData(nullptr), fFormat(0), fStatus(0)
+        fData(nullptr), fFormat(0), fStatus(BadValue)
+    {
+        update();
+    }
+    YProperty(const YProperty& copy):
+        fWindow(copy.fWindow), fProp(copy.fProp), fType(copy.fType),
+        fLength(copy.fLength), fCount(0), fAfter(0),
+        fData(nullptr), fFormat(0), fStatus(BadValue)
     {
         update();
     }
@@ -278,18 +286,31 @@ public:
             fStatus = XGetWindowProperty(display, fWindow, fProp, 0L,
                                          fLength, False, fType, &type,
                                          &fFormat, &fCount, &fAfter, &fData);
-            if (type && !fStatus)
+            if (type && !fStatus) {
                 fType = type;
+            }
         }
     }
 
     template <class T>
-    void replace(const T* replacement, size_t length, int format = 0) {
+    void replace(const T* data, int nelem, int format,
+                 int mode = PropModeReplace)
+    {
         if (format) fFormat = format;
-        XChangeProperty(display, fWindow, fProp,
-                        fType, fFormat, PropModeReplace,
-                        reinterpret_cast<unsigned char *>(
-                            const_cast<T *>(replacement)), int(length));
+        if (fFormat == 0) {
+            fFormat = ((sizeof(T) == 1) ? 8 : 32);
+        }
+        if (fWindow && fProp && fType) {
+            XChangeProperty(display, fWindow, fProp,
+                            fType, fFormat, mode,
+                            reinterpret_cast<const unsigned char *>(data),
+                            nelem);
+        }
+    }
+
+    template <class T>
+    void append(const T* data, int nelem, int format) {
+        replace(data, nelem, format, PropModeAppend);
     }
 
     void remove() {
@@ -305,11 +326,13 @@ public:
     unsigned long after() const { return fAfter; }
 
     template <class T>
-    const T* data() const { return reinterpret_cast<T *>(fData); }
+    T* data() const { return reinterpret_cast<T *>(fData); }
     template <class T>
     T data(unsigned index) const {
         return index < fCount ? data<T>()[index] : T(0);
     }
+    template <class T>
+    T* extract() { T* t(data<T>()); fData = nullptr; fCount = 0; return t; }
 
     operator bool() const { return !fStatus && fData && fType && fCount; }
 
@@ -324,6 +347,8 @@ private:
     unsigned long fCount, fAfter;
     unsigned char* fData;
     int fFormat, fStatus;
+
+    YProperty& operator=(const YProperty& copy);
 };
 
 class YCardinal : public YProperty {
@@ -356,6 +381,7 @@ public:
         YProperty(window, property, XA_WINDOW, count)
     {
     }
+    Window* extract() { return YProperty::extract<Window>(); }
 };
 
 class YWmState : public YProperty {
@@ -399,8 +425,13 @@ public:
     }
 
     const char* operator&() const { return data<char>(); }
+    bool operator==(const char* str) { return *this && !strcmp(&*this, str); }
 
     char operator[](int index) const { return data<char>()[index]; }
+
+    void replace(const char* text) {
+        YProperty::replace(text, int(strlen(text)), 8);
+    }
 };
 
 class YUtf8Property : public YProperty {
@@ -415,7 +446,7 @@ public:
     char operator[](int index) const { return data<char>()[index]; }
 
     void replace(const char* text) {
-        YProperty::replace(text, strlen(text));
+        YProperty::replace(text, int(strlen(text)), 8);
     }
 };
 
@@ -602,16 +633,29 @@ static int getNormalGravity(Window window) {
 
 class YWindowTree;
 
+class YTreeLeaf {
+private:
+    Window leaf;
+public:
+    YTreeLeaf(Window win = None) : leaf(win) { }
+    operator Window() const { return leaf; }
+    YTreeLeaf& operator=(Window win) { leaf = win; return *this; }
+
+    YStringProperty wmName() { return YStringProperty(leaf, XA_WM_NAME); }
+    YUtf8Property netName() { return YUtf8Property(leaf, ATOM_NET_WM_NAME); }
+};
+
 class YTreeIter {
 public:
     YTreeIter(const YWindowTree& tree) : fTree(tree), fIndex(0) { }
 
     operator Window() const;
-    Window operator*() const { return Window(*this); }
-    const YTreeIter& operator++() { ++fIndex; return *this; }
+    void operator++() { ++fIndex; }
+    YTreeLeaf* operator->();
 
 private:
     const YWindowTree& fTree;
+    YTreeLeaf fLeaf;
     unsigned fIndex;
 };
 
@@ -625,10 +669,11 @@ public:
     }
 
     void set(Window window) {
-        release();
-        fChildren = (Window *) malloc(sizeof(Window));
+        if (fCount != 1) {
+            fChildren = (Window *) malloc(sizeof(Window));
+            fCount = 1;
+        }
         fChildren[0] = window;
-        fCount = 1;
         fSuccess = True;
     }
 
@@ -646,13 +691,9 @@ public:
         YClient clients(root, property, 100000);
         if (clients) {
             fCount = clients.count();
-            fChildren = (Window *) malloc(fCount * sizeof(Window));
-            if (fChildren) {
-                for (unsigned k = 0; k < fCount; ++k) {
-                    fChildren[k] = clients[k];
-                }
-                fSuccess = True;
-            }
+            fChildren = clients.extract();
+            fSuccess = True;
+            fParent = None;
         }
     }
 
@@ -668,6 +709,22 @@ public:
         if (1 < fCount) {
             set(fChildren[fCount - 1]);
         }
+    }
+
+    void findTaskbar() {
+        unsigned keep = 0;
+        for (YTreeIter client(*this); client; ++client) {
+            if (client->wmName() == "Frame") {
+                YWindowTree frame(client);
+                if (frame && frame->wmName() == "TaskBarFrame") {
+                    frame.query(*frame);
+                    if (frame && frame->wmName() == "TaskBar") {
+                        fChildren[keep++] = *frame;
+                    }
+                }
+            }
+        }
+        fCount = keep;
     }
 
     void filterByWorkspace(long workspace, bool inverse = false) {
@@ -750,11 +807,10 @@ public:
 
         unsigned keep = 0;
         for (YTreeIter client(*this); client; ++client) {
-            YUtf8Property netName(client, ATOM_NET_WM_NAME);
-            YStringProperty wmName(client, XA_WM_NAME);
-            const char* title = netName ? &netName :
-                                wmName ? &wmName : nullptr;
-            if (title) {
+            asmart<char> title(newstr(&client->netName()));
+            if (isEmpty(title))
+                title = newstr(&client->wmName());
+            if (nonempty(title)) {
                 const char* find = strstr(title, name);
                 if (find) {
                     if (head && find > title)
@@ -815,6 +871,14 @@ public:
         return index < fCount ? fChildren[index] : None;
     }
 
+    Window operator*() {
+        return fCount ? *fChildren : None;
+    }
+
+    YTreeLeaf* operator->() {
+        return &(fLeaf = **this);
+    }
+
     unsigned count() const {
         return fCount;
     }
@@ -833,11 +897,13 @@ private:
     Confine fConfine;
     Window fParent;
     xsmart<Window> fChildren;
+    YTreeLeaf fLeaf;
     unsigned fCount;
     bool fSuccess;
 };
 
 YTreeIter::operator Window() const { return fTree[fIndex]; }
+YTreeLeaf* YTreeIter::operator->() { return &(fLeaf = fTree[fIndex]); }
 
 /******************************************************************************/
 
@@ -897,6 +963,7 @@ private:
     bool desktop();
     bool wmcheck();
     bool change();
+    bool sync();
     bool check(const struct SymbolTable& symtab, long code, const char* str);
     unsigned count() const;
 
@@ -1207,7 +1274,7 @@ public:
     long count() const { return *fCount; }
     operator bool() const { return fCount && fNames; }
     const char* operator[](int i) const {
-        return i < fNames.count() ? fNames[i] : "";
+        return i == -1 ? "All" : i < fNames.count() ? fNames[i] : "";
     }
 
 private:
@@ -1309,18 +1376,23 @@ void IceSh::catcher(int)
 
 void IceSh::details(Window w)
 {
-    char c = 0, *wmname = &c, title[128] = "", wmtitle[200] = "";
-    xsmart<char> name;
+    YTreeLeaf leaf(w);
+    asmart<char> name(newstr(&leaf.netName()));
+    if (isEmpty(name))
+        name = newstr(Elvis(&leaf.wmName(), ""));
 
-    XFetchName(display, w, &name);
-    snprintf(title, sizeof title, "\"%s\"", name ? (char *) name : "");
+    char title[54] = "";
+    snprintf(title, sizeof title, "\"%.*s\"", 50, (char *) name);
 
+    char c = 0, *wmname = &c;
     YTextProperty text(w, XA_WM_CLASS);
     if (text) {
         wmname = text[0];
         wmname[strlen(wmname)] = '.';
     }
-    snprintf(wmtitle, sizeof wmtitle, "(%s)", wmname);
+
+    char wmtitle[54] = "";
+    snprintf(wmtitle, sizeof wmtitle, "(%.*s)", 50, wmname);
 
     int x = 0, y = 0, width = 0, height = 0;
     getGeometry(w, x, y, width, height);
@@ -1566,9 +1638,9 @@ bool IceSh::wmcheck()
 
     YClient check(root, ATOM_NET_SUPPORTING_WM_CHECK);
     if (check) {
-        xsmart<char> name;
-        if (XFetchName(display, *check, &name) && name) {
-            printf("Name: %s\n", *&name);
+        YStringProperty name(*check, XA_WM_NAME);
+        if (name) {
+            printf("Name: %s\n", &name);
         }
         YStringProperty cls(*check, XA_WM_CLASS);
         if (cls) {
@@ -1658,6 +1730,27 @@ bool IceSh::change()
 
     changeWorkspace(workspace);
 
+    return true;
+}
+
+bool IceSh::sync()
+{
+    if ( !isAction("sync", 0))
+        return false;
+
+    YProperty winp(root, ATOM_WIN_PROTOCOLS, XA_ATOM, 20);
+    if (winp) {
+        unsigned char data[3] = { 0, 0, 0, };
+        YProperty wopt(root, ATOM_ICE_WINOPT, ATOM_ICE_WINOPT, 20);
+        if (wopt == false) {
+            wopt.append(data, 3, 8);
+        }
+        for (int i = 1; i <= 5 && winp && wopt; ++i) {
+            usleep(i*1000);
+            winp.update();
+            wopt.update();
+        }
+    }
     return true;
 }
 
@@ -1771,6 +1864,7 @@ bool IceSh::icewmAction()
         || desktop()
         || wmcheck()
         || change()
+        || sync()
         ;
 }
 
@@ -1912,7 +2006,7 @@ static void setWindowTitle(Window window, const char* title) {
     YUtf8Property net(window, ATOM_NET_WM_NAME);
     YStringProperty old(window, XA_WM_NAME);
     if (old)
-        XStoreName(display, window, title);
+        old.replace(title);
     if (net || !old)
         net.replace(title);
 }
@@ -1922,9 +2016,9 @@ static void getWindowTitle(Window window) {
     if (net)
         puts(&net);
     else {
-        xsmart<char> title;
-        if (XFetchName(display, window, &title)) {
-            puts(title);
+        YStringProperty name(window, XA_WM_NAME);
+        if (name) {
+            puts(&name);
         }
     }
 }
@@ -1934,9 +2028,9 @@ static void getIconTitle(Window window) {
     if (net)
         puts(&net);
     else {
-        xsmart<char> title;
-        if (XGetIconName(display, window, &title)) {
-            puts(title);
+        YStringProperty title(window, XA_WM_ICON_NAME);
+        if (title) {
+            puts(&title);
         }
     }
 }
@@ -1945,7 +2039,7 @@ static void setIconTitle(Window window, const char* title) {
     YUtf8Property net(window, ATOM_NET_WM_ICON_NAME);
     YStringProperty old(window, XA_WM_ICON_NAME);
     if (old)
-        XSetIconName(display, window, title);
+        old.replace(title);
     if (net || !old)
         net.replace(title);
 }
@@ -2085,8 +2179,9 @@ static unsigned getOpacity(Window window) {
     YCardinal prop(framew, ATOM_NET_WM_WINDOW_OPACITY);
     if (prop == false)
         prop.update(window);
+    unsigned opaq = (unsigned(*prop) & 0xFFFFFFFF);
 
-    return unsigned(100.0 * *prop / 0xFFFFFFFF);
+    return unsigned(100.0 * opaq / 0xFFFFFFFF);
 }
 
 static void opacity(Window window, char* opaq) {
@@ -2437,6 +2532,12 @@ void IceSh::flag(char* arg)
             windowList.getClientList();
         windowList.filterLast();
         MSG(("last window selected"));
+        return;
+    }
+    if (isOptArg(arg, "-T", "")) {
+        windowList.query(root);
+        windowList.findTaskbar();
+        MSG(("taskbar selected"));
         return;
     }
 
@@ -3000,15 +3101,6 @@ void IceSh::parseAction()
                 THROW(1);
             } else {
                 THROW(0);
-            }
-        }
-        else if (isAction("sync", 0)) {
-            unsigned char data[3] = { 0, 0, 0, };
-            XChangeProperty(display, root,
-                            ATOM_ICE_WINOPT, ATOM_ICE_WINOPT,
-                            8, PropModeAppend, data, 3);
-            for (bool hint = true; hint; ) {
-                hint = YProperty(root, ATOM_ICE_WINOPT, ATOM_ICE_WINOPT);
             }
         }
         else if (isAction("motif", 0)) {
