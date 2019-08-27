@@ -1,4 +1,4 @@
-[icewm -- read me first file.  2017-07-30]: #
+[icewm -- read me first file.  2019-08-22]: #
 
 Ice Window Manager (IceWM)
 ==========================
@@ -16,44 +16,54 @@ list, and various other GitHub forks.
 Release
 -------
 
-This is the icewm-1.4.2 package, released under LGPL license 2017-07-30.
-This release as well as future versions here, can all be obtained from
-[GitHub][1] using a command such as:
+This is the `icewm-1.6.1` package, released 2019-08-22.  This release, and
+the latest version, can be obtained from [GitHub][1], using a command such as:
 
-    git clone https://github.com/bbidulock/icewm.git
+    $> git clone https://github.com/bbidulock/icewm.git
+
+Please see the [NEWS][3] file for release notes and history of user visible
+changes for the current version, and the [ChangeLog][4] file for a more
+detailed history of implementation changes.  The [TODO][5] file lists features
+not yet implemented and other outstanding items.
+
+Please see the [INSTALL][7] file for installation instructions.
 
 When working from `git(1)`, please use this file.  An abbreviated
 installation procedure that works for most applications appears below.
+
+This release is published under LGPL.  Please see the license
+in the file [COPYING][9].
 
 
 Quick Start
 -----------
 
-The quickest and easiest way to get IceWM up and running is to run the
+The quickest and easiest way to get icewm up and running is to run the
 following commands:
 
     $> git clone https://github.com/bbidulock/icewm.git
     $> cd icewm
     $> ./autogen.sh
-    $> ./configure --prefix=/usr --sysconfdir=/etc
+    $> ./configure
     $> make
-    $> sudo make DESTDIR="$pkgdir" install
+    $> make DESTDIR="$pkgdir" install
 
-This will configure, compile and install IceWM the quickest.  For those who
-would like to customize the installation, use the command:
+This will configure, compile and install icewm the quickest.  For those who
+like to spend the extra 15 seconds reading `./configure --help`, some compile
+time options can be turned on and off before the build.
 
-    ./configure --help
+For general information on GNU's `./configure`, see the file [INSTALL][7].
 
-Please see the [INSTALL][3] file for more detailed installation instructions.
+Please see the [INSTALL][7] file for more detailed installation instructions.
 An alternative way to build IceWM using CMake is [documented here][19].
 The [ChangeLog][4] file contains a detailed history of implementation changes.
-The [COMPLIANCE][5] file lists the current state of EWMH/ICCCM compliance.  The
-[NEWS][6] file has release notes and history of user visible changes of the
-current version.  The [TODO][7] file lists features not yet implemented and
+The [COMPLIANCE][6] file lists the current state of EWMH/ICCCM compliance.  The
+[NEWS][3] file has release notes and history of user visible changes of the
+current version.  The [TODO][5] file lists features not yet implemented and
 other outstanding items.
 
 This release is published under LGPL license that can be found in the file
-[COPYING][8].
+[COPYING][9].
 
 Prerequisites
 -------------
@@ -78,11 +88,8 @@ Configuring IceWM
 
 Documentation for configuring the window manager can be obtained from [IceWM
 Website][13] or from the [online manual][15].
-
-Unfortunately the documentation is for version 1.2.27 and is incomplete
-at that; however, it is for the most part usable.
-The good news is that the `icewm(1)` manual page for version 1.4.1
-is complete and fully up-to-date.
+Since version 1.4.3 a complete and up-to-date set of manual pages is provided.
+Use [__icewm__(1)][26] as a starting point.
 
 
 Included Utilities
@@ -90,26 +97,27 @@ Included Utilities
 
 Currently, the only included utilities are:
 
- - `icewmbg` (_a background setting program_),
- - `icewmtray` (_a system tray for the IceWM taskbar_), and,
- - `icewm-session` (_a program to launch the window manager, icewmbg and
+ - [__icewmbg__(1)][22] (_a background setting program_),
+ - [__icewmtray__(1)][28] (_a system tray for the IceWM taskbar_), and,
+ - [__icewm-session__(1)][27] (_a program to launch the window manager, icewmbg and
    icewmtray in an orderly fashion_),
- - `icewm-menu-fdo` (_a utility to genenerate XDG menus_),
- - `icewm-menu-gnome2` (_a utility to generate GNOME menus_),
- - `icewmhint` (_a utility to set IceWM-specific window options hint_).
- - `icesound` (_play audio files when interesting GUI events happen_).
+ - [__icewm-menu-fdo__(1)][24] (_a utility to genenerate XDG menus_),
+ - [__icewm-menu-gnome2__(1)][25] (_a utility to generate GNOME menus_),
+ - [__icewmhint__(1)][23] (_a utility to set IceWM-specific window options hint_).
+ - [__icesound__(1)][21] (_play audio files when interesting GUI events happen_).
 
 
 Third-party Utilities
 ---------------------
 
-Unspecified keyboard shortcuts can be handled with the `bbkeys(1)` utility
+Unspecified keyboard shortcuts can be handled with the __bbkeys__(1) utility
 available from [GitHub][16].
 
-XDG compliant menus may be generated using the `xde-menu(1)` utility
+XDG compliant menus may be generated using the __xde-menu__(1) utility
 available from [GitHub][20].
 
 For additional utilities see the [IceWM FAQ][14].
+
 
 Bug Reports
 -----------
@@ -126,7 +134,7 @@ because I welcome all reports.
 Bug reports, feedback, and suggestions pertaining to the original CVS version
 can be sent to: Marko.Macek@gmx.net or icewm-user@lists.sourceforge.net
 
-See also [BUGS][9], [TODO][7] and the sites at:
+See also [BUGS][8], [TODO][5] and the sites at:
 
   - https://ice-wm.org/
   - https://sourceforge.net/projects/icewm/
@@ -151,25 +159,33 @@ translations.  If you have difficulties using the tools, just send me the update
 `.po` file or a patch to apply.
 
 
-[1]: https://github.com/bbidulock/icewm/
-[2]: https://github.com/bbidulock/icewm/issues/
-[3]: https://github.com/bbidulock/icewm/blob/1.4.2/INSTALL
-[4]: https://github.com/bbidulock/icewm/blob/1.4.2/ChangeLog
-[5]: https://github.com/bbidulock/icewm/blob/1.4.2/COMPLIANCE
-[6]: https://github.com/bbidulock/icewm/blob/1.4.2/NEWS
-[7]: https://github.com/bbidulock/icewm/blob/1.4.2/TODO
-[8]: https://github.com/bbidulock/icewm/blob/1.4.2/COPYING
-[9]: https://github.com/bbidulock/icewm/blob/1.4.2/BUGS
+[1]: https://github.com/bbidulock/icewm
+[2]: https://github.com/bbidulock/icewm/issues
+[3]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/NEWS
+[4]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/ChangeLog
+[5]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/TODO
+[6]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/COMPLIANCE
+[7]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/INSTALL
+[8]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/BUGS
+[9]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/COPYING
 [10]: https://github.com/
 [11]: https://l10n.opensuse.org/
 [12]: https://sourceforge.net/projects/icewm/
 [13]: https://ice-wm.org/
 [14]: https://ice-wm.org/FAQ/
-[15]: https://github.com/bbidulock/icewm/blob/1.4.2/doc/icewm.adoc
+[15]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/doc/icewm.adoc
 [16]: https://github.com/bbidulock/bbkeys/
-[17]: https://github.com/bbidulock/icewm/blob/1.4.2/lib/icewm.desktop
-[18]: https://github.com/bbidulock/icewm/blob/1.4.2/lib/icewm-session.desktop
-[19]: https://github.com/bbidulock/icewm/blob/1.4.2/INSTALL-cmakebuild.md
+[17]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/lib/icewm.desktop
+[18]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/lib/icewm-session.desktop
+[19]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/INSTALL-cmakebuild.md
 [20]: https://github.com/bbidulock/xde-menu/
+[21]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/man/icesound.pod
+[22]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/man/icewmbg.pod
+[23]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/man/icewmhint.pod
+[24]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/man/icewm-menu-fdo.pod
+[25]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/man/icewm-menu-gnome2.pod
+[26]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/man/icewm.pod
+[27]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/man/icewm-session.pod
+[28]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/man/icewmtray.pod
 
-[ vim: set ft=markdown sw=4 tw=80 nocin nosi fo+=tcqlorn: ]: #
+[ vim: set ft=markdown sw=4 tw=80 nocin nosi fo+=tcqlorn spell: ]: #
