@@ -1,3 +1,4 @@
+#include "config.h"
 #include "aworkspaces.h"
 #include "workspaces.h"
 #include "prefs.h"

@@ -1,3 +1,4 @@
+#include "config.h"
 #include "mstring.h"
 #include "yarray.h"
 #include "ypointer.h"
