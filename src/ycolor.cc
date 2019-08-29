@@ -17,6 +17,7 @@
 #endif
 
 #include "intl.h"
+#include <stdlib.h> // for strtol
 
 YColorName YColor::black("rgb:00/00/00");
 YColorName YColor::white("rgb:FF/FF/FF");
