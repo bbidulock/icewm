@@ -855,7 +855,7 @@ Delay between power status updates (seconds).
 
 =back
 
-=head2 BUITTONS AND KEYS
+=head2 BUTTONS AND KEYS
 
 =over
 
