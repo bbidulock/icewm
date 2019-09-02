@@ -81,6 +81,7 @@ IF("" STREQUAL "${CONFIG_UNICODE_SET}")
 ELSE()
     MESSAGE(STATUS "Configured custom unicode set: ${CONFIG_UNICODE_SET}.")
 ENDIF()
+SET(XTERMCMD "" CACHE STRING "Default terminal emulator for X11")
 
 # TODO: find some common helper to handle that variables
 if(ENABLE_NLS OR CONFIG_I18N)
@@ -523,7 +524,6 @@ foreach (_variableName
         CONFIG_XPM
         CONFIG_LIBJPEG
         CONFIG_LIBPNG
-        CONFIG_RENDER
         CONFIG_XFREETYPE
         CONFIG_COREFONTS
         CONFIG_FRIBIDI

@@ -406,6 +406,9 @@ AC_ARG_WITH([theme],
                     with_theme="default/default.theme")
 AC_DEFINE_UNQUOTED([CONFIG_DEFAULT_THEME],
                    "${with_theme}",[Name of default theme])
+AC_ARG_WITH([xterm],
+    AC_HELP_STRING([--with-xterm=xterm],[Default X11 terminal emulator for X11]),
+    [AC_DEFINE_UNQUOTED([XTERMCMD],"$with_xterm",[Name of terminal emulator.])])
 
 AC_DEFINE_UNQUOTED([HOSTOS],["${host_os}"],
 	[Define to the host operating system.])
