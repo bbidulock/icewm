@@ -530,7 +530,7 @@ void LogoutMenu::updatePopup() {
 
             logoutMenu->addItem(_("Restart _Icewm"), -2, null, actionRestart, "restart");
 
-            logoutMenu->addItem(_("Restart _Xterm"), -2, null, actionRestartXterm, "xterm");
+            logoutMenu->addItem(_("Restart _Xterm"), -2, null, actionRestartXterm, TERM);
 
         }
     }
@@ -866,7 +866,7 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
                 if (msgbox)
                     manager->unmanageClient(msgbox);
                 if (operation == YMsgBox::mbOK)
-                    listener->restartClient(QUOTE(XTERMCMD), 0);
+                    listener->restartClient(TERM, nullptr);
             }
         };
         static t_executor delegate(this);

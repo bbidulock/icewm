@@ -44,6 +44,8 @@
 #define XTERMCMD xterm
 #endif
 
+#define TERM    QUOTE(XTERMCMD)
+
 /* restart via icesm if icewm has --notify */
 #define ICESM_EXIT_RESTART 101
 
