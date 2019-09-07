@@ -85,6 +85,7 @@ private:
 
 static NAtom ATOM_WM_STATE("WM_STATE");
 static NAtom ATOM_WM_LOCALE_NAME("WM_LOCALE_NAME");
+static NAtom ATOM_WM_WINDOW_ROLE("WM_WINDOW_ROLE");
 static NAtom ATOM_NET_WM_PID("_NET_WM_PID");
 static NAtom ATOM_NET_WM_NAME("_NET_WM_NAME");
 static NAtom ATOM_NET_WM_ICON_NAME("_NET_WM_ICON_NAME");
@@ -113,6 +114,14 @@ static NAtom ATOM_NET_SYSTEM_TRAY_WINDOWS("_KDE_NET_SYSTEM_TRAY_WINDOWS");
 static NAtom ATOM_UTF8_STRING("UTF8_STRING");
 static NAtom ATOM_XEMBED_INFO("_XEMBED_INFO");
 static NAtom ATOM_NET_WORKAREA("_NET_WORKAREA");
+
+static inline char* atomName(Atom atom) {
+    return XGetAtomName(display, atom);
+}
+
+static inline void newline() {
+    putchar('\n');
+}
 
 /******************************************************************************/
 
@@ -643,6 +652,7 @@ public:
 
     YStringProperty wmName() { return YStringProperty(leaf, XA_WM_NAME); }
     YUtf8Property netName() { return YUtf8Property(leaf, ATOM_NET_WM_NAME); }
+    YStringProperty wmRole() { return YStringProperty(leaf, ATOM_WM_WINDOW_ROLE); }
 };
 
 class YTreeIter {
@@ -743,6 +753,27 @@ public:
         for (YTreeIter client(*this); client; ++client) {
             YCardinal prop(client, ATOM_WIN_LAYER);
             if (prop && ((*prop == layer) != inverse)) {
+                fChildren[keep++] = client;
+            }
+        }
+        fCount = keep;
+    }
+
+    void filterByProperty(long property, bool inverse) {
+        unsigned keep = 0;
+        for (YTreeIter client(*this); client; ++client) {
+            YProperty prop(client, property, AnyPropertyType, 100);
+            if (prop != inverse) {
+                fChildren[keep++] = client;
+            }
+        }
+        fCount = keep;
+    }
+
+    void filterByRole(char* role, bool inverse) {
+        unsigned keep = 0;
+        for (YTreeIter client(*this); client; ++client) {
+            if ((client->wmRole() == role) != inverse) {
                 fChildren[keep++] = client;
             }
         }
@@ -939,6 +970,7 @@ private:
     void detail();
     void details(Window window);
     void setWindow(Window window);
+    void showProperty(Window window, Atom atom);
     void parseAction();
     void confine(const char* str);
     void invalidArgument(const char* str);
@@ -955,6 +987,7 @@ private:
     bool listScreens();
     bool listSymbols();
     bool listSystray();
+    bool addWorkspace();
     bool listWorkspaces();
     bool setWorkspaceName();
     bool setWorkspaceNames();
@@ -964,6 +997,7 @@ private:
     bool wmcheck();
     bool change();
     bool sync();
+    void doSync();
     bool check(const struct SymbolTable& symtab, long code, const char* str);
     unsigned count() const;
 
@@ -1223,7 +1257,7 @@ static void getState(Window window) {
                 printf(" 0");
             }
         }
-        printf("\n");
+        newline();
     }
 }
 
@@ -1255,7 +1289,7 @@ static void getHints(Window window) {
                 }
             }
         }
-        printf("\n");
+        newline();
     }
 }
 
@@ -1273,8 +1307,9 @@ public:
 
     long count() const { return *fCount; }
     operator bool() const { return fCount && fNames; }
+    bool valid(long i) const { return inrange(i, 0L, count() - 1L); }
     const char* operator[](int i) const {
-        return i == -1 ? "All" : i < fNames.count() ? fNames[i] : "";
+        return valid(i) ? fNames[i] : (i == -1) ? "All" : "";
     }
 
 private:
@@ -1299,7 +1334,7 @@ bool WorkspaceInfo::parseWorkspace(char const* name, long* workspace) {
         msg(_("Invalid workspace name: `%s'"), name);
         return false;
     }
-    else if (inrange(*workspace, 0L, count() - 1L) == false) {
+    else if (valid(*workspace) == false) {
         msg(_("Workspace out of range: %ld"), *workspace);
         return false;
     }
@@ -1601,6 +1636,33 @@ bool IceSh::listWorkspaces()
     return true;
 }
 
+bool IceSh::addWorkspace()
+{
+    if ( !isAction("addWorkspace", 1))
+        return false;
+
+    char* name = getArg();
+    YCardinal prop(root, ATOM_NET_NUMBER_OF_DESKTOPS);
+    if (prop) {
+        long workspace = *prop;
+        if (inrange(workspace, 0L, 1233L)) {
+            send(ATOM_NET_NUMBER_OF_DESKTOPS, root, workspace + 1L, 0L);
+            for (int i = 0; i < 3; ++i) {
+                doSync();
+                prop.update();
+                if (prop && workspace < *prop) {
+                    YTextProperty names(root, ATOM_NET_DESKTOP_NAMES, YEmby);
+                    names.set(int(workspace), name);
+                    names.commit();
+                    doSync();
+                    break;
+                }
+            }
+        }
+    }
+    return true;
+}
+
 bool IceSh::setWorkspaceName()
 {
     if ( !isAction("setWorkspaceName", 2))
@@ -1649,7 +1711,7 @@ bool IceSh::wmcheck()
                 char c = Elvis(cls[i], '.');
                 putchar(c);
             }
-            putchar('\n');
+            newline();
         }
         YStringProperty loc(*check, ATOM_WM_LOCALE_NAME);
         if (loc) {
@@ -1662,7 +1724,7 @@ bool IceSh::wmcheck()
                 char c = Elvis(com[i], ' ');
                 putchar(c);
             }
-            putchar('\n');
+            newline();
         }
         YStringProperty mac(*check, XA_WM_CLIENT_MACHINE);
         if (mac) {
@@ -1738,6 +1800,12 @@ bool IceSh::sync()
     if ( !isAction("sync", 0))
         return false;
 
+    doSync();
+    return true;
+}
+
+void IceSh::doSync()
+{
     YProperty winp(root, ATOM_WIN_PROTOCOLS, XA_ATOM, 20);
     if (winp) {
         unsigned char data[3] = { 0, 0, 0, };
@@ -1751,7 +1819,6 @@ bool IceSh::sync()
             wopt.update();
         }
     }
-    return true;
 }
 
 bool IceSh::colormaps()
@@ -1852,6 +1919,7 @@ bool IceSh::icewmAction()
         || setWorkspaceNames()
         || setWorkspaceName()
         || listWorkspaces()
+        || addWorkspace()
         || listScreens()
         || listWindows()
         || listClients()
@@ -2235,7 +2303,7 @@ void IceSh::motif(Window window, char** args, int count) {
                             ++n == 1 ? ' ' : '+',
                             motifFunctions[i].name);
             }
-            printf("\n");
+            newline();
         }
         if (hints->hasDecor()) {
             unsigned long decor = hints->decorations;
@@ -2248,7 +2316,7 @@ void IceSh::motif(Window window, char** args, int count) {
                             ++n == 1 ? ' ' : '+',
                             motifDecorations[i].name);
             }
-            printf("\n");
+            newline();
         }
         if (hints->hasInput()) {
             long input = hints->input_mode;
@@ -2324,6 +2392,42 @@ void IceSh::motif(Window window, char** args, int count) {
     }
     else if (removing && hints) {
         hints.remove();
+    }
+}
+
+void IceSh::showProperty(Window window, Atom atom) {
+    YProperty prop(window, atom, AnyPropertyType, 100);
+    if (prop) {
+        if (prop.format() == 8) {
+            printf("0x%07lx ", Window(window));
+            for (int i = 0; i < prop.count(); ++i) {
+                putchar(Elvis(prop.data<char>(i), '.'));
+            }
+            newline();
+        }
+        else if (prop.format() == 32) {
+            if (prop.type() == XA_WINDOW) {
+                printf("0x%07lx 0x%lx", Window(window), prop[0]);
+                for (int i = 1; i < min(4L, prop.count()); ++i)
+                    printf(", 0x%lx", prop[i]);
+                newline();
+            }
+            else if (prop.type() == XA_ATOM) {
+                xsmart<char> name(atomName(prop[0]));
+                printf("0x%07lx %s", Window(window), (char*) name);
+                for (int i = 1; i < min(4L, prop.count()); ++i) {
+                    name = atomName(prop[i]);
+                    printf(", %s", (char*) name);
+                }
+                newline();
+            }
+            else {
+                printf("0x%07lx %ld", Window(window), prop[0]);
+                for (int i = 1; i < min(4L, prop.count()); ++i)
+                    printf(", %ld", prop[i]);
+                newline();
+            }
+        }
     }
 }
 
@@ -2596,6 +2700,20 @@ void IceSh::flag(char* arg)
             windowList.getClientList();
         windowList.filterByLayer(layer, inverse);
         MSG(("layer windows selected"));
+    }
+    else if (isOptArg(arg, "-Property", val)) {
+        bool inverse(*val == '!');
+        long prop = NAtom(val + inverse);
+        if ( ! windowList)
+            windowList.getClientList();
+        windowList.filterByProperty(prop, inverse);
+    }
+    else if (isOptArg(arg, "-Role", val)) {
+        bool inverse(*val == '!');
+        char* role = val + inverse;
+        if ( ! windowList)
+            windowList.getClientList();
+        windowList.filterByRole(role, inverse);
     }
     else if (isOptArg(arg, "-State", val)) {
         bool inverse(*val == '!');
@@ -3125,6 +3243,12 @@ void IceSh::parseAction()
                 motif(window, args, count);
             }
             argp = args + count;
+        }
+        else if (isAction("prop", 1)) {
+            NAtom prop(getArg());
+            FOREACH_WINDOW(window) {
+                showProperty(window, prop);
+            }
         }
         else {
             msg(_("Unknown action: `%s'"), *argp);
