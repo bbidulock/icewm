@@ -25,7 +25,10 @@ class YFrameWindow:
     public YFocusedNode
 {
 public:
-    YFrameWindow(YActionListener *wmActionListener);
+    YFrameWindow(YActionListener *wmActionListener,
+                 unsigned depth = CopyFromParent,
+                 Visual* visual = nullptr,
+                 Colormap clmap = CopyFromParent);
     virtual ~YFrameWindow();
 
     void doManage(YFrameClient *client, bool &doActivate, bool &requestFocus);

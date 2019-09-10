@@ -33,8 +33,9 @@ lazy<YTimer> YFrameWindow::fAutoRaiseTimer;
 lazy<YTimer> YFrameWindow::fDelayFocusTimer;
 
 YFrameWindow::YFrameWindow(
-    YActionListener *wmActionListener)
-    : YWindow(nullptr, None, xapp->depth(), xapp->visual(), xapp->colormap())
+    YActionListener *wmActionListener, unsigned dep, Visual* vis, Colormap col)
+    : YWindow(nullptr, None, dep ? dep : xapp->depth(),
+              vis ? vis : xapp->visual(), col ? col : xapp->colormap())
 {
     this->wmActionListener = wmActionListener;
 

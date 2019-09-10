@@ -1536,7 +1536,13 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 
     manager->updateFullscreenLayerEnable(false);
 
-    frame = new YFrameWindow(wmActionListener);
+    {
+        unsigned depth = client->depth() == 32 ? 32 : xapp->depth();
+        bool sameDepth = (depth == xapp->depth());
+        Visual* visual = (sameDepth ? xapp->visual() : client->visual());
+        Colormap clmap = (sameDepth ? xapp->colormap() : client->colormap());
+        frame = new YFrameWindow(wmActionListener, depth, visual, clmap);
+    }
 
     if (frame == 0) {
         delete client;
