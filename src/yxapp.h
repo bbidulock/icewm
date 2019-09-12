@@ -17,6 +17,12 @@ public:
     const char* str() const { return name; }
 };
 
+class YAtomName {
+public:
+    Atom* atom;
+    const char* name;
+};
+
 class YTextProperty : public XTextProperty {
 public:
     YTextProperty(const char* str);
@@ -28,9 +34,10 @@ enum YFormat { F8 = 8, F16 = 16, F32 = 32 };
 class YProperty {
 public:
     YProperty(YWindow* window, Atom prop, YFormat format = F32,
-              long limit = 1L, Atom type = AnyPropertyType):
+              long limit = 1L, Atom type = AnyPropertyType, bool remove = False):
         fWind(window->handle()), fData(nullptr), fProp(prop), fKind(type),
-        fType(None), fLimit(limit), fSize(None), fMore(None), fBits(format)
+        fType(None), fLimit(limit), fSize(None), fMore(None), fBits(format),
+        fDelete(remove)
     { update(); }
     ~YProperty() { discard(); }
     void discard();
@@ -59,6 +66,7 @@ private:
     unsigned long fSize;
     unsigned long fMore;
     YFormat fBits;
+    bool fDelete;
 };
 
 class YXPoll: public YPoll<class YXApplication> {
@@ -202,6 +210,10 @@ private:
     static void initExtensions(Display* dpy);
     static bool haveColormaps(Display* dpy);
     static int errorHandler(Display* display, XErrorEvent* xev);
+    static int sortAtoms(const void* p1, const void* p2);
+    static YAtomName atom_info[];
+public:
+    static const char* atomName(Atom atom);
 };
 
 extern YXApplication *xapp;

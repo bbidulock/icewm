@@ -102,6 +102,7 @@ YFrameWindow::YFrameWindow(
     fTitleBar = 0;
 
     fUserTimeWindow = None;
+    fStartManaged = xapp->getEventTime("frame");
 
     fFullscreenMonitorsTop = -1;
     fFullscreenMonitorsBottom = -1;

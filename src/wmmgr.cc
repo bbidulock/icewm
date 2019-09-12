@@ -1608,11 +1608,10 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
             frame->setAllWorkspaces();
         if (frame->frameOptions() & YFrameWindow::foFullscreen)
             frame->setState(WinStateFullscreen, WinStateFullscreen);
-        if (frame->frameOptions() & (YFrameWindow::foMaximizedVert | YFrameWindow::foMaximizedHorz))
-            frame->setState(WinStateMaximizedVert | WinStateMaximizedHoriz,
-                            ((frame->frameOptions() & YFrameWindow::foMaximizedVert) ? WinStateMaximizedVert : 0) |
-                            ((frame->frameOptions() & YFrameWindow::foMaximizedHorz) ? WinStateMaximizedHoriz : 0));
-        if (frame->frameOptions() & YFrameWindow::foMinimized) {
+        if (frame->frameOptions() & YFrameWindow::foMaximizedBoth)
+            frame->setState(WinStateMaximizedBoth,
+                  (frame->frameOptions() & WinStateMaximizedBoth));
+        if (frame->startMinimized()) {
             frame->setState(WinStateMinimized, WinStateMinimized);
             doActivate = false;
             requestFocus = false;
@@ -2873,18 +2872,11 @@ void YWindowManager::resetColormap(bool active) {
 }
 
 void YWindowManager::handleProperty(const XPropertyEvent &property) {
-    if (property.atom == XA_IcewmWinOptHint) {
-        Atom type;
-        int format;
-        unsigned long nitems, lbytes;
-        unsigned char *propdata(0);
-
-        if (XGetWindowProperty(xapp->display(), handle(),
-                               XA_IcewmWinOptHint, 0, 8192,
-                               True, XA_IcewmWinOptHint,
-                               &type, &format, &nitems, &lbytes,
-                               &propdata) == Success && propdata)
-        {
+    if (property.atom == _XA_ICEWM_HINT) {
+        YProperty prop(this, _XA_ICEWM_HINT, F8, 8192, _XA_ICEWM_HINT, True);
+        if (prop) {
+            unsigned long nitems = prop.size();
+            unsigned char* propdata = prop.data<unsigned char>();
             for (unsigned i = 0; i + 3 < nitems; ) {
                 const char* s[3] = { 0, 0, 0, };
                 for (int k = 0; k < 3 && i < nitems; ++k) {
@@ -2895,7 +2887,6 @@ void YWindowManager::handleProperty(const XPropertyEvent &property) {
                     hintOptions->setWinOption(s[0], s[1], s[2]);
                 }
             }
-            XFree(propdata);
         }
     }
     else if (property.atom == _XA_NET_DESKTOP_NAMES) {
