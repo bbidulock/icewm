@@ -273,6 +273,7 @@
 #define WinStateMinimized      (1 << 1)   /* to iconbox,taskbar,... */
 #define WinStateMaximizedVert  (1 << 2)   /* maximized vertically */
 #define WinStateMaximizedHoriz (1 << 3)   /* maximized horizontally */
+#define WinStateMaximizedBoth  (3 << 2)   /* maximized vert+horiz */
 #define WinStateHidden         (1 << 4)   /* not on taskbar if any, but still accessible */
 #define WinStateRollup         (1 << 5)   /* only titlebar visible */
 #define WinStateHidWorkspace   (1 << 6)   /* not on current desktop */
