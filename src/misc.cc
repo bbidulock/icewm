@@ -147,6 +147,10 @@ void setLogEvent(int evtype, bool enable) {
 #endif
 }
 
+static const char* emptyAtom(Atom atom) { return ""; }
+static AtomNameFunc atomName = emptyAtom;
+void setAtomName(AtomNameFunc func) { atomName = func; }
+
 #undef msg
 #define msg tlog
 
