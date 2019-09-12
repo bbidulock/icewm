@@ -121,7 +121,7 @@ bool initLogEvents() {
         // setLogEvent(SelectionRequest, true);
         // setLogEvent(SelectionNotify, true);
         // setLogEvent(ColormapNotify, true);
-        // setLogEvent(ClientMessage, true);
+        setLogEvent(ClientMessage, true);
         // setLogEvent(MappingNotify, true);
         // setLogEvent(GenericEvent, true);
 
@@ -180,10 +180,14 @@ void logButton(const union _XEvent& xev) {
 }
 
 void logClientMessage(const union _XEvent& xev) {
-    msg("window=0x%lX: clientMessage message_type=0x%lX format=%d",
+    msg("window=0x%lX: clientMessage %s fmt=%d data=%ld,0x%lx,0x%lx",
         xev.xclient.window,
-        xev.xclient.message_type,
-        xev.xclient.format);
+        atomName(xev.xclient.message_type),
+        xev.xclient.format,
+        xev.xclient.data.l[0],
+        xev.xclient.data.l[1],
+        xev.xclient.data.l[2]
+        );
 }
 
 void logColormap(const union _XEvent& xev) {
@@ -360,11 +364,12 @@ void logMotion(const union _XEvent& xev) {
 }
 
 void logProperty(const union _XEvent& xev) {
-    msg("window=0x%lX: propertyNotify atom=0x%lX time=%ld state=%d",
+    msg("window=0x%lX: propertyNotify %s time=%ld state=%s",
         xev.xproperty.window,
-        xev.xproperty.atom,
+        atomName(xev.xproperty.atom),
         xev.xproperty.time,
-        xev.xproperty.state);
+        xev.xproperty.state == PropertyNewValue ? "NewValue" :
+        xev.xproperty.state == PropertyDelete ? "Delete" : "?");
 }
 
 void logReparent(const union _XEvent& xev) {
