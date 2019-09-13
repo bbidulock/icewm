@@ -84,19 +84,19 @@ Print copying permissions to F<stdout> for the program and exit.
 =head1 USAGE
 
 On startup icewm-session executes the following steps.
-From the file F<env> in the user configuration directory
+From the file F<env> in the configuration directory
 it loads additional environment variables, if that file exists.
 Then it will start F<icewmbg> to manage root background colors and images.
 It may also start F<icesound>, if this was enabled at configuration time.
 Then F<icewm> is started.
 
-If there exists an executable script F<startup> in the user configuration
+If there exists an executable script F<startup> in the configuration
 directory, it will be executed. It may contain commands to initialize X11
 settings with F<xset>, load keyboard configuration, start a compositing
 manager like F<compton> and load system tray applications.
 
 When icewm exits or is told to exit, icewm-session will execute
-a F<shutdown> script, if it exists in the user configuration directory.
+a F<shutdown> script, if it exists in the configuration directory.
 When this finishes, icewm-session will terminate icewm, icewmbg
 and icesound. Finally icewm-session will exit.
 
@@ -105,6 +105,14 @@ it. If two such crashes occur in a short period, then icewm-session will
 attempt to popup a dialog using either F<xmessage>, F<kdialog> or
 F<zenity>.  This dialog asks if the user wishes to continue restarting
 icewm or abort execution of icewm-session.
+
+=head1 SEE ALSO
+
+L<icewm(1)>,
+L<icewm-env(5)>,
+L<icewm-shutdown(5)>,
+L<icewm-startup(5)>,
+L<icewmbg(1)>.
 
 =head1 BUGS
 
