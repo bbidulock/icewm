@@ -22,7 +22,7 @@ ref<YFont> YFont::getFont(ustring name, ustring xftFont, bool antialias) {
             ret = getXftFontXlfd(name, antialias);
     }
     if (ret == null)
-        getCoreFont(cstring(name));
+        ret = getCoreFont(cstring(name));
 
 #elif defined(CONFIG_XFREETYPE)
     if (xftFont.nonempty())
