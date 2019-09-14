@@ -16,8 +16,6 @@
 #endif
 
 static inline Display* display()  { return xapp->display(); }
-static inline Colormap colormap() { return xapp->colormap(); }
-static inline Visual*  visual()   { return xapp->visual(); }
 
 /******************************************************************************/
 
@@ -116,12 +114,10 @@ Graphics::~Graphics() {
 
 #ifdef CONFIG_XFREETYPE
 XftDraw* Graphics::handleXft() {
-    if (fXftDraw == nullptr && rdepth() == 32 && xapp->alpha()) {
-        fXftDraw = XftDrawCreateAlpha(display(), drawable(), 32);
-    }
     if (fXftDraw == nullptr) {
         fXftDraw = XftDrawCreate(display(), drawable(),
-                    visual(), colormap());
+                                 xapp->visualForDepth(rdepth()),
+                                 xapp->colormapForDepth(rdepth()));
     }
     return fXftDraw;
 }
