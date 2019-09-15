@@ -120,8 +120,6 @@ void show_backtrace(const int limit = 0);
 
 #define ACOUNT(x) (sizeof(x)/sizeof(x[0]))
 
-#define REDIR_ROOT(path) (path)
-
 //!!! clean these up
 #define KEY_MODMASK(x) ((x) & (xapp->KeyMask))
 #define BUTTON_MASK(x) ((x) & (xapp->ButtonMask))

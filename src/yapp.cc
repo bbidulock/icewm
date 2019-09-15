@@ -455,7 +455,7 @@ bool YSignalPoll::forWrite() {
 }
 
 const upath& YApplication::getLibDir() {
-    static upath dir( REDIR_ROOT(LIBDIR) );
+    static upath dir( LIBDIR );
     return dir;
 }
 
