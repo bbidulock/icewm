@@ -11,10 +11,10 @@ AC_CONFIG_AUX_DIR([scripts])
 AC_USE_SYSTEM_EXTENSIONS
 AC_CANONICAL_TARGET
 
-DATE='2018-08-22'
+DATE='2019-08-22'
 AC_SUBST([DATE])
 
-BRANCH='1.6.1'
+BRANCH='icewm-1-4-BRANCH'
 AC_SUBST([BRANCH])
 
 APPLICATIONS='icewm icewm-session icesh icewmhint icewmbg icewmtray icehelp'
@@ -320,9 +320,9 @@ AC_SUBST([GIO_CFLAGS])
 AC_SUBST([GIO_LIBS])
 
 AC_ARG_ENABLE([gdk-pixbuf],
-    AC_HELP_STRING([--enable-gdk-pixbuf],[Enable gdk-pixbuf rendering.
-	@<:@default=disabled@:>@]))
-if test "x$enable_gdk_pixbuf" = xyes ; then
+    AC_HELP_STRING([--disable-gdk-pixbuf],[Disable gdk-pixbuf rendering.
+	@<:@default=enabled@:>@]))
+if test "x$enable_gdk_pixbuf" != xno ; then
     PKG_CHECK_MODULES([PIXBUF],[gdk-pixbuf-xlib-2.0],[
 	IMAGE_CFLAGS="$PIXBUF_CFLAGS"
 	IMAGE_LIBS="$PIXBUF_LIBS"
