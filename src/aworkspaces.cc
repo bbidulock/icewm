@@ -371,8 +371,8 @@ void WorkspacesPane::configure(const YRect2& r) {
 }
 
 void WorkspacesPane::updateButtons() {
-    MSG(("WorkspacesPane::udpateButtons(): updating %ld -> %ld",
-         count(), workspaceCount));
+    MSG(("WorkspacesPane::udpateButtons(): updating %d -> %d",
+         count(), int(workspaceCount)));
 
     if (count() > workspaceCount)
         fButtons.shrink(max<int>(1, workspaceCount));
