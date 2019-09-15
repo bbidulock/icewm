@@ -2524,7 +2524,7 @@ void YWindowManager::setDesktopGeometry() {
 }
 
 void YWindowManager::setShowingDesktop() {
-    long value = fShowingDesktop ? 1 : 0;
+    long value = fShowingDesktop;
     MSG(("setting: _NET_SHOWING_DESKTOP = %ld", value));
     XChangeProperty(xapp->display(), handle(),
                     _XA_NET_SHOWING_DESKTOP, XA_CARDINAL, 32,

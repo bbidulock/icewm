@@ -191,7 +191,7 @@ void YFrameWindow::layoutShape() {
             (frameDecors() & fdBorder) &&
             !(isIconic() || isFullscreen()))
         {
-            int const a(focused() ? 1 : 0);
+            int const a(focused());
             int const t((frameDecors() & fdResize) ? 0 : 1);
 
             Pixmap shape = XCreatePixmap(xapp->display(), desktop->handle(),

@@ -1671,7 +1671,7 @@ void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
     case lookFlat:
     case lookGtk:
         {
-            int n = focused() ? 1 : 0;
+            int n = focused();
             int t = (frameDecors() & fdResize) ? 0 : 1;
 
             if ((frameT[t][n] != null || rgbFrameT[t][n] != null) &&

@@ -1083,7 +1083,7 @@ void YMenu::paintItem(Graphics &g, const int i, const int l, const int t, const 
                 g.setColor(fg);
                 g.setFont(menuFont);
 
-                int delta = (active) ? 1 : 0;
+                int delta = active;
                 if (wmLook == lookMotif || wmLook == lookGtk ||
                     wmLook == lookWarp4 || wmLook == lookWin95 ||
                     wmLook == lookMetal || wmLook == lookFlat)
@@ -1162,7 +1162,7 @@ void YMenu::paintItem(Graphics &g, const int i, const int l, const int t, const 
                                        cascadePos + 1, t + top + pad + ih);
 
                         }
-                        delta = (delta && active ? 1 : 0);
+                        delta = (delta && active);
                     }
 
                     if (wmLook == lookGtk || wmLook == lookMotif) {
