@@ -2979,7 +2979,7 @@ void IceSh::parseAction()
             check(states, mask, argp[-2]);
             check(states, state, argp[-1]);
 
-            MSG(("setState: 0x%03lx 0x%03lx", mask, state));
+            MSG(("setState: 0x%03x 0x%03x", mask, state));
             FOREACH_WINDOW(window)
                 setState(window, mask, state);
         }
