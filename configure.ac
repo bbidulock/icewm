@@ -334,6 +334,11 @@ if test "x$enable_gdk_pixbuf" != xno ; then
 	AC_DEFINE([CONFIG_LIBRSVG],[1],[Define to enable librsvg rendering.])
 	image_library="$image_library librsvg-2.0"],
 	[AC_MSG_WARN([SVG is not supported.])])
+    PKG_CHECK_MODULES([XPM],[xpm],[
+	IMAGE_CFLAGS="$IMAGE_CFLAGS $XPM_CFLAGS"
+	IMAGE_LIBS="$IMAGE_LIBS $XPM_LIBS"
+	AC_DEFINE([CONFIG_XPM],[1],[Define to enable libxpm rendering.])
+	image_library="$image_library libxpm"])
 else
     PKG_CHECK_MODULES([XPM],[xpm],[
 	IMAGE_CFLAGS="$XPM_CFLAGS"
