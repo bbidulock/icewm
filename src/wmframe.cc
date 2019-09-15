@@ -1877,7 +1877,7 @@ void YFrameWindow::updateAllowed() {
 //      atoms[i++] = _XA_NET_WM_ACTION_HIDE;
     if ((fFrameFunctions & ffRollup) || (fFrameDecors & fdRollup))
         atoms[i++] = _XA_NET_WM_ACTION_SHADE;
-    if ((1) || (fFrameDecors & fdDepth)) {
+    if (true || (fFrameDecors & fdDepth)) {
         atoms[i++] = _XA_NET_WM_ACTION_ABOVE;
         atoms[i++] = _XA_NET_WM_ACTION_BELOW;
     }
@@ -2725,7 +2725,7 @@ void YFrameWindow::updateDerivedSize(long flagmask) {
 
     Mh -= titleYN();
 
-    if (1) { // aspect of maximization
+    if (true) { // aspect of maximization
         int aMw, aMh;
         aMw = Mw;
         aMh = Mh;

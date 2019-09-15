@@ -344,7 +344,7 @@ public:
     };
 
     void setWindowType(enum WindowType winType) { fWindowType = winType; }
-    bool isTypeDock(void) { return (fWindowType == wtDock); }
+    bool isTypeDock() { return (fWindowType == wtDock); }
 
     int getWorkspace() const { return fWinWorkspace; }
     int getTrayOrder() const { return fTrayOrder; }
@@ -382,7 +382,7 @@ public:
     bool isManaged() const { return fManaged; }
     void setManaged(bool isManaged) { fManaged = isManaged; }
 
-    void setAllWorkspaces(void);
+    void setAllWorkspaces();
 
     bool visibleOn(int workspace) const {
         return (isAllWorkspaces() || getWorkspace() == workspace);
