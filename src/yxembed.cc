@@ -59,28 +59,24 @@ void YXEmbedClient::handleConfigure(const XConfigureEvent& event) {
 }
 
 void YXEmbedClient::handleProperty(const XPropertyEvent &property) {
-    MSG(("embed client property: win 0x%lX, atom %ld",
-                property.window, property.atom));
+    // logProperty((const XEvent&) property);
 
-    if ((property.window == handle()) &&
-            property.atom == _XA_XEMBED_INFO) {
-        Atom type;
-        int format;
-        unsigned long nitems, lbytes;
-        unsigned char *prop(0);
-
-        if (XGetWindowProperty(xapp->display(), handle(),
-                    _XA_XEMBED_INFO, 0L, 2L, False, AnyPropertyType,
-                    &type, &format, &nitems, &lbytes, &prop) == Success && prop)
-        {
-            if (format == 32 && nitems >= 2) {
-                if (prop[1] & XEMBED_MAPPED) {
-//                    fEmbedder->handleClientMap(handle());
-                } else {
-//                    fEmbedder->handleClientUnmap(handle());
+    if (property.atom == _XA_XEMBED_INFO) {
+        YProperty prop(this, _XA_XEMBED_INFO, F32, 2L);
+        if (prop && prop.size() == 2L) {
+            long vers = prop.operator[]<long>(0);
+            long flag = prop.operator[]<long>(1);
+            if (flag & XEMBED_MAPPED) {
+                if (vers > XEMBED_PROTOCOL_VERSION) {
+                    TLOG(("embed 0x%lx: %ld, %ld", property.window, vers, flag));
+                    infoMapped(true);
+                    sendNotify();
+                    sendActivate();
                 }
+//              fEmbedder->handleClientMap(handle());
+            } else {
+//              fEmbedder->handleClientUnmap(handle());
             }
-            XFree(prop);
         }
     }
 }
@@ -90,6 +86,34 @@ void YXEmbedClient::handleUnmap(const XUnmapEvent& unmap) {
                 unmap.event, unmap.window, handle()));
 
     fEmbedder->handleClientUnmap(handle());
+}
+
+void YXEmbedClient::infoMapped(bool map) {
+    Atom mapped = map ? XEMBED_MAPPED : Atom(0);
+    Atom info[] = { XEMBED_PROTOCOL_VERSION, mapped };
+    setProperty(_XA_XEMBED_INFO, XA_CARDINAL, info, 2);
+}
+
+void YXEmbedClient::sendNotify() {
+    sendMessage(XEMBED_EMBEDDED_NOTIFY, 0L, handle(), XEMBED_PROTOCOL_VERSION);
+}
+
+void YXEmbedClient::sendActivate() {
+    sendMessage(XEMBED_WINDOW_ACTIVATE);
+}
+
+void YXEmbedClient::sendMessage(long type, long detail, long data1, long data2) {
+    XClientMessageEvent xev = {};
+    xev.type = ClientMessage;
+    xev.window = handle();
+    xev.message_type = _XA_XEMBED;
+    xev.format = 32;
+    xev.data.l[0] = CurrentTime;
+    xev.data.l[1] = type;
+    xev.data.l[2] = detail;
+    xev.data.l[3] = data1;
+    xev.data.l[4] = data2;
+    xapp->send(xev, handle(), NoEventMask);
 }
 
 // vim: set sw=4 ts=4 et:

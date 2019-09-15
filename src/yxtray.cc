@@ -81,6 +81,7 @@ private:
     YAtom _NET_SYSTEM_TRAY_S0;
     YXTray *fTray;
     lazy<YTimer> fUpdateTimer;
+    YObjectArray<DockRequest> fDockRequests;
     typedef YObjectArray<DockRequest>::IterType DockIter;
     mstring toolTip;
 
@@ -242,12 +243,19 @@ void YXTrayProxy::updateToolTip() {
 }
 
 bool YXTrayProxy::handleTimer(YTimer *timer) {
-    MSG(("YXTrayProxy::handleTimer %s %ld",
+    TLOG(("YXTrayProxy::handleTimer %s %ld",
         boolstr(timer == fUpdateTimer), timer->getInterval()));
 
     if (timer == fUpdateTimer) {
         updateToolTip();
         return false;
+    }
+
+    DockIter dock = fDockRequests.iterator();
+    while (++dock && timer != dock->timer);
+    if (dock) {
+        fTray->trayRequestDock(dock->window, dock->title);
+        dock.remove();
     }
 
     return false;
@@ -280,6 +288,13 @@ bool YXTrayProxy::requestDock(Window win) {
     if (enableBackingStore(win) == false) {
         MSG(("Cannot get attributes for dock window 0x%08lX", win));
         return false;
+    }
+
+    if (title == "Pidgin") {
+        long delay = 200L + 25L * fDockRequests.getCount();
+        YTimer* tm = new YTimer(delay, this, true, true);
+        fDockRequests.append(new DockRequest(win, tm, title));
+        return true;
     }
 
     return fTray->trayRequestDock(win, title);
@@ -368,31 +383,9 @@ YXTrayEmbedder::YXTrayEmbedder(YXTray *tray, Window win, Window ldr, cstring tit
         XCompositeRedirectWindow(xapp->display(), win, CompositeRedirectManual);
     }
 
-    Atom info[] = { XEMBED_PROTOCOL_VERSION, XEMBED_MAPPED };
-    fClient->setProperty(_XA_XEMBED_INFO, XA_CARDINAL, info, 2);
-
-    XClientMessageEvent xev = {};
-    xev.type = ClientMessage;
-    xev.window = win;
-    xev.message_type = _XA_XEMBED;
-    xev.format = 32;
-    xev.data.l[0] = CurrentTime;
-    xev.data.l[1] = XEMBED_EMBEDDED_NOTIFY;
-    xev.data.l[2] = 0; // no detail
-    xev.data.l[3] = handle();
-    xev.data.l[4] = XEMBED_PROTOCOL_VERSION;
-    xapp->send(xev, win, NoEventMask);
-
-    xev.type = ClientMessage;
-    xev.window = win;
-    xev.message_type = _XA_XEMBED;
-    xev.format = 32;
-    xev.data.l[0] = CurrentTime;
-    xev.data.l[1] = XEMBED_WINDOW_ACTIVATE;
-    xev.data.l[2] = 0; // no detail
-    xev.data.l[3] = 0; // no data1
-    xev.data.l[4] = 0; // no data2
-    xapp->send(xev, win, NoEventMask);
+    fClient->infoMapped();
+    fClient->sendNotify();
+    fClient->sendActivate();
 
     if (xapp->alpha() == false)
         fClient->setParentRelative();
@@ -553,7 +546,7 @@ Window YXTray::getLeader(Window win) {
 }
 
 bool YXTray::trayRequestDock(Window win, cstring title) {
-    MSG(("trayRequestDock win 0x%lX, title \"%s\"", win, title.c_str()));
+    TLOG(("trayRequestDock win 0x%lX, title \"%s\"", win, title.c_str()));
 
     if (destroyedClient(win)) {
         MSG(("Ignoring tray request for destroyed window 0x%08lX", win));

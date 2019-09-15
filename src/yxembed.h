@@ -50,6 +50,11 @@ public:
     virtual void handleProperty(const XPropertyEvent& property);
     virtual void handleUnmap(const XUnmapEvent& unmap);
 
+    void infoMapped(bool map = true);
+    void sendNotify();
+    void sendActivate();
+    void sendMessage(long type, long detail = 0, long data1 = 0, long data2 = 0);
+
 private:
     YXEmbed *fEmbedder;
 };
