@@ -19,11 +19,11 @@
 
 #ifdef CONFIG_XPM
 #include "X11/xpm.h"
-#endif
-
-#ifdef CONFIG_IMLIB
+#elif defined CONFIG_IMLIB
 #include <Imlib.h>
 extern ImlibData *hImlib;
+#else
+#error "Need either XPM or Imlib for cursors."
 #endif
 
 #include "ycursor.h"
@@ -40,51 +40,59 @@ public:
     const XColor& foreground() const { return fForeground; }
 
 #ifdef CONFIG_XPM
+
     bool isValid() { return fValid; }
     unsigned int width() const { return fAttributes.width; }
     unsigned int height() const { return fAttributes.height; }
     unsigned int hotspotX() const { return fAttributes.x_hotspot; }
     unsigned int hotspotY() const { return fAttributes.y_hotspot; }
-#endif
 
-#ifdef CONFIG_IMLIB
+#elif defined CONFIG_IMLIB
+
     bool isValid() { return fImage; }
     unsigned int width() const { return fImage ? fImage->rgb_width : 0; }
     unsigned int height() const { return fImage ? fImage->rgb_height : 0; }
     unsigned int hotspotX() const { return fHotspotX; }
     unsigned int hotspotY() const { return fHotspotY; }
-#endif
 
-#ifdef CONFIG_GDK_PIXBUF_XLIB
+#elif defined CONFIG_GDK_PIXBUF_XLIB
+
     bool isValid() { return false; }
     unsigned int width() const { return 0; }
     unsigned int height() const { return 0; }
     unsigned int hotspotX() const { return fHotspotX; }
     unsigned int hotspotY() const { return fHotspotY; }
+
 #endif
+
+    operator bool();
 
 private:
     Pixmap fPixmap, fMask;
     XColor fForeground, fBackground;
 
 #ifdef CONFIG_XPM
+
     bool fValid;
     XpmAttributes fAttributes;
-#endif
 
-#ifdef CONFIG_IMLIB
+#elif defined CONFIG_IMLIB
+
     unsigned int fHotspotX, fHotspotY;
     ImlibImage *fImage;
-#endif
 
-#ifdef CONFIG_GDK_PIXBUF_XLIB
+#elif defined CONFIG_GDK_PIXBUF_XLIB
+
     bool fValid;
     unsigned int fHotspotX, fHotspotY;
+
 #endif
-    operator bool();
 };
 
-#ifdef CONFIG_XPM // ================== use libXpm to load the cursor pixmap ===
+#ifdef CONFIG_XPM
+//
+// ================== use libXpm to load the cursor pixmap ===
+//
 YCursorPixmap::YCursorPixmap(upath path): fValid(false) {
     fAttributes.colormap  = xapp->colormap();
     fAttributes.closeness = 65535;
@@ -94,7 +102,7 @@ YCursorPixmap::YCursorPixmap(upath path): fValid(false) {
     fAttributes.y_hotspot = 0;
 
     int const rc(XpmReadFileToPixmap(xapp->display(), desktop->handle(),
-                                     (char *)REDIR_ROOT(cstring(path.path()).c_str()), // !!!
+                                     path.string().c_str(), // !!!
                                      &fPixmap, &fMask, &fAttributes));
 
     if (rc != XpmSuccess)
@@ -113,14 +121,16 @@ YCursorPixmap::YCursorPixmap(upath path): fValid(false) {
         fValid = true;
     }
 }
-#endif
 
-#ifdef CONFIG_IMLIB // ================= use Imlib to load the cursor pixmap ===
+#elif defined CONFIG_IMLIB
+//
+// ================= use Imlib to load the cursor pixmap ===
+//
 YCursorPixmap::YCursorPixmap(upath path):
     fHotspotX(0), fHotspotY(0)
 {
     cstring cs(path.path());
-    fImage = Imlib_load_image(hImlib, (char *)REDIR_ROOT(cs.c_str()));
+    fImage = Imlib_load_image(hImlib, (char *)cs.c_str());
 
     if (fImage == NULL) {
         warn(_("Loading of pixmap \"%s\" failed"), cs.c_str());
@@ -176,7 +186,7 @@ YCursorPixmap::YCursorPixmap(upath path):
     XAllocColor(xapp->display(), xapp->colormap(), &fBackground);
 
     // ----------------- find the hotspot by reading the xpm header manually ---
-    FILE *xpm = fopen((char *)REDIR_ROOT(cs.c_str()), "rb");
+    FILE *xpm = path.fopen("rb");
     if (xpm == NULL)
         warn(_("BUG? Imlib was able to read \"%s\""), cs.c_str());
 
@@ -223,9 +233,9 @@ YCursorPixmap::YCursorPixmap(upath path):
         }
     }
 }
-#endif
 
-#ifdef CONFIG_GDK_PIXBUF_XLIB
+#elif defined CONFIG_GDK_PIXBUF_XLIB
+
 YCursorPixmap::YCursorPixmap(upath /*path*/):
     fPixmap(None), fMask(None),
     fHotspotX(0), fHotspotY(0)
@@ -240,11 +250,13 @@ YCursorPixmap::~YCursorPixmap() {
         XFreePixmap(xapp->display(), fMask);
 
 #ifdef CONFIG_XPM
-    XpmFreeAttributes(&fAttributes);
-#endif
 
-#ifdef CONFIG_IMLIB
+    XpmFreeAttributes(&fAttributes);
+
+#elif defined CONFIG_IMLIB
+
     Imlib_destroy_image(hImlib, fImage);
+
 #endif
 }
 
