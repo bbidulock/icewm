@@ -25,7 +25,10 @@ class YFrameWindow:
     public YFocusedNode
 {
 public:
-    YFrameWindow(YActionListener *wmActionListener);
+    YFrameWindow(YActionListener *wmActionListener,
+                 unsigned depth = CopyFromParent,
+                 Visual* visual = nullptr,
+                 Colormap clmap = CopyFromParent);
     virtual ~YFrameWindow();
 
     void doManage(YFrameClient *client, bool &doActivate, bool &requestFocus);
@@ -224,23 +227,24 @@ public:
     };
 
     enum YFrameOptions {
-        foAllWorkspaces            = (1 << 0),
-        foAppTakesFocus            = (1 << 1),
-        foDoNotCover               = (1 << 2),
-        foDoNotFocus               = (1 << 3),
-        foForcedClose              = (1 << 4),
-        foFullKeys                 = (1 << 5),
-        foFullscreen               = (1 << 6),
-        foIgnoreNoFocusHint        = (1 << 7),
-        foIgnorePagerPreview       = (1 << 8),
-        foIgnorePosition           = (1 << 9),
-        foIgnoreQSwitch            = (1 << 10),
-        foIgnoreTaskBar            = (1 << 11),
-        foIgnoreUrgent             = (1 << 12),
-        foIgnoreWinList            = (1 << 13),
-        foMaximizedHorz            = (1 << 14),
-        foMaximizedVert            = (1 << 15),
-        foMinimized                = (1 << 16),
+        foAllWorkspaces            = (1 << 0),  // WinStateSticky
+        foMinimized                = (1 << 1),  // WinStateMinimized
+        foMaximizedVert            = (1 << 2),  // WinStateMaximizedVert
+        foMaximizedHorz            = (1 << 3),  // WinStateMaximizedHoriz
+        foMaximizedBoth            = (3 << 2),  // WinStateMaximizedBoth
+        foAppTakesFocus            = (1 << 4),
+        foDoNotCover               = (1 << 5),
+        foDoNotFocus               = (1 << 6),
+        foForcedClose              = (1 << 7),
+        foFullKeys                 = (1 << 8),
+        foFullscreen               = (1 << 9),
+        foIgnoreNoFocusHint        = (1 << 10),
+        foIgnorePagerPreview       = (1 << 11),
+        foIgnorePosition           = (1 << 12),
+        foIgnoreQSwitch            = (1 << 13),
+        foIgnoreTaskBar            = (1 << 14),
+        foIgnoreUrgent             = (1 << 15),
+        foIgnoreWinList            = (1 << 16),
         foNoFocusOnAppRaise        = (1 << 17),
         foNoFocusOnMap             = (1 << 18),
         foNoIgnoreTaskBar          = (1 << 19),
@@ -340,7 +344,7 @@ public:
     };
 
     void setWindowType(enum WindowType winType) { fWindowType = winType; }
-    bool isTypeDock(void) { return (fWindowType == wtDock); }
+    bool isTypeDock() { return (fWindowType == wtDock); }
 
     int getWorkspace() const { return fWinWorkspace; }
     int getTrayOrder() const { return fTrayOrder; }
@@ -378,7 +382,7 @@ public:
     bool isManaged() const { return fManaged; }
     void setManaged(bool isManaged) { fManaged = isManaged; }
 
-    void setAllWorkspaces(void);
+    void setAllWorkspaces();
 
     bool visibleOn(int workspace) const {
         return (isAllWorkspaces() || getWorkspace() == workspace);
@@ -431,6 +435,8 @@ public:
     Window topSideIndicator() const { return topSide; }
     Window topLeftIndicator() const { return topLeft; }
     Window topRightIndicator() const { return topRight; }
+    Time since() const { return fStartManaged; }
+    bool startMinimized() const { return hasbit(fFrameOptions, foMinimized); }
 
     void addToWindowList();
     void removeFromWindowList();
@@ -511,6 +517,7 @@ private:
     // _NET_WM_USER_TIME support
     UserTime fUserTime;
     Window fUserTimeWindow;
+    Time fStartManaged;
 
     unsigned fShapeWidth;
     unsigned fShapeHeight;

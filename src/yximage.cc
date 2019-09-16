@@ -5,7 +5,7 @@
 #include <png.h>
 #endif
 
-#if defined CONFIG_XPM
+#if defined CONFIG_XPM && !defined(CONFIG_GDK_PIXBUF_XLIB)
 
 #include <stdlib.h>
 #include <math.h>

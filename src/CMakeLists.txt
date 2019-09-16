@@ -61,16 +61,15 @@ endif()
 #    list(APPEND icewm_libs -Wl,-fuse-ld=gold)
 #endif()
 
-option(CONFIG_LIBPNG "(Experimental) PNGLIB image loader" on)
-option(CONFIG_LIBJPEG "JPEGLIB image loader" on)
-option(CONFIG_GDK_PIXBUF_XLIB "GDK-PIXBUF based image loader" off)
-option(CONFIG_LIBRSVG "(Optional) SVG image loader" off)
-option(CONFIG_XPM "(Optional) XPM image loader" on)
+option(CONFIG_LIBPNG "PNGLIB image loader" off)
+option(CONFIG_LIBJPEG "JPEGLIB image loader" off)
+option(CONFIG_GDK_PIXBUF_XLIB "GDK-PIXBUF based image loader" on)
+option(CONFIG_LIBRSVG "Optional SVG images for GDK-PIXBUF" off)
+option(CONFIG_XPM "XPM image loader" on)
 option(CONFIG_I18N "Define to enable internationalization" on)
-option(CONFIG_RENDER "Define to enable XRENDER extension" on)
 option(CONFIG_XRANDR "Define to enable XRANDR extension" on)
 option(CONFIG_SESSION "Define to enable X session management" on)
-option(CONFIG_EXTERNAL_TRAY "Define for external systray (unsupported)" off)
+option(CONFIG_EXTERNAL_TRAY "Define for external systray (deprecated)" off)
 option(ENABLE_NLS "Enable Native Language Support" on)
 option(ENABLE_LTO "Enable Link Time Optimization" off)
 
@@ -82,6 +81,7 @@ IF("" STREQUAL "${CONFIG_UNICODE_SET}")
 ELSE()
     MESSAGE(STATUS "Configured custom unicode set: ${CONFIG_UNICODE_SET}.")
 ENDIF()
+SET(XTERMCMD "" CACHE STRING "Default terminal emulator for X11")
 
 # TODO: find some common helper to handle that variables
 if(ENABLE_NLS OR CONFIG_I18N)
@@ -189,54 +189,68 @@ CHECK_TYPE_SIZE(short SIZEOF_SHORT)
 #########################################################
 
 pkg_check_modules(fontconfig fontconfig)
-pkg_check_modules(xrender xrender)
-pkg_check_modules(xcomposite xcomposite)
-pkg_check_modules(xdamage xdamage)
-pkg_check_modules(xfixes xfixes)
-pkg_check_modules(xext xext)
-pkg_check_modules(x11 x11)
+pkg_check_modules(xrender REQUIRED xrender)
+pkg_check_modules(xcomposite REQUIRED xcomposite)
+pkg_check_modules(xdamage REQUIRED xdamage)
+pkg_check_modules(xfixes REQUIRED xfixes)
+pkg_check_modules(xext REQUIRED xext)
+pkg_check_modules(x11 REQUIRED x11)
 
 set(icewm_img_libs ${xrender_LDFLAGS} ${xcomposite_LDFLAGS} ${xdamage_LDFLAGS} ${xfixes_LDFLAGS})
 
-# XXX: the image loader selection became a big mess but it is hard to revert now
-# It would have been a better idea to use different names for the user-specified
-# options and do the logics here.
-# But for now, this self-adapting code modifies the option variables.
+# It would be a good idea to use different names for the image options and do the
+# logics here.  For now, this self-adapting code modifies the option variables.
 
-set(HINT_IMG_LOADERS  "Possible combination of image loaders are:
-    -DCONFIG_XPM=on -DCONFIG_LIBPNG=on -DCONFIG_GDK_PIXBUF_XLIB=off
-    or
-    -DCONFIG_XPM=off -DCONFIG_LIBPNG=off -DCONFIG_GDK_PIXBUF_XLIB=on
-")
-# basic user configuration error check
-if(CONFIG_GDK_PIXBUF_XLIB AND NOT CONFIG_XPM)
+set(HINT_CURSORS
+[=[
+ Cursor support requires either -DCONFIG_XPM=on or -DCONFIG_IMLIB=on.
+]=])
+
+set(HINT_IMG_LOADERS
+[=[
+ There is a choice to be made between two image loaders.
+ Either 'yimage_gdk' must be enabled by -DCONFIG_GDK_PIXBUF_XLIB=on,
+ or else 'yximage' must be enabled by -DCONFIG_LIBPNG=on.
+ The latter requires -DCONFIG_XPM=on, while -DCONFIG_LIBJPEG=on is recommended.
+ The first provides optional support for SVG with -DCONFIG_LIBRSVG=on.
+ ]=] ${HINT_CURSORS})
+
+# image configuration error check
+if(CONFIG_GDK_PIXBUF_XLIB)
     #ok
     set(CONFIG_LIBPNG off)
     set(CONFIG_LIBJPEG off)
     if (NOT CONFIG_LIBRSVG)
         message(WARNING "CONFIG_LIBRSVG is recommended for SVG image support")
     endif()
-elseif(CONFIG_XPM AND NOT CONFIG_GDK_PIXBUF_XLIB)
+elseif(CONFIG_XPM AND CONFIG_LIBPNG)
     #ok
-    if (NOT CONFIG_LIBPNG)
-        message(WARNING "LIBPNG is recommended for PNG image support")
-    endif()
     if (NOT CONFIG_LIBJPEG)
         message(WARNING "LIBJPEG is advisable for backgrounds in icewmbg")
     endif()
+    set(CONFIG_LIBRSVG off)
 else()
-    MESSAGE(FATAL_ERROR "${HINT_IMG_LOADERS}")
+    MESSAGE(FATAL_ERROR ${HINT_IMG_LOADERS})
+endif()
+
+# cursor configuration error check
+if(CONFIG_XPM)
+    #ok
+    set(CONFIG_IMLIB off)
+elseif(CONFIG_IMLIB)
+    #ok
+    set(CONFIG_XPM off)
+else()
+    MESSAGE(FATAL_ERROR ${HINT_CURSORS})
 endif()
 
 if(CONFIG_GDK_PIXBUF_XLIB)
     pkg_check_modules(pixbuf gdk-pixbuf-xlib-2.0)
     if(NOT pixbuf_FOUND)
-        message(FATAL_ERROR "GDX-PIXBUF image loader selected but its dev files were not found.
-${HINT_IMG_LOADERS}")
+        message(FATAL_ERROR "GDX-PIXBUF image loader selected but its dev files were not found."
+${HINT_IMG_LOADERS})
     endif()
-    set(CONFIG_XPM off)
     set(CONFIG_LIBPNG off)
-    set(CONFIG_IMLIB off)
     set(CONFIG_LIBJPEG off)
     LIST(APPEND icewm_img_libs ${pixbuf_LDFLAGS})
 endif()
@@ -245,17 +259,21 @@ endif()
 if (CONFIG_LIBRSVG)
     pkg_check_modules(librsvg librsvg-2.0)
     if(NOT librsvg_FOUND)
-        message(WARNING "SVG image loader selected but librsvg dev files not found. SVG support will be not available.")
+        message(WARNING
+                "SVG image loader selected but librsvg-2.0 dev files not found."
+                "SVG support will be not available.")
         set(CONFIG_LIBRSVG off)
+    else()
+        LIST(APPEND icewm_img_libs ${librsvg_LDFLAGS})
     endif()
-    LIST(APPEND icewm_img_libs ${librsvg_LDFLAGS})
 endif()
 
 if(CONFIG_XPM)
     pkg_check_modules(libxpm xpm)
     if(NOT libxpm_FOUND)
-        message(FATAL_ERROR "XPM image loader selected but libxpm dev files not found.
-${HINT_IMG_LOADERS}")
+        message(FATAL_ERROR
+                "XPM image loader selected but libXpm dev files not found."
+                ${HINT_IMG_LOADERS})
     endif()
     LIST(APPEND icewm_img_libs ${libxpm_LDFLAGS})
 endif()
@@ -263,8 +281,9 @@ endif()
 if(CONFIG_LIBPNG)
     pkg_check_modules(libpng libpng)
     if(NOT libpng_FOUND)
-        message(FATAL_ERROR "PNG image loader selected but libpng dev files not found.
-${HINT_IMG_LOADERS}")
+        message(FATAL_ERROR
+                "PNG image loader selected but libpng dev files not found."
+                ${HINT_IMG_LOADERS})
     endif()
     LIST(APPEND icewm_img_libs ${libpng_LDFLAGS})
 endif()
@@ -272,10 +291,21 @@ endif()
 if(CONFIG_LIBJPEG)
     pkg_check_modules(libjpeg libjpeg)
     if(NOT libjpeg_FOUND)
-        message(FATAL_ERROR "JPEG image loader selected but libjpeg dev files not found.
-${HINT_IMG_LOADERS}")
+        message(FATAL_ERROR
+                "JPEG image loader selected but libjpeg dev files not found."
+                "Please install libjpeg-dev (or similar)."
+                "Otherwise use -DCONFIG_LIBJPEG=off.")
     endif()
     LIST(APPEND icewm_img_libs ${libjpeg_LDFLAGS})
+endif()
+
+if(CONFIG_IMLIB)
+    pkg_check_modules(libimlib imlib)
+    if(NOT libimlib_FOUND)
+        message(FATAL_ERROR "IMLIB selected but libImlib dev files not found."
+        ${HINT_CURSORS})
+    endif()
+    LIST(APPEND icewm_img_libs ${libimlib_LDFLAGS})
 endif()
 
 IF(CONFIG_SESSION)
@@ -387,7 +417,7 @@ if(CONFIG_FDO_MENUS)
     pkg_check_modules(gio gio-2.0 gio-unix-2.0)
     if(NOT gio_FOUND)
         set(CONFIG_FDO_MENUS off)
-        message(WARNING "Freedesktop style menus not supported")
+        message(WARNING "Freedesktop style menus not supported (libglib2.0-dev or similar package required)")
     endif()
 endif()
 
@@ -519,13 +549,12 @@ foreach (_variableName
         PACKAGE
         VERSION
         DATADIR LIBDIR LOCDIR DOCDIR CFGDIR ICEHELPIDX
-        CONFIG_IMLIB
         CONFIG_GDK_PIXBUF_XLIB
         CONFIG_LIBRSVG
         CONFIG_XPM
-        CONFIG_LIBJPEG
         CONFIG_LIBPNG
-        CONFIG_RENDER
+        CONFIG_LIBJPEG
+        CONFIG_IMLIB
         CONFIG_XFREETYPE
         CONFIG_COREFONTS
         CONFIG_FRIBIDI

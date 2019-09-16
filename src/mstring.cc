@@ -22,8 +22,8 @@ MStringData *MStringData::alloc(size_t length) {
 }
 
 MStringData *MStringData::create(const char *str, size_t length) {
-    MStringData *ud = MStringData::alloc(length);
-    strncpy(ud->fStr, str, length);
+    MStringData *ud = MStringData::alloc(length+1);
+    memcpy(ud->fStr, str, length);
     ud->fStr[length] = 0;
     return ud;
 }

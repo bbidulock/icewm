@@ -6,19 +6,11 @@
 
 =head1 SYNOPSIS
 
-=over
-
-=item F<$ICEWM_PRIVCFG/programs>
-
-=item F<$XDG_CONFIG_HOME/icewm/programs>
-
-=item F<$HOME/.icewm/programs>
-
-=item F</etc/icewm/programs>
-
-=item F</usr/share/icewm/programs>
-
-=back
+ $ICEWM_PRIVCFG/programs
+ $XDG_CONFIG_HOME/icewm/programs
+ $HOME/.icewm/programs
+ /etc/icewm/programs
+ /usr/share/icewm/programs
 
 =head1 DESCRIPTION
 
@@ -86,7 +78,7 @@ A separator for menu items.
 
 =back
 
-where,
+Where
 
 =over
 
@@ -213,19 +205,11 @@ Following is the example F<programs> file that ships with L<icewm(1)>:
 
 Locations for the F<programs> file are as follows:
 
-=over
-
-=item F<$ICEWM_PRIVCFG/programs>
-
-=item F<$XDG_CONFIG_HOME/icewm/programs>
-
-=item F<$HOME/.icewm/programs>
-
-=item F</etc/icewm/programs>
-
-=item F</usr/share/icewm/programs>
-
-=back
+ $ICEWM_PRIVCFG/programs
+ $XDG_CONFIG_HOME/icewm/programs
+ $HOME/.icewm/programs
+ /etc/icewm/programs
+ /usr/share/icewm/programs
 
 =head1 SEE ALSO
 

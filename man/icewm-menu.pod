@@ -6,19 +6,11 @@
 
 =head1 SYNOPSIS
 
-=over
-
-=item F<$ICEWM_PRIVCFG/menu>
-
-=item F<$XDG_CONFIG_HOME/icewm/menu>
-
-=item F<$HOME/.icewm/menu>
-
-=item F</etc/icewm/menu>
-
-=item F</usr/share/icewm/menu>
-
-=back
+ $ICEWM_PRIVCFG/menu
+ $XDG_CONFIG_HOME/icewm/menu
+ $HOME/.icewm/menu
+ /etc/icewm/menu
+ /usr/share/icewm/menu
 
 =head1 DESCRIPTION
 
@@ -89,7 +81,7 @@ A separator for menu items.
 
 =back
 
-where,
+Where
 
 =over
 
@@ -120,10 +112,10 @@ B<runonce> keyword.
 
 =item I<program> I<options>
 
-I<program> is the name of the executable or full path to the executable file that will
-be run in response to selecting the menu item.  When used with the
-B<menuprog> keyword, the I<program> must print on standard output the
-contents of the menu and is used for dynamic menus.
+I<program> is the name of the executable or full path to the executable
+file that will be run in response to selecting the menu item.
+When used with the B<menuprog> keyword, the I<program> must print on
+standard output the contents of the menu and is used for dynamic menus.
 
 I<options> is the options and arguments passed to the I<program>
 verbatim.
@@ -163,19 +155,11 @@ Following is the example F<menu> file that ships with L<icewm(1)>:
 
 Locations for the F<menu> file are as follows:
 
-=over
-
-=item F<$ICEWM_PRIVCFG/menu>
-
-=item F<$XDG_CONFIG_HOME/icewm/menu>
-
-=item F<$HOME/.icewm/menu>
-
-=item F</etc/icewm/menu>
-
-=item F</usr/share/icewm/menu>
-
-=back
+ $ICEWM_PRIVCFG/menu
+ $XDG_CONFIG_HOME/icewm/menu
+ $HOME/.icewm/menu
+ /etc/icewm/menu
+ /usr/share/icewm/menu
 
 =head1 SEE ALSO
 

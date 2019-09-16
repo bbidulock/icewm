@@ -1,15 +1,14 @@
-# This is an example for IceWM's hotkey definition file.
-#
-# Place your variants in @CFGDIR@ or in $HOME/.icewm
-# since modifications to this file will be discarded when you
-# (re)install icewm.
+# This is an example for @PACKAGE_STRING@ hotkey definition file.
+# It will be installed as @LIBDIR@/keys.
+# Place your variants in @CFGDIR@ or in $HOME/.icewm since
+# modifications to this file will be overwritten when you reinstall icewm.
 #
 # A list of all valid keyboard symbols can be found in
 # /usr/include/X11/keysym.h, keysymdefs.h, XF86keysym.h, ...
 # You'll have to omit XK_ prefixs and to replace XF86XK_ prefixes by
 # XF86. Valid modifiers are Alt, Ctrl, Shift, Meta, Super and Hyper.
 #
-key "Alt+Ctrl+t"			xterm
+key "Alt+Ctrl+t"			@XTERMCMD@
 key "Alt+Ctrl+b"			xdg-open about:blank
 key "Alt+Ctrl+s"			xdg-open https://www.google.com
 

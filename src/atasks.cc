@@ -275,7 +275,7 @@ void TaskBarApp::paint(Graphics &g, const YRect& r) {
         int iconSize = YIcon::smallSize();
 
         int const y((height() - 3 - iconSize -
-                     ((wmLook == lookMetal) ? 1 : 0)) / 2);
+                     (wmLook == lookMetal)) / 2);
         iconDrawn = icon->draw(g, p + max(1, left), p + 1 + y, iconSize);
         if (iconDrawn && p + max(1, left) + iconSize + 5 >= int(width()))
             return;

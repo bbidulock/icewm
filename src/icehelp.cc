@@ -712,12 +712,16 @@ static node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node
                     else if (strcmp(entity, "&quot") == 0)
                         c = '"';
                     else if (strcmp(entity, "&nbsp") == 0)
-                        c = 32+128;
+                        c = ' ';    // 32+128;
                     else if (strcmp(entity, "&#160") == 0)
-                        c = 32+128;
+                        c = ' ';    // 32+128;
                     else if (strcmp(entity, "&#8203") == 0)
-                        c = 32+128; // zero width space
-                    else if (strcmp(entity, "&#8212") == 0)
+                        c = ' ';    // 32+128;  zero width space
+                    else if (strcmp(entity, "&#8211") == 0
+                          || strcmp(entity, "&ndash") == 0)
+                        c = '-';    // en dash
+                    else if (strcmp(entity, "&#8212") == 0
+                          || strcmp(entity, "&mdash") == 0)
                         c = '-';    // em dash
                     else if (strcmp(entity, "&#8217") == 0)
                         c = '\'';   // right single quote

@@ -1,4 +1,4 @@
-[icewm -- read me first file.  2019-02-04]: #
+[icewm -- read me first file.  2019-08-22]: #
 
 Ice Window Manager (IceWM)
 ==========================
@@ -44,7 +44,7 @@ following commands:
     $> git clone https://github.com/bbidulock/icewm.git
     $> cd icewm
     $> ./autogen.sh
-    $> ./configure 
+    $> ./configure
     $> make
     $> make DESTDIR="$pkgdir" install
 

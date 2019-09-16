@@ -677,19 +677,19 @@ ref<YPixmap> Background::renderBackground(ref<YPixmap> back, YColor color) {
         unsigned bh = back->height();
         if (scaleBackground && false == centerBackground) {
             if (bh * width < bw * height) {
-                bw = height * bw / bh;
+                bw = height * bw / non_zero(bh);
                 bh = height;
             } else {
-                bh = width * bh / bw;
+                bh = width * bh / non_zero(bw);
                 bw = width;
             }
         }
         else if (centerBackground) {
             if (bw >= bh && (bw > width || scaleBackground)) {
-                bh = width * bh / bw;
+                bh = width * bh / non_zero(bw);
                 bw = width;
             } else if (bh > height || scaleBackground) {
-                bw = height * bw / bh;
+                bw = height * bw / non_zero(bh);
                 bh = height;
             }
         }

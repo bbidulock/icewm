@@ -6,19 +6,11 @@
 
 =head1 SYNOPSIS
 
-=over
-
-=item F<$ICEWM_PRIVCFG/shutdown>
-
-=item F<$XDG_CONFIG_HOME/icewm/shutdown>
-
-=item F<$HOME/.icewm/shutdown>
-
-=item F</etc/icewm/shutdown>
-
-=item F</usr/share/icewm/shutdown>
-
-=back
+ $ICEWM_PRIVCFG/shutdown
+ $XDG_CONFIG_HOME/icewm/shutdown
+ $HOME/.icewm/shutdown
+ /etc/icewm/shutdown
+ /usr/share/icewm/shutdown
 
 =head1 DESCRIPTION
 
@@ -28,32 +20,18 @@ B<icewm> termination.  Typically they may undo some of the effects of
 the F<startup> script.  It is run by L<icewm-session(1)> when B<icewm>
 terminates.
 
-=head1 FORMAT
-
-=head1 EXAMPLES
-
 =head1 FILES
 
 Locations for the F<shutdown> file are as follows:
 
-=over
-
-=item F<$ICEWM_PRIVCFG/shutdown>
-
-=item F<$XDG_CONFIG_HOME/icewm/shutdown>
-
-=item F<$HOME/.icewm/shutdown>
-
-=item F</etc/icewm/shutdown>
-
-=item F</usr/share/icewm/shutdown>
-
-=back
+ $ICEWM_PRIVCFG/shutdown
+ $XDG_CONFIG_HOME/icewm/shutdown
+ $HOME/.icewm/shutdown
+ /etc/icewm/shutdown
+ /usr/share/icewm/shutdown
 
 =head1 SEE ALSO
 
-L<icewm(1)>,
-L<icewm-env(5)>,
 L<icewm-session(1)>,
 L<icewm-startup(5)>.
 

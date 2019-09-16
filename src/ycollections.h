@@ -113,6 +113,12 @@ struct YKeyValuePair
     YKeyValuePair(KeyType key, ValueType value) : key(key), value(value) {}
     YKeyValuePair() : key(), value() {}
     YKeyValuePair(const YKeyValuePair& src) : key(src.key), value(src.value) {}
+    YKeyValuePair<KeyType, ValueType>& operator=(const YKeyValuePair<KeyType, ValueType>& src)
+    {
+        key = src.key;
+        value = src.value;
+        return *this;
+    }
 };
 
 template<typename KeyType>

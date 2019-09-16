@@ -130,7 +130,6 @@ private:
     FocusModels focusMode;
     Window managerWindow;
 
-    static void initAtoms();
     static void initPointers();
     static void initIcons();
     static void termIcons();

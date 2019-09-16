@@ -6,27 +6,17 @@
 
 =head1 SYNOPSIS
 
-=over
-
-=item F<$ICEWM_PRIVCFG/toolbar>
-
-=item F<$XDG_CONFIG_HOME/icewm/toolbar>
-
-=item F<$HOME/.icewm/toolbar>
-
-=item F</etc/icewm/toolbar>
-
-=item F</usr/share/icewm/toolbar>
-
-=back
+ $ICEWM_PRIVCFG/toolbar
+ $XDG_CONFIG_HOME/icewm/toolbar
+ $HOME/.icewm/toolbar
+ /etc/icewm/toolbar
+ /usr/share/icewm/toolbar
 
 =head1 DESCRIPTION
 
 The F<toolbar> file is responsible for configuring quick launch
-application icons that are placed on the L<icewm(1)> panel.  The file is
-used to place programs as buttons on the L<icewm(1)> pane
-
-Contains names of quick to launch applications with icons for the task
+application icons that are placed on the L<icewm(1)> panel.  It
+contains names of quick to launch applications with icons for the task
 bar.  Each non-empty non-comment line starts with the keyword B<prog>.
 After one or more spaces follows a name, which is displayed in a tool
 tip whenever the mouse cursor hovers over the toolbar icon.  This name
@@ -100,19 +90,11 @@ L<icewm(1)> panel:
 
 Locations for the F<toolbar> file are as follows:
 
-=over
-
-=item F<$ICEWM_PRIVCFG/toolbar>
-
-=item F<$XDG_CONFIG_HOME/icewm/toolbar>
-
-=item F<$HOME/.icewm/toolbar>
-
-=item F</etc/icewm/toolbar>
-
-=item F</usr/share/icewm/toolbar>
-
-=back
+ $ICEWM_PRIVCFG/toolbar
+ $XDG_CONFIG_HOME/icewm/toolbar
+ $HOME/.icewm/toolbar
+ /etc/icewm/toolbar
+ /usr/share/icewm/toolbar
 
 =head1 SEE ALSO
 
