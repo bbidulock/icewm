@@ -64,7 +64,7 @@ static void initIconPaths() {
 YIcon::YIcon(upath filename):
     fSmall(null), fLarge(null), fHuge(null),
     loadedS(false), loadedL(false), loadedH(false),
-    fPath(filename), fCached(false)
+    fPath(filename.expand()), fCached(false)
 {
 }
 

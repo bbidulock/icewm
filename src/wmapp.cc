@@ -43,12 +43,6 @@ static bool initializing(true);
 YWMApp *wmapp(NULL);
 YWindowManager *manager(NULL);
 
-Atom XA_IcewmWinOptHint(None);
-Atom XA_ICEWM_FONT_PATH(None);
-
-Atom _XA_XROOTPMAP_ID(None);
-Atom _XA_XROOTCOLOR_PIXEL(None);
-
 YCursor YWMApp::sizeRightPointer;
 YCursor YWMApp::sizeTopRightPointer;
 YCursor YWMApp::sizeTopPointer;
@@ -356,14 +350,6 @@ void YWMApp::initIconSize() {
     }
 }
 
-
-void YWMApp::initAtoms() {
-    XA_IcewmWinOptHint = XInternAtom(xapp->display(), "_ICEWM_WINOPTHINT", False);
-    XA_ICEWM_FONT_PATH = XInternAtom(xapp->display(), "ICEWM_FONT_PATH", False);
-    _XA_XROOTPMAP_ID = XInternAtom(xapp->display(), "_XROOTPMAP_ID", False);
-    _XA_XROOTCOLOR_PIXEL = XInternAtom(xapp->display(), "_XROOTCOLOR_PIXEL", False);
-}
-
 static void initFontPath(IApp *app) {
     if (themeName) { // =================== find the current theme directory ===
         upath themesFile(themeName);
@@ -427,7 +413,7 @@ static void initFontPath(IApp *app) {
 
             if (XGetWindowProperty(xapp->display(),
                                    manager->handle(),
-                                   XA_ICEWM_FONT_PATH,
+                                   _XA_ICEWM_FONT_PATH,
                                    0, PATH_MAX, False, XA_STRING,
                                    &r_type, &r_format,
                                    &count, &bytes_remain,
@@ -452,7 +438,7 @@ static void initFontPath(IApp *app) {
 #endif
             // ----------------------------------------- set the new font path ---
             XChangeProperty(xapp->display(), manager->handle(),
-                            XA_ICEWM_FONT_PATH, XA_STRING, 8, PropModeReplace,
+                            _XA_ICEWM_FONT_PATH, XA_STRING, 8, PropModeReplace,
                             (unsigned char *) fontsdir, strlen(fontsdir));
             XSetFontPath(xapp->display(), newFontPath, ndirs + 1);
 
@@ -530,7 +516,7 @@ void LogoutMenu::updatePopup() {
 
             logoutMenu->addItem(_("Restart _Icewm"), -2, null, actionRestart, "restart");
 
-            logoutMenu->addItem(_("Restart _Xterm"), -2, null, actionRestartXterm, "xterm");
+            logoutMenu->addItem(_("Restart _Xterm"), -2, null, actionRestartXterm, TERM);
 
         }
     }
@@ -866,7 +852,7 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
                 if (msgbox)
                     manager->unmanageClient(msgbox);
                 if (operation == YMsgBox::mbOK)
-                    listener->restartClient(QUOTE(XTERMCMD), 0);
+                    listener->restartClient(TERM, nullptr);
             }
         };
         static t_executor delegate(this);
@@ -1191,7 +1177,6 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
     actionPerformed(actionWinOptions, 0);
     MenuLoader(this, this, this).loadMenus(findConfigFile("keys"), 0);
 
-    initAtoms();
     initPointers();
 
     if (post_preferences)
@@ -1416,14 +1401,11 @@ void YWMApp::signalGuiEvent(GUIEvent ge) {
     }
     next = now + millitime(100L);
 
-    static Atom GUIEventAtom = None;
     unsigned char num = (unsigned char)ge;
 
-    if (GUIEventAtom == None)
-        GUIEventAtom = XInternAtom(xapp->display(), XA_GUI_EVENT_NAME, False);
     XChangeProperty(xapp->display(), desktop->handle(),
-                    GUIEventAtom, GUIEventAtom, 8, PropModeReplace,
-                    &num, 1);
+                    _XA_ICEWM_GUIEVENT, _XA_ICEWM_GUIEVENT,
+                    8, PropModeReplace, &num, 1);
 }
 
 bool YWMApp::filterEvent(const XEvent &xev) {

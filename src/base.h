@@ -120,8 +120,6 @@ void show_backtrace(const int limit = 0);
 
 #define ACOUNT(x) (sizeof(x)/sizeof(x[0]))
 
-#define REDIR_ROOT(path) (path)
-
 //!!! clean these up
 #define KEY_MODMASK(x) ((x) & (xapp->KeyMask))
 #define BUTTON_MASK(x) ((x) & (xapp->ButtonMask))
@@ -285,6 +283,8 @@ void logShape(const union _XEvent& xev);
 void logVisibility(const union _XEvent& xev);
 void logEvent(const union _XEvent& xev);
 
+typedef const char* (*AtomNameFunc)(unsigned long atom);
+void setAtomName(AtomNameFunc atomNameFunc);
 void setLogEvent(int evtype, bool enable);
 bool toggleLogEvents();
 const char* eventName(int eventType);

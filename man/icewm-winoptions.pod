@@ -6,19 +6,11 @@
 
 =head1 SYNOPSIS
 
-=over
-
-=item F<$ICEWM_PRIVCFG/winoptions>
-
-=item F<$XDG_CONFIG_HOME/icewm/winoptions>
-
-=item F<$HOME/.icewm/winoptions>
-
-=item F</etc/icewm/winoptions>
-
-=item F</usr/share/icewm/winoptions>
-
-=back
+ $ICEWM_PRIVCFG/winoptions
+ $XDG_CONFIG_HOME/icewm/winoptions
+ $HOME/.icewm/winoptions
+ /etc/icewm/winoptions
+ /usr/share/icewm/winoptions
 
 =head1 DESCRIPTION
 
@@ -281,19 +273,11 @@ and typically installs to F</usr/share/icewm/winoptions>.
 
 Locations for the F<winoptions> file are as follows:
 
-=over
-
-=item F<$ICEWM_PRIVCFG/winoptions>
-
-=item F<$XDG_CONFIG_HOME/icewm/winoptions>
-
-=item F<$HOME/.icewm/winoptions>
-
-=item F</etc/icewm/winoptions>
-
-=item F</usr/share/icewm/winoptions>
-
-=back
+ $ICEWM_PRIVCFG/winoptions
+ $XDG_CONFIG_HOME/icewm/winoptions
+ $HOME/.icewm/winoptions
+ /etc/icewm/winoptions
+ /usr/share/icewm/winoptions
 
 =head1 SEE ALSO
 

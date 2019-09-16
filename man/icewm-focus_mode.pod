@@ -6,19 +6,11 @@
 
 =head1 SYNOPSIS
 
-=over
-
-=item F<$ICEWM_PRIVCFG/focus_mode>
-
-=item F<$XDG_CONFIG_HOME/icewm/focus_mode>
-
-=item F<$HOME/.icewm/focus_mode>
-
-=item F</etc/icewm/focus_mode>
-
-=item F</usr/share/icewm/focus_mode>
-
-=back
+ $ICEWM_PRIVCFG/focus_mode
+ $XDG_CONFIG_HOME/icewm/focus_mode
+ $HOME/.icewm/focus_mode
+ /etc/icewm/focus_mode
+ /usr/share/icewm/focus_mode
 
 =head1 DESCRIPTION
 
@@ -41,19 +33,11 @@ The following is my F<focus_mode> file:
 
 Locations for the F<focus_mode> file are as follows:
 
-=over
-
-=item F<$ICEWM_PRIVCFG/focus_mode>
-
-=item F<$XDG_CONFIG_HOME/icewm/focus_mode>
-
-=item F<$HOME/.icewm/focus_mode>
-
-=item F</usr/share/icewm/focus_mode>
-
-=item F</usr/local/share/icewm/focus_mode>
-
-=back
+ $ICEWM_PRIVCFG/focus_mode
+ $XDG_CONFIG_HOME/icewm/focus_mode
+ $HOME/.icewm/focus_mode
+ /usr/share/icewm/focus_mode
+ /usr/local/share/icewm/focus_mode
 
 =head1 SEE ALSO
 

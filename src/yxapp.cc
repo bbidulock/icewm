@@ -6,6 +6,7 @@
 #include "MwmUtil.h"
 #include "ypointer.h"
 #include "yxcontext.h"
+#include "guievent.h"
 #include "intl.h"
 #undef override
 #include <X11/Xproto.h>
@@ -49,6 +50,13 @@ Atom _XATOM_MWM_HINTS;
 Atom _XA_WINDOW_ROLE;
 Atom _XA_SM_CLIENT_ID;
 Atom _XA_ICEWM_ACTION;
+Atom _XA_ICEWM_GUIEVENT;
+Atom _XA_ICEWM_HINT;
+Atom _XA_ICEWM_FONT_PATH;
+Atom _XA_ICEWMBG_IMAGE;
+Atom _XA_XROOTPMAP_ID;
+Atom _XA_XROOTCOLOR_PIXEL;
+Atom _XA_GDK_TIMESTAMP_PROP;
 Atom _XA_CLIPBOARD;
 Atom _XA_MANAGER;
 Atom _XA_TARGETS;
@@ -280,12 +288,7 @@ private:
     char *fData;
 };
 
-
-void YXApplication::initAtoms() {
-    struct {
-        Atom *atom;
-        const char *name;
-    } atom_info[] = {
+YAtomName YXApplication::atom_info[] = {
         { &_XA_WM_CHANGE_STATE                  , "WM_CHANGE_STATE"                     },
         { &_XA_WM_CLASS                         , "WM_CLASS"                            },
         { &_XA_WM_CLIENT_LEADER                 , "WM_CLIENT_LEADER"                    },
@@ -312,6 +315,13 @@ void YXApplication::initAtoms() {
         { &_XA_WINDOW_ROLE                      , "WINDOW_ROLE"                         },
         { &_XA_SM_CLIENT_ID                     , "SM_CLIENT_ID"                        },
         { &_XA_ICEWM_ACTION                     , "_ICEWM_ACTION"                       },
+        { &_XA_ICEWM_GUIEVENT                   , XA_GUI_EVENT_NAME                     },
+        { &_XA_ICEWM_HINT                       , "_ICEWM_WINOPTHINT"                   },
+        { &_XA_ICEWM_FONT_PATH                  , "ICEWM_FONT_PATH"                     },
+        { &_XA_ICEWMBG_IMAGE                    , "_ICEWMBG_IMAGE"                     },
+        { &_XA_XROOTPMAP_ID                     , "_XROOTPMAP_ID"                       },
+        { &_XA_XROOTCOLOR_PIXEL                 , "_XROOTCOLOR_PIXEL"                   },
+        { &_XA_GDK_TIMESTAMP_PROP               , "GDK_TIMESTAMP_PROP"                  },
         { &_XATOM_MWM_HINTS                     , _XA_MOTIF_WM_HINTS                    },
 
         { &_XA_KWM_DOCKWINDOW                   , "KWM_DOCKWINDOW"                      },
@@ -449,7 +459,9 @@ void YXApplication::initAtoms() {
         { &XA_XdndPosition                      , "XdndPosition"                        },
         { &XA_XdndProxy                         , "XdndProxy"                           },
         { &XA_XdndStatus                        , "XdndStatus"                          }
-    };
+};
+
+void YXApplication::initAtoms() {
     unsigned int i;
 
 #ifdef HAVE_XINTERNATOMS
@@ -469,6 +481,33 @@ void YXApplication::initAtoms() {
         *(atom_info[i].atom) = XInternAtom(xapp->display(),
                                            atom_info[i].name, False);
 #endif
+
+    qsort(atom_info, ACOUNT(atom_info), sizeof(atom_info[0]), sortAtoms);
+    setAtomName(atomName);
+}
+
+int YXApplication::sortAtoms(const void* p1, const void* p2) {
+    const YAtomName* n1 = static_cast<const YAtomName*>(p1);
+    const YAtomName* n2 = static_cast<const YAtomName*>(p2);
+    const Atom a1 = *n1->atom;
+    const Atom a2 = *n2->atom;
+    return int(long(a1) - long(a2));
+}
+
+const char* YXApplication::atomName(Atom atom) {
+    int lo = 0, hi = int ACOUNT(atom_info);
+    while (lo < hi) {
+        int pv = (lo + hi) / 2;
+        if (atom < *atom_info[pv].atom)
+            hi = pv;
+        else if (atom > *atom_info[pv].atom)
+            lo = pv + 1;
+        else
+            return atom_info[pv].name;
+    }
+    static char buf[32];
+    snprintf(buf, sizeof buf, "Atom(%lu)", atom);
+    return buf;
 }
 
 void YXApplication::initPointers() {
@@ -1304,7 +1343,7 @@ void YProperty::discard() {
 const YProperty& YProperty::update() {
     discard();
     int fmt = 0;
-    if (XGetWindowProperty(xapp->display(), fWind, fProp, 0L, fLimit, False,
+    if (XGetWindowProperty(xapp->display(), fWind, fProp, 0L, fLimit, fDelete,
                            fKind, &fType, &fmt, &fSize, &fMore, &fData) ==
         Success && fData && fSize && fmt == fBits && (fKind == fType || !fKind))
     {

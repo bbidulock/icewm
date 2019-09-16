@@ -101,6 +101,11 @@ $(icewm_man1_htmls) $(extra_man1_htmls): %.1.html: %.pod
 	$(SED) -i -r \
 		-e 's,http://man.he.net/man(.)/(ice[^"]*),\2.\1.html,g' \
 		-e 's,man.he.net/man(.)/([^"]*),manned.org/\2.\1,g' \
+		-e 's,([^a-z/])/usr/share/icewm,\1$(LIBDIR),' \
+		-e 's,([^a-z/])/etc/icewm,\1$(CFGDIR),' \
+		-e 's,([^A-Z/])CFGDIR/,\1$(CFGDIR)/,g' \
+		-e 's,([^A-Z/])LIBDIR/,\1$(LIBDIR)/,g' \
+		-e 's,\@CFGDIR\@,$(CFGDIR),g' \
 		-e 's,http:,https:,g' $@
 
 $(icewm_man5_htmls): %.5.html: %.pod
@@ -120,6 +125,11 @@ $(icewm_man5_htmls): %.5.html: %.pod
 	$(SED) -i -r \
 		-e 's,http://man.he.net/man(.)/(ice[^"]*),\2.\1.html,g' \
 		-e 's,man.he.net/man(.)/([^"]*),manned.org/\2.\1,g' \
+		-e 's,([^a-z/])/usr/share/icewm,\1$(LIBDIR),' \
+		-e 's,([^a-z/])/etc/icewm,\1$(CFGDIR),' \
+		-e 's,([^A-Z/])CFGDIR/,\1$(CFGDIR)/,g' \
+		-e 's,([^A-Z/])LIBDIR/,\1$(LIBDIR)/,g' \
+		-e 's,\@CFGDIR\@,$(CFGDIR),g' \
 		-e 's,http:,https:,g' $@
 
 $(icewm_man1_files) $(extra_man1_files): %.man: %.pod
@@ -133,7 +143,13 @@ $(icewm_man1_files) $(extra_man1_files): %.man: %.pod
 		--nourls \
 		--release="$(PACKAGE) $(VERSION)" \
 		--section="1" \
-		$< $@
+		$< $@ && \
+	$(SED) -i -r \
+		-e 's,([^a-z/])/usr/share/icewm,\1$(LIBDIR),' \
+		-e 's,([^a-z/])/etc/icewm,\1$(CFGDIR),' \
+		-e 's,([^A-Z/])CFGDIR/,\1$(CFGDIR)/,g' \
+		-e 's,([^A-Z/])LIBDIR/,\1$(LIBDIR)/,g' \
+	        -e 's,\@CFGDIR\@,$(CFGDIR),g' $@
 
 $(icewm_man5_files): %.man: %.pod
 	$(AM_V_GEN)pod2man --center="Standards, Environments and Macros" \
@@ -146,5 +162,11 @@ $(icewm_man5_files): %.man: %.pod
 		--nourls \
 		--release="$(PACKAGE) $(VERSION)" \
 		--section="5" \
-		$< $@
+		$< $@ && \
+	$(SED) -i -r \
+		-e 's,([^a-z/])/usr/share/icewm,\1$(LIBDIR),' \
+		-e 's,([^a-z/])/etc/icewm,\1$(CFGDIR),' \
+		-e 's,([^A-Z/])CFGDIR/,\1$(CFGDIR)/,g' \
+		-e 's,([^A-Z/])LIBDIR/,\1$(LIBDIR)/,g' \
+	        -e 's,\@CFGDIR\@,$(CFGDIR),g' $@
 

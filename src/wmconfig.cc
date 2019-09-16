@@ -10,6 +10,7 @@
 #define CFGDEF
 #include "wmconfig.h"
 #include "bindkey.h"
+#include "appnames.h"
 #include "default.h"
 
 #include "wmoption.h"

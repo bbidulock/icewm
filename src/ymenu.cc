@@ -839,7 +839,6 @@ int YMenu::findItem(int mx, int my) {
 }
 
 void YMenu::sizePopup(int hspace) {
-    int width, height;
     int maxName(0);
     int maxParam(0);
     int maxIcon(16);
@@ -853,8 +852,7 @@ void YMenu::sizePopup(int hspace) {
     desktop->getScreenGeometry(&dx, &dy, &uw, &uh, getXiScreen());
     int dw = int(uw);
 
-    width = l;
-    height = t;
+    int height = t;
 
     for (int i = 0; i < itemCount(); i++) {
         const YMenuItem *mitem = getItem(i);
@@ -891,7 +889,7 @@ void YMenu::sizePopup(int hspace) {
 
     namePos = l + left + padx + maxIcon + 2;
     paramPos = namePos + 2 + maxName + 6;
-    width = paramPos + maxParam + 4 + r + 10;
+    int width = paramPos + maxParam + 4 + r + 10;
     height += b;
 
     if (menubackPixbuf != null) {
@@ -1085,7 +1083,7 @@ void YMenu::paintItem(Graphics &g, const int i, const int l, const int t, const 
                 g.setColor(fg);
                 g.setFont(menuFont);
 
-                int delta = (active) ? 1 : 0;
+                int delta = active;
                 if (wmLook == lookMotif || wmLook == lookGtk ||
                     wmLook == lookWarp4 || wmLook == lookWin95 ||
                     wmLook == lookMetal || wmLook == lookFlat)
@@ -1110,10 +1108,7 @@ void YMenu::paintItem(Graphics &g, const int i, const int l, const int t, const 
                     int dx = l + 1 + delta;
                     int dy = t + delta + top + pad +
                                (eh - top - pad * 2 - bottom - size) / 2;
-                    ref<YImage> im = mitem->getIcon()->getScaledIcon(size);
-                    if (im != null) {
-                        g.copyImage(im, dx, dy);
-                    }
+                    mitem->getIcon()->draw(g, dx, dy, size);
                 }
 
                 if (name != null) {
@@ -1154,7 +1149,7 @@ void YMenu::paintItem(Graphics &g, const int i, const int l, const int t, const 
                 } else if (mitem->getSubmenu() != 0) {
                     if (mitem->getAction() != actionNull) {
                         g.setColor(menuBg);
-                        if (0) {
+                        if (false) {
                             drawBackground(g, width() - r - 1 -ih - pad, t + top + pad, ih, ih);
                             g.drawBorderW(width() - r - 1 - ih - pad, t + top + pad, ih - 1, ih - 1,
                                           active ? false : true);
@@ -1167,7 +1162,7 @@ void YMenu::paintItem(Graphics &g, const int i, const int l, const int t, const 
                                        cascadePos + 1, t + top + pad + ih);
 
                         }
-                        delta = (delta && active ? 1 : 0);
+                        delta = (delta && active);
                     }
 
                     if (wmLook == lookGtk || wmLook == lookMotif) {
@@ -1230,7 +1225,7 @@ void YMenu::paint(Graphics &g, const YRect &r1) {
         if (iy < r1.y() + (int) r1.height() &&
             iy + (int) ih > r1.y())
         {
-            paintItem(g, i, l, iy, r, r1.y(), r1.y() + r1.height(), 1);
+            paintItem(g, i, l, iy, r, r1.y(), r1.y() + r1.height(), true);
         }
         iy += ih;
     }

@@ -14,7 +14,7 @@
 
 =head1 DESCRIPTION
 
-B<icesh> provides 83 commands to change or query a window's state,
+B<icesh> provides 85 commands to change or query a window's state,
 and to interact with the L<icewm(1)> window manager. Command arguments
 are called actions. Window actions operate on a selection of windows.
 B<icesh> has several options to select and filter windows.  Options and
@@ -118,6 +118,18 @@ inverted.
 Filters clients by I<GNOME window layer>, which can either be a layer
 name (see below) or a layer number.  If I<LAYER> starts with an
 exclamation mark then the filtering is inverted.
+
+=item B<-P>, B<-Property> I<PROP>
+
+Filters clients by property. Clients which have a property I<PROP> are
+selected.  The filtering is inverted if I<PROP> starts with an
+exclamation mark.
+
+=item B<-R>, B<-Role> I<ROLE>
+
+Filters clients by WM_WINDOW_ROLE. Clients which have a WM_WINDOW_ROLE
+property value equal to I<ROLE> are selected.  The filtering is inverted
+if I<ROLE> starts with an exclamation mark.
 
 =item B<-S>, B<-State> I<STATE>
 
@@ -427,6 +439,11 @@ is modified, otherwise it is set to the new value. Note that if C<All>
 is set, then other set fields will be disabled and cleared fields will
 be enabled.
 
+=item B<prop> I<PROPERTY>
+
+Print the value of property I<PROPERTY> if it is present.  I<PROPERTY>
+can be a string, a window, or a list of one or more atoms or cardinals.
+
 =back
 
 =head2 MANAGER ACTIONS
@@ -457,6 +474,10 @@ a workspace number starting from zero.
 =item B<setWorkspaceNames> I<NAME> [I<NAME>]*
 
 Change the workspace names to the list of I<NAME>s.
+
+=item B<addWorkspace> I<NAME>
+
+Create a new workspace with name I<NAME>.
 
 =item B<desktop> [I<SHOWING>]
 

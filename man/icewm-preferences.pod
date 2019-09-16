@@ -6,19 +6,11 @@
 
 =head1 SYNOPSIS
 
-=over
-
-=item F<$ICEWM_PRIVCFG/preferences>
-
-=item F<$XDG_CONFIG_HOME/icewm/preferences>
-
-=item F<$HOME/.icewm/preferences>
-
-=item F</etc/icewm/preferences>
-
-=item F</usr/share/icewm/preferences>
-
-=back
+ $ICEWM_PRIVCFG/preferences
+ $XDG_CONFIG_HOME/icewm/preferences
+ $HOME/.icewm/preferences
+ /etc/icewm/preferences
+ /usr/share/icewm/preferences
 
 =head1 DESCRIPTION
 
@@ -855,7 +847,7 @@ Delay between power status updates (seconds).
 
 =back
 
-=head2 BUITTONS AND KEYS
+=head2 BUTTONS AND KEYS
 
 =over
 
@@ -1711,19 +1703,11 @@ Paint the background image over all multihead monitors combined.
 
 Locations for the F<preferences> file are as follows:
 
-=over
-
-=item F<$ICEWM_PRIVCFG/preferences>
-
-=item F<$XDG_CONFIG_HOME/icewm/preferences>
-
-=item F<$HOME/.icewm/preferences>
-
-=item F</etc/icewm/preferences>
-
-=item F</usr/share/icewm/preferences>
-
-=back
+ $ICEWM_PRIVCFG/preferences
+ $XDG_CONFIG_HOME/icewm/preferences
+ $HOME/.icewm/preferences
+ /etc/icewm/preferences
+ /usr/share/icewm/preferences
 
 =head1 SEE ALSO
 

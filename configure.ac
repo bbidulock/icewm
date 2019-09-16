@@ -2,8 +2,10 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([icewm],[1.5.2],[https://github.com/bbidulock/icewm/issues])
-AC_REVISION([1.5.2])
+AC_INIT([icewm],[1.6.1],
+        [https://github.com/bbidulock/icewm/issues],
+        [icewm],[https://ice-wm.org])
+AC_REVISION([1.6.1])
 AC_CONFIG_SRCDIR([src/ysmapp.cc])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
@@ -11,19 +13,19 @@ AC_CONFIG_AUX_DIR([scripts])
 AC_USE_SYSTEM_EXTENSIONS
 AC_CANONICAL_TARGET
 
-DATE='2019-02-04'
+DATE='2019-08-22'
 AC_SUBST([DATE])
 
-BRANCH='1.5.2'
+BRANCH='icewm-1-4-BRANCH'
 AC_SUBST([BRANCH])
 
-APPLICATIONS='icewm icewm-session icesh icewmhint icewmbg icewmtray icehelp'
+APPLICATIONS='icewm icewm-session icesh icewmhint icewmbg icehelp'
 TESTCASES=`echo src/test*.cc | sed 's%src/\([[^ ]]*\)\.cc%\1%g'`
 TESTCASES="$TESTCASES iceview icesame iceicon icerun icelist icebar" # iceclock
 features=''
 
 # Initialize Automake
-AM_INIT_AUTOMAKE([gnits 1.13.4 dist-xz no-dist-gzip std-options -Wall color-tests silent-rules tar-pax])
+AM_INIT_AUTOMAKE([gnits 1.13.4 dist-lzip no-dist-gzip std-options -Wall color-tests silent-rules tar-pax])
 AM_MAINTAINER_MODE
 AM_SILENT_RULES([yes])
 AC_PREFIX_DEFAULT([/usr])
@@ -320,7 +322,7 @@ AC_SUBST([GIO_CFLAGS])
 AC_SUBST([GIO_LIBS])
 
 AC_ARG_ENABLE([gdk-pixbuf],
-    AC_HELP_STRING([--disable-gdk-pixbuf],[Enable gdk-pixbuf rendering.
+    AC_HELP_STRING([--disable-gdk-pixbuf],[Disable gdk-pixbuf rendering.
 	@<:@default=enabled@:>@]))
 if test "x$enable_gdk_pixbuf" != xno ; then
     PKG_CHECK_MODULES([PIXBUF],[gdk-pixbuf-xlib-2.0],[
@@ -334,6 +336,11 @@ if test "x$enable_gdk_pixbuf" != xno ; then
 	AC_DEFINE([CONFIG_LIBRSVG],[1],[Define to enable librsvg rendering.])
 	image_library="$image_library librsvg-2.0"],
 	[AC_MSG_WARN([SVG is not supported.])])
+    PKG_CHECK_MODULES([XPM],[xpm],[
+	IMAGE_CFLAGS="$IMAGE_CFLAGS $XPM_CFLAGS"
+	IMAGE_LIBS="$IMAGE_LIBS $XPM_LIBS"
+	AC_DEFINE([CONFIG_XPM],[1],[Define to enable libxpm rendering.])
+	image_library="$image_library libxpm"])
 else
     PKG_CHECK_MODULES([XPM],[xpm],[
 	IMAGE_CFLAGS="$XPM_CFLAGS"
@@ -375,6 +382,7 @@ fi
 ICE_EXPAND([LIBDIR],[${with_libdir}])
 AC_DEFINE_UNQUOTED([LIBDIR],["${LIBDIR}"],
 	[Define to package data directory.])
+AC_SUBST([LIBDIR])
 
 AC_ARG_WITH([cfgdir],
     AC_HELP_STRING([--with-cfgdir=PATH],[Package configuration directory.
@@ -385,6 +393,7 @@ fi
 ICE_EXPAND([CFGDIR],[${with_cfgdir}])
 AC_DEFINE_UNQUOTED([CFGDIR],["${CFGDIR}"],
 	[Define to package configuration directory.])
+AC_SUBST([CFGDIR])
 
 AC_ARG_WITH([docdir],
     AC_HELP_STRING([--with-docdir=PATH],[Package documentation directory.
@@ -406,6 +415,11 @@ AC_ARG_WITH([theme],
                     with_theme="default/default.theme")
 AC_DEFINE_UNQUOTED([CONFIG_DEFAULT_THEME],
                    "${with_theme}",[Name of default theme])
+AC_ARG_WITH([xterm],
+    AC_HELP_STRING([--with-xterm=xterm],[Default X11 terminal emulator.]),
+        [],[with_xterm=xterm])
+AC_SUBST([XTERMCMD],[${with_xterm}])
+AC_DEFINE_UNQUOTED([XTERMCMD],[${with_xterm}],[Name of terminal emulator.])
 
 AC_DEFINE_UNQUOTED([HOSTOS],["${host_os}"],
 	[Define to the host operating system.])
@@ -458,9 +472,9 @@ ICE_MSG_VALUE([       BINDIR], bindir)
 ICE_MSG_VALUE([       LOCDIR], localedir)
 ICE_MSG_VALUE([       LIBDIR], LIBDIR)
 ICE_MSG_VALUE([       CFGDIR], CFGDIR)
-ICE_MSG_VALUE([       KDEDIR], kdedatadir)
 ICE_MSG_VALUE([       DOCDIR], DOCDIR)
 ICE_MSG_VALUE([       MANDIR], mandir)
+ICE_MSG_VALUE([       XTERMCMD], XTERMCMD)
 AC_MSG_RESULT([])
 
 # vim: set ft=config sw=4:

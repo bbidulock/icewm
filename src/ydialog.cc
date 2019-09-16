@@ -16,10 +16,10 @@ static YColorName dialogBg(&clrDialog);
 
 YDialog::YDialog(YWindow *owner):
     YFrameClient(0, 0),
+    fOwner(owner),
     fGradient(dialogbackPixbuf),
     fSurface(dialogBg, dialogbackPixmap, getGradient())
 {
-    fOwner = owner;
     setStyle(wsNoExpose);
     setNetWindowType(_XA_NET_WM_WINDOW_TYPE_DIALOG);
 }

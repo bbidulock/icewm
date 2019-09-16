@@ -6,19 +6,11 @@
 
 =head1 SYNOPSIS
 
-=over
-
-=item F<$ICEWM_PRIVCFG/env>
-
-=item F<$XDG_CONFIG_HOME/icewm/env>
-
-=item F<$HOME/.icewm/env>
-
-=item F</etc/icewm/env>
-
-=item F</usr/share/icewm/env>
-
-=back
+ $ICEWM_PRIVCFG/env
+ $XDG_CONFIG_HOME/icewm/env
+ $HOME/.icewm/env
+ /etc/icewm/env
+ /usr/share/icewm/env
 
 =head1 DESCRIPTION
 
@@ -48,19 +40,11 @@ followed by an equals sign, followed by the value (which may be empty).
 
 L<icewm-session(1)> looks for the F<env> file in the following locations:
 
-=over
-
-=item F<$ICEWM_PRIVCFG/env>
-
-=item F<$XDG_CONFIG_HOME/icewm/env>
-
-=item F<$HOME/.icewm/env>
-
-=item F</etc/icewm/env>
-
-=item F</usr/share/icewm/env>
-
-=back
+ $ICEWM_PRIVCFG/env
+ $XDG_CONFIG_HOME/icewm/env
+ $HOME/.icewm/env
+ /etc/icewm/env
+ /usr/share/icewm/env
 
 =head1 SEE ALSO
 

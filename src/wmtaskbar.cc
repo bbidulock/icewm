@@ -606,7 +606,7 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
         }
     }
     if (fAddressBar) {
-        int row = taskBarDoubleHeight ? 1 : 0;
+        int row = taskBarDoubleHeight;
 
         fAddressBar->setGeometry(YRect(left[row],
                                        y[row] + 2,

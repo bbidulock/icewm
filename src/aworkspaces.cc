@@ -1,3 +1,4 @@
+#include "config.h"
 #include "aworkspaces.h"
 #include "workspaces.h"
 #include "prefs.h"
@@ -258,7 +259,7 @@ long WorkspacesPane::limitWidth(long paneWidth) {
         long num = strtol(str, &end, 0);
         if (end && str < end && inrange(num, 0L, long(SHRT_MAX))) {
             maxPixels = max(50L, long(desktop->width()) - x() - 20L);
-            maxButtons = maxPixels * count() / paneWidth;
+            maxButtons = maxPixels * count() / non_zero(paneWidth);
             maxPercent = 100L * maxPixels / desktop->width();
             if (*end == ' ')
                 ++end;
@@ -271,7 +272,7 @@ long WorkspacesPane::limitWidth(long paneWidth) {
             if (*end == '%' && inrange(num, 0L, 100L)) {
                 maxPercent = num;
                 maxPixels = maxPercent * desktop->width() / 100L;
-                maxButtons = maxPixels * count() / paneWidth;
+                maxButtons = maxPixels * count() / non_zero(paneWidth);
             }
         }
     }
@@ -370,8 +371,8 @@ void WorkspacesPane::configure(const YRect2& r) {
 }
 
 void WorkspacesPane::updateButtons() {
-    MSG(("WorkspacesPane::udpateButtons(): updating %ld -> %ld",
-         count(), workspaceCount));
+    MSG(("WorkspacesPane::udpateButtons(): updating %d -> %d",
+         count(), int(workspaceCount)));
 
     if (count() > workspaceCount)
         fButtons.shrink(max<int>(1, workspaceCount));

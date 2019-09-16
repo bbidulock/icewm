@@ -396,6 +396,11 @@ extern Atom _XA_SM_CLIENT_ID;
 extern Atom _XA_UTF8_STRING;
 
 extern Atom _XA_ICEWM_ACTION;
+extern Atom _XA_ICEWM_GUIEVENT;
+extern Atom _XA_ICEWM_HINT;
+extern Atom _XA_ICEWM_FONT_PATH;
+extern Atom _XA_XROOTPMAP_ID;
+extern Atom _XA_XROOTCOLOR_PIXEL;
 
 /// _SET would be nice to have
 #define _NET_WM_STATE_REMOVE 0

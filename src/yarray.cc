@@ -13,6 +13,7 @@
  *  - introduced YStringArray
  */
 
+#include "config.h"
 #include "mstring.h"
 #include "yarray.h"
 #include <string.h>

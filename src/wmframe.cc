@@ -33,8 +33,9 @@ lazy<YTimer> YFrameWindow::fAutoRaiseTimer;
 lazy<YTimer> YFrameWindow::fDelayFocusTimer;
 
 YFrameWindow::YFrameWindow(
-    YActionListener *wmActionListener)
-    : YWindow(nullptr, None, xapp->depth(), xapp->visual(), xapp->colormap())
+    YActionListener *wmActionListener, unsigned dep, Visual* vis, Colormap col)
+    : YWindow(nullptr, None, dep ? dep : xapp->depth(),
+              vis ? vis : xapp->visual(), col ? col : xapp->colormap())
 {
     this->wmActionListener = wmActionListener;
 
@@ -101,6 +102,7 @@ YFrameWindow::YFrameWindow(
     fTitleBar = 0;
 
     fUserTimeWindow = None;
+    fStartManaged = xapp->getEventTime("frame");
 
     fFullscreenMonitorsTop = -1;
     fFullscreenMonitorsBottom = -1;
@@ -1669,7 +1671,7 @@ void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
     case lookFlat:
     case lookGtk:
         {
-            int n = focused() ? 1 : 0;
+            int n = focused();
             int t = (frameDecors() & fdResize) ? 0 : 1;
 
             if ((frameT[t][n] != null || rgbFrameT[t][n] != null) &&
@@ -1875,7 +1877,7 @@ void YFrameWindow::updateAllowed() {
 //      atoms[i++] = _XA_NET_WM_ACTION_HIDE;
     if ((fFrameFunctions & ffRollup) || (fFrameDecors & fdRollup))
         atoms[i++] = _XA_NET_WM_ACTION_SHADE;
-    if ((1) || (fFrameDecors & fdDepth)) {
+    if (true || (fFrameDecors & fdDepth)) {
         atoms[i++] = _XA_NET_WM_ACTION_ABOVE;
         atoms[i++] = _XA_NET_WM_ACTION_BELOW;
     }
@@ -2723,7 +2725,7 @@ void YFrameWindow::updateDerivedSize(long flagmask) {
 
     Mh -= titleYN();
 
-    if (1) { // aspect of maximization
+    if (true) { // aspect of maximization
         int aMw, aMh;
         aMw = Mw;
         aMh = Mh;

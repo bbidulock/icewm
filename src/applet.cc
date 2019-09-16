@@ -1,3 +1,4 @@
+#include "config.h"
 #include "ywindow.h"
 #include "applet.h"
 #include "yxapp.h"
