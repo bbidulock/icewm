@@ -1,16 +1,87 @@
-icewm -- history of user-visible changes.  2019-08-22
+icewm -- history of user-visible changes.  2019-09-17
+
+Release icewm-1.6.2 released 2019-09-17
+---------------------------------------
+
+git shortlog -e -n -w80,6,8 1.6.1...1.6.2
+
+Bert Gijsbers <gijsbers@science.uva.nl> (42):
+      Update to 1.6.1. Prefer lzip over xz due to popular demand.
+      Silence icehelp.
+      Restore use of ColorQuickSwitchActive for vertical switching for issue
+        #375.
+      Fix getWorkspace for sticky. Fix getOpacity. Find TaskBar with -T. Make
+        sync a manager action and check if IceWM is running.
+      IceWM splash image.
+      Update README.md from README.md.in.
+      install IceWM.jpg.
+      Add --with-xterm= to configure and -DXTERMCMD= to CMake build for issue
+        #379.
+      Always use XTERMCMD in place of xterm to remove hard dependency on xterm
+        for issue #379.
+      +addWorkspace, prop, -Prop, -Role.
+      Enable tilde and $HOME expansion for icon paths.
+      For 32-bit applications always create a 32-bit frame for issue #381.
+      add WinStateMaximizedBoth
+      add setAtomName.
+      Concentrate all properties in yxapp. When creating a frame record event
+        time. Synchronize YFrameOptions values with WinState from WinMgr.h. Sort
+        atom names by number and create a fast local atom name lookup.
+      Log atoms as strings.
+      Document icewm-session behavior.
+      add SEE ALSO.
+      catch font.
+      Fix font corruption for 32-bit alpha for #381.
+      prevent division by zero.
+      types
+      dialog owner.
+      Let icon draw itself.
+      Changes for Pidgin for #382.
+      use names for AC status.
+      fix type
+      fix types
+      implicitly convert bool to int.
+      Prevent user confusion about image modules and postpone yximage as default
+        until improvements have been made for issue #385.
+      Require libXPM for cursors for issue #384.
+      Only compile if not gdk-pixbuf for cursors for #384.
+      Restore support for themable cursors for #384.
+      REDIR_ROOT is no longer useful.
+      Cursors require XPM or Imlib for #384.
+      expand LIBDIR and PACKAGE
+      Substitute CFGDIR in pod output.
+      Set PACKAGE_URL. Drop icewmtray and KDEDIR. Substitute LIBDIR, CFGDIR and
+        XTERMCMD.
+      Substitute CFGDIR and LIBDIR. Substitute xterm for XTERMCMD for #379.
+      Substitute installation directories.
+      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge branch 'icewm-1-4-BRANCH'
+
+Eduard Bloch <blade@debian.org> (5):
+      [cmake] Make check of mandatory X libs strict
+      Fix config.h inclusion where missing
+      Fix direct inclusion of stdlib.h for strtok
+      Fix -Wstringop-truncation warning with gcc 9.2
+      Add explicit copy operator
+
+micrococo <micrococo@users.noreply.github.com> (2):
+      Fix some typos in documentation (#378)
+      Update Spanish translation of desktop files (#380)
+
 
 Release icewm-1.6.1 released 2019-08-22
 ---------------------------------------
 
 git shortlog -e -n -w80,6,8 1.6.0...1.6.1
 
-Bert Gijsbers <gijsbers@science.uva.nl> (4):
+Bert Gijsbers <gijsbers@science.uva.nl> (5):
       Clear GraphicsBuffer so we can have a transparent taskbar in issue #299.
       Don't composite systray when using 24-bit RGB visuals for issue #374.
       Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
         icewm-1-4-BRANCH
       Merge branch 'icewm-1-4-BRANCH'
+      Prepare 1.6.1 release
 
 Aleš Kastner <alkas@volny.cz> (1):
       Translated using Weblate (Czech)
@@ -467,44 +538,4 @@ openSUSE Weblate <weblate-noreply@opensuse.org> (1):
 
 wisememo <46960734+wisememo@users.noreply.github.com> (1):
       Update zh_TW.po (#332)
-
-
-Release icewm-1.5.1 released 2019-01-05
----------------------------------------
-
-git shortlog -e -n -w80,6,8 1.5.0...1.5.1
-
-Benny Siegert <bsiegert@gmail.com> (3):
-      Add libpng and libxpm to flag fixup stanza.
-      Link genpref and icewm-session against gettext.
-      Check sndfile.h with audio_flags.
-
-Bert Gijsbers <gijsbers@science.uva.nl> (2):
-      merge updated translations and NetBSD portability fixes.
-      prepare 1.5.1 release
-
-openSUSE Weblate <weblate-noreply@opensuse.org> (2):
-      Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
-      Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
-
-Alessio Adamo <alessio.adamo@gmail.com> (1):
-      Translated using Weblate (Italian)
-
-Code7R <Code7R@users.noreply.github.com> (1):
-      Merge pull request #325 from bsiegert/genpref
-
-Dingzhong Chen <wsxy162@gmail.com> (1):
-      Translated using Weblate (Chinese (China))
-
-Dmitriy Khanzhin <dmitriy.khanzhin@gmail.com> (1):
-      Translated using Weblate (Russian)
-
-Jorge Gallegos Carrasco <jcarrascochih@gmail.com> (1):
-      Translated using Weblate (Spanish)
-
-nikoss <nikoss@users.noreply.github.com> (1):
-      Greek translation 002 (#327)
-
-scootergrisen <scootergrisen@gmail.com> (1):
-      Translated using Weblate (Danish)
 
