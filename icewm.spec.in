@@ -64,7 +64,7 @@ GNOME 1.0 menu support for icewm (using gnome 2.x).
   make
 
 %install
-  make DESTDIR=$RPM_BUILD_ROOT install install-desktop
+  make DESTDIR=$RPM_BUILD_ROOT install install-data
   mkdir -p $RPM_BUILD_ROOT/etc/icewm
 
 %clean
