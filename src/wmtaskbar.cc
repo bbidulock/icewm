@@ -208,7 +208,7 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     getClassHint();
     fIsMapped = true;
 
-    TLOG(("taskbar"));
+    MSG(("taskbar"));
 }
 
 TaskBar::~TaskBar() {

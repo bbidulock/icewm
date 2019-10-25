@@ -127,7 +127,7 @@ YWindowManager::~YWindowManager() {
 
 void YWindowManager::setWmState(WMState newWmState) {
     if (fWmState != newWmState) {
-        TLOG(("wmstate %d", newWmState));
+        MSG(("wmstate %d", newWmState));
         fWmState = newWmState;
     }
 }
@@ -2201,7 +2201,7 @@ void YWindowManager::updateWorkAreaInner() {
 
     bool resize = false;
     if (changed) {
-        TLOG(("announceWorkArea"));
+        MSG(("announceWorkArea"));
         announceWorkArea();
         long spaces = min(fWorkAreaWorkspaceCount, oldWorkAreaWorkspaceCount);
         int screens = min(fWorkAreaScreenCount, oldWorkAreaScreenCount);
@@ -2230,7 +2230,7 @@ void YWindowManager::updateWorkAreaInner() {
         delete [] oldWorkArea;
     }
     if (resize) {
-        TLOG(("resizeWindows"));
+        MSG(("resizeWindows"));
         resizeWindows();
     }
 }
