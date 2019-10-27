@@ -45,12 +45,6 @@ TaskBar *taskBar = 0;
 
 YColorName taskBarBg(&clrDefaultTaskBar);
 
-static void initPixmaps() {
-    if (taskbarStartImage == null || !taskbarStartImage->valid())
-        taskbarStartImage = taskbarLinuxImage;
-}
-
-
 EdgeTrigger::EdgeTrigger(TaskBar *owner):
     fTaskBar(owner),
     fDoShow(false)
@@ -151,8 +145,6 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     taskBar = this;
 
     ///setToplevel(true);
-
-    initPixmaps();
 
     setStyle(wsNoExpose);
     //!!!setWinStateHint(WinStateDockHorizontal, WinStateDockHorizontal);

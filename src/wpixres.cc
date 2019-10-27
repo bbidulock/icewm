@@ -26,29 +26,33 @@ private:
     ref<YImage>  *imageRef;
     const char   *filename;
     const char   *alternative;
+    const char   *other;
 
 protected:
     ResourceFlag  isGradient;
 
 public:
     PixmapResource(ref<YPixmap>& p, ref<YImage>& i,
-            const char *n, const char *a = 0) :
-        pixmapRef(&p), imageRef(&i), filename(n), alternative(a)
+            const char *n, const char *a = nullptr, const char *o = nullptr) :
+        pixmapRef(&p), imageRef(&i), filename(n), alternative(a), other(o)
     { }
 
-    PixmapResource(ref<YPixmap>& p, const char *n, const char *a = 0) :
-        pixmapRef(&p), imageRef(0), filename(n), alternative(a)
+    PixmapResource(ref<YPixmap>& p,
+            const char *n, const char *a = nullptr, const char *o = nullptr) :
+        pixmapRef(&p), imageRef(0), filename(n), alternative(a), other(o)
     { }
 
-    PixmapResource(ref<YImage>& i, const char *n, const char *a = 0) :
-        pixmapRef(0), imageRef(&i), filename(n), alternative(a)
+    PixmapResource(ref<YImage>& i,
+            const char *n, const char *a = nullptr, const char *o = nullptr) :
+        pixmapRef(0), imageRef(&i), filename(n), alternative(a), other(o)
     { }
 
     bool nameEqual(const char *str) const {
         return checkName(filename, str);
     }
     bool altEqual(const char *str) const {
-        return alternative && str && checkName(alternative, str);
+        return (alternative && str && checkName(alternative, str))
+            || (other && str && checkName(other, str));
     }
     bool needPixmap() const { return pixmapRef != 0 && *pixmapRef == null; }
     bool needImage() const { return imageRef != 0 && *imageRef == null; }
@@ -274,8 +278,7 @@ static const PixmapResource taskbar2PixRes[] = {
     PixmapResource(taskbuttonactivePixmap, "taskbuttonactive.xpm"),
     PixmapResource(taskbuttonminimizedPixmap, "taskbuttonminimized.xpm"),
 
-    PixmapResource(taskbarStartImage, "start.xpm", "icewm.xpm"),
-    PixmapResource(taskbarLinuxImage, "linux.xpm"),     // deprecated
+    PixmapResource(taskbarStartImage, "start.xpm", "icewm.xpm", "linux.xpm"),
     PixmapResource(taskbarWindowsImage, "windows.xpm"),
     PixmapResource(taskbarShowDesktopImage, "desktop.xpm"),
     PixmapResource(taskbarCollapseImage, "collapse.xpm"),
@@ -355,19 +358,44 @@ void PixmapsDescription::altL(const upath& file, const char *ent) {
     }
 }
 
+inline const char* extension(const char* filename) {
+    return Elvis<const char*>(strrchr(filename, '.'), "");
+}
+
 void PixmapsDescription::scan(const upath& path) {
+    YStringArray xpm(80), png(80);
     upath subdir(path + this->subdir);
-    cdir dir(subdir.string());
-    while (dir.nextExt(".xpm")) {
-        const char *ent = dir.entry();
-        upath file(subdir + ent);
-        load(file, ent);
+    for (cdir dir(subdir.string()); dir.next(); ) {
+        const char* ext = extension(dir.entry());
+        if (0 == strcmp(ext, ".xpm")) {
+            xpm += dir.entry();
+        }
+        else if (0 == strcmp(ext, ".png")) {
+            png += dir.entry();
+        }
     }
-    dir.rewind();
-    while (dir.nextExt(".xpm")) {
-        const char *ent = dir.entry();
-        upath file(subdir + ent);
-        altL(file, ent);
+    for (int loop = 0; loop < 2; ++loop) {
+        for (YStringArray::IterType iter = xpm.iterator(); ++iter; ) {
+            upath file(subdir + *iter);
+            if (loop == 0)
+                load(file, *iter);
+            else
+                altL(file, *iter);
+        }
+    }
+    for (int loop = 0; loop < 2; ++loop) {
+        for (YStringArray::IterType iter = png.iterator(); ++iter; ) {
+            upath file(subdir + *iter);
+            const size_t size = 256;
+            char copy[size];
+            strlcpy(copy, *iter, size);
+            size_t len = strlen(copy);
+            strlcpy(copy + len - 4, ".xpm", size - len + 4);
+            if (loop == 0)
+                load(file, copy);
+            else
+                altL(file, copy);
+        }
     }
 }
 
