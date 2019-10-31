@@ -3453,6 +3453,10 @@ void YWindowManager::UpdateScreenSize(XEvent *event) {
         if (taskBar && pagerShowPreview) {
             taskBar->workspacesUpdateButtons();
         }
+        if (taskBar) {
+            taskBar->relayout();
+            taskBar->relayoutNow();
+        }
         for (int i = 0; i < edges.getCount(); ++i)
             edges[i]->setGeometry();
 
