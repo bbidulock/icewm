@@ -1356,9 +1356,7 @@ void YWindowManager::placeWindow(YFrameWindow *frame,
                                  int x, int y,
                                  int cw, int ch,
                                  bool newClient, bool &
-#ifdef CONFIG_SESSION
                                  doActivate
-#endif
                                 )
 {
     YFrameClient *client = frame->client();
