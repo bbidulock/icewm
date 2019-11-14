@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.14\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2019-08-17 12:39+0200\n"
-"PO-Revision-Date: 2019-10-06 00:52+0000\n"
+"PO-Revision-Date: 2019-11-14 19:53+0000\n"
 "Last-Translator: Kimmo Kujansuu <mrkujansuu@gmail.com>\n"
 "Language-Team: Finnish <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/fi/>\n"
@@ -38,20 +38,20 @@ msgstr "C"
 
 #: src/aapm.cc:450
 msgid " - Full"
-msgstr ""
+msgstr " - Täysi"
 
 #: src/aapm.cc:998
 #, c-format
 msgid "power:\t%s"
-msgstr ""
+msgstr "virta:\t%s"
 
 #: src/aclock.cc:173
 msgid "CLOCK"
-msgstr ""
+msgstr "KELLO"
 
 #: src/aclock.cc:177
 msgid "Date"
-msgstr ""
+msgstr "Päivämäärä"
 
 #: src/aclock.cc:178 src/themes.cc:78
 msgid "Default"
@@ -60,7 +60,7 @@ msgstr "Oletus"
 #: src/aclock.cc:179 src/acpustatus.cc:862 src/amailbox.cc:952
 #: src/amemstatus.cc:264
 msgid "_Disable"
-msgstr ""
+msgstr "_Pois"
 
 #: src/aclock.cc:180
 msgid "_UTC"
@@ -83,7 +83,7 @@ msgstr ""
 #: src/acpustatus.cc:303
 #, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
-msgstr ""
+msgstr "CPU %s Kuorma: %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:309
 #, c-format
@@ -91,6 +91,8 @@ msgid ""
 "\n"
 "Ram (free): %5.3f (%.3f) G"
 msgstr ""
+"\n"
+"Muisti (vapaa): %5.3f (%.3f) G"
 
 #: src/acpustatus.cc:314
 #, c-format
@@ -98,6 +100,8 @@ msgid ""
 "\n"
 "Swap (free): %.3f (%.3f) G"
 msgstr ""
+"\n"
+"Swap (vapaa): %.3f (%.3f) G"
 
 #: src/acpustatus.cc:320
 #, c-format
@@ -105,6 +109,8 @@ msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
+"\n"
+"ACPI Lämpö: "
 
 #: src/acpustatus.cc:339 src/acpustatus.cc:379
 #, c-format
@@ -112,15 +118,16 @@ msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
+"\n"
+"CPU Taajuus: %.3fGHz"
 
 #: src/acpustatus.cc:356 src/acpustatus.cc:858
 msgid "CPU"
 msgstr ""
 
 #: src/acpustatus.cc:356
-#, fuzzy
 msgid "Load: "
-msgstr "Prosessorikuorma: "
+msgstr "Kuorma: "
 
 #: src/acpustatus.cc:371
 #, c-format
@@ -128,6 +135,8 @@ msgid ""
 "\n"
 "Ram (user): %5.3f (%.3f) G"
 msgstr ""
+"\n"
+"Muisti (käyttäjä): %5.3f (%.3f) G"
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
@@ -147,11 +156,11 @@ msgstr ""
 
 #: src/acpustatus.cc:864
 msgid "_Combine"
-msgstr ""
+msgstr "_Yhdistetty"
 
 #: src/acpustatus.cc:866
 msgid "_Separate"
-msgstr ""
+msgstr "_Erikseen"
 
 #: src/amailbox.cc:62
 #, c-format
@@ -166,32 +175,32 @@ msgstr "Virheellinen postilaatikon polku: \"%s\""
 #: src/amailbox.cc:133
 #, c-format
 msgid "DNS name lookup failed for %s"
-msgstr ""
+msgstr "DNS-nimen haku epäonnistui %s"
 
 #: src/amailbox.cc:149
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid mailbox port: \"%s\""
-msgstr "Virheellinen postilaatikon polku: \"%s\""
+msgstr "Virheellinen postilaatikon portti: \"%s\""
 
 #: src/amailbox.cc:307
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to %s: %s"
-msgstr "YIFF-palvelimeen ei voitu yhdistää: %s"
+msgstr "Yhteys epäonnistui %s: %s"
 
 #: src/amailbox.cc:324
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to find %s command"
-msgstr "%s suorittaminen epäonnistui: %s"
+msgstr "Komentoa %s ei löytynyt"
 
 #: src/amailbox.cc:351
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to execute %s"
-msgstr "%s avaaminen epäonnistui: %s"
+msgstr "Suorittaminen epäonnistui %s"
 
 #: src/amailbox.cc:435
 #, c-format
 msgid "Write to socket failed: %s"
-msgstr ""
+msgstr "Kirjoitus kantaan epäonnistui: %s"
 
 #: src/amailbox.cc:681
 #, c-format
@@ -200,21 +209,21 @@ msgstr "Käytetään postilaatikkoa \"%s\"\n"
 
 #: src/amailbox.cc:808
 msgid "Suspended"
-msgstr ""
+msgstr "Keskeytetty"
 
 #: src/amailbox.cc:812
 msgid "Error checking mailbox."
 msgstr "Virhe postilaatikon tarkistuksessa."
 
 #: src/amailbox.cc:819
-#, fuzzy, c-format
+#, c-format
 msgid "%ld mail message, %ld unread."
-msgstr "%ld viesti."
+msgstr "%ld sähköpostiviesti, %ld lukematon."
 
 #: src/amailbox.cc:820
-#, fuzzy, c-format
+#, c-format
 msgid "%ld mail messages, %ld unread."
-msgstr "%ld viestiä."
+msgstr "%ld sähköpostiviestit, %ld lukematon."
 
 #: src/amailbox.cc:826
 #, c-format
@@ -228,23 +237,23 @@ msgstr "%ld viestiä."
 
 #: src/amailbox.cc:950
 msgid "MAIL"
-msgstr ""
+msgstr "POSTI"
 
 #: src/amailbox.cc:951
 msgid "_Check"
-msgstr ""
+msgstr "_Tarkista"
 
 #: src/amailbox.cc:953
 msgid "_Suspend"
-msgstr ""
+msgstr "_Keskeytä"
 
 #: src/amemstatus.cc:145
 msgid "GB"
-msgstr ""
+msgstr "Gt"
 
 #: src/amemstatus.cc:149
 msgid "MB"
-msgstr ""
+msgstr "Mt"
 
 #: src/amemstatus.cc:153
 msgid "kB"
@@ -252,34 +261,34 @@ msgstr ""
 
 #: src/amemstatus.cc:157
 msgid "bytes"
-msgstr ""
+msgstr "tavua"
 
 #: src/amemstatus.cc:177
 msgid "Memory Total: "
-msgstr ""
+msgstr "Muisti yhteensä: "
 
 #: src/amemstatus.cc:178
 msgid "Free: "
-msgstr ""
+msgstr "Vapaa: "
 
 #: src/amemstatus.cc:179
 msgid "Cached: "
-msgstr ""
+msgstr "Välimuistissa: "
 
 #: src/amemstatus.cc:180
 msgid "Buffers: "
-msgstr ""
+msgstr "Puskurissa: "
 
 #: src/amemstatus.cc:181
 msgid "User: "
-msgstr ""
+msgstr "Käyttäjä: "
 
 #: src/amemstatus.cc:263
 msgid "MEM"
-msgstr ""
+msgstr "MUISTI"
 
 #: src/apppstatus.cc:199
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Interface %s:\n"
 "  Current rate (in/out):\t%li %s/%li %s\n"
@@ -303,7 +312,7 @@ msgstr ""
 
 #: src/apppstatus.cc:712
 msgid "NET"
-msgstr ""
+msgstr "NETTI"
 
 #: src/aworkspaces.cc:584 src/wmstatus.cc:200
 msgid "Workspace: "
@@ -363,33 +372,31 @@ msgstr ""
 
 #: src/icehelp.cc:1233
 msgid "FAQ"
-msgstr ""
+msgstr "OHJE"
 
 #: src/icehelp.cc:1235
 msgid "Manual"
-msgstr ""
+msgstr "Manuaali"
 
 #: src/icehelp.cc:1237
 msgid "Support"
-msgstr ""
+msgstr "Tuki"
 
 #: src/icehelp.cc:1239
-#, fuzzy
 msgid "Theme Howto"
-msgstr "Teeman tekijä:"
+msgstr "Teeman tekijä"
 
 #: src/icehelp.cc:1241
 msgid "Website"
-msgstr ""
+msgstr "Verkkosivusto"
 
 #: src/icehelp.cc:1243
 msgid "Github"
 msgstr ""
 
 #: src/icehelp.cc:1944
-#, fuzzy
 msgid "Unsupported protocol."
-msgstr "Liitäntää ei tueta: %s."
+msgstr "Protokollaa ei tueta."
 
 #: src/icehelp.cc:1969
 #, c-format
@@ -398,34 +405,33 @@ msgstr "Virheellinen polku: %s\n"
 
 #: src/icehelp.cc:1992
 msgid "Path does not refer to a file."
-msgstr ""
+msgstr "Polku ei viittaa tiedostoon."
 
 #: src/icehelp.cc:1997
 msgid "Failed to open file for reading."
-msgstr ""
+msgstr "Tiedostoa ei voitu avata."
 
 #: src/icehelp.cc:2026
-#, fuzzy
 msgid "Failed to create a temporary file"
-msgstr "Nimettömän putken luominen epäonnistui: %s"
+msgstr "Väliaikaisen tiedoston luominen epäonnistui"
 
 #: src/icehelp.cc:2118
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
-msgstr ""
+msgstr "Järjestelmän suorittaminen epäonnistui(%s) (%d)"
 
 #: src/icehelp.cc:2141
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to decompress %s"
-msgstr "%s avaaminen epäonnistui: %s"
+msgstr "Purkaminen epäonnistui %s"
 
 #: src/icehelp.cc:2149
 msgid "Could not locate curl or wget in PATH"
-msgstr ""
+msgstr "Curl-tai wget-polkua ei löydy"
 
 #: src/icehelp.cc:2153
 msgid "Unsafe characters in URL"
-msgstr ""
+msgstr "Kelvottomat merkit URL-osoitteessa"
 
 #: src/icehelp.cc:2190
 #, c-format
@@ -466,9 +472,9 @@ msgid ""
 msgstr ""
 
 #: src/icehelp.cc:2267
-#, fuzzy, c-format
+#, c-format
 msgid "Ignoring option '%s'"
-msgstr "Tuntematon toiminto: `%s'"
+msgstr "Tuntematon toiminto '%s'"
 
 #: src/icelist.cc:80
 msgid "List View"
@@ -500,7 +506,7 @@ msgstr "Ctrl+N"
 
 #: src/icesame.cc:60
 msgid "Restart"
-msgstr "Uudelleenkäynnistä"
+msgstr "Käynnistä"
 
 #: src/icesame.cc:60
 msgid "Ctrl+R"
@@ -508,11 +514,11 @@ msgstr "Ctrl+R"
 
 #: src/icesame.cc:65
 msgid "Same Game"
-msgstr "IceSAMA"
+msgstr "Sama Peli"
 
 #: src/icesh.cc:63
 msgid "For help please consult the man page icesh(1).\n"
-msgstr ""
+msgstr "Katso ohjeet man-sivulta icesh(1).\n"
 
 #: src/icesh.cc:1095
 #, c-format
@@ -525,9 +531,9 @@ msgid "Invalid workspace name: `%s'"
 msgstr "Virheellinen työpöydän nimi: `%s'"
 
 #: src/icesh.cc:1236
-#, fuzzy, c-format
+#, c-format
 msgid "Workspace out of range: %ld"
-msgstr "Työpöytä arvoalueen ulkopuolella: %d"
+msgstr "Työpöytä arvoalueen ulkopuolella: %ld"
 
 #: src/icesh.cc:1442
 msgid "GNOME window state"
@@ -547,19 +553,15 @@ msgstr "IceWM tarjotinoptio"
 
 #: src/icesh.cc:1446
 msgid "Gravity symbols"
-msgstr ""
+msgstr "Gravity symbolit"
 
 #: src/icesh.cc:1447
-#, fuzzy
-#| msgid "Favorite applications"
 msgid "Motif functions"
-msgstr "Sovellukset"
+msgstr "Motif-funktiot"
 
 #: src/icesh.cc:1448
-#, fuzzy
-#| msgid "Favorite applications"
 msgid "Motif decorations"
-msgstr "Sovellukset"
+msgstr "Motif kehykset"
 
 #: src/icesh.cc:1527
 #, c-format
@@ -585,10 +587,9 @@ msgstr ""
 "asetettu."
 
 #: src/icesh.cc:2362
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'."
+#, c-format
 msgid "Invalid argument: `%s'"
-msgstr "Virheellinen argumentti: `%s'."
+msgstr "Virheellinen argumentti: `%s'"
 
 #: src/icesh.cc:2402
 msgid "No actions specified."
@@ -630,20 +631,19 @@ msgid "Unknown option '%s'"
 msgstr "Tuntematon toiminto: `%s'"
 
 #: src/icesm.cc:331 src/icesm.cc:449
-#, fuzzy, c-format
-#| msgid "Restart"
+#, c-format
 msgid "restart %s."
-msgstr "Uudelleenkäynnistä"
+msgstr "Käynnistä %s."
 
 #: src/icesm.cc:337
 #, c-format
 msgid "%s exited with status %d."
-msgstr ""
+msgstr "%s poistunut tila %d."
 
 #: src/icesm.cc:343 src/icesm.cc:455
 #, c-format
 msgid "%s was killed by signal %d."
-msgstr ""
+msgstr "%s sai surmansa lähetteellä %d."
 
 #: src/icesm.cc:377
 msgid ""
