@@ -98,7 +98,7 @@ $(icewm_man1_htmls) $(extra_man1_htmls): %.1.html: %.pod
 		--outfile=$@ \
 		--quiet \
 		--title="User Commands" && \
-	$(SED) -i -r \
+	$(SED) -i.bak -r \
 		-e 's,http://man.he.net/man(.)/(ice[^"]*),\2.\1.html,g' \
 		-e 's,man.he.net/man(.)/([^"]*),manned.org/\2.\1,g' \
 		-e 's,([^a-z/])/usr/share/icewm,\1$(LIBDIR),' \
@@ -122,7 +122,7 @@ $(icewm_man5_htmls): %.5.html: %.pod
 		--outfile=$@ \
 		--quiet \
 		--title="Standards, Environments and Macros" && \
-	$(SED) -i -r \
+	$(SED) -i.bak -r \
 		-e 's,http://man.he.net/man(.)/(ice[^"]*),\2.\1.html,g' \
 		-e 's,man.he.net/man(.)/([^"]*),manned.org/\2.\1,g' \
 		-e 's,([^a-z/])/usr/share/icewm,\1$(LIBDIR),' \
@@ -144,7 +144,7 @@ $(icewm_man1_files) $(extra_man1_files): %.man: %.pod
 		--release="$(PACKAGE) $(VERSION)" \
 		--section="1" \
 		$< $@ && \
-	$(SED) -i -r \
+	$(SED) -i.bak -r \
 		-e 's,([^a-z/])/usr/share/icewm,\1$(LIBDIR),' \
 		-e 's,([^a-z/])/etc/icewm,\1$(CFGDIR),' \
 		-e 's,([^A-Z/])CFGDIR/,\1$(CFGDIR)/,g' \
@@ -163,7 +163,7 @@ $(icewm_man5_files): %.man: %.pod
 		--release="$(PACKAGE) $(VERSION)" \
 		--section="5" \
 		$< $@ && \
-	$(SED) -i -r \
+	$(SED) -i.bak -r \
 		-e 's,([^a-z/])/usr/share/icewm,\1$(LIBDIR),' \
 		-e 's,([^a-z/])/etc/icewm,\1$(CFGDIR),' \
 		-e 's,([^A-Z/])CFGDIR/,\1$(CFGDIR)/,g' \
