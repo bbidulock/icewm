@@ -1696,8 +1696,11 @@ Paint the background image over all multihead monitors combined.
     AutoHideDelay=900
     AutoShowDelay=100
     EdgeResistance=3
-    KeySysMenu="Multi_key"
+    KeySysWinMenu=""
     KeySysWinListMenu="Shift+Ctrl+Esc"
+
+The above example shows how to tell B<icewm> to not bind a specific key:
+I<KeySysWinMenu> in this case.
 
 =head1 FILES
 
