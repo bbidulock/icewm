@@ -381,7 +381,9 @@ public:
         }
     }
 
-    virtual ~MStringArray();
+    virtual ~MStringArray() {
+        clear();
+    }
 
     void append(mstring item) {
         item.acquire();

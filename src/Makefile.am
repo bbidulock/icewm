@@ -41,10 +41,7 @@ bin_PROGRAMS = \
 	icesh \
 	icehelp \
 	icewmhint \
-	icewmbg \
-	icewmtray
-
-AM_INSTALLCHECK_STD_OPTIONS_EXEMPT = icewmtray
+	icewmbg
 
 noinst_PROGRAMS = \
 	genpref
@@ -71,6 +68,11 @@ endif
 
 if BUILD_MENU_FDO
 bin_PROGRAMS += icewm-menu-fdo
+endif
+
+if BUILD_ICEWMTRAY
+bin_PROGRAMS += icewmtray
+AM_INSTALLCHECK_STD_OPTIONS_EXEMPT = icewmtray
 endif
 
 libice_la_SOURCES = \
@@ -253,6 +255,7 @@ icewm_SOURCES = \
 	wmclient.h \
 	wmmgr.cc \
 	wmmgr.h \
+	workspaces.h \
 	appnames.h \
 	guievent.h \
 	wmapp.cc \

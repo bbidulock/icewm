@@ -13,6 +13,7 @@
  *  - introduced YStringArray
  */
 
+#include "config.h"
 #include "mstring.h"
 #include "yarray.h"
 #include <string.h>
@@ -75,11 +76,11 @@ void YBaseArray::insert(const SizeType index, const void *item) {
     if (nElements != fElements && fElements)
         memcpy(nElements, fElements, min(index, fCount) * fElementSize);
 
-    if (index < fCount)
+    if (index < fCount && fElements)
         memmove(nElements + (index + 1) * fElementSize,
                 fElements + (index) * fElementSize,
                 (fCount - index) * fElementSize);
-    else if (fCount < index)
+    else if (fCount < index && nElements)
         memset(nElements + fCount * fElementSize,
                0, (index - fCount) * fElementSize);
 
@@ -145,8 +146,10 @@ void YBaseArray::swap(YBaseArray& other) {
 void YBaseArray::operator=(const YBaseArray& other) {
     if (this != &other) {
         clear();
-        setCapacity(other.getCount());
-        memcpy(fElements, other.fElements, fCount * fElementSize);
+        if (other.nonempty()) {
+            setCapacity(other.getCount());
+            memcpy(fElements, other.fElements, fCount * fElementSize);
+        }
     }
 }
 
@@ -242,10 +245,6 @@ static int mstring_compare(const void *p1, const void *p2)
 void MStringArray::sort() {
     if (1 < getCount())
         qsort(getItemPtr(0), getCount(), sizeof(mstring), mstring_compare);
-}
-
-MStringArray::~MStringArray() {
-    clear();
 }
 
 // vim: set sw=4 ts=4 et:

@@ -2,11 +2,11 @@
 #define __WMWINMENU_H
 
 class WindowListMenu: public YMenu {
+    typedef YMenu super;
 public:
-    WindowListMenu(IApp *app, YWindow *parent = 0);
+    WindowListMenu(YActionListener *app, YWindow *parent = 0);
     virtual void updatePopup();
-private:
-    IApp *app;
+    virtual void activatePopup(int flags);
 };
 
 #endif

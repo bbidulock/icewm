@@ -103,7 +103,7 @@ void YButton::paint(Graphics &g, int const d, const YRect &r) {
 }
 
 void YButton::paint(Graphics &g, const YRect &/*r*/) {
-    int d((fPressed || fArmed) ? 1 : 0);
+    int d(fPressed || fArmed);
     int x(0), y(0), w(width()), h(height());
 
     if (w > 1 && h > 1) {
@@ -132,7 +132,7 @@ void YButton::paint(Graphics &g, const YRect &/*r*/) {
 }
 
 void YButton::paintFocus(Graphics &g, const YRect &/*r*/) {
-    int const d = (fPressed || fArmed ? 1 : 0);
+    int const d = (fPressed || fArmed);
     int const dp(wmLook == lookMetal ? 2 : 2 + d);
     int const ds(4);
 
@@ -280,19 +280,22 @@ void YButton::handleButton(const XButtonEvent &button) {
                     setArmed(false, false);
                     setSelected(false);
                 }
-            } else {
-                bool wasArmed = fArmed;
-
-                setArmed(false, false);
-                setSelected(false);
-                if (wasArmed) {
-                    actionPerformed(fAction, button.state);
-                    return ;
-                }
             }
         }
     }
     YWindow::handleButton(button);
+}
+
+void YButton::handleClick(const XButtonEvent &button, int count) {
+    if (fEnabled && fPopup == 0) {
+        bool wasArmed = fArmed;
+
+        setArmed(false, false);
+        setSelected(false);
+        if (wasArmed && count == 1 && button.button == Button1) {
+            actionPerformed(fAction, button.state);
+        }
+    }
 }
 
 void YButton::handleCrossing(const XCrossingEvent &crossing) {
@@ -329,8 +332,8 @@ void YButton::updateSize() {
         w = activeButtonFont->textWidth(fText);
         h = activeButtonFont->ascent();
     }
-    setSize(w + 3 + 2 - ((wmLook == lookMetal || wmLook == lookFlat) ? 1 : 0),
-            h + 3 + 2 - ((wmLook == lookMetal || wmLook == lookFlat) ? 1 : 0));
+    setSize(w + 3 + 2 - (wmLook == lookMetal || wmLook == lookFlat),
+            h + 3 + 2 - (wmLook == lookMetal || wmLook == lookFlat));
 }
 
 void YButton::setIcon(ref<YIcon> icon, int iconSize) {
@@ -394,8 +397,8 @@ void YButton::donePopup(YPopupWindow *popup) {
         return ;
     }
     popdown();
-    fArmed = 0;
-    fSelected = 0;
+    fArmed = false;
+    fSelected = false;
     repaint();
 }
 

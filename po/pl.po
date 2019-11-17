@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.2.15\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-06-07 00:39+0200\n"
+"POT-Creation-Date: 2019-08-17 12:39+0200\n"
 "PO-Revision-Date: 2019-02-07 06:32+0000\n"
 "Last-Translator: Ewelina Michalowska <ewelina.michalowska@stgambit.com>\n"
 "Language-Team: Polish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -18,27 +18,27 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.3\n"
 
-#: src/aapm.cc:180 src/aapm.cc:462 src/aapm.cc:684 src/aapm.cc:809
+#: src/aapm.cc:187 src/aapm.cc:469 src/aapm.cc:691 src/aapm.cc:816
 msgid " - Power"
 msgstr " - Zasilanie"
 
-#: src/aapm.cc:182 src/aapm.cc:465 src/aapm.cc:687
+#: src/aapm.cc:189 src/aapm.cc:472 src/aapm.cc:694
 msgid "P"
 msgstr "P"
 
-#: src/aapm.cc:186 src/aapm.cc:439 src/aapm.cc:667 src/aapm.cc:777
+#: src/aapm.cc:193 src/aapm.cc:446 src/aapm.cc:674 src/aapm.cc:784
 msgid " - Charging"
 msgstr " - Ładowanie"
 
-#: src/aapm.cc:188 src/aapm.cc:441 src/aapm.cc:669
+#: src/aapm.cc:195 src/aapm.cc:448 src/aapm.cc:676
 msgid "C"
 msgstr "C"
 
-#: src/aapm.cc:443
+#: src/aapm.cc:450
 msgid " - Full"
 msgstr " - Pełny"
 
-#: src/aapm.cc:988
+#: src/aapm.cc:998
 #, c-format
 msgid "power:\t%s"
 msgstr "zasilanie:\t%s"
@@ -51,11 +51,11 @@ msgstr "ZEGAR"
 msgid "Date"
 msgstr "Data"
 
-#: src/aclock.cc:178 src/themes.cc:85
+#: src/aclock.cc:178 src/themes.cc:78
 msgid "Default"
 msgstr "Domyślny"
 
-#: src/aclock.cc:179 src/acpustatus.cc:862 src/amailbox.cc:938
+#: src/aclock.cc:179 src/acpustatus.cc:862 src/amailbox.cc:952
 #: src/amemstatus.cc:264
 msgid "_Disable"
 msgstr "Wyłącz"
@@ -204,48 +204,48 @@ msgstr "Nie można wykonać %s"
 msgid "Write to socket failed: %s"
 msgstr "Zapisywanie do gniazda nie powiodło się: %s"
 
-#: src/amailbox.cc:680
+#: src/amailbox.cc:681
 #, c-format
 msgid "Using MailBox \"%s\"\n"
 msgstr "Używana skrzynka: \"%s\"\n"
 
-#: src/amailbox.cc:794
+#: src/amailbox.cc:808
 msgid "Suspended"
 msgstr "Zawieszone"
 
-#: src/amailbox.cc:798
+#: src/amailbox.cc:812
 msgid "Error checking mailbox."
 msgstr "Błąd podczas sprawdzania poczty."
 
-#: src/amailbox.cc:805
+#: src/amailbox.cc:819
 #, c-format
 msgid "%ld mail message, %ld unread."
 msgstr "Wiadomości pocztowe: %ld, nieprzeczytane: %ld."
 
-#: src/amailbox.cc:806
+#: src/amailbox.cc:820
 #, c-format
 msgid "%ld mail messages, %ld unread."
 msgstr "Wiadomości pocztowe: %ld, nieprzeczytane: %ld."
 
-#: src/amailbox.cc:812
+#: src/amailbox.cc:826
 #, c-format
 msgid "%ld mail message."
 msgstr "%ld wiadomości."
 
-#: src/amailbox.cc:813
+#: src/amailbox.cc:827
 #, c-format
 msgid "%ld mail messages."
 msgstr "%ld wiadomości."
 
-#: src/amailbox.cc:936
+#: src/amailbox.cc:950
 msgid "MAIL"
 msgstr "POCZTA"
 
-#: src/amailbox.cc:937
+#: src/amailbox.cc:951
 msgid "_Check"
 msgstr "Sprawdź"
 
-#: src/amailbox.cc:939
+#: src/amailbox.cc:953
 msgid "_Suspend"
 msgstr "_Zawieś"
 
@@ -289,7 +289,7 @@ msgstr "Użytkownik: "
 msgid "MEM"
 msgstr "PAM"
 
-#: src/apppstatus.cc:203
+#: src/apppstatus.cc:199
 #, c-format
 msgid ""
 "Interface %s:\n"
@@ -304,7 +304,7 @@ msgstr ""
 "  Przesłano (we/wy):\t%lli %s/%lli %s\n"
 "  Czas połączenia:\t%ld:%02ld:%02ld%s%s"
 
-#: src/apppstatus.cc:215
+#: src/apppstatus.cc:211
 msgid ""
 "\n"
 "  Caller id:\t"
@@ -312,130 +312,130 @@ msgstr ""
 "\n"
 "  ID dzwoniącego:\t"
 
-#: src/apppstatus.cc:716
+#: src/apppstatus.cc:712
 msgid "NET"
 msgstr "SIEĆ"
 
-#: src/aworkspaces.cc:294 src/wmstatus.cc:165
+#: src/aworkspaces.cc:584 src/wmstatus.cc:200
 msgid "Workspace: "
 msgstr "Obszar roboczy: "
 
-#: src/icehelp.cc:1202
+#: src/icehelp.cc:1210
 msgid "Back"
 msgstr "Wstecz"
 
-#: src/icehelp.cc:1202
+#: src/icehelp.cc:1210
 msgid "Alt+Left"
 msgstr "Alt+Lewo"
 
-#: src/icehelp.cc:1204
+#: src/icehelp.cc:1212
 msgid "Forward"
 msgstr "Naprzód"
 
-#: src/icehelp.cc:1204
+#: src/icehelp.cc:1212
 msgid "Alt+Right"
 msgstr "Alt+Prawo"
 
-#: src/icehelp.cc:1207
+#: src/icehelp.cc:1215
 msgid "Previous"
 msgstr "Poprzedni"
 
-#: src/icehelp.cc:1208
+#: src/icehelp.cc:1216
 msgid "Next"
 msgstr "Następny"
 
-#: src/icehelp.cc:1210
+#: src/icehelp.cc:1218
 msgid "Contents"
 msgstr "Zawartość"
 
-#: src/icehelp.cc:1211
+#: src/icehelp.cc:1219
 msgid "Index"
 msgstr "Indeks"
 
-#: src/icehelp.cc:1214 src/icesame.cc:62 src/iceview.cc:74 src/wmtitle.cc:99
+#: src/icehelp.cc:1222 src/icesame.cc:62 src/iceview.cc:74 src/wmtitle.cc:102
 msgid "Close"
 msgstr "Zamknij"
 
-#: src/icehelp.cc:1214 src/icesame.cc:62 src/iceview.cc:74
+#: src/icehelp.cc:1222 src/icesame.cc:62 src/iceview.cc:74
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1219
+#: src/icehelp.cc:1227
 msgid "Icewm(1)"
 msgstr "Icewm(1)"
 
-#: src/icehelp.cc:1221
+#: src/icehelp.cc:1229
 msgid "Icewmbg(1)"
 msgstr "Icewmbg(1)"
 
-#: src/icehelp.cc:1223
+#: src/icehelp.cc:1231
 msgid "Icesound(1)"
 msgstr "Icesound(1)"
 
-#: src/icehelp.cc:1225
+#: src/icehelp.cc:1233
 msgid "FAQ"
 msgstr "Często zadawane pytania"
 
-#: src/icehelp.cc:1227
+#: src/icehelp.cc:1235
 msgid "Manual"
 msgstr "Podręcznik"
 
-#: src/icehelp.cc:1229
+#: src/icehelp.cc:1237
 msgid "Support"
 msgstr "Wsparcie"
 
-#: src/icehelp.cc:1231
+#: src/icehelp.cc:1239
 msgid "Theme Howto"
 msgstr "Poradnik motywu"
 
-#: src/icehelp.cc:1233
+#: src/icehelp.cc:1241
 msgid "Website"
 msgstr "Witryna"
 
-#: src/icehelp.cc:1235
+#: src/icehelp.cc:1243
 msgid "Github"
 msgstr "Github"
 
-#: src/icehelp.cc:1937
+#: src/icehelp.cc:1944
 msgid "Unsupported protocol."
 msgstr "Nieobsługiwany protokół."
 
-#: src/icehelp.cc:1962
+#: src/icehelp.cc:1969
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "Nieprawidłowa ścieżka: %s\n"
 
-#: src/icehelp.cc:1985
+#: src/icehelp.cc:1992
 msgid "Path does not refer to a file."
 msgstr "Ścieżka nie odwołuje się do pliku."
 
-#: src/icehelp.cc:1990
+#: src/icehelp.cc:1997
 msgid "Failed to open file for reading."
 msgstr "Nie można otworzyć pliku do odczytu."
 
-#: src/icehelp.cc:2019
+#: src/icehelp.cc:2026
 msgid "Failed to create a temporary file"
 msgstr "Nie udało się utworzyć pliku tymczasowego"
 
-#: src/icehelp.cc:2111
+#: src/icehelp.cc:2118
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr "Nie można wykonać polecenia systemowego (%s) (%d)"
 
-#: src/icehelp.cc:2134
+#: src/icehelp.cc:2141
 #, c-format
 msgid "Failed to decompress %s"
 msgstr "Nie udało się zdekompresować pliku %s"
 
-#: src/icehelp.cc:2142
+#: src/icehelp.cc:2149
 msgid "Could not locate curl or wget in PATH"
 msgstr "Nie udało się zlokalizować programu curl lub wget w zmiennej PATH"
 
-#: src/icehelp.cc:2146
+#: src/icehelp.cc:2153
 msgid "Unsafe characters in URL"
 msgstr "Niebezpieczne znaki w adresie URL"
 
-#: src/icehelp.cc:2183
+#: src/icehelp.cc:2190
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -512,7 +512,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/icehelp.cc:2260
+#: src/icehelp.cc:2267
 #, c-format
 msgid "Ignoring option '%s'"
 msgstr "Ignorowanie opcji %s"
@@ -557,63 +557,96 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "To samo"
 
-#: src/icesh.cc:58
+#: src/icesh.cc:63
 msgid "For help please consult the man page icesh(1).\n"
 msgstr ""
 
-#: src/icesh.cc:890
+#: src/icesh.cc:1095
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Nazwane symbole domeny \"%s\" (zakres numeryczny: %ld-%ld):\n"
 
-#: src/icesh.cc:1025
+#: src/icesh.cc:1232
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Nieprawidłowa nazwa obszaru roboczego: \"%s\""
 
-#: src/icesh.cc:1028
+#: src/icesh.cc:1236
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Obszar roboczy poza zakresem: %ld"
 
-#: src/icesh.cc:1180
+#: src/icesh.cc:1442
+msgid "GNOME window state"
+msgstr "Stan okna GNOME"
+
+#: src/icesh.cc:1443
+msgid "GNOME window hint"
+msgstr "Podpowiedź okna GNOME"
+
+#: src/icesh.cc:1444
+msgid "GNOME window layer"
+msgstr "Warstwa okna GNOME"
+
+#: src/icesh.cc:1445
+msgid "IceWM tray option"
+msgstr "Opcje zasobnika IceWM"
+
+#: src/icesh.cc:1446
+msgid "Gravity symbols"
+msgstr ""
+
+#: src/icesh.cc:1447
+#, fuzzy
+#| msgid "Save Modifications"
+msgid "Motif functions"
+msgstr "Zapisz modyfikacje"
+
+#: src/icesh.cc:1448
+#, fuzzy
+#| msgid "Save Modifications"
+msgid "Motif decorations"
+msgstr "Zapisz modyfikacje"
+
+#: src/icesh.cc:1527
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "obszar roboczy #%d: \"%s\"\n"
 
-#: src/icesh.cc:1827
+#: src/icesh.cc:2328
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Operacja \"%s\" wymaga co najmniej %d argumentów."
 
-#: src/icesh.cc:1837
+#: src/icesh.cc:2338
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Nieprawidłowe wyrażenie: \"%s\""
 
-#: src/icesh.cc:1848 src/icesound.cc:795 src/icewmhint.cc:36 src/yxapp.cc:930
+#: src/icesh.cc:2349 src/icesound.cc:801 src/icewmhint.cc:36 src/wmapp.cc:1120
+#: src/yxapp.cc:997
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "Nie można otworzyć ekranu: %s. X-y muszą być uruchomione oraz musi być "
 "ustawiona zmienna $DISPLAY."
 
-#: src/icesh.cc:1861
+#: src/icesh.cc:2362
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid argument: `%s'"
 msgstr "Nieprawidłowy argument: \"%s\"."
 
-#: src/icesh.cc:1898
+#: src/icesh.cc:2402
 msgid "No actions specified."
 msgstr "Nie określono akcji."
 
-#: src/icesh.cc:2023
+#: src/icesh.cc:2541
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Nieprawidłowy identyfikator okna: \"%s\""
 
-#: src/icesh.cc:2438
+#: src/icesh.cc:3039
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Nieznana akcja: \"%s\""
@@ -624,14 +657,27 @@ msgid "Socket error: %d"
 msgstr "Błąd gniazdka: %d"
 
 #: src/icesm.cc:57
+#, fuzzy
+#| msgid ""
+#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
+#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
+#| "\n"
+#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
+#| "  --sync              Synchronize communication with X11 server.\n"
+#| "\n"
+#| "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
+#| "  -n, --notray        Do not start icewmtray.\n"
+#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
 "\n"
 "  -d, --display=NAME  Use NAME to connect to the X server.\n"
+"  -a, --alpha         Use a 32-bit visual for translucency.\n"
 "  --sync              Synchronize communication with X11 server.\n"
 "\n"
 "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
+"  -b, --nobg          Do not start icewmbg.\n"
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
@@ -647,22 +693,28 @@ msgstr ""
 "  -n, --notray        Wyłączenie uruchamiania programu icewmtray.\n"
 "  -s, --sound         Uruchomienie programu icesound.\n"
 
-#: src/icesm.cc:120
+#: src/icesm.cc:135
 #, c-format
 msgid "Unknown option '%s'"
 msgstr "Nieznana opcja: %s"
 
-#: src/icesm.cc:308
+#: src/icesm.cc:331 src/icesm.cc:449
+#, fuzzy, c-format
+#| msgid "Restart"
+msgid "restart %s."
+msgstr "Zrestartuj"
+
+#: src/icesm.cc:337
 #, c-format
 msgid "%s exited with status %d."
 msgstr "Program %s zakończył działanie ze stanem %d."
 
-#: src/icesm.cc:314
+#: src/icesm.cc:343 src/icesm.cc:455
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "Działanie programu %s zostało przerwane przez sygnał %d."
 
-#: src/icesm.cc:348
+#: src/icesm.cc:377
 msgid ""
 " IceWM crashed for the second time in 10 seconds. \n"
 " Do you wish to:\n"
@@ -676,7 +728,7 @@ msgstr ""
 "\t1: Ponownie uruchomić IceWM?\n"
 "\t2: Anulować tę sesję?\n"
 
-#: src/icesm.cc:353
+#: src/icesm.cc:382
 msgid "IceWM crash response"
 msgstr "Odpowiedź na awarię IceWM"
 
@@ -737,17 +789,17 @@ msgstr "Błąd funkcji ao_open_live: %d"
 msgid "ao_play failed"
 msgstr "Błąd funkcji ao_play"
 
-#: src/icesound.cc:677
+#: src/icesound.cc:683
 #, c-format
 msgid "Unrecognized option: %s\n"
 msgstr "Nierozpoznana opcja: %s\n"
 
-#: src/icesound.cc:680 src/icesound.cc:973
+#: src/icesound.cc:686 src/icesound.cc:979
 #, c-format
 msgid "Unrecognized argument: %s\n"
 msgstr "Nierozpoznany argument: %s\n"
 
-#: src/icesound.cc:689
+#: src/icesound.cc:695
 #, fuzzy, c-format
 #| msgid ""
 #| "Usage: %s [OPTION]...\n"
@@ -919,51 +971,51 @@ msgstr ""
 "↵\n"
 "\n"
 
-#: src/icesound.cc:780
+#: src/icesound.cc:786
 #, c-format
 msgid "No audio for %s"
 msgstr "Brak audio dla %s"
 
-#: src/icesound.cc:857
+#: src/icesound.cc:863
 msgid "Could not get GUI event property"
 msgstr "Nie udało się pobrać właściwości zdarzenia GUI"
 
-#: src/icesound.cc:861
+#: src/icesound.cc:867
 #, c-format
 msgid "Received invalid GUI event %d"
 msgstr "Odebrano nieprawidłowe zdarzenie GUI: %d"
 
-#: src/icesound.cc:865
+#: src/icesound.cc:871
 #, c-format
 msgid "Received GUI event %s"
 msgstr "Odebrano zdarzenie GUI: %s"
 
-#: src/icesound.cc:879
+#: src/icesound.cc:885
 #, c-format
 msgid "Too quick; ignoring %s."
 msgstr "Za szybko; ignorowanie %s."
 
-#: src/icesound.cc:883
+#: src/icesound.cc:889
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr "Obsługa interfejsu %s nie została wkompilowana."
 
-#: src/icesound.cc:916
+#: src/icesound.cc:922
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr "Nieobsługiwany interfejs: %s."
 
-#: src/icesound.cc:925
+#: src/icesound.cc:931
 #, c-format
 msgid "Using %s audio."
 msgstr "Używanie audio %s."
 
-#: src/icesound.cc:929
+#: src/icesound.cc:935
 #, c-format
 msgid "Failed to connect to audio interfaces %s."
 msgstr "Nie udało się połączyć z interfejsami audio %s."
 
-#: src/icesound.cc:941
+#: src/icesound.cc:947
 #, c-format
 msgid "Received signal %s: Terminating..."
 msgstr "Odebrano sygnał %s: kończenie..."
@@ -1009,12 +1061,12 @@ msgstr "Zawijaj linie"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icewmbg.cc:78
+#: src/icewmbg.cc:79
 #, c-format
 msgid "Failed to load image '%s'."
 msgstr "Nie udało się wczytać obrazu %s."
 
-#: src/icewmbg.cc:885
+#: src/icewmbg.cc:886
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1115,7 +1167,7 @@ msgstr ""
 "proporcji↵\n"
 "\n"
 
-#: src/icewmbg.cc:1100
+#: src/icewmbg.cc:1101
 msgid "Cannot start, because another icewmbg is still running."
 msgstr ""
 "Nie można uruchomić, ponieważ wciąż uruchomiony jest inny program icewmbg."
@@ -1129,11 +1181,11 @@ msgstr "Użycie: icewmhint class.instance opcja arg\n"
 msgid "Out of memory (len=%d)."
 msgstr "Brak pamięci (len=%d)."
 
-#: src/misc.cc:469 src/misc.cc:481
+#: src/misc.cc:559 src/misc.cc:571
 msgid "Warning: "
 msgstr "Ostrzeżenie: "
 
-#: src/misc.cc:757
+#: src/misc.cc:847
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1153,211 +1205,211 @@ msgstr ""
 "zakończenie.\n"
 "\n"
 
-#: src/movesize.cc:876
+#: src/movesize.cc:875
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Nieznany kierunek w żądaniu przenieś/zmień rozmiar: %d"
 
-#: src/wmabout.cc:26 src/wmabout.cc:28
+#: src/wmabout.cc:23 src/wmabout.cc:25
 msgid "(C)"
 msgstr "(C)"
 
-#: src/wmabout.cc:34
+#: src/wmabout.cc:31
 msgid "Theme:"
 msgstr "Motyw:"
 
-#: src/wmabout.cc:35
+#: src/wmabout.cc:32
 msgid "Theme Description:"
 msgstr "Opis motywu:"
 
-#: src/wmabout.cc:36
+#: src/wmabout.cc:33
 msgid "Theme Author:"
 msgstr "Autor motywu:"
 
-#: src/wmabout.cc:40
+#: src/wmabout.cc:37
 msgid "CodeSet:"
 msgstr "Zestaw kodowy:"
 
-#: src/wmabout.cc:41
+#: src/wmabout.cc:38
 msgid "Language:"
 msgstr "Język:"
 
-#: src/wmabout.cc:67
+#: src/wmabout.cc:64
 msgid "icewm - About"
 msgstr "O IceWM"
 
-#: src/wmapp.cc:90
+#: src/wmapp.cc:83
 msgid "A window manager is already running, use --replace to replace it"
 msgstr ""
 "Menadżer okien jest już uruchomiony, użyj opcji --replace, aby go zastąpić"
 
-#: src/wmapp.cc:108
+#: src/wmapp.cc:101
 #, c-format
 msgid "Failed to become the owner of the %s selection"
 msgstr "Nie udało się ustawić jako właściciela wyboru %s"
 
-#: src/wmapp.cc:112
+#: src/wmapp.cc:105
 msgid "Waiting to replace the old window manager"
 msgstr "Oczekiwanie na zastąpienie starego menedżera okien"
 
-#: src/wmapp.cc:117
+#: src/wmapp.cc:110
 msgid "done."
 msgstr "gotowe."
 
-#: src/wmapp.cc:403
+#: src/wmapp.cc:415
 msgid "Unable to get current font path."
 msgstr "Nie można pobrać bieżącej ścieżki do czcionek."
 
-#: src/wmapp.cc:430
+#: src/wmapp.cc:442
 msgid "Unexpected format of ICEWM_FONT_PATH property"
 msgstr "Nieoczekiwany format zmiennej ICEWM_FONT_PATH"
 
-#: src/wmapp.cc:508
+#: src/wmapp.cc:512
 msgid "_Logout"
 msgstr "Wyjście"
 
-#: src/wmapp.cc:509
+#: src/wmapp.cc:513
 msgid "_Cancel logout"
 msgstr "Anuluj wyjś_cie"
 
-#: src/wmapp.cc:514
+#: src/wmapp.cc:518
 msgid "Lock _Workstation"
 msgstr "Zablokuj stano_wisko"
 
-#: src/wmapp.cc:516 src/wmdialog.cc:78
+#: src/wmapp.cc:520 src/wmdialog.cc:78
 msgid "Re_boot"
 msgstr "Uruchom ponownie komputer"
 
-#: src/wmapp.cc:518 src/wmdialog.cc:79
+#: src/wmapp.cc:522 src/wmdialog.cc:79
 msgid "Shut_down"
 msgstr "Zamknij"
 
 #. TRANSLATORS: This means "energy saving mode" or "suspended system". Not "interrupt". Not "hibernate".
-#: src/wmapp.cc:520 src/wmdialog.cc:75
+#: src/wmapp.cc:524 src/wmdialog.cc:75
 msgid "_Sleep mode"
 msgstr "Tryb uśpienia"
 
-#: src/wmapp.cc:525
+#: src/wmapp.cc:529
 msgid "Restart _Icewm"
 msgstr "Zrestartuj _IceWM"
 
-#: src/wmapp.cc:527
+#: src/wmapp.cc:531
 msgid "Restart _Xterm"
 msgstr "Zrestartuj _Xterm"
 
-#: src/wmapp.cc:540
+#: src/wmapp.cc:541
 msgid "_Menu"
 msgstr "_Menu"
 
-#: src/wmapp.cc:541
+#: src/wmapp.cc:542
 msgid "_Above Dock"
 msgstr "Powyżej z_adokowania"
 
-#: src/wmapp.cc:542
+#: src/wmapp.cc:543
 msgid "_Dock"
 msgstr "_Dokuj"
 
-#: src/wmapp.cc:543
+#: src/wmapp.cc:544
 msgid "_OnTop"
 msgstr "Na Wierzch"
 
-#: src/wmapp.cc:544
+#: src/wmapp.cc:545
 msgid "_Normal"
 msgstr "_Normalnie"
 
-#: src/wmapp.cc:545
+#: src/wmapp.cc:546
 msgid "_Below"
 msgstr "Poniżej"
 
-#: src/wmapp.cc:546
+#: src/wmapp.cc:547
 msgid "D_esktop"
 msgstr "Biurko"
 
-#: src/wmapp.cc:571 src/wmwinlist.cc:349
+#: src/wmapp.cc:582 src/wmwinlist.cc:379
 msgid "_Restore"
 msgstr "P_rzywróć"
 
-#: src/wmapp.cc:573
+#: src/wmapp.cc:584
 msgid "_Move"
 msgstr "Przenieś"
 
-#: src/wmapp.cc:575
+#: src/wmapp.cc:586
 msgid "_Size"
 msgstr "Wielkość"
 
-#: src/wmapp.cc:577 src/wmwinlist.cc:350
+#: src/wmapp.cc:588 src/wmwinlist.cc:380
 msgid "Mi_nimize"
 msgstr "Mi_nimalizuj"
 
-#: src/wmapp.cc:579 src/wmwinlist.cc:351
+#: src/wmapp.cc:590 src/wmwinlist.cc:381
 msgid "Ma_ximize"
 msgstr "Maksymalizuj"
 
-#: src/wmapp.cc:580 src/wmwinlist.cc:352
+#: src/wmapp.cc:591 src/wmwinlist.cc:382
 msgid "Maximize_Vert"
 msgstr "MaksymalizujWPionie"
 
-#: src/wmapp.cc:581
+#: src/wmapp.cc:592
 msgid "MaximizeHori_z"
 msgstr "MaksymalizujWPo_ziomie"
 
-#: src/wmapp.cc:584 src/wmwinlist.cc:353
+#: src/wmapp.cc:595 src/wmwinlist.cc:383
 msgid "_Fullscreen"
 msgstr "Pełny ekran"
 
-#: src/wmapp.cc:587 src/wmwinlist.cc:355
+#: src/wmapp.cc:598 src/wmwinlist.cc:385
 msgid "_Hide"
 msgstr "Sc_howaj"
 
-#: src/wmapp.cc:589 src/wmwinlist.cc:356
+#: src/wmapp.cc:600 src/wmwinlist.cc:386
 msgid "Roll_up"
 msgstr "Rozwiń"
 
-#: src/wmapp.cc:596
+#: src/wmapp.cc:607
 msgid "R_aise"
 msgstr "Podnieś"
 
-#: src/wmapp.cc:598 src/wmwinlist.cc:358
+#: src/wmapp.cc:609 src/wmwinlist.cc:388
 msgid "_Lower"
 msgstr "Obniż"
 
-#: src/wmapp.cc:600
+#: src/wmapp.cc:611 src/wmwinlist.cc:389
 msgid "La_yer"
 msgstr "Warstwa"
 
-#: src/wmapp.cc:604 src/wmwinlist.cc:360
+#: src/wmapp.cc:615 src/wmwinlist.cc:391
 msgid "Move _To"
 msgstr "Przenieś do"
 
-#: src/wmapp.cc:605 src/wmwinlist.cc:361
+#: src/wmapp.cc:616 src/wmwinlist.cc:392
 msgid "Occupy _All"
 msgstr "Z_ajmij wszystkie"
 
-#: src/wmapp.cc:611
+#: src/wmapp.cc:622
 msgid "Limit _Workarea"
 msgstr "Ogranicz obszar roboczy"
 
-#: src/wmapp.cc:615 src/wmwinlist.cc:362
+#: src/wmapp.cc:626 src/wmwinlist.cc:393
 msgid "Tray _icon"
 msgstr "Ikona zasobnika"
 
-#: src/wmapp.cc:620 src/wmwinlist.cc:339 src/wmwinlist.cc:373
+#: src/wmapp.cc:631 src/wmwinlist.cc:369 src/wmwinlist.cc:404
 msgid "_Close"
 msgstr "Zamknij"
 
-#: src/wmapp.cc:622 src/wmwinlist.cc:341
+#: src/wmapp.cc:633 src/wmwinlist.cc:371
 msgid "_Kill Client"
 msgstr "Zam_knij klienta"
 
-#: src/wmapp.cc:625 src/wmdialog.cc:80 src/wmwinmenu.cc:131
+#: src/wmapp.cc:636 src/wmdialog.cc:80 src/wmwinmenu.cc:134
 msgid "_Window list"
 msgstr "Lista okien"
 
-#: src/wmapp.cc:639
+#: src/wmapp.cc:669
 msgid "Another window manager already running, exiting..."
 msgstr "Inny menadżer okien jest już uruchomiony, kończenie pracy..."
 
-#: src/wmapp.cc:724
+#: src/wmapp.cc:743
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1366,18 +1418,22 @@ msgstr ""
 "Nie można ponownie uruchomić: %s\n"
 "Czy $PATH wskazuje na %s?"
 
-#: src/wmapp.cc:849
+#: src/wmapp.cc:871
 msgid "Kill IceWM, replace with Xterm"
 msgstr "Zakończ działanie menedżera IceWM, zastąp przez Xterm"
 
-#: src/wmapp.cc:1397
+#: src/wmapp.cc:1121 src/yxapp.cc:998
+msgid "<none>"
+msgstr "<brak>"
+
+#: src/wmapp.cc:1466
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      Identyfikator klienta używany do kontaktu z menedżerem "
 "sesji.\n"
 
-#: src/wmapp.cc:1403
+#: src/wmapp.cc:1472
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1388,11 +1444,19 @@ msgstr ""
 "  --debug-z           Wyświetlenie komunikatów debugowania dotyczących "
 "układania okien.\n"
 
-#: src/wmapp.cc:1411
+#: src/wmapp.cc:1480
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "  -c, --config=FILE   Load preferences from FILE.\n"
+#| "  -t, --theme=FILE    Load theme from FILE.\n"
+#| "  --postpreferences   Print preferences after all processing.\n"
 msgid ""
 "\n"
+"  -a, --alpha         Use a 32-bit visual for translucency.\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
 "  -t, --theme=FILE    Load theme from FILE.\n"
+"  --splash=IMAGE      Briefly show IMAGE on startup.\n"
 "  --postpreferences   Print preferences after all processing.\n"
 msgstr ""
 "\n"
@@ -1401,7 +1465,7 @@ msgstr ""
 "  --postpreferences   Wyświetlenie preferencji po zakończeniu "
 "przetwarzania.\n"
 
-#: src/wmapp.cc:1416
+#: src/wmapp.cc:1487
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1461,26 +1525,26 @@ msgstr ""
 "↵\n"
 "\n"
 
-#: src/wmapp.cc:1477
+#: src/wmapp.cc:1548
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "Katalogi konfiguracji %s:\n"
 
-#: src/wmapp.cc:1562
+#: src/wmapp.cc:1633
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "Skonfigurowane opcje %s: %s\n"
 
-#: src/wmapp.cc:1615
+#: src/wmapp.cc:1695
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Nierozpoznana opcja %s."
 
-#: src/wmapp.cc:1661
+#: src/wmapp.cc:1767
 msgid "Confirm Logout"
 msgstr "Potwierdź wyjście"
 
-#: src/wmapp.cc:1662
+#: src/wmapp.cc:1768
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1488,27 +1552,27 @@ msgstr ""
 "Wyjście spowoduje zamknięcie wszystkich aktywnych aplikacji.\n"
 "Kontynuować?"
 
-#: src/wmconfig.cc:40
+#: src/wmconfig.cc:37
 #, c-format
 msgid "Failed to load theme %s"
 msgstr "Nie udało się wczytać motywu %s"
 
-#: src/wmconfig.cc:104
+#: src/wmconfig.cc:92
 #, c-format
 msgid "Unknown value '%s' for option '%s'."
 msgstr "Nieznana wartość %s dla opcji %s."
 
-#: src/wmconfig.cc:112
+#: src/wmconfig.cc:100
 #, c-format
 msgid "Unable to create directory %s"
 msgstr "Nie można utworzyć katalogu %s"
 
-#: src/wmconfig.cc:139 src/wmprog.cc:564 src/wmprog.cc:686 src/wmprog.cc:690
+#: src/wmconfig.cc:127 src/wmprog.cc:569 src/wmprog.cc:691 src/wmprog.cc:695
 #, c-format
 msgid "Unable to write to %s"
 msgstr "Nie można zapisać w %s"
 
-#: src/wmconfig.cc:166 src/wmprog.cc:694
+#: src/wmconfig.cc:154 src/wmprog.cc:699
 #, c-format
 msgid "Unable to rename %s to %s"
 msgstr "Nie można zmienić nazwy %s na %s"
@@ -1517,12 +1581,12 @@ msgstr "Nie można zmienić nazwy %s na %s"
 msgid "Loc_k Workstation"
 msgstr "Zablo_kuj stację roboczą"
 
-#: src/wmdialog.cc:76 src/ymsgbox.cc:44
+#: src/wmdialog.cc:76 src/ymsgbox.cc:43
 msgid "_Cancel"
 msgstr "Anuluj"
 
-#: src/wmdialog.cc:77 src/wmprog.cc:844 src/wmprog.cc:846 src/wmtaskbar.cc:301
-#: src/wmtaskbar.cc:303
+#: src/wmdialog.cc:77 src/wmprog.cc:849 src/wmprog.cc:851 src/wmtaskbar.cc:270
+#: src/wmtaskbar.cc:272
 msgid "_Logout..."
 msgstr "Wy_loguj..."
 
@@ -1530,16 +1594,15 @@ msgstr "Wy_loguj..."
 msgid "_Restart icewm"
 msgstr "U_ruchom ponownie IceWM"
 
-#: src/wmdialog.cc:82 src/wmprog.cc:805 src/wmtaskbar.cc:294
-#: src/wmtaskbar.cc:297
+#: src/wmdialog.cc:82 src/wmprog.cc:810 src/wmtaskbar.cc:266
 msgid "_About"
 msgstr "Inform_acje"
 
-#: src/wmframe.cc:1394
+#: src/wmframe.cc:1408
 msgid "Kill Client: "
 msgstr "Zamknij klienta: "
 
-#: src/wmframe.cc:1401
+#: src/wmframe.cc:1415
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1547,223 +1610,215 @@ msgstr ""
 "UWAGA! Wszystkie niezapisane zmiany zostaną utracone\n"
 "gdy ten klient zostanie zamknięty. Czy chcesz kontynuować?"
 
-#: src/wmframe.cc:2997
+#: src/wmframe.cc:3011
 msgid "Restore"
 msgstr "Przywróć"
 
-#: src/wmframe.cc:3000 src/wmtitle.cc:69
+#: src/wmframe.cc:3014 src/wmtitle.cc:72
 msgid "Maximize"
 msgstr "Maksymalizuj"
 
-#: src/wmframe.cc:3030
+#: src/wmframe.cc:3044
 msgid "Rolldown"
 msgstr "Zwiń"
 
-#: src/wmframe.cc:3032 src/wmtitle.cc:127
+#: src/wmframe.cc:3046 src/wmtitle.cc:130
 msgid "Rollup"
 msgstr "Rozwiń"
 
-#: src/wmoption.cc:232
+#: src/wmoption.cc:231
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Nieznana opcja okna: %s"
 
-#: src/wmoption.cc:344
+#: src/wmoption.cc:343
 #, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Błąd składni w opcjach okna w wierszu %d pliku %s"
 
-#: src/wmprog.cc:392
+#: src/wmprog.cc:397
 msgid "_Click to focus"
 msgstr "_Kliknij, aby ustawić fokus"
 
-#: src/wmprog.cc:393
+#: src/wmprog.cc:398
 msgid "_Explicit focus"
 msgstr "Fokus j_awny"
 
-#: src/wmprog.cc:394
+#: src/wmprog.cc:399
 msgid "_Sloppy mouse focus"
 msgstr "_Swobodny fokus wskaźnika myszki"
 
-#: src/wmprog.cc:395
+#: src/wmprog.cc:400
 msgid "S_trict mouse focus"
 msgstr "_Ograniczony fokus myszki"
 
-#: src/wmprog.cc:396
+#: src/wmprog.cc:401
 msgid "_Quiet sloppy focus"
 msgstr "_Cichy swobodny fokus"
 
-#: src/wmprog.cc:397
+#: src/wmprog.cc:402
 msgid "Custo_m"
 msgstr "Niestandardowy"
 
-#: src/wmprog.cc:484
+#: src/wmprog.cc:489
 msgid "Save Modifications"
 msgstr "Zapisz modyfikacje"
 
-#: src/wmprog.cc:717
+#: src/wmprog.cc:722
 msgid "_Manual"
 msgstr "_Ręcznie"
 
-#: src/wmprog.cc:718
+#: src/wmprog.cc:723
 msgid "_Icewm(1)"
 msgstr "_Icewm(1)"
 
-#: src/wmprog.cc:719
+#: src/wmprog.cc:724
 msgid "Icewm_Bg(1)"
 msgstr "Icewm_Bg(1)"
 
-#: src/wmprog.cc:720
+#: src/wmprog.cc:725
 msgid "Ice_Sound(1)"
 msgstr "Ice_Sound(1)"
 
-#: src/wmprog.cc:782
+#: src/wmprog.cc:787
 msgid "Programs"
 msgstr "Programy"
 
-#: src/wmprog.cc:787
+#: src/wmprog.cc:792
 msgid "_Run..."
 msgstr "U_ruchom..."
 
-#: src/wmprog.cc:792 src/wmtaskbar.cc:284
+#: src/wmprog.cc:797 src/wmtaskbar.cc:263
 msgid "_Windows"
 msgstr "Okna"
 
-#: src/wmprog.cc:811
+#: src/wmprog.cc:816
 msgid "_Help"
 msgstr "Pomoc"
 
-#: src/wmprog.cc:822
+#: src/wmprog.cc:827
 msgid "_Focus"
 msgstr "_Fokus"
 
-#: src/wmprog.cc:827
+#: src/wmprog.cc:832
 msgid "_Preferences"
 msgstr "_Preferencje"
 
-#: src/wmprog.cc:833
+#: src/wmprog.cc:838
 msgid "_Themes"
 msgstr "Mo_tywy"
 
-#: src/wmprog.cc:838
+#: src/wmprog.cc:843
 msgid "Se_ttings"
 msgstr "Us_tawienia"
 
-#: src/wmsession.cc:225 src/wmsession.cc:241 src/wmsession.cc:251
+#: src/wmsession.cc:220 src/wmsession.cc:236 src/wmsession.cc:246
 #, c-format
 msgid "Session Manager: Unknown line %s"
 msgstr "Menedżer sesji: nieznany wiersz %s"
 
-#: src/wmtaskbar.cc:168 src/wmtaskbar.cc:169
-msgid "Task Bar"
-msgstr "Pasek zadań"
-
-#: src/wmtaskbar.cc:274 src/wmwinlist.cc:364 src/wmwinlist.cc:377
+#: src/wmtaskbar.cc:253 src/wmwinlist.cc:395 src/wmwinlist.cc:415
 msgid "Tile _Vertically"
 msgstr "Wyłóż Poziomo"
 
-#: src/wmtaskbar.cc:275 src/wmwinlist.cc:365 src/wmwinlist.cc:378
+#: src/wmtaskbar.cc:254 src/wmwinlist.cc:396 src/wmwinlist.cc:416
 msgid "T_ile Horizontally"
 msgstr "Wyłóż P_ionowo"
 
-#: src/wmtaskbar.cc:276 src/wmwinlist.cc:366 src/wmwinlist.cc:379
+#: src/wmtaskbar.cc:255 src/wmwinlist.cc:397 src/wmwinlist.cc:417
 msgid "Ca_scade"
 msgstr "Ka_skada"
 
-#: src/wmtaskbar.cc:277 src/wmwinlist.cc:367 src/wmwinlist.cc:380
+#: src/wmtaskbar.cc:256 src/wmwinlist.cc:398 src/wmwinlist.cc:418
 msgid "_Arrange"
 msgstr "Rozmieść"
 
-#: src/wmtaskbar.cc:278 src/wmwinlist.cc:369 src/wmwinlist.cc:381
+#: src/wmtaskbar.cc:257 src/wmwinlist.cc:400 src/wmwinlist.cc:419
 msgid "_Minimize All"
 msgstr "_Minimalizuj wszystkie"
 
-#: src/wmtaskbar.cc:279 src/wmwinlist.cc:370 src/wmwinlist.cc:382
+#: src/wmtaskbar.cc:258 src/wmwinlist.cc:401 src/wmwinlist.cc:420
 msgid "_Hide All"
 msgstr "Sc_howaj wszystkie"
 
-#: src/wmtaskbar.cc:280 src/wmwinlist.cc:371 src/wmwinlist.cc:383
+#: src/wmtaskbar.cc:259 src/wmwinlist.cc:402 src/wmwinlist.cc:421
 msgid "_Undo"
 msgstr "Cofnij"
 
-#: src/wmtaskbar.cc:282
+#: src/wmtaskbar.cc:261
 msgid "Arrange _Icons"
 msgstr "Rozmieść ikony"
 
-#: src/wmtaskbar.cc:286
+#: src/wmtaskbar.cc:265
 msgid "_Refresh"
 msgstr "Odśwież"
 
-#: src/wmtaskbar.cc:292
-msgid "_License"
-msgstr "_Licencja"
-
-#: src/wmtaskbar.cc:363 src/wmtaskbar.cc:992
+#: src/wmtaskbar.cc:336 src/wmtaskbar.cc:966
 msgid "Hide Taskbar"
 msgstr "Ukryj pasek zadań"
 
-#: src/wmtaskbar.cc:378
+#: src/wmtaskbar.cc:354
 msgid "Favorite Applications"
 msgstr "Ulubione aplikacje"
 
-#: src/wmtaskbar.cc:396
+#: src/wmtaskbar.cc:375
 msgid "Window List Menu"
 msgstr "Menu listy okien"
 
-#: src/wmtaskbar.cc:405
+#: src/wmtaskbar.cc:384
 msgid "Show Desktop"
 msgstr "Pokaż biurko"
 
-#: src/wmtaskbar.cc:992
+#: src/wmtaskbar.cc:966
 msgid "Show Taskbar"
 msgstr "Pokaż pasek zadań"
 
-#: src/wmtitle.cc:85
+#: src/wmtitle.cc:88
 msgid "Minimize"
 msgstr "Minimalizuj"
 
-#: src/wmtitle.cc:113
+#: src/wmtitle.cc:116
 msgid "Hide"
 msgstr "Ukryj"
 
-#: src/wmtitle.cc:141
+#: src/wmtitle.cc:144
 msgid "Raise/Lower"
 msgstr "Podnieś/Obniż"
 
-#: src/wmwinlist.cc:50
+#: src/wmwinlist.cc:51
 msgid "All Workspaces"
 msgstr "Wszystkie obszary robocze"
 
-#: src/wmwinlist.cc:339
+#: src/wmwinlist.cc:369
 msgid "Del"
 msgstr "Usuń"
 
-#: src/wmwinlist.cc:343
+#: src/wmwinlist.cc:373
 msgid "_Terminate Process"
 msgstr "Zakończ proces"
 
-#: src/wmwinlist.cc:344
+#: src/wmwinlist.cc:374
 msgid "Kill _Process"
 msgstr "Zabij _proces"
 
-#: src/wmwinlist.cc:354
+#: src/wmwinlist.cc:384
 msgid "_Show"
 msgstr "Pokaż"
 
-#: src/wmwinlist.cc:357
+#: src/wmwinlist.cc:387
 msgid "_Raise"
 msgstr "Podnieś"
 
-#: src/wmwinlist.cc:396 src/wmwinlist.cc:397
+#: src/wmwinlist.cc:437 src/wmwinlist.cc:438
 msgid "Window list"
 msgstr "Lista okien"
 
-#: src/wmwinmenu.cc:122
+#: src/wmwinmenu.cc:125
 #, c-format
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Obszar roboczy %-.32s"
 
-#: src/yapp.cc:280
+#: src/yapp.cc:279
 #, c-format
 msgid "%s: select failed"
 msgstr "%s: wybór nieudany"
@@ -1819,63 +1874,63 @@ msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
 msgstr ""
 "USTERKA? Nieoczekiwany znak, ale program Imlib zdołał przeanalizować plik %s"
 
-#: src/yfontcore.cc:71 src/yfontxft.cc:158
+#: src/yfontcore.cc:72 src/yfontxft.cc:158
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "Błąd ładowania fontu \"%s\"."
 
-#: src/yfontcore.cc:74 src/yfontcore.cc:121 src/yfontxft.cc:181
+#: src/yfontcore.cc:75 src/yfontcore.cc:124 src/yfontxft.cc:181
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr "Ładowanie fontu \"%s\" nie powiodło się."
 
-#: src/yfontcore.cc:114
+#: src/yfontcore.cc:117
 #, c-format
 msgid "Could not load fontset \"%s\"."
 msgstr "Błąd ładowania zestawu fontów \"%s\"."
 
-#: src/yfontcore.cc:126
+#: src/yfontcore.cc:129
 #, c-format
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "Nieokreślone kodowanie zestawu fontów \"%s\":"
 
-#: src/yinput.cc:39
+#: src/yinput.cc:18
 msgid "_Copy"
 msgstr "Kopiuj"
 
-#: src/yinput.cc:39
+#: src/yinput.cc:18
 msgid "Ctrl+C"
 msgstr "Ctrl+C"
 
-#: src/yinput.cc:41
+#: src/yinput.cc:19
 msgid "Cu_t"
 msgstr "Wy_tnij"
 
-#: src/yinput.cc:41
+#: src/yinput.cc:19
 msgid "Ctrl+X"
 msgstr "Ctrl+X"
 
-#: src/yinput.cc:43
+#: src/yinput.cc:20
 msgid "_Paste"
 msgstr "Wklej"
 
-#: src/yinput.cc:43
+#: src/yinput.cc:20
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#: src/yinput.cc:45
+#: src/yinput.cc:21
 msgid "Paste _Selection"
 msgstr "Wklej wybór"
 
-#: src/yinput.cc:45
+#: src/yinput.cc:21
 msgid "Ctrl+P"
 msgstr "Ctrl+P"
 
-#: src/yinput.cc:48
+#: src/yinput.cc:23
 msgid "Select _All"
 msgstr "Wybierz wszystko"
 
-#: src/yinput.cc:48
+#: src/yinput.cc:23
 msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
@@ -1902,7 +1957,7 @@ msgstr "iconv nie dostarcza (wystarczającego) %s dla konwerterów %s."
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Niepoprawny wielobajtowy łańcuch: \"%s\": %s"
 
-#: src/ymsgbox.cc:36
+#: src/ymsgbox.cc:35
 msgid "_OK"
 msgstr "_OK"
 
@@ -1935,17 +1990,13 @@ msgstr "Niekompletny szesnastkowy kod unikowy w adresie URL na pozycji %d."
 msgid "Invalid hex escape in URL at position %d."
 msgstr "Nieprawidłowy szesnastkowy kod unikowy w adresie URL na pozycji %d."
 
-#: src/yxapp.cc:890
+#: src/yxapp.cc:958
 msgid ""
 "  -d, --display=NAME  NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"
 msgstr ""
 "  -d, --display=NAZWA  NAZWA używanego serwera X.\n"
 "  --sync              Synchronizacja poleceń X11.\n"
-
-#: src/yxapp.cc:931
-msgid "<none>"
-msgstr "<brak>"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
 #: src/fdospecgen.h:43
@@ -2637,6 +2688,12 @@ msgstr "Rozbudowa usług w sieci Web"
 msgid "WordProcessor"
 msgstr "Edytor tekstu"
 
+#~ msgid "Task Bar"
+#~ msgstr "Pasek zadań"
+
+#~ msgid "_License"
+#~ msgstr "_Licencja"
+
 #~ msgid ""
 #~ "Usage: %s [OPTIONS] ACTIONS\n"
 #~ "\n"
@@ -2759,18 +2816,6 @@ msgstr "Edytor tekstu"
 #~ "\n"
 #~ "  WYRAŻENIE ::= SYMBOL | WYRAŻENIE ( \"+\" | \"|\" ) SYMBOL\n"
 #~ "\n"
-
-#~ msgid "GNOME window state"
-#~ msgstr "Stan okna GNOME"
-
-#~ msgid "GNOME window hint"
-#~ msgstr "Podpowiedź okna GNOME"
-
-#~ msgid "GNOME window layer"
-#~ msgstr "Warstwa okna GNOME"
-
-#~ msgid "IceWM tray option"
-#~ msgstr "Opcje zasobnika IceWM"
 
 #~ msgid "Can't connect to ESound daemon: %s"
 #~ msgstr "Nie można połączyć się z demonem ESound: %s"

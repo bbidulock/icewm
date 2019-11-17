@@ -185,13 +185,6 @@ void YClock::handleClick(const XButtonEvent &up, int count) {
     }
 }
 
-void YClock::handleExpose(const XExposeEvent& e) {
-    if (clockTicked)
-        repaint();
-    else
-        IApplet::handleExpose(e);
-}
-
 void YClock::changeTimeFormat(const char* format) {
     fTimeFormat = format;
     autoSize();
@@ -277,7 +270,7 @@ void YClock::fill(Graphics& g)
     }
 
     if (hasTransparency()) {
-        ref<YImage> gradient(parent()->getGradient());
+        ref<YImage> gradient(getGradient());
 
         if (gradient != null)
             g.drawImage(gradient, this->x(), this->y(),
@@ -301,7 +294,7 @@ void YClock::fill(Graphics& g, int x, int y, int w, int h)
         g.fillRect(x, y, w, h);
     }
     else {
-        ref<YImage> gradient(parent()->getGradient());
+        ref<YImage> gradient(getGradient());
 
         if (gradient != null)
             g.drawImage(gradient, this->x() + x, this->y() + y,

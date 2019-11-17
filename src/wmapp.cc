@@ -6,15 +6,16 @@
 #include "config.h"
 
 #include "yfull.h"
+#include "wmprog.h"
+#include "wmwinmenu.h"
+#include "workspaces.h"
 #include "wmapp.h"
 #include "wmframe.h"
-#include "wmprog.h"
 #include "wmswitch.h"
 #include "wmstatus.h"
 #include "wmabout.h"
 #include "wmdialog.h"
 #include "wmconfig.h"
-#include "wmwinmenu.h"
 #include "wmwinlist.h"
 #include "wmtaskbar.h"
 #include "wmsession.h"
@@ -26,10 +27,13 @@
 #include "udir.h"
 #include "appnames.h"
 #include "ypaths.h"
+#include "yxcontext.h"
 #ifdef CONFIG_XFREETYPE
 #include <ft2build.h>
 #include <X11/Xft/Xft.h>
 #endif
+#undef override
+#include <X11/Xproto.h>
 #include "intl.h"
 
 char const *ApplicationName("IceWM");
@@ -38,12 +42,6 @@ static bool initializing(true);
 
 YWMApp *wmapp(NULL);
 YWindowManager *manager(NULL);
-
-Atom XA_IcewmWinOptHint(None);
-Atom XA_ICEWM_FONT_PATH(None);
-
-Atom _XA_XROOTPMAP_ID(None);
-Atom _XA_XROOTCOLOR_PIXEL(None);
 
 YCursor YWMApp::sizeRightPointer;
 YCursor YWMApp::sizeTopRightPointer;
@@ -58,30 +56,21 @@ YCursor YWMApp::scrollRightPointer;
 YCursor YWMApp::scrollUpPointer;
 YCursor YWMApp::scrollDownPointer;
 
-YMenu *windowMenu(NULL);
-YMenu *moveMenu(NULL);
-YMenu *layerMenu(NULL);
-YMenu *trayMenu(NULL);
-YMenu *windowListMenu(NULL);
-YMenu *windowListPopup(NULL);
-YMenu *windowListAllPopup(NULL);
-
-YMenu *logoutMenu(NULL);
-
-#ifndef XTERMCMD
-#define XTERMCMD xterm
-#endif
+lazy<MoveMenu> moveMenu;
+lazy<LayerMenu> layerMenu;
+lazily<SharedWindowList> windowListMenu;
+lazy<LogoutMenu> logoutMenu;
+lazily<RootMenu> rootMenu;
 
 static ref<YIcon> defaultAppIcon;
 
 static bool replace_wm;
-static bool restart_wm;
 static bool post_preferences;
+static bool show_extensions;
 
 static Window registerProtocols1(char **argv, int argc) {
     long timestamp = CurrentTime;
     YAtom wmSx("WM_S", true);
-    YAtom wm_manager("MANAGER");
 
     Window current_wm = XGetSelectionOwner(xapp->display(), wmSx);
 
@@ -117,16 +106,6 @@ static Window registerProtocols1(char **argv, int argc) {
         msg(_("done."));
     }
 
-    char hostname[64] = { 0, };
-    gethostname(hostname, 64);
-
-    XTextProperty hname = {
-        (unsigned char *) hostname,
-        XA_STRING,
-        8,
-        strnlen(hostname, 64)
-    };
-
     static char wm_class[] = "IceWM";
     static char wm_instance[] = "icewm";
 
@@ -139,14 +118,13 @@ static Window registerProtocols1(char **argv, int argc) {
 
     Xutf8SetWMProperties(xapp->display(), xid, wm_name, NULL,
             argv, argc, NULL, NULL, &class_hint);
-    XSetWMClientMachine(xapp->display(), xid, &hname);
 
     XClientMessageEvent ev;
 
     memset(&ev, 0, sizeof(ev));
     ev.type = ClientMessage;
     ev.window = xroot;
-    ev.message_type = wm_manager;
+    ev.message_type = _XA_MANAGER;
     ev.format = 32;
     ev.data.l[0] = timestamp;
     ev.data.l[1] = wmSx;
@@ -156,7 +134,7 @@ static Window registerProtocols1(char **argv, int argc) {
     return xid;
 }
 
-static void registerProtocols2(Window xid) {
+static void registerWinProtocols(Window xid) {
     Atom win_proto[] = {
 //      _XA_WIN_APP_STATE,
         _XA_WIN_AREA,
@@ -176,12 +154,14 @@ static void registerProtocols2(Window xid) {
         _XA_WIN_WORKSPACE_COUNT,
         _XA_WIN_WORKSPACE_NAMES
     };
-    unsigned int i = ACOUNT(win_proto);
+    int win_count = int ACOUNT(win_proto);
 
     XChangeProperty(xapp->display(), manager->handle(),
                     _XA_WIN_PROTOCOLS, XA_ATOM, 32,
-                    PropModeReplace, (unsigned char *)win_proto, i);
+                    PropModeReplace, (unsigned char *)win_proto, win_count);
+}
 
+static void registerWinProperties(Window xid) {
     XChangeProperty(xapp->display(), xid,
                     _XA_WIN_SUPPORTING_WM_CHECK, XA_CARDINAL, 32,
                     PropModeReplace, (unsigned char *)&xid, 1);
@@ -199,7 +179,9 @@ static void registerProtocols2(Window xid) {
     XChangeProperty(xapp->display(), manager->handle(),
                     _XA_WIN_AREA, XA_CARDINAL, 32,
                     PropModeReplace, (unsigned char *)&ca, 2);
+}
 
+static void registerNetProtocols(Window xid) {
     Atom net_proto[] = {
         _XA_NET_ACTIVE_WINDOW,
         _XA_NET_CLIENT_LIST,
@@ -224,8 +206,8 @@ static void registerProtocols2(Window xid) {
         _XA_NET_SUPPORTING_WM_CHECK,
         _XA_NET_SYSTEM_TRAY_MESSAGE_DATA,
         _XA_NET_SYSTEM_TRAY_OPCODE,
-//      _XA_NET_SYSTEM_TRAY_ORIENTATION,
-//      _XA_NET_SYSTEM_TRAY_VISUAL,
+        _XA_NET_SYSTEM_TRAY_ORIENTATION,
+        _XA_NET_SYSTEM_TRAY_VISUAL,
 //      _XA_NET_VIRTUAL_ROOTS,
         _XA_NET_WM_ACTION_ABOVE,
         _XA_NET_WM_ACTION_BELOW,
@@ -293,12 +275,30 @@ static void registerProtocols2(Window xid) {
         _XA_NET_WM_WINDOW_TYPE_UTILITY,
         _XA_NET_WORKAREA
     };
-    unsigned int j = ACOUNT(net_proto);
+    int net_count = int ACOUNT(net_proto);
+
+    if ((showTaskBar & taskBarEnableSystemTray) == false) {
+        for (int k = net_count; 0 < k--; ) {
+            if (net_proto[k] == _XA_NET_SYSTEM_TRAY_MESSAGE_DATA ||
+                net_proto[k] == _XA_NET_SYSTEM_TRAY_OPCODE ||
+                net_proto[k] == _XA_NET_SYSTEM_TRAY_ORIENTATION ||
+                net_proto[k] == _XA_NET_SYSTEM_TRAY_VISUAL)
+            {
+                int keep = --net_count - k;
+                if (keep > 0) {
+                    size_t size = keep * sizeof(Atom);
+                    memmove(&net_proto[k], &net_proto[k + 1], size);
+                }
+            }
+        }
+    }
 
     XChangeProperty(xapp->display(), manager->handle(),
                     _XA_NET_SUPPORTED, XA_ATOM, 32,
-                    PropModeReplace, (unsigned char *)net_proto, j);
+                    PropModeReplace, (unsigned char *)net_proto, net_count);
+}
 
+static void registerNetProperties(Window xid) {
     XChangeProperty(xapp->display(), xid,
                     _XA_NET_SUPPORTING_WM_CHECK, XA_WINDOW, 32,
                     PropModeReplace, (unsigned char *)&xid, 1);
@@ -313,11 +313,19 @@ static void registerProtocols2(Window xid) {
 
     XChangeProperty(xapp->display(), xid,
                     _XA_NET_WM_NAME, _XA_UTF8_STRING, 8,
-                    PropModeReplace, (unsigned char *)wmname, strnlen(wmname, sizeof(wmname)));
+                    PropModeReplace, (unsigned char *)wmname,
+                    strnlen(wmname, sizeof(wmname)));
 
     XChangeProperty(xapp->display(), manager->handle(),
                     _XA_NET_SUPPORTING_WM_CHECK, XA_WINDOW, 32,
                     PropModeReplace, (unsigned char *)&xid, 1);
+}
+
+static void registerProtocols2(Window xid) {
+    registerWinProtocols(xid);
+    registerWinProperties(xid);
+    registerNetProtocols(xid);
+    registerNetProperties(xid);
 }
 
 static void unregisterProtocols() {
@@ -340,14 +348,6 @@ void YWMApp::initIconSize() {
         XSetIconSizes(xapp->display(), manager->handle(), is, 1);
         XFree(is);
     }
-}
-
-
-void YWMApp::initAtoms() {
-    XA_IcewmWinOptHint = XInternAtom(xapp->display(), "_ICEWM_WINOPTHINT", False);
-    XA_ICEWM_FONT_PATH = XInternAtom(xapp->display(), "ICEWM_FONT_PATH", False);
-    _XA_XROOTPMAP_ID = XInternAtom(xapp->display(), "_XROOTPMAP_ID", False);
-    _XA_XROOTCOLOR_PIXEL = XInternAtom(xapp->display(), "_XROOTCOLOR_PIXEL", False);
 }
 
 static void initFontPath(IApp *app) {
@@ -413,7 +413,7 @@ static void initFontPath(IApp *app) {
 
             if (XGetWindowProperty(xapp->display(),
                                    manager->handle(),
-                                   XA_ICEWM_FONT_PATH,
+                                   _XA_ICEWM_FONT_PATH,
                                    0, PATH_MAX, False, XA_STRING,
                                    &r_type, &r_format,
                                    &count, &bytes_remain,
@@ -438,7 +438,7 @@ static void initFontPath(IApp *app) {
 #endif
             // ----------------------------------------- set the new font path ---
             XChangeProperty(xapp->display(), manager->handle(),
-                            XA_ICEWM_FONT_PATH, XA_STRING, 8, PropModeReplace,
+                            _XA_ICEWM_FONT_PATH, XA_STRING, 8, PropModeReplace,
                             (unsigned char *) fontsdir, strlen(fontsdir));
             XSetFontPath(xapp->display(), newFontPath, ndirs + 1);
 
@@ -490,19 +490,11 @@ void YWMApp::initPointers() {
     scrollDownPointer      = l->load("scrollD.xpm", XC_sb_down_arrow);
 }
 
-static void initMenus(
-    IApp *app,
-    YSMListener *smActionListener,
-    YActionListener *wmActionListener)
-{
-    windowListMenu = new WindowListMenu(app);
-    windowListMenu->setShared(true); // !!!
-    windowListMenu->setActionListener(wmapp);
+void LogoutMenu::updatePopup() {
+    if (itemCount())
+        return;
 
     if (showLogoutMenu) {
-        logoutMenu = new YMenu();
-        PRECONDITION(logoutMenu != 0);
-
         logoutMenu->setShared(true); /// !!! get rid of this (refcount objects)
         if (showLogoutSubMenu) {
             logoutMenu->addItem(_("_Logout"), -2, null, actionLogout)->setChecked(true);
@@ -524,18 +516,15 @@ static void initMenus(
 
             logoutMenu->addItem(_("Restart _Icewm"), -2, null, actionRestart, "restart");
 
-            logoutMenu->addItem(_("Restart _Xterm"), -2, null, actionRestartXterm, "xterm");
+            logoutMenu->addItem(_("Restart _Xterm"), -2, null, actionRestartXterm, TERM);
 
         }
     }
+}
 
-    windowMenu = new YMenu();
-    assert(windowMenu != 0);
-    windowMenu->setShared(true);
-
-    layerMenu = new YMenu();
-    assert(layerMenu != 0);
-    layerMenu->setShared(true);
+void LayerMenu::updatePopup() {
+    if (itemCount())
+        return;
 
     layerMenu->addItem(_("_Menu"),       -2, null, layerActionSet[WinLayerMenu]);
     layerMenu->addItem(_("_Above Dock"), -2, null, layerActionSet[WinLayerAboveDock]);
@@ -544,10 +533,12 @@ static void initMenus(
     layerMenu->addItem(_("_Normal"),     -2, null, layerActionSet[WinLayerNormal]);
     layerMenu->addItem(_("_Below"),      -2, null, layerActionSet[WinLayerBelow]);
     layerMenu->addItem(_("D_esktop"),    -2, null, layerActionSet[WinLayerDesktop]);
+}
 
-    moveMenu = new YMenu();
-    assert(moveMenu != 0);
-    moveMenu->setShared(true);
+void MoveMenu::updatePopup() {
+    if (itemCount())
+        return;
+
     for (int w = 1; w <= workspaceCount; w++) {
         char s[128];
         snprintf(s, sizeof s, "%2d.  %s ", w, workspaceNames[w - 1]);
@@ -566,6 +557,14 @@ static void initMenus(
                 w == 12 ? KEY_NAME(gKeySysWorkspace12TakeWin) :
                 "", workspaceActionMoveTo[w - 1]);
     }
+}
+
+YMenu* YWMApp::getWindowMenu() {
+    if (windowMenu)
+        return windowMenu;
+
+    windowMenu = new YMenu();
+    windowMenu->setShared(true);
 
     if (strchr(winMenuItems, 'r'))
         windowMenu->addItem(_("_Restore"),  -2, KEY_NAME(gKeyWinRestore), actionRestore);
@@ -625,52 +624,60 @@ static void initMenus(
         windowMenu->addItem(_("_Window list"), -2, KEY_NAME(gKeySysWindowList), actionWindowList);
     }
 
-    rootMenu = new StartMenu(app, smActionListener, wmActionListener, "menu");
-    rootMenu->setActionListener(wmapp);
-    rootMenu->setShared(true);
+    return windowMenu;
 }
 
-static int handler(Display *display, XErrorEvent *xev) {
+bool YWMApp::handleTimer(YTimer *timer) {
+    if (timer == errorTimer) {
+        errorTimer = null;
+        if (errorRequestCode == X_SetInputFocus && errorFrame != 0) {
+            if (errorFrame == manager->getFocus()) {
+                if (errorFrame->client()) {
+                    errorFrame->client()->testDestroyed();
+                }
+                manager->setFocus(0);
+                manager->focusLastWindow();
+            }
+        }
+        errorRequestCode = Success;
+    }
+    else if (timer == splashTimer) {
+        splashTimer = null;
+        splashWindow = null;
+    }
+    return false;
+}
+
+int YWMApp::handleError(XErrorEvent *xev) {
 
     if (initializing &&
         xev->request_code == X_ChangeWindowAttributes &&
         xev->error_code == BadAccess)
     {
         msg(_("Another window manager already running, exiting..."));
-        exit(1);
+        ::exit(1);
     }
 
-    XDBG {
-        char message[80], req[80], number[80];
-
-        snprintf(number, sizeof number, "%d", xev->request_code);
-        XGetErrorDatabaseText(display, "XRequest", number, "", req, sizeof req);
-        if (req[0] == 0)
-            snprintf(req, sizeof req, "[request_code=%d]", xev->request_code);
-
-        if (XGetErrorText(display, xev->error_code, message, sizeof message))
-            *message = '\0';
-
-        tlog("X error %s(0x%lX): %s, #%lu, %+ld, %+ld.",
-             req, xev->resourceid, message,
-             xev->serial, (long) NextRequest(display) - (long) xev->serial,
-             (long) LastKnownRequestProcessed(display) - (long) xev->serial);
-
-#if defined(DEBUG) || defined(PRECON)
-        if (xapp->synchronized()) {
-            switch (xev->request_code) {
-                case X_GetImage:
-                case X_CreateGC:
-                    show_backtrace();
-                    break;
-                default:
-                    // show_backtrace();
-                    break;
-            }
+    if (xev->error_code == BadWindow) {
+        YWindow* ywin = windowContext.find(xev->resourceid);
+        if (ywin) {
+            if (ywin->destroyed())
+                return Success;
+            else
+                ywin->setDestroyed();
         }
-#endif
+        if (xev->request_code == X_SetInputFocus) {
+            errorRequestCode = xev->request_code;
+            errorFrame = manager->getFocus();
+            if (errorFrame)
+                errorTimer->setTimer(0, this, true);
+        }
     }
-    return 0;
+    if (xev->request_code == X_GetWindowAttributes) {
+        return Success;
+    }
+
+    return BadRequest;
 }
 
 #ifdef DEBUG
@@ -810,10 +817,7 @@ bool YWMApp::mapClientByResource(const char* resource, long *pid) {
 void YWMApp::setFocusMode(FocusModels mode) {
     focusMode = mode;
     initFocusMode();
-
-    char s[32];
-    snprintf(s, sizeof s, "FocusMode=%d\n", mode);
-    WMConfig::setDefault("focus_mode", s);
+    WMConfig::setDefaultFocus(mode);
 }
 
 void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
@@ -832,7 +836,13 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
     } else if (action == actionReboot) {
         manager->doWMAction(ICEWM_ACTION_REBOOT);
     } else if (action == actionRestart) {
-        restartClient(0, 0);
+#if defined(DEBUG) || defined(PRECON)
+        // Prefer a return from main for cleanup checking; icesm restarts.
+        if (notifyParent && notifiedParent && kill(notifiedParent, 0) == 0)
+            this->exit(ICESM_EXIT_RESTART);
+        else
+#endif
+            restartClient(0, 0);
     }
     else if (action == actionRestartXterm) {
         struct t_executor : public YMsgBoxListener {
@@ -842,7 +852,7 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
                 if (msgbox)
                     manager->unmanageClient(msgbox);
                 if (operation == YMsgBox::mbOK)
-                    listener->restartClient(QUOTE(XTERMCMD), 0);
+                    listener->restartClient(TERM, nullptr);
             }
         };
         static t_executor delegate(this);
@@ -933,7 +943,9 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
     } else if (action == actionUndoArrange) {
         manager->undoArrange();
     } else if (action == actionWindowList) {
-        if (windowList)
+        if (windowList->visible())
+            windowList->getFrame()->wmHide();
+        else
             windowList->showFocused(-1, -1);
     } else if (action == actionWinOptions) {
         loadWinOptions(findConfigFile("winoptions"));
@@ -1047,43 +1059,77 @@ void YWMApp::initFocusMode() {
     }
 }
 
+static void showExtensions() {
+    struct {
+        const char* str;
+        YExtension* ext;
+    } xs[] = {
+        { "composite", &composite },
+        { "damage",    &damage    },
+        { "fixes",     &fixes     },
+        { "render",    &render    },
+        { "shapes",    &shapes    },
+        { "xrandr",    &xrandr    },
+    };
+    printf("[name]   [ver] [ev][err]\n");
+    for (int i = 0; i < int ACOUNT(xs); ++i) {
+        const char* s = xs[i].str;
+        YExtension* x = xs[i].ext;
+        if (x->versionMajor | x->versionMinor) {
+            printf("%-9s %d.%-2d (%2d, %3d)\n", s,
+                    x->versionMajor, x->versionMinor,
+                    x->eventBase, x->errorBase);
+        }
+        if (!x->supported) {
+            printf("%-9s unsupported\n", s);
+        }
+    }
+}
+
+static int restartWM(const char* displayName, const char* overrideTheme) {
+    Display* display = XOpenDisplay(displayName);
+    if (display) {
+        if (nonempty(overrideTheme)) {
+            WMConfig::setDefaultTheme(overrideTheme);
+        }
+        XClientMessageEvent message = {
+            ClientMessage, 0UL, False, 0, DefaultRootWindow(display),
+            XInternAtom(display, "_ICEWM_ACTION", False), 32,
+        };
+        message.data.l[0] = CurrentTime;
+        message.data.l[1] = ICEWM_ACTION_RESTARTWM;
+        XSendEvent(display, DefaultRootWindow(display), False,
+                   SubstructureNotifyMask, (XEvent *) &message);
+        XSync(display, False);
+        XCloseDisplay(display);
+        return EXIT_SUCCESS;
+    }
+    else {
+        msg(_("Can't open display: %s. X must be running and $DISPLAY set."),
+            displayName ? displayName : _("<none>"));
+        return EXIT_FAILURE;
+    }
+}
+
 YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
+                bool notifyParent, const char *splashFile,
                 const char *configFile, const char *overrideTheme) :
     YSMApplication(argc, argv, displayName),
     mainArgv(*argv),
     configFile(configFile),
+    notifyParent(notifyParent),
+    notifiedParent(0),
     fLogoutMsgBox(0),
     aboutDlg(0),
     ctrlAltDelete(0),
     switchWindow(0),
+    windowMenu(0),
+    errorRequestCode(0),
+    errorFrame(0),
+    splashWindow(splash(splashFile)),
     focusMode(FocusClick),
     managerWindow(None)
 {
-    if (restart_wm) {
-        if (overrideTheme && *overrideTheme) {
-            mstring themeContent("Theme=\"" + mstring(overrideTheme) + "\"");
-            WMConfig::setDefault("theme", cstring(themeContent));
-        }
-        YWindowManager::doWMAction(ICEWM_ACTION_RESTARTWM);
-        XSync(xapp->display(), False);
-        ::exit(0);
-    }
-
-    if (configFile == 0 || *configFile == 0)
-        configFile = "preferences";
-    if (overrideTheme && *overrideTheme)
-        themeName = overrideTheme;
-    else
-    {
-        cfoption theme_prefs[] = {
-            OSV("Theme", &themeName, "Theme name"),
-            OK0()
-        };
-
-        YConfig::findLoadConfigFile(this, theme_prefs, configFile);
-        YConfig::findLoadConfigFile(this, theme_prefs, "theme");
-    }
-
     wmapp = this;
 
     WMConfig::loadConfiguration(this, configFile);
@@ -1120,26 +1166,23 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
     DEPRECATE(dontRotateMenuPointer == false);
     DEPRECATE(lowerOnClickWhenRaised == true);
 
-    if (workspaceCount == 0)
-        addWorkspace(0, " 0 ", false);
-
     catchSignal(SIGINT);
     catchSignal(SIGTERM);
     catchSignal(SIGQUIT);
     catchSignal(SIGHUP);
     catchSignal(SIGCHLD);
     catchSignal(SIGUSR2);
+    catchSignal(SIGPIPE);
 
     actionPerformed(actionWinOptions, 0);
     MenuLoader(this, this, this).loadMenus(findConfigFile("keys"), 0);
 
-    XSetErrorHandler(handler);
-
-    initAtoms();
     initPointers();
 
     if (post_preferences)
-        WMConfig::print_preferences();
+        WMConfig::printPrefs(focusMode, loggingEvents, synchronizeX11, splashFile);
+    if (show_extensions)
+        showExtensions();
 
     delete desktop;
 
@@ -1155,7 +1198,6 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
     initIcons();
     initIconSize();
     WPixRes::initPixmaps();
-    initMenus(this, this, this);
 
     if (scrollBarWidth == 0) {
         switch(wmLook) {
@@ -1207,20 +1249,12 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
         }
     }
 
-    statusMoveSize = new MoveSizeStatus(manager);
-    statusWorkspace = WorkspaceStatus::createInstance(manager);
-
-    windowList = new WindowList(manager, this);
-
-    createTaskBar();
-
     manager->initWorkspaces();
 
     manager->grabKeys();
 
     manager->setupRootProxy();
 
-    manager->updateWorkArea();
 #ifdef CONFIG_SESSION
     if (haveSessionManager())
         loadWindowInfo();
@@ -1234,38 +1268,38 @@ YWMApp::~YWMApp() {
         manager->unmanageClient(fLogoutMsgBox);
         fLogoutMsgBox = 0;
     }
-    delete aboutDlg; aboutDlg = 0;
+    if (aboutDlg) {
+        manager->unmanageClient(aboutDlg);
+        aboutDlg = 0;
+    }
+
     delete switchWindow; switchWindow = 0;
     termIcons();
     delete ctrlAltDelete; ctrlAltDelete = 0;
     delete taskBar; taskBar = 0;
 
-    delete statusMoveSize; statusMoveSize = 0;
-    delete statusWorkspace; statusWorkspace = 0;
+    if (statusMoveSize)
+        statusMoveSize = null;
+    if (statusWorkspace)
+        statusWorkspace = null;
 
-    delete rootMenu; rootMenu = 0;
-    delete windowListPopup; windowListPopup = 0;
-    delete windowList; windowList = 0;
+    rootMenu = null;
+    windowList = null;
 
-    layerMenu->setShared(false);
-    // delete layerMenu; layerMenu = 0;
-    windowMenu->setShared(false);
-    delete windowMenu; windowMenu = 0;
-
-    if (logoutMenu) {
-        logoutMenu->setShared(false);
-        delete logoutMenu; logoutMenu = 0;
+    if (windowMenu) {
+        windowMenu->setShared(false);
+        delete windowMenu; windowMenu = 0;
     }
 
     // shared menus last
-    moveMenu->setShared(false);
-    delete moveMenu; moveMenu = 0;
-    windowListMenu->setShared(false);
-    delete windowListMenu; windowListMenu = 0;
-    delete manager; desktop = manager = 0;
+    logoutMenu = null;
+    windowListMenu = null;
+    layerMenu = null;
+    moveMenu = null;
+    delete manager; desktop = manager = nullptr;
 
     keyProgs.clear();
-
+    workspaces.reset();
     WPixRes::freePixmaps();
 
     extern void freeTitleColorsFonts();
@@ -1275,6 +1309,22 @@ YWMApp::~YWMApp() {
     //!!!XFreeGC(display(), clipPixmapGC); in ypaint.cc
 
     XFlush(display());
+}
+
+int YWMApp::mainLoop() {
+    signalGuiEvent(geStartup);
+    manager->manageClients();
+
+    if (notifyParent) {
+        notifiedParent = getppid();
+        if (kill(notifiedParent, SIGUSR1)) {
+            notifiedParent = 0;
+            notifyParent = false;
+            fail("notify parent");
+        }
+    }
+
+    return super::mainLoop();
 }
 
 void YWMApp::handleSignal(int sig) {
@@ -1318,6 +1368,10 @@ bool YWMApp::handleIdle() {
         createTaskBar();
         busy = true;
     }
+    else if (splashWindow) {
+        splashWindow = null;
+        splashTimer = null;
+    }
     else if (taskBar) {
         taskBar->relayoutNow();
     }
@@ -1347,14 +1401,11 @@ void YWMApp::signalGuiEvent(GUIEvent ge) {
     }
     next = now + millitime(100L);
 
-    static Atom GUIEventAtom = None;
     unsigned char num = (unsigned char)ge;
 
-    if (GUIEventAtom == None)
-        GUIEventAtom = XInternAtom(xapp->display(), XA_GUI_EVENT_NAME, False);
     XChangeProperty(xapp->display(), desktop->handle(),
-                    GUIEventAtom, GUIEventAtom, 8, PropModeReplace,
-                    &num, 1);
+                    _XA_ICEWM_GUIEVENT, _XA_ICEWM_GUIEVENT,
+                    8, PropModeReplace, &num, 1);
 }
 
 bool YWMApp::filterEvent(const XEvent &xev) {
@@ -1411,8 +1462,10 @@ static void print_usage(const char *argv0) {
 
     const char *usage_preferences =
              _("\n"
+             "  -a, --alpha         Use a 32-bit visual for translucency.\n"
              "  -c, --config=FILE   Load preferences from FILE.\n"
              "  -t, --theme=FILE    Load theme from FILE.\n"
+             "  --splash=IMAGE      Briefly show IMAGE on startup.\n"
              "  --postpreferences   Print preferences after all processing.\n");
 
     printf(_("Usage: %s [OPTIONS]\n"
@@ -1568,11 +1621,12 @@ static void print_configured(const char *argv0) {
 
 int main(int argc, char **argv) {
     YLocale locale;
+    bool restart_wm(false);
     bool notify_parent(false);
     const char* configFile(0);
     const char* displayName(0);
     const char* overrideTheme(0);
-
+    const char* splashFile(ICESPLASH);
 
     for (char ** arg = argv + 1; arg < argv + argc; ++arg) {
         if (**arg == '-') {
@@ -1583,6 +1637,8 @@ int main(int argc, char **argv) {
                 overrideTheme = value;
             else if (is_long_switch(*arg, "postpreferences"))
                 post_preferences = true;
+            else if (is_long_switch(*arg, "extensions"))
+                show_extensions = true;
             else
 #ifdef DEBUG
             if (is_long_switch(*arg, "debug"))
@@ -1608,29 +1664,61 @@ int main(int argc, char **argv) {
             else if (is_version_switch(*arg))
                 print_version_exit(VERSION);
             else if (is_copying_switch(*arg))
-            { /* handled by Xt */ }
+                print_copying_exit();
             else if (is_long_switch(*arg, "sync"))
-            { /* handled by Xt */ }
+                YXApplication::synchronizeX11 = true;
+            else if (is_long_switch(*arg, "logevents"))
+                loggingEvents = true;
+            else if (is_switch(*arg, "a", "alpha"))
+                YXApplication::alphaBlending = true;
             else if (GetArgument(value, "d", "display", arg, argv+argc))
                 displayName = value;
+            else if (GetLongArgument(value, "splash", arg, argv+argc))
+                splashFile = value;
             else
                 warn(_("Unrecognized option '%s'."), *arg);
         }
     }
 
+    if (restart_wm)
+        return restartWM(displayName, overrideTheme);
+
+    if (isEmpty(configFile))
+        configFile = "preferences";
+
+    {
+        cfoption options[] = {
+            OBV("Alpha", &YXApplication::alphaBlending, "Alpha blending"),
+            OBV("Synchronize", &YXApplication::synchronizeX11, "Synchronize X11"),
+            OBV("LogEvents", &loggingEvents, "Event Logging"),
+            OSV("Splash", &splashFile, "Splash image"),
+            OSV("Theme", &themeName, "Theme name"),
+            OK0()
+        };
+        upath prefs(YApplication::locateConfigFile(configFile));
+        if (prefs.nonempty()) {
+            YConfig::loadConfigFile(options, prefs);
+        }
+        upath theme(YApplication::locateConfigFile("theme"));
+        if (theme.nonempty()) {
+            unsigned last = ACOUNT(options) - 2;
+            YConfig::loadConfigFile(options + last, theme);
+        }
+        alphaBlending = YXApplication::alphaBlending;
+    }
+
+    if (nonempty(overrideTheme))
+        themeName = overrideTheme;
+    if (loggingEvents)
+        initLogEvents();
+
     YWMApp app(&argc, &argv, displayName,
+                notify_parent, splashFile,
                 configFile, overrideTheme);
-
-    app.signalGuiEvent(geStartup);
-    manager->manageClients();
-
-    if (notify_parent)
-       kill(getppid(), SIGUSR1);
 
     int rc = app.mainLoop();
     app.signalGuiEvent(geShutdown);
     manager->unmanageClients();
-    app.clientsAreUnmanaged();
     unregisterProtocols();
     YIcon::freeIcons();
     WMConfig::freeConfiguration();
@@ -1752,5 +1840,66 @@ void YWMApp::handleSMAction(WMAction message) {
     }
 }
 
+class SplashWindow : public YWindow {
+    ref<YImage> image;
+public:
+    SplashWindow(ref<YImage> image, int depth, Visual* visual) :
+        YWindow(0, None, depth, visual),
+        image(image)
+    {
+        setToplevel(true);
+        setStyle(wsOverrideRedirect | wsSaveUnder | wsNoExpose);
+        place();
+        XSelectInput(xapp->display(), handle(), VisibilityChangeMask);
+        props();
+        show();
+        xapp->sync();
+    }
+    void place() {
+        int w = int(image->width());
+        int h = int(image->height());
+        int x = (xapp->displayWidth() - w) / 2;
+        int y = (xapp->displayHeight() - h) / 2;
+        setGeometry(YRect(x, y, w, h));
+        GraphicsBuffer(this).paint();
+    }
+    void props() {
+        setTitle("IceSplash");
+        setClassHint("splash", "IceWM");
+        setNetOpacity(82 * (0xFFFFFFFF / 100));
+        setNetWindowType(_XA_NET_WM_WINDOW_TYPE_SPLASH);
+        setProperty(_XA_WIN_LAYER, XA_CARDINAL, 15);
+    }
+    void repaint() {
+    }
+    void handleExpose(const XExposeEvent&) {
+    }
+    void paint(Graphics& g, const YRect&) {
+        g.copyImage(image, 0, 0);
+    }
+    void handleVisibility(const XVisibilityEvent&) {
+        raise();
+        xapp->sync();
+    }
+};
+
+YWindow* YWMApp::splash(const char* splashFile) {
+    YWindow* window(0);
+    if (splashFile && 4 < strlen(splashFile)) {
+        upath path(findConfigFile(splashFile));
+        if (path.nonempty()) {
+            ref<YImage> imag(YImage::load(path));
+            if (imag != null) {
+                unsigned depth = DefaultDepth(display(), screen());
+                Visual* visual = DefaultVisual(display(), screen());
+                window = new SplashWindow(imag, depth, visual);
+                window->unmanageWindow();
+                window->raise();
+                splashTimer->setTimer(1000L, this, true);
+            }
+        }
+    }
+    return window;
+}
 
 // vim: set sw=4 ts=4 et:

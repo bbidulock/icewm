@@ -21,7 +21,7 @@
 #include "wmapp.h"
 #include "yrect.h"
 #include "wpixmaps.h"
-#include "aworkspaces.h"
+#include "workspaces.h"
 #include "yxcontext.h"
 
 #include "intl.h"
@@ -33,9 +33,9 @@ lazy<YTimer> YFrameWindow::fAutoRaiseTimer;
 lazy<YTimer> YFrameWindow::fDelayFocusTimer;
 
 YFrameWindow::YFrameWindow(
-    YActionListener *wmActionListener,
-    YWindow *parent, int depth, Visual *visual)
-    : YWindow(parent, 0, depth, visual)
+    YActionListener *wmActionListener, unsigned dep, Visual* vis, Colormap col)
+    : YWindow(nullptr, None, dep ? dep : xapp->depth(),
+              vis ? vis : xapp->visual(), col ? col : xapp->colormap())
 {
     this->wmActionListener = wmActionListener;
 
@@ -102,6 +102,7 @@ YFrameWindow::YFrameWindow(
     fTitleBar = 0;
 
     fUserTimeWindow = None;
+    fStartManaged = xapp->getEventTime("frame");
 
     fFullscreenMonitorsTop = -1;
     fFullscreenMonitorsBottom = -1;
@@ -119,10 +120,7 @@ YFrameWindow::YFrameWindow(
     fWinState = 0;
     fWinOptionMask = ~0;
     fTrayOrder = 0;
-
-    fClientContainer = new YClientContainer(this, this);
-    fClientContainer->show();
-    fClientContainer->setTitle("Container");
+    fClientContainer = nullptr;
     setTitle("Frame");
     setBackground(inactiveBorderBg);
 }
@@ -155,11 +153,7 @@ YFrameWindow::~YFrameWindow() {
             taskBar->removeTrayApp(this);
         fTrayApp = 0;
     }
-    if (fWinListItem) {
-        if (windowList)
-            windowList->removeWindowListApp(fWinListItem);
-        delete fWinListItem; fWinListItem = 0;
-    }
+    removeFromWindowList();
     if (fMiniIcon) {
         delete fMiniIcon;
         fMiniIcon = 0;
@@ -197,8 +191,23 @@ YFrameWindow::~YFrameWindow() {
 
     // update pager when unfocused windows are killed, because this
     // does not call YWindowManager::updateFullscreenLayer()
-    if (!focused() && taskBar && taskBar->workspacesPane()) {
-        taskBar->workspacesPane()->repaint();
+    if (!focused() && taskBar) {
+        taskBar->workspacesRepaint();
+    }
+}
+
+void YFrameWindow::addToWindowList() {
+    if (fWinListItem == 0) {
+        if (windowList && !(frameOptions() & foIgnoreWinList))
+            fWinListItem = windowList->addWindowListApp(this);
+    }
+}
+
+void YFrameWindow::removeFromWindowList() {
+    if (fWinListItem) {
+        if (windowList)
+            windowList->removeWindowListApp(fWinListItem);
+        delete fWinListItem; fWinListItem = 0;
     }
 }
 
@@ -211,7 +220,18 @@ YFrameTitleBar* YFrameWindow::titlebar() {
 }
 
 void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &requestFocus) {
-    PRECONDITION(clientw != 0);
+    PRECONDITION(clientw != 0 && !fClientContainer && !fClient);
+
+    if (clientw->handle() == None || clientw->destroyed()) {
+        return;
+    }
+
+    unsigned depth = Elvis(clientw->depth(), xapp->depth());
+    bool sameDepth = (depth == xapp->depth());
+    Visual* visual = (sameDepth ? xapp->visual() : clientw->visual());
+    Colormap clmap = (sameDepth ? xapp->colormap() : clientw->colormap());
+    fClientContainer = new YClientContainer(this, this, depth, visual, clmap);
+
     fClient = clientw;
 
     {
@@ -406,8 +426,7 @@ void YFrameWindow::afterManage() {
     if (!(frameOptions() & foFullKeys))
         grabKeys();
     fClientContainer->grabButtons();
-    if (windowList && !(frameOptions() & foIgnoreWinList))
-        fWinListItem = windowList->addWindowListApp(this);
+    addToWindowList();
     if (fWindowType == wtDialog)
         wmapp->signalGuiEvent(geDialogOpened);
     else
@@ -649,8 +668,8 @@ void YFrameWindow::getNewPos(const XConfigureRequestEvent &cr,
 
     // update pager when windows move/resize themselves (like xmms, gmplayer, ...),
     // because this does not call YFrameWindow::endMoveSize()
-    if (taskBar && taskBar->workspacesPane()) {
-        taskBar->workspacesPane()->repaint();
+    if (taskBar) {
+        taskBar->workspacesRepaint();
     }
 }
 
@@ -1370,7 +1389,7 @@ void YFrameWindow::wmClose() {
     if (!canClose())
         return ;
 
-    XGrabServer(xapp->display());
+    manager->grabServer();
     client()->getProtocols(true);
 
     client()->sendPing();
@@ -1383,7 +1402,7 @@ void YFrameWindow::wmClose() {
             wmConfirmKill();
         }
     }
-    XUngrabServer(xapp->display());
+    manager->ungrabServer();
 }
 
 void YFrameWindow::wmConfirmKill() {
@@ -1652,7 +1671,7 @@ void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
     case lookFlat:
     case lookGtk:
         {
-            int n = focused() ? 1 : 0;
+            int n = focused();
             int t = (frameDecors() & fdResize) ? 0 : 1;
 
             if ((frameT[t][n] != null || rgbFrameT[t][n] != null) &&
@@ -1858,7 +1877,7 @@ void YFrameWindow::updateAllowed() {
 //      atoms[i++] = _XA_NET_WM_ACTION_HIDE;
     if ((fFrameFunctions & ffRollup) || (fFrameDecors & fdRollup))
         atoms[i++] = _XA_NET_WM_ACTION_SHADE;
-    if ((1) || (fFrameDecors & fdDepth)) {
+    if (true || (fFrameDecors & fdDepth)) {
         atoms[i++] = _XA_NET_WM_ACTION_ABOVE;
         atoms[i++] = _XA_NET_WM_ACTION_BELOW;
     }
@@ -2141,7 +2160,7 @@ ref<YIcon> newClientIcon(int count, int reclen, long * elem) {
             img = null;
         }
 
-        if (depth == xapp->depth()) {
+        if (depth == xapp->depth() || depth == 24U) {
             MSG(("client icon color: %ld %d %d %d %d", pixmap, w, h, depth, xapp->depth()));
             if (w <= YIcon::smallSize()) {
                 small = YImage::createFromPixmapAndMaskScaled(
@@ -2293,7 +2312,7 @@ YMenu *YFrameWindow::windowMenu() {
     //if (frameOptions() & foFullKeys)
     //    return windowMenuNoKeys;
     //else
-    return ::windowMenu;
+    return wmapp->getWindowMenu();
 }
 
 void YFrameWindow::addAsTransient() {
@@ -2706,7 +2725,7 @@ void YFrameWindow::updateDerivedSize(long flagmask) {
 
     Mh -= titleYN();
 
-    if (1) { // aspect of maximization
+    if (true) { // aspect of maximization
         int aMw, aMh;
         aMw = Mw;
         aMh = Mh;
@@ -3104,6 +3123,9 @@ void YFrameWindow::updateMwmHints() {
     int by = borderY();
 
     getFrameHints();
+    if (isManaged()) {
+        performLayout();
+    }
 
     if (!isRollup() && !isIconic()) /// !!! check (emacs hates this)
         configureClient(x() + bx + bx - borderX(),

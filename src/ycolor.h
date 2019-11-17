@@ -7,11 +7,11 @@ class YColorName;
 class YColor {
 public:
     YColor() : fPixel(0) { }
-    explicit YColor(const char* s) : fPixel(0) { if (s) alloc(s); }
+    explicit YColor(const char* s) : fPixel(0) { if (s) alloc(s, 0); }
     YColor(const YColor& c) : fPixel(c.fPixel) { }
     YColor& operator=(const YColor& c) { fPixel = c.fPixel; return *this; }
 
-    void alloc(const char* name);
+    void alloc(const char* name, int opacity);
     unsigned long pixel();
 
     YColor darker();
@@ -32,7 +32,7 @@ public:
 
 private:
     YColor(YPixel* pixel) : fPixel(pixel) { }
-
+    void alloc(const char* name);
 
     YPixel* fPixel;
 
@@ -60,7 +60,7 @@ public:
     void operator=(const char** clrp) { fName = 0; fNamePtr = clrp; release(); }
 
 private:
-    void alloc() { fColor.alloc(name()); }
+    void alloc() { fColor.alloc(name(), 0); }
 
     const char* fName;
     const char** fNamePtr;

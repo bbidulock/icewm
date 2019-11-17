@@ -1,6 +1,8 @@
 #ifndef __BROWSE_H
 #define __BROWSE_H
 
+class YSMListener;
+
 class BrowseMenu: public ObjectMenu {
 public:
     BrowseMenu(

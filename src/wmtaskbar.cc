@@ -12,15 +12,15 @@
 #include "ypaint.h"
 #include "wmtaskbar.h"
 #include "yprefs.h"
-#include "acpustatus.h"
 
-#include "ymenuitem.h"
 #include "wmmgr.h"
 #include "wmframe.h"
 #include "wmclient.h"
-#include "wmapp.h"
 #include "wmaction.h"
 #include "wmprog.h"
+#include "workspaces.h"
+#include "wmwinmenu.h"
+#include "wmapp.h"
 #include "sysdep.h"
 #include "wmwinlist.h"
 
@@ -31,45 +31,29 @@
 #include "apppstatus.h"
 #include "amailbox.h"
 #include "objbar.h"
-#include "objbutton.h"
-#include "objmenu.h"
 #include "atasks.h"
 #include "atray.h"
 #include "aworkspaces.h"
-#include "yrect.h"
 #include "yxtray.h"
 #include "prefs.h"
-#include "yicon.h"
 #include "wpixmaps.h"
 #include "aapm.h"
-#include "upath.h"
 
 #include "intl.h"
-
-lazy<YTimer> WorkspaceButton::fRaiseTimer;
 
 TaskBar *taskBar = 0;
 
 YColorName taskBarBg(&clrDefaultTaskBar);
 
-static void initPixmaps() {
-    if (taskbarStartImage == null || !taskbarStartImage->valid())
-        taskbarStartImage = taskbarLinuxImage;
-}
-
-
-EdgeTrigger::EdgeTrigger(TaskBar *owner) {
+EdgeTrigger::EdgeTrigger(TaskBar *owner):
+    fTaskBar(owner),
+    fDoShow(false)
+{
     setStyle(wsOverrideRedirect | wsInputOnly);
     setPointer(YXApplication::leftPointer);
     setDND(true);
-    if (taskBarAutoHide) {
-        setTitle("IceEdge");
-    }
-
-    fTaskBar = owner;
-
+    setTitle("IceEdge");
     fAutoHideTimer->setTimer(autoShowDelay, this, false);
-    fDoShow = false;
 }
 
 EdgeTrigger::~EdgeTrigger() {
@@ -77,14 +61,22 @@ EdgeTrigger::~EdgeTrigger() {
 
 void EdgeTrigger::startHide() {
     fDoShow = false;
-    if (fAutoHideTimer)
-        fAutoHideTimer->startTimer(autoHideDelay);
+    fAutoHideTimer->startTimer(autoHideDelay);
 }
 
 void EdgeTrigger::stopHide() {
     fDoShow = false;
-    if (fAutoHideTimer)
-        fAutoHideTimer->stopTimer();
+    fAutoHideTimer->stopTimer();
+}
+
+bool EdgeTrigger::enabled() const {
+    return (taskBarAutoHide | taskBarFullscreenAutoShow) & !taskBarKeepBelow;
+}
+
+void EdgeTrigger::show() {
+    if (enabled()) {
+        YWindow::show();
+    }
 }
 
 void EdgeTrigger::handleCrossing(const XCrossingEvent &crossing) {
@@ -93,42 +85,36 @@ void EdgeTrigger::handleCrossing(const XCrossingEvent &crossing) {
         if (crossing.serial != last && crossing.serial != last + 1) {
             MSG(("enter notify %d %d", crossing.mode, crossing.detail));
             fDoShow = true;
-            if (fAutoHideTimer) {
-                fAutoHideTimer->startTimer(autoShowDelay);
-            }
+            fAutoHideTimer->startTimer(autoShowDelay);
         }
     } else if (crossing.type == LeaveNotify /* && crossing.mode != NotifyNormal */) {
         fDoShow = false;
         MSG(("leave notify"));
-        if (fAutoHideTimer)
-            fAutoHideTimer->stopTimer();
+        fAutoHideTimer->stopTimer();
     }
 }
 
 void EdgeTrigger::handleDNDEnter() {
     fDoShow = true;
-    if (fAutoHideTimer)
-        fAutoHideTimer->startTimer(autoShowDelay);
+    fAutoHideTimer->startTimer(autoShowDelay);
 }
 
 void EdgeTrigger::handleDNDLeave() {
     fDoShow = false;
-    if (fAutoHideTimer)
-        fAutoHideTimer->startTimer(autoHideDelay);
+    fAutoHideTimer->startTimer(autoHideDelay);
 }
 
 
 bool EdgeTrigger::handleTimer(YTimer *t) {
     MSG(("taskbar handle timer"));
-    if (t == fAutoHideTimer) {
-        fTaskBar->autoTimer(fDoShow);
-        return false;
-    }
+    fTaskBar->autoTimer(fDoShow);
     return false;
 }
 
 TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener, YSMListener *smActionListener):
     YFrameClient(aParent, 0),
+    fGraphics(this),
+    fSurface(taskBarBg, taskbackPixmap, taskbackPixbuf),
     fTasks(0),
     fCollapseButton(0),
     fWindowTray(0),
@@ -136,6 +122,7 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     fMEMStatus(0),
     fCPUStatus(0),
     fApm(0),
+    fNetStatus(0),
     fObjectBar(0),
     fApplications(0),
     fWinList(0),
@@ -151,23 +138,15 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     fIsCollapsed(false),
     fIsMapped(false),
     fMenuShown(false),
-    taskBarMenu(0),
     fNeedRelayout(false),
+    fButtonUpdate(false),
     fEdgeTrigger(0)
 {
     taskBar = this;
 
     ///setToplevel(true);
-    setBackground(taskBarBg.pixel());
-    if (taskbackPixmap != null)
-        setBackgroundPixmap(taskbackPixmap->pixmap());
 
-    initPixmaps();
-
-    setTitle("TaskBar");
-    setWindowTitle(_("Task Bar"));
-    setIconTitle(_("Task Bar"));
-    setClassHint("icewm", "TaskBar");
+    setStyle(wsNoExpose);
     //!!!setWinStateHint(WinStateDockHorizontal, WinStateDockHorizontal);
 
     setWinHintsHint(WinHintsSkipFocus |
@@ -185,14 +164,14 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
       //_NET_WM_SYNC_REQUEST,
     };
     XSetWMProtocols(xapp->display(), handle(), protocols, 2);
-    getProtocols(false);
 
     {
-        XWMHints wmh = {};
-        wmh.flags = InputHint;
-        wmh.input = False;
-        wmh.initial_state = WithdrawnState;
-        XSetWMHints(xapp->display(), handle(), &wmh);
+        XWMHints wmhints = { InputHint, False, };
+        ClassHint clhint("icewm", "TaskBar");
+        YTextProperty text("TaskBar");
+        XSetWMProperties(xapp->display(), handle(), &text, &text,
+                         nullptr, 0, nullptr, &wmhints, &clhint);
+        setProperty(_XA_NET_WM_PID, XA_CARDINAL, getpid());
     }
     {
         long wk[4] = { 0, 0, 0, 0 };
@@ -207,26 +186,13 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
 
     setMwmHints(MwmHints(
        MWM_HINTS_FUNCTIONS | MWM_HINTS_DECORATIONS,
-       MWM_FUNC_MOVE,
-       0,
-       0,
-       0));
-
-    {
-        long arg[2];
-        arg[0] = NormalState;
-        arg[1] = 0;
-        XChangeProperty(xapp->display(), handle(),
-                        _XA_WM_STATE, _XA_WM_STATE,
-                        32, PropModeReplace,
-                        (unsigned char *)arg, 2);
-    }
+       MWM_FUNC_MOVE));
+    setFrameState(NormalState);
     setPointer(YXApplication::leftPointer);
     setDND(true);
 
     fEdgeTrigger = new EdgeTrigger(this);
 
-    initMenu();
     initApplets();
 
     getPropertiesList();
@@ -234,7 +200,7 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     getClassHint();
     fIsMapped = true;
 
-    TLOG(("taskbar"));
+    MSG(("taskbar"));
 }
 
 TaskBar::~TaskBar() {
@@ -255,59 +221,52 @@ TaskBar::~TaskBar() {
 #ifdef IWM_STATES
     delete fCPUStatus; fCPUStatus = 0;
 #endif
+    delete fNetStatus; fCPUStatus = 0;
     delete fAddressBar; fAddressBar = 0;
     delete fTasks; fTasks = 0;
     delete fWindowTray; fWindowTray = 0;
     delete fCollapseButton; fCollapseButton = 0;
     delete fShowDesktop; fShowDesktop = 0;
-    delete taskBarMenu; taskBarMenu = 0;
-    taskBar = 0;
+    taskBar = nullptr;
     if (getFrame())
         getFrame()->unmanage(false);
     MSG(("taskBar delete"));
 }
 
-void TaskBar::initMenu() {
-    taskBarMenu = new YMenu();
-    if (taskBarMenu) {
-        taskBarMenu->setActionListener(this);
-        taskBarMenu->addItem(_("Tile _Vertically"), -2, KEY_NAME(gKeySysTileVertical), actionTileVertical);
-        taskBarMenu->addItem(_("T_ile Horizontally"), -2, KEY_NAME(gKeySysTileHorizontal), actionTileHorizontal);
-        taskBarMenu->addItem(_("Ca_scade"), -2, KEY_NAME(gKeySysCascade), actionCascade);
-        taskBarMenu->addItem(_("_Arrange"), -2, KEY_NAME(gKeySysArrange), actionArrange);
-        taskBarMenu->addItem(_("_Minimize All"), -2, KEY_NAME(gKeySysMinimizeAll), actionMinimizeAll);
-        taskBarMenu->addItem(_("_Hide All"), -2, KEY_NAME(gKeySysHideAll), actionHideAll);
-        taskBarMenu->addItem(_("_Undo"), -2, KEY_NAME(gKeySysUndoArrange), actionUndoArrange);
+class TaskBarMenu : public YMenu {
+public:
+    void updatePopup() {
+        if (0 < itemCount())
+            return;
+
+        setActionListener(taskBar);
+        addItem(_("Tile _Vertically"), -2, KEY_NAME(gKeySysTileVertical), actionTileVertical);
+        addItem(_("T_ile Horizontally"), -2, KEY_NAME(gKeySysTileHorizontal), actionTileHorizontal);
+        addItem(_("Ca_scade"), -2, KEY_NAME(gKeySysCascade), actionCascade);
+        addItem(_("_Arrange"), -2, KEY_NAME(gKeySysArrange), actionArrange);
+        addItem(_("_Minimize All"), -2, KEY_NAME(gKeySysMinimizeAll), actionMinimizeAll);
+        addItem(_("_Hide All"), -2, KEY_NAME(gKeySysHideAll), actionHideAll);
+        addItem(_("_Undo"), -2, KEY_NAME(gKeySysUndoArrange), actionUndoArrange);
         if (minimizeToDesktop)
-            taskBarMenu->addItem(_("Arrange _Icons"), -2, KEY_NAME(gKeySysArrangeIcons), actionArrangeIcons)->setEnabled(false);
-        taskBarMenu->addSeparator();
-        taskBarMenu->addItem(_("_Windows"), -2, actionWindowList, windowListMenu);
-        taskBarMenu->addSeparator();
-        taskBarMenu->addItem(_("_Refresh"), -2, null, actionRefresh);
-
-#if 0
-        YMenu *helpMenu; // !!!
-
-        helpMenu = new YMenu();
-        helpMenu->addItem(_("_License"), -2, null, actionLicense);
-        helpMenu->addSeparator();
-        helpMenu->addItem(_("_About"), -2, null, actionAbout);
-#endif
-
-        taskBarMenu->addItem(_("_About"), -2, actionAbout, 0);
-        if (logoutMenu) {
-            taskBarMenu->addSeparator();
+            addItem(_("Arrange _Icons"), -2, KEY_NAME(gKeySysArrangeIcons), actionArrangeIcons)->setEnabled(false);
+        addSeparator();
+        addItem(_("_Windows"), -2, actionWindowList, windowListMenu);
+        addSeparator();
+        addItem(_("_Refresh"), -2, null, actionRefresh);
+        addItem(_("_About"), -2, actionAbout, 0);
+        if (showLogoutMenu) {
+            addSeparator();
             if (showLogoutSubMenu)
-                taskBarMenu->addItem(_("_Logout..."), -2, actionLogout, logoutMenu);
+                addItem(_("_Logout..."), -2, actionLogout, logoutMenu);
             else
-                taskBarMenu->addItem(_("_Logout..."), -2, null, actionLogout);
+                addItem(_("_Logout..."), -2, null, actionLogout);
         }
 
-        taskBarMenu->setTitle("IceMenu");
-        taskBarMenu->setClassHint("icemenu", "TaskBar");
-        taskBarMenu->setNetWindowType(_XA_NET_WM_WINDOW_TYPE_POPUP_MENU);
+        setTitle("IceMenu");
+        setClassHint("icemenu", "TaskBar");
+        setNetWindowType(_XA_NET_WM_WINDOW_TYPE_POPUP_MENU);
     }
-}
+};
 
 void TaskBar::initApplets() {
 #ifdef MEM_STATES
@@ -325,7 +284,10 @@ void TaskBar::initApplets() {
 #endif
 
     if (taskBarShowNetStatus)
-        fNetStatus.init(new NetStatusControl(app, smActionListener, this, this));
+        fNetStatus = new NetStatusControl(app, smActionListener, this, this);
+    else
+        fNetStatus = nullptr;
+
     if (taskBarShowClock)
         fClock = new YClock(smActionListener, this, this);
     else
@@ -355,8 +317,9 @@ void TaskBar::initApplets() {
 #endif
 
     if (taskBarShowCollapseButton) {
-        fCollapseButton = new YButton(this, actionCollapseTaskbar);
+        fCollapseButton = new ObjectButton(this, actionCollapseTaskbar);
         if (fCollapseButton) {
+            fCollapseButton->setWinGravity(StaticGravity);
             fCollapseButton->setText(">");
             fCollapseButton->setImage(taskbarCollapseImage);
             fCollapseButton->setActionListener(this);
@@ -372,7 +335,10 @@ void TaskBar::initApplets() {
         fMailBoxStatus = 0;
 
     if (taskBarShowStartMenu) {
-        fApplications = new ObjectButton(this, rootMenu);
+        class LazyRootMenu : public LazyMenu {
+            YMenu* ymenu() { return rootMenu; }
+        };
+        fApplications = new ObjectButton(this, new LazyRootMenu);
         fApplications->setActionListener(this);
         fApplications->setImage(taskbarStartImage);
         fApplications->setToolTip(_("Favorite Applications"));
@@ -390,7 +356,10 @@ void TaskBar::initApplets() {
         fObjectBar->setTitle("IceToolbar");
     }
     if (taskBarShowWindowListMenu) {
-        fWinList = new ObjectButton(this, windowListMenu);
+        class LazyWindowListMenu : public LazyMenu {
+            YMenu* ymenu() { return windowListMenu; }
+        };
+        fWinList = new ObjectButton(this, new LazyWindowListMenu);
         fWinList->setImage(taskbarWindowsImage);
         fWinList->setActionListener(this);
         fWinList->setToolTip(_("Window List Menu"));
@@ -405,11 +374,12 @@ void TaskBar::initApplets() {
         fShowDesktop->setToolTip(_("Show Desktop"));
         fShowDesktop->setTitle("ShowDesktop");
     }
-    if (taskBarShowWorkspaces && workspaceCount > 0) {
-        fWorkspaces = new WorkspacesPane(this);
-        fWorkspaces->setTitle("Workspaces");
-    } else
-        fWorkspaces = 0;
+
+    fWorkspaces = taskBarShowWorkspaces
+                ? new WorkspacesPane(this)
+                : new AWorkspaces(this);
+    fWorkspaces->setTitle("Workspaces");
+
     if (enableAddressBar) {
         fAddressBar = new AddressBar(app, this);
         fAddressBar->setTitle("AddressBar");
@@ -442,6 +412,10 @@ void TaskBar::initApplets() {
         fDesktopTray->relayout();
     } else
         fDesktopTray = 0;
+
+    if (fCollapseButton) {
+        fCollapseButton->raise();
+    }
 }
 
 void TaskBar::trayChanged() {
@@ -473,11 +447,12 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
     YArray<LayoutInfo> wlist;
     wlist.setCapacity(13);
 
-    nw = LayoutInfo( fApplications, true, 1, true, 0, 0, true );
+    bool issue314 = taskBarAtTop;
+    nw = LayoutInfo( fApplications, true, issue314, true, 0, 0, true );
     wlist.append(nw);
-    nw = LayoutInfo( fShowDesktop, true, 0, true, 0, 0, true );
+    nw = LayoutInfo( fShowDesktop, true, !issue314, true, 0, 0, true );
     wlist.append(nw);
-    nw = LayoutInfo( fWinList, true, 0, true, 0, 0, true );
+    nw = LayoutInfo( fWinList, true, !issue314, true, 0, 0, true );
     wlist.append(nw);
     nw = LayoutInfo( fObjectBar, true, 1, true, 4, 0, true );
     wlist.append(nw);
@@ -623,7 +598,7 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
         }
     }
     if (fAddressBar) {
-        int row = taskBarDoubleHeight ? 1 : 0;
+        int row = taskBarDoubleHeight;
 
         fAddressBar->setGeometry(YRect(left[row],
                                        y[row] + 2,
@@ -649,12 +624,16 @@ void TaskBar::relayoutNow() {
     }
     if (taskPane())
         taskPane()->relayoutNow();
+    if (fButtonUpdate) {
+        fButtonUpdate = false;
+        buttonUpdate();
+    }
     manager->unlockWorkArea();
 }
 
 void TaskBar::updateFullscreen(bool fullscreen) {
     fFullscreen = fullscreen;
-    if ((fFullscreen || fIsHidden) && taskBarAutoHide)
+    if (fFullscreen || fIsHidden)
         fEdgeTrigger->show();
     else
         fEdgeTrigger->hide();
@@ -704,9 +683,7 @@ void TaskBar::updateLocation() {
 
     int by = taskBarAtTop ? dy : dy + dh - 1;
 
-    if (taskBarAutoHide) {
-        fEdgeTrigger->setGeometry(YRect(x, by, w, 1));
-    }
+    fEdgeTrigger->setGeometry(YRect(x, by, w, 1));
 
     int y = taskBarAtTop ? dy : dy + dh - h;
 
@@ -717,24 +694,15 @@ void TaskBar::updateLocation() {
         } else
             setGeometry(YRect(x, y, w, h));
     }
-    if ((fIsHidden || fFullscreen) && taskBarAutoHide)
+    if (fIsHidden || fFullscreen)
         fEdgeTrigger->show();
     else
         fEdgeTrigger->hide();
 
     MwmHints mwm(
        MWM_HINTS_FUNCTIONS | MWM_HINTS_DECORATIONS,
-       MWM_FUNC_MOVE,
-       0,
-       0,
-       0);
+       MWM_FUNC_MOVE);
     setMwmHints(mwm);
-
-    XChangeProperty(xapp->display(), handle(),
-                    _XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
-                    32, PropModeReplace,
-                    (unsigned char *)&mwm, PROP_MWM_HINTS_ELEMENTS);
-    getMwmHints();
     if (getFrame())
         getFrame()->updateMwmHints();
 
@@ -769,22 +737,23 @@ void TaskBar::updateWMHints() {
 
 void TaskBar::handleCrossing(const XCrossingEvent &crossing) {
     unsigned long last = YWindow::getLastEnterNotifySerial();
-    if (crossing.serial != last &&
-        (crossing.serial != last + 1 || crossing.detail != NotifyVirtual))
-    {
-        if (crossing.type == EnterNotify /* && crossing.mode != NotifyNormal */) {
-            fEdgeTrigger->stopHide();
-        } else if (crossing.type == LeaveNotify /* && crossing.mode != NotifyNormal */) {
-            if (crossing.detail != NotifyInferior &&
-                !(crossing.detail == NotifyVirtual &&
-                  crossing.mode == NotifyGrab) &&
-                !(crossing.detail == NotifyAncestor &&
-                  crossing.mode != NotifyNormal))
-            {
-                MSG(("taskbar hide: %d", crossing.detail));
-                fEdgeTrigger->startHide();
-            } else {
+    bool ahwm_hack = (crossing.serial != last &&
+        (crossing.serial != last + 1 || crossing.detail != NotifyVirtual));
+
+    if (crossing.type == EnterNotify) {
+        fEdgeTrigger->stopHide();
+    }
+    else if (crossing.type == LeaveNotify) {
+        if (crossing.detail == NotifyInferior ||
+           (crossing.detail == NotifyVirtual && crossing.mode == NotifyGrab) ||
+           (crossing.detail == NotifyAncestor && crossing.mode != NotifyNormal))
+        {
+            if (ahwm_hack) {
                 fEdgeTrigger->stopHide();
+            }
+        } else {
+            if (ahwm_hack) {
+                fEdgeTrigger->startHide();
             }
         }
     }
@@ -836,8 +805,6 @@ void TaskBar::paint(Graphics &g, const YRect& r) {
             g.drawLine(r.x(), 0, r.x() + r.width(), 0);
         }
     }
-
-    if (ONCE) TLOG(("tb paint"));
 }
 
 bool TaskBar::handleKey(const XKeyEvent &key) {
@@ -849,8 +816,7 @@ void TaskBar::handleButton(const XButtonEvent &button) {
         (button.button == 1 || button.button == 3) &&
         (BUTTON_MODMASK(button.state) == Button1Mask + Button3Mask))
     {
-        if (windowList)
-            windowList->showFocused(button.x_root, button.y_root);
+        windowList->showFocused(button.x_root, button.y_root);
     }
     else {
         if (button.type == ButtonPress) {
@@ -875,8 +841,7 @@ void TaskBar::contextMenu(int x_root, int y_root) {
 void TaskBar::handleClick(const XButtonEvent &up, int count) {
     if (up.button == 1) {
     } else if (up.button == 2) {
-        if (windowList)
-            windowList->showFocused(up.x_root, up.y_root);
+        windowList->showFocused(up.x_root, up.y_root);
     } else {
         if (up.button == 3 && count == 1 && IS_BUTTON(up.state, Button3Mask)) {
             contextMenu(up.x_root, up.y_root);
@@ -999,7 +964,14 @@ void TaskBar::handleCollapseButton() {
 void TaskBar::handlePopDown(YPopupWindow * /*popup*/) {
 }
 
-void TaskBar::configure(const YRect &r) {
+void TaskBar::configure(const YRect2& r) {
+    if (r.resized() && 1 < r.width()) {
+        fGraphics.paint(r);
+    }
+}
+
+void TaskBar::repaint() {
+    fGraphics.paint();
 }
 
 void TaskBar::detachDesktopTray() {
@@ -1050,11 +1022,43 @@ void TaskBar::showAddressBar() {
         fAddressBar->showNow();
 }
 
-void TaskBar::setWorkspaceActive(long workspace, int active) {
-    if (fWorkspaces != 0 &&
-        fWorkspaces->workspaceButton(workspace) != 0)
-    {
-        fWorkspaces->workspaceButton(workspace)->setPressed(active);
+void TaskBar::setWorkspaceActive(long workspace, bool active) {
+    if (taskBarShowWorkspaces && fWorkspaces) {
+        YDimension dim(fWorkspaces->dimension());
+        fWorkspaces->setPressed(workspace, active);
+        if (dim != fWorkspaces->dimension()) {
+            relayout();
+        }
+    }
+}
+
+void TaskBar::workspacesRepaint() {
+    if (taskBarShowWorkspaces && fWorkspaces) {
+        fWorkspaces->repaint();
+    }
+}
+
+void TaskBar::workspacesUpdateButtons() {
+    fButtonUpdate = true;
+}
+
+void TaskBar::buttonUpdate() {
+    if (taskBarShowWorkspaces && fWorkspaces) {
+        YDimension dim(fWorkspaces->dimension());
+        fWorkspaces->updateButtons();
+        if (dim != fWorkspaces->dimension()) {
+            relayout();
+        }
+    }
+}
+
+void TaskBar::workspacesRelabelButtons() {
+    if (taskBarShowWorkspaces && fWorkspaces) {
+        YDimension dim(fWorkspaces->dimension());
+        fWorkspaces->relabelButtons();
+        if (dim != fWorkspaces->dimension()) {
+            relayout();
+        }
     }
 }
 

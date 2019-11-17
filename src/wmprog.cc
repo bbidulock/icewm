@@ -9,6 +9,7 @@
 
 #include "wmprog.h"
 #include "prefs.h"
+#include "wmwinmenu.h"
 #include "wmapp.h"
 #include "sysdep.h"
 #include "wmmgr.h"
@@ -842,7 +843,7 @@ void StartMenu::refresh() {
             addSubmenu(_("Se_ttings"), -2, settings, "settings");
     }
 
-    if (logoutMenu) {
+    if (showLogoutMenu) {
         addSeparator();
         if (showLogoutSubMenu)
             addItem(_("_Logout..."), -2, actionLogout, logoutMenu, "logout");

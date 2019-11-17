@@ -5,6 +5,9 @@ dist_xsession_DATA = \
 	icewm.desktop \
 	icewm-session.desktop
 
+dist_pkgdata_DATA = \
+	IceWM.jpg
+
 nodist_pkgdata_DATA = \
 	keys \
 	menu \

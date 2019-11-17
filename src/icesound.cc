@@ -534,8 +534,10 @@ done:
 
 class IceSound : public SoundConf {
 public:
-    IceSound(int argc, char** argv);
+    IceSound();
     virtual ~IceSound() {}
+
+    void parseArgs(int argc, char** argv);
 
     virtual bool verbose() const { return verbosity; }
     virtual const char* alsaDevice() const {
@@ -589,7 +591,7 @@ private:
     static void hup(int sig);
 };
 
-IceSound::IceSound(int argc, char** argv) :
+IceSound::IceSound() :
     verbosity(false),
     sampleDir(0),
     deviceFile(0),
@@ -610,6 +612,10 @@ IceSound::IceSound(int argc, char** argv) :
 #endif
     initPaths();
     initSignals();
+}
+
+void IceSound::parseArgs(int argc, char** argv)
+{
     for (char **arg = argv + 1; arg < argv + argc; ++arg) {
         if (**arg == '-') {
             char* value(0);
@@ -980,7 +986,10 @@ int main(int argc, char *argv[]) {
     textdomain(PACKAGE);
 
     ApplicationName = my_basename(argv[0]);
-    return IceSound(argc, argv).run();
+
+    IceSound icesound;
+    icesound.parseArgs(argc, argv);
+    return icesound.run();
 }
 
 

@@ -2,7 +2,7 @@
 
 =head1 NAME
 
-icesh - control window properties and the IceWM window manager
+ icesh - control window properties and the IceWM window manager
 
 =head1 SYNOPSIS
 
@@ -14,7 +14,7 @@ icesh - control window properties and the IceWM window manager
 
 =head1 DESCRIPTION
 
-B<icesh> provides 69 commands to change or query a window's state,
+B<icesh> provides 85 commands to change or query a window's state,
 and to interact with the L<icewm(1)> window manager. Command arguments
 are called actions. Window actions operate on a selection of windows.
 B<icesh> has several options to select and filter windows.  Options and
@@ -23,7 +23,8 @@ another from left to right. Therefore, an option can only affect a
 subsequent action, but not a previous one. Because of this, an action
 can operate on a different selection of windows than a previous action,
 if it is preceded by a new select option. In combination with filter
-options, this gives B<icesh> its expressive power.
+options, this gives B<icesh> its expressive power. Use it in
+L<icewm-keys(5)> to define your own window management hotkeys.
 
 =head1 OPTIONS
 
@@ -88,11 +89,6 @@ same class and windows of the same instance (aka. I<-name>) are selected.
 
 Filter clients and keep only the most recent client.
 
-=item B<-p>, B<-pid> I<PID>
-
-Filters clients by process ID. Clients with a _NET_WM_PID property equal
-to I<PID> are selected.
-
 =item B<-m>, B<-machine> I<HOST>
 
 Filters clients by host name. Clients with a WM_CLIENT_MACHINE property
@@ -105,21 +101,50 @@ I<NAME> matches any part of the property value.
 To match at the beginning use a C<^> prefix.
 To match at the end use a C<$> suffix.
 
+=item B<-p>, B<-pid> I<PID>
+
+Filters clients by process ID. Clients with a _NET_WM_PID property equal
+to I<PID> are selected.
+
+=item B<-G>, B<-Gravity> I<GRAVITY>
+
+Filters clients by the window gravity field of the WM_NORMAL_HINTS
+property.  Clients with a gravity equal to I<GRAVITY> are selected.
+If I<GRAVITY> starts with an exclamation mark then the filtering is
+inverted.
+
 =item B<-L>, B<-Layer> I<LAYER>
 
 Filters clients by I<GNOME window layer>, which can either be a layer
-name (see below) or a layer number.
+name (see below) or a layer number.  If I<LAYER> starts with an
+exclamation mark then the filtering is inverted.
+
+=item B<-P>, B<-Property> I<PROP>
+
+Filters clients by property. Clients which have a property I<PROP> are
+selected.  The filtering is inverted if I<PROP> starts with an
+exclamation mark.
+
+=item B<-R>, B<-Role> I<ROLE>
+
+Filters clients by WM_WINDOW_ROLE. Clients which have a WM_WINDOW_ROLE
+property value equal to I<ROLE> are selected.  The filtering is inverted
+if I<ROLE> starts with an exclamation mark.
 
 =item B<-S>, B<-State> I<STATE>
 
 Filters clients by I<GNOME window state>. Clients which have at least
 a state of I<STATE> are selected.  The window state refers to details
-like B<minized> or B<maximized> and is explained below.
+like B<minized> or B<maximized> and is explained below.  If I<STATE>
+starts with an exclamation mark then the filtering is inverted.
+A question mark C<?> filters clients with any bit set in I<STATE>.
 
 =item B<-W>, B<-Workspace> I<WORKSPACE>
 
 Filter clients by workspace. Workspace I<WORKSPACE> is either a
 workspace name or a workspace number counting from zero.
+If I<WORKSPACE> starts with an exclamation mark then the filtering is
+inverted.
 
 =item B<-X>, B<-Xinerama> I<MONITOR>
 
@@ -183,6 +208,10 @@ Terminate the window.
 =item B<id>
 
 Print window identifiers for the selected windows.
+
+=item B<pid>
+
+Print process identifiers for the selected windows.
 
 =item B<list>
 
@@ -252,6 +281,14 @@ Do show window on taskbar.
 
 Resize window to I<WIDTH> by I<HEIGHT> window units.
 
+=item B<sizeto> I<WIDTH> I<HEIGHT>
+
+Resize window to I<WIDTH> by I<HEIGHT> pixels. If I<WIDTH> or I<HEIGHT>
+ends with a percent sign C<%>, then they refer to a percentage of the
+desktop work area. For instance, C<sizeto 50% 100%>a resizes to half
+the desktop width and whatever height is available above or below the
+taskbar.
+
 =item B<move> I<X> I<Y>
 
 Move the selected window or windows to the screen position I<X> I<Y>.
@@ -264,23 +301,23 @@ Displace window by I<X> I<Y> pixels.
 
 =item B<center>
 
-Position window in the center of the screen.
+Position window in the center of the desktop work area.
 
 =item B<left>
 
-Position window against the left side of the screen.
+Position window against the left side of the desktop work area.
 
 =item B<right>
 
-Position window against the right side of the screen.
+Position window against the right side of the desktop work area.
 
 =item B<top>
 
-Position window against the top side of the screen.
+Position window against the top side of the desktop work area.
 
 =item B<bottom>
 
-Position window against the bottom side of the screen.
+Position window against the bottom side of the desktop work area.
 
 =item B<setIconTitle> I<TITLE>
 
@@ -362,6 +399,51 @@ See I<IceWM tray options>, below, for I<TRAYOPTION> symbols.
 
 Print the I<IceWM tray option> for the specified window.
 
+=item B<setNormalGravity> I<GRAVITY>
+
+Set the window gravity field in the WM_NORMAL_HINTS property for the
+specified window to I<GRAVITY>.  See below for I<GRAVITY> symbols.
+
+=item B<getNormalGravity>
+
+Print the window gravity from the WM_NORMAL_HINTS property for the
+specified window.
+
+=item B<setWindowGravity> I<GRAVITY>
+
+Set the window gravity for the specified window to I<GRAVITY>.
+See below for I<GRAVITY> symbols.
+
+=item B<getWindowGravity>
+
+Print the window gravity for the specified window.
+
+=item B<setBitGravity> I<GRAVITY>
+
+Set the bit gravity> for the specified window to I<GRAVITY>.
+See below for I<GRAVITY> symbols.
+
+=item B<getBitGravity>
+
+Print the bit gravity for the specified window.
+
+=item B<motif> [B<funcs> I<FUNCTIONS> | B<decor> I<DECORATIONS> | B<remove>]
+
+Query, set or modify the C<_MOTIF_WM_HINTS> property for the specified
+window.  Without arguments B<motif> will show the current value, but
+only if the window has such a property. The property can be removed or
+reset with the B<remove> argument. With B<funcs> and B<decor> individual
+fields of this property can be enabled or disabled. If I<FUNCTIONS> or
+I<DECORATIONS> starts with a minus or plus sign then the existing value
+is modified, otherwise it is set to the new value. Note that if C<All>
+is set, then other set fields will be disabled and cleared fields will
+be enabled.
+
+=item B<prop> I<PROPERTY>
+
+Print the value of property I<PROPERTY> if it is present.  I<PROPERTY>
+can be a string, a window, or a list of one or more atoms or cardinals.
+
 =back
 
 =head2 MANAGER ACTIONS
@@ -392,6 +474,10 @@ a workspace number starting from zero.
 =item B<setWorkspaceNames> I<NAME> [I<NAME>]*
 
 Change the workspace names to the list of I<NAME>s.
+
+=item B<addWorkspace> I<NAME>
+
+Create a new workspace with name I<NAME>.
 
 =item B<desktop> [I<SHOWING>]
 
@@ -424,6 +510,15 @@ their titles and geometries.
 =item B<windows>
 
 List all toplevel windows, their titles and geometries.
+
+=item B<systray>
+
+List applications which are managed by the IceWM system tray.
+
+=item B<xembed>
+
+List application windows which are embedded using the I<XEMBED> protocol.
+This is another way to discover system tray applications.
 
 =item B<logout>
 
@@ -474,6 +569,15 @@ Monitor which colormap is installed.
 This action is meant to be used together with the B<-class> option.
 Only if no window is matched by I<WM_CLASS> then
 I<program> [I<arguments...>] is executed.
+
+=item B<sync>
+
+Synchronize with the IceWM window manager. That is, wait for icewm to
+process all previous actions.
+
+=item B<symbols>
+
+List all named symbols.
 
 =back
 
@@ -553,6 +657,41 @@ Named symbols of the domain I<IceWM tray option> (numeric range: 0-2):
 These symbols are used with the I<TRAYOPTION> argument to the
 C<setTrayOption> action.
 
+=item I<Gravity symbols>
+
+Named symbols for window and bit gravity (numeric range: 0-10):
+
+    ForgetGravity         (0)
+    NorthWestGravity      (1)
+    NorthGravity          (2)
+    NorthEastGravity      (3)
+    WestGravity           (4)
+    CenterGravity         (5)
+    EastGravity           (6)
+    SouthWestGravity      (7)
+    SouthGravity          (8)
+    SouthEastGravity      (9)
+    StaticGravity         (10)
+
+=item I<Motif functions>
+
+    All                  (1)
+    Resize               (2)
+    Move                 (4)
+    Minimize             (8)
+    Maximize             (16)
+    Close                (32)
+
+=item I<Motif decorations>
+
+    All                  (1)
+    Border               (2)
+    Resize               (4)
+    Title                (8)
+    Menu                 (16)
+    Minimize             (32)
+    Maximize             (64)
+
 =back
 
 =head1 EXAMPLES
@@ -568,13 +707,9 @@ Example output:
     workspace #2: `doc'
     workspace #3: `dev'
 
-Close terminal work.
+Close terminal work and activate terminal fun.
 
-    icesh -c work.XTerm close
-
-Activate terminal fun.
-
-    icesh -c fun.XTerm activate
+    icesh -c work.XTerm close -a -c fun.XTerm activate
 
 Print opacity for all xterms.
 
@@ -592,6 +727,10 @@ Restore all hidden clients, minimize all clients on the current
 workspace and activate Firefox.
 
     icesh -S hidden restore -a -W "this" minimize -a -c Firefox activate
+
+Resize the focused window to occupy the right half of the desktop area.
+
+    icesh -f sizeto 49% 100% sync top sync right sync raise activate
 
 =head1 ENVIRONMENT
 

@@ -14,6 +14,7 @@
 #include "wmapp.h"
 #include "sysdep.h"
 #include "yxcontext.h"
+#include "workspaces.h"
 
 bool operator==(const XSizeHints& a, const XSizeHints& b) {
     return (a.flags & PAllHints) == (b.flags & PAllHints) &&
@@ -41,8 +42,9 @@ bool operator!=(const XSizeHints& a, const XSizeHints& b) {
     return !(a == b);
 }
 
-YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win):
-    YWindow(parent, win),
+YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
+                           int depth, Visual *visual, Colormap colormap):
+    YWindow(parent, win, depth, visual, colormap),
     fWindowTitle(),
     fIconTitle(),
     fWMWindowRole(),
@@ -51,7 +53,7 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win):
     fFrame = frame;
     fBorder = 0;
     fProtocols = 0;
-    fColormap = None;
+    fColormap = colormap;
     fShaped = false;
     fPinging = false;
     fPingTime = 0;
@@ -83,7 +85,7 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win):
     getMwmHints();
 
 #ifdef CONFIG_SHAPE
-    if (shapesSupported) {
+    if (shapes.supported) {
         XShapeSelectInput(xapp->display(), handle(), ShapeNotifyMask);
         queryShape();
     }
@@ -734,7 +736,7 @@ void YFrameClient::handleDestroyWindow(const XDestroyWindowEvent &destroyWindow)
 
 #ifdef CONFIG_SHAPE
 void YFrameClient::handleShapeNotify(const XShapeEvent &shape) {
-    if (shapesSupported) {
+    if (shapes.supported) {
         MSG(("shape event: %d %d %d:%d=%dx%d time=%ld",
              shape.shaped, shape.kind,
              shape.x, shape.y, shape.width, shape.height, shape.time));
@@ -832,9 +834,9 @@ void YFrameClient::setColormap(Colormap cmap) {
 
 #ifdef CONFIG_SHAPE
 void YFrameClient::queryShape() {
-    fShaped = 0;
+    fShaped = false;
 
-    if (shapesSupported) {
+    if (shapes.supported) {
         int xws, yws, xbs, ybs;
         unsigned wws, hws, wbs, hbs;
         Bool boundingShaped, clipShaped;
@@ -1106,31 +1108,14 @@ void YFrameClient::getMwmHints() {
     if (!prop.mwm_hints)
         return;
 
-    int retFormat;
-    Atom retType;
-    unsigned long retCount, remain;
-
     if (fMwmHints) {
         XFree(fMwmHints);
-        fMwmHints = 0;
+        fMwmHints = nullptr;
     }
-    union {
-        MwmHints *ptr;
-        unsigned char *xptr;
-    } mwmHints = { 0 };
-
-    if (XGetWindowProperty(xapp->display(), handle(),
-                           _XATOM_MWM_HINTS, 0L, 20L, False, _XATOM_MWM_HINTS,
-                           &retType, &retFormat, &retCount,
-                           &remain, &(mwmHints.xptr)) == Success && mwmHints.ptr)
-    {
-        if (retCount >= PROP_MWM_HINTS_ELEMENTS) {
-            fMwmHints = mwmHints.ptr;
-            return;
-        } else
-            XFree(mwmHints.xptr);
-    }
-    fMwmHints = 0;
+    YProperty prop(this, _XATOM_MWM_HINTS, F32,
+                   PROP_MWM_HINTS_ELEMENTS, _XATOM_MWM_HINTS);
+    if (prop && prop.size() == PROP_MWM_HINTS_ELEMENTS)
+        fMwmHints = prop.retrieve<MwmHints>();
 }
 
 void YFrameClient::setMwmHints(const MwmHints &mwm) {
@@ -1293,85 +1278,33 @@ bool YFrameClient::getWinIcons(Atom *type, int *count, long **elem) {
     return false;
 }
 
-static void *GetFullWindowProperty(Display *display, Window handle, Atom propAtom, int &itemCount, int itemSize1)
-{
-    void *data = NULL;
-    itemCount = 0;
-    int itemSize = itemSize1;
-    if (itemSize1 == 32)
-        itemSize = sizeof(long) * 8;
-
-    {
-        Atom r_type;
-        int r_format;
-        unsigned long nitems;
-        unsigned long bytes_remain;
-        unsigned char *prop(0);
-
-        while (XGetWindowProperty(display, handle,
-                               propAtom, (itemCount * itemSize1) / 32, 1024*32, False, AnyPropertyType,
-                               &r_type, &r_format, &nitems, &bytes_remain,
-                               &prop) == Success && prop)
-        {
-            if (r_format == itemSize1 && nitems > 0) {
-                data = realloc(data, (itemCount + nitems) * itemSize / 8);
-
-                memcpy((char *)data + itemCount * itemSize / 8, prop, nitems * itemSize / 8);
-                itemCount += nitems;
-                XFree(prop);
-                if (bytes_remain == 0)
-                    break;
-                continue;
-            }
-            XFree(prop);
-            free(data);
-            itemCount = 0;
-            return NULL;
-        }
-    }
-    return data;
-}
-
-bool YFrameClient::getNetWMIcon(int *count, long **elem) {
+bool YFrameClient::getNetWMIcon(int* count, long** elems) {
     *count = 0;
-    *elem = 0;
-
-    MSG(("get_net_wm_icon 1"));
-    //if (!prop.net_wm_icon)
-//        return false;
-
-    *elem = (long *)GetFullWindowProperty(xapp->display(), handle(),
-                                          _XA_NET_WM_ICON, *count, 32);
-
-    if (elem && count && *count>0)
-        return true;
-
-#if 0
-    msg("get_net_wm_icon 2");
-    Atom r_type;
-    int r_format;
-    unsigned long nitems;
-    unsigned long bytes_remain;
-    unsigned char *prop(0);
-
-    if (XGetWindowProperty(xapp->display(), handle(),
-                           _XA_NET_WM_ICON, 0, 1024*256, False, AnyPropertyType,
-                           &r_type, &r_format, &nitems, &bytes_remain,
-                           &prop) == Success && prop)
-    {
-        msg("get_net_wm_icon 3");
-        if (r_format == 32 && nitems > 0 && bytes_remain == 0) {
-
-            msg("get_net_wm_icon 4, %ld %ld", (long)_XA_NET_WM_ICON, (long)r_type);
-
-            *count = nitems;
-            *elem = (long *)prop;
-            return true;
+    *elems = nullptr;
+    if (prop.net_wm_icon) {
+        Atom atom = _XA_NET_WM_ICON;
+        Atom type = AnyPropertyType;
+        int format;
+        long limit = 1L<<22;
+        unsigned long size;
+        unsigned long after;
+        xsmart<unsigned char> data;
+        if (XGetWindowProperty(xapp->display(), handle(), atom, 0L,
+                               limit, False, type, &type, &format,
+                               &size, &after, &data) == Success && data) {
+            if (size && format == 32 && type == XA_CARDINAL) {
+                *count = int(size);
+                *elems = data.convert<long>();
+                data.release();
+            }
+            else if (testOnce("_NET_WM_ICON", int(handle()))) {
+                TLOG(("Bad _NET_WM_ICON for window 0x%lx: N=%ld, F=%d, T=%s",
+                     handle(), size, format,
+                     XGetAtomName(xapp->display(), type)));
+            }
         }
-        XFree(prop);
     }
-#endif
-    return false;
+    return (*elems != nullptr);
 }
 
 void YFrameClient::setWinWorkspaceHint(long wk) {
@@ -1716,17 +1649,8 @@ bool YFrameClient::getWinHintsHint(long *state) {
 }
 
 void YFrameClient::setWinHintsHint(long hints) {
-    long s[1];
-
-    s[0] = hints;
     fWinHints = hints;
-
-    XChangeProperty(xapp->display(),
-                    handle(),
-                    _XA_WIN_HINTS,
-                    XA_CARDINAL,
-                    32, PropModeReplace,
-                    (unsigned char *)&s, 1);
+    setProperty(_XA_WIN_HINTS, XA_CARDINAL, hints);
 }
 
 void YFrameClient::getClientLeader() {
@@ -2157,8 +2081,7 @@ void YFrameClient::getPropertiesList() {
 
     p = XListProperties(xapp->display(), handle(), &count);
 
-//    #define HAS(x) do { puts(#x); x = true; } while (0)
-#define HAS(x) do { x = true; } while (0)
+#define HAS(x)   ((x) = true)
 
     if (p) {
         for (int i = 0; i < count; i++) {
@@ -2171,6 +2094,7 @@ void YFrameClient::getPropertiesList() {
             else if (a == _XA_NET_WM_NAME) HAS(prop.net_wm_name);
             else if (a == XA_WM_ICON_NAME) HAS(prop.wm_icon_name);
             else if (a == _XA_NET_WM_ICON_NAME) HAS(prop.net_wm_icon_name);
+            else if (a == _XA_NET_WM_ICON) HAS(prop.net_wm_icon);
             else if (a == XA_WM_CLASS) HAS(prop.wm_class);
             else if (a == _XA_WM_PROTOCOLS) HAS(prop.wm_protocols);
             else if (a == _XA_WM_CLIENT_LEADER) HAS(prop.wm_client_leader);
@@ -2190,6 +2114,7 @@ void YFrameClient::getPropertiesList() {
             else if (a == _XA_NET_WM_USER_TIME) HAS(prop.net_wm_user_time);
             else if (a == _XA_NET_WM_USER_TIME_WINDOW) HAS(prop.net_wm_user_time_window);
             else if (a == _XA_NET_WM_WINDOW_OPACITY) HAS(prop.net_wm_window_opacity);
+            else if (a == _XA_NET_WM_PID) HAS(prop.net_wm_pid);
             else if (a == _XA_WIN_HINTS) HAS(prop.win_hints);
             else if (a == _XA_WIN_WORKSPACE) HAS(prop.win_workspace);
             else if (a == _XA_WIN_STATE) HAS(prop.win_state);
@@ -2201,14 +2126,10 @@ void YFrameClient::getPropertiesList() {
                 MSG(("unknown atom: %s", XGetAtomName(xapp->display(), a)));
             }
 #endif
+#undef HAS
         }
         XFree(p);
     }
-}
-
-void YFrameClient::configure(const YRect &r) {
-    (void)r;
-    MSG(("client geometry %+d%+d %dx%d", r.x(), r.y(), r.width(), r.height()));
 }
 
 void YFrameClient::handleGravityNotify(const XGravityEvent &gravity) {

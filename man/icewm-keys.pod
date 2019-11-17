@@ -6,25 +6,13 @@
 
 =head1 SYNOPSIS
 
-=over
-
-=item F<$ICEWM_PRIVCFG/keys>
-
-=item F<$XDG_CONFIG_HOME/icewm/keys>
-
-=item F<$HOME/.icewm/keys>
-
-=item F</etc/icewm/keys>
-
-=item F</usr/share/icewm/keys>
-
-=back
+ $ICEWM_PRIVCFG/keys
+ $XDG_CONFIG_HOME/icewm/keys
+ $HOME/.icewm/keys
+ /etc/icewm/keys
+ /usr/share/icewm/keys
 
 =head1 DESCRIPTION
-
-Global key bindings to launch applications (not window manager related).
-IceWM allows launching of arbitrary programs with any key combination.
-This is configured in the F<keys> file.
 
 Global keybindings to launch applications, which need not be window
 manager related.  Each non-empty line starts with the word C<key>.
@@ -34,7 +22,7 @@ follows a shell command line which will be executed by B<icewm> whenever
 this key combination is pressed.  For example, the following line
 creates a hotkey to reload the B<icewm> configuration:
 
-    key "Ctrl+Shift+r"      pkill -x -HUP icewm
+    key "Ctrl+Shift+r"      icesh restart
 
 =head1 FORMAT
 
@@ -65,7 +53,7 @@ menu-like quickswitch popups.
 
 =item I<key_combination>
 
-Any combination of keys, separated by plus-sign (C<+>).
+A combination of modifiers and a key, separated by plus-sign (C<+>).
 
 =item I<program> I<options>
 
@@ -121,19 +109,11 @@ Following is the example F<keys> file that ships with L<icewm(1)>:
 
 Locations for the F<keys> file are as follows:
 
-=over
-
-=item F<$ICEWM_PRIVCFG/keys>
-
-=item F<$XDG_CONFIG_HOME/icewm/keys>
-
-=item F<$HOME/.icewm/keys>
-
-=item F</etc/icewm/keys>
-
-=item F</usr/share/icewm/keys>
-
-=back
+ $ICEWM_PRIVCFG/keys
+ $XDG_CONFIG_HOME/icewm/keys
+ $HOME/.icewm/keys
+ /etc/icewm/keys
+ /usr/share/icewm/keys
 
 =head1 SEE ALSO
 

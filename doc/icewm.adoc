@@ -522,7 +522,7 @@ Windows will raise automatically after AutoRaiseDelay when focused.
 * `StrongPointerFocus = 0`
 +
 When focus follows mouse always give the focus to the window under
-mouse pointer - Even when no mouse motion has occured. Using this is
+mouse pointer - Even when no mouse motion has occurred. Using this is
 not recommended. Please prefer to use just ClickToFocus=0.
 
 * `FocusOnMap = 1`
@@ -661,7 +661,7 @@ Similar to delayed auto raise.
 * `Win95Keys = 0`
 +
 Makes 3 additional keys perform sensible functions. The keys must be
-mapped to MetaL,MetaR and Menu. The left one will activate the start
+mapped to MetaL, MetaR and Menu. The left one will activate the start
 menu and the right one will display the window list.
 
 * `ModSuperIsCtrlAlt = 1`
@@ -841,7 +841,7 @@ Alt+Tab to hidden windows.
 
 * `QuickSwitchToUrgent = 1`
 +
-Priorize Alt+Tab to urgent windows.
+Prioritize Alt+Tab to urgent windows.
 
 * `QuickSwitchToAllWorkspaces = 1`
 +
@@ -1438,7 +1438,7 @@ program to run when *Run* is selected from the start menu.
 === Window Menus
 
 WinMenuItems
-Items to show in the window menus, posible values are:
+Items to show in the window menus, possible values are:
 
 * `  a=rAise`
 * `  c=Close`
@@ -2045,7 +2045,7 @@ Textcolor of APM monitor.
 
 * `ColorApmBattary = "rgb:FF/FF/00"`
 +
-Color of APM monitor in battary mode.
+Color of APM monitor in battery mode.
 
 * `ColorApmLine = "rgb:00/FF/00"`
 +

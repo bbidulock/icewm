@@ -1,8 +1,7 @@
-# This is an example for IceWM's window options file.
-#
-# Place your variants in @CFGDIR@ or in $HOME/.icewm
-# since modifications to this file will be discarded when you
-# (re)install icewm.
+# This is an example for @PACKAGE_STRING@ window options file.
+# It will be installed as @LIBDIR@/winoptions.
+# Place your variants in @CFGDIR@ or in $HOME/.icewm since
+# modifications to this file will be overwritten when you reinstall icewm.
 
 xterm.icon: xterm
 rxvt.icon: xterm

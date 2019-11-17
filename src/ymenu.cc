@@ -64,7 +64,9 @@ lazy<YTimer> YMenu::fMenuTimer;
 
 YMenu::YMenu(YWindow *parent):
     YPopupWindow(parent),
-    fGradient(null)
+    fGraphics(this),
+    fGradient(null),
+    fMenusel(null)
 {
     if (menuFont == null)
         menuFont = YFont::getFont(XFA(menuFontName));
@@ -81,12 +83,13 @@ YMenu::YMenu(YWindow *parent):
     fTimerX = 0;
     fTimerY = 0;
     fTimerSubmenuItem = -1;
+    setStyle(wsNoExpose);
 }
 
 void YMenu::raise() {
     if (fRaised == false) {
         fRaised = true;
-        if (parent() == desktop) {
+        if (visible() == false && parent() == desktop) {
             setTitle("IceMenu");
             setClassHint("icemenu", "IceWM");
             setNetWindowType(_XA_NET_WM_WINDOW_TYPE_POPUP_MENU);
@@ -100,9 +103,12 @@ YMenu::~YMenu() {
         fMenuTimer->disableTimerListener(this);
     hideSubmenu();
     fGradient = null;
+    fMenusel = null;
+    removeAll();
 }
 
 void YMenu::activatePopup(int flags) {
+    repaint();
     if (popupFlags() & pfButtonDown)
         focusItem(-1);
     else {
@@ -666,8 +672,16 @@ YMenuItem *YMenu::addLabel(const ustring &name) {
 
 void YMenu::removeAll() {
     hideSubmenu();
+    const int n = itemCount();
+    for (int i = 0; i < n; ++i) {
+        YMenu* sub = fItems[i]->getSubmenu();
+        if (sub && sub->isShared()) {
+            YMenuItem* nil(nullptr);
+            swap(nil, fItems[i]);
+        }
+    }
     fItems.clear();
-    paintedItem = selectedItem = -1;
+    // paintedItem = selectedItem = -1;
 }
 
 YMenuItem * YMenu::add(YMenuItem *item) {
@@ -825,7 +839,6 @@ int YMenu::findItem(int mx, int my) {
 }
 
 void YMenu::sizePopup(int hspace) {
-    int width, height;
     int maxName(0);
     int maxParam(0);
     int maxIcon(16);
@@ -839,8 +852,7 @@ void YMenu::sizePopup(int hspace) {
     desktop->getScreenGeometry(&dx, &dy, &uw, &uh, getXiScreen());
     int dw = int(uw);
 
-    width = l;
-    height = t;
+    int height = t;
 
     for (int i = 0; i < itemCount(); i++) {
         const YMenuItem *mitem = getItem(i);
@@ -877,7 +889,7 @@ void YMenu::sizePopup(int hspace) {
 
     namePos = l + left + padx + maxIcon + 2;
     paramPos = namePos + 2 + maxName + 6;
-    width = paramPos + maxParam + 4 + r + 10;
+    int width = paramPos + maxParam + 4 + r + 10;
     height += b;
 
     if (menubackPixbuf != null) {
@@ -885,7 +897,10 @@ void YMenu::sizePopup(int hspace) {
             int(fGradient->width()) != width ||
             int(fGradient->height()) != height)
         {
-            fGradient = menubackPixbuf->scale(width, height);
+            ref<YImage> scaled = menubackPixbuf->scale(width, height);
+            if (scaled != null) {
+                fGradient = scaled->renderToPixmap(depth());
+            }
         }
     }
 
@@ -897,7 +912,7 @@ void YMenu::repaintItem(int item) {
     unsigned h;
 
     if (findItemPos(item, x, y, h) != -1)
-        XClearArea(xapp->display(), handle(), 0, y, width(), h, True);
+        fGraphics.paint(YRect(0, y, width(), h));
 }
 
 void YMenu::paintItems() {
@@ -915,13 +930,14 @@ void YMenu::paintItems() {
     }
 }
 
-void YMenu::drawBackground(Graphics &g, int x, int y, unsigned w, unsigned h) {
-    if (int(w) < 1 || int(w) < 1)
+void YMenu::drawBackground(Graphics &g, int x, int y, int w, int h) {
+    if (w < 1 || h < 1)
         return;
 
     PRECONDITION(w < SHRT_MAX && h < SHRT_MAX);
+    g.clearArea(x, y, w, h);
     if (fGradient != null)
-        g.drawImage(fGradient, x, y, w, h, x, y);
+        g.copyPixmap(fGradient, x, y, w, h, x, y);
     else
     if (menubackPixmap != null)
         g.fillPixmap(menubackPixmap, x, y, w, h);
@@ -1004,7 +1020,17 @@ void YMenu::paintItem(Graphics &g, const int i, const int l, const int t, const 
             if (draw) {
                 if (active) {
                     if (menuselPixbuf != null) {
-                        g.drawGradient(menuselPixbuf, l, t, width() - r - l, eh);
+                        int ew = width() - r - l;
+                        if (fMenusel == null ||
+                            fMenusel->width() != unsigned(ew) ||
+                            fMenusel->height() != unsigned(eh))
+                        {
+                            ref<YImage> im = menuselPixbuf->scale(ew, eh);
+                            if (im != null) {
+                                fMenusel = im->renderToPixmap(depth());
+                            }
+                        }
+                        g.copyPixmap(fMenusel, 0, 0, ew, eh, l, t);
                     }
                     else if (menuselPixmap != null) {
                         g.fillPixmap(menuselPixmap, l, t, width() - r - l, eh);
@@ -1057,7 +1083,7 @@ void YMenu::paintItem(Graphics &g, const int i, const int l, const int t, const 
                 g.setColor(fg);
                 g.setFont(menuFont);
 
-                int delta = (active) ? 1 : 0;
+                int delta = active;
                 if (wmLook == lookMotif || wmLook == lookGtk ||
                     wmLook == lookWarp4 || wmLook == lookWin95 ||
                     wmLook == lookMetal || wmLook == lookFlat)
@@ -1078,11 +1104,11 @@ void YMenu::paintItem(Graphics &g, const int i, const int l, const int t, const 
 
                     g.fillPolygon(points, 4, Convex, CoordModePrevious);
                 } else if (mitem->getIcon() != null) {
-                    mitem->getIcon()->draw(g,
-                               l + 1 + delta, t + delta + top + pad +
-                               (eh - top - pad * 2 - bottom -
-                                YIcon::menuSize()) / 2,
-                                YIcon::menuSize());
+                    int size = YIcon::menuSize();
+                    int dx = l + 1 + delta;
+                    int dy = t + delta + top + pad +
+                               (eh - top - pad * 2 - bottom - size) / 2;
+                    mitem->getIcon()->draw(g, dx, dy, size);
                 }
 
                 if (name != null) {
@@ -1123,7 +1149,7 @@ void YMenu::paintItem(Graphics &g, const int i, const int l, const int t, const 
                 } else if (mitem->getSubmenu() != 0) {
                     if (mitem->getAction() != actionNull) {
                         g.setColor(menuBg);
-                        if (0) {
+                        if (false) {
                             drawBackground(g, width() - r - 1 -ih - pad, t + top + pad, ih, ih);
                             g.drawBorderW(width() - r - 1 - ih - pad, t + top + pad, ih - 1, ih - 1,
                                           active ? false : true);
@@ -1136,7 +1162,7 @@ void YMenu::paintItem(Graphics &g, const int i, const int l, const int t, const 
                                        cascadePos + 1, t + top + pad + ih);
 
                         }
-                        delta = (delta && active ? 1 : 0);
+                        delta = (delta && active);
                     }
 
                     if (wmLook == lookGtk || wmLook == lookMotif) {
@@ -1199,7 +1225,7 @@ void YMenu::paint(Graphics &g, const YRect &r1) {
         if (iy < r1.y() + (int) r1.height() &&
             iy + (int) ih > r1.y())
         {
-            paintItem(g, i, l, iy, r, r1.y(), r1.y() + r1.height(), 1);
+            paintItem(g, i, l, iy, r, r1.y(), r1.y() + r1.height(), true);
         }
         iy += ih;
     }
@@ -1211,6 +1237,17 @@ void YMenu::hideSubmenu() {
     fPopup = 0;
     fPopupActive = 0;
     submenuItem = -1;
+}
+
+void YMenu::configure(const YRect2& r) {
+    if (r.resized()) {
+        repaint();
+    }
+}
+
+void YMenu::repaint() {
+    fGraphics.release();
+    fGraphics.paint();
 }
 
 // vim: set sw=4 ts=4 et:

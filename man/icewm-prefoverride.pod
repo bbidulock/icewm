@@ -6,19 +6,11 @@
 
 =head1 SYNOPSIS
 
-=over
-
-=item F<$ICEWM_PRIVCFG/prefoverride>
-
-=item F<$XDG_CONFIG_HOME/icewm/prefoverride>
-
-=item F<$HOME/.icewm/prefoverride>
-
-=item F</etc/icewm/prefoverride>
-
-=item F</usr/share/icewm/prefoverride>
-
-=back
+ $ICEWM_PRIVCFG/prefoverride
+ $XDG_CONFIG_HOME/icewm/prefoverride
+ $HOME/.icewm/prefoverride
+ /etc/icewm/prefoverride
+ /usr/share/icewm/prefoverride
 
 =head1 DESCRIPTION
 
@@ -29,27 +21,15 @@ thinks this is desirable.  However, this F<prefoverride> file will again
 override this for a few specific options of your choosing.  It is safe
 to leave this file empty initially.
 
-=head1 FORMAT
-
-=head1 EXAMPLES
-
 =head1 FILES
 
 Locations for the F<prefoverride> file are as follows:
 
-=over
-
-=item F<$ICEWM_PRIVCFG/prefoverride>
-
-=item F<$XDG_CONFIG_HOME/icewm/prefoverride>
-
-=item F<$HOME/.icewm/prefoverride>
-
-=item F</etc/icewm/prefoverride>
-
-=item F</usr/share/icewm/prefoverride>
-
-=back
+ $ICEWM_PRIVCFG/prefoverride
+ $XDG_CONFIG_HOME/icewm/prefoverride
+ $HOME/.icewm/prefoverride
+ /etc/icewm/prefoverride
+ /usr/share/icewm/prefoverride
 
 =head1 SEE ALSO
 

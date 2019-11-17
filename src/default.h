@@ -4,6 +4,7 @@
 #include "yconfig.h"
 
 /************************************************************************************************************************************************************/
+XIV(bool, alphaBlending,                        false)
 XIV(bool, clickFocus,                           true)
 XIV(bool, focusOnAppRaise,                      false)
 XIV(bool, requestFocusOnAppRaise,               true)
@@ -63,6 +64,7 @@ XIV(bool, taskBarFullscreenAutoShow,            true)
 XIV(bool, taskBarDoubleHeight,                  false)
 XIV(bool, taskBarWorkspacesLeft,                true)
 XIV(bool, taskBarWorkspacesTop,                 false)
+XSV(const char *, taskBarWorkspacesLimit,       0)
 XIV(bool, taskBarUseMouseWheel,                 true)
 XIV(bool, pagerShowPreview,                     true)
 XIV(bool, pagerShowWindowIcons,                 true)
@@ -149,7 +151,7 @@ XIV(int, autoShowDelay,                         500)
 XIV(int, edgeSwitchDelay,                       600)
 XIV(int, scrollBarStartDelay,                   500)
 XIV(int, scrollBarDelay,                        30)
-XIV(int, workspaceStatusTime,                   2500)
+XIV(int, workspaceStatusTime,                   700)
 XIV(int, useRootButtons,                        255)    // bitmask=all
 XIV(int, buttonRaiseMask,                       1)
 XIV(int, rootWinMenuButton,                     0)
@@ -171,7 +173,7 @@ XIV(int, netWorkAreaBehaviour,                  0)
 
 XSV(const char *, acpiIgnoreBatteries,          0)
 XSV(const char *, mailBoxPath,                  0)
-XSV(const char *, mailCommand,                  "xterm -name mutt -e mutt")
+XSV(const char *, mailCommand,                  TERM " -name mutt -e mutt")
 XSV(const char *, mailClassHint,                "mutt.XTerm")
 XSV(const char *, newMailCommand,               0)
 XSV(const char *, lockCommand,                  0)
@@ -179,7 +181,7 @@ XSV(const char *, clockCommand,                 "xclock -name icewm -title Clock
 XSV(const char *, clockClassHint,               "icewm.XClock")
 XSV(const char *, runDlgCommand,                0)
 XSV(const char *, openCommand,                  0)
-XSV(const char *, terminalCommand,              "xterm -hold")
+XSV(const char *, terminalCommand,              TERM " -hold")
 XSV(const char *, logoutCommand,                0)
 XSV(const char *, logoutCancelCommand,          0)
 #if defined(__linux__)
@@ -196,15 +198,15 @@ XIV(int, taskBarCPUDelay,                       500)
 XIV(int, taskBarMEMDelay,                       500)
 XIV(int, taskBarNetSamples,                     20)
 XIV(int, taskBarNetDelay,                       500)
-XSV(const char *, cpuCommand,                   "xterm -name top -title Process\\ Status -e top")
+XSV(const char *, cpuCommand,                   TERM " -name top -title Process\\ Status -e top")
 XSV(const char *, cpuClassHint,                 "top.XTerm")
 XIV(bool, cpuCombine,                           true)
 
 #ifdef __linux__
-XSV(const char *, netCommand,                   "xterm -name 'ss' -title 'Socket Statistics' -hold -e sh -c 'which ss > /dev/null && watch -t ss -putswl || netstat -c'")
+XSV(const char *, netCommand,                   TERM " -name 'ss' -title 'Socket Statistics' -hold -e sh -c 'which ss > /dev/null && watch -t ss -putswl || netstat -c'")
 XSV(const char *, netClassHint,                 "ss.XTerm")
 #else
-XSV(const char *, netCommand,                   "xterm -name netstat -title 'Network Status' -hold -e netstat -c")
+XSV(const char *, netCommand,                   TERM " -name netstat -title 'Network Status' -hold -e netstat -c")
 XSV(const char *, netClassHint,                 "netstat.XTerm")
 #endif
 
@@ -227,6 +229,7 @@ XSV(const char *, fmtDate,                      "%Y-%m-%d %H:%M:%S %z %B %A")
 #if defined(CFGDEF)
 
 cfoption icewm_preferences[] = {
+    OBV("Alpha",                                &alphaBlending,                 "Support alpha blending by using a 32-bit visual"),
     OBV("ClickToFocus",                         &clickFocus,                    "Focus windows by clicking"),
     OBV("FocusOnAppRaise",                      &focusOnAppRaise,               "Focus windows when application requests to raise"),
     OBV("RequestFocusOnAppRaise",               &requestFocusOnAppRaise,        "Request focus (flashing in taskbar) when application requests raise"),
@@ -335,6 +338,7 @@ cfoption icewm_preferences[] = {
     OBV("TaskBarDoubleHeight",                  &taskBarDoubleHeight,           "Use double-height task bar"),
     OBV("TaskBarWorkspacesLeft",                &taskBarWorkspacesLeft,         "Place workspace pager on left, not right"),
     OBV("TaskBarWorkspacesTop",                 &taskBarWorkspacesTop,          "Place workspace pager on top row when using dual-height taskbar"),
+    OSV("TaskBarWorkspacesLimit",               &taskBarWorkspacesLimit,        "Limit number of taskbar workspaces"),
     OBV("TaskBarUseMouseWheel",                 &taskBarUseMouseWheel,          "Enable mouse wheel cycling over workspaces and task buttons in taskbar"),
     OBV("PagerShowPreview",                     &pagerShowPreview,              "Show a mini desktop preview on each workspace button"),
     OBV("PagerShowWindowIcons",                 &pagerShowWindowIcons,          "Draw window icons inside large enough preview windows on pager (if PagerShowPreview=1)"),

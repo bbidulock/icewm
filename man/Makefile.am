@@ -6,8 +6,7 @@ icewm_man1_files = \
 	icewmhint.man \
 	icewm.man \
 	icewm-session.man \
-	icewm-set-gnomewm.man \
-	icewmtray.man
+	icewm-set-gnomewm.man
 
 icewm_man1_htmls = $(icewm_man1_files:%.man=%.1.html)
 
@@ -30,6 +29,11 @@ endif
 if BUILD_MENU_FDO
 man1_MANS += icewm-menu-fdo.man
 doc_DATA += icewm-menu-fdo.1.html
+endif
+
+if BUILD_ICEWMTRAY
+man1_MANS += icewmtray.man
+doc_DATA += icewmtray.1.html
 endif
 
 icewm_man5_files = \
@@ -94,9 +98,14 @@ $(icewm_man1_htmls) $(extra_man1_htmls): %.1.html: %.pod
 		--outfile=$@ \
 		--quiet \
 		--title="User Commands" && \
-	$(SED) -i -r \
+	$(SED) -i.bak -r \
 		-e 's,http://man.he.net/man(.)/(ice[^"]*),\2.\1.html,g' \
 		-e 's,man.he.net/man(.)/([^"]*),manned.org/\2.\1,g' \
+		-e 's,([^a-z/])/usr/share/icewm,\1$(LIBDIR),' \
+		-e 's,([^a-z/])/etc/icewm,\1$(CFGDIR),' \
+		-e 's,([^A-Z/])CFGDIR/,\1$(CFGDIR)/,g' \
+		-e 's,([^A-Z/])LIBDIR/,\1$(LIBDIR)/,g' \
+		-e 's,\@CFGDIR\@,$(CFGDIR),g' \
 		-e 's,http:,https:,g' $@
 
 $(icewm_man5_htmls): %.5.html: %.pod
@@ -113,9 +122,14 @@ $(icewm_man5_htmls): %.5.html: %.pod
 		--outfile=$@ \
 		--quiet \
 		--title="Standards, Environments and Macros" && \
-	$(SED) -i -r \
+	$(SED) -i.bak -r \
 		-e 's,http://man.he.net/man(.)/(ice[^"]*),\2.\1.html,g' \
 		-e 's,man.he.net/man(.)/([^"]*),manned.org/\2.\1,g' \
+		-e 's,([^a-z/])/usr/share/icewm,\1$(LIBDIR),' \
+		-e 's,([^a-z/])/etc/icewm,\1$(CFGDIR),' \
+		-e 's,([^A-Z/])CFGDIR/,\1$(CFGDIR)/,g' \
+		-e 's,([^A-Z/])LIBDIR/,\1$(LIBDIR)/,g' \
+		-e 's,\@CFGDIR\@,$(CFGDIR),g' \
 		-e 's,http:,https:,g' $@
 
 $(icewm_man1_files) $(extra_man1_files): %.man: %.pod
@@ -129,7 +143,13 @@ $(icewm_man1_files) $(extra_man1_files): %.man: %.pod
 		--nourls \
 		--release="$(PACKAGE) $(VERSION)" \
 		--section="1" \
-		$< $@
+		$< $@ && \
+	$(SED) -i.bak -r \
+		-e 's,([^a-z/])/usr/share/icewm,\1$(LIBDIR),' \
+		-e 's,([^a-z/])/etc/icewm,\1$(CFGDIR),' \
+		-e 's,([^A-Z/])CFGDIR/,\1$(CFGDIR)/,g' \
+		-e 's,([^A-Z/])LIBDIR/,\1$(LIBDIR)/,g' \
+	        -e 's,\@CFGDIR\@,$(CFGDIR),g' $@
 
 $(icewm_man5_files): %.man: %.pod
 	$(AM_V_GEN)pod2man --center="Standards, Environments and Macros" \
@@ -142,5 +162,11 @@ $(icewm_man5_files): %.man: %.pod
 		--nourls \
 		--release="$(PACKAGE) $(VERSION)" \
 		--section="5" \
-		$< $@
+		$< $@ && \
+	$(SED) -i.bak -r \
+		-e 's,([^a-z/])/usr/share/icewm,\1$(LIBDIR),' \
+		-e 's,([^a-z/])/etc/icewm,\1$(CFGDIR),' \
+		-e 's,([^A-Z/])CFGDIR/,\1$(CFGDIR)/,g' \
+		-e 's,([^A-Z/])LIBDIR/,\1$(LIBDIR)/,g' \
+	        -e 's,\@CFGDIR\@,$(CFGDIR),g' $@
 

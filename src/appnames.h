@@ -36,6 +36,19 @@
 #define ICESOUNDEXE "icesound" QUOTE(EXEEXT)
 #endif
 
+#ifndef ICESPLASH
+#define ICESPLASH nullptr
+#endif
+
+#ifndef XTERMCMD
+#define XTERMCMD xterm
+#endif
+
+#define TERM    QUOTE(XTERMCMD)
+
+/* restart via icesm if icewm has --notify */
+#define ICESM_EXIT_RESTART 101
+
 #endif
 
 // vim: set sw=4 ts=4 et:

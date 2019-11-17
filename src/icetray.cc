@@ -279,7 +279,8 @@ int main(int argc, char **argv) {
     return stapp.mainLoop();
 }
 #else /*CONFIG_EXTERNAL_TRAY*/
-int main() {
+int main(int argc, char** argv) {
+    check_argv(argc, argv, nullptr, VERSION);
     return 0;
 }
 #endif /*CONFIG_EXTERNAL_TRAY*/

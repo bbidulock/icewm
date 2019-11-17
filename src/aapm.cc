@@ -11,6 +11,8 @@
 #define NEED_TIME_H
 
 #include "config.h"
+#include "ywindow.h"
+#include "applet.h"
 #include "aapm.h"
 
 #ifdef MAX_ACPI_BATTERY_NUM
@@ -32,12 +34,17 @@
 #include <dev/acpica/acpiio.h>
 #endif
 
-#ifdef __NetBSD__
+#if defined __NetBSD__ || defined __OpenBSD__
 #include <sys/file.h>
 #include <sys/ioctl.h>
 #include <sys/types.h>
+#if defined __NetBSD__
 #include <dev/apm/apmbios.h>
 #include <dev/apm/apmio.h>
+#endif
+#if defined __OpenBSD__
+#include <machine/apmvar.h>
+#endif
 #endif
 
 #include <math.h>
@@ -62,7 +69,7 @@ extern YColorName taskBarBg;
 void YApm::ApmStr(char *s, bool Tool) {
 #if (defined(__FreeBSD__) || defined(__FreeBSD_kernel__)) && defined(i386)
     struct apm_info ai;
-#elif defined __NetBSD__
+#elif defined __NetBSD__ || defined __OpenBSD__
     struct apm_power_info ai;
 #else
     char buf[APM_LINE_LEN];
@@ -103,7 +110,7 @@ void YApm::ApmStr(char *s, bool Tool) {
     BATlife = ai.ai_batt_life;
     BATtime = ai.ai_batt_time == 0 ? -1 : ai.ai_batt_time;
     strlcpy(units, "sec", sizeof units);
-#elif defined __NetBSD__
+#elif defined __NetBSD__ || defined __OpenBSD__
     memset(&ai, 0, sizeof(ai));
     if (ioctl(fd, APM_IOC_GETPOWER, &ai) == -1)
     {
@@ -114,7 +121,7 @@ void YApm::ApmStr(char *s, bool Tool) {
     close(fd);
 
     strlcpy(apmver, "?.?", sizeof apmver);
-    ACstatus = (ai.ac_state == APM_AC_ON) ? 1 : 0;
+    ACstatus = (ai.ac_state == APM_AC_ON) ? AC_ONLINE : AC_UNKNOWN;
     BATflag = (ai.battery_state == APM_BATT_CHARGING) ? 8 : 0;
     BATlife = ai.battery_life;
     BATtime = (ai.minutes_left == 0) ? -1 : ai.minutes_left;
@@ -125,7 +132,7 @@ void YApm::ApmStr(char *s, bool Tool) {
 
     buf[len] = 0;
 
-    acIsOnLine     = (ACstatus == 0x1);
+    acIsOnLine     = (ACstatus == AC_ONLINE);
     energyFull = energyNow = 0;
 
     if ((i = sscanf(buf, "%s %s 0x%x 0x%x 0x%x 0x%x %d%% %d %s",
@@ -175,7 +182,7 @@ void YApm::ApmStr(char *s, bool Tool) {
 
 
 
-    if (ACstatus == 0x1) {
+    if (ACstatus == AC_ONLINE) {
         if (Tool)
             strlcat(s, _(" - Power"), SYS_STR_SIZE);
         else
@@ -813,13 +820,15 @@ void YApm::PmuStr(char *s, const bool tool_tip)
 }
 
 YApm::YApm(YWindow *aParent, bool autodetect):
-    YWindow(aParent), YTimerListener(),
+    IApplet(this, aParent),
+    YTimerListener(),
     apmTimer(0), apmBg(&clrApm), apmFg(&clrApmText),
     apmFont(YFont::getFont(XFA(apmFontName))),
     apmColorOnLine(&clrApmLine),
     apmColorBattery(&clrApmBat),
     apmColorGraphBg(&clrApmGraphBg),
     mode(APM), batteryNum(0), acpiACName(0), fCurrentState(0),
+    fStatusChanged(true),
     acIsOnLine(false), energyNow(0), energyFull(0)
 {
     FILE *pmu_info;
@@ -909,6 +918,7 @@ YApm::YApm(YWindow *aParent, bool autodetect):
        setSize(taskBarApmGraphWidth, taskBarGraphHeight);
     else
        setSize(calcInitialWidth(), taskBarGraphHeight);
+    setParentRelative();
     updateToolTip();
     // setDND(true);
 }
@@ -928,16 +938,16 @@ void YApm::updateToolTip() {
 
     switch (mode) {
     case ACPI:
-        AcpiStr(s, 1);
+        AcpiStr(s, true);
         break;
     case SYSFS:
-        SysStr(s, 1);
+        SysStr(s, true);
         break;
     case APM:
-        ApmStr(s, 1);
+        ApmStr(s, true);
         break;
     case PMU:
-        PmuStr(s, 1);
+        PmuStr(s, true);
         break;
     }
 
@@ -968,31 +978,48 @@ int YApm::calcInitialWidth() {
     return calcWidth(buf, strlen(buf));
 }
 
-void YApm::updateState() {
+bool YApm::updateState() {
     char s[SYS_STR_SIZE] = {' ', ' ', ' ', 0, 0, 0, 0, 0};
 
     switch (mode) {
     case ACPI:
-        AcpiStr(s, 0);
+        AcpiStr(s, false);
         break;
     case SYSFS:
-        SysStr(s, 0);
+        SysStr(s, false);
         break;
     case APM:
-        ApmStr(s, 0);
+        ApmStr(s, false);
         break;
     case PMU:
-        PmuStr(s, 0);
+        PmuStr(s, false);
         break;
     }
     MSG((_("power:\t%s"), s));
 
-    if (fCurrentState != 0)
-        delete[] fCurrentState;
-    fCurrentState = newstr(s);
+    fStatusChanged |= (fCurrentState == 0 || strcmp(fCurrentState, s));
+    if (fStatusChanged) {
+        if (fCurrentState)
+            delete[] fCurrentState;
+        fCurrentState = newstr(s);
+    }
+    return fStatusChanged;
 }
 
-void YApm::paint(Graphics &g, const YRect &/*r*/) {
+bool YApm::picture() {
+    bool update = (hasPixmap() == false);
+    if (update || fStatusChanged) {
+        Pixmap pixmap(IApplet::getPixmap());
+        if (pixmap) {
+            Graphics G(pixmap, width(), height(), depth());
+            draw(G);
+            swap(update, fStatusChanged);
+        }
+    }
+    return update;
+}
+
+void YApm::draw(Graphics &g) {
     unsigned int x = 0;
     int len, i;
 
@@ -1000,17 +1027,8 @@ void YApm::paint(Graphics &g, const YRect &/*r*/) {
 
     //clean background of current size first, so that
     //it is possible to use transparent apm-background
-    ref<YImage> gradient(parent()->getGradient());
-
-    if (gradient != null) {
-        g.drawImage(gradient, this->x(), this->y(), width(), height(), 0, 0);
-    }
-    else
-    if (taskbackPixmap != null) {
-        g.fillPixmap(taskbackPixmap,
-                     0, 0, width(), height(),
-                     this->x(), this->y());
-    }
+    if (taskbackPixmap != null || getGradient() != null)
+        g.clear();
     else {
         g.setColor(taskBarBg);
         g.fillRect(0, 0, width(), height());
@@ -1075,11 +1093,11 @@ void YApm::paint(Graphics &g, const YRect &/*r*/) {
 bool YApm::handleTimer(YTimer *t) {
     if (t != apmTimer) return false;
 
-    updateState();
-
-    if (toolTipVisible())
-        updateToolTip();
-    repaint();
+    if (updateState()) {
+        if (toolTipVisible())
+            updateToolTip();
+        repaint();
+    }
     return true;
 }
 

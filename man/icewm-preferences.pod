@@ -6,19 +6,11 @@
 
 =head1 SYNOPSIS
 
-=over
-
-=item F<$ICEWM_PRIVCFG/preferences>
-
-=item F<$XDG_CONFIG_HOME/icewm/preferences>
-
-=item F<$HOME/.icewm/preferences>
-
-=item F</etc/icewm/preferences>
-
-=item F</usr/share/icewm/preferences>
-
-=back
+ $ICEWM_PRIVCFG/preferences
+ $XDG_CONFIG_HOME/icewm/preferences
+ $HOME/.icewm/preferences
+ /etc/icewm/preferences
+ /usr/share/icewm/preferences
 
 =head1 DESCRIPTION
 
@@ -517,6 +509,13 @@ Place workspace pager on left, not right.
 
 Place workspace pager on top row when using dual-height taskbar.
 
+=item B<TaskBarWorkspacesLimit>=""
+
+Limit the number of taskbar workspaces buttons which are shown on the
+workspaces pane of the taskbar. If the numeric value has a C<p> suffix
+then the limitation is in pixels. A C<%> suffix limits by percentage of
+desktop width. By default a C<B> suffix is assumed for number of buttons.
+
 =item B<TaskBarUseMouseWheel>=1
 
 Enable mouse wheel cycling over workspaces and task buttons in taskbar.
@@ -848,7 +847,7 @@ Delay between power status updates (seconds).
 
 =back
 
-=head2 BUITTONS AND KEYS
+=head2 BUTTONS AND KEYS
 
 =over
 
@@ -883,6 +882,14 @@ TitleBar mouse-button double click to rollup the window.
 =back
 
 =head2 WORKSPACES
+
+=over
+
+=item B<WorkspaceNames>=" 1 ", " 2 ", " 3 ", " 4 "
+
+Create four workspaces with names C< 1 >, C< 2 >, C< 3 > and C< 4 >.
+
+=back
 
 =head2 PATHS
 
@@ -986,6 +993,8 @@ Command to run for address bar entries.
 
 =head2 WINDOW MENUS
 
+=over
+
 =item B<WinMenuItems>="rmsnxfhualyticw"
 
 Items supported in menu window (rmsnxfhualytickw)
@@ -997,6 +1006,8 @@ Does it support the 'O' title bar button images (for mouse rollover).
 =item B<ShowMenuButtonIcon>=1 # 0/1
 
 Show application icon over menu button
+
+=back
 
 =head2 THEME SETTINGS
 
@@ -1665,23 +1676,38 @@ Paint the background image over all multihead monitors combined.
 
 =head1 EXAMPLES
 
+    Alpha=1
+    Splash="IceWM.jpg"
+    LimitSize=0
+    LimitPosition=0
+    LimitByDockLayer=1
+    QuickSwitchToAllWorkspaces=1
+    QuickSwitchHugeIcon=1
+    QuickSwitchFillSelection=1
+    TaskBarMailboxStatusBeepOnNewMail=1
+    TaskBarMailboxStatusCountMessages=1
+    TaskBarShowMEMStatus=0
+    TaskBarShowCollapseButton=1
+    TaskBarWorkspacesLimit="8"
+    ShowProgramsMenu=1
+    ShowAddressBar=0
+    ToolTipDelay=200
+    ToolTipTime=5000
+    AutoHideDelay=900
+    AutoShowDelay=100
+    EdgeResistance=3
+    KeySysMenu="Multi_key"
+    KeySysWinListMenu="Shift+Ctrl+Esc"
+
 =head1 FILES
 
 Locations for the F<preferences> file are as follows:
 
-=over
-
-=item F<$ICEWM_PRIVCFG/preferences>
-
-=item F<$XDG_CONFIG_HOME/icewm/preferences>
-
-=item F<$HOME/.icewm/preferences>
-
-=item F</etc/icewm/preferences>
-
-=item F</usr/share/icewm/preferences>
-
-=back
+ $ICEWM_PRIVCFG/preferences
+ $XDG_CONFIG_HOME/icewm/preferences
+ $HOME/.icewm/preferences
+ /etc/icewm/preferences
+ /usr/share/icewm/preferences
 
 =head1 SEE ALSO
 

@@ -10,19 +10,14 @@
 
 #ifdef CONFIG_SESSION
 
-#include "yfull.h"
 #include "wmframe.h"
 #include "wmsession.h"
-#include "base.h"
 #include "wmapp.h"
-
-#include "mstring.h"
-#include <stdio.h>
-#include <string.h>
+#include "workspaces.h"
 
 #include "intl.h"
 
-SMWindowKey::SMWindowKey(YFrameWindow */*f*/):
+SMWindowKey::SMWindowKey(YFrameWindow *):
     clientId(null), windowRole(null), windowClass(null), windowInstance(null)
 {
 }
@@ -76,10 +71,10 @@ void SMWindows::addWindowInfo(SMWindowInfo *info) {
     fWindows.append(info);
 }
 
-void SMWindows::setWindowInfo(YFrameWindow */*f*/) {
+void SMWindows::setWindowInfo(YFrameWindow *) {
 }
 
-bool SMWindows::getWindowInfo(YFrameWindow */*f*/, SMWindowInfo */*info*/) {
+bool SMWindows::getWindowInfo(YFrameWindow *, SMWindowInfo *) {
     return false;
 }
 
@@ -127,7 +122,7 @@ bool SMWindows::findWindowInfo(YFrameWindow *f) {
     return false;
 }
 
-bool SMWindows::removeWindowInfo(YFrameWindow */*f*/) {
+bool SMWindows::removeWindowInfo(YFrameWindow *) {
     return false;
 }
 
@@ -244,7 +239,7 @@ void loadWindowInfo() {
             int ws = 0;
 
             if (sscanf(line, "w %d", &ws) == 1) {
-                if (ws >= 0 && ws < manager->workspaceCount())
+                if (ws >= 0 && ws < workspaceCount)
                     manager->activateWorkspace(ws);
             }
         } else {

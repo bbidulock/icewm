@@ -6,19 +6,11 @@
 
 =head1 SYNOPSIS
 
-=over
-
-=item F<$ICEWM_PRIVCFG/winoptions>
-
-=item F<$XDG_CONFIG_HOME/icewm/winoptions>
-
-=item F<$HOME/.icewm/winoptions>
-
-=item F</etc/icewm/winoptions>
-
-=item F</usr/share/icewm/winoptions>
-
-=back
+ $ICEWM_PRIVCFG/winoptions
+ $XDG_CONFIG_HOME/icewm/winoptions
+ $HOME/.icewm/winoptions
+ /etc/icewm/winoptions
+ /usr/share/icewm/winoptions
 
 =head1 DESCRIPTION
 
@@ -41,8 +33,6 @@ Each line in the file must be in one of the following formats:
 =over
 
 =over
-
-=item I<NAME>B<.>I<CLASS>B<.>I<ROLE>B<.>I<OPTION>B<:> I<VALUE>
 
 =item I<NAME>B<.>I<CLASS>B<.>I<OPTION>B<:> I<VALUE>
 
@@ -71,13 +61,12 @@ window.
 
 =item I<NAME>
 
-The resource name portion of the ICCCM B<WM_CLASS> property for the
+The resource instance portion of the ICCCM B<WM_CLASS> property for the
 window.
 
 =item I<ROLE>
 
-The resource name portion of the ICCCM B<WM_WINDOW_ROLE> property for
-the window.
+The ICCCM B<WM_WINDOW_ROLE> property for the window.
 
 =item I<OPTION>: I<VALUE>
 
@@ -210,6 +199,7 @@ the application.  The following options are defined:
   noFocusOnMap:             {1|0}  do not focus when mapped.
   noIgnoreTaskBar:          {1|0}  on task bar.
   nonICCCMconfigureRequest: {1|0}  more configure requests.
+  startClose:               {1|0}  close the window immediately.
   startFullscreen:          {1|0}  start full screen.
   startMaximized:           {1|0}  start maximized.
   startMaximizedHorz:       {1|0}  start maximized horizontal.
@@ -217,6 +207,19 @@ the application.  The following options are defined:
   startMinimized:           {1|0}  start minimized.
 
 =head1 EXAMPLES
+
+This example uses the WM_WINDOW_ROLE property value C<pop-up> to deny
+input focus to I<Chrome> pop-ups and asks to close them immediately.
+
+  google-chrome.pop-up.doNotFocus: 1
+  google-chrome.pop-up.forcedClose: 1
+  google-chrome.pop-up.ignorePagerPreview: 1
+  google-chrome.pop-up.ignoreUrgentHint: 1
+  google-chrome.pop-up.layer: Below
+  google-chrome.pop-up.noFocusOnAppRaise: 1
+  google-chrome.pop-up.noFocusOnMap: 1
+  google-chrome.pop-up.startClose: 1
+  google-chrome.pop-up.startMinimized: 1
 
 Following is the example window options file that ships with L<icewm(1)>
 and typically installs to F</usr/share/icewm/winoptions>.
@@ -270,19 +273,11 @@ and typically installs to F</usr/share/icewm/winoptions>.
 
 Locations for the F<winoptions> file are as follows:
 
-=over
-
-=item F<$ICEWM_PRIVCFG/winoptions>
-
-=item F<$XDG_CONFIG_HOME/icewm/winoptions>
-
-=item F<$HOME/.icewm/winoptions>
-
-=item F</etc/icewm/winoptions>
-
-=item F</usr/share/icewm/winoptions>
-
-=back
+ $ICEWM_PRIVCFG/winoptions
+ $XDG_CONFIG_HOME/icewm/winoptions
+ $HOME/.icewm/winoptions
+ /etc/icewm/winoptions
+ /usr/share/icewm/winoptions
 
 =head1 SEE ALSO
 

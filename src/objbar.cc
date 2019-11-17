@@ -20,13 +20,13 @@ YColorName ObjectButton::bgColor(&clrToolButton);
 YColorName ObjectButton::fgColor(&clrToolButtonText);
 
 ObjectBar::ObjectBar(YWindow *parent): YWindow(parent) {
-    setSize(1, 1);
+    setParentRelative();
 }
 
 ObjectBar::~ObjectBar() {
 }
 
-void ObjectBar::addButton(const ustring &name, ref<YIcon> icon, YButton *button) {
+void ObjectBar::addButton(const ustring &name, ref<YIcon> icon, ObjectButton *button) {
     button->setToolTip(name);
     if (icon != null) {
         button->setIcon(icon, YIcon::smallSize());
@@ -34,64 +34,63 @@ void ObjectBar::addButton(const ustring &name, ref<YIcon> icon, YButton *button)
     } else
         button->setText(name);
 
-    button->setPosition(width(), 0);
-    unsigned h = button->height();
-    if (h < height())
-        h = height();
+    IterType iter(objects.reverseIterator());
+    const int extent(++iter ? iter->x() + int(iter->width()) : 0);
 
-    if (h < height())
-        h = height();
-
-    button->setSize(button->width(), h);
-    setSize(width() + button->width(), h);
-    button->show();
-
+    button->setPosition(extent, 0);
+    if (button->height() < height())
+        button->setSize(button->width(), height());
     objects.append(button);
+
+    setSize(extent + button->width(), height());
+    button->show();
 }
 
-void ObjectBar::paint(Graphics &g, const YRect &/*r*/) {
-    ref<YImage> gradient(parent()->getGradient());
-
-    if (gradient != null)
-        g.drawImage(gradient, this->x(), this->y(), width(), height(), 0, 0);
-    else
-    if (taskbackPixmap != null)
-        g.fillPixmap(taskbackPixmap, 0, 0, width(), height());
-    else {
+void ObjectBar::paint(Graphics &g, const YRect& r) {
+    if (taskbackPixmap == null && getGradient() == null) {
         g.setColor(taskBarBg);
-        g.fillRect(0, 0, width(), height());
+        g.fillRect(r.x(), r.y(), r.width(), r.height());
     }
 }
 
 void ObjectBar::addObject(DObject *object) {
-    YButton *button = new ObjectButton(this, object);
+    ObjectButton *button = new ObjectButton(this, object);
     addButton(object->getName(), object->getIcon(), button);
 }
 
 void ObjectBar::addSeparator() {
-    setSize(width() + 4, height());
+    setSize(int(width()) <= 1 ? 4 : width() + 4, height());
     objects.append(0);
 }
 
 void ObjectBar::addContainer(const ustring &name, ref<YIcon> icon, ObjectMenu *container) {
     if (container) {
-        YButton *button = new ObjectButton(this, container);
+        ObjectButton *button = new ObjectButton(this, container);
         addButton(name, icon, button);
     }
 }
 
-void ObjectBar::configure(const YRect &r) {
-    YWindow::configure(r);
+void ObjectBar::configure(const YRect2& r) {
+    if (r.resized()) {
+        int left = 0;
+        for (IterType obj(objects.iterator()); ++obj; ) {
+            if (*obj) {
+                if (obj->x() != left || obj->y() != 0) {
+                    obj->setPosition(left, 0);
+                }
+                if (obj->height() < r.height()) {
+                    obj->setSize(obj->width(), r.height());
+                }
+                left += obj->width();
+            } else
+                left += 4;
+        }
+    }
+}
 
-
-    int left = 0;
-    for (int i = 0; i < objects.getCount(); i++) {
-        YButton *obj = objects[i];
-        if (obj) {
-            obj->setGeometry(YRect(left, 0, obj->width(), height()));
-            left += obj->width();
-        } else
-            left += 4;
+void ObjectBar::handleExpose(const XExposeEvent& e) {
+    if (taskbackPixmap != null || getGradient() != null) {
+        clearArea(e.x, e.y, e.width, e.height);
     }
 }
 
@@ -116,6 +115,36 @@ void ObjectButton::actionPerformed(YAction action, unsigned modifiers) {
     else YButton::actionPerformed(action, modifiers);
 }
 
-ObjectMenu *rootMenu(NULL);
+void ObjectButton::configure(const YRect2& r) {
+    if (r.resized()) {
+        repaint();
+    }
+}
+
+void ObjectButton::paint(Graphics &g, const YRect &r) {
+    if (taskbackPixbuf == null && taskbackPixmap != null) {
+        g.fillPixmap(taskbackPixmap, r.x(), r.y(),
+                     r.width(), r.height(), r.x() + x(), r.y() + y());
+    }
+    YButton::paint(g, r);
+}
+
+void ObjectButton::repaint() {
+    GraphicsBuffer(this).paint();
+}
+
+void ObjectButton::requestFocus(bool requestUserFocus) {
+    if (fMenu && hasPopup() == false) {
+        setPopup(fMenu->ymenu());
+    }
+    YButton::requestFocus(requestUserFocus);
+}
+
+void ObjectButton::popupMenu() {
+    if (fMenu && hasPopup() == false) {
+        setPopup(fMenu->ymenu());
+    }
+    YButton::popupMenu();
+}
 
 // vim: set sw=4 ts=4 et:

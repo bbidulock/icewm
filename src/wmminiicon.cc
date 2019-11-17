@@ -23,8 +23,8 @@ static YColorName activeMinimizedWindowBg(&clrActiveMinimizedWindow);
 static YColorName activeMinimizedWindowFg(&clrActiveMinimizedWindowText);
 
 MiniIcon::MiniIcon(YWindow *aParent, YFrameWindow *frame):
-    YWindow(desktop) {
-    reparent(aParent, 0, 0);
+    YWindow(aParent)
+{
     if (minimizedWindowFont == null)
         minimizedWindowFont = YFont::getFont(XFA(minimizedWindowFontName));
 

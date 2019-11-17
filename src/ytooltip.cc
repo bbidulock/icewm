@@ -18,13 +18,12 @@ enum ToolTipMargins {
     TTYMargin = 3,
 };
 
-YToolTipWindow::YToolTipWindow(ustring text) :
+YToolTipWindow::YToolTipWindow() :
     toolTipBg(&clrToolTip),
     toolTipFg(&clrToolTipText),
     toolTipFont(YFont::getFont(XFA(toolTipFontName)))
 {
-    setStyle(wsToolTip | wsOverrideRedirect | wsSaveUnder);
-    setText(text);
+    setStyle(wsToolTip | wsOverrideRedirect | wsSaveUnder | wsNoExpose);
     setNetWindowType(_XA_NET_WM_WINDOW_TYPE_TOOLTIP);
     setClassHint("tooltip", "IceWM");
     setTitle("Tooltip");
@@ -33,6 +32,16 @@ YToolTipWindow::YToolTipWindow(ustring text) :
 YToolTip::YToolTip() :
     fLocate(0)
 {
+}
+
+void YToolTipWindow::configure(const YRect2& r) {
+    if (r.resized()) {
+        repaint();
+    }
+}
+
+void YToolTipWindow::repaint() {
+    GraphicsBuffer(this).paint();
 }
 
 void YToolTipWindow::paint(Graphics &g, const YRect &/*r*/) {
@@ -91,10 +100,13 @@ bool YToolTip::handleTimer(YTimer *timer) {
 }
 
 YToolTipWindow* YToolTip::window() {
-    if (fWindow == 0) {
-        fWindow = new YToolTipWindow(fText);
-        if (fLocate)
-            fWindow->locate(fLocate);
+    if (fWindow == nullptr) {
+        fWindow = new YToolTipWindow();
+        if (fWindow) {
+            fWindow->setText(fText);
+            if (fLocate)
+                fWindow->locate(fLocate);
+        }
     }
     return fWindow;
 }

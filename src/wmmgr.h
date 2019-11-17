@@ -5,14 +5,9 @@
 #include "ylist.h"
 #include "yaction.h"
 
-#define MAXWORKSPACES     20
-
-extern long workspaceCount;
-extern char *workspaceNames[MAXWORKSPACES];
-extern YAction workspaceActionActivate[MAXWORKSPACES];
-extern YAction workspaceActionMoveTo[MAXWORKSPACES];
 extern YAction layerActionSet[WinLayerCount];
 
+class YStringList;
 class YWindowManager;
 class YFrameClient;
 class YFrameWindow;
@@ -111,6 +106,7 @@ public:
     virtual void handleFocus(const XFocusChangeEvent &focus);
 #ifdef CONFIG_XRANDR
     virtual void handleRRScreenChangeNotify(const XRRScreenChangeNotifyEvent &xrrsc);
+    virtual void handleRRNotify(const XRRNotifyEvent &notify);
 #endif
 
     void manageClients();
@@ -191,8 +187,6 @@ public:
     long activeWorkspace() const { return fActiveWorkspace; }
     long lastWorkspace() const { return fLastWorkspace; }
     void activateWorkspace(long workspace);
-    long workspaceCount() const { return ::workspaceCount; }
-    const char *workspaceName(long workspace) const { return ::workspaceNames[workspace]; }
 
     void appendNewWorkspaces(long extra);
     void removeLastWorkspaces(long minus);
@@ -206,11 +200,11 @@ public:
 
     bool readCurrentDesktop(long &workspace);
     void setDesktopGeometry();
-    bool compareDesktopNames(char **strings, int count);
+    bool compareDesktopNames(const YStringList& list);
     bool readDesktopLayout();
-    bool readDesktopNames();
-    bool readNetDesktopNames();
-    bool readWinDesktopNames();
+    void readDesktopNames(bool init, bool net);
+    bool readNetDesktopNames(YStringList& list);
+    bool readWinDesktopNames(YStringList& list);
     void setWinDesktopNames(long count);
     void setNetDesktopNames(long count);
     void setDesktopNames(long count);
@@ -318,7 +312,6 @@ private:
     YLayeredList fLayers[WinLayerCount];
     YCreatedList fCreationOrder;  // frame creation order
     YFocusedList fFocusedOrder;   // focus order: old -> now
-    YFrameWindow *fFocusedWindow[MAXWORKSPACES];
 
     long fActiveWorkspace;
     long fLastWorkspace;
@@ -403,6 +396,11 @@ extern Atom _XA_SM_CLIENT_ID;
 extern Atom _XA_UTF8_STRING;
 
 extern Atom _XA_ICEWM_ACTION;
+extern Atom _XA_ICEWM_GUIEVENT;
+extern Atom _XA_ICEWM_HINT;
+extern Atom _XA_ICEWM_FONT_PATH;
+extern Atom _XA_XROOTPMAP_ID;
+extern Atom _XA_XROOTCOLOR_PIXEL;
 
 /// _SET would be nice to have
 #define _NET_WM_STATE_REMOVE 0

@@ -68,7 +68,7 @@ void MEMStatus::fill(Graphics& g) {
         g.setColor(color[MEM_FREE]);
         g.fillRect(0, 0, width(), height());
     } else {
-        ref<YImage> gradient(parent()->getGradient());
+        ref<YImage> gradient(getGradient());
 
         if (gradient != null)
             g.drawImage(gradient,
@@ -109,7 +109,7 @@ void MEMStatus::draw(Graphics& g) {
                 g.setColor(color[j]);
                 g.drawLine(i, y-1, i, y-bar);
             } else {
-                ref<YImage> gradient = parent()->getGradient();
+                ref<YImage> gradient(getGradient());
 
                 if (gradient != null)
                     g.drawImage(gradient,

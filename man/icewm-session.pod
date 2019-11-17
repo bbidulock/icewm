@@ -12,7 +12,7 @@ B<icewm-session> [I<OPTIONS>]
 
 icewm-session is an implementation of X.Org session manager and can be
 run from X11 session setup. It runs B<icewm> as default window manager
-and handles the startup and lifecycle control of the WM and all related
+and handles the startup and life cycle control of the WM and all related
 support applications.
 
 =head1 OPTIONS
@@ -27,11 +27,19 @@ Let IceWM load preferences from I<FILE>.
 
 =item B<-t>, B<--theme=FILE>
 
-Let IceWM load the theme from I<FILE>.
+Let IceWM load the theme I<FILE>.
 
 =item B<-i>, B<--icewm=FILE>
 
 Use I<FILE> as the IceWM window manager.
+
+=item B<-a>, B<--alpha>
+
+Use a 32-bit visual for translucency.
+
+=item B<-b>, B<--nobg>
+
+Do not start icewmbg.
 
 =item B<-n>, B<--notray>
 
@@ -72,6 +80,39 @@ Print the program version to F<stdout> and exit.
 Print copying permissions to F<stdout> for the program and exit.
 
 =back
+
+=head1 USAGE
+
+On startup icewm-session executes the following steps.
+From the file F<env> in the configuration directory
+it loads additional environment variables, if that file exists.
+Then it will start F<icewmbg> to manage root background colors and images.
+It may also start F<icesound>, if this was enabled at configuration time.
+Then F<icewm> is started.
+
+If there exists an executable script F<startup> in the configuration
+directory, it will be executed. It may contain commands to initialize X11
+settings with F<xset>, load keyboard configuration, start a compositing
+manager like F<compton> and load system tray applications.
+
+When icewm exits or is told to exit, icewm-session will execute
+a F<shutdown> script, if it exists in the configuration directory.
+When this finishes, icewm-session will terminate icewm, icewmbg
+and icesound. Finally icewm-session will exit.
+
+If the icewm process crashes then icewm-session will attempt to restart
+it. If two such crashes occur in a short period, then icewm-session will
+attempt to popup a dialog using either F<xmessage>, F<kdialog> or
+F<zenity>.  This dialog asks if the user wishes to continue restarting
+icewm or abort execution of icewm-session.
+
+=head1 SEE ALSO
+
+L<icewm(1)>,
+L<icewm-env(5)>,
+L<icewm-shutdown(5)>,
+L<icewm-startup(5)>,
+L<icewmbg(1)>.
 
 =head1 BUGS
 

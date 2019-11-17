@@ -55,6 +55,7 @@ public:
     virtual int waitProgram(int p);
 
     virtual upath findConfigFile(upath relativePath);
+    static upath locateConfigFile(upath relativePath);
     static const upath& getLibDir();
     static const upath& getConfigDir();
     static const upath& getPrivConfDir();

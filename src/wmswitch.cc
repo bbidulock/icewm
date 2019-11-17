@@ -6,18 +6,13 @@
  * Alt{+Shift}+Tab window switching
  */
 #include "config.h"
-
 #include "wmswitch.h"
 #include "wpixmaps.h"
 #include "wmframe.h"
 #include "yxapp.h"
 #include "prefs.h"
 #include "yprefs.h"
-
-// for vertical quickswitch, reuse some colors from the menu because those
-// from flat quickswitch often look odd (not enough contrast)
-
-extern YColorName activeMenuItemBg, activeMenuItemFg;
+#include "workspaces.h"
 
 class WindowItemsCtrlr : public ISwitchItems
 {
@@ -278,7 +273,7 @@ SwitchWindow::SwitchWindow(YWindow *parent, ISwitchItems *items,
     modsDown = 0;
     isUp = false;
 
-    setStyle(wsSaveUnder | wsOverrideRedirect | wsPointerMotion);
+    setStyle(wsSaveUnder | wsOverrideRedirect | wsPointerMotion | wsNoExpose);
     setTitle("IceSwitch");
     setClassHint("switch", "IceWM");
     setNetWindowType(_XA_NET_WM_WINDOW_TYPE_DIALOG);
@@ -393,6 +388,10 @@ void SwitchWindow::resize(int xiscreen) {
     setGeometry(YRect(dx + ((dw - w) >> 1),
                       dy + ((dh - h) >> 1),
                       w, h));
+}
+
+void SwitchWindow::repaint() {
+    GraphicsBuffer(this).paint();
 }
 
 void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
@@ -595,9 +594,9 @@ void SwitchWindow::paintVertical(Graphics &g) {
             if(contentY + frameHght > (int) height())
                 break;
             if (i == zItems->getActiveItem()) {
-                g.setColor(activeMenuItemBg);
+                g.setColor(switchMbg);
                 g.fillRect(frameX, contentY-quickSwitchIBorder, frameWid, frameHght);
-                g.setColor(activeMenuItemFg);
+                g.setColor(switchMfg);
             }
             else
                 g.setColor(switchFg);

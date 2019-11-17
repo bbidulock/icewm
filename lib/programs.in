@@ -1,5 +1,7 @@
-## This file is intended to be customized by the distributions.
-## (they should place it in /etc/X11/icewm)
+## This is an example for @PACKAGE_STRING@ program definition file.
+## It will be installed as @LIBDIR@/programs.
+## Place your variants in @CFGDIR@ or in $HOME/.icewm.
+## This file is intended to be customized by distributions.
 ##
 ## mostly obsolete, fixme
 #menu Editors folder {
@@ -16,8 +18,8 @@
 #    prog Mozilla mozilla mozilla
 #    prog Galeon galeon galeon
 #    prog Arena arena arena
-#    prog Lynx lynx xterm -e lynx
-#    prog Links lynx xterm -e links
+#    prog Lynx lynx @XTERMCMD@ -e lynx
+#    prog Links lynx @XTERMCMD@ -e links
 #}
 #menu "Document Viewers" folder {
 #    prog "Acrobat Reader" pdf acroread

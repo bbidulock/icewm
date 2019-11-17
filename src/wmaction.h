@@ -49,7 +49,7 @@ enum EAction {
     actionClose              = 143,
     actionKill               = 145,
     actionOccupyAllOrCurrent = 147,
-#ifdef DO_NOT_COVER_OLD
+#if DO_NOT_COVER_OLD
     actionDoNotCover         = 149,
 #endif
     actionFullscreen         = 151,
@@ -79,6 +79,11 @@ enum EAction {
 
     actionMaximizeHoriz      = 195,
     actionWinOptions         = 197,
+    actionCut                = 201,
+    actionCopy               = 203,
+    actionPaste              = 205,
+    actionSelectAll          = 207,
+    actionPasteSelection     = 209,
 };
 
 bool canShutdown(RebootShutdown reboot);

@@ -3,6 +3,8 @@
 
 #if __cplusplus == 199711L
 #define nullptr NULL
+#define override
+#define final
 #endif
 
 class refcounted {
@@ -77,11 +79,11 @@ public:
     bool operator==(null_ref &) const { return ptr == 0; }
     bool operator!=(null_ref &) const { return ptr != 0; }
 
-    ref<T>& operator=(null_ref &) {
-        if (ptr)
+    void operator=(null_ref &) {
+        if (ptr) {
             __unref();
-        ptr = 0;
-        return *this;
+            ptr = 0;
+        }
     }
     T *_ptr() const { return ptr; }
 };
@@ -112,6 +114,13 @@ private:
     void operator=(const lazy<T>&);
     operator int();
     operator void*();
+};
+
+template<class T>
+class lazily : public lazy<T> {
+public:
+    operator bool() { return true; }
+    void operator=(null_ref&) { lazy<T>::operator=(null); }
 };
 
 template<class T>
