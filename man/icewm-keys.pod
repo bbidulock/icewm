@@ -15,7 +15,11 @@
 =head1 DESCRIPTION
 
 Global keybindings to launch applications, which need not be window
-manager related.  Each non-empty line starts with the word C<key>.
+manager related. If you are looking for ways to disable icewm's grabbing
+of default key combinations, please read L<icewm-preferences(5)>
+instead.
+
+Each non-empty line starts with the word C<key>.
 After one or more spaces follows a double-quoted string of the bound X11
 key combination like C<Alt+Ctrl+Shift+X>.  Then after at least one space
 follows a shell command line which will be executed by B<icewm> whenever
