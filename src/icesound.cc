@@ -72,7 +72,7 @@
 #undef ENABLE_OSS
 #endif
 
-#ifdef HAVE_SNDFILE_H
+#if defined(ENABLE_ALSA) || defined(ENABLE_AO) || defined(ENABLE_OSS)
 #include <sndfile.h>
 #endif
 
