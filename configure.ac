@@ -274,10 +274,10 @@ for iface in `echo "$with_icesound"|sed 's|,| |g'` ; do
         ;;
     esac
 done
-for iface in ALSA AO OSS; do
-    eval "test \"\$CONFIG_$iface\" = yes" && audio_support="$audio_support $iface"
-done
-if test "x$audio_support" != x ; then
+if test "x$CONFIG_ALSA" = "xyes" ||
+   test "x$CONFIG_AO"   = "xyes" ||
+   test "x$CONFIG_OSS"  = "xyes"
+then
     BUILD_SOUND=yes
     APPLICATIONS="${APPLICATIONS} icesound"
 else
