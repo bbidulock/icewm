@@ -23,6 +23,11 @@ static int signalPipe[2];
 static sigset_t oldSignalMask;
 static sigset_t signalMask;
 
+const char* YTrace::conf;
+void YTrace::show(bool busy, const char* kind, const char* inst) {
+    tlog("%s %s: %s", kind, busy ? "open" : "done", inst);
+}
+
 IApp::~IApp() {}
 IMainLoop::~IMainLoop() {}
 
