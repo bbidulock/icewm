@@ -129,6 +129,8 @@ Picture Graphics::picture() {
         if (format) {
             XRenderPictureAttributes attr;
             unsigned long mask = None;
+            attr.component_alpha = (rDepth == 32);
+            mask |= CPComponentAlpha;
             fPicture = XRenderCreatePicture(display(), fDrawable,
                                             format, mask, &attr);
         }
@@ -531,7 +533,7 @@ void Graphics::drawImage(ref<YImage> img, int const x, int const y) {
 void Graphics::drawImage(ref<YImage> img, int x, int y, unsigned w, unsigned h, int dx, int dy) {
     if (picture()) {
         unsigned depth = max(img->depth(), rdepth());
-        ref<YPixmap> pix(img->renderToPixmap(depth));
+        ref<YPixmap> pix(img->renderToPixmap(depth, true));
         if (pix != null) {
             Picture source = pix->picture();
             XRenderComposite(display(),
@@ -629,7 +631,7 @@ void Graphics::compositeImage(ref<YImage> img, int const sx, int const sy, unsig
             return;
 
         unsigned depth = max(img->depth(), rdepth());
-        ref<YPixmap> pix(img->renderToPixmap(depth));
+        ref<YPixmap> pix(img->renderToPixmap(depth, true));
         if (pix != null) {
             Picture source = pix->picture();
             XRenderComposite(display(),

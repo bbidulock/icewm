@@ -53,7 +53,7 @@ public:
         if (fImage != 0)
             XDestroyImage(fImage);
     }
-    virtual ref<YPixmap> renderToPixmap(unsigned depth);
+    virtual ref<YPixmap> renderToPixmap(unsigned depth, bool premult);
     virtual ref<YImage> scale(unsigned width, unsigned height);
     virtual void draw(Graphics &g, int dx, int dy);
     virtual void draw(Graphics &g, int x, int y, unsigned w, unsigned h, int dx, int dy);
@@ -1064,7 +1064,7 @@ ref<YImage> YImage::createFromPixmapAndMaskScaled(Pixmap pix, Pixmap mask,
     return image;
 }
 
-ref <YPixmap> YXImage::renderToPixmap(unsigned depth)
+ref <YPixmap> YXImage::renderToPixmap(unsigned depth, bool premult)
 {
     ref <YPixmap> pixmap;
     bool has_mask = false;
