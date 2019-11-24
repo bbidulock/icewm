@@ -94,7 +94,8 @@ The following option control general characteristics of windows:
 =item B<icon>: I<NAME> (default: none)
 
 Specifies the icon name for the window.  I<NAME> is the name of the
-icon.
+icon, like F<utilities-terminal>. It can also be a file, like
+F<xterm.png>, a full path, or a prefix of a path without sizes or suffix.
 
 =item B<workspace>: I<WORKSPACE> (default: current)
 
