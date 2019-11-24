@@ -56,7 +56,7 @@ if [[ -v DBGCM ]]; then
         cmake .. \
         -DCONFIG_GDK_PIXBUF_XLIB=ON \
         -DCONFIG_LIBRSVG=ON \
-        -DCONFIG_XPM=off \
+        -DCONFIG_XPM=ON \
         -DCMAKE_CXX_COMPILER_ID=clang \
         -DCMAKE_CXX_COMPILER=clang++ \
         -DCMAKE_INSTALL_PREFIX=/usr \

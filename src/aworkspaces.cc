@@ -361,6 +361,7 @@ void WorkspacesPane::configure(const YRect2& r) {
             for (int i = 0, n = workspaceCount; i < n; ++i)
                 width += create(i, height)->width();
             resize(width, height);
+            setPressed(manager->activeWorkspace(), true);
             paths = null;
         }
         else {

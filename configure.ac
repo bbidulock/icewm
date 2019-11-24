@@ -2,10 +2,10 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([icewm],[1.6.1],
+AC_INIT([icewm],[1.6.2],
         [https://github.com/bbidulock/icewm/issues],
         [icewm],[https://ice-wm.org])
-AC_REVISION([1.6.1])
+AC_REVISION([1.6.2])
 AC_CONFIG_SRCDIR([src/ysmapp.cc])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
@@ -13,7 +13,7 @@ AC_CONFIG_AUX_DIR([scripts])
 AC_USE_SYSTEM_EXTENSIONS
 AC_CANONICAL_TARGET
 
-DATE='2019-08-22'
+DATE='2019-09-17'
 AC_SUBST([DATE])
 
 BRANCH='icewm-1-4-BRANCH'
@@ -274,10 +274,10 @@ for iface in `echo "$with_icesound"|sed 's|,| |g'` ; do
         ;;
     esac
 done
-for iface in ALSA AO OSS; do
-    eval "test \"\$CONFIG_$iface\" = yes" && audio_support="$audio_support $iface"
-done
-if test "x$audio_support" != x ; then
+if test "x$CONFIG_ALSA" = "xyes" ||
+   test "x$CONFIG_AO"   = "xyes" ||
+   test "x$CONFIG_OSS"  = "xyes"
+then
     BUILD_SOUND=yes
     APPLICATIONS="${APPLICATIONS} icesound"
 else

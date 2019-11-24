@@ -4,6 +4,7 @@
 #include "upath.h"
 #include "yarray.h"
 #include "ypoll.h"
+#include "ytrace.h"
 
 class YTimer;
 class YClipboard;

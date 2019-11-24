@@ -19,7 +19,7 @@ public:
     virtual ~YImageGDK() {
         g_object_unref(G_OBJECT(fPixbuf));
     }
-    virtual ref<YPixmap> renderToPixmap(unsigned depth);
+    virtual ref<YPixmap> renderToPixmap(unsigned depth, bool premult);
     virtual ref<YImage> scale(unsigned width, unsigned height);
     virtual void draw(Graphics &g, int dx, int dy);
     virtual void draw(Graphics &g, int x, int y,
@@ -215,7 +215,7 @@ ref<YImage> YImage::createFromPixmapAndMaskScaled(Pixmap pix, Pixmap mask,
     return image;
 }
 
-ref<YPixmap> YImageGDK::renderToPixmap(unsigned depth) {
+ref<YPixmap> YImageGDK::renderToPixmap(unsigned depth, bool premult) {
     Pixmap pixmap = None, mask = None;
 
     if (depth == 0) {
@@ -249,6 +249,11 @@ ref<YPixmap> YImageGDK::renderToPixmap(unsigned depth) {
                     guchar alp = alpha
                                ? (rowpix[3] >= ATH ? rowpix[3] : 0x00)
                                : 0xFF;
+                    if (premult) {
+                        red = (red * (alp + 1)) >> 8;
+                        grn = (grn * (alp + 1)) >> 8;
+                        blu = (blu * (alp + 1)) >> 8;
+                    }
                     XPutPixel(image, col, row,
                               (red << 16) |
                               (grn << 8) |

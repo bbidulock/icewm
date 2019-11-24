@@ -212,6 +212,7 @@ ref<YImage> YIcon::loadIcon(unsigned size) {
         }
         if (loadPath != null) {
             cstring cs(loadPath.path());
+            YTraceIcon trace(cs);
             icon = YImage::load(cs.c_str());
         }
     }

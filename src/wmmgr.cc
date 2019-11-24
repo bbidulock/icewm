@@ -127,7 +127,7 @@ YWindowManager::~YWindowManager() {
 
 void YWindowManager::setWmState(WMState newWmState) {
     if (fWmState != newWmState) {
-        TLOG(("wmstate %d", newWmState));
+        MSG(("wmstate %d", newWmState));
         fWmState = newWmState;
     }
 }
@@ -1356,9 +1356,7 @@ void YWindowManager::placeWindow(YFrameWindow *frame,
                                  int x, int y,
                                  int cw, int ch,
                                  bool newClient, bool &
-#ifdef CONFIG_SESSION
                                  doActivate
-#endif
                                 )
 {
     YFrameClient *client = frame->client();
@@ -2201,7 +2199,7 @@ void YWindowManager::updateWorkAreaInner() {
 
     bool resize = false;
     if (changed) {
-        TLOG(("announceWorkArea"));
+        MSG(("announceWorkArea"));
         announceWorkArea();
         long spaces = min(fWorkAreaWorkspaceCount, oldWorkAreaWorkspaceCount);
         int screens = min(fWorkAreaScreenCount, oldWorkAreaScreenCount);
@@ -2230,7 +2228,7 @@ void YWindowManager::updateWorkAreaInner() {
         delete [] oldWorkArea;
     }
     if (resize) {
-        TLOG(("resizeWindows"));
+        MSG(("resizeWindows"));
         resizeWindows();
     }
 }
@@ -3452,6 +3450,10 @@ void YWindowManager::UpdateScreenSize(XEvent *event) {
         updateWorkArea();
         if (taskBar && pagerShowPreview) {
             taskBar->workspacesUpdateButtons();
+        }
+        if (taskBar) {
+            taskBar->relayout();
+            taskBar->relayoutNow();
         }
         for (int i = 0; i < edges.getCount(); ++i)
             edges[i]->setGeometry();

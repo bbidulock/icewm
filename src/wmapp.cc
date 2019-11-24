@@ -1675,6 +1675,8 @@ int main(int argc, char **argv) {
                 displayName = value;
             else if (GetLongArgument(value, "splash", arg, argv+argc))
                 splashFile = value;
+            else if (GetLongArgument(value, "trace", arg, argv+argc))
+                YTrace::tracing(value);
             else
                 warn(_("Unrecognized option '%s'."), *arg);
         }

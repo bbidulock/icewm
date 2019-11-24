@@ -11,8 +11,12 @@ foreach(_src keys menu programs toolbar winoptions IceWM.jpg)
     set(_pre "${CMAKE_CURRENT_SOURCE_DIR}/${_src}.in")
     if(EXISTS "${_pre}")
         CONFIGURE_FILE("${_pre}" "${CMAKE_CURRENT_BINARY_DIR}/${_src}")
+        install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${_src}"
+                DESTINATION "${LIBDIR}")
+    else()
+        install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/${_src}"
+                DESTINATION "${LIBDIR}")
     endif()
-    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${_src}" DESTINATION "${LIBDIR}")
 endforeach()
 
 install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/icewm.desktop" DESTINATION "${DATADIR}/xsessions/")

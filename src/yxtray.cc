@@ -243,7 +243,7 @@ void YXTrayProxy::updateToolTip() {
 }
 
 bool YXTrayProxy::handleTimer(YTimer *timer) {
-    TLOG(("YXTrayProxy::handleTimer %s %ld",
+    MSG(("YXTrayProxy::handleTimer %s %ld",
         boolstr(timer == fUpdateTimer), timer->getInterval()));
 
     if (timer == fUpdateTimer) {
@@ -546,7 +546,7 @@ Window YXTray::getLeader(Window win) {
 }
 
 bool YXTray::trayRequestDock(Window win, cstring title) {
-    TLOG(("trayRequestDock win 0x%lX, title \"%s\"", win, title.c_str()));
+    MSG(("trayRequestDock win 0x%lX, title \"%s\"", win, title.c_str()));
 
     if (destroyedClient(win)) {
         MSG(("Ignoring tray request for destroyed window 0x%08lX", win));

@@ -88,7 +88,6 @@ extern ref<YImage> workspacebuttonPixbuf;
 extern ref<YImage> workspacebuttonactivePixbuf;
 
 extern ref<YImage> taskbarStartImage;
-extern ref<YImage> taskbarLinuxImage;   // deprecated
 extern ref<YImage> taskbarWindowsImage;
 extern ref<YImage> taskbarShowDesktopImage;
 extern ref<YImage> taskbarCollapseImage;

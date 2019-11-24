@@ -61,6 +61,9 @@ Locations for the F<theme> file are as follows:
  /etc/icewm/theme
  /usr/share/icewm/theme
 
+The locations are searched in the order listed; the first file found is
+read and the remainder ignored.
+
 =head1 SEE ALSO
 
 L<icewm(1)>,

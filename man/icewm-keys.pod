@@ -14,10 +14,6 @@
 
 =head1 DESCRIPTION
 
-Global key bindings to launch applications (not window manager related).
-IceWM allows launching of arbitrary programs with any key combination.
-This is configured in the F<keys> file.
-
 Global keybindings to launch applications, which need not be window
 manager related.  Each non-empty line starts with the word C<key>.
 After one or more spaces follows a double-quoted string of the bound X11
@@ -26,7 +22,7 @@ follows a shell command line which will be executed by B<icewm> whenever
 this key combination is pressed.  For example, the following line
 creates a hotkey to reload the B<icewm> configuration:
 
-    key "Ctrl+Shift+r"      pkill -x -HUP icewm
+    key "Ctrl+Shift+r"      icesh restart
 
 =head1 FORMAT
 
@@ -118,6 +114,9 @@ Locations for the F<keys> file are as follows:
  $HOME/.icewm/keys
  /etc/icewm/keys
  /usr/share/icewm/keys
+
+The locations are searched in the order listed; the first file found is
+read and the remainder ignored.
 
 =head1 SEE ALSO
 
