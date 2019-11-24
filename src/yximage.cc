@@ -22,7 +22,7 @@
 #include <setjmp.h>
 #endif
 
-#define ATH 128 /* highest alpha threshold that can show anti-aliased lines */
+#define ATH 55  /* highest alpha threshold that can show anti-aliased lines */
 
 struct Verbose {
     const bool verbose;
