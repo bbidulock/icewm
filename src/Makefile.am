@@ -99,6 +99,7 @@ libice_la_SOURCES = \
 	udir.h \
 	yapp.cc \
 	yapp.h \
+	ytrace.h \
 	MwmUtil.h \
 	yxapp.cc \
 	yxapp.h \
@@ -325,6 +326,7 @@ icewm_session_SOURCES = \
 	intl.h \
 	sysdep.h \
 	yapp.h \
+	ytrace.h \
 	ytimer.h \
 	icesm.cc
 icewm_session_LDADD = libice.la @LIBINTL@
