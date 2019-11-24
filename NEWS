@@ -1,11 +1,69 @@
-icewm -- history of user-visible changes.  2019-09-17
+icewm -- history of user-visible changes.  2019-11-24
+
+Release icewm-1.6.3 released 2019-11-24
+---------------------------------------
+
+git shortlog -e -n -w80,6,8 1.6.2...1.6.3
+
+Bert Gijsbers <gijsbers@science.uva.nl> (32):
+      [cmake] Give XTERMCMD a default, otherwise it remains empty in
+        lib/toolbar.
+      XPM must be ON for themable cursors.
+      [cmake] add PACKAGE_STRING
+      [cmake] Discern substitute from copy in lib/ for issue #387.
+      Use install-data instead of install-desktop for ice-wm/icewm#5.
+      update version for #389
+      Highlight current workspace on startup for #393.
+      Reduce debugging output if not DEBUG.
+      Set alpha threshold to 128 for issue #392.
+      Support PNG format for theme image files for issue #377. Improve support
+        for depcrecated linux.xpm for old themes.
+      Update taskbar geometry on screen resize for #394.
+      make doActivate declared even if not CONFIG_SESSION for #397.
+      Remove duplicate text and simplify restart.
+      Give sed -i option a backup extension for #397.
+      If either alsa, ao or oss then always include sndfile.h for #397.
+      Remove eval and indirect variable evaluation for FreeBSD for #397.
+      Trace icon loading and config parsing by --trace="icon,conf".
+      Document --trace.
+      Replace perl by date to reduce dependencies for #397.
+      Remove ESD server (obsolete EsounD).
+      Premultiply colors by alpha channel when XRender for #392.
+      Revert "Set alpha threshold to 128 for issue #392."
+      Only premultiply alpha if image depth == 32 for #392.
+      update po files
+      Improve icon handling in WindowList for #392.
+      Clarify icon.
+      Improve drawing of dashes for window list.
+      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Clean .bak files.
+      add ytrace.h.
+      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge branch 'icewm-1-4-BRANCH'
+
+Brian Bidulock <bidulock@openss7.org> (2):
+      address issue #399
+      address issue #398
+
+Kimmo Kujansuu <mrkujansuu@gmail.com> (2):
+      Translated using Weblate (Finnish)
+      Translated using Weblate (Finnish)
+
+Alessio Adamo <alessio.adamo@gmail.com> (1):
+      Translated using Weblate (Italian)
+
+Artem Polishchuk <tim77@users.noreply.github.com> (1):
+      Convert tab to spaces (#390)
+
 
 Release icewm-1.6.2 released 2019-09-17
 ---------------------------------------
 
 git shortlog -e -n -w80,6,8 1.6.1...1.6.2
 
-Bert Gijsbers <gijsbers@science.uva.nl> (42):
+Bert Gijsbers <gijsbers@science.uva.nl> (43):
       Update to 1.6.1. Prefer lzip over xz due to popular demand.
       Silence icehelp.
       Restore use of ColorQuickSwitchActive for vertical switching for issue
@@ -57,6 +115,7 @@ Bert Gijsbers <gijsbers@science.uva.nl> (42):
       Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
         icewm-1-4-BRANCH
       Merge branch 'icewm-1-4-BRANCH'
+      Prepare 1.6.2 release
 
 Eduard Bloch <blade@debian.org> (5):
       [cmake] Make check of mandatory X libs strict
@@ -494,48 +553,4 @@ Stanislav Brabec <sbrabec@suse.cz> (1):
 
 Sven Åhr <anders.ahr@gmail.com> (1):
       Translated using Weblate (Swedish)
-
-
-Release icewm-1.5.2 released 2019-02-04
----------------------------------------
-
-git shortlog -e -n -w80,6,8 1.5.1...1.5.2
-
-Bert Gijsbers <gijsbers@science.uva.nl> (7):
-      Include stdlib.h for mblen for issue #329.
-      Add keysym.h to yinput.cc.
-      Add keysym.h to aaddressbar.cc.
-      Include Xutil.h.
-      Solve #330 taskbar border corruption for themes without a taskbar
-        background pixmap.
-      Merge branch 'icewm-1-4-BRANCH'
-      Prepare 1.5.2 release
-
-Brian Bidulock <bidulock@openss7.org> (3):
-      reformat TODO
-      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
-        icewm-1-4-BRANCH
-      update po files
-
-Sarah Kriesch <ada.lovelace@gmx.de> (2):
-      Translated using Weblate (German)
-      Translated using Weblate (German)
-
-Franziska Weinberger <f.weinberger@gemino.de> (1):
-      Translated using Weblate (German)
-
-Jorge Gallegos Carrasco <jcarrascochih@gmail.com> (1):
-      Translated using Weblate (Spanish)
-
-Juan Sarria <juansarriam@gmail.com> (1):
-      Translated using Weblate (Spanish)
-
-Patricia Pazos <pms.malaga@hermestrans.com> (1):
-      Translated using Weblate (Spanish)
-
-openSUSE Weblate <weblate-noreply@opensuse.org> (1):
-      Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
-
-wisememo <46960734+wisememo@users.noreply.github.com> (1):
-      Update zh_TW.po (#332)
 
