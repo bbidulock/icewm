@@ -628,12 +628,9 @@ void YListBox::paintItem(Graphics &g, int n) {
     if (icon != null) {
         ref<YImage> scaled = icon->getScaledIcon(YIcon::menuSize());
         if (scaled != null) {
-            ref<YPixmap> ypixmap(scaled->renderToPixmap(g.rdepth()));
-            if (ypixmap != null) {
-                int dx = xpos + x - fOffsetX;
-                int dy = y - fOffsetY + 1;
-                g.drawPixmap(ypixmap, dx, dy);
-            }
+            int dx = xpos + x - fOffsetX;
+            int dy = y - fOffsetY + 1;
+            g.drawImage(scaled, dx, dy);
         }
     }
 
