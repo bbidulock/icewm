@@ -508,16 +508,22 @@ void Graphics::setLineWidth(unsigned width) {
 
 void Graphics::setPenStyle(bool dotLine) {
     XGCValues gcv;
+    unsigned long mask = GCLineStyle;
+    gcv.line_style = dotLine ? LineOnOffDash : LineSolid;
 
     if (dotLine) {
-        char c = 1;
-        gcv.line_style = LineOnOffDash;
-        XSetDashes(display(), gc, 0, &c, 1);
-    } else {
-        gcv.line_style = LineSolid;
+        char dashes[] = { 1 };
+        int num_dashes = int ACOUNT(dashes);
+        int dash_offset = 0;
+        XSetDashes(display(), gc, dash_offset, dashes, num_dashes);
+
+        gcv.line_width = 1;
+        gcv.cap_style = CapButt;
+        gcv.join_style = JoinMiter;
+        mask |= GCLineWidth | GCCapStyle | GCJoinStyle;
     }
 
-    XChangeGC(display(), gc, GCLineStyle, &gcv);
+    XChangeGC(display(), gc, mask, &gcv);
 }
 
 void Graphics::setFunction(int function) {
