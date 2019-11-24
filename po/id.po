@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-09-17 01:30+0200\n"
+"POT-Creation-Date: 2019-11-24 12:39+0100\n"
 "PO-Revision-Date: 2017-11-03 14:12+0700\n"
 "Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian <https://l10n.opensuse.org/projects/icewm/"
@@ -326,7 +326,7 @@ msgstr ""
 msgid "NET"
 msgstr ""
 
-#: src/aworkspaces.cc:585 src/wmstatus.cc:200
+#: src/aworkspaces.cc:586 src/wmstatus.cc:200
 msgid "Workspace: "
 msgstr "Ruang kerja: "
 
@@ -596,7 +596,7 @@ msgstr "Perintah `%s' membutuhkan setidaknya %d opsi."
 msgid "Invalid expression: `%s'"
 msgstr "Ekpresi tidak benar: `%s'"
 
-#: src/icesh.cc:2548 src/icesound.cc:801 src/icewmhint.cc:36 src/wmapp.cc:1108
+#: src/icesh.cc:2548 src/icesound.cc:795 src/icewmhint.cc:36 src/wmapp.cc:1108
 #: src/yxapp.cc:1038
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -686,75 +686,75 @@ msgstr ""
 msgid "IceWM crash response"
 msgstr "opsi baki IceWM"
 
-#: src/icesound.cc:216 src/icesound.cc:324 src/icesound.cc:484
+#: src/icesound.cc:215 src/icesound.cc:323 src/icesound.cc:483
 #, c-format
 msgid "Playing sample #%d (%s)"
 msgstr "Memutar sampel #%d (%s)"
 
-#: src/icesound.cc:334
+#: src/icesound.cc:333
 #, c-format
 msgid "%s: Invalid number of channels"
 msgstr "%s: Jumlah saluran tidak valid"
 
-#: src/icesound.cc:340 src/icesound.cc:345
+#: src/icesound.cc:339 src/icesound.cc:344
 msgid "Could not set OSS channels"
 msgstr "Tidak dapat mengatur saluran OSS"
 
-#: src/icesound.cc:350 src/icesound.cc:378
+#: src/icesound.cc:349 src/icesound.cc:377
 msgid "Could not sync OSS"
 msgstr "Tidak dapat menyinkronkan OSS"
 
-#: src/icesound.cc:362
+#: src/icesound.cc:361
 msgid "OSS write failed"
 msgstr "Gagal menulis OSS"
 
-#: src/icesound.cc:366
+#: src/icesound.cc:365
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
 msgstr "OSS ditulis tidak lengkap (%d/%d)"
 
-#: src/icesound.cc:373
+#: src/icesound.cc:372
 #, fuzzy
 msgid "Could not post OSS"
 msgstr "Tidak dapat memuat set fon \"%s\"."
 
-#: src/icesound.cc:402
+#: src/icesound.cc:401
 #, fuzzy, c-format
 msgid "Could not open OSS device %s"
 msgstr "Tidak dapat menemukan gambar %s"
 
-#: src/icesound.cc:407
+#: src/icesound.cc:406
 msgid "Could not set OSS stereo"
 msgstr "Tidak dapat menetapkan stereo OSS"
 
-#: src/icesound.cc:412
+#: src/icesound.cc:411
 msgid "Could not reset OSS DSP"
 msgstr "Tidak dapat mengatur ulang OSS DSP"
 
-#: src/icesound.cc:417
+#: src/icesound.cc:416
 msgid "Could not set OSS format"
 msgstr "Tidak dapat mengatur format OSS"
 
-#: src/icesound.cc:504
+#: src/icesound.cc:503
 #, c-format
 msgid "ao_open_live failed with %d"
 msgstr "ao_open_live gagal dengan %d"
 
-#: src/icesound.cc:515
+#: src/icesound.cc:514
 msgid "ao_play failed"
 msgstr "ao_play gagal"
 
-#: src/icesound.cc:683
+#: src/icesound.cc:677
 #, c-format
 msgid "Unrecognized option: %s\n"
 msgstr "Opsi tidak dikenali: %s\n"
 
-#: src/icesound.cc:686 src/icesound.cc:979
+#: src/icesound.cc:680 src/icesound.cc:973
 #, c-format
 msgid "Unrecognized argument: %s\n"
 msgstr "Argumen tidak dikenali: %s\n"
 
-#: src/icesound.cc:695
+#: src/icesound.cc:689
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
@@ -849,51 +849,51 @@ msgstr ""
 "3     Kesalahan Subsistem (misal tidak dapat tersambung ke server).\n"
 "\n"
 
-#: src/icesound.cc:786
+#: src/icesound.cc:780
 #, c-format
 msgid "No audio for %s"
 msgstr "Tidak ada audio untuk %s"
 
-#: src/icesound.cc:863
+#: src/icesound.cc:857
 msgid "Could not get GUI event property"
 msgstr "Tidak bisa mendapatkan properti event GUI dengan benar"
 
-#: src/icesound.cc:867
+#: src/icesound.cc:861
 #, c-format
 msgid "Received invalid GUI event %d"
 msgstr ""
 
-#: src/icesound.cc:871
+#: src/icesound.cc:865
 #, c-format
 msgid "Received GUI event %s"
 msgstr ""
 
-#: src/icesound.cc:885
+#: src/icesound.cc:879
 #, c-format
 msgid "Too quick; ignoring %s."
 msgstr ""
 
-#: src/icesound.cc:889
+#: src/icesound.cc:883
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr "Layanan untuk %s interface tidak dikompile."
 
-#: src/icesound.cc:922
+#: src/icesound.cc:916
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr "Interface tidak didukung: %s."
 
-#: src/icesound.cc:931
+#: src/icesound.cc:925
 #, c-format
 msgid "Using %s audio."
 msgstr ""
 
-#: src/icesound.cc:935
+#: src/icesound.cc:929
 #, fuzzy, c-format
 msgid "Failed to connect to audio interfaces %s."
 msgstr "Gagal memuat tema %s"
 
-#: src/icesound.cc:947
+#: src/icesound.cc:941
 #, fuzzy, c-format
 msgid "Received signal %s: Terminating..."
 msgstr "Menerima sinyal %d: Menghentikan..."
@@ -1385,16 +1385,16 @@ msgstr "Direktori konfigurasi %s:\n"
 msgid "%s configured options:%s\n"
 msgstr "%s pilihan dikonfigurasi: %s\n"
 
-#: src/wmapp.cc:1679
+#: src/wmapp.cc:1681
 #, fuzzy, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Opsi tidak dikenali: %s\n"
 
-#: src/wmapp.cc:1751
+#: src/wmapp.cc:1753
 msgid "Confirm Logout"
 msgstr "Konfirmasi Keluar"
 
-#: src/wmapp.cc:1752
+#: src/wmapp.cc:1754
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1435,8 +1435,8 @@ msgstr "Kunci Stasiun Kerja"
 msgid "_Cancel"
 msgstr "_Batal"
 
-#: src/wmdialog.cc:77 src/wmprog.cc:849 src/wmprog.cc:851 src/wmtaskbar.cc:268
-#: src/wmtaskbar.cc:270
+#: src/wmdialog.cc:77 src/wmprog.cc:849 src/wmprog.cc:851 src/wmtaskbar.cc:260
+#: src/wmtaskbar.cc:262
 msgid "_Logout..."
 msgstr "_Keluar..."
 
@@ -1444,7 +1444,7 @@ msgstr "_Keluar..."
 msgid "_Restart icewm"
 msgstr "_Jalankan ulang icewm"
 
-#: src/wmdialog.cc:82 src/wmprog.cc:810 src/wmtaskbar.cc:264
+#: src/wmdialog.cc:82 src/wmprog.cc:810 src/wmtaskbar.cc:256
 msgid "_About"
 msgstr "_Tentang"
 
@@ -1477,12 +1477,12 @@ msgstr "Gulung bawah"
 msgid "Rollup"
 msgstr "Gulung atas"
 
-#: src/wmoption.cc:231
+#: src/wmoption.cc:232
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Video option: %s tidak diketahui"
 
-#: src/wmoption.cc:343
+#: src/wmoption.cc:344
 #, fuzzy, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Kesalahan sintaks dalam opsi jendela"
@@ -1544,7 +1544,7 @@ msgstr "Program"
 msgid "_Run..."
 msgstr "_Jalan..."
 
-#: src/wmprog.cc:797 src/wmtaskbar.cc:261
+#: src/wmprog.cc:797 src/wmtaskbar.cc:253
 msgid "_Windows"
 msgstr "_Jendela"
 
@@ -1573,65 +1573,65 @@ msgstr "Se_telan"
 msgid "Session Manager: Unknown line %s"
 msgstr "Manajer Sesi: Baris %s tidak diketahui"
 
-#: src/wmtaskbar.cc:251 src/wmwinlist.cc:395 src/wmwinlist.cc:415
+#: src/wmtaskbar.cc:243 src/wmwinlist.cc:395 src/wmwinlist.cc:415
 msgid "Tile _Vertically"
 msgstr "Menata Vertikal"
 
-#: src/wmtaskbar.cc:252 src/wmwinlist.cc:396 src/wmwinlist.cc:416
+#: src/wmtaskbar.cc:244 src/wmwinlist.cc:396 src/wmwinlist.cc:416
 msgid "T_ile Horizontally"
 msgstr "Menata Horizontal"
 
-#: src/wmtaskbar.cc:253 src/wmwinlist.cc:397 src/wmwinlist.cc:417
+#: src/wmtaskbar.cc:245 src/wmwinlist.cc:397 src/wmwinlist.cc:417
 msgid "Ca_scade"
 msgstr "Bertingkat"
 
-#: src/wmtaskbar.cc:254 src/wmwinlist.cc:398 src/wmwinlist.cc:418
+#: src/wmtaskbar.cc:246 src/wmwinlist.cc:398 src/wmwinlist.cc:418
 msgid "_Arrange"
 msgstr "_Atur"
 
-#: src/wmtaskbar.cc:255 src/wmwinlist.cc:400 src/wmwinlist.cc:419
+#: src/wmtaskbar.cc:247 src/wmwinlist.cc:400 src/wmwinlist.cc:419
 msgid "_Minimize All"
 msgstr "_Minimalkan Semua"
 
-#: src/wmtaskbar.cc:256 src/wmwinlist.cc:401 src/wmwinlist.cc:420
+#: src/wmtaskbar.cc:248 src/wmwinlist.cc:401 src/wmwinlist.cc:420
 msgid "_Hide All"
 msgstr "_Sembunyikan Semua"
 
-#: src/wmtaskbar.cc:257 src/wmwinlist.cc:402 src/wmwinlist.cc:421
+#: src/wmtaskbar.cc:249 src/wmwinlist.cc:402 src/wmwinlist.cc:421
 msgid "_Undo"
 msgstr "_Urungkan"
 
-#: src/wmtaskbar.cc:259
+#: src/wmtaskbar.cc:251
 msgid "Arrange _Icons"
 msgstr "Atur _Ikon"
 
-#: src/wmtaskbar.cc:263
+#: src/wmtaskbar.cc:255
 msgid "_Refresh"
 msgstr "_Segarkan"
 
-#: src/wmtaskbar.cc:334 src/wmtaskbar.cc:964
+#: src/wmtaskbar.cc:326 src/wmtaskbar.cc:956
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Hide Taskbar"
 msgstr "Bilah tugas"
 
-#: src/wmtaskbar.cc:352
+#: src/wmtaskbar.cc:344
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Favorite Applications"
 msgstr "Aplikasi favorit"
 
-#: src/wmtaskbar.cc:373
+#: src/wmtaskbar.cc:365
 #, fuzzy
 #| msgid "Window list menu"
 msgid "Window List Menu"
 msgstr "Menu daftar jendela"
 
-#: src/wmtaskbar.cc:382
+#: src/wmtaskbar.cc:374
 msgid "Show Desktop"
 msgstr "Lihat Desktop"
 
-#: src/wmtaskbar.cc:964
+#: src/wmtaskbar.cc:956
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Show Taskbar"
@@ -1684,7 +1684,7 @@ msgstr "Daftar jendela"
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Ruang kerja %-.32s"
 
-#: src/yapp.cc:279
+#: src/yapp.cc:284
 #, c-format
 msgid "%s: select failed"
 msgstr ""

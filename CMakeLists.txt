@@ -59,7 +59,7 @@ else()
 		ENDIF()
 	endforeach()
 endif()
-
+set(PACKAGE_STRING ${PACKAGE})
 
 add_subdirectory(src)
 add_subdirectory(po)

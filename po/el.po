@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-09-17 01:30+0200\n"
+"POT-Creation-Date: 2019-11-24 12:39+0100\n"
 "PO-Revision-Date: 2018-12-30 23:41+0200\n"
 "Last-Translator: nikos papadopoulos <nikos769@yahoo.gr>\n"
 "Language-Team: Greek <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -321,7 +321,7 @@ msgstr ""
 msgid "NET"
 msgstr "ΔΙΚ."
 
-#: src/aworkspaces.cc:585 src/wmstatus.cc:200
+#: src/aworkspaces.cc:586 src/wmstatus.cc:200
 msgid "Workspace: "
 msgstr "Επιφάνεια εργασίας: "
 
@@ -590,7 +590,7 @@ msgstr "Η ενέργεια `%s' απαιτεί τουλάχιστον %d ορί
 msgid "Invalid expression: `%s'"
 msgstr "Μη έγκυρη έκφραση: `%s'"
 
-#: src/icesh.cc:2548 src/icesound.cc:801 src/icewmhint.cc:36 src/wmapp.cc:1108
+#: src/icesh.cc:2548 src/icesound.cc:795 src/icewmhint.cc:36 src/wmapp.cc:1108
 #: src/yxapp.cc:1038
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -700,74 +700,74 @@ msgstr ""
 msgid "IceWM crash response"
 msgstr "Απόκριση κατάρρευσης του IceWM"
 
-#: src/icesound.cc:216 src/icesound.cc:324 src/icesound.cc:484
+#: src/icesound.cc:215 src/icesound.cc:323 src/icesound.cc:483
 #, c-format
 msgid "Playing sample #%d (%s)"
 msgstr "Παίζεται το δείγμα #%d (%s)"
 
-#: src/icesound.cc:334
+#: src/icesound.cc:333
 #, c-format
 msgid "%s: Invalid number of channels"
 msgstr "%s: Μη έγκυρο πλήθος καναλιών"
 
-#: src/icesound.cc:340 src/icesound.cc:345
+#: src/icesound.cc:339 src/icesound.cc:344
 msgid "Could not set OSS channels"
 msgstr "Αδυναμία ορισμού των καναλιών OSS"
 
-#: src/icesound.cc:350 src/icesound.cc:378
+#: src/icesound.cc:349 src/icesound.cc:377
 msgid "Could not sync OSS"
 msgstr "Αδυναμία συγχρονισμού του OSS"
 
-#: src/icesound.cc:362
+#: src/icesound.cc:361
 msgid "OSS write failed"
 msgstr "Αδυναμία εγγραφής του OSS"
 
-#: src/icesound.cc:366
+#: src/icesound.cc:365
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
 msgstr "Ατελής εγγραφή OSS (%d/%d)"
 
-#: src/icesound.cc:373
+#: src/icesound.cc:372
 msgid "Could not post OSS"
 msgstr "Αδυναμία καταχώρησης του OSS"
 
-#: src/icesound.cc:402
+#: src/icesound.cc:401
 #, c-format
 msgid "Could not open OSS device %s"
 msgstr "Αδυναμία ανοίγματος της συσκευής OSS %s"
 
-#: src/icesound.cc:407
+#: src/icesound.cc:406
 msgid "Could not set OSS stereo"
 msgstr "Αδυναμία ορισμού του στερεοφωνικού OSS"
 
-#: src/icesound.cc:412
+#: src/icesound.cc:411
 msgid "Could not reset OSS DSP"
 msgstr "Αδυναμία ορισμού από την αρχή του OSS DSP"
 
-#: src/icesound.cc:417
+#: src/icesound.cc:416
 msgid "Could not set OSS format"
 msgstr "Αδυναμία ορισμού της μορφής OSS"
 
-#: src/icesound.cc:504
+#: src/icesound.cc:503
 #, c-format
 msgid "ao_open_live failed with %d"
 msgstr "απέτυχε το ao_open_live , με %d"
 
-#: src/icesound.cc:515
+#: src/icesound.cc:514
 msgid "ao_play failed"
 msgstr "απέτυχε το ao_play"
 
-#: src/icesound.cc:683
+#: src/icesound.cc:677
 #, c-format
 msgid "Unrecognized option: %s\n"
 msgstr "Μη αναγνωρισμένη επιλογή: %s\n"
 
-#: src/icesound.cc:686 src/icesound.cc:979
+#: src/icesound.cc:680 src/icesound.cc:973
 #, c-format
 msgid "Unrecognized argument: %s\n"
 msgstr "Μη αναγνωρισμένο όρισμα: %s\n"
 
-#: src/icesound.cc:695
+#: src/icesound.cc:689
 #, fuzzy, c-format
 #| msgid ""
 #| "Usage: %s [OPTION]...\n"
@@ -953,54 +953,54 @@ msgstr ""
 "εξυπηρετητή).\n"
 "\n"
 
-#: src/icesound.cc:786
+#: src/icesound.cc:780
 #, c-format
 msgid "No audio for %s"
 msgstr "Καθόλου ήχος για το %s"
 
-#: src/icesound.cc:863
+#: src/icesound.cc:857
 msgid "Could not get GUI event property"
 msgstr ""
 "Αδυναμία λήψης της ιδιότητας του γεγονότος του Γραφικού Περιβάλλοντος του "
 "Χρήστη (GUI)"
 
-#: src/icesound.cc:867
+#: src/icesound.cc:861
 #, c-format
 msgid "Received invalid GUI event %d"
 msgstr ""
 "Λήφθηκε μη έγκυρο γεγονός του Γραφικού Περιβάλλοντος του Χρήστη (GUI) %d"
 
-#: src/icesound.cc:871
+#: src/icesound.cc:865
 #, c-format
 msgid "Received GUI event %s"
 msgstr "Λήφθηκε γεγονός του Γραφικού Περιβάλλοντος του Χρήστη (GUI) %s"
 
-#: src/icesound.cc:885
+#: src/icesound.cc:879
 #, c-format
 msgid "Too quick; ignoring %s."
 msgstr "Υπερβολικά γρήγορο· παράβλεψη του %s."
 
-#: src/icesound.cc:889
+#: src/icesound.cc:883
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr "Η υποστήριξη για την διεπαφή %s δεν έχει συντεθεί στον κώδικα."
 
-#: src/icesound.cc:922
+#: src/icesound.cc:916
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr "Μη υποστηριζόμενη διεπαφή: %s ."
 
-#: src/icesound.cc:931
+#: src/icesound.cc:925
 #, c-format
 msgid "Using %s audio."
 msgstr "Χρησιμοποιείται ο ήχος %s ."
 
-#: src/icesound.cc:935
+#: src/icesound.cc:929
 #, c-format
 msgid "Failed to connect to audio interfaces %s."
 msgstr "Αποτυχία σύνδεσης στις διεπαφές ήχου %s ."
 
-#: src/icesound.cc:947
+#: src/icesound.cc:941
 #, c-format
 msgid "Received signal %s: Terminating..."
 msgstr "Ελήφθη το σήμα %s: Τερματίζεται..."
@@ -1555,16 +1555,16 @@ msgstr "%s κατάλογοι ρυθμίσεων:\n"
 msgid "%s configured options:%s\n"
 msgstr "%s ρυθμισμένες επιλογές:%s\n"
 
-#: src/wmapp.cc:1679
+#: src/wmapp.cc:1681
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Μη αναγνωρισμένη επιλογή '%s'."
 
-#: src/wmapp.cc:1751
+#: src/wmapp.cc:1753
 msgid "Confirm Logout"
 msgstr "Επιβεβαίωση Αποσύνδεσης"
 
-#: src/wmapp.cc:1752
+#: src/wmapp.cc:1754
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1606,8 +1606,8 @@ msgstr "Κλείδωμα του _Σταθμού Εργασίας"
 msgid "_Cancel"
 msgstr "_Ακύρωση"
 
-#: src/wmdialog.cc:77 src/wmprog.cc:849 src/wmprog.cc:851 src/wmtaskbar.cc:268
-#: src/wmtaskbar.cc:270
+#: src/wmdialog.cc:77 src/wmprog.cc:849 src/wmprog.cc:851 src/wmtaskbar.cc:260
+#: src/wmtaskbar.cc:262
 msgid "_Logout..."
 msgstr "_Αποσύνδεση..."
 
@@ -1615,7 +1615,7 @@ msgstr "_Αποσύνδεση..."
 msgid "_Restart icewm"
 msgstr "_Επανεκκίνηση του icewm"
 
-#: src/wmdialog.cc:82 src/wmprog.cc:810 src/wmtaskbar.cc:264
+#: src/wmdialog.cc:82 src/wmprog.cc:810 src/wmtaskbar.cc:256
 msgid "_About"
 msgstr "_Περί"
 
@@ -1649,12 +1649,12 @@ msgstr "Ξεδίπλωμα"
 msgid "Rollup"
 msgstr "Τύλιγμα"
 
-#: src/wmoption.cc:231
+#: src/wmoption.cc:232
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Άγνωστη παράμετρος παράθυρου: %s"
 
-#: src/wmoption.cc:343
+#: src/wmoption.cc:344
 #, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Σφάλμα σύνταξης στις παραμέτρους των παράθυρων, στη γραμμή %d του %s"
@@ -1711,7 +1711,7 @@ msgstr "Προγράμματα"
 msgid "_Run..."
 msgstr "_Εκτέλεση..."
 
-#: src/wmprog.cc:797 src/wmtaskbar.cc:261
+#: src/wmprog.cc:797 src/wmtaskbar.cc:253
 msgid "_Windows"
 msgstr "_Παράθυρα"
 
@@ -1740,59 +1740,59 @@ msgstr "Ρυ_θμίσεις"
 msgid "Session Manager: Unknown line %s"
 msgstr "Διαχειριστής Συνεδρίας: Άγνωστη γραμμή %s"
 
-#: src/wmtaskbar.cc:251 src/wmwinlist.cc:395 src/wmwinlist.cc:415
+#: src/wmtaskbar.cc:243 src/wmwinlist.cc:395 src/wmwinlist.cc:415
 msgid "Tile _Vertically"
 msgstr "Παράλληλη Τοποθέτηση _Κάθετα"
 
-#: src/wmtaskbar.cc:252 src/wmwinlist.cc:396 src/wmwinlist.cc:416
+#: src/wmtaskbar.cc:244 src/wmwinlist.cc:396 src/wmwinlist.cc:416
 msgid "T_ile Horizontally"
 msgstr "Παράλληλη Τοποθέτηση _Οριζόντια"
 
-#: src/wmtaskbar.cc:253 src/wmwinlist.cc:397 src/wmwinlist.cc:417
+#: src/wmtaskbar.cc:245 src/wmwinlist.cc:397 src/wmwinlist.cc:417
 msgid "Ca_scade"
 msgstr "Διαδοχική Επικάλυψη"
 
-#: src/wmtaskbar.cc:254 src/wmwinlist.cc:398 src/wmwinlist.cc:418
+#: src/wmtaskbar.cc:246 src/wmwinlist.cc:398 src/wmwinlist.cc:418
 msgid "_Arrange"
 msgstr "_Παράθεση"
 
-#: src/wmtaskbar.cc:255 src/wmwinlist.cc:400 src/wmwinlist.cc:419
+#: src/wmtaskbar.cc:247 src/wmwinlist.cc:400 src/wmwinlist.cc:419
 msgid "_Minimize All"
 msgstr "_Ελαχιστοποίηση Όλων"
 
-#: src/wmtaskbar.cc:256 src/wmwinlist.cc:401 src/wmwinlist.cc:420
+#: src/wmtaskbar.cc:248 src/wmwinlist.cc:401 src/wmwinlist.cc:420
 msgid "_Hide All"
 msgstr "_Απόκρυψη Όλων"
 
-#: src/wmtaskbar.cc:257 src/wmwinlist.cc:402 src/wmwinlist.cc:421
+#: src/wmtaskbar.cc:249 src/wmwinlist.cc:402 src/wmwinlist.cc:421
 msgid "_Undo"
 msgstr "_Αναίρεση"
 
-#: src/wmtaskbar.cc:259
+#: src/wmtaskbar.cc:251
 msgid "Arrange _Icons"
 msgstr "Παράθεση _Εικονιδίων"
 
-#: src/wmtaskbar.cc:263
+#: src/wmtaskbar.cc:255
 msgid "_Refresh"
 msgstr "_Ανανέωση"
 
-#: src/wmtaskbar.cc:334 src/wmtaskbar.cc:964
+#: src/wmtaskbar.cc:326 src/wmtaskbar.cc:956
 msgid "Hide Taskbar"
 msgstr "Απόκρυψη της Γραμμής Εργασιών"
 
-#: src/wmtaskbar.cc:352
+#: src/wmtaskbar.cc:344
 msgid "Favorite Applications"
 msgstr "Αγαπημένες Εφαρμογές"
 
-#: src/wmtaskbar.cc:373
+#: src/wmtaskbar.cc:365
 msgid "Window List Menu"
 msgstr "Κατάλογος Κατάστιχου Παράθυρων"
 
-#: src/wmtaskbar.cc:382
+#: src/wmtaskbar.cc:374
 msgid "Show Desktop"
 msgstr "Εμφάνιση της Επιφάνεια Εργασίας"
 
-#: src/wmtaskbar.cc:964
+#: src/wmtaskbar.cc:956
 msgid "Show Taskbar"
 msgstr "Προβολή της Γραμμής Εργασιών"
 
@@ -1841,7 +1841,7 @@ msgstr "Κατάστιχο παραθύρων"
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Επιφάνεια εργασίας %-.32s"
 
-#: src/yapp.cc:279
+#: src/yapp.cc:284
 #, c-format
 msgid "%s: select failed"
 msgstr "%s: επέτυχε η επιλογή"

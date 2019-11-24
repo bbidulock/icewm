@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.4.2.1038\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-09-17 01:30+0200\n"
+"POT-Creation-Date: 2019-11-24 12:39+0100\n"
 "PO-Revision-Date: 2019-08-18 21:51+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -317,7 +317,7 @@ msgstr ""
 msgid "NET"
 msgstr "NET"
 
-#: src/aworkspaces.cc:585 src/wmstatus.cc:200
+#: src/aworkspaces.cc:586 src/wmstatus.cc:200
 msgid "Workspace: "
 msgstr "Arbejdsområde: "
 
@@ -614,7 +614,7 @@ msgstr "Handlingen \"%s\" kræver mindst %d argumenter."
 msgid "Invalid expression: `%s'"
 msgstr "Ugyldigt udtryk: \"%s\""
 
-#: src/icesh.cc:2548 src/icesound.cc:801 src/icewmhint.cc:36 src/wmapp.cc:1108
+#: src/icesh.cc:2548 src/icesound.cc:795 src/icewmhint.cc:36 src/wmapp.cc:1108
 #: src/yxapp.cc:1038
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -708,74 +708,74 @@ msgstr ""
 msgid "IceWM crash response"
 msgstr "Svar til IceWM-nedbrud"
 
-#: src/icesound.cc:216 src/icesound.cc:324 src/icesound.cc:484
+#: src/icesound.cc:215 src/icesound.cc:323 src/icesound.cc:483
 #, c-format
 msgid "Playing sample #%d (%s)"
 msgstr "Afspiller prøve nr. %d (%s)"
 
-#: src/icesound.cc:334
+#: src/icesound.cc:333
 #, c-format
 msgid "%s: Invalid number of channels"
 msgstr "%s: Ugyldigt antal kanaler"
 
-#: src/icesound.cc:340 src/icesound.cc:345
+#: src/icesound.cc:339 src/icesound.cc:344
 msgid "Could not set OSS channels"
 msgstr "Kunne ikke sætte OSS-kanaler"
 
-#: src/icesound.cc:350 src/icesound.cc:378
+#: src/icesound.cc:349 src/icesound.cc:377
 msgid "Could not sync OSS"
 msgstr "Kunne ikke synkronisere OSS"
 
-#: src/icesound.cc:362
+#: src/icesound.cc:361
 msgid "OSS write failed"
 msgstr "OSS-skrivning mislykkedes"
 
-#: src/icesound.cc:366
+#: src/icesound.cc:365
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
 msgstr "OSS ufuldstændig skrivning (%d/%d)"
 
-#: src/icesound.cc:373
+#: src/icesound.cc:372
 msgid "Could not post OSS"
 msgstr "Kunne ikke indsende OSS"
 
-#: src/icesound.cc:402
+#: src/icesound.cc:401
 #, c-format
 msgid "Could not open OSS device %s"
 msgstr "Kunne ikke åbne OSS-enhed %s"
 
-#: src/icesound.cc:407
+#: src/icesound.cc:406
 msgid "Could not set OSS stereo"
 msgstr "Kunne ikke sætte OSS-stereo"
 
-#: src/icesound.cc:412
+#: src/icesound.cc:411
 msgid "Could not reset OSS DSP"
 msgstr "Kunne ikke nulstille OSS-DSP"
 
-#: src/icesound.cc:417
+#: src/icesound.cc:416
 msgid "Could not set OSS format"
 msgstr "Kunne ikke sætte OSS-format"
 
-#: src/icesound.cc:504
+#: src/icesound.cc:503
 #, c-format
 msgid "ao_open_live failed with %d"
 msgstr "ao_open_live mislykkedes med %d"
 
-#: src/icesound.cc:515
+#: src/icesound.cc:514
 msgid "ao_play failed"
 msgstr "ao_play mislykkedes"
 
-#: src/icesound.cc:683
+#: src/icesound.cc:677
 #, c-format
 msgid "Unrecognized option: %s\n"
 msgstr "Ugenkendeligt tilvalg: %s\n"
 
-#: src/icesound.cc:686 src/icesound.cc:979
+#: src/icesound.cc:680 src/icesound.cc:973
 #, c-format
 msgid "Unrecognized argument: %s\n"
 msgstr "Ugenkendeligt argument: %s\n"
 
-#: src/icesound.cc:695
+#: src/icesound.cc:689
 #, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
@@ -876,51 +876,51 @@ msgstr ""
 "  3    Fejl ved undersystem (dvs. kan ikke oprette forbindelse til server).\n"
 "\n"
 
-#: src/icesound.cc:786
+#: src/icesound.cc:780
 #, c-format
 msgid "No audio for %s"
 msgstr "Ingen lyd til %s"
 
-#: src/icesound.cc:863
+#: src/icesound.cc:857
 msgid "Could not get GUI event property"
 msgstr "Kunne ikke få GUI-hændelse-egenskab"
 
-#: src/icesound.cc:867
+#: src/icesound.cc:861
 #, c-format
 msgid "Received invalid GUI event %d"
 msgstr "Modtog ugyldig GUI-hændelse %d"
 
-#: src/icesound.cc:871
+#: src/icesound.cc:865
 #, c-format
 msgid "Received GUI event %s"
 msgstr "Modtog GUI-hændelse %s"
 
-#: src/icesound.cc:885
+#: src/icesound.cc:879
 #, c-format
 msgid "Too quick; ignoring %s."
 msgstr "For hurtig; ignorerer %s."
 
-#: src/icesound.cc:889
+#: src/icesound.cc:883
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr "Understøttelse for %s grænseflade ikke oversat."
 
-#: src/icesound.cc:922
+#: src/icesound.cc:916
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr "Ikke-understøttet grænseflade: %s."
 
-#: src/icesound.cc:931
+#: src/icesound.cc:925
 #, c-format
 msgid "Using %s audio."
 msgstr "Bruger %s-lyd."
 
-#: src/icesound.cc:935
+#: src/icesound.cc:929
 #, c-format
 msgid "Failed to connect to audio interfaces %s."
 msgstr "Kunne ikke oprette forbindelse til lydgrænseflader %s."
 
-#: src/icesound.cc:947
+#: src/icesound.cc:941
 #, c-format
 msgid "Received signal %s: Terminating..."
 msgstr "Modtog signal %s: Afslutter..."
@@ -1434,16 +1434,16 @@ msgstr "%s konfigurationsmapper:\n"
 msgid "%s configured options:%s\n"
 msgstr "%s konfigurerede tilvalg:%s\n"
 
-#: src/wmapp.cc:1679
+#: src/wmapp.cc:1681
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Ugenkendeligt tilvalg \"%s\"."
 
-#: src/wmapp.cc:1751
+#: src/wmapp.cc:1753
 msgid "Confirm Logout"
 msgstr "Bekræft udlogning"
 
-#: src/wmapp.cc:1752
+#: src/wmapp.cc:1754
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1484,8 +1484,8 @@ msgstr "Lås _arbejdsstation"
 msgid "_Cancel"
 msgstr "_Annuller"
 
-#: src/wmdialog.cc:77 src/wmprog.cc:849 src/wmprog.cc:851 src/wmtaskbar.cc:268
-#: src/wmtaskbar.cc:270
+#: src/wmdialog.cc:77 src/wmprog.cc:849 src/wmprog.cc:851 src/wmtaskbar.cc:260
+#: src/wmtaskbar.cc:262
 msgid "_Logout..."
 msgstr "Log _ud..."
 
@@ -1493,7 +1493,7 @@ msgstr "Log _ud..."
 msgid "_Restart icewm"
 msgstr "Gensta_rt icewm"
 
-#: src/wmdialog.cc:82 src/wmprog.cc:810 src/wmtaskbar.cc:264
+#: src/wmdialog.cc:82 src/wmprog.cc:810 src/wmtaskbar.cc:256
 msgid "_About"
 msgstr "O_m"
 
@@ -1525,12 +1525,12 @@ msgstr "Rul ned"
 msgid "Rollup"
 msgstr "Rul op"
 
-#: src/wmoption.cc:231
+#: src/wmoption.cc:232
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Ukendt vinduestilvalg: %s"
 
-#: src/wmoption.cc:343
+#: src/wmoption.cc:344
 #, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Syntaksfejl i vinduestilvalg på linje %d af %s"
@@ -1587,7 +1587,7 @@ msgstr "Programmer"
 msgid "_Run..."
 msgstr "_Kør..."
 
-#: src/wmprog.cc:797 src/wmtaskbar.cc:261
+#: src/wmprog.cc:797 src/wmtaskbar.cc:253
 msgid "_Windows"
 msgstr "Vin_duer"
 
@@ -1616,59 +1616,59 @@ msgstr "_Indstillinger"
 msgid "Session Manager: Unknown line %s"
 msgstr "Sessionshåndtering: Ukendt linje %s"
 
-#: src/wmtaskbar.cc:251 src/wmwinlist.cc:395 src/wmwinlist.cc:415
+#: src/wmtaskbar.cc:243 src/wmwinlist.cc:395 src/wmwinlist.cc:415
 msgid "Tile _Vertically"
 msgstr "Fliselæg _lodret"
 
-#: src/wmtaskbar.cc:252 src/wmwinlist.cc:396 src/wmwinlist.cc:416
+#: src/wmtaskbar.cc:244 src/wmwinlist.cc:396 src/wmwinlist.cc:416
 msgid "T_ile Horizontally"
 msgstr "Fliselæg _vandret"
 
-#: src/wmtaskbar.cc:253 src/wmwinlist.cc:397 src/wmwinlist.cc:417
+#: src/wmtaskbar.cc:245 src/wmwinlist.cc:397 src/wmwinlist.cc:417
 msgid "Ca_scade"
 msgstr "_Overlappet"
 
-#: src/wmtaskbar.cc:254 src/wmwinlist.cc:398 src/wmwinlist.cc:418
+#: src/wmtaskbar.cc:246 src/wmwinlist.cc:398 src/wmwinlist.cc:418
 msgid "_Arrange"
 msgstr "_Arranger"
 
-#: src/wmtaskbar.cc:255 src/wmwinlist.cc:400 src/wmwinlist.cc:419
+#: src/wmtaskbar.cc:247 src/wmwinlist.cc:400 src/wmwinlist.cc:419
 msgid "_Minimize All"
 msgstr "Mi_nimer alle"
 
-#: src/wmtaskbar.cc:256 src/wmwinlist.cc:401 src/wmwinlist.cc:420
+#: src/wmtaskbar.cc:248 src/wmwinlist.cc:401 src/wmwinlist.cc:420
 msgid "_Hide All"
 msgstr "_Skjul alle"
 
-#: src/wmtaskbar.cc:257 src/wmwinlist.cc:402 src/wmwinlist.cc:421
+#: src/wmtaskbar.cc:249 src/wmwinlist.cc:402 src/wmwinlist.cc:421
 msgid "_Undo"
 msgstr "_Fortryd"
 
-#: src/wmtaskbar.cc:259
+#: src/wmtaskbar.cc:251
 msgid "Arrange _Icons"
 msgstr "Arranger _ikoner"
 
-#: src/wmtaskbar.cc:263
+#: src/wmtaskbar.cc:255
 msgid "_Refresh"
 msgstr "_Opdater"
 
-#: src/wmtaskbar.cc:334 src/wmtaskbar.cc:964
+#: src/wmtaskbar.cc:326 src/wmtaskbar.cc:956
 msgid "Hide Taskbar"
 msgstr "Skjul værktøjslinje"
 
-#: src/wmtaskbar.cc:352
+#: src/wmtaskbar.cc:344
 msgid "Favorite Applications"
 msgstr "Favoritprogrammer"
 
-#: src/wmtaskbar.cc:373
+#: src/wmtaskbar.cc:365
 msgid "Window List Menu"
 msgstr "Vindueslistemenu"
 
-#: src/wmtaskbar.cc:382
+#: src/wmtaskbar.cc:374
 msgid "Show Desktop"
 msgstr "Vis skrivebord"
 
-#: src/wmtaskbar.cc:964
+#: src/wmtaskbar.cc:956
 msgid "Show Taskbar"
 msgstr "Vis værktøjslinje"
 
@@ -1718,7 +1718,7 @@ msgstr "Vinduesliste"
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. arbejdsområde %-.32s"
 
-#: src/yapp.cc:279
+#: src/yapp.cc:284
 #, c-format
 msgid "%s: select failed"
 msgstr "%s: valg mislykkedes"

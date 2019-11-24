@@ -1696,8 +1696,11 @@ Paint the background image over all multihead monitors combined.
     AutoHideDelay=900
     AutoShowDelay=100
     EdgeResistance=3
-    KeySysMenu="Multi_key"
+    KeySysWinMenu=""
     KeySysWinListMenu="Shift+Ctrl+Esc"
+
+The above example shows how to tell B<icewm> to not bind a specific key:
+I<KeySysWinMenu> in this case.
 
 =head1 FILES
 
@@ -1708,6 +1711,9 @@ Locations for the F<preferences> file are as follows:
  $HOME/.icewm/preferences
  /etc/icewm/preferences
  /usr/share/icewm/preferences
+
+The locations are searched in the order listed; the first file found is
+read and the remainder ignored.
 
 =head1 SEE ALSO
 

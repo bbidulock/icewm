@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.31\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-09-17 01:30+0200\n"
-"PO-Revision-Date: 2019-01-05 18:28+0000\n"
+"POT-Creation-Date: 2019-11-24 12:39+0100\n"
+"PO-Revision-Date: 2019-09-18 16:52+0000\n"
 "Last-Translator: Alessio Adamo <alessio.adamo@gmail.com>\n"
 "Language-Team: Italian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
 "branch/it/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.3\n"
+"X-Generator: Weblate 3.6.1\n"
 
 #: src/aapm.cc:187 src/aapm.cc:469 src/aapm.cc:691 src/aapm.cc:816
 msgid " - Power"
@@ -320,7 +320,7 @@ msgstr ""
 msgid "NET"
 msgstr "RETE"
 
-#: src/aworkspaces.cc:585 src/wmstatus.cc:200
+#: src/aworkspaces.cc:586 src/wmstatus.cc:200
 msgid "Workspace: "
 msgstr "Spazio di lavoro: "
 
@@ -602,16 +602,12 @@ msgid "Gravity symbols"
 msgstr ""
 
 #: src/icesh.cc:1554
-#, fuzzy
-#| msgid "Save Modifications"
 msgid "Motif functions"
-msgstr "Salvare le modifiche"
+msgstr "Funzioni Motif"
 
 #: src/icesh.cc:1555
-#, fuzzy
-#| msgid "Save Modifications"
 msgid "Motif decorations"
-msgstr "Salvare le modifiche"
+msgstr "Decorazioni Motif"
 
 #: src/icesh.cc:1634
 #, c-format
@@ -628,7 +624,7 @@ msgstr "L'azione '%s' richiede almeno %d argomenti."
 msgid "Invalid expression: `%s'"
 msgstr "Espressione non valida: '%s'"
 
-#: src/icesh.cc:2548 src/icesound.cc:801 src/icewmhint.cc:36 src/wmapp.cc:1108
+#: src/icesh.cc:2548 src/icesound.cc:795 src/icewmhint.cc:36 src/wmapp.cc:1108
 #: src/yxapp.cc:1038
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -637,10 +633,9 @@ msgstr ""
 "variabile $DISPLAY deve essere impostata."
 
 #: src/icesh.cc:2561
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'."
+#, c-format
 msgid "Invalid argument: `%s'"
-msgstr "Argomento non valido: '%s'."
+msgstr "Argomento non valido: '%s'"
 
 #: src/icesh.cc:2601
 msgid "No actions specified."
@@ -702,10 +697,9 @@ msgid "Unknown option '%s'"
 msgstr "Opzione sconosciuta '%s'"
 
 #: src/icesm.cc:331 src/icesm.cc:449
-#, fuzzy, c-format
-#| msgid "Restart"
+#, c-format
 msgid "restart %s."
-msgstr "Riavvia"
+msgstr "riavvia %s."
 
 #: src/icesm.cc:337
 #, c-format
@@ -735,131 +729,75 @@ msgstr ""
 msgid "IceWM crash response"
 msgstr "Riscontro sul crash di IceWM"
 
-#: src/icesound.cc:216 src/icesound.cc:324 src/icesound.cc:484
+#: src/icesound.cc:215 src/icesound.cc:323 src/icesound.cc:483
 #, c-format
 msgid "Playing sample #%d (%s)"
 msgstr "Riproduzione del campione #%d (%s)"
 
-#: src/icesound.cc:334
+#: src/icesound.cc:333
 #, c-format
 msgid "%s: Invalid number of channels"
 msgstr "%s: numero di canali non valido"
 
-#: src/icesound.cc:340 src/icesound.cc:345
+#: src/icesound.cc:339 src/icesound.cc:344
 msgid "Could not set OSS channels"
 msgstr "Impossibile impostare i canali OSS"
 
-#: src/icesound.cc:350 src/icesound.cc:378
+#: src/icesound.cc:349 src/icesound.cc:377
 msgid "Could not sync OSS"
 msgstr "Impossibile sincronizzare OSS"
 
-#: src/icesound.cc:362
+#: src/icesound.cc:361
 msgid "OSS write failed"
 msgstr "Scrittura di OSS non riuscita"
 
-#: src/icesound.cc:366
+#: src/icesound.cc:365
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
 msgstr "Scrittura di OSS incompleta (%d/%d)"
 
-#: src/icesound.cc:373
+#: src/icesound.cc:372
 msgid "Could not post OSS"
 msgstr "Impossibile pubblicare OSS"
 
-#: src/icesound.cc:402
+#: src/icesound.cc:401
 #, c-format
 msgid "Could not open OSS device %s"
 msgstr "Impossibile aprire il dispositivo OSS %s"
 
-#: src/icesound.cc:407
+#: src/icesound.cc:406
 msgid "Could not set OSS stereo"
 msgstr "Impossibile impostare OSS stereo"
 
-#: src/icesound.cc:412
+#: src/icesound.cc:411
 msgid "Could not reset OSS DSP"
 msgstr "Impossibile resettare OSS DSP"
 
-#: src/icesound.cc:417
+#: src/icesound.cc:416
 msgid "Could not set OSS format"
 msgstr "Impossibile impostare il formato OSS"
 
-#: src/icesound.cc:504
+#: src/icesound.cc:503
 #, c-format
 msgid "ao_open_live failed with %d"
 msgstr "ao_open_live è andato in errore con %d"
 
-#: src/icesound.cc:515
+#: src/icesound.cc:514
 msgid "ao_play failed"
 msgstr "ao_play è andato in errore"
 
-#: src/icesound.cc:683
+#: src/icesound.cc:677
 #, c-format
 msgid "Unrecognized option: %s\n"
 msgstr "Opzione non riconosciuta: %s\n"
 
-#: src/icesound.cc:686 src/icesound.cc:979
+#: src/icesound.cc:680 src/icesound.cc:973
 #, c-format
 msgid "Unrecognized argument: %s\n"
 msgstr "Argomento non riconosciuto: %s\n"
 
-#: src/icesound.cc:695
-#, fuzzy, c-format
-#| msgid ""
-#| "Usage: %s [OPTION]...\n"
-#| "\n"
-#| "Plays audio files on GUI events raised by IceWM.\n"
-#| "The currently configured sound interfaces are: %s.\n"
-#| "Icesound will choose the first of these which is usable.\n"
-#| "\n"
-#| "Options:\n"
-#| "\n"
-#| " -d, --display=DISPLAY   X11 display used by IceWM (default: $DISPLAY).\n"
-#| "\n"
-#| " -s, --sample-dir=DIR    Specifies a directory with sound files.\n"
-#| "                         Default is $HOME/.config/icewm/sounds.\n"
-#| "\n"
-#| " -i, --interface=LIST    Specifies audio output interfaces. One or more "
-#| "of:\n"
-#| "                         %s separated by commas.\n"
-#| "\n"
-#| " -D, --device=DEVICE     Backwards compatibility only: the default "
-#| "device. \n"
-#| "                         Please prefer one of the -A/-O/-S options.\n"
-#| "\n"
-#| " -O, --oss=DEVICE        Specifies the OSS device (default: \"%s\").\n"
-#| "\n"
-#| " -A, --alsa=DEVICE       Specifies the ALSA device (default: \"%s\").\n"
-#| "\n"
-#| " -S, --server=ADDR:PORT  Specifies the ESD server address and port "
-#| "number.\n"
-#| "                         For ESD the default is \"localhost:16001\".\n"
-#| "\n"
-#| " -z, --snooze=millisecs  Specifies the snooze interval between sound "
-#| "events\n"
-#| "                         in milliseconds. Default is 500 milliseconds.\n"
-#| "\n"
-#| " -p, --play=sound        Plays the given sound (name or number) and "
-#| "exits.\n"
-#| "\n"
-#| " -l, --list-files        Lists the available sound file paths and exits.\n"
-#| "\n"
-#| "     --list-sounds       Lists the supported sound filenames and exits.\n"
-#| "\n"
-#| "     --list-interfaces   Lists the supported audio interfaces and exits.\n"
-#| "\n"
-#| " -v, --verbose           Be verbose and print out each sound event.\n"
-#| "\n"
-#| " -V, --version           Prints version information and exits.\n"
-#| "\n"
-#| " -h, --help              Prints this help screen and exits.\n"
-#| "\n"
-#| "Return values:\n"
-#| "\n"
-#| "  0    Success.\n"
-#| "  1    General error.\n"
-#| "  2    Command line error.\n"
-#| "  3    Subsystems error (ie cannot connect to server).\n"
-#| "\n"
+#: src/icesound.cc:689
+#, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
 "\n"
@@ -917,15 +855,15 @@ msgstr ""
 "\n"
 "Opzioni:\n"
 "\n"
-"-d, --display=DISPLAY         Display X11 usato da IceWM (predefinito: "
+" -d, --display=DISPLAY        Display X11 usato da IceWM (predefinito: "
 "$DISPLAY).\n"
-"-s, --sample-dir=DIRECTORY    Specifica la directory che contiene i file "
+" -s, --sample-dir=DIRECTORY   Specifica la directory che contiene i file "
 "audio.\n"
 "                              La predefinita è $HOME/.config/icewm/sounds.\n"
-"-i, --interface=LIST          Specifica le interfacce di uscita audio. Una o "
+" -i, --interface=LIST         Specifica le interfacce di uscita audio. Una o "
 "più:\n"
 "                              %s separate da virgole.\n"
-"-D, --device=DEVICE           Solo retrocompatibile: il dispositivo "
+" -D, --device=DEVICE          Solo retrocompatibile: il dispositivo "
 "predefinito.\n"
 "                              Preferire una delle opzioni -A/-O/-S.\n"
 "\n"
@@ -935,11 +873,7 @@ msgstr ""
 " -A, --alsa=DEVICE            Specifica il dispositvo ALSA (predefinito: \"%s"
 "\").\n"
 "\n"
-"-S, --server=ADDR:PORT        Specifica l'indirizzo e il numero di porta del "
-"server ESD.\n"
-"                              Predefinito per ESD: \"localhost:16001\".\n"
-"\n"
-"-z, --snooze=millisec         Specifica l'intervallo di ritardo tra gli "
+" -z, --snooze=millisec        Specifica l'intervallo di ritardo tra gli "
 "eventi audio\n"
 "                              in millisecondi. Il valore predefinito è 500 "
 "millisecondi.\n"
@@ -956,66 +890,66 @@ msgstr ""
 "     --list-interfaces        Elenca le interfacce audio supportate ed "
 "esce.\n"
 "\n"
-"-v, --verbose                 Prolisso e stampa ogni evento sonoro.\n"
+" -v, --verbose                Prolisso e stampa ogni evento sonoro.\n"
 "\n"
-"-V, --version                 Stampa le informazioni sulla versione ed "
+" -V, --version                Stampa le informazioni sulla versione ed "
 "esce.\n"
 "\n"
-"-h, --help                    Stampa la schermata della guida ed esce.\n"
+" -h, --help                   Stampa la schermata della guida ed esce.\n"
 "\n"
 "Valori restituiti:\n"
 "\n"
-"0     Successo.\n"
-"1     Errore generale.\n"
-"2     Errore nella riga di comando.\n"
-"3     Errore dei sottosistemi (es. impossibile connettersi al server).\n"
+"  0    Successo.\n"
+"  1    Errore generale.\n"
+"  2    Errore nella riga di comando.\n"
+"  3    Errore dei sottosistemi (es. impossibile connettersi al server).\n"
 "\n"
 
-#: src/icesound.cc:786
+#: src/icesound.cc:780
 #, c-format
 msgid "No audio for %s"
 msgstr "Nessun audio per %s"
 
-#: src/icesound.cc:863
+#: src/icesound.cc:857
 msgid "Could not get GUI event property"
 msgstr "Impossibile recuperare la proprietà dell'evento GUI"
 
-#: src/icesound.cc:867
+#: src/icesound.cc:861
 #, c-format
 msgid "Received invalid GUI event %d"
 msgstr "Ricevuto un evento GUI non valido: %d"
 
-#: src/icesound.cc:871
+#: src/icesound.cc:865
 #, c-format
 msgid "Received GUI event %s"
 msgstr "Ricevuto l'evento GUI %s"
 
-#: src/icesound.cc:885
+#: src/icesound.cc:879
 #, c-format
 msgid "Too quick; ignoring %s."
 msgstr "Troppo veloce; %s sarà ignorato."
 
-#: src/icesound.cc:889
+#: src/icesound.cc:883
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr "Il supporto per l'interfaccia %s non è stato compilato."
 
-#: src/icesound.cc:922
+#: src/icesound.cc:916
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr "Interfaccia non supportata: %s."
 
-#: src/icesound.cc:931
+#: src/icesound.cc:925
 #, c-format
 msgid "Using %s audio."
 msgstr "Viene utilizzato l'audio %s."
 
-#: src/icesound.cc:935
+#: src/icesound.cc:929
 #, c-format
 msgid "Failed to connect to audio interfaces %s."
 msgstr "Impossibile connettersi alle interfacce audio %s."
 
-#: src/icesound.cc:947
+#: src/icesound.cc:941
 #, c-format
 msgid "Received signal %s: Terminating..."
 msgstr "Ricevuto il segnale %s: viene terminata l'esecuzione..."
@@ -1533,16 +1467,16 @@ msgstr "Directory di configurazione di %s:\n"
 msgid "%s configured options:%s\n"
 msgstr "Opzioni configurate di %s: %s\n"
 
-#: src/wmapp.cc:1679
+#: src/wmapp.cc:1681
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Opzione non riconosciuta '%s'."
 
-#: src/wmapp.cc:1751
+#: src/wmapp.cc:1753
 msgid "Confirm Logout"
 msgstr "Conferma uscita"
 
-#: src/wmapp.cc:1752
+#: src/wmapp.cc:1754
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1583,8 +1517,8 @@ msgstr "_Blocca postazione di lavoro"
 msgid "_Cancel"
 msgstr "_Annulla"
 
-#: src/wmdialog.cc:77 src/wmprog.cc:849 src/wmprog.cc:851 src/wmtaskbar.cc:268
-#: src/wmtaskbar.cc:270
+#: src/wmdialog.cc:77 src/wmprog.cc:849 src/wmprog.cc:851 src/wmtaskbar.cc:260
+#: src/wmtaskbar.cc:262
 msgid "_Logout..."
 msgstr "_Esci..."
 
@@ -1592,7 +1526,7 @@ msgstr "_Esci..."
 msgid "_Restart icewm"
 msgstr "_Riavvia icewm"
 
-#: src/wmdialog.cc:82 src/wmprog.cc:810 src/wmtaskbar.cc:264
+#: src/wmdialog.cc:82 src/wmprog.cc:810 src/wmtaskbar.cc:256
 msgid "_About"
 msgstr "_Informazioni"
 
@@ -1624,12 +1558,12 @@ msgstr "Srotola"
 msgid "Rollup"
 msgstr "Arrotola"
 
-#: src/wmoption.cc:231
+#: src/wmoption.cc:232
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Opzione sconosciuta della finestra: %s"
 
-#: src/wmoption.cc:343
+#: src/wmoption.cc:344
 #, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Errore di sintassi nelle opzioni della finestra alla riga %d di %s"
@@ -1686,7 +1620,7 @@ msgstr "Programmi"
 msgid "_Run..."
 msgstr "_Esegui..."
 
-#: src/wmprog.cc:797 src/wmtaskbar.cc:261
+#: src/wmprog.cc:797 src/wmtaskbar.cc:253
 msgid "_Windows"
 msgstr "_Finestre"
 
@@ -1715,59 +1649,59 @@ msgstr "Impos_tazioni"
 msgid "Session Manager: Unknown line %s"
 msgstr "Gestore delle sessioni: riga %s sconosciuta"
 
-#: src/wmtaskbar.cc:251 src/wmwinlist.cc:395 src/wmwinlist.cc:415
+#: src/wmtaskbar.cc:243 src/wmwinlist.cc:395 src/wmwinlist.cc:415
 msgid "Tile _Vertically"
 msgstr "Affianca _verticalmente"
 
-#: src/wmtaskbar.cc:252 src/wmwinlist.cc:396 src/wmwinlist.cc:416
+#: src/wmtaskbar.cc:244 src/wmwinlist.cc:396 src/wmwinlist.cc:416
 msgid "T_ile Horizontally"
 msgstr "Affianca or_izzontalmente"
 
-#: src/wmtaskbar.cc:253 src/wmwinlist.cc:397 src/wmwinlist.cc:417
+#: src/wmtaskbar.cc:245 src/wmwinlist.cc:397 src/wmwinlist.cc:417
 msgid "Ca_scade"
 msgstr "A ca_scata"
 
-#: src/wmtaskbar.cc:254 src/wmwinlist.cc:398 src/wmwinlist.cc:418
+#: src/wmtaskbar.cc:246 src/wmwinlist.cc:398 src/wmwinlist.cc:418
 msgid "_Arrange"
 msgstr "Dis_poni"
 
-#: src/wmtaskbar.cc:255 src/wmwinlist.cc:400 src/wmwinlist.cc:419
+#: src/wmtaskbar.cc:247 src/wmwinlist.cc:400 src/wmwinlist.cc:419
 msgid "_Minimize All"
 msgstr "_Minimizza tutto"
 
-#: src/wmtaskbar.cc:256 src/wmwinlist.cc:401 src/wmwinlist.cc:420
+#: src/wmtaskbar.cc:248 src/wmwinlist.cc:401 src/wmwinlist.cc:420
 msgid "_Hide All"
 msgstr "_Nascondi tutto"
 
-#: src/wmtaskbar.cc:257 src/wmwinlist.cc:402 src/wmwinlist.cc:421
+#: src/wmtaskbar.cc:249 src/wmwinlist.cc:402 src/wmwinlist.cc:421
 msgid "_Undo"
 msgstr "Ann_ulla"
 
-#: src/wmtaskbar.cc:259
+#: src/wmtaskbar.cc:251
 msgid "Arrange _Icons"
 msgstr "Disponi le _icone"
 
-#: src/wmtaskbar.cc:263
+#: src/wmtaskbar.cc:255
 msgid "_Refresh"
 msgstr "Aggio_rna"
 
-#: src/wmtaskbar.cc:334 src/wmtaskbar.cc:964
+#: src/wmtaskbar.cc:326 src/wmtaskbar.cc:956
 msgid "Hide Taskbar"
 msgstr "Nascondi barra delle applicazioni"
 
-#: src/wmtaskbar.cc:352
+#: src/wmtaskbar.cc:344
 msgid "Favorite Applications"
 msgstr "Applicazioni preferite"
 
-#: src/wmtaskbar.cc:373
+#: src/wmtaskbar.cc:365
 msgid "Window List Menu"
 msgstr "Menu elenco finestre"
 
-#: src/wmtaskbar.cc:382
+#: src/wmtaskbar.cc:374
 msgid "Show Desktop"
 msgstr "Mostra desktop"
 
-#: src/wmtaskbar.cc:964
+#: src/wmtaskbar.cc:956
 msgid "Show Taskbar"
 msgstr "Mostra barra delle applicazioni"
 
@@ -1816,7 +1750,7 @@ msgstr "Elenco finestre"
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Spazio di lavoro %-.32s"
 
-#: src/yapp.cc:279
+#: src/yapp.cc:284
 #, c-format
 msgid "%s: select failed"
 msgstr "%s: selezione non riuscita"

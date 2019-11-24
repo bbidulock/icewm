@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.23\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-09-17 01:30+0200\n"
+"POT-Creation-Date: 2019-11-24 12:39+0100\n"
 "PO-Revision-Date: 2019-06-13 18:49+0000\n"
 "Last-Translator: Freek de Kruijf <freek@opensuse.org>\n"
 "Language-Team: Dutch <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -316,7 +316,7 @@ msgstr ""
 msgid "NET"
 msgstr "NET"
 
-#: src/aworkspaces.cc:585 src/wmstatus.cc:200
+#: src/aworkspaces.cc:586 src/wmstatus.cc:200
 msgid "Workspace: "
 msgstr "Werkruimte: "
 
@@ -622,7 +622,7 @@ msgstr "Actie `%s' heeft minimaal %d argumenten nodig."
 msgid "Invalid expression: `%s'"
 msgstr "Ongeldige expressie: »%s«"
 
-#: src/icesh.cc:2548 src/icesound.cc:801 src/icewmhint.cc:36 src/wmapp.cc:1108
+#: src/icesh.cc:2548 src/icesound.cc:795 src/icewmhint.cc:36 src/wmapp.cc:1108
 #: src/yxapp.cc:1038
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -728,74 +728,74 @@ msgstr ""
 msgid "IceWM crash response"
 msgstr "Reactie van IceWM op crash"
 
-#: src/icesound.cc:216 src/icesound.cc:324 src/icesound.cc:484
+#: src/icesound.cc:215 src/icesound.cc:323 src/icesound.cc:483
 #, c-format
 msgid "Playing sample #%d (%s)"
 msgstr "Speel sample #%d (%s)"
 
-#: src/icesound.cc:334
+#: src/icesound.cc:333
 #, c-format
 msgid "%s: Invalid number of channels"
 msgstr "%s: Ongeldig(e) nummer of kanalen"
 
-#: src/icesound.cc:340 src/icesound.cc:345
+#: src/icesound.cc:339 src/icesound.cc:344
 msgid "Could not set OSS channels"
 msgstr "Kan OSS-kanalen niet instellen"
 
-#: src/icesound.cc:350 src/icesound.cc:378
+#: src/icesound.cc:349 src/icesound.cc:377
 msgid "Could not sync OSS"
 msgstr "Kon OSS niet synchroniseren"
 
-#: src/icesound.cc:362
+#: src/icesound.cc:361
 msgid "OSS write failed"
 msgstr "OSS opslaan mislukt"
 
-#: src/icesound.cc:366
+#: src/icesound.cc:365
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
 msgstr "OSS onvolledig opgeslagen (%d/%d)"
 
-#: src/icesound.cc:373
+#: src/icesound.cc:372
 msgid "Could not post OSS"
 msgstr "Kon OSS niet posten"
 
-#: src/icesound.cc:402
+#: src/icesound.cc:401
 #, c-format
 msgid "Could not open OSS device %s"
 msgstr "Kon OSS-apparaat %s niet openen"
 
-#: src/icesound.cc:407
+#: src/icesound.cc:406
 msgid "Could not set OSS stereo"
 msgstr "Kon OSS-stereo niet instellen"
 
-#: src/icesound.cc:412
+#: src/icesound.cc:411
 msgid "Could not reset OSS DSP"
 msgstr "Kon OSS DSP niet opnieuw instellen"
 
-#: src/icesound.cc:417
+#: src/icesound.cc:416
 msgid "Could not set OSS format"
 msgstr "Kon OSS-indeling niet instellen"
 
-#: src/icesound.cc:504
+#: src/icesound.cc:503
 #, c-format
 msgid "ao_open_live failed with %d"
 msgstr "ao_open_live mislukt met %d"
 
-#: src/icesound.cc:515
+#: src/icesound.cc:514
 msgid "ao_play failed"
 msgstr "ao_play mislukt"
 
-#: src/icesound.cc:683
+#: src/icesound.cc:677
 #, c-format
 msgid "Unrecognized option: %s\n"
 msgstr "Onbekende optie: %s\n"
 
-#: src/icesound.cc:686 src/icesound.cc:979
+#: src/icesound.cc:680 src/icesound.cc:973
 #, c-format
 msgid "Unrecognized argument: %s\n"
 msgstr "Onbekend argument: %s\n"
 
-#: src/icesound.cc:695
+#: src/icesound.cc:689
 #, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
@@ -902,51 +902,51 @@ msgstr ""
 "  3     Fout in een subsysteem (dwz. geen verbinding met de server).\n"
 "\n"
 
-#: src/icesound.cc:786
+#: src/icesound.cc:780
 #, c-format
 msgid "No audio for %s"
 msgstr "Geen audio voor %s"
 
-#: src/icesound.cc:863
+#: src/icesound.cc:857
 msgid "Could not get GUI event property"
 msgstr "Kon eigenschap van gebeurtenis van GUI niet ophalen"
 
-#: src/icesound.cc:867
+#: src/icesound.cc:861
 #, c-format
 msgid "Received invalid GUI event %d"
 msgstr "Ongeldige GUI-gebeurtenis %d ontvangen"
 
-#: src/icesound.cc:871
+#: src/icesound.cc:865
 #, c-format
 msgid "Received GUI event %s"
 msgstr "GUI-gebeurtenis %s ontvangen"
 
-#: src/icesound.cc:885
+#: src/icesound.cc:879
 #, c-format
 msgid "Too quick; ignoring %s."
 msgstr "Te snel; %s genegeerd."
 
-#: src/icesound.cc:889
+#: src/icesound.cc:883
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr "De ondersteuning voor de %s-interface werd niet meegecompileerd."
 
-#: src/icesound.cc:922
+#: src/icesound.cc:916
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr "Niet ondersteunde audiointerface: %s."
 
-#: src/icesound.cc:931
+#: src/icesound.cc:925
 #, c-format
 msgid "Using %s audio."
 msgstr "%s audio gebruiken."
 
-#: src/icesound.cc:935
+#: src/icesound.cc:929
 #, c-format
 msgid "Failed to connect to audio interfaces %s."
 msgstr "Het verbinden met audio-interfaces %s is mislukt."
 
-#: src/icesound.cc:947
+#: src/icesound.cc:941
 #, c-format
 msgid "Received signal %s: Terminating..."
 msgstr "Signaal %s ontvangen: beëindigen..."
@@ -1465,16 +1465,16 @@ msgstr "%s configuratiemappen:\n"
 msgid "%s configured options:%s\n"
 msgstr "%s geconfigureerde opties:%s\n"
 
-#: src/wmapp.cc:1679
+#: src/wmapp.cc:1681
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Onbekende optie: '%s'."
 
-#: src/wmapp.cc:1751
+#: src/wmapp.cc:1753
 msgid "Confirm Logout"
 msgstr "Afmelden bevestigen"
 
-#: src/wmapp.cc:1752
+#: src/wmapp.cc:1754
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1515,8 +1515,8 @@ msgstr "Werkstation blo_kkeren"
 msgid "_Cancel"
 msgstr "Af_breken"
 
-#: src/wmdialog.cc:77 src/wmprog.cc:849 src/wmprog.cc:851 src/wmtaskbar.cc:268
-#: src/wmtaskbar.cc:270
+#: src/wmdialog.cc:77 src/wmprog.cc:849 src/wmprog.cc:851 src/wmtaskbar.cc:260
+#: src/wmtaskbar.cc:262
 msgid "_Logout..."
 msgstr "_Afmelden..."
 
@@ -1524,7 +1524,7 @@ msgstr "_Afmelden..."
 msgid "_Restart icewm"
 msgstr "IceWM _herstarten"
 
-#: src/wmdialog.cc:82 src/wmprog.cc:810 src/wmtaskbar.cc:264
+#: src/wmdialog.cc:82 src/wmprog.cc:810 src/wmtaskbar.cc:256
 msgid "_About"
 msgstr "_Over"
 
@@ -1558,12 +1558,12 @@ msgstr "Afrollen"
 msgid "Rollup"
 msgstr "Oprollen"
 
-#: src/wmoption.cc:231
+#: src/wmoption.cc:232
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Onbekende window optie: %s"
 
-#: src/wmoption.cc:343
+#: src/wmoption.cc:344
 #, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Syntaxfout in windowoptie op lijn  %d van %s"
@@ -1620,7 +1620,7 @@ msgstr "Programma's"
 msgid "_Run..."
 msgstr "Uit_voeren..."
 
-#: src/wmprog.cc:797 src/wmtaskbar.cc:261
+#: src/wmprog.cc:797 src/wmtaskbar.cc:253
 msgid "_Windows"
 msgstr "_Windows"
 
@@ -1649,59 +1649,59 @@ msgstr "Ins_tellingen"
 msgid "Session Manager: Unknown line %s"
 msgstr "Sessie manager: Onbekende regel %s"
 
-#: src/wmtaskbar.cc:251 src/wmwinlist.cc:395 src/wmwinlist.cc:415
+#: src/wmtaskbar.cc:243 src/wmwinlist.cc:395 src/wmwinlist.cc:415
 msgid "Tile _Vertically"
 msgstr "_Vertikaal uitlijnen"
 
-#: src/wmtaskbar.cc:252 src/wmwinlist.cc:396 src/wmwinlist.cc:416
+#: src/wmtaskbar.cc:244 src/wmwinlist.cc:396 src/wmwinlist.cc:416
 msgid "T_ile Horizontally"
 msgstr "_Horizontaal uitlijnen"
 
-#: src/wmtaskbar.cc:253 src/wmwinlist.cc:397 src/wmwinlist.cc:417
+#: src/wmtaskbar.cc:245 src/wmwinlist.cc:397 src/wmwinlist.cc:417
 msgid "Ca_scade"
 msgstr "_Overlappend uitlijnen"
 
-#: src/wmtaskbar.cc:254 src/wmwinlist.cc:398 src/wmwinlist.cc:418
+#: src/wmtaskbar.cc:246 src/wmwinlist.cc:398 src/wmwinlist.cc:418
 msgid "_Arrange"
 msgstr "_Optimaliseren"
 
-#: src/wmtaskbar.cc:255 src/wmwinlist.cc:400 src/wmwinlist.cc:419
+#: src/wmtaskbar.cc:247 src/wmwinlist.cc:400 src/wmwinlist.cc:419
 msgid "_Minimize All"
 msgstr "Alles _minimaliseren"
 
-#: src/wmtaskbar.cc:256 src/wmwinlist.cc:401 src/wmwinlist.cc:420
+#: src/wmtaskbar.cc:248 src/wmwinlist.cc:401 src/wmwinlist.cc:420
 msgid "_Hide All"
 msgstr "Alles _verstoppen"
 
-#: src/wmtaskbar.cc:257 src/wmwinlist.cc:402 src/wmwinlist.cc:421
+#: src/wmtaskbar.cc:249 src/wmwinlist.cc:402 src/wmwinlist.cc:421
 msgid "_Undo"
 msgstr "_Ongedaan"
 
-#: src/wmtaskbar.cc:259
+#: src/wmtaskbar.cc:251
 msgid "Arrange _Icons"
 msgstr "_Pictogrammen opruimen"
 
-#: src/wmtaskbar.cc:263
+#: src/wmtaskbar.cc:255
 msgid "_Refresh"
 msgstr "_Verversen"
 
-#: src/wmtaskbar.cc:334 src/wmtaskbar.cc:964
+#: src/wmtaskbar.cc:326 src/wmtaskbar.cc:956
 msgid "Hide Taskbar"
 msgstr "Taakbalk verbergen"
 
-#: src/wmtaskbar.cc:352
+#: src/wmtaskbar.cc:344
 msgid "Favorite Applications"
 msgstr "Favoriete toepassingen"
 
-#: src/wmtaskbar.cc:373
+#: src/wmtaskbar.cc:365
 msgid "Window List Menu"
 msgstr "Llijstmenu van venster"
 
-#: src/wmtaskbar.cc:382
+#: src/wmtaskbar.cc:374
 msgid "Show Desktop"
 msgstr "Bureaublad tonen"
 
-#: src/wmtaskbar.cc:964
+#: src/wmtaskbar.cc:956
 msgid "Show Taskbar"
 msgstr "Taakbalk tonen"
 
@@ -1751,7 +1751,7 @@ msgstr "Window lijst"
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Werkruimte %-.32s"
 
-#: src/yapp.cc:279
+#: src/yapp.cc:284
 #, c-format
 msgid "%s: select failed"
 msgstr "%s: selecteren mislukt"

@@ -30,6 +30,9 @@ Locations for the F<shutdown> file are as follows:
  /etc/icewm/shutdown
  /usr/share/icewm/shutdown
 
+The locations are searched in the order listed; the first file found is
+read and the remainder ignored.
+
 =head1 SEE ALSO
 
 L<icewm-session(1)>,

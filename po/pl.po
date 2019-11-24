@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.2.15\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-09-17 01:30+0200\n"
+"POT-Creation-Date: 2019-11-24 12:39+0100\n"
 "PO-Revision-Date: 2019-02-07 06:32+0000\n"
 "Last-Translator: Ewelina Michalowska <ewelina.michalowska@stgambit.com>\n"
 "Language-Team: Polish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -316,7 +316,7 @@ msgstr ""
 msgid "NET"
 msgstr "SIEĆ"
 
-#: src/aworkspaces.cc:585 src/wmstatus.cc:200
+#: src/aworkspaces.cc:586 src/wmstatus.cc:200
 msgid "Workspace: "
 msgstr "Obszar roboczy: "
 
@@ -623,7 +623,7 @@ msgstr "Operacja \"%s\" wymaga co najmniej %d argumentów."
 msgid "Invalid expression: `%s'"
 msgstr "Nieprawidłowe wyrażenie: \"%s\""
 
-#: src/icesh.cc:2548 src/icesound.cc:801 src/icewmhint.cc:36 src/wmapp.cc:1108
+#: src/icesh.cc:2548 src/icesound.cc:795 src/icewmhint.cc:36 src/wmapp.cc:1108
 #: src/yxapp.cc:1038
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -732,74 +732,74 @@ msgstr ""
 msgid "IceWM crash response"
 msgstr "Odpowiedź na awarię IceWM"
 
-#: src/icesound.cc:216 src/icesound.cc:324 src/icesound.cc:484
+#: src/icesound.cc:215 src/icesound.cc:323 src/icesound.cc:483
 #, c-format
 msgid "Playing sample #%d (%s)"
 msgstr "Odtwarzanie próbki #%d (%s)"
 
-#: src/icesound.cc:334
+#: src/icesound.cc:333
 #, c-format
 msgid "%s: Invalid number of channels"
 msgstr "%s: nieprawidłowa liczba kanałów"
 
-#: src/icesound.cc:340 src/icesound.cc:345
+#: src/icesound.cc:339 src/icesound.cc:344
 msgid "Could not set OSS channels"
 msgstr "Nie udało się ustawić kanałów OSS"
 
-#: src/icesound.cc:350 src/icesound.cc:378
+#: src/icesound.cc:349 src/icesound.cc:377
 msgid "Could not sync OSS"
 msgstr "Nie udało się zsynchronizować OSS"
 
-#: src/icesound.cc:362
+#: src/icesound.cc:361
 msgid "OSS write failed"
 msgstr "Zapis OSS nieudany"
 
-#: src/icesound.cc:366
+#: src/icesound.cc:365
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
 msgstr "Niekompletny zapis OSS (%d/%d)"
 
-#: src/icesound.cc:373
+#: src/icesound.cc:372
 msgid "Could not post OSS"
 msgstr "Nie udało się opublikować OSS"
 
-#: src/icesound.cc:402
+#: src/icesound.cc:401
 #, c-format
 msgid "Could not open OSS device %s"
 msgstr "Nie udało się otworzyć urządzenia OS %s"
 
-#: src/icesound.cc:407
+#: src/icesound.cc:406
 msgid "Could not set OSS stereo"
 msgstr "Nie udało się ustawić stereo OSS"
 
-#: src/icesound.cc:412
+#: src/icesound.cc:411
 msgid "Could not reset OSS DSP"
 msgstr "Nie udało się zresetować DSP OSS"
 
-#: src/icesound.cc:417
+#: src/icesound.cc:416
 msgid "Could not set OSS format"
 msgstr "Nie udało się ustawić formatu OSS"
 
-#: src/icesound.cc:504
+#: src/icesound.cc:503
 #, c-format
 msgid "ao_open_live failed with %d"
 msgstr "Błąd funkcji ao_open_live: %d"
 
-#: src/icesound.cc:515
+#: src/icesound.cc:514
 msgid "ao_play failed"
 msgstr "Błąd funkcji ao_play"
 
-#: src/icesound.cc:683
+#: src/icesound.cc:677
 #, c-format
 msgid "Unrecognized option: %s\n"
 msgstr "Nierozpoznana opcja: %s\n"
 
-#: src/icesound.cc:686 src/icesound.cc:979
+#: src/icesound.cc:680 src/icesound.cc:973
 #, c-format
 msgid "Unrecognized argument: %s\n"
 msgstr "Nierozpoznany argument: %s\n"
 
-#: src/icesound.cc:695
+#: src/icesound.cc:689
 #, fuzzy, c-format
 #| msgid ""
 #| "Usage: %s [OPTION]...\n"
@@ -971,51 +971,51 @@ msgstr ""
 "↵\n"
 "\n"
 
-#: src/icesound.cc:786
+#: src/icesound.cc:780
 #, c-format
 msgid "No audio for %s"
 msgstr "Brak audio dla %s"
 
-#: src/icesound.cc:863
+#: src/icesound.cc:857
 msgid "Could not get GUI event property"
 msgstr "Nie udało się pobrać właściwości zdarzenia GUI"
 
-#: src/icesound.cc:867
+#: src/icesound.cc:861
 #, c-format
 msgid "Received invalid GUI event %d"
 msgstr "Odebrano nieprawidłowe zdarzenie GUI: %d"
 
-#: src/icesound.cc:871
+#: src/icesound.cc:865
 #, c-format
 msgid "Received GUI event %s"
 msgstr "Odebrano zdarzenie GUI: %s"
 
-#: src/icesound.cc:885
+#: src/icesound.cc:879
 #, c-format
 msgid "Too quick; ignoring %s."
 msgstr "Za szybko; ignorowanie %s."
 
-#: src/icesound.cc:889
+#: src/icesound.cc:883
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr "Obsługa interfejsu %s nie została wkompilowana."
 
-#: src/icesound.cc:922
+#: src/icesound.cc:916
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr "Nieobsługiwany interfejs: %s."
 
-#: src/icesound.cc:931
+#: src/icesound.cc:925
 #, c-format
 msgid "Using %s audio."
 msgstr "Używanie audio %s."
 
-#: src/icesound.cc:935
+#: src/icesound.cc:929
 #, c-format
 msgid "Failed to connect to audio interfaces %s."
 msgstr "Nie udało się połączyć z interfejsami audio %s."
 
-#: src/icesound.cc:947
+#: src/icesound.cc:941
 #, c-format
 msgid "Received signal %s: Terminating..."
 msgstr "Odebrano sygnał %s: kończenie..."
@@ -1535,16 +1535,16 @@ msgstr "Katalogi konfiguracji %s:\n"
 msgid "%s configured options:%s\n"
 msgstr "Skonfigurowane opcje %s: %s\n"
 
-#: src/wmapp.cc:1679
+#: src/wmapp.cc:1681
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Nierozpoznana opcja %s."
 
-#: src/wmapp.cc:1751
+#: src/wmapp.cc:1753
 msgid "Confirm Logout"
 msgstr "Potwierdź wyjście"
 
-#: src/wmapp.cc:1752
+#: src/wmapp.cc:1754
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1585,8 +1585,8 @@ msgstr "Zablo_kuj stację roboczą"
 msgid "_Cancel"
 msgstr "Anuluj"
 
-#: src/wmdialog.cc:77 src/wmprog.cc:849 src/wmprog.cc:851 src/wmtaskbar.cc:268
-#: src/wmtaskbar.cc:270
+#: src/wmdialog.cc:77 src/wmprog.cc:849 src/wmprog.cc:851 src/wmtaskbar.cc:260
+#: src/wmtaskbar.cc:262
 msgid "_Logout..."
 msgstr "Wy_loguj..."
 
@@ -1594,7 +1594,7 @@ msgstr "Wy_loguj..."
 msgid "_Restart icewm"
 msgstr "U_ruchom ponownie IceWM"
 
-#: src/wmdialog.cc:82 src/wmprog.cc:810 src/wmtaskbar.cc:264
+#: src/wmdialog.cc:82 src/wmprog.cc:810 src/wmtaskbar.cc:256
 msgid "_About"
 msgstr "Inform_acje"
 
@@ -1626,12 +1626,12 @@ msgstr "Zwiń"
 msgid "Rollup"
 msgstr "Rozwiń"
 
-#: src/wmoption.cc:231
+#: src/wmoption.cc:232
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Nieznana opcja okna: %s"
 
-#: src/wmoption.cc:343
+#: src/wmoption.cc:344
 #, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Błąd składni w opcjach okna w wierszu %d pliku %s"
@@ -1688,7 +1688,7 @@ msgstr "Programy"
 msgid "_Run..."
 msgstr "U_ruchom..."
 
-#: src/wmprog.cc:797 src/wmtaskbar.cc:261
+#: src/wmprog.cc:797 src/wmtaskbar.cc:253
 msgid "_Windows"
 msgstr "Okna"
 
@@ -1717,59 +1717,59 @@ msgstr "Us_tawienia"
 msgid "Session Manager: Unknown line %s"
 msgstr "Menedżer sesji: nieznany wiersz %s"
 
-#: src/wmtaskbar.cc:251 src/wmwinlist.cc:395 src/wmwinlist.cc:415
+#: src/wmtaskbar.cc:243 src/wmwinlist.cc:395 src/wmwinlist.cc:415
 msgid "Tile _Vertically"
 msgstr "Wyłóż Poziomo"
 
-#: src/wmtaskbar.cc:252 src/wmwinlist.cc:396 src/wmwinlist.cc:416
+#: src/wmtaskbar.cc:244 src/wmwinlist.cc:396 src/wmwinlist.cc:416
 msgid "T_ile Horizontally"
 msgstr "Wyłóż P_ionowo"
 
-#: src/wmtaskbar.cc:253 src/wmwinlist.cc:397 src/wmwinlist.cc:417
+#: src/wmtaskbar.cc:245 src/wmwinlist.cc:397 src/wmwinlist.cc:417
 msgid "Ca_scade"
 msgstr "Ka_skada"
 
-#: src/wmtaskbar.cc:254 src/wmwinlist.cc:398 src/wmwinlist.cc:418
+#: src/wmtaskbar.cc:246 src/wmwinlist.cc:398 src/wmwinlist.cc:418
 msgid "_Arrange"
 msgstr "Rozmieść"
 
-#: src/wmtaskbar.cc:255 src/wmwinlist.cc:400 src/wmwinlist.cc:419
+#: src/wmtaskbar.cc:247 src/wmwinlist.cc:400 src/wmwinlist.cc:419
 msgid "_Minimize All"
 msgstr "_Minimalizuj wszystkie"
 
-#: src/wmtaskbar.cc:256 src/wmwinlist.cc:401 src/wmwinlist.cc:420
+#: src/wmtaskbar.cc:248 src/wmwinlist.cc:401 src/wmwinlist.cc:420
 msgid "_Hide All"
 msgstr "Sc_howaj wszystkie"
 
-#: src/wmtaskbar.cc:257 src/wmwinlist.cc:402 src/wmwinlist.cc:421
+#: src/wmtaskbar.cc:249 src/wmwinlist.cc:402 src/wmwinlist.cc:421
 msgid "_Undo"
 msgstr "Cofnij"
 
-#: src/wmtaskbar.cc:259
+#: src/wmtaskbar.cc:251
 msgid "Arrange _Icons"
 msgstr "Rozmieść ikony"
 
-#: src/wmtaskbar.cc:263
+#: src/wmtaskbar.cc:255
 msgid "_Refresh"
 msgstr "Odśwież"
 
-#: src/wmtaskbar.cc:334 src/wmtaskbar.cc:964
+#: src/wmtaskbar.cc:326 src/wmtaskbar.cc:956
 msgid "Hide Taskbar"
 msgstr "Ukryj pasek zadań"
 
-#: src/wmtaskbar.cc:352
+#: src/wmtaskbar.cc:344
 msgid "Favorite Applications"
 msgstr "Ulubione aplikacje"
 
-#: src/wmtaskbar.cc:373
+#: src/wmtaskbar.cc:365
 msgid "Window List Menu"
 msgstr "Menu listy okien"
 
-#: src/wmtaskbar.cc:382
+#: src/wmtaskbar.cc:374
 msgid "Show Desktop"
 msgstr "Pokaż biurko"
 
-#: src/wmtaskbar.cc:964
+#: src/wmtaskbar.cc:956
 msgid "Show Taskbar"
 msgstr "Pokaż pasek zadań"
 
@@ -1818,7 +1818,7 @@ msgstr "Lista okien"
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Obszar roboczy %-.32s"
 
-#: src/yapp.cc:279
+#: src/yapp.cc:284
 #, c-format
 msgid "%s: select failed"
 msgstr "%s: wybór nieudany"

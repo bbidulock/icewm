@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-09-17 01:30+0200\n"
+"POT-Creation-Date: 2019-11-24 12:39+0100\n"
 "PO-Revision-Date: 2006-01-26 23:29+0100\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team:  <mk@li.org>\n"
@@ -303,7 +303,7 @@ msgstr ""
 msgid "NET"
 msgstr ""
 
-#: src/aworkspaces.cc:585 src/wmstatus.cc:200
+#: src/aworkspaces.cc:586 src/wmstatus.cc:200
 msgid "Workspace: "
 msgstr "Работен простор: "
 
@@ -574,7 +574,7 @@ msgstr "Дејството „%s“ бара најмалку %d аргумен�
 msgid "Invalid expression: `%s'"
 msgstr "Невалиден израз: „%s“"
 
-#: src/icesh.cc:2548 src/icesound.cc:801 src/icewmhint.cc:36 src/wmapp.cc:1108
+#: src/icesh.cc:2548 src/icesound.cc:795 src/icewmhint.cc:36 src/wmapp.cc:1108
 #: src/yxapp.cc:1038
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -658,75 +658,75 @@ msgstr ""
 msgid "IceWM crash response"
 msgstr "Опција за сис. лента на IceWM"
 
-#: src/icesound.cc:216 src/icesound.cc:324 src/icesound.cc:484
+#: src/icesound.cc:215 src/icesound.cc:323 src/icesound.cc:483
 #, c-format
 msgid "Playing sample #%d (%s)"
 msgstr "Го пуштам примерокот бр. %d (%s)"
 
-#: src/icesound.cc:334
+#: src/icesound.cc:333
 #, c-format
 msgid "%s: Invalid number of channels"
 msgstr ""
 
-#: src/icesound.cc:340 src/icesound.cc:345
+#: src/icesound.cc:339 src/icesound.cc:344
 msgid "Could not set OSS channels"
 msgstr ""
 
-#: src/icesound.cc:350 src/icesound.cc:378
+#: src/icesound.cc:349 src/icesound.cc:377
 msgid "Could not sync OSS"
 msgstr ""
 
-#: src/icesound.cc:362
+#: src/icesound.cc:361
 msgid "OSS write failed"
 msgstr ""
 
-#: src/icesound.cc:366
+#: src/icesound.cc:365
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
 msgstr ""
 
-#: src/icesound.cc:373
+#: src/icesound.cc:372
 #, fuzzy
 msgid "Could not post OSS"
 msgstr "Не можев да го вчитам множ. фонтови „%s“."
 
-#: src/icesound.cc:402
+#: src/icesound.cc:401
 #, fuzzy, c-format
 msgid "Could not open OSS device %s"
 msgstr "Не можев да ја најдам пиксел-мапата %s"
 
-#: src/icesound.cc:407
+#: src/icesound.cc:406
 msgid "Could not set OSS stereo"
 msgstr ""
 
-#: src/icesound.cc:412
+#: src/icesound.cc:411
 msgid "Could not reset OSS DSP"
 msgstr ""
 
-#: src/icesound.cc:417
+#: src/icesound.cc:416
 msgid "Could not set OSS format"
 msgstr ""
 
-#: src/icesound.cc:504
+#: src/icesound.cc:503
 #, c-format
 msgid "ao_open_live failed with %d"
 msgstr ""
 
-#: src/icesound.cc:515
+#: src/icesound.cc:514
 msgid "ao_play failed"
 msgstr ""
 
-#: src/icesound.cc:683
+#: src/icesound.cc:677
 #, c-format
 msgid "Unrecognized option: %s\n"
 msgstr "Непрепознаена опција: %s\n"
 
-#: src/icesound.cc:686 src/icesound.cc:979
+#: src/icesound.cc:680 src/icesound.cc:973
 #, c-format
 msgid "Unrecognized argument: %s\n"
 msgstr "Непрепознаен аргумент: %s\n"
 
-#: src/icesound.cc:695
+#: src/icesound.cc:689
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
@@ -822,51 +822,51 @@ msgstr ""
 "  3     Грешка во подсистемите (т.е. не може да се поврзе со серверот).\n"
 "\n"
 
-#: src/icesound.cc:786
+#: src/icesound.cc:780
 #, c-format
 msgid "No audio for %s"
 msgstr ""
 
-#: src/icesound.cc:863
+#: src/icesound.cc:857
 msgid "Could not get GUI event property"
 msgstr ""
 
-#: src/icesound.cc:867
+#: src/icesound.cc:861
 #, c-format
 msgid "Received invalid GUI event %d"
 msgstr ""
 
-#: src/icesound.cc:871
+#: src/icesound.cc:865
 #, c-format
 msgid "Received GUI event %s"
 msgstr ""
 
-#: src/icesound.cc:885
+#: src/icesound.cc:879
 #, c-format
 msgid "Too quick; ignoring %s."
 msgstr ""
 
-#: src/icesound.cc:889
+#: src/icesound.cc:883
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr "Поддршката за интерфејсот %s не е компилирана."
 
-#: src/icesound.cc:922
+#: src/icesound.cc:916
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr "Неподдржан интерфејс: %s."
 
-#: src/icesound.cc:931
+#: src/icesound.cc:925
 #, c-format
 msgid "Using %s audio."
 msgstr ""
 
-#: src/icesound.cc:935
+#: src/icesound.cc:929
 #, fuzzy, c-format
 msgid "Failed to connect to audio interfaces %s."
 msgstr "Не успеав да отворам %s: %s"
 
-#: src/icesound.cc:947
+#: src/icesound.cc:941
 #, fuzzy, c-format
 msgid "Received signal %s: Terminating..."
 msgstr "Примив сигнал %d: Прекинувам..."
@@ -1318,16 +1318,16 @@ msgstr ""
 msgid "%s configured options:%s\n"
 msgstr "Непрепознаена опција: %s\n"
 
-#: src/wmapp.cc:1679
+#: src/wmapp.cc:1681
 #, fuzzy, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Непрепознаена опција: %s\n"
 
-#: src/wmapp.cc:1751
+#: src/wmapp.cc:1753
 msgid "Confirm Logout"
 msgstr "Потврда на одјавувањето"
 
-#: src/wmapp.cc:1752
+#: src/wmapp.cc:1754
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1369,8 +1369,8 @@ msgstr "Заклучи _работна станица"
 msgid "_Cancel"
 msgstr "_Откажи"
 
-#: src/wmdialog.cc:77 src/wmprog.cc:849 src/wmprog.cc:851 src/wmtaskbar.cc:268
-#: src/wmtaskbar.cc:270
+#: src/wmdialog.cc:77 src/wmprog.cc:849 src/wmprog.cc:851 src/wmtaskbar.cc:260
+#: src/wmtaskbar.cc:262
 msgid "_Logout..."
 msgstr "Одја_ви се..."
 
@@ -1378,7 +1378,7 @@ msgstr "Одја_ви се..."
 msgid "_Restart icewm"
 msgstr "_Рестартирај го icewm"
 
-#: src/wmdialog.cc:82 src/wmprog.cc:810 src/wmtaskbar.cc:264
+#: src/wmdialog.cc:82 src/wmprog.cc:810 src/wmtaskbar.cc:256
 msgid "_About"
 msgstr "З_а"
 
@@ -1410,12 +1410,12 @@ msgstr "Свиткај надолу"
 msgid "Rollup"
 msgstr "Свиткај нагоре"
 
-#: src/wmoption.cc:231
+#: src/wmoption.cc:232
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Непозната опција за прозорец: %s"
 
-#: src/wmoption.cc:343
+#: src/wmoption.cc:344
 #, fuzzy, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Синтаксичка грешка во опциите за прозорец"
@@ -1474,7 +1474,7 @@ msgstr "Програми"
 msgid "_Run..."
 msgstr "_Изврши..."
 
-#: src/wmprog.cc:797 src/wmtaskbar.cc:261
+#: src/wmprog.cc:797 src/wmtaskbar.cc:253
 msgid "_Windows"
 msgstr "_Прозорци"
 
@@ -1503,65 +1503,65 @@ msgstr ""
 msgid "Session Manager: Unknown line %s"
 msgstr "Менаџер на сесии: Непозната линија %s"
 
-#: src/wmtaskbar.cc:251 src/wmwinlist.cc:395 src/wmwinlist.cc:415
+#: src/wmtaskbar.cc:243 src/wmwinlist.cc:395 src/wmwinlist.cc:415
 msgid "Tile _Vertically"
 msgstr "Поплочи _вертикално"
 
-#: src/wmtaskbar.cc:252 src/wmwinlist.cc:396 src/wmwinlist.cc:416
+#: src/wmtaskbar.cc:244 src/wmwinlist.cc:396 src/wmwinlist.cc:416
 msgid "T_ile Horizontally"
 msgstr "Поплочи _хоризонтално"
 
-#: src/wmtaskbar.cc:253 src/wmwinlist.cc:397 src/wmwinlist.cc:417
+#: src/wmtaskbar.cc:245 src/wmwinlist.cc:397 src/wmwinlist.cc:417
 msgid "Ca_scade"
 msgstr "Ка_скадирај"
 
-#: src/wmtaskbar.cc:254 src/wmwinlist.cc:398 src/wmwinlist.cc:418
+#: src/wmtaskbar.cc:246 src/wmwinlist.cc:398 src/wmwinlist.cc:418
 msgid "_Arrange"
 msgstr "Р_аспореди"
 
-#: src/wmtaskbar.cc:255 src/wmwinlist.cc:400 src/wmwinlist.cc:419
+#: src/wmtaskbar.cc:247 src/wmwinlist.cc:400 src/wmwinlist.cc:419
 msgid "_Minimize All"
 msgstr "С_мали ги сите"
 
-#: src/wmtaskbar.cc:256 src/wmwinlist.cc:401 src/wmwinlist.cc:420
+#: src/wmtaskbar.cc:248 src/wmwinlist.cc:401 src/wmwinlist.cc:420
 msgid "_Hide All"
 msgstr "С_криј ги сите"
 
-#: src/wmtaskbar.cc:257 src/wmwinlist.cc:402 src/wmwinlist.cc:421
+#: src/wmtaskbar.cc:249 src/wmwinlist.cc:402 src/wmwinlist.cc:421
 msgid "_Undo"
 msgstr "_Отповикај"
 
-#: src/wmtaskbar.cc:259
+#: src/wmtaskbar.cc:251
 msgid "Arrange _Icons"
 msgstr "Распореди _икони"
 
-#: src/wmtaskbar.cc:263
+#: src/wmtaskbar.cc:255
 msgid "_Refresh"
 msgstr "_Освежи"
 
-#: src/wmtaskbar.cc:334 src/wmtaskbar.cc:964
+#: src/wmtaskbar.cc:326 src/wmtaskbar.cc:956
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Hide Taskbar"
 msgstr "Лента со задачи"
 
-#: src/wmtaskbar.cc:352
+#: src/wmtaskbar.cc:344
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Favorite Applications"
 msgstr "Омилени апликации"
 
-#: src/wmtaskbar.cc:373
+#: src/wmtaskbar.cc:365
 #, fuzzy
 #| msgid "Window list menu"
 msgid "Window List Menu"
 msgstr "Мени со листа на прозорци"
 
-#: src/wmtaskbar.cc:382
+#: src/wmtaskbar.cc:374
 msgid "Show Desktop"
 msgstr "Прикажи раб. површина"
 
-#: src/wmtaskbar.cc:964
+#: src/wmtaskbar.cc:956
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Show Taskbar"
@@ -1614,7 +1614,7 @@ msgstr "Листа со прозорци"
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Работен простор %-.32s"
 
-#: src/yapp.cc:279
+#: src/yapp.cc:284
 #, c-format
 msgid "%s: select failed"
 msgstr ""

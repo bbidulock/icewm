@@ -72,6 +72,8 @@ Picture YPixmap::picture() {
             XRenderPictureAttributes attr;
             unsigned long mask = fMask ? CPClipMask : None;
             attr.clip_mask = fMask;
+            attr.component_alpha = (fDepth == 32);
+            mask |= CPComponentAlpha;
             fPicture = XRenderCreatePicture(xapp->display(), fPixmap,
                                             format, mask, &attr);
         }

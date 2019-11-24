@@ -96,6 +96,9 @@ Locations for the F<toolbar> file are as follows:
  /etc/icewm/toolbar
  /usr/share/icewm/toolbar
 
+The locations are searched in the order listed; the first file found is
+read and the remainder ignored.
+
 =head1 SEE ALSO
 
 L<icewm(1)>,
