@@ -56,7 +56,7 @@ man5_MANS = $(icewm_man5_files)
 doc_DATA += $(icewm_man5_htmls)
 
 CLEANFILES = \
-	$(icewm_man1_files) $(extra_man1_files) $(icewm_man5_files) \
+	$(icewm_man1_files) $(extra_man1_files) $(icewm_man5_files) *.bak \
 	$(icewm_man1_htmls) $(extra_man1_htmls) $(icewm_man5_htmls) *.tmp
 
 EXTRA_DIST = \
