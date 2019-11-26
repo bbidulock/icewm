@@ -24,6 +24,8 @@ creates a hotkey to reload the B<icewm> configuration:
 
     key "Ctrl+Shift+r"      icesh restart
 
+The command C<icesh keys> instructs icewm to reload this file.
+
 =head1 FORMAT
 
 The syntax of the F<keys> file is as follows:
