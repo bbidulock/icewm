@@ -1906,6 +1906,7 @@ bool IceSh::icewmAction()
         { "restart",    ICEWM_ACTION_RESTARTWM },
         { "suspend",    ICEWM_ACTION_SUSPEND },
         { "winoptions", ICEWM_ACTION_WINOPTIONS },
+        { "keys",       ICEWM_ACTION_RELOADKEYS },
     };
     for (int i = 0; i < int ACOUNT(sa); ++i) {
         if (0 == strcmp(*argp, sa[i].name)) {

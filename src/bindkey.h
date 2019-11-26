@@ -100,10 +100,9 @@
 #else
 
 #define DEF_WMKEY(k) extern WMKey k
-#define IS_WMKEY(k,m,b) k == b.key && m == b.mod
-#define GRAB_WMKEY(k) GRAB_WMKEYx(k);
-#define GRAB_WMKEYx(k) grabVKey(k.key, k.mod)
-#define KEY_NAME(k) (k.name ? k.name : "")
+#define IS_WMKEY(k,m,b) b.eq(k,m)
+#define GRAB_WMKEY(k)   grabVKey(k.key, k.mod)
+#define KEY_NAME(k)     k.name
 #endif
 
 DEF_WMKEY(gMouseWinMove);

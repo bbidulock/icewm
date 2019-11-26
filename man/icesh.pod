@@ -14,7 +14,7 @@
 
 =head1 DESCRIPTION
 
-B<icesh> provides 85 commands to change or query a window's state,
+B<icesh> provides 86 commands to change or query a window's state,
 and to interact with the L<icewm(1)> window manager. Command arguments
 are called actions. Window actions operate on a selection of windows.
 B<icesh> has several options to select and filter windows.  Options and
@@ -555,6 +555,10 @@ Let icewm execute the C<SuspendCommand>.
 =item B<winoptions>
 
 Let icewm reload the C<winoptions>.
+
+=item B<keys>
+
+Let icewm reload the C<keys> file.
 
 =item B<guievents>
 

@@ -949,6 +949,14 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
             windowList->showFocused(-1, -1);
     } else if (action == actionWinOptions) {
         loadWinOptions(findConfigFile("winoptions"));
+    } else if (action == actionReloadKeys) {
+        keyProgs.clear();
+        MenuLoader(this, this, this).loadMenus(findConfigFile("keys"), 0);
+        if (manager && !initializing) {
+            if (manager->wmState() == YWindowManager::wmRUNNING) {
+                manager->grabKeys();
+            }
+        }
     } else if (action == actionCollapseTaskbar && taskBar) {
         taskBar->handleCollapseButton();
         manager->focusLastWindow();
@@ -1175,7 +1183,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
     catchSignal(SIGPIPE);
 
     actionPerformed(actionWinOptions, 0);
-    MenuLoader(this, this, this).loadMenus(findConfigFile("keys"), 0);
+    actionPerformed(actionReloadKeys, 0);
 
     initPointers();
 
@@ -1838,6 +1846,9 @@ void YWMApp::handleSMAction(WMAction message) {
         break;
     case ICEWM_ACTION_WINOPTIONS:
         wmapp->actionPerformed(actionWinOptions, 0);
+        break;
+    case ICEWM_ACTION_RELOADKEYS:
+        wmapp->actionPerformed(actionReloadKeys, 0);
         break;
     }
 }
