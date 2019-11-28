@@ -157,6 +157,9 @@ public:
     unsigned int ButtonMask;
     unsigned int ButtonKeyMask;
 
+    bool hasControlAlt(unsigned state) const;
+    bool hasWinMask(unsigned state) const;
+
     static const char* getHelpText();
 
 protected:

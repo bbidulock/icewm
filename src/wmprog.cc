@@ -154,7 +154,7 @@ DProgram *DProgram::newProgram(
     return NULL;
 }
 
-YObjectArray<KProgram> keyProgs;
+KProgramArrayType keyProgs;
 
 KProgram::KProgram(const char *key, DProgram *prog, bool bIsDynSwitchMenuProg)
     : fKey(NoSymbol), fMod(0), bIsDynSwitchMenu(bIsDynSwitchMenuProg), fProg(prog), pSwitchWindow(0)

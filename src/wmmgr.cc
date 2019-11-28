@@ -214,7 +214,7 @@ void YWindowManager::grabKeys() {
     }
 
     {
-        YObjectArray<KProgram>::IterType k = keyProgs.iterator();
+        KProgramIterType k = keyProgs.iterator();
         while (++k) {
             grabVKey(k->key(), k->modifiers());
         }
@@ -253,6 +253,8 @@ void YWindowManager::grabKeys() {
 
 YProxyWindow::YProxyWindow(YWindow *parent): YWindow(parent) {
     setStyle(wsOverrideRedirect);
+    setTitle("IceRootProxy");
+    setProperty(_XA_WIN_DESKTOP_BUTTON_PROXY, XA_CARDINAL, handle());
 }
 
 YProxyWindow::~YProxyWindow() {
@@ -263,18 +265,10 @@ void YProxyWindow::handleButton(const XButtonEvent &/*button*/) {
 
 void YWindowManager::setupRootProxy() {
     if (grabRootWindow) {
-        rootProxy = new YProxyWindow(0);
+        rootProxy = new YProxyWindow(nullptr);
         if (rootProxy) {
-            rootProxy->setStyle(wsOverrideRedirect);
-            rootProxy->setTitle("IceRootProxy");
-            XID rid = rootProxy->handle();
-
-            XChangeProperty(xapp->display(), manager->handle(),
-                            _XA_WIN_DESKTOP_BUTTON_PROXY, XA_CARDINAL, 32,
-                            PropModeReplace, (unsigned char *)&rid, 1);
-            XChangeProperty(xapp->display(), rootProxy->handle(),
-                            _XA_WIN_DESKTOP_BUTTON_PROXY, XA_CARDINAL, 32,
-                            PropModeReplace, (unsigned char *)&rid, 1);
+            setProperty(_XA_WIN_DESKTOP_BUTTON_PROXY, XA_CARDINAL,
+                        rootProxy->handle());
         }
     }
 }
@@ -282,7 +276,7 @@ void YWindowManager::setupRootProxy() {
 bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int /*m*/, unsigned int vm) {
     YFrameWindow *frame = getFocus();
 
-    YObjectArray<KProgram>::IterType p = keyProgs.iterator();
+    KProgramIterType p = keyProgs.iterator();
     while (++p) {
         if (!p->isKey(k, vm)) continue;
 
@@ -567,8 +561,8 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
 
 void YWindowManager::handleButton(const XButtonEvent &button) {
     if (rootProxy && button.window == handle() &&
-        !(useRootButtons & (1 << (button.button - 1))) &&
-       !((button.state & (ControlMask + xapp->AltMask)) == ControlMask + xapp->AltMask))
+        notbit(useRootButtons, 1 << (button.button - Button1)) &&
+        !hasbits(button.state, (ControlMask | xapp->AltMask)))
     {
         if (button.send_event == False)
             XUngrabPointer(xapp->display(), CurrentTime);
@@ -579,53 +573,63 @@ void YWindowManager::handleButton(const XButtonEvent &button) {
                    (XEvent *) &button);
         return ;
     }
-    YFrameWindow *frame = 0;
-    if (useMouseWheel && ((frame = getFocus()) != 0) && button.type == ButtonPress &&
-        ((KEY_MODMASK(button.state) == xapp->WinMask && xapp->WinMask) ||
-         (KEY_MODMASK(button.state) == ControlMask + xapp->AltMask && xapp->AltMask)))
-    {
-        if (button.button == 4)
-            frame->wmNextWindow();
-        else if (button.button == 5)
-            frame->wmPrevWindow();
-    }
-    if (button.type == ButtonPress) do {
-        if (button.button + 10 == (unsigned) rootMenuButton) {
+
+    if (button.type == ButtonPress) {
+        if (useMouseWheel && inrange(int(button.button), Button4, Button5) &&
+            (xapp->hasControlAlt(button.state) || xapp->hasWinMask(button.state)))
+        {
+            YFrameWindow* frame = getFocus();
+            if (frame) {
+                if (button.button == Button4)
+                    frame->wmNextWindow();
+                else if (button.button == Button5)
+                    frame->wmPrevWindow();
+            }
+        }
+        else if (button.button + 10 == (unsigned) rootMenuButton) {
             if (rootMenu)
                 rootMenu->popup(0, 0, 0, button.x, button.y,
                                 YPopupWindow::pfCanFlipVertical |
                                 YPopupWindow::pfCanFlipHorizontal |
                                 YPopupWindow::pfPopupMenu |
                                 YPopupWindow::pfButtonDown);
-            break;
         }
-        if (button.button + 10 == (unsigned) rootWinMenuButton) {
+        else if (button.button + 10 == (unsigned) rootWinMenuButton) {
             popupWindowListMenu(this, button.x, button.y);
-            break;
         }
-    } while (false);
+        else {
+            // allow buttons to trigger actions from "keys" for #333.
+            KeySym k = button.button - Button1 + XK_Pointer_Button1;
+            unsigned int m = KEY_MODMASK(button.state);
+            unsigned int vm = VMod(m);
+            KProgramIterType p = keyProgs.iterator();
+            while (++p) {
+                if (p->isKey(k, vm)) {
+                    p->open(m);
+                    break;
+                }
+            }
+        }
+    }
     YWindow::handleButton(button);
 }
 
 void YWindowManager::handleClick(const XButtonEvent &up, int count) {
-    if (count == 1) do {
+    if (count == 1) {
         if (up.button == (unsigned) rootMenuButton) {
             if (rootMenu)
                 rootMenu->popup(0, 0, 0, up.x, up.y,
                                 YPopupWindow::pfCanFlipVertical |
                                 YPopupWindow::pfCanFlipHorizontal |
                                 YPopupWindow::pfPopupMenu);
-            break;
         }
-        if (up.button == (unsigned) rootWinMenuButton) {
+        else if (up.button == (unsigned) rootWinMenuButton) {
             popupWindowListMenu(this, up.x, up.y);
-            break;
         }
-        if (up.button == (unsigned) rootWinListButton) {
+        else if (up.button == (unsigned) rootWinListButton) {
             windowList->showFocused(up.x_root, up.y_root);
-            break;
         }
-    } while (false);
+    }
 }
 
 void YWindowManager::handleConfigure(const XConfigureEvent &configure) {

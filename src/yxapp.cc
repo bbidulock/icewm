@@ -629,6 +629,14 @@ void YXApplication::initModifiers() {
 
 }
 
+bool YXApplication::hasControlAlt(unsigned state) const {
+    return xapp->AltMask && hasbits((state & KeyMask), ControlMask | AltMask);
+}
+
+bool YXApplication::hasWinMask(unsigned state) const {
+    return xapp->WinMask && hasbit((state & KeyMask), WinMask);
+}
+
 void YXApplication::dispatchEvent(YWindow *win, XEvent &xev) {
     if (xev.type == KeyPress || xev.type == KeyRelease) {
         YWindow *w = win;

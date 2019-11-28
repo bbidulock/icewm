@@ -24,6 +24,8 @@ creates a hotkey to reload the B<icewm> configuration:
 
     key "Ctrl+Shift+r"      icesh restart
 
+See the output of C<xmodmap -pk> for a list of keystroke names.
+To bind the mouse use C<Pointer_Button1> for button 1, and so on.
 The command C<icesh keys> instructs icewm to reload this file.
 
 =head1 FORMAT

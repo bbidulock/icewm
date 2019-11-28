@@ -187,7 +187,10 @@ public:
 extern lazy<MoveMenu> moveMenu;
 
 class KProgram;
-extern YObjectArray<KProgram> keyProgs;
+typedef YObjectArray<KProgram> KProgramArrayType;
+typedef KProgramArrayType::IterType KProgramIterType;
+extern KProgramArrayType keyProgs;
+
 extern RebootShutdown rebootOrShutdown;
 
 #endif
