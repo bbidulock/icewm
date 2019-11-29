@@ -30,6 +30,6 @@ key "XF86AudioMute"         amixer sset Master toggle
 key "XF86HomePage"          xdg-open about:blank
 key "XF86Search"            xdg-open https://www.google.com
 key "XF86Eject"             eject
-key "XF86Calculator"        /bin/sh -c "gnome-calculator || xcalc || ( type bc >/dev/null 2>&1 && xterm -e bc -l)"
+key "XF86Calculator"        /bin/sh -c "gnome-calculator || xcalc || ( type bc >/dev/null 2>&1 && @XTERMCMD@ -e bc -l)"
 
 switchkey "Super+p"         icewm-menu-xrandr
