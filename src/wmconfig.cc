@@ -29,13 +29,14 @@ void WMConfig::loadConfiguration(IApp *app, const char *fileName) {
     YConfig::findLoadConfigFile(app, icewm_themable_preferences, fileName);
 }
 
-void WMConfig::loadThemeConfiguration(IApp *app, const char *themeName) {
+bool WMConfig::loadThemeConfiguration(IApp *app, const char *themeName) {
     bool ok = YConfig::findLoadThemeFile(app,
                 icewm_themable_preferences,
                 *themeName == '/' ? themeName :
                 upath("themes").child(themeName));
     if (ok == false)
         fail(_("Failed to load theme %s"), themeName);
+    return ok;
 }
 
 void WMConfig::freeConfiguration() {

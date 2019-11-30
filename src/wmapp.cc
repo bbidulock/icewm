@@ -1144,7 +1144,15 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
     if (themeName != 0) {
         MSG(("themeName=%s", themeName));
 
-        WMConfig::loadThemeConfiguration(this, themeName);
+        bool ok = WMConfig::loadThemeConfiguration(this, themeName);
+        if (ok == false && strcmp(themeName, CONFIG_DEFAULT_THEME)) {
+            themeName = CONFIG_DEFAULT_THEME;
+            ok = WMConfig::loadThemeConfiguration(this, themeName);
+        }
+        if (ok == false && strpcmp(themeName, "default", "/")) {
+            themeName = "default/default.theme";
+            ok = WMConfig::loadThemeConfiguration(this, themeName);
+        }
     }
     {
         int focusMode(this->focusMode);

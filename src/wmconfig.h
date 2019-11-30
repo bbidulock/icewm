@@ -7,7 +7,7 @@ class IApp;
 class WMConfig {
 public:
     static void loadConfiguration(IApp *app, const char *fileName);
-    static void loadThemeConfiguration(IApp *app, const char *themeName);
+    static bool loadThemeConfiguration(IApp *app, const char *themeName);
     static void freeConfiguration();
     static void setDefault(const char *basename, cstring config);
     static void setDefaultFocus(long focusMode);
