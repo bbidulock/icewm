@@ -285,6 +285,7 @@ void logEvent(const union _XEvent& xev);
 
 typedef const char* (*AtomNameFunc)(unsigned long atom);
 void setAtomName(AtomNameFunc atomNameFunc);
+const char* getAtomName(unsigned long atom);
 void setLogEvent(int evtype, bool enable);
 bool toggleLogEvents();
 const char* eventName(int eventType);
