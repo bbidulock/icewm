@@ -78,6 +78,7 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
     getSizeHints();
     getClassHint();
     getTransient();
+    getClientLeader();
     getWMHints();
     getWMWindowRole();
     getWindowRole();
@@ -695,6 +696,8 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
                 getFrame()->updateMwmHints();
             prop.mwm_hints = new_prop;
         } else if (property.atom == _XA_WM_CLIENT_LEADER) { // !!! check these
+            if (new_prop) prop.wm_client_leader = true;
+            getClientLeader();
             prop.wm_client_leader = new_prop;
         } else if (property.atom == _XA_SM_CLIENT_ID) {
             prop.sm_client_id = new_prop;
@@ -1654,27 +1657,13 @@ void YFrameClient::setWinHintsHint(long hints) {
 }
 
 void YFrameClient::getClientLeader() {
-    Atom r_type;
-    int r_format;
-    unsigned long count;
-    unsigned long bytes_remain;
-    unsigned char *prop(0);
-
-    fClientLeader = None;
-    if (XGetWindowProperty(xapp->display(),
-                           handle(),
-                           _XA_WM_CLIENT_LEADER,
-                           0, 1, False, XA_WINDOW,
-                           &r_type, &r_format,
-                           &count, &bytes_remain, &prop) == Success && prop)
-    {
-        if (r_type == XA_WINDOW && r_format == 32 && count == 1U) {
-            long s = ((long *)prop)[0];
-
-            fClientLeader = s;
-        }
-        XFree(prop);
+    Window leader = None;
+    if (prop.wm_client_leader) {
+        YProperty prop(this, _XA_WM_CLIENT_LEADER);
+        if (prop && prop.typed(XA_WINDOW))
+            leader = prop.operator*<long>();
     }
+    fClientLeader = leader;
 }
 
 void YFrameClient::getWindowRole() {
@@ -2114,7 +2103,6 @@ void YFrameClient::getPropertiesList() {
             else if (a == _XA_NET_WM_USER_TIME) HAS(prop.net_wm_user_time);
             else if (a == _XA_NET_WM_USER_TIME_WINDOW) HAS(prop.net_wm_user_time_window);
             else if (a == _XA_NET_WM_WINDOW_OPACITY) HAS(prop.net_wm_window_opacity);
-            else if (a == _XA_NET_WM_PID) HAS(prop.net_wm_pid);
             else if (a == _XA_WIN_HINTS) HAS(prop.win_hints);
             else if (a == _XA_WIN_WORKSPACE) HAS(prop.win_workspace);
             else if (a == _XA_WIN_STATE) HAS(prop.win_state);
