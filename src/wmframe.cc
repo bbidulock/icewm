@@ -1526,8 +1526,17 @@ void YFrameWindow::updateFocusOnMap(bool& doActivate) {
                 doActivate = false;
         }
     } else {
-        if (!focusOnMap)
+        bool mapUrgentGroupMember = false;
+        if (isUrgent() && client()->clientLeader()) {
+            YFrameWindow* f = manager->getFocus();
+            if (f && f->client()->clientLeader() == client()->clientLeader()) {
+                tlog("focus urgent group member %s", boolstr(doActivate));
+                mapUrgentGroupMember = true;
+            }
+        }
+        if (!focusOnMap && !mapUrgentGroupMember) {
             doActivate = false;
+        }
     }
 
     manager->updateUserTime(fUserTime);
