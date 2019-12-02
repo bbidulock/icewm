@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.14\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2019-11-24 12:39+0100\n"
-"PO-Revision-Date: 2019-11-14 19:53+0000\n"
+"PO-Revision-Date: 2019-12-02 22:40+0000\n"
 "Last-Translator: Kimmo Kujansuu <mrkujansuu@gmail.com>\n"
-"Language-Team: Finnish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/fi/>\n"
+"Language-Team: Finnish <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/fi/>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -626,9 +626,9 @@ msgid ""
 msgstr ""
 
 #: src/icesm.cc:135
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown option '%s'"
-msgstr "Tuntematon toiminto: `%s'"
+msgstr "Tuntematon valinta `%s'"
 
 #: src/icesm.cc:331 src/icesm.cc:449
 #, c-format
@@ -655,10 +655,8 @@ msgid ""
 msgstr ""
 
 #: src/icesm.cc:382
-#, fuzzy
-#| msgid "IceWM tray option"
 msgid "IceWM crash response"
-msgstr "IceWM tarjotinoptio"
+msgstr "IceWM kaatumisen vastaus"
 
 #: src/icesound.cc:215 src/icesound.cc:323 src/icesound.cc:483
 #, c-format
@@ -688,14 +686,13 @@ msgid "OSS incomplete write (%d/%d)"
 msgstr ""
 
 #: src/icesound.cc:372
-#, fuzzy
 msgid "Could not post OSS"
-msgstr "Kirjasinsarjan \"%s\" lataaminen epäonnistui."
+msgstr "OSS -tiedostoa ei voitu lähettää"
 
 #: src/icesound.cc:401
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open OSS device %s"
-msgstr "Bittikarttaa %s ei löydy"
+msgstr "OSS -laitetta %s ei voitu avata"
 
 #: src/icesound.cc:406
 msgid "Could not set OSS stereo"
@@ -858,14 +855,14 @@ msgid "Using %s audio."
 msgstr ""
 
 #: src/icesound.cc:929
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to connect to audio interfaces %s."
-msgstr "%s avaaminen epäonnistui: %s"
+msgstr "Yhdistäminen ääniliitäntöihin %s epäonnistui."
 
 #: src/icesound.cc:941
-#, fuzzy, c-format
+#, c-format
 msgid "Received signal %s: Terminating..."
-msgstr "Havaittiin signaali %d: Lopetetaan..."
+msgstr "Havaittiin signaali %s: Lopetetaan..."
 
 #: src/icetray.cc:231
 msgid ""
@@ -902,9 +899,9 @@ msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
 #: src/icewmbg.cc:78
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load image '%s'."
-msgstr "%s avaaminen epäonnistui: %s"
+msgstr "Kuvan '%s' lataus epäonnistui."
 
 #: src/icewmbg.cc:885
 #, fuzzy
@@ -973,9 +970,8 @@ msgid "Cannot start, because another icewmbg is still running."
 msgstr ""
 
 #: src/icewmhint.cc:19
-#, fuzzy
 msgid "Usage: icewmhint class.instance option arg\n"
-msgstr "Käyttö: icewmhint [luokka.instanssi] optio argumentti\n"
+msgstr "Käyttö: icewmhint class.instance optio arg\n"
 
 #: src/icewmhint.cc:56
 #, c-format
@@ -1032,9 +1028,8 @@ msgid "icewm - About"
 msgstr "IceWM - Tietoja"
 
 #: src/wmapp.cc:79
-#, fuzzy
 msgid "A window manager is already running, use --replace to replace it"
-msgstr "Toinen ikkunamangeri on jo käynnissä, poistutaan..."
+msgstr "Ikkunanhallinta on jo käynnissä, käytä --replace sen korvaamiseksi"
 
 #: src/wmapp.cc:97
 #, c-format
@@ -1139,16 +1134,12 @@ msgid "Ma_ximize"
 msgstr "Suu_renna"
 
 #: src/wmapp.cc:579 src/wmwinlist.cc:382
-#, fuzzy
-#| msgid "Maximize"
 msgid "Maximize_Vert"
-msgstr "Suurenna"
+msgstr "Suurenna_Pysty"
 
 #: src/wmapp.cc:580
-#, fuzzy
-#| msgid "Maximize"
 msgid "MaximizeHori_z"
-msgstr "Suurenna"
+msgstr "SuurennaVaaka_z"
 
 #: src/wmapp.cc:583 src/wmwinlist.cc:383
 msgid "_Fullscreen"
@@ -1310,14 +1301,14 @@ msgid "%s configuration directories:\n"
 msgstr ""
 
 #: src/wmapp.cc:1617
-#, fuzzy, c-format
+#, c-format
 msgid "%s configured options:%s\n"
-msgstr "Tuntematon optio: %s\n"
+msgstr "%s määritetyt asetukset:%s\n"
 
 #: src/wmapp.cc:1681
-#, fuzzy, c-format
+#, c-format
 msgid "Unrecognized option '%s'."
-msgstr "Tuntematon optio: %s\n"
+msgstr "Tuntematon optio '%s'."
 
 #: src/wmapp.cc:1753
 msgid "Confirm Logout"
@@ -1332,19 +1323,19 @@ msgstr ""
 "Jatka?"
 
 #: src/wmconfig.cc:38
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load theme %s"
-msgstr "%s avaaminen epäonnistui: %s"
+msgstr "Teeman lataus epäonnistui %s"
 
 #: src/wmconfig.cc:93
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown value '%s' for option '%s'."
-msgstr "Tuntematon toiminto: `%s'"
+msgstr "Tuntematon arvo '%s' valinnalla '%s'."
 
 #: src/wmconfig.cc:101
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to create directory %s"
-msgstr "Lapsiprosessin luominen epäonnistui: %s"
+msgstr "Hakemistoa ei voi luoda %s"
 
 #: src/wmconfig.cc:128 src/wmprog.cc:569 src/wmprog.cc:691 src/wmprog.cc:695
 #, c-format
@@ -1352,9 +1343,9 @@ msgid "Unable to write to %s"
 msgstr ""
 
 #: src/wmconfig.cc:155 src/wmprog.cc:699
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to rename %s to %s"
-msgstr "%s avaaminen epäonnistui: %s"
+msgstr "Ei voida nimetä %s / %s"
 
 #: src/wmdialog.cc:73
 #, fuzzy
@@ -1412,9 +1403,9 @@ msgid "Unknown window option: %s"
 msgstr "Tuntematon ikkunatoiminto: %s"
 
 #: src/wmoption.cc:344
-#, fuzzy, c-format
+#, c-format
 msgid "Syntax error in window options on line %d of %s"
-msgstr "Kielioppivirhe ikkunaoptioissa"
+msgstr "Kielioppivirhe ikkunaoptioissa rivillä %d / %s"
 
 #: src/wmprog.cc:397
 msgid "_Click to focus"
@@ -1441,10 +1432,8 @@ msgid "Custo_m"
 msgstr ""
 
 #: src/wmprog.cc:489
-#, fuzzy
-#| msgid "Favorite applications"
 msgid "Save Modifications"
-msgstr "Sovellukset"
+msgstr "Tallenna muutokset"
 
 #: src/wmprog.cc:722
 msgid "_Manual"
@@ -1536,32 +1525,24 @@ msgid "_Refresh"
 msgstr "_Päivitä"
 
 #: src/wmtaskbar.cc:326 src/wmtaskbar.cc:956
-#, fuzzy
-#| msgid "Task Bar"
 msgid "Hide Taskbar"
-msgstr "Tehtäväpalkki"
+msgstr "Piilota tehtäväpalkki"
 
 #: src/wmtaskbar.cc:344
-#, fuzzy
-#| msgid "Favorite applications"
 msgid "Favorite Applications"
-msgstr "Sovellukset"
+msgstr "Suosikki sovellukset"
 
 #: src/wmtaskbar.cc:365
-#, fuzzy
-#| msgid "Window list menu"
 msgid "Window List Menu"
-msgstr "Ikkunalista"
+msgstr "Ikkunaluettelon valikko"
 
 #: src/wmtaskbar.cc:374
 msgid "Show Desktop"
 msgstr "Näytä työpöytä"
 
 #: src/wmtaskbar.cc:956
-#, fuzzy
-#| msgid "Task Bar"
 msgid "Show Taskbar"
-msgstr "Tehtäväpalkki"
+msgstr "Näytä tehtäväpalkki"
 
 #: src/wmtitle.cc:87
 msgid "Minimize"
@@ -1596,8 +1577,6 @@ msgid "_Show"
 msgstr "_Näytä"
 
 #: src/wmwinlist.cc:387
-#, fuzzy
-#| msgid "R_aise"
 msgid "_Raise"
 msgstr "Nos_ta"
 
@@ -1621,10 +1600,9 @@ msgid "Unknown key name %s in %s"
 msgstr "Tuntematon avainnimi %s %s:ssa"
 
 #: src/yconfig.cc:150 src/yconfig.cc:163 src/yconfig.cc:177
-#, fuzzy, c-format
-#| msgid "Bad argument: %s for %s"
+#, c-format
 msgid "Bad argument: %s for %s [%d,%d]"
-msgstr "Virheellinen argumentti: %s %s:lle"
+msgstr "Virheellinen argumentti: %s kohteelle %s [%d,%d]"
 
 #: src/yconfig.cc:214
 #, c-format
@@ -1665,7 +1643,7 @@ msgstr ""
 "\""
 
 #: src/ycursor.cc:228
-#, fuzzy, c-format
+#, c-format
 msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
 msgstr "BUGI? Odottamaton merkki mutta Imlib onnistui tulkitsemaan \"%s\""
 
@@ -1718,9 +1696,8 @@ msgid "Paste _Selection"
 msgstr "Liitä _valinta"
 
 #: src/yinput.cc:21
-#, fuzzy
 msgid "Ctrl+P"
-msgstr "Ctrl+Q"
+msgstr "Ctrl+P"
 
 #: src/yinput.cc:23
 msgid "Select _All"
@@ -1731,11 +1708,9 @@ msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
 #: src/ylocale.cc:46
-#, fuzzy
 msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
 msgstr ""
-"C-kirjasto ei tue kieliasetusta. Palataan takaisin 'C'-kieliasetuksen "
-"käyttöön."
+"C-kirjasto tai xlib ei tue kieliasetusta. Palataan takaisin 'C' locale'."
 
 #: src/ylocale.cc:72
 msgid ""
@@ -1764,18 +1739,18 @@ msgid "Image not readable: %s"
 msgstr ""
 
 #: src/ypaths.cc:118
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find image %s"
-msgstr "Bittikarttaa %s ei löydy"
+msgstr "Kuvaa %s ei löydy"
 
 #: src/ysmapp.cc:98
 msgid "$USER or $LOGNAME not set?"
 msgstr "$USER- tai $LOGNAME-ympäristömuuttujia ei määritelty?"
 
 #: src/yurl.cc:145
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to parse URL \"%s\"."
-msgstr "%s avaaminen epäonnistui: %s"
+msgstr "Verkko-osoitteen hakeminen epäonnistui \"%s\"."
 
 #: src/yurl.cc:161
 #, c-format
@@ -1835,10 +1810,8 @@ msgstr ""
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:61
-#, fuzzy
-#| msgid "Same Game"
 msgid "ArcadeGame"
-msgstr "IceSAMA"
+msgstr "Kolikkopeli"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
 #: src/fdospecgen.h:63
@@ -1972,10 +1945,8 @@ msgstr ""
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
 #: src/fdospecgen.h:115
-#, fuzzy
-#| msgid "D_esktop"
 msgid "DesktopSettings"
-msgstr "Työ_pöytä"
+msgstr "Työpöydän asetukset"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:117
@@ -2069,10 +2040,8 @@ msgstr ""
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
 #: src/fdospecgen.h:153
-#, fuzzy
-#| msgid "Cancel"
 msgid "Finance"
-msgstr "Peruuta"
+msgstr "Rahoittaa"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
 #: src/fdospecgen.h:155
@@ -2086,10 +2055,8 @@ msgstr ""
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:159
-#, fuzzy
-#| msgid "Same Game"
 msgid "Game"
-msgstr "IceSAMA"
+msgstr "Peli"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:161
@@ -2143,10 +2110,8 @@ msgstr ""
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:181
-#, fuzzy
-#| msgid "_Terminate Process"
 msgid "ImageProcessing"
-msgstr "_Lopeta prosessi"
+msgstr "Kuvankäsittely"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:183
@@ -2400,10 +2365,8 @@ msgstr ""
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:283
-#, fuzzy
-#| msgid "Same Game"
 msgid "StrategyGame"
-msgstr "IceSAMA"
+msgstr "Strategiapeli"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:285
