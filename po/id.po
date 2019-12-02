@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-11-24 12:39+0100\n"
+"POT-Creation-Date: 2019-12-02 23:39+0100\n"
 "PO-Revision-Date: 2017-11-03 14:12+0700\n"
 "Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian <https://l10n.opensuse.org/projects/icewm/"
@@ -586,40 +586,40 @@ msgstr "Aplikasi favorit"
 msgid "workspace #%d: `%s'\n"
 msgstr "ruang kerja #%d: `%s'\n"
 
-#: src/icesh.cc:2527
+#: src/icesh.cc:2528
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Perintah `%s' membutuhkan setidaknya %d opsi."
 
-#: src/icesh.cc:2537
+#: src/icesh.cc:2538
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Ekpresi tidak benar: `%s'"
 
-#: src/icesh.cc:2548 src/icesound.cc:795 src/icewmhint.cc:36 src/wmapp.cc:1108
-#: src/yxapp.cc:1038
+#: src/icesh.cc:2549 src/icesound.cc:795 src/icewmhint.cc:36 src/wmapp.cc:1116
+#: src/yxapp.cc:1046
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "Tidak dapat membuka display: %s. X harus berjalan dan $DISPLAY harus "
 "ditetapkan."
 
-#: src/icesh.cc:2561
+#: src/icesh.cc:2562
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid argument: `%s'"
 msgstr "Argumen tidak valid: `%s'."
 
-#: src/icesh.cc:2601
+#: src/icesh.cc:2602
 msgid "No actions specified."
 msgstr "Tidak ada aksi yang diberikan."
 
-#: src/icesh.cc:2760
+#: src/icesh.cc:2761
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Indentitas jendela tidak valid: `%s'"
 
-#: src/icesh.cc:3254
+#: src/icesh.cc:3255
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Aksi tidak diketahui: `%s'"
@@ -1039,11 +1039,11 @@ msgstr "Penggunaan: icewmhint [class.instance] opsi argumen\n"
 msgid "Out of memory (len=%d)."
 msgstr "Kehabisan memori (len=%d)."
 
-#: src/misc.cc:568 src/misc.cc:580
+#: src/misc.cc:571 src/misc.cc:583
 msgid "Warning: "
 msgstr "Peringatan: "
 
-#: src/misc.cc:856
+#: src/misc.cc:859
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1282,18 +1282,18 @@ msgstr ""
 msgid "Kill IceWM, replace with Xterm"
 msgstr ""
 
-#: src/wmapp.cc:1109 src/yxapp.cc:1039
+#: src/wmapp.cc:1117 src/yxapp.cc:1047
 msgid "<none>"
 msgstr "<tidak ada>"
 
-#: src/wmapp.cc:1450
+#: src/wmapp.cc:1466
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      Klien id yang digunakan saat menghubungi manajer "
 "sesi.\n"
 
-#: src/wmapp.cc:1456
+#: src/wmapp.cc:1472
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1303,17 +1303,18 @@ msgstr ""
 "  --debug             Cetak pesan debug umum.\n"
 "  --debug-z           Cetak pesan debug tantang jendela bertumpuk.\n"
 
-#: src/wmapp.cc:1464
+#: src/wmapp.cc:1480
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
 "  -t, --theme=FILE    Load theme from FILE.\n"
-"  --splash=IMAGE      Briefly show IMAGE on startup.\n"
-"  --postpreferences   Print preferences after all processing.\n"
+"  -s, --splash=IMAGE  Briefly show IMAGE on startup.\n"
+"  -p, --postpreferences  Print preferences after all processing.\n"
+"  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgstr ""
 
-#: src/wmapp.cc:1471
+#: src/wmapp.cc:1489
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1375,26 +1376,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1532
+#: src/wmapp.cc:1550
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "Direktori konfigurasi %s:\n"
 
-#: src/wmapp.cc:1617
+#: src/wmapp.cc:1635
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s pilihan dikonfigurasi: %s\n"
 
-#: src/wmapp.cc:1681
+#: src/wmapp.cc:1699
 #, fuzzy, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Opsi tidak dikenali: %s\n"
 
-#: src/wmapp.cc:1753
+#: src/wmapp.cc:1771
 msgid "Confirm Logout"
 msgstr "Konfirmasi Keluar"
 
-#: src/wmapp.cc:1754
+#: src/wmapp.cc:1772
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1407,22 +1408,22 @@ msgstr ""
 msgid "Failed to load theme %s"
 msgstr "Gagal memuat tema %s"
 
-#: src/wmconfig.cc:93
+#: src/wmconfig.cc:94
 #, c-format
 msgid "Unknown value '%s' for option '%s'."
 msgstr "Nilai tak dikenal '%s' untuk opsi '%s'."
 
-#: src/wmconfig.cc:101
+#: src/wmconfig.cc:102
 #, c-format
 msgid "Unable to create directory %s"
 msgstr "Tidak dapat membuat direktori %s"
 
-#: src/wmconfig.cc:128 src/wmprog.cc:569 src/wmprog.cc:691 src/wmprog.cc:695
+#: src/wmconfig.cc:129 src/wmprog.cc:569 src/wmprog.cc:691 src/wmprog.cc:695
 #, c-format
 msgid "Unable to write to %s"
 msgstr "Tidak dapat menulis ke %s"
 
-#: src/wmconfig.cc:155 src/wmprog.cc:699
+#: src/wmconfig.cc:156 src/wmprog.cc:699
 #, c-format
 msgid "Unable to rename %s to %s"
 msgstr "Tidak dapat mengganti nama %s menjadi %s"
@@ -1435,8 +1436,9 @@ msgstr "Kunci Stasiun Kerja"
 msgid "_Cancel"
 msgstr "_Batal"
 
-#: src/wmdialog.cc:77 src/wmprog.cc:849 src/wmprog.cc:851 src/wmtaskbar.cc:260
-#: src/wmtaskbar.cc:262
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmdialog.cc:77 src/wmprog.cc:849 src/wmprog.cc:851 src/wmtaskbar.cc:272
+#: src/wmtaskbar.cc:274
 msgid "_Logout..."
 msgstr "_Keluar..."
 
@@ -1444,7 +1446,8 @@ msgstr "_Keluar..."
 msgid "_Restart icewm"
 msgstr "_Jalankan ulang icewm"
 
-#: src/wmdialog.cc:82 src/wmprog.cc:810 src/wmtaskbar.cc:256
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmdialog.cc:82 src/wmprog.cc:810 src/wmtaskbar.cc:267
 msgid "_About"
 msgstr "_Tentang"
 
@@ -1461,19 +1464,19 @@ msgstr ""
 "akan hilang ketika klien dimatikan. Apakah Anda\n"
 "ingin melanjutkan?"
 
-#: src/wmframe.cc:3003
+#: src/wmframe.cc:3012
 msgid "Restore"
 msgstr "Pulihkan"
 
-#: src/wmframe.cc:3006 src/wmtitle.cc:71
+#: src/wmframe.cc:3015 src/wmtitle.cc:71
 msgid "Maximize"
 msgstr "Maksimalkan"
 
-#: src/wmframe.cc:3036
+#: src/wmframe.cc:3045
 msgid "Rolldown"
 msgstr "Gulung bawah"
 
-#: src/wmframe.cc:3038 src/wmtitle.cc:129
+#: src/wmframe.cc:3047 src/wmtitle.cc:129
 msgid "Rollup"
 msgstr "Gulung atas"
 
@@ -1544,7 +1547,8 @@ msgstr "Program"
 msgid "_Run..."
 msgstr "_Jalan..."
 
-#: src/wmprog.cc:797 src/wmtaskbar.cc:253
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmprog.cc:797 src/wmtaskbar.cc:262
 msgid "_Windows"
 msgstr "_Jendela"
 
@@ -1573,65 +1577,74 @@ msgstr "Se_telan"
 msgid "Session Manager: Unknown line %s"
 msgstr "Manajer Sesi: Baris %s tidak diketahui"
 
-#: src/wmtaskbar.cc:243 src/wmwinlist.cc:395 src/wmwinlist.cc:415
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:244 src/wmwinlist.cc:395 src/wmwinlist.cc:415
 msgid "Tile _Vertically"
 msgstr "Menata Vertikal"
 
-#: src/wmtaskbar.cc:244 src/wmwinlist.cc:396 src/wmwinlist.cc:416
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:246 src/wmwinlist.cc:396 src/wmwinlist.cc:416
 msgid "T_ile Horizontally"
 msgstr "Menata Horizontal"
 
-#: src/wmtaskbar.cc:245 src/wmwinlist.cc:397 src/wmwinlist.cc:417
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:248 src/wmwinlist.cc:397 src/wmwinlist.cc:417
 msgid "Ca_scade"
 msgstr "Bertingkat"
 
-#: src/wmtaskbar.cc:246 src/wmwinlist.cc:398 src/wmwinlist.cc:418
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:250 src/wmwinlist.cc:398 src/wmwinlist.cc:418
 msgid "_Arrange"
 msgstr "_Atur"
 
-#: src/wmtaskbar.cc:247 src/wmwinlist.cc:400 src/wmwinlist.cc:419
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:252 src/wmwinlist.cc:400 src/wmwinlist.cc:419
 msgid "_Minimize All"
 msgstr "_Minimalkan Semua"
 
-#: src/wmtaskbar.cc:248 src/wmwinlist.cc:401 src/wmwinlist.cc:420
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:254 src/wmwinlist.cc:401 src/wmwinlist.cc:420
 msgid "_Hide All"
 msgstr "_Sembunyikan Semua"
 
-#: src/wmtaskbar.cc:249 src/wmwinlist.cc:402 src/wmwinlist.cc:421
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:256 src/wmwinlist.cc:402 src/wmwinlist.cc:421
 msgid "_Undo"
 msgstr "_Urungkan"
 
-#: src/wmtaskbar.cc:251
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:259
 msgid "Arrange _Icons"
 msgstr "Atur _Ikon"
 
-#: src/wmtaskbar.cc:255
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:265
 msgid "_Refresh"
 msgstr "_Segarkan"
 
-#: src/wmtaskbar.cc:326 src/wmtaskbar.cc:956
+#: src/wmtaskbar.cc:338 src/wmtaskbar.cc:968
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Hide Taskbar"
 msgstr "Bilah tugas"
 
-#: src/wmtaskbar.cc:344
+#: src/wmtaskbar.cc:356
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Favorite Applications"
 msgstr "Aplikasi favorit"
 
-#: src/wmtaskbar.cc:365
+#: src/wmtaskbar.cc:377
 #, fuzzy
 #| msgid "Window list menu"
 msgid "Window List Menu"
 msgstr "Menu daftar jendela"
 
-#: src/wmtaskbar.cc:374
+#: src/wmtaskbar.cc:386
 msgid "Show Desktop"
 msgstr "Lihat Desktop"
 
-#: src/wmtaskbar.cc:956
+#: src/wmtaskbar.cc:968
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Show Taskbar"
@@ -1855,7 +1868,7 @@ msgstr ""
 msgid "Invalid hex escape in URL at position %d."
 msgstr ""
 
-#: src/yxapp.cc:999
+#: src/yxapp.cc:1007
 #, fuzzy
 msgid ""
 "  -d, --display=NAME  NAME of the X server to use.\n"
