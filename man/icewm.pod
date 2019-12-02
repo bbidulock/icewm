@@ -188,7 +188,7 @@ active window manager.
 
 Tell B<icewm> to restart itself. This reloads the configuration from file.
 
-=item B<--splash>=I<IMAGE>
+=item B<-s>, B<--splash>=I<IMAGE>
 
 Briefly show I<IMAGE> on startup in the center of the screen.
 This can also be set in the preferences file as Splash=C<image.jpg>.
@@ -210,7 +210,7 @@ it to search for configuration files.
 B<icewm> will search all the configuration directories for theme files
 and print a list of all found themes.
 
-=item B<--postpreferences>
+=item B<-p>, B<--postpreferences>
 
 This gives a long list of all the internal B<icewm> options with their
 actual values after B<icewm> has processed all of the configuration and
