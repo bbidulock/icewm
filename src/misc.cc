@@ -964,8 +964,8 @@ char* path_lookup(const char* name) {
 
 // get path of executable.
 char* progpath() {
-#ifdef __linux__
     char* path = program_invocation_name;
+#ifdef __linux__
     bool fail = isEmpty(path) || access(path, R_OK | X_OK) != 0;
     if (fail) {
         const size_t linksize = 123;
@@ -990,7 +990,7 @@ char* progpath() {
         program_invocation_name = path;
         INFO("2: set program_invocation_name %s", path);
     }
-#else
+#elif defined(__FreeBSD__)
     static char* path;
     if (path == 0)
         path = path_lookup(getprogname());
@@ -999,7 +999,7 @@ char* progpath() {
 }
 
 void show_backtrace(const int limit) {
-#if defined(HAVE_BACKTRACE_SYMBOLS_FD) && defined(HAVE_EXECINFO_H)
+#if defined(HAVE_BACKTRACE_SYMBOLS_FD) && defined(HAVE_EXECINFO_H) && (defined(__FreeBSD__) || defined(__linux__))
     const int asize = Elvis(limit, 20);
     void *array[asize];
     const int count = backtrace(array, asize);
