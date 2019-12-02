@@ -1481,8 +1481,10 @@ static void print_usage(const char *argv0) {
              "  -a, --alpha         Use a 32-bit visual for translucency.\n"
              "  -c, --config=FILE   Load preferences from FILE.\n"
              "  -t, --theme=FILE    Load theme from FILE.\n"
-             "  --splash=IMAGE      Briefly show IMAGE on startup.\n"
-             "  --postpreferences   Print preferences after all processing.\n");
+             "  -s, --splash=IMAGE  Briefly show IMAGE on startup.\n"
+             "  -p, --postpreferences  Print preferences after all processing.\n"
+             "  --trace=conf,icon   Trace paths used to load configuration.\n"
+             );
 
     printf(_("Usage: %s [OPTIONS]\n"
              "Starts the IceWM window manager.\n"
@@ -1651,7 +1653,7 @@ int main(int argc, char **argv) {
                 configFile = value;
             else if (GetArgument(value, "t", "theme", arg, argv+argc))
                 overrideTheme = value;
-            else if (is_long_switch(*arg, "postpreferences"))
+            else if (is_switch(*arg, "p", "postpreferences"))
                 post_preferences = true;
             else if (is_long_switch(*arg, "extensions"))
                 show_extensions = true;
@@ -1689,7 +1691,7 @@ int main(int argc, char **argv) {
                 YXApplication::alphaBlending = true;
             else if (GetArgument(value, "d", "display", arg, argv+argc))
                 displayName = value;
-            else if (GetLongArgument(value, "splash", arg, argv+argc))
+            else if (GetArgument(value, "s", "splash", arg, argv+argc))
                 splashFile = value;
             else if (GetLongArgument(value, "trace", arg, argv+argc))
                 YTrace::tracing(value);
