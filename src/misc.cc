@@ -962,6 +962,12 @@ char* path_lookup(const char* name) {
     return filebuf;
 }
 
+#ifdef __gnu_hurd__
+const char* getprogname() {
+    return ApplicationName;
+}
+#endif
+
 // get path of executable.
 char* progpath() {
 #ifdef __linux__
