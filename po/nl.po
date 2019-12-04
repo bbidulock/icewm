@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.23\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2019-12-02 23:39+0100\n"
-"PO-Revision-Date: 2019-06-13 18:49+0000\n"
+"PO-Revision-Date: 2019-12-04 22:54+0000\n"
 "Last-Translator: Freek de Kruijf <freek@opensuse.org>\n"
-"Language-Team: Dutch <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/nl/>\n"
+"Language-Team: Dutch <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -593,19 +593,15 @@ msgstr "IceWM tray optie"
 
 #: src/icesh.cc:1553
 msgid "Gravity symbols"
-msgstr ""
+msgstr "Gravitatiesymbolen"
 
 #: src/icesh.cc:1554
-#, fuzzy
-#| msgid "Save Modifications"
 msgid "Motif functions"
-msgstr "Wijzigingen opslaan"
+msgstr "Motif-functies"
 
 #: src/icesh.cc:1555
-#, fuzzy
-#| msgid "Save Modifications"
 msgid "Motif decorations"
-msgstr "Wijzigingen opslaan"
+msgstr "Motif-decoraties"
 
 #: src/icesh.cc:1634
 #, c-format
@@ -655,17 +651,6 @@ msgid "Socket error: %d"
 msgstr "Sokjes fout ;-): %d"
 
 #: src/icesm.cc:57
-#, fuzzy
-#| msgid ""
-#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-#| "\n"
-#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
-#| "  --sync              Synchronize communication with X11 server.\n"
-#| "\n"
-#| "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
-#| "  -n, --notray        Do not start icewmtray.\n"
-#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -682,10 +667,12 @@ msgstr ""
 "  -c, --config=FILE   Laat IceWM voorkeuren laden uit BESTAND.\n"
 "  -t, --theme=FILE    Laat IceWM het thema laden uit BESTAND.\n"
 "\n"
-"  --display=NAAM      NAAM gebruiken om te verbinden met de X-server.\n"
+"  -d, --display=NAAM      NAAM gebruiken om te verbinden met de X-server.\n"
+"  -a, --alpha         Een 32-bit visueel gebruiken voor doorzichtigheid.\n"
 "  --sync              Synchroniseer communicatie met de X11-server.\n"
 "\n"
 "  -i, --icewm=FILE    Gebruik FILE als de IceWM windowmanager.\n"
+"  -b, --nobg          icewmbg niet starten.\n"
 "  -n, --notray        Start icewmtray niet op.\n"
 "  -s, --sound         Start ook icesound.\n"
 
@@ -695,10 +682,9 @@ msgid "Unknown option '%s'"
 msgstr "Onbekende optie: '%s'"
 
 #: src/icesm.cc:331 src/icesm.cc:449
-#, fuzzy, c-format
-#| msgid "Restart"
+#, c-format
 msgid "restart %s."
-msgstr "Herstart"
+msgstr "herstart %s."
 
 #: src/icesm.cc:337
 #, c-format
@@ -1377,12 +1363,6 @@ msgstr ""
 "  --debug-z           Debugberichten over stapelen van vensters afdrukken.\n"
 
 #: src/wmapp.cc:1480
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "  -c, --config=FILE   Load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Load theme from FILE.\n"
-#| "  --postpreferences   Print preferences after all processing.\n"
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -1393,9 +1373,12 @@ msgid ""
 "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgstr ""
 "\n"
+"  -a, --alpha         een 32-bit visueel gebruiken voor doorzichtigheid.\n"
 "  -c, --config=FILE   Voorkeuren laden uit BESTAND.\n"
 "  -t, --theme=FILE    Thema laden uit BESTAND.\n"
-"  --postpreferences   Voorkeuren printen nadat alles is verwerkt.\n"
+"  -s, --splash=IMAGE  IMAGE kort tonen bij opstarten.\n"
+"  -p, --postpreferences   Voorkeuren printen nadat alles is verwerkt.\n"
+"  --trace=conf,icon   Paden volgen gebruiken om configuratie te laden.\n"
 
 #: src/wmapp.cc:1489
 #, c-format
