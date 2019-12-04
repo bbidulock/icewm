@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: Chinese (China) (icewm)\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2019-12-02 23:39+0100\n"
-"PO-Revision-Date: 2019-02-07 06:32+0000\n"
-"Last-Translator: Emily Dong <Emily.Dong@excel-gits.com>\n"
+"PO-Revision-Date: 2019-12-04 09:54+0000\n"
+"Last-Translator: Kevin Suo <suokunlong@126.com>\n"
 "Language-Team: Chinese (China) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/zh_CN/>\n"
 "Language: zh_CN\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.3\n"
+"X-Generator: Weblate 3.6.1\n"
 
 #: src/aapm.cc:187 src/aapm.cc:469 src/aapm.cc:691 src/aapm.cc:816
 msgid " - Power"
@@ -548,7 +548,7 @@ msgstr "Same 游戏"
 
 #: src/icesh.cc:63
 msgid "For help please consult the man page icesh(1).\n"
-msgstr ""
+msgstr "如需帮助，请参阅 icesh(1) 手册页。\n"
 
 #: src/icesh.cc:1196
 #, c-format
@@ -583,19 +583,15 @@ msgstr "IceWM 托盘选项"
 
 #: src/icesh.cc:1553
 msgid "Gravity symbols"
-msgstr ""
+msgstr "重力符号"
 
 #: src/icesh.cc:1554
-#, fuzzy
-#| msgid "Save Modifications"
 msgid "Motif functions"
-msgstr "保存修改"
+msgstr "Motif 函数"
 
 #: src/icesh.cc:1555
-#, fuzzy
-#| msgid "Save Modifications"
 msgid "Motif decorations"
-msgstr "保存修改"
+msgstr "Motif 修饰器"
 
 #: src/icesh.cc:1634
 #, c-format
@@ -619,10 +615,9 @@ msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "无法打开显示：%s。 X必须正在执行且设定 $DISPLAY。"
 
 #: src/icesh.cc:2562
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'."
+#, c-format
 msgid "Invalid argument: `%s'"
-msgstr "无效参数：`%s'。"
+msgstr "无效参数：`%s'"
 
 #: src/icesh.cc:2602
 msgid "No actions specified."
@@ -644,17 +639,6 @@ msgid "Socket error: %d"
 msgstr "socket 错误：%d"
 
 #: src/icesm.cc:57
-#, fuzzy
-#| msgid ""
-#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-#| "\n"
-#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
-#| "  --sync              Synchronize communication with X11 server.\n"
-#| "\n"
-#| "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
-#| "  -n, --notray        Do not start icewmtray.\n"
-#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -668,13 +652,15 @@ msgid ""
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
-"  -c, --config=FILE   从 FILE 加载 IceWM 配置选项。\n"
+"  -c, --config=FILE    从 FILE 加载 IceWM 配置。\n"
 "  -t, --theme=FILE    从 FILE 加载 IceWM 主题。\n"
 "\n"
-"  -d, --display=NAME  使用 NAME 连接 X 服务器。\n"
-"  --sync              与 X11 服务器同步通信信息。\n"
+"  -d, --display=NAME  使用 NAME 连接到 X 服务器。\n"
+"  -a, --alpha               对半透明使用 32 位 visual。\n"
+"  --sync                     与 X11 服务器同步通信信息。\n"
 "\n"
-"  -i, --icewm=FILE    使用 FILE 作为 IceWM 窗口管理器。 \n"
+"  -i, --icewm=FILE 使用 FILE 作为 IceWM 窗口管理器。\n"
+"  -b, --nobg          不启动 icewmbg。\n"
 "  -n, --notray        不启动 icewmtray。\n"
 "  -s, --sound         同时启动 icesound。\n"
 
@@ -684,10 +670,9 @@ msgid "Unknown option '%s'"
 msgstr "未知选项：‘%s'"
 
 #: src/icesm.cc:331 src/icesm.cc:449
-#, fuzzy, c-format
-#| msgid "Restart"
+#, c-format
 msgid "restart %s."
-msgstr "重新启动"
+msgstr "重新启动 %s."
 
 #: src/icesm.cc:337
 #, c-format
