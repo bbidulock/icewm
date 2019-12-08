@@ -109,7 +109,7 @@ public:
     mstring replace(int position, int len, const mstring &insert) const;
     mstring remove(int position, int len) const;
     mstring insert(int position, const mstring &s) const;
-    mstring append(const mstring &s) const;
+    mstring append(const mstring &str) const { return *this + str; }
     mstring searchAndReplaceAll(const mstring& s, const mstring& r) const;
     mstring lower() const;
     mstring upper() const;

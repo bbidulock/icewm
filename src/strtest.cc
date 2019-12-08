@@ -82,6 +82,13 @@ static void test_mstring()
     assert(e, e.length() == 0);
     assert(e, e == null);
     assert(e, e.indexOf(' ') == -1);
+    assert(e, e.find(null) == 0);
+    assert(e, e.find(" ") == -1);
+    assert(e, e.indexOf(' ') == -1);
+    assert(e, e.lastIndexOf(' ') == -1);
+    assert(e, e.count(' ') == 0);
+    assert(e, e.substring(0) == null);
+    assert(e, e.substring(0, 0) == null);
 
     mstring m("abc", (size_t) 0);
     expect(m, "");
@@ -94,6 +101,10 @@ static void test_mstring()
     mstring y = x;
     expect(y, "foo");
     assert(y, y.length() == 3);
+    assert(y, y.compareTo(mstring("foo")) == 0);
+    assert(y, y.compareTo(mstring("aaf")) > 0);
+    assert(y, y.compareTo(mstring("zuu")) < 0);
+    assert(y, y.compareTo(mstring(null)) > 0);
 
     mstring z = y.remove(1, 1);
     expect(z, "fo");
@@ -113,6 +124,12 @@ static void test_mstring()
     assert(c, c != y);
     assert(e, e != y);
     assert(x, x == y);
+    assert(c, c.count('o') == 2);
+    assert(c, c.count('f') == 1);
+    assert(c, c.count('a') == 1);
+    assert(c, c.count('?') == 0);
+    expect(c.substring(5), "");
+    expect(c.substring(3, 2), "ba");
 
     mstring s = c.substring(2);
     expect(s, "oba");
@@ -121,6 +138,7 @@ static void test_mstring()
 
     assert(s, s.charAt(1) == 'b');
     assert(s, s.charAt(2) == -1);
+    assert(s, s.charAt(-1) == -1);
     assert(s, s.indexOf('b') == 1);
     assert(s, s.indexOf('c') == -1);
 
@@ -158,6 +176,10 @@ static void test_mstring()
     mstring t = w.trim();
     expect(t, "abc");
     expect(w, " \t\r\nabc\n\r\t ");
+    assert(w, w.find("abc") == 4);
+    assert(w, w.find("def") == -1);
+    assert(w, w.find(" ") == 0);
+    assert(w, w.find("") == 0);
     w = w.replace(0, 4, "_");
     w = w.replace(4, 4, ".");
     expect(w, "_abc.");
