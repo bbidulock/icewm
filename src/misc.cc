@@ -557,13 +557,8 @@ void precondition(const char *expr, const char *file, int line) {
     fprintf(stderr, "%s: PRECONDITION FAILED at %s:%d: ( %s )\n",
             ApplicationName, file, line, expr);
     fflush(stderr);
-
     show_backtrace();
-#ifdef HAVE_ABORT
     abort();
-#else
-    *(char *)0 = 0x42;
-#endif
 }
 
 void warn(char const *msg, ...) {
