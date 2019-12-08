@@ -397,6 +397,8 @@ iceclock_SOURCES = \
 	themable.h \
 	default.h \
 	prefs.h \
+	applet.cc \
+	applet.h \
 	aclock.cc \
 	aclock.h
 iceclock_LDADD = libitk.la libice.la $(IMAGE_LIBS) $(CORE_LIBS) @LIBINTL@

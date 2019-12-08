@@ -11,12 +11,6 @@
 #include "ylocale.h"
 #include "prefs.h"
 #include "yicon.h"
-
-#include <unistd.h>
-extern "C" {
-#include <sys/mman.h>
-}
-
 #include "intl.h"
 
 char const *ApplicationName = "iceview";
@@ -75,6 +69,7 @@ public:
     }
 
     ~TextView() {
+        delete menu;
     }
     int nextTab(int n) {
         return (n / 8 + 1) * 8;
@@ -570,6 +565,11 @@ public:
         setSize(x, y);
     }
 
+    ~FileView() {
+        delete scroll;
+        delete view;
+    }
+
     void loadFile() {
         struct stat sb;
 
@@ -582,20 +582,16 @@ public:
         }
         int len = sb.st_size;
         char *buf;
-
-        if ((buf = (char *)mmap(0, len, PROT_READ, MAP_SHARED, fd, 0)) == 0) {
-            buf = (char *)malloc(len);
-            if (buf == 0) {
-                close(fd);
-                return;
-            }
-            if ((len = read(fd, buf, len)) < 0) {
-                free(buf);
-                close(fd);
-                return;
-            }
+        buf = (char *)malloc(len);
+        if (buf == 0) {
+            close(fd);
+            return;
         }
-
+        if ((len = read(fd, buf, len)) < 0) {
+            free(buf);
+            close(fd);
+            return;
+        }
 
         view->setData(buf, len);
         close(fd);
@@ -607,7 +603,6 @@ public:
     }
 
     virtual void handleClose() {
-        delete this;
         xapp->exit(0);
     }
 
@@ -627,8 +622,8 @@ int main(int argc, char **argv) {
     YXApplication app(&argc, &argv);
 
     if (argc > 1) {
-        FileView *view = new FileView(argv[1]);
-        view->show();
+        FileView view(argv[1]);
+        view.show();
 
         return app.mainLoop();
     }

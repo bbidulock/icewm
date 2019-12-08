@@ -154,7 +154,12 @@ int YIconView::addItem(YIconItem *item) {
 
 void YIconView::freeItems() {
     if (fItems) {
-        delete fItems; fItems = 0;
+        for (int i = 0; i < fItemCount; ++i) {
+            delete fItems[i];
+        }
+        delete fItems;
+        fItems = nullptr;
+        fItemCount = 0;
     }
 }
 
@@ -486,12 +491,15 @@ public:
         winCount++;
     }
 
-    ~ObjectList() { winCount--; }
+    ~ObjectList() {
+        delete list;
+        delete scroll;
+        winCount--;
+    }
 
     virtual void handleClose() {
         if (winCount == 1)
             xapp->exit(0);
-        delete this;
     }
 
     void updateList();
@@ -563,8 +571,10 @@ int main(int argc, char **argv) {
     folder = YIcon::getIcon("folder");
     file = YIcon::getIcon("file");
 
-    ObjectList *list = new ObjectList(argv[1] ? argv[1] : (char *)"/");
-    list->show();
+    char root[2] = "/";
+    char* name = argv[1] ? argv[1] : root;
+    ObjectList list(name);
+    list.show();
 
     return app.mainLoop();
 }
