@@ -97,7 +97,7 @@ void YButton::paint(Graphics &g, int const d, const YRect &r) {
         } else {
             g.drawChars(fText, d + p, yp);
         }
-        if (fHotCharPos != -1)
+        if (fHotCharPos >= 0)
             g.drawCharUnderline(d + p, yp, fText, fHotCharPos);
     }
 }
@@ -357,29 +357,28 @@ void YButton::setText(const ustring &str, int hotChar) {
         removeAccelerator(hotKey, 0, this);
         if (xapp->AltMask != 0)
             removeAccelerator(hotKey, xapp->AltMask, this);
+        hotKey = -1;
     }
     fText = str;
     if (fText != null) {
         fHotCharPos = hotChar;
 
         if (fHotCharPos == -2) {
-            int i = fText.indexOf('_');
-            if (i != -1) {
-                fHotCharPos = i;
-                fText = fText.remove(i, 1);
+            fHotCharPos = fText.indexOf('_');
+            if (fHotCharPos >= 0) {
+                fText = fText.remove(fHotCharPos, 1);
             }
         }
 
-        hotKey = (fHotCharPos != -1) ? fText.charAt(fHotCharPos) : -1;
-        hotKey = ASCII::toUpper(hotKey);
-
+        hotKey = (fHotCharPos >= 0) ? fText.charAt(fHotCharPos) : -1;
         if (hotKey != -1) {
+            hotKey = ASCII::toUpper(hotKey);
+
             installAccelerator(hotKey, 0, this);
             if (xapp->AltMask != 0)
                 installAccelerator(hotKey, xapp->AltMask, this);
         }
-    } else
-        hotKey = -1;
+    }
     updateSize();
 }
 
