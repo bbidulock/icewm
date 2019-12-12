@@ -25,6 +25,7 @@
 #include "yprefs.h"
 #include "prefs.h"
 #include "udir.h"
+#include "ascii.h"
 #include "appnames.h"
 #include "ypaths.h"
 #include "yxcontext.h"
@@ -1067,6 +1068,50 @@ void YWMApp::initFocusMode() {
     }
 }
 
+void YWMApp::loadFocusMode() {
+    const char* focusMode = nullptr;
+    cfoption focus_prefs[] = {
+        OSV("FocusMode", &focusMode,
+            "Focus mode (0=custom, 1=click, 2=sloppy"
+            ", 3=explicit, 4=strict, 5=quiet)"),
+        OK0()
+    };
+
+    YConfig::findLoadConfigFile(this, focus_prefs, "focus_mode");
+    if (focusMode) {
+        static const struct {
+            FocusModels num;
+            const char* str;
+        } models[] = {
+            { FocusCustom,   "custom"   },
+            { FocusClick,    "click"    },
+            { FocusSloppy,   "sloppy"   },
+            { FocusExplicit, "explicit" },
+            { FocusStrict,   "strict"   },
+            { FocusQuiet,    "quiet"    },
+        };
+        if (ASCII::isDigit(*focusMode)) {
+            int mode = atoi(focusMode);
+            for (int i = 0; i < int ACOUNT(models); ++i) {
+                if (mode == models[i].num) {
+                    this->focusMode = models[i].num;
+                    break;
+                }
+            }
+        }
+        else {
+            cstring mode(mstring(focusMode).lower());
+            for (int i = 0; i < int ACOUNT(models); ++i) {
+                if (mode == models[i].str) {
+                    this->focusMode = models[i].num;
+                    break;
+                }
+            }
+        }
+        delete[] const_cast<char *>(focusMode);
+    }
+}
+
 static void showExtensions() {
     struct {
         const char* str;
@@ -1154,18 +1199,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
             ok = WMConfig::loadThemeConfiguration(this, themeName);
         }
     }
-    {
-        int focusMode(this->focusMode);
-        cfoption focus_prefs[] = {
-            OIV("FocusMode", &focusMode, FocusCustom, FocusModelLast,
-                "Focus mode (0=custom, 1=click, 2=sloppy"
-                ", 3=explicit, 4=strict, 5=quiet)"),
-            OK0()
-        };
-
-        YConfig::findLoadConfigFile(this, focus_prefs, "focus_mode");
-        this->focusMode = FocusModels(focusMode);
-    }
+    loadFocusMode();
     WMConfig::loadConfiguration(this, "prefoverride");
     if (focusMode != FocusCustom)
         initFocusMode();

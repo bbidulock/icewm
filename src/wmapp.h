@@ -70,6 +70,7 @@ public:
     void setFocusMode(FocusModels mode);
     void initFocusMode();
     void initFocusCustom();
+    void loadFocusMode();
 
     virtual void restartClient(const char *path, char *const *args);
     virtual void runOnce(const char *resource, long *pid,
