@@ -24,6 +24,9 @@ private:
 };
 
 template <class Node>
+class YListIter;
+
+template <class Node>
 class YList {
 public:
     YList() : head(0), tail(0), size(0) { }
@@ -33,10 +36,12 @@ public:
     Node* back() const { return tail; }
     int   count() const { return size; }
     operator bool() const { return 0 < count(); }
+    YListIter<Node> iterator();
+    YListIter<Node> reverseIterator();
 
     void prepend(Node* node) {
         PRECONDITION(node->zero());
-        node->set(head, 0);
+        node->set(head, nullptr);
         if (head) {
             PRECONDITION(tail && size);
             head->prevNode = node;
@@ -51,7 +56,7 @@ public:
 
     void append(Node* node) {
         PRECONDITION(node->zero());
-        node->set(0, tail);
+        node->set(nullptr, tail);
         if (tail) {
             PRECONDITION(head && size);
             tail->nextNode = node;
@@ -96,17 +101,17 @@ public:
         PRECONDITION(head && tail && size);
         if (head == node) {
             head = static_cast<Node *>(head->nextNode);
-            if (head) head->prevNode = 0;
+            if (head) head->prevNode = nullptr;
         } else {
             node->prevNode->nextNode = node->nextNode;
         }
         if (tail == node) {
             tail = static_cast<Node *>(tail->prevNode);
-            if (tail) tail->nextNode = 0;
+            if (tail) tail->nextNode = nullptr;
         } else {
             node->nextNode->prevNode = node->prevNode;
         }
-        node->set(0, 0);
+        node->set(nullptr, nullptr);
         --size;
         return node;
     }
@@ -122,26 +127,61 @@ private:
     operator void*() const;
 };
 
+template <class Node>
+class YListIter {
+public:
+    YListIter(Node* list, bool reverse = false)
+        : list(list), node(nullptr), reverse(reverse)
+    { }
+    operator bool() const { return node; }
+    operator Node*() const { return node; }
+    Node* operator*() const { return node; }
+    Node* operator->() const { return node; }
+    bool operator++() {
+        node = list;
+        if (list) {
+            list = reverse ? list->nodePrev() : list->nodeNext();
+        }
+        return node;
+    }
+
+private:
+    Node* list;
+    Node* node;
+    bool reverse;
+
+    operator int() const;
+    operator void*() const;
+};
+
+template <class Node>
+inline YListIter<Node> YList<Node>::iterator() {
+    return YListIter<Node>(front());
+}
+
+template <class Node>
+inline YListIter<Node> YList<Node>::reverseIterator() {
+    return YListIter<Node>(back(), true);
+}
+
 class YFrameWindow;
 
 class YFrameNode : public YListNode<YFrameNode> {
 public:
     virtual ~YFrameNode() { }
     virtual YFrameWindow* frame() = 0;
-
-    YFrameWindow* nextFrame() {
-        return nodeNext() ? nodeNext()->frame() : 0;
+    YFrameWindow* nextFrame() const {
+        return nodeNext() ? nodeNext()->frame() : nullptr;
     }
-
-    YFrameWindow* prevFrame() {
-        return nodePrev() ? nodePrev()->frame() : 0;
+    YFrameWindow* prevFrame() const {
+        return nodePrev() ? nodePrev()->frame() : nullptr;
     }
 };
 
 class YLayeredNode : public YFrameNode {
 public:
-    YFrameWindow* next() { return nextFrame(); }
-    YFrameWindow* prev() { return prevFrame(); }
+    YFrameWindow* next() const { return nextFrame(); }
+    YFrameWindow* prev() const { return prevFrame(); }
 };
 
 class YFocusedNode : public YFrameNode {
@@ -155,24 +195,16 @@ class YFrameIter;
 template <class Node>
 class YFrameList : public YList<Node> {
     typedef YList<Node> List;
-    friend class YFrameIter;
 
 public:
     YFrameIter iterator();
     YFrameIter reverseIterator();
 
     YFrameWindow* front() const {
-        return List::front() ? List::front()->frame() : 0;
+        return List::front() ? List::front()->frame() : nullptr;
     }
     YFrameWindow* back() const {
-        return List::back() ? List::back()->frame() : 0;
-    }
-
-    YFrameWindow* popHead() {
-        return List::front() ? remove(List::front())->frame() : 0;
-    }
-    YFrameWindow* popTail() {
-        return List::back() ? remove(List::back())->frame() : 0;
+        return List::back() ? List::back()->frame() : nullptr;
     }
 };
 
@@ -182,29 +214,19 @@ class YFocusedList : public YFrameList<YFocusedNode> { };
 
 class YCreatedList : public YFrameList<YCreatedNode> { };
 
-class YFrameIter {
+class YFrameIter : public YListIter<YFrameNode> {
+    typedef YListIter<YFrameNode> ListIter;
+
 public:
     YFrameIter(YFrameNode* list, bool reverse = false)
-        : list(list), node(0), reverse(reverse) {
+        : YListIter(list, reverse) {
     }
-    operator bool() const { return node; }
-    operator YFrameWindow*() const { return node->frame(); }
-    bool operator++() {
-        node = list;
-        if (list) {
-            list = (reverse ? list->nodePrev() : list->nodeNext());
-        }
-        return *this;
+    operator YFrameWindow*() const {
+        return ListIter::operator YFrameNode*()->frame();
     }
-    YFrameWindow* operator->() const { return node->frame(); }
-
-private:
-    YFrameNode* list;
-    YFrameNode* node;
-    bool reverse;
-
-    operator int() const;
-    operator void*() const;
+    YFrameWindow* operator->() const {
+        return ListIter::operator->()->frame();
+    }
 };
 
 template <class Node>
@@ -224,10 +246,10 @@ public:
     virtual ~YWindowNode() { }
     virtual YWindow* window() = 0;
     YWindow* nextWindow() const {
-        return nodeNext() ? nodeNext()->window() : 0;
+        return nodeNext() ? nodeNext()->window() : nullptr;
     }
     YWindow* prevWindow() const {
-        return nodePrev() ? nodePrev()->window() : 0;
+        return nodePrev() ? nodePrev()->window() : nullptr;
     }
 };
 
@@ -236,10 +258,10 @@ class YWindowList : public YList<YWindowNode> {
 
 public:
     YWindow* firstWindow() const {
-        return List::front() ? List::front()->window() : 0;
+        return List::front() ? List::front()->window() : nullptr;
     }
     YWindow* lastWindow() const {
-        return List::back() ? List::back()->window() : 0;
+        return List::back() ? List::back()->window() : nullptr;
     }
 };
 
