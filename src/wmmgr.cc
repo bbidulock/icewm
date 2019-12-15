@@ -2963,33 +2963,16 @@ void YWindowManager::updateUserTime(const UserTime& userTime) {
         fLastUserTime = userTime;
 }
 
-void YWindowManager::execAfterFork(const char *command) {
-        if (!command || !*command)
-                return;
-    msg("Running system command in shell: %s", command);
-        pid_t pid = fork();
-    switch(pid) {
-    case -1: /* Failed */
-        fail("fork failed");
-        return;
-    case 0: /* Child */
-        execl("/bin/sh", "sh", "-c", command, (char *) 0);
-        _exit(99);
-    default: /* Parent */
-        return;
-    }
-}
-
 void YWindowManager::checkLogout() {
     if (fShuttingDown && !haveClients()) {
         fShuttingDown = false; /* Only run the command once */
 
         if (rebootOrShutdown == Reboot && nonempty(rebootCommand)) {
             msg("reboot... (%s)", rebootCommand);
-            execAfterFork(rebootCommand);
+            smActionListener->runCommand(rebootCommand);
         } else if (rebootOrShutdown == Shutdown && nonempty(shutdownCommand)) {
             msg("shutdown ... (%s)", shutdownCommand);
-            execAfterFork(shutdownCommand);
+            smActionListener->runCommand(shutdownCommand);
         } else if (rebootOrShutdown == Logout)
             app->exit(0);
     }

@@ -41,8 +41,8 @@ char const *ApplicationName("IceWM");
 RebootShutdown rebootOrShutdown = Logout;
 static bool initializing(true);
 
-YWMApp *wmapp(NULL);
-YWindowManager *manager(NULL);
+YWMApp *wmapp;
+YWindowManager *manager;
 
 YCursor YWMApp::sizeRightPointer;
 YCursor YWMApp::sizeTopRightPointer;
@@ -111,7 +111,7 @@ static Window registerProtocols1(char **argv, int argc) {
     static char wm_instance[] = "icewm";
 
     XClassHint class_hint = {
-        (argv == NULL) ? wm_instance : NULL,
+        argv ? nullptr : wm_instance,
         wm_class
     };
 
@@ -713,7 +713,7 @@ void YWMApp::runRestart(const char *path, char *const *args) {
         if (args) {
             execvp(path, args);
         } else {
-            execlp(path, path, (void *)NULL);
+            execlp(path, path, nullptr);
         }
     } else {
         if (mainArgv[0][0] == '/' ||
@@ -745,9 +745,24 @@ void YWMApp::restartClient(const char *cpath, char *const *cargs) {
     runRestart(path, args);
 
     /* somehow exec failed, try to recover */
-    managerWindow = registerProtocols1(NULL, 0);
+    managerWindow = registerProtocols1(nullptr, 0);
     registerProtocols2(managerWindow);
     manager->manageClients();
+}
+
+int YWMApp::runProgram(const char *path, const char *const *args) {
+    cstring command;
+    YTraceProg trace;
+    if (trace.tracing()) {
+        command = path;
+        if (command == "/bin/sh" && nonempty(*args)) {
+            for (int i = 1; args[i]; ++i) {
+                command = mstring(command, " ", args[i]);
+            }
+        }
+        trace.init(command);
+    }
+    return YApplication::runProgram(path, args);
 }
 
 void YWMApp::runOnce(const char *resource, long *pid,
@@ -762,6 +777,11 @@ void YWMApp::runOnce(const char *resource, long *pid,
     *pid = runProgram(path, args);
 }
 
+void YWMApp::runCommand(const char *cmdline) {
+    char const * argv[] = { "/bin/sh", "-c", cmdline, NULL };
+    runProgram(argv[0], argv);
+}
+
 void YWMApp::runCommandOnce(const char *resource, const char *cmdline, long *pid) {
     if (0 < *pid && mapClientByPid(resource, *pid))
         return;
@@ -769,9 +789,9 @@ void YWMApp::runCommandOnce(const char *resource, const char *cmdline, long *pid
     if (mapClientByResource(resource, pid))
         return;
 
-    char const *const argv[] = { "/bin/sh", "-c", cmdline, NULL };
+    char const *const argv[] = { "/bin/sh", "-c", cmdline, nullptr };
 
-    *pid = runProgram(argv[0], (char *const *) argv);
+    *pid = runProgram(argv[0], argv);
 }
 
 bool YWMApp::mapClientByPid(const char* resource, long pid) {
@@ -822,20 +842,18 @@ void YWMApp::setFocusMode(FocusModels mode) {
 }
 
 void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
-
-
     if (action == actionLogout) {
         doLogout(Logout);
     } else if (action == actionCancelLogout) {
         cancelLogout();
     } else if (action == actionLock) {
-        this->runCommand(lockCommand);
+        runCommand(lockCommand);
     } else if (action == actionShutdown) {
-        manager->doWMAction(ICEWM_ACTION_SHUTDOWN);
+        handleSMAction(ICEWM_ACTION_SHUTDOWN);
     } else if (action == actionSuspend) {
-        manager->doWMAction(ICEWM_ACTION_SUSPEND);
+        handleSMAction(ICEWM_ACTION_SUSPEND);
     } else if (action == actionReboot) {
-        manager->doWMAction(ICEWM_ACTION_REBOOT);
+        handleSMAction(ICEWM_ACTION_REBOOT);
     } else if (action == actionRestart) {
 #if defined(DEBUG) || defined(PRECON)
         // Prefer a return from main for cleanup checking; icesm restarts.
@@ -1239,8 +1257,8 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
     managerWindow = registerProtocols1(*argv, *argc);
 
     desktop = manager = new YWindowManager(
-        this, this, this, 0, root());
-    PRECONDITION(desktop != 0);
+        this, this, this, nullptr, root());
+    PRECONDITION(desktop != nullptr);
 
     registerProtocols2(managerWindow);
 
@@ -1886,7 +1904,7 @@ void YWMApp::handleSMAction(WMAction message) {
         wmapp->actionPerformed(actionAbout, 0);
         break;
     case ICEWM_ACTION_SUSPEND:
-        YWindowManager::execAfterFork(suspendCommand);
+        wmapp->runCommand(suspendCommand);
         break;
     case ICEWM_ACTION_WINOPTIONS:
         wmapp->actionPerformed(actionWinOptions, 0);
