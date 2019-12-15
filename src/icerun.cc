@@ -9,18 +9,82 @@
 
 const char *ApplicationName = "icerun";
 
+class InputRun : public YInputLine {
+public:
+    InputRun(YWindow *parent, YInputListener *listener) :
+        YInputLine(parent, listener)
+    {
+    }
+
+    virtual void handleClose() {
+        xapp->exit(0);
+    }
+
+};
+
+class IceRun : public YXApplication, public YInputListener {
+    YInputLine *input;
+    cstring cmdPrefix;
+public:
+    IceRun(int* argc, char*** argv);
+    ~IceRun() { delete input; }
+
+    virtual void inputReturn(YInputLine* input) {
+        cstring command(input->getText());
+        if (command != cmdPrefix) {
+            msg("%s", command.c_str());
+            runCommand(command);
+        }
+        this->exit(0);
+    }
+
+    virtual void inputEscape(YInputLine* input) {
+        this->exit(0);
+    }
+
+    virtual void inputLostFocus(YInputLine* input) {
+    }
+
+};
+
 int main(int argc, char **argv) {
     YLocale locale;
 
     bindtextdomain(PACKAGE, LOCDIR);
     textdomain(PACKAGE);
 
-    YXApplication app(&argc, &argv);
+    IceRun app(&argc, &argv);
+    return app.mainLoop();
+}
 
-    YInputLine *input = new YInputLine();
-    input->setSize(100, 20);
-    input->setText(terminalCommand);
+IceRun::IceRun(int* argc, char*** argv) :
+    YXApplication(argc, argv),
+    input(new InputRun(nullptr, this))
+{
+    int textWidth = input->getFont()->textWidth("M");
+    int inputWidth = max(300, textWidth * 80);
+    int textHeight = input->getFont()->height();
+    int inputHeight = max(20, textHeight + 5);
+
+    input->setSize(inputWidth, inputHeight);
+    if (nonempty(terminalCommand)) {
+        cmdPrefix = mstring(terminalCommand, " -e ");
+    }
+    input->setText(cmdPrefix, false);
+    input->unselectAll();
+
+    static char wm_clas[] = "IceWM";
+    static char wm_name[] = "icehint";
+    XClassHint class_hint = { wm_name, wm_clas };
+    XSizeHints size_hints = { PSize, 0, 0, inputWidth, inputHeight, };
+    Xutf8SetWMProperties(xapp->display(), input->handle(),
+                         ApplicationName, "icewm", *argv, *argc,
+                         &size_hints, nullptr, &class_hint);
+
+    input->setNetPid();
+
     input->show();
+}
 
 #if 0
     //YLabel *label = new YLabel("this is a string\na second line\n\nlast after empty");
@@ -94,7 +158,5 @@ int main(int argc, char **argv) {
         a->setToplevel(true);
     }
 #endif
-    return app.mainLoop();
-}
 
 // vim: set sw=4 ts=4 et:
