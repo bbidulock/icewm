@@ -497,29 +497,35 @@ public:
         YRect geo(w / 3, h / 3, w / 3, h / 3);
         setGeometry(geo);
 
-/// TODO         #warning boo!
-/*
-        Pixmap icons[4];
-        icons[0] = folder->small()->pixmap();
-        icons[1] = folder->small()->mask();
-        icons[2] = folder->large()->pixmap();
-        icons[3] = folder->large()->mask();
-        XChangeProperty(xapp->display(), handle(),
-                        _XA_WIN_ICONS, XA_PIXMAP,
-                        32, PropModeReplace,
-                        (unsigned char *)icons, 4);
-*/
+        ref<YIcon> file = YIcon::getIcon("icewm");
+        if (file != null) {
+            unsigned depth = xapp->depth();
+            large = YPixmap::createFromImage(file->large(), depth);
+        }
+
         winCount++;
 
         static char wm_clas[] = "IceWM";
         static char wm_name[] = "iceicon";
         XClassHint class_hint = { wm_name, wm_clas };
-        XSizeHints size_hints = { PSize | PPosition,
-            geo.x(), geo.y(), int(geo.width()), int(geo.height())
+        XSizeHints size_hints = { PSize,
+            0, 0, int(geo.width()), int(geo.height())
         };
+        XWMHints wmhints = {
+            InputHint | StateHint,
+            True,
+            NormalState,
+            large != null ? large->pixmap() : None, None, 0, 0,
+            large != null ? large->mask() : None,
+            None
+        };
+        if (wmhints.icon_pixmap)
+            wmhints.flags |= IconPixmapHint;
+        if (wmhints.icon_mask)
+            wmhints.flags |= IconMaskHint;
         Xutf8SetWMProperties(xapp->display(), handle(),
-                             ApplicationName, "icewm", nullptr, 0,
-                             &size_hints, nullptr, &class_hint);
+                             fPath, ApplicationName, nullptr, 0,
+                             &size_hints, &wmhints, &class_hint);
 
         setNetPid();
     }
@@ -549,6 +555,8 @@ private:
     YScrollView *scroll;
 
     char *fPath;
+
+    ref<YPixmap> large;
 };
 int ObjectList::winCount = 0;
 

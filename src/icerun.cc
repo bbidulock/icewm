@@ -4,6 +4,8 @@
 #include "ylabel.h"
 #include "ybutton.h"
 #include "prefs.h"
+#include "yicon.h"
+#include <X11/Xatom.h>
 #include "ylocale.h"
 #include "intl.h"
 
@@ -25,6 +27,8 @@ public:
 class IceRun : public YXApplication, public YInputListener {
     YInputLine *input;
     cstring cmdPrefix;
+    ref<YPixmap> large;
+
 public:
     IceRun(int* argc, char*** argv);
     ~IceRun() { delete input; }
@@ -73,16 +77,33 @@ IceRun::IceRun(int* argc, char*** argv) :
     input->setText(cmdPrefix, false);
     input->unselectAll();
 
+    ref<YIcon> file = YIcon::getIcon("icewm");
+    if (file != null) {
+        unsigned depth = xapp->depth();
+        large = YPixmap::createFromImage(file->large(), depth);
+    }
+
     static char wm_clas[] = "IceWM";
     static char wm_name[] = "icehint";
     XClassHint class_hint = { wm_name, wm_clas };
     XSizeHints size_hints = { PSize, 0, 0, inputWidth, inputHeight, };
+    XWMHints wmhints = {
+        InputHint | StateHint,
+        True,
+        NormalState,
+        large != null ? large->pixmap() : None, None, 0, 0,
+        large != null ? large->mask() : None,
+        None
+    };
+    if (wmhints.icon_pixmap)
+        wmhints.flags |= IconPixmapHint;
+    if (wmhints.icon_mask)
+        wmhints.flags |= IconMaskHint;
     Xutf8SetWMProperties(xapp->display(), input->handle(),
                          ApplicationName, "icewm", *argv, *argc,
-                         &size_hints, nullptr, &class_hint);
+                         &size_hints, &wmhints, &class_hint);
 
     input->setNetPid();
-
     input->show();
 }
 
