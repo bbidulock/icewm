@@ -1506,6 +1506,10 @@ void YWindow::setNetOpacity(Atom opacity) {
     setProperty(_XA_NET_WM_WINDOW_OPACITY, XA_CARDINAL, opacity);
 }
 
+void YWindow::setNetPid() {
+    setProperty(_XA_NET_WM_PID, XA_CARDINAL, getpid());
+}
+
 void YWindow::setDND(bool enabled) {
     if (fDND != enabled) {
         fDND = enabled;

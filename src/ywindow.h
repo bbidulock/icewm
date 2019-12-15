@@ -209,6 +209,7 @@ public:
     void setProperty(Atom property, Atom propType, Atom value);
     void setNetWindowType(Atom window_type);
     void setNetOpacity(Atom opacity);
+    void setNetPid();
     void setDND(bool enabled);
 
     void XdndStatus(bool acceptDrop, Atom dropAction);
@@ -401,6 +402,7 @@ extern Atom _XA_NET_SYSTEM_TRAY_ORIENTATION;
 extern Atom _XA_NET_SYSTEM_TRAY_MESSAGE_DATA;
 extern Atom _XA_NET_SYSTEM_TRAY_VISUAL;
 extern Atom _XA_NET_WM_NAME;
+extern Atom _XA_NET_WM_PID;
 extern Atom _XA_NET_WM_WINDOW_OPACITY;              // OK
 extern Atom _XA_NET_WM_WINDOW_TYPE;                 // OK
 extern Atom _XA_NET_WM_WINDOW_TYPE_COMBO;           // OK
