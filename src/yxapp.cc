@@ -10,6 +10,9 @@
 #include "intl.h"
 #undef override
 #include <X11/Xproto.h>
+#ifdef XINERAMA
+#include <X11/extensions/Xinerama.h>
+#endif
 
 YXApplication *xapp = 0;
 
@@ -199,6 +202,7 @@ YExtension fixes;
 YExtension render;
 YExtension shapes;
 YExtension xrandr;
+YExtension xinerama;
 
 #ifdef DEBUG
 int xeventcount = 0;
@@ -978,6 +982,13 @@ Visual* YXApplication::findVisual(int depth) const {
     return found;
 }
 
+int YXApplication::cmapError(Display *disp, XErrorEvent *xerr) {
+    // Ignore create colormap error.
+    // This may occur with Xdmx for 32-bit visuals.
+    // Ignore for now, unless problems do show up.
+    return Success;
+}
+
 Colormap YXApplication::getColormap(int depth) const {
     Colormap cmap = None;
     Visual* visual = depth == 32 ? fVisual32
@@ -986,7 +997,10 @@ Colormap YXApplication::getColormap(int depth) const {
         cmap = DefaultColormap(fDisplay, fScreen);
     }
     else if (visual) {
+        XErrorHandler old = XSetErrorHandler(cmapError);
         cmap = XCreateColormap(fDisplay, fRoot, visual, AllocNone);
+        XSync(fDisplay, False);
+        XSetErrorHandler(old);
     }
     else if (depth == DefaultDepth(fDisplay, fScreen)) {
         cmap = DefaultColormap(fDisplay, fScreen);
@@ -1115,6 +1129,11 @@ void YXApplication::initExtensions(Display* dpy) {
 #ifdef CONFIG_XRANDR
     xrandr.init(dpy, XRRQueryExtension, XRRQueryVersion);
     xrandr.supported = (12 <= 10 * xrandr.versionMajor + xrandr.versionMinor);
+#endif
+
+#ifdef XINERAMA
+    xinerama.init(dpy, XineramaQueryExtension, XineramaQueryVersion);
+    xinerama.supported = (xinerama.supported && XineramaIsActive(dpy));
 #endif
 }
 

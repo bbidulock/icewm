@@ -258,7 +258,7 @@ public:
 
     void updateFullscreenLayer();
     void updateFullscreenLayerEnable(bool enable);
-    int getScreen();
+    int getSwitchScreen();
 
     static void doWMAction(WMAction action);
     void lockFocus() {

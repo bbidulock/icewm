@@ -84,18 +84,12 @@ YWindowManager::YWindowManager(
     setPointer(YXApplication::leftPointer);
 #ifdef CONFIG_XRANDR
     if (xrandr.supported) {
-#if RANDR_MAJOR >= 1
         XRRSelectInput(xapp->display(), handle(),
                        RRScreenChangeNotifyMask
-#if RANDR_MINOR >= 2
                        | RRCrtcChangeNotifyMask
                        | RROutputChangeNotifyMask
                        | RROutputPropertyNotifyMask
-#endif
                       );
-#else
-        XRRScreenChangeSelectInput(xapp->display(), handle(), True);
-#endif
     }
 #endif
 
@@ -2263,7 +2257,7 @@ void YWindowManager::announceWorkArea() {
         }
     }
 
-    const YRect desktopArea(0, 0, desktop->width(), desktop->height());
+    const YRect desktopArea(desktop->geometry());
     for (int ws = 0; ws < nw; ws++) {
         YRect r(desktopArea);
         if (netWorkAreaBehaviour != 1) {
@@ -3379,10 +3373,9 @@ end:
     return false;
 }
 
-int YWindowManager::getScreen() {
-    if (fFocusWin)
-        return fFocusWin->getScreen();
-    return 0;
+int YWindowManager::getSwitchScreen() {
+    int s = fFocusWin ? fFocusWin->getScreen() : xineramaPrimaryScreen;
+    return inrange(s, 0, getScreenCount() - 1) ? s : 0;
 }
 
 void YWindowManager::doWMAction(WMAction action) {
@@ -3411,29 +3404,14 @@ void YWindowManager::handleRRNotify(const XRRNotifyEvent &notify) {
 }
 
 void YWindowManager::UpdateScreenSize(XEvent *event) {
-#if RANDR_MAJOR >= 1
     XRRUpdateConfiguration(event);
-#endif
 
     unsigned nw = xapp->displayWidth();
     unsigned nh = xapp->displayHeight();
-    updateXineramaInfo(nw, nh);
-
-    if (width() != nw ||
-        height() != nh)
-    {
-
-        MSG(("xrandr: %d %d",
-             nw,
-             nh));
-
-        unsigned long data[2];
-        data[0] = nw;
-        data[1] = nh;
-        XChangeProperty(xapp->display(), manager->handle(),
-                        _XA_NET_DESKTOP_GEOMETRY, XA_CARDINAL,
-                        32, PropModeReplace, (unsigned char *)&data, 2);
-
+    if (updateXineramaInfo(nw, nh)) {
+        MSG(("xrandr: %d %d", nw, nh));
+        Atom data[2] = { nw, nh };
+        setProperty(_XA_NET_DESKTOP_GEOMETRY, XA_CARDINAL, data, 2);
         setSize(nw, nh);
         updateWorkArea();
         if (taskBar && pagerShowPreview) {
@@ -3446,7 +3424,7 @@ void YWindowManager::UpdateScreenSize(XEvent *event) {
         for (int i = 0; i < edges.getCount(); ++i)
             edges[i]->setGeometry();
 
-/// TODO #warning "make something better"
+        /// TODO #warning "make something better"
         if (arrangeWindowsOnScreenSizeChange) {
             wmActionListener->actionPerformed(actionArrange, 0);
         }

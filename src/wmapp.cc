@@ -898,8 +898,7 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
     } else if (action == actionRefresh) {
         osmart<YWindow> w(new YWindow());
         if (w) {
-            w->setGeometry(YRect(0, 0,
-                                 desktop->width(), desktop->height()));
+            w->setGeometry(desktop->geometry());
             w->raise();
             w->show();
             w->hide();
@@ -1141,6 +1140,7 @@ static void showExtensions() {
         { "render",    &render    },
         { "shapes",    &shapes    },
         { "xrandr",    &xrandr    },
+        { "xinerama",  &xinerama  },
     };
     printf("[name]   [ver] [ev][err]\n");
     for (int i = 0; i < int ACOUNT(xs); ++i) {
@@ -1931,10 +1931,11 @@ public:
         xapp->sync();
     }
     void place() {
+        YRect geo(desktop->getScreenGeometry());
         int w = int(image->width());
         int h = int(image->height());
-        int x = (xapp->displayWidth() - w) / 2;
-        int y = (xapp->displayHeight() - h) / 2;
+        int x = geo.x() + (geo.width() - w) / 2;
+        int y = geo.y() + (geo.height() - h) / 2;
         setGeometry(YRect(x, y, w, h));
         GraphicsBuffer(this).paint();
     }

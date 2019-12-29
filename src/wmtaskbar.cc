@@ -146,7 +146,7 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
 
     ///setToplevel(true);
 
-    setStyle(wsNoExpose);
+    addStyle(wsNoExpose);
     //!!!setWinStateHint(WinStateDockHorizontal, WinStateDockHorizontal);
 
     setWinHintsHint(WinHintsSkipFocus |
@@ -538,9 +538,7 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
     }
 
     {
-        int dx, dy;
-        unsigned dw, dh;
-        manager->getScreenGeometry(&dx, &dy, &dw, &dh);
+        unsigned dw = desktop->getScreenGeometry().width();
         w = (dw/100.0) * taskBarWidthPercentage;
     }
 
@@ -769,15 +767,6 @@ void TaskBar::handleCrossing(const XCrossingEvent &crossing) {
             }
         }
     }
-}
-
-
-void TaskBar::handleEndPopup(YPopupWindow *popup) {
-    if (!hasPopup()) {
-        MSG(("taskbar hide2"));
-        //fEdgeTrigger->startHide();
-    }
-    YWindow::handleEndPopup(popup);
 }
 
 void TaskBar::paint(Graphics &g, const YRect& r) {

@@ -213,6 +213,7 @@ private:
     static void initExtensions(Display* dpy);
     static bool haveColormaps(Display* dpy);
     static int errorHandler(Display* display, XErrorEvent* xev);
+    static int cmapError(Display* display, XErrorEvent* xev);
     static int sortAtoms(const void* p1, const void* p2);
     static YAtomName atom_info[];
 public:

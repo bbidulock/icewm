@@ -107,14 +107,14 @@ void WindowListBox::actionPerformed(YAction action, unsigned int modifiers) {
     if (action == actionTileVertical ||
         action == actionTileHorizontal)
     {
-        if (frameList.getCount() > 0)
+        if (frameList.nonempty())
             manager->tileWindows(frameList.getItemPtr(0),
                                  frameList.getCount(),
                                  (action == actionTileVertical) ? true : false);
     } else if (action == actionCascade ||
                action == actionArrange)
     {
-        if (frameList.getCount() > 0) {
+        if (frameList.nonempty()) {
             if (action == actionCascade) {
                 manager->cascadePlace(frameList.getItemPtr(0),
                                       frameList.getCount());
@@ -337,7 +337,7 @@ WindowList::WindowList(YWindow *aParent, YActionListener *wmActionListener):
     scroll(new YScrollView(this)),
     list(new WindowListBox(scroll, scroll))
 {
-    setStyle(wsNoExpose);
+    addStyle(wsNoExpose);
     scroll->setView(list);
     list->show();
     scroll->show();
@@ -426,7 +426,7 @@ YMenu* WindowList::getWindowListAllPopup() {
 void WindowList::setupClient() {
     int dx, dy;
     unsigned dw, dh;
-    manager->getScreenGeometry(&dx, &dy, &dw, &dh, 0);
+    desktop->getScreenGeometry(&dx, &dy, &dw, &dh);
 
     unsigned w = dw;
     unsigned h = dh;
@@ -562,8 +562,10 @@ void WindowList::showFocused(int x, int y) {
             list->focusSelectItem(0);
     }
     if (getFrame() == 0) {
-        long dw = desktop->width();
-        long dh = long(desktop->height() - max(100U, desktop->height() / 10));
+        int scn = desktop->getScreenForRect(x, y, 1, 1);
+        YRect geo(desktop->getScreenGeometry(scn));
+        long dw = geo.width();
+        long dh = long(geo.height() - max(100U, geo.height() / 10));
         long line = list->getLineHeight();
         long need = line * (1L + workspaceCount + manager->focusedCount());
         unsigned w = unsigned(dw / 2);
@@ -577,10 +579,10 @@ void WindowList::showFocused(int x, int y) {
         if (x != -1 && y != -1) {
             int px, py;
 
-            int xiscreen = manager->getScreenForRect(x, y, 1, 1);
+            int xiscreen = desktop->getScreenForRect(x, y, 1, 1);
             int dx, dy;
             unsigned uw, uh;
-            manager->getScreenGeometry(&dx, &dy, &uw, &uh, xiscreen);
+            desktop->getScreenGeometry(&dx, &dy, &uw, &uh, xiscreen);
             int dw = int(uw), dh = int(uh);
 
             px = x - int(getFrame()->width() / 2);

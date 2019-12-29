@@ -33,8 +33,8 @@ YFrameButton::YFrameButton(YWindow *parent,
     if (right)
         setWinGravity(NorthEastGravity);
 
+    addStyle(wsNoExpose);
     setParentRelative();
-    setStyle(wsNoExpose);
 
     if (fAction == actionNull)
         setPopup(frame->windowMenu());

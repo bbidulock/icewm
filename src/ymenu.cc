@@ -83,7 +83,7 @@ YMenu::YMenu(YWindow *parent):
     fTimerX = 0;
     fTimerY = 0;
     fTimerSubmenuItem = -1;
-    setStyle(wsNoExpose);
+    addStyle(wsNoExpose);
 }
 
 void YMenu::raise() {

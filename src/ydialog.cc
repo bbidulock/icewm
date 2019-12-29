@@ -20,7 +20,7 @@ YDialog::YDialog(YWindow *owner):
     fGradient(dialogbackPixbuf),
     fSurface(dialogBg, dialogbackPixmap, getGradient())
 {
-    setStyle(wsNoExpose);
+    addStyle(wsNoExpose);
     setNetWindowType(_XA_NET_WM_WINDOW_TYPE_DIALOG);
 }
 

@@ -9,7 +9,7 @@ public:
     YActionButton(YWindow *parent):
         YButton(parent, YAction())
     {
-        setStyle(wsNoExpose);
+        addStyle(wsNoExpose);
         setParentRelative();
     }
 

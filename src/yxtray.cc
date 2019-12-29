@@ -112,7 +112,7 @@ YXTrayProxy::YXTrayProxy(const YAtom& atom, YXTray *tray):
     _NET_SYSTEM_TRAY_S0(atom),
     fTray(tray)
 {
-    setStyle(wsNoExpose);
+    addStyle(wsNoExpose);
     setTitle("YXTrayProxy");
     if (isExternal()) {
         long orientation = SYSTEM_TRAY_ORIENTATION_HORZ;
@@ -194,7 +194,7 @@ void YXTrayProxy::expireMessages() {
 void YXTrayProxy::updateToolTip() {
     MSG(("YXTrayProxy::updateToolTip"));
     long size = 0;
-    if (messages.getCount() > 0) {
+    if (messages.nonempty()) {
         expireMessages();
         for (IterType iter = messages.iterator(); ++iter; ) {
             if (iter->offset > 0) {
@@ -496,7 +496,7 @@ YXTray::YXTray(YXTrayNotifier *notifier,
     fRunProxy(internal == false),
     fDrawBevel(drawBevel)
 {
-    setStyle(wsNoExpose);
+    addStyle(wsNoExpose);
     setTitle("YXTray");
     setParentRelative();
     fTrayProxy = new YXTrayProxy(atom, this);
@@ -769,7 +769,7 @@ void YXTray::trayUpdateGeometry(unsigned w, unsigned h, bool visible) {
 }
 
 bool YXTray::kdeRequestDock(Window win) {
-    if (fDocked.getCount() == 0)
+    if (fDocked.isEmpty())
         return false;
     puts("trying to dock");
     YAtom _NET_SYSTEM_TRAY_S0("_NET_SYSTEM_TRAY_S", true);
