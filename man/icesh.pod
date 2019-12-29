@@ -14,7 +14,7 @@
 
 =head1 DESCRIPTION
 
-B<icesh> provides 86 commands to change or query a window's state,
+B<icesh> provides 88 commands to change or query a window's state,
 and to interact with the L<icewm(1)> window manager. Command arguments
 are called actions. Window actions operate on a selection of windows.
 B<icesh> has several options to select and filter windows.  Options and
@@ -42,19 +42,27 @@ If needed, they can be repeated for successive actions.
 
 =over
 
-=item B<-w>, B<-window> I<WINDOW_ID>
+=item B<-w>, B<-window>, B<+w>, B<+window> I<WINDOW_ID>
 
 Specifies the identifier of the window, I<WINDOW_ID>, for which the
 action applies.  Special identifiers are B<root> for the root window
 and B<focus> for the currently focused window.
+The option with minus sign replaces the existing selection.
+With a plus sign the window is added to an existing selection.
 
-=item B<-r>, B<-root>
+=item B<-r>, B<-root>, B<+r>, B<+root>
 
 Is equivalent to B<-window> B<root> and selects the root window.
+The option with minus sign replaces the existing selection with
+the root window. With a plus sign the root window is added to
+an existing selection.
 
-=item B<-f>, B<-focus>
+=item B<-f>, B<-focus>, B<+f>, B<+focus>
 
 Is equivalent to B<-window> B<focus> and selects the focused window.
+The option with minus sign replaces the existing selection with
+the focused window. With a plus sign the focused window is added to
+an existing selection.
 
 =item B<-a>, B<-all>
 
@@ -285,9 +293,16 @@ Resize window to I<WIDTH> by I<HEIGHT> window units.
 
 Resize window to I<WIDTH> by I<HEIGHT> pixels. If I<WIDTH> or I<HEIGHT>
 ends with a percent sign C<%>, then they refer to a percentage of the
-desktop work area. For instance, C<sizeto 50% 100%>a resizes to half
+desktop work area. For instance, C<sizeto 50% 100%> resizes to half
 the desktop width and whatever height is available above or below the
 taskbar.
+
+=item B<sizeby> I<WIDTH> I<HEIGHT>
+
+Resize window by I<WIDTH> by I<HEIGHT> pixels. If I<WIDTH> or I<HEIGHT>
+ends with a percent sign C<%>, then they refer to a percentage of the
+current window size. For instance, C<sizeto 50% 200> increases the width
+by 50% and increases the height by 200 pixels.
 
 =item B<move> I<X> I<Y>
 
@@ -443,6 +458,11 @@ be enabled.
 
 Print the value of property I<PROPERTY> if it is present.  I<PROPERTY>
 can be a string, a window, or a list of one or more atoms or cardinals.
+
+=item B<spy>
+
+Observe the selected windows and report any changes. This includes
+focus, visibility, position, size and all window properties.
 
 =back
 
