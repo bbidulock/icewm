@@ -12,32 +12,29 @@
 #include "ypaint.h"
 #include "sysdep.h"
 #include "yicon.h"
+#include "udir.h"
 #include "ylocale.h"
 #include <dirent.h>
 
 #include "intl.h"
 
 const char *ApplicationName = "icelist";
-ref<YPixmap> listbackPixmap;
-ref<YImage> listbackPixbuf;
+static ref<YPixmap> listbackPixmap;
+static ref<YImage> listbackPixbuf;
 
 class ObjectList;
 class ObjectListBox;
 
-ref<YIcon> folder;
-ref<YIcon> file;
+static ref<YIcon> folder;
+static ref<YIcon> file;
 
 class ObjectListItem: public YListItem {
 public:
-    ObjectListItem(char *container, ustring name): fName(name) {
-        fContainer = container;
-        fFolder = false;
-
-        struct stat sb;
-        char *path = getLocation();
-        if (lstat(path, &sb) == 0 && S_ISDIR(sb.st_mode))
-            fFolder = true;
-        delete[] path;
+    ObjectListItem(char *container, ustring name):
+        fPath(upath(container) + name),
+        fName(name),
+        fFolder(fPath.dirExists())
+    {
     }
     virtual ~ObjectListItem() { }
 
@@ -45,35 +42,18 @@ public:
     bool isFolder() { return fFolder; }
     virtual ref<YIcon> getIcon() { return isFolder() ? folder : file; }
 
-
-    char *getLocation();
+    const char* getLocation() { return fPath.string(); }
 private:
-    char *fContainer;
+    upath fPath;
     ustring fName;
     bool fFolder;
 };
 
-char *ObjectListItem::getLocation() {
-    char *dir = fContainer;
-    ustring name = getText();
-    int dlen;
-    int nlen = (dlen = strlen(dir)) + 1 + name.length() + 1;
-    char *npath;
-
-    npath = new char[nlen];
-    memcpy(npath, dir, dlen + 1);
-    if (dlen == 0 || dir[dlen - 1] != '/') {
-        strcpy(npath + dlen, "/");
-        dlen++;
-    }
-    cstring cs(name);
-    strcpy(npath + dlen, cs.c_str());
-    return npath;
-}
-
 class ObjectListBox: public YListBox, public YActionListener {
 public:
-    ObjectListBox(ObjectList *list, YScrollView *view, YWindow *aParent): YListBox(view, aParent) {
+    ObjectListBox(ObjectList *list, YScrollView *view, YWindow *aParent):
+        YListBox(view, aParent)
+    {
         fObjList = list;
 
         YMenu *openMenu = new YMenu();
@@ -85,7 +65,7 @@ public:
         folderMenu->addItem(_("Open"), 0, actionOpenList, openMenu);
     }
 
-    virtual ~ObjectListBox() { }
+    virtual ~ObjectListBox();
 
     virtual bool handleKey(const XKeyEvent &key) {
         return YListBox::handleKey(key);
@@ -126,9 +106,7 @@ public:
         setDND(true);
         fPath = newstr(path);
         scroll = new YScrollView(this);
-        list = new ObjectListBox(this,
-                                 scroll,
-                                 scroll);
+        list = new ObjectListBox(this, scroll, scroll);
         scroll->setView(list);
         updateList();
         list->show();
@@ -153,9 +131,22 @@ public:
                         (unsigned char *)icons, 4);
 */
         winCount++;
+
     }
 
-    ~ObjectList() { winCount--; }
+    ~ObjectList() {
+        winCount--;
+
+        while (list->getFirst()) {
+            ObjectListItem* item =
+                static_cast<ObjectListItem *>(list->getFirst());
+            list->removeItem(item);
+            delete item;
+        }
+        delete list;
+        delete scroll;
+        delete[] fPath;
+    }
 
     virtual void handleClose() {
         if (winCount == 1)
@@ -181,30 +172,30 @@ private:
 int ObjectList::winCount = 0;
 
 void ObjectList::updateList() {
-    DIR *dir;
-
-    if ((dir = opendir(fPath)) != NULL) {
-        struct dirent *de;
-
-        while ((de = readdir(dir)) != NULL) {
-            char *n = de->d_name;
-
-            if (n[0] == '.' && (n[1] == 0 || (n[1] == '.' && n[2] == 0)))
-                ;
-            else {
-                ObjectListItem *o = new ObjectListItem(fPath, n);
-
-                if (o)
-                    list->addItem(o);
-            }
+    adir dir(fPath);
+    YArray<ObjectListItem *> file;
+    while (dir.next()) {
+        ObjectListItem *o = new ObjectListItem(fPath, dir.entry());
+        if (o) {
+            if (o->isFolder())
+                list->addItem(o);
+            else
+                file += o;
         }
-        closedir(dir);
     }
+    YArray<ObjectListItem *>::IterType o = file.iterator();
+    while (++o) {
+        list->addItem(o);
+    }
+}
+
+ObjectListBox::~ObjectListBox() {
+    delete folderMenu;
 }
 
 void ObjectListBox::activateItem(YListItem *item) {
     ObjectListItem *obj = (ObjectListItem *)item;
-    char *path = obj->getLocation();
+    const char* path = obj->getLocation();
 
     if (obj->isFolder()) {
         //if (fork() == 0)
@@ -215,7 +206,6 @@ void ObjectListBox::activateItem(YListItem *item) {
         if (fork() == 0)
             execl("./iceview", "iceview", path, (void *)NULL);
     }
-    delete path;
 }
 
 class Panes;
@@ -226,6 +216,10 @@ class Panes;
 class Pane: public YWindow {
 public:
     Pane(const char *title, const char *path, Panes *aParent);
+    ~Pane() {
+        delete list;
+        free(title);
+    }
 
     virtual void paint(Graphics &g, const YRect &r);
     virtual void handleButton(const XButtonEvent &button);
@@ -252,10 +246,14 @@ public:
 
     Panes(YWindow *aParent = 0);
 
+    ~Panes() {
+        for (int i = 0; i < NPANES; i++)
+            delete panes[i];
+    }
+
     virtual void handleClose() {
         //if (winCount == 1)
         xapp->exit(0);
-        delete this;
     }
 
     virtual void configure(const YRect &r) {
@@ -377,6 +375,82 @@ void Panes::movePane(Pane *pane, int delta) {
     }
 }
 
+class IceList : public YWindow {
+private:
+    Panes* p;
+    YInputLine *input;
+    ref<YPixmap> large;
+public:
+    IceList() : YWindow() {
+        p = new Panes(this);
+        p->setGeometry(YRect(0, 0, 300, 800));
+        p->show();
+
+        input = new YInputLine(this);
+        input->setGeometry(YRect(0, p->height(), p->width(), 25));
+        input->setText("http://slashdot.org/", false);
+        input->show();
+
+        setGeometry(YRect(0, 0, p->width(), input->y() + input->height()));
+
+        ref<YIcon> file = YIcon::getIcon("icewm");
+        if (file != null) {
+            unsigned depth = xapp->depth();
+            large = YPixmap::createFromImage(file->large(), depth);
+        }
+
+        static char wm_clas[] = "IceWM";
+        static char wm_name[] = "icelist";
+        XClassHint class_hint = { wm_name, wm_clas };
+        XSizeHints size_hints = { PSize,
+            0, 0, int(width()), int(height())
+        };
+        XWMHints wmhints = {
+            InputHint | StateHint,
+            True,
+            NormalState,
+            large != null ? large->pixmap() : None, None, 0, 0,
+            large != null ? large->mask() : None,
+            None
+        };
+        if (wmhints.icon_pixmap)
+            wmhints.flags |= IconPixmapHint;
+        if (wmhints.icon_mask)
+            wmhints.flags |= IconMaskHint;
+        Xutf8SetWMProperties(xapp->display(), handle(),
+                             wm_name, ApplicationName, nullptr, 0,
+                             &size_hints, &wmhints, &class_hint);
+
+        setNetPid();
+        show();
+    }
+    ~IceList() {
+        delete p;
+        delete input;
+    }
+
+    virtual bool handleKey(const XKeyEvent &key) {
+        if (key.type == KeyPress) {
+            KeySym k = keyCodeToKeySym(key.keycode);
+            int m = KEY_MODMASK(key.state);
+            if (k == XK_Escape) {
+                xapp->exit(0);
+                return true;
+            }
+            else if (k == XK_q && hasbit(m, ControlMask)) {
+                xapp->exit(0);
+                return true;
+            }
+        }
+        return YWindow::handleKey(key);
+    }
+
+    virtual void handleClose() {
+        xapp->exit(0);
+    }
+
+};
+
 int main(int argc, char **argv) {
     YLocale locale;
 
@@ -384,7 +458,6 @@ int main(int argc, char **argv) {
     textdomain(PACKAGE);
 
     YXApplication app(&argc, &argv);
-    YWindow *w;
 
     folder = YIcon::getIcon("folder");
     file = YIcon::getIcon("file");
@@ -392,20 +465,7 @@ int main(int argc, char **argv) {
     //ObjectList *list = new ObjectList(argv[1] ? argv[1] : (char *)"/", 0);
     //list->show();
 
-    w = new YWindow();
-
-    Panes *p = new Panes(w);
-    p->setGeometry(YRect(0, 0, 200, 700));
-    p->show();
-
-
-    YInputLine *input = new YInputLine(w);
-    input->setGeometry(YRect(0, 700, 200, 20));
-    input->setText("http://slashdot.org/");
-    input->show();
-
-    w->setGeometry(YRect(0, 0, 200, 720));
-    w->show();
+    IceList icelist;
 
     return app.mainLoop();
 }
