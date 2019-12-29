@@ -16,7 +16,7 @@
 
 The F<programs> file is an automatically generated menu configuration
 file of installed programs. This file should be automatically generated
-by wmconfig (Redhat), menu (Debian), or icewm-menu-fdo,
+by xdg_menu, wmconfig (Redhat), menu (Debian), or icewm-menu-fdo,
 perhaps as part of the login or X startup sequence.
 
 =head1 FORMAT
