@@ -690,7 +690,7 @@ public:
 
     static void remove(FileView* view) {
         findRemove(views, view);
-        if (getCount() == 0) {
+        if (views.isEmpty()) {
             xapp->exit(0);
         }
     }

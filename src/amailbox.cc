@@ -902,20 +902,20 @@ void MailBoxControl::populate()
             }
         }
     }
-    if (fMailBoxStatus.getCount() == 0 && (env = getenv("MAILPATH")) != 0) {
+    if (fMailBoxStatus.isEmpty() && (env = getenv("MAILPATH")) != 0) {
         for (mstring s(env), r; s.splitall(':', &s, &r); s = r) {
             if (0 <= s.indexOf('/')) {
                 createStatus(s);
             }
         }
     }
-    if (fMailBoxStatus.getCount() == 0 && (env = getenv("MAIL")) != 0) {
+    if (fMailBoxStatus.isEmpty() && (env = getenv("MAIL")) != 0) {
         mstring s(env);
         if (0 <= s.indexOf('/')) {
             createStatus(s);
         }
     }
-    if (fMailBoxStatus.getCount() == 0 &&
+    if (fMailBoxStatus.isEmpty() &&
         ((env = getenv("LOGNAME")) != 0 || (env = getlogin()) != 0))
     {
         const char* varmail[] = { "/var/spool/mail/", "/var/mail/", };
