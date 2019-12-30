@@ -2757,6 +2757,9 @@ void IceSh::flags()
                 arg++;
             flag(arg);
         }
+        else if (argp[0][0] == '+' && strchr("frw", argp[0][1])) {
+            flag(getArg());
+        }
         else {
             act = true;
             if (icewmAction())
@@ -3024,6 +3027,7 @@ void IceSh::spy()
 {
     const long selectMask =
         FocusChangeMask | VisibilityChangeMask |
+        EnterWindowMask | LeaveWindowMask |
         StructureNotifyMask | PropertyChangeMask;
 
     FOREACH_WINDOW(window) {
@@ -3080,7 +3084,7 @@ void IceSh::spy()
                 case EnterNotify:
                 case LeaveNotify:
                     printf("%s%s%s%s%s\n", head,
-                        event.type == EnterNotify ? " Enter" : " Leave",
+                        event.type == EnterNotify ? "Enter" : "Leave",
                         event.xcrossing.mode == NotifyNormal
                             ? " Normal" :
                         event.xcrossing.mode == NotifyGrab
@@ -3146,6 +3150,12 @@ void IceSh::spy()
                             event.xany.send_event ? " Send" : "");
                     break;
                 case CirculateNotify:
+                    printf("%sCirculate %s\n", head,
+                            event.xcirculate.place == PlaceOnTop
+                                ? "PlaceOnTop" :
+                            event.xcirculate.place == PlaceOnBottom
+                                ? "PlaceOnBottom" : "Bogus");
+                    break;
                 case ReparentNotify:
                 case GravityNotify:
                     break;
