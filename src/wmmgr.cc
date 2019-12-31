@@ -629,7 +629,7 @@ void YWindowManager::handleClick(const XButtonEvent &up, int count) {
 void YWindowManager::handleConfigure(const XConfigureEvent &configure) {
     if (configure.window == handle()) {
 #ifdef CONFIG_XRANDR
-        UpdateScreenSize((XEvent *)&configure);
+        updateScreenSize((XEvent *)&configure);
 #endif
     }
 }
@@ -3396,18 +3396,20 @@ void YWindowManager::doWMAction(WMAction action) {
 
 #ifdef CONFIG_XRANDR
 void YWindowManager::handleRRScreenChangeNotify(const XRRScreenChangeNotifyEvent &xrrsc) {
-    UpdateScreenSize((XEvent *)&xrrsc);
+    // logRandrScreen((const union _XEvent&) xrrsc);
+    updateScreenSize((XEvent *)&xrrsc);
 }
 
 void YWindowManager::handleRRNotify(const XRRNotifyEvent &notify) {
-    // logRandrNotify((XEvent *)&notify);
+    // logRandrNotify((const union _XEvent&) notify);
 }
 
-void YWindowManager::UpdateScreenSize(XEvent *event) {
-    XRRUpdateConfiguration(event);
-
+void YWindowManager::updateScreenSize(XEvent *event) {
     unsigned nw = xapp->displayWidth();
     unsigned nh = xapp->displayHeight();
+
+    XRRUpdateConfiguration(event);
+
     if (updateXineramaInfo(nw, nh)) {
         MSG(("xrandr: %d %d", nw, nh));
         Atom data[2] = { nw, nh };
