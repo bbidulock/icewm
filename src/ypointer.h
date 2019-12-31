@@ -66,7 +66,6 @@ public:
 
 protected:
     void operator=(const ysmart<DataType, Derived>&);
-    void operator=(const Derived&);
     DataType** operator&() { return &fData; }
 };
 
