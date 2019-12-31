@@ -444,6 +444,7 @@ void logRandrNotify(const union _XEvent& xev) {
             "unknown"
            );
     }
+#ifdef RRNotify_ProviderChange
     else if (nev.subtype == RRNotify_ProviderChange) {
         const XRRProviderChangeNotifyEvent& e =
             (const XRRProviderChangeNotifyEvent &) xev;
@@ -452,6 +453,8 @@ void logRandrNotify(const union _XEvent& xev) {
             e.provider, e.current_role
            );
     }
+#endif
+#ifdef RRNotify_ProviderProperty
     else if (nev.subtype == RRNotify_ProviderProperty) {
         const XRRProviderPropertyNotifyEvent& e =
             (const XRRProviderPropertyNotifyEvent &) xev;
@@ -463,6 +466,8 @@ void logRandrNotify(const union _XEvent& xev) {
             "unknown"
            );
     }
+#endif
+#ifdef RRNotify_ResourceChange
     else if (nev.subtype == RRNotify_ResourceChange) {
         const XRRResourceChangeNotifyEvent& e =
             (const XRRResourceChangeNotifyEvent &) xev;
@@ -470,6 +475,7 @@ void logRandrNotify(const union _XEvent& xev) {
             e.window, "XRRResourceChangeNotifyEvent"
            );
     }
+#endif
 #endif
 }
 

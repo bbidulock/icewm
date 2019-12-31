@@ -72,8 +72,8 @@ protected:
 
 // For pointers to objects which were allocated with 'new'.
 template <class DataType>
-class osmart : public ysmart<DataType, osmart<DataType>> {
-    typedef ysmart<DataType, osmart<DataType>> super;
+class osmart : public ysmart<DataType, osmart<DataType> > {
+    typedef ysmart<DataType, osmart<DataType> > super;
     osmart(const osmart<DataType>&);
 public:
     static inline void dispose(DataType* p) { delete p; }
@@ -85,9 +85,9 @@ public:
 
 // For arrays which were allocated with 'new[]'.
 template <class DataType>
-class asmart : public ysmart<DataType, asmart<DataType>> {
+class asmart : public ysmart<DataType, asmart<DataType> > {
 protected:
-    typedef ysmart<DataType, asmart<DataType>> super;
+    typedef ysmart<DataType, asmart<DataType> > super;
     asmart(const asmart<DataType>&);
 public:
     static inline void dispose(DataType* p) { delete[] p; }
@@ -107,8 +107,8 @@ typedef asmart<char> csmart;
 
 // for malloc data
 template <class DataType>
-class fsmart : public ysmart<DataType, fsmart<DataType>> {
-    typedef ysmart<DataType, fsmart<DataType>> super;
+class fsmart : public ysmart<DataType, fsmart<DataType> > {
+    typedef ysmart<DataType, fsmart<DataType> > super;
     fsmart(const fsmart<DataType>&);
 public:
     static inline void dispose(DataType* p) { ::free(p); }
@@ -124,8 +124,8 @@ extern "C" {
 
 // for XFree-able data
 template <class DataType>
-class xsmart : public ysmart<DataType, xsmart<DataType>> {
-    typedef ysmart<DataType, xsmart<DataType>> super;
+class xsmart : public ysmart<DataType, xsmart<DataType> > {
+    typedef ysmart<DataType, xsmart<DataType> > super;
     xsmart(const xsmart<DataType>&);
 public:
     static inline void dispose(DataType* p) { ::XFree(p); }
