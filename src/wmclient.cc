@@ -17,11 +17,9 @@
 #include "workspaces.h"
 
 bool operator==(const XSizeHints& a, const XSizeHints& b) {
-    return (a.flags & PAllHints) == (b.flags & PAllHints) &&
-        (notbit(a.flags, USPosition|PPosition) ||
-               (a.x == b.x && a.y == b.y)) &&
-        (notbit(a.flags, USSize|PSize) ||
-               (a.width == b.width && a.height == b.height)) &&
+    long mask = PMinSize | PMaxSize | PResizeInc |
+                PAspect | PBaseSize | PWinGravity;
+    return (a.flags & mask) == (b.flags & mask) &&
         (notbit(a.flags, PMinSize) ||
                (a.min_width == b.min_width && a.min_height == b.min_height)) &&
         (notbit(a.flags, PMaxSize) ||
@@ -954,10 +952,23 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
                                       message.data.l[2]);
     } else if (message.message_type == _XA_NET_MOVERESIZE_WINDOW) {
         if (getFrame()) {
-            int grav = (message.data.l[0] & 0x00FF);
-            if (grav) getFrame()->setWinGravity(grav == 0 ? sizeHints()->win_gravity : grav);
-            getFrame()->setCurrentGeometryOuter(YRect(message.data.l[1], message.data.l[2],
-                                                message.data.l[3], message.data.l[4]));
+            long flag = message.data.l[0];
+            long grav = Elvis(int(flag & 0xFF), sizeHints()->win_gravity);
+            long mask = ((flag >> 8) & 0x0F);
+            long xpos = (mask & 1) ? message.data.l[1] : x();
+            long ypos = (mask & 2) ? message.data.l[2] : y();
+            long hori = (mask & 4) ? message.data.l[3] : width();
+            long vert = (mask & 8) ? message.data.l[4] : height();
+            XConfigureRequestEvent conf = { ConfigureRequest, None, };
+            conf.value_mask = mask;
+            conf.x = xpos;
+            conf.y = ypos;
+            conf.width = hori;
+            conf.height = vert;
+            int wing = sizeHints()->win_gravity;
+            sizeHints()->win_gravity = grav;
+            getFrame()->configureClient(conf);
+            sizeHints()->win_gravity = wing;
         }
     } else if (message.message_type == _XA_NET_WM_FULLSCREEN_MONITORS) {
         if (getFrame()) {
