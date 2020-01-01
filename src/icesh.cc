@@ -111,6 +111,7 @@ static NAtom ATOM_NET_CLOSE_WINDOW("_NET_CLOSE_WINDOW");
 static NAtom ATOM_NET_ACTIVE_WINDOW("_NET_ACTIVE_WINDOW");
 static NAtom ATOM_NET_FRAME_EXTENTS("_NET_FRAME_EXTENTS");
 static NAtom ATOM_NET_RESTACK_WINDOW("_NET_RESTACK_WINDOW");
+static NAtom ATOM_NET_MOVERESIZE_WINDOW("_NET_MOVERESIZE_WINDOW");
 static NAtom ATOM_NET_WM_WINDOW_OPACITY("_NET_WM_WINDOW_OPACITY");
 static NAtom ATOM_NET_SYSTEM_TRAY_WINDOWS("_KDE_NET_SYSTEM_TRAY_WINDOWS");
 static NAtom ATOM_UTF8_STRING("UTF8_STRING");
@@ -569,6 +570,14 @@ static void send(NAtom& typ, Window win, long l0, long l1,
 
     XSendEvent(display, root, False, SubstructureNotifyMask,
                reinterpret_cast<XEvent *>(&xev));
+}
+
+static void moveResize(Window window, long gravity,
+        long x, long y, long width, long height, long flags)
+{
+    send(ATOM_NET_MOVERESIZE_WINDOW, window,
+        gravity | (flags << 8) | (SourceIndication << 12),
+        x, y, width, height);
 }
 
 static void changeWorkspace(long workspace) {
@@ -1540,8 +1549,8 @@ void IceSh::sizeto()
             }
 
             if (0 < w && 0 < h) {
-                XResizeWindow(display, window,
-                              unsigned(w), unsigned(h));
+                moveResize(window, NorthWestGravity,
+                           None, None, w, h, CWWidth | CWHeight);
             }
         }
     }
@@ -2116,7 +2125,9 @@ static void setGeometry(Window window, const char* geometry) {
     if (XGetWMNormalHints(display, window, &normal, &supplied) != True)
         return;
 
-    Window root; int x, y; unsigned width, height, dummy;
+    Window root;
+    int x, y;
+    unsigned width, height, dummy;
     if (XGetGeometry(display, window, &root, &x, &y, &width, &height,
                      &dummy, &dummy) != True)
         return;
@@ -2150,14 +2161,8 @@ static void setGeometry(Window window, const char* geometry) {
             y += maxHeight - height;
     }
 
-    MSG(("setGeometry: %dx%d%+i%+i", width, height, x, y));
-    if (hasbit(status, XValue | YValue) &&
-        hasbit(status, WidthValue | HeightValue))
-        XMoveResizeWindow(display, window, x, y, width, height);
-    else if (hasbit(status, XValue | YValue))
-        XMoveWindow(display, window, x, y);
-    else if (hasbit(status, WidthValue | HeightValue))
-        XResizeWindow(display, window, width, height);
+    moveResize(window, StaticGravity, x, y, width, height,
+               (status & AllValues));
 }
 
 static void getGeometry(Window window) {
@@ -3038,7 +3043,7 @@ void IceSh::spy()
         XNextEvent(display, &event);
         Window window = event.xany.window;
         if (windowList.have(window)) {
-            timeval now(monotime());
+            timeval now(walltime());
             struct tm* local = localtime(&now.tv_sec);
             long secs = local->tm_sec;
             long mins = local->tm_min;
@@ -3246,7 +3251,8 @@ void IceSh::parseAction()
                             } else {
                                 ty = ly;
                             }
-                            XMoveWindow(display, frame, tx, ty);
+                            moveResize(window, NorthWestGravity,
+                                       tx, ty, None, None, CWX | CWY);
                         }
                     }
                 }
@@ -3266,7 +3272,8 @@ void IceSh::parseAction()
                         int x, y, w, h;
                         if (getGeometry(frame, x, y, w, h)) {
                             int tx = int(x + lx), ty = int(y + ly);
-                            XMoveWindow(display, frame, tx, ty);
+                            moveResize(window, NorthWestGravity,
+                                       tx, ty, None, None, CWX | CWY);
                         }
                     }
                 }
