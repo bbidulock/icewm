@@ -220,7 +220,8 @@ Treat Super/Win modifier as Ctrl+Alt.
 
 =item B<UseMouseWheel>=0
 
-Support mouse wheel.
+Support mouse wheel. When pressing Ctrl+Alt rotating the mouse wheel
+on the root window will cycle the focus over the windows.
 
 =item B<ShowPopupsAbovePointer>=0
 
@@ -873,11 +874,15 @@ Desktop mouse-button click to show the root menu.
 
 =item B<TitleBarMaximizeButton>=1  [0-5]
 
-TitleBar mouse-button double click to maximize the window.
+Title bar mouse-button double click to maximize the window to full
+screen with the frame border visible.
+Press Shift to maximize only in the vertical direction.
+Press Alt+Shift to maximize only in the horizontal direction.
 
 =item B<TitleBarRollupButton>=2  [0-5]
 
-TitleBar mouse-button double click to rollup the window.
+Title bar mouse-button double click to rollup the window.
+Press Shift to maximize in the horizontal direction.
 
 =back
 
@@ -1297,7 +1302,7 @@ Background of regular buttons.
 
 =item B<ColorNormalButtonText> = "rgb:00/00/00"
 
-Textcolor of regular buttons.
+Text color of regular buttons.
 
 =item B<ColorActiveButton> = "rgb:E0/E0/E0"
 
@@ -1305,7 +1310,7 @@ Background of pressed buttons.
 
 =item B<ColorActiveButtonText> = "rgb:00/00/00"
 
-Textcolor of pressed buttons.
+Text color of pressed buttons.
 
 =item B<ColorNormalTitleButton> = "rgb:C0/C0/C0"
 
@@ -1313,7 +1318,7 @@ Background of titlebar buttons.
 
 =item B<ColorNormalTitleButtonText> = "rgb:00/00/00"
 
-Textcolor of titlebar buttons.
+Text color of titlebar buttons.
 
 =item B<ColorToolButton> = ""
 
@@ -1321,7 +1326,7 @@ Background of toolbar buttons, ColorNormalButton is used if empty.
 
 =item B<ColorToolButtonText> = ""
 
-Textcolor of toolbar buttons, ColorNormalButtonText is used if empty.
+Text color of toolbar buttons, ColorNormalButtonText is used if empty.
 
 =item B<ColorNormalWorkspaceButton> = ""
 
@@ -1329,7 +1334,7 @@ Background of workspace buttons, ColorNormalButton is used if empty.
 
 =item B<ColorNormalWorkspaceButtonText> = ""
 
-Textcolor of workspace buttons, ColorNormalButtonText is used if empty.
+Text color of workspace buttons, ColorNormalButtonText is used if empty.
 
 =item B<ColorActiveWorkspaceButton> = ""
 
@@ -1337,7 +1342,7 @@ Background of the active workspace button, ColorActiveButton is used if empty.
 
 =item B<ColorActiveWorkspaceButtonText> = ""
 
-Textcolor of the active workspace button, ColorActiveButtonText is used if empty.
+Text color of the active workspace button, ColorActiveButtonText is used if empty.
 
 =item B<ColorNormalTitleBar> = "rgb:80/80/80"
 
@@ -1345,11 +1350,11 @@ Background of the titlebar of regular windows.
 
 =item B<ColorNormalTitleBarText> = "rgb:00/00/00"
 
-Textcolor of the titlebar of regular windows.
+Text color of the titlebar of regular windows.
 
 =item B<ColorNormalTitleBarShadow> = ""
 
-Textshadow of the titlebar of regular windows.
+Text shadow of the titlebar of regular windows.
 
 =item B<ColorActiveTitleBar> = "rgb:00/00/A0"
 
@@ -1357,11 +1362,11 @@ Background of the titlebar of active windows.
 
 =item B<ColorActiveTitleBarText> = "rgb:FF/FF/FF"
 
-Textcolor of the titlebar of active windows.
+Text color of the titlebar of active windows.
 
 =item B<ColorActiveTitleBarShadow> = ""
 
-Textshadow of the titlebar of active windows.
+Text shadow of the titlebar of active windows.
 
 =item B<ColorNormalMinimizedWindow> = "rgb:C0/C0/C0"
 
@@ -1369,7 +1374,7 @@ Background for mini icons of regular windows.
 
 =item B<ColorNormalMinimizedWindowText> = "rgb:00/00/00"
 
-Textcolor for mini icons of regular windows.
+Text color for mini icons of regular windows.
 
 =item B<ColorActiveMinimizedWindow> = "rgb:E0/E0/E0"
 
@@ -1377,7 +1382,7 @@ Background for mini icons of active windows.
 
 =item B<ColorActiveMinimizedWindowText> = "rgb:00/00/00"
 
-Textcolor for mini icons of active windows.
+Text color for mini icons of active windows.
 
 =item B<ColorNormalMenu> = "rgb:C0/C0/C0"
 
@@ -1385,7 +1390,7 @@ Background of pop-up menus.
 
 =item B<ColorNormalMenuItemText> = "rgb:00/00/00"
 
-Textcolor of regular menu items.
+Text color of regular menu items.
 
 =item B<ColorActiveMenuItem> = "rgb:A0/A0/A0"
 
@@ -1393,11 +1398,11 @@ Background of selected menu item, leave empty to force transparency.
 
 =item B<ColorActiveMenuItemText> = "rgb:00/00/00"
 
-Textcolor of selected menu items.
+Text color of selected menu items.
 
 =item B<ColorDisabledMenuItemText> = "rgb:80/80/80"
 
-Textcolor of disabled menu items.
+Text color of disabled menu items.
 
 =item B<ColorDisabledMenuItemShadow> = ""
 
@@ -1409,7 +1414,7 @@ Background of move/resize status window.
 
 =item B<ColorMoveSizeStatusText> = "rgb:00/00/00"
 
-Textcolor of move/resize status window.
+Text color of move/resize status window.
 
 =item B<ColorQuickSwitch> = "rgb:C0/C0/C0"
 
@@ -1417,7 +1422,7 @@ Background of the quick switch window.
 
 =item B<ColorQuickSwitchText> = "rgb:00/00/00"
 
-Textcolor in the quick switch window.
+Text color in the quick switch window.
 
 =item B<ColorQuickSwitchActive> = ""
 
@@ -1433,7 +1438,7 @@ Background for task buttons of regular windows.
 
 =item B<ColorNormalTaskBarAppText> = "rgb:00/00/00"
 
-Textcolor for task buttons of regular windows.
+Text color for task buttons of regular windows.
 
 =item B<ColorActiveTaskBarApp> = "rgb:E0/E0/E0"
 
@@ -1441,7 +1446,7 @@ Background for task buttons of the active window.
 
 =item B<ColorActiveTaskBarAppText> = "rgb:00/00/00"
 
-Textcolor for task buttons of the active window.
+Text color for task buttons of the active window.
 
 =item B<ColorMinimizedTaskBarApp> = "rgb:A0/A0/A0"
 
@@ -1449,7 +1454,7 @@ Background for task buttons of minimized windows.
 
 =item B<ColorMinimizedTaskBarAppText> = "rgb:00/00/00"
 
-Textcolor for task buttons of minimized windows.
+Text color for task buttons of minimized windows.
 
 =item B<ColorInvisibleTaskBarApp> = "rgb:80/80/80"
 
@@ -1457,7 +1462,7 @@ Background for task buttons of windows on other workspaces.
 
 =item B<ColorInvisibleTaskBarAppText> = "rgb:00/00/00"
 
-Textcolor for task buttons of windows on other workspaces.
+Text color for task buttons of windows on other workspaces.
 
 =item B<ColorScrollBar> = "rgb:A0/A0/A0"
 
@@ -1489,7 +1494,7 @@ Background of listboxes.
 
 =item B<ColorListBoxText> = "rgb:00/00/00"
 
-Textcolor in listboxes.
+Text color in listboxes.
 
 =item B<ColorListBoxSelection> = "rgb:80/80/80"
 
@@ -1497,7 +1502,7 @@ Background of selected listbox items.
 
 =item B<ColorListBoxSelectionText> = "rgb:00/00/00"
 
-Textcolor of selected listbox items.
+Text color of selected listbox items.
 
 =item B<ColorToolTip> = "rgb:E0/E0/00"
 
@@ -1505,7 +1510,7 @@ Background of tooltips.
 
 =item B<ColorToolTipText> = "rgb:00/00/00"
 
-Textcolor of tooltips.
+Text color of tooltips.
 
 =item B<ColorLabel> = "rgb:C0/C0/C0"
 
@@ -1513,7 +1518,7 @@ Background of labels, leave empty to force transparency.
 
 =item B<ColorLabelText> = "rgb:00/00/00"
 
-Textcolor of labels.
+Text color of labels.
 
 =item B<ColorInput> = "rgb:FF/FF/FF"
 
@@ -1521,7 +1526,7 @@ Background of text entry fields (e.g. the addressbar).
 
 =item B<ColorInputText> = "rgb:00/00/00"
 
-Textcolor of text entry fields (e.g. the addressbar).
+Text color of text entry fields (e.g. the addressbar).
 
 =item B<ColorInputSelection> = "rgb:80/80/80"
 
@@ -1545,11 +1550,11 @@ Background of APM monitor, leave empty to force transparency.
 
 =item B<ColorApmText> = "rgb:00/FF/00"
 
-Textcolor of APM monitor.
+Text color of APM monitor.
 
 =item B<ColorApmBattery> = "rgb:FF/FF/00"
 
-Color of APM monitor in battary mode.
+Color of APM monitor in battery mode.
 
 =item B<ColorApmLine> = "rgb:00/FF/00"
 

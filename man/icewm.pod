@@ -221,10 +221,10 @@ which configuration was chosen or whether option formatting was correct.
 
 Give a list of the current X extensions, their versions and status.
 
-=item B<--trace>=I<conf>,I<icon>
+=item B<--trace>=I<conf>,I<icon>,I<prog>
 
-Enable tracing of the paths which are used to load configuration
-and/or icons.
+Enable tracing of the paths which are used to load configuration,
+and/or icons, and/or executed programs.
 
 =back
 
