@@ -106,7 +106,7 @@ $(icewm_man1_htmls) $(extra_man1_htmls): %.1.html: %.pod
 		-e 's,([^A-Z/])CFGDIR/,\1$(CFGDIR)/,g' \
 		-e 's,([^A-Z/])LIBDIR/,\1$(LIBDIR)/,g' \
 		-e 's,\@CFGDIR\@,$(CFGDIR),g' \
-		-e 's,http:,https:,g' $@
+		-e 's,http:,https:,g' $@ && rm -f $@.bak
 
 $(icewm_man5_htmls): %.5.html: %.pod
 	$(AM_V_GEN)pod2html \
@@ -130,7 +130,7 @@ $(icewm_man5_htmls): %.5.html: %.pod
 		-e 's,([^A-Z/])CFGDIR/,\1$(CFGDIR)/,g' \
 		-e 's,([^A-Z/])LIBDIR/,\1$(LIBDIR)/,g' \
 		-e 's,\@CFGDIR\@,$(CFGDIR),g' \
-		-e 's,http:,https:,g' $@
+		-e 's,http:,https:,g' $@ && rm -f $@.bak
 
 $(icewm_man1_files) $(extra_man1_files): %.man: %.pod
 	$(AM_V_GEN)pod2man --center="User Commands" \
@@ -149,7 +149,7 @@ $(icewm_man1_files) $(extra_man1_files): %.man: %.pod
 		-e 's,([^a-z/])/etc/icewm,\1$(CFGDIR),' \
 		-e 's,([^A-Z/])CFGDIR/,\1$(CFGDIR)/,g' \
 		-e 's,([^A-Z/])LIBDIR/,\1$(LIBDIR)/,g' \
-	        -e 's,\@CFGDIR\@,$(CFGDIR),g' $@
+	        -e 's,\@CFGDIR\@,$(CFGDIR),g' $@ && rm -f $@.bak
 
 $(icewm_man5_files): %.man: %.pod
 	$(AM_V_GEN)pod2man --center="Standards, Environments and Macros" \
@@ -168,5 +168,5 @@ $(icewm_man5_files): %.man: %.pod
 		-e 's,([^a-z/])/etc/icewm,\1$(CFGDIR),' \
 		-e 's,([^A-Z/])CFGDIR/,\1$(CFGDIR)/,g' \
 		-e 's,([^A-Z/])LIBDIR/,\1$(LIBDIR)/,g' \
-	        -e 's,\@CFGDIR\@,$(CFGDIR),g' $@
+	        -e 's,\@CFGDIR\@,$(CFGDIR),g' $@ && rm -f $@.bak
 
