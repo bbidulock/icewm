@@ -149,6 +149,10 @@ void YMsgBox::handleFocus(const XFocusChangeEvent &/*focus*/) {
 }
 
 void YMsgBox::showFocused() {
+    YRect r(desktop->getScreenGeometry());
+    setPosition(r.x() + int(r.width() / 2) - int(width() / 2),
+                r.y() + int(r.height() / 2) - int(height() / 2));
+
     switch (msgBoxDefaultAction) {
     case 0:
         if (fButtonCancel) fButtonCancel->requestFocus(false);
@@ -157,15 +161,10 @@ void YMsgBox::showFocused() {
         if (fButtonOK) fButtonOK->requestFocus(false);
         break;
     }
-    if (getFrame() == 0)
+    if (getFrame() == nullptr) {
         manager->manageClient(handle(), false);
+    }
     if (getFrame()) {
-        int dx, dy;
-        unsigned dw, dh;
-        desktop->getScreenGeometry(&dx, &dy, &dw, &dh);
-        getFrame()->setNormalPositionOuter(
-            dx + dw / 2 - getFrame()->width() / 2,
-            dy + dh / 2 - getFrame()->height() / 2);
         getFrame()->activateWindow(true);
     }
 }
