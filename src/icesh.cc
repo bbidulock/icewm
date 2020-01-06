@@ -2454,7 +2454,7 @@ void IceSh::motif(Window window, char** args, int count) {
     for (int k = 0; k < count; ++k) {
         char* arg = args[k];
         if (0 == strcmp(arg, "remove")) {
-            memset(&mwm, 0, sizeof(mwm));
+            mwm = MwmHints();
             removing = true;
         }
         else if (0 == strcmp(arg, "funcs") && k + 1 < count) {
@@ -3045,14 +3045,14 @@ void IceSh::spy()
         if (windowList.have(window)) {
             timeval now(walltime());
             struct tm* local = localtime(&now.tv_sec);
-            long secs = local->tm_sec;
-            long mins = local->tm_min;
-            long mils = now.tv_usec / 1000L;
-            char head[32];
+            int secs = local->tm_sec;
+            int mins = local->tm_min;
+            int mils = int(now.tv_usec / 1000L);
+            char head[80];
             snprintf(head, sizeof head,
-                    "%02ld:%02ld.%03ld: 0x%07lx: %s",
-                    mins, secs, mils, window,
-                    event.xany.send_event && event.type != ConfigureNotify
+                    "%02d:%02d.%03d: 0x%07x: %s",
+                    mins, secs, mils, int(window),
+                    (event.xany.send_event && event.type != ConfigureNotify)
                         ? "Send " : "");
             switch (event.type) {
                 case FocusIn:
