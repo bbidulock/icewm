@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.23\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-11-24 12:39+0100\n"
-"PO-Revision-Date: 2019-06-13 18:49+0000\n"
+"POT-Creation-Date: 2019-12-02 23:39+0100\n"
+"PO-Revision-Date: 2019-12-04 22:54+0000\n"
 "Last-Translator: Freek de Kruijf <freek@opensuse.org>\n"
-"Language-Team: Dutch <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/nl/>\n"
+"Language-Team: Dutch <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -593,58 +593,54 @@ msgstr "IceWM tray optie"
 
 #: src/icesh.cc:1553
 msgid "Gravity symbols"
-msgstr ""
+msgstr "Gravitatiesymbolen"
 
 #: src/icesh.cc:1554
-#, fuzzy
-#| msgid "Save Modifications"
 msgid "Motif functions"
-msgstr "Wijzigingen opslaan"
+msgstr "Motif-functies"
 
 #: src/icesh.cc:1555
-#, fuzzy
-#| msgid "Save Modifications"
 msgid "Motif decorations"
-msgstr "Wijzigingen opslaan"
+msgstr "Motif-decoraties"
 
 #: src/icesh.cc:1634
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "Werkruimte #%d: »%s«\n"
 
-#: src/icesh.cc:2527
+#: src/icesh.cc:2528
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Actie `%s' heeft minimaal %d argumenten nodig."
 
-#: src/icesh.cc:2537
+#: src/icesh.cc:2538
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Ongeldige expressie: »%s«"
 
-#: src/icesh.cc:2548 src/icesound.cc:795 src/icewmhint.cc:36 src/wmapp.cc:1108
-#: src/yxapp.cc:1038
+#: src/icesh.cc:2549 src/icesound.cc:795 src/icewmhint.cc:36 src/wmapp.cc:1116
+#: src/yxapp.cc:1046
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "Kan het display %s niet gebruiken. De X-Server moet werken en \n"
 "de omgevingsvariabele $DISPLAY moet hiernaar verwijzen."
 
-#: src/icesh.cc:2561
+#: src/icesh.cc:2562
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "Ongeldig argument: '%s'"
 
-#: src/icesh.cc:2601
+#: src/icesh.cc:2602
 msgid "No actions specified."
 msgstr "Geen aktie aangegeven."
 
-#: src/icesh.cc:2760
+#: src/icesh.cc:2761
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Ongeldige venster identificatie: »%s«"
 
-#: src/icesh.cc:3254
+#: src/icesh.cc:3255
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Onbekende actie: »%s«"
@@ -655,17 +651,6 @@ msgid "Socket error: %d"
 msgstr "Sokjes fout ;-): %d"
 
 #: src/icesm.cc:57
-#, fuzzy
-#| msgid ""
-#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-#| "\n"
-#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
-#| "  --sync              Synchronize communication with X11 server.\n"
-#| "\n"
-#| "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
-#| "  -n, --notray        Do not start icewmtray.\n"
-#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -682,10 +667,12 @@ msgstr ""
 "  -c, --config=FILE   Laat IceWM voorkeuren laden uit BESTAND.\n"
 "  -t, --theme=FILE    Laat IceWM het thema laden uit BESTAND.\n"
 "\n"
-"  --display=NAAM      NAAM gebruiken om te verbinden met de X-server.\n"
+"  -d, --display=NAAM      NAAM gebruiken om te verbinden met de X-server.\n"
+"  -a, --alpha         Een 32-bit visueel gebruiken voor doorzichtigheid.\n"
 "  --sync              Synchroniseer communicatie met de X11-server.\n"
 "\n"
 "  -i, --icewm=FILE    Gebruik FILE als de IceWM windowmanager.\n"
+"  -b, --nobg          icewmbg niet starten.\n"
 "  -n, --notray        Start icewmtray niet op.\n"
 "  -s, --sound         Start ook icesound.\n"
 
@@ -695,10 +682,9 @@ msgid "Unknown option '%s'"
 msgstr "Onbekende optie: '%s'"
 
 #: src/icesm.cc:331 src/icesm.cc:449
-#, fuzzy, c-format
-#| msgid "Restart"
+#, c-format
 msgid "restart %s."
-msgstr "Herstart"
+msgstr "herstart %s."
 
 #: src/icesm.cc:337
 #, c-format
@@ -1113,11 +1099,11 @@ msgstr "Gebruik: icewmhint klasse.instantie optie argument\n"
 msgid "Out of memory (len=%d)."
 msgstr "Onvoldoende geheugen (len=%d)."
 
-#: src/misc.cc:568 src/misc.cc:580
+#: src/misc.cc:571 src/misc.cc:583
 msgid "Warning: "
 msgstr "Waarschuwing: "
 
-#: src/misc.cc:856
+#: src/misc.cc:859
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1355,18 +1341,18 @@ msgstr ""
 msgid "Kill IceWM, replace with Xterm"
 msgstr "IceWM beëindigen, vervangen met Xterm"
 
-#: src/wmapp.cc:1109 src/yxapp.cc:1039
+#: src/wmapp.cc:1117 src/yxapp.cc:1047
 msgid "<none>"
 msgstr "<geen>"
 
-#: src/wmapp.cc:1450
+#: src/wmapp.cc:1466
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      Te gebruiken client-id bij contact maken met de "
 "sessiemanager.\n"
 
-#: src/wmapp.cc:1456
+#: src/wmapp.cc:1472
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1376,27 +1362,25 @@ msgstr ""
 "  --debug             Algemene debugberichten afdrukken.\n"
 "  --debug-z           Debugberichten over stapelen van vensters afdrukken.\n"
 
-#: src/wmapp.cc:1464
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "  -c, --config=FILE   Load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Load theme from FILE.\n"
-#| "  --postpreferences   Print preferences after all processing.\n"
+#: src/wmapp.cc:1480
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
 "  -t, --theme=FILE    Load theme from FILE.\n"
-"  --splash=IMAGE      Briefly show IMAGE on startup.\n"
-"  --postpreferences   Print preferences after all processing.\n"
+"  -s, --splash=IMAGE  Briefly show IMAGE on startup.\n"
+"  -p, --postpreferences  Print preferences after all processing.\n"
+"  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgstr ""
 "\n"
+"  -a, --alpha         een 32-bit visueel gebruiken voor doorzichtigheid.\n"
 "  -c, --config=FILE   Voorkeuren laden uit BESTAND.\n"
 "  -t, --theme=FILE    Thema laden uit BESTAND.\n"
-"  --postpreferences   Voorkeuren printen nadat alles is verwerkt.\n"
+"  -s, --splash=IMAGE  IMAGE kort tonen bij opstarten.\n"
+"  -p, --postpreferences   Voorkeuren printen nadat alles is verwerkt.\n"
+"  --trace=conf,icon   Paden volgen gebruiken om configuratie te laden.\n"
 
-#: src/wmapp.cc:1471
+#: src/wmapp.cc:1489
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1455,26 +1439,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1532
+#: src/wmapp.cc:1550
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s configuratiemappen:\n"
 
-#: src/wmapp.cc:1617
+#: src/wmapp.cc:1635
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s geconfigureerde opties:%s\n"
 
-#: src/wmapp.cc:1681
+#: src/wmapp.cc:1699
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Onbekende optie: '%s'."
 
-#: src/wmapp.cc:1753
+#: src/wmapp.cc:1771
 msgid "Confirm Logout"
 msgstr "Afmelden bevestigen"
 
-#: src/wmapp.cc:1754
+#: src/wmapp.cc:1772
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1487,22 +1471,22 @@ msgstr ""
 msgid "Failed to load theme %s"
 msgstr "Laden van thema %s is mislukt"
 
-#: src/wmconfig.cc:93
+#: src/wmconfig.cc:94
 #, c-format
 msgid "Unknown value '%s' for option '%s'."
 msgstr "Onbekende waarde '%s' voor optie: '%s'."
 
-#: src/wmconfig.cc:101
+#: src/wmconfig.cc:102
 #, c-format
 msgid "Unable to create directory %s"
 msgstr "Aanmaken van map %s lukte niet"
 
-#: src/wmconfig.cc:128 src/wmprog.cc:569 src/wmprog.cc:691 src/wmprog.cc:695
+#: src/wmconfig.cc:129 src/wmprog.cc:569 src/wmprog.cc:691 src/wmprog.cc:695
 #, c-format
 msgid "Unable to write to %s"
 msgstr "Schrijven naar %s lukt niet"
 
-#: src/wmconfig.cc:155 src/wmprog.cc:699
+#: src/wmconfig.cc:156 src/wmprog.cc:699
 #, c-format
 msgid "Unable to rename %s to %s"
 msgstr "Hernoemen van %s naar %s lukt niet"
@@ -1515,8 +1499,9 @@ msgstr "Werkstation blo_kkeren"
 msgid "_Cancel"
 msgstr "Af_breken"
 
-#: src/wmdialog.cc:77 src/wmprog.cc:849 src/wmprog.cc:851 src/wmtaskbar.cc:260
-#: src/wmtaskbar.cc:262
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmdialog.cc:77 src/wmprog.cc:849 src/wmprog.cc:851 src/wmtaskbar.cc:272
+#: src/wmtaskbar.cc:274
 msgid "_Logout..."
 msgstr "_Afmelden..."
 
@@ -1524,7 +1509,8 @@ msgstr "_Afmelden..."
 msgid "_Restart icewm"
 msgstr "IceWM _herstarten"
 
-#: src/wmdialog.cc:82 src/wmprog.cc:810 src/wmtaskbar.cc:256
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmdialog.cc:82 src/wmprog.cc:810 src/wmtaskbar.cc:267
 msgid "_About"
 msgstr "_Over"
 
@@ -1542,19 +1528,19 @@ msgstr ""
 "als u dit programma stopt!\n"
 "Wilt u doorgaan?"
 
-#: src/wmframe.cc:3003
+#: src/wmframe.cc:3012
 msgid "Restore"
 msgstr "Herstellen"
 
-#: src/wmframe.cc:3006 src/wmtitle.cc:71
+#: src/wmframe.cc:3015 src/wmtitle.cc:71
 msgid "Maximize"
 msgstr "Maximaliseren"
 
-#: src/wmframe.cc:3036
+#: src/wmframe.cc:3045
 msgid "Rolldown"
 msgstr "Afrollen"
 
-#: src/wmframe.cc:3038 src/wmtitle.cc:129
+#: src/wmframe.cc:3047 src/wmtitle.cc:129
 msgid "Rollup"
 msgstr "Oprollen"
 
@@ -1620,7 +1606,8 @@ msgstr "Programma's"
 msgid "_Run..."
 msgstr "Uit_voeren..."
 
-#: src/wmprog.cc:797 src/wmtaskbar.cc:253
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmprog.cc:797 src/wmtaskbar.cc:262
 msgid "_Windows"
 msgstr "_Windows"
 
@@ -1649,59 +1636,68 @@ msgstr "Ins_tellingen"
 msgid "Session Manager: Unknown line %s"
 msgstr "Sessie manager: Onbekende regel %s"
 
-#: src/wmtaskbar.cc:243 src/wmwinlist.cc:395 src/wmwinlist.cc:415
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:244 src/wmwinlist.cc:395 src/wmwinlist.cc:415
 msgid "Tile _Vertically"
 msgstr "_Vertikaal uitlijnen"
 
-#: src/wmtaskbar.cc:244 src/wmwinlist.cc:396 src/wmwinlist.cc:416
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:246 src/wmwinlist.cc:396 src/wmwinlist.cc:416
 msgid "T_ile Horizontally"
 msgstr "_Horizontaal uitlijnen"
 
-#: src/wmtaskbar.cc:245 src/wmwinlist.cc:397 src/wmwinlist.cc:417
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:248 src/wmwinlist.cc:397 src/wmwinlist.cc:417
 msgid "Ca_scade"
 msgstr "_Overlappend uitlijnen"
 
-#: src/wmtaskbar.cc:246 src/wmwinlist.cc:398 src/wmwinlist.cc:418
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:250 src/wmwinlist.cc:398 src/wmwinlist.cc:418
 msgid "_Arrange"
 msgstr "_Optimaliseren"
 
-#: src/wmtaskbar.cc:247 src/wmwinlist.cc:400 src/wmwinlist.cc:419
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:252 src/wmwinlist.cc:400 src/wmwinlist.cc:419
 msgid "_Minimize All"
 msgstr "Alles _minimaliseren"
 
-#: src/wmtaskbar.cc:248 src/wmwinlist.cc:401 src/wmwinlist.cc:420
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:254 src/wmwinlist.cc:401 src/wmwinlist.cc:420
 msgid "_Hide All"
 msgstr "Alles _verstoppen"
 
-#: src/wmtaskbar.cc:249 src/wmwinlist.cc:402 src/wmwinlist.cc:421
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:256 src/wmwinlist.cc:402 src/wmwinlist.cc:421
 msgid "_Undo"
 msgstr "_Ongedaan"
 
-#: src/wmtaskbar.cc:251
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:259
 msgid "Arrange _Icons"
 msgstr "_Pictogrammen opruimen"
 
-#: src/wmtaskbar.cc:255
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:265
 msgid "_Refresh"
 msgstr "_Verversen"
 
-#: src/wmtaskbar.cc:326 src/wmtaskbar.cc:956
+#: src/wmtaskbar.cc:338 src/wmtaskbar.cc:968
 msgid "Hide Taskbar"
 msgstr "Taakbalk verbergen"
 
-#: src/wmtaskbar.cc:344
+#: src/wmtaskbar.cc:356
 msgid "Favorite Applications"
 msgstr "Favoriete toepassingen"
 
-#: src/wmtaskbar.cc:365
+#: src/wmtaskbar.cc:377
 msgid "Window List Menu"
 msgstr "Llijstmenu van venster"
 
-#: src/wmtaskbar.cc:374
+#: src/wmtaskbar.cc:386
 msgid "Show Desktop"
 msgstr "Bureaublad tonen"
 
-#: src/wmtaskbar.cc:956
+#: src/wmtaskbar.cc:968
 msgid "Show Taskbar"
 msgstr "Taakbalk tonen"
 
@@ -1922,7 +1918,7 @@ msgstr "Onvolledige hex-escape in URL op positie %d."
 msgid "Invalid hex escape in URL at position %d."
 msgstr "Onvolledige hex-escape in URL op positie %d."
 
-#: src/yxapp.cc:999
+#: src/yxapp.cc:1007
 msgid ""
 "  -d, --display=NAME  NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"

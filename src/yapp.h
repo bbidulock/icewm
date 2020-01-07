@@ -42,6 +42,7 @@ public:
     virtual ~YApplication();
 
     int mainLoop();
+    int exitCode() const { return fExitCode; }
     void exitLoop(int exitCode);
     virtual void exit(int exitCode);
 
@@ -70,9 +71,9 @@ private:
     friend class YSignalPoll;
 
     int fLoopLevel;
-    int fExitLoop;
     int fExitCode;
-    int fExitApp;
+    bool fExitLoop;
+    bool fExitApp;
 
     bool getTimeout(struct timeval *timeout);
     void handleTimeouts();

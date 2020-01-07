@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-11-24 12:39+0100\n"
+"POT-Creation-Date: 2019-12-02 23:39+0100\n"
 "PO-Revision-Date: 2019-06-25 07:49+0000\n"
 "Last-Translator: Yi-Jyun Pan <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) <https://l10n.opensuse.org/projects/icewm/"
@@ -608,37 +608,37 @@ msgstr "儲存修改"
 msgid "workspace #%d: `%s'\n"
 msgstr "工作區 #%d：「%s」\n"
 
-#: src/icesh.cc:2527
+#: src/icesh.cc:2528
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "動作「%s」需要至少 %d 個引數。"
 
-#: src/icesh.cc:2537
+#: src/icesh.cc:2538
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "表示式無效：「%s」"
 
-#: src/icesh.cc:2548 src/icesound.cc:795 src/icewmhint.cc:36 src/wmapp.cc:1108
-#: src/yxapp.cc:1038
+#: src/icesh.cc:2549 src/icesound.cc:795 src/icewmhint.cc:36 src/wmapp.cc:1116
+#: src/yxapp.cc:1046
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "無法開啟顯示：%s。X 必須正在執行且需設定 $DISPLAY。"
 
-#: src/icesh.cc:2561
+#: src/icesh.cc:2562
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "引數無效：「%s」"
 
-#: src/icesh.cc:2601
+#: src/icesh.cc:2602
 msgid "No actions specified."
 msgstr "未指定動作。"
 
-#: src/icesh.cc:2760
+#: src/icesh.cc:2761
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "無效的視窗識別碼：「%s」"
 
-#: src/icesh.cc:3254
+#: src/icesh.cc:3255
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "未知動作：「%s」"
@@ -1092,11 +1092,11 @@ msgstr "用法：icewmhint 類別.實體 選項 引數\n"
 msgid "Out of memory (len=%d)."
 msgstr "記憶體不足（長度＝%d）。"
 
-#: src/misc.cc:568 src/misc.cc:580
+#: src/misc.cc:571 src/misc.cc:583
 msgid "Warning: "
 msgstr "警告："
 
-#: src/misc.cc:856
+#: src/misc.cc:859
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1331,16 +1331,16 @@ msgstr ""
 msgid "Kill IceWM, replace with Xterm"
 msgstr "強行中止 IceWM，以 Xterm 取代"
 
-#: src/wmapp.cc:1109 src/yxapp.cc:1039
+#: src/wmapp.cc:1117 src/yxapp.cc:1047
 msgid "<none>"
 msgstr "<無>"
 
-#: src/wmapp.cc:1450
+#: src/wmapp.cc:1466
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr "  --client-id=ID      聯絡工作階段管理程式時要使用的用戶端 ID。\n"
 
-#: src/wmapp.cc:1456
+#: src/wmapp.cc:1472
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1350,7 +1350,7 @@ msgstr ""
 "  --debug             列印一般除錯訊息。\n"
 "  --debug-z           列印有關視窗堆疊的除錯訊息。\n"
 
-#: src/wmapp.cc:1464
+#: src/wmapp.cc:1480
 #, fuzzy
 #| msgid ""
 #| "\n"
@@ -1362,15 +1362,16 @@ msgid ""
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
 "  -t, --theme=FILE    Load theme from FILE.\n"
-"  --splash=IMAGE      Briefly show IMAGE on startup.\n"
-"  --postpreferences   Print preferences after all processing.\n"
+"  -s, --splash=IMAGE  Briefly show IMAGE on startup.\n"
+"  -p, --postpreferences  Print preferences after all processing.\n"
+"  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgstr ""
 "\n"
 "  -c、--config=FILE   從 FILE 中載入優先設定。\n"
 "  -t、--theme=FILE    從 FILE 中載入主題。\n"
 "  --postpreferences   所有程序結束後列印優先設定。\n"
 
-#: src/wmapp.cc:1471
+#: src/wmapp.cc:1489
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1429,26 +1430,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1532
+#: src/wmapp.cc:1550
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s 組態目錄︰\n"
 
-#: src/wmapp.cc:1617
+#: src/wmapp.cc:1635
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s 設定的選項：%s\n"
 
-#: src/wmapp.cc:1681
+#: src/wmapp.cc:1699
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "無法識別選項「%s」。"
 
-#: src/wmapp.cc:1753
+#: src/wmapp.cc:1771
 msgid "Confirm Logout"
 msgstr "確定登出"
 
-#: src/wmapp.cc:1754
+#: src/wmapp.cc:1772
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1461,22 +1462,22 @@ msgstr ""
 msgid "Failed to load theme %s"
 msgstr "載入主題 %s 失敗"
 
-#: src/wmconfig.cc:93
+#: src/wmconfig.cc:94
 #, c-format
 msgid "Unknown value '%s' for option '%s'."
 msgstr "未知值「%s」(對於選項「%s」)。"
 
-#: src/wmconfig.cc:101
+#: src/wmconfig.cc:102
 #, c-format
 msgid "Unable to create directory %s"
 msgstr "無法建立目錄 %s"
 
-#: src/wmconfig.cc:128 src/wmprog.cc:569 src/wmprog.cc:691 src/wmprog.cc:695
+#: src/wmconfig.cc:129 src/wmprog.cc:569 src/wmprog.cc:691 src/wmprog.cc:695
 #, c-format
 msgid "Unable to write to %s"
 msgstr "無法寫入 %s"
 
-#: src/wmconfig.cc:155 src/wmprog.cc:699
+#: src/wmconfig.cc:156 src/wmprog.cc:699
 #, c-format
 msgid "Unable to rename %s to %s"
 msgstr "無法將 %s 重新命名為 %s"
@@ -1489,8 +1490,9 @@ msgstr "鎖定工作站(_K)"
 msgid "_Cancel"
 msgstr "取消(_C)"
 
-#: src/wmdialog.cc:77 src/wmprog.cc:849 src/wmprog.cc:851 src/wmtaskbar.cc:260
-#: src/wmtaskbar.cc:262
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmdialog.cc:77 src/wmprog.cc:849 src/wmprog.cc:851 src/wmtaskbar.cc:272
+#: src/wmtaskbar.cc:274
 msgid "_Logout..."
 msgstr "登出(_L)..."
 
@@ -1498,7 +1500,8 @@ msgstr "登出(_L)..."
 msgid "_Restart icewm"
 msgstr "重新啟動 icewm(_R)"
 
-#: src/wmdialog.cc:82 src/wmprog.cc:810 src/wmtaskbar.cc:256
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmdialog.cc:82 src/wmprog.cc:810 src/wmtaskbar.cc:267
 msgid "_About"
 msgstr "關於(_A)"
 
@@ -1514,19 +1517,19 @@ msgstr ""
 "【警告】！當這個客戶端程式被砍掉時，將會失去所有未儲存的變更。\n"
 "您希望繼續進行嗎？"
 
-#: src/wmframe.cc:3003
+#: src/wmframe.cc:3012
 msgid "Restore"
 msgstr "還原"
 
-#: src/wmframe.cc:3006 src/wmtitle.cc:71
+#: src/wmframe.cc:3015 src/wmtitle.cc:71
 msgid "Maximize"
 msgstr "放到最大"
 
-#: src/wmframe.cc:3036
+#: src/wmframe.cc:3045
 msgid "Rolldown"
 msgstr "向下循環"
 
-#: src/wmframe.cc:3038 src/wmtitle.cc:129
+#: src/wmframe.cc:3047 src/wmtitle.cc:129
 msgid "Rollup"
 msgstr "向上循環"
 
@@ -1592,7 +1595,8 @@ msgstr "程式"
 msgid "_Run..."
 msgstr "執行(_R)..."
 
-#: src/wmprog.cc:797 src/wmtaskbar.cc:253
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmprog.cc:797 src/wmtaskbar.cc:262
 msgid "_Windows"
 msgstr "視窗(_W)"
 
@@ -1621,59 +1625,68 @@ msgstr "設定(_T)"
 msgid "Session Manager: Unknown line %s"
 msgstr "作業階段管理程式：未知的列 %s"
 
-#: src/wmtaskbar.cc:243 src/wmwinlist.cc:395 src/wmwinlist.cc:415
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:244 src/wmwinlist.cc:395 src/wmwinlist.cc:415
 msgid "Tile _Vertically"
 msgstr "垂直並排(_V)"
 
-#: src/wmtaskbar.cc:244 src/wmwinlist.cc:396 src/wmwinlist.cc:416
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:246 src/wmwinlist.cc:396 src/wmwinlist.cc:416
 msgid "T_ile Horizontally"
 msgstr "水平並排(_I)"
 
-#: src/wmtaskbar.cc:245 src/wmwinlist.cc:397 src/wmwinlist.cc:417
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:248 src/wmwinlist.cc:397 src/wmwinlist.cc:417
 msgid "Ca_scade"
 msgstr "階狀(_S)"
 
-#: src/wmtaskbar.cc:246 src/wmwinlist.cc:398 src/wmwinlist.cc:418
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:250 src/wmwinlist.cc:398 src/wmwinlist.cc:418
 msgid "_Arrange"
 msgstr "排列(_A)"
 
-#: src/wmtaskbar.cc:247 src/wmwinlist.cc:400 src/wmwinlist.cc:419
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:252 src/wmwinlist.cc:400 src/wmwinlist.cc:419
 msgid "_Minimize All"
 msgstr "全部縮到最小(_M)"
 
-#: src/wmtaskbar.cc:248 src/wmwinlist.cc:401 src/wmwinlist.cc:420
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:254 src/wmwinlist.cc:401 src/wmwinlist.cc:420
 msgid "_Hide All"
 msgstr "全部隱藏(_H)"
 
-#: src/wmtaskbar.cc:249 src/wmwinlist.cc:402 src/wmwinlist.cc:421
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:256 src/wmwinlist.cc:402 src/wmwinlist.cc:421
 msgid "_Undo"
 msgstr "復原(_U)"
 
-#: src/wmtaskbar.cc:251
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:259
 msgid "Arrange _Icons"
 msgstr "排列圖示(_I)"
 
-#: src/wmtaskbar.cc:255
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:265
 msgid "_Refresh"
 msgstr "重新整理(_R)"
 
-#: src/wmtaskbar.cc:326 src/wmtaskbar.cc:956
+#: src/wmtaskbar.cc:338 src/wmtaskbar.cc:968
 msgid "Hide Taskbar"
 msgstr "隱藏工作列"
 
-#: src/wmtaskbar.cc:344
+#: src/wmtaskbar.cc:356
 msgid "Favorite Applications"
 msgstr "喜愛的應用程式"
 
-#: src/wmtaskbar.cc:365
+#: src/wmtaskbar.cc:377
 msgid "Window List Menu"
 msgstr "視窗列表選單"
 
-#: src/wmtaskbar.cc:374
+#: src/wmtaskbar.cc:386
 msgid "Show Desktop"
 msgstr "顯示桌面"
 
-#: src/wmtaskbar.cc:956
+#: src/wmtaskbar.cc:968
 msgid "Show Taskbar"
 msgstr "顯示工作列"
 
@@ -1889,7 +1902,7 @@ msgstr "位於 %d 處的 URL 中存在不完整的十六進位逸出字元。"
 msgid "Invalid hex escape in URL at position %d."
 msgstr "位於 %d 處的 URL 中存在無效的十六進位逸出字元。"
 
-#: src/yxapp.cc:999
+#: src/yxapp.cc:1007
 msgid ""
 "  -d, --display=NAME  NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"

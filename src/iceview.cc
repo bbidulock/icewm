@@ -8,19 +8,14 @@
 #include "sysdep.h"
 #include "yaction.h"
 #include "yrect.h"
+#include "upath.h"
+#include "yimage.h"
 #include "ylocale.h"
 #include "prefs.h"
 #include "yicon.h"
-
-#include <unistd.h>
-extern "C" {
-#include <sys/mman.h>
-}
-
 #include "intl.h"
 
 char const *ApplicationName = "iceview";
-ref<YIcon> file;
 
 extern Atom _XA_WIN_ICONS;
 
@@ -66,7 +61,6 @@ public:
         menu = new YMenu();
         menu->setActionListener(this);
         //menu->addItem(_("Find..."), 0, _("Ctrl+F"), actionFind);
-        menu->addSeparator();
         menu->addItem(_("Hex View"), 0, _("Ctrl+H"), actionToggleHexView);
         menu->addItem(_("Expand Tabs"), 0, _("Ctrl+T"), actionToggleExpandTabs);
         menu->addItem(_("Wrap Lines"), 0, _("Ctrl+W"), actionToggleWrapLines);
@@ -75,6 +69,7 @@ public:
     }
 
     ~TextView() {
+        delete menu;
     }
     int nextTab(int n) {
         return (n / 8 + 1) * 8;
@@ -130,6 +125,10 @@ public:
                     maxWidth = w;
             }
         }
+    }
+
+    void setImage(ref<YImage> image) {
+        fImage = image;
     }
 
     void setData(char *d, int len) {
@@ -328,11 +327,34 @@ public:
     }
 
     virtual void paint(Graphics &g, const YRect &r) {
-        int wx = r.x(), wy = r.y(), wwidth = r.width(), wheight = r.height();
+        int wx = r.x();
+        int wy = r.y();
+        int wwidth = int(r.width());
+        int wheight = int(r.height());
+
         g.setColor(bg);
-        g.fillRect(wx, wy, wwidth, wheight);
         g.setFont(font);
+
+        if (fImage != null) {
+            int ix = tx;
+            int iy = ty;
+            int iw = min(wx + wwidth, ix + int(fImage->width()));
+            int ih = min(wy + wheight, iy + int(fImage->height()));
+            if (wx < iw && wy < ih) {
+                g.drawImage(fImage, ix + wx, iy + wy, iw - wx, ih - wy, wx, wy);
+            }
+            if (wx + wwidth > int(fImage->width())) {
+                g.fillRect(fImage->width(), wy, wx + wwidth - fImage->width(), wheight);
+            }
+            if (wy + wheight > int(fImage->height())) {
+                g.fillRect(wx, fImage->height(), wwidth, wy + wheight - fImage->height());
+            }
+            return;
+        }
+
+        g.fillRect(wx, wy, wwidth, wheight);
         g.setColor(fg);
+
         int l1 = (ty + wy) / fontHeight;
         int l2 = (ty + wy + wheight) / fontHeight;
         if ((ty + wy + wheight) % fontHeight)
@@ -427,7 +449,9 @@ public:
     }
 
     unsigned contentWidth() {
-        if (hexView)
+        if (fImage != null)
+            return fImage->width();
+        else if (hexView)
             return 78 * fontWidth + 2;
         else if (wrapLines)
             return wrapWidth * fontWidth;
@@ -435,6 +459,8 @@ public:
             return maxWidth + 2;
     }
     unsigned contentHeight() {
+        if (fImage != null)
+            return fImage->height();
         int n;
         if (hexView)
             n = chunkCount;
@@ -449,6 +475,12 @@ public:
     int getFontWidth() { return fontWidth; }
     int getFontHeight() { return fontHeight; }
 
+    virtual void handleButton(const XButtonEvent &up) {
+        if (up.button == Button4 || up.button == Button5) {
+            fVerticalScroll->handleScrollMouse(up);
+        }
+    }
+
     virtual void handleClick(const XButtonEvent &up, int /*count*/) {
         if (up.button == 3) {
             menu->popup(this, 0, 0, up.x_root, up.y_root,
@@ -459,7 +491,29 @@ public:
         }
     }
 
-    virtual void actionPerformed(YAction action, unsigned int /*modifiers*/) {
+    virtual bool handleKey(const XKeyEvent& key) {
+        if (fVerticalScroll->handleScrollKeys(key) == true) {
+            return true;
+        }
+        if (fHorizontalScroll->handleScrollKeys(key) == true) {
+            return true;
+        }
+        if (key.type == KeyPress) {
+            KeySym k = keyCodeToKeySym(key.keycode);
+            int m = KEY_MODMASK(key.state);
+            if (k == XK_Escape) {
+                actionPerformed(actionClose, m);
+                return true;
+            }
+            else if (k == XK_q && hasbit(m, ControlMask)) {
+                actionPerformed(actionClose, m);
+                return true;
+            }
+        }
+        return YWindow::handleKey(key);
+    }
+
+    virtual void actionPerformed(YAction action, unsigned int modifiers) {
         if (action == actionToggleHexView) {
             hexView = hexView ? false : true;
             repaint();
@@ -470,8 +524,13 @@ public:
             wrapLines = wrapLines ? false : true;
             findWLines(width() / fontWidth);
             repaint();
-        } else if (action == actionClose)
-            exit(0);
+        } else if (action == actionClose) {
+            if (hasbit(modifiers, ControlMask)) {
+                xapp->exit(0);
+            } else {
+                parent()->handleClose();
+            }
+        }
     }
 
     virtual void configure(const YRect &r) {
@@ -509,6 +568,7 @@ private:
 
     YColorName bg, fg;
     ref<YFont> font;
+    ref<YImage> fImage;
     YScrollView *view;
     YScrollBar *fVerticalScroll;
     YScrollBar *fHorizontalScroll;
@@ -524,81 +584,99 @@ private:
 
 class FileView: public YWindow {
 public:
-    FileView(char *path) {
-        setDND(true);
-        fPath = newstr(path);
-
-        scroll = new YScrollView(this);
-        view = new TextView(scroll, this);
+    FileView(char *path) :
+        YWindow(desktop, None),
+        fPath(newstr(path)),
+        scroll(new YScrollView(this)),
+        view(new TextView(scroll, this))
+    {
         scroll->setView(view);
-
         view->show();
         scroll->show();
 
-        setTitle(fPath);
-        file = YIcon::getIcon("file");
-#if 0
-        Pixmap icons[4];
-        icons[0] = file->small()->pixmap();
-        icons[1] = file->small()->mask();
-        icons[2] = file->large()->pixmap();
-        icons[3] = file->large()->mask();
-        XChangeProperty(xapp->display(), handle(),
-                        _XA_WIN_ICONS, XA_PIXMAP,
-                        32, PropModeReplace,
-                        (unsigned char *)icons, 4);
-#endif
-        int x = 80 * view->getFontWidth();
-        int y = 30 * view->getFontHeight();
-
-        setSize(x, y);
+        int x = max(200, 80 * view->getFontWidth());
+        int y = max(150, 30 * view->getFontHeight());
 
         loadFile();
 
-        printf("x:y = %d:%d\n", view->contentWidth(), view->contentHeight());
-
-        if (int(view->contentWidth()) < x)
-            x = int(view->contentWidth());
-        if (int(view->contentHeight()) < y)
-            y = int(view->contentHeight());
-
-        if (x < 200)
-            x = 200;
-        if (y < 150)
-            y = 150;
+        x = min(max(x, int(view->contentWidth())),
+                xapp->displayWidth() - 100);
+        y = min(max(y, int(view->contentHeight())),
+                xapp->displayHeight() - 100);
 
         setSize(x, y);
+
+        if (window_group == None) {
+            window_group = XCreateSimpleWindow(
+                    xapp->display(),
+                    xapp->root(),
+                    0, 0, 1, 1, 0,
+                    xapp->black(),
+                    xapp->black());
+        }
+
+        ref<YIcon> file = YIcon::getIcon("icewm");
+        if (file != null) {
+            unsigned depth = xapp->depth();
+            large = YPixmap::createFromImage(file->large(), depth);
+        }
+
+        static char wm_clas[] = "IceWM";
+        static char wm_name[] = "iceview";
+        XClassHint class_hint = { wm_name, wm_clas };
+        XSizeHints size_hints = { PSize, 0, 0, x, y };
+        XWMHints wmhints = {
+            InputHint | StateHint | WindowGroupHint,
+            True,
+            NormalState,
+            large != null ? large->pixmap() : None, None, 0, 0,
+            large != null ? large->mask() : None,
+            window_group
+        };
+        if (wmhints.icon_pixmap)
+            wmhints.flags |= IconPixmapHint;
+        if (wmhints.icon_mask)
+            wmhints.flags |= IconMaskHint;
+        Xutf8SetWMProperties(xapp->display(), handle(),
+                             fPath, ApplicationName, nullptr, 0,
+                             &size_hints, &wmhints, &class_hint);
+
+        setNetPid();
+        setDND(true);
+
+        views += this;
+    }
+
+    ~FileView() {
+        delete scroll;
+        delete view;
     }
 
     void loadFile() {
-        struct stat sb;
-
-        int fd = open(fPath, O_RDONLY);
-        if (fd == -1)
-            return;
-        if (fstat(fd, &sb) != 0) {
-            close(fd);
-            return;
-        }
-        int len = sb.st_size;
-        char *buf;
-
-        if ((buf = (char *)mmap(0, len, PROT_READ, MAP_SHARED, fd, 0)) == 0) {
-            buf = (char *)malloc(len);
-            if (buf == 0) {
-                close(fd);
-                return;
-            }
-            if ((len = read(fd, buf, len)) < 0) {
-                free(buf);
-                close(fd);
-                return;
+        upath path(fPath);
+        pstring ext(path.getExtension().lower());
+        if (ext == ".xpm" || ext == ".png" || ext == ".svg" ||
+            ext == ".jpg" || ext == ".jpeg")
+        {
+            ref<YImage> image = YImage::load(path);
+            if (image != null) {
+                view->setImage(image);
+                if (width() < image->width() ||
+                    height() < image->height())
+                {
+                    setSize(max(width(), image->width()),
+                            max(height(), image->height()));
+                }
             }
         }
-
-
-        view->setData(buf, len);
-        close(fd);
+        else
+        {
+            char* buf = path.loadText();
+            if (buf) {
+                int len = strlen(buf);
+                view->setData(buf, len);
+            }
+        }
     }
 
     virtual void configure(const YRect &r) {
@@ -606,17 +684,45 @@ public:
         scroll->setGeometry(YRect(0, 0, r.width(), r.height()));
     }
 
+    static int getCount() {
+        return views.getCount();
+    }
+
+    static void remove(FileView* view) {
+        findRemove(views, view);
+        if (views.isEmpty()) {
+            xapp->exit(0);
+        }
+    }
+
     virtual void handleClose() {
-        delete this;
-        xapp->exit(0);
+        remove(this);
+    }
+
+    static void closeAll() {
+        for (int i = views.getCount(); i-- > 0; ) {
+            views.remove(i);
+        }
+        if (window_group) {
+            XDestroyWindow(xapp->display(), window_group);
+            window_group = None;
+        }
     }
 
 private:
     char *fPath;
 
-    TextView *view;
     YScrollView *scroll;
+    TextView *view;
+
+    ref<YPixmap> large;
+
+    static Window window_group;
+    static YObjectArray<FileView> views;
 };
+
+Window FileView::window_group;
+YObjectArray<FileView> FileView::views;
 
 int main(int argc, char **argv) {
     YLocale locale;
@@ -625,13 +731,20 @@ int main(int argc, char **argv) {
     textdomain(PACKAGE);
 
     YXApplication app(&argc, &argv);
-
-    if (argc > 1) {
-        FileView *view = new FileView(argv[1]);
-        view->show();
-
-        return app.mainLoop();
+    for (int i = 1; i < argc; ++i) {
+        if (argv[i][0] == '-') {
+            continue;
+        }
+        else {
+            FileView* view = new FileView(argv[i]);
+            view->show();
+        }
     }
+    if (FileView::getCount() > 0) {
+        app.mainLoop();
+        FileView::closeAll();
+    }
+    return app.exitCode();
 }
 
 // vim: set sw=4 ts=4 et:

@@ -79,17 +79,11 @@ void YToolTipWindow::setText(const ustring &tip) {
         setSize(size.w + 2 * TTXMargin, size.h + 3 + 2 * TTYMargin);
 
         //!!! merge with below code in locate
-        int x = this->x();
-        int y = this->y();
-        if (x + width() >= desktop->width())
-            x = desktop->width() - width();
-        if (y + height() >= desktop->height())
-            y = desktop->height() - height();
-        if (y < 0)
-            y = 0;
-        if (x < 0)
-            x = 0;
-        setPosition(x, y);
+        int screen = desktop->getScreenForRect(x(), y(), width(), height());
+        YRect geo(desktop->getScreenGeometry(screen));
+        int xpos = clamp(x(), geo.x(), int(geo.width() - width()));
+        int ypos = clamp(y(), geo.y(), int(geo.height() - height()));
+        setPosition(xpos, ypos);
     }
     repaint();
 }

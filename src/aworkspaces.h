@@ -88,7 +88,9 @@ class WorkspaceIcons {
 class AWorkspaces : public YWindow {
 public:
     AWorkspaces(YWindow *parent) : YWindow(parent) {
-        setParentRelative(); setStyle(wsNoExpose); }
+        addStyle(wsNoExpose);
+        setParentRelative();
+    }
     virtual ~AWorkspaces() {}
 
     virtual void repaint() {}

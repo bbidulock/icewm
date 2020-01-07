@@ -643,7 +643,7 @@ void SwitchWindow::begin(bool zdown, int mods, char* wmclass) {
     m_oldMenuMouseTracking = menuMouseTracking;
     menuMouseTracking = true;
 
-    int xiscreen = manager->getScreen();
+    int xiscreen = manager->getSwitchScreen();
     zItems->begin(zdown);
 
     resize(xiscreen);
@@ -688,7 +688,7 @@ void SwitchWindow::destroyedFrame(YFrameWindow *frame) {
         cancel();
     }
     else if (isUp) {
-        resize(manager->getScreen());
+        resize(manager->getSwitchScreen());
         repaint();
     }
 }

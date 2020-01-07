@@ -25,6 +25,7 @@
 #include "yprefs.h"
 #include "prefs.h"
 #include "udir.h"
+#include "ascii.h"
 #include "appnames.h"
 #include "ypaths.h"
 #include "yxcontext.h"
@@ -40,8 +41,8 @@ char const *ApplicationName("IceWM");
 RebootShutdown rebootOrShutdown = Logout;
 static bool initializing(true);
 
-YWMApp *wmapp(NULL);
-YWindowManager *manager(NULL);
+YWMApp *wmapp;
+YWindowManager *manager;
 
 YCursor YWMApp::sizeRightPointer;
 YCursor YWMApp::sizeTopRightPointer;
@@ -110,7 +111,7 @@ static Window registerProtocols1(char **argv, int argc) {
     static char wm_instance[] = "icewm";
 
     XClassHint class_hint = {
-        (argv == NULL) ? wm_instance : NULL,
+        argv ? nullptr : wm_instance,
         wm_class
     };
 
@@ -712,7 +713,7 @@ void YWMApp::runRestart(const char *path, char *const *args) {
         if (args) {
             execvp(path, args);
         } else {
-            execlp(path, path, (void *)NULL);
+            execlp(path, path, nullptr);
         }
     } else {
         if (mainArgv[0][0] == '/' ||
@@ -744,9 +745,24 @@ void YWMApp::restartClient(const char *cpath, char *const *cargs) {
     runRestart(path, args);
 
     /* somehow exec failed, try to recover */
-    managerWindow = registerProtocols1(NULL, 0);
+    managerWindow = registerProtocols1(nullptr, 0);
     registerProtocols2(managerWindow);
     manager->manageClients();
+}
+
+int YWMApp::runProgram(const char *path, const char *const *args) {
+    cstring command;
+    YTraceProg trace;
+    if (trace.tracing()) {
+        command = path;
+        if (command == "/bin/sh" && nonempty(*args)) {
+            for (int i = 1; args[i]; ++i) {
+                command = mstring(command, " ", args[i]);
+            }
+        }
+        trace.init(command);
+    }
+    return YApplication::runProgram(path, args);
 }
 
 void YWMApp::runOnce(const char *resource, long *pid,
@@ -761,6 +777,11 @@ void YWMApp::runOnce(const char *resource, long *pid,
     *pid = runProgram(path, args);
 }
 
+void YWMApp::runCommand(const char *cmdline) {
+    char const * argv[] = { "/bin/sh", "-c", cmdline, NULL };
+    runProgram(argv[0], argv);
+}
+
 void YWMApp::runCommandOnce(const char *resource, const char *cmdline, long *pid) {
     if (0 < *pid && mapClientByPid(resource, *pid))
         return;
@@ -768,9 +789,9 @@ void YWMApp::runCommandOnce(const char *resource, const char *cmdline, long *pid
     if (mapClientByResource(resource, pid))
         return;
 
-    char const *const argv[] = { "/bin/sh", "-c", cmdline, NULL };
+    char const *const argv[] = { "/bin/sh", "-c", cmdline, nullptr };
 
-    *pid = runProgram(argv[0], (char *const *) argv);
+    *pid = runProgram(argv[0], argv);
 }
 
 bool YWMApp::mapClientByPid(const char* resource, long pid) {
@@ -821,20 +842,18 @@ void YWMApp::setFocusMode(FocusModels mode) {
 }
 
 void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
-
-
     if (action == actionLogout) {
         doLogout(Logout);
     } else if (action == actionCancelLogout) {
         cancelLogout();
     } else if (action == actionLock) {
-        this->runCommand(lockCommand);
+        runCommand(lockCommand);
     } else if (action == actionShutdown) {
-        manager->doWMAction(ICEWM_ACTION_SHUTDOWN);
+        handleSMAction(ICEWM_ACTION_SHUTDOWN);
     } else if (action == actionSuspend) {
-        manager->doWMAction(ICEWM_ACTION_SUSPEND);
+        handleSMAction(ICEWM_ACTION_SUSPEND);
     } else if (action == actionReboot) {
-        manager->doWMAction(ICEWM_ACTION_REBOOT);
+        handleSMAction(ICEWM_ACTION_REBOOT);
     } else if (action == actionRestart) {
 #if defined(DEBUG) || defined(PRECON)
         // Prefer a return from main for cleanup checking; icesm restarts.
@@ -879,8 +898,7 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
     } else if (action == actionRefresh) {
         osmart<YWindow> w(new YWindow());
         if (w) {
-            w->setGeometry(YRect(0, 0,
-                                 desktop->width(), desktop->height()));
+            w->setGeometry(desktop->geometry());
             w->raise();
             w->show();
             w->hide();
@@ -949,6 +967,14 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
             windowList->showFocused(-1, -1);
     } else if (action == actionWinOptions) {
         loadWinOptions(findConfigFile("winoptions"));
+    } else if (action == actionReloadKeys) {
+        keyProgs.clear();
+        MenuLoader(this, this, this).loadMenus(findConfigFile("keys"), 0);
+        if (manager && !initializing) {
+            if (manager->wmState() == YWindowManager::wmRUNNING) {
+                manager->grabKeys();
+            }
+        }
     } else if (action == actionCollapseTaskbar && taskBar) {
         taskBar->handleCollapseButton();
         manager->focusLastWindow();
@@ -1059,6 +1085,50 @@ void YWMApp::initFocusMode() {
     }
 }
 
+void YWMApp::loadFocusMode() {
+    const char* focusMode = nullptr;
+    cfoption focus_prefs[] = {
+        OSV("FocusMode", &focusMode,
+            "Focus mode (0=custom, 1=click, 2=sloppy"
+            ", 3=explicit, 4=strict, 5=quiet)"),
+        OK0()
+    };
+
+    YConfig::findLoadConfigFile(this, focus_prefs, "focus_mode");
+    if (focusMode) {
+        static const struct {
+            FocusModels num;
+            const char* str;
+        } models[] = {
+            { FocusCustom,   "custom"   },
+            { FocusClick,    "click"    },
+            { FocusSloppy,   "sloppy"   },
+            { FocusExplicit, "explicit" },
+            { FocusStrict,   "strict"   },
+            { FocusQuiet,    "quiet"    },
+        };
+        if (ASCII::isDigit(*focusMode)) {
+            int mode = atoi(focusMode);
+            for (int i = 0; i < int ACOUNT(models); ++i) {
+                if (mode == models[i].num) {
+                    this->focusMode = models[i].num;
+                    break;
+                }
+            }
+        }
+        else {
+            cstring mode(mstring(focusMode).lower());
+            for (int i = 0; i < int ACOUNT(models); ++i) {
+                if (mode == models[i].str) {
+                    this->focusMode = models[i].num;
+                    break;
+                }
+            }
+        }
+        delete[] const_cast<char *>(focusMode);
+    }
+}
+
 static void showExtensions() {
     struct {
         const char* str;
@@ -1070,6 +1140,7 @@ static void showExtensions() {
         { "render",    &render    },
         { "shapes",    &shapes    },
         { "xrandr",    &xrandr    },
+        { "xinerama",  &xinerama  },
     };
     printf("[name]   [ver] [ev][err]\n");
     for (int i = 0; i < int ACOUNT(xs); ++i) {
@@ -1136,20 +1207,17 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
     if (themeName != 0) {
         MSG(("themeName=%s", themeName));
 
-        WMConfig::loadThemeConfiguration(this, themeName);
+        bool ok = WMConfig::loadThemeConfiguration(this, themeName);
+        if (ok == false && strcmp(themeName, CONFIG_DEFAULT_THEME)) {
+            themeName = CONFIG_DEFAULT_THEME;
+            ok = WMConfig::loadThemeConfiguration(this, themeName);
+        }
+        if (ok == false && strpcmp(themeName, "default", "/")) {
+            themeName = "default/default.theme";
+            ok = WMConfig::loadThemeConfiguration(this, themeName);
+        }
     }
-    {
-        int focusMode(this->focusMode);
-        cfoption focus_prefs[] = {
-            OIV("FocusMode", &focusMode, FocusCustom, FocusModelLast,
-                "Focus mode (0=custom, 1=click, 2=sloppy"
-                ", 3=explicit, 4=strict, 5=quiet)"),
-            OK0()
-        };
-
-        YConfig::findLoadConfigFile(this, focus_prefs, "focus_mode");
-        this->focusMode = FocusModels(focusMode);
-    }
+    loadFocusMode();
     WMConfig::loadConfiguration(this, "prefoverride");
     if (focusMode != FocusCustom)
         initFocusMode();
@@ -1175,7 +1243,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
     catchSignal(SIGPIPE);
 
     actionPerformed(actionWinOptions, 0);
-    MenuLoader(this, this, this).loadMenus(findConfigFile("keys"), 0);
+    actionPerformed(actionReloadKeys, 0);
 
     initPointers();
 
@@ -1189,8 +1257,8 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
     managerWindow = registerProtocols1(*argv, *argc);
 
     desktop = manager = new YWindowManager(
-        this, this, this, 0, root());
-    PRECONDITION(desktop != 0);
+        this, this, this, nullptr, root());
+    PRECONDITION(desktop != nullptr);
 
     registerProtocols2(managerWindow);
 
@@ -1465,8 +1533,10 @@ static void print_usage(const char *argv0) {
              "  -a, --alpha         Use a 32-bit visual for translucency.\n"
              "  -c, --config=FILE   Load preferences from FILE.\n"
              "  -t, --theme=FILE    Load theme from FILE.\n"
-             "  --splash=IMAGE      Briefly show IMAGE on startup.\n"
-             "  --postpreferences   Print preferences after all processing.\n");
+             "  -s, --splash=IMAGE  Briefly show IMAGE on startup.\n"
+             "  -p, --postpreferences  Print preferences after all processing.\n"
+             "  --trace=conf,icon   Trace paths used to load configuration.\n"
+             );
 
     printf(_("Usage: %s [OPTIONS]\n"
              "Starts the IceWM window manager.\n"
@@ -1635,7 +1705,7 @@ int main(int argc, char **argv) {
                 configFile = value;
             else if (GetArgument(value, "t", "theme", arg, argv+argc))
                 overrideTheme = value;
-            else if (is_long_switch(*arg, "postpreferences"))
+            else if (is_switch(*arg, "p", "postpreferences"))
                 post_preferences = true;
             else if (is_long_switch(*arg, "extensions"))
                 show_extensions = true;
@@ -1673,7 +1743,7 @@ int main(int argc, char **argv) {
                 YXApplication::alphaBlending = true;
             else if (GetArgument(value, "d", "display", arg, argv+argc))
                 displayName = value;
-            else if (GetLongArgument(value, "splash", arg, argv+argc))
+            else if (GetArgument(value, "s", "splash", arg, argv+argc))
                 splashFile = value;
             else if (GetLongArgument(value, "trace", arg, argv+argc))
                 YTrace::tracing(value);
@@ -1834,10 +1904,13 @@ void YWMApp::handleSMAction(WMAction message) {
         wmapp->actionPerformed(actionAbout, 0);
         break;
     case ICEWM_ACTION_SUSPEND:
-        YWindowManager::execAfterFork(suspendCommand);
+        wmapp->runCommand(suspendCommand);
         break;
     case ICEWM_ACTION_WINOPTIONS:
         wmapp->actionPerformed(actionWinOptions, 0);
+        break;
+    case ICEWM_ACTION_RELOADKEYS:
+        wmapp->actionPerformed(actionReloadKeys, 0);
         break;
     }
 }
@@ -1858,10 +1931,11 @@ public:
         xapp->sync();
     }
     void place() {
+        YRect geo(desktop->getScreenGeometry());
         int w = int(image->width());
         int h = int(image->height());
-        int x = (xapp->displayWidth() - w) / 2;
-        int y = (xapp->displayHeight() - h) / 2;
+        int x = geo.x() + (geo.width() - w) / 2;
+        int y = geo.y() + (geo.height() - h) / 2;
         setGeometry(YRect(x, y, w, h));
         GraphicsBuffer(this).paint();
     }

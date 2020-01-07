@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Chinese (China) (icewm)\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-11-24 12:39+0100\n"
-"PO-Revision-Date: 2019-02-07 06:32+0000\n"
-"Last-Translator: Emily Dong <Emily.Dong@excel-gits.com>\n"
+"POT-Creation-Date: 2019-12-02 23:39+0100\n"
+"PO-Revision-Date: 2019-12-06 03:54+0000\n"
+"Last-Translator: Kevin Suo <suokunlong@126.com>\n"
 "Language-Team: Chinese (China) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/zh_CN/>\n"
 "Language: zh_CN\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.3\n"
+"X-Generator: Weblate 3.6.1\n"
 
 #: src/aapm.cc:187 src/aapm.cc:469 src/aapm.cc:691 src/aapm.cc:816
 msgid " - Power"
@@ -548,7 +548,7 @@ msgstr "Same 游戏"
 
 #: src/icesh.cc:63
 msgid "For help please consult the man page icesh(1).\n"
-msgstr ""
+msgstr "如需帮助，请参阅 icesh(1) 手册页。\n"
 
 #: src/icesh.cc:1196
 #, c-format
@@ -583,57 +583,52 @@ msgstr "IceWM 托盘选项"
 
 #: src/icesh.cc:1553
 msgid "Gravity symbols"
-msgstr ""
+msgstr "重力符号"
 
 #: src/icesh.cc:1554
-#, fuzzy
-#| msgid "Save Modifications"
 msgid "Motif functions"
-msgstr "保存修改"
+msgstr "Motif 函数"
 
 #: src/icesh.cc:1555
-#, fuzzy
-#| msgid "Save Modifications"
 msgid "Motif decorations"
-msgstr "保存修改"
+msgstr "Motif 修饰器"
 
 #: src/icesh.cc:1634
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "工作区 #%d: `%s'\n"
 
-#: src/icesh.cc:2527
+#: src/icesh.cc:2528
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "命令 `%s' 需要至少 %d 个参数。"
 
-#: src/icesh.cc:2537
+#: src/icesh.cc:2538
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "无效表达式: `%s'"
 
-#: src/icesh.cc:2548 src/icesound.cc:795 src/icewmhint.cc:36 src/wmapp.cc:1108
-#: src/yxapp.cc:1038
+#: src/icesh.cc:2549 src/icesound.cc:795 src/icewmhint.cc:36 src/wmapp.cc:1116
+#: src/yxapp.cc:1046
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "无法打开显示：%s。 X必须正在执行且设定 $DISPLAY。"
 
-#: src/icesh.cc:2561
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'."
+#: src/icesh.cc:2562
+#, c-format
 msgid "Invalid argument: `%s'"
-msgstr "无效参数：`%s'。"
+msgstr "无效参数：`%s'"
 
-#: src/icesh.cc:2601
+#: src/icesh.cc:2602
 msgid "No actions specified."
 msgstr "未指定行为。"
 
-#: src/icesh.cc:2760
+#: src/icesh.cc:2761
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "无效的窗口标识符：`%s'"
 
-#: src/icesh.cc:3254
+#: src/icesh.cc:3255
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "未知的行为：`%s'"
@@ -644,17 +639,6 @@ msgid "Socket error: %d"
 msgstr "socket 错误：%d"
 
 #: src/icesm.cc:57
-#, fuzzy
-#| msgid ""
-#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-#| "\n"
-#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
-#| "  --sync              Synchronize communication with X11 server.\n"
-#| "\n"
-#| "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
-#| "  -n, --notray        Do not start icewmtray.\n"
-#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -668,13 +652,15 @@ msgid ""
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
-"  -c, --config=FILE   从 FILE 加载 IceWM 配置选项。\n"
+"  -c, --config=FILE    从 FILE 加载 IceWM 配置。\n"
 "  -t, --theme=FILE    从 FILE 加载 IceWM 主题。\n"
 "\n"
-"  -d, --display=NAME  使用 NAME 连接 X 服务器。\n"
-"  --sync              与 X11 服务器同步通信信息。\n"
+"  -d, --display=NAME  使用 NAME 连接到 X 服务器。\n"
+"  -a, --alpha               对半透明使用 32 位 visual。\n"
+"  --sync                     与 X11 服务器同步通信信息。\n"
 "\n"
-"  -i, --icewm=FILE    使用 FILE 作为 IceWM 窗口管理器。 \n"
+"  -i, --icewm=FILE 使用 FILE 作为 IceWM 窗口管理器。\n"
+"  -b, --nobg          不启动 icewmbg。\n"
 "  -n, --notray        不启动 icewmtray。\n"
 "  -s, --sound         同时启动 icesound。\n"
 
@@ -684,10 +670,9 @@ msgid "Unknown option '%s'"
 msgstr "未知选项：‘%s'"
 
 #: src/icesm.cc:331 src/icesm.cc:449
-#, fuzzy, c-format
-#| msgid "Restart"
+#, c-format
 msgid "restart %s."
-msgstr "重新启动"
+msgstr "重新启动 %s."
 
 #: src/icesm.cc:337
 #, c-format
@@ -785,63 +770,7 @@ msgid "Unrecognized argument: %s\n"
 msgstr "不明参数：%s\n"
 
 #: src/icesound.cc:689
-#, fuzzy, c-format
-#| msgid ""
-#| "Usage: %s [OPTION]...\n"
-#| "\n"
-#| "Plays audio files on GUI events raised by IceWM.\n"
-#| "The currently configured sound interfaces are: %s.\n"
-#| "Icesound will choose the first of these which is usable.\n"
-#| "\n"
-#| "Options:\n"
-#| "\n"
-#| " -d, --display=DISPLAY   X11 display used by IceWM (default: $DISPLAY).\n"
-#| "\n"
-#| " -s, --sample-dir=DIR    Specifies a directory with sound files.\n"
-#| "                         Default is $HOME/.config/icewm/sounds.\n"
-#| "\n"
-#| " -i, --interface=LIST    Specifies audio output interfaces. One or more "
-#| "of:\n"
-#| "                         %s separated by commas.\n"
-#| "\n"
-#| " -D, --device=DEVICE     Backwards compatibility only: the default "
-#| "device. \n"
-#| "                         Please prefer one of the -A/-O/-S options.\n"
-#| "\n"
-#| " -O, --oss=DEVICE        Specifies the OSS device (default: \"%s\").\n"
-#| "\n"
-#| " -A, --alsa=DEVICE       Specifies the ALSA device (default: \"%s\").\n"
-#| "\n"
-#| " -S, --server=ADDR:PORT  Specifies the ESD server address and port "
-#| "number.\n"
-#| "                         For ESD the default is \"localhost:16001\".\n"
-#| "\n"
-#| " -z, --snooze=millisecs  Specifies the snooze interval between sound "
-#| "events\n"
-#| "                         in milliseconds. Default is 500 milliseconds.\n"
-#| "\n"
-#| " -p, --play=sound        Plays the given sound (name or number) and "
-#| "exits.\n"
-#| "\n"
-#| " -l, --list-files        Lists the available sound file paths and exits.\n"
-#| "\n"
-#| "     --list-sounds       Lists the supported sound filenames and exits.\n"
-#| "\n"
-#| "     --list-interfaces   Lists the supported audio interfaces and exits.\n"
-#| "\n"
-#| " -v, --verbose           Be verbose and print out each sound event.\n"
-#| "\n"
-#| " -V, --version           Prints version information and exits.\n"
-#| "\n"
-#| " -h, --help              Prints this help screen and exits.\n"
-#| "\n"
-#| "Return values:\n"
-#| "\n"
-#| "  0    Success.\n"
-#| "  1    General error.\n"
-#| "  2    Command line error.\n"
-#| "  3    Subsystems error (ie cannot connect to server).\n"
-#| "\n"
+#, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
 "\n"
@@ -894,41 +823,41 @@ msgstr ""
 "使用方法：%s [选项]...\n"
 "\n"
 "当 IceWM 触发 GUI 事件时播放音频文件。\n"
-"当前设置的声音介面为：%s。\n"
-"Icesound 将选择其中第一个可用介面。\n"
+"当前设置的音频接口为：%s。\n"
+"Icesound 将选择其中第一个可用接口。\n"
 "\n"
 "选项：\n"
 "\n"
-" -d, --display=DISPLAY   IceWM 使用的 X11 显示终端 （默认： $DISPLAY）。\n"
+" -d, --display=DISPLAY   IceWM 使用的 X11 显示界面 （默认： $DISPLAY）。\n"
 "\n"
-" -s, --sample-dir=DIR    指定包含声音文件的目录。\n"
+" -s, --sample-dir=DIR    指定包含音频文件的目录。\n"
 "                         默认为  $HOME/.config/icewm/sounds。\n"
 "\n"
-" -i, --interface=LIST    指定音频输出介面。%s 中的一个或多个\n"
-"                         使用逗号分割。 \n"
+" -i, --interface=LIST    指定音频输出接口。%s 中的一个或多个\n"
+"                         使用逗号分隔。 \n"
 "\n"
-" -D, --device=DEVICE     仅向前兼容：默认设备。\n"
-"                         请参照 -A/-O/-S 其中的一个选项。\n"
+" -D, --device=DEVICE     仅用于向后兼容。默认设备。\n"
+"                         请参考 -A/-O/-S 选项。\n"
 "\n"
 " -O, --oss=DEVICE       指定 OSS 设备 （默认：\"%s\"）。\n"
 "\n"
 " -A, --alsa=DEVICE      指定 ALSA 设备（默认：\"%s\"）。\n"
 "\n"
 " -S, --server=ADDR:PORT  指定 ESD 服务器地址和端口号。\n"
-"                         ESD 的缺省配置为 \"localhost:16001\"。\n"
+"                         ESD 的默认配置为 \"localhost:16001\"。\n"
 " \n"
 " -z, --snooze=millisecs  指定声音事件之间的间隔时间，以毫秒为单位。\n"
 "                         默认为 500 毫秒。\n"
 "\n"
-" -p, --play=sound        播放给定的声音（名称或者编号）并退出。\n"
+" -p, --play=sound        播放给定的音频（名称或者编号）并退出。\n"
 "\n"
-" -l, --list-files        列出可使用的声音文件路径并退出。\n"
+" -l, --list-files        列出可使用的音频文件路径并退出。\n"
 "\n"
-"     --list-sounds       列出支持的声音文件名并退出。\n"
+"     --list-sounds       列出支持的音频文件名并退出。\n"
 "\n"
-"     --list-interfaces   列出支持的音频介面并退出。\n"
+"     --list-interfaces   列出支持的音频接口并退出。\n"
 "\n"
-" -v, --verbose           详细信息，打印每一个声音事件。\n"
+" -v, --verbose           详细信息，打印每个声音事件。\n"
 "\n"
 " -V, --version           打印版本信息并退出。\n"
 "\n"
@@ -939,7 +868,7 @@ msgstr ""
 "  0    成功。\n"
 "  1    一般错误。\n"
 "  2    命令行错误。\n"
-"  3    子系统错误 (如 无法连接到服务器）。\n"
+"  3    子系统错误 (如：无法连接到服务器）。\n"
 "\n"
 
 #: src/icesound.cc:780
@@ -1147,11 +1076,11 @@ msgstr "用法：icewmhint class.instance option arg\n"
 msgid "Out of memory (len=%d)."
 msgstr "内存不足（len=%d）。"
 
-#: src/misc.cc:568 src/misc.cc:580
+#: src/misc.cc:571 src/misc.cc:583
 msgid "Warning: "
 msgstr "警告： "
 
-#: src/misc.cc:856
+#: src/misc.cc:859
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1386,16 +1315,16 @@ msgstr ""
 msgid "Kill IceWM, replace with Xterm"
 msgstr "杀掉 IceWM，替换为 Xterm"
 
-#: src/wmapp.cc:1109 src/yxapp.cc:1039
+#: src/wmapp.cc:1117 src/yxapp.cc:1047
 msgid "<none>"
 msgstr "<无>"
 
-#: src/wmapp.cc:1450
+#: src/wmapp.cc:1466
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr "  --client-id=ID      与会话管理器通信时使用客户端 ID\n"
 
-#: src/wmapp.cc:1456
+#: src/wmapp.cc:1472
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1405,27 +1334,25 @@ msgstr ""
 "  --debug             打印通用调试信息。\n"
 "  --debug-z           窗口层叠时打印调试信息。\n"
 
-#: src/wmapp.cc:1464
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "  -c, --config=FILE   Load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Load theme from FILE.\n"
-#| "  --postpreferences   Print preferences after all processing.\n"
+#: src/wmapp.cc:1480
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
 "  -c, --config=FILE   Load preferences from FILE.\n"
 "  -t, --theme=FILE    Load theme from FILE.\n"
-"  --splash=IMAGE      Briefly show IMAGE on startup.\n"
-"  --postpreferences   Print preferences after all processing.\n"
+"  -s, --splash=IMAGE  Briefly show IMAGE on startup.\n"
+"  -p, --postpreferences  Print preferences after all processing.\n"
+"  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgstr ""
 "\n"
-"  -c, --config=FILE   从 FILE 中加载配置选项。\n"
-"  -t, --theme=FILE    从 FILE 中加载主题。\n"
-"  --postpreferences   所有处理过程结束后打印配置选项。\n"
+"  -a, --alpha         对半透明使用32位 visual。\n"
+"  -c, --config=FILE   从 FILE 加载配置文件。\n"
+"  -t, --theme=FILE    从 FILE 加载模板。\n"
+"  -s, --splash=IMAGE  在启动时简要显示 IMAGE.\n"
+"  -p, --postpreferences  处理完成后显示配置选项。\n"
+"  --trace=conf,icon   追踪用于加载配置文件的路径。\n"
 
-#: src/wmapp.cc:1471
+#: src/wmapp.cc:1489
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1484,26 +1411,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1532
+#: src/wmapp.cc:1550
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s 配置选项目录：\n"
 
-#: src/wmapp.cc:1617
+#: src/wmapp.cc:1635
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s 配置选项：%s\n"
 
-#: src/wmapp.cc:1681
+#: src/wmapp.cc:1699
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "无法识别的选项：'%s'。"
 
-#: src/wmapp.cc:1753
+#: src/wmapp.cc:1771
 msgid "Confirm Logout"
 msgstr "确认退出"
 
-#: src/wmapp.cc:1754
+#: src/wmapp.cc:1772
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1516,22 +1443,22 @@ msgstr ""
 msgid "Failed to load theme %s"
 msgstr "加载主题 %s 失败"
 
-#: src/wmconfig.cc:93
+#: src/wmconfig.cc:94
 #, c-format
 msgid "Unknown value '%s' for option '%s'."
 msgstr "存在未知的值“%s”（选项“%s”）。"
 
-#: src/wmconfig.cc:101
+#: src/wmconfig.cc:102
 #, c-format
 msgid "Unable to create directory %s"
 msgstr "无法创建目录 %s"
 
-#: src/wmconfig.cc:128 src/wmprog.cc:569 src/wmprog.cc:691 src/wmprog.cc:695
+#: src/wmconfig.cc:129 src/wmprog.cc:569 src/wmprog.cc:691 src/wmprog.cc:695
 #, c-format
 msgid "Unable to write to %s"
 msgstr "无法写入 %s"
 
-#: src/wmconfig.cc:155 src/wmprog.cc:699
+#: src/wmconfig.cc:156 src/wmprog.cc:699
 #, c-format
 msgid "Unable to rename %s to %s"
 msgstr "无法将 %s 重命名为 %s"
@@ -1544,8 +1471,9 @@ msgstr "锁定工作站(_k)"
 msgid "_Cancel"
 msgstr "取消(_C)"
 
-#: src/wmdialog.cc:77 src/wmprog.cc:849 src/wmprog.cc:851 src/wmtaskbar.cc:260
-#: src/wmtaskbar.cc:262
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmdialog.cc:77 src/wmprog.cc:849 src/wmprog.cc:851 src/wmtaskbar.cc:272
+#: src/wmtaskbar.cc:274
 msgid "_Logout..."
 msgstr "退出(_L)..."
 
@@ -1553,7 +1481,8 @@ msgstr "退出(_L)..."
 msgid "_Restart icewm"
 msgstr "重启 icewm(_R)"
 
-#: src/wmdialog.cc:82 src/wmprog.cc:810 src/wmtaskbar.cc:256
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmdialog.cc:82 src/wmprog.cc:810 src/wmtaskbar.cc:267
 msgid "_About"
 msgstr "关于(_A)"
 
@@ -1569,19 +1498,19 @@ msgstr ""
 "警告！当这个客户程序被杀死时，所有\n"
 "没有保存的修改将丢失。你想继续吗？"
 
-#: src/wmframe.cc:3003
+#: src/wmframe.cc:3012
 msgid "Restore"
 msgstr "恢复"
 
-#: src/wmframe.cc:3006 src/wmtitle.cc:71
+#: src/wmframe.cc:3015 src/wmtitle.cc:71
 msgid "Maximize"
 msgstr "最大化"
 
-#: src/wmframe.cc:3036
+#: src/wmframe.cc:3045
 msgid "Rolldown"
 msgstr "放下"
 
-#: src/wmframe.cc:3038 src/wmtitle.cc:129
+#: src/wmframe.cc:3047 src/wmtitle.cc:129
 msgid "Rollup"
 msgstr "卷起"
 
@@ -1647,7 +1576,8 @@ msgstr "程序"
 msgid "_Run..."
 msgstr "运行(_r)…"
 
-#: src/wmprog.cc:797 src/wmtaskbar.cc:253
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmprog.cc:797 src/wmtaskbar.cc:262
 msgid "_Windows"
 msgstr "窗口(_W)"
 
@@ -1676,59 +1606,68 @@ msgstr "设置(_t)"
 msgid "Session Manager: Unknown line %s"
 msgstr "会话管理者：未知行 %s"
 
-#: src/wmtaskbar.cc:243 src/wmwinlist.cc:395 src/wmwinlist.cc:415
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:244 src/wmwinlist.cc:395 src/wmwinlist.cc:415
 msgid "Tile _Vertically"
 msgstr "垂直平铺(_V)"
 
-#: src/wmtaskbar.cc:244 src/wmwinlist.cc:396 src/wmwinlist.cc:416
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:246 src/wmwinlist.cc:396 src/wmwinlist.cc:416
 msgid "T_ile Horizontally"
 msgstr "水平平铺(_I)"
 
-#: src/wmtaskbar.cc:245 src/wmwinlist.cc:397 src/wmwinlist.cc:417
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:248 src/wmwinlist.cc:397 src/wmwinlist.cc:417
 msgid "Ca_scade"
 msgstr "层叠(_S)"
 
-#: src/wmtaskbar.cc:246 src/wmwinlist.cc:398 src/wmwinlist.cc:418
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:250 src/wmwinlist.cc:398 src/wmwinlist.cc:418
 msgid "_Arrange"
 msgstr "排列(_A)"
 
-#: src/wmtaskbar.cc:247 src/wmwinlist.cc:400 src/wmwinlist.cc:419
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:252 src/wmwinlist.cc:400 src/wmwinlist.cc:419
 msgid "_Minimize All"
 msgstr "全部最小化(_M)"
 
-#: src/wmtaskbar.cc:248 src/wmwinlist.cc:401 src/wmwinlist.cc:420
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:254 src/wmwinlist.cc:401 src/wmwinlist.cc:420
 msgid "_Hide All"
 msgstr "全部隐藏(_H)"
 
-#: src/wmtaskbar.cc:249 src/wmwinlist.cc:402 src/wmwinlist.cc:421
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:256 src/wmwinlist.cc:402 src/wmwinlist.cc:421
 msgid "_Undo"
 msgstr "撤消(_U)"
 
-#: src/wmtaskbar.cc:251
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:259
 msgid "Arrange _Icons"
 msgstr "排列图标(_I)"
 
-#: src/wmtaskbar.cc:255
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:265
 msgid "_Refresh"
 msgstr "刷新(_R)"
 
-#: src/wmtaskbar.cc:326 src/wmtaskbar.cc:956
+#: src/wmtaskbar.cc:338 src/wmtaskbar.cc:968
 msgid "Hide Taskbar"
 msgstr "隐藏任务栏"
 
-#: src/wmtaskbar.cc:344
+#: src/wmtaskbar.cc:356
 msgid "Favorite Applications"
 msgstr "喜欢的应用程序"
 
-#: src/wmtaskbar.cc:365
+#: src/wmtaskbar.cc:377
 msgid "Window List Menu"
 msgstr "窗口列表菜单"
 
-#: src/wmtaskbar.cc:374
+#: src/wmtaskbar.cc:386
 msgid "Show Desktop"
 msgstr "显示桌面"
 
-#: src/wmtaskbar.cc:956
+#: src/wmtaskbar.cc:968
 msgid "Show Taskbar"
 msgstr "显示任务栏"
 
@@ -1944,7 +1883,7 @@ msgstr "位于 %d 处的 URL 中存在不完整的十六进制转义符。"
 msgid "Invalid hex escape in URL at position %d."
 msgstr "位于 %d 处的 URL 中存在无效的十六进制转义符。"
 
-#: src/yxapp.cc:999
+#: src/yxapp.cc:1007
 msgid ""
 "  -d, --display=NAME  NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"

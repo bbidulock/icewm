@@ -33,6 +33,10 @@ public:
         YTrace::conf = conf;
     }
 
+    bool tracing() const {
+        return have;
+    }
+
 protected:
     virtual void show() { show(busy, kind, inst); }
     virtual void show(bool busy, const char* kind, const char* inst);
@@ -56,6 +60,13 @@ public:
     YTraceConfig(const char* inst = nullptr, bool busy = true) :
         YTrace("conf", inst, busy) { }
     ~YTraceConfig() { done(); }
+};
+
+class YTraceProg : public YTrace {
+public:
+    YTraceProg(const char* inst = nullptr, bool busy = true) :
+        YTrace("prog", inst, busy) { }
+    ~YTraceProg() { }
 };
 
 #endif

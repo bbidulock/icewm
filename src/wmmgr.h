@@ -135,7 +135,7 @@ public:
 
     void removeClientFrame(YFrameWindow *frame);
 
-    void UpdateScreenSize(XEvent *event);
+    void updateScreenSize(XEvent *event);
     void getWorkArea(YFrameWindow *frame, int *mx, int *my, int *Mx, int *My, int xiscreen = -1) const;
     void getWorkAreaSize(YFrameWindow *frame, int *Mw,int *Mh);
 
@@ -223,7 +223,6 @@ public:
 
     void wmCloseSession();
     void exitAfterLastClient(bool shuttingDown);
-    static void execAfterFork(const char *command);
     void checkLogout();
 
     virtual void resetColormap(bool active);
@@ -259,7 +258,7 @@ public:
 
     void updateFullscreenLayer();
     void updateFullscreenLayerEnable(bool enable);
-    int getScreen();
+    int getSwitchScreen();
 
     static void doWMAction(WMAction action);
     void lockFocus() {

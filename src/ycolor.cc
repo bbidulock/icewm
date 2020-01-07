@@ -94,7 +94,7 @@ public:
 static class YPixelCache {
 public:
     YPixel* black() {
-        if (pixels.getCount() == 0 || pixels[0]->pixel() != 0) {
+        if (pixels.isEmpty() || pixels[0]->pixel() != 0) {
             pixels.insert(0, new YPixel(xapp ? xapp->black() : 0, 0));
         }
         return pixels[0];

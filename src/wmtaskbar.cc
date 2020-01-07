@@ -146,7 +146,7 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
 
     ///setToplevel(true);
 
-    setStyle(wsNoExpose);
+    addStyle(wsNoExpose);
     //!!!setWinStateHint(WinStateDockHorizontal, WinStateDockHorizontal);
 
     setWinHintsHint(WinHintsSkipFocus |
@@ -240,23 +240,35 @@ public:
             return;
 
         setActionListener(taskBar);
+        // TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
         addItem(_("Tile _Vertically"), -2, KEY_NAME(gKeySysTileVertical), actionTileVertical);
+        // TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
         addItem(_("T_ile Horizontally"), -2, KEY_NAME(gKeySysTileHorizontal), actionTileHorizontal);
+        // TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
         addItem(_("Ca_scade"), -2, KEY_NAME(gKeySysCascade), actionCascade);
+        // TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
         addItem(_("_Arrange"), -2, KEY_NAME(gKeySysArrange), actionArrange);
+        // TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
         addItem(_("_Minimize All"), -2, KEY_NAME(gKeySysMinimizeAll), actionMinimizeAll);
+        // TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
         addItem(_("_Hide All"), -2, KEY_NAME(gKeySysHideAll), actionHideAll);
+        // TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
         addItem(_("_Undo"), -2, KEY_NAME(gKeySysUndoArrange), actionUndoArrange);
         if (minimizeToDesktop)
+        // TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
             addItem(_("Arrange _Icons"), -2, KEY_NAME(gKeySysArrangeIcons), actionArrangeIcons)->setEnabled(false);
         addSeparator();
+        // TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
         addItem(_("_Windows"), -2, actionWindowList, windowListMenu);
         addSeparator();
+        // TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
         addItem(_("_Refresh"), -2, null, actionRefresh);
+        // TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
         addItem(_("_About"), -2, actionAbout, 0);
         if (showLogoutMenu) {
             addSeparator();
             if (showLogoutSubMenu)
+        // TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
                 addItem(_("_Logout..."), -2, actionLogout, logoutMenu);
             else
                 addItem(_("_Logout..."), -2, null, actionLogout);
@@ -526,9 +538,7 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
     }
 
     {
-        int dx, dy;
-        unsigned dw, dh;
-        manager->getScreenGeometry(&dx, &dy, &dw, &dh);
+        unsigned dw = desktop->getScreenGeometry().width();
         w = (dw/100.0) * taskBarWidthPercentage;
     }
 
@@ -757,15 +767,6 @@ void TaskBar::handleCrossing(const XCrossingEvent &crossing) {
             }
         }
     }
-}
-
-
-void TaskBar::handleEndPopup(YPopupWindow *popup) {
-    if (!hasPopup()) {
-        MSG(("taskbar hide2"));
-        //fEdgeTrigger->startHide();
-    }
-    YWindow::handleEndPopup(popup);
 }
 
 void TaskBar::paint(Graphics &g, const YRect& r) {

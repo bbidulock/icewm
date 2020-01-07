@@ -75,7 +75,7 @@ YListBox::YListBox(YScrollView *view, YWindow *aParent):
 {
     if (listBoxFont == null)
         listBoxFont = YFont::getFont(XFA(listBoxFontName));
-    setStyle(wsNoExpose);
+    addStyle(wsNoExpose);
     setBitGravity(NorthWestGravity);
     addEventMask(VisibilityChangeMask);
     fView = view;
