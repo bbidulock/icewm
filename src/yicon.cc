@@ -25,7 +25,7 @@ static void initIconPaths() {
     if (iconPaths == null) {
         iconPaths = YResourcePaths::subdirs("icons");
     }
-    if (iconDirs.getCount() == 0 && nonempty(iconPath)) {
+    if (iconDirs.isEmpty() && nonempty(iconPath)) {
         char* copy = newstr(iconPath);
         char* save = 0;
         for (char *tok = strtok_r(copy, ":", &save);

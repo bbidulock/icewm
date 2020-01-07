@@ -17,7 +17,7 @@ YScrollView::YScrollView(YWindow *aParent): YWindow(aParent) {
     scrollHoriz = new YScrollBar(YScrollBar::Horizontal, this);
     scrollHoriz->show();
     scrollable = 0;
-    setStyle(wsNoExpose);
+    addStyle(wsNoExpose);
     setTitle("ScrollView");
 }
 

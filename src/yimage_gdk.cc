@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <gdk-pixbuf-xlib/gdk-pixbuf-xlib.h>
 
-#define ATH 55  /* alpha threshold that can show anti-aliased lines */
+#define ATH 10  /* alpha threshold */
 
 class YImageGDK: public YImage {
 public:
@@ -383,7 +383,7 @@ void YImageGDK::composite(Graphics &g, int x, int y, unsigned width, unsigned he
 }
 
 void image_init() {
-#if (GLIB_MAJOR_VERSION <= 2 && GLIB_MINOR_VERSION < 36 && GLIB_MICRO_VERSION <= 0)
+#if !GLIB_CHECK_VERSION(2,36,0)
     g_type_init();
 #endif
 

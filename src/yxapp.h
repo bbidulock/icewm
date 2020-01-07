@@ -157,6 +157,9 @@ public:
     unsigned int ButtonMask;
     unsigned int ButtonKeyMask;
 
+    bool hasControlAlt(unsigned state) const;
+    bool hasWinMask(unsigned state) const;
+
     static const char* getHelpText();
 
 protected:
@@ -210,6 +213,7 @@ private:
     static void initExtensions(Display* dpy);
     static bool haveColormaps(Display* dpy);
     static int errorHandler(Display* display, XErrorEvent* xev);
+    static int cmapError(Display* display, XErrorEvent* xev);
     static int sortAtoms(const void* p1, const void* p2);
     static YAtomName atom_info[];
 public:

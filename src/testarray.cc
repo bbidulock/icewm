@@ -36,7 +36,7 @@ static void dump(const char *label, const YArray<int> &array) {
     printf("%s: count=%d, capacity=%d\n  content={",
            label, array.getCount(), array.getCapacity());
 
-    if (array.getCount() > 0) {
+    if (array.nonempty()) {
         printf(" %d", array[0]);
 
         for (YArray<int>::SizeType i = 1; i < array.getCount(); ++i)
@@ -124,7 +124,7 @@ static void test_int() {
     puts("");
     puts("testing clear for YArray<int>");
     a.clear(); dump("Array<int>", a);
-    assert(a.getCount() == 0);
+    assert(a.isEmpty());
 
     puts("");
     puts("another insertion test for YArray<int>");

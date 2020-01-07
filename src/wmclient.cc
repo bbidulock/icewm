@@ -17,11 +17,9 @@
 #include "workspaces.h"
 
 bool operator==(const XSizeHints& a, const XSizeHints& b) {
-    return (a.flags & PAllHints) == (b.flags & PAllHints) &&
-        (notbit(a.flags, USPosition|PPosition) ||
-               (a.x == b.x && a.y == b.y)) &&
-        (notbit(a.flags, USSize|PSize) ||
-               (a.width == b.width && a.height == b.height)) &&
+    long mask = PMinSize | PMaxSize | PResizeInc |
+                PAspect | PBaseSize | PWinGravity;
+    return (a.flags & mask) == (b.flags & mask) &&
         (notbit(a.flags, PMinSize) ||
                (a.min_width == b.min_width && a.min_height == b.min_height)) &&
         (notbit(a.flags, PMaxSize) ||
@@ -78,6 +76,7 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
     getSizeHints();
     getClassHint();
     getTransient();
+    getClientLeader();
     getWMHints();
     getWMWindowRole();
     getWindowRole();
@@ -695,6 +694,8 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
                 getFrame()->updateMwmHints();
             prop.mwm_hints = new_prop;
         } else if (property.atom == _XA_WM_CLIENT_LEADER) { // !!! check these
+            if (new_prop) prop.wm_client_leader = true;
+            getClientLeader();
             prop.wm_client_leader = new_prop;
         } else if (property.atom == _XA_SM_CLIENT_ID) {
             prop.sm_client_id = new_prop;
@@ -951,10 +952,23 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
                                       message.data.l[2]);
     } else if (message.message_type == _XA_NET_MOVERESIZE_WINDOW) {
         if (getFrame()) {
-            int grav = (message.data.l[0] & 0x00FF);
-            if (grav) getFrame()->setWinGravity(grav == 0 ? sizeHints()->win_gravity : grav);
-            getFrame()->setCurrentGeometryOuter(YRect(message.data.l[1], message.data.l[2],
-                                                message.data.l[3], message.data.l[4]));
+            long flag = message.data.l[0];
+            long grav = Elvis(int(flag & 0xFF), sizeHints()->win_gravity);
+            long mask = ((flag >> 8) & 0x0F);
+            long xpos = (mask & 1) ? message.data.l[1] : x();
+            long ypos = (mask & 2) ? message.data.l[2] : y();
+            long hori = (mask & 4) ? message.data.l[3] : width();
+            long vert = (mask & 8) ? message.data.l[4] : height();
+            XConfigureRequestEvent conf = { ConfigureRequest, None, };
+            conf.value_mask = mask;
+            conf.x = xpos;
+            conf.y = ypos;
+            conf.width = hori;
+            conf.height = vert;
+            int wing = sizeHints()->win_gravity;
+            sizeHints()->win_gravity = grav;
+            getFrame()->configureClient(conf);
+            sizeHints()->win_gravity = wing;
         }
     } else if (message.message_type == _XA_NET_WM_FULLSCREEN_MONITORS) {
         if (getFrame()) {
@@ -1654,27 +1668,13 @@ void YFrameClient::setWinHintsHint(long hints) {
 }
 
 void YFrameClient::getClientLeader() {
-    Atom r_type;
-    int r_format;
-    unsigned long count;
-    unsigned long bytes_remain;
-    unsigned char *prop(0);
-
-    fClientLeader = None;
-    if (XGetWindowProperty(xapp->display(),
-                           handle(),
-                           _XA_WM_CLIENT_LEADER,
-                           0, 1, False, XA_WINDOW,
-                           &r_type, &r_format,
-                           &count, &bytes_remain, &prop) == Success && prop)
-    {
-        if (r_type == XA_WINDOW && r_format == 32 && count == 1U) {
-            long s = ((long *)prop)[0];
-
-            fClientLeader = s;
-        }
-        XFree(prop);
+    Window leader = None;
+    if (prop.wm_client_leader) {
+        YProperty prop(this, _XA_WM_CLIENT_LEADER);
+        if (prop && prop.typed(XA_WINDOW))
+            leader = prop.operator*<long>();
     }
+    fClientLeader = leader;
 }
 
 void YFrameClient::getWindowRole() {
@@ -2114,7 +2114,6 @@ void YFrameClient::getPropertiesList() {
             else if (a == _XA_NET_WM_USER_TIME) HAS(prop.net_wm_user_time);
             else if (a == _XA_NET_WM_USER_TIME_WINDOW) HAS(prop.net_wm_user_time_window);
             else if (a == _XA_NET_WM_WINDOW_OPACITY) HAS(prop.net_wm_window_opacity);
-            else if (a == _XA_NET_WM_PID) HAS(prop.net_wm_pid);
             else if (a == _XA_WIN_HINTS) HAS(prop.win_hints);
             else if (a == _XA_WIN_WORKSPACE) HAS(prop.win_workspace);
             else if (a == _XA_WIN_STATE) HAS(prop.win_state);

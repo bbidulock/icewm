@@ -13,6 +13,7 @@
 #include "yxapp.h"
 #include "wmprog.h"
 #include "ypaths.h"
+#include "ypointer.h"
 
 #include <limits.h>
 #include <stdlib.h>
@@ -100,9 +101,13 @@ YCursorPixmap::YCursorPixmap(upath path): fValid(false) {
                             XpmReturnPixels|XpmSize|XpmHotspot;
     fAttributes.x_hotspot = 0;
     fAttributes.y_hotspot = 0;
+    fAttributes.depth = 0;
+    fAttributes.width = 0;
+    fAttributes.height = 0;
 
+    csmart filename(newstr(path.string()));
     int const rc(XpmReadFileToPixmap(xapp->display(), desktop->handle(),
-                                     path.string().c_str(), // !!!
+                                     filename, // !!!
                                      &fPixmap, &fMask, &fAttributes));
 
     if (rc != XpmSuccess)

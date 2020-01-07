@@ -185,7 +185,6 @@ XSV(const char *, terminalCommand,              TERM " -hold")
 XSV(const char *, logoutCommand,                0)
 XSV(const char *, logoutCancelCommand,          0)
 #if defined(__linux__)
-// use shell code since those are wrapped through shell in YWindowManager::execAfterFork
 XSV(const char *, shutdownCommand,              "test -e /run/systemd/system && systemctl poweroff")
 XSV(const char *, rebootCommand,                "test -e /run/systemd/system && systemctl reboot")
 XSV(const char *, suspendCommand,               "test -e /run/systemd/system && systemctl suspend")

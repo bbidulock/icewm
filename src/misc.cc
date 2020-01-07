@@ -150,6 +150,9 @@ void setLogEvent(int evtype, bool enable) {
 static const char* emptyAtom(Atom atom) { return ""; }
 static AtomNameFunc atomName = emptyAtom;
 void setAtomName(AtomNameFunc func) { atomName = func; }
+const char* getAtomName(unsigned long atom) {
+    return atomName ? atomName(atom) : "";
+}
 
 #undef msg
 #define msg tlog
@@ -441,6 +444,7 @@ void logRandrNotify(const union _XEvent& xev) {
             "unknown"
            );
     }
+#ifdef RRNotify_ProviderChange
     else if (nev.subtype == RRNotify_ProviderChange) {
         const XRRProviderChangeNotifyEvent& e =
             (const XRRProviderChangeNotifyEvent &) xev;
@@ -449,6 +453,8 @@ void logRandrNotify(const union _XEvent& xev) {
             e.provider, e.current_role
            );
     }
+#endif
+#ifdef RRNotify_ProviderProperty
     else if (nev.subtype == RRNotify_ProviderProperty) {
         const XRRProviderPropertyNotifyEvent& e =
             (const XRRProviderPropertyNotifyEvent &) xev;
@@ -460,6 +466,8 @@ void logRandrNotify(const union _XEvent& xev) {
             "unknown"
            );
     }
+#endif
+#ifdef RRNotify_ResourceChange
     else if (nev.subtype == RRNotify_ResourceChange) {
         const XRRResourceChangeNotifyEvent& e =
             (const XRRResourceChangeNotifyEvent &) xev;
@@ -467,6 +475,7 @@ void logRandrNotify(const union _XEvent& xev) {
             e.window, "XRRResourceChangeNotifyEvent"
            );
     }
+#endif
 #endif
 }
 
@@ -554,13 +563,8 @@ void precondition(const char *expr, const char *file, int line) {
     fprintf(stderr, "%s: PRECONDITION FAILED at %s:%d: ( %s )\n",
             ApplicationName, file, line, expr);
     fflush(stderr);
-
     show_backtrace();
-#ifdef HAVE_ABORT
     abort();
-#else
-    *(char *)0 = 0x42;
-#endif
 }
 
 void warn(char const *msg, ...) {
@@ -958,6 +962,12 @@ char* path_lookup(const char* name) {
     delete[] env;
     return filebuf;
 }
+
+#ifdef __gnu_hurd__
+const char* getprogname() {
+    return ApplicationName;
+}
+#endif
 
 // get path of executable.
 char* progpath() {

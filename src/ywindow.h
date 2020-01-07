@@ -20,6 +20,19 @@ struct DesktopScreenInfo {
     int y_org;
     unsigned width;
     unsigned height;
+
+    DesktopScreenInfo(int i, int x, int y, unsigned w, unsigned h) :
+        screen_number(i), x_org(x), y_org(y), width(w), height(h)
+    { }
+    operator YRect() const {
+        return YRect(x_org, y_org, width, height);
+    }
+    unsigned horizontal() const {
+        return width + unsigned(x_org);
+    }
+    unsigned vertical() const {
+        return height + unsigned(y_org);
+    }
 };
 
 class YWindow : protected YWindowList, private YWindowNode {
@@ -32,6 +45,7 @@ public:
     virtual ~YWindow();
 
     void setStyle(unsigned aStyle);
+    void addStyle(unsigned aStyle) { setStyle(fStyle | aStyle); }
     unsigned getStyle() const { return fStyle; }
     long getEventMask() const { return fEventMask; }
     void addEventMask(long mask);
@@ -111,8 +125,6 @@ public:
     virtual void handleBeginDrag(const XButtonEvent &, const XMotionEvent &) {}
     virtual void handleDrag(const XButtonEvent &, const XMotionEvent &) {}
     virtual void handleEndDrag(const XButtonEvent &, const XButtonEvent &) {}
-
-    virtual void handleEndPopup(YPopupWindow *popup);
 
     virtual void handleClose();
 
@@ -209,6 +221,7 @@ public:
     void setProperty(Atom property, Atom propType, Atom value);
     void setNetWindowType(Atom window_type);
     void setNetOpacity(Atom opacity);
+    void setNetPid();
     void setDND(bool enabled);
 
     void XdndStatus(bool acceptDrop, Atom dropAction);
@@ -320,9 +333,10 @@ public:
     YDesktop(YWindow *aParent = 0, Window win = 0);
     virtual ~YDesktop();
 
-    void updateXineramaInfo(unsigned &w, unsigned &h);
+    bool updateXineramaInfo(unsigned& horizontal, unsigned& vertical);
 
-    YRect getScreenGeometry(int screen_no);
+    const DesktopScreenInfo& getScreenInfo(int screen_no = -1);
+    YRect getScreenGeometry(int screen_no = -1);
     void getScreenGeometry(int *x, int *y,
                            unsigned *width, unsigned *height,
                            int screen_no = -1);
@@ -356,6 +370,7 @@ extern YExtension fixes;
 extern YExtension render;
 extern YExtension shapes;
 extern YExtension xrandr;
+extern YExtension xinerama;
 
 extern Atom _XA_WM_CHANGE_STATE;
 extern Atom _XA_WM_CLASS;
@@ -401,6 +416,7 @@ extern Atom _XA_NET_SYSTEM_TRAY_ORIENTATION;
 extern Atom _XA_NET_SYSTEM_TRAY_MESSAGE_DATA;
 extern Atom _XA_NET_SYSTEM_TRAY_VISUAL;
 extern Atom _XA_NET_WM_NAME;
+extern Atom _XA_NET_WM_PID;
 extern Atom _XA_NET_WM_WINDOW_OPACITY;              // OK
 extern Atom _XA_NET_WM_WINDOW_TYPE;                 // OK
 extern Atom _XA_NET_WM_WINDOW_TYPE_COMBO;           // OK

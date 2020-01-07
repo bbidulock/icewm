@@ -324,16 +324,17 @@ template <class DataType>
 class YStack: public YArray<DataType> {
 public:
     using YArray<DataType>::getCount;
+    using YArray<DataType>::nonempty;
 
     const DataType &getTop() const {
-        PRECONDITION(getCount() > 0);
+        PRECONDITION(nonempty());
         return getItem(getCount() - 1);
     }
     const DataType &operator*() const { return getTop(); }
 
     virtual void push(const DataType &item) { append(item); }
     void pop() {
-        PRECONDITION(getCount() > 0);
+        PRECONDITION(nonempty());
         remove(getCount() - 1);
     }
 };

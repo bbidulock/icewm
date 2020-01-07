@@ -60,8 +60,10 @@ void YWindowManagerStatus::configureStatus() {
     int sW = statusFont->textWidth(longestStatus());
     int sH = statusFont->height();
 
-    setGeometry(YRect((manager->width() - sW) / 2,
-                      (manager->height() - sH) - 8, // / 2,
+    int scn = desktop->getScreenForRect(x(), y(), width(), height());
+    YRect geo(desktop->getScreenGeometry(scn));
+    setGeometry(YRect(geo.x() + (geo.width() - sW) / 2,
+                      geo.y() + (geo.height() - sH) - 8, // / 2,
                       sW + 2, sH + 4));
 }
 

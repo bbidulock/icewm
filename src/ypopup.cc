@@ -213,10 +213,6 @@ void YPopupWindow::popdown() {
 
         fFlags = 0;
         fForWindow = 0;
-
-        if (fOwner) {
-            fOwner->handleEndPopup(this);
-        }
     }
 }
 

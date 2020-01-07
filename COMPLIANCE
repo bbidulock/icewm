@@ -180,7 +180,7 @@ _NET_WM_PING:				supported
 _NET_WM_SYNC_REQUEST:			NOT supported
 _NET_WM_SYNC_REQUEST_COUNTER:		NOT supported
 _NET_WM_FULLSCREEN_MONITORS:		supported
-_NET_WM_FULL_PLACEMENT:			NOT supported (n/a)
+_NET_WM_FULL_PLACEMENT:			NOT supported
 
 ------------------------------------------------------------------------
 

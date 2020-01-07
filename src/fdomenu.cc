@@ -604,6 +604,10 @@ void load_folder_descriptions(const tCharVec& where) {
 int main(int argc, LPCSTR *argv) {
     ApplicationName = my_basename(argv[0]);
 
+#if !GLIB_CHECK_VERSION(2,36,0)
+    g_type_init();
+#endif
+
     LPCSTR usershare = getenv("XDG_DATA_HOME");
     if (!usershare || !*usershare)
         usershare = g_strjoin(NULL, getenv("HOME"), "/.local/share", NULL);
