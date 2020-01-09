@@ -44,7 +44,7 @@
 #include "MwmUtil.h"
 #include "wmaction.h"
 #include "ypointer.h"
-#include "ytimer.h"
+#include "ytime.h"
 #include "yrect.h"
 #define GUI_EVENT_NAMES
 #include "guievent.h"
