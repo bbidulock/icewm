@@ -2834,7 +2834,7 @@ void IceSh::flag(char* arg)
         return;
     }
     if (isOptArg(arg, "-last", "")) {
-        if ( ! windowList)
+        if ( ! windowList && ! selecting)
             windowList.getClientList();
         windowList.filterLast();
         MSG(("last window selected"));
