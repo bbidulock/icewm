@@ -1,11 +1,11 @@
-#ifndef __WINLIST_H
-#define __WINLIST_H
+#ifndef WINLIST_H
+#define WINLIST_H
 
-#include "wmclient.h" // !!! should be ywindow
+#include "wmclient.h"
 #include "ylistbox.h"
-#include "yscrollview.h"
 #include "yaction.h"
 #include "yarray.h"
+#include "ypointer.h"
 
 class WindowListItem;
 class WindowListBox;
@@ -14,7 +14,7 @@ class YActionListener;
 
 class WindowListItem: public YListItem {
 public:
-    WindowListItem(ClientData *frame, int workspace = 0);
+    WindowListItem(ClientData *frame, int workspace);
     virtual ~WindowListItem();
 
     virtual int getOffset();
@@ -41,6 +41,16 @@ public:
 
     void enableCommands(YMenu *popup);
     void getSelectedWindows(YArray<YFrameWindow *> &frames);
+};
+
+class WindowListPopup : public YMenu {
+public:
+    WindowListPopup();
+};
+
+class WindowListAllPopup : public YMenu {
+public:
+    WindowListAllPopup();
 };
 
 class WindowList: public YFrameClient {
@@ -70,13 +80,12 @@ public:
     YMenu* getWindowListAllPopup();
 
 private:
-    long fWorkspaceCount;
-    WindowListItem **workspaceItem;
     YActionListener *wmActionListener;
-    YMenu* windowListPopup;
-    YMenu* windowListAllPopup;
-    YScrollView *scroll;
-    WindowListBox *list;
+    osmart<WindowListPopup> windowListPopup;
+    osmart<WindowListAllPopup> windowListAllPopup;
+    osmart<YScrollView> scroll;
+    osmart<WindowListBox> list;
+    YObjectArray<WindowListItem> workspaceItem;
 
     void setupClient();
     void insertApp(WindowListItem *item);

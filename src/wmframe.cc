@@ -197,9 +197,10 @@ YFrameWindow::~YFrameWindow() {
 }
 
 void YFrameWindow::addToWindowList() {
-    if (fWinListItem == 0) {
-        if (windowList && !(frameOptions() & foIgnoreWinList))
-            fWinListItem = windowList->addWindowListApp(this);
+    if (fWinListItem == nullptr && client()->adopted() &&
+        windowList && notbit(frameOptions(), foIgnoreWinList))
+    {
+        fWinListItem = windowList->addWindowListApp(this);
     }
 }
 
@@ -207,7 +208,7 @@ void YFrameWindow::removeFromWindowList() {
     if (fWinListItem) {
         if (windowList)
             windowList->removeWindowListApp(fWinListItem);
-        delete fWinListItem; fWinListItem = 0;
+        delete fWinListItem; fWinListItem = nullptr;
     }
 }
 
