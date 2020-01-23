@@ -52,8 +52,8 @@ public:
 
     template<class T> T* data() const { return reinterpret_cast<T*>(fData); }
     template<class T> T* retrieve() { T* t(data<T>()); fData = 0; return t; }
-    template<class T> T& operator[](int i) const { return data<T>()[i]; }
-    template<class T> T& operator*() const { return *data<T>(); }
+    long operator[](int i) const { return data<long>()[i]; }
+    long operator*() const { return *data<long>(); }
     template<class T> T* operator->() const { return data<T>(); }
 
 private:

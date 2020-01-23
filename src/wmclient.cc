@@ -1530,7 +1530,7 @@ bool YFrameClient::getNetWMStateHint(long *mask, long *state) {
     long flags = None;
     YProperty prop(this, _XA_NET_WM_STATE, F32, 32, XA_ATOM);
     for (int i = 0; i < int(prop.size()); ++i) {
-        Atom flag = Atom(prop.operator[]<long>(i));
+        Atom flag = Atom(prop[i]);
         flags |=
             flag == _XA_NET_WM_STATE_ABOVE ? WinStateAbove :
             flag == _XA_NET_WM_STATE_BELOW ? WinStateBelow :
@@ -1597,7 +1597,7 @@ void YFrameClient::getClientLeader() {
     if (prop.wm_client_leader) {
         YProperty prop(this, _XA_WM_CLIENT_LEADER);
         if (prop && prop.typed(XA_WINDOW))
-            leader = prop.operator*<long>();
+            leader = *prop;
     }
     fClientLeader = leader;
 }
