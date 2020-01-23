@@ -552,7 +552,8 @@ void YFrameClient::handleUnmap(const XUnmapEvent &unmap) {
 }
 
 void YFrameClient::handleProperty(const XPropertyEvent &property) {
-    bool new_prop = (property.state == PropertyDelete) ? false : true;
+    bool new_prop = (property.state != PropertyDelete);
+
     switch (property.atom) {
     case XA_WM_NAME:
         if (new_prop) prop.wm_name = true;
@@ -851,38 +852,20 @@ void YFrameClient::queryShape() {
 #endif
 
 long getMask(Atom a) {
-    long mask = 0;
-
-    if (a == _XA_NET_WM_STATE_MAXIMIZED_VERT)
-        mask |= WinStateMaximizedVert;
-    if (a == _XA_NET_WM_STATE_MAXIMIZED_HORZ)
-        mask |= WinStateMaximizedHoriz;
-    if (a == _XA_NET_WM_STATE_SHADED)
-        mask |= WinStateRollup;
-    if (a == _XA_NET_WM_STATE_ABOVE)
-        mask |= WinStateAbove;
-    if (a == _XA_NET_WM_STATE_MODAL)
-        mask |= WinStateModal;
-    if (a == _XA_NET_WM_STATE_BELOW)
-        mask |= WinStateBelow;
-    if (a == _XA_NET_WM_STATE_FULLSCREEN)
-        mask |= WinStateFullscreen;
-    if (a == _XA_NET_WM_STATE_SKIP_PAGER)
-        mask |= WinStateSkipPager;
-    if (a == _XA_NET_WM_STATE_SKIP_TASKBAR)
-        mask |= WinStateSkipTaskBar;
-    if (a == _XA_NET_WM_STATE_STICKY)
-        mask |= WinStateSticky;
-#if 0
-    /* controlled by WM only */
-    if (a == _XA_NET_WM_STATE_FOCUSED)
-        mask |= WinStateFocused;
-    if (a == _XA_NET_WM_STATE_HIDDEN)
-        mask |= WinStateHidden;
-#endif
-    if (a == _XA_NET_WM_STATE_DEMANDS_ATTENTION)
-        mask |= WinStateUrgent;
-    return mask;
+    return a == _XA_NET_WM_STATE_ABOVE ? WinStateAbove :
+           a == _XA_NET_WM_STATE_BELOW ? WinStateBelow :
+           a == _XA_NET_WM_STATE_DEMANDS_ATTENTION ? WinStateUrgent :
+        // a == _XA_NET_WM_STATE_FOCUSED ? WinStateFocused :
+           a == _XA_NET_WM_STATE_FULLSCREEN ? WinStateFullscreen :
+        // a == _XA_NET_WM_STATE_HIDDEN ? WinStateHidden :
+           a == _XA_NET_WM_STATE_MAXIMIZED_HORZ ? WinStateMaximizedHoriz :
+           a == _XA_NET_WM_STATE_MAXIMIZED_VERT ? WinStateMaximizedVert :
+           a == _XA_NET_WM_STATE_MODAL ? WinStateModal :
+           a == _XA_NET_WM_STATE_SHADED ? WinStateRollup :
+           a == _XA_NET_WM_STATE_SKIP_PAGER ? WinStateSkipPager :
+           a == _XA_NET_WM_STATE_SKIP_TASKBAR ? WinStateSkipTaskBar :
+           a == _XA_NET_WM_STATE_STICKY ? WinStateSticky :
+           None;
 }
 
 void YFrameClient::setNetWMFullscreenMonitors(int top, int bottom, int left, int right) {
@@ -1544,90 +1527,32 @@ void YFrameClient::setWinStateHint(long mask, long state) {
 }
 
 bool YFrameClient::getNetWMStateHint(long *mask, long *state) {
-    Atom r_type;
-    int r_format;
-    unsigned long count;
-    unsigned long bytes_remain;
-    unsigned char *prop(0);
-
-    *mask = 0;
-    *state = 0;
-    if (XGetWindowProperty(xapp->display(),
-                           handle(),
-                           _XA_NET_WM_STATE,
-                           0, 64, False, XA_ATOM,
-                           &r_type, &r_format,
-                           &count, &bytes_remain, &prop) == Success && prop)
-    {
-        MSG(("got state"));
-        if (r_type == XA_ATOM && r_format == 32 && count >= 1U) {
-            Atom *s = ((Atom *)prop);
-
-            for (unsigned long i = 0; i < count; i++) {
-                // can start hidden
-                if (s[i] == _XA_NET_WM_STATE_HIDDEN) {
-                    (*state) |= WinStateMinimized;
-                    (*mask) |= WinStateMinimized;
-                } else
-                if (s[i] == _XA_NET_WM_STATE_FOCUSED) {
-                    if (manager->wmState() == YWindowManager::wmSTARTUP) {
-                        (*state) |= WinStateFocused;
-                        (*mask) |= WinStateFocused;
-                    }
-                } else
-                if (s[i] == _XA_NET_WM_STATE_FULLSCREEN) {
-                    (*state) |= WinStateFullscreen;
-                    (*mask) |= WinStateFullscreen;
-                } else
-                if (s[i] == _XA_NET_WM_STATE_ABOVE) {
-                    (*state) |= WinStateAbove;
-                    (*mask) |= WinStateAbove;
-                } else
-                if (s[i] == _XA_NET_WM_STATE_BELOW) {
-                    (*state) |= WinStateBelow;
-                    (*mask) |= WinStateBelow;
-                } else
-                if (s[i] == _XA_NET_WM_STATE_SHADED) {
-                    (*state) |= WinStateRollup;
-                    (*mask) |= WinStateRollup;
-                } else
-                if (s[i] == _XA_NET_WM_STATE_MODAL) {
-                    (*state) |= WinStateModal;
-                    (*mask) |= WinStateModal;
-                } else
-                if (s[i] == _XA_NET_WM_STATE_MAXIMIZED_VERT) {
-                    (*state) |= WinStateMaximizedVert;
-                    (*mask) |= WinStateMaximizedVert;
-                } else
-                if (s[i] == _XA_NET_WM_STATE_MAXIMIZED_HORZ) {
-                    (*state) |= WinStateMaximizedHoriz;
-                    (*mask) |= WinStateMaximizedHoriz;
-                } else
-                if (s[i] == _XA_NET_WM_STATE_SKIP_TASKBAR) {
-                    (*state) |= WinStateSkipTaskBar;
-                    (*mask) |= WinStateSkipTaskBar;
-                } else
-                if (s[i] == _XA_NET_WM_STATE_STICKY) {
-                    (*state) |= WinStateSticky;
-                    (*mask) |= WinStateSticky;
-                } else
-                if (s[i] == _XA_NET_WM_STATE_SKIP_PAGER) {
-                    (*state) |= WinStateSkipPager;
-                    (*mask) |= WinStateSkipPager;
-                } else
-                if (s[i] == _XA_NET_WM_STATE_DEMANDS_ATTENTION) {
-                    (*state) |= WinStateUrgent;
-                    (*mask) |= WinStateUrgent;
-                }
-            }
-            XFree(prop);
-            return true;
-        }
-        MSG(("bad state"));
-        XFree(prop);
-        return true;
+    long flags = None;
+    YProperty prop(this, _XA_NET_WM_STATE, F32, 32, XA_ATOM);
+    for (int i = 0; i < int(prop.size()); ++i) {
+        Atom flag = Atom(prop.operator[]<long>(i));
+        flags |=
+            flag == _XA_NET_WM_STATE_ABOVE ? WinStateAbove :
+            flag == _XA_NET_WM_STATE_BELOW ? WinStateBelow :
+            flag == _XA_NET_WM_STATE_FOCUSED ? WinStateFocused :
+            flag == _XA_NET_WM_STATE_FULLSCREEN ? WinStateFullscreen :
+            flag == _XA_NET_WM_STATE_HIDDEN ? WinStateMinimized :
+            flag == _XA_NET_WM_STATE_MAXIMIZED_HORZ ? WinStateMaximizedHoriz:
+            flag == _XA_NET_WM_STATE_MAXIMIZED_VERT ? WinStateMaximizedVert :
+            flag == _XA_NET_WM_STATE_MODAL ? WinStateModal :
+            flag == _XA_NET_WM_STATE_SHADED ? WinStateRollup :
+            flag == _XA_NET_WM_STATE_DEMANDS_ATTENTION ? WinStateUrgent :
+            flag == _XA_NET_WM_STATE_SKIP_PAGER ? WinStateSkipPager :
+            flag == _XA_NET_WM_STATE_SKIP_TASKBAR ? WinStateSkipTaskBar :
+            flag == _XA_NET_WM_STATE_STICKY ? WinStateSticky :
+            None;
     }
-    return false;
+    if (manager->wmState() != YWindowManager::wmSTARTUP) {
+        flags &= ~WinStateFocused;
+    }
+    *mask = flags;
+    *state = flags;
+    return prop.typed(XA_ATOM);
 }
 
 bool YFrameClient::getWinHintsHint(long *state) {
