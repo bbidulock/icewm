@@ -147,7 +147,6 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     ///setToplevel(true);
 
     addStyle(wsNoExpose);
-    //!!!setWinStateHint(WinStateDockHorizontal, WinStateDockHorizontal);
 
     setWinHintsHint(WinHintsSkipFocus |
                     WinHintsSkipWindowMenu |

@@ -320,33 +320,6 @@
                        WinHintsSkipTaskBar | WinHintsGroupTransient |\
                        WinHintsFocusOnClick | WinHintsDoNotCover)
 
-/* Type CARD32[2]
- *      additional window hints
- *
- *      Handling of this propery is very similiar to WIN_STATE.
- *
- * NOT IMPLEMENTED YET.
- */
-/* WinHintsDockHorizontal -- not used
- * This state is necessary for correct WORKAREA negotiation when
- * a window is positioned in a screen corner. If set, it determines how
- * the place where window is subtracted from workare.
- *
- * Imagine a square docklet in the corner of the screen (several WMaker docklets
- * are like this).
- *
- * HHHHD
- * ....V
- * ....V
- * ....V
- *
- * If WinStateDockHorizontal is set, the WORKAREA will consist of area
- * covered by '.' and 'V', otherwise the WORKAREA will consist of area
- * covered by '. and 'H';
- *
- * currently hack is used where: w>h -> horizontal dock, else vertical
- */
-
 /* work area of current workspace -- */
 #define XA_WIN_WORKAREA        "_WIN_WORKAREA"
 /*
