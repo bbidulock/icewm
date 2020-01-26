@@ -39,7 +39,15 @@ public:
         fType(None), fLimit(limit), fSize(None), fMore(None), fBits(format),
         fDelete(remove)
     { update(); }
+
+    YProperty(Window handle, Atom prop, YFormat format = F32,
+              long limit = 1L, Atom type = AnyPropertyType, bool remove = False):
+        fWind(handle), fData(nullptr), fProp(prop), fKind(type), fType(None),
+        fLimit(limit), fSize(None), fMore(None), fBits(format), fDelete(remove)
+    { update(); }
+
     ~YProperty() { discard(); }
+
     void discard();
     const YProperty& update();
     Atom property() const { return fProp; }
