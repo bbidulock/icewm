@@ -428,9 +428,6 @@ void WindowList::setupClient() {
 
     setWinHintsHint(WinHintsSkipTaskBar |
                     WinHintsSkipWindowMenu);
-    long winState = WinStateSkipTaskBar |
-                    WinStateSticky;
-    setWinStateHint(winState, winState);
     setWinWorkspaceHint(-1);
     setWinLayerHint(WinLayerAboveDock);
 }
