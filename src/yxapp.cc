@@ -1350,9 +1350,14 @@ YAtom::operator Atom() {
 YTextProperty::YTextProperty(const char* str) {
     encoding = XA_STRING;
     format = 8;
-    nitems = strlen(str);
-    value = new unsigned char[1 + nitems];
-    if (value) memcpy(value, str, 1 + nitems);
+    if (str) {
+        nitems = strlen(str);
+        value = new unsigned char[1 + nitems];
+        if (value) memcpy(value, str, 1 + nitems);
+    } else {
+        nitems = 0;
+        value = nullptr;
+    }
 }
 
 YTextProperty::~YTextProperty() {
@@ -1364,6 +1369,7 @@ void YProperty::discard() {
         XFree(fData);
         fData = nullptr;
         fSize = None;
+        fType = None;
     }
 }
 
