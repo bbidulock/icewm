@@ -329,10 +329,17 @@ static void registerProtocols2(Window xid) {
     registerNetProperties(xid);
 }
 
-static void unregisterProtocols() {
-    XDeleteProperty(xapp->display(),
-                    manager->handle(),
-                    _XA_WIN_PROTOCOLS);
+void YWMApp::unregisterProtocols() {
+    if (managerWindow) {
+        YAtom wmSx("WM_S", true);
+        if (managerWindow == XGetSelectionOwner(xapp->display(), wmSx)) {
+            XDeleteProperty(xapp->display(), xapp->root(), _XA_WIN_PROTOCOLS);
+            XSetSelectionOwner(xapp->display(), wmSx, None, CurrentTime);
+        }
+        XDestroyWindow(xapp->display(), managerWindow);
+        managerWindow = None;
+        xapp->sync();
+    }
 }
 
 void YWMApp::initIconSize() {
@@ -744,8 +751,12 @@ void YWMApp::restartClient(const char *cpath, char *const *cargs) {
 
     runRestart(path, args);
 
+    // icesm knows how to restart.
+    if (notifyParent && notifiedParent && kill(notifiedParent, 0) == 0)
+        ::exit(ICESM_EXIT_RESTART);
+
     /* somehow exec failed, try to recover */
-    managerWindow = registerProtocols1(nullptr, 0);
+    managerWindow = registerProtocols1(mainArgv, mainArgc);
     registerProtocols2(managerWindow);
     manager->manageClients();
 }
@@ -1187,6 +1198,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
                 const char *configFile, const char *overrideTheme) :
     YSMApplication(argc, argv, displayName),
     mainArgv(*argv),
+    mainArgc(*argc),
     configFile(configFile),
     notifyParent(notifyParent),
     notifiedParent(0),
@@ -1791,7 +1803,7 @@ int main(int argc, char **argv) {
     int rc = app.mainLoop();
     app.signalGuiEvent(geShutdown);
     manager->unmanageClients();
-    unregisterProtocols();
+    app.unregisterProtocols();
     YIcon::freeIcons();
     WMConfig::freeConfiguration();
     defOptions = null;
