@@ -3148,44 +3148,34 @@ void YWindowManager::tileWindows(YFrameWindow **w, int count, bool vertical) {
     }
 }
 
-void YWindowManager::getWindowsToArrange(YFrameWindow ***win, int *count, bool all, bool skipNonMinimizable) {
-    YFrameWindow *w = topLayer(WinLayerNormal);
-
-    *count = 0;
-    while (w) {
-        if (w->owner() == 0 && // not transient ?
-            w->visibleOn(activeWorkspace()) && // visible
-            (all || !w->isAllWorkspaces()) && // not on all workspaces
-            !w->isRollup() &&
-            !w->isMinimized() &&
-            !w->isHidden() &&
-            (!skipNonMinimizable || w->canMinimize()))
-        {
-            ++*count;
-        }
-        w = w->next();
-    }
-    *win = new YFrameWindow *[*count];
-    int n = 0;
-    w = topLayer(WinLayerNormal);
-    if (*win) {
-        while (w) {
+bool YWindowManager::getWindowsToArrange(YFrameWindow ***win, int *count,
+                                         bool all, bool skipNonMinimizable)
+{
+    for (int loop = 0; loop < 2; ++loop) {
+        int n = 0;
+        for (YFrameWindow *w = topLayer(WinLayerNormal); w; w = w->next()) {
             if (w->owner() == 0 && // not transient ?
                 w->visibleOn(activeWorkspace()) && // visible
                 (all || !w->isAllWorkspaces()) && // not on all workspaces
                 !w->isRollup() &&
                 !w->isMinimized() &&
-                !w->isHidden()&&
-            (!skipNonMinimizable || w->canMinimize()))
+                !w->isHidden() &&
+                (!skipNonMinimizable || w->canMinimize()))
             {
-                (*win)[n] = w;
+                if (loop)
+                    (*win)[n] = w;
                 n++;
             }
-
-            w = w->next();
+        }
+        if (loop == 0) {
+            *count = n;
+            *win = (n == 0) ? nullptr : new YFrameWindow *[*count];
+            if (*win == nullptr) {
+                return false;
+            }
         }
     }
-    PRECONDITION(n == *count);
+    return true;
 }
 
 void YWindowManager::saveArrange(YFrameWindow **w, int count) {
