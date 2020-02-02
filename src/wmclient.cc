@@ -947,10 +947,9 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
         } else {
             warn("_NET_WM_STATE unknown command: %ld", message.data.l[0]);
         }
-    } else if (message.message_type == _XA_WM_PROTOCOLS) {
-        if (Atom(message.data.l[0]) == _XA_NET_WM_PING) {
-            recvPing(message);
-        }
+    } else if (message.message_type == _XA_WM_PROTOCOLS &&
+               message.data.l[0] == long(_XA_NET_WM_PING)) {
+        recvPing(message);
     } else if (message.message_type == _XA_WIN_WORKSPACE) {
         if (getFrame())
             getFrame()->setWorkspace(message.data.l[0]);
