@@ -128,6 +128,8 @@ static inline void newline() {
 
 /******************************************************************************/
 
+static bool getGeometry(Window window, int& x, int& y, int& width, int& height);
+
 static int displayWidth() {
     return DisplayWidth(display, DefaultScreen(display));
 }
@@ -765,6 +767,24 @@ public:
             long ws = getWorkspace(client);
             if ((ws == workspace || hasbits(ws, 0xFFFFFFFF)) != inverse) {
                 fChildren[keep++] = client;
+            }
+        }
+        fCount = keep;
+    }
+
+    void filterByScreen() {
+        if (fConfine.confining() == false) {
+            return;
+        }
+        unsigned keep = 0;
+        for (YTreeIter client(*this); client; ++client) {
+            int x, y, w, h;
+            if (getGeometry(client, x, y, w, h)) {
+                YRect r(x, y, w, h);
+                YRect s(fConfine[fConfine.screen()]);
+                if (s.overlap(r)) {
+                    fChildren[keep++] = client;
+                }
             }
         }
         fCount = keep;
@@ -2951,7 +2971,10 @@ void IceSh::flag(char* arg)
         filtering = true;
     }
     else if (isOptArg(arg, "-Xinerama", val)) {
+        if ( ! windowList)
+            windowList.getClientList();
         confine(val);
+        windowList.filterByScreen();
         MSG(("xinerama %s selected", val));
         filtering = true;
     }
