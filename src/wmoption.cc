@@ -6,6 +6,7 @@
 #include "config.h"
 #include "wmoption.h"
 #include "wmframe.h"
+#include "ytrace.h"
 #include "ascii.h"
 #include "intl.h"
 #include <ctype.h>
@@ -387,6 +388,7 @@ static char *parseWinOptions(char *data, const char* filename) {
 
 void loadWinOptions(upath optFile) {
     if (optFile.nonempty()) {
+        YTraceConfig trace(optFile.string());
         csmart buf(optFile.loadText());
         if (buf) {
             defOptions = null;

@@ -69,7 +69,7 @@ public:
         pfPopupMenu         = 1 << 6
     } PopupFlags;
 
-    YWindow *owner() { return fOwner; }
+    YWindow *popupOwner() { return fOwner; }
     int getXiScreen() { return fXiScreen; }
 private:
     unsigned int fFlags;

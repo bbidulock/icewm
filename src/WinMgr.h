@@ -248,7 +248,7 @@
  *
  *   xev.type = ClientMessage;
  *   xev.window = toplevel_window;
- *   xev.message_type = _XA_WIN_WORKSPACE;
+ *   xev.message_type = _XA_WIN_STATE;
  *   xev.format = 32;
  *   xev.data.l[0] = mask; // mask of the states to change
  *   xev.data.l[1] = state; // new state values
@@ -280,7 +280,6 @@
 #define WinStateHidTransient   (1 << 7)   /* owner of transient is hidden */
 #define WinStateFixedPosition  (1 << 8)   /* fixed position on virtual desktop*/
 #define WinStateArrangeIgnore  (1 << 9)   /* ignore for auto arranging */
-//#define WinStateDocked         (1 << 9) /* docked, ignore my area for maximizing */
 #define WinStateFocused        (1 << 21)  /* has the focus */
 #define WinStateUrgent         (1 << 22)  /* demands attention */
 #define WinStateSkipPager      (1 << 23)  /* skip pager */
@@ -288,7 +287,7 @@
 #define WinStateModal          (1 << 25)  /* modal */
 #define WinStateBelow          (1 << 26)  /* below layer */
 #define WinStateAbove          (1 << 27)  /* above layer */
-#define WinStateFullscreen     (1 << 28)  /* fullscreen (no lauout limits) */
+#define WinStateFullscreen     (1 << 28)  /* fullscreen (no layout limits) */
 #define WinStateWasHidden      (1 << 29)  /* was hidden when parent was minimized/hidden */
 #define WinStateWasMinimized   (1 << 30)  /* was minimized when parent was minimized/hidden */
 #define WinStateWithdrawn      (1 << 31)  /* managed, but not available to user */
@@ -320,33 +319,6 @@
 #define WIN_HINTS_ALL (WinHintsSkipFocus | WinHintsSkipWindowMenu |\
                        WinHintsSkipTaskBar | WinHintsGroupTransient |\
                        WinHintsFocusOnClick | WinHintsDoNotCover)
-
-/* Type CARD32[2]
- *      additional window hints
- *
- *      Handling of this propery is very similiar to WIN_STATE.
- *
- * NOT IMPLEMENTED YET.
- */
-/* WinHintsDockHorizontal -- not used
- * This state is necessary for correct WORKAREA negotiation when
- * a window is positioned in a screen corner. If set, it determines how
- * the place where window is subtracted from workare.
- *
- * Imagine a square docklet in the corner of the screen (several WMaker docklets
- * are like this).
- *
- * HHHHD
- * ....V
- * ....V
- * ....V
- *
- * If WinStateDockHorizontal is set, the WORKAREA will consist of area
- * covered by '.' and 'V', otherwise the WORKAREA will consist of area
- * covered by '. and 'H';
- *
- * currently hack is used where: w>h -> horizontal dock, else vertical
- */
 
 /* work area of current workspace -- */
 #define XA_WIN_WORKAREA        "_WIN_WORKAREA"

@@ -129,6 +129,8 @@ Picture Graphics::picture() {
         if (format) {
             XRenderPictureAttributes attr;
             unsigned long mask = None;
+            attr.component_alpha = (rDepth == 32);
+            mask |= CPComponentAlpha;
             fPicture = XRenderCreatePicture(display(), fDrawable,
                                             format, mask, &attr);
         }
@@ -506,16 +508,22 @@ void Graphics::setLineWidth(unsigned width) {
 
 void Graphics::setPenStyle(bool dotLine) {
     XGCValues gcv;
+    unsigned long mask = GCLineStyle;
+    gcv.line_style = dotLine ? LineOnOffDash : LineSolid;
 
     if (dotLine) {
-        char c = 1;
-        gcv.line_style = LineOnOffDash;
-        XSetDashes(display(), gc, 0, &c, 1);
-    } else {
-        gcv.line_style = LineSolid;
+        char dashes[] = { 1 };
+        int num_dashes = int ACOUNT(dashes);
+        int dash_offset = 0;
+        XSetDashes(display(), gc, dash_offset, dashes, num_dashes);
+
+        gcv.line_width = 1;
+        gcv.cap_style = CapButt;
+        gcv.join_style = JoinMiter;
+        mask |= GCLineWidth | GCCapStyle | GCJoinStyle;
     }
 
-    XChangeGC(display(), gc, GCLineStyle, &gcv);
+    XChangeGC(display(), gc, mask, &gcv);
 }
 
 void Graphics::setFunction(int function) {
@@ -531,7 +539,7 @@ void Graphics::drawImage(ref<YImage> img, int const x, int const y) {
 void Graphics::drawImage(ref<YImage> img, int x, int y, unsigned w, unsigned h, int dx, int dy) {
     if (picture()) {
         unsigned depth = max(img->depth(), rdepth());
-        ref<YPixmap> pix(img->renderToPixmap(depth));
+        ref<YPixmap> pix(img->renderToPixmap(depth, img->depth() == 32));
         if (pix != null) {
             Picture source = pix->picture();
             XRenderComposite(display(),
@@ -629,7 +637,7 @@ void Graphics::compositeImage(ref<YImage> img, int const sx, int const sy, unsig
             return;
 
         unsigned depth = max(img->depth(), rdepth());
-        ref<YPixmap> pix(img->renderToPixmap(depth));
+        ref<YPixmap> pix(img->renderToPixmap(depth, img->depth() == 32));
         if (pix != null) {
             Picture source = pix->picture();
             XRenderComposite(display(),

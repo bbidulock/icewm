@@ -13,6 +13,7 @@ enum WMAction {
     ICEWM_ACTION_RESTARTWM = 8,
     ICEWM_ACTION_SUSPEND = 9,
     ICEWM_ACTION_WINOPTIONS = 10,
+    ICEWM_ACTION_RELOADKEYS = 11,
 };
 
 enum RebootShutdown {
@@ -79,6 +80,7 @@ enum EAction {
 
     actionMaximizeHoriz      = 195,
     actionWinOptions         = 197,
+    actionReloadKeys         = 199,
     actionCut                = 201,
     actionCopy               = 203,
     actionPaste              = 205,

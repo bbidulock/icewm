@@ -197,9 +197,10 @@ YFrameWindow::~YFrameWindow() {
 }
 
 void YFrameWindow::addToWindowList() {
-    if (fWinListItem == 0) {
-        if (windowList && !(frameOptions() & foIgnoreWinList))
-            fWinListItem = windowList->addWindowListApp(this);
+    if (fWinListItem == nullptr && client()->adopted() &&
+        windowList && notbit(frameOptions(), foIgnoreWinList))
+    {
+        fWinListItem = windowList->addWindowListApp(this);
     }
 }
 
@@ -207,7 +208,7 @@ void YFrameWindow::removeFromWindowList() {
     if (fWinListItem) {
         if (windowList)
             windowList->removeWindowListApp(fWinListItem);
-        delete fWinListItem; fWinListItem = 0;
+        delete fWinListItem; fWinListItem = nullptr;
     }
 }
 
@@ -1526,8 +1527,17 @@ void YFrameWindow::updateFocusOnMap(bool& doActivate) {
                 doActivate = false;
         }
     } else {
-        if (!focusOnMap)
+        bool mapUrgentGroupMember = false;
+        if (isUrgent() && client()->clientLeader()) {
+            YFrameWindow* f = manager->getFocus();
+            if (f && f->client()->clientLeader() == client()->clientLeader()) {
+                tlog("focus urgent group member %s", boolstr(doActivate));
+                mapUrgentGroupMember = true;
+            }
+        }
+        if (!focusOnMap && !mapUrgentGroupMember) {
             doActivate = false;
+        }
     }
 
     manager->updateUserTime(fUserTime);
@@ -2080,7 +2090,9 @@ void YFrameWindow::getDefaultOptions(bool &requestFocus) {
     getWindowOptions(wo, true);
 
     if (wo.icon && wo.icon[0]) {
-        fFrameIcon = YIcon::getIcon(wo.icon);
+        ref<YIcon> icon = YIcon::getIcon(wo.icon);
+        if (icon != null)
+            fFrameIcon = icon;
     }
     if (wo.workspace != WinWorkspaceInvalid && wo.workspace < workspaceCount) {
         setWorkspace(wo.workspace);
@@ -2238,15 +2250,15 @@ void YFrameWindow::updateIcon() {
         }
         fFrameIcon.init(new YIcon(icons[0], icons[1], icons[2]));
         XFree(elem);
-    } else
-       if (client()->getWinIcons(&type, &count, &elem)) {
+    }
+    else if (client()->getWinIcons(&type, &count, &elem)) {
         if (type == _XA_WIN_ICONS)
             fFrameIcon = newClientIcon(elem[0], elem[1], elem + 2);
         else // compatibility
             fFrameIcon = newClientIcon(count/2, 2, elem);
         XFree(elem);
-    } else
-       if (client()->getKwmIcon(&count, &pixmap) && count == 2) {
+    }
+    else if (client()->getKwmIcon(&count, &pixmap) && count == 2) {
         XWMHints *h = client()->hints();
         if (h && (h->flags & IconPixmapHint)) {
             long pix[4];
@@ -2262,7 +2274,8 @@ void YFrameWindow::updateIcon() {
             fFrameIcon = newClientIcon(count / 2, 2, pix);
         }
         XFree(pixmap);
-    } else {
+    }
+    else {
         XWMHints *h = client()->hints();
         if (h && (h->flags & IconPixmapHint)) {
             long pix[2];
@@ -2270,10 +2283,18 @@ void YFrameWindow::updateIcon() {
             pix[1] = (h->flags & IconMaskHint) ? h->icon_mask : None;
             fFrameIcon = newClientIcon(1, 2, pix);
         }
+        else if (fFrameIcon == null && client()->classHint()) {
+            const char* name = client()->classHint()->res_name;
+            if (nonempty(name)) {
+                fFrameIcon = YIcon::getIcon(name);
+            }
+        }
     }
 
-    if (fFrameIcon != null && !(fFrameIcon->small() != null || fFrameIcon->large() != null)) {
-        fFrameIcon = null;
+    if (fFrameIcon != null) {
+        if (fFrameIcon->small() == null && fFrameIcon->large() == null) {
+            fFrameIcon = null;
+        }
     }
 
     if (fFrameIcon == null) {

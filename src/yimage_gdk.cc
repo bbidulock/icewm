@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <gdk-pixbuf-xlib/gdk-pixbuf-xlib.h>
 
-#define ATH 128 /* alpha threshold that can show anti-aliased lines */
+#define ATH 10  /* alpha threshold */
 
 class YImageGDK: public YImage {
 public:
@@ -19,7 +19,7 @@ public:
     virtual ~YImageGDK() {
         g_object_unref(G_OBJECT(fPixbuf));
     }
-    virtual ref<YPixmap> renderToPixmap(unsigned depth);
+    virtual ref<YPixmap> renderToPixmap(unsigned depth, bool premult);
     virtual ref<YImage> scale(unsigned width, unsigned height);
     virtual void draw(Graphics &g, int dx, int dy);
     virtual void draw(Graphics &g, int x, int y,
@@ -215,7 +215,7 @@ ref<YImage> YImage::createFromPixmapAndMaskScaled(Pixmap pix, Pixmap mask,
     return image;
 }
 
-ref<YPixmap> YImageGDK::renderToPixmap(unsigned depth) {
+ref<YPixmap> YImageGDK::renderToPixmap(unsigned depth, bool premult) {
     Pixmap pixmap = None, mask = None;
 
     if (depth == 0) {
@@ -249,6 +249,11 @@ ref<YPixmap> YImageGDK::renderToPixmap(unsigned depth) {
                     guchar alp = alpha
                                ? (rowpix[3] >= ATH ? rowpix[3] : 0x00)
                                : 0xFF;
+                    if (premult) {
+                        red = (red * (alp + 1)) >> 8;
+                        grn = (grn * (alp + 1)) >> 8;
+                        blu = (blu * (alp + 1)) >> 8;
+                    }
                     XPutPixel(image, col, row,
                               (red << 16) |
                               (grn << 8) |
@@ -378,7 +383,7 @@ void YImageGDK::composite(Graphics &g, int x, int y, unsigned width, unsigned he
 }
 
 void image_init() {
-#if (GLIB_MAJOR_VERSION <= 2 && GLIB_MINOR_VERSION < 36 && GLIB_MICRO_VERSION <= 0)
+#if !GLIB_CHECK_VERSION(2,36,0)
     g_type_init();
 #endif
 

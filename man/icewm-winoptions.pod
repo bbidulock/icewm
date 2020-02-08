@@ -14,17 +14,15 @@
 
 =head1 DESCRIPTION
 
-The IceWM window options configuration file is used to configure
-settings for individual application windows.  The window options that
-are established by this file when L<icewm(1)> starts can be overridden
-while running using the L<icesh(1)> or L<icewmhint(1)> utilities.
+Contains settings to control window appearance and behaviour. These are
+specific to applications, or to groups of applications.  Options can
+control the window border, whether the application appears on the task
+bar, the window list, the system tray and the work spaces.
+Also its layer, geometry, whether it can be moved, resized and closed.
 
-Contains settings to control window appearance and behaviour which are
-specific to applications or groups of applications.  Options can control
-the border, whether it appears on the task bar, the window list, the
-system tray and the work spaces.  Also its layer, geometry, whether it
-can be moved, resized and closed.  Full details for this file are
-explained in the L<IceWM Manual|https://ice-wm.org/manual>.
+Options are established when L<icewm(1)> starts.  However, they can be
+overridden later using L<icesh(1)> or L<icewmhint(1)>. The command
+C<icesh winoptions> instructs icewm to reload the winoptions file.
 
 =head1 FORMAT
 
@@ -94,7 +92,8 @@ The following option control general characteristics of windows:
 =item B<icon>: I<NAME> (default: none)
 
 Specifies the icon name for the window.  I<NAME> is the name of the
-icon.
+icon, like F<utilities-terminal>. It can also be a file, like
+F<xterm.png>, a full path, or a prefix of a path without sizes or suffix.
 
 =item B<workspace>: I<WORKSPACE> (default: current)
 
@@ -278,6 +277,9 @@ Locations for the F<winoptions> file are as follows:
  $HOME/.icewm/winoptions
  /etc/icewm/winoptions
  /usr/share/icewm/winoptions
+
+The locations are searched in the order listed; the first file found is
+read and the remainder ignored.
 
 =head1 SEE ALSO
 

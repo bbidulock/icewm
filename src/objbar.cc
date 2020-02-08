@@ -35,7 +35,8 @@ void ObjectBar::addButton(const ustring &name, ref<YIcon> icon, ObjectButton *bu
         button->setText(name);
 
     IterType iter(objects.reverseIterator());
-    const int extent(++iter ? iter->x() + int(iter->width()) : 0);
+    while (++iter && !*iter);
+    const int extent(iter ? iter->x() + int(iter->width()) : 0);
 
     button->setPosition(extent, 0);
     if (button->height() < height())

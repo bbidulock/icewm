@@ -475,7 +475,7 @@ TaskPane::TaskPane(IAppletContainer *taskBar, YWindow *parent): YWindow(parent) 
     fDragging = 0;
     fDragX = fDragY = 0;
 
-    setStyle(wsNoExpose);
+    addStyle(wsNoExpose);
     if (getGradient() == null && taskbackPixmap == null) {
         setBackground(taskBarBg);
     }
@@ -580,6 +580,9 @@ void TaskPane::relayoutNow(bool force) {
     fNeedRelayout = false;
     if (fRelayoutTimer)
         fRelayoutTimer = null;
+
+    if (width() <= 3)
+        return;
 
     int tc = 0;
 

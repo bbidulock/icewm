@@ -84,18 +84,12 @@ YWindowManager::YWindowManager(
     setPointer(YXApplication::leftPointer);
 #ifdef CONFIG_XRANDR
     if (xrandr.supported) {
-#if RANDR_MAJOR >= 1
         XRRSelectInput(xapp->display(), handle(),
                        RRScreenChangeNotifyMask
-#if RANDR_MINOR >= 2
                        | RRCrtcChangeNotifyMask
                        | RROutputChangeNotifyMask
                        | RROutputPropertyNotifyMask
-#endif
                       );
-#else
-        XRRScreenChangeSelectInput(xapp->display(), handle(), True);
-#endif
     }
 #endif
 
@@ -214,7 +208,7 @@ void YWindowManager::grabKeys() {
     }
 
     {
-        YObjectArray<KProgram>::IterType k = keyProgs.iterator();
+        KProgramIterType k = keyProgs.iterator();
         while (++k) {
             grabVKey(k->key(), k->modifiers());
         }
@@ -253,6 +247,8 @@ void YWindowManager::grabKeys() {
 
 YProxyWindow::YProxyWindow(YWindow *parent): YWindow(parent) {
     setStyle(wsOverrideRedirect);
+    setTitle("IceRootProxy");
+    setProperty(_XA_WIN_DESKTOP_BUTTON_PROXY, XA_CARDINAL, handle());
 }
 
 YProxyWindow::~YProxyWindow() {
@@ -263,18 +259,10 @@ void YProxyWindow::handleButton(const XButtonEvent &/*button*/) {
 
 void YWindowManager::setupRootProxy() {
     if (grabRootWindow) {
-        rootProxy = new YProxyWindow(0);
+        rootProxy = new YProxyWindow(nullptr);
         if (rootProxy) {
-            rootProxy->setStyle(wsOverrideRedirect);
-            rootProxy->setTitle("IceRootProxy");
-            XID rid = rootProxy->handle();
-
-            XChangeProperty(xapp->display(), manager->handle(),
-                            _XA_WIN_DESKTOP_BUTTON_PROXY, XA_CARDINAL, 32,
-                            PropModeReplace, (unsigned char *)&rid, 1);
-            XChangeProperty(xapp->display(), rootProxy->handle(),
-                            _XA_WIN_DESKTOP_BUTTON_PROXY, XA_CARDINAL, 32,
-                            PropModeReplace, (unsigned char *)&rid, 1);
+            setProperty(_XA_WIN_DESKTOP_BUTTON_PROXY, XA_CARDINAL,
+                        rootProxy->handle());
         }
     }
 }
@@ -282,7 +270,7 @@ void YWindowManager::setupRootProxy() {
 bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int /*m*/, unsigned int vm) {
     YFrameWindow *frame = getFocus();
 
-    YObjectArray<KProgram>::IterType p = keyProgs.iterator();
+    KProgramIterType p = keyProgs.iterator();
     while (++p) {
         if (!p->isKey(k, vm)) continue;
 
@@ -567,8 +555,8 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
 
 void YWindowManager::handleButton(const XButtonEvent &button) {
     if (rootProxy && button.window == handle() &&
-        !(useRootButtons & (1 << (button.button - 1))) &&
-       !((button.state & (ControlMask + xapp->AltMask)) == ControlMask + xapp->AltMask))
+        notbit(useRootButtons, 1 << (button.button - Button1)) &&
+        !hasbits(button.state, (ControlMask | xapp->AltMask)))
     {
         if (button.send_event == False)
             XUngrabPointer(xapp->display(), CurrentTime);
@@ -579,59 +567,69 @@ void YWindowManager::handleButton(const XButtonEvent &button) {
                    (XEvent *) &button);
         return ;
     }
-    YFrameWindow *frame = 0;
-    if (useMouseWheel && ((frame = getFocus()) != 0) && button.type == ButtonPress &&
-        ((KEY_MODMASK(button.state) == xapp->WinMask && xapp->WinMask) ||
-         (KEY_MODMASK(button.state) == ControlMask + xapp->AltMask && xapp->AltMask)))
-    {
-        if (button.button == 4)
-            frame->wmNextWindow();
-        else if (button.button == 5)
-            frame->wmPrevWindow();
-    }
-    if (button.type == ButtonPress) do {
-        if (button.button + 10 == (unsigned) rootMenuButton) {
+
+    if (button.type == ButtonPress) {
+        if (useMouseWheel && inrange(int(button.button), Button4, Button5) &&
+            (xapp->hasControlAlt(button.state) || xapp->hasWinMask(button.state)))
+        {
+            YFrameWindow* frame = getFocus();
+            if (frame) {
+                if (button.button == Button4)
+                    frame->wmNextWindow();
+                else if (button.button == Button5)
+                    frame->wmPrevWindow();
+            }
+        }
+        else if (button.button + 10 == (unsigned) rootMenuButton) {
             if (rootMenu)
                 rootMenu->popup(0, 0, 0, button.x, button.y,
                                 YPopupWindow::pfCanFlipVertical |
                                 YPopupWindow::pfCanFlipHorizontal |
                                 YPopupWindow::pfPopupMenu |
                                 YPopupWindow::pfButtonDown);
-            break;
         }
-        if (button.button + 10 == (unsigned) rootWinMenuButton) {
+        else if (button.button + 10 == (unsigned) rootWinMenuButton) {
             popupWindowListMenu(this, button.x, button.y);
-            break;
         }
-    } while (false);
+        else {
+            // allow buttons to trigger actions from "keys" for #333.
+            KeySym k = button.button - Button1 + XK_Pointer_Button1;
+            unsigned int m = KEY_MODMASK(button.state);
+            unsigned int vm = VMod(m);
+            KProgramIterType p = keyProgs.iterator();
+            while (++p) {
+                if (p->isKey(k, vm)) {
+                    p->open(m);
+                    break;
+                }
+            }
+        }
+    }
     YWindow::handleButton(button);
 }
 
 void YWindowManager::handleClick(const XButtonEvent &up, int count) {
-    if (count == 1) do {
+    if (count == 1) {
         if (up.button == (unsigned) rootMenuButton) {
             if (rootMenu)
                 rootMenu->popup(0, 0, 0, up.x, up.y,
                                 YPopupWindow::pfCanFlipVertical |
                                 YPopupWindow::pfCanFlipHorizontal |
                                 YPopupWindow::pfPopupMenu);
-            break;
         }
-        if (up.button == (unsigned) rootWinMenuButton) {
+        else if (up.button == (unsigned) rootWinMenuButton) {
             popupWindowListMenu(this, up.x, up.y);
-            break;
         }
-        if (up.button == (unsigned) rootWinListButton) {
+        else if (up.button == (unsigned) rootWinListButton) {
             windowList->showFocused(up.x_root, up.y_root);
-            break;
         }
-    } while (false);
+    }
 }
 
 void YWindowManager::handleConfigure(const XConfigureEvent &configure) {
     if (configure.window == handle()) {
 #ifdef CONFIG_XRANDR
-        UpdateScreenSize((XEvent *)&configure);
+        updateScreenSize((XEvent *)&configure);
 #endif
     }
 }
@@ -796,6 +794,7 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
         case ICEWM_ACTION_WINDOWLIST:
         case ICEWM_ACTION_ABOUT:
         case ICEWM_ACTION_WINOPTIONS:
+        case ICEWM_ACTION_RELOADKEYS:
             smActionListener->handleSMAction(action);
             break;
         }
@@ -2258,7 +2257,7 @@ void YWindowManager::announceWorkArea() {
         }
     }
 
-    const YRect desktopArea(0, 0, desktop->width(), desktop->height());
+    const YRect desktopArea(desktop->geometry());
     for (int ws = 0; ws < nw; ws++) {
         YRect r(desktopArea);
         if (netWorkAreaBehaviour != 1) {
@@ -2483,30 +2482,15 @@ void YWindowManager::updateWorkspaces(bool increase) {
 }
 
 bool YWindowManager::readCurrentDesktop(long &workspace) {
-    Atom r_type;
-    int r_format;
-    unsigned long count;
-    unsigned long bytes_remain;
-    xsmart<unsigned char> prop;
-    workspace = 0;
-
-    if (XGetWindowProperty(xapp->display(), handle(),
-                           _XA_NET_CURRENT_DESKTOP, 0, 1, False,
-                           XA_CARDINAL, &r_type, &r_format,
-                           &count, &bytes_remain, &prop) == Success && prop) {
-        if (r_type == XA_CARDINAL && r_format == 32 && count == 1) {
-            workspace = clamp(prop.extract<long>(), 0L, workspaceCount() - 1L);
-            return true;
-        }
+    YProperty netp(this, _XA_NET_CURRENT_DESKTOP, F32, 1L, XA_CARDINAL);
+    if (netp) {
+        workspace = clamp(*netp, 0L, workspaceCount() - 1L);
+        return true;
     }
-    if (XGetWindowProperty(xapp->display(), handle(),
-                           _XA_WIN_WORKSPACE, 0, 1, False,
-                           XA_CARDINAL, &r_type, &r_format,
-                           &count, &bytes_remain, &prop) == Success && prop) {
-        if (r_type == XA_CARDINAL && r_format == 32 && count == 1) {
-            workspace = clamp(prop.extract<long>(), 0L, workspaceCount() - 1L);
-            return true;
-        }
+    YProperty winp(this, _XA_WIN_WORKSPACE, F32, 1L, XA_CARDINAL);
+    if (winp) {
+        workspace = clamp(*winp, 0L, workspaceCount() - 1L);
+        return true;
     }
     return false;
 }
@@ -2552,35 +2536,24 @@ void YWindowManager::updateMoveMenu() {
 
 bool YWindowManager::readDesktopLayout() {
     bool success = false;
-
-    Atom type(0);
-    int format(0);
-    unsigned long count(0), remain(0);
-    long *prop(0);
-    if (XGetWindowProperty(xapp->display(), handle(),
-                           _XA_NET_DESKTOP_LAYOUT, 0L, 4L, False,
-                           XA_CARDINAL, &type, &format, &count, &remain,
-                           (unsigned char **) &prop) == Success && prop)
-    {
-        if (type == XA_CARDINAL && format == 32 && count >= 3) {
-            int orient = (int) prop[0];
-            int cols   = (int) prop[1];
-            int rows   = (int) prop[2];
-            int corner = (count == 3) ? _NET_WM_TOPLEFT : (int) prop[3];
-            if (inrange(orient, 0, 1) &&
-                inrange(cols, 0, 100) &&
-                inrange(rows, 0, 100) &&
-                (rows || cols) &&
-                inrange(corner, 0, 3))
-            {
-                fLayout = (DesktopLayout) { orient, cols, rows, corner, };
-                success = true;
-            }
+    YProperty prop(this, _XA_NET_DESKTOP_LAYOUT, F32, 4L, XA_CARDINAL);
+    if (prop && 3 <= prop.size()) {
+        int orient = (int) prop[0];
+        int cols   = (int) prop[1];
+        int rows   = (int) prop[2];
+        int corner = (prop.size() == 3) ? _NET_WM_TOPLEFT : (int) prop[3];
+        if (inrange(orient, 0, 1) &&
+            inrange(cols, 0, 100) &&
+            inrange(rows, 0, 100) &&
+            (rows || cols) &&
+            inrange(corner, 0, 3))
+        {
+            fLayout = (DesktopLayout) { orient, cols, rows, corner, };
+            success = true;
         }
-        XFree(prop);
     }
     MSG(("read: _NET_DESKTOP_LAYOUT(%d): %s (%d, %lu) { %d, %d, %d, %d }",
-        (int) _XA_NET_DESKTOP_LAYOUT, boolstr(success), format, (long unsigned int) count,
+        (int) _XA_NET_DESKTOP_LAYOUT, boolstr(success), prop.format(), prop.size(),
         fLayout.orient, fLayout.columns, fLayout.rows, fLayout.corner));
 
     return success;
@@ -2958,33 +2931,16 @@ void YWindowManager::updateUserTime(const UserTime& userTime) {
         fLastUserTime = userTime;
 }
 
-void YWindowManager::execAfterFork(const char *command) {
-        if (!command || !*command)
-                return;
-    msg("Running system command in shell: %s", command);
-        pid_t pid = fork();
-    switch(pid) {
-    case -1: /* Failed */
-        fail("fork failed");
-        return;
-    case 0: /* Child */
-        execl("/bin/sh", "sh", "-c", command, (char *) 0);
-        _exit(99);
-    default: /* Parent */
-        return;
-    }
-}
-
 void YWindowManager::checkLogout() {
     if (fShuttingDown && !haveClients()) {
         fShuttingDown = false; /* Only run the command once */
 
         if (rebootOrShutdown == Reboot && nonempty(rebootCommand)) {
             msg("reboot... (%s)", rebootCommand);
-            execAfterFork(rebootCommand);
+            smActionListener->runCommand(rebootCommand);
         } else if (rebootOrShutdown == Shutdown && nonempty(shutdownCommand)) {
             msg("shutdown ... (%s)", shutdownCommand);
-            execAfterFork(shutdownCommand);
+            smActionListener->runCommand(shutdownCommand);
         } else if (rebootOrShutdown == Logout)
             app->exit(0);
     }
@@ -3192,44 +3148,34 @@ void YWindowManager::tileWindows(YFrameWindow **w, int count, bool vertical) {
     }
 }
 
-void YWindowManager::getWindowsToArrange(YFrameWindow ***win, int *count, bool all, bool skipNonMinimizable) {
-    YFrameWindow *w = topLayer(WinLayerNormal);
-
-    *count = 0;
-    while (w) {
-        if (w->owner() == 0 && // not transient ?
-            w->visibleOn(activeWorkspace()) && // visible
-            (all || !w->isAllWorkspaces()) && // not on all workspaces
-            !w->isRollup() &&
-            !w->isMinimized() &&
-            !w->isHidden() &&
-            (!skipNonMinimizable || w->canMinimize()))
-        {
-            ++*count;
-        }
-        w = w->next();
-    }
-    *win = new YFrameWindow *[*count];
-    int n = 0;
-    w = topLayer(WinLayerNormal);
-    if (*win) {
-        while (w) {
+bool YWindowManager::getWindowsToArrange(YFrameWindow ***win, int *count,
+                                         bool all, bool skipNonMinimizable)
+{
+    for (int loop = 0; loop < 2; ++loop) {
+        int n = 0;
+        for (YFrameWindow *w = topLayer(WinLayerNormal); w; w = w->next()) {
             if (w->owner() == 0 && // not transient ?
                 w->visibleOn(activeWorkspace()) && // visible
                 (all || !w->isAllWorkspaces()) && // not on all workspaces
                 !w->isRollup() &&
                 !w->isMinimized() &&
-                !w->isHidden()&&
-            (!skipNonMinimizable || w->canMinimize()))
+                !w->isHidden() &&
+                (!skipNonMinimizable || w->canMinimize()))
             {
-                (*win)[n] = w;
+                if (loop)
+                    (*win)[n] = w;
                 n++;
             }
-
-            w = w->next();
+        }
+        if (loop == 0) {
+            *count = n;
+            *win = (n == 0) ? nullptr : new YFrameWindow *[*count];
+            if (*win == nullptr) {
+                return false;
+            }
         }
     }
-    PRECONDITION(n == *count);
+    return true;
 }
 
 void YWindowManager::saveArrange(YFrameWindow **w, int count) {
@@ -3391,10 +3337,9 @@ end:
     return false;
 }
 
-int YWindowManager::getScreen() {
-    if (fFocusWin)
-        return fFocusWin->getScreen();
-    return 0;
+int YWindowManager::getSwitchScreen() {
+    int s = fFocusWin ? fFocusWin->getScreen() : xineramaPrimaryScreen;
+    return inrange(s, 0, getScreenCount() - 1) ? s : 0;
 }
 
 void YWindowManager::doWMAction(WMAction action) {
@@ -3415,37 +3360,24 @@ void YWindowManager::doWMAction(WMAction action) {
 
 #ifdef CONFIG_XRANDR
 void YWindowManager::handleRRScreenChangeNotify(const XRRScreenChangeNotifyEvent &xrrsc) {
-    UpdateScreenSize((XEvent *)&xrrsc);
+    // logRandrScreen((const union _XEvent&) xrrsc);
+    updateScreenSize((XEvent *)&xrrsc);
 }
 
 void YWindowManager::handleRRNotify(const XRRNotifyEvent &notify) {
-    // logRandrNotify((XEvent *)&notify);
+    // logRandrNotify((const union _XEvent&) notify);
 }
 
-void YWindowManager::UpdateScreenSize(XEvent *event) {
-#if RANDR_MAJOR >= 1
-    XRRUpdateConfiguration(event);
-#endif
-
+void YWindowManager::updateScreenSize(XEvent *event) {
     unsigned nw = xapp->displayWidth();
     unsigned nh = xapp->displayHeight();
-    updateXineramaInfo(nw, nh);
 
-    if (width() != nw ||
-        height() != nh)
-    {
+    XRRUpdateConfiguration(event);
 
-        MSG(("xrandr: %d %d",
-             nw,
-             nh));
-
-        unsigned long data[2];
-        data[0] = nw;
-        data[1] = nh;
-        XChangeProperty(xapp->display(), manager->handle(),
-                        _XA_NET_DESKTOP_GEOMETRY, XA_CARDINAL,
-                        32, PropModeReplace, (unsigned char *)&data, 2);
-
+    if (updateXineramaInfo(nw, nh)) {
+        MSG(("xrandr: %d %d", nw, nh));
+        Atom data[2] = { nw, nh };
+        setProperty(_XA_NET_DESKTOP_GEOMETRY, XA_CARDINAL, data, 2);
         setSize(nw, nh);
         updateWorkArea();
         if (taskBar && pagerShowPreview) {
@@ -3458,7 +3390,7 @@ void YWindowManager::UpdateScreenSize(XEvent *event) {
         for (int i = 0; i < edges.getCount(); ++i)
             edges[i]->setGeometry();
 
-/// TODO #warning "make something better"
+        /// TODO #warning "make something better"
         if (arrangeWindowsOnScreenSizeChange) {
             wmActionListener->actionPerformed(actionArrange, 0);
         }

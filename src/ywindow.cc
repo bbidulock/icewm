@@ -272,7 +272,7 @@ void YWindow::addEventMask(long mask) {
 }
 
 Graphics &YWindow::getGraphics() {
-    return *(NULL == fGraphics ? fGraphics = new Graphics(*this) : fGraphics);
+    return *(fGraphics ? fGraphics : fGraphics = new Graphics(*this));
 }
 
 void YWindow::repaint() {
@@ -1506,6 +1506,10 @@ void YWindow::setNetOpacity(Atom opacity) {
     setProperty(_XA_NET_WM_WINDOW_OPACITY, XA_CARDINAL, opacity);
 }
 
+void YWindow::setNetPid() {
+    setProperty(_XA_NET_WM_PID, XA_CARDINAL, getpid());
+}
+
 void YWindow::setDND(bool enabled) {
     if (fDND != enabled) {
         fDND = enabled;
@@ -1682,17 +1686,12 @@ void YWindow::requestSelection(bool selection) {
                       sel, handle(), xapp->getEventTime("requestSelection"));
 }
 
-void YWindow::handleEndPopup(YPopupWindow *popup) {
-    if (parent())
-        parent()->handleEndPopup(popup);
-}
-
 bool YWindow::hasPopup() {
     YPopupWindow *p = xapp->popup();
     while (p && p->prevPopup())
         p = p->prevPopup();
     if (p) {
-        YWindow *w = p->owner();
+        YWindow *w = p->popupOwner();
         while (w) {
             if (w == this)
                 return true;
@@ -1707,7 +1706,7 @@ YDesktop::YDesktop(YWindow *aParent, Window win):
 {
     desktop = this;
     setDoubleBuffer(false);
-    unsigned w, h;
+    unsigned w = 0, h = 0;
     updateXineramaInfo(w, h);
 }
 
@@ -1977,142 +1976,117 @@ Picture YWindow::createPicture() {
     return picture;
 }
 
-void YDesktop::updateXineramaInfo(unsigned &w, unsigned &h) {
+bool YDesktop::updateXineramaInfo(unsigned& horizontal, unsigned& vertical) {
     xiInfo.clear();
 
 #ifdef CONFIG_XRANDR
-    bool gotLayout = false;
     if (xrandr.supported && !xrrDisable) {
         XRRScreenResources *xrrsr =
             XRRGetScreenResources(xapp->display(), handle());
-
-        for (int i = 0; i < xrrsr->ncrtc; i++)
-        {
-            XRRCrtcInfo *ci = XRRGetCrtcInfo(xapp->display(), xrrsr, xrrsr->crtcs[i]);
-
-            MSG(("xrr %d (%lu): %d %d %d %d", i, xrrsr->crtcs[i], ci->x, ci->y, ci->width, ci->height));
-
-            if (!gotLayout && ci->width > 0 && ci->height > 0) {
-                DesktopScreenInfo si;
-                si.screen_number = int(xrrsr->crtcs[i]);
-                si.x_org = ci->x;
-                si.y_org = ci->y;
-                si.width = ci->width;
-                si.height = ci->height;
+        for (int i = 0; xrrsr && i < xrrsr->ncrtc; i++) {
+            XRRCrtcInfo *ci = XRRGetCrtcInfo(xapp->display(), xrrsr,
+                                             xrrsr->crtcs[i]);
+            MSG(("xrr %d (%lu): %d %d %u %u", i, xrrsr->crtcs[i],
+                        ci->x, ci->y, ci->width, ci->height));
+            if (ci->width && ci->height) {
+                DesktopScreenInfo si(int(xrrsr->crtcs[i]),
+                                     ci->x, ci->y, ci->width, ci->height);
                 xiInfo.append(si);
             }
             XRRFreeCrtcInfo(ci);
         }
 
-        MSG(("xinerama primary screen name: %s", xineramaPrimaryScreenName));
-        for (int o = 0; o < xrrsr->noutput; o++) {
-            XRROutputInfo *oinfo = XRRGetOutputInfo(xapp->display(), xrrsr, xrrsr->outputs[o]);
-
-            MSG(("output: %s -> %lu", oinfo->name, oinfo->crtc));
-
-            if (xineramaPrimaryScreenName != 0 && oinfo->name != NULL) {
-                if (strcmp(xineramaPrimaryScreenName, oinfo->name) == 0)
-                {
-                    int s = int(oinfo->crtc);
-                    for (int sc = 0; sc < xiInfo.getCount(); sc++) {
-                         if (xiInfo[sc].screen_number == s) {
+        if (xineramaPrimaryScreenName) {
+            const char* name = xineramaPrimaryScreenName;
+            MSG(("xinerama primary screen name: %s", name));
+            for (int o = 0; xrrsr && o < xrrsr->noutput; o++) {
+                XRROutputInfo *oinfo = XRRGetOutputInfo(xapp->display(), xrrsr,
+                                                        xrrsr->outputs[o]);
+                MSG(("output: %s -> %lu", oinfo->name, oinfo->crtc));
+                if (oinfo->name && strcmp(oinfo->name, name) == 0) {
+                    for (int k = 0; k < xiInfo.getCount(); k++) {
+                         if (xiInfo[k].screen_number == int(oinfo->crtc)) {
                              xineramaPrimaryScreen = o;
-                             MSG(("xinerama primary screen: %s -> %d", oinfo->name, o));
+                             MSG(("xinerama primary screen: %s -> %d",
+                                         oinfo->name, o));
                          }
                     }
                 }
+                XRRFreeOutputInfo(oinfo);
             }
-            XRRFreeOutputInfo(oinfo);
         }
         XRRFreeScreenResources(xrrsr);
     }
 #endif
-    if (xiInfo.getCount() < 2) { // use xinerama if no XRANDR screens (nvidia hack)
-       xiInfo.clear();
+
 #ifdef XINERAMA
-        if (XineramaIsActive(xapp->display())) {
-            int nxsi;
-            XineramaScreenInfo *xsi = XineramaQueryScreens(xapp->display(), &nxsi);
-
-            MSG(("xinerama: heads=%d", nxsi));
-            for (int i = 0; i < nxsi; i++) {
-                MSG(("xinerama: %d +%d+%d %dx%d",
-                    xsi[i].screen_number,
-                    xsi[i].x_org,
-                    xsi[i].y_org,
-                    xsi[i].width,
-                    xsi[i].height));
-
-                DesktopScreenInfo si;
-                si.screen_number = i;
-                si.x_org = xsi[i].x_org;
-                si.y_org = xsi[i].y_org;
-                si.width = unsigned(xsi[i].width);
-                si.height = unsigned(xsi[i].height);
+    if (xiInfo.getCount() < 2 && xinerama.supported) {
+        // use xinerama if no XRANDR screens (nvidia hack)
+        int count = 0;
+        xsmart<XineramaScreenInfo> screens(
+               XineramaQueryScreens(xapp->display(), &count));
+        MSG(("xinerama: heads=%d", count));
+        if (screens && count > xiInfo.getCount()) {
+            xiInfo.clear();
+            for (int i = 0; i < count; i++) {
+                const XineramaScreenInfo& xine(screens[i]);
+                MSG(("xinerama: %d +%d+%d %dx%d", xine.screen_number,
+                    xine.x_org, xine.y_org, xine.width, xine.height));
+                DesktopScreenInfo si(i, xine.x_org, xine.y_org,
+                                     unsigned(xine.width),
+                                     unsigned(xine.height));
                 xiInfo.append(si);
             }
-            if (xsi)
-                    XFree(xsi);
         }
-#endif
     }
-    if (xiInfo.getCount() == 0) {
-        DesktopScreenInfo si;
-        si.screen_number = 0;
-        si.x_org = 0;
-        si.y_org = 0;
-        si.width = unsigned(xapp->displayWidth());
-        si.height = unsigned(xapp->displayHeight());
+#endif
+
+    if (xiInfo.isEmpty()) {
+        DesktopScreenInfo si(0, 0, 0,
+                             unsigned(xapp->displayWidth()),
+                             unsigned(xapp->displayHeight()));
         xiInfo.append(si);
     }
-    DBG {
-        w = unsigned(xiInfo[0].x_org) + xiInfo[0].width;
-        h = unsigned(xiInfo[0].y_org) + xiInfo[0].height;
-        for (int i = 0; i < xiInfo.getCount(); i++)
-        {
-            if (unsigned(xiInfo[i].x_org) + xiInfo[i].width > w)
-                w = xiInfo[i].width + unsigned(xiInfo[i].x_org);
-            if (unsigned(xiInfo[i].y_org) + xiInfo[i].height > h)
-                h = xiInfo[i].height + unsigned(xiInfo[i].y_org);
 
-            MSG(("screen %d (%d): %d %d %d %d", i, xiInfo[i].screen_number, xiInfo[i].x_org, xiInfo[i].y_org, xiInfo[i].width, xiInfo[i].height));
-        }
-        MSG(("desktop screen area: %d %d", w, h));
+    unsigned w = 0;
+    unsigned h = 0;
+    for (int i = 0; i < xiInfo.getCount(); i++) {
+        const DesktopScreenInfo& info(xiInfo[i]);
+        w = max(w, info.horizontal());
+        h = max(h, info.vertical());
+        MSG(("screen %d (%d): %d %d %u %u", i, info.screen_number,
+            info.x_org, info.y_org, info.width, info.height));
     }
+    swap(w, horizontal);
+    swap(h, vertical);
+    MSG(("desktop screen area: %u %u -> %u %u", w, h, horizontal, vertical));
+    return w != horizontal || h != vertical;
+}
+
+const DesktopScreenInfo& YDesktop::getScreenInfo(int screen_no) {
+    int s = (screen_no == -1) ? xineramaPrimaryScreen : screen_no;
+    if (s < 0 || s >= xiInfo.getCount())
+        s = 0;
+    if (xiInfo.isEmpty()) {
+        xiInfo.append(DesktopScreenInfo(0, 0, 0,
+                      desktop->width(), desktop->height()));
+    }
+    return xiInfo[s];
 }
 
 YRect YDesktop::getScreenGeometry(int screen_no) {
-    int x, y;
-    unsigned w, h;
-    getScreenGeometry(&x, &y, &w, &h, screen_no);
-    return YRect(x, y, w, h);
+    return getScreenInfo(screen_no);
 }
 
 void YDesktop::getScreenGeometry(int *x, int *y,
                                  unsigned *width, unsigned *height,
                                  int screen_no)
 {
-    if (screen_no == -1)
-        screen_no = xineramaPrimaryScreen;
-    if (screen_no < 0 || screen_no >= xiInfo.getCount())
-        screen_no = 0;
-    if (screen_no >= xiInfo.getCount() || xiInfo.getCount() == 0) {
-    } else {
-        for (int s = 0; s < xiInfo.getCount(); s++) {
-            if (s != screen_no)
-                continue;
-            *x = xiInfo[s].x_org;
-            *y = xiInfo[s].y_org;
-            *width = xiInfo[s].width;
-            *height = xiInfo[s].height;
-            return;
-        }
-    }
-
-    *x = 0;
-    *y = 0;
-    *width = desktop->width();
-    *height = desktop->height();
+    const DesktopScreenInfo& info(getScreenInfo(screen_no));
+    *x = info.x_org;
+    *y = info.y_org;
+    *width = info.width;
+    *height = info.height;
 }
 
 int YDesktop::getScreenForRect(int x, int y, unsigned width, unsigned height) {
@@ -2131,9 +2105,9 @@ int YDesktop::getScreenForRect(int x, int y, unsigned width, unsigned height) {
                                xiInfo[s].y_org + int(xiInfo[s].height));
         //MSG(("y_i %d %d %d %d %d", y_i, y, height, xiInfo[s].y_org, xiInfo[s].height));
 
-        int cov = (1 + x_i) * (1 + y_i);
+        long cov = (1L + x_i) * (1L + y_i);
 
-        //MSG(("cov=%d %d %d s:%d xc:%d yc:%d %d %d %d %d", cov, x, y, s, x_i, y_i, xiInfo[s].x_org, xiInfo[s].y_org, xiInfo[s].width, xiInfo[s].height));
+        //MSG(("cov=%ld %d %d s:%d xc:%d yc:%d %d %d %d %d", cov, x, y, s, x_i, y_i, xiInfo[s].x_org, xiInfo[s].y_org, xiInfo[s].width, xiInfo[s].height));
 
         if (cov > coverage) {
             screen = s;

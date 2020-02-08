@@ -27,15 +27,9 @@ YMenuItem::YMenuItem(const ustring &name, int aHotCharPos, const ustring &param,
 
     if (fName != null && (fHotCharPos == -2 || fHotCharPos == -3)) {
         int i = fName.indexOf('_');
-        if (i != -1) {
+        if (i >= 0) {
             fHotCharPos = i;
             fName = fName.remove(i, 1);
-#if 0
-        char *hotChar = strchr(fName, '_');
-        if (hotChar != NULL) {
-            fHotCharPos = (hotChar - fName);
-            memmove(hotChar, hotChar + 1, strlen(hotChar));
-#endif
         } else {
             if (fHotCharPos == -3)
                 fHotCharPos = 0;
@@ -44,12 +38,12 @@ YMenuItem::YMenuItem(const ustring &name, int aHotCharPos, const ustring &param,
         }
     }
 
-    if (fName == null || fHotCharPos >= (int) fName.length() || fHotCharPos < -1)
+    if (inrange(fHotCharPos + 1, 0, int(fName.length())) == false)
         fHotCharPos = -1;
 }
 
 YMenuItem::YMenuItem(const ustring &name) :
-    fName(name), fParam(null), fAction(actionNull), fHotCharPos (-1),
+    fName(name), fParam(null), fAction(actionNull), fHotCharPos(-1),
     fSubmenu(0), fIcon(null), fChecked(false), fEnabled(true) {
 }
 

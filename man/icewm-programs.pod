@@ -16,7 +16,7 @@
 
 The F<programs> file is an automatically generated menu configuration
 file of installed programs. This file should be automatically generated
-by wmconfig (Redhat), menu (Debian), or icewm-menu-fdo,
+by xdg_menu, wmconfig (Redhat), menu (Debian), or icewm-menu-fdo,
 perhaps as part of the login or X startup sequence.
 
 =head1 FORMAT
@@ -210,6 +210,9 @@ Locations for the F<programs> file are as follows:
  $HOME/.icewm/programs
  /etc/icewm/programs
  /usr/share/icewm/programs
+
+The locations are searched in the order listed; the first file found is
+read and the remainder ignored.
 
 =head1 SEE ALSO
 

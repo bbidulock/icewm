@@ -34,6 +34,11 @@ namespace ASCII {
     }
 
     template<class T>
+    static bool isPrint(T c) {
+        return ' ' <= c && c <= '~';
+    }
+
+    template<class T>
     static T toUpper(T c) {
         return isLower(c) ? (c - ' ') : c;
     }

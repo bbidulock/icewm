@@ -46,6 +46,10 @@ L<icewm-session(1)> looks for the F<env> file in the following locations:
  /etc/icewm/env
  /usr/share/icewm/env
 
+The locations are searched in the order listed; the first file found is
+read and the remainder ignored.
+
+
 =head1 SEE ALSO
 
 L<icewm(1)>,

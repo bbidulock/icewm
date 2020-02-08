@@ -29,13 +29,14 @@ void WMConfig::loadConfiguration(IApp *app, const char *fileName) {
     YConfig::findLoadConfigFile(app, icewm_themable_preferences, fileName);
 }
 
-void WMConfig::loadThemeConfiguration(IApp *app, const char *themeName) {
+bool WMConfig::loadThemeConfiguration(IApp *app, const char *themeName) {
     bool ok = YConfig::findLoadThemeFile(app,
                 icewm_themable_preferences,
                 *themeName == '/' ? themeName :
                 upath("themes").child(themeName));
     if (ok == false)
         fail(_("Failed to load theme %s"), themeName);
+    return ok;
 }
 
 void WMConfig::freeConfiguration() {
@@ -134,15 +135,24 @@ void WMConfig::setDefault(const char *basename, cstring content) {
 
     FILE *fpOld = confOld.fopen("r");
     if (fpOld) {
-        for (int i = 0; i < 10; ++i) {
+        const int maxRead = 42;
+        const int maxCopy = 10;
+        for (int i = 0, k = 0; i < maxRead && k < maxCopy; ++i) {
             char buf[600] = "#", *line = buf;
             if (fgets(1 + buf, sizeof buf - 1, fpOld)) {
-                while (line[1] == '#')
-                    ++line;
-                fputs(line, fpNew);
-                if ('\n' != line[strlen(line)-1])
-                    fputc('\n', fpNew);
+                const char* eq = strchr(buf, '=');
+                const char* sp = strchr(buf, ' ');
+                if (eq && (sp == nullptr || eq < sp)) {
+                    while (line[1] == '#')
+                        ++line;
+                    fputs(line, fpNew);
+                    if ('\n' != line[strlen(line)-1])
+                        fputc('\n', fpNew);
+                    ++k;
+                }
             }
+            else
+                break;
         }
         fclose(fpOld);
     }
@@ -159,7 +169,14 @@ void WMConfig::setDefault(const char *basename, cstring content) {
 }
 
 void WMConfig::setDefaultFocus(long focusMode) {
-    setDefault("focus_mode", "FocusMode=\"" + mstring(focusMode) + "\"");
+    mstring header(
+            "#\n"
+            "# Focus mode (0=custom, 1=click, 2=sloppy"
+            ", 3=explicit, 4=strict, 5=quiet)\n"
+            "#\n"
+            "FocusMode="
+            );
+    setDefault("focus_mode", header + mstring(focusMode));
 }
 
 void WMConfig::setDefaultTheme(mstring themeName) {

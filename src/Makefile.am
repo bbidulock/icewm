@@ -99,9 +99,12 @@ libice_la_SOURCES = \
 	udir.h \
 	yapp.cc \
 	yapp.h \
+	ytrace.h \
 	MwmUtil.h \
 	yxapp.cc \
 	yxapp.h \
+	ytime.cc \
+	ytime.h \
 	ytimer.cc \
 	ytimer.h \
 	ascii.h \
@@ -325,6 +328,8 @@ icewm_session_SOURCES = \
 	intl.h \
 	sysdep.h \
 	yapp.h \
+	ytrace.h \
+	ytime.h \
 	ytimer.h \
 	icesm.cc
 icewm_session_LDADD = libice.la @LIBINTL@
@@ -358,6 +363,7 @@ icesound_SOURCES = \
 	intl.h \
 	upath.h \
 	ypointer.h \
+	ytime.h \
 	ytimer.h \
 	icesound.cc
 icesound_LDADD = libice.la $(AUDIO_LIBS) $(CORE_LIBS) @LIBINTL@
@@ -395,6 +401,8 @@ iceclock_SOURCES = \
 	themable.h \
 	default.h \
 	prefs.h \
+	applet.cc \
+	applet.h \
 	aclock.cc \
 	aclock.h
 iceclock_LDADD = libitk.la libice.la $(IMAGE_LIBS) $(CORE_LIBS) @LIBINTL@

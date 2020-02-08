@@ -184,7 +184,7 @@ static char *setOption(cfoption *options, char *name, const char *arg, bool appe
         case cfoption::CF_STR:
             if (options[a].v.s.string_value) {
                 if (!options[a].v.s.initial)
-                    delete[] (char *)*options[a].v.s.string_value;
+                    delete[] const_cast<char *>(*options[a].v.s.string_value);
                 *options[a].v.s.string_value = newstr(arg);
                 options[a].v.s.initial = false;
                 return rest;
@@ -196,7 +196,7 @@ static char *setOption(cfoption *options, char *name, const char *arg, bool appe
 
                 if (YConfig::parseKey(arg, &wk->key, &wk->mod)) {
                     if (!wk->initial)
-                        delete[] (char *)wk->name;
+                        delete[] const_cast<char *>(wk->name);
                     wk->name = newstr(arg);
                     wk->initial = false;
                 }
@@ -279,6 +279,7 @@ void YConfig::parseConfiguration(cfoption *options, char *data) {
 }
 
 bool YConfig::loadConfigFile(cfoption *options, upath fileName) {
+    YTraceConfig trace(fileName.string());
     char* buf = fileName.loadText();
     if (buf) {
         parseConfiguration(options, buf);
@@ -293,7 +294,7 @@ void YConfig::freeConfig(cfoption *options) {
             !o->v.s.initial &&
             *o->v.s.string_value)
         {
-            delete[] (char *)*o->v.s.string_value;
+            delete[] const_cast<char *>(*o->v.s.string_value);
             *o->v.s.string_value = 0;
         }
     }

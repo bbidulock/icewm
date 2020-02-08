@@ -2,10 +2,10 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([icewm],[1.6.2],
+AC_INIT([icewm],[1.6.4],
         [https://github.com/bbidulock/icewm/issues],
         [icewm],[https://ice-wm.org])
-AC_REVISION([1.6.2])
+AC_REVISION([1.6.4])
 
 # set better defaults
 AC_PREFIX_DEFAULT([/usr])
@@ -22,7 +22,7 @@ AC_CONFIG_AUX_DIR([scripts])
 AC_USE_SYSTEM_EXTENSIONS
 AC_CANONICAL_TARGET
 
-DATE='2019-09-17'
+DATE='2020-01-07'
 AC_SUBST([DATE])
 
 MDOCDATE='September 17, 2019'
@@ -126,13 +126,12 @@ AC_HEADER_SYS_WAIT
 AC_PATH_X
 AC_PATH_XTRA
 AC_CHECK_HEADERS([execinfo.h fcntl.h])
-AC_CHECK_HEADERS([langinfo.h libgen.h libintl.h limits.h locale.h])
+AC_CHECK_HEADERS([libgen.h])
 AC_CHECK_HEADERS([machine/apm_bios.h machine/apmvar.h])
-AC_CHECK_HEADERS([netdb.h netinet/in.h])
-AC_CHECK_HEADERS([sched.h sndfile.h stddef.h stdlib.h string.h])
+AC_CHECK_HEADERS([sched.h sndfile.h])
 AC_CHECK_HEADERS([sys/dkstat.h sys/file.h sys/ioctl.h sys/param.h])
-AC_CHECK_HEADERS([sys/sched.h sys/socket.h sys/soundcard.h sys/sysctl.h sys/time.h])
-AC_CHECK_HEADERS([unistd.h uvm/uvm_param.h wchar.h])
+AC_CHECK_HEADERS([sys/sched.h sys/soundcard.h sys/sysctl.h])
+AC_CHECK_HEADERS([uvm/uvm_param.h wchar.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AS_BOX([Typedefs, Structures, Compiler])
@@ -154,14 +153,11 @@ AC_TYPE_SIGNAL
 if test x$cross_compling != xyes ; then :; AC_FUNC_FORK fi
 if test x$cross_compling != xyes ; then :; AC_FUNC_MALLOC fi
 if test x$cross_compling != xyes ; then :; AC_FUNC_REALLOC fi
-AC_CHECK_FUNCS([abort backtrace_symbols_fd basename dup2])
-AC_CHECK_FUNCS([gethostbyname gethostname gettimeofday])
-AC_CHECK_FUNCS([if_nametoindex if_indextoname if_nameindex])
-AC_CHECK_FUNCS([mblen memchr memmove memset mkdir nl_langinfo])
+AC_CHECK_FUNCS([abort backtrace_symbols_fd])
+AC_CHECK_FUNCS([if_nametoindex if_nameindex])
+AC_CHECK_FUNCS([mblen memmem memmove memrchr nl_langinfo])
 AC_CHECK_FUNCS([select setlocale socket])
-AC_CHECK_FUNCS([strcasecmp strchr strcspn strdup strerror strncasecmp])
-AC_CHECK_FUNCS([strrchr strsignal strspn strstr strtol strtoul])
-AC_CHECK_FUNCS([sysctl sysctlbyname sysinfo uname wordexp])
+AC_CHECK_FUNCS([sysctl sysctlbyname sysinfo wordexp])
 AC_CHECK_FUNC([getloadavg],[AC_DEFINE([HAVE_GETLOADAVG2], 1, [getloadavg() is available])])
 AC_FUNC_SELECT_ARGTYPES
 
@@ -298,10 +294,10 @@ for iface in `echo "$with_icesound"|sed 's|,| |g'` ; do
         ;;
     esac
 done
-for iface in ALSA AO OSS; do
-    eval "test \"\$CONFIG_$iface\" = yes" && audio_support="$audio_support $iface"
-done
-if test "x$audio_support" != x ; then
+if test "x$CONFIG_ALSA" = "xyes" ||
+   test "x$CONFIG_AO"   = "xyes" ||
+   test "x$CONFIG_OSS"  = "xyes"
+then
     BUILD_SOUND=yes
     APPLICATIONS="${APPLICATIONS} icesound"
 else

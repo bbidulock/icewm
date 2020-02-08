@@ -23,6 +23,11 @@ static int signalPipe[2];
 static sigset_t oldSignalMask;
 static sigset_t signalMask;
 
+const char* YTrace::conf;
+void YTrace::show(bool busy, const char* kind, const char* inst) {
+    tlog("%s %s: %s", kind, busy ? "open" : "done", inst);
+}
+
 IApp::~IApp() {}
 IMainLoop::~IMainLoop() {}
 
@@ -58,11 +63,13 @@ void alrm_handler(int /*sig*/) {
 }
 #endif
 
-YApplication::YApplication(int * /*argc*/, char *** /*argv*/) {
+YApplication::YApplication(int * /*argc*/, char *** /*argv*/) :
+    fLoopLevel(0),
+    fExitCode(0),
+    fExitLoop(false),
+    fExitApp(false)
+{
     ::mainLoop = this;
-
-    fLoopLevel = 0;
-    fExitApp = 0;
 
     setvbuf(stdout, NULL, _IOLBF, BUFSIZ);
     setvbuf(stderr, NULL, _IOLBF, BUFSIZ);
@@ -72,7 +79,8 @@ YApplication::YApplication(int * /*argc*/, char *** /*argv*/) {
 
 YApplication::~YApplication() {
     sfd.unregisterPoll();
-    ::mainLoop = 0;
+    if (::mainLoop == this)
+        ::mainLoop = nullptr;
 }
 
 void YApplication::registerTimer(YTimer *t) {
@@ -295,12 +303,12 @@ int YApplication::mainLoop() {
 }
 
 void YApplication::exitLoop(int exitCode) {
-    fExitLoop = 1;
+    fExitLoop = true;
     fExitCode = exitCode;
 }
 
 void YApplication::exit(int exitCode) {
-    fExitApp = 1;
+    fExitApp = true;
     exitLoop(exitCode);
 }
 
@@ -436,10 +444,10 @@ void YSignalPoll::notifyRead() {
 #else
 void YSignalPoll::notifyRead()
 {
-        struct signalfd_siginfo fdsi;
-        int s = read(signalPipe[0], &fdsi, sizeof(struct signalfd_siginfo));
-        if (s == sizeof(struct signalfd_siginfo))
-                owner()->handleSignal(fdsi.ssi_signo);
+    signalfd_siginfo info;
+    ssize_t s = read(signalPipe[0], &info, sizeof(info));
+    if (s == sizeof(info))
+        owner()->handleSignal(info.ssi_signo);
 }
 #endif
 

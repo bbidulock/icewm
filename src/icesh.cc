@@ -19,6 +19,7 @@
 #include <signal.h>
 #include <setjmp.h>
 #include <string.h>
+#include <time.h>
 #include <unistd.h>
 
 #include <X11/Xlib.h>
@@ -43,6 +44,7 @@
 #include "MwmUtil.h"
 #include "wmaction.h"
 #include "ypointer.h"
+#include "ytime.h"
 #include "yrect.h"
 #define GUI_EVENT_NAMES
 #include "guievent.h"
@@ -109,6 +111,7 @@ static NAtom ATOM_NET_CLOSE_WINDOW("_NET_CLOSE_WINDOW");
 static NAtom ATOM_NET_ACTIVE_WINDOW("_NET_ACTIVE_WINDOW");
 static NAtom ATOM_NET_FRAME_EXTENTS("_NET_FRAME_EXTENTS");
 static NAtom ATOM_NET_RESTACK_WINDOW("_NET_RESTACK_WINDOW");
+static NAtom ATOM_NET_MOVERESIZE_WINDOW("_NET_MOVERESIZE_WINDOW");
 static NAtom ATOM_NET_WM_WINDOW_OPACITY("_NET_WM_WINDOW_OPACITY");
 static NAtom ATOM_NET_SYSTEM_TRAY_WINDOWS("_KDE_NET_SYSTEM_TRAY_WINDOWS");
 static NAtom ATOM_UTF8_STRING("UTF8_STRING");
@@ -124,6 +127,8 @@ static inline void newline() {
 }
 
 /******************************************************************************/
+
+static bool getGeometry(Window window, int& x, int& y, int& width, int& height);
 
 static int displayWidth() {
     return DisplayWidth(display, DefaultScreen(display));
@@ -329,6 +334,7 @@ public:
 
     Atom type() const { return fType; }
     int format() const { return fFormat; }
+    int status() const { return fStatus; }
     long count() const { return fCount; }
     Window window() const { return fWindow; }
     Atom property() const { return fProp; }
@@ -568,6 +574,14 @@ static void send(NAtom& typ, Window win, long l0, long l1,
                reinterpret_cast<XEvent *>(&xev));
 }
 
+static void moveResize(Window window, long gravity,
+        long x, long y, long width, long height, long flags)
+{
+    send(ATOM_NET_MOVERESIZE_WINDOW, window,
+        gravity | (flags << 8) | (SourceIndication << 12),
+        x, y, width, height);
+}
+
 static void changeWorkspace(long workspace) {
     send(ATOM_NET_CURRENT_DESKTOP, root, workspace, CurrentTime);
 }
@@ -687,6 +701,16 @@ public:
         fSuccess = True;
     }
 
+    void add(Window window) {
+        if (have(window) == False) {
+            size_t size = sizeof(Window) * (fCount + 1);
+            fChildren = (Window *) realloc(fChildren.release(), size);
+            fChildren[fCount] = window;
+            ++fCount;
+            fSuccess = True;
+        }
+    }
+
     void query(Window window) {
         release();
         if (window) {
@@ -743,6 +767,24 @@ public:
             long ws = getWorkspace(client);
             if ((ws == workspace || hasbits(ws, 0xFFFFFFFF)) != inverse) {
                 fChildren[keep++] = client;
+            }
+        }
+        fCount = keep;
+    }
+
+    void filterByScreen() {
+        if (fConfine.confining() == false) {
+            return;
+        }
+        unsigned keep = 0;
+        for (YTreeIter client(*this); client; ++client) {
+            int x, y, w, h;
+            if (getGeometry(client, x, y, w, h)) {
+                YRect r(x, y, w, h);
+                YRect s(fConfine[fConfine.screen()]);
+                if (s.overlap(r)) {
+                    fChildren[keep++] = client;
+                }
             }
         }
         fCount = keep;
@@ -895,7 +937,7 @@ public:
     }
 
     operator bool() const {
-        return fSuccess == True && fChildren;
+        return fSuccess == True && fChildren && fCount;
     }
 
     Window operator[](unsigned index) const {
@@ -923,6 +965,29 @@ public:
     }
 
     Confine& xine() { return fConfine; }
+
+    bool have(Window window) {
+        for (unsigned k = 0; k < fCount; ++k)
+            if (fChildren[k] == window)
+                return true;
+        return false;
+    }
+
+    void remove(Window window) {
+        unsigned k = 0;
+        for (unsigned i = 0; i < fCount; ++i) {
+            if (window != fChildren[i]) {
+                if (k < i) {
+                    fChildren[k] = fChildren[i];
+                }
+                ++k;
+            }
+        }
+        fCount = k;
+        if (fCount == 0 && fChildren) {
+            release();
+        }
+    }
 
 private:
     Confine fConfine;
@@ -955,22 +1020,27 @@ private:
     char **argv;
     char **argp;
     char *dpyname;
+    bool selecting;
+    bool filtering;
 
     YWindowTree windowList;
 
     jmp_buf jmpbuf;
     void THROW(int val);
 
+    void spy();
     void flush();
     void flags();
     void flag(char* arg);
     void xinit();
     void motif(Window window, char** args, int count);
     void sizeto();
+    void sizeby();
     void detail();
     void details(Window window);
     void setWindow(Window window);
-    void showProperty(Window window, Atom atom);
+    void addWindow(Window window);
+    void showProperty(Window window, Atom atom, const char* prefix);
     void parseAction();
     void confine(const char* str);
     void invalidArgument(const char* str);
@@ -1397,8 +1467,8 @@ static void extArea(Window window, int& x, int& y, int& w, int& h) {
     if (exts && exts.count() == 4) {
         x += int(exts[0]);
         y += int(exts[2]);
-        w -= int(exts[0] + exts[1]);
-        h -= int(exts[2] + exts[3]);
+        w = max(1, w - int(exts[0] + exts[1]));
+        h = max(1, h - int(exts[2] + exts[3]));
     }
 }
 
@@ -1499,13 +1569,70 @@ void IceSh::sizeto()
             }
 
             if (0 < w && 0 < h) {
+                moveResize(window, NorthWestGravity,
+                           None, None, w, h, CWWidth | CWHeight);
+            }
+        }
+    }
+    else {
+        invalidArgument("sizeto parameters");
+    }
+}
+
+void IceSh::sizeby()
+{
+    char* wstr = getArg();
+    char* hstr = getArg();
+    bool wper = *wstr && wstr[strlen(wstr)-1] == '%';
+    bool hper = *hstr && hstr[strlen(hstr)-1] == '%';
+    if (wper) wstr[strlen(wstr)-1] = '\0';
+    if (hper) hstr[strlen(hstr)-1] = '\0';
+    long wlen, hlen, supplied;
+    if (tolong(wstr, wlen) && tolong(hstr, hlen)) {
+        FOREACH_WINDOW(window) {
+            int gx, gy, gw, gh;
+            if (getGeometry(window, gx, gy, gw, gh) == false) {
+                continue;
+            }
+
+            long w = gw + (wper ? wlen * gw / 100L : wlen);
+            long h = gh + (hper ? hlen * gh / 100L : hlen);
+
+            xsmart<XSizeHints> sh(XAllocSizeHints());
+            if (XGetWMNormalHints(display, window, sh, &supplied)) {
+                if (sh->flags & PMaxSize) {
+                    w = min<long>(w, sh->max_width);
+                    h = min<long>(h, sh->max_height);
+                }
+                if (sh->flags & PBaseSize) {
+                    w -= sh->base_width;
+                    h -= sh->base_height;
+                }
+                if (sh->flags & PResizeInc) {
+                    w -= w % max(1, sh->width_inc);
+                    h -= h % max(1, sh->height_inc);
+                }
+                if (w <= 0 || h <= 0) {
+                    continue;
+                }
+                if (sh->flags & PBaseSize) {
+                    w += sh->base_width;
+                    h += sh->base_height;
+                }
+                if (sh->flags & PMinSize) {
+                    w = max<long>(w, sh->min_width);
+                    h = max<long>(h, sh->min_height);
+                }
+            }
+
+            if (0 < w && 0 < h) {
                 XResizeWindow(display, window,
                               unsigned(w), unsigned(h));
             }
         }
     }
     else {
-        invalidArgument("sizeto parameters");
+        invalidArgument("sizeby parameters");
     }
 }
 
@@ -1906,6 +2033,7 @@ bool IceSh::icewmAction()
         { "restart",    ICEWM_ACTION_RESTARTWM },
         { "suspend",    ICEWM_ACTION_SUSPEND },
         { "winoptions", ICEWM_ACTION_WINOPTIONS },
+        { "keys",       ICEWM_ACTION_RELOADKEYS },
     };
     for (int i = 0; i < int ACOUNT(sa); ++i) {
         if (0 == strcmp(*argp, sa[i].name)) {
@@ -2017,7 +2145,9 @@ static void setGeometry(Window window, const char* geometry) {
     if (XGetWMNormalHints(display, window, &normal, &supplied) != True)
         return;
 
-    Window root; int x, y; unsigned width, height, dummy;
+    Window root;
+    int x, y;
+    unsigned width, height, dummy;
     if (XGetGeometry(display, window, &root, &x, &y, &width, &height,
                      &dummy, &dummy) != True)
         return;
@@ -2051,14 +2181,8 @@ static void setGeometry(Window window, const char* geometry) {
             y += maxHeight - height;
     }
 
-    MSG(("setGeometry: %dx%d%+i%+i", width, height, x, y));
-    if (hasbit(status, XValue | YValue) &&
-        hasbit(status, WidthValue | HeightValue))
-        XMoveResizeWindow(display, window, x, y, width, height);
-    else if (hasbit(status, XValue | YValue))
-        XMoveWindow(display, window, x, y);
-    else if (hasbit(status, WidthValue | HeightValue))
-        XResizeWindow(display, window, width, height);
+    moveResize(window, StaticGravity, x, y, width, height,
+               (status & AllValues));
 }
 
 static void getGeometry(Window window) {
@@ -2350,7 +2474,7 @@ void IceSh::motif(Window window, char** args, int count) {
     for (int k = 0; k < count; ++k) {
         char* arg = args[k];
         if (0 == strcmp(arg, "remove")) {
-            memset(&mwm, 0, sizeof(mwm));
+            mwm = MwmHints();
             removing = true;
         }
         else if (0 == strcmp(arg, "funcs") && k + 1 < count) {
@@ -2395,38 +2519,109 @@ void IceSh::motif(Window window, char** args, int count) {
     }
 }
 
-void IceSh::showProperty(Window window, Atom atom) {
-    YProperty prop(window, atom, AnyPropertyType, 100);
-    if (prop) {
+void IceSh::showProperty(Window window, Atom atom, const char* prefix) {
+    if (atom == XA_WM_NORMAL_HINTS || atom == XA_WM_SIZE_HINTS) {
+        XSizeHints h;
+        long supplied;
+        if (XGetWMSizeHints(display, window, &h, &supplied, atom) == True) {
+            xsmart<char> name(atomName(atom));
+            printf("%s%s", prefix, (char *) name);
+            if (h.flags & USPosition) {
+                printf(" UPos(%d,%d)", h.x, h.y);
+            }
+            else if (h.flags & PPosition) {
+                printf(" PPos(%d,%d)", h.x, h.y);
+            }
+            if (h.flags & USSize) {
+                printf(" USize(%d,%d)", h.width, h.height);
+            }
+            else if (h.flags & PSize) {
+                printf(" PSize(%d,%d)", h.width, h.height);
+            }
+            if (h.flags & PMinSize) {
+                printf(" MinSize(%d,%d)", h.min_width, h.min_height);
+            }
+            if (h.flags & PMaxSize) {
+                printf(" MaxSize(%d,%d)", h.max_width, h.max_height);
+            }
+            if (h.flags & PResizeInc) {
+                printf(" Inc(%d,%d)", h.width_inc, h.height_inc);
+            }
+            if (h.flags & PBaseSize) {
+                printf(" Base(%d,%d)", h.base_width, h.base_height);
+            }
+            newline();
+        }
+        return;
+    }
+
+    if (atom == XA_WM_HINTS) {
+        xsmart<XWMHints> h(XGetWMHints(display, window));
+        if (h) {
+            long f = h->flags;
+            xsmart<char> name(atomName(atom));
+            printf("%s%s", prefix, (char *) name);
+            if (f & InputHint) {
+                printf(" Input");
+            }
+            if (f & StateHint) {
+                printf(" %s",
+                        h->initial_state == WithdrawnState
+                            ? "Withdrawn" :
+                        h->initial_state == NormalState
+                            ? "Normal" :
+                        h->initial_state == IconicState
+                            ? "Iconic" : ""
+                        );
+            }
+            if (f & WindowGroupHint) {
+                printf(" Group(%lu)", h->window_group);
+            }
+            newline();
+        }
+        return;
+    }
+
+    YProperty prop(window, atom, AnyPropertyType, 64);
+    if (prop.status() == Success && prop.data<void>()) {
         if (prop.format() == 8) {
-            printf("0x%07lx ", Window(window));
+            xsmart<char> name(atomName(atom));
+            printf("%s%s = ", prefix, (char*) name);
             for (int i = 0; i < prop.count(); ++i) {
-                putchar(Elvis(prop.data<char>(i), '.'));
+                unsigned char ch = prop.data<unsigned char>(i);
+                putchar(isPrint(ch) ? ch : '.');
             }
             newline();
         }
         else if (prop.format() == 32) {
             if (prop.type() == XA_WINDOW) {
-                printf("0x%07lx 0x%lx", Window(window), prop[0]);
-                for (int i = 1; i < min(4L, prop.count()); ++i)
-                    printf(", 0x%lx", prop[i]);
+                xsmart<char> name(atomName(atom));
+                printf("%s%s = ", prefix, (char *) name);
+                for (int i = 0; i < prop.count(); ++i)
+                    printf("%s0x%lx", i ? ", " : "", prop[i]);
                 newline();
             }
             else if (prop.type() == XA_ATOM) {
-                xsmart<char> name(atomName(prop[0]));
-                printf("0x%07lx %s", Window(window), (char*) name);
-                for (int i = 1; i < min(4L, prop.count()); ++i) {
+                xsmart<char> name(atomName(atom));
+                printf("%s%s = ", prefix, (char*) name);
+                for (int i = 0; i < prop.count(); ++i) {
                     name = atomName(prop[i]);
-                    printf(", %s", (char*) name);
+                    printf("%s%s", i ? ", " : "", (char*) name);
                 }
                 newline();
             }
             else {
-                printf("0x%07lx %ld", Window(window), prop[0]);
-                for (int i = 1; i < min(4L, prop.count()); ++i)
-                    printf(", %ld", prop[i]);
+                xsmart<char> name(atomName(atom));
+                xsmart<char> type(atomName(prop.type()));
+                printf("%s%s(%s) = ", prefix, (char *) name, (char *) type);
+                for (int i = 0; i < prop.count(); ++i)
+                    printf("%s%ld", i ? ", " : "", prop[i]);
                 newline();
             }
+        }
+        else {
+            xsmart<char> name(atomName(atom));
+            printf("%s%s(%d)\n", prefix, (char *) name, prop.format());
         }
     }
 }
@@ -2500,7 +2695,9 @@ IceSh::IceSh(int ac, char **av) :
     argc(ac),
     argv(av),
     argp(av + 1),
-    dpyname(nullptr)
+    dpyname(nullptr),
+    selecting(false),
+    filtering(false)
 {
     if (setjmp(jmpbuf) == 0) {
         xinit();
@@ -2567,6 +2764,11 @@ void IceSh::setWindow(Window window)
     windowList.set(window);
 }
 
+void IceSh::addWindow(Window window)
+{
+    windowList.add(window);
+}
+
 void IceSh::flags()
 {
     bool act = false;
@@ -2580,12 +2782,19 @@ void IceSh::flags()
                 arg++;
             flag(arg);
         }
+        else if (argp[0][0] == '+' && strchr("frw", argp[0][1])) {
+            flag(getArg());
+        }
         else {
             act = true;
             if (icewmAction())
                 ;
             else if (windowList)
                 parseAction();
+            else if (selecting | filtering) {
+                msg(_("No windows found."));
+                THROW(1);
+            }
             else {
                 Window w = pickWindow();
                 if (w <= root)
@@ -2605,43 +2814,58 @@ void IceSh::flags()
 
 void IceSh::flag(char* arg)
 {
-    if (isOptArg(arg, "-root", "")) {
-        setWindow(root);
+    if (isOptArg(arg, "-root", "") || isOptArg(arg, "+root", "")) {
+        if (*arg == '+') {
+            addWindow(root);
+        } else {
+            setWindow(root);
+        }
         MSG(("root window selected"));
+        selecting = true;
         return;
     }
-    if (isOptArg(arg, "-focus", "")) {
-        setWindow(getActive());
+    if (isOptArg(arg, "-focus", "") || isOptArg(arg, "+focus", "")) {
+        if (*arg == '+') {
+            addWindow(getActive());
+        } else {
+            setWindow(getActive());
+        }
         MSG(("focus window selected"));
+        selecting = true;
         return;
     }
     if (isOptArg(arg, "-shown", "")) {
         windowList.getClientList();
         windowList.filterByWorkspace(currentWorkspace());
         MSG(("shown windows selected"));
+        selecting = true;
         return;
     }
     if (isOptArg(arg, "-all", "")) {
         windowList.getClientList();
         MSG(("all windows selected"));
+        selecting = true;
         return;
     }
     if (isOptArg(arg, "-top", "")) {
         windowList.query(root);
         MSG(("top windows selected"));
+        selecting = true;
         return;
     }
     if (isOptArg(arg, "-last", "")) {
-        if ( ! windowList)
+        if ( ! windowList && ! selecting)
             windowList.getClientList();
         windowList.filterLast();
         MSG(("last window selected"));
+        selecting = true;
         return;
     }
     if (isOptArg(arg, "-T", "")) {
         windowList.query(root);
         windowList.findTaskbar();
         MSG(("taskbar selected"));
+        selecting = true;
         return;
     }
 
@@ -2658,6 +2882,7 @@ void IceSh::flag(char* arg)
                 windowList.getClientList();
             windowList.filterByPid(pid);
             MSG(("pid window selected"));
+            filtering = true;
         }
         else {
             msg("Invalid PID: `%s'", val);
@@ -2670,6 +2895,7 @@ void IceSh::flag(char* arg)
         windowList.filterByMachine(val);
 
         MSG(("machine windows selected"));
+        filtering = true;
     }
     else if (isOptArg(arg, "-name", val)) {
         if ( ! windowList)
@@ -2677,6 +2903,7 @@ void IceSh::flag(char* arg)
         windowList.filterByName(val);
 
         MSG(("name windows selected"));
+        filtering = true;
     }
     else if (isOptArg(arg, "-Workspace", val)) {
         bool inverse(*val == '!');
@@ -2688,6 +2915,7 @@ void IceSh::flag(char* arg)
             windowList.getClientList();
         windowList.filterByWorkspace(ws, inverse);
         MSG(("workspace windows selected"));
+        filtering = true;
     }
     else if (isOptArg(arg, "-Layer", val)) {
         bool inverse(*val == '!');
@@ -2700,6 +2928,7 @@ void IceSh::flag(char* arg)
             windowList.getClientList();
         windowList.filterByLayer(layer, inverse);
         MSG(("layer windows selected"));
+        filtering = true;
     }
     else if (isOptArg(arg, "-Property", val)) {
         bool inverse(*val == '!');
@@ -2707,6 +2936,7 @@ void IceSh::flag(char* arg)
         if ( ! windowList)
             windowList.getClientList();
         windowList.filterByProperty(prop, inverse);
+        filtering = true;
     }
     else if (isOptArg(arg, "-Role", val)) {
         bool inverse(*val == '!');
@@ -2714,6 +2944,7 @@ void IceSh::flag(char* arg)
         if ( ! windowList)
             windowList.getClientList();
         windowList.filterByRole(role, inverse);
+        filtering = true;
     }
     else if (isOptArg(arg, "-State", val)) {
         bool inverse(*val == '!');
@@ -2727,6 +2958,7 @@ void IceSh::flag(char* arg)
             windowList.getClientList();
         windowList.filterByState(state, inverse, question);
         MSG(("state windows selected"));
+        filtering = true;
     }
     else if (isOptArg(arg, "-Gravity", val)) {
         bool inverse(*val == '!');
@@ -2736,24 +2968,41 @@ void IceSh::flag(char* arg)
             windowList.getClientList();
         windowList.filterByGravity(gravity, inverse);
         MSG(("gravity windows selected"));
+        filtering = true;
     }
     else if (isOptArg(arg, "-Xinerama", val)) {
+        if ( ! windowList)
+            windowList.getClientList();
         confine(val);
+        windowList.filterByScreen();
         MSG(("xinerama %s selected", val));
+        filtering = true;
     }
-    else if (isOptArg(arg, "-window", val)) {
+    else if (isOptArg(arg, "-window", val) || isOptArg(arg, "+window", val)) {
         if (!strcmp(val, "root")) {
-            setWindow(root);
+            if (*arg == '+') {
+                addWindow(root);
+            } else {
+                setWindow(root);
+            }
             MSG(("root window selected"));
         }
         else if (!strcmp(val, "focus")) {
-            setWindow(getActive());
+            if (*arg == '+') {
+                addWindow(getActive());
+            } else {
+                setWindow(getActive());
+            }
             MSG(("focus window selected"));
         }
         else {
             long window;
-            if (tolong(val, window, 0) && root < Window(window)) {
-                setWindow(window);
+            if (tolong(val, window, 0) && root <= Window(window)) {
+                if (*arg == '+') {
+                    addWindow(window);
+                } else {
+                    setWindow(window);
+                }
                 MSG(("window %s selected", val));
             }
             else {
@@ -2761,6 +3010,7 @@ void IceSh::flag(char* arg)
                 THROW(1);
             }
         }
+        filtering = true;
     }
     else if (isOptArg(arg, "-class", val)) {
         char *wmname = val;
@@ -2788,6 +3038,7 @@ void IceSh::flag(char* arg)
         if ( ! windowList)
             windowList.getClientList();
         windowList.filterByClass(wmname, wmclass);
+        filtering = true;
     }
 #ifdef DEBUG
     else if (strpcmp(arg, "-debug") == 0) {
@@ -2798,6 +3049,150 @@ void IceSh::flag(char* arg)
         invalidArgument(arg);
     }
     MSG(("windowCount: %d", count()));
+}
+
+void IceSh::spy()
+{
+    const long selectMask =
+        FocusChangeMask | VisibilityChangeMask |
+        EnterWindowMask | LeaveWindowMask |
+        StructureNotifyMask | PropertyChangeMask;
+
+    FOREACH_WINDOW(window) {
+        XSelectInput(display, window, selectMask);
+    }
+    while (windowList) {
+        XEvent event;
+        XNextEvent(display, &event);
+        Window window = event.xany.window;
+        if (windowList.have(window)) {
+            timeval now(walltime());
+            struct tm* local = localtime(&now.tv_sec);
+            int secs = local->tm_sec;
+            int mins = local->tm_min;
+            int mils = int(now.tv_usec / 1000L);
+            char head[80];
+            snprintf(head, sizeof head,
+                    "%02d:%02d.%03d: 0x%07x: %s",
+                    mins, secs, mils, int(window),
+                    (event.xany.send_event && event.type != ConfigureNotify)
+                        ? "Send " : "");
+            switch (event.type) {
+                case FocusIn:
+                case FocusOut:
+                    printf("%s%s%s%s\n",
+                        head,
+                        event.type == FocusIn
+                            ? "Focus" : "Defocus",
+                        event.xfocus.mode == NotifyNormal
+                            ? " Normal" :
+                        event.xfocus.mode == NotifyWhileGrabbed
+                            ? " WhileGrabbed" :
+                        event.xfocus.mode == NotifyGrab
+                            ? " Grab" :
+                        event.xfocus.mode == NotifyUngrab
+                            ? " Ungrab" : " ???",
+                        event.xfocus.detail == NotifyAncestor
+                            ? " Ancestor" :
+                        event.xfocus.detail == NotifyVirtual
+                            ? " Virtual" :
+                        event.xfocus.detail == NotifyInferior
+                            ? " Inferior" :
+                        event.xfocus.detail == NotifyNonlinear
+                            ? " Nonlinear" :
+                        event.xfocus.detail == NotifyNonlinearVirtual
+                            ? " NonlinearVirtual" :
+                        event.xfocus.detail == NotifyPointer
+                            ? " Pointer" :
+                        event.xfocus.detail == NotifyPointerRoot
+                            ? " PointerRoot" :
+                        event.xfocus.detail == NotifyDetailNone
+                            ? "" : " ???");
+                    break;
+                case EnterNotify:
+                case LeaveNotify:
+                    printf("%s%s%s%s%s\n", head,
+                        event.type == EnterNotify ? "Enter" : "Leave",
+                        event.xcrossing.mode == NotifyNormal
+                            ? " Normal" :
+                        event.xcrossing.mode == NotifyGrab
+                            ? " Grab" :
+                        event.xcrossing.mode == NotifyUngrab
+                            ? " Ungrab" :
+                        event.xcrossing.mode == NotifyWhileGrabbed
+                            ? " Grabbed" : " Unknown",
+                        event.xcrossing.detail == NotifyAncestor
+                            ? " Ancestor" :
+                        event.xcrossing.detail == NotifyVirtual
+                            ? " Virtual" :
+                        event.xcrossing.detail == NotifyInferior
+                            ? " Inferior" :
+                        event.xcrossing.detail == NotifyNonlinear
+                            ? " Nonlinear" :
+                        event.xcrossing.detail == NotifyNonlinearVirtual
+                            ? " NonlinearVirtual" :
+                        event.xcrossing.detail == NotifyPointer
+                            ? " Pointer" :
+                        event.xcrossing.detail == NotifyPointerRoot
+                            ? " PointerRoot" :
+                        event.xcrossing.detail == NotifyDetailNone
+                            ? "" : " ???",
+                        event.xcrossing.focus
+                            ? " Focus" : " Nofocus");
+                    break;
+                case UnmapNotify:
+                    printf("%sUnmap%s%s\n", head,
+                            event.xunmap.from_configure ? " Configure" : "",
+                            event.xunmap.send_event ? " Send" : "");
+                    break;
+                case MapNotify:
+                    printf("%sMapped%s\n", head,
+                            event.xmap.override_redirect ? " Override" : "");
+                    break;
+                case VisibilityNotify:
+                    printf("%sVisibility %s\n", head,
+                        event.xvisibility.state == VisibilityPartiallyObscured
+                            ? "PartiallyObscured " :
+                        event.xvisibility.state == VisibilityFullyObscured
+                            ? "FullyObscured " :
+                        event.xvisibility.state == VisibilityUnobscured
+                            ? "Unobscured " : "Bogus "
+                        );
+                    break;
+                case DestroyNotify:
+                    printf("%sDestroyed\n", head);
+                    windowList.remove(window);
+                    break;
+                case PropertyNotify:
+                    if (event.xproperty.state == PropertyNewValue) {
+                        showProperty(window, event.xproperty.atom, head);
+                    } else {
+                        xsmart<char> name(atomName(event.xproperty.atom));
+                        printf("%sDelete %s\n", head, (char *) name);
+                    }
+                    break;
+                case ConfigureNotify:
+                    printf("%sConfigure %dx%d+%d+%d%s\n", head,
+                            event.xconfigure.width, event.xconfigure.height,
+                            event.xconfigure.x, event.xconfigure.y,
+                            event.xany.send_event ? " Send" : "");
+                    break;
+                case CirculateNotify:
+                    printf("%sCirculate %s\n", head,
+                            event.xcirculate.place == PlaceOnTop
+                                ? "PlaceOnTop" :
+                            event.xcirculate.place == PlaceOnBottom
+                                ? "PlaceOnBottom" : "Bogus");
+                    break;
+                case ReparentNotify:
+                case GravityNotify:
+                    break;
+                default:
+                    printf("%sUnknown event type %d\n", head, event.type);
+                    break;
+            }
+        }
+    }
 }
 
 /******************************************************************************/
@@ -2853,6 +3248,9 @@ void IceSh::parseAction()
         else if (isAction("sizeto", 2)) {
             sizeto();
         }
+        else if (isAction("sizeby", 2)) {
+            sizeby();
+        }
         else if (isAction("move", 2)) {
             const char* xa = getArg();
             const char* ya = getArg();
@@ -2876,7 +3274,8 @@ void IceSh::parseAction()
                             } else {
                                 ty = ly;
                             }
-                            XMoveWindow(display, frame, tx, ty);
+                            moveResize(window, NorthWestGravity,
+                                       tx, ty, None, None, CWX | CWY);
                         }
                     }
                 }
@@ -2896,7 +3295,8 @@ void IceSh::parseAction()
                         int x, y, w, h;
                         if (getGeometry(frame, x, y, w, h)) {
                             int tx = int(x + lx), ty = int(y + ly);
-                            XMoveWindow(display, frame, tx, ty);
+                            moveResize(window, NorthWestGravity,
+                                       tx, ty, None, None, CWX | CWY);
                         }
                     }
                 }
@@ -3083,7 +3483,7 @@ void IceSh::parseAction()
         }
         else if (isAction("id", 0)) {
             FOREACH_WINDOW(window)
-                printf("0x%06lx\n", Window(window));
+                printf("0x%07lx\n", Window(window));
         }
         else if (isAction("pid", 0)) {
             FOREACH_WINDOW(window) {
@@ -3095,6 +3495,9 @@ void IceSh::parseAction()
         }
         else if (isAction("list", 0)) {
             detail();
+        }
+        else if (isAction("spy", 0)) {
+            spy();
         }
         else if (isAction("close", 0)) {
             FOREACH_WINDOW(window)
@@ -3247,7 +3650,9 @@ void IceSh::parseAction()
         else if (isAction("prop", 1)) {
             NAtom prop(getArg());
             FOREACH_WINDOW(window) {
-                showProperty(window, prop);
+                char buf[32];
+                snprintf(buf, sizeof buf, "0x%07lx ", Window(window));
+                showProperty(window, prop, buf);
             }
         }
         else {

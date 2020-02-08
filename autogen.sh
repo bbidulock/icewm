@@ -9,7 +9,7 @@ GTVERSION=$(gettext --version|head -1|awk '{print$NF}'|sed -r 's,(^[^\.]*\.[^\.]
 if [ -x "`which git 2>/dev/null`" -a -d .git ]; then
 	VERSION=$(git describe --tags|sed 's,[-_],.,g;s,\.g.*$,,')
 	DATE=$(git show -s --format=%ci HEAD^{commit}|awk '{print$1}')
-	MDOCDATE=$(perl -MDate::Format -MDate::Parse -E 'print time2str("%B %e, %Y", str2time("'"$DATE"'"))'|sed 's,  , ,')
+	MDOCDATE=$(date --date="$DATE" +'%B %d, %Y')
 	BRANCH=$(git tag --sort=-creatordate|head -1)
 	GNITS="gnits "
 	if [ "$VERSION" != "$BRANCH" ]; then

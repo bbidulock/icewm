@@ -30,7 +30,7 @@ WorkspaceButton::WorkspaceButton(int ws, YWindow *parent, WorkspaceDragger* d):
     fGraphics(this),
     fPane(d)
 {
-    setStyle(wsNoExpose);
+    addStyle(wsNoExpose);
     setParentRelative();
     //setDND(true);
     setTitle(name());
@@ -231,7 +231,7 @@ WorkspacesPane::WorkspacesPane(YWindow *parent):
     fRepositioning(false),
     fReconfiguring(false)
 {
-    setStyle(wsNoExpose);
+    addStyle(wsNoExpose);
     setParentRelative();
 }
 
@@ -251,6 +251,9 @@ void WorkspacesPane::resize(unsigned width, unsigned height) {
 
 long WorkspacesPane::limitWidth(long paneWidth) {
     const char* str = taskBarWorkspacesLimit;
+    long taskBarWidth = desktop->getScreenGeometry().width()
+                      * taskBarWidthPercentage / 100;
+    long reserved = 200L;
     long maxPixels = 0;
     long maxButtons = 0;
     long maxPercent = 0;
@@ -258,9 +261,9 @@ long WorkspacesPane::limitWidth(long paneWidth) {
         char* end = 0;
         long num = strtol(str, &end, 0);
         if (end && str < end && inrange(num, 0L, long(SHRT_MAX))) {
-            maxPixels = max(50L, long(desktop->width()) - x() - 20L);
+            maxPixels = max(50L, taskBarWidth - x() - reserved);
             maxButtons = maxPixels * count() / non_zero(paneWidth);
-            maxPercent = 100L * maxPixels / desktop->width();
+            maxPercent = 100L * maxPixels / taskBarWidth;
             if (*end == ' ')
                 ++end;
             if (*end == 'p' || *end == 'P') {
@@ -271,16 +274,16 @@ long WorkspacesPane::limitWidth(long paneWidth) {
             }
             if (*end == '%' && inrange(num, 0L, 100L)) {
                 maxPercent = num;
-                maxPixels = maxPercent * desktop->width() / 100L;
+                maxPixels = maxPercent * taskBarWidth / 100L;
                 maxButtons = maxPixels * count() / non_zero(paneWidth);
             }
         }
     }
     if (isEmpty(str) || 0 == (maxPixels | maxButtons)) {
         if (taskBarDoubleHeight && taskBarWorkspacesTop) {
-            maxPixels = long(desktop->width()) - x() - 20L;
+            maxPixels = taskBarWidth - x() - reserved;
         } else {
-            maxPixels = (long(desktop->width()) - x() - 20L) / 2;
+            maxPixels = (taskBarWidth - x() - reserved) / 2;
             maxButtons = 20;    // old limit
         }
     }

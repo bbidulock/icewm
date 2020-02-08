@@ -10,6 +10,9 @@
 #include "wmmgr.h"
 #include "yrect.h"
 #include "sysdep.h"
+#include "upath.h"
+#include "udir.h"
+#include "yarray.h"
 #include "ylocale.h"
 #include "yrect.h"
 #include "yicon.h"
@@ -22,31 +25,25 @@ char const *ApplicationName = "iceicon";
 class ObjectList;
 class ObjectIconView;
 
-ref<YIcon> folder;
-ref<YIcon> file;
+static ref<YIcon> folder;
+static ref<YIcon> file;
+static int textLimit;
+static bool hugeIcons;
 
-class YScrollView;
-
-class YIconItem {
+class YIconItem : public YListNode<YIconItem> {
 public:
     YIconItem();
-    virtual ~YIconItem();
+    virtual ~YIconItem() {}
 
-    YIconItem *getNext();
-    YIconItem *getPrev();
-    void setNext(YIconItem *next);
-    void setPrev(YIconItem *prev);
-
-    virtual const char *getText();
-    virtual ref<YIcon> getIcon();
+    virtual const char *getText() = 0;
+    virtual ref<YIcon> getIcon() = 0;
+    virtual bool isFolder() = 0;
 
     int x, y, w, h;
     int ix;
     int iy;
     int tx;
     int ty;
-private:
-    YIconItem *fPrevItem, *fNextItem;
 };
 
 class YIconView: public YWindow, public YScrollBarListener, public YScrollable {
@@ -66,10 +63,9 @@ public:
     virtual void scroll(YScrollBar *sb, int delta);
     virtual void move(YScrollBar *sb, int pos);
 
-    void handleClick(const XButtonEvent &up, int count);
-
-    YIconItem *getFirst() const { return fFirst; }
-    YIconItem *getLast() const { return fLast; }
+    void handleButton(const XButtonEvent& up);
+    void handleClick(const XButtonEvent& up, int count);
+    bool handleKey(const XKeyEvent& key);
 
     int getItemCount();
     YIconItem *getItem(int item);
@@ -87,8 +83,7 @@ private:
     YScrollBar *fVerticalScroll;
     YScrollBar *fHorizontalScroll;
     YScrollView *fView;
-    YIconItem *fFirst, *fLast;
-    int fItemCount;
+    YList<YIconItem> fList;
     YIconItem **fItems;
 
     int fOffsetX;
@@ -107,77 +102,48 @@ private:
 };
 
 YIconItem::YIconItem() {
-    fPrevItem = fNextItem = 0;
     x = y = w  = h = 0;
     tx = ty = ix = iy = 0;
 }
 
-YIconItem::~YIconItem() {
-}
-
-YIconItem *YIconItem::getNext() {
-    return fNextItem;
-}
-
-YIconItem *YIconItem::getPrev() {
-    return fPrevItem;
-}
-
-void YIconItem::setNext(YIconItem *next) {
-    fNextItem = next;
-}
-
-void YIconItem::setPrev(YIconItem *prev) {
-    fPrevItem = prev;
-}
-
-
-const char *YIconItem::getText() { return 0; }
-ref<YIcon> YIconItem::getIcon() { return null; }
-
 int YIconView::addItem(YIconItem *item) {
-    PRECONDITION(item->getPrev() == 0);
-    PRECONDITION(item->getNext() == 0);
-
     freeItems();
-
-    item->setNext(0);
-    item->setPrev(fLast);
-    if (fLast)
-        fLast->setNext(item);
-    else
-        fFirst = item;
-    fLast = item;
-    fItemCount++;
+    fList.append(item);
     return 1;
 }
 
 void YIconView::freeItems() {
     if (fItems) {
-        delete fItems; fItems = 0;
+        delete[] fItems;
+        fItems = nullptr;
     }
 }
 
 void YIconView::updateItems() {
-    if (fItems == 0) {
+    if (fItems == nullptr) {
         //fMaxWidth = 0;
+        int fItemCount = fList.count();
         fItems = new YIconItem *[fItemCount];
         if (fItems) {
-            YIconItem *a = getFirst();
-            int n = 0;
-            while (a) {
-                fItems[n++] = a;
+            for (int k = 0, n = 0; k < 2 && n < fItemCount; ++k) {
+                YListIter<YIconItem> iter = fList.iterator();
+                while (++iter) {
+                    if (k == 0 && iter->isFolder()) {
+                        fItems[n++] = iter;
+                    }
+                    if (k == 1 && !iter->isFolder()) {
+                        fItems[n++] = iter;
+                    }
 
-                /*int cw = 3 + 20 + a->getOffset();
-                if (listBoxFont) {
-                    const char *t = a->getText();
-                    if (t)
-                        cw += listBoxFont->textWidth(t) + 3;
+                    /*int cw = 3 + 20 + a->getOffset();
+                    if (listBoxFont) {
+                        const char *t = a->getText();
+                        if (t)
+                            cw += listBoxFont->textWidth(t) + 3;
+                    }
+                    if (cw > fMaxWidth)
+                        fMaxWidth = cw;*/
                 }
-                if (cw > fMaxWidth)
-                    fMaxWidth = cw;*/
-
-                a = a->getNext();
             }
         }
     }
@@ -207,13 +173,17 @@ YIconView::YIconView(YScrollView *view, YWindow *aParent):
         fHorizontalScroll->setScrollBarListener(this);
     fOffsetX = fOffsetY = 0;
     fItems = 0;
-    fItemCount = 0;
-    fFirst = fLast = 0;
     setBitGravity(NorthWestGravity);
     setDoubleBuffer(true);
 }
 
 YIconView::~YIconView() {
+    freeItems();
+    while (fList) {
+        YIconItem* item = fList.front();
+        fList.remove(item);
+        delete item;
+    }
 }
 
 void YIconView::activateItem(YIconItem */*item*/) {
@@ -237,12 +207,19 @@ bool YIconView::layout() {
     conWidth = 0;
     conHeight = 0;
     thisLine = 0;
-    YIconItem *icon = getFirst();
-    while (icon) {
+
+    YListIter<YIconItem> icon = fList.iterator();
+    while (++icon) {
         const char *text = icon->getText();
+        if (0 < textLimit && textLimit < int(strlen(text))) {
+            text += strlen(text) - textLimit;
+        }
         int tw = font->textWidth(text) + 4;
         int th = fontHeight + 2;
-        ref<YImage> icn = icon->getIcon()->large();
+        ref<YImage> icn =
+            hugeIcons ? icon->getIcon()->huge() : icon->getIcon()->large();
+        if (icn == null)
+            continue;
         int iw = icn->width() + 4;
         int ih = icn->height() + 4;
 
@@ -280,7 +257,6 @@ bool YIconView::layout() {
 
         if (cx > int(conWidth))
             conWidth = unsigned(cx);
-        icon = icon->getNext();
         conHeight = cy + ah;
     }
     resetScrollBars();
@@ -288,56 +264,94 @@ bool YIconView::layout() {
 }
 
 void YIconView::paint(Graphics &g, const YRect &r) {
-    int ex = r.x(), ey = r.y(), ew = r.width(), eh = r.height();
+    int ex = r.x(), ey = r.y(), ew = int(r.width()), eh = int(r.height());
     g.setColor(bg);
     g.fillRect(ex, ey, ew, eh);
     g.setColor(fg);
+    g.drawRect(ex + 1, ey + 1, ew - 2, eh - 2);
     g.setFont(font);
 
-    YIconItem *icon = getFirst();
-    while (icon) {
-        if ((icon->y + icon->h - fOffsetY) >= ey)
-            break;
-        icon = icon->getNext();
-    }
+    msg("fOffsetY %d, value %d, amount %d\n", fOffsetY,
+            fVerticalScroll->getValue(),
+            fVerticalScroll->getVisibleAmount());
 
-    while (icon) {
-        if ((icon->y - fOffsetY) > (ey + int(eh)))
+    YListIter<YIconItem> icon = fList.iterator();
+    while (++icon) {
+        if ((icon->y + icon->h - fOffsetY) < ey)
+            continue;
+        if ((icon->y - fOffsetY) > ey + eh)
             break;
 
         const char *text = icon->getText();
-        ref<YImage> icn = icon->getIcon()->large();
+        if (0 < textLimit && textLimit < int(strlen(text))) {
+            text += strlen(text) - textLimit;
+        }
+        ref<YImage> icn =
+            hugeIcons ? icon->getIcon()->huge() : icon->getIcon()->large();
+        if (icn == null)
+            continue;
 
         g.drawImage(icn,
-                     icon->x - fOffsetX + icon->ix + 2,
-                     icon->y - fOffsetY + icon->iy + 2);
+                    icon->x - fOffsetX + icon->ix + 2,
+                    icon->y - fOffsetY + icon->iy + 2);
         g.drawChars(text, 0, strlen(text),
                     icon->x - fOffsetX + icon->tx,
                     icon->y - fOffsetY + icon->ty + font->ascent() + 1);
+    }
+}
 
-        icon = icon->getNext();
+void YIconView::handleButton(const XButtonEvent& button) {
+    if (button.button == Button4 || button.button == Button5) {
+        if (fVerticalScroll->handleScrollMouse(button)) {
+            return;
+        }
+    }
+    else {
+        YWindow::handleButton(button);
     }
 }
 
 void YIconView::handleClick(const XButtonEvent &up, int count) {
-    if (up.button == 1 && count == 1) {
+    if (up.button == Button1 && count == 1) {
         YIconItem *i = findItemByPoint(up.x + fOffsetX, up.y + fOffsetY);
-
         if (i)
             activateItem(i);
     }
+    else if (up.button == Button2) {
+        delete fView->parent();
+    }
+    else if (up.button == Button3) {
+        xapp->exit(0);
+    }
+}
+
+bool YIconView::handleKey(const XKeyEvent& key) {
+    if (fVerticalScroll->handleScrollKeys(key) == true) {
+        return true;
+    }
+    if (key.type == KeyPress) {
+        KeySym k = keyCodeToKeySym(key.keycode);
+        int m = KEY_MODMASK(key.state);
+        if (k == XK_Escape) {
+            xapp->exit(0);
+            return true;
+        }
+        else if (k == XK_q && hasbit(m, ControlMask)) {
+            xapp->exit(0);
+            return true;
+        }
+    }
+    return YWindow::handleKey(key);
 }
 
 YIconItem *YIconView::findItemByPoint(int x, int y) {
-    YIconItem *icon = getFirst();
-
-    while (icon) {
+    YListIter<YIconItem> icon = fList.iterator();
+    while (++icon) {
         if (x >= icon->x && x < icon->x + icon->w &&
             y >= icon->y && y < icon->y + icon->h)
         {
             return icon;
         }
-        icon = icon->getNext();
     }
     return 0;
 }
@@ -393,46 +407,49 @@ YWindow *YIconView::getWindow() {
 
 class ObjectIconItem: public YIconItem {
 public:
-    ObjectIconItem(char *container, char *name) {
-        fContainer = container;
-        fName = newstr(name);
-        fFolder = false;
-
-        struct stat sb;
-        char *path = getLocation();
-        if (stat(path, &sb) == 0 && S_ISDIR(sb.st_mode))
-            fFolder = true;
-        delete[] path;
+    ObjectIconItem(const char *container, const char *name) :
+        fPath(upath(container) + name),
+        fName(newstr(name)),
+        fFolder(fPath.dirExists())
+    {
     }
-    virtual ~ObjectIconItem() { delete[] fName; fName = 0; }
+    virtual ~ObjectIconItem() {
+        delete[] fName;
+        fName = nullptr;
+    }
 
     virtual const char *getText() { return fName; }
+    const char* getLocation() { return fPath.string(); }
     bool isFolder() { return fFolder; }
-    virtual ref<YIcon> getIcon() { return isFolder() ? folder : file; }
-
-
-    char *getLocation();
+    virtual ref<YIcon> getIcon();
 private:
-    char *fContainer;
+    upath fPath;
     char *fName;
     bool fFolder;
 };
 
-char *ObjectIconItem::getLocation() {
-    char *dir = fContainer;
-    char *name = (char *)getText();
-    int dlen;
-    int nlen = (dlen = strlen(dir)) + 1 + strlen(name) + 1;
-    char *npath;
-
-    npath = new char[nlen];
-    memcpy(npath, dir, dlen + 1);
-    if (dlen == 0 || dir[dlen - 1] != '/') {
-        strcpy(npath + dlen, "/");
-        dlen++;
+ref<YIcon> ObjectIconItem::getIcon() {
+    if (isFolder()) {
+        return folder;
     }
-    strcpy(npath + dlen, name);
-    return npath;
+    else {
+        pstring ext(fPath.getExtension().lower());
+        if (ext == ".xpm" || ext == ".png" || ext == ".svg") {
+            ref<YIcon> icon = YIcon::getIcon(fPath.string());
+            if (icon != null) {
+                if (hugeIcons ? icon->huge() != null : icon->large() != null)
+                    return icon;
+            }
+        }
+        else if (ext == ".jpg" || ext == ".jpeg") {
+            ref<YIcon> icon = YIcon::getIcon(fPath.string());
+            if (icon != null) {
+                if (hugeIcons ? icon->huge() != null : icon->large() != null)
+                    return icon;
+            }
+        }
+        return file;
+    }
 }
 
 class ObjectIconView: public YIconView {
@@ -441,18 +458,26 @@ public:
         fObjList = list;
     }
 
-    virtual ~ObjectIconView() { }
+    virtual ~ObjectIconView();
     virtual void activateItem(YIconItem *item);
 
 private:
     ObjectList *fObjList;
+    YArray<pid_t> pids;
 };
+
+ObjectIconView::~ObjectIconView() {
+    YArray<pid_t>::IterType iter = pids.iterator();
+    while (++iter) {
+        kill(*iter, SIGTERM);
+    }
+}
 
 class ObjectList: public YWindow {
 public:
     static int winCount;
 
-    ObjectList(char *path) {
+    ObjectList(const char *path) {
         setDND(true);
         fPath = newstr(path);
         scroll = new YScrollView(this);
@@ -469,28 +494,50 @@ public:
         int w = desktop->width();
         int h = desktop->height();
 
-        setGeometry(YRect(w / 3, h / 3, w / 3, h / 3));
+        YRect geo(w / 3, h / 3, w / 3, h / 3);
+        setGeometry(geo);
 
-/// TODO         #warning boo!
-/*
-        Pixmap icons[4];
-        icons[0] = folder->small()->pixmap();
-        icons[1] = folder->small()->mask();
-        icons[2] = folder->large()->pixmap();
-        icons[3] = folder->large()->mask();
-        XChangeProperty(xapp->display(), handle(),
-                        _XA_WIN_ICONS, XA_PIXMAP,
-                        32, PropModeReplace,
-                        (unsigned char *)icons, 4);
-*/
+        ref<YIcon> file = YIcon::getIcon("icewm");
+        if (file != null) {
+            unsigned depth = xapp->depth();
+            large = YPixmap::createFromImage(file->large(), depth);
+        }
+
         winCount++;
+
+        static char wm_clas[] = "IceWM";
+        static char wm_name[] = "iceicon";
+        XClassHint class_hint = { wm_name, wm_clas };
+        XSizeHints size_hints = { PSize,
+            0, 0, int(geo.width()), int(geo.height())
+        };
+        XWMHints wmhints = {
+            InputHint | StateHint,
+            True,
+            NormalState,
+            large != null ? large->pixmap() : None, None, 0, 0,
+            large != null ? large->mask() : None,
+            None
+        };
+        if (wmhints.icon_pixmap)
+            wmhints.flags |= IconPixmapHint;
+        if (wmhints.icon_mask)
+            wmhints.flags |= IconMaskHint;
+        Xutf8SetWMProperties(xapp->display(), handle(),
+                             fPath, ApplicationName, nullptr, 0,
+                             &size_hints, &wmhints, &class_hint);
+
+        setNetPid();
     }
 
-    ~ObjectList() { winCount--; }
+    ~ObjectList() {
+        delete list;
+        delete scroll;
+        if (--winCount <= 0)
+            xapp->exit(0);
+    }
 
     virtual void handleClose() {
-        if (winCount == 1)
-            xapp->exit(0);
         delete this;
     }
 
@@ -508,28 +555,26 @@ private:
     YScrollView *scroll;
 
     char *fPath;
+
+    ref<YPixmap> large;
 };
 int ObjectList::winCount = 0;
 
 void ObjectList::updateList() {
-    DIR *dir;
-
-    if ((dir = opendir(fPath)) != NULL) {
-        struct dirent *de;
-
-        while ((de = readdir(dir)) != NULL) {
-            char *n = de->d_name;
-
-            if (n[0] == '.' && (n[1] == 0 || (n[1] == '.' && n[2] == 0)))
-                ;
-            else {
-                ObjectIconItem *o = new ObjectIconItem(fPath, n);
-
-                if (o)
-                    list->addItem(o);
-            }
+    adir dir(fPath);
+    YArray<ObjectIconItem *> file;
+    while (dir.next()) {
+        ObjectIconItem *o = new ObjectIconItem(dir.path(), dir.entry());
+        if (o) {
+            if (o->isFolder())
+                list->addItem(o);
+            else
+                file += o;
         }
-        closedir(dir);
+    }
+    YArray<ObjectIconItem *>::IterType o = file.iterator();
+    while (++o) {
+        list->addItem(o);
     }
     if (list->layout())
         list->repaint();
@@ -537,7 +582,7 @@ void ObjectList::updateList() {
 
 void ObjectIconView::activateItem(YIconItem *item) {
     ObjectIconItem *obj = (ObjectIconItem *)item;
-    char *path = obj->getLocation();
+    const char* path = obj->getLocation();
 
     if (obj->isFolder()) {
         //if (fork() == 0)
@@ -545,11 +590,21 @@ void ObjectIconView::activateItem(YIconItem *item) {
         ObjectList *list = new ObjectList(path);
         list->show();
     } else {
-        if (fork() == 0)
-            execl("./iceview", "iceview", path, (void *)NULL);
+        pid_t pid = fork();
+        if (pid == 0)
+            execl("./iceview", "iceview", path, nullptr);
+        else if (pid > 1)
+            pids += pid;
     }
-    delete path;
+}
 
+static const char* help() {
+    static const char help[] =
+    "  -l, --limit=LENGTH  Limit length of filenames to LENGTH.\n"
+    "  -H, --Huge          Use huge icon size (48x48).\n"
+    "  -L, --Large         Use large icon size (32x32).\n"
+    ;
+    return help;
 }
 
 int main(int argc, char **argv) {
@@ -558,13 +613,40 @@ int main(int argc, char **argv) {
     bindtextdomain(PACKAGE, LOCDIR);
     textdomain(PACKAGE);
 
+    check_argv(argc, argv, help(), VERSION);
+
+    YStringArray names;
     YXApplication app(&argc, &argv);
+    for (char ** arg = argv + 1; arg < argv + argc; ++arg) {
+        if (**arg == '-') {
+            char *value(0);
+            if (GetArgument(value, "l", "limit", arg, argv+argc))
+                textLimit = strtol(value, nullptr, 0);
+            else if (is_switch(*arg, "H", "Huge"))
+                hugeIcons = true;
+            else if (is_switch(*arg, "L", "Large"))
+                hugeIcons = false;
+        }
+        else {
+            names += *arg;
+        }
+    }
 
     folder = YIcon::getIcon("folder");
     file = YIcon::getIcon("file");
 
-    ObjectList *list = new ObjectList(argv[1] ? argv[1] : (char *)"/");
-    list->show();
+    if (names.isEmpty())
+        names += "/";
+
+    YStringArray::IterType iter = names.iterator();
+    while (++iter) {
+        if (upath(*iter).isReadable()) {
+            ObjectList* list = new ObjectList(*iter);
+            if (list) {
+                list->show();
+            }
+        }
+    }
 
     return app.mainLoop();
 }

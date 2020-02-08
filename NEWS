@@ -1,3962 +1,556 @@
+icewm -- history of user-visible changes.  2019-11-24
 
-Release icewm-1.4.2 released 2017-07-30
+Release icewm-1.6.3 released 2019-11-24
 ---------------------------------------
 
-git shortlog -e -n -w80,6,8 1.4.1...HEAD
+git shortlog -e -n -w80,6,8 1.6.2...1.6.3
 
-Brian Bidulock <bidulock@openss7.org> (10):
-      Merge remote-tracking branch 'origin/icewm-1-3-BRANCH' into
-        icewm-1-4-BRANCH
+Bert Gijsbers <gijsbers@science.uva.nl> (32):
+      [cmake] Give XTERMCMD a default, otherwise it remains empty in
+        lib/toolbar.
+      XPM must be ON for themable cursors.
+      [cmake] add PACKAGE_STRING
+      [cmake] Discern substitute from copy in lib/ for issue #387.
+      Use install-data instead of install-desktop for ice-wm/icewm#5.
+      update version for #389
+      Highlight current workspace on startup for #393.
+      Reduce debugging output if not DEBUG.
+      Set alpha threshold to 128 for issue #392.
+      Support PNG format for theme image files for issue #377. Improve support
+        for depcrecated linux.xpm for old themes.
+      Update taskbar geometry on screen resize for #394.
+      make doActivate declared even if not CONFIG_SESSION for #397.
+      Remove duplicate text and simplify restart.
+      Give sed -i option a backup extension for #397.
+      If either alsa, ao or oss then always include sndfile.h for #397.
+      Remove eval and indirect variable evaluation for FreeBSD for #397.
+      Trace icon loading and config parsing by --trace="icon,conf".
+      Document --trace.
+      Replace perl by date to reduce dependencies for #397.
+      Remove ESD server (obsolete EsounD).
+      Premultiply colors by alpha channel when XRender for #392.
+      Revert "Set alpha threshold to 128 for issue #392."
+      Only premultiply alpha if image depth == 32 for #392.
       update po files
-      update AUTHORS file
-      generate more news
-      update NEWS file
-      icewm-1-4-BRANCH is now the default
-      partially address issue #146
-      better fix for issue #146
-      final tweak for #146
-      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
+      Improve icon handling in WindowList for #392.
+      Clarify icon.
+      Improve drawing of dashes for window list.
+      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
         icewm-1-4-BRANCH
+      Clean .bak files.
+      add ytrace.h.
+      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge branch 'icewm-1-4-BRANCH'
 
-Bert Gijsbers <gijsbers@science.uva.nl> (5):
-      Omit -b in git checkout icewm-1-4-BRANCH.
-      Specify output with -o icewm.html.
-      Update ChangeLog to 1.4.1 and remove all changes for the 1.3.12 release
-        and older.
-      New function copyPixmaps adds more defaults for missing pixmaps. When some
-        pixmaps are missing then they are copied from others. This restores
-        backward compatibility in issue #144.
-      Always show icon in the top left corner of a window in issue #144.
+Brian Bidulock <bidulock@openss7.org> (2):
+      address issue #399
+      address issue #398
 
-Brian Bidulock <bidulock@openss7.com> (1):
-      Merge pull request #150 from
-        Code7R/feature/increase_theme_menu_collapsing_threshold
+Kimmo Kujansuu <mrkujansuu@gmail.com> (2):
+      Translated using Weblate (Finnish)
+      Translated using Weblate (Finnish)
 
-Eduard Bloch <blade@debian.org> (1):
-      Increased the trigger value for the theme menu nesting algorithm
+Alessio Adamo <alessio.adamo@gmail.com> (1):
+      Translated using Weblate (Italian)
+
+Artem Polishchuk <tim77@users.noreply.github.com> (1):
+      Convert tab to spaces (#390)
 
 
-Release icewm-1.4.1 released 2017-07-28
+Release icewm-1.6.2 released 2019-09-17
 ---------------------------------------
 
-git shortlog -e -n -w80,6,8 1.4.0...1.4.1
+git shortlog -e -n -w80,6,8 1.6.1...1.6.2
+
+Bert Gijsbers <gijsbers@science.uva.nl> (43):
+      Update to 1.6.1. Prefer lzip over xz due to popular demand.
+      Silence icehelp.
+      Restore use of ColorQuickSwitchActive for vertical switching for issue
+        #375.
+      Fix getWorkspace for sticky. Fix getOpacity. Find TaskBar with -T. Make
+        sync a manager action and check if IceWM is running.
+      IceWM splash image.
+      Update README.md from README.md.in.
+      install IceWM.jpg.
+      Add --with-xterm= to configure and -DXTERMCMD= to CMake build for issue
+        #379.
+      Always use XTERMCMD in place of xterm to remove hard dependency on xterm
+        for issue #379.
+      +addWorkspace, prop, -Prop, -Role.
+      Enable tilde and $HOME expansion for icon paths.
+      For 32-bit applications always create a 32-bit frame for issue #381.
+      add WinStateMaximizedBoth
+      add setAtomName.
+      Concentrate all properties in yxapp. When creating a frame record event
+        time. Synchronize YFrameOptions values with WinState from WinMgr.h. Sort
+        atom names by number and create a fast local atom name lookup.
+      Log atoms as strings.
+      Document icewm-session behavior.
+      add SEE ALSO.
+      catch font.
+      Fix font corruption for 32-bit alpha for #381.
+      prevent division by zero.
+      types
+      dialog owner.
+      Let icon draw itself.
+      Changes for Pidgin for #382.
+      use names for AC status.
+      fix type
+      fix types
+      implicitly convert bool to int.
+      Prevent user confusion about image modules and postpone yximage as default
+        until improvements have been made for issue #385.
+      Require libXPM for cursors for issue #384.
+      Only compile if not gdk-pixbuf for cursors for #384.
+      Restore support for themable cursors for #384.
+      REDIR_ROOT is no longer useful.
+      Cursors require XPM or Imlib for #384.
+      expand LIBDIR and PACKAGE
+      Substitute CFGDIR in pod output.
+      Set PACKAGE_URL. Drop icewmtray and KDEDIR. Substitute LIBDIR, CFGDIR and
+        XTERMCMD.
+      Substitute CFGDIR and LIBDIR. Substitute xterm for XTERMCMD for #379.
+      Substitute installation directories.
+      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge branch 'icewm-1-4-BRANCH'
+      Prepare 1.6.2 release
+
+Eduard Bloch <blade@debian.org> (5):
+      [cmake] Make check of mandatory X libs strict
+      Fix config.h inclusion where missing
+      Fix direct inclusion of stdlib.h for strtok
+      Fix -Wstringop-truncation warning with gcc 9.2
+      Add explicit copy operator
+
+micrococo <micrococo@users.noreply.github.com> (2):
+      Fix some typos in documentation (#378)
+      Update Spanish translation of desktop files (#380)
+
+
+Release icewm-1.6.1 released 2019-08-22
+---------------------------------------
+
+git shortlog -e -n -w80,6,8 1.6.0...1.6.1
 
 Bert Gijsbers <gijsbers@science.uva.nl> (5):
-      Before calling setNetFrameExtents check if client() is non-null. This
-        prevents a SEGV crash which occasionally occurs when closing all
-        windows.
-      Only load a gradient when it is specified in the theme "gradients" option.
-        This fixes issue #144.
-      Omit -b in git checkout icewm-1-4-BRANCH.
-      Update to version 1.4.0.
-      Prepare for 1.4.1 release.
+      Clear GraphicsBuffer so we can have a transparent taskbar in issue #299.
+      Don't composite systray when using 24-bit RGB visuals for issue #374.
+      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge branch 'icewm-1-4-BRANCH'
+      Prepare 1.6.1 release
 
 Aleš Kastner <alkas@volny.cz> (1):
       Translated using Weblate (Czech)
 
-
-Release icewm-1.4.0 released 2017-07-24
----------------------------------------
-
-git shortlog -e -n -w80,6,8 1.3.12...1.4.0
-
-Bert Gijsbers <gijsbers@science.uva.nl> (161):
-      Fix for 'msgstr' not being a valid C format string, unlike 'msgid'.
-      Fix for /proc/stat not being opened with FD_CLOEXEC flag. This would cause
-        IceWM to generate warnings whenever it fork+execs a child program.
-      Fix for properly closing open fd on error.
-      Fix for properly closing open fd on error.
-      Fix for not leaving stdin closed.
-      Fix for properly closing dup-ed socket.
-      Fix for properly closing open fd on error.
-      Fix for properly dup2/close devnull.
-      Fix for preventing lots of spurious warning messages for MappingNotify
-        events.
-      Fix to replace msg with MSG to keep IceWM silent when not debugging.
-      Two strstr calls for "AC" and "BAT" had the parameters reversed: fixed.
-        strcat3 could be changed from 12 lines to 1: fixed.
-      Reading of /proc and /sys files simplified and made more robust.
-        Previously the frequency of only one CPU core was examined. Now all
-        frequencies of the first 8 CPU cores are examined. In the CPU tooltip
-        give the maximum and minimum CPU core frequency. Also give the
-        temperatures with one decimal. Fix temperature formatting bug for C.
-      Merge branch 'icewm-1-3-BRANCH' into tooltip-details
-      Implement the top of the TODO list: add support for --help and --version
-        options to each executable.
-      remove obsolete pragmas (interface + implementation).
-      small changes to make BUILD_TESTS work (except for icebar)
-      precondition simplification
-      tTempBuf is not needed and not desirable
-      precondition simplification
-      mstring cleanup to make it more readable and more easily verifiable
-        correct.
-      much more elaborate test suite for mstring.
-      bug fix for missing sizeof(data_t) in YString::set(...)
-      Assignment operators should return a reference, not a copy.  Prevent
-        calling data() when length() is zero as this may access a NULL fStr
-        causing a crash.
-      Make mstring::split use indexOf, which is shorter and more correct (avoids
-        dereferencing null strings).
-      Icehelp didn't draw the html list entries. Fixed processing of node::li
-        nodes by calling draw() to draw <LI> entries. There were several
-        mismatches of new/delete/malloc/free: fixed. Freed memory was accessed
-        in handleClose(): fixed. In YIcon::findIcon(int)  newstr was called for
-        a temporary string which was never going to be freed anywhere: fixed by
-        using pstring instead of newstr.
-      Leak fix: objects should be a YObjectArray otherwise clear() will not be
-        called.
-      Leak fix in findThemes: npath was used where dpath was meant. configArg
-        wasn't used.
-      Leak fix in YWMApp::actionPerformed and in meain.
-      leak fix in WindowOptions::setWinOption for op->icon.
-      No slash needed when terminating an 'url' tag (3x).
-      upath::parent and upath::name were not implemented. upath::slash prevents
-        temporaries. cstring::operator const char *() simplifies code. Several
-        fixes to relative()/child(). A few minor new methods and operators.
-        +upath tests.
-      no need for misc.$(OBJEXT) when libice.la is already given.
-      Goodbye SGML here is AsciiDoc. The doc/*.sgml files replaced by
-        doc/icewm.adoc. Autoconf and cmake updated.
-      rename with .md extension
-      markdownify
-      renamed to INSTALL-cmakebuild.md
-      update for cmakebuild and asciidoc.
-      parse the AsciiDoc output.
-      remove the problematic dependency on glob_pattern_p by writing our own
-        internal version.
-      remove non-portable dependency on asprintf.
-      Remove non-portable dependency on asprintf.  Remove stray backslashes.
-        Rewrite while loops as for loops.  Replace calloc+strcpy with strdup.
-      Remove HAVE_ASPRINTF from YInputLine::complete as globit_best no longer
-        uses asprintf.
-      Prevent warnings when compiling with: make CXX="g++ -std=c++98 -pedantic
-        -Wall".
-      +strlcpy, strlcat, read_file, read_fd, tlog.
-      mstring + upath improvements.
-      Properly handle keyboard events by scrollbars.
-      Make icehelp feature complete.
-      add TOC, link to X startup. Remove LibPath (no longer used).
-      remove duplicate references to sources which are also in
-        ${ICE_COMMON_SRCS}.
-      HAVE_ASPRINTF doesn't imply _GNU_SOURCE. Remove both.
-      Make globit.c 7-bit ASCII.
-      include config.h (needed for CMake).
-      add load_text_file, check for EINTR when reading, use O_TEXT in read_file.
-      Cleanup option parsing: be more strict in what is accepted as option
-        value, don't abort parsing on error, but skip the offending line and
-        continue parsing the next option. Remove appendStr (to reduce memory
-        allocations), simplify code. Improve linkage: move all yconfig.cc
-        external code in class YConfig.
-      POSIX-compliancy requires the use of __linux__, instead of linux. linux
-        may not be defined even though __linux__ is. For instance with g++
-        -std=c++98.
-      +4 convenience methods.
-      Stricter parsing of winoptions. One of two loadMenus made obsolete.
-        Rewrote loadMenusProg.
-      stricter parsing of whitespace in winoptions. Fix a delete[]. Fix a leak
-        for icon. Simplify loadWinOptions.
-      Use upath for configuration directories, prevents a leak and simplifies
-        code (no manual memory management).
-      A redesign with cleaner semantics and 3 subclasses for different release
-        of dynamic memory.
-      When parsing "env" for each line add all expansion results. Trim every
-        "env" string. Permit "env" input lines where '=' is surrounded with
-        spaces.
-      test strlcpy with operlap of source/destination.
-      +stat method.
-      Simplify closeFiles and drastically reduce number of fcntl system calls on
-        exec. If execlp fails then print a warning with exe + strerror.
-      add 2 missing destructors.
-      prefer setenv over putenv.
-      Fix for focus on map: only compare fUserTime when it is unequal to -1,
-        otherwise doActivate would always be set to false.
-      Fix for focus on map: only compare fUserTime when it is unequal to -1,
-        otherwise doActivate would always be set to false.
-      merge wmframe.cc fix
-      Add --display option to icewm-session.  Save errno in fail().
-      bool configurationNeeded was never needed, now deleted.
-      Improve error handling in loadMenusProg. Allow waitpid to fail because of
-        a competing SIGCHILD handler.
-      Don't assume execl /bin/sh can never fail in
-        YWindowManager::execAfterFork.
-      Fix int format string errors for calls to warn(...) for long arguments.
-      Consistently use ACOUNT where appropriate.
-      Restore support for const copy operations using an ownership flag.
-        Improve efficiency by avoiding virtual tables. Prevent inadvertent
-        exchange of pointers between different allocation mechanisms
-        (free/delete/[]). Tested OK sofar.
-      Consistently use ACOUNT where appropriate.
-      print_preferences print_options
-      Add 3 options to icewm: "  --configured        Print the compile time
-        configuration.
-" "  --directories       Print the configuration
-        directories.
-" "  --postpreferences   Print preferences after all
-        processing.
-"
-      Silence annoying startup messages about using private configuration files.
-      Update, small changes.
-      If left hand side of upath.relative() is empty then return right hand side
-        unmodified.
-      Prefer static linkage.
-      More accurate countThemes. Old version always subtracted 1, even if
-        directory was non-existent or empty. New version verifies if de->d_name
-        is a directory and if it has a readable "default.theme" file in it.
-      correction: access == 0 means yes it exists.
-      Support menuButton pixmaps in motif. This fixes
-        https://github.com/bbidulock/icewm/issues/31
-      udir.h provides a small but handy class for simplifying code which deals
-        with directories, like themes.
-      Simplify code for directories, like themes, with udir class.
-      Merge.
-      Correction: run "icewmtray" before "startup" script.
-      Move help text into separate method getHelpText().
-      Properly support searching for resources in XDG_CONFIG_HOME. First search
-        in XDG_CONFIG_HOME, only then in other directories. Simplifications and
-        optimizations to YResourcePaths. YPathElement could be removed as it is
-        just a upath. When removing elements in a loop then count downwards to
-        zero to avoid quadratic time.
-      Support referring to a theme without the last component (basename
-        "default.theme"). This requires less typing. Optimization to getArgument
-        to prevents lots of memory allocations when parsing preferences.
-      Fix for getExtension (wasn't used anywhere sofar).
-      Support the usual icewm command line options in icewm-session and
-        propagate their values to child programs when fork+execing. Also support
-        them in icewmtray and icewmbg. The -t option to icewm didn't work
-        properly because it used GetLongArgument instead of GetShortArgument:
-        fixed. Don't scan preferences for a themeName when themeName has already
-        been given on the command line. Allow to override preferences with some
-        other config file. Cleanup of unused code in icewmbg.cc. Memory leak fix
-        in themes.cc when 15+ themes are available and many submenus are created
-        with a strdup which was never freed. Remove the --no-configure
-        commandline option as it wasn't implemented.
-      Update options.
-      --list-themes       Print a list of all available themes.
-      Remove superfluous #include statements.
-      Print directories in the order IceWM searches in them.
-      More man page new content.
-      Add GCC __attribute__ for format string checks. Define it empty for
-        non-gcc.
-      Cleanup code a bit for icetray.cc.
-      Remove superfluous #include statements.
-      Prefer snprintf/strlcpy/strlcat over sprintf/strcpy/strcat in some cases.
-      splitall may return true and an empty string. Detect this and continue.
-      YIcon would test a large number of paths, some of which have no chance for
-        success.  Reduce the number of such tests. Also reduce duplicate path
-        tests. Fully support the .SVG image format when searching for icons.
-      +SVG and icon sizes.
-      Add remove and renameAs. Add defaults to access and mkdir.
-      For --list-themes also allow short -l alias.
-      Always set line buffering mode for stdout.
-      Make sure all YIcon resources are freed on termination.
-      Because we have only Focus and Themes it doesn't make sens to create a
-        whole new Settings submenu in the toplevel menu. Instead of "Settings"
-        just use entries for Focus + Themes.
-      Move functions of wmconfig.cc into class WMConfig (except for addWork and
-        setLook). Rewrite setDefault: properly support XDG config directory, use
-        at most one hash comment sign per config line, be very careful about
-        existence of directories and simplify file I/O code.
-      Also report the name of the theme in warnings about gradients.
-      ycmdline.[ch] is not used in gnome1 and gnome2: removed.
-      Sort the entries in browsing menus alphabetically.
-      Remove superfluous #include statements.
-      Check if no config directory exists and could not be made.
-      Class Argument supports efficient storage of configuration parsing.
-      Use class Argument to efficiently store parsing results. This also prevent
-        memory leaks in the context of parsing errors when character arrays were
-        not deleted before return from parseMenus().
-      Better support theme names which don't have a slash or a .theme
-        extensions.
-      getResourcePaths was called with a null argument instead of "workspace".
-        This results in many more file lookups. Use "workspace" when calling
-        getResourcePaths for a small speedup.
-      Complete redesign which avoids virtual or refcounts, but supports
-        inter-allocation type assingment (free/new/new[]).
-      For every cursor pointer one new call to getResourcePaths would be done,
-        which is inefficient. Only do it once or twice per startup for a small
-        speedup.
-      Make some methods static and private.
-      update URLs.
-      Add 4 new themes: CrystalBlue, Helix, NanoBlue, Natural. Don't use
-        anymore: gtk2, nice, nice2, warp3, warp4, yellowmotif.
-      Add collate to support locale sensitive comparison using strcoll. Fix an
-        obscure bug in mstring::searchAndReplaceAll (unlikely to occur).
-      Add support for sorted directory access (locale sensitive).
-      Use adir to have browse menus sorted. Make file+folder icons not static
-        but local.
-      Make PRECONDITION usable in isolation by compile time define PRECON.
-      Sort menu entries with collate (strcoll).
-      Concentrate nearly all pixmap .xpm loading in one place. More controlled
-        loading of pixmaps, would allow to extend it to PNG and SVG. Remove the
-        CONFIG_LOOK_* preprocessor symbols as they were not usefully implemented
-        and just cluttered. Streamline wmLook and make it print useful info in
-        --postpreferences. Make stderr line buffered.
-      Typo: fix missing 2 in taskbar2Pixres.
-      Remove unused headers.
-      Make all configure --enable/--disable options compile again.
-      Make some tests compile.
-      Document the "env" file.
-      Add wpixres.cc to ICEWM_SRCS.
-      Document the "focus_mode" file.
-      Memory leak fix: don't call newstr on parameters passed to
-        YStringArray::append, because that one already does a newstr on the
-        received parameter.
-      Fix issue #143: remove theme Natural.
-      Improve man page documentation about "icewm-session".
-      icehelp didn't accept standard IceWM options. If no help file was given
-        then use the standard ICEHELPIDX location. This allows to start icehelp
-        from the command line by just typing "icehelp".
-      Manual page: add "icehelp" to the list of IceWM programs.
-      Prevent 3 warnings when compiling with clang++.
-      Document focus mode and the taskbar.
-      Document the QuickSwitch window and all keyboard shortcuts.
-      Fix option parsing for --theme/--config for icewmbg.
-      Document window placement, window layers and workspaces.
-      Document mouse bindings.
-      Document applet details.
-      man intro + semitransparency.
-      Document icewm signals.
-      Enforce 32-bit unsigned comparison of X11 time stamps in updateUserTime.
-        This improves availability of focused windows in issue #37.
-      Update bug report location to Github.
-      Update ChangeLog for 1.4.0 release.
-      Update NEWS for 1.4.0 release.
-      Update README.md for 1.4.0 release.
-      Add missing PACKAGE_BUGREPORT define. Change empty PACKAGE_URL into
-        website URL.
-      Changes to print_configured to make it compile under CMake.
-
-Brian Bidulock <bidulock@openss7.org> (69):
-      missing jpg slipped in
-      correct MANAGER client message for system tray
-      proper XSession .desktop files
-      fix focus issue #73
-      added hebrew translations
-      updated po files
-      attempt fix to issue #75
-      address issue #77 a bit better
-      attempted fix for issue #75
-      fix for issue #72
-      Translated using Weblate (Hebrew)
-      hebrew corrections
-      correct indentation warnings
-      correction to he.po
-      update po files
-      simplify distribution
-      git hates trailing space
-      limit the ChangeLog
-      cannot use gnits until we change version numbering
-      update the readem
-      annother attempt at a comment
-      annother attempt at a comment
-      a little better format
-      more readable text version
-      tweak
-      typo
-      better formatting yet
-      add debug flags
-      add @GartFarlick fd-leak-patch.txt on issue #84
-      make to work with lightdm
-      Merge branch 'patch-4' of https://github.com/berviantoleo/icewm into
-        berviantoleo-patch-4
-      Merge branch 'berviantoleo-patch-4' into icewm-1-3-BRANCH
-      fix #93 with patch from @roms2000
-      fix #94 changing msg to MSG
-      added original of applied patch
-      Revert "Fix missing variable using dennis"
-      fix issue #99
-      fix printf error
-      another attempt at fixing issue #99
-      added dependencies to README
-      address issue #100 for autoconf
-      call it "prerequisites" and move down some
-      update .po files
-      Fix also in README.md.in per #103
-      update po files fix it.po
-      update po files
-      get package to pass distcheck
-      version update
-      mention translations for .desktop files and utilities
-      issue #37 patch by @PetteriAimonen
-      fixed typo: fixes issue #116
-      update po files
-      fix ignored return value warning
-      fix issue #120
-      try to fix issue #37
-      update po files
-      fix make dist automake target
-      update po files
-      correct compile warnings
-      update po files
-      update po files
-      Merge branch 'icewm-1-3-BRANCH' of github.com:bbidulock/icewm into
-        icewm-1-3-BRANCH
-      updated po files
-      Merge branch 'icewm-1-3-BRANCH' of github.com:bbidulock/icewm into
-        icewm-1-3-BRANCH
-      corrections
-      correct again
-      update po files
-      de.po after merge
-      update po files
-
-Brian Bidulock <bidulock@openss7.com> (39):
-      Merge pull request #56 from 150balbes/icewm-1-3-BRANCH
-      Merge pull request #57 from 150balbes/icewm-1-3-BRANCH
-      Merge pull request #59 from mrbrainsample/icewm-1-3-BRANCH
-      Merge pull request #62 from Code7R/ftr_preconfigure_iconPath
-      Merge pull request #65 from Code7R/ftr_dev_shortcut_cmake
-      Merge pull request #63 from bedna-KU/bedna-KU-patch-1
-      Merge pull request #81 from pumaking/icewm-1-3-BRANCH
-      Merge pull request #82 from Vogtinator/icewm-1-3-BRANCH
-      Merge pull request #85 from Code7R/icewm-1-3-BRANCH
-      Merge pull request #64 from Code7R/ftr_fix_tktray_icon
-      Merge pull request #88 from berviantoleo/patch-1
-      Merge pull request #89 from berviantoleo/patch-2
-      Merge pull request #95 from gijsbers/fixes-open
-      Merge pull request #98 from gijsbers/tooltip-details
-      Merge pull request #103 from Reedych/icewm-1-3-BRANCH
-      Merge pull request #104 from Tetralet/icewm-1-3-BRANCH
-      Merge pull request #107 from scootergrisen/patch-1
-      Merge pull request #108 from okurz/icewm-1-3-BRANCH
-      Merge pull request #109 from scootergrisen/patch-1
-      Merge pull request #111 from scootergrisen/patch-2
-      Merge pull request #112 from Tetralet/icewm-1-3-BRANCH
-      Merge pull request #113 from mrbrainsample/icewm-1-3-BRANCH
-      Merge pull request #114 from gam3/gam3/CPUStatus
-      Merge pull request #117 from Tetralet/icewm-1-3-BRANCH
-      Merge pull request #118 from jinn-alt/logouticon
-      Merge pull request #119 from Tetralet/icewm-1-3-BRANCH
-      Merge branch 'icewm-1-3-BRANCH' into icewm-1-3-Greek-translation
-      Merge pull request #121 from nikoss/icewm-1-3-Greek-translation
-      Merge pull request #123 from Tetralet/icewm-1-3-BRANCH
-      Merge pull request #124 from Tetralet/icewm-1-3-BRANCH
-      Merge pull request #126 from Code7R/bugfix/gcc7_fixes
-      Merge pull request #127 from Tetralet/icewm-1-3-BRANCH
-      Merge pull request #128 from ivan1986/xdg-support
-      Merge pull request #131 from gijsbers/todo_help_version_done
-      Merge pull request #132 from gijsbers/remove_obsolete_pragmas
-      Merge pull request #133 from gijsbers/make_BUILD_TESTS_work
-      Merge pull request #134 from gijsbers/mstring_cleanup
-      Merge pull request #135 from gijsbers/icehelp_fixes
-      Merge pull request #137 from gijsbers/memory_leak_fixes
-
-Tetralet <tetralet@gmail.com> (20):
-      Supports UTF-8 strings in Workspace names.
-      Set the time format to '%T' for some locales when ledclock/colon.xpm is
-        loaded.
-      FIX: The window size had been resized too much times in some rare
-        situation.
-      Applied a multi CPU monitor from Bert Wesarg. Please visit
-        https://sourceforge.net/p/icewm/mailman/icewm-devel/thread/Pine.GSO.4.56.0611131656000.5306%40turing/
-        for more details.
-      Merge pull request #1 from bbidulock/icewm-1-3-BRANCH
-      Fix: CPU Status stop updating after a certain period of time.
-      Load ColorCPUStatusSteal from user themes.
-      Set the time format to '%T' for some locales when TaskBarClockLeds=1 and
-        ledclock/colon.xpm is loaded.
-      Clean "Invalid multibyte string ..." warning for ACPI Temp string.
-      Fix a error when compiling with --enable-debug.
-      Add some xgettext parameters.
-      Merge pull request #2 from bbidulock/icewm-1-3-BRANCH
-      Fix the tray icon for old gtk1 apps. It reverts commit
-        6035a0b87e4342de35c88dfcb5cd7086591b3ed6
-      FIX: New created window may not be activated in some rare situation.
-      FIX: Activated window may not get input actually.
-      Added some xgettext parameters.
-      Set the msgid "Celsius Temperature" to "°C", or it will cause confusion
-        with other msgids.
-      Traditional Chinese (zh_TW) translation update.
-      Fix commit 5fdabfa8e920c4e483267a61873650607a1c85aa
-      Fix: A stupid mistake in scaling formula. Thanks jinn-alt for reporting
-        this bug.
-
-Eduard Bloch <blade@debian.org> (18):
-      Workaround for some IDEs that keep binary outputs in a custom location
-      Ensure proper order of include paths in the cmake build
-      Don't set optimization options if not specified by the user
-      Preconfigure iconPath in popular FOSS environments
-      Little shortcut: set DEBUG define if user started with Debug build type
-      CLI --debug switch for icewmtray
-      Retry fetching of window properties with some delay
-      Added a shortcut for local debug builds with Debian-like configuration
-      Use released pot file and stop rebuilding it on-the-fly
-      Merge remote-tracking branch 'bbidulock/icewm-1-3-BRANCH' into
-        icewm-1-3-BRANCH
-      Added /usr/share/icons/default to icon path
-      New menu category Accessibility to fdomenu
-      Merge remote-tracking branch 'bbidulock/icewm-1-3-BRANCH' into
-        icewm-1-3-BRANCH
-      Don't focus on 'a' when selecting all elements
-      Fix incorrect switch case
-      Fix wrong bitmask around window style enum value
-      Implementing some trivial fixes discovered by GCC7
-      Fixing incorrect check for -Wimplicit-fallthrough
-
-David Medina <medipas@gmail.com> (12):
-      Translated using Weblate (Catalan)
-      Translated using Weblate (Catalan)
-      Translated using Weblate (Catalan)
-      Translated using Weblate (Catalan)
-      Translated using Weblate (Catalan)
-      Translated using Weblate (Catalan)
-      Translated using Weblate (Catalan)
-      Translated using Weblate (Catalan)
-      Translated using Weblate (Catalan)
-      Translated using Weblate (Catalan)
-      Translated using Weblate (Catalan)
-      Translated using Weblate (Catalan)
-
-Luiz Fernando Ranghetti <elchevive68@gmail.com> (10):
-      Translated using Weblate (Portuguese (Brazil))
-      Translated using Weblate (Portuguese (Brazil))
-      Translated using Weblate (Portuguese (Brazil))
-      Translated using Weblate (Portuguese (Brazil))
-      Translated using Weblate (Portuguese (Brazil))
-      Translated using Weblate (Portuguese (Brazil))
-      Translated using Weblate (Portuguese (Brazil))
-      Translated using Weblate (Portuguese (Brazil))
-      Translated using Weblate (Portuguese (Brazil))
-      Translated using Weblate (Portuguese (Brazil))
-
-Alessio Adamo <alessio.adamo@gmail.com> (9):
-      Translated using Weblate (Italian)
-      Translated using Weblate (Italian)
-      Translated using Weblate (Italian)
-      Translated using Weblate (Italian)
-      Translated using Weblate (Italian)
-      Translated using Weblate (Italian)
-      Translated using Weblate (Italian)
-      Translated using Weblate (Italian)
-      Translated using Weblate (Italian)
-
-openSUSE Weblate <weblate-noreply@opensuse.org> (9):
-      Merge branch 'icewm-1-3-BRANCH' of github.com:bbidulock/icewm into
-        icewm-1-3-BRANCH
-      Add ar to LINGUAS.
-      Merge remote-tracking branch 'origin/icewm-1-3-BRANCH' into
-        icewm-1-3-BRANCH
-      Merge remote-tracking branch 'origin/icewm-1-3-BRANCH' into
-        icewm-1-3-BRANCH
-      Merge remote-tracking branch 'origin/icewm-1-3-BRANCH' into
-        icewm-1-3-BRANCH
-      Merge remote-tracking branch 'origin/icewm-1-3-BRANCH' into
-        icewm-1-3-BRANCH
-      Merge remote-tracking branch 'origin/icewm-1-3-BRANCH' into
-        icewm-1-3-BRANCH
-      Merge remote-tracking branch 'origin/icewm-1-3-BRANCH' into
-        icewm-1-3-BRANCH
-      Merge remote-tracking branch 'origin/icewm-1-3-BRANCH' into
-        icewm-1-3-BRANCH
-
-Ferdinand Galko <galko.ferdinand@gmail.com> (8):
+Ferdinand Galko <galko.ferdinand@gmail.com> (1):
       Translated using Weblate (Slovak)
-      Translated using Weblate (Slovak)
-      Translated using Weblate (Slovak)
-      Translated using Weblate (Slovak)
-      Translated using Weblate (Slovak)
-      Translated using Weblate (Slovak)
-      Translated using Weblate (Slovak)
-      Translated using Weblate (Slovak)
-
-Freek de Kruijf <freek@opensuse.org> (7):
-      Translated using Weblate (Dutch)
-      Translated using Weblate (Dutch)
-      Translated using Weblate (Dutch)
-      Translated using Weblate (Dutch)
-      Translated using Weblate (Dutch)
-      Translated using Weblate (Dutch)
-      Translated using Weblate (Dutch)
-
-Oleg Ivanov <Leo-sp150@yandex.ru> (7):
-      add baground and suport MEMO aplet for defaults themes
-      Merge branch 'icewm-1-3-BRANCH' of https://github.com/150balbes/icewm into
-        icewm-1-3-BRANCH
-      del icewm-session, edit src, add icons
-      Changes to be committed: 	modified:   NEWS 	modified:   README.md
-        modified:   VERSION 	modified:   autogen.sh 	modified:   configure.ac
-        	modified:   po/be.po 	modified:   po/bg.po 	modified:
-        po/ca.po 	modified:   po/cs.po 	modified:   po/da.po
-        modified:   po/de.po 	modified:   po/el.po 	modified:   po/en.po
-        modified:   po/es.po 	modified:   po/fi.po 	modified:   po/fr.po
-        modified:   po/hr.po 	modified:   po/hu.po 	modified:   po/id.po
-        modified:   po/it.po 	modified:   po/ja.po 	modified:   po/ko.po
-        modified:   po/lt.po 	modified:   po/lv.po 	modified:   po/mk.po
-        modified:   po/nb.po 	modified:   po/nl.po 	modified:   po/no.po
-        modified:   po/pl.po 	modified:   po/pt_BR.po 	modified:
-        po/ro.po 	modified:   po/ru.po 	modified:   po/sk.po
-        modified:   po/sl.po 	modified:   po/sv.po 	modified:   po/tr.po
-        modified:   po/uk.po 	modified:   po/vi.po 	modified:   po/zh_CN.po
-        modified:   po/zh_TW.po
-      merge
-      add support for applets MEMO in themes Infadel2 icedesert
-      add new default theme and background
-
-Yasuhiko Kamata <belphegor@belbel.or.jp> (7):
-      Translated using Weblate (Japanese)
-      Translated using Weblate (Japanese)
-      Translated using Weblate (Japanese)
-      Translated using Weblate (Japanese)
-      Translated using Weblate (Japanese)
-      Translated using Weblate (Japanese)
-      Translated using Weblate (Japanese)
-
-mohammad alhargan <malham1@gmail.com> (7):
-      Translated using Weblate (Arabic)
-      Translated using Weblate (Arabic)
-      Translated using Weblate (Arabic)
-      Translated using Weblate (Arabic)
-      Translated using Weblate (Arabic)
-      Translated using Weblate (Arabic)
-      Translated using Weblate (Arabic)
-
-Arif Budiman <arifpedia@gmail.com> (6):
-      Translated using Weblate (Indonesian)
-      Translated using Weblate (Indonesian)
-      Translated using Weblate (Indonesian)
-      Translated using Weblate (Indonesian)
-      Translated using Weblate (Indonesian)
-      Translated using Weblate (Indonesian)
-
-Bervianto Leo Pratama <bervianto.leo@gmail.com> (6):
-      Change variable format to same with msgid
-      Fixing format
-      Fix missing variable using dennis
-      Fix end punctuation missing
-      Fix capital and missing charachter
-      Fix different whitespace
-
-Sarah Kriesch <ada.lovelace@gmx.de> (6):
-      Translated using Weblate (German)
-      Translated using Weblate (German)
-      Translated using Weblate (German)
-      Translated using Weblate (German)
-      Translated using Weblate (German)
-      Translated using Weblate (German)
-
-Andriy Bandura <andriykopanytsia@gmail.com> (5):
-      Translated using Weblate (Ukrainian)
-      Translated using Weblate (Ukrainian)
-      Translated using Weblate (Ukrainian)
-      Translated using Weblate (Ukrainian)
-      Translated using Weblate (Ukrainian)
-
-Dmitriy Khanzhin <jinn@altlinux.org> (5):
-      adapted logouticon patch, thx to YYY at altlinux forum
-      added icon for point 'Restart Xterm' in logout submenu
-      adapted for build lite version
-      added icons
-      po/el.po: fix msgmerge error
-
-Stanislav Brabec <sbrabec@suse.com> (4):
-      Translated using Weblate (Hebrew)
-      Weblate: Add icewm.pot to the git repository
-      Update .gitignore to allow icewm.pot
-      Merge remote-tracking branch 'weblate/icewm-1-3-BRANCH' into
-        icewm-1-3-BRANCH
-
-jc sl <trcs@gmx.com> (4):
-      Translated using Weblate (Spanish)
-      Translated using Weblate (Spanish)
-      Translated using Weblate (Spanish)
-      Translated using Weblate (Spanish)
-
-nikoss <nikoss@users.noreply.github.com> (4):
-      Add files via upload
-      more translated strings
-      99% finished
-      upload of Greek translation
-
-scootergrisen <scootergrisen@gmail.com> (4):
-      Update da.po
-      Change Icewm to IceWM in all Comment's
-      Add [da] translations
-      Translated using Weblate (Danish)
-
-Benoît Monin <benoit.monin@gmx.fr> (3):
-      Translated using Weblate (French)
-      Translated using Weblate (French)
-      Translated using Weblate (French)
-
-Efstathios Iosifidis <eiosifidis@gmail.com> (3):
-      Translated using Weblate (Greek)
-      Translated using Weblate (Greek)
-      Translated using Weblate (Greek)
-
-Panagiotis Mantzios <pmantzios@hotmail.com> (3):
-      Translated using Weblate (Greek)
-      Translated using Weblate (Greek)
-      Translated using Weblate (Greek)
-
-Rodrigo Macedo <rmsolucoeseminformatic4@gmail.com> (3):
-      Translated using Weblate (Portuguese (Brazil))
-      Translated using Weblate (Portuguese (Brazil))
-      Translated using Weblate (Portuguese (Brazil))
-
-Alex Spitzer <aes368@cornell.edu> (2):
-      Add ACPI Temperature display inside the CPU bar
-      Control ACPI Temperature in-graph display using a configuration variable
-
-Enol P <enolp@softastur.org> (2):
-      Translated using Weblate (Asturian)
-      Translated using Weblate (Asturian)
-
-Ettore Atalan <atalanttore@googlemail.com> (2):
-      Translated using Weblate (German)
-      Translated using Weblate (German)
-
-Jeff Woods <klaatu@fnordco.com> (2):
-      Fix preferences install for out-of-tree CMake builds
-      Revert "Set the time format to '%T' for some locales when
-        ledclock/colon.xpm is loaded."
-
-Joakim Ganse <joakim.ganse@b-iq.se> (2):
-      Translated using Weblate (Swedish)
-      Translated using Weblate (Swedish)
-
-Kamil Stańczyk <suszaraa@gmail.com> (2):
-      Translated using Weblate (Polish)
-      Translated using Weblate (Polish)
-
-Karl Ove Hufthammer <karl@huftis.org> (2):
-      Added translation using Weblate (Norwegian Nynorsk)
-      Translated using Weblate (Norwegian Nynorsk)
-
-Kukuh Syafaat <syafaatkukuh@gmail.com> (2):
-      Translated using Weblate (Indonesian)
-      Translated using Weblate (Indonesian)
-
-Mario <kdesi@kdesi.sk> (2):
-      Comment: Show logout submenu to Show logout menu
-      fix typo
-
-Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com> (2):
-      Translated using Weblate (Lithuanian)
-      Translated using Weblate (Lithuanian)
-
-Nathan Follens <nthn@unseen.is> (2):
-      Translated using Weblate (Dutch)
-      Translated using Weblate (Dutch)
-
-Reedych <linux.user2003@gmail.com> (2):
-      Translated using Weblate (Esperanto)
-      Translated using Weblate (Esperanto)
-
-Shyukri Shyukriev <shshyukriev@suse.com> (2):
-      Translated using Weblate (Bulgarian)
-      Translated using Weblate (Bulgarian)
-
-Дмитрий Ханжин <dmitriy.khanzhin@gmail.com> (2):
-      Translated using Weblate (Russian)
-      Translated using Weblate (Russian)
-
-150balbes <olepp@yandex.ru> (1):
-      Merge pull request #1 from bbidulock/icewm-1-3-BRANCH
-
-Bernhard Wiedemann <bwiedemann@suse.com> (1):
-      Translated using Weblate (German)
-
-Code7R <Code7R@users.noreply.github.com> (1):
-      Merge pull request #125 from jinn-alt/l10n_fix
-
-Dingzhong Chen <wsxy162@gmail.com> (1):
-      Translated using Weblate (Chinese (China))
-
-Dmitriy Khanzhin <dmitriy.khanzhin@gmail.com> (1):
-      Translated using Weblate (Russian)
-
-Fabian Vogt <fvogt@suse.com> (1):
-      Start shutdown and reboot commands in background
-
-Frederic Crozat <fcrozat@suse.com> (1):
-      remove icewm.desktop, it isn't a real xsession file
-
-G. Allen Morris III <gam3@gam3.net> (1):
-      add YSMListener *smActionListener to CPUStatus etc to remove segmentation
-        fault
-
-Guillaume GARDET <guillaume.gardet@opensuse.org> (1):
-      Translated using Weblate (French)
-
-Hoàng Phạm <pnhoang96@gmail.com> (1):
-      Translated using Weblate (Vietnamese)
-
-Ivan Borzenkov <ivan.borzenkov@gmail.com> (1):
-      Add support XDG_CONFIG_HOME directory
-
-Jonas Svensson <jonas@ekhorva.se> (1):
-      Translated using Weblate (Swedish)
-
-Marguerite Su <i@marguerite.su> (1):
-      Translated using Weblate (Chinese (China))
-
-Oliver Kurz <okurz@suse.de> (1):
-      Use a more recent default for mail app
-
-Reedych <reedych@reedych.pw> (1):
-      Fix l10n.opensuse.org url
-
-Tomáš Chvátal <tomas.chvatal@gmail.com> (1):
-      Merge pull request #69 from fcrozat/icewm-1-3-BRANCH
-
-Vojtech Zeisek <Vojtech.Zeisek@opensuse.org> (1):
-      Translated using Weblate (Czech)
-
-Weblate Admin <weblate-admin@opensuse.org> (1):
-      Translated using Weblate (Arabic)
-
-Wnereiz Z <wnereiz@eienteiland.org> (1):
-      Translated using Weblate (Chinese (China))
-
-Yunseok Choi <xein@naver.com> (1):
-      Translated using Weblate (Korean)
-
-alexandros Vennos <alexandros.venn@gmail.com> (1):
-      Translated using Weblate (Greek)
-
-gijsbers <gijsbers@users.noreply.github.com> (1):
-      Merge pull request #141 from bedna-KU/icewm-1-3-BRANCH
-
-hayyan rostami <hayyan71@yahoo.com> (1):
-      Translated using Weblate (Persian)
-
-
-Release icewm-1.3.12 released 2015-12-16
-----------------------------------------
-
-git shortlog -e -n -w80,6,8 1.3.11...1.3.12
-
-Brian Bidulock <bidulock@openss7.org> (8):
-      fix issue #40 missed update of VERSION
-      update sgml a little bit
-      add tags files to ignore
-      updated po files
-      updated NEWS file
-      be sure to update VERSION file
-      update po files for release
-      update release files
-
-David Medina <medipas@gmail.com> (6):
-      Translated using Weblate (Catalan)
-      Translated using Weblate (Catalan)
-      Translated using Weblate (Catalan)
-      Translated using Weblate (Catalan)
-      Translated using Weblate (Catalan)
-      Translated using Weblate (Catalan)
-
-Ferdinand Galko <galko.ferdinand@gmail.com> (4):
-      Translated using Weblate (Slovak)
-      Translated using Weblate (Slovak)
-      Translated using Weblate (Slovak)
-      Translated using Weblate (Slovak)
-
-Andriy Bandura <andriykopanytsia@gmail.com> (3):
-      Translated using Weblate (Ukrainian)
-      Translated using Weblate (Ukrainian)
-      Translated using Weblate (Ukrainian)
-
-Brian Bidulock <bidulock@openss7.com> (3):
-      Merge pull request #43 from scarabeusiv/icewm-1-3-BRANCH
-      Merge pull request #46 from PetteriAimonen/feature_taskBarWorkspacesTop
-      Merge pull request #45 from williex/icewm-1-3-BRANCH
-
-Freek de Kruijf <freek@opensuse.org> (3):
-      Translated using Weblate (Dutch)
-      Translated using Weblate (Dutch)
-      Translated using Weblate (Dutch)
-
-openSUSE Weblate <weblate-noreply@opensuse.org> (3):
-      Merge remote-tracking branch 'origin/icewm-1-3-BRANCH' into
-        icewm-1-3-BRANCH
-      Merge remote-tracking branch 'origin/icewm-1-3-BRANCH' into
-        icewm-1-3-BRANCH
-      Merge remote-tracking branch 'origin/icewm-1-3-BRANCH' into
-        icewm-1-3-BRANCH
-
-Ondřej Súkup <mimi.vx@gmail.com> (2):
-      Translated using Weblate (Czech)
-      Translated using Weblate (Czech)
-
-Petteri Aimonen <jpa@git.mail.kapsi.fi> (2):
-      Add taskBarWorkspacesTop option.
-      Update _NET_CLIENT_LIST_STACKING when changing windows.
-
-Ronan Chagas <ronisbr@gmail.com> (2):
-      Translated using Weblate (Portuguese (Brazil))
-      Translated using Weblate (Portuguese (Brazil))
-
-Sorokin Alexei <sor.alexei@meowr.ru> (2):
-      Use generic icons in toolbar to avoid gnome-icon-theme requirement
-      Fix fdo search to not hang on large usr
-
-Vojtech Zeisek <Vojtech.Zeisek@opensuse.org> (2):
-      Translated using Weblate (Czech)
-      Translated using Weblate (Czech)
-
-Alex Minton <alex239@gmail.com> (1):
-      Translated using Weblate (Russian)
-
-Code7R <Code7R@users.noreply.github.com> (1):
-      Merge pull request #48 from mrbrainsample/icewm-1-3-BRANCH
-
-Jeff Woods <klaatu@fnordco.com> (1):
-      Change preferences install dir to LIBDIR for cmake
-
-Jonas Svensson <jonas@ekhorva.se> (1):
-      Translated using Weblate (Swedish)
 
 Luiz Fernando Ranghetti <elchevive68@gmail.com> (1):
       Translated using Weblate (Portuguese (Brazil))
 
-Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com> (1):
-      Translated using Weblate (Lithuanian)
+Sarah Kriesch <ada.lovelace@gmx.de> (1):
+      Translated using Weblate (German)
 
-Yasuhiko Kamata <belphegor@belbel.or.jp> (1):
-      Translated using Weblate (Japanese)
-
-jc sl <trcs@gmx.com> (1):
+jcsl <trcs@gmx.com> (1):
       Translated using Weblate (Spanish)
 
-w <w@vm> (1):
-      Enable variable taskbar width
+scootergrisen <scootergrisen@gmail.com> (1):
+      Translated using Weblate (Danish)
 
 
-Release icewm-1.3.11 released 2015-09-18
-----------------------------------------
-
-git shortlog -e -n -w80,6,8 1.3.10...1.3.11
-
-Brian Bidulock <bidulock@openss7.org> (10):
-      Merge pull request #29 from rezso/icewm-1-3-BRANCH
-      Merge pull request #32 from rezso/icewm-1-3-BRANCH
-      attempted fix for issue #31
-      set ActivateJava7FocusHack to 0: close issue #20
-      Merge pull request #34 from rezso/patch-1
-      distribute html docs per issue #33
-      Merge pull request #36 from wshallum/icewm-1-3-BRANCH
-      updates to handle gettext 0.19.5.1
-      updates for release 1.3.11
-      final release updates for 1.3.11 release
-
-Eduard Bloch <blade@debian.org> (6):
-      Enabled automated generation of the preferences file
-      Install pregenerated html files to HTMLDIR via cmake (issue #33)
-      Fix preferences file generation, now as explicite post-build command
-      Default key binding for calculator call
-      Fixed support of wordexp in the env hack with cmake build
-      Using CMAKE_INSTALL_PREFIX variable instead of PREFIX
-
-rezso <rezso@rezso.net> (3):
-      fix themes
-      update hu.po
-      suppress cmake dev warnings
-
-William <william@shallum.net> (1):
-      Fix GetFullWindowProperty for huge icons on 64bit (e.g. Firefox)
-
-
-Release icewm-1.3.10 released 2015-07-02
-----------------------------------------
-
-git shortlog -e -n -w80,6,8 1.3.9...1.3.10
-
-Eduard Bloch <blade@debian.org> (68):
-      Fix format buffer overflow (Debian bug 765965) and other issues
-      Build fix with -Werror and without xrandr support
-      Make linking with -lsupc++ effective (w/o stdlibc++)
-      German translation update and review
-      Basic review of Russian translation (incomplete)
-      Language update, merge with some translations from Debian, manual review
-        of some typical format string mismatches
-      Replaced previous reimplementation of ACOUNT macro
-      Unified setting of EXEEXT through Makefile variable only
-      Fix the check of fribidi_log2vis' result (the code looks like it was
-        intended that way, and clang barfs otherwise)
-      this cannot be NULL unless more ugly (and better traceable) mess appears
-      Avoid potential use of unitialized value
-      Optional use of clang for development, work around unknown pragmas (might
-        need a review later)
-      Minor improvements after code check with clang++
-      Moved yworker.{cc,h} out of the build, apparently not used anymore
-      Found the "better traceable mess" expected in a previous commit. Added
-        proper checks in callers of YPixmap::replicate(...).
-      Stronger control of startup sequence in icewm-session, avoids weird
-        effects (like zombie windows) caused by races around icewm vs. icewmtray
-        vs. "startup" script execution
-      Assign suspend-to-ram action through systemd (if active) which is more
-        likely to be available on modern Linux desktops and makes more sense
-        than killing running WM with the "Sleep" button
-      If Linux and SystemD found, try to use that for default shutdown/reboot
-        actions. WLAN interfaces are also more likely to exist nowadays than PPP
-        links.
-      Little C++14 related fixes
-      clang was right, those members are not used and bring some risk of
-        programming mistakes
-      Experimental mod using signalfd (disabled by default)
-      Ignore some IDE metadata
-      Fix stupid crash of gnome menu when an invalid folder was specified
-      Added alternative XDG menu generator
-      Added submenu separation to fdomenu, no sorting yet
-      Better recursion control
-      Sorting submenues by translateable names
-      l10n update for fdomenu
-      Memory leak fighting, more menu categories (wine, editors)
-      Fixed automatic inclusion into build sequence
-      Use a callback to us and glib launch functionality for complicated
-        commands and terminal requirement
-      Bring in more structure, use GTree to sort and remove dupes
-      Make icewm-menu-fdo the default FDO menu generator
-      Make the name of the terminal program customizable via compiler options
-      Try to use internal launching of commands unless they are too complex
-      Added (restored?) hot keys on OK/Cancel confirmation dialog, adapted
-        translation as far as I could understand them
-      Fixed the gettext extraction of new submenu titles, fixed build without
-        i18n
-      Make CPU info tooltip better understandable
-      Add workarounds for older glib versions
-      Pass 0 not NULL as signalfd flags
-      Little modifications to make the code compilable with weird option
-        settings like no taskbar and not lite
-      icehelpcc: Fix const correctness on char pointers
-      ifdef instead of if on CONFIG_APPLET_CPU_STATUS
-      globit.c: fix some implicite old style C casting
-      globit.c makes use of GNUisms (asprintf, glob_pattern_p), make that code
-        conditional and fix unsafe code
-      Experimental cmake build system
-      Added some user instructions for cmake build system
-      Make build/install of icesound/icehelp conditional (not for LITE), minor
-        compiler warning fixes
-      Restore XINERAMA support with Cmake build system
-      [cmake] Build translations for the default target, not icewm
-      Remove the broken locale switching when retrieving fallback font
-      Move the HTML generation to the global target dependency
-      [cmake] Fix ENABLE_NLS setting
-      [cmake] fix of some installation target locations
-      [cmake] Added forgoten icesh, made po files optional
-      [cmake] Fixed sound subsystem selection
-      [cmake] Cosmetic fixes
-      [cmake] Incorporated new memory monitor enabling
-      [cmake] consistent naming of gmo targets
-      Updated de.po for strings of the new memory display
-      More cmake usage information for integrators
-      Also react to the sleep key found on Compaq keyboards
-      Fix build failure with GCC <= 4.7
-      Smarter detection of systems with battery (auto-enable APM applet on
-        laptops)
-      Save some CPU cycles while reading procfs (jump to begin instead of
-        reopening)
-      Added forgotten CONFIG_SHAPED_DECORATIONS option to cmake BS
-      Experimental feature: add custom environment variables from an extra file
-      Increase interface name lenght limit on Linux
-
-Brian Bidulock <bidulock@openss7.org> (32):
-      Merge pull request #10 from bedna-KU/patch-1
-      fribidi support (gentoo icewm-1.3.9-fribidi.patch)
-      Merge branch 'icewm-1-3-BRANCH' of https://github.com/bbidulock/icewm into
-        icewm-1-3-BRANCH
-      fix bbkeys link in .in file
-      remove unused _icewm_deprecated declaration
-      Merge pull request #11 from scarabeusiv/icewm-1-3-BRANCH
-      error in merge, missing ')'
-      correct pt_BR.po per bug 918 on sourceforge
-      Merge pull request #12 from blueness/HAVE_EXECINFO_H
-      Merge pull request #13 from Code7R/icewm-1-3-BRANCH
-      add support for compiling with libsupc++
-      update po files (corrects new CPU Load format)
-      Merge pull request #14 from Code7R/icewm-1-3-BRANCH
-      do not update dates and version until tarball release
-      removed CXXLD precious variable
-      Merge pull request #16 from Code7R/ftr_centralized_usage_of_exeext
-      Merge pull request #15 from Code7R/icewm-1-3-BRANCH
-      remove yworker.cc also from POTFILES.in
-      add appnames.h to Makefile.am to pass distcheck again
-      update po files for recent changes
-      Merge pull request #17 from celeron55/pref_arrange_on_resolution_change
-      Merge pull request #18 from Code7R/ftr_make_icewm-menu-fdo_default
-      Merge pull request #19 from mrbrainsample/icewm-1-3-BRANCH
-      Merge pull request #22 from mmogilvi/icewm-1-3-BRANCH
-      Merge pull request #21 from Code7R/ftr_cmake_rebased
-      Merge pull request #27 from Code7R/ftr_icewm_env_hack
-      added missing ignore file
-      add cmake files to distribution
-      update release files and tag for release
-      always use backing store
-      update release files and retag
-      update NEWS file for release
-
-Tomáš Chvátal <tomas.chvatal@gmail.com> (6):
-      We always want the translation to be multibyte
-      Allow config override to fix icewm --config=file
-      Fix counter crash on popmenu.
-      Fix unaligned access.
-      Fix winoptions behaviour
-      default to the solid color background when the given default background
-        pixmap can't be loaded
-
-Matthew Ogilvie <mmogilvi_ice@miniinfo.net> (2):
-      Add memory status monitor applet.
-      enable new memory applet by default
-
-Anthony G. Basile <blueness@gentoo.org> (1):
-      configure.ac: check for <execinfo.h>
-
-Axel Dirla <axel.dirla@arcor.de> (1):
-      Tab-Completion for "internal taskbar command line"
-
-Jeff Woods <klaatu@fnordco.com> (1):
-      Fix icewm-menu-fdo to build without NLS
-
-Mario <kdesi@kdesi.sk> (1):
-      Incorrect link on bbkeys
-
-Perttu Ahola <celeron55@gmail.com> (1):
-      Add preference to allow disabling pre-existing sometimes unwanted
-        behavior: ArrangeWindowsOnScreenSizeChange: Automatically arrange
-        windows when screen size changes
-
-
-Release icewm-1.3.9 released 2014-09-01
+Release icewm-1.6.0 released 2019-08-18
 ---------------------------------------
 
-git shortlog -e -n -w80,6,8 icewm_1_3_8...1.3.9
+git shortlog -e -n -w80,6,8 1.5.5...1.6.0
 
-captnmark <> (1078):
-      initial import of 1.0.0
-      removed generated files
-      import of version 1.0.1
-      import of icewm-1.0.2
-      removed RCS Id
-      import of icewm-1.0.3
-      import of icewm-1.0.4
-      indentation fixes simplified workspaceStatus logic
-      fix quickSwitchToMinimized when MinimizeToDesktop=1 (probably still needs
-        cleanup)
-      workaround for MinimizeToDesktop=1
-      limitPosition should actually work
-      minor fix
-      minor fix
-      need to include config.h ;)
-      Catalan translation contributed by "Toni Cunyat"<ancua@alumni.uv.es>
-      find the icons in icons/ not cursors/
-      improved win95 key support (support detection of Super vs Meta)
-      trace current mouse item when autoscrolling
-      menu tuning
-      don't crash on window close during move (hopefully)
-      attempt to fix globally active input mode (input=False takeFocus=true)
-      don't center maximized windows by default!
-      fix scrollbar arrow color issue
-      fix for "double" Logout
-      gcc3 stuff
-      len=0->len=1 for new[]
-      fix potential double free
-      misc compile fixes
-      compile fix
-      fix compile errors, just made it compile
-      win95keys now uses XK_Super_L,R, instead of XK_Meta_L,R
-      fix lowerOnClickWhenRaised pref  - bug reported by
-        stibor@vertigo.fme.vutbr.cz (Miroslav Stibor)
-      fix bug 508588: crash with java apps with many windows caused by icon
-        double free
-      fix bug 473553: reset ppp stats for each reconnect
-      fix bug 411084 focus handling cleanup still some problems though
-      fixed bug 480554, fMove/fResize was ignored in winoptions file
-      list of some deprecated options
-      fix bug 228981. cleanups in handling of gravity (more to be done)
-      hopefully fix bug 480804
-      spelling fixes
-      fix bug: 485013 - menu broken when drag on start button
-      fix bug: 520788 freeze with 32 bit deep display fix tested on xfree86 -
-        win32
-      warning fix
-      O_TEXT/O_BINARY was defined way too soon
-      basename compile fix
-      fix bug [ 482130 ] winoptions.geometry work baldy
-      bug [ 418718 ] some themes max. windows over tskbar change:
-        TaskBarKeepBelow=0 now
-      galeon was moving down the screen when switching back from fullscreen
-      DESTDIR patch
-      fixed bug 440789 focus cleanups
-      overflow fix by Eduard Bloch <blade@debian.org>
-      winoptions geometry documentation (by Jasper Spaans
-        <jasper@spaans.ds9a.nl>) .geometry fix
-      tooltips should not go away by default
-      use full screen on maximize
-      fix meta modifier handling when no win95 keys
-      hack...
-      disable window list menu on left desktop button by default
-      deprecate some more
-      taskbar layout change
-      oops. what was I thinking
-      alignment fix
-      reset maximized state on configure request of different size
-      hungarian translation update by Gabor Suveg <gsuveg at sgsystem.com>
-        swedish translation by Per Larsson <tucker@algonet.se>
-      minor improvements in menu positioning
-      remove tabs
-      remove tabs
-      added huge->large icon fallbacks
-      cleanups, improve portability
-      compile error fix
-      fix mwm decoration hints
-      fix auto hide taskbar
-      change AutoDetectGnome to 1
-      static gravity fix
-      FD_CLOEXEC
-      fix bug 552334 - problems with mouse focus/sloppy
-      close on exec debugging code
-      add dummy depend back
-      layer invariants for dialogs added
-      compile on freebsd (tnx to Robert Klein)
-      fix "failed to copy drawable"
-      change default theme
-      release build work
-      more release stuff
-      almost release
-      .
-      rel
-      noarch
-      fix memleak hopefully fixes bug 528919
-      copyright updates
-      .
-      copyright
-      .
-      .........
-      fix taskbarDoubleHeight bug 558580
-      doNotCover removed bug 557715 - cannot reproduce
-      ESD compile fix for --enable-guievents
-      try to fix bug [ 557356 ] window snaps to mouse and follows
-      .
-      .
-      .
-      attempt to fix esd bug 557720
-      hopefully fix with unclosed file descriptor (bug 561846)
-      fix bug found by valgrind
-      fix missing initializer found by valgrind
-      fix missing initializer found by valgrind
-      memory leak fix
-      remove debug print
-      remove warning
-      fix mem leak
-      remove debug msg add --version option
-      fix compile problem with certain CONFIG options
-      fix compile problem (?)
-      undeprecate MinimizeToDesktop
-      changes for icewm-1.2.0pre3
-      pre3
-      merge icewm-1.2-BRANCH
-      merge icewm-1.2-BRANCH
-      merge
-      renamed of --with-gnome-menus
-      fix focus on addressbar cancel
-      taskbar layout fixes
-      fix doNotCover spelling
-      cleanups in keybind system
-      fix Super+key binding handling and other Win key cleanups
-      force idle every 100ms when busy
-      fix CenterMaximizedWindows
-      1.2.8pre2
-      update release script for branch change
-      fix win95keys and workspace initialization
-      .
-      Italian translation update (yuri@sociol.unimi.it)
-      reduce the window for alt+tab getting stuck (possibly to 0)
-      change mnemonic for Toolbar
-      mnemonic tweaks - Hanspeter Roth (gicco)
-      reorder changes add mnemonics to zh_TW.Big5.po (Benchark Chen
-        <benshark@os.nctu.edu.tw>)
-      fix problem with Tk and sendConfigure
-      error when msgfmt not found
-      taskbar layout tweaks
-      fix layout of toolbar separators
-      fix underlining of last character
-      make it focused if not focused (probably needs more checks for
-        "focusable")
-      don't install lib/programs (it's empty)
-      fix alt+tab reordering the focus history
-      make clock event counting --enable-debug
-      fix problems with command line argument confusion between long and short
-        options
-      debug code optional
-      remove debug code
-      debug cleanup
-      debug cleanup, misc exit cleanup
-      external systray mostly works, resizing (>1 icon) needs to be fixed
-      don't focus "sticky" windows on workspace switch
-      improved focus fix (minor cleanups needed)
-      improved focus fix (for 1.2.8)
-      fix for some sed problems (?)
-      fix warning
-      systray resizing implementation
-      1.2.8pre3
-      icewmtray program implementation
-      build fix
-      release script fix
-      build fix
-      fix build for icc (intel C++)
-      update .cvsignore
-      fix check on currently active (from preferences) theme
-      themes menu loading now lazy
-      fix focus order on restart (as much as possible)
-      debug cleanups
-      add enableAddressBar option
-      fix build
-      1.2.8
-      fix problem with accented characters (hopefully)
-      fix aspect ratio for maximized window
-      cleanup the code, some debug added
-      gcc 3.3 build fixes
-      some fixes in latest CVS
-      netwm focus notification (missing... oops)
-      add focusRequestFlashTime option
-      configure gcc3.3 fix
-      apply gnome2 menu patch
-      fix crash with a single workspace
-      remove fix (fCount-- twice)
-      update for invalid indexes
-      tray/taskbar layout fixes
-      add escaping of wm class_instance (\)
-      debug output
-      Polish translation update (A.Lipiec@elka.pw.edu.pl)
-      removed obsolete FAQ
-      run 'restart' not 'startup' script on theme restart
-      remove border decoration from taskbar
-      reset menu timer on popdown
-      update of window role documentation (Jo Valentine-Cooper)
-      .
-      fix possible compile problem on Sun
-      fix crash on pressing the wrong key
-      updated bugs to link to sourceforge
-      merge bugs and todo for now, this will go away
-      minor update (added icewmtray to sample Xclients)
-      update Makefile for obsolete docs files
-      spec file updates (--with gnome_menus --with debug)
-      --with debug fixed
-      1.2.9
-      1.2.9
-      .
-      automake cache prune
-      fix --with menus_gnome2
-      ...
-      .
-      .
-      make core X fonts optional
-      fix gnome2 menu
-      gnome 2 menu fixes
-      more gnome2 menu stuff
-      fix some taskbar auto hide issues
-      fix build of tests
-      font file cleanups
-      .
-      fix missing return
-      fix focusing problem with gtk2
-      more focusing tweaks (hopefully don't hurt anything)
-      refactoring of config file handling
-      1.2.10pre1
-      translation fix/update by Pawel Warowny (warpek)
-      .
-      simplify the tray icon window menu option
-      revert focus change
-      finnish translation update
-      fix crash on logout
-      fix possible crash on hotkey when menu has not selected item
-      usage fix by Robert Klein
-      theme handling cleanup #1 - loading order
-      1.2.10pre2
-      icon handling cleanup, implement support for depth=1 icons
-      fix build with some compilers
-      *BSD apm device fix by Julio Merino Vidal (jmmv)
-      icewm.pot update
-      fix 1bit icons for pixbuf
-      code style cleanup
-      implement double buffering, for ypixbuf bug fix
-      add todo's for double buffering
-      .
-      comment -> warning
-      more debugging MSG and hack cleanup
-      more painting cleanups and speedups
-      debug msg removal
-      warning cleanup
-      proper focus fix (needs testing)
-      1.2.10pre3
-      ru.po update by Anton B. Farygin <rider@altlinux.com>
-      2xtaskbar tray position fix by Anton B. Farygin <rider@altlinux.com>
-      fix some compile problems
-      fix compile warnings
-      fix compile with --enable-movesize-fx (there still seems to be breakage)
-      fix compile with --enable-lite
-      more fixes for --enable-lite
-      fix problem with --enable-shaped-decorations and fullscren windows
-        (mplayer for example)
-      Italian translation update by yuri@sociol.unimi.it
-      check for font=null
-      add the fallback font for xft
-      fix focus on workspace switches
-      more font fallback cleanup (more still needed)
-      1.2.10pre4
-      fix
-      .
-      fix tray icon menu item
-      fix tray icon menu item checkbox
-      rename "Delete" key to "Del"
-      Dutch translation update by Reinout van Schouwen (reinouts)
-      .
-      fix compile of Xft1
-      pot file updated
-      allow non-rectangular icons too
-      add back the taskbar top/bottom border
-      1.2.10pre5
-      rh9
-      fix theme local font path with Xft
-      .
-      build fix
-      another build fix for --enable-corefonts
-      enforce font renderer selection in configure
-      restrict maximized apps from moving offscreen
-      don't always show taskbar logout submenu
-      fix bad #ifdef  syntax
-      enable corefonts when xfreetype 1
-      1.2.10pre6
-      fix shaped windows when --enabe-shaped-decorations
-      add icewmbg prefs to default prefs file
-      update the description of icewmbg prefs in the preferences file
-      1.2.10pre7
-      fix tray off by one
-      fix for antialiased icons on PPC
-      1.2.10pre8
-      include fix
-      fix horizontal rotation of icons
-      disable fallback warning for now
-      translation msg added + pot file update
-      double buffering speedup
-      #warning removal
-      italian translation update
-      build fixes
-      --disable-i18n build fix
-      debug hook
-      debug added
-      focus debug
-      just in case
-      debug
-      focus debug
-      gtk2 focus bug fix, now for real
-      support semitransparency bug fix
-      .
-      1.2.10pre10
-      build fix for --enable-movesize-fx
-      persist theme selections and restart icewmbg automatically
-      implement backward compatibility for Theme= in preferences fix startup
-        crash in some cases
-      sizing cleanups in apm applet
-      updated last translator (gsuveg)
-      Infadel2 theme cleanups (gicco)
-      1.2.10pre11
-      taskbar xinerama positioning fix
-      1 = exclusive fix
-      added notes about the theme file
-      add a menu item for default theme
-      1.2.10
-      added forcedClose window option (gicco)
-      fix ppp average
-      fix spelling of WORKAREA hint
-      fix spelling of --client-id (YAMAMOTO, Taku <taku@cent.saitama-u.ac.jp>)
-      .
-      cleanup tabs
-      fix random restart failures
-      .
-      fix i18n for themes.cc
-      fix codeset handling on FreeBSD (agaponrmthis@optonline.net)
-      Czech translation update Bulgarian translation (pavel@unix-bg.org)
-      use relative theme names for selecting themes
-      fix exposed icons when antialiasing enabled
-      fix debug
-      1.2.11
-      _NET_WORKAREA w,h fix
-      fix compile with --disable-taskbar
-      .
-      fix build with ---disable-shape
-      fix possible compile problem on Solaris
-      fix build on Yoper
-      fix opaqueMove disabling status
-      .
-      only re-start icewmbg if it's running
-      more icewmbg cleanups
-      restore old preferences behavior
-      workspaces on left/right
-      1.2.12
-      fix theme file permissions
-      fix drawing of checkboxes in menus
-      fix curruption in network status
-      fix memory leak in icewmbg (for now)
-      oops, add missing parameter
-      link with -lintl when gettext stuff found in it
-      initial xinerama menu popup cleanup
-      more xinerama menu fixes
-      .
-      italian translation update by Yuri (deslar)
-      .
-      raise "last" focused window
-      xinerama cleanup
-      double buffer option
-      initial icewm-session
-      icewm-session
-      lock focus when activating workspace
-      reduce cpu load, hopefully
-      .
-      1.2.13pre1
-      initial code for kde tray support
-      fix kde tray support
-      fix bg not set when icewmbg started before icewm
-      fix crash when run under gnome/xfce
-      fix kde tray thing on restart
-      fix activateWorkspace takeCurrent
-      1.2.13pre2
-      funky char changed
-      fix crash
-      .
-      add code for scaling with imlib
-      don't reboot by mistake when trying to log out
-      showDesktop
-      cleanup of show desktop
-      reap all children
-      fix defunct icewmbg processes on restart
-      .
-      quote theme name
-      .
-      make tray atoms per screen (as in spec)
-      make icewmbg run on nice
-      remove xftdummy
-      add lock/reboot/shutdown to menu (gicco)
-      sort themes by name
-      .
-      .
-      warning
-      add missing include
-      don't use tray if not started with kde tray protocol
-      fix crash
-      1.2.13
-      fix --enable-lite build
-      warning added
-      enable alt+tab with LITE
-      initial XRANDR support
-      avoid setting focus to root window
-      translation cleanup
-      obsolete code #if 0
-      restrict the set of themable prefs
-      fix shutdown in the logout menu (gicco)
-      fix compile problem on cygwin
-      fix description of desktop button preferences
-      fix crash on startup when TaskBarShowWindowListMenu Alexander Portnoy
-        (alexpor)
-      .
-      icesound fixes
-      xrandr tweak
-      updated
-      show desktop shouldn't ignore windows on all workspaces
-      client area focusing tweak
-      nested themes menu patch - Eduard Bloch (edi@gmx.de)
-      debug cleanup
-      support titlebar rollover buttons (r.costello@auckland.ac.nz)
-      add rollover titlebar buttons
-      taskbar black line/pixel and systray background color cleanup
-      fixes to cpu and net status - Miroslav Stibor (smsti@ashtray.jz.gts.cz)
-      oops, forgot to reverse the option default
-      fixes to icewm-session (event loop handling)
-      fix some warnings
-      ctrl + alt + numpad moves window (lebert@sf)
-      1.2.14pre1
-      compile fixes from Miroslav Stibor (smsti)
-      fix crash when color not set for some reason
-      add missing taskbar color initialize
-      .
-      explicit termination in icewm-session
-      allow layer, ... override when netwm hints in effect
-      allow focusability if WM_TAKE_FOCUS
-      workaround for xv
-      fix size reporting with outline resize
-      the right fix for move size status in opaque resize
-      ascii stuff
-      binascii, ascii, clenaups
-      numpad handling fix for input field
-      fix lists in preferences (make them reset the option)
-      build fixes
-      prototypes fix
-      some work done on configurable icon sizes
-      clean up some obsolete code
-      split X stuff yapp to yxapp
-      build fixes for reduced options (--lite)
-      more build fixes
-      more build fixes
-      1.2.14pre2
-      rename
-      fix menu arrows
-      don't skip focus on "all workpaces" windows
-      menu arrow fix
-      .
-      build fix
-      build fix
-      fix build
-      executable extensions fixed (debian)
-      fix menu mnemonics for theme submenus
-      doc fixes from debian
-      .
-      cleanups
-      1.2.14pre3
-      remote bloat
-      remove bloat
-      obsolete wm-session
-      obsolete code removal
-      header cleanups
-      remove obsolete code
-      .
-      fix net monitor for linux 2.0
-      fix problem with emacs (focus first, then replay event)
-      .
-      .
-      Xft font configuration
-      enable shaped decorations by default
-      test fixes
-      fill blank space on "non-1-increment" fullscreen windows
-      1.2.14pre4
-      greek translation by (Nick Apostolakis  mail:nickapos @ agriroot.aua.gr)
-      update by pavel@unix-bg.org
-      merge code
-      remove bad include
-      remove include <strings.h>
-      no xrandr build fix on solaris
-      --with-xpm build fix
-      solaris 9
-      more locale fixes
-      more xapp fixes
-      hopefully this fixes bug 837302, grab/replay the Super key/activate menu
-      debug output --
-      build with when not DEBUG
-      FreeBSD build fix
-      old Xrandr build fix (not tested)
-      .
-      *bsd cpu status (Hanspeter Roth (gicco))
-      italian translation update (Yuri (deslar))
-      smaller menu font
-      handle termination cleanly
-      .
-      merge latest code
-      more of app->xapp
-      fix xft fallback font
-      fix "lost focus on maximize" in mouse-focus mode (may cause keybinding
-        problems)
-      make it work (YXApplication must be used)
-      fix super+key issue again (action duplication)
-      remove line length limits for preferences files
-      1.2.14pre6
-      Xrandr needs Xrender
-      fix SIGCHLD reaping
-      add make check target (no real tests yet)
-      initial mapping code cleanup
-      1.2.14pre7
-      xft font for infadel2
-      for pre8
-      add note about FontNameXft settings
-      icon code refactoring
-      renamed
-      show desktop button image support
-      show desktop icon
-      make icewm-session run icesm first
-      don't allow to minimize all non-minimizable windows
-      update icehelp with some key/mouse bindings
-      fix icon override in winoptions
-      keep theme history in ~/.icewm/theme
-      .
-      compile fix for --enable-antialiasing (Eduard Bloch edi@gmx.de)
-      1.2.14pre8
-      improve maximized window position handling on workspace switches
-      1.2.14pre9
-      fix build with --enable-lite
-      oops
-      bug 882109 -  getloadavg for FreeBSD 5.2 with gcc 3.3 - Hanspeter Roth
-        (gicco)
-      fix crash when translation too long
-      improve tray transparency support
-      paint taskbar tray background correctly (Christophe Bude - cbke)
-      made ShowMenuButtonIcon themable again
-      KeyWinMaximizeHoriz binding
-      fallback to default font
-      use proper iso units - Eduard Bloch
-      .
-      pixmap and font refcounting scaled menu pixmap support
-      fix the build with --enable-gradients
-      italian translation update
-      Finnish translation update
-      Turkish translation
-      logout crash fixes (for now)
-      1.2.14pre10
-      fix null_ref for gcc 2.9x
-      merge done
-      add missing line
-      cleanup some globals
-      fix crash due to null color
-      fix xpm+pixbuf compile problems
-      fix startup crash
-      cleanups in grabbed "win" key handling
-      comment out debugs
-      1.2.14pre11
-      icon loading fixes and cleanups
-      more icon cleanups and build fixes
-      disable double buffering for some windows
-      more icon/pixbuf cleanup
-      only do mouse focus if the mouse moves (unless strong pointer focus)
-      .
-      some solaris fixes by Damjan Perenic
-      1.2.14pre12
-      fix the crash
-      doesn't really need X right now
-      fix spelling
-      icon scaling fix
-      toggle fullscreen focus tweak
-      scaled icon base choice fix
-      more focusing fixes
-      kernel 2.6 iowait support (Hanspeter Roth - gicco)
-      improve netwm hint support (state: below, above, fullscreen), dock window
-        type
-      fix doesn't belong here, too strong
-      fix delayed mouse focus on rapid keyboard desktop switches (bug 859581)
-      1.2.14pre13
-      fix problems restoring state on restart
-      Solaris fixes to configure.in (damjan.perenic@guest.arnes.si)
-      implement NetWM Modal state
-      .
-      include themable preferences in ~/.icewm/preferences template
-      fix cpu load order (Hanspeter Roth)
-      handle ignoreNoFocusHint in all places
-      aix portability fixes
-      fix maximization covers taskbar problem
-      fix net_wm_desktop sticky handling
-      1.2.14pre14
-      fix citrix winframe window moveto->0,0
-      new "motif" like theme contributed (Andreas Leitgeb (avl42))
-      Andreas Leitgeb (avl42)
-      config search path cleanup
-      font size fix (fallback fonts should be the same size)
-      make fallback fonts even smaller
-      fix handling of xft clipping and general Xft/Xrender cleanup
-      corefonts build fix
-      1.2.14pre15
-      fix the --disable-i18n case
-      fix typo
-      disable netwm modal (broken with gvim?)
-      make meun file parsing behave more like shell
-      make all taskbar buttons use the same class (ObjectButton -> should rename
-        to TaskBarButton)
-      some cleanup around input focus hint handling
-      Czech and Italian translation update
-      remove extra 'template'
-      warning fixes
-      make constants global, for now
-      .
-      limit some huge sizes
-      .
-      alt+tab tweak
-      po update
-      .
-      fix isdn online status (needs testing)
-      fix focusing new+maximized windows (bug 972959)
-      fix some alt+tab pref combinations
-      some more gcc 3.4 fixes
-      1.2.15pre1
-      for now, remove use of gcc for linking to slightly increase portability at
-        cost of some bloat
-      portability fix
-      more build fixes
-      Slovak translation (Radovan Stas - radoone@szm.sk)
-      autoconf 2.59 fixes
-      fix problem with minimized windows coming first
-      fix gnome2.6 panel to raise on activate
-      fix initial mapping geometry setting when window not in normal state
-      fix xchat/... transparency support
-      .
-      netbsd support (Iain Hibbert)
-      possible fix for xorg weirdass modifier setup
-      1.2.15pre2
-      icesound gcc 2.95.3 build fix ( Thomas Zajic - zlatk0)
-      net status support for OpenBSD (Hanspeter Roth)
-      FreeBSD basename build fix (Hanspeter Roth - gicco)
-      warning fix
-      fix basename stuff
-      tray fixes
-      fullscreen layer disable during new window (clean up)
-      cleanup, don't check ac_ if not found
-      battery status to use design capacity (gicco)
-      track motion even when just click
-      1.2.15pre3
-      fix crash in ACPI when ac modules not loaded
-      more tray icon sizing cleanups
-      fix win/key menu lockup
-      double buffering fixes
-      menu painting fixes
-      fix some menu breakage
-      some documentation updates
-      french translation update (LiNuCe - massilia98)
-      menuprogreload keyword added (Konstantin Korikov - lostclus)
-      APM support for FreeBSD (Hanspeter Roth - gicco)
-      Finnish translation update
-      make window list larger
-      smart snap window positioning C+A+S+numpad (Bert Wesarg - lebert)
-      key super+D to show desktop
-      fix lockup for ShowDesktop too
-      1.2.15pre4
-      fix valgrind delete vs delete[] warnings
-      nls support for icesh
-      1.2.15
-      fix mplayer fullscreen issue
-      mplayer fullscreen aspect fix
-      just use our own basename
-      revert change for aapm capacity (Eduard Bloch - thefirstone)
-      oops
-      fix numlock handling in input
-      Polish translation update (bart-rpm@silesianet.pl)
-      battery status fix for when full > design (gicco)
-      1.2.16
-      add note about backslashes in winoptions (linuce)
-      \ quoting fix for config files (Eduard Bloch - thefirstone)
-      fix win keys with numlock enabled
-      more weird modifier map fixes
-      add icewm run to make check
-      Slovenian translation update (jkovacic@email.si)
-      add button to collapse the taskbar
-      build fix ?
-      show "tray icon" only when tray visible
-      rewrite the taskbar layout
-      a few more taskbar layout tweaks
-      document restart command
-      fix fallback xft font
-      use default visual id for imlib (fix xorg visual mess)
-      .
-      more taskbar layout fixes
-      vertical alt+tab layout
-      build fix
-      show net/mail indicators by default
-      typo fix
-      execlp 64-bit fix
-      more fullscreen layer tweaks
-      1.2.17pre1
-      fix startup crash and build with gcc 3.4
-      fix gray line at the bottom of the taskbar
-      rewrite window layout/geometry code
-      ignore configure requests in fullscreen mode
-      warning cleanups
-      obsolete code removal
-      more obsolete code removal
-      obsolete code removal
-      fix "Tray icon"
-      fix resetting the net properties set/updated by wm
-      fix resizing of maximized windows on workarea changes
-      fix --disable-taskbar
-      fix maximize/restore for rxvt
-      fix reboot/shutdown
-      add some test code
-      detabbing
-      1.2.17
-      set SupportsSemitranspacency to false by default
-      Meta handling typo
-      enable gcc link again instead of g++
-      typo fix
-      fix busy loops in icewm-session and icewm-tray
-      fix resize indicator pointers when window started as iconic
-      don't reverse window z-order on show desktop
-      add header dependency
-      reduce dependencies
-      fix typo
-      fix some win+num keys
-      isUp implementation for FreeBSD (by Ronald Klop)
-      configurable window move/resize binding
-      1.2.18pre1
-      set mini icon move
-      icedesert tweak
-      1.2.18
-      fix the crash on statup when taskbar disabled
-      force size of tray applets (needs to be made configurable)
-      fix build when taskbar disabled
-      revert for g++ build problems again
-      fix build on old X
-      .
-      fix mouse win move/size binding
-      fix taskbar top border
-      .
-      1.2.20
-      revert config change
-      .
-      fix binding for mouse drag move/size
-      typo fix
-      improve selection of urgent windows with alt+tab
-      warning fix
-      fix possible crash (Grant McDorman - grmcdorman)
-      fix 64bit usage of Xft (Marcus Meissner - marcusmeissner)
-      cleanup warning on still-open file descriptors
-      .
-      portability: remove #warning
-      disable some wmDialog buttons
-      warning fixes
-      warning fix
-      gcc 4 code cleanups
-      NULL fixes for gcc 4
-      .
-      fix layer setting for nautilus
-      1.2.21pre1
-      .
-      Vietnamese translation (teppi82@gmail.com - Phan Vinh Thinh)
-      Simplified Chinese translation update (Hiweed Leng)
-      Indonesian translation (Arif E. Nugroho - arif_endro@yahoo.com)
-      * Sun Mar 06 2005 Jiri Slaby <jirislaby@gmail.com> 1.2.20 - Repaired uid
-        in packages (themes, il2 and gnomefiles)
-      APM applet support for NetBSD (Iain Hibbert (plunky))
-      attempt to fix bug #1193674
-      implement winoption noFocusOnMap
-      fix ClientWindowMouseActions option
-      more debug output
-      fix race condition with fast map/unmap
-      more unmap fixes
-      French translation update (frederic.bothamy@free.fr)
-      1.2.21pre2
-      .
-      1.2.21
-      warning / build fix
-      typo fix
-      Update by Jens Seidel (jensseidel@users.sf.net) - debian
-      Latvian translation by Kristaps Kaupe <kristaps.kaupe@inbox.lv>
-      double click to activate workspace
-      close window list on workspace activate
-      fix taskbar layout when only tasks visible
-      make network status applets show/hide dynamically again
-      fix improper parameters (ParanoidAndroid - paranoid23)
-      add themable image to taskbar collapse button
-      fix minimizeToDesktop windows getting out of work area
-      add key to collapse the taskbar
-      some painting fixes (pixbuf) / optimizations for window list
-      remove debug code
-      fix UTF-8 (and multibyte) input support
-      better description for APM/ACPI status
-      1.2.22pre1
-      remember last focused window per-workspace
-      valgrind warning fixes
-      valgrind warning fixes
-      fix crash on window closing
-      fix build with --disable-taskbar
-      fix global init
-      enable lock command only if found on PATH (Eduard Bloch - thefirstone)
-      optimize menu painting
-      Korean translation (Ken Yeo <suyyeo@yahoo.com>)
-      make minimal taskbar size depend on smallIconSize
-      1.2.22pre2
-      fix build on Solaris
-      fix case of UTF-8
-      portability fix
-      remove debug msgs
-      fix focus for minimize
-      remove/cleanup obsolete code
-      1.2.22pre3
-      more focus fixes/tweaks
-      task bar auto hide tweaks (AutoShowDelay, don't pop-out on workspace
-        change)
-      remove unused file
-      remove obsolete code
-      1.2.22
-      fix KeySysCollapseTaskBar crash when Collapse button disabled
-      fix KeySysCollapseTaskBar crash when Collapse button disabled
-      fix drag over the taskbar
-      cleanups, make resizing of maximized windows when work area changes work
-        again
-      fix logging of UnmapEvent
-      cleanup / split large method
-      cleanup, get rid of wfUnmapped
-      major cleanups in UnmapNotify event handling
-      debug msg in reparent
-      make taskbar collapse key configurable
-      report better error when X libs not installed
-      Make mini-icons placement configurable - Konstantin Korikov - lostclus
-      1.2.23pre1
-      make taskbar pop out when collapsed (collapse, auto hide needs some
-        unification)
-      Slovak translation update (Zdenko Podobny - zdpo@mailbox.sk)
-      check for existence of lock/reboot/shutdown commands before adding menu
-        items
-      1.2.23
-      fix typo
-      fix copyright date
-      fix select argument
-      fix horizontal maximization
-      restored Dutch translation from TonK@Wanadoo.nl
-      zh_TW translation from chaoweilun@pcmail.com.tw
-      fix taskBarKeepBelow preference
-      test code for winoptions
-      Solaris portability fix
-      lite build fix
-      implement --replace option
-      fix shaped decorations on Solaris (Bernhard R. Link brlink@debian.org)
-      1.2.24pre1
-      man page added (by Adam Pribyl)
-      fixes for --replace
-      up the mailbox limit to 6
-      minor fixes to mailbox check connect state
-      rename no.po to nb.po (Pavel Nemec - pnemec@suse.cz)
-      whitespace fix
-      gcc 4.1 build fixes (hanno boeck (ctulhu))
-      fix gcc strict aliasign errors (Pavel Nemec - pnemec@suse.cz)
-      cosmetics (Thomas Holder (speleo3))
-      fix scroll wheel behavior (Thomas Holder (speleo3))
-      update change log
-      1.2.24
-      fix event filtering
-      revert some broken code
-      fix movesize status format (Bert Wesarg - lebert)
-      use pkg-config xft if xft-config missing (altblue)
-      portability fix (Sun Forte C++) Grant McDorman - grmcdorman
-      icewmtray crash fixes
-      1.2.25pre1
-      fix handling of screens > 0
-      fix problem with taskbar layers
-      better fix
-      revert to previous code
-      1.2.25
-      fix cast on gcc 4.1
-      odn't click-focus WINDOW_TYPE_DOCK windows
-      fix [ ] bindings (by Sergey Svishchev svs@ropnet.ru)
-      iconic fix
-      minimizeToDesktop fix (unminimize restores at wrong position)
-      fix icesh workspace switching (Thomas Holder - speleo3)
-      Polish translation fix (Pawel Chwalowski (chwalek@poczta.onet.pl))
-      ignore tab key in any case
-      fix focus after closing fullscreen window
-      add option to show transient windows in the taskbar, default=1 for 1.2,
-        will be 0 for 1.3
-      range check in drawUnderline
-      allow user key bindings (keys file) to override the WM key bindings
-      1.2.26
-      fix multibyte underlining (not 100% correct, but will do for now)
-      Danish translation (Ole Carlsen)
-      build fix
-      window activation fixes
-      do not be too clever with WM_ICON_SIZE (workaround for java breakage)
-      added Look=flat
-      TaskbarButtonWidthDivisor
-      minor workspace switching optimization - Ramunas Lukosevicius
-        <lukoramu@parok.lt>
-      add new FSF address to COPYING
-      translations added/updated (Macedonian, Vietnamese)
-      warning fix
-      some documentation updates
-      simplify suggestion on how to start icewm-session
-      gradient separator fix
-      1.2.27
-      improve ctrl+alt+space doc
-      taskbar/start.xpm cleanup
-      start,xpm cleanup
-      fix ShowDesktop focus/zorder handling
-      more Java workarounds
-      fix start menu keyboard malfunction due to autoscrolling
-      mouse focus fixes: prevent focusing taskbar only switch focus when mouse
-        pointer actually moves
-      fix doNotFocus
-      ShowEllipsis option (lysanderslair)
-      use locale string in icewm-menu-gnome2 (Manuel Carrasco - manuel_carrasco)
-      search for .png icons (manuel_carrasco)
-      change mouse cursor during taskbar drag (manuel_carrasco)
-      implement _NET_WM_STATE_SKIP_TASKBAR
-      icewmtray background/layout cleanups (manuel_carrasco)
-      frame button skinability fixes (manuel_carrasco)
-      configurable window menu - WinMenuItems (manuel_carrasco)
-      restackWindows cleanup 1
-      xatoms: USER_TIME, NEEDS_ATTENTION
-      crop image to avoid black regions (Hanspeter Roth - gicco)
-      obsolete some icon overrides
-      warning fix
-      focus restructoring
-      fix crash with internal windows
-      fix transient z-order
-      multiple transient window focusing
-      keep transients on same workspace as owner, fix taskbar urgency for them
-      use all windows for smart placement, not just the below ones
-      fix the taskbar 'avoid-focus' again for mouse-focus mode
-      use mouse focus avoidance idea from ahwm
-      1.2.28pre1
-      fix the smart placement (top window ignored)
-      documentation updates
-      warning fix
-      shut up gcc strict aliasing
-      1.2.28pre2
-      fix z-order/layers crash
-      don't request focus if window forced to another workspace during mapping
-      Spanish translation update - Eulogio Serradilla <eulogio.sr@terra.es>
-      properly set _WIN_LAYER property (show active layer, not requested layer)
-      1.2.28
-      fix relayout on screen rotate
-      reduce slowdown when drawing in GIMP due to repeated window title update
-      lite build fixes (from debian - Eduard Bloch <edi@gmx.de>)
-      add fallbacks for taskbar start image (fix themability)
-      fix crash with qt4 apps
-      German translation fixes (from debian)
-      altgr_binding_support by Jörg Sommer <joerg@alea.gnuu.de>
-      Apple PMU support by Jörg Sommer <joerg@alea.gnuu.de>
-      1.2.29pre1
-      typo fix in yellowmotif theme description (Andreas Leitgeb - avl42)
-      Spanish translation updated (Eulogio Serradilla <eulogio.sr@wanadoo.es>)
-      1.2.29
-      focus after minimizing/restoring all windows
-      don't fail make check when I18N disabled
-      allow raising new windows without focusing
-      focus after 'show desktop'
-      refactoring (setDefault for saving theme configuration)
-      settings / focus menu
-      fix startMinimized
-      mapInactiveOnTop option
-      RequestFocusOnAppRaise + CHANGES cleanup
-      remove .pox files from source control
-      updated icewm.pot
-      update .po files with new messages
-      debloat the .po files
-      add 'stats' and 'update' targets to po/Makefile
-      1.2.30pre1
-      battery status cleanups + configurable polling period
-      1.2.30
-      remove obsolete code
-      core updates: 	- latency tracing 	- worker process handling
-        - reference counting 	- io event loop cleanup
-      prepare for 1.3.0
-      default configure arguments removed
-      use all NET_WM_ICONs
-      display mem/temp/freq information in the cpu applet (evdovin)
-      Warp mouse pointer on workspace switch (owenjm)
-      configurable cpu status applet fields (+ TZ added + cleanup + merged to
-        1.3)
-      window preview for workspaces in taskbar (Thomas Holder - speleo3)
-      fix image interpolation (use bilinear)
-      fix crash in cursor code (which is broken)
-      focus on when clicking client window even with mouse focus mode
-      merge changes to 1.2.31pre1
-      1.3.1pre1
-      don't translate debug/should-not-happen messages
-      merge changes up to 1.2.31
-      merge up to 1.2.32
-      fix build
-      merge to 1.2.33
-      merge up to 1.2.34
-      fix crash on large _NET_WM_ICON properties
-      fix icewm restart in menu (lonefox)
-      merge up to 1.2.35
-      fix desktop background scaling
-      merge changes up to 1.2.36pre1
-      quick fix to make Acpi Temp display work
-      remove debug output
-      FocusRequestFlashInterval
-      fix minimum taskbar size
-      fix icon search (.xpm .png)
-      merged changes up to 1.2.36pre2
-      merge up to 1.2.36
-      changes fix
-      1.3.3
-      always use compositing for image drawing
-      xrandr screen configuration support (xinerama replacement)
-      revert too much commit
-      per-screen work area
-      fix taskbar init, fix xrandr screen init
-      updates to per-screen workareas
-      dual screen fixes
-      fix image compositin on partial paint
-      merge changes up to 1.2.37
-      1.3.4pre1
-      WinMgr.h
-      debug msg cleanup
-      XRRPrimaryScreenName
-      debug cleanups
-      debug cleanups
-      XRRDisable option
-      64bit fix
-      merge changes up to 1.2.38pre1, use fallback to xinerama when no XRandr
-      1.3.4pre2
-      multi screen fixed: alt+tab position, taskbar size
-      warning fixes
-      more warning fixes
-      fix workarea update
-      fix possible crash when loading app icons (Eduard Bloch - edi@gmx.de)
-      pt_BR translation update
-      new translation strings
-      merge translations strings
-      1.3.5
-      spec path fixes
-      typo fix
-      another crash fix
-      fix infinite recursion
-      avoid duplicate separators - by ib (ibsf)
-      improve appearance of window switch entries - by ib (ibsf)
-      improve window net_wm_icon scaling/loading applied adapted patch from
-        Evgeny M. Zubok (evgeny.zubok@tochka.ru)
-      merge changes up to 1.2.38pre2
-      ## misc_fixes.dpatch by Eduard Bloch <blade@debian.org> and others ## DP:
-        Various semi-urgent fixes added by myself or Debian BTS contributors.
-      debian: iconify_on_wm_hint
-      setting: HideTitleBarWhenMaximized
-      cleanups
-      warning fixed
-      fix debian bug 544222
-      fixes for HideTitlebarWhenMaximized
-      window move/size Enter key fix
-      report latency when --debug only
-      fix issue with withdrawing minimzied/invisible windows (sf.net 2911627)
-      1.3.6pre1
-      fix button-up window move (activate from menu)
-      fix right click on taskbar -> menu (part of debian bug 530648)
-      1.3.6pre2
-      task bar auto hide tweaks
-      fix null handles
-      1.3.6pre3
-      build with --disable-xrandr
-      warning fixes (braces)
-      warpPointerOnEdgeSwitcah = false
-      fix error handling on inaccessible files
-      Graphics View Mode for APM Monitor (Alexander'hatred' Drozdoff -
-        adrozdoff@gmail.com)
-      LimiByDockLayer: new default = 0 (off) - better alternative doNotCover in
-        winoptions
-      icewm-set-gnomewm
-      winoption appTakesFocus
-      1.3.7pre2
-      fix crash when dragging taskbar apps
-      fix reading window property
-      3090722 - fix crash with taskbar cascade action
-      1.3.7
-      clang compile fixes
-      test build fixes
-      ID: 3125471 fix crash with pid_t / XA_NET_WM_PID by Salvador Fandiño
-        García ( sfandino )
-      option quickSwitchToUrgent (Alvaro Gamez)
-      build fix: fontconfig libs
-      obsolete gnome1 stuff
-      JDK7 focus fix
-      taskbar input focus mode change/fix
-      removing globals
-      removing globals
-
-captnmark <captnmark> (841):
-      fix compile errors, just made it compile
-      win95keys now uses XK_Super_L,R, instead of XK_Meta_L,R
-      fix lowerOnClickWhenRaised pref  - bug reported by
-        stibor@vertigo.fme.vutbr.cz (Miroslav Stibor)
-      fix bug 508588: crash with java apps with many windows caused by icon
-        double free
-      fix bug 473553: reset ppp stats for each reconnect
-      fix bug 411084 focus handling cleanup still some problems though
-      fixed bug 480554, fMove/fResize was ignored in winoptions file
-      list of some deprecated options
-      fix bug 228981. cleanups in handling of gravity (more to be done)
-      hopefully fix bug 480804
-      spelling fixes
-      fix bug: 485013 - menu broken when drag on start button
-      fix bug: 520788 freeze with 32 bit deep display fix tested on xfree86 -
-        win32
-      warning fix
-      O_TEXT/O_BINARY was defined way too soon
-      basename compile fix
-      fix bug [ 482130 ] winoptions.geometry work baldy
-      bug [ 418718 ] some themes max. windows over tskbar change:
-        TaskBarKeepBelow=0 now
-      galeon was moving down the screen when switching back from fullscreen
-      DESTDIR patch
-      fixed bug 440789 focus cleanups
-      overflow fix by Eduard Bloch <blade@debian.org>
-      winoptions geometry documentation (by Jasper Spaans
-        <jasper@spaans.ds9a.nl>) .geometry fix
-      tooltips should not go away by default
-      use full screen on maximize
-      fix meta modifier handling when no win95 keys
-      hack...
-      disable window list menu on left desktop button by default
-      deprecate some more
-      taskbar layout change
-      oops. what was I thinking
-      alignment fix
-      reset maximized state on configure request of different size
-      hungarian translation update by Gabor Suveg <gsuveg at sgsystem.com>
-        swedish translation by Per Larsson <tucker@algonet.se>
-      minor improvements in menu positioning
-      remove tabs
-      remove tabs
-      added huge->large icon fallbacks
-      cleanups, improve portability
-      compile error fix
-      fix mwm decoration hints
-      fix auto hide taskbar
-      change AutoDetectGnome to 1
-      static gravity fix
-      FD_CLOEXEC
-      fix bug 552334 - problems with mouse focus/sloppy
-      close on exec debugging code
-      add dummy depend back
-      layer invariants for dialogs added
-      compile on freebsd (tnx to Robert Klein)
-      fix "failed to copy drawable"
-      change default theme
-      release build work
-      more release stuff
-      almost release
-      .
-      rel
-      noarch
-      fix memleak hopefully fixes bug 528919
-      copyright updates
-      .
-      copyright
-      .
-      .........
-      fix taskbarDoubleHeight bug 558580
-      doNotCover removed bug 557715 - cannot reproduce
-      ESD compile fix for --enable-guievents
-      try to fix bug [ 557356 ] window snaps to mouse and follows
-      .
-      .
-      .
-      attempt to fix esd bug 557720
-      hopefully fix with unclosed file descriptor (bug 561846)
-      fix bug found by valgrind
-      fix missing initializer found by valgrind
-      fix missing initializer found by valgrind
-      memory leak fix
-      remove debug print
-      remove warning
-      fix mem leak
-      remove debug msg add --version option
-      fix compile problem with certain CONFIG options
-      fix compile problem (?)
-      undeprecate MinimizeToDesktop
-      changes for icewm-1.2.0pre3
-      pre3
-      merge icewm-1.2-BRANCH
-      merge icewm-1.2-BRANCH
-      merge
-      renamed of --with-gnome-menus
-      fix focus on addressbar cancel
-      taskbar layout fixes
-      fix doNotCover spelling
-      cleanups in keybind system
-      fix Super+key binding handling and other Win key cleanups
-      force idle every 100ms when busy
-      fix CenterMaximizedWindows
-      1.2.8pre2
-      update release script for branch change
-      fix win95keys and workspace initialization
-      .
-      Italian translation update (yuri@sociol.unimi.it)
-      reduce the window for alt+tab getting stuck (possibly to 0)
-      change mnemonic for Toolbar
-      mnemonic tweaks - Hanspeter Roth (gicco)
-      reorder changes add mnemonics to zh_TW.Big5.po (Benchark Chen
-        <benshark@os.nctu.edu.tw>)
-      fix problem with Tk and sendConfigure
-      error when msgfmt not found
-      taskbar layout tweaks
-      fix layout of toolbar separators
-      fix underlining of last character
-      make it focused if not focused (probably needs more checks for
-        "focusable")
-      don't install lib/programs (it's empty)
-      fix alt+tab reordering the focus history
-      make clock event counting --enable-debug
-      fix problems with command line argument confusion between long and short
-        options
-      debug code optional
-      remove debug code
-      debug cleanup
-      debug cleanup, misc exit cleanup
-      external systray mostly works, resizing (>1 icon) needs to be fixed
-      don't focus "sticky" windows on workspace switch
-      improved focus fix (minor cleanups needed)
-      improved focus fix (for 1.2.8)
-      fix for some sed problems (?)
-      fix warning
-      systray resizing implementation
-      1.2.8pre3
-      icewmtray program implementation
-      build fix
-      release script fix
-      build fix
-      fix build for icc (intel C++)
-      update .cvsignore
-      fix check on currently active (from preferences) theme
-      themes menu loading now lazy
-      fix focus order on restart (as much as possible)
-      debug cleanups
-      add enableAddressBar option
-      fix build
-      1.2.8
-      fix problem with accented characters (hopefully)
-      fix aspect ratio for maximized window
-      cleanup the code, some debug added
-      gcc 3.3 build fixes
-      some fixes in latest CVS
-      netwm focus notification (missing... oops)
-      add focusRequestFlashTime option
-      configure gcc3.3 fix
-      apply gnome2 menu patch
-      fix crash with a single workspace
-      remove fix (fCount-- twice)
-      update for invalid indexes
-      tray/taskbar layout fixes
-      add escaping of wm class_instance (\)
-      debug output
-      Polish translation update (A.Lipiec@elka.pw.edu.pl)
-      removed obsolete FAQ
-      run 'restart' not 'startup' script on theme restart
-      remove border decoration from taskbar
-      reset menu timer on popdown
-      update of window role documentation (Jo Valentine-Cooper)
-      .
-      fix possible compile problem on Sun
-      fix crash on pressing the wrong key
-      updated bugs to link to sourceforge
-      merge bugs and todo for now, this will go away
-      minor update (added icewmtray to sample Xclients)
-      update Makefile for obsolete docs files
-      spec file updates (--with gnome_menus --with debug)
-      --with debug fixed
-      1.2.9
-      1.2.9
-      .
-      automake cache prune
-      fix --with menus_gnome2
-      ...
-      .
-      .
-      make core X fonts optional
-      fix gnome2 menu
-      gnome 2 menu fixes
-      more gnome2 menu stuff
-      fix some taskbar auto hide issues
-      fix build of tests
-      font file cleanups
-      .
-      fix missing return
-      fix focusing problem with gtk2
-      more focusing tweaks (hopefully don't hurt anything)
-      refactoring of config file handling
-      1.2.10pre1
-      translation fix/update by Pawel Warowny (warpek)
-      .
-      simplify the tray icon window menu option
-      revert focus change
-      finnish translation update
-      fix crash on logout
-      fix possible crash on hotkey when menu has not selected item
-      usage fix by Robert Klein
-      theme handling cleanup #1 - loading order
-      1.2.10pre2
-      icon handling cleanup, implement support for depth=1 icons
-      fix build with some compilers
-      *BSD apm device fix by Julio Merino Vidal (jmmv)
-      icewm.pot update
-      fix 1bit icons for pixbuf
-      code style cleanup
-      implement double buffering, for ypixbuf bug fix
-      add todo's for double buffering
-      .
-      comment -> warning
-      more debugging MSG and hack cleanup
-      more painting cleanups and speedups
-      debug msg removal
-      warning cleanup
-      proper focus fix (needs testing)
-      1.2.10pre3
-      ru.po update by Anton B. Farygin <rider@altlinux.com>
-      2xtaskbar tray position fix by Anton B. Farygin <rider@altlinux.com>
-      fix some compile problems
-      fix compile warnings
-      fix compile with --enable-movesize-fx (there still seems to be breakage)
-      fix compile with --enable-lite
-      more fixes for --enable-lite
-      fix problem with --enable-shaped-decorations and fullscren windows
-        (mplayer for example)
-      Italian translation update by yuri@sociol.unimi.it
-      check for font=null
-      add the fallback font for xft
-      fix focus on workspace switches
-      more font fallback cleanup (more still needed)
-      1.2.10pre4
-      fix
-      .
-      fix tray icon menu item
-      fix tray icon menu item checkbox
-      rename "Delete" key to "Del"
-      Dutch translation update by Reinout van Schouwen (reinouts)
-      .
-      fix compile of Xft1
-      pot file updated
-      allow non-rectangular icons too
-      add back the taskbar top/bottom border
-      1.2.10pre5
-      rh9
-      fix theme local font path with Xft
-      .
-      build fix
-      another build fix for --enable-corefonts
-      enforce font renderer selection in configure
-      restrict maximized apps from moving offscreen
-      don't always show taskbar logout submenu
-      fix bad #ifdef  syntax
-      enable corefonts when xfreetype 1
-      1.2.10pre6
-      fix shaped windows when --enabe-shaped-decorations
-      add icewmbg prefs to default prefs file
-      update the description of icewmbg prefs in the preferences file
-      1.2.10pre7
-      fix tray off by one
-      fix for antialiased icons on PPC
-      1.2.10pre8
-      include fix
-      fix horizontal rotation of icons
-      disable fallback warning for now
-      translation msg added + pot file update
-      double buffering speedup
-      #warning removal
-      italian translation update
-      build fixes
-      --disable-i18n build fix
-      debug hook
-      debug added
-      focus debug
-      just in case
-      debug
-      focus debug
-      gtk2 focus bug fix, now for real
-      support semitransparency bug fix
-      .
-      1.2.10pre10
-      build fix for --enable-movesize-fx
-      persist theme selections and restart icewmbg automatically
-      implement backward compatibility for Theme= in preferences fix startup
-        crash in some cases
-      sizing cleanups in apm applet
-      updated last translator (gsuveg)
-      Infadel2 theme cleanups (gicco)
-      1.2.10pre11
-      taskbar xinerama positioning fix
-      1 = exclusive fix
-      added notes about the theme file
-      add a menu item for default theme
-      1.2.10
-      added forcedClose window option (gicco)
-      fix ppp average
-      fix spelling of WORKAREA hint
-      fix spelling of --client-id (YAMAMOTO, Taku <taku@cent.saitama-u.ac.jp>)
-      .
-      cleanup tabs
-      fix random restart failures
-      .
-      fix i18n for themes.cc
-      fix codeset handling on FreeBSD (agaponrmthis@optonline.net)
-      Czech translation update Bulgarian translation (pavel@unix-bg.org)
-      use relative theme names for selecting themes
-      fix exposed icons when antialiasing enabled
-      fix debug
-      1.2.11
-      _NET_WORKAREA w,h fix
-      fix compile with --disable-taskbar
-      .
-      fix build with ---disable-shape
-      fix possible compile problem on Solaris
-      fix build on Yoper
-      fix opaqueMove disabling status
-      .
-      only re-start icewmbg if it's running
-      more icewmbg cleanups
-      restore old preferences behavior
-      workspaces on left/right
-      1.2.12
-      fix theme file permissions
-      fix drawing of checkboxes in menus
-      fix curruption in network status
-      fix memory leak in icewmbg (for now)
-      oops, add missing parameter
-      link with -lintl when gettext stuff found in it
-      initial xinerama menu popup cleanup
-      more xinerama menu fixes
-      .
-      italian translation update by Yuri (deslar)
-      .
-      raise "last" focused window
-      xinerama cleanup
-      double buffer option
-      initial icewm-session
-      icewm-session
-      lock focus when activating workspace
-      reduce cpu load, hopefully
-      .
-      1.2.13pre1
-      initial code for kde tray support
-      fix kde tray support
-      fix bg not set when icewmbg started before icewm
-      fix crash when run under gnome/xfce
-      fix kde tray thing on restart
-      fix activateWorkspace takeCurrent
-      1.2.13pre2
-      funky char changed
-      fix crash
-      .
-      add code for scaling with imlib
-      don't reboot by mistake when trying to log out
-      showDesktop
-      cleanup of show desktop
-      reap all children
-      fix defunct icewmbg processes on restart
-      .
-      quote theme name
-      .
-      make tray atoms per screen (as in spec)
-      make icewmbg run on nice
-      remove xftdummy
-      add lock/reboot/shutdown to menu (gicco)
-      sort themes by name
-      .
-      .
-      warning
-      add missing include
-      don't use tray if not started with kde tray protocol
-      fix crash
-      1.2.13
-      fix --enable-lite build
-      warning added
-      enable alt+tab with LITE
-      initial XRANDR support
-      avoid setting focus to root window
-      translation cleanup
-      obsolete code #if 0
-      restrict the set of themable prefs
-      fix shutdown in the logout menu (gicco)
-      fix compile problem on cygwin
-      fix description of desktop button preferences
-      fix crash on startup when TaskBarShowWindowListMenu Alexander Portnoy
-        (alexpor)
-      .
-      icesound fixes
-      xrandr tweak
-      updated
-      show desktop shouldn't ignore windows on all workspaces
-      client area focusing tweak
-      nested themes menu patch - Eduard Bloch (edi@gmx.de)
-      debug cleanup
-      support titlebar rollover buttons (r.costello@auckland.ac.nz)
-      add rollover titlebar buttons
-      taskbar black line/pixel and systray background color cleanup
-      fixes to cpu and net status - Miroslav Stibor (smsti@ashtray.jz.gts.cz)
-      oops, forgot to reverse the option default
-      fixes to icewm-session (event loop handling)
-      fix some warnings
-      ctrl + alt + numpad moves window (lebert@sf)
-      1.2.14pre1
-      compile fixes from Miroslav Stibor (smsti)
-      fix crash when color not set for some reason
-      add missing taskbar color initialize
-      .
-      explicit termination in icewm-session
-      allow layer, ... override when netwm hints in effect
-      allow focusability if WM_TAKE_FOCUS
-      workaround for xv
-      fix size reporting with outline resize
-      the right fix for move size status in opaque resize
-      ascii stuff
-      binascii, ascii, clenaups
-      numpad handling fix for input field
-      fix lists in preferences (make them reset the option)
-      build fixes
-      prototypes fix
-      some work done on configurable icon sizes
-      clean up some obsolete code
-      split X stuff yapp to yxapp
-      build fixes for reduced options (--lite)
-      more build fixes
-      more build fixes
-      1.2.14pre2
-      rename
-      fix menu arrows
-      don't skip focus on "all workpaces" windows
-      menu arrow fix
-      .
-      build fix
-      build fix
-      fix build
-      executable extensions fixed (debian)
-      fix menu mnemonics for theme submenus
-      doc fixes from debian
-      .
-      cleanups
-      1.2.14pre3
-      remote bloat
-      remove bloat
-      obsolete wm-session
-      obsolete code removal
-      header cleanups
-      remove obsolete code
-      .
-      fix net monitor for linux 2.0
-      fix problem with emacs (focus first, then replay event)
-      .
-      .
-      Xft font configuration
-      enable shaped decorations by default
-      test fixes
-      fill blank space on "non-1-increment" fullscreen windows
-      1.2.14pre4
-      greek translation by (Nick Apostolakis  mail:nickapos @ agriroot.aua.gr)
-      update by pavel@unix-bg.org
-      merge code
-      remove bad include
-      remove include <strings.h>
-      no xrandr build fix on solaris
-      --with-xpm build fix
-      solaris 9
-      more locale fixes
-      more xapp fixes
-      hopefully this fixes bug 837302, grab/replay the Super key/activate menu
-      debug output --
-      build with when not DEBUG
-      FreeBSD build fix
-      old Xrandr build fix (not tested)
-      .
-      *bsd cpu status (Hanspeter Roth (gicco))
-      italian translation update (Yuri (deslar))
-      smaller menu font
-      handle termination cleanly
-      .
-      merge latest code
-      more of app->xapp
-      fix xft fallback font
-      fix "lost focus on maximize" in mouse-focus mode (may cause keybinding
-        problems)
-      make it work (YXApplication must be used)
-      fix super+key issue again (action duplication)
-      remove line length limits for preferences files
-      1.2.14pre6
-      Xrandr needs Xrender
-      fix SIGCHLD reaping
-      add make check target (no real tests yet)
-      initial mapping code cleanup
-      1.2.14pre7
-      xft font for infadel2
-      for pre8
-      add note about FontNameXft settings
-      icon code refactoring
-      renamed
-      show desktop button image support
-      show desktop icon
-      make icewm-session run icesm first
-      don't allow to minimize all non-minimizable windows
-      update icehelp with some key/mouse bindings
-      fix icon override in winoptions
-      keep theme history in ~/.icewm/theme
-      .
-      compile fix for --enable-antialiasing (Eduard Bloch edi@gmx.de)
-      1.2.14pre8
-      improve maximized window position handling on workspace switches
-      1.2.14pre9
-      fix build with --enable-lite
-      oops
-      bug 882109 -  getloadavg for FreeBSD 5.2 with gcc 3.3 - Hanspeter Roth
-        (gicco)
-      fix crash when translation too long
-      improve tray transparency support
-      paint taskbar tray background correctly (Christophe Bude - cbke)
-      made ShowMenuButtonIcon themable again
-      KeyWinMaximizeHoriz binding
-      fallback to default font
-      use proper iso units - Eduard Bloch
-      .
-      pixmap and font refcounting scaled menu pixmap support
-      fix the build with --enable-gradients
-      italian translation update
-      Finnish translation update
-      Turkish translation
-      logout crash fixes (for now)
-      1.2.14pre10
-      fix null_ref for gcc 2.9x
-      merge done
-      add missing line
-      cleanup some globals
-      fix crash due to null color
-      fix xpm+pixbuf compile problems
-      fix startup crash
-      cleanups in grabbed "win" key handling
-      comment out debugs
-      1.2.14pre11
-      icon loading fixes and cleanups
-      more icon cleanups and build fixes
-      disable double buffering for some windows
-      more icon/pixbuf cleanup
-      only do mouse focus if the mouse moves (unless strong pointer focus)
-      .
-      some solaris fixes by Damjan Perenic
-      1.2.14pre12
-      fix the crash
-      doesn't really need X right now
-      fix spelling
-      icon scaling fix
-      toggle fullscreen focus tweak
-      scaled icon base choice fix
-      more focusing fixes
-      kernel 2.6 iowait support (Hanspeter Roth - gicco)
-      improve netwm hint support (state: below, above, fullscreen), dock window
-        type
-      fix doesn't belong here, too strong
-      fix delayed mouse focus on rapid keyboard desktop switches (bug 859581)
-      1.2.14pre13
-      fix problems restoring state on restart
-      Solaris fixes to configure.in (damjan.perenic@guest.arnes.si)
-      implement NetWM Modal state
-      .
-      include themable preferences in ~/.icewm/preferences template
-      fix cpu load order (Hanspeter Roth)
-      handle ignoreNoFocusHint in all places
-      aix portability fixes
-      fix maximization covers taskbar problem
-      fix net_wm_desktop sticky handling
-      1.2.14pre14
-      fix citrix winframe window moveto->0,0
-      new "motif" like theme contributed (Andreas Leitgeb (avl42))
-      Andreas Leitgeb (avl42)
-      config search path cleanup
-      font size fix (fallback fonts should be the same size)
-      make fallback fonts even smaller
-      fix handling of xft clipping and general Xft/Xrender cleanup
-      corefonts build fix
-      1.2.14pre15
-      fix the --disable-i18n case
-      fix typo
-      disable netwm modal (broken with gvim?)
-      make meun file parsing behave more like shell
-      make all taskbar buttons use the same class (ObjectButton -> should rename
-        to TaskBarButton)
-      some cleanup around input focus hint handling
-      Czech and Italian translation update
-      remove extra 'template'
-      warning fixes
-      make constants global, for now
-      .
-      limit some huge sizes
-      .
-      alt+tab tweak
-      po update
-      .
-      fix isdn online status (needs testing)
-      fix focusing new+maximized windows (bug 972959)
-      fix some alt+tab pref combinations
-      some more gcc 3.4 fixes
-      1.2.15pre1
-      for now, remove use of gcc for linking to slightly increase portability at
-        cost of some bloat
-      portability fix
-      more build fixes
-      Slovak translation (Radovan Stas - radoone@szm.sk)
-      autoconf 2.59 fixes
-      fix problem with minimized windows coming first
-      fix gnome2.6 panel to raise on activate
-      fix initial mapping geometry setting when window not in normal state
-      fix xchat/... transparency support
-      .
-      netbsd support (Iain Hibbert)
-      possible fix for xorg weirdass modifier setup
-      1.2.15pre2
-      icesound gcc 2.95.3 build fix ( Thomas Zajic - zlatk0)
-      net status support for OpenBSD (Hanspeter Roth)
-      FreeBSD basename build fix (Hanspeter Roth - gicco)
-      warning fix
-      fix basename stuff
-      tray fixes
-      fullscreen layer disable during new window (clean up)
-      cleanup, don't check ac_ if not found
-      battery status to use design capacity (gicco)
-      track motion even when just click
-      1.2.15pre3
-      fix crash in ACPI when ac modules not loaded
-      more tray icon sizing cleanups
-      fix win/key menu lockup
-      double buffering fixes
-      menu painting fixes
-      fix some menu breakage
-      some documentation updates
-      french translation update (LiNuCe - massilia98)
-      menuprogreload keyword added (Konstantin Korikov - lostclus)
-      APM support for FreeBSD (Hanspeter Roth - gicco)
-      Finnish translation update
-      make window list larger
-      smart snap window positioning C+A+S+numpad (Bert Wesarg - lebert)
-      key super+D to show desktop
-      fix lockup for ShowDesktop too
-      1.2.15pre4
-      fix valgrind delete vs delete[] warnings
-      nls support for icesh
-      1.2.15
-      fix mplayer fullscreen issue
-      mplayer fullscreen aspect fix
-      just use our own basename
-      revert change for aapm capacity (Eduard Bloch - thefirstone)
-      oops
-      fix numlock handling in input
-      Polish translation update (bart-rpm@silesianet.pl)
-      battery status fix for when full > design (gicco)
-      1.2.16
-      add note about backslashes in winoptions (linuce)
-      \ quoting fix for config files (Eduard Bloch - thefirstone)
-      fix win keys with numlock enabled
-      more weird modifier map fixes
-      add icewm run to make check
-      Slovenian translation update (jkovacic@email.si)
-      add button to collapse the taskbar
-      build fix ?
-      show "tray icon" only when tray visible
-      rewrite the taskbar layout
-      a few more taskbar layout tweaks
-      document restart command
-      fix fallback xft font
-      use default visual id for imlib (fix xorg visual mess)
-      .
-      more taskbar layout fixes
-      vertical alt+tab layout
-      build fix
-      show net/mail indicators by default
-      typo fix
-      execlp 64-bit fix
-      more fullscreen layer tweaks
-      1.2.17pre1
-      fix startup crash and build with gcc 3.4
-      fix gray line at the bottom of the taskbar
-      rewrite window layout/geometry code
-      ignore configure requests in fullscreen mode
-      warning cleanups
-      obsolete code removal
-      more obsolete code removal
-      obsolete code removal
-      fix "Tray icon"
-      fix resetting the net properties set/updated by wm
-      fix resizing of maximized windows on workarea changes
-      fix --disable-taskbar
-      fix maximize/restore for rxvt
-      fix reboot/shutdown
-      add some test code
-      detabbing
-      1.2.17
-      set SupportsSemitranspacency to false by default
-      Meta handling typo
-      enable gcc link again instead of g++
-      typo fix
-      fix busy loops in icewm-session and icewm-tray
-      fix resize indicator pointers when window started as iconic
-      don't reverse window z-order on show desktop
-      add header dependency
-      reduce dependencies
-      fix typo
-      fix some win+num keys
-      isUp implementation for FreeBSD (by Ronald Klop)
-      configurable window move/resize binding
-      1.2.18pre1
-      set mini icon move
-      icedesert tweak
-      1.2.18
-      fix the crash on statup when taskbar disabled
-      force size of tray applets (needs to be made configurable)
-      fix build when taskbar disabled
-      revert for g++ build problems again
-      fix build on old X
-      .
-      fix mouse win move/size binding
-      fix taskbar top border
-      .
-      1.2.20
-      revert config change
-      .
-      fix binding for mouse drag move/size
-      typo fix
-      improve selection of urgent windows with alt+tab
-      file strtest.cc was added on branch icewm-1-3-BRANCH on 2007-01-21
-        14:53:05 +0000
-      file mstring.cc was added on branch icewm-1-3-BRANCH on 2007-01-21
-        14:53:04 +0000
-      file yimage_imlib.cc was added on branch icewm-1-3-BRANCH on 2007-01-21
-        14:53:20 +0000
-      file yimage_xpm.cc was added on branch icewm-1-3-BRANCH on 2007-01-21
-        14:53:21 +0000
-      file ypixmap.h was added on branch icewm-1-3-BRANCH on 2007-01-21 14:53:26
-        +0000
-      file yworker.cc was added on branch icewm-1-3-BRANCH on 2007-01-21
-        14:53:28 +0000
-      file yworker.h was added on branch icewm-1-3-BRANCH on 2007-01-21 14:53:28
-        +0000
-      file mstring.h was added on branch icewm-1-3-BRANCH on 2007-01-21 14:53:04
-        +0000
-      file upath.cc was added on branch icewm-1-3-BRANCH on 2007-01-21 14:53:07
-        +0000
-      file upath.h was added on branch icewm-1-3-BRANCH on 2007-01-21 14:53:07
-        +0000
-      file ypixmap.cc was added on branch icewm-1-3-BRANCH on 2007-01-21
-        14:53:25 +0000
-      file yimage.h was added on branch icewm-1-3-BRANCH on 2007-01-21 14:53:19
-        +0000
-      file yimage_gdk.cc was added on branch icewm-1-3-BRANCH on 2007-01-21
-        14:53:20 +0000
-      remove obsolete code
-      core updates: 	- latency tracing 	- worker process handling
-        - reference counting 	- io event loop cleanup
-      prepare for 1.3.0
-      default configure arguments removed
-      use all NET_WM_ICONs
-      display mem/temp/freq information in the cpu applet (evdovin)
-      Warp mouse pointer on workspace switch (owenjm)
-      configurable cpu status applet fields (+ TZ added + cleanup + merged to
-        1.3)
-      window preview for workspaces in taskbar (Thomas Holder - speleo3)
-      fix image interpolation (use bilinear)
-      fix crash in cursor code (which is broken)
-      focus on when clicking client window even with mouse focus mode
-      merge changes to 1.2.31pre1
-      1.3.1pre1
-      don't translate debug/should-not-happen messages
-      merge changes up to 1.2.31
-      merge up to 1.2.32
-      fix build
-      merge to 1.2.33
-      merge up to 1.2.34
-      fix crash on large _NET_WM_ICON properties
-      fix icewm restart in menu (lonefox)
-      merge up to 1.2.35
-      fix desktop background scaling
-      merge changes up to 1.2.36pre1
-      quick fix to make Acpi Temp display work
-      remove debug output
-      FocusRequestFlashInterval
-      fix minimum taskbar size
-      fix icon search (.xpm .png)
-      merged changes up to 1.2.36pre2
-      merge up to 1.2.36
-      changes fix
-      1.3.3
-      always use compositing for image drawing
-      xrandr screen configuration support (xinerama replacement)
-      revert too much commit
-      per-screen work area
-      fix taskbar init, fix xrandr screen init
-      updates to per-screen workareas
-      dual screen fixes
-      fix image compositin on partial paint
-      merge changes up to 1.2.37
-      1.3.4pre1
-      WinMgr.h
-      debug msg cleanup
-      XRRPrimaryScreenName
-      debug cleanups
-      debug cleanups
-      XRRDisable option
-      64bit fix
-      merge changes up to 1.2.38pre1, use fallback to xinerama when no XRandr
-      1.3.4pre2
-      multi screen fixed: alt+tab position, taskbar size
-      warning fixes
-      more warning fixes
-      fix workarea update
-      fix possible crash when loading app icons (Eduard Bloch - edi@gmx.de)
-      pt_BR translation update
-      new translation strings
-      merge translations strings
-      1.3.5
-      spec path fixes
-      typo fix
-      another crash fix
-      fix infinite recursion
-      avoid duplicate separators - by ib (ibsf)
-      improve appearance of window switch entries - by ib (ibsf)
-      improve window net_wm_icon scaling/loading applied adapted patch from
-        Evgeny M. Zubok (evgeny.zubok@tochka.ru)
-      merge changes up to 1.2.38pre2
-      ## misc_fixes.dpatch by Eduard Bloch <blade@debian.org> and others ## DP:
-        Various semi-urgent fixes added by myself or Debian BTS contributors.
-      debian: iconify_on_wm_hint
-      setting: HideTitleBarWhenMaximized
-      cleanups
-      warning fixed
-      fix debian bug 544222
-      fixes for HideTitlebarWhenMaximized
-      window move/size Enter key fix
-      report latency when --debug only
-      fix issue with withdrawing minimzied/invisible windows (sf.net 2911627)
-      1.3.6pre1
-      fix button-up window move (activate from menu)
-      fix right click on taskbar -> menu (part of debian bug 530648)
-      1.3.6pre2
-      task bar auto hide tweaks
-      fix null handles
-      1.3.6pre3
-      build with --disable-xrandr
-      warning fixes (braces)
-      warpPointerOnEdgeSwitcah = false
-      fix error handling on inaccessible files
-      Graphics View Mode for APM Monitor (Alexander'hatred' Drozdoff -
-        adrozdoff@gmail.com)
-      LimiByDockLayer: new default = 0 (off) - better alternative doNotCover in
-        winoptions
-      icewm-set-gnomewm
-      winoption appTakesFocus
-      1.3.7pre2
-      fix crash when dragging taskbar apps
-      fix reading window property
-      3090722 - fix crash with taskbar cascade action
-      1.3.7
-      clang compile fixes
-      test build fixes
-      ID: 3125471 fix crash with pid_t / XA_NET_WM_PID by Salvador Fandiño
-        García ( sfandino )
-      option quickSwitchToUrgent (Alvaro Gamez)
-      build fix: fontconfig libs
-      obsolete gnome1 stuff
-      JDK7 focus fix
-      taskbar input focus mode change/fix
-      removing globals
-      removing globals
-
-massel <> (496):
-      * gettext patch, initialy from Yoichi ASAI: ja, de, po  * modified
-        configure.in to support --enable-nls and Makefile.in  * Makefile.in:
-        targets are determinated by configure
-      * Makefile is generated by configure
-      NLS update: reviewed output of error messages (s/f?printf/msg|warn); made
-        msg public, "Warning: " prefix for warn
-      about entry in root window if task bar is disabled
-      workspace status patch applied
-      NLS patch
-      * hotkey support - final nls commit?
-      font guessing for non-latin1 languages
-      infinite ToolTipTime
-      toggle between current and previously active workspace
-      external logout (kill -QUIT $PID_OF_ICEWM)
-      Minimize, hide (and restore ;) transient children
-      GNOME menu improvements
-      GNOME toplevel menu - automatic refresh
-      copyright notice (2000 is nearly over), "CVS - is a directory" message
-      bug 115344
-      documentation for MailboxPath
-      typo in line 214
-      pt-BR.po
-      oleastre's icesound patch, directory names in theme menu
-      icewm has theming support....
-      Spanish translation
-      scaled appicons
-      --enable-lite/About bug
-      genpref: NOTE comment bug
-      more flexible compile time path configuration
-      separate build/install targets for icesound
-      more flexible compile time path configration
-      bugfix: ppp/net status on non linux/freebsd machines
-      bugfix: ppp/net status on non linux/freebsd machines
-      @echo Installing localized messages in $(LOCDIR)
-      load GNOME/KDE icon only if their menus are available, added icons for
-        GNOME/KDE menu to distribution
-      better .spec files for default, lite and gnome distribution
-      new .po files (ru, zh_TW.Big5), NLS credits
-      Patch #102938
-      Patch #102930
-      no comment
-      sychronization of .po files with their reviewed .pox files (de, ru, es,
-        pt-BR)
-      debug_flags (CXXFLAGS)
-      Cosmetics (printf -> MSG, indent, GNOME/KDE logo)
-      --without-gnome-menus logic was broken
-      unused variables with --enable-lite
-      obsoleted
-      the lsm story - what (tf) is that file about?
-      Alexander Skwar's all in one .spec file
-      .lsm - again
-      translated messages weren't packaged
-      for GNOME newbies...
-      for GNOME newbies...
-      APM status applet was disabled by accident
-      Updated spanish translation
-      french translation, wrote 1.0.6 into .po files
-      maintainer-clean ignored Makefile
-      pt_BR, not pt-BR
-      %install redefined ETCDIR instead of sysconfdir
-      "fr.mo", not "fr"
-      updated ja.po from Yoichi ASAI
-      fixed marvelous %s in for msgid "%ld mail message." and msgid "%ld mail
-        messages."
-      crash when next/prev window from addressbar, WarpPointer=1 and
-        ClickToFocus=0
-      crash when next/prev window from addressbar, WarpPointer=1 and
-        ClickToFocus=0
-      kstat.h and -lkstat were broken
-      creation of noarch and binary packages from one .src.rpm
-      updated copyright messages to 2001
-      find available .po files automaticly
-      Finnish messages for IceWM
-      enough people buged me long enough - here it goes: slow's titel text
-        shadow patch
-      1.0.6-4
-      fixed maintainer-clean
-      version 1.0.7
-      Consider horiz/vert border when maximizing
-      Wrong permissions for installed .mo files
-      taught the clock applet to respect the user's current locale (if compiled
-        with I18N support - to teach amis what localization means ;)
-      native support of semitransparency (Eterm, aterm)
-      icewm tried to 'delete' some const chars from the theme menu when started
-        with -c flag
-      command line interface
-      random but useless changes in loadMenus
-      colored mouse pointers
-      colored mouse pointers
-      allow to switch between Ok and Cancel as msgbox's default button
-      colored mouse pointers
-      better release logic in YCursor::~YCursor
-      simple online help (Marko's icehelp)
-      simple online help (Marko's icehelp)
-      the new parser architecture
-      merge with icefx/learfox's modifications to icesound
-      some reformatting in YWindow::handleEvent
-      new spanish message file
-      AutoDetectGNOME=0 by default
-      s/sys\/time.h/ctime/
-      #define __need_timeval for complete timeval structure on linux
-      Bash2 incompability
-      Bash2 incompability, changelog updated
-      display "invalid path" message in document window
-      Semitransparency improvements
-      flags |= wfVisible in handleMap
-      added <climits>
-      autoresizing
-      X11/Xos.h is our real friend... ;)
-      theme fonts
-      new URL parser
-      new URL parser
-      mailbox: new url decoder, support for IMAP subfolders, Courier-IMAP
-      typos
-      some bright parts of menus weren't themable
-      flags |= wfVisible produced side effects during workspace switching
-      limit msgbox for small screens
-      YApplication::Name
-      YButton::isPressed
-      Sync with Coventive tree: wmClose/wmHide
-      Sync with Coventive tree: wmClose/wmHide
-      Sync with Coventive tree: improved YFrameWindow::updateLayout, improved
-        YFrameClient::constrainSize, wmClose/wmHide
-      Sync with Coventive tree
-      Sync with Coventive tree: runonce feature
-      Sync with Coventive tree: runonce feature
-      Sync with Coventive tree: runonce feature
-      weird ylib.h stylish wrapper for X11/Xutil.h
-      fix for the gomermind bug
-      YWindow::setTitle, YWindow::setClassHint
-      Sync with Coventive tree: runonce feature
-      other GNOME detector based, on GNORBA's name service
-      run make depend again, with -MM
-      updated German messages
-      X error handler crashed in debug mode
-      new updateLayout code broke wmRestore, new addTransients code produced
-        coredumps
-      support for WIN_HINTS_DO_NOT_COVER
-      bugfix: doNotCover windows below dock layer were relocated on _restart_
-      bugfix: doNotCover windows below dock layer were relocated on _restart_
-      getenv, PATH_MAX
-      missing #ifndef LITE
-      normal{Width,Height} were not synchronized with XA_WM_NORMAL_HINTS, cause
-        trouble with the DoNotCover code: terminallike windows became very large
-        during restart
-      excluded icehelp from lite version
-      a script to create releases of icewm
-      1.0.7-2
-      icehelp/lite version
-      rpm fixes
-      rpm glitches
-      symlinks
-      no comment
-      merged messages files
-      typos
-      updated messages
-      segfault in libxpm version of YCursor code
-      release number
-      translated messages
-      !WinHintsDoNotCover when taskBarAutoHide
-      version number
-      initial release
-      cleanup (C++, GNUish usage screen), NLS
-      strpcmp
-      cleanup: mainly guievents; one single implicit target for applications
-      cleanup of icesound
-      bugfix: new updateLayout didn't handle rollup of vert. max. windows
-        properly
-      cleaned up library dependencies, imcomplete yet
-      RPMs shouldn't have YIFF support
-      restart problem with dangling X_ROOTPMAP_ID
-      enable nls support by default
-      bash it again, bash2...
-      further titlebar buttons: title[JQ][AI].xpm
-      bash2
-      Infadel2
-      1.0.7-7
-      added Infadel2 to the makefile
-      s/TitleButtons/TitleButtonsRight/
-      quotation marks in Makefile.in:install
-      uninitialized HTextView::fRoot caused random segfaults, d'oh...
-      usage screen for icehelp
-      1.0.8
-      cursors subdir and fonts.dir weren't installed
-      cosmetics
-      some systems do not support compressed font files
-      fonts were not installed, calling mkfontdir now
-      this better should be generated on installation
-      cursor definitions of global themes were ignored
-      src/wmprog.cc
-      move docs from icewm-common to icewm
-      post/preun labels...
-      moved Help and About again...
-      moved html docs directly into the docdir, as rpm does
-      cleaned up icewm.spec.in, synched position of icewm.html in tarbar and rpm
-        version
-      indentication
-      synched header with source code (scaled YPixmaps
-      let configure check for basename
-      let configure check for basename
-      basename in glibc 2.1 requires __USE_GNU
-      NEED_TIME_H was missing
-      bug #410988,#410971 (maxmimize click, keybindings)
-      compilation problems with glibc 2.2
-      new resource path code
-      checking for GNOME_NAME_SERVER to detect GNOME was a stupid idea
-      new message files
-      #408519 fd leak on restart
-      new translations
-      ColorDisabledMenuItemShadow
-      attempt to fix bug 410954
-      winoptions for licq
-      ripped out NEED_STRINGS
-      plen argument
-      plen argument
-      solution for bug 410959
-      solution for bug 410959
-      solution for bug 409804
-      1.0.8-2
-      solution for bug 409804
-      enlarged autoscrolling sensor for menus
-      Lite version also uses YPaths
-      limited menu with and a failed attempt to introduce some YColor const*
-      limited menu with and a failed attempt to introduce some YColor const*
-      MenuMaximalWidth
-      TitleBarJustify, does it really work for all reasonable legacy themes?
-      build rpm packages on systems without GNOME
-      build rpm packages on systems without GNOME
-      build rpm packages on systems without GNOME
-      ypaths and LITE version
-      ypaths and LITE version
-      killed some warnings
-      build rpm packages on systems without GNOME
-      build rpm packages on systems without GNOME
-      killed some warnings
-      build rpm packages on systems without GNOME, appears to work now
-      TaskBarShowWindowIcons
-      new wmtitle code is not perfect yet...
-      changes to drawArrow are not finished yet...
-      default background color
-      reverted undo of unfinished arrow mods
-      ShowLogoutMenu
-      updated messages
-      updated messages
-      themeable scrollbars
-      bug #413480
-      scrollbar problems
-      License issues
-      flickering scrollbars
-      arrow stuff
-      odd arrow sizes troubled the gtk/motif arrow code
-      bug 414078
-      renamed "All Buttons.theme" to "Overloaded.theme"
-      make marius happy...
-      fix[?] for marko's arrow quirks
-      marius' winkey patch
-      \xnn parser bug
-      some more consider border trouble: when moving windows to other workspaces
-      desktop layer windows disappeared after desktop switches
-      Suxxors! ;-)
-      --with-mkfontdir
-      DontRotateMenuPointer
-      mkfontdir
-      enable-lite quirks
-      clrToolTip* is controlled by CONFIG_TOOLTIP
-      CONFIG_TOOLTIP
-      consider horiz/vert border when moving maximized windows
-      updates
-      item selection in window listbox (focusVisible)
-      dragging of scrollbars broken when modifiers were active
-      release 1.0.8-4
-      invalid variable for ln -s
-      stale done
-      stupid echos
-      creative file names
-      release date
-      key codes for Win_* keys were not initialized in all cases
-      invalid session variable
-      !!! very, very dirty hack until we have theme support IceApps...
-      version
-      grabKey(win*) when win* == 0 caused some trouble...
-      uninstall problems
-      remove config.cache
-      better gettext detection
-      dirty compatibility hack for TitleBarCentered
-      "Obsolete option" warning
-      more detailed keymask MSG
-      wmapp.o depends on ../VERSION
-      attempt to "consider horiz/vert border when moving maximized windows"
-        broke moving of windows out of the screen
-      improved detection of libesd
-      C++ allocation operators, hotfix for #418383
-      help changes.php
-      mkfontdir vs. theme subdirs
-      build info in about screen
-      #418291 Alt+key doesn't work in 1.0.8-4
-      removed symbolic xpm dependency
-      broken icewm-default package
-      rm config.cache
-      1.0.9-1
-      TaskBarLaunchOnSingleClick, {Mail,Clock,{CPU,Net}Status}ClassHint and
-        default values
-      multiple mailbox and network monitors
-      killed those can't-inline-warnings
-      improved netstatus, multiline toolbars
-      ShowGNOMEAppsMenu, ShowGNOMEUserMenu, ShowKDEMenu
-      bugfix: #420404 "minimize all" in windowListPopup
-      new keybindings
-      provide consistence behaviour in resource priority for absolutely and
-        relatively specified themes
-      improve menubg.xpm handling
-      a very new quickswitcher
-      quickswitch: separator color, icon alignment
-      quickswitch: renamed some options, vertical separator, text first for
-        classic mode, window size, scroll when there are more icons than the
-        screen can display
-      runonce hotkeys
-      mouse wheel support for menus
-      invalid CFGDIR
-      let compile on libxpm systems
-      external auto dependencies
-      wm-session code
-      shaped decorations
-      mousewheel autotracking in popups
-      bug 423292
-      croatian translation
-      quickswitching fixes (change window on _first_ key pressing, avoid to
-        start with invalid windows)
-      better colormap support?
-      shape improvements (titlebar pixmaps)
-      call layoutShape from updateTitle
-      xfree86-hack
-      mini icon position
-      no shapes for mini icons
-      segfault in wmtaskbar.cc on logout
-      crash for empty icons
-      avg. and total rate mixed
-      icc fixes
-      DesktopTransparencyColor/Image
-      DisableImlibCaches
-      GRADIENTS!!! (fsking slow due imlib), first victim is menubg.xpm, set
-        gradients="menubg.xpm"
-      src/ypixbuf.*
-      little but dramatically speed improving hack for gradients/imlib
-      titlebar gradients
-      disableImlibCaches required GNOME support... odd....
-      more gradient stuff, not finished yet :(
-      gradients: TitleBarJoinLeft and TitleBarJoinRight
-      some CONFIG_GRADIENTS stuff
-      move/size bloat
-      move/size fx; TODO: cleanup, prefs option, support opaque move/size
-      current menu selection was broken
-      button gradients
-      gradients for taskbar buttons
-      transparent apm monitor
-      multiple mailbox code didn´t respect /var/spool/mail/hasselma
-      frame gradients
-      hotspot initialization
-      segfault...
-      button alignment
-      selection/separator
-      updated de.po
-      movesize crap
-      cosmetic stuff
-      warnings
-      gradients, begin for ysurface infrastructure, some unfinished movesize fx
-        crap
-      better place
-      gradient
-      shape compatiblity hack
-      dframes were broken
-      pixmapped frames on small windows
-      toolbar, workspace buttons: gradients, colors, pixmaps, focus
-      gradient on toolbar background
-      ellipsis for long miniicons
-      #427048
-      blah... wha... focus again....
-      draw the focus... properly
-      version stuff
-      icewm.xpm
-      the tray...
-      the tray...
-      tray cosmetics
-      TimeFormatAlt
-      some makefile cleanups
-      started libxpm support in ypixbuf
-      minor nls fixes
-      a stupid and old sign bug
-      cosmetic stuff
-      segfault with ColorActiveMenuItem="" and Look=Metal
-      cache tray gradients
-      some inline warnings in Y2 code
-      cleaned up some error message
-      libxpm version of YPixbuf, slow and 16bpp only
-      removed hu.po
-      stupid tray+gradients bug
-      yet another stupid segfault
-      spanish messages
-      libxpm support in ypixbuf finished, expect for dithering and 8-bit visuals
-      all "unsigned int" -> "int" options, default.h reformatted,
-        TitleBarHorzOffset/TitleBarVertOffset
-      move/size fx bloat for opaque windows
-      move/size fx bloat...
-      bloody gcc 2.96
-      menu item to toggle doNotCover flag
-      typo collection
-      Lithuanian messages
-      adjustable GNOME autodetection
-      alpha channel support (libxpm has to be finished)
-      alpha channel support (libxpm has to be finished)
-      8 bit alpha channel for libxpm version
-      some little button color quirks...
-      some code cleanup, can't copy drawable warnings
-      some typos...
-      disable opaque moving/sizing by default when compiled with move/size-fx
-      dbg msg cosmetics
-      Xft hack
-      fixed some icon oddities
-      ypixbuf fixes, fallback for Xft fonts
-      configuring shaped-decoration failed
-      use argv[0] to build the themes menu
-      some non-gradient fixed
-      blah...
-      stupid, stupid workspace switch bug (windows not remapped properly....
-        Mark... your YWindow::handleMap hack sucks...
-      some path cleanups
-      yet another "Failed to copy drawable to pixel buffer" bug... (!w || !h)
-      have i overseen a warning by gcc?
-      Romanian messages for IceWM
-      better? Xclients example
-      better?
-      added a section describing how to setup Xft
-      update addressbar when single height but no window panel and tray is
-        changed
-      fallback to /var/spool/mail/
-      gcc3 glitches
-      usage screen
-      added icesh
-      window picking, geometry setting, adopted to icewm code style, cleanup
-      fixed connect error message
-      more code cleanup, options; named symbols for icesh
-      user friendly? comments in the config files
-      canceled commit of unfinished Xft/I18N code
-      locale related stuff
-      some copyright stuff
-      improved xft and locale support
-      CVS/configure glitches
-      some locale tests
-      crashes for invalid icons
-      fontset support for Xft fonts
-      fontset support for Xft fonts
-      autoconf 2.50 compliance
-      autoconf 2.50 compliance
-      compilation issues when i18n support disabled
-      gcc 2.95 weirdness
-      locale.h was missing
-      reparenting/swallowing support
-      some xft weirdness
-      working[?] libiconv tests
-      efenced the sources
-      efenced the sources
-      autoconf scoping issues affecting libiconv
-      removed a msg statement
-      brasilian messages updated
-      fix of the swallowing fix
-      dynamic client icon changing
-      added License tag
-      more sophesticated iconv initialization
-      italian message catalog
-      more verbose __cxa_pure_virtual function, linked only when __GNUC__ == 3
-      bugfix: #445264 CenterMaximizedWindows=0 was broken
-      &copy; issues
-      delete DesktopTransparencyPixmap if same value like
-        DesktopBackgroundPixmap
-      ypixbuf hacks
-      LowerOnClickWhenRaised
-      LowerOnClickWhenRaised
-      HorizontalEdgeSwitch and VerticalEdgeSwitch
-      fixed COMPOUND_TEXT problems, segfault on unknown glyphs
-      debugging messages...
-      colored edge switching cursors, continuous edge switching
-      ColorScrollBarInactiveArrow
-      move/size fx and borderless windows
-      YPixbuf to YPixmap conversion (mainly for window icons
-      fix building problems of lite version
-      build fixes for disabled session management support
-      some lite switches, some further build fixes
-      color for the slider handle in nice theme and friends
-      added experimental package
-      Duplicate License entries in package: (main package)
-      exprimental typo
-      added libpreice.tar again, but as binary file this time
-      huge icon was drawn when quickSwitchAllIcons and !quickSwitchHugeIcon
-      forgot to add yarray.h
-      updated message cataloges
-      little typo
-      changed tray accelerator
-      the tray menu (again)
-      fixed position calculation for maximized windows
-      show invalid icon size warning in debug mode only
-      fixed malformed explicit template instanciation
-      fixed charset identifiers
-      converted to unix encoding
-      dangling WindowOptions::icon pointer in combineOptions
-      Romanian translation update
-      avoid crashing on YIcons created from window properties
-      tray quirks/crashes
-      set --enable/disable-x86-asm in dependency on the target cpu
-      gcc 2.8.1 compatibility hacks
-      updated release tag to 1.0.9-pre3
-      updated messages
-      verbosity fix
-      added polish messages
-      updated Polish Translation
-      killed my mad icewm.pot.orig code
-      translator info
-      updated polish messages again
-      moved the contrib stuff to sourceforge
-      updated russian messages
-      changed minimal required width size to 1 (there can't be windows with
-        width == 0)
-      fix for bug #209114
-      let's release this cruft
-      try to respect SuSE's idea of the documentation location
-      merged 1.0.9-2 fixes
-      added .cvsignore files
-
-Brian Bidulock <bidulock@openss7.org> (128):
-      applied icewm.svg.patch from archlinux
-      applied wmclient.patch from archlinux
-      applied icewm-cpustatus.patch from archlinux
-      applied aapm_power.patch from archlinux
-      applied hack_more_netdevs.patch from archlinux
-      applied acpustatus_read_cpuinfo_cur_freq.patch from archlinux
-      applied net-rage-in-bits-per-second.patch from archlinux
-      icewm-build-fixes.patch from pld-linux
-      icewm-fix_input_focus_loss_for_deiconified_frame_1.patch from pld-linux
-      icewm-autohide.patch from archlinux
-      fix missing prototype for startTimer
-      rename configure.in
-      restore missing manual page
-      remove renamed file
-      what a funny ac_init
-      build fixes, remove all compiler warnings
-      split _WIN_PROTOCOLS and _NET_SUPPORTED
-      identify all ICCCM, WMH and EWMH atoms
-      several more EWMH window type atoms
-      add missing EWMH atoms
-      start adding more EWMH support
-      property support skip pager hint
-      support all Net/WM actions, states, window types
-      add and update ICCCM/EWMH compliance
-      only announce work area when it changes
-      added todo items
-      no need to move windows unless work area changed
-      more todo items
-      correct _NET_WM_NAME add _NET_DESKTOP_VIEWPORT
-      trivial support for _NET_WM_STRUT_PARTIAL
-      handle strut partial a bit better
-      add support for visible (icon) name
-      _NET_WM_ICON is supported
-      added support for _NET_FRAME_EXTENTS
-      added support for _NET_WM_USER_TIME
-      add support for _NET_SHOWING_DESKTOP
-      add support for _NET_RESTACK_WINDOW
-      support state only _NET_WM_STATE_MODAL
-      avoid loss of names on restart
-      support dynamic desktops
-      shut off temporarily _NET_NUMBER_OF_DESKTOPS
-      Revert "shut off temporarily _NET_NUMBER_OF_DESKTOPS"
-      Revert "support dynamic desktops"
-      update desktop names when then change
-      update moveMenu when workspace names change
-      relabel workspace pane buttons when names change
-      _NET_DESKTOP_NAMES now fully supported
-      update _NET_DESKTOP_NAMES and _WIN_WORKSPACE_NAMES
-      full support for _NET_NUMBER_OF_DESKTOPS
-      also relabel tooltips when renaming workspaces
-      update compliance
-      housekeeping for release
-      added NEWS file
-      typo
-      fix long standing _ICEWM_ACTION regression
-      add ICCCM information to WM selection/check windows
-      more ignore files
-      process _NET_STARTUP_ID timestamps
-      mark support for _NET_STARTUP_ID
-      get --enable-guievents working again Issue #1
-      applied icewm-1.2.23-alsa.patch
-      add ALSA to configure
-      Merge branch 'icewm-1-3-BRANCH' of https://github.com/DeltaResero/icewm
-        into icewm-1-3-BRANCH
-      added src/icesound to .gitignore
-      corrected po files for ALSA sound
-      converted to use automake
-      missing ifdef WMSPEC_HINTS
-      readd po/POTFILES.in
-      more ignores
-      reverse linkage order for asneeded linking
-      get rid of some complier warnings
-      remove remaining warnings -D_FORTIFY_SOURCE=2
-      put .desktop files in xsessions for window managers
-      correct separate directory build
-      fix issue #5 drop gettext to 0.18
-      Merge branch 'icewm-1-3-BRANCH' of https://github.com/bbidulock/icewm into
-        icewm-1-3-BRANCH
-      tell autopoint to use latest gettext version
-      correct memory bugs revealed using valgrind
-      started fixing memory leaks using valgrind
-      fixing more memory leaks from valgrind
-      another memory leak
-      more valgrind memory leaks
-      two more memory leaks
-      another memory leak
-      more memory leaks
-      another memory leak
-      one last memory leak
-      _NET_WM_NAME was including a terminating null
-      also set backing store to NotUseful before reparenting client
-      correct documentation link
-      make icetray reload style when _ICEWM_ACTION received
-      Applied archlinux icewm-1.3.8-remain_power.patch
-      add maintainer configure script
-      fix gcc-4.9.0 compiler warning
-      add xpms missed by cvs to git conversion
-      correct taskbar start.xpm
-      spelling correction
-      FreeBSD build corrections
-      added time fuziness
-      minor build corrections and cosmetics
-      use marko's approach to keysyms
-      correct build when gnome2 libraries are present
-      test skipping of taskbar
-      handle arguments better
-      handle oversized icons from GTK3
-      qt5 fix
-      add upstream comments
-      Merge branch 'icewm-1-3-BRANCH' of https://github.com/mrbrainsample/icewm
-        into icewm-1-3-BRANCH
-      correct instructions in README (fixes issue 6)
-      add full support for _NET_WM_STATE_FOCUSED
-      update po file line numbers
-      forgot to intern _XA_NET_WM_STATE_FOCUSED atom
-      do not let sent events stop proxying button events
-      added missing Type= key
-      satisfy gcc 4.9.1
-      updated po files
-      turn i18n back on: should fix issue #8
-      update po file line numbers again
-      Updated es translation
+Bert Gijsbers <gijsbers@science.uva.nl> (126):
+      Fix #350. thx!
+      more robust fix for SIGFPE commit 6ef7a381dc12de5c8d179511a7733da12bacc0ed
+      wrap negative increments around.
+      Fix icesh -last. Fix toggleState for #354.
+      Simplify partial struts. Check if window gravity was specified. If
+        testDestroyed failed then Wait for DestroyNotify. Only call
+        updateMwmHints if WM_NORMAL_HINTS has really changed for Xephyr in #353.
+        Only update if WIN_HINTS has really changed.
+      setDestroyed + testDestroyed.
+      On startup postpone creating taskbar. Set frame background color. Lock
+        work area. Improve work area efficiency. Prevent nested server grabs.
+        Simplify edges. Increase/decrease number of workspaces not in
+        incremental steps, but all at once.
+      Don't focus frame under mouse if ClickToFocus in issue #355 and issue
+        #358.
+      Allow to reload winoptions without requiring a restart for issue #353..
+      add class YStringList
+      Move workspace info to dedicated class Workspaces.
+      Remove static limitations on number of workspaces.
+      Make YInputLine reusable.
+      Fix button click for derived classes.
+      Limit number of taskbar workspaces
+      TaskBarWorkspacesLimit.
+      repaint must be virtual.
+      eliminate flicker.
+      implement issue #314 to put start menu button in the corner.
+      handleClick for framebutton should call YButton::handleClick. This
+        complements commit 1caa1178f615ed06f56c4fa512829a56141ddbb9.
+      resurrect TaskBarFullscreenAutoShow for issue #361.
+      undo optimization
+      Add missing =over + =back.
+      --nobg          Do not start icewmbg
+      lazily
+      depth 24.
+      YRect2.
+      Don't create menus on startup. Support use of 32-bit visuals within icewm.
+        Add optional splash window (default OFF). Enable logging on startup.
+        Support 32-bit pixmaps.
+      setDefaultTheme, printPrefs.
+      paint 32-bit alpha. GraphicsBuffer. copyImage.
+      Tray support 32-bit visual.
+      tray pane buffered drawing.
+      buffered object buttons
+      taskbar use buffered graphics, objectbuttons, delay menu.
+      All frames same visual, defer client visual and bit-depth to container.
+      correlate output to input.
+      Only layout frame if resized.
+      Buffered titlebar draw.
+      prevent X errors.
+      reduce number of relayouts.
+      draw labels and dialogs buffered.
+      change default WorkspaceStatusTime to 700
+      fix includes
+      paint splash
+      buffered wm status draw
+      buffered wm status draw
+      prevent useless expose events
+      Opaqueness
+      buffer yinput
+      support opacity in color specifications as prefix "[100]"
+      support _NET_SYSTEM_TRAY_ORIENTATION, _NET_SYSTEM_TRAY_VISUAL.
+      Keep focus change for wsNoExpose.
+      prevent expose events
+      nullptr portability.
+      update workspace buttons only when idle.
+      _NET_SYSTEM_TRAY_ORIENTATION and _NET_SYSTEM_TRAY_VISUAL are now
+        supported.
+      buffered menu drawing.
+      buffered drawing for workspace buttons
+      buffered drawing for task buttons
+      BSD sighandler_t
+      buffer tooltip (for net/cpu apps).
+      buffered draw window list
+      buffered draw icehelp
+      Prevent premature drawing.
+      Warn at most once per missing font.
+      prevent a compiler warning
+      Use buffered drawing for all applets.
+      Add "systray" and "xembed" commands to list the system tray.
+      remove empty if statement
+      Support window gravity for issue #351.
+      YTextProperty
+      use XSetWMProperties.
+      update gravity filtering to the win_gravity field of WM_NORMAL_HINTS for
+        issue #351.
+      add RandR logging for #296.
+      initialize fForceImmediate.
+      reduce resizing yicons.
+      compile on OpenBSD.
+      keep showing 24-bit icons in 32-bit mode.
+      No need to reparent MiniIcon anymore.
+      _XEMBED_INFO has property type _XEMBED_INFO.
+      Complete properties list.
+      Rewrite getNetWMIcon succinctly.
+      Add winoption startClose to immediately close unwanted windows.
+      nest grabs.
+      avoid null-dereference.
+      More robust checking of workspace info.
+      logCrossing details.
+      Order global menus in reverse order of destruction.
+      Don't apply ahwm hack if a task tooltip is created for issue #370.
+      Don't pass a nullptr to mem functions.
+      use bool.
+      use bool.
+      check if null.
+      cache image.
+      reset desktop when done.
+      don't call virtual function in constructor.
+      Ensure geometry is valid in layoutClient.
+      Mwm flags member functions.
+      Support C++98.
+      Hostname is already set by SetWMProperties.
+      simplify setWinHintsHint.
+      add ClassHint constructor.
+      Use SetWMProperties and set _NET_WM_PID.
+      When Mwm changes then relayout.
+      Repaint after relayout.
+      Add "motif", "symbols". Better expression parser.
+      Create a new property when needed.
+      Correction for updateMwmHints.
+      No longer build icewmtray by default.
+      fix over/back.
+      Add 'WorkspaceNames' for issue #371.
+      Add pid and sizeto.
+      alpha, splash, extensions.
+      Require xrender xcomposite xdamage xfixes.
+      +hexDigit.
+      Enable STD_OPTIONS if internal.
+      Support more extensions: composite, damage, render. Support rgba colors.
+        Render systray icons with composite when in 32-bit alpha mode.
+      Require xrender xcomposite xdamage xfixes.
       update po files
-      updated po files
-      added maintainer script
-      tweaks to build to pass distcheck
-      updates for release build
-      do not delete README.md (for github)
-      did not mean to delete README.md
-      po does not depend on pot
-      passes distcheck again
+      Fix sizeto for sticky windows.
+      add --alpha
+      add example
+      Include X11/Xproto.h only when required.
+      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge branch 'icewm-1-4-BRANCH'
+      Prepare 1.6.0 release
 
-Stefan Giermair <zstegi@gmail.com> (25):
-      added _NET_WM_FULLSCREEN_MONITORS
-      added possibility to span a window over all screens in fullscreen mode
-      added NET_WORKAREA behaviour
-      icewmbg: implemented scaled background; draw for each screen a background
-      hide borders if window is maximized
-      added accidentally removed comment again
-      icewmbg: fix case, where image is centered/scaled and height greater width
-      icewmbg: update background if desktop size has changed
-      fix compilation against X1.4.99 (thanks amoog)
-      renamed #define for deprecated
-      removed the whole icewm deprecate define
-      added _NET_DESKTOP_GEOMETRY
-      added patch for _NET_MOVERESIZE_WINDOW (agamez)
-      Hack for java7 focus issue; deactivatable with parameter
-        ActivateJava7FocusHack=0
-      java7 focus hack: xfree str even if the title is not focusproxy
-      initialize str properly
-      update geometry for workspace edge switching
-      added -lm to CORE_LIBS #3610102
-      applied icewm-tray_hotfixes.patch from debian
-      icewmtray: support gtk3 applications
-      icewmtray: fixed crash on 2nd reloadConfig
-      added option HideBordersMaximized (default: false)
-      added option ConsiderSizeHintsMaximized (default: true)
-      icewmbg: only draw biggest image on coordinate (0/0)
-      icewmtray: added sanity check for clients
+Eduard Bloch <blade@debian.org> (8):
+      Another xrandr setup where second screen is primary
+      [cmake] Fix linking of icesh with Xinerama and Xrandr
+      Prevent a potential crash from glitches in item provider
+      Don't read trailing terminator when not needed
+      [cmake] Use list based handling of compiler options
+      Improve German translation regarding focus behaviors
+      Build fix (XTextProperty definition)
+      [cmake] Make sure to preinclude config.h
 
-Marko Macek <marko.macek@gmx.net> (23):
-      fix compile issue with 'deprecated'
-      Qt5 compatibility
-      warning fix: gdk_pixbuf_unref
-      replace usage of deprecated XKeycodeToKeysym
-      fix warning
-      remove unused code
-      remove unused code
-      app icon selection fix
-      partial support for _NET_WM_STRUT_PARTIAL
-      .gitignore
-      test code condition (debian: package_build_fixes)
-      core font loading fix (debian: package_build_fixes)
-      makefile fixes (debian: package_build_fixes)
-      tray revert (debian: tray_hotfixes)
-      imap unseen support (debian: imap_unseen)
-      debian: fix_input_focus_loss_for_deiconified_frame_1
-      debian: kfreebsd_porting_aapm
-      debian: do_not_send_configurenotify (evgeny.zubok@tochka.ru)
-      fuzzy timers - Andreas Mohr
-      debian: no_proc_acpi Description: Check for sysfs' acpi file, procfs may
-        not contain acpi data with recent kernels Author: Andrey Danin
-        <danindrey@mail.ru>, Eduard Bloch <blade@debian.org> Bug:
-        http://sourceforge.net/mailarchive/forum.php?thread_name=E1SHwYx-00029t-1N.danindrey-mail-ru%40f232.mail.ru&forum_name=icewm-devel
-        Forwarded: Yes
-      Fix reading window icon property (Stanislav Maslovski) debian:
-        icon_property_fix
-      argument parsing cleanups (debian: safe_get_argument)
-      version
+Olga Smirnova <mistresssilvara@hotmail.com> (3):
+      Added translation using Weblate (Occidental)
+      Translated using Weblate (Occidental)
+      Translated using Weblate (Russian)
 
-DeltaResero <deltaresero@zoho.com> (14):
-      Merge branches - Add missing for alsa icewm sound
-      Merge .cvsignore files into .gitignore
-      Merge README files into README.md and tweak code comments
-      Remove compiled .pox files
-      Fix disappearing system tray icons
-      Add ignoreUrgentHint to winoptions
-      Fix memory leak in icehelp.cc
-      Minor README.md tweaking
-      Fix define type for WinWorkspaceInvalid
-      configurenotify
-      Fix GCC compiler warning in wmapp.cc
-      Fix menu icon size bug
-      Change mailCommand and mailClassHint defaults
-      Remove PKG_INSTALLDIR
+Aleš Kastner <alkas@volny.cz> (2):
+      Translated using Weblate (Czech)
+      Translated using Weblate (Czech)
 
-speedblue <> (12):
-      * delete all bit shift (<< and >>) and replace them by number or by
-        function when it is necessary   * add src/bits.h for prototype
-        left_shift and right_shift   * add left_shift and right_shift functions
-           left_shift(i, j) <-> i << j     right_shift(i, j) <-> i >> j
-      add new entry (delete << and >>)
-      * remove bit shift patch - This seem to work on big endian computer.
-      * fix display of taskbar(in hide mode)
-      * fix logout poblem in icewm-lite
-      * delete debug code (forget in last commit)
-      * fix height and width problem in maximized mode
-      improved version of taskbar problem.
-      * fix interval between windows
-      * fix problem with xawdecode (in fullscreen mode)
-      * fix POP3 mailcheck breaks with some servers
-      * fix for windows interval does not work well
+David Medina <medipas@gmail.com> (2):
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
 
-speedblue <speedblue> (12):
-      * delete all bit shift (<< and >>) and replace them by number or by
-        function when it is necessary   * add src/bits.h for prototype
-        left_shift and right_shift   * add left_shift and right_shift functions
-           left_shift(i, j) <-> i << j     right_shift(i, j) <-> i >> j
-      add new entry (delete << and >>)
-      * remove bit shift patch - This seem to work on big endian computer.
-      * fix display of taskbar(in hide mode)
-      * fix logout poblem in icewm-lite
-      * delete debug code (forget in last commit)
-      * fix height and width problem in maximized mode
-      improved version of taskbar problem.
-      * fix interval between windows
-      * fix problem with xawdecode (in fullscreen mode)
-      * fix POP3 mailcheck breaks with some servers
-      * fix for windows interval does not work well
+Yasuhiko Kamata <belphegor@belbel.or.jp> (2):
+      Translated using Weblate (Japanese)
+      Translated using Weblate (Japanese)
 
-jeromem <> (7):
-      Updated Catalan translation. Thanks Toni Cunyat i Alario
-      Updated config.guess for more recent architectures.
-      Fix for a network load indicator overflow (> 2 Gb).
-      Fix for segfault when TrayDrawBevel=1
-      Changes of the day.
-      Fix for a window position bug noticeable when lauching Xchat and Galeon
-      Added Simplified Chinese translations.
+Brian Bidulock <bidulock@openss7.org> (1):
+      update to support gettext 0.20.1
 
-jeromem <jeromem> (7):
-      Updated Catalan translation. Thanks Toni Cunyat i Alario
-      Updated config.guess for more recent architectures.
-      Fix for a network load indicator overflow (> 2 Gb).
-      Fix for segfault when TrayDrawBevel=1
-      Changes of the day.
-      Fix for a window position bug noticeable when lauching Xchat and Galeon
-      Added Simplified Chinese translations.
+Ferdinand Galko <galko.ferdinand@gmail.com> (1):
+      Translated using Weblate (Slovak)
 
-gallium <> (5):
-      Import of IceWM 1.0.9-2
-      Remove unnecessary files
-      Remove unnecessary files
-      This is IceWM 1.2.0-beta1 (minus the soon to come bugfixes)
-      bugfix: Fix compilation under cygwin or when HAVE_BASENAME is defined
+Freek de Kruijf <freek@opensuse.org> (1):
+      Translated using Weblate (Dutch)
 
-gallium <gallium> (5):
-      Initial revision
-      Remove unnecessary files
-      Remove unnecessary files
-      This is IceWM 1.2.0-beta1 (minus the soon to come bugfixes)
-      bugfix: Fix compilation under cygwin or when HAVE_BASENAME is defined
+Rodrigo Macedo <rmsolucoeseminformatic4@gmail.com> (1):
+      Translated using Weblate (Portuguese (Brazil))
 
-Jeff Woods <klaatu@fnordco.com> (3):
-      Fixed (I think) a double free or corruption bug in acpustatus.cc
-      Reverted old flashblock fix because it stops Qt5 apps from creating
-        windows, because Qt5 embeds every window.
-      Give nice names to the .desktop files, because display managers that use
-        the name property show both icewm-session and icewm as just "icewm."
+Sarah Kriesch <ada.lovelace@gmx.de> (1):
+      Translated using Weblate (German)
 
-Pacho Ramos <pacho@gentoo.org> (2):
-      icewm-keys
-      icewm-toolbar
+Thomas Koller <tk120@protonmail.com> (1):
+      Translated using Weblate (German)
 
-Alexander Galanin <al@galanin.nnov.ru> (1):
-      support for unseen messages on IMAP
+Yi-Jyun Pan <pan93412@gmail.com> (1):
+      Translated using Weblate (Chinese (Taiwan))
 
-Alvaro G. M <alvaro.gamez@hazent.com> (1):
-      Reorder urgent windows switching and fix comments.
-
-Andrey Danin <danindrey@mail.ru> (1):
-      Check for sysfs acpi file, procfs may not contain acpi data with recent
-        kernels
-
-Eduard Bloch <blade@debian.org> (1):
-      Check the state of the interface with SIOCGIFFLAGS instead of traversing
-        the SIOCGIFCONF output, also checking the link state more exactly
-        (Debian bug #563371)
-
-massel <massel> (1):
-      added .cvsignore files
-
-nehalmistry <> (1):
-      fix typo
-
-nehalmistry <nehalmistry> (1):
-      fix typo
-
-uid34047 <> (1):
-      some endian stuff (24 bit visuals)
+scootergrisen <scootergrisen@gmail.com> (1):
+      Translated using Weblate (Danish)
 
 
-Release icewm-1.3.8 released 2013-11-17
+Release icewm-1.5.5 released 2019-06-07
 ---------------------------------------
 
-git shortlog -e -n -w80,6,8 1_3_8...icewm_1_3_8
+git shortlog -e -n -w80,6,8 1.5.4...1.5.5
+
+Bert Gijsbers <gijsbers@science.uva.nl> (33):
+      Add 16 new icesh commands.
+      Set EWMH window type on icewm windows.
+      Set WM_CLASS and window type on icewm windows.
+      Add opacity to winoptions.
+      correction
+      improve icesh
+      Drop support for EsounD.
+      Fix compiler warnings, prefer size_t over int, prefer nullptr over 0.
+      More icesh commands.
+      Update icewm(1) man page.
+      update. explain opacity.
+      currentWorkspace
+      CMake external systray is unsupported.
+      add order and opacity to icewmhint.
+      backwards support for nullptr.
+      +isSign
+      better icesh
+      fix compilation for C++11 and older.
+      prevent warning.
+      Add -machine option. Add the "this" workspace.  Fix window titles and icon
+        titles and support EWMH. Fix -window root and -window focus. Also print
+        workspace name for "getWorkspace". Also print PID and workspace for
+        window details.
+      icesh flexible filtering.
+      fix clang warning
+      prefer clang for cmake testing
+      icesh urgent, move frame, center, left, right, top, bottom.
+      update po files.
+      icesh clarify
+      icesh missing bits.
+      icesh monitor number
+      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      update po files
+      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge branch 'icewm-1-4-BRANCH'
+      Prepare 1.5.5 release
+
+openSUSE Weblate <weblate-noreply@opensuse.org> (4):
+      Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
+      Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
+      Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
+      Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
+
+Aleš Kastner <alkas@volny.cz> (2):
+      Translated using Weblate (Czech)
+      Translated using Weblate (Czech)
+
+David Medina <medipas@gmail.com> (2):
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+
+Ferdinand Galko <galko.ferdinand@gmail.com> (2):
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+
+Freek de Kruijf <freek@opensuse.org> (2):
+      Translated using Weblate (Dutch)
+      Translated using Weblate (Dutch)
+
+Rodrigo Macedo <rmsolucoeseminformatic4@gmail.com> (2):
+      Translated using Weblate (Portuguese (Brazil))
+      Translated using Weblate (Portuguese (Brazil))
+
+Sarah Kriesch <ada.lovelace@gmx.de> (2):
+      Translated using Weblate (German)
+      Translated using Weblate (German)
+
+Yasuhiko Kamata <belphegor@belbel.or.jp> (2):
+      Translated using Weblate (Japanese)
+      Translated using Weblate (Japanese)
+
+scootergrisen <scootergrisen@gmail.com> (2):
+      Translated using Weblate (Danish)
+      Translated using Weblate (Danish)
+
+mohammad alhargan <malham1@gmail.com> (1):
+      Translated using Weblate (Arabic)
 
 
+Release icewm-1.5.4 released 2019-04-23
+---------------------------------------
+
+git shortlog -e -n -w80,6,8 1.5.3...1.5.4
+
+Bert Gijsbers <gijsbers@science.uva.nl> (46):
+      remove stray semicolon
+      avoid clang warnings
+      solve ambiguous[] for #340
+      avoid clang warnings
+      avoid clang warnings
+      avoid clang warnings
+      avoid clang warnings
+      avoid clang warnings
+      prevent clang warnings
+      prevent clang warnings
+      prevent clang warnings
+      prevent clang warnings
+      prevent clang warnings
+      prevent clang warnings
+      prevent clang warnings
+      prevent clang warnings
+      add missing _XA_TARGETS
+      prevent clang warnings
+      prevent clang warnings
+      fix compilation for clang
+      fix clang warnings
+      avoid clang warning
+      25 more preferences documented.
+      prefer https
+      d, display. strip trailing whitespace.
+      add const_cast for #341.
+      Working around setjmp clobbering issues with high optimization levels.
+      pngload reference image
+      NanoBlue icons are PNG.
+      debug trace on request_code, not resourceid.
+      drawClippedPixmap create GC on drawable for 32-bit depth, not static.
+      fix sync type to bool.
+      support themes with indirect XPM images, like OnyX.
+      also distribute man/CMakeLists.txt.
+      Add 8 "get"-commands to icesh to complement to existing "set"-commands.
+      Clang has no variable tracking.
+      Keep icewm.html for distribution.
+      fix loop type
+      avoid dangling pointer
+      update icewmhint
+      more logging detail
+      explain env. update locations
+      update po files
+      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge branch 'icewm-1-4-BRANCH'
+      Prepare 1.5.4 release
+
+
+Release icewm-1.5.3 released 2019-03-27
+---------------------------------------
+
+git shortlog -e -n -w80,6,8 1.5.2...1.5.3
+
+Bert Gijsbers <gijsbers@science.uva.nl> (15):
+      Restore resize behavior to 1.4.2 for #331.
+      update po files
+      Extend icesh with a dozen new icewm specific commands.
+      3 icesh commands "clients", "shown", "windows".
+      icesh title can be empty.
+      Minor icesh documentation tweaks.
+      Error if both xfreetype and corefonts are disabled for #338.
+      Remove superfluous font loading.
+      Print a warning if running without fonts for #338.
+      Avoid creating empty output files if pod2html is not installed.
+      configured +fdomenus
+      ESD is obsolete
+      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Prepare 1.5.3 release
+      1.5.3
+
+Emily Dong <Emily.Dong@excel-gits.com> (2):
+      Translated using Weblate (Chinese (China))
+      Translated using Weblate (Chinese (Taiwan))
+
+Christine Gabriel <christine@stoquart.com> (1):
+      Translated using Weblate (French)
+
+Ewelina Michalowska <ewelina.michalowska@stgambit.com> (1):
+      Translated using Weblate (Polish)
+
+George Yacoub <george.yacoub@arabize.com> (1):
+      Translated using Weblate (Arabic)
+
+Hwajin Kim <hwajin.kim@e4net.net> (1):
+      Translated using Weblate (Korean)
+
+Juan Sarria <juansarriam@gmail.com> (1):
+      Translated using Weblate (Spanish)
+
+Robert Taisz <robert.taisz@emerald.hu> (1):
+      Translated using Weblate (Hungarian)
+
+Stanislav Brabec <sbrabec@suse.cz> (1):
+      Merge remote-tracking branch 'weblate/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+
+Sven Åhr <anders.ahr@gmail.com> (1):
+      Translated using Weblate (Swedish)
 

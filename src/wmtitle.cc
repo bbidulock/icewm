@@ -54,7 +54,7 @@ YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
     fDepthButton(0)
 {
     initTitleColorsFonts();
-    setStyle(wsNoExpose);
+    addStyle(wsNoExpose);
     setWinGravity(NorthGravity);
     setBitGravity(NorthWestGravity);
     addEventMask(VisibilityChangeMask);
