@@ -1,11 +1,166 @@
-icewm -- history of user-visible changes.  2019-11-24
+icewm -- history of user-visible changes.  2020-02-08
 
-Release icewm-1.6.3 released 2019-11-24
+Release icewm-1.6.4.25 released 2020-02-08
+------------------------------------------
+
+git shortlog -e -n -w80,6,8 1.6.4...HEAD
+
+Bert Gijsbers <gijsbers@science.uva.nl> (21):
+      Split off ytime.h and ytime.cc for icesh which doesn't need YTimer nor
+        YApplication.
+      Use YArray in WindowList.
+      "icesh last" should only read the client list if there was no previous
+        selection.
+      Add more non-default build targets to .gitignore.
+      Fix 3 WIN_STATE comments in header
+      Simplify conversion between _NET_WM_STATE and WIN_STATE.
+      Simplify YProperty array access.
+      Remove obsolete WinHintsDockHorizontal comments.
+      YProperty constructor for Window handle.
+      YTextProperty accepts nullptr.
+      Use YProperty for less noise.
+      Use YProperty to reduce noise.
+      setWinStateHint is not needed for window list window.
+      Use YProperty to simplify.
+      Use YProperty and setProperty to reduce unreadable code.
+      Restore close button for About and Windowlist windows.
+      Eliminate one loop in getWindowsToArrange.
+      Relinquish manager selection when done. If exec fails then let
+        icewm-session restart icewm.
+      skip separators for #409.
+      Implement -X for ice-wm/icewm#10.
+      Document all task button mouse clicks.
+
+Brian Bidulock <bidulock@openss7.org> (3):
+      bit better release file generation
+      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
+        icewm-1-4-BRANCH
+      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
+        icewm-1-4-BRANCH
+
+David Medina <medipas@gmail.com> (1):
+      Translated using Weblate (Catalan)
+
+
+Release icewm-1.6.4 released 2020-01-09
+---------------------------------------
+
+git shortlog -e -n -w80,6,8 1.6.3...1.6.4
+
+Bert Gijsbers <gijsbers@science.uva.nl> (50):
+      Use "icesh keys" to let icewm reload the keybindings from the "keys" file.
+      Update winoptions (+ keys).
+      Allow mouse pointer buttons to trigger actions from "keys" for #333.
+      If theme could not be found then try the default theme.
+      add getAtomName.
+      Always keep track of WM_CLIENT_LEADER property.
+      Focus urgent window if same leader as focused for #358.
+      Add --trace to --help.
+      -p, -s.
+      Update po files
+      Revert "Restrict the backtrace printing code to Linux and FreeBSD" as this
+        breaks *BSD. This reverts commit
+        e066f4b4b1f7cdae0ad306e285cb7ee970edf7fe.
+      port getprogname to hurd.
+      assume abort
+      mstring to the point
+      deduce fHotCharPos from hotKey
+      experiment with ATH 10 for #392
+      163
+      reduce checks to essentials to speedup compilation a bit
+      If not other source of icon was found, then use WM_CLASS name to locate
+        one (possibly in /usr/share/pixmaps/).
+      make iceclock, iceicon, iceview compile and run.
+      Give focus_mode a readable header and also allow focus_mode names.
+      Generic list iterator.
+      +setNetPid
+      Add tracing of executed programs.  Remove execAfterFork.
+      getFont.
+      Make iceicon, icerun, iceview run.
+      more hints and views.
+      isPrint
+      make icelist compile and run.
+      add spy and sizeby.
+      prefer isEmpty.
+      Fix for pagerShowPreview for very wide multi-head desktops. Fix for
+        context menu popup in icehelp. Fix for positioning of splash window on
+        multi-head displays. Fix for positioning of status window on multi-head
+        displays. Fix for positioning of window list window on multi-head
+        displays. Fix for positioning of tooltip windows on multi-head displays.
+        Fix for missed events when monitor changes resolution. Remove
+        superfluous taskbar handleEndPopup.
+      Document spy and sizeby.
+      xdg_menu.
+      Add to spy Enter, Leave, Circulate and fix +window options.
+      Rewrite ypointer to make it smaller and simpler.
+      portability for older systems.
+      portability to older systems.
+      port to for older systems
+      Use GLIB_CHECK_VERSION to test call to g_type_init.
+      Remember existing desktop geometry before calling XRRUpdateConfiguration
+        for #296.
+      must call g_type_init on old systems.
+      Replace implementation of _NET_MOVERESIZE_WINDOW for #401.
+      Use the _NET_MOVERESIZE_WINDOW of #401 for moving and sizing.
+      Don't show YMsgBox in top left corner.
+      document
+      remove .bak
+      fix gcc warnings.
+      Textcolor -> text color.
+      Update version number to 1.6.4 and fix cmake build for icesh by adding
+        ytimer.cc.
+
+Eduard Bloch <blade@debian.org> (4):
+      Added explicit hint to check preferences manpage for key inbinding.
+      Replaced xterm with XTERMCMD in calculator command
+      Hints for translators to care about hotkeys
+      Restrict the backtrace printing code to Linux and FreeBSD
+
+Kevin Suo <suokunlong@126.com> (2):
+      Translated using Weblate (Chinese (China))
+      Translated using Weblate (Chinese (China))
+
+Aleš Kastner <alkas@volny.cz> (1):
+      Translated using Weblate (Czech)
+
+Brian Bidulock <bidulock@openss7.org> (1):
+      full placement is applicable
+
+David Medina <medipas@gmail.com> (1):
+      Translated using Weblate (Catalan)
+
+Ferdinand Galko <galko.ferdinand@gmail.com> (1):
+      Translated using Weblate (Slovak)
+
+Freek de Kruijf <freek@opensuse.org> (1):
+      Translated using Weblate (Dutch)
+
+Kimmo Kujansuu <mrkujansuu@gmail.com> (1):
+      Translated using Weblate (Finnish)
+
+Luiz Fernando Ranghetti <elchevive68@gmail.com> (1):
+      Translated using Weblate (Portuguese (Brazil))
+
+Sarah Kriesch <ada.lovelace@gmx.de> (1):
+      Translated using Weblate (German)
+
+Stanislav Brabec <sbrabec@suse.cz> (1):
+      Merge remote-tracking branch 'weblate/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+
+Yasuhiko Kamata <belphegor@belbel.or.jp> (1):
+      Translated using Weblate (Japanese)
+
+scootergrisen <scootergrisen@gmail.com> (1):
+      Translated using Weblate (Danish)
+
+
+Release icewm-1.6.3 released 2019-11-25
 ---------------------------------------
 
 git shortlog -e -n -w80,6,8 1.6.2...1.6.3
 
-Bert Gijsbers <gijsbers@science.uva.nl> (32):
+Bert Gijsbers <gijsbers@science.uva.nl> (30):
       [cmake] Give XTERMCMD a default, otherwise it remains empty in
         lib/toolbar.
       XPM must be ON for themable cursors.
@@ -35,13 +190,9 @@ Bert Gijsbers <gijsbers@science.uva.nl> (32):
       Improve icon handling in WindowList for #392.
       Clarify icon.
       Improve drawing of dashes for window list.
-      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
-        icewm-1-4-BRANCH
       Clean .bak files.
       add ytrace.h.
-      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
-        icewm-1-4-BRANCH
-      Merge branch 'icewm-1-4-BRANCH'
+      Update from released.
 
 Brian Bidulock <bidulock@openss7.org> (2):
       address issue #399
@@ -51,19 +202,22 @@ Kimmo Kujansuu <mrkujansuu@gmail.com> (2):
       Translated using Weblate (Finnish)
       Translated using Weblate (Finnish)
 
-Alessio Adamo <alessio.adamo@gmail.com> (1):
-      Translated using Weblate (Italian)
-
 Artem Polishchuk <tim77@users.noreply.github.com> (1):
       Convert tab to spaces (#390)
 
 
-Release icewm-1.6.2 released 2019-09-17
+Release icewm-1.6.2 released 2019-09-18
 ---------------------------------------
+
+git tag -n100 -l 1.6.2
+
+1.6.2           Translated using Weblate (Italian)
+
+    Currently translated at 99.1% (461 of 465 strings)
 
 git shortlog -e -n -w80,6,8 1.6.1...1.6.2
 
-Bert Gijsbers <gijsbers@science.uva.nl> (43):
+Bert Gijsbers <gijsbers@science.uva.nl> (40):
       Update to 1.6.1. Prefer lzip over xz due to popular demand.
       Silence icehelp.
       Restore use of ColorQuickSwitchActive for vertical switching for issue
@@ -112,10 +266,6 @@ Bert Gijsbers <gijsbers@science.uva.nl> (43):
         XTERMCMD.
       Substitute CFGDIR and LIBDIR. Substitute xterm for XTERMCMD for #379.
       Substitute installation directories.
-      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
-        icewm-1-4-BRANCH
-      Merge branch 'icewm-1-4-BRANCH'
-      Prepare 1.6.2 release
 
 Eduard Bloch <blade@debian.org> (5):
       [cmake] Make check of mandatory X libs strict
@@ -128,25 +278,24 @@ micrococo <micrococo@users.noreply.github.com> (2):
       Fix some typos in documentation (#378)
       Update Spanish translation of desktop files (#380)
 
+Alessio Adamo <alessio.adamo@gmail.com> (1):
+      Translated using Weblate (Italian)
 
-Release icewm-1.6.1 released 2019-08-22
+
+Release icewm-1.6.1 released 2019-08-21
 ---------------------------------------
+
+git tag -n100 -l 1.6.1
+
+1.6.1           Translated using Weblate (Spanish)
+
+    Currently translated at 99.4% (462 of 465 strings)
 
 git shortlog -e -n -w80,6,8 1.6.0...1.6.1
 
-Bert Gijsbers <gijsbers@science.uva.nl> (5):
+Bert Gijsbers <gijsbers@science.uva.nl> (2):
       Clear GraphicsBuffer so we can have a transparent taskbar in issue #299.
       Don't composite systray when using 24-bit RGB visuals for issue #374.
-      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
-        icewm-1-4-BRANCH
-      Merge branch 'icewm-1-4-BRANCH'
-      Prepare 1.6.1 release
-
-Aleš Kastner <alkas@volny.cz> (1):
-      Translated using Weblate (Czech)
-
-Ferdinand Galko <galko.ferdinand@gmail.com> (1):
-      Translated using Weblate (Slovak)
 
 Luiz Fernando Ranghetti <elchevive68@gmail.com> (1):
       Translated using Weblate (Portuguese (Brazil))
@@ -157,16 +306,19 @@ Sarah Kriesch <ada.lovelace@gmx.de> (1):
 jcsl <trcs@gmx.com> (1):
       Translated using Weblate (Spanish)
 
-scootergrisen <scootergrisen@gmail.com> (1):
-      Translated using Weblate (Danish)
-
 
 Release icewm-1.6.0 released 2019-08-18
 ---------------------------------------
 
+git tag -n100 -l 1.6.0
+
+1.6.0           Translated using Weblate (Slovak)
+
+    Currently translated at 100.0% (465 of 465 strings)
+
 git shortlog -e -n -w80,6,8 1.5.5...1.6.0
 
-Bert Gijsbers <gijsbers@science.uva.nl> (126):
+Bert Gijsbers <gijsbers@science.uva.nl> (123):
       Fix #350. thx!
       more robust fix for SIGFPE commit 6ef7a381dc12de5c8d179511a7733da12bacc0ed
       wrap negative increments around.
@@ -303,10 +455,6 @@ Bert Gijsbers <gijsbers@science.uva.nl> (126):
       add --alpha
       add example
       Include X11/Xproto.h only when required.
-      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
-        icewm-1-4-BRANCH
-      Merge branch 'icewm-1-4-BRANCH'
-      Prepare 1.6.0 release
 
 Eduard Bloch <blade@debian.org> (8):
       Another xrandr setup where second screen is primary
@@ -318,28 +466,34 @@ Eduard Bloch <blade@debian.org> (8):
       Build fix (XTextProperty definition)
       [cmake] Make sure to preinclude config.h
 
+Aleš Kastner <alkas@volny.cz> (3):
+      Translated using Weblate (Czech)
+      Translated using Weblate (Czech)
+      Translated using Weblate (Czech)
+
 Olga Smirnova <mistresssilvara@hotmail.com> (3):
       Added translation using Weblate (Occidental)
       Translated using Weblate (Occidental)
       Translated using Weblate (Russian)
 
-Aleš Kastner <alkas@volny.cz> (2):
-      Translated using Weblate (Czech)
-      Translated using Weblate (Czech)
-
 David Medina <medipas@gmail.com> (2):
       Translated using Weblate (Catalan)
       Translated using Weblate (Catalan)
+
+Ferdinand Galko <galko.ferdinand@gmail.com> (2):
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
 
 Yasuhiko Kamata <belphegor@belbel.or.jp> (2):
       Translated using Weblate (Japanese)
       Translated using Weblate (Japanese)
 
+scootergrisen <scootergrisen@gmail.com> (2):
+      Translated using Weblate (Danish)
+      Translated using Weblate (Danish)
+
 Brian Bidulock <bidulock@openss7.org> (1):
       update to support gettext 0.20.1
-
-Ferdinand Galko <galko.ferdinand@gmail.com> (1):
-      Translated using Weblate (Slovak)
 
 Freek de Kruijf <freek@opensuse.org> (1):
       Translated using Weblate (Dutch)
@@ -356,103 +510,1043 @@ Thomas Koller <tk120@protonmail.com> (1):
 Yi-Jyun Pan <pan93412@gmail.com> (1):
       Translated using Weblate (Chinese (Taiwan))
 
-scootergrisen <scootergrisen@gmail.com> (1):
-      Translated using Weblate (Danish)
-
 
 Release icewm-1.5.5 released 2019-06-07
 ---------------------------------------
 
-git shortlog -e -n -w80,6,8 1.5.4...1.5.5
+git shortlog -e -n -w80,6,8 1.4.2...1.5.5
 
-Bert Gijsbers <gijsbers@science.uva.nl> (33):
-      Add 16 new icesh commands.
-      Set EWMH window type on icewm windows.
-      Set WM_CLASS and window type on icewm windows.
-      Add opacity to winoptions.
-      correction
-      improve icesh
-      Drop support for EsounD.
-      Fix compiler warnings, prefer size_t over int, prefer nullptr over 0.
-      More icesh commands.
-      Update icewm(1) man page.
-      update. explain opacity.
-      currentWorkspace
-      CMake external systray is unsupported.
-      add order and opacity to icewmhint.
-      backwards support for nullptr.
-      +isSign
-      better icesh
-      fix compilation for C++11 and older.
-      prevent warning.
-      Add -machine option. Add the "this" workspace.  Fix window titles and icon
-        titles and support EWMH. Fix -window root and -window focus. Also print
-        workspace name for "getWorkspace". Also print PID and workspace for
-        window details.
-      icesh flexible filtering.
-      fix clang warning
-      prefer clang for cmake testing
-      icesh urgent, move frame, center, left, right, top, bottom.
-      update po files.
-      icesh clarify
-      icesh missing bits.
-      icesh monitor number
-      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
+Bert Gijsbers <gijsbers@science.uva.nl> (804):
+      Add class YArrayIterator for easy iteratation over YArrays.
+      Move definition of null to ref.cc to make clang-analyze happy.
+      4 assignment operators for easy initialization of smart pointers.
+      prevent a leak on nstr in unescape.
+      make scrollGC not static but local.
+      Reduce clutter and clarify.
+      Make tabPos not unsigned but int to prevent warnings, in multilineAlloc.
+      Make sure *key is initialized (clang-analyze). Add YConfig::cfoptionSize()
+        for genpref.
+      Simplify rd_str and prevent a corruption on bad input.
+      Free theme_preferences when done.
+      container->addSorted may refuse to add an item its name is a duplicate.
+        Detect this and free the item to prevent a leak (3x).
+      Prevent a memory leak.
+      When executing a child program check if it can be found alongside the
+        absolute path of icewm-session. Also fix the examination of exit status
+        of icewm and the detection of crashes.
+      Also print a string option if it has only just a description, but not a
+        non-null value.
+      Adding a menu item may fail. If this happens then the items must be freed
+        to prevent a leak.
+      Fix the calculation in the comment for DECIMAL_DIGIT_COUNT. Base max on
+        less than. Add inrange. Add GetArgument. Fix an off-by-one error in
+        intersection and reduce it to a one-liner.
+      Replace the taskBarBg global, which was initialed everywhere, by the
+        function getTaskBarBg(). Properly free data on when taskbar is done.
+        Sanitize taskBarAtTop (clang-analyze).
+      Add two options to control the max tray icon dimensions.
+      Add some handy operators for struct timeval. Add support for clock_gettime
+        and prefer it over gettimeofday. Use monotonic clocks for interval
+        measurements. Simplify timer management. Simplify
+        YApplication::mainLoop. When HOME is undefined get its value from
+        getpwuid.
+      Cleanup battery code. Free all resources. No globals.
+      Add two new options to control applet dimensions: TaskBarGraphHeight,
+        TaskBarGraphWidth. Free resources when done. No globals. Fix
+        MEMStatus::parseField.
+      use getTaskBarBg().
+      Make flash time have sub-second precision. Changes to make clang-analyze
+        happy.
+      free workspace data when done.
+      use getTaskBarBg().
+      Use monotonic time. Fix interval calculation.
+      Define getTaskBarBg(). Prevent leaks. Details.
+      use getTaskBarBg().
+      Calculate stringOffset just once (clang-analyze).
+      Make Graphics smaller/cheaper. Add more precise drawPixmap for speed
+        improvements to large images like backgrounds. Make YDimension use ints
+        to prevent warnings. Remove obsolete CONFIG_ANTIALIASING code.
+      timers for mainLoop.
+      Check if directories are searchable.
+      Add 3 more focus models. freeActions() when done. Hide globals behind a
+        function. Restart icewm from same executable location. Don't initialize
+        upath to 0 but to null. If an item could not be added to a menu then
+        free it.
+      free when done.
+      remove unused code.
+      Don't init a upath with NULL, but use null.
+      Create the dialog buttons in the order such that tabbing through them is
+        in reading order left-right-top-to-bottom.
+      Implement UserTime in a separate class with an extra seconds field.
+      Fix getNetWMStrutPartial. Initialize property data pointer before testing
+        if it is non-null.
+      We no longer need ypixbuf.cc ypixbuf.h yimage.cc.
+      No longer include ypixbuf.h.
+      Remove globals.
+      initialize prop before using it.
+      Rewrite icewmbg to support unique colors and images per workspace.
+        Backgrounds are periodically checked for changes on filesystem when
+        switching workspace. New option for one large full multi-head monitor
+        background. Can now also scale an image to fully cover a single monitor.
+        Suppors all configuration options also from the command line.
+      Remove the ifdef CONFIG_GUIEVENTS around "extern YWMApp* wmapp", so that
+        it is always available.
+      Add some ifdefs/ifndefs to support different configure --enable/--disable
+        option combinations.
+      Changes for ALTLinux which has its own prototypes for strlcpy/strlcat.
+        Also cleanup obsolete AC_FUNC_*s and sort -u the CHECK_FUNCs. Add two
+        AC_RUN_IFELSE to detect correct operations of strlcpy/strcat. Define
+        HAVE_STRLCPY / HAVE_STRLCAT if they do. Don't include our own
+        strlcpy/strlcat if these are defined.
+      Better fix for HAVE_STRLCPY/HAVE_STRLCAT.
+      Also mention HAVE_STRLCPY and HAVE_STRLCAT. Remove obsolete and duplicate
+        defines. Define defines always with a true numeric value of 1.
+      Prefer AC_DEFINE/AH_TEMPLATE over AC_DEFINE_UNQUOTED. This gives an #undef
+        instead of a #define to 0, which is what we want.
+      Manual pages in AsciiDoc.
+      Generate manpages and html files from AsciiDoc.
+      ASCIIMAN and ASCIIMAN_FORMAT variables for generating manpages from
+        AsciiDoc.
+      Generate manpages + their html from AsciiDoc.
+      Explicitly control which themes are installed.
+      Update links to online docs.
+      Fix URL formatting.
+      Move ypaths.h out of yapp.h, because a pure-yapps may not need X11.
+        Include ypaths.h into some C++ files which do need it.
+      Have --help and --version exit not with 1, but with 0.
+      Make icewm-session resilient against a missing icewmtray. Add a --notray
+        option to not start icewmtray. See issue
+        https://github.com/bbidulock/icewm/issues/154.
+      Make icewm-session much smaller in size by not linking any X11, image or
+        font library. ylibrary.cc and ylibrary.h are obsolete. Reduce
+        AM_INSTALLCHECK_STD_OPTIONS_EXEMPT programs.
+      icewm-session --notray.
+      Change Menu Help into a submenu with 3 items for all manual pages.
+      Redesign/rewrite icesound. Try all enabled sound drivers until one works,
+        from ESD, ALSA, OSS, but the order can be specified. Drop support for
+        YIFF. Fix support for ALSA. Make class YCommandLine obsolete. Make
+        verbose more usefully verbose. Add -O and -A options. Also check in
+        ~/.config/icewm/sounds/ for audio files. Identify which GUI events are
+        not implemented yet.
+      drop YIFF.
+      GUI_EVENT_NAMES were not used (prevent a warning).
+      include strings.h for strcasecmp.
+      Update build for new icesound.
+      More sounds info. Add keys example.
+      Move obsolete source to attic.
+      Fixes for correctly drawing taskbarbg.xpm when it is a Gradient. See issue
+        https://github.com/bbidulock/icewm/issues/87.
+      mstring additions to reduce memory allocations.
+      Three fixes for correctly drawing taskbarbg.xpm when it is a Gradient. See
+        issue https://github.com/bbidulock/icewm/issues/87.
+      include strings.h for strcasecmp. Make History::get() return a const
+        char*.
+      Remove superfluous GUI_EVENT_NAMES to prevent a warning.
+      mstring additions to reduce very-short-lived memory allocations.
+      Redesign/rewrite icesound. Try all enabled sound drivers until one works,
+        from AO, ESD, ALSA, OSS, but the order can be specified. Drop support
+        for YIFF. Add support for libAO. Fix support for ALSA. Make class
+        YCommandLine obsolete. Make verbose more usefully verbose. Add -O and -A
+        options. Also check in ~/.config/icewm/sounds/ for audio files. Replace
+        the busy-wait polling with a blocking select. Identify which GUI events
+        are not implemented yet. Update CMake, autoconf/automake and manpage.
+      Move obsolete sources to attic (ycmdline, yimage, ylibrary, ypixbuf).
+      Update CMake build for icesound with libAO.
+      icesound manpage and html.
+      More icesound support.
+      Changes for debug build.
+      Updates for upcoming release.
+      Make distcheck work again by removing obsolete sources src/ycmdline.cc
+        src/yimage.cc src/ylibrary.cc src/ypixbuf.cc.
+      Add new AsciiDoc manpages icesound.1.adoc icewm.1.adoc icewmbg.1.adoc.
+      ASCIIMAN variables for adoc to manpage conversion.
+      Generate .1 manpages from AsciiDoc.
+      CMake support for generating manpages from AsciiDoc.
+      Add icesound.
+      Make icewm-session much smaller by not linking any X11/font/image libs.
+      CMake much smaller icewm-session by not linking any X11/font/image libs.
+      Redirect the help message output to stdout.
+      Make --help output go to stdout and exit success.
+      AM_INSTALLCHECK_STD_OPTIONS_EXEMPT is no longer needed to make distcheck
+        succesful.
+      Move obsolete sources to attic and have make distcheck OK!
+      Don't initialize a ref with NULL, but use null.
+      Don't initialize a ref with NULL, but use null. Free fBrighter and fDarker
+        when YColor is done. Prevent copying YColor. Fix indentation of
+        Graphics::drawSurface. Cleanup and simplify.
+      Enforce that a ref cannot be initialized with a NULL or, but require a
+        null.
+      Update NanoBlue to version 1.2 by SolisX.
+      +ledclock, +collapse.xpm, +expand.xpm.
+      Only apply TimeFormat hack when it is still equal to '%X'. See issue #159.
+      Docked iterator simplifies 8 loops.
+      When ledPixSpace is 1 pixel wide then replicate it 5 times per space.
+      Use tlog for MSG reports.
+      Start icesound before icewm so it can catch the geStartup event.
+      Let tlog also report milliseconds.
+      When signalling GUI events: The first event must be geStartup, Ignore all
+        other events before that. Because there is no event buffering, when
+        multiple events occur in a burst, only signal the first event of the
+        burst. See issue #159.
+      Also support geDialogClosed and geDialogOpened GUI events. Don't generate
+        a geWindowLower GUI event when the window is minimized, otherwise
+        geWindowMin will be overwritten and missed by icesound. See issue #159.
+      Also support geDialogClosed and geDialogOpened GUI events.
+      If sound could not be played then don't ignore next event. Add -z ad -l
+        options. Support geDialogOpened and geDialogClosed. Report which audio
+        interface is used if verbose.
+      Update for -z, -l.
+      Better explain how to add a toolbar button. See issue #163.
+      install _mandir/man1/*
+      Fix AO for single channel sound files. Add --play to easily test sounds.
+      New OSS requires sndfile and sys/soundcard.h.
+      Add proper support for the OSS audio interface.
+      Fully support OSS.
+      cmake for the new OSS.
+      Let icewm-session close unwanted file descriptors on startup without
+        making any disturbing noise. See issue #165.
+      Close OSS device when done.
+      Update for icesound --play and list of sounds (dialogs).
+      Better fix for ledPixSpace being only 1 pixel wide.
+      Add root() to xapp to easily get the X Root window.
+      Make doWMAction static so we can use it elsewhere without a manager.
+      Make the icewm -r, --restart flag restart the running icewm.
+      Document new behavior of the -r, --restart option.
+      enable translations for registerProtocols.
+      Inline zerotime. Remove coarse timers (too coarse).
+      rename ignore_enternotify_hack to EnterNotifySerial and put in class
+        YWindow.
+      undo inadvertent DEBUG define
+      Add the word "Manual" to the title to more easily differentiate it from
+        manpages.
+      Give each help page its own resource class name.
+      No need for XSync when this is implicit in a subsequent function call.
+      Remove 2 superfluous XSyncs.
+      Before exec or exit XFlush suffices.
+      use False instead of 0.
+      Support HTML special double quotes.
+      XQueryTree may fail, so ensure winClients is properly initialized.
+      clarify setBorder configureRequest.
+      Move fd-leak-patch.txt to contrib/.
+      Move OS2 files to contrib/.
+      NO_CONFIGURE only applies to preferences options. Other options like
+        --notify must still work when NO_CONFIGURE is defined.
+      Fix ifndef/define WMACTION_H.
+      Ensure X11/keysym.h is included in icehelp.
+      Ensure X11/Xutil.h is included in wmclient.h
+      Remove include "config.h" from yarray.h (must be included in .cc).
+      Remove Atoms which are: not used and defined in X11/Xatom.h.
+      Remove unused occupyMenu and maximizeMenu.
+      Remove unused _XA_WM_CLIENT_MACHINE and _XA_NET_WM_OPACITY.
+      LogoutCommand should not affect the menu entries for Shutdown and Reboot.
+        See issue #167.
+      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
         icewm-1-4-BRANCH
+      Remove old debug warning.
+      Revert "Added sane c_str shortcut". Because is a naieve mistake. If it
+        were possible than class cstring is superfluous.
+      automake 1.13.4 still works fine
+      Eliminate duplicate code, cleanup and simplify.
+      Be more explicit about test results. Some extra newlines for readability.
+      No lazy or static needed for initialization of mailbox app.
+      boolstr.
+      class YAtom.
+      Changes to tray. Solutions for bug #152.
+      When including both yarray.h and mstring.h then include mstring before
+        yarray.
+      Memory leak fix and improvements for YRefArray. Derive YStringArray from
+        YArray instead of YBaseArray. Add new class MStringArray for efficient
+        array for mstrings.
+      New tests for MStringArray and YRefArray. Add class stringcounted.
+      Fix compilation for g++-4.8 for issue #152.
+      include math.h because it uses round(3).
+      Replace fmax/fmin by max/min as this is all integers, not FP.
+      free rootProxy.
+      free fTasks and fWindowTray.
+      free workspaceItem[].
+      construct YObjectArray with a defined capacity.
+      remove erroneous csmart array index operator to fix compile error.
+      More tags. Less warnings. Support website links to local absolute paths.
+        More html special chars. Better error message translations.
+      Fix a use-after-free error (valgrind) for destroyed tray icon windows.
+        Support system tray orientation (and visual, but is now commented out).
+        Support system tray notification messages. Reduce the number of
+        superfluous tray relayouts a little bit.
+      keep expiry timer running (if nonempty).
+      add type symmetry for mstring plus operator.
+      Add some convenient options and a much more detailed help message.
+      Fix a memory leak. Add support for showing workspace names also when
+        PagerShowPreview is on.
+      Make pagerShowNumbers default false so that workspace names are shown in
+        PagerShowPreview mode.
+      swap.
+      swap two elements in an array. findRemove.
+      Manipulate tasks in the task pane more like the tabs in a web browser.
+        Improved interaction and feel. Use left mouse button instead of third.
+        Use Alt+Button2 to close a task. See issues #172.
+      Document task button behaviors.
+      document workspaces scroll wheel.
+      XDG base dir spec: "If, when attempting to write a file, the destination
+        directory is non-existant an attempt should be made to create it with
+        permission 0700."
+      add TOC. fix email
+      Split readDesktopNames in smaller functions and also limit count by
+        workspaceCount. Only set _WIN_WORKSPACE_NAMES if GNOME1_HINTS. Only set
+        _NET_DESKTOP_NAMES if WMSPEC_HINTS. Fix for setting _NET_DESKTOP_NAMES
+        where XmbTextListToTextProperty always failed for style
+        XUTF8StringStyle.
+      Create ~/.icewm/ with mode 0755.
+      Incorporate two remarks: 1. Use a smart pointer to reduce boilerplate in
+        readDesktopNames. 2. Restore XmbTextListToTextProperty in
+        setNetDesktopNames, but now use a better return code checking, to fix
+        the setting of _NET_DESKTOP_NAMES.
+      fix a memory leak for YRect in updateLayout.
+      Prevent creating a hole with undefined data if array insert is beyond the
+        current count.
+      Prefer private themes over system ones. Als have checked theme menu items
+        if a theme alternative is used (non-default.theme). Expand tabs.
+      reuse memory in setMwmHints.
+      Increase sprintf buffer size.
+      link Xlib.
+      make it compile.
+      make it compile
+      make it compile.
+      remove superfluous includes
+      Replace pointer based *YAction with value based YAction.
+      Revert erroneous commit d3b00cc4ed07f4f55695b9b91b20e0e9b08d9cf7 "JDK7
+        focus fix" as this makes IceWM focus behavior non-conformant. See issue
+        #23.
+      Correction for seconds interval not being milliseconds.
+      Taskbar never needs focus and should never get focus as focus must reside
+        with applications. See issue #23.
+      Inheritance from YAction is not needed.
+      remove 2 unused actions.
+      no need to activate the taskbar.
+      avoid RevertToNone when setting focus. use RevertToPointerRoot.
+      Turn predefined actions into an enumerated type. This allows to
+        switch-case on them and saves a little space.
+      workspaces Shift + left button click
+      should have class
+      Prevent disturbing flashing when switching focus.
+      use CopyFromParent by default as this prevents disturbing flashing on
+        frame borders when switching focus.
+      prevent disturbing flashing on miniicons
+      prefer CopyFromParent if possible.
+      Better initialization of YDesktop window.
+      When printing X errors use tlog instead of warn so we get the time in ms.
+      Don't layout resize indicators when window is fullscreen, because then
+        window widths/heights will be zero, which causes X errors.
+      When an unmap event is due to a destroy and we have the DestroyNotify then
+        set the wfDestroyed flag. This will prevent some operations which are
+        invalid for destroyed windows and only cause X errors.
+      SaveSet only applies to adopted clients, not to icewm internal windows.
+        Only call XRemoveFromSaveSet and XAddToSaveSet if the frame is adopted.
+        This saves needless operations which only result in X errors. When a
+        window is destroyed then prevent it from being focused. Check the return
+        value of XGetWindowAttributes as this may fail if window was destroyed.
+        Fix a swapped parameter order for XSelectInput.
+      Don't attempt to resize destroyed windows as this is needless and only
+        causes X errors.
+      It has no use to call setColormap when XColormapEvent is a
+        ColormapUninstalled, but it can lead to X errors.
+      Ignore stray closing form tags. Increase margins. Support WM protocols.
+      Change ToolTipDelay from 1000 to 500. (1000 is really tedious).
+      Two convenience functions for easier starting/disabling timers.
+      Split class YToolTip into a timer and a window. Only create the window
+        when needed. This saves about 25% of windows created (depends on theme).
+      Only set tooltip text once, not twice.
+      add CONFIG_RENDER to print_configured.
+      Set tooltips on taskbar collapse button.
+      prevent a SEGV crash in announceWorkArea when restarting from a nonzero
+        workspace.
+      add titles to taskbar for helpful "xwininfo -tree" output.
+      convert from YCursor to Cursor.
+      Only create titlebar buttons and resize pointer windows when it is
+        apparent that they are really required. This prevents superfluous
+        internal windows which were never used. Move titlebar buttons from
+        wmframe.cc to wmtitle.cc. Improve sensitivity of resize handles at top
+        side of title bar. Only create MiniIcon when it is going to be needed.
+      option -j#JOBS
+      add support for _NET_REQUEST_FRAME_EXTENTS.
+      Move brittle inline frame list manipulations into robust dedicated list
+        class.
+      prevent illegal window layer.
+      fix call to dumpZorder for 2nd arg.
+      fix includes
+      also include ytimer.h.
+      better fix for include is ymenu.h.
+      add options. -t runs tests on combinations of configure options.
+      free about dialog labels.
+      shrink, swap.
+      add support for _NET_DESKTOP_LAYOUT.
+      test _NET_DESKTOP_LAYOUT.
+      Use YList class to keep track of sibling windows.
+      support _NET_WM_PING.
+      corrections for _PING.
+      perf _NET_CLIENT_LIST is done: only update on stacking changes.
+      flags and style can be unsigned.
+      Keep track of frame extents and only update if changed.
+      Keep track of WM_STATE and WIN_STATE property values and only update them
+        when they have changed.
+      also track WM_STATE details.
+      TrayApps were not freed when restarting, causing ylist preconditions to
+        fail. Replacing inline list with YObjectArray corrects that and gets rid
+        of list boilerplate. Use of a smart private timer simplifies timer
+        management.
+      track 3 more properties.
+      Slightly more accurate use of fSavedWinState in setWinStateHint reduces
+        superfluous property updates a bit more.
+      Set background for tray icons in issue #188.
+      _NET_WM_PING timeout also looks fir PID/HOST in group leader.
+      Revert "Set background for tray icons in issue #188."
+      Set taskbar background. This then also becomes a default background for
+        tray icons in issue #188 while not hindering background pixmaps.
+      add last missing applet titles.
+      Make icewm tray internal by default. This is much more reliable (and
+        cheaper) than an external icewmtray process.
+      Weed out obsolete ifdefs and configure options.
+      Add option TaskBarEnableSystemTray.  Fix internal/external YXTray
+        parameter.
+      Fix 3 bugs in YVec.
+      Fix off by one bug for quickSwitchToAllWorkspaces. Reset fActiveWindow.
+        Use only valid array index parameters. Fix a SIGFP crash on modulo with
+        size 0. Make all switch window data local non-static. Refactor large
+        functions. Cancel or repaint switch window when a frame is destroyed.
+      Improvements to Switcher for when frames unexpectedly disappear. Also
+        close down the Switcher when there are no more windows.
+      Don't assume that a titlebar is always available in issue #195.
+      NOTE, INFO, CARP to report info about code problems if DEBUG or PRECON is
+        defined.
+      add demangle.
+      Use dynamic_cast for downcast from container to menu and check the result
+        for issue #195.
+      preserve virtual.
+      assign contents of array to parameter of DProgram for EDIT Menu issue
+        #195.
+      on startup reap zombies which may remain on restart from previous icewm.
+      protect
+      initialize.
+      On shutdown close any stray remaining windows in ~YDesktop.
+      prefer using over typedef if possible.
+      Update winoptions to reflect current code for issue #197. Plus more
+        updates.
+      Replace ObjectContainer with ObjectMenu for 3rd parameter of addContainer
+        to avoid downcast to multi-inheriting subclass.
+      add frame option foIgnorePagerPreview. remove unused sizeByMouse and
+        fWinStateMask.
+      Simplify WindowOptions handling and remove obsolete code. Add support for
+        parsing new "ignorePagerPreview" frame option. Use binary search  to
+        speedup winoption lookup. Check input values for validity. Only allocate
+        WindowOptions when required.
+      Update workspace buttons on screen changes when PagerShowPreview is on for
+        issue #189. Remove superfluous calls to taskBar->updateLocation(),
+        because this is already called by taskBar->relayoutNow().
+      Update winoptions for ignorePagerPreview and document the hitherto
+        undocumented default winoption value for all windows. Fix garbled
+        display of font names. Add more formatting.
+      YApm changes for OpenBSD
+      Fix to NetStatus for OpenBSD.
+      Replace sprintf by snprintf for OpenBSD.
+      Make iceclock compile again.
+      Replace strcpy by memcpy in iceicon for OpenBSD.
+      Replace strcpy by memcpy in icelist for OpenBSD.
+      include sys/socket.h
+      Replace strcpy by strlcpy for OpenBSD.
+      include signal.h.
+      Replace sprintf by snprintf for OpenBSD.
+      Fixs for OpenBSD.
+      Port taskbar to OpenBSD.
+      Port to OpenBSD G++-4.9.
+      Port ylocale to OpenBSD.
+      Simplify use of MwmHints for OpenBSD by adding a constructor.
+      Simplify use of XTextProperty for OpenBSD.
+      Drop icebar (never existed). Always make icehelp. Link with @LIBINTL@ for
+        OpenBSD.
+      AX_CXX_GCC_ABI_DEMANGLE is buggy (free is undefined). Detect support for
+        demangle inline.
+      /bin/echo doesn't work on OpenBSD, use printf instead.
+      OpenBSD sed requires file argument to be last.
+      comments
+      Avoid needless call to updateUrgency. Make movingWindow, sizingWindow
+        boolean.
+      Window list skip taskbar.
+      remove superfluous tests.
+      If XGetWindowAttributes fails then set wfDestroyed. Don't show or hide
+        wfDestroyed windows. Fix xmotion mismatch for xconfigure events.
+      Tray header cleanup.
+      Substructure events didn't work for hexchat. Add
+        YXEmbedClient::handleConfigure to catch hexchat resizing its icon. Add a
+        small delay when registering a new tray app to avoid race conditions.
+        Avoid obnoxious error messages for already destroyed tray apps.
+      Keep container on top of resize handles so as not to obstruct access to
+        the application window.
+      Setting titlebar gravity reduces flicker when resizing.
+      undo titlebar bit gravity, but keep window gravity.
+      Fix for YRect r1.height being bigger than 2 billion due to widths and
+        height being unsigned since recently...
+      Check for overflow (conversion from negative width/height) in unsigned
+        dimensions.
+      Set window list title + class.
+      Set About title + class.
+      Properly free FileView resources.
+      Fix for Tray Icon menu item not being properly disabled when
+        foIgnoreTaskBar is set.
+      Restore HAVE_XINTERNATOMS.
+      Send PING with NoEventMask for issue #201.
+      When the Close button is pressed don't immediately hide the window for
+        issue #201.
+      Fix SEGV.
+      Add DEBUG for XCopyArea against empty NULL pixmaps.
+      verbose, nodelete, title.
+      Less verbose error handler.
+      Vertical scroll modifiers Shift + Control.
+      Fancy allocation of a null_ref at address 0 to fool compiler-analyzers.
+      Always init buttonDownX/Y, movingWindow, sizingWindow. Only resize with
+        mouse if buttonDownX/Y represent a mouse position.
+      fix int/unsigned conversion.
+      drop unused wmLastWindow. Better tests in wmNext/PrevWindow.
+      winoptions requires colons, not equal signs.
+      Check po/POTFILES.in is up-to-date.
+      -src/yimage_imlib.cc -src/yimage_xpm.cc
+      Revert buggy sloppy "Fix undefined behavior on 64bit in legacy code"
+      Fix highbit + lowbit for 64-bit mode.
+      prevent negative width.
+      On client unmap check if window is destroyed to prevent X errors.
+      Fixes for gdk_pixbuf with and height being signed. Prevent unsigned
+        underflow.
+      If drawable is None then dont copyDrawable to prevent X_CopyArea errors.
+      experiment for issue #203: set titlebar BG to avoid undefined gaps.
+      Revert "experiment for issue #203: set titlebar BG to avoid undefined
+        gaps."
+      Add hotkeys to MoveTo menu.
+      Add some right margin to menus.
+      Mark in frame buttons whether they are right or left. Only create frame
+        buttons if decor flag is enabled. Calculate only with visible frame
+        buttons.
+      Try old repHorz with fixed loop for unsigned height for issue #203.
+      repHorz for issue #203
+      Revert "repHorz for issue #203"
+      repHorz for issue #203 with w and tested!
+      Revert "repHorz for issue #203 with w and tested!"
+      Revert "Try old repHorz with fixed loop for unsigned height for issue
+        #203."
+      Allow to combine --theme option with --restart option.
+      More fixes for unsigned width/height.
+      Properly check return values when loading pixmaps/images. If the
+        pixmap/image is empty/invalid then return null.
+      Check pixmap being non-null before applying repHorz. New test for issue
+        #203.
+      drop empty resetColormapFocus.
+      Better logging and backtraces.
+      drop ylib.h
+      more private
+      Opt -d alias for --display.
+      fix warning on return value for system
+      Make YXEmbed a pure abstract class not inheriting from YWindow.
+        YXTrayEmbedder then multi-inherits from YWindow and YXEmbed. This fixes
+        issue #204.
+      set titles for fTopWin and rootProxy for debugging purposes.
+      Ensure title buttons are always drawn, even if their pixmaps could not be
+        found.
+      update docs
+      Only renderShape button if visible and right OK.
+      repHorz test for #203: width per 256 pixels.
+      Revert "repHorz test for #203: width per 256 pixels."
+      +non_zero to avoid divisions by zero.
+      Avoid divisions by zero. Fixes #205.
+      remove unused
+      +setVisible
+      Don't calculate onRight as the most minimum possible rightmost button
+        position, but instead look for the maximally rightmost position. This
+        hopefully mitigates issue #204.
+      set gravity before creating window is cheaper.
+      +handleGravityNotify to more accurately update positions for issue #203.
+      +handleGravityNotify
+      Avoid a race condition between sending a WM_TAKE_FOCUS message and calling
+        XSetInputFocus. First call XSetInputFocus before sending WM_TAKE_FOCUS
+        message.
+      hide first, then focusLastWindow
+      typo
+      focusLastWindow must not attempt to set focus to taskbar or nothing will
+        have focus and a focusless system results without any keyboard control.
+        This can be tested by using the AddressBar and then hit Escape. See
+        issue #186.
+      getLastFocus must not return taskBar, because taskBar never was focused
+        and trying to give it focus results in other usable apps not getting
+        focus, with an unfocused system in sloppy mode. In setFocus make sure
+        that always focus has been set to something, otherwise we get the
+        situation none of the global hotkeys work. This solves both issues #185
+        and #186.
+      fix --display.
+      add history to addressbar. change static into local dynamic. hide
+        addressbar when losing focus.
+      update AddressBar.
+      +logFocus, +copying, +notbit, +GravityNotify logging.
+      Don't apply skipAllWorkspaces to focused windows, because it should be
+        possible to keep focused windows which have AllWorkspaces set focused
+        when switching workspaces. This is the second part of the solution for
+        issue #185.
+      fix undef msg
+      This commit breaks the build with the following error: uk.po:782: number
+        of format specifications in 'msgid' and 'msgstr' does not match.
+        /usr/bin/msgfmt: found 1 fatal error Makefile:275: recipe for target
+        'uk.gmo' failed
+      Add -Wno-missing-field-initializers.
+      Add links to context menu.
+      moveresize keyboard + cancel
+      fix YList postcondition for unmanaging destroyed clients.
+      mouse wheel scrolls by half page
+      startMoveSize by keyboard and ignore cancel.
+      More robust winoptions parsing; continue parsing on 1 or 2 errors and
+        print file+linenumber on error.
+      Only grab buttons 1,2,3, but not 4+5. This solves all scroll wheel
+        problems in issue #202.
+      make Evince resizable
+      update pot files
+      setBorderWidth, setBackground, setBackgroundPixmap
+      set taskbar background pixmap
+      setParentRelative for taskbar background. slowing down multiple requests a
+        bit works miracles. solves issue #184.
+      Revert "Translated using Weblate (Chinese (China))" It fails with the
+        following error message: zh_CN.po:849: number of format specifications
+        in 'msgid' and 'msgstr' does not match zh_CN.po:1453: 'msgstr' is not a
+        valid C format string, unlike 'msgid'. Reason: The string refers to
+        arguments both through absolute argument numbers and through unnumbered
+        argument specifications. /usr/bin/msgfmt: found 2 fatal errors zh_CN.po:
+        327 translated messages. Makefile:275: recipe for target 'zh_CN.gmo'
+        failed
+      more event logging
+      INT_MAX
+      tooltips only need expose events
+      better resize handles.
+      restore support for TrayDrawBevel=1 for issue #184.
+      fix missing space after if/for/while.
+      update pot files.
+      fix typo
+      icewmbg event logging.
+      fix fall-through warning.
+      fix warnings.
+      Preserve depth when creating ypixmaps and yimages.
+      xsmart for Xmalloc/XFree data.
+      print_copying_exit
+      For 32-bit depth visuals render to a dedicated pixmap32 and cache it. This
+        solves issue #183.
+      Sometimes a hundred or more events come in at once. Process at least a
+        decent chunk of them before returning to look for I/O-events or expired
+        timers. This reduces the number of system calls when peak load occurs
+        and may improve responsiveness a bit. Add synchronized, print_copying.
+        Split large YXApplication constructor and cache often used display data
+        const,
+      Support JPEG images for icewmbg in YXImage / XPM.
+      Cmake support JPEG for XPM and fix FRIBIDI.
+      fix typo in previous commit to make it compile again.
+      fix prratio - 1.
+      move HAVE_NET_STATUS where it belongs
+      geometry
+      intersect.
+      overlap
+      fix previous commit
+      menu margin also includes gradient background.
+      give signedness to width/height. fix #211.
+      merge
+      fix formatting and remove stray semicolons
+      Only copy menubg.xpm to listbackPixmap and dialogbackPixmap if menubg.xpm
+        does NOT appear in Gradients a la version 1.3.12 for issue #212.
+      Workaround for broken gcc/addr2line in issue #218.
+      Add missing fputs to forward backtrace input to output.
+      ONCE, testOnce, strhash.
+      When drawing a tray icon ensure that a background color has been set,
+        otherwise yximage::composite will crash according to the keepass
+        comments in issue #215.
+      use ONCE where appropriate to reduce clutter. Speedup loading of JPEG
+        images. Improved implementation of downscaling which seems to fix all
+        problems in issue #217 and is also much faster.
+      Don't assume that Graphics always has a color defined as this leads to
+        crashes in issue #215. This fixes crashes for Dark-Ice.
+      Fix menu scrolling for #213. Also support page up/down menu scrolling.
+      remove obsolete
+      createImage, createBitmap, expand all tabs into spaces.
+      focus item when scrolling menus with the mouse for issue #213.
+      support grayscale JPEG images for issue #217. also support RGBA JPEGs.
+      fix another signed/unsigned conversion bug. solves issue #223.
+      correct startMoveSize for _NET_WM_MOVERESIZE for issue #225.
+      keep background transparency pixmap allocated for issue #224.
+      Make verbosity configurable to avoid huge log files by default.
+      Prevent unstoppable series of restarts of crashing icewms.
+      update requirements
+      Take into account titleQ width when calculating rightmost button position.
+        This solves issue #221. Free titlebar colors and font when done. Make
+        unsigned -> signed conversion explicit. Some simplifications.
+      remove duplicate and superfluous initialization of mstrings for new
+        frames.
+      reduce tedious gdb debugging output by inlining handle().
+      Properly set WM_NAME and WM_CLASS on taskbar window, so that it can be
+        controlled by winoptions in issue #227.
+      correct order of class+name for issue #227.
+      allow multiple triplets of {class.instance option arg} hints to be set in
+        one go. class.instance appears to be obligatory, not optional.
+      Prevent negative client positions. This fixes libreoffice windows.
+      ifdef ENABLE_NLS is not needed, see intl.h.
+      optimize layoutClient.
+      Allow absolute paths in theme names.
+      free fMEMStatus when done.
+      fix for theme VitaBlack, which corrects
+        24fa54a658a8ef86500a728e01178ac5465acc38.
+      more flexible logging; can log events locally by inserting a function
+        call.
+      mstring regular expressions.
+      fileSize, fileptr.
+      lazy memory allocation.
+      TLOG
+      fix warning
+      support themes with indirect XPM images, like OnyX.
+      setTimer.
+      Share allocated colors as much as possible, which saves some memory. No
+        more memory allocations for YColor. Declaratively link color name with
+        preferences name. More succinct and simplified timer handling. Eliminate
+        boiler plate code. Correct for some common typos in color specifications
+        of existing themes.
+      portability.
+      image dependencies
+      port to FreeBSD
+      add YTimer constructor fixed parameter.
+      Repaint tray icon window when title is "XXkb": workaround for issue #235.
+      --with-theme option to set default theme.  libpng >= 1.2 works and is
+        required for Ubuntu.
+      Also draw taskbar pixmap background for XXkb for issue #235.
+      Correct intersection for smart placement for issue #238.
+      Try both class.name and name.class for issue #237.
+      Better fix for displaced libreoffice client windows due to StaticGravity.
+        This also solves windows getting black regions in issue #240.
+      Silence X errors for endusers in issue #234; only print them if DEBUG or
+        PRECON is enabled.
+      regfree when done with RE.
+      avoid race condition.
+      Support IMAP and POP3 connections which are encrypted with TLS/SSL.
+        Improve protocol handling for IMAP and POP3. Support monitoring of
+        Maildirs. Detect number of read and unseen mails in mbox files. Report
+        unread mails in icon tooltips. Document mailbox monitoring in manual.
+        This addresses the need for Gmail support in issue #229.
+      update POT files.
+      add taskbackPixmap for issue #242.
+      accuracy of mbox message counting
+      Correct commit e1f4bee61d20b5622904e0e4c06bfd1634015f6d for issue #242
+        external tray.
+      Let "setWorkspace 0xFFFFFFFF" make a window appear on all workspaces. This
+        is a followup to commit e735002cf1cdfd0abcb621b61d9925df3d63aef4.
+      sed -i 's|%l |%ld |g' ar.po
+      itoa
+      leak
+      iter insert
+      -tab
+      equal
+      "order" winoption to sort buttons / icons on taskbar, tray bar and system
+        tray for issues #242, #180, #198. Use _KDE_NET_SYSTEM_TRAY_WINDOWS for
+        issue #242. Possible fixes for issue #209 which requires further
+        testing.
+      sed -i 's|%l |%ld |g' zh_TW.po #255
+      Make it possible to override the layer as set from the window type for
+        issue #251.  Previously when the application sets a window type that
+        could fix the layer forever.  This commit makes it possible to overrule
+        that by either a winoptions setting or by selecting the desired layer
+        from the layer menu.  This gives much more control to the user.
+      On restart windows with _NET_WM_STATE_HIDDEN should set WinStateMinimized
+        to keep them minimized for issues #190, #226, #241 and #254, otherwise
+        they are restored, which is very annoying.
+      Revert "Fix the mouse pointer problem on top left and top right." This was
+        not a good pull request as it makes resizing windows in theme
+        CrystelBlue much harder. A fix like that should be better tested. This
+        reverts commit 69b5c83f315330cc9ccccedae8c4a7068301fa29.
+      Add menus for online configurable preferences and key lookup.  Can save
+        modified preferences to file.
+      Make icewm actions enumerated types and also add them to icesh.
+      add missing options to manual.
+      Navigate About window with arrow keys.
+      Support IPv6. Better protocol tracing. Report protocol errors in mailbox
+        tooltips. Set ICEWM_MAILBOX to mailbox number when execing
+        NewMailCommand. Also examine MAILPATH. and use LOGNAME instead of
+        getlogin.
+      simplify ugly cfoption macros. make cfoption a union to save space.
+      update help.
+      manpages and manual are now up-to-date.
+      add configure option --logevents
+      also update menu action listeners. this fixes
+        16b8d71492d128a09a33765adddc3d736ea0d09a.
+      optimization
+      less than, greater than
+      Enable moving fullscreen windows to a different layer for issue #257.
+      report message count and unread for NewMailCommand via 2 env vars.
+      Better URL parser.
+      Reuse obsolete ShowSettingsMenu for disabling the Preferences menu for
+        issue #259.
+      add -i option. NLS 2 strings.
+      update potfiles
+      fix allocation type (valgrind)
+      string preferences
+      prevent use of unitialized data (valgrind)
+      msgbox fixes.
+      +contains
+      portability for OpenBSD and CentOS
+      More portable network wildcard matching works on all platforms. Avoid
+        monitoring the same device multiple times. Cleanup net status
+        monitoring.
+      if_nametoindex + if_indextoname. Workaround for missing libjpeg .pc file
+        on CentOS.
+      correction for e888bc87d428d6dc9c8dd953d1b774b7b0d4f0b8
+      report RAM/swap in GB
+      Give a little margin to tooltips.
+      scroll wheel over task pane cycles over tasks.
+      Better sorting order for interface wildcard.
+      Extend cycling over tasks to task tray.
+      Fix initialization of variable array for issue #260. Replace MStringArray
+        with more efficient YStringArray.
+      fix restart for CentOS.
+      associative array for apppstatus and copy constructors.
+      glob
+      simplify and standardize on yarray.
+      Use assoc array to directly get just the wanted devices. Optimize network
+        status updates for issue #258.
+      Optimize clock + CPU + MEM status updates for issue #258.
+      libglib dependency for icewm-menu-fdo
+      addEventMask + handleVisibility.
+      fix comment
+      Reduce applet event overhead for issue #258.
+      See issue #261.
+      fix typo in 053a7f447f8532e08d9a84875851c6681dfe7b25
+      A possible fix for claws-mail minimization on startup issue #241.
+      Fix broken tray (2) (issue #265).
+      Enlarge system tray before adding a new icon for issues #265 and #209.
+      Set save under for short-lived status windows.
+      As an experiment, turn on backing store for system tray icons to overcome
+        that GTK2 tray icons sometimes don't respond to expose events for issues
+        #209 and #265.
+      String array sort. Multi-dimensional array.
+      Avoid redrawing applets if possible for issue #258. Add "includeprog"
+        control for menu files for issue #264. Give applets a menu to control
+        them interactively. Fix a memory leak for button submenus.
+      Update potfiles.
+      update manual for menu files.
+      Evade obscure transparency fill bug for issue #266.
+      respect TaskBarShowMailboxStatus=0 for issue #258.
+      Move common applet features to class IApplet. Reduce redraw of applets a
+        bit further for issue #258. Get list if network devices using
+        if_nameindex. A few more monitor menu entries.
+      modernize menu
+      recreate pixmap
+      ... and reset cache.
+      port to TrueOS.
+      fix initialization of taskbar for TaskBarEnableSystemTray=0 in issue #265.
+      Don't change workspace when clicking on About for issue #269.
+      fix getloadavg2
+      portability
+      close file before recursing
+      cstring equality
+      portability
+      port to FreeBSD and OpenBSD
+      support SVG icons for GDK-pixbuf and add --iconformats option.
+      match is const.
+      keep --iconformats undocumented for now.
+      yximage SVG by means of external converters (for the time being, until
+        better solutions).
+      block SIGPIPE to safely write to socket to openssl for mailbox applet.
+      Use the same source file grouping and ordering as in Makefile.am. Fix
+        missing definition of CONFIG_XFREETYPE_VALUE.
+      Simply return the newly created icon instead of looking it up in the
+        cache.
+      Introduce abstract class Picturer to work around buggy vtable for CMake
+        builds for issues #258 and #273.
+      After fullscreen ends do repaint clock immediately.
+      librsvg
+      Expand all tabs from pull request 279.
+      new option TaskBarUseMouseWheel for issue #284.
+      Update homepage url for issue #287.
+      doc TaskBarUseMouseWheel
+      fix spelling
+      fix for temporary mstring expressions.
+      Titles for issue #289.
+      Fix for wandering static gravity windows issue #291.
+      camelCase drew_icon.
+      ice-wm.org #287
+      Auto-adjust taskbar height to large task button fonts for issue #283.
+      fix #292
+      update homepage URL
+      namespace, lineEnding, pastSpaces
+      glob, hasglob
+      comma + backslash + newline continues a multi-value over multiple lines.
+      icewmbg options to shuffle and cycle backgrounds.
+      update links
+      update, complete, correct doc+man
+      add -C, --copying options
+      Don't complain about -C, --copying options.
+      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
+        icewm-1-4-BRANCH
+      No titlebar or border for shaped applications like oclock and xeyes.  This
+        fixes #192.
+      Enforce markdown rendering for INSTALL.cmakebuild on Github.
+      fix leak
+      Update (generated from index.md using kramdoc).
+      Better links in html manpages.
+      Tab completion should expand to the longest common prefix of all partial
+        matches if globit_best returns 2 or higher.
+      Don't select text after tab completion.
+      Allow spaces and single quoted strings in TerminalCommand. For NetCommand
+        differentiate between Linux and others.
+      nbsp
+      fix test for NULL
+      loadText, copyFrom, testWritable.
+      ystring replace.
+      take address
+      mkdir mode uses upath defaults.
+      remove obsolete comments
+      task switch keys are too easily mishit and too expertly.
+      more keys.
+      Need to remember configFile when saving prefs.
+      Ensure getPrivConfDir() directory exists.
+      Cannot save prefs to prefoverride as this makes it impossible to overrule
+        when later a preferences file does come into existence. Only save to a
+        preferences in getPrivConfDir() unless the configFile was overruled on
+        the command line. Before saving prefs copy a default preferences from
+        LIBDIR.
+      prefer use of loadText.
+      fix missing from in copyFrom
+      Check conf for nonempty in preferencesPath.
+      fix return type of address operator.
+      fix typo after hash-sign. mention IceWM Theme Creation Howto.
+      WMKey ops
+      MouseWinLower for #304
+      complete menu of window list.
+      reuse common internationalized strings.
+      always open applet command windows on current workspace for #301.
+      FocusCurrentWorkspace moves newly focused windows to current workspace for
+        #301.
+      document new options
+      fix WM_CLASS for NetStatus for #232.
+      OO context (traceable)
+      Fix window matching by pid for daemons. More efficient window resource
+        matching. Use OO context. Complete windowlist menu. YWindow fetchTitle.
+        #301.
+      Add missing.
+      init unique
+      fix runonce #301.
+      Expand IconPath with wordexp for #305. Fix poor handling of icons not
+        found (speedup!). Use more icon paths to locate more application icons.
+      Don't require a restart to load Custom focus mode, but reload the focus
+        options from file.
+      typo
+      Warn if SVG is not supported for gdk-pixbuf without librsvg.
+      icewm icon
+      Optimization
+      fix leak
+      fix typo
+      Show the valid bounds for bad arguments.
+      wordexp portability
       update po files
-      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
-        icewm-1-4-BRANCH
-      Merge branch 'icewm-1-4-BRANCH'
-      Prepare 1.5.5 release
-
-openSUSE Weblate <weblate-noreply@opensuse.org> (4):
-      Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
-      Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
-      Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
-      Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
-
-Aleš Kastner <alkas@volny.cz> (2):
-      Translated using Weblate (Czech)
-      Translated using Weblate (Czech)
-
-David Medina <medipas@gmail.com> (2):
-      Translated using Weblate (Catalan)
-      Translated using Weblate (Catalan)
-
-Ferdinand Galko <galko.ferdinand@gmail.com> (2):
-      Translated using Weblate (Slovak)
-      Translated using Weblate (Slovak)
-
-Freek de Kruijf <freek@opensuse.org> (2):
-      Translated using Weblate (Dutch)
-      Translated using Weblate (Dutch)
-
-Rodrigo Macedo <rmsolucoeseminformatic4@gmail.com> (2):
-      Translated using Weblate (Portuguese (Brazil))
-      Translated using Weblate (Portuguese (Brazil))
-
-Sarah Kriesch <ada.lovelace@gmx.de> (2):
-      Translated using Weblate (German)
-      Translated using Weblate (German)
-
-Yasuhiko Kamata <belphegor@belbel.or.jp> (2):
-      Translated using Weblate (Japanese)
-      Translated using Weblate (Japanese)
-
-scootergrisen <scootergrisen@gmail.com> (2):
-      Translated using Weblate (Danish)
-      Translated using Weblate (Danish)
-
-mohammad alhargan <malham1@gmail.com> (1):
-      Translated using Weblate (Arabic)
-
-
-Release icewm-1.5.4 released 2019-04-23
----------------------------------------
-
-git shortlog -e -n -w80,6,8 1.5.3...1.5.4
-
-Bert Gijsbers <gijsbers@science.uva.nl> (46):
+      restore dist.sh build.
+      fix Look and WorkspaceNames in "preferences". Add -o,--output option.
+      TaskbuttonIconOffset
+      icons for TaskbuttonIconOffset
+      subimage for YImage.
+      subimage for YPixmap
+      delete AutoScroll when done.
+      calculate icons for TaskbuttonIconOffset.
+      checkCommand.
+      use TaskbuttonIconOffset for #239. Better window context menus. Don't use
+        FocusCurrentWorkspace for window menu for #301.
+      match must be const.
+      refs public
+      also subtract right from width.
+      expand + replaceExtension.
+      fix YImageGDK::subimage. save YImages for when debugging.
+      typo
+      better
+      update strtest
+      Draw task icon after left icon for #239.
+      Keep workspace if task flashing and FocusCurrentWorkspace for #301.
+      FocusOnAppRaise need not be set by focus models, because it is false
+        always.
+      Fix missing urgency task button for #301.
+      unneeded optimize fTaskBarApp.
+      Switch among windows from the same WM_CLASS #306.
+      update man
+      typo
+      Set sticky for quickswitch.
+      Honor WinHintsSkipFocus. Avoid showing the same app multiple times.
+      Simplify warning.
+      Clear cache at cycle to reduce memory.  Also remove superfluous warning to
+        fix #313.
+      Lookup absolute icewm path in case program_invocation_name is useless to
+        fix backtraces. Also filter out useless data from backtraces.
+      Add extend and new YStringArray constructur for char args.
+      Copy args in restartClient in case unmanageClients deletes args memory.
+      Fix resize of tiny windows.
+      typo in restartClient path
+      Detect image file types for filenames without extensions to restart
+        support for workspace button icons.
+      Don't subject taskbar to manual placement. If client destroyed then hide
+        frame before destroying. Don't try to focus frames where the client is
+        destroyed. When switching to a workspace without a previous focused
+        window focus the window which is directly under the mouse. Avoid a case
+        where nothing is focused, but a focusable window exists by remembering
+        at least one focusable window.
+      add icewm icon 32x32
+      Add menusel.xpm to Gradients for CrystalBlue.
+      simplify.
+      fix typos
+      If taskBarWorkspacesLeft is false then keep collapse button rightmost.
+        Also honor taskBarShowWorkspaces option. Only show or configure edge
+        trigger if taskBarAutoHide is true. Reduce taskbar painting a bit. Only
+        activate taskbar if it can make use of keyboard input. Update taskbar
+        layer info in frame. Repaint collaps button when needed. Update location
+        for collapsing.
+      complete and correct maximization
+      Fixes for locating background images in theme directory for issue #319.
+      Fix for yximage for themes which define their own cursors in case X depth
+        is 32 bits.
+      Check against empty iconPaths.
+      Fix resize of tiny windows.
+      +extract.
+      +hidden
+      Keep execution of actions in one place. Check for broken pipe writes.
+        Always focus logout message box when needed.
+      Remove some superfluous and duplicate code. Don't activate or focus
+        taskbar. Hide frame after deleting client. Avoid superfluous refocusing
+        of the same frame if possible. Don't update state for destroyed clients
+        to avoid X errors.
+      Keep execution of wm actions in one place. Also show statusWorkspace if
+        taskbar is hidden. Check if client is nonempty to avoid possible crash.
+      Check if MAX_ACPI_BATTERY_NUM is defined for fApm for NetBSD. When hiding
+        taskbar first hide before relayout. Only show edge trigger if
+        taskBarAutoHide.
+      install icons/icewm_32x32.png
+      tooltips international.
+      Apm LayoutInfo only if MAX_ACPI_BATTERY_NUM is defined for #316.
+      Optimization.
+      Allow to popdown start menu.
+      Calling performLayout just once is enough.
+      Check if client is destroyed.
+      Avoid repeated activations of same window.
+      Avoid seting layer on destroyed client.
+      merge
+      update po files
+      Only compile all of aapm.cc if MAX_ACPI_BATTERY_NUM is defined for #316.
+      Include stdlib.h for mblen for issue #329.
+      Add keysym.h to yinput.cc.
+      Add keysym.h to aaddressbar.cc.
+      Include Xutil.h.
+      Solve #330 taskbar border corruption for themes without a taskbar
+        background pixmap.
+      Restore resize behavior to 1.4.2 for #331.
+      update po files
+      Extend icesh with a dozen new icewm specific commands.
+      3 icesh commands "clients", "shown", "windows".
+      icesh title can be empty.
+      Minor icesh documentation tweaks.
+      Error if both xfreetype and corefonts are disabled for #338.
+      Remove superfluous font loading.
+      Print a warning if running without fonts for #338.
+      Avoid creating empty output files if pod2html is not installed.
+      configured +fdomenus
+      ESD is obsolete
       remove stray semicolon
       avoid clang warnings
       solve ambiguous[] for #340
@@ -496,56 +1590,1280 @@ Bert Gijsbers <gijsbers@science.uva.nl> (46):
       more logging detail
       explain env. update locations
       update po files
-      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
-        icewm-1-4-BRANCH
-      Merge branch 'icewm-1-4-BRANCH'
-      Prepare 1.5.4 release
-
-
-Release icewm-1.5.3 released 2019-03-27
----------------------------------------
-
-git shortlog -e -n -w80,6,8 1.5.2...1.5.3
-
-Bert Gijsbers <gijsbers@science.uva.nl> (15):
-      Restore resize behavior to 1.4.2 for #331.
+      Add 16 new icesh commands.
+      Set EWMH window type on icewm windows.
+      Set WM_CLASS and window type on icewm windows.
+      Add opacity to winoptions.
+      correction
+      improve icesh
+      Drop support for EsounD.
+      Fix compiler warnings, prefer size_t over int, prefer nullptr over 0.
+      More icesh commands.
+      Update icewm(1) man page.
+      update. explain opacity.
+      currentWorkspace
+      CMake external systray is unsupported.
+      add order and opacity to icewmhint.
+      backwards support for nullptr.
+      +isSign
+      better icesh
+      fix compilation for C++11 and older.
+      prevent warning.
+      Add -machine option. Add the "this" workspace.  Fix window titles and icon
+        titles and support EWMH. Fix -window root and -window focus. Also print
+        workspace name for "getWorkspace". Also print PID and workspace for
+        window details.
+      icesh flexible filtering.
+      fix clang warning
+      prefer clang for cmake testing
+      icesh urgent, move frame, center, left, right, top, bottom.
+      update po files.
+      icesh clarify
+      icesh missing bits.
+      icesh monitor number
       update po files
-      Extend icesh with a dozen new icewm specific commands.
-      3 icesh commands "clients", "shown", "windows".
-      icesh title can be empty.
-      Minor icesh documentation tweaks.
-      Error if both xfreetype and corefonts are disabled for #338.
-      Remove superfluous font loading.
-      Print a warning if running without fonts for #338.
-      Avoid creating empty output files if pod2html is not installed.
-      configured +fdomenus
-      ESD is obsolete
-      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
-        icewm-1-4-BRANCH
-      Prepare 1.5.3 release
-      1.5.3
 
-Emily Dong <Emily.Dong@excel-gits.com> (2):
+Brian Bidulock <bidulock@openss7.org> (467):
+      new INSTALL file
+      add a branch to configure.ac
+      substitute BRANCH for release version or github branch
+      add branch to readme
+      new default branch
+      substitute branch when generating release files
+      place correct subdir for version or branch
+      add contributing file per github policy
+      more comments on contributing
+      update contributing in readme
+      Revert "Redesign/rewrite icesound. Try all enabled sound drivers until one
+        works, from ESD, ALSA, OSS, but the order can be specified. Drop support
+        for YIFF. Fix support for ALSA. Make class YCommandLine obsolete. Make
+        verbose more usefully verbose. Add -O and -A options. Also check in
+        ~/.config/icewm/sounds/ for audio files. Identify which GUI events are
+        not implemented yet."
+      Revert "drop YIFF."
+      Revert "GUI_EVENT_NAMES were not used (prevent a warning)."
+      Revert "include strings.h for strcasecmp."
+      Revert "Update build for new icesound."
+      Revert "More sounds info. Add keys example."
+      Revert "Move obsolete source to attic."
+      Revert "Fixes for correctly drawing taskbarbg.xpm when it is a Gradient."
+      Revert "mstring additions to reduce memory allocations."
+      Revert "icesound manpage and html."
+      Revert "Generate manpages + their html from AsciiDoc."
+      Revert "ASCIIMAN and ASCIIMAN_FORMAT variables for generating manpages
+        from AsciiDoc."
+      Revert "Generate manpages and html files from AsciiDoc."
+      Revert "Manual pages in AsciiDoc."
+      Revert "Make icewm-session much smaller in size by not linking any X11,
+        image or font library."
+      Revert "Move obsolete sources to attic (ycmdline, yimage, ylibrary,
+        ypixbuf)."
+      breaks distcheck
+      Revert "Updates for upcoming release."
+      Revert VERSION
+      O0 useless for debug
+      correct warning
+      correct format errors
+      correct format errors
+      restore device name
+      correct format error
+      correct format
+      correct format
+      update po files
+      update AUTHORS file
+      restore README.md to previous release version
+      add ignore
+      add version to statement
+      should fix #162 anyway
+      dashify gennews
+      Revert "Let icewm-session close unwanted file descriptors on startup
+        without making any disturbing noise. See issue #165."
+      suppress warnings on open files
+      Revert "suppress warnings on open files"
+      suppress warnings
+      asciidoc -D option only applies to html
+      update po files
+      more ignores
+      distribute manual pages
+      not correct
+      correct name
+      proper references
+      add makefile for manual pages
+      add initial pod file for icewm
+      add manual makefile to configure
+      add manual page directory to make
+      another correction
+      yet another correction
+      ignore file for this directory
+      add skeleton for icewmbg manual page
+      add icewmbg to makefile
+      spelling
+      use package name
+      add icewm-session manual page
+      add icewm-session manual page to makefile
+      add icewmtray manual page
+      add icewmtray manual page to makefile
+      add icesound manual page
+      add icesound manual page to makefile
+      add icesh manual page
+      add icesh manual page to makefile
+      add icehelp manual page
+      add icehelp manual page to makefile
+      add icewmhint manual page
+      add icewmhint manual page to makefile
+      add icewm-menu-fdo manual page
+      add icewwm-menu-fdo manual page
+      add icewm-set-gnomewm manual page
+      add icewm-set-gnomewm manual page to Makefile
+      sort manual pages alphabetic
+      add standard usage option to icehelp manual page
+      add standard usage option to icesh manual page
+      add standard usage option to icesound manual page
+      add standard usage option to icewm-menu-fdo manual page
+      add standard usage option to icewm-session manual page
+      add standard usage option to icewm-set-gnomewm manual page
+      add standard usage option to icewmbg manual page
+      add standard usage option to icewmhint manual page
+      add standard usage option to icewmtray manual page
+      strap in manual page for icewmbg
+      comaplete icesound manual page
+      strap in icehelp manual page
+      syntax error
+      working up icesh manual page
+      more updates to icesh manual page
+      building up icesh manual page
+      complete icesh manual page
+      working up icewmtray manual page
+      more work on icewmtray manual page
+      complete icewmtray manual page
+      working up icewmhint manual page
+      do not change VERSION or configure.ac
+      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
+        icewm-1-4-BRANCH
+      more work in icewmhint manual page
+      more icewmhint manual page workup
+      more manual updates
+      add manual page for keys file
+      add manual page for menu file
+      add manual page for preferences file
+      add manual page for programs file
+      add manual page for toolbar file
+      add manual pavge for winoptions file
+      build/inst configuration file man pages
+      complete winoptions file manual page
+      compact icewmhint manual page
+      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
+        icewm-1-4-BRANCH
+      minor changes
+      compact icewm-winoptions manual page
+      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
+        icewm-1-4-BRANCH
+      provide toolbar file manual page
+      complete icewm-menu manual page
+      complete icewm-programs manual page
+      proper section 5 title
+      complete icewm-keys manual page
+      correction
+      start icewm-preferences manual page
+      update po files
+      working up icewm-preferences man page
+      add missing preferences
+      add more preferences
+      add task bar preferences
+      add missing preferences
+      oops
+      add menu preferences
+      regroup and add missing preferences
+      regroup and add more preferences
+      add more preferences
+      working up preferences man page
+      add more preferences
+      document timing preferences
+      more missing preferences
+      document more preferences
+      add more missing preferences
+      include more preferences
+      split out and add menus preferences
+      correction
+      add more missing preferences
+      add command preferences
+      asciidoc make poor manual pages
+      document desktop background
+      s/Transparancy/Transparency/
+      reorder background items
+      add crossref
+      add color documentation
+      reverse descriptions
+      a couple more colors
+      add descriptions for fonts
+      add fonts to manual page
+      add fonts to manual
+      document borders
+      document missing borders
+      describe themable
+      more themables
+      quiet down makefiles
+      add more themables
+      add manual pages for minor configuration files
+      add new manpages to makefile
+      cross reference manual pages
+      add description to env manpage
+      add description to focus_mode manpage
+      add description to keys manpage
+      add description to menu manpage
+      add description to preferences manpage
+      add description to prefoverride manpage
+      add description to programs manpage
+      add description to shutdown manpage
+      add description to startup manpage
+      add description to theme manpage
+      add description to toolbar manpage
+      add description to winoptions manpage
+      complete icewm-env manual page
+      update search path
+      add examples section
+      typo
+      reference manual pages
+      complete the icewm-theme manual page
+      add icewm-menu-gnome2 manual page
+      conditionally install utility manual pages
+      working up icewm-menu-fdo manpage
+      working up icewm-menu-gnome2 manpage
+      s/COMPLIANCE/CONFORMING TO/
+      highlight manpages different
+      md no like bold in tt
+      do not use literal package name
+      update po files
+      silent is now default
+      adjust default flags for test build
+      add links command and disable static libs by default
+      add branch to substitution
+      more authors
+      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
+        icewm-1-4-BRANCH
+      Revert "Remove unused _XA_WM_CLIENT_MACHINE and _XA_NET_WM_OPACITY."
+      Revert "Remove Atoms which are: not used and defined in X11/Xatom.h."
+      Revert "LogoutCommand should not affect the menu entries for Shutdown and"
+      Revert "Remove old debug warning."
+      some tweaks
+      use non-builtin echo
+      do not need this line in configure.sh
+      fix incorrect use of XDG_CONFIG_DIR
+      should be dirExists instead of fileExists
+      describe proper XDG_CONFIG_HOME behaviour in man page
+      put versions back to last release
+      update po files
+      correct possible overflow
+      fix signed vs. unsigned comparisons
+      update file search order
+      support parallel build for development
+      add parallel build to distribution
+      update po files
+      double the number of cores
+      update po files
+      distribute COMPLIANCE, longer ChangeLog
+      WIN_WORKSPACE_NAMES must be standard ICCCM 2.0
+      make sure X supports locale from start
+      remove trailing space from lots of source files
+      remove leading tabs
+      remove leading tabs
+      remove leading tabs
+      remove leading tabs
+      add vim markers to all source files
+      typo in vim makers
+      add missing source files to automake
+      update po files
+      move to gnits autoconf compliance
+      remove gnits for development builds
+      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
+        icewm-1-4-BRANCH
+      fix getInputFocusHint
+      Revert "avoid RevertToNone when setting focus. use RevertToPointerRoot."
+      Revert "no need to activate the taskbar."
+      Revert "Taskbar never needs focus and should never get focus"
+      remove unnecessary check for frame
+      more vim swap files to ignore
+      don't set focus if sent WM_TAKE_FOCUS (ICCCM 2.0)
+      remove unnecessary java7 hack
+      remove unused code
+      Revert "fix getInputFocusHint"
+      Revert "Revert erroneous commit d3b00cc4ed07f4f55695b9b91b20e0e9b08d9cf7
+        "JDK7 focus fix" as this makes IceWM focus behavior non-conformant. See
+        issue #23."
+      document getInputFocusHint behaviour in code
+      simplify and document setFocus() behaviour
+      getInputFocusHint() is never true when client takes focus
+      missing qualify on constant
+      more wat was intended here
+      just activate window regardless of focus
+      update COMPLIANCE
+      update TODO
+      remove removed file
+      add missing source files to po/POTFILES.in
+      update po files
+      document perl requirement
+      a little purer ICCMS 2.0 getInputFocusHint behaviour
+      do not update _NET_ACTIVE_WINDOW when unnecessary
+      rename notifyFocus() to notifyActive()
+      support _NET_WM_WINDOW_OPACITY (fix for #130 ?)
+      make frame inherit ARGB visual from client (#130)
+      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
+        icewm-1-4-BRANCH
+      make sure installed colormaps are correct
+      always report X errors
+      create inputOnly windows with correct parameters
+      Revert "Better initialization of YDesktop window."
+      create decorations top-level and reparent after creation
+      create windows under parent before reparenting
+      raise input windows
+      remove debugs
+      Revert "prefer CopyFromParent if possible."
+      allocate non-default colormaps for frames
+      Revert "raise input windows"
+      fix for #72 make windows transparent down to taskbar
+      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
+        icewm-1-4-BRANCH
+      do not need this function anymore
+      address #149 new focus and order .svg .png .xpm
+      address #160 .png is nicer than .svg
+      Revert "do not need this function anymore"
+      do not know why this works but it does
+      update po files
+      remove unused code
+      this is workable but tray 2 pixels too high with bevel
+      final fix for #184 reconfigure client too
+      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
+        icewm-1-4-BRANCH
+      metering to debug #184
+      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
+        icewm-1-4-BRANCH
+      corrections
+      fix ca.po again
+      update po files
+      fix for dark vertical lines mentioned in #184
+      update compliance
+      do not need this anymore
+      resolve conflict
+      solve merge conflict better
+      update po files
+      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
+        icewm-1-4-BRANCH
+      update po files again
+      try to address #190
+      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
+        icewm-1-4-BRANCH
+      should still set frame options on startup
+      prepare for Xrender
+      always query version of extensions
+      check for xrender
+      correct occupy all workspaces for #190
+      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
+        icewm-1-4-BRANCH
+      remainder of fix for #190 - restore focus
+      address #180 and #188 by enhancing system tray
+      move constants to header
+      update po files
+      restore version file
+      mark it supported here too
+      added script to AM_INSTALLCHECK_STD_OPTIONS_EXEMPT
+      update po files
+      add -f to autoreconf for autopoint
+      remove options no longer supported
+      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
+        icewm-1-4-BRANCH
+      remove unused options from configure statement
+      update po files
+      add missing header just before distcheck failure
+      icewmtray fails installcheck (no --help --version)
+      add strong note about changes to src/Makefile.am
+      widths, heights, sizes, depths, are unsigned
+      missed one unsigned
+      proper checks for composited width and height
+      add vim line
+      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
+        icewm-1-4-BRANCH
+      add an ignore
+      prepare to remove gdk-pixbuf dependency
+      move unused image files to attic
+      add libxpm libpng based image rendering
+      add yximage.cc to build
+      compile without gdk-pixbuf
+      working CONFIG_XPM a little better
+      handle XImage data allocation better
+      more detailed error logging
+      wrong return from drawable()
+      add non-super-sampling upscaling (Ice does)
+      tile pixmaps property for borders
+      working better, still have WM_HINTS icon issue
+      remember wheter image was a bitmap for rendering
+      still working this
+      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
+        icewm-1-4-BRANCH
+      allocation too large
+      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
+        icewm-1-4-BRANCH
+      update po files
+      build_help doesn't exist anymore
+      add ignore files
+      update po files
+      correction
+      pod2html doesn't like numbers after =item
+      build html man pages
+      gnome1 stuff is deprecated
+      update po file
+      GNOME1 stuff is deprecated
+      remote deprecated file
+      asciiman command not used
+      make html output better
+      make html output better
+      make html output better
+      make html output better
+      make html output better
+      make html output better
+      make html output better
+      make html output better
+      make html output better
+      make html output better
+      make html output better
+      make html output better
+      make html output better
+      make html output better
+      make html output better
+      make html output better
+      generate html output too
+      remove deprecated file
+      help must print to stdout to pass distcheck
+      update po files
+      remove old manpages
+      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
+        icewm-1-4-BRANCH
+      remove unused variable
+      remove gnome menu option
+      not needed by lib/menu.in
+      do not build menu-gnome2
+      do not build menu-gnome2
+      do not build menu-gnome2
+      remove definitions for menu-gnome2
+      remove menu-gnome2 source file
+      remove gnome2.cc source file
+      remmove manual page
+      update po files
+      remove menu-gnome2 manual page
+      remove unnecessary attic
+      update po files
+      remove reference to menu-gnome2
+      remove reference to menu-gnome2
+      remove reference to menu-gnome2
+      remove reference to menu-gnome2
+      build without pixbuf is the default
+      update po files
+      build without pixbuf is the default
+      fix up downscale
+      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
+        icewm-1-4-BRANCH
+      back to working copy
+      use calloc instead of new
+      use requested width and height
+      bad ifdef
+      it.po update broken
+      tr.po update broken
+      update po files
+      wrong type
+      update po file
+      sort out volatiles
+      some changes for testing
+      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
+        icewm-1-4-BRANCH
+      fix hu.po
+      fix zh_TW.po
+      update po files
+      Revert "some changes for testing"
+      address #247
+      update po files
+      Revert "Make it possible to override the layer as set from the window type
+        for issue #251.  Previously when the application sets a window type that
+        could fix the layer forever.  This commit makes it possible to overrule
+        that by either a winoptions setting or by selecting the desired layer
+        from the layer menu.  This gives much more control to the user."
+      update po files
+      do not need libtool to compile from tarball
+      cannot have libxft wihtout having libx11
+      cannot have libxft wihtout having libxext
+      cannot have libxft wihtout having fontconfig
+      do not need gdk-pixbuf2 (ximage rendering)
+      cannot have libxft without freetype2 and libpng
+      cannot have libxft without libxrender
+      do not need libsm to compile
+      do not need fribidi to compile
+      do not need glib2 to compile
+      cannot have autoconf without having perl
+      automake, autopoint gettext part of complete autoconf toolchain
+      do not need xorg-mkfontdir to build
+      users do not need to build releases
+      building from git does not require git
+      do not need libsndfile to build
+      remove redundant meaningless descriptions
+      simplfy quickstart build
+      silent build is default
+      remove deprecated wm-session section
+      remove wm-session section, correct reference links
+      get bbkeys from github
+      mention xde-menu utility
+      Revert "yximage SVG by means of external converters (for the time being,
+        until better solutions)."
+      Revert "keep --iconformats undocumented for now."
+      Revert "match is const."
+      Revert "support SVG icons for GDK-pixbuf and add --iconformats option."
+      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
+        icewm-1-4-BRANCH
+      remove warning on memmove
+      much simpler support for svg
+      delete old
+      fix issue #286
+      update po files
+      add missing header file
+      update po files
+      correct uninitialized loop variable
+      reformat TODO
+      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
+        icewm-1-4-BRANCH
+      update po files
+
+Eduard Bloch <blade@debian.org> (180):
+      Document stamp files, added exception for build dir from CMake build
+        instructions
+      Merge branch 'icewm-1-4-BRANCH' of https://github.com/bbidulock/icewm into
+        icewm-1-4-BRANCH
+      Fix CMake build (yarray dependency after recent refactorings)
+      Fixing all Clang-5 warnings found so far
+      Added a dedicated CMake option for LTO enabling
+      Minor binary size improvement with -fvisibility=hidden for CMake build
+      Fix most creepy format errors/warnings in Debug build
+      Fix Debug build with CMake
+      Prevent accidental deletion of potfile
+      Recreated/improved original smart theme menu nesting algorithm
+      Copying the current theme indicator flag to the nested submenu
+      Use case-insensitive sorting for the theme menu
+      Fix build failure on kFreeBSD
+      Fix declaration of assert function
+      Pass-through libXt own options without warnings
+      Simplifying signature definition
+      Refactor copy-pasta in CtrlAltDel dialog
+      Avoid rare crash on shutdown
+      Added a system suspend function trigger
+      Dropping support for ancient xft versions
+      Use less CPU cycles on duplicates on getting $MAIL
+      Use factory method rather instead of crude function pointers
+      Fix broken math of current energy bar calculation
+      Initialize object members (cosmetics)
+      Fixed spelling of ColorApmBattery
+      Added sane c_str shortcut
+      Added simple value-typed dynamic array handler
+      Automated lookup of known network devices on Linux
+      Fixing another debug warning
+      Fix of e7c0230acad38fc192a997a4979a8fe2f3a2c2ae in debug build
+      Present the network devices in actually specified order
+      Use reliable order for detected interfaces
+      Handles to preserve memory explicitly
+      Avoid almost half of readdir syscalls on directory scan
+      Fix unsigned comparisson after change from int
+      Limit parallel thread count to number of cores, not unlimited
+      Refactored NetStatus setup to use fewer timer structures
+      No multiple procfs opening for multiple network devices
+      Moved experimental collections into an own header
+      Dynamic network devices mostly working
+      Restore extra libs passing to linkage of icewm-session
+      Set default nesting threshhold Xephyr-friendly
+      Fix remaining GCC7 warnings
+      Added forgotten file (currently unused)
+      Added confirmation for restart-as-xterm option
+      [cmake] clean linker list explicitly if user disabled some audio backend
+      Fix some signedness inconsistencies triggered in Debug build
+      Untangle selection of audio libs parameters
+      Stop misusing dynamic allocator as enumeration manager
+      Prevent crash on shutdown when aboutDlg was freed
+      Give static/acquired action IDs odd values
+      Make the initial generated value really odd
+      Document action id assignment rules
+      Modify typedef name, tActionId to TActionId
+      Reduce the need of some TActionId casts
+      Change some occurences of YAction references
+      Revert "Change some occurences of YAction references"
+      Revert "Reduce the need of some TActionId casts"
+      Revert "Modify typedef name, tActionId to TActionId"
+      Revert "Document action id assignment rules"
+      Revert "Make the initial generated value really odd"
+      Revert "Give static/acquired action IDs odd values"
+      Revert "Stop misusing dynamic allocator as enumeration manager"
+      Fix list handling in audio library CFLAGS
+      Fix documentation of NIC detection pattern
+      Argh, that API needs extra definitions on kFreeBSD as well
+      Better amixer commands
+      Better rounding of battery capa percentage
+      Arch. rework, splitting model and controller in quickswitch
+      Added sample generator for some predefined xrandr configurations
+      Store quickswitch style in the object
+      Improve sysfs parsing
+      Use indices instead of obscure void pointers
+      Monitor mode switch mostly working
+      Install xrandr menu provider
+      Fix merge error
+      Make sure the next inactive monitor becomes the next choice
+      Use custom macro to access override keyword
+      Force legacy C++ standard for now
+      Fixing LITE build with CMake
+      Fixing build on architectures without power applet OS code
+      Fix more exotic configurations
+      Checking all EDID descriptor blocks for name
+      Turn disconnected screens off and print command even for one monitor
+      Adapt CMake version to removal of additional yimage_* versions
+      cmake version: added modeline, reformated, fixed some option handling
+      Fix new/free mismatches and initalization errors
+      Include Xrender.h explicitly where needed
+      Explain possible image loader options by name
+      Fixing minor potential format/syntax error warnings
+      Add image loader linking only if enabled
+      List might be accessed earlier
+      Fix undefined behavior on 64bit in legacy code
+      Fix undefined behavior WRT memcpy calls
+      Fix C++98 enforcing and use GOLD where available
+      Revert "Translated using Weblate (English)"
+      Minor completion/improvement of Russian strings
+      Working around variable clobbering issues with latest gcc
+      Attempting to correct some possible overflows
+      Disabling sysfs lookup again, not reliable enough
+      Extending German translation
+      Not calling --off on disconnected monitors
+      Fix missing UINT_MAX
+      Fix rounding in battery bar painting
+      Basic implementation of #207 - Automated icon name rewriting
+      Cache and reuse EDID data check results
+      Fix build error in certain configurations
+      Fix linking with cmake and fribidi enabled
+      Fix icon loading in horizontal wmswitch mode
+      Explain the context of some options
+      Option to use corefonts despite of Xft support
+      Don't consider SVG icons without loader support
+      Don't use gold automatically
+      Build fix with -DXTERMCMD set
+      Build fixes from Debian Experimental
+      new/free mismatch (hidden in XDestroyImage)
+      Properly initialize scaling buffers
+      Special declaration of shared fontPreferFreetype option's variable
+      Cope with new EDID sysfs locations on Linux 4.15rc*
+      Stop messing around with power related keys by default
+      Add yarray.cc to targets where misc.cc is used.
+      Restored HTML generation code
+      Added cmake stuff for the pod2man variant
+      Actually add man/CMakeLists.txt
+      [cmake] Made manpages cleaning/dependencies/installation right
+      Additional icewm-menu-xrandr manpage
+      Fix whatis summaries and add basic descriptions
+      Respect TaskBarShowNetStatus when creating net status viewers
+      Change libpng including location to work around setjmp checks
+      [cmake] Add ycolor.cc to source list
+      Export CONFIG_LIBJPEG to cmake config
+      Added configurable CONFIG_DEFAULT_THEME to cmake variant
+      Interpret removed monitors as truely disconnected
+      [cmake] Include yarray source dependencies as needed
+      Fix debug build
+      [cmake] Restored icewmtray target
+      Adding potentially missing defines while looking for unexplainable
+        behavior
+      Typo
+      Enforcing valid combinations of image loaders
+      Fixed a potentially endless recursion
+      Partial overhauling of fdomenu
+      Options to embed fdomenu nicely as regular contents
+      Considering of categories folders for icon source
+      Use the supposedly better display name
+      Little redesign for more OOP style
+      Added semi-automated handling of FDO subcategories
+      Make sure to set to root right when digging for categories
+      Inject fdomenu output into root menu
+      Added l10n request for the predefined category names
+      Align the use of xgettext in cmake with autoconf
+      Now correctly exported new FDO strings wit comments for l10n
+      Various minor bugfixes on fdomenu
+      Added simplest icons for xrandr quickswitch menu
+      For default distro config, save the prefs as delta in home directory
+      Fix static preordering or the main menu categories
+      Update translations with new menu string data
+      Canonical implementation is faulty with unsigned index variable
+      Make entries of vertical quickswitch clickable
+      Mouse-over (clickable item) indicator in quick-switch menu
+      Also apply the taskBarUseMouseWheel setting to workspace pager
+      Improve vert. wmswitch painting
+      Use nicer Unicode ellipsis instead of the improvised string
+      Better default size for vertical quickswitch
+      Revert "Use nicer Unicode ellipsis instead of the improvised string"
+      Avoid painting over the edge in vertical quickswitch
+      Point-to-activate functionality also for horizontal quickswitch
+      Use built-in translations for all sub-categories
+      Reformat, refactor, cleanup
+      Use a different phrase for "Suspend system"
+      Option to skip generation of submenues
+      Don't mistake multiple completion candidates for successful completion
+      Utilize auto_raii helper to avoid memleak on globit responses
+      Revert "Utilize auto_raii helper to avoid memleak on globit responses"
+      Preparations to extract possible completions from globit code
+      Keep the text marking to visualize the final match
+      Let wmswitch focus the right item even without motion
+      Documenting quickswitch key combos, click-to-switch
+      Document the switchkey variant
+      Fix fdomenu build when XTERMCMD override is used
+      A few fixes/improvements of the German translation
+
+Ferdinand Galko <galko.ferdinand@gmail.com> (35):
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+
+David Medina <medipas@gmail.com> (26):
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+
+openSUSE Weblate <weblate-noreply@opensuse.org> (26):
+      Merge remote-tracking branch 'origin/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge remote-tracking branch 'origin/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge remote-tracking branch 'origin/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge remote-tracking branch 'origin/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge remote-tracking branch 'origin/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge remote-tracking branch 'origin/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge remote-tracking branch 'origin/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge remote-tracking branch 'origin/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge remote-tracking branch 'origin/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge remote-tracking branch 'origin/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge remote-tracking branch 'origin/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge remote-tracking branch 'origin/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge remote-tracking branch 'origin/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge remote-tracking branch 'origin/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge remote-tracking branch 'origin/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge remote-tracking branch 'origin/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge remote-tracking branch 'origin/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge remote-tracking branch 'origin/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
+      Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
+      Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
+      Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
+      Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
+      Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
+      Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
+      Merge branch 'origin/icewm-1-4-BRANCH' into Weblate
+
+scootergrisen <scootergrisen@gmail.com> (20):
+      Update da.po to 1.4.2.438
+      Update da
+      Spell check for da.po
+      A few more spell check for da.po
+      Update da.po
+      Add name[da]
+      Translated using Weblate (Danish)
+      Translated using Weblate (Danish)
+      Translated using Weblate (Danish)
+      Translated using Weblate (Danish)
+      Translated using Weblate (Danish)
+      Translated using Weblate (Danish)
+      Translated using Weblate (Danish)
+      Translated using Weblate (Danish)
+      Translated using Weblate (Danish)
+      Translated using Weblate (Danish)
+      Translated using Weblate (Danish)
+      Translated using Weblate (Danish)
+      Translated using Weblate (Danish)
+      Translated using Weblate (Danish)
+
+Luiz Fernando Ranghetti <elchevive68@gmail.com> (19):
+      Translated using Weblate (Portuguese (Brazil))
+      Translated using Weblate (Portuguese (Brazil))
+      Translated using Weblate (Portuguese (Brazil))
+      Translated using Weblate (Portuguese (Brazil))
+      Translated using Weblate (Portuguese (Brazil))
+      Translated using Weblate (Portuguese (Brazil))
+      Translated using Weblate (Portuguese (Brazil))
+      Translated using Weblate (Portuguese (Brazil))
+      Translated using Weblate (Portuguese (Brazil))
+      Translated using Weblate (Portuguese (Brazil))
+      Translated using Weblate (Portuguese (Brazil))
+      Translated using Weblate (Portuguese (Brazil))
+      Translated using Weblate (Portuguese (Brazil))
+      Translated using Weblate (Portuguese (Brazil))
+      Translated using Weblate (Portuguese (Brazil))
+      Translated using Weblate (Portuguese (Brazil))
+      Translated using Weblate (Portuguese (Brazil))
+      Translated using Weblate (Portuguese (Brazil))
+      Translated using Weblate (Portuguese (Brazil))
+
+Sarah Kriesch <ada.lovelace@gmx.de> (19):
+      Translated using Weblate (German)
+      Translated using Weblate (German)
+      Translated using Weblate (German)
+      Translated using Weblate (German)
+      Translated using Weblate (German)
+      Translated using Weblate (German)
+      Translated using Weblate (German)
+      Translated using Weblate (German)
+      Translated using Weblate (German)
+      Translated using Weblate (German)
+      Translated using Weblate (German)
+      Translated using Weblate (German)
+      Translated using Weblate (German)
+      Translated using Weblate (German)
+      Translated using Weblate (German)
+      Translated using Weblate (German)
+      Translated using Weblate (German)
+      Translated using Weblate (German)
+      Translated using Weblate (German)
+
+Aleš Kastner <alkas@volny.cz> (18):
+      Translated using Weblate (Czech)
+      Translated using Weblate (Czech)
+      Translated using Weblate (Czech)
+      Translated using Weblate (Czech)
+      Translated using Weblate (Czech)
+      Translated using Weblate (Czech)
+      Translated using Weblate (Czech)
+      Translated using Weblate (Czech)
+      Translated using Weblate (Czech)
+      Translated using Weblate (Czech)
+      Translated using Weblate (Czech)
+      Translated using Weblate (Czech)
+      Translated using Weblate (Czech)
+      Translated using Weblate (Czech)
+      Translated using Weblate (Czech)
+      Translated using Weblate (Czech)
+      Translated using Weblate (Czech)
+      Translated using Weblate (Czech)
+
+Freek de Kruijf <freek@opensuse.org> (16):
+      Translated using Weblate (Dutch)
+      Translated using Weblate (Dutch)
+      Translated using Weblate (Dutch)
+      Translated using Weblate (Dutch)
+      Translated using Weblate (Dutch)
+      Translated using Weblate (Dutch)
+      Translated using Weblate (Dutch)
+      Translated using Weblate (Dutch)
+      Translated using Weblate (Dutch)
+      Translated using Weblate (Dutch)
+      Translated using Weblate (Dutch)
+      Translated using Weblate (Dutch)
+      Translated using Weblate (Dutch)
+      Translated using Weblate (Dutch)
+      Translated using Weblate (Dutch)
+      Translated using Weblate (Dutch)
+
+Yasuhiko Kamata <belphegor@belbel.or.jp> (16):
+      Translated using Weblate (Japanese)
+      Translated using Weblate (Japanese)
+      Translated using Weblate (Japanese)
+      Translated using Weblate (Japanese)
+      Translated using Weblate (Japanese)
+      Translated using Weblate (Japanese)
+      Translated using Weblate (Japanese)
+      Translated using Weblate (Japanese)
+      Translated using Weblate (Japanese)
+      Translated using Weblate (Japanese)
+      Translated using Weblate (Japanese)
+      Translated using Weblate (Japanese)
+      Translated using Weblate (Japanese)
+      Translated using Weblate (Japanese)
+      Translated using Weblate (Japanese)
+      Translated using Weblate (Japanese)
+
+Brian Bidulock <bidulock@openss7.com> (15):
+      Create CODE_OF_CONDUCT.md
+      Merge pull request #158 from attilakinali/icewm-1-4-BRANCH
+      Merge pull request #169 from
+        Code7R/feature/proposal_removing_legacy_xft_support
+      Merge pull request #199 from gam3/icewm-1-4-BRANCH
+      Merge pull request #214 from BTaskaya/patch-1
+      Merge pull request #250 from gam3/gam3/cleanup
+      Merge pull request #253 from gam3/gam3/psi_widow_warp
+      Merge pull request #252 from gam3/gam3/upper_coners_handles
+      Merge pull request #271 from ddekany/pr-default-buttons
+      Merge pull request #272 from ddekany/pr-default-colors
+      Merge branch 'icewm-1-4-BRANCH' into icewm-1-4-BRANCH
+      Merge pull request #233 from zhengqiang130/icewm-1-4-BRANCH
+      Merge pull request #279 from jiribohac/icewm-1-4-BRANCH
+      Merge pull request #282 from wongma7/win95-titlebar-menu-button
+      Merge pull request #315 from bsiegert/nls
+
+Alessio Adamo <alessio.adamo@gmail.com> (14):
+      Translated using Weblate (Italian)
+      Translated using Weblate (Italian)
+      Translated using Weblate (Italian)
+      Translated using Weblate (Italian)
+      Translated using Weblate (Italian)
+      Translated using Weblate (Italian)
+      Translated using Weblate (Italian)
+      Translated using Weblate (Italian)
+      Translated using Weblate (Italian)
+      Translated using Weblate (Italian)
+      Translated using Weblate (Italian)
+      Translated using Weblate (Italian)
+      Translated using Weblate (Italian)
+      Translated using Weblate (Italian)
+
+Robert Taisz <robert.taisz@emerald.hu> (14):
+      Translated using Weblate (Hungarian)
+      Translated using Weblate (Hungarian)
+      Translated using Weblate (Hungarian)
+      Translated using Weblate (Hungarian)
+      Translated using Weblate (Hungarian)
+      Translated using Weblate (Hungarian)
+      Translated using Weblate (Hungarian)
+      Translated using Weblate (Hungarian)
+      Translated using Weblate (Hungarian)
+      Translated using Weblate (Hungarian)
+      Translated using Weblate (Hungarian)
+      Translated using Weblate (Hungarian)
+      Translated using Weblate (Hungarian)
+      Translated using Weblate (Hungarian)
+
+Hwajin Kim <hwajin.kim@e4net.net> (11):
+      Translated using Weblate (Korean)
+      Translated using Weblate (Korean)
+      Translated using Weblate (Korean)
+      Translated using Weblate (Korean)
+      Translated using Weblate (Korean)
+      Translated using Weblate (Korean)
+      Translated using Weblate (Korean)
+      Translated using Weblate (Korean)
+      Translated using Weblate (Korean)
+      Translated using Weblate (Korean)
+      Translated using Weblate (Korean)
+
+Ewelina Michalowska <ewelina.michalowska@stgambit.com> (10):
+      Translated using Weblate (Polish)
+      Translated using Weblate (Polish)
+      Translated using Weblate (Polish)
+      Translated using Weblate (Polish)
+      Translated using Weblate (Polish)
+      Translated using Weblate (Polish)
+      Translated using Weblate (Polish)
+      Translated using Weblate (Polish)
+      Translated using Weblate (Polish)
+      Translated using Weblate (Polish)
+
+George Yacoub <george.yacoub@arabize.com> (10):
+      Translated using Weblate (Arabic)
+      Translated using Weblate (Arabic)
+      Translated using Weblate (Arabic)
+      Translated using Weblate (Arabic)
+      Translated using Weblate (Arabic)
+      Translated using Weblate (Arabic)
+      Translated using Weblate (Arabic)
+      Translated using Weblate (Arabic)
+      Translated using Weblate (Arabic)
+      Translated using Weblate (Arabic)
+
+Emily Dong <Emily.Dong@excel-gits.com> (8):
+      Translated using Weblate (Chinese (Taiwan))
+      Translated using Weblate (Chinese (Taiwan))
+      Translated using Weblate (Chinese (China))
+      Translated using Weblate (Chinese (China))
+      Translated using Weblate (Chinese (China))
+      Translated using Weblate (Chinese (China))
       Translated using Weblate (Chinese (China))
       Translated using Weblate (Chinese (Taiwan))
 
-Christine Gabriel <christine@stoquart.com> (1):
-      Translated using Weblate (French)
-
-Ewelina Michalowska <ewelina.michalowska@stgambit.com> (1):
-      Translated using Weblate (Polish)
-
-George Yacoub <george.yacoub@arabize.com> (1):
-      Translated using Weblate (Arabic)
-
-Hwajin Kim <hwajin.kim@e4net.net> (1):
-      Translated using Weblate (Korean)
-
-Juan Sarria <juansarriam@gmail.com> (1):
+Juan Sarria <juansarriam@gmail.com> (8):
+      Translated using Weblate (Spanish)
+      Translated using Weblate (Spanish)
+      Translated using Weblate (Spanish)
+      Translated using Weblate (Spanish)
+      Translated using Weblate (Spanish)
+      Translated using Weblate (Spanish)
+      Translated using Weblate (Spanish)
       Translated using Weblate (Spanish)
 
-Robert Taisz <robert.taisz@emerald.hu> (1):
-      Translated using Weblate (Hungarian)
+gijsbers <gijsbers@users.noreply.github.com> (8):
+      Merge pull request #151 from gijsbers/post42
+      Merge pull request #174 from scootergrisen/patch-2
+      Merge pull request #173 from scootergrisen/patch-1
+      Merge pull request #175 from scootergrisen/patch-3
+      Merge pull request #191 from scootergrisen/patch-4
+      Merge pull request #194 from scootergrisen/patch-4
+      Merge pull request #208 from Pro-pra/patch-1
+      Merge pull request #210 from Krandelbord/icewm-1-4-BRANCH
+
+Benny Siegert <bsiegert@gmail.com> (7):
+      Cast iconv arg to correct type for NetBSD
+      Make JCS extension usage conditional.
+      Fix compilation of PPP meter in NetBSD
+      Fix NetBSD APM includes. (#324)
+      Add libpng and libxpm to flag fixup stanza.
+      Link genpref and icewm-session against gettext.
+      Check sndfile.h with audio_flags.
+
+Christine Gabriel <christine@stoquart.com> (7):
+      Translated using Weblate (French)
+      Translated using Weblate (French)
+      Translated using Weblate (French)
+      Translated using Weblate (French)
+      Translated using Weblate (French)
+      Translated using Weblate (French)
+      Translated using Weblate (French)
+
+Dingzhong Chen <wsxy162@gmail.com> (7):
+      Translated using Weblate (Chinese (China))
+      Translated using Weblate (Chinese (China))
+      Translated using Weblate (Chinese (China))
+      Translated using Weblate (Chinese (China))
+      Translated using Weblate (Chinese (China))
+      Translated using Weblate (Chinese (China))
+      Translated using Weblate (Chinese (China))
+
+jc sl <trcs@gmx.com> (7):
+      Translated using Weblate (Spanish)
+      Translated using Weblate (Spanish)
+      Translated using Weblate (Spanish)
+      Translated using Weblate (Spanish)
+      Translated using Weblate (Spanish)
+      Translated using Weblate (Spanish)
+      Translated using Weblate (Spanish)
+
+Pro-pra <pro2_2000@mail.ru> (6):
+      Update ru.po
+      Update ru.po
+      Update ru.po
+      Update ru.po
+      Update ru.po
+      Update ru.po
+
+Grace Yu <grace.yu@excel-gits.com> (5):
+      Translated using Weblate (Chinese (China))
+      Translated using Weblate (Chinese (Taiwan))
+      Translated using Weblate (Chinese (Taiwan))
+      Translated using Weblate (Chinese (Taiwan))
+      Translated using Weblate (Chinese (Taiwan))
+
+Wnereiz Z <wnereiz@eienteiland.org> (5):
+      Translated using Weblate (Chinese (China))
+      Translated using Weblate (Chinese (China))
+      Translated using Weblate (Chinese (China))
+      Translated using Weblate (Chinese (China))
+      Translated using Weblate (Chinese (China))
+
+Andriy Bandura <andriykopanytsia@gmail.com> (4):
+      Translated using Weblate (Ukrainian)
+      Translated using Weblate (Ukrainian)
+      Translated using Weblate (Ukrainian)
+      Translated using Weblate (Ukrainian)
+
+Davide Aiello <davidea@novilinguists.com> (4):
+      Translated using Weblate (Italian)
+      Translated using Weblate (Italian)
+      Translated using Weblate (Italian)
+      Translated using Weblate (Italian)
+
+Dmitriy Khanzhin <dmitriy.khanzhin@gmail.com> (4):
+      Translated using Weblate (Russian)
+      Translated using Weblate (Russian)
+      Translated using Weblate (Russian)
+      Translated using Weblate (Russian)
+
+Franziska Weinberger <f.weinberger@gemino.de> (4):
+      Translated using Weblate (German)
+      Translated using Weblate (German)
+      Translated using Weblate (German)
+      Translated using Weblate (German)
+
+G. Allen Morris III <gam3@gam3.net> (4):
+      Remove random %s from po/sk.po to allow build
+      use proper 'delete []' in place of 'delete'
+      Fix the mouse pointer problem on top left and top right.
+      Stop 'psi' windows from warping on first move by title bar.
+
+Martin Devenney <devenneymartin@gmail.com> (4):
+      Translated using Weblate (Swedish)
+      Translated using Weblate (Swedish)
+      Translated using Weblate (Swedish)
+      Translated using Weblate (Swedish)
+
+Nikita Maynagashev <maynagashev@palex.ru> (4):
+      Translated using Weblate (Russian)
+      Translated using Weblate (Russian)
+      Translated using Weblate (Russian)
+      Translated using Weblate (Russian)
+
+Anshul Panwar <caspian7pena@gmail.com> (3):
+      Added translation using Weblate (Hindi)
+      Translated using Weblate (Hindi)
+      Translated using Weblate (Hindi)
+
+Code7R <Code7R@users.noreply.github.com> (3):
+      Merge pull request #228 from mrbrainsample/icewm-1-4-BRANCH
+      Merge pull request #293 from nikolas/spelling
+      Merge pull request #325 from bsiegert/genpref
+
+Rodrigo Macedo <rmsolucoeseminformatic4@gmail.com> (3):
+      Translated using Weblate (Portuguese (Brazil))
+      Translated using Weblate (Portuguese (Brazil))
+      Translated using Weblate (Portuguese (Brazil))
+
+Ruta Reknere <ruta.reknere@nordtext.com> (3):
+      Translated using Weblate (Swedish)
+      Translated using Weblate (Swedish)
+      Translated using Weblate (Swedish)
+
+ddekany <ddekany@apache.org> (3):
+      Removed unwanted pixel from the corners
+      Fixed weird title bar and header colors in default theme
+      Decreased border size a bit. Looks less unbalanced with the new color.
+
+Eva van Rein <vistatec@globaltextware.nl> (2):
+      Translated using Weblate (Dutch)
+      Translated using Weblate (Dutch)
+
+Jorge Gallegos Carrasco <jcarrascochih@gmail.com> (2):
+      Translated using Weblate (Spanish)
+      Translated using Weblate (Spanish)
+
+Nathan Follens <nthn@unseen.is> (2):
+      Translated using Weblate (Dutch)
+      Translated using Weblate (Dutch)
+
+Vojtech Zeisek <Vojtech.Zeisek@opensuse.org> (2):
+      Translated using Weblate (Czech)
+      Translated using Weblate (Czech)
+
+Ad Soyad <kalemlik100@yandex.com> (1):
+      Translated using Weblate (Turkish)
+
+Antoine Belvire <antoine.belvire@laposte.net> (1):
+      Translated using Weblate (French)
+
+Antoine Belvire <antoine.belvire@opensuse.org> (1):
+      Translated using Weblate (French)
+
+Arif Budiman <arifpedia@gmail.com> (1):
+      Translated using Weblate (Indonesian)
+
+Attila Kinali <attila@kinali.ch> (1):
+      Use byte/s instead of bit/s for NetStatus App tooltip
+
+Batuhan Osman Taşkaya <batuhanosmantaskaya@gmail.com> (1):
+      Translations
+
+Dmitry Semyonov <linulin@gmail.com> (1):
+      Properly reserve taskbar area in vertical dualhead configurations
+
+Jeff Woods <jwoods@build.com> (1):
+      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+
+Jeff Woods <klaatu@fnordco.com> (1):
+      Have cmake add git rev number to VERSION
+
+Jiri Bohac <jbohac@suse.cz> (1):
+      Allow switching and reordering taskbar buttons with keyboard.
+
+Kate Shcher <wwwkkk30@yandex.ru> (1):
+      Translated using Weblate (English)
+
+Krandelbord <Krandelbord@github.com> (1):
+      added reading icons from multiple theme-locations
+
+Marguerite Su <i@marguerite.su> (1):
+      Translated using Weblate (Chinese (China))
+
+Matthew Wong <mawong@redhat.com> (1):
+      Make win95 menu button bg color match titlebar's
+
+Michal Suchanek <msuchanek@suse.com> (1):
+      Translated using Weblate (Czech)
+
+Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com> (1):
+      Translated using Weblate (Lithuanian)
+
+Nikolas Nyby <nikolas@gnu.org> (1):
+      Fix a few spelling errors in icewm-preferences man page
+
+Patricia Pazos <pms.malaga@hermestrans.com> (1):
+      Translated using Weblate (Spanish)
+
+Sir Mobus Gochfulshigan Dorphin Esquire XXIII <celestialtuba@gmail.com> (1):
+      Combine fixes for issue #232 (#309)
+
+Stanislav Brabec <sbrabec@suse.com> (1):
+      Merge remote-tracking branch 'weblate/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
 
 Stanislav Brabec <sbrabec@suse.cz> (1):
       Merge remote-tracking branch 'weblate/icewm-1-4-BRANCH' into
@@ -553,4 +2871,69 @@ Stanislav Brabec <sbrabec@suse.cz> (1):
 
 Sven Åhr <anders.ahr@gmail.com> (1):
       Translated using Weblate (Swedish)
+
+Yi-Jyun Pan <pan93412@gmail.com> (1):
+      Translated using Weblate (Chinese (Taiwan))
+
+YunSeok Choi <xein@naver.com> (1):
+      Translated using Weblate (Korean)
+
+anonymous <> (1):
+      Translated using Weblate (Dutch)
+
+ldarby2 <42494548+ldarby2@users.noreply.github.com> (1):
+      Don't waste taskbar space for window titles if there's no icon. (#294)
+
+mohammad alhargan <malham1@gmail.com> (1):
+      Translated using Weblate (Arabic)
+
+nikoss <nikoss@users.noreply.github.com> (1):
+      Greek translation 002 (#327)
+
+varmanishant <nishant.varma@gmail.com> (1):
+      Title case for tooltip messages (#322)
+
+wisememo <46960734+wisememo@users.noreply.github.com> (1):
+      Update zh_TW.po (#332)
+
+zhengqiang130 <qzheng@suse.com> (1):
+      Use ss instead of netstat in src/default.h
+
+
+Release icewm-1.4.2 released 2017-07-30
+---------------------------------------
+
+git shortlog -e -n -w80,6,8 1.4.1...1.4.2
+
+Brian Bidulock <bidulock@openss7.org> (10):
+      Merge remote-tracking branch 'origin/icewm-1-3-BRANCH' into
+        icewm-1-4-BRANCH
+      update po files
+      update AUTHORS file
+      generate more news
+      update NEWS file
+      icewm-1-4-BRANCH is now the default
+      partially address issue #146
+      better fix for issue #146
+      final tweak for #146
+      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
+        icewm-1-4-BRANCH
+
+Bert Gijsbers <gijsbers@science.uva.nl> (6):
+      Omit -b in git checkout icewm-1-4-BRANCH.
+      Specify output with -o icewm.html.
+      Update ChangeLog to 1.4.1 and remove all changes for the 1.3.12 release
+        and older.
+      New function copyPixmaps adds more defaults for missing pixmaps. When some
+        pixmaps are missing then they are copied from others. This restores
+        backward compatibility in issue #144.
+      Always show icon in the top left corner of a window in issue #144.
+      Prepare for release 1.4.2.
+
+Brian Bidulock <bidulock@openss7.com> (1):
+      Merge pull request #150 from
+        Code7R/feature/increase_theme_menu_collapsing_threshold
+
+Eduard Bloch <blade@debian.org> (1):
+      Increased the trigger value for the theme menu nesting algorithm
 
