@@ -45,6 +45,3 @@ fi
 	DEBUG_CFLAGS="$DEBUG_CFLAGS" \
 	DEBUG_CXXFLAGS="$DEBUG_CXXFLAGS"
 
-# cscope target won't work without this
-#
-[ -f po/Makefile ] && echo -e '\n%:\n\t@:\n\n' >> po/Makefile
