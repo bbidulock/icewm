@@ -27,6 +27,7 @@ _*
 *.pox
 *.sw[nop]
 *.xz
+*.lz
 
 #
 # Debian directory (make deb-pkg)
@@ -165,6 +166,10 @@ GTAGS
 README
 README.html
 README.txt
+
+RELEASE
+RELEASE.html
+RELEASE.txt
 
 # Eclipse project metadata
 .cproject
