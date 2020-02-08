@@ -256,14 +256,17 @@ F<preferences> file.  When C<PagerShowPreview> is turned on a small
 graphical summary for each workspace is shown.
 
 The I<Task Pane> consists of a list of wide buttons for each application
-which is running on the current work space.  Each task button shows the
+which is running on the current work space, or all workspaces if
+C<TaskBarShowAllWindows=1>.  Each task button shows the
 application icon and the application title.  The active application is
 indicated by a pressed button.  This is the application which has input
 focus.  Pressing another button activates that application: it is
 brought to the foreground and receives input focus.  Other mouse
-controlled activities on the window buttons are dragging window buttons to
-(temporarily) rearrange the order (with left mouse button) or closing
-the application window (with middle button while pressing and holding C<Alt>).
+controlled activities on the window buttons are: dragging window buttons
+with the left mouse button to rearrange the order, closing the application
+window with C<Alt> + middle button, lowering the application window with
+C<Ctrl> + middle button, or bringing the application window to the current
+workspace with C<Shift> + middle button if C<TaskBarShowAllWindows=1>.
 
 If there are not many application buttons then a stretch of plain task
 bar is visible.  Clicking on it with the right mouse button gives the
