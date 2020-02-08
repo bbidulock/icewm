@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-02-08 02:35-0700\n"
-"PO-Revision-Date: 2020-01-27 17:54+0000\n"
+"PO-Revision-Date: 2020-02-08 11:54+0000\n"
 "Last-Translator: David Medina <medipas@gmail.com>\n"
-"Language-Team: Catalan <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/ca/>\n"
+"Language-Team: Catalan <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -631,7 +631,7 @@ msgstr "Argument no vàlid: \"%s\""
 
 #: src/icesh.cc:2795
 msgid "No windows found."
-msgstr ""
+msgstr "No s'ha trobat cap finestra."
 
 #: src/icesh.cc:2810
 msgid "No actions specified."
