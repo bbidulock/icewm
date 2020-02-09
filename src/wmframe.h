@@ -51,8 +51,6 @@ public:
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleClick(const XButtonEvent &up, int count);
     virtual void handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion);
-    virtual void handleDrag(const XButtonEvent &down, const XMotionEvent &motion);
-    virtual void handleEndDrag(const XButtonEvent &down, const XButtonEvent &up);
     virtual void handleMotion(const XMotionEvent &motion);
     virtual void handleCrossing(const XCrossingEvent &crossing);
     virtual void handleFocus(const XFocusChangeEvent &focus);

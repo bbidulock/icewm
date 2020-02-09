@@ -1039,12 +1039,6 @@ void YFrameWindow::moveWindow(int newX, int newY) {
     statusMoveSize->setStatus(this);
 }
 
-void YFrameWindow::handleDrag(const XButtonEvent &/*down*/, const XMotionEvent &/*motion*/) {
-}
-
-void YFrameWindow::handleEndDrag(const XButtonEvent &/*down*/, const XButtonEvent &/*up*/) {
-}
-
 void YFrameWindow::handleButton(const XButtonEvent &button) {
     if (button.type == ButtonPress) {
         if (button.button == 1 && !(button.state & ControlMask)) {
