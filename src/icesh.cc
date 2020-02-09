@@ -3186,6 +3186,7 @@ void IceSh::spy()
                     break;
                 case ReparentNotify:
                 case GravityNotify:
+                case ClientMessage:
                     break;
                 default:
                     printf("%sUnknown event type %d\n", head, event.type);
