@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: icewm 1.3.4pre2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-02-08 02:35-0700\n"
-"PO-Revision-Date: 2019-12-05 21:54+0000\n"
-"Last-Translator: Luiz Fernando Ranghetti <elchevive68@gmail.com>\n"
+"PO-Revision-Date: 2020-02-11 02:54+0000\n"
+"Last-Translator: Rodrigo Macedo <rmsolucoeseminformatic4@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -633,7 +633,7 @@ msgstr "Argumento inválido `%s'"
 
 #: src/icesh.cc:2795
 msgid "No windows found."
-msgstr ""
+msgstr "Nenhuma janela encontrada."
 
 #: src/icesh.cc:2810
 msgid "No actions specified."
