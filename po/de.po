@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-02-08 02:35-0700\n"
-"PO-Revision-Date: 2019-12-05 21:54+0000\n"
+"PO-Revision-Date: 2020-02-11 18:54+0000\n"
 "Last-Translator: Sarah Kriesch <ada.lovelace@gmx.de>\n"
-"Language-Team: German <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/de/>\n"
+"Language-Team: German <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -635,7 +635,7 @@ msgstr "Ungültiges Argument: `%s'"
 
 #: src/icesh.cc:2795
 msgid "No windows found."
-msgstr ""
+msgstr "Keine Fenster gefunden."
 
 #: src/icesh.cc:2810
 msgid "No actions specified."
