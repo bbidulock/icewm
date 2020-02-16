@@ -463,6 +463,20 @@ It supports file completion using C<Tab> or C<Ctrl+I>.
 A rich set of editing operations is supported,
 including cut-/copy-/paste-operations.
 
+=head2 WINDOW LIST
+
+The window list window shows a list of all workspaces. For each
+workspace it shows the windows which are mapped on it. The bottom
+entry reads C<All Workspaces>. It holds the sticky windows. These
+windows are mapped in all workspaces.
+
+Click on any workspace to activate it.  Click on a window to focus
+it. Or navigate by arrow keys and press Enter.
+
+The window list window is normally hidden. To activate it, select
+the bottom window list menu entry, or press the C<KeySysWindowList>
+key, or press the right Windows key if C<Win95Keys=1>.
+
 =head2 KEYBOARD SHORTCUTS
 
 B<icewm> supports a large number of hotkeys to activate some behaviour
