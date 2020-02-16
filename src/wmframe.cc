@@ -1162,7 +1162,7 @@ void YFrameWindow::wmToggleFullscreen() {
 }
 
 void YFrameWindow::wmToggleTray() {
-    if (getTrayOption() != WinTrayExclusive) {
+    if (getTrayOption() == WinTrayIgnore) {
         setTrayOption(WinTrayExclusive);
     } else {
         setTrayOption(WinTrayIgnore);
