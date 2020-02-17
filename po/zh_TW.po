@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-02-08 02:35-0700\n"
-"PO-Revision-Date: 2019-06-25 07:49+0000\n"
-"Last-Translator: Yi-Jyun Pan <pan93412@gmail.com>\n"
+"PO-Revision-Date: 2020-02-17 12:54+0000\n"
+"Last-Translator: Grace Yu <grace.yu@excel-gits.com>\n"
 "Language-Team: Chinese (Taiwan) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/zh_TW/>\n"
 "Language: zh_TW\n"
@@ -589,19 +589,15 @@ msgstr "IceWM 系統列選項"
 
 #: src/icesh.cc:1680
 msgid "Gravity symbols"
-msgstr ""
+msgstr "Gravity 符號"
 
 #: src/icesh.cc:1681
-#, fuzzy
-#| msgid "Save Modifications"
 msgid "Motif functions"
-msgstr "儲存修改"
+msgstr "Motif 功能"
 
 #: src/icesh.cc:1682
-#, fuzzy
-#| msgid "Save Modifications"
 msgid "Motif decorations"
-msgstr "儲存修改"
+msgstr "Motif 修飾"
 
 #: src/icesh.cc:1761
 #, c-format
@@ -631,7 +627,7 @@ msgstr "引數無效：「%s」"
 
 #: src/icesh.cc:2795
 msgid "No windows found."
-msgstr ""
+msgstr "找不到視窗。"
 
 #: src/icesh.cc:2810
 msgid "No actions specified."
@@ -653,17 +649,6 @@ msgid "Socket error: %d"
 msgstr "Socket 錯誤：%d"
 
 #: src/icesm.cc:57
-#, fuzzy
-#| msgid ""
-#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-#| "\n"
-#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
-#| "  --sync              Synchronize communication with X11 server.\n"
-#| "\n"
-#| "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
-#| "  -n, --notray        Do not start icewmtray.\n"
-#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -681,9 +666,11 @@ msgstr ""
 "  -t、--theme=FILE   IceWM 將從 FILE 載入主題。\n"
 "\n"
 "  -d、--display=NAME  使用 NAME 連接 X 伺服器。\n"
+"  -a、--alpha         使用 32 位元半透明視覺物件。\n"
 "  --sync              與 X11 伺服器同步通訊資訊。\n"
 "\n"
-"  -i、--icewm=FILE    使用 FILE 做為 IceWM 視窗管理程式。  \n"
+"  -i、--icewm=FILE    使用 FILE 做為 IceWM 視窗管理程式。\n"
+"  -b、--nobg          不啟動 icewmbg。\n"
 "  -n、--notray        不啟動 icewmtray。\n"
 "  -s、--sound         同時啟動 icesound。\n"
 
@@ -693,10 +680,9 @@ msgid "Unknown option '%s'"
 msgstr "未知選項「%s」"
 
 #: src/icesm.cc:331 src/icesm.cc:449
-#, fuzzy, c-format
-#| msgid "Restart"
+#, c-format
 msgid "restart %s."
-msgstr "重新啟動"
+msgstr "重新啟動 %s。"
 
 #: src/icesm.cc:337
 #, c-format
@@ -1355,12 +1341,6 @@ msgstr ""
 "  --debug-z           列印有關視窗堆疊的除錯訊息。\n"
 
 #: src/wmapp.cc:1544
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "  -c, --config=FILE   Load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Load theme from FILE.\n"
-#| "  --postpreferences   Print preferences after all processing.\n"
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -1371,9 +1351,12 @@ msgid ""
 "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgstr ""
 "\n"
+"  -a、--alpha         使用 32 位元半透明視覺物件。\n"
 "  -c、--config=FILE   從 FILE 中載入優先設定。\n"
 "  -t、--theme=FILE    從 FILE 中載入主題。\n"
-"  --postpreferences   所有程序結束後列印優先設定。\n"
+"  -s、--splash=IMAGE  啟動時短暫顯示 IMAGE。\n"
+"  -p、--postpreferences  執行所有處理後列印優先設定。\n"
+"  --trace=conf,icon   追蹤用於載入組態的路徑。\n"
 
 #: src/wmapp.cc:1553
 #, c-format
