@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-02-08 02:35-0700\n"
-"PO-Revision-Date: 2019-08-21 14:51+0000\n"
-"Last-Translator: jcsl <trcs@gmx.com>\n"
-"Language-Team: Spanish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/es/>\n"
+"PO-Revision-Date: 2020-02-20 00:54+0000\n"
+"Last-Translator: Juan Sarria <juansarriam@gmail.com>\n"
+"Language-Team: Spanish <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -551,7 +551,6 @@ msgid "Ctrl+R"
 msgstr "Ctrl+R"
 
 #: src/icesame.cc:65
-#, fuzzy
 msgid "Same Game"
 msgstr "Mismo juego"
 
@@ -632,7 +631,7 @@ msgstr "Argumento no válido: «%s»"
 
 #: src/icesh.cc:2795
 msgid "No windows found."
-msgstr ""
+msgstr "No se encuentra ninguna ventana."
 
 #: src/icesh.cc:2810
 msgid "No actions specified."
@@ -746,7 +745,6 @@ msgid "OSS incomplete write (%d/%d)"
 msgstr "Escritura de OSS incompleta (%d/%d)"
 
 #: src/icesound.cc:372
-#, fuzzy
 msgid "Could not post OSS"
 msgstr "No se ha podido publicar OSS"
 
@@ -1372,14 +1370,6 @@ msgstr ""
 "pila de ventanas.\n"
 
 #: src/wmapp.cc:1544
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "  -a, --alpha         Use a 32-bit visual for translucency.\n"
-#| "  -c, --config=FILE   Load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Load theme from FILE.\n"
-#| "  --splash=IMAGE      Briefly show IMAGE on startup.\n"
-#| "  --postpreferences   Print preferences after all processing.\n"
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -1393,9 +1383,11 @@ msgstr ""
 "  -a, --alpha            Usar 32 bits de color para traslucidez.\n"
 "  -c, --config=ARCHIVO   Carga las preferencias de ARCHIVO.\n"
 "  -t, --theme=ARCHIVO    Carga el tema de ARCHIVO.\n"
-"  --splash=IMAGEN        Muestra IMAGEN brevemente al iniciar.\n"
-"  --postpreferences      Muestra las preferencias después de todo el "
+"  -s, --splash=IMAGEN      Muestra IMAGEN brevemente al iniciar.\n"
+"  -p, --postpreferences     Muestra las preferencias después de todo el "
 "procesamiento.\n"
+"  --trace=conf,icon   Rastrea las rutas usadas para cargar la configuración."
+"\n"
 
 #: src/wmapp.cc:1553
 #, c-format
@@ -1580,7 +1572,6 @@ msgid "_Explicit focus"
 msgstr "Foco _explícito"
 
 #: src/wmprog.cc:399
-#, fuzzy
 msgid "_Sloppy mouse focus"
 msgstr "De_slizar el ratón para ganar el foco"
 
