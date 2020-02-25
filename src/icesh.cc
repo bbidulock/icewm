@@ -66,7 +66,7 @@ static const char* get_help_text() {
 }
 
 static bool tolong(const char* str, long& num, int base = 10) {
-    char* end = 0;
+    char* end = nullptr;
     if (str) {
         num = strtol(str, &end, base);
     }
@@ -674,6 +674,7 @@ public:
     YTreeIter(const YWindowTree& tree) : fTree(tree), fIndex(0) { }
 
     operator Window() const;
+    Window operator*() const { return Window(*this); }
     void operator++() { ++fIndex; }
     YTreeLeaf* operator->();
 
@@ -1400,16 +1401,33 @@ bool WorkspaceInfo::parseWorkspace(char const* name, long* workspace) {
     if (0 == strcmp(name, "this"))
         return *workspace = currentWorkspace(), true;
 
-    if (tolong(name, *workspace) == false) {
-        msg(_("Invalid workspace name: `%s'"), name);
-        return false;
-    }
-    else if (valid(*workspace) == false) {
-        msg(_("Workspace out of range: %ld"), *workspace);
-        return false;
+    if (tolong(name, *workspace)) {
+        if (valid(*workspace)) {
+            return true;
+        } else {
+            msg(_("Workspace out of range: %ld"), *workspace);
+            return false;
+        }
     }
 
-    return true;
+    if (fNames) {
+        for (int i = 0; i < fNames.count(); ++i) {
+            const char* str = strstr(fNames[i], name);
+            if (str) {
+                const char* end = str + strlen(name);
+                while (*end && isSpaceOrTab(*end))
+                    ++end;
+                while (str > fNames[i] && isSpaceOrTab(str[-1]))
+                    --str;
+                if (str == fNames[i] && end[0] == '\0') {
+                    return *workspace = i, true;
+                }
+            }
+        }
+    }
+
+    msg(_("Invalid workspace name: `%s'"), name);
+    return false;
 }
 
 static Window getParent(Window window) {
