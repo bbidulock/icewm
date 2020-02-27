@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.2.2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-02-08 02:35-0700\n"
+"POT-Creation-Date: 2020-02-27 23:18+0100\n"
 "PO-Revision-Date: 2003-01-27 22:26+0300\n"
 "Last-Translator: Hleb Valoska <el_globus@tut.by>\n"
 "Language-Team: Belarusian <i18n@mova.org>\n"
@@ -507,100 +507,129 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "Тую ж гульню"
 
-#: src/icesh.cc:65
+#: src/icesh.cc:66
 msgid "For help please consult the man page icesh(1).\n"
 msgstr ""
 
-#: src/icesh.cc:1266
+#: src/icesh.cc:1331
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Прайменаваныя сымбалі вобласьці `%s' (лікавы дыяпазон: %ld-%ld):\n"
 
-#: src/icesh.cc:1404
-#, c-format
-msgid "Invalid workspace name: `%s'"
-msgstr "Дрэннае імя варштата: `%s'"
-
-#: src/icesh.cc:1408
+#: src/icesh.cc:1472
 #, fuzzy, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Варштат па-за межамі: %d"
 
+#: src/icesh.cc:1493
+#, c-format
+msgid "Invalid workspace name: `%s'"
+msgstr "Дрэннае імя варштата: `%s'"
+
 # Set the IceWM tray option hint??
-#: src/icesh.cc:1676
+#: src/icesh.cc:1758
 msgid "GNOME window state"
 msgstr "Стан вакна GNOME'а"
 
-#: src/icesh.cc:1677
+#: src/icesh.cc:1759
 msgid "GNOME window hint"
 msgstr "Падказка вакна GNOME'а"
 
-#: src/icesh.cc:1678
+#: src/icesh.cc:1760
 msgid "GNOME window layer"
 msgstr "Пласт вакна GNOME'а"
 
-#: src/icesh.cc:1679
+#: src/icesh.cc:1761
 msgid "IceWM tray option"
 msgstr "Опцыя сподка IceWM"
 
-#: src/icesh.cc:1680
+#: src/icesh.cc:1762
 msgid "Gravity symbols"
 msgstr ""
 
-#: src/icesh.cc:1681
+#: src/icesh.cc:1763
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Motif functions"
 msgstr "Любімыя дастасаваньні"
 
-#: src/icesh.cc:1682
+#: src/icesh.cc:1764
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Motif decorations"
 msgstr "Любімыя дастасаваньні"
 
-#: src/icesh.cc:1761
+#: src/icesh.cc:1843
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "Працоўнае поле #%d: `%s'\n"
 
-#: src/icesh.cc:2724
+#: src/icesh.cc:2809
+#, c-format
+msgid "Cannot get geometry of window 0x%lx"
+msgstr ""
+
+#: src/icesh.cc:2834
+#, fuzzy, c-format
+#| msgid "Invalid argument: `%s'."
+msgid "Invalid Xinerama: `%s'."
+msgstr "Дрэнны парамэтар: `%s'."
+
+#: src/icesh.cc:2882
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Дзеяньне `%s' патрабуе прынамсі %d парамэтраў."
 
-#: src/icesh.cc:2734
+#: src/icesh.cc:2892
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Няправільны выраз: `%s'"
 
-#: src/icesh.cc:2745 src/icesound.cc:795 src/icewmhint.cc:36 src/wmapp.cc:1190
+#: src/icesh.cc:2903 src/icesound.cc:795 src/icewmhint.cc:36 src/wmapp.cc:1190
 #: src/yxapp.cc:1060
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "Немагчыма адкрыць дысплей: %s. Патрэбна запусьціць X і ўстанавіць $DISPLAY."
 
-#: src/icesh.cc:2758
+#: src/icesh.cc:2916
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid argument: `%s'"
 msgstr "Дрэнны парамэтар: `%s'."
 
-#: src/icesh.cc:2795
+#: src/icesh.cc:2953
 msgid "No windows found."
 msgstr ""
 
-#: src/icesh.cc:2810
+#: src/icesh.cc:2968
 msgid "No actions specified."
 msgstr "Ня вызначана дзеяньняў."
 
-#: src/icesh.cc:3009
+#: src/icesh.cc:3046
+#, fuzzy, c-format
+#| msgid "Invalid argument: `%s'."
+msgid "Invalid PID: `%s'"
+msgstr "Дрэнны парамэтар: `%s'."
+
+#: src/icesh.cc:3082
+#, fuzzy, c-format
+#| msgid "Invalid argument: `%s'."
+msgid "Invalid layer: `%s'."
+msgstr "Дрэнны парамэтар: `%s'."
+
+#: src/icesh.cc:3112
+#, fuzzy, c-format
+#| msgid "Invalid argument: `%s'."
+msgid "Invalid state: `%s'."
+msgstr "Дрэнны парамэтар: `%s'."
+
+#: src/icesh.cc:3167
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Дрэнны вызначнік вакна: `%s'"
 
-#: src/icesh.cc:3659
+#: src/icesh.cc:3823
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Невядомае дзеяньне: `%s'"
@@ -1360,8 +1389,8 @@ msgid "_Cancel"
 msgstr "_Адмена"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:77 src/wmprog.cc:849 src/wmprog.cc:851 src/wmtaskbar.cc:271
-#: src/wmtaskbar.cc:273
+#: src/wmdialog.cc:77 src/wmprog.cc:849 src/wmprog.cc:851 src/wmtaskbar.cc:261
+#: src/wmtaskbar.cc:263
 msgid "_Logout..."
 msgstr "_Скончыць сэанс"
 
@@ -1370,7 +1399,7 @@ msgid "_Restart icewm"
 msgstr "_Перазапусьціць icewm"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:82 src/wmprog.cc:810 src/wmtaskbar.cc:266
+#: src/wmdialog.cc:82 src/wmprog.cc:810 src/wmtaskbar.cc:256
 msgid "_About"
 msgstr "Пр_а"
 
@@ -1467,7 +1496,7 @@ msgid "_Run..."
 msgstr "_Выканаць..."
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmprog.cc:797 src/wmtaskbar.cc:261
+#: src/wmprog.cc:797 src/wmtaskbar.cc:251
 msgid "_Windows"
 msgstr "В_окны"
 
@@ -1497,74 +1526,74 @@ msgid "Session Manager: Unknown line %s"
 msgstr "Кіраўнік сэсій: невядомы радок %s"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:243 src/wmwinlist.cc:371 src/wmwinlist.cc:404
+#: src/wmtaskbar.cc:233 src/wmwinlist.cc:371 src/wmwinlist.cc:404
 msgid "Tile _Vertically"
 msgstr "Побач па _вэртыкалі"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:245 src/wmwinlist.cc:372 src/wmwinlist.cc:405
+#: src/wmtaskbar.cc:235 src/wmwinlist.cc:372 src/wmwinlist.cc:405
 msgid "T_ile Horizontally"
 msgstr "Побач па _гарызанталі"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:247 src/wmwinlist.cc:373 src/wmwinlist.cc:406
+#: src/wmtaskbar.cc:237 src/wmwinlist.cc:373 src/wmwinlist.cc:406
 msgid "Ca_scade"
 msgstr "_Каскадам"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:249 src/wmwinlist.cc:374 src/wmwinlist.cc:407
+#: src/wmtaskbar.cc:239 src/wmwinlist.cc:374 src/wmwinlist.cc:407
 msgid "_Arrange"
 msgstr "_Упарадкавана"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:251 src/wmwinlist.cc:376 src/wmwinlist.cc:408
+#: src/wmtaskbar.cc:241 src/wmwinlist.cc:376 src/wmwinlist.cc:408
 msgid "_Minimize All"
 msgstr "_Згарнуць усе"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:253 src/wmwinlist.cc:377 src/wmwinlist.cc:409
+#: src/wmtaskbar.cc:243 src/wmwinlist.cc:377 src/wmwinlist.cc:409
 msgid "_Hide All"
 msgstr "_Схаваць усе"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:255 src/wmwinlist.cc:378 src/wmwinlist.cc:410
+#: src/wmtaskbar.cc:245 src/wmwinlist.cc:378 src/wmwinlist.cc:410
 msgid "_Undo"
 msgstr "_Вернуць"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:258
+#: src/wmtaskbar.cc:248
 msgid "Arrange _Icons"
 msgstr "Упарадкаваць _значкі"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:264
+#: src/wmtaskbar.cc:254
 msgid "_Refresh"
 msgstr "А_бнавіць"
 
-#: src/wmtaskbar.cc:337 src/wmtaskbar.cc:956
+#: src/wmtaskbar.cc:327 src/wmtaskbar.cc:931
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Hide Taskbar"
 msgstr "Панэль задач"
 
-#: src/wmtaskbar.cc:355
+#: src/wmtaskbar.cc:345
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Favorite Applications"
 msgstr "Любімыя дастасаваньні"
 
-#: src/wmtaskbar.cc:376
+#: src/wmtaskbar.cc:366
 #, fuzzy
 #| msgid "Window list menu"
 msgid "Window List Menu"
 msgstr "Мэню сьпісу вакон"
 
-#: src/wmtaskbar.cc:385
+#: src/wmtaskbar.cc:375
 #, fuzzy
 msgid "Show Desktop"
 msgstr "На ўзроўні _стальца"
 
-#: src/wmtaskbar.cc:956
+#: src/wmtaskbar.cc:931
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Show Taskbar"

@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-02-08 02:35-0700\n"
+"POT-Creation-Date: 2020-02-27 23:18+0100\n"
 "PO-Revision-Date: 2020-02-11 18:54+0000\n"
 "Last-Translator: Sarah Kriesch <ada.lovelace@gmx.de>\n"
-"Language-Team: German <https://l10n.opensuse.org/projects/icewm/"
-"icewm-1-4-branch/de/>\n"
+"Language-Team: German <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -558,69 +558,80 @@ msgstr "Strg+R"
 msgid "Same Game"
 msgstr "Gleiches Spiel"
 
-#: src/icesh.cc:65
+#: src/icesh.cc:66
 msgid "For help please consult the man page icesh(1).\n"
 msgstr "Für Hilfe bitte die Manpage (1) hinzuziehen.\n"
 
-#: src/icesh.cc:1266
+#: src/icesh.cc:1331
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Benannte Symbole aus der Domain `%s` (Wertebereich: %ld-%ld):\n"
 
-#: src/icesh.cc:1404
-#, c-format
-msgid "Invalid workspace name: `%s'"
-msgstr "Ungültiger Name des Arbeitsbereichs: `%s`"
-
-#: src/icesh.cc:1408
+#: src/icesh.cc:1472
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Arbeitsbereich außerhalb des Wertebereichs: %ld"
 
-#: src/icesh.cc:1676
+#: src/icesh.cc:1493
+#, c-format
+msgid "Invalid workspace name: `%s'"
+msgstr "Ungültiger Name des Arbeitsbereichs: `%s`"
+
+#: src/icesh.cc:1758
 msgid "GNOME window state"
 msgstr "GNOME-Fensterzustand"
 
-#: src/icesh.cc:1677
+#: src/icesh.cc:1759
 msgid "GNOME window hint"
 msgstr "GNOME-Fensterbeschreibung"
 
-#: src/icesh.cc:1678
+#: src/icesh.cc:1760
 msgid "GNOME window layer"
 msgstr "GNOME-Fensterebene"
 
-#: src/icesh.cc:1679
+#: src/icesh.cc:1761
 msgid "IceWM tray option"
 msgstr "IceWM-Trayoption"
 
-#: src/icesh.cc:1680
+#: src/icesh.cc:1762
 msgid "Gravity symbols"
 msgstr "Gravitationssymbole"
 
-#: src/icesh.cc:1681
+#: src/icesh.cc:1763
 msgid "Motif functions"
 msgstr "Motif-Funktionen"
 
-#: src/icesh.cc:1682
+#: src/icesh.cc:1764
 msgid "Motif decorations"
 msgstr "Motif-Ausstattung"
 
-#: src/icesh.cc:1761
+#: src/icesh.cc:1843
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "Arbeitsbereich #%d: `%s`\n"
 
-#: src/icesh.cc:2724
+#: src/icesh.cc:2809
+#, c-format
+msgid "Cannot get geometry of window 0x%lx"
+msgstr ""
+
+#: src/icesh.cc:2834
+#, fuzzy, c-format
+#| msgid "Invalid argument: `%s'"
+msgid "Invalid Xinerama: `%s'."
+msgstr "Ungültiges Argument: `%s'"
+
+#: src/icesh.cc:2882
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Aktion `%s` benötigt mindestens %d Argumente."
 
-#: src/icesh.cc:2734
+#: src/icesh.cc:2892
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Ungültiger Ausdruck: `%s`"
 
-#: src/icesh.cc:2745 src/icesound.cc:795 src/icewmhint.cc:36 src/wmapp.cc:1190
+#: src/icesh.cc:2903 src/icesound.cc:795 src/icewmhint.cc:36 src/wmapp.cc:1190
 #: src/yxapp.cc:1060
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -628,25 +639,43 @@ msgstr ""
 "Das Display kann nicht geöffnet werden: %s. Der X muss laufen und $DISPLAY "
 "gesetzt sein."
 
-#: src/icesh.cc:2758
+#: src/icesh.cc:2916
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "Ungültiges Argument: `%s'"
 
-#: src/icesh.cc:2795
+#: src/icesh.cc:2953
 msgid "No windows found."
 msgstr "Keine Fenster gefunden."
 
-#: src/icesh.cc:2810
+#: src/icesh.cc:2968
 msgid "No actions specified."
 msgstr "Keine Aktionen angegeben."
 
-#: src/icesh.cc:3009
+#: src/icesh.cc:3046
+#, fuzzy, c-format
+#| msgid "Invalid argument: `%s'"
+msgid "Invalid PID: `%s'"
+msgstr "Ungültiges Argument: `%s'"
+
+#: src/icesh.cc:3082
+#, fuzzy, c-format
+#| msgid "Invalid argument: `%s'"
+msgid "Invalid layer: `%s'."
+msgstr "Ungültiges Argument: `%s'"
+
+#: src/icesh.cc:3112
+#, fuzzy, c-format
+#| msgid "Invalid argument: `%s'"
+msgid "Invalid state: `%s'."
+msgstr "Ungültiges Argument: `%s'"
+
+#: src/icesh.cc:3167
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Ungültiger Fensterbezeichner: `%s`"
 
-#: src/icesh.cc:3659
+#: src/icesh.cc:3823
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Unbekannte Aktion: `%s`"
@@ -1518,8 +1547,8 @@ msgid "_Cancel"
 msgstr "Ab_brechen"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:77 src/wmprog.cc:849 src/wmprog.cc:851 src/wmtaskbar.cc:271
-#: src/wmtaskbar.cc:273
+#: src/wmdialog.cc:77 src/wmprog.cc:849 src/wmprog.cc:851 src/wmtaskbar.cc:261
+#: src/wmtaskbar.cc:263
 msgid "_Logout..."
 msgstr "_Abmelden..."
 
@@ -1528,7 +1557,7 @@ msgid "_Restart icewm"
 msgstr "_IceWM neu starten"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:82 src/wmprog.cc:810 src/wmtaskbar.cc:266
+#: src/wmdialog.cc:82 src/wmprog.cc:810 src/wmtaskbar.cc:256
 msgid "_About"
 msgstr "_Über"
 
@@ -1625,7 +1654,7 @@ msgid "_Run..."
 msgstr "Aus_führen..."
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmprog.cc:797 src/wmtaskbar.cc:261
+#: src/wmprog.cc:797 src/wmtaskbar.cc:251
 msgid "_Windows"
 msgstr "F_enster"
 
@@ -1655,67 +1684,67 @@ msgid "Session Manager: Unknown line %s"
 msgstr "Sitzungsmanager: Unbekannte Zeile %s"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:243 src/wmwinlist.cc:371 src/wmwinlist.cc:404
+#: src/wmtaskbar.cc:233 src/wmwinlist.cc:371 src/wmwinlist.cc:404
 msgid "Tile _Vertically"
 msgstr "Ve_rtikal anordnen"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:245 src/wmwinlist.cc:372 src/wmwinlist.cc:405
+#: src/wmtaskbar.cc:235 src/wmwinlist.cc:372 src/wmwinlist.cc:405
 msgid "T_ile Horizontally"
 msgstr "_Horizontal anordnen"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:247 src/wmwinlist.cc:373 src/wmwinlist.cc:406
+#: src/wmtaskbar.cc:237 src/wmwinlist.cc:373 src/wmwinlist.cc:406
 msgid "Ca_scade"
 msgstr "_Überlappend anordnen"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:249 src/wmwinlist.cc:374 src/wmwinlist.cc:407
+#: src/wmtaskbar.cc:239 src/wmwinlist.cc:374 src/wmwinlist.cc:407
 msgid "_Arrange"
 msgstr "_Ordnen"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:251 src/wmwinlist.cc:376 src/wmwinlist.cc:408
+#: src/wmtaskbar.cc:241 src/wmwinlist.cc:376 src/wmwinlist.cc:408
 msgid "_Minimize All"
 msgstr "Alle _Minimieren"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:253 src/wmwinlist.cc:377 src/wmwinlist.cc:409
+#: src/wmtaskbar.cc:243 src/wmwinlist.cc:377 src/wmwinlist.cc:409
 msgid "_Hide All"
 msgstr "Alle _Verstecken"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:255 src/wmwinlist.cc:378 src/wmwinlist.cc:410
+#: src/wmtaskbar.cc:245 src/wmwinlist.cc:378 src/wmwinlist.cc:410
 msgid "_Undo"
 msgstr "_Rückgängig"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:258
+#: src/wmtaskbar.cc:248
 msgid "Arrange _Icons"
 msgstr "_Symbole anordnen"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:264
+#: src/wmtaskbar.cc:254
 msgid "_Refresh"
 msgstr "_Aktualisieren"
 
-#: src/wmtaskbar.cc:337 src/wmtaskbar.cc:956
+#: src/wmtaskbar.cc:327 src/wmtaskbar.cc:931
 msgid "Hide Taskbar"
 msgstr "Taskleiste verbergen"
 
-#: src/wmtaskbar.cc:355
+#: src/wmtaskbar.cc:345
 msgid "Favorite Applications"
 msgstr "Lieblings-Anwendungen"
 
-#: src/wmtaskbar.cc:376
+#: src/wmtaskbar.cc:366
 msgid "Window List Menu"
 msgstr "Fensterlisten-Menü"
 
-#: src/wmtaskbar.cc:385
+#: src/wmtaskbar.cc:375
 msgid "Show Desktop"
 msgstr "Desktop anzeigen"
 
-#: src/wmtaskbar.cc:956
+#: src/wmtaskbar.cc:931
 msgid "Show Taskbar"
 msgstr "Taskleiste anzeigen"
 
