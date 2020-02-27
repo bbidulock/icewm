@@ -247,4 +247,10 @@ void MStringArray::sort() {
         qsort(getItemPtr(0), getCount(), sizeof(mstring), mstring_compare);
 }
 
+bool testOnce(const char* file, const int line) {
+    static YArray<unsigned long> list;
+    unsigned long hash = strhash(file) * 0x10001 ^ line;
+    return find(list, hash) < 0 ? list.append(hash), true : false;
+}
+
 // vim: set sw=4 ts=4 et:
