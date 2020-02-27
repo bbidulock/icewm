@@ -20,6 +20,7 @@
 #include <setjmp.h>
 #include <string.h>
 #include <time.h>
+#include <math.h>
 #include <unistd.h>
 
 #include <X11/Xlib.h>
@@ -76,13 +77,20 @@ static bool tolong(const char* str, long& num, int base = 10) {
 /******************************************************************************/
 
 class NAtom {
-    const char* name;
-    Atom atom;
+    const char* fName;
+    Atom fAtom;
+    bool fExists;
 public:
-    explicit NAtom(const char* aName) : name(aName), atom(None) { }
-    operator Atom() { return atom ? atom : get(); }
-private:
-    Atom get() { atom = XInternAtom(display, name, False); return atom; }
+    explicit NAtom(const char* name, bool exists = False) :
+        fName(name), fAtom(None), fExists(exists)
+    { }
+    const char* name() const { return fName; }
+    operator Atom() {
+        if (fAtom == None && fName) {
+            fAtom = XInternAtom(display, fName, fExists);
+        }
+        return fAtom;
+    }
 };
 
 static NAtom ATOM_WM_STATE("WM_STATE");
@@ -124,6 +132,20 @@ static inline char* atomName(Atom atom) {
 
 static inline void newline() {
     putchar('\n');
+}
+
+static Time serverTime()
+{
+    Window window = XCreateSimpleWindow(display, root, -1, -1, 1, 1, 0, 0, 0);
+    XSelectInput(display, window, PropertyChangeMask);
+    XID pid = getpid();
+    XChangeProperty(display, window, ATOM_NET_WM_PID, XA_CARDINAL,
+                    32, PropModeReplace, (unsigned char *)&pid, 1);
+    XEvent event;
+    XWindowEvent(display, window, PropertyChangeMask, &event);
+    Time now = event.xproperty.time;
+    XDestroyWindow(display, window);
+    return now;
 }
 
 /******************************************************************************/
@@ -286,6 +308,7 @@ public:
             XFree(fData);
             fData = nullptr;
             fCount = 0;
+            fFormat = 0;
         }
     }
 
@@ -721,7 +744,7 @@ public:
         }
     }
 
-    void getWindowList(NAtom property) {
+    void getWindowList(NAtom& property) {
         release();
         YClient clients(root, property, 100000);
         if (clients) {
@@ -802,11 +825,50 @@ public:
         fCount = keep;
     }
 
-    void filterByProperty(long property, bool inverse) {
+    void filterByProperty(char* propertyString, bool inverse) {
+        char* valueString = strchr(propertyString, '=');
+        if (valueString) {
+            *valueString++ = '\0';
+        }
+        NAtom propertyAtom(propertyString, True);
+        if (propertyAtom == None) {
+            release();
+            return;
+        }
+        NAtom propertyValue(valueString, True);
+
         unsigned keep = 0;
         for (YTreeIter client(*this); client; ++client) {
-            YProperty prop(client, property, AnyPropertyType, 100);
-            if (prop != inverse) {
+            bool match = false;
+            YProperty prop(client, propertyAtom, AnyPropertyType, 123);
+            if (prop && valueString == nullptr) {
+                match = true;
+            }
+            else if (prop.format() == 8 && valueString) {
+                if (prop.count() == long(strlen(valueString)) &&
+                    0 == strcmp(prop.data<char>(), valueString))
+                {
+                    match = true;
+                }
+            }
+            else if (prop.format() == 32 && valueString) {
+                if (prop.type() == XA_WINDOW ||
+                    prop.type() == XA_CARDINAL)
+                {
+                    long value = None;
+                    if (tolong(valueString, value, 0)) {
+                        if (value == *prop) {
+                            match = true;
+                        }
+                    }
+                }
+                else if (prop.type() == XA_ATOM) {
+                    if (propertyValue && propertyValue == Atom(*prop)) {
+                        match = true;
+                    }
+                }
+            }
+            if (match != inverse) {
                 fChildren[keep++] = client;
             }
         }
@@ -1063,6 +1125,8 @@ private:
     bool setWorkspaceName();
     bool setWorkspaceNames();
     bool colormaps();
+    void click();
+    bool delay();
     bool desktops();
     bool desktop();
     bool wmcheck();
@@ -2001,6 +2065,81 @@ bool IceSh::colormaps()
     return true;
 }
 
+void IceSh::click()
+{
+    const char* xs = getArg();
+    const char* ys = getArg();
+    const char* bs = getArg();
+    long lx, ly, lb;
+    if (tolong(xs, lx) &&
+        tolong(ys, ly) &&
+        tolong(bs, lb) &&
+        inrange<long>(lb, Button1, Button5))
+    {
+        FOREACH_WINDOW(window) {
+            int gx, gy, gw, gh;
+            if (getGeometry(window, gx, gy, gw, gh)) {
+                if (lx < 0)
+                    lx += gw;
+                if (ly < 0)
+                    ly += gh;
+            } else {
+                continue;
+            }
+            int dx = 0, dy = 0;
+            Window child = None;
+            if (XTranslateCoordinates(display, window, window,
+                        int(lx), int(ly), &dx, &dy, &child))
+            {
+                XWarpPointer(display, None, window,
+                             0, 0, 0, 0, int(lx), int(ly));
+
+                XButtonEvent be = {
+                    ButtonPress, None, True, display,
+                    child ? child : window,
+                    root, child, serverTime(),
+                    dx, dy, int(gx + lx), int(gy + ly),
+                    None, unsigned(lb), True
+                };
+
+                XEvent ev;
+                ev.xbutton = be;
+                XSendEvent(display, child, True, None, &ev);
+
+                be.type = ButtonRelease;
+                be.state = Button1Mask << (lb - Button1);
+                be.time = serverTime();
+                ev.xbutton = be;
+                XSendEvent(display, child, True, None, &ev);
+            }
+        }
+    }
+}
+
+bool IceSh::delay()
+{
+    if ( !isAction("delay", 0))
+        return false;
+
+    double delay = 0.1;
+    if (haveArg()) {
+        char* arg = *argp;
+        char* end = nullptr;
+        double val = strtod(arg, &end);
+        if (end && arg < end && *end == '\0') {
+            delay = val;
+            getArg();
+        }
+    }
+    if (delay > 0) {
+        const long sec = long(trunc(delay));
+        const long nano = long((delay - double(sec)) * 1e9);
+        const struct timespec req = { sec, nano };
+        nanosleep(&req, nullptr);
+    }
+    return true;
+}
+
 bool IceSh::guiEvents()
 {
     if ( !isAction("guievents", 0))
@@ -2074,6 +2213,7 @@ bool IceSh::icewmAction()
         || listXembed()
         || listShown()
         || colormaps()
+        || delay()
         || desktops()
         || desktop()
         || wmcheck()
@@ -2666,7 +2806,7 @@ void IceSh::confine(const char* val) {
                 c.confineTo(screen);
             }
             else {
-                msg("Cannot get geometry of window 0x%lx", active);
+                msg(_("Cannot get geometry of window 0x%lx"), active);
                 THROW(1);
             }
         }
@@ -2691,7 +2831,7 @@ void IceSh::confine(const char* val) {
         windowList.xine().confineTo(screen);
     }
     else {
-        msg("Invalid Xinerama: `%s'.", val);
+        msg(_("Invalid Xinerama: `%s'."), val);
         THROW(1);
     }
 }
@@ -2903,7 +3043,7 @@ void IceSh::flag(char* arg)
             filtering = true;
         }
         else {
-            msg("Invalid PID: `%s'", val);
+            msg(_("Invalid PID: `%s'"), val);
             THROW(1);
         }
     }
@@ -2939,7 +3079,7 @@ void IceSh::flag(char* arg)
         bool inverse(*val == '!');
         long layer = layers.parseIdentifier(val + inverse);
         if (layer == WinLayerInvalid) {
-            msg("Invalid layer: `%s'.", val);
+            msg(_("Invalid layer: `%s'."), val);
             THROW(1);
         }
         if ( ! windowList)
@@ -2950,7 +3090,7 @@ void IceSh::flag(char* arg)
     }
     else if (isOptArg(arg, "-Property", val)) {
         bool inverse(*val == '!');
-        long prop = NAtom(val + inverse);
+        char* prop = val + inverse;
         if ( ! windowList)
             windowList.getClientList();
         windowList.filterByProperty(prop, inverse);
@@ -2969,7 +3109,7 @@ void IceSh::flag(char* arg)
         bool question(val[inverse] == '?');
         long state(states.parseExpression(val + inverse + question));
         if (state == -1L) {
-            msg("Invalid state: `%s'.", val + inverse + question);
+            msg(_("Invalid state: `%s'."), val + inverse + question);
             THROW(1);
         }
         if ( ! windowList)
@@ -3667,12 +3807,17 @@ void IceSh::parseAction()
             argp = args + count;
         }
         else if (isAction("prop", 1)) {
-            NAtom prop(getArg());
-            FOREACH_WINDOW(window) {
-                char buf[32];
-                snprintf(buf, sizeof buf, "0x%07lx ", Window(window));
-                showProperty(window, prop, buf);
+            NAtom prop(getArg(), True);
+            if (prop) {
+                FOREACH_WINDOW(window) {
+                    char buf[32];
+                    snprintf(buf, sizeof buf, "0x%07lx ", Window(window));
+                    showProperty(window, prop, buf);
+                }
             }
+        }
+        else if (isAction("click", 3)) {
+            click();
         }
         else {
             msg(_("Unknown action: `%s'"), *argp);

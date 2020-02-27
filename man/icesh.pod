@@ -14,7 +14,7 @@
 
 =head1 DESCRIPTION
 
-B<icesh> provides 88 commands to change or query a window's state,
+B<icesh> provides 89 commands to change or query a window's state,
 and to interact with the L<icewm(1)> window manager. Command arguments
 are called actions. Window actions operate on a selection of windows.
 B<icesh> has several options to select and filter windows.  Options and
@@ -127,11 +127,13 @@ Filters clients by I<GNOME window layer>, which can either be a layer
 name (see below) or a layer number.  If I<LAYER> starts with an
 exclamation mark then the filtering is inverted.
 
-=item B<-P>, B<-Property> I<PROP>
+=item B<-P>, B<-Property> I<PROP[=value]>
 
-Filters clients by property. Clients which have a property I<PROP> are
-selected.  The filtering is inverted if I<PROP> starts with an
-exclamation mark.
+Filters clients by property. Clients which have a property I<PROP>
+are selected. If the optional I<value> is given, the match succeeds
+only if I<PROP> is a string, window, cardinal, or atom, with a value
+equal to I<value>.  The filtering is inverted if I<PROP> starts with
+an exclamation mark.
 
 =item B<-R>, B<-Role> I<ROLE>
 
@@ -459,6 +461,13 @@ be enabled.
 Print the value of property I<PROPERTY> if it is present.  I<PROPERTY>
 can be a string, a window, or a list of one or more atoms or cardinals.
 
+=item B<click> I<window-x> I<window-y> I<button>
+
+Send a button press and release event at position (I<window-x>,
+I<window-y>). A negative position is relative to the bottom right
+corner. The mouse pointer is warped to the position before sending
+the events. The button number should be between 1 and 5 inclusive.
+
 =item B<spy>
 
 Observe the selected windows and report any changes. This includes
@@ -584,9 +593,9 @@ Let icewm reload the C<keys> file.
 
 Monitor the B<ICEWM_GUI_EVENT> property and report all changes.
 
-=item B<colormaps>
+=item B<delay> [I<time>]
 
-Monitor which colormap is installed.
+Stop execution for I<time> or 0.1 seconds.
 
 =item B<runonce> I<program> [I<arguments...>]
 
