@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Icewm 1.2.0-beta1\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-02-08 02:35-0700\n"
-"PO-Revision-Date: 2020-02-28 15:55+0000\n"
+"PO-Revision-Date: 2020-02-28 18:55+0000\n"
 "Last-Translator: ingemar karlsson <ingemar_bengt@hotmail.com>\n"
 "Language-Team: Swedish <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/sv/>\n"
@@ -95,7 +95,7 @@ msgid ""
 "Ram (free): %5.3f (%.3f) G"
 msgstr ""
 "\n"
-"Ram (fritt): %5.3f (%.3f) G"
+"RAM-minne (ledigt): %5.3f (%.3f) G"
 
 #: src/acpustatus.cc:314
 #, c-format
@@ -104,7 +104,7 @@ msgid ""
 "Swap (free): %.3f (%.3f) G"
 msgstr ""
 "\n"
-"Byt (fritt): %.3f (%.3f) G"
+"Växlingsminne (ledigt): %.3f (%.3f) G"
 
 #: src/acpustatus.cc:320
 #, c-format
@@ -113,8 +113,7 @@ msgid ""
 "ACPI Temp: "
 msgstr ""
 "\n"
-"↵\n"
-"ACPI Temp: "
+"ACPI Temperature: "
 
 #: src/acpustatus.cc:339 src/acpustatus.cc:379
 #, c-format
@@ -123,8 +122,7 @@ msgid ""
 "CPU Freq: %.3fGHz"
 msgstr ""
 "\n"
-"↵\n"
-"CPU Freq: %.3fGHz"
+"CPU Frek: %.3fGHz"
 
 #: src/acpustatus.cc:356 src/acpustatus.cc:858
 msgid "CPU"
@@ -141,7 +139,7 @@ msgid ""
 "Ram (user): %5.3f (%.3f) G"
 msgstr ""
 "\n"
-"Ram (användare): %5.3f (%.3f) G"
+"RAM-mine (användare): %5.3f (%.3f) G"
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
@@ -313,7 +311,7 @@ msgid ""
 "  Caller id:\t"
 msgstr ""
 "\n"
-"  Inkommande samtal:\t"
+"  Nummer id:\t"
 
 #: src/apppstatus.cc:712
 msgid "NET"
