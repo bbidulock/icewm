@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: Icewm 1.2.0-beta1\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-02-08 02:35-0700\n"
-"PO-Revision-Date: 2019-02-07 06:32+0000\n"
-"Last-Translator: Sven Åhr <anders.ahr@gmail.com>\n"
-"Language-Team: Swedish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/sv/>\n"
+"PO-Revision-Date: 2020-02-28 15:55+0000\n"
+"Last-Translator: ingemar karlsson <ingemar_bengt@hotmail.com>\n"
+"Language-Team: Swedish <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.3\n"
+"X-Generator: Weblate 3.6.1\n"
 
 #: src/aapm.cc:187 src/aapm.cc:469 src/aapm.cc:691 src/aapm.cc:816
 msgid " - Power"
@@ -557,7 +557,7 @@ msgstr "IceSAME"
 
 #: src/icesh.cc:65
 msgid "For help please consult the man page icesh(1).\n"
-msgstr ""
+msgstr "För hjälp konsultera manualsidan icesh(1).\n"
 
 #: src/icesh.cc:1266
 #, c-format
@@ -592,19 +592,15 @@ msgstr "Inställningar för IceWM-programpanelen"
 
 #: src/icesh.cc:1680
 msgid "Gravity symbols"
-msgstr ""
+msgstr "Gravitation symboler"
 
 #: src/icesh.cc:1681
-#, fuzzy
-#| msgid "Save Modifications"
 msgid "Motif functions"
-msgstr "Spara ändringar"
+msgstr "Motif-funktioner"
 
 #: src/icesh.cc:1682
-#, fuzzy
-#| msgid "Save Modifications"
 msgid "Motif decorations"
-msgstr "Spara ändringar"
+msgstr "Motif-dekorationer"
 
 #: src/icesh.cc:1761
 #, c-format
@@ -614,12 +610,12 @@ msgstr "arbetsyta #%d: `%s'\n"
 #: src/icesh.cc:2724
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
-msgstr "Åtgärden \"%s\" kräver minst %d argument."
+msgstr "Åtgärden `%s'  kräver minst %d argument."
 
 #: src/icesh.cc:2734
 #, c-format
 msgid "Invalid expression: `%s'"
-msgstr "Felaktigt uttryck: \"%s\""
+msgstr "Felaktigt uttryck: `%s'"
 
 #: src/icesh.cc:2745 src/icesound.cc:795 src/icewmhint.cc:36 src/wmapp.cc:1190
 #: src/yxapp.cc:1060
@@ -628,14 +624,13 @@ msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "Kan inte öppna bildskärm: %s. X måste vara igång och $DISPLAY satt."
 
 #: src/icesh.cc:2758
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'."
+#, c-format
 msgid "Invalid argument: `%s'"
-msgstr "Felaktigt värde: `%s'."
+msgstr "Ogiltigt argument: `%s'"
 
 #: src/icesh.cc:2795
 msgid "No windows found."
-msgstr ""
+msgstr "Inga fönster funna."
 
 #: src/icesh.cc:2810
 msgid "No actions specified."
@@ -644,30 +639,19 @@ msgstr "Ingen åtgärd angiven."
 #: src/icesh.cc:3009
 #, c-format
 msgid "Invalid window identifier: `%s'"
-msgstr "Felaktig fönsteridentifierare: \"%s\""
+msgstr "Felaktig fönsteridentifierare: `%s'"
 
 #: src/icesh.cc:3659
 #, c-format
 msgid "Unknown action: `%s'"
-msgstr "Okänd åtgärd: \"%s\""
+msgstr "Okänd åtgärd: `%s'"
 
 #: src/iceskt.cc:42
 #, c-format
 msgid "Socket error: %d"
-msgstr "Uttagsfel: %d"
+msgstr "Socket-fel: %d"
 
 #: src/icesm.cc:57
-#, fuzzy
-#| msgid ""
-#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-#| "\n"
-#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
-#| "  --sync              Synchronize communication with X11 server.\n"
-#| "\n"
-#| "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
-#| "  -n, --notray        Do not start icewmtray.\n"
-#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -685,22 +669,23 @@ msgstr ""
 "  -t, --theme=FILE    Låt IceWM ladda temat från FILE.\n"
 "\n"
 "  -d, --display=NAME  Använd NAME för att ansluta till X-servern.\n"
-"  --sync              Synkronisera kommunikation med X11-servern.\n"
+"  -a, --alpha        Använd 32-bitsvy för genomskinlighet.\n"
+"  --sync               Synkronisera kommunikation med X11-servern.\n"
 "\n"
 "  -i, --icewm=FILE    Använd FILE som fönsterhanterare i IceWM.\n"
+"  -b, --nobg           Starta inte icewmbg.\n"
 "  -n, --notray        Starta inte icewmtray.\n"
-"  -s, --sound         Starta även icesound.\n"
+"  -s, --sound          Starta även icesound.\n"
 
 #: src/icesm.cc:135
 #, c-format
 msgid "Unknown option '%s'"
-msgstr "Okänt alternativ ’%s’"
+msgstr "Okänt alternativ '%s'"
 
 #: src/icesm.cc:331 src/icesm.cc:449
-#, fuzzy, c-format
-#| msgid "Restart"
+#, c-format
 msgid "restart %s."
-msgstr "Starta om"
+msgstr "Starta om %s."
 
 #: src/icesm.cc:337
 #, c-format
@@ -797,63 +782,7 @@ msgid "Unrecognized argument: %s\n"
 msgstr "Okänt argument: %s\n"
 
 #: src/icesound.cc:689
-#, fuzzy, c-format
-#| msgid ""
-#| "Usage: %s [OPTION]...\n"
-#| "\n"
-#| "Plays audio files on GUI events raised by IceWM.\n"
-#| "The currently configured sound interfaces are: %s.\n"
-#| "Icesound will choose the first of these which is usable.\n"
-#| "\n"
-#| "Options:\n"
-#| "\n"
-#| " -d, --display=DISPLAY   X11 display used by IceWM (default: $DISPLAY).\n"
-#| "\n"
-#| " -s, --sample-dir=DIR    Specifies a directory with sound files.\n"
-#| "                         Default is $HOME/.config/icewm/sounds.\n"
-#| "\n"
-#| " -i, --interface=LIST    Specifies audio output interfaces. One or more "
-#| "of:\n"
-#| "                         %s separated by commas.\n"
-#| "\n"
-#| " -D, --device=DEVICE     Backwards compatibility only: the default "
-#| "device. \n"
-#| "                         Please prefer one of the -A/-O/-S options.\n"
-#| "\n"
-#| " -O, --oss=DEVICE        Specifies the OSS device (default: \"%s\").\n"
-#| "\n"
-#| " -A, --alsa=DEVICE       Specifies the ALSA device (default: \"%s\").\n"
-#| "\n"
-#| " -S, --server=ADDR:PORT  Specifies the ESD server address and port "
-#| "number.\n"
-#| "                         For ESD the default is \"localhost:16001\".\n"
-#| "\n"
-#| " -z, --snooze=millisecs  Specifies the snooze interval between sound "
-#| "events\n"
-#| "                         in milliseconds. Default is 500 milliseconds.\n"
-#| "\n"
-#| " -p, --play=sound        Plays the given sound (name or number) and "
-#| "exits.\n"
-#| "\n"
-#| " -l, --list-files        Lists the available sound file paths and exits.\n"
-#| "\n"
-#| "     --list-sounds       Lists the supported sound filenames and exits.\n"
-#| "\n"
-#| "     --list-interfaces   Lists the supported audio interfaces and exits.\n"
-#| "\n"
-#| " -v, --verbose           Be verbose and print out each sound event.\n"
-#| "\n"
-#| " -V, --version           Prints version information and exits.\n"
-#| "\n"
-#| " -h, --help              Prints this help screen and exits.\n"
-#| "\n"
-#| "Return values:\n"
-#| "\n"
-#| "  0    Success.\n"
-#| "  1    General error.\n"
-#| "  2    Command line error.\n"
-#| "  3    Subsystems error (ie cannot connect to server).\n"
-#| "\n"
+#, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
 "\n"
@@ -911,21 +840,18 @@ msgstr ""
 "\n"
 "Alternativ:\n"
 "\n"
-"-d, --display=BILDSKÄRM    Bildskärm som används av IceWM (förval: "
-"$DISPLAY)\n"
+"-d, --display=BILDSKÄRM    Bildskärm som används av IceWM (förval: $DISPLAY)"
+"\n"
 "-s, --sample-dir=DIR       Anger den katalog som innehåller ljudfilerna\n"
 "                           Standard är $HOME/.config/icewm/sounds..\n"
 " -i, --interface=LIST    Anger ljudgränssnitt. En eller flera av:\n"
-"                         %s 3 kommaseparerade.\n"
+"                         %s kommaseparerade.\n"
 " -D, --device=DEVICE     Endast bakåtkompatibilitet. Standardenhet. \n"
 "                         Välj ett av alternativen -A/-O/-S.\n"
 "\n"
-" -O, --oss=DEVICE        Anger OSS-enhet (standard: \"%s 4\").\n"
+" -O, --oss=DEVICE        Anger OSS-enhet (standard: \"%s\").\n"
 "\n"
-" -A, --alsa=DEVICE       Anger ALSA-enhet (default: \"%s 5\").\n"
-"\n"
-" -S, --server=ADDR:PORT  Anger ESD-serverns adress och portnummer.\n"
-"                         För ESD är standard \"localhost:16001\".\n"
+" -A, --alsa=DEVICE       Anger ALSA-enhet (default: \"%s\").\n"
 "\n"
 " -z, --snooze=millisecs  Anger fördröjningsintervallet mellan ljudhändelser\n"
 "                         i millisekunder. Standard är 500 millisekunder.\n"
@@ -1421,12 +1347,6 @@ msgstr ""
 "  --debug-z           Skriv ut felsökningsmeddelanden om fönsterstackning.\n"
 
 #: src/wmapp.cc:1544
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "  -c, --config=FILE   Load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Load theme from FILE.\n"
-#| "  --postpreferences   Print preferences after all processing.\n"
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -1437,9 +1357,12 @@ msgid ""
 "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgstr ""
 "\n"
+"  -a, - alfa Använd 32-bitars visuellt för genomskinlighet.\n"
 "  -c, --config=FILE   Ladda inställningar från FILE.\n"
 "  -t, --theme=FILE    Ladda tema från FILE.\n"
-"  --postpreferences   Skriv ut inställningar efter all bearbetning.\n"
+"  -s, --splash=BILD Visa BILD vid start.\n"
+"  -p, --postpreferences   Skriv ut inställningar efter all bearbetning.\n"
+"  --trace=conf, icon Sökvägar som används för att ladda konfiguration.\n"
 
 #: src/wmapp.cc:1553
 #, c-format
