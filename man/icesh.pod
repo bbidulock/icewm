@@ -763,10 +763,6 @@ Named symbols of the domain I<EWMH state> (numeric range:
     SKIPTASKBAR           (2048)
     STICKY                (4096)
 
-These symbols are used with the I<MASK> and I<STATE> arguments to the
-C<setState> and C<toggleState> actions. Some additional states include:
-Above, Below, Urgent and Fullscreen.
-
 =back
 
 =head1 EXAMPLES
