@@ -125,6 +125,56 @@ static NAtom ATOM_NET_SYSTEM_TRAY_WINDOWS("_KDE_NET_SYSTEM_TRAY_WINDOWS");
 static NAtom ATOM_UTF8_STRING("UTF8_STRING");
 static NAtom ATOM_XEMBED_INFO("_XEMBED_INFO");
 static NAtom ATOM_NET_WORKAREA("_NET_WORKAREA");
+static NAtom ATOM_NET_WM_STATE("_NET_WM_STATE");
+static NAtom ATOM_NET_WM_STATE_ABOVE("_NET_WM_STATE_ABOVE");
+static NAtom ATOM_NET_WM_STATE_BELOW("_NET_WM_STATE_BELOW");
+static NAtom ATOM_NET_WM_STATE_DEMANDS_ATTENTION("_NET_WM_STATE_DEMANDS_ATTENTION");
+static NAtom ATOM_NET_WM_STATE_FOCUSED("_NET_WM_STATE_FOCUSED");
+static NAtom ATOM_NET_WM_STATE_FULLSCREEN("_NET_WM_STATE_FULLSCREEN");
+static NAtom ATOM_NET_WM_STATE_HIDDEN("_NET_WM_STATE_HIDDEN");
+static NAtom ATOM_NET_WM_STATE_MAXIMIZED_HORZ("_NET_WM_STATE_MAXIMIZED_HORZ");
+static NAtom ATOM_NET_WM_STATE_MAXIMIZED_VERT("_NET_WM_STATE_MAXIMIZED_VERT");
+static NAtom ATOM_NET_WM_STATE_MODAL("_NET_WM_STATE_MODAL");
+static NAtom ATOM_NET_WM_STATE_SHADED("_NET_WM_STATE_SHADED");
+static NAtom ATOM_NET_WM_STATE_SKIP_PAGER("_NET_WM_STATE_SKIP_PAGER");
+static NAtom ATOM_NET_WM_STATE_SKIP_TASKBAR("_NET_WM_STATE_SKIP_TASKBAR");
+static NAtom ATOM_NET_WM_STATE_STICKY("_NET_WM_STATE_STICKY");
+
+enum NetStateBits {
+    NetAbove       = 1,
+    NetBelow       = 2,
+    NetDemands     = 4,
+    NetFocused     = 8,
+    NetFullscreen  = 16,
+    NetHidden      = 32,
+    NetHorizontal  = 64,
+    NetVertical    = 128,
+    NetModal       = 256,
+    NetShaded      = 512,
+    NetSkipPager   = 1024,
+    NetSkipTaskbar = 2048,
+    NetSticky      = 4096,
+};
+
+static const struct NetStateAtoms {
+    NetStateBits flag;
+    NAtom& atom;
+} netStateAtoms[] = {
+    { NetAbove,       ATOM_NET_WM_STATE_ABOVE },
+    { NetBelow,       ATOM_NET_WM_STATE_BELOW },
+    { NetDemands,     ATOM_NET_WM_STATE_DEMANDS_ATTENTION },
+    { NetFocused,     ATOM_NET_WM_STATE_FOCUSED },
+    { NetFullscreen,  ATOM_NET_WM_STATE_FULLSCREEN },
+    { NetHidden,      ATOM_NET_WM_STATE_HIDDEN },
+    { NetHorizontal,  ATOM_NET_WM_STATE_MAXIMIZED_HORZ },
+    { NetVertical,    ATOM_NET_WM_STATE_MAXIMIZED_VERT },
+    { NetModal,       ATOM_NET_WM_STATE_MODAL },
+    { NetShaded,      ATOM_NET_WM_STATE_SHADED },
+    { NetSkipPager,   ATOM_NET_WM_STATE_SKIP_PAGER },
+    { NetSkipTaskbar, ATOM_NET_WM_STATE_SKIP_TASKBAR },
+    { NetSticky,      ATOM_NET_WM_STATE_STICKY },
+};
+const int netStateAtomCount = int ACOUNT(netStateAtoms);
 
 static inline char* atomName(Atom atom) {
     return XGetAtomName(display, atom);
@@ -146,6 +196,26 @@ static Time serverTime()
     Time now = event.xproperty.time;
     XDestroyWindow(display, window);
     return now;
+}
+
+static void send(NAtom& typ, Window win, long l0, long l1,
+                 long l2 = 0L, long l3 = 0L, long l4 = 0L)
+{
+    XClientMessageEvent xev;
+    memset(&xev, 0, sizeof(xev));
+
+    xev.type = ClientMessage;
+    xev.window = win;
+    xev.message_type = typ;
+    xev.format = 32;
+    xev.data.l[0] = l0;
+    xev.data.l[1] = l1;
+    xev.data.l[2] = l2;
+    xev.data.l[3] = l3;
+    xev.data.l[4] = l4;
+
+    XSendEvent(display, root, False, SubstructureNotifyMask,
+               reinterpret_cast<XEvent *>(&xev));
 }
 
 /******************************************************************************/
@@ -440,6 +510,85 @@ public:
     long mask() const { return 2 == count() ? (*this)[1] : WIN_STATE_ALL; }
 };
 
+class YNetState : public YProperty {
+    long fState;
+public:
+    YNetState(Window window) :
+        YProperty(window, ATOM_NET_WM_STATE, XA_ATOM, 32),
+        fState(0)
+    {
+        for (int i = 0; i < count(); ++i) {
+            Atom atom = data<long>(i);
+            for (int k = 0; k < netStateAtomCount; ++k) {
+                if (atom == netStateAtoms[k].atom) {
+                    fState |= netStateAtoms[k].flag;
+                }
+            }
+        }
+    }
+    long state() const { return fState; }
+    long operator*() const { return state(); }
+    operator bool() const { return !status() && format() == 32; }
+
+    enum {
+        NetStateRemove, NetStateAdd, NetStateToggle
+    };
+
+    void operator +=(long state) {
+        const int size = 16;
+        Atom atoms[size];
+        int n = 0;
+        for (int i = 0; i < netStateAtomCount; ++i) {
+            bool want = hasbit(state, netStateAtoms[i].flag);
+            bool have = hasbit(fState, netStateAtoms[i].flag);
+            if (have < want && n < size) {
+                atoms[n++] = netStateAtoms[i].atom;
+            }
+        }
+        for (int i = 0; i < n; i += 2) {
+            send(ATOM_NET_WM_STATE, window(), NetStateAdd,
+                 atoms[i], (i + 1 < n) ? atoms[i + 1] : None,
+                 SourceIndication, None);
+        }
+    }
+
+    void operator -=(long state) {
+        const int size = 16;
+        Atom atoms[size];
+        int n = 0;
+        for (int i = 0; i < netStateAtomCount; ++i) {
+            bool want = hasbit(state, netStateAtoms[i].flag);
+            bool have = hasbit(fState, netStateAtoms[i].flag);
+            if (want && have && n < size) {
+                atoms[n++] = netStateAtoms[i].atom;
+            }
+        }
+        for (int i = 0; i < n; i += 2) {
+            send(ATOM_NET_WM_STATE, window(), NetStateRemove,
+                 atoms[i], (i + 1 < n) ? atoms[i + 1] : None,
+                 SourceIndication, None);
+        }
+    }
+
+    void operator =(long state) {
+        const int size = 16;
+        Atom atoms[size];
+        int n = 0;
+        for (int i = 0; i < netStateAtomCount; ++i) {
+            bool want = hasbit(state, netStateAtoms[i].flag);
+            bool have = hasbit(fState, netStateAtoms[i].flag);
+            if (want != have && n < size) {
+                atoms[n++] = netStateAtoms[i].atom;
+            }
+        }
+        for (int i = 0; i < n; i += 2) {
+            send(ATOM_NET_WM_STATE, window(), NetStateToggle,
+                 atoms[i], (i + 1 < n) ? atoms[i + 1] : None,
+                 SourceIndication, None);
+        }
+    }
+};
+
 class YMotifHints : public YProperty {
 public:
     YMotifHints(Window window) :
@@ -576,26 +725,6 @@ private:
     Atom fProp;
     int fCount, fStatus;
 };
-
-static void send(NAtom& typ, Window win, long l0, long l1,
-                 long l2 = 0L, long l3 = 0L, long l4 = 0L)
-{
-    XClientMessageEvent xev;
-    memset(&xev, 0, sizeof(xev));
-
-    xev.type = ClientMessage;
-    xev.window = win;
-    xev.message_type = typ;
-    xev.format = 32;
-    xev.data.l[0] = l0;
-    xev.data.l[1] = l1;
-    xev.data.l[2] = l2;
-    xev.data.l[3] = l3;
-    xev.data.l[4] = l4;
-
-    XSendEvent(display, root, False, SubstructureNotifyMask,
-               reinterpret_cast<XEvent *>(&xev));
-}
 
 static void moveResize(Window window, long gravity,
         long x, long y, long width, long height, long flags)
@@ -891,6 +1020,18 @@ public:
             YWinState prop(client);
             bool test(anybit ? hasbit(*prop, state) : hasbits(*prop, state));
             if (prop && (test != inverse)) {
+                fChildren[keep++] = client;
+            }
+        }
+        fCount = keep;
+    }
+
+    void filterByNetState(long state, bool inverse, bool anybit) {
+        unsigned keep = 0;
+        for (YTreeIter client(*this); client; ++client) {
+            YNetState prop(client);
+            bool test(anybit ? hasbit(*prop, state) : hasbits(*prop, state));
+            if (test != inverse) {
                 fChildren[keep++] = client;
             }
         }
@@ -1234,6 +1375,27 @@ static const Symbol motifDecorations[] = {
     { nullptr,            0                   }
 };
 
+static const Symbol netStateIdentifiers[] = {
+    { "ABOVE",             NetAbove },
+    { "BELOW",             NetBelow },
+    { "DEMANDS_ATTENTION", NetDemands },
+    { "FOCUSED",           NetFocused },
+    { "FULLSCREEN",        NetFullscreen },
+    { "HIDDEN",            NetHidden },
+    { "MAXIMIZED_HORZ",    NetHorizontal },
+    { "MAXIMIZED_VERT",    NetVertical },
+    { "MODAL",             NetModal },
+    { "SHADED",            NetShaded },
+    { "SKIP_PAGER",        NetSkipPager },
+    { "SKIP_TASKBAR",      NetSkipTaskbar },
+    { "STICKY",            NetSticky },
+    { nullptr,             None }
+};
+
+static const SymbolTable netstates = {
+    netStateIdentifiers, 0, 8191, -1
+};
+
 static const SymbolTable layers = {
     layerIdentifiers, 0, WinLayerCount - 1, WinLayerInvalid
 };
@@ -1327,7 +1489,7 @@ long SymbolTable::parseExpression(char const * expression) const {
 }
 
 void SymbolTable::listSymbols(char const * label) const {
-    const long limit = 1023L;
+    const long limit = fMax == 8191 ? fMax : 1023L;
     printf(_("Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"),
            label, fMin, min(fMax, limit));
 
@@ -1762,6 +1924,7 @@ bool IceSh::listSymbols()
     gravities.listSymbols(_("Gravity symbols"));
     motifFunctionsTable.listSymbols(_("Motif functions"));
     motifDecorationsTable.listSymbols(_("Motif decorations"));
+    netstates.listSymbols(_("EWMH window state"));
 
     return true;
 }
@@ -3118,6 +3281,20 @@ void IceSh::flag(char* arg)
         MSG(("state windows selected"));
         filtering = true;
     }
+    else if (isOptArg(arg, "-Netstate", val)) {
+        bool inverse(*val == '!');
+        bool question(val[inverse] == '?');
+        long flags(netstates.parseExpression(val + inverse + question));
+        if (flags == -1L) {
+            msg(_("Invalid state: `%s'."), val + inverse + question);
+            THROW(1);
+        }
+        if ( ! windowList)
+            windowList.getClientList();
+        windowList.filterByNetState(flags, inverse, question);
+        MSG(("netstate windows selected"));
+        filtering = true;
+    }
     else if (isOptArg(arg, "-Gravity", val)) {
         bool inverse(*val == '!');
         long gravity(gravities.parseExpression(val + inverse));
@@ -3529,6 +3706,40 @@ void IceSh::parseAction()
                         c.y = ay + ah - h - exts[2] - exts[3];
                         XConfigureWindow(display, window, CWY, &c);
                     }
+                }
+            }
+        }
+        else if (isAction("netState", 0)) {
+            if (haveArg() && strchr("+-=", **argp)) {
+                char* arg = getArg();
+                long state(netstates.parseExpression(arg + 1));
+                if (state == -1) {
+                    msg(_("Invalid state: `%s'."), arg);
+                }
+                else {
+                    FOREACH_WINDOW(window) {
+                        YNetState prop(window);
+                        if (*arg == '+')
+                            prop += state;
+                        else if (*arg == '-')
+                            prop -= state;
+                        else if (*arg == '=')
+                            prop = state;
+                    }
+                }
+            }
+            else {
+                FOREACH_WINDOW(window) {
+                    printf("0x%07lx = ", *window);
+                    long state = YNetState(window).state();
+                    int n = 0;
+                    for (int k = 0; k < netStateAtomCount; ++k) {
+                        if (hasbit(state, netStateAtoms[k].flag)) {
+                            printf("%s%s", n++ ? ", " : "", 14 +
+                                    netStateAtoms[k].atom.name());
+                        }
+                    }
+                    newline();
                 }
             }
         }
