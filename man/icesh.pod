@@ -477,8 +477,7 @@ be enabled.
 
 =item B<prop> I<PROPERTY>
 
-Print the value of property I<PROPERTY> if it is present.  I<PROPERTY>
-can be a string, a window, or a list of one or more atoms or cardinals.
+Print the value of property I<PROPERTY> if it is present.
 
 =item B<click> I<window-x> I<window-y> I<button>
 
@@ -759,8 +758,8 @@ Named symbols of the domain I<EWMH state> (numeric range:
     MAXIMIZED_VERT        (128)
     MODAL                 (256)
     SHADED                (512)
-    SKIPPAGER             (1024)
-    SKIPTASKBAR           (2048)
+    SKIP_PAGER            (1024)
+    SKIP_TASKBAR          (2048)
     STICKY                (4096)
 
 =back
