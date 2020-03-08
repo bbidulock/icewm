@@ -1092,6 +1092,7 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
 
     lastEventTime(CurrentTime),
     fPopup(0),
+    xfd(this),
     fGrabTree(0),
     fXGrabWindow(0),
     fGrabMouse(0),
@@ -1099,7 +1100,7 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
     fReplayEvent(false)
 {
     xapp = this;
-    xfd.registerPoll(this, ConnectionNumber(display()));
+    xfd.registerPoll(ConnectionNumber(display()));
 
     new YDesktop(0, root());
     extern void image_init();
@@ -1322,14 +1323,6 @@ int YXApplication::errorHandler(Display* display, XErrorEvent* xev) {
 void YXPoll::notifyRead() {
     owner()->handleXEvents();
 }
-
-void YXPoll::notifyWrite() { }
-
-bool YXPoll::forRead() {
-    return true;
-}
-
-bool YXPoll::forWrite() { return false; }
 
 void YAtom::atomize() {
     if (screen) {

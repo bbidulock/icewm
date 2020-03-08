@@ -5,12 +5,10 @@
 
 #ifdef CONFIG_SESSION
 
-class YSMPoll: public YPoll<class YSMApplication> {
+class YSMPoll : public YPollBase {
 public:
     virtual void notifyRead();
-    virtual void notifyWrite();
-    virtual bool forRead();
-    virtual bool forWrite();
+    virtual bool forRead() { return true; }
 };
 
 class YSMApplication: public YXApplication { /// !!! should be possible without X

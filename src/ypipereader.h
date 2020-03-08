@@ -27,12 +27,9 @@ private:
     char *rdbuf;
     int rdbuflen;
     bool reading;
-    bool registered;
 
     virtual void notifyRead();
-    virtual void notifyWrite();
-    virtual bool forRead();
-    virtual bool forWrite();
+    virtual bool forRead() { return reading; }
 };
 
 #endif

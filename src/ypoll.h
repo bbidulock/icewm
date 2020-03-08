@@ -3,39 +3,40 @@
 
 class YPollBase {
 public:
-    YPollBase(): fFd(-1), fPrev(0), fNext(0) { }
+    YPollBase(): fFd(-1), fRegistered(false) { }
     virtual ~YPollBase();
 
-    virtual void notifyRead() = 0;
-    virtual void notifyWrite() = 0;
-    virtual bool forRead() = 0;
-    virtual bool forWrite() = 0;
+    virtual void notifyRead() { }
+    virtual void notifyWrite() { }
+    virtual bool forRead() { return false; }
+    virtual bool forWrite() { return false; }
 
     void registerPoll(int fd);
     void unregisterPoll();
+    void closePoll();
 
     int fd() const { return fFd; }
+    bool registered() const { return fRegistered; }
 
 protected:
+    void initializePoll(int fd) { fFd = fd; }
+
+private:
     int fFd;
-    YPollBase *fPrev;
-    YPollBase *fNext;
+    bool fRegistered;
 };
 
-template<class T> class YPoll: public YPollBase {
-public:
-    YPoll(): YPollBase() {}
+template<class T>
+class YPoll: public YPollBase {
+protected:
+    explicit YPoll(T* owner):
+        YPollBase(), fOwner(owner)
+    { }
 
-    void registerPoll(T *owner, int fd) {
-        fOwner = owner;
-        YPollBase::registerPoll(fd);
-    }
+    T* owner() const { return fOwner; }
 
-    T *owner() { return fOwner; }
 private:
     T *fOwner;
-protected:
-    virtual ~YPoll() {}
 };
 
 #endif

@@ -79,10 +79,9 @@ private:
 
 class YXPoll: public YPoll<class YXApplication> {
 public:
+    explicit YXPoll(YXApplication* owner) : YPoll(owner) { }
     virtual void notifyRead();
-    virtual void notifyWrite();
-    virtual bool forRead();
-    virtual bool forWrite();
+    virtual bool forRead() { return true; }
 };
 
 class YXApplication: public YApplication {

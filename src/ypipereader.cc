@@ -6,12 +6,13 @@
 #include <errno.h>
 #include <fcntl.h>
 
-YPipeReader::YPipeReader() {
-    fListener = 0;
-    rdbuf = 0;
-    rdbuflen = 0;
-    reading = false;
-    registered = false;
+YPipeReader::YPipeReader() :
+    YPollBase(),
+    fListener(nullptr),
+    rdbuf(0),
+    rdbuflen(0),
+    reading(false)
+{
 }
 
 
@@ -20,14 +21,7 @@ YPipeReader::~YPipeReader() {
 }
 
 void YPipeReader::pipeClose() {
-    if (registered) {
-        mainLoop->unregisterPoll(this);
-        registered = false;
-    }
-    if (fFd != -1) {
-        close(fFd);
-        fFd = -1;
-    }
+    closePoll();
 }
 
 int YPipeReader::spawnvp(const char *prog, char **args) {
@@ -55,7 +49,7 @@ int YPipeReader::spawnvp(const char *prog, char **args) {
         _exit(99);
     } else { // parent
         close(fds[1]);
-        fFd = fds[0];
+        registerPoll(fds[0]);
     }
     return 0;
 }
@@ -64,23 +58,17 @@ int YPipeReader::read(char *buf, int len) {
     rdbuf = buf;
     rdbuflen = len;
     reading = true;
-    if (!registered) {
-        registered = true;
-        mainLoop->registerPoll(this);
-    }
+    registerPoll(fd());
     return 0;
 }
 
 void YPipeReader::notifyRead() {
     if (reading) {
         reading = false;
-        if (registered) {
-            registered = false;
-            mainLoop->unregisterPoll(this);
-        }
+        unregisterPoll();
         int rc;
 
-        rc = ::read(fFd, rdbuf, rdbuflen);
+        rc = ::read(fd(), rdbuf, rdbuflen);
 
         if (rc == 0) {
             if (fListener)
@@ -89,10 +77,7 @@ void YPipeReader::notifyRead() {
         } else if (rc == -1) {
             if (errno == EAGAIN || errno == EWOULDBLOCK) {
                 reading = true;
-                if (!registered) {
-                    registered = true;
-                    mainLoop->registerPoll(this);
-                }
+                registerPoll(fd());
             } else {
                 if (fListener)
                     fListener->pipeError(-errno);
@@ -102,19 +87,6 @@ void YPipeReader::notifyRead() {
         if (fListener)
             fListener->pipeDataRead(rdbuf, rc);
     }
-}
-bool YPipeReader::forRead() {
-    if (reading)
-        return true;
-    else
-        return false;
-}
-
-void YPipeReader::notifyWrite() {
-}
-
-bool YPipeReader::forWrite() {
-    return false;
 }
 
 // vim: set sw=4 ts=4 et:

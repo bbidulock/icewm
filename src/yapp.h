@@ -11,10 +11,9 @@ class YClipboard;
 
 class YSignalPoll: public YPoll<class YApplication> {
 public:
+    explicit YSignalPoll(YApplication* owner) : YPoll(owner) { }
     virtual void notifyRead();
-    virtual void notifyWrite();
-    virtual bool forRead();
-    virtual bool forWrite();
+    virtual bool forRead() { return true; }
 };
 
 class IApp {
@@ -66,6 +65,7 @@ public:
 private:
     YArray<YTimer*> timers;
     YArray<YPollBase*> polls;
+    typedef YArray<YPollBase*>::IterType YPollIterType;
 
     YSignalPoll sfd;
     friend class YSignalPoll;
