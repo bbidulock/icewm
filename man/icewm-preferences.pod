@@ -204,7 +204,9 @@ Menus track mouse even with no mouse buttons held.
 
 =item B<AutoRaise>=0
 
-Auto raise windows after delay.
+Raise windows when the mouse pointer enters, after a delay of
+I<AutoRaiseDelay> milliseconds.  Note that C<RaiseOnFocus=1>
+may interfere.
 
 =item B<DelayPointerFocus>=1
 
@@ -788,7 +790,7 @@ Delay before task bar is shown.
 
 =item B<AutoRaiseDelay>=400  [0-5000]
 
-Delay before windows are auto raised.
+Delay before windows are auto raised if C<AutoRaise=1>.
 
 =item B<PointerFocusDelay>=200  [0-1000]
 
