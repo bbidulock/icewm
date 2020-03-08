@@ -16,7 +16,7 @@ public:
     void setSelected(bool aSelected) { fSelected = aSelected; }
 
     virtual int getOffset() { return 0; }
-
+    virtual int getWidth();
     virtual ustring getText() { return null; }
     virtual ref<YIcon> getIcon() { return null; }
 private:
@@ -86,6 +86,7 @@ private:
     int fOffsetX;
     int fOffsetY;
     int fMaxWidth;
+    int fWidestItem;
     int fFocusedItem;
     int fSelectStart, fSelectEnd;
     bool fDragging;
@@ -96,7 +97,6 @@ private:
 
     static int fAutoScrollDelta;
 
-    bool isItemSelected(int item);
     void selectItem(int item, bool sel);
     void selectItems(int selStart, int selEnd, bool sel);
     void paintItems(int selStart, int selEnd);

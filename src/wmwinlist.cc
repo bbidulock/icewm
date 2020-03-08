@@ -501,6 +501,10 @@ void WindowList::updateWindowListApp(WindowListItem *item) {
     }
 }
 
+void WindowList::repaintItem(WindowListItem *item) {
+    list->repaintItem(item);
+}
+
 void WindowList::configure(const YRect2& r) {
     if (r.resized()) {
         scroll->setGeometry(YRect(0, 0, r.width(), r.height()));
@@ -513,13 +517,11 @@ void WindowList::handleClose() {
 }
 
 void WindowList::showFocused(int x, int y) {
-    YFrameWindow *f = manager->getFocus();
-
-    if (f != getFrame()) {
-        if (f)
-            list->focusSelectItem(list->findItem(f->winListItem()));
-        else
-            list->focusSelectItem(0);
+    const YFrameWindow *focus = manager->getFocus();
+    if (focus != getFrame() || focus == nullptr) {
+        WindowListItem* item = focus ? focus->winListItem()
+                             : workspaceItem[manager->activeWorkspace()];
+        list->focusSelectItem(list->findItem(item));
     }
     if (getFrame() == 0) {
         int scn = desktop->getScreenForRect(x, y, 1, 1);

@@ -28,6 +28,17 @@ static YColorName listBoxSelFg(&clrListBoxSelectedText);
 
 int YListBox::fAutoScrollDelta = 0;
 
+int YListItem::getWidth() {
+    int width = 3 + 20 + getOffset();
+    if (getIcon() != null) {
+        width += YIcon::menuSize();
+    }
+    if (getText() != null && listBoxFont != null) {
+        width += listBoxFont->textWidth(getText()) + 3;
+    }
+    return width;
+}
+
 YListBox::YListBox(YScrollView *view, YWindow *aParent):
     YWindow(aParent),
     fVerticalScroll(nullptr),
@@ -36,6 +47,7 @@ YListBox::YListBox(YScrollView *view, YWindow *aParent):
     fOffsetX(0),
     fOffsetY(0),
     fMaxWidth(0),
+    fWidestItem(-1),
     fFocusedItem(0),
     fSelectStart(-1),
     fSelectEnd(-1),
@@ -74,6 +86,8 @@ void YListBox::addAfter(YListItem *after, YListItem *item) {
     int i = findItem(after);
     if (i >= 0) {
         fItems.insert(i + 1, item);
+        if (fFocusedItem > i)
+            fFocusedItem++;
     } else {
         fItems.append(item);
     }
@@ -84,6 +98,8 @@ void YListBox::addBefore(YListItem *before, YListItem *item) {
     int i = findItem(before);
     if (i >= 0) {
         fItems.insert(i, item);
+        if (fFocusedItem >= i)
+            fFocusedItem++;
     } else {
         fItems.append(item);
     }
@@ -96,26 +112,29 @@ void YListBox::addItem(YListItem *item) {
 }
 
 void YListBox::removeItem(YListItem *item) {
-    bool focused = (inrange(fFocusedItem, 0, getItemCount() - 1)
-                    && fItems[fFocusedItem] == item);
-    findRemove(fItems, item);
-    if (focused || fFocusedItem >= getItemCount())
-        fFocusedItem = -1;
-    outdated();
+    int index = findItem(item);
+    if (index >= 0) {
+        fItems.remove(index);
+        if (fFocusedItem > index)
+            fFocusedItem--;
+        else if (index == fFocusedItem) {
+            while (index-- && 0 < fItems[index]->getOffset()) { }
+            fFocusedItem = index;
+        }
+        outdated();
+    }
 }
 
 void YListBox::updateItems() {
     if (fOutdated) {
         fMaxWidth = 0;
+        fWidestItem = -1;
         for (IterType a(getIterator()); ++a; ) {
-            int cw = 3 + 20 + a->getOffset();
-            if (listBoxFont != null) {
-                ustring t = a->getText();
-                if (t != null)
-                    cw += listBoxFont->textWidth(t) + 3;
+            int width = a->getWidth();
+            if (width > fMaxWidth) {
+                fMaxWidth = width;
+                fWidestItem = a.where();
             }
-            if (fMaxWidth < cw)
-                fMaxWidth = cw;
         }
         fOutdated = false;
     }
@@ -171,8 +190,6 @@ void YListBox::focusVisible() {
 }
 
 void YListBox::configure(const YRect2& r) {
-    resetScrollBars();
-
     if (listbackPixbuf != null
         && (fGradient == null ||
             fGradient->width() != r.width() ||
@@ -211,6 +228,7 @@ void YListBox::outdated() {
 void YListBox::repaint() {
     if (fVisible) {
         updateItems();
+        resetScrollBars();
         fGraphics.paint();
     }
 }
@@ -243,7 +261,7 @@ bool YListBox::handleKey(const XKeyEvent &key) {
         case ' ':
             if (fFocusedItem != -1) {
                 selectItem(fFocusedItem,
-                           isItemSelected(fFocusedItem) ? false : true);
+                           isSelected(fFocusedItem) ? false : true);
             }
             break;
         case XK_Home:
@@ -370,7 +388,7 @@ void YListBox::handleButton(const XButtonEvent &button) {
             bool extend = hasbit(button.state, ShiftMask);
 
             if (no != -1) {
-                fSelect = (!clear && isItemSelected(no)) ? false : true;
+                fSelect = (!clear && isSelected(no)) ? false : true;
                 setFocusedItem(no, clear, extend, true);
             } else {
                 fSelect = true;
@@ -541,7 +559,6 @@ void YListBox::paint(Graphics &g, const YRect &r) {
     for (int n(min); n <= max; n++) {
         paintItem(g, n);
     }
-    resetScrollBars();
 
     unsigned const y(contentHeight());
 
@@ -573,8 +590,17 @@ void YListBox::activateItem(YListItem *item) {
 
 void YListBox::repaintItem(YListItem *item) {
     int i = findItem(item);
-    if (i != -1)
+    if (i != -1) {
+        if (i == fWidestItem) {
+            if (item->getWidth() != fMaxWidth) {
+                outdated();
+            }
+        }
+        else if (item->getWidth() > fMaxWidth) {
+            outdated();
+        }
         paintItem(i);
+    }
 }
 
 bool YListBox::hasSelection() {//!!!fix
@@ -615,13 +641,6 @@ bool YListBox::handleAutoScroll(const XMotionEvent & /*mouse*/) {
 void YListBox::autoScroll(int delta, const XMotionEvent *motion) {
     fAutoScrollDelta = delta;
     beginAutoScroll(delta ? true : false, motion);
-}
-
-bool YListBox::isItemSelected(int item) {
-    YListItem *i = getItem(item);
-    if (i)
-        return i->getSelected();
-    return false;
 }
 
 void YListBox::selectItem(int item, bool select) {
@@ -690,7 +709,7 @@ void YListBox::setFocusedItem(int item, bool clear, bool extend, bool virt) {
     fDragging = virt;
     bool sel = true;
     if (oldItem != -1 && extend && !clear)
-        sel = isItemSelected(oldItem);
+        sel = isSelected(oldItem);
     if (clear && !extend)
         clearSelection();
     if (item != -1) {

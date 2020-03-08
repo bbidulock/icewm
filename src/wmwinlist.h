@@ -72,10 +72,9 @@ public:
     void updateWindowListApp(WindowListItem *item);
     void updateWindowListApps();
 
-    void repaintItem(WindowListItem *item) { list->repaintItem(item); }
+    void repaintItem(WindowListItem *item);
     void showFocused(int x, int y);
 
-    WindowListBox *getList() const { return list; }
     YMenu* getWindowListPopup();
     YMenu* getWindowListAllPopup();
 
