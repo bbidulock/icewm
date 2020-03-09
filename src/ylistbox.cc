@@ -88,6 +88,8 @@ void YListBox::addAfter(YListItem *after, YListItem *item) {
         fItems.insert(i + 1, item);
         if (fFocusedItem > i)
             fFocusedItem++;
+        if (fWidestItem > i)
+            fWidestItem++;
     } else {
         fItems.append(item);
     }
@@ -100,6 +102,8 @@ void YListBox::addBefore(YListItem *before, YListItem *item) {
         fItems.insert(i, item);
         if (fFocusedItem >= i)
             fFocusedItem++;
+        if (fWidestItem >= i)
+            fWidestItem++;
     } else {
         fItems.append(item);
     }
