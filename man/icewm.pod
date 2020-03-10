@@ -474,13 +474,34 @@ A single-click on a window entry selects it. Multiple windows can
 be selected by C<Shift+Pointer_Button1>. Then a right mouse click will
 popup the system menu for this selection. To close the selected windows,
 press C<Delete>. Press C<Shift+Delete> to forcefully kill them.
+Right mouse click below the sticky windows for a menu with window
+tiling actions.
 
-Double-click on a workspace to activate it.  Double-click on a window
-to focus it.  Or navigate by arrow keys and press Enter.
+Double-click on a workspace to switch to it.  Double-click on a window
+to activate it.  Or navigate by arrow keys and press Enter.
 
-The window list window is normally hidden. To activate it, select
-the bottom window list menu entry, or press the C<KeySysWindowList>
-key, or press the right Windows key if C<Win95Keys=1>.
+The window list window is normally hidden. Choose one of the following
+to make it visible:
+
+=over
+
+=item
+
+Select the bottom window list menu entry.
+
+=item
+
+Press the C<KeySysWindowList=Ctrl+Alt+Esc> key.
+
+=item
+
+Press the right Windows key if C<Win95Keys=1>
+
+=item
+
+Press the C<DesktopWinListButton=2> mouse button in the root window.
+
+=back
 
 =head2 KEYBOARD SHORTCUTS
 
