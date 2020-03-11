@@ -470,18 +470,8 @@ workspace it shows the window titles of the windows which are mapped
 on it. The bottom entry reads C<All Workspaces>. It holds the sticky
 windows. These windows are mapped in all workspaces.
 
-A single-click on a window entry selects it. Multiple windows can
-be selected by C<Shift+Pointer_Button1>. Then a right mouse click will
-popup the system menu for this selection. To close the selected windows,
-press C<Delete>. Press C<Shift+Delete> to forcefully kill them.
-Right mouse click below the sticky windows for a menu with window
-tiling actions.
-
-Double-click on a workspace to switch to it.  Double-click on a window
-to activate it.  Or navigate by arrow keys and press Enter.
-
 The window list window is normally hidden. Choose one of the following
-to make it visible:
+four methods to make it visible:
 
 =over
 
@@ -502,6 +492,26 @@ Press the right Windows key if C<Win95Keys=1>
 Press the C<DesktopWinListButton=2> mouse button in the root window.
 
 =back
+
+A single-click on a window entry selects it. A group of windows can
+be selected by C<Shift+Pointer_Button1> or by dragging with the left
+mouse button. Use C<Ctrl+Pointer_Button1> to individually select
+windows in a multi-selection. A right mouse click over a selection
+will popup the system menu for this selection.  To close the selected
+windows, press C<Delete>. Press C<Shift+Delete> to forcefully kill them.
+Right mouse click below the sticky windows for a menu with window
+arranging actions.
+
+Double-click on a workspace to switch to it.  Double-click on a window
+to activate it.  Or navigate by arrow keys and press Enter.
+The space bar toggles a selection of a window. C<Ctrl+a> and C<Ctrl+/>
+will select the entire list of windows. C<Ctrl+\\> deselects everything.
+Press the first letter of a window title to navigate to it and select
+it. If titles of multiple windows start with the same letter then
+repeatedly pressing the first letter cycles over those windows.
+C<Home> selects the first entry and C<End> the last. C<PageUp> and
+C<PageDown> move up or down by ten entries. Combine this with the
+C<Shift> key to extend a selection over the range of motion.
 
 =head2 KEYBOARD SHORTCUTS
 
