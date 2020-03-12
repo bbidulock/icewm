@@ -324,22 +324,24 @@ bool YListBox::handleKey(const XKeyEvent &key) {
         case '\\':
             if (m & ControlMask) {
                 for (int i = 0; i < getItemCount(); i++)
-                    selectItem(i, (k == '\\') ? false : true);
+                    selectItem(i, (k != '\\'));
                 break;
             }
-            break;
+            /* fall-through */
         default:
             if (k < 256) {
-                unsigned char c = ASCII::toUpper((char)k);
-                int count = getItemCount();
-                int i = fFocusedItem;
-                YListItem *it = 0;
+                const int ksize = 16;
+                char kstr[ksize] = { char(k), 0, };
+                getCharFromEvent(key, kstr, ksize);
+                const int klen = int(strnlen(kstr, ksize));
+                if (ASCII::isControl(kstr[0]) && kstr[0] != char(k)) {
+                    extend = false;
+                }
 
-                for (int n = 0; n < count; n++) {
-                    i = (i + 1) % count;
-                    it = getItem(i);
-                    ustring title = it->getText();
-                    if (title != null && title.length() > 0 && ASCII::toUpper(title.charAt(0)) == c) {
+                for (int n = 0; n < getItemCount(); ++n) {
+                    int i = (fFocusedItem + 1 + n) % getItemCount();
+                    cstring title(getItem(i)->getText());
+                    if (strncasecmp(title, kstr, klen) == 0) {
                         setFocusedItem(i, clear, extend, false);
                         break;
                     }
