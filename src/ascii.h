@@ -39,6 +39,11 @@ namespace ASCII {
     }
 
     template<class T>
+    static bool isControl(T c) {
+        return ' ' < c && c <= '~' && !isAlnum(c);
+    }
+
+    template<class T>
     static T toUpper(T c) {
         return isLower(c) ? (c - ' ') : c;
     }
