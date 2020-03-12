@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.23\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-02-27 23:18+0100\n"
-"PO-Revision-Date: 2020-02-08 22:54+0000\n"
+"PO-Revision-Date: 2020-03-12 10:39+0000\n"
 "Last-Translator: Freek de Kruijf <freek@opensuse.org>\n"
-"Language-Team: Dutch <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/nl/>\n"
+"Language-Team: Dutch <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -611,13 +611,12 @@ msgstr "Werkruimte #%d: »%s«\n"
 #: src/icesh.cc:2809
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
-msgstr ""
+msgstr "Kan geometrie van venster 0x%lx niet ophalen"
 
 #: src/icesh.cc:2834
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'"
+#, c-format
 msgid "Invalid Xinerama: `%s'."
-msgstr "Ongeldig argument: '%s'"
+msgstr "Ongeldig Xinerama: `%s'."
 
 #: src/icesh.cc:2882
 #, c-format
@@ -651,22 +650,19 @@ msgid "No actions specified."
 msgstr "Geen aktie aangegeven."
 
 #: src/icesh.cc:3046
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'"
+#, c-format
 msgid "Invalid PID: `%s'"
-msgstr "Ongeldig argument: '%s'"
+msgstr "Ongeldige PID: `%s'"
 
 #: src/icesh.cc:3082
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'"
+#, c-format
 msgid "Invalid layer: `%s'."
-msgstr "Ongeldig argument: '%s'"
+msgstr "Ongeldige laag: `%s'."
 
 #: src/icesh.cc:3112
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'"
+#, c-format
 msgid "Invalid state: `%s'."
-msgstr "Ongeldig argument: '%s'"
+msgstr "Ongeldige status: `%s'."
 
 #: src/icesh.cc:3167
 #, c-format
