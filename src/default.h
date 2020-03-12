@@ -48,7 +48,6 @@ XIV(bool, taskBarShowWindowListMenu,            true)
 XIV(bool, taskBarShowWorkspaces,                true)
 XIV(bool, taskBarShowWindows,                   true)
 XIV(bool, taskBarShowShowDesktopButton,         true)
-XIV(bool, fontPreferFreetype,                   true)
 
 XIV(int, taskBarButtonWidthDivisor,             3)
 XIV(int, taskBarWidthPercentage,                100)

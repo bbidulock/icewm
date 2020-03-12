@@ -5,6 +5,7 @@
 #include "yconfig.h"
 
 XIV(bool, dontRotateMenuPointer,                true)
+XIV(bool, fontPreferFreetype,                   true)
 XIV(bool, menuMouseTracking,                    false)
 XIV(bool, replayMenuCancelClick,                false)
 XIV(bool, showPopupsAbovePointer,               false)

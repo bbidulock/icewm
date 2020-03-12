@@ -19,10 +19,6 @@
 
 char const *ApplicationName = NULL;
 
-// used in YXFont but declared only in icewm sources, not in icewmbg special set.
-// Declaring it here for now.
-XIV(bool, fontPreferFreetype,                   true)
-
 class PixFile {
 public:
     typedef ref<YResourcePaths> Paths;
