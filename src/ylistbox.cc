@@ -338,10 +338,13 @@ bool YListBox::handleKey(const XKeyEvent &key) {
                     extend = false;
                 }
 
-                for (int n = 0; n < getItemCount(); ++n) {
+                for (int n = 0; n < 2 * getItemCount(); ++n) {
                     int i = (fFocusedItem + 1 + n) % getItemCount();
                     cstring title(getItem(i)->getText());
-                    if (strncasecmp(title, kstr, klen) == 0) {
+                    if (n < getItemCount()
+                        ? strncasecmp(title, kstr, klen) == 0
+                        : strstr(title, kstr) != nullptr)
+                    {
                         setFocusedItem(i, clear, extend, false);
                         break;
                     }
