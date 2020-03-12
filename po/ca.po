@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-02-27 23:18+0100\n"
-"PO-Revision-Date: 2020-02-08 11:54+0000\n"
+"PO-Revision-Date: 2020-03-12 10:39+0000\n"
 "Last-Translator: David Medina <medipas@gmail.com>\n"
-"Language-Team: Catalan <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/ca/>\n"
+"Language-Team: Catalan <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -167,12 +167,12 @@ msgstr "_Separa"
 #: src/amailbox.cc:62
 #, c-format
 msgid "Invalid mailbox protocol: \"%s\""
-msgstr "Protocol de bústia no vàlid: \"%s\""
+msgstr "Protocol de bústia no vàlid: %s"
 
 #: src/amailbox.cc:64
 #, c-format
 msgid "Invalid mailbox path: \"%s\""
-msgstr "Camí de bústia no vàlid: \"%s\""
+msgstr "Camí de bústia no vàlid: %s"
 
 #: src/amailbox.cc:133
 #, c-format
@@ -182,7 +182,7 @@ msgstr "La cerca del nom de DNS ha fallat per a %s."
 #: src/amailbox.cc:149
 #, c-format
 msgid "Invalid mailbox port: \"%s\""
-msgstr "Port de bústia no vàlid: \"%s\""
+msgstr "Port de bústia no vàlid: %s"
 
 #: src/amailbox.cc:307
 #, c-format
@@ -609,13 +609,12 @@ msgstr "Escriptori #%d: \"%s\"\n"
 #: src/icesh.cc:2809
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
-msgstr ""
+msgstr "No es pot obtenir una geometria de finestra de 0x%lx."
 
 #: src/icesh.cc:2834
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'"
+#, c-format
 msgid "Invalid Xinerama: `%s'."
-msgstr "Argument no vàlid: \"%s\""
+msgstr "Xinerama no vàlid: %s."
 
 #: src/icesh.cc:2882
 #, c-format
@@ -625,7 +624,7 @@ msgstr "L'acció \"%s\" necessita com a mínim %d arguments."
 #: src/icesh.cc:2892
 #, c-format
 msgid "Invalid expression: `%s'"
-msgstr "Expressió no vàlida: \"%s\""
+msgstr "Expressió no vàlida: %s"
 
 #: src/icesh.cc:2903 src/icesound.cc:795 src/icewmhint.cc:36 src/wmapp.cc:1190
 #: src/yxapp.cc:1060
@@ -638,7 +637,7 @@ msgstr ""
 #: src/icesh.cc:2916
 #, c-format
 msgid "Invalid argument: `%s'"
-msgstr "Argument no vàlid: \"%s\""
+msgstr "Argument no vàlid: %s"
 
 #: src/icesh.cc:2953
 msgid "No windows found."
@@ -649,27 +648,24 @@ msgid "No actions specified."
 msgstr "No s'ha especificat cap acció."
 
 #: src/icesh.cc:3046
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'"
+#, c-format
 msgid "Invalid PID: `%s'"
-msgstr "Argument no vàlid: \"%s\""
+msgstr "PID no vàlid: %s"
 
 #: src/icesh.cc:3082
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'"
+#, c-format
 msgid "Invalid layer: `%s'."
-msgstr "Argument no vàlid: \"%s\""
+msgstr "Capa no vàlida: %s."
 
 #: src/icesh.cc:3112
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'"
+#, c-format
 msgid "Invalid state: `%s'."
-msgstr "Argument no vàlid: \"%s\""
+msgstr "Estat no vàlid: %s."
 
 #: src/icesh.cc:3167
 #, c-format
 msgid "Invalid window identifier: `%s'"
-msgstr "Identificador de finestra no vàlid: \"%s\""
+msgstr "Identificador de finestra no vàlid: %s"
 
 #: src/icesh.cc:3823
 #, c-format
@@ -1805,7 +1801,7 @@ msgstr "Ha fallat la càrrega del mapa de píxels \"%s\""
 #: src/ycursor.cc:174
 #, c-format
 msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
-msgstr "Cursor de mapa de píxels no vàlid: \"%s\" té massa colors únics"
+msgstr "Cursor de mapa de píxels no vàlid: %s té massa colors únics."
 
 #: src/ycursor.cc:196
 #, c-format
