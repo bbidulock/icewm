@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-02-27 23:18+0100\n"
-"PO-Revision-Date: 2020-02-09 01:54+0000\n"
+"PO-Revision-Date: 2020-03-12 04:55+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
-"Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/ja/>\n"
+"Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -611,13 +611,12 @@ msgstr "ワークスペース #%d: `%s'\n"
 #: src/icesh.cc:2809
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
-msgstr ""
+msgstr "ウインドウ 0x%lx のジオメトリを取得できません"
 
 #: src/icesh.cc:2834
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'"
+#, c-format
 msgid "Invalid Xinerama: `%s'."
-msgstr "パラメータが正しくありません: `%s'"
+msgstr "Xinerama が正しくありません: `%s'."
 
 #: src/icesh.cc:2882
 #, c-format
@@ -651,22 +650,19 @@ msgid "No actions specified."
 msgstr "アクションが指定されていません。"
 
 #: src/icesh.cc:3046
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'"
+#, c-format
 msgid "Invalid PID: `%s'"
-msgstr "パラメータが正しくありません: `%s'"
+msgstr "PID が正しくありません: `%s'"
 
 #: src/icesh.cc:3082
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'"
+#, c-format
 msgid "Invalid layer: `%s'."
-msgstr "パラメータが正しくありません: `%s'"
+msgstr "レイヤが正しくありません: `%s'."
 
 #: src/icesh.cc:3112
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'"
+#, c-format
 msgid "Invalid state: `%s'."
-msgstr "パラメータが正しくありません: `%s'"
+msgstr "状態が正しくありません: `%s'."
 
 #: src/icesh.cc:3167
 #, c-format
