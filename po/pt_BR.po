@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: icewm 1.3.4pre2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-02-27 23:18+0100\n"
-"PO-Revision-Date: 2020-02-11 02:54+0000\n"
-"Last-Translator: Rodrigo Macedo <rmsolucoeseminformatic4@gmail.com>\n"
+"PO-Revision-Date: 2020-03-12 14:55+0000\n"
+"Last-Translator: Luiz Fernando Ranghetti <elchevive68@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -611,13 +611,12 @@ msgstr "área de trabalho #%d: `%s'\n"
 #: src/icesh.cc:2809
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
-msgstr ""
+msgstr "Não foi possível obter a geometria da janela 0x%lx"
 
 #: src/icesh.cc:2834
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'"
+#, c-format
 msgid "Invalid Xinerama: `%s'."
-msgstr "Argumento inválido `%s'"
+msgstr "Xinerama inválido: `%s'."
 
 #: src/icesh.cc:2882
 #, c-format
@@ -640,7 +639,7 @@ msgstr ""
 #: src/icesh.cc:2916
 #, c-format
 msgid "Invalid argument: `%s'"
-msgstr "Argumento inválido `%s'"
+msgstr "Argumento inválido: `%s'"
 
 #: src/icesh.cc:2953
 msgid "No windows found."
@@ -651,22 +650,19 @@ msgid "No actions specified."
 msgstr "Nenhuma ação especificada."
 
 #: src/icesh.cc:3046
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'"
+#, c-format
 msgid "Invalid PID: `%s'"
-msgstr "Argumento inválido `%s'"
+msgstr "PID inválido: `%s'"
 
 #: src/icesh.cc:3082
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'"
+#, c-format
 msgid "Invalid layer: `%s'."
-msgstr "Argumento inválido `%s'"
+msgstr "Camada inválida: `%s'."
 
 #: src/icesh.cc:3112
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'"
+#, c-format
 msgid "Invalid state: `%s'."
-msgstr "Argumento inválido `%s'"
+msgstr "Estado inválido: `%s'."
 
 #: src/icesh.cc:3167
 #, c-format
