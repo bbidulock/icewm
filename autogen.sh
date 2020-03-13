@@ -44,4 +44,4 @@ autoreconf -fiv
 
 # cscope target won't work without this
 #
-[ -f po/Makefile.in.in ] && /usr/bin/echo -e '\n%:\n\t@:\n\n' >> po/Makefile.in.in
+[ -f po/Makefile.in.in ] && printf '\n%%:\n\t@:\n\n' >> po/Makefile.in.in
