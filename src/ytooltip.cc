@@ -123,22 +123,29 @@ void YToolTip::locate(YWindow *w, const XCrossingEvent &/*crossing*/) {
         fWindow->locate(fLocate);
 }
 
-void YToolTipWindow::locate(YWindow *w) {
-    int x, y;
-
-    x = w->width() / 2;
-    y = w->height();
-    w->mapToGlobal(x, y);
-    x -= width() / 2;
-    if (x + width() >= desktop->width())
-        x = desktop->width() - width();
-    if (y + height() >= desktop->height())
-        y -= height() + w->height();
-    if (y < 0)
-        y = 0;
-    if (x < 0)
-        x = 0;
-    setPosition(x, y);
+void YToolTipWindow::locate(YWindow *wfor) {
+    int x = wfor->x(), y = wfor->y();
+    for (YWindow* parent = wfor->parent(); parent; parent = parent->parent()) {
+        if (parent == desktop || hasbit(parent->getStyle(), wsManager)) {
+            break;
+        } else {
+            x += parent->x();
+            y += parent->y();
+        }
+    }
+    int screen = desktop->getScreenForRect(x, y, wfor->width(), wfor->height());
+    YRect scgeo(desktop->getScreenGeometry(screen));
+    int xbest = x + int(wfor->width() / 2) - int(width() / 2);
+    xbest = clamp(xbest, scgeo.x(), scgeo.x() + int(scgeo.width() - width()));
+    YRect above(xbest, y - int(height()), width(), height());
+    YRect below(xbest, y + int(wfor->height()), width(), height());
+    unsigned upper(above.overlap(scgeo));
+    unsigned lower(below.overlap(scgeo));
+    if (lower < upper) {
+        setPosition(above.x(), above.y());
+    } else {
+        setPosition(below.x(), below.y());
+    }
 }
 
 // vim: set sw=4 ts=4 et:
