@@ -17,8 +17,9 @@ creates menu entries that call the xrandr command to setup this
 configuration.
 
 Optionally, the contents of the generated configurations can be accessed
-on-the-fly as a "quick-switch" menu which is accessible by Super-P key
-binding of B<icewm>.
+on-the-fly through a "quick-switch" style menu which pops up upon
+pressing Super-P key binding (or a manually configured key, see
+L<icewm-keys(5)> for the configuration of B<switchkey> directive).
 
 =head1 OPTIONS
 
@@ -34,12 +35,6 @@ C<$HOME/.cache/xrandrmenu.max> which would also effect the monitor
 quick-switch menu.
 
 =back
-
-=head1 CAVEATS
-
-The quick-switch menu becomes accessible when B<icewm-menu-xrandr> program
-is registered as special binding of type B<switchkey> in
-L<icewm-keys(5)> configuration.
 
 =head1 SEE ALSO
 
