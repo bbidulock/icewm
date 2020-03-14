@@ -304,7 +304,7 @@ private:
     };
 
     YAccelerator *accel;
-    YToolTip *fToolTip;
+    lazy<YToolTip> fToolTip;
 
     static XButtonEvent fClickEvent;
     static YWindow *fClickWindow;
@@ -313,7 +313,6 @@ private:
     static int fClickDrag;
     static unsigned fClickButton;
     static unsigned fClickButtonDown;
-    static lazy<YTimer> fToolTipTimer;
     static unsigned long lastEnterNotifySerial;
     static void updateEnterNotifySerial(const XEvent& event);
 

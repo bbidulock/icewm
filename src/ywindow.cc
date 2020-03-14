@@ -135,7 +135,6 @@ YWindow::YWindow(YWindow *parent, Window win, int depth,
     fEnabled(true), fToplevel(false),
     fDoubleBuffer(doubleBuffer),
     accel(0),
-    fToolTip(0),
     fDND(false), XdndDragSource(None), XdndDropTarget(None)
 {
     if (fHandle != None) {
@@ -166,12 +165,6 @@ YWindow::~YWindow() {
         YAccelerator *next = accel->next;
         delete accel;
         accel = next;
-    }
-    if (fToolTip) {
-        fToolTip->hide();
-        if (fToolTipTimer)
-            fToolTipTimer->disableTimerListener(fToolTip);
-        delete fToolTip; fToolTip = 0;
     }
     if (fClickWindow == this)
         fClickWindow = 0;
@@ -871,11 +864,7 @@ bool YWindow::handleKey(const XKeyEvent &key) {
 }
 
 void YWindow::handleButton(const XButtonEvent &button) {
-    if (fToolTip) {
-        fToolTip->hide();
-        if (fToolTipTimer)
-            fToolTipTimer->disableTimerListener(fToolTip);
-    }
+    fToolTip = null;
 
     int const dx(abs(button.x_root - fClickEvent.x_root));
     int const dy(abs(button.y_root - fClickEvent.y_root));
@@ -954,25 +943,16 @@ void YWindow::handleMotion(const XMotionEvent &motion) {
     }
 }
 
-lazy<YTimer> YWindow::fToolTipTimer;
-
-void YWindow::setToolTip(const ustring &tip) {
-    if (fToolTip) {
-        if (tip == null) {
-            delete fToolTip; fToolTip = 0;
-        } else {
-            fToolTip->setText(tip);
-            fToolTip->repaint();
-        }
-    }
-    else if (tip != null) {
-        fToolTip = new YToolTip();
+void YWindow::setToolTip(const ustring& tip) {
+    if (tip == null) {
+        fToolTip = null;
+    } else {
         fToolTip->setText(tip);
     }
 }
 
 bool YWindow::toolTipVisible() {
-    return (fToolTip && fToolTip->visible());
+    return fToolTip && fToolTip->visible();
 }
 
 void YWindow::updateToolTip() {
@@ -981,13 +961,10 @@ void YWindow::updateToolTip() {
 void YWindow::handleCrossing(const XCrossingEvent &crossing) {
     if (fToolTip) {
         if (crossing.type == EnterNotify && crossing.mode == NotifyNormal) {
-            fToolTipTimer->setTimer(ToolTipDelay, fToolTip, true);
             updateToolTip();
-            fToolTip->locate(this, crossing);
+            fToolTip->enter(this);
         } else if (crossing.type == LeaveNotify) {
-            fToolTip->hide();
-            if (fToolTipTimer)
-                fToolTipTimer->disableTimerListener(fToolTip);
+            fToolTip->leave();
         }
     }
 }
