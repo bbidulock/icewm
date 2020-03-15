@@ -37,7 +37,7 @@ TESTCASES="$TESTCASES iceview icesame iceicon icerun icelist icebar" # iceclock
 features=''
 
 # Initialize Automake
-AM_INIT_AUTOMAKE([gnits 1.15 dist-lzip no-dist-gzip std-options -Wall color-tests silent-rules tar-pax])
+AM_INIT_AUTOMAKE([gnits 1.12 dist-lzip no-dist-gzip std-options -Wall color-tests silent-rules tar-pax])
 AM_MAINTAINER_MODE
 AM_SILENT_RULES([yes])
 
@@ -117,6 +117,7 @@ AC_ARG_WITH([unicode-set],
 PKG_PROG_PKG_CONFIG
 
 # Checks for libraries.
+AC_CHECK_FUNCS(clock_gettime, [], [AC_CHECK_LIB(rt, clock_gettime)])
 
 # Checks for header files.
 AS_BOX([Header Files])
