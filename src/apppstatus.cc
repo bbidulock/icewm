@@ -93,8 +93,8 @@ NetStatus::NetStatus(
     if (isUp()) {
         updateVisible(true);
     }
-    updateToolTip();
     setTitle(cstring("NET-" + netdev));
+    updateToolTip();
 }
 
 NetStatus::~NetStatus() {
@@ -719,7 +719,7 @@ void NetStatusControl::handleClick(const XButtonEvent &up, cstring netdev)
             }
             else if (fNetStatus[*iter]->visible()) {
                 visible = true;
-                enable = fNetStatus[*iter]->isUp();
+                enable = true;  // fNetStatus[*iter]->isUp();
             }
             YAction act(EAction(visible + 2 * (300 + iter.where())));
             YMenuItem* item = fMenu->addItem(*iter, -2, null,
