@@ -32,6 +32,9 @@ public:
     static void tracing(const char* conf) {
         YTrace::conf = conf;
     }
+    static const char* tracingConf() {
+        return conf;
+    }
 
     bool tracing() const {
         return have;

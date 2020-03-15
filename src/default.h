@@ -4,7 +4,6 @@
 #include "yconfig.h"
 
 /************************************************************************************************************************************************************/
-XIV(bool, alphaBlending,                        false)
 XIV(bool, clickFocus,                           true)
 XIV(bool, focusOnAppRaise,                      false)
 XIV(bool, requestFocusOnAppRaise,               true)
@@ -227,7 +226,6 @@ XSV(const char *, fmtDate,                      "%Y-%m-%d %H:%M:%S %z %B %A")
 #if defined(CFGDEF)
 
 cfoption icewm_preferences[] = {
-    OBV("Alpha",                                &alphaBlending,                 "Support alpha blending by using a 32-bit visual"),
     OBV("ClickToFocus",                         &clickFocus,                    "Focus windows by clicking"),
     OBV("FocusOnAppRaise",                      &focusOnAppRaise,               "Focus windows when application requests to raise"),
     OBV("RequestFocusOnAppRaise",               &requestFocusOnAppRaise,        "Request focus (flashing in taskbar) when application requests raise"),
@@ -539,6 +537,24 @@ cfoption icewm_preferences[] = {
     OK0()
 };
 
+#endif
+
+#if defined(GENPREF) || defined(WMAPP)
+
+static bool alphaBlending;
+static bool synchronizeX11;
+static const char* splashFile(ICESPLASH);
+static const char* tracingModules;
+
+cfoption wmapp_preferences[] = {
+    OBV("Alpha",        &alphaBlending,  "Use a 32-bit visual for alpha blending"),
+    OBV("Synchronize",  &synchronizeX11, "Synchronize X11 for debugging (slow)"),
+    OBV("LogEvents",    &loggingEvents,  "Enable event logging for debugging"),
+    OSV("Splash",       &splashFile,     "Splash image on startup (IceWM.jpg)"),
+    OSV("Trace",        &tracingModules, "Enable tracing for the given modules"),
+    OSV("Theme",        &themeName,      "The name of the theme"),
+    OK0()
+};
 #endif
 
 #include "themable.h"

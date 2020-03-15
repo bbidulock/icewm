@@ -2,6 +2,7 @@
 #define __WMCONFIG_H
 
 class IApp;
+struct cfoption;
 #include "mstring.h"
 
 class WMConfig {
@@ -12,8 +13,8 @@ public:
     static void setDefault(const char *basename, cstring config);
     static void setDefaultFocus(long focusMode);
     static void setDefaultTheme(mstring themeName);
-    static void printPrefs(long focus, bool log, bool sync, const char* spl);
-    static void print_preferences();
+    static void printPrefs(long focus, cfoption* startup);
+    static void print_options(cfoption* options);
 };
 
 // functions which are used in preferences options:

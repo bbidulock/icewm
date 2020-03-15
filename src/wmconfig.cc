@@ -183,7 +183,7 @@ void WMConfig::setDefaultTheme(mstring themeName) {
     setDefault("theme", "Theme=\"" + themeName + "\"");
 }
 
-static void print_options(cfoption *options) {
+void WMConfig::print_options(cfoption* options) {
     for (int i = 0; options[i].type != cfoption::CF_NONE; ++i) {
         switch (options[i].type) {
         case cfoption::CF_BOOL:
@@ -212,15 +212,10 @@ static void print_options(cfoption *options) {
     }
 }
 
-void WMConfig::printPrefs(long focus, bool log, bool sync, const char* spl) {
+void WMConfig::printPrefs(long focus, cfoption* startup) {
+    print_options(startup);
     printf("FocusMode=%ld\n", focus);
-    printf("LogEvents=%d\n", log);
-    printf("Synchronize=%d\n", sync);
-    printf("Splash=\"%s\"\n", Elvis(spl, ""));
-    print_preferences();
-}
 
-void WMConfig::print_preferences() {
     print_options(icewm_preferences);
     print_options(icewm_themable_preferences);
 }

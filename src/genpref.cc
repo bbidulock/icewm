@@ -78,6 +78,10 @@ static void genpref()
            "# Be sure to uncomment them if you change them!\n"
            "\n");
 
+    const unsigned wmapp_count = ACOUNT(wmapp_preferences);
+    wmapp_preferences[wmapp_count - 2] = wmapp_preferences[wmapp_count - 1];
+    show(wmapp_preferences);
+
     show(icewm_preferences);
 
     printf("# -----------------------------------------------------------\n"
