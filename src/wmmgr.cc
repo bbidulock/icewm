@@ -2553,7 +2553,7 @@ bool YWindowManager::readDesktopLayout() {
         }
     }
     MSG(("read: _NET_DESKTOP_LAYOUT(%d): %s (%d, %lu) { %d, %d, %d, %d }",
-        (int) _XA_NET_DESKTOP_LAYOUT, boolstr(success), prop.format(), prop.size(),
+        (int) _XA_NET_DESKTOP_LAYOUT, boolstr(success), prop.bits(), prop.size(),
         fLayout.orient, fLayout.columns, fLayout.rows, fLayout.corner));
 
     return success;

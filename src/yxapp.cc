@@ -1164,12 +1164,16 @@ bool YXApplication::handleXEvents() {
         if (loggingEvents) {
             if (xev.type < LASTEvent)
                 logEvent(xev);
+#ifdef CONFIG_SHAPE
             else if (shapes.isEvent(xev.type, ShapeNotify))
                 logShape(xev);
+#endif
+#ifdef CONFIG_XRANDR
             else if (xrandr.isEvent(xev.type, RRScreenChangeNotify))
                 logRandrScreen(xev);
             else if (xrandr.isEvent(xev.type, RRNotify))
                 logRandrNotify(xev);
+#endif
         }
 
         if (filterEvent(xev)) {

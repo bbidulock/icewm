@@ -4,6 +4,7 @@
 #include "yxapp.h"
 #include "ywindow.h"
 #include "default.h"
+#include "yprefs.h"
 
 #include <string.h>
 
