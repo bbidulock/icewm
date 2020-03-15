@@ -864,7 +864,9 @@ bool YWindow::handleKey(const XKeyEvent &key) {
 }
 
 void YWindow::handleButton(const XButtonEvent &button) {
-    fToolTip = null;
+    if (fToolTip) {
+        fToolTip->leave();
+    }
 
     int const dx(abs(button.x_root - fClickEvent.x_root));
     int const dy(abs(button.y_root - fClickEvent.y_root));
@@ -1124,30 +1126,24 @@ void YWindow::setParentRelative() {
     setBackgroundPixmap(ParentRelative);
 }
 
-void YWindow::mapToGlobal(int &x, int &y) {
-    int dx, dy;
+void YWindow::mapToGlobal(int& x, int& y) {
     Window child;
 
     XTranslateCoordinates(xapp->display(),
                           handle(),
                           desktop->handle(),
                           x, y,
-                          &dx, &dy, &child);
-    x = dx;
-    y = dy;
+                          &x, &y, &child);
 }
 
-void YWindow::mapToLocal(int &x, int &y) {
-    int dx, dy;
+void YWindow::mapToLocal(int& x, int& y) {
     Window child;
 
     XTranslateCoordinates(xapp->display(),
                           desktop->handle(),
                           handle(),
                           x, y,
-                          &dx, &dy, &child);
-    x = dx;
-    y = dy;
+                          &x, &y, &child);
 }
 
 void YWindow::configure(const YRect &/*r*/)
@@ -1951,6 +1947,12 @@ Picture YWindow::createPicture() {
                                        format, mask, &attr);
     }
     return picture;
+}
+
+int YWindow::getScreen() {
+    int dx = 0, dy = 0;
+    mapToGlobal(dx, dy);
+    return desktop->getScreenForRect(dx, dy, width(), height());
 }
 
 bool YDesktop::updateXineramaInfo(unsigned& horizontal, unsigned& vertical) {

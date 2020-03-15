@@ -233,6 +233,7 @@ public:
 
     bool getCharFromEvent(const XKeyEvent &key, char *s, int maxLen);
     int getClickCount() { return fClickCount; }
+    int getScreen();
 
     void scrollWindow(int dx, int dy);
     void clearWindow();
