@@ -5,6 +5,7 @@ icewm_man1_files = \
 	icewmbg.man \
 	icewmhint.man \
 	icewm.man \
+	icewm-menu-xrandr.man \
 	icewm-session.man \
 	icewm-set-gnomewm.man
 
@@ -14,8 +15,7 @@ doc_DATA = $(icewm_man1_htmls)
 
 extra_man1_files = \
 	icesound.man \
-	icewm-menu-fdo.man \
-	icewm-menu-xrandr.man
+	icewm-menu-fdo.man
 
 extra_man1_htmls = $(extra_man1_files:%.man=%.1.html)
 

@@ -197,9 +197,10 @@ YFrameWindow::~YFrameWindow() {
 }
 
 void YFrameWindow::addToWindowList() {
-    if (fWinListItem == 0) {
-        if (windowList && !(frameOptions() & foIgnoreWinList))
-            fWinListItem = windowList->addWindowListApp(this);
+    if (fWinListItem == nullptr && client()->adopted() &&
+        windowList && notbit(frameOptions(), foIgnoreWinList))
+    {
+        fWinListItem = windowList->addWindowListApp(this);
     }
 }
 
@@ -207,7 +208,7 @@ void YFrameWindow::removeFromWindowList() {
     if (fWinListItem) {
         if (windowList)
             windowList->removeWindowListApp(fWinListItem);
-        delete fWinListItem; fWinListItem = 0;
+        delete fWinListItem; fWinListItem = nullptr;
     }
 }
 
@@ -902,12 +903,18 @@ void YFrameWindow::handleFocus(const XFocusChangeEvent &focus) {
 }
 
 bool YFrameWindow::handleTimer(YTimer *t) {
-    if (t == fAutoRaiseTimer) {
+    if (t == fFrameTimer) {
+        if (visible()) {
+            paint(getGraphics(), geometry());
+        }
+    }
+    else if (t == fAutoRaiseTimer) {
         if (canRaise())
             wmRaise();
     }
-    if (t == fDelayFocusTimer)
+    else if (t == fDelayFocusTimer) {
         focus(false);
+    }
     return false;
 }
 
@@ -1161,7 +1168,7 @@ void YFrameWindow::wmToggleFullscreen() {
 }
 
 void YFrameWindow::wmToggleTray() {
-    if (getTrayOption() != WinTrayExclusive) {
+    if (getTrayOption() == WinTrayIgnore) {
         setTrayOption(WinTrayExclusive);
     } else {
         setTrayOption(WinTrayIgnore);
@@ -1631,7 +1638,20 @@ MiniIcon *YFrameWindow::getMiniIcon() {
     return fMiniIcon;
 }
 
-void YFrameWindow::paint(Graphics &g, const YRect &/*r*/) {
+void YFrameWindow::repaint() {
+    bool yes = (visible() && hasbit(frameDecors(), fdResize | fdBorder));
+    if (yes) {
+        fFrameTimer->setTimer(10L, this, true);
+    }
+}
+
+void YFrameWindow::handleExpose(const XExposeEvent &expose) {
+    if (expose.count == 0) {
+        repaint();
+    }
+}
+
+void YFrameWindow::paint(Graphics &g, const YRect& r) {
     if (g.rdepth() != depth()) {
         tlog("YFrameWindow::%s: attempt to use gc of depth %d on window 0x%lx of depth %d\n",
                 __func__, g.rdepth(), handle(), depth());
@@ -3173,7 +3193,7 @@ void YFrameWindow::updateTaskBar() {
 
     if (taskBar && fManaged) {
         if (!isHidden() &&
-            !(frameOptions() & foIgnoreTaskBar) &&
+            (notbit(frameOptions(), foIgnoreTaskBar) || isMinimized()) &&
             (getTrayOption() != WinTrayIgnore))
             if (trayShowAllWindows || visibleOn(manager->activeWorkspace()))
                 needTrayApp = true;

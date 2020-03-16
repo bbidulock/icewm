@@ -4,7 +4,6 @@
 #include "yconfig.h"
 
 /************************************************************************************************************************************************************/
-XIV(bool, alphaBlending,                        false)
 XIV(bool, clickFocus,                           true)
 XIV(bool, focusOnAppRaise,                      false)
 XIV(bool, requestFocusOnAppRaise,               true)
@@ -48,7 +47,6 @@ XIV(bool, taskBarShowWindowListMenu,            true)
 XIV(bool, taskBarShowWorkspaces,                true)
 XIV(bool, taskBarShowWindows,                   true)
 XIV(bool, taskBarShowShowDesktopButton,         true)
-XIV(bool, fontPreferFreetype,                   true)
 
 XIV(int, taskBarButtonWidthDivisor,             3)
 XIV(int, taskBarWidthPercentage,                100)
@@ -228,7 +226,6 @@ XSV(const char *, fmtDate,                      "%Y-%m-%d %H:%M:%S %z %B %A")
 #if defined(CFGDEF)
 
 cfoption icewm_preferences[] = {
-    OBV("Alpha",                                &alphaBlending,                 "Support alpha blending by using a 32-bit visual"),
     OBV("ClickToFocus",                         &clickFocus,                    "Focus windows by clicking"),
     OBV("FocusOnAppRaise",                      &focusOnAppRaise,               "Focus windows when application requests to raise"),
     OBV("RequestFocusOnAppRaise",               &requestFocusOnAppRaise,        "Request focus (flashing in taskbar) when application requests raise"),
@@ -282,7 +279,7 @@ cfoption icewm_preferences[] = {
     OBV("QuickSwitch",                          &quickSwitch,                   "Alt+Tab window switching"),
     OBV("QuickSwitchToMinimized",               &quickSwitchToMinimized,        "Alt+Tab to minimized windows"),
     OBV("QuickSwitchToHidden",                  &quickSwitchToHidden,           "Alt+Tab to hidden windows"),
-    OBV("QuickSwitchToUrgent",                  &quickSwitchToUrgent,           "Priorize Alt+Tab to urgent windows"),
+    OBV("QuickSwitchToUrgent",                  &quickSwitchToUrgent,           "Prioritize Alt+Tab to urgent windows"),
     OBV("QuickSwitchToAllWorkspaces",           &quickSwitchToAllWorkspaces,    "Alt+Tab to windows on other workspaces"),
     OBV("QuickSwitchGroupWorkspaces",           &quickSwitchGroupWorkspaces,    "Alt+Tab: group windows on current workspace"),
     OBV("QuickSwitchAllIcons",                  &quickSwitchAllIcons,           "Show all reachable icons when quick switching"),
@@ -344,7 +341,7 @@ cfoption icewm_preferences[] = {
     OBV("PagerShowMinimized",                   &pagerShowMinimized,            "Draw even minimized windows as unfilled rectangles (if PagerShowPreview=1)"),
     OBV("PagerShowBorders",                     &pagerShowBorders,              "Draw border around workspace buttons (if PagerShowPreview=1)"),
     OBV("PagerShowNumbers",                     &pagerShowNumbers,              "Show number of workspace on workspace button (if PagerShowPreview=1)"),
-    OBV("TaskBarLaunchOnSingleClick",           &taskBarLaunchOnSingleClick,    "Execute taskbar applet commands (like MailCommand,     ClockCommand,   ...) on single click"),
+    OBV("TaskBarLaunchOnSingleClick",           &taskBarLaunchOnSingleClick,    "Execute taskbar applet commands (like MailCommand, ClockCommand, ...) on single click"),
 //    OBV("WarpPointer",                          &warpPointer,                   "Move mouse when doing focusing in pointer focus mode"),
     OBV("ClientWindowMouseActions",             &clientMouseActions,            "Allow mouse actions on client windows (buggy with some programs)"),
     OBV("ShowProgramsMenu",                     &showPrograms,                  "Show programs submenu in the program menu"),
@@ -370,7 +367,7 @@ cfoption icewm_preferences[] = {
 #endif
     OBV("DoubleBuffer",                         &doubleBuffer,                  "Use double buffering when redrawing the display"),
     OBV("XRRDisable",                           &xrrDisable,                    "Disable use of new XRANDR API for dual head (nvidia workaround)"),
-    OBV("PreferFreetypeFonts",                  &fontPreferFreetype,            "Favor *Xft fonts over core X11 fonts where possible"),
+    OBV("PreferFreetypeFonts",                  &fontPreferFreetype,            "Favour Xft fonts over core X11 fonts where possible"),
     OIV("DelayFuzziness",                       &DelayFuzziness, 0, 100,        "Delay fuzziness, to allow merging of multiple timer timeouts into one (notebook power saving)"),
     OIV("ClickMotionDistance",                  &ClickMotionDistance, 0, 32,    "Pointer motion distance before click gets interpreted as drag"),
     OIV("ClickMotionDelay",                     &ClickMotionDelay, 0, 2000,     "Delay before click gets interpreted as drag"),
@@ -444,7 +441,7 @@ cfoption icewm_preferences[] = {
     OSV("AddressBarCommand",                    &addressBarCommand,             "Command to run for address bar entries"),
     OSV("NetworkStatusDevice",                  &netDevice,                     "Network device to show status for"),
     OSV("TimeFormat",                           &fmtTime,                       "Clock Time format (strftime format string)"),
-    OSV("TimeFormatAlt",                        &fmtTimeAlt,                    "Alternate Clock Time format (e.g. for blinking effects)"),
+    OSV("TimeFormatAlt",                        &fmtTimeAlt,                    "Alternate Clock Time format (e.g., for blinking effects)"),
     OSV("DateFormat",                           &fmtDate,                       "Clock Date format for tooltip (strftime format string)"),
     OSV("XRRPrimaryScreenName",                 &xineramaPrimaryScreenName,     "screen/output name of the primary screen"),
     OSV("AcpiIgnoreBatteries",                  &acpiIgnoreBatteries,           "List of battery names (directories) in /proc/acpi/battery to ignore. Useful when more slots are built-in, but only one battery is used"),
@@ -540,6 +537,24 @@ cfoption icewm_preferences[] = {
     OK0()
 };
 
+#endif
+
+#if defined(GENPREF) || defined(WMAPP)
+
+static bool alphaBlending;
+static bool synchronizeX11;
+static const char* splashFile(ICESPLASH);
+static const char* tracingModules;
+
+cfoption wmapp_preferences[] = {
+    OBV("Alpha",        &alphaBlending,  "Use a 32-bit visual for alpha blending"),
+    OBV("Synchronize",  &synchronizeX11, "Synchronize X11 for debugging (slow)"),
+    OBV("LogEvents",    &loggingEvents,  "Enable event logging for debugging"),
+    OSV("Splash",       &splashFile,     "Splash image on startup (IceWM.jpg)"),
+    OSV("Trace",        &tracingModules, "Enable tracing for the given modules"),
+    OSV("Theme",        &themeName,      "The name of the theme"),
+    OK0()
+};
 #endif
 
 #include "themable.h"

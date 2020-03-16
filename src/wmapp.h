@@ -106,8 +106,11 @@ public:
     FocusModels getFocusMode() const { return focusMode; }
     YMenu* getWindowMenu();
 
+    void unregisterProtocols();
+
 private:
     char** mainArgv;
+    int mainArgc;
     const char* configFile;
     bool notifyParent;
     pid_t notifiedParent;

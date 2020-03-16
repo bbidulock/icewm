@@ -1,25 +1,28 @@
 #!/usr/bin/perl
 #
-# Create config to enable some popular monitor configurations
+# Print menu lines with commands to enable some popular monitor configurations
 #
-# Copyright (c) 2017 Eduard Bloch
+# Copyright (c) 2017-2020 Eduard Bloch
 # License: Simplified BSD License
 #
-#use Data::Dumper;
 
 use strict;
 
 my $curmon;
+# helper: (h, v, rate)
+my @curres;
 my $primary;
 my @connected;
 my $disabled;
 my @active;
-
-my $readedid;
-my $curedid;
+my $currentEdid;
+my $debug=0;
 
 # monitor name mapping, either from cache or built from EDID info later
 my %realname;
+
+# collect EDID blobs from the xrandr VERBOSE output
+my $shallParseEdid;
 
 # sysfs data lookup disabled for now because of not being reliable.
 # With Nouveau, some -A token is added to sysfs names.
@@ -35,12 +38,13 @@ my %realname;
 #my $useSysfs=0;
 
 my $xrandr = "xrandr";
+my $useMaxMode = $ARGV[0] eq "--max";
 
 sub get_contents {
-        my $filename = shift;
-        open my $fh, '<', $filename or return "";
-        my $data = do { local $/; <$fh> };
-        return $data;
+    my $filename = shift;
+    open my $fh, '<', $filename or return "";
+    my $data = do { local $/; <$fh> };
+    return $data;
 }
 
 # content cache
@@ -50,6 +54,7 @@ mkdir $cacheDir if ! -e $cacheDir;
 $cacheDir.="/icewm";
 mkdir $cacheDir if ! -e $cacheDir;
 my $cachePath = "$cacheDir/xrandrmenu.cache";
+$useMaxMode=1 if -e "$cacheDir/xrandrmenu.max";
 
 # start of the EDID descriptor which contains the display name
 my $header = chr(0).chr(0xfc).chr(0);
@@ -91,98 +96,164 @@ my @edids = sort(<"/sys/devices/*/*/*/drm/card*/card*-*/edid">, <"/sys/devices/*
 ## }
 ## else
 {
-        foreach(@edids)
+    foreach(@edids)
+    {
+        my $more = get_contents($_);
+        next if ! $more;
+        $more =~ s/\W/_/g; # should be sufficient, and faster than hashing
+        $cacheFingerprint.= $_.$more
+    }
+    if($cacheFingerprint)
+    {
+        my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
+            $atime,$mtime,$ctime,$blksize,$blocks) = stat(__FILE__);
+        $cacheFingerprint.="$atime$mtime$ctime$size$dev$ino\n";
+        my $fd;
+        if(open($fd, "<", $cachePath))
         {
-                my $more = get_contents($_);
-                next if ! $more;
-                $more =~ s/\W/_/g; # should be sufficient, and faster than hashing
-                $cacheFingerprint.= $_.$more
-        }
-        if($cacheFingerprint)
-        {
-                my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
-                        $atime,$mtime,$ctime,$blksize,$blocks) = stat(__FILE__);
-                $cacheFingerprint.="$atime$mtime$ctime$size$dev$ino\n";
-                my $fd;
-                if(open($fd, "<", $cachePath))
+            my $hit = 0;
+            my @temp;
+            while(<$fd>)
+            {
+                if (!$hit)
                 {
-                        my $hit = 0;
-                        my @temp;
-                        while(<$fd>)
-                        {
-                                if (!$hit)
-                                {
-                                        $hit = ($_ eq $cacheFingerprint) ;
-                                        last if !$hit;
-                                        next;
-                                }
-                                chomp;
-                                push @temp, $_;
-                        }
-                        %realname = @temp;
+                    $hit = ($_ eq $cacheFingerprint) ;
+                    last if !$hit;
+                    next;
                 }
+                chomp;
+                push @temp, $_;
+            }
+            %realname = @temp;
         }
+    }
 }
 
-my $fishEdid = !%realname;
-$xrandr.=" --verbose" if $fishEdid;
+my $shallParseEdid = !%realname;
+$xrandr.=" --verbose" if $shallParseEdid;
 
 # the disconnected displays might become zombies... make sure to turn them off
 my $turnRestOff ="";
 
+# see code; evaluate by raw estimation what the best mode might be
+my %maxmodes;
+
+sub parse_edid
+{
+    my $blob=shift;
+    if($blob =~ /00fc00(.*?)0a/)
+    {
+        my $name=pack("H*", $1);
+        # XXX: not sure about endian, check EDID spec
+        #print "moo, $currentEdid is $1 for $curmon aka $name\n";
+        $realname{$curmon} = $name.'~'.$curmon;
+    }
+}
+sub add_mode
+{
+    my ($curmon, $x, $y, $nhz) = @_;
+    my $val=$x * $y * $nhz;
+    print "$val = $x x $y @ $nhz @ $curmon, old: @{$maxmodes{$curmon}}[0]\n" if $debug;
+    if(!$maxmodes{$curmon} || $val > @{$maxmodes{$curmon}}[0])
+    {
+        my @entry = ($val, "--mode ${x}x$y -r $nhz");
+        $maxmodes{$curmon} = \@entry;
+    }
+}
+sub format_mode
+{
+    my $iface = shift;
+    return "--auto" if(!$maxmodes{$iface});
+    my @mode = @{$maxmodes{$iface}};
+    print "for iface: $iface, got mode: $mode[1]\n" if $debug;
+    return $mode[1];
+}
+sub format_mode_wpfx
+{
+    my $iface = shift;
+    return " --output $iface ".format_mode($iface);
+}
+
 for(`$xrandr`)
 {
-	my $resFound =/(\d+x\d+\++\d)/;
-        if(/^(\S+)\s+(connected|disconnected)\s+(primary)?/)
+    print "$_\n" if $debug;
+    my $resFound =/(\d+x\d+\++\d)/;
+    if(/^(\S+)\s+(connected|disconnected)\s+(primary)?/)
+    {
+        # parse state helper var
+        $curmon = $1;
+        $primary = $curmon if $3;
+        # print "# heh? $1 - $2 - $3 - $4\n";
+        # disconnected and also no active resolution set!
+        $disabled = ($2 eq "disconnected") && !$resFound;
+        if($disabled)
         {
-                $curmon = $1;
-                $primary = $curmon if $3;
-		# print "# heh? $1 - $2 - $3 - $4\n";
-		# disconnected and also no active resolution set!
-                $disabled = ($2 eq "disconnected") && !$resFound;
-                if($disabled)
-                {
-                        #$turnRestOff.=" --display $curmon --off";
-                }
-                else
-                {
-                        push(@connected, $curmon);
-                }
+            #$turnRestOff.=" --display $curmon --off";
         }
-        # detect active only when there is a flag in the resolution list...
-        push(@active, $curmon) if(/^\s.*\*/ && !$disabled);
-        if($fishEdid)
+        else
         {
-                # another bit of interest is the EDID stuff, while we are at it...
-                if(/EDID:/)
-                {
-                        $readedid = 1;
-                        $curedid = "";
-                }
-                elsif(!/:/)
-                {
-                        if($readedid)
-                        {
-                                /(\w+)/;
-                                $curedid.=$1;
-                        }
-                }
-                else
-                {
-                        if($readedid)
-                        {
-                                $readedid = 0;
-                                if($curedid =~ /00fc00(.*?)0a/)
-                                {
-                                        my $name=pack("H*", $1);
-                                        # XXX: not sure about endian, check EDID spec
-                                        #print "moo, $curedid is $1 for $curmon aka $name\n";
-                                        $realname{$curmon} = $name.'~'.$curmon;
-                                }
-                        }
-                }
+            push(@connected, $curmon);
         }
+    }
+    # detect active only when there is a flag in the resolution list...
+    push(@active, $curmon) if(/^\s.*\*/ && !$disabled);
+
+    if($useMaxMode)
+    {
+        # parse state helper for verbose mode
+        # process sth. like that for --verbose mode:
+        #  320x240 (0x103) 15.750MHz -HSync -VSync DoubleScan
+        #        h: width   320 start  328 end  360 total  420 skew    0 clock  37.50KHz
+        #        v: height  240 start  240 end  242 total  250           clock  75.00Hz
+        #  320x240 (0x104) 12.587MHz -HSync -VSync DoubleScan
+        #        h: width   320 start  328 end  376 total  400 skew    0 clock  31.47KHz
+        #        v: height  240 start  245 end  246 total  262           clock  60.05Hz
+        #
+        # or for regular:
+        #   800x600       85.00    75.00    70.00    65.00    60.00   119.97    85.14    72.19    75.00    60.32    56.25  
+        # 
+        if(/^\s*(\d+)x([0-9i]+)\s+.*\s\d.*MHz.*HSync.*VSync/)
+        {
+            @curres=($1, $2);
+        }
+        if(@curres && /^\s*v:\s+height.*?([\d.]+)Hz\s*$/)
+        {
+            add_mode($curmon, @curres, $1);
+        }
+        # quick xrandr output parsing (running cached)
+        if(/^\s*(\d+)x([0-9i]+)\D+([\d\s.+*]+)$/)
+        {
+            print "jo, $1 - $2 - $3 - $4 - $5\n" if $debug;
+            for(split(/[^0-9.]+/, $3))
+            {
+                add_mode($curmon, $1, $2, $_);
+            }
+        }
+    }
+
+    if($shallParseEdid)
+    {
+        if(defined($currentEdid))
+        {
+            if(/:/) # now analyze and stop merging
+            {
+                parse_edid($currentEdid);
+                undef $currentEdid;
+            }
+            else
+            {
+                /(\w+)/;
+                $currentEdid.=$1;
+            }
+        }
+        elsif(/EDID:/)
+        {
+            $currentEdid="";
+        }
+    }
 }
+
+parse_edid($currentEdid);
 
 # has primary become disconnected? Just removed? Let the first one be primary then
 $primary=$connected[0] if($primary && !grep(/$primary/, @connected));
@@ -195,9 +266,9 @@ my $second;
 # but prefer those which are already active
 foreach(@active, @connected)
 {
-        next if $_ eq $primary;
-        $second = $_;
-        last;
+    next if $_ eq $primary;
+    $second = $_;
+    last;
 }
 
 my @notPrimary = grep {$_ ne $primary} @connected;
@@ -205,44 +276,44 @@ my @notPrimOrSec = grep {$_ ne $primary && $_ ne $second} @connected;
 my $turnNonPrimSecOff = join(" ", map { "--output '$_' --off" } @notPrimOrSec);
 
 sub getName {
-        my $id = shift;
-        return $realname{$id} if exists $realname{$id};
-        
-        # uber-clever xrandr hides the bustype prefix if the name is unambiguous but the kernel doesn't, so try to find the real name there
-        foreach("A", "D", "I")
-        {
-                my $altName = $id;
-                return $realname{$altName} if($altName =~ s/-(\d)/-A-$1/ && exists $realname{$altName});
-        }
-        return $id;
+    my $id = shift;
+    return $realname{$id} if exists $realname{$id};
+
+    # uber-clever xrandr hides the bustype prefix if the name is unambiguous but the kernel doesn't, so try to find the real name there
+    foreach("A", "D", "I")
+    {
+        my $altName = $id;
+        return $realname{$altName} if($altName =~ s/-(\d)/-A-$1/ && exists $realname{$altName});
+    }
+    return $id;
 }
 
 # single head activation
 my $i=1;
 foreach my $mon ($primary, @notPrimary)
 {
-        my $cmd = "prog '". getName($mon)."' setscreen$i sh -c 'xrandr ".
-        join(" ", map { "--output $_ ".($_ eq $mon ? "--auto --primary" : "--off") } @connected)
-        ."$turnRestOff'\n";
-        print $cmd;
+    my $cmd = "prog '". getName($mon)."' setscreen$i sh -c 'xrandr ".
+    join(" ", map { "--output $_ ".($_ eq $mon ? format_mode($mon)." --primary" : "--off") } @connected)
+    ."$turnRestOff'\n";
+    print $cmd;
 
-        $i++;
+    $i++;
 }
 
 exit 0 if 1 == @connected;
 
 # predefined multihead setups
-my $cmd = "prog '".getName($primary)." + ".getName($second)."' setscreen12 sh -c 'xrandr --output $primary --auto --output $second --auto --right-of $primary $turnNonPrimSecOff $turnRestOff'\n";
+my $cmd = "prog '".getName($primary)." + ".getName($second)."' setscreen12 sh -c 'xrandr".format_mode_wpfx($primary).format_mode_wpfx($second)." --right-of $primary $turnNonPrimSecOff $turnRestOff'\n";
 print $cmd;
 
-my $cmd = "prog '".getName($second)." + ".getName($primary)."' setscreen21 sh -c 'xrandr --output $primary --auto --output $second --auto --left-of $primary $turnNonPrimSecOff $turnRestOff'\n";
+my $cmd = "prog '".getName($second)." + ".getName($primary)."' setscreen21 sh -c 'xrandr".format_mode_wpfx($primary).format_mode_wpfx($second)." --left-of $primary $turnNonPrimSecOff $turnRestOff'\n";
 print $cmd;
 
-my $cmd = "prog '".getName($primary)." + ".getName($second)."*' setscreen12x sh -c 'xrandr --output $primary --auto --output $second --primary --auto --right-of $primary $turnNonPrimSecOff $turnRestOff'\n";
+my $cmd = "prog '".getName($primary)." + ".getName($second)."*' setscreen12x sh -c 'xrandr".format_mode_wpfx($primary).format_mode_wpfx($second)." --primary --auto --right-of $primary $turnNonPrimSecOff $turnRestOff'\n";
 print $cmd;
 
 my $cmd = "prog '".join(" / ", map { getName($_) } @connected)."' setscreen_all sh -c 'xrandr "
-.join(" ", map { "--output $_ --auto ".( $_ eq $primary ? "" : "--same-as $primary")} @connected)
+.join(" ", map { format_mode_wpfx($_)." ".( $_ eq $primary ? "" : "--same-as $primary")} @connected)
 ."$turnRestOff'\n";
 print $cmd;
 
@@ -251,18 +322,23 @@ my $cmd = "# all monitors connected from left to right\nprog '"
 .join(" + ", map { getName($_) } @connected)."' setscreen_chain sh -c 'xrandr";
 for(@connected)
 {
-        $cmd.=" --output $_ --auto";
-        $cmd.=" --right-of $prev" if $prev;
-        $prev=$_;
+    $cmd.=format_mode_wpfx($_);
+    $cmd.=" --right-of $prev" if $prev;
+    $prev=$_;
 }
 $cmd.="$turnRestOff'\n";
 print $cmd;
 
-#print Dumper(%realname);
+if($debug)
+{
+    eval "use Data::Dumper";
+    print Dumper(%realname, %maxmodes);
+}
 my $fd;
 if(open($fd, ">", $cachePath))
 {
-        print $fd $cacheFingerprint;
-        print $fd "$_\n$realname{$_}\n" foreach(keys %realname);
-        close $fd;
+    print $fd $cacheFingerprint;
+    print $fd "$_\n$realname{$_}\n" foreach(keys %realname);
+    close $fd;
 }
+# vim: set sw=4 tw=72 nocin spell spelllang=en_ca:

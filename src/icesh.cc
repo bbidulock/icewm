@@ -20,6 +20,7 @@
 #include <setjmp.h>
 #include <string.h>
 #include <time.h>
+#include <math.h>
 #include <unistd.h>
 
 #include <X11/Xlib.h>
@@ -44,7 +45,7 @@
 #include "MwmUtil.h"
 #include "wmaction.h"
 #include "ypointer.h"
-#include "ytimer.h"
+#include "ytime.h"
 #include "yrect.h"
 #define GUI_EVENT_NAMES
 #include "guievent.h"
@@ -66,7 +67,7 @@ static const char* get_help_text() {
 }
 
 static bool tolong(const char* str, long& num, int base = 10) {
-    char* end = 0;
+    char* end = nullptr;
     if (str) {
         num = strtol(str, &end, base);
     }
@@ -76,13 +77,20 @@ static bool tolong(const char* str, long& num, int base = 10) {
 /******************************************************************************/
 
 class NAtom {
-    const char* name;
-    Atom atom;
+    const char* fName;
+    Atom fAtom;
+    bool fExists;
 public:
-    explicit NAtom(const char* aName) : name(aName), atom(None) { }
-    operator Atom() { return atom ? atom : get(); }
-private:
-    Atom get() { atom = XInternAtom(display, name, False); return atom; }
+    explicit NAtom(const char* name, bool exists = False) :
+        fName(name), fAtom(None), fExists(exists)
+    { }
+    const char* name() const { return fName; }
+    operator Atom() {
+        if (fAtom == None && fName) {
+            fAtom = XInternAtom(display, fName, fExists);
+        }
+        return fAtom;
+    }
 };
 
 static NAtom ATOM_WM_STATE("WM_STATE");
@@ -117,6 +125,56 @@ static NAtom ATOM_NET_SYSTEM_TRAY_WINDOWS("_KDE_NET_SYSTEM_TRAY_WINDOWS");
 static NAtom ATOM_UTF8_STRING("UTF8_STRING");
 static NAtom ATOM_XEMBED_INFO("_XEMBED_INFO");
 static NAtom ATOM_NET_WORKAREA("_NET_WORKAREA");
+static NAtom ATOM_NET_WM_STATE("_NET_WM_STATE");
+static NAtom ATOM_NET_WM_STATE_ABOVE("_NET_WM_STATE_ABOVE");
+static NAtom ATOM_NET_WM_STATE_BELOW("_NET_WM_STATE_BELOW");
+static NAtom ATOM_NET_WM_STATE_DEMANDS_ATTENTION("_NET_WM_STATE_DEMANDS_ATTENTION");
+static NAtom ATOM_NET_WM_STATE_FOCUSED("_NET_WM_STATE_FOCUSED");
+static NAtom ATOM_NET_WM_STATE_FULLSCREEN("_NET_WM_STATE_FULLSCREEN");
+static NAtom ATOM_NET_WM_STATE_HIDDEN("_NET_WM_STATE_HIDDEN");
+static NAtom ATOM_NET_WM_STATE_MAXIMIZED_HORZ("_NET_WM_STATE_MAXIMIZED_HORZ");
+static NAtom ATOM_NET_WM_STATE_MAXIMIZED_VERT("_NET_WM_STATE_MAXIMIZED_VERT");
+static NAtom ATOM_NET_WM_STATE_MODAL("_NET_WM_STATE_MODAL");
+static NAtom ATOM_NET_WM_STATE_SHADED("_NET_WM_STATE_SHADED");
+static NAtom ATOM_NET_WM_STATE_SKIP_PAGER("_NET_WM_STATE_SKIP_PAGER");
+static NAtom ATOM_NET_WM_STATE_SKIP_TASKBAR("_NET_WM_STATE_SKIP_TASKBAR");
+static NAtom ATOM_NET_WM_STATE_STICKY("_NET_WM_STATE_STICKY");
+
+enum NetStateBits {
+    NetAbove       = 1,
+    NetBelow       = 2,
+    NetDemands     = 4,
+    NetFocused     = 8,
+    NetFullscreen  = 16,
+    NetHidden      = 32,
+    NetHorizontal  = 64,
+    NetVertical    = 128,
+    NetModal       = 256,
+    NetShaded      = 512,
+    NetSkipPager   = 1024,
+    NetSkipTaskbar = 2048,
+    NetSticky      = 4096,
+};
+
+static const struct NetStateAtoms {
+    NetStateBits flag;
+    NAtom& atom;
+} netStateAtoms[] = {
+    { NetAbove,       ATOM_NET_WM_STATE_ABOVE },
+    { NetBelow,       ATOM_NET_WM_STATE_BELOW },
+    { NetDemands,     ATOM_NET_WM_STATE_DEMANDS_ATTENTION },
+    { NetFocused,     ATOM_NET_WM_STATE_FOCUSED },
+    { NetFullscreen,  ATOM_NET_WM_STATE_FULLSCREEN },
+    { NetHidden,      ATOM_NET_WM_STATE_HIDDEN },
+    { NetHorizontal,  ATOM_NET_WM_STATE_MAXIMIZED_HORZ },
+    { NetVertical,    ATOM_NET_WM_STATE_MAXIMIZED_VERT },
+    { NetModal,       ATOM_NET_WM_STATE_MODAL },
+    { NetShaded,      ATOM_NET_WM_STATE_SHADED },
+    { NetSkipPager,   ATOM_NET_WM_STATE_SKIP_PAGER },
+    { NetSkipTaskbar, ATOM_NET_WM_STATE_SKIP_TASKBAR },
+    { NetSticky,      ATOM_NET_WM_STATE_STICKY },
+};
+const int netStateAtomCount = int ACOUNT(netStateAtoms);
 
 static inline char* atomName(Atom atom) {
     return XGetAtomName(display, atom);
@@ -126,7 +184,43 @@ static inline void newline() {
     putchar('\n');
 }
 
+static Time serverTime()
+{
+    Window window = XCreateSimpleWindow(display, root, -1, -1, 1, 1, 0, 0, 0);
+    XSelectInput(display, window, PropertyChangeMask);
+    XID pid = getpid();
+    XChangeProperty(display, window, ATOM_NET_WM_PID, XA_CARDINAL,
+                    32, PropModeReplace, (unsigned char *)&pid, 1);
+    XEvent event;
+    XWindowEvent(display, window, PropertyChangeMask, &event);
+    Time now = event.xproperty.time;
+    XDestroyWindow(display, window);
+    return now;
+}
+
+static void send(NAtom& typ, Window win, long l0, long l1,
+                 long l2 = 0L, long l3 = 0L, long l4 = 0L)
+{
+    XClientMessageEvent xev;
+    memset(&xev, 0, sizeof(xev));
+
+    xev.type = ClientMessage;
+    xev.window = win;
+    xev.message_type = typ;
+    xev.format = 32;
+    xev.data.l[0] = l0;
+    xev.data.l[1] = l1;
+    xev.data.l[2] = l2;
+    xev.data.l[3] = l3;
+    xev.data.l[4] = l4;
+
+    XSendEvent(display, root, False, SubstructureNotifyMask,
+               reinterpret_cast<XEvent *>(&xev));
+}
+
 /******************************************************************************/
+
+static bool getGeometry(Window window, int& x, int& y, int& width, int& height);
 
 static int displayWidth() {
     return DisplayWidth(display, DefaultScreen(display));
@@ -284,6 +378,7 @@ public:
             XFree(fData);
             fData = nullptr;
             fCount = 0;
+            fFormat = 0;
         }
     }
 
@@ -413,6 +508,85 @@ public:
     }
     long state() const { return 0 < count() ? (*this)[0] : 0L; }
     long mask() const { return 2 == count() ? (*this)[1] : WIN_STATE_ALL; }
+};
+
+class YNetState : public YProperty {
+    long fState;
+public:
+    YNetState(Window window) :
+        YProperty(window, ATOM_NET_WM_STATE, XA_ATOM, 32),
+        fState(0)
+    {
+        for (int i = 0; i < count(); ++i) {
+            Atom atom = data<long>(i);
+            for (int k = 0; k < netStateAtomCount; ++k) {
+                if (atom == netStateAtoms[k].atom) {
+                    fState |= netStateAtoms[k].flag;
+                }
+            }
+        }
+    }
+    long state() const { return fState; }
+    long operator*() const { return state(); }
+    operator bool() const { return !status() && format() == 32; }
+
+    enum {
+        NetStateRemove, NetStateAdd, NetStateToggle
+    };
+
+    void operator +=(long state) {
+        const int size = 16;
+        Atom atoms[size];
+        int n = 0;
+        for (int i = 0; i < netStateAtomCount; ++i) {
+            bool want = hasbit(state, netStateAtoms[i].flag);
+            bool have = hasbit(fState, netStateAtoms[i].flag);
+            if (have < want && n < size) {
+                atoms[n++] = netStateAtoms[i].atom;
+            }
+        }
+        for (int i = 0; i < n; i += 2) {
+            send(ATOM_NET_WM_STATE, window(), NetStateAdd,
+                 atoms[i], (i + 1 < n) ? atoms[i + 1] : None,
+                 SourceIndication, None);
+        }
+    }
+
+    void operator -=(long state) {
+        const int size = 16;
+        Atom atoms[size];
+        int n = 0;
+        for (int i = 0; i < netStateAtomCount; ++i) {
+            bool want = hasbit(state, netStateAtoms[i].flag);
+            bool have = hasbit(fState, netStateAtoms[i].flag);
+            if (want && have && n < size) {
+                atoms[n++] = netStateAtoms[i].atom;
+            }
+        }
+        for (int i = 0; i < n; i += 2) {
+            send(ATOM_NET_WM_STATE, window(), NetStateRemove,
+                 atoms[i], (i + 1 < n) ? atoms[i + 1] : None,
+                 SourceIndication, None);
+        }
+    }
+
+    void operator =(long state) {
+        const int size = 16;
+        Atom atoms[size];
+        int n = 0;
+        for (int i = 0; i < netStateAtomCount; ++i) {
+            bool want = hasbit(state, netStateAtoms[i].flag);
+            bool have = hasbit(fState, netStateAtoms[i].flag);
+            if (want != have && n < size) {
+                atoms[n++] = netStateAtoms[i].atom;
+            }
+        }
+        for (int i = 0; i < n; i += 2) {
+            send(ATOM_NET_WM_STATE, window(), NetStateToggle,
+                 atoms[i], (i + 1 < n) ? atoms[i + 1] : None,
+                 SourceIndication, None);
+        }
+    }
 };
 
 class YMotifHints : public YProperty {
@@ -552,26 +726,6 @@ private:
     int fCount, fStatus;
 };
 
-static void send(NAtom& typ, Window win, long l0, long l1,
-                 long l2 = 0L, long l3 = 0L, long l4 = 0L)
-{
-    XClientMessageEvent xev;
-    memset(&xev, 0, sizeof(xev));
-
-    xev.type = ClientMessage;
-    xev.window = win;
-    xev.message_type = typ;
-    xev.format = 32;
-    xev.data.l[0] = l0;
-    xev.data.l[1] = l1;
-    xev.data.l[2] = l2;
-    xev.data.l[3] = l3;
-    xev.data.l[4] = l4;
-
-    XSendEvent(display, root, False, SubstructureNotifyMask,
-               reinterpret_cast<XEvent *>(&xev));
-}
-
 static void moveResize(Window window, long gravity,
         long x, long y, long width, long height, long flags)
 {
@@ -672,6 +826,7 @@ public:
     YTreeIter(const YWindowTree& tree) : fTree(tree), fIndex(0) { }
 
     operator Window() const;
+    Window operator*() const { return Window(*this); }
     void operator++() { ++fIndex; }
     YTreeLeaf* operator->();
 
@@ -718,7 +873,7 @@ public:
         }
     }
 
-    void getWindowList(NAtom property) {
+    void getWindowList(NAtom& property) {
         release();
         YClient clients(root, property, 100000);
         if (clients) {
@@ -770,6 +925,24 @@ public:
         fCount = keep;
     }
 
+    void filterByScreen() {
+        if (fConfine.confining() == false) {
+            return;
+        }
+        unsigned keep = 0;
+        for (YTreeIter client(*this); client; ++client) {
+            int x, y, w, h;
+            if (getGeometry(client, x, y, w, h)) {
+                YRect r(x, y, w, h);
+                YRect s(fConfine[fConfine.screen()]);
+                if (s.overlap(r)) {
+                    fChildren[keep++] = client;
+                }
+            }
+        }
+        fCount = keep;
+    }
+
     void filterByLayer(long layer, bool inverse) {
         unsigned keep = 0;
         for (YTreeIter client(*this); client; ++client) {
@@ -781,11 +954,50 @@ public:
         fCount = keep;
     }
 
-    void filterByProperty(long property, bool inverse) {
+    void filterByProperty(char* propertyString, bool inverse) {
+        char* valueString = strchr(propertyString, '=');
+        if (valueString) {
+            *valueString++ = '\0';
+        }
+        NAtom propertyAtom(propertyString, True);
+        if (propertyAtom == None) {
+            release();
+            return;
+        }
+        NAtom propertyValue(valueString, True);
+
         unsigned keep = 0;
         for (YTreeIter client(*this); client; ++client) {
-            YProperty prop(client, property, AnyPropertyType, 100);
-            if (prop != inverse) {
+            bool match = false;
+            YProperty prop(client, propertyAtom, AnyPropertyType, 123);
+            if (prop && valueString == nullptr) {
+                match = true;
+            }
+            else if (prop.format() == 8 && valueString) {
+                if (prop.count() == long(strlen(valueString)) &&
+                    0 == strcmp(prop.data<char>(), valueString))
+                {
+                    match = true;
+                }
+            }
+            else if (prop.format() == 32 && valueString) {
+                if (prop.type() == XA_WINDOW ||
+                    prop.type() == XA_CARDINAL)
+                {
+                    long value = None;
+                    if (tolong(valueString, value, 0)) {
+                        if (value == *prop) {
+                            match = true;
+                        }
+                    }
+                }
+                else if (prop.type() == XA_ATOM) {
+                    if (propertyValue && propertyValue == Atom(*prop)) {
+                        match = true;
+                    }
+                }
+            }
+            if (match != inverse) {
                 fChildren[keep++] = client;
             }
         }
@@ -808,6 +1020,18 @@ public:
             YWinState prop(client);
             bool test(anybit ? hasbit(*prop, state) : hasbits(*prop, state));
             if (prop && (test != inverse)) {
+                fChildren[keep++] = client;
+            }
+        }
+        fCount = keep;
+    }
+
+    void filterByNetState(long state, bool inverse, bool anybit) {
+        unsigned keep = 0;
+        for (YTreeIter client(*this); client; ++client) {
+            YNetState prop(client);
+            bool test(anybit ? hasbit(*prop, state) : hasbits(*prop, state));
+            if (test != inverse) {
                 fChildren[keep++] = client;
             }
         }
@@ -1042,6 +1266,8 @@ private:
     bool setWorkspaceName();
     bool setWorkspaceNames();
     bool colormaps();
+    void click();
+    bool delay();
     bool desktops();
     bool desktop();
     bool wmcheck();
@@ -1149,6 +1375,27 @@ static const Symbol motifDecorations[] = {
     { nullptr,            0                   }
 };
 
+static const Symbol netStateIdentifiers[] = {
+    { "ABOVE",             NetAbove },
+    { "BELOW",             NetBelow },
+    { "DEMANDS_ATTENTION", NetDemands },
+    { "FOCUSED",           NetFocused },
+    { "FULLSCREEN",        NetFullscreen },
+    { "HIDDEN",            NetHidden },
+    { "MAXIMIZED_HORZ",    NetHorizontal },
+    { "MAXIMIZED_VERT",    NetVertical },
+    { "MODAL",             NetModal },
+    { "SHADED",            NetShaded },
+    { "SKIP_PAGER",        NetSkipPager },
+    { "SKIP_TASKBAR",      NetSkipTaskbar },
+    { "STICKY",            NetSticky },
+    { nullptr,             None }
+};
+
+static const SymbolTable netstates = {
+    netStateIdentifiers, 0, 8191, -1
+};
+
 static const SymbolTable layers = {
     layerIdentifiers, 0, WinLayerCount - 1, WinLayerInvalid
 };
@@ -1242,7 +1489,7 @@ long SymbolTable::parseExpression(char const * expression) const {
 }
 
 void SymbolTable::listSymbols(char const * label) const {
-    const long limit = 1023L;
+    const long limit = fMax == 8191 ? fMax : 1023L;
     printf(_("Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"),
            label, fMin, min(fMax, limit));
 
@@ -1380,16 +1627,33 @@ bool WorkspaceInfo::parseWorkspace(char const* name, long* workspace) {
     if (0 == strcmp(name, "this"))
         return *workspace = currentWorkspace(), true;
 
-    if (tolong(name, *workspace) == false) {
-        msg(_("Invalid workspace name: `%s'"), name);
-        return false;
-    }
-    else if (valid(*workspace) == false) {
-        msg(_("Workspace out of range: %ld"), *workspace);
-        return false;
+    if (tolong(name, *workspace)) {
+        if (valid(*workspace)) {
+            return true;
+        } else {
+            msg(_("Workspace out of range: %ld"), *workspace);
+            return false;
+        }
     }
 
-    return true;
+    if (fNames) {
+        for (int i = 0; i < fNames.count(); ++i) {
+            const char* str = strstr(fNames[i], name);
+            if (str) {
+                const char* end = str + strlen(name);
+                while (*end && isSpaceOrTab(*end))
+                    ++end;
+                while (str > fNames[i] && isSpaceOrTab(str[-1]))
+                    --str;
+                if (str == fNames[i] && end[0] == '\0') {
+                    return *workspace = i, true;
+                }
+            }
+        }
+    }
+
+    msg(_("Invalid workspace name: `%s'"), name);
+    return false;
 }
 
 static Window getParent(Window window) {
@@ -1660,6 +1924,7 @@ bool IceSh::listSymbols()
     gravities.listSymbols(_("Gravity symbols"));
     motifFunctionsTable.listSymbols(_("Motif functions"));
     motifDecorationsTable.listSymbols(_("Motif decorations"));
+    netstates.listSymbols(_("EWMH window state"));
 
     return true;
 }
@@ -1963,6 +2228,81 @@ bool IceSh::colormaps()
     return true;
 }
 
+void IceSh::click()
+{
+    const char* xs = getArg();
+    const char* ys = getArg();
+    const char* bs = getArg();
+    long lx, ly, lb;
+    if (tolong(xs, lx) &&
+        tolong(ys, ly) &&
+        tolong(bs, lb) &&
+        inrange<long>(lb, Button1, Button5))
+    {
+        FOREACH_WINDOW(window) {
+            int gx, gy, gw, gh;
+            if (getGeometry(window, gx, gy, gw, gh)) {
+                if (lx < 0)
+                    lx += gw;
+                if (ly < 0)
+                    ly += gh;
+            } else {
+                continue;
+            }
+            int dx = 0, dy = 0;
+            Window child = None;
+            if (XTranslateCoordinates(display, window, window,
+                        int(lx), int(ly), &dx, &dy, &child))
+            {
+                XWarpPointer(display, None, window,
+                             0, 0, 0, 0, int(lx), int(ly));
+
+                XButtonEvent be = {
+                    ButtonPress, None, True, display,
+                    child ? child : window,
+                    root, child, serverTime(),
+                    dx, dy, int(gx + lx), int(gy + ly),
+                    None, unsigned(lb), True
+                };
+
+                XEvent ev;
+                ev.xbutton = be;
+                XSendEvent(display, child, True, None, &ev);
+
+                be.type = ButtonRelease;
+                be.state = Button1Mask << (lb - Button1);
+                be.time = serverTime();
+                ev.xbutton = be;
+                XSendEvent(display, child, True, None, &ev);
+            }
+        }
+    }
+}
+
+bool IceSh::delay()
+{
+    if ( !isAction("delay", 0))
+        return false;
+
+    double delay = 0.1;
+    if (haveArg()) {
+        char* arg = *argp;
+        char* end = nullptr;
+        double val = strtod(arg, &end);
+        if (end && arg < end && *end == '\0') {
+            delay = val;
+            getArg();
+        }
+    }
+    if (delay > 0) {
+        const long sec = long(trunc(delay));
+        const long nano = long((delay - double(sec)) * 1e9);
+        const struct timespec req = { sec, nano };
+        nanosleep(&req, nullptr);
+    }
+    return true;
+}
+
 bool IceSh::guiEvents()
 {
     if ( !isAction("guievents", 0))
@@ -2036,6 +2376,7 @@ bool IceSh::icewmAction()
         || listXembed()
         || listShown()
         || colormaps()
+        || delay()
         || desktops()
         || desktop()
         || wmcheck()
@@ -2628,7 +2969,7 @@ void IceSh::confine(const char* val) {
                 c.confineTo(screen);
             }
             else {
-                msg("Cannot get geometry of window 0x%lx", active);
+                msg(_("Cannot get geometry of window 0x%lx"), active);
                 THROW(1);
             }
         }
@@ -2653,7 +2994,7 @@ void IceSh::confine(const char* val) {
         windowList.xine().confineTo(screen);
     }
     else {
-        msg("Invalid Xinerama: `%s'.", val);
+        msg(_("Invalid Xinerama: `%s'."), val);
         THROW(1);
     }
 }
@@ -2834,7 +3175,7 @@ void IceSh::flag(char* arg)
         return;
     }
     if (isOptArg(arg, "-last", "")) {
-        if ( ! windowList)
+        if ( ! windowList && ! selecting)
             windowList.getClientList();
         windowList.filterLast();
         MSG(("last window selected"));
@@ -2865,7 +3206,7 @@ void IceSh::flag(char* arg)
             filtering = true;
         }
         else {
-            msg("Invalid PID: `%s'", val);
+            msg(_("Invalid PID: `%s'"), val);
             THROW(1);
         }
     }
@@ -2901,7 +3242,7 @@ void IceSh::flag(char* arg)
         bool inverse(*val == '!');
         long layer = layers.parseIdentifier(val + inverse);
         if (layer == WinLayerInvalid) {
-            msg("Invalid layer: `%s'.", val);
+            msg(_("Invalid layer: `%s'."), val);
             THROW(1);
         }
         if ( ! windowList)
@@ -2912,7 +3253,7 @@ void IceSh::flag(char* arg)
     }
     else if (isOptArg(arg, "-Property", val)) {
         bool inverse(*val == '!');
-        long prop = NAtom(val + inverse);
+        char* prop = val + inverse;
         if ( ! windowList)
             windowList.getClientList();
         windowList.filterByProperty(prop, inverse);
@@ -2931,13 +3272,27 @@ void IceSh::flag(char* arg)
         bool question(val[inverse] == '?');
         long state(states.parseExpression(val + inverse + question));
         if (state == -1L) {
-            msg("Invalid state: `%s'.", val + inverse + question);
+            msg(_("Invalid state: `%s'."), val + inverse + question);
             THROW(1);
         }
         if ( ! windowList)
             windowList.getClientList();
         windowList.filterByState(state, inverse, question);
         MSG(("state windows selected"));
+        filtering = true;
+    }
+    else if (isOptArg(arg, "-Netstate", val)) {
+        bool inverse(*val == '!');
+        bool question(val[inverse] == '?');
+        long flags(netstates.parseExpression(val + inverse + question));
+        if (flags == -1L) {
+            msg(_("Invalid state: `%s'."), val + inverse + question);
+            THROW(1);
+        }
+        if ( ! windowList)
+            windowList.getClientList();
+        windowList.filterByNetState(flags, inverse, question);
+        MSG(("netstate windows selected"));
         filtering = true;
     }
     else if (isOptArg(arg, "-Gravity", val)) {
@@ -2951,7 +3306,10 @@ void IceSh::flag(char* arg)
         filtering = true;
     }
     else if (isOptArg(arg, "-Xinerama", val)) {
+        if ( ! windowList)
+            windowList.getClientList();
         confine(val);
+        windowList.filterByScreen();
         MSG(("xinerama %s selected", val));
         filtering = true;
     }
@@ -3163,6 +3521,7 @@ void IceSh::spy()
                     break;
                 case ReparentNotify:
                 case GravityNotify:
+                case ClientMessage:
                     break;
                 default:
                     printf("%sUnknown event type %d\n", head, event.type);
@@ -3347,6 +3706,40 @@ void IceSh::parseAction()
                         c.y = ay + ah - h - exts[2] - exts[3];
                         XConfigureWindow(display, window, CWY, &c);
                     }
+                }
+            }
+        }
+        else if (isAction("netState", 0)) {
+            if (haveArg() && strchr("+-=", **argp)) {
+                char* arg = getArg();
+                long state(netstates.parseExpression(arg + 1));
+                if (state == -1) {
+                    msg(_("Invalid state: `%s'."), arg);
+                }
+                else {
+                    FOREACH_WINDOW(window) {
+                        YNetState prop(window);
+                        if (*arg == '+')
+                            prop += state;
+                        else if (*arg == '-')
+                            prop -= state;
+                        else if (*arg == '=')
+                            prop = state;
+                    }
+                }
+            }
+            else {
+                FOREACH_WINDOW(window) {
+                    printf("0x%07lx = ", *window);
+                    long state = YNetState(window).state();
+                    int n = 0;
+                    for (int k = 0; k < netStateAtomCount; ++k) {
+                        if (hasbit(state, netStateAtoms[k].flag)) {
+                            printf("%s%s", n++ ? ", " : "", 14 +
+                                    netStateAtoms[k].atom.name());
+                        }
+                    }
+                    newline();
                 }
             }
         }
@@ -3625,12 +4018,17 @@ void IceSh::parseAction()
             argp = args + count;
         }
         else if (isAction("prop", 1)) {
-            NAtom prop(getArg());
-            FOREACH_WINDOW(window) {
-                char buf[32];
-                snprintf(buf, sizeof buf, "0x%07lx ", Window(window));
-                showProperty(window, prop, buf);
+            NAtom prop(getArg(), True);
+            if (prop) {
+                FOREACH_WINDOW(window) {
+                    char buf[32];
+                    snprintf(buf, sizeof buf, "0x%07lx ", Window(window));
+                    showProperty(window, prop, buf);
+                }
             }
+        }
+        else if (isAction("click", 3)) {
+            click();
         }
         else {
             msg(_("Unknown action: `%s'"), *argp);

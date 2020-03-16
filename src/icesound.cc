@@ -51,7 +51,7 @@
 #include <signal.h>
 #include <X11/Xlib.h>
 
-#include "ytimer.h"
+#include "ytime.h"
 #include "base.h"
 #include "ypointer.h"
 #include "upath.h"

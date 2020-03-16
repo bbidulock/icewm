@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.1\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2019-12-02 23:39+0100\n"
+"POT-Creation-Date: 2020-02-27 23:18+0100\n"
 "PO-Revision-Date: 2018-05-09 06:03+0000\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <https://l10n.opensuse.org/projects/icewm/"
@@ -325,7 +325,7 @@ msgstr ""
 msgid "NET"
 msgstr ""
 
-#: src/aworkspaces.cc:586 src/wmstatus.cc:200
+#: src/aworkspaces.cc:589 src/wmstatus.cc:202
 msgid "Workspace: "
 msgstr "Darbalaukis: "
 
@@ -361,11 +361,11 @@ msgstr "Turinys"
 msgid "Index"
 msgstr "Rodyklė"
 
-#: src/icehelp.cc:1226 src/icesame.cc:62 src/iceview.cc:74 src/wmtitle.cc:101
+#: src/icehelp.cc:1226 src/icesame.cc:62 src/iceview.cc:68 src/wmtitle.cc:101
 msgid "Close"
 msgstr "Užverti"
 
-#: src/icehelp.cc:1226 src/icesame.cc:62 src/iceview.cc:74
+#: src/icehelp.cc:1226 src/icesame.cc:62 src/iceview.cc:68
 msgid "Ctrl+Q"
 msgstr "Vald+Q"
 
@@ -490,15 +490,15 @@ msgstr ""
 msgid "Ignoring option '%s'"
 msgstr "Nežinomas veiksmas: „%s“"
 
-#: src/icelist.cc:80
+#: src/icelist.cc:60
 msgid "List View"
 msgstr "Žiūrėti sąrašą"
 
-#: src/icelist.cc:81
+#: src/icelist.cc:61
 msgid "Icon View"
 msgstr "Žiūrėti ženkliukus"
 
-#: src/icelist.cc:85
+#: src/icelist.cc:65
 msgid "Open"
 msgstr "Atverti"
 
@@ -530,95 +530,128 @@ msgstr "Vald+R"
 msgid "Same Game"
 msgstr "Tas pats žaidimas"
 
-#: src/icesh.cc:63
+#: src/icesh.cc:66
 msgid "For help please consult the man page icesh(1).\n"
 msgstr ""
 
-#: src/icesh.cc:1196
+#: src/icesh.cc:1331
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Srities „%s“ įvardinti simboliai (skaitinė riba: %ld-%ld):\n"
 
-#: src/icesh.cc:1334
-#, c-format
-msgid "Invalid workspace name: `%s'"
-msgstr "Neteisingas darbalaukio pavadinimas: „%s“"
-
-#: src/icesh.cc:1338
+#: src/icesh.cc:1472
 #, fuzzy, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Peržengta darbalaukių skaičiaus riba: %d"
 
-#: src/icesh.cc:1549
+#: src/icesh.cc:1493
+#, c-format
+msgid "Invalid workspace name: `%s'"
+msgstr "Neteisingas darbalaukio pavadinimas: „%s“"
+
+#: src/icesh.cc:1758
 msgid "GNOME window state"
 msgstr "GNOME lango būsena"
 
-#: src/icesh.cc:1550
+#: src/icesh.cc:1759
 msgid "GNOME window hint"
 msgstr "GNOME lango patarimas"
 
-#: src/icesh.cc:1551
+#: src/icesh.cc:1760
 msgid "GNOME window layer"
 msgstr "GNOME lango lygmuo"
 
-#: src/icesh.cc:1552
+#: src/icesh.cc:1761
 msgid "IceWM tray option"
 msgstr "IceWM durelių parinktis"
 
-#: src/icesh.cc:1553
+#: src/icesh.cc:1762
 msgid "Gravity symbols"
 msgstr ""
 
-#: src/icesh.cc:1554
+#: src/icesh.cc:1763
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Motif functions"
 msgstr "Mėgstamiausios programos"
 
-#: src/icesh.cc:1555
+#: src/icesh.cc:1764
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Motif decorations"
 msgstr "Mėgstamiausios programos"
 
-#: src/icesh.cc:1634
+#: src/icesh.cc:1843
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "#%d darbalaukis: „%s“\n"
 
-#: src/icesh.cc:2528
+#: src/icesh.cc:2809
+#, c-format
+msgid "Cannot get geometry of window 0x%lx"
+msgstr ""
+
+#: src/icesh.cc:2834
+#, fuzzy, c-format
+#| msgid "Invalid argument: `%s'."
+msgid "Invalid Xinerama: `%s'."
+msgstr "Netinkamas argumentas: „%s“."
+
+#: src/icesh.cc:2882
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "„%s“ vykdymui reikia bent %d argumentų."
 
-#: src/icesh.cc:2538
+#: src/icesh.cc:2892
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Netinkama išraiška: „%s'“"
 
-#: src/icesh.cc:2549 src/icesound.cc:795 src/icewmhint.cc:36 src/wmapp.cc:1116
-#: src/yxapp.cc:1046
+#: src/icesh.cc:2903 src/icesound.cc:795 src/icewmhint.cc:36 src/wmapp.cc:1190
+#: src/yxapp.cc:1060
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "Negaliu atverti ekrano: %s. X turi veikti, o $DISPLAY turi būti nustatytas."
 
-#: src/icesh.cc:2562
+#: src/icesh.cc:2916
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid argument: `%s'"
 msgstr "Netinkamas argumentas: „%s“."
 
-#: src/icesh.cc:2602
+#: src/icesh.cc:2953
+msgid "No windows found."
+msgstr ""
+
+#: src/icesh.cc:2968
 msgid "No actions specified."
 msgstr "Nenurodytas joks veiksmas."
 
-#: src/icesh.cc:2761
+#: src/icesh.cc:3046
+#, fuzzy, c-format
+#| msgid "Invalid argument: `%s'."
+msgid "Invalid PID: `%s'"
+msgstr "Netinkamas argumentas: „%s“."
+
+#: src/icesh.cc:3082
+#, fuzzy, c-format
+#| msgid "Invalid argument: `%s'."
+msgid "Invalid layer: `%s'."
+msgstr "Netinkamas argumentas: „%s“."
+
+#: src/icesh.cc:3112
+#, fuzzy, c-format
+#| msgid "Invalid argument: `%s'."
+msgid "Invalid state: `%s'."
+msgstr "Netinkamas argumentas: „%s“."
+
+#: src/icesh.cc:3167
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Netinkamas lango identifikatorius: „%s“"
 
-#: src/icesh.cc:3255
+#: src/icesh.cc:3823
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Nežinomas veiksmas: „%s“"
@@ -895,27 +928,27 @@ msgid ""
 "  -t, --theme=FILE    Load the theme from FILE.\n"
 msgstr ""
 
-#: src/iceview.cc:70
+#: src/iceview.cc:64
 msgid "Hex View"
 msgstr "Žiūrėti kaip šešioliktainį"
 
-#: src/iceview.cc:70
+#: src/iceview.cc:64
 msgid "Ctrl+H"
 msgstr "Vald+H"
 
-#: src/iceview.cc:71
+#: src/iceview.cc:65
 msgid "Expand Tabs"
 msgstr "Išplėsti tabuliaciją"
 
-#: src/iceview.cc:71
+#: src/iceview.cc:65
 msgid "Ctrl+T"
 msgstr "Vald+T"
 
-#: src/iceview.cc:72
+#: src/iceview.cc:66
 msgid "Wrap Lines"
 msgstr "Laužyti eilutes"
 
-#: src/iceview.cc:72
+#: src/iceview.cc:66
 msgid "Ctrl+W"
 msgstr "Vald+W"
 
@@ -989,11 +1022,11 @@ msgstr "Naudojimas: icewmhint [klasė.atvejis] parinktis argumentas\n"
 msgid "Out of memory (len=%d)."
 msgstr "Nepakanka atminties (dydis=%d)."
 
-#: src/misc.cc:571 src/misc.cc:583
+#: src/misc.cc:572 src/misc.cc:584
 msgid "Warning: "
 msgstr "Dėmesio: "
 
-#: src/misc.cc:859
+#: src/misc.cc:860
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1038,182 +1071,182 @@ msgstr "Kalba:"
 msgid "icewm - About"
 msgstr "IceWM - Apie"
 
-#: src/wmapp.cc:79
+#: src/wmapp.cc:80
 #, fuzzy
 msgid "A window manager is already running, use --replace to replace it"
 msgstr "Kita langų tvarkyklė jau veikia, išsijungiu..."
 
-#: src/wmapp.cc:97
+#: src/wmapp.cc:98
 #, c-format
 msgid "Failed to become the owner of the %s selection"
 msgstr ""
 
-#: src/wmapp.cc:101
+#: src/wmapp.cc:102
 msgid "Waiting to replace the old window manager"
 msgstr ""
 
-#: src/wmapp.cc:106
+#: src/wmapp.cc:107
 msgid "done."
 msgstr ""
 
-#: src/wmapp.cc:403
+#: src/wmapp.cc:411
 msgid "Unable to get current font path."
 msgstr "Negaliu nustatyti dabartinio šriftų kelio."
 
-#: src/wmapp.cc:430
+#: src/wmapp.cc:438
 msgid "Unexpected format of ICEWM_FONT_PATH property"
 msgstr "Netinkamas ICEWM_FONT_PATH laikomos reikšmės formatas"
 
-#: src/wmapp.cc:500
+#: src/wmapp.cc:508
 msgid "_Logout"
 msgstr "_Atsijungti"
 
-#: src/wmapp.cc:501
+#: src/wmapp.cc:509
 msgid "_Cancel logout"
 msgstr "A_tšaukti atsijungimą"
 
-#: src/wmapp.cc:506
+#: src/wmapp.cc:514
 msgid "Lock _Workstation"
 msgstr "Už_rakinti ekraną"
 
-#: src/wmapp.cc:508 src/wmdialog.cc:78
+#: src/wmapp.cc:516 src/wmdialog.cc:78
 msgid "Re_boot"
 msgstr "Iš _naujo paleisti kompiuterį"
 
-#: src/wmapp.cc:510 src/wmdialog.cc:79
+#: src/wmapp.cc:518 src/wmdialog.cc:79
 msgid "Shut_down"
 msgstr "Išj_ungti kompiuterį"
 
 #. TRANSLATORS: This means "energy saving mode" or "suspended system". Not "interrupt". Not "hibernate".
-#: src/wmapp.cc:512 src/wmdialog.cc:75
+#: src/wmapp.cc:520 src/wmdialog.cc:75
 msgid "_Sleep mode"
 msgstr ""
 
-#: src/wmapp.cc:517
+#: src/wmapp.cc:525
 msgid "Restart _Icewm"
 msgstr "Iš naujo paleisti _IceWM"
 
-#: src/wmapp.cc:519
+#: src/wmapp.cc:527
 msgid "Restart _Xterm"
 msgstr "Iš naujo paleisti _Xterm"
 
-#: src/wmapp.cc:529
+#: src/wmapp.cc:537
 msgid "_Menu"
 msgstr "_Meniu"
 
-#: src/wmapp.cc:530
+#: src/wmapp.cc:538
 msgid "_Above Dock"
 msgstr "_Virš dėklo"
 
-#: src/wmapp.cc:531
+#: src/wmapp.cc:539
 msgid "_Dock"
 msgstr "_Dėklas"
 
-#: src/wmapp.cc:532
+#: src/wmapp.cc:540
 msgid "_OnTop"
 msgstr "_Aukščiau"
 
-#: src/wmapp.cc:533
+#: src/wmapp.cc:541
 msgid "_Normal"
 msgstr "_Normalus"
 
-#: src/wmapp.cc:534
+#: src/wmapp.cc:542
 msgid "_Below"
 msgstr "Ž_emiau"
 
-#: src/wmapp.cc:535
+#: src/wmapp.cc:543
 msgid "D_esktop"
 msgstr "Dar_balaukio"
 
-#: src/wmapp.cc:570 src/wmwinlist.cc:379
+#: src/wmapp.cc:578 src/wmwinlist.cc:355
 msgid "_Restore"
 msgstr "_Atstatyti"
 
-#: src/wmapp.cc:572
+#: src/wmapp.cc:580
 msgid "_Move"
 msgstr "Per_kelti"
 
-#: src/wmapp.cc:574
+#: src/wmapp.cc:582
 msgid "_Size"
 msgstr "Kei_sti dydį"
 
-#: src/wmapp.cc:576 src/wmwinlist.cc:380
+#: src/wmapp.cc:584 src/wmwinlist.cc:356
 msgid "Mi_nimize"
 msgstr "Sumaži_nti"
 
-#: src/wmapp.cc:578 src/wmwinlist.cc:381
+#: src/wmapp.cc:586 src/wmwinlist.cc:357
 msgid "Ma_ximize"
 msgstr "Pa_didinti"
 
-#: src/wmapp.cc:579 src/wmwinlist.cc:382
+#: src/wmapp.cc:587 src/wmwinlist.cc:358
 #, fuzzy
 #| msgid "Maximize"
 msgid "Maximize_Vert"
 msgstr "Padidinti"
 
-#: src/wmapp.cc:580
+#: src/wmapp.cc:588
 #, fuzzy
 #| msgid "Maximize"
 msgid "MaximizeHori_z"
 msgstr "Padidinti"
 
-#: src/wmapp.cc:583 src/wmwinlist.cc:383
+#: src/wmapp.cc:591 src/wmwinlist.cc:359
 msgid "_Fullscreen"
 msgstr "Per _visą ekraną"
 
-#: src/wmapp.cc:586 src/wmwinlist.cc:385
+#: src/wmapp.cc:594 src/wmwinlist.cc:361
 msgid "_Hide"
 msgstr "_Paslėpti"
 
-#: src/wmapp.cc:588 src/wmwinlist.cc:386
+#: src/wmapp.cc:596 src/wmwinlist.cc:362
 msgid "Roll_up"
 msgstr "S_uvynioti"
 
-#: src/wmapp.cc:595
+#: src/wmapp.cc:603
 msgid "R_aise"
 msgstr "Iš_kelti"
 
-#: src/wmapp.cc:597 src/wmwinlist.cc:388
+#: src/wmapp.cc:605 src/wmwinlist.cc:364
 msgid "_Lower"
 msgstr "Nu_leisti"
 
-#: src/wmapp.cc:599 src/wmwinlist.cc:389
+#: src/wmapp.cc:607 src/wmwinlist.cc:365
 msgid "La_yer"
 msgstr "L_ygmuo"
 
-#: src/wmapp.cc:603 src/wmwinlist.cc:391
+#: src/wmapp.cc:611 src/wmwinlist.cc:367
 msgid "Move _To"
 msgstr "Perkel_ti į"
 
-#: src/wmapp.cc:604 src/wmwinlist.cc:392
+#: src/wmapp.cc:612 src/wmwinlist.cc:368
 msgid "Occupy _All"
 msgstr "Rodyti _visur"
 
-#: src/wmapp.cc:610
+#: src/wmapp.cc:618
 msgid "Limit _Workarea"
 msgstr "Apriboti _darbalaukį"
 
-#: src/wmapp.cc:614 src/wmwinlist.cc:393
+#: src/wmapp.cc:622 src/wmwinlist.cc:369
 msgid "Tray _icon"
 msgstr "Sistemos _dėklo ženkliukai"
 
-#: src/wmapp.cc:619 src/wmwinlist.cc:369 src/wmwinlist.cc:404
+#: src/wmapp.cc:627 src/wmwinlist.cc:384 src/wmwinlist.cc:392
 msgid "_Close"
 msgstr "_Užverti"
 
-#: src/wmapp.cc:621 src/wmwinlist.cc:371
+#: src/wmapp.cc:629 src/wmwinlist.cc:386
 msgid "_Kill Client"
 msgstr "_Nužudyti klientą"
 
-#: src/wmapp.cc:624 src/wmdialog.cc:80 src/wmwinmenu.cc:134
+#: src/wmapp.cc:632 src/wmdialog.cc:80 src/wmwinmenu.cc:134
 msgid "_Window list"
 msgstr "_Langų sąrašas"
 
-#: src/wmapp.cc:657
+#: src/wmapp.cc:665
 msgid "Another window manager already running, exiting..."
 msgstr "Kita langų tvarkyklė jau veikia, išsijungiu..."
 
-#: src/wmapp.cc:731
+#: src/wmapp.cc:739
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1222,27 +1255,27 @@ msgstr ""
 "Negaliu perkrauti %s\n"
 "Ar $PATH turi %s?"
 
-#: src/wmapp.cc:859
+#: src/wmapp.cc:889
 msgid "Kill IceWM, replace with Xterm"
 msgstr ""
 
-#: src/wmapp.cc:1117 src/yxapp.cc:1047
+#: src/wmapp.cc:1191 src/yxapp.cc:1061
 msgid "<none>"
 msgstr "<joks>"
 
-#: src/wmapp.cc:1466
+#: src/wmapp.cc:1530
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 
-#: src/wmapp.cc:1472
+#: src/wmapp.cc:1536
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
 "  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
 
-#: src/wmapp.cc:1480
+#: src/wmapp.cc:1544
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -1253,7 +1286,7 @@ msgid ""
 "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgstr ""
 
-#: src/wmapp.cc:1489
+#: src/wmapp.cc:1553
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1285,26 +1318,26 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/wmapp.cc:1550
+#: src/wmapp.cc:1614
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr ""
 
-#: src/wmapp.cc:1635
+#: src/wmapp.cc:1699
 #, fuzzy, c-format
 msgid "%s configured options:%s\n"
 msgstr "Neatpažinta parinktis: %s\n"
 
-#: src/wmapp.cc:1699
+#: src/wmapp.cc:1763
 #, fuzzy, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Neatpažinta parinktis: %s\n"
 
-#: src/wmapp.cc:1771
+#: src/wmapp.cc:1835
 msgid "Confirm Logout"
 msgstr "Patvirtink atsijungimą"
 
-#: src/wmapp.cc:1772
+#: src/wmapp.cc:1836
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1332,7 +1365,7 @@ msgstr "Nepavyko įrašyti istorijos bylos %s: %s"
 msgid "Unable to write to %s"
 msgstr ""
 
-#: src/wmconfig.cc:156 src/wmprog.cc:699
+#: src/wmconfig.cc:165 src/wmprog.cc:699
 #, fuzzy, c-format
 msgid "Unable to rename %s to %s"
 msgstr "Nepavyko įrašyti istorijos bylos %s: %s"
@@ -1346,8 +1379,8 @@ msgid "_Cancel"
 msgstr "A_tsisakyti"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:77 src/wmprog.cc:849 src/wmprog.cc:851 src/wmtaskbar.cc:272
-#: src/wmtaskbar.cc:274
+#: src/wmdialog.cc:77 src/wmprog.cc:849 src/wmprog.cc:851 src/wmtaskbar.cc:261
+#: src/wmtaskbar.cc:263
 msgid "_Logout..."
 msgstr "_Atsijungti..."
 
@@ -1356,15 +1389,15 @@ msgid "_Restart icewm"
 msgstr "_Iš naujo paleisti IceWM"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:82 src/wmprog.cc:810 src/wmtaskbar.cc:267
+#: src/wmdialog.cc:82 src/wmprog.cc:810 src/wmtaskbar.cc:256
 msgid "_About"
 msgstr "Api_e"
 
-#: src/wmframe.cc:1410
+#: src/wmframe.cc:1411
 msgid "Kill Client: "
 msgstr "Nužudyti klientą: "
 
-#: src/wmframe.cc:1417
+#: src/wmframe.cc:1418
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1372,19 +1405,19 @@ msgstr ""
 "DĖMESIO! Nužudę šį klientą prarasite visus \n"
 "neišsaugotus pakeitimus. Ar nori tęsti?"
 
-#: src/wmframe.cc:3012
+#: src/wmframe.cc:3024
 msgid "Restore"
 msgstr "Atkurti"
 
-#: src/wmframe.cc:3015 src/wmtitle.cc:71
+#: src/wmframe.cc:3027 src/wmtitle.cc:71
 msgid "Maximize"
 msgstr "Padidinti"
 
-#: src/wmframe.cc:3045
+#: src/wmframe.cc:3057
 msgid "Rolldown"
 msgstr "Atvynioti"
 
-#: src/wmframe.cc:3047 src/wmtitle.cc:129
+#: src/wmframe.cc:3059 src/wmtitle.cc:129
 msgid "Rollup"
 msgstr "Suvynioti"
 
@@ -1456,7 +1489,7 @@ msgid "_Run..."
 msgstr "_Paleisti..."
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmprog.cc:797 src/wmtaskbar.cc:262
+#: src/wmprog.cc:797 src/wmtaskbar.cc:251
 msgid "_Windows"
 msgstr "_Langai"
 
@@ -1486,73 +1519,73 @@ msgid "Session Manager: Unknown line %s"
 msgstr "Sesijos tvarkytuvė: nežinoma eilutė %s"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:244 src/wmwinlist.cc:395 src/wmwinlist.cc:415
+#: src/wmtaskbar.cc:233 src/wmwinlist.cc:371 src/wmwinlist.cc:404
 msgid "Tile _Vertically"
 msgstr "Suskirstyti _vertikaliai"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:246 src/wmwinlist.cc:396 src/wmwinlist.cc:416
+#: src/wmtaskbar.cc:235 src/wmwinlist.cc:372 src/wmwinlist.cc:405
 msgid "T_ile Horizontally"
 msgstr "Suskirstyti _horizontaliai"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:248 src/wmwinlist.cc:397 src/wmwinlist.cc:417
+#: src/wmtaskbar.cc:237 src/wmwinlist.cc:373 src/wmwinlist.cc:406
 msgid "Ca_scade"
 msgstr "Suskirstyti ka_skadiškai"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:250 src/wmwinlist.cc:398 src/wmwinlist.cc:418
+#: src/wmtaskbar.cc:239 src/wmwinlist.cc:374 src/wmwinlist.cc:407
 msgid "_Arrange"
 msgstr "Sutv_arkyti"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:252 src/wmwinlist.cc:400 src/wmwinlist.cc:419
+#: src/wmtaskbar.cc:241 src/wmwinlist.cc:376 src/wmwinlist.cc:408
 msgid "_Minimize All"
 msgstr "Su_mažinti visus"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:254 src/wmwinlist.cc:401 src/wmwinlist.cc:420
+#: src/wmtaskbar.cc:243 src/wmwinlist.cc:377 src/wmwinlist.cc:409
 msgid "_Hide All"
 msgstr "_Paslėpti visus"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:256 src/wmwinlist.cc:402 src/wmwinlist.cc:421
+#: src/wmtaskbar.cc:245 src/wmwinlist.cc:378 src/wmwinlist.cc:410
 msgid "_Undo"
 msgstr "Atša_ukti"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:259
+#: src/wmtaskbar.cc:248
 msgid "Arrange _Icons"
 msgstr "Sutvarkyt_i ženkliukus"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:265
+#: src/wmtaskbar.cc:254
 msgid "_Refresh"
 msgstr "At_naujinti"
 
-#: src/wmtaskbar.cc:338 src/wmtaskbar.cc:968
+#: src/wmtaskbar.cc:327 src/wmtaskbar.cc:931
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Hide Taskbar"
 msgstr "Užduočių juosta"
 
-#: src/wmtaskbar.cc:356
+#: src/wmtaskbar.cc:345
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Favorite Applications"
 msgstr "Mėgstamiausios programos"
 
-#: src/wmtaskbar.cc:377
+#: src/wmtaskbar.cc:366
 #, fuzzy
 #| msgid "Window list menu"
 msgid "Window List Menu"
 msgstr "Langų sąrašo meniu"
 
-#: src/wmtaskbar.cc:386
+#: src/wmtaskbar.cc:375
 msgid "Show Desktop"
 msgstr "Rodyti darbalaukį"
 
-#: src/wmtaskbar.cc:968
+#: src/wmtaskbar.cc:931
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Show Taskbar"
@@ -1570,33 +1603,33 @@ msgstr "Paslėpti"
 msgid "Raise/Lower"
 msgstr "Iškelti/Nuleisti"
 
-#: src/wmwinlist.cc:51
+#: src/wmwinlist.cc:45
 msgid "All Workspaces"
 msgstr "Visi darbalaukiai"
 
-#: src/wmwinlist.cc:369
-msgid "Del"
-msgstr "Šalinti"
-
-#: src/wmwinlist.cc:373
-msgid "_Terminate Process"
-msgstr "_Užbaigti procesą"
-
-#: src/wmwinlist.cc:374
-msgid "Kill _Process"
-msgstr "_Nužudyti procesą"
-
-#: src/wmwinlist.cc:384
+#: src/wmwinlist.cc:360
 msgid "_Show"
 msgstr "_Rodyti"
 
-#: src/wmwinlist.cc:387
+#: src/wmwinlist.cc:363
 #, fuzzy
 #| msgid "R_aise"
 msgid "_Raise"
 msgstr "Iš_kelti"
 
-#: src/wmwinlist.cc:437 src/wmwinlist.cc:438
+#: src/wmwinlist.cc:384
+msgid "Del"
+msgstr "Šalinti"
+
+#: src/wmwinlist.cc:388
+msgid "_Terminate Process"
+msgstr "_Užbaigti procesą"
+
+#: src/wmwinlist.cc:389
+msgid "Kill _Process"
+msgstr "_Nužudyti procesą"
+
+#: src/wmwinlist.cc:424 src/wmwinlist.cc:425
 msgid "Window list"
 msgstr "Langų sąrašas"
 
@@ -1605,7 +1638,7 @@ msgstr "Langų sąrašas"
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Darbalaukis %-.32s"
 
-#: src/yapp.cc:284
+#: src/yapp.cc:287
 #, c-format
 msgid "%s: select failed"
 msgstr ""
@@ -1626,37 +1659,37 @@ msgstr "Blogas argumentas: %s, skirtas %s"
 msgid "Bad option: %s"
 msgstr "Bloga parinktis: %s"
 
-#: src/ycursor.cc:109
+#: src/ycursor.cc:114
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
 msgstr "Nepavyko įkelti paveikslėlio %s: %s"
 
-#: src/ycursor.cc:136
+#: src/ycursor.cc:141
 #, c-format
 msgid "Loading of pixmap \"%s\" failed"
 msgstr "Nepavyko įkelti paveikslėlio „%s“"
 
-#: src/ycursor.cc:169
+#: src/ycursor.cc:174
 #, c-format
 msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
 msgstr "Ne žymeklio paveikslėlis: „%s“ turi per daug skirtingų spalvų"
 
-#: src/ycursor.cc:191
+#: src/ycursor.cc:196
 #, c-format
 msgid "BUG? Imlib was able to read \"%s\""
 msgstr "KLAIDA? Imlib galėjo perskaityti „%s“"
 
-#: src/ycursor.cc:217
+#: src/ycursor.cc:222
 #, c-format
 msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
 msgstr "KLAIDA? Sugadinta XPM antraštė, tačiau Imlib galėjo nuskaityti „%s“"
 
-#: src/ycursor.cc:225
+#: src/ycursor.cc:230
 #, c-format
 msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
 msgstr "KLAIDA? Nerasta XPM bylos pabaiga, tačiau Imlib galėjo nuskaityti „%s“"
 
-#: src/ycursor.cc:228
+#: src/ycursor.cc:233
 #, c-format
 msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
 msgstr ""
@@ -1777,7 +1810,7 @@ msgstr ""
 msgid "Invalid hex escape in URL at position %d."
 msgstr ""
 
-#: src/yxapp.cc:1007
+#: src/yxapp.cc:1021
 msgid ""
 "  -d, --display=NAME  NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"

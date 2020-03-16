@@ -176,6 +176,17 @@ private:
     void updateLayout(unsigned &size_w, unsigned &size_h);
 
     EdgeTrigger *fEdgeTrigger;
+
+    class YStrut {
+    public:
+        Atom left, right, top, bottom;
+        YStrut() : left(0), right(0), top(0), bottom(0) { }
+        bool operator!=(const YStrut& s) const {
+            return left != s.left || right != s.right
+                || top != s.top || bottom != s.bottom;
+        }
+        const Atom* operator&() const { return &left; }
+    } fStrut;
 };
 
 extern TaskBar *taskBar; // !!! get rid of this

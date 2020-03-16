@@ -1,5 +1,5 @@
-#ifndef __YTOOLTIP_H
-#define __YTOOLTIP_H
+#ifndef YTOOLTIP_H
+#define YTOOLTIP_H
 
 #include "ywindow.h"
 #include "ytimer.h"
@@ -9,13 +9,12 @@ class YToolTipWindow: public YWindow {
 public:
     YToolTipWindow();
 
-    virtual void paint(Graphics &g, const YRect &r);
+    virtual void paint(Graphics& g, const YRect& r);
     virtual void handleExpose(const XExposeEvent& expose) {}
-    virtual void configure(const YRect2& rect);
     virtual void repaint();
 
-    void setText(const ustring &tip);
-    void locate(YWindow *w);
+    void setText(const ustring& tip);
+    void locate(YWindow* w);
 
 private:
     ustring fText;
@@ -31,20 +30,18 @@ public:
 
     virtual bool handleTimer(YTimer *t);
 
-    void setText(const ustring &tip);
-    void locate(YWindow *w, const XCrossingEvent &crossing);
-
-    void hide();
-    void repaint();
+    void setText(const ustring& tip);
+    void enter(YWindow* w);
+    void leave();
     bool visible();
 
 private:
-    void display();
+    void expose();
     YToolTipWindow* window();
 
     ustring fText;
     YWindow* fLocate;
-    osmart<YToolTipWindow> fWindow;
+    lazy<YToolTipWindow> fWindow;
     lazy<YTimer> fTimer;
 };
 #endif

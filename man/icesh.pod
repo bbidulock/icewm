@@ -14,7 +14,7 @@
 
 =head1 DESCRIPTION
 
-B<icesh> provides 88 commands to change or query a window's state,
+B<icesh> provides 90 commands to change or query a window's state,
 and to interact with the L<icewm(1)> window manager. Command arguments
 are called actions. Window actions operate on a selection of windows.
 B<icesh> has several options to select and filter windows.  Options and
@@ -124,14 +124,25 @@ inverted.
 =item B<-L>, B<-Layer> I<LAYER>
 
 Filters clients by I<GNOME window layer>, which can either be a layer
-name (see below) or a layer number.  If I<LAYER> starts with an
-exclamation mark then the filtering is inverted.
+name or a layer number. See EXPRESSIONS below. If I<LAYER> starts with
+an exclamation mark then the filtering is inverted.
 
-=item B<-P>, B<-Property> I<PROP>
+=item B<-N>, B<-Netstate> I<STATE>
 
-Filters clients by property. Clients which have a property I<PROP> are
-selected.  The filtering is inverted if I<PROP> starts with an
-exclamation mark.
+Filters clients by I<EWMH window state>. Clients which have at
+least an EWMH window state of I<STATE> are selected.  This state
+refers to details like B<minized> or B<maximized>. See EXPRESSIONS
+below. If I<STATE> starts with an exclamation mark then the filtering
+is inverted.  A question mark C<?> filters clients with any bit set
+in I<STATE>.
+
+=item B<-P>, B<-Property> I<PROP[=value]>
+
+Filters clients by property. Clients which have a property I<PROP>
+are selected. If the optional I<value> is given, the match succeeds
+only if I<PROP> is a string, window, cardinal, or atom, with a value
+equal to I<value>.  The filtering is inverted if I<PROP> starts with
+an exclamation mark.
 
 =item B<-R>, B<-Role> I<ROLE>
 
@@ -143,7 +154,7 @@ if I<ROLE> starts with an exclamation mark.
 
 Filters clients by I<GNOME window state>. Clients which have at least
 a state of I<STATE> are selected.  The window state refers to details
-like B<minized> or B<maximized> and is explained below.  If I<STATE>
+like B<minized> or B<maximized>. See EXPRESSIONS below.  If I<STATE>
 starts with an exclamation mark then the filtering is inverted.
 A question mark C<?> filters clients with any bit set in I<STATE>.
 
@@ -358,6 +369,16 @@ Set the window geometry to I<GEOMETRY>.
 
 Print the window geometry.
 
+=item B<netState> I<[STATE]>
+
+If I<STATE> is omitted then it shows the I<EWMH window state>.
+If I<STATE> starts with a C<+> then flags in I<STATE> are appended to
+the existing I<EWMH window state>.  If I<STATE> starts with a C<->
+then flags in I<STATE> are removed from the existing I<EWMH window
+state>.  If I<STATE> starts with a C<=> then the I<EWMH window state>
+is set to I<STATE>. See EXPRESSIONS below. A list of I<EWMH flags>
+can be found in the output of C<icesh symbols>.
+
 =item B<setState> I<MASK> I<STATE>
 
 Set the I<GNOME window state> to I<STATE>.  Only bits selected by
@@ -456,8 +477,14 @@ be enabled.
 
 =item B<prop> I<PROPERTY>
 
-Print the value of property I<PROPERTY> if it is present.  I<PROPERTY>
-can be a string, a window, or a list of one or more atoms or cardinals.
+Print the value of property I<PROPERTY> if it is present.
+
+=item B<click> I<window-x> I<window-y> I<button>
+
+Send a button press and release event at position (I<window-x>,
+I<window-y>). A negative position is relative to the bottom right
+corner. The mouse pointer is warped to the position before sending
+the events. The button number should be between 1 and 5 inclusive.
 
 =item B<spy>
 
@@ -584,9 +611,9 @@ Let icewm reload the C<keys> file.
 
 Monitor the B<ICEWM_GUI_EVENT> property and report all changes.
 
-=item B<colormaps>
+=item B<delay> [I<time>]
 
-Monitor which colormap is installed.
+Stop execution for I<time> or 0.1 seconds.
 
 =item B<runonce> I<program> [I<arguments...>]
 
@@ -715,6 +742,25 @@ Named symbols for window and bit gravity (numeric range: 0-10):
     Menu                 (16)
     Minimize             (32)
     Maximize             (64)
+
+=item I<EWMH window state symbols>
+
+Named symbols of the domain I<EWMH state> (numeric range:
+0-8191):
+
+    ABOVE                 (1)
+    BELOW                 (2)
+    DEMANDS_ATTENTION     (4)
+    FOCUSED               (8)
+    FULLSCREEN            (16)
+    HIDDEN                (32)
+    MAXIMIZED_HORZ        (64)
+    MAXIMIZED_VERT        (128)
+    MODAL                 (256)
+    SHADED                (512)
+    SKIP_PAGER            (1024)
+    SKIP_TASKBAR          (2048)
+    STICKY                (4096)
 
 =back
 

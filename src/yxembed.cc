@@ -64,8 +64,8 @@ void YXEmbedClient::handleProperty(const XPropertyEvent &property) {
     if (property.atom == _XA_XEMBED_INFO) {
         YProperty prop(this, _XA_XEMBED_INFO, F32, 2L);
         if (prop && prop.size() == 2L) {
-            long vers = prop.operator[]<long>(0);
-            long flag = prop.operator[]<long>(1);
+            long vers = prop[0];
+            long flag = prop[1];
             if (flag & XEMBED_MAPPED) {
                 if (vers > XEMBED_PROTOCOL_VERSION) {
                     TLOG(("embed 0x%lx: %ld, %ld", property.window, vers, flag));

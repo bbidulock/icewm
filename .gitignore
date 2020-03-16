@@ -27,6 +27,7 @@ _*
 *.pox
 *.sw[nop]
 *.xz
+*.lz
 
 #
 # Debian directory (make deb-pkg)
@@ -94,30 +95,40 @@ po/remove-potcdate.sin
 po/Rules-quot
 po/stamp-po
 scripts/
+src/.deps/
+src/.libs/
+src/Makefile
+src/Makefile.in
 src/config.h
 src/config.h.in
-src/.deps/
 src/genpref
+src/iceclock
 src/icehelp
+src/iceicon
+src/icelist
+src/icerun
+src/icesame
 src/icesh
+src/iceskt
 src/icesound
+src/iceview
 src/icewm
-src/icewmbg
-src/icewmhint
 src/icewm-menu-fdo
 src/icewm-menu-gnome1
 src/icewm-menu-gnome2
 src/icewm-session
+src/icewmbg
+src/icewmhint
 src/icewmsound
 src/icewmtray
-src/.libs/
-src/Makefile
-src/Makefile.in
 src/preferences
+src/strtest
 src/testarray
 src/testdesktop
 src/testgnomevfs
 src/testlocale
+src/testmap
+src/testnetwmhints
 src/testwinhints
 
 # Debian/Ubuntu test build
@@ -155,6 +166,10 @@ GTAGS
 README
 README.html
 README.txt
+
+RELEASE
+RELEASE.html
+RELEASE.txt
 
 # Eclipse project metadata
 .cproject

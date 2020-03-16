@@ -228,7 +228,7 @@ YXApplication(argc, argv, displayName)
 
     sessionProg = (*argv)[0]; //ICEWMEXE;
     initSM();
-    psm.registerPoll(this, IceSMfd);
+    psm.registerPoll(IceSMfd);
 }
 
 YSMApplication::~YSMApplication() {
@@ -251,17 +251,6 @@ void YSMPoll::notifyRead() {
         IceSMfd = -1;
         unregisterPoll();
     }
-}
-
-void YSMPoll::notifyWrite() {
-}
-
-bool YSMPoll::forRead() {
-    return true;
-}
-
-bool YSMPoll::forWrite() {
-    return false;
 }
 
 #endif /* CONFIG_SESSION */

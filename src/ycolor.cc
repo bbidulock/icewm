@@ -206,7 +206,7 @@ void YColor::alloc(const char* name) {
         if (valid) {
             int previous = cache.getOpacity();
             if (previous == 0) {
-                cache.setOpacity(color[3]);
+                cache.setOpacity(MaxOpacity * color[3] / 0xFFFF);
             }
             fPixel = cache.get(color[0], color[1], color[2]);
             cache.setOpacity(previous);

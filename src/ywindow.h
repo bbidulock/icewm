@@ -233,6 +233,7 @@ public:
 
     bool getCharFromEvent(const XKeyEvent &key, char *s, int maxLen);
     int getClickCount() { return fClickCount; }
+    int getScreen();
 
     void scrollWindow(int dx, int dy);
     void clearWindow();
@@ -304,7 +305,7 @@ private:
     };
 
     YAccelerator *accel;
-    YToolTip *fToolTip;
+    lazy<YToolTip> fToolTip;
 
     static XButtonEvent fClickEvent;
     static YWindow *fClickWindow;
@@ -313,7 +314,6 @@ private:
     static int fClickDrag;
     static unsigned fClickButton;
     static unsigned fClickButtonDown;
-    static lazy<YTimer> fToolTipTimer;
     static unsigned long lastEnterNotifySerial;
     static void updateEnterNotifySerial(const XEvent& event);
 

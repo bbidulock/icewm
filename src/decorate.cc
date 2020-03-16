@@ -88,10 +88,10 @@ void YFrameWindow::updateSubmenus() {
 
     item = windowMenu()->findAction(actionToggleTray);
     if (item) {
-        bool enabled = false == (frameOptions() & foIgnoreTaskBar);
-        bool checked = enabled && (getTrayOption() != WinTrayIgnore);
+        bool checked = (getTrayOption() != WinTrayIgnore);
+        bool enabled = notbit(frameOptions(), foIgnoreTaskBar);
         item->setChecked(checked);
-        item->setEnabled(enabled);
+        item->setEnabled(enabled || checked);
     }
 
 #if 0

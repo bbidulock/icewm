@@ -1,5 +1,6 @@
-icewm -- authors file.  2019-11-24
+icewm -- authors file.  2020-02-08
 
+<<<<<<< HEAD
 Author: Bert Gijsbers <gijsbers@science.uva.nl>
 Author: wisememo <46960734+wisememo@users.noreply.github.com>
 Author: Sarah Kriesch <ada.lovelace@gmx.de>
@@ -8,8 +9,22 @@ Author: Jorge Gallegos Carrasco <jcarrascochih@gmail.com>
 Author: Juan Sarria <juansarriam@gmail.com>
 Author: Patricia Pazos <pms.malaga@hermestrans.com>
 Author: openSUSE Weblate <weblate-noreply@opensuse.org>
+=======
+>>>>>>> upstream/icewm-1-4-BRANCH
 Author: Brian Bidulock <bidulock@openss7.org>
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Author: David Medina <medipas@gmail.com>
+Author: Kevin Suo <suokunlong@126.com>
+Author: Luiz Fernando Ranghetti <elchevive68@gmail.com>
+Author: Sarah Kriesch <ada.lovelace@gmx.de>
+Author: scootergrisen <scootergrisen@gmail.com>
+Author: Freek de Kruijf <freek@opensuse.org>
+Author: Aleš Kastner <alkas@volny.cz>
+Author: Yasuhiko Kamata <belphegor@belbel.or.jp>
+Author: Ferdinand Galko <galko.ferdinand@gmail.com>
+Author: Stanislav Brabec <sbrabec@suse.cz>
 Author: Kimmo Kujansuu <mrkujansuu@gmail.com>
+Author: Eduard Bloch <blade@debian.org>
 Author: Artem Polishchuk <tim77@users.noreply.github.com>
 Author: Dmitriy Khanzhin <dmitriy.khanzhin@gmail.com>
 Author: scootergrisen <scootergrisen@gmail.com>
@@ -69,18 +84,20 @@ Author: Stanislav Brabec <sbrabec@suse.com>
 Author: Dmitry Semyonov <linulin@gmail.com>
 Author: Attila Kinali <attila@kinali.ch>
 Author: micrococo <micrococo@users.noreply.github.com>
-Author: Eduard Bloch <blade@debian.org>
 Author: jcsl <trcs@gmx.com>
+<<<<<<< HEAD
 Author: scootergrisen <scootergrisen@gmail.com>
 Author: Aleš Kastner <alkas@volny.cz>
 Author: Thomas Koller <tk120@protonmail.com>
 Author: David Medina <medipas@gmail.com>
+=======
+Author: Thomas Koller <tk120@protonmail.com>
+Author: Rodrigo Macedo <rmsolucoeseminformatic4@gmail.com>
+>>>>>>> upstream/icewm-1-4-BRANCH
 Author: Yi-Jyun Pan <pan93412@gmail.com>
 Author: Olga Smirnova <mistresssilvara@hotmail.com>
-Author: Freek de Kruijf <freek@opensuse.org>
 Author: openSUSE Weblate <weblate-noreply@opensuse.org>
 Author: mohammad alhargan <malham1@gmail.com>
-Author: Stanislav Brabec <sbrabec@suse.cz>
 Author: Sven Åhr <anders.ahr@gmail.com>
 Author: Juan Sarria <juansarriam@gmail.com>
 Author: Ewelina Michalowska <ewelina.michalowska@stgambit.com>

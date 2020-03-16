@@ -4,7 +4,8 @@
  * Copyright (C) 1997-2003 Marko Macek
  */
 #include "config.h"
-
+#define WMAPP
+#include "appnames.h"
 #include "yfull.h"
 #include "wmprog.h"
 #include "wmwinmenu.h"
@@ -26,7 +27,6 @@
 #include "prefs.h"
 #include "udir.h"
 #include "ascii.h"
-#include "appnames.h"
 #include "ypaths.h"
 #include "yxcontext.h"
 #ifdef CONFIG_XFREETYPE
@@ -329,10 +329,17 @@ static void registerProtocols2(Window xid) {
     registerNetProperties(xid);
 }
 
-static void unregisterProtocols() {
-    XDeleteProperty(xapp->display(),
-                    manager->handle(),
-                    _XA_WIN_PROTOCOLS);
+void YWMApp::unregisterProtocols() {
+    if (managerWindow) {
+        YAtom wmSx("WM_S", true);
+        if (managerWindow == XGetSelectionOwner(xapp->display(), wmSx)) {
+            XDeleteProperty(xapp->display(), xapp->root(), _XA_WIN_PROTOCOLS);
+            XSetSelectionOwner(xapp->display(), wmSx, None, CurrentTime);
+        }
+        XDestroyWindow(xapp->display(), managerWindow);
+        managerWindow = None;
+        xapp->sync();
+    }
 }
 
 void YWMApp::initIconSize() {
@@ -744,8 +751,12 @@ void YWMApp::restartClient(const char *cpath, char *const *cargs) {
 
     runRestart(path, args);
 
+    // icesm knows how to restart.
+    if (notifyParent && notifiedParent && kill(notifiedParent, 0) == 0)
+        ::exit(ICESM_EXIT_RESTART);
+
     /* somehow exec failed, try to recover */
-    managerWindow = registerProtocols1(nullptr, 0);
+    managerWindow = registerProtocols1(mainArgv, mainArgc);
     registerProtocols2(managerWindow);
     manager->manageClients();
 }
@@ -1187,6 +1198,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
                 const char *configFile, const char *overrideTheme) :
     YSMApplication(argc, argv, displayName),
     mainArgv(*argv),
+    mainArgc(*argc),
     configFile(configFile),
     notifyParent(notifyParent),
     notifiedParent(0),
@@ -1248,7 +1260,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
     initPointers();
 
     if (post_preferences)
-        WMConfig::printPrefs(focusMode, loggingEvents, synchronizeX11, splashFile);
+        WMConfig::printPrefs(focusMode, wmapp_preferences);
     if (show_extensions)
         showExtensions();
 
@@ -1256,7 +1268,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
 
     managerWindow = registerProtocols1(*argv, *argc);
 
-    desktop = manager = new YWindowManager(
+    manager = new YWindowManager(
         this, this, this, nullptr, root());
     PRECONDITION(desktop != nullptr);
 
@@ -1689,6 +1701,26 @@ static void print_configured(const char *argv0) {
     exit(0);
 }
 
+static void loadStartup(const char* configFile)
+{
+    upath prefs(YApplication::locateConfigFile(configFile));
+    if (prefs.nonempty()) {
+        YConfig::loadConfigFile(wmapp_preferences, prefs);
+    }
+
+    YXApplication::alphaBlending |= alphaBlending;
+    YXApplication::synchronizeX11 |= synchronizeX11;
+    if (tracingModules && YTrace::tracingConf() == nullptr) {
+        YTrace::tracing(tracingModules);
+    }
+
+    upath theme(YApplication::locateConfigFile("theme"));
+    if (theme.nonempty()) {
+        unsigned last = ACOUNT(wmapp_preferences) - 2;
+        YConfig::loadConfigFile(wmapp_preferences + last, theme);
+    }
+}
+
 int main(int argc, char **argv) {
     YLocale locale;
     bool restart_wm(false);
@@ -1696,7 +1728,6 @@ int main(int argc, char **argv) {
     const char* configFile(0);
     const char* displayName(0);
     const char* overrideTheme(0);
-    const char* splashFile(ICESPLASH);
 
     for (char ** arg = argv + 1; arg < argv + argc; ++arg) {
         if (**arg == '-') {
@@ -1757,27 +1788,7 @@ int main(int argc, char **argv) {
 
     if (isEmpty(configFile))
         configFile = "preferences";
-
-    {
-        cfoption options[] = {
-            OBV("Alpha", &YXApplication::alphaBlending, "Alpha blending"),
-            OBV("Synchronize", &YXApplication::synchronizeX11, "Synchronize X11"),
-            OBV("LogEvents", &loggingEvents, "Event Logging"),
-            OSV("Splash", &splashFile, "Splash image"),
-            OSV("Theme", &themeName, "Theme name"),
-            OK0()
-        };
-        upath prefs(YApplication::locateConfigFile(configFile));
-        if (prefs.nonempty()) {
-            YConfig::loadConfigFile(options, prefs);
-        }
-        upath theme(YApplication::locateConfigFile("theme"));
-        if (theme.nonempty()) {
-            unsigned last = ACOUNT(options) - 2;
-            YConfig::loadConfigFile(options + last, theme);
-        }
-        alphaBlending = YXApplication::alphaBlending;
-    }
+    loadStartup(configFile);
 
     if (nonempty(overrideTheme))
         themeName = overrideTheme;
@@ -1791,7 +1802,7 @@ int main(int argc, char **argv) {
     int rc = app.mainLoop();
     app.signalGuiEvent(geShutdown);
     manager->unmanageClients();
-    unregisterProtocols();
+    app.unregisterProtocols();
     YIcon::freeIcons();
     WMConfig::freeConfiguration();
     defOptions = null;
