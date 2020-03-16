@@ -1,11 +1,185 @@
-icewm -- history of user-visible changes.  2020-01-07
+icewm -- history of user-visible changes.  2020-03-16
+
+Release icewm-1.6.5 released 2020-03-16
+---------------------------------------
+
+git shortlog -e -n -w80,6,8 1.6.4...1.6.5
+
+Bert Gijsbers <gijsbers@science.uva.nl> (71):
+      Update version number to 1.6.4 and fix cmake build for icesh by adding
+        ytimer.cc.
+      Split off ytime.h and ytime.cc for icesh which doesn't need YTimer nor
+        YApplication.
+      Use YArray in WindowList.
+      "icesh last" should only read the client list if there was no previous
+        selection.
+      Add more non-default build targets to .gitignore.
+      Fix 3 WIN_STATE comments in header
+      Simplify conversion between _NET_WM_STATE and WIN_STATE.
+      Simplify YProperty array access.
+      Remove obsolete WinHintsDockHorizontal comments.
+      YProperty constructor for Window handle.
+      YTextProperty accepts nullptr.
+      Use YProperty for less noise.
+      Use YProperty to reduce noise.
+      setWinStateHint is not needed for window list window.
+      Use YProperty to simplify.
+      Use YProperty and setProperty to reduce unreadable code.
+      Restore close button for About and Windowlist windows.
+      Eliminate one loop in getWindowsToArrange.
+      Relinquish manager selection when done. If exec fails then let
+        icewm-session restart icewm.
+      skip separators for #409.
+      Implement -X for ice-wm/icewm#10.
+      Document all task button mouse clicks.
+      be silent when spying on ClientMessage.
+      remove unused handleDrag.
+      remove empty handleDrag.
+      class YStrut.
+      Optimize startup of taskbar.
+      1.15 works fine
+      Use /usr/bin/echo for -e option.
+      Document the window list window.
+      Enable toggle tray in window menu, even if IgnoreTaskBar is set, if the
+        tray option was set in the winoptions files.
+      Setting winoptions tray option non-zero overrules ignoreTaskBar.
+      Make tray toggle more intuitive by toggling between only two states.
+      When parsing workspace names in icesh also test with spaces trimmed.
+      Move testOnce to yarray.cc to reduce exe size of icesh.
+      Filter on property values and add click and delay to icesh.
+      First attempt to modernize icewm-set-gnomewm a bit.
+      update po files
+      Window list details.
+      Change EWMH window state in icesh.
+      Less is more.
+      Nearly any property will do.
+      If there is no focused window, then select the current workspace. Detect
+        when a change in application title requires resizing the window list.
+        When applications are added or removed, then keep track of changes in
+        fFocusedItem. Only reset scrollbars before redrawing the window list.
+      Cleanup polling.
+      Clarify AutoRaise for #410.
+      Update widest item.
+      More window list details documented.
+      Document all hidden features of the window list window.
+      +isControl.
+      Make all characters available for selection application windows in the
+        window list window. Include control letters which require shift, but
+        without extending the selection.
+      Make src/CMakeLists.txt consistent with configure.ac.
+      If a first round of search fails on the start of window titles then try
+        another round of search anywhere in titles, but case sensitive.
+      fontPreferFreetype belongs in yprefs.h.
+      Fix tooltip positioning for multi-monitor when primary screen is right.
+      install icewm-menu-xrandr.
+      getloadavg is needed for non-linux.
+      Prefer printf over echo for portability reasons.
+      Fix tooltip positioning for multi-monitor when primary screen is right.
+      Preserve tooltip on button press.
+      Fix for net menu.
+      Add startup options to generated preferences.
+      Test clock_gettime against librt.
+      Fixes for configure options.
+      Fix spelling.
+      Generate preferences in perlpod output format.
+      Complete preferences.
+      Prevent auto hide if address bar is visible for #412.
+      Fix parsing of opacity in rgba colors.
+      Decimate number of frame paintings.
+      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge branch 'icewm-1-4-BRANCH'
+
+Brian Bidulock <bidulock@openss7.org> (11):
+      bit better release file generation
+      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
+        icewm-1-4-BRANCH
+      Merge branch 'icewm-1-4-BRANCH' of github.com:bbidulock/icewm into
+        icewm-1-4-BRANCH
+      update po files
+      remove trailing space
+      need force
+      update release files
+      add release file
+      add some ignores
+      change where csope rule is added to po/Makefile(.in.in)
+      do not pad day number in MDOCDATE
+
+David Medina <medipas@gmail.com> (3):
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+      Translated using Weblate (Catalan)
+
+Aleš Kastner <alkas@volny.cz> (2):
+      Translated using Weblate (Czech)
+      Translated using Weblate (Czech)
+
+Eduard Bloch <blade@debian.org> (2):
+      Special --max mode for menu options selector
+      Drop CAVEATS chapter of icewm-menu-xrandr manpage
+
+Ferdinand Galko <galko.ferdinand@gmail.com> (2):
+      Translated using Weblate (Slovak)
+      Translated using Weblate (Slovak)
+
+Freek de Kruijf <freek@opensuse.org> (2):
+      Translated using Weblate (Dutch)
+      Translated using Weblate (Dutch)
+
+Grace Yu <grace.yu@excel-gits.com> (2):
+      Translated using Weblate (Chinese (China))
+      Translated using Weblate (Chinese (Taiwan))
+
+Yasuhiko Kamata <belphegor@belbel.or.jp> (2):
+      Translated using Weblate (Japanese)
+      Translated using Weblate (Japanese)
+
+ingemar karlsson <ingemar_bengt@hotmail.com> (2):
+      Translated using Weblate (Swedish)
+      Translated using Weblate (Swedish)
+
+scootergrisen <scootergrisen@gmail.com> (2):
+      Translated using Weblate (Danish)
+      Translated using Weblate (Danish)
+
+Christine Gabriel <christine@stoquart.com> (1):
+      Translated using Weblate (French)
+
+Davide Aiello <davidea@novilinguists.com> (1):
+      Translated using Weblate (Italian)
+
+Juan Sarria <juansarriam@gmail.com> (1):
+      Translated using Weblate (Spanish)
+
+Luiz Fernando Ranghetti <elchevive68@gmail.com> (1):
+      Translated using Weblate (Portuguese (Brazil))
+
+Nathan <ndowens04@gmail.com> (1):
+      Missing ytimer link
+
+Rodrigo Macedo <rmsolucoeseminformatic4@gmail.com> (1):
+      Translated using Weblate (Portuguese (Brazil))
+
+Sarah Kriesch <ada.lovelace@gmx.de> (1):
+      Translated using Weblate (German)
+
+Stanislav Brabec <sbrabec@suse.cz> (1):
+      Merge remote-tracking branch 'weblate/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+
+gijsbers <gijsbers@users.noreply.github.com> (1):
+      Merge pull request #7 from ndowens/patch-1
+
+openSUSE Weblate <weblate-noreply@opensuse.org> (1):
+      Merge branch 'origin/icewm-1-4-BRANCH' into Weblate.
+
 
 Release icewm-1.6.4 released 2020-01-07
 ---------------------------------------
 
 git shortlog -e -n -w80,6,8 1.6.3...1.6.4
 
-Bert Gijsbers <gijsbers@science.uva.nl> (52):
+Bert Gijsbers <gijsbers@science.uva.nl> (53):
       Update from released.
       Use "icesh keys" to let icewm reload the keybindings from the "keys" file.
       Update winoptions (+ keys).
@@ -69,6 +243,7 @@ Bert Gijsbers <gijsbers@science.uva.nl> (52):
       Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
         icewm-1-4-BRANCH
       Merge branch 'icewm-1-4-BRANCH'
+      Prepare 1.6.4 release
 
 Eduard Bloch <blade@debian.org> (4):
       Added explicit hint to check preferences manpage for key inbinding.
@@ -561,59 +736,4 @@ scootergrisen <scootergrisen@gmail.com> (2):
 
 mohammad alhargan <malham1@gmail.com> (1):
       Translated using Weblate (Arabic)
-
-
-Release icewm-1.5.4 released 2019-04-23
----------------------------------------
-
-git shortlog -e -n -w80,6,8 1.5.3...1.5.4
-
-Bert Gijsbers <gijsbers@science.uva.nl> (46):
-      remove stray semicolon
-      avoid clang warnings
-      solve ambiguous[] for #340
-      avoid clang warnings
-      avoid clang warnings
-      avoid clang warnings
-      avoid clang warnings
-      avoid clang warnings
-      prevent clang warnings
-      prevent clang warnings
-      prevent clang warnings
-      prevent clang warnings
-      prevent clang warnings
-      prevent clang warnings
-      prevent clang warnings
-      prevent clang warnings
-      add missing _XA_TARGETS
-      prevent clang warnings
-      prevent clang warnings
-      fix compilation for clang
-      fix clang warnings
-      avoid clang warning
-      25 more preferences documented.
-      prefer https
-      d, display. strip trailing whitespace.
-      add const_cast for #341.
-      Working around setjmp clobbering issues with high optimization levels.
-      pngload reference image
-      NanoBlue icons are PNG.
-      debug trace on request_code, not resourceid.
-      drawClippedPixmap create GC on drawable for 32-bit depth, not static.
-      fix sync type to bool.
-      support themes with indirect XPM images, like OnyX.
-      also distribute man/CMakeLists.txt.
-      Add 8 "get"-commands to icesh to complement to existing "set"-commands.
-      Clang has no variable tracking.
-      Keep icewm.html for distribution.
-      fix loop type
-      avoid dangling pointer
-      update icewmhint
-      more logging detail
-      explain env. update locations
-      update po files
-      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
-        icewm-1-4-BRANCH
-      Merge branch 'icewm-1-4-BRANCH'
-      Prepare 1.5.4 release
 
