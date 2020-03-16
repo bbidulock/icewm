@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-01-07 21:28+0100\n"
+"POT-Creation-Date: 2020-02-27 23:18+0100\n"
 "PO-Revision-Date: 2002-09-22 22:00+0200\n"
 "Last-Translator: Petter Johan Olsen <petter.olsen@cc.uit.no>\n"
 "Language-Team: Norwegian\n"
@@ -508,73 +508,84 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "Same Game"
 
-#: src/icesh.cc:65
+#: src/icesh.cc:66
 msgid "For help please consult the man page icesh(1).\n"
 msgstr ""
 
-#: src/icesh.cc:1246
+#: src/icesh.cc:1331
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Symbolnavn i domenet `%s' (tall mellom %ld-%ld):\n"
 
-#: src/icesh.cc:1384
-#, c-format
-msgid "Invalid workspace name: `%s'"
-msgstr "Ugyldig navn på skrivebordsområde: `%s'"
-
-#: src/icesh.cc:1388
+#: src/icesh.cc:1472
 #, fuzzy, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Skrivebordsområdet %d finnes ikke"
 
-#: src/icesh.cc:1656
+#: src/icesh.cc:1493
+#, c-format
+msgid "Invalid workspace name: `%s'"
+msgstr "Ugyldig navn på skrivebordsområde: `%s'"
+
+#: src/icesh.cc:1758
 msgid "GNOME window state"
 msgstr "GNOME vindustilstand"
 
-#: src/icesh.cc:1657
+#: src/icesh.cc:1759
 msgid "GNOME window hint"
 msgstr "GNOME vindushint"
 
-#: src/icesh.cc:1658
+#: src/icesh.cc:1760
 msgid "GNOME window layer"
 msgstr "GNOME vinduslag"
 
-#: src/icesh.cc:1659
+#: src/icesh.cc:1761
 msgid "IceWM tray option"
 msgstr "IceWM tray-innstilling"
 
-#: src/icesh.cc:1660
+#: src/icesh.cc:1762
 msgid "Gravity symbols"
 msgstr ""
 
-#: src/icesh.cc:1661
+#: src/icesh.cc:1763
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Motif functions"
 msgstr "Ofte brukte applikasjoner"
 
-#: src/icesh.cc:1662
+#: src/icesh.cc:1764
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Motif decorations"
 msgstr "Ofte brukte applikasjoner"
 
-#: src/icesh.cc:1741
+#: src/icesh.cc:1843
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "skrivebordsområde #%d: `%s'\n"
 
-#: src/icesh.cc:2704
+#: src/icesh.cc:2809
+#, c-format
+msgid "Cannot get geometry of window 0x%lx"
+msgstr ""
+
+#: src/icesh.cc:2834
+#, fuzzy, c-format
+#| msgid "Invalid argument: `%s'."
+msgid "Invalid Xinerama: `%s'."
+msgstr "Ugyldig argument: `%s'."
+
+#: src/icesh.cc:2882
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Kommandoen `%s' krever minst %d argumenter."
 
-#: src/icesh.cc:2714
+#: src/icesh.cc:2892
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Ugyldig uttrykk: `%s'"
 
-#: src/icesh.cc:2725 src/icesound.cc:795 src/icewmhint.cc:36 src/wmapp.cc:1179
+#: src/icesh.cc:2903 src/icesound.cc:795 src/icewmhint.cc:36 src/wmapp.cc:1190
 #: src/yxapp.cc:1060
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -582,26 +593,44 @@ msgstr ""
 "Kan ikke koble til display: %s. X må være startet og variabelen $DISPLAY må "
 "være satt."
 
-#: src/icesh.cc:2738
+#: src/icesh.cc:2916
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid argument: `%s'"
 msgstr "Ugyldig argument: `%s'."
 
-#: src/icesh.cc:2775
+#: src/icesh.cc:2953
 msgid "No windows found."
 msgstr ""
 
-#: src/icesh.cc:2790
+#: src/icesh.cc:2968
 msgid "No actions specified."
 msgstr "Ingen kommandoer spesifisert."
 
-#: src/icesh.cc:2986
+#: src/icesh.cc:3046
+#, fuzzy, c-format
+#| msgid "Invalid argument: `%s'."
+msgid "Invalid PID: `%s'"
+msgstr "Ugyldig argument: `%s'."
+
+#: src/icesh.cc:3082
+#, fuzzy, c-format
+#| msgid "Invalid argument: `%s'."
+msgid "Invalid layer: `%s'."
+msgstr "Ugyldig argument: `%s'."
+
+#: src/icesh.cc:3112
+#, fuzzy, c-format
+#| msgid "Invalid argument: `%s'."
+msgid "Invalid state: `%s'."
+msgstr "Ugyldig argument: `%s'."
+
+#: src/icesh.cc:3167
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Ugyldig vindus-identifikator: `%s'"
 
-#: src/icesh.cc:3636
+#: src/icesh.cc:3823
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Ukjent kommando: `%s'"
@@ -1044,164 +1073,164 @@ msgstr ""
 msgid "done."
 msgstr ""
 
-#: src/wmapp.cc:404
+#: src/wmapp.cc:411
 msgid "Unable to get current font path."
 msgstr "Nåværende tegnsett-sti kunne ikke hentes."
 
-#: src/wmapp.cc:431
+#: src/wmapp.cc:438
 msgid "Unexpected format of ICEWM_FONT_PATH property"
 msgstr "Uventet format for egenskapen ICEWM_FONT_PATH"
 
-#: src/wmapp.cc:501
+#: src/wmapp.cc:508
 msgid "_Logout"
 msgstr "_Logg av"
 
-#: src/wmapp.cc:502
+#: src/wmapp.cc:509
 msgid "_Cancel logout"
 msgstr "_Avbryt avlogging"
 
-#: src/wmapp.cc:507
+#: src/wmapp.cc:514
 msgid "Lock _Workstation"
 msgstr "Lås _arbeidsstasjon"
 
-#: src/wmapp.cc:509 src/wmdialog.cc:78
+#: src/wmapp.cc:516 src/wmdialog.cc:78
 msgid "Re_boot"
 msgstr "Start _maskinen på nytt"
 
-#: src/wmapp.cc:511 src/wmdialog.cc:79
+#: src/wmapp.cc:518 src/wmdialog.cc:79
 msgid "Shut_down"
 msgstr "S_lå av maskinen"
 
 #. TRANSLATORS: This means "energy saving mode" or "suspended system". Not "interrupt". Not "hibernate".
-#: src/wmapp.cc:513 src/wmdialog.cc:75
+#: src/wmapp.cc:520 src/wmdialog.cc:75
 msgid "_Sleep mode"
 msgstr ""
 
-#: src/wmapp.cc:518
+#: src/wmapp.cc:525
 msgid "Restart _Icewm"
 msgstr "Start _Icewm på nytt"
 
-#: src/wmapp.cc:520
+#: src/wmapp.cc:527
 msgid "Restart _Xterm"
 msgstr "Start _Xterm på nytt"
 
-#: src/wmapp.cc:530
+#: src/wmapp.cc:537
 msgid "_Menu"
 msgstr "_Meny"
 
-#: src/wmapp.cc:531
+#: src/wmapp.cc:538
 msgid "_Above Dock"
 msgstr "_Over dock"
 
-#: src/wmapp.cc:532
+#: src/wmapp.cc:539
 msgid "_Dock"
 msgstr "_Dock"
 
-#: src/wmapp.cc:533
+#: src/wmapp.cc:540
 msgid "_OnTop"
 msgstr "_Øverst"
 
-#: src/wmapp.cc:534
+#: src/wmapp.cc:541
 msgid "_Normal"
 msgstr "_Normal"
 
-#: src/wmapp.cc:535
+#: src/wmapp.cc:542
 msgid "_Below"
 msgstr "_Under"
 
-#: src/wmapp.cc:536
+#: src/wmapp.cc:543
 msgid "D_esktop"
 msgstr "_Skrivebord"
 
-#: src/wmapp.cc:571 src/wmwinlist.cc:379
+#: src/wmapp.cc:578 src/wmwinlist.cc:355
 msgid "_Restore"
 msgstr "_Gjenopprett"
 
-#: src/wmapp.cc:573
+#: src/wmapp.cc:580
 msgid "_Move"
 msgstr "_Flytt"
 
-#: src/wmapp.cc:575
+#: src/wmapp.cc:582
 msgid "_Size"
 msgstr "_Endre størrelse"
 
-#: src/wmapp.cc:577 src/wmwinlist.cc:380
+#: src/wmapp.cc:584 src/wmwinlist.cc:356
 msgid "Mi_nimize"
 msgstr "Mi_nimer"
 
-#: src/wmapp.cc:579 src/wmwinlist.cc:381
+#: src/wmapp.cc:586 src/wmwinlist.cc:357
 msgid "Ma_ximize"
 msgstr "Ma_ksimer"
 
-#: src/wmapp.cc:580 src/wmwinlist.cc:382
+#: src/wmapp.cc:587 src/wmwinlist.cc:358
 #, fuzzy
 #| msgid "Maximize"
 msgid "Maximize_Vert"
 msgstr "Maksimer"
 
-#: src/wmapp.cc:581
+#: src/wmapp.cc:588
 #, fuzzy
 #| msgid "Maximize"
 msgid "MaximizeHori_z"
 msgstr "Maksimer"
 
-#: src/wmapp.cc:584 src/wmwinlist.cc:383
+#: src/wmapp.cc:591 src/wmwinlist.cc:359
 msgid "_Fullscreen"
 msgstr "_Fullskjerm"
 
-#: src/wmapp.cc:587 src/wmwinlist.cc:385
+#: src/wmapp.cc:594 src/wmwinlist.cc:361
 msgid "_Hide"
 msgstr "G_jem"
 
-#: src/wmapp.cc:589 src/wmwinlist.cc:386
+#: src/wmapp.cc:596 src/wmwinlist.cc:362
 msgid "Roll_up"
 msgstr "_Rull opp"
 
-#: src/wmapp.cc:596
+#: src/wmapp.cc:603
 msgid "R_aise"
 msgstr "_Hev"
 
-#: src/wmapp.cc:598 src/wmwinlist.cc:388
+#: src/wmapp.cc:605 src/wmwinlist.cc:364
 msgid "_Lower"
 msgstr "_Senk"
 
-#: src/wmapp.cc:600 src/wmwinlist.cc:389
+#: src/wmapp.cc:607 src/wmwinlist.cc:365
 msgid "La_yer"
 msgstr "_Lag"
 
-#: src/wmapp.cc:604 src/wmwinlist.cc:391
+#: src/wmapp.cc:611 src/wmwinlist.cc:367
 msgid "Move _To"
 msgstr "Fl_ytt til"
 
-#: src/wmapp.cc:605 src/wmwinlist.cc:392
+#: src/wmapp.cc:612 src/wmwinlist.cc:368
 msgid "Occupy _All"
 msgstr "Finnes på _alle"
 
-#: src/wmapp.cc:611
+#: src/wmapp.cc:618
 msgid "Limit _Workarea"
 msgstr "_Begrens område"
 
-#: src/wmapp.cc:615 src/wmwinlist.cc:393
+#: src/wmapp.cc:622 src/wmwinlist.cc:369
 msgid "Tray _icon"
 msgstr "_Trayikon"
 
-#: src/wmapp.cc:620 src/wmwinlist.cc:369 src/wmwinlist.cc:404
+#: src/wmapp.cc:627 src/wmwinlist.cc:384 src/wmwinlist.cc:392
 msgid "_Close"
 msgstr "L_ukk"
 
-#: src/wmapp.cc:622 src/wmwinlist.cc:371
+#: src/wmapp.cc:629 src/wmwinlist.cc:386
 msgid "_Kill Client"
 msgstr "_Drep klient"
 
-#: src/wmapp.cc:625 src/wmdialog.cc:80 src/wmwinmenu.cc:134
+#: src/wmapp.cc:632 src/wmdialog.cc:80 src/wmwinmenu.cc:134
 msgid "_Window list"
 msgstr "_Vindusliste"
 
-#: src/wmapp.cc:658
+#: src/wmapp.cc:665
 msgid "Another window manager already running, exiting..."
 msgstr "En annen vindusbehandler kjører allerede, avslutter..."
 
-#: src/wmapp.cc:732
+#: src/wmapp.cc:739
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1210,27 +1239,27 @@ msgstr ""
 "Kunne ikke starte `%s' på nytt\n"
 "Finnes `%s' i $PATH?"
 
-#: src/wmapp.cc:878
+#: src/wmapp.cc:889
 msgid "Kill IceWM, replace with Xterm"
 msgstr ""
 
-#: src/wmapp.cc:1180 src/yxapp.cc:1061
+#: src/wmapp.cc:1191 src/yxapp.cc:1061
 msgid "<none>"
 msgstr "<ingen>"
 
-#: src/wmapp.cc:1518
+#: src/wmapp.cc:1530
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 
-#: src/wmapp.cc:1524
+#: src/wmapp.cc:1536
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
 "  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
 
-#: src/wmapp.cc:1532
+#: src/wmapp.cc:1544
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -1241,7 +1270,7 @@ msgid ""
 "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgstr ""
 
-#: src/wmapp.cc:1541
+#: src/wmapp.cc:1553
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1300,26 +1329,26 @@ msgstr ""
 "Se https://ice-wm.org/ for å rapportere feil, få hjelp, og gi kommentarer.\n"
 "\n"
 
-#: src/wmapp.cc:1602
+#: src/wmapp.cc:1614
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr ""
 
-#: src/wmapp.cc:1687
+#: src/wmapp.cc:1699
 #, fuzzy, c-format
 msgid "%s configured options:%s\n"
 msgstr "Ukjent opsjon: %s\n"
 
-#: src/wmapp.cc:1751
+#: src/wmapp.cc:1763
 #, fuzzy, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Ukjent opsjon: %s\n"
 
-#: src/wmapp.cc:1823
+#: src/wmapp.cc:1835
 msgid "Confirm Logout"
 msgstr "Bekreft avlogging"
 
-#: src/wmapp.cc:1824
+#: src/wmapp.cc:1836
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1362,8 +1391,8 @@ msgid "_Cancel"
 msgstr "A_vbryt"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:77 src/wmprog.cc:849 src/wmprog.cc:851 src/wmtaskbar.cc:272
-#: src/wmtaskbar.cc:274
+#: src/wmdialog.cc:77 src/wmprog.cc:849 src/wmprog.cc:851 src/wmtaskbar.cc:261
+#: src/wmtaskbar.cc:263
 msgid "_Logout..."
 msgstr "_Logg av"
 
@@ -1372,15 +1401,15 @@ msgid "_Restart icewm"
 msgstr "_Start Icewm på nytt"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:82 src/wmprog.cc:810 src/wmtaskbar.cc:267
+#: src/wmdialog.cc:82 src/wmprog.cc:810 src/wmtaskbar.cc:256
 msgid "_About"
 msgstr "_Om"
 
-#: src/wmframe.cc:1410
+#: src/wmframe.cc:1411
 msgid "Kill Client: "
 msgstr "Drep klient: "
 
-#: src/wmframe.cc:1417
+#: src/wmframe.cc:1418
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1388,19 +1417,19 @@ msgstr ""
 "ADVARSEL! Alle ulagrede data vil gå tapt hvis\n"
 "denne klienten blir drept. Vil du fortsette?"
 
-#: src/wmframe.cc:3023
+#: src/wmframe.cc:3024
 msgid "Restore"
 msgstr "Gjenopprett"
 
-#: src/wmframe.cc:3026 src/wmtitle.cc:71
+#: src/wmframe.cc:3027 src/wmtitle.cc:71
 msgid "Maximize"
 msgstr "Maksimer"
 
-#: src/wmframe.cc:3056
+#: src/wmframe.cc:3057
 msgid "Rolldown"
 msgstr "Rull ned"
 
-#: src/wmframe.cc:3058 src/wmtitle.cc:129
+#: src/wmframe.cc:3059 src/wmtitle.cc:129
 msgid "Rollup"
 msgstr "Rull opp"
 
@@ -1469,7 +1498,7 @@ msgid "_Run..."
 msgstr "_Kjør..."
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmprog.cc:797 src/wmtaskbar.cc:262
+#: src/wmprog.cc:797 src/wmtaskbar.cc:251
 msgid "_Windows"
 msgstr "_Vinduer"
 
@@ -1499,74 +1528,74 @@ msgid "Session Manager: Unknown line %s"
 msgstr "Sesjonshåndterer: ukjent linje `%s'"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:244 src/wmwinlist.cc:395 src/wmwinlist.cc:415
+#: src/wmtaskbar.cc:233 src/wmwinlist.cc:371 src/wmwinlist.cc:404
 msgid "Tile _Vertically"
 msgstr "Flislegg _vertikalt"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:246 src/wmwinlist.cc:396 src/wmwinlist.cc:416
+#: src/wmtaskbar.cc:235 src/wmwinlist.cc:372 src/wmwinlist.cc:405
 msgid "T_ile Horizontally"
 msgstr "Flislegg _horisontalt"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:248 src/wmwinlist.cc:397 src/wmwinlist.cc:417
+#: src/wmtaskbar.cc:237 src/wmwinlist.cc:373 src/wmwinlist.cc:406
 msgid "Ca_scade"
 msgstr "_Overlapp"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:250 src/wmwinlist.cc:398 src/wmwinlist.cc:418
+#: src/wmtaskbar.cc:239 src/wmwinlist.cc:374 src/wmwinlist.cc:407
 msgid "_Arrange"
 msgstr "_Arranger"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:252 src/wmwinlist.cc:400 src/wmwinlist.cc:419
+#: src/wmtaskbar.cc:241 src/wmwinlist.cc:376 src/wmwinlist.cc:408
 msgid "_Minimize All"
 msgstr "_Minimer alle"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:254 src/wmwinlist.cc:401 src/wmwinlist.cc:420
+#: src/wmtaskbar.cc:243 src/wmwinlist.cc:377 src/wmwinlist.cc:409
 msgid "_Hide All"
 msgstr "_Gjem alle"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:256 src/wmwinlist.cc:402 src/wmwinlist.cc:421
+#: src/wmtaskbar.cc:245 src/wmwinlist.cc:378 src/wmwinlist.cc:410
 msgid "_Undo"
 msgstr "A_ngre"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:259
+#: src/wmtaskbar.cc:248
 msgid "Arrange _Icons"
 msgstr "Still opp _ikoner"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:265
+#: src/wmtaskbar.cc:254
 msgid "_Refresh"
 msgstr "G_jenoppfrisk"
 
-#: src/wmtaskbar.cc:338 src/wmtaskbar.cc:957
+#: src/wmtaskbar.cc:327 src/wmtaskbar.cc:931
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Hide Taskbar"
 msgstr "Oppgavelinje"
 
-#: src/wmtaskbar.cc:356
+#: src/wmtaskbar.cc:345
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Favorite Applications"
 msgstr "Ofte brukte applikasjoner"
 
-#: src/wmtaskbar.cc:377
+#: src/wmtaskbar.cc:366
 #, fuzzy
 #| msgid "Window list menu"
 msgid "Window List Menu"
 msgstr "Vindusmeny"
 
-#: src/wmtaskbar.cc:386
+#: src/wmtaskbar.cc:375
 #, fuzzy
 msgid "Show Desktop"
 msgstr "_Skrivebord"
 
-#: src/wmtaskbar.cc:957
+#: src/wmtaskbar.cc:931
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Show Taskbar"
@@ -1584,35 +1613,35 @@ msgstr "Gjem"
 msgid "Raise/Lower"
 msgstr "Hev/senk"
 
-#: src/wmwinlist.cc:51
+#: src/wmwinlist.cc:45
 #, fuzzy
 msgid "All Workspaces"
 msgstr "Skrivebordsområde: "
 
-#: src/wmwinlist.cc:369
-#, fuzzy
-msgid "Del"
-msgstr "Delete"
-
-#: src/wmwinlist.cc:373
-msgid "_Terminate Process"
-msgstr "_Terminer prosess"
-
-#: src/wmwinlist.cc:374
-msgid "Kill _Process"
-msgstr "Drep _prosess"
-
-#: src/wmwinlist.cc:384
+#: src/wmwinlist.cc:360
 msgid "_Show"
 msgstr "_Vis"
 
-#: src/wmwinlist.cc:387
+#: src/wmwinlist.cc:363
 #, fuzzy
 #| msgid "R_aise"
 msgid "_Raise"
 msgstr "_Hev"
 
-#: src/wmwinlist.cc:437 src/wmwinlist.cc:438
+#: src/wmwinlist.cc:384
+#, fuzzy
+msgid "Del"
+msgstr "Delete"
+
+#: src/wmwinlist.cc:388
+msgid "_Terminate Process"
+msgstr "_Terminer prosess"
+
+#: src/wmwinlist.cc:389
+msgid "Kill _Process"
+msgstr "Drep _prosess"
+
+#: src/wmwinlist.cc:424 src/wmwinlist.cc:425
 msgid "Window list"
 msgstr "Vindusliste"
 

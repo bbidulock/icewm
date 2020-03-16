@@ -54,7 +54,7 @@ void YApplication::initSignals() {
     fcntl(signalPipe[0], F_SETFD, FD_CLOEXEC);
     fcntl(signalPipe[1], F_SETFD, FD_CLOEXEC);
 #endif
-    sfd.registerPoll(this, signalPipe[0]);
+    sfd.registerPoll(signalPipe[0]);
 }
 
 #ifdef __linux__
@@ -64,6 +64,7 @@ void alrm_handler(int /*sig*/) {
 #endif
 
 YApplication::YApplication(int * /*argc*/, char *** /*argv*/) :
+    sfd(this),
     fLoopLevel(0),
     fExitCode(0),
     fExitLoop(false),
@@ -195,9 +196,7 @@ void YApplication::registerPoll(YPollBase *t) {
 }
 
 void YApplication::unregisterPoll(YPollBase *t) {
-    int k = find(polls, t);
-    if (k >= 0)
-        polls.remove(k);
+    findRemove(polls, t);
 }
 
 YPollBase::~YPollBase() {
@@ -205,18 +204,28 @@ YPollBase::~YPollBase() {
 }
 
 void YPollBase::unregisterPoll() {
-    if (fd() >= 0) {
+    if (fRegistered) {
         mainLoop->unregisterPoll(this);
-        fFd = -1;
+        fRegistered = false;
     }
 }
 
-
 void YPollBase::registerPoll(int fd) {
-    unregisterPoll();
     fFd = fd;
-    if (fFd >= 0) {
+    if (fFd < 0) {
+        unregisterPoll();
+    }
+    else if (fRegistered == false) {
         mainLoop->registerPoll(this);
+        fRegistered = true;
+    }
+}
+
+void YPollBase::closePoll() {
+    unregisterPoll();
+    if (fFd >= 0) {
+        close(fFd);
+        fFd = -1;
     }
 }
 
@@ -236,8 +245,7 @@ int YApplication::mainLoop() {
         fd_set write_fds;
         FD_ZERO(&write_fds);
 
-        YArrayIterator<YPollBase*> iPoll = polls.iterator();
-        while (++iPoll) {
+        for (YPollIterType iPoll = polls.iterator(); ++iPoll; ) {
             PRECONDITION(iPoll->fd() >= 0);
             if (iPoll->forRead()) {
                 FD_SET(iPoll->fd(), &read_fds);
@@ -286,7 +294,7 @@ int YApplication::mainLoop() {
             if (errno != EINTR)
                 fail(_("%s: select failed"), __func__);
         } else {
-            for (iPoll = polls.reverseIterator(); ++iPoll; ) {
+            for (YPollIterType iPoll = polls.reverseIterator(); ++iPoll; ) {
                 if (iPoll->fd() >= 0 && FD_ISSET(iPoll->fd(), &read_fds)) {
                     iPoll->notifyRead();
                     if (iPoll.isValid() == false)
@@ -450,17 +458,6 @@ void YSignalPoll::notifyRead()
         owner()->handleSignal(info.ssi_signo);
 }
 #endif
-
-void YSignalPoll::notifyWrite() {
-}
-
-bool YSignalPoll::forRead() {
-    return true;
-}
-
-bool YSignalPoll::forWrite() {
-    return false;
-}
 
 const upath& YApplication::getLibDir() {
     static upath dir( LIBDIR );

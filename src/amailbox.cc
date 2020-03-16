@@ -332,10 +332,10 @@ void MailCheck::startSSL() {
         fPid = fork();
         if (fPid == -1) {
             close(other);
-            sk.close();
+            sk.terminate();
         }
         else if (fPid == 0) {
-            sk.close();
+            sk.terminate();
             dup2(other, 0);
             dup2(other, 1);
             if (other > 2)
@@ -368,13 +368,13 @@ void MailCheck::socketConnected() {
 void MailCheck::release() {
     if (ssl()) {
         sk.shutdown();
-        sk.close();
+        sk.terminate();
         if (fPid > 1) {
             kill(fPid, SIGKILL);
             fPid = 0;
         }
     }
-    else sk.close();
+    else sk.terminate();
 }
 
 void MailCheck::socketError(int err) {

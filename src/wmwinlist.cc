@@ -17,28 +17,23 @@
 
 WindowListProxy windowList;
 
-WindowListItem::WindowListItem(ClientData *frame, int workspace): YListItem() {
-    fFrame = frame;
-    fWorkspace = workspace;
+WindowListItem::WindowListItem(ClientData *frame, int workspace):
+    fFrame(frame),
+    fWorkspace(workspace)
+{
 }
 
 WindowListItem::~WindowListItem() {
     if (fFrame) {
-        fFrame->setWinListItem(0);
-        fFrame = 0;
+        fFrame->setWinListItem(nullptr);
+        fFrame = nullptr;
     }
 }
 
 int WindowListItem::getOffset() {
     int ofs = -20;
-    ClientData *w = getFrame();
-
-    if (w) {
-        ofs += 40;
-        while (w->owner()) {
-            ofs += 20;
-            w = w->owner();
-        }
+    for (ClientData *w = getFrame(); w; w = w->owner()) {
+        ofs = max(20, ofs + 20);
     }
     return ofs;
 }
@@ -46,11 +41,12 @@ int WindowListItem::getOffset() {
 ustring WindowListItem::getText() {
     if (fFrame)
         return getFrame()->getTitle();
+    else if (fWorkspace < 0)
+        return _("All Workspaces");
+    else if (fWorkspace < workspaceCount)
+        return workspaceNames[fWorkspace];
     else
-        if (fWorkspace < 0)
-            return _("All Workspaces");
-        else
-            return workspaceNames[fWorkspace];
+        return null;
 }
 
 ref<YIcon> WindowListItem::getIcon() {
@@ -76,8 +72,7 @@ void WindowListBox::activateItem(YListItem *item) {
         windowList->getFrame()->wmHide();
     } else {
         int w = i->getWorkspace();
-
-        if (w != -1) {
+        if (w >= 0) {
             manager->activateWorkspace(w);
             windowList->getFrame()->wmHide();
         }
@@ -86,12 +81,12 @@ void WindowListBox::activateItem(YListItem *item) {
 
 void WindowListBox::getSelectedWindows(YArray<YFrameWindow *> &frames) {
     if (hasSelection()) {
-        for (YListItem *i = getFirst(); i; i = i->getNext()) {
-            if (isSelected(i)) {
-                WindowListItem *item = (WindowListItem *)i;
-                ClientData *f = item->getFrame();
-                if (f)
-                    frames.append((YFrameWindow *)f);
+        for (IterType iter(getIterator()); ++iter; ) {
+            if (isSelected(iter.where())) {
+                WindowListItem *item = static_cast<WindowListItem *>(*iter);
+                ClientData *frame = item->getFrame();
+                if (frame)
+                    frames.append(static_cast<YFrameWindow *>(frame));
             }
         }
     }
@@ -110,7 +105,7 @@ void WindowListBox::actionPerformed(YAction action, unsigned int modifiers) {
         if (frameList.nonempty())
             manager->tileWindows(frameList.getItemPtr(0),
                                  frameList.getCount(),
-                                 (action == actionTileVertical) ? true : false);
+                                 (action == actionTileVertical));
     } else if (action == actionCascade ||
                action == actionArrange)
     {
@@ -238,9 +233,9 @@ void WindowListBox::enableCommands(YMenu *popup) {
     // enable workspace selections if appropriate
 
     popup->enableCommand(actionNull);
-    for (YListItem *i = getFirst(); i; i = i->getNext()) {
-        if (isSelected(i)) {
-            WindowListItem *item = (WindowListItem *)i;
+    for (IterType iter(getIterator()); ++iter; ) {
+        if (isSelected(iter.where())) {
+            WindowListItem *item = static_cast<WindowListItem *>(*iter);
             ClientData* frame = item->getFrame();
             if (!frame) {
                 continue;
@@ -328,12 +323,8 @@ void WindowListBox::enableCommands(YMenu *popup) {
 }
 
 WindowList::WindowList(YWindow *aParent, YActionListener *wmActionListener):
-    YFrameClient(aParent, 0),
-    fWorkspaceCount(workspaceCount),
-    workspaceItem(0),
+    YFrameClient(aParent, nullptr),
     wmActionListener(wmActionListener),
-    windowListPopup(0),
-    windowListAllPopup(0),
     scroll(new YScrollView(this)),
     list(new WindowListBox(scroll, scroll))
 {
@@ -342,14 +333,7 @@ WindowList::WindowList(YWindow *aParent, YActionListener *wmActionListener):
     list->show();
     scroll->show();
 
-    workspaceItem = new WindowListItem *[fWorkspaceCount + 1];
-    for (int ws = 0; ws < fWorkspaceCount; ws++) {
-        workspaceItem[ws] = new WindowListItem(0, ws);
-        list->addItem(workspaceItem[ws]);
-    }
-    workspaceItem[fWorkspaceCount] = new WindowListItem(0, -1);
-    list->addItem(workspaceItem[fWorkspaceCount]);
-
+    updateWorkspaces();
     setupClient();
 }
 
@@ -360,8 +344,39 @@ void WindowList::updateWindowListApps() {
 }
 
 YMenu* WindowList::getWindowListPopup() {
-    if (windowListPopup)
-        return windowListPopup;
+    if (windowListPopup == nullptr) {
+        windowListPopup = new WindowListPopup();
+        windowListPopup->setActionListener(list);
+    }
+    return windowListPopup;
+}
+
+WindowListPopup::WindowListPopup() {
+    addItem(_("_Restore"), -2, KEY_NAME(gKeyWinRestore), actionRestore);
+    addItem(_("Mi_nimize"), -2, KEY_NAME(gKeyWinMinimize), actionMinimize);
+    addItem(_("Ma_ximize"), -2, KEY_NAME(gKeyWinMaximize), actionMaximize);
+    addItem(_("Maximize_Vert"), -2, KEY_NAME(gKeyWinMaximizeVert), actionMaximizeVert);
+    addItem(_("_Fullscreen"), -2, KEY_NAME(gKeyWinFullscreen), actionFullscreen);
+    addItem(_("_Show"), -2, null, actionShow);
+    addItem(_("_Hide"), -2, KEY_NAME(gKeyWinHide), actionHide);
+    addItem(_("Roll_up"), -2, KEY_NAME(gKeyWinRollup), actionRollup);
+    addItem(_("_Raise"), -2, KEY_NAME(gKeyWinRaise), actionRaise);
+    addItem(_("_Lower"), -2, KEY_NAME(gKeyWinLower), actionLower);
+    addSubmenu(_("La_yer"), -2, layerMenu);
+    addSeparator();
+    addSubmenu(_("Move _To"), -2, moveMenu);
+    addItem(_("Occupy _All"), -2, KEY_NAME(gKeyWinOccupyAll), actionOccupyAllOrCurrent);
+    addItem(_("Tray _icon"), -2, null, actionToggleTray);
+    addSeparator();
+    addItem(_("Tile _Vertically"), -2, KEY_NAME(gKeySysTileVertical), actionTileVertical);
+    addItem(_("T_ile Horizontally"), -2, KEY_NAME(gKeySysTileHorizontal), actionTileHorizontal);
+    addItem(_("Ca_scade"), -2, KEY_NAME(gKeySysCascade), actionCascade);
+    addItem(_("_Arrange"), -2, KEY_NAME(gKeySysArrange), actionArrange);
+    addSeparator();
+    addItem(_("_Minimize All"), -2, KEY_NAME(gKeySysMinimizeAll), actionMinimizeAll);
+    addItem(_("_Hide All"), -2, KEY_NAME(gKeySysHideAll), actionHideAll);
+    addItem(_("_Undo"), -2, KEY_NAME(gKeySysUndoArrange), actionUndoArrange);
+    addSeparator();
 
     YMenu *closeSubmenu = new YMenu();
     assert(closeSubmenu != 0);
@@ -374,53 +389,25 @@ YMenu* WindowList::getWindowListPopup() {
     closeSubmenu->addItem(_("Kill _Process"), -2, 0, actionKillProcess)->setEnabled(false);
 #endif
 
-    windowListPopup = new YMenu();
-    windowListPopup->setActionListener(list);
-    windowListPopup->addItem(_("_Restore"), -2, KEY_NAME(gKeyWinRestore), actionRestore);
-    windowListPopup->addItem(_("Mi_nimize"), -2, KEY_NAME(gKeyWinMinimize), actionMinimize);
-    windowListPopup->addItem(_("Ma_ximize"), -2, KEY_NAME(gKeyWinMaximize), actionMaximize);
-    windowListPopup->addItem(_("Maximize_Vert"), -2, KEY_NAME(gKeyWinMaximizeVert), actionMaximizeVert);
-    windowListPopup->addItem(_("_Fullscreen"), -2, KEY_NAME(gKeyWinFullscreen), actionFullscreen);
-    windowListPopup->addItem(_("_Show"), -2, null, actionShow);
-    windowListPopup->addItem(_("_Hide"), -2, KEY_NAME(gKeyWinHide), actionHide);
-    windowListPopup->addItem(_("Roll_up"), -2, KEY_NAME(gKeyWinRollup), actionRollup);
-    windowListPopup->addItem(_("_Raise"), -2, KEY_NAME(gKeyWinRaise), actionRaise);
-    windowListPopup->addItem(_("_Lower"), -2, KEY_NAME(gKeyWinLower), actionLower);
-    windowListPopup->addSubmenu(_("La_yer"), -2, layerMenu);
-    windowListPopup->addSeparator();
-    windowListPopup->addSubmenu(_("Move _To"), -2, moveMenu);
-    windowListPopup->addItem(_("Occupy _All"), -2, KEY_NAME(gKeyWinOccupyAll), actionOccupyAllOrCurrent);
-    windowListPopup->addItem(_("Tray _icon"), -2, null, actionToggleTray);
-    windowListPopup->addSeparator();
-    windowListPopup->addItem(_("Tile _Vertically"), -2, KEY_NAME(gKeySysTileVertical), actionTileVertical);
-    windowListPopup->addItem(_("T_ile Horizontally"), -2, KEY_NAME(gKeySysTileHorizontal), actionTileHorizontal);
-    windowListPopup->addItem(_("Ca_scade"), -2, KEY_NAME(gKeySysCascade), actionCascade);
-    windowListPopup->addItem(_("_Arrange"), -2, KEY_NAME(gKeySysArrange), actionArrange);
-    windowListPopup->addSeparator();
-    windowListPopup->addItem(_("_Minimize All"), -2, KEY_NAME(gKeySysMinimizeAll), actionMinimizeAll);
-    windowListPopup->addItem(_("_Hide All"), -2, KEY_NAME(gKeySysHideAll), actionHideAll);
-    windowListPopup->addItem(_("_Undo"), -2, KEY_NAME(gKeySysUndoArrange), actionUndoArrange);
-    windowListPopup->addSeparator();
-    windowListPopup->addItem(_("_Close"), -2, actionClose, closeSubmenu);
-
-    return windowListPopup;
+    addItem(_("_Close"), -2, actionClose, closeSubmenu);
 }
 
 YMenu* WindowList::getWindowListAllPopup() {
-    if (windowListAllPopup)
-        return windowListAllPopup;
-
-    windowListAllPopup = new YMenu();
-    windowListAllPopup->setActionListener(wmActionListener);
-    windowListAllPopup->addItem(_("Tile _Vertically"), -2, KEY_NAME(gKeySysTileVertical), actionTileVertical);
-    windowListAllPopup->addItem(_("T_ile Horizontally"), -2, KEY_NAME(gKeySysTileHorizontal), actionTileHorizontal);
-    windowListAllPopup->addItem(_("Ca_scade"), -2, KEY_NAME(gKeySysCascade), actionCascade);
-    windowListAllPopup->addItem(_("_Arrange"), -2, KEY_NAME(gKeySysArrange), actionArrange);
-    windowListAllPopup->addItem(_("_Minimize All"), -2, KEY_NAME(gKeySysMinimizeAll), actionMinimizeAll);
-    windowListAllPopup->addItem(_("_Hide All"), -2, KEY_NAME(gKeySysHideAll), actionHideAll);
-    windowListAllPopup->addItem(_("_Undo"), -2, KEY_NAME(gKeySysUndoArrange), actionUndoArrange);
-
+    if (windowListAllPopup == nullptr) {
+        windowListAllPopup = new WindowListAllPopup();
+        windowListAllPopup->setActionListener(list);
+    }
     return windowListAllPopup;
+}
+
+WindowListAllPopup::WindowListAllPopup() {
+    addItem(_("Tile _Vertically"), -2, KEY_NAME(gKeySysTileVertical), actionTileVertical);
+    addItem(_("T_ile Horizontally"), -2, KEY_NAME(gKeySysTileHorizontal), actionTileHorizontal);
+    addItem(_("Ca_scade"), -2, KEY_NAME(gKeySysCascade), actionCascade);
+    addItem(_("_Arrange"), -2, KEY_NAME(gKeySysArrange), actionArrange);
+    addItem(_("_Minimize All"), -2, KEY_NAME(gKeySysMinimizeAll), actionMinimizeAll);
+    addItem(_("_Hide All"), -2, KEY_NAME(gKeySysHideAll), actionHideAll);
+    addItem(_("_Undo"), -2, KEY_NAME(gKeySysUndoArrange), actionUndoArrange);
 }
 
 void WindowList::setupClient() {
@@ -441,51 +428,26 @@ void WindowList::setupClient() {
 
     setWinHintsHint(WinHintsSkipTaskBar |
                     WinHintsSkipWindowMenu);
-    long winState = WinStateSkipTaskBar |
-                    WinStateSticky;
-    setWinStateHint(winState, winState);
     setWinWorkspaceHint(-1);
     setWinLayerHint(WinLayerAboveDock);
 }
 
 WindowList::~WindowList() {
-    delete list; list = 0;
-    delete scroll; scroll = 0;
-    delete windowListAllPopup; windowListAllPopup = 0;
-    delete windowListPopup; windowListPopup = 0;
-
-    for (int ws = 0; ws <= fWorkspaceCount; ws++) {
-        delete workspaceItem[ws];
-    }
-    delete[] workspaceItem;
 }
 
 void WindowList::updateWorkspaces() {
-    long fOldWorkspaceCount = fWorkspaceCount;
-    fWorkspaceCount = workspaceCount;
-    if (fWorkspaceCount != fOldWorkspaceCount) {
-        WindowListItem **oldWorkspaceItem = workspaceItem;
-        workspaceItem = new WindowListItem *[fWorkspaceCount + 1];
-        workspaceItem[fWorkspaceCount] = oldWorkspaceItem[fOldWorkspaceCount];
-        list->removeItem(workspaceItem[fWorkspaceCount]);
-        if (fWorkspaceCount > fOldWorkspaceCount) {
-            for (long w = 0; w < fOldWorkspaceCount; w++)
-                workspaceItem[w] = oldWorkspaceItem[w];
-            for (long w = fOldWorkspaceCount; w < fWorkspaceCount; w++) {
-                workspaceItem[w] = new WindowListItem(0, w);
-                list->addItem(workspaceItem[w]);
-            }
-        } else
-        if (fWorkspaceCount < fOldWorkspaceCount) {
-            for (long w = 0; w < fWorkspaceCount; w++)
-                workspaceItem[w] = oldWorkspaceItem[w];
-            for (long w = fWorkspaceCount; w < fOldWorkspaceCount; w++) {
-                list->removeItem(oldWorkspaceItem[w]);
-                delete oldWorkspaceItem[w];
-            }
-        }
-        list->addItem(workspaceItem[fWorkspaceCount]);
-        delete[] oldWorkspaceItem;
+    if (workspaceItem.isEmpty()) {
+        workspaceItem.append(new WindowListItem(nullptr, AllWorkspaces));
+        list->addItem(workspaceItem[0]);
+    }
+    WindowListItem *allWS = workspaceItem[workspaceItem.getCount() - 1];
+    for (int ws = workspaceItem.getCount() - 1; ws < workspaceCount; ++ws) {
+        workspaceItem.insert(ws, new WindowListItem(nullptr, ws));
+        list->addBefore(allWS, workspaceItem[ws]);
+    }
+    for (int ws = workspaceItem.getCount() - 1; ws > workspaceCount; --ws) {
+        list->removeItem(workspaceItem[ws - 1]);
+        workspaceItem.remove(ws - 1);
     }
 }
 
@@ -503,9 +465,7 @@ void WindowList::relayout() {
 }
 
 WindowListItem *WindowList::addWindowListApp(YFrameWindow *frame) {
-    if (!frame->client()->adopted())
-        return 0;
-    WindowListItem *item = new WindowListItem(frame);
+    WindowListItem *item = new WindowListItem(frame, frame->getWorkspace());
     if (item) {
         insertApp(item);
     }
@@ -519,9 +479,9 @@ void WindowList::insertApp(WindowListItem *item) {
     {
         list->addAfter(frame->owner()->winListItem(), item);
     } else {
-        int nw = frame->getWorkspace();
-        if (!frame->isAllWorkspaces())
-            list->addAfter(workspaceItem[nw], item);
+        int ws = frame->getWorkspace();
+        if (0 <= ws && ws < workspaceItem.getCount())
+            list->addAfter(workspaceItem[ws], item);
         else
             list->addItem(item);
     }
@@ -541,6 +501,10 @@ void WindowList::updateWindowListApp(WindowListItem *item) {
     }
 }
 
+void WindowList::repaintItem(WindowListItem *item) {
+    list->repaintItem(item);
+}
+
 void WindowList::configure(const YRect2& r) {
     if (r.resized()) {
         scroll->setGeometry(YRect(0, 0, r.width(), r.height()));
@@ -553,13 +517,11 @@ void WindowList::handleClose() {
 }
 
 void WindowList::showFocused(int x, int y) {
-    YFrameWindow *f = manager->getFocus();
-
-    if (f != getFrame()) {
-        if (f)
-            list->focusSelectItem(list->findItem(f->winListItem()));
-        else
-            list->focusSelectItem(0);
+    const YFrameWindow *focus = manager->getFocus();
+    if (focus != getFrame() || focus == nullptr) {
+        WindowListItem* item = focus ? focus->winListItem()
+                             : workspaceItem[manager->activeWorkspace()];
+        list->focusSelectItem(list->findItem(item));
     }
     if (getFrame() == 0) {
         int scn = desktop->getScreenForRect(x, y, 1, 1);

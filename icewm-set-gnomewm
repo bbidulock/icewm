@@ -12,7 +12,7 @@ COPYING
             exit 0
             ;;
         -V|--version)
-            echo "$0 version 1.4.x, Copyrighted."
+            echo "$0 version 1.6.x, Copyrighted."
             exit 0
             ;;
         -h|-\?|--help|--\?)
@@ -26,11 +26,30 @@ COPYING
     esac
 done
 
-echo Previous window manager:
-gconftool-2 -g /desktop/gnome/session/required_components/windowmanager
+if test -x /usr/bin/gconftool-2
+then
+    path=/desktop/gnome/session/required_components/windowmanager
 
+    echo "Previous GNOME window manager:"
+    gconftool-2 -g $path
 
-gconftool-2 -s /desktop/gnome/session/required_components/windowmanager --type string icewm
+    echo "Setting GNOME window manager to icewm-session"
+    gconftool-2 -s $path --type string icewm-session
 
-echo New window manager:
-gconftool-2 -g /desktop/gnome/session/required_components/windowmanager
+    echo "New GNOME window manager:"
+    gconftool-2 -g $path
+fi
+
+if test -x /usr/bin/gsettings
+then
+    schema=org.mate.session.required-components
+
+    echo "Setting MATE windowmanager to icewm-session"
+    gsettings set $schema windowmanager icewm-session
+
+elif text -x /usr/bin/dconf
+then
+    echo "Setting MATE windowmanager to icewm-session"
+    dconf write /org/mate/desktop/session/required-components/windowmanager "'icewm-session'"
+fi
+

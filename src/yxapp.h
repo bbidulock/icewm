@@ -39,7 +39,15 @@ public:
         fType(None), fLimit(limit), fSize(None), fMore(None), fBits(format),
         fDelete(remove)
     { update(); }
+
+    YProperty(Window handle, Atom prop, YFormat format = F32,
+              long limit = 1L, Atom type = AnyPropertyType, bool remove = False):
+        fWind(handle), fData(nullptr), fProp(prop), fKind(type), fType(None),
+        fLimit(limit), fSize(None), fMore(None), fBits(format), fDelete(remove)
+    { update(); }
+
     ~YProperty() { discard(); }
+
     void discard();
     const YProperty& update();
     Atom property() const { return fProp; }
@@ -52,8 +60,8 @@ public:
 
     template<class T> T* data() const { return reinterpret_cast<T*>(fData); }
     template<class T> T* retrieve() { T* t(data<T>()); fData = 0; return t; }
-    template<class T> T& operator[](int i) const { return data<T>()[i]; }
-    template<class T> T& operator*() const { return *data<T>(); }
+    long operator[](int i) const { return data<long>()[i]; }
+    long operator*() const { return *data<long>(); }
     template<class T> T* operator->() const { return data<T>(); }
 
 private:
@@ -71,10 +79,9 @@ private:
 
 class YXPoll: public YPoll<class YXApplication> {
 public:
+    explicit YXPoll(YXApplication* owner) : YPoll(owner) { }
     virtual void notifyRead();
-    virtual void notifyWrite();
-    virtual bool forRead();
-    virtual bool forWrite();
+    virtual bool forRead() { return true; }
 };
 
 class YXApplication: public YApplication {

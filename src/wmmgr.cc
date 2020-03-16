@@ -2482,30 +2482,15 @@ void YWindowManager::updateWorkspaces(bool increase) {
 }
 
 bool YWindowManager::readCurrentDesktop(long &workspace) {
-    Atom r_type;
-    int r_format;
-    unsigned long count;
-    unsigned long bytes_remain;
-    xsmart<unsigned char> prop;
-    workspace = 0;
-
-    if (XGetWindowProperty(xapp->display(), handle(),
-                           _XA_NET_CURRENT_DESKTOP, 0, 1, False,
-                           XA_CARDINAL, &r_type, &r_format,
-                           &count, &bytes_remain, &prop) == Success && prop) {
-        if (r_type == XA_CARDINAL && r_format == 32 && count == 1) {
-            workspace = clamp(prop.extract<long>(), 0L, workspaceCount() - 1L);
-            return true;
-        }
+    YProperty netp(this, _XA_NET_CURRENT_DESKTOP, F32, 1L, XA_CARDINAL);
+    if (netp) {
+        workspace = clamp(*netp, 0L, workspaceCount() - 1L);
+        return true;
     }
-    if (XGetWindowProperty(xapp->display(), handle(),
-                           _XA_WIN_WORKSPACE, 0, 1, False,
-                           XA_CARDINAL, &r_type, &r_format,
-                           &count, &bytes_remain, &prop) == Success && prop) {
-        if (r_type == XA_CARDINAL && r_format == 32 && count == 1) {
-            workspace = clamp(prop.extract<long>(), 0L, workspaceCount() - 1L);
-            return true;
-        }
+    YProperty winp(this, _XA_WIN_WORKSPACE, F32, 1L, XA_CARDINAL);
+    if (winp) {
+        workspace = clamp(*winp, 0L, workspaceCount() - 1L);
+        return true;
     }
     return false;
 }
@@ -2551,35 +2536,24 @@ void YWindowManager::updateMoveMenu() {
 
 bool YWindowManager::readDesktopLayout() {
     bool success = false;
-
-    Atom type(0);
-    int format(0);
-    unsigned long count(0), remain(0);
-    long *prop(0);
-    if (XGetWindowProperty(xapp->display(), handle(),
-                           _XA_NET_DESKTOP_LAYOUT, 0L, 4L, False,
-                           XA_CARDINAL, &type, &format, &count, &remain,
-                           (unsigned char **) &prop) == Success && prop)
-    {
-        if (type == XA_CARDINAL && format == 32 && count >= 3) {
-            int orient = (int) prop[0];
-            int cols   = (int) prop[1];
-            int rows   = (int) prop[2];
-            int corner = (count == 3) ? _NET_WM_TOPLEFT : (int) prop[3];
-            if (inrange(orient, 0, 1) &&
-                inrange(cols, 0, 100) &&
-                inrange(rows, 0, 100) &&
-                (rows || cols) &&
-                inrange(corner, 0, 3))
-            {
-                fLayout = (DesktopLayout) { orient, cols, rows, corner, };
-                success = true;
-            }
+    YProperty prop(this, _XA_NET_DESKTOP_LAYOUT, F32, 4L, XA_CARDINAL);
+    if (prop && 3 <= prop.size()) {
+        int orient = (int) prop[0];
+        int cols   = (int) prop[1];
+        int rows   = (int) prop[2];
+        int corner = (prop.size() == 3) ? _NET_WM_TOPLEFT : (int) prop[3];
+        if (inrange(orient, 0, 1) &&
+            inrange(cols, 0, 100) &&
+            inrange(rows, 0, 100) &&
+            (rows || cols) &&
+            inrange(corner, 0, 3))
+        {
+            fLayout = (DesktopLayout) { orient, cols, rows, corner, };
+            success = true;
         }
-        XFree(prop);
     }
     MSG(("read: _NET_DESKTOP_LAYOUT(%d): %s (%d, %lu) { %d, %d, %d, %d }",
-        (int) _XA_NET_DESKTOP_LAYOUT, boolstr(success), format, (long unsigned int) count,
+        (int) _XA_NET_DESKTOP_LAYOUT, boolstr(success), prop.bits(), prop.size(),
         fLayout.orient, fLayout.columns, fLayout.rows, fLayout.corner));
 
     return success;
@@ -3174,44 +3148,34 @@ void YWindowManager::tileWindows(YFrameWindow **w, int count, bool vertical) {
     }
 }
 
-void YWindowManager::getWindowsToArrange(YFrameWindow ***win, int *count, bool all, bool skipNonMinimizable) {
-    YFrameWindow *w = topLayer(WinLayerNormal);
-
-    *count = 0;
-    while (w) {
-        if (w->owner() == 0 && // not transient ?
-            w->visibleOn(activeWorkspace()) && // visible
-            (all || !w->isAllWorkspaces()) && // not on all workspaces
-            !w->isRollup() &&
-            !w->isMinimized() &&
-            !w->isHidden() &&
-            (!skipNonMinimizable || w->canMinimize()))
-        {
-            ++*count;
-        }
-        w = w->next();
-    }
-    *win = new YFrameWindow *[*count];
-    int n = 0;
-    w = topLayer(WinLayerNormal);
-    if (*win) {
-        while (w) {
+bool YWindowManager::getWindowsToArrange(YFrameWindow ***win, int *count,
+                                         bool all, bool skipNonMinimizable)
+{
+    for (int loop = 0; loop < 2; ++loop) {
+        int n = 0;
+        for (YFrameWindow *w = topLayer(WinLayerNormal); w; w = w->next()) {
             if (w->owner() == 0 && // not transient ?
                 w->visibleOn(activeWorkspace()) && // visible
                 (all || !w->isAllWorkspaces()) && // not on all workspaces
                 !w->isRollup() &&
                 !w->isMinimized() &&
-                !w->isHidden()&&
-            (!skipNonMinimizable || w->canMinimize()))
+                !w->isHidden() &&
+                (!skipNonMinimizable || w->canMinimize()))
             {
-                (*win)[n] = w;
+                if (loop)
+                    (*win)[n] = w;
                 n++;
             }
-
-            w = w->next();
+        }
+        if (loop == 0) {
+            *count = n;
+            *win = (n == 0) ? nullptr : new YFrameWindow *[*count];
+            if (*win == nullptr) {
+                return false;
+            }
         }
     }
-    PRECONDITION(n == *count);
+    return true;
 }
 
 void YWindowManager::saveArrange(YFrameWindow **w, int count) {

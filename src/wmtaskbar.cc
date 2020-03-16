@@ -107,8 +107,7 @@ void EdgeTrigger::handleDNDLeave() {
 
 bool EdgeTrigger::handleTimer(YTimer *t) {
     MSG(("taskbar handle timer"));
-    fTaskBar->autoTimer(fDoShow);
-    return false;
+    return fTaskBar->autoTimer(fDoShow);
 }
 
 TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener, YSMListener *smActionListener):
@@ -147,7 +146,6 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     ///setToplevel(true);
 
     addStyle(wsNoExpose);
-    //!!!setWinStateHint(WinStateDockHorizontal, WinStateDockHorizontal);
 
     setWinHintsHint(WinHintsSkipFocus |
                     WinHintsSkipWindowMenu |
@@ -172,16 +170,6 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
         XSetWMProperties(xapp->display(), handle(), &text, &text,
                          nullptr, 0, nullptr, &wmhints, &clhint);
         setProperty(_XA_NET_WM_PID, XA_CARDINAL, getpid());
-    }
-    {
-        long wk[4] = { 0, 0, 0, 0 };
-
-        XChangeProperty(xapp->display(),
-                        handle(),
-                        _XA_NET_WM_STRUT,
-                        XA_CARDINAL,
-                        32, PropModeReplace,
-                        (unsigned char *)&wk, 4);
     }
 
     setMwmHints(MwmHints(
@@ -709,38 +697,23 @@ void TaskBar::updateLocation() {
     else
         fEdgeTrigger->hide();
 
-    MwmHints mwm(
-       MWM_HINTS_FUNCTIONS | MWM_HINTS_DECORATIONS,
-       MWM_FUNC_MOVE);
-    setMwmHints(mwm);
-    if (getFrame())
-        getFrame()->updateMwmHints();
-
     ///!!! fix
     updateWMHints();
 }
 
 void TaskBar::updateWMHints() {
-    int dx, dy;
-    unsigned dw, dh;
-    manager->getScreenGeometry(&dx, &dy, &dw, &dh);
-
-    long wk[4] = { 0, 0, 0, 0 };
-    if (!taskBarAutoHide && !fIsCollapsed && getFrame()) {
-        wk[taskBarAtTop ? 2 : 3] = getFrame()->height();
+    YStrut strut;
+    if (!taskBarAutoHide && !fIsCollapsed) {
+        Atom h = Atom(height());
+        if (taskBarAtTop)
+            strut.top = h;
+        else
+            strut.bottom = h;
     }
-
-    MSG(("SET NET WM STRUT"));
-
-    XChangeProperty(xapp->display(),
-                    handle(),
-                    _XA_NET_WM_STRUT,
-                    XA_CARDINAL,
-                    32, PropModeReplace,
-                    (unsigned char *)&wk, 4);
-    if (getFrame())
-    {
-        getFrame()->updateNetWMStrut();
+    if (fStrut != strut) {
+        fStrut = strut;
+        MSG(("SET NET WM STRUT"));
+        setProperty(_XA_NET_WM_STRUT, XA_CARDINAL, &strut, 4);
     }
 }
 
@@ -894,6 +867,10 @@ void TaskBar::popupWindowListMenu() {
 }
 
 bool TaskBar::autoTimer(bool doShow) {
+    if (addressBar() && addressBar()->visible()) {
+        return true;
+    }
+
     MSG(("hide taskbar"));
     if (fFullscreen && doShow && taskBarFullscreenAutoShow) {
         fIsHidden = false;

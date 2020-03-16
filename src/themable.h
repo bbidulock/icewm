@@ -156,7 +156,7 @@ XSV(const char *, gradients,                    0)
 
 cfoption icewm_themable_preferences[] = {
     OBV("RolloverButtonsSupported",             &rolloverTitleButtons,          "Does it support the 'O' title bar button images (for mouse rollover)"),
-    OBV("TaskBarClockLeds",                     &prettyClock,                   "Task bar clock/APM uses nice pixmapped LCD display (but then it doesn't display correctly in many languages anymore, e.g. for Japanese and Korean it works only when a real font is used and not the LEDs"),
+    OBV("TaskBarClockLeds",                     &prettyClock,                   "Task bar clock/APM uses nice pixmap LCD display (but then it doesn't display correctly in many languages anymore, e.g., for Japanese and Korean it works only when a real font is used and not the LCD pixmaps"),
 
     OUV("TaskbuttonIconOffset",                 &taskbuttonIconOffset, 0, 16,   "Width of taskbutton side icons"),
     OUV("TrayIconMaxWidth",                     &trayIconMaxWidth, 16, 128,     "Maximum scaled width of tray icons"),
@@ -195,8 +195,8 @@ cfoption icewm_themable_preferences[] = {
     OSV("ThemeAuthor",                          &themeAuthor,                   "Theme author, e-mail address, credits"),
     OSV("ThemeDescription",                     &themeDescription,              "Description of the theme, credits"),
 
-    OSV("TitleButtonsLeft",                     &titleButtonsLeft,              "Titlebar buttons from left to right (x=close,  m=max,  i=min,  h=hide, r=rollup,       s=sysmenu,      d=depth)"),
-    OSV("TitleButtonsRight",                    &titleButtonsRight,             "Titlebar buttons from right to left (x=close,  m=max,  i=min,  h=hide, r=rollup,       s=sysmenu,      d=depth)"),
+    OSV("TitleButtonsLeft",                     &titleButtonsLeft,              "Titlebar buttons from left to right (x=close, m=max, i=min, h=hide, r=rollup, s=sysmenu, d=depth)"),
+    OSV("TitleButtonsRight",                    &titleButtonsRight,             "Titlebar buttons from right to left (x=close, m=max, i=min, h=hide, r=rollup, s=sysmenu, d=depth)"),
     OSV("TitleButtonsSupported",                &titleButtonsSupported,         "Titlebar buttons supported by theme (x,m,i,r,h,s,d)"),
 /************************************************************************************************************************************************************
  * Font definitions
@@ -289,8 +289,8 @@ cfoption icewm_themable_preferences[] = {
     OSV("ColorToolTipText",                     &clrToolTipText,                "Text color of tooltips"),
     OSV("ColorLabel",                           &clrLabel,                      "Background of labels, leave empty to force transparency"),
     OSV("ColorLabelText",                       &clrLabelText,                  "Text color of labels"),
-    OSV("ColorInput",                           &clrInput,                      "Background of text entry fields (e.g. the addressbar)"),
-    OSV("ColorInputText",                       &clrInputText,                  "Text color of text entry fields (e.g. the addressbar)"),
+    OSV("ColorInput",                           &clrInput,                      "Background of text entry fields (e.g., the addressbar)"),
+    OSV("ColorInputText",                       &clrInputText,                  "Text color of text entry fields (e.g., the addressbar)"),
     OSV("ColorInputSelection",                  &clrInputSelection,             "Background of selected text in an entry field"),
     OSV("ColorInputSelectionText",              &clrInputSelectionText,         "Selected text in an entry field"),
 

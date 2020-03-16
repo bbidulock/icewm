@@ -8,5 +8,5 @@
 [ -f Makefile ] && make distclean
 ./autogen.sh
 ./configure.sh
-make "$jobs" distcheck
+make "$jobs" distcheck RELEASE.txt
 

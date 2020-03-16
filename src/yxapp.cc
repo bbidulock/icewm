@@ -1092,6 +1092,7 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
 
     lastEventTime(CurrentTime),
     fPopup(0),
+    xfd(this),
     fGrabTree(0),
     fXGrabWindow(0),
     fGrabMouse(0),
@@ -1099,7 +1100,7 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
     fReplayEvent(false)
 {
     xapp = this;
-    xfd.registerPoll(this, ConnectionNumber(display()));
+    xfd.registerPoll(ConnectionNumber(display()));
 
     new YDesktop(0, root());
     extern void image_init();
@@ -1163,12 +1164,16 @@ bool YXApplication::handleXEvents() {
         if (loggingEvents) {
             if (xev.type < LASTEvent)
                 logEvent(xev);
+#ifdef CONFIG_SHAPE
             else if (shapes.isEvent(xev.type, ShapeNotify))
                 logShape(xev);
+#endif
+#ifdef CONFIG_XRANDR
             else if (xrandr.isEvent(xev.type, RRScreenChangeNotify))
                 logRandrScreen(xev);
             else if (xrandr.isEvent(xev.type, RRNotify))
                 logRandrNotify(xev);
+#endif
         }
 
         if (filterEvent(xev)) {
@@ -1323,14 +1328,6 @@ void YXPoll::notifyRead() {
     owner()->handleXEvents();
 }
 
-void YXPoll::notifyWrite() { }
-
-bool YXPoll::forRead() {
-    return true;
-}
-
-bool YXPoll::forWrite() { return false; }
-
 void YAtom::atomize() {
     if (screen) {
         char buf[256];
@@ -1350,9 +1347,14 @@ YAtom::operator Atom() {
 YTextProperty::YTextProperty(const char* str) {
     encoding = XA_STRING;
     format = 8;
-    nitems = strlen(str);
-    value = new unsigned char[1 + nitems];
-    if (value) memcpy(value, str, 1 + nitems);
+    if (str) {
+        nitems = strlen(str);
+        value = new unsigned char[1 + nitems];
+        if (value) memcpy(value, str, 1 + nitems);
+    } else {
+        nitems = 0;
+        value = nullptr;
+    }
 }
 
 YTextProperty::~YTextProperty() {
@@ -1364,6 +1366,7 @@ void YProperty::discard() {
         XFree(fData);
         fData = nullptr;
         fSize = None;
+        fType = None;
     }
 }
 

@@ -246,7 +246,7 @@ public:
     void cascadePlace(YFrameWindow **w, int count);
     void setWindows(YFrameWindow **w, int count, YAction action);
 
-    void getWindowsToArrange(YFrameWindow ***w, int *count, bool sticky = false, bool skipNonMinimizable = false);
+    bool getWindowsToArrange(YFrameWindow ***w, int *count, bool sticky = false, bool skipNonMinimizable = false);
 
     void saveArrange(YFrameWindow **w, int count);
     void undoArrange();

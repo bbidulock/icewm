@@ -256,14 +256,17 @@ F<preferences> file.  When C<PagerShowPreview> is turned on a small
 graphical summary for each workspace is shown.
 
 The I<Task Pane> consists of a list of wide buttons for each application
-which is running on the current work space.  Each task button shows the
+which is running on the current work space, or all workspaces if
+C<TaskBarShowAllWindows=1>.  Each task button shows the
 application icon and the application title.  The active application is
 indicated by a pressed button.  This is the application which has input
 focus.  Pressing another button activates that application: it is
 brought to the foreground and receives input focus.  Other mouse
-controlled activities on the window buttons are dragging window buttons to
-(temporarily) rearrange the order (with left mouse button) or closing
-the application window (with middle button while pressing and holding C<Alt>).
+controlled activities on the window buttons are: dragging window buttons
+with the left mouse button to rearrange the order, closing the application
+window with C<Alt> + middle button, lowering the application window with
+C<Ctrl> + middle button, or bringing the application window to the current
+workspace with C<Shift> + middle button if C<TaskBarShowAllWindows=1>.
 
 If there are not many application buttons then a stretch of plain task
 bar is visible.  Clicking on it with the right mouse button gives the
@@ -459,6 +462,56 @@ and I<Down> keys.
 It supports file completion using C<Tab> or C<Ctrl+I>.
 A rich set of editing operations is supported,
 including cut-/copy-/paste-operations.
+
+=head2 WINDOW LIST
+
+The window list window shows a list of all workspaces. For each
+workspace it shows the window titles of the windows which are mapped
+on it. The bottom entry reads C<All Workspaces>. It holds the sticky
+windows. These windows are mapped in all workspaces.
+
+The window list window is normally hidden. Choose one of the following
+four methods to make it visible:
+
+=over
+
+=item
+
+Select the bottom window list menu entry.
+
+=item
+
+Press the C<KeySysWindowList=Ctrl+Alt+Esc> key.
+
+=item
+
+Press the right Windows key if C<Win95Keys=1>
+
+=item
+
+Press the C<DesktopWinListButton=2> mouse button in the root window.
+
+=back
+
+A single-click on a window entry selects it. A group of windows can
+be selected by C<Shift+Pointer_Button1> or by dragging with the left
+mouse button. Use C<Ctrl+Pointer_Button1> to individually select
+windows in a multi-selection. A right mouse click over a selection
+will popup the system menu for this selection.  To close the selected
+windows, press C<Delete>. Press C<Shift+Delete> to forcefully kill them.
+Right mouse click below the sticky windows for a menu with window
+arranging actions.
+
+Double-click on a workspace to switch to it.  Double-click on a window
+to activate it.  Or navigate by arrow keys and press Enter.
+The space bar toggles a selection of a window. C<Ctrl+a> and C<Ctrl+/>
+will select the entire list of windows. C<Ctrl+\\> deselects everything.
+Press the first letter of a window title to navigate to it and select
+it. If titles of multiple windows start with the same letter then
+repeatedly pressing the first letter cycles over those windows.
+C<Home> selects the first entry and C<End> the last. C<PageUp> and
+C<PageDown> move up or down by ten entries. Combine this with the
+C<Shift> key to extend a selection over the range of motion.
 
 =head2 KEYBOARD SHORTCUTS
 

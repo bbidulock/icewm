@@ -6,6 +6,15 @@ AC_INIT([icewm],[1.6.4],
         [https://github.com/bbidulock/icewm/issues],
         [icewm],[https://ice-wm.org])
 AC_REVISION([1.6.4])
+
+# set better defaults
+AC_PREFIX_DEFAULT([/usr])
+if test "$prefix" = /usr -o "$prefix" = NONE; then
+	test "$sysconfdir" = '${prefix}/etc' && sysconfdir=/etc
+	test "$sharedstatedir" = '${prefix}/com' && sharedstatedir=/var
+	test "$localstatedir" = '${prefix}/var' && localstatedir=/var
+fi
+
 AC_CONFIG_SRCDIR([src/ysmapp.cc])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
@@ -16,6 +25,9 @@ AC_CANONICAL_TARGET
 DATE='2020-01-07'
 AC_SUBST([DATE])
 
+MDOCDATE='September 17, 2019'
+AC_SUBST([MDOCDATE])
+
 BRANCH='1.6.4'
 AC_SUBST([BRANCH])
 
@@ -25,10 +37,9 @@ TESTCASES="$TESTCASES iceview icesame iceicon icerun icelist icebar" # iceclock
 features=''
 
 # Initialize Automake
-AM_INIT_AUTOMAKE([gnits 1.13.4 dist-lzip no-dist-gzip std-options -Wall color-tests silent-rules tar-pax])
+AM_INIT_AUTOMAKE([gnits 1.12 dist-lzip no-dist-gzip std-options -Wall color-tests silent-rules tar-pax])
 AM_MAINTAINER_MODE
 AM_SILENT_RULES([yes])
-AC_PREFIX_DEFAULT([/usr])
 
 # Checks for programs.
 AC_LANG_CPLUSPLUS
@@ -51,7 +62,7 @@ AC_ARG_VAR([MARKDOWN],[markdown command. @<:@default=markdown@:>@])
 AC_CHECK_PROGS([MARKDOWN],[markdown],[${am_missing_run}markdown],[$PATH])
 
 AC_ARG_VAR([ASCIIDOC],[asciidoc command. @<:@default=asciidoctor@:>@])
-AC_CHECK_PROGS([ASCIIDOC],[asciidoctor asciidoc],[${am_missing_run}asciidoctor],[$PATH])
+AC_CHECK_PROGS([ASCIIDOC],[asciidoc asciidoctor],[${am_missing_run}asciidoc],[$PATH])
 
 AC_ARG_VAR([ASCIIDOC_BACKEND],[asciidoc backend @<:@default=NONE@:>@])
 if test -z "$ASCIIDOC_BACKEND"; then
@@ -59,6 +70,18 @@ if test -z "$ASCIIDOC_BACKEND"; then
 		asciidoc) ASCIIDOC_BACKEND="--backend=html4" ;;
 		asciidoctor) ASCIIDOC_BACKEND="--backend=html5" ;;
 		*) AC_MSG_WARN([ASCIIDOC $ASCIIDOC is not supported.]) ;;
+	esac
+fi
+
+AC_ARG_VAR([ASCIIMAN],[asciidoc to manpage converter. @<:@default=a2x@:>@])
+AC_CHECK_PROGS([ASCIIMAN],[a2x asciidoctor],[${am_missing_run}a2x],[$PATH])
+
+AC_ARG_VAR([ASCIIMAN_FORMAT],[asciidoc manpage option @<:@default=NONE@:>@])
+if test -z "$ASCIIMAN_FORMAT"; then
+	case "$ASCIIMAN" in
+		a2x) ASCIIMAN_FORMAT="--format=manpage" ;;
+		asciidoctor) ASCIIMAN_FORMAT="--backend=manpage" ;;
+		*) AC_MSG_WARN([ASCIIMAN $ASCIIMAN is not supported.]) ;;
 	esac
 fi
 
@@ -73,7 +96,6 @@ LT_PATH_LD
 LT_PREREQ([2.4.2])
 LT_INIT([dlopen])
 LT_LANG([C++])
-AC_PROG_LIBTOOL
 AC_SUBST([LIBTOOL_DEPS])
 
 AM_GNU_GETTEXT_VERSION([0.19.8])
@@ -95,8 +117,10 @@ AC_ARG_WITH([unicode-set],
 PKG_PROG_PKG_CONFIG
 
 # Checks for libraries.
+AC_CHECK_FUNCS(clock_gettime, [], [AC_CHECK_LIB(rt, clock_gettime)])
 
 # Checks for header files.
+AS_BOX([Header Files])
 AC_HEADER_STDC
 AC_HEADER_DIRENT
 AC_HEADER_SYS_WAIT
@@ -111,6 +135,7 @@ AC_CHECK_HEADERS([sys/sched.h sys/soundcard.h sys/sysctl.h])
 AC_CHECK_HEADERS([uvm/uvm_param.h wchar.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
+AS_BOX([Typedefs, Structures, Compiler])
 AC_CHECK_HEADER_STDBOOL
 AC_C_INLINE
 AC_TYPE_PID_T

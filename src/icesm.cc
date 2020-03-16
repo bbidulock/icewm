@@ -2,7 +2,7 @@
 #include "base.h"
 #include "intl.h"
 #include "yapp.h"
-#include "ytimer.h"
+#include "ytime.h"
 #include "sysdep.h"
 #include "appnames.h"
 #ifdef HAVE_WORDEXP

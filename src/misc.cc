@@ -926,12 +926,6 @@ const char *my_basename(const char *path) {
 }
 #endif
 
-bool testOnce(const char* file, const int line) {
-    static YArray<unsigned long> list;
-    unsigned long hash = strhash(file) * 0x10001 ^ line;
-    return find(list, hash) < 0 ? list.append(hash), true : false;
-}
-
 bool isFile(const char* path) {
     struct stat s;
     return stat(path, &s) == 0 && S_ISREG(s.st_mode);

@@ -420,28 +420,11 @@ void YInputLine::handleClick(const XButtonEvent &up, int /*count*/) {
 
 void YInputLine::handleSelection(const XSelectionEvent &selection) {
     if (selection.property != None) {
-        Atom type;
-        long extra;
-        int format;
-        long nitems;
-        union {
-            char *ptr;
-            unsigned char *xptr;
-        } data;
-
-        XGetWindowProperty(xapp->display(),
-                           selection.requestor, selection.property,
-                           0L, 32 * 1024, True,
-                           selection.target, &type, &format,
-                           (unsigned long *)&nitems,
-                           (unsigned long *)&extra,
-                           &(data.xptr));
-
-        if (nitems > 0 && data.ptr != NULL) {
-            replaceSelection(mstring(data.ptr, nitems));
+        YProperty prop(selection.requestor, selection.property,
+                       F8, 32 * 1024, selection.target, True);
+        if (prop) {
+            replaceSelection(mstring(prop.data<char>(), prop.size()));
         }
-        if (data.xptr != NULL)
-            XFree(data.xptr);
     }
 }
 

@@ -51,12 +51,11 @@ public:
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleClick(const XButtonEvent &up, int count);
     virtual void handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion);
-    virtual void handleDrag(const XButtonEvent &down, const XMotionEvent &motion);
-    virtual void handleEndDrag(const XButtonEvent &down, const XButtonEvent &up);
     virtual void handleMotion(const XMotionEvent &motion);
     virtual void handleCrossing(const XCrossingEvent &crossing);
     virtual void handleFocus(const XFocusChangeEvent &focus);
     virtual void handleConfigure(const XConfigureEvent &configure);
+    virtual void handleExpose(const XExposeEvent &expose);
 
     virtual bool handleTimer(YTimer *t);
 
@@ -491,6 +490,7 @@ private:
 
     static lazy<YTimer> fAutoRaiseTimer;
     static lazy<YTimer> fDelayFocusTimer;
+    lazy<YTimer> fFrameTimer;
 
     int fWinWorkspace;
     long fWinRequestedLayer;
@@ -549,6 +549,7 @@ private:
     // only focus if mouse moves
     //static int fMouseFocusX, fMouseFocusY;
 
+    void repaint();
     void setGeometry(const YRect &);
     void setPosition(int, int);
     void setSize(int, int);

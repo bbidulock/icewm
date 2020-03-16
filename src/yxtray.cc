@@ -526,23 +526,8 @@ void YXTray::getScaleSize(unsigned& w, unsigned& h)
 }
 
 Window YXTray::getLeader(Window win) {
-    Atom type = None;
-    int format = None;
-    const long justOne = 1L;
-    unsigned long count = 0;
-    unsigned long extra = 0;
-    xsmart<Window> data;
-    Window leader = None;
-    int status =
-        XGetWindowProperty(xapp->display(), win,
-                           _XA_WM_CLIENT_LEADER, 0L, justOne,
-                           False, XA_WINDOW,
-                           &type, &format, &count, &extra,
-                           (unsigned char **) &data);
-    if (status == Success && data != 0 && format == 32 && count == justOne) {
-        leader = data[0];
-    }
-    return leader;
+    YProperty prop(win, _XA_WM_CLIENT_LEADER, F32, 1L, XA_WINDOW);
+    return prop ? *prop : None;
 }
 
 bool YXTray::trayRequestDock(Window win, cstring title) {
@@ -802,25 +787,11 @@ void YXTray::updateTrayWindows() {
 }
 
 void YXTray::regainTrayWindows() {
-    const bool destroy = true;
-    Atom type = None;
-    int format = None;
-    const long limit = 123L;
-    unsigned long count = 0;
-    unsigned long extra = 0;
-    xsmart<Window> data;
-    int status =
-        XGetWindowProperty(xapp->display(), xapp->root(),
-                           _XA_KDE_NET_SYSTEM_TRAY_WINDOWS,
-                           0L, limit, destroy, XA_WINDOW,
-                           &type, &format, &count, &extra,
-                           (unsigned char **) &data);
-
+    YProperty prop(desktop, _XA_KDE_NET_SYSTEM_TRAY_WINDOWS,
+                   F32, 123L, XA_WINDOW, True);
     fRegained.clear();
-    if (status == Success && data != 0 && type == XA_WINDOW && format == 32) {
-        for (int i = 0; i < int(count); ++i) {
-            fRegained.append(data[i]);
-        }
+    for (int i = 0; i < int(prop.size()); ++i) {
+        fRegained.append(prop[i]);
     }
 }
 

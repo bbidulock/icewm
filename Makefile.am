@@ -3,11 +3,11 @@ ACLOCAL_AMFLAGS = -I m4
 
 SUBDIRS = src po doc man lib
 
-EXTRA_DIST = INSTALL COPYING AUTHORS NEWS README README.md README.md.in THANKS TODO ChangeLog COMPLIANCE
+EXTRA_DIST = INSTALL COPYING AUTHORS NEWS README README.md README.md.in THANKS TODO ChangeLog RELEASE RELEASE.md COMPLIANCE
 
 dist_noinst_SCRIPTS = gennews.sh autogen.sh configure.sh rebuild.sh dist.sh
 
-DISTCLEANFILES = ChangeLog AUTHORS NEWS README README.md README.html README.txt
+DISTCLEANFILES = ChangeLog AUTHORS NEWS README README.md README.html README.txt RELEASE RELEASE.html RELEASE.txt
 
 dist-hook:
 	$(AM_V_GEN)if test -x "`which git 2>/dev/null`" -a -d "$(srcdir)/.git" ; then \
@@ -65,7 +65,22 @@ README.html: README.md
 	$(AM_V_GEN)$(MARKDOWN) $< >$@
 
 README.txt: README.html
-	$(AM_V_GEN)$(LINKS) -dump -width 80 $< >$@
+	$(AM_V_GEN)$(LINKS) -dump -width 80 -nolist $< | sed -r -e 's,^[[:space:]]*,,' >$@
+
+RELEASE: RELEASE.md
+	$(AM_V_GEN)cat $< | fmt -sct -w80 -g72 >$@
+
+RELEASE.html: RELEASE.md
+	$(AM_V_GEN)$(MARKDOWN) $< >$@
+
+RELEASE.txt: RELEASE.html
+	$(AM_V_GEN)$(LINKS) -dump -width 80 -nolist $< | sed -r -e 's,^[[:space:]]*,,' >$@
+
+NOTES.html: NOTES
+	$(AM_V_GEN)$(ASCIIDOC) -o - $< >$@
+
+TODO.html: TODO
+	$(AM_V_GEN)$(ASCIIDOC) -o - $< >$@
 
 INSTALL.cmakebuild: INSTALL-cmakebuild.md
 	$(AM_V_GEN)cat $< | fmt -sct -w80 -g72 >$@
