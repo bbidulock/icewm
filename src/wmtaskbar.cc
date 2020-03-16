@@ -107,8 +107,7 @@ void EdgeTrigger::handleDNDLeave() {
 
 bool EdgeTrigger::handleTimer(YTimer *t) {
     MSG(("taskbar handle timer"));
-    fTaskBar->autoTimer(fDoShow);
-    return false;
+    return fTaskBar->autoTimer(fDoShow);
 }
 
 TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener, YSMListener *smActionListener):
@@ -868,6 +867,10 @@ void TaskBar::popupWindowListMenu() {
 }
 
 bool TaskBar::autoTimer(bool doShow) {
+    if (addressBar() && addressBar()->visible()) {
+        return true;
+    }
+
     MSG(("hide taskbar"));
     if (fFullscreen && doShow && taskBarFullscreenAutoShow) {
         fIsHidden = false;
