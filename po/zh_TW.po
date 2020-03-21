@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-02-27 23:18+0100\n"
-"PO-Revision-Date: 2020-02-17 12:54+0000\n"
+"PO-Revision-Date: 2020-05-02 19:50+0000\n"
 "Last-Translator: Grace Yu <grace.yu@excel-gits.com>\n"
 "Language-Team: Chinese (Taiwan) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/zh_TW/>\n"
@@ -607,13 +607,12 @@ msgstr "工作區 #%d：「%s」\n"
 #: src/icesh.cc:2809
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
-msgstr ""
+msgstr "無法獲取視窗 0x%lx 的記憶體"
 
 #: src/icesh.cc:2834
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'"
+#, c-format
 msgid "Invalid Xinerama: `%s'."
-msgstr "引數無效：「%s」"
+msgstr "無效 Xinerama：`%s'。"
 
 #: src/icesh.cc:2882
 #, c-format
@@ -645,22 +644,19 @@ msgid "No actions specified."
 msgstr "未指定動作。"
 
 #: src/icesh.cc:3046
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'"
+#, c-format
 msgid "Invalid PID: `%s'"
-msgstr "引數無效：「%s」"
+msgstr "無效 PID：`%s'"
 
 #: src/icesh.cc:3082
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'"
+#, c-format
 msgid "Invalid layer: `%s'."
-msgstr "引數無效：「%s」"
+msgstr "無效層：`%s'。"
 
 #: src/icesh.cc:3112
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'"
+#, c-format
 msgid "Invalid state: `%s'."
-msgstr "引數無效：「%s」"
+msgstr "無效狀態：`%s'。"
 
 #: src/icesh.cc:3167
 #, c-format
