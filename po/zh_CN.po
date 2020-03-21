@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Chinese (China) (icewm)\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-02-27 23:18+0100\n"
-"PO-Revision-Date: 2020-02-17 05:54+0000\n"
+"PO-Revision-Date: 2020-05-02 19:50+0000\n"
 "Last-Translator: Grace Yu <grace.yu@excel-gits.com>\n"
 "Language-Team: Chinese (China) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/zh_CN/>\n"
@@ -601,13 +601,12 @@ msgstr "工作区 #%d: `%s'\n"
 #: src/icesh.cc:2809
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
-msgstr ""
+msgstr "无法获得窗口 0x%lx 的内存信息"
 
 #: src/icesh.cc:2834
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'"
+#, c-format
 msgid "Invalid Xinerama: `%s'."
-msgstr "无效参数：`%s'"
+msgstr "无效 Xinerama：`%s'。"
 
 #: src/icesh.cc:2882
 #, c-format
@@ -639,22 +638,19 @@ msgid "No actions specified."
 msgstr "未指定行为。"
 
 #: src/icesh.cc:3046
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'"
+#, c-format
 msgid "Invalid PID: `%s'"
-msgstr "无效参数：`%s'"
+msgstr "无效 PID：`%s'"
 
 #: src/icesh.cc:3082
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'"
+#, c-format
 msgid "Invalid layer: `%s'."
-msgstr "无效参数：`%s'"
+msgstr "无效层：`%s'。"
 
 #: src/icesh.cc:3112
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'"
+#, c-format
 msgid "Invalid state: `%s'."
-msgstr "无效参数：`%s'"
+msgstr "无效状态：`%s'。"
 
 #: src/icesh.cc:3167
 #, c-format
