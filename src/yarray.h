@@ -16,6 +16,7 @@
 #ifndef __YARRAY_H
 #define __YARRAY_H
 
+#include <string.h>
 #include "base.h"
 #include "ref.h"
 

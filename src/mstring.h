@@ -6,18 +6,39 @@
 #endif
 
 #include "ref.h"
-#include <string.h>
+#include <stdlib.h>
 
 /*
  * A reference counted string buffer of arbitrary but fixed size.
  */
-struct MStringData {
+class MStringData {
+public:
+    MStringData() : fRefCount(0) {}
+
     int fRefCount;
     char fStr[];
+};
 
-    static MStringData *alloc(size_t length);
-    static MStringData *create(const char *str, size_t length);
-    static MStringData *create(const char *str);
+class MStringRef {
+public:
+    MStringRef(): fStr(nullptr) {}
+    explicit MStringRef(MStringData* data): fStr(data) {}
+    explicit MStringRef(size_t len) { alloc(len); }
+    MStringRef(const char* str, size_t len) { create(str, len); }
+
+    void alloc(size_t len);
+    void create(const char* str, size_t len);
+    operator bool() const { return fStr; }
+    MStringData* operator->() const { return fStr; }
+    bool operator!=(const MStringRef& r) const { return fStr != r.fStr; }
+    char& operator[](size_t index) const { return fStr->fStr[index]; }
+    void operator=(MStringData* data) { fStr = data; }
+    void acquire() const { fStr->fRefCount++; }
+    void release() const { if (fStr->fRefCount-- == 1) free(fStr); }
+
+private:
+
+    MStringData* fStr;
 };
 
 /*
@@ -27,23 +48,22 @@ class mstring {
 private:
     friend class cstring;
     friend class MStringArray;
+    friend mstring operator+(const char* s, const mstring& m);
 
-    MStringData *fStr;
+    MStringRef fRef;
     size_t fOffset;
     size_t fCount;
 
     void acquire() {
-        ++fStr->fRefCount;
+        if (fRef) { fRef.acquire(); }
     }
     void release() {
-        if (--fStr->fRefCount == 0)
-            destroy();
-        fStr = 0;
+        if (fRef) { fRef.release(); }
     }
-    void destroy();
-    mstring(MStringData *fStr, size_t fOffset, size_t fCount);
-    void init(const char *str, size_t len);
-    const char *data() const { return fStr->fStr + fOffset; }
+    mstring(const MStringRef& str, size_t offset, size_t count);
+    mstring(const char* str1, size_t len1, const char* str2, size_t len2);
+    const char* data() const { return &fRef[fOffset]; }
+
 public:
     mstring(const char *str);
     mstring(const char *str1, const char *str2);
@@ -51,17 +71,19 @@ public:
     mstring(const char *str, size_t len);
     explicit mstring(long);
 
-    mstring(null_ref &): fStr(nullptr), fOffset(0), fCount(0) { }
-    mstring():           fStr(nullptr), fOffset(0), fCount(0) { }
+    mstring(null_ref &): fRef(nullptr), fOffset(0), fCount(0) { }
+    mstring():           fRef(nullptr), fOffset(0), fCount(0) { }
 
     mstring(const mstring &r):
-        fStr(r.fStr),
+        fRef(r.fRef),
         fOffset(r.fOffset),
         fCount(r.fCount)
     {
-        if (fStr) acquire();
+        acquire();
     }
-    ~mstring();
+    ~mstring() {
+        release();
+    }
 
     size_t length() const { return fCount; }
     size_t offset() const { return fOffset; }
@@ -69,19 +91,15 @@ public:
     bool nonempty() const { return 0 < fCount; }
 
     mstring& operator=(const mstring& rv);
-    mstring& operator+=(const mstring& rv);
+    void operator+=(const mstring& rv);
     mstring operator+(const mstring& rv) const;
 
     bool operator==(const char *rv) const { return equals(rv); }
     bool operator!=(const char *rv) const { return !equals(rv); }
     bool operator==(const mstring &rv) const { return equals(rv); }
     bool operator!=(const mstring &rv) const { return !equals(rv); }
-    bool operator==(null_ref &) const { return fStr == nullptr; }
-    bool operator!=(null_ref &) const { return fStr != nullptr; }
-//    bool operator==(const char *rv, size_t len) const { return equals(rv, len); }
-//    bool operator!=(const char *rv, size_t len) const { return !equals(rv, len); }
 
-    mstring& operator=(null_ref &);
+    mstring operator=(null_ref &) { return *this = mstring(); }
     mstring substring(size_t pos) const;
     mstring substring(size_t pos, size_t len) const;
     mstring match(const char* regex, const char* flags = nullptr) const;
@@ -128,18 +146,16 @@ private:
 
 public:
     cstring() : str() {}
-    cstring(const cstring &arg) : str(arg.str) {}
-    cstring(const mstring &str);
-    cstring(const char *cstr) : str(cstr) {}
+    cstring(const cstring& s): str(s.str) {}
+    cstring(const mstring& s): str(s) { str.normalize(); }
+    cstring(const char* cstr): str(cstr) {}
     cstring(const null_ref &): str() {}
     explicit cstring(long n): str(n) {}
 
-    cstring& operator=(const cstring& cs);
-    cstring operator+(const mstring& rv) const { return cstring(m_str() + rv); }
+    cstring operator=(const cstring& cs) { return str = cs.str; }
+    cstring operator+(const mstring& rv) const { return str + rv; }
     operator const char *() const { return c_str(); }
-    const char *c_str() const {
-        return str.nonempty() ? str.data() : "";
-    }
+    const char *c_str() const { return str.fRef ? str.data() : ""; }
     const mstring& m_str() const { return str; }
     operator const mstring&() const { return str; }
     bool operator==(const char* cstr) const { return str == cstr; }
@@ -152,8 +168,8 @@ public:
     int length()    const { return int(str.length()); }
 };
 
-inline bool operator==(const char* s, cstring c) { return c == s; }
-inline bool operator!=(const char* s, cstring c) { return c != s; }
+inline bool operator==(const char* s, const cstring& c) { return c == s; }
+inline bool operator!=(const char* s, const cstring& c) { return c != s; }
 
 inline mstring operator+(const char* s, const mstring& m) {
     return mstring(s) + m;
