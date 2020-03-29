@@ -169,25 +169,38 @@ void YFrameWindow::snapTo(int &wx, int &wy) {
     wy = yp;
 }
 
-void YFrameWindow::drawMoveSizeFX(int x, int y, int w, int h, bool) {
+void YFrameWindow::drawMoveSizeFX(int x, int y, int w, int h) {
     if ((movingWindow && opaqueMove) ||
         (sizingWindow && opaqueResize))
         return;
 
-    int const bw((wsBorderX + wsBorderY) / 2);
-    int const bo((wsBorderX + wsBorderY) / 4);
+    int const pencil(min(3U, (wsBorderX + wsBorderY) / 2));
+    int const offset(min(2U, (wsBorderX + wsBorderY) / 4));
 
-    XGCValues gcv;
+    YColor color(activeBorderBg);
+    unsigned mask = color.red() | color.green() | color.blue();
+    if (mask < 32) {
+        const int gray = 63;
+        color = YColor(gray, gray, gray);
+    }
+    else if (mask < 64) {
+        const int k = 2;
+        color = YColor(k * color.red(), k * color.green(), k * color.blue());
+    }
+    else if (mask < 128) {
+        color = color.brighter().brighter();
+    }
 
-    gcv.foreground = activeBorderBg.pixel();
-    gcv.function = GXxor;
-    gcv.graphics_exposures = False;
-    gcv.line_width = bw;
+    XGCValues gcv = { GXxor, };
+
+    gcv.foreground = color.pixel();
+    gcv.line_width = pencil;
     gcv.subwindow_mode = IncludeInferiors;
+    gcv.graphics_exposures = False;
 
-    Graphics g(*desktop, GCForeground | GCFunction | GCGraphicsExposures |
-                         GCLineWidth | GCSubwindowMode, &gcv);
-    g.drawRect(x + bo, y + bo, w - bw, h - bw);
+    Graphics g(*desktop, GCFunction | GCForeground | GCLineWidth |
+                         GCSubwindowMode | GCGraphicsExposures, &gcv);
+    g.drawRect(x + offset, y + offset, w - pencil, h - pencil);
 }
 
 int YFrameWindow::handleMoveKeys(const XKeyEvent &key, int &newX, int &newY) {
