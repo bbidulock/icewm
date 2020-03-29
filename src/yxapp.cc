@@ -49,7 +49,7 @@ Atom _XA_WM_WINDOW_ROLE;
 Atom _XA_WM_ZOOM_HINTS;
 
 Atom _XATOM_MWM_HINTS;
-//Atom _XA_MOTIF_WM_INFO;!!!
+Atom _XATOM_MWM_INFO;
 Atom _XA_WINDOW_ROLE;
 Atom _XA_SM_CLIENT_ID;
 Atom _XA_ICEWM_ACTION;
@@ -327,6 +327,7 @@ YAtomName YXApplication::atom_info[] = {
         { &_XA_XROOTCOLOR_PIXEL                 , "_XROOTCOLOR_PIXEL"                   },
         { &_XA_GDK_TIMESTAMP_PROP               , "GDK_TIMESTAMP_PROP"                  },
         { &_XATOM_MWM_HINTS                     , _XA_MOTIF_WM_HINTS                    },
+        { &_XATOM_MWM_INFO                      , _XA_MOTIF_WM_INFO                     },
 
         { &_XA_KWM_DOCKWINDOW                   , "KWM_DOCKWINDOW"                      },
         { &_XA_KWM_WIN_ICON                     , "KWM_WIN_ICON"                        },
