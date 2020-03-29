@@ -8,15 +8,6 @@
 #ifndef NETSTATUS_H
 #define NETSTATUS_H
 
-#ifndef HAVE_NET_STATUS
-#if defined(__linux__) || defined(__FreeBSD__) || defined(__NetBSD__) || \
-    defined(__OpenBSD__) || defined(__FreeBSD_kernel__)
-#define HAVE_NET_STATUS 1
-#endif
-#endif
-
-#if HAVE_NET_STATUS
-
 #include "ypointer.h"
 
 class IAppletContainer;
@@ -174,8 +165,6 @@ public:
     virtual void actionPerformed(YAction, unsigned int) OVERRIDE;
     virtual void relayout() OVERRIDE;
 };
-
-#endif
 
 #endif // NETSTATUS_H
 
