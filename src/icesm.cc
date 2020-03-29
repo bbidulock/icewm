@@ -5,6 +5,8 @@
 #include "ytime.h"
 #include "sysdep.h"
 #include "appnames.h"
+#include "ascii.h"
+using namespace ASCII;
 #ifdef HAVE_WORDEXP
 #include <wordexp.h>
 #endif
@@ -21,10 +23,10 @@ class SessionManager: public YApplication {
 private:
     char* trim(char *line) {
         size_t len = strlen(line);
-        while (len > 0 && isspace((unsigned char) line[len - 1])) {
+        while (len > 0 && isWhiteSpace(line[len - 1])) {
             line[--len] = 0;
         }
-        while (*line && isspace((unsigned char) *line))
+        while (*line && isWhiteSpace(*line))
             ++line;
         return line;
     }

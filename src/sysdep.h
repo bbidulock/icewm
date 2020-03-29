@@ -24,7 +24,6 @@
 #include <limits.h>
 #include <unistd.h>
 #include <stdarg.h>
-#include <ctype.h>
 #include <fcntl.h>
 
 #ifdef CONFIG_I18N

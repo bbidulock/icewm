@@ -9,7 +9,6 @@
 #include "ytrace.h"
 #include "ascii.h"
 #include "intl.h"
-#include <ctype.h>
 
 lazy<WindowOptions> defOptions;
 lazy<WindowOptions> hintOptions;
@@ -237,11 +236,11 @@ void WindowOptions::setWinOption(ustring n_class_instance,
             unsigned set = setting ? bit : 0;
             unsigned clr = setting ? 0 : bit;
 
-            if (*opt == 'f' && isupper((unsigned char) opt[1])) {
+            if (*opt == 'f' && ASCII::isUpper(opt[1])) {
                 op->functions = ((op->functions | set) & ~clr);
                 op->function_mask |= bit;
             }
-            else if (*opt == 'd' && isupper((unsigned char) opt[1])) {
+            else if (*opt == 'd' && ASCII::isUpper(opt[1])) {
                 op->decors = ((op->decors | set) & ~clr);
                 op->decor_mask |= bit;
             }

@@ -20,6 +20,7 @@
 #include "sysdep.h"
 #include "intl.h"
 #include "appnames.h"
+#include <ctype.h>
 
 char const *ApplicationName(0);
 
