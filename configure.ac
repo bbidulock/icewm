@@ -118,6 +118,15 @@ PKG_PROG_PKG_CONFIG
 
 # Checks for libraries.
 AC_CHECK_FUNCS(clock_gettime, [], [AC_CHECK_LIB(rt, clock_gettime)])
+case "${target_os}" in
+    *solaris*)
+        AC_CHECK_LIB(socket, socketpair)
+        AC_CHECK_LIB(nsl, gethostbyname)
+        ;;
+    *)
+        :
+        ;;
+esac
 
 # Checks for header files.
 AS_BOX([Header Files])
@@ -155,9 +164,10 @@ if test x$cross_compling != xyes ; then :; AC_FUNC_FORK fi
 if test x$cross_compling != xyes ; then :; AC_FUNC_MALLOC fi
 if test x$cross_compling != xyes ; then :; AC_FUNC_REALLOC fi
 AC_CHECK_FUNCS([abort backtrace_symbols_fd])
-AC_CHECK_FUNCS([if_nametoindex if_nameindex])
+AC_CHECK_FUNCS([freeaddrinfo gai_strerror getnameinfo])
+AC_CHECK_FUNCS([if_freenameindex if_nametoindex if_nameindex])
 AC_CHECK_FUNCS([mblen memmem memmove memrchr nl_langinfo])
-AC_CHECK_FUNCS([select setlocale socket])
+AC_CHECK_FUNCS([select setlocale shutdown socket socketpair])
 AC_CHECK_FUNCS([sysctl sysctlbyname sysinfo wordexp])
 AC_CHECK_FUNC([getloadavg],[AC_DEFINE([HAVE_GETLOADAVG2], 1, [getloadavg() is available])])
 AC_FUNC_SELECT_ARGTYPES

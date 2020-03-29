@@ -777,6 +777,14 @@ char const * strnxt(const char * str, const char * delim) {
     return str;
 }
 
+#ifndef HAVE_MEMRCHR
+void* memrchr(const void* ptr, char chr, size_t num) {
+    char* str = (char *) ptr;
+    char* q = str + num;
+    while (q > str && *--q != chr);
+    return q >= str && *q == chr ? q : nullptr;
+}
+#endif
 
 bool GetShortArgument(char* &ret, const char *name, char** &argpp, char **endpp)
 {

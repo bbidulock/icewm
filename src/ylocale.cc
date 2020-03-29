@@ -159,7 +159,7 @@ YUChar *YLocale::unicodeString(const YLChar *lStr, size_t const lLen,
     char * inbuf((char *) lStr), * outbuf((char *) uStr);
     size_t inlen(lLen), outlen(4 * lLen);
 
-#if defined(__NetBSD__) || defined(__sun)
+#if defined(__NetBSD__)
     if (0 > (int) iconv(instance->toUnicode, const_cast<const char **>(&inbuf), &inlen, &outbuf, &outlen))
 #else
     if (0 > (int) iconv(instance->toUnicode, &inbuf, &inlen, &outbuf, &outlen))

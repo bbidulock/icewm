@@ -67,6 +67,14 @@ public:
     virtual void getCurrent(netbytes *in, netbytes *out, const void* sharedData);
 };
 
+class NetDummyDevice : public NetDevice {
+public:
+    NetDummyDevice(cstring netdev) : NetDevice(netdev) {}
+    virtual bool isUp() { return false; }
+    virtual void getCurrent(netbytes *in, netbytes *out, const void* sharedData)
+    { }
+};
+
 class NetStatus: public IApplet, private Picturer {
 public:
     NetStatus(cstring netdev, NetStatusHandler* handler, YWindow *aParent = 0);

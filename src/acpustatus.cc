@@ -33,7 +33,7 @@
 #include <sys/sysinfo.h>
 #else
 
-#if defined(sun) && defined(SVR4)
+#if __sun__
 #include <sys/loadavg.h>
 #endif
 
@@ -339,7 +339,7 @@ void CPUStatus::updateToolTip() {
         }
         setToolTip(ustring(fmt));
     }
-#elif HAVE_GETLOADAVG2
+#else
     char buf[99];
     double loadavg[3];
     if (getloadavg(loadavg, 3) < 0)

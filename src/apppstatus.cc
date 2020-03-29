@@ -46,7 +46,7 @@ static NetDevice* getNetDevice(cstring netdev)
 #elif defined(__OpenBSD__) || defined(__NetBSD__)
         new NetOpenDevice(netdev)
 #else
-        nullptr
+        new NetDummyDevice(netdev)
 #endif
         ;
 }
