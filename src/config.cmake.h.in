@@ -9,7 +9,7 @@
 #define PACKAGE_TARNAME "@PACKAGE@"
 #define PACKAGE_VERSION "@VERSION@"
 #define PACKAGE_STRING "@PACKAGE@ @VERSION@"
-#define PACKAGE_URL "https://github.com/bbidulock/icewm"
+#define PACKAGE_URL "https://ice-wm.org"
 #define VERSION "@VERSION@"
 
 #define HOSTCPU "@CMAKE_HOST_SYSTEM_PROCESSOR@"
@@ -80,7 +80,6 @@
 #cmakedefine HAVE_UNISTD_H 1
 #cmakedefine HAVE_WCHAR_H 1
 #cmakedefine HAVE_SCHED_H 1
-#cmakedefine HAVE_SYS_DKSTAT_H 1
 #cmakedefine HAVE_SYS_PARAM_H 1
 #cmakedefine HAVE_SYS_SYSCTL_H 1
 #cmakedefine HAVE_UVM_UVM_PARAM_H 1

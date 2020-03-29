@@ -36,11 +36,6 @@
 #if defined(sun) && defined(SVR4)
 #include <sys/loadavg.h>
 #endif
-#ifdef HAVE_KSTAT_H
-#include <sys/resource.h>
-#include <kstat.h>
-#include <sys/sysinfo.h>
-#endif
 
 #ifdef HAVE_SYS_PARAM_H
 #include <sys/param.h>
@@ -50,9 +45,6 @@
 #endif
 #ifdef HAVE_UVM_UVM_PARAM_H
 #include <uvm/uvm_param.h>
-#endif
-#ifdef HAVE_SYS_DKSTAT_H
-#include <sys/dkstat.h>
 #endif
 #ifdef HAVE_SCHED_H
 #include <sched.h>
@@ -551,169 +543,6 @@ void CPUStatus::getStatusPlatform() {
 
     return;
 
-#elif HAVE_KSTAT_H
-
-#ifdef HAVE_OLD_KSTAT
-#define ui32 ul
-#endif
-    static kstat_ctl_t  *kc = NULL;
-    static kid_t        kcid;
-    kid_t               new_kcid;
-    kstat_t             *ks = NULL;
-    kstat_named_t       *kn = NULL;
-    unsigned long long  changed,change,total_change;
-    unsigned int        thiscpu;
-    register int        i,j;
-    static unsigned int ncpus;
-    static kstat_t      **cpu_ks=NULL;
-    kstat_t             **cpu_ks_new;
-    static cpu_stat_t   *cpu_stat=NULL;
-    cpu_stat_t          *cpu_stat_new;
-    static unsigned long long cp_old[CPU_STATES];
-    unsigned long long  cp_time[CPU_STATES], cp_pct[CPU_STATES];
-
-    /* Initialize the kstat */
-    if (!kc) {
-        kc = kstat_open();
-        if (!kc) {
-            perror("kstat_open ");
-            return;/* FIXME : need err handler? */
-        }
-        changed = 1;
-        kcid = kc->kc_chain_id;
-        fcntl(kc->kc_kd, F_SETFD, FD_CLOEXEC);
-    } else {
-        changed = 0;
-    }
-    /* Fetch the kstat data. Whenever we detect that the kstat has been
-     changed by the kernel, we 'continue' and restart this loop.
-     Otherwise, we break out at the end. */
-    while (1) {
-        new_kcid = kstat_chain_update(kc);
-        if (new_kcid) {
-            changed = 1;
-            kcid = new_kcid;
-        }
-        if (new_kcid < 0) {
-            perror("kstat_chain_update ");
-            return;/* FIXME : need err handler? */
-        }
-        if (new_kcid != 0)
-            continue; /* kstat changed - start over */
-        ks = kstat_lookup(kc, "unix", 0, "system_misc");
-        if (kstat_read(kc, ks, 0) == -1) {
-            perror("kstat_read ");
-            return;/* FIXME : need err handler? */
-        }
-        if (changed) {
-            /* the kstat has changed - reread the data */
-            thiscpu = 0; ncpus = 0;
-            kn = (kstat_named_t *)kstat_data_lookup(ks, "ncpus");
-            if ((kn) && (kn->value.ui32 > ncpus)) {
-                /* I guess I should be using 'new' here... FIXME */
-                ncpus = kn->value.ui32;
-                if ((cpu_ks_new = (kstat_t **)
-                     realloc(cpu_ks, ncpus * sizeof(kstat_t *))) == NULL)
-                {
-                    if (cpu_ks)
-                        free(cpu_ks);
-                    perror("realloc: cpu_ks ");
-                    return;/* FIXME : need err handler? */
-                }
-                cpu_ks = cpu_ks_new;
-                if ((cpu_stat_new = (cpu_stat_t *)
-                     realloc(cpu_stat, ncpus * sizeof(cpu_stat_t))) == NULL)
-                {
-                    if (cpu_stat)
-                        free(cpu_stat);
-                    perror("realloc: cpu_stat ");
-                    return;/* FIXME : need err handler? */
-                }
-                cpu_stat = cpu_stat_new;
-            }
-            for (ks = kc->kc_chain; ks; ks = ks->ks_next) {
-                if (strncmp(ks->ks_name, "cpu_stat", 8) == 0) {
-                    new_kcid = kstat_read(kc, ks, NULL);
-                    if (new_kcid < 0) {
-                        perror("kstat_read ");
-                        return;/* FIXME : need err handler? */
-                    }
-                    if (new_kcid != kcid)
-                        break;
-                    cpu_ks[thiscpu] = ks;
-                    thiscpu++;
-                    if (thiscpu > ncpus) {
-                        warn("kstat finds too many cpus: should be %d",
-                             ncpus);
-                        return;/* FIXME : need err handler? */
-                    }
-                }
-            }
-            if (new_kcid != kcid)
-                continue;
-            ncpus = thiscpu;
-            changed = 0;
-        }
-        if (fCpuID >= 0 && fCpuID < ncpus) {
-            new_kcid = kstat_read(kc, cpu_ks[fCpuID], &cpu_stat[fCpuID]);
-            if (new_kcid < 0) {
-                perror("kstat_read ");
-                return;/* FIXME : need err handler? */
-            }
-        } else {
-            for (i = 0; i<(int)ncpus; i++) {
-                new_kcid = kstat_read(kc, cpu_ks[i], &cpu_stat[i]);
-                if (new_kcid < 0) {
-                    perror("kstat_read ");
-                    return;/* FIXME : need err handler? */
-                }
-            }
-        }
-        if (new_kcid != kcid)
-            continue; /* kstat changed - start over */
-        else
-            break;
-    } /* while (1) */
-
-    /* Initialize the cp_time array */
-    for (i = 0; i < CPU_STATES; i++)
-        cp_time[i] = 0L;
-    if (fCpuID >= 0 && fCpuID < ncpus) {
-        for (j = 0; j < CPU_STATES; j++)
-            cp_time[j] += (long) cpu_stat[fCpuID].cpu_sysinfo.cpu[j];
-    } else {
-        for (i = 0; i < (int)ncpus; i++) {
-            for (j = 0; j < CPU_STATES; j++)
-                cp_time[j] += (long) cpu_stat[i].cpu_sysinfo.cpu[j];
-        }
-    }
-    /* calculate the percent utilization for each category */
-    /* cpu_state calculations */
-    total_change = 0;
-    for (i = 0; i < CPU_STATES; i++) {
-        change = cp_time[i] - cp_old[i];
-        if (change < 0) /* The counter rolled over */
-            change = (unsigned long long) ((unsigned long long)cp_time[i] - (unsigned long long)cp_old[i]);
-        cp_pct[i] = change;
-        total_change += change;
-        cp_old[i] = cp_time[i]; /* copy the data for the next run */
-    }
-    /* this percent calculation isn't really needed, since the repaint
-     routine takes care of this... */
-    for (i = 0; i < CPU_STATES; i++)
-        cp_pct[i] =
-            ((total_change > 0) ?
-             ((unsigned long long)(((1000.0 * (float)cp_pct[i]) / total_change) + 0.5)) :
-             ((i == CPU_IDLE) ? (1000) : (0)));
-
-    /* OK, we've got the data. Now copy it to cpu[][] */
-    cpu[taskBarCPUSamples-1][IWM_USER] = cp_pct[CPU_USER];
-    cpu[taskBarCPUSamples-1][IWM_NICE] = cp_pct[CPU_WAIT];
-    cpu[taskBarCPUSamples-1][IWM_SYS]  = cp_pct[CPU_KERNEL];
-    cpu[taskBarCPUSamples-1][IWM_IDLE] = cp_pct[CPU_IDLE];
-
-    return;
-
 #elif __OpenBSD__ || __NetBSD__ || __FreeBSD__
 
 #if defined __NetBSD__
@@ -813,15 +642,6 @@ void CPUStatusControl::GetCPUStatus(bool combine) {
         cnt += ASCII::isDigit(buf[3]);
     fclose(fd);
     getCPUStatus(cnt);
-#elif defined(HAVE_KSTAT_H)
-    kstat_named_t       *kn = NULL;
-    kn = (kstat_named_t *)kstat_data_lookup(ks, "ncpus");
-    if (kn) {
-        getCPUStatus(kn->value.ui32);
-    } else {
-        getCPUStatusCombined();
-    }
-
 #elif defined(HAVE_SYSCTL) || defined(HAVE_SYSCTLBYNAME)
     getCPUStatusCombined();
 #endif

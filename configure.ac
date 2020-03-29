@@ -130,7 +130,7 @@ AC_CHECK_HEADERS([execinfo.h fcntl.h])
 AC_CHECK_HEADERS([libgen.h])
 AC_CHECK_HEADERS([machine/apm_bios.h machine/apmvar.h])
 AC_CHECK_HEADERS([sched.h sndfile.h])
-AC_CHECK_HEADERS([sys/dkstat.h sys/file.h sys/ioctl.h sys/param.h])
+AC_CHECK_HEADERS([sys/file.h sys/ioctl.h sys/param.h])
 AC_CHECK_HEADERS([sys/sched.h sys/soundcard.h sys/sysctl.h])
 AC_CHECK_HEADERS([uvm/uvm_param.h wchar.h])
 
