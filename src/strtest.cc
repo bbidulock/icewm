@@ -212,29 +212,29 @@ static void test_mstring()
 
     mstring u = NULL;
     expect(u, "");
-    u = mstring((char *) NULL) + "aha";
+    u = mstring(nullptr) + "aha";
     expect(u, "aha");
     u = mstring("aha") + NULL;
     expect(u, "aha");
 
     u = mstring("ab", "cd");
     expect(u, "abcd");
-    u = mstring("ab", (char *) NULL);
+    u = mstring("ab", nullptr);
     expect(u, "ab");
     u = mstring(NULL, "cd");
     expect(u, "cd");
-    u = mstring((char *) NULL, (char *) NULL);
-    assert(u, u == null);
+    u = mstring(nullptr, nullptr);
+    assert(u, u.isEmpty());
 
     u = mstring("ab", "cd", "ef");
     expect(u, "abcdef");
-    u = mstring("ab", "cd", (char *) NULL);
+    u = mstring("ab", "cd", nullptr);
     expect(u, "abcd");
-    u = mstring("ab", (char *) NULL, "ef");
+    u = mstring("ab", nullptr, "ef");
     expect(u, "abef");
     u = mstring(NULL, "cd", "ef");
     expect(u, "cdef");
-    u = mstring((char *) NULL, (char *) NULL, (char *) NULL);
+    u = mstring(nullptr, nullptr, nullptr);
     expect(u, "");
 
     u = mstring("#ffff").match("#fffff");
@@ -309,7 +309,7 @@ static void test_upath()
     upath eps = ep + s;
     expect(eps, "/etc/passwd/");
     upath neps = eps.name();
-    expect(neps, "");
+    assert(neps, neps.length() == 0);
     upath peps = eps.parent();
     expect(peps, "/etc");
 
