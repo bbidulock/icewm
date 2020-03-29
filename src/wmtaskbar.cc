@@ -867,10 +867,6 @@ void TaskBar::popupWindowListMenu() {
 }
 
 bool TaskBar::autoTimer(bool doShow) {
-    if (addressBar() && addressBar()->visible()) {
-        return true;
-    }
-
     MSG(("hide taskbar"));
     if (fFullscreen && doShow && taskBarFullscreenAutoShow) {
         fIsHidden = false;
@@ -879,9 +875,10 @@ bool TaskBar::autoTimer(bool doShow) {
         manager->updateFullscreenLayer();
     }
     if (taskBarAutoHide == true) {
-        fIsHidden = doShow ? false : true;
-        if (hasPopup())
-            fIsHidden = false;
+        fIsHidden = !doShow && !hasPopup();
+        if (taskBarDoubleHeight == false) {
+            fIsHidden &= !(addressBar() && addressBar()->visible());
+        }
         updateLocation();
     }
     return fIsHidden == doShow;
