@@ -490,7 +490,6 @@ private:
 
     static lazy<YTimer> fAutoRaiseTimer;
     static lazy<YTimer> fDelayFocusTimer;
-    lazy<YTimer> fFrameTimer;
 
     int fWinWorkspace;
     long fWinRequestedLayer;
