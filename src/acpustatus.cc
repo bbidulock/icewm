@@ -626,42 +626,20 @@ CPUStatusControl::CPUStatusControl(YSMListener *smActionListener,
 }
 
 void CPUStatusControl::GetCPUStatus(bool combine) {
-    if (combine) {
-        getCPUStatusCombined();
-        return;
+    int count = 0;
+#if __linux__
+    if (combine == false) {
+        fileptr fd("/proc/stat", "r");
+        if (fd) {
+            char buf[128];
+            while (fgets(buf, sizeof buf, fd) && 0 == memcmp(buf, "cpu", 3))
+                count += ASCII::isDigit(buf[3]);
+        }
     }
-#if defined(__linux__)
-    char buf[128];
-    unsigned cnt = 0;
-    FILE *fd = fopen("/proc/stat", "r");
-    if (!fd) {
-        getCPUStatusCombined();
-        return;
-    }
-    while (fgets(buf, sizeof buf, fd) && 0 == strncmp(buf, "cpu", 3))
-        cnt += ASCII::isDigit(buf[3]);
-    fclose(fd);
-    getCPUStatus(cnt);
-#elif defined(HAVE_SYSCTL) || defined(HAVE_SYSCTLBYNAME)
-    getCPUStatusCombined();
 #endif
-}
-
-void CPUStatusControl::getCPUStatusCombined()
-{
-    fCPUStatus += createStatus();
-}
-
-void CPUStatusControl::getCPUStatus(unsigned ncpus)
-{
-    /* we must reverse the order, so that left is cpu(0) and right is cpu(ncpus-1) */
-    for (unsigned i(0); i < ncpus; i++)
-        fCPUStatus += createStatus(ncpus - 1 - i);
-}
-
-CPUStatus* CPUStatusControl::createStatus(unsigned cpu)
-{
-    return new CPUStatus(aParent, this, cpu);
+    do {
+        fCPUStatus += new CPUStatus(aParent, this, --count);
+    } while (0 < count);
 }
 
 void CPUStatusControl::runCommandOnce(const char *resource, const char *cmdline)

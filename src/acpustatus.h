@@ -77,9 +77,6 @@ public:
 
 private:
     void GetCPUStatus(bool combine);
-    void getCPUStatusCombined();
-    void getCPUStatus(unsigned ncpus);
-    CPUStatus* createStatus(unsigned cpu = -1);
 
     virtual void actionPerformed(YAction action, unsigned int modifiers);
     virtual void handleClick(const XButtonEvent &up, int cpu);
