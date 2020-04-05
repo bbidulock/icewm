@@ -209,7 +209,7 @@ TaskBar::~TaskBar() {
 #ifdef IWM_STATES
     delete fCPUStatus; fCPUStatus = 0;
 #endif
-    delete fNetStatus; fCPUStatus = 0;
+    delete fNetStatus; fNetStatus = 0;
     delete fAddressBar; fAddressBar = 0;
     delete fTasks; fTasks = 0;
     delete fWindowTray; fWindowTray = 0;
