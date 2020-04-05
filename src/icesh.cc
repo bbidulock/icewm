@@ -2908,11 +2908,19 @@ void IceSh::showProperty(Window window, Atom atom, const char* prefix) {
         if (prop.format() == 8) {
             xsmart<char> name(atomName(atom));
             printf("%s%s = ", prefix, (char*) name);
-            for (int i = 0; i < prop.count(); ++i) {
-                unsigned char ch = prop.data<unsigned char>(i);
-                putchar(isPrint(ch) ? ch : '.');
+            if (prop.type() == ATOM_GUI_EVENT) {
+                int gev = prop.data<unsigned char>(0);
+                if (inrange(1 + gev, 1, NUM_GUI_EVENTS)) {
+                    puts(gui_event_names[gev]);
+                }
             }
-            newline();
+            else {
+                for (int i = 0; i < prop.count(); ++i) {
+                    unsigned char ch = prop.data<unsigned char>(i);
+                    putchar(isPrint(ch) ? ch : '.');
+                }
+                newline();
+            }
         }
         else if (prop.format() == 32) {
             if (prop.type() == XA_WINDOW) {
