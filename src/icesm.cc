@@ -64,6 +64,8 @@ private:
         "  --sync              Synchronize communication with X11 server.\n"
         "\n"
         "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
+        "  -o, --output=FILE   Redirect all output to FILE.\n"
+        "\n"
         "  -b, --nobg          Do not start icewmbg.\n"
         "  -n, --notray        Do not start icewmtray.\n"
         "  -s, --sound         Also start icesound.\n"
@@ -108,6 +110,20 @@ private:
                 }
                 else if (GetArgument(value, "i", "icewm", arg, *argv+*argc)) {
                     icewmExe = value;
+                }
+                else if (GetArgument(value, "o", "output", arg, *argv+*argc)) {
+                    upath path(upath(value).expand());
+                    int flags = O_WRONLY|O_CREAT|O_TRUNC|O_NOCTTY|O_APPEND;
+                    int fd(path.open(flags, 0600));
+                    if (fd == -1) {
+                        perror(path.string());
+                    } else {
+                        dup2(fd, 1);
+                        dup2(fd, 2);
+                        if (fd > 2) {
+                            close(fd);
+                        }
+                    }
                 }
                 else if (is_switch(*arg, "a", "alpha")) {
                     alphaArg = *arg;
