@@ -433,7 +433,7 @@ struct t_menu_node_app : t_menu_node
     }
 };
 
-struct tFromTo {const char *from, *to;};
+struct tFromTo { LPCSTR from; LPCSTR to;};
 // match transformations applied by some DEs
 const tFromTo SameCatMap[] = {
         {"Utilities", "Utility"},
@@ -449,56 +449,56 @@ const tFromTo SameIconMap[] = {
         { "AudioVideo", "Audio" },
         { "AudioVideo", "Video" }
 };
-typedef void (*tFuncInsertInfo)(const char* szDesktopFile);
-void pickup_folder_info(const char* szDesktopFile) {
+typedef void (*tFuncInsertInfo)(LPCSTR szDesktopFile);
+void pickup_folder_info(LPCSTR szDesktopFile) {
     GKeyFile *kf = g_key_file_new();
     auto_raii<GKeyFile*, g_key_file_free> free_kf(kf);
 
     if (!g_key_file_load_from_file(kf, szDesktopFile, G_KEY_FILE_NONE, 0))
         return;
-    const char* cat_name = g_key_file_get_string(kf, "Desktop Entry", "Name",
-            0);
-    // looks like BS data
+    LPCSTR cat_name = g_key_file_get_string(kf, "Desktop Entry", "Name", 0);
+    // looks like bad data
     if(!cat_name || !*cat_name)
         return;
     // try a perfect match by name or file name
-    short icon_quali = tListMeta::SYSTEM_ICON;
     tListMeta* pCat = lookup_category(cat_name);
     if(!pCat)
     {
-        auto_gfree bn(g_path_get_basename(szDesktopFile));
-        char* dot = strchr((char*) bn.m_p, '.');
+        gchar* bn(g_path_get_basename(szDesktopFile));
+        auto_gfree cleanr(bn);
+        char* dot = strchr(bn, '.');
         if(dot)
         {
             *dot = 0x0;
-            //printf("wtff, %s\n", bn.m_p);
-            pCat = lookup_category((char*) bn.m_p);
+            pCat = lookup_category(bn);
         }
     }
-    for(const tFromTo* p=SameCatMap; p < SameCatMap+ACOUNT(SameCatMap); ++p) {
+    for(const tFromTo* p=SameCatMap;
+            !pCat && p < SameCatMap+ACOUNT(SameCatMap);
+            ++p) {
+
         if(0 == strcmp(cat_name, p->from))
             pCat = lookup_category(p->to);
     }
 
     if(!pCat)
         return;
-    if (pCat->load_state_icon < icon_quali) {
-        const char *icon_name = g_key_file_get_string (kf, "Desktop Entry",
+    if (pCat->load_state_icon < tListMeta::SYSTEM_ICON) {
+        LPCSTR icon_name = g_key_file_get_string (kf, "Desktop Entry",
                                                        "Icon", 0);
         if (icon_name && *icon_name) {
             pCat->icon = icon_name;
-            pCat->load_state_icon = icon_quali;
+            pCat->load_state_icon = tListMeta::SYSTEM_ICON;
         }
     }
-    if (pCat->load_state_title < tListMeta::SYSTEM_TRANSLATED &&
-            icon_quali != tListMeta::FALLBACK_ICON) {
-        const char *cat_title = g_key_file_get_locale_string (kf,
+    if (pCat->load_state_title < tListMeta::SYSTEM_TRANSLATED) {
+        LPCSTR cat_title = g_key_file_get_locale_string (kf,
                                                               "Desktop Entry",
                                                               "Name", NULL,
                                                               NULL);
         if (!cat_title) return;
         pCat->title = cat_title;
-        const char *cat_title_c = g_key_file_get_string (kf, "Desktop Entry",
+        LPCSTR cat_title_c = g_key_file_get_string (kf, "Desktop Entry",
                                                          "Name", 0);
         bool same_trans = 0 == strcmp (cat_title_c, cat_title);
         if (!same_trans) pCat->load_state_title = tListMeta::SYSTEM_TRANSLATED;
@@ -513,7 +513,8 @@ void pickup_folder_info(const char* szDesktopFile) {
             continue;
 
         tListMeta *t = lookup_category (p->to);
-        if (t && t->load_state_icon < tListMeta::SYSTEM_ICON) {
+        // give them at least some icon for now
+        if (t && t->load_state_icon < tListMeta::FALLBACK_ICON) {
             t->icon = pCat->icon;
             t->load_state_icon = tListMeta::FALLBACK_ICON;
         }
