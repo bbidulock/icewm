@@ -322,9 +322,8 @@ void WindowListBox::enableCommands(YMenu *popup) {
     }
 }
 
-WindowList::WindowList(YWindow *aParent, YActionListener *wmActionListener):
+WindowList::WindowList(YWindow *aParent):
     YFrameClient(aParent, nullptr),
-    wmActionListener(wmActionListener),
     scroll(new YScrollView(this)),
     list(new WindowListBox(scroll, scroll))
 {
@@ -567,7 +566,7 @@ void WindowList::showFocused(int x, int y) {
 
 WindowList* WindowListProxy::acquire() {
     if (wlist == nullptr) {
-        wlist = new WindowList(manager, wmapp);
+        wlist = new WindowList(manager);
         wlist->updateWindowListApps();
     }
     return wlist;
