@@ -31,11 +31,14 @@ static void initIconPaths() {
         for (char *tok = strtok_r(copy, ":", &save);
             tok != 0; tok = strtok_r(0, ":", &save))
         {
+            bool wantsHighContrast = mstring(tok).endsWith("HighContrast");
 #ifdef HAVE_WORDEXP
             wordexp_t exp;
             if (wordexp(tok, &exp, WRDE_NOCMD) == 0) {
                 for (unsigned i = 0; i < exp.we_wordc; ++i) {
                     mstring dir(exp.we_wordv[i]);
+                    if(!wantsHighContrast && dir.endsWith("HighContrast"))
+                        continue;
                     if (find(iconDirs, dir) == -1) {
                         if (upath(dir).dirExists()) {
                             iconDirs += dir;

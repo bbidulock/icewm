@@ -417,7 +417,7 @@ cfoption icewm_preferences[] = {
     OIV("BatteryPollingPeriod",                 &batteryPollingPeriod, 2, 3600, "Delay between power status updates (seconds)"),
     OIV("NetWorkAreaBehaviour",                 &netWorkAreaBehaviour, 0, 2,    "NET_WORKAREA behaviour: 0 (single/multimonitor with STRUT information, like metacity), 1 (always full desktop), 2 (singlemonitor with STRUT, multimonitor without STRUT)"),
 ///    OSV("Theme",                                &themeName,                     "Theme name"),
-    OSV("IconPath",                             &iconPath,                      "Icon search path (colon separated)"),
+    OSV("IconPath",                             &iconPath,                      "Icon search path (colon separated, wildcards are expanded, with the exception of HighContrast theme which is ignored unless specified here explicitly)"),
     OSV("MailBoxPath",                          &mailBoxPath,                   "Mailbox path (use $MAIL instead)"),
     OSV("MailCommand",                          &mailCommand,                   "Command to run on mailbox"),
     OSV("MailClassHint",                        &mailClassHint,                 "WM_CLASS to allow runonce for MailCommand"),
