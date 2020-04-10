@@ -66,29 +66,26 @@ tCharVec* home_sys_folders[] = { &home_folders, &sys_folders, 0 };
 struct tListMeta {
     LPCSTR title, key, icon;
     LPCSTR const * const parent_sec;
-#if 0
-    static int cmpTitleUtf8(const void *a, const void *b) {
-        tListMeta *A((tListMeta*) a), *B((tListMeta*) b);
-        return cmpUtf8(A->title, B->title);
-    }
-
-    static int cmpTitle(const void *a, const void *b) {
-        tListMeta *A((tListMeta*) a), *B((tListMeta*) b);
-        return strcmp(A->title, B->title);
-    }
-
-    static int cmpCategoryThroughPtr(const void *a, const void *b) {
-        tListMeta **A((tListMeta**) a), **B((tListMeta**) b);
-        return strcmp((**A).key, (**B).key);
-    }
-#endif
+    enum eLoadFlags {
+        NONE = 0,
+        DEFAULT_TRANSLATED = 1,
+        SYSTEM_TRANSLATED = 2,
+        DEFAULT_ICON = 4,
+        FALLBACK_ICON = 8,
+        SYSTEM_ICON = 16,
+    };
+    short load_state_icon, load_state_title;
 };
 GHashTable* meta_lookup_data;
 tListMeta* lookup_category(LPCSTR key)
 {
     tListMeta* ret = (tListMeta*) g_hash_table_lookup(meta_lookup_data, key);
-    if(ret && ret->title == NULL)
-        ret->title = _(ret->key);
+    if(ret)
+    {
+        // auto-translate the default title for the user's language
+        if(ret->title == NULL)
+            ret->title = _(ret->key);
+    }
     return ret;
 }
 
@@ -436,6 +433,22 @@ struct t_menu_node_app : t_menu_node
     }
 };
 
+struct tFromTo {const char *from, *to;};
+// match transformations applied by some DEs
+const tFromTo SameCatMap[] = {
+        {"Utilities", "Utility"},
+        {"Sound & Video", "AudioVideo"},
+        {"Sound", "Audio"},
+        {"File", "FileTools"},
+        {"Terminal Applications", "TerminalEmulator"},
+        {"Mathematics", "Math"},
+        {"Arcade", "ArcadeGame"},
+        {"Card Games", "CardGame"}
+};
+const tFromTo SameIconMap[] = {
+        { "AudioVideo", "Audio" },
+        { "AudioVideo", "Video" }
+};
 typedef void (*tFuncInsertInfo)(const char* szDesktopFile);
 void pickup_folder_info(const char* szDesktopFile) {
     GKeyFile *kf = g_key_file_new();
@@ -443,17 +456,69 @@ void pickup_folder_info(const char* szDesktopFile) {
 
     if (!g_key_file_load_from_file(kf, szDesktopFile, G_KEY_FILE_NONE, 0))
         return;
-    const char* icon_name = g_key_file_get_string(kf, "Desktop Entry", "Icon",
-            0);
     const char* cat_name = g_key_file_get_string(kf, "Desktop Entry", "Name",
             0);
-    const char* cat_title = g_key_file_get_locale_string(kf, "Desktop Entry",
-            "Name", NULL, NULL);
-    tListMeta* pCat = lookup_category(cat_name);
-    if (!pCat)
+    // looks like BS data
+    if(!cat_name || !*cat_name)
         return;
-    pCat->icon = icon_name;
-    pCat->title = cat_title;
+    // try a perfect match by name or file name
+    short icon_quali = tListMeta::SYSTEM_ICON;
+    tListMeta* pCat = lookup_category(cat_name);
+    if(!pCat)
+    {
+        auto_gfree bn(g_path_get_basename(szDesktopFile));
+        char* dot = strchr((char*) bn.m_p, '.');
+        if(dot)
+        {
+            *dot = 0x0;
+            //printf("wtff, %s\n", bn.m_p);
+            pCat = lookup_category((char*) bn.m_p);
+        }
+    }
+    for(const tFromTo* p=SameCatMap; p < SameCatMap+ACOUNT(SameCatMap); ++p) {
+        if(0 == strcmp(cat_name, p->from))
+            pCat = lookup_category(p->to);
+    }
+
+    if(!pCat)
+        return;
+    if (pCat->load_state_icon < icon_quali) {
+        const char *icon_name = g_key_file_get_string (kf, "Desktop Entry",
+                                                       "Icon", 0);
+        if (icon_name && *icon_name) {
+            pCat->icon = icon_name;
+            pCat->load_state_icon = icon_quali;
+        }
+    }
+    if (pCat->load_state_title < tListMeta::SYSTEM_TRANSLATED &&
+            icon_quali != tListMeta::FALLBACK_ICON) {
+        const char *cat_title = g_key_file_get_locale_string (kf,
+                                                              "Desktop Entry",
+                                                              "Name", NULL,
+                                                              NULL);
+        if (!cat_title) return;
+        pCat->title = cat_title;
+        const char *cat_title_c = g_key_file_get_string (kf, "Desktop Entry",
+                                                         "Name", 0);
+        bool same_trans = 0 == strcmp (cat_title_c, cat_title);
+        if (!same_trans) pCat->load_state_title = tListMeta::SYSTEM_TRANSLATED;
+        // otherwise: not sure, keep searching for a better translation
+    }
+    // something special, donate the icon to similar items unless they have a better one
+
+    for(const tFromTo* p=SameIconMap; p < SameIconMap + ACOUNT(SameIconMap);
+            ++p) {
+
+        if (strcmp (pCat->key, p->from))
+            continue;
+
+        tListMeta *t = lookup_category (p->to);
+        if (t && t->load_state_icon < tListMeta::SYSTEM_ICON) {
+            t->icon = pCat->icon;
+            t->load_state_icon = tListMeta::FALLBACK_ICON;
+        }
+
+    }
 }
 
 void insert_app_info(const char* szDesktopFile) {
