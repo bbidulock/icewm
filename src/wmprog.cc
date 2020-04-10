@@ -176,22 +176,22 @@ public:
         menu = new MenuProgMenu(wmapp, wmapp, NULL /* no wmaction handling*/,
                 "switch popup internal menu", prog->fCmd, prog->fArgs);
     }
-    virtual void updateList() OVERRIDE {
+    virtual void updateList() override {
         menu->refresh();
         zTarget = 0;
     }
-    virtual int getCount() OVERRIDE {
+    virtual int getCount() override {
         return menu->itemCount();
     }
-    virtual bool isKey(KeySym k, unsigned int mod) OVERRIDE {
+    virtual bool isKey(KeySym k, unsigned int mod) override {
         return k == this->key && mod == this->mod;
     }
-    virtual void setWMClass(char* wmclass) OVERRIDE {
+    virtual void setWMClass(char* wmclass) override {
         if (wmclass) free(wmclass); // unimplemented
     }
 
     // move the focused target up or down and return the new focused element
-    virtual int moveTarget(bool zdown) OVERRIDE {
+    virtual int moveTarget(bool zdown) override {
         int count = menu->itemCount();
         zTarget += zdown ? 1 : -1;
         if (zTarget >= count)
@@ -202,24 +202,24 @@ public:
         return zTarget;
     }
     // move the focused target up or down and return the new focused element
-        virtual int setTarget(int where) OVERRIDE {
+        virtual int setTarget(int where) override {
             int count = menu->itemCount();
             return zTarget = inrange(where, 0, count) ? zTarget : 0;
         }
 
     /// Show changed focus preview to user
-    virtual void displayFocusChange(int idxFocused) OVERRIDE {}
+    virtual void displayFocusChange(int idxFocused) override {}
     // set target cursor and implementation specific stuff in the beginning
-    virtual void begin(bool zdown) OVERRIDE {
+    virtual void begin(bool zdown) override {
         updateList();
         moveTarget(zdown);
     }
-    virtual void reset() OVERRIDE {
+    virtual void reset() override {
         zTarget=0;
     }
-    virtual void cancel() OVERRIDE {
+    virtual void cancel() override {
     }
-    virtual void accept(IClosablePopup *parent) OVERRIDE {
+    virtual void accept(IClosablePopup *parent) override {
         YMenuItem* item=menu->getItem(zTarget);
         if (!item) return;
         // even through all the obscure "abstraction" it should just run DObjectMenuItem::actionPerformed
@@ -227,22 +227,22 @@ public:
         parent->close();
     }
 
-    virtual int getActiveItem() OVERRIDE {
+    virtual int getActiveItem() override {
         return zTarget;
     }
-    virtual ustring getTitle(int idx) OVERRIDE {
+    virtual ustring getTitle(int idx) override {
         if (idx<0 || idx>=this->getCount())
             return null;
         return menu->getItem(idx)->getName();
     }
-    virtual ref<YIcon> getIcon(int idx) OVERRIDE {
+    virtual ref<YIcon> getIcon(int idx) override {
         if (idx<0 || idx>=this->getCount())
             return null;
         return menu->getItem(idx)->getIcon();
     }
 
     // Manager notification about windows disappearing under the fingers
-    virtual void destroyedItem(void* framePtr) OVERRIDE {
+    virtual void destroyedItem(void* framePtr) override {
     }
 
 };

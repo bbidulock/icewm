@@ -59,18 +59,18 @@ public:
                  ISwitchItems *items = 0, bool verticalStyle=true);
     virtual ~SwitchWindow();
 
-    virtual void paint(Graphics &g, const YRect &r) OVERRIDE;
-    virtual void repaint() OVERRIDE;
+    virtual void paint(Graphics &g, const YRect &r) override;
+    virtual void repaint() override;
 
     void begin(bool zdown, int mods, char* wmclass = 0);
 
-    virtual void activatePopup(int flags) OVERRIDE;
-    virtual void deactivatePopup() OVERRIDE;
+    virtual void activatePopup(int flags) override;
+    virtual void deactivatePopup() override;
 
-    virtual void handleExpose(const XExposeEvent &expose) OVERRIDE {}
-    virtual bool handleKey(const XKeyEvent &key) OVERRIDE;
-    virtual void handleButton(const XButtonEvent &button) OVERRIDE;
-    void handleMotion(const XMotionEvent &motion) OVERRIDE;
+    virtual void handleExpose(const XExposeEvent &expose) override {}
+    virtual bool handleKey(const XKeyEvent &key) override;
+    virtual void handleButton(const XButtonEvent &button) override;
+    void handleMotion(const XMotionEvent &motion) override;
     void destroyedFrame(YFrameWindow *frame);
 
 private:
@@ -101,7 +101,7 @@ private:
     void resize(int xiscreen);
 
     void cancel();
-    virtual bool close() OVERRIDE;
+    virtual bool close() override;
     void accept();
     void displayFocus(int itemIdx);
     //YFrameWindow *nextWindow(YFrameWindow *from, bool zdown, bool next);

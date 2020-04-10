@@ -110,12 +110,12 @@ private:
     // methods local to this class
     void getCurrent(long *in, long *out, const void* sharedData);
     void updateStatus(const void* sharedData);
-    virtual void updateToolTip() OVERRIDE;
+    virtual void updateToolTip() override;
 
     // methods overridden from superclasses
-    virtual void handleClick(const XButtonEvent &up, int count) OVERRIDE;
+    virtual void handleClick(const XButtonEvent &up, int count) override;
 
-    virtual bool picture() OVERRIDE;
+    virtual bool picture() override;
     void fill(Graphics& g);
     void draw(Graphics& g);
 };
@@ -167,11 +167,11 @@ public:
     IterType getIterator() { return fNetStatus.iterator(); }
 
     // subclassing method overrides
-    virtual bool handleTimer(YTimer *t) OVERRIDE;
-    virtual void handleClick(const XButtonEvent &up, cstring netdev) OVERRIDE;
-    virtual void runCommandOnce(const char *resource, const char *cmdline) OVERRIDE;
-    virtual void actionPerformed(YAction, unsigned int) OVERRIDE;
-    virtual void relayout() OVERRIDE;
+    virtual bool handleTimer(YTimer *t) override;
+    virtual void handleClick(const XButtonEvent &up, cstring netdev) override;
+    virtual void runCommandOnce(const char *resource, const char *cmdline) override;
+    virtual void actionPerformed(YAction, unsigned int) override;
+    virtual void relayout() override;
 };
 
 #endif // NETSTATUS_H
