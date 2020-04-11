@@ -2,6 +2,13 @@ cmake_minimum_required(VERSION 2.6)
 
 PROJECT(ICEWM CXX)
 
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED on)
+# TODO: drop this warning around xmas 2020 and raise cmake_minimum_required instead; Debian Jessie EOLs around 2020-06
+if(${CMAKE_VERSION} VERSION_LESS "3.1")
+    message(WARNING "!! Ancient cmake version detected, please pass flags for C++11 enabling manually through CXXFLAGS environment variable or override CMAKE_CXX_FLAGS")
+endif()
+
 INCLUDE(CheckIncludeFiles)
 INCLUDE(CheckLibraryExists)
 INCLUDE(CheckFunctionExists)
@@ -16,17 +23,9 @@ SET(CXXFLAGS_COMMON -pthread -Wall -Wextra -Wno-unused-parameter -Wno-missing-fi
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(icewm_libs "")
-
+# optimize for release if not defined explicitly, can be overriden with CMAKE_BUILD_TYPE "None"
 if("${CMAKE_BUILD_TYPE}" STREQUAL "" AND ("" STREQUAL "${CMAKE_CXX_FLAGS}"))
     SET(CMAKE_BUILD_TYPE Release)
-endif()
-
-if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-    CHECK_CXX_COMPILER_FLAG(-std=gnu++98 CXX_FORCELEGACY)
-    if(CXX_FORCELEGACY)
-        list(APPEND CXXFLAGS_COMMON -std=gnu++98)
-    endif()
-    add_definitions(-DDEBUG)
 endif()
 
 # I don't need -rdynamic, thanks!
