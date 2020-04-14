@@ -86,6 +86,7 @@
 #cmakedefine HAVE_MACHINE_APMVAR_H 1
 #cmakedefine HAVE_MACHINE_APM_BIOS_H 1
 #cmakedefine HAVE_EXECINFO_H 1
+#cmakedefine HAVE_WORDEXP 1
 
 #define LIBDIR "@LIBDIR@"
 #define CFGDIR "@CFGDIR@"

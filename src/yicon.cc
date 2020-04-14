@@ -12,61 +12,29 @@
 #include "prefs.h"
 #include "yprefs.h"
 #include "ypaths.h"
+#include "ypointer.h"
+#include "ycollections.h"
+#include <initializer_list>
+
+#include <vector>
+#include <unordered_map>
+
+#ifdef HAVE_WORDEXP
 #include <wordexp.h>
+#endif
 
 #include "intl.h"
 
-static ref<YResourcePaths> iconPaths;
-static MStringArray iconDirs;
+#include <fnmatch.h>
 
-static void initIconPaths() {
-    if (iconPaths == null) {
-        iconPaths = YResourcePaths::subdirs("icons");
-    }
-    if (iconDirs.isEmpty() && nonempty(iconPath)) {
-        char* copy = newstr(iconPath);
-        char* save = nullptr;
-        for (char *tok = strtok_r(copy, ":", &save);
-            tok != nullptr; tok = strtok_r(nullptr, ":", &save))
-        {
-            wordexp_t exp;
-            if (wordexp(tok, &exp, WRDE_NOCMD) == 0) {
-                for (unsigned i = 0; i < exp.we_wordc; ++i) {
-                    mstring dir(exp.we_wordv[i]);
-                    if (find(iconDirs, dir) == -1) {
-                        if (upath(dir).dirExists()) {
-                            iconDirs += dir;
-                        }
-                    }
-                }
-                wordfree(&exp);
-            }
-        }
-        delete[] copy;
-
-        YResourcePaths::IterType iter = iconPaths->reverseIterator();
-        while (++iter) {
-            upath icons(iter->relative("icons"));
-            if (find(iconDirs, icons.path()) >= 0) {
-                iter.remove();
-            }
-        }
-    }
-}
-
-
-YIcon::YIcon(upath filename):
-    fSmall(null), fLarge(null), fHuge(null),
-    loadedS(false), loadedL(false), loadedH(false),
-    fPath(filename.expand()), fCached(false)
-{
+YIcon::YIcon(upath filename) :
+        fSmall(null), fLarge(null), fHuge(null), loadedS(false), loadedL(false), loadedH(
+                false), fPath(filename.expand()) {
 }
 
 YIcon::YIcon(ref<YImage> small, ref<YImage> large, ref<YImage> huge) :
-    fSmall(small), fLarge(large), fHuge(huge),
-    loadedS(small != null), loadedL(large != null), loadedH(huge != null),
-    fPath(null), fCached(false)
-{
+        fSmall(small), fLarge(large), fHuge(huge), loadedS(small != null), loadedL(
+                large != null), loadedH(huge != null), fPath(null) {
 }
 
 YIcon::~YIcon() {
@@ -75,121 +43,205 @@ YIcon::~YIcon() {
     fSmall = null;
 }
 
-static upath joinPath(const upath& dir, const upath& name) {
-    if (dir == null)
-        return name;
-
-    if (name.isAbsolute())
-        return name;
-
-    return dir.relative(name);
-}
-
-static inline bool isIconFile(upath name) {
-    bool exist = name.fileExists();
-    return exist;
-}
-
-upath YIcon::findIcon(upath dir, upath base, unsigned size) {
-    char iconName[1024];
-    const size_t iconSize = sizeof iconName;
-    const char* cBaseStr = base.string();
-    static const char iconExts[][5] = {
-            ".png",
+static const char iconExts[][5] = { ".png",
 #if defined(CONFIG_GDK_PIXBUF_XLIB) && defined(CONFIG_LIBRSVG)
-            ".svg",
+        ".svg",
 #endif
-            ".xpm"
-    };
-    static const int numIconExts = (int) ACOUNT(iconExts);
+        ".xpm" };
 
-    upath fullpath(joinPath(dir, base));
-    if (isIconFile(fullpath))
-        return fullpath;
+inline bool HasImageExtension(const upath &base) {
+    const auto baseExt(base.getExtension());
+    if (baseExt.length() != 4)
+        return false;
+    for (const auto &pe : iconExts) {
+        if (baseExt.equals(pe, 4))
+            return true;
+    }
+    return false;
+}
 
-    bool hasImageExtension = false;
-    mstring cbaseExt(base.getExtension());
-    if (cbaseExt.length() == 4) {
-        for (int i = 0; i < numIconExts; ++i) {
-            hasImageExtension |= (0 == strcmp(iconExts[i], cbaseExt));
+class ZIconPathIndex {
+public:
+
+    struct IconCategory {
+    private:
+        mutable std::vector<mstring> suffixCache;
+        unsigned sizetype = 0;
+
+    public:
+        int getSize() const {
+            return sizetype;
         }
+        std::vector<mstring> folders;
+        IconCategory(unsigned size = 0) :
+                sizetype(size) {
+        }
+        const std::vector<mstring>& getExtendedSuffixes() const;
+    };
+
+    //std::vector<IconCategory> categories;
+    std::unordered_map<unsigned, IconCategory> categories;
+    // catch all folders without sizetyped subdirs
+    IconCategory legacyDirs;
+
+    IconCategory& GetCat(int size) {
+        auto it = categories.find(unsigned(size));
+        return it != categories.end() ? it->second : legacyDirs;
     }
 
-    // XXX: actually, we should distinguish by purpose (app, category, mimetype, etc.)
-    // For now, check by the same schema hoping that the file name provides uniquie identity information.
-    static const char* xdg_icon_patterns[] = {
-            "/%ux%u/apps/%s",
-            "/%ux%u/categories/%s",
-            nullptr
-    };
-    static const char* xdg_folder_patterns[] = {
-            "/%ux%u/apps",
-            "/%ux%u/categories",
-            nullptr
-    };
+    void init() {
 
+        static bool once = false;
+        if (once)
+            return;
+        once = true;
 
-    if (hasImageExtension) {
-        for (const char **p = xdg_icon_patterns; *p; ++p) {
-            snprintf(iconName, iconSize, *p, size, size, cBaseStr);
-            fullpath = dir + iconName;
-            if (isIconFile(fullpath))
-                return fullpath;
+        for (auto size : { hugeIconSize, largeIconSize, smallIconSize,
+                menuIconSize }) {
+            categories.emplace(size, IconCategory(size));
         }
+
+        auto probeAndRegisterXdgFolders = [this](const mstring &what) {
+            // stop early because this is obviously matching a file!
+            if (HasImageExtension(upath(what)))
+                return;
+            for (auto &kv : categories) {
+                mstring szSize(long(kv.first));
+                auto &cat = kv.second;
+                // assume that if the folder is there for any usable role then it wil be ok to search for icons
+                for (const auto &contentDir : { "/apps", "/categories" }) {
+                    auto testDir = mstring(what) + "/" + szSize + "x" + szSize
+                            + contentDir;
+                    if (upath(testDir).dirExists()) {
+                        // finally!
+                        cat.folders.emplace_back(testDir + "/");
+                    }
+                }
+            }
+        };
+
+        std::vector<const char*> skiplist, matchlist;
+
+        char *save = nullptr;
+        csmart themesCopy(newstr(iconThemes));
+        for (auto* tok = strtok_r(themesCopy, ":", &save); tok; tok = strtok_r(0, ":", &save)) {
+            if (tok[0] == '-')
+                skiplist.emplace_back(tok + 1);
+            else
+                matchlist.emplace_back(tok);
+        }
+
+        auto probeIconFolder = [&](mstring iPath){
+
+            iPath += "/";
+
+            // try base path in any case
+            legacyDirs.folders.emplace_back(iPath);
+
+            for (const auto &themeExprTok : matchlist) {
+                bool haveWeMatch = false;
+                mstring themeExpr = iPath + themeExprTok;
+#ifdef HAVE_WORDEXP
+                wordexp_t exp;
+                haveWeMatch = wordexp(themeExpr, &exp, WRDE_NOCMD) == 0;
+                if (haveWeMatch) {
+                    for (unsigned i = 0; i < exp.we_wordc; ++i) {
+                        auto match = exp.we_wordv[i];
+                        auto bname = strrchr(match, '/');
+                        if (!bname)
+                            continue;
+                        bname++;
+                        for (const auto &blistPattern : skiplist) {
+                            int ignoreMatched = fnmatch(blistPattern, bname, 0);
+                            if (ignoreMatched == 0)
+                                goto nextMatch;
+                        }
+                        // ok, we found a potential theme folder to consider
+
+                        probeAndRegisterXdgFolders(match);
+
+                        nextMatch: ;
+                    }
+                    wordfree(&exp);
+                }
+#endif
+                // wordexp failed or is not available
+                if (!haveWeMatch) {
+                    probeAndRegisterXdgFolders(themeExpr);
+                }
+            }
+        };
+
+        auto iceIconPaths = YResourcePaths::subdirs("icons");
+        if (iceIconPaths != null) {
+            for (int i = 0; i < iceIconPaths->getCount(); ++i) {
+                probeIconFolder(iceIconPaths->getPath(i));
+            }
+        }
+        csmart copy(newstr(iconPath));
+        for (auto *itok = strtok_r(copy, ":", &save); itok;
+                itok = strtok_r(0, ":", &save)) {
+            probeIconFolder(itok);
+        }
+
     }
-    else if (base.path().endsWith("/") == false) {
-        for (int i = 0; i < numIconExts; ++i) {
-            snprintf(iconName, iconSize,
-                    "%s_%ux%u%s", cBaseStr, size, size, iconExts[i]);
-            fullpath = joinPath(dir, iconName);
-            if (isIconFile(fullpath))
-                return fullpath;
-        }
 
-        for (int i = 0; i < numIconExts; ++i) {
-            fullpath = joinPath(dir, base.addExtension(iconExts[i]));
-            if (isIconFile(fullpath))
-                return fullpath;
-        }
-
-        for (const char **p = xdg_folder_patterns; *p; ++p) {
-            snprintf(iconName, iconSize, *p, size, size);
-            upath apps(dir + iconName);
-            if (apps.dirExists()) {
-                for (int i = 0; i < numIconExts; ++i) {
-                    snprintf(iconName, iconSize, "/%s%s", cBaseStr,
-                            iconExts[i]);
-                    fullpath = apps + iconName;
-                    if (isIconFile(fullpath))
-                        return fullpath;
+    upath locateIcon(int size, const mstring &baseName) {
+        bool hasSuffix = HasImageExtension(baseName);
+        for (unsigned onLegacyFolder = 0; onLegacyFolder < 2;
+                ++onLegacyFolder) {
+            auto &cat = onLegacyFolder ? legacyDirs : GetCat(size);
+            if (!onLegacyFolder && &cat == &legacyDirs) {
+                onLegacyFolder++;
+                continue;
+            }
+            for (const mstring &el : cat.folders) {
+                // XXX: optimize concatenation
+                mstring path(el + baseName);
+                if (hasSuffix) {
+                    upath testPath(path);
+                    if (testPath.fileExists())
+                        return testPath;
+                } else {
+                    for (const mstring &sfx : cat.getExtendedSuffixes()) {
+                        upath testPath(path + sfx);
+                        if (testPath.fileExists())
+                            return testPath;
+                    }
                 }
             }
         }
+        return null;
     }
+} iconIndex;
 
-    return null;
+const std::vector<mstring>& ZIconPathIndex::IconCategory::getExtendedSuffixes() const {
+    if (suffixCache.empty()) {
+        for (const auto &sfx : iconExts) {
+            if (sizetype == 0) {
+                for (auto kv : iconIndex.categories) {
+                    mstring sDim(long(kv.first));
+                    suffixCache.emplace_back(
+                            mstring("_") + sDim + "x" + sDim + sfx);
+                }
+
+            }
+            suffixCache.emplace_back(sfx);
+        }
+    }
+    return suffixCache;
 }
 
 upath YIcon::findIcon(unsigned size) {
-    initIconPaths();
 
-    for (MStringArray::IterType iter = iconDirs.iterator(); ++iter; ) {
-        upath path(findIcon(*iter, fPath, size));
-        if (path != null) {
-            return path;
-        }
+    iconIndex.init();
+    auto ret = iconIndex.locateIcon(size, fPath);
+
+    if (ret == null) {
+        MSG(("Icon \"%s\" not found.", fPath.string()));
     }
 
-    for (YResourcePaths::IterType iter = iconPaths->iterator(); ++iter; ) {
-        upath path(findIcon(iter->relative("icons"), fPath, size));
-        if (path != null) {
-            return path;
-        }
-    }
-
-    MSG(("Icon \"%s\" not found.", fPath.string()));
-
-    return null;
+    return ret;
 }
 
 ref<YImage> YIcon::loadIcon(unsigned size) {
@@ -204,12 +256,12 @@ ref<YImage> YIcon::loadIcon(unsigned size) {
             loadPath = findIcon(size);
         }
         if (loadPath != null) {
-            const char* s(loadPath.string());
-            YTraceIcon trace(s);
-            icon = YImage::load(s);
+            auto cs(loadPath.path());
+            YTraceIcon trace(cs);
+            icon = YImage::load(cs);
         }
     }
-
+    // if the image data which was found in the expected file does not really match the filename, scale the data to fit
     if (icon != null) {
         if (size != icon->width() || size != icon->height()) {
             icon = icon->scale(size, size);
@@ -274,19 +326,16 @@ ref<YImage> YIcon::getScaledIcon(unsigned size) {
         base = huge();
 
     if (base == null) {
-        base = huge() != null ? fHuge
-             : large() != null ? fLarge
-             : small();
+        base = huge() != null ? fHuge : large() != null ? fLarge : small();
     }
 
     if (base != null) {
         if (size != base->width() || size != base->height()) {
-           base = base->scale(size, size);
+            base = base->scale(size, size);
         }
     }
     return base;
 }
-
 
 static YRefArray<YIcon> iconCache;
 
@@ -322,7 +371,7 @@ ref<YIcon> YIcon::getIcon(const char *name) {
     if (n >= 0)
         return iconCache.getItem(n);
 
-    ref<YIcon>newicon(new YIcon(name));
+    ref<YIcon> newicon(new YIcon(name));
     if (newicon != null) {
         newicon->setCached(true);
         iconCache.insert(-n - 1, newicon);
@@ -331,7 +380,7 @@ ref<YIcon> YIcon::getIcon(const char *name) {
 }
 
 void YIcon::freeIcons() {
-    for (int k = iconCache.getCount(); --k >= 0; ) {
+    for (int k = iconCache.getCount(); --k >= 0;) {
         ref<YIcon> icon = iconCache.getItem(k);
         icon->fPath = null;
         icon->fSmall = null;
@@ -340,11 +389,6 @@ void YIcon::freeIcons() {
         icon = null;
         iconCache.remove(k);
     }
-    if (iconPaths != null) {
-        iconPaths->clear();
-        iconPaths = null;
-    }
-    iconDirs.clear();
 }
 
 unsigned YIcon::menuSize() {

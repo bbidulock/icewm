@@ -13,7 +13,6 @@ public:
 
     ref<YImage> getScaledIcon(unsigned size);
 
-    upath findIcon(unsigned size);
     upath iconName() const { return fPath; }
 
     static ref<YIcon> getIcon(const char *name);
@@ -27,6 +26,7 @@ public:
     static unsigned hugeSize();
 
     bool draw(Graphics &g, int x, int y, int size);
+    upath findIcon(unsigned size);
 
 private:
     ref<YImage> fSmall;
@@ -36,11 +36,10 @@ private:
     bool loadedS;
     bool loadedL;
     bool loadedH;
+    bool fCached = false;
 
     upath fPath;
-    bool fCached;
 
-    upath findIcon(upath dir, upath base, unsigned size);
     void removeFromCache();
     static int cacheFind(upath name);
     ref<YImage> loadIcon(unsigned size);

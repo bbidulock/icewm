@@ -49,7 +49,7 @@ XSV(const char *, iconPath,
 #else
 XSV(const char *, iconPath,                     0)
 #endif
-
+XSV(const char *, iconThemes,                   "*:-HighContrast")
 XSV(const char *, themeName,                    CONFIG_DEFAULT_THEME)
 XSV(const char *, xineramaPrimaryScreenName,    0)
 

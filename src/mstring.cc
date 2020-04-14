@@ -205,6 +205,24 @@ bool mstring::equals(const mstring &str) const {
     return equals(str.data(), str.length());
 }
 
+bool mstring::requals(const mstring &str) const {
+    if(str.length() != length())
+        return false;
+    auto begin = data();
+    auto obegin = str.data();
+    auto op = obegin + str.length() - 1;
+    auto p = begin + length() - 1;
+    while(true)
+    {
+        if (*p != *op)
+            return false;
+        if(p == begin)
+            return true;
+        p--; op--;
+    }
+    return true;
+}
+
 int mstring::collate(mstring s, bool ignoreCase) {
     if (!ignoreCase)
         return strcoll(*this, s);
