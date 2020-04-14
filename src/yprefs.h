@@ -33,16 +33,15 @@ XIV(bool, grabRootWindow,                       true)
 
 #if defined(__linux__)
 XSV(const char *, iconPath,
-                                                "/usr/share/icons/*:"
-                                                "/usr/share/icons/*/base:"
+                                                "/usr/share/icons/oxygen/base:"
+                                                "/usr/share/icons/Adwaita:"
+                                                "/usr/share/icons/hicolor:"
                                                 "/usr/share/icons:"
                                                 "/usr/share/pixmaps:"
                                                 "/usr/local/share/icons/hicolor:"
                                                 )
 #elif defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__NetBSD__)
 XSV(const char *, iconPath,
-                                                "/usr/local/share/icons/*:"
-                                                "/usr/local/share/icons/*/base:"
                                                 "/usr/local/share/icons/hicolor:"
                                                 "/usr/local/share/icons:"
                                                 "/usr/local/share/pixmaps:"

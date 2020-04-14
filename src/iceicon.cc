@@ -151,8 +151,6 @@ void YIconView::updateItems() {
 
 YIconView::YIconView(YScrollView *view, YWindow *aParent):
     YWindow(aParent),
-    conWidth(0),
-    conHeight(0),
     bg("rgb:CC/CC/CC"),
     fg(YColor::black)
 {
