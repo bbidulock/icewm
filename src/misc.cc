@@ -912,13 +912,19 @@ void check_argv(int argc, char **argv, const char *help, const char *version)
         ApplicationName = my_basename(argv[0]);
     }
     for (char **arg = argv + 1; arg < argv + argc; ++arg) {
-        check_help_version(*arg, (help && *help) ? help :
-                "  -d, --display=NAME    NAME of the X server to use.\n",
-                version);
-
-        char *value(0);
-        if (GetArgument(value, "d", "display", arg, argv + argc)) {
-            setenv("DISPLAY", value, 1);
+        if ('-' == arg[0][0]) {
+            char c = ('-' == arg[0][1]) ? arg[0][2] : arg[0][1];
+            if (strchr("h?vVcC", c)) {
+                check_help_version(*arg, (help && *help) ? help :
+                    "  -d, --display=NAME    NAME of the X server to use.\n",
+                    version);
+            }
+            else if (c == 'd') {
+                char* value(nullptr);
+                if (GetArgument(value, "d", "display", arg, argv + argc)) {
+                    setenv("DISPLAY", value, 1);
+                }
+            }
         }
     }
 }
