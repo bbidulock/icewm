@@ -66,15 +66,17 @@ an existing selection.
 
 =item B<-a>, B<-all>
 
-Selects all clients of the window manager.
+Selects all client windows of the window manager.
 
 =item B<-s>, B<-shown>
 
-Selects all currently visible clients of the window manager.
+Selects all clients which are on the current workspace.
 
 =item B<-t>, B<-top>
 
 Selects all toplevel windows from the display unconditionally.
+This includes windows which have never been mapped and windows
+with the override redirect bit set to evade management.
 
 =back
 
