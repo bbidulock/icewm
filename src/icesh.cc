@@ -1243,6 +1243,7 @@ private:
     bool listShown();
     bool listXembed();
     void listXembed(Window w);
+    void queryXembed(Window w);
     bool listClients();
     bool listWindows();
     bool listScreens();
@@ -1864,6 +1865,18 @@ void IceSh::sizeby()
     }
     else {
         invalidArgument("sizeby parameters");
+    }
+}
+
+void IceSh::queryXembed(Window parent)
+{
+    YWindowTree windowList(parent);
+    FOREACH_WINDOW(window) {
+        YProperty info(window, ATOM_XEMBED_INFO, AnyPropertyType, 2);
+        if (info) {
+            this->windowList.append(window);
+        }
+        queryXembed(window);
     }
 }
 
@@ -3164,6 +3177,13 @@ void IceSh::flag(char* arg)
     if (isOptArg(arg, "-top", "")) {
         windowList.query(root);
         MSG(("top windows selected"));
+        selecting = true;
+        return;
+    }
+    if (isOptArg(arg, "-xembed", "")) {
+        windowList.release();
+        queryXembed(root);
+        MSG(("xembed windows selected"));
         selecting = true;
         return;
     }
