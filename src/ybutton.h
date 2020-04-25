@@ -3,6 +3,8 @@
 
 #include "ywindow.h"
 #include "yaction.h"
+#include <vector>
+#include <utility>
 
 class YMenu;
 class YIcon;
@@ -17,6 +19,7 @@ public:
     virtual bool handleKey(const XKeyEvent &key);
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleClick(const XButtonEvent &button, int count);
+    void rerouteClickHandling(unsigned buttonId, YWindow* replacementHandler);
     virtual void handleCrossing(const XCrossingEvent &crossing);
 
     YAction getAction() const { return fAction; }
@@ -74,6 +77,7 @@ private:
     bool fEnabled;
     int fHotCharPos;
     int hotKey;
+    std::vector<std::pair<unsigned, YWindow*> > vClickRedirects;
 
     YActionListener *fListener;
 

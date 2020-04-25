@@ -287,6 +287,14 @@ void YButton::handleButton(const XButtonEvent &button) {
 }
 
 void YButton::handleClick(const XButtonEvent &button, int count) {
+    if(!vClickRedirects.empty()) {
+        for(auto& mapping: vClickRedirects) {
+            if(mapping.first == button.button) {
+                return mapping.second->handleClick(button, count);
+            }
+        }
+    }
+
     if (fEnabled && fPopup == 0) {
         bool wasArmed = fArmed;
 
@@ -296,6 +304,11 @@ void YButton::handleClick(const XButtonEvent &button, int count) {
             actionPerformed(fAction, button.state);
         }
     }
+}
+
+void YButton::rerouteClickHandling(unsigned buttonId, YWindow* replacementHandler)
+{
+    vClickRedirects.emplace_back(std::make_pair(buttonId, replacementHandler));
 }
 
 void YButton::handleCrossing(const XCrossingEvent &crossing) {

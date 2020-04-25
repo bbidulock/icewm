@@ -387,6 +387,10 @@ void TaskBar::initApplets() {
     if (taskBarShowWindows) {
         fTasks = new TaskPane(this, this);
         fTasks->setTitle("TaskPane");
+        for(auto btn: {fApplications, fWinList, fShowDesktop}) {
+            if(btn)
+                btn->rerouteClickHandling(Button3, fTasks);
+        }
     } else
         fTasks = 0;
     if (taskBarShowTray) {
