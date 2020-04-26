@@ -33,6 +33,7 @@ public:
     virtual void popupMenu();
     virtual void repaint();
     virtual void requestFocus(bool requestUserFocus);
+    virtual void handleButton(const XButtonEvent& up);
 
     virtual ref<YFont> getFont();
     virtual YColor   getColor();
