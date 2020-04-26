@@ -449,6 +449,10 @@ set(genpref_pc_flags ${x11_CFLAGS})
 target_compile_options(genpref${EXEEXT} PUBLIC ${CXXFLAGS_COMMON} ${genpref_pc_flags})
 TARGET_LINK_LIBRARIES(genpref${EXEEXT} ${nls_LIBS} ${EXTRA_LIBS})
 
+ADD_EXECUTABLE(strtest EXCLUDE_FROM_ALL strtest.cc ref.cc mstring.cc upath.cc udir.cc yapp.cc yxapp.cc ytime.cc ytimer.cc ywindow.cc ypaint.cc ypopup.cc misc.cc ycursor.cc ysocket.cc ypaths.cc yarray.cc ycollections.cc ypipereader.cc yxembed.cc yconfig.cc yprefs.cc yfont.cc yfontcore.cc yfontxft.cc ypixmap.cc yimage_gdk.cc yximage.cc ytooltip.cc ylocale.cc ycolor.cc)
+target_compile_options(strtest PUBLIC ${CXXFLAGS_COMMON} ${icewm_pc_flags})
+TARGET_LINK_LIBRARIES(strtest ${icewm_libs} ${icewm_img_libs})
+
 IF(CONFIG_FDO_MENUS)
     ADD_EXECUTABLE(icewm-menu-fdo${EXEEXT} fdomenu.cc ${MISC_SRCS})
     target_compile_options(icewm-menu-fdo${EXEEXT} PUBLIC ${CXXFLAGS_COMMON} ${gio_CFLAGS})
