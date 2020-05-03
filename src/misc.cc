@@ -914,8 +914,13 @@ void check_argv(int argc, char **argv, const char *help, const char *version)
     for (char **arg = argv + 1; arg < argv + argc; ++arg) {
         if ('-' == arg[0][0]) {
             char c = ('-' == arg[0][1]) ? arg[0][2] : arg[0][1];
-            if (strchr("h?vVcC", c)) {
-                check_help_version(*arg, (help && *help) ? help :
+            if (c == '\0') {
+                if ('-' == arg[0][1]) {
+                    break;
+                }
+            }
+            else if (strchr("h?vVcC", c)) {
+                check_help_version(*arg, nonempty(help) ? help :
                     "  -d, --display=NAME    NAME of the X server to use.\n",
                     version);
             }
