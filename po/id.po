@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-02-27 23:18+0100\n"
-"PO-Revision-Date: 2020-05-02 19:51+0000\n"
-"Last-Translator: Kukuh Syafaat <syafaatkukuh@gmail.com>\n"
+"PO-Revision-Date: 2020-05-07 08:52+0000\n"
+"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/id/>\n"
 "Language: id\n"
@@ -2254,7 +2254,7 @@ msgstr "Grafis"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network or Audio
 #: src/fdospecgen.h:169
 msgid "HamRadio"
-msgstr "HamRadio"
+msgstr "Radio Amatir"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
 #: src/fdospecgen.h:171
