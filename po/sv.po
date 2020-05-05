@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Icewm 1.2.0-beta1\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-02-27 23:18+0100\n"
-"PO-Revision-Date: 2020-05-02 19:51+0000\n"
-"Last-Translator: Luna Jernberg <droidbittin@gmail.com>\n"
+"PO-Revision-Date: 2020-05-07 08:52+0000\n"
+"Last-Translator: ingemar karlsson <ingemar_bengt@hotmail.com>\n"
 "Language-Team: Swedish <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/sv/>\n"
 "Language: sv\n"
@@ -608,7 +608,7 @@ msgstr "arbetsyta #%d: `%s'\n"
 #: src/icesh.cc:2809
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
-msgstr ""
+msgstr "Kan inte hämta geometrin för fönster 0x%lx"
 
 #: src/icesh.cc:2834
 #, c-format
@@ -655,10 +655,9 @@ msgid "Invalid layer: `%s'."
 msgstr "Felaktigt lager: `%s'."
 
 #: src/icesh.cc:3112
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'."
+#, c-format
 msgid "Invalid state: `%s'."
-msgstr "Felaktigt värde: `%s'."
+msgstr "Felaktigt tillstånd: `%s'."
 
 #: src/icesh.cc:3167
 #, c-format
@@ -709,7 +708,7 @@ msgstr "Okänt alternativ '%s'"
 #: src/icesm.cc:331 src/icesm.cc:449
 #, c-format
 msgid "restart %s."
-msgstr "Starta om %s."
+msgstr "starta om %s."
 
 #: src/icesm.cc:337
 #, c-format
