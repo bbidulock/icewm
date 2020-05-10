@@ -30,7 +30,6 @@ public:
     CPUStatus(YWindow *aParent, CPUStatusHandler *aHandler, int cpuid = -1);
     virtual ~CPUStatus();
 
-    virtual void paint(Graphics &g, const YRect &r);
     virtual bool handleTimer(YTimer *t);
     virtual void handleClick(const XButtonEvent &up, int count);
 
@@ -51,10 +50,7 @@ private:
     YColorName color[IWM_STATES];
     lazy<YTimer> fUpdateTimer;
     CPUStatusHandler *fHandler;
-    bool ShowRamUsage, ShowSwapUsage, ShowAcpiTemp, ShowCpuFreq,
-         ShowAcpiTempInGraph;
-
-    YColorName tempColor;
+    YColorName fTempColor;
 
     bool picture();
     void fill(Graphics& g);

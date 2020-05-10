@@ -74,18 +74,14 @@ CPUStatus::CPUStatus(YWindow *aParent, CPUStatusHandler *aHandler, int cpuid) :
     statusUpdateCount(0),
     unchanged(taskBarCPUSamples),
     cpu(taskBarCPUSamples, IWM_STATES),
-    fHandler(aHandler)
+    fHandler(aHandler),
+    fTempColor(&clrCpuTemp)
 {
     cpu.clear();
     for (int a(0); a < taskBarCPUSamples; a++) {
         cpu[a][IWM_IDLE] = 1;
     }
     memset(last_cpu, 0, sizeof(last_cpu));
-
-    fUpdateTimer->setTimer(taskBarCPUDelay, this, true);
-
-    tempColor = &clrCpuTemp;
-
     color[IWM_USER] = &clrCpuUser;
     color[IWM_NICE] = &clrCpuNice;
     color[IWM_SYS]  = &clrCpuSys;
@@ -94,12 +90,10 @@ CPUStatus::CPUStatus(YWindow *aParent, CPUStatusHandler *aHandler, int cpuid) :
     color[IWM_SOFTIRQ] = &clrCpuSoftIrq;
     color[IWM_IDLE] = &clrCpuIdle;
     color[IWM_STEAL] = &clrCpuSteal;
+
+    fUpdateTimer->setTimer(taskBarCPUDelay, this, true);
+
     setSize(taskBarCPUSamples, taskBarGraphHeight);
-    ShowRamUsage = cpustatusShowRamUsage;
-    ShowSwapUsage = cpustatusShowSwapUsage;
-    ShowAcpiTemp = cpustatusShowAcpiTemp;
-    ShowCpuFreq = cpustatusShowCpuFreq;
-    ShowAcpiTempInGraph = cpustatusShowAcpiTempInGraph;
     getStatus();
     updateStatus();
     updateToolTip();
@@ -111,21 +105,28 @@ CPUStatus::CPUStatus(YWindow *aParent, CPUStatusHandler *aHandler, int cpuid) :
 CPUStatus::~CPUStatus() {
 }
 
-void CPUStatus::paint(Graphics &g, const YRect& r) {
-    IApplet::paint(g, r);
-    temperature(g);
-}
-
 bool CPUStatus::picture() {
-    bool create = (hasPixmap() == false);
+    bool change = (hasPixmap() == false);
 
     Graphics G(getPixmap(), width(), height(), depth());
 
-    if (create)
+    if (cpustatusShowAcpiTempInGraph) {
+        change = true;
+        statusUpdateCount = taskBarCPUSamples;
+    }
+    if (change) {
+        unchanged = 0;
         fill(G);
+    }
 
-    return (statusUpdateCount && unchanged < taskBarCPUSamples)
-         ? draw(G), true : (create || ShowAcpiTempInGraph);
+    if (statusUpdateCount && unchanged < taskBarCPUSamples) {
+        draw(G);
+        change = true;
+    }
+    if (cpustatusShowAcpiTempInGraph) {
+        temperature(G);
+    }
+    return change;
 }
 
 void CPUStatus::fill(Graphics& g) {
@@ -252,10 +253,10 @@ void CPUStatus::draw(Graphics& g) {
 }
 
 void CPUStatus::temperature(Graphics& g) {
-    if (ShowAcpiTempInGraph) {
+    if (cpustatusShowAcpiTempInGraph) {
         char test[10];
         getAcpiTemp(test, sizeof(test));
-        g.setColor(tempColor);
+        g.setColor(fTempColor);
         if (tempFont == null)
             tempFont = YFont::getFont(XFA(tempFontName));
         g.setFont(tempFont);
@@ -295,19 +296,19 @@ void CPUStatus::updateToolTip() {
         int more=snprintf(pos, rest, _("CPU %s Load: %3.2f %3.2f %3.2f, %u"),
                 cpuid, l1, l5, l15, (unsigned) sys.procs);
         ___checkspace;
-        if (ShowRamUsage) {
+        if (cpustatusShowRamUsage) {
 #define MBnorm(x) ((float)x * (float)sys.mem_unit / 1048576.0f)
 #define GBnorm(x) ((double)x * (double)sys.mem_unit / 1073741824.0)
             more=snprintf(pos, rest, _("\nRam (free): %5.3f (%.3f) G"),
                     GBnorm(sys.totalram), GBnorm(sys.freeram));
             ___checkspace;
         }
-        if (ShowSwapUsage) {
+        if (cpustatusShowSwapUsage) {
             more=snprintf(pos, rest, _("\nSwap (free): %.3f (%.3f) G"),
                     GBnorm(sys.totalswap), GBnorm(sys.freeswap));
             ___checkspace;
         }
-        if (ShowAcpiTemp) {
+        if (cpustatusShowAcpiTemp) {
             char *posEx=pos;
             more=snprintf(pos, rest, _("\nACPI Temp: "));
             ___checkspace;
@@ -319,7 +320,7 @@ void CPUStatus::updateToolTip() {
             else
                pos=posEx;
         }
-        if (ShowCpuFreq) {
+        if (cpustatusShowCpuFreq) {
             float maxf = getCpuFreq(0), minf = maxf;
             int cpus;
             for (cpus = 1; cpus < 8; ++cpus) {
