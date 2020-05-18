@@ -330,7 +330,6 @@ void YApm::AcpiStr(char *s, bool Tool) {
             fclose(fd);
         }
 #else // some FreeBSD kernel
-#define ACPIDEV         "/dev/acpi"
         int acpifd = open(ACPIDEV, O_RDONLY);
         if (acpifd != -1) {
             union acpi_battery_ioctl_arg battio;
