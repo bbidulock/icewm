@@ -509,7 +509,6 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
     wlist.append(nw);
     const int wcount = wlist.getCount();
 
-    unsigned w = 0;
     int y[2] = { 0, 0 };
     unsigned h[2] = { 0, 0 };
     int left[2] = { 0, 0 };
@@ -525,10 +524,8 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
             h[wlist[i].row] = wlist[i].w->height();
     }
 
-    {
-        unsigned dw = desktop->getScreenGeometry().width();
-        w = (dw/100.0) * taskBarWidthPercentage;
-    }
+    unsigned w = (desktop->getScreenGeometry().width()
+                  * unsigned(taskBarWidthPercentage)) / 100U;
 
     if (taskBarAtTop) { // !!! for now
         y[1] = 0;
