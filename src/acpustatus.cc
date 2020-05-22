@@ -254,17 +254,17 @@ void CPUStatus::draw(Graphics& g) {
 
 void CPUStatus::temperature(Graphics& g) {
     if (cpustatusShowAcpiTempInGraph) {
-        char test[10];
-        getAcpiTemp(test, sizeof(test));
+        char temp[10];
+        getAcpiTemp(temp, sizeof(temp));
         g.setColor(fTempColor);
         if (tempFont == null)
             tempFont = YFont::getFont(XFA(tempFontName));
         g.setFont(tempFont);
         int h = height();
-        int y =  (h - 1 - tempFont->height()) / 2 + tempFont->ascent();
-        // If we draw three characters we can get temperatures above 100
-        // without including the "C".
-        g.drawChars(test, 0, 3, 2, y);
+        int y = (h - 1 - tempFont->height()) / 2 + tempFont->ascent();
+        int w = tempFont->textWidth(temp);
+        int x = max(0, (int(g.rwidth()) - w) / 2);
+        g.drawChars(temp, 0, 3, x, y);
     }
 }
 
