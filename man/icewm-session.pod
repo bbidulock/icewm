@@ -110,6 +110,17 @@ attempt to popup a dialog using either F<xmessage>, F<kdialog> or
 F<zenity>.  This dialog asks if the user wishes to continue restarting
 icewm or abort execution of icewm-session.
 
+=head1 ENVIRONMENT
+
+=over
+
+=item B<ICEWM_OPTIONS>
+
+A space separated list of options which will be added to the command
+line invocation of F<icewm>. This can be set in the F<env> file.
+
+=back
+
 =head1 SEE ALSO
 
 L<icewm(1)>,

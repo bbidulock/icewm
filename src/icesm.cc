@@ -192,6 +192,13 @@ public:
             }
             fclose(ef);
         }
+
+        const char opts[] = "ICEWM_OPTIONS";
+        const char* value = getenv(opts);
+        if (value) {
+            wmoptions = mstring(value).trim();
+            unsetenv(opts);
+        }
     }
 
     virtual int runProgram(const char *file, const char *const *args) {
@@ -295,7 +302,6 @@ public:
     }
 
     void runWM(bool quit = false) {
-        const char *args[12] = { icewmExe, "--notify", 0 };
         if (quit) {
             if (wm_pid != -1) {
                 kill(wm_pid, SIGTERM);
@@ -305,8 +311,32 @@ public:
             wm_pid = -1;
         }
         else {
-            appendOptions(args, 2, ACOUNT(args));
+            const int size = 24;
+            const char* args[size] = {
+                icewmExe, "--notify", nullptr
+            };
+            appendOptions(args, 2, size);
+            char* copy = nullptr;
+            if (wmoptions.length()) {
+                copy = strdup(wmoptions);
+                if (nonempty(copy)) {
+                    int count = 0;
+                    while (count < size && args[count])
+                        count++;
+                    for (char* tok = strtok(copy, " ");
+                        tok; tok = strtok(nullptr, " "))
+                    {
+                        if (count + 1 < size) {
+                            args[count++] = tok;
+                            args[count] = nullptr;
+                        }
+                    }
+                }
+            }
             wm_pid = runProgram(args[0], args);
+            if (copy) {
+                free(copy);
+            }
         }
     }
 
@@ -500,6 +530,7 @@ private:
     int sound_pid;
     int bg_pid;
     timeval crashtime;
+    cstring wmoptions;
 };
 
 int main(int argc, char **argv) {
