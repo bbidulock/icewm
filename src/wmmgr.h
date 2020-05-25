@@ -390,10 +390,6 @@ extern Atom _XA_WM_CLIENT_LEADER;
 extern Atom _XA_WM_CLIENT_MACHINE;
 extern Atom _XA_WM_WINDOW_ROLE;
 
-extern Atom _XA_WINDOW_ROLE;
-extern Atom _XA_SM_CLIENT_ID;
-extern Atom _XA_UTF8_STRING;
-
 extern Atom _XA_ICEWM_ACTION;
 extern Atom _XA_ICEWM_GUIEVENT;
 extern Atom _XA_ICEWM_HINT;

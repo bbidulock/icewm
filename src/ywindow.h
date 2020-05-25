@@ -394,11 +394,14 @@ extern Atom _XA_WM_TRANSIENT_FOR;
 extern Atom _XA_WM_ZOOM_HINTS;
 
 extern Atom _XATOM_MWM_HINTS;
+extern Atom _XA_WINDOW_ROLE;
+extern Atom _XA_SM_CLIENT_ID;
 extern Atom _XA_CLIPBOARD;
 extern Atom _XA_MANAGER;
 extern Atom _XA_TARGETS;
 extern Atom _XA_XEMBED;
 extern Atom _XA_XEMBED_INFO;
+extern Atom _XA_UTF8_STRING;
 
 /* Xdnd */
 extern Atom XA_XdndAware;
