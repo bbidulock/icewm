@@ -9,6 +9,8 @@
  *
  *  2001/07/18: Mathias Hasselmann <mathias.hasselmann@gmx.net>
  *  - initial version
+ *  2019/03/04: Bert Gijsbers
+ *  - total rewrite
  */
 
 #include "config.h"
@@ -3512,10 +3514,13 @@ void IceSh::spy()
                     }
                     break;
                 case ConfigureNotify:
-                    printf("%sConfigure %dx%d+%d+%d%s\n", head,
+                    printf("%sConfigure %dx%d+%d+%d%s%s%s\n", head,
                             event.xconfigure.width, event.xconfigure.height,
                             event.xconfigure.x, event.xconfigure.y,
-                            event.xany.send_event ? " Send" : "");
+                            event.xconfigure.send_event ? " Send" : "",
+                            event.xconfigure.override_redirect ? " Override" : "",
+                            event.xconfigure.above ? " Above" : ""
+                            );
                     break;
                 case CirculateNotify:
                     printf("%sCirculate %s\n", head,
