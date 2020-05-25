@@ -202,12 +202,19 @@ AC_RUN_IFELSE([AC_LANG_PROGRAM([[#include <string.h>]],[[
                            [Define to 1 if you have the strlcat function.])
               ])
 
-AC_MSG_CHECKING([for C++11])
+AC_MSG_CHECKING([for C++11 by default])
 AC_RUN_IFELSE([AC_LANG_PROGRAM([[#include <regex>]],[[
                if (__cplusplus < 201103L) return 1;]])],
               [AC_MSG_RESULT([yes])],
               [AC_MSG_RESULT([no])
-               AC_MSG_ERROR([C++11 is required. Add -std=c++11 to CXXFLAGS.])
+               AC_MSG_CHECKING([for C++11 when forced])
+               CXXFLAGS="$CXXFLAGS -std=c++11"
+               AC_RUN_IFELSE([AC_LANG_PROGRAM([[#include <regex>]],[[
+                              if (__cplusplus < 201103L) return 1;]])],
+                             [AC_MSG_RESULT([yes])],
+                             [AC_MSG_RESULT([no])
+                              AC_MSG_ERROR([Need C++11. Please set CXXFLAGS.])
+                             ])
               ])
 
 PKG_CHECK_MODULES([CORE],[fontconfig xrender xcomposite xdamage xfixes xext x11])
