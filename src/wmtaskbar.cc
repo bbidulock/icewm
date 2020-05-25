@@ -215,6 +215,7 @@ TaskBar::~TaskBar() {
     delete fWindowTray; fWindowTray = 0;
     delete fCollapseButton; fCollapseButton = 0;
     delete fShowDesktop; fShowDesktop = 0;
+    xapp->dropClipboard();
     taskBar = nullptr;
     if (getFrame())
         getFrame()->unmanage(false);

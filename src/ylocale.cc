@@ -164,7 +164,13 @@ YUChar *YLocale::unicodeString(const YLChar *lStr, size_t const lLen,
 #else
     if (0 > (int) iconv(instance->toUnicode, &inbuf, &inlen, &outbuf, &outlen))
 #endif
-        warn(_("Invalid multibyte string \"%s\": %s"), lStr, strerror(errno));
+    {
+        static unsigned count, shift;
+        if (++count >= (1U << shift)) {
+            ++shift;
+            warn(_("Invalid multibyte string \"%s\": %s"), lStr, strerror(errno));
+        }
+    }
 
     *((YUChar *) outbuf) = 0;
     uLen = ((YUChar *) outbuf) - uStr;

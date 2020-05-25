@@ -7,7 +7,6 @@
 #include "ytrace.h"
 
 class YTimer;
-class YClipboard;
 
 class YSignalPoll: public YPoll<class YApplication> {
 public:
