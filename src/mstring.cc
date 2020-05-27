@@ -92,7 +92,8 @@ mstring::mstring(long n):
 }
 
 mstring mstring::operator+(const mstring& rv) const {
-    return mstring(data(), length(), rv.data(), rv.length());
+    return rv.isEmpty() ? *this : isEmpty() ? rv :
+        mstring(data(), length(), rv.data(), rv.length());
 }
 
 void mstring::operator+=(const mstring& rv) {
