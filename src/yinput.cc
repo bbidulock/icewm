@@ -531,16 +531,12 @@ void YInputLine::limit() {
 }
 
 void YInputLine::replaceSelection(const ustring &str) {
-    unsigned from=min(curPos, markPos);
-    unsigned to=max(curPos, markPos);
-    ustring newStr = fText.replace(from, to - from, str);
-
-    if (newStr != null) {
-        fText = newStr;
-        curPos = markPos = from + str.length();
-        limit();
-        repaint();
-    }
+    unsigned from = min(curPos, markPos);
+    unsigned to = max(curPos, markPos);
+    fText = fText.replace(from, to - from, str);
+    curPos = markPos = from + str.length();
+    limit();
+    repaint();
 }
 
 bool YInputLine::deleteSelection() {
