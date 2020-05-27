@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-02-27 23:18+0100\n"
+"POT-Creation-Date: 2020-05-27 23:00+0200\n"
 "PO-Revision-Date: 2005-06-12 12:59+0300\n"
 "Last-Translator: Kristaps Kaupe <kristaps.kaupe@inbox.lv>\n"
 "Language-Team: \n"
@@ -19,27 +19,27 @@ msgstr ""
 "X-Poedit-Language: Latvian\n"
 "X-Poedit-Country: LATVIA\n"
 
-#: src/aapm.cc:187 src/aapm.cc:469 src/aapm.cc:691 src/aapm.cc:816
+#: src/aapm.cc:185 src/aapm.cc:464 src/aapm.cc:685 src/aapm.cc:809
 msgid " - Power"
 msgstr " - Barošana"
 
-#: src/aapm.cc:189 src/aapm.cc:472 src/aapm.cc:694
+#: src/aapm.cc:187 src/aapm.cc:467 src/aapm.cc:688
 msgid "P"
 msgstr "B"
 
-#: src/aapm.cc:193 src/aapm.cc:446 src/aapm.cc:674 src/aapm.cc:784
+#: src/aapm.cc:191 src/aapm.cc:441 src/aapm.cc:668 src/aapm.cc:777
 msgid " - Charging"
 msgstr " - Lādējas"
 
-#: src/aapm.cc:195 src/aapm.cc:448 src/aapm.cc:676
+#: src/aapm.cc:193 src/aapm.cc:443 src/aapm.cc:670
 msgid "C"
 msgstr "L"
 
-#: src/aapm.cc:450
+#: src/aapm.cc:445
 msgid " - Full"
 msgstr ""
 
-#: src/aapm.cc:998
+#: src/aapm.cc:991
 #, c-format
 msgid "power:\t%s"
 msgstr ""
@@ -56,7 +56,7 @@ msgstr ""
 msgid "Default"
 msgstr "Noklusētā"
 
-#: src/aclock.cc:179 src/acpustatus.cc:862 src/amailbox.cc:955
+#: src/aclock.cc:179 src/acpustatus.cc:661 src/amailbox.cc:955
 #: src/amemstatus.cc:264
 msgid "_Disable"
 msgstr ""
@@ -65,63 +65,63 @@ msgstr ""
 msgid "_UTC"
 msgstr ""
 
-#: src/acpustatus.cc:233
+#: src/acpustatus.cc:226
 #, c-format
 msgid ""
 "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 "intr = %llu, softirq = %llu, steal = %llu\n"
 msgstr ""
 
-#: src/acpustatus.cc:238
+#: src/acpustatus.cc:231
 #, c-format
 msgid ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 "softirq = %llu, steal = %llu (h = %i)\n"
 msgstr ""
 
-#: src/acpustatus.cc:303
+#: src/acpustatus.cc:296
 #, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr ""
 
-#: src/acpustatus.cc:309
+#: src/acpustatus.cc:302
 #, c-format
 msgid ""
 "\n"
 "Ram (free): %5.3f (%.3f) G"
 msgstr ""
 
-#: src/acpustatus.cc:314
+#: src/acpustatus.cc:307
 #, c-format
 msgid ""
 "\n"
 "Swap (free): %.3f (%.3f) G"
 msgstr ""
 
-#: src/acpustatus.cc:320
+#: src/acpustatus.cc:313
 #, c-format
 msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
 
-#: src/acpustatus.cc:339 src/acpustatus.cc:379
+#: src/acpustatus.cc:332 src/acpustatus.cc:372
 #, c-format
 msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
 
-#: src/acpustatus.cc:356 src/acpustatus.cc:858
+#: src/acpustatus.cc:349 src/acpustatus.cc:657
 msgid "CPU"
 msgstr ""
 
-#: src/acpustatus.cc:356
+#: src/acpustatus.cc:349
 #, fuzzy
 msgid "Load: "
 msgstr "CP noslodze:"
 
-#: src/acpustatus.cc:371
+#: src/acpustatus.cc:364
 #, c-format
 msgid ""
 "\n"
@@ -130,25 +130,25 @@ msgstr ""
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/acpustatus.cc:438
+#: src/acpustatus.cc:431
 msgid "°C"
 msgstr ""
 
-#: src/acpustatus.cc:770
+#: src/acpustatus.cc:600
 #, c-format
 msgid "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
 msgstr ""
 
-#: src/acpustatus.cc:859
+#: src/acpustatus.cc:658
 #, c-format
 msgid "CPU%d"
 msgstr ""
 
-#: src/acpustatus.cc:864
+#: src/acpustatus.cc:663
 msgid "_Combine"
 msgstr ""
 
-#: src/acpustatus.cc:866
+#: src/acpustatus.cc:665
 msgid "_Separate"
 msgstr ""
 
@@ -277,7 +277,7 @@ msgstr ""
 msgid "MEM"
 msgstr ""
 
-#: src/apppstatus.cc:199
+#: src/apppstatus.cc:197
 #, fuzzy, c-format
 msgid ""
 "Interface %s:\n"
@@ -292,7 +292,7 @@ msgstr ""
 "  Pārsūtīts (ienākošie/izejošie):\t%lli %s/%lli %s\n"
 "  Tiešsaites ilgums:\t%ld:%02ld:%02ld%s%s"
 
-#: src/apppstatus.cc:211
+#: src/apppstatus.cc:209
 msgid ""
 "\n"
 "  Caller id:\t"
@@ -300,7 +300,7 @@ msgstr ""
 "\n"
 " Zvanītāja id:\t"
 
-#: src/apppstatus.cc:712
+#: src/apppstatus.cc:710
 msgid "NET"
 msgstr ""
 
@@ -509,128 +509,134 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "Tā pati spēle"
 
-#: src/icesh.cc:66
+#: src/icesh.cc:73
 msgid "For help please consult the man page icesh(1).\n"
 msgstr ""
 
-#: src/icesh.cc:1331
+#: src/icesh.cc:1490
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Nosauktie simboli domēnam `%s' (numuru apgabals: %ld-%ld):\n"
 
-#: src/icesh.cc:1472
+#: src/icesh.cc:1631
 #, fuzzy, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Darba vide ārpus ranga: %d"
 
-#: src/icesh.cc:1493
+#: src/icesh.cc:1652
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Kļūdains darba vides nosaukums: `%s'"
 
-#: src/icesh.cc:1758
+#: src/icesh.cc:1929
 msgid "GNOME window state"
 msgstr "GNOMEs loga stāvoklis"
 
-#: src/icesh.cc:1759
+#: src/icesh.cc:1930
 msgid "GNOME window hint"
 msgstr "GNOMEs loga padoms"
 
-#: src/icesh.cc:1760
+#: src/icesh.cc:1931
 msgid "GNOME window layer"
 msgstr "GNOMEs loga slānis"
 
-#: src/icesh.cc:1761
+#: src/icesh.cc:1932
 msgid "IceWM tray option"
 msgstr "IceWM paplātes opcija"
 
-#: src/icesh.cc:1762
+#: src/icesh.cc:1933
 msgid "Gravity symbols"
 msgstr ""
 
-#: src/icesh.cc:1763
+#: src/icesh.cc:1934
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Motif functions"
 msgstr "Iemīļotākās lietojumprogrammas"
 
-#: src/icesh.cc:1764
+#: src/icesh.cc:1935
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Motif decorations"
 msgstr "Iemīļotākās lietojumprogrammas"
 
-#: src/icesh.cc:1843
+#: src/icesh.cc:1936
+#, fuzzy
+#| msgid "GNOME window state"
+msgid "EWMH window state"
+msgstr "GNOMEs loga stāvoklis"
+
+#: src/icesh.cc:2015
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "darba vide #%d: `%s'\n"
 
-#: src/icesh.cc:2809
+#: src/icesh.cc:2989
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr ""
 
-#: src/icesh.cc:2834
+#: src/icesh.cc:3014
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid Xinerama: `%s'."
 msgstr "Kļūdains arguments: `%s'."
 
-#: src/icesh.cc:2882
+#: src/icesh.cc:3062
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Darbībai `%s' vajag vismaz %d argumentus."
 
-#: src/icesh.cc:2892
+#: src/icesh.cc:3072
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Kļūdaina izteiksme: `%s'"
 
-#: src/icesh.cc:2903 src/icesound.cc:795 src/icewmhint.cc:36 src/wmapp.cc:1190
-#: src/yxapp.cc:1060
+#: src/icesh.cc:3083 src/icesound.cc:796 src/icewmhint.cc:36 src/wmapp.cc:1190
+#: src/yxapp.cc:1055
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "Nevaru atvērt displeju: %s. X ir jābūt palaistam un $DISPLEY uzstādītam."
 
-#: src/icesh.cc:2916
+#: src/icesh.cc:3096
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid argument: `%s'"
 msgstr "Kļūdains arguments: `%s'."
 
-#: src/icesh.cc:2953
+#: src/icesh.cc:3131
 msgid "No windows found."
 msgstr ""
 
-#: src/icesh.cc:2968
+#: src/icesh.cc:3146
 msgid "No actions specified."
 msgstr "Nav norādītu darbību."
 
-#: src/icesh.cc:3046
+#: src/icesh.cc:3238
+#, c-format
+msgid "Invalid window identifier: `%s'"
+msgstr "Kļūdains loga identifikators: `%s'"
+
+#: src/icesh.cc:3255
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid PID: `%s'"
 msgstr "Kļūdains arguments: `%s'."
 
-#: src/icesh.cc:3082
+#: src/icesh.cc:3291
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid layer: `%s'."
 msgstr "Kļūdains arguments: `%s'."
 
-#: src/icesh.cc:3112
+#: src/icesh.cc:3321 src/icesh.cc:3335 src/icesh.cc:3734
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid state: `%s'."
 msgstr "Kļūdains arguments: `%s'."
 
-#: src/icesh.cc:3167
-#, c-format
-msgid "Invalid window identifier: `%s'"
-msgstr "Kļūdains loga identifikators: `%s'"
-
-#: src/icesh.cc:3823
+#: src/icesh.cc:4051
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Nezināma darbība: `%s'"
@@ -640,7 +646,7 @@ msgstr "Nezināma darbība: `%s'"
 msgid "Socket error: %d"
 msgstr "Ligzdas kļūda: %d"
 
-#: src/icesm.cc:57
+#: src/icesm.cc:59
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -650,33 +656,35 @@ msgid ""
 "  --sync              Synchronize communication with X11 server.\n"
 "\n"
 "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
+"  -o, --output=FILE   Redirect all output to FILE.\n"
+"\n"
 "  -b, --nobg          Do not start icewmbg.\n"
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
 
-#: src/icesm.cc:135
+#: src/icesm.cc:153
 #, fuzzy, c-format
 msgid "Unknown option '%s'"
 msgstr "Nezināma darbība: `%s'"
 
-#: src/icesm.cc:331 src/icesm.cc:449
+#: src/icesm.cc:379 src/icesm.cc:497
 #, fuzzy, c-format
 #| msgid "Restart"
 msgid "restart %s."
 msgstr "Pārstartēt"
 
-#: src/icesm.cc:337
+#: src/icesm.cc:385
 #, c-format
 msgid "%s exited with status %d."
 msgstr ""
 
-#: src/icesm.cc:343 src/icesm.cc:455
+#: src/icesm.cc:391 src/icesm.cc:503
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr ""
 
-#: src/icesm.cc:377
+#: src/icesm.cc:425
 msgid ""
 " IceWM crashed for the second time in 10 seconds. \n"
 " Do you wish to:\n"
@@ -685,81 +693,81 @@ msgid ""
 "\t2: Abort this session?\n"
 msgstr ""
 
-#: src/icesm.cc:382
+#: src/icesm.cc:430
 #, fuzzy
 #| msgid "IceWM tray option"
 msgid "IceWM crash response"
 msgstr "IceWM paplātes opcija"
 
-#: src/icesound.cc:215 src/icesound.cc:323 src/icesound.cc:483
+#: src/icesound.cc:216 src/icesound.cc:324 src/icesound.cc:484
 #, c-format
 msgid "Playing sample #%d (%s)"
 msgstr "Atskaņoju #%d (%s)"
 
-#: src/icesound.cc:333
+#: src/icesound.cc:334
 #, c-format
 msgid "%s: Invalid number of channels"
 msgstr ""
 
-#: src/icesound.cc:339 src/icesound.cc:344
+#: src/icesound.cc:340 src/icesound.cc:345
 msgid "Could not set OSS channels"
 msgstr ""
 
-#: src/icesound.cc:349 src/icesound.cc:377
+#: src/icesound.cc:350 src/icesound.cc:378
 msgid "Could not sync OSS"
 msgstr ""
 
-#: src/icesound.cc:361
+#: src/icesound.cc:362
 msgid "OSS write failed"
 msgstr ""
 
-#: src/icesound.cc:365
+#: src/icesound.cc:366
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
 msgstr ""
 
-#: src/icesound.cc:372
+#: src/icesound.cc:373
 #, fuzzy
 msgid "Could not post OSS"
 msgstr "Nevaru ielādēt fontu kopu \"%s\"."
 
-#: src/icesound.cc:401
+#: src/icesound.cc:402
 #, fuzzy, c-format
 msgid "Could not open OSS device %s"
 msgstr "Nevaru atrast pikseļu karti %s"
 
-#: src/icesound.cc:406
+#: src/icesound.cc:407
 msgid "Could not set OSS stereo"
 msgstr ""
 
-#: src/icesound.cc:411
+#: src/icesound.cc:412
 msgid "Could not reset OSS DSP"
 msgstr ""
 
-#: src/icesound.cc:416
+#: src/icesound.cc:417
 msgid "Could not set OSS format"
 msgstr ""
 
-#: src/icesound.cc:503
+#: src/icesound.cc:504
 #, c-format
 msgid "ao_open_live failed with %d"
 msgstr ""
 
-#: src/icesound.cc:514
+#: src/icesound.cc:515
 msgid "ao_play failed"
 msgstr ""
 
-#: src/icesound.cc:677
+#: src/icesound.cc:678
 #, c-format
 msgid "Unrecognized option: %s\n"
 msgstr "Nezināma opcija: %s\n"
 
-#: src/icesound.cc:680 src/icesound.cc:973
+#: src/icesound.cc:681 src/icesound.cc:974
 #, c-format
 msgid "Unrecognized argument: %s\n"
 msgstr "Nezināms arguments: %s\n"
 
-#: src/icesound.cc:689
+#: src/icesound.cc:690
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
@@ -848,51 +856,51 @@ msgstr ""
 "3     Apakšsistēmas kļūda (piemēram, nevar pieslēgties serverim).\n"
 "\n"
 
-#: src/icesound.cc:780
+#: src/icesound.cc:781
 #, c-format
 msgid "No audio for %s"
 msgstr ""
 
-#: src/icesound.cc:857
+#: src/icesound.cc:858
 msgid "Could not get GUI event property"
 msgstr ""
 
-#: src/icesound.cc:861
+#: src/icesound.cc:862
 #, c-format
 msgid "Received invalid GUI event %d"
 msgstr ""
 
-#: src/icesound.cc:865
+#: src/icesound.cc:866
 #, c-format
 msgid "Received GUI event %s"
 msgstr ""
 
-#: src/icesound.cc:879
+#: src/icesound.cc:880
 #, c-format
 msgid "Too quick; ignoring %s."
 msgstr ""
 
-#: src/icesound.cc:883
+#: src/icesound.cc:884
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr "%s interfeisa atbalsts nav iekompilēts."
 
-#: src/icesound.cc:916
+#: src/icesound.cc:917
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr "Neatbalstīts interfeiss: %s."
 
-#: src/icesound.cc:925
+#: src/icesound.cc:926
 #, c-format
 msgid "Using %s audio."
 msgstr ""
 
-#: src/icesound.cc:929
+#: src/icesound.cc:930
 #, fuzzy, c-format
 msgid "Failed to connect to audio interfaces %s."
 msgstr "Nevarēju atvērt %s: %s"
 
-#: src/icesound.cc:941
+#: src/icesound.cc:942
 #, fuzzy, c-format
 msgid "Received signal %s: Terminating..."
 msgstr "Saņēmts signāls %d: beidzu..."
@@ -931,12 +939,12 @@ msgstr "Pārnest rindas"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icewmbg.cc:78
+#: src/icewmbg.cc:74
 #, fuzzy, c-format
 msgid "Failed to load image '%s'."
 msgstr "Nevarēju atvērt %s: %s"
 
-#: src/icewmbg.cc:885
+#: src/icewmbg.cc:881
 #, fuzzy
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
@@ -998,7 +1006,7 @@ msgstr ""
 " DesktopTransparencyColor - Logu caurspīdīguma krāsa\n"
 " DesktopTransparencyImage - Logu caurspīdīguma attēls\n"
 
-#: src/icewmbg.cc:1100
+#: src/icewmbg.cc:1096
 msgid "Cannot start, because another icewmbg is still running."
 msgstr ""
 
@@ -1012,11 +1020,11 @@ msgstr "Lietošana: icewmhint [klase.instance] opcija arg\n"
 msgid "Out of memory (len=%d)."
 msgstr "Nepietiek atmiņas (garums=%d)."
 
-#: src/misc.cc:572 src/misc.cc:584
+#: src/misc.cc:569 src/misc.cc:581
 msgid "Warning: "
 msgstr "Uzmanību:"
 
-#: src/misc.cc:860
+#: src/misc.cc:875
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1028,7 +1036,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/movesize.cc:875
+#: src/movesize.cc:888
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Nezināms virziens kustināšanas/izmēra maiņas pieprasījumam: %d"
@@ -1148,7 +1156,7 @@ msgstr "_Zem"
 msgid "D_esktop"
 msgstr "_Darbavirsma"
 
-#: src/wmapp.cc:578 src/wmwinlist.cc:355
+#: src/wmapp.cc:578 src/wmwinlist.cc:354
 msgid "_Restore"
 msgstr "At_jaunot"
 
@@ -1160,15 +1168,15 @@ msgstr "Pā_rvietot"
 msgid "_Size"
 msgstr "Izmēr_s"
 
-#: src/wmapp.cc:584 src/wmwinlist.cc:356
+#: src/wmapp.cc:584 src/wmwinlist.cc:355
 msgid "Mi_nimize"
 msgstr "Mi_nimizēt"
 
-#: src/wmapp.cc:586 src/wmwinlist.cc:357
+#: src/wmapp.cc:586 src/wmwinlist.cc:356
 msgid "Ma_ximize"
 msgstr "Ma_ksimizēt"
 
-#: src/wmapp.cc:587 src/wmwinlist.cc:358
+#: src/wmapp.cc:587 src/wmwinlist.cc:357
 #, fuzzy
 #| msgid "Maximize"
 msgid "Maximize_Vert"
@@ -1180,15 +1188,15 @@ msgstr "Maksimizēt"
 msgid "MaximizeHori_z"
 msgstr "Maksimizēt"
 
-#: src/wmapp.cc:591 src/wmwinlist.cc:359
+#: src/wmapp.cc:591 src/wmwinlist.cc:358
 msgid "_Fullscreen"
 msgstr "_Pilnekrānā"
 
-#: src/wmapp.cc:594 src/wmwinlist.cc:361
+#: src/wmapp.cc:594 src/wmwinlist.cc:360
 msgid "_Hide"
 msgstr "N_oslēpt"
 
-#: src/wmapp.cc:596 src/wmwinlist.cc:362
+#: src/wmapp.cc:596 src/wmwinlist.cc:361
 msgid "Roll_up"
 msgstr "Sar_itināt"
 
@@ -1196,19 +1204,19 @@ msgstr "Sar_itināt"
 msgid "R_aise"
 msgstr "P_aaugstināt"
 
-#: src/wmapp.cc:605 src/wmwinlist.cc:364
+#: src/wmapp.cc:605 src/wmwinlist.cc:363
 msgid "_Lower"
 msgstr "Pa_zemināt"
 
-#: src/wmapp.cc:607 src/wmwinlist.cc:365
+#: src/wmapp.cc:607 src/wmwinlist.cc:364
 msgid "La_yer"
 msgstr "S_lānis"
 
-#: src/wmapp.cc:611 src/wmwinlist.cc:367
+#: src/wmapp.cc:611 src/wmwinlist.cc:366
 msgid "Move _To"
 msgstr "Pārvie_tot uz"
 
-#: src/wmapp.cc:612 src/wmwinlist.cc:368
+#: src/wmapp.cc:612 src/wmwinlist.cc:367
 msgid "Occupy _All"
 msgstr "_Aizņemt visas"
 
@@ -1216,15 +1224,15 @@ msgstr "_Aizņemt visas"
 msgid "Limit _Workarea"
 msgstr "Ierobežot _darba apgabalu"
 
-#: src/wmapp.cc:622 src/wmwinlist.cc:369
+#: src/wmapp.cc:622 src/wmwinlist.cc:368
 msgid "Tray _icon"
 msgstr "Paplātes _ikona"
 
-#: src/wmapp.cc:627 src/wmwinlist.cc:384 src/wmwinlist.cc:392
+#: src/wmapp.cc:627 src/wmwinlist.cc:383 src/wmwinlist.cc:391
 msgid "_Close"
 msgstr "Aiz_vērt"
 
-#: src/wmapp.cc:629 src/wmwinlist.cc:386
+#: src/wmapp.cc:629 src/wmwinlist.cc:385
 msgid "_Kill Client"
 msgstr "Nogalināt _klientu"
 
@@ -1249,7 +1257,7 @@ msgstr ""
 msgid "Kill IceWM, replace with Xterm"
 msgstr ""
 
-#: src/wmapp.cc:1191 src/yxapp.cc:1061
+#: src/wmapp.cc:1191 src/yxapp.cc:1056
 msgid "<none>"
 msgstr "<nekas>"
 
@@ -1339,21 +1347,21 @@ msgstr ""
 msgid "%s configuration directories:\n"
 msgstr ""
 
-#: src/wmapp.cc:1699
+#: src/wmapp.cc:1696
 #, fuzzy, c-format
 msgid "%s configured options:%s\n"
 msgstr "Nezināma opcija: %s\n"
 
-#: src/wmapp.cc:1763
+#: src/wmapp.cc:1779
 #, fuzzy, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Nezināma opcija: %s\n"
 
-#: src/wmapp.cc:1835
+#: src/wmapp.cc:1831
 msgid "Confirm Logout"
 msgstr "Apstiprināt izlogošanos"
 
-#: src/wmapp.cc:1836
+#: src/wmapp.cc:1832
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1410,11 +1418,11 @@ msgstr "Pā_rstartēt icewm"
 msgid "_About"
 msgstr "P_ar"
 
-#: src/wmframe.cc:1411
+#: src/wmframe.cc:1412
 msgid "Kill Client: "
 msgstr "Nogalināt klientu:"
 
-#: src/wmframe.cc:1418
+#: src/wmframe.cc:1419
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1422,28 +1430,28 @@ msgstr ""
 "UZMANĪBU! Visas nesaglabātās izmaiņas tiks zaudētas, kad\n"
 "šis klients tiks nogalināts. Vai jūs vēlaties turpināt?"
 
-#: src/wmframe.cc:3024
+#: src/wmframe.cc:3030
 msgid "Restore"
 msgstr "Atjaunot"
 
-#: src/wmframe.cc:3027 src/wmtitle.cc:71
+#: src/wmframe.cc:3033 src/wmtitle.cc:71
 msgid "Maximize"
 msgstr "Maksimizēt"
 
-#: src/wmframe.cc:3057
+#: src/wmframe.cc:3063
 msgid "Rolldown"
 msgstr "Atritināt"
 
-#: src/wmframe.cc:3059 src/wmtitle.cc:129
+#: src/wmframe.cc:3065 src/wmtitle.cc:129
 msgid "Rollup"
 msgstr "Saritināt"
 
-#: src/wmoption.cc:232
+#: src/wmoption.cc:231
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Nezināma loga opcija: %s"
 
-#: src/wmoption.cc:344
+#: src/wmoption.cc:343
 #, fuzzy, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Sintakses kļūda logu opcijās"
@@ -1533,37 +1541,37 @@ msgid "Session Manager: Unknown line %s"
 msgstr "Sesiju pārvaldnieks: Nezināma rinda %s"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:233 src/wmwinlist.cc:371 src/wmwinlist.cc:404
+#: src/wmtaskbar.cc:233 src/wmwinlist.cc:370 src/wmwinlist.cc:403
 msgid "Tile _Vertically"
 msgstr "Kārtot blakus _vertikāli"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:235 src/wmwinlist.cc:372 src/wmwinlist.cc:405
+#: src/wmtaskbar.cc:235 src/wmwinlist.cc:371 src/wmwinlist.cc:404
 msgid "T_ile Horizontally"
 msgstr "Kārtot blakus hor_izontāli"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:237 src/wmwinlist.cc:373 src/wmwinlist.cc:406
+#: src/wmtaskbar.cc:237 src/wmwinlist.cc:372 src/wmwinlist.cc:405
 msgid "Ca_scade"
 msgstr "Ka_skadēt"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:239 src/wmwinlist.cc:374 src/wmwinlist.cc:407
+#: src/wmtaskbar.cc:239 src/wmwinlist.cc:373 src/wmwinlist.cc:406
 msgid "_Arrange"
 msgstr "S_akārtot"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:241 src/wmwinlist.cc:376 src/wmwinlist.cc:408
+#: src/wmtaskbar.cc:241 src/wmwinlist.cc:375 src/wmwinlist.cc:407
 msgid "_Minimize All"
 msgstr "_Minimizēt visus"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:243 src/wmwinlist.cc:377 src/wmwinlist.cc:409
+#: src/wmtaskbar.cc:243 src/wmwinlist.cc:376 src/wmwinlist.cc:408
 msgid "_Hide All"
 msgstr "_Noslēpt visus"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:245 src/wmwinlist.cc:378 src/wmwinlist.cc:410
+#: src/wmtaskbar.cc:245 src/wmwinlist.cc:377 src/wmwinlist.cc:409
 msgid "_Undo"
 msgstr "Atsa_ukt"
 
@@ -1577,7 +1585,7 @@ msgstr "Sakārtot _ikonas"
 msgid "_Refresh"
 msgstr "A_tsvaidzināt"
 
-#: src/wmtaskbar.cc:327 src/wmtaskbar.cc:931
+#: src/wmtaskbar.cc:327 src/wmtaskbar.cc:929
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Hide Taskbar"
@@ -1599,7 +1607,7 @@ msgstr "Logu saraksta izvēlne"
 msgid "Show Desktop"
 msgstr "Parādīt darbavirsmu"
 
-#: src/wmtaskbar.cc:931
+#: src/wmtaskbar.cc:929
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Show Taskbar"
@@ -1621,29 +1629,29 @@ msgstr "Paaugstināt/pazemināt"
 msgid "All Workspaces"
 msgstr "Visas darba vides"
 
-#: src/wmwinlist.cc:360
+#: src/wmwinlist.cc:359
 msgid "_Show"
 msgstr "_Parādīt"
 
-#: src/wmwinlist.cc:363
+#: src/wmwinlist.cc:362
 #, fuzzy
 #| msgid "R_aise"
 msgid "_Raise"
 msgstr "P_aaugstināt"
 
-#: src/wmwinlist.cc:384
+#: src/wmwinlist.cc:383
 msgid "Del"
 msgstr "Del"
 
-#: src/wmwinlist.cc:388
+#: src/wmwinlist.cc:387
 msgid "_Terminate Process"
 msgstr "Aizvēr_t procesu"
 
-#: src/wmwinlist.cc:389
+#: src/wmwinlist.cc:388
 msgid "Kill _Process"
 msgstr "Nogalināt _procesu"
 
-#: src/wmwinlist.cc:424 src/wmwinlist.cc:425
+#: src/wmwinlist.cc:423 src/wmwinlist.cc:424
 msgid "Window list"
 msgstr "Logu saraksts"
 
@@ -1652,7 +1660,7 @@ msgstr "Logu saraksts"
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Darba vide %-.32s"
 
-#: src/yapp.cc:287
+#: src/yapp.cc:295
 #, c-format
 msgid "%s: select failed"
 msgstr ""
@@ -1770,22 +1778,22 @@ msgstr "Iezīmēt _visu"
 msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
-#: src/ylocale.cc:46
+#: src/ylocale.cc:55
 #, fuzzy
 msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
 msgstr "C bibliotēka neatbalsta šo lokāli. Atkrītu uz 'C' lokāli."
 
-#: src/ylocale.cc:72
+#: src/ylocale.cc:94
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr "Neizdevās noteikt tekošās lokāles kodu kopu. Pieņemam ISO-8859-1.\n"
 
-#: src/ylocale.cc:104 src/ylocale.cc:111
+#: src/ylocale.cc:127 src/ylocale.cc:135
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv nepiedāvā pietiekami derīgus pārveidotājus no %s uz %s."
 
-#: src/ylocale.cc:167
+#: src/ylocale.cc:235
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Kļūdaina vairākbaitu virkne \"%s\": %s"
@@ -1823,7 +1831,7 @@ msgstr ""
 msgid "Invalid hex escape in URL at position %d."
 msgstr ""
 
-#: src/yxapp.cc:1021
+#: src/yxapp.cc:1016
 msgid ""
 "  -d, --display=NAME  NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"

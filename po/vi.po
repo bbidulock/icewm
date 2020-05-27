@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.21pre1\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-02-27 23:18+0100\n"
+"POT-Creation-Date: 2020-05-27 23:00+0200\n"
 "PO-Revision-Date: 2016-08-25 08:19+0000\n"
 "Last-Translator: Hoàng Phạm <pnhoang96@gmail.com>\n"
 "Language-Team: Vietnamese <https://l10n.opensuse.org/projects/icewm/"
@@ -19,27 +19,27 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 2.6\n"
 
-#: src/aapm.cc:187 src/aapm.cc:469 src/aapm.cc:691 src/aapm.cc:816
+#: src/aapm.cc:185 src/aapm.cc:464 src/aapm.cc:685 src/aapm.cc:809
 msgid " - Power"
 msgstr " - Nguồn điện"
 
-#: src/aapm.cc:189 src/aapm.cc:472 src/aapm.cc:694
+#: src/aapm.cc:187 src/aapm.cc:467 src/aapm.cc:688
 msgid "P"
 msgstr ""
 
-#: src/aapm.cc:193 src/aapm.cc:446 src/aapm.cc:674 src/aapm.cc:784
+#: src/aapm.cc:191 src/aapm.cc:441 src/aapm.cc:668 src/aapm.cc:777
 msgid " - Charging"
 msgstr " - Đang nạp"
 
-#: src/aapm.cc:195 src/aapm.cc:448 src/aapm.cc:676
+#: src/aapm.cc:193 src/aapm.cc:443 src/aapm.cc:670
 msgid "C"
 msgstr ""
 
-#: src/aapm.cc:450
+#: src/aapm.cc:445
 msgid " - Full"
 msgstr ""
 
-#: src/aapm.cc:998
+#: src/aapm.cc:991
 #, c-format
 msgid "power:\t%s"
 msgstr ""
@@ -56,7 +56,7 @@ msgstr ""
 msgid "Default"
 msgstr "Mặc định"
 
-#: src/aclock.cc:179 src/acpustatus.cc:862 src/amailbox.cc:955
+#: src/aclock.cc:179 src/acpustatus.cc:661 src/amailbox.cc:955
 #: src/amemstatus.cc:264
 msgid "_Disable"
 msgstr ""
@@ -65,26 +65,26 @@ msgstr ""
 msgid "_UTC"
 msgstr ""
 
-#: src/acpustatus.cc:233
+#: src/acpustatus.cc:226
 #, c-format
 msgid ""
 "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 "intr = %llu, softirq = %llu, steal = %llu\n"
 msgstr ""
 
-#: src/acpustatus.cc:238
+#: src/acpustatus.cc:231
 #, c-format
 msgid ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 "softirq = %llu, steal = %llu (h = %i)\n"
 msgstr ""
 
-#: src/acpustatus.cc:303
+#: src/acpustatus.cc:296
 #, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr ""
 
-#: src/acpustatus.cc:309
+#: src/acpustatus.cc:302
 #, fuzzy, c-format
 #| msgid ""
 #| "\n"
@@ -96,7 +96,7 @@ msgstr ""
 "\n"
 "Ram (trống): %5.2f (%.2f) M"
 
-#: src/acpustatus.cc:314
+#: src/acpustatus.cc:307
 #, fuzzy, c-format
 #| msgid ""
 #| "\n"
@@ -108,7 +108,7 @@ msgstr ""
 "\n"
 "Swap (trống): %.2f (%.2f) M"
 
-#: src/acpustatus.cc:320
+#: src/acpustatus.cc:313
 #, c-format
 msgid ""
 "\n"
@@ -117,7 +117,7 @@ msgstr ""
 "\n"
 "Nhiệt độ ACPI: "
 
-#: src/acpustatus.cc:339 src/acpustatus.cc:379
+#: src/acpustatus.cc:332 src/acpustatus.cc:372
 #, c-format
 msgid ""
 "\n"
@@ -126,16 +126,16 @@ msgstr ""
 "\n"
 "T.số CPU: %.3fGHz"
 
-#: src/acpustatus.cc:356 src/acpustatus.cc:858
+#: src/acpustatus.cc:349 src/acpustatus.cc:657
 msgid "CPU"
 msgstr ""
 
-#: src/acpustatus.cc:356
+#: src/acpustatus.cc:349
 #, fuzzy
 msgid "Load: "
 msgstr "Tải CPU: "
 
-#: src/acpustatus.cc:371
+#: src/acpustatus.cc:364
 #, fuzzy, c-format
 #| msgid ""
 #| "\n"
@@ -149,25 +149,25 @@ msgstr ""
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/acpustatus.cc:438
+#: src/acpustatus.cc:431
 msgid "°C"
 msgstr ""
 
-#: src/acpustatus.cc:770
+#: src/acpustatus.cc:600
 #, c-format
 msgid "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
 msgstr ""
 
-#: src/acpustatus.cc:859
+#: src/acpustatus.cc:658
 #, c-format
 msgid "CPU%d"
 msgstr ""
 
-#: src/acpustatus.cc:864
+#: src/acpustatus.cc:663
 msgid "_Combine"
 msgstr ""
 
-#: src/acpustatus.cc:866
+#: src/acpustatus.cc:665
 msgid "_Separate"
 msgstr ""
 
@@ -296,7 +296,7 @@ msgstr ""
 msgid "MEM"
 msgstr ""
 
-#: src/apppstatus.cc:199
+#: src/apppstatus.cc:197
 #, c-format
 msgid ""
 "Interface %s:\n"
@@ -311,7 +311,7 @@ msgstr ""
 "  Đã truyền tải (vào/ra):\t%lli %s/%lli %s\n"
 "  Thời gian kết nối:\t%ld:%02ld:%02ld%s%s"
 
-#: src/apppstatus.cc:211
+#: src/apppstatus.cc:209
 msgid ""
 "\n"
 "  Caller id:\t"
@@ -319,7 +319,7 @@ msgstr ""
 "\n"
 "  Id người gọi:\t"
 
-#: src/apppstatus.cc:712
+#: src/apppstatus.cc:710
 msgid "NET"
 msgstr ""
 
@@ -528,127 +528,133 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "Same Game"
 
-#: src/icesh.cc:66
+#: src/icesh.cc:73
 msgid "For help please consult the man page icesh(1).\n"
 msgstr ""
 
-#: src/icesh.cc:1331
+#: src/icesh.cc:1490
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Các kí tự tên của vùng `%s' (giới hạn số: %ld-%ld):\n"
 
-#: src/icesh.cc:1472
+#: src/icesh.cc:1631
 #, fuzzy, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Không gian nằm ngoài giới hạn: %d"
 
-#: src/icesh.cc:1493
+#: src/icesh.cc:1652
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Tên không gian không hộp lệ: `%s'"
 
-#: src/icesh.cc:1758
+#: src/icesh.cc:1929
 msgid "GNOME window state"
 msgstr "Trạng thái cửa sổ GNOME"
 
-#: src/icesh.cc:1759
+#: src/icesh.cc:1930
 msgid "GNOME window hint"
 msgstr "Gợi ý cửa sổ GNOME"
 
-#: src/icesh.cc:1760
+#: src/icesh.cc:1931
 msgid "GNOME window layer"
 msgstr "Lớp cửa sổ GNOME"
 
-#: src/icesh.cc:1761
+#: src/icesh.cc:1932
 msgid "IceWM tray option"
 msgstr "Tuỳ chọn khay IceWM"
 
-#: src/icesh.cc:1762
+#: src/icesh.cc:1933
 msgid "Gravity symbols"
 msgstr ""
 
-#: src/icesh.cc:1763
+#: src/icesh.cc:1934
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Motif functions"
 msgstr "Ứng dụng ưa thích"
 
-#: src/icesh.cc:1764
+#: src/icesh.cc:1935
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Motif decorations"
 msgstr "Ứng dụng ưa thích"
 
-#: src/icesh.cc:1843
+#: src/icesh.cc:1936
+#, fuzzy
+#| msgid "GNOME window state"
+msgid "EWMH window state"
+msgstr "Trạng thái cửa sổ GNOME"
+
+#: src/icesh.cc:2015
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "không gian #%d: `%s'\n"
 
-#: src/icesh.cc:2809
+#: src/icesh.cc:2989
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr ""
 
-#: src/icesh.cc:2834
+#: src/icesh.cc:3014
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid Xinerama: `%s'."
 msgstr "Tham số không hợp lệ: `%s'."
 
-#: src/icesh.cc:2882
+#: src/icesh.cc:3062
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Hành động `%s' yêu cầu ít nhất %d tham số."
 
-#: src/icesh.cc:2892
+#: src/icesh.cc:3072
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Biểu thức không hợp lệ: `%s'."
 
-#: src/icesh.cc:2903 src/icesound.cc:795 src/icewmhint.cc:36 src/wmapp.cc:1190
-#: src/yxapp.cc:1060
+#: src/icesh.cc:3083 src/icesound.cc:796 src/icewmhint.cc:36 src/wmapp.cc:1190
+#: src/yxapp.cc:1055
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "Không mở được màn hình: %s. Cần chạy X và đặt biến $DISPLAY."
 
-#: src/icesh.cc:2916
+#: src/icesh.cc:3096
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid argument: `%s'"
 msgstr "Tham số không hợp lệ: `%s'."
 
-#: src/icesh.cc:2953
+#: src/icesh.cc:3131
 msgid "No windows found."
 msgstr ""
 
-#: src/icesh.cc:2968
+#: src/icesh.cc:3146
 msgid "No actions specified."
 msgstr "Không có hành động nào được chỉ ra."
 
-#: src/icesh.cc:3046
+#: src/icesh.cc:3238
+#, c-format
+msgid "Invalid window identifier: `%s'"
+msgstr "Tên cửa sổ không hợp lệ: `%s'"
+
+#: src/icesh.cc:3255
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid PID: `%s'"
 msgstr "Tham số không hợp lệ: `%s'."
 
-#: src/icesh.cc:3082
+#: src/icesh.cc:3291
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid layer: `%s'."
 msgstr "Tham số không hợp lệ: `%s'."
 
-#: src/icesh.cc:3112
+#: src/icesh.cc:3321 src/icesh.cc:3335 src/icesh.cc:3734
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid state: `%s'."
 msgstr "Tham số không hợp lệ: `%s'."
 
-#: src/icesh.cc:3167
-#, c-format
-msgid "Invalid window identifier: `%s'"
-msgstr "Tên cửa sổ không hợp lệ: `%s'"
-
-#: src/icesh.cc:3823
+#: src/icesh.cc:4051
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Hành động không xác định: `%s'"
@@ -658,7 +664,7 @@ msgstr "Hành động không xác định: `%s'"
 msgid "Socket error: %d"
 msgstr "Lỗi socket: %d"
 
-#: src/icesm.cc:57
+#: src/icesm.cc:59
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -668,33 +674,35 @@ msgid ""
 "  --sync              Synchronize communication with X11 server.\n"
 "\n"
 "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
+"  -o, --output=FILE   Redirect all output to FILE.\n"
+"\n"
 "  -b, --nobg          Do not start icewmbg.\n"
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
 
-#: src/icesm.cc:135
+#: src/icesm.cc:153
 #, fuzzy, c-format
 msgid "Unknown option '%s'"
 msgstr "Hành động không xác định: `%s'"
 
-#: src/icesm.cc:331 src/icesm.cc:449
+#: src/icesm.cc:379 src/icesm.cc:497
 #, fuzzy, c-format
 #| msgid "Restart"
 msgid "restart %s."
 msgstr "Khởi động lại"
 
-#: src/icesm.cc:337
+#: src/icesm.cc:385
 #, c-format
 msgid "%s exited with status %d."
 msgstr ""
 
-#: src/icesm.cc:343 src/icesm.cc:455
+#: src/icesm.cc:391 src/icesm.cc:503
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr ""
 
-#: src/icesm.cc:377
+#: src/icesm.cc:425
 msgid ""
 " IceWM crashed for the second time in 10 seconds. \n"
 " Do you wish to:\n"
@@ -703,81 +711,81 @@ msgid ""
 "\t2: Abort this session?\n"
 msgstr ""
 
-#: src/icesm.cc:382
+#: src/icesm.cc:430
 #, fuzzy
 #| msgid "IceWM tray option"
 msgid "IceWM crash response"
 msgstr "Tuỳ chọn khay IceWM"
 
-#: src/icesound.cc:215 src/icesound.cc:323 src/icesound.cc:483
+#: src/icesound.cc:216 src/icesound.cc:324 src/icesound.cc:484
 #, c-format
 msgid "Playing sample #%d (%s)"
 msgstr "Đang chạy mẫu #%d (%s)"
 
-#: src/icesound.cc:333
+#: src/icesound.cc:334
 #, c-format
 msgid "%s: Invalid number of channels"
 msgstr ""
 
-#: src/icesound.cc:339 src/icesound.cc:344
+#: src/icesound.cc:340 src/icesound.cc:345
 msgid "Could not set OSS channels"
 msgstr ""
 
-#: src/icesound.cc:349 src/icesound.cc:377
+#: src/icesound.cc:350 src/icesound.cc:378
 msgid "Could not sync OSS"
 msgstr ""
 
-#: src/icesound.cc:361
+#: src/icesound.cc:362
 msgid "OSS write failed"
 msgstr ""
 
-#: src/icesound.cc:365
+#: src/icesound.cc:366
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
 msgstr ""
 
-#: src/icesound.cc:372
+#: src/icesound.cc:373
 #, fuzzy
 msgid "Could not post OSS"
 msgstr "Không thể nạp bộ phông chữ \"%s\"."
 
-#: src/icesound.cc:401
+#: src/icesound.cc:402
 #, fuzzy, c-format
 msgid "Could not open OSS device %s"
 msgstr "Không tìm thấy ảnh %s"
 
-#: src/icesound.cc:406
+#: src/icesound.cc:407
 msgid "Could not set OSS stereo"
 msgstr ""
 
-#: src/icesound.cc:411
+#: src/icesound.cc:412
 msgid "Could not reset OSS DSP"
 msgstr ""
 
-#: src/icesound.cc:416
+#: src/icesound.cc:417
 msgid "Could not set OSS format"
 msgstr ""
 
-#: src/icesound.cc:503
+#: src/icesound.cc:504
 #, c-format
 msgid "ao_open_live failed with %d"
 msgstr ""
 
-#: src/icesound.cc:514
+#: src/icesound.cc:515
 msgid "ao_play failed"
 msgstr ""
 
-#: src/icesound.cc:677
+#: src/icesound.cc:678
 #, c-format
 msgid "Unrecognized option: %s\n"
 msgstr "Tuỳ chọn không xác định: %s\n"
 
-#: src/icesound.cc:680 src/icesound.cc:973
+#: src/icesound.cc:681 src/icesound.cc:974
 #, c-format
 msgid "Unrecognized argument: %s\n"
 msgstr "Tham số không xác định: %s\n"
 
-#: src/icesound.cc:689
+#: src/icesound.cc:690
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
@@ -867,51 +875,51 @@ msgstr ""
 "3     Lỗi hệ thống con (vd không kết nối được tới máy chủ).\n"
 "\n"
 
-#: src/icesound.cc:780
+#: src/icesound.cc:781
 #, c-format
 msgid "No audio for %s"
 msgstr ""
 
-#: src/icesound.cc:857
+#: src/icesound.cc:858
 msgid "Could not get GUI event property"
 msgstr ""
 
-#: src/icesound.cc:861
+#: src/icesound.cc:862
 #, c-format
 msgid "Received invalid GUI event %d"
 msgstr ""
 
-#: src/icesound.cc:865
+#: src/icesound.cc:866
 #, c-format
 msgid "Received GUI event %s"
 msgstr ""
 
-#: src/icesound.cc:879
+#: src/icesound.cc:880
 #, c-format
 msgid "Too quick; ignoring %s."
 msgstr ""
 
-#: src/icesound.cc:883
+#: src/icesound.cc:884
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr "Việc hỗ trợ cho giao diện %s không được biên dịch."
 
-#: src/icesound.cc:916
+#: src/icesound.cc:917
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr "Không hỗ trợ giao diện: %s."
 
-#: src/icesound.cc:925
+#: src/icesound.cc:926
 #, c-format
 msgid "Using %s audio."
 msgstr ""
 
-#: src/icesound.cc:929
+#: src/icesound.cc:930
 #, fuzzy, c-format
 msgid "Failed to connect to audio interfaces %s."
 msgstr "Lỗi khi mở %s: %s"
 
-#: src/icesound.cc:941
+#: src/icesound.cc:942
 #, fuzzy, c-format
 msgid "Received signal %s: Terminating..."
 msgstr "Nhận đưọc tín hiệu %d: Đang dừng..."
@@ -950,12 +958,12 @@ msgstr "Khuôn dòng"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icewmbg.cc:78
+#: src/icewmbg.cc:74
 #, fuzzy, c-format
 msgid "Failed to load image '%s'."
 msgstr "Lỗi khi mở %s: %s"
 
-#: src/icewmbg.cc:885
+#: src/icewmbg.cc:881
 #, fuzzy
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
@@ -1021,7 +1029,7 @@ msgstr ""
 " center:0 scaled:0 = kiểu lát gạch\n"
 " center:1 scaled:1 = giữ tỉ lệ nền\n"
 
-#: src/icewmbg.cc:1100
+#: src/icewmbg.cc:1096
 msgid "Cannot start, because another icewmbg is still running."
 msgstr ""
 
@@ -1035,11 +1043,11 @@ msgstr "Sử dụng: icewmhint [class.instance] tuỳ-chọn tham-số\n"
 msgid "Out of memory (len=%d)."
 msgstr "Tràn bộ nhớ (len=%d)."
 
-#: src/misc.cc:572 src/misc.cc:584
+#: src/misc.cc:569 src/misc.cc:581
 msgid "Warning: "
 msgstr "Cảnh báo: "
 
-#: src/misc.cc:860
+#: src/misc.cc:875
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1051,7 +1059,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/movesize.cc:875
+#: src/movesize.cc:888
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Không rõ hướng của yêu cầu di chuyển/thay đổi kích thước: %d"
@@ -1171,7 +1179,7 @@ msgstr "_Dưới"
 msgid "D_esktop"
 msgstr "_Màn hình"
 
-#: src/wmapp.cc:578 src/wmwinlist.cc:355
+#: src/wmapp.cc:578 src/wmwinlist.cc:354
 msgid "_Restore"
 msgstr "_Phục hồi"
 
@@ -1183,15 +1191,15 @@ msgstr "_Di chuyển"
 msgid "_Size"
 msgstr "_Kích thước"
 
-#: src/wmapp.cc:584 src/wmwinlist.cc:356
+#: src/wmapp.cc:584 src/wmwinlist.cc:355
 msgid "Mi_nimize"
 msgstr "_Thu nhỏ"
 
-#: src/wmapp.cc:586 src/wmwinlist.cc:357
+#: src/wmapp.cc:586 src/wmwinlist.cc:356
 msgid "Ma_ximize"
 msgstr "Phón_g to"
 
-#: src/wmapp.cc:587 src/wmwinlist.cc:358
+#: src/wmapp.cc:587 src/wmwinlist.cc:357
 #, fuzzy
 #| msgid "Maximize"
 msgid "Maximize_Vert"
@@ -1203,15 +1211,15 @@ msgstr "Phóng đại"
 msgid "MaximizeHori_z"
 msgstr "Phóng đại"
 
-#: src/wmapp.cc:591 src/wmwinlist.cc:359
+#: src/wmapp.cc:591 src/wmwinlist.cc:358
 msgid "_Fullscreen"
 msgstr "Đầy _màn hình"
 
-#: src/wmapp.cc:594 src/wmwinlist.cc:361
+#: src/wmapp.cc:594 src/wmwinlist.cc:360
 msgid "_Hide"
 msgstr "Ẩ_n"
 
-#: src/wmapp.cc:596 src/wmwinlist.cc:362
+#: src/wmapp.cc:596 src/wmwinlist.cc:361
 msgid "Roll_up"
 msgstr "Ké_o lên"
 
@@ -1219,19 +1227,19 @@ msgstr "Ké_o lên"
 msgid "R_aise"
 msgstr "T_rên tất cả"
 
-#: src/wmapp.cc:605 src/wmwinlist.cc:364
+#: src/wmapp.cc:605 src/wmwinlist.cc:363
 msgid "_Lower"
 msgstr "T_hấp hơn"
 
-#: src/wmapp.cc:607 src/wmwinlist.cc:365
+#: src/wmapp.cc:607 src/wmwinlist.cc:364
 msgid "La_yer"
 msgstr "_Lớp"
 
-#: src/wmapp.cc:611 src/wmwinlist.cc:367
+#: src/wmapp.cc:611 src/wmwinlist.cc:366
 msgid "Move _To"
 msgstr "Chuyển tớ_i"
 
-#: src/wmapp.cc:612 src/wmwinlist.cc:368
+#: src/wmapp.cc:612 src/wmwinlist.cc:367
 msgid "Occupy _All"
 msgstr "_Chiếm mọi không gian"
 
@@ -1239,15 +1247,15 @@ msgstr "_Chiếm mọi không gian"
 msgid "Limit _Workarea"
 msgstr "Giới hạn _không gian"
 
-#: src/wmapp.cc:622 src/wmwinlist.cc:369
+#: src/wmapp.cc:622 src/wmwinlist.cc:368
 msgid "Tray _icon"
 msgstr "_Biểu tượng khay"
 
-#: src/wmapp.cc:627 src/wmwinlist.cc:384 src/wmwinlist.cc:392
+#: src/wmapp.cc:627 src/wmwinlist.cc:383 src/wmwinlist.cc:391
 msgid "_Close"
 msgstr "Đón_g"
 
-#: src/wmapp.cc:629 src/wmwinlist.cc:386
+#: src/wmapp.cc:629 src/wmwinlist.cc:385
 msgid "_Kill Client"
 msgstr "_Diệt chương trình con"
 
@@ -1272,7 +1280,7 @@ msgstr ""
 msgid "Kill IceWM, replace with Xterm"
 msgstr ""
 
-#: src/wmapp.cc:1191 src/yxapp.cc:1061
+#: src/wmapp.cc:1191 src/yxapp.cc:1056
 msgid "<none>"
 msgstr "<không>"
 
@@ -1361,21 +1369,21 @@ msgstr ""
 msgid "%s configuration directories:\n"
 msgstr ""
 
-#: src/wmapp.cc:1699
+#: src/wmapp.cc:1696
 #, fuzzy, c-format
 msgid "%s configured options:%s\n"
 msgstr "Tuỳ chọn không xác định: %s\n"
 
-#: src/wmapp.cc:1763
+#: src/wmapp.cc:1779
 #, fuzzy, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Tuỳ chọn không xác định: %s\n"
 
-#: src/wmapp.cc:1835
+#: src/wmapp.cc:1831
 msgid "Confirm Logout"
 msgstr "Xác nhận việc thoát"
 
-#: src/wmapp.cc:1836
+#: src/wmapp.cc:1832
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1431,11 +1439,11 @@ msgstr "_Chạy lại icewm"
 msgid "_About"
 msgstr "_Giới thiệu về icewm"
 
-#: src/wmframe.cc:1411
+#: src/wmframe.cc:1412
 msgid "Kill Client: "
 msgstr "Diệt chương trình con: "
 
-#: src/wmframe.cc:1418
+#: src/wmframe.cc:1419
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1443,28 +1451,28 @@ msgstr ""
 "CẢNH BÁO! Tất cả những thay đổi chưa ghi nhớ sẽ bị mất khi\n"
 "chương trình con này bị diệt. Bạn có muốn tiếp tục diệt?"
 
-#: src/wmframe.cc:3024
+#: src/wmframe.cc:3030
 msgid "Restore"
 msgstr "Phục hồi"
 
-#: src/wmframe.cc:3027 src/wmtitle.cc:71
+#: src/wmframe.cc:3033 src/wmtitle.cc:71
 msgid "Maximize"
 msgstr "Phóng đại"
 
-#: src/wmframe.cc:3057
+#: src/wmframe.cc:3063
 msgid "Rolldown"
 msgstr "Thả xuống"
 
-#: src/wmframe.cc:3059 src/wmtitle.cc:129
+#: src/wmframe.cc:3065 src/wmtitle.cc:129
 msgid "Rollup"
 msgstr "Kéo lên"
 
-#: src/wmoption.cc:232
+#: src/wmoption.cc:231
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Không rõ tuỳ chọn cửa sổ: %s"
 
-#: src/wmoption.cc:344
+#: src/wmoption.cc:343
 #, fuzzy, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Lỗi cú pháp trong tuỳ chọn cửa sổ"
@@ -1556,37 +1564,37 @@ msgid "Session Manager: Unknown line %s"
 msgstr "Trình quản lí: Dòng không rõ %s"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:233 src/wmwinlist.cc:371 src/wmwinlist.cc:404
+#: src/wmtaskbar.cc:233 src/wmwinlist.cc:370 src/wmwinlist.cc:403
 msgid "Tile _Vertically"
 msgstr "_Lát Thẳng đứng"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:235 src/wmwinlist.cc:372 src/wmwinlist.cc:405
+#: src/wmtaskbar.cc:235 src/wmwinlist.cc:371 src/wmwinlist.cc:404
 msgid "T_ile Horizontally"
 msgstr "Lát _Nằm ngang"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:237 src/wmwinlist.cc:373 src/wmwinlist.cc:406
+#: src/wmtaskbar.cc:237 src/wmwinlist.cc:372 src/wmwinlist.cc:405
 msgid "Ca_scade"
 msgstr "Xếp the_o tầng"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:239 src/wmwinlist.cc:374 src/wmwinlist.cc:407
+#: src/wmtaskbar.cc:239 src/wmwinlist.cc:373 src/wmwinlist.cc:406
 msgid "_Arrange"
 msgstr "_Sắp xếp"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:241 src/wmwinlist.cc:376 src/wmwinlist.cc:408
+#: src/wmtaskbar.cc:241 src/wmwinlist.cc:375 src/wmwinlist.cc:407
 msgid "_Minimize All"
 msgstr "_Thu nhỏ tất cả"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:243 src/wmwinlist.cc:377 src/wmwinlist.cc:409
+#: src/wmtaskbar.cc:243 src/wmwinlist.cc:376 src/wmwinlist.cc:408
 msgid "_Hide All"
 msgstr "Ẩn tất _cả"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:245 src/wmwinlist.cc:378 src/wmwinlist.cc:410
+#: src/wmtaskbar.cc:245 src/wmwinlist.cc:377 src/wmwinlist.cc:409
 msgid "_Undo"
 msgstr "_Hoàn tác"
 
@@ -1600,7 +1608,7 @@ msgstr "Sắp xếp _biểu tượng"
 msgid "_Refresh"
 msgstr "Làm mới _màn hình"
 
-#: src/wmtaskbar.cc:327 src/wmtaskbar.cc:931
+#: src/wmtaskbar.cc:327 src/wmtaskbar.cc:929
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Hide Taskbar"
@@ -1622,7 +1630,7 @@ msgstr "Trình đơn danh sách cửa sổ"
 msgid "Show Desktop"
 msgstr "Thu nhỏ tất cả"
 
-#: src/wmtaskbar.cc:931
+#: src/wmtaskbar.cc:929
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Show Taskbar"
@@ -1644,29 +1652,29 @@ msgstr "Lên trên/Xuống dưới cửa sổ khác"
 msgid "All Workspaces"
 msgstr "Tất cả không gian"
 
-#: src/wmwinlist.cc:360
+#: src/wmwinlist.cc:359
 msgid "_Show"
 msgstr "_Hiện"
 
-#: src/wmwinlist.cc:363
+#: src/wmwinlist.cc:362
 #, fuzzy
 #| msgid "R_aise"
 msgid "_Raise"
 msgstr "T_rên tất cả"
 
-#: src/wmwinlist.cc:384
+#: src/wmwinlist.cc:383
 msgid "Del"
 msgstr "Xoá"
 
-#: src/wmwinlist.cc:388
+#: src/wmwinlist.cc:387
 msgid "_Terminate Process"
 msgstr "Dừng _tiến trình"
 
-#: src/wmwinlist.cc:389
+#: src/wmwinlist.cc:388
 msgid "Kill _Process"
 msgstr "Diệt tiến trì_nh"
 
-#: src/wmwinlist.cc:424 src/wmwinlist.cc:425
+#: src/wmwinlist.cc:423 src/wmwinlist.cc:424
 msgid "Window list"
 msgstr "Danh sách cửa sổ"
 
@@ -1675,7 +1683,7 @@ msgstr "Danh sách cửa sổ"
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Không gian %-.32s"
 
-#: src/yapp.cc:287
+#: src/yapp.cc:295
 #, c-format
 msgid "%s: select failed"
 msgstr ""
@@ -1792,25 +1800,25 @@ msgstr "Chọn _tất cả"
 msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
-#: src/ylocale.cc:46
+#: src/ylocale.cc:55
 #, fuzzy
 msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
 msgstr ""
 "Thư viện C không hỗ trợ bản địa (locale) này. Quay lại dùng bản địa 'C'."
 
-#: src/ylocale.cc:72
+#: src/ylocale.cc:94
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
 "Không xác định thành công bảng mã của bản địa hiện thời. Coi như "
 "ISO-8859-1.\n"
 
-#: src/ylocale.cc:104 src/ylocale.cc:111
+#: src/ylocale.cc:127 src/ylocale.cc:135
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv không cung cấp (đủ) %s cho %s bộ chuyển đổi."
 
-#: src/ylocale.cc:167
+#: src/ylocale.cc:235
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Lỗi chuỗi nhiều byte \"%s\": %s"
@@ -1848,7 +1856,7 @@ msgstr ""
 msgid "Invalid hex escape in URL at position %d."
 msgstr ""
 
-#: src/yxapp.cc:1021
+#: src/yxapp.cc:1016
 msgid ""
 "  -d, --display=NAME  NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"
