@@ -872,9 +872,9 @@ bool TaskBar::autoTimer(bool doShow) {
         manager->switchFocusTo(getFrame(), true);
         manager->updateFullscreenLayer();
     }
-    if (taskBarAutoHide == true) {
+    if (taskBarAutoHide) {
         fIsHidden = !doShow && !hasPopup();
-        if (taskBarDoubleHeight == false) {
+        if (taskBarDoubleHeight == false && taskBarShowWindows) {
             fIsHidden &= !(addressBar() && addressBar()->visible());
         }
         updateLocation();
