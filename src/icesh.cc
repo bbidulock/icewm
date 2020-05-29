@@ -9,6 +9,8 @@
  *
  *  2001/07/18: Mathias Hasselmann <mathias.hasselmann@gmx.net>
  *  - initial version
+ *  2019/03/04: Bert Gijsbers
+ *  - total rewrite
  */
 
 #include "config.h"
@@ -22,6 +24,8 @@
 #include <time.h>
 #include <math.h>
 #include <unistd.h>
+#include <vector>
+#include <algorithm>
 
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
@@ -54,6 +58,9 @@
 typedef void (*sighandler_t)(int);
 #endif
 
+using std::vector;
+using std::find;
+
 /******************************************************************************/
 
 using namespace ASCII;
@@ -81,7 +88,7 @@ class NAtom {
     Atom fAtom;
     bool fExists;
 public:
-    explicit NAtom(const char* name, bool exists = False) :
+    explicit NAtom(const char* name, bool exists = false) :
         fName(name), fAtom(None), fExists(exists)
     { }
     const char* name() const { return fName; }
@@ -823,7 +830,7 @@ public:
 
 class YTreeIter {
 public:
-    YTreeIter(const YWindowTree& tree) : fTree(tree), fIndex(0) { }
+    YTreeIter(YWindowTree& tree) : fTree(tree), fIndex(0) { }
 
     operator Window() const;
     Window operator*() const { return Window(*this); }
@@ -831,45 +838,40 @@ public:
     YTreeLeaf* operator->();
 
 private:
-    const YWindowTree& fTree;
-    YTreeLeaf fLeaf;
+    YWindowTree& fTree;
     unsigned fIndex;
 };
 
 class YWindowTree {
 public:
     YWindowTree(Window window = None):
-        fParent(None), fCount(0), fSuccess(False)
+        fParent(None)
     {
         if (window)
             query(window);
     }
 
-    void set(Window window) {
-        if (fCount != 1) {
-            fChildren = (Window *) malloc(sizeof(Window));
-            fCount = 1;
-        }
-        fChildren[0] = window;
-        fSuccess = True;
+    void single(Window window) {
+        release();
+        append(window);
     }
 
-    void add(Window window) {
-        if (have(window) == False) {
-            size_t size = sizeof(Window) * (fCount + 1);
-            fChildren = (Window *) realloc(fChildren.release(), size);
-            fChildren[fCount] = window;
-            ++fCount;
-            fSuccess = True;
+    void append(Window window) {
+        if (have(window) == false) {
+            fChildren.push_back(window);
         }
     }
 
     void query(Window window) {
         release();
         if (window) {
-            Window fRoot;
-            fSuccess = XQueryTree(display, window, &fRoot, &fParent,
-                                  &fChildren, &fCount);
+            Window rootw;
+            Window* data;
+            unsigned num;
+            if (XQueryTree(display, window, &rootw, &fParent, &data, &num)) {
+                copy(data, data + num, back_inserter(fChildren));
+                XFree(data);
+            }
         }
     }
 
@@ -877,9 +879,9 @@ public:
         release();
         YClient clients(root, property, 100000);
         if (clients) {
-            fCount = clients.count();
-            fChildren = clients.extract();
-            fSuccess = True;
+            unsigned num = clients.count();
+            Window* data = clients.data<Window>();
+            copy(data, data + num, back_inserter(fChildren));
             fParent = None;
         }
     }
@@ -893,65 +895,64 @@ public:
     }
 
     void filterLast() {
-        if (1 < fCount) {
-            set(fChildren[fCount - 1]);
+        if (1 < count()) {
+            single(fChildren.back());
         }
     }
 
     void findTaskbar() {
-        unsigned keep = 0;
+        vector<Window> keep;
         for (YTreeIter client(*this); client; ++client) {
             if (client->wmName() == "Frame") {
                 YWindowTree frame(client);
                 if (frame && frame->wmName() == "TaskBarFrame") {
                     frame.query(*frame);
                     if (frame && frame->wmName() == "TaskBar") {
-                        fChildren[keep++] = *frame;
+                        keep.push_back(*frame);
                     }
                 }
             }
         }
-        fCount = keep;
+        fChildren = keep;
     }
 
     void filterByWorkspace(long workspace, bool inverse = false) {
-        unsigned keep = 0;
+        vector<Window> keep;
         for (YTreeIter client(*this); client; ++client) {
             long ws = getWorkspace(client);
             if ((ws == workspace || hasbits(ws, 0xFFFFFFFF)) != inverse) {
-                fChildren[keep++] = client;
+                keep.push_back(client);
             }
         }
-        fCount = keep;
+        fChildren = keep;
     }
 
     void filterByScreen() {
-        if (fConfine.confining() == false) {
-            return;
-        }
-        unsigned keep = 0;
-        for (YTreeIter client(*this); client; ++client) {
-            int x, y, w, h;
-            if (getGeometry(client, x, y, w, h)) {
-                YRect r(x, y, w, h);
-                YRect s(fConfine[fConfine.screen()]);
-                if (s.overlap(r)) {
-                    fChildren[keep++] = client;
+        if (fConfine.confining()) {
+            vector<Window> keep;
+            for (YTreeIter client(*this); client; ++client) {
+                int x, y, w, h;
+                if (getGeometry(client, x, y, w, h)) {
+                    YRect r(x, y, w, h);
+                    YRect s(fConfine[fConfine.screen()]);
+                    if (s.overlap(r)) {
+                        keep.push_back(client);
+                    }
                 }
             }
+            fChildren = keep;
         }
-        fCount = keep;
     }
 
     void filterByLayer(long layer, bool inverse) {
-        unsigned keep = 0;
+        vector<Window> keep;
         for (YTreeIter client(*this); client; ++client) {
             YCardinal prop(client, ATOM_WIN_LAYER);
             if (prop && ((*prop == layer) != inverse)) {
-                fChildren[keep++] = client;
+                keep.push_back(client);
             }
         }
-        fCount = keep;
+        fChildren = keep;
     }
 
     void filterByProperty(char* propertyString, bool inverse) {
@@ -959,14 +960,14 @@ public:
         if (valueString) {
             *valueString++ = '\0';
         }
-        NAtom propertyAtom(propertyString, True);
+        NAtom propertyAtom(propertyString, true);
         if (propertyAtom == None) {
             release();
             return;
         }
-        NAtom propertyValue(valueString, True);
+        NAtom propertyValue(valueString, true);
 
-        unsigned keep = 0;
+        vector<Window> keep;
         for (YTreeIter client(*this); client; ++client) {
             bool match = false;
             YProperty prop(client, propertyAtom, AnyPropertyType, 123);
@@ -998,80 +999,80 @@ public:
                 }
             }
             if (match != inverse) {
-                fChildren[keep++] = client;
+                keep.push_back(client);
             }
         }
-        fCount = keep;
+        fChildren = keep;
     }
 
     void filterByRole(char* role, bool inverse) {
-        unsigned keep = 0;
+        vector<Window> keep;
         for (YTreeIter client(*this); client; ++client) {
             if ((client->wmRole() == role) != inverse) {
-                fChildren[keep++] = client;
+                keep.push_back(client);
             }
         }
-        fCount = keep;
+        fChildren = keep;
     }
 
     void filterByState(long state, bool inverse, bool anybit) {
-        unsigned keep = 0;
+        vector<Window> keep;
         for (YTreeIter client(*this); client; ++client) {
             YWinState prop(client);
             bool test(anybit ? hasbit(*prop, state) : hasbits(*prop, state));
             if (prop && (test != inverse)) {
-                fChildren[keep++] = client;
+                keep.push_back(client);
             }
         }
-        fCount = keep;
+        fChildren = keep;
     }
 
     void filterByNetState(long state, bool inverse, bool anybit) {
-        unsigned keep = 0;
+        vector<Window> keep;
         for (YTreeIter client(*this); client; ++client) {
             YNetState prop(client);
             bool test(anybit ? hasbit(*prop, state) : hasbits(*prop, state));
             if (test != inverse) {
-                fChildren[keep++] = client;
+                keep.push_back(client);
             }
         }
-        fCount = keep;
+        fChildren = keep;
     }
 
     void filterByGravity(long gravity, bool inverse) {
-        unsigned keep = 0;
+        vector<Window> keep;
         for (YTreeIter client(*this); client; ++client) {
             long winGrav = getNormalGravity(client);
             if ((winGrav == gravity) != inverse) {
-                fChildren[keep++] = client;
+                keep.push_back(client);
             }
         }
-        fCount = keep;
+        fChildren = keep;
     }
 
     void filterByPid(long pid) {
-        unsigned keep = 0;
+        vector<Window> keep;
         for (YTreeIter client(*this); client; ++client) {
             YCardinal prop(client, ATOM_NET_WM_PID);
             if (prop && *prop == pid) {
-                fChildren[keep++] = client;
+                keep.push_back(client);
             }
         }
-        fCount = keep;
+        fChildren = keep;
     }
 
     void filterByMachine(const char* machine) {
         size_t len = strlen(machine);
-        unsigned keep = 0;
+        vector<Window> keep;
         for (YTreeIter client(*this); client; ++client) {
             YStringProperty mac(client, XA_WM_CLIENT_MACHINE);
             if (mac && 0 == strncmp(&mac, machine, len) &&
                         (mac[len] == 0 || mac[len] == '.'))
             {
-                fChildren[keep++] = client;
+                keep.push_back(client);
             }
         }
-        fCount = keep;
+        fChildren = keep;
     }
 
     void filterByName(char* name) {
@@ -1082,7 +1083,7 @@ public:
         len -= tail;
         name[len] = '\0';
 
-        unsigned keep = 0;
+        vector<Window> keep;
         for (YTreeIter client(*this); client; ++client) {
             asmart<char> title(newstr(&client->netName()));
             if (isEmpty(title))
@@ -1094,15 +1095,15 @@ public:
                         continue;
                     if (tail && len != strlen(find))
                         continue;
-                    fChildren[keep++] = client;
+                    keep.push_back(client);
                 }
             }
         }
-        fCount = keep;
+        fChildren = keep;
     }
 
     void filterByClass(const char* wmname, const char* wmclass) {
-        unsigned keep = 0;
+        vector<Window> keep;
         for (YTreeIter client(*this); client; ++client) {
             Window window = client;
             XClassHint hint;
@@ -1121,47 +1122,48 @@ public:
                 if (window) {
                     MSG(("selected window 0x%lx: `%s.%s'", window,
                          hint.res_name, hint.res_class));
-                    fChildren[keep++] = window;
+                    keep.push_back(window);
                 }
 
                 XFree(hint.res_name);
                 XFree(hint.res_class);
             }
         }
-        fCount = keep;
+        fChildren = keep;
     }
 
     void release() {
-        if (fChildren) {
-            fChildren = 0;
-            fCount = 0;
-            fParent = None;
-            fSuccess = False;
-        }
+        fChildren.clear();
+        fParent = None;
     }
 
     operator bool() const {
-        return fSuccess == True && fChildren && fCount;
+        return count();
     }
 
     Window operator[](unsigned index) const {
-        return index < fCount ? fChildren[index] : None;
+        return index < count() ? fChildren[index] : None;
     }
 
-    Window operator*() {
-        return fCount ? *fChildren : None;
+    Window operator*() const {
+        return operator[](0);
+    }
+
+    YTreeLeaf* leaf(unsigned index) {
+        fLeaf = operator[](index);
+        return &fLeaf;
     }
 
     YTreeLeaf* operator->() {
-        return &(fLeaf = **this);
+        return leaf(0);
     }
 
     unsigned count() const {
-        return fCount;
+        return fChildren.size();
     }
 
     bool isRoot() const {
-        return *this && count() == 1 && fChildren[0] == root;
+        return count() == 1 && **this == root;
     }
 
     Window parent() const {
@@ -1171,39 +1173,26 @@ public:
     Confine& xine() { return fConfine; }
 
     bool have(Window window) {
-        for (unsigned k = 0; k < fCount; ++k)
-            if (fChildren[k] == window)
-                return true;
-        return false;
+        return fChildren.end() !=
+            find(fChildren.begin(), fChildren.end(), window);
     }
 
     void remove(Window window) {
-        unsigned k = 0;
-        for (unsigned i = 0; i < fCount; ++i) {
-            if (window != fChildren[i]) {
-                if (k < i) {
-                    fChildren[k] = fChildren[i];
-                }
-                ++k;
-            }
-        }
-        fCount = k;
-        if (fCount == 0 && fChildren) {
-            release();
-        }
+        vector<Window>::iterator it;
+        it = find(fChildren.begin(), fChildren.end(), window);
+        if (it != fChildren.end())
+            fChildren.erase(it);
     }
 
 private:
     Confine fConfine;
     Window fParent;
-    xsmart<Window> fChildren;
+    vector<Window> fChildren;
     YTreeLeaf fLeaf;
-    unsigned fCount;
-    bool fSuccess;
 };
 
 YTreeIter::operator Window() const { return fTree[fIndex]; }
-YTreeLeaf* YTreeIter::operator->() { return &(fLeaf = fTree[fIndex]); }
+YTreeLeaf* YTreeIter::operator->() { return fTree.leaf(fIndex); }
 
 /******************************************************************************/
 
@@ -1256,6 +1245,7 @@ private:
     bool listShown();
     bool listXembed();
     void listXembed(Window w);
+    void queryXembed(Window w);
     bool listClients();
     bool listWindows();
     bool listScreens();
@@ -1877,6 +1867,18 @@ void IceSh::sizeby()
     }
     else {
         invalidArgument("sizeby parameters");
+    }
+}
+
+void IceSh::queryXembed(Window parent)
+{
+    YWindowTree windowList(parent);
+    FOREACH_WINDOW(window) {
+        YProperty info(window, ATOM_XEMBED_INFO, AnyPropertyType, 2);
+        if (info) {
+            this->windowList.append(window);
+        }
+        queryXembed(window);
     }
 }
 
@@ -2908,11 +2910,19 @@ void IceSh::showProperty(Window window, Atom atom, const char* prefix) {
         if (prop.format() == 8) {
             xsmart<char> name(atomName(atom));
             printf("%s%s = ", prefix, (char*) name);
-            for (int i = 0; i < prop.count(); ++i) {
-                unsigned char ch = prop.data<unsigned char>(i);
-                putchar(isPrint(ch) ? ch : '.');
+            if (prop.type() == ATOM_GUI_EVENT) {
+                int gev = prop.data<unsigned char>(0);
+                if (inrange(1 + gev, 1, NUM_GUI_EVENTS)) {
+                    puts(gui_event_names[gev]);
+                }
             }
-            newline();
+            else {
+                for (int i = 0; i < prop.count(); ++i) {
+                    unsigned char ch = prop.data<unsigned char>(i);
+                    putchar(isPrint(ch) ? ch : '.');
+                }
+                newline();
+            }
         }
         else if (prop.format() == 32) {
             if (prop.type() == XA_WINDOW) {
@@ -3082,19 +3092,17 @@ void IceSh::invalidArgument(const char* str)
 
 void IceSh::setWindow(Window window)
 {
-    windowList.set(window);
+    windowList.single(window);
 }
 
 void IceSh::addWindow(Window window)
 {
-    windowList.add(window);
+    windowList.append(window);
 }
 
 void IceSh::flags()
 {
     bool act = false;
-
-    signal(SIGHUP, SIG_IGN);
 
     while (haveArg()) {
         if (argp[0][0] == '-') {
@@ -3174,6 +3182,13 @@ void IceSh::flag(char* arg)
         selecting = true;
         return;
     }
+    if (isOptArg(arg, "-xembed", "")) {
+        windowList.release();
+        queryXembed(root);
+        MSG(("xembed windows selected"));
+        selecting = true;
+        return;
+    }
     if (isOptArg(arg, "-last", "")) {
         if ( ! windowList && ! selecting)
             windowList.getClientList();
@@ -3193,7 +3208,31 @@ void IceSh::flag(char* arg)
     size_t sep(strcspn(arg, "=:"));
     char *val(arg[sep] ? &arg[sep + 1] : getArg());
 
-    if (isOptArg(arg, "-display", val)) {
+    if (isOptArg(arg, "-window", val) || isOptArg(arg, "+window", val)) {
+        long window;
+        if (0 == strcmp(val, "root")) {
+            char str[] = { *arg, 'r', '\0' };
+            return flag(str);
+        }
+        else if (0 == strcmp(val, "focus")) {
+            char str[] = { *arg, 'f', '\0' };
+            return flag(str);
+        }
+        else if (tolong(val, window, 0) && root <= Window(window)) {
+            if (*arg == '+') {
+                addWindow(window);
+            } else {
+                setWindow(window);
+            }
+            MSG(("window %s selected", val));
+            selecting = true;
+        }
+        else {
+            msg(_("Invalid window identifier: `%s'"), val);
+            THROW(1);
+        }
+    }
+    else if (isOptArg(arg, "-display", val)) {
         dpyname = val;
     }
     else if (isOptArg(arg, "-pid", val)) {
@@ -3313,40 +3352,6 @@ void IceSh::flag(char* arg)
         MSG(("xinerama %s selected", val));
         filtering = true;
     }
-    else if (isOptArg(arg, "-window", val) || isOptArg(arg, "+window", val)) {
-        if (!strcmp(val, "root")) {
-            if (*arg == '+') {
-                addWindow(root);
-            } else {
-                setWindow(root);
-            }
-            MSG(("root window selected"));
-        }
-        else if (!strcmp(val, "focus")) {
-            if (*arg == '+') {
-                addWindow(getActive());
-            } else {
-                setWindow(getActive());
-            }
-            MSG(("focus window selected"));
-        }
-        else {
-            long window;
-            if (tolong(val, window, 0) && root <= Window(window)) {
-                if (*arg == '+') {
-                    addWindow(window);
-                } else {
-                    setWindow(window);
-                }
-                MSG(("window %s selected", val));
-            }
-            else {
-                msg(_("Invalid window identifier: `%s'"), val);
-                THROW(1);
-            }
-        }
-        filtering = true;
-    }
     else if (isOptArg(arg, "-class", val)) {
         char *wmname = val;
         char *wmclass = nullptr;
@@ -3360,7 +3365,9 @@ void IceSh::flag(char* arg)
             }
             else if (*p == '.') {
                 *d++ = 0;
-                wmclass = d;
+                if (wmclass == nullptr) {
+                    wmclass = d;
+                }
                 p++;
                 continue;
             }
@@ -3507,10 +3514,13 @@ void IceSh::spy()
                     }
                     break;
                 case ConfigureNotify:
-                    printf("%sConfigure %dx%d+%d+%d%s\n", head,
+                    printf("%sConfigure %dx%d+%d+%d%s%s%s\n", head,
                             event.xconfigure.width, event.xconfigure.height,
                             event.xconfigure.x, event.xconfigure.y,
-                            event.xany.send_event ? " Send" : "");
+                            event.xconfigure.send_event ? " Send" : "",
+                            event.xconfigure.override_redirect ? " Override" : "",
+                            event.xconfigure.above ? " Above" : ""
+                            );
                     break;
                 case CirculateNotify:
                     printf("%sCirculate %s\n", head,
@@ -4018,7 +4028,7 @@ void IceSh::parseAction()
             argp = args + count;
         }
         else if (isAction("prop", 1)) {
-            NAtom prop(getArg(), True);
+            NAtom prop(getArg(), true);
             if (prop) {
                 FOREACH_WINDOW(window) {
                     char buf[32];
@@ -4043,12 +4053,14 @@ IceSh::~IceSh()
         XSync(display, False);
         XCloseDisplay(display);
         display = nullptr;
+        root = None;
     }
 }
 
 int main(int argc, char **argv) {
     setvbuf(stdout, nullptr, _IOLBF, BUFSIZ);
     setvbuf(stderr, nullptr, _IOLBF, BUFSIZ);
+    signal(SIGHUP, SIG_IGN);
 
 #ifdef CONFIG_I18N
     setlocale(LC_ALL, "");

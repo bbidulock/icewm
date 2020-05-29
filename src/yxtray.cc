@@ -441,7 +441,7 @@ void YXTrayEmbedder::paint(Graphics &g, const YRect& r) {
     if (taskbackPixmap != null) {
         g.fillPixmap(taskbackPixmap,
                      r.x(), r.y(), r.width(), r.height(),
-                     x() + r.x(), y() + r.y());
+                     x() + r.x(), y() + r.y() + parent()->y());
     }
     else {
         g.setColor(taskBarBg);

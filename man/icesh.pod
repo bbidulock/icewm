@@ -14,7 +14,7 @@
 
 =head1 DESCRIPTION
 
-B<icesh> provides 90 commands to change or query a window's state,
+B<icesh> provides 91 commands to change or query a window's state,
 and to interact with the L<icewm(1)> window manager. Command arguments
 are called actions. Window actions operate on a selection of windows.
 B<icesh> has several options to select and filter windows.  Options and
@@ -66,15 +66,21 @@ an existing selection.
 
 =item B<-a>, B<-all>
 
-Selects all clients of the window manager.
+Selects all client windows of the window manager.
 
 =item B<-s>, B<-shown>
 
-Selects all currently visible clients of the window manager.
+Selects all clients which are on the current workspace.
 
 =item B<-t>, B<-top>
 
 Selects all toplevel windows from the display unconditionally.
+This includes windows which have never been mapped and windows
+with the override redirect bit set to evade management.
+
+=item B<-x>, B<-xembed>
+
+Selects all windows which are embedded using the I<XEMBED> protocol.
 
 =back
 

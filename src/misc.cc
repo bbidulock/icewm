@@ -137,7 +137,7 @@ bool toggleLogEvents() {
 
 void setLogEvent(int evtype, bool enable) {
 #ifdef LOGEVENTS
-    if ((size_t) evtype < sizeof loggedEvents)
+    if (size_t(evtype) < sizeof loggedEvents)
         loggedEvents[evtype] = enable;
     else if (evtype == -1)
         memset(loggedEvents, enable, sizeof loggedEvents);
@@ -169,7 +169,7 @@ void logAny(const union _XEvent& xev) {
 
 void logButton(const union _XEvent& xev) {
     msg("window=0x%lX: %s root=0x%lX, subwindow=0x%lX, time=%ld, "
-        "(%d:%d %d:%d) state=0x%X button=0x%X same_screen=%s",
+        "(%d:%d %d:%d) state=0x%X button=%d same_screen=%s",
         xev.xbutton.window,
         eventName(xev.type),
         xev.xbutton.root,
@@ -202,7 +202,7 @@ void logColormap(const union _XEvent& xev) {
 }
 
 void logConfigureNotify(const union _XEvent& xev) {
-    msg("window=0x%lX: configureNotify serial=%10lu event=0x%lX, (%+d%+d %dx%d) border_width=%d, above=0x%lX, override_redirect=%s",
+    msg("window=0x%lX: configureNotify serial=%lu event=0x%lX, (%+d%+d %dx%d) border_width=%d, above=0x%lX, override_redirect=%s",
         xev.xconfigure.window,
         (unsigned long) xev.xany.serial,
         xev.xconfigure.event,
@@ -214,7 +214,7 @@ void logConfigureNotify(const union _XEvent& xev) {
 }
 
 void logConfigureRequest(const union _XEvent& xev) {
-    msg("window=0x%lX: %s configureRequest serial=%10lu parent=0x%lX, (%+d%+d %dx%d) border_width=%d, above=0x%lX, detail=%d, value_mask=0x%lX %s%s%s%s%s%s",
+    msg("window=0x%lX: %s configureRequest serial=%lu parent=0x%lX, (%+d%+d %dx%d) border_width=%d, above=0x%lX, detail=%d, value_mask=0x%lX %s%s%s%s%s%s",
         xev.xconfigurerequest.window,
         xev.xconfigurerequest.send_event ? "synth" : "real",
         (unsigned long) xev.xany.serial,
@@ -236,7 +236,7 @@ void logConfigureRequest(const union _XEvent& xev) {
 }
 
 void logCreate(const union _XEvent& xev) {
-    msg("window=0x%lX: create serial=%10lu parent=0x%lX, (%+d%+d %dx%d) border_width=%d, override_redirect=%s",
+    msg("window=0x%lX: create serial=%lu parent=0x%lX, (%+d%+d %dx%d) border_width=%d, override_redirect=%s",
         xev.xcreatewindow.window,
         (unsigned long) xev.xany.serial,
         xev.xcreatewindow.parent,
@@ -247,7 +247,7 @@ void logCreate(const union _XEvent& xev) {
 }
 
 void logCrossing(const union _XEvent& xev) {
-    msg("window=0x%06lX: %s serial=%6lu root=0x%lX, subwindow=0x%lX, time=%ld, "
+    msg("window=0x%06lX: %s serial=%lu root=0x%lX, subwindow=0x%lX, time=%ld, "
         "(%d:%d %d:%d) mode=%s detail=%s same_screen=%s, focus=%s state=0x%X",
         xev.xcrossing.window,
         eventName(xev.type),
@@ -275,7 +275,7 @@ void logCrossing(const union _XEvent& xev) {
 }
 
 void logDestroy(const union _XEvent& xev) {
-    msg("window=0x%lX: destroy serial=%10lu event=0x%lX",
+    msg("window=0x%lX: destroy serial=%lu event=0x%lX",
         xev.xdestroywindow.window,
         (unsigned long) xev.xany.serial,
         xev.xdestroywindow.event);
@@ -307,7 +307,7 @@ void logFocus(const union _XEvent& xev) {
 }
 
 void logGravity(const union _XEvent& xev) {
-    msg("window=0x%lX: gravityNotify serial=%10lu, x=%+d, y=%+d",
+    msg("window=0x%lX: gravityNotify serial=%lu, x=%+d, y=%+d",
         xev.xgravity.window,
         (unsigned long) xev.xany.serial,
         xev.xgravity.x, xev.xgravity.y);
@@ -328,14 +328,14 @@ void logKey(const union _XEvent& xev) {
 }
 
 void logMapRequest(const union _XEvent& xev) {
-    msg("window=0x%lX: mapRequest serial=%10lu parent=0x%lX",
+    msg("window=0x%lX: mapRequest serial=%lu parent=0x%lX",
         xev.xmaprequest.window,
         (unsigned long) xev.xany.serial,
         xev.xmaprequest.parent);
 }
 
 void logMapNotify(const union _XEvent& xev) {
-    msg("window=0x%lX: mapNotify serial=%10lu event=0x%lX, override_redirect=%s",
+    msg("window=0x%lX: mapNotify serial=%lu event=0x%lX, override_redirect=%s",
         xev.xmap.window,
         (unsigned long) xev.xany.serial,
         xev.xmap.event,
@@ -343,7 +343,7 @@ void logMapNotify(const union _XEvent& xev) {
 }
 
 void logUnmap(const union _XEvent& xev) {
-    msg("window=0x%lX: unmapNotify serial=%10lu event=0x%lX, from_configure=%s send_event=%s",
+    msg("window=0x%lX: unmapNotify serial=%lu event=0x%lX, from_configure=%s send_event=%s",
         xev.xunmap.window,
         (unsigned long) xev.xany.serial,
         xev.xunmap.event,
@@ -376,7 +376,7 @@ void logProperty(const union _XEvent& xev) {
 }
 
 void logReparent(const union _XEvent& xev) {
-    msg("window=0x%lX: reparentNotify serial=%10lu event=0x%lX, parent=0x%lX, (%d:%d), override_redirect=%s",
+    msg("window=0x%lX: reparentNotify serial=%lu event=0x%lX, parent=0x%lX, (%d:%d), override_redirect=%s",
         xev.xreparent.window,
         (unsigned long) xev.xany.serial,
         xev.xreparent.event,
@@ -490,13 +490,6 @@ void logVisibility(const union _XEvent& xev) {
 
 void logEvent(const union _XEvent& xev) {
 #ifdef LOGEVENTS
-    if (loggingEvents == false || (size_t) xev.type >= sizeof loggedEvents)
-        return;
-    if (loggedEventsInited == false && initLogEvents() == false)
-        return;
-    if (loggedEvents[xev.type] == false)
-        return;
-
     static void (*const loggers[])(const XEvent&) = {
         logAny,               //  0 reserved
         logAny,               //  1 reserved
@@ -535,7 +528,11 @@ void logEvent(const union _XEvent& xev) {
         logAny,               // 34 MappingNotify
         logAny,               // 35 GenericEvent
     };
-    loggers[xev.type](xev);
+    if (loggingEvents && size_t(xev.type) < sizeof loggedEvents &&
+        (loggedEventsInited || initLogEvents()) && loggedEvents[xev.type])
+    {
+        loggers[xev.type](xev);
+    }
 #endif
 #undef msg
 }
@@ -777,6 +774,14 @@ char const * strnxt(const char * str, const char * delim) {
     return str;
 }
 
+#ifndef HAVE_MEMRCHR
+void* memrchr(const void* ptr, char chr, size_t num) {
+    char* str = (char *) ptr;
+    char* q = str + num;
+    while (q > str && *--q != chr);
+    return q >= str && *q == chr ? q : nullptr;
+}
+#endif
 
 bool GetShortArgument(char* &ret, const char *name, char** &argpp, char **endpp)
 {
@@ -904,13 +909,24 @@ void check_argv(int argc, char **argv, const char *help, const char *version)
         ApplicationName = my_basename(argv[0]);
     }
     for (char **arg = argv + 1; arg < argv + argc; ++arg) {
-        check_help_version(*arg, (help && *help) ? help :
-                "  -d, --display=NAME    NAME of the X server to use.\n",
-                version);
-
-        char *value(0);
-        if (GetArgument(value, "d", "display", arg, argv + argc)) {
-            setenv("DISPLAY", value, 1);
+        if ('-' == arg[0][0]) {
+            char c = ('-' == arg[0][1]) ? arg[0][2] : arg[0][1];
+            if (c == '\0') {
+                if ('-' == arg[0][1]) {
+                    break;
+                }
+            }
+            else if (strchr("h?vVcC", c)) {
+                check_help_version(*arg, nonempty(help) ? help :
+                    "  -d, --display=NAME    NAME of the X server to use.\n",
+                    version);
+            }
+            else if (c == 'd') {
+                char* value(nullptr);
+                if (GetArgument(value, "d", "display", arg, argv + argc)) {
+                    setenv("DISPLAY", value, 1);
+                }
+            }
         }
     }
 }

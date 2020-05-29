@@ -125,7 +125,7 @@ public:
                 int &flags);
     void snapTo(int &wx, int &wy);
 
-    void drawMoveSizeFX(int x, int y, int w, int h, bool interior = true);
+    void drawMoveSizeFX(int x, int y, int w, int h);
     int handleMoveKeys(const XKeyEvent &xev, int &newX, int &newY);
     int handleResizeKeys(const XKeyEvent &key,
                          int &newX, int &newY, int &newWidth, int &newHeight,
@@ -490,7 +490,6 @@ private:
 
     static lazy<YTimer> fAutoRaiseTimer;
     static lazy<YTimer> fDelayFocusTimer;
-    lazy<YTimer> fFrameTimer;
 
     int fWinWorkspace;
     long fWinRequestedLayer;

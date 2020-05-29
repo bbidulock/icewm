@@ -566,6 +566,10 @@ Draw even minimized windows as unfilled rectangles (if PagerShowPreview=1).
 
 Draw border around workspace buttons (if PagerShowPreview=1).
 
+=item B<PagerShowLabels>=1
+
+Show workspace name label on workspace button (if PagerShowPreview=1)
+
 =item B<PagerShowNumbers>=1
 
 Show number of workspace on workspace button (if PagerShowPreview=1).

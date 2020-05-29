@@ -1,17 +1,18 @@
-#ifndef __CPUSTATUS_H
-#define __CPUSTATUS_H
+#ifndef CPUSTATUS_H
+#define CPUSTATUS_H
 
-#if defined(__linux__) || defined(HAVE_KSTAT_H) || defined(__OpenBSD__) || defined(__NetBSD__) || defined(__FreeBSD__)
+#define IWM_STATES  8
 
-#define IWM_USER   (0)
-#define IWM_NICE   (1)
-#define IWM_SYS    (2)
-#define IWM_INTR   (3)
-#define IWM_IOWAIT (4)
-#define IWM_SOFTIRQ (5)
-#define IWM_IDLE   (6)
-#define IWM_STEAL  (7)
-#define IWM_STATES (8)
+enum IwmState {
+    IWM_USER,
+    IWM_NICE,
+    IWM_SYS,
+    IWM_INTR,
+    IWM_IOWAIT,
+    IWM_SOFTIRQ,
+    IWM_IDLE,
+    IWM_STEAL,
+};
 
 class YSMListener;
 
@@ -29,7 +30,6 @@ public:
     CPUStatus(YWindow *aParent, CPUStatusHandler *aHandler, int cpuid = -1);
     virtual ~CPUStatus();
 
-    virtual void paint(Graphics &g, const YRect &r);
     virtual bool handleTimer(YTimer *t);
     virtual void handleClick(const XButtonEvent &up, int count);
 
@@ -50,10 +50,7 @@ private:
     YColorName color[IWM_STATES];
     lazy<YTimer> fUpdateTimer;
     CPUStatusHandler *fHandler;
-    bool ShowRamUsage, ShowSwapUsage, ShowAcpiTemp, ShowCpuFreq,
-         ShowAcpiTempInGraph;
-
-    YColorName tempColor;
+    YColorName fTempColor;
 
     bool picture();
     void fill(Graphics& g);
@@ -76,9 +73,6 @@ public:
 
 private:
     void GetCPUStatus(bool combine);
-    void getCPUStatusCombined();
-    void getCPUStatus(unsigned ncpus);
-    CPUStatus* createStatus(unsigned cpu = -1);
 
     virtual void actionPerformed(YAction action, unsigned int modifiers);
     virtual void handleClick(const XButtonEvent &up, int cpu);
@@ -92,8 +86,6 @@ private:
     int fMenuCPU;
     long fPid;
 };
-
-#endif
 
 #endif
 

@@ -63,7 +63,7 @@ for(@cats)
 {
 	my $ptr = $secs{$_} ? "(char**) &$secs{$_}" : "NULL";
 	print "// TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.".($hints{$_} ? " Context: $hints{$_}\n" : "\n");
-	print "    { N_(\"$_\"), \"$_\", \"folder\", $ptr}";
+	print "    { N_(\"$_\"), \"$_\", \"folder\", $ptr, 0, 0}";
 	print $_ eq $cats[-1] ? "\n" : ",\n";
 }
 print "};

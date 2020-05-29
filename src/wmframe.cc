@@ -903,12 +903,7 @@ void YFrameWindow::handleFocus(const XFocusChangeEvent &focus) {
 }
 
 bool YFrameWindow::handleTimer(YTimer *t) {
-    if (t == fFrameTimer) {
-        if (visible()) {
-            paint(getGraphics(), geometry());
-        }
-    }
-    else if (t == fAutoRaiseTimer) {
+    if (t == fAutoRaiseTimer) {
         if (canRaise())
             wmRaise();
     }
@@ -1639,10 +1634,7 @@ MiniIcon *YFrameWindow::getMiniIcon() {
 }
 
 void YFrameWindow::repaint() {
-    bool yes = (visible() && hasbit(frameDecors(), fdResize | fdBorder));
-    if (yes) {
-        fFrameTimer->setTimer(10L, this, true);
-    }
+    paint(getGraphics(), geometry());
 }
 
 void YFrameWindow::handleExpose(const XExposeEvent &expose) {
@@ -1652,11 +1644,6 @@ void YFrameWindow::handleExpose(const XExposeEvent &expose) {
 }
 
 void YFrameWindow::paint(Graphics &g, const YRect& r) {
-    if (g.rdepth() != depth()) {
-        tlog("YFrameWindow::%s: attempt to use gc of depth %d on window 0x%lx of depth %d\n",
-                __func__, g.rdepth(), handle(), depth());
-        return;
-    }
     if (!(frameDecors() & (fdResize | fdBorder)))
         return ;
 

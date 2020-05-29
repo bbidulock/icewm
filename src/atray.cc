@@ -80,12 +80,14 @@ void TrayApp::configure(const YRect2& r) {
 }
 
 void TrayApp::repaint() {
-    GraphicsBuffer(this).paint();
-    fRepainted = true;
+    if (1 < geometry().pixels()) {
+        GraphicsBuffer(this).paint();
+        fRepainted = true;
+    }
 }
 
-void TrayApp::handleExpose(const XExposeEvent& exp) {
-    if (fRepainted == false) {
+void TrayApp::handleExpose(const XExposeEvent& expose) {
+    if (fRepainted == false && expose.count == 0) {
         repaint();
     }
 }
@@ -154,7 +156,8 @@ void TrayApp::paint(Graphics &g, const YRect& r) {
             g.setColor(bg);
         int wd = int(width());
         int ht = int(height());
-        int sz = YIcon::smallSize();
+        int ti = min(trayIconMaxWidth, trayIconMaxHeight);
+        int sz = max(int(YIcon::smallSize()), min(ti, min(wd, ht)));
         icon->draw(g, (wd - sz) / 2, (ht - sz) / 2, sz);
     }
 }

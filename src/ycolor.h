@@ -8,6 +8,7 @@ class YColor {
 public:
     YColor() : fPixel(0) { }
     explicit YColor(const char* s) : fPixel(0) { if (s) alloc(s, 0); }
+    YColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a = 0);
     YColor(const YColor& c) : fPixel(c.fPixel) { }
     YColor& operator=(const YColor& c) { fPixel = c.fPixel; return *this; }
 
@@ -22,6 +23,11 @@ public:
     operator bool() { return fPixel; }
     operator bool() const { return fPixel; }
     void release() { fPixel = 0; }
+
+    unsigned char red();
+    unsigned char green();
+    unsigned char blue();
+    unsigned char alpha();
 
 #ifdef CONFIG_XFREETYPE
     struct _XftColor* xftColor();

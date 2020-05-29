@@ -163,6 +163,15 @@ YPixel::~YPixel() {
 #endif
 }
 
+YColor::YColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a)
+    : fPixel(nullptr)
+{
+    int previous = cache.getOpacity();
+    cache.setOpacity(a ? (a * MaxOpacity / 255) : MaxOpacity);
+    fPixel = cache.get(r << 8 | r, g << 8 | g, b << 8 | b);
+    cache.setOpacity(previous);
+}
+
 void YColor::alloc(const char* name, int opacity) {
     if (name && name[0]) {
         if (*name == '[') {
@@ -387,5 +396,10 @@ bool YColor::operator==(YColor& c) {
 bool YColor::operator!=(YColor& c) {
     return !(*this == c);
 }
+
+unsigned char YColor::red()   { return fPixel->red()   >> 8; }
+unsigned char YColor::green() { return fPixel->green() >> 8; }
+unsigned char YColor::blue()  { return fPixel->blue()  >> 8; }
+unsigned char YColor::alpha() { return fPixel->alpha() >> 8; }
 
 // vim: set sw=4 ts=4 et:

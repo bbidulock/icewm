@@ -8,15 +8,13 @@
 //
 // !!! share code with cpu status
 //
-// KNOWN BUGS: - first measurement is throwed off
+// KNOWN BUGS: - first measurement is thrown off
 //
 // //////////////////////////////////////////////////////////////////////////
 
 #include "config.h"
 #include "wmtaskbar.h"
 #include "apppstatus.h"
-
-#ifdef HAVE_NET_STATUS
 
 #include "wmapp.h"
 #include "prefs.h"
@@ -48,7 +46,7 @@ static NetDevice* getNetDevice(cstring netdev)
 #elif defined(__OpenBSD__) || defined(__NetBSD__)
         new NetOpenDevice(netdev)
 #else
-        0
+        new NetDummyDevice(netdev)
 #endif
         ;
 }
@@ -802,7 +800,5 @@ void NetStatusControl::linuxUpdate() {
     devicesText = 0;
 }
 #endif
-
-#endif // HAVE_NET_STATUS
 
 // vim: set sw=4 ts=4 et:

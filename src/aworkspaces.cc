@@ -682,7 +682,8 @@ void WorkspaceButton::paint(Graphics &g, const YRect& r) {
         char label[12] = {};
         if (pagerShowNumbers) {
             snprintf(label, sizeof label, "%d", int(fWorkspace+1) % 100);
-        } else {
+        }
+        else if (pagerShowLabels) {
             strlcpy(label, cstring(baseName()), min(5, int(sizeof label)));
         }
         if (label[0] != 0) {

@@ -33,13 +33,8 @@
 #include <sys/sysinfo.h>
 #else
 
-#if defined(sun) && defined(SVR4)
+#if __sun__
 #include <sys/loadavg.h>
-#endif
-#ifdef HAVE_KSTAT_H
-#include <sys/resource.h>
-#include <kstat.h>
-#include <sys/sysinfo.h>
 #endif
 
 #ifdef HAVE_SYS_PARAM_H
@@ -50,9 +45,6 @@
 #endif
 #ifdef HAVE_UVM_UVM_PARAM_H
 #include <uvm/uvm_param.h>
-#endif
-#ifdef HAVE_SYS_DKSTAT_H
-#include <sys/dkstat.h>
 #endif
 #ifdef HAVE_SCHED_H
 #include <sched.h>
@@ -82,18 +74,14 @@ CPUStatus::CPUStatus(YWindow *aParent, CPUStatusHandler *aHandler, int cpuid) :
     statusUpdateCount(0),
     unchanged(taskBarCPUSamples),
     cpu(taskBarCPUSamples, IWM_STATES),
-    fHandler(aHandler)
+    fHandler(aHandler),
+    fTempColor(&clrCpuTemp)
 {
     cpu.clear();
     for (int a(0); a < taskBarCPUSamples; a++) {
         cpu[a][IWM_IDLE] = 1;
     }
     memset(last_cpu, 0, sizeof(last_cpu));
-
-    fUpdateTimer->setTimer(taskBarCPUDelay, this, true);
-
-    tempColor = &clrCpuTemp;
-
     color[IWM_USER] = &clrCpuUser;
     color[IWM_NICE] = &clrCpuNice;
     color[IWM_SYS]  = &clrCpuSys;
@@ -102,12 +90,10 @@ CPUStatus::CPUStatus(YWindow *aParent, CPUStatusHandler *aHandler, int cpuid) :
     color[IWM_SOFTIRQ] = &clrCpuSoftIrq;
     color[IWM_IDLE] = &clrCpuIdle;
     color[IWM_STEAL] = &clrCpuSteal;
+
+    fUpdateTimer->setTimer(taskBarCPUDelay, this, true);
+
     setSize(taskBarCPUSamples, taskBarGraphHeight);
-    ShowRamUsage = cpustatusShowRamUsage;
-    ShowSwapUsage = cpustatusShowSwapUsage;
-    ShowAcpiTemp = cpustatusShowAcpiTemp;
-    ShowCpuFreq = cpustatusShowCpuFreq;
-    ShowAcpiTempInGraph = cpustatusShowAcpiTempInGraph;
     getStatus();
     updateStatus();
     updateToolTip();
@@ -119,21 +105,28 @@ CPUStatus::CPUStatus(YWindow *aParent, CPUStatusHandler *aHandler, int cpuid) :
 CPUStatus::~CPUStatus() {
 }
 
-void CPUStatus::paint(Graphics &g, const YRect& r) {
-    IApplet::paint(g, r);
-    temperature(g);
-}
-
 bool CPUStatus::picture() {
-    bool create = (hasPixmap() == false);
+    bool change = (hasPixmap() == false);
 
     Graphics G(getPixmap(), width(), height(), depth());
 
-    if (create)
+    if (cpustatusShowAcpiTempInGraph) {
+        change = true;
+        statusUpdateCount = taskBarCPUSamples;
+    }
+    if (change) {
+        unchanged = 0;
         fill(G);
+    }
 
-    return (statusUpdateCount && unchanged < taskBarCPUSamples)
-         ? draw(G), true : (create || ShowAcpiTempInGraph);
+    if (statusUpdateCount && unchanged < taskBarCPUSamples) {
+        draw(G);
+        change = true;
+    }
+    if (cpustatusShowAcpiTempInGraph) {
+        temperature(G);
+    }
+    return change;
 }
 
 void CPUStatus::fill(Graphics& g) {
@@ -260,18 +253,18 @@ void CPUStatus::draw(Graphics& g) {
 }
 
 void CPUStatus::temperature(Graphics& g) {
-    if (ShowAcpiTempInGraph) {
-        char test[10];
-        getAcpiTemp(test, sizeof(test));
-        g.setColor(tempColor);
+    if (cpustatusShowAcpiTempInGraph) {
+        char temp[10];
+        getAcpiTemp(temp, sizeof(temp));
+        g.setColor(fTempColor);
         if (tempFont == null)
             tempFont = YFont::getFont(XFA(tempFontName));
         g.setFont(tempFont);
         int h = height();
-        int y =  (h - 1 - tempFont->height()) / 2 + tempFont->ascent();
-        // If we draw three characters we can get temperatures above 100
-        // without including the "C".
-        g.drawChars(test, 0, 3, 2, y);
+        int y = (h - 1 - tempFont->height()) / 2 + tempFont->ascent();
+        int w = tempFont->textWidth(temp);
+        int x = max(0, (int(g.rwidth()) - w) / 2);
+        g.drawChars(temp, 0, 3, x, y);
     }
 }
 
@@ -303,19 +296,19 @@ void CPUStatus::updateToolTip() {
         int more=snprintf(pos, rest, _("CPU %s Load: %3.2f %3.2f %3.2f, %u"),
                 cpuid, l1, l5, l15, (unsigned) sys.procs);
         ___checkspace;
-        if (ShowRamUsage) {
+        if (cpustatusShowRamUsage) {
 #define MBnorm(x) ((float)x * (float)sys.mem_unit / 1048576.0f)
 #define GBnorm(x) ((double)x * (double)sys.mem_unit / 1073741824.0)
             more=snprintf(pos, rest, _("\nRam (free): %5.3f (%.3f) G"),
                     GBnorm(sys.totalram), GBnorm(sys.freeram));
             ___checkspace;
         }
-        if (ShowSwapUsage) {
+        if (cpustatusShowSwapUsage) {
             more=snprintf(pos, rest, _("\nSwap (free): %.3f (%.3f) G"),
                     GBnorm(sys.totalswap), GBnorm(sys.freeswap));
             ___checkspace;
         }
-        if (ShowAcpiTemp) {
+        if (cpustatusShowAcpiTemp) {
             char *posEx=pos;
             more=snprintf(pos, rest, _("\nACPI Temp: "));
             ___checkspace;
@@ -327,7 +320,7 @@ void CPUStatus::updateToolTip() {
             else
                pos=posEx;
         }
-        if (ShowCpuFreq) {
+        if (cpustatusShowCpuFreq) {
             float maxf = getCpuFreq(0), minf = maxf;
             int cpus;
             for (cpus = 1; cpus < 8; ++cpus) {
@@ -347,7 +340,7 @@ void CPUStatus::updateToolTip() {
         }
         setToolTip(ustring(fmt));
     }
-#elif HAVE_GETLOADAVG2
+#else
     char buf[99];
     double loadavg[3];
     if (getloadavg(loadavg, 3) < 0)
@@ -551,169 +544,6 @@ void CPUStatus::getStatusPlatform() {
 
     return;
 
-#elif HAVE_KSTAT_H
-
-#ifdef HAVE_OLD_KSTAT
-#define ui32 ul
-#endif
-    static kstat_ctl_t  *kc = NULL;
-    static kid_t        kcid;
-    kid_t               new_kcid;
-    kstat_t             *ks = NULL;
-    kstat_named_t       *kn = NULL;
-    unsigned long long  changed,change,total_change;
-    unsigned int        thiscpu;
-    register int        i,j;
-    static unsigned int ncpus;
-    static kstat_t      **cpu_ks=NULL;
-    kstat_t             **cpu_ks_new;
-    static cpu_stat_t   *cpu_stat=NULL;
-    cpu_stat_t          *cpu_stat_new;
-    static unsigned long long cp_old[CPU_STATES];
-    unsigned long long  cp_time[CPU_STATES], cp_pct[CPU_STATES];
-
-    /* Initialize the kstat */
-    if (!kc) {
-        kc = kstat_open();
-        if (!kc) {
-            perror("kstat_open ");
-            return;/* FIXME : need err handler? */
-        }
-        changed = 1;
-        kcid = kc->kc_chain_id;
-        fcntl(kc->kc_kd, F_SETFD, FD_CLOEXEC);
-    } else {
-        changed = 0;
-    }
-    /* Fetch the kstat data. Whenever we detect that the kstat has been
-     changed by the kernel, we 'continue' and restart this loop.
-     Otherwise, we break out at the end. */
-    while (1) {
-        new_kcid = kstat_chain_update(kc);
-        if (new_kcid) {
-            changed = 1;
-            kcid = new_kcid;
-        }
-        if (new_kcid < 0) {
-            perror("kstat_chain_update ");
-            return;/* FIXME : need err handler? */
-        }
-        if (new_kcid != 0)
-            continue; /* kstat changed - start over */
-        ks = kstat_lookup(kc, "unix", 0, "system_misc");
-        if (kstat_read(kc, ks, 0) == -1) {
-            perror("kstat_read ");
-            return;/* FIXME : need err handler? */
-        }
-        if (changed) {
-            /* the kstat has changed - reread the data */
-            thiscpu = 0; ncpus = 0;
-            kn = (kstat_named_t *)kstat_data_lookup(ks, "ncpus");
-            if ((kn) && (kn->value.ui32 > ncpus)) {
-                /* I guess I should be using 'new' here... FIXME */
-                ncpus = kn->value.ui32;
-                if ((cpu_ks_new = (kstat_t **)
-                     realloc(cpu_ks, ncpus * sizeof(kstat_t *))) == NULL)
-                {
-                    if (cpu_ks)
-                        free(cpu_ks);
-                    perror("realloc: cpu_ks ");
-                    return;/* FIXME : need err handler? */
-                }
-                cpu_ks = cpu_ks_new;
-                if ((cpu_stat_new = (cpu_stat_t *)
-                     realloc(cpu_stat, ncpus * sizeof(cpu_stat_t))) == NULL)
-                {
-                    if (cpu_stat)
-                        free(cpu_stat);
-                    perror("realloc: cpu_stat ");
-                    return;/* FIXME : need err handler? */
-                }
-                cpu_stat = cpu_stat_new;
-            }
-            for (ks = kc->kc_chain; ks; ks = ks->ks_next) {
-                if (strncmp(ks->ks_name, "cpu_stat", 8) == 0) {
-                    new_kcid = kstat_read(kc, ks, NULL);
-                    if (new_kcid < 0) {
-                        perror("kstat_read ");
-                        return;/* FIXME : need err handler? */
-                    }
-                    if (new_kcid != kcid)
-                        break;
-                    cpu_ks[thiscpu] = ks;
-                    thiscpu++;
-                    if (thiscpu > ncpus) {
-                        warn("kstat finds too many cpus: should be %d",
-                             ncpus);
-                        return;/* FIXME : need err handler? */
-                    }
-                }
-            }
-            if (new_kcid != kcid)
-                continue;
-            ncpus = thiscpu;
-            changed = 0;
-        }
-        if (fCpuID >= 0 && fCpuID < ncpus) {
-            new_kcid = kstat_read(kc, cpu_ks[fCpuID], &cpu_stat[fCpuID]);
-            if (new_kcid < 0) {
-                perror("kstat_read ");
-                return;/* FIXME : need err handler? */
-            }
-        } else {
-            for (i = 0; i<(int)ncpus; i++) {
-                new_kcid = kstat_read(kc, cpu_ks[i], &cpu_stat[i]);
-                if (new_kcid < 0) {
-                    perror("kstat_read ");
-                    return;/* FIXME : need err handler? */
-                }
-            }
-        }
-        if (new_kcid != kcid)
-            continue; /* kstat changed - start over */
-        else
-            break;
-    } /* while (1) */
-
-    /* Initialize the cp_time array */
-    for (i = 0; i < CPU_STATES; i++)
-        cp_time[i] = 0L;
-    if (fCpuID >= 0 && fCpuID < ncpus) {
-        for (j = 0; j < CPU_STATES; j++)
-            cp_time[j] += (long) cpu_stat[fCpuID].cpu_sysinfo.cpu[j];
-    } else {
-        for (i = 0; i < (int)ncpus; i++) {
-            for (j = 0; j < CPU_STATES; j++)
-                cp_time[j] += (long) cpu_stat[i].cpu_sysinfo.cpu[j];
-        }
-    }
-    /* calculate the percent utilization for each category */
-    /* cpu_state calculations */
-    total_change = 0;
-    for (i = 0; i < CPU_STATES; i++) {
-        change = cp_time[i] - cp_old[i];
-        if (change < 0) /* The counter rolled over */
-            change = (unsigned long long) ((unsigned long long)cp_time[i] - (unsigned long long)cp_old[i]);
-        cp_pct[i] = change;
-        total_change += change;
-        cp_old[i] = cp_time[i]; /* copy the data for the next run */
-    }
-    /* this percent calculation isn't really needed, since the repaint
-     routine takes care of this... */
-    for (i = 0; i < CPU_STATES; i++)
-        cp_pct[i] =
-            ((total_change > 0) ?
-             ((unsigned long long)(((1000.0 * (float)cp_pct[i]) / total_change) + 0.5)) :
-             ((i == CPU_IDLE) ? (1000) : (0)));
-
-    /* OK, we've got the data. Now copy it to cpu[][] */
-    cpu[taskBarCPUSamples-1][IWM_USER] = cp_pct[CPU_USER];
-    cpu[taskBarCPUSamples-1][IWM_NICE] = cp_pct[CPU_WAIT];
-    cpu[taskBarCPUSamples-1][IWM_SYS]  = cp_pct[CPU_KERNEL];
-    cpu[taskBarCPUSamples-1][IWM_IDLE] = cp_pct[CPU_IDLE];
-
-    return;
-
 #elif __OpenBSD__ || __NetBSD__ || __FreeBSD__
 
 #if defined __NetBSD__
@@ -797,51 +627,20 @@ CPUStatusControl::CPUStatusControl(YSMListener *smActionListener,
 }
 
 void CPUStatusControl::GetCPUStatus(bool combine) {
-    if (combine) {
-        getCPUStatusCombined();
-        return;
+    int count = 0;
+#if __linux__
+    if (combine == false) {
+        fileptr fd("/proc/stat", "r");
+        if (fd) {
+            char buf[128];
+            while (fgets(buf, sizeof buf, fd) && 0 == memcmp(buf, "cpu", 3))
+                count += ASCII::isDigit(buf[3]);
+        }
     }
-#if defined(__linux__)
-    char buf[128];
-    unsigned cnt = 0;
-    FILE *fd = fopen("/proc/stat", "r");
-    if (!fd) {
-        getCPUStatusCombined();
-        return;
-    }
-    while (fgets(buf, sizeof buf, fd) && 0 == strncmp(buf, "cpu", 3))
-        cnt += ASCII::isDigit(buf[3]);
-    fclose(fd);
-    getCPUStatus(cnt);
-#elif defined(HAVE_KSTAT_H)
-    kstat_named_t       *kn = NULL;
-    kn = (kstat_named_t *)kstat_data_lookup(ks, "ncpus");
-    if (kn) {
-        getCPUStatus(kn->value.ui32);
-    } else {
-        getCPUStatusCombined();
-    }
-
-#elif defined(HAVE_SYSCTL) || defined(HAVE_SYSCTLBYNAME)
-    getCPUStatusCombined();
 #endif
-}
-
-void CPUStatusControl::getCPUStatusCombined()
-{
-    fCPUStatus += createStatus();
-}
-
-void CPUStatusControl::getCPUStatus(unsigned ncpus)
-{
-    /* we must reverse the order, so that left is cpu(0) and right is cpu(ncpus-1) */
-    for (unsigned i(0); i < ncpus; i++)
-        fCPUStatus += createStatus(ncpus - 1 - i);
-}
-
-CPUStatus* CPUStatusControl::createStatus(unsigned cpu)
-{
-    return new CPUStatus(aParent, this, cpu);
+    do {
+        fCPUStatus += new CPUStatus(aParent, this, --count);
+    } while (0 < count);
 }
 
 void CPUStatusControl::runCommandOnce(const char *resource, const char *cmdline)

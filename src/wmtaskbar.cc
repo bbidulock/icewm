@@ -209,12 +209,13 @@ TaskBar::~TaskBar() {
 #ifdef IWM_STATES
     delete fCPUStatus; fCPUStatus = 0;
 #endif
-    delete fNetStatus; fCPUStatus = 0;
+    delete fNetStatus; fNetStatus = 0;
     delete fAddressBar; fAddressBar = 0;
     delete fTasks; fTasks = 0;
     delete fWindowTray; fWindowTray = 0;
     delete fCollapseButton; fCollapseButton = 0;
     delete fShowDesktop; fShowDesktop = 0;
+    xapp->dropClipboard();
     taskBar = nullptr;
     if (getFrame())
         getFrame()->unmanage(false);
@@ -509,7 +510,6 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
     wlist.append(nw);
     const int wcount = wlist.getCount();
 
-    unsigned w = 0;
     int y[2] = { 0, 0 };
     unsigned h[2] = { 0, 0 };
     int left[2] = { 0, 0 };
@@ -525,10 +525,8 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
             h[wlist[i].row] = wlist[i].w->height();
     }
 
-    {
-        unsigned dw = desktop->getScreenGeometry().width();
-        w = (dw/100.0) * taskBarWidthPercentage;
-    }
+    unsigned w = (desktop->getScreenGeometry().width()
+                  * unsigned(taskBarWidthPercentage)) / 100U;
 
     if (taskBarAtTop) { // !!! for now
         y[1] = 0;
@@ -867,10 +865,6 @@ void TaskBar::popupWindowListMenu() {
 }
 
 bool TaskBar::autoTimer(bool doShow) {
-    if (addressBar() && addressBar()->visible()) {
-        return true;
-    }
-
     MSG(("hide taskbar"));
     if (fFullscreen && doShow && taskBarFullscreenAutoShow) {
         fIsHidden = false;
@@ -878,10 +872,11 @@ bool TaskBar::autoTimer(bool doShow) {
         manager->switchFocusTo(getFrame(), true);
         manager->updateFullscreenLayer();
     }
-    if (taskBarAutoHide == true) {
-        fIsHidden = doShow ? false : true;
-        if (hasPopup())
-            fIsHidden = false;
+    if (taskBarAutoHide) {
+        fIsHidden = !doShow && !hasPopup();
+        if (taskBarDoubleHeight == false && taskBarShowWindows) {
+            fIsHidden &= !(addressBar() && addressBar()->visible());
+        }
         updateLocation();
     }
     return fIsHidden == doShow;

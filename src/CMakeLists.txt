@@ -2,6 +2,13 @@ cmake_minimum_required(VERSION 2.6)
 
 PROJECT(ICEWM CXX)
 
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED on)
+# TODO: drop this warning around xmas 2020 and raise cmake_minimum_required instead; Debian Jessie EOLs around 2020-06
+if(${CMAKE_VERSION} VERSION_LESS "3.1")
+    message(WARNING "!! Ancient cmake version detected, please pass flags for C++11 enabling manually through CXXFLAGS environment variable or override CMAKE_CXX_FLAGS")
+endif()
+
 INCLUDE(CheckIncludeFiles)
 INCLUDE(CheckLibraryExists)
 INCLUDE(CheckFunctionExists)
@@ -16,17 +23,9 @@ SET(CXXFLAGS_COMMON -pthread -Wall -Wextra -Wno-unused-parameter -Wno-missing-fi
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(icewm_libs "")
-
+# optimize for release if not defined explicitly, can be overriden with CMAKE_BUILD_TYPE "None"
 if("${CMAKE_BUILD_TYPE}" STREQUAL "" AND ("" STREQUAL "${CMAKE_CXX_FLAGS}"))
     SET(CMAKE_BUILD_TYPE Release)
-endif()
-
-if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-    CHECK_CXX_COMPILER_FLAG(-std=gnu++98 CXX_FORCELEGACY)
-    if(CXX_FORCELEGACY)
-        list(APPEND CXXFLAGS_COMMON -std=gnu++98)
-    endif()
-    add_definitions(-DDEBUG)
 endif()
 
 # I don't need -rdynamic, thanks!
@@ -132,7 +131,6 @@ CHECK_INCLUDE_FILE_CXX(libgen.h HAVE_LIBGEN_H)
 CHECK_INCLUDE_FILE_CXX(machine/apm_bios.h HAVE_MACHINE_APM_BIOS_H)
 CHECK_INCLUDE_FILE_CXX(machine/apmvar.h HAVE_MACHINE_APMVAR_H)
 CHECK_INCLUDE_FILE_CXX(sched.h HAVE_SCHED_H)
-CHECK_INCLUDE_FILE_CXX(sys/dkstat.h HAVE_SYS_DKSTAT_H)
 CHECK_INCLUDE_FILE_CXX(sys/file.h HAVE_SYS_FILE_H)
 CHECK_INCLUDE_FILE_CXX(sys/ioctl.h HAVE_SYS_IOCTL_H)
 CHECK_INCLUDE_FILE_CXX(sys/param.h HAVE_SYS_PARAM_H)
@@ -450,6 +448,10 @@ ADD_EXECUTABLE(genpref${EXEEXT} genpref.cc ${MISC_SRCS})
 set(genpref_pc_flags ${x11_CFLAGS})
 target_compile_options(genpref${EXEEXT} PUBLIC ${CXXFLAGS_COMMON} ${genpref_pc_flags})
 TARGET_LINK_LIBRARIES(genpref${EXEEXT} ${nls_LIBS} ${EXTRA_LIBS})
+
+ADD_EXECUTABLE(strtest EXCLUDE_FROM_ALL strtest.cc ref.cc mstring.cc upath.cc udir.cc yapp.cc yxapp.cc ytime.cc ytimer.cc ywindow.cc ypaint.cc ypopup.cc misc.cc ycursor.cc ysocket.cc ypaths.cc yarray.cc ycollections.cc ypipereader.cc yxembed.cc yconfig.cc yprefs.cc yfont.cc yfontcore.cc yfontxft.cc ypixmap.cc yimage_gdk.cc yximage.cc ytooltip.cc ylocale.cc ycolor.cc)
+target_compile_options(strtest PUBLIC ${CXXFLAGS_COMMON} ${icewm_pc_flags})
+TARGET_LINK_LIBRARIES(strtest ${icewm_libs} ${icewm_img_libs})
 
 IF(CONFIG_FDO_MENUS)
     ADD_EXECUTABLE(icewm-menu-fdo${EXEEXT} fdomenu.cc ${MISC_SRCS})

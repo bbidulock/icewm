@@ -7,8 +7,8 @@
 #include "ypaint.h"
 #include "yxapp.h"
 #include "yprefs.h"
+#include "ascii.h"
 #include "intl.h"
-#include <ctype.h>
 #include <stdlib.h>
 
 #ifdef CONFIG_XFREETYPE
@@ -326,7 +326,7 @@ void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
                 }
 
                 if (w + wc < maxW) {
-                    if (1 == nc && isspace (str[l]))
+                    if (1 == nc && ASCII::isWhiteSpace(str[l]))
                     {
                         sl+= nc;
                         sw+= wc;

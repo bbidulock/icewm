@@ -18,6 +18,7 @@ public:
     virtual void configure(const YRect2 &r);
     virtual void handleExpose(const XExposeEvent& expose);
     virtual void repaint() {}
+    virtual void handleButton(const XButtonEvent& up);
 
     virtual void addObject(DObject *object);
     virtual void addSeparator();
